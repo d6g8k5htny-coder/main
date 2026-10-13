@@ -1,0 +1,387 @@
+% Section S2 of the SIDE24 V3 supplement: the contact measure.
+% Source map, corrections, added steps and issues: CONC_s1s2.md.
+\section{The contact measure}\label{sec:contact}
+
+This section derives the Kac--Rice measure of ordered pairs (maximum, index-$(d-1)$ saddle) at small separation $r$: the corrected pins and their Jacobian (\S\ref{ssec:contact-pins}), the soft endpoint factors and the Palm normalizer (\S\ref{ssec:contact-soft}), the cubic-gap Jacobian (\S\ref{ssec:contact-gap}), the cancellation of the ambient dimension (\S\ref{ssec:contact-cancel}) and the lifetime pushforward (\S\ref{ssec:contact-pushforward}). The general statements concern a centered $C^4$ Gaussian field $f$ in dimension $d\ge1$, on $\R^d$, on a flat $d$-torus, or in a Euclidean chart of a smooth $d$-manifold; the side-24 field is the case $d=3$, $f=f_{24}$. The pair coordinates $(x,r,t)$ are those of \S\ref{ssec:setting-pairs}. For a stationary field, in particular $f_{24}$, none of the laws below depends on the midpoint $x$; in a chart they may, and we suppress $x$ from the notation.
+
+\subsection{Corrected pins}\label{ssec:contact-pins}
+
+\begin{definition}[contact pair, pins and corrected frame]\label{def:contact-pins}
+Fix a directed unit vector $t\in S^{d-1}$ and an orthonormal transverse frame $n_1,\dots,n_{d-1}$; for $d=3$ we write $(t,v,w)=(t,n_1,n_2)$. For $r>0$ put
+\begin{equation}\label{eq:contact-MS}
+M=x-\frac r2\,t,\qquad S=x+\frac r2\,t,
+\end{equation}
+and impose the exact critical-pair pins
+\begin{equation}\label{eq:contact-pins}
+f(M)=b,\qquad f(S)=b-\frac{\kappa r^3}6,\qquad\nabla f(M)=\nabla f(S)=0,\qquad\kappa>0 .
+\end{equation}
+The intended types are a maximum at $M$ and an index-$(d-1)$ superlevel merging saddle at $S$: the transverse Hessian is negative definite and the unique axial eigenvalue changes from negative to positive. The raw pin vector and its target are
+\begin{equation}\label{eq:contact-raw}
+\Pi_r=\Pi_{r,x,t}=\bigl(f(M),f(S),\nabla f(M),\nabla f(S)\bigr)\in\R^{2d+2},\qquad z_r(b,\kappa)=\Bigl(b,\,b-\frac{\kappa r^3}6,\,0,\,0\Bigr).
+\end{equation}
+The corrected divided-difference pin vector is $Y_r=(V^+,V^-_{\rm corr},G^+_t,G^-_t,G^+_{n_1},G^-_{n_1},\dots,G^+_{n_{d-1}},G^-_{n_{d-1}})$, where
+\begin{equation}\label{eq:contact-Vframe}
+V^+=\frac{f(S)+f(M)}2,\qquad V^-_{\rm corr}=\frac{f(S)-f(M)-\frac r2\bigl(\partial_tf(S)+\partial_tf(M)\bigr)}{r^3},
+\end{equation}
+and, for every frame component $e\in\{t,n_1,\dots,n_{d-1}\}$,
+\begin{equation}\label{eq:contact-Gframe}
+G^+_e=\frac{\partial_ef(S)+\partial_ef(M)}2,\qquad G^-_e=\frac{\partial_ef(S)-\partial_ef(M)}r .
+\end{equation}
+\end{definition}
+
+For $d=3$, \eqref{eq:contact-MS}--\eqref{eq:contact-Gframe} are (3.4)--(3.5) and (3.7)--(3.8) of the main text. The construction is invariant under orthogonal changes of the transverse frame, which act orthogonally on the transverse coordinates $G^\pm_{n_i}$ and leave the pins, the targets and the endpoint types unchanged. A finite frame atlas on $S^{d-1}$ is sufficient for global angular integration; on each chart of it we take the frame to depend continuously on $t$.
+
+\begin{lemma}[exact pin Jacobian]\label{lem:contact-pin-jacobian}
+Let $\Delta_r$ be the linear map $\Pi_r\mapsto Y_r$. Then
+\begin{equation}\label{eq:contact-detDelta}
+|\det\Delta_r|=r^{-(d+3)} .
+\end{equation}
+On the target \eqref{eq:contact-pins},
+\begin{equation}\label{eq:contact-target}
+Y_r=y_r(b,\kappa):=\Delta_rz_r(b,\kappa)=\Bigl(b-\frac{\kappa r^3}{12},\,-\frac\kappa6,\,0,\dots,0\Bigr).
+\end{equation}
+Whenever $\Cov(\Pi_r)$ is nondegenerate, let $p_\Pi(r,t,b,\kappa)=p_\Pi(z_r(b,\kappa))$ be the Gaussian density of $\Pi_r$ at $z_r(b,\kappa)$ and $p^{\rm corr}_r(t,b,\kappa)$ that of $Y_r$ at $y_r(b,\kappa)$. Then exactly
+\begin{equation}\label{eq:contact-density}
+p_\Pi(r,t,b,\kappa)=r^{-(d+3)}\,p^{\rm corr}_r(t,b,\kappa).
+\end{equation}
+Assume that $\Sigma_r(t)=\Cov(Y_r)$ converges, as $r\downarrow0$ and uniformly in $t$, to a positive-definite limit $\Sigma_0(t)$, continuous in $t$. Then $p^{\rm corr}_r\to p^{\rm corr}_0$ continuously and locally uniformly, where $p^{\rm corr}_0(t,b,\kappa)$ is the Gaussian density with covariance $\Sigma_0(t)$ at $y_0(b,\kappa)=(b,-\kappa/6,0,\dots,0)$.
+\end{lemma}
+
+\begin{proof}
+Write the gradients in the orthonormal frame $(t,n_1,\dots,n_{d-1})$; this orthogonal change of coordinates does not change $|\det\Delta_r|$. Order the raw coordinates as the value pair $(f(M),f(S))$ followed by the $d$ gradient pairs $(\partial_ef(M),\partial_ef(S))$. The value pair contributes the block $\left(\begin{smallmatrix}1/2&1/2\\-r^{-3}&r^{-3}\end{smallmatrix}\right)$, of determinant magnitude $r^{-3}$, and each of the $d$ gradient pairs contributes the block $\left(\begin{smallmatrix}1/2&1/2\\-r^{-1}&r^{-1}\end{smallmatrix}\right)$, of determinant magnitude $r^{-1}$. The tangential-gradient terms in $V^-_{\rm corr}$ are entries of the value rows in the columns of $\partial_tf(M),\partial_tf(S)$; they are off-diagonal block entries of a block-triangular matrix and do not change the determinant. This proves \eqref{eq:contact-detDelta}. On \eqref{eq:contact-pins}, $V^+=b-\kappa r^3/12$, $V^-_{\rm corr}=(f(S)-f(M))/r^3=-\kappa/6$, and every $G^\pm_e$ vanishes, which is \eqref{eq:contact-target}. Since $Y_r=\Delta_r\Pi_r$, the change-of-variables formula for densities gives $p_\Pi(z)=|\det\Delta_r|\,p^{\rm corr}_r(\Delta_rz)$, which is \eqref{eq:contact-density}. Finally,
+\[
+p^{\rm corr}_r(t,b,\kappa)=(2\pi)^{-(d+1)}\det\bigl(\Sigma_r(t)\bigr)^{-1/2}\exp\Bigl(-\tfrac12\,y_r(b,\kappa)^{\top}\Sigma_r(t)^{-1}y_r(b,\kappa)\Bigr);
+\]
+under the stated convergence $\Sigma_r(t)\to\Sigma_0(t)\succ0$ uniformly in $t$, and $y_r(b,\kappa)\to y_0(b,\kappa)$ uniformly on compact sets of $(b,\kappa)$, which gives the last assertion.
+\end{proof}
+
+\begin{lemma}[the corrected pins of the side-24 field]\label{lem:contact-corrected}
+Let $d=3$ and $f=f_{24}$, and put $\phi(s)=f(x+st)$ and $\psi_e(s)=\partial_ef(x+st)$ for $e\in\{t,v,w\}$ and $|s|\le r/2$.
+\begin{enumerate}[(i)]
+\item For every $0<r<12$ and $t\in S^2$, $\Cov(\Pi_r)$ and $\Sigma_r(t)=\Cov(Y_r)$ are positive definite.
+\item The corrected coordinates are averages over the segment from $M$ to $S$: $V^+$ and $G^+_e$ are the endpoint averages of $\phi$ and $\psi_e$, and
+\begin{equation}\label{eq:contact-segment}
+V^-_{\rm corr}=-\frac1{2r^3}\int_{-r/2}^{r/2}\Bigl(\frac{r^2}4-s^2\Bigr)\phi'''(s)\,ds,\qquad G^-_e=\frac1r\int_{-r/2}^{r/2}\psi_e'(s)\,ds .
+\end{equation}
+Consequently, as $r\downarrow0$, $Y_r$ converges in $L^2$, with error $O(r)$ uniformly in $(x,t)$, to the contact limit
+\begin{equation}\label{eq:contact-limitframe}
+Y_0=\Bigl(f,\,-\frac{\partial_t^3f}{12},\,\partial_tf,\,\partial_t^2f,\,\partial_vf,\,\partial_t\partial_vf,\,\partial_wf,\,\partial_t\partial_wf\Bigr)(x),
+\end{equation}
+which is the list \eqref{eq:setting-list} up to the order of its entries and the factor $-1/12$.
+\item $\Sigma_0(t)=\Cov(Y_0)$ is positive definite, $\Sigma_r(t)\to\Sigma_0(t)$ uniformly in $t$, and for every $r_1\in(0,12)$ there is $\lambda_1>0$ with $\Sigma_r(t)\succeq\lambda_1I$ for all $0<r\le r_1$ and $t\in S^2$. In particular the assumption of the last part of Lemma~\ref{lem:contact-pin-jacobian} holds, $p^{\rm corr}_r\to p^{\rm corr}_0$ locally uniformly, and the limiting corrected target $y_0(b,\kappa)=(b,-\kappa/6,0,\dots,0)$ pins $\partial_t^3f(x)=2\kappa$.
+\item For $\delta>0$ and $0<r_0<\delta$ there is $\lambda_\delta>0$ such that the covariance matrix of $Y_r$ joined with the remote family \eqref{eq:setting-remote} at a point $y$ with $\dist(y,x)\ge\delta$ is bounded below by $\lambda_\delta I$, for all $0<r\le r_0$, $t\in S^2$ and such $y$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(i) By Lemma~\ref{lem:setting-coordinates}, $\dist(M,S)=r>0$. The raw pins are the evaluations with symbols $1,\xi_1,\xi_2,\xi_3$ at the two distinct points $M$ and $S$, so $\Cov(\Pi_r)$ is positive definite by Theorem~\ref{thm:setting-gram}, and so is $\Sigma_r(t)=\Delta_r\Cov(\Pi_r)\Delta_r^{\top}$.
+
+(ii) For $h=r/2$, two integrations by parts give $\int_{-h}^{h}(h^2-s^2)\phi'''(s)\,ds=2h\bigl(\phi'(h)+\phi'(-h)\bigr)-2\bigl(\phi(h)-\phi(-h)\bigr)$, which is the first identity in \eqref{eq:contact-segment}; the second is the fundamental theorem of calculus. Since $\int_{-h}^{h}(h^2-s^2)\,ds=r^3/6$, every coordinate of $Y_r$ is the average, with respect to a probability measure on $[-r/2,r/2]$, of $Df(x+st)$ for a derivative $D$ of order at most three: $D=1$ or $\partial_e$ (endpoint averages), $D=\partial_t\partial_e$ (uniform average) or $D=-\frac1{12}\partial_t^3$ (average with density $6(r^2/4-s^2)/r^3$). For each such $D$, $\E|Df(x+st)-Df(x)|^2\le Cs^2$, with $C$ bounded by the second derivatives of the covariance function of $Df$, uniformly in $t$, because $K_{24}$ is smooth. Minkowski's integral inequality gives $\|Y_r-Y_0\|_{L^2}\le Cr$.
+
+(iii) The coordinates of $Y_0$ are the evaluations \eqref{eq:setting-list}, rescaled, so $\Sigma_0(t)$ is positive definite by Proposition~\ref{prop:setting-frame}(i). By (ii), $\Sigma_r(t)=\Sigma_0(t)+O(r)$ uniformly in $t$. The eigenvalues of $\Sigma_r(t)$ do not depend on $x$ (stationarity) or on the choice of transverse frame. For $r>0$ the entries of $\Sigma_r(t)$ are finite combinations of derivatives of $K_{24}$ at $0$ and $\pm rt$, divided by powers of $r$; together with the $O(r)$ bound, the smallest eigenvalue of $\Sigma_r(t)$, with $\Sigma_0(t)$ at $r=0$, is a continuous function on the compact set $[0,r_1]\times S^2$. It is positive by (i) and Proposition~\ref{prop:setting-frame}(i), hence bounded below by some $\lambda_1>0$. The remaining assertions follow from Lemma~\ref{lem:contact-pin-jacobian}; the second coordinate of $Y_0$ is $-\partial_t^3f(x)/12$, so the pin $-\kappa/6$ means $\partial_t^3f(x)=2\kappa$.
+
+(iv) For $0<r\le r_0<\delta$ and $\dist(y,x)\ge\delta$, both $\dist(y,M)$ and $\dist(y,S)$ are at least $\delta-r_0/2>0$, so $M$, $S$ and $y$ are distinct and the raw family consisting of $\Pi_r$ and \eqref{eq:setting-remote} has positive definite covariance by Theorem~\ref{thm:setting-gram}; applying the invertible map $\Delta_r\oplus I$ gives the corrected family. At $r=0$, positive definiteness is Proposition~\ref{prop:setting-frame}(ii). By (ii) and stationarity, the covariance is a continuous function of $(r,t,y-x)$ on the compact set $[0,r_0]\times S^2\times\{z:\dist(z,0)\ge\delta\}$, and we conclude as in (iii).
+\end{proof}
+
+\begin{definition}[pinned law, endpoint weight and normalizer]\label{def:contact-weight}
+Whenever $\Cov(\Pi_r)$ is nondegenerate (for $f_{24}$, for every $0<r<12$, by Lemma~\ref{lem:contact-corrected}(i)), let
+\[
+\E^0=\E^0_{r,t,b,\kappa}=\E\bigl[\,\cdot\mid\Pi_r=z_r(b,\kappa)\bigr]
+\]
+be the regular conditional Gaussian law given the pins; conditioning on $Y_r=y_r(b,\kappa)$ is equivalent. With $H_p$ the Hessian of $f$ at $p$, put
+\begin{equation}\label{eq:contact-weight}
+W_r=|\det H_M|\,|\det H_S|\,\ind_{\{H_M\prec0,\ \Ind(H_S)=d-1\}},\qquad Z_r(t,b,\kappa)=\E^0[W_r],\qquad K^{\rm all}_r=p_\Pi\,Z_r .
+\end{equation}
+For $d=3$, $W_r$ and $Z_r$ are those of (3.3a) of the main text. The determinant-weighted Palm law $\E^{MS}_r[F]=\E^0[W_rF]/Z_r$ built on $\E^0$, the elder mark, and the selected intensity $K^{\rm sel}_r=p_rK^{\rm all}_r$ are defined in Section~\ref{sec:selection}.
+\end{definition}
+
+\subsection{Soft endpoint factors and the Palm normalizer}\label{ssec:contact-soft}
+
+\begin{lemma}[exact endpoint factor $r$]\label{lem:contact-endpoint}
+In the frame $(t,n_1,\dots,n_{d-1})$ write the endpoint Hessians as
+\begin{equation}\label{eq:contact-Hblock}
+H_p=\begin{pmatrix}a_p&b_p^{\top}\\ b_p&Q_p\end{pmatrix},\qquad p\in\{M,S\},
+\end{equation}
+with $a_p=\partial_t^2f(p)$, $b_p=(\partial_t\partial_{n_i}f(p))_{i}$ and $Q_p=(\partial_{n_i}\partial_{n_j}f(p))_{i,j}$. Suppose $\nabla f(M)=\nabla f(S)=0$. For each frame direction $e$, the function $g_e(s)=\partial_ef(x+st)$ satisfies $g_e(-r/2)=g_e(r/2)=0$, and Taylor's integral formula gives the exact identities
+\begin{equation}\label{eq:contact-taylor}
+\begin{aligned}
+\partial_t\partial_ef(M)&=-\frac1r\int_{-r/2}^{r/2}\Bigl(\frac r2-s\Bigr)\,\partial_t^2\partial_ef(x+st)\,ds,\\
+\partial_t\partial_ef(S)&=\frac1r\int_{-r/2}^{r/2}\Bigl(s+\frac r2\Bigr)\,\partial_t^2\partial_ef(x+st)\,ds .
+\end{aligned}
+\end{equation}
+Thus the first row and column of each endpoint Hessian carry one exact factor $r$:
+\begin{equation}\label{eq:contact-scaled}
+a_M=r\,\alpha_M,\qquad b_M=r\,\beta_M,\qquad a_S=r\,\alpha_S,\qquad b_S=r\,\beta_S,
+\end{equation}
+where $\alpha_p$ ($e=t$) and $\beta_p$ ($e=n_i$) are the right sides of \eqref{eq:contact-taylor} divided by $r$; they are linear functionals of the third-derivative process on the shrinking segment. Expanding along the first row,
+\begin{equation}\label{eq:contact-detrD}
+\det H_M=r\,D_M,\qquad\det H_S=r\,D_S,\qquad D_p=\alpha_p\det Q_p-r\,\beta_p^{\top}\adj(Q_p)\,\beta_p ,
+\end{equation}
+so $D_M$ and $D_S$ are polynomials of degree $d$ (degree three for $d=3$) in the scaled endpoint variables and the transverse Hessian entries, with coefficients polynomial in $r$. Type indicators can only decrease absolute values:
+\begin{equation}\label{eq:contact-Wr}
+W_r=r^2\,|D_MD_S|\,\ind_{\{H_M\prec0,\ \Ind(H_S)=d-1\}}\le r^2\,|D_MD_S| .
+\end{equation}
+We call $U_r=(\alpha_M,\alpha_S,\beta_M,\beta_S,Q_M,Q_S)$ the endpoint variables.
+\end{lemma}
+
+\begin{proof}
+For $g\in C^2$ and real $a,c$, Taylor's formula reads $g(c)=g(a)+(c-a)g'(a)+\int_a^c(c-s)g''(s)\,ds$. With $g=g_e$, $(a,c)=(-r/2,r/2)$ and $g_e(\pm r/2)=0$ this gives $0=r\,g_e'(-r/2)+\int_{-r/2}^{r/2}(r/2-s)g_e''(s)\,ds$, the first identity in \eqref{eq:contact-taylor}, because $g_e'(-r/2)=\partial_t\partial_ef(M)$ and $g_e''(s)=\partial_t^2\partial_ef(x+st)$. With $(a,c)=(r/2,-r/2)$ it gives $0=-r\,g_e'(r/2)+\int_{-r/2}^{r/2}(s+r/2)g_e''(s)\,ds$, the second. Taking $e=t$ and $e=n_i$ gives \eqref{eq:contact-scaled}. For a block matrix with scalar corner, $\det\left(\begin{smallmatrix}a&c^{\top}\\ b&Q\end{smallmatrix}\right)=a\det Q-c^{\top}\adj(Q)\,b$; the first row of $H_p$ is $r(\alpha_p,\beta_p^{\top})$, and pulling out the factor $r$ gives \eqref{eq:contact-detrD}. Then \eqref{eq:contact-Wr} follows from \eqref{eq:contact-weight}.
+\end{proof}
+
+\begin{lemma}[Gaussian polynomial moments]\label{lem:contact-moments}
+Let $G$ be a Gaussian vector in $\R^n$, possibly degenerate, with mean $\mu$ and covariance $\Gamma$, and suppose that $\|\mu\|\le C(1+\|a\|)$ and $\|\Gamma\|_{\rm op}\le C$ for a parameter vector $a$. For every polynomial $P$ of degree at most $k$ there is $C_P$, depending only on $P$, $C$, $n$ and $k$, such that
+\begin{equation}\label{eq:contact-polymoment}
+\E\,|P(G)|\le C_P\bigl(1+\|a\|^k\bigr).
+\end{equation}
+In particular, $\det H_M\det H_S$ is a polynomial of degree six in the Hessian coordinates of the two endpoints, and $D_MD_S$ is a polynomial of degree six in the endpoint variables; a product of three $3\times3$ Hessian determinants is a polynomial of degree nine in the concatenated Hessian coordinates. The bound \eqref{eq:contact-polymoment} applies with these degrees.
+\end{lemma}
+
+\begin{proof}
+Write $G=\mu+\Gamma^{1/2}N$ with $N$ standard Gaussian in $\R^n$; $\Gamma^{1/2}$ may be singular. Expanding $P(\mu+\Gamma^{1/2}N)$ gives a finite sum of monomials $c\,\mu^\eta N^\gamma$ with $|\eta|\le k$, whose coefficients $c$ are bounded in terms of $P$ and $\|\Gamma^{1/2}\|\le C^{1/2}$. Since $\E|N^\gamma|<\infty$ and $\|\mu\|^{|\eta|}\le C^{|\eta|}(1+\|a\|)^{|\eta|}\le(2C+2)^k(1+\|a\|^k)$, the bound follows. The degree statements are immediate, since the determinant of a $3\times3$ matrix is homogeneous of degree three in its entries.
+\end{proof}
+
+The general contact statements below use the following hypotheses on the field.
+
+\begin{hypothesis}[corrected-pin nondegeneracy and endpoint moment control]\label{hyp:contact-regular}
+Let $\mathcal K\subset\R\times(0,\infty)$ be a compact set of marks $(b,\kappa)$.
+\begin{enumerate}[(a)]
+\item (Corrected-pin nondegeneracy.) As $r\downarrow0$, $\Sigma_r(t)=\Cov(Y_r)$ converges, uniformly in $t\in S^{d-1}$, to a positive-definite limit $\Sigma_0(t)$.
+\item (Uniform Gaussian moment control.) As $r\downarrow0$, the joint covariance of $(U_r,Y_r)$ converges, uniformly in $t$, to the joint covariance of $(U_0,Y_0)$, and this limit is continuous in $t$. Here $Y_0=\bigl(f,-\frac1{12}\partial_t^3f,(\partial_ef,\partial_t\partial_ef)_{e}\bigr)(x)$ and
+\[
+U_0=\Bigl(-\tfrac12\partial_t^3f,\ \tfrac12\partial_t^3f,\ -\tfrac12\partial_t^2\partial_\perp f,\ \tfrac12\partial_t^2\partial_\perp f,\ Q,\ Q\Bigr)(x),
+\]
+with $\partial_t^2\partial_\perp f=(\partial_t^2\partial_{n_i}f)_i$ and $Q=(\partial_{n_i}\partial_{n_j}f)_{i,j}$ the transverse Hessian at the midpoint.
+\item For every $t\in S^{d-1}$ and $(b,\kappa)\in\mathcal K$, the boundary $\{\det Q=0\}$ has probability zero under the conditional law of $Q$ given $Y_0=y_0(b,\kappa)$.
+\end{enumerate}
+\end{hypothesis}
+
+By Lemma~\ref{lem:contact-pin-jacobian}, (a) and (b) imply $p^{\rm corr}_r\to p^{\rm corr}_0$ locally uniformly, with $\Sigma_0(t)=\Cov(Y_0)$.
+
+\begin{proposition}[contact limits of the endpoint factors]\label{prop:contact-soft-limits}
+Assume Hypothesis~\ref{hyp:contact-regular} for a compact $\mathcal K$. There are $r_0>0$ and $C<\infty$ such that, for $0<r\le r_0$, $t\in S^{d-1}$ and $(b,\kappa)\in\mathcal K$, the conditional law of $U_r$ under $\E^0_{r,t,b,\kappa}$ is Gaussian, with mean bounded by $C(1+|b|+\kappa)$ and covariance bounded by $C$. As $r\downarrow0$, in conditional law: the transverse blocks $Q_M,Q_S$ converge jointly to one symmetric $(d-1)\times(d-1)$ matrix $Q$, distributed as the transverse Hessian at the midpoint given $Y_0=y_0(b,\kappa)$; the corrected pin limit forces
+\begin{equation}\label{eq:contact-alpha-limits}
+\alpha_M\to-\kappa,\qquad\alpha_S\to+\kappa ;
+\end{equation}
+away from the probability-zero boundary $\{\det Q=0\}$, the block determinant formula gives
+\begin{equation}\label{eq:contact-det-limits}
+r^{-1}\det H_M=D_M\to-\kappa\det Q,\qquad r^{-1}\det H_S=D_S\to+\kappa\det Q ;
+\end{equation}
+and the maximum/saddle type indicator $\ind_{\{H_M\prec0,\ \Ind(H_S)=d-1\}}$ converges to $\ind_{\{Q\prec0\}}$. Moreover
+\begin{equation}\label{eq:contact-zeta}
+\begin{gathered}
+Z_r=r^2\zeta_r,\qquad\zeta_r:=\E^0\bigl[|D_MD_S|\,\ind_{\{H_M\prec0,\ \Ind(H_S)=d-1\}}\bigr],\\
+\zeta_r\ \longrightarrow\ \zeta_0:=\kappa^2\,\E\bigl[(\det Q)^2\,\ind_{\{Q\prec0\}}\bigm|Y_0=y_0(b,\kappa)\bigr],
+\end{gathered}
+\end{equation}
+uniformly on $S^{d-1}\times\mathcal K$, and $\zeta_0$ is continuous on $S^{d-1}\times\mathcal K$.
+\end{proposition}
+
+\begin{proof}
+Let $\Xi_r(t)$ be the joint covariance of $(U_r,Y_r)$, with blocks $\Xi^{UU}_r$, $\Xi^{UY}_r$ and $\Xi^{YY}_r=\Sigma_r(t)$, and let $\Xi_0(t)$ be that of $(U_0,Y_0)$. By Hypothesis~\ref{hyp:contact-regular}(a)--(b) and compactness of $S^{d-1}$, there are $r_0>0$ and $\lambda>0$ with $\Sigma_r(t)\succeq\lambda I$ and $\|\Xi_r(t)\|\le C$ for $0\le r\le r_0$; moreover $\Xi_{r_n}(t_n)\to\Xi_0(t)$ whenever $r_n\to0$ and $t_n\to t$. Under $\E^0_{r,t,b,\kappa}$ the vector $U_r$ is Gaussian with
+\[
+m_r=\Xi^{UY}_r\,\Sigma_r^{-1}\,y_r(b,\kappa),\qquad\Gamma_r=\Xi^{UU}_r-\Xi^{UY}_r\,\Sigma_r^{-1}\,\Xi^{YU}_r ,
+\]
+so $|m_r|\le C(1+|b|+\kappa)$ by \eqref{eq:contact-target}, and $\|\Gamma_r\|\le C$. At $r=0$ let $(m_0,\Gamma_0)$ be the mean and covariance of the conditional law of $U_0$ given $Y_0=y_0(b,\kappa)$. Along every sequence $(r_n,t_n,b_n,\kappa_n)\to(0,t,b,\kappa)$ with $0\le r_n\le r_0$ we have $(m_{r_n},\Gamma_{r_n})\to(m_0,\Gamma_0)$ at $(t,b,\kappa)$.
+
+Under the limiting conditional law, $\alpha_{M,0}=-\frac12\partial_t^3f(x)$ is six times the second coordinate $-\frac1{12}\partial_t^3f(x)$ of $Y_0$, whose pinned value is $-\kappa/6$; hence $\alpha_{M,0}=-\kappa$ almost surely, and likewise $\alpha_{S,0}=+\kappa$, while $Q_{M,0}=Q_{S,0}=Q$. This gives the convergence in law of $(Q_M,Q_S)$ to $(Q,Q)$ and \eqref{eq:contact-alpha-limits}.
+
+For the remaining assertions, fix a sequence as above and realize the conditional laws on one probability space as $U^{(n)}=m_{r_n}+\Gamma_{r_n}^{1/2}N$ with a single standard Gaussian vector $N$. Since the positive square root is continuous on positive semidefinite matrices, $U^{(n)}\to U^{(\infty)}=m_0+\Gamma_0^{1/2}N$ almost surely, and $U^{(\infty)}$ has the limiting conditional law at $(t,b,\kappa)$; let $Q^{(\infty)}$ be its transverse block. On the event $\{\det Q^{(\infty)}\ne0\}$, of probability one by Hypothesis~\ref{hyp:contact-regular}(c), the formula for $D_p$ in \eqref{eq:contact-detrD} gives $D_M^{(n)}\to-\kappa\det Q^{(\infty)}$ and $D_S^{(n)}\to+\kappa\det Q^{(\infty)}$, which is \eqref{eq:contact-det-limits}. For the type indicator, let $r_n>0$. For $n$ large, $Q_M^{(n)}$ and $Q_S^{(n)}$ are nonsingular with the inertia of $Q^{(\infty)}$. By Sylvester's law of inertia, $H_p$ is congruent to $\operatorname{diag}(s_p,Q_p)$ with Schur complement $s_p=r_n\bigl(\alpha_p-r_n\beta_p^{\top}Q_p^{-1}\beta_p\bigr)$, whose sign is eventually that of $\alpha_{p}^{(\infty)}$: negative at $M$ and positive at $S$. Hence, for $n$ large, $H_M\prec0$ if and only if $Q^{(\infty)}\prec0$, and $\Ind(H_S)=\Ind(Q^{(\infty)})$, which equals $d-1$ if and only if $Q^{(\infty)}\prec0$. So the indicator converges to $\ind_{\{Q^{(\infty)}\prec0\}}$, and
+\[
+F_n=|D_M^{(n)}D_S^{(n)}|\,\ind_{\{H_M^{(n)}\prec0,\ \Ind(H_S^{(n)})=d-1\}}\longrightarrow\kappa^2(\det Q^{(\infty)})^2\,\ind_{\{Q^{(\infty)}\prec0\}}\qquad\text{almost surely.}
+\]
+For $r_n=0$, read $F_n=\kappa_n^2(\det Q^{(n)})^2\ind_{\{Q^{(n)}\prec0\}}$, which converges in the same way. By Lemma~\ref{lem:contact-moments} with degree $4d$, $\sup_n\E[F_n^2]<\infty$, so $(F_n)$ is uniformly integrable and $\E F_n\to\zeta_0(t,b,\kappa)$. Sequences with $r_n=0$ show that $\zeta_0$ is continuous; sequences with $r_n>0$ show that $\zeta_{r_n}(t_n,b_n,\kappa_n)\to\zeta_0(t,b,\kappa)$. Since $\zeta_0$ is continuous on the compact set $S^{d-1}\times\mathcal K$, the convergence is uniform there. Finally $Z_r=r^2\zeta_r$ by \eqref{eq:contact-Wr}.
+\end{proof}
+
+The power $r^2$ in \eqref{eq:contact-zeta} is independent of $d$ because a generic fold has exactly one soft eigenvalue at each endpoint.
+
+\begin{lemma}[the endpoint normalizer of the side-24 field]\label{lem:contact-normalizer}
+Let $d=3$ and $f=f_{24}$.
+\begin{enumerate}[(i)]
+\item For every $0<r<12$, $t\in S^2$, $b\in\R$ and $\kappa>0$, $Z_r(t,b,\kappa)>0$.
+\item $f_{24}$ satisfies Hypothesis~\ref{hyp:contact-regular} for every compact $\mathcal K\subset\R\times(0,\infty)$, and $\zeta_0>0$ on $S^2\times\R\times(0,\infty)$.
+\item For every compact $\mathcal K\subset\R\times(0,\infty)$ there are $r_0\in(0,1]$ and constants $0<c_Z\le C_Z<\infty$ and $C_W<\infty$ such that, for $0<r\le r_0$, $t\in S^2$ and $(b,\kappa)\in\mathcal K$,
+\begin{equation}\label{eq:contact-normalizer}
+c_Z\,r^2\le Z_r(t,b,\kappa)\le C_Z\,r^2,\qquad\E^0\bigl[W_r^2\bigr]\le C_W\,r^4 .
+\end{equation}
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(i) The family consisting of $\Pi_r$ and the Hessian coordinates of $f$ at $M$ and at $S$ has, at each of the two distinct points, the distinct symbols $1$, $\xi_i$, $\xi_i\xi_j$ ($i\le j$). By Theorem~\ref{thm:setting-gram} its covariance is positive definite, and so is the conditional covariance of $(H_M,H_S)$ given $\Pi_r$, a Schur complement of it. Under $\E^0$, $(H_M,H_S)$ therefore has a nondegenerate Gaussian law on pairs of symmetric $3\times3$ matrices, which charges the nonempty open set where $H_M\prec0$ and $H_S$ is nonsingular with exactly two negative eigenvalues. On that set $W_r>0$, so $Z_r=\E^0[W_r]>0$.
+
+(ii) Hypothesis~\ref{hyp:contact-regular}(a) is Lemma~\ref{lem:contact-corrected}(iii). For (b): by \eqref{eq:contact-taylor}, $\alpha_M$ and $\beta_M$ are $-\frac12$ times averages of $\partial_t^3f$ and $\partial_t^2\partial_{n_i}f$ over the segment with respect to the probability density $2(r/2-s)/r^2$, and $\alpha_S$, $\beta_S$ are $+\frac12$ times averages with respect to $2(s+r/2)/r^2$; $Q_M$ and $Q_S$ are second derivatives evaluated at $x\mp\frac r2t$. As in the proof of Lemma~\ref{lem:contact-corrected}(ii), $(U_r,Y_r)\to(U_0,Y_0)$ in $L^2$ with error $O(r)$ uniformly in $(x,t)$, so the joint covariances converge uniformly in $t$; the limit is continuous in $t$ because $K_{24}$ is smooth. For (c): the family consisting of $Y_0$ and the three entries $\partial_v^2f,\partial_v\partial_wf,\partial_w^2f$ of $Q$ at $x$ has, up to scaling, distinct monomial symbols at one point, so its covariance is positive definite (Theorem~\ref{thm:setting-gram}); this nondegeneracy of the limiting pins includes the positivity of the odd Schur variance, the conditional variance of $-\frac1{12}\partial_t^3f$ given $(\partial_tf,\partial_vf,\partial_wf)$. Hence the conditional law of $Q$ given $Y_0=y_0(b,\kappa)$ is a nondegenerate Gaussian law on symmetric $2\times2$ matrices. It gives probability zero to $\{\det Q=0\}$, and the negative-definite transverse cone $\{Q\prec0\}$, which is open and nonempty, has positive Gaussian measure; since $(\det Q)^2>0$ on it and $\kappa>0$, $\zeta_0>0$.
+
+(iii) By \eqref{eq:contact-Wr}, under the corrected pins $r^{-2}W_r=|D_MD_S|\,\ind_{\{H_M\prec0,\ \Ind(H_S)=2\}}$. By Proposition~\ref{prop:contact-soft-limits}, which applies by (ii), it converges in every compact positive mark family to the nonnegative contact-limit weight $\kappa^2(\det Q)^2\ind_{\{Q\prec0\}}$, and $\zeta_r=r^{-2}Z_r\to\zeta_0$ uniformly on $S^2\times\mathcal K$. Its expectation $\zeta_0$ is strictly positive by (ii), and continuous on the compact set $S^2\times\mathcal K$; with $2c_Z=\min_{S^2\times\mathcal K}\zeta_0>0$ we get $\zeta_r\ge c_Z$, that is $Z_r\ge c_Zr^2$, for $0<r\le r_0$ after decreasing $r_0$. Its second moment is finite by Gaussian polynomial moments: under $\E^0$ the endpoint variables have mean bounded by $C(1+|b|+\kappa)$ and covariance bounded by $C$ (Proposition~\ref{prop:contact-soft-limits}), and for $r\le1$, $|D_MD_S|\le C|U_r|^6$, a polynomial of degree six. Lemma~\ref{lem:contact-moments} with degrees six and twelve gives, on $\mathcal K$,
+\[
+\zeta_r\le\E^0|D_MD_S|\le C\bigl(1+(|b|+\kappa)^6\bigr)\le C_Z,\qquad\E^0\bigl[(D_MD_S)^2\bigr]\le C\bigl(1+(|b|+\kappa)^{12}\bigr)\le C_W .
+\]
+With \eqref{eq:contact-Wr}, $Z_r=r^2\zeta_r\le C_Zr^2$ and $\E^0[W_r^2]\le r^4\,\E^0[(D_MD_S)^2]\le C_Wr^4$.
+\end{proof}
+
+The factor $r^2$ in \eqref{eq:contact-normalizer} is the same endpoint soft-mode factor as in \eqref{eq:contact-Wr}. For $d=3$, \eqref{eq:contact-detrD} and Lemma~\ref{lem:contact-normalizer} are (3.9) of the main text and the statement following it: conditionally on the pins, $\det H_M=rD_M$ and $\det H_S=rD_S$ with uniformly bounded conditional Gaussian moments, so that the two endpoint determinant weights contribute $r^2$.
+
+\subsection{The cubic-gap Jacobian}\label{ssec:contact-gap}
+
+\begin{lemma}[cubic-gap change of variables]\label{lem:contact-gap}
+At fixed $x,t,r,b$, write the saddle value as
+\begin{equation}\label{eq:contact-h}
+h=f(S)=b-\frac{\kappa r^3}6,\qquad\kappa>0 .
+\end{equation}
+The map $\kappa\mapsto h$ is affine and strictly decreasing, with
+\begin{equation}\label{eq:contact-gapjac}
+\frac{dh}{d\kappa}=-\frac{r^3}6,\qquad|dh|=\frac{r^3}6\,d\kappa .
+\end{equation}
+Therefore any Kac--Rice density originally written with respect to the saddle-value differential $dh$ acquires exactly the factor $r^3/6$ when it is rewritten with respect to $d\kappa$.
+\end{lemma}
+
+\begin{proof}
+Differentiate \eqref{eq:contact-h} in $\kappa$ at fixed $(x,t,r,b)$.
+\end{proof}
+
+\begin{remark}[the factor $1/6$]\label{rem:contact-gap}
+The factor $1/6$ in \eqref{eq:contact-gapjac} is not an orientation factor, a branch multiplicity, or a Morse-index factor. It is solely the absolute Jacobian of \eqref{eq:contact-h}. All ordered-pair, directed-axis and type conventions of Section~\ref{sec:setting} remain unchanged. Combining \eqref{eq:contact-gapjac} with the corrected-pin density factor $r^{-(d+3)}$ of \eqref{eq:contact-density} and the two endpoint soft factors $r^2$ of \eqref{eq:contact-zeta} gives the contact-density factor
+\begin{equation}\label{eq:contact-factor}
+\frac{r^3}6\;r^{-(d+3)}\;r^2=\frac16\,r^{2-d}.
+\end{equation}
+After multiplication by the polar displacement measure $r^{d-1}dr$, the universal radial measure is
+\begin{equation}\label{eq:contact-universal}
+\frac16\,r\,dr .
+\end{equation}
+\end{remark}
+
+\subsection{Dimension cancellation}\label{ssec:contact-cancel}
+
+\begin{theorem}[generic-fold dimension cancellation]\label{thm:contact-cancellation}
+Let $d\ge1$. Assume Hypothesis~\ref{hyp:contact-regular} for every compact $\mathcal K\subset\R\times(0,\infty)$, and that the two-point Kac--Rice formula holds for the ordered typed pair process. Then:
+\begin{enumerate}[(i)]
+\item The Kac--Rice density of the all-typed maximum-to-merging-saddle pair measure with respect to $dx\,r^{d-1}dr\,d\sigma_{d-1}(t)\,db\,d\kappa$ is
+\begin{equation}\label{eq:contact-KR}
+\frac{r^3}6\,K^{\rm all}_r=\frac{r^3}6\,p_\Pi\,Z_r ,
+\end{equation}
+where $r^3/6$ is the exact Jacobian from the saddle value to $\kappa$.
+\item Put
+\begin{equation}\label{eq:contact-J}
+J_r:=r^{d-2}\,\frac{r^3}6\,K^{\rm all}_r .
+\end{equation}
+Then, exactly,
+\begin{equation}\label{eq:contact-Jexact}
+J_r=\frac16\,p^{\rm corr}_r\,\zeta_r .
+\end{equation}
+\item $J_r\to J_0$ locally uniformly on $S^{d-1}\times\R\times(0,\infty)$, where
+\begin{equation}\label{eq:contact-J0}
+J_0(t,b,\kappa)=\frac16\,p^{\rm corr}_0(t,b,\kappa)\,\kappa^2\,\E\bigl[(\det Q)^2\,\ind_{\{Q\prec0\}}\bigm|Y_0=y_0(b,\kappa)\bigr].
+\end{equation}
+\item The full radial measure satisfies exactly
+\begin{equation}\label{eq:contact-radial}
+\frac{r^3}6\,K^{\rm all}_r\,r^{d-1}dr=J_r\,r\,dr .
+\end{equation}
+\end{enumerate}
+Consequently, the all-typed maximum-to-merging-saddle contact measure has the universal effective radial form $J_0(t,b,\kappa)\,r\,dr\,d\sigma_{d-1}(t)\,db\,d\kappa$ at leading order, for every ambient dimension $d\ge1$. The ambient dimension changes the coefficient law through $p^{\rm corr}_0$, $Q$ and the sphere $S^{d-1}$, but not the surviving power of $r$.
+\end{theorem}
+
+\begin{proof}
+(i) By the two-point Kac--Rice formula, the expected number of typed ordered pairs $(M,S)$ with $(M,S,f(M),f(S))$ in a Borel set $B$ is
+\[
+\int_B p_{\Pi}(b,h,0,0)\;\E\bigl[|\det H_M|\,|\det H_S|\,\ind_{\{H_M\prec0,\ \Ind(H_S)=d-1\}}\bigm|\Pi_r=(b,h,0,0)\bigr]\,dM\,dS\,db\,dh,
+\]
+with $p_\Pi(b,h,0,0)$ the density of $\Pi_r$ at $(b,h,0,0)$. Change variables by $dM\,dS=dx\,r^{d-1}dr\,d\sigma_{d-1}(t)$ (Proposition~\ref{prop:setting-jacobian}; for $d=1$, \eqref{eq:setting-detone}--\eqref{eq:setting-dMdS} hold verbatim with $\sigma_0$ the counting measure on $S^0=\{\pm1\}$) and by $|dh|=(r^3/6)\,d\kappa$ (Lemma~\ref{lem:contact-gap}). At $h=b-\kappa r^3/6$ the integrand is $p_\Pi(r,t,b,\kappa)\,Z_r(t,b,\kappa)=K^{\rm all}_r$, which gives \eqref{eq:contact-KR}.
+
+(ii) By \eqref{eq:contact-density} and \eqref{eq:contact-zeta}, $J_r=r^{d-2}\cdot\frac{r^3}6\cdot r^{-(d+3)}p^{\rm corr}_r\cdot r^2\zeta_r=\frac16\,p^{\rm corr}_r\,\zeta_r$.
+
+(iii) By Lemma~\ref{lem:contact-pin-jacobian} and Hypothesis~\ref{hyp:contact-regular}(a)--(b), $p^{\rm corr}_r\to p^{\rm corr}_0$ locally uniformly; by Proposition~\ref{prop:contact-soft-limits}, $\zeta_r\to\zeta_0$ uniformly on $S^{d-1}\times\mathcal K$ for every compact $\mathcal K$. Both limits are continuous, hence bounded on compact sets, and $\frac16p^{\rm corr}_0\zeta_0$ is \eqref{eq:contact-J0}.
+
+(iv) $\frac{r^3}6K^{\rm all}_r\,r^{d-1}=r^{d-2}\frac{r^3}6K^{\rm all}_r\cdot r=J_r\,r$.
+\end{proof}
+
+For a stationary field, $K^{\rm all}_r$ does not depend on $x$; per unit volume (for $f_{24}$, $24^{-3}\int_{\T^3_{24}}dx=1$) the $x$-integration drops out. For $f_{24}$ the hypotheses of Theorem~\ref{thm:contact-cancellation} hold: Hypothesis~\ref{hyp:contact-regular} by Lemma~\ref{lem:contact-normalizer}(ii), and the two-point Kac--Rice formula on each set $\{\delta\le r<\rho\}$, $\rho<12$, by the uniform nondegeneracy of Lemma~\ref{lem:contact-corrected}(i),(iii) and the analyticity of the sample paths, as in the proof of Proposition~1.2 of the main text, hence on $\{0<r<\rho\}$ by monotone convergence as $\delta\downarrow0$.
+
+\begin{corollary}[the three-dimensional power count]\label{cor:contact-powercount}
+For $d=3$ the complete local power count is: gap Jacobian $r^3/6$ (Lemma~\ref{lem:contact-gap}), corrected pins $r^{-6}$ (Lemma~\ref{lem:contact-pin-jacobian}), endpoint weights $r^2$ (Lemma~\ref{lem:contact-normalizer}) and pair polar measure $r^2\,dr\,d\sigma_2$ (Corollary~\ref{cor:setting-d3}), whose radial product is
+\begin{equation}\label{eq:contact-powercount}
+\frac{r^3}6\;r^{-6}\;r^2\;r^2\,dr\,d\sigma_2(t)=\frac16\,r\,dr\,d\sigma_2(t).
+\end{equation}
+With $G^{\rm all}_r=r^4K^{\rm all}_r$, the all-typed analogue of $G^{\rm sel}_r=r^4K^{\rm sel}_r$ in Proposition~3.3 of the main text, one has $J_r=G^{\rm all}_r/6=\frac16p^{\rm corr}_r\zeta_r$. No additional ordering, antipodal, branch, merge-index or factor-$1/2$ multiplier remains.
+\end{corollary}
+
+\begin{proof}
+For $d=3$, \eqref{eq:contact-factor} is $\frac{r^3}6r^{-6}r^2=\frac16r^{-1}$, and multiplication by $r^2\,dr\,d\sigma_2(t)$ gives \eqref{eq:contact-powercount}; this is (3.10) of the main text. By \eqref{eq:contact-J} with $d=3$, $J_r=r\cdot\frac{r^3}6K^{\rm all}_r=\frac16G^{\rm all}_r$, and \eqref{eq:contact-Jexact} gives the second expression. The measure $dx\,r^2dr\,d\sigma_2(t)$ is the exact ordered-pair coordinate measure over the full directed sphere (Corollary~\ref{cor:setting-d3}); each finite bar has one ordered pair (Proposition~\ref{prop:setting-multiplicity}); adjacency is a Boolean mark without branch factor (Remark~\ref{rem:setting-branch}); and the factor $1/6$ is the gap Jacobian alone (Remark~\ref{rem:contact-gap}).
+\end{proof}
+
+\subsection{Lifetime pushforward}\label{ssec:contact-pushforward}
+
+\begin{lemma}[lifetime pushforward]\label{lem:contact-lifetime}
+The persistence lifetime on the cubic fold channel is
+\begin{equation}\label{eq:contact-ell}
+\ell=b-h=\frac{\kappa r^3}6 .
+\end{equation}
+For fixed $\kappa>0$,
+\begin{equation}\label{eq:contact-rell}
+r=r_\ell(\kappa):=\Bigl(\frac{6\ell}\kappa\Bigr)^{1/3},
+\end{equation}
+\begin{equation}\label{eq:contact-dr}
+dr=\Bigl(\frac6\kappa\Bigr)^{1/3}\,\frac13\,\ell^{-2/3}\,d\ell,
+\end{equation}
+and
+\begin{equation}\label{eq:contact-rdr}
+r\,dr=\frac{6^{2/3}}3\,\kappa^{-2/3}\,\ell^{-1/3}\,d\ell .
+\end{equation}
+Thus the lifetime factor is $6^{2/3}/3$, and the exponent is $-1/3$.
+\end{lemma}
+
+\begin{proof}
+Equation \eqref{eq:contact-ell} is \eqref{eq:contact-h} with $\ell=b-h$; \eqref{eq:contact-rell} solves it for $r$, and \eqref{eq:contact-dr} is its derivative. Multiplying \eqref{eq:contact-rell} and \eqref{eq:contact-dr} gives \eqref{eq:contact-rdr}. An independent inverse-derivative check gives
+\begin{equation}\label{eq:contact-inverse}
+\frac{d\ell}{dr}=\frac{\kappa r^2}2,\qquad r\,dr=\frac2{\kappa r}\,d\ell,
+\end{equation}
+which becomes exactly \eqref{eq:contact-rdr} after substituting \eqref{eq:contact-rell}, since
+\[
+\frac2{\kappa}\Bigl(\frac{6\ell}\kappa\Bigr)^{-1/3}=2\cdot6^{-1/3}\,\kappa^{-2/3}\,\ell^{-1/3}=\frac{6^{2/3}}3\,\kappa^{-2/3}\,\ell^{-1/3}.\qedhere
+\]
+\end{proof}
+
+For $d=3$, \eqref{eq:contact-ell} and \eqref{eq:contact-rdr} are (3.11) and (3.12) of the main text.
+
+\begin{proposition}[lifetime density of the contact measure]\label{prop:contact-pushforward}
+Let $d\ge1$ and let $s_r(t,b,\kappa)\ge0$ be a measurable mark multiplier: $s_r\equiv1$ for the all-typed intensity, and $s_r=p_r$ of Section~\ref{sec:selection} for the selected one. Fix $\varrho>0$, with $\varrho<L/2$ on a torus of side $L$. Let $\nu_{s,\varrho}$ be the density of the image under $(r,t,b,\kappa)\mapsto\kappa r^3/6$ of the measure $J_rs_r\ind_{\{r<\varrho\}}\,r\,dr\,d\sigma_{d-1}(t)\,db\,d\kappa$, which by \eqref{eq:contact-radial} is the contact measure per unit volume with separation below $\varrho$ and mark multiplier $s_r$. Then, for $\ell>0$,
+\begin{equation}\label{eq:contact-nu-exact}
+\nu_{s,\varrho}(\ell)=\frac{6^{2/3}}3\,\ell^{-1/3}\int_{S^{d-1}}\int_\R\int_{6\ell/\varrho^3}^\infty J_{r_\ell(\kappa)}\,s_{r_\ell(\kappa)}\,\kappa^{-2/3}\,d\kappa\,db\,d\sigma_{d-1}(t).
+\end{equation}
+Assume that $J_rs_r\to J_0s_0$ pointwise as $r\downarrow0$, and that $\kappa^{-2/3}J_rs_r$ has an integrable majorant on $S^{d-1}\times\R\times(0,\infty)$ uniform in $0<r<\varrho$. Then dominated convergence gives $\ell^{1/3}\nu_{s,\varrho}(\ell)\to c$ as $\ell\downarrow0$, where
+\begin{equation}\label{eq:contact-c}
+c=\frac{6^{2/3}}3\int_{S^{d-1}}\int_\R\int_0^\infty J_0(t,b,\kappa)\,s_0(t,b,\kappa)\,\kappa^{-2/3}\,d\kappa\,db\,d\sigma_{d-1}(t).
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+For a nonnegative Borel function $\varphi$ on $(0,\infty)$,
+\[
+\int_0^\infty\varphi(\ell)\,\nu_{s,\varrho}(\ell)\,d\ell=\int\varphi\Bigl(\frac{\kappa r^3}6\Bigr)\,J_rs_r\ind_{\{r<\varrho\}}\,r\,dr\,d\sigma_{d-1}(t)\,db\,d\kappa .
+\]
+At fixed $(t,b,\kappa)$ substitute $r=r_\ell(\kappa)$ by \eqref{eq:contact-rell} and \eqref{eq:contact-rdr}; the condition $r<\varrho$ becomes $\kappa>6\ell/\varrho^3$. Tonelli's theorem gives \eqref{eq:contact-nu-exact}. As $\ell\downarrow0$, $r_\ell(\kappa)\to0$ for every $\kappa>0$ and $\ind_{\{\kappa>6\ell/\varrho^3\}}\to1$, so the integrand of \eqref{eq:contact-nu-exact} converges pointwise to $J_0s_0\kappa^{-2/3}$ and is dominated by the majorant; dominated convergence gives $\ell^{1/3}\nu_{s,\varrho}(\ell)\to c$.
+\end{proof}
+
+\begin{theorem}[dimension-independent generic-fold exponent]\label{thm:contact-exponent}
+In the setting of Proposition~\ref{prop:contact-pushforward}, whenever the limiting selected mass $c$ in \eqref{eq:contact-c} is finite and strictly positive,
+\begin{equation}\label{eq:contact-asymp}
+\nu_{s,\varrho}(\ell)=c\,\ell^{-1/3}\bigl(1+o(1)\bigr),\qquad\ell\downarrow0,
+\end{equation}
+so the short-lifetime density exponent is $-1/3$ in every ambient dimension. Selection affects the coefficient through $s_0$; it does not affect the exponent unless the limiting selected mass vanishes or introduces an additional singular scale.
+\end{theorem}
+
+\begin{proof}
+By Proposition~\ref{prop:contact-pushforward}, $\ell^{1/3}\nu_{s,\varrho}(\ell)\to c\in(0,\infty)$, which is \eqref{eq:contact-asymp}. The exponent comes from \eqref{eq:contact-rdr} alone; the dimension enters only through $J_0$ and $S^{d-1}$.
+\end{proof}
+
+The identification of the elder density $\nu_{3,24}$ with the selected contact density, and the verification of the hypotheses of Proposition~\ref{prop:contact-pushforward} for $f_{24}$ with $s_r=p_r$, are carried out in Section~\ref{sec:limit}.
+
+\begin{remark}[no double counting of $1/6$]\label{rem:contact-nodouble}
+The limiting contact density \eqref{eq:contact-J0} already contains the Kac--Rice factor $1/6$:
+\[
+J_0=\frac16\,p^{\rm corr}_0\,\kappa^2\,\E\bigl[(\det Q)^2\ind_{\{Q\prec0\}}\bigm|\text{limiting pins}\bigr].
+\]
+The lifetime pushforward multiplies $J_0$ by the lifetime factor $6^{2/3}/3$ of \eqref{eq:contact-rdr}; it does not introduce another factor $1/6$. The combined universal scalar factor carried from the gap variable and the radial pushforward is therefore
+\begin{equation}\label{eq:contact-scalar}
+\frac16\cdot\frac{6^{2/3}}3=\frac{6^{2/3}}{18}.
+\end{equation}
+For $d=3$, with $J_r=G^{\rm all}_r/6$ (Corollary~\ref{cor:contact-powercount}), \eqref{eq:contact-c} reads $c=\frac{6^{2/3}}{18}\int\kappa^{-2/3}\,G^{\rm all}_0\,s_0\,d\kappa\,db\,d\sigma_2(t)$, which carries the scalar of (3.12b) of the main text.
+\end{remark}

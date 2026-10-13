@@ -1,0 +1,211 @@
+% Section S1 of the SIDE24 V3 supplement: setting, pair coordinates and multiplicity.
+% Source map, corrections, added steps and issues: CONC_s1s2.md.
+\section{Setting, pair coordinates and multiplicity}\label{sec:setting}
+
+This section collects the facts about the field and about ordered pairs of critical points on which the contact analysis of Section~\ref{sec:contact} rests: the spectral representation of the covariance (\S\ref{ssec:setting-field}), the positivity of every finite Gram matrix of derivative evaluations (\S\ref{ssec:setting-gram}), the density convention (\S\ref{ssec:setting-density}), the coordinates of ordered typed pairs and their Jacobian (\S\ref{ssec:setting-pairs}), and the unit multiplicity of the elder pairing (\S\ref{ssec:setting-multiplicity}).
+
+\subsection{The field and its spectral representation}\label{ssec:setting-field}
+
+Write $\T^3_{24}=(\R/24\Z)^3$ and, for $m\in\Z^3$, $e_m(z)=\exp(2\pi i\,m\cdot z/24)$. As in (1.1) of the main text, the normalized periodized Bargmann--Fock covariance is
+\begin{equation}\label{eq:setting-K24}
+K_{24}(z)=Z_{24}^{-1}\sum_{n\in\Z^3}\exp\Bigl(-\frac{|z+24n|^2}{2}\Bigr),\qquad Z_{24}=\sum_{n\in\Z^3}e^{-288|n|^2},
+\end{equation}
+and $f=f_{24}$ is a centered stationary Gaussian field on $\T^3_{24}$ with $\E[f(x)f(y)]=K_{24}(x-y)$. Since $|24n|^2/2=288|n|^2$, the normalization gives $K_{24}(0)=1$.
+
+\begin{lemma}[spectral representation]\label{lem:setting-spectral}
+For every $z\in\R^3$,
+\begin{equation}\label{eq:setting-spectral}
+K_{24}(z)=Z_{24}^{-1}\sum_{m\in\Z^3}a_m\,e_m(z),\qquad a_m=\frac{(2\pi)^{3/2}}{24^3}\exp\Bigl(-\frac{2\pi^2|m|^2}{24^2}\Bigr)>0 .
+\end{equation}
+Thus the Fourier coefficients of $K_{24}$ in the basis $(e_m)$ are $\widehat K_{24}(m)=Z_{24}^{-1}a_m$, as in (1.2) of the main text. All of them are strictly positive, and $\sum_{m}\widehat K_{24}(m)(1+|m|)^N<\infty$ for every $N\ge0$.
+\end{lemma}
+
+\begin{proof}
+Let $g(z)=e^{-|z|^2/2}$ on $\R^3$, with Fourier transform $\hat g(k)=\int_{\R^3}g(z)e^{-ik\cdot z}\,dz=(2\pi)^{3/2}e^{-|k|^2/2}$. The Poisson summation formula for the lattice $24\Z^3$ gives
+\[
+\sum_{n\in\Z^3}g(z+24n)=24^{-3}\sum_{m\in\Z^3}\hat g\Bigl(\frac{2\pi m}{24}\Bigr)e_m(z)=\frac{(2\pi)^{3/2}}{24^3}\sum_{m\in\Z^3}e^{-2\pi^2|m|^2/24^2}\,e_m(z),
+\]
+where both series converge absolutely and uniformly because $g$ and $\hat g$ are Schwartz functions. Dividing by $Z_{24}$ gives \eqref{eq:setting-spectral}. The summability statement follows from the Gaussian decay of $a_m$.
+\end{proof}
+
+\subsection{Full-spectrum Gram positivity}\label{ssec:setting-gram}
+
+For a multi-index $\alpha$ and $x\in\T^3_{24}$ write $L_{\alpha,x}(f)=\partial^\alpha f(x)$. A \emph{finite derivative evaluation} is a finite real linear combination
+\begin{equation}\label{eq:setting-T}
+T(f)=\sum_{j,\alpha}c_{j,\alpha}\,L_{\alpha,x_j}(f)=\sum_{j,\alpha}c_{j,\alpha}\,\partial^\alpha f(x_j).
+\end{equation}
+Its \emph{associated distribution} is the finite distribution
+\begin{equation}\label{eq:setting-dist}
+\mathcal T=\sum_{j,\alpha}c_{j,\alpha}\,(-1)^{|\alpha|}\,\partial^\alpha\delta_{x_j},\qquad\text{so that}\qquad\langle\mathcal T,\varphi\rangle=T(\varphi)\quad\bigl(\varphi\in C^\infty(\T^3_{24})\bigr).
+\end{equation}
+We fix the Fourier convention $\widehat T(m)=T(e_m)=\langle\mathcal T,e_m\rangle$; up to the factor $24^{-3}$ and the reflection $m\mapsto-m$, this is the $m$-th Fourier coefficient of $\mathcal T$.
+
+\begin{lemma}[spectral Gram identity]\label{lem:setting-gram}
+For every finite derivative evaluation $T$,
+\begin{equation}\label{eq:setting-var}
+\Var[T(f)]=Z_{24}^{-1}\sum_{m\in\Z^3}a_m\,|\widehat T(m)|^2=\sum_{m\in\Z^3}\widehat K_{24}(m)\,|\widehat T(m)|^2 .
+\end{equation}
+Because every $a_m$ is strictly positive,
+\begin{equation}\label{eq:setting-var-zero}
+\Var[T(f)]=0\iff\widehat T(m)=0\ \text{ for every }m\in\Z^3\iff\mathcal T=0\ \text{ as a distribution}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+By Lemma~\ref{lem:setting-spectral} the series \eqref{eq:setting-spectral} may be differentiated term by term any number of times, so the mean-square derivatives of $f$ satisfy
+\[
+\Cov\bigl(\partial^\alpha f(x),\partial^\beta f(y)\bigr)=\partial_x^\alpha\partial_y^\beta\,K_{24}(x-y)=\sum_{m\in\Z^3}\widehat K_{24}(m)\,\partial^\alpha e_m(x)\,\overline{\partial^\beta e_m(y)} ,
+\]
+using $e_m(x-y)=e_m(x)\overline{e_m(y)}$. Multiplying by the real coefficients $c_{j,\alpha}c_{j',\beta}$ and summing gives $\Var[T(f)]=\sum_m\widehat K_{24}(m)\,T(e_m)\,\overline{T(e_m)}$, which is \eqref{eq:setting-var}. Since every $a_m$ is strictly positive, the variance vanishes if and only if $\widehat T(m)=0$ for all $m$. The last equivalence in \eqref{eq:setting-var-zero} is the uniqueness of Fourier series for distributions on the compact torus: trigonometric polynomials are dense in $C^\infty(\T^3_{24})$, so a distribution that annihilates every $e_m$ is zero.
+\end{proof}
+
+\begin{theorem}[full-spectrum Gram positivity]\label{thm:setting-gram}
+Let $\Lambda_1,\dots,\Lambda_N$ be finite-order constant-coefficient derivative-evaluation functionals on $\T^3_{24}$, $\Lambda_i(f)=(P_i(\partial)f)(x_i)$ with polynomial symbols $P_i$, and let $\mathcal T_i=P_i(-\partial)\delta_{x_i}$ be the associated distributions, $\langle\mathcal T_i,\varphi\rangle=\Lambda_i(\varphi)$. The covariance matrix $\bigl(\Cov(\Lambda_if,\Lambda_jf)\bigr)_{i,j\le N}$ is positive definite if and only if $\mathcal T_1,\dots,\mathcal T_N$ are linearly independent.
+
+In particular, if at each of the distinct support points the polynomial symbols of the differential operators evaluated there are linearly independent, then the covariance matrix is positive definite.
+\end{theorem}
+
+\begin{proof}
+For $c\in\R^N$, $c^{\top}\bigl(\Cov(\Lambda_if,\Lambda_jf)\bigr)c$ is the variance \eqref{eq:setting-var} of the finite derivative evaluation $\sum_ic_i\Lambda_i$, whose associated distribution is $\sum_ic_i\mathcal T_i$. By \eqref{eq:setting-var-zero} it vanishes exactly when $\sum_ic_i\mathcal T_i=0$, which proves the equivalence.
+
+For the second statement, suppose $\sum_ic_i\mathcal T_i=0$. Distributions supported at distinct points have disjoint supports, so the partial sum $\sum_{i:\,x_i=x}c_i\mathcal T_i$ vanishes at each support point $x$. At one point, the derivatives $\partial^\alpha\delta_x$ indexed by distinct multi-indices are linearly independent; hence $\sum_{i:\,x_i=x}c_iP_i(-\partial)\delta_x=0$ holds exactly when $\sum_{i:\,x_i=x}c_iP_i=0$ as a polynomial. In other words, operator functionals at one point are independent exactly when their polynomial symbols are. By hypothesis all $c_i$ vanish.
+\end{proof}
+
+\begin{corollary}[compact uniform eigenfloors]\label{cor:setting-eigenfloor}
+Let $\mathcal P$ be a compact metric space of parameters and, for $\pi\in\mathcal P$, let $\Lambda^\pi_1,\dots,\Lambda^\pi_N$ be derivative-evaluation functionals of order at most $k$,
+\[
+\Lambda^\pi_i(f)=\sum_{|\alpha|\le k}c_{i,\alpha}(\pi)\,\partial^\alpha f\bigl(x_i(\pi)\bigr),
+\]
+whose coefficients $c_{i,\alpha}$ and support points $x_i$ depend continuously on $\pi$; for instance, a fixed finite derivative basis in directions from a compact set, evaluated at support points whose distinct members keep a mutual distance at least $\delta>0$. If the associated distributions are linearly independent for every $\pi\in\mathcal P$, then the smallest eigenvalue of $\Cov(\Lambda^\pi_1f,\dots,\Lambda^\pi_Nf)$ is a continuous and strictly positive function of $\pi$, and hence has a positive lower bound on $\mathcal P$.
+\end{corollary}
+
+\begin{proof}
+The entries $\Cov(\Lambda^\pi_if,\Lambda^\pi_jf)=\sum_{\alpha,\beta}c_{i,\alpha}(\pi)c_{j,\beta}(\pi)(-1)^{|\beta|}(\partial^{\alpha+\beta}K_{24})\bigl(x_i(\pi)-x_j(\pi)\bigr)$ are continuous in $\pi$ because $K_{24}$ is smooth. The smallest eigenvalue of a symmetric matrix is $1$-Lipschitz in the operator norm (Weyl's inequality), hence continuous in $\pi$; it is strictly positive by Theorem~\ref{thm:setting-gram}; and a positive continuous function on a compact set has a positive minimum.
+\end{proof}
+
+\begin{proposition}[independence of the corrected pair frame]\label{prop:setting-frame}
+Let $x\in\T^3_{24}$, $t\in S^2$, and let $(t,v,w)$ be an orthonormal frame.
+\begin{enumerate}[(i)]
+\item The eight derivative evaluations at $x$
+\begin{equation}\label{eq:setting-list}
+f,\quad\partial_tf,\quad\partial_t^2f,\quad\partial_t^3f,\quad\partial_vf,\quad\partial_t\partial_vf,\quad\partial_wf,\quad\partial_t\partial_wf
+\end{equation}
+have a positive definite covariance matrix. For the Bargmann--Fock kernel $e^{-|z|^2/2}$ on $\R^3$ in place of $K_{24}$, the determinant of this covariance matrix equals $12$.
+\item Let $\delta>0$ and let $y\in\T^3_{24}$ with $\dist(y,x)\ge\delta$. Append to \eqref{eq:setting-list} any standard coordinate basis of
+\begin{equation}\label{eq:setting-remote}
+f(y),\qquad\nabla f(y),\qquad\operatorname{Hess}f(y).
+\end{equation}
+The covariance matrix of the enlarged family is positive definite, and its smallest eigenvalue has a positive lower bound depending only on $\delta$, uniformly in $x$, $y$ and the frame.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+(i) In the orthonormal coordinates $(\xi_t,\xi_v,\xi_w)=(t\cdot\xi,v\cdot\xi,w\cdot\xi)$ the polynomial symbols of \eqref{eq:setting-list} are the distinct monomials $1,\xi_t,\xi_t^2,\xi_t^3,\xi_v,\xi_t\xi_v,\xi_w,\xi_t\xi_w$, which are linearly independent. All eight evaluations are supported at $x$, so Theorem~\ref{thm:setting-gram} gives positive definiteness. For the kernel $e^{-|z|^2/2}$, which is rotation invariant and factorizes over the coordinates $(t,v,w)$, $\Cov(\partial^\alpha f,\partial^\beta f)=(-1)^{|\beta|}\partial^{\alpha+\beta}e^{-|z|^2/2}|_{z=0}$ vanishes unless $\alpha+\beta$ is even in each coordinate. The covariance matrix therefore splits into the blocks $\{f,\partial_t^2f\}$ with covariance $\left(\begin{smallmatrix}1&-1\\-1&3\end{smallmatrix}\right)$, $\{\partial_tf,\partial_t^3f\}$ with covariance $\left(\begin{smallmatrix}1&-3\\-3&15\end{smallmatrix}\right)$, and the four singletons $\partial_vf$, $\partial_t\partial_vf$, $\partial_wf$, $\partial_t\partial_wf$ of variance $1$, and its determinant is $2\cdot6\cdot1=12$.
+
+(ii) The distributions of \eqref{eq:setting-list} are supported at $x$ and those of \eqref{eq:setting-remote} at $y\ne x$. The symbols at $y$ are the distinct monomials $1$, $\xi_i$ and $\xi_i\xi_j$ ($i\le j$), so Theorem~\ref{thm:setting-gram} gives positive definiteness. The parameters $(x,y,(t,v,w))$ with $\dist(y,x)\ge\delta$ range over a compact set on which the support points stay at distance at least $\delta$ and the coefficients depend continuously on the frame; Corollary~\ref{cor:setting-eigenfloor} gives the uniform lower bound.
+\end{proof}
+
+The list \eqref{eq:setting-list} is the contact limit of the corrected pair pins. By Lemma~\ref{lem:contact-corrected}, the corrected divided-difference pin vector $Y_r$ of Definition~\ref{def:contact-pins} is obtained from the raw pins by an invertible linear transformation for every $r>0$, and its contact limit consists, up to the order of the entries and the factor $-1/12$ on $\partial_t^3f$, of the derivative coordinates \eqref{eq:setting-list} at the pair midpoint. This coordinate transformation does not depend on the covariance kernel. Proposition~\ref{prop:setting-frame}(i) therefore gives strict contact-limit nondegeneracy of the corrected pair frame, and Proposition~\ref{prop:setting-frame}(ii) gives it jointly with a remote third point; this is the nondegeneracy used for the fixed-distance witnesses of Section~\ref{sec:selection}.
+
+\subsection{The density convention}\label{ssec:setting-density}
+
+\begin{convention}[density]\label{conv:setting-density}
+$\nu_{3,24}$ is the \emph{first-moment intensity density per unit ordinary torus volume}: $\nu_{3,24}(\ell)\,d\ell$ is the expected number of finite nonessential superlevel $H_0$ bars per unit volume with lifetime in $[\ell,\ell+d\ell]$. It is not the probability density of the lifetime of a randomly sampled bar; such a law requires normalizing by the expected bar count per unit volume and specifying the sampling rule, neither of which is used in Theorem~2.1 of the main text. The asymptotic $\nu_{3,24}(\ell)=c_{3,24}\ell^{-1/3}(1+o(1))$ holds for the pointwise Kac--Rice representative of the Radon--Nikodym derivative of Proposition~1.2 of the main text, i.e.\ for Lebesgue-a.e.\ $\ell$ in the sequential sense selected by that representative.
+\end{convention}
+
+\subsection{Ordered typed pairs and their coordinates}\label{ssec:setting-pairs}
+
+In this subsection and the next, $d\ge2$ and $\T^d_L=(\R/L\Z)^d$ is the flat torus of side $L>0$ with its quotient distance $\dist$. The index of a critical point is the number of negative eigenvalues of its Hessian. The side-24 field is the case $d=3$, $L=24$.
+
+\begin{definition}[ordered typed pair space]\label{def:setting-pairspace}
+Fix $0<\rho<L/2$. For a Morse function $f$ on $\T^d_L$ with distinct critical values, the \emph{typed ordered local pair space} is
+\begin{equation}\label{eq:setting-pairspace}
+\mathcal P_\rho(f)=\Bigl\{(M,S):\ \begin{array}{@{}l@{}}M\text{ is a local maximum},\ S\text{ is an index-}(d-1)\text{ critical point},\\ 0<\dist(M,S)<\rho,\ f(M)>f(S)\end{array}\Bigr\}.
+\end{equation}
+\end{definition}
+
+\begin{lemma}[midpoint, radius and direction]\label{lem:setting-coordinates}
+For points $M,S\in\T^d_L$ with $0<\dist(M,S)<\rho$, the short torus displacement $u=\operatorname{Log}_M(S)\in\R^d$ is unique. Put
+\begin{equation}\label{eq:setting-coords}
+x=M+\frac u2\bmod L,\qquad r=|u|,\qquad t=\frac ur\in S^{d-1}.
+\end{equation}
+Conversely,
+\begin{equation}\label{eq:setting-inverse}
+M=x-\frac r2\,t,\qquad S=x+\frac r2\,t .
+\end{equation}
+These formulas define a bijection between ordered pairs of points at distance in $(0,\rho)$ and triples $(x,r,t)\in\T^d_L\times(0,\rho)\times S^{d-1}$; in particular $r=\dist(M,S)$, and $\mathcal P_\rho(f)$ is identified with a subset of $\T^d_L\times(0,\rho)\times S^{d-1}$.
+\end{lemma}
+
+\begin{proof}
+The lifts of $S-M$ to $\R^d$ form a coset $\tilde u+L\Z^d$, and $\dist(M,S)=\min_{n}|\tilde u+Ln|<\rho<L/2$. Two lifts of length below $L/2$ differ by an element of $L\Z^d$ of length below $L$, hence coincide; so the lift $u=\operatorname{Log}_M(S)$ of length $\dist(M,S)$ is unique, \eqref{eq:setting-coords} is well defined, and \eqref{eq:setting-inverse} recovers $(M,S)$. Conversely, for $(x,r,t)$ with $0<r<\rho$, the points \eqref{eq:setting-inverse} satisfy $S-M\equiv rt$ modulo $L\Z^d$, and $rt$ is the unique lift of length below $L/2$; hence $\dist(M,S)=r$, $\operatorname{Log}_M(S)=rt$, and \eqref{eq:setting-coords} returns $(x,r,t)$.
+\end{proof}
+
+\begin{proposition}[exact Jacobian and absence of a half factor]\label{prop:setting-jacobian}
+In the coordinates of Lemma~\ref{lem:setting-coordinates},
+\begin{equation}\label{eq:setting-dMdS}
+dM\,dS=dx\,r^{d-1}\,dr\,d\sigma_{d-1}(t),
+\end{equation}
+with no numerical prefactor, where $\sigma_{d-1}$ is the surface measure of $S^{d-1}$. The antipodal coordinate $(x,r,-t)$ is mapped by \eqref{eq:setting-inverse} to $(S,M)$, which is not another element of $\mathcal P_\rho(f)$. Hence integration over the full directed sphere counts each typed ordered pair once.
+\end{proposition}
+
+\begin{proof}
+Work in the unique local Euclidean lift and set $u=S-M$, $x=(M+S)/2$. The inverse linear map is
+\begin{equation}\label{eq:setting-linear}
+(x,u)\longmapsto(M,S)=\Bigl(x-\frac u2,\ x+\frac u2\Bigr).
+\end{equation}
+Its $2d\times2d$ block matrix is
+\begin{equation}\label{eq:setting-Theta}
+\Theta=\begin{pmatrix}I&-I/2\\ I&I/2\end{pmatrix}.
+\end{equation}
+Subtracting the first block row from the second gives the block-triangular matrix $\left(\begin{smallmatrix}I&-I/2\\0&I\end{smallmatrix}\right)$, so
+\begin{equation}\label{eq:setting-detone}
+|\det\Theta|=1,\qquad dM\,dS=dx\,du .
+\end{equation}
+Standard polar coordinates in the directed displacement give
+\begin{equation}\label{eq:setting-polar}
+du=r^{d-1}\,dr\,d\sigma_{d-1}(t),
+\end{equation}
+and \eqref{eq:setting-dMdS} follows. By \eqref{eq:setting-inverse}, $(x,r,-t)$ is mapped to $\bigl(x+\frac r2t,\,x-\frac r2t\bigr)=(S,M)$. This is not another atom of $\mathcal P_\rho(f)$, because $S$ is not a maximum and $M$ is not an index-$(d-1)$ critical point. A factor $1/2$ belongs only to a different quotient convention using unoriented axes $t\sim-t$; the coefficient formula (2.9) of the main text (Section~\ref{sec:coefficient}) integrates over the full directed sphere and does not use that quotient.
+\end{proof}
+
+\begin{corollary}[the side-24 pair coordinates]\label{cor:setting-d3}
+Let $d=3$, $L=24$ and $0<\rho<12$. For a maximum $M$ and an index-two saddle $S$ of $f_{24}$ at distance $r<\rho$, the coordinates of Lemma~\ref{lem:setting-coordinates} are $x=(M+S)/2$ and $S-M=rt$, $t\in S^2$, with inverse $(x,u)\mapsto(M,S)=(x-u/2,\,x+u/2)$ of absolute determinant one, so that
+\begin{equation}\label{eq:setting-dMdS3}
+dM\,dS=dx\,du=dx\,r^2\,dr\,d\sigma_2(t).
+\end{equation}
+The antipodal direction $-t$ exchanges $M$ and $S$ and does not represent the same typed ordered pair; the full directed sphere $S^2$ counts each maximum--saddle pair once, with no factor $1/2$.
+\end{corollary}
+
+\begin{proof}
+This is Lemma~\ref{lem:setting-coordinates} and Proposition~\ref{prop:setting-jacobian} with $d=3$ and $L=24$.
+\end{proof}
+
+\subsection{Unit multiplicity}\label{ssec:setting-multiplicity}
+
+\begin{proposition}[$H_0$ unit multiplicity]\label{prop:setting-multiplicity}
+Let $f$ be a Morse function with pairwise distinct critical values on a compact connected $d$-manifold, $d\ge2$, and consider the superlevel filtration $X_a=\{f\ge a\}$. Then the elder death map $M\mapsto D_f(M)$ induces bijections
+\begin{equation}\label{eq:setting-bijections}
+\{\text{non-global maxima}\}\ \longleftrightarrow\ \{\text{finite superlevel }H_0\text{ bars}\}\ \longleftrightarrow\ \{\text{index-}(d-1)\ H_0\text{-merge saddles}\},
+\end{equation}
+and every finite nonessential $H_0$ bar has exactly one ordered pair $(M,D_f(M))$.
+\end{proposition}
+
+\begin{proof}
+As $a$ decreases, $X_a$ changes topology only at critical values, and, the critical values being distinct, at one critical point at a time; crossing a critical point of index $k$ attaches a $(d-k)$-handle to the superlevel set. Hence:
+\begin{itemize}[leftmargin=1.5em]
+\item every local maximum ($k=d$) creates one $H_0$ component;
+\item crossing an index-$(d-1)$ critical point attaches a one-handle to the superlevel set; that handle either merges two distinct components or creates a loop inside one component, and a merge lowers $\beta_0$ by exactly one while a loop leaves $\beta_0$ unchanged;
+\item a critical point of index $k\le d-2$ attaches a handle of dimension $d-k\ge2$ along a connected attaching region, and does not change $\beta_0$.
+\end{itemize}
+At a merge, the two components immediately above the saddle have unique elder maxima, because critical values are distinct. The elder rule retains the higher maximum and kills the lower one. Thus each merge kills exactly one $H_0$ class. Every non-global maximum eventually dies: below the global minimum the connected manifold is one superlevel component, represented by the global maximum. No maximum can die twice, and no generic binary merge can kill two classes. Therefore the three sets in \eqref{eq:setting-bijections} are in bijection through the elder death map, and every finite nonessential $H_0$ bar has one ordered pair $(M,D_f(M))$.
+\end{proof}
+
+The proof uses only connectedness, Morse nondegeneracy, distinct critical values, and the one-handle description of an index-$(d-1)$ superlevel saddle. By Proposition~1.1 of the main text, $f_{24}$ is almost surely Morse with pairwise distinct critical values, so Proposition~\ref{prop:setting-multiplicity} applies on $\T^3_{24}$ with probability one: each finite nonessential bar has one creating maximum and one index-two merging death saddle.
+
+\begin{remark}[branch count]\label{rem:setting-branch}
+An index-$(d-1)$ superlevel merge saddle has a one-dimensional unstable manifold under gradient ascent, and hence two half-branches. The pair process counts the critical-point pair $(M,S)$, not branch incidences. Direct adjacency is an existential Boolean mark:
+\begin{equation}\label{eq:setting-adjacency}
+A(M,S)=1\iff\text{at least one unstable half-branch of }S\text{ converges to }M .
+\end{equation}
+If both half-branches converge to $M$, the same ordered pair still contributes one atom. No branch factor $2$ enters the contact density $J_r$ of Theorem~\ref{thm:contact-cancellation} or the coefficient $c_{3,24}$.
+\end{remark}

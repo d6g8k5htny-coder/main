@@ -1,0 +1,636 @@
+% Supplement section S10: the third-order terms (Part II).
+% Source map, renamings and corrections: CONC_s10.md.
+\section{The third-order terms}\label{sec:third}
+
+This section expands the candidate and the elder lifetime densities to third order, in every dimension $d\ge2$ and on every torus side $L>0$: with remainder $O(\ell^{4/11})$ (Theorems~\ref{thm:third-T} and~\ref{thm:third-E3}) and then $O(\ell^{3/7})$ (Theorems~\ref{thm:third-Tplus} and~\ref{thm:third-E3plus}). The three-term law (2.12) of the main text is the case $d=3$, $L=24$ of \eqref{eq:third-E3p1} (Remark~\ref{rem:third-main}). All constants are existential.
+
+\subsection{Setting and notation}\label{ssec:third-setting}
+
+\emph{Field and densities.} Fix $d\ge2$, $L>0$, $m=d-1$; $f$ is the centred stationary Gaussian field on $\T^d_L=\R^d/(L\Z^d)$ with covariance $K_L(z)=\sum_ne^{-|z+Ln|^2/2}/\sum_ne^{-|Ln|^2/2}$ (sums over $n\in\Z^d$; for $d=3$, $L=24$ this is $K_{24}$ of (1.1) of the main text and $f=f_{24}$). $\nu_\cand(\ell)$ counts ordered pairs (local maximum, critical point of index $m$) with height gap $\ell$, $\nu_\eld(\ell)$ the finite nonessential superlevel $H_0$ bars of lifetime $\ell$, and $\rho_\rej:=\nu_\cand-\nu_\eld$; all are per unit volume, in their canonical marked Kac--Rice density versions (Convention~2.2 of the main text; \cite{parentP}), and $\nu_\eld=\nu_{3,24}$, $\nu_\cand=\nu^\cand_{3,24}$ for $d=3$, $L=24$. $c_{d,L}>0$ is the leading coefficient of \cite[(15.2)]{parentP} ($c_{3,24}$ of (2.9) of the main text). Constants $C,c,N$ ($C_p$ for an exponent $p$) depend only on $d,L$ unless stated otherwise and change from line to line. $\|g\|_{C^q}$ is the supremum over $\T^d_L$ of the operator norms of the derivatives of order $\le q$.
+
+\emph{Pinned pairs.} For $u\in S^{d-1}$ fix an orthonormal frame $\Theta$ of $u^\perp$ and write points as $xu+\Theta y$, $(x,y)\in\R\times\R^m$. For $r>0$, $b\in\R$, $k\ge0$ the pins are
+\begin{equation}\label{eq:third-pins}
+M=-\tfrac r2u,\quad S=\tfrac r2u,\qquad f(M)=b,\quad f(S)=b-kr^3,\qquad \nabla f(M)=\nabla f(S)=0,
+\end{equation}
+so the gap is $\ell=kr^3$. By stationarity the midpoint is $0$; in (3.4)--(3.5) of the main text, $t=u$, $\Theta=(n_1,n_2)$ for $d=3$, and the parameter $\kappa$ of (3.5) there equals $6k$. In this section $\kappa$ is instead the \emph{cusp variable}
+\begin{equation}\label{eq:third-cuspvar}
+\kappa:=k/r=\ell/r^4,\qquad s:=r\ell^{-1/4}=\kappa^{-1/4},\qquad\text{and}\qquad P:=1+|b|+k.
+\end{equation}
+$U_r$ is the vector of pin rows of \cite[(3.1)]{parentP} (centred difference rules of the values and gradients at $M,S$; an invertible image of the pins with absolute Jacobian $12r^{-(d+3)}$), and \eqref{eq:third-pins} reads $U_r=v_r:=(b-kr^3/2,-kr^2,0,12k,0,\dots,0)$. $\pi_r(v_r)$ is the density of $U_r$ at $v_r$ and $Q=Q_{r,b,k}$ the Gaussian regression law given $U_r=v_r$. At $r=0$ the rows become the \emph{pinned jets} $U_0=(f,\partial_uf,\partial_u^2f,\partial_u^3f,\nabla_\Theta f,\nabla_\Theta\partial_uf)(0)$, with target $v_0(b,k)=(b,0,0,12k,0,\dots,0)$ and density $\pi_0(u;v_0(b,k))$; the \emph{contact law at $v_0(b,k)$} is the law of the jets at $0$ given $U_0=v_0(b,k)$, $\E_0[\,\cdot\mid v_0(b,k)]$ its expectation, and $\E_0[\,\cdot\mid b]:=\E_0[\,\cdot\mid v_0(b,0)]$.
+
+\emph{Weights and kernels.} $F_j(H)$ is $|\det H|$ if the symmetric matrix $H$ has exactly $j$ negative eigenvalues and $0$ otherwise. With $H_i=D^2f(i)$, $i\in\{M,S\}$, and $D_r=\mathrm{diag}(r^{1/2},I_m)$ put $K_i=D_r^{-1}H_iD_r^{-1}$, so $|\det H_i|/r=|\det K_i|$, and $W_r=|\det H_M\det H_S|\ind\{H_M\prec0,\ \Ind H_S=m\}$, so $W_r/r^2=F_d(K_M)F_{d-1}(K_S)$. The elder mark is $e=\ind\{d_f(M)=f(S)\}$ with the maximin level $d_f(M)=\sup\{\min_tf(\gamma(t)):\gamma(0)=M,\ f(\gamma(1))>f(M)\}$ ($\sup\varnothing=-\infty$); it is Borel and on the Morse locus it is the elder pairing \cite{parentP}. The kernels, functions of $(b,k,u)$, are
+\begin{equation}\label{eq:third-kernels}
+\mathcal A_r=12\pi_r(v_r)\E_Q[W_r/r^2],\quad \mathcal A_r^\eld=12\pi_r(v_r)\E_Q[(W_r/r^2)e],\quad \mathcal A^\rej_r=\mathcal A_r-\mathcal A^\eld_r,\quad \mathcal A_0=12\pi_0(v_0)z_0,
+\end{equation}
+with $z_0=36k^2\E_0[(\det A)^2\ind\{A\prec0\}\mid v_0(b,k)]$. For a $C^5$ function $g$ the jets at $0$ in the frame $(u,\Theta)$ are $f_4=\partial_u^4g(0)$, $\gamma=\nabla_\Theta\partial_u^2g(0)\in\R^m$, $A=D_\Theta^2g(0)$, $\Delta=\det A$, $B=\partial_uD_\Theta^2g(0)$, and
+\begin{equation}\label{eq:third-Y}
+Y=\tfrac{f_4}{12}\Delta-\tfrac14\gamma^\top\adj(A)\gamma,\qquad \varphi=\frac{Y}{6\kappa\Delta}=\frac{f_4-3\gamma^\top A^{-1}\gamma}{72\kappa}\quad(A\text{ invertible}).
+\end{equation}
+Under $\E_0$ these are the jets of the field under the contact law.
+
+\emph{Cusp kernels.} For $\kappa>0$ put $w_\kappa(A,Y)=(36\kappa^2(\det A)^2-Y^2)_+\ind\{A\prec0\}=(36\kappa^2\Delta^2-Y^2)\ind\{A\prec0,|Y|<6\kappa|\Delta|\}$,
+\begin{equation}\label{eq:third-weights}
+\begin{aligned}
+w_\kappa^\eld(A,Y)&=(36\kappa^2\Delta^2-Y^2)\ind\{A\prec0,\ |Y|<2\kappa|\Delta|\},\\
+\mathrm{loss}_\kappa(A,Y)&=36\kappa^2\Delta^2\ind\{A\prec0\}-w^\eld_\kappa(A,Y)\\
+&=\bigl[Y^2\ind\{|Y|<2\kappa|\Delta|\}+36\kappa^2\Delta^2\ind\{|Y|\ge2\kappa|\Delta|\}\bigr]\ind\{A\prec0\}.
+\end{aligned}
+\end{equation}
+The cusp kernels of \S\ref{sec:cusp} are $\mathcal C^\bullet(b,\kappa,u)=12\pi_0(u;v_0(b,0))\E_0[w^\bullet\mid b]$ with $w^\cand=w_\kappa$, $w^\eld=w^\eld_\kappa$, $w^{\rm con}=36\kappa^2\Delta^2\ind\{A\prec0\}$, so
+\begin{equation}\label{eq:third-cuspdiff}
+\mathcal C^\cand-\mathcal C^{\rm con}=-12\pi_0\E_0[\min(Y^2,36\kappa^2\Delta^2)\ind\{A\prec0\}\mid b],\qquad \mathcal C^\eld-\mathcal C^{\rm con}=-12\pi_0\E_0[\mathrm{loss}_\kappa\mid b]\le0,
+\end{equation}
+and the cusp coefficients of \S\ref{sec:cusp} are
+\begin{equation}\label{eq:third-c1}
+\begin{aligned}
+c_1&=\int_{S^{d-1}}\!\int_\R\!\int_0^\infty(\mathcal C^\eld-\mathcal C^{\rm con})(b,s^{-4},u)\,ds\,db\,d\sigma(u)<0,\\
+I^\cand&=\int_{S^{d-1}}\!\int_\R\!\int_0^\infty(\mathcal C^\cand-\mathcal C^{\rm con})(b,s^{-4},u)\,ds\,db\,d\sigma(u)=\tfrac{3^{1/4}}2c_1;
+\end{aligned}
+\end{equation}
+for $d=3$, $L=24$, evaluating the $s$-integral (\S\ref{sec:cusp}) turns $c_1$ into (2.13) of the main text.
+
+\emph{Two-site kernels.} For $y\ne0$ let $O_y=(f(0),\nabla f(0),f(y),\nabla f(y))$, $v_{b,\ell}=(b,0,b-\ell,0)$, $p_y$ the density of $O_y$, $Q_{y,b,\ell}$ the regression law given $O_y=v_{b,\ell}$, $W=|\det H_0\det H_y|\ind\{H_0\prec0,\ \Ind H_y=m\}$, and $e_y$ the elder mark of $(0,y)$. Put $\Psi^\cand_\ell(b,y)=p_y(v_{b,\ell})\E_{Q_{y,b,\ell}}[W]$, $\Psi_0=\Psi^\cand_0$, the equal-height mass $B_{d,L}=\int_{\T^d_L\setminus\{0\}}\int_\R\Psi_0\,db\,dy\in(0,\infty)$, and
+\begin{equation}\label{eq:third-far}
+\nu_\cand^{{\rm far},\rho}(\ell)=\int_{\dist(0,y)\ge\rho}\int_\R\Psi^\cand_\ell\,db\,dy,\qquad
+\nu_\eld^{{\rm far},\rho}(\ell)=\int_{\dist(0,y)\ge\rho}\int_\R p_y(v_{b,\ell})\,\E_{Q_{y,b,\ell}}[We_y]\,db\,dy.
+\end{equation}
+
+\subsection{Inputs}\label{ssec:third-inputs}
+
+\emph{From \S\ref{sec:rate}.} There is $r_R\in(0,1]$ such that for $0<r\le r_R$: the pinned and contact laws are realized on one probability space by $F_r\sim Q_{r,b,k}$ and $F_0$ (whose jets at $0$ have the contact law at $v_0(b,k)$), affine images of one copy of the field with coefficients bounded uniformly in $r$ and the frame; $\Sigma_r=\Cov(U_r)$ is uniformly positive definite; and for $p\ge1$, $q\ge0$,
+\begin{gather}
+\|F_r-F_0\|_{L^p(C^q)}\le C_{p,q}r^2P,\qquad \bigl\|1+\|F_r\|_{C^q}+\|F_0\|_{C^q}\bigr\|_{L^p}\le C_{p,q}P,\label{eq:third-coupling}\\
+\pi_r(v_r)\le Ce^{-c(b^2+k^2)},\qquad |\pi_r(v_r)-\pi_0(v_0(b,k))|\le Cr^2P^2e^{-c(b^2+k^2)}.\label{eq:third-pindens}
+\end{gather}
+In $K_i=\begin{psmallmatrix}\alpha_i&r^{1/2}\beta_i^\top\\ r^{1/2}\beta_i&A_i\end{psmallmatrix}$, $\alpha_i=\partial_x^2F_r(i)/r$, $\beta_i=\nabla_y\partial_xF_r(i)/r$, $A_i=D_y^2F_r(i)$, one has $\det K_i=\alpha_i\det A_i-r\beta_i^\top\adj(A_i)\beta_i$. We use the dominating variable (it dominates the one of \S\ref{sec:remainder})
+\begin{equation}\label{eq:third-T}
+T:=1+k+\|F_r\|_{C^9}+\|F_0\|_{C^9}+r^{-2}\|F_r-F_0\|_{C^4},\qquad \|T\|_{L^p}\le C_pP;
+\end{equation}
+with $A_0:=D_y^2F_0(0)$, $\|A_i-A_0\|\le(\frac r2+r^2)T\le rT$ for $r\le\frac12$, $F_j(K_i)\le C(k+r)T^d$, and $0\le \mathcal A_0\le k^2H(b,k)$, $H(b,k):=CP^Ne^{-c(b^2+k^2)}$.
+
+\emph{From \S\ref{sec:remainder}.} The admissible radius satisfies $0<r_0^*\le r_R\le1$, $r_0^*<L/(4\sqrt2)$ and $r_0^*\le r_K$, where $r_K>0$ is the radius of the gap-mark-explicit weight bound for the cap region $G_r$; as $1-e\le\ind_{G_r^c}$ $Q$-almost surely on $\{W_r>0\}$, that bound gives, for $0<r\le\min\{k,r_K\}$,
+\begin{equation}\label{eq:third-K2}
+\E_Q[(W_r/r^2)(1-e)]\le C(r^3/k)P^N.
+\end{equation}
+For every $r_0\in(0,r_0^*]$, with inner integrals $d\sigma(u)\,db$ over $S^{d-1}\times\R$,
+\begin{equation}\label{eq:third-ident}
+\begin{aligned}
+\nu_\cand(\ell)&=\int_0^{r_0}\!\!\iint r^{-2}\mathcal A_r(b,\tfrac\ell{r^3},u)\,dr+\nu_\cand^{{\rm far},r_0}(\ell),\qquad
+c_{d,L}\ell^{-1/3}=\int_0^\infty\!\!\iint r^{-2}\mathcal A_0(b,\tfrac\ell{r^3},u)\,dr,\\
+\nu_\eld(\ell)&=\int_0^{r_0}\!\!\iint r^{-2}\mathcal A^\eld_r(b,\tfrac\ell{r^3},u)\,dr+\nu_\eld^{{\rm far},r_0}(\ell),
+\end{aligned}
+\end{equation}
+and $r^{-2}\mathcal A_r(b,0,u)=r^{d-1}\Psi_0(b,ru)$, so that
+\begin{equation}\label{eq:third-Bsplit}
+B_{d,L}=\int_0^{r_0}\!\!\iint r^{-2}\mathcal A_r(b,0,u)\,dr+\int_{\dist(0,y)\ge r_0}\int_\R\Psi_0\,db\,dy.
+\end{equation}
+With $f_4,\gamma,B$ the jets of $F_r$, $\Delta_0=\det A_0$ and $\widehat Y=\frac{f_4}{12}\Delta_0+3k\tr(\adj(A_0)B)-\frac14\gamma^\top\adj(A_0)\gamma$, pathwise for $0<r\le r_R$,
+\begin{equation}\label{eq:third-exp}
+\det K_M=-6k\Delta_0+r\widehat Y+R_M,\quad \det K_S=6k\Delta_0+r\widehat Y+R_S,\quad |R_M|+|R_S|\le Cr^2(1+k)T^{N_1}.
+\end{equation}
+Its proof is a pathwise Taylor expansion of $F_r$ about its own jets at $0$, with remainders polynomial in $\|F_r\|_{C^7}$ and $k$ for $r\le1$; the coupling enters only through $\|D_y^2F_r(0)-A_0\|\le r^2T$. So, with $A=D_y^2F_r(0)$, $\Delta=\det A$, $\mathcal N_r:=1+k+\|F_r\|_{C^9}$ and $Y_r:=\frac{f_4}{12}\Delta+3k\tr(\adj(A)B)-\frac14\gamma^\top\adj(A)\gamma$, pathwise for all $0<r\le r_0^*$, $k\ge0$,
+\begin{equation}\label{eq:third-ownexp}
+\det K_M=-6k\Delta+rY_r+R'_M,\quad \det K_S=6k\Delta+rY_r+R'_S,\quad |R'_M|+|R'_S|\le Cr^2(1+k)\mathcal N_r^{N_1}.
+\end{equation}
+\emph{Sign window:} on $\{W_r>0\}$, $\det K_M\det K_S<0$; so if $\det K_M=w-a+R_M$, $\det K_S=w+a+R_S$, then $|w|\le|a|+\max_i|R_i|$ and $|\det K_i|\le2|a|+2\max_j|R_j|$. For $0<r\le r_R$, $k\ge0$, and $0<\rho\le r_0^*$,
+\begin{equation}\label{eq:third-W1}
+\E_Q[W_r/r^2]\le C(k^2+r^4(1+k)^2)P^N,\qquad \int_{0<\dist(0,y)<\rho}\int_\R\Psi_0(b,y)\,db\,dy\le C\rho^3.
+\end{equation}
+\emph{Barrier:} if $g\in C^3(\T^d_L)$, $\nabla g(M)=0$, $D^2g(M)\prec0$, then $g(M)-d_g(M)\ge c_L\lambda^3/K_g^2$, with $\lambda=\lambda_{\min}(-D^2g(M))$, $K_g=1+\sup\|D^2g\|+\sup\|D^3g\|$, $c_L=a_L^2/3$, $a_L=\min(1,L/4)$. So on $\{W_r>0\}\cap\{e=1\}$,
+\begin{equation}\label{eq:third-barrier}
+\lambda_{\min}(-H_M)\le(\ell K_f^2/c_L)^{1/3}.
+\end{equation}
+For every fixed $r_0\in(0,L/2]$ there is $C=C(d,L,r_0)$ with
+\begin{equation}\label{eq:third-Fprime}
+\nu_\eld^{{\rm far},r_0}(\ell)\le C\ell^{1/3},\qquad 0<\ell\le1.
+\end{equation}
+
+\emph{From \S\ref{sec:cusp}.} For $0<r\le r_0^*$, $0\le k\le1$, and for $r_0\in(0,r_0^*]$, $\dist(0,y)\ge r_0$, $0\le\ell\le1$,
+\begin{equation}\label{eq:third-gapLip}
+\begin{aligned}
+|\mathcal A_r(b,k,u)-\mathcal A_r(b,0,u)|&\le C(k^2+kr^2)(1+|b|)^Ne^{-cb^2},\\
+|\Psi^\cand_\ell(b,y)-\Psi_0(b,y)|&\le C_{r_0}\ell(1+|b|)^Ne^{-cb^2}.
+\end{aligned}
+\end{equation}
+The cusp polynomial, its fibre reduction and the values of its ridge are recalled in \S\ref{ssec:third-decision}.
+
+\emph{From the main text.} By its record [R9] (the far elder rate), for every $\rho\in(0,L/2]$ there is $C=C(d,L,\rho)$ with
+\begin{equation}\label{eq:third-farrate}
+\nu_\eld^{{\rm far},\rho}(\ell)\le C\ell^{2/3},\qquad 0<\ell\le1.
+\end{equation}
+
+\emph{From \cite{parentP}.} Any finite list of distinct derivative evaluation functionals at distinct sites is linearly independent, and so is any finite list of distinct partial derivatives at one site in a rotated frame; odd and even derivatives at a point are independent.
+
+\subsection{Results}\label{ssec:third-results}
+
+Let $\mathcal A_2$ be the fold coefficient of Lemma~\ref{lem:third-fold} ($\mathcal A_r=\mathcal A_0+r^2\mathcal A_2+O(r^3(1+k^{-1}))$ at fixed $(b,k,u)$, $\mathcal A_2(b,\cdot,u)\in C^1[0,\infty)$). The fold-scale coefficient, the constant $c_2$ evaluated in \S\ref{sec:ctwo}, is the Hadamard finite part at $k=0$ of $\frac13\iiint \mathcal A_2k^{-4/3}$:
+\begin{equation}\label{eq:third-c2}
+c_2:=\frac13\int_{S^{d-1}}\int_\R\int_0^\infty\bigl[\mathcal A_2(b,k,u)-\mathcal A_2(b,0,u)\bigr]k^{-4/3}\,dk\,db\,d\sigma(u).
+\end{equation}
+
+\begin{theorem}[the candidate density to third order]\label{thm:third-T}
+For every $d\ge2$ and $L>0$, and for the canonical marked Kac--Rice density version of $\nu_\cand$, as $\ell\downarrow0$,
+\begin{equation}\label{eq:third-T1}
+\nu_\cand(\ell)=c_{d,L}\ell^{-1/3}+B_{d,L}+I^\cand\ell^{1/4}+c_2\ell^{1/3}+O(\ell^{4/11}),
+\end{equation}
+and \eqref{eq:third-c2} converges absolutely. In particular $\nu_\cand(\ell)-c_{d,L}\ell^{-1/3}-B_{d,L}-I^\cand\ell^{1/4}=O(\ell^{1/3})$.
+\end{theorem}
+
+\begin{theorem}[the elder density to third order]\label{thm:third-E3}
+For every $d\ge2$ and $L>0$, and for the canonical marked Kac--Rice density version of $\nu_\eld$, as $\ell\downarrow0$,
+\begin{equation}\label{eq:third-E30}
+\nu_\eld(\ell)=c_{d,L}\ell^{-1/3}+c_1\ell^{1/4}+c_2\ell^{1/3}+\nu_\eld^{{\rm far},r_0^*}(\ell)+O(\ell^{4/11}),\qquad 0\le\nu_\eld^{{\rm far},r_0^*}(\ell)\le C\ell^{1/3}.
+\end{equation}
+Consequently
+\begin{align}
+\nu_\eld(\ell)&=c_{d,L}\ell^{-1/3}+c_1\ell^{1/4}+O(\ell^{1/3}),\label{eq:third-E31}\\
+\nu_\eld(\ell)&\ge c_{d,L}\ell^{-1/3}+c_1\ell^{1/4}+c_2\ell^{1/3}-C\ell^{4/11},\label{eq:third-E32}
+\end{align}
+and, by \eqref{eq:third-farrate} at $\rho=r_0^*$,
+\begin{equation}\label{eq:third-E33}
+\nu_\eld(\ell)=c_{d,L}\ell^{-1/3}+c_1\ell^{1/4}+c_2\ell^{1/3}+O(\ell^{4/11}).
+\end{equation}
+More precisely, for $0<\theta\le4/11$, $\nu_\eld(\ell)-c_{d,L}\ell^{-1/3}-c_1\ell^{1/4}-c_2\ell^{1/3}=O(\ell^\theta)$ if and only if $\nu_\eld^{{\rm far},r_0^*}(\ell)=O(\ell^\theta)$ (both hold for $\theta\le1/3$), and the three-term law with remainder $o(\ell^{1/3})$ holds if and only if $\nu_\eld^{{\rm far},r_0^*}(\ell)=o(\ell^{1/3})$. Only \eqref{eq:third-E33} uses \eqref{eq:third-farrate}.
+\end{theorem}
+
+\begin{corollary}[the rejected density]\label{cor:third-E3prime}
+For every $d\ge2$ and $L>0$, and for the canonical marked Kac--Rice density versions, as $\ell\downarrow0$,
+\begin{equation}\label{eq:third-rej0}
+\rho_\rej(\ell)=B_{d,L}+(I^\cand-c_1)\ell^{1/4}-\nu_\eld^{{\rm far},r_0^*}(\ell)+O(\ell^{4/11}).
+\end{equation}
+In particular: (1) $\rho_\rej(\ell)=B_{d,L}+(I^\cand-c_1)\ell^{1/4}+O(\ell^{1/3})$; (2) $\rho_\rej(\ell)\le B_{d,L}+(I^\cand-c_1)\ell^{1/4}+C\ell^{4/11}$; (3) by \eqref{eq:third-farrate}, $\rho_\rej(\ell)=B_{d,L}+(I^\cand-c_1)\ell^{1/4}+O(\ell^{4/11})$.
+\end{corollary}
+
+\begin{theorem}[the candidate density, remainder $\ell^{3/7}$]\label{thm:third-Tplus}
+For every $d\ge2$ and $L>0$, and for the canonical marked Kac--Rice density version of $\nu_\cand$, as $\ell\downarrow0$,
+\begin{equation}\label{eq:third-Tp}
+\nu_\cand(\ell)=c_{d,L}\ell^{-1/3}+B_{d,L}+I^\cand\ell^{1/4}+c_2\ell^{1/3}+O(\ell^{3/7}).
+\end{equation}
+\end{theorem}
+
+\begin{theorem}[the elder density, remainder $\ell^{3/7}$]\label{thm:third-E3plus}
+For every $d\ge2$ and $L>0$, and for the canonical marked Kac--Rice density version of $\nu_\eld$, as $\ell\downarrow0$,
+\begin{equation}\label{eq:third-E3p0}
+\nu_\eld(\ell)=c_{d,L}\ell^{-1/3}+c_1\ell^{1/4}+c_2\ell^{1/3}+\nu_\eld^{{\rm far},r_0^*}(\ell)+O(\ell^{3/7}),
+\end{equation}
+and, by \eqref{eq:third-farrate} at $\rho=r_0^*$,
+\begin{equation}\label{eq:third-E3p1}
+\nu_\eld(\ell)=c_{d,L}\ell^{-1/3}+c_1\ell^{1/4}+c_2\ell^{1/3}+O(\ell^{3/7}).
+\end{equation}
+The elder density from the intermediate separations (the part of the integral in \eqref{eq:third-ident} with $\ell^{2/9}\le r\le r_0^*$, at $r_0=r_0^*$) is $O(\ell^{4/9}\log(1/\ell))$. For $0<\theta\le3/7$, $\nu_\eld(\ell)-c_{d,L}\ell^{-1/3}-c_1\ell^{1/4}-c_2\ell^{1/3}=O(\ell^\theta)$ if and only if $\nu^{{\rm far},r_0^*}_\eld(\ell)=O(\ell^\theta)$. Only \eqref{eq:third-E3p1} uses \eqref{eq:third-farrate}.
+\end{theorem}
+
+\begin{corollary}[the rejected density, remainder $\ell^{3/7}$]\label{cor:third-Rplus}
+For every $d\ge2$ and $L>0$, and for the canonical marked Kac--Rice density versions, as $\ell\downarrow0$, with the second form by \eqref{eq:third-farrate},
+\begin{equation}\label{eq:third-Rp}
+\rho_\rej(\ell)=B_{d,L}+(I^\cand-c_1)\ell^{1/4}-\nu_\eld^{{\rm far},r_0^*}(\ell)+O(\ell^{3/7})=B_{d,L}+(I^\cand-c_1)\ell^{1/4}+O(\ell^{3/7}).
+\end{equation}
+\end{corollary}
+
+\begin{proposition}[the typed window]\label{prop:third-window}
+For $0<r\le r_0^*$, $b\in\R$, $u\in S^{d-1}$ and $0\le k\le r$ (so $\kappa\le1$),
+\begin{align}
+\E_Q[W_r/r^2]&\le Cr^2(\kappa+r)^2(\kappa+r\log(2/r))P^N,\label{eq:third-Wp1}\\
+r^{-2}\mathcal A_r(b,k,u)&\le C(\kappa+r)^2(\kappa+r\log(2/r))(1+|b|)^Ne^{-cb^2}.\label{eq:third-Wp2}
+\end{align}
+At $k=0$, $r^{d-1}\Psi_0(b,ru)\le Cr^3\log(2/r)(1+|b|)^Ne^{-cb^2}$, and
+\begin{equation}\label{eq:third-Wp3}
+\int_{0<\dist(0,y)<\rho}\int_\R\Psi_0(b,y)\,db\,dy\le C\rho^4\log(2/\rho),\qquad 0<\rho\le r_0^*.
+\end{equation}
+\end{proposition}
+
+\begin{remark}[the case $d=3$, $L=24$]\label{rem:third-main}
+For $d=3$, $L=24$, \eqref{eq:third-E3p1} is (2.12) of the main text, with $c_1$ of (2.13) there and $c_2$ of \eqref{eq:third-c2}; dividing by $c_{3,24}\ell^{-1/3}$ gives (2.14) there, with relative remainder $O(\ell^{3/7+1/3})=O(\ell^{16/21})$. As $I^\cand-c_1=(1-3^{1/4}/2)|c_1|>0$, \eqref{eq:third-Rp} is (2.18) of the main text. Theorems~\ref{thm:third-Tplus} and~\ref{thm:third-E3plus} are proved by modifying the proofs of Theorems~\ref{thm:third-T} and~\ref{thm:third-E3}.
+\end{remark}
+
+\subsection{Gaussian and elementary facts}\label{ssec:third-gauss}
+
+\begin{lemma}[eigenvalue and determinant layers]\label{lem:third-D}
+Let $G$ be a random element of $\mathrm{Sym}(m)\cong\R^{m(m+1)/2}$ whose law has a density bounded by $C_D\exp(-c_D|G-\mu|^2)$. For every $n\ge0$ there is $C=C(m,n,C_D,c_D)$, independent of $\mu$, such that for $\varepsilon>0$, with $n':=n+m(m-1)/2$,
+\begin{equation}\label{eq:third-D}
+\E[(1+\|G\|)^n\ind\{|\lambda_{\max}(G)|<\varepsilon\}]\le C(1+|\mu|)^{n'}\varepsilon,\qquad \E[(1+\|G\|)^n\ind\{|\det G|<\varepsilon\}]\le C(1+|\mu|)^{n'}\varepsilon.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+In eigenvalue coordinates $G=O\,\mathrm{diag}(\lambda)O^\top$, Lebesgue measure is $c_m|V(\lambda)|\,d\lambda\,dO$, $V(\lambda)=\prod_{i<j}(\lambda_i-\lambda_j)$, $dO$ Haar measure (Weyl's integration formula). First bound: integrate $\lambda_{\max}$ over $(-\varepsilon,\varepsilon)$; the remaining integrand $(1+\max|\lambda_i|)^n|V|C_De^{-c_D|\mathrm{diag}(\lambda)-O^\top\mu O|^2}$ has integral over the other eigenvalues and $O$ at most $C(1+|\mu|)^{n'}$ uniformly in $\lambda_{\max}$, as the Vandermonde factor costs at most $(1+\max|\lambda_i|)^{m(m-1)/2}$, absorbed by the Gaussian at the price of the power of $1+|\mu|$. Second bound: on $\{|\det G|<\varepsilon\}$ let $i^*$ index an eigenvalue of least modulus and $D:=\prod_{j\ne i^*}|\lambda_j|>0$. Then $|\lambda_{i^*}|<\varepsilon/D$ and $|\lambda_{i^*}-\lambda_j|\le2|\lambda_j|$, so $|V|\le2^{m-1}D|V'|$, $V'$ the Vandermonde product of the other eigenvalues. Integrating $\lambda_{i^*}$ over an interval of length $2\varepsilon/D$ against a density $\le C_D$ gives $\le2^mC_D\varepsilon|V'|$; $D$ cancels, and the remaining integral of $(1+\max|\lambda_j|)^n|V'|$ against the Gaussian bound in the other eigenvalues is $\le C(1+|\mu|)^{n'}$. Sum over $i^*$. For $m=1$ both bounds are the bounded density of a Gaussian variable.
+\end{proof}
+
+\begin{lemma}[conditional moments]\label{lem:third-condmom}
+If $J_0$ is a finite vector of derivatives of $F_r$ at $0$ whose covariance under $Q$ is invertible uniformly for $r\le r_0^*$, then $\E[T^p\mid J_0]\le C_p(P+|J_0|)^p$ for $p\ge1$, with $T$ of \eqref{eq:third-T}.
+\end{lemma}
+
+\begin{proof}
+$F_r$, $F_0$, $(F_r-F_0)/r^2$ are affine images of one Gaussian field $F$ with coefficients bounded uniformly in $r$. Given $J_0$, $F$ is Gaussian; the regression coefficients are bounded uniformly in $r$, so the conditional mean has $C^q$ norms $\le C(P+|J_0|)$; the conditional covariance is at most $\Cov F$, so by Anderson's inequality the conditional $C^q$-norm moments of the centred part are dominated by those of $F$. (The hypothesis is needed: for a pinned jet such as $\partial_u^2F_r(0)$, of $Q$-variance $O(r^4)$, conditioning on an $O(1)$ value forces $f_4\asymp r^{-2}$.)
+\end{proof}
+
+\begin{lemma}[a $\kappa$-free local Lipschitz bound]\label{lem:third-L}
+For $a\ge0$ and $y,y'\in\R$,
+\begin{equation}\label{eq:third-L1}
+|(a^2-y^2)_+-(a^2-y'^2)_+|\le|y-y'|(|y|+|y'|).
+\end{equation}
+Consequently, for every symmetric $A$ and $\kappa>0$, $|w_\kappa(A,Y)-w_\kappa(A,Y')|\le|Y-Y'|(|Y|+|Y'|)$.
+\end{lemma}
+
+\begin{proof}
+Let $|y|\le|y'|$. If $|y'|\le a$, the left side is $|y^2-y'^2|\le|y-y'|(|y|+|y'|)$; if $|y|\le a<|y'|$, it is $a^2-y^2\le y'^2-y^2\le|y'-y|(|y|+|y'|)$; if $a<|y|$, both terms vanish. For $w_\kappa$ take $a=6\kappa|\det A|$ on $\{A\prec0\}$; off $\{A\prec0\}$ both weights vanish.
+\end{proof}
+
+\subsection{The fold expansion}\label{ssec:third-fold}
+
+\begin{lemma}[fold expansion]\label{lem:third-fold}
+There are $C,c,N$ and a function $\mathcal A_2(b,k,u)$ such that for $0<r\le\min(r_0^*,\frac12)$, $k>0$, $b\in\R$, $u\in S^{d-1}$,
+\begin{equation}\label{eq:third-F1}
+|\mathcal A_r(b,k,u)-\mathcal A_0(b,k,u)-r^2\mathcal A_2(b,k,u)|\le Cr^3(1+k^{-1})P^Ne^{-c(b^2+k^2)}.
+\end{equation}
+Moreover $\mathcal A_2(b,\cdot,u)$ extends to a $C^1$ function on $[0,\infty)$ with
+\begin{equation}\label{eq:third-F2}
+|\mathcal A_2|+|\partial_kA_2|\le CP^Ne^{-c(b^2+k^2)},\qquad \mathcal A_2(b,0,u)=-12\pi_0(u;v_0(b,0))\,\E_0[Y^2\ind\{A\prec0\}\mid b].
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Let $f=F_r$ and $A=D_y^2f(0)$.
+\emph{Step 1 (free jets and the product polynomial).} The \emph{free} jets $J'$ are the partial derivatives of $f$ at $0$ of order $\le N_0:=9$ in the frame $(u,\Theta)$ other than the pinned jets ($A$, $f_4$ are free). For $r\in(0,r_0^*]$, $(J',U_r)$ is an invertible image of distinct derivative functionals at the distinct sites $0,\pm\frac r2u$, and at $r=0$, $(J',U_0)$ is a list of distinct jets at one point; both are linearly independent \cite{parentP}. The Gram matrix of $(J',U_r)$ is continuous on the compact $[0,r_0^*]\times\{\text{frames}\}$, hence uniformly invertible, and so is its Schur complement $\Cov_Q(J')$. Each pin row is a centred difference rule; Taylor's formula with integral remainder writes it as the pinned jet plus a polynomial in $r$ and higher jets, with error $\le Cr^{N_0-3}T$ (e.g.\ $(\partial_xf(S)-\partial_xf(M))/r=\partial_u^2f(0)+\frac{r^2}{24}\partial_u^4f(0)+\cdots$). Under $Q$ the rows equal their targets, so each pinned jet is a polynomial in $(J',r,b,k)$ up to $O(r^{N_0-3}T)$ (the $1/r$, $1/r^2$ of the rows are absorbed as the rules are centred). Expanding the entries of $K_M,K_S$ at $x=\mp r/2$ to the same order gives, for $r\le1$, a polynomial $\Omega(J';r,k)$ with
+\begin{equation}\label{eq:third-Omega}
+-\det K_M\det K_S=\Omega(J';r,k)+\varrho,\qquad |\varrho|\le Cr^4T^{n_0}
+\end{equation}
+(the explicit $1/r$ in $\alpha_i$ disappears once $\partial_u^2f(0)$ is replaced by its pin expansion $-\frac{r^2}{24}f_4-\cdots$). Write $\Omega=\Omega_0+r\Omega_1+r^2\Omega_2+r^3\Omega_3(J';r,k)$ with $|\Omega_3|\le C(1+k)^2(1+|J'|)^{n_0}$. By \eqref{eq:third-ownexp} (the same $Y_r$ at both ends),
+\begin{equation}\label{eq:third-Omega012}
+\Omega_0=36k^2\Delta^2,\qquad \Omega_1=-[(-6k\Delta)Y_r+Y_r(6k\Delta)]=0,\qquad \Omega_2|_{k=0}=-Y_r^2|_{k=0},
+\end{equation}
+the last because at $k=0$ both determinants are $rY_r+O(r^2)$. These are identities of polynomials in $J'$: for pinned polynomial fields of degree $\le N_0-1$ with arbitrary free jets, $\varrho=0$ and $T<\infty$, so the coefficients of $r^0,r^1$ and (at $k=0$) $r^2$ in $\Omega-36k^2\Delta^2$ and $\Omega+r^2Y_r^2$ vanish identically.
+
+\emph{Step 2 (the typed indicator and its layers).} Let $\upsilon:=C_\star rT(1+T/k)$ and $\mathcal G:=\{\lambda_{\max}(A)\le-\upsilon\}\cap\{k\ge C_\star rT\}$, $C_\star=C_\star(d)\ge2$ large: the good event of \S\ref{sec:remainder} with $A$ for $A_0$ (its proof uses only $\|A_i-A\|\le\frac r2\|F_r\|_{C^3}\le rT$ and $\|\beta_i\|\le CT$). On $\mathcal G$, by Haynsworth's inertia additivity, $K_M,K_S$ have indices $d,d-1$ and $A\prec0$, so $F_d(K_M)F_{d-1}(K_S)=-\det K_M\det K_S=\Omega\ind\{A\prec0\}+\varrho$. On $\{\lambda_{\max}(A)\ge rT\}$, $\lambda_{\max}(A_M)\ge rT-\frac r2T>0$, so $F_d(K_M)=0=\ind\{A\prec0\}$. The rest of $\mathcal G^c$ lies in $\{|\lambda_{\max}(A)|<\upsilon\}\cup\{k<C_\star rT\}$, where the three cases of the good-event argument bound $F_d(K_M)F_{d-1}(K_S)$ and $|\Omega|\ind\{A\prec0\}$ (via \eqref{eq:third-Omega}) by $\omega(T):=Cr^2(k+T)^2T^{N_2}$. Hence $|\E_Q[F_d(K_M)F_{d-1}(K_S)]-\E_Q[\Omega\ind\{A\prec0\}]|\le Cr^4P^N+\E[\omega(T)(\ind\{k<C_\star rT\}+\ind\{|\lambda_{\max}(A)|<\upsilon\})]$. First, $\E[\omega(T)\ind\{T>k/(C_\star r)\}]\le(C_\star r/k)\E[\omega(T)T]\le Cr^3k^{-1}P^N$. Second, split by $T\in[2^j,2^{j+1})$, with $\upsilon_j:=C_\star r2^{j+1}(1+2^{j+1}/k)$, and use Lemma~\ref{lem:third-condmom} with $J_0=A$:
+\[
+\E[\omega(T)\ind\{|\lambda_{\max}(A)|<\upsilon\}]\le\sum_{j\ge0}\omega(2^{j+1})\,C_p2^{-jp}\,\E[(P+\|A\|)^p\ind\{|\lambda_{\max}(A)|<\upsilon_j\}].
+\]
+Under $Q$, $A$ is Gaussian with mean $O(P)$ and uniformly nondegenerate covariance (Step~1), so by Lemma~\ref{lem:third-D} the expectation is $\le CP^{2p+m(m-1)/2}\upsilon_j$, and for $p>N_2+4$ the sum is $\le Cr^3(1+k^{-1})P^N$. Thus
+\begin{equation}\label{eq:third-F3}
+\E_Q[F_d(K_M)F_{d-1}(K_S)]=\E_Q[\Omega(J';r,k)\ind\{A\prec0\}]+O(r^3(1+k^{-1})P^N).
+\end{equation}
+
+\emph{Step 3 (smoothness of the pinned law in $r$).} Under $Q$, $J'\sim N(\mu_r,V_r)$, built from $\Cov(J',U_r)$, $\Cov(U_r)$ and $v_r$. The rows of $U_r$ are centred, hence even in $r$, so the covariances are smooth even functions of $r$ and $V_r$ is uniformly nondegenerate. As $v_r=v_0+r^2(0,-k,0,\dots)+r^3(-k/2,0,\dots)$, $\mu_r=\mu_0+r^2\mu_2+r^3\mu_3+O(r^4P)$ with $|\mu_3|\le Ck$, and $V_r=V_0+r^2V_2+O(r^4)$. For polynomial $\Psi$, $\E_{N(\mu,V)}[\Psi(J')\ind\{A\prec0\}]$ is smooth in $(\mu,V)$ (differentiate the Gaussian density), with derivatives bounded by Gaussian moments. So $\E_Q[\Omega_0\ind\{A\prec0\}]=36k^2(e_0+r^2e_2+O(r^3(1+k)P^N))$ with $e_0=\E_0[\Delta^2\ind\{A\prec0\}\mid v_0(b,k)]$, $\E_Q[\Omega_2\ind\{A\prec0\}]=\E_0[\Omega_2\ind\{A\prec0\}\mid v_0(b,k)]+O(r^2P^N)$, and the $r^3$-term contributes $O(r^3(1+k)^2P^N)$ (at $r=0$ the free jets have the contact law at $v_0(b,k)$). Likewise $\pi_r(v_r)=\pi_0(v_0)+r^2\pi_2+O(r^3(1+k)P^Ne^{-c(b^2+k^2)})$, the density of $U_r$ being smooth in $(r^2,v)$. Multiplying, with \eqref{eq:third-F3} and $\mathcal A_0=12\pi_0(v_0)36k^2e_0$, gives \eqref{eq:third-F1} with
+\begin{equation}\label{eq:third-A2}
+\mathcal A_2:=12\bigl[\pi_2\cdot36k^2e_0+\pi_0(v_0(b,k))\bigl(36k^2e_2+\E_0[\Omega_2\ind\{A\prec0\}\mid v_0(b,k)]\bigr)\bigr].
+\end{equation}
+Each ingredient is a polynomial in $k$, or a Gaussian expectation whose target is affine in $k$, times $\pi_0(v_0(b,k))\le Ce^{-c(b^2+k^2)}$; this gives the bounds in \eqref{eq:third-F2} and the $C^1$ extension. At $k=0$ the first two terms vanish, and by \eqref{eq:third-Omega012} the third is $-12\pi_0(v_0(b,0))\E_0[Y^2\ind\{A\prec0\}\mid b]$, since under the contact law $Y_r|_{k=0}=Y$.
+\end{proof}
+
+\subsection{The candidate cusp kernel and the overlap}\label{ssec:third-cusp}
+
+\begin{lemma}[the candidate cusp kernel with a rate]\label{lem:third-C}
+There are $C,c,N$ such that for $0<r\le\min(r_0^*,\frac12)$, $b\in\R$, $u\in S^{d-1}$ and $\kappa>0$ with $k:=\kappa r\le1$,
+\begin{equation}\label{eq:third-Cp1}
+\bigl|r^{-2}(\mathcal A_r-\mathcal A_0)(b,\kappa r,u)-(\mathcal C^\cand-\mathcal C^{\rm con})(b,\kappa,u)\bigr|\le Cr(1+\kappa)(1+|b|)^Ne^{-cb^2};
+\end{equation}
+in particular
+\begin{equation}\label{eq:third-C1}
+\bigl|r^{-2}(\mathcal A_r-\mathcal A_0)(b,\kappa r,u)-(\mathcal C^\cand-\mathcal C^{\rm con})(b,\kappa,u)\bigr|\le Cr(1+\kappa)^2(1+|b|)^Ne^{-cb^2}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Work on the coupling space with $T$, $\Delta_0$ and $\widehat Y$ as in \S\ref{ssec:third-inputs}.
+
+\emph{Step 1 (pathwise comparison).} By \eqref{eq:third-exp}, $\det K_M=r(\widehat Y-6\kappa\Delta_0)+R_M$ and $\det K_S=r(\widehat Y+6\kappa\Delta_0)+R_S$. Put $\delta_i:=\det K_i/r$ and $\eta:=Cr(1+k)T^{N_1}\ge|R_i|/r$; then $r^{-2}F_d(K_M)F_{d-1}(K_S)=|\delta_M\delta_S|\ind\{\text{typed}\}$.
+\emph{Case 1, $\lambda_{\max}(A_0)<-rT$:} $A_M,A_S\prec0$, and by Haynsworth $\Ind K_i=m+\ind\{\varsigma\det K_i<0\}$, $\varsigma:=(-1)^m=\mathrm{sign}\,\Delta_0$. So typed $\iff\varsigma\delta_M<0<\varsigma\delta_S$, while ($\varsigma\Delta_0=|\Delta_0|$) $|\widehat Y|<6\kappa|\Delta_0|\iff\varsigma(\widehat Y-6\kappa\Delta_0)<0<\varsigma(\widehat Y+6\kappa\Delta_0)$. If both hold, $|\delta_M\delta_S-(\widehat Y-6\kappa\Delta_0)(\widehat Y+6\kappa\Delta_0)|\le2\eta(|\widehat Y|+6\kappa|\Delta_0|)+\eta^2\le24\eta\kappa|\Delta_0|+\eta^2$. If exactly one holds, for some $i$ the factor $\widehat Y\mp6\kappa\Delta_0$ and $\delta_i$ differ in sign or one vanishes, so $|\widehat Y\mp6\kappa\Delta_0|\le\eta$ and the other factor is $\le12\kappa|\Delta_0|+\eta$; both weights are then $\le2\eta(12\kappa|\Delta_0|+3\eta)$.
+\emph{Case 2, $\lambda_{\max}(A_0)>rT$:} $\lambda_{\max}(A_M)>0$, so $F_d(K_M)=0$, and $\ind\{A_0\prec0\}=0$.
+\emph{Case 3, $|\lambda_{\max}(A_0)|\le rT$:} $|\Delta_0|\le rT\cdot T^{m-1}$, so $w_\kappa(A_0,\widehat Y)\le36\kappa^2r^2T^{2m}$; if typed, the sign window gives $|\delta_i|\le12\kappa|\Delta_0|+2\eta$, so $|\delta_M\delta_S|\le C(\kappa r+\eta)^2T^{2m}$.
+In all cases, as $|\Delta_0|\le T^m$ and $\kappa r=k\le1$,
+\begin{equation}\label{eq:third-C2}
+|r^{-2}F_d(K_M)F_{d-1}(K_S)-w_\kappa(A_0,\widehat Y)|\le Cr(1+\kappa)T^N;
+\end{equation}
+indeed Case~1's bounds are linear in $\kappa$, Case~3's only $\kappa^2$ is $36\kappa^2r^2T^{2m}=36k^2T^{2m}$, and the $k^2$ and $\eta^2$ parts are absorbed by $k^2\le k=\kappa r$ and $r^2\le r$.
+
+\emph{Step 2 (to the contact jets).} Let $Y_0:=\frac{f_4^{(0)}}{12}\Delta_0-\frac14(\gamma^{(0)})^\top\adj(A_0)\gamma^{(0)}$, built from the jets of $F_0$. As the $C^4$-jets of $F_r,F_0$ differ by $\le r^2T$, $|\widehat Y-Y_0|\le3k|\tr(\adj(A_0)B)|+Cr^2T^N$, and $|\widehat Y|+|Y_0|\le CT^N$ ($|f_4|,|\gamma|,\|B\|,\|A_0\|\le T$, $k\le1$). By Lemma~\ref{lem:third-L}, $|w_\kappa(A_0,\widehat Y)-w_\kappa(A_0,Y_0)|\le C(k+r^2)T^{N'}$, and $k+r^2=r(\kappa+r)\le r(1+\kappa)$. (The global Lipschitz constant $12\kappa|\det A|$ of $Y\mapsto w_\kappa(A,Y)$, from $|Y^2-Y'^2|\le(|Y|+|Y'|)|Y-Y'|$ on the window, gives instead $C\kappa(\kappa r+r^2)T^N$, enough for \eqref{eq:third-C1}.) As $(A_0,Y_0)$ has the contact law at $v_0(b,k)$, \eqref{eq:third-C2} and $\E[T^N]\le CP^N$ give $|r^{-2}\E_Q[W_r/r^2]-\E_0[w_\kappa(A,Y)\mid v_0(b,k)]|\le Cr(1+\kappa)P^N$.
+
+\emph{Step 3 (densities and the target).} By \eqref{eq:third-pindens} and $\E_0[w_\kappa]\le C(1+\kappa)^2P^N$ the density step costs $Cr^2P^2(1+\kappa)^2P^N$, and $r^2(1+\kappa)^2=(r+k)^2\le2(r+k)=2r(1+\kappa)$ as $r+k\le2$. With the exact identity $r^{-2}\mathcal A_0(b,\kappa r,u)=12\pi_0(v_0(b,k))36\kappa^2\E_0[\Delta^2\ind\{A\prec0\}\mid v_0(b,k)]$,
+\[
+\begin{aligned}
+r^{-2}(\mathcal A_r-\mathcal A_0)(b,\kappa r,u)={}&-12\pi_0(v_0(b,k))\E_0[\min(Y^2,36\kappa^2\Delta^2)\ind\{A\prec0\}\mid v_0(b,k)]\\
+&+O(r(1+\kappa)P^Ne^{-c(b^2+k^2)}).
+\end{aligned}
+\]
+Move the target to $v_0(b,0)$ by parity \cite{parentP}: even- and odd-order jets at $0$ are independent; the rows $f,\partial_u^2f,\nabla_\Theta\partial_uf$ are even and $\partial_uf,\partial_u^3f,\nabla_\Theta f$ odd, with target parts $(b,0,0)$ and $(0,12k,0)$. So the conditional law of the even jets $(A,f_4)$ does not depend on $k$; the odd jets have $k$-independent covariance and mean shift $12kw$, $w$ fixed, so $\gamma=\bar\gamma+12kw_\gamma$; and $\pi_0(v_0(b,k))=p_{\rm even}(b,0,0)p_{\rm odd}(0,12k,0)$, $p_{\rm odd}(0,12k,0)=p_{\rm odd}(0,0,0)(1+O(k^2))$. Since $|\min(Y^2,a)-\min(\bar Y^2,a)|\le(|Y|+|\bar Y|)|Y-\bar Y|$ for $a\ge0$ (this is \eqref{eq:third-L1}) and the shift moves $Y$ by $\le Ck(|\bar\gamma|+k)\|A\|^{m-1}$, the expectation moves by $O(kP^N)$, with no growth in $\kappa$; so the two targets differ by $O(k(1+|b|)^Ne^{-cb^2})=O(\kappa r(1+|b|)^Ne^{-cb^2})$. Collecting, with $P^Ne^{-c(b^2+k^2)}\le C(1+|b|)^Ne^{-cb^2}$, gives \eqref{eq:third-Cp1}, and \eqref{eq:third-C1} follows as $1+\kappa\le(1+\kappa)^2$.
+\end{proof}
+
+\begin{lemma}[overlap]\label{lem:third-O}
+For $\kappa\ge1$,
+\begin{equation}\label{eq:third-O1}
+0\le(\mathcal C^\cand-\mathcal C^{\rm con})(b,\kappa,u)-\mathcal A_2(b,0,u)\le C\kappa^{-1}(1+|b|)^Ne^{-cb^2}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+By \eqref{eq:third-F2} and \eqref{eq:third-cuspdiff} the difference is $12\pi_0\E_0[(Y^2-36\kappa^2\Delta^2)_+\ind\{A\prec0\}\mid b]\ge0$, at most $12\pi_0\E_0[Y^2\ind\{|\Delta|<|Y|/(6\kappa)\}\mid b]$. Split by $|Y|\in[2^{j-1},2^j)$, $j\ge1$, and $|Y|<1$ for $j=0$. Given $A$, $(f_4,\gamma)$ is Gaussian with mean affine in $(A,b)$ and bounded covariance, and $Y$ is polynomial in them with coefficients polynomial in $A$, so $\Prob(|Y|\ge t\mid A)\le C_pt^{-p}(1+|b|+\|A\|)^{n_p}$. Under $\E_0[\,\cdot\mid b]$, $A$ is a nondegenerate Gaussian symmetric matrix with mean $O(1+|b|)$, so by Lemma~\ref{lem:third-D}
+\[
+\begin{aligned}
+\E_0[Y^2\ind\{|\Delta|<\tfrac{|Y|}{6\kappa}\}]&\le\sum_{j\ge0}4^j\E_0\bigl[\ind\{|\det A|<\tfrac{2^j}{6\kappa}\}\min(1,C_p2^{-(j-1)p}(1+|b|+\|A\|)^{n_p})\bigr]\\
+&\le\sum_j4^jC_p2^{-(j-1)p}(1+|b|)^N\tfrac{2^j}\kappa.
+\end{aligned}
+\]
+Take $p>3$; $\pi_0\le Ce^{-cb^2}$ completes the proof.
+\end{proof}
+
+\subsection{The elder decision}\label{ssec:third-decision}
+
+This subsection is deterministic. Fix $f\in C^5(\T^d_L)$ and $\mathcal N\ge\max(1,\|f\|_{C^5})$; let $0<r\le r_Q:=\min\{\frac1{10},r_L\}$, $r_L$ the positive root of $6r+10r^2=L/8$; let $\kappa>0$ and let $M=-\frac r2u$, $S=\frac r2u$ be critical points of $f$ with $f(M)=b$, $f(S)=b-\kappa r^4$. Put $\Phi(X,\Xi):=rXu+r^2\Theta\Xi$ ($X\in\R$, $\Xi\in\R^m$), $\mathfrak F:=r^{-4}(f\circ\Phi-b)$, let $(f_4,\gamma,A)$ be the jets of $f$ at $0$ and
+\begin{equation}\label{eq:third-cuspP}
+\mathfrak P(X,\Xi)=2\kappa(X+\tfrac12)^2(X-1)+\tfrac{f_4}{24}(X^2-\tfrac14)^2+\tfrac12(X^2-\tfrac14)\gamma\cdot\Xi+\tfrac12\Xi^\top A\Xi
+\end{equation}
+the cusp polynomial of \S\ref{sec:cusp}. When $A\prec0$, $\Xi^*(X):=-\frac12(X^2-\frac14)A^{-1}\gamma$ and the ridge is $g(X):=\mathfrak P(X,\Xi^*(X))=\kappa[2(X+\frac12)^2(X-1)+3\varphi(X^2-\frac14)^2]$, $\varphi$ as in \eqref{eq:third-Y} (\S\ref{sec:cusp}).
+
+\begin{lemma}[weighted Taylor bounds]\label{lem:third-CU1}
+There is $C_1=C_1(d)$ such that on $\{|X|\le3,\ r|\Xi|\le1\}$
+\begin{equation}\label{eq:third-CU1}
+\begin{aligned}
+&|\mathfrak F-\mathfrak P|,\ |\partial_X(\mathfrak F-\mathfrak P)|\le C_1\mathcal Nr(1+|\Xi|)^2,\qquad \|\partial_\Xi^2(\mathfrak F-\mathfrak P)\|\le C_1\mathcal Nr,\\
+&|\partial_\Xi(\mathfrak F-\mathfrak P)|,\ |\partial_X^2(\mathfrak F-\mathfrak P)|,\ |\partial_X\partial_\Xi(\mathfrak F-\mathfrak P)|\le C_1\mathcal Nr(1+|\Xi|).
+\end{aligned}
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Follow the proof of the cusp limit in \S\ref{sec:cusp}, keeping track of $\Xi$. (i) \emph{Pin corrections:} with $\vartheta_j=\partial_u^jf(0)$, $\psi_j=\partial_u^j\nabla_\Theta f(0)$, the pinned jets differ from the values that produce $\mathfrak P$ by $O(\mathcal Nr^5)$ ($\vartheta_0-b$), $O(\mathcal Nr^4)$ ($\vartheta_1$), $O(\mathcal Nr^3)$ ($\vartheta_2$), $O(\mathcal Nr^2)$ ($\vartheta_3$), $O(\mathcal Nr^4)$ ($\psi_0$), $O(\mathcal Nr^2)$ ($\psi_1$), with constants independent of $\kappa$ (which enters only through the exact pins); rescaled they contribute $O(\mathcal Nr)(1+|X|^3)+O(\mathcal Nr)|X||\Xi|+O(\mathcal Nr^2)|\Xi|$, and their derivatives obey \eqref{eq:third-CU1}. (ii) \emph{Dropped monomials} $x^iy^j$ with $i+2|j|\ge5$, $i+|j|\le4$, i.e.\ $(i,|j|)\in\{(3,1),(1,2),(2,2),(0,3),(1,3),(0,4)\}$, coefficients $\le C\mathcal N$: each becomes $r^aX^i\Xi^j$, $a=i+2|j|-4\ge1$; on $r|\Xi|\le1$, $r^a|\Xi|^q\le r|\Xi|^{q-a+1}$ for $q\ge a-1$ and $\le r$ otherwise, and $|j|-a+1=5-i-|j|\le2$. A $\Xi$-derivative lowers $q$ by one; two $X$-derivatives need $i\ge2$, and then $5-i-|j|\le1$; one $X$-derivative keeps $(1+|\Xi|)^2$ ($\partial_X(rX\Xi^2)=r\Xi^2$). (iii) \emph{Remainder:} $|\partial^\alpha\rho_5(x,y)|\le C\mathcal N(|x|+|y|)^{5-|\alpha|}$ ($|\alpha|\le2$); at $(rX,r^2\Xi)$, $|x|+|y|\le4r$, so $|\partial_X^p\partial_\Xi^q[r^{-4}\rho_5(rX,r^2\Xi)]|=r^{p+2q-4}|\partial_x^p\partial_y^q\rho_5|\le C\mathcal N4^5r^{1+q}$.
+\end{proof}
+
+\begin{lemma}[Schur complements]\label{lem:third-S}
+Let $D,D'\in\mathrm{Sym}(m)$ with $D\preceq-\lambda I$, $D'\preceq-\frac\lambda2I$, $\lambda>0$, let $a,a'\in\R$, $w,w'\in\R^m$, $\varsigma:=a-w^\top D^{-1}w$, $\varsigma':=a'-w'^\top D'^{-1}w'$. Then
+\begin{equation}\label{eq:third-Schur}
+|\varsigma'-\varsigma|\le|a'-a|+\tfrac2\lambda|w'-w|(|w|+|w'|)+\tfrac2{\lambda^2}|w|^2\|D'-D\|.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+$w'^\top D'^{-1}w'-w^\top D^{-1}w=(w'-w)^\top D'^{-1}(w'+w)+w^\top D'^{-1}(D-D')D^{-1}w$, with $\|D'^{-1}\|\le2/\lambda$, $\|D^{-1}\|\le1/\lambda$.
+\end{proof}
+
+\begin{lemma}[the elder decision with explicit margins]\label{lem:third-Q}
+Suppose $A\preceq-\lambda I$, $\lambda>0$, and put $\Gamma:=|\gamma|/\lambda$, $\varepsilon^*:=80C_1\mathcal Nr(1+\Gamma)^2$, $R:=5(1+\Gamma)+3((\kappa+1)/\lambda)^{1/2}$. Assume
+\textup{(Q1)} $\mathcal N(3r+r^2R)\le\lambda/2$ and $6r+2r^2R\le L/4$;
+\textup{(Q2)} $5r(1+\Gamma)\le1$ and $8C_1\mathcal Nr(1+5\Gamma)\le\lambda$;
+\textup{(Q3)} $\varepsilon^*\le\kappa/4$;
+\textup{(Q4)} $|\varphi|\le1$ and $\bigl||\varphi|-\frac13\bigr|>2\varepsilon^*/(3\kappa)$.
+Then
+\begin{equation}\label{eq:third-decision}
+e(f)=\ind\{d_f(M)=f(S)\}=\ind\{|\varphi|<1/3\}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Put $M_1:=\frac{35}8\Gamma$, so $|\Xi^*(X)|\le\frac12\cdot\frac{35}4|A^{-1}\gamma|\le M_1$ on $[-3,2]$.
+
+\emph{Step 1 (window).} Let $\mathcal W:=[-3,2]\times\{|\Xi|\le R\}$. $\Phi$ is linear and injective and $\mathrm{diam}\,\Phi(\mathcal W)\le5r+2r^2R<L/4$ by (Q1), so $\Phi$ embeds a neighbourhood of $\mathcal W$ in $\T^d_L$ and maps interiors and boundaries of subregions of $\mathcal W$ onto those of their images. On $\mathcal W$, $\partial_\Xi^2\mathfrak F=D^2_\Theta f(\Phi(X,\Xi))\preceq A+\|D^3f\|(3r+r^2R)I\preceq-\frac\lambda2I$ by (Q1).
+
+\emph{Step 2 (the ridge).} Fix $X\in[-3,2]$. The ball $\{|\Xi-\Xi^*(X)|\le1\}$ lies in $\{|\Xi|\le5(1+\Gamma)\}\subset\mathcal W$, where $r|\Xi|\le1$ by (Q2). As $\partial_\Xi\mathfrak P(X,\Xi^*)=0$, \eqref{eq:third-CU1} and (Q2) give $|\partial_\Xi\mathfrak F(X,\Xi^*)|\le C_1\mathcal Nr(1+M_1)\le\lambda/8$, so $\mathfrak F(X,\Xi)\le\mathfrak F(X,\Xi^*)+\frac\lambda8-\frac\lambda4<\mathfrak F(X,\Xi^*)$ on $|\Xi-\Xi^*|=1$. Hence the unique maximizer $\Xi_{\mathfrak F}(X)$ of the strictly concave $\mathfrak F(X,\cdot)$ over $\{|\Xi|\le R\}$ lies in the open unit ball around $\Xi^*$, and strong concavity gives $|\Xi_{\mathfrak F}-\Xi^*|\le\frac2\lambda|\partial_\Xi(\mathfrak F-\mathfrak P)(X,\Xi^*)|\le\frac14$. The ridge $g_{\mathfrak F}(X):=\mathfrak F(X,\Xi_{\mathfrak F}(X))$ is $C^2$, and $g_{\mathfrak F}''$ is the Schur complement of $\partial_\Xi^2\mathfrak F$ in $\mathrm{Hess}\,\mathfrak F$ at $(X,\Xi_{\mathfrak F})$; likewise $g''$ with $(\mathfrak P,\Xi^*)$. From $g-|\mathfrak F-\mathfrak P|(X,\Xi^*)\le\mathfrak F(X,\Xi^*)\le g_{\mathfrak F}(X)\le\mathfrak P(X,\Xi_{\mathfrak F})+|\mathfrak F-\mathfrak P|(X,\Xi_{\mathfrak F})\le g+|\mathfrak F-\mathfrak P|(X,\Xi_{\mathfrak F})$, $\varepsilon_0:=\sup_{[-3,2]}|g_{\mathfrak F}-g|\le C_1\mathcal Nr(\frac54+M_1)^2\le\varepsilon^*$. Apply Lemma~\ref{lem:third-S} with $(a,w,D)=(\partial_X^2\mathfrak P,X\gamma,A)$ at $(X,\Xi^*)$ and $(a',w',D')$ the blocks of $\mathrm{Hess}\,\mathfrak F$ at $(X,\Xi_{\mathfrak F})$: as $\partial_X^2\mathfrak P$ depends on $\Xi$ only through $\gamma\cdot\Xi$, $|a'-a|\le C_1\mathcal Nr[(\frac54+M_1)+2\Gamma(1+M_1)]$; $|w'-w|\le C_1\mathcal Nr(\frac54+M_1)\le\frac{5\lambda}{32}$ by (Q2); $\|D'-D\|\le C_1\mathcal Nr$; $|w|\le3|\gamma|$. So
+\[
+\begin{aligned}
+\varepsilon_2:=\sup_{[-3,2]}|g_{\mathfrak F}''-g''|&\le C_1\mathcal Nr\bigl[(\tfrac54+M_1)(\tfrac{21}{16}+12\Gamma)+2\Gamma(1+M_1)+18\Gamma^2\bigr]\\
+&=C_1\mathcal Nr\bigl[\tfrac{105}{64}+\tfrac{2911}{128}\Gamma+\tfrac{317}4\Gamma^2\bigr]\le\varepsilon^*,
+\end{aligned}
+\]
+this inequality and $(\frac54+M_1)^2\le80(1+\Gamma)^2$ holding coefficientwise.
+
+\emph{Step 3 (reduction to the ridge).} For every $t$, each nonempty $X$-fibre of $\mathcal W\cap\{\mathfrak F>t\}$ is convex, contains $\Xi_{\mathfrak F}(X)$, and is nonempty iff $g_{\mathfrak F}(X)>t$. So the path components of $\mathcal W\cap\{\mathfrak F>t\}$ are the parts over the components of $\{X\in[-3,2]:g_{\mathfrak F}(X)>t\}$, and the supremum of $\mathfrak F$ over such a part is that of $g_{\mathfrak F}$ over the interval. On $|\Xi|=R$, $|\Xi-\Xi_{\mathfrak F}(X)|\ge R-M_1-\frac14\ge3((\kappa+1)/\lambda)^{1/2}$, so by strong concavity
+\begin{equation}\label{eq:third-trans}
+\mathfrak F(X,\Xi)\le g_{\mathfrak F}(X)-\tfrac94(\kappa+1)\qquad(|\Xi|=R).
+\end{equation}
+
+\emph{Step 4 (pins).} $M=\Phi(-\frac12,0)$, $S=\Phi(\frac12,0)$ are critical points, so $\Xi_{\mathfrak F}(\pm\frac12)=0$, $g_{\mathfrak F}(-\frac12)=0$, $g_{\mathfrak F}(\frac12)=-\kappa$, $g'_{\mathfrak F}(\pm\frac12)=0$, and the same for $g$. So $h:=g_{\mathfrak F}-g$ has $|h|\le\varepsilon_0$ and $|h(X)|\le\frac{\varepsilon_2}2(X\mp\frac12)^2$ on $[-3,2]$.
+
+\emph{Step 5 (margins of the model ridge).} Let $X_3:=-1/(2\varphi)$. By the ridge identities of \S\ref{sec:cusp} ($g'=6\kappa(X^2-\frac14)(1+2\varphi X)$, $g(X_3)+\kappa=\kappa(\varphi+1)^3(3\varphi-1)/(16\varphi^3)$, $g(X_3)=\kappa(\varphi-1)^3(3\varphi+1)/(16\varphi^3)$):
+(M1) $g+\kappa=\kappa(X-\frac12)^2[2(X+1)+3\varphi(X+\frac12)^2]$, $g=\kappa(X+\frac12)^2[2(X-1)+3\varphi(X-\frac12)^2]$.
+(M2) If $|\varphi|<\frac13$, $g+\kappa\ge\kappa(X-\frac12)^2$ on $[-\frac12,X_R]$, where $X_R:=2$ for $\varphi\ge-\frac14$ and $X_R:=X_3=\frac1{2|\varphi|}\in(\frac32,2)$ for $-\frac13<\varphi<-\frac14$ (for $\varphi\ge0$ the bracket is $\ge2(X+1)\ge1$; for $\varphi<0$ it is $1+(X+\frac12)(2-3|\varphi|(X+\frac12))\ge1$ while $X+\frac12\le\frac2{3|\varphi|}$, which holds up to $X_3$ when $|\varphi|\le\frac13$).
+(M3) If $\varphi\le\frac13$, $g\le-\kappa(X+\frac12)^2$ on $[-\frac32,\frac12]$ (the bracket is $\le2(X-1)+(X-\frac12)^2$, convex, $=-1$ at both ends).
+(M4) For $\frac13\le\varphi\le1$: $g(X_3)+\kappa-\frac32\kappa(\varphi-\frac13)=\frac{\kappa(3\varphi-1)[(\varphi+1)^3-8\varphi^3]}{16\varphi^3}=\frac{\kappa(3\varphi-1)(1-\varphi)(7\varphi^2+4\varphi+1)}{16\varphi^3}\ge0$; for $-1\le\varphi\le-\frac13$ the same identity in $\psi=-\varphi$ gives $-g(X_3)\ge\frac32\kappa(|\varphi|-\frac13)$; for $-\frac13\le\varphi<0$, $\psi=-\varphi$: $g(X_3)=\frac{\kappa(1+\psi)^3(1-3\psi)}{16\psi^3}$ and $g(X_3)-12\kappa(\frac13-\psi)=\frac{\kappa(1-3\psi)[(1+\psi)^3-64\psi^3]}{16\psi^3}=\frac{\kappa(1-3\psi)^2(21\psi^2+6\psi+1)}{16\psi^3}\ge0$.
+(M5) $g(2)=\kappa(\frac{25}2+\frac{675}{16}\varphi)$, $g(-\frac32)=\kappa(-5+12\varphi)$, $g(-3)=\kappa(-50+\frac{3675}{16}\varphi)$: so $g(2)\ge\frac{125}{64}\kappa$ for $\varphi\ge-\frac14$; $g(2)\le-\frac{25}{16}\kappa$ and $g(-\frac32)\le-9\kappa$ for $\varphi\le-\frac13$; $g(-\frac32)+\kappa=-12\kappa(\frac13-\varphi)$; $g(-3)\ge\frac{425}{16}\kappa$ for $\varphi\ge\frac13$.
+(M6) For $\frac13<\varphi\le1$, $g$ decreases on $[-3,X_3]$ and increases on $[X_3,-\frac12]$; for $-1\le\varphi<-\frac13$, $g$ increases on $[\frac12,X_3]$ and decreases on $[X_3,2]$.
+
+\emph{Step 6 (the decision).} By (Q3)--(Q4), $\varepsilon_2\le\varepsilon^*\le\kappa/4$ and $\varepsilon_0\le\varepsilon^*<\frac32\kappa\bigl||\varphi|-\frac13\bigr|$.
+\emph{Case E, $|\varphi|<\frac13$.} Path: on $[-\frac12,X_R]$, (M2) and Step~4 give $g_{\mathfrak F}+\kappa\ge(\kappa-\frac{\varepsilon_2}2)(X-\frac12)^2\ge0$, and $g_{\mathfrak F}(X_R)>0$ (for $\varphi\ge-\frac14$, $g(2)\ge\frac{125}{64}\kappa>\frac\kappa4\ge\varepsilon_0$; otherwise $g(X_3)\ge12\kappa(\frac13-|\varphi|)>\varepsilon_0$ by (M4)). So the ridge curve $X\mapsto\Phi(X,\Xi_{\mathfrak F}(X))$, $X\in[-\frac12,X_R]$, runs from $M$ through $S$ to a point above $b$ with $f\ge f(S)$ along it: $d_f(M)\ge f(S)$. Trap: let $\mathcal D:=(-\frac32,\frac12)\times\{|\Xi|<R\}$, $\mathcal D_{\rm phys}:=\Phi(\mathcal D)$. At $X=-\frac32$, $\mathfrak F\le g_{\mathfrak F}(-\frac32)\le-\kappa-12\kappa(\frac13-\varphi)+\varepsilon_0<-\kappa$, as $\varepsilon_0<12\kappa(\frac13-\varphi)$ (for $\varphi\le0$ the margin is $\ge4\kappa$). At $X=\frac12$, $\mathfrak F\le g_{\mathfrak F}(\frac12)=-\kappa$, with equality only at $\Xi=0$, i.e.\ at $S$. On $[-\frac32,\frac12]$, (M3) and Step~4 give $g_{\mathfrak F}\le-(\kappa-\frac{\varepsilon_2}2)(X+\frac12)^2\le0$, so at $|\Xi|=R$, \eqref{eq:third-trans} gives $\mathfrak F\le-\frac94(\kappa+1)<-\kappa$. So $f\le f(S)$ on $\partial\mathcal D_{\rm phys}$, and the path component $\mathcal C$ of $\{f>f(S)\}$ containing $M$ lies in $\mathcal D_{\rm phys}$; by Step~3 its supremum is $b+r^4\sup g_{\mathfrak F}$ over an interval in $(-\frac32,\frac12)$, which is $\le b$. So every path from $M$ to a point above $b$ leaves $\mathcal C$: $d_f(M)\le f(S)$, and $e=1$.
+\emph{Case R$^+$, $\frac13<\varphi\le1$.} By (M6), (M4), $\min_{[-3,-1/2]}g=g(X_3)\ge-\kappa+\frac32\kappa(\varphi-\frac13)$, so $\min_{[-3,-1/2]}g_{\mathfrak F}>-\kappa$; and $g_{\mathfrak F}(-3)\ge\frac{425}{16}\kappa-\frac\kappa4>0$ by (M5). The ridge curve from $M$ to $X=-3$ ends above $b$ and stays above $f(S)$: $d_f(M)>f(S)$, $e=0$.
+\emph{Case R$^-$, $-1\le\varphi<-\frac13$.} Put $t^*:=-\frac54\kappa$, $\mathcal D':=(-\frac32,2)\times\{|\Xi|<R\}$. $g_{\mathfrak F}\le0$ on $[-\frac32,2]$: on $[-\frac32,\frac12]$ by (M3) and Step~4, on $[\frac12,2]$ as (M6), (M4) give $g\le g(X_3)\le-\frac32\kappa(|\varphi|-\frac13)<-\varepsilon_0$. On $\partial\mathcal D'$: $g_{\mathfrak F}(-\frac32)\le-9\kappa+\frac\kappa4<t^*$ and $g_{\mathfrak F}(2)\le-\frac{25}{16}\kappa+\frac\kappa4<t^*$ by (M5); at $|\Xi|=R$, $\mathfrak F\le-\frac94(\kappa+1)<t^*$ by \eqref{eq:third-trans}. So the component $\mathcal C'$ of $\{f>b+r^4t^*\}$ containing $M$ lies in $\Phi(\mathcal D')$ and has supremum $\le b$; every path from $M$ to a point above $b$ leaves $\mathcal C'$, so $d_f(M)\le b+r^4t^*<f(S)$ (or $d_f(M)=-\infty$), and $e=0$.
+\end{proof}
+
+\subsection{The elder cusp kernel}\label{ssec:third-eldercusp}
+
+Here $0<r\le r_0^*$, $f=F_r$ under $Q$, $A,\Delta,f_4,\gamma,B,Y_r,\mathcal N_r$ are as in \eqref{eq:third-ownexp}, $J'$ is the vector of free jets of order $\le9$ (Lemma~\ref{lem:third-fold}), $J'':=J'\setminus\{f_4\}$, $J''':=J''\setminus\{A\}$, $\lambda:=\lambda_{\min}(-A)$ on $\{A\prec0\}$, $Y':=Y_r-3k\tr(\adj(A)B)$ and $\varphi_r:=(f_4-3\gamma^\top A^{-1}\gamma)/(72\kappa)$, so $Y'=6\kappa\Delta\varphi_r$.
+
+\begin{lemma}[free jets under the pinned law]\label{lem:third-facts}
+\begin{enumerate}[(i),leftmargin=2em]
+\item Given $J''$, $f_4$ is Gaussian under $Q$ with variance in $[c,C]$ and mean of modulus $\le C(P+|J''|)$; its conditional density is at most a constant $C_0$, and for every $J''$-measurable interval $I$ and $p\ge0$
+\begin{equation}\label{eq:third-f4}
+\E_Q[(1+|f_4|)^p\ind\{f_4\in I\}\mid J'']\le C_p(P+|J''|)^p|I|.
+\end{equation}
+\item $\E_Q[\mathcal N_r^p\mid J']\le C_p(P+|J'|)^p$.
+\item Given $J'''$, $A$ is Gaussian under $Q$ with covariance between $cI$ and $CI$ and mean of modulus $\le C(P+|J'''|)$; hence, with $n'=n+m(m-1)/2$,
+\begin{equation}\label{eq:third-Alayer}
+\E_Q[(1+\|A\|)^n\ind\{|\lambda_{\max}(A)|<\varepsilon\}\mid J''']\le C(P+|J'''|)^{n'}\varepsilon,
+\end{equation}
+and likewise with $\{|\Delta|<\varepsilon\}$ in place of $\{|\lambda_{\max}(A)|<\varepsilon\}$.
+\item Under $Q$, $J'\sim N(\mu_r,V_r)$; under the contact law at $v_0(b,k)$, $J'\sim N(\mu_0,V_0)$; $|\mu_r-\mu_0|\le Cr^2P$, $\|V_r-V_0\|\le Cr^2$, $V_r,V_0\succeq cI$.
+\item Under the contact law at $v_0(b,k)$ the even free jets (among them $A,f_4$) are independent of the odd ones (among them $\gamma$); the law of the even jets does not depend on $k$; the odd jets are $N(12kw,\Sigma_o)$ with $w,\Sigma_o$ independent of $k$; and $\pi_0(v_0(b,k))=p_e(b,0,0)p_o(0,12k,0)$, $p_o$ a centred Gaussian density.
+\item If $\kappa r\le1$, then $|r^{-2}F_d(K_M)F_{d-1}(K_S)-w_\kappa(A,Y_r)|\le Cr(1+\kappa)\mathcal N_r^N$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(i) By Step~1 of Lemma~\ref{lem:third-fold}, $\Cov_Q(J')$ is uniformly invertible on $(0,r_0^*]$; the mean is $\E_QJ'=\Cov(J',U_r)\Sigma_r^{-1}v_r$, so $|\E_QJ'|\le CP$. $\Var_Q(f_4\mid J'')$ is a Schur complement in $\Cov_Q(J')$, between $\lambda_{\min}(\Cov_QJ')\ge c$ and $\Var_Q(f_4)\le C$; the conditional mean, $\E_Qf_4+\Cov_Q(f_4,J'')\Cov_Q(J'')^{-1}(J''-\E_QJ'')$, has bounded coefficients; and the Gaussian factor absorbs polynomial weights. (ii) is Lemma~\ref{lem:third-condmom} with $J_0=J'$. (iii) As (i), with Lemma~\ref{lem:third-D} conditionally. (iv) is Step~3 of Lemma~\ref{lem:third-fold}. (v) is the parity factorization (Step~3 of Lemma~\ref{lem:third-C}). (vi) is \eqref{eq:third-C2} with $(A,\mathcal N_r)$ for $(A_0,T)$: Step~1 there uses only the expansion, here \eqref{eq:third-ownexp}, and $\|A_i-A\|\le\frac r2\|F_r\|_{C^3}\le r\mathcal N_r$.
+\end{proof}
+
+\begin{lemma}[two Gaussian comparisons]\label{lem:third-G}
+Fix $n$, $p$ and $0<c_G\le C_G$.
+\textup{(a)} Let $J\sim N(\mu,V)$ and $\tilde J\sim N(\tilde\mu,\tilde V)$ on $\R^n$ with $c_GI\preceq V,\tilde V\preceq C_GI$, and let $G$ be Borel with $|G(j)|\le H(1+|j|)^p$. Then $|\E G(\tilde J)-\E G(J)|\le CH(1+|\mu|+|\tilde\mu|)^{p+2}(|\tilde\mu-\mu|+\|\tilde V-V\|)$.
+\textup{(b)} Let $E$ and $O$ be independent, $O\sim N(\xi,\Sigma)$ on $\R^{n_o}$, $c_GI\preceq\Sigma\preceq C_GI$, $|\xi|\le\xi_0$. Let $G(e,-o)=G(e,o)$ and $|G(e,o)|\le h(e)(1+|o|)^p$ with $\E[h(E)]<\infty$. Then $|\E G(E,O)-\E G(E,O_0)|\le C|\xi|^2\E[h(E)]$, where $O_0\sim N(0,\Sigma)$ is independent of $E$ and $C$ depends also on $\xi_0$.
+\end{lemma}
+
+\begin{proof}
+(a) Interpolate $(\mu_t,V_t)$ linearly; $c_GI\preceq V_t\preceq C_GI$, and $\partial_t\log p_t(j)=(j-\mu_t)^\top V_t^{-1}\delta\mu+\frac12(j-\mu_t)^\top V_t^{-1}\delta VV_t^{-1}(j-\mu_t)-\frac12\tr(V_t^{-1}\delta V)$, so $|\partial_tp_t|\le C(|\delta\mu|+\|\delta V\|)(1+|j-\mu_t|^2)p_t$; integrate $|G||\partial_tp_t|$ over $j$ and $t\in[0,1]$. (b) $\chi(\xi):=\E G(E,O_\xi)$ is smooth and even (substitute $o\mapsto-o$), so $\nabla\chi(0)=0$ and $|\chi(\xi)-\chi(0)|\le\frac12|\xi|^2\sup_{|\zeta|\le\xi_0}\|\nabla^2\chi(\zeta)\|$; differentiating the density twice gives $\|\nabla^2\chi(\zeta)\|\le C\E[h(E)]$, and the integrability of $h(E)$ justifies the differentiation. No regularity of $G$ is needed.
+\end{proof}
+
+\begin{lemma}[the elder cusp kernel with a rate]\label{lem:third-CE}
+There are $r_2>0$ and $C,c,N$ such that for $0<r\le r_2$, $b\in\R$, $u\in S^{d-1}$ and $\kappa>0$ with $\kappa r\le1$,
+\begin{equation}\label{eq:third-CEp1}
+\bigl|r^{-2}(\mathcal A^\eld_r-\mathcal A_0)(b,\kappa r,u)-(\mathcal C^\eld-\mathcal C^{\rm con})(b,\kappa,u)\bigr|\le C\bigl(r(1+\kappa)+\kappa^2r^{3/2}+\kappa^3r^2\bigr)(1+|b|)^Ne^{-cb^2},
+\end{equation}
+and in particular, as $\kappa^2r^{3/2}+\kappa^3r^2\le2\kappa^2r$ for $r\le1$, $\kappa r\le1$,
+\begin{equation}\label{eq:third-CE1}
+\bigl|r^{-2}(\mathcal A^\eld_r-\mathcal A_0)(b,\kappa r,u)-(\mathcal C^\eld-\mathcal C^{\rm con})(b,\kappa,u)\bigr|\le Cr(1+\kappa)^2(1+|b|)^Ne^{-cb^2}.
+\end{equation}
+One may take $r_2=\min(r_0^*,\frac12,r_Q)$.
+\end{lemma}
+
+\begin{proof}
+\emph{Step E1 (pathwise comparison).} Write $\mathbf F$ for $F_d(K_M)F_{d-1}(K_S)$ and put
+\[
+\mathsf w(J'):=w_\kappa(A,Y_r)\ind\{|\varphi_r|<\tfrac13\},\qquad r^{-2}\mathbf Fe-\mathsf w=(r^{-2}\mathbf F-w_\kappa)e+w_\kappa\bigl(e-\ind\{|\varphi_r|<\tfrac13\}\bigr).
+\]
+Lemma~\ref{lem:third-facts}(vi) bounds the first term by $Cr(1+\kappa)\mathcal N_r^N$. On $\{w_\kappa>0\}$: if the pair is not typed, $\mathbf F=0$ and Lemma~\ref{lem:third-facts}(vi) gives $w_\kappa\le Cr(1+\kappa)\mathcal N_r^N$; if it is typed and (Q1)--(Q4) hold for $f=F_r$, $\mathcal N=\mathcal N_r$ ($\mathcal N_r\ge\max(1,\|F_r\|_{C^5})$, $r\le r_Q$, $f(S)=b-\kappa r^4$), Lemma~\ref{lem:third-Q} gives $e=\ind\{|\varphi_r|<\frac13\}$. With $\mathfrak B$ the event that (Q1)--(Q4) fail,
+\begin{equation}\label{eq:third-E1}
+|r^{-2}\mathbf Fe-\mathsf w(J')|\le2Cr(1+\kappa)\mathcal N_r^N+w_\kappa(A,Y_r)\ind_{\mathfrak B}.
+\end{equation}
+
+\emph{Step E2 (wrong decisions).} The conditions of Lemma~\ref{lem:third-Q} on $r$ alone hold as $r\le r_Q$; the others are monotone in $\mathcal N$ and $\lambda$. With $\mathcal N=\mathcal N_r$: (Q1) holds if $3\mathcal Nr$, $5\mathcal Nr^2(1+\Gamma)$, $3\mathcal Nr^2((\kappa+1)/\lambda)^{1/2}$ are each $\le\lambda/6$ and (given $6r+10r^2\le L/8$) $10r^2|\gamma|/\lambda$, $6r^2((\kappa+1)/\lambda)^{1/2}$ are each $\le L/16$; this follows from $\lambda\ge18\mathcal Nr$, $\lambda\ge60\mathcal Nr^2$, $\lambda^2\ge60\mathcal Nr^2|\gamma|$, $\lambda\ge18^{2/3}2^{1/3}\mathcal Nr$ (as $r(\kappa+1)\le2$), $\lambda\ge160r^2|\gamma|/L$, $\lambda\ge(96/L)^2r^4(\kappa+1)$. (Q2) holds if $\lambda\ge10r|\gamma|$, $\lambda\ge16C_1\mathcal Nr$, $\lambda^2\ge80C_1\mathcal Nr|\gamma|$. (Q3) holds if $\kappa\ge1280C_1\mathcal Nr$ and $\lambda^2\ge1280C_1\mathcal Nr|\gamma|^2/\kappa$, by $(1+\Gamma)^2\le2(1+\Gamma^2)$. As $\kappa r\le1\le\mathcal N$ gives $r^2|\gamma|\le r|\gamma|\le|\gamma|(\mathcal Nr/\kappa)^{1/2}$, and $r^4(\kappa+1)\le2r$, all hold if $\kappa\ge C_2\mathcal N_rr$ and $\lambda\ge\lambda_2(\mathcal N_r):=C_2[\mathcal N_rr+(\mathcal N_rr|\gamma|)^{1/2}+|\gamma|(\mathcal N_rr/\kappa)^{1/2}]$, $C_2=C_2(d,L)$. So $\mathfrak B\subset\mathfrak B_\lambda\cup\mathfrak B_\kappa\cup\mathfrak B_4\cup\mathfrak B_5$, with $\mathfrak B_\lambda=\{\lambda<\lambda_2(\mathcal N_r)\}$, $\mathfrak B_\kappa=\{\kappa<C_2\mathcal N_rr\}$, $\mathfrak B_4=\{||\varphi_r|-\frac13|\le\frac{2\varepsilon^*}{3\kappa}\}$, $\mathfrak B_5=\{|\varphi_r|>1\}$. Now $w_\kappa\le36\kappa^2\Delta^2\ind\{A\prec0,|Y_r|<6\kappa|\Delta|\}$, and $Y_r$ is affine in $f_4$ with slope $\Delta/12$ and $J''$-measurable intercept, so $\{|Y_r|<6\kappa|\Delta|\}=\{f_4\in I_{\rm typ}\}$, a $J''$-measurable interval of length $144\kappa$. The thresholds of $\mathfrak B_\lambda,\mathfrak B_\kappa,\mathfrak B_4$ depend on $\mathcal N_r$: on $\{\mathcal N_r\in[2^j,2^{j+1})\}$ replace $\mathcal N_r$ by $2^{j+1}$, bound $\ind\{\mathcal N_r\ge2^j\}$ by Lemma~\ref{lem:third-facts}(ii), integrate $f_4$ by \eqref{eq:third-f4}; each $j$ carries $C_p2^{-jp}(P+|J''|)^p$, summable for $p$ large.
+$\mathfrak B_\lambda$: integrating $f_4$ over $I_{\rm typ}$ gives $\min(1,144C_0\kappa)$; on $\{\lambda<\lambda_2\}$, $\Delta^2\le\lambda_2^2\|A\|^{2m-2}$, and \eqref{eq:third-Alayer} given $J'''$ ($\lambda_2$ depends on $|\gamma|$, $\gamma\in J'''$) gives a factor $\lambda_2$; so the contribution is $\le C\kappa^2\min(1,\kappa)\sum_j2^{-jp}\E[\lambda_2(2^{j+1})^3(P+|J'''|)^N]$, and the three terms of $\lambda_2^3$ give $\kappa^2\min(1,\kappa)(r^3+r^{3/2}+(r/\kappa)^{3/2})P^N\le Cr(1+\kappa)^2P^N$, using $\kappa r\le1$, $r\le1$; more precisely it is $\le C(r+\kappa^2r^{3/2})P^N$, since $\kappa^2r^3=k^2r\le r$ and $\kappa^{1/2}r^{3/2}=k^{1/2}r\le r$.
+$\mathfrak B_\kappa$: $\Prob(\mathcal N_r>\kappa/(C_2r)\mid J')\le\min(1,C_3(r/\kappa)^3(P+|J'|)^3)$, so the contribution is $\le C\kappa^2\min(1,\kappa)\min(1,(r/\kappa)^3)P^N\le Cr^3P^N$.
+$\mathfrak B_5$ (on $\{w_\kappa>0\}$): $|Y_r|<6\kappa|\Delta|<|Y'|$, so $6\kappa|\Delta|-|Y_r|<\tau:=3k|\tr(\adj(A)B)|$ and $w_\kappa\le12\kappa|\Delta|\tau$; and $|Y'|\in(6\kappa|\Delta|,6\kappa|\Delta|+\tau)$ puts $f_4$ in two intervals of total length $24\tau/|\Delta|$. The contribution is $\le288C_0\kappa\E[\tau^2(P+|J''|)^p]\le C\kappa^3r^2P^N\le C\kappa^2rP^N$.
+
+$\mathfrak B_4$: $f_4$ lies in two $J''$-measurable intervals $I_4$ of total length $192\varepsilon^*$, $\varepsilon^*=80C_1\mathcal N_rr(1+\Gamma)^2$, $\Gamma=|\gamma|/\lambda$ (with the layer value of $\mathcal N_r$, absorbed by $2^{-jp}$). With $\Delta^2(1+\Gamma)^2\le2\Delta^2+2|\gamma|^2\|A\|^{2m-2}$ (as $\Delta^2\le\lambda^2\|A\|^{2m-2}$) the contribution is $\le Cr\kappa^2P^N$. Sharper: (Q1)--(Q3) hold off $\mathfrak B_\lambda\cup\mathfrak B_\kappa$, so only $\mathfrak B_4':=\mathfrak B_4\setminus(\mathfrak B_\lambda\cup\mathfrak B_\kappa)$ matters, and
+\begin{equation}\label{eq:third-B4}
+\E_Q[w_\kappa(A,Y_r)\ind_{\mathfrak B_4'}]\le C\kappa rP^N\qquad\text{for every }\kappa>0.
+\end{equation}
+Indeed, on $\mathfrak B_4'$ (Q3) holds, so $||\varphi_r|-\frac13|\le\frac{2\varepsilon^*}{3\kappa}\le\frac16$, i.e.\ $\frac16\le|\varphi_r|\le\frac12$ and $|f_4-3\gamma^\top A^{-1}\gamma|=72\kappa|\varphi_r|\ge12\kappa$; the weight vanishes unless $A\prec0$, and then $|\gamma^\top A^{-1}\gamma|\le|\gamma|^2/\lambda$; hence
+\begin{equation}\label{eq:third-B4incl}
+\mathfrak B_4'\cap\{w_\kappa>0\}\subset\{|f_4|\ge6\kappa\}\cup\{\lambda\le|\gamma|^2/(2\kappa)\}.
+\end{equation}
+On the first piece, $w_\kappa\le36\kappa^2\Delta^2\le6\kappa\Delta^2|f_4|$, and integrating $f_4$ over $I_4$ by \eqref{eq:third-f4} gives $\le C\kappa\Delta^2\varepsilon^*(P+|J''|)^p$; as $\Delta^2(1+\Gamma)^2\le(\lambda+|\gamma|)^2\|A\|^{2m-2}$, polynomial in $J''$, this is $\le C\kappa rP^N$. On the second, integrating $f_4$ over $I_4$ gives $\le C\kappa^2r(\lambda+|\gamma|)^2\|A\|^{2m-2}(P+|J''|)^p$, with $(\lambda+|\gamma|)^2\le2\|A\|^2+2|\gamma|^2$ free of $\kappa$; conditioning on $J'''\ni\gamma$ and using $\{\lambda\le\frac{|\gamma|^2}{2\kappa}\}\cap\{A\prec0\}\subset\{|\lambda_{\max}(A)|\le\frac{|\gamma|^2}{2\kappa}\}$, \eqref{eq:third-Alayer} gives the factor $C(P+|J'''|)^{n'}|\gamma|^2/(2\kappa)$, so this piece is $\le C\kappa rP^N$. Collecting, $\E_Q[w_\kappa(A,Y_r)\ind_{\mathfrak B}]\le C(r(1+\kappa)+\kappa^2r^{3/2}+\kappa^3r^2)P^N$, and the cruder bounds give $\le Cr(1+\kappa)^2P^N$.
+
+\emph{Step E3 (removing the $k$-term).} $\mathsf w_0(J'):=w^\eld_\kappa(A,Y')=w_\kappa(A,Y')\ind\{|\varphi_r|<\frac13\}$, as $|\varphi_r|<\frac13\iff|Y'|<2\kappa|\Delta|$. By Lemma~\ref{lem:third-L}, $|\mathsf w-\mathsf w_0|\le3k|\tr(\adj(A)B)|(|Y_r|+|Y'|)\le Ck(1+|J'|)^N$, so $\E_Q|\mathsf w-\mathsf w_0|\le CkP^N=C\kappa rP^N$ (the Lipschitz constant $12\kappa|\Delta|$ gives instead $|\mathsf w-\mathsf w_0|\le12\kappa|\Delta|\cdot3k|\tr(\adj(A)B)|$, i.e.\ $C\kappa^2rP^N$).
+
+\emph{Step E4.} $|\mathsf w_0|\le36\kappa^2|J'|^{2m}$, so Lemma~\ref{lem:third-facts}(iv) and Lemma~\ref{lem:third-G}(a) give $|\E_Q[\mathsf w_0]-\E_0[\mathsf w_0\mid v_0(b,k)]|\le C\kappa^2r^2P^N$.
+
+\emph{Step E5 (densities).} By \eqref{eq:third-pindens} and $\E_Q[r^{-2}\mathbf Fe]\le C(1+\kappa)^2P^N$ (sign window), Steps E1--E4 give $r^{-2}\mathcal A^\eld_r(b,\kappa r,u)=12\pi_0(v_0(b,k))\E_0[w^\eld_\kappa(A,Y)\mid v_0(b,k)]+O(r(1+\kappa)^2P^Ne^{-c(b^2+k^2)})$; subtracting the exact $r^{-2}\mathcal A_0(b,\kappa r,u)=12\pi_0(v_0(b,k))\E_0[36\kappa^2\Delta^2\ind\{A\prec0\}\mid v_0(b,k)]$,
+\begin{equation}\label{eq:third-E5}
+r^{-2}(\mathcal A^\eld_r-\mathcal A_0)(b,\kappa r,u)=-12\pi_0(v_0(b,k))\E_0[\mathrm{loss}_\kappa(A,Y)\mid v_0(b,k)]+O\bigl(r(1+\kappa)^2P^Ne^{-c(b^2+k^2)}\bigr).
+\end{equation}
+
+\emph{Step E6 (the target $v_0(b,k)\to v_0(b,0)$).} $\mathrm{loss}_\kappa$ depends on the even jets $(A,f_4)$, and on the odd jet $\gamma$ only through $\gamma^\top\adj(A)\gamma$, so it is even in the odd jets; and $0\le\mathrm{loss}_\kappa\le9Y^2$ (on $\{|Y|\ge2\kappa|\Delta|\}$, $36\kappa^2\Delta^2\le9Y^2$). Lemma~\ref{lem:third-G}(b) applies with $E=(A,f_4)$, $O$ the odd jets, $h(A,f_4)=C(1+|f_4|)^2(1+\|A\|)^{2m}$, $p=4$, $\E[h]\le C(1+|b|)^N$; by Lemma~\ref{lem:third-facts}(v), with $\xi=12kw$ ($|\xi|\le12|w|$ as $k\le1$), $|\E_0[\mathrm{loss}_\kappa\mid v_0(b,k)]-\E_0[\mathrm{loss}_\kappa\mid v_0(b,0)]|\le Ck^2(1+|b|)^N$, with no growth in $\kappa$, and $p_o(0,12k,0)=p_o(0,0,0)(1+O(k^2))$. So the right side of \eqref{eq:third-E5} is $(\mathcal C^\eld-\mathcal C^{\rm con})(b,\kappa,u)+O(k^2(1+|b|)^Ne^{-cb^2})+O(r(1+\kappa)^2P^Ne^{-c(b^2+k^2)})$; as $k^2=\kappa^2r^2\le\kappa r$, $r^2(1+\kappa)^2\le2r(1+\kappa)$ and $P^Ne^{-ck^2}\le C(1+|b|)^N$, collecting all steps gives \eqref{eq:third-CEp1}; the cruder bounds give \eqref{eq:third-CE1} directly. 
+\end{proof}
+
+\begin{lemma}[elder overlap]\label{lem:third-Oprime}
+For $\kappa\ge1$,
+\begin{equation}\label{eq:third-Oprime}
+0\le(\mathcal C^\cand-\mathcal C^\eld)(b,\kappa,u)\le C\kappa^{-1}(1+|b|)^Ne^{-cb^2}.
+\end{equation}
+Consequently, with Lemma~\ref{lem:third-O}, $|(\mathcal C^\eld-\mathcal C^{\rm con})(b,\kappa,u)-\mathcal A_2(b,0,u)|\le C\kappa^{-1}(1+|b|)^Ne^{-cb^2}$.
+\end{lemma}
+
+\begin{proof}
+$\mathcal C^\cand-\mathcal C^\eld=12\pi_0\E_0[(36\kappa^2\Delta^2-Y^2)\ind\{A\prec0,\,2\kappa|\Delta|\le|Y|<6\kappa|\Delta|\}\mid b]$. There $36\kappa^2\Delta^2\le9Y^2$ and $|\Delta|\le|Y|/(2\kappa)$, so the difference is at most $108\pi_0\E_0[Y^2\ind\{|\Delta|\le|Y|/(2\kappa)\}\mid b]$, which the dyadic argument of Lemma~\ref{lem:third-O} bounds by $C\kappa^{-1}(1+|b|)^Ne^{-cb^2}$.
+\end{proof}
+
+\subsection{Intermediate separations}\label{ssec:third-intermediate}
+
+The next two lemmas hold for every $0<r\le r_0^*$; of \S\ref{ssec:third-eldercusp} they use only $\mathcal N_r$, $\Delta$ and \eqref{eq:third-ownexp}.
+
+\begin{lemma}[the rescaled Hessian at $M$]\label{lem:third-H}
+Let $0<r\le r_0^*$, $b\in\R$, $0<k\le r$ (so $\kappa\le1$), $f=F_r$ under $Q$. In the frame $(u,\Theta)$ let $\Lambda_r:=\mathrm{diag}(r,1,\dots,1)$, $H_M=D^2f(M)$ and $\widetilde H:=\Lambda_r^{-1}H_M\Lambda_r^{-1}$, so $\widetilde H_{uu}=r^{-2}\partial_u^2f(M)$, $\widetilde H_{u\Theta}=r^{-1}\partial_u\nabla_\Theta f(M)$, $\widetilde H_{\Theta\Theta}=D^2_\Theta f(M)$, $\det H_M=r^2\det\widetilde H$. There are $c>0$ and $C,C_p<\infty$ depending only on $d,L$ (and $p$) such that:
+\textup{(a)} under $Q$, $\widetilde H$ is a Gaussian element of $\mathrm{Sym}(d)$ with $cI\preceq\Cov_Q(\widetilde H)\preceq CI$ and $|\E_Q\widetilde H|\le CP$, so Lemma~\ref{lem:third-D} applies to $G=\widetilde H$ with $|\mu|\le CP$;
+\textup{(b)} $\E_Q[\mathcal N_r^p\mid\widetilde H]\le C_p(P+|\widetilde H|)^p$ for every $p\ge1$.
+\end{lemma}
+
+\begin{proof}
+\emph{The exact form.} For $0\le t\le r$ let $g(t)=f(M+tu)$, $h(t)=\nabla_\Theta f(M+tu)$. For every $C^4$ function, by Taylor's formula with integral remainder,
+\[
+\begin{aligned}
+\tfrac{r^2}6g''(0)&=[g(r)-g(0)-rg'(0)]-\tfrac r3[g'(r)-g'(0)]+\tfrac16\int_0^rt(r-t)^2g''''(t)\,dt,\\
+rh'(0)&=[h(r)-h(0)]-\int_0^r(r-t)h''(t)\,dt.
+\end{aligned}
+\]
+Under $Q$, $g(0)=b$, $g(r)=b-kr^3$, $g'(0)=g'(r)=0$, $h(0)=h(r)=0$, so the bracketed pin combinations are $-kr^3$ and $0$; with $t=rs$, listing the $uu$, $u\Theta$ and $\Theta\Theta$ blocks,
+\begin{equation}\label{eq:third-H1}
+\begin{gathered}
+\widetilde H=\mathsf m_\kappa+\mathcal G_r(f),\qquad \mathsf m_\kappa:=-6\kappa e_ue_u^\top,\\
+\mathcal G_r(f):=\Bigl(\int_0^1\!s(1-s)^2\partial_u^4f(M+rsu)\,ds;\ -\!\int_0^1\!(1-s)\partial_u^2\nabla_\Theta f(M+rsu)\,ds;\ D^2_\Theta f(M)\Bigr).
+\end{gathered}
+\end{equation}
+$\mathcal G_r$ is linear on $C^4$ functions with $|\mathcal G_r(g)|\le C\|g\|_{C^4}$; at $r=0$ its blocks are $\partial_u^4g(0)/12$, $-\partial_u^2\nabla_\Theta g(0)/2$ and $D^2_\Theta g(0)$, i.e.\ $(f_4/12,-\gamma/2,A)$ for the cusp jets.
+
+(a) Under $Q$, $f$ is $F$ conditioned on $U_r=v_r$, so $\Cov_Q(\widetilde H)=\Cov(\mathcal G_r(F)\mid U_r)$, the Schur complement of $U_r$ in the Gram matrix $\mathfrak G_r$ of $(\mathcal G_r(F),U_r)$. Each entry of $(\mathcal G_r(F),U_r)$ is an integral of some $\partial^\alpha F(M+rsu)$, $|\alpha|\le4$, against a fixed finite measure in $s\in[0,1]$ (for the difference rows by Taylor's formula), so each entry of $\mathfrak G_r$ is $\iint\pm\partial^{\alpha+\beta}K_L(r(s-s')u)\,\mu_i(ds)\mu_j(ds')$, continuous on the compact $[0,r_0^*]\times\{\text{frames}\}$, including $r=0$. For $r>0$, by the two identities read for an arbitrary $C^4$ function, $\mathcal G_r(F)$ is $\Lambda_r^{-1}D^2F(M)\Lambda_r^{-1}$ minus a linear function of the pins, and $U_r$ is an invertible image of the pins ($|\det|=12r^{-(d+3)}$); so $(\mathcal G_r(F),U_r)$ is an invertible image of $(D^2F(M),F(M),F(S),\nabla F(M),\nabla F(S))$, distinct derivative functionals at the distinct sites $M\ne S$, linearly independent \cite{parentP}. At $r=0$, $(\mathcal G_0(F),U_0)$ is an invertible image of $\partial_u^4F(0)$, $\partial_u^2\nabla_\Theta F(0)$, $D^2_\Theta F(0)$ and the six pinned jets, distinct jets at one point in the frame $(u,\Theta)$, independent \cite{parentP}. So $\mathfrak G_r\succeq cI$ uniformly; hence $\Cov_Q(\widetilde H)\succeq\lambda_{\min}(\mathfrak G_r)I\succeq cI$ (the inverse of the Schur complement is a block of $\mathfrak G_r^{-1}$) and $\Cov_Q(\widetilde H)\preceq\Cov(\mathcal G_r(F))\preceq CI$. And $\E_Q\widetilde H=\mathsf m_\kappa+\Cov(\mathcal G_r(F),U_r)\Cov(U_r)^{-1}v_r$, with $|v_r|\le|b|+14k$, a bounded regression coefficient and $|\mathsf m_\kappa|=6\kappa\le6$; so $|\E_Q\widetilde H|\le CP$.
+
+(b) Conditioning $Q$ on $\widetilde H$ is conditioning $F$ on $(\mathcal G_r(F),U_r)=(\widetilde H-\mathsf m_\kappa,v_r)$, with uniformly invertible Gram matrix $\mathfrak G_r$. The conditional mean of $F$ has $C^9$ norm $\le C(P+|\widetilde H|)$, and the conditional covariance is at most $\Cov F$, so by Anderson's inequality the conditional moments of the centred part's $C^9$ norm are at most those of $F$. As $\mathcal N_r=1+k+\|F_r\|_{C^9}$ and $k\le P$, (b) follows; no coupling is needed.
+\end{proof}
+
+\begin{lemma}[the elder weight through the rescaled Hessian]\label{lem:third-Sprime}
+For $0<r\le r_0^*$, $b\in\R$ and $0<k\le r$, with $\ell=kr^3$ and $\kappa=k/r\le1$,
+\begin{equation}\label{eq:third-Sp}
+\E_Q[(W_r/r^2)\,e]\le C\ell^{2/3}r^{-2}(\kappa+r)P^N.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+On $\{W_r>0\}\cap\{e=1\}$, $H_M\prec0$, so $\widetilde H\prec0$, and by \eqref{eq:third-barrier} $\lambda_{\min}(-H_M)\le(\ell K_f^2/c_L)^{1/3}$ with $K_f=1+\|D^2f\|_\infty+\|D^3f\|_\infty\le C_K\mathcal N_r$. As $-H_M=\Lambda_r(-\widetilde H)\Lambda_r$, $|\Lambda_rv|\ge r|v|$ ($r\le r_0^*\le1$) and $-\widetilde H\succ0$, $v^\top(-H_M)v\ge r^2\lambda_{\min}(-\widetilde H)|v|^2$, so $\lambda_{\min}(-H_M)\ge r^2\lambda_{\min}(-\widetilde H)$ (this can fail for $r>1$ or indefinite $\widetilde H$). Hence
+\begin{equation}\label{eq:third-Sp2}
+0<\lambda_{\min}(-\widetilde H)\le\varepsilon(\mathcal N_r),\qquad \varepsilon(t):=C_\varepsilon\ell^{1/3}r^{-2}t^{2/3},\quad C_\varepsilon:=(C_K^2/c_L)^{1/3}.
+\end{equation}
+Now $|\det K_M|=r|\det\widetilde H|\le r\lambda_{\min}(-\widetilde H)\|\widetilde H\|^{d-1}$, and, the pair being typed, the sign window applied to \eqref{eq:third-ownexp} gives $|\det K_S|\le12k|\Delta|+2\max_i|R'_i|\le Cr(\kappa+r)\mathcal N_r^{N_2}$ ($|\Delta|\le\mathcal N_r^m$, $1+k\le\mathcal N_r$). As $\{\widetilde H\prec0,\lambda_{\min}(-\widetilde H)\le\varepsilon\}\subset\{|\lambda_{\max}(\widetilde H)|\le\varepsilon\}$, everywhere
+\[
+(W_r/r^2)e\le Cr^2(\kappa+r)\,\varepsilon(\mathcal N_r)\|\widetilde H\|^{d-1}\mathcal N_r^{N_2}\ind\{|\lambda_{\max}(\widetilde H)|\le\varepsilon(\mathcal N_r)\}.
+\]
+On $\{\mathcal N_r\in[2^j,2^{j+1})\}$, $\varepsilon(\mathcal N_r)\le\varepsilon_j:=\varepsilon(2^{j+1})$; conditioning on $\widetilde H$ and using $\Prob_Q(\mathcal N_r\ge2^j\mid\widetilde H)\le C_p2^{-jp}(P+|\widetilde H|)^p$ (Lemma~\ref{lem:third-H}(b)),
+\[
+\E_Q[(W_r/r^2)e]\le Cr^2(\kappa+r)\sum_{j\ge0}2^{(j+1)N_2-jp}\varepsilon_j\,\E_Q\bigl[\|\widetilde H\|^{d-1}(P+|\widetilde H|)^p\ind\{|\lambda_{\max}(\widetilde H)|<2\varepsilon_j\}\bigr].
+\]
+By Lemma~\ref{lem:third-H}(a) and Lemma~\ref{lem:third-D} (first bound, $d\times d$, $n=d-1+p$, $n'=n+d(d-1)/2$) the expectation is $\le CP^{p+n'}\varepsilon_j$, so the $j$-th summand is $\le C2^{j(N_2+4/3-p)}P^N\ell^{2/3}r^{-4}$; with $p=N_2+2$ the series converges and gives \eqref{eq:third-Sp}.
+\end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{prop:third-window}]
+Fix $0<r\le r_0^*$, $b$, $u$, $0\le k\le r$; \eqref{eq:third-ownexp} (including $k=0$), \eqref{eq:third-f4} and Lemma~\ref{lem:third-facts}(ii)--(iii) hold on $(0,r_0^*]$.
+\emph{Step W1.} Let $\bar R:=\max(|R'_M|,|R'_S|)\le C_Rr^2\mathcal N_r^{N_1}$ ($k\le1$) and $\eta:=C_Rr\mathcal N_r^{N_1}\ge\bar R/r$. On $\{W_r>0\}$ the sign window applied to \eqref{eq:third-ownexp} gives $|rY_r|\le6k|\Delta|+\bar R$ and $|\det K_i|\le12k|\Delta|+2\bar R$; so $|Y_r|\le6\kappa|\Delta|+\eta$ and $W_r/r^2\le4r^2(6\kappa|\Delta|+\eta)^2$. Hence, everywhere,
+\begin{equation}\label{eq:third-W41}
+W_r/r^2\le4r^2(6\kappa|\Delta|+\eta)^2\ind\{|Y_r|\le6\kappa|\Delta|+\eta\}.
+\end{equation}
+\emph{Step W2.} $Y_r$ is affine in $f_4$ with slope $\Delta/12$ and $J''$-measurable intercept, so for $J''$-measurable $\eta'$, $\{|Y_r|\le6\kappa|\Delta|+\eta'\}=\{f_4\in I\}$ with $I$ a $J''$-measurable interval of length $144\kappa+24\eta'/|\Delta|$ ($\Delta\ne0$ a.s.). On $\{\mathcal N_r\in[2^j,2^{j+1})\}$, $\eta\le\eta_j:=C_Rr2^{(j+1)N_1}$; bounding $\ind\{\mathcal N_r\ge2^j\}$ by Lemma~\ref{lem:third-facts}(ii), integrating $f_4$ by \eqref{eq:third-f4} and using also the trivial bound $1$,
+\[
+\E_Q[W_r/r^2]\le Cr^2\sum_{j\ge0}2^{-jp}\E_Q\bigl[(6\kappa|\Delta|+\eta_j)^2\min(1,144\kappa+24\eta_j/|\Delta|)(P+|J''|)^p\bigr].
+\]
+By $(x+y)^2\min(1,a+b)\le2(x^2+y^2)(a+\min(1,b))$ ($x,y,a,b\ge0$) the integrand is $\le C(\kappa^2\Delta^2+\eta_j^2)(\kappa+\min(1,\eta_j/|\Delta|))(P+|J''|)^p$.
+\emph{Step W3.} $\kappa^3\Delta^2$ contributes $C\kappa^3P^N$; $\kappa^2\Delta^2\min(1,\eta_j/|\Delta|)\le\kappa^2|\Delta|\eta_j$ contributes $C\kappa^2r2^{jN'}P^N$; $\kappa\eta_j^2$ contributes $C\kappa r^22^{2jN'}P^N$. For $\eta_j^2\min(1,\eta_j/|\Delta|)$ condition on $J'''$ and split into $\{|\Delta|<\varepsilon\}$, $\{2^i\varepsilon\le|\Delta|<2^{i+1}\varepsilon\}$ for $0\le i<\lceil\log_2(1/\varepsilon)\rceil$, and $\{|\Delta|\ge1\}$; Lemma~\ref{lem:third-facts}(iii) gives, for $0<\varepsilon\le\frac12$,
+\begin{equation}\label{eq:third-W42}
+\E[(1+\|A\|)^n\min(1,\varepsilon/|\Delta|)\mid J''']\le C(P+|J'''|)^{n'}\varepsilon\,(4+2\log_2(1/\varepsilon)).
+\end{equation}
+With $\varepsilon=\eta_j\ge C_Rr$, $\log_2(1/\eta_j)\le\log_2(1/(C_Rr))$, so this term contributes $Cr^3\log(2/r)2^{3(j+1)N_1}P^N$ (for $\varepsilon>\frac12$ bound the minimum by $1\le2\varepsilon$). For $p$ large the sum over $j$ converges, and
+\[
+\E_Q[W_r/r^2]\le Cr^2(\kappa^3+\kappa^2r+\kappa r^2+r^3\log(2/r))P^N\le Cr^2(\kappa+r)^2(\kappa+r\log(2/r))P^N,
+\]
+which is \eqref{eq:third-Wp1}. Then \eqref{eq:third-Wp2} follows from $r^{-2}\mathcal A_r=12\pi_r(v_r)r^{-2}\E_Q[W_r/r^2]$, \eqref{eq:third-pindens} and $P^Ne^{-ck^2}\le C(1+|b|)^N$. At $k=0$, $r^{d-1}\Psi_0(b,ru)=r^{-2}\mathcal A_r(b,0,u)$, so \eqref{eq:third-Wp2} at $\kappa=0$ bounds $\Psi_0$; integrating over $b$, $u$ and $r<\rho$, with $\int_0^\rho r^3\log(2/r)\,dr=\frac{\rho^4}4(\log(2/\rho)+\frac14)$, gives \eqref{eq:third-Wp3}.
+\end{proof}
+
+\subsection{Proofs of the theorems}\label{ssec:third-proofs}
+
+\emph{Decomposition.} Fix $r_0\in(0,r_0^*]$ and split points $\rho_f<\rho_c<a$ with $\ell^{1/3}\le\rho_f<\ell^{1/4}$, $\rho_c\le r_2$, $\rho_c<r_0$, $a<r_0^*$; put $s_f:=\rho_f\ell^{-1/4}$, $s_c:=\rho_c\ell^{-1/4}$. Integrands are at $(b,\ell/r^3,u)$ unless stated otherwise; inner integrals are $db\,d\sigma(u)$. By \eqref{eq:third-ident} and \eqref{eq:third-Bsplit} at $r_0$, and by \eqref{eq:third-ident} at $r_0^*$,
+\begin{align}
+\nu_\cand(\ell)-c_{d,L}\ell^{-1/3}-B_{d,L}&=I_f+I_c+J_2+J_3-J_4+J_5,\label{eq:third-decT}\\
+\nu_\eld(\ell)-c_{d,L}\ell^{-1/3}&=I^\eld_f+I^\eld_c+I^\eld_m-J_4+\nu_\eld^{{\rm far},r_0^*}(\ell),\label{eq:third-decE}
+\end{align}
+where $I^\eld_f,I^\eld_c$ are $I_f,I_c$ with $\mathcal A^\eld_r$ in place of $\mathcal A_r$ and
+\[
+\begin{aligned}
+I_f&=\int_0^{\rho_f}\!\!\iint r^{-2}(\mathcal A_r-\mathcal A_0),\qquad I_c=\int_{\rho_f}^{\rho_c}\!\!\iint r^{-2}(\mathcal A_r-\mathcal A_0),\qquad I^\eld_m=\int_{\rho_c}^{r_0^*}\!\!\iint r^{-2}\mathcal A^\eld_r\ge0,\\
+J_2&=-\int_0^{\rho_c}\!\!\iint r^{-2}\mathcal A_r(b,0,u),\qquad J_3=\int_{\rho_c}^{r_0}\!\!\iint r^{-2}\bigl[\mathcal A_r(b,\tfrac\ell{r^3},u)-\mathcal A_r(b,0,u)\bigr],\\
+J_4&=\int_{\rho_c}^\infty\!\!\iint r^{-2}\mathcal A_0\ge0,\qquad J_5=\int_{\dist(0,y)\ge r_0}\int_\R(\Psi^\cand_\ell-\Psi_0)\,db\,dy.
+\end{aligned}
+\]
+
+\emph{Fold region.} Here $k=\ell/r^3\ge r$. By \eqref{eq:third-F1}, $r^{-2}(\mathcal A_r-\mathcal A_0)=\mathcal A_2(b,\ell/r^3,u)+E_f$ with $|E_f|\le C(r+r/k)(1+|b|)^Ne^{-cb^2}$ (as $P^Ne^{-ck^2}\le C(1+|b|)^N$), and $r/k=r^4/\ell$, so $|\int E_f|\le C(\rho_f^2+\rho_f^5/\ell)$. With $k=\ell/r^3$, $dr=-\frac13\ell^{1/3}k^{-4/3}dk$ and $k_f:=\ell/\rho_f^3$ (so $\ell^{1/3}k_f^{-1/3}=\rho_f$),
+\[
+\int_0^{\rho_f}\!\mathcal A_2\,dr=\frac{\ell^{1/3}}3\int_0^\infty\!(\mathcal A_2(k)-\mathcal A_2(0))k^{-4/3}dk+\rho_fA_2(b,0,u)-\frac{\ell^{1/3}}3\int_0^{k_f}\!(\mathcal A_2(k)-\mathcal A_2(0))k^{-4/3}dk.
+\]
+The integrals converge absolutely by \eqref{eq:third-F2} (which proves the absolute convergence of \eqref{eq:third-c2}), and the last term is $O(\ell^{1/3}k_f^{2/3})=O(\ell\rho_f^{-2})$, uniformly with the factor $(1+|b|)^Ne^{-cb^2}$. So $I_f=c_2\ell^{1/3}+\rho_f\iint \mathcal A_2(b,0,u)+O(\rho_f^2+\rho_f^5/\ell+\ell\rho_f^{-2})$. For the elder density write $\mathcal A^\eld_r=\mathcal A_r-\mathcal A^\rej_r$: for $r\le\rho_f<\ell^{1/4}$, $k>r$ and $r\le r_2\le r_0^*\le r_K$, so \eqref{eq:third-K2} and \eqref{eq:third-pindens} give $0\le r^{-2}\mathcal A^\rej_r\le Cr^{-2}(r^3/k)P^Ne^{-c(b^2+k^2)}\le C(r^4/\ell)(1+|b|)^Ne^{-cb^2}$, which integrates to $O(\rho_f^5/\ell)$; so $I^\eld_f=I_f+O(\rho_f^5/\ell)$.
+
+\emph{Cusp region.} Here $k\le\ell\rho_f^{-3}\le1$ and $r\le\rho_c\le r_2$. By Lemmas~\ref{lem:third-C} and~\ref{lem:third-CE} with $\kappa=\ell/r^4$, $r^{-2}(\mathcal A_r-\mathcal A_0)$ and $r^{-2}(\mathcal A^\eld_r-\mathcal A_0)$ are $(\mathcal C^\cand-\mathcal C^{\rm con})(b,\ell/r^4,u)$ and $(\mathcal C^\eld-\mathcal C^{\rm con})(b,\ell/r^4,u)$ up to errors whose integrals over $[\rho_f,\rho_c]$ we call $\mathcal E$ and $\mathcal E^\eld$. With $r=s\ell^{1/4}$ the main terms are $\ell^{1/4}\iint\int_{s_f}^{s_c}(\mathcal C^\bullet-\mathcal C^{\rm con})(b,s^{-4},u)\,ds$, $\bullet\in\{\cand,\eld\}$. As $0\le\mathcal C^{\rm con}-\mathcal C^\bullet\le\mathcal C^{\rm con}\le12\pi_0\cdot36\kappa^2\E_0[\Delta^2\mid b]\le Cs^{-8}(1+|b|)^Ne^{-cb^2}$, the parts over $s>s_c$ are $O(s_c^{-7})$; by Lemmas~\ref{lem:third-O} and~\ref{lem:third-Oprime} ($s\le s_f<1$ means $\kappa\ge1$), $\int_0^{s_f}(\mathcal C^\bullet-\mathcal C^{\rm con})\,ds=s_fA_2(b,0,u)+O(s_f^5)$. With \eqref{eq:third-c1}, $\ell^{1/4}s_f^5=\rho_f^5/\ell$, $\ell^{1/4}s_c^{-7}=\ell^2\rho_c^{-7}$, and the cancellation of the terms $\pm\rho_f\iint \mathcal A_2(b,0,u)$,
+\begin{equation}\label{eq:third-FK}
+\begin{aligned}
+I_f+I_c&=I^\cand\ell^{1/4}+c_2\ell^{1/3}+O(\rho_f^2+\rho_f^5/\ell+\ell\rho_f^{-2}+\ell^2\rho_c^{-7}+\mathcal E),\\
+I^\eld_f+I^\eld_c&=c_1\ell^{1/4}+c_2\ell^{1/3}+O(\rho_f^2+\rho_f^5/\ell+\ell\rho_f^{-2}+\ell^2\rho_c^{-7}+\mathcal E^\eld).
+\end{aligned}
+\end{equation}
+By \eqref{eq:third-C1} and \eqref{eq:third-CE1}, $\mathcal E,\mathcal E^\eld\le C\int_{\rho_f}^{\rho_c}r(1+\ell r^{-4})^2dr\le C(\rho_c^2+\ell\rho_f^{-2}+\ell^2\rho_f^{-6})$; by \eqref{eq:third-Cp1}, $\mathcal E\le C\int_{\rho_f}^{\rho_c}r(1+\ell r^{-4})\,dr\le C(\rho_c^2+\ell\rho_f^{-2})$; and by \eqref{eq:third-CEp1},
+\[
+\mathcal E^\eld\le C\int_{\rho_f}^{\rho_c}\bigl(r+\ell r^{-3}+\ell^2r^{-13/2}+\ell^3r^{-10}\bigr)\,dr\le C(\rho_c^2+\ell\rho_f^{-2}+\ell^2\rho_f^{-11/2}+\ell^3\rho_f^{-9}).
+\]
+
+\emph{Remaining candidate terms.} Since $r^{-2}\mathcal A_r(b,0,u)=r^{d-1}\Psi_0(b,ru)$, \eqref{eq:third-W1} gives $|J_2|\le C\rho_c^3$; on $r\ge\rho_c$, $k\le\ell\rho_c^{-3}\le1$, so \eqref{eq:third-gapLip} gives $|J_3|\le C\int_{\rho_c}^\infty(\ell^2r^{-8}+\ell r^{-3})\,dr\le C(\ell^2\rho_c^{-7}+\ell\rho_c^{-2})$; $0\le J_4\le C\ell^2\rho_c^{-7}$ as $\mathcal A_0\le k^2H$; and $|J_5|\le C_{r_0}\ell$ by \eqref{eq:third-gapLip}.
+
+\emph{Intermediate separations.} On $[\rho_c,r_0^*]$, $k\le\ell\rho_c^{-3}\le1$; split $I^\eld_m$ at $a$. On $[\rho_c,a]$, $e\le1$; by \eqref{eq:third-W1} and \eqref{eq:third-pindens}, $0\le r^{-2}\mathcal A^\eld_r\le r^{-2}\mathcal A_r\le Cr^{-2}(k^2+r^4)P^Ne^{-c(b^2+k^2)}\le C(\kappa^2+r^2)(1+|b|)^Ne^{-cb^2}$, $\kappa=\ell r^{-4}$, which integrates to $\le C(\ell^2\rho_c^{-7}+a^3)$; alternatively, if $\ell\rho_c^{-4}\le1$ (so $k\le r$ there), \eqref{eq:third-Wp2} gives $r^{-2}\mathcal A^\eld_r\le C(1+\log(2/\rho_c))(\kappa+r)^3(1+|b|)^Ne^{-cb^2}$, using $(\kappa+r)^2(\kappa+r\vartheta)\le(1+\vartheta)(\kappa+r)^3$ for $\vartheta=\log(2/r)\ge0$ and $\log(2/r)\le\log(2/\rho_c)$, and as $(\kappa+r)^3\le4(\kappa^3+r^3)$ this integrates to $\le C(1+\log(2/\rho_c))(\ell^3\rho_c^{-11}+a^4)$. On $[a,r_0^*]$, if $\ell a^{-4}\le1$ (so $k\le r$), Lemma~\ref{lem:third-Sprime} with \eqref{eq:third-pindens} gives $0\le r^{-2}\mathcal A^\eld_r\le C\ell^{2/3}r^{-4}(\kappa+r)(1+|b|)^Ne^{-cb^2}=C\ell^{2/3}(\ell r^{-8}+r^{-3})(1+|b|)^Ne^{-cb^2}$, which integrates to $\le C(\ell^{5/3}a^{-7}+\ell^{2/3}a^{-2})$.
+
+\emph{Far part.} $0\le\nu_\eld^{{\rm far},r_0^*}(\ell)\le C\ell^{1/3}$ by \eqref{eq:third-Fprime} at $r_0=r_0^*<L/(4\sqrt2)<L/2$; and $\nu_\eld^{{\rm far},r_0^*}(\ell)\le C(r_0^*)\ell^{2/3}$ for $0<\ell\le1$ by \eqref{eq:third-farrate} at $\rho=r_0^*\in(0,L/2]$, whose far density is the integral \eqref{eq:third-far}.
+
+\begin{proof}[Proof of Theorems~\ref{thm:third-T}, \ref{thm:third-E3} and Corollary~\ref{cor:third-E3prime}]
+Take $\rho_f=\ell^{1/4+1/44}$, $\rho_c=\ell^{1/4-1/36}=\ell^{2/9}$, $a=\ell^{2/15}$ and $\ell$ small; then $\rho_f<\rho_c<a$ as $\frac3{11}>\frac29>\frac2{15}$, $\ell\rho_f^{-3}=\ell^{2/11}\le1$ and $\ell a^{-4}=\ell^{7/15}\le1$. Use \eqref{eq:third-C1}, \eqref{eq:third-CE1}, and \eqref{eq:third-W1} on $[\rho_c,a]$. The error terms $\rho_f^2$, $\rho_f^5/\ell$, $\ell\rho_f^{-2}$, $\ell^2\rho_f^{-6}$, $\rho_c^2$, $\rho_c^3$, $\ell^2\rho_c^{-7}$, $\ell\rho_c^{-2}$, $\ell$ are $\ell$ to the powers $\frac6{11}$, $\frac4{11}$, $\frac5{11}$, $\frac4{11}$, $\frac49$, $\frac23$, $\frac49$, $\frac59$, $1$; the least is $\frac4{11}>\frac13$, which proves \eqref{eq:third-T1} and the last assertion of Theorem~\ref{thm:third-T}. For the elder density, $J_4\le C\ell^{4/9}$ and $0\le I^\eld_m\le C(\ell^{4/9}+\ell^{2/5}+\ell^{11/15}+\ell^{2/5})\le C\ell^{2/5}$; as $\frac4{11}<\frac25<\frac49$, \eqref{eq:third-decE} and \eqref{eq:third-FK} give \eqref{eq:third-E30}. Then \eqref{eq:third-E31} holds as $\nu_\eld^{{\rm far},r_0^*}=O(\ell^{1/3})$ absorbs $c_2\ell^{1/3}$ and $O(\ell^{4/11})$; \eqref{eq:third-E32} as $\nu_\eld^{{\rm far},r_0^*}\ge0$; \eqref{eq:third-E33} as $\nu_\eld^{{\rm far},r_0^*}\le C\ell^{2/3}\le C\ell^{4/11}$. By \eqref{eq:third-E30} the two sides of each equivalence differ by $O(\ell^{4/11})$, which is $O(\ell^\theta)$ for $\theta\le\frac4{11}$ and $o(\ell^{1/3})$. For Corollary~\ref{cor:third-E3prime}, subtract \eqref{eq:third-E30} from \eqref{eq:third-T1}: the terms $c_{d,L}\ell^{-1/3}$ and $c_2\ell^{1/3}$ cancel, giving \eqref{eq:third-rej0}; (1) follows from $\nu_\eld^{{\rm far},r_0^*}\le C\ell^{1/3}$, (2) from $\nu_\eld^{{\rm far},r_0^*}\ge0$, (3) from \eqref{eq:third-farrate}.
+\end{proof}
+
+\begin{proof}[Proof of Theorems~\ref{thm:third-Tplus}, \ref{thm:third-E3plus} and Corollary~\ref{cor:third-Rplus}]
+Take $\rho_f=\ell^{2/7}$, $\rho_c=\ell^{2/9}$, $a=\ell^{1/9}$ (so $s_f=\ell^{1/28}$, $s_c=\ell^{-1/36}$) and $\ell$ small; then $\ell^{1/3}<\rho_f<\ell^{1/4}<\rho_c<a$, $k\le\ell^{1/7}\le1$ on $[\rho_f,\infty)$ and $\kappa\le\ell^{1/9}\le1$ on $[\rho_c,\infty)$. Use \eqref{eq:third-Cp1}, \eqref{eq:third-CEp1}, and \eqref{eq:third-Wp2} on $[\rho_c,a]$. The ledger (exponents of $\ell$): exactly $\frac37$ for $\rho_f^5/\ell$ (fold layer, rejected fold mass, overlap tails), $\ell\rho_f^{-2}$ (finite part, linear cusp error $r\kappa$) and, for the elder density only, $\ell^2\rho_f^{-11/2}$ and $\ell^3\rho_f^{-9}$ (the terms $\kappa^2r^{3/2}$, $\kappa^3r^2$ of \eqref{eq:third-CEp1}); larger for the others: $\rho_f^2$ ($\frac47$); $\rho_c^2$, $\ell^2\rho_c^{-7}$ (cusp errors, upper tail, $J_3$, $J_4$) and $a^4\log(1/\ell)$, $\ell^{2/3}a^{-2}$ ($I^\eld_m$), all $\frac49$; $\ell^3\rho_c^{-11}\log(1/\ell)$ ($I^\eld_m$) and $\ell\rho_c^{-2}$ ($J_3$), $\frac59$; $\rho_c^3$ ($J_2$) and the far part under \eqref{eq:third-farrate}, $\frac23$; $\ell^{5/3}a^{-7}$ ($I^\eld_m$), $\frac89$; $\ell$ ($J_5$), $1$. In particular $0\le I^\eld_m\le C(\ell^{5/9}+\ell^{4/9})\log(1/\ell)+C(\ell^{8/9}+\ell^{4/9})=O(\ell^{4/9}\log(1/\ell))$. The least exponent is $\frac37$, which gives \eqref{eq:third-Tp}, \eqref{eq:third-E3p0} and the bound on the intermediate separations; the far bound gives \eqref{eq:third-E3p1}, and the equivalence for $\theta\le\frac37$ follows from \eqref{eq:third-E3p0}. Subtracting \eqref{eq:third-E3p0} from \eqref{eq:third-Tp} gives \eqref{eq:third-Rp}; its second form uses \eqref{eq:third-farrate}. The splits are optimal for these terms: $\rho_f=\ell^{2/7}$ balances $\rho_f^5/\ell$ against $\ell\rho_f^{-2}$, $\rho_c=\ell^{2/9}$ balances $\rho_c^2$ against $\ell^2\rho_c^{-7}$, and $a=\ell^{1/9}$ balances $a^4$ against $\ell^{2/3}a^{-2}$.
+\end{proof}

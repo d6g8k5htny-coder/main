@@ -1,0 +1,609 @@
+% Supplementary material: the side-24 correction (label sec:correction).
+\section{The side-24 correction}\label{sec:correction}
+
+This section proves (2.10) of the main text: the relative difference between the coefficient $c_{3,24}$ of (2.9) of the main text and its value $c_{3,\infty}$ for the Bargmann--Fock covariance equals $P_3(24)e^{-288}$ up to an error of absolute value below $10^{-216}$. The argument applies to the coefficient expression in dimensions $d=2$ and $d=3$ simultaneously, and has three parts. First, the angular integrand of the coefficient is a Gaussian integral of a fixed homogeneous weight over a fixed linear subspace; the exact radial moments of a $\chi^2$ law then give explicit relative bounds on its first and second covariance derivatives. Second, the periodized covariance jet is compared with the Euclidean one, with the $2d$ nearest images and their share of the normalizer separated from all remaining images and from the normalization products. Third, the first variation along the nearest-image jet is computed exactly by Haar projection onto isotropic jets; this yields the polynomial $P_d(L)$ for every $d\ge2$.
+
+\begin{convention}[notation in this section]\label{conv:correction-notation}
+Throughout this section $d\ge2$ is an integer and $m=d-1$. We write $\varphi(x)=e^{-|x|^2/2}$ for $x\in\R^d$, and, for $L>0$,
+\[
+q_L=e^{-L^2/2},\qquad Z_L=\sum_{n\in\Z^d}q_L^{|n|^2},\qquad K_L(x)=Z_L^{-1}\sum_{n\in\Z^d}\varphi(x+Ln),\qquad q=q_{24}=e^{-288}.
+\]
+For $d=3$, $K_{24}$ is the covariance (1.1) of the main text. The surface measure on $S^{d-1}$ is $\sigma$, and $|S^{d-1}|$ is its total mass. A \emph{frame at} $t\in S^{d-1}$ is an orthonormal basis $\mathfrak f=(e_0,e_1,\dots,e_m)$ of $\R^d$ with $e_0=t$; we also write $n_i=e_i$. For a symmetric matrix $U$, $\operatorname{svec}U$ lists the diagonal entries of $U$ and $\sqrt2$ times its entries above the diagonal; $\operatorname{svec}$ is an isometry for the Frobenius inner product. The operator norm of a matrix is $\|\cdot\|$, the Loewner order is $\preccurlyeq$, and $U\prec0$ means that $U$ is negative definite. For a positive definite $N\times N$ matrix $C$, $\varphi_C$ is the centered Gaussian density on $\R^N$ with covariance $C$. Finally $M_{4/3}=\E|Z|^{4/3}=2^{2/3}\Gamma(7/6)/\sqrt\pi$ for a standard normal variable $Z$.
+\end{convention}
+
+\subsection{The coefficient expression and the result}
+
+\begin{definition}[the coefficient expression]\label{def:correction-coef}
+Let $K$ be an even covariance function on $\R^d$ of class $C^6$, and let $f$ be a centered stationary Gaussian field on $\R^d$ with covariance $K$. For a frame $(t,n_1,\dots,n_m)$ at $t\in S^{d-1}$ put
+\begin{equation}\label{eq:correction-jetvars}
+\begin{aligned}
+g_t&=(\partial_tf,\partial_{n_1}f,\dots,\partial_{n_m}f)(0),\qquad \zeta_t=\partial_t^3f(0),\\
+h_t&=(\partial_t^2f,\partial_t\partial_{n_1}f,\dots,\partial_t\partial_{n_m}f)(0),\qquad A_t=\bigl(\partial_{n_i}\partial_{n_j}f(0)\bigr)_{i,j=1}^m ,
+\end{aligned}
+\end{equation}
+let $H_t$ be the Hessian of $f$ at $0$ in the frame (so that $h_t$ is its first row and $A_t$ its lower right $m\times m$ block), and let
+\[
+X_t=(g_t,\zeta_t,\operatorname{svec}H_t)\in\R^N,\qquad N=d+1+\tfrac{d(d+1)}2 .
+\]
+Call $K$ \emph{admissible} if $\Cov(X_t)$ is positive definite for every frame. For admissible $K$ put
+\begin{equation}\label{eq:correction-tauD}
+\tau_t^2=\Var(\zeta_t\mid g_t=0),\qquad D_t=\E\bigl[(\det A_t)^2\,\ind_{\{A_t\prec0\}}\bigm| h_t=0\bigr],
+\end{equation}
+and define
+\begin{equation}\label{eq:correction-coef}
+c_d[K]=\frac{\Gamma(7/6)}{24^{1/3}\sqrt\pi}\int_{S^{d-1}}p_{g_t}(0)\,p_{h_t}(0)\,\tau_t^{4/3}\,D_t\,d\sigma(t),
+\end{equation}
+where $p_{g_t}$ and $p_{h_t}$ are the densities of $g_t$ and $h_t$. By Lemma~\ref{lem:correction-frame} below the integrand depends only on $t$, and it is continuous. We put
+\[
+c_{d,\mathrm{ref}}=c_d[\varphi],\qquad c_{d,24}=c_d[K_{24}];
+\]
+$\varphi$ is admissible for every $d$ (Lemma~\ref{lem:correction-iso}), and $K_{24}$ is admissible for $d\in\{2,3\}$ (Lemma~\ref{lem:correction-cov}).
+\end{definition}
+
+The number $c_{d,\mathrm{ref}}$ is the value of the coefficient expression at the Euclidean covariance; its definition involves no persistence statement for a field on $\R^d$. No isotropy of $K$ is assumed in Definition~\ref{def:correction-coef}: the periodized covariance $K_{24}$ need not be rotation invariant, and its coefficient is evaluated with the full covariance of $X_t$ in every frame; in particular it is not claimed to depend only on three isotropic moment scalars.
+
+\begin{lemma}[the case $d=3$]\label{lem:correction-d3}
+Let $d=3$ and let $K$ be admissible. With $u_t=-\zeta_t/12$, $\Sigma_g(t)=\Cov(g_t)$, $\Sigma_h(t)=\Cov(h_t)$, $\sigma_t^2$ as in (2.6) and $D_t$ as in (2.8) of the main text,
+\begin{equation}\label{eq:correction-d3}
+c_3[K]=B_3\int_{S^2}\frac{(\sigma_t^2)^{2/3}D_t}{\sqrt{\det\Sigma_g(t)\det\Sigma_h(t)}}\,d\sigma(t),\qquad B_3=\frac{3\,\Gamma(7/6)}{2^{4/3}\pi^{7/2}} .
+\end{equation}
+Thus $c_3[K]$ is the expression (2.9) of the main text for the field with covariance $K$. In particular $c_{3,24}$ is the coefficient of Theorem~2.1 of the main text, and $c_{3,\mathrm{ref}}=c_{3,\infty}$ is its value for the Bargmann--Fock covariance, given in closed form by (2.11) of the main text.
+\end{lemma}
+
+\begin{proof}
+For $d=3$ the vectors $g_t$ and $h_t$ of \eqref{eq:correction-jetvars} are those of (2.2) and (2.3) of the main text, and $A_t=Q_t(q_t)$ in the notation of (2.4); hence the quantity $D_t$ of \eqref{eq:correction-tauD} is the quantity $D_t$ of (2.8). The variable $\sigma_t^2$ of (2.6) is the Schur complement of $\Sigma_g(t)$ in the covariance of $(u_t,g_t)$, that is, $\sigma_t^2=\Var(u_t\mid g_t=0)=\tau_t^2/144$. Moreover $p_{g_t}(0)=(2\pi)^{-3/2}(\det\Sigma_g(t))^{-1/2}$ and $p_{h_t}(0)=(2\pi)^{-3/2}(\det\Sigma_h(t))^{-1/2}$. Substituting in \eqref{eq:correction-coef},
+\[
+c_3[K]=\frac{\Gamma(7/6)\,144^{2/3}}{24^{1/3}\sqrt\pi\,(2\pi)^3}\int_{S^2}\frac{(\sigma_t^2)^{2/3}D_t}{\sqrt{\det\Sigma_g(t)\det\Sigma_h(t)}}\,d\sigma(t),
+\]
+and $144^{2/3}/24^{1/3}=(144^2/24)^{1/3}=864^{1/3}=6\cdot2^{2/3}$, so the prefactor is $6\cdot2^{2/3}\Gamma(7/6)/(8\pi^{7/2})=3\Gamma(7/6)/(2^{4/3}\pi^{7/2})=B_3$.
+\end{proof}
+
+\begin{theorem}[the side-24 correction]\label{thm:correction-main}
+Let $d\in\{2,3\}$ and $q=e^{-288}$. Then
+\begin{equation}\label{eq:correction-main}
+\Bigl|\frac{c_{d,24}}{c_{d,\mathrm{ref}}}-1-P_d(24)\,q\Bigr|<10^{-216},
+\end{equation}
+where
+\begin{equation}\label{eq:correction-Pd}
+\begin{gathered}
+P_d(L)=-\frac{10L^6}{3(d+2)(d+4)}+\frac{(d+4)L^4}{d+2}-dL^2,\\
+P_2(24)=-26045568,\qquad P_3(24)=-\frac{620813376}{35}.
+\end{gathered}
+\end{equation}
+In particular $c_{d,24}<c_{d,\mathrm{ref}}$ for $d=2$ and for $d=3$.
+\end{theorem}
+
+The number $P_d(L)q_L$ is the normalized first variation of the coefficient along the nearest-image jet (Proposition~\ref{prop:correction-firstvar}). The proof of Theorem~\ref{thm:correction-main} is completed at the end of this section; all constants in it are explicit integers and rationals.
+
+\begin{corollary}[(2.10) of the main text]\label{cor:correction-main}
+With $P_3(L)=-L^2(10L^4-147L^2+315)/105$,
+\begin{equation}\label{eq:correction-main3}
+\frac{c_{3,24}}{c_{3,\infty}}-1=P_3(24)\,e^{-288}+\varepsilon_{24}=-\frac{620813376}{35}\,e^{-288}+\varepsilon_{24},\qquad|\varepsilon_{24}|<10^{-216},
+\end{equation}
+and $c_{3,24}<c_{3,\infty}$.
+\end{corollary}
+
+\begin{proof}
+For $d=3$, $P_d(L)=-\frac{2}{21}L^6+\frac75L^4-3L^2=-L^2(10L^4-147L^2+315)/105$. The claim is Theorem~\ref{thm:correction-main} for $d=3$, with $c_{3,\mathrm{ref}}=c_{3,\infty}$ by Lemma~\ref{lem:correction-d3}.
+\end{proof}
+
+\subsection{A Gaussian integral over a fixed subspace}
+
+\begin{definition}[pinned subspace and weight]\label{def:correction-subspace}
+Write the coordinates of $\R^N$ as $\xi=(\xi_g,\xi_\zeta,\xi_H)$, matching $X_t=(g_t,\zeta_t,\operatorname{svec}H_t)$. Let $\xi_h$ be the $d$ coordinates of $\xi_H$ that correspond to the first row of $H_t$ (the entry $H_{00}$ and the $\sqrt2$-scaled entries $H_{0i}$), and $\xi_A$ the $m(m+1)/2$ coordinates that correspond to the block $A_t$. The \emph{pinned subspace} is
+\[
+\mathcal P=\{\xi\in\R^N:\ \xi_g=0,\ \xi_h=0\};
+\]
+it has dimension $w=1+m(m+1)/2$ and coordinates $(\xi_\zeta,\xi_A)$, and $d\xi_{\mathcal P}$ is Lebesgue measure in these coordinates. For $\xi\in\mathcal P$ let $A(\xi)$ be the symmetric $m\times m$ matrix with $\operatorname{svec}A(\xi)=\xi_A$, and put
+\begin{equation}\label{eq:correction-weight}
+\psi(\xi)=|\xi_\zeta|^{4/3}\,(\det A(\xi))^2\,\ind_{\{A(\xi)\prec0\}},\qquad p=\tfrac43+2m,\qquad \nu=w+p .
+\end{equation}
+For a positive definite $N\times N$ matrix $C$ define
+\begin{equation}\label{eq:correction-Psi}
+\Psi(C)=\int_{\mathcal P}\psi(\xi)\,\varphi_C(\xi)\,d\xi_{\mathcal P}.
+\end{equation}
+\end{definition}
+
+The weight $\psi$ is nonnegative and measurable, bounded on the unit sphere of $\mathcal P$, and positively homogeneous of degree $p$: $\psi(\lambda\xi)=\lambda^p\psi(\xi)$ for $\lambda>0$. It is never differentiated; the covariance enters \eqref{eq:correction-Psi} only through the Gaussian density, so the cone $\{A\prec0\}$ is a fixed part of the integrand and there is no moving boundary. The dimensions are
+\begin{equation}\label{eq:correction-dims}
+(N,w,p,\nu)=\bigl(6,2,\tfrac{10}3,\tfrac{16}3\bigr)\ \ (d=2),\qquad (N,w,p,\nu)=\bigl(10,4,\tfrac{16}3,\tfrac{28}3\bigr)\ \ (d=3),
+\end{equation}
+and $\nu-N=-\tfrac23$ for every $d\ge2$.
+
+\begin{lemma}[fixed-subspace representation]\label{lem:correction-subspace}
+Let $C$ be a positive definite $N\times N$ matrix whose entries between the coordinates $(\xi_g,\xi_\zeta)$ and the coordinates $\xi_H$ vanish, and let $X_t=(g_t,\zeta_t,\operatorname{svec}H_t)$ be a centered Gaussian vector with covariance $C$, with $h_t$ and $A_t$ the first row and the lower right block of $H_t$ and with $\tau_t^2$ and $D_t$ defined by \eqref{eq:correction-tauD}. Then
+\begin{equation}\label{eq:correction-subspace-rep}
+\Psi(C)=2^{-m/2}\,M_{4/3}\;p_{g_t}(0)\,p_{h_t}(0)\,\tau_t^{4/3}\,D_t .
+\end{equation}
+If $K$ is admissible and $C_t=\Cov(X_t)$ is the covariance of Definition~\ref{def:correction-coef} in a frame at $t$, then $C_t$ has this block structure, and
+\begin{equation}\label{eq:correction-coef-Psi}
+c_d[K]=2^{m/2}\,96^{-1/3}\int_{S^{d-1}}\Psi(C_t)\,d\sigma(t).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+For an even covariance $K$, the odd derivatives of $K$ vanish at $0$, so
+\[
+\Cov\bigl(\partial^\alpha f(0),\partial^\beta f(0)\bigr)=(-1)^{|\beta|}\partial^{\alpha+\beta}K(0)=0\qquad\text{whenever $|\alpha|+|\beta|$ is odd;}
+\]
+since $g_t$ and $\zeta_t$ have odd order and $H_t$ has order two, $C_t$ has the stated block structure. Under this structure the Gaussian vectors $(g_t,\zeta_t)$ and $H_t$ are uncorrelated, hence independent. For $\xi\in\mathcal P$ factor the joint density as
+\[
+\varphi_{C}(\xi)=p_{(g_t,\xi_h(X_t))}(0,0)\cdot p(\xi_\zeta,\xi_A),
+\]
+where $p(\cdot)$ is the conditional density of $(\zeta_t,\operatorname{svec}A_t)$ given $g_t=0$ and $\xi_h(X_t)=0$. The coordinates $\xi_h(X_t)=(H_{00},\sqrt2H_{01},\dots,\sqrt2H_{0m})$ are the image of $h_t$ under a linear map of determinant $2^{m/2}$, so by independence $p_{(g_t,\xi_h(X_t))}(0,0)=2^{-m/2}p_{g_t}(0)p_{h_t}(0)$, and conditioning on $\xi_h(X_t)=0$ is conditioning on $h_t=0$. Given $g_t=0$ and $h_t=0$, the variable $\zeta_t$ is centered Gaussian with variance $\tau_t^2$ and is independent of $A_t$, whose law is the conditional law given $h_t=0$. Therefore
+\[
+\Psi(C)=2^{-m/2}p_{g_t}(0)p_{h_t}(0)\;\E\bigl[|\zeta_t|^{4/3}\bigm| g_t=0\bigr]\;\E\bigl[(\det A_t)^2\ind_{\{A_t\prec0\}}\bigm| h_t=0\bigr],
+\]
+and $\E[|\zeta_t|^{4/3}\mid g_t=0]=M_{4/3}\tau_t^{4/3}$. This is \eqref{eq:correction-subspace-rep}. Since $M_{4/3}=2^{2/3}\Gamma(7/6)/\sqrt\pi$ and $24^{1/3}2^{2/3}=96^{1/3}$, the prefactor in \eqref{eq:correction-coef} is $\Gamma(7/6)/(24^{1/3}\sqrt\pi)=96^{-1/3}M_{4/3}$, and \eqref{eq:correction-coef-Psi} follows.
+\end{proof}
+
+\begin{lemma}[transverse-frame invariance]\label{lem:correction-frame}
+Let $(t,n_1,\dots,n_m)$ and $(t,n_1',\dots,n_m')$ be frames at $t$, with $n_j'=\sum_iO_{ij}n_i$ for some $O\in O(m)$, and let $X_t,X_t'$ be the corresponding coordinate vectors. Then $X_t'=S_OX_t$ for an orthogonal $N\times N$ matrix $S_O$ that maps $\mathcal P$ onto itself and satisfies $\psi(S_O\xi)=\psi(\xi)$ for $\xi\in\mathcal P$. Consequently $\Psi(S_OCS_O^{\top})=\Psi(C)$ for every positive definite $C$, the value $\Psi(C_t)$ and the integrand of \eqref{eq:correction-coef} do not depend on the transverse frame, and $t\mapsto\Psi(C_t)$ is continuous on $S^{d-1}$.
+\end{lemma}
+
+\begin{proof}
+In the new frame $g_t'=\operatorname{diag}(1,O^{\top})g_t$, $\zeta_t'=\zeta_t$, $h_t'=\operatorname{diag}(1,O^{\top})h_t$ and $A_t'=O^{\top}A_tO$. The map $U\mapsto O^{\top}UO$ preserves the Frobenius norm, and $\operatorname{svec}$ is an isometry, so $X_t'=S_OX_t$ with $S_O$ orthogonal. The matrix $S_O$ maps $\{\xi_g=0,\ \xi_h=0\}$ onto itself and acts on $\mathcal P$ by $(\xi_\zeta,A)\mapsto(\xi_\zeta,O^{\top}AO)$; since $(\det O^{\top}AO)^2=(\det A)^2$ and $O^{\top}AO\prec0$ if and only if $A\prec0$, the weight is preserved. As $S_O$ is orthogonal, $\varphi_{S_OCS_O^{\top}}(\xi)=\varphi_C(S_O^{\top}\xi)$, and the substitution $\xi=S_O\eta$ on $\mathcal P$, whose restriction to $\mathcal P$ is orthogonal, gives $\Psi(S_OCS_O^{\top})=\Psi(C)$. Applied to $C=C_t$, and combined with \eqref{eq:correction-subspace-rep}, this shows that $\Psi(C_t)$ and $p_{g_t}(0)p_{h_t}(0)\tau_t^{4/3}D_t$ depend only on $t$. Finally, $\Psi$ is continuous on positive definite matrices by dominated convergence (a locally uniform Gaussian bound), frames can be chosen continuously near each point of $S^{d-1}$, and the entries of $C_t$ are derivatives of $K$ at $0$ contracted with frame vectors; hence $t\mapsto\Psi(C_t)$ is continuous.
+\end{proof}
+
+\subsection{Relative bounds for the covariance derivatives}
+
+\begin{lemma}[Gaussian score identities]\label{lem:correction-score}
+Let $C_0$ be positive definite, $\Delta$ symmetric, and $C_s=C_0+s\Delta$ positive definite for $s$ in an interval. For $\xi\in\R^N$ put $B_s=C_s^{-1/2}\Delta C_s^{-1/2}$ and $y_s=C_s^{-1/2}\xi$. Then
+\begin{equation}\label{eq:correction-score}
+\partial_s\log\varphi_{C_s}(\xi)=-\tfrac12\tr B_s+\tfrac12\,y_s^{\top}B_sy_s,\qquad
+\partial_s^2\log\varphi_{C_s}(\xi)=\tfrac12\tr\bigl(B_s^2\bigr)-y_s^{\top}B_s^2y_s .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+We have $\log\varphi_{C_s}(\xi)=-\frac N2\log(2\pi)-\frac12\log\det C_s-\frac12\xi^{\top}C_s^{-1}\xi$, and
+\begin{gather*}
+\partial_s\log\det C_s=\tr(C_s^{-1}\Delta)=\tr B_s,\qquad \partial_s^2\log\det C_s=-\tr(C_s^{-1}\Delta C_s^{-1}\Delta)=-\tr(B_s^2),\\
+\partial_sC_s^{-1}=-C_s^{-1}\Delta C_s^{-1},\qquad \partial_s^2C_s^{-1}=2C_s^{-1}\Delta C_s^{-1}\Delta C_s^{-1}.
+\end{gather*}
+Hence $\partial_s(\xi^{\top}C_s^{-1}\xi)=-y_s^{\top}B_sy_s$ and $\partial_s^2(\xi^{\top}C_s^{-1}\xi)=2y_s^{\top}B_s^2y_s$. The sign of the last term in \eqref{eq:correction-score} is essential.
+\end{proof}
+
+\begin{lemma}[radial law]\label{lem:correction-radial}
+Let $C$ be positive definite and let $\xi$ be a random point of $\mathcal P$ with density proportional to $\psi(\xi)\varphi_C(\xi)$ with respect to $d\xi_{\mathcal P}$. Then $R=(\xi^{\top}C^{-1}\xi)^{1/2}$ has density proportional to $R^{\nu-1}e^{-R^2/2}$ on $(0,\infty)$, that is, $R^2$ has the $\chi^2$ law with parameter $\nu$ (not necessarily an integer). In particular
+\begin{equation}\label{eq:correction-chi}
+\E R^2=\nu,\qquad \E R^4=\nu(\nu+2).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+The linear map $C^{-1/2}$ maps $\mathcal P$ onto the $w$-dimensional subspace $\mathcal P'=C^{-1/2}\mathcal P$ with a constant Jacobian. For $\eta\in\mathcal P'$, $\varphi_C(C^{1/2}\eta)=(2\pi)^{-N/2}(\det C)^{-1/2}e^{-|\eta|^2/2}$ and, by homogeneity, $\psi(C^{1/2}\eta)=|\eta|^p\,\psi(C^{1/2}\eta/|\eta|)$. In polar coordinates $\eta=R\omega$ on $\mathcal P'$, where $d\eta=R^{w-1}dR\,d\omega$, the law of $\eta=C^{-1/2}\xi$ is therefore proportional to $R^{w+p-1}e^{-R^2/2}dR\times\psi(C^{1/2}\omega)\,d\omega$. The angular factor has finite positive mass, because $\psi$ is bounded on bounded sets and positive on a nonempty open subset of $\mathcal P$; the constant Jacobian and the angular factor cancel on normalizing. Hence $R=|\eta|$ has density proportional to $R^{\nu-1}e^{-R^2/2}$. Integration by parts gives $\int_0^\infty R^{\nu+1}e^{-R^2/2}dR=\nu\int_0^\infty R^{\nu-1}e^{-R^2/2}dR$, so $\E R^2=\nu$, and in the same way $\E R^4=(\nu+2)\E R^2$.
+\end{proof}
+
+\begin{proposition}[second-order bound]\label{prop:correction-taylor}
+Let $C_0$ be positive definite, $\Delta$ symmetric,
+\[
+\theta=\bigl\|C_0^{-1/2}\Delta C_0^{-1/2}\bigr\|<1,
+\]
+and $C_s=C_0+s\Delta$ for $0\le s\le1$. Then $s\mapsto\Psi(C_s)$ is twice continuously differentiable on $[0,1]$, its derivatives may be computed under the integral sign, and for $0\le s\le1$:
+\begin{enumerate}[(a)]
+\item $(1-\theta)C_0\preccurlyeq C_s\preccurlyeq(1+\theta)C_0$ and $\|B_s\|\le\theta/(1-\theta)$;
+\item with $R_s^2=\xi^{\top}C_s^{-1}\xi$,
+\begin{equation}\label{eq:correction-pointwise}
+\bigl|\partial_s^2\varphi_{C_s}(\xi)\bigr|\le\Bigl(\frac{\theta}{1-\theta}\Bigr)^2\varphi_{C_s}(\xi)\Bigl[\frac{(N+R_s^2)^2}4+\frac N2+R_s^2\Bigr];
+\end{equation}
+\item with $\mathcal K(N,\nu)=\bigl[N^2+2N\nu+\nu(\nu+2)\bigr]/4+N/2+\nu$,
+\begin{equation}\label{eq:correction-second}
+\bigl|\partial_s^2\Psi(C_s)\bigr|\le\mathcal K(N,\nu)\Bigl(\frac{\theta}{1-\theta}\Bigr)^2\Psi(C_s);
+\end{equation}
+\item
+\begin{equation}\label{eq:correction-ratio}
+\Psi(C_s)\le(1-\theta)^{-N/2}(1+\theta)^{\nu/2}\,\Psi(C_0).
+\end{equation}
+\end{enumerate}
+If moreover $d\in\{2,3\}$ and $\theta\le1/4$, then, with $D\Psi(C_0)[\Delta]=\partial_s\Psi(C_s)|_{s=0}$,
+\begin{equation}\label{eq:correction-taylor}
+\bigl|\Psi(C_0+\Delta)-\Psi(C_0)-D\Psi(C_0)[\Delta]\bigr|\le2000\,\theta^2\,\Psi(C_0).
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+(a) We have $C_s=C_0^{1/2}(I+sC_0^{-1/2}\Delta C_0^{-1/2})C_0^{1/2}$ and $\|sC_0^{-1/2}\Delta C_0^{-1/2}\|\le\theta$, which gives the two-sided bound. For every vector $\eta$, $|\eta^{\top}\Delta\eta|\le\theta\,\eta^{\top}C_0\eta\le\theta(1-\theta)^{-1}\eta^{\top}C_s\eta$, so $\|B_s\|\le\theta/(1-\theta)$.
+
+(b) By Lemma~\ref{lem:correction-score}, $\partial_s^2\varphi_{C_s}/\varphi_{C_s}=(\partial_s\log\varphi_{C_s})^2+\partial_s^2\log\varphi_{C_s}$. Since $|\tr B|\le N\|B\|$, $|y^{\top}By|\le\|B\|\,|y|^2$, $|\tr B^2|\le N\|B\|^2$ and $y^{\top}B^2y\le\|B\|^2|y|^2$, and $|y_s|^2=R_s^2$, we get $|\partial_s\log\varphi_{C_s}|\le\|B_s\|(N+R_s^2)/2$ and $|\partial_s^2\log\varphi_{C_s}|\le\|B_s\|^2(N/2+R_s^2)$. Now use (a).
+
+Differentiation under the integral sign. By (a), for $0\le s\le1$ and $\xi\in\mathcal P$,
+\[
+\varphi_{C_s}(\xi)\le(1-\theta)^{-N/2}(2\pi)^{-N/2}(\det C_0)^{-1/2}\exp\Bigl(-\frac{\xi^{\top}C_0^{-1}\xi}{2(1+\theta)}\Bigr),\qquad R_s^2\le\frac{\xi^{\top}C_0^{-1}\xi}{1-\theta},
+\]
+so, by (b) and the analogous bound for the first derivative, $|\partial_s^j\varphi_{C_s}(\xi)|$ ($j=1,2$) is bounded uniformly in $s$ by a constant multiple of $(1+\xi^{\top}C_0^{-1}\xi)^2\exp(-\xi^{\top}C_0^{-1}\xi/(2(1+\theta)))$. Its product with $\psi$ is integrable on $\mathcal P$, because $\psi(\xi)\le|\xi|^p$. Dominated convergence shows that $s\mapsto\Psi(C_s)$ is twice continuously differentiable and that the derivatives are the integrals of $\psi\,\partial_s^j\varphi_{C_s}$.
+
+(c) Integrate \eqref{eq:correction-pointwise} against $\psi$. By Lemma~\ref{lem:correction-radial} applied to $C_s$, $\int_{\mathcal P}\psi\varphi_{C_s}[(N+R_s^2)^2/4+N/2+R_s^2]\,d\xi_{\mathcal P}=\Psi(C_s)\bigl([N^2+2N\nu+\nu(\nu+2)]/4+N/2+\nu\bigr)$.
+
+(d) By (a), $\det C_s\ge(1-\theta)^N\det C_0$ and $\xi^{\top}C_s^{-1}\xi\ge(1+\theta)^{-1}\xi^{\top}C_0^{-1}\xi$, so $\varphi_{C_s}(\xi)\le(1-\theta)^{-N/2}\varphi_{C_0}\bigl((1+\theta)^{-1/2}\xi\bigr)$. The substitution $\xi=(1+\theta)^{1/2}\eta$ on $\mathcal P$, with $d\xi_{\mathcal P}=(1+\theta)^{w/2}d\eta_{\mathcal P}$ and $\psi(\xi)=(1+\theta)^{p/2}\psi(\eta)$, gives $\int_{\mathcal P}\psi(\xi)\varphi_{C_0}((1+\theta)^{-1/2}\xi)\,d\xi_{\mathcal P}=(1+\theta)^{\nu/2}\Psi(C_0)$.
+
+Finally, by Taylor's formula with integral remainder, $\Psi(C_1)-\Psi(C_0)-\partial_s\Psi(C_s)|_{s=0}=\int_0^1(1-s)\,\partial_s^2\Psi(C_s)\,ds$, so by (c) and (d) the left side of \eqref{eq:correction-taylor} is at most
+\[
+\tfrac12\,\mathcal K(N,\nu)\,(1-\theta)^{-2}\theta^2\,(1-\theta)^{-N/2}(1+\theta)^{\nu/2}\,\Psi(C_0).
+\]
+For $d=3$, $\mathcal K(10,\frac{28}3)=\frac{1012}9$; for $\theta\le\frac14$, $(1-\theta)^{-2}\le\frac{16}9$ and $(1-\theta)^{-5}(1+\theta)^{14/3}\le(\frac43)^5(\frac54)^{14/3}\le(\frac53)^5=\frac{3125}{243}$. For $d=2$, $\mathcal K(6,\frac{16}3)=\frac{388}9$ and $(1-\theta)^{-3}(1+\theta)^{8/3}\le(1-\theta)^{-5}(1+\theta)^{14/3}$, so each factor is bounded by its value for $d=3$. Hence the bound is at most
+\[
+\frac12\cdot\frac{1012}9\cdot\frac{16}9\cdot\frac{3125}{243}\,\theta^2\Psi(C_0)=\frac{25300000}{19683}\,\theta^2\Psi(C_0)\le2000\,\theta^2\Psi(C_0).\qedhere
+\]
+\end{proof}
+
+\begin{lemma}[first-derivative bound]\label{lem:correction-first}
+Let $C_0$ be positive definite and $R_0$ symmetric, and put $B=C_0^{-1/2}R_0C_0^{-1/2}$. Then
+\[
+D\Psi(C_0)[R_0]=\int_{\mathcal P}\psi(\xi)\varphi_{C_0}(\xi)\Bigl[-\tfrac12\tr B+\tfrac12\,\xi^{\top}C_0^{-1}R_0C_0^{-1}\xi\Bigr]d\xi_{\mathcal P},
+\]
+which is linear in $R_0$, and
+\begin{equation}\label{eq:correction-first}
+\bigl|D\Psi(C_0)[R_0]\bigr|\le\frac{N+\nu}2\,\bigl\|C_0^{-1/2}R_0C_0^{-1/2}\bigr\|\,\Psi(C_0).
+\end{equation}
+For $d=3$, $(N+\nu)/2=\frac{29}3$; for $d=2$, $(N+\nu)/2=\frac{17}3$.
+\end{lemma}
+
+\begin{proof}
+Apply Proposition~\ref{prop:correction-taylor} to $\Delta=\epsilon R_0$ with $\epsilon>0$ so small that $\epsilon\|B\|<1$, and Lemma~\ref{lem:correction-score} at $s=0$; this gives the formula. The bracket is at most $\|B\|(N+R^2)/2$ in absolute value, with $R^2=\xi^{\top}C_0^{-1}\xi$, and $\E R^2=\nu$ by Lemma~\ref{lem:correction-radial}.
+\end{proof}
+
+\begin{remark}[a homogeneity check]\label{rem:correction-homogeneity}
+For $a>0$, $\varphi_{aC}(\xi)=a^{-N/2}\varphi_C(a^{-1/2}\xi)$, and the substitution $\xi=a^{1/2}\eta$ on $\mathcal P$ gives
+\begin{equation}\label{eq:correction-homog}
+\Psi(aC)=a^{(w+p-N)/2}\,\Psi(C)=a^{-1/3}\,\Psi(C).
+\end{equation}
+Along $\Delta=C_0$ the score identities \eqref{eq:correction-score} have $B_0=I$, and Lemma~\ref{lem:correction-radial} gives the first derivative $\E[(R^2-N)/2]=(\nu-N)/2=-\frac13$ and the second derivative $\E[(R^2-N)^2/4+N/2-R^2]=[\nu(\nu+2)-2N\nu+N^2]/4+N/2-\nu=\frac49$ for $d=2,3$, in agreement with $\frac{d}{da}a^{-1/3}=-\frac13$ and $\frac{d^2}{da^2}a^{-1/3}=\frac49$ at $a=1$. Replacing the ambient dimension $N$ by the subspace dimension $w$ in these computations (for instance in $\tr B_0=N$) would violate this check. By \eqref{eq:correction-coef-Psi}, \eqref{eq:correction-homog} says that replacing $f$ by $Af$ ($A>0$) multiplies the coefficient by $A^{-2/3}$. This is consistent with lifetimes: the lifetime density of $Af$ at $\ell$ is $A^{-1}$ times that of $f$ at $\ell/A$, which turns $c\,\ell^{-1/3}$ into $A^{-2/3}c\,\ell^{-1/3}$.
+\end{remark}
+
+\subsection{The side-24 covariance jet}
+
+\begin{lemma}[derivatives of the Gaussian]\label{lem:correction-hermite}
+For $k\ge0$, unit vectors $v_1,\dots,v_k$ and $x\in\R^d$,
+\begin{equation}\label{eq:correction-wick}
+D^k\varphi(x)[v_1,\dots,v_k]=\varphi(x)\sum_{\mathsf P}\ \prod_{\{a,b\}\in\mathsf P}(-v_a\cdot v_b)\prod_{c\notin\cup\mathsf P}(-x\cdot v_c),
+\end{equation}
+the sum running over all partial matchings $\mathsf P$ of $\{1,\dots,k\}$. Consequently
+\[
+\bigl|D^k\varphi(x)[v_1,\dots,v_k]\bigr|\le e^{-|x|^2/2}\sum_{i=0}^{\lfloor k/2\rfloor}\frac{k!\,|x|^{k-2i}}{2^i\,i!\,(k-2i)!},
+\]
+and for $k\le6$
+\begin{equation}\label{eq:correction-derivbound}
+\bigl|D^k\varphi(x)[v_1,\dots,v_k]\bigr|\le76\,|x|^6e^{-|x|^2/2}\quad(|x|\ge1),\qquad\bigl|D^k\varphi(0)[v_1,\dots,v_k]\bigr|\le15 .
+\end{equation}
+Moreover, for a unit vector $v$, $D^k\varphi(x)[v,\dots,v]=(-1)^k\He_k(x\cdot v)\,\varphi(x)$, where $\He_k$ is the probabilists' Hermite polynomial.
+\end{lemma}
+
+\begin{proof}
+Formula \eqref{eq:correction-wick} follows by induction on $k$: differentiating $\varphi$ in the direction $v_{k+1}$ produces the factor $-x\cdot v_{k+1}$ (the index $k+1$ unmatched), and differentiating a factor $-x\cdot v_c$ produces $-v_c\cdot v_{k+1}$ (the index $k+1$ matched with $c$). There are $k!/(2^ii!(k-2i)!)$ partial matchings with $i$ pairs, and $|v_a\cdot v_b|\le1$, $|x\cdot v_c|\le|x|$. For $k=0,1,\dots,6$ the coefficient sums are $1,1,2,4,10,26,76$; the largest is $1+15+45+15=76$ at $k=6$, and for $|x|\ge1$ every power $|x|^{k-2i}$ with $k\le6$ is at most $|x|^6$. At $x=0$ only perfect matchings contribute, and there are $(k-1)!!\le15$ of them for even $k\le6$. For the last statement, $\varphi(x+sv)=\varphi(x)\exp(-s\,x\cdot v-s^2/2)$, and the generating function $\exp(us-s^2/2)=\sum_k\He_k(u)s^k/k!$ with $u=-x\cdot v$, together with $\He_k(-u)=(-1)^k\He_k(u)$, gives the claim.
+\end{proof}
+
+\begin{lemma}[lattice sums]\label{lem:correction-lattice}
+Let $d\in\{2,3\}$. Then $10^{-126}<q<10^{-125}$, and
+\begin{equation}\label{eq:correction-lattice}
+\sum_{n\in\Z^d\setminus\{0\}}|n|^6q^{|n|^2}\le1458\,q,\qquad Z_{24}-1=\sum_{n\in\Z^d\setminus\{0\}}q^{|n|^2}\le1458\,q .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+The Taylor polynomial of $e^x$ of degree $20$ at $x=288/125$, a sum of positive rational terms, exceeds $10$; hence $e^{288}=(e^{288/125})^{125}>10^{125}$. The Taylor polynomial of degree $40$ at $x=16/7$ plus the geometric bound $(x^{41}/41!)/(1-x/42)$ for the remaining terms is below $10$; hence $e^{288}=(e^{16/7})^{126}<10^{126}$. (Both inequalities are verified in exact rational arithmetic.) Group the points $n\ne0$ by $j=|n|_\infty\ge1$. For $d\le3$ there are at most $(2j+1)^3-(2j-1)^3=24j^2+2\le27j^3$ of them, and each satisfies $j^2\le|n|^2\le3j^2$, so $|n|^6\le27j^6$ and $q^{|n|^2}\le q^{j^2}$. Hence the first sum is at most $729\sum_{j\ge1}j^9q^{j^2}$. The ratio of consecutive terms is $((j+1)/j)^9q^{2j+1}\le512q^3<\frac12$, so $\sum_{j\ge1}j^9q^{j^2}\le2q$ and the first sum is at most $1458q$. The second sum is bounded by the first.
+\end{proof}
+
+\begin{lemma}[jet comparison]\label{lem:correction-jet}
+Let $d\in\{2,3\}$ and
+\begin{equation}\label{eq:correction-E}
+B_0=76\cdot24^6+15=14523826191,\qquad E=1458\,B_0\cdot10^{-125}=21175738586478\cdot10^{-125}.
+\end{equation}
+For every $k\le6$ and all unit vectors $v_1,\dots,v_k$,
+\begin{equation}\label{eq:correction-jetbound}
+\bigl|D^kK_{24}(0)[v_1,\dots,v_k]-D^k\varphi(0)[v_1,\dots,v_k]\bigr|\le1458\,B_0\,q<E .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+The series $\sum_n\varphi(x+24n)$ converges, with all its derivatives, uniformly on compact sets, so
+\[
+D^kK_{24}(0)-D^k\varphi(0)=Z_{24}^{-1}\Bigl[\sum_{n\ne0}D^k\varphi(24n)-(Z_{24}-1)D^k\varphi(0)\Bigr],
+\]
+evaluated at $(v_1,\dots,v_k)$. Since $|24n|\ge24\ge1$ and $\varphi(24n)=q^{|n|^2}$, Lemma~\ref{lem:correction-hermite} gives $|D^k\varphi(24n)[\dots]|\le76\cdot24^6|n|^6q^{|n|^2}$ and $|D^k\varphi(0)[\dots]|\le15$. By Lemma~\ref{lem:correction-lattice} and $Z_{24}\ge1$, the difference is at most $(76\cdot24^6+15)\cdot1458q=1458B_0q$, and $1458B_0q<E$ because $q<10^{-125}$. This bound concerns the infinite image sum and holds for all directions, including mixed ones, through total order six, with the exact variance-one normalization.
+\end{proof}
+
+\begin{lemma}[reference floor and covariance comparison]\label{lem:correction-cov}
+Let $d\in\{2,3\}$, let $\mathfrak f$ be a frame, and let $C_0$ and $C_{24}$ be the covariance matrices of $X_t$ for $K=\varphi$ and $K=K_{24}$.
+\begin{enumerate}[(a)]
+\item $C_0$ does not depend on the frame and $C_0\succcurlyeq\frac13I$. Precisely, $C_0$ is block diagonal: the block of $(\partial_tf(0),\zeta_t)$ is $\left(\begin{smallmatrix}1&-3\\-3&15\end{smallmatrix}\right)$, the transverse gradient has covariance $I_m$, and on the coordinates $\operatorname{svec}H_t$ the covariance is the operator $\operatorname{svec}U\mapsto\operatorname{svec}((\tr U)I+2U)$, with eigenvalue $d+2$ on $\operatorname{svec}I$ and $2$ on traceless matrices.
+\item Every entry of $C_{24}-C_0$ has absolute value less than $2E$, and $\|C_{24}-C_0\|\le20E$.
+\item
+\begin{equation}\label{eq:correction-theta}
+\theta=\bigl\|C_0^{-1/2}(C_{24}-C_0)C_0^{-1/2}\bigr\|\le60E=:\theta_0=87480\,B_0\cdot10^{-125}<\tfrac14 .
+\end{equation}
+\end{enumerate}
+In particular $(1-\theta_0)C_0\preccurlyeq C_{24}\preccurlyeq(1+\theta_0)C_0$ in every frame; $\varphi$ and $K_{24}$ are admissible.
+\end{lemma}
+
+\begin{proof}
+The entry of $\Cov(X_t)$ between coordinates built from frame-direction derivatives $\partial^\alpha$ and $\partial^\beta$ is $c_\alpha c_\beta(-1)^{|\beta|}D^{|\alpha|+|\beta|}K(0)[e_\alpha,e_\beta]$, with $c\in\{1,\sqrt2\}$ the $\operatorname{svec}$ scale, and it vanishes for odd $|\alpha|+|\beta|$.
+
+(a) By \eqref{eq:correction-wick} at $x=0$, $D^2\varphi(0)[u,v]=-u\cdot v$, $D^4\varphi(0)$ is the sum of the three products of inner products over the perfect matchings, and $D^6\varphi(0)$ is minus the sum over the fifteen perfect matchings. Hence $\Var(\partial_tf)=1$, $\Cov(\partial_tf,\zeta_t)=-D^4\varphi(0)[t,t,t,t]=-3$, $\Var(\zeta_t)=-D^6\varphi(0)[t,\dots,t]=15$, $\Cov(\partial_{n_i}f,\partial_{n_j}f)=\delta_{ij}$, and the remaining odd-block entries vanish because every perfect matching then pairs two orthogonal frame vectors. In the even block, $\Cov(H_{ab},H_{cd})=\delta_{ab}\delta_{cd}+\delta_{ac}\delta_{bd}+\delta_{ad}\delta_{bc}$, i.e.\ $\Cov(\langle H_t,U\rangle,\langle H_t,V\rangle)=\tr U\tr V+2\tr(UV)$ for symmetric $U,V$; since $\operatorname{svec}$ is an isometry, this is the stated operator, with eigenvalues $d+2$ and $2$. Only inner products of frame vectors occur, so $C_0$ is the same in every frame. The matrix $\left(\begin{smallmatrix}1&-3\\-3&15\end{smallmatrix}\right)-\frac13I$ has first principal minor $\frac23$ and determinant $\frac23\cdot\frac{44}3-9=\frac79$, both positive; the transverse gradient variances are $1$ and the even-block eigenvalues are at least $2$. Hence $C_0\succcurlyeq\frac13I$.
+
+(b) Each entry of $C_{24}-C_0$ is $c_\alpha c_\beta$ times a difference as in \eqref{eq:correction-jetbound}, so it is at most $2\cdot1458B_0q<2E$ in absolute value. The dimension is $N\le10$, so $\|C_{24}-C_0\|\le N\max|{\rm entry}|\le20E$.
+
+(c) $\|C_0^{-1/2}MC_0^{-1/2}\|\le\|C_0^{-1}\|\,\|M\|\le3\|M\|$, so $\theta\le60E=60\cdot1458B_0\cdot10^{-125}=87480B_0\cdot10^{-125}$, which is about $1.27\cdot10^{-110}<\frac14$. The final assertions follow from Proposition~\ref{prop:correction-taylor}(a).
+\end{proof}
+
+\subsection{The first normalized nearest-image variation}
+
+\begin{definition}[jets, frame matrices and the coefficient functional]\label{def:correction-jets}
+Let $\mathcal J_d$ be the real vector space of triples $J=(J_2,J_4,J_6)$ of symmetric multilinear forms on $\R^d$ of ranks $2,4,6$. The jet of an even $C^6$ function $K$ is $J(K)=(D^2K(0),D^4K(0),D^6K(0))$; put $J_0=J(\varphi)$ and $J_{24}=J(K_{24})$. The orthogonal group acts by $(g\cdot J)_k(v_1,\dots,v_k)=J_k(g^{-1}v_1,\dots,g^{-1}v_k)$, so that $J(K\circ g^{-1})=g\cdot J(K)$. For a frame $\mathfrak f=(e_0,\dots,e_m)$, index the coordinates of $\R^N$ by derivative words $\alpha$ in the frame: $\alpha=(a)$ for the $a$-th entry of $g_t$, $\alpha=(0,0,0)$ for $\zeta_t$, and $\alpha=(a,b)$, $a\le b$, for the $\operatorname{svec}$ entry of $H_{ab}$, with scale $c_\alpha=\sqrt2$ if $a<b$ and $c_\alpha=1$ otherwise. For $J\in\mathcal J_d$ let $C(J;\mathfrak f)$ be the symmetric $N\times N$ matrix
+\begin{equation}\label{eq:correction-CJ}
+C(J;\mathfrak f)_{\alpha\beta}=\begin{cases}c_\alpha c_\beta(-1)^{|\beta|}J_{|\alpha|+|\beta|}(e_\alpha,e_\beta),&|\alpha|+|\beta|\ \text{even},\\ 0,&|\alpha|+|\beta|\ \text{odd},\end{cases}
+\end{equation}
+where $e_\alpha=(e_{\alpha_1},e_{\alpha_2},\dots)$; for admissible $K$, $C(J(K);\mathfrak f)=\Cov(X_t)$ at $t=e_0$. Let $\mathcal U_d$ be the open set of $J$ with $C(J;\mathfrak f)$ positive definite for every frame, and for $J\in\mathcal U_d$ define
+\begin{equation}\label{eq:correction-Phi}
+\Phi_d(J)=2^{m/2}\,96^{-1/3}\int_{S^{d-1}}\Psi\bigl(C(J;\mathfrak f_t)\bigr)\,d\sigma(t),
+\end{equation}
+where $\mathfrak f_t$ is any frame at $t$ (Lemma~\ref{lem:correction-frame}, whose proof applies verbatim to $C(J;\cdot)$). Every $C(J;\mathfrak f)$ has the block structure of Lemma~\ref{lem:correction-subspace}, so \eqref{eq:correction-subspace-rep} applies to it, with $g_t,\zeta_t,H_t$ the coordinates of a centered Gaussian vector with covariance $C(J;\mathfrak f)$; likewise Lemma~\ref{lem:correction-d3} and its proof apply to $\Phi_3(J)$. By Lemma~\ref{lem:correction-subspace}, $c_d[K]=\Phi_d(J(K))$ for admissible $K$. For $d=3$, $\Phi_3$ is the coefficient functional $\Phi$ of (3.25) of the main text, and $K(0)$ does not enter. We write $C_0=C(J_0;\mathfrak f)$; by Lemma~\ref{lem:correction-iso} below, $C_0$ is positive definite and the same in every frame.
+\end{definition}
+
+\begin{lemma}[rotations]\label{lem:correction-rot}
+The matrix $C(J;\mathfrak f)$ is linear in $J$; $C(g\cdot J;g\mathfrak f)=C(J;\mathfrak f)$ for $g\in O(d)$, where $g\mathfrak f=(ge_0,\dots,ge_m)$; and $\Phi_d(g\cdot J)=\Phi_d(J)$ on $\mathcal U_d$.
+\end{lemma}
+
+\begin{proof}
+Linearity is clear from \eqref{eq:correction-CJ}, and $(g\cdot J)_k(ge_\alpha,ge_\beta)=J_k(e_\alpha,e_\beta)$. Hence $\Psi(C(g\cdot J;\mathfrak f_t))=\Psi(C(J;g^{-1}\mathfrak f_t))$, and $g^{-1}\mathfrak f_t$ is a frame at $g^{-1}t$. By transverse-frame invariance and the rotation invariance of $\sigma$, the integral \eqref{eq:correction-Phi} is unchanged.
+\end{proof}
+
+\begin{lemma}[isotropic jets]\label{lem:correction-iso}
+For $j=1,2,3$ let $S_{2j}(v_1,\dots,v_{2j})=\sum\prod(v_a\cdot v_b)$, the sum over the $(2j-1)!!$ perfect matchings of $\{1,\dots,2j\}$.
+\begin{enumerate}[(a)]
+\item $J\in\mathcal J_d$ is $O(d)$-invariant if and only if
+\begin{equation}\label{eq:correction-Jiso}
+J=J^{\rm iso}(a,m_4,\chi):=\bigl(-aS_2,\ \tfrac{m_4}3S_4,\ -\tfrac{\chi}{15}S_6\bigr)
+\end{equation}
+for real $a,m_4,\chi$; then $a=-J_2(v,v)$, $m_4=J_4(v,v,v,v)$ and $\chi=-J_6(v,\dots,v)$ for every unit vector $v$. Moreover $J_0=J^{\rm iso}(1,3,15)$, and the matrix $C(J^{\rm iso};\mathfrak f)$ does not depend on the frame.
+\item If $a>0$, $m_4>0$ and $\Omega:=a\chi-m_4^2>0$, then $J^{\rm iso}(a,m_4,\chi)\in\mathcal U_d$ and, in every frame,
+\begin{gather}
+\Cov(g_t)=aI_d,\qquad \Cov(h_t)=\operatorname{diag}\bigl(m_4,\tfrac{m_4}3,\dots,\tfrac{m_4}3\bigr),\qquad \tau_t^2=\chi-\frac{m_4^2}a=\frac\Omega a,\notag\\
+\Cov\bigl((A_t)_{ij},(A_t)_{kl}\bigm| h_t=0\bigr)=\frac{m_4}3\Bigl[\frac23\delta_{ij}\delta_{kl}+\delta_{ik}\delta_{jl}+\delta_{il}\delta_{jk}\Bigr],\label{eq:correction-isocond}
+\end{gather}
+so that $p_{g_t}(0)\propto a^{-d/2}$, $p_{h_t}(0)\propto m_4^{-d/2}$ and $D_t\propto m_4^{d-1}$. Consequently
+\begin{equation}\label{eq:correction-isoPsi}
+\Psi\bigl(C(J^{\rm iso}(a,m_4,\chi);\mathfrak f)\bigr)=\kappa_d\,a^{-d/2-2/3}\,m_4^{d/2-1}\,\Omega^{2/3}
+\end{equation}
+with a constant $\kappa_d>0$ depending only on $d$.
+\item At $(a,m_4,\chi)=(1,3,15)$, where $\Omega=6$,
+\begin{equation}\label{eq:correction-isodiff}
+d\log\Psi=\Bigl(1-\frac d2\Bigr)da+\Bigl(\frac d6-1\Bigr)dm_4+\frac{d\chi}9 .
+\end{equation}
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) If $J_{2j}$ is invariant, the polynomial $P(x)=J_{2j}(x,\dots,x)$ satisfies $P(gx)=P(x)$, so $P(x)=P(e)|x|^{2j}$ for any unit $e$; since $S_{2j}(x,\dots,x)=(2j-1)!!\,|x|^{2j}$ and a symmetric form is determined by its values on the diagonal, $J_{2j}=P(e)S_{2j}/(2j-1)!!$. Conversely each $S_{2j}$ is invariant. With $(2j-1)!!=1,3,15$ this gives \eqref{eq:correction-Jiso} and the formulas for $a,m_4,\chi$. By \eqref{eq:correction-wick}, $D^{2j}\varphi(0)=(-1)^jS_{2j}$, so $J_0=J^{\rm iso}(1,3,15)$. The entries of $C(J^{\rm iso};\mathfrak f)$ involve only inner products of frame vectors.
+
+(b) By \eqref{eq:correction-CJ}: $\Var(\partial_{e_a}f)=a$; $\Cov(\partial_tf,\zeta_t)=-J_4(t,t,t,t)=-m_4$; $\Var(\zeta_t)=-J_6(t,\dots,t)=\chi$; the transverse gradient components are uncorrelated with $\partial_tf$ and with $\zeta_t$; and $\Cov(H_{ab},H_{cd})=\frac{m_4}3(\delta_{ab}\delta_{cd}+\delta_{ac}\delta_{bd}+\delta_{ad}\delta_{bc})$. The odd block is positive definite if and only if $a>0$ and $a\chi-m_4^2>0$, and the even block has eigenvalues $\frac{m_4}3(d+2)$ and $\frac{2m_4}3$; this proves $J^{\rm iso}\in\mathcal U_d$ and the formulas for $\Cov(g_t)$, $\Cov(h_t)$ and $\tau_t^2$. Among the entries of $h_t$ only $H_{00}$ is correlated with $A_t$, with $\Cov((A_t)_{ij},H_{00})=\frac{m_4}3\delta_{ij}$ and $\Var(H_{00})=m_4$, so conditioning on $h_t=0$ subtracts $(\frac{m_4}3)^2\delta_{ij}\delta_{kl}/m_4=\frac{m_4}9\delta_{ij}\delta_{kl}$ from the unconditional covariance; this is \eqref{eq:correction-isocond}. Thus $p_{g_t}(0)=(2\pi a)^{-d/2}$ and $p_{h_t}(0)=(2\pi)^{-d/2}3^{m/2}m_4^{-d/2}$, and the conditional law of $A_t$ is the law for $m_4=3$ scaled by $(m_4/3)^{1/2}$. Since $(\det A)^2$ is homogeneous of degree $2m$ and the cone $\{A\prec0\}$ is scale invariant, $D_t=(m_4/3)^mD^{(3)}$, where $D^{(3)}>0$ is the value at $m_4=3$. Inserting these factors in \eqref{eq:correction-subspace-rep} gives \eqref{eq:correction-isoPsi} with $\kappa_d=2^{-m/2}M_{4/3}(2\pi)^{-d}3^{-m/2}D^{(3)}$.
+
+(c) By \eqref{eq:correction-isoPsi}, $d\log\Psi=(-\frac d2-\frac23)\frac{da}a+(\frac d2-1)\frac{dm_4}{m_4}+\frac23\frac{d\Omega}\Omega$ with $d\Omega=\chi\,da+a\,d\chi-2m_4\,dm_4$. At $(1,3,15)$ this is $(-\frac d2-\frac23+\frac53)da+(\frac d6-\frac13-\frac23)dm_4+\frac19d\chi$.
+\end{proof}
+
+\begin{lemma}[Haar projection of the first variation]\label{lem:correction-haar}
+For $H\in\mathcal J_d$ put
+\[
+\ell(H)=\int_{S^{d-1}}D\Psi(C_0)\bigl[C(H;\mathfrak f_t)\bigr]\,d\sigma(t),\qquad \Pi H=\int_{O(d)}g\cdot H\,dg,
+\]
+with $dg$ the Haar probability measure. Then:
+\begin{enumerate}[(a)]
+\item $D\Psi(C_0)[C(H;\mathfrak f_t)]$ depends only on $t$, $\ell(g\cdot H)=\ell(H)$ for $g\in O(d)$, and $\ell(H)=\ell(\Pi H)$;
+\item $\Pi H=J^{\rm iso}(\delta a,\delta m_4,\delta\chi)$, where, for $v$ uniformly distributed on $S^{d-1}$,
+\[
+\delta a=-\E H_2(v,v),\qquad \delta m_4=\E H_4(v,v,v,v),\qquad \delta\chi=-\E H_6(v,\dots,v);
+\]
+\item $\ell(H)=|S^{d-1}|\,\Psi(C_0)\bigl[(1-\frac d2)\delta a+(\frac d6-1)\delta m_4+\frac19\delta\chi\bigr]$;
+\item $\Phi_d$ is differentiable at $J_0$ in the direction $H$, with $D\Phi_d(J_0)[H]=2^{m/2}96^{-1/3}\ell(H)$; hence
+\begin{equation}\label{eq:correction-haarvar}
+\frac{D\Phi_d(J_0)[H]}{\Phi_d(J_0)}=\Bigl(1-\frac d2\Bigr)\delta a+\Bigl(\frac d6-1\Bigr)\delta m_4+\frac{\delta\chi}9 .
+\end{equation}
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) The proof of Lemma~\ref{lem:correction-frame} gives $C(J;\mathfrak f')=S_OC(J;\mathfrak f)S_O^{\top}$ for two frames at $t$, and $S_OC_0S_O^{\top}=C_0$ because $C_0$ is the same in every frame (Lemma~\ref{lem:correction-iso}(a)). Since $\Psi(S_OCS_O^{\top})=\Psi(C)$, differentiation at $C_0$ gives $D\Psi(C_0)[S_O\Delta S_O^{\top}]=D\Psi(C_0)[\Delta]$, which is the first claim. By Lemma~\ref{lem:correction-rot}, $C(g\cdot H;\mathfrak f_t)=C(H;g^{-1}\mathfrak f_t)$, a matrix of $H$ in a frame at $g^{-1}t$; the rotation invariance of $\sigma$ gives $\ell(g\cdot H)=\ell(H)$. The functional $\ell$ is linear on the finite-dimensional space $\mathcal J_d$, so $\ell(\Pi H)=\int\ell(g\cdot H)\,dg=\ell(H)$.
+
+(b) $\Pi H$ is invariant by the invariance of Haar measure, so Lemma~\ref{lem:correction-iso}(a) applies. For a unit vector $e$, $(\Pi H)_2(e,e)=\int H_2(g^{-1}e,g^{-1}e)\,dg=\E H_2(v,v)$, because $g^{-1}e$ is uniformly distributed on $S^{d-1}$; similarly for ranks four and six.
+
+(c) Since $\Pi H$ is isotropic, $C(\Pi H;\mathfrak f_t)$ is the same matrix for all $t$, so, by linearity of $C$ in $J$,
+\[
+\ell(\Pi H)=|S^{d-1}|\,D\Psi(C_0)[C(\Pi H;\mathfrak f)]=|S^{d-1}|\,\partial_\epsilon\Psi\bigl(C(J_0+\epsilon\Pi H;\mathfrak f)\bigr)\big|_{\epsilon=0}.
+\]
+Now $J_0+\epsilon\Pi H=J^{\rm iso}(1+\epsilon\delta a,3+\epsilon\delta m_4,15+\epsilon\delta\chi)$, and \eqref{eq:correction-isodiff} gives the claim; combine with (a).
+
+(d) Put $\Delta_t=C(H;\mathfrak f_t)$ and $\theta_*=\sup_t\|C_0^{-1/2}\Delta_tC_0^{-1/2}\|$, which is finite because the entries of $\Delta_t$ are contractions of $H$ with unit vectors. For $0<|\epsilon|\theta_*\le\frac12$, $J_0+\epsilon H\in\mathcal U_d$ by Proposition~\ref{prop:correction-taylor}(a), and Taylor's formula with integral remainder together with Proposition~\ref{prop:correction-taylor}(c),(d), applied to $\epsilon\Delta_t$ (so that $\theta\le|\epsilon|\theta_*\le\frac12$), give, uniformly in $t$,
+\[
+\bigl|\Psi(C_0+\epsilon\Delta_t)-\Psi(C_0)-\epsilon D\Psi(C_0)[\Delta_t]\bigr|\le\tfrac12\mathcal K(N,\nu)\,(2\epsilon\theta_*)^2\,2^{N/2}(3/2)^{\nu/2}\,\Psi(C_0).
+\]
+Dividing by $\epsilon$ and integrating over $t$ gives the derivative of $\Phi_d$, and (c) together with $\Phi_d(J_0)=2^{m/2}96^{-1/3}|S^{d-1}|\Psi(C_0)$ gives \eqref{eq:correction-haarvar}.
+\end{proof}
+
+This is a first-derivative statement only: $\Phi_d$ at an anisotropic jet is not replaced by its value at the isotropic projection. In the proof of Theorem~\ref{thm:correction-main} the second-order term is controlled with the full anisotropic matrices.
+
+\begin{definition}[the nearest-image jet]\label{def:correction-nearest}
+For $L>0$ put
+\begin{equation}\label{eq:correction-J1}
+J^{(1)}_L=\sum_{i=1}^d\sum_{\varsigma=\pm1}J\bigl(\varphi(\cdot+\varsigma Le_i)\bigr)-2d\,q_L\,J_0\ \in\mathcal J_d ,
+\end{equation}
+where $J(\varphi(\cdot+y))=(D^2\varphi(y),D^4\varphi(y),D^6\varphi(y))$ and $e_1,\dots,e_d$ is the standard basis. Since $\varphi(x+\varsigma Le_i)=q_Le^{-|x|^2/2}e^{-\varsigma Lx_i}$, $J^{(1)}_L$ is the jet of the function
+\[
+x\longmapsto2q_L\,e^{-|x|^2/2}\sum_{i=1}^d\bigl(\cosh(Lx_i)-1\bigr).
+\]
+The jet $J^{(1)}_L$ contains the $2d$ nearest images $\pm Le_i$ together with their share $2dq_L$ of the normalizer $Z_L$; it is not the raw nearest-image sum. For $d=3$ and $L=24$ it is the term $J^{(1)}_{\rm near}$ of (3.28) of the main text, and $R_{\rm jet}=J_{24}-J_0-J^{(1)}_{24}$.
+\end{definition}
+
+\begin{lemma}[projected image variations]\label{lem:correction-images}
+For every unit vector $v$ and $j=1,2,3$,
+\begin{equation}\label{eq:correction-images}
+\bigl(J^{(1)}_L\bigr)_{2j}(v,\dots,v)=2q_L\sum_{i=1}^d\bigl[\He_{2j}(Lv_i)-\He_{2j}(0)\bigr].
+\end{equation}
+For $v$ uniform on $S^{d-1}$, $\E v_i^2=\frac1d$, $\E v_i^4=\frac3{d(d+2)}$ and $\E v_i^6=\frac{15}{d(d+2)(d+4)}$. Consequently $\Pi J^{(1)}_L=q_L\,J^{\rm iso}(\delta a,\delta m_4,\delta\chi)$ with
+\begin{equation}\label{eq:correction-variations}
+\delta a=-2L^2,\qquad \delta m_4=\frac{6L^4}{d+2}-12L^2,\qquad \delta\chi=-\frac{30L^6}{(d+2)(d+4)}+\frac{90L^4}{d+2}-90L^2 .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+By Lemma~\ref{lem:correction-hermite} with $x=\varsigma Le_i$, $x\cdot v=\varsigma Lv_i$, $\varphi(x)=q_L$ and the evenness of $\He_{2j}$, $D^{2j}\varphi(\varsigma Le_i)[v,\dots,v]=q_L\He_{2j}(Lv_i)$, while $D^{2j}\varphi(0)[v,\dots,v]=\He_{2j}(0)$; summing over $i$ and $\varsigma$ gives \eqref{eq:correction-images}. For the moments, write a standard Gaussian vector $G$ in $\R^d$ as $G=|G|v$ with $|G|$ and $v$ independent; then $\E G_1^{2j}=\E|G|^{2j}\,\E v_1^{2j}$, with $\E G_1^2,\E G_1^4,\E G_1^6=1,3,15$ and $\E|G|^2,\E|G|^4,\E|G|^6=d,\ d(d+2),\ d(d+2)(d+4)$. With $\He_2(u)=u^2-1$, $\He_4(u)=u^4-6u^2+3$ and $\He_6(u)=u^6-15u^4+45u^2-15$,
+\begin{align*}
+\E\sum_i[\He_2(Lv_i)-\He_2(0)]&=L^2,\\
+\E\sum_i[\He_4(Lv_i)-\He_4(0)]&=\frac{3L^4}{d+2}-6L^2,\\
+\E\sum_i[\He_6(Lv_i)-\He_6(0)]&=\frac{15L^6}{(d+2)(d+4)}-\frac{45L^4}{d+2}+45L^2 .
+\end{align*}
+Multiplying by $2q_L$ and applying Lemma~\ref{lem:correction-haar}(b) (with the signs $-,+,-$ for ranks $2,4,6$) gives \eqref{eq:correction-variations}.
+\end{proof}
+
+For $v=e_i$, \eqref{eq:correction-images} reduces to $2q_L(\He_{2j}(L)-\He_{2j}(0))$: since $K_L$ factorizes over the coordinate axes, this is the first-order variation of the normalized one-dimensional even moments of an axis factor, and \eqref{eq:correction-variations} is its rotational projection.
+
+\begin{proposition}[the first normalized nearest-image variation]\label{prop:correction-firstvar}
+For every integer $d\ge2$ and every $L>0$, $\Phi_d$ is differentiable at $J_0$ in the direction $J^{(1)}_L$, and
+\begin{equation}\label{eq:correction-firstvar}
+\frac{D\Phi_d(J_0)\bigl[J^{(1)}_L\bigr]}{\Phi_d(J_0)}=\frac{1}{|S^{d-1}|\,\Psi(C_0)}\int_{S^{d-1}}D\Psi(C_0)\bigl[C(J^{(1)}_L;\mathfrak f_t)\bigr]\,d\sigma(t)=P_d(L)\,q_L ,
+\end{equation}
+with $P_d$ as in \eqref{eq:correction-Pd}.
+\end{proposition}
+
+\begin{proof}
+By Lemma~\ref{lem:correction-haar}(c),(d) and Lemma~\ref{lem:correction-images}, the left side equals $q_L$ times
+\[
+\Bigl(1-\frac d2\Bigr)(-2L^2)+\Bigl(\frac d6-1\Bigr)\Bigl(\frac{6L^4}{d+2}-12L^2\Bigr)+\frac19\Bigl(-\frac{30L^6}{(d+2)(d+4)}+\frac{90L^4}{d+2}-90L^2\Bigr).
+\]
+The coefficient of $L^2$ is $-2+d-2d+12-10=-d$, that of $L^4$ is $(d-6+10)/(d+2)=(d+4)/(d+2)$, and that of $L^6$ is $-10/(3(d+2)(d+4))$. This is $P_d(L)$.
+\end{proof}
+
+\begin{corollary}[dimension three]\label{cor:correction-firstvar3}
+Let $d=3$ and $F=\Phi_3/\Phi_3(J_0)$ as in (3.25) of the main text. Then
+\begin{equation}\label{eq:correction-P3}
+P_3(L)=-\frac{L^2(10L^4-147L^2+315)}{105}=-\frac2{21}L^6+\frac75L^4-3L^2,\qquad P_3(24)=-\frac{620813376}{35},
+\end{equation}
+and $DF(J_0)[J^{(1)}_{24}]=P_3(24)\,e^{-288}$. In the coordinates $(a,m_4,\chi)$ and $\Omega=a\chi-m_4^2$, the variations per unit $q_L$ are
+\begin{equation}\label{eq:correction-var3}
+\delta a=-2L^2,\qquad \delta m_4=\frac65L^4-12L^2,\qquad \delta\chi=-\frac67L^6+18L^4-90L^2,
+\end{equation}
+the pure partial derivatives of $\log c$, where $c(a,m_4,\chi)=\Phi_3(J^{\rm iso}(a,m_4,\chi))$ is the coefficient along isotropic jets, are at $(1,3,15)$
+\begin{equation}\label{eq:correction-partials}
+\partial_a\log c=-\tfrac12,\qquad\partial_{m_4}\log c=-\tfrac12,\qquad\partial_\chi\log c=\tfrac19,
+\end{equation}
+and, with $\delta\Omega=\chi\,\delta a+a\,\delta\chi-2m_4\,\delta m_4$,
+\begin{equation}\label{eq:correction-regroup}
+\delta\log c=-\tfrac12\,\delta a-\tfrac12\,\delta m_4+\tfrac19\,\delta\chi=\frac{\delta\Omega}9+\frac{\delta m_4}6-\frac{13}6\,\delta a=P_3(L).
+\end{equation}
+Also $P_2(24)=-26045568$.
+\end{corollary}
+
+\begin{proof}
+The formulas \eqref{eq:correction-P3}, \eqref{eq:correction-var3} and $DF(J_0)[J^{(1)}_{24}]=P_3(24)q$ are Proposition~\ref{prop:correction-firstvar} and Lemma~\ref{lem:correction-images} at $d=3$; the values $P_3(24)$ and $P_2(24)$ are exact rational arithmetic. For the partial derivatives, use the form \eqref{eq:correction-d3} of the coefficient along isotropic jets: $\det\Sigma_g=a^3$, $\det\Sigma_h=m_4^3/9$ and $\sigma_t^2=\tau_t^2/144=\Omega/(144a)$ by Lemma~\ref{lem:correction-iso}(b), and $D_t=D(\Gamma_t)$ with $\Gamma_t$ proportional to $m_4$ and the cone moment $D$ homogeneous of degree $2$ in the covariance. Hence
+\[
+\partial_a\log c=-\frac3{2a}+\frac23\Bigl(\frac\chi\Omega-\frac1a\Bigr),\qquad
+\partial_{m_4}\log c=-\frac3{2m_4}+\frac23\cdot\frac{-2m_4}\Omega+\frac2{m_4},\qquad
+\partial_\chi\log c=\frac23\cdot\frac a\Omega ,
+\]
+where the term $2/m_4$ comes from the homogeneity of $D$. At $(1,3,15)$, $\Omega=6$, these are $-\frac12$, $-\frac12$ and $\frac19$, in agreement with \eqref{eq:correction-isodiff} at $d=3$. The two expressions in \eqref{eq:correction-regroup} agree identically: with $\delta\Omega=15\delta a+\delta\chi-6\delta m_4$ at $(1,3,15)$, $\frac{\delta\Omega}9+\frac{\delta m_4}6-\frac{13}6\delta a=(\frac{15}9-\frac{13}6)\delta a+(\frac16-\frac69)\delta m_4+\frac19\delta\chi=-\frac12\delta a-\frac12\delta m_4+\frac19\delta\chi$. Substituting \eqref{eq:correction-var3} gives $P_3(L)$.
+\end{proof}
+
+\begin{remark}[a scale check]\label{rem:correction-scale}
+Along the scale family $K_\lambda(x)=e^{-\lambda|x|^2/2}$, $\lambda>0$, which is the covariance of $f(\sqrt\lambda\,\cdot)$, one has $J(K_\lambda)=J^{\rm iso}(\lambda,3\lambda^2,15\lambda^3)$, and \eqref{eq:correction-isoPsi} with $\Omega=6\lambda^4$ gives $c_3[K_\lambda]=\lambda^{-13/6+1+8/3}c_3[\varphi]=\lambda^{3/2}c_3[\varphi]$. In terms of \eqref{eq:correction-partials}, at $\lambda=1$,
+\[
+\frac{d\log c}{d\log\lambda}=-\tfrac12\cdot1-\tfrac12\cdot6+\tfrac19\cdot45=\tfrac32 ,
+\]
+in agreement with the scaling of densities per unit volume under $x\mapsto\sqrt\lambda\,x$ in dimension three.
+\end{remark}
+
+\subsection{Deep images and the normalization product}
+
+\begin{lemma}[normalization identity]\label{lem:correction-normalization}
+Let $d\in\{2,3\}$, let $k\in\{2,4,6\}$, fix unit vectors $v_1,\dots,v_k$, and evaluate every $k$-form below at $(v_1,\dots,v_k)$. Put
+\[
+\alpha_0=D^k\varphi(0),\quad \alpha_1=\sum_{|n|=1}D^k\varphi(24n),\quad \alpha_2=\sum_{|n|^2\ge2}D^k\varphi(24n),\quad \beta_1=2dq,\quad \beta_2=\sum_{|n|^2\ge2}q^{|n|^2},
+\]
+and $\gamma_1=\alpha_1-\beta_1\alpha_0$. Then $D^kK_{24}(0)=(\alpha_0+\alpha_1+\alpha_2)/(1+\beta_1+\beta_2)$, $\gamma_1=(J^{(1)}_{24})_k(v_1,\dots,v_k)$, and
+\begin{equation}\label{eq:correction-normid}
+D^kK_{24}(0)-\alpha_0-\gamma_1=\frac{\alpha_2-\beta_2\alpha_0-\gamma_1(\beta_1+\beta_2)}{1+\beta_1+\beta_2}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+There are $2d$ points $n\in\Z^d$ with $|n|=1$, so $Z_{24}=1+\beta_1+\beta_2$; the formula for $\gamma_1$ is \eqref{eq:correction-J1}. Then $D^kK_{24}(0)-\alpha_0-\gamma_1$ equals $[\alpha_1+\alpha_2-(\beta_1+\beta_2)\alpha_0-\gamma_1(1+\beta_1+\beta_2)]/(1+\beta_1+\beta_2)$, and $\alpha_1-\beta_1\alpha_0-\gamma_1=0$.
+\end{proof}
+
+\begin{remark}[the normalization product]\label{rem:correction-product}
+The product $\gamma_1(\beta_1+\beta_2)$ in \eqref{eq:correction-normid} is of order $q^2$ and must be retained. Already in one dimension, keeping only the images $\pm L$, the normalized second derivative is
+\[
+\frac{-1+2(L^2-1)q_L}{1+2q_L}=-1+2L^2q_L-\frac{4L^2q_L^2}{1+2q_L},
+\]
+which has a term of order $q_L^2$, although the next images $\pm2L$ carry the weight $q_L^4$.
+\end{remark}
+
+\begin{lemma}[deep images]\label{lem:correction-deep}
+Let $d\in\{2,3\}$ and $T_6=\sum_{|n|^2\ge2}|n|^6q^{|n|^2}$. Then $T_6<541q^2$, and for every $k\in\{2,4,6\}$ and all unit vectors $v_1,\dots,v_k$,
+\begin{equation}\label{eq:correction-deepjet}
+\bigl|\bigl(J_{24}-J_0-J^{(1)}_{24}\bigr)_k(v_1,\dots,v_k)\bigr|<(541+6\cdot1458)\,B_0q^2=9289\,B_0\,q^2 .
+\end{equation}
+Consequently, for every frame $\mathfrak f$ the matrix $R_{\mathfrak f}=C(R_{\rm jet};\mathfrak f)$ of $R_{\rm jet}=J_{24}-J_0-J^{(1)}_{24}$ satisfies
+\begin{equation}\label{eq:correction-rho}
+\bigl\|C_0^{-1/2}R_{\mathfrak f}C_0^{-1/2}\bigr\|<60\cdot9289\,B_0\cdot10^{-250}=:\rho_0 .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Let $d=3$. The shell $|n|_\infty=1$ consists of $26$ points: the $6$ with $|n|=1$, and $20$ with $|n|^2\in\{2,3\}$, each with $|n|^6\le27$; their contribution to $T_6$ is at most $540q^2$. The shells $j=|n|_\infty\ge2$ contribute at most $729\sum_{j\ge2}j^9q^{j^2}$, as in the proof of Lemma~\ref{lem:correction-lattice}; for $j\ge2$ the ratio of consecutive terms is at most $(\frac32)^9q^5<\frac12$, so this is at most $729\cdot2\cdot2^9q^4=746496q^4<q^2$. Hence $T_6<541q^2$. For $d=2$, the terms of $T_6$ form a subset of those for $d=3$ under $n\mapsto(n,0)$, so the same bound holds.
+
+In Lemma~\ref{lem:correction-normalization}, $|\alpha_2|\le76\cdot24^6\,T_6$ by Lemma~\ref{lem:correction-hermite}, and $|\beta_2\alpha_0|\le15\beta_2\le15T_6$, so $|\alpha_2-\beta_2\alpha_0|\le B_0T_6<541B_0q^2$. Also $|\gamma_1|\le|\alpha_1|+\beta_1|\alpha_0|\le2d(76\cdot24^6+15)q\le6B_0q$, and $\beta_1+\beta_2=Z_{24}-1\le1458q$ by Lemma~\ref{lem:correction-lattice}. The denominator in \eqref{eq:correction-normid} is at least $1$. Hence the left side of \eqref{eq:correction-deepjet} is less than $541B_0q^2+6B_0q\cdot1458q=9289B_0q^2$.
+
+Every entry of $R_{\mathfrak f}$ is $c_\alpha c_\beta$ times $\pm$ a contraction as in \eqref{eq:correction-deepjet}, hence less than $2\cdot9289B_0q^2$ in absolute value; with $N\le10$ and $C_0\succcurlyeq\frac13I$ (Lemma~\ref{lem:correction-cov}), $\|C_0^{-1/2}R_{\mathfrak f}C_0^{-1/2}\|<3\cdot10\cdot2\cdot9289B_0q^2$, and $q^2<10^{-250}$.
+\end{proof}
+
+\subsection{Proof of Theorem~\ref{thm:correction-main}}
+
+\begin{proof}[Proof of Theorem~\ref{thm:correction-main}]
+Let $d\in\{2,3\}$. By Lemma~\ref{lem:correction-subspace} and Definition~\ref{def:correction-jets},
+\[
+\frac{c_{d,24}}{c_{d,\mathrm{ref}}}=\frac{\Phi_d(J_{24})}{\Phi_d(J_0)}=\frac{1}{|S^{d-1}|\,\Psi(C_0)}\int_{S^{d-1}}\Psi(C_0+\Delta_t)\,d\sigma(t),\qquad \Delta_t=C(J_{24}-J_0;\mathfrak f_t),
+\]
+where $C_0+\Delta_t$ is the covariance of $X_t$ for $K_{24}$ and $C_0$ is the reference matrix, the same in every frame (Lemma~\ref{lem:correction-cov}(a)).
+
+\emph{Second-order term.} By Lemma~\ref{lem:correction-cov}(c), the full exact perturbation $\Delta_t$ satisfies
+\[
+\theta_t=\bigl\|C_0^{-1/2}\Delta_tC_0^{-1/2}\bigr\|\le\theta_0<\tfrac14,
+\]
+so Proposition~\ref{prop:correction-taylor} gives
+\begin{equation}\label{eq:correction-proof1}
+\Psi(C_0+\Delta_t)=\Psi(C_0)+D\Psi(C_0)[\Delta_t]+r_t,\qquad |r_t|\le2000\,\theta_0^2\,\Psi(C_0).
+\end{equation}
+
+\emph{Linear term.} By linearity of $C$ in $J$, $\Delta_t=C(J^{(1)}_{24};\mathfrak f_t)+C(R_{\rm jet};\mathfrak f_t)$. By Lemma~\ref{lem:correction-first} (with $(N+\nu)/2\le\frac{29}3$) and Lemma~\ref{lem:correction-deep},
+\begin{equation}\label{eq:correction-proof2}
+\bigl|D\Psi(C_0)[C(R_{\rm jet};\mathfrak f_t)]\bigr|<\tfrac{29}3\,\rho_0\,\Psi(C_0),
+\end{equation}
+and by Proposition~\ref{prop:correction-firstvar} with $L=24$,
+\begin{equation}\label{eq:correction-proof3}
+\int_{S^{d-1}}D\Psi(C_0)\bigl[C(J^{(1)}_{24};\mathfrak f_t)\bigr]\,d\sigma(t)=P_d(24)\,q\,|S^{d-1}|\,\Psi(C_0).
+\end{equation}
+
+\emph{Assembly.} The bounds \eqref{eq:correction-proof1} and \eqref{eq:correction-proof2} are uniform in $t$. Integrating over $S^{d-1}$ and dividing by $|S^{d-1}|\Psi(C_0)$ gives
+\begin{equation}\label{eq:correction-Rrat}
+\Bigl|\frac{c_{d,24}}{c_{d,\mathrm{ref}}}-1-P_d(24)\,q\Bigr|<2000\,\theta_0^2+\tfrac{29}3\,\rho_0=R_{\rm rat},
+\end{equation}
+where, by \eqref{eq:correction-theta} and \eqref{eq:correction-rho},
+\begin{equation}\label{eq:correction-Rrat-value}
+R_{\rm rat}=\bigl[2000\,(87480\,B_0)^2+580\cdot9289\,B_0\bigr]\cdot10^{-250}.
+\end{equation}
+With $B_0=14523826191$, exact integer arithmetic gives
+\[
+R_{\rm rat}=3228565713716543733736856747955420\cdot10^{-250}<10^{-216}.
+\]
+This proves \eqref{eq:correction-main}.
+
+\emph{Sign.} By Lemma~\ref{lem:correction-lattice}, $q>10^{-126}$. Since $|P_2(24)|=26045568$ and $|P_3(24)|=620813376/35$, both $|P_2(24)|\cdot10^{-126}$ and $|P_3(24)|\cdot10^{-126}$ exceed $R_{\rm rat}$. As $P_d(24)<0$, \eqref{eq:correction-Rrat} gives $c_{d,24}/c_{d,\mathrm{ref}}-1<P_d(24)q+R_{\rm rat}<0$, that is, $c_{d,24}<c_{d,\mathrm{ref}}$.
+\end{proof}
+
+\begin{remark}[numerical values]\label{rem:correction-numerics}
+The number $q=e^{-288}$ can be enclosed in rational arithmetic with outward rounding (on a grid of mesh $10^{-260}$): enclose $e^{9/32}$ between its degree-$100$ Taylor sum and that sum plus an exact geometric bound for the tail, take reciprocals, and square ten times ($1024\cdot\frac9{32}=288$). Multiplying by the negative number $P_d(24)$ reverses the endpoints, and adding $\pm R_{\rm rat}$ encloses the full relative correction. This gives
+\begin{align*}
+q&=8.37894253381936897136\ldots\cdot10^{-126},\\
+P_3(24)\,q&=-1.48621702906582760722\ldots\cdot10^{-118},\\
+P_2(24)\,q&=-2.18234317532684674260\ldots\cdot10^{-118}.
+\end{align*}
+Hence $c_{3,24}/c_{3,\infty}-1=-1.48621702906582760722\ldots\cdot10^{-118}+\varepsilon_{24}$ with $|\varepsilon_{24}|<10^{-216}<10^{-98}\,|P_3(24)q|$, so the leading term $P_3(24)e^{-288}$ gives the correction to a relative precision better than $10^{-98}$.
+\end{remark}

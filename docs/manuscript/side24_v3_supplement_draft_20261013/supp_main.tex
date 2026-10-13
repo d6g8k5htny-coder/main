@@ -1,0 +1,78 @@
+% SIDE24 V3 supplementary material (draft). Companion to the V3 manuscript draft (main#389).
+% Author-side assembly; see CONCORDANCE.md for the source of every statement and display.
+\documentclass[11pt,reqno]{amsart}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=1.05in]{geometry}
+\usepackage{microtype}
+\usepackage{booktabs,tabularx,longtable,array}
+\usepackage[shortlabels]{enumitem}
+\usepackage{xcolor}
+\usepackage{url}
+\def\UrlBreaks{\do\/\do\_\do\-\do\.}
+\Urlmuskip=0mu plus 1mu
+\usepackage[colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black]{hyperref}
+
+\renewcommand{\thesection}{S\arabic{section}}
+\numberwithin{equation}{section}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{convention}[theorem]{Convention}
+\newtheorem{hypothesis}[theorem]{Hypothesis}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\T}{\mathbb T}
+\newcommand{\R}{\mathbb R}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\C}{\mathbb C}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Prob}{\mathbb P}
+\newcommand{\ind}{\mathbf 1}
+\newcommand{\eld}{\mathrm{eld}}
+\newcommand{\cand}{\mathrm{cand}}
+\newcommand{\rej}{\mathrm{rej}}
+\DeclareMathOperator{\Cov}{Cov}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\dist}{dist}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\adj}{adj}
+\DeclareMathOperator{\Ind}{ind}
+\DeclareMathOperator{\He}{He}
+
+\begin{document}
+
+\title[Supplement: short-lifetime $H_0$ persistence on the side-24 torus]{Supplementary material for ``Short-lifetime $H_0$ persistence for the three-dimensional side-24 periodized Bargmann--Fock field''}
+\author{Dylan Roy}
+\date{Draft, \today}
+
+\begin{abstract}
+This supplement contains the proofs that the main text cites. Part~I proves the leading short-lifetime law, its rate and the side-24 correction: the setting and pair coordinates (\S\ref{sec:setting}), the contact measure (\S\ref{sec:contact}), the finite-side coefficient (\S\ref{sec:coefficient}), the side-24 correction (\S\ref{sec:correction}), elder selection (\S\ref{sec:selection}), the limit (\S\ref{sec:limit}) and the bounded remainder (\S\ref{sec:rate}). Part~II states the three-term law and the results behind it, with their proofs (\S\S\ref{sec:remainder}--\ref{sec:ctwo}).
+\end{abstract}
+
+\maketitle
+
+\input{supp_s0_status}
+\part*{Part I. The leading law, its rate, and the side-24 correction}
+\input{supp_s1_setting}
+\input{supp_s2_contact}
+\input{supp_s3_coefficient}
+\input{supp_s4_correction}
+\input{supp_s5_selection}
+\input{supp_s6_limit}
+\input{supp_s7_rate}
+\part*{Part II. The three-term law}
+\input{supp_s8_remainder}
+\input{supp_s9_cusp}
+\input{supp_s10_third}
+\input{supp_s11_ctwo}
+
+\bibliographystyle{amsplain}
+\bibliography{refs,supp_refs_s8s9}
+
+\end{document}

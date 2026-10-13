@@ -1,0 +1,425 @@
+% Supplement, Part II, section S11: the constant c_2.
+% Sources and corrections: see CONC_s11.md.
+\section{The constant \texorpdfstring{$c_2$}{c2}}\label{sec:ctwo}
+
+This section concerns the constant $c_2$ of the three-term law (2.12) of the main text. In \S\ref{ssec:ctwo-def}, $c_2$ is defined as a finite part of the fold-scale coefficient of the two-point kernel, and the mechanism that makes this finite part the coefficient of $\ell^{1/3}$ is described; the expansions that prove it are those of Section~\ref{sec:third}. In \S\ref{ssec:ctwo-closed} the corresponding coefficient expression is evaluated in closed form, with a certified enclosure, for the Gaussian kernel on $\R^d$, $d\le3$. In \S\ref{ssec:ctwo-transfer} the expression is written through the derivatives of order at most eight of the covariance, and an explicit bound is proved for its change under a change of covariance; for the normalized periodization of side $L\ge24$ the change is below $10^{-60}$. In \S\ref{ssec:ctwo-side24} the two identifications on which the application to the side-24 field rests are stated as a hypothesis, and the resulting enclosures of $c_2$ and of $c_2/c_{3,24}$ are derived.
+
+\subsection{Definition and the fold-scale mechanism}\label{ssec:ctwo-def}
+
+\emph{Notation.} We use the notation of Section~\ref{sec:remainder}: $m=d-1$; a direction $u\in S^{d-1}$ (the $t$ of the main text), an orthonormal frame $\Theta$ of $u^\perp$ and coordinates $(x,y)\in\R\times\R^m$; pins at $M=-\frac r2u$, $S=\frac r2u$ with
+\begin{equation}\label{eq:ctwo-pins}
+f(M)=b,\qquad f(S)=b-kr^3,\qquad \nabla f(M)=\nabla f(S)=0,\qquad b\in\R,\ k>0,
+\end{equation}
+so that $k=\kappa/6$ and $\ell=kr^3$ in the notation of (3.5) and (3.11) of the main text; the observation vector $U_r$, with axial rows $\frac12(f(M)+f(S))$, $\frac1r(f(S)-f(M))$, $\frac1r(\partial_xf(S)-\partial_xf(M))$,
+\begin{equation}\label{eq:ctwo-tau}
+\tau_r:=\frac6{r^2}\Bigl[\partial_xf(M)+\partial_xf(S)-\frac2r\bigl(f(S)-f(M)\bigr)\Bigr]
+\end{equation}
+and transverse rows $\frac12(\nabla_yf(M)+\nabla_yf(S))$, $\frac1r(\nabla_yf(S)-\nabla_yf(M))$, whose value under \eqref{eq:ctwo-pins} is $v_r=(b-\frac12kr^3,-kr^2,0,12k,0,\dots,0)$ (in the notation of (3.7) of the main text, $\tau_r=-12V^-_{\mathrm{corr}}$); the map from $(f(M),\nabla f(M),f(S),\nabla f(S))$ to $U_r$ has absolute determinant $12r^{-(d+3)}$; at $r=0$, $U_0=(f,\partial_xf,\partial_x^2f,\partial_x^3f,\nabla_yf,\nabla_y\partial_xf)(0)$ with target $v_0(b,k)=(b,0,0,12k,0,\dots,0)$; $\pi_r$ and $\pi_0=\pi_0(u;\cdot)$ are the densities of $U_r$ and $U_0$, and $\E_0[\,\cdot\mid b]$ is the expectation under the contact law at the zero-gap target $v_0(b,0)$; $W_r=|\det H_M\det H_S|\ind_{\{H_M\prec0,\ \Ind H_S=d-1\}}$ is the typed weight, $e$ the elder mark, and $P=1+|b|+k$. These objects are defined for every real, smooth, stationary covariance $K$ on $\R^d$ or on a torus for which the covariance of $U_r$ is nondegenerate, with
+\begin{equation}\label{eq:ctwo-jetcov}
+\Cov\bigl(D^\alpha f(0),D^\beta f(0)\bigr)=(-1)^{|\beta|}D^{\alpha+\beta}K(0).
+\end{equation}
+Two covariances occur: the reference kernel $K_{\mathrm{ref}}(z)=e^{-|z|^2/2}$ on $\R^d$, and its normalized periodization on $(\R/L\Z)^d$,
+\begin{equation}\label{eq:ctwo-KL}
+K_L(z)=\Bigl(\sum_{n\in\Z^d}e^{-|Ln|^2/2}\Bigr)^{-1}\sum_{n\in\Z^d}e^{-|z+Ln|^2/2},
+\end{equation}
+which for $d=3$, $L=24$ is (1.1) of the main text. At the midpoint put, as in (2.13) of the main text,
+\begin{equation}\label{eq:ctwo-Y}
+A=D_y^2f(0),\qquad \Delta=\det A,\qquad \gamma=\nabla_y\partial_x^2f(0),\qquad f_4=\partial_x^4f(0),\qquad Y=\frac{f_4}{12}\,\Delta-\frac14\,\gamma^{\top}\adj(A)\,\gamma .
+\end{equation}
+For $d=1$, $A$ is the empty matrix, $\Delta=1$ and $Y=f_4/12$, and $S^0=\{\pm1\}$ carries counting measure, $|S^0|=2$.
+
+\begin{definition}[two-point kernel and signed fixed-cone surrogate]\label{def:ctwo-kernel}
+For $r>0$, $b\in\R$, $k>0$ and $u\in S^{d-1}$:
+\begin{enumerate}[(i),leftmargin=2em]
+\item the \emph{two-point kernel} and the \emph{contact kernel} are
+\begin{align}
+\mathcal A_r(b,k,u)&=\frac{12\,\pi_r(v_r)\,\E[W_r\mid U_r=v_r]}{r^2},\label{eq:ctwo-kernel}\\
+\mathcal A_0(b,k,u)&=12\,\pi_0\bigl(u;v_0(b,k)\bigr)\,36k^2\,\E\bigl[\Delta^2\ind_{\{A<0\}}\bigm|U_0=v_0(b,k)\bigr];\label{eq:ctwo-contact}
+\end{align}
+$\mathcal A^{\eld}_r$ is $\mathcal A_r$ with $W_r$ replaced by $W_re$;
+\item the \emph{signed fixed-cone surrogate} of a covariance $K$ and its birth integral are
+\begin{align}
+\widetilde{\mathcal A}_r[K](b,k,u)&=\frac{12\,\pi_r(v_r)\,\E\bigl[-\det H_M\det H_S\,\ind_{\{A<0\}}\bigm|U_r=v_r\bigr]}{r^2},\label{eq:ctwo-surrogate}\\
+\bar{\mathcal A}_r[K](k,u)&=\int_\R\widetilde{\mathcal A}_r[K](b,k,u)\,db,\label{eq:ctwo-birthint}
+\end{align}
+with the indicator omitted for $d=1$; $\widetilde{\mathcal A}_2[K]$ and $\bar{\mathcal A}_2[K]$ denote their coefficients of $r^2$ at $r=0$.
+\end{enumerate}
+\end{definition}
+
+On the typed event $|\det H_M|\,|\det H_S|=-\det H_M\det H_S$; the surrogate replaces the typed indicator by the fixed cone $\{A<0\}$ of the midpoint transverse Hessian, so its integrand is a signed polynomial in Gaussian jets and it is not a count.
+
+\emph{The fold expansion} (Section~\ref{sec:third}). Let $d\ge2$, $L>0$ and $K=K_L$. There are $r_*>0$ and $C,c,N$ such that, for $0<r\le r_*$, $b\in\R$, $k>0$ and $u\in S^{d-1}$,
+\begin{equation}\label{eq:ctwo-fold}
+\begin{gathered}
+\bigl|\mathcal A_r(b,k,u)-\mathcal A_0(b,k,u)-r^2\mathcal A_2(b,k,u)\bigr|\le Cr^3(1+k^{-1})P^Ne^{-c(b^2+k^2)},\\
+|\mathcal A_2(b,k,u)|+|\partial_k\mathcal A_2(b,k,u)|\le CP^Ne^{-c(b^2+k^2)},\\
+\mathcal A_2(b,0,u)=-12\,\pi_0\bigl(u;v_0(b,0)\bigr)\,\E_0\bigl[Y^2\ind_{\{A<0\}}\bigm|b\bigr],
+\end{gathered}
+\end{equation}
+where $\mathcal A_2(b,\cdot,u)$ is extended to a $C^1$ function on $[0,\infty)$. There is no term of order $r$.
+
+\begin{definition}[the constant $c_2$ and the coefficient expression]\label{def:ctwo-c2}
+For $d\ge2$ and the side-$L$ field,
+\begin{equation}\label{eq:ctwo-def}
+c_2:=\frac13\int_{S^{d-1}}\int_\R\int_0^\infty\bigl[\mathcal A_2(b,k,u)-\mathcal A_2(b,0,u)\bigr]\,k^{-4/3}\,dk\,db\,d\sigma(u).
+\end{equation}
+For $d\ge1$ and a covariance $K$ as above, the \emph{fixed-cone coefficient expression} is
+\begin{equation}\label{eq:ctwo-J0}
+c_2[K]:=\frac13\int_{S^{d-1}}\int_0^\infty\bigl[\bar{\mathcal A}_2[K](k,u)-\bar{\mathcal A}_2[K](0,u)\bigr]\,k^{-4/3}\,dk\,d\sigma(u).
+\end{equation}
+\end{definition}
+
+\begin{remark}\label{rem:ctwo-fp}
+(i) By \eqref{eq:ctwo-fold}, $|\mathcal A_2(b,k,u)-\mathcal A_2(b,0,u)|\le C\min(k,1)\,(1+|b|)^Ne^{-cb^2}$ after adjusting $C$ (the mean value theorem for $k\le1$, the two bounds separately for $k>1$), so \eqref{eq:ctwo-def} converges absolutely. Since $\mathcal A_2(b,0,u)\ne0$ in general, $\int_0^\infty\mathcal A_2(b,k,u)k^{-4/3}dk$ diverges at $k=0$, and \eqref{eq:ctwo-def} is its Hadamard finite part at $k=0$. (ii) \eqref{eq:ctwo-J0} is the same finite-part expression with the same spatial normalization, written for the surrogate and with the birth integral taken first; its convergence is part of Theorem~\ref{thm:ctwo-jet}. For $d=1$ it defines an expression only; no persistence statement in $d=1$ is derived from it here.
+\end{remark}
+
+\begin{remark}[why a finite part: fold--cusp matching]\label{rem:ctwo-mechanism}
+The following formal computation explains \eqref{eq:ctwo-def}; the expansions of Section~\ref{sec:third} carry it out, with remainder $O(\ell^{3/7})$. Let $d\ge2$. The near part of the elder density is $\int_{S^{d-1}}\int_\R\int_0^{r_*}r^{-2}\mathcal A^{\eld}_r(b,\ell/r^3,u)\,dr\,db\,d\sigma(u)$. Put $s=r\ell^{-1/4}$, so that $k=\ell/r^3=\ell^{1/4}s^{-3}$ and $k/r=s^{-4}$. The integrand has two regimes.
+\begin{enumerate}[(a),leftmargin=2em]
+\item \emph{Fold regime, $s\ll1$.} Every typed pair is an elder pair up to a mass $O(r^3/k)$, and at fixed $k$, $r^{-2}\mathcal A_r=r^{-2}\mathcal A_0(b,k,u)+\mathcal A_2(b,k,u)+O(r)$ by \eqref{eq:ctwo-fold}.
+\item \emph{Cusp regime, $s\asymp1$.} At fixed $s$, $r^{-2}(\mathcal A^{\eld}_r-\mathcal A_0)(b,rs^{-4},u)$ converges as $r\downarrow0$ (Section~\ref{sec:cusp}) to the elder cusp correction
+\[
+\mathcal C(b,s,u)=-12\,\pi_0\bigl(u;v_0(b,0)\bigr)\,\E_0\Bigl[\bigl(Y^2\ind_{\{|Y|<2s^{-4}|\Delta|\}}+36s^{-8}\Delta^2\ind_{\{|Y|\ge2s^{-4}|\Delta|\}}\bigr)\ind_{\{A<0\}}\Bigm|b\Bigr],
+\]
+and $\mathcal C(b,s,u)\to\mathcal A_2(b,0,u)$ as $s\downarrow0$, by \eqref{eq:ctwo-fold}.
+\end{enumerate}
+The composite approximation $r^{-2}\mathcal A_0(b,k,u)+\mathcal A_2(b,k,u)+[\mathcal C(b,s,u)-\mathcal A_2(b,0,u)]$ reproduces both regimes: for $s\ll1$ the bracket vanishes, and for $s\asymp1$, $k\to0$ and $\mathcal A_2(b,k,u)\to\mathcal A_2(b,0,u)$. Its three pieces integrate separately; the substitutions $k=\ell/r^3$ and $s=r\ell^{-1/4}$ give
+\begin{equation}\label{eq:ctwo-pieces}
+\begin{aligned}
+\int_0^\infty r^{-2}\mathcal A_0(b,\ell/r^3,u)\,dr&=\frac{\ell^{-1/3}}3\int_0^\infty\mathcal A_0(b,k,u)\,k^{-2/3}\,dk,\\
+\int_0^\infty\bigl[\mathcal A_2(b,\ell/r^3,u)-\mathcal A_2(b,0,u)\bigr]\,dr&=\frac{\ell^{1/3}}3\int_0^\infty\bigl[\mathcal A_2(b,k,u)-\mathcal A_2(b,0,u)\bigr]\,k^{-4/3}\,dk,\\
+\int_0^\infty\mathcal C\bigl(b,r\ell^{-1/4},u\bigr)\,dr&=\ell^{1/4}\int_0^\infty\mathcal C(b,s,u)\,ds .
+\end{aligned}
+\end{equation}
+After integration over $b$ and $u$, the first line is the leading term $c_{d,L}\ell^{-1/3}$, the second is $c_2\ell^{1/3}$, and the third is the cusp term $c_1\ell^{1/4}$ of Section~\ref{sec:cusp}. The subtracted constant $\mathcal A_2(b,0,u)$ is the limit of the cusp correction, that is, the part of the fold-scale coefficient already counted at the cusp scale. The neglected pieces are formally of order $\ell^{1/2}$: the fold and cusp remainders, the mixed term $\mathcal A_2(b,k,u)-\mathcal A_2(b,0,u)=O(k)$ at $s\asymp1$, the intermediate separations and the far part; at a fold cutoff $r=\rho$ the interface terms $\pm\rho\int\!\!\int\mathcal A_2(b,0,u)$ cancel because $\mathcal C(b,s,u)=\mathcal A_2(b,0,u)+O(s^4)$ as $s\downarrow0$.
+
+The elder rule enters only through the cusp window (the window $|\varphi|<1/3$ of \S5 of the main text): at the fold scale the rejected mass is $O(r^3/k)$, and the elder and candidate cusp losses have the same limit $\mathcal A_2(b,0,u)$ as $s\downarrow0$. Hence $c_2$ is also the coefficient of $\ell^{1/3}$ of the candidate density, whose $\ell^{1/4}$ coefficient is $I^{\cand}=\frac{3^{1/4}}2c_1$ and which has the additional constant term $B_{d,L}$ ((2.17) of the main text): $c_2$ is a fold-scale quantity.
+\end{remark}
+
+\subsection{The Gaussian kernel: closed form and certified enclosure}\label{ssec:ctwo-closed}
+
+For $K_{\mathrm{ref}}$ put $c[K_{\mathrm{ref}}]:=\frac13\int_{S^{d-1}}\int_\R\int_0^\infty\mathcal A_0(b,k,u)\,k^{-2/3}\,dk\,db\,d\sigma(u)$, the leading constant computed by the same procedure.
+
+\begin{theorem}[closed forms for the Gaussian kernel]\label{thm:ctwo-closed}
+Let $d\in\{1,2,3\}$ and $K=K_{\mathrm{ref}}$. Then
+\begin{center}
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{@{}lll@{}}
+\toprule
+$d$ & $c[K_{\mathrm{ref}}]$ & $c_2[K_{\mathrm{ref}}]$\\
+\midrule
+$1$ & $\Gamma(\frac16)\,12^{-1/6}/(6\pi^{3/2})$ & $\frac34\,12^{1/6}\,\Gamma(\frac56)/\pi^{3/2}$\\
+$2$ & $\Gamma(\frac16)\,12^{-1/6}/(9\pi^{3/2})$ & $\frac{13}{18}\,12^{1/6}\,\Gamma(\frac56)/\pi^{3/2}$\\
+$3$ & $(\frac{29}{72}-\frac{\sqrt6}{12})\,\Gamma(\frac16)\,12^{-1/6}/\pi^{5/2}$ & $\frac5{48}(33-7\sqrt6)\,12^{1/6}\,\Gamma(\frac56)/\pi^{5/2}$\\
+\bottomrule
+\end{tabular}
+\end{center}
+and
+\begin{equation}\label{eq:ctwo-ratio}
+\frac{c_2[K_{\mathrm{ref}}]}{c[K_{\mathrm{ref}}]}=\omega_d\,\frac{\Gamma(5/6)}{12^{2/3}\,\Gamma(1/6)},\qquad \omega_1=54,\quad \omega_2=78,\quad \omega_3=\frac{18(141-\sqrt6)}{25}.
+\end{equation}
+For $d=2,3$, $c[K_{\mathrm{ref}}]=\Gamma(\frac76)(\frac32)^{1/3}D_{d-1}/(2\sqrt3\,\pi^{d-1/2})$ with $D_1=\frac43$, $D_2=\frac{29}6-\sqrt6$; for $d=3$ this is $c_{3,\infty}$ of (2.11) of the main text. The constants lie in the intervals
+\begin{center}
+\renewcommand{\arraystretch}{1.25}\setlength{\tabcolsep}{4pt}\small
+\begin{tabular}{@{}lll@{}}
+\toprule
+$d$ & $c[K_{\mathrm{ref}}]$ & $c_2[K_{\mathrm{ref}}]$\\
+\midrule
+$1$ & $[0.1101103789590410,\ 0.1101103789590625]$ & $[0.2300445802661503,\ 0.2300445802661998]$\\
+$2$ & $[0.07340691930602738,\ 0.07340691930604167]$ & $[0.2215244106266632,\ 0.2215244106267110]$\\
+$3$ & $[0.04177593184059426,\ 0.04177593184060272]$ & $[0.1612340491269447,\ 0.1612340491269810]$\\
+\bottomrule
+\end{tabular}
+\end{center}
+and
+\[
+\frac{c_2[K_{\mathrm{ref}}]}{c[K_{\mathrm{ref}}]}\in
+\begin{cases}
+[2.089217950577392,\ 2.089217950578207], & d=1,\\
+[3.017759261945122,\ 3.017759261946299], & d=2,\\
+[3.859496174547095,\ 3.859496174548665], & d=3.
+\end{cases}
+\]
+\end{theorem}
+
+\begin{proof}[Proof (method of the certificate)]
+The proof is an exact computation in rational arithmetic, followed by an interval evaluation of the resulting closed forms.
+
+\emph{Step 1 (what is computed).} $K_{\mathrm{ref}}$ is isotropic, so the surrogate does not depend on $u$; take $u=e_1$, so that $\int_{S^{d-1}}d\sigma=|S^{d-1}|$. By the uniform Gaussian domination of Step~2 the coefficient of $r^2$ of the birth integral is the birth integral of $\widetilde{\mathcal A}_2$, and by Step~3 each coefficient is a polynomial in $(b,k)$ and the cone variables times a Gaussian factor, so the integrals over $b$ and $k$ in \eqref{eq:ctwo-J0} may be interchanged:
+\[
+c_2[K_{\mathrm{ref}}]=\tfrac13|S^{d-1}|\int_\R\int_0^\infty\bigl[\widetilde{\mathcal A}_2(b,k)-\widetilde{\mathcal A}_2(b,0)\bigr]\,k^{-4/3}\,dk\,db .
+\]
+The fixed cone is $\{f_{yy}(0)<0\}$ for $d=2$ and $\{D_y^2f(0)<0\}$ for $d=3$; for $d=1$ there is no indicator.
+
+\emph{Step 2 (exact series in $r$).} By Taylor's formula along $e_1$ at $x=\mp r/2$, every quantity entering \eqref{eq:ctwo-surrogate} is a linear form in the jets $\partial^\alpha f(0)$ with coefficients in $\mathbb Q[[r]]$, and by \eqref{eq:ctwo-jetcov} the jet covariances are integers. In the rows of $U_r$ the divisions by $r$ and by $r^3$ are exact, because the low coefficients vanish identically. The pin covariance at $r=0$ is invertible, so the conditional means and covariances given $U_r=v_r$ are computed exactly in $\mathbb Q[[r]]$. For $d\ge2$ the Hessian entries are conditioned further on the transverse block $A$; for $d=3$, transverse rotations preserve the law and $\det H_M\det H_S$, so $A$ may be taken diagonal, $A=\operatorname{diag}(\lambda_1,\lambda_2)$, with
+\[
+\int_{\{A<0\}}g(A)\,p(A)\,dA=\pi\int_{\{\lambda_2<\lambda_1<0\}}g\,p\,(\lambda_1-\lambda_2)\,d\lambda_1\,d\lambda_2
+\]
+for functions $g$, $p$ invariant under conjugation by transverse rotations. By Isserlis' theorem $F:=\E[\det H_M\det H_S\mid A,\ U_r=v_r]$ is an exact polynomial in $(r,b,k,\lambda_1,\lambda_2)$, and $\widetilde{\mathcal A}_r(b,k)$ is $r^{-2}$ times a constant times the integral over the cone of $F$ against the Gaussian densities of the pins at $v_r$ and of $A$ given the pins. Writing the two quadratic forms in the exponent as their values at $r=0$ plus increments, the determinant ratio, the exponential of the increments and $F$ are expanded exactly in $r$. Since the covariances at $r=0$ are nondegenerate, $\widetilde{\mathcal A}_r$ is real analytic in $r$ near $0$, with a Gaussian domination uniform in small $r$; hence its Taylor coefficients are the cone integrals of the Taylor coefficients of the integrand. (Series are carried through $r^{10}$ and polynomials through $r^6$; repeating the whole derivation at orders $12$ and $8$ gives identical results.)
+
+\emph{Step 3 (exact structural facts).} The integrand vanishes to order $r^2$, and its coefficient of $r^3$ vanishes, so $\widetilde{\mathcal A}_r$ has no term of order $r$. The pin exponent at $r=0$ is $q_0=\frac32b^2+24k^2$, with no $bk$ term; the transverse exponent at $r=0$ does not contain $k$ (parity); and the coefficients of $r^0$ and $r^2$ contain only even powers of $k$. So these two coefficients of the integrand have the form $e^{-12k^2}\sum_{l\ \mathrm{even}}a_l\,k^l$, where $a_l$ is a polynomial in $b$ and the cone variables times a Gaussian factor in them.
+
+\emph{Step 4 (integration in $k$).} For even $l\ge0$,
+\begin{equation}\label{eq:ctwo-kint}
+\begin{gathered}
+\int_0^\infty k^{l-2/3}e^{-12k^2}\,dk=\tfrac12\Gamma\bigl(\tfrac{l+1/3}2\bigr)12^{-(l+1/3)/2},\\
+\int_0^\infty\bigl(k^le^{-12k^2}-[l=0]\bigr)k^{-4/3}\,dk=\tfrac12\Gamma\bigl(\tfrac{l-1/3}2\bigr)12^{-(l-1/3)/2},
+\end{gathered}
+\end{equation}
+the second for $l=0$ by integration by parts, with $\Gamma(-\frac16)=-6\Gamma(\frac56)$. Hence every term of $c[K_{\mathrm{ref}}]$ is a rational multiple of $\Gamma(\frac16)12^{-1/6}$ and every term of $c_2[K_{\mathrm{ref}}]$ a rational multiple of $\Gamma(\frac56)12^{-5/6}$.
+
+\emph{Step 5 (integration in $b$).} The $k$-free exponent is a quadratic $a_bb^2+b\Lambda_1(\lambda)+\Lambda_0(\lambda)$; the shift $b\mapsto b-\Lambda_1/(2a_b)$ leaves the Gaussian moments $\int b^ne^{-a_bb^2}db$ and the cone exponent $\Lambda_0-\Lambda_1^2/(4a_b)$.
+
+\emph{Step 6 (the cone).} For $d=2$ the cone integrals are the half-line moments $\int_{-\infty}^0\lambda^ne^{-g\lambda^2}d\lambda$ with $g=\frac3{16}$. For $d=3$, with $\lambda_1=-\xi_1$, $\lambda_2=-\xi_1-\xi_2$ ($\xi_1,\xi_2>0$), the exponent is $\alpha\xi_1^2+\beta\xi_1\xi_2+\gamma'\xi_2^2$ with $(\alpha,\beta,\gamma')=(\frac3{10},\frac3{10},\frac15)$ and $D_\theta:=4\alpha\gamma'-\beta^2=\frac3{20}$. The quadrant moments $I_{i,j}=\int_0^\infty\!\int_0^\infty\xi_1^i\xi_2^je^{-(\alpha\xi_1^2+\beta\xi_1\xi_2+\gamma'\xi_2^2)}d\xi_1d\xi_2$ satisfy two integration-by-parts identities, in $\xi_1$ and in $\xi_2$; these form a $2\times2$ linear system with determinant $D_\theta$, started from $I_{0,0}=\theta:=(\frac\pi2-\arctan(\beta/\sqrt{D_\theta}))/\sqrt{D_\theta}$. Every $I_{i+1,j}$ with $j\ge1$ is reached in two ways, and the two values agree exactly. The angle $\theta$ cancels exactly in $c[K_{\mathrm{ref}}]$ and in $c_2[K_{\mathrm{ref}}]$, which therefore lie in $\mathbb Q(\sqrt6)$ times powers of $\pi$, times the Gamma factors of Step~4. This gives the table, and \eqref{eq:ctwo-ratio} by division.
+
+\emph{Step 7 (exact checks).} The certificate verifies exactly: that $\theta$ occurs in no result; that for $d=2,3$, $c[K_{\mathrm{ref}}]$ equals $\Gamma(\frac76)(\frac32)^{1/3}D_{d-1}/(2\sqrt3\pi^{d-1/2})=\Gamma(\frac16)12^{-1/6}D_{d-1}/(12\pi^{d-1/2})$ (using $\Gamma(\frac76)=\Gamma(\frac16)/6$ and $(\frac32)^{1/3}=\sqrt3\,12^{-1/6}$; for $d=3$ this equals $2^{-23/6}3^{-8/3}(29\sqrt6-36)\Gamma(\frac16)\pi^{-5/2}$); that for $d=1$ the two constants equal $C_0$ and $2B_2$ of the one-dimensional law of \S5 of the main text; that the structural facts of Step~3 hold; and that a repetition at higher truncation orders gives identical results.
+
+\emph{Step 8 (evaluation).} The closed forms are evaluated in interval arithmetic with outward rounding by one unit in the last place at every operation: $\Gamma(\frac16)$ and $\Gamma(\frac56)$ from Stirling's series for $\log\Gamma$ at $q+10$, with the remainder bounded by the first omitted term (valid on the positive real axis), divided by the exact product $q(q+1)\cdots(q+9)$; $12^{p/q}$ as the exponential of a logarithm; $\pi$ and square roots by interval routines. The published intervals are the computed ones widened by $10^{-14}$ relative and rounded outward to sixteen significant digits; the ratio intervals are evaluated from \eqref{eq:ctwo-ratio} and are required to meet the interval quotients of the enclosures of $c_2[K_{\mathrm{ref}}]$ and $c[K_{\mathrm{ref}}]$. The certificate repeats the exact derivation and the evaluation and compares the result with the published table, and each of five seeded defects (pin target $11k$ in place of $12k$; finite-part subtraction omitted; sign of the cone cross term; polynomial truncation order $3$; $|S^1|=\pi$) makes it fail.
+\end{proof}
+
+\begin{remark}[floating-point controls]\label{rem:ctwo-controls}
+Two computations outside the proof agree with Theorem~\ref{thm:ctwo-closed}. (i) With the surrogate computed at finite $r$ from the exact derivatives $D^gK_{\mathrm{ref}}(z)=\prod_i(-1)^{g_i}\He_{g_i}(z_i)e^{-z_i^2/2}$ (60-digit conditioning, no Taylor jets), the Richardson estimates $2D(r)-D(2r)$, $D(r)=(\widetilde{\mathcal A}_r-\mathcal A_0)/r^2$, converge to the exact $\widetilde{\mathcal A}_2(b,k)$ at the rate $O(r^2)$, at five points in each of $d=1,2,3$. (ii) A floating-point evaluation of $c_2[K_{\mathrm{ref}}]$ with truncated jets, a least-squares fit in $r$ over five separations and Gauss--Legendre quadrature differs from the closed forms by $5.7\cdot10^{-10}$ ($d=1$), $1.9$ and $2.6\cdot10^{-9}$ ($d=2$) and $1.0$--$1.4\cdot10^{-9}$ ($d=3$).
+\end{remark}
+
+\subsection{Finite-jet representation and transfer to the torus}\label{ssec:ctwo-transfer}
+
+Since $c_2[K]$ is a signed finite part, its dependence on $K$ is not controlled by a positivity (sandwich) argument; it is controlled through a representation by finitely many derivatives of $K$ at $0$ and a Lipschitz bound along a path of covariances.
+
+\begin{theorem}[finite-jet representation]\label{thm:ctwo-jet}
+Let $d\ge1$, let $K$ be a real smooth stationary covariance such that the covariance of the contact vector $(\nabla f(0),D^2f(0),\partial_x^3f(0))$, of dimension $(d+1)(d+2)/2$, is positive definite, and fix $u$ and the frame. There are $a=a(u)>0$ and real $p_0,p_2,p_4$ (depending on $u$) with
+\begin{equation}\label{eq:ctwo-J1}
+\bar{\mathcal A}_2[K](k,u)=e^{-ak^2}\bigl(p_0+p_2k^2+p_4k^4\bigr),\qquad k\ge0 .
+\end{equation}
+The numbers $a,p_0,p_2,p_4$ are Gaussian cone moments determined by the derivatives $D^\alpha K(0)$, $|\alpha|\le8$. The integral \eqref{eq:ctwo-J0} converges absolutely, and
+\begin{equation}\label{eq:ctwo-J2}
+c_2[K]=\frac{\Gamma(5/6)}3\int_{S^{d-1}}\Bigl[-3a^{1/6}p_0+\frac12\,a^{-5/6}p_2+\frac5{12}\,a^{-11/6}p_4\Bigr]\,d\sigma(u).
+\end{equation}
+No inverse of the transverse Hessian and no derivative of the cone indicator is used.
+\end{theorem}
+
+\begin{proof}
+\emph{Step 1 (birth marginalization and parity).} In $U_r$ replace the row $\frac1r(f(S)-f(M))$ by $\frac1r(f(S)-f(M))+\frac{r^2}{12}\tau_r=\frac12(\partial_xf(M)+\partial_xf(S))$. This row operation has determinant $1$, and the new row has target $-kr^2+\frac{r^2}{12}\,12k=0$. Integrating the first row $\frac12(f(M)+f(S))$ over $b\in\R$ has Jacobian $1$. What remains is the vector of $2d+1$ pins
+\begin{equation}\label{eq:ctwo-V}
+V_r=\bigl(G^+_r,\ G^-_r,\ \tau_r\bigr),\qquad G^+_r=\tfrac12\bigl(\nabla f(M)+\nabla f(S)\bigr),\quad G^-_r=\tfrac1r\bigl(\nabla f(S)-\nabla f(M)\bigr),
+\end{equation}
+with target $v(k)=(0_d,0_d,12k)$ and $V_0=(G,Hu,f_3)$, where $G=\nabla f(0)$, $H=D^2f(0)$, $f_3=\partial_x^3f(0)$. No birth coordinate remains, and disintegration gives exactly
+\begin{equation}\label{eq:ctwo-birth}
+\bar{\mathcal A}_r[K](k,u)=12\,p_{V_r}\bigl(v(k)\bigr)\,\E\Bigl[-\frac{\det H_M\det H_S}{r^2}\,\ind_{\{A<0\}}\Bigm|V_r=v(k)\Bigr],
+\end{equation}
+$p_{V_r}$ the density of $V_r$. The integrand is a polynomial in jointly Gaussian jets, so it is absolutely integrable, and this justifies the disintegration of the signed integrand; the birth integral is not the evaluation of a birth-conditioned expression at $b=0$. Every component of $V_r$ is even in $r$. Under $z\mapsto-z$, $G^+_r$ and $\tau_r$ are odd and $G^-_r$ and $A$ are even; since $K(-z)=K(z)$, Gaussian derivative families of opposite parity are uncorrelated, hence independent. No rotational or reflection symmetry of $K$ is used. As $r\to0$, with $f_5=\partial_x^5f(0)$,
+\begin{equation}\label{eq:ctwo-Vexp}
+G^+_r=G+\tfrac{r^2}8\partial_x^2G+O(r^4),\qquad G^-_r=Hu+\tfrac{r^2}{24}\partial_x^2(Hu)+O(r^4),\qquad \tau_r=f_3+\tfrac{r^2}{40}f_5+O(r^4),
+\end{equation}
+in every Gaussian $L^p$, on compact mark sets.
+
+\emph{Step 2 (endpoint determinants without inverses).} At the midpoint let $B=\partial_xA$, $C=\partial_x^2A$ (derivatives of $D_y^2f$ at $0$) and $\eta=\nabla_y\partial_x^3f(0)$. Under the pinned law at $r$, with $\varepsilon=-1$ at $M$ and $\varepsilon=+1$ at $S$, Taylor's formula gives
+\begin{equation}\label{eq:ctwo-endpoint}
+\begin{aligned}
+\alpha_\varepsilon&:=\tfrac1r\,\partial_x^2f\bigl(\varepsilon\tfrac r2u\bigr)=6\varepsilon k+\tfrac r{12}f_4+\varepsilon\tfrac{r^2}{120}f_5+O(r^3),\\
+\beta_\varepsilon&:=\tfrac1r\,\nabla_y\partial_xf\bigl(\varepsilon\tfrac r2u\bigr)=\tfrac\varepsilon2\gamma+\tfrac r{12}\eta+O(r^2),\\
+A_\varepsilon&:=D_y^2f\bigl(\varepsilon\tfrac r2u\bigr)=A+\varepsilon\tfrac r2B+\tfrac{r^2}8C+O(r^3),
+\end{aligned}
+\end{equation}
+because the axial pins force $\partial_x^2f(0)=-\frac{r^2}{24}f_4+O(r^4)$ and $\partial_x^3f(0)=12k-\frac{r^2}{40}f_5+O(r^4)$ (the latter gives the factor $\frac1{120}$), and the transverse gradient-difference pin forces $\nabla_y\partial_xf(0)=-\frac{r^2}{24}\eta+O(r^4)$ (which gives the factor $\frac1{12}$). Let $\Delta_B,\Delta_C$ be the derivatives of $\det$ at $A$ in the directions $B$ and $C$, $\Delta_{BB}$ its second derivative in the direction $B$, $J=\adj(A)$, and $J_B$ the derivative of $\adj$ at $A$ in the direction $B$; these are polynomials, defined also for singular $A$. Put
+\begin{equation}\label{eq:ctwo-Ups}
+\Upsilon_1=Y+3k\Delta_B,\qquad
+\Upsilon_2=\tfrac{3k}4(\Delta_C+\Delta_{BB})+\tfrac{f_4}{24}\Delta_B+\tfrac{f_5}{120}\Delta-\tfrac1{12}\gamma^{\top}J\eta-\tfrac18\gamma^{\top}J_B\gamma .
+\end{equation}
+The bordered-determinant identity $\det\bigl(\begin{smallmatrix}\alpha&\beta^{\top}\\ \beta&A'\end{smallmatrix}\bigr)=\alpha\det A'-\beta^{\top}\adj(A')\beta$, valid without invertibility, gives
+\[
+D_\varepsilon:=\frac{\det H_\varepsilon}r=\alpha_\varepsilon\det A_\varepsilon-r\,\beta_\varepsilon^{\top}\adj(A_\varepsilon)\,\beta_\varepsilon=6\varepsilon k\Delta+r\Upsilon_1+\varepsilon r^2\Upsilon_2+O(r^3),
+\]
+where $H_{-1}=H_M$, $H_{+1}=H_S$, and therefore
+\begin{equation}\label{eq:ctwo-X2}
+-D_{-1}D_{+1}=36k^2\Delta^2+r^2X_2+O(r^3),\qquad X_2=12k\Delta\Upsilon_2-\Upsilon_1^2 .
+\end{equation}
+The term of order $r$ cancels. The term $3k\Delta_B$ of $\Upsilon_1$ is present at fixed $k$ (replacing $\Upsilon_1$ by the cusp variable $Y$ would give a wrong fold coefficient), and $f_5$ enters $X_2$ only linearly, through $\frac1{10}k\Delta^2f_5$.
+
+\emph{Step 3 (density scores; the gap polynomial has degree four).} Order the conditioning coordinates as the odd vector $\mathcal O_r=(G^+_r,\tau_r)$, of dimension $d+1$, and the even vector $\mathcal E_r=(G^-_r,A^{\mathrm{up}})$, of dimension $d(d+1)/2$, where $A^{\mathrm{up}}$ lists the raw upper-triangular entries of $A$ (no factor $\sqrt2$); at $r=0$, $\mathcal E_0$ consists of all raw entries of $H$. Their targets are $12k\,e$ ($e$ the last coordinate) and $x(A)=(0_d,A^{\mathrm{up}})$. By parity they are independent. Write $\Cov\mathcal O_r=\Sigma_o+r^2\Sigma_o'+O(r^4)$, $\Cov\mathcal E_r=\Sigma_e+r^2\Sigma_e'+O(r^4)$, let $g_\Sigma$ be the centered Gaussian density with covariance $\Sigma$, and put
+\begin{equation}\label{eq:ctwo-scores}
+\begin{gathered}
+p_o=(2\pi)^{-(d+1)/2}(\det\Sigma_o)^{-1/2},\qquad a=72\,e^{\top}\Sigma_o^{-1}e,\qquad q(A)=g_{\Sigma_e}\bigl(x(A)\bigr),\\
+\psi_o(k)=-\tfrac12\tr(\Sigma_o^{-1}\Sigma_o')+72k^2\,e^{\top}\Sigma_o^{-1}\Sigma_o'\Sigma_o^{-1}e,\\
+\psi_e(A)=-\tfrac12\tr(\Sigma_e^{-1}\Sigma_e')+\tfrac12\,x(A)^{\top}\Sigma_e^{-1}\Sigma_e'\Sigma_e^{-1}x(A).
+\end{gathered}
+\end{equation}
+Then $p_oe^{-ak^2}q(A)$ is the density of $(\mathcal O_0,\mathcal E_0)$ at $(12ke,x(A))$, and $\psi_o$, $\psi_e$ are the derivatives in $r^2$ at $r=0$ of the logarithms of the densities of $\mathcal O_r$ at $12ke$ and of $\mathcal E_r$ at $x(A)$. Since $\Delta$ is a function of the conditioning variable $A$, differentiating \eqref{eq:ctwo-birth} at $r^2=0$ and using \eqref{eq:ctwo-X2} gives
+\begin{equation}\label{eq:ctwo-A2bar}
+\begin{gathered}
+\bar{\mathcal A}_2[K](k,u)=12\,p_oe^{-ak^2}\int_{\{A<0\}}q(A)\,h(k,A)\,dA,\\
+h(k,A)=\E\bigl[X_2\bigm|\mathcal O_0=12ke,\ \mathcal E_0=x(A)\bigr]+36k^2\Delta^2\bigl[\psi_o(k)+\psi_e(A)\bigr].
+\end{gathered}
+\end{equation}
+Only the nondegenerate conditioning covariances are inverted; the conditional covariances of the higher jets may be singular, and their Gaussian polynomial moments are given by Wick's formula, which needs no inverse. Conditionally on $(\mathcal O_0,\mathcal E_0)=(12ke,x(A))$, the even jets $f_4,C,\eta$ have means linear in $A$ and independent of $k$; the odd jets $\gamma,B,f_5$ have means linear in $k$ and independent of $A$ (for a non-isotropic $K$ these means need not vanish, and they are kept); the residual covariances depend on neither target; and the odd and even residual blocks are independent. By \eqref{eq:ctwo-Ups}--\eqref{eq:ctwo-X2}, $X_2$ has at most four free-jet factors, and after taking moments its degree in $k$ is at most $4$. The substitution $k\mapsto-k$ together with the sign change of every odd jet leaves $X_2$ and the scores invariant and maps the conditional law at $k$ to that at $-k$, so $h(-k,A)=h(k,A)$. Hence
+\begin{equation}\label{eq:ctwo-hj}
+h(k,A)=h_0(A)+h_2(A)k^2+h_4(A)k^4,\qquad p_j=12\,p_o\!\int_{\{A<0\}}q(A)\,h_j(A)\,dA\ \ (j=0,2,4),
+\end{equation}
+with polynomials $h_j$; this is \eqref{eq:ctwo-J1}. Explicitly, by polynomial evaluation (no multiplication by $e^{4a}$ is needed),
+\begin{equation}\label{eq:ctwo-extract}
+\begin{gathered}
+h_0=h(0,A),\qquad h_2=\tfrac1{12}\bigl(16h(1,A)-15h(0,A)-h(2,A)\bigr),\\
+h_4=\tfrac1{12}\bigl(h(2,A)-4h(1,A)+3h(0,A)\bigr).
+\end{gathered}
+\end{equation}
+
+\emph{Step 4 (the finite part).} For $a>0$, integration by parts with the antiderivative $-3k^{-1/3}$ of $k^{-4/3}$ (both boundary terms vanish, since $e^{-ak^2}-1=O(k^2)$ at $0$), Euler's integral and $\Gamma(\frac{11}6)=\frac56\Gamma(\frac56)$ give
+\begin{equation}\label{eq:ctwo-mellin}
+\begin{gathered}
+\int_0^\infty\bigl(e^{-ak^2}-1\bigr)k^{-4/3}dk=-3a^{1/6}\Gamma(\tfrac56),\\
+\int_0^\infty e^{-ak^2}k^{2/3}dk=\tfrac12a^{-5/6}\Gamma(\tfrac56),\qquad
+\int_0^\infty e^{-ak^2}k^{8/3}dk=\tfrac5{12}a^{-11/6}\Gamma(\tfrac56).
+\end{gathered}
+\end{equation}
+By \eqref{eq:ctwo-J1}, $\bar{\mathcal A}_2[K](k,u)-\bar{\mathcal A}_2[K](0,u)=p_0(e^{-ak^2}-1)+e^{-ak^2}(p_2k^2+p_4k^4)$ is $O(k^2)$ at $0$ and bounded at infinity, so \eqref{eq:ctwo-J0} converges absolutely, and \eqref{eq:ctwo-mellin} gives \eqref{eq:ctwo-J2}.
+
+\emph{Derivative orders.} By \eqref{eq:ctwo-jetcov}, $\Sigma_o$ and $\Sigma_e$ use derivatives of $K$ at $0$ of order at most $6$, and by \eqref{eq:ctwo-Vexp} $\Sigma_o'$ and $\Sigma_e'$ use order at most $8$. In $X_2$ every jet other than $f_5$ has order at most $4$, so its conditional means and covariances and the Wick moments use order at most $8$. The jet $f_5$ enters only through its conditional mean, which uses its covariances with $G$ (order $6$) and with $f_3$ (order $8$); its covariance with the even block vanishes by parity, and no variance of $f_5$ (order $10$) occurs. Omitting the $f_5$ term, or using only derivatives through order $6$, gives a wrong coefficient.
+\end{proof}
+
+\begin{remark}[two exact recoveries]\label{rem:ctwo-recover}
+For $K=K_{\mathrm{ref}}$, \eqref{eq:ctwo-J2} reproduces Theorem~\ref{thm:ctwo-closed} in $d=1,2$ by hand. For $d=1$: $\Sigma_o=\bigl(\begin{smallmatrix}1&-3\\-3&15\end{smallmatrix}\bigr)$, $\Sigma_o'=\bigl(\begin{smallmatrix}-3/4&9/4\\9/4&-21/4\end{smallmatrix}\bigr)$, $\Sigma_e=(3)$, $\Sigma_e'=(-\frac54)$, so $a=12$; the conditional mean of $f_5$ is $-120k$ and $\Var(f_4\mid\partial_x^2f(0)=0)=30$ (not $24$, which would also pin the birth height). Hence $\E X_2=-\frac5{24}-12k^2$, $\psi_o+\psi_e=\frac{11}{24}+3k^2$ and $\bar{\mathcal A}_2=\pi^{-3/2}e^{-12k^2}(-\frac5{24}+\frac92k^2+108k^4)$; the bracket in \eqref{eq:ctwo-J2} is $\frac98\,12^{1/6}\pi^{-3/2}$, and the factor $\frac13|S^0|=\frac23$ gives $\frac34\,12^{1/6}\Gamma(\frac56)\pi^{-3/2}$. For $d=2$: given $Hu=0$, $A\sim N(0,\frac83)$; given $A$ and the odd pins, $\E f_4=\frac34A$, $\Var f_4=\frac{57}2$, $\E C=-\frac34A$, $\E f_5=-120k$, $\E B=\E\gamma=\E\eta=0$, $\Var B=\Var\gamma=2$, $\Cov(B,\gamma)=0$, and $\psi_o+\psi_e=\frac{23}{32}+3k^2-\frac{A^2}{256}$. Then $h_0=-\frac{A^4}{256}-\frac{13A^2}{96}-\frac34$, $h_2=-\frac{9A^4}{64}+\frac{57A^2}8-18$, $h_4=108A^2$; the negative-half Gaussian moments of degrees $0,2,4$ are $\frac12,\frac43,\frac{32}3$, so the cone integrals are $(-\frac{43}{72},-1,144)$; the bracket of \eqref{eq:ctwo-J2} applied to them, divided by $12^{1/6}$, is $\frac{13}6$, and multiplication by the density factor $12p_op_{Hu}(0)=\frac12\pi^{-5/2}$ and by $\frac13|S^1|$ gives $\frac{13}{18}12^{1/6}\Gamma(\frac56)\pi^{-3/2}$. Neither computation uses the exact pipeline of Theorem~\ref{thm:ctwo-closed}. Under $f\mapsto tf$, $c_2[\,\cdot\,]$ scales as $t^{-4/3}$.
+\end{remark}
+
+\begin{theorem}[explicit local stability]\label{thm:ctwo-stability}
+Let $d\in\{1,2,3\}$ and let $K$ be a real smooth stationary covariance with
+\begin{equation}\label{eq:ctwo-J3}
+\delta:=\sup_{R\in O(d),\ |\alpha|\le8}\bigl|D^\alpha_RK(0)-D^\alpha_RK_{\mathrm{ref}}(0)\bigr|\le10^{-4},
+\end{equation}
+where $D^\alpha_R$ is the derivative of multi-index $\alpha$ in the orthonormal frame $R$. Then
+\begin{equation}\label{eq:ctwo-J4}
+\bigl|c_2[K]-c_2[K_{\mathrm{ref}}]\bigr|\le10^{50}\,\delta .
+\end{equation}
+\end{theorem}
+
+\begin{proof}
+Let $K_t=(1-t)K_{\mathrm{ref}}+tK$, $t\in[0,1]$, a covariance for each $t$; dots denote $d/dt$. Fix a frame. Every $t$-derivative of a covariance entry of order at most $8$ is bounded by $\delta$, and all such entries are bounded in modulus by $106$ (those of $K_{\mathrm{ref}}$ by $105=\E Z^8$). The coefficients in \eqref{eq:ctwo-Vexp} have sums at most $1$, so the same bounds hold for the entries of $\Sigma_o',\Sigma_e'$ and their derivatives. By Theorem~\ref{thm:ctwo-jet}, $a$ and $p_j$ are smooth in $t$: one differentiates the Gaussian density and the polynomial coefficients on the fixed set $\{A<0\}$, never the cone itself, and the bounds below give integrable dominations that justify the differentiations and the use of Fubini's theorem. Write $R_A=|A^{\mathrm{up}}|$, $\langle A\rangle=1+R_A$, and take $|k|\le2$, which suffices for \eqref{eq:ctwo-extract}.
+
+\emph{(i) Conditioning.} The reference odd block is $\bigl(\begin{smallmatrix}1&-3\\-3&15\end{smallmatrix}\bigr)\oplus I_m$, with least eigenvalue $8-\sqrt{58}>\frac38$; the reference raw Hessian covariance is the diagonal block $2I+\mathbf 1\mathbf 1^{\top}$ together with variance-one off-diagonal entries, with least eigenvalue at least $1$. The full conditioning dimension is at most $10$, so for every conditioning covariance $\Sigma$ along the path
+\begin{equation}\label{eq:ctwo-floor}
+\lambda_{\min}(\Sigma)\ge\tfrac38-10\delta>\tfrac13,\qquad \|\Sigma^{-1}\|_2\le3,\qquad \|\dot\Sigma\|\le10\delta,\qquad \bigl\|\tfrac d{dt}\Sigma^{-1}\bigr\|\le90\delta,
+\end{equation}
+and $\|\Sigma_o'\|,\|\Sigma_e'\|<1000$, $\|\dot\Sigma_o'\|,\|\dot\Sigma_e'\|\le10\delta$.
+
+\emph{(ii) Regressions.} A covariance row $c$ between a higher jet and the conditioning vector has $\|c\|<400$ and $\|\dot c\|<4\delta$, so $\|\frac d{dt}(c\Sigma^{-1})\|\le12\delta+36000\delta<40000\delta$. With conditioning sizes at most $6$ (even) and $4$ (odd), the conditional means are, more precisely, at most $1000R_A$ (even jets) and $10000|k|$ (odd jets), so for every higher-jet coordinate used in $X_2$, including $f_5$,
+\begin{equation}\label{eq:ctwo-mean}
+|\mu|\le20000\langle A\rangle,\qquad |\dot\mu|\le2\cdot10^6\,\delta\langle A\rangle .
+\end{equation}
+The conditional covariance entries of the higher jets are at most $106$ in modulus (covariance contraction and Cauchy--Schwarz), and differentiating the Schur complement,
+\begin{equation}\label{eq:ctwo-schur}
+|\dot C_{\mathrm{cond},ij}|\le\bigl(1+2\cdot4\cdot3\cdot400+400^2\cdot9\cdot10\bigr)\delta<10^8\delta .
+\end{equation}
+The variance of $f_5$ is neither estimated nor used.
+
+\emph{(iii) Scores and densities.} Differentiating the inverses and traces in \eqref{eq:ctwo-scores} (each quadratic-form derivative has norm at most $(2\cdot90\cdot1000\cdot3+9\cdot10)\delta=540090\,\delta$, the largest multiplier being $72$; the two constant scores have derivatives summing to at most $450150\,\delta$),
+\begin{equation}\label{eq:ctwo-score}
+|\psi_o(k)+\psi_e(A)|\le10^6(1+k^2+R_A^2),\qquad |\dot\psi_o(k)+\dot\psi_e(A)|\le10^8\delta\,(1+k^2+R_A^2).
+\end{equation}
+Moreover
+\begin{equation}\label{eq:ctwo-po}
+p_o\le9,\quad |\dot p_o|<1000\delta,\quad q\ge0,\quad |\dot q(A)|\le100\delta(1+R_A^2)\,q(A),\quad \tfrac12<a\le216,\quad |\dot a|<10000\delta,
+\end{equation}
+where $a>\frac12$ because $(\Sigma_o^{-1})_{ee}\ge1/(\Sigma_o)_{ee}\ge\frac1{106}$, and the bound on $\dot q$ uses $\dim\mathcal E\le6$, $\|\Sigma_e^{-1}\|\le3$ and $\|\dot\Sigma_e\|\le6\delta$.
+
+\emph{(iv) Polynomials.} For $m\le2$ the coefficient $\ell^1$ norms of $\Delta,\Delta_B,\Delta_C,\Delta_{BB}$ are at most $2,4,4,4$, each entry of $\adj(A)$ has norm at most $1$, and each quadratic or bilinear contraction in \eqref{eq:ctwo-Ups} has norm at most $4$ (these bounds include $m=0,1$). Hence, for $|k|\le2$, in the coefficient norm of polynomials in the raw entries of $A$ and the free jets,
+\begin{equation}\label{eq:ctwo-coeff}
+\|\Upsilon_1\|\le\tfrac{151}6,\qquad \|\Upsilon_2\|\le\tfrac{781}{60},\qquad \|X_2\|\le\bigl(\tfrac{151}6\bigr)^2+48\cdot\tfrac{781}{60}=\tfrac{226469}{180}<2000 .
+\end{equation}
+Every monomial of $X_2$ has total degree at most $6$ in these entries and at most four free-jet factors, and the $f_5$ term is linear in $f_5$.
+
+\emph{(v) Wick moments.} A Gaussian moment of $n\le4$ variables has at most $10$ partial-matching terms. With $\mu_*=20000\langle A\rangle$, \eqref{eq:ctwo-mean}--\eqref{eq:ctwo-schur} bound each term by $\mu_*^n$ and its derivative by $400\delta\mu_*^n$ (mean derivatives at most $100\delta\mu_*$, covariance derivatives at most $\delta\mu_*^2$, at most four factors), so
+\begin{equation}\label{eq:ctwo-wick}
+|\text{moment}|\le10\,\mu_*^n,\qquad \bigl|\tfrac d{dt}\text{moment}\bigr|\le4000\,\delta\mu_*^n .
+\end{equation}
+A remaining monomial in $A$ costs $\langle A\rangle^j$ with $j+n\le6$. The score term of $h$ is at most $36\cdot4\cdot4\cdot10^6\cdot5\langle A\rangle^6$ in modulus, and its derivative at most the same with $10^8\delta$ in place of $10^6$. With \eqref{eq:ctwo-coeff} and \eqref{eq:ctwo-extract}, whose largest coefficient $\ell^1$ norm is $\frac83<3$,
+\begin{equation}\label{eq:ctwo-hbd}
+|h(k,A)|<10^{22}\langle A\rangle^6,\quad |\dot h(k,A)|<10^{25}\delta\langle A\rangle^6,\quad |h_j(A)|<10^{23}\langle A\rangle^6,\quad |\dot h_j(A)|<10^{26}\delta\langle A\rangle^6 .
+\end{equation}
+
+\emph{(vi) The cone integral, without a boundary derivative.} The density of $Hu$ at $0$ is at most $3^{d/2}<6$. Given $Hu=0$, $A^{\mathrm{up}}$ is a centered Gaussian vector with at most $3$ coordinates and covariance trace at most $318$; Jensen's inequality on the eigenvalues and $\E Z^8=105$ give $\E|A^{\mathrm{up}}|^8\le105\,(318)^4$. With $(1+R_A)^8\le2^7(1+R_A^8)$,
+\begin{equation}\label{eq:ctwo-cone}
+\int q(A)\,(1+R_A)^8\,dA\le6\cdot128\cdot(1+105\cdot318^4)=824629750641408<10^{15},
+\end{equation}
+and the integral over the cone $\{A<0\}$ is smaller; there is no hidden birth or $k$ mean, because the even target is $Hu=0$. By \eqref{eq:ctwo-hj} and \eqref{eq:ctwo-po}--\eqref{eq:ctwo-cone}, uniformly in the frame and in $t$,
+\begin{equation}\label{eq:ctwo-pbd}
+|p_j|<12\cdot9\cdot10^{23}\cdot10^{15}<10^{41},\qquad |\dot p_j|<12\bigl(10^3\cdot10^{23}+9\cdot10^{26}+9\cdot100\cdot10^{23}\bigr)10^{15}\delta<10^{44}\delta,
+\end{equation}
+where the last term comes from the derivative of the Gaussian density, not of the cone.
+
+\emph{(vii) Conclusion.} For $\frac12<a\le216$, $a^{1/6}<3$, $a^{-5/6}<2$, $a^{-11/6}<4$ and $a^{-17/6}<8$, so the three weights in \eqref{eq:ctwo-J2} have total absolute value at most $12$ and their $a$-derivatives total at most $11$. Also $\Gamma(\frac56)<\frac65+1<3$ (split Euler's integral at $1$) and $|S^{d-1}|<16$. Hence, by \eqref{eq:ctwo-J2}, \eqref{eq:ctwo-po} and \eqref{eq:ctwo-pbd},
+\begin{equation}\label{eq:ctwo-cdot}
+\Bigl|\frac d{dt}c_2[K_t]\Bigr|\le16\bigl(12\cdot10^{44}+11\cdot10^4\cdot10^{41}\bigr)\delta=1.952\cdot10^{47}\,\delta<10^{50}\delta,
+\end{equation}
+and integrating over $t\in[0,1]$ gives \eqref{eq:ctwo-J4}. The constant is not optimized.
+\end{proof}
+
+\begin{corollary}[normalized periodization]\label{cor:ctwo-torus}
+Let $d\in\{1,2,3\}$. For every real $L\ge10$,
+\begin{equation}\label{eq:ctwo-J5}
+\begin{gathered}
+\bigl|c_2[K_L]-c_2[K_{\mathrm{ref}}]\bigr|\le10^{50}E_d(L),\\
+E_d(L)=2(3^d-1)\bigl[d^4L^8+28d^3L^6+210d^2L^4+420dL^2+210\bigr]e^{-L^2/2}.
+\end{gathered}
+\end{equation}
+In particular, uniformly for every real $L\ge24$,
+\begin{equation}\label{eq:ctwo-J6}
+\bigl|c_2[K_L]-c_2[K_{\mathrm{ref}}]\bigr|<10^{-60},
+\end{equation}
+and, for every real $L\ge24$,
+\[
+c_2[K_L]\in
+\begin{cases}
+[0.2300445802661502,\ 0.2300445802661999], & d=1,\\
+[0.2215244106266631,\ 0.2215244106267111], & d=2,\\
+[0.1612340491269446,\ 0.1612340491269811], & d=3.
+\end{cases}
+\]
+\end{corollary}
+
+\begin{proof}
+For $q\le8$ unit directional derivatives, the derivative of $K_{\mathrm{ref}}$ at $z$ with $|z|\ge1$ is bounded in modulus by $P_8(|z|)e^{-|z|^2/2}$, $P_8(w)=w^8+28w^6+210w^4+420w^2+105$: differentiating the Gaussian produces all contractions into singletons and pairs, each unit-vector contraction has modulus at most $1$, and the numbers of contractions are $1,28,210,420,105$; lower orders are bounded by the same polynomial for $w\ge1$. At the origin every required derivative has modulus at most $105$. The normalization denominator in \eqref{eq:ctwo-KL} is at least $1$, so the change of a normalized derivative is at most the image sum $\sum_{n\ne0}(P_8(L|n|)+105)e^{-L^2|n|^2/2}$. In the shell $\|n\|_\infty=j\ge1$ there are at most $(3^d-1)j^{d-1}$ points, all with $j\le|n|\le\sqrt d\,j$, and every power of $j$ that occurs is at most $j^{10}$. For $L\ge10$ the ratio of successive shell terms $j^{10}e^{-L^2j^2/2}$ is at most $2^{10}e^{-150}<\frac12$ (as $e^{150}>1+150+150^2/2>2048$), so the shell sum is less than twice its first term, and $E_d(L)$ bounds $\delta$ of \eqref{eq:ctwo-J3} in every frame. Each $L^je^{-L^2/2}$, $j\le8$, decreases for $L\ge10$. Exact positive Taylor sums give $e^{-50}<2\cdot10^{-22}$ and $e^{-288}<10^{-125}$; hence $E_3(10)<9.231\cdot10^{-11}<10^{-4}$, and since the polynomial factor increases with $d$, every $d\le3$ and $L\ge10$ lies within \eqref{eq:ctwo-J3}. Theorem~\ref{thm:ctwo-stability} gives \eqref{eq:ctwo-J5}. At $L=24$ the exact polynomial factors $2(3^d-1)[\dots]$ are $461984450376$, $28868660309280$ and $471182508197544$ for $d=1,2,3$; multiplied by $10^{50}\cdot10^{-125}$ they give additive errors below $4.62\cdot10^{-64}$, $2.887\cdot10^{-62}$ and $4.712\cdot10^{-61}$, all below $10^{-60}$, and monotonicity extends this to every real $L\ge24$. No floating-point exponential enters. Finally, widening each endpoint of the enclosures of $c_2[K_{\mathrm{ref}}]$ in Theorem~\ref{thm:ctwo-closed} by $10^{-16}$, which exceeds the transfer error, gives the three intervals.
+\end{proof}
+
+\subsection{The side-24 constant}\label{ssec:ctwo-side24}
+
+The results of \S\S\ref{ssec:ctwo-closed}--\ref{ssec:ctwo-transfer} concern the coefficient expression $c_2[K]$. Their application to the constant \eqref{eq:ctwo-def} of the side-24 field, and to the law (2.12) of the main text, uses the following two identifications; neither is proved in this section.
+
+\begin{hypothesis}[identification interfaces]\label{hyp:ctwo-ident}
+Let $d\in\{2,3\}$ and $L\ge24$.
+\begin{enumerate}[(a),leftmargin=2em]
+\item \emph{(Typed kernel and surrogate.)} For the covariance $K_L$, at every fixed $(b,k,u)$ with $k>0$, the two-point kernel and the signed fixed-cone surrogate have the same coefficient of $r^2$, $\mathcal A_2=\widetilde{\mathcal A}_2[K_L]$, and accordingly the constant $c_2$ of \eqref{eq:ctwo-def} equals the expression $c_2[K_L]$ of \eqref{eq:ctwo-J0}. This is the comparison of the typed kernel with its fixed-cone surrogate that accompanies the fold expansion \eqref{eq:ctwo-fold} in Section~\ref{sec:third}: replacing the typed indicator by $\ind_{\{A<0\}}$ changes $\mathcal A_r$ by $O(r^3(1+k^{-1}))$ at fixed $(b,k,u)$, the boundary layer of the typed region near $\det A=0$.
+\item \emph{(Persistence identification.)} The constant $c_2$ of \eqref{eq:ctwo-def} is the coefficient of $\ell^{1/3}$ in the expansions of the elder and candidate densities of the side-$L$ field, as stated in Section~\ref{sec:third} under the hypotheses stated there (for the elder density, with the far elder bound used there).
+\end{enumerate}
+\end{hypothesis}
+
+\begin{corollary}[the constant $c_2$ at side $24$]\label{cor:ctwo-side24}
+Let $d=3$ and $L\ge24$, and let
+\[
+c_2^{\mathrm{ref}}:=c_2[K_{\mathrm{ref}}]=\frac5{48}\bigl(33-7\sqrt6\bigr)\,12^{1/6}\,\Gamma(\tfrac56)\,\pi^{-5/2}\in[0.1612340491269447,\ 0.1612340491269810].
+\]
+\begin{enumerate}[(i),leftmargin=2em]
+\item $|c_2[K_L]-c_2^{\mathrm{ref}}|<10^{-60}$ and $c_2[K_L]\in[0.1612340491269446,\ 0.1612340491269811]$.
+\item Under Hypothesis~\ref{hyp:ctwo-ident}(a), the same holds for the constant $c_2$ of \eqref{eq:ctwo-def}.
+\item Under Hypothesis~\ref{hyp:ctwo-ident}(a), for $L=24$,
+\begin{equation}\label{eq:ctwo-ratio24}
+\frac{c_2}{c_{3,24}}\in[3.859496174547456,\ 3.859496174548331];
+\end{equation}
+in particular $c_2/c_{3,24}=3.8595$ to four decimals, the value printed in (2.14) of the main text.
+\item Under Hypothesis~\ref{hyp:ctwo-ident}(a) and (b), $c_2$ is the constant of (2.12) and (2.14) of the main text; thus (i)--(iii) give, for that constant, the enclosure of Theorem~2.3(iii) of the main text transferred to $L=24$ with additive error below $10^{-60}$, and the value $c_2/c_{3,24}\approx3.8595$ of (2.14).
+\end{enumerate}
+\end{corollary}
+
+\begin{proof}
+(i) is Theorem~\ref{thm:ctwo-closed} for $d=3$ together with \eqref{eq:ctwo-J6} and the last display of Corollary~\ref{cor:ctwo-torus}. (ii) follows from (i) and Hypothesis~\ref{hyp:ctwo-ident}(a). For (iii), by (2.10) and (2.11) of the main text, $|c_{3,24}/c_{3,\infty}-1|<1.5\cdot10^{-118}$ and $c_{3,\infty}=0.0417759318405983433429\ldots$, so
+\[
+0.04177593184059834334<c_{3,24}<0.04177593184059834335,
+\]
+the enclosure quoted in Theorem~2.3(iii) of the main text. Dividing the positive intervals of (ii) and of $c_{3,24}$,
+\begin{align*}
+\frac{c_2}{c_{3,24}}&\ge\frac{0.1612340491269446}{0.04177593184059834335}=3.85949617454745675\ldots,\\
+\frac{c_2}{c_{3,24}}&\le\frac{0.1612340491269811}{0.04177593184059834334}=3.85949617454833046\ldots,
+\end{align*}
+which gives \eqref{eq:ctwo-ratio24}. (iv) is (ii), (iii) and Hypothesis~\ref{hyp:ctwo-ident}(b).
+\end{proof}
+
+\begin{remark}[scope]\label{rem:ctwo-scope}
+The bound \eqref{eq:ctwo-J6} is an additive error for the coefficient expression only. It is not an estimate of $\nu_{3,24}(\ell)$ at a positive lifetime, and it gives no constant for the remainder $O(\ell^{3/7})$ of (2.12) of the main text, so the size of the omitted terms at a given $\ell$ is not quantified. Near $L=10$ the bound \eqref{eq:ctwo-J5} is very loose and is not an accurate approximation of the coefficient. The interval for $c_2[K_{\mathrm{ref}}]$ in Theorem~\ref{thm:ctwo-closed} encloses the closed form, which concerns the Gaussian kernel on $\R^3$; the side-24 constant is reached only through Corollary~\ref{cor:ctwo-torus} and Hypothesis~\ref{hyp:ctwo-ident}.
+\end{remark}

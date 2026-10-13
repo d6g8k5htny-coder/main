@@ -1,0 +1,368 @@
+% Supplement, Part II, section S8: vanishing and rate of the remainder.
+% Sources and corrections: see CONC_s8s9.md.
+\section{Vanishing and rate of the remainder}\label{sec:remainder}
+
+This section and the next prove the first links of Theorem~2.3 of the main text. Theorem~\ref{thm:remainder-vanish} identifies the constant term of the bounded remainder of Theorem~R (\S\ref{sec:rate}): it is the equal-height mass $B_{d,L}$ for the candidate density and $0$ for the elder density. Theorem~\ref{thm:remainder-rate} shows that the elder remainder is $O(\ell^{1/4})$. Both theorems hold for every fixed dimension $d\ge2$ and side $L>0$; at $d=3$, $L=24$ the elder density is $\nu_{3,24}$.
+
+\subsection{Setting and inputs}\label{ssec:remainder-setting}
+
+\begin{convention}[notation for Part~II]\label{conv:remainder-notation}
+\begin{enumerate}[(a),leftmargin=2em,itemsep=2pt]
+\item \emph{Field and constants.} Fix $d\ge2$ and $L>0$, and let $f$ be the centred stationary Gaussian field of variance one on the torus $\T^d_L=\R^d/(L\Z^d)$ with covariance $K_L(z)=\sum_{n\in\Z^d}e^{-|z+Ln|^2/2}\big/\sum_{n\in\Z^d}e^{-|Ln|^2/2}$; for $d=3$, $L=24$ this is (1.1) of the main text. Put $m:=d-1$. Unless stated otherwise, $C,c,N$ are positive constants depending on $d$ and $L$ only; they may change from line to line. The index of a symmetric matrix is its number of negative eigenvalues.
+\item \emph{Densities.} $\nu_{\cand}(\ell)$ is the $\ell$-density, per unit volume, of the expected number of ordered pairs $(M,S)$ of a local maximum $M$ and a critical point $S$ of index $d-1$ with $f(M)-f(S)=\ell>0$, all births, gaps and separations included; $\nu_{\eld}(\ell)$ is the same density for the pairs that are finite ordinary superlevel $H_0$ bars (the essential class excluded); $\rho_{\rej}:=\nu_{\cand}-\nu_{\eld}$. All three are taken in their canonical marked Kac--Rice density versions (Convention~2.2 of the main text and \S\ref{sec:setting}; for general $d,L$ the same construction, \cite[\S9]{parentP}). At $d=3$, $L=24$, $\nu_{\eld}=\nu_{3,24}$. A superscript $\mathrm{near},\rho$, $\mathrm{far},\rho$ or $[\rho,\rho')$ restricts to pairs with $\dist(M,S)<\rho$, $\ge\rho$ or in $[\rho,\rho')$. The constant $c_{d,L}>0$ is the leading coefficient of \cite[(15.2)]{parentP}, so that $\nu_{\cand}(\ell)\sim\nu_{\eld}(\ell)\sim c_{d,L}\ell^{-1/3}$ \cite[Theorem~C]{parentP}; at $d=3$, $L=24$ it equals $c_{3,24}$ of (2.9) of the main text, both being the leading coefficient of $\nu_{3,24}$.
+\item \emph{Pinned pairs.} By stationarity the midpoint of the pair is the origin. For a direction $u\in S^{d-1}$ (the $t$ of (3.4) of the main text; we write $u$, as in (2.13) of the main text), an orthonormal frame $\Theta$ of $u^\perp$, and coordinates $(x,y)\in\R\times\R^m$ along $u$ and $\Theta$, the pins are
+\[
+M=-\tfrac r2u,\quad S=\tfrac r2u,\qquad f(M)=b,\quad f(S)=b-kr^3,\qquad \nabla f(M)=\nabla f(S)=0,
+\]
+with $b\in\R$ and gap mark $k>0$; in the notation of (3.5) of the main text $k=\kappa/6$, and the lifetime is $\ell=kr^3$. Put $P:=1+|b|+k$. The observation vector $U_r$ has the axial rows $\tfrac12(f(M)+f(S))$, $(f(S)-f(M))/r$, $(\partial_xf(S)-\partial_xf(M))/r$, $\tfrac6{r^2}[\partial_xf(M)+\partial_xf(S)-2(f(S)-f(M))/r]$ and the transverse rows $\tfrac12(\partial_{y_j}f(M)+\partial_{y_j}f(S))$, $(\partial_{y_j}f(S)-\partial_{y_j}f(M))/r$; the map from the raw pins $(f(M),\nabla f(M),f(S),\nabla f(S))$ to $U_r$ has absolute determinant $12r^{-(d+3)}$, and the target of $U_r$ is $v_r=(b-kr^3/2,\,-kr^2,\,0,\,12k,\,0,\dots,0)$. At $r=0$, $U_0=(f,\partial_xf,\partial_x^2f,\partial_x^3f,\nabla_yf,\nabla_y\partial_xf)(0)$ with target $v_0=v_0(b,k)=(b,0,0,12k,0,\dots,0)$. We write $\pi_r$, $\pi_0$ for the Gaussian densities of $U_r$, $U_0$, $Q=Q_{r,b,k}$ for the continuous Gaussian regression law of the field given $U_r=v_r$, and call the regression law given $U_0=v_0$ the \emph{contact law}.
+\item \emph{Weights.} For a symmetric matrix $H$ let $F_j(H):=|\det H|$ if $H$ has exactly $j$ negative eigenvalues and $F_j(H):=0$ otherwise (so $F_j(H)=0$ if $H$ is singular). With $H_i=D^2f(i)$ ($i\in\{M,S\}$), the typed weight is $W_r:=|\det H_M\det H_S|\,\ind\{H_M\prec0,\ \Ind H_S=d-1\}$ and $Z_r:=\E_QW_r$. The scaled endpoint Hessians are
+\[
+K_i:=D_r^{-1}H_iD_r^{-1}=\begin{pmatrix}\alpha_i&\sqrt r\,\beta_i^{\top}\\ \sqrt r\,\beta_i&A_i\end{pmatrix},\qquad \alpha_i=\frac{\partial_x^2f(i)}r,\quad \beta_i=\frac{\nabla_y\partial_xf(i)}r,\quad A_i=D_y^2f(i),
+\]
+with $D_r=\operatorname{diag}(\sqrt r,I_m)$; thus $|\det H_i|=r|\det K_i|$, $K_i$ is congruent to $H_i$, and $W_r/r^2=F_d(K_M)F_{d-1}(K_S)$.
+\item \emph{Elder mark.} For $M\in\T^d_L$, $d_f(M):=\sup\{\min_{s\in[0,1]}f(\gamma(s)):\gamma\in C([0,1];\T^d_L),\ \gamma(0)=M,\ f(\gamma(1))>f(M)\}$ (with $\sup\emptyset=-\infty$) is the maximin connection level, and $e:=\ind\{d_f(M)=f(S)\}$. The mark $e$ is Borel \cite[\S8]{parentP} (cf.\ \S\ref{sec:selection}); on the Morse locus with distinct critical values, $e=1$ exactly when $S$ is the elder death saddle of $M$.
+\item \emph{Kernels.} $\mathcal A_r(b,k,u):=12\pi_r(v_r)\E_Q[W_r/r^2]$, $\mathcal A^{\eld}_r:=12\pi_r(v_r)\E_Q[(W_r/r^2)e]$ and $\mathcal A^{\rej}_r:=\mathcal A_r-\mathcal A^{\eld}_r=12\pi_r(v_r)\E_Q[(W_r/r^2)(1-e)]$. At contact, $A_0$ denotes the transverse Hessian $D_y^2f(0)$ under the contact law, $z_0(b,k,u):=\E[(6k)^2(\det A_0)^2\ind\{A_0\prec0\}]$ and $\mathcal A_0(b,k,u):=12\pi_0(v_0)z_0$. Finally $H(b,k):=CP^Ne^{-c(b^2+k^2)}$, with $N$ enlarged when necessary.
+\item \emph{Two-site kernels.} For $y\in\T^d_L\setminus\{0\}$ let $O_y=(f(0),\nabla f(0),f(y),\nabla f(y))$, $v_{b,\ell}=(b,0,b-\ell,0)$, $p_y$ the density of $O_y$, $Q_{y,b,\ell}$ the regression law given $O_y=v_{b,\ell}$, $W=|\det H_0\det H_y|\,\ind\{H_0\prec0,\ \Ind H_y=d-1\}$ and $e_y=\ind\{d_f(0)=f(y)\}$. The unmarked candidate kernel, the equal-height kernel and the equal-height mass are
+\[
+\Psi^{\cand}_\ell(b,y)=p_y(v_{b,\ell})\,\E_{Q_{y,b,\ell}}[W],\qquad \Psi_0(b,y)=p_y(v_{b,0})\,\E_{Q_{y,b,0}}[W],
+\]
+\[
+B_{d,L}=\int_{\T^d_L\setminus\{0\}}\int_\R\Psi_0(b,y)\,db\,dy .
+\]
+\item \emph{Radii.} $r_R\in(0,1]$ is the radius of Proposition~\ref{prop:remainder-R}, $r_K$ that of Proposition~\ref{prop:remainder-K}, and $r_Z$ the radius up to which the near-diagonal analysis of Theorem~Z (record [R7] of the main text; Proposition~\ref{prop:remainder-Z}) is carried out. The \emph{admissible radius} is $r_0^*:=\min\{r_R,r_K,r_Z\}$, decreased if necessary so that $r_0^*<L/(4\sqrt2)$, the embedding radius of the cap cylinder (each of the three statements remains true for a smaller radius; for $L=24$ nothing changes, as $r_R\le1<24/(4\sqrt2)$). The dominating variable is
+\[
+T:=1+k+\|F_r\|_{C^7}+\|F_0\|_{C^7}+r^{-2}\|F_r-F_0\|_{C^2},
+\]
+for the coupling $(F_r,F_0)$ of Proposition~\ref{prop:remainder-R}.
+\end{enumerate}
+\end{convention}
+
+The marked Kac--Rice disintegration (\S\ref{sec:contact}; \cite[\S\S9--10, (10.2)]{parentP}) gives the candidate intensity $r\mathcal A_r\,dr\,db\,dk\,d\sigma(u)$ per unit volume, with $\sigma$ the surface measure, and the elder and rejected intensities with $\mathcal A^{\eld}_r$, $\mathcal A^{\rej}_r$ in place of $\mathcal A_r$. Pushing forward at fixed $r$ with $dk=d\ell/r^3$ gives, for $0\le\rho<\rho'\le r_R$, $\ell>0$ and $\bullet\in\{\cand,\eld,\rej\}$ (with $\mathcal A^{\cand}_r:=\mathcal A_r$),
+\begin{equation}\label{eq:remainder-sep}
+\nu_\bullet^{[\rho,\rho')}(\ell)=\int_\rho^{\rho'}\!\!\int_\R\int_{S^{d-1}}r^{-2}\mathcal A^\bullet_r(b,\ell/r^3,u)\,d\sigma(u)\,db\,dr .
+\end{equation}
+The leading coefficient is $c_{d,L}=\int_{S^{d-1}}\int_\R\int_0^\infty\mathcal A_0(b,k,u)\,(3k^{2/3})^{-1}\,dk\,db\,d\sigma(u)$ (\S\ref{sec:rate}; \cite[(13.6)]{parentP}); the substitution $k=\ell/r^3$, $dk=3\ell r^{-4}dr$, turns it into
+\begin{equation}\label{eq:remainder-lead}
+c_{d,L}\,\ell^{-1/3}=\int_0^\infty\!\!\int_\R\int_{S^{d-1}}r^{-2}\mathcal A_0(b,\ell/r^3,u)\,d\sigma(u)\,db\,dr .
+\end{equation}
+Translating the pins to $0$ and $y=ru$, the polar factor $r^{d-1}$, the pin density $12r^{-(d+3)}\pi_r(v_r)$ and the determinant scale $r^2$ give, for $0<r\le r_0^*$,
+\begin{equation}\label{eq:remainder-polar}
+r^{-2}\mathcal A_r(b,\ell/r^3,u)=r^{d-1}\Psi^{\cand}_\ell(b,ru),\qquad r^{-2}\mathcal A_r(b,0,u)=r^{d-1}\Psi_0(b,ru),
+\end{equation}
+where $\mathcal A_r(b,0,u)$ is defined with the pinned law at $k=0$. On $\{\dist(0,y)\ge\rho\}$ the height map $(b,\ell)\mapsto(b,b-\ell)$ has Jacobian one, and
+\begin{equation}\label{eq:remainder-far}
+\nu_{\cand}^{\mathrm{far},\rho}(\ell)=\int_{\dist(0,y)\ge\rho}\int_\R\Psi^{\cand}_\ell(b,y)\,db\,dy,\qquad
+\nu_{\eld}^{\mathrm{far},\rho}(\ell)=\int_{\dist(0,y)\ge\rho}\int_\R p_y(v_{b,\ell})\,\E_{Q_{y,b,\ell}}[We_y]\,db\,dy .
+\end{equation}
+Separation boundaries are Lebesgue-null in the pair variables, so the ranges in \eqref{eq:remainder-sep}--\eqref{eq:remainder-far} may be combined freely.
+
+We use three groups of results that are proved elsewhere.
+
+\begin{proposition}[the contact coupling and the bounds of Theorem~R]\label{prop:remainder-R}
+There is $r_R\in(0,1]$ such that, for $0<r\le r_R$, $b\in\R$ and every frame:
+\begin{enumerate}[(i),leftmargin=2em]
+\item Let $F$ be an unconditioned copy of the field, $\Sigma_r=\Cov(U_r)$ and $C_r(z)=\Cov(F(z),U_r)$. Then $F_r:=F+C_r\Sigma_r^{-1}(v_r-U_r(F))$ has law $Q$ and $F_0:=F+C_0\Sigma_0^{-1}(v_0-U_0(F))$ has the contact law. The matrices $\Sigma_r$ are uniformly positive definite and bounded, $\Sigma_r-\Sigma_0$, $\Sigma_r^{-1}-\Sigma_0^{-1}$ and $\|C_r-C_0\|_{C^q}$ are $O(r^2)$, and these covariance facts do not depend on the target, so (i) and (ii) hold for all $k\ge0$. For every finite $p\ge1$ and every derivative order $q$,
+\begin{equation}\label{eq:remainder-R4}
+\|F_r-F_0\|_{L^p(C^q)}\le C_{p,q}\,r^2P,\qquad \bigl\|1+\|F_r\|_{C^q}+\|F_0\|_{C^q}\bigr\|_{L^p}\le C_{p,q}\,P .
+\end{equation}
+In particular $\|T\|_{L^p}\le C_pP$ for every $p$.
+\item $\pi_r(v_r)\le Ce^{-c(b^2+k^2)}$ and $|\pi_r(v_r)-\pi_0(v_0)|\le Cr^2P^2e^{-c(b^2+k^2)}$.
+\item For a symmetric $m\times m$ matrix $A$, $\alpha\in\R$, $\beta\in\R^m$ and $t\ge0$, the matrix $K_t=\bigl(\begin{smallmatrix}\alpha&\sqrt t\beta^{\top}\\ \sqrt t\beta&A\end{smallmatrix}\bigr)$ satisfies, also for singular $A$,
+\begin{equation}\label{eq:remainder-block}
+\det K_t=\alpha\det A-t\,\beta^{\top}\adj(A)\,\beta .
+\end{equation}
+\item For $k>0$, with $f=F_r$ and $A_0:=D_y^2F_0(0)$: $\|A_i-A_0\|\le rT$, $\|A_i\|+\|A_0\|+\|\beta_i\|\le CT$, $|\alpha_M+6k|+|\alpha_S-6k|\le CrT$, $F_d(K_M),F_{d-1}(K_S)\le C(k+r)T^d$, and
+\begin{equation}\label{eq:remainder-R11}
+\frac{Z_r}{r^2}\le C(k+r)^2P^N,\qquad 0\le\mathcal A_r\le(k+r)^2H,\qquad 0\le\mathcal A_0\le k^2H,\qquad |\mathcal A_r-\mathcal A_0|\le r(k+r)H .
+\end{equation}
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+These are the coupling, the pin-density estimates, the block-determinant lemma and the weight bounds in the proof of Theorem~R (\S\ref{sec:rate}); Theorem~R and its proof hold for every fixed $d\ge2$ and $L>0$. The variable $T$ dominates the dominating variable used there (which is built from $C^4$ norms), so its bounds hold with $T$ after adjusting $C$.
+\end{proof}
+
+\begin{proposition}[gap-mark-explicit weight bounds]\label{prop:remainder-K}
+Let $G_r:=\{\lambda_{\min}(-A_M)>4rM_3^2/(3k)\}\cap\{rM_4\le3k/10\}$ be the cap region, where $M_3,M_4$ are the local $C^3$ and $C^4$ seminorms of the field on the cap cylinder \cite[\S\S4,7]{parentP}. There are $r_K>0$, $C$ and $N$ such that, for every $b\in\R$, $k>0$, every frame and $0<r\le r_K$,
+\begin{equation}\label{eq:remainder-K}
+\E_Q[W_r/r^2]\le C(k+r)^2P^N,\qquad \E_Q\bigl[(W_r/r^2)\ind_{G_r^c}\bigr]\le C\,\frac{r^3}k\,P^N\quad\text{whenever }r\le\min\{k,r_K\}.
+\end{equation}
+Moreover $1-e\le\ind_{G_r^c}$ $Q$-almost surely on $\{W_r>0\}$.
+\end{proposition}
+
+\begin{proof}
+The two bounds are Theorem~K of record [R7] of the main text. The last statement is the deterministic cap theorem \cite[\S\S7--8]{parentP}: on $G_r$ and on the typed support, the global elder partner of $M$ is $S$, and $Q$ is almost surely Morse with distinct critical values \cite[\S8]{parentP}.
+\end{proof}
+
+\begin{proposition}[the equal-height kernel]\label{prop:remainder-Z}
+The following hold.
+\begin{enumerate}[(i),leftmargin=2em]
+\item $0<B_{d,L}<\infty$, and, for the canonical marked Kac--Rice density versions, $\rho_{\rej}(\ell)\to B_{d,L}$ as $\ell\downarrow0$.
+\item For fixed $y\ne0$ and $b$, the covariance of $Q_{y,b,\ell}$ does not depend on $\ell$; on one probability space $f_\ell=f_0+\ell h_y$, with $f_0$ of law $Q_{y,b,0}$ and $h_y$ a deterministic smooth function with $h_y(0)=0$, $h_y(y)=-1$, $\nabla h_y(0)=\nabla h_y(y)=0$. The two endpoint Hessians are almost surely nonsingular, and $\Psi^{\cand}_\ell(b,y)\to\Psi_0(b,y)$ as $\ell\downarrow0$ for every $y\ne0$ and $b\in\R$.
+\item For every $\rho\in(0,L/2]$ there are $C_\rho,c_\rho>0$ with $0\le\Psi^{\cand}_\ell(b,y)\le C_\rho(1+|b|)^{2d}e^{-c_\rho b^2}$ for $\dist(0,y)\ge\rho$ and $0<\ell\le1$.
+\end{enumerate}
+\end{proposition}
+
+\begin{proof}
+Items (i) and (ii) are Theorem~Z of record [R7] of the main text and its regression coupling at fixed separation; the convergence in (ii) follows from the coupling, the almost-sure nonsingularity and a polynomial majorant of the determinant product. Item (iii) is the nondegenerate far bound \cite[\S14, (14.1)]{parentP}, the input of the far estimate in Theorem~Z.
+\end{proof}
+
+\subsection{The even contact expansion}\label{ssec:remainder-even}
+
+\begin{lemma}[even contact expansion]\label{lem:remainder-even}
+There are $C,N$ such that for all $b\in\R$, $k>0$, $u\in S^{d-1}$ and $0<r\le r_0^*$,
+\begin{equation}\label{eq:remainder-E}
+\Bigl|\frac{Z_r}{r^2}-z_0(b,k,u)\Bigr|\le Cr^2P^N,\qquad |\mathcal A_r-\mathcal A_0|\le r^2H(b,k).
+\end{equation}
+\end{lemma}
+
+The first-order term of \eqref{eq:remainder-R11} is absent: the two endpoint corrections enter the typed product with opposite signs and cancel identically (Steps~1--3 below), and on the layers where the inertia can flip the product of the two typed determinants is $O(r^2)$ (Step~4).
+
+\begin{proof}
+Work under the coupling of Proposition~\ref{prop:remainder-R}(i). Write $f=F_r$, $f_j=\partial_x^jf(0)$, and $O(x)$ for a quantity bounded by $C|x|$ with $C=C(d)$; $\|T\|_{L^p}\le C_pP$ by \eqref{eq:remainder-R4} with $q=7$ and $q=2$.
+
+\emph{Step 1 (axial pins to second order).} The third and fourth rows of $U_r$ take the pinned values $0$ and $12k$. Taylor's formula with integral remainder (the rules are centred, so the odd orders cancel) gives
+\[
+\begin{gathered}
+\frac{\partial_xf(S)-\partial_xf(M)}r=f_2+\frac{r^2}{24}f_4+O(r^4T)=0,\\
+\frac6{r^2}\Bigl[\partial_xf(M)+\partial_xf(S)-\frac{2(f(S)-f(M))}r\Bigr]=f_3+\frac{r^2}{40}f_5+O(r^4T)=12k .
+\end{gathered}
+\]
+Substituting both identities in $\partial_x^2f(\mp r/2)=f_2\mp\tfrac r2f_3+\tfrac{r^2}8f_4+O(r^3T)$ gives
+\begin{equation}\label{eq:remainder-alpha}
+\alpha_M=-6k+\frac r{12}f_4+\rho_M,\qquad \alpha_S=6k+\frac r{12}f_4+\rho_S,\qquad |\rho_M|+|\rho_S|\le Cr^2T .
+\end{equation}
+(For a quintic profile the expansion is exact: $\alpha_{M,S}=\mp6k+\frac r{12}f_4\mp\frac{r^2}{120}f_5$.) The first-order coefficients coincide, so
+\begin{equation}\label{eq:remainder-alphaprod}
+\begin{aligned}
+\alpha_M\alpha_S&=-36k^2+6k(\rho_M-\rho_S)+r^2\Bigl(\frac{f_4}{12}\Bigr)^2+\frac{rf_4}{12}(\rho_M+\rho_S)+\rho_M\rho_S\\
+&=-36k^2+O\bigl(r^2(1+k)T^2\bigr).
+\end{aligned}
+\end{equation}
+
+\emph{Step 2 (transverse blocks).} Put $B:=\partial_xD_y^2f(0)$. Since $\|D_y^2f(0)-A_0\|\le r^2T$ by the coupling,
+\begin{equation}\label{eq:remainder-A}
+A_M=A_0-\tfrac r2B+O(r^2T),\qquad A_S=A_0+\tfrac r2B+O(r^2T),
+\end{equation}
+and $\det(A_0+V)=\det A_0+\tr(\adj(A_0)V)+O(\|V\|^2T^{m-2})$ gives $\det A_M\det A_S=(\det A_0)^2+\det A_0\,[-\tfrac r2+\tfrac r2]\tr(\adj(A_0)B)+O(r^2T^{2m})=(\det A_0)^2+O(r^2T^{2m})$. The transverse difference row gives $(\nabla_yf(S)-\nabla_yf(M))/r=\nabla_y\partial_xf(0)+\frac{r^2}{24}\nabla_y\partial_x^3f(0)+O(r^4T)=0$, so $\nabla_y\partial_xf(0)=O(r^2T)$; with $\gamma:=\nabla_y\partial_x^2f(0)$,
+\begin{equation}\label{eq:remainder-beta}
+\begin{gathered}
+\beta_M=-\tfrac12\gamma+O(rT),\qquad \beta_S=\tfrac12\gamma+O(rT),\\
+q_i:=\beta_i^{\top}\adj(A_i)\beta_i=q+O(rT^{m+1}),\qquad q:=\tfrac14\gamma^{\top}\adj(A_0)\gamma .
+\end{gathered}
+\end{equation}
+The sign of $\beta_i$ enters $q_i$ quadratically. That $\nabla_y\partial_xf(0)$ is $O(r^2)$ and not $O(r)$ is essential: an $O(r)$ value would shift $\beta_M$ and $\beta_S$ by a common $O(1)$ vector and make $q_M-q_S=O(1)$.
+
+\emph{Step 3 (the product of determinants).} By \eqref{eq:remainder-block} with $t=r$ (the off-diagonal entries of $K_i$ are $\sqrt r\beta_i$), $\det K_i=\alpha_i\det A_i-rq_i$ exactly. Hence
+\[
+\det K_M\det K_S=\alpha_M\alpha_S\det A_M\det A_S-r\bigl(\alpha_M\det A_M\,q_S+\alpha_S\det A_S\,q_M\bigr)+r^2q_Mq_S .
+\]
+By \eqref{eq:remainder-alphaprod} and Step~2 the first term is $-36k^2(\det A_0)^2+O(r^2(1+k)^2T^{N_1})$. By \eqref{eq:remainder-alpha}, \eqref{eq:remainder-A} and \eqref{eq:remainder-beta}, $\alpha_M\det A_M\,q_S=-6k\det A_0\,q+O(r(1+k)T^{N_1})$ and $\alpha_S\det A_S\,q_M=+6k\det A_0\,q+O(r(1+k)T^{N_1})$, so the middle term is $O(r^2(1+k)T^{N_1})$; the last term is $O(r^2T^{N_1})$. Thus
+\begin{equation}\label{eq:remainder-prod}
+\bigl|\det K_M\det K_S+36k^2(\det A_0)^2\bigr|\le Cr^2(1+k)^2T^{N_1}.
+\end{equation}
+Structurally, $\det K_M=-6k\det A_0+rY+O(r^2)$ and $\det K_S=+6k\det A_0+rY+O(r^2)$ with the \emph{same}
+\begin{equation}\label{eq:remainder-Y}
+Y:=\frac{f_4}{12}\det A_0+3k\,\tr\bigl(\adj(A_0)B\bigr)-q,
+\end{equation}
+so the $r$-term of the product is $6k\det A_0\,(Y-Y)=0$. This is the reflection symmetry of the pinned family: reversing the axis exchanges $M$ and $S$, and the rows of $U_r$ are even in $r$.
+
+\emph{Step 4 (inertia).} For invertible $A_i$, Haynsworth's inertia additivity gives $\operatorname{inertia}(K_i)=\operatorname{inertia}(A_i)+\operatorname{inertia}(\sigma_i)$ with $\sigma_i:=\alpha_i-r\beta_i^{\top}A_i^{-1}\beta_i$. So $\Ind K_M=d$ if and only if $A_M\prec0$ and $\sigma_M<0$, and $\Ind K_S=d-1$ if and only if either $A_S\prec0$ and $\sigma_S>0$, or $\Ind A_S=m-1$ and $\sigma_S<0$. Put $\mathsf u:=C_1rT(1+T/k)$ with $C_1=C_1(d)\ge2$ large, and let $G:=\{\lambda_{\max}(A_0)\le-\mathsf u\}\cap\{k\ge C_1rT\}$. On $G$: $\|A_i-A_0\|\le rT\le\mathsf u/C_1$, so $A_M,A_S\prec0$; $\alpha_S\ge6k-CrT>0$ and $r\beta_S^{\top}(-A_S)^{-1}\beta_S\ge0$, so $\sigma_S>0$; $\alpha_M\le-6k+CrT\le-5k$ and $r\beta_M^{\top}(-A_M)^{-1}\beta_M\le rT^2/\lambda_{\min}(-A_M)\le2rT^2/\mathsf u\le2k/C_1$, so $\sigma_M<0$. Hence on $G$ the indices are $d$ and $d-1$, $\ind\{A_0\prec0\}=1$, and
+\[
+\bigl|F_d(K_M)F_{d-1}(K_S)-36k^2(\det A_0)^2\ind\{A_0\prec0\}\bigr|=\bigl||\det K_M\det K_S|-36k^2(\det A_0)^2\bigr|
+\]
+is at most the left side of \eqref{eq:remainder-prod}. Off $G$ there are three cases, in each of which both typed products are $r^2$ times a polynomial in $T$:
+\begin{itemize}[leftmargin=1.5em]
+\item on $\{k<C_1rT\}$: $F_d(K_M)F_{d-1}(K_S)\le C(k+r)^2T^{2d}\le Cr^2T^{2d+2}$ by Proposition~\ref{prop:remainder-R}(iv), and $36k^2(\det A_0)^2\le Cr^2T^{2m+2}$;
+\item on $\{\lambda_{\max}(A_0)\ge\mathsf u\}\cap\{k\ge C_1rT\}$: $\lambda_{\max}(A_M)\ge\mathsf u-rT>0$, so $K_M$ is not negative definite, $F_d(K_M)=0$, and $\ind\{A_0\prec0\}=0$; both products vanish;
+\item on $\{|\lambda_{\max}(A_0)|<\mathsf u\}\cap\{k\ge C_1rT\}$: by Weyl's inequality $|\det A_i|\le(|\lambda_{\max}(A_0)|+rT)T^{m-1}\le2\mathsf uT^{m-1}$, so $|\det K_i|\le(6k+CrT)\,2\mathsf uT^{m-1}+rT^{m+1}\le Ck\mathsf uT^{m-1}$ (as $rT^2\le k\mathsf u/C_1$); hence $F_d(K_M)F_{d-1}(K_S)\le Ck^2\mathsf u^2T^{2m-2}$ and likewise $36k^2(\det A_0)^2\ind\{A_0\prec0\}\le36k^2\mathsf u^2T^{2m-2}$; with $k^2\mathsf u^2=C_1^2r^2T^2(k+T)^2$ both are $\le Cr^2(k+T)^2T^{2m}$.
+\end{itemize}
+No smallness of the probability of these layers is needed: on the last layer each typed determinant is $O(r)$.
+
+\emph{Step 5 (assembly).} Taking expectations, $|Z_r/r^2-z_0|\le\E[Cr^2(1+k)^2T^{N_1}+Cr^2(k+T)^2T^{2m+2}]\le Cr^2P^N$. For $\mathcal A_r-\mathcal A_0=12[\pi_r(v_r)-\pi_0(v_0)]Z_r/r^2+12\pi_0(v_0)[Z_r/r^2-z_0]$ use Proposition~\ref{prop:remainder-R}(ii), the bound $Z_r/r^2\le C(k+r)^2P^N$ of \eqref{eq:remainder-R11} and the first bound: every term is $r^2$ times a polynomial in $P$ times $e^{-c(b^2+k^2)}$, that is, at most $r^2H$.
+\end{proof}
+
+\subsection{The constant term of the remainder}\label{ssec:remainder-vanish}
+
+\begin{theorem}[Theorem R$^+$: the constant term of the remainder]\label{thm:remainder-vanish}
+For every fixed $d\ge2$ and $L>0$, and for the canonical marked Kac--Rice density versions (the versions for which Proposition~\ref{prop:remainder-Z}(i) is stated; $\nu_{\cand}$ and $\nu_{\eld}$ are the unrestricted densities), as $\ell\downarrow0$,
+\begin{align}
+\nu_{\cand}(\ell)&=c_{d,L}\,\ell^{-1/3}+B_{d,L}+o(1),\label{eq:remainder-Rp1}\\
+\nu_{\eld}(\ell)&=c_{d,L}\,\ell^{-1/3}+o(1)=c_{d,L}\,\ell^{-1/3}\bigl(1+o(\ell^{1/3})\bigr).\label{eq:remainder-Rp2}
+\end{align}
+Moreover, for every $r_0\in(0,r_0^*]$, as $\ell\downarrow0$,
+\begin{equation}\label{eq:remainder-Rp3}
+\begin{gathered}
+\nu_{\cand}^{\mathrm{near},r_0}(\ell)-c_{d,L}\,\ell^{-1/3}\to\int_{0<\dist(0,y)<r_0}\int_\R\Psi_0(b,y)\,db\,dy,\\
+\bigl|\nu_{\cand}^{\mathrm{near},r_0}(\ell)-c_{d,L}\,\ell^{-1/3}\bigr|\le C\bigl(r_0+\ell^2r_0^{-7}\bigr),
+\end{gathered}
+\end{equation}
+the bound holding for every $\ell>0$.
+\end{theorem}
+
+So the bounded remainder of Theorem~R has the constant term $B_{d,L}$ for the candidate density and the constant term $0$ for the elder density: no expansion $\nu_{\eld}=c_{d,L}\ell^{-1/3}+C_0+o(1)$ with $C_0\ne0$ is asserted, and the coefficient $c_1$ of \S\ref{sec:cusp} is the coefficient of $\ell^{1/4}$, a different term. The theorem gives no rate in \eqref{eq:remainder-Rp1}, no numerical constants, no uniformity in $d$ or $L$, and no statement about other almost-everywhere-equal versions of the densities. It does not enlarge the scope of Proposition~\ref{prop:remainder-Z}(i); it identifies the constant term of the remainder of Theorem~R by means of it. A rate for \eqref{eq:remainder-Rp2} is Theorem~\ref{thm:remainder-rate}.
+
+\begin{proof}
+\emph{The separation variable.} By \eqref{eq:remainder-sep} and \eqref{eq:remainder-lead},
+\begin{equation}\label{eq:remainder-diff}
+\begin{aligned}
+\nu_{\cand}^{\mathrm{near},r_0}(\ell)-c_{d,L}\ell^{-1/3}&=\int_0^{r_0}\!\!\int\!\!\int r^{-2}(\mathcal A_r-\mathcal A_0)(b,\ell/r^3,u)\,d\sigma\,db\,dr\\
+&\quad-\int_{r_0}^\infty\!\!\int\!\!\int r^{-2}\mathcal A_0(b,\ell/r^3,u)\,d\sigma\,db\,dr .
+\end{aligned}
+\end{equation}
+
+\emph{Domination.} By Lemma~\ref{lem:remainder-even}, $|r^{-2}(\mathcal A_r-\mathcal A_0)(b,\ell/r^3,u)|\le H(b,\ell/r^3)\le Ce^{-cb^2}$, an integrable majorant on $(0,r_0)\times\R\times S^{d-1}$ that does not depend on $\ell$. (With the first-order bound of \eqref{eq:remainder-R11} the integrand is only bounded by $(1+\ell/r^4)H$.) The second term of \eqref{eq:remainder-diff} is at most $\int_{r_0}^\infty r^{-2}(\ell/r^3)^2H\,dr\le C\ell^2r_0^{-7}$, because $\mathcal A_0\le k^2H$.
+
+\emph{Pointwise limit.} Fix $r,b,u$. As $\ell\downarrow0$, $k=\ell/r^3\downarrow0$ and $\mathcal A_r(b,k,u)\to\mathcal A_r(b,0,u)$: the pinned law is the regression law with target $v_r(b,k)$, affine in the target with a $k$-free covariance, so $F_r$ depends continuously on $k$ in $C^2$; the typed product is continuous off the type boundaries, which are Gaussian-null by nondegeneracy (Proposition~\ref{prop:remainder-Z}(ii)), and is dominated by a polynomial in the endpoint Hessians; and $\pi_r(v_r)$ is continuous in the target. Also $\mathcal A_0(b,k,u)\le k^2H\to0$. By \eqref{eq:remainder-polar}, dominated convergence in \eqref{eq:remainder-diff} gives
+\[
+\nu_{\cand}^{\mathrm{near},r_0}(\ell)-c_{d,L}\ell^{-1/3}\to\int_0^{r_0}\!\!\int\!\!\int r^{d-1}\Psi_0(b,ru)\,d\sigma\,db\,dr=\int_{0<\dist(0,y)<r_0}\int_\R\Psi_0\,db\,dy,
+\]
+and the majorant gives the bound in \eqref{eq:remainder-Rp3}.
+
+\emph{The far candidate density.} On the compact set $\{\dist(0,y)\ge r_0\}$, Proposition~\ref{prop:remainder-Z}(iii) bounds $\Psi^{\cand}_\ell$ by an integrable function of $b$, uniformly in $y$ and in $0<\ell\le1$, and $\Psi^{\cand}_\ell\to\Psi_0$ pointwise by Proposition~\ref{prop:remainder-Z}(ii). By \eqref{eq:remainder-far} and dominated convergence, $\nu_{\cand}^{\mathrm{far},r_0}(\ell)\to\int_{\dist(0,y)\ge r_0}\int\Psi_0$. Adding the near limit, $\nu_{\cand}(\ell)-c_{d,L}\ell^{-1/3}\to B_{d,L}$, which is finite by Proposition~\ref{prop:remainder-Z}(i) (the cutoff boundary is spatially null). This is \eqref{eq:remainder-Rp1}.
+
+\emph{The elder density.} $\nu_{\eld}-c_{d,L}\ell^{-1/3}=(\nu_{\cand}-c_{d,L}\ell^{-1/3})-\rho_{\rej}\to B_{d,L}-B_{d,L}=0$ by \eqref{eq:remainder-Rp1} and Proposition~\ref{prop:remainder-Z}(i). This is \eqref{eq:remainder-Rp2}.
+\end{proof}
+
+The proof shows that the constant $C$ in \eqref{eq:remainder-Rp3} depends on $d$ and $L$ only: it comes from the majorant $H(b,\ell/r^3)\le Ce^{-cb^2}$ on $r<r_0$ and from $\int_{r_0}^\infty r^{-2}(\ell/r^3)^2H\,dr\le C\ell^2r_0^{-7}$.
+
+\begin{remark}[a signed near bound]\label{rem:remainder-signed}
+Always $\mathcal A_r\ge0$ ($\pi_r\ge0$ and $F_j\ge0$) and $\mathcal A_0\le k^2H$. Put $r_1:=\min(\ell^{1/4},r_0)$. In \eqref{eq:remainder-diff}, on $0<r<r_1$ Lemma~\ref{lem:remainder-even} gives $r^{-2}(\mathcal A_r-\mathcal A_0)\ge-Ce^{-cb^2}$, contributing at least $-Cr_1$; on $r_1\le r<r_0$, $r^{-2}(\mathcal A_r-\mathcal A_0)\ge-\ell^2r^{-8}H$, contributing at least $-C\ell^2r_1^{-7}/7=-C\ell^{1/4}/7$ when $r_1=\ell^{1/4}$ (and nothing when $r_1=r_0$); the far term is at least $-C\ell^2r_0^{-7}$. Hence
+\[
+\nu_{\cand}^{\mathrm{near},r_0}(\ell)-c_{d,L}\ell^{-1/3}\ge-C\bigl(\min(\ell^{1/4},r_0)+\ell^2r_0^{-7}\bigr).
+\]
+A lower bound $-O(\ell^2r_0^{-7})$ would need a positive lower bound on the near-diagonal equal-height kernel, which is not available here.
+\end{remark}
+
+\begin{remark}[where the bounded remainder goes]\label{rem:remainder-where}
+For the candidate density the bounded remainder of Theorem~R is real: what the leading law $c_{d,L}\ell^{-1/3}$, the small-separation contact mass, misses is the equal-height mass $B_{d,L}$, spread over all separations, and by Proposition~\ref{prop:remainder-Z}(i) all of it is rejected mass. For the elder density, the three bounded contributions in the proof of Theorem~R --- the first-order contact monomial $k^{-2/3}\,rk=\ell^{1/3}$, the terms proportional to the cutoff $r_0$, and the far term --- are, respectively, an artefact of bounding the two endpoints separately (Lemma~\ref{lem:remainder-even}), the rejected mass at separations below $r_0$, and the far rejected mass; none of them is elder mass in the limit.
+\end{remark}
+
+\subsection{The rate}\label{ssec:remainder-rate}
+
+\begin{theorem}[Theorem R$^{++}$: rate of the elder remainder]\label{thm:remainder-rate}
+For every fixed $d\ge2$ and $L>0$, and for the canonical marked Kac--Rice density version of the elder density, there are $C<\infty$ and $\ell_0\in(0,1]$ depending on $d,L$ only such that
+\begin{equation}\label{eq:remainder-Rpp}
+\bigl|\nu_{\eld}(\ell)-c_{d,L}\,\ell^{-1/3}\bigr|\le C\ell^{1/4},\qquad 0<\ell\le\ell_0;
+\end{equation}
+equivalently, $\nu_{\eld}(\ell)=c_{d,L}\,\ell^{-1/3}\bigl(1+O(\ell^{7/12})\bigr)$ as $\ell\downarrow0$.
+\end{theorem}
+
+No sharpness of the exponent is asserted here (see Remark~\ref{rem:remainder-exponent}), and the theorem gives no numerical $C$ or $\ell_0$, no rate for the candidate remainder in \eqref{eq:remainder-Rp1}, no rate for $\rho_{\rej}\to B_{d,L}$, and no uniformity in $d$ or $L$. The proof uses three estimates: a deterministic barrier (Lemma~\ref{lem:remainder-barrier}), which bounds the elder density at intermediate and at fixed separations (Lemmas~\ref{lem:remainder-B} and~\ref{lem:remainder-far}), and a majorant for the near-pair weight at small gap marks (Lemma~\ref{lem:remainder-W}).
+
+\begin{lemma}[deterministic barrier]\label{lem:remainder-barrier}
+Let $f\in C^3(\T^d_L)$ and $M\in\T^d_L$ with $f(M)=b$, $\nabla f(M)=0$ and $H_M=D^2f(M)\prec0$. Put $\lambda:=\lambda_{\min}(-H_M)$, $K:=1+\|D^2f\|_{\infty,\mathrm{op}}+\|D^3f\|_{\infty,\mathrm{op}}$ (suprema over $\T^d_L$), $a_L:=\min(1,L/4)$ and $c_L:=a_L^2/3$. Then
+\begin{equation}\label{eq:remainder-barrier}
+b-d_f(M)\ge c_L\lambda^3/K^2 .
+\end{equation}
+Consequently, if $d_f(M)=b-\ell$ with $\ell>0$, then $\lambda_{\min}(-H_M)\le(\ell K^2/c_L)^{1/3}$ and $|\det H_M|\le c_L^{-1/3}\ell^{1/3}K^{d-1/3}$.
+\end{lemma}
+
+\begin{proof}
+For a unit vector $v$ and $0<t\le R:=a_L\lambda/K$, Taylor's theorem gives $f(M+tv)\le b-\frac\lambda2t^2+\frac K6t^3\le b-\frac\lambda3t^2$, since $t\le\lambda/K$. The ball $B(M,R)$ is embedded ($R\le L/4$), no point of it lies above $b$, and every path from $M$ to a point above $b$ crosses its boundary sphere, on which $f\le b-\lambda R^2/3$. Hence $d_f(M)\le b-\lambda R^2/3=b-c_L\lambda^3/K^2$. For the consequence, $-H_M\succ0$ has eigenvalues $\lambda=\lambda_1\le\dots\le\lambda_d\le K$, so $|\det H_M|\le\lambda K^{d-1}\le c_L^{-1/3}\ell^{1/3}K^{d-1/3}$.
+\end{proof}
+
+\begin{lemma}[short elder bars at near separations are born at soft maxima]\label{lem:remainder-B}
+For $0<r\le r_R$, $b\in\R$ and $k>0$, with $\ell=kr^3$,
+\begin{equation}\label{eq:remainder-B1}
+\E_Q\bigl[(W_r/r^2)\,e\bigr]\le C\ell^{1/3}r^{-1}(k+r)P^N,
+\end{equation}
+and consequently, for $0<\rho\le r_0\le r_R$ and $\ell>0$,
+\begin{equation}\label{eq:remainder-B2}
+\nu_{\eld}^{[\rho,r_0)}(\ell)=\int_\rho^{r_0}\!\!\int_\R\int_{S^{d-1}}r^{-2}\mathcal A^{\eld}_r(b,\ell/r^3,u)\,d\sigma\,db\,dr\le C\ell^{1/3}\bigl(\rho^{-1}+\ell\rho^{-5}\bigr).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Under $Q$ the field is almost surely $C^\infty$. On $\{W_r>0\}\cap\{e=1\}$ we have $\nabla f(M)=0$, $f(M)=b$, $H_M\prec0$ and $d_f(M)=f(S)=b-\ell$, so Lemma~\ref{lem:remainder-barrier} gives $|\det H_M|\le c_L^{-1/3}\ell^{1/3}K^{d-1/3}$. On the support of $W_r$, $W_r/r^2=(|\det H_M|/r)\,F_{d-1}(K_S)$, and $F_{d-1}(K_S)\le C(k+r)T^d$ (Proposition~\ref{prop:remainder-R}(iv)). Hence $(W_r/r^2)e\le C\ell^{1/3}r^{-1}(k+r)K^{d-1/3}T^d$ everywhere. Since $K\le C_d(1+\|F_r\|_{C^3})$ has $\|K\|_{L^p}\le C_pP$ by \eqref{eq:remainder-R4}, H\"older's inequality gives $\E_Q[K^{d-1/3}T^d]\le CP^N$, which is \eqref{eq:remainder-B1}. The identity in \eqref{eq:remainder-B2} is \eqref{eq:remainder-sep}. By Proposition~\ref{prop:remainder-R}(ii), with $k=\ell/r^3$, $(1+|b|+k)^N\le2^N(1+|b|)^N(1+k)^N$ and $(1+k)^Ne^{-ck^2}\le C$,
+\[
+r^{-2}\mathcal A^{\eld}_r(b,\ell/r^3,u)\le C\ell^{1/3}r^{-3}(\ell r^{-3}+r)P^Ne^{-c(b^2+k^2)}\le C\ell^{1/3}(\ell r^{-6}+r^{-2})(1+|b|)^Ne^{-cb^2},
+\]
+and $\int_\rho^{r_0}(\ell r^{-6}+r^{-2})\,dr\le\ell\rho^{-5}/5+\rho^{-1}$.
+\end{proof}
+
+\begin{lemma}[far elder density, crude rate]\label{lem:remainder-far}
+For every fixed $r_0\in(0,L/2]$ there is $C=C(d,L,r_0)$ with
+\begin{equation}\label{eq:remainder-F}
+\nu_{\eld}^{\mathrm{far},r_0}(\ell)\le C\ell^{1/3},\qquad 0<\ell\le1 .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Let $D_{r_0}=\{y:\dist(0,y)\ge r_0\}$ (compact) and use the far identity \eqref{eq:remainder-far}. The covariance $\Gamma_y=\Cov(O_y)$ is positive definite for every $y\ne0$ (finite-jet nondegeneracy at distinct sites, \S\ref{sec:setting}; \cite[\S2]{parentP}) and continuous in $y$, so $\lambda_{\min}(\Gamma_y)\ge c_0>0$ on $D_{r_0}$ \cite[\S14]{parentP}. Consequently:
+(a) $p_y(v)\le(2\pi c_0)^{-(d+1)}\exp(-|v|^2/(2\tr\Gamma_y))\le Ce^{-cb^2}$ at $v=v_{b,\ell}$ ($|v_{b,\ell}|^2\ge b^2$, $\tr\Gamma_y\le C$);
+(b) with $\psi^y:=\Gamma_y^{-1}\Cov(O_y,f(\cdot))$, $2d+2$ smooth functions with $\|\psi^y_j\|_{C^3}\le C$ uniformly on $D_{r_0}$, the field decomposes as $f=\sum_jO_y^j\psi^y_j+g_y$ with $g_y$ a centred Gaussian field independent of $O_y$, and under $Q_{y,b,\ell}$ the field has the law of $\sum_jv_{b,\ell}^j\psi^y_j+g_y$. Since $\|g_y\|_{C^3}\le\|f\|_{C^3}+C|O_y|$ and all moments of $\|f\|_{C^3}$ and $|O_y|$ are finite, $\E\|g_y\|_{C^3}^p\le C_p$ uniformly on $D_{r_0}$. For $0<\ell\le1$ ($|v_{b,\ell}|\le2|b|+1$) this gives $K\le C(1+|b|+\|g_y\|_{C^3})$ and
+\begin{equation}\label{eq:remainder-Kmom}
+\E_{Q_{y,b,\ell}}[K^p]\le C_p(1+|b|)^p\qquad(p\ge1,\ y\in D_{r_0},\ 0<\ell\le1).
+\end{equation}
+On $\{W>0\}\cap\{e_y=1\}$ the point $0$ is a nondegenerate maximum with $f(0)=b$ and $d_f(0)=f(y)=b-\ell$, so Lemma~\ref{lem:remainder-barrier} gives $|\det H_0|\le c_L^{-1/3}\ell^{1/3}K^{d-1/3}$, while $|\det H_y|\le K^d$. So $We_y\le C\ell^{1/3}K^{2d-1/3}$ and, by \eqref{eq:remainder-Kmom}, $\E_{Q_{y,b,\ell}}[We_y]\le C\ell^{1/3}(1+|b|)^{2d}$. With (a) in \eqref{eq:remainder-far}, $\nu_{\eld}^{\mathrm{far},r_0}(\ell)\le C\ell^{1/3}\operatorname{vol}(D_{r_0})\int_\R(1+|b|)^{2d}e^{-cb^2}db\le C\ell^{1/3}$.
+\end{proof}
+
+A sharper far bound, $O(\ell^{2/3})$, keeps the determinant weight through a spectral integration (record [R9] of the main text); \eqref{eq:remainder-F} needs no Hessian density and suffices here, because the far term is not the bottleneck of the estimate below.
+
+\begin{lemma}[sign-window majorant for the near-pair weight]\label{lem:remainder-W}
+For $0<r\le r_R$, $b\in\R$ and $k\ge0$ (the pinned family at $k=0$ included),
+\begin{equation}\label{eq:remainder-W1}
+\E_Q[W_r/r^2]\le C\bigl(k^2+r^4(1+k)^2\bigr)P^N .
+\end{equation}
+Consequently, for $0<\rho\le r_0^*$ and $0<\ell\le1$,
+\begin{align}
+\bigl|\nu_{\cand}^{\mathrm{near},\rho}(\ell)-c_{d,L}\,\ell^{-1/3}\bigr|&\le C\bigl(\min(\ell^{1/4},\rho)+\rho^3+\ell^2\rho^{-7}\bigr),\label{eq:remainder-W2}\\
+0\le\rho_{\rej}^{\mathrm{near},\rho}(\ell)&\le C\bigl(\ell^{1/4}+\rho^3\bigr),\label{eq:remainder-W3}\\
+\int_{0<\dist(0,y)<\rho}\int_\R\Psi_0(b,y)\,db\,dy&\le C\rho^3 .\label{eq:remainder-W4}
+\end{align}
+\end{lemma}
+
+Since $k^2+r^4(1+k)^2\le2(1+r_R)^2(k+r)^2$, the bound \eqref{eq:remainder-W1} is never worse than the first bound in \eqref{eq:remainder-K}, and for $k<r$ it is better by the factor $k^2/r^2+r^2$. Bounds \eqref{eq:remainder-W1}, \eqref{eq:remainder-W3} and \eqref{eq:remainder-W4} use only Steps~1--3 of the proof of Lemma~\ref{lem:remainder-even}; \eqref{eq:remainder-W2} uses the full Lemma~\ref{lem:remainder-even}. In particular \eqref{eq:remainder-W4} says that the radial density $r^{d-1}\Psi_0(b,ru)$ of the equal-height kernel is $O(r^2)$ near the diagonal.
+
+\begin{proof}
+\emph{Proof of \eqref{eq:remainder-W1}.} Work under the coupling as in the proof of Lemma~\ref{lem:remainder-even}, with $A_0=D_y^2F_0(0)$ and $\Delta:=\det A_0$; nothing below divides by $k$. Steps~1--3 there hold pathwise for $0<r\le r_R$; multiplying out $\det K_i=\alpha_i\det A_i-rq_i$ with $\tau:=\tr(\adj(A_0)B)$, $\det A_i=\Delta\mp\tfrac r2\tau+E'_i$, $|E'_i|\le Cr^2T^m$ (by \eqref{eq:remainder-A}), $\alpha_i=\mp6k+\tfrac r{12}f_4+\rho_i$ (by \eqref{eq:remainder-alpha}) and $q_i=q+O(rT^{m+1})$ (by \eqref{eq:remainder-beta}) gives
+\begin{equation}\label{eq:remainder-detK}
+\det K_M=-6k\Delta+rY+R_M,\qquad \det K_S=+6k\Delta+rY+R_S,\qquad |R_M|+|R_S|\le Cr^2(1+k)T^{N_1},
+\end{equation}
+with $Y$ as in \eqref{eq:remainder-Y} and
+\[
+\begin{aligned}
+R_{M}&=-6kE'_M-\tfrac{r^2}{24}f_4\tau+\tfrac r{12}f_4E'_M+\rho_M\det A_M-r(q_M-q),\\
+R_{S}&=6kE'_S+\tfrac{r^2}{24}f_4\tau+\tfrac r{12}f_4E'_S+\rho_S\det A_S-r(q_S-q);
+\end{aligned}
+\]
+each term is at most $Cr^2(1+k)T^{N_1}$, and the $r$-linear terms $\tfrac r{12}f_4\Delta$, $3kr\tau$ and $-rq$ are the same at both endpoints. On the support of $W_r$, $\Ind K_M=d$ and $\Ind K_S=d-1$, so $\det K_M$ has the sign $(-1)^d$, $\det K_S$ the sign $(-1)^{d-1}$, and $\det K_M\det K_S<0$. With $w:=rY$, the product $(w-6k\Delta+R_M)(w+6k\Delta+R_S)$ is negative only when $w$ lies strictly between $6k\Delta-R_M$ and $-6k\Delta-R_S$; hence
+\[
+|w|\le6k|\Delta|+\max(|R_M|,|R_S|),\qquad |\det K_i|\le12k|\Delta|+2\max(|R_M|,|R_S|)\quad(i=M,S),
+\]
+and on the support of $W_r$
+\begin{equation}\label{eq:remainder-window}
+W_r/r^2=|\det K_M\det K_S|\le\bigl(12k|\Delta|+2Cr^2(1+k)T^{N_1}\bigr)^2\le C\bigl(k^2\Delta^2+r^4(1+k)^2T^{2N_1}\bigr).
+\end{equation}
+Off the support $W_r=0$. Since $|\Delta|\le\|A_0\|^m\le T^m$, $\E\Delta^2\le CP^{2m}$ and $\E T^{2N_1}\le CP^{2N_1}$; $W_r$ is a functional of $F_r$, whose law is $Q$, so the pathwise bound on the coupling space bounds $\E_Q$. This is \eqref{eq:remainder-W1}.
+
+\emph{Proof of \eqref{eq:remainder-W2}.} Put $r_1:=\ell^{1/4}$, so that $r\le r_1$ if and only if $k=\ell/r^3\ge r$, and use \eqref{eq:remainder-diff} with $r_0=\rho$. On $0<r<\min(r_1,\rho)$, Lemma~\ref{lem:remainder-even} gives $|r^{-2}(\mathcal A_r-\mathcal A_0)|\le H(b,k)\le Ce^{-cb^2}$, contributing at most $C\min(r_1,\rho)$. On $r_1\le r<\rho$ (empty if $\rho\le r_1$), $|\mathcal A_r-\mathcal A_0|\le\mathcal A_r+\mathcal A_0$ with $\mathcal A_r\le C(k^2+r^4(1+k)^2)P^Ne^{-c(b^2+k^2)}$ by \eqref{eq:remainder-W1} and Proposition~\ref{prop:remainder-R}(ii), and $\mathcal A_0\le k^2H$; so $r^{-2}|\mathcal A_r-\mathcal A_0|\le C(\ell^2r^{-8}+r^2)(1+|b|)^Ne^{-cb^2}$, which integrates to at most $C(\ell^2r_1^{-7}/7+\rho^3/3)=C(\ell^{1/4}/7+\rho^3/3)$. The tail term is at most $C\ell^2\rho^{-7}$ as in the proof of Theorem~\ref{thm:remainder-vanish}.
+
+\emph{Proof of \eqref{eq:remainder-W3}.} By \eqref{eq:remainder-sep}, $\rho_{\rej}^{\mathrm{near},\rho}=\int_0^\rho\int\int r^{-2}\mathcal A^{\rej}_r$. On $0<r\le\min(r_1,\rho)$, Proposition~\ref{prop:remainder-K} (valid as $r\le k$ and $r\le\rho\le r_K$) gives $r^{-2}\mathcal A^{\rej}_r\le Cr^{-2}(r^3/k)P^Ne^{-c(b^2+k^2)}=C(r^4/\ell)P^Ne^{-c(b^2+k^2)}$, which integrates to at most $Cr_1^5/(5\ell)=C\ell^{1/4}/5$. On $r_1<r\le\rho$, $1-e\le1$ and \eqref{eq:remainder-W1}, as in the proof of \eqref{eq:remainder-W2}, give at most $C(\ell^{1/4}+\rho^3)$.
+
+\emph{Proof of \eqref{eq:remainder-W4}.} By \eqref{eq:remainder-polar}, $r^{d-1}\Psi_0(b,ru)=r^{-2}\mathcal A_r(b,0,u)$, and \eqref{eq:remainder-W1} at $k=0$ with Proposition~\ref{prop:remainder-R}(ii) gives $\mathcal A_r(b,0,u)\le Cr^4(1+|b|)^Ne^{-cb^2}$. So $\int_{0<\dist<\rho}\int\Psi_0=\int_0^\rho\int\int r^{-2}\mathcal A_r(b,0,u)\le C\int_0^\rho r^2dr=C\rho^3/3$.
+\end{proof}
+
+The window $|rY|\le6k|\Delta|+O(r^2)$ is where the typed weight lives at small $k$: for $k=0$ both scaled endpoint determinants are $rY+O(r^2)$ with the same $rY$, so a maximum/saddle pair can be typed only when $|Y|=O(r)$. Bound \eqref{eq:remainder-W2} needs Lemma~\ref{lem:remainder-even} on $r<\ell^{1/4}$: \eqref{eq:remainder-W1} alone gives $\int_0r^{-2}k^2\,dr=\infty$, and \eqref{eq:remainder-R11} alone gives only $O(1)$.
+
+\begin{proof}[Proof of Theorem~\ref{thm:remainder-rate}]
+Fix $0<\rho\le r_0^*$ and $0<\ell\le1$. Splitting the elder density by the separation of the pair into $(0,\rho)$, $[\rho,r_0^*)$ and $[r_0^*,\operatorname{diam}\T^d_L]$ (the boundaries are null), and using $\nu_{\eld}^{\mathrm{near},\rho}=\nu_{\cand}^{\mathrm{near},\rho}-\rho_{\rej}^{\mathrm{near},\rho}$,
+\begin{equation}\label{eq:remainder-split}
+\nu_{\eld}(\ell)-c_{d,L}\ell^{-1/3}=\bigl[\nu_{\cand}^{\mathrm{near},\rho}(\ell)-c_{d,L}\ell^{-1/3}\bigr]-\rho_{\rej}^{\mathrm{near},\rho}(\ell)+\nu_{\eld}^{[\rho,r_0^*)}(\ell)+\nu_{\eld}^{\mathrm{far},r_0^*}(\ell).
+\end{equation}
+The four terms are bounded as follows:
+(i) $|\nu_{\cand}^{\mathrm{near},\rho}-c_{d,L}\ell^{-1/3}|\le C(\min(\ell^{1/4},\rho)+\rho^3+\ell^2\rho^{-7})$ by \eqref{eq:remainder-W2};
+(ii) $0\le\rho_{\rej}^{\mathrm{near},\rho}\le C(\ell^{1/4}+\rho^3)$ by \eqref{eq:remainder-W3};
+(iii) $0\le\nu_{\eld}^{[\rho,r_0^*)}\le C\ell^{1/3}(\rho^{-1}+\ell\rho^{-5})$ by \eqref{eq:remainder-B2} with $r_0=r_0^*\le r_R$;
+(iv) $0\le\nu_{\eld}^{\mathrm{far},r_0^*}\le C\ell^{1/3}$ by \eqref{eq:remainder-F} with $r_0=r_0^*$.
+Choose $\rho=\ell^{1/12}$ and $\ell_0:=\min\{1,(r_0^*)^{12}\}$, so that $\rho\le r_0^*$ for $\ell\le\ell_0$. Then $\min(\ell^{1/4},\rho)=\ell^{1/4}$, $\rho^3=\ell^{1/4}$, $\ell^2\rho^{-7}=\ell^{17/12}$, $\ell^{1/3}\rho^{-1}=\ell^{1/4}$ and $\ell^{4/3}\rho^{-5}=\ell^{11/12}$, and \eqref{eq:remainder-split} with (i)--(iv) (eight terms, five of them equal to $\ell^{1/4}$) gives
+\[
+|\nu_{\eld}(\ell)-c_{d,L}\ell^{-1/3}|\le C\bigl(5\ell^{1/4}+\ell^{17/12}+\ell^{11/12}+\ell^{1/3}\bigr)\le8C\ell^{1/4},\qquad0<\ell\le\ell_0,
+\]
+which is \eqref{eq:remainder-Rpp}. Dividing by $c_{d,L}\ell^{-1/3}$ ($c_{d,L}>0$) gives the relative form.
+\end{proof}
+
+\begin{remark}[what fixes the exponent]\label{rem:remainder-exponent}
+In \eqref{eq:remainder-split} the leading $\rho$-dependence is $\rho^3$ (the candidate excess and the rejected mass at separations in $(\ell^{1/4},\rho)$, both $O(r^2)$ per unit separation by Lemma~\ref{lem:remainder-W}) against $\ell^{1/3}\rho^{-1}$ (Lemma~\ref{lem:remainder-B} above $\rho$); they balance at $\rho=\ell^{1/12}$, where both equal $\ell^{1/4}$. But $\ell^{1/4}$ also appears three times independently of $\rho$, all from the transition $r=k$ at separation $\ell^{1/4}$, below which the pinned pair is a cap pair: the excess $C\min(\ell^{1/4},\rho)$ from Lemma~\ref{lem:remainder-even}, the loss from Proposition~\ref{prop:remainder-K} at $r\le k$, and the tail $\int_{r>\ell^{1/4}}r^{-2}k^2\,dr$ of the leading law, $\mathcal A_0\asymp k^2$. The order $\ell^{1/4}$ is attained, with a negative coefficient, by Theorem~\ref{thm:cusp-CU}: at the cusp scale $r\asymp k\asymp\ell^{1/4}$ the contact law overcounts. Note also that \eqref{eq:remainder-Rpp} does not use Proposition~\ref{prop:remainder-Z}(i); together with \eqref{eq:remainder-Rp1} it re-derives $\rho_{\rej}(\ell)\to B_{d,L}$.
+\end{remark}
