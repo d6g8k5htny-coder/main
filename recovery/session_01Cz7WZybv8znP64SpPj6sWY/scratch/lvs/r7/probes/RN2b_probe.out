@@ -1,0 +1,26 @@
+contactKernel : (d : ℕ) → [NeZero d] → ℝ → ℝ → ℝ → ℝ → OrthonormalBasis (Fin d) ℝ (E d) → ℕ → E d → ℝ → ℝ → ℝ
+@PinnedLawInterface3.kacRice_window : ∀ {d : ℕ} [inst : NeZero d] {L : ℝ} {Ω : Type} [inst_1 : MeasurableSpace Ω]
+  (self : PinnedLawInterface3 d L Ω) (r b k : ℝ) (R : OrthonormalBasis (Fin d) ℝ (E d)),
+  0 < r →
+    r < L →
+      ∀ (j : ℕ) (A : Set (E d)),
+        MeasurableSet A →
+          A ⊆ FundDomain d L →
+            ∫ (ω : Ω), ↑(windowCount d (self.F ω) b k r j A) ∂self.QW r b k R =
+              ∫ (x : E d) in A,
+                ∫ (y : ℝ) in Set.Ioo (b - k * r ^ 3) b,
+                  contactKernel d L r b k R j x y (∫ (ω : Ω), self.W r b k R ω ∂self.Q r b k R)
+@PinnedLawInterface3.kacRice_allHeight : ∀ {d : ℕ} [inst : NeZero d] {L : ℝ} {Ω : Type} [inst_1 : MeasurableSpace Ω]
+  (self : PinnedLawInterface3 d L Ω) (r b k : ℝ) (R : OrthonormalBasis (Fin d) ℝ (E d)),
+  0 < r →
+    r < L →
+      ∀ (j : ℕ) (A : Set (E d)),
+        MeasurableSet A →
+          A ⊆ FundDomain d L →
+            ∫ (ω : Ω), ↑(allHeightCount d (self.F ω) j A) ∂self.QW r b k R =
+              ∫ (x : E d) in A, ∫ (y : ℝ), contactKernel d L r b k R j x y (∫ (ω : Ω), self.W r b k R ω ∂self.Q r b k R)
+
+real	0m14.219s
+user	0m8.167s
+sys	0m6.575s
+exit 0

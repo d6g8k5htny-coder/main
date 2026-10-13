@@ -186,3 +186,13 @@ normalizer floor of [LP] (5.5) on compact windows as an assumption, a.s. finiten
 of the counts), with two illustrative successor Props by structure projection. Field 5 (Kac-Rice identities and the
 defined contact kernel) is left to a second probe. Input for a later proposal only; nothing is proposed, claimed or
 written to any packet by this checkpoint.
+
+## Checkpoint 12 (2026-10-13, about 04:27Z): the RN Kac-Rice contact-kernel probe
+
+Incremental commit, no rewrite, after checkpoint 11 (`ba43a043`): adds `scratch/lvs/r7/probes/RN2b_probe.lean` with its
+elaboration output (exit 0 at Lean 4.34.1 / Mathlib `d13f23b7`, `#check`s only, no theorem, no `sorry`): the second part of
+the RN successor design, defining the Kac-Rice contact kernel from the regression law's Gaussian parameters (two Schur
+steps, a Gaussian density on a finite index type, a Sylvester-inertia predicate for matrices, the typed weight on Hessian
+coordinates, `multivariateGaussian`) and stating the Kac-Rice identities for the window and all-height mean counts as
+fields; the RN scoping note gains an addendum listing the reader items. Design input only; nothing proposed, claimed or
+written to any packet; the posted texts of the PASS_SCOPED round and the #445 reader aid are added as well.

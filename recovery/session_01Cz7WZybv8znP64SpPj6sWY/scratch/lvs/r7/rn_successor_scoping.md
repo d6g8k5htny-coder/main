@@ -45,3 +45,22 @@ its successor would be `specified` with that said in `does_not_claim`.
 (a) probe `RN2_probe.lean` (fields 1–4 and 6 first; 5 as a second probe); (b) design read; (c) four-file slice as for
 Side24/Lifetime (append to RN.lean, rows, docs), stacked serially. Estimate: a session-evening for (a)+(c) once (b) is
 in; counts would move 146 → 165 Props, 11 → 12 structures (after the Lifetime slice).
+
+## Addendum (~04:25Z): both RN probes elaborate at the pin
+
+- `probes/RN2_probe.lean` (fields 1–4 and 6: regression law, nondegenerate observation covariance, defined typed weight,
+  normalizer floor on compact windows, a.s. finite critical set, measurable counts): exit 0.
+- `probes/RN2b_probe.lean` (field 5): the contact kernel `Λ'_j(x; b, k, R)(y)` is DEFINED from the regression law's
+  Gaussian parameters with two Schur steps (the `(d+1)`-jet at `x` given the pins; the three Hessians at `M`, `S`, `x`
+  given pins and jet), a Gaussian density on a finite index type (`gaussDensityOn`), a Sylvester-inertia predicate for
+  matrices (`MatHasInertia`, the matrix analogue of `HessianHasInertia`), the typed weight `F_d(H_M) F_(d-1)(H_S) F_j(H_x)`
+  on Hessian coordinates, and Mathlib's `multivariateGaussian`; the Kac-Rice identities for the window and all-height mean
+  counts are fields of `PinnedLawInterface3`. Exit 0.
+- Reader items for the eventual design read: (a) sign/scale convention `Cov(∂_{l1} f(x), ∂_{l2} f(y)) = (-1)^{|l2|} ∂_{l1++l2} K(x-y)`;
+  (b) the Hessian coordinates are the raw upper-triangular entries (no `sqrt 2` scaling), consistent with `symOfH`;
+  (c) `pinDesc` reuses `site3` with a dummy third point for the pins (cosmetic; a packet version would use a two-site
+  helper); (d) the kernel's `Z` argument is the normalizer `∫ W dQ`, so `Z_floor` of RN2 is what keeps `Z⁻¹` meaningful;
+  (e) the Kac-Rice identity is a field (Mathlib `d13f23b7` has no Kac-Rice formula), to be named as the source's
+  theorem assumed in `does_not_claim`; (f) `Λ` of the parent interface stays the free limit kernel of Theorem A (2),
+  which is a statement about `r → 0`, so no `Λ_def` field is proposed; the mean measures themselves become determined.
+- Nothing is proposed by this addendum; the Lifetime slice (main#307 6137849133) is the next proposal in line.
