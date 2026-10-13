@@ -1733,9 +1733,13 @@ class UniversalitySourcesReading(unittest.TestCase):
         prose=re.sub(r'href="[^"]*"','',re.sub(r'<code>.*?</code>','',section))
         self.assertNotIn('universality',prose.lower());self.assertNotIn('universality',rows.lower())
         # the proposals are named only in the cut's scope paragraph: not in its status-words rows, the hero or the entry rows above it
-        above=self.page().split('<section class="hero">',1)[1].split(f'<section id="{self.CUT_ID}"',1)[0]
+        page=self.page()
+        above=page.split('<section class="hero">',1)[1].split(f'<section id="{self.CUT_ID}"',1)[0]
         # Only known numeric metadata is exempt; generated prose and links still obey proposal placement.
         start,end='<!-- CURRENT-SITE:START -->','<!-- CURRENT-SITE:END -->'
+        self.assertEqual(page.count(start),1)
+        self.assertEqual(page.count(end),1)
+        self.assertLess(page.index(start),page.index(end))
         self.assertEqual(above.count(start),above.count(end))
         self.assertLessEqual(above.count(start),1)
         if start in above:
@@ -1750,7 +1754,7 @@ class UniversalitySourcesReading(unittest.TestCase):
                 r'\1ARCHIVES\2ARCHIVE_LIMIT\3BYTES\4BYTE_LIMIT\5',generated)
             above=before+generated+after
         # Source pins and digests can contain these digits; proposal numbers are separate tokens.
-        proposal_number=re.compile(r'\b(?:330|331)\b')
+        proposal_number=re.compile(r'(?:\b|(?:PR|proposal)[ \t]*#?)(330|331)\b',re.I)
         above_numbers=proposal_number.findall(above)
         for number in ('330','331'):
             with self.subTest(above=number):self.assertNotIn(number,above_numbers)
@@ -1977,6 +1981,28 @@ class ProposalNumberGuardRegression(unittest.TestCase):
             with self.subTest(prose=fragment):
                 page = self.baseline().replace('<!-- CURRENT-SITE:END -->', fragment + '<!-- CURRENT-SITE:END -->', 1)
                 self.assertFalse(self.guard_result(page).wasSuccessful(), 'metadata-looking prose escaped the guard')
+
+    def test_compact_proposal_references_in_static_generated_and_cut_text_still_fail(self):
+        for proposal in ('PR331 landed', 'proposal331', 'pr330', 'MainPR331', 'proposal330'):
+            for region in ('static', 'generated', 'cut'):
+                with self.subTest(proposal=proposal, region=region):
+                    fragment = f'<p>{proposal}</p>'
+                    page = self.baseline()
+                    if region == 'static':
+                        page = self.above_cut(page, fragment)
+                    elif region == 'generated':
+                        page = page.replace('<!-- CURRENT-SITE:END -->', fragment + '<!-- CURRENT-SITE:END -->', 1)
+                    else:
+                        page = self.in_cut(page, fragment)
+                    self.assertFalse(self.guard_result(page).wasSuccessful(), 'compact proposal notation escaped the guard')
+
+    def test_zero_or_extra_marker_pairs_on_complete_page_still_fail(self):
+        page = self.baseline()
+        start, end = '<!-- CURRENT-SITE:START -->', '<!-- CURRENT-SITE:END -->'
+        for variant in (page.replace(start, '').replace(end, ''), page + start + end,
+                        page + start, page + end):
+            with self.subTest(markers=variant[-120:]):
+                self.assertFalse(self.guard_result(variant).wasSuccessful(), 'full-page marker invariant escaped the guard')
 
     def test_hex_pins_in_reader_text_do_not_add_proposal_mentions(self):
         # Fixture text exercises this count; the separate immutable-cut check is unchanged.
