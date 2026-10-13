@@ -1,0 +1,32 @@
+ssa:[{ssa:true}] | normal: api=AUTH(x.json) exit=2 stdout=309 | -O: api=AUTH(x.json) exit=2 stdout=309 | hash-ok
+ssa:false,x:{ssa:true} | normal: api=AUTH(x.json) exit=2 stdout=309 | -O: api=AUTH(x.json) exit=2 stdout=309 | hash-ok
+siblings 1 then true | normal: api=AUTH(x.json) exit=2 stdout=309 | -O: api=AUTH(x.json) exit=2 stdout=309 | hash-ok
+siblings true then 1 | normal: api=AUTH(x.json) exit=2 stdout=309 | -O: api=AUTH(x.json) exit=2 stdout=309 | hash-ok
+siblings list 1,true | normal: api=AUTH(x.json) exit=2 stdout=309 | -O: api=AUTH(x.json) exit=2 stdout=309 | hash-ok
+root true | normal: api=none exit=0 stdout=228 | -O: api=none exit=0 stdout=228 | hash-ok
+root 1 | normal: api=none exit=0 stdout=228 | -O: api=none exit=0 stdout=228 | hash-ok
+root null | normal: api=none exit=0 stdout=228 | -O: api=none exit=0 stdout=228 | hash-ok
+root "" | normal: api=none exit=0 stdout=228 | -O: api=none exit=0 stdout=228 | hash-ok
+root [] | normal: api=none exit=0 stdout=228 | -O: api=none exit=0 stdout=228 | hash-ok
+root [true] | normal: api=none exit=0 stdout=228 | -O: api=none exit=0 stdout=228 | hash-ok
+escaped key true | normal: api=AUTH(x.json) exit=2 stdout=309 | -O: api=AUTH(x.json) exit=2 stdout=309 | hash-ok
+case key true | normal: api=none exit=0 stdout=228 | -O: api=none exit=0 stdout=228 | hash-ok
+trailing space key true | normal: api=none exit=0 stdout=228 | -O: api=none exit=0 stdout=228 | hash-ok
+dup true,false | normal: api=none exit=0 stdout=228 | -O: api=none exit=0 stdout=228 | hash-ok
+dup false,true | normal: api=AUTH(x.json) exit=2 stdout=309 | -O: api=AUTH(x.json) exit=2 stdout=309 | hash-ok
+dup true,null | normal: api=none exit=0 stdout=228 | -O: api=none exit=0 stdout=228 | hash-ok
+dup null,true | normal: api=AUTH(x.json) exit=2 stdout=309 | -O: api=AUTH(x.json) exit=2 stdout=309 | hash-ok
+dup 1,false | normal: api=none exit=0 stdout=228 | -O: api=none exit=0 stdout=228 | hash-ok
+dup false,1 | normal: api=none exit=0 stdout=228 | -O: api=none exit=0 stdout=228 | hash-ok
+unrelated dup + nested true | normal: api=AUTH(x.json) exit=2 stdout=309 | -O: api=AUTH(x.json) exit=2 stdout=309 | hash-ok
+truncated | normal: api=PARSE exit=2 stdout=341 | -O: api=PARSE exit=2 stdout=341 | hash-ok
+empty | normal: api=PARSE exit=2 stdout=341 | -O: api=PARSE exit=2 stdout=341 | hash-ok
+BOM | normal: api=PARSE exit=2 stdout=371 | -O: api=PARSE exit=2 stdout=371 | hash-ok
+invalid utf8 | normal: api=PARSE exit=2 stdout=370 | -O: api=PARSE exit=2 stdout=370 | hash-ok
+X.JSON true | normal: api=none exit=0 stdout=228 | -O: api=none exit=0 stdout=228 | hash-ok
+jsonl true | normal: api=none exit=0 stdout=228 | -O: api=none exit=0 stdout=228 | hash-ok
+three files | normal: api=AUTH(x.json),AUTH(z.json) exit=2 stdout=391 | -O: api=AUTH(x.json),AUTH(z.json) exit=2 stdout=391 | hash-ok
+hidden .x.json | normal: api=AUTH(.x.json) exit=2 stdout=310 | -O: api=AUTH(.x.json) exit=2 stdout=310 | hash-ok
+hidden dir | normal: api=AUTH(x.json) exit=2 stdout=314 | -O: api=AUTH(x.json) exit=2 stdout=314 | hash-ok
+deep1000 then b true | normal: api=PARSE exit=2 stdout=383 | -O: api=PARSE exit=2 stdout=383 | hash-ok
+b true then deep1000 | normal: api=PARSE exit=2 stdout=383 | -O: api=PARSE exit=2 stdout=383 | hash-ok

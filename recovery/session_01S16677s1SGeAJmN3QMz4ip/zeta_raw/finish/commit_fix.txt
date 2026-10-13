@@ -1,0 +1,44 @@
+Zeta packet: apply nonauthor reviews ZF-AD-01..05 and ZF-B-01..05
+
+Addresses review 5486843735 (slices A/D, mathematics and non-claims) and
+review 5486879914 (slice B, citations), both AMEND at 70f3d993. Only
+experiments/zeta_fold_exploration/ changes.
+
+A/D:
+- ZF-AD-01: weighted-lobe ratio 1 + O(r^2) only for C^{1,1} weights with
+  controlled asymmetry; C^1 gives 1 + o(1). The reviewer's |x|^{1+eta}
+  counterexample and an exact test are added.
+- ZF-AD-02: headlines restate the Hardy-Z primitive's finite-tail
+  estimates as substantially above -1/3 and near 0, with sampling-only
+  intervals excluding -1/3. No limiting exponent and no calibrated
+  total-error rejection are claimed, and nothing about the xi-weighted
+  primitive or a de Bruijn-Newman barcode. -1/3 and 0 are theoretical
+  expectations under stated conditions. CLAIMS 5.4 places the mark moment
+  under the limiting collision-mark measure (r^4 example tested).
+- ZF-AD-03: Proposition 1(c) gets a compact domain, a stated barcode
+  convention and the A < 0 reflection; r^2 = 8 tau (1 + O(tau)).
+- ZF-AD-04: the real-zero ODE sum holds in the all-real regime only.
+- ZF-AD-05: Conjecture Z has an iterated limit and a defined observable;
+  a log-CDF exponent is not a density. T-CUE must control nonlocal strata.
+- Informational: Lambda > 0 forces a finite multiple real zero
+  (Polymath15 Thm 1.5(i)), not necessarily a fold; not an RH result.
+
+B:
+- ZF-B-01..05: Selberg's CLT versus the selected amplitudes; HKO theorem
+  versus conjecture; the Euler-product statement narrowed to the deformed
+  coefficients; the KKL method gloss removed; Montgomery, Rudnick-Sarnak,
+  sine-process, BBLM and Keating-Snaith scopes stated.
+- Provenance: the reviewer's three-term vocabulary, with locators.
+  Residual originals stay unverified.
+
+No numerical value changes. stats/make_plots.py and
+stats/check_gue_transfer.py change labels only, so the committed SVG and
+.out differ only in those label lines; other script edits are
+docstrings. test_exact.py gains three exact tests. MANIFEST.json is
+regenerated.
+
+Scientific effect: NONE. No status or register change. No claim of
+progress toward RH.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01S16677s1SGeAJmN3QMz4ip

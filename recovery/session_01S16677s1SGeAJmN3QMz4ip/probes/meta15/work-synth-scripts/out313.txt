@@ -1,0 +1,36 @@
+ABSENT :: root=rc=0 none ; nested_dict=rc=0 none ; list_in_dict=rc=0 none ; root_list=rc=0 none
+true :: root=rc=2 generated scientific-status authority ; nested_dict=rc=2 generated scientific-status authority ; list_in_dict=rc=2 generated scientific-status authority ; root_list=rc=2 generated scientific-status authority
+false :: root=rc=0 none ; nested_dict=rc=0 none ; list_in_dict=rc=0 none ; root_list=rc=0 none
+0 :: root=rc=0 none ; nested_dict=rc=0 none ; list_in_dict=rc=0 none ; root_list=rc=0 none
+1 :: root=rc=0 none ; nested_dict=rc=0 none ; list_in_dict=rc=0 none ; root_list=rc=0 none
+0.0 :: root=rc=0 none ; nested_dict=rc=0 none ; list_in_dict=rc=0 none ; root_list=rc=0 none
+1.0 :: root=rc=0 none ; nested_dict=rc=0 none ; list_in_dict=rc=0 none ; root_list=rc=0 none
+-0.0 :: root=rc=0 none ; nested_dict=rc=0 none ; list_in_dict=rc=0 none ; root_list=rc=0 none
+"" :: root=rc=0 none ; nested_dict=rc=0 none ; list_in_dict=rc=0 none ; root_list=rc=0 none
+"true" :: root=rc=0 none ; nested_dict=rc=0 none ; list_in_dict=rc=0 none ; root_list=rc=0 none
+"false" :: root=rc=0 none ; nested_dict=rc=0 none ; list_in_dict=rc=0 none ; root_list=rc=0 none
+null :: root=rc=0 none ; nested_dict=rc=0 none ; list_in_dict=rc=0 none ; root_list=rc=0 none
+[] :: root=rc=0 none ; nested_dict=rc=0 none ; list_in_dict=rc=0 none ; root_list=rc=0 none
+[true] :: root=rc=0 none ; nested_dict=rc=0 none ; list_in_dict=rc=0 none ; root_list=rc=0 none
+{} :: root=rc=0 none ; nested_dict=rc=0 none ; list_in_dict=rc=0 none ; root_list=rc=0 none
+{"scientific_status_authority":true} :: root=rc=2 generated scientific-status authority ; nested_dict=rc=2 generated scientific-status authority ; list_in_dict=rc=2 generated scientific-status authority ; root_list=rc=2 generated scientific-status authority
+NaN :: root=rc=0 none ; nested_dict=rc=0 none ; list_in_dict=rc=0 none ; root_list=rc=0 none
+dup_true_then_false :: rc=0 none 
+dup_false_then_true :: rc=2 generated scientific-status authority 
+malformed_list_with_true :: rc=2 generated scientific-status authority 
+marker_list_bare_true :: rc=0 none 
+root_scalar_true :: rc=0 none 
+bare_true_in_list :: rc=0 none 
+deep_true 300 :: rc=2 generated scientific-status authority
+deep_true 331 :: rc=2 generated scientific-status authority
+deep_true 332 :: rc=2 generated scientific-status authority
+deep_true 400 :: rc=2 generated scientific-status authority
+deep_true 497 :: rc=2 generated scientific-status authority
+deep_true 498 :: rc=2 generated scientific-status authority
+deep_true 499 :: CRASH rc=1 RecursionError: maximum recursion depth exceeded
+deep_true 600 :: CRASH rc=1 RecursionError: maximum recursion depth exceeded
+deep_true 1000 :: CRASH rc=1 RecursionError: maximum recursion depth exceeded
+deep_true 5000 :: CRASH rc=1 RecursionError: maximum recursion depth exceeded
+deep_true 9997 :: CRASH rc=1 RecursionError: maximum recursion depth exceeded
+deep_true 9998 :: rc=2 generated JSON parse error
+deep_true 20000 :: rc=2 generated JSON parse error

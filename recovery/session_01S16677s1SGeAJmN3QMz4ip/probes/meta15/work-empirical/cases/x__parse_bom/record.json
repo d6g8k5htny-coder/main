@@ -1,0 +1,65 @@
+{
+  "api": {
+    "ok": false,
+    "repositories_checked": [
+      "Math-",
+      "google-drive",
+      "governance-",
+      "main",
+      "meta-framework",
+      "query-",
+      "sandbox",
+      "trial"
+    ],
+    "scientific_effect": "NONE",
+    "violations": [
+      "generated JSON parse error: meta-framework/generated/x.json: Unexpected UTF-8 BOM (decode using utf-8-sig): line 1 column 1 (char 0)"
+    ]
+  },
+  "api_O": {
+    "ok": false,
+    "repositories_checked": [
+      "Math-",
+      "google-drive",
+      "governance-",
+      "main",
+      "meta-framework",
+      "query-",
+      "sandbox",
+      "trial"
+    ],
+    "scientific_effect": "NONE",
+    "violations": [
+      "generated JSON parse error: meta-framework/generated/x.json: Unexpected UTF-8 BOM (decode using utf-8-sig): line 1 column 1 (char 0)"
+    ]
+  },
+  "api_O_equal": true,
+  "api_categories": [
+    "PARSE"
+  ],
+  "case": "x__parse_bom",
+  "cli_O": {
+    "rc": 2,
+    "stderr_tail": "",
+    "stdout_byte_equal_expected": true,
+    "stdout_matches_api": true,
+    "violations": [
+      "generated JSON parse error: meta-framework/generated/x.json: Unexpected UTF-8 BOM (decode using utf-8-sig): line 1 column 1 (char 0)"
+    ]
+  },
+  "cli_normal": {
+    "rc": 2,
+    "stderr_tail": "",
+    "stdout_byte_equal_expected": true,
+    "stdout_matches_api": true,
+    "violations": [
+      "generated JSON parse error: meta-framework/generated/x.json: Unexpected UTF-8 BOM (decode using utf-8-sig): line 1 column 1 (char 0)"
+    ]
+  },
+  "desc": "UTF-8 BOM before {\"ssa\":true}",
+  "files": {
+    "x.json": "\ufeff{\"scientific_status_authority\":true}"
+  },
+  "input_unchanged": true,
+  "kind": "extra"
+}

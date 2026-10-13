@@ -1,0 +1,72 @@
+{
+  "api": {
+    "ok": false,
+    "repositories_checked": [
+      "Math-",
+      "google-drive",
+      "governance-",
+      "main",
+      "meta-framework",
+      "query-",
+      "sandbox",
+      "trial"
+    ],
+    "scientific_effect": "NONE",
+    "violations": [
+      "generated scientific-status authority: meta-framework/generated/x.json",
+      "generated scientific-status authority: meta-framework/generated/sub/z.json"
+    ]
+  },
+  "api_O": {
+    "ok": false,
+    "repositories_checked": [
+      "Math-",
+      "google-drive",
+      "governance-",
+      "main",
+      "meta-framework",
+      "query-",
+      "sandbox",
+      "trial"
+    ],
+    "scientific_effect": "NONE",
+    "violations": [
+      "generated scientific-status authority: meta-framework/generated/x.json",
+      "generated scientific-status authority: meta-framework/generated/sub/z.json"
+    ]
+  },
+  "api_O_equal": true,
+  "api_categories": [
+    "AUTH",
+    "AUTH"
+  ],
+  "case": "x__multi_file",
+  "cli_O": {
+    "rc": 2,
+    "stderr_tail": "",
+    "stdout_byte_equal_expected": true,
+    "stdout_matches_api": true,
+    "violations": [
+      "generated scientific-status authority: meta-framework/generated/x.json",
+      "generated scientific-status authority: meta-framework/generated/sub/z.json"
+    ]
+  },
+  "cli_normal": {
+    "rc": 2,
+    "stderr_tail": "",
+    "stdout_byte_equal_expected": true,
+    "stdout_matches_api": true,
+    "violations": [
+      "generated scientific-status authority: meta-framework/generated/x.json",
+      "generated scientific-status authority: meta-framework/generated/sub/z.json"
+    ]
+  },
+  "desc": "two files: x.json true, y.json 1, sub/z.json true",
+  "files": {
+    "sub/z.json": "{\"scientific_status_authority\":true}",
+    "x.json": "{\"scientific_status_authority\":true}",
+    "y.json": "{\"scientific_status_authority\":1}"
+  },
+  "input_unchanged": true,
+  "kind": "extra"
+}
