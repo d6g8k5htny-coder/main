@@ -21,7 +21,7 @@ interruption does not force anyone to re-derive it.
 | --- | --- | --- | --- |
 | `historical_recovery/tools/` | `build_corpus.py`, `supplement.py`, `cs.py` | Builder and search helper for a local, provenance-indexed text corpus. The corpus covers every blob reachable from every ref and object in 11 local project mirrors, plus the hardening Drive custody store (DG-MIGRATION-20260919) and the Dropbox text exports. `cs.py` prints source, object id, SHA-256, kind, bytes and names for each hit. | working tool, built 2026-09-28 |
 | `historical_recovery/gaps.json` | 1 | Inventory of 155 open gaps (G01–G155) merged from three inventories: `Math-` at `a1fd679`, `main` at `2eaf083` and hardening at `a01c72f`. Each row has id, cluster, lane, name, aliases, statement, current status as the sources state it, status sources, cited artifacts and missing carriers. | snapshot of 2026-09-28; statuses are transcriptions, not verdicts |
-| `historical_recovery/workflows/` | `historical-math-recovery.js`, `current-gap-inventory.js` | Multi-agent workflow scripts. The gap-inventory run completed and produced `gaps.json`. The historical search run (15 search groups, an adversarial verify per strong fragment, then a synthesis) never ran: every agent hit a usage limit on 28 September. | inventory done; search NOT_RUN |
+| `historical_recovery/workflows/` | `historical-math-recovery.js`, `current-gap-inventory.js` | Multi-agent workflow scripts. The gap-inventory run completed and produced `gaps.json`. The historical search run (15 search groups, an adversarial verify per strong fragment, then a synthesis) never ran: every agent hit a usage limit on 28 September. | inventory done; search RUN on 2026-10-13, results in `historical_recovery/results_20261013/` |
 | `grok_held_survey_20261013/` | `fetch.py`, `classify.py`, `after.py` | The read-only scripts behind the Grok-held pickup survey [307/6154355553](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6154355553). | delivered and released |
 
 `MANIFEST.json` lists every file with its byte count, SHA-256, provenance, stage,
@@ -63,9 +63,8 @@ These are recorded by identity only. They are private, regenerable, or already o
 
 ## Next step
 
-The historical search (`historical-math-recovery.js`) is unrun. Whoever resumes it must follow
-the original task's no-invention rule:
-- label any rebuilt argument "RECONSTRUCTED CANDIDATE — NOT ORIGINAL CARRIER";
-- change no scientific status.
-
-It should be routed on #307 before anyone starts it.
+The historical search ran on 13 October 2026.
+- **Results:** in `historical_recovery/results_20261013/`, with their own README, SHA256SUMS and method files.
+- **Rules followed:** the original no-invention rule. Reconstructions are labelled "RECONSTRUCTED CANDIDATE — NOT ORIGINAL CARRIER". No scientific status was changed.
+- **Not yet examined:** two large Dropbox zips, because the network policy blocked their download.
+- **Next actions:** the owners and reviewers of the affected objects decide them.
