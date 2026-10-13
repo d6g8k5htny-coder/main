@@ -15,6 +15,7 @@ import os
 from pathlib import Path, PurePosixPath
 import re
 import struct
+import urllib.error
 import urllib.request
 import zlib
 
@@ -202,7 +203,16 @@ def tree(api, repo, ref):
 def ancestor_of_branch(api, repo, branch, commit):
     if not (isinstance(branch, str) and BRANCH.fullmatch(branch) and '..' not in branch):
         return False  # a name this route cannot carry safely never vouches for a source
-    data = api.get(f'/repos/{repo}/compare/{branch}...{commit}?per_page=1')
+    try:
+        data = api.get(f'/repos/{repo}/compare/{branch}...{commit}?per_page=1')
+    except urllib.error.HTTPError as error:
+        # GitHub answers 404 "No common ancestor" for a branch with unrelated history
+        # (an orphan branch), and 404 for a branch deleted between listing and compare.
+        # Either way that branch does not vouch; keep scanning. Any other status is
+        # not evidence either way and still rejects.
+        if error.code == 404:
+            return False
+        raise
     if not (isinstance(data, dict) and isinstance(data.get('merge_base_commit'), dict)):
         return False  # any other shape is not evidence of reachability
     return (type(data.get('ahead_by')) is int and data['ahead_by'] == 0 and data.get('status') in ('behind', 'identical')
