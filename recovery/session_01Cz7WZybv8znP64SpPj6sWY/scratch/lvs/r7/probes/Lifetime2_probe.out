@@ -1,0 +1,35 @@
+pinObsCov : (d : ℕ) → [NeZero d] → ℝ → ℝ → OrthonormalBasis (Fin d) ℝ (E d) → Matrix (PinIdx d) (PinIdx d) ℝ
+regCov : (d : ℕ) → [NeZero d] → ℝ → ℝ → OrthonormalBasis (Fin d) ℝ (E d) → E d → E d → ℝ
+typedWeight : (d : ℕ) → [NeZero d] → ℝ → OrthonormalBasis (Fin d) ℝ (E d) → (E d → ℝ) → ℝ
+@PairLawInterface2.Q_regression : ∀ {d : ℕ} [inst : NeZero d] {L : ℝ} {G : GaussianFieldInterface d L}
+  {I : SuperlevelBarInterface d L} (self : PairLawInterface2 d L G I) (r b k : ℝ)
+  (R : OrthonormalBasis (Fin d) ℝ (E d)),
+  0 < r →
+    r < L →
+      ∀ (m : ℕ) (x : Fin m → E d),
+        Measure.map (fun ω => WithLp.toLp 2 fun i => G.F ω (x i)) (self.Q r b k R) =
+          ProbabilityTheory.multivariateGaussian (WithLp.toLp 2 fun i => regMean d L r b k R (x i))
+            (Matrix.of fun i j => regCov d L r R (x i) (x j))
+@PairLawInterface2.p_def : ∀ {d : ℕ} [inst : NeZero d] {L : ℝ} {G : GaussianFieldInterface d L}
+  {I : SuperlevelBarInterface d L} (self : PairLawInterface2 d L G I) (r b k : ℝ)
+  (R : OrthonormalBasis (Fin d) ℝ (E d)),
+  0 < r →
+    r < L →
+      self.p r b k R =
+        (((self.Q r b k R).withDensity fun ω =>
+              ENNReal.ofReal (typedWeight d r R (G.F ω) / ∫ (ω' : G.Ω), typedWeight d r R (G.F ω') ∂self.Q r b k R))
+            {ω | I.ElderPartner (G.F ω) (pinM d r (R 0)) (pinS d r (R 0))}).toReal
+ParentUniformSelectionA2 : (d : ℕ) →
+  [inst : NeZero d] →
+    (L : ℝ) →
+      (G : GaussianFieldInterface d L) →
+        (I : SuperlevelBarInterface d L) → PairLawInterface2 d L G I → ℝ → ℝ → ℝ → ℝ → Prop
+PlanarElderLowerE2v2 : (L : ℝ) →
+  (G : GaussianFieldInterface 2 L) → (I : SuperlevelBarInterface 2 L) → PairLawInterface2 2 L G I → ℝ → ℝ → ℝ → ℝ → Prop
+PlanarTwoSidedRateE4v2 : (L : ℝ) →
+  (G : GaussianFieldInterface 2 L) → (I : SuperlevelBarInterface 2 L) → PairLawInterface2 2 L G I → ℝ → ℝ → ℝ → ℝ → Prop
+
+real	0m12.574s
+user	0m6.806s
+sys	0m6.175s
+exit 0

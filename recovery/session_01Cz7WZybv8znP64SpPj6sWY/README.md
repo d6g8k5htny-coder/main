@@ -140,3 +140,16 @@ the collector and text generator, the binding sentence as placed in the PR body 
 binding post on main#307, and the fetched PR records. The actual tested merge `9ad2639c` (= `refs/pull/447/merge`,
 parents `9fb0a4a0` and `077a168b`) has exactly the head's tree `7534b393`, verified locally. A green run is a record of a
 computation about the formal objects; nothing here is a review, an alignment, an acceptance or a label move.
+
+## Checkpoint 8 (2026-10-13, about 03:55Z): the Lifetime successor-interface feasibility probe
+
+Incremental commit, no rewrite, after checkpoint 7 (`b3f24cf0`): adds `scratch/lvs/r7/probes/Lifetime2_probe.lean` with
+its elaboration output (exit 0 at Lean 4.34.1 / Mathlib `d13f23b7`, `#check`s only, no theorem, no `sorry`): a scratch
+probe, not a packet file, of the design note's §2 successor `PairLawInterface2` for the three interface-blocked Lifetime
+Props (`ParentUniformSelectionA`, `PlanarElderLowerE2`, `PlanarTwoSidedRateE4`): the `2(d+1)` pin observations, their
+jet covariance matrix from `periodicCovariance`, the regression mean and Schur-complement covariance, the typed
+determinant weight, and a structure extending `PairLawInterface` whose fields give the regression law `Q` on `G`'s
+sample space with its finite-dimensional Gaussian regression characterisation, positive definiteness of the observation
+covariance, the pins almost surely, positivity of the normalizer, and `p` pinned to the `Q^W` probability of `I`'s elder
+event, with `Q^W` defined from `Q` and the weight. Input for a later proposal only; nothing is proposed, claimed or
+written to any packet by this checkpoint.
