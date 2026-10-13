@@ -1,0 +1,131 @@
+\section{Main results}\label{sec:results}
+
+\begin{theorem}[fixed-side short-lifetime law]\label{thm:main}
+For the normalized side-24 field \eqref{eq:K24}, the finite nonessential superlevel $H_0$ first-moment lifetime density satisfies
+\begin{equation}\tag{2.1}\label{eq:main}
+\nu_{3,24}(\ell)=c_{3,24}\,\ell^{-1/3}\bigl(1+O(\ell^{1/3})\bigr),\qquad \ell\downarrow0,
+\end{equation}
+equivalently $\nu_{3,24}(\ell)=c_{3,24}\ell^{-1/3}+O(1)$, where $0<c_{3,24}<\infty$ is given by \eqref{eq:c} below.
+
+Fix $t\in S^2$ and an orthonormal transverse frame $n_1,n_2$. Define
+\begin{equation}\tag{2.2}
+u_t=-\frac{\partial_t^3f_{24}}{12},\qquad g_t=(\partial_tf_{24},\partial_{n_1}f_{24},\partial_{n_2}f_{24}),
+\end{equation}
+\begin{equation}\tag{2.3}
+h_t=(\partial_{tt}f_{24},\partial_{tn_1}f_{24},\partial_{tn_2}f_{24}),
+\end{equation}
+and
+\begin{equation}\tag{2.4}
+q_t=(\partial_{n_1n_1}f_{24},\partial_{n_1n_2}f_{24},\partial_{n_2n_2}f_{24}),\qquad
+Q_t(q)=\begin{pmatrix}q_1&q_2\\ q_2&q_3\end{pmatrix}.
+\end{equation}
+Put
+\begin{equation}\tag{2.5}
+\Sigma_g(t)=\Cov(g_t),\qquad \Sigma_h(t)=\Cov(h_t),
+\end{equation}
+\begin{equation}\tag{2.6}
+\sigma_t^2=\Var(u_t)-\Cov(u_t,g_t)\,\Sigma_g(t)^{-1}\Cov(g_t,u_t),
+\end{equation}
+\begin{equation}\tag{2.7}
+\Gamma_t=\Cov(q_t)-\Cov(q_t,h_t)\,\Sigma_h(t)^{-1}\Cov(h_t,q_t),
+\end{equation}
+and
+\begin{equation}\tag{2.8}\label{eq:Dt}
+D_t=\E\Bigl[(\det Q_t(q_t))^2\,\ind_{\{Q_t(q_t)<0\}}\ \Big|\ h_t=0\Bigr].
+\end{equation}
+Then
+\begin{equation}\tag{2.9}\label{eq:c}
+c_{3,24}=B_3\int_{S^2}\frac{(\sigma_t^2)^{2/3}D_t}{\sqrt{\det\Sigma_g(t)\det\Sigma_h(t)}}\,dt,\qquad B_3=\frac{3\,\Gamma(7/6)}{2^{4/3}\pi^{7/2}} .
+\end{equation}
+The formula is independent of the transverse-frame choice.
+
+Moreover,
+\begin{equation}\tag{2.10}\label{eq:correction}
+\frac{c_{3,24}}{c_{3,\infty}}-1=-\frac{620813376}{35}\,e^{-288}+\varepsilon_{24},\qquad |\varepsilon_{24}|<10^{-216},
+\end{equation}
+where $c_{3,\infty}$, the value of \eqref{eq:c} for the Bargmann--Fock field on $\R^3$, is
+\begin{equation}\tag{2.11}\label{eq:cinf}
+\begin{aligned}
+c_{3,\infty}&=2^{-23/6}3^{-8/3}(29\sqrt6-36)\,\Gamma(1/6)\,\pi^{-5/2}\\
+&=0.0417759318405983433429366654285755564666815196\ldots .
+\end{aligned}
+\end{equation}
+\end{theorem}
+
+In particular $c_{3,24}<c_{3,\infty}$:
+\[
+\frac{c_{3,24}}{c_{3,\infty}}-1=-1.48621702906582760722\ldots\cdot10^{-118}+\varepsilon_{24},
+\]
+so the displayed correction is the exact leading term to a relative precision better than $10^{-98}$.
+
+The leading term of \eqref{eq:main}, with the formula \eqref{eq:c}, is proved in \S\S\ref{ssec:pairs}--\ref{ssec:coefficient}; the correction \eqref{eq:correction} in \S\ref{ssec:correction}; and the rate $O(\ell^{1/3})$ in \S\ref{ssec:rate}.
+
+\begin{convention}[density]\label{conv:density}
+Throughout, ``density'' means the $\ell$-density of the expected counting measure of finite nonessential superlevel $H_0$ bars per unit volume, with the Kac--Rice counting measure normalized as in \S\ref{ssec:contact} (marked two-point formula, ordered typed pairs, per-volume normalization $24^{-3}\int dx=1$). Pointwise statements about $\nu_{3,24}$ and about the candidate and rejected densities of Remark~\ref{rem:cand}, here and below, refer to their canonical marked Kac--Rice density versions, the representatives obtained from the pair coordinates of \S\ref{ssec:pairs}; a change of density on a null set need not preserve a pointwise asymptotic. All $o(\cdot)$ and $O(\cdot)$ statements are as $\ell\downarrow0$, uniform on compact positive mark sets; the statements about the densities themselves carry no marks.
+\end{convention}
+
+\subsection{Beyond the leading term}
+
+The rate in \eqref{eq:main} is not sharp. The following results are proved in the supplementary records listed in Appendix~\ref{app:records}; they are not used in the proof of Theorem~\ref{thm:main}, and their review status is described in \S\ref{sec:disclosure}.
+
+\begin{theorem}[three-term law]\label{thm:three-term}
+For the canonical marked Kac--Rice density version of $\nu_{3,24}$,
+\begin{equation}\tag{2.12}\label{eq:three-term}
+\nu_{3,24}(\ell)=c_{3,24}\,\ell^{-1/3}+c_1\,\ell^{1/4}+c_2\,\ell^{1/3}+O(\ell^{3/7}),\qquad \ell\downarrow0,
+\end{equation}
+where the constants are as follows.
+\begin{enumerate}[(i)]
+\item $c_1<0$ is the cusp coefficient
+\begin{equation}\tag{2.13}\label{eq:c1}
+c_1=-\frac{192}{7}\,2^{1/4}\int_{S^2}\int_{\R}\pi_0\bigl(u;v_0(b,0)\bigr)\,
+\E_0\Bigl[|Y|^{7/4}\,|\det A|^{1/4}\,\ind_{\{A<0\}}\ \Big|\ b\Bigr]\,db\,d\sigma(u),
+\end{equation}
+where, at a zero-gap contact in direction $u$, $A=D_\perp^2f$ is the transverse Hessian, $\gamma=\nabla_\perp\partial_u^2f$, $f_4=\partial_u^4f$ and $Y=\tfrac{f_4}{12}\det A-\tfrac14\gamma^{\top}\adj(A)\gamma$, and $\pi_0$, $\E_0$ are the zero-gap pin density and conditional expectation of \rec{chain} (Theorem~CU).
+\item $c_2$ is the fold-scale finite part of the two-point contact kernel \rec{chain}.
+\item Enclosures at $L=24$. First, $c_1/c_{3,24}\in[-5.07106215,\,-5.07106213]$, computed from \eqref{eq:c1} and certified conditional on Theorem~CU and on the enclosure of $c_{3,24}$, which follows from that of $c_{3,\infty}$ \rec{v1coef} and \eqref{eq:correction} \rec{consts}. Second, for the Gaussian kernel in $d=3$,
+\[
+c_2\in[0.1612340491269447,\ 0.1612340491269810],
+\]
+in closed form with a certified enclosure, transferred to the torus of side $L\ge24$ with additive error below $10^{-60}$ under the interfaces of the transfer record \rec{consts}.
+\end{enumerate}
+Equivalently,
+\begin{equation}\tag{2.14}\label{eq:relative}
+\nu_{3,24}(\ell)=c_{3,24}\,\ell^{-1/3}\Bigl(1+\tfrac{c_1}{c_{3,24}}\,\ell^{7/12}+\tfrac{c_2}{c_{3,24}}\,\ell^{2/3}+O(\ell^{16/21})\Bigr),\qquad
+\tfrac{c_1}{c_{3,24}}\approx-5.0711,\quad \tfrac{c_2}{c_{3,24}}\approx3.8595 .
+\end{equation}
+\end{theorem}
+
+The proof combines Theorem~R$^+$ (the bounded remainder of Theorem~\ref{thm:main} vanishes for elder pairs), Theorem~R$^{++}$ (its rate $\ell^{1/4}$), Theorem~CU (the cusp term), Theorem~T and Theorems~E3, E3$^+$ (the fold-scale term and the remainder $\ell^{3/7}$) with the far elder bound of \rec{far}; see \rec{chain}. The mechanism behind $c_1$ and $c_2$ is described in \S\ref{ssec:corrections}.
+
+\begin{remark}[the next order]\label{rem:beyond}
+The records \rec{twothirds} carry the expansion one order further.
+\begin{enumerate}[(a)]
+\item The remainder in \eqref{eq:relative} is $O(\ell)$:
+\begin{equation}\tag{2.15}
+\nu_{3,24}(\ell)=c_{3,24}\,\ell^{-1/3}\Bigl(1+\tfrac{c_1}{c_{3,24}}\ell^{7/12}+\tfrac{c_2}{c_{3,24}}\ell^{2/3}+O(\ell)\Bigr).
+\end{equation}
+In particular the elder density has no $\ell^{1/2}$ term.
+\item More precisely,
+\begin{equation}\tag{2.16}\label{eq:next}
+\nu_{3,24}(\ell)=c_{3,24}\,\ell^{-1/3}+c_1\ell^{1/4}+c_2\ell^{1/3}+(c_3-R_{2/3})\,\ell^{2/3}+o(\ell^{2/3}),
+\end{equation}
+where $c_3$ is the $\ell^{2/3}$ coefficient of the candidate density (Remark~\ref{rem:cand}) and $R_{2/3}$ that of the rejected density; both are explicit integrals.
+\item At $L=24$, and at the conditional scope of [\ref{rec:soft}, Theorem~A],
+\[
+(c_3-R_{2/3})(24)\in[0.0773381,\,0.0775860],\qquad\text{i.e.}\quad 0.07746\pm0.00013\approx1.854\,c_{3,24},
+\]
+with $c_3(24)=0.016092311\pm10^{-9}$ and $R_{2/3}(24)<0$. These enclosures are computer-assisted, in standard-library interval arithmetic. So the coefficient of $\ell$ in the relative expansion is positive.
+\end{enumerate}
+\end{remark}
+
+\begin{remark}[candidate, elder and rejected densities]\label{rem:cand}
+Call \emph{candidate pairs} all typed (maximum, index-two saddle) pairs counted by the contact law, with density $\nu^{\cand}_{3,24}$, and let $\rho_{\rej}=\nu^{\cand}_{3,24}-\nu_{3,24}$ be the density of the candidate pairs that the elder rule rejects. Without the compact-mark restriction of \S\ref{ssec:limit}, $\rho_{\rej}$ is not $o(1)$: it is bounded and converges, as $\ell\downarrow0$, to a positive constant $B_{3,24}$, an explicit Kac--Rice integral of the equal-height unmarked two-point kernel \rec{unres}. Consequently $\rho_{\rej}$ has inverse-moment threshold exactly $-1$, whereas $\nu^{\cand}_{3,24}$ and $\nu_{3,24}$ keep the threshold $-2/3$ of the $\ell^{-1/3}$ law. Theorem~\ref{thm:main} concerns the elder density and is unaffected; an earlier conjecture of an $O(\ell^{2/3})$ unrestricted difference is withdrawn \rec{unres}. More precisely,
+\begin{equation}\tag{2.17}\label{eq:cand}
+\nu^{\cand}_{3,24}(\ell)=c_{3,24}\,\ell^{-1/3}+B_{3,24}+I^{\cand}\ell^{1/4}+c_2\,\ell^{1/3}+c_3\,\ell^{2/3}+O(\ell^{2/3+\delta}),\qquad \delta=\tfrac1{50},
+\end{equation}
+with $I^{\cand}=\tfrac{3^{1/4}}{2}c_1$ \recs{chain}{parity}; the term $c_3\ell^{2/3}$ and the rate $\delta$ are from notes C3 and C3-R \rec{twothirds}. In particular the candidate density has no $\ell^{1/2}$ term, by a reflection parity of the pinned two-point problem \rec{parity}. Subtracting \eqref{eq:three-term} from \eqref{eq:cand},
+\begin{equation}\tag{2.18}
+\rho_{\rej}(\ell)=B_{3,24}+\bigl(1-\tfrac{3^{1/4}}2\bigr)|c_1|\,\ell^{1/4}+O(\ell^{3/7}),
+\end{equation}
+so the rejected density approaches its limit from above, and the fold-scale coefficient $c_2$ is common to the candidate and elder densities; by Remark~\ref{rem:beyond} the next term of $\rho_{\rej}$ is $R_{2/3}\ell^{2/3}$. Numerically, as exploration and not as an enclosure, $B_{3,24}\approx10.2$, about $240\,c_{3,24}$: up to a near-field correction of about $-0.02$ it equals $24^3\int\rho_{\max}(b)\rho_{\mathrm{sad}}(b)\,db$, the overlap of the height densities of maxima and index-two saddles \rec{eqh}. Unmarked small-gap pairs on the side-24 torus are thus overwhelmingly unrelated far-apart pairs, which the elder rule removes.
+\end{remark}

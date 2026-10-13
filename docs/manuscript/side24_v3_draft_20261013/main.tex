@@ -1,0 +1,84 @@
+% SIDE24 manuscript, V3 draft (13 October 2026).
+% Built from the V1 source SIDE24_MANUSCRIPT_CORE.md (SHA-256 fb576de6...), the V2 amendment sheet (M1-M7, 1 August 2026)
+% and the V3 edit pack (items E1-E78). See V3_CHANGE_LIST.md for the item-by-item placement.
+\documentclass[11pt,reqno]{amsart}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,amsthm,mathtools}
+\usepackage[margin=1.05in]{geometry}
+\usepackage{microtype}
+\usepackage{booktabs,tabularx,longtable,array}
+\usepackage[shortlabels]{enumitem}
+\usepackage{xcolor}
+\usepackage{url}
+\def\UrlBreaks{\do\/\do\_\do\-\do\.}
+\Urlmuskip=0mu plus 1mu
+\usepackage[colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black]{hyperref}
+
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{convention}[theorem]{Convention}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+
+\newcommand{\T}{\mathbb T}
+\newcommand{\R}{\mathbb R}
+\newcommand{\Z}{\mathbb Z}
+\newcommand{\C}{\mathbb C}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Prob}{\mathbb P}
+\newcommand{\ind}{\mathbf 1}
+\newcommand{\eld}{\mathrm{eld}}
+\newcommand{\cand}{\mathrm{cand}}
+\newcommand{\rej}{\mathrm{rej}}
+\DeclareMathOperator{\Cov}{Cov}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\dist}{dist}
+\DeclareMathOperator{\tr}{tr}
+\DeclareMathOperator{\adj}{adj}
+\DeclareMathOperator{\Ind}{ind}
+% repository records (Appendix A)
+\newcommand{\rec}[1]{[\ref{rec:#1}]}
+\newcommand{\recs}[2]{[\ref{rec:#1}, \ref{rec:#2}]}
+
+\begin{document}
+
+\title[Short-lifetime $H_0$ persistence on the side-24 torus]{Short-lifetime $H_0$ persistence for the three-dimensional side-24 periodized Bargmann--Fock field}
+\author{Dylan Roy}
+\date{V3 draft, 13 October 2026}
+
+\begin{abstract}
+Let $f_{24}$ be the normalized periodization to the cubic torus $\T_{24}^3$ of the real Bargmann--Fock field with covariance $\exp(-|x-y|^2/2)$. We consider finite, nonessential superlevel-set $H_0$ persistence bars and their first-moment lifetime density per unit volume. We prove the short-lifetime law
+\[
+\nu_{3,24}(\ell)=c_{3,24}\,\ell^{-1/3}\bigl(1+O(\ell^{1/3})\bigr),\qquad \ell\downarrow0,
+\]
+where $c_{3,24}>0$ is given by an explicit finite-dimensional Gaussian-cone integral. The proof identifies the dimension-cancelling local fold mechanism, proves that elder-rule selection changes the all-typed local contact count by only $O(r^3)$, and fixes all ordered-pair, directed-sphere, Kac--Rice and lifetime-Jacobian normalizations. The coefficient is related to its value for the Bargmann--Fock field on $\R^3$ by
+\[
+\frac{c_{3,24}}{c_{3,\infty}}-1=-\frac{620813376}{35}e^{-288}+\varepsilon_{24},\qquad |\varepsilon_{24}|<10^{-216},
+\]
+with $c_{3,\infty}=2^{-23/6}3^{-8/3}(29\sqrt6-36)\,\Gamma(1/6)\,\pi^{-5/2}$.
+We also state the three-term expansion $\nu_{3,24}(\ell)=c_{3,24}\ell^{-1/3}+c_1\ell^{1/4}+c_2\ell^{1/3}+O(\ell^{3/7})$, with explicit constants $c_1<0$ and $c_2$, and describe the cusp and fold mechanisms that produce the corrections.
+\end{abstract}
+
+\maketitle
+
+\input{s0_status}
+\input{s1_field}
+\input{s2_results}
+\input{s3_proof}
+\input{s4_scope}
+\input{s5_discussion}
+\input{s6_literature}
+\input{s7_disclosure}
+
+\appendix
+\input{appA_records}
+
+\bibliographystyle{amsplain}
+\bibliography{refs}
+
+\end{document}

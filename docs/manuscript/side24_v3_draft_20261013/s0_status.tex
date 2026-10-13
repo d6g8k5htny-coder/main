@@ -1,0 +1,41 @@
+% Draft-only front matter. Remove this section before submission.
+\section*{Status of this draft (remove before submission)}
+
+\noindent\textbf{What this is.} An author-side V3 draft, assembled on 13 October 2026 by an AI assistant (Anthropic Claude, Claude Code session \texttt{session\_01NMeKEismAyeqgdB4sy2NJU}) under the author's direction. It integrates the frozen V1 text (30 July 2026; source SHA-256 \texttt{fb576de6\ldots}), the V2 amendments M1--M7 (1 August 2026) and the \emph{apply} items of the V3 edit pack (E1--E78, status of 13 October 2026). No mathematical statement here is new: every result is the manuscript's own or is taken, with its stated scope, from the repository records listed in Appendix~\ref{app:records}. The companion file \texttt{V3\_CHANGE\_LIST.md} gives the placement of every amendment and edit-pack item, and the items deliberately not printed.
+
+\smallskip
+\noindent\textbf{Author decisions, as drafted (defaults; each is a local switch).}
+\begin{enumerate}[leftmargin=2em]
+\item \emph{Strength of the main statement} (edit pack, decision~1). Theorem~\ref{thm:main} states the two-provider-reviewed form $c\ell^{-1/3}(1+O(\ell^{1/3}))$, proved in \S\ref{sec:proof}. The stronger three-term law is Theorem~\ref{thm:three-term}, with its proof in the supplementary records; the later refinements are Remark~\ref{rem:beyond}. Alternatives: put the three-term law into Theorem~\ref{thm:main}, or keep only the floor and move everything stronger to the Discussion.
+\item \emph{Human review} (decision~2). Worded as a disclosure (\S\ref{sec:disclosure}): no independent human specialist review, following the author's statement that none is planned. The draft says nothing about the author's own reading; add a sentence there if you wish.
+\item \emph{Planar material} (decision~3). Results for $d=2$ appear only as Discussion remarks (\S\ref{ssec:plane}); the theorem is $d=3$.
+\end{enumerate}
+
+\smallskip
+\noindent\textbf{Review status of each stated result} (internal tags: R$\cdot$2P = nonauthor reviews from two providers; R$\cdot$1P = one provider; +GB = an additional nonauthor read by Grok Bot support agents (Cursor-hosted, not the xAI model lane); READ = read in bounded nonauthor slices; all reviews are AI reviews posted from one account, so no organizational independence is claimed).
+
+\begin{center}\small
+\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{0.27\textwidth} >{\raggedright\arraybackslash}X >{\raggedright\arraybackslash}p{0.2\textwidth}}
+\toprule
+Statement & Status & Records \\
+\midrule
+Thm.~\ref{thm:main}, leading term & V1/V2 proof (\S\ref{sec:proof}, Supplement Part~A); parent chain with provider-distinct AI reviews & \rec{supp}, \rec{parent} \\
+Thm.~\ref{thm:main}, rate $O(\ell^{1/3})$ & R$\cdot$2P (xAI R1--R6; Anthropic full-depth read), merged & \rec{thmR} \\
+(2.10), $|\varepsilon_{24}|<10^{-216}$ & R$\cdot$2P, merged & \rec{eps} \\
+Cor.~\ref{cor:selection}, lower bound & R$\cdot$1P (OpenAI), merged; constants existential & \rec{lower} \\
+Rem.~\ref{rem:mechanism} & merged with OpenAI reads and an Anthropic composition read (R$\cdot$2P), author-side at their scope & \rec{mech} \\
+Rem.~\ref{rem:c104} & R$\cdot$2P at the contact-integral scope & \rec{c104} \\
+Thm.~\ref{thm:three-term} & every link merged with OpenAI/Codex nonauthor reviews and a Grok Bot read (R$\cdot$1P+GB); $c_1/c$, $c_2$ certified at the stated scopes & \rec{chain}, \rec{consts} \\
+Rem.~\ref{rem:beyond} & READ (same account), all records on \texttt{Math-} \texttt{main}; the value in (c) at the conditional scope of [\ref{rec:soft}, Thm.~A] & \rec{twothirds} \\
+Rem.~\ref{rem:cand} & Theorem Z R$\cdot$2P; Theorems U, K, P R$\cdot$1P; the $c_3\ell^{2/3}$ term and $\delta=1/50$ READ; $B_{3,24}\approx10.2$ exploration only & \rec{unres}, \rec{parity}, \rec{twothirds}, \rec{eqh} \\
+\S\ref{sec:discussion} & labelled in place: proved, read, author-side, numerical, or expectation & App.~\ref{app:records} \\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\smallskip
+\noindent\textbf{Not established, and not claimed anywhere below.} An explicit $\ell$-range on which the relative error in \eqref{eq:main} is below a given $\delta$ (all remainder constants are existential); a theorem for side lengths $L\neq24$ beyond the identities cited, or for the interchange of $L\to\infty$ and $\ell\downarrow0$; a numerical value of $\varepsilon_{24}$; a directed-rounding certificate for the integral (2.9) beyond the $10^{-106}$ enclosure of $c_{3,\infty}$ \rec{v1coef}; any statement for $H_k$, $k>0$.
+
+\noindent\textbf{Before submission.} Remove this section; assemble the supplement from the records of Appendix~\ref{app:records}; run the MathSciNet/zbMATH pass (\S\ref{sec:literature}); choose the venue and do its style pass.
+
+\bigskip
