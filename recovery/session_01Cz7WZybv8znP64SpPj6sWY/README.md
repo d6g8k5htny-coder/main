@@ -227,3 +227,14 @@ checkpoint on main#307 (6138625278). State at close: Math-#445 `0c506fea` and Ma
 review-complete on their current heads, waiting on an integrator (#445 first, with the bounded reconciliation read of
 #447's regenerated documents); Lifetime slice proposed with its packet, awaiting routing; RN probes preserved as design
 input; main#386 frozen under GROK-H03's read. Nothing merged or marked ready by this lane; every new declaration `specified`.
+
+## Checkpoint 16 (2026-10-13, about 05:32Z): the round-7 Side24 slice landed
+
+Incremental commit, no rewrite, after checkpoint 15 (`b931f777`): adds the run collection and the binding texts for the
+integrator's carried head `f6ba2e6a` of Math-#447 (`runs447_f6ba2e6a.json`, `hosted_runs_line_f6ba2e6a.md`, the PR-body
+refresh script with its output `pr447_body_carry.md`, and the post-merge read-back as posted at 447/6138936108). State:
+Math-#445 merged as `6b5b9a5d` (05:15Z) and Math-#447 merged as `7f5f1c82` (05:27:53Z), both by the distinct integrator;
+the landed tree is `d2f5bd70`, the module and the register are the reviewed blobs (SHA-256 `3164ccfd…`, `64674ac4…`).
+Lifetime slice proposed with its packet, awaiting routing; RN probes preserved as design input; the main#386 read offered to
+GROK-H03 without a response yet. Nothing merged or marked ready by this lane; every new declaration `specified`; nothing
+proved; no inhabitant constructed; no label moved.
