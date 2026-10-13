@@ -10,13 +10,17 @@ The owner asked every Claude session to preserve its still-local project work so
 derivation, probe or tool has to be repeated after an interruption (main #307, comments
 6136156988, 6136210973; implementation decision 6136231457: register each checkpoint once
 through the existing delivery procedure). The bulk of this session's material is far above
-the intake limits of one packet (50 files, 2 MiB), so the payloads live on a reading branch
-and this packet is the durable index that points at them by commit and digest.
+the intake limits of one packet (50 files, 2 MiB), so the payloads live on a retained reading branch
+and this packet is the durable index that points at them by commit and digest. Retention is explicit: the payload
+branch and commit are retained while any required work relies on them, until a verified durable replacement contains
+the actual bytes and this index is updated; an index alone is not a replacement backup; no deletion is requested
+(main #307, 6136476552).
 
 ## Pointers
 
 - Reading copy: `d6g8k5htny-coder/main`, branch `claude/recovery-01cz-20261013`, commit
-  `037436b454003593af8039907a68490331300f9e`, tree `190a56fe`, directory `sandbox/recovery_01cz_20261013/`:
+  `ee7491ba00b8df361b459e8f0dfb6fd38dfa6e4e`, tree `501a3519`, directory `recovery/session_01Cz7WZybv8znP64SpPj6sWY/` (moved unchanged from
+  `sandbox/recovery_01cz_20261013/` at `037436b454003593af8039907a68490331300f9e`; same payload bytes and `MANIFEST.json`, README reworded):
   4,590 payload files, 85,671,616 bytes under `scratch/<original relative path>`,
   with `MANIFEST.json` (per file: area, kind, bytes, SHA-256 of the published copy and of the
   exact as-run bytes, scrubbed flag), `EXCLUDED.json` (185 entries) and `README.md`.
@@ -49,5 +53,5 @@ session UUID and the owner's relay address by placeholders; both digests are in 
 Repository and tree copies, Lean build caches and build products were not copied (reproducible
 from the commits the neighbouring notes name and from the pinned toolchain). Organizational
 independence credit of this packet: 0 (Anthropic / Claude, the same session that produced the
-material). Retention: the reading branches are recovery inputs and should be kept until the
-owner says the material is indexed elsewhere or discarded.
+material). Retention: the reading branches are recovery inputs and are retained while any required work relies on them,
+until a verified durable replacement contains the actual bytes and this index is updated; no deletion is requested.

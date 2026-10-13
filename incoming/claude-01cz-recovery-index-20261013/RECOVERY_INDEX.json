@@ -13,9 +13,9 @@
  "recovery_reading_copy": {
   "repository": "d6g8k5htny-coder/main",
   "branch": "claude/recovery-01cz-20261013",
-  "commit": "037436b454003593af8039907a68490331300f9e",
-  "tree": "190a56fe7e27f5bf6794d9e02c22aa899a7e294c",
-  "directory": "sandbox/recovery_01cz_20261013/",
+  "commit": "ee7491ba00b8df361b459e8f0dfb6fd38dfa6e4e",
+  "tree": "501a3519be61109576b5c014c1f50d53bf668dd6",
+  "directory": "recovery/session_01Cz7WZybv8znP64SpPj6sWY/",
   "payload_files": 4590,
   "payload_bytes": 85671616,
   "excluded_entries": 185,
@@ -71,7 +71,14 @@
     "scrubbed_files": 14
    }
   },
-  "retention": "recovery input; keep until the owner says it is indexed elsewhere or discarded; incremental checkpoints are further commits, never rewrites"
+  "retention": "RETAIN this branch and commit while any required work relies on them, until a verified durable replacement contains the actual bytes and this index is updated to point at it; an index alone is not a replacement backup; no deletion is requested (main #307 6136476552). Incremental checkpoints are further commits, never rewrites.",
+  "history": [
+   {
+    "commit": "037436b454003593af8039907a68490331300f9e",
+    "directory": "sandbox/recovery_01cz_20261013/",
+    "note": "first push; same payload bytes and MANIFEST.json; README carried sandbox wording (wipeable), withdrawn by the move to recovery/ at ee7491ba00b8df361b459e8f0dfb6fd38dfa6e4e"
+   }
+  ]
  },
  "handoff_reading_copy": {
   "repository": "d6g8k5htny-coder/main",
@@ -117,5 +124,5 @@
   "author duties on Math- PR #445 (head frozen; reader and integrator wanted)"
  ],
  "blockers": [],
- "next_reproducible_step": "git show 037436b454003593af8039907a68490331300f9e:sandbox/recovery_01cz_20261013/README.md"
+ "next_reproducible_step": "git show ee7491ba00b8df361b459e8f0dfb6fd38dfa6e4e:recovery/session_01Cz7WZybv8znP64SpPj6sWY/README.md"
 }
