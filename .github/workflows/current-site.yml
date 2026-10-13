@@ -1,0 +1,116 @@
+name: Current research site
+
+'on':
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+    paths:
+      - 'docs/site/**'
+      - 'tools/current_site_data.py'
+      - 'tools/current_site_build.py'
+      - 'tests/test_current_site*'
+      - '.github/workflows/current-site.yml'
+  schedule:
+    - cron: '*/30 * * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# A refresh failure never reaches deployment. Do not interrupt a live publish.
+concurrency:
+  group: current-research-pages
+  cancel-in-progress: false
+
+jobs:
+  controls:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Offline source and reader admission controls
+        run: |
+          python3 -B -S -m unittest discover -s tests -p 'test_current_site*.py' -v
+          python3 -B -O -S -m unittest discover -s tests -p 'test_current_site*.py' -v
+          node --test tests/test_current_site.mjs
+
+  build:
+    needs: controls
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'd6g8k5htny-coder/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - name: Verify the checkout and acquire one immutable public source observation
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: |
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          python3 -B -S tools/current_site_data.py --main-commit "$GITHUB_SHA" --output "$RUNNER_TEMP/current.json"
+      - name: First offline render and asset identity
+        run: |
+          python3 -B -S tools/current_site_build.py --payload "$RUNNER_TEMP/current.json" --site docs/site
+          git add -A -- docs/site docs/public-math
+          python3 -B -S tools/site_asset_release.py
+          python3 -B -S tools/site_asset_release.py --check
+          cp -a docs "$RUNNER_TEMP/current-site-first"
+      - name: Second offline render must equal the first complete docs artifact
+        run: |
+          python3 -B -S tools/current_site_build.py --payload "$RUNNER_TEMP/current.json" --site docs/site
+          git add -A -- docs/site docs/public-math
+          python3 -B -S tools/site_asset_release.py
+          python3 -B -S tools/site_asset_release.py --check
+          diff -qr "$RUNNER_TEMP/current-site-first" docs
+      - name: Verify the generated reader routes and existing evidence controls
+        run: |
+          python3 -B -S -m unittest discover -s tests -p test_reader_links.py -v
+          python3 -B -S -m unittest discover -s tests -p test_public_shop_data.py -v
+          node --test tests/test_current_site.mjs tests/test_public_shop_frontend.mjs tests/test_reader_navigation.mjs tests/test_dependency_viewer.mjs tests/test_source_reference.mjs tests/test_workspace_navigation.mjs
+      - name: Assemble the verified artifact with the complete legacy docs namespace
+        run: |
+          python3 -B -S - <<'PY'
+          from pathlib import Path
+          root = Path('docs')
+          if any(path.is_symlink() for path in root.rglob('*')):
+              raise SystemExit('Pages artifact refused: symlinked public content')
+          PY
+          cp -a docs "$RUNNER_TEMP/current-site-pages"
+          diff -qr "$RUNNER_TEMP/current-site-first" "$RUNNER_TEMP/current-site-pages"
+      # Official action refs resolved and interfaces read on 2026-10-13.
+      - name: Upload the verified Pages artifact
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: ${{ runner.temp }}/current-site-pages
+          include-hidden-files: true
+
+  deploy:
+    needs: build
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main' && github.repository == 'd6g8k5htny-coder/main'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      # Read configured Pages metadata; root verifies Actions source before enablement.
+      - name: Read the existing Pages configuration
+        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+        with:
+          enablement: false
+      - name: Deploy the verified artifact
+        id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5.0.1

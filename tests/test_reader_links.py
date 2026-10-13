@@ -51,7 +51,7 @@ class PublicRoutes(unittest.TestCase):
         self.assertEqual(href,f"https://github.com/{config['proof']['repository']}/blob/{config['proof']['commit']}/{config['proof']['path']}")
         for pinned in ('blob/f2e432ea5c86742e480c66624775bc9103343314/STATUS.md','blob/9d7b6802424fb4715b31999066aafca8ee2f3cca/coefficients/side24_v1/ENCLOSURE.json','tree/f2e432ea5c86742e480c66624775bc9103343314/docs/public-math'):
             self.assertIn(pinned,page.split('<noscript>',1)[1] if pinned.startswith('blob/f2e') else page)
-        self.assertEqual(page.count('<noscript>'),3)
+        self.assertEqual(page.count('<noscript>'),4)
 
     def test_remaining_teaching_exports_keep_readable_static_limits_and_disabled_actions(self):
         text=(SITE/'explore.html').read_text()
@@ -94,7 +94,7 @@ class PublicRoutes(unittest.TestCase):
         self.assertIn('9d7b6802424fb4715b31999066aafca8ee2f3cca/coefficients/side24_v1/PROOF.md#1-a-nonperiodic-reference-coefficient-with-exact-cone-moments',text)
 
     def test_all_local_html_links_assets_and_fragments_resolve(self):
-        pages={path:Page(path.read_text()) for path in SITE.glob('*.html')}
+        pages={path:Page(path.read_text()) for path in SITE.rglob('*.html')}
         # These exact claim IDs are rendered only after museum source verification.
         # The actual rendering and deferred fragment navigation are tested separately.
         dynamic={SITE/'museum.html': [c['id'] for c in json.loads((SITE/'museum.json').read_text())['claims']]}
@@ -111,7 +111,7 @@ class PublicRoutes(unittest.TestCase):
                     if u.fragment and target.suffix=='.html':
                         self.assertIn(unquote(u.fragment),pages[target].ids + dynamic.get(target, []),f'{path.name}: {link}')
     def test_consistent_navigation_and_accessible_entry(self):
-        expected=['index.html','explore.html','research.html','workspace.html#inventory']
+        expected=['index.html','explore.html','research.html','workspace.html#inventory','dependencies.html#current-atlas']
         for name in ('index','explore','research','museum','formal','workspace','reproduce','cite','measure','dependencies'):
             text=(SITE/f'{name}.html').read_text(); page=Page(text)
             # Workspace's local inventory anchor is the same destination.

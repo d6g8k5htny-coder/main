@@ -190,11 +190,11 @@ test('museum manifest must match the config byte count and SHA-256 before source
 
 // #museum-state is the page's one static role="status" line for cards. A refused card is not a
 // second live region; each refused view is counted in that line's final text instead. The only
-// other static live region is the conditional route's status line; neither is hidden.
-test('museum.html declares exactly two live regions, #museum-state and #conditional-route-status, neither hidden',()=>{
+// other evidence live region is the conditional route's status line; current-source observation has a separate live region.
+test('museum.html keeps its two evidence live regions and a separate current observation region',()=>{
   const html=fs.readFileSync(new URL('../docs/site/museum.html',import.meta.url),'utf8');
   const live=[...html.matchAll(/<[a-z][a-z0-9]*\b[^>]*>/gi)].map(m=>m[0]).filter(tag=>/\brole="(status|alert|log|marquee|timer)"|\baria-live\b/i.test(tag));
-  assert.deepEqual(live,['<p id="museum-state" role="status">','<p id="conditional-route-status" role="status">']);
+  assert.deepEqual(live,['<p class="current-state" role="status">','<p id="museum-state" role="status">','<p id="conditional-route-status" role="status">']);
   const state=documentFromHTML().getElementById('museum-state');
   assert.deepEqual([state.getAttribute('role'),state.getAttribute('aria-live')],['status',null]);
 });

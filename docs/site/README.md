@@ -2,9 +2,9 @@
 
 **Live:** [Universal Law](https://d6g8k5htny-coder.github.io/main/site/).
 
-The public home introduces the mathematics before its implementation. All pages share Home, Explore, Research and Library navigation. Contribution options remain available from every page's footer site map, from Home's About section, and from the workspace's Join the work section.
+The public home introduces the mathematics before its implementation. All pages share Home, Explore, Research, Library and Mathematics navigation. Contribution options remain available from every page's footer site map, from Home's About section, and from the workspace's Join the work section.
 
-- **Home (`index.html`):** a short introduction to random landscapes, thresholds and persistence; no source catalog is downloaded on this page.
+- **Home (`index.html`):** a short introduction to random landscapes, thresholds and persistence; the separate current-source panel loads a hash-verified local public source observation.
 - **Explore (`explore.html`):** three deterministic teaching models—negative-definite curvature, cubic gap scaling and a finite capacity example. Controls work locally with no remote data service. These illustrate their defined examples and do not certify a continuum result.
 - **Research (`research.html`):** dated public reading cuts, newest first (Home and the Research hero link the newest), followed by the established question-to-proof paths. Pinned source citations, scoped formal packets and issue-only proofs retain distinct scope; separately labeled mutable upstream links reach newer work.
 - **Library and workspace (`workspace.html`):** the existing exact coefficient viewer, dated status snapshot, hash-verified source inventory and contributor instructions. Old `index.html#board`, `#coefficient`, `#inventory` and `#contribute` bookmarks route here; without JavaScript the home still offers the workspace link.
@@ -12,10 +12,18 @@ The public home introduces the mathematics before its implementation. All pages 
 - **Cite (`cite.html`):** object-specific citation guidance and a local immutable-reference builder. It checks input syntax, not source existence or scientific status.
 - **Source records (`museum.html`):** the preserved historical source-bound exhibits, review cards and conditional routes. It names its separate snapshot; later proof-index results are not silently imported into old cards.
 - **Formal (`formal.html`):** what the original 27 September 2026 Lean lane's 13 scalar companions establish and what stays outside them; an explanation at that source snapshot, not a current formalization inventory or live acceptance register. Its dated "Since this snapshot" section points to later formal packages.
-- **Dependencies (`dependencies.html`):** a dated, read-only claim-dependency snapshot derived from frozen source bytes; it does not update claim status or replace the live proof index.
+- **Mathematics (`dependencies.html`):** current equation excerpts, a progressively expanded graph, Graph/List views, a loaded-neighborhood minimap, five separate evidence metadata axes, exact sources and static node pages, followed by the preserved dated dependency snapshot. It does not update scientific classifications or replace the proof index.
 - **Measure (`measure.html`):** a synthetic counts-to-density teaching example with invented inputs; it generates no random field and validates no theorem.
 
 The front and technical layers use the same existing evidence. No second scientific register or server backend is added. Source identities are available in expandable disclosures, while object/class labels and unavailable states remain visible. The original coefficient artifact’s `scientific_acceptance: false` is retained; later scoped review remains separate.
+
+## Current source publication
+
+`tools/current_site_data.py` resolves public main and Math- commits once, verifies their complete Git trees and the seven acquired source files, and extracts exact indented proof displays. Other inventory rows bind paths and Git blobs; their document bytes are not downloaded. The page calls equation blocks excerpts and keeps their surrounding proof scope available by pinned line links. `tools/current_site_build.py` renders one payload offline into marked current sections and static node pages; Research and Formal stay script-free. Current observations and original dated reading cuts have separate identities.
+
+The proposed `current-site.yml` builds on main pushes and a 30-minute schedule and deploys the complete tested docs artifact through Pages Actions. Deployment needs verified Pages source configuration and actual hosted success before it can be called active. A failed source refresh cannot reach deployment. Source observations are not mathematical revalidation. Existing diagrams on Explore keep their defined teaching scope; the new source panel links the advancing work.
+
+Local current-view controls: `python3 -B -S -m unittest tests.test_current_site_data tests.test_current_site_build`; `node --test tests/test_current_site.mjs`; and, with the pinned browser packages and packaged Chrome, `python3 -B tools/current_site_browser_check.py --output browser-evidence/current-atlas`.
 
 ## Verify the reader experience
 
