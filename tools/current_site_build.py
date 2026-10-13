@@ -20,7 +20,9 @@ from urllib.parse import quote, urlsplit
 
 from current_site_data import parse_json, public_inventory_path, safe_path
 from site_asset_release import transform, without_release
-from current_site_history import choose_archive, preflight_capacity, MAX_FILE_BYTES, MAX_HISTORY_BYTES
+from current_site_history import (choose_archive, mathematical_projection, mathematical_digest, manifest_bytes,
+                                  manifest_plan, render_static_v2, render_live_current_v2,
+                                  MAX_FILE_BYTES, MAX_HISTORY_BYTES)
 
 REPOSITORIES = {"d6g8k5htny-coder/main", "d6g8k5htny-coder/Math-"}
 MATH = "d6g8k5htny-coder/Math-"
@@ -57,7 +59,8 @@ def validate_payload(data):
         raise ValueError("incomplete pinned repository inventory")
     commits = {}
     for repo in repos:
-        if (not isinstance(repo, dict) or repo.get("repository") not in REPOSITORIES
+        if (not isinstance(repo, dict) or set(repo) != {"repository", "commit", "tree"}
+                or repo.get("repository") not in REPOSITORIES
                 or repo["repository"] in commits
                 or not isinstance(repo.get("commit"), str) or not HEX40.fullmatch(repo["commit"])
                 or not isinstance(repo.get("tree"), str) or not HEX40.fullmatch(repo["tree"])):
@@ -104,8 +107,8 @@ def validate_payload(data):
             (MATH, "PROOF_INDEX.md")} <= reference_keys:
         raise ValueError("missing required current source reference")
     graph = data.get("graph")
-    if not isinstance(graph, dict):
-        raise ValueError("missing graph snapshot")
+    if not isinstance(graph, dict) or set(graph) != {"identity", "data"}:
+        raise ValueError("invalid closed graph snapshot schema")
     source_identity(graph.get("identity"), True)
     if graph["identity"]["repository"] != MATH:
         raise ValueError("graph must be bound to the admitted Math- repository")
@@ -145,7 +148,8 @@ def validate_payload(data):
     if not isinstance(equations, list) or len(equations) > 2000:
         raise ValueError("invalid equation inventory")
     for equation in equations:
-        if (not isinstance(equation, dict) or equation.get("repository") not in commits
+        if (not isinstance(equation, dict) or set(equation) != {"id", "repository", "commit", "path", "text", "line_start", "line_end", "sha256"}
+                or equation.get("repository") not in commits
                 or equation.get("commit") != commits[equation["repository"]]
                 or not isinstance(equation.get("id"), str) or not isinstance(equation.get("text"), str)
                 or not isinstance(equation.get("sha256"), str) or not HEX64.fullmatch(equation["sha256"])
@@ -167,7 +171,7 @@ def source_list(sources):
 
 def current_section(data, meta, *, prefix="", search=True, snapshot_prefix=None, archived=False):
     snapshot_prefix = snapshot_prefix if snapshot_prefix is not None else f'{prefix}snapshots/{meta.get("archive", meta["sha256"])}/'
-    node_index = snapshot_prefix + "nodes/index.html"
+    node_index = snapshot_prefix + "nodes/index.html" if archived else prefix + "nodes/index.html"
     pins = " · ".join(f'<a href="https://github.com/{escape(repo["repository"])}/tree/{repo["commit"]}">{escape(repo["repository"].split("/")[1])} <code>{repo["commit"]}</code></a>'
                       for repo in data["repositories"])
     refs = " · ".join(f'<a href="{escape(source_url(ref))}">{escape(ref.get("label", ref["path"]))}</a>'
@@ -184,7 +188,7 @@ def current_section(data, meta, *, prefix="", search=True, snapshot_prefix=None,
             + ('<h2>Snapshot research sources</h2>\n' if archived else '<h2>Current research sources</h2>\n')
             + f'<p class="current-state" role="status">Pinned source observation: <time datetime="{data["observed_at"]}">{data["observed_at"]}</time>. Compare this timestamp with the present time; observation is not scientific revalidation.</p>\n'
             f'<p>{pins}</p>\n<p>{refs}</p>\n'
-            f'<p><a href="{prefix}dependencies.html#current-atlas">Current mathematical atlas</a> · <a href="{node_index}">Snapshot static graph and complete source inventory</a> · <a href="{snapshot_prefix}current.json">Exact snapshot observation payload</a>. Scientific effect: NONE.</p>\n'
+            f'<p><a href="{prefix}dependencies.html#current-atlas">Current mathematical atlas</a> · <a href="{node_index}">Current static graph and complete source inventory</a> · <a href="{prefix}current.json">Exact current observation payload</a> · <a href="{snapshot_prefix}nodes/index.html">Historical mathematical material (original pins and observation)</a>. Scientific effect: NONE.</p>\n'
             + controls + '\n</section>')
 
 
@@ -378,7 +382,7 @@ def ensure_render_budget(data, meta):
                                   + len(str(node.get("classification", "")).encode()))
     inventory = sum(256 + len(escape(source_url(s)).encode()) + len(escape(s["path"]).encode())
                     for s in data["sources"])
-    index = repeated + inventory + index_nodes
+    index = repeated + inventory + index_nodes + sum(3000 + 8 * len(e["text"].encode()) for e in data["equations"])
     if index > MAX_FILE_BYTES or 2 * (total_nodes + index + meta["bytes"] + 1024) > MAX_HISTORY_BYTES:
         raise ValueError("pre-render public history capacity exceeded")
     return 2 * (total_nodes + index + meta["bytes"] + 1024)
@@ -392,14 +396,28 @@ def build(site, payload):
         raise ValueError("current payload exceeds its admitted byte bound")
     raw = payload.read_bytes()
     data = validate_payload(parse_json(raw))
-    archived_meta = {"sha256": hashlib.sha256(raw).hexdigest(), "bytes": len(raw), "observed_at": data["observed_at"]}
+    fresh_meta = {"sha256": hashlib.sha256(raw).hexdigest(), "bytes": len(raw), "observed_at": data["observed_at"]}
     chosen = choose_archive(site, data)
-    archive_id = chosen["id"] if chosen else archived_meta["sha256"]
-    meta = {**archived_meta, "archive": archive_id}
+    archive_id = chosen["id"] if chosen else mathematical_digest(data)
+    meta = {**fresh_meta, "archive": archive_id}
+    ensure_render_budget(data, meta)
+    archive = None
     if not chosen:
-        ensure_render_budget(data, archived_meta)
-    outputs = {"current.json": raw,
-               "current-meta.json": (json.dumps(meta, sort_keys=True, indent=2) + "\n").encode("utf-8")}
+        projection = mathematical_projection(data)
+        projection_raw = manifest_bytes(projection)
+        archive_meta = {"sha256": hashlib.sha256(projection_raw).hexdigest(), "bytes": len(projection_raw),
+                        "observed_at": projection["observed_at"], "mathematical_sha256": archive_id, "archive_version": 2}
+        ensure_render_budget(projection, archive_meta)
+        archive = {"current.json": projection_raw, "current-meta.json": manifest_bytes(archive_meta),
+                   **render_static_v2(projection, archive_meta, archived=True)}
+    aliases = render_live_current_v2(data, meta)
+    planned, all_aliases, _ = manifest_plan(site, data, meta, raw, aliases, archive)
+    capacity = planned["capacity"]
+    capacity_html = (f'<p class="current-capacity">History capacity: {capacity["snapshots"]} of {capacity["maximum_snapshots"]} mathematical archives; '
+                     f'{capacity["bytes"]} of {capacity["maximum_bytes"]} conservative retained bytes (including registry and release-key allowances). '
+                     + ('Capacity warning: at least 75% of the archive or byte limit is used. Further versions will refuse publication at capacity; no history is pruned.'
+                        if capacity["warning"] else 'Publication refuses additional versions at capacity; no history is pruned.') + '</p>')
+    outputs = {"current.json": raw, "current-meta.json": manifest_bytes(meta), **all_aliases}
     pages = sorted(site.glob("*.html"))
     if not pages:
         raise ValueError("site has no main HTML pages")
@@ -413,18 +431,10 @@ def build(site, payload):
         end = original.index(END)
         script_free = page.name in ("research.html", "formal.html") or bool(re.search(
             rb"script-src\s+(?:&#39;|'|&apos;)none(?:&#39;|'|&apos;)", original))
-        section = current_section(data, meta, search=not script_free).encode("utf-8")
+        section = current_section(data, meta, search=not script_free).replace("\n</section>", "\n" + capacity_html + "\n</section>").encode("utf-8")
         outputs[page.name] = original[:start] + b"\n" + section + b"\n" + original[end:]
-    aliases = ({name[len("aliases/"):]: content for name, content in chosen["members"].items()
-                if name.startswith("aliases/")} if chosen else render_nodes(data, archived_meta))
-    outputs.update(aliases)
     archive_relative = f'snapshots/{archive_id}'
-    archive = ({name: content for name, content in chosen["members"].items() if not name.startswith("aliases/")}
-               if chosen else {"current.json": raw, "current-meta.json": (json.dumps(archived_meta, sort_keys=True, indent=2) + "\n").encode(),
-                               **render_nodes(data, archived_meta, archived=True)})
-    if not chosen:
-        preflight_capacity(site, archive, aliases)
-    archive_outputs = {f"{archive_relative}/{name}": content for name, content in archive.items()}
+    archive_outputs = ({f"{archive_relative}/{name}": content for name, content in archive.items()} if archive else {})
     outputs.update(archive_outputs)
     for name in outputs:
         target = site / name

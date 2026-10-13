@@ -92,6 +92,124 @@ class CurrentSiteHistoryTests(unittest.TestCase):
         meta["history_manifest_sha256"] = hashlib.sha256(raw).hexdigest()
         files["current-meta.json"] = json.dumps(meta).encode()
 
+    def prepare_v1(self, root):
+        # Produce the exact earlier public schema/renderer without invoking today's builder.
+        site, payload = self.build.prepare(root)
+        raw = payload.read_bytes(); data = json.loads(raw); snapshot = hashlib.sha256(raw).hexdigest()
+        meta = {"sha256": snapshot, "bytes": len(raw), "observed_at": data["observed_at"]}
+        archived = {"current.json": raw, "current-meta.json": self.history.manifest_bytes(meta),
+                    **self.history.render_static_v1(data, meta, archived=True)}
+        entry, (members, _, _), bundle = self.history.archive_record(snapshot, archived)
+        aliases = [{"path": name[len("aliases/"):], "snapshot": snapshot} for name in sorted(members) if name.startswith("aliases/")]
+        manifest = {"schema_version": 1, "origin": self.history.ORIGIN, "scientific_effect": "NONE",
+                    "representation": "asset-release-normalized-html-v1", "current": snapshot,
+                    "archives": [entry], "aliases": aliases, "total_bytes": self.history.history_size([entry], aliases)}
+        self.history.validate_manifest(manifest)
+        outputs = {f"snapshots/{snapshot}/{name}": content for name, content in archived.items()}
+        outputs.update({name[len("aliases/"):]: content for name, content in members.items() if name.startswith("aliases/")})
+        manifest_raw = self.history.manifest_bytes(manifest)
+        outputs.update({entry["bundle"]["path"]: bundle, "snapshots/index.json": manifest_raw,
+                        "current.json": raw, "current-meta.json": self.history.manifest_bytes({**meta, "archive": snapshot,
+                        "history_manifest_sha256": hashlib.sha256(manifest_raw).hexdigest()})})
+        self.history.atomic_outputs(site, outputs)
+        return site, payload, manifest
+
+    def test_v1_archives_remain_byte_exact_through_v2_refresh_and_fresh_restore(self):
+        with TemporaryDirectory() as tmp:
+            root = Path(tmp); (root / "public").mkdir(); (root / "runner").mkdir()
+            public, payload, v1 = self.prepare_v1(root / "public")
+            old = {n: b for n, b in self.public_files(public).items() if n.startswith(f'snapshots/{v1["current"]}/')}
+            moved = fixture(); moved["observed_at"] = "2026-10-13T13:30:00Z"
+            payload.write_text(json.dumps(moved)); self.assertEqual(self.build.run_build(public, payload).returncode, 0)
+            mixed = self.publish(public)
+            self.assertEqual(mixed["schema_version"], 2)
+            self.assertEqual(mixed["archives"], v1["archives"])
+            for name, raw in old.items(): self.assertEqual((public / name).read_bytes(), raw)
+            changed = copy.deepcopy(moved); changed["graph"]["data"]["nodes"].pop("beta")
+            changed["graph"]["data"]["edges"] = []; changed["observed_at"] = "2026-10-13T14:00:00Z"
+            payload.write_text(json.dumps(changed)); self.assertEqual(self.build.run_build(public, payload).returncode, 0)
+            final = self.publish(public)
+            self.assertEqual(len(final["archives"]), 2)
+            self.assertIn(v1["archives"][0], final["archives"])
+            for name, raw in old.items(): self.assertEqual((public / name).read_bytes(), raw)
+            runner, _ = self.prepare(root / "runner")
+            raw_manifest = (public / "snapshots/index.json").read_bytes()
+            self.history.restore_history(runner, PublicFixtureReader(self.public_files(public)),
+                                         expected_manifest_sha=hashlib.sha256(raw_manifest).hexdigest())
+            for name, raw in old.items(): self.assertEqual((runner / name).read_bytes(), raw)
+            self.assertTrue((runner / "nodes/beta.html").is_file())
+            self.assertIn(f'../snapshots/{v1["current"]}/current.json', (runner / "nodes/beta.html").read_text())
+
+    def test_v1_publication_can_restore_into_a_reviewed_v2_candidate_checkout(self):
+        with TemporaryDirectory() as tmp:
+            root = Path(tmp); (root / "public").mkdir(); (root / "runner").mkdir()
+            public, _, old = self.prepare_v1(root / "public")
+            data = fixture(); data["graph"]["data"]["nodes"]["candidate-only"] = {"kind": "predicate", "classification": "OPEN"}
+            runner, payload = self.prepare(root / "runner", data); self.publish(runner)
+            self.history.restore_history(runner, PublicFixtureReader(self.public_files(public)))
+            self.assertTrue((runner / "nodes/candidate-only.html").is_file())
+            self.assertEqual(self.build.run_build(runner, payload).returncode, 0)
+            mixed = self.publish(runner)
+            self.assertIn(old["archives"][0], mixed["archives"])
+            self.assertEqual(len(mixed["archives"]), 2)
+
+    def test_capacity_warning_is_visible_at_75_percent_and_full_capacity_refuses_writes(self):
+        import current_site_build
+        with TemporaryDirectory() as tmp, patch.object(self.history, "MAX_SNAPSHOTS", 4):
+            site, payload = self.build.prepare(Path(tmp))
+            for number in range(4):
+                data = fixture(); data["graph"]["data"]["nodes"]["alpha"]["scope"] = str(number)
+                payload.write_text(json.dumps(data))
+                current_site_build.build(site, payload)
+                manifest = self.publish(site)
+                self.assertEqual(manifest["capacity"]["warning"], number >= 2)
+                if number >= 2: self.assertIn("Capacity warning: at least 75%", (site / "index.html").read_text())
+            before = self.public_files(site)
+            data["graph"]["data"]["nodes"]["alpha"]["scope"] = "fifth"
+            payload.write_text(json.dumps(data))
+            with self.assertRaisesRegex(ValueError, "capacity"): current_site_build.build(site, payload)
+            self.assertEqual(self.public_files(site), before)
+
+    def test_live_alias_digest_and_visible_material_must_match_fresh_current_payload(self):
+        with TemporaryDirectory() as tmp:
+            root = Path(tmp); (root / "public").mkdir(); (root / "runner").mkdir()
+            public, _ = self.prepare(root / "public"); manifest = self.publish(public)
+            for mutate in (lambda m: m["current_observation"]["files"][0].update(sha256="e" * 64),
+                           lambda m: m["aliases"][0].update(binding="archive")):
+                files = self.public_files(public); forged = copy.deepcopy(manifest); mutate(forged)
+                self.rebind_manifest(files, forged)
+                runner, _ = self.prepare(root / "runner") if not (root / "runner/site").exists() else (root / "runner/site", None)
+                before = self.public_files(runner)
+                with self.assertRaises(ValueError): self.history.restore_history(runner, PublicFixtureReader(files))
+                self.assertEqual(self.public_files(runner), before)
+            page = public / "nodes/alpha.html"
+            page.write_bytes(page.read_bytes().replace(b"PROVED_REVIEWED", b"PASS"))
+            before = self.public_files(public)
+            with self.assertRaisesRegex(ValueError, "exact live observation"): self.publish(public)
+            self.assertEqual(self.public_files(public), before)
+
+    def test_local_unknown_metadata_cannot_publish_an_unreadable_public_observation(self):
+        with TemporaryDirectory() as tmp:
+            site, _ = self.prepare(Path(tmp)); self.publish(site)
+            path = site / "current-meta.json"; meta = json.loads(path.read_bytes())
+            meta["unknown_metadata"] = "must not enter publication"
+            path.write_text(json.dumps(meta)); before = self.public_files(site)
+            with self.assertRaisesRegex(ValueError, "metadata.*schema"): self.publish(site)
+            self.assertEqual(self.public_files(site), before)
+
+    def test_v2_archive_admission_survives_later_current_validator_and_renderer_changes(self):
+        import current_site_build
+        with TemporaryDirectory() as tmp:
+            site, _ = self.prepare(Path(tmp)); manifest = self.publish(site)
+            entry = manifest["archives"][0]; raw = (site / entry["bundle"]["path"]).read_bytes()
+            with patch.object(current_site_build, "validate_payload", side_effect=RuntimeError("future current schema")), \
+                    patch.object(current_site_build, "ensure_render_budget", side_effect=RuntimeError("future current UI")), \
+                    patch.object(current_site_build, "render_nodes", side_effect=RuntimeError("future current renderer")):
+                members, data, meta = self.history.admit_bundle(entry, raw)
+            self.assertEqual(data["coverage"], "mathematical-material-only")
+            self.assertEqual(meta["archive_version"], 2)
+            self.assertFalse(any(name.startswith("aliases/") for name in members))
+
     def test_publication_and_restore_retain_removed_aliases_on_a_fresh_runner(self):
         # Restore must preserve an intermediate published B-only node when checkout contains only A.
         with TemporaryDirectory() as tmp:
@@ -129,6 +247,7 @@ class CurrentSiteHistoryTests(unittest.TestCase):
         with TemporaryDirectory() as tmp:
             site, payload = self.prepare(Path(tmp))
             first = self.publish(site)
+            self.assertGreaterEqual(first["total_bytes"], self.history.MAX_FILE_BYTES + len((site / "current.json").read_bytes()))
             archive_id = first["current"]
             exact_old = (site / f"snapshots/{archive_id}/current.json").read_bytes()
             data = fixture(); data["observed_at"] = "2026-10-13T13:30:00Z"
@@ -141,6 +260,98 @@ class CurrentSiteHistoryTests(unittest.TestCase):
             self.assertEqual((site / f"snapshots/{archive_id}/current.json").read_bytes(), exact_old)
             self.assertEqual(json.loads((site / "current-meta.json").read_bytes())["observed_at"], data["observed_at"])
             self.assertEqual(json.loads(exact_old)["observed_at"], "2026-10-13T12:00:00Z")
+
+    def test_commit_and_unrelated_inventory_movement_do_not_create_mathematical_versions(self):
+        # One thousand observations of unchanged retained material must consume zero new archives.
+        data = fixture()
+        expected = self.history.mathematical_digest(data)
+        for number in range(1000):
+            moved = copy.deepcopy(data)
+            commit = f"{number + 1:040x}"
+            for repo in moved["repositories"]:
+                repo.update(commit=commit, tree=f"{number + 2:040x}")
+            for row in moved["sources"] + moved["references"] + [moved["graph"]["identity"]] + moved["equations"]:
+                row["commit"] = commit
+            moved["sources"].append(build_controls.identity(build_controls.MAIN, f"unrelated-{number}.md"))
+            moved["sources"][-1]["commit"] = commit
+            self.assertEqual(self.history.mathematical_digest(moved), expected)
+        with TemporaryDirectory() as tmp:
+            site, payload = self.prepare(Path(tmp), data)
+            first = self.publish(site)
+            original = self.public_files(site)
+            moved["observed_at"] = "2026-10-13T13:30:00Z"
+            payload.write_text(json.dumps(moved))
+            result = self.build.run_build(site, payload)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            second = self.publish(site)
+            self.assertEqual(second["schema_version"], 2)
+            self.assertEqual(len(second["archives"]), 1)
+            self.assertEqual(first["current"], second["current"])
+            for name, raw in original.items():
+                if name.startswith(f'snapshots/{first["current"]}/'):
+                    self.assertEqual((site / name).read_bytes(), raw)
+            live = (site / "nodes/index.html").read_text()
+            self.assertIn(commit, live)
+            self.assertIn("unrelated-999.md", live)
+            self.assertIn(moved["observed_at"], live)
+            self.assertIn("Complete current public source inventory", live)
+
+    def test_retained_material_changes_create_versions_and_projection_is_limited(self):
+        data = fixture()
+        projection = self.history.mathematical_projection(data)
+        self.assertEqual(projection["schema_version"], 2)
+        self.assertEqual(projection["coverage"], "mathematical-material-only")
+        with self.assertRaises(ValueError): self.history.validate_projection({**projection, "schema_version": 2.0})
+        self.assertLess(len(projection["sources"]), len(data["sources"]))
+        baseline = self.history.mathematical_digest(data)
+        for mutate in (lambda d: d["graph"]["data"]["nodes"]["alpha"].update(scope="changed"),
+                       lambda d: d["graph"]["identity"].update(sha256="e" * 64),
+                       lambda d: d["sources"][0].update(blob="e" * 40),
+                       lambda d: d["references"][0].update(sha256="e" * 64)):
+            changed = copy.deepcopy(data); mutate(changed)
+            self.assertNotEqual(self.history.mathematical_digest(changed), baseline)
+        equation = {"id": "eq", "repository": build_controls.MATH, "commit": build_controls.COMMIT,
+                    "path": "proof/PROOF.md", "text": "x = 1\n", "line_start": 1, "line_end": 1,
+                    "sha256": hashlib.sha256(b"x = 1\n").hexdigest()}
+        data["equations"] = [equation]
+        changed = copy.deepcopy(data); changed["equations"][0].update(text="x = 2\n", sha256=hashlib.sha256(b"x = 2\n").hexdigest())
+        self.assertNotEqual(self.history.mathematical_digest(changed), self.history.mathematical_digest(data))
+
+    def test_expected_manifest_pin_refuses_cached_self_consistent_history_before_any_write(self):
+        with TemporaryDirectory() as tmp:
+            root = Path(tmp); (root / "public").mkdir(); (root / "runner").mkdir()
+            public, payload = self.prepare(root / "public"); self.publish(public)
+            cached = self.public_files(public)
+            changed = fixture(); changed["graph"]["data"]["nodes"]["alpha"]["scope"] = "B"
+            payload.write_text(json.dumps(changed)); self.assertEqual(self.build.run_build(public, payload).returncode, 0)
+            self.publish(public)
+            expected = hashlib.sha256((public / "snapshots/index.json").read_bytes()).hexdigest()
+            runner, _ = self.prepare(root / "runner"); before = self.public_files(runner)
+            reader = PublicFixtureReader(cached)
+            with self.assertRaisesRegex(ValueError, "manifest.*pin"):
+                self.history.restore_history(runner, reader, expected_manifest_sha=expected)
+            self.assertEqual(reader.calls, ["snapshots/index.json"])
+            self.assertEqual(self.public_files(runner), before)
+            with self.assertRaisesRegex(ValueError, "manifest.*pin"):
+                self.history.restore_history(runner, PublicFixtureReader({}), expected_manifest_sha=expected)
+            self.assertEqual(self.public_files(runner), before)
+
+    def test_production_reader_allows_exact_live_payload_with_bounded_request_count(self):
+        class Response:
+            status = 200
+            headers = {"Content-Length": "2"}
+            def geturl(self): return self.url
+            def read(self, limit): return b"{}"
+            def __enter__(self): return self
+            def __exit__(self, *args): pass
+        class Opener:
+            def open(self, request, timeout):
+                response = Response(); response.url = request.full_url; return response
+        reader = self.history.HistoryReader(opener=Opener())
+        self.assertEqual(reader.get_bytes("current.json"), b"{}")
+        reader.requests = self.history.MAX_SNAPSHOTS + 2
+        self.assertEqual(reader.get_bytes("current.json"), b"{}")
+        with self.assertRaises(ValueError): reader.get_bytes("current.json")
 
     def test_failed_late_download_leaves_the_entire_runner_unchanged(self):
         # Successful early requests must never commit a partially restored history.
@@ -254,7 +465,10 @@ class CurrentSiteHistoryTests(unittest.TestCase):
             candidate_bytes = (runner / "nodes/candidate-only.html").read_bytes()
             restored = self.history.restore_history(runner, PublicFixtureReader(self.public_files(public)))
             self.assertFalse(restored["bootstrap"])
-            self.assertEqual((runner / "nodes/candidate-only.html").read_bytes(), candidate_bytes)
+            historical = (runner / "nodes/candidate-only.html").read_text()
+            self.assertIn("Historical removed-node static route", historical)
+            self.assertIn(data["observed_at"], historical)
+            self.assertIn("OPEN", historical)
             self.assertTrue((runner / f'snapshots/{candidate["current"]}/nodes/candidate-only.html').is_file())
             self.assertEqual(self.build.run_build(runner, payload).returncode, 0)
             final = self.publish(runner)

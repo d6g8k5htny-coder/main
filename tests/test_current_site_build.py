@@ -144,8 +144,9 @@ class CurrentSiteBuildTests(unittest.TestCase):
                 self.assertIn("custody: unknown", " ".join(parsed.text))
             alpha = Page((site / "nodes/alpha.html").read_text())
             digest = hashlib.sha256(payload.read_bytes()).hexdigest()
-            self.assertIn(f"../snapshots/{digest}/nodes/beta.html", alpha.links)
-            self.assertIn(f"../snapshots/{digest}/nodes/gamma.html", alpha.links)
+            self.assertIn("beta.html", alpha.links)
+            self.assertIn("gamma.html", alpha.links)
+            self.assertIn("../current.json", alpha.links)
             text = " ".join(alpha.text)
             self.assertIn("Outgoing required", text)
             self.assertIn("Incoming context", text)
@@ -201,6 +202,8 @@ class CurrentSiteBuildTests(unittest.TestCase):
     def test_invalid_payload_or_missing_marker_fails_before_any_site_write(self):
         # Admission must finish before mutations, preserving the last deployable tree on refusal.
         mutations = [lambda d: d["repositories"][0].update(commit="main"),
+                     lambda d: d["repositories"][0].update(private_notes="no ingress"),
+                     lambda d: d["graph"].update(private_notes="no ingress"),
                      lambda d: d["sources"][0].update(path="../private.md"),
                      lambda d: d.update(private_credentials="must not enter the public payload"),
                      lambda d: d["sources"][0].update(private_notes="must not enter public inventory"),
@@ -275,13 +278,17 @@ class CurrentSiteBuildTests(unittest.TestCase):
         with TemporaryDirectory() as tmp:
             site, payload = self.prepare(Path(tmp))
             raw1 = payload.read_bytes()
-            digest1 = hashlib.sha256(raw1).hexdigest()
+            import current_site_history as history
+            digest1 = history.mathematical_digest(fixture())
             first = self.run_build(site, payload)
             self.assertEqual(first.returncode, 0, first.stderr)
             before = self.snapshot(site)
             archive1 = site / "snapshots" / digest1
             self.assertTrue((archive1 / "nodes/alpha.html").is_file())
-            self.assertEqual((archive1 / "current.json").read_bytes(), raw1)
+            projected = json.loads((archive1 / "current.json").read_bytes())
+            self.assertEqual(projected["coverage"], "mathematical-material-only")
+            self.assertEqual(projected["graph"], fixture()["graph"])
+            self.assertEqual(projected["observed_at"], fixture()["observed_at"])
             self.assertEqual(len(list((archive1 / "nodes").glob("*.html"))), 50)
             old_mtimes = {p.relative_to(archive1).as_posix(): p.stat().st_mtime_ns
                           for p in archive1.rglob("*") if p.is_file()}
@@ -293,12 +300,12 @@ class CurrentSiteBuildTests(unittest.TestCase):
             data2["graph"]["data"]["edges"] = [
                 {"from": "gamma", "to": "delta", "required": False, "relation": "new context"}]
             payload.write_bytes(json.dumps(data2, ensure_ascii=False, indent=2).encode() + b"\n")
-            digest2 = hashlib.sha256(payload.read_bytes()).hexdigest()
+            digest2 = history.mathematical_digest(data2)
             second = self.run_build(site, payload)
             self.assertEqual(second.returncode, 0, second.stderr)
             after = self.snapshot(site)
             for name, content in before.items():
-                if name.startswith(f"snapshots/{digest1}/") or name in ("nodes/alpha.html", "nodes/beta.html"):
+                if name.startswith(f"snapshots/{digest1}/"):
                     self.assertEqual(after[name], content, name)
             self.assertEqual(old_mtimes, {p.relative_to(archive1).as_posix(): p.stat().st_mtime_ns
                                          for p in archive1.rglob("*") if p.is_file()})
@@ -308,6 +315,9 @@ class CurrentSiteBuildTests(unittest.TestCase):
             self.assertIn(f"../snapshots/{digest1}/current.json", old.links)
             self.assertIn(f"../snapshots/{digest1}/nodes/beta.html", old.links)
             self.assertIn("2026-10-13T12:00:00Z", " ".join(old.text))
+            self.assertIn("Historical removed-node static route", " ".join(old.text))
+            self.assertIn("PROVED_REVIEWED", " ".join(old.text))
+            self.assertIn("FAIL", " ".join(old.text))
             archived = Page((archive1 / "nodes/alpha.html").read_text())
             for target in ("../current.json", "index.html", "beta.html", "../../../index.html"):
                 self.assertIn(target, archived.links)
@@ -328,7 +338,7 @@ class CurrentSiteBuildTests(unittest.TestCase):
             released = subprocess.run([sys.executable, "-B", "-S", str(ROOT / "tools/site_asset_release.py"),
                                        "--site", str(site)], text=True, capture_output=True)
             self.assertEqual(released.returncode, 0, released.stderr)
-            digest = hashlib.sha256(payload.read_bytes()).hexdigest()
+            digest = json.loads((site / "current-meta.json").read_bytes())["archive"]
             archive = site / "snapshots" / digest
             self.assertTrue(archive.is_dir(), "known snapshots need a preserved immutable directory")
             before = {p.relative_to(archive).as_posix(): (p.read_bytes(), p.stat().st_mtime_ns)
@@ -342,7 +352,7 @@ class CurrentSiteBuildTests(unittest.TestCase):
             before_conflict = self.snapshot(site)
             refused = self.run_build(site, payload)
             self.assertNotEqual(refused.returncode, 0)
-            self.assertIn("snapshot", refused.stderr)
+            self.assertIn("historical renderer", refused.stderr)
             self.assertEqual(self.snapshot(site), before_conflict)
 
     def test_incomplete_existing_snapshot_is_refused_without_filling_missing_pages(self):
@@ -350,7 +360,7 @@ class CurrentSiteBuildTests(unittest.TestCase):
         with TemporaryDirectory() as tmp:
             site, payload = self.prepare(Path(tmp))
             self.assertEqual(self.run_build(site, payload).returncode, 0)
-            digest = hashlib.sha256(payload.read_bytes()).hexdigest()
+            digest = json.loads((site / "current-meta.json").read_bytes())["archive"]
             missing = site / "snapshots" / digest / "nodes/beta.html"
             self.assertTrue(missing.is_file(), "the initial snapshot node page must exist")
             missing.unlink()
@@ -358,6 +368,18 @@ class CurrentSiteBuildTests(unittest.TestCase):
             refused = self.run_build(site, payload)
             self.assertNotEqual(refused.returncode, 0)
             self.assertFalse(missing.exists())
+            self.assertEqual(self.snapshot(site), before)
+
+    def test_unknown_nested_zip_cannot_hide_in_an_unregistered_snapshot(self):
+        # The one root archive.zip allowance must not skip any similarly named nested file.
+        with TemporaryDirectory() as tmp:
+            site, payload = self.prepare(Path(tmp))
+            self.assertEqual(self.run_build(site, payload).returncode, 0)
+            archive_id = json.loads((site / "current-meta.json").read_bytes())["archive"]
+            (site / "snapshots" / archive_id / "nodes/archive.zip").write_bytes(b"unadmitted content")
+            before = self.snapshot(site)
+            refused = self.run_build(site, payload)
+            self.assertNotEqual(refused.returncode, 0)
             self.assertEqual(self.snapshot(site), before)
 
 
