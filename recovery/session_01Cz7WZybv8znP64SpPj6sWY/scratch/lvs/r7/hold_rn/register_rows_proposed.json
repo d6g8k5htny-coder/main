@@ -1,0 +1,417 @@
+{
+ "status": "PROPOSED, NOT APPLIED: design input for the RN slice (third round-7 slice); nothing is written to any packet before routing/activation.",
+ "base": "Math- main 7f5f1c82 (RN.lean unchanged since 8acc4856)",
+ "claim_rows": {
+  "rn-fixed-remote-window": [
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.PinnedLawInterface2",
+    "kind": "structure",
+    "formal_progress": "specified",
+    "anchor": "Apply Kac-Rice under Q_r to grad f(x) on the compact remote domain.",
+    "does_not_claim": "existence of an object satisfying this interface; that `Q` is the regression law of any field or that `Q^W` is the sources' typed law (no field is constructed); the sign and scale conventions of `jetCovL`; integrability of the weight or of the counts; anything about the predecessor interface, which is unchanged."
+   },
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.FixedRemoteMeanMeasureA2B",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "- integral_E Lambda_j(x;b,k,u) dx |",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `FixedRemoteMeanMeasureA2`, which is unchanged; the predecessor's own exclusions: the result or its proof (uniform remote nondegeneracy, coupling (5), weight expansion (10), normalizer (11)); identification of `I.Λ` with the kernel (13); the total-variation convergence remark; the multi-witness Section 6; any numerical `C` or `r_*`; uniformity as `ρ → 0`; nonauthor review or acceptance (the landing disposition HOLD_WITH_DOMAIN is transcribed by the register, not here)."
+   },
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.FixedRemoteCountBoundA3B",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "P_(Q_r^W){N_(r,j)(E)>=1} <= C k r^3 |E|.",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `FixedRemoteCountBoundA3`, which is unchanged; the predecessor's own exclusions: a matching lower bound on the event probability (the source says this is NOT one); the unnormalized numerator bound (14); the result or its proof; any numerical constant; nonauthor review or acceptance."
+   }
+  ],
+  "rn-fixed-annulus-window": [
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.FixedAnnulusWindowCandidateA2B",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "**Candidate theorem.** There are C,r_*>0, uniform in the frame, compact marks, E0 and j=0,1,2, such that",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `FixedAnnulusWindowCandidateA2`, which is unchanged; the predecessor's own exclusions: the result or its proof (contact vector (A10), eigenfloor (A12), cutoff (A13), three-Hessian estimate (A18), inner-strip bound (A26)); the all-index sum or the Markov event bound; an all-height assertion; uniformity in `L`, as `k → 0`, as `B0 → ∞`, or for `d ≥ 3`; any numerical constant; nonauthor review or acceptance (the landing disposition REVIEWED_SCOPED is transcribed by the register, not here)."
+   }
+  ],
+  "math.rn-fixed-remote-window": [
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.PinnedLawInterface2",
+    "kind": "structure",
+    "formal_progress": "specified",
+    "anchor": "Apply Kac-Rice under Q_r to grad f(x) on the compact remote domain.",
+    "does_not_claim": "existence of an object satisfying this interface; that `Q` is the regression law of any field or that `Q^W` is the sources' typed law (no field is constructed); the sign and scale conventions of `jetCovL`; integrability of the weight or of the counts; anything about the predecessor interface, which is unchanged."
+   },
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.FixedRemoteMeanMeasureA2B",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "- integral_E Lambda_j(x;b,k,u) dx |",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `FixedRemoteMeanMeasureA2`, which is unchanged; the predecessor's own exclusions: the result or its proof (uniform remote nondegeneracy, coupling (5), weight expansion (10), normalizer (11)); identification of `I.Λ` with the kernel (13); the total-variation convergence remark; the multi-witness Section 6; any numerical `C` or `r_*`; uniformity as `ρ → 0`; nonauthor review or acceptance (the landing disposition HOLD_WITH_DOMAIN is transcribed by the register, not here)."
+   },
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.FixedRemoteCountBoundA3B",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "P_(Q_r^W){N_(r,j)(E)>=1} <= C k r^3 |E|.",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `FixedRemoteCountBoundA3`, which is unchanged; the predecessor's own exclusions: a matching lower bound on the event probability (the source says this is NOT one); the unnormalized numerator bound (14); the result or its proof; any numerical constant; nonauthor review or acceptance."
+   }
+  ],
+  "math.rn-region.fixed-remote": [
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.FixedRemoteMeanMeasureA2B",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "- integral_E Lambda_j(x;b,k,u) dx |",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `FixedRemoteMeanMeasureA2`, which is unchanged; the predecessor's own exclusions: the result or its proof (uniform remote nondegeneracy, coupling (5), weight expansion (10), normalizer (11)); identification of `I.Λ` with the kernel (13); the total-variation convergence remark; the multi-witness Section 6; any numerical `C` or `r_*`; uniformity as `ρ → 0`; nonauthor review or acceptance (the landing disposition HOLD_WITH_DOMAIN is transcribed by the register, not here)."
+   },
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.FixedRemoteCountBoundA3B",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "P_(Q_r^W){N_(r,j)(E)>=1} <= C k r^3 |E|.",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `FixedRemoteCountBoundA3`, which is unchanged; the predecessor's own exclusions: a matching lower bound on the event probability (the source says this is NOT one); the unnormalized numerator bound (14); the result or its proof; any numerical constant; nonauthor review or acceptance."
+   }
+  ],
+  "math.rn-region.mesoscopic-scaled-annulus": [
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.D5dSummedPinNeighbourhoodC2B",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "the same on `{|(u,v)| ≤ R} ∖ {(±1/2, 0)}`",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `D5dSummedPinNeighbourhoodC2`, which is unchanged; the predecessor's own exclusions: the composition `D5-a + D5-c at η = 1/4` as a proof; the \"collar to the reviewed annulus\" remark; any numerical constant; nonauthor review or acceptance."
+   },
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.AnnulusBridgeAllHeight2B",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "**Candidate theorem.** There are C,r_*>0, uniform in the stated marks, frames, Borel E and j=0,1,2, such that",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `AnnulusBridgeAllHeight2`, which is unchanged; the predecessor's own exclusions: the result or its proof (R1 subtraction and remainders, R2 full-rank compactification (12), R3 conditional moments (14), R4 three-Hessian bound (6)-(8), R5 original `Z`, R6 weighted Kac-Rice, R7 crossover and cover); the rewriting with a `k` factor through `k_-`; uniformity as `k → 0`; pin neighbourhoods, `d ≥ 3`, intermediate distances or collisions; any numerical constant; nonauthor review or acceptance (the R1-R7 ACCEPT record is transcribed by the register, not here)."
+   }
+  ],
+  "math.rn-region.pin-collision": [
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.D5aPuncturedPinDisksB",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "for Borel `E ⊂ {0 < p² + q² ≤ 1/16}`, and the same at `S`",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `D5aPuncturedPinDisks`, which is unchanged; the predecessor's own exclusions: the P2 source (PUNCTURED_PIN_PROOF.md) or its proof; the P2 continuum review or the proposed register transitions of the reconciliation; any numerical constant; nonauthor review or acceptance."
+   },
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.D5bMicrodiskB",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "**D5-b** (microdisk) | the nested disks of radius `κr²` about each pin, for fixed `κ`: `O(r⁵)`",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `D5bMicrodisk`, which is unchanged; the predecessor's own exclusions: the P2 source or its nested-disk corollary; any numerical constant; uniformity in `κ`; nonauthor review or acceptance."
+   },
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.D5dSummedPinNeighbourhoodC2B",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "the same on `{|(u,v)| ≤ R} ∖ {(±1/2, 0)}`",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `D5dSummedPinNeighbourhoodC2`, which is unchanged; the predecessor's own exclusions: the composition `D5-a + D5-c at η = 1/4` as a proof; the \"collar to the reviewed annulus\" remark; any numerical constant; nonauthor review or acceptance."
+   }
+  ],
+  "math.rn-region.intermediate-r-to-rho": [
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.D5eIntermediateShellsI3I4B",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "the dyadic shells and `{A_0 r ≤ |X| ≤ ρ}`",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `D5eIntermediateShellsI3I4`, which is unchanged; the predecessor's own exclusions: the single-shell display (1.5) (stated in `DimensionLiftIntermediateShellsI`); the I3/I4 source (intermediate_window_20260928) or its proof; any numerical constant; nonauthor review or acceptance."
+   }
+  ],
+  "math.rn-region.witness-collision": [
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.WitnessCollisionNearPinPairsTargetB",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "**D5-open (catalog C6): shrinking multiple-witness collision.**",
+    "does_not_claim": "that this target holds, is attainable, or is implied by any reviewed source or by any field of the successor interface (the source marks it OPEN); the result (statement only); existence of an inhabitant; anything about `WitnessCollisionNearPinPairsTarget`, which is unchanged; the predecessor's own exclusions: that this target holds, is attainable, or is implied by any reviewed source (the Palm route's Theorem Q is an author-side candidate whose `q = 2` case would imply it; that candidate is stated separately as `PalmRouteFactorialMomentsQ` and is not consumed here); that the lower obstruction `E N(N−1) ≥ 2c r³` is stated here; the optimal order; any status transition of the node."
+   },
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.RemoteCollisionSecondFactorialDB",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "Q_r^W{ N(E) >= 2 } <= C r^5 |E|.",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `RemoteCollisionSecondFactorialD`, which is unchanged; the predecessor's own exclusions: Theorem C (the ordered near-pair count) or its proof (Lemmas 1-5); Corollaries E and F; a torus-wide second factorial moment or `math.rn-region.witness-collision` in its full sense; pairs with a witness near the pins; equality of `N(E)` with the all-critical-point count `windowCountAll` (they agree only off the degenerate locus); any numerical constant; nonauthor review or acceptance."
+   }
+  ],
+  "math.rn-fixed-annulus-window": [
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.FixedAnnulusWindowCandidateA2B",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "**Candidate theorem.** There are C,r_*>0, uniform in the frame, compact marks, E0 and j=0,1,2, such that",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `FixedAnnulusWindowCandidateA2`, which is unchanged; the predecessor's own exclusions: the result or its proof (contact vector (A10), eigenfloor (A12), cutoff (A13), three-Hessian estimate (A18), inner-strip bound (A26)); the all-index sum or the Markov event bound; an all-height assertion; uniformity in `L`, as `k → 0`, as `B0 → ∞`, or for `d ≥ 3`; any numerical constant; nonauthor review or acceptance (the landing disposition REVIEWED_SCOPED is transcribed by the register, not here)."
+   }
+  ],
+  "math.rn-region.fixed-annulus-window": [
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.FixedAnnulusWindowCandidateA2B",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "**Candidate theorem.** There are C,r_*>0, uniform in the frame, compact marks, E0 and j=0,1,2, such that",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `FixedAnnulusWindowCandidateA2`, which is unchanged; the predecessor's own exclusions: the result or its proof (contact vector (A10), eigenfloor (A12), cutoff (A13), three-Hessian estimate (A18), inner-strip bound (A26)); the all-index sum or the Markov event bound; an all-height assertion; uniformity in `L`, as `k → 0`, as `B0 → ∞`, or for `d ≥ 3`; any numerical constant; nonauthor review or acceptance (the landing disposition REVIEWED_SCOPED is transcribed by the register, not here)."
+   }
+  ],
+  "math.d5-pin-neighborhood-first-moment": [
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.D5aPuncturedPinDisksB",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "for Borel `E ⊂ {0 < p² + q² ≤ 1/16}`, and the same at `S`",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `D5aPuncturedPinDisks`, which is unchanged; the predecessor's own exclusions: the P2 source (PUNCTURED_PIN_PROOF.md) or its proof; the P2 continuum review or the proposed register transitions of the reconciliation; any numerical constant; nonauthor review or acceptance."
+   },
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.D5bMicrodiskB",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "**D5-b** (microdisk) | the nested disks of radius `κr²` about each pin, for fixed `κ`: `O(r⁵)`",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `D5bMicrodisk`, which is unchanged; the predecessor's own exclusions: the P2 source or its nested-disk corollary; any numerical constant; uniformity in `κ`; nonauthor review or acceptance."
+   },
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.D5cCollarC1B",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "**D5-c** (C1) | `E_{Q_r^W} N_j(rE) ≤ C r³|E|` for Borel `E ⊂ C_{η,R}`, `η ≤ 1/4`, fixed `R ≥ 1`",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `D5cCollarC1`, which is unchanged; the predecessor's own exclusions: the C1 source (COLLAR_PROOF.md) or its proof; the normalizer (P14) it imports; any numerical constant; nonauthor review or acceptance."
+   },
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.D5dSummedPinNeighbourhoodC2B",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "the same on `{|(u,v)| ≤ R} ∖ {(±1/2, 0)}`",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `D5dSummedPinNeighbourhoodC2`, which is unchanged; the predecessor's own exclusions: the composition `D5-a + D5-c at η = 1/4` as a proof; the \"collar to the reviewed annulus\" remark; any numerical constant; nonauthor review or acceptance."
+   },
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.D5eIntermediateShellsI3I4B",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "the dyadic shells and `{A_0 r ≤ |X| ≤ ρ}`",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `D5eIntermediateShellsI3I4`, which is unchanged; the predecessor's own exclusions: the single-shell display (1.5) (stated in `DimensionLiftIntermediateShellsI`); the I3/I4 source (intermediate_window_20260928) or its proof; any numerical constant; nonauthor review or acceptance."
+   },
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.D5fGlobalWindowFirstMomentI5B",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "planar `c r³ ≤ P(A_r) ≤ C r³`",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `D5fGlobalWindowFirstMomentI5`, which is unchanged; the predecessor's own exclusions: the tiling composition `D5-d (R = 4) + I4 + remote Theorem A` as a proof; the lower bound's source (remote_collision Corollary F-) or the I5 source; any numerical constant; nonauthor review or acceptance; any register transition proposed by the reconciliation; that the count `torusWindowCount` (every critical point off the pins, degenerate ones included) equals the sum of the index counts: it dominates the source's all-index `N`, and the two agree only off the degenerate locus."
+   }
+  ],
+  "math.d5-component.punctured-pin-proof": [
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.D5aPuncturedPinDisksB",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "for Borel `E ⊂ {0 < p² + q² ≤ 1/16}`, and the same at `S`",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `D5aPuncturedPinDisks`, which is unchanged; the predecessor's own exclusions: the P2 source (PUNCTURED_PIN_PROOF.md) or its proof; the P2 continuum review or the proposed register transitions of the reconciliation; any numerical constant; nonauthor review or acceptance."
+   },
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.D5bMicrodiskB",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "**D5-b** (microdisk) | the nested disks of radius `κr²` about each pin, for fixed `κ`: `O(r⁵)`",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `D5bMicrodisk`, which is unchanged; the predecessor's own exclusions: the P2 source or its nested-disk corollary; any numerical constant; uniformity in `κ`; nonauthor review or acceptance."
+   }
+  ],
+  "math.d5-component.collar-proof": [
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.D5cCollarC1B",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "**D5-c** (C1) | `E_{Q_r^W} N_j(rE) ≤ C r³|E|` for Borel `E ⊂ C_{η,R}`, `η ≤ 1/4`, fixed `R ≥ 1`",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `D5cCollarC1`, which is unchanged; the predecessor's own exclusions: the C1 source (COLLAR_PROOF.md) or its proof; the normalizer (P14) it imports; any numerical constant; nonauthor review or acceptance."
+   }
+  ],
+  "math.d5-component.annulus-proof": [
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.AnnulusBridgeAllHeight2B",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "**Candidate theorem.** There are C,r_*>0, uniform in the stated marks, frames, Borel E and j=0,1,2, such that",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `AnnulusBridgeAllHeight2`, which is unchanged; the predecessor's own exclusions: the result or its proof (R1 subtraction and remainders, R2 full-rank compactification (12), R3 conditional moments (14), R4 three-Hessian bound (6)-(8), R5 original `Z`, R6 weighted Kac-Rice, R7 crossover and cover); the rewriting with a `k` factor through `k_-`; uniformity as `k → 0`; pin neighbourhoods, `d ≥ 3`, intermediate distances or collisions; any numerical constant; nonauthor review or acceptance (the R1-R7 ACCEPT record is transcribed by the register, not here)."
+   }
+  ],
+  "math.d5-component.intermediate-window-proof": [
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.D5eIntermediateShellsI3I4B",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "the dyadic shells and `{A_0 r ≤ |X| ≤ ρ}`",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `D5eIntermediateShellsI3I4`, which is unchanged; the predecessor's own exclusions: the single-shell display (1.5) (stated in `DimensionLiftIntermediateShellsI`); the I3/I4 source (intermediate_window_20260928) or its proof; any numerical constant; nonauthor review or acceptance."
+   },
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.D5fGlobalWindowFirstMomentI5B",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "planar `c r³ ≤ P(A_r) ≤ C r³`",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `D5fGlobalWindowFirstMomentI5`, which is unchanged; the predecessor's own exclusions: the tiling composition `D5-d (R = 4) + I4 + remote Theorem A` as a proof; the lower bound's source (remote_collision Corollary F-) or the I5 source; any numerical constant; nonauthor review or acceptance; any register transition proposed by the reconciliation; that the count `torusWindowCount` (every critical point off the pins, degenerate ones included) equals the sum of the index counts: it dominates the source's all-index `N`, and the two agree only off the degenerate locus."
+   }
+  ],
+  "math.d5-component.remote-window-proof": [
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.FixedRemoteMeanMeasureA2B",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "- integral_E Lambda_j(x;b,k,u) dx |",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `FixedRemoteMeanMeasureA2`, which is unchanged; the predecessor's own exclusions: the result or its proof (uniform remote nondegeneracy, coupling (5), weight expansion (10), normalizer (11)); identification of `I.Λ` with the kernel (13); the total-variation convergence remark; the multi-witness Section 6; any numerical `C` or `r_*`; uniformity as `ρ → 0`; nonauthor review or acceptance (the landing disposition HOLD_WITH_DOMAIN is transcribed by the register, not here)."
+   },
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.FixedRemoteCountBoundA3B",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "P_(Q_r^W){N_(r,j)(E)>=1} <= C k r^3 |E|.",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `FixedRemoteCountBoundA3`, which is unchanged; the predecessor's own exclusions: a matching lower bound on the event probability (the source says this is NOT one); the unnormalized numerator bound (14); the result or its proof; any numerical constant; nonauthor review or acceptance."
+   }
+  ],
+  "CL-D5-DIMENSION-LIFT-20260929-v1": [
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.DimensionLiftPuncturedPinBallPB",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "**Theorem P_d (all-height punctured pin ball).**",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `DimensionLiftPuncturedPinBallP`, which is unchanged; the predecessor's own exclusions: the result or its proof (devices D1-D5, stable gradient frame, density and conditional moments, weighted Kac-Rice (4.10), crossover); the nested-ball `O(r^5)` corollary (stated for `d = 2` as `D5bMicrodisk`); the planar P2 identification; any numerical constant; uniformity in `d`; nonauthor review or acceptance."
+   },
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.DimensionLiftCompactCollarCB",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "**Theorem C_d (compact collar).**",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `DimensionLiftCompactCollarC`, which is unchanged; the predecessor's own exclusions: the consequence (1.4) for the scaled ball with pins removed (stated for `d = 2` as `D5dSummedPinNeighbourhoodC2`); the result or its proof; any numerical constant; nonauthor review or acceptance."
+   },
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.DimensionLiftIntermediateShellsIB",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "**Theorem I_d (intermediate height-window shells).**",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `DimensionLiftIntermediateShellsI`, which is unchanged; the predecessor's own exclusions: the result or its proof (polynomial row rank, Euler suppression, shell ledger, dyadic sum); the planar I3/I4 identification; any numerical constant; nonauthor review or acceptance."
+   },
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.DimensionLiftGlobalWindowGB",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "**Theorem G_d (global height-window first moment).**",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `DimensionLiftGlobalWindowG`, which is unchanged; the predecessor's own exclusions: the tiling proof (P_d, C_d, I_d and the fixed-remote Theorem A); Corollaries F_d and M_d; the planar I5 identification; the `d = 3` SIDE24 application; any regional supersession of historical carriers; any numerical constant; nonauthor review or acceptance."
+   }
+  ],
+  "OA-C6-FOURIER-20260929-v1": [
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.FourierCutoffPlanarSecondFactorialF4B",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "For d=2, G_2 is the reviewed planar I5 composition under the complete D5",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `FourierCutoffPlanarSecondFactorialF4`, which is unchanged; the predecessor's own exclusions: Theorem F (the cap `Psi_F` and its tail (F1)-(F2)); Theorem W for general `d` and `p` (F3); that `G_2` holds (the source takes it from the reviewed planar I5 composition); Proposition B; that the logarithm is sharp or removable; any numerical constant; nonauthor review or acceptance; that the count `torusWindowCount` (every critical point off the pins, degenerate ones included) equals the sum of the index counts: it dominates the source's all-index `N`, and the two agree only off the degenerate locus."
+   }
+  ],
+  "CL-C6-PALM-20260929-v1": [
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.PalmRouteFactorialMomentsQB",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "**Theorem Q (factorial moments, every fixed dimension).**",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `PalmRouteFactorialMomentsQ`, which is unchanged; the predecessor's own exclusions: the result or its proof (the cap `Psi` in `d` dimensions, the parametric Rouché tail, the marked Kac-Rice formula with Hölder insertion, the regimes R1-R4); the dependence on [C6L] and [DL] at their bytes; a lower bound for `q ≥ 3`; Corollary P; any numerical constant; nonauthor review or acceptance; that the count `torusWindowCount` (every critical point off the pins, degenerate ones included) equals the sum of the index counts: it dominates the source's all-index `N`, and the two agree only off the degenerate locus."
+   },
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.PalmRouteSecondFactorialThetaB",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "**Corollary Theta.** In every fixed `d >= 2`,",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `PalmRouteSecondFactorialTheta`, which is unchanged; the predecessor's own exclusions: the lower bounds' source ([EDL] (A4)) or the upper bounds' sources (Theorem Q, [DL] Corollary M_d); that the logarithm of the Fourier cutoff is removed as a reviewed fact; any statement about the positions of the pairs; any numerical constant; nonauthor review or acceptance; that the count `torusWindowCount` (every critical point off the pins, degenerate ones included) equals the sum of the index counts: it dominates the source's all-index `N`, and the two agree only off the degenerate locus."
+   }
+  ],
+  "CL-D5-REMOTE-COLLISION-20260928-v1": [
+   {
+    "package": "specifications/lean_statements_20261010",
+    "module": "Specifications/RN.lean",
+    "declaration": "UniversalLaw.Spec.RN.RemoteCollisionSecondFactorialDB",
+    "kind": "def_prop",
+    "formal_progress": "specified",
+    "anchor": "Q_r^W{ N(E) >= 2 } <= C r^5 |E|.",
+    "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `RemoteCollisionSecondFactorialD`, which is unchanged; the predecessor's own exclusions: Theorem C (the ordered near-pair count) or its proof (Lemmas 1-5); Corollaries E and F; a torus-wide second factorial moment or `math.rn-region.witness-collision` in its full sense; pairs with a witness near the pins; equality of `N(E)` with the all-critical-point count `windowCountAll` (they agree only off the degenerate locus); any numerical constant; nonauthor review or acceptance."
+   }
+  ]
+ },
+ "claim_row_text_edits_proposed": "each affected row's not_established gains one sentence naming the successor interface, the fields that are the sources' theorems assumed (pinObsCov_posDef, Z_floor, critical_finite, kacRice_window, kacRice_allHeight), the point-evaluation-only scope of Q_regression, the hand-written derivative-covariance convention, and that no inhabitant is constructed; next_step names the successor Props as the row's targets (BLOCKED_MISSING_MATHLIB, weeks each; the Witness target stays OPEN).",
+ "scientific_effect": "NONE"
+}

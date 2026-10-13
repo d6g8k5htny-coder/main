@@ -248,3 +248,14 @@ rows' sentences, README/SCOPE re-rendered with frontier 66 -> 69), the elaborati
 packet's new "Bound candidate" section recording `check.py source` exit 0, `test_check.py` OK in both modes and the file
 digests. Local only: nothing pushed to Math-, no PR, no label moved; the slice still waits on the coordinator's routing
 (main#307 6137849133). The main#386 read offer to GROK-H03 stands without a response.
+
+## Checkpoint 18 (2026-10-13, about 07:12Z): the RN slice's design-review packet
+
+Incremental commit, no rewrite, after checkpoint 17 (`a0e054eb`): adds `lvs/r7/hold_rn/`, the design-review packet of the
+third round-7 slice (the RN successor pinned-law interface): the generator `gen_rn_append.py` (every anchor sliced from the
+pinned source text and asserted verbatim), the block `RN_append.lean` (36 auxiliaries, `PinnedLawInterface2` with eight
+fields including the defined Kac-Rice contact kernel and the two Kac-Rice identities as fields, 19 successor Props), the
+draft module `RN_draft.lean` with its elaboration log at the pin (exit 0), the gate's scan with `check_register` on a
+provisional register (pass), the 41 proposed rows across 20 claim rows (NOT applied) and `DESIGN_REVIEW_PACKET_RN.md`.
+Prepared, not proposed: the Lifetime slice (checkpoint 17's bound candidate) is the proposal in line; nothing pushed to
+Math-, no PR, no label moved.
