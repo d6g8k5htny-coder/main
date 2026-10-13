@@ -1,75 +1,20 @@
 [
  {
-  "returncode": 1,
+  "returncode": 0,
   "ran": 105,
-  "summary": "FAILED (failures=2)",
-  "failing_tests": [
-   "test_global_h0_selector.AdditionalCertificateTests.test_extracted_endpoint_is_retained_when_the_next_actual_evaluation_exhausts.test_extracted_endpoint_is_retained_when_the_next_actual_evaluation_exhausts",
-   "test_global_h0_selector.ExactRootTests.test_repeated_endpoint_and_midpoint_roots_are_retained_once.test_repeated_endpoint_and_midpoint_roots_are_retained_once"
-  ],
-  "id": "GS10_endpoint_extraction_skipped",
+  "summary": "OK",
+  "failing_tests": [],
+  "id": "GS3_verify_completeness_trivial",
   "file": "global_h0_selector.py",
-  "note": "root isolation: exact endpoint roots not extracted (positive control)"
+  "note": "verifier root-completeness check made trivially true (name retained)"
  },
  {
   "returncode": 0,
   "ran": 105,
   "summary": "OK",
   "failing_tests": [],
-  "id": "GS11_separation_nonstrict",
-  "file": "global_h0_selector.py",
-  "note": "root isolation: touching isolators admitted (inequality flipped)"
- },
- {
-  "returncode": 1,
-  "ran": 105,
-  "summary": "FAILED (failures=26)",
-  "failing_tests": [
-   "test_global_h0_selector.AdditionalCertificateTests.test_integer_polynomial_coefficients_in_a_certificate_are_rejected.test_integer_polynomial_coefficients_in_a_certificate_are_rejected",
-   "test_global_h0_selector.AdditionalCertificateTests.test_irrational_isolator_requires_its_retained_sturm_witness.test_irrational_isolator_requires_its_retained_sturm_witness",
-   "test_global_h0_selector.AdditionalCertificateTests.test_missing_required_selection_and_root_records_are_rejected.test_missing_required_selection_and_root_records_are_rejected",
-   "test_global_h0_selector.AdditionalCertificateTests.test_repeated_roots_report_zero_axial_hessian.test_repeated_roots_report_zero_axial_hessian",
-   "test_global_h0_selector.AdditionalCertificateTests.test_verification_charges_the_same_fixture_without_resetting_deadline.test_verification_charges_the_same_fixture_without_resetting_deadline",
-   "test_global_h0_selector.AdditionalCertificateTests.test_verifier_also_avoids_public_root_isolation.test_verifier_also_avoids_public_root_isolation",
-   "test_global_h0_selector.ExactRootTests.test_irrational_roots_have_separate_certified_sturm_isolators.test_irrational_roots_have_separate_certified_sturm_isolators",
-   "test_global_h0_selector.SelectorBehaviorTests.test_fold_multiplicities_do_not_create_fictitious_zero_length_bars.test_fold_multiplicities_do_not_create_fictitious_zero_length_bars",
-   "test_global_h0_selector.SelectorBehaviorTests.test_hostile_younger_right_is_derived_from_two_to_one_incidence.test_hostile_younger_right_is_derived_from_two_to_one_incidence",
-   "test_global_h0_selector.SelectorBehaviorTests.test_irrational_equal_births_merge_but_are_excluded_from_population_law.test_irrational_equal_births_merge_but_are_excluded_from_population_law",
-   "test_global_h0_selector.SelectorBehaviorTests.test_nonwedge_has_no_finite_bar.test_nonwedge_has_no_finite_bar",
-   "test_global_h0_selector.SelectorBehaviorTests.test_rational_tie_retains_actual_bar_under_the_same_label_convention.test_rational_tie_retains_actual_bar_under_the_same_label_convention",
-   "test_global_h0_selector.SelectorBehaviorTests.test_reflection_changes_younger_to_left_without_changing_lifetime.test_reflection_changes_younger_to_left_without_changing_lifetime",
-   "test_global_h0_selector.VerificationTamperingTests.test_changed_finite_bar_death_group_is_rejected.test_changed_finite_bar_death_group_is_rejected",
-   "test_global_h0_selector.VerificationTamperingTests.test_changed_incidence_sign_is_rejected.test_changed_incidence_sign_is_rejected",
-   "test_global_h0_selector.VerificationTamperingTests.test_changed_original_polynomial_sign_witness_is_rejected.test_changed_original_polynomial_sign_witness_is_rejected",
-   "test_global_h0_selector.VerificationTamperingTests.test_changed_quartic_factorization_scalar_is_rejected.test_changed_quartic_factorization_scalar_is_rejected",
-   "test_global_h0_selector.VerificationTamperingTests.test_changed_root_multiplicity_is_rejected_despite_pass_flags.test_changed_root_multiplicity_is_rejected_despite_pass_flags",
-   "test_global_h0_selector.VerificationTamperingTests.test_missing_irrational_equality_witness_is_rejected.test_missing_irrational_equality_witness_is_rejected",
-   "test_global_h0_selector.VerificationTamperingTests.test_omitted_merge_batch_is_rejected.test_omitted_merge_batch_is_rejected",
-   "test_global_h0_selector.VerificationTamperingTests.test_omitted_regular_component_is_rejected_despite_pass_flags.test_omitted_regular_component_is_rejected_despite_pass_flags",
-   "test_global_h0_selector.VerificationTamperingTests.test_swapped_elder_birth_is_rejected.test_swapped_elder_birth_is_rejected",
-   "test_global_h0_selector.VerificationTamperingTests.test_swapped_elder_graph_decision_is_rejected.test_swapped_elder_graph_decision_is_rejected",
-   "test_global_h0_selector.VerificationTamperingTests.test_verifier_replays_without_calling_selector.test_verifier_replays_without_calling_selector"
-  ],
-  "id": "GS12_root_width_accept_wider",
-  "file": "global_h0_selector.py",
-  "note": "root isolation: isolator accepted 256x wider than ROOT_WIDTH"
- },
- {
-  "returncode": 0,
-  "ran": 105,
-  "summary": "OK",
-  "failing_tests": [],
-  "id": "RN11_younger_comparison_dropped",
+  "id": "RN2_core_overlap_trivial",
   "file": "run_global_h0_selector.py",
-  "note": "compare_expectations: younger-root-ordinal comparison dropped"
- },
- {
-  "returncode": 0,
-  "ran": 105,
-  "summary": "OK",
-  "failing_tests": [],
-  "id": "RN12_count_comparison_dropped",
-  "file": "run_global_h0_selector.py",
-  "note": "compare_expectations: population count comparison dropped"
+  "note": "root-box field/height overlap check trivialised"
  }
 ]
