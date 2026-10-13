@@ -196,3 +196,14 @@ steps, a Gaussian density on a finite index type, a Sylvester-inertia predicate 
 coordinates, `multivariateGaussian`) and stating the Kac-Rice identities for the window and all-height mean counts as
 fields; the RN scoping note gains an addendum listing the reader items. Design input only; nothing proposed, claimed or
 written to any packet; the posted texts of the PASS_SCOPED round and the #445 reader aid are added as well.
+
+## Checkpoint 13 (2026-10-13, about 04:53Z): #445 amended, #447 reconciled, both bound
+
+Incremental commit, no rewrite, after checkpoint 12 (`5302a6de`): adds the #445 amendment work (Codex's classification
+review 6138311227, amendments 445-A to 445-D: `scratch/lvs/r7/amend445.py`, the commit `0c506fea` as a patch, gate logs),
+the #447 reconciliation (`bind_round7b.py`, the binder variant that reproduces the amended #445 docs byte-for-byte from the
+committed register and then applies the round-7 transformation; merge head `06f03d06`, gate and test logs), the read-only
+run records of both new heads (`runs447_0c506fea.json`, `runs447_06f03d06.json`; six green pull_request runs, tested
+merges `640093a3` and `3582fc6a` with the heads' trees), the parametrized binding generator `bind_text_pr.py`, the PR
+bodies as bound, and every posted text (ACK, replies, bindings, board notes). Every declaration stays `specified`; no
+label moves; nothing marked ready or merged.
