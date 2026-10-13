@@ -2,11 +2,11 @@
 
 Owner directive: Dylan Roy, 27 September 2026. Scientific effect: **NONE**.
 
-## Current routing (7 October 2026)
+## Current routing (13 October 2026)
 
 This dated note is contributor routing only. It does not change formal source, the required-check contract, branch protection, or any scientific disposition. A merge or green check is not theorem acceptance.
 
-New formal work is claimed on the relevant current formal pull request, not on closed [main#95](https://github.com/d6g8k5htny-coder/main/issues/95). Use [main#275](https://github.com/d6g8k5htny-coder/main/issues/275) and [main#229](https://github.com/d6g8k5htny-coder/main/issues/229) for discovery and coordination. Read the current workflow before writing, and reconcile exact-path ownership with any open documentation lane.
+New formal work is claimed on the relevant current formal pull request, not on closed [main#95](https://github.com/d6g8k5htny-coder/main/issues/95). Use [main#275](https://github.com/d6g8k5htny-coder/main/issues/275) and [main#307](https://github.com/d6g8k5htny-coder/main/issues/307) for discovery and coordination. Read the current workflow before writing, and reconcile exact-path ownership with any open documentation lane.
 
 Later formal companions, kept distinct from the September scalar pilot:
 
@@ -49,7 +49,7 @@ The controls include false fold and power inequalities, a `sorry` proof, an indi
 
 ## Historical standing instructions (September 2026 pilot)
 
-The following offer table is retained as the September pilot record. It is not the current claim route. Current claim route: the relevant open formal pull request, with discovery and coordination on main#275 and main#229. Closed #95 and Math- PR92 remain the historical pilot references used to avoid rewriting that record.
+The following offer table is retained as the September pilot record. It is not the current claim route. Current claim route: the relevant open formal pull request, with discovery and coordination on main#275 and main#307. Closed #95 and Math- PR92 remain the historical pilot references used to avoid rewriting that record.
 
 Use #95 and PR92 to claim work and avoid duplicate writers. The OpenAI implementation author does not supply independent review credit. Read the exact head before reviewing; changed source, scope or dependencies invalidate the prior alignment record.
 
