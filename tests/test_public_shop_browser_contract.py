@@ -1,5 +1,6 @@
 """Stdlib contract checks for the optional browser-QA runner, not browser evidence."""
 import ast
+import re
 from pathlib import Path
 import unittest
 
@@ -43,10 +44,17 @@ class BrowserCheckContract(unittest.TestCase):
     def test_browser_dependencies_are_separate_and_version_pinned(self):
         path=ROOT/'tests/browser-requirements.txt'
         self.assertTrue(path.is_file(),'Optional browser dependencies are missing')
-        requirements=[line for line in path.read_text().splitlines() if line and not line.startswith('#')]
+        text=path.read_text().replace('\\\n',' ')
+        requirements=[line.strip() for line in text.splitlines() if line.strip() and not line.startswith('#')]
         self.assertEqual(len(requirements),4)
-        self.assertTrue(all('==' in line and '://' not in line for line in requirements))
-        self.assertIn('playwright==1.62.0',requirements)
+        self.assertEqual({line.split()[0] for line in requirements},
+                         {'playwright==1.62.0','pyee==13.0.1','greenlet==3.5.5','typing_extensions==4.16.0'})
+        for line in requirements:
+            self.assertTrue(all(re.fullmatch(r'--hash=sha256:[0-9a-f]{64}',part)
+                                for part in line.split()[1:]))
+            self.assertGreater(len(line.split()),1,'Every optional package needs a local distribution hash')
+        workflow=(ROOT/'.github/workflows/public-shop.yml').read_text()
+        self.assertIn('--require-hashes --only-binary=:all:',workflow)
 
 class ReaderSourceBrowserContract(unittest.TestCase):
     def test_clipboard_denial_fixture_reinitializes_after_same_document_history(self):

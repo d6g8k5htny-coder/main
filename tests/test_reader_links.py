@@ -51,7 +51,7 @@ class PublicRoutes(unittest.TestCase):
         self.assertEqual(href,f"https://github.com/{config['proof']['repository']}/blob/{config['proof']['commit']}/{config['proof']['path']}")
         for pinned in ('blob/f2e432ea5c86742e480c66624775bc9103343314/STATUS.md','blob/9d7b6802424fb4715b31999066aafca8ee2f3cca/coefficients/side24_v1/ENCLOSURE.json','tree/f2e432ea5c86742e480c66624775bc9103343314/docs/public-math'):
             self.assertIn(pinned,page.split('<noscript>',1)[1] if pinned.startswith('blob/f2e') else page)
-        self.assertEqual(page.count('<noscript>'),3)
+        self.assertEqual(page.count('<noscript>'),4)
 
     def test_remaining_teaching_exports_keep_readable_static_limits_and_disabled_actions(self):
         text=(SITE/'explore.html').read_text()
@@ -94,7 +94,7 @@ class PublicRoutes(unittest.TestCase):
         self.assertIn('9d7b6802424fb4715b31999066aafca8ee2f3cca/coefficients/side24_v1/PROOF.md#1-a-nonperiodic-reference-coefficient-with-exact-cone-moments',text)
 
     def test_all_local_html_links_assets_and_fragments_resolve(self):
-        pages={path:Page(path.read_text()) for path in SITE.glob('*.html')}
+        pages={path:Page(path.read_text()) for path in SITE.rglob('*.html')}
         # These exact claim IDs are rendered only after museum source verification.
         # The actual rendering and deferred fragment navigation are tested separately.
         dynamic={SITE/'museum.html': [c['id'] for c in json.loads((SITE/'museum.json').read_text())['claims']]}
@@ -111,7 +111,7 @@ class PublicRoutes(unittest.TestCase):
                     if u.fragment and target.suffix=='.html':
                         self.assertIn(unquote(u.fragment),pages[target].ids + dynamic.get(target, []),f'{path.name}: {link}')
     def test_consistent_navigation_and_accessible_entry(self):
-        expected=['index.html','explore.html','research.html','workspace.html#inventory']
+        expected=['index.html','explore.html','research.html','workspace.html#inventory','dependencies.html#current-atlas']
         for name in ('index','explore','research','museum','formal','workspace','reproduce','cite','measure','dependencies'):
             text=(SITE/f'{name}.html').read_text(); page=Page(text)
             # Workspace's local inventory anchor is the same destination.
@@ -1733,12 +1733,35 @@ class UniversalitySourcesReading(unittest.TestCase):
         prose=re.sub(r'href="[^"]*"','',re.sub(r'<code>.*?</code>','',section))
         self.assertNotIn('universality',prose.lower());self.assertNotIn('universality',rows.lower())
         # the proposals are named only in the cut's scope paragraph: not in its status-words rows, the hero or the entry rows above it
-        above=self.page().split('<section class="hero">',1)[1].split(f'<section id="{self.CUT_ID}"',1)[0]
+        page=self.page()
+        above=page.split('<section class="hero">',1)[1].split(f'<section id="{self.CUT_ID}"',1)[0]
+        # Only known numeric metadata is exempt; generated prose and links still obey proposal placement.
+        start,end='<!-- CURRENT-SITE:START -->','<!-- CURRENT-SITE:END -->'
+        self.assertEqual(page.count(start),1)
+        self.assertEqual(page.count(end),1)
+        self.assertLess(page.index(start),page.index(end))
+        self.assertEqual(above.count(start),above.count(end))
+        self.assertLessEqual(above.count(start),1)
+        if start in above:
+            self.assertLess(above.index(start),above.index(end))
+            before,generated=above.split(start,1)
+            generated,after=generated.split(end,1)
+            generated=re.sub(
+                r'(<section id="current-research" class="current-research" data-current-digest="[0-9a-f]{64}" data-current-bytes=")\d+(">)',
+                r'\1BYTES\2',generated)
+            generated=re.sub(
+                r'(<p class="current-capacity">History capacity: )\d+( of )\d+( mathematical archives; )\d+( of )\d+( conservative retained bytes)',
+                r'\1ARCHIVES\2ARCHIVE_LIMIT\3BYTES\4BYTE_LIMIT\5',generated)
+            above=before+generated+after
+        # Source pins and digests can contain these digits; proposal numbers are separate tokens.
+        proposal_number=re.compile(r'(?:\b|(?:PR|proposal)[ \t]*#?)(330|331)\b',re.I)
+        above_numbers=proposal_number.findall(above)
         for number in ('330','331'):
-            with self.subTest(above=number):self.assertNotIn(number,above)
+            with self.subTest(above=number):self.assertNotIn(number,above_numbers)
         # on the reader's text, each proposal number occurs once, in one fixed sentence that says it was open and is not presented as landed
         plain=re.sub(r'<[^>]+>','',re.sub(r'<code>.*?</code>','',section))
-        self.assertEqual((plain.count('330'),plain.count('331')),(1,1))
+        plain_numbers=proposal_number.findall(plain)
+        self.assertEqual((plain_numbers.count('330'),plain_numbers.count('331')),(1,1))
         self.assertIn('“Full landmark goal ACTIVE.” Main #330 and the draft #331, proposals in this line whose titles concern spectral Gaussian laws '
                       'and other homology degrees, were open at this cut; this page does not present them as landed. A merge, a passing check',plain)
         # independence is never credited to a reader, review or provider, and every reader named is an OpenAI/Codex agent
@@ -1879,5 +1902,149 @@ class UniversalitySourcesReading(unittest.TestCase):
                       '"#reading-cut-20261010 .latest-card a[data-source-kind=pinned]")).to_have_count(3)',
                       '"10 October cut entry overflow"','"10 October detail must start collapsed"','"10 October detail did not close"'):
             with self.subTest(token=token):self.assertIn(token,harness)
+
+class ProposalNumberGuardRegression(unittest.TestCase):
+    """Exercise the complete reading guard, including its rejection controls."""
+    FAILED_MATH_SHA = 'a6116d8a2173c7b450791bd89331d1565922bd55'
+    PRIOR_MATH_SHA = '9844f785910d097b7b4591dcbd9e377bd7b38280'
+    # Synthetic hex fixtures expose both predicates without changing source pins.
+    SHA_WITH_330 = 'e' * 16 + '330' + 'a' * 21
+    DIGEST_WITH_BOTH = 'd' * 17 + '331' + 'e' * 20 + '330' + 'f' * 21
+
+    @staticmethod
+    def baseline():
+        return UniversalitySourcesReading('test_forbidden_words_proposals_and_independence_qualifiers').page()
+
+    def guard_result(self, page):
+        case = UniversalitySourcesReading('test_forbidden_words_proposals_and_independence_qualifiers')
+        result = unittest.TestResult()
+        with patch.object(case, 'page', return_value=page):
+            case.run(result)
+        self.assertEqual(result.testsRun, 1)
+        self.assertEqual(result.errors, [])
+        self.assertEqual(result.skipped, [])
+        return result
+
+    @staticmethod
+    def above_cut(page, fragment):
+        return page.replace('<section class="hero">', '<section class="hero">' + fragment, 1)
+
+    @staticmethod
+    def in_cut(page, fragment):
+        marker = f'<section id="{UniversalitySourcesReading.CUT_ID}"'
+        start = page.index('>', page.index(marker)) + 1
+        return page[:start] + fragment + page[start:]
+
+    def test_source_commit_links_and_display_do_not_name_proposals(self):
+        for name, commit in (('actual failed Math pin', self.FAILED_MATH_SHA),
+                             ('synthetic 330 pin', self.SHA_WITH_330),
+                             ('prior published Math pin', self.PRIOR_MATH_SHA)):
+            with self.subTest(pin=name):
+                fragment = (f'<p>Math <a href="https://github.com/d6g8k5htny-coder/Math-/tree/{commit}">{commit}</a> '
+                            f'<a href="https://github.com/d6g8k5htny-coder/Math-/blob/{commit}/PROOF_INDEX.md">Proof index</a></p>')
+                result = self.guard_result(self.above_cut(self.baseline(), fragment))
+                self.assertTrue(result.wasSuccessful(), f'{name} rejected by the reading guard')
+
+    def test_digest_attribute_does_not_name_proposals(self):
+        fragment = f'<p data-current-digest="{self.DIGEST_WITH_BOTH}">Current source</p>'
+        result = self.guard_result(self.above_cut(self.baseline(), fragment))
+        self.assertTrue(result.wasSuccessful(), 'a hex digest was read as a proposal number')
+
+    def test_generated_metadata_numbers_do_not_name_proposals(self):
+        for archives in (330, 331):
+            with self.subTest(archives=archives):
+                fragment = (f'<section id="current-research" class="current-research" data-current-digest="{self.DIGEST_WITH_BOTH}" data-current-bytes="331">'
+                            f'<p class="current-capacity">History capacity: {archives} of 512 mathematical archives; '
+                            '1033100 of 805306368 conservative retained bytes. No history is pruned.</p></section>')
+                page = self.baseline().replace('<!-- CURRENT-SITE:END -->', fragment + '<!-- CURRENT-SITE:END -->', 1)
+                self.assertTrue(self.guard_result(page).wasSuccessful(), 'numeric metadata was read as a proposal')
+
+    def test_generated_prose_and_proposal_links_still_fail(self):
+        for fragment in ('<p>proposal 331</p>', '<p>Main #330</p>', '<p>331</p>',
+                         '<a href="https://github.com/d6g8k5htny-coder/main/pull/331">#331 landed</a>',
+                         '<a href="https://github.com/d6g8k5htny-coder/main/pull/330">Proposal</a>'):
+            with self.subTest(generated=fragment):
+                page = self.baseline().replace('<!-- CURRENT-SITE:END -->', fragment + '<!-- CURRENT-SITE:END -->', 1)
+                self.assertFalse(self.guard_result(page).wasSuccessful(), 'generated proposal content escaped the guard')
+
+    def test_capacity_prose_and_links_after_numeric_fields_still_fail(self):
+        for fragment in ('proposal 331', '<a href="https://github.com/d6g8k5htny-coder/main/pull/331">#331 landed</a>'):
+            with self.subTest(capacity=fragment):
+                capacity = ('<p class="current-capacity">History capacity: 331 of 512 mathematical archives; '
+                            f'1033100 of 805306368 conservative retained bytes. {fragment}</p>')
+                page = self.baseline().replace('<!-- CURRENT-SITE:END -->', capacity + '<!-- CURRENT-SITE:END -->', 1)
+                self.assertFalse(self.guard_result(page).wasSuccessful(), 'capacity text after metadata escaped the guard')
+
+    def test_metadata_looking_generated_prose_still_fails(self):
+        for fragment in ('<p>data-current-bytes="331"</p>',
+                         '<p>History capacity: 331 of 512 mathematical archives; 1033100 of 805306368 conservative retained bytes</p>'):
+            with self.subTest(prose=fragment):
+                page = self.baseline().replace('<!-- CURRENT-SITE:END -->', fragment + '<!-- CURRENT-SITE:END -->', 1)
+                self.assertFalse(self.guard_result(page).wasSuccessful(), 'metadata-looking prose escaped the guard')
+
+    def test_compact_proposal_references_in_static_generated_and_cut_text_still_fail(self):
+        for proposal in ('PR331 landed', 'proposal331', 'pr330', 'MainPR331', 'proposal330'):
+            for region in ('static', 'generated', 'cut'):
+                with self.subTest(proposal=proposal, region=region):
+                    fragment = f'<p>{proposal}</p>'
+                    page = self.baseline()
+                    if region == 'static':
+                        page = self.above_cut(page, fragment)
+                    elif region == 'generated':
+                        page = page.replace('<!-- CURRENT-SITE:END -->', fragment + '<!-- CURRENT-SITE:END -->', 1)
+                    else:
+                        page = self.in_cut(page, fragment)
+                    self.assertFalse(self.guard_result(page).wasSuccessful(), 'compact proposal notation escaped the guard')
+
+    def test_zero_or_extra_marker_pairs_on_complete_page_still_fail(self):
+        page = self.baseline()
+        start, end = '<!-- CURRENT-SITE:START -->', '<!-- CURRENT-SITE:END -->'
+        for variant in (page.replace(start, '').replace(end, ''), page + start + end,
+                        page + start, page + end):
+            with self.subTest(markers=variant[-120:]):
+                self.assertFalse(self.guard_result(variant).wasSuccessful(), 'full-page marker invariant escaped the guard')
+
+    def test_hex_pins_in_reader_text_do_not_add_proposal_mentions(self):
+        # Fixture text exercises this count; the separate immutable-cut check is unchanged.
+        for commit in (self.FAILED_MATH_SHA, self.SHA_WITH_330, self.PRIOR_MATH_SHA):
+            with self.subTest(pin=commit):
+                result = self.guard_result(self.in_cut(self.baseline(), f'<p>Source identifier {commit}</p>'))
+                self.assertTrue(result.wasSuccessful(), 'a source pin was counted as an extra proposal')
+
+    def test_bare_and_prefixed_proposals_above_cut_still_fail(self):
+        for proposal in ('330', '331', '#330', '#331'):
+            with self.subTest(proposal=proposal):
+                result = self.guard_result(self.above_cut(self.baseline(), f'<p>{proposal}</p>'))
+                self.assertFalse(result.wasSuccessful(), 'a proposal escaped the placement guard')
+        for fragment in ('<a href="https://github.com/d6g8k5htny-coder/main/pull/331">#331</a>',
+                         '<a href="https://github.com/d6g8k5htny-coder/main/pull/330">Proposal</a>'):
+            with self.subTest(link=fragment):
+                self.assertFalse(self.guard_result(self.above_cut(self.baseline(), fragment)).wasSuccessful(),
+                                 'a proposal link escaped the placement guard')
+        page = self.baseline().replace('<!-- CURRENT-SITE:END -->', '<!-- CURRENT-SITE:END --><p>331</p>', 1)
+        self.assertFalse(self.guard_result(page).wasSuccessful(), 'static text after the block escaped the placement guard')
+
+    def test_malformed_generated_block_boundaries_still_fail(self):
+        page = self.baseline()
+        start, end = '<!-- CURRENT-SITE:START -->', '<!-- CURRENT-SITE:END -->'
+        variants = (page.replace(start, '', 1), page.replace(end, '', 1),
+                    page.replace(start, start + start, 1), page.replace(start, start + end + start, 1),
+                    page.replace(start, 'REVERSED-MARKER', 1).replace(end, start, 1).replace('REVERSED-MARKER', end, 1))
+        for index, variant in enumerate(variants):
+            with self.subTest(boundary=index):
+                self.assertFalse(self.guard_result(variant).wasSuccessful(), 'malformed markers hid static text')
+
+    def test_extra_proposal_in_cut_text_still_fails(self):
+        for proposal in ('330', '331'):
+            with self.subTest(proposal=proposal):
+                result = self.guard_result(self.in_cut(self.baseline(), f'<p>{proposal}</p>'))
+                self.assertFalse(result.wasSuccessful(), 'an extra proposal escaped the count guard')
+
+    def test_forbidden_claims_and_independence_content_still_fail(self):
+        for content in ('proved theorem', 'validated', 'universality established', '#331 landed', 'independent review', 'another AI provider'):
+            with self.subTest(content=content):
+                result = self.guard_result(self.in_cut(self.baseline(), f'<p>{content}</p>'))
+                self.assertFalse(result.wasSuccessful(), 'prohibited content escaped the reading guard')
+
 
 if __name__=='__main__': unittest.main()
