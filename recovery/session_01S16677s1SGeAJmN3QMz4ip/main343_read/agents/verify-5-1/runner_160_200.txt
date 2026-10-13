@@ -1,0 +1,41 @@
+                row['finite_void']['status'] = 'NOT_ACCEPTED_SOURCE_DRIFT'
+
+
+def full_declared_campaign(certificate, max_evaluations, time_budget, drift):
+    return (not drift and max_evaluations == 80000 and time_budget == 900 and len(certificate['rows']) == 8
+            and all(row.get('direct') is not None and row['direct']['status'] == 'CERTIFIED'
+                    for row in certificate['rows']))
+
+
+def _campaign(pc, max_evaluations, deadline):
+    controls, guards = pc.negative_controls(), pc.guard_witnesses()
+    b, target = pc.coefficient_interval(), pc.poisson_target()
+    sound = controls['status'] == 'PASS' and guards['status'] == 'PASS_RATIONAL_GUARDS'
+    rows, statuses = [], []
+    if not sound:
+        statuses.append('FAIL_IMPLEMENTATION')
+    for j in range(1, 9):
+        tau, n = Q(1, 1 << (3 * j)), 4 ** j
+        row = {'j': j, 'tau': tau, 'n': n, 'schedule_identity': Q(n, 4 ** j),
+               'status': 'INCONCLUSIVE_BUDGET', 'coefficient_status': 'NOT_RUN',
+               'direct': None, 'cdf_mass': None, 'cdf_normalized': None,
+               'intersection_normalized': None, 'void_interval': None}
+        if time.monotonic() >= deadline:
+            row['reason'] = 'Whole-run monotonic deadline exhausted before row'
+            rows.append(row)
+            statuses.append(row['status'])
+            continue
+        try:
+            direct = pc.direct_mass(j, max_evaluations=max_evaluations, deadline=deadline)
+            row['direct'] = direct
+            if direct['status'] != 'CERTIFIED':
+                row['status'] = direct['status']
+            else:
+                cdf = pc.cdf_mass(tau)
+                normalized = tuple(n * x for x in cdf)
+                observed = (max(direct['normalized_interval'][0], normalized[0]),
+                            min(direct['normalized_interval'][1], normalized[1]))
+                row.update({'cdf_mass': cdf, 'cdf_normalized': normalized,
+                            'cdf_width': normalized[1] - normalized[0],
+                            'cdf_width_gate': normalized[1] - normalized[0] <= pc.WIDTH_LIMIT})
+                if not row['cdf_width_gate']:
