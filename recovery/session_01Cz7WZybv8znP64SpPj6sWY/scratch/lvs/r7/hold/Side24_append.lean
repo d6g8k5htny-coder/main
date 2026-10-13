@@ -80,7 +80,7 @@ nondegenerate.
 Source: d6g8k5htny-coder/Math- commit 760340e921ac4ceda296b8118da936f1133e956e path coefficients/side24_v1/PROOF.md sha256 c06daccc4ba4b9168522b9888b76a7d599934fc3b91bd753ee5d492262917769
 Anchor: "to their conditional covariances. For the latter, the Schur-complement quadratic"
 Interface: none; the Gaussian conditional covariance is written as the Schur complement (a standard identity for a nondegenerate conditioning block, used here as the definition).
-Does not claim: invertibility of `pinCov` (Mathlib's matrix inverse is `0` on a singular matrix, and the expression then degenerates to `transCov`; the successor interface carries nondegeneracy as the field `pinCov_posDef`); that it is the covariance of any conditional law (no field is constructed); the reference value `(2/3) delta delta + delta delta + delta delta` of Section 1. -/
+Does not claim: invertibility of `pinCov` (Mathlib's matrix inverse is `0` on a singular matrix, and the expression then degenerates to `transCov`; the ordinary-inverse Schur identification requires an invertible pin block, and the successor interface's field `pinCov_posDef` supplies that hypothesis); that it is the covariance of any conditional law (no field is constructed); the reference value `(2/3) delta delta + delta delta + delta delta` of Section 1. -/
 noncomputable def condHessianCov (d : ℕ) (K : E d → ℝ) (u : E d) (R : Fin d → E d) :
     Matrix (TransIndex d) (TransIndex d) ℝ :=
   transCov d K R - transPinCov d K u R * (pinCov d K u R)⁻¹ * (transPinCov d K u R).transpose
@@ -115,7 +115,7 @@ Gaussian law with the conditional covariance `condHessianCov d K u R`, in the fr
 
 Source: d6g8k5htny-coder/Math- commit c39164254ad1529ed49543743598d5dcb24bab98 path imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md sha256 9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7
 Anchor: "D_u=E[(det A_u)^2 1{A_u<0} | V_u=0]."
-Interface: none; Mathlib's `ProbabilityTheory.multivariateGaussian` is the law (it is the Dirac mass at `0` when the covariance is not positive semidefinite, which is why the successor interface carries `condHessianCov_posDef`).
+Interface: none; Mathlib's `ProbabilityTheory.multivariateGaussian` is the law: for a covariance that is not positive semidefinite it falls back to the Dirac mass at `0`, and a singular positive-semidefinite covariance gives a degenerate Gaussian (the Dirac mass when the covariance is zero), which is why the successor interface carries `condHessianCov_posDef`.
 Does not claim: that this number is the parent's `D_u` for any field (no field and no conditional law is constructed: the Gaussian law is written from the formal covariance matrix); invariance under transverse-frame changes (the parent asserts it; not stated here); its reference values `4/3`, `29/6 - sqrt 6` (those are `ConeMomentD1Identity`, `ConeMomentD2Identity` over `ConeMomentInterface`). -/
 noncomputable def coneMomentOf (d : ℕ) (K : E d → ℝ) (u : E d) (R : Fin d → E d) : ℝ :=
   ∫ v, coneIntegrandTrans d v ∂(ProbabilityTheory.multivariateGaussian 0 (condHessianCov d K u R))
@@ -134,14 +134,17 @@ Interface: every field is a given object or a hypothesis; nothing is derived. St
 Does not claim: existence of an object satisfying this interface; that the formal Schur complement and `multivariateGaussian` are the conditional law of any field (no field is constructed); that `c24` is the finite-bar asymptotic constant (conditional on the parent's results, which are not touched); frame invariance; anything about the predecessor interface, which is unchanged. -/
 structure PeriodicCoefficientInterface2 extends PeriodicCoefficientInterface where
   /-- Parent clause "an actual centered nondegenerate Gaussian symmetric matrix": the pin block
-  `Cov(V_u)` of `K_24` is positive definite in every orthonormal frame with `u = R 0`, so the Schur
-  complement `condHessianCov` is the Gaussian conditional covariance. -/
+  `Cov(V_u)` of `K_24` is positive definite in every orthonormal frame with `u = R 0`. The ordinary-inverse
+  Schur identification of `condHessianCov` with the Gaussian conditional covariance requires an invertible pin
+  block; this field supplies that hypothesis. -/
   pinCov_posDef : ∀ d : ℕ, d = 2 ∨ d = 3 → ∀ (hd : 0 < d) (R : Fin d → E d), Orthonormal ℝ R →
     (pinCov d (K24 d) (R ⟨0, hd⟩) R).PosDef
   /-- The same clause for the conditional transverse block: positive definite, so the law in
-  `coneMomentOf` is a nondegenerate Gaussian (`multivariateGaussian` is the Dirac mass at `0` only when the
-  covariance is not positive semidefinite, and a degenerate Gaussian on a singular positive-semidefinite one;
-  the inherited `coneMoment_pos` with `coneMoment_def` already excludes the Dirac case, whose cone moment is `0`). -/
+  `coneMomentOf` is a nondegenerate Gaussian. For a covariance that is not positive semidefinite, Mathlib's
+  `multivariateGaussian` falls back to the Dirac mass at `0`; a singular positive-semidefinite covariance gives a
+  degenerate Gaussian, including the Dirac mass when the covariance is zero; omitting a PosDef field would not
+  establish singularity. The inherited `coneMoment_pos` with `coneMoment_def` excludes the Dirac case, whose
+  cone moment is `0`. -/
   condHessianCov_posDef : ∀ d : ℕ, d = 2 ∨ d = 3 → ∀ (hd : 0 < d) (R : Fin d → E d), Orthonormal ℝ R →
     (condHessianCov d (K24 d) (R ⟨0, hd⟩) R).PosDef
   /-- Parent (15.1): `D_u` is the Gaussian cone expectation under the conditional law of the

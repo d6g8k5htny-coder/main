@@ -1,0 +1,26 @@
+**Draft. Stacked on #445 (base branch `claude/lean-statements-frontier-20261013`, head `9fb0a4a0`); #445 integrates first. Scientific effect NONE. Formal progress of every new declaration: `specified`. Organizational-independence credit 0 (same-account author of the packet). Single-reader until 2026-10-17 03:00Z. Activated by the coordinator on main#307 after the design read [6137276515](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6137276515) and the author's confirmation [6137468192](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6137468192); the design-review packet with the source mapping and caveats is preserved at main `claude/recovery-01cz-20261013` `78ba7ac6`, `recovery/session_01Cz7WZybv8znP64SpPj6sWY/scratch/lvs/r7/hold/`.**
+
+## What this PR does (four files of `specifications/lean_statements_20261010/`, nothing else)
+
+- `Specifications/Side24.lean`: appends, after the last existing declaration and before `end` (every earlier byte identical), nine auxiliary definitions (`TransRow`, `TransIndex`, `transScale`, `transCov`, `transPinCov`, `condHessianCov`, `symOf`, `coneIntegrandTrans`, `coneMomentOf`), the successor interface `structure PeriodicCoefficientInterface2 extends PeriodicCoefficientInterface` with three new fields (`pinCov_posDef`, `condHessianCov_posDef`: the parent's clause "an actual centered nondegenerate Gaussian symmetric matrix" as positive definiteness of the pin block and of the conditional block of `K_24`; `coneMoment_def`: the given cone moment equals the Gaussian cone expectation `coneMomentOf d (K24 d) u R`, the integral of `det(A)^2 1{A<0}` against `ProbabilityTheory.multivariateGaussian 0 (condHessianCov d (K24 d) u R)`, `condHessianCov` the Schur complement of the derivative-rule blocks), and the successor Props `CoefficientEnclosure2`, `ReferenceComparison2` restating the headline displays over the successor. Four-label docstrings with verbatim anchors (`lifetime-parent` Section 15 for the structure and the cone moment; `side24-proof` for the rest).
+- `REGISTER.json`: three statement rows under claim `side24-coefficient` (structure + two `def_prop`, all `specified`), one sentence each in that row's `not_established` and `next_step`. No other field, no other row, no label.
+- `README.md`, `SCOPE.md`: Declarations and Claims sections re-rendered from the register (the renderer first reproduces the committed `9fb0a4a0` text byte-for-byte from the committed register, then renders the new one): 153 registered declarations (143 `def … : Prop`, 10 structures), 132 auxiliaries; the Frontier section of #445 becomes "the 66 registered Props without a theorem": a fourth class **open target** (2) with the two successor rows, counts 36 + 24 + 4 + 2 = 66, 66 + 77 = 143, and the two predecessor rows corrected from "given the gradient" to "conditioned on the pin `V_u = H_f u = 0`" (main#307 6137276515 item 5). Present-tense counts 141 → 143, 150 → 153; the 2026-10-10 local-run record keeps its historical numbers.
+
+No change to `check.py`, `test_check.py`, `Specifications.lean`, the imports, the lock, the toolchain, the workflows or the proof packet.
+
+## What it does not establish
+
+Nothing is proved and nothing is claimed true. No inhabitant of either interface is constructed; the formal matrices are not shown to be covariances of any field; the Schur complement and `multivariateGaussian` are the standard Gaussian conditioning identities used as definitions, valid under the nondegeneracy the new fields assume. The successor removes the doubling inhabitant that made the universal closure of the predecessor Props false (round-4 probe), but `sphereMeasure` stays a given beyond support and total area (so `c24` is determined by the fields only up to that choice; the source's uniform-in-`u` bounds would make the choice immaterial to the two successor inequalities, not to the value, and that is not shown), frame invariance of `coneMomentOf` is a consistency burden on the frame-quantified `coneMoment_def` rather than a field, and integrability is not stated. The predecessor Props and interface are unchanged and stay registered `specified`; nobody says the original interface is solved. No claim-level label moves; alignment of every statement is `PENDING_INDEPENDENT_REVIEW`; this is not a review and not an acceptance.
+
+## Verification
+
+- Local (author, not a receipt): `check.py` source mode on the committed worktree exit 0 (153 declarations, 143 Props, 10 structures, 132 auxiliaries, 360 statement entries); `test_check.py` in both interpreter modes exit 0; `lake env lean` of the new module at Lean 4.34.1 / Mathlib `d13f23b7` exit 0 with no output. `--execute` (fresh `lake build`, `leanchecker`, environment audit) is left to the hosted workflow: the local box cannot run `leanchecker` over `import Mathlib` (README, 2026-10-10 record).
+- Hosted runs: HOSTED_RUNS_LINE
+
+## Process
+
+Draft; I never mark ready or merge. Needs a nonauthor reader (final byte review of the appended block and the three rows against the design packet) and a distinct integrator after #445. Any amendment to #445 means this stacked candidate is rebuilt from its new head as a new commit.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+https://claude.ai/code/session_01Cz7WZybv8znP64SpPj6sWY

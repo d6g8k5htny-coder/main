@@ -91,8 +91,8 @@ truth of either display.
    the first, the Schur complement is not the conditional covariance (Mathlib's inverse of a singular matrix is `0`);
    without the second, a non-positive-semidefinite formal covariance would make `multivariateGaussian` the Dirac
    mass at `0` and the "cone moment" `0` (the indicator at `v = 0` is `0` since `-0` is not positive definite), while a
-   singular positive-semidefinite covariance gives a degenerate Gaussian, not a Dirac mass; the absence of a PosDef
-   field would not by itself make the covariance singular, and the inherited `coneMoment_pos` together with
+   singular positive-semidefinite covariance gives a degenerate Gaussian (the Dirac mass when the covariance is zero,
+   which is positive semidefinite); the absence of a PosDef field would not by itself make the covariance singular, and the inherited `coneMoment_pos` together with
    `coneMoment_def` already excludes the Dirac (zero-moment) case. Both are hypotheses on the formal `K24` matrices; nothing here
    proves them (the source derives them from (3) and the reference values; `ReferenceCovarianceLowerBound` and
    `CovarianceOrdering` in the proof packet are the ingredients a proof would use).
@@ -130,12 +130,14 @@ frame invariance, nondegeneracy or integrability for `K24`; it does not change, 
 premise, obligation or label; it is not a review and it is not evidence of acceptance. Alignment of every statement
 remains PENDING_INDEPENDENT_REVIEW; same-account author, credit 0.
 
-## Corrections applied (coordinator design read, main#307 6137276515, 03:04Z)
+## Corrections applied (coordinator design read main#307 6137276515, 03:04Z; activation 6137545127, 03:28Z)
 
-1. Caveat 3 reworded: only a non-positive-semidefinite covariance triggers Mathlib's Dirac fallback; a singular
-   positive-semidefinite one gives a degenerate Gaussian; the absence of a PosDef field does not establish singularity;
-   `coneMoment_def` with the inherited `coneMoment_pos` already excludes the zero-moment Dirac case. The field
-   docstring of `condHessianCov_posDef` says the same.
+1. Caveat 3 reworded (and reworded again per main#307 6137545127, since zero covariance is PSD): for non-PSD covariance,
+   Mathlib falls back to Dirac at zero; singular PSD covariance gives a degenerate Gaussian, including Dirac when the
+   covariance is zero; omitting a PosDef field does not establish singularity; `coneMoment_def` with the inherited
+   `coneMoment_pos` excludes the zero-moment Dirac case. The ordinary-inverse Schur identification requires an
+   invertible pin block; `pinCov_posDef` supplies that hypothesis. The field docstrings of `condHessianCov_posDef` and
+   `pinCov_posDef` and the `coneMomentOf` / `condHessianCov` docstrings say the same.
 2. `ReferenceComparison2` is anchored to the quantitative display (4) line including its tag `(4)` (verbatim,
    side24-proof:173), in the docstring and in the proposed register row; the "NOT claimed equal" sentence is no longer
    its anchor.

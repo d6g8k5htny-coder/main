@@ -117,3 +117,16 @@ re-elaborates at the pin with exit 0 (`elab_draft.log`) and passes the gate's `s
 author's confirmation (its two placeholders, this checkpoint's commit and the elaboration line, were filled at posting
 time); the checkpoint-4 texts are added. Still a draft under hold: no Math- ref, packet, register, gate or docs change
 exists anywhere; activation is the coordinator's.
+
+## Checkpoint 6 (2026-10-13, about 03:40Z): round 7 published as draft Math-#447
+
+Incremental commit, no rewrite: 15 files added and 7 changed since `78ba7ac6` (none removed); now 4,670 files,
+86,718,859 bytes. The coordinator activated the four-file stacked draft (main#307 6137545127) with one more wording
+correction, applied before publication (`scratch/lvs/r7/hold/` refreshed: Dirac/degenerate wording exact, the Schur
+identification's invertible-pin-block hypothesis named at `pinCov_posDef`). Published: Math- branch
+`claude/lean-statements-round7-side24b-20261013`, head `077a168ba9fe3a0888c2d1988f85511c30ca9484` on #445's `9fb0a4a0`,
+draft PR Math-#447 (base `claude/lean-statements-frontier-20261013`). Preserved here: the binder `scratch/lvs/r7/bind_round7.py`
+with its summary, the exact commit as a patch (`round7_077a168b_on_9fb0a4a0.patch`), the gate logs (source mode on the
+dirty and on the committed CLEAN worktree, exit 0), the test logs (97 OK in both modes), the PR body as posted and the
+create payload, the activation report posted on main#307. The hosted runs on `077a168b` were in progress at this
+checkpoint; no hosted outcome is recorded here. Still: every new declaration `specified`; no theorem; no label move.
