@@ -1,0 +1,48 @@
+inventory: exit 0
+baseline 116 63 720d6946e98f668f920e6e9a9d2b9e97345092c9687ae7ab559ef049e503fa4c
+compiled_baseline: exit 0
+compiled_admission_build: exit 0
+compiled_admission_leanchecker: SKIPPED (local OOM limit)
+compiled_admission_axioms: exit 0
+compiled_admission: exit 0
+compiled_metaprogram_build: exit 0
+compiled_metaprogram_leanchecker: SKIPPED (local OOM limit)
+compiled_metaprogram_axioms: exit 0
+compiled_metaprogram: exit 0
+compiled {
+ "baseline_sha256": "720d6946e98f668f920e6e9a9d2b9e97345092c9687ae7ab559ef049e503fa4c",
+ "injections": {
+  "compiled_admission": {
+   "outcome": "REJECTED_FOR_EXPECTED_REASON",
+   "injected": "_private.ResearchFormalCoreR1.AlgebraV2.0.ResearchFormalCoreR1.compiledAdmission",
+   "violations": [
+    "extra_theorem _private.ResearchFormalCoreR1.AlgebraV2.0.ResearchFormalCoreR1.compiledAdmission",
+    "forbidden_axiom sorryAx"
+   ],
+   "module": "ResearchFormalCoreR1.AlgebraV2",
+   "module_sha256": "09c7dc5ab1ceb74150ed3723d6fb7c86eca219f9e539c45e17b6c550ee18659c",
+   "stages": [
+    "build",
+    "leanchecker",
+    "axioms",
+    "inventory"
+   ]
+  },
+  "compiled_metaprogram": {
+   "outcome": "REJECTED_FOR_EXPECTED_REASON",
+   "injected": "ResearchFormalCoreR1.ec005_fold_gap._proof_999",
+   "violations": [
+    "unregistered_constant ResearchFormalCoreR1.ec005_fold_gap._proof_999"
+   ],
+   "module": "ResearchFormalCoreR1.AlgebraV2",
+   "module_sha256": "584b87cc8126a4c5c8acc96fbad8c5c93fcb82d3392a1c7de8dfa26854b6ee8e",
+   "stages": [
+    "build",
+    "leanchecker",
+    "axioms",
+    "inventory"
+   ]
+  }
+ }
+}
+elapsed 88

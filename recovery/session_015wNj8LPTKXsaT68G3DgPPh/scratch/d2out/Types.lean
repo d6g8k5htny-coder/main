@@ -1,0 +1,20 @@
+import D2MomentBridge
+set_option pp.explicit true
+#check D2MomentBridge.moment
+#check D2MomentBridge.cubicResidual
+#check D2MomentBridge.residual_sq_expand
+#check D2MomentBridge.residual_sq_integrable
+#check D2MomentBridge.residual_integral_eq_delta
+#check D2MomentBridge.delta_nonneg
+#check D2MomentBridge.delta_eq_zero_iff_residual
+#check D2MomentBridge.cubicResidual_eq_zero_iff
+#check D2MomentBridge.delta_eq_zero_iff_support
+#check D2MomentBridge.delta_pos_iff_not_support
+#check D2MomentBridge.property_of_ae_of_atom
+#check D2MomentBridge.moment_two_pos_of_atom
+#check D2MomentBridge.delta_pos_of_two_atoms
+#check D2MomentBridge.square_gap_integrable
+#check D2MomentBridge.square_gap_integral
+#check D2MomentBridge.fourth_gt_second_sq_of_two_atoms
+#check D2MomentBridge.tau_pos_of_two_atoms
+#check D2MomentBridge.zero_atom_counterexample

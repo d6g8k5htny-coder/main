@@ -1,0 +1,142 @@
+diff --git a/frontiers/c2_torus_transfer_20261001/NOTE.md b/frontiers/c2_torus_transfer_20261001/NOTE.md
+index a40c2c7..7c2724f 100644
+--- a/frontiers/c2_torus_transfer_20261001/NOTE.md
++++ b/frontiers/c2_torus_transfer_20261001/NOTE.md
+@@ -31,3 +31,6 @@ Its fold expansion is `A~_r = A_0 + r^2 A_2 + O(r^3)` (§3). Put
+ 
+-`c2[K]` is Math-#218 (0.1). For `K = phi` it does not depend on `u` and equals the closed form of [C2X] §0.
++`c2[K]` is the expression of Math-#218 (0.1). For `K = phi` it does not depend on `u` and equals the closed form of [C2X]
++§0. #218's Theorem T, which identifies this expression as a coefficient of the candidate density, is a candidate
++theorem for `d >= 2`. It was merged at `fb6ee97`, which is not a status promotion. In `d = 1` the theorem below is a transfer of the explicitly defined fixed-cone
++expression, not an extension of #218's density theorem (review 5383099127, item 3).
+ 
+@@ -59,9 +62,17 @@ With [SIDE24]'s enclosures of `c_{d,24}`, the interval quotients give
+ 
+-With Math-#219 / #224 for `c1`, the coefficients of the three-term law `nu/(c ell^(-1/3)) - 1 = (c1/c) ell^(7/12) +
+-(c2/c) ell^(2/3) + ...` on the SIDE24 torus in `d = 3` are `-5.071062...` and `3.859496174548...` to the stated digits. This
+-holds conditional on the consumed premises of §8.
++**Three-term law, with its sources.** The law is `nu/(c ell^(-1/3)) - 1 = (c1/c) ell^(7/12) + (c2/c) ell^(2/3) + ...`.
++On the SIDE24 torus in `d = 3` its coefficients are `-5.071062...` and `3.859496174548...`, to the stated digits. The sources
++of each piece are:
++- **`c1/c`** comes from [CU] (Math-#219, certified arithmetic, merged at `5a836a8`). It is consumed, not accepted here.
++- **Math-#224** plays two separate roles:
++  - its (T1) defines the torus kernel used throughout;
++  - its `c1` transfer is a separate unmerged author-side candidate, and nothing here inherits status from it.
++- **The identification as density coefficients** is conditional on the chain in §8.
+ 
+ **Lemma E (no `r^1` term for every stationary kernel).** Let `K` be any smooth stationary covariance (no isotropy or
+-evenness needed) whose pin and transverse covariances are nondegenerate at `r = 0`. Then the surrogate has the form
+-`A~_r(b, k) = Atilde(r^2, b - k r^3/2, k)` with `Atilde` real-analytic. Hence
++evenness needed) whose pin and transverse covariances are nondegenerate at `r = 0`. Then `A~_r(b, k)` is smooth in `r` up
++to `r = 0`, and at fixed `v_1 = b - k r^3/2` its Taylor expansion in `r` contains only even powers: for every `N`,
++`A~_r(b, k) = sum_{j<N} r^(2j) a_j(b - k r^3/2, k) + O(r^(2N))`. If `K` is moreover real-analytic, as the Gaussian `phi`
++and the torus kernels `K_L` are, then `A~_r(b, k) = Atilde(r^2, b - k r^3/2, k)` exactly near `r = 0`, with `Atilde`
++real-analytic. In either case
+ 
+@@ -69,6 +80,13 @@ evenness needed) whose pin and transverse covariances are nondegenerate at `r =
+ 
+-there is no `r^1` term, and the `r^3` coefficient is `-(k/2) d_b A_0`.
++there is no `r^1` term, and the `r^3` coefficient is `-(k/2) d_b A_0`. (v1.3: smoothness alone does not give analyticity.
++A smooth positive-spectrum covariance can have a Taylor series of radius zero, for example spectral density
++`exp(-sqrt|xi|)`; 5938497821.)
+ 
+ On the torus this decides, for the surrogate, the question left open in Math-#227 ("whether the torus `A_r` has an `r^1` term
+-at all"): it has none. With the consumed comparison `A_r = A~_r + O(r^3)`, the typed `A_r` has none either.
++at all"): it has none. With the consumed comparison `A_r = A~_r + O(r^3)`, the typed `A_r` has none either. This does not
++remove #227's certified `beta r` allowance, accept #227's premises, or close C8 ([L'], cited only).
++
++**Relation to Math-#232** ([FJ], merged at `7fe06b0`). #232 gives the general eight-jet local stability interface (a
++birth-marginalized finite-jet formula with an analytic budget, `< 1e-60` for `L >= 24`). This packet gives sharper
++torus-specific constants for every `L >= 10`, together with Lemma E. The two are compatible, and neither supersedes the other.
+ 
+@@ -80,4 +98,5 @@ at all"): it has none. With the consumed comparison `A_r = A~_r + O(r^3)`, the t
+ - **[SIDE24] (1)–(2) (main).** The normalized periodic kernel.
+-- **[T] (Math-#218, unmerged) (0.1) and Lemma F.** The definition of `c2` and its identification as the `ell^(1/3)`
+-  coefficient; consumed, not reviewed.
++- **[T] (Math-#218, merged at `fb6ee97`) (0.1) and Lemma F.** The definition of `c2`, and its identification as the `ell^(1/3)`
++  coefficient of the candidate density for `d >= 2` (an author-side candidate). Consumed, not reviewed.
++- **[CU] (Math-#219, merged at `5a836a8`).** The certified `c1/c` enclosure quoted in §0. Consumed, not accepted.
+ - **[D] §2.2 (Math-#216, unmerged).** `A_r = A~_r + O(r^3)`; consumed, as in [C2X].
+@@ -121,3 +140,6 @@ A ball `B(c, rho)` is the rational interval `[c - rho, c + rho]`.
+ - Sums, products and reciprocals (when `|c| > rho`) are the standard outward rules.
+-- The radii are rounded up to 64-bit dyadics.
++- The radii are rounded up by an outward dyadic ceiling rule (`rup`), with at least 64-bit relative precision. This
++  affects precision only, not outwardness.
++- The operands are integers, Fractions or balls throughout. Float scalars are not certified: `B(1) + 0.1` would round the
++  center without a radius. The certificate never uses one. Reuse elsewhere should coerce or reject floats (review C49).
+ - The centers are exact. With all radii zero the arithmetic is exactly [C2X]'s, so the centers of every output are the
+@@ -140,3 +162,3 @@ The output is the integrand `G` (balls), `E = (q_0 + Q_0)/2` (a homogeneous quad
+ and the `A_2`-integrand is `kappa_K e^(-E) H` with `H = [r^4] G`. As in [C2X] §2.3, `A~_r` is real-analytic near
+-`r = 0` because the `r = 0` covariances are nondegenerate. Every pivot is certified by `|c| > rho`.
++`r = 0`, because `K_L` and `phi` are real-analytic and the `r = 0` covariances are nondegenerate. Every pivot is certified by `|c| > rho`.
+ 
+@@ -157,3 +179,8 @@ through `r^2`. Hence the integrand `e^(-(q + Q)/2) (det ratio)^(-1/2) F`, as a f
+ formal power series. The coefficients are finite sums of jet covariances, so no property of `K` beyond stationarity and
+-smoothness is used. Integrating over the fixed cone gives `A~_r = Atilde(r^2, b - k r^3/2, k)`.
++smoothness is used.
++- **Smooth `K`.** The rows are averages of derivatives against smooth kernels, so the covariances, the regression and the
++  cone integral are smooth in `r` up to `0`. Integrating the even formal series over the fixed cone gives the even
++  finite-order expansion of Lemma E, to every order.
++- **Real-analytic `K`.** The series converge near `r = 0`, which gives the exact form
++  `A~_r = Atilde(r^2, b - k r^3/2, k)` with `Atilde` real-analytic.
+ 
+@@ -179,5 +206,7 @@ This is the inequality of 5933574379 with its second-derivative term replaced by
+ 
+-    |g_L - g_ref| <= kappa_ref e^(-E_ref) [ (|e_kappa| + |dE|) e^(|dE|) |H_L| + |H_L - H_ref| ],
++    |g_L - g_ref| <= |kappa_ref| e^(-E_ref) [ (|e_kappa| + |dE|) e^(|dE|) |H_L| + |H_L - H_ref| ],
+ 
+ where:
++- `|kappa_ref| = 12 (2 pi)^(-(p + n_T)/2) (det S_0 det T_0)^(-1/2)` is the magnitude of the negative constant
++  `kappa_ref`; `bound_core` bounds it above by `kap` (review C49-F01, 5382406982);
+ - `kappa_L = kappa_ref (1 + e_kappa)`, with `|e_kappa| <= rho/(1 - rho)` and `rho` the relative radius of
+@@ -188,4 +217,6 @@ where:
+ 
+-**Gaussian floor.** A rational `t` with `M - t diag(M)` positive definite, where `E_ref = w^T M w`, is certified by exact
+-`LDL^T` and bisection. It gives `e^(-E_ref + |dE|) <= prod_i e^(-a_i w_i^2)` with `a_i = t M_ii - eta_i > 0`.
++**Gaussian floor.** A rational `t` with `M - t diag(M)` positive semidefinite, where `E_ref = w^T M w`, is certified by
++exact `LDL^T` and bisection. For diagonal `M` it is `t = 1` by an exact branch, with zero residual, as in `d = 1`. It gives
++`e^(-E_ref + |dE|) <= prod_i e^(-a_i w_i^2)` with `a_i = t M_ii - eta_i > 0`. Strictness comes from `a_i > 0`, not from
++the residual matrix (5384221624).
+ 
+@@ -239,4 +270,10 @@ cancellation, the absolute moments, and the cone enlarged to the whole space. Th
+ - **The definition and identification are consumed.**
+-  - That `c2[K_L]` is the `ell^(1/3)` coefficient of the torus densities is [T]'s (candidate density, candidate status)
+-    and Math-#220's (elder density, conditional on #187), and is not reviewed here.
++  - **Candidate density.** That `c2[K_L]` is its `ell^(1/3)` coefficient is [T]'s claim: Math-#218, a candidate theorem
++    for `d >= 2`, merged at `fb6ee97`.
++  - **Elder density.** The identification is [E3]'s (Math-#220), a theorem merged at `0d79778` (`PROOF.md` blob
++    `c8767dde`, byte-identical to the consumed head `70dcf31`). It consumes #207 (merged at `566b1a1`, `PROOF.md` blob
++    `f6df5a73`), #218 (merged at `fb6ee97`, `PROOF.md` blob `70ca57ef`) and the merged #187. The complete chain
++    #191/#198 → #207 → #218 → #220 is now on `main`.
++  - Neither identification is reviewed here, and the transfer of the fixed-cone expression does not depend on either
++    (review 5383099127, item 2).
+   - So is the typed replacement `A_r = A~_r + O(r^3)` ([D] §2.2) on the torus. Lemma E and Theorem C2T are statements
+@@ -246,3 +283,3 @@ cancellation, the absolute moments, and the cone enlarged to the whole space. Th
+ - **Conservative constants** (§6). They are not estimates of the true torus deviation.
+-- **No review** of [C2X], [T], [D], [SIDE24] or Math-#224. Same GitHub account as every lane; zero
++- **No review** of [C2X], [T], [D], [SIDE24], [CU], [E3], [L'], [FJ] or Math-#224. Same GitHub account as every lane; zero
+   organizational-independence credit. **I will not merge.**
+@@ -252,9 +289,19 @@ cancellation, the absolute moments, and the cone enlarged to the whole space. Th
+ - **Sources** (`SOURCE_MAP.json`). The workflow verifies these on the checked-out tree:
+-  - [C2X] `frontiers/c2_exact_20261001/{exact.py, pseries.py, NOTE.md, RESULTS.json}` on `main` `f9ebba1`. `exact.py` and
++  - [C2X] `frontiers/c2_exact_20261001/{exact.py, pseries.py, NOTE.md, RESULTS.json}` on `main` (since `f9ebba1`; unchanged at `7fe06b0`). `exact.py` and
+     `pseries.py` are also carried byte-identically in this directory.
+   - [SIDE24] `coefficients/side24_v1/PROOF.md`.
+-- **Unmerged, recorded and not checked on this tree:**
+-  - [T] Math-#218 `PROOF.md` (blob `70ca57ef`);
++  - [T] Math-#218 `frontiers/candidate_third_order_20261001/PROOF.md` (blob `70ca57ef`), on `main` since `fb6ee97` and
++    byte-identical to the consumed head `0cf048d`.
++  - [CU] Math-#219 `frontiers/cusp_coefficient_certified_20261001/RESULTS.json` (blob `8bbd0b0c`), on `main` since
++    `5a836a8` and byte-identical to the consumed head `7a04873`. The `c1/c` interval is read from this file.
++  - [E3] Math-#220 `frontiers/elder_third_order_20261001/PROOF.md` (blob `c8767dde`), on `main` since `0d79778` and
++    byte-identical to the consumed head `70dcf31`. Cited for the elder identification only.
++- **Recorded and not checked on this tree:**
++  - [CU] Math-#219 `NOTE.md` at `7a04873` (blob `7dccfa97`). On `main` it has since changed by wording only (v1.4–v1.5);
++    the certified values are in the unchanged `RESULTS.json`.
+   - [D] Math-#216 `NOTE.md` (blob `aa078a9c`);
+-  - [CT] Math-#224 `PROOF.md`, for (T1) and as the `c1` analogue (cited).
++  - [CT] Math-#224 `PROOF.md`, for (T1) and as the `c1` analogue (cited);
++  - [L'] Math-#227 at `2d1ec7c`: `NOTE.md` (blob `138521e8`), cited only.
++- **On `main` since `7fe06b0`, cited only:** [FJ] Math-#232
++  `frontiers/c2_finite_jet_transfer_20261001/PROOF.md` (blob `54cc4a1a`).
+ - **Files:**

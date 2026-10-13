@@ -1,0 +1,20 @@
+1. d = 2, independent 2D route (no Mellin identity):
+   control -0.269398825672   certified [-0.2693988256731888, -0.2693988256725268]   difference 1.1e-12
+2. d = 3, independent 4D route (coarse):
+   control -0.2118611964   certified [-0.2118483463910089, -0.2118483460317414]   difference -1.3e-05
+3. Floating values of the sources against the certified enclosures:
+   Math-#207 (826b8be) PROOF.md section 8: c1, d = 2    -0.26939883   certified mid -0.2693988257   rounded value differs by -4.3e-09
+   Math-#207 (826b8be) PROOF.md section 8: c1, d = 3    -0.21184835   certified mid -0.2118483462   rounded value differs by -3.8e-09
+   Math-#207: c1/c, d = 2                               -3.66993800   certified mid -3.6699377691   rounded value differs by -2.3e-07
+   Math-#207: c1/c, d = 3                               -5.07106200   certified mid -5.0710621374   rounded value differs by 1.4e-07
+   Math-#207: I_cand, d = 2                             -0.17727440   certified mid -0.1772743968   rounded value differs by -3.2e-09
+   Math-#207: I_cand - c1, d = 2                        +0.09212440   certified mid +0.0921244289   rounded value differs by -2.9e-08
+   Math-#207: I_cand, d = 3                             -0.13940410   certified mid -0.1394040516   rounded value differs by -4.8e-08
+   Math-#207: I_cand - c1, d = 3                        +0.07244430   certified mid +0.0724442946   rounded value differs by 5.4e-09
+   Math-#216 table: c1, d = 1 (= Math-#214 C_1)         -0.22760600   certified mid -0.2276063588   rounded value differs by 3.6e-07
+   referee Monte Carlo d = 3: -0.211848 +- 0.000024 -> (MC - certified)/s.e. = +0.01
+
+real	0m11.592s
+user	0m11.584s
+sys	0m0.004s
+CTLDONE

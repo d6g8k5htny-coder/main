@@ -1,0 +1,20 @@
+1. d = 2, independent 2D route (no Mellin identity):
+   control -0.269398825672854   certified [-0.2693988256731888, -0.2693988256725268]   difference 3.5e-15
+2. d = 3, independent 4D route (no Mellin identity):
+   control -0.211848346210999   certified [-0.2118483463910089, -0.2118483460317414]   difference 3.8e-13
+3. Floating values of the sources against the certified enclosures:
+   Math-#207 (826b8be) PROOF.md section 8: c1, d = 2     -0.26939883   certified mid -0.2693988257   rounded value differs by -4.3e-09
+   Math-#207 (826b8be) PROOF.md section 8: c1, d = 3     -0.21184835   certified mid -0.2118483462   rounded value differs by -3.8e-09
+   Math-#207: c, d = 2                                  0.0734069193   certified mid +0.0734069193   rounded value differs by -6.0e-12
+   Math-#207: c, d = 3                                  0.0417759318   certified mid +0.0417759318   rounded value differs by -4.1e-11
+   Math-#207: c1/c, d = 2                                  -3.669938   certified mid -3.6699377691   rounded value differs by -2.3e-07
+   Math-#207: c1/c, d = 3                                  -5.071062   certified mid -5.0710621374   rounded value differs by 1.4e-07
+   Math-#207: I_cand, d = 2                               -0.1772744   certified mid -0.1772743968   rounded value differs by -3.2e-09
+   Math-#207: I_cand - c1, d = 2                           0.0921244   certified mid +0.0921244289   rounded value differs by -2.9e-08
+   Math-#207: I_cand, d = 3                               -0.1394041   certified mid -0.1394040516   rounded value differs by -4.8e-08
+   Math-#207: I_cand - c1, d = 3                           0.0724443   certified mid +0.0724442946   rounded value differs by 5.4e-09
+   Math-#216 table: c1, d = 1 (= Math-#214 C_1)            -0.227606   certified mid -0.2276063588   rounded value differs by 3.6e-07
+   Math-#207: shipped fixed-seed Monte Carlo c1, d = 3        -0.211630 +- 0.000140 -> (MC - certified)/s.e. = +1.56
+   Math-#207: development Monte Carlo c1, d = 3 (2e8 samples) -0.211880 +- 0.000100 -> (MC - certified)/s.e. = -0.32
+   Math-#207: referee Monte Carlo c1, d = 3 (5e8 samples)     -0.211848 +- 0.000024 -> (MC - certified)/s.e. = +0.01
+4. Lemma S, d = 3, L = 24: largest |D^g K_24(0) - D^g phi(0)| = 1.756e-114 (at g = (8, 0, 0)); certified entry bound E = 3.678e-108

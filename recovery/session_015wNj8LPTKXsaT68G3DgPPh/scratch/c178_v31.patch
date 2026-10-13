@@ -1,0 +1,191 @@
+diff --git a/frontiers/c6_microscopic_tail_numerics_20260930/NOTE.md b/frontiers/c6_microscopic_tail_numerics_20260930/NOTE.md
+index c884996..6251676 100644
+--- a/frontiers/c6_microscopic_tail_numerics_20260930/NOTE.md
++++ b/frontiers/c6_microscopic_tail_numerics_20260930/NOTE.md
+@@ -15,17 +15,21 @@ first) the point-intensity radius tail
+ 
+ with `J_cusp = integral H(h) gamma(a)^11 h_0(A_0, Rot_O tau_cusp) da dxi dh dO` (R12) and
+ `gamma(a) = sqrt(1 + (a/(12k))^2)`, and lists "no numerical value of its Gaussian integral" as a non-claim. The
+-companions Math-#169 ([E], merged) and Math-#176 ([Q], merged) express further constants of the same measure through
++companions Math-#169 ([E]) and Math-#176 ([Q]), both merged but still conditional (§5), express further constants of the same measure through
+ the same cusp integrals: the whole-cluster split of the tail (E6) and the second-order coefficient `C_2`, the
+ total-variation coefficient `kappa |C_2/C_0|` of the radial ratio and the signed constant `B_sign` ((13), (16),
+ (19)). This note evaluates all of them in the plane for the parent kernel `K(z) = exp(-|z|^2/2)` ([LP] §2).
+ 
+ **Planar reduction.** In `d = 2` the spectral measure (17) of [SC] has `m = d - 1 = 1`, `c_1 = 1`, no hard
+-curvatures and no Haar variable; `H(h) = 1`. Its density `h_0(A_0, tau)` at `A_0 = 0` is the raw contact density of
++curvatures, and the Haar variable `O in O(1) = {±1}` averages trivially, because `p_odd` is invariant under
++`(a, beta, c) -> (-a, beta, -c)`; `H(h) = 1`. Its density `h_0(A_0, tau)` at `A_0 = 0` is the raw contact density of
+ `(f_zz; f_xxz, f_xzz, f_zzz)` at `(0; a, beta, c)` given the contact pins `(f, f_x, f_z, f_xx, f_xz, f_xxx) =
+ (b, 0, 0, 0, 0, 12k)`, which by the exact regression of Math-#168 factors as `p_b(0) . p_odd(a, beta, c)` with
+ `p_b(0) = phi(b/sqrt2)/sqrt2` (the density of `f_zz | (f, f_xx, f_xz) = (b, 0, 0) ~ N(-b, 2)` at `0`) and
+-`p_odd = N(0, diag(2, 2, 6))`, for every `k, b`. Hence
++`p_odd = N(0, diag(2, 2, 6))`, for every `k, b`. These are the continuum jet covariances. For the periodized parent
++kernel at side `L` they hold up to the lattice-moment deviation recorded by Math-#168 (`lattice_vs_continuum`: at
++most `1.4e-13` at `L = 12, 24`; `L = 6` is not covered), so the values below are for the continuum covariance and
++apply at `L >= 12`. Hence
+ 
+     c_1 h_0(0, tau)/z_0 = [p_b(0)/z_0] p_odd(a, beta, c),   p_b(0)/z_0 = phi(b/sqrt2) / (sqrt2 . 36 k^2 m_(2,b)),
+ 
+@@ -48,8 +52,8 @@ ties the [SC]/[R] parametrization (jet Jacobian `2`, root Jacobian `6`, weight `
+ - Shape integrals over `S = {-3/2 < u < 1/2, |b_0|/2 < v < 3 - 6u}` with `Q = (4v^2 - b_0^2)(b_0 - 4uv)`, in rational
+   arithmetic: `I = 246528/35`, `U_2 = integral u^2 Q = 240192/35`, `B = integral b_0 Q = -428544/7 = 3I - 12 U_2`,
+   `U_abs = integral |u| Q = 5898627/880` ([Q] (12)); `E eta = 5771/7062` under `Q/I` ([R] H3); the outer doublet
+-  integral `J = 1083417/280` ([E] E20); `11 U_2/(2I) = 4587/856`, `11 U_abs/(2I) = 4587821/876544` ([Q]
+-  corollary). The inner doublet integral `D = 27066286003/223205220 - (79298560/4782969) log 2 = 109.7699503...`
++  integral `J = 1083417/280` ([E] (E5), derived from the primitive (E20)); `11 U_2/(2I) = 4587/856`, `11 U_abs/(2I) = 4587821/876544` (author-side
++  corollary in Math-#176 comment 5903080058, not part of the pinned [Q] bytes). The inner doublet integral `D = 27066286003/223205220 - (79298560/4782969) log 2 = 109.7699503...`
+   ([E] E21) is quoted, not recomputed exactly (it was confirmed to `1e-13` by quadrature in the Slice C read).
+ - `kappa = (2/13)(11/13)^(11/2) = q_0^(-11) - q_0^(-13)` at `q_0 = sqrt(13/11)` ([Q] (16)).
+ - With the aligned planar cusp density ([Q] (21)–(22), `v_a = v_beta = 2`, `v_c = 6` for the continuum kernel):
+@@ -76,7 +80,7 @@ ties the [SC]/[R] parametrization (jet Jacobian `2`, root Jacobian `6`, weight `
+ | `2.0` | 0.0465858 | 0.0483768 | -0.0040314 | 0.0022051 | `2e-15` |
+ 
+ **Tail constants** (`F(t) ~ C_* t^(-11)` is the `r^(-3)`-scaled expected number of near points at scaled radius
+-`R > t`; the split rows are values of [E] (E6); `c`, `kappa c`, `B_sign` of [Q] (13), (16), (19)):
++`R > t`; the split rows are values of [E] (E6); `c`, `kappa c`, `B_sign` of [Q] (13), (16), (19) (conditional on [E]/[Q]; see §5)):
+ 
+ | `k` | `b` | `C_*` | `G_max` | `G_2` | `B_2` | singleton | `c = C_2/C_*` | `kappa c` | `B_sign` |
+ |---|---|---|---|---|---|---|---|---|---|
+@@ -88,8 +92,10 @@ ties the [SC]/[R] parametrization (jet Jacobian `2`, root Jacobian `6`, weight `
+ | `2.0` | `1.0` | 462.58 | 455.37 | 254.11 | 7.209 | 201.26 | 6.2011 | 0.381 | 0.2477 |
+ 
+ `c` and `B_sign` are `b`-free (the prefactor cancels); the ratios `G_max/C_* = (I-D)/I = 0.98442`, `G_2/C_* = J/I
+-= 0.54934`, `B_2/C_* = D/I = 0.015584` are universal. The bounds of [Q]'s corollary hold: `c > 4587/856 = 5.3586`
+-and `0 < B_sign < 4587821/876544 = 5.2340`. Reading: at `k = 1`, `b = 0` the near point mass is `1.378` and `C_* = 52.6`, so the asymptotic law puts `C_* 2^(-11) = 0.026` of it beyond twice the pin distance and `3e-4` beyond
++= 0.54934`, `B_2/C_* = D/I = 0.015584` are universal. In `RESULTS.json`, `C2_over_C0` uses [Q]'s `C_0 = C_*`;
++`C0_per_shape` is [E]'s `C_0`. The numbers satisfy the bounds of the Math-#176 author-side corollary (comment 5903080058; not in the
++pinned [Q] blob): `c > 4587/856 = 5.3586`
++and `0 < B_sign < 4587821/876544 = 5.2340`. Reading: at `k = 1`, `b = 0` the near point mass is `1.380` and `C_* = 52.6`, so the asymptotic law puts `C_* 2^(-11) = 0.026` (about `1.9%` of it) beyond twice the pin distance and `3e-4` beyond
+ three; the radial ratio's total-variation distance from Pareto(11) at threshold `t` is `0.42/t^2` to leading order
+ (`4.7%` at `t = 3`), and the signed-mark distance decays only like `0.50/t`.
+ 
+@@ -113,15 +119,16 @@ values. This is the check that the two parametrizations agree; it is not a certi
+ ## 4. Precision (empirical, not bounds)
+ 
+ - The one-dimensional cusp integrals agree between 48 and 96 Gauss–Legendre points to the relative deviations in
+-  the table (all below `1e-14`); the constants inherit that precision and the exact prefactor.
++  the table (all at most `1.3e-14`); the constants inherit that precision and the exact prefactor.
+ - Three exact identities stated in Math-#190 (elementary: `G_0 = exp(-12 k^2 (gamma^6 - 1)) / sqrt(192 pi^3)` on the
+   cusp, and `(a gamma^11)' = 12 gamma^11 - 11 gamma^9`) hold in this quadrature at machine precision and are
+   `--check` rules since v3: `T_2 = -T_1/12` (`< 3e-18` absolute at every `k`), `T_b sqrt(192 pi^3) = (12k^2 + 1)/(36k^3)`
+   (`8/9`, `13/36`, `49/288`; `< 6e-16`), and the rational factor `(11/2)(U_2 - B/78)/I = 66451/11128` of
+-  `c = C_2/C_* = (66451/11128) T_1/J_cusp` (exact). Since `T_1/J_cusp = 12 - 11 I_9/I_11 in (1, 12)`, the bounds
+-  `5.9715 < c(k) < 71.658` of Math-#190 sharpen the corollary `c > 4587/856` quoted in the table; the values here
+-  (`9.78`, `6.90`, `6.20`) lie inside.
+-- Math-#190 (reviews/c6_tail_constant_certified_20260930, other Claude session, not merged, not consumed here)
++  `c = C_2/C_* = (66451/11128) T_1/J_cusp` (exact). Since `T_1/J_cusp = 12 - 11 I_9/I_11 in (1, 12)`, Math-#190
++  reports (information only, not consumed here) the bounds `5.9715 < c(k) < 71.658`, which would sharpen the corollary
++  `c > 4587/856`; the floating-point values here (`9.78`, `6.90`, `6.20`) lie inside.
++- Math-#190 (reviews/c6_tail_constant_certified_20260930, other Claude session; merged 2026-10-01 at `77b854c` as a review
++  record filed as certified-arithmetic information, not a promotion; not consumed here)
+   reports certified interval enclosures of every constant of this table and finds each value of `RESULTS.json`
+   (blob `0b5ce76f`) within `9e-16` relative of its enclosure. That record is information for the reader; it is not a
+   certification of this note, which stays floating point.
+@@ -132,8 +139,11 @@ values. This is the check that the two parametrizations agree; it is not a certi
+ ## 5. What the numbers are not
+ 
+ Not a proof and not an enclosure. `C_*` is a value of the reviewed formula (R13) of the merged [R]; the split and the
+-second-order/signed constants are values of formulas of the merged [E] (Math-#169) and [Q] (Math-#176), evaluated at
+-their stated scope (planar, `r -> 0` first). Planar only (`d = 2`), parent
++second-order/signed constants are values of formulas of [E] (Math-#169) and [Q] (Math-#176). Both are merged on main
++after scoped nonauthor review, but their pinned bytes keep the disposition 'author-side conditional proof candidate'
++and their source hypotheses remain. These values are therefore conditional on [E] and [Q] and their sources,
++evaluated at their stated scope (planar, `r -> 0` first), with continuum spectral moments and no finite-`L`
++periodization correction. Planar only (`d = 2`), parent
+ kernel only, aligned frame; no rate for `r -> 0`, no finite-`r` statement, no statement about the remote singleton
+ population. No register, catalog or STATUS change. Same GitHub account as every lane; zero
+ organizational-independence credit. The author will not merge.
+@@ -148,3 +158,11 @@ three exact identities of §4; mutants `shape-integral`,
+ (pins [R], [SC], [NUM], [CUB], [LP], [E], [Q] on `main` `3e0a91b`, all workflow-checked; [E] and [Q] were unmerged
+ companions in v1/v2 and were promoted to pins in v3 with their blobs unchanged),
+ `SOURCE_FILES.json`, workflow `c6-microscopic-tail-numerics.yml`.
++
++Revision v3.1 (Slice C review 5974193134 on Math-#178, findings F1–F8, wording only): [E]/[Q] values are stated as
++conditional although both are merged; the corollary bounds are attributed to Math-#176 comment 5903080058, not to the
++pinned [Q]; Math-#190 is recorded as merged at `77b854c` and its bounds as information only; precision `1.3e-14`;
++near point mass `1.380` (`C_* 2^(-11)` about `1.9%` of it); the two `C_0` conventions in `RESULTS.json` named;
++continuum spectral moments stated. With the Slice A review 5974218952 (F1–F3): the planar regression is stated as the
++continuum covariance, valid at `L >= 12` by the Math-#168 lattice control; the trivial `O(1)` average is named; `J`
++is cited at [E] (E5). `RESULTS.json` and `tail_constants.py` unchanged.
+diff --git a/frontiers/c6_microscopic_tail_numerics_20260930/README.md b/frontiers/c6_microscopic_tail_numerics_20260930/README.md
+index 778b3d9..0c93b92 100644
+--- a/frontiers/c6_microscopic_tail_numerics_20260930/README.md
++++ b/frontiers/c6_microscopic_tail_numerics_20260930/README.md
+@@ -5,8 +5,8 @@
+ 
+ Evaluates, for the parent kernel `exp(-|z|^2/2)` in the plane, the point-intensity tail constant `C_*` of the
+ already-formed microscopic measure ([R] (R13); `F(t) ~ C_* t^-11`), the whole-cluster split of that tail
+-(Math-#169, merged), the second-order coefficient `C_2/C_0`, the TV coefficient `kappa |C_2/C_0|` and
+-the signed constant `B_sign` (Math-#176, merged), for `k in {1/2, 1, 2}` and `b in {0, 1}`. In `d = 2`
++(Math-#169, merged; values conditional on it), the second-order coefficient `C_2/C_0`, the TV coefficient `kappa |C_2/C_0|` and
++the signed constant `B_sign` (Math-#176, merged; values conditional on it), for `k in {1/2, 1, 2}` and `b in {0, 1}`. In `d = 2`
+ the [SC] measure reduces to the exact contact regression of Math-#168, so every constant is a one-dimensional
+ Gaussian integral; the four-dimensional near-mass identity `alpha_1 + 2 alpha_2 = K_0 int Q |Z|^-12 p_odd` is
+ evaluated as a control against the merged Math-#168 values.
+diff --git a/frontiers/c6_microscopic_tail_numerics_20260930/SOURCE_FILES.json b/frontiers/c6_microscopic_tail_numerics_20260930/SOURCE_FILES.json
+index 318b9c2..d9d6cc3 100644
+--- a/frontiers/c6_microscopic_tail_numerics_20260930/SOURCE_FILES.json
++++ b/frontiers/c6_microscopic_tail_numerics_20260930/SOURCE_FILES.json
+@@ -7,15 +7,15 @@
+   "files": [
+     {
+       "path": "NOTE.md",
+-      "bytes": 11407,
+-      "sha256": "a4fe73bdfb01e6a1aa5ac3b4e0ec262166fc71af92c370c3a3fab357fc1d895a",
+-      "git_blob": "c88499658d1b648a12c3c097bd15097f5fd24ecd"
++      "bytes": 13426,
++      "sha256": "167704707c2c051e937fd26de208cc7d43805576b70b23239166415a1ddfa89f",
++      "git_blob": "6251676461fc83e2357d3afac1ed4f9036954c97"
+     },
+     {
+       "path": "README.md",
+-      "bytes": 1798,
+-      "sha256": "9ec9d3e1fe691724826b1934215cd6c09e7b47355ade8e2fd74151a7595f670f",
+-      "git_blob": "778b3d9f522088ed985912c94ac99a3f798ff51f"
++      "bytes": 1850,
++      "sha256": "6d1fa8448520802211b12831e1f7624ca3e2226b5a744d384c6e4d5ceebc99d3",
++      "git_blob": "0c93b920b560a100ac82d8ee05d4240ade227203"
+     },
+     {
+       "path": "RESULTS.json",
+@@ -25,9 +25,9 @@
+     },
+     {
+       "path": "SOURCE_MAP.json",
+-      "bytes": 6256,
+-      "sha256": "71bf9f8afc4da60ba6a1a22a79f16e8c6a17ebd52e9b843fd9c84d6fcbd78844",
+-      "git_blob": "b5cfbea9e17b80af5877b82be066f7dfb93e7c20"
++      "bytes": 6636,
++      "sha256": "f5f67c2750aee3fe5d9196eddf1a0c27a5cbafa14cb5327231cd09fe08f5b3ea",
++      "git_blob": "9425707dc8be3e9f0744efa3b4dd6d924bfd8ac2"
+     },
+     {
+       "path": "tail_constants.py",
+diff --git a/frontiers/c6_microscopic_tail_numerics_20260930/SOURCE_MAP.json b/frontiers/c6_microscopic_tail_numerics_20260930/SOURCE_MAP.json
+index b5cfbea..9425707 100644
+--- a/frontiers/c6_microscopic_tail_numerics_20260930/SOURCE_MAP.json
++++ b/frontiers/c6_microscopic_tail_numerics_20260930/SOURCE_MAP.json
+@@ -4,7 +4,7 @@
+   "scientific_effect": "NONE",
+   "source_repository": "d6g8k5htny-coder/Math-",
+   "main_at_creation": "02772ec0427f4dda1f2a6b9e980a031804e276a6",
+-  "note": "Numerical evaluation only, planar (d = 2). The formulas evaluated are [R] (R13) for the point-intensity tail constant C_*, with the [SC] measure (17) reduced at d = 2 (c_1 = 1, no hard directions) to the exact contact regression of the merged Math-#168 note; the whole-cluster split and the second-order/signed coefficients are the formulas of the companions Math-#169 (E5-E6) and Math-#176 ((13), (16), (19), (21)-(22)), both merged on main and pinned here since v3. The near-mass identity check ties (R11) to the merged alpha_1, alpha_2 values. Floating-point quadrature with reported convergence, not enclosures. v3 also checks the exact cusp-integral identities T2 = -T1/12 and Tb sqrt(192 pi^3) = (12 k^2 + 1)/(36 k^3) and the rational factor 66451/11128 of c = C2/C_* stated in Math-#190 (certified enclosure of this table, not consumed, not merged).",
++  "note": "Numerical evaluation only, planar (d = 2). The formulas evaluated are [R] (R13) for the point-intensity tail constant C_*, with the [SC] measure (17) reduced at d = 2 (c_1 = 1, no hard directions) to the exact contact regression of the merged Math-#168 note; the whole-cluster split and the second-order/signed coefficients are the formulas of the companions Math-#169 (E5-E6) and Math-#176 ((13), (16), (19), (21)-(22)), both merged on main and pinned here since v3; their pinned bytes keep the disposition 'author-side conditional proof candidate', so those values are conditional on [E] and [Q] and their sources (v3.1, review 5974193134). The near-mass identity check ties (R11) to the merged alpha_1, alpha_2 values. Floating-point quadrature with reported convergence, not enclosures. v3 also checks the exact cusp-integral identities T2 = -T1/12 and Tb sqrt(192 pi^3) = (12 k^2 + 1)/(36 k^3) and the rational factor 66451/11128 of c = C2/C_* stated in Math-#190 (certified enclosure of this table; merged 2026-10-01 at 77b854c as a review record filed as certified-arithmetic information, not a promotion; not consumed).",
+   "sources": [
+     {
+       "path": "frontiers/two_scale_cluster_geometry_20260929/RADIAL_TAIL.md",
+@@ -90,9 +90,11 @@
+   "related_records": [
+     {
+       "pull_request": "Math-#190",
+-      "head": "65ac384e1b1cba434ee25db6a2c40cc7d0cbd907",
++      "head": "28747d8e3447b3c0e92833ef45ac6c374e4a84b0",
+       "path": "reviews/c6_tail_constant_certified_20260930/",
+-      "role": "certified interval enclosures of the same constants (author lane Anthropic / Claude, other session); reports every value of this RESULTS.json (blob 0b5ce76f) within 9e-16 relative of its enclosure; states the exact identities checked here; not consumed, not a review of this note"
++      "role": "certified interval enclosures of the same constants (author lane Anthropic / Claude, other session); reports every value of this RESULTS.json (blob 0b5ce76f) within 9e-16 relative of its enclosure; states the exact identities checked here; not consumed, not a review of this note",
++      "merge_commit": "77b854cac6017ecdc0ea7abf6f978f9c6c9cb787",
++      "merged_at": "2026-10-01T14:10:35Z"
+     }
+   ]
+ }

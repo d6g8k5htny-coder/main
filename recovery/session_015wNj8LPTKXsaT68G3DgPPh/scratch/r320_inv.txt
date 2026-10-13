@@ -1,0 +1,127 @@
+inventory failures vs #307 manifest: []
+listed 62 contracts 62 mutants 48 invalid 14
+OK A3/author_controls.py --mutant Z2 exit=1 reason='Z2-gain'
+    OUT:  "Z3": 6800, "Z4": 1200}, "failures": ["('Z2-gain', 0)", "('Z2-gain', 1)", "('Z2-gain', 2)", "('Z2-gain', 3)", "('Z2-gain', 4)", "('Z2-gain', 5)", "('Z2-gain', 6)", "('Z2-gain', 8)"], "mutant": "Z2", "object": "A3 d>=3 hard-fibre reduction (author-side exact controls)", "scientific_effect": "NONE"}\n || 
+OK A3/author_controls.py --mutant Z3 exit=1 reason='Z3-drop'
+    OUT: ": 6246, "Z4": 1200}, "failures": ["('Z3-drop', 0)", "('Z3-drop', 3)", "('Z3-drop', 6)", "('Z3-drop', 9)", "('Z3-drop', 12)", "('Z3-drop', 15)", "('Z3-drop', 18)", "('Z3-drop', 21)"], "mutant": "Z3", "object": "A3 d>=3 hard-fibre reduction (author-side exact controls)", "scientific_effect": "NONE"}\n || 
+OK A3/author_controls.py --mutant Z4 exit=1 reason='Z4'
+    OUT: alse, "counts": {"Z1": 2400, "Z2": 3600, "Z3": 6800, "Z4": 1200}, "failures": ["('Z4', 0)", "('Z4', 1)", "('Z4', 2)", "('Z4', 3)", "('Z4', 4)", "('Z4', 5)", "('Z4', 6)", "('Z4', 8)"], "mutant": "Z4", "object": "A3 d>=3 hard-fibre reduction (author-side exact controls)", "scientific_effect": "NONE"}\n || 
+OK A3/author_controls.py --bogus exit=2 reason='{"error": "unknown arguments"}'
+    OUT: {"error": "unknown arguments"}\n || 
+OK A3_1/author_controls.py --mutant N1 exit=1 reason='N1'
+    OUT: 'S', 15, (0, 0, 2), (0, 2, 2))", "('N1', 'S', 20, (0, 0, 2), (0, 1, 2))", "('N1', 'S', 25, (0, 0, 2), (0, 2, 2))", "('N1', 'S', 30, (0, 0, 2), (0, 1, 2))", "('N1', 'S', 35, (0, 0, 2), (0, 2, 2))"], "mutant": "N1", "object": "QS addendum A3.1 author-side exact controls", "scientific_effect": "NONE"}\n || 
+OK A3_1/author_controls.py --mutant F1 exit=1 reason='F1-linear'
+    OUT: , 0), 1)", "('F1-linear', 2, (0, 0), 1)", "('F1-linear', 3, (0, 0), 1)", "('F1-linear', 4, (0, 0), 1)", "('F1-linear', 5, (0, 0), 1)", "('F1-linear', 6, (0, 0), 1)", "('F1-linear', 7, (0, 0), 1)"], "mutant": "F1", "object": "QS addendum A3.1 author-side exact controls", "scientific_effect": "NONE"}\n || 
+OK A3_1/author_controls.py --mutant R1 exit=1 reason='R1'
+    OUT: : 1600}, "failures": ["('R1', 4, '-5/2')", "('R1', 12, '-5/2')", "('R1', 19, '-5/2')", "('R1', 22, '-5/2')", "('R1', 25, '-5/2')", "('R1', 31, '-5/2')", "('R1', 52, '-5/2')", "('R1', 54, '-5/2')"], "mutant": "R1", "object": "QS addendum A3.1 author-side exact controls", "scientific_effect": "NONE"}\n || 
+OK A3_1/author_controls.py --mutant C1 exit=1 reason='C1'
+    OUT: : false, "counts": {"C1": 800, "F1": 6001, "H1": 1671, "N1": 1200, "R1": 1600}, "failures": ["('C1', 0)", "('C1', 1)", "('C1', 2)", "('C1', 3)", "('C1', 4)", "('C1', 5)", "('C1', 6)", "('C1', 7)"], "mutant": "C1", "object": "QS addendum A3.1 author-side exact controls", "scientific_effect": "NONE"}\n || 
+OK A3_1/author_controls.py --mutant H1 exit=1 reason='H1; H1-global'
+    OUT: "('H1', 2, 0, 26, 40, 45)", "('H1', 2, 0, 31, 35, 37)", "('H1', 2, 0, 38, 49, 35)", "('H1', 2, 0, 42, 37, None)", "('H1', 2, 0, 52, 62, 49)", "('H1-global', 2, 0, 54)", "('H1', 2, 0, 66, 33, 50)"], "mutant": "H1", "object": "QS addendum A3.1 author-side exact controls", "scientific_effect": "NONE"}\n || 
+OK A3_1/author_controls.py --bogus exit=2 reason='{"error": "unknown arguments"}'
+    OUT: {"error": "unknown arguments"}\n || 
+OK A3_2/author_controls.py --mutant W1 exit=1 reason='W1-det'
+    OUT: 96, "W4-hard": 599, "W4-reduced": 1198}, "failures": ["('W1-det', (3, 0))", "('W1-det', (4, 1))", "('W1-det', (3, 2))", "('W1-det', (4, 3))", "('W1-det', (3, 4))", "('W1-det', (4, 5))"], "mutant": "W1", "object": "QS addendum A3.2 author-side exact controls (Lemma WF)", "scientific_effect": "NONE"}\n || 
+OK A3_2/author_controls.py --mutant W3 exit=1 reason='W3-psi-c'
+    OUT: 96, "W4-hard": 599, "W4-reduced": 1198}, "failures": ["('W3-psi-c', None)", "('W3-psi-c', None)", "('W3-psi-c', None)", "('W3-psi-c', None)", "('W3-psi-c', None)", "('W3-psi-c', None)"], "mutant": "W3", "object": "QS addendum A3.2 author-side exact controls (Lemma WF)", "scientific_effect": "NONE"}\n || 
+OK A3_2/author_controls.py --mutant W4 exit=1 reason='W4-hard'
+    OUT: ard": 599, "W4-reduced": 1198}, "failures": ["('W4-hard', (0, 1))", "('W4-hard', (6, 1))", "('W4-hard', (8, 1))", "('W4-hard', (10, 1))", "('W4-hard', (12, 1))", "('W4-hard', (14, 1))"], "mutant": "W4", "object": "QS addendum A3.2 author-side exact controls (Lemma WF)", "scientific_effect": "NONE"}\n || 
+OK A3_2/author_controls.py --mutant W4r exit=1 reason='W4-extreme'
+    OUT: : 599, "W4-reduced": 1198}, "failures": ["('W4-extreme', None)", "('W4-extreme', None)", "('W4-extreme', None)", "('W4-extreme', None)", "('W4-extreme', None)", "('W4-extreme', None)"], "mutant": "W4r", "object": "QS addendum A3.2 author-side exact controls (Lemma WF)", "scientific_effect": "NONE"}\n || 
+OK A3_2/author_controls.py --bogus exit=2 reason='{"error": "unknown arguments"}'
+    OUT: {"error": "unknown arguments"}\n || 
+OK A3_3/author_controls.py --mutant M1 exit=1 reason='K1 BD(a) violated on the explicit instance (ratio 13225/6664)'
+    OUT:  || {"failed": "K1 BD(a) violated on the explicit instance (ratio 13225/6664)"}\n
+OK A3_3/author_controls.py --mutant M2 exit=1 reason='K2 BD(b) violated: n1=1 j=2 lhs=1 |c|=1'
+    OUT:  || {"failed": "K2 BD(b) violated: n1=1 j=2 lhs=1 |c|=1"}\n
+OK A3_3/author_controls.py --mutant M3 exit=1 reason='K4 s^1 part is not the mixed block at entry (0,2)'
+    OUT:  || {"failed": "K4 s^1 part is not the mixed block at entry (0,2)"}\n
+OK A3_3/author_controls.py --mutant M4 exit=1 reason='K5 W3 bound violated: r=1/100 lam2=1 ratio=1380122500/60162641'
+    OUT:  || {"failed": "K5 W3 bound violated: r=1/100 lam2=1 ratio=1380122500/60162641"}\n
+OK A3_3/author_controls.py --mutant M5 exit=1 reason='K3 index additivity fails: (2,1) j=1'
+    OUT:  || {"failed": "K3 index additivity fails: (2,1) j=1"}\n
+OK A3_3/author_controls.py --bogus exit=2 reason='usage: a33_exact.py [--mutant M1|M2|M3|M4|M5]'
+    OUT:  || usage: a33_exact.py [--mutant M1|M2|M3|M4|M5]\n
+OK A3_3/addendum_control_k5o.py author_controls.py --mutant W1 exit=1 reason='O2: W_r/r^4; O2: pin Hessians'
+    OUT:  false}, "grid_cases": 576, "ordered": 297, "ordered_lam2_le_0": 0, "unordered_lam2_gt_0": 63, "unordered_lam2_le_0": 216}, "O2": {"Nf": "25", "cases": 24, "max_ratio_C0_form": "0", "min_W_over_r4": "0"}, "object": "A3.3 control addendum for A33-S2-C1", "passed": false, "scientific_effect": "NONE"}\n || FAILED:\nO2: pin Hessians\nO2: W_r/r^4\nO2: pin Hessians\nO2: W_r/r^4\nO2: pin Hessians\nO2: W_r/r^4\nO2: pin Hessians\nO2: W_r/r^4\nO2: pin Hessians\nO2: W_r/r^4\nO2: pin Hessians\nO2: W_r/r^4\nO2: pin Hessians\nO2
+OK A3_3/addendum_control_k5o.py author_controls.py --mutant W2 exit=1 reason='O2: W_r/r^4; O2: not ordered with lambda2 < 0; O2: pin Hessians'
+    OUT:  false}, "grid_cases": 576, "ordered": 297, "ordered_lam2_le_0": 0, "unordered_lam2_gt_0": 63, "unordered_lam2_le_0": 216}, "O2": {"Nf": "25", "cases": 24, "max_ratio_C0_form": "0", "min_W_over_r4": "0"}, "object": "A3.3 control addendum for A33-S2-C1", "passed": false, "scientific_effect": "NONE"}\n || r^4\nO2: not ordered with lambda2 < 0 (r=1/100 k=1)\nO2: pin Hessians\nO2: W_r/r^4\nO2: not ordered with lambda2 < 0 (r=1/100 k=3/2)\nO2: pin Hessians\nO2: W_r/r^4\nO2: not ordered with lambda2 < 0 (r=1/100 k=3/2)\n
+OK A3_3/addendum_control_k5o.py author_controls.py --mutant W3 exit=2 reason='usage: a33_k5o.py PATH/a33_exact.py [--mutant W1|W2]'
+    OUT:  || usage: a33_k5o.py PATH/a33_exact.py [--mutant W1|W2]\n
+OK A3_3/addendum_control_k5o.py  exit=2 reason='usage: a33_k5o.py PATH/a33_exact.py [--mutant W1|W2]'
+    OUT:  || usage: a33_k5o.py PATH/a33_exact.py [--mutant W1|W2]\n
+OK A3_4/author_controls.py --mutant N1 exit=1 reason='S1 spectral Jacobian fails: mu1=0 mu2=14/11 tau=-2/13'
+    OUT:  || {"failed": "S1 spectral Jacobian fails: mu1=0 mu2=14/11 tau=-2/13"}\n
+OK A3_4/author_controls.py --mutant N2 exit=1 reason='S2 the monomial matrix at the lattice points is singular'
+    OUT:  || {"failed": "S2 the monomial matrix at the lattice points is singular"}\n
+OK A3_4/author_controls.py --mutant N3 exit=1 reason='S3 eigenframe jet formulas fail'
+    OUT:  || {"failed": "S3 eigenframe jet formulas fail"}\n
+OK A3_4/author_controls.py --mutant N4 exit=1 reason='S4 a_M + a_S != 12 lt'
+    OUT:  || {"failed": "S4 a_M + a_S != 12 lt"}\n
+OK A3_4/author_controls.py --mutant N5 exit=1 reason='S5 the strip integral is not of order delta^2: Lam=1/2 delta=1/2 ratio=397/144'
+    OUT:  || {"failed": "S5 the strip integral is not of order delta^2: Lam=1/2 delta=1/2 ratio=397/144"}\n
+OK A3_4/author_controls.py --mutant N6 exit=1 reason='S2 the 20 contact functionals are not the distinct multi-indices of order <= 3'
+    OUT:  || {"failed": "S2 the 20 contact functionals are not the distinct multi-indices of order <= 3"}\n
+OK A3_4/author_controls.py --bogus exit=2 reason='usage: a34_exact.py [--mutant N1|N2|N3|N4|N5|N6]'
+    OUT:  || usage: a34_exact.py [--mutant N1|N2|N3|N4|N5|N6]\n
+OK A3_4/author_controls.py --mutant N7 exit=2 reason='usage: a34_exact.py [--mutant N1|N2|N3|N4|N5|N6]'
+    OUT:  || usage: a34_exact.py [--mutant N1|N2|N3|N4|N5|N6]\n
+OK A3_4/author_controls.py --mutant exit=2 reason='usage: a34_exact.py [--mutant N1|N2|N3|N4|N5|N6]'
+    OUT:  || usage: a34_exact.py [--mutant N1|N2|N3|N4|N5|N6]\n
+OK A3_5/author_controls.py --mutant M1 exit=1 reason='F2_FW2'
+    OUT: 463781", "F2_FW0_j0": "224500/243243", "F2_FW0_j1": "498925/521203", "F2_FW0_j2": "57600/59059", "F2_FW1": "920931/935618", "F2_FW2": "3000/1001", "F2_FW3": "639437/700617", "F2_FW4": "512000/551551", "F3_D2a2": "218700/321733", "F3_Da2": "153090/321733", "F3_a2": "273485/763036"}, "passed": false}\n || FAILED:\nF2_FW2: ratio 1.0294585676520152\nF2_FW2: ratio 2.9702970297029703\nF2_FW2: ratio 2.9702970297029703\nF2_FW2: ratio 2.9702970297029703\nF2_FW2: ratio 2.997002997002997\nF2_FW2: ratio 2.997002997002997\nF2_F
+OK A3_5/author_controls.py --mutant M2 exit=1 reason='F2_FW1'
+    OUT: 63781", "F2_FW0_j0": "224500/243243", "F2_FW0_j1": "498925/521203", "F2_FW0_j2": "57600/59059", "F2_FW1": "9810138/996659", "F2_FW2": "1000/1001", "F2_FW3": "639437/700617", "F2_FW4": "512000/551551", "F3_D2a2": "218700/321733", "F3_Da2": "153090/321733", "F3_a2": "273485/763036"}, "passed": false}\n || 23079322858\nF2_FW1: ratio 9.424823079322858\nF2_FW1: ratio 9.755313430886467\nF2_FW1: ratio 9.755313430886467\nF2_FW1: ratio 8.917008917008918\nF2_FW1: ratio 8.917008917008918\nF2_FW1: ratio 9.509561748367718\nF2_F
+OK A3_5/author_controls.py --mutant M3 exit=1 reason='D1_prop_D3'
+    OUT: 463781", "F2_FW0_j0": "224500/243243", "F2_FW0_j1": "498925/521203", "F2_FW0_j2": "57600/59059", "F2_FW1": "920931/935618", "F2_FW2": "1000/1001", "F2_FW3": "639437/700617", "F2_FW4": "512000/551551", "F3_D2a2": "218700/321733", "F3_Da2": "153090/321733", "F3_a2": "273485/763036"}, "passed": false}\n || 3: km=3/2 kp=3/2 k=3/2 s=1 w=1 N=6\nD1_prop_D3: km=1 kp=3/2 k=11/8 s=1 w=1 N=11/2\nD1_prop_D3: km=3/2 kp=3/2 k=3/2 s=1 w=1 N=9\nD1_prop_D3: km=1/4 kp=1/2 k=3/8 s=1 w=1 N=6\nD1_prop_D3: km=1/4 kp=1/2 k=1/4 s=1 w=1 N=
+OK A3_5/author_controls.py --mutant M4 exit=1 reason='T1_frobenius'
+    OUT: 463781", "F2_FW0_j0": "224500/243243", "F2_FW0_j1": "498925/521203", "F2_FW0_j2": "57600/59059", "F2_FW1": "920931/935618", "F2_FW2": "1000/1001", "F2_FW3": "639437/700617", "F2_FW4": "512000/551551", "F3_D2a2": "218700/321733", "F3_Da2": "153090/321733", "F3_a2": "273485/763036"}, "passed": false}\n || : frobenius\nT1_frobenius: frobenius\nT1_frobenius: frobenius\nT1_frobenius: frobenius\nT1_frobenius: frobenius\nT1_frobenius: frobenius\nT1_frobenius: frobenius\nT1_frobenius: frobenius\nT1_frobenius: frobenius\nT1
+OK A3_5/author_controls.py --mutant M5 exit=1 reason='G1a_inner_bound'
+    OUT: 463781", "F2_FW0_j0": "224500/243243", "F2_FW0_j1": "498925/521203", "F2_FW0_j2": "57600/59059", "F2_FW1": "920931/935618", "F2_FW2": "1000/1001", "F2_FW3": "639437/700617", "F2_FW4": "512000/551551", "F3_D2a2": "218700/321733", "F3_Da2": "153090/321733", "F3_a2": "273485/763036"}, "passed": false}\n || \nG1a_inner_bound: inner\nG1a_inner_bound: inner\nG1a_inner_bound: inner\nG1a_inner_bound: inner\nG1a_inner_bound: inner\nG1a_inner_bound: inner\nG1a_inner_bound: inner\nG1a_inner_bound: inner\nG1a_inner_bound: inne
+OK A3_5/author_controls.py --mutant M6 exit=1 reason='G2_exponents'
+    OUT: 463781", "F2_FW0_j0": "224500/243243", "F2_FW0_j1": "498925/521203", "F2_FW0_j2": "57600/59059", "F2_FW1": "920931/935618", "F2_FW2": "1000/1001", "F2_FW3": "639437/700617", "F2_FW4": "512000/551551", "F3_D2a2": "218700/321733", "F3_Da2": "153090/321733", "F3_a2": "273485/763036"}, "passed": false}\n || ents: beta=13/64\nG2_exponents: beta=53/256\nG2_exponents: beta=27/128\nG2_exponents: beta=55/256\nG2_exponents: beta=7/32\nG2_exponents: beta=57/256\nG2_exponents: beta=29/128\nG2_exponents: beta=59/256\nG2_exponen
+OK A3_5/author_controls.py --mutant M7 exit=1 reason='D1_prop_D3'
+    OUT: 463781", "F2_FW0_j0": "224500/243243", "F2_FW0_j1": "498925/521203", "F2_FW0_j2": "57600/59059", "F2_FW1": "920931/935618", "F2_FW2": "1000/1001", "F2_FW3": "639437/700617", "F2_FW4": "512000/551551", "F3_D2a2": "218700/321733", "F3_Da2": "153090/321733", "F3_a2": "273485/763036"}, "passed": false}\n ||  k=3/2 s=1/2 w=2 N=5\nD1_prop_D3: km=3/2 kp=3 k=9/4 s=1/37 w=29 N=11\nD1_prop_D3: km=1/4 kp=1/4 k=1/4 s=1 w=1 N=13\nD1_prop_D3: km=1 kp=3/2 k=11/8 s=1/36 w=22 N=9\nD1_prop_D3: km=3/2 kp=3/2 k=3/2 s=1/47 w=7 N=10\nD1
+OK A3_5/author_controls.py --mutant M8 exit=1 reason='F2_FW1'
+    OUT: 463781", "F2_FW0_j0": "224500/243243", "F2_FW0_j1": "498925/521203", "F2_FW0_j2": "57600/59059", "F2_FW1": "920931/467809", "F2_FW2": "1000/1001", "F2_FW3": "639437/700617", "F2_FW4": "512000/551551", "F3_D2a2": "218700/321733", "F3_Da2": "153090/321733", "F3_a2": "273485/763036"}, "passed": false}\n || 14\nF2_FW1: ratio 1.8849646158645714\nF2_FW1: ratio 1.9510626861772935\nF2_FW1: ratio 1.9510626861772935\nF2_FW1: ratio 1.7834017834017835\nF2_FW1: ratio 1.7834017834017835\nF2_FW1: ratio 1.9019123496735437\nF2_FW1:
+OK A3_5/author_controls.py --mutant M9 exit=1 reason='F2_FW2'
+    OUT: 463781", "F2_FW0_j0": "224500/243243", "F2_FW0_j1": "498925/521203", "F2_FW0_j2": "57600/59059", "F2_FW1": "920931/935618", "F2_FW2": "2000/1001", "F2_FW3": "639437/700617", "F2_FW4": "512000/551551", "F3_D2a2": "218700/321733", "F3_Da2": "153090/321733", "F3_a2": "273485/763036"}, "passed": false}\n || FAILED:\nF2_FW2: ratio 1.9801980198019802\nF2_FW2: ratio 1.9801980198019802\nF2_FW2: ratio 1.9801980198019802\nF2_FW2: ratio 1.998001998001998\nF2_FW2: ratio 1.998001998001998\nF2_FW2: ratio 1.998001998001998\n
+OK A3_5/author_controls.py --mutant M10 exit=1 reason='F2_FW4'
+    OUT: /463781", "F2_FW0_j0": "224500/243243", "F2_FW0_j1": "498925/521203", "F2_FW0_j2": "57600/59059", "F2_FW1": "920931/935618", "F2_FW2": "1000/1001", "F2_FW3": "639437/700617", "F2_FW4": "168500/81081", "F3_D2a2": "218700/321733", "F3_Da2": "153090/321733", "F3_a2": "273485/763036"}, "passed": false}\n || FAILED:\nF2_FW4: ratio 2.059650409485393\nF2_FW4: ratio 1.8596642272922945\nF2_FW4: ratio 1.718409129048498\nF2_FW4: ratio 2.0781687448354114\nF2_FW4: ratio 1.8763844850801372\nF2_FW4: ratio 1.733859360978005\n
+OK A3_5/author_controls.py --bogus exit=2 reason='usage: a35_exact.py [--mutant M1|...|M10]'
+    OUT:  || usage: a35_exact.py [--mutant M1|...|M10]\n
+OK A3_5/author_controls.py --mutant M11 exit=2 reason='usage: a35_exact.py [--mutant M1|...|M10]'
+    OUT:  || usage: a35_exact.py [--mutant M1|...|M10]\n
+OK A3_6/author_controls.py --mutant M1 exit=1 reason='FAILED: X1_chart, X12_witness, X16_endpoint_chain'
+    OUT:  || FAILED: X1_chart, X12_witness, X16_endpoint_chain\nmutant M1: J with 576k C3 in place of 576k^2 C3 (chart identity)\n
+OK A3_6/author_controls.py --mutant M2 exit=1 reason='FAILED: X2_jacobian'
+    OUT:  || FAILED: X2_jacobian\nmutant M2: Jacobian gamma^6/96 in place of gamma^6/384\n
+OK A3_6/author_controls.py --mutant M3 exit=1 reason='FAILED: X5_elder_floor'
+    OUT:  || FAILED: X5_elder_floor\nmutant M3: c_* = 3/(250 Lambda^2): A_* replaced by Lambda\n
+OK A3_6/author_controls.py --mutant M4 exit=1 reason='FAILED: X7_radius'
+    OUT:  || FAILED: X7_radius\nmutant M4: radius constant 25/24 in place of 25/96\n
+OK A3_6/author_controls.py --mutant M5 exit=1 reason='FAILED: X9_hardgap'
+    OUT:  || FAILED: X9_hardgap\nmutant M5: hard-gap integral (1/4) y delta^4 in place of (5/4) y delta^4\n
+OK A3_6/author_controls.py --mutant M6 exit=1 reason='FAILED: X8_levelband'
+    OUT:  || FAILED: X8_levelband\nmutant M6: C82 exact value J_delta(0,R) = delta R^2/12 in place of /24\n
+OK A3_6/author_controls.py --mutant M7 exit=1 reason='FAILED: X11_ledgers'
+    OUT:  || FAILED: X11_ledgers\nmutant M7: elder ledger with w = r^(-1/8)\n
+OK A3_6/author_controls.py --mutant M8 exit=1 reason='FAILED: X13_chord'
+    OUT:  || FAILED: X13_chord\nmutant M8: chord height h/2 in place of h\n
+OK A3_6/author_controls.py --mutant M9 exit=1 reason='FAILED: X6_endpoint_floor'
+    OUT:  || FAILED: X6_endpoint_floor\nmutant M9: C_tau with (8 + 288k) in place of (8 + 288k + 1152k^2)\n
+OK A3_6/author_controls.py --mutant M10 exit=1 reason='FAILED: X14_coverage'
+    OUT:  || FAILED: X14_coverage\nmutant M10: neutral-surface constant 8 in place of 16\n
+OK A3_6/author_controls.py --mutant M11 exit=1 reason='FAILED: X15_G3minus'
+    OUT:  || FAILED: X15_G3minus\nmutant M11: G3-minus threshold beta > 1/6 in place of beta > 1/8\n
+OK A3_6/author_controls.py --mutant M12 exit=1 reason='FAILED: X17_inclusions'
+    OUT:  || FAILED: X17_inclusions\nmutant M12: eps_V = 2 K0 e/c_* in place of 4 K0 e/c_* (step 5 inclusion)\n
+OK A3_6/author_controls.py --mutant M13 exit=1 reason='FAILED: X13_chord'
+    OUT:  || FAILED: X13_chord\nmutant M13: far end of the chord bounded by u >= -3/2 in place of -5/2 (W_R)\n
+OK A3_6/author_controls.py --bogus exit=2 reason='usage: a36_exact.py [--mutant M1..M13]'
+    OUT:  || usage: a36_exact.py [--mutant M1..M13]\n
+OK A3_6/author_controls.py --mutant M14 exit=2 reason='usage: a36_exact.py [--mutant M1..M13]'
+    OUT:  || usage: a36_exact.py [--mutant M1..M13]\n
+OK A3_6/author_controls.py --mutant exit=2 reason='usage: a36_exact.py [--mutant M1..M13]'
+    OUT:  || usage: a36_exact.py [--mutant M1..M13]\n
+TOTAL MISMATCHES (both modes): 0

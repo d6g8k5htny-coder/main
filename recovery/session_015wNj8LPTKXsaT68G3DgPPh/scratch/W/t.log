@@ -1,0 +1,34 @@
+test_fts_limit_beta (test_closed_forms.ClosedFormTests.test_fts_limit_beta) ... ok
+test_fts_matches_series_on_moderate_r (test_closed_forms.ClosedFormTests.test_fts_matches_series_on_moderate_r) ... ok
+test_fts_positive_and_less_than_one (test_closed_forms.ClosedFormTests.test_fts_positive_and_less_than_one) ... ok
+test_fts_r6_coefficient_vanishes_numerically (test_closed_forms.ClosedFormTests.test_fts_r6_coefficient_vanishes_numerically) ... ok
+test_ftt_leading_coefficient (test_closed_forms.ClosedFormTests.test_ftt_leading_coefficient) ... ok
+test_ftt_matches_series_on_moderate_r (test_closed_forms.ClosedFormTests.test_ftt_matches_series_on_moderate_r) ... ok
+test_ftt_positive_and_less_than_unconditional (test_closed_forms.ClosedFormTests.test_ftt_positive_and_less_than_unconditional) ... ok
+test_ts_exact_series_coefficients (test_closed_forms.ClosedFormTests.test_ts_exact_series_coefficients) ... ok
+test_tt_denominator_order_and_leading_coefficient (test_closed_forms.ClosedFormTests.test_tt_denominator_order_and_leading_coefficient) ... ok
+test_tt_exact_series_coefficients (test_closed_forms.ClosedFormTests.test_tt_exact_series_coefficients) ... ok
+test_tt_exact_series_negative_control (test_closed_forms.ClosedFormTests.test_tt_exact_series_negative_control) ... ok
+test_tt_numerator_order_and_leading_coefficient (test_closed_forms.ClosedFormTests.test_tt_numerator_order_and_leading_coefficient) ... ok
+test_float_regression_at_one_radius (test_ftt_conditional_mean.ConditionalMeanFtt.test_float_regression_at_one_radius) ... ok
+test_mean_at_m_matches_ledger (test_ftt_conditional_mean.ConditionalMeanFtt.test_mean_at_m_matches_ledger) ... ok
+test_mean_at_s_matches_ledger (test_ftt_conditional_mean.ConditionalMeanFtt.test_mean_at_s_matches_ledger) ... ok
+test_second_moment_through_r5 (test_ftt_conditional_mean.ConditionalMeanFtt.test_second_moment_through_r5) ... ok
+test_variance_matches_identity_tt_and_agrees_at_s (test_ftt_conditional_mean.ConditionalMeanFtt.test_variance_matches_identity_tt_and_agrees_at_s) ... ok
+test_direct_schur_matches_closed_forms (test_schur_diagnostic.SchurDiagnosticTests.test_direct_schur_matches_closed_forms) ... ok
+test_eight_pin_far_endpoint_is_slaved (test_schur_diagnostic.SchurDiagnosticTests.test_eight_pin_far_endpoint_is_slaved) ... ok
+test_ftt_fluctuation_is_order_r_squared (test_schur_diagnostic.SchurDiagnosticTests.test_ftt_fluctuation_is_order_r_squared) ... ok
+test_full_run_passes (test_schur_diagnostic.SchurDiagnosticTests.test_full_run_passes) ... r=0.1: Var(f_tt(M))/r^4=0.1663336110  (E[f_tt(M)]+6kr)/r^2=-0.12964  8-pin: Var(f_ss(M))/(r^2 q^2)=1.50002  Var(f_ss(S))/r^2=1.97316  E[f_ss(S)]/r^2=-0.38870  Var(f_ts(S))/r^2=0.02083  6-pin: Var(f_ss(S))=2.00000 E[f_ss(S)]=-0.99880
+r=0.05: Var(f_tt(M))/r^4=0.1665833507  (E[f_tt(M)]+6kr)/r^2=-0.18990  8-pin: Var(f_ss(M))/(r^2 q^2)=1.50000  Var(f_ss(S))/r^2=1.98059  E[f_ss(S)]/r^2=-0.44968  Var(f_ts(S))/r^2=0.01963  6-pin: Var(f_ss(S))=2.00000 E[f_ss(S)]=-0.99985
+r=0.025: Var(f_tt(M))/r^4=0.1666458344  (E[f_tt(M)]+6kr)/r^2=-0.21997  8-pin: Var(f_ss(M))/(r^2 q^2)=1.50000  Var(f_ss(S))/r^2=1.98245  E[f_ss(S)]/r^2=-0.47992  Var(f_ts(S))/r^2=0.01933  6-pin: Var(f_ss(S))=2.00000 E[f_ss(S)]=-0.99998
+r=0.0125: Var(f_tt(M))/r^4=0.1666614584  (E[f_tt(M)]+6kr)/r^2=-0.23499  8-pin: Var(f_ss(M))/(r^2 q^2)=1.50000  Var(f_ss(S))/r^2=1.98292  E[f_ss(S)]/r^2=-0.49498  Var(f_ts(S))/r^2=0.01926  6-pin: Var(f_ss(S))=2.00000 E[f_ss(S)]=-1.00000
+SCHUR_DIAGNOSTIC_PASSED: direct 80-digit Schur matches Identities TS/TT; six-pin f_tt(M) fluctuation O_p(r^2) with mean correction O(b r^2); eight-pin f_ss(M)=O_p(r|q|), f_ss(S)=O_p(r), f_ts(S)=O_p(r). Finite diagnostic at b=1, k=6/5, q=1/5; not a uniform theorem.
+ok
+test_mutation_is_detected (test_schur_diagnostic.SchurDiagnosticTests.test_mutation_is_detected) ... FAIL: Var(f_tt(M)|6 pins) differs from Identity TT at r=0.1 (mutation detected, as required)
+ok
+test_unconditional_covariances (test_schur_diagnostic.SchurDiagnosticTests.test_unconditional_covariances) ... ok
+
+----------------------------------------------------------------------
+Ran 23 tests in 0.032s
+
+OK

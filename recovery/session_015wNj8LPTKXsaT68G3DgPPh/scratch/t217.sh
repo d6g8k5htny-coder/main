@@ -1,0 +1,4 @@
+cd /tmp/claude-0/-home-user/469e2708-1be1-5731-8b45-31b653d1d9d3/scratchpad/t217a && (time python3 -B -S certificate.py --check --procs 4) > /tmp/claude-0/-home-user/469e2708-1be1-5731-8b45-31b653d1d9d3/scratchpad/t217a.out 2>&1; echo "rc_a=$?" >> /tmp/claude-0/-home-user/469e2708-1be1-5731-8b45-31b653d1d9d3/scratchpad/t217a.out &
+cd /tmp/claude-0/-home-user/469e2708-1be1-5731-8b45-31b653d1d9d3/scratchpad/t217b && (time python3 -B -S certificate.py --check --procs 4) > /tmp/claude-0/-home-user/469e2708-1be1-5731-8b45-31b653d1d9d3/scratchpad/t217b.out 2>&1; echo "rc_b=$?" >> /tmp/claude-0/-home-user/469e2708-1be1-5731-8b45-31b653d1d9d3/scratchpad/t217b.out &
+wait
+tail -3 /tmp/claude-0/-home-user/469e2708-1be1-5731-8b45-31b653d1d9d3/scratchpad/t217a.out; tail -4 /tmp/claude-0/-home-user/469e2708-1be1-5731-8b45-31b653d1d9d3/scratchpad/t217b.out

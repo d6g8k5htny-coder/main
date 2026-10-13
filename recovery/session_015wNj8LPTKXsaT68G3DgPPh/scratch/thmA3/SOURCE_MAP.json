@@ -1,0 +1,85 @@
+{
+  "schema": 1,
+  "object": "CL-C8-THEOREM-A-CONSTANTS-D3-20261001-v1",
+  "scientific_effect": "NONE",
+  "certified": true,
+  "review_status": "AUTHOR_SIDE_THEOREM_WITH_CERTIFIED_CONSTANTS",
+  "source_repository": "d6g8k5htny-coder/Math-",
+  "main_at_creation": "3e0a91b69892b9717564c592e7a966492a81566a",
+  "note": "@@NOTE@@",
+  "sources": [
+    {
+      "path": "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+      "bytes": 40261,
+      "sha256": "9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7",
+      "git_blob": "dfed3b8d318a3ab1950957f393307733a4bef3f2",
+      "id": "LP",
+      "commit": "3e0a91b69892b9717564c592e7a966492a81566a",
+      "role": "section 1: the model in every dimension (torus kernel K_L, pins, Q, W_r with index(H_S) = d - 1, Z_r, Q^W) and Theorem A (1.1); section 3: the preconditioned pins (3.1) with m = d - 1 transverse rows and their values (3.3); section 7: the good event G_r and the cap bound (7.8); section 8: on G_r the global elder partner of M is S, so 1 - p_r <= Q^W(G_r^c) (used only for the consequence on 1 - p_r); section 16: a numerical r_*, C on a prescribed band is listed as not supplied",
+      "current_required": true,
+      "on_main": true
+    },
+    {
+      "path": "imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md",
+      "bytes": 15160,
+      "sha256": "0bf922b9203c29088b12388807aa0e2ecd020485eb0f6e919679841b5b2636fc",
+      "git_blob": "0633aca3c2a2882b0de4399da0a75d64c2e6b2e1",
+      "id": "CAP",
+      "commit": "3e0a91b69892b9717564c592e7a966492a81566a",
+      "role": "section 1: the cylinder D = [-2r, 2r] x ball(0, 2r), the partial-block operator norms M_3, M_4 (suprema over independently chosen transverse unit vectors) and condition (1) defining G_r; the deterministic cap theorem behind [LP] section 8 (consumed as a statement)",
+      "current_required": true,
+      "on_main": true
+    },
+    {
+      "path": "frontiers/c8_cap_failure_coefficient_dims_20261001/NOTE.md",
+      "bytes": 21719,
+      "sha256": "d6b4992c41b781101152e888bf601b5371e7d018b9a556563094acd700aeeec6",
+      "git_blob": "17e6866b8dd5b2d14845032b3aac3de68dec03b0",
+      "id": "G3",
+      "commit": "da483732664d128728950dcad6d4fdbe5181f7cd",
+      "pull_request": "Math-#208",
+      "role": "Theorem G_d, the d = 3 contact law (Lemma 1: B ~ b I + GOE_2, v ~ N(0, I/2), Omega' ~ GOE_2, Y with variances 6, 2, 2, 6) and m_(3,0) = (7 - 4 sqrt2)/2, reproduced independently here; the certified lower end c_G^(3)(0, 2) >= 22424320.655069 (its RESULTS.json, below) is used only for the --check sanity rule C3 > c_G^(3)(0, 2) and for the comparisons in NOTE section 0; not consumed by the proof",
+      "current_required": false,
+      "on_main": false
+    },
+    {
+      "path": "frontiers/c8_cap_failure_coefficient_dims_20261001/RESULTS.json",
+      "bytes": 6837,
+      "sha256": "1406d5138ac3d33bcb0358f6a3005a67e3a4a2dbfc2c43bc3ac2593667550608",
+      "git_blob": "e9fd6f377d1fd9dca9d09cc884d2bad2422e8b17",
+      "id": "G3-RESULTS",
+      "commit": "da483732664d128728950dcad6d4fdbe5181f7cd",
+      "pull_request": "Math-#208",
+      "role": "the certified enclosure c_G^(3)(0, 2) in [22424320.655069, 22424320.655072]; comparison and sanity check only",
+      "current_required": false,
+      "on_main": false
+    },
+    {
+      "path": "frontiers/c8_theorem_a_constants_planar_20260930/NOTE.md",
+      "bytes": 31497,
+      "sha256": "d943f39d0cce065397a3ecc0d698a42e4a97c6fe0d8d1491f91a5daa910dbe94",
+      "git_blob": "0b0f54e247d68c45e9560a362738f7ce614110e0",
+      "id": "E",
+      "commit": "0cb8ad3ca1fe1733e737570ab682f469b66d76e4",
+      "pull_request": "Math-#206",
+      "role": "the planar Theorem E: the proof structure (sections 1-9) followed here and the planar constants quoted for comparison; every step used is restated or generalized in this NOTE",
+      "current_required": false,
+      "on_main": false
+    }
+  ],
+  "catalog_reference": {
+    "path": "reviews/candidates_pending_20260928/CANDIDATES.md",
+    "entry": "C8. Numerical constants (still open as of 2026-09-29): explicit finite C, r_*, z_*, c_{B,K}, c_{d,L} on a declared compact-mark / torus band; disposition OPEN",
+    "effect_here": "none; this packet supplies certified cap-route pairs (C3, r_*) and z3 on (0, r_*] for d = 3 on the band b in [0, 1], k in [1/2, 2], L >= 10; no catalog edit; C8 stays OPEN pending nonauthor reads and its other entries"
+  },
+  "related_records": [
+    "Math-#206 (the planar Theorem E: explicit cap-route constants in d = 2)",
+    "Math-#208 (sharp cap coefficient c_G^(d); lower bound for every d = 3 cap-route constant)",
+    "Math-#203 (planar sharp cap coefficient c_G)",
+    "Math-#205 (c_{B,K} in d = 3)"
+  ],
+  "nonauthor_reads": [],
+  "nonauthor_acceptance": false,
+  "governing_status_changed": false,
+  "main_at_update": "3e0a91b69892b9717564c592e7a966492a81566a"
+}

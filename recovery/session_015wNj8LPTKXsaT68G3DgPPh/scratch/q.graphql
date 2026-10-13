@@ -1,0 +1,1 @@
+query($n:Int!){repository(owner:"d6g8k5htny-coder",name:"Math-"){pullRequest(number:$n){reviewThreads(first:50){nodes{id isResolved comments(first:1){nodes{databaseId body}}}}}}}

@@ -1,0 +1,13 @@
+{"check": "ok", "bands_replayed": 11, "C_table": {"1/1024": "2151134031/400", "1/128": "87390113247/250", "1/2048": "5362302951/1000", "1/256": "170358388957/5000", "1/4096": "13388287917/2500", "1/512": "54156592391/10000", "1/64": "14397396179923/10000"}, "mutant": null}
+rc=0 mode=-B -S
+{"check": "ok", "bands_replayed": 11, "C_table": {"1/1024": "2151134031/400", "1/128": "87390113247/250", "1/2048": "5362302951/1000", "1/256": "170358388957/5000", "1/4096": "13388287917/2500", "1/512": "54156592391/10000", "1/64": "14397396179923/10000"}, "mutant": null}
+rc=0 mode=-B -O -S
+{"check": "FAIL", "reason": "band 0 (['0', '1/536870912']) differs from RESULTS.json", "mutant": "no-delta"}
+rc=1 mutant=no-delta
+{"check": "FAIL", "reason": "band 0 (['0', '1/536870912']) differs from RESULTS.json", "mutant": "cap-half"}
+rc=1 mutant=cap-half
+{"check": "FAIL", "reason": "band 0 (['0', '1/536870912']) differs from RESULTS.json", "mutant": "no-zfloor-correction"}
+rc=1 mutant=no-zfloor-correction
+{"check": "FAIL", "reason": "band 0 (['0', '1/536870912']) differs from RESULTS.json", "mutant": "no-om-term"}
+rc=1 mutant=no-om-term
+done elapsed=93s

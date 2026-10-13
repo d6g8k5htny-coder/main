@@ -1,0 +1,17 @@
+import time
+from fractions import Fraction as Fr
+import lifecore as LC
+import tm as TMm
+def show(name, t, k=6):
+    print('  %-8s c=%s  e=%.3e' % (name, [('%.6g' % float(x)) for x in t.c[:k]], float(t.e)))
+for d, M, names in ((2, LC.E2, ['w']), (3, LC.E3, ['a11', 'a22', 'a12'])):
+    t = time.time()
+    law = TMm.tm_law(M, names, Fr(1, 64), N=8)
+    print('d=%d  time %.1fs' % (d, time.time() - t))
+    show('det', law.det); show('e_bb', law.e_bb); show('e_bk', law.e_bk); show('e_kk', law.e_kk)
+    for n in names:
+        show('alpha_' + n, law.alpha[n]); show('beta_' + n, law.beta[n])
+    for a in names:
+        for b in names:
+            if names.index(a) <= names.index(b):
+                show('C_%s%s' % (a, b), law.Cu[(a, b)])

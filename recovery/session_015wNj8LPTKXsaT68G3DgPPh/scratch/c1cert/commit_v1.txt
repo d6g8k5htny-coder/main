@@ -1,0 +1,37 @@
+Certify the cusp coefficient c1 of Theorem CU (Math-#207), Gaussian kernel, d = 1, 2, 3
+
+Adds frontiers/cusp_coefficient_certified_20261001
+(CL-CU-CUSP-COEFFICIENT-20261001-v1). The packet holds binary64 interval
+enclosures, with outward rounding and no trusted libm, of the explicit
+Gaussian integral (CU.2) that Math-#207 (head 826b8be) defines:
+
+  d = 1: c1 in [-0.22760635877558, -0.22760635877504] (closed form)
+  d = 2: c1 in [-0.269398825674, -0.269398825672],
+         c1/c_(2,ref) in [-3.66993776909, -3.66993776907]
+  d = 3: c1 in [-0.211848347, -0.211848346],
+         c1/c_(3,ref) in [-5.07106215, -5.07106213]
+
+Every floating value quoted in Math-#207 section 8 is the correct rounding
+of the certified midpoint. Two independent floating routes that do not use
+the Mellin identity land inside the certified intervals (3.5e-15 and
+3.8e-13 from the midpoints).
+
+Method:
+- Lemma R reduces (CU.2) to the zero-gap contact law and a Mellin form
+  (1D in d = 2, 3D in d = 3).
+- Lemma Q gives Gauss-Legendre error bounds on Bernstein ellipses, with
+  nodes certified in exact rationals.
+- Lemma A certifies analyticity by complex-box evaluation.
+- Lemma B composes the d = 3 tensor boxes and their tails.
+
+certificate.py --check replays everything against RESULTS.json in about
+4 minutes on four cores. Five seeded mutants must each be rejected. The
+workflow runs both under -B -S and under -B -O -S.
+
+Scientific effect: NONE. No STATUS, PROOF_INDEX, GRAPH, claim, catalog,
+prize or source-body change. Gaussian kernel only: the SIDE24 transfer is
+not bounded. This is not a review of Theorem CU. Same GitHub account as
+every lane; zero organizational-independence credit.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_015wNj8LPTKXsaT68G3DgPPh

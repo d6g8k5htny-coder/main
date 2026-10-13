@@ -1,0 +1,19 @@
+import D2MomentBridge
+#print axioms D2MomentBridge.moment
+#print axioms D2MomentBridge.cubicResidual
+#print axioms D2MomentBridge.residual_sq_expand
+#print axioms D2MomentBridge.residual_sq_integrable
+#print axioms D2MomentBridge.residual_integral_eq_delta
+#print axioms D2MomentBridge.delta_nonneg
+#print axioms D2MomentBridge.delta_eq_zero_iff_residual
+#print axioms D2MomentBridge.cubicResidual_eq_zero_iff
+#print axioms D2MomentBridge.delta_eq_zero_iff_support
+#print axioms D2MomentBridge.delta_pos_iff_not_support
+#print axioms D2MomentBridge.property_of_ae_of_atom
+#print axioms D2MomentBridge.moment_two_pos_of_atom
+#print axioms D2MomentBridge.delta_pos_of_two_atoms
+#print axioms D2MomentBridge.square_gap_integrable
+#print axioms D2MomentBridge.square_gap_integral
+#print axioms D2MomentBridge.fourth_gt_second_sq_of_two_atoms
+#print axioms D2MomentBridge.tau_pos_of_two_atoms
+#print axioms D2MomentBridge.zero_atom_counterexample

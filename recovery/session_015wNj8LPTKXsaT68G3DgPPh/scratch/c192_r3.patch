@@ -1,0 +1,296 @@
+diff --git a/frontiers/c6_remote_coefficient_d3_numerics_20260930/NOTE.md b/frontiers/c6_remote_coefficient_d3_numerics_20260930/NOTE.md
+index 41bb464..2131261 100644
+--- a/frontiers/c6_remote_coefficient_d3_numerics_20260930/NOTE.md
++++ b/frontiers/c6_remote_coefficient_d3_numerics_20260930/NOTE.md
+@@ -1,4 +1,4 @@
+-# Numerical values of the remote singleton coefficient k ∫_X Λ of ν(1) in dimension d = 3 (parent kernel; not certified)
++# Numerical values of the remote singleton coefficient k ∫_X Λ of ν(1) in dimension d = 3 (continuum kernel `exp(-|x|^2/2)`, not periodized; not certified)
+ 
+ Object `CL-C6-REMOTE-COEFF-D3-NUMERICS-20260930-v1`. Author: Anthropic Claude (Claude Code
+ `session_015wNj8LPTKXsaT68G3DgPPh`). **Numerical evaluation only** (exact quadrature for the far field and the
+@@ -16,7 +16,8 @@ with `U_0 = (f, f_x, f_xx, f_xxx, f_y, f_z, f_xy, f_xz)(0)`, `v_0 = (b, 0, 0, 12
+ ([RM] (11)), `Y_x = (grad f(x), f(x))`, `H_x = D^2 f(x)` and `F_j(H) = |det H| 1{index H = j}`, `j = 0, ..., 3`.
+ `Lambda = sum_j Lambda_j` is the density in [SC] (22), `beta_far = k integral_(X \ {0}) Lambda dx`, so that the
+ cluster-law coefficients are `nu_1 = a_1 + beta_far`, `nu_2 = a_2` ([SC] (20)–(22); [CL] (1.4)). Math-#174 evaluated
+-this in `d = 2`; this note does `d = 3` for the continuum kernel `K(x) = exp(-|x|^2/2)`.
++this in `d = 2`; this note evaluates the formula (13) in `d = 3` with the continuum covariance `K(x) = exp(-|x|^2/2)` in
++place of [RM]'s `K_L`; no [RM] theorem is asserted for it.
+ 
+ Exact structure used (all checked in `remote3.py --check`):
+ 
+@@ -24,7 +25,8 @@ Exact structure used (all checked in `remote3.py --check`):
+   `2` and off-diagonal variance `1` (exact rational regression; Math-#184 Lemma 1), so that
+   `z_0 = 36 k^2 m_(3,b)`, `m_(3,b) = E[(det A_0)^2 1{A_0 < 0}]`, `m_(3,0) = (7 - 4 sqrt2)/2` (Math-#184 Lemma 2,
+   companion, conditional; the finite-`r` normalizer `Z_r / r^2` was corroborated there by Monte Carlo).
+-- **Far field.** At separation `|x| -> infinity` the two sites decouple: `p_(Y_x | U_0)(0, b) -> phi(b) (2 pi)^(-3/2)`,
++- **Far field.** For the continuum kernel `K` only (on the torus `|x| <= sqrt3 L/2` and `K_L` does not decorrelate),
++  at separation `|x| -> infinity` the two sites decouple: `p_(Y_x | U_0)(0, b) -> phi(b) (2 pi)^(-3/2)`,
+   `E[w_0 F_j(H_x)] -> z_0 E[F_j(H_b)]` with `H_b = -b I_3 + G_3` (Hessian at a level-`b` critical point of the
+   unconditioned field), hence
+ 
+@@ -33,9 +35,13 @@ Exact structure used (all checked in `remote3.py --check`):
+   evaluated by the ordered-eigenvalue quadrature (Vandermonde density with `c_3` of [SC] (8)); at `b = 0` the split
+   is symmetric under `j <-> 3 - j`. Integrated over the level, `integral Lambda_inf_j(b) db` is the density of
+   index-`j` critical points of the unconditioned field, whose classical closed forms in this normalization (unit
+-  kernel: `sigma_0 = 1`, per-component `sigma_1 = 1`, `sigma_2^2 = 15`) are `(29 sqrt3 - 18 sqrt2)/(72 pi^2)` for
+-  maxima and for minima and `(29 sqrt3 + 18 sqrt2)/(72 pi^2)` for each saddle index (Bardeen–Bond–Kaiser–Szalay
+-  1986); the quadrature reproduces all four to `1e-12`, an exact control of the far-field machinery (the `d = 2`
++  kernel: `Var f = 1`; `Var f_i = 1` per component, i.e. BBKS `sigma_1^2 = E|grad f|^2 = 3`; `Var f_ii = 3`,
++  `Cov(f_ii, f_jj) = Var f_ij = 1`, i.e. BBKS `sigma_2^2 = E(Lap f)^2 = 15`; `R_* = sqrt3 sigma_1/sigma_2 = 3/sqrt15`) are `(29 sqrt3 - 18 sqrt2)/(72 pi^2)` for
++  maxima and for minima and `(29 sqrt3 + 18 sqrt2)/(72 pi^2)` for each saddle index (maxima/minima: Bardeen–Bond–Kaiser–Szalay
++  1986, `n_pk`; index 1 and 2: the same expression with the opposite sign, as in Azaïs–Delmas, arXiv:1911.02300,
++  Prop. 3.7, an attribution taken from the Slice A review 5403289484 and not checked here against the source; the
++  values themselves are checked numerically); the quadrature reproduces all four to `6e-11` (absolute; check
++  tolerance `1e-9`), an exact control of the far-field machinery (the `d = 2`
+   analogue in Math-#174 was the Longuet-Higgins total `2/(pi sqrt3)`).
+ - **Symmetry.** `Lambda` depends on `(x_1, r)`, `r = |x_perp|`, only (rotations about the pin axis leave `U_0`, `v_0`
+   and the kernel invariant); the spatial integrals are cylindrical midpoint rules with weight `2 pi r`.
+@@ -51,16 +57,23 @@ conditional Gaussian density. Then
+ 
+ the `A_0` integral is a nested Gauss–Legendre cone quadrature in `(a, c, e) = ((a_11 + a_22)/2, (a_11 - a_22)/2,
+ a_12)` (cone `a < 0`, `c^2 + e^2 < a^2`; `20 x 16 x 16` nodes; the integrand vanishes to second order on the cone
+-boundary, and against the exact `m_(3,b)` the rule is accurate to `1e-8`), and `E[F_j(H_x) | A_0]`, a six-dimensional
++boundary; against the exact `m_(3,b)` at the decoupled point the rule is accurate to `1e-8`; in the cells nearest the
++pin (`r = 0.2` at `h = 0.4`, `r = 0.15` at `h = 0.3`) the conditional `A_0` law is narrow and the rule is `1`–`3 %`
++off in the cone mass, which changes the hole by at most about `1e-4` at `h = 0.4`, as measured in the Slice B review
++5403404967), and `E[F_j(H_x) | A_0]`, a six-dimensional
+ Gaussian expectation of `|det H| 1{index}`, is Monte Carlo: `H_x | A_0` is Gaussian with mean affine in `A_0`, the
+ budget of `4 x 40000` standard normals (four independent seeds) is allocated to the cone nodes in proportion to their
+-weights, and the same normals are used at every `x` (common random numbers). The correlation hole
++weights (rounded, with a floor of one draw per node; at `40000` draws per batch the floor overshoots the budget by
++about `11 %`, and the overshoot, about `2450` nodes carrying `4`–`5 %` of the cone weight, reuses the first draws of
++the batch; each node's draws are still standard normal, so the estimator is unbiased, and the batch spread contains
++the induced correlation), and the same normals are used at every `x` (common random numbers). The correlation hole
+ 
+     c_hole_j = integral (Lambda_j(x) - Lambda_j(x_far)) d^3x,   x_far = (10, 0, 0),
+ 
+ is estimated by the difference of the two common-random-number estimates, cell by cell, on the cylinder `|x_1| <= 6`,
+ `r <= 6` (`h = 0.4`); the standard error is the spread of the four batch means. `Lambda(x_far) = Lambda_inf` to
+-`1e-16`. The torus integral is then `integral_X Lambda = L^3 Lambda_inf + c_hole` for `L >= 12` (the depletion radius
++`1e-16` (every cross-covariance between the two sites is below `2e-17` at `|x| = 10`). The torus integral is then approximated by `L^3 Lambda_inf + c_hole` for `L >= 12` (continuum kernel; not checked
++against a periodized integral in `d = 3`; the depletion radius
+ is about `3`, section 3); no direct periodized integral is computed (at `L = 6` the additive form is not valid, as in
+ `d = 2`, and no value is given).
+ 
+@@ -72,7 +85,9 @@ Far field: `Lambda_inf(0) = 0.08574653`, `Lambda_inf(1) = 0.06501408` (index spl
+ 
+ The `integral_X Lambda` and `nu` columns are continuum-kernel approximations of the finite-torus quantities (the
+ parent's periodized covariance is not used; `RESULTS.json` keys `remote_total.approx_L3_lambda_inf_plus_hole`,
+-`assembled_nu.approx_nu1_L`, `assembled_nu.approx_nu2_over_nu1_L`); see section 5.
++`assembled_nu.approx_nu1_L`, `assembled_nu.approx_nu2_over_nu1_L`); see section 5. The `a_1^(3)`, `nu(1)` and
++`nu(2)/nu(1)` columns are moreover conditional on Math-#184's `R_3(b)` (unmerged) and on Math-#168's uncertified GH60
++`alpha_j`.
+ 
+ | `k` | `b` | `c_hole = integral (Lambda - Lambda_inf)` (± s.e.) | `integral_X Lambda`, `L = 12` | `L = 24` | `a_1^(3)` | `nu(1)` at `L = 24` | `nu(2)/nu(1)` at `L = 24` |
+ |---|---|---|---|---|---|---|---|
+@@ -83,32 +98,41 @@ parent's periodized covariance is not used; `RESULTS.json` keys `remote_total.ap
+ | `2` | `0` | -4.575 ± 0.035 | 143.59 | 1180.78 | 9.106 | 2370.7 | 3.01e-05 |
+ | `2` | `1` | -3.473 ± 0.009 | 108.87 | 895.28 | 2.86 | 1793.4 | 1.25e-05 |
+ 
+-Index decomposition of the hole at `k = 1`: `b = 0`: `-0.132 ± 0.006, -2.936 ± 0.017, -0.263 ± 0.023, 0.198 ± 0.006`; `b = 1`: `-0.001 ± 0.000, -0.282 ± 0.006, -1.823 ± 0.008, -0.202 ± 0.001`.
++Index decomposition of the hole at `k = 1`: `b = 0`: `-0.132 ± 0.006, -2.936 ± 0.017, -0.263 ± 0.023, 0.198 ± 0.006`; `b = 1`: `-0.0008 ± 0.0004, -0.282 ± 0.006, -1.823 ± 0.008, -0.202 ± 0.001`.
+ 
+ The pin depletes a region of radius about `3` (as in `d = 2`): along the axis `Lambda/Lambda_inf` is below `1e-3`
+ at `|x_1| <= 2` and `0.0329` at `2.5`, `0.62` at `3`, `1.01` at `4`, `1` at `5`; transversally `0.182` at `0.5`, `0.237` at `1`, `0.644` at `2`, `0.998` at `3`, `1` at `4`; along the `45` degree ray `0.00917` at `1`, `0.777` at `2`, `1.07` at `2.5`, `1.03` at `3`, `1` at `4` (values at
+-`k = 1, b = 0`, `160000` samples per point, Monte Carlo error about `0.7 %` per point). The three profiles are within
+-Monte Carlo noise of `1` from `|x| = 4` on.
++`k = 1, b = 0`, `160000` samples per point, Monte Carlo error about `0.2`–`0.7 %` per point). The three profiles are within
++Monte Carlo noise of `1` from `|x| = 5` on (on the axis `1.013` at `4`, a residual overshoot of about `1 %`).
+ 
+ **Reading.** `a_j^(3) = R_3(b) alpha_j^(2)` (Math-#184; `R_3(0) = (32 + 28 sqrt2)/17 = 4.2116458674`, `R_3(1) = 4.6201205312`) with
+-Math-#168's planar `alpha_j`. On the parent torus sizes the remote singletons dominate `nu(1)` by a factor of order
+-`10^2`–`10^3` (`L^3 Lambda_inf = 13824 Lambda_inf` at `L = 24`), so the two-point share of a nonempty window is
+-`nu(2)/(nu(1) + nu(2))` of order `1e-4` at `L = 12` and `1e-5` at `L = 24`, smaller than in `d = 2` (Math-#174) by
+-the factor `L Lambda_inf^(3) / Lambda_inf^(2)` up to the near terms.
++Math-#168's planar `alpha_j` (conditional, as above). On the parent torus sizes the remote singletons dominate
++`nu(1)`: `k integral_X Lambda / a_1` is about `15.5`–`76` at `L = 12` and `126`–`626` at `L = 24`
++(`L^3 Lambda_inf = 13824 Lambda_inf` at `L = 24`), so the two-point share of a nonempty window
++`nu(2)/(nu(1) + nu(2))` is between `1.0e-4` and `1.9e-3` at `L = 12` and between `1.25e-5` and `2.45e-4` at `L = 24`
++(largest at `k = 1/2, b = 0`), smaller than in `d = 2` (Math-#174, additive values) by about
++`L Lambda_inf^(3) / (R_3(b) Lambda_inf^(2))`, i.e. about `2` at `L = 12` and `4` at `L = 24` (observed `2.04`–`2.25`
++and `4.00`–`4.28`).
+ 
+ ## 4. Precision (empirical, not bounds)
+ 
+ - Far field: quadrature orders `30`, `40` agree to `1e-12`; the Monte Carlo at the decoupled point `x_far` reproduces
+-  `z_0 E[|det| 1{j}]` within its statistical error (`1.052, 0.985, 1.001, 1.137` at `b = 0`, indices `j = 0..3`; the maxima/minima indices
+-  carry `1.4 %` of the mass and have correspondingly larger errors).
++  `z_0 E[|det| 1{j}]` to within 1.5 % for the saddle indices and 14 % for the extremal indices (observed ratios, no
++  error computed; `1.052, 0.985, 1.001, 1.137` at `b = 0`, indices `j = 0..3`, from `40000` samples, seed `2026`, the
++  sample `--check` uses; the maxima/minima indices carry `1.4 %` of the mass and have correspondingly larger errors:
++  over the four seed batches `j = 3` is `1.113 ± 0.020` at `b = 0` and `1.027 ± 0.006` at `b = 1`).
+ - Cone quadrature for the pin weight: `1e-8` relative against the exact `m_(3,b)` at the far point; at the near point
+   `(0, 1, 0)` the `16 x 12 x 12` and `20 x 16 x 16` rules differ by `7e-5` relative.
+-- Monte Carlo: per-point relative error about `1.28 / sqrt(160000) = 0.3 %` on `Lambda`; the hole standard errors are
+-  in the table (batch means of four independent seeds; common random numbers make the far cells contribute almost no
++- Monte Carlo: per-point relative error nominally `1.28 / sqrt(160000) = 0.3 %` on `Lambda` (observed four-batch
++  spread `0.2`–`0.7 %` on the ray profiles); the hole standard errors are in the table (batch means of four
++  independent seeds, 3 degrees of freedom; the grid rows use two seeds, 1 degree of freedom; common random numbers make the far cells contribute almost no
+   noise).
+-- Grid (`k = 1, b = 0`, two batches): hole `-3.155 ± 0.055` (`h = 0.6`), `-3.133 ± 0.029` (`h = 0.4`, tabulated), `-3.138 ± 0.057` (`h = 0.3`);
+-  cutoff `Rc = 5` instead of `6`: `-3.164 ± 0.056`. These differences are measured, not bounds; the grid error of the
+-  tabulated values is of the order of the difference between `h = 0.4` and `h = 0.3`.
++- Grid (`k = 1, b = 0`, seeds 2026–2027 only; same-seed `h = 0.4` value `-3.143 ± 0.056`): `h = 0.6`: `-3.155`,
++  `h = 0.3`: `-3.138`, `Rc = 5`: `-3.164`. Same-seed differences from `h = 0.4, Rc = 6` (common random numbers):
++  `-0.011`, `+0.005`, `-0.021`. The last is systematic (identical in both batches): the shell `5 < |x| <= 6`
++  contributes about `+0.02` (0.7 % of the hole), and the truncation error at `Rc = 6` is not measured. These
++  differences are measured, not bounds; the grid error of the tabulated values is of the order of the `h = 0.4` /
++  `h = 0.3` difference.
+ - Near-pin points: the conditioning never lost positivity on the grid (`r >= 0.2`); `Lambda` is below `1e-20
+   Lambda_inf` on the axis for `|x_1| <= 1.5`.
+ 
+@@ -116,7 +140,9 @@ the factor `L Lambda_inf^(3) / Lambda_inf^(2)` up to the near terms.
+ 
+ Not certified. Continuum kernel only: no periodized (finite-`L`) jets, so the values at `L = 12, 24` are the additive
+ approximation `L^3 Lambda_inf + c_hole` and no `L = 6` value is given. `d = 3` only; the pin direction is immaterial by
+-isotropy. The assembled `nu(1)`, `nu(2)` inherit Math-#168's empirical precision on `alpha_j` and are conditional on
++isotropy. The assembled `nu(1)`, `nu(2)` inherit Math-#168's empirical precision on `alpha_j` (at `k = 2` Math-#168 finds GH60 `J_2` 2.6 % (3.2 s.e.) below
++MC and does not establish the third digit of `alpha_2(2)`; the `k = 2` `nu(2)/nu(1)` entries inherit this) and are
++conditional on
+ Math-#184's factor `R_3(b)` (unmerged). No rate, no finite-`r` statement. Values of the formulas [RM] (13) and [SC]
+ (22); not a re-review of either.
+ 
+@@ -125,7 +151,8 @@ Math-#184's factor `R_3(b)` (unmerged). No rate, no finite-`r` statement. Values
+ `python -B -S remote3.py --check` and `-B -O -S`: exact rational contact law (`A_0 | U_0 = -b I + GOE(2, 1)`),
+ `c_2 = pi`, `m_(3,0) = (7 - 4 sqrt2)/2`, eigenvalue-density normalization, far-field index symmetry at `b = 0`, the
+ decoupled density `phi(b) (2 pi)^(-3/2)` at `x_far`, the far-point Monte Carlo against `z_0 E|det| 1{j}` within
+-`10 %` for the three largest indices, replay of the far field and of `R_3(b)` against `RESULTS.json`, and replay of
++`10 %` for `j = 0, 1, 2` and within `5 %` for `j = 1, 2` at `b = 0` with the fixed seed `2026` (across seeds the s.d. at
++`40000` samples is about `8 %, 1.4 %, 1.3 %` for `j = 0, 1, 2`, so the `j = 0` gate is weak), replay of the far field and of `R_3(b)` against `RESULTS.json`, and replay of
+ one kernel point per `b` with the stored seeds to `1e-9`. Mutants `hermite-sign`, `det-abs`, `weight-indicator` exit
+ `1`. The full run regenerates `RESULTS.json` deterministically (seeded) in about an hour.
+ 
+@@ -134,3 +161,11 @@ one kernel point per `b` with the stored seeds to `1e-9`. Mutants `hermite-sign`
+ Pins (`SOURCE_MAP.json`, all on `main`): [RM] `b383bfcc`, [SC] `16c56821`, [CL] `ba492c8e`, [LP] `dfed3b8d`,
+ [NUM] `2648314f` (Math-#168), [NUM2] `3e4a7ddb` (Math-#174, merged). Unmerged companion: Math-#184 `PROOF.md`
+ `91d22fce` (Lemma 2 and `R_3(b)`, recomputed here from the displayed formulas).
++
++Revision (Slice A review 5403289484 and Slice C review 5974291103 on Math-#192; wording, one regeneration fix, one
++added check gate): `full_run` writes the far-point controls from the first batch (the sample `--check` uses), so the
++stored `controls` block regenerates; the far-point ratios are stated as observed values with their sample; the
++BBKS normalization, attribution and `6e-11` control precision are stated exactly; the continuum-kernel scope is
++stated in section 1; the Reading paragraph is corrected (the `d = 2` / `d = 3` share factor carries `R_3(b)`); the
++conditional status of the assembled columns, the grid rows' same-seed differences (the `Rc` effect is systematic)
++and the ray-profile precision are stated; `--check` gains a `5 %` gate for `j = 1, 2`. `RESULTS.json` unchanged.
+diff --git a/frontiers/c6_remote_coefficient_d3_numerics_20260930/SOURCE_FILES.json b/frontiers/c6_remote_coefficient_d3_numerics_20260930/SOURCE_FILES.json
+index 4d7adcb..203d4c5 100644
+--- a/frontiers/c6_remote_coefficient_d3_numerics_20260930/SOURCE_FILES.json
++++ b/frontiers/c6_remote_coefficient_d3_numerics_20260930/SOURCE_FILES.json
+@@ -7,9 +7,9 @@
+  "files": [
+   {
+    "path": "NOTE.md",
+-   "bytes": 10650,
+-   "sha256": "2e544c70701b844a963c9f07d70748b39957ac2e74c81e8eb91c71a328124115",
+-   "git_blob": "41bb46436096747e0190c141a62b59ea7f2dd0bd"
++   "bytes": 13662,
++   "sha256": "6e8495cb66dd13592aac2dfa04661c3c0616a1f9f3c375b356088dea14c2f12f",
++   "git_blob": "8d793c7616dcfc3ccf03f727c2e1ebedd039969c"
+   },
+   {
+    "path": "README.md",
+@@ -25,15 +25,15 @@
+   },
+   {
+    "path": "SOURCE_MAP.json",
+-   "bytes": 4295,
+-   "sha256": "0ace734fa8900a27da3e0cf987a5cd06d351c6b3210e9a0793c52ac01bba1667",
+-   "git_blob": "1d65daa6fd28a5673ea73326ed55e9405c652ae2"
++   "bytes": 5383,
++   "sha256": "7f68085fabe805089275d99a42a80e2bb99bac280990ad9431f9f26478634f45",
++   "git_blob": "558cd6cd2dfd66dbb58ee17cb2305f05490a4e52"
+   },
+   {
+    "path": "remote3.py",
+-   "bytes": 28268,
+-   "sha256": "b1f8a70c7ce874f7d310286be17f587058004c6a1ca88e52630117a9d787ebff",
+-   "git_blob": "b43e6bdd644c50e9a94f5ed949aa69c6073cbf36"
++   "bytes": 28703,
++   "sha256": "6b18c2c134e19bbd7d713f832e4559f16fde842fb9e75126abab0d9dc942ff59",
++   "git_blob": "09864eb06e55aa889145f1404ae2dfab0d8a46fd"
+   }
+  ],
+  "nonauthor_reads": []
+diff --git a/frontiers/c6_remote_coefficient_d3_numerics_20260930/SOURCE_MAP.json b/frontiers/c6_remote_coefficient_d3_numerics_20260930/SOURCE_MAP.json
+index 1d65daa..558cd6c 100644
+--- a/frontiers/c6_remote_coefficient_d3_numerics_20260930/SOURCE_MAP.json
++++ b/frontiers/c6_remote_coefficient_d3_numerics_20260930/SOURCE_MAP.json
+@@ -8,7 +8,13 @@
+   "review_status": "AUTHOR_SIDE_NUMERICAL_NOTE",
+   "nonauthor_acceptance": false,
+   "governing_status_changed": false,
+-  "nonauthor_reads": [],
++  "nonauthor_reads": [
++    {"comment": "5367490653", "kind": "pull_request_review", "pr": "Math-#192", "lane": "OpenAI / Codex (automated Codex review)", "scope": "two P2 findings, applied in 2ecffa8"},
++    {"comment": "5915572509", "kind": "issue_comment", "pr": "Math-#192", "lane": "OpenAI / Codex", "scope": "reconciliation finding (producer note vs RESULTS.json), applied in 5925b3f"},
++    {"comment": "5915786179", "kind": "issue_comment", "pr": "Math-#192", "lane": "OpenAI / Codex", "scope": "reconciliation recorded as resolved at 5925b3f"},
++    {"comment": "5403289484", "kind": "pull_request_review", "pr": "Math-#192", "lane": "Grok Bot agent 1 (Cursor-hosted, Grok support routed by the Chief of Staff 5974102560)", "scope": "R1 Slice A (exact structure and far field) at 5925b3f: ACCEPT_WITH_FINDINGS; F1-F6 applied"},
++    {"comment": "5974291103", "kind": "issue_comment", "pr": "Math-#192", "lane": "Grok Bot agent 4 (Grok support routed by the Chief of Staff 5974102560)", "scope": "R3 Slice C (reporting) at 5925b3f: ACCEPT_WITH_FINDINGS; findings 2-9 applied (finding 9 as NOTE wording)"}
++  ],
+   "sources": [
+     {"id": "RM", "path": "frontiers/remote_window_20260924/PROOF.md", "bytes": 18355, "sha256": "a332bae9bdc0106ce17047f7e0409cc3d94eb610a0c7b74ba5ba2d01a1620cb7", "git_blob": "b383bfcc88ec4ad497dff01fb6640e429ba24a84", "commit": "de54d1da2f6cdde59df3c34bb50ecd85c25ca333", "role": "sections 2, 4, 5: the contact frame U_0 (4), the weight w_0 = (6k)^2 (det A_0)^2 1{A_0 < 0} (10), the full normalizer (11) and the contact kernel Lambda_j (13) in every fixed d >= 2; the object evaluated", "current_required": true, "on_main": true},
+     {"id": "SC", "path": "frontiers/spectral_cluster_closure_20260929/PROOF.md", "bytes": 25006, "sha256": "e971b2cbe50a8a06b47c1219191201e0d1037c9adac23e5e3b7d2051bb70c2eb", "git_blob": "16c56821b52fd76b0be791622b9c3809eafde75a", "commit": "de54d1da2f6cdde59df3c34bb50ecd85c25ca333", "role": "(8) c_m; (20) the near coefficients a_1, a_2; (22) beta_far = k integral_X Lambda in every fixed d; nu_1 = a_1 + beta_far, nu_2 = a_2", "current_required": true, "on_main": true},
+diff --git a/frontiers/c6_remote_coefficient_d3_numerics_20260930/remote3.py b/frontiers/c6_remote_coefficient_d3_numerics_20260930/remote3.py
+index b43e6bd..8f29909 100644
+--- a/frontiers/c6_remote_coefficient_d3_numerics_20260930/remote3.py
++++ b/frontiers/c6_remote_coefficient_d3_numerics_20260930/remote3.py
+@@ -248,7 +248,8 @@ def m3(b, n=40):
+ 
+ 
+ def far_field(b, n=40):
+-    """Lambda_inf_j(b) = phi(b) (2 pi)^(-3/2) E[|det(-b I + G_3)| 1{index j}]: the decoupled far-field kernel."""
++    """Lambda_inf_j(b) = phi(b) (2 pi)^(-3/2) E[|det(-b I + G_3)| 1{index j}]: the decoupled far-field kernel.
++    Continuum kernel K on R^3 only; not a statement about K_L or the torus."""
+     E = goe_functional(3, b, lambda l: abs(l[0] * l[1] * l[2]), n)
+     pref = phi(b) * (2 * pi) ** (-1.5)
+     return {'E_absdet_index': E, 'lambda_j': [pref * e for e in E], 'lambda': pref * sum(E)}
+@@ -354,7 +355,7 @@ class Conditioning:
+         second order on the cone boundary).  E[F_j(H_x) | A_0] is Monte Carlo on the supplied 6-dim standard normals zs
+         (common random numbers across x), H_x | A_0 being Gaussian with mean affine in A_0 and fixed covariance; the
+         sample budget len(zs) is allocated to the nodes in proportion to their weights (at least one sample per node),
+-        so the effective sample size is the whole budget."""
++        approximately proportional; the floor of one draw per node overshoots the budget, see the reuse branch below."""
+         if rules is None:
+             if getattr(self, '_nodes', None) is None:
+                 self._nodes = self.cone_nodes()
+@@ -373,7 +374,8 @@ class Conditioning:
+             block = zs[pos:pos + n]
+             pos += n
+             if not block:
+-                # budget exhausted by rounding: reuse the first samples (deterministic, tiny weights only)
++                # budget exhausted by rounding: reuse the first samples (deterministic; about 4-5 % of the cone weight at 40000
++                # draws, 1 % at 160000)
+                 block = zs[:n]
+             part = [0.0] * 4
+             for z in block:
+@@ -483,8 +485,9 @@ def controls(zs):
+         out['far_mc_over_quadrature_b%s' % b] = [Emc[j] / (z0 * Eq[j]) for j in range(4)]
+     # E|det G_3| at b = 0 (the level-0 factor) and the level-integrated far field: integral_b Lambda_inf_j(b) db is the
+     # density of index-j critical points of the unconditioned field, whose classical closed forms in this normalization
+-    # (unit Gaussian kernel: sigma_0 = 1, per-component sigma_1 = 1, sigma_2^2 = 15) are (29 sqrt3 - 18 sqrt2)/(72 pi^2)
+-    # for maxima and minima and (29 sqrt3 + 18 sqrt2)/(72 pi^2) for each saddle index (Bardeen-Bond-Kaiser-Szalay 1986)
++    # (unit Gaussian kernel: Var f = 1, Var f_i = 1 per component, i.e. BBKS sigma_1^2 = E|grad f|^2 = 3, and BBKS
++    # sigma_2^2 = E(Lap f)^2 = 15) are (29 sqrt3 - 18 sqrt2)/(72 pi^2) for maxima and minima (Bardeen-Bond-Kaiser-Szalay
++    # 1986, n_pk) and (29 sqrt3 + 18 sqrt2)/(72 pi^2) for each saddle index (opposite sign; cf. Azais-Delmas 2019)
+     out['E_absdet_G3_quadrature'] = sum(goe_functional(3, 0.0, lambda l: abs(l[0] * l[1] * l[2])))
+     rule = gauss_legendre(60)
+     dens = [gl(lambda bb: far_field(bb, n=24)['lambda_j'][j], -8.0, 8.0, rule) for j in range(4)]
+@@ -506,7 +509,8 @@ def full_run(fast=False):
+     res = {'schema': 1, 'object': 'CL-C6-REMOTE-COEFF-D3-NUMERICS-20260930-v1', 'scientific_effect': 'NONE', 'certified': False,
+            'kernel': 'exp(-|x|^2/2), continuum, d = 3', 'mutant': MUT, 'python_requirement': '>= 3.11',
+            'samples_per_batch': per_batch, 'batches': nb, 'rules': list(RULES), 'seeds': [2026 + i for i in range(nb)]}
+-    res['controls'] = controls(zs)
++    # the far-point Monte Carlo controls use the first batch (40000 samples, seed 2026), the sample --check uses
++    res['controls'] = controls(zbatches[0])
+     res['far_field'] = {str(b): far_field(b) for b in (0.0, 1.0)}
+     res['z0'] = {}
+     res['hole'] = {}
+@@ -577,6 +581,8 @@ def check_run():
+     for j in range(3):
+         r = ctl['far_mc_over_quadrature_b0.0'][j]
+         require(0.9 < r < 1.1, 'far-point Monte Carlo within 10%% of z_0 E|det|1{j}, j = %d' % j)
++        if j in (1, 2):
++            require(0.95 < r < 1.05, 'far-point Monte Carlo within 5%% of z_0 E|det|1{j}, j = %d' % j)
+     # replay one kernel point per (k = 1, b) with the stored sample (same seeds and lengths as the full run)
+     zfull = [z for i in range(ref['batches']) for z in standard_normals(ref['samples_per_batch'], ref['seeds'][i])]
+     for key, prof in ref['ray_profiles'].items():

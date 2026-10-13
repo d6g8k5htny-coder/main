@@ -1,0 +1,2 @@
+import ResearchFormalCoreR1
+#print axioms ResearchFormalCoreR1.ec005_fold_gap

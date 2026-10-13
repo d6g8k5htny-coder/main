@@ -1,0 +1,18 @@
+diff --git a/frontiers/c8_elder_failure_coefficient_20261001/certificate.py b/frontiers/c8_elder_failure_coefficient_20261001/certificate.py
+index 21318a7..05cef87 100644
+--- a/frontiers/c8_elder_failure_coefficient_20261001/certificate.py
++++ b/frontiers/c8_elder_failure_coefficient_20261001/certificate.py
+@@ -490,6 +490,13 @@ def compare(doc, raw):
+     rec(doc['results'], der, [])
+     if doc['leaves'] != raw['leaves']:
+         bad.append(('leaves', doc['leaves'], raw['leaves']))
++    # the stored header and parameters must describe the calculation actually run (JSON round trip for types)
++    fresh = json.loads(json.dumps(document(raw)))
++    if sorted(doc) != sorted(fresh):
++        bad.append(('keys', sorted(doc), sorted(fresh)))
++    for key in ('object', 'scientific_effect', 'certified', 'arithmetic', 'parameters'):
++        if doc.get(key) != fresh.get(key):
++            bad.append((key, doc.get(key), fresh.get(key)))
+     return bad
+ 
+ 

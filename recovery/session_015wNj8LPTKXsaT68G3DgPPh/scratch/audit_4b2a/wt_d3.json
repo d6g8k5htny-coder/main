@@ -1,0 +1,753 @@
+{
+  "base_commit": "4b2a001b25fa96350dacb53d9ce14fdf1b50ae8a",
+  "changed_nodes": [],
+  "check_passed": true,
+  "controlling_impacted": [],
+  "graph_path": "frontiers/downstream_gate_20260925/GRAPH.json",
+  "head_commit": "fe3e6607dead3a4cf47fc5aec4cbcf8b919482f6",
+  "hold_proposals": [
+    {
+      "node": "eng.main-pr87-crosswalk",
+      "unsatisfied_required": [
+        "eng.d0-packet-allowlist-fix"
+      ]
+    },
+    {
+      "node": "hist.ALLCELL-FDZ-Q4",
+      "unsatisfied_required": [
+        "hist.allcell_fdz_enclosures.json"
+      ]
+    },
+    {
+      "node": "hist.ENV-RESCOV",
+      "unsatisfied_required": [
+        "hist.rnu_env.py"
+      ]
+    },
+    {
+      "node": "math.rn-fixed-annulus-window",
+      "unsatisfied_required": [
+        "math.rn-count-interface"
+      ]
+    },
+    {
+      "node": "math.rn-fixed-remote-window",
+      "unsatisfied_required": [
+        "math.rn-count-interface"
+      ]
+    },
+    {
+      "node": "math.rn-mesoscopic-reduction",
+      "unsatisfied_required": [
+        "math.rn-fixed-remote-window",
+        "math.rn-count-interface"
+      ]
+    }
+  ],
+  "illegal_controlling": [],
+  "impacted": [],
+  "input_graphs_unchanged": true,
+  "meaning": "source-bound workflow integrity only; external refs are not independently fetched or accepted",
+  "new_sources": {
+    "eng.d0-packet-allowlist-fix": {
+      "bytes": 3096,
+      "kind": "blob",
+      "reference": "frontiers/downstream_gate_20260925/patches/d0_packet_allowlist.patch",
+      "sha256": "84b7ad724e4da1c5b4b396c90ae03d4ddedc37771a6e45e1082a45fd80d7ff4a"
+    },
+    "eng.hard-gate": {
+      "bytes": 897,
+      "kind": "tree",
+      "reference": "frontiers/downstream_gate_20260925/",
+      "sha256": "7df290ddba11f5afaa4be3f8cf93826889eea3dba330acf8d9a23e3b9c5c2f19"
+    },
+    "eng.main-pr87-crosswalk": {
+      "kind": "external_unresolved",
+      "reference": "https://github.com/d6g8k5htny-coder/main/pull/87"
+    },
+    "hist.ALLCELL-FDZ-Q4": {
+      "kind": "record_only"
+    },
+    "hist.CH-LIFT": {
+      "kind": "record_only"
+    },
+    "hist.CL_ANTHROPIC_BUNDLE_2026-09-17_v5.zip": {
+      "kind": "record_only"
+    },
+    "hist.ENV-RESCOV": {
+      "kind": "record_only"
+    },
+    "hist.LOGQ-TAIL": {
+      "kind": "record_only"
+    },
+    "hist.OBL-H5-JETMOD": {
+      "kind": "record_only"
+    },
+    "hist.Piece-2-annulus": {
+      "kind": "record_only"
+    },
+    "hist.SYM-Fw-jet": {
+      "kind": "record_only"
+    },
+    "hist.allcell_fdz_enclosures.json": {
+      "kind": "record_only"
+    },
+    "hist.lemma_closed": {
+      "kind": "record_only"
+    },
+    "hist.rnu_env.py": {
+      "kind": "record_only"
+    },
+    "math.d1-component.congruence-erratum": {
+      "bytes": 1782,
+      "kind": "blob",
+      "reference": "imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md",
+      "sha256": "bad7ef609c4ad8c41ad6af562c1b6807921e19a9d556ed793ad1a0db6e202028"
+    },
+    "math.d1-component.marked-cylinder-cap": {
+      "bytes": 15160,
+      "kind": "blob",
+      "reference": "imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md",
+      "sha256": "0bf922b9203c29088b12388807aa0e2ecd020485eb0f6e919679841b5b2636fc"
+    },
+    "math.d1-component.reconciliation-record": {
+      "bytes": 350,
+      "kind": "tree",
+      "reference": "reviews/d1_chain_reconciliation_20260928/",
+      "sha256": "87b2470e71eb35d8c08fe8ec88ae34789dd900f76dd1e37c009bb7006f87949a"
+    },
+    "math.d1-component.section9-replacement-v1_1": {
+      "bytes": 9062,
+      "kind": "blob",
+      "reference": "reviews/d1_section9_borel_repair_20260925/REPAIR.md",
+      "sha256": "845abf9f9c99d672c2a10a887b5a2e7206a3d2de3d876f35f75ff6e2dc13e62f"
+    },
+    "math.d5-component.annulus-proof": {
+      "bytes": 16948,
+      "kind": "blob",
+      "reference": "frontiers/rn_annulus_bridge_20260925/PROOF.md",
+      "sha256": "d55e2c03bb17e7977ff94130cc1ff21e54840cd1e20dc4e41ea9ad52228beb05"
+    },
+    "math.d5-component.annulus-review": {
+      "bytes": 15925,
+      "kind": "blob",
+      "reference": "reviews/pr28_annulus_bridge_nonauthor_20260925/REVIEW.md",
+      "sha256": "69ea7a479a9e8a5150cbe07b373772ab22413a1d81194d5a6a78adf6ada5f03f"
+    },
+    "math.d5-component.collar-proof": {
+      "bytes": 20318,
+      "kind": "blob",
+      "reference": "reviews/d5_local_collar_20260928/COLLAR_PROOF.md",
+      "sha256": "794babe0fd039c3a93c401c0b8978316331af009fad45f953e63fbe7e1e31aab"
+    },
+    "math.d5-component.collar-review": {
+      "bytes": 1791,
+      "kind": "blob",
+      "reference": "reviews/d5_collar_count_20260928/REVIEW.md",
+      "sha256": "8c8c30cc3b19601a7421341d5da8cb6c982fbc1fcc5ae4791acafa11cc81ee4e"
+    },
+    "math.d5-component.i5-review-claude": {
+      "bytes": 14710,
+      "kind": "blob",
+      "reference": "reviews/d5_intermediate_window_claude_20260928/REVIEW.md",
+      "sha256": "fb3207802bf2d92ad138bc338a36f39bcd3a94440669b9aba9558e566f767976"
+    },
+    "math.d5-component.i5-review-xai": {
+      "bytes": 3552,
+      "kind": "blob",
+      "reference": "reviews/d5_i5_planar_f_20260928/REVIEW.md",
+      "sha256": "527d66e72b079ef7c854987f7e9d44f2252b81aa0e8d9e7ef3b45deb02388659"
+    },
+    "math.d5-component.intermediate-window-proof": {
+      "bytes": 27775,
+      "kind": "blob",
+      "reference": "frontiers/intermediate_window_20260928/PROOF.md",
+      "sha256": "b3eb9456d7058b5b78149cfca4e072679beda85cd1a0293d209664a542db66cf"
+    },
+    "math.d5-component.offpin-second-moment-review": {
+      "bytes": 1473,
+      "kind": "blob",
+      "reference": "reviews/d5_offpin_second_moment_20260928/REVIEW.md",
+      "sha256": "43beb4ef7da5bf71e15164d5c4bc1862db387d83f906aebdf9831625b1ca6369"
+    },
+    "math.d5-component.punctured-pin-continuum-check": {
+      "bytes": 10012,
+      "kind": "blob",
+      "reference": "reviews/d5_punctured_pin_continuum_claude_20260929/pp_continuum_check.py",
+      "sha256": "57bc87d11271b47ebccec6ea73abf823fa90e3a8c3c7d7cd2165bdc6f7e4175c"
+    },
+    "math.d5-component.punctured-pin-continuum-review": {
+      "bytes": 10501,
+      "kind": "blob",
+      "reference": "reviews/d5_punctured_pin_continuum_claude_20260929/REVIEW.md",
+      "sha256": "124c472cc064ba24021cb4bb8da1002836a4ce26c8df506228f5c20609f6575a"
+    },
+    "math.d5-component.punctured-pin-proof": {
+      "bytes": 23771,
+      "kind": "blob",
+      "reference": "reviews/d5_local_collar_20260928/PUNCTURED_PIN_PROOF.md",
+      "sha256": "f972e50bc07674ebce9d971d1a1bd4dba2f8036dde37ecb57d8a44a35650f76a"
+    },
+    "math.d5-component.punctured-pin-review-111": {
+      "bytes": 5534,
+      "kind": "blob",
+      "reference": "reviews/d5_punctured_pin_nonauthor_20260928/REVIEW.md",
+      "sha256": "668d74825f156c929177bc1a3481cf421de4dd7874e7b25b2aece6c10aa7dc0e"
+    },
+    "math.d5-component.remote-window-proof": {
+      "bytes": 18355,
+      "kind": "blob",
+      "reference": "frontiers/remote_window_20260924/PROOF.md",
+      "sha256": "a332bae9bdc0106ce17047f7e0409cc3d94eb610a0c7b74ba5ba2d01a1620cb7"
+    },
+    "math.d5-pin-neighborhood-first-moment": {
+      "bytes": 12536,
+      "kind": "blob",
+      "reference": "reviews/d5_reconciliation_20260929/RECONCILIATION.md",
+      "sha256": "14342b7eb0ad47c1c99b06be58fb6c901f5c7c72fc70f73e81de3dde50c23432"
+    },
+    "math.lifetime-remainder": {
+      "bytes": 17734,
+      "kind": "blob",
+      "reference": "frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md",
+      "sha256": "380b7d0abdb0fe2de5a6564565af9560d3f1b1ce22fd5538927db0c52f4f3a4a"
+    },
+    "math.p15-full-price": {
+      "bytes": 11352,
+      "kind": "blob",
+      "reference": "frontiers/full_price_20260924/PROOF.md",
+      "sha256": "87521901ca8e5405b4d1e47f1deb1cd0326affbd6f5967b53c4178590da993f9"
+    },
+    "math.p15-price-boundary": {
+      "bytes": 2266,
+      "kind": "blob",
+      "reference": "frontiers/three_fronts_20260924/P15_PRICE_BOUNDARY.md",
+      "sha256": "498af650ef7139c39d2630561dbfd0822c495ce6308a6cac8b767aefe0c2a40b"
+    },
+    "math.rn-count-interface": {
+      "bytes": 8938,
+      "kind": "blob",
+      "reference": "frontiers/three_fronts_20260924/RN_COUNT_INTERFACE.md",
+      "sha256": "aa993f5217bd70e6d1060402d121ab659f6582a098e29042c67585a345a8e3ab"
+    },
+    "math.rn-fixed-annulus-window": {
+      "bytes": 17646,
+      "kind": "blob",
+      "reference": "frontiers/rn_thin_tube_20260925/FIXED_ANNULUS_CANDIDATE.md",
+      "sha256": "1fd9fe7141e464fd1c09ebf0318d8a701729c9c61ea24f73f7e20a9cf10c552b"
+    },
+    "math.rn-fixed-remote-window": {
+      "bytes": 18355,
+      "kind": "blob",
+      "reference": "frontiers/remote_window_20260924/PROOF.md",
+      "sha256": "a332bae9bdc0106ce17047f7e0409cc3d94eb610a0c7b74ba5ba2d01a1620cb7"
+    },
+    "math.rn-mesoscopic-reduction": {
+      "kind": "external_unresolved",
+      "reference": "external:Math-PR7"
+    },
+    "math.rn-region.fixed-annulus-window": {
+      "kind": "record_only"
+    },
+    "math.rn-region.fixed-remote": {
+      "kind": "record_only"
+    },
+    "math.rn-region.intermediate-r-to-rho": {
+      "kind": "record_only"
+    },
+    "math.rn-region.mesoscopic-scaled-annulus": {
+      "kind": "record_only"
+    },
+    "math.rn-region.pin-collision": {
+      "kind": "record_only"
+    },
+    "math.rn-region.witness-collision": {
+      "kind": "record_only"
+    },
+    "math.rn-selector-region-crosswalk": {
+      "bytes": 2753,
+      "kind": "blob",
+      "reference": "frontiers/downstream_gate_20260925/SELECTOR_REGION.json",
+      "sha256": "53fa0ec88e417882eff2a40e4b575c639d43b7e8787e7fb8917aa22ace79390d"
+    },
+    "math.side24-coefficient": {
+      "bytes": 10272,
+      "kind": "blob",
+      "reference": "coefficients/side24_v1/PROOF.md",
+      "sha256": "c06daccc4ba4b9168522b9888b76a7d599934fc3b91bd753ee5d492262917769"
+    },
+    "math.uniform-matrix-cap-lifetime": {
+      "bytes": 40261,
+      "kind": "blob",
+      "reference": "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+      "sha256": "9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7"
+    },
+    "regional.fixed-annulus.high-jet-route": {
+      "kind": "record_only"
+    }
+  },
+  "old_sources": {
+    "eng.d0-packet-allowlist-fix": {
+      "bytes": 3096,
+      "kind": "blob",
+      "reference": "frontiers/downstream_gate_20260925/patches/d0_packet_allowlist.patch",
+      "sha256": "84b7ad724e4da1c5b4b396c90ae03d4ddedc37771a6e45e1082a45fd80d7ff4a"
+    },
+    "eng.hard-gate": {
+      "bytes": 897,
+      "kind": "tree",
+      "reference": "frontiers/downstream_gate_20260925/",
+      "sha256": "7df290ddba11f5afaa4be3f8cf93826889eea3dba330acf8d9a23e3b9c5c2f19"
+    },
+    "eng.main-pr87-crosswalk": {
+      "kind": "external_unresolved",
+      "reference": "https://github.com/d6g8k5htny-coder/main/pull/87"
+    },
+    "hist.ALLCELL-FDZ-Q4": {
+      "kind": "record_only"
+    },
+    "hist.CH-LIFT": {
+      "kind": "record_only"
+    },
+    "hist.CL_ANTHROPIC_BUNDLE_2026-09-17_v5.zip": {
+      "kind": "record_only"
+    },
+    "hist.ENV-RESCOV": {
+      "kind": "record_only"
+    },
+    "hist.LOGQ-TAIL": {
+      "kind": "record_only"
+    },
+    "hist.OBL-H5-JETMOD": {
+      "kind": "record_only"
+    },
+    "hist.Piece-2-annulus": {
+      "kind": "record_only"
+    },
+    "hist.SYM-Fw-jet": {
+      "kind": "record_only"
+    },
+    "hist.allcell_fdz_enclosures.json": {
+      "kind": "record_only"
+    },
+    "hist.lemma_closed": {
+      "kind": "record_only"
+    },
+    "hist.rnu_env.py": {
+      "kind": "record_only"
+    },
+    "math.d1-component.congruence-erratum": {
+      "bytes": 1782,
+      "kind": "blob",
+      "reference": "imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md",
+      "sha256": "bad7ef609c4ad8c41ad6af562c1b6807921e19a9d556ed793ad1a0db6e202028"
+    },
+    "math.d1-component.marked-cylinder-cap": {
+      "bytes": 15160,
+      "kind": "blob",
+      "reference": "imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md",
+      "sha256": "0bf922b9203c29088b12388807aa0e2ecd020485eb0f6e919679841b5b2636fc"
+    },
+    "math.d1-component.reconciliation-record": {
+      "bytes": 350,
+      "kind": "tree",
+      "reference": "reviews/d1_chain_reconciliation_20260928/",
+      "sha256": "87b2470e71eb35d8c08fe8ec88ae34789dd900f76dd1e37c009bb7006f87949a"
+    },
+    "math.d1-component.section9-replacement-v1_1": {
+      "bytes": 9062,
+      "kind": "blob",
+      "reference": "reviews/d1_section9_borel_repair_20260925/REPAIR.md",
+      "sha256": "845abf9f9c99d672c2a10a887b5a2e7206a3d2de3d876f35f75ff6e2dc13e62f"
+    },
+    "math.d5-component.annulus-proof": {
+      "bytes": 16948,
+      "kind": "blob",
+      "reference": "frontiers/rn_annulus_bridge_20260925/PROOF.md",
+      "sha256": "d55e2c03bb17e7977ff94130cc1ff21e54840cd1e20dc4e41ea9ad52228beb05"
+    },
+    "math.d5-component.annulus-review": {
+      "bytes": 15925,
+      "kind": "blob",
+      "reference": "reviews/pr28_annulus_bridge_nonauthor_20260925/REVIEW.md",
+      "sha256": "69ea7a479a9e8a5150cbe07b373772ab22413a1d81194d5a6a78adf6ada5f03f"
+    },
+    "math.d5-component.collar-proof": {
+      "bytes": 20318,
+      "kind": "blob",
+      "reference": "reviews/d5_local_collar_20260928/COLLAR_PROOF.md",
+      "sha256": "794babe0fd039c3a93c401c0b8978316331af009fad45f953e63fbe7e1e31aab"
+    },
+    "math.d5-component.collar-review": {
+      "bytes": 1791,
+      "kind": "blob",
+      "reference": "reviews/d5_collar_count_20260928/REVIEW.md",
+      "sha256": "8c8c30cc3b19601a7421341d5da8cb6c982fbc1fcc5ae4791acafa11cc81ee4e"
+    },
+    "math.d5-component.i5-review-claude": {
+      "bytes": 14710,
+      "kind": "blob",
+      "reference": "reviews/d5_intermediate_window_claude_20260928/REVIEW.md",
+      "sha256": "fb3207802bf2d92ad138bc338a36f39bcd3a94440669b9aba9558e566f767976"
+    },
+    "math.d5-component.i5-review-xai": {
+      "bytes": 3552,
+      "kind": "blob",
+      "reference": "reviews/d5_i5_planar_f_20260928/REVIEW.md",
+      "sha256": "527d66e72b079ef7c854987f7e9d44f2252b81aa0e8d9e7ef3b45deb02388659"
+    },
+    "math.d5-component.intermediate-window-proof": {
+      "bytes": 27775,
+      "kind": "blob",
+      "reference": "frontiers/intermediate_window_20260928/PROOF.md",
+      "sha256": "b3eb9456d7058b5b78149cfca4e072679beda85cd1a0293d209664a542db66cf"
+    },
+    "math.d5-component.offpin-second-moment-review": {
+      "bytes": 1473,
+      "kind": "blob",
+      "reference": "reviews/d5_offpin_second_moment_20260928/REVIEW.md",
+      "sha256": "43beb4ef7da5bf71e15164d5c4bc1862db387d83f906aebdf9831625b1ca6369"
+    },
+    "math.d5-component.punctured-pin-continuum-check": {
+      "bytes": 10012,
+      "kind": "blob",
+      "reference": "reviews/d5_punctured_pin_continuum_claude_20260929/pp_continuum_check.py",
+      "sha256": "57bc87d11271b47ebccec6ea73abf823fa90e3a8c3c7d7cd2165bdc6f7e4175c"
+    },
+    "math.d5-component.punctured-pin-continuum-review": {
+      "bytes": 10501,
+      "kind": "blob",
+      "reference": "reviews/d5_punctured_pin_continuum_claude_20260929/REVIEW.md",
+      "sha256": "124c472cc064ba24021cb4bb8da1002836a4ce26c8df506228f5c20609f6575a"
+    },
+    "math.d5-component.punctured-pin-proof": {
+      "bytes": 23771,
+      "kind": "blob",
+      "reference": "reviews/d5_local_collar_20260928/PUNCTURED_PIN_PROOF.md",
+      "sha256": "f972e50bc07674ebce9d971d1a1bd4dba2f8036dde37ecb57d8a44a35650f76a"
+    },
+    "math.d5-component.punctured-pin-review-111": {
+      "bytes": 5534,
+      "kind": "blob",
+      "reference": "reviews/d5_punctured_pin_nonauthor_20260928/REVIEW.md",
+      "sha256": "668d74825f156c929177bc1a3481cf421de4dd7874e7b25b2aece6c10aa7dc0e"
+    },
+    "math.d5-component.remote-window-proof": {
+      "bytes": 18355,
+      "kind": "blob",
+      "reference": "frontiers/remote_window_20260924/PROOF.md",
+      "sha256": "a332bae9bdc0106ce17047f7e0409cc3d94eb610a0c7b74ba5ba2d01a1620cb7"
+    },
+    "math.d5-pin-neighborhood-first-moment": {
+      "bytes": 12536,
+      "kind": "blob",
+      "reference": "reviews/d5_reconciliation_20260929/RECONCILIATION.md",
+      "sha256": "14342b7eb0ad47c1c99b06be58fb6c901f5c7c72fc70f73e81de3dde50c23432"
+    },
+    "math.lifetime-remainder": {
+      "bytes": 17734,
+      "kind": "blob",
+      "reference": "frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md",
+      "sha256": "380b7d0abdb0fe2de5a6564565af9560d3f1b1ce22fd5538927db0c52f4f3a4a"
+    },
+    "math.p15-full-price": {
+      "bytes": 11352,
+      "kind": "blob",
+      "reference": "frontiers/full_price_20260924/PROOF.md",
+      "sha256": "87521901ca8e5405b4d1e47f1deb1cd0326affbd6f5967b53c4178590da993f9"
+    },
+    "math.p15-price-boundary": {
+      "bytes": 2266,
+      "kind": "blob",
+      "reference": "frontiers/three_fronts_20260924/P15_PRICE_BOUNDARY.md",
+      "sha256": "498af650ef7139c39d2630561dbfd0822c495ce6308a6cac8b767aefe0c2a40b"
+    },
+    "math.rn-count-interface": {
+      "bytes": 8938,
+      "kind": "blob",
+      "reference": "frontiers/three_fronts_20260924/RN_COUNT_INTERFACE.md",
+      "sha256": "aa993f5217bd70e6d1060402d121ab659f6582a098e29042c67585a345a8e3ab"
+    },
+    "math.rn-fixed-annulus-window": {
+      "bytes": 17646,
+      "kind": "blob",
+      "reference": "frontiers/rn_thin_tube_20260925/FIXED_ANNULUS_CANDIDATE.md",
+      "sha256": "1fd9fe7141e464fd1c09ebf0318d8a701729c9c61ea24f73f7e20a9cf10c552b"
+    },
+    "math.rn-fixed-remote-window": {
+      "bytes": 18355,
+      "kind": "blob",
+      "reference": "frontiers/remote_window_20260924/PROOF.md",
+      "sha256": "a332bae9bdc0106ce17047f7e0409cc3d94eb610a0c7b74ba5ba2d01a1620cb7"
+    },
+    "math.rn-mesoscopic-reduction": {
+      "kind": "external_unresolved",
+      "reference": "external:Math-PR7"
+    },
+    "math.rn-region.fixed-annulus-window": {
+      "kind": "record_only"
+    },
+    "math.rn-region.fixed-remote": {
+      "kind": "record_only"
+    },
+    "math.rn-region.intermediate-r-to-rho": {
+      "kind": "record_only"
+    },
+    "math.rn-region.mesoscopic-scaled-annulus": {
+      "kind": "record_only"
+    },
+    "math.rn-region.pin-collision": {
+      "kind": "record_only"
+    },
+    "math.rn-region.witness-collision": {
+      "kind": "record_only"
+    },
+    "math.rn-selector-region-crosswalk": {
+      "bytes": 2753,
+      "kind": "blob",
+      "reference": "frontiers/downstream_gate_20260925/SELECTOR_REGION.json",
+      "sha256": "53fa0ec88e417882eff2a40e4b575c639d43b7e8787e7fb8917aa22ace79390d"
+    },
+    "math.side24-coefficient": {
+      "bytes": 10272,
+      "kind": "blob",
+      "reference": "coefficients/side24_v1/PROOF.md",
+      "sha256": "c06daccc4ba4b9168522b9888b76a7d599934fc3b91bd753ee5d492262917769"
+    },
+    "math.uniform-matrix-cap-lifetime": {
+      "bytes": 40261,
+      "kind": "blob",
+      "reference": "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+      "sha256": "9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7"
+    },
+    "regional.fixed-annulus.high-jet-route": {
+      "kind": "record_only"
+    }
+  },
+  "promotion_permission": false,
+  "revalidation_proposals": {},
+  "scientific_effect": "NONE",
+  "traversal_edges": [
+    [
+      "eng.main-pr87-crosswalk",
+      "eng.d0-packet-allowlist-fix"
+    ],
+    [
+      "hist.ALLCELL-FDZ-Q4",
+      "hist.allcell_fdz_enclosures.json"
+    ],
+    [
+      "hist.ENV-RESCOV",
+      "hist.rnu_env.py"
+    ],
+    [
+      "hist.SYM-Fw-jet",
+      "hist.CL_ANTHROPIC_BUNDLE_2026-09-17_v5.zip"
+    ],
+    [
+      "math.d5-pin-neighborhood-first-moment",
+      "math.d5-component.annulus-proof"
+    ],
+    [
+      "math.d5-pin-neighborhood-first-moment",
+      "math.d5-component.annulus-review"
+    ],
+    [
+      "math.d5-pin-neighborhood-first-moment",
+      "math.d5-component.collar-proof"
+    ],
+    [
+      "math.d5-pin-neighborhood-first-moment",
+      "math.d5-component.collar-review"
+    ],
+    [
+      "math.d5-pin-neighborhood-first-moment",
+      "math.d5-component.i5-review-claude"
+    ],
+    [
+      "math.d5-pin-neighborhood-first-moment",
+      "math.d5-component.i5-review-xai"
+    ],
+    [
+      "math.d5-pin-neighborhood-first-moment",
+      "math.d5-component.intermediate-window-proof"
+    ],
+    [
+      "math.d5-pin-neighborhood-first-moment",
+      "math.d5-component.punctured-pin-continuum-check"
+    ],
+    [
+      "math.d5-pin-neighborhood-first-moment",
+      "math.d5-component.punctured-pin-continuum-review"
+    ],
+    [
+      "math.d5-pin-neighborhood-first-moment",
+      "math.d5-component.punctured-pin-proof"
+    ],
+    [
+      "math.d5-pin-neighborhood-first-moment",
+      "math.d5-component.punctured-pin-review-111"
+    ],
+    [
+      "math.d5-pin-neighborhood-first-moment",
+      "math.d5-component.remote-window-proof"
+    ],
+    [
+      "math.lifetime-remainder",
+      "math.uniform-matrix-cap-lifetime"
+    ],
+    [
+      "math.p15-full-price",
+      "math.p15-price-boundary"
+    ],
+    [
+      "math.rn-fixed-annulus-window",
+      "math.rn-count-interface"
+    ],
+    [
+      "math.rn-fixed-annulus-window",
+      "math.rn-region.fixed-annulus-window"
+    ],
+    [
+      "math.rn-fixed-annulus-window",
+      "regional.fixed-annulus.high-jet-route"
+    ],
+    [
+      "math.rn-fixed-remote-window",
+      "math.rn-count-interface"
+    ],
+    [
+      "math.rn-fixed-remote-window",
+      "math.rn-region.fixed-remote"
+    ],
+    [
+      "math.rn-mesoscopic-reduction",
+      "hist.CH-LIFT"
+    ],
+    [
+      "math.rn-mesoscopic-reduction",
+      "hist.Piece-2-annulus"
+    ],
+    [
+      "math.rn-mesoscopic-reduction",
+      "math.rn-fixed-remote-window"
+    ],
+    [
+      "math.rn-mesoscopic-reduction",
+      "math.rn-region.mesoscopic-scaled-annulus"
+    ],
+    [
+      "math.rn-region.intermediate-r-to-rho",
+      "math.d5-component.i5-review-claude"
+    ],
+    [
+      "math.rn-region.intermediate-r-to-rho",
+      "math.d5-component.i5-review-xai"
+    ],
+    [
+      "math.rn-region.intermediate-r-to-rho",
+      "math.d5-component.intermediate-window-proof"
+    ],
+    [
+      "math.rn-region.mesoscopic-scaled-annulus",
+      "math.d5-component.annulus-proof"
+    ],
+    [
+      "math.rn-region.mesoscopic-scaled-annulus",
+      "math.d5-component.annulus-review"
+    ],
+    [
+      "math.rn-region.mesoscopic-scaled-annulus",
+      "math.d5-component.collar-proof"
+    ],
+    [
+      "math.rn-region.mesoscopic-scaled-annulus",
+      "math.d5-component.collar-review"
+    ],
+    [
+      "math.rn-region.mesoscopic-scaled-annulus",
+      "math.d5-component.punctured-pin-continuum-check"
+    ],
+    [
+      "math.rn-region.mesoscopic-scaled-annulus",
+      "math.d5-component.punctured-pin-continuum-review"
+    ],
+    [
+      "math.rn-region.mesoscopic-scaled-annulus",
+      "math.d5-component.punctured-pin-proof"
+    ],
+    [
+      "math.rn-region.mesoscopic-scaled-annulus",
+      "math.d5-component.punctured-pin-review-111"
+    ],
+    [
+      "math.rn-region.pin-collision",
+      "math.d5-component.collar-proof"
+    ],
+    [
+      "math.rn-region.pin-collision",
+      "math.d5-component.collar-review"
+    ],
+    [
+      "math.rn-region.pin-collision",
+      "math.d5-component.punctured-pin-continuum-check"
+    ],
+    [
+      "math.rn-region.pin-collision",
+      "math.d5-component.punctured-pin-continuum-review"
+    ],
+    [
+      "math.rn-region.pin-collision",
+      "math.d5-component.punctured-pin-proof"
+    ],
+    [
+      "math.rn-region.pin-collision",
+      "math.d5-component.punctured-pin-review-111"
+    ],
+    [
+      "math.rn-region.witness-collision",
+      "math.d5-component.offpin-second-moment-review"
+    ],
+    [
+      "math.rn-selector-region-crosswalk",
+      "math.rn-count-interface"
+    ],
+    [
+      "math.rn-selector-region-crosswalk",
+      "math.rn-fixed-remote-window"
+    ],
+    [
+      "math.side24-coefficient",
+      "math.uniform-matrix-cap-lifetime"
+    ],
+    [
+      "math.uniform-matrix-cap-lifetime",
+      "math.d1-component.congruence-erratum"
+    ],
+    [
+      "math.uniform-matrix-cap-lifetime",
+      "math.d1-component.marked-cylinder-cap"
+    ],
+    [
+      "math.uniform-matrix-cap-lifetime",
+      "math.d1-component.reconciliation-record"
+    ],
+    [
+      "math.uniform-matrix-cap-lifetime",
+      "math.d1-component.section9-replacement-v1_1"
+    ],
+    [
+      "regional.fixed-annulus.high-jet-route",
+      "hist.CH-LIFT"
+    ],
+    [
+      "regional.fixed-annulus.high-jet-route",
+      "hist.OBL-H5-JETMOD"
+    ],
+    [
+      "regional.fixed-annulus.high-jet-route",
+      "hist.Piece-2-annulus"
+    ]
+  ],
+  "unresolved_controlling_sources": []
+}

@@ -1,0 +1,35 @@
+Lemma S: transfer c1 to the [P] torus field of every side L >= 24; certify c1/c_(3,24)
+
+v1.1 of CL-CU-CUSP-COEFFICIENT-20261001. It adds side24.py, in exact
+rationals:
+- the jet covariance C_0 of (CU.2) for the Gaussian kernel (N = 9 jets in
+  d = 2, N = 14 in d = 3);
+- an order-8 periodic-image bound, valid for every L >= 24, of
+  E = (764 * 24^8 * 4374 + 105 * 54) * 1e-125 < 3.7e-108 per entry;
+- an exact LDL^T certificate that C_0 - I/4 is positive definite;
+- the PSD sandwich (1 - eps) C_0 <= C_L <= (1 + eps) C_0, with
+  eps = N E / (1/4);
+- the transfer |c1^(L)/c1^(ref) - 1| <= 8 (N/2 + 1) eps < 1.4e-104. It
+  follows from the Gaussian density sandwich and the a^(-5/8)
+  homogeneity of the (CU.2) slice integral.
+
+The self-test now rebuilds C_0 and reproduces Lemma R.1 exactly: the
+regression, det C_P = 12 and (C_P^-1)_ff = 3/2. A sixth mutant,
+image-order6 (an image bound valid only to order 6), must be rejected.
+
+RESULTS.json adds c1, I_cand and I_cand - c1 for the [P] field with
+L >= 24, and c1/c_(d,24), with c_(d,24) taken from
+coefficients/side24_v1/ENCLOSURE.json (pinned): c1/c_(3,24) lies in
+[-5.07106215, -5.07106213]. Every v1 value is unchanged.
+
+controls.py adds a direct lattice sum of the actual L = 24 covariance
+deviations: the largest is 1.8e-114, at Cov(f4, f4), against
+E = 3.7e-108.
+
+Scientific effect: NONE. No STATUS, PROOF_INDEX, GRAPH, claim, catalog,
+prize or source-body change. Not a review of Theorem CU or of
+side24_v1. Same GitHub account as every lane; zero organizational-
+independence credit.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_015wNj8LPTKXsaT68G3DgPPh

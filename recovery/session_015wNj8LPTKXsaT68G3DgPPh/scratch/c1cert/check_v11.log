@@ -1,0 +1,36 @@
+== check -B -S 11:42:10
+d = 3: T3 in [45.039309847434275, 45.039309923711116]  (247 boxes: 76 crude, 171 Gauss-Legendre, 1406081 nodes; 250s)
+{"object": "CL-CU-CUSP-COEFFICIENT-20261001-v1", "check": "passed", "scientific_effect": "NONE"}
+
+real	4m18.495s
+user	14m15.671s
+sys	0m0.200s
+mutant -B -S kernel-A rc=1
+mutant -B -S gl-weight rc=1
+mutant -B -S bound-scale rc=1
+mutant -B -S phase-sign rc=1
+mutant -B -S tail-drop rc=1
+mutant -B -S image-order6 rc=1
+== check -B -O -S 11:46:51
+d = 3: T3 in [45.039309847434275, 45.039309923711116]  (247 boxes: 76 crude, 171 Gauss-Legendre, 1406081 nodes; 213s)
+{"object": "CL-CU-CUSP-COEFFICIENT-20261001-v1", "check": "passed", "scientific_effect": "NONE"}
+
+real	3m43.014s
+user	14m10.273s
+sys	0m0.105s
+mutant -B -O -S kernel-A rc=1
+mutant -B -O -S gl-weight rc=1
+mutant -B -O -S bound-scale rc=1
+mutant -B -O -S phase-sign rc=1
+mutant -B -O -S tail-drop rc=1
+mutant -B -O -S image-order6 rc=1
+ M .github/workflows/cusp-coefficient-certified.yml
+ M frontiers/cusp_coefficient_certified_20261001/NOTE.md
+ M frontiers/cusp_coefficient_certified_20261001/README.md
+ M frontiers/cusp_coefficient_certified_20261001/RESULTS.json
+ M frontiers/cusp_coefficient_certified_20261001/SOURCE_FILES.json
+ M frontiers/cusp_coefficient_certified_20261001/SOURCE_MAP.json
+ M frontiers/cusp_coefficient_certified_20261001/certificate.py
+ M frontiers/cusp_coefficient_certified_20261001/controls.py
+?? frontiers/cusp_coefficient_certified_20261001/side24.py
+CHECKDONE

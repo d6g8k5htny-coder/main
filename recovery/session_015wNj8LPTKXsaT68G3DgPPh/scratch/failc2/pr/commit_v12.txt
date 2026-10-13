@@ -1,0 +1,21 @@
+C8 elder-failure coefficient v1.2: Lemma T (torus transfer, every L >= 10, every frame)
+
+The planar certificate now covers the torus model of [LP] and [S] itself, not only the reference kernel.
+
+- torus.py (new): every one-site jet covariance of order <= 6 differs from the reference by at most
+  delta <= 2.86e-14 for every side L >= 10 and every frame (Hermite lattice bound). Interval regressions
+  give the torus conditional laws. The exact Gaussian chi^2 identity, valid for eps^2 <= 0.006, gives
+  chi^2 <= 2.88e-23, so |J^L - J| <= 1.25e-7 for every k in [1/2, 2] (Cauchy-Schwarz with
+  E[I^2] <= 144 E[Pi_4^2]). It also gives (pi_0 p_b(0))^L/(pi_0 p_b(0))^ref = 1 +- 8.8e-12.
+  Only the verified exp of ia.py is used.
+- certificate.py: RESULTS.json gains the section "torus model, every L >= 10, every frame (Lemma T)":
+  J_fail, J_2, the torus p_b(0)/z_0, alpha_1, alpha_2, a_fail at the six grid points, and C_fail^{B,K}.
+  The reference-kernel results are unchanged.
+- controls.py: a cancellation-free float lattice-sum control of the torus deviation at L = 10, in three
+  frames, plus the d = 3 comparison with Math-#184.
+- NOTE.md section 6a states Lemma T; sections 0 and 10 are updated; README and the manifest are regenerated.
+
+Scientific effect: NONE. No STATUS, PROOF_INDEX, GRAPH or catalog edit.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_015wNj8LPTKXsaT68G3DgPPh

@@ -1,0 +1,342 @@
+diff --git a/docs/site/app.js b/docs/site/app.js
+index 71cd0e1..dbad83c 100644
+--- a/docs/site/app.js
++++ b/docs/site/app.js
+@@ -1,6 +1,6 @@
+-import {verifiedJSON, verifiedBytes, validateStatus, validateCoefficient, safeSourceURL, hex40, hex64} from './core.mjs?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e';
+-import {connectCatalogQuery} from './catalog-query.mjs?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e';
+-import {prepareWorkspaceFragment} from './workspace-fragment.mjs?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e';
++import {verifiedJSON, verifiedBytes, validateStatus, validateCoefficient, safeSourceURL, hex40, hex64} from './core.mjs?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c';
++import {connectCatalogQuery} from './catalog-query.mjs?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c';
++import {prepareWorkspaceFragment} from './workspace-fragment.mjs?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c';
+ const finishFragment=prepareWorkspaceFragment();
+ const el=id=>document.getElementById(id);
+ const node=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
+diff --git a/docs/site/brand.css b/docs/site/brand.css
+index a9d0e66..6a24e7a 100644
+--- a/docs/site/brand.css
++++ b/docs/site/brand.css
+@@ -58,7 +58,7 @@ body > header {
+   color: var(--ul-text); font-weight: 750; letter-spacing: .13em;
+   position: relative; padding-left: 57px; min-height: 44px; line-height: 1.65;
+ }
+-.brand::before { content: ""; position: absolute; left: 0; top: 1px; width: 42px; height: 42px; background: url("brand/mark.svg?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e") center/contain no-repeat; }
++.brand::before { content: ""; position: absolute; left: 0; top: 1px; width: 42px; height: 42px; background: url("brand/mark.svg?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c") center/contain no-repeat; }
+ .brand span { color: var(--ul-muted); font-size: 10px; letter-spacing: .18em; }
+ nav { gap: 12px 24px; flex-wrap: wrap; }
+ nav a { color: var(--ul-text); min-height: 36px; display: inline-flex; align-items: center; font-size: 13px; }
+diff --git a/docs/site/cite.html b/docs/site/cite.html
+index 83a4637..1aa686c 100644
+--- a/docs/site/cite.html
++++ b/docs/site/cite.html
+@@ -4,8 +4,8 @@
+ <meta name="description" content="Cite exact proofs, calculations and software sources with their real metadata, immutable commits and stated scope.">
+ <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'">
+ <title>Cite · Universal Law</title>
+-<link rel="stylesheet" href="style.css?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e"><link rel="stylesheet" href="brand.css?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e"><link rel="stylesheet" href="home.css?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e"><link rel="stylesheet" href="reference.css?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e"><link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e"><meta name="theme-color" content="#07111f">
+-<script type="module" src="cite.mjs?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e"></script>
++<link rel="stylesheet" href="style.css?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c"><link rel="stylesheet" href="brand.css?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c"><link rel="stylesheet" href="home.css?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c"><link rel="stylesheet" href="reference.css?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c"><link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c"><meta name="theme-color" content="#07111f">
++<script type="module" src="cite.mjs?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c"></script>
+ </head><body class="reader-home"><a class="skip-link" href="#main-content">Skip to content</a>
+ <header><a class="brand" href="index.html">UNIVERSAL LAW <span>MATHEMATICS IN THE OPEN</span></a><nav aria-label="Primary"><a href="index.html">Home</a><a href="explore.html">Explore</a><a href="research.html">Research</a><a href="workspace.html#inventory">Library</a></nav></header>
+ <nav class="reader-tools" aria-label="Research tools"><a href="reproduce.html">Reproduce</a><a href="cite.html" aria-current="page">Cite</a></nav>
+diff --git a/docs/site/cite.mjs b/docs/site/cite.mjs
+index c233149..9c8d90a 100644
+--- a/docs/site/cite.mjs
++++ b/docs/site/cite.mjs
+@@ -1,4 +1,4 @@
+-import {wireReferenceForm} from './source-reference.mjs?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e';
++import {wireReferenceForm} from './source-reference.mjs?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c';
+ const byId = id => document.getElementById(id);
+ wireReferenceForm({form:byId('reference-form'), repository:byId('reference-repository'), commit:byId('reference-commit'), path:byId('reference-path'), sha256:byId('reference-sha256'), output:byId('reference-output'), json:byId('reference-json'), bibtex:byId('reference-bibtex'), link:byId('reference-link'), status:byId('reference-status'), actions:byId('reference-actions'), copyText:byId('reference-copy'), copyJSON:byId('reference-copy-json'), copyBibTeX:byId('reference-copy-bibtex'), share:byId('reference-share'), clipboard:globalThis.navigator?.clipboard, location:globalThis.location, history:globalThis.history, events:globalThis.window});
+ byId('reference-builder').hidden = false;
+diff --git a/docs/site/conditionals.mjs b/docs/site/conditionals.mjs
+index 0a10bd7..4490c87 100644
+--- a/docs/site/conditionals.mjs
++++ b/docs/site/conditionals.mjs
+@@ -93,7 +93,7 @@ export function renderProjection(document,host,data,source){
+     el(document,'p','Generated from verified source bytes. This graph is not formal verification, a proof review, or a scientific-status register.'));
+   host.replaceChildren(article);
+ }
+-const services=()=>import('./museum.mjs?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e');
++const services=()=>import('./museum.mjs?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c');
+ // The museum module already verifies config → manifest → index/status once per
+ // page fetch and caches every pinned byte request. This route consumes that same
+ // verified startup, so it adds only the audited-descriptor check and projection.
+diff --git a/docs/site/curvature-export.mjs b/docs/site/curvature-export.mjs
+index e9be7f1..900289a 100644
+--- a/docs/site/curvature-export.mjs
++++ b/docs/site/curvature-export.mjs
+@@ -1,6 +1,6 @@
+ // Bounded, local export of the Peaks and saddles teaching diagram. No source fetch
+ // or proof verification occurs here; the identity below is recorded provenance.
+-import { coneModel } from './explore-models.mjs?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e';
++import { coneModel } from './explore-models.mjs?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c';
+ 
+ const SVG_NS = 'http://www.w3.org/2000/svg';
+ const PUBLIC_EXPLORE = 'https://d6g8k5htny-coder.github.io/main/site/explore.html';
+diff --git a/docs/site/dependencies.html b/docs/site/dependencies.html
+index 553f4c8..3dbea10 100644
+--- a/docs/site/dependencies.html
++++ b/docs/site/dependencies.html
+@@ -7,11 +7,11 @@
+   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self'; style-src 'self'; script-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'">
+   <title>Claim dependency viewer · Universal Law</title>
+   <meta name="theme-color" content="#07111f">
+-  <link rel="stylesheet" href="style.css?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e">
+-  <link rel="stylesheet" href="brand.css?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e">
+-  <link rel="stylesheet" href="dependencies.css?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e">
+-  <link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e">
+-  <script type="module" src="dependencies.mjs?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e"></script>
++  <link rel="stylesheet" href="style.css?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c">
++  <link rel="stylesheet" href="brand.css?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c">
++  <link rel="stylesheet" href="dependencies.css?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c">
++  <link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c">
++  <script type="module" src="dependencies.mjs?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c"></script>
+ </head>
+ <body class="dependency-page">
+ <a class="skip-link" href="#main-content">Skip to content</a>
+diff --git a/docs/site/dependencies.mjs b/docs/site/dependencies.mjs
+index 3e148db..f877508 100644
+--- a/docs/site/dependencies.mjs
++++ b/docs/site/dependencies.mjs
+@@ -11,7 +11,7 @@ import {
+   parsePinnedGraph,
+   recordedContextRows,
+   unresolvedTargets,
+-} from './dependency-model.mjs?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e';
++} from './dependency-model.mjs?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c';
+ 
+ const byId = id => document.getElementById(id);
+ 
+diff --git a/docs/site/explore-models.mjs b/docs/site/explore-models.mjs
+index 0d8b92d..be37130 100644
+--- a/docs/site/explore-models.mjs
++++ b/docs/site/explore-models.mjs
+@@ -1,6 +1,6 @@
+ // NON-CERTIFYING educational arithmetic. These functions illustrate source
+ // definitions; they do not simulate a field or estimate a theorem's constants.
+-import { annulusModel, p15Model, remoteModel } from './geometry.mjs?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e';
++import { annulusModel, p15Model, remoteModel } from './geometry.mjs?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c';
+ 
+ function finite(value, name) {
+   if (!Number.isFinite(value)) throw new RangeError(`${name} must be finite`);
+diff --git a/docs/site/explore.html b/docs/site/explore.html
+index c463fe7..8981edb 100644
+--- a/docs/site/explore.html
++++ b/docs/site/explore.html
+@@ -7,11 +7,11 @@
+   <title>Explore the mathematics · Universal Law</title>
+   <meta name="description" content="Three hands-on explanations of curvature, shrinking scales, and finite obstructions, with a path to the underlying research.">
+   <meta name="theme-color" content="#07111f">
+-  <link rel="stylesheet" href="style.css?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e">
+-  <link rel="stylesheet" href="brand.css?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e">
+-  <link rel="stylesheet" href="explore.css?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e">
+-  <link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e">
+-  <script type="module" src="explore.mjs?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e"></script>
++  <link rel="stylesheet" href="style.css?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c">
++  <link rel="stylesheet" href="brand.css?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c">
++  <link rel="stylesheet" href="explore.css?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c">
++  <link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c">
++  <script type="module" src="explore.mjs?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c"></script>
+ </head>
+ <body>
+ <a class="skip-link" href="#main-content">Skip to content</a>
+diff --git a/docs/site/explore.mjs b/docs/site/explore.mjs
+index 5a485d0..821601e 100644
+--- a/docs/site/explore.mjs
++++ b/docs/site/explore.mjs
+@@ -1,10 +1,10 @@
+-import { coneModel, pinModel, paletteModel, applyCurvaturePreset } from './explore-models.mjs?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e';
+-import { readExploreState, exploreStateURL } from './explore-state.mjs?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e';
++import { coneModel, pinModel, paletteModel, applyCurvaturePreset } from './explore-models.mjs?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c';
++import { readExploreState, exploreStateURL } from './explore-state.mjs?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c';
+ 
+-import { captureCurvatureDiagram, serializeCurvatureSVG, createCitationController } from './curvature-export.mjs?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e';
+-import { captureTeachingDiagram, createFigureCitationController } from './teaching-export.mjs?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e';
+-import { serializePinSVG, pinFigureCitation } from './pin-export.mjs?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e';
+-import { serializePaletteSVG, paletteFigureCitation } from './palette-export.mjs?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e';
++import { captureCurvatureDiagram, serializeCurvatureSVG, createCitationController } from './curvature-export.mjs?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c';
++import { captureTeachingDiagram, createFigureCitationController } from './teaching-export.mjs?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c';
++import { serializePinSVG, pinFigureCitation } from './pin-export.mjs?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c';
++import { serializePaletteSVG, paletteFigureCitation } from './palette-export.mjs?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c';
+ 
+ const ns = 'http://www.w3.org/2000/svg';
+ const byId = id => document.getElementById(id);
+diff --git a/docs/site/formal.html b/docs/site/formal.html
+index d0ecb2e..64780e2 100644
+--- a/docs/site/formal.html
++++ b/docs/site/formal.html
+@@ -4,9 +4,9 @@
+ <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; script-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'">
+ <title>Formal verification · Universal Law</title>
+-<link rel="stylesheet" href="style.css?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e"><link rel="stylesheet" href="museum.css?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e">
+-<link rel="stylesheet" href="brand.css?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e">
+-<link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e">
++<link rel="stylesheet" href="style.css?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c"><link rel="stylesheet" href="museum.css?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c">
++<link rel="stylesheet" href="brand.css?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c">
++<link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c">
+ <meta name="theme-color" content="#07111f">
+ </head>
+ <body>
+diff --git a/docs/site/index.html b/docs/site/index.html
+index 6e18e6b..20d6b41 100644
+--- a/docs/site/index.html
++++ b/docs/site/index.html
+@@ -4,8 +4,8 @@
+ <meta name="description" content="Explore the mathematics of random landscapes: peaks, connections and the features that persist. Interactive examples, research and open proofs.">
+ <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self'; style-src 'self'; script-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'">
+ <title>Universal Law · The shape of randomness</title>
+-<link rel="stylesheet" href="style.css?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e"><link rel="stylesheet" href="brand.css?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e"><link rel="stylesheet" href="home.css?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e">
+-<link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e"><meta name="theme-color" content="#07111f"><script type="module" src="home.mjs?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e"></script>
++<link rel="stylesheet" href="style.css?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c"><link rel="stylesheet" href="brand.css?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c"><link rel="stylesheet" href="home.css?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c">
++<link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c"><meta name="theme-color" content="#07111f"><script type="module" src="home.mjs?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c"></script>
+ </head><body class="reader-home">
+ <a class="skip-link" href="#main-content">Skip to content</a>
+ <header><a class="brand" href="index.html">UNIVERSAL LAW <span>MATHEMATICS IN THE OPEN</span></a><nav aria-label="Primary"><a href="index.html" aria-current="page">Home</a><a href="explore.html">Explore</a><a href="research.html">Research</a><a href="workspace.html#inventory">Library</a></nav></header>
+diff --git a/docs/site/measure.html b/docs/site/measure.html
+index 6efc8e4..7f144fd 100644
+--- a/docs/site/measure.html
++++ b/docs/site/measure.html
+@@ -7,11 +7,11 @@
+   <title>From counts to density · Universal Law</title>
+   <meta name="description" content="An interactive synthetic example showing how counts, realizations, area and bin width determine bin mass and density.">
+   <meta name="theme-color" content="#07111f">
+-  <link rel="stylesheet" href="style.css?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e">
+-  <link rel="stylesheet" href="explore.css?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e">
+-  <link rel="stylesheet" href="brand.css?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e">
+-  <link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e">
+-  <script type="module" src="measure.mjs?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e"></script>
++  <link rel="stylesheet" href="style.css?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c">
++  <link rel="stylesheet" href="explore.css?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c">
++  <link rel="stylesheet" href="brand.css?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c">
++  <link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c">
++  <script type="module" src="measure.mjs?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c"></script>
+ </head>
+ <body>
+ <a class="skip-link" href="#main-content">Skip to content</a>
+diff --git a/docs/site/measure.mjs b/docs/site/measure.mjs
+index ed54012..c433bc9 100644
+--- a/docs/site/measure.mjs
++++ b/docs/site/measure.mjs
+@@ -1,4 +1,4 @@
+-import { measurementModel, parseMeasurementInputs } from './measurement-model.mjs?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e';
++import { measurementModel, parseMeasurementInputs } from './measurement-model.mjs?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c';
+ 
+ const byId = id => document.getElementById(id);
+ const fields = Object.fromEntries(['count', 'realizations', 'lower', 'upper'].map(name => [name, byId(`measure-${name}`)]));
+diff --git a/docs/site/museum.html b/docs/site/museum.html
+index c1393fc..5a4b53d 100644
+--- a/docs/site/museum.html
++++ b/docs/site/museum.html
+@@ -4,11 +4,11 @@
+ <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://raw.githubusercontent.com; style-src 'self'; script-src 'self' https://cdn.jsdelivr.net; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'">
+ <title>Source records &amp; exhibits · Universal Law</title>
+-<link rel="stylesheet" href="style.css?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e"><link rel="stylesheet" href="museum.css?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e"><script type="module" src="museum.mjs?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e"></script><script type="module" src="conditionals.mjs?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e"></script>
++<link rel="stylesheet" href="style.css?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c"><link rel="stylesheet" href="museum.css?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c"><script type="module" src="museum.mjs?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c"></script><script type="module" src="conditionals.mjs?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c"></script>
+ <!-- EC-014 alone lazily loads Three.js 0.160.0: https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.js
+      SRI sha384-ADduDXZ84mYNs9BwgDbfsq8503KaK0OzR6s3AFB6fclZoaXtLa7zmoXdmbFSEptM. -->
+-<link rel="stylesheet" href="brand.css?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e">
+-<link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e">
++<link rel="stylesheet" href="brand.css?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c">
++<link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c">
+ <meta name="theme-color" content="#07111f">
+ </head>
+ <body>
+diff --git a/docs/site/museum.mjs b/docs/site/museum.mjs
+index 345ea59..20297fb 100644
+--- a/docs/site/museum.mjs
++++ b/docs/site/museum.mjs
+@@ -1,5 +1,5 @@
+-import {renderSourceQuote} from './source-quote.mjs?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e';
+-import {verifiedBytes, hex40, hex64} from './core.mjs?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e';
++import {renderSourceQuote} from './source-quote.mjs?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c';
++import {verifiedBytes, hex40, hex64} from './core.mjs?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c';
+ 
+ export const DISCLAIMER='This canvas explains the pinned source. It is not a proof and does not change status.';
+ const REVIEWED_IDS=['d2-lifetime-remainder','d3-side24-coefficient','d4-fixed-remote-rn','d5-all-height-annulus','d5-height-window-annulus','d5-two-scale','d5-inner-belt-density','d5-fixed-transverse','cumulative-transfer-correction','p15-demand-one-counterexample','d6-p15-full-price'];
+@@ -247,7 +247,7 @@ function prepareClaimFragment(document,window,currentHash) {
+     return true;
+   };
+ }
+-export async function startMuseum({document=globalThis.document,window=globalThis.window,fetcher=globalThis.fetch,search=globalThis.location?.search||'',geometryLoader=()=>import('./geometry.mjs?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e'),currentHash=()=>globalThis.location?.hash||''}={}){
++export async function startMuseum({document=globalThis.document,window=globalThis.window,fetcher=globalThis.fetch,search=globalThis.location?.search||'',geometryLoader=()=>import('./geometry.mjs?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c'),currentHash=()=>globalThis.location?.hash||''}={}){
+   const ids=['museum-state','claim-cards','lifetime-fixture','packet-cards','active-exhibit'];
+   const containers=Object.fromEntries(ids.map(id=>{const node=document.getElementById(id);if(!node)throw Error(`Missing museum container: ${id}`);return [id,node];}));
+   const finishFragment=prepareClaimFragment(document,window,currentHash);
+diff --git a/docs/site/palette-export.mjs b/docs/site/palette-export.mjs
+index 5adb736..0b82903 100644
+--- a/docs/site/palette-export.mjs
++++ b/docs/site/palette-export.mjs
+@@ -1,7 +1,7 @@
+ // Bounded teaching export of Explore's current finite P15 diagram. Source
+ // custody is provenance; this module performs no mathematical verification.
+-import { paletteModel } from './explore-models.mjs?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e';
+-import { serializeTeachingSVG } from './teaching-export.mjs?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e';
++import { paletteModel } from './explore-models.mjs?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c';
++import { serializeTeachingSVG } from './teaching-export.mjs?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c';
+ 
+ const PUBLIC_EXPLORE = 'https://d6g8k5htny-coder.github.io/main/site/explore.html';
+ const SOURCE = Object.freeze({
+diff --git a/docs/site/pin-export.mjs b/docs/site/pin-export.mjs
+index f1d14cf..bd8f148 100644
+--- a/docs/site/pin-export.mjs
++++ b/docs/site/pin-export.mjs
+@@ -1,7 +1,7 @@
+ // Bounded export of the CURRENT displayed Approach-points teaching diagram.
+ // Pinned source identities are provenance, not proof acceptance or verification.
+-import { pinModel } from './explore-models.mjs?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e';
+-import { serializeTeachingSVG } from './teaching-export.mjs?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e';
++import { pinModel } from './explore-models.mjs?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c';
++import { serializeTeachingSVG } from './teaching-export.mjs?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c';
+ 
+ const PUBLIC_EXPLORE='https://d6g8k5htny-coder.github.io/main/site/explore.html';
+ const COMMIT='d6628da09384728992dcbe6e921cc28ba85aebb0';
+diff --git a/docs/site/reproduce.html b/docs/site/reproduce.html
+index 89f3ccf..55a3c43 100644
+--- a/docs/site/reproduce.html
++++ b/docs/site/reproduce.html
+@@ -4,9 +4,9 @@
+ <meta name="description" content="Run a pinned exact coefficient calculation with Python’s standard library, inspect its output, and understand its scope.">
+ <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'none'; style-src 'self'; script-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'">
+ <title>Reproduce · Universal Law</title>
+-<link rel="stylesheet" href="style.css?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e"><link rel="stylesheet" href="brand.css?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e"><link rel="stylesheet" href="home.css?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e"><link rel="stylesheet" href="reference.css?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e"><link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e"><meta name="theme-color" content="#07111f">
++<link rel="stylesheet" href="style.css?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c"><link rel="stylesheet" href="brand.css?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c"><link rel="stylesheet" href="home.css?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c"><link rel="stylesheet" href="reference.css?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c"><link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c"><meta name="theme-color" content="#07111f">
+ 
+-<script type="module" src="reproduce-copy.mjs?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e"></script>
++<script type="module" src="reproduce-copy.mjs?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c"></script>
+ </head><body class="reader-home"><a class="skip-link" href="#main-content">Skip to content</a>
+ <header><a class="brand" href="index.html">UNIVERSAL LAW <span>MATHEMATICS IN THE OPEN</span></a><nav aria-label="Primary"><a href="index.html">Home</a><a href="explore.html">Explore</a><a href="research.html">Research</a><a href="workspace.html#inventory">Library</a></nav></header>
+ <nav class="reader-tools" aria-label="Research tools"><a href="reproduce.html" aria-current="page">Reproduce</a><a href="cite.html">Cite</a></nav>
+diff --git a/docs/site/research.html b/docs/site/research.html
+index 6d0e35b..366a978 100644
+--- a/docs/site/research.html
++++ b/docs/site/research.html
+@@ -4,7 +4,7 @@
+ <meta name="description" content="A reading path through Gaussian landscapes, persistence, local geometry and finite combinatorial bounds.">
+ <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self'; script-src 'none'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'">
+ <title>Research · Universal Law</title>
+-<link rel="stylesheet" href="style.css?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e"><link rel="stylesheet" href="brand.css?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e"><link rel="stylesheet" href="home.css?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e"><link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e"><meta name="theme-color" content="#07111f">
++<link rel="stylesheet" href="style.css?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c"><link rel="stylesheet" href="brand.css?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c"><link rel="stylesheet" href="home.css?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c"><link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c"><meta name="theme-color" content="#07111f">
+ </head><body class="reader-home"><a class="skip-link" href="#main-content">Skip to content</a>
+ <header><a class="brand" href="index.html">UNIVERSAL LAW <span>THE RESEARCH</span></a><nav aria-label="Primary"><a href="index.html">Home</a><a href="explore.html">Explore</a><a href="research.html" aria-current="page">Research</a><a href="workspace.html#inventory">Library</a></nav></header>
+ <nav class="reader-tools" aria-label="Research tools"><a href="reproduce.html">Reproduce</a><a href="cite.html">Cite</a></nav>
+diff --git a/docs/site/workspace.html b/docs/site/workspace.html
+index 3d0b4b4..2603bb9 100644
+--- a/docs/site/workspace.html
++++ b/docs/site/workspace.html
+@@ -4,9 +4,9 @@
+ <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+ <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self' https://raw.githubusercontent.com; style-src 'self'; script-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'">
+ <title>Research workspace · Universal Law</title>
+-<link rel="stylesheet" href="style.css?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e"><script type="module" src="app.js?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e"></script>
+-<link rel="stylesheet" href="brand.css?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e">
+-<link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=31de789ea06ceaa97c317a263062591a070457190cac45b935dc093656dd235e">
++<link rel="stylesheet" href="style.css?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c"><script type="module" src="app.js?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c"></script>
++<link rel="stylesheet" href="brand.css?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c">
++<link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=c3fec4d0c052854da0781e617805ba7a0a4b3a3bbb9517cf316914aa7c69254c">
+ <meta name="theme-color" content="#07111f">
+ </head>
+ <body>

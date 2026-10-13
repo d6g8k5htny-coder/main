@@ -1,0 +1,19 @@
+d=2  N=6 time 0.1s
+  det          c=['12', '0', '-18', '0', '14.4', '0']  e=9.697e-11
+  e_bb         c=['1.5', '0', '0.125', '0', '-0.0104167', '0']  e=1.130e-13
+  e_bk         c=['0', '0', '0', '-0.75', '0', '-0.0625']  e=4.995e-12
+  e_kk         c=['24', '0', '-6', '0', '1.2', '0']  e=1.882e-10
+  alpha_w      c=['-1', '0', '0', '0', '0', '0']  e=4.932e-14
+  beta_w       c=['0', '0', '0', '0', '0', '-2.41292e-86']  e=1.864e-12
+  C_ww         c=['2', '0', '0', '0', '0', '0']  e=2.131e-13
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/469e2708-1be1-5731-8b45-31b653d1d9d3/scratchpad/lifed/proto7.py", line 10, in <module>
+    law = T.tm_law(M, names, 6, N=N)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-0/-home-user/469e2708-1be1-5731-8b45-31b653d1d9d3/scratchpad/lifed/tmfx.py", line 230, in tm_law
+    Spp[i][j] = Spp[j][i] = cov_tm(M, P_[i], P_[j], ('p', i, j), s, N, M1)
+                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-0/-home-user/469e2708-1be1-5731-8b45-31b653d1d9d3/scratchpad/lifed/tmfx.py", line 176, in cov_tm
+    for (acc, aa, gy) in absterms:
+        ^^^^^^^^^^^^^
+ValueError: too many values to unpack (expected 3)

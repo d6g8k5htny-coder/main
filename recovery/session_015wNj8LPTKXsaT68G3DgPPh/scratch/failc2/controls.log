@@ -1,0 +1,16 @@
+1. E[2(B_-)^3]: float Simpson vs certified
+   k=0.5  float 8.357432085224  certified [8.357431233, 8.357432938]  inside: True
+   k=1  float 5.876021353648  certified [5.876020762, 5.876021946]  inside: True
+   k=2  float 5.093427233675  certified [5.093426722, 5.093427745]  inside: True
+2. direct E[H] boxes at k = 1/2 (tol 1e-7) vs the split
+   direct 3k^2 E[H] in [36.778523711, 36.792370494] (444127 leaves); split J_fail [36.78305814, 36.78680021]; intersect: True
+3. [NUM] floating values against the certified enclosures
+   k=0.5 J_1 certified [35.673610, 35.680651]  gh40 35.65240 (-0.069%)  gh60 35.67570 (-0.004%, inside)  mc 35.55950 (-0.330%)  mc s.e. 0.0856 -> (mc - mid)/se = -1.37
+   k=0.5 J_2 certified [1.106149, 1.109449]  gh40 1.12114 (+1.205%)  gh60 1.10852 (+0.065%, inside)  mc 1.11467 (+0.620%)  mc s.e. 0.0062 -> (mc - mid)/se = +1.11
+   k=1 J_1 certified [169.583953, 169.607082]  gh40 169.63499 (+0.023%)  gh60 169.61100 (+0.009%)  mc 169.37400 (-0.131%)  mc s.e. 0.2829 -> (mc - mid)/se = -0.78
+   k=1 J_2 certified [3.253122, 3.262409]  gh40 3.24944 (-0.256%)  gh60 3.25538 (-0.073%, inside)  mc 3.28057 (+0.700%)  mc s.e. 0.0222 -> (mc - mid)/se = +1.03
+   k=2 J_1 certified [1103.129655, 1103.205691]  gh40 1104.24312 (+0.097%)  gh60 1103.68000 (+0.046%)  mc 1102.63000 (-0.049%)  mc s.e. 1.6866 -> (mc - mid)/se = -0.32
+   k=2 J_2 certified [8.825089, 8.852620]  gh40 8.42114 (-4.726%)  gh60 8.64125 (-2.236%)  mc 8.87486 (+0.407%)  mc s.e. 0.0727 -> (mc - mid)/se = +0.50
+4. C_fail^{B,K} against the cap-route constants
+   C_{B,K}(1/4096), Math-#215 = 402.53 : ratio to C_fail in [1.474e+05, 1.477e+05]
+   Gamma_2 (floating), Math-#215 = 307.51 : ratio to C_fail in [1.126e+05, 1.129e+05]

@@ -1,0 +1,50 @@
+set -euo pipefail
+P=reviews/d2_two_mass_floors_20261006
+python -B -S - <<'PY'
+import hashlib, json, os, pathlib, subprocess
+def need(ok, message):
+    if not ok: raise ValueError(message)
+def pairs(items):
+    result={}
+    for key,value in items:
+        need(key not in result, 'duplicate JSON key')
+        result[key]=value
+    return result
+def git(*args):
+    return subprocess.run(['git',*args],check=True,capture_output=True).stdout
+def identity(raw):
+    return {'bytes':len(raw),'sha256':hashlib.sha256(raw).hexdigest(),
+            'git_blob':hashlib.sha1(b'blob %d\0'%len(raw)+raw).hexdigest()}
+prefix='reviews/d2_two_mass_floors_20261006'
+workflow='.github/workflows/d2-two-mass-floors.yml'
+meta=json.loads(pathlib.Path(prefix,'SOURCES.json').read_bytes(),object_pairs_hook=pairs)
+need(set(meta)=={'object','scientific_effect','files','upstream'},'manifest shape')
+need(meta['object']=='D2-TWO-MASS-FLOORS-20261006-v1' and meta['scientific_effect']=='NONE','scope')
+expected={prefix+'/'+n for n in ('NOTE.md','two_mass.py','test_two_mass.py','RESULTS.json')}
+expected.add(workflow)
+need(set(meta['files'])==expected,'manifest inventory')
+actual=set(git('ls-tree','-r','--name-only','HEAD','--',prefix).decode().splitlines())|{workflow}
+need(actual==expected|{prefix+'/SOURCES.json'},'tracked packet membership')
+for path in expected|{prefix+'/SOURCES.json'}:
+    p=pathlib.Path(path)
+    need(not any(q.is_symlink() for q in [p,*p.parents]),'symlink source')
+    raw=p.read_bytes()
+    need(raw==git('show','HEAD:'+path),'dirty source: '+path)
+    if path in expected: need(identity(raw)==meta['files'][path],'source identity: '+path)
+pins={
+    'formal/ResearchFormalCoreR1/D2Schur.lean':'b95460c0d263a32ea274b347079cca6aaab3d2e9',
+    'reviews/side24_d2_certified_small_L_claude_20261005/NOTE.md':'852f7403a8a06a1ef061e363df9502ae16f7a341'}
+need(meta['upstream']=={'commit':'2f8b6f372be383d752e9dd30d38234faa977243c','files':pins},'upstream contract')
+for path,bid in pins.items():
+    need(git('rev-parse','HEAD:'+path).decode().strip()==bid,'changed consumed slice')
+    need(identity(git('show',meta['upstream']['commit']+':'+path))['git_blob']==bid,'historical source')
+need(git('rev-parse','HEAD').decode().strip()==os.environ['GITHUB_SHA'],'tested commit')
+print('source membership, Git HEAD and upstream pins PASS; scientific effect NONE')
+PY
+python -B -S "$P/test_two_mass.py"
+python -B -O -S "$P/test_two_mass.py"
+python -B -S "$P/two_mass.py" > /tmp/claude-0/-home-user/469e2708-1be1-5731-8b45-31b653d1d9d3/scratchpad/two-mass-normal.json
+python -B -O -S "$P/two_mass.py" > /tmp/claude-0/-home-user/469e2708-1be1-5731-8b45-31b653d1d9d3/scratchpad/two-mass-optimized.json
+cmp "$P/RESULTS.json" /tmp/claude-0/-home-user/469e2708-1be1-5731-8b45-31b653d1d9d3/scratchpad/two-mass-normal.json
+cmp /tmp/claude-0/-home-user/469e2708-1be1-5731-8b45-31b653d1d9d3/scratchpad/two-mass-normal.json /tmp/claude-0/-home-user/469e2708-1be1-5731-8b45-31b653d1d9d3/scratchpad/two-mass-optimized.json
+echo 'PASS: finite rational controls only; no new Lean or scientific acceptance'

@@ -1,0 +1,3 @@
+import ResearchFormalCoreR1
+#print axioms ResearchFormalCoreR1.ec005_fold_gap
+#print axioms ResearchFormalCoreR1.ec008_factor_expansion

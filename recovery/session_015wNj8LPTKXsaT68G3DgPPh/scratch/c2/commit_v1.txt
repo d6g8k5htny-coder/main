@@ -1,0 +1,39 @@
+Give the third-order coefficient c2 (Math-#216/#218/#220) in closed form, d = 1, 2, 3
+
+Adds frontiers/c2_exact_20261001 (CL-C2-EXACT-20261001-v1). Math-#216
+obtains c2, the ell^(1/3) coefficient of the short-lifetime law, by an
+r-fit. This packet derives it exactly for the Gaussian kernel:
+
+  d = 1:  c2 = (3/4) 12^(1/6) Gamma(5/6)/pi^(3/2)         (= Math-#214's 2 B_2)
+  d = 2:  c2 = (13/18) 12^(1/6) Gamma(5/6)/pi^(3/2)       = 0.22152441062668...
+  d = 3:  c2 = (5/48)(33 - 7 sqrt6) 12^(1/6) Gamma(5/6)/pi^(5/2) = 0.16123404912696...
+
+and c2/c = kappa_d Gamma(5/6)/(12^(2/3) Gamma(1/6)), with kappa = 54, 78
+and 18(141 - sqrt6)/25.
+
+Method:
+- The pinned two-point kernel of [R] is expanded exactly in Q[[r]]:
+  Taylor jets at +-r/2, conditioning in Q[[r]], and Isserlis'
+  theorem for E[det H_M det H_S | T].
+- The k finite part reduces to Gamma values.
+- b is integrated by completing the square.
+- The cone is integrated by half-line moments (d = 2) or by an exact
+  quadrant-moment recurrence (d = 3); the arctan atom cancels exactly.
+
+The standard-library replay checks exactly that the same pipeline gives
+c = c_(d,ref) of coefficients/side24_v1 (1) in d = 2, 3, and C_0 and
+2 B_2 of Math-#214 in d = 1. It checks that the results are unchanged at
+higher truncation orders, and it encloses all values in interval
+arithmetic. Five seeded mutants must be rejected.
+
+Controls: a finite-r kernel built from closed-form displaced derivatives
+(no Taylor jets) converges to the exact A_2(b, k) at rate O(r^2). All
+nine of Math-#216's quoted values are correct roundings.
+
+Scientific effect: NONE. No STATUS, PROOF_INDEX, GRAPH, claim, catalog,
+prize or source-body change. Gaussian kernel only. Not a review of
+Math-#216, #218 or #220. Same GitHub account as every lane; zero
+organizational-independence credit.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_015wNj8LPTKXsaT68G3DgPPh
