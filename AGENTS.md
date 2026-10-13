@@ -27,6 +27,10 @@ rewrite historical authorship, hypotheses or outcomes.
   formal code, its evidence or enforcement. The
   [rollout record](docs/FORMAL_VERIFICATION_ROLLOUT_20260927.md) explains the two
   existing pilots; do not introduce another vocabulary or scientific register.
+- [Access record](governance/OP-ACCESS-20261007.md): what each lane has been
+  observed to read and write on GitHub, where the recorded refusals come from,
+  and the owner actions that remain. Read it before diagnosing a permission
+  failure or asking Dylan for access he has already granted.
 
 For changes under `docs/site` or `docs/public-math`, use the
 [site verification guide](docs/site/README.md#verify-the-reader-experience).
