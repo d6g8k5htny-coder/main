@@ -163,3 +163,13 @@ elaboration log, the reply on #447 and the note on main#307, the PR body as upda
 wording of the earlier binding post; the Lifetime successor proposal as posted (main#307 6137849133) and the RN successor
 scoping note (`scratch/lvs/r7/rn_successor_scoping.md`, read-only design input, not a proposal). Hosted runs on
 `215726a2` were in progress at this checkpoint; no hosted outcome for that head is recorded here.
+
+## Checkpoint 10 (2026-10-13, about 04:13Z): the amended head's hosted runs bound
+
+Incremental commit, no rewrite, after checkpoint 9 (`791e5c3e`): adds the read-only run records for Math-#447 head
+`215726a2` (`scratch/lvs/r7/runs447_215726a2.json`: runs 38344645102 statements, 38344645161 proofs, 38344645372
+downstream replay, all pull_request attempt 1, all `success`; artifact names, ids, sizes and GitHub digests; bytes not
+downloaded), the generalized collector and text generator, the binding as placed in the PR body and posted on #447 and
+main#307. The tested merge `15e8fa2f` (= `refs/pull/447/merge`, parents `9fb0a4a0` and `215726a2`) has exactly the head's
+tree `f98bbf51`, verified locally. A green run is a record of a computation about the formal objects; nothing here is a
+review, an alignment, an acceptance or a label move.
