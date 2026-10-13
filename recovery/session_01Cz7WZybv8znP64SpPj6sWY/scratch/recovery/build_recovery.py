@@ -18,6 +18,7 @@ AREAS = {
  'lvs_misc_notes_and_fixes': ['lvs/bind358', 'lvs/bind434', 'lvs/body428', 'lvs/crawl', 'lvs/elab', 'lvs/field_lifetime_work', 'lvs/fixer_fl', 'lvs/fixer_infra', 'lvs/fixer_rn', 'lvs/gov', 'lvs/guide_row', 'lvs/infra_copy', 'lvs/infra_fixture', 'lvs/infra_scratch'],
  'frontier_round_and_handoff_tooling': ['lvs/r7', 'handoff'],
  'recovery_tooling': ['recovery'],
+ 'intake_checker_fix': ['intakefix_out'],
 }
 LVS_TOP_FILES = True  # also the loose files directly under lvs/
 EXCL_DIR = {'.lake', 'node_modules', '__pycache__', '.git', 'wt', 'wt2', 'wt3', 'base_wt', 'idx_wt', 'idx_wt2', 'verify_pub', 'pp', 'clone', 'mirror'}

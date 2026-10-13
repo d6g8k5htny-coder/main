@@ -270,3 +270,16 @@ PR head and tested merge), the register copy `REGISTER_7f5f1c82.json` it renders
 main `e665b69c` on the #358 branch (`claude/lean-verification-specification-20261010`, pushed and read back). Counts moved
 354 -> 360 statement entries, 157 -> 160 proved, 75 -> 78 theorems over 74 -> 77 Props, 150 -> 153 registered declarations,
 67 -> 66 Props without a theorem; no claim-level label moves. The Lifetime and RN slices are unchanged (checkpoints 17, 18).
+
+## Checkpoint 20 (2026-10-13, about 19:35Z): the trusted intake-checker diagnosis and the link-up texts
+
+Incremental commit, no rewrite, after checkpoint 19 (`c4fc0a2c`): adds the area `intake_checker_fix` (`intakefix_out/`) with
+the proposed patch `public_intake_orphan_404.patch` (SHA-256 `7cb9ee64a99d026a2c3b5d040e05a50d8fead89f9f80519fa6ed2274c5faf18a`;
+43 lines added, 1 removed, against `tools/public_intake_check.py` and `tests/test_public_intake.py` at main `f036dab9`) and the
+two comment bodies that report it (main#386 6153330269, main#307 6153336978). The cause: `public-intake` rejects with
+"HTTP Error 404: Not Found" when its branch scan reaches `claude/recovery-01N-20261013`, an unrelated-history branch whose
+compare answers 404, before the branch that vouches for the source commit. The patch is proposed, not pushed: it changes the
+trusted `pull_request_target` boundary, so its routing waits on the coordinator. Also adds under `lvs/r7/pr386/` and
+`lvs/r7/linkup/` the main#386 body and comment texts (before and after the re-run note; the one re-run, job 115492114356,
+failed identically) and the availability reply on main#307 (6153450395), and under `lvs/register_update15/` the #358 body
+and note texts. Nothing pushed to `main` or Math-, no PR opened, nothing merged or marked ready, no label moved.

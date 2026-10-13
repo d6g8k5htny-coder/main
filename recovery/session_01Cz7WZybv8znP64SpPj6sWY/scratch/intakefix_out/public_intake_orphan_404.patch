@@ -1,0 +1,80 @@
+diff --git a/tests/test_public_intake.py b/tests/test_public_intake.py
+index d22cdd1..d531e28 100644
+--- a/tests/test_public_intake.py
++++ b/tests/test_public_intake.py
+@@ -15,6 +15,7 @@ import unicodedata
+ import unittest
+ import zipfile
+ import zlib
++import urllib.error
+ 
+ spec = importlib.util.spec_from_file_location('intake', Path(__file__).resolve().parents[1] / 'tools/public_intake_check.py')
+ intake = importlib.util.module_from_spec(spec)
+@@ -448,6 +449,37 @@ class IntakeTests(unittest.TestCase):
+         self.assertIn(f'/repos/{REPO}/compare/{branch}...{"d" * 40}?per_page=1', self.api.calls)
+         self.assertFalse(any('page=2' in c for c in self.api.calls))  # a short page ends the enumeration
+ 
++    def test_orphan_branch_404_does_not_vouch_and_scan_continues(self):
++        # An unrelated-history branch listed before the vouching branch: GitHub's compare answers
++        # 404 "No common ancestor". That branch does not vouch; the scan must reach the next branch.
++        raw = b'public numbers on a research branch\n'
++        orphan, branch = 'claude/recovery-orphan', 'claude/recovery-real'
++        self.manifest['sources'] = [{'repository': REPO, 'path': 'research/numbers.json', 'commit': 'd' * 40, 'sha256': sha(raw)}]
++        self.save()
++        self.install_source(REPO, 'd' * 40, 'research/numbers.json', raw, branches=('main', orphan, branch), reachable_from=(branch,))
++        no_common = urllib.error.HTTPError('https://api.github.com', 404, 'Not Found', None, None)
++        self.api.routes[f'/repos/{REPO}/compare/{orphan}...{"d" * 40}?per_page=1'] = no_common
++        self.assertEqual(self.run_check()['verified_sources'], 1)
++        self.assertIn(f'/repos/{REPO}/compare/{branch}...{"d" * 40}?per_page=1', self.api.calls)
++
++    def test_orphan_branch_404_alone_is_not_reachability(self):
++        # Negative control: a 404 is "does not vouch", never "vouches"; with no other branch the source is refused.
++        raw = b'public numbers on a research branch\n'
++        orphan = 'claude/recovery-orphan'
++        self.manifest['sources'] = [{'repository': REPO, 'path': 'research/numbers.json', 'commit': 'd' * 40, 'sha256': sha(raw)}]
++        self.save()
++        self.install_source(REPO, 'd' * 40, 'research/numbers.json', raw, branches=('main', orphan), reachable_from=())
++        self.api.routes[f'/repos/{REPO}/compare/{orphan}...{"d" * 40}?per_page=1'] = urllib.error.HTTPError('u', 404, 'Not Found', None, None)
++        self.reject('not reachable from any branch')
++
++    def test_compare_non_404_http_error_still_rejects(self):
++        # Negative control: only 404 means "this branch does not vouch"; a 403 or 500 is not evidence and rejects.
++        route = f'/repos/{MATH}/compare/main...{SOURCE}?per_page=1'
++        for code in (403, 500, 502):
++            with self.subTest(code=code):
++                self.api.routes[route] = urllib.error.HTTPError('u', code, 'error', None, None)
++                self.reject(f'HTTP Error {code}')
++
+     def test_reachable_default_branch_costs_one_compare_call(self):
+         self.assertEqual(self.run_check()['verified_sources'], 1)
+         self.assertEqual(self.reachability_calls(), [f'/repos/{MATH}/compare/main...{SOURCE}?per_page=1'])
+diff --git a/tools/public_intake_check.py b/tools/public_intake_check.py
+index edc64d9..0bdfe50 100644
+--- a/tools/public_intake_check.py
++++ b/tools/public_intake_check.py
+@@ -15,6 +15,7 @@ import os
+ from pathlib import Path, PurePosixPath
+ import re
+ import struct
++import urllib.error
+ import urllib.request
+ import zlib
+ 
+@@ -202,7 +203,16 @@ def tree(api, repo, ref):
+ def ancestor_of_branch(api, repo, branch, commit):
+     if not (isinstance(branch, str) and BRANCH.fullmatch(branch) and '..' not in branch):
+         return False  # a name this route cannot carry safely never vouches for a source
+-    data = api.get(f'/repos/{repo}/compare/{branch}...{commit}?per_page=1')
++    try:
++        data = api.get(f'/repos/{repo}/compare/{branch}...{commit}?per_page=1')
++    except urllib.error.HTTPError as error:
++        # GitHub answers 404 "No common ancestor" for a branch with unrelated history
++        # (an orphan branch), and 404 for a branch deleted between listing and compare.
++        # Either way that branch does not vouch; keep scanning. Any other status is
++        # not evidence either way and still rejects.
++        if error.code == 404:
++            return False
++        raise
+     if not (isinstance(data, dict) and isinstance(data.get('merge_base_commit'), dict)):
+         return False  # any other shape is not evidence of reachability
+     return (type(data.get('ahead_by')) is int and data['ahead_by'] == 0 and data.get('status') in ('behind', 'identical')
