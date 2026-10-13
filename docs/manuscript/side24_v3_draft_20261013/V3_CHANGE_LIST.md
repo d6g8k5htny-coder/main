@@ -13,6 +13,13 @@ Dylan Roy — delegated AI work. Actual performer: Anthropic Claude, Claude Code
 | V3 edit pack | `V3_EDIT_PACK_20260930.md` (archive V2_2), items E1–E78, last entry 13 Oct 15:52Z |
 | Literature delta | main#275 comment 6146291432 (C273, two independent searches, 13 Oct) |
 
+## Other manuscript lines (not used as the base)
+
+- **The September edition.** This repository's branch `chatgpt/drive-github-hardening-20260919` also mirrors `PKG-03 — PREPEER_MANUSCRIPT_v2_SEP13_WITH_ERRATA`, a broader "pre-peer-review manuscript, second edition" of 13 September 2026, with errata (SHA-256 `3df5b5fc…`). It covers the SIDE24 3D track together with the 2D q0 program.
+- **Why V3 does not use it.** The V3 edit pack is keyed to the 30 July manuscript and its V2 sheet, so V3 continues that line.
+- **Its errata firewall still holds.** Errata §1 says that the ratified upper chain is the 3D SIDE24 theorem and must not be composed with the 2D lower wall into a two-sided 2D law. V3 respects this: planar results appear only as separate $d = 2$ remarks (§5.5), and no cross-dimension inference is made.
+- **Its other errata do not apply here.** Errata §2 concerns that edition's campaign records, which V3 does not cite.
+
 ## Author decisions as drafted (defaults)
 
 1. **Theorem 2.1 strength.** Theorem 2.1 = E10's two-provider form `c ℓ^{-1/3}(1+O(ℓ^{1/3}))`, proved in §3; the merged three-term law (E18/E19/E43) = Theorem 2.3; the later refinements (E60–E77) = Remark 2.4. Switches: put Theorem 2.3 into Theorem 2.1, or move it to the Discussion.
