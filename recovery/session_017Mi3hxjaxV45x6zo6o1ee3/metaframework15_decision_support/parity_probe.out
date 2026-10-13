@@ -1,0 +1,98 @@
+contract           case                                           schema   python
+repository_role    example repository_role.json as published      accept   accept                                   SAME
+source_ref         example source_ref.git.json as published       accept   accept                                   SAME
+source_manifest    example source_manifest.json as published      accept   accept                                   SAME
+workspace_snapshot example workspace_snapshot.json as published   accept   accept                                   SAME
+source_ref         example source_ref.drive.json as published     accept   accept                                   SAME
+repository_role    schema_version='1.0'                           accept   accept                                   SAME
+source_ref         schema_version='1.0'                           accept   accept                                   SAME
+source_manifest    schema_version='1.0'                           accept   accept                                   SAME
+workspace_snapshot schema_version='1.0'                           accept   accept                                   SAME
+source_ref         (external) schema_version='1.0'                accept   accept                                   SAME
+repository_role    schema_version='1.1'                           reject   accept                                   DIFF
+source_ref         schema_version='1.1'                           reject   accept                                   DIFF
+source_manifest    schema_version='1.1'                           reject   accept                                   DIFF
+workspace_snapshot schema_version='1.1'                           reject   accept                                   DIFF
+source_ref         (external) schema_version='1.1'                reject   accept                                   DIFF
+repository_role    schema_version='1.10'                          reject   accept                                   DIFF
+source_ref         schema_version='1.10'                          reject   accept                                   DIFF
+source_manifest    schema_version='1.10'                          reject   accept                                   DIFF
+workspace_snapshot schema_version='1.10'                          reject   accept                                   DIFF
+source_ref         (external) schema_version='1.10'               reject   accept                                   DIFF
+repository_role    schema_version='01.0'                          reject   accept                                   DIFF
+source_ref         schema_version='01.0'                          reject   accept                                   DIFF
+source_manifest    schema_version='01.0'                          reject   accept                                   DIFF
+workspace_snapshot schema_version='01.0'                          reject   accept                                   DIFF
+source_ref         (external) schema_version='01.0'               reject   accept                                   DIFF
+repository_role    schema_version='1.00'                          reject   accept                                   DIFF
+source_ref         schema_version='1.00'                          reject   accept                                   DIFF
+source_manifest    schema_version='1.00'                          reject   accept                                   DIFF
+workspace_snapshot schema_version='1.00'                          reject   accept                                   DIFF
+source_ref         (external) schema_version='1.00'               reject   accept                                   DIFF
+repository_role    schema_version='1'                             reject   reject (invalid schema_version)          SAME
+source_ref         schema_version='1'                             reject   reject (invalid schema_version)          SAME
+source_manifest    schema_version='1'                             reject   reject (invalid schema_version)          SAME
+workspace_snapshot schema_version='1'                             reject   reject (invalid schema_version)          SAME
+source_ref         (external) schema_version='1'                  reject   reject (invalid schema_version)          SAME
+repository_role    schema_version='1.0.0'                         reject   reject (invalid schema_version)          SAME
+source_ref         schema_version='1.0.0'                         reject   reject (invalid schema_version)          SAME
+source_manifest    schema_version='1.0.0'                         reject   reject (invalid schema_version)          SAME
+workspace_snapshot schema_version='1.0.0'                         reject   reject (invalid schema_version)          SAME
+source_ref         (external) schema_version='1.0.0'              reject   reject (invalid schema_version)          SAME
+repository_role    schema_version='2.0'                           reject   reject (unsupported schema major)        SAME
+source_ref         schema_version='2.0'                           reject   reject (unsupported schema major)        SAME
+source_manifest    schema_version='2.0'                           reject   reject (unsupported schema major)        SAME
+workspace_snapshot schema_version='2.0'                           reject   reject (unsupported schema major)        SAME
+source_ref         (external) schema_version='2.0'                reject   reject (unsupported schema major)        SAME
+repository_role    schema_version='1.0\n'                         reject   reject (invalid schema_version)          SAME
+source_ref         schema_version='1.0\n'                         reject   reject (invalid schema_version)          SAME
+source_manifest    schema_version='1.0\n'                         reject   reject (invalid schema_version)          SAME
+workspace_snapshot schema_version='1.0\n'                         reject   reject (invalid schema_version)          SAME
+source_ref         (external) schema_version='1.0\n'              reject   reject (invalid schema_version)          SAME
+repository_role    schema_version=' 1.0'                          reject   reject (invalid schema_version)          SAME
+source_ref         schema_version=' 1.0'                          reject   reject (invalid schema_version)          SAME
+source_manifest    schema_version=' 1.0'                          reject   reject (invalid schema_version)          SAME
+workspace_snapshot schema_version=' 1.0'                          reject   reject (invalid schema_version)          SAME
+source_ref         (external) schema_version=' 1.0'               reject   reject (invalid schema_version)          SAME
+repository_role    schema_version=1                               reject   reject (schema_version must be a string) SAME
+source_ref         schema_version=1                               reject   reject (schema_version must be a string) SAME
+source_manifest    schema_version=1                               reject   reject (schema_version must be a string) SAME
+workspace_snapshot schema_version=1                               reject   reject (schema_version must be a string) SAME
+source_ref         (external) schema_version=1                    reject   reject (schema_version must be a string) SAME
+repository_role    schema_version=1.0                             reject   reject (schema_version must be a string) SAME
+source_ref         schema_version=1.0                             reject   reject (schema_version must be a string) SAME
+source_manifest    schema_version=1.0                             reject   reject (schema_version must be a string) SAME
+workspace_snapshot schema_version=1.0                             reject   reject (schema_version must be a string) SAME
+source_ref         (external) schema_version=1.0                  reject   reject (schema_version must be a string) SAME
+repository_role    schema_version=None                            reject   reject (schema_version must be a string) SAME
+source_ref         schema_version=None                            reject   reject (schema_version must be a string) SAME
+source_manifest    schema_version=None                            reject   reject (schema_version must be a string) SAME
+workspace_snapshot schema_version=None                            reject   reject (schema_version must be a string) SAME
+source_ref         (external) schema_version=None                 reject   reject (schema_version must be a string) SAME
+repository_role    runtime_package omitted                        reject   accept                                   DIFF
+repository_role    runtime_package=null                           accept   accept                                   SAME
+repository_role    runtime_package='pkg'                          accept   accept                                   SAME
+repository_role    runtime_package=''                             accept   accept                                   SAME
+repository_role    runtime_package=1                              reject   reject (runtime_package must be string o SAME
+repository_role    runtime_package=['a']                          reject   reject (runtime_package must be string o SAME
+source_ref         git path 'sandbox/x.md'                        accept   reject (private sandbox path refused)    DIFF
+source_ref         git path '../x.md'                             accept   reject (unsafe path)                     DIFF
+source_ref         git path 'a\\b.md' (backslash)                 accept   reject (unsafe path)                     DIFF
+source_ref         git role ' proof ' (padded)                    accept   reject (role required)                   DIFF
+source_ref         git size_bytes=1.0 (float)                     accept   reject (invalid size_bytes)              DIFF
+source_ref         git size_bytes=true                            reject   reject (invalid size_bytes)              SAME
+source_ref         git commit uppercase hex                       reject   reject (exact commit required)           SAME
+source_ref         external visibility='private' (public reader)  accept   reject (public contract requires public  DIFF
+repository_role    canonical_authority_for=['']                   accept   reject (canonical_authority_for must be  DIFF
+repository_role    role_id=' ' (whitespace)                       accept   reject (role_id required)                DIFF
+workspace_snapshot 8 entries, Math- twice, trial missing          accept   reject (duplicate repository)            DIFF
+source_manifest    duplicate manifest path                        accept   reject (duplicate manifest path)         DIFF
+source_manifest    manifest path under sandbox/                   accept   reject (private sandbox path refused)    DIFF
+repository_role    extra key lemma_closed=true at top level       accept   accept                                   SAME
+source_ref         git extra key status='accepted'                accept   accept                                   SAME
+
+91 cases; 32 differ.
+schema stricter than Python: 21
+Python stricter than schema: 11
+returned object keeps omission: False
+VER regex: ^([0-9]+)\.([0-9]+)$ | fullmatch('1.0\n') -> None

@@ -1,0 +1,15 @@
+Mutant controls for tests/test_contract_compatibility.py (scratch copies of candidate; 22:15Z)
+M1 VER tightened to ^(1)\.(0)$          -> FAILED (failures=18, errors=20): version pins + refusal-message + semantic-under-minor tests
+M2 repository_role schema_version const -> pattern -> FAILED (1 failure, 1 error): facet pin + required-key facet
+M3 examples/repository_role.json runtime_package removed -> FAILED (2 failures, 1 error): canonical-form pins (+ omission fixture)
+M4 reader requires runtime_package      -> FAILED (errors=1): omission allowance pin
+M5 schema required drops runtime_package -> FAILED (failures=2): runtime_package facet + required-list pins
+M6 examples/source_ref.drive.json schema_version 1.1 -> FAILED (failures=2): literal 1.0 + required-key facet pins
+BASE unmutated copy                     -> OK (16 tests)
+Full discovery at candidate: 60 tests OK (normal) / 60 tests OK (-O); git diff --check clean.
+
+Delta (22:38Z) at the successor head, tests/test_contract_compatibility.py 21 tests; full discovery 65 OK normal / 65 OK -O; diff --check clean.
+M7 parse_major coerces int/float/bool to str  -> FAILED (failures=18): test_non_string_versions_are_refused_by_parse_major_itself (int/float/bool) + refusal-message test on all five examples (int/float/bool)
+M8 examples/source_manifest.json files[0].sha256 = int('1'*64) -> FAILED (failures=2): test_manifest_file_entries_carry_literal_string_identities (sha256, sha256 literal); unchanged reader still accepts the mutated manifest (defect recorded)
+M9 examples/workspace_snapshot.json repositories[0].commit = int('1'*40) -> FAILED (failures=2): test_snapshot_repository_entries_carry_literal_string_identities (commit, commit literal); unchanged reader still accepts (defect recorded)
+M1..M6 re-run at the successor head: all still caught by the same named tests.

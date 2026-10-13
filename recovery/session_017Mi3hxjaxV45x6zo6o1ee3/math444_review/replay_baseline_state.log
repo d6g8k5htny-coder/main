@@ -1,0 +1,35 @@
+[baseline] -B -S zero-mutant: rc=0 register_state=baseline stdout==RESULTS.json: True stderr_empty=True
+    validate_baseline: accepted
+    partial-install: rc=1 stderr=0B passed=False register_state=baseline failed=['TRANSITIONS'] frozen=['TRANSITIONS'] -> accepted
+    allow-symlink: rc=1 stderr=0B passed=False register_state=baseline failed=['NEGATIVES'] frozen=['NEGATIVES'] -> accepted
+    no-hash: rc=1 stderr=0B passed=False register_state=baseline failed=['NEGATIVES'] frozen=['NEGATIVES'] -> accepted
+    stale-fingerprint: rc=1 stderr=0B passed=False register_state=baseline failed=['GATE', 'TRANSITIONS'] frozen=['GATE', 'TRANSITIONS'] -> accepted
+    drop-required-edge: rc=1 stderr=0B passed=False register_state=baseline failed=['GATE', 'TRANSITIONS'] frozen=['GATE', 'TRANSITIONS'] -> accepted
+    executed-flag: rc=1 stderr=0B passed=False register_state=baseline failed=['GATE', 'TRANSITIONS'] frozen=['GATE', 'TRANSITIONS'] -> accepted
+    controlling-true: rc=1 stderr=0B passed=False register_state=baseline failed=['GATE', 'TRANSITIONS'] frozen=['GATE', 'TRANSITIONS'] -> accepted
+    tail-reversed: rc=1 stderr=0B passed=False register_state=baseline failed=['DEDUCTION'] frozen=['DEDUCTION'] -> accepted
+    pair-identity-broken: rc=1 stderr=0B passed=False register_state=baseline failed=['DEDUCTION'] frozen=['DEDUCTION'] -> accepted
+    route-c-broken: rc=1 stderr=0B passed=False register_state=baseline failed=['DEDUCTION'] frozen=['DEDUCTION'] -> accepted
+    drop-review-needle: rc=1 stderr=0B passed=False register_state=baseline failed=['VERDICTS'] frozen=['VERDICTS'] -> accepted
+    installed-drift: rc=1 stderr=0B passed=False register_state=baseline failed=['GATE', 'TRANSITIONS'] frozen=['GATE', 'TRANSITIONS'] -> accepted
+    snapshot-omitted: rc=1 stderr=0B passed=False register_state=baseline failed=['GATE'] frozen=['GATE'] -> accepted
+    record-unreviewed: rc=1 stderr=0B passed=False register_state=baseline failed=['GATE', 'REVIEWED', 'TRANSITIONS'] frozen=['GATE', 'REVIEWED', 'TRANSITIONS'] -> accepted
+    reviewed-text-drift: rc=1 stderr=0B passed=False register_state=baseline failed=['REVIEWED'] frozen=['REVIEWED'] -> accepted
+[baseline] -B -O -S zero-mutant: rc=0 register_state=baseline stdout==RESULTS.json: True stderr_empty=True
+    validate_baseline: accepted
+    partial-install: rc=1 stderr=0B passed=False register_state=baseline failed=['TRANSITIONS'] frozen=['TRANSITIONS'] -> accepted
+    allow-symlink: rc=1 stderr=0B passed=False register_state=baseline failed=['NEGATIVES'] frozen=['NEGATIVES'] -> accepted
+    no-hash: rc=1 stderr=0B passed=False register_state=baseline failed=['NEGATIVES'] frozen=['NEGATIVES'] -> accepted
+    stale-fingerprint: rc=1 stderr=0B passed=False register_state=baseline failed=['GATE', 'TRANSITIONS'] frozen=['GATE', 'TRANSITIONS'] -> accepted
+    drop-required-edge: rc=1 stderr=0B passed=False register_state=baseline failed=['GATE', 'TRANSITIONS'] frozen=['GATE', 'TRANSITIONS'] -> accepted
+    executed-flag: rc=1 stderr=0B passed=False register_state=baseline failed=['GATE', 'TRANSITIONS'] frozen=['GATE', 'TRANSITIONS'] -> accepted
+    controlling-true: rc=1 stderr=0B passed=False register_state=baseline failed=['GATE', 'TRANSITIONS'] frozen=['GATE', 'TRANSITIONS'] -> accepted
+    tail-reversed: rc=1 stderr=0B passed=False register_state=baseline failed=['DEDUCTION'] frozen=['DEDUCTION'] -> accepted
+    pair-identity-broken: rc=1 stderr=0B passed=False register_state=baseline failed=['DEDUCTION'] frozen=['DEDUCTION'] -> accepted
+    route-c-broken: rc=1 stderr=0B passed=False register_state=baseline failed=['DEDUCTION'] frozen=['DEDUCTION'] -> accepted
+    drop-review-needle: rc=1 stderr=0B passed=False register_state=baseline failed=['VERDICTS'] frozen=['VERDICTS'] -> accepted
+    installed-drift: rc=1 stderr=0B passed=False register_state=baseline failed=['GATE', 'TRANSITIONS'] frozen=['GATE', 'TRANSITIONS'] -> accepted
+    snapshot-omitted: rc=1 stderr=0B passed=False register_state=baseline failed=['GATE'] frozen=['GATE'] -> accepted
+    record-unreviewed: rc=1 stderr=0B passed=False register_state=baseline failed=['GATE', 'REVIEWED', 'TRANSITIONS'] frozen=['GATE', 'REVIEWED', 'TRANSITIONS'] -> accepted
+    reviewed-text-drift: rc=1 stderr=0B passed=False register_state=baseline failed=['REVIEWED'] frozen=['REVIEWED'] -> accepted
+RESULT: all child results accepted (12.0 s)

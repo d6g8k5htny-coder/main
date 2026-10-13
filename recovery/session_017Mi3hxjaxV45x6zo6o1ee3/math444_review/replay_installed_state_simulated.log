@@ -1,0 +1,38 @@
+live register state before simulation: baseline
+state of the final build: installed
+[installed-simulated] -B -S zero-mutant: rc=0 register_state=installed stdout==RESULTS_INSTALLED.json: True stderr_empty=True
+    validate_baseline: accepted
+    partial-install: rc=1 stderr=0B passed=False register_state=installed failed=['TRANSITIONS'] frozen=['TRANSITIONS'] -> accepted
+    allow-symlink: rc=1 stderr=0B passed=False register_state=installed failed=['NEGATIVES'] frozen=['NEGATIVES'] -> accepted
+    no-hash: rc=1 stderr=0B passed=False register_state=installed failed=['NEGATIVES'] frozen=['NEGATIVES'] -> accepted
+    stale-fingerprint: rc=1 stderr=0B passed=False register_state=partial failed=['GATE', 'LIVE', 'TRANSITIONS'] frozen=['GATE', 'TRANSITIONS'] -> REFUSED: C6 residual child contract: register state changed   <-- differs from the frozen map
+    drop-required-edge: rc=1 stderr=0B passed=False register_state=installed failed=['GATE', 'TRANSITIONS'] frozen=['GATE', 'TRANSITIONS'] -> accepted
+    executed-flag: rc=1 stderr=0B passed=False register_state=installed failed=['GATE', 'TRANSITIONS'] frozen=['GATE', 'TRANSITIONS'] -> accepted
+    controlling-true: rc=1 stderr=0B passed=False register_state=installed failed=['GATE', 'TRANSITIONS'] frozen=['GATE', 'TRANSITIONS'] -> accepted
+    tail-reversed: rc=1 stderr=0B passed=False register_state=installed failed=['DEDUCTION'] frozen=['DEDUCTION'] -> accepted
+    pair-identity-broken: rc=1 stderr=0B passed=False register_state=installed failed=['DEDUCTION'] frozen=['DEDUCTION'] -> accepted
+    route-c-broken: rc=1 stderr=0B passed=False register_state=installed failed=['DEDUCTION'] frozen=['DEDUCTION'] -> accepted
+    drop-review-needle: rc=1 stderr=0B passed=False register_state=installed failed=['VERDICTS'] frozen=['VERDICTS'] -> accepted
+    installed-drift: rc=1 stderr=0B passed=False register_state=installed failed=['TRANSITIONS'] frozen=['GATE', 'TRANSITIONS'] -> REFUSED: C6 residual child contract: mutant failed a different check set: installed-drift   <-- differs from the frozen map
+    snapshot-omitted: rc=1 stderr=0B passed=False register_state=installed failed=['GATE'] frozen=['GATE'] -> accepted
+    record-unreviewed: rc=1 stderr=0B passed=False register_state=partial failed=['GATE', 'LIVE', 'REVIEWED', 'TRANSITIONS'] frozen=['GATE', 'REVIEWED', 'TRANSITIONS'] -> REFUSED: C6 residual child contract: register state changed   <-- differs from the frozen map
+    reviewed-text-drift: rc=1 stderr=0B passed=False register_state=installed failed=['REVIEWED'] frozen=['REVIEWED'] -> accepted
+[installed-simulated] -B -O -S zero-mutant: rc=0 register_state=installed stdout==RESULTS_INSTALLED.json: True stderr_empty=True
+    validate_baseline: accepted
+    partial-install: rc=1 stderr=0B passed=False register_state=installed failed=['TRANSITIONS'] frozen=['TRANSITIONS'] -> accepted
+    allow-symlink: rc=1 stderr=0B passed=False register_state=installed failed=['NEGATIVES'] frozen=['NEGATIVES'] -> accepted
+    no-hash: rc=1 stderr=0B passed=False register_state=installed failed=['NEGATIVES'] frozen=['NEGATIVES'] -> accepted
+    stale-fingerprint: rc=1 stderr=0B passed=False register_state=partial failed=['GATE', 'LIVE', 'TRANSITIONS'] frozen=['GATE', 'TRANSITIONS'] -> REFUSED: C6 residual child contract: register state changed   <-- differs from the frozen map
+    drop-required-edge: rc=1 stderr=0B passed=False register_state=installed failed=['GATE', 'TRANSITIONS'] frozen=['GATE', 'TRANSITIONS'] -> accepted
+    executed-flag: rc=1 stderr=0B passed=False register_state=installed failed=['GATE', 'TRANSITIONS'] frozen=['GATE', 'TRANSITIONS'] -> accepted
+    controlling-true: rc=1 stderr=0B passed=False register_state=installed failed=['GATE', 'TRANSITIONS'] frozen=['GATE', 'TRANSITIONS'] -> accepted
+    tail-reversed: rc=1 stderr=0B passed=False register_state=installed failed=['DEDUCTION'] frozen=['DEDUCTION'] -> accepted
+    pair-identity-broken: rc=1 stderr=0B passed=False register_state=installed failed=['DEDUCTION'] frozen=['DEDUCTION'] -> accepted
+    route-c-broken: rc=1 stderr=0B passed=False register_state=installed failed=['DEDUCTION'] frozen=['DEDUCTION'] -> accepted
+    drop-review-needle: rc=1 stderr=0B passed=False register_state=installed failed=['VERDICTS'] frozen=['VERDICTS'] -> accepted
+    installed-drift: rc=1 stderr=0B passed=False register_state=installed failed=['TRANSITIONS'] frozen=['GATE', 'TRANSITIONS'] -> REFUSED: C6 residual child contract: mutant failed a different check set: installed-drift   <-- differs from the frozen map
+    snapshot-omitted: rc=1 stderr=0B passed=False register_state=installed failed=['GATE'] frozen=['GATE'] -> accepted
+    record-unreviewed: rc=1 stderr=0B passed=False register_state=partial failed=['GATE', 'LIVE', 'REVIEWED', 'TRANSITIONS'] frozen=['GATE', 'REVIEWED', 'TRANSITIONS'] -> REFUSED: C6 residual child contract: register state changed   <-- differs from the frozen map
+    reviewed-text-drift: rc=1 stderr=0B passed=False register_state=installed failed=['REVIEWED'] frozen=['REVIEWED'] -> accepted
+GRAPH.json restored byte for byte: True
+RESULT: at least one child result refused (4.3 s)
