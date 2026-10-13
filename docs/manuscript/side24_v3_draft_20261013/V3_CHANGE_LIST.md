@@ -23,7 +23,7 @@ Dylan Roy — delegated AI work. Actual performer: Anthropic Claude, Claude Code
 ## Author decisions as drafted (defaults)
 
 1. **Theorem 2.1 strength.** Theorem 2.1 = E10's two-provider form `c ℓ^{-1/3}(1+O(ℓ^{1/3}))`, proved in §3; the merged three-term law (E18/E19/E43) = Theorem 2.3; the later refinements (E60–E77) = Remark 2.4. Switches: put Theorem 2.3 into Theorem 2.1, or move it to the Discussion.
-2. **Human review.** A disclosure (§7): "No independent human specialist has reviewed this work." (owner statement main#229 5973603003). The draft says nothing about the author's own reading; the pre-delivery check removed a sentence that did (MAJOR 1 below).
+2. **Human review.** A disclosure (§7): "No independent human specialist has reviewed this work." (owner statement main#229 5973603003). The draft says nothing about the author's own reading; the pre-delivery check removed a sentence that did (the first bullet under "All findings applied", below).
 3. **Planar material.** Discussion only (§5.5).
 
 ## Placement of the V2 amendments
@@ -151,7 +151,7 @@ r1 is commit `56b680cd`: 19 pages, 536,244 B, SHA-256 `aa8667258dbf92d066d23e4ee
 - The r1 heading said "about 18:40Z", but r1 was pushed at 18:20Z.
 - The description of decision 2 still quoted the sentence that the pre-delivery check removed ("The author has reviewed it throughout"). It now describes the draft's actual wording.
 
-**Where r2's text changed:** §0's status table (page 2), §5.4, §7 and [R3]. The longer status row moves the page breaks, so every later page differs only by reflow.
+**Where r2's text changed:** §0's status table (page 2), §5.4, §7 and [R3]. The longer status row moves the page breaks. The text changes are on page 2, in §5.4 (page 15), in §7 (page 16) and in [R3] (page 17); the other pages differ only by reflow.
 
 ## "Do not print" compliance (checked item by item)
 
