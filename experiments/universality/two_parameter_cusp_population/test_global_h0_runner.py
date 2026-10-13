@@ -225,6 +225,32 @@ class RunnerHandoff(unittest.TestCase):
             self.assertEqual(result['status'], 'NOT_COMPARED')
             lookup.assert_not_called()
 
+    def test_previous_raw_replay_pass_never_restores_withdrawn_acceptance(self):
+        # The old raw replay can remain PASS as historical evidence, while
+        # the current driver admission must fail closed after withdrawal.
+        selection, verification, gates = synthetic_records()
+        row = {'status': 'CERTIFIED', 'selection': selection,
+               'verification': verification, 'soundness': copy.deepcopy(gates),
+               'test_only': True}
+        before = copy.deepcopy(row)
+        withdrawn = self.driver.withdraw_acceptance(
+            row, 'INCONCLUSIVE_SOURCE_DRIFT', phase='TEST_ONLY_postflight',
+            detail='TEST_ONLY source identity drift')
+        self.assertEqual(row, before)
+        self.assertEqual(withdrawn['computed_status_before_withdrawal'], 'CERTIFIED')
+        current = withdrawn['selection']
+        self.assertEqual(current['status'], 'INCONCLUSIVE_SOURCE_DRIFT')
+        self.assertEqual(current['computed_status_before_withdrawal'], 'CERTIFIED')
+        self.assertEqual(current['actual_barcode']['status'], 'INCONCLUSIVE_SOURCE_DRIFT')
+        self.assertEqual(current['actual_barcode']['computed_status_before_withdrawal'], 'CERTIFIED')
+        self.assertEqual(current['actual_barcode']['finite'], selection['actual_barcode']['finite'])
+        self.assertEqual(verification['status'], 'PASS')
+        forbidden_lookup = mock.Mock(side_effect=AssertionError('Historical replay promoted acceptance'))
+        result = self.driver.compare_expectations(
+            'TEST_ONLY', current, verification, gates, expected_lookup=forbidden_lookup)
+        self.assertEqual(result, {'status': 'NOT_COMPARED', 'mismatches': []})
+        forbidden_lookup.assert_not_called()
+
     def test_sound_comparison_reads_literal_expectation_once_without_mutating_numeric_evidence(self):
         selection, verification, gates = synthetic_records()
         before = copy.deepcopy(selection)

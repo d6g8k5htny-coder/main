@@ -332,6 +332,27 @@ class VerificationTamperingTests(ContractCase):
         with patch.object(selector, "select_h0", side_effect=AssertionError("verifier called selector")):
             self.assertEqual(selector.verify_h0(u, v, certificate, budget=budget)["status"], "PASS")
 
+    def test_status_only_mutations_replay_without_acceptance_credit(self):
+        # Raw algebraic replay does not enforce these producer dispositions;
+        # the driver checks their acceptance separately. No scientific run.
+        u, v, certificate, _ = self.hostile()
+        original = copy.deepcopy(certificate)
+        for field in ("selection", "barcode", "critical_roots"):
+            with self.subTest(field=field):
+                altered = copy.deepcopy(certificate)
+                record = (altered if field == "selection" else
+                          altered["actual_barcode"] if field == "barcode" else
+                          altered["critical_roots"])
+                self.assertEqual(record["status"], "CERTIFIED")
+                record["status"] = "INCONCLUSIVE_BUDGET"
+                frozen = copy.deepcopy(altered)
+                replay = selector.verify_h0(u, v, altered, budget=self.budget())
+                self.assertEqual(replay["status"], "PASS")
+                self.assertEqual(altered, frozen)
+                self.assertEqual(altered["actual_barcode"]["finite"],
+                                 original["actual_barcode"]["finite"])
+        self.assertEqual(certificate, original)
+
     def test_changed_root_multiplicity_is_rejected_despite_pass_flags(self):
         u, v, certificate, _ = self.hostile()
         bad = copy.deepcopy(certificate)
