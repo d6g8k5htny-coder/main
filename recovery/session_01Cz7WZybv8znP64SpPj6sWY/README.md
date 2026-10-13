@@ -153,3 +153,13 @@ sample space with its finite-dimensional Gaussian regression characterisation, p
 covariance, the pins almost surely, positivity of the normalizer, and `p` pinned to the `Q^W` probability of `I`'s elder
 event, with `Q^W` defined from `Q` and the weight. Input for a later proposal only; nothing is proposed, claimed or
 written to any packet by this checkpoint.
+
+## Checkpoint 9 (2026-10-13, about 04:06Z): the #447 amendment, the Lifetime proposal and the RN scoping note
+
+Incremental commit, no rewrite, after checkpoint 8 (`0ed6ced1`): adds the amendment of Math-#447 after dot's final source
+review (AMEND_SCOPED, two currentness-text corrections): the commit as a patch (`round7_amend_215726a2.patch`, new head
+`215726a2` on `077a168b`), the gate logs (dirty and committed CLEAN worktree, exit 0), test logs (97 OK both modes), the
+elaboration log, the reply on #447 and the note on main#307, the PR body as updated for the new head, and the patched
+wording of the earlier binding post; the Lifetime successor proposal as posted (main#307 6137849133) and the RN successor
+scoping note (`scratch/lvs/r7/rn_successor_scoping.md`, read-only design input, not a proposal). Hosted runs on
+`215726a2` were in progress at this checkpoint; no hosted outcome for that head is recorded here.

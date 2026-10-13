@@ -1,0 +1,77 @@
+From 215726a2dd2c6cf185911eb23775322866044445 Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Tue, 13 Oct 2026 04:03:39 +0000
+Subject: [PATCH] Round 7 Side24 slice: two currentness-text corrections from
+ the final source review (#447 6137919573)
+
+Side24.lean: the round-7 section comment loses its "draft under HOLD, not a packet change" label
+(stale once the activated slice was published; the historical record stays in the recovery
+branch) and names the design read it answers; README.md and SCOPE.md: the frontier sentence
+"the statement modules have not changed since 873c6c0" is qualified: the original declarations
+and the lines cited for them are unchanged, Side24.lean has only the round-7 append after its
+last original declaration. Comment and prose only: no declaration, register row, label, gate,
+import or toolchain changes; the register is byte-identical.
+
+Scientific effect: NONE. Organizational-independence credit 0.
+
+Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01Cz7WZybv8znP64SpPj6sWY
+---
+ specifications/lean_statements_20261010/README.md             | 3 ++-
+ specifications/lean_statements_20261010/SCOPE.md              | 3 ++-
+ .../lean_statements_20261010/Specifications/Side24.lean       | 4 ++--
+ 3 files changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/specifications/lean_statements_20261010/README.md b/specifications/lean_statements_20261010/README.md
+index 018af5e..ba9f208 100644
+--- a/specifications/lean_statements_20261010/README.md
++++ b/specifications/lean_statements_20261010/README.md
+@@ -339,7 +339,8 @@ Packets listed by PROOF_INDEX by id only (82 rows, kind `proof_index_result`, fo
+ At the Math- cut `8acc4856` the sibling proof packet proves 77 of the 141 registered Props, 143 with the two round-7
+ successor Props appended to `Side24.lean` on top of that cut. This section classifies the 66 others, so that the remaining formal work is named where the register lives. The
+ classification is this packet's author's reading of the statement modules (the round-4 triage of 2026-10-11,
+-re-applied at this cut; the statement modules have not changed since `873c6c0`, so the cited lines hold),
++re-applied at this cut; the original declarations and the lines cited for them have not changed since `873c6c0`,
++`Side24.lean` having only the round-7 append after its last original declaration, so the cited lines hold),
+ by a single reader, not a reviewed fact; it moves no label: every one of the 66 stays `specified`, nothing is
+ promoted, reclassified or withdrawn. Scientific effect NONE.
+ 
+diff --git a/specifications/lean_statements_20261010/SCOPE.md b/specifications/lean_statements_20261010/SCOPE.md
+index bc24d35..4f03292 100644
+--- a/specifications/lean_statements_20261010/SCOPE.md
++++ b/specifications/lean_statements_20261010/SCOPE.md
+@@ -429,7 +429,8 @@ Kind `proof_index_result`, formal progress `none`, no statements, no kernel evid
+ At the Math- cut `8acc4856` the sibling proof packet proves 77 of the 141 registered Props, 143 with the two round-7
+ successor Props appended to `Side24.lean` on top of that cut. This section classifies the 66 others, so that the remaining formal work is named where the register lives. The
+ classification is this packet's author's reading of the statement modules (the round-4 triage of 2026-10-11,
+-re-applied at this cut; the statement modules have not changed since `873c6c0`, so the cited lines hold),
++re-applied at this cut; the original declarations and the lines cited for them have not changed since `873c6c0`,
++`Side24.lean` having only the round-7 append after its last original declaration, so the cited lines hold),
+ by a single reader, not a reviewed fact; it moves no label: every one of the 66 stays `specified`, nothing is
+ promoted, reclassified or withdrawn. Scientific effect NONE.
+ 
+diff --git a/specifications/lean_statements_20261010/Specifications/Side24.lean b/specifications/lean_statements_20261010/Specifications/Side24.lean
+index 92110ed..cf461df 100644
+--- a/specifications/lean_statements_20261010/Specifications/Side24.lean
++++ b/specifications/lean_statements_20261010/Specifications/Side24.lean
+@@ -835,7 +835,7 @@ Does not claim: the bound (statement only); equality of the periodic and referen
+ def ReferenceComparison (I : PeriodicCoefficientInterface) : Prop :=
+   ∀ d : ℕ, d = 2 ∨ d = 3 → |I.c24 d / cRef d - 1| < 1 / 10 ^ 106
+ 
+-/-! ## Round 7 (draft under HOLD, not a packet change): the successor interface that pins the cone moment
++/-! ## Round 7: the successor interface that pins the cone moment
+ 
+ Everything above this line is byte-identical to the module at Math- `8acc4856`. The declarations below
+ transcribe the parent's (15.1) `D_u = E[(det A_u)^2 1{A_u<0} | V_u=0]` (source id `lifetime-parent`,
+@@ -849,7 +849,7 @@ conditional block and the definition of `coneMoment`; the two successor Props re
+ displays over it. Formal progress of every declaration here: `specified`. Nothing here is proved,
+ nothing above changes, no label moves, and no inhabitant of either interface is constructed.
+ 
+-What the successor does NOT pin (recorded for the design review): `sphereMeasure` stays a given measure
++What the successor does NOT pin (recorded for the design review, main#307 6137276515): `sphereMeasure` stays a given measure
+ constrained only by its support and total area, so `c24` is determined by the fields only up to that
+ choice; frame invariance of `coneMomentOf` under transverse-frame changes (the parent asserts it) is
+ not a field, so the frame-quantified `coneMoment_def` is a consistency burden on the interface rather
+-- 
+2.43.0
+
