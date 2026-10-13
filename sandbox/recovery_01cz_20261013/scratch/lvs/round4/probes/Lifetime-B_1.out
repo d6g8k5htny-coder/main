@@ -1,0 +1,17 @@
+<SCRATCH>/lvs/round4/probes/Lifetime-B_1.lean:112:50: error: unsolved goals
+d : ℕ
+L : ℝ
+M : E d
+hbdd : BddBelow (Set.range fun n => ‖M - M + latticeVec d L n‖)
+⊢ ∑ x, EuclideanSpace.single x 0 = 0
+EuclideanSpace.basisFun : (ι : Type u_1) →
+  (𝕜 : Type u_2) → [inst : RCLike 𝕜] → [inst_1 : Fintype ι] → OrthonormalBasis ι 𝕜 (EuclideanSpace 𝕜 ι)
+ProbabilityTheory.gaussianReal : ℝ → NNReal → MeasureTheory.Measure ℝ
+@Asymptotics.IsEquivalent : {α : Type u_1} →
+  {β : Type u_2} → [NormedAddCommGroup β] → Filter α → (α → β) → (α → β) → Prop
+@MeasureTheory.ae_eq_of_forall_setIntegral_eq_of_sigmaFinite : ∀ {α : Type u_1} {E : Type u_2} {m0 : MeasurableSpace α}
+  {μ : MeasureTheory.Measure α} [inst : NormedAddCommGroup E] [inst_1 : NormedSpace ℝ E] [CompleteSpace E]
+  [MeasureTheory.SigmaFinite μ] {f g : α → E},
+  (∀ (s : Set α), MeasurableSet s → μ s < ⊤ → MeasureTheory.IntegrableOn f s μ) →
+    (∀ (s : Set α), MeasurableSet s → μ s < ⊤ → MeasureTheory.IntegrableOn g s μ) →
+      (∀ (s : Set α), MeasurableSet s → μ s < ⊤ → ∫ (x : α) in s, f x ∂μ = ∫ (x : α) in s, g x ∂μ) → f =ᵐ[μ] g

@@ -1,0 +1,51 @@
+Add the proof packet: 38 kernel-checked theorems typed as registered statements
+
+Scientific effect NONE: no lemma_closed, prize, premise, LANDING_CLAIMS
+disposition, PROOF_INDEX, GRAPH or STATUS change; a kernel-checked proof of a
+registered Prop is evidence about that Prop only, never acceptance of the
+informal claim. Same-account authorship: organizational-independence credit 0.
+
+specifications/lean_statement_proofs_20261011/: a Lean 4.34.1 + Mathlib
+d13f23b7 package with a path dependency on the statement packet
+(specifications/lean_statements_20261010). Every inventory theorem has
+exactly a registered `def ... : Prop` as its type, with no extra hypotheses:
+- P15Elementary (15): the demand-one counterexample Props, rho_star < 6/7
+  and its 6/7 certificate, h_star > 1, phi(p_star), the hazard positivity,
+  the (T3) exponent bound, the odd-majority and capacity-worst-case identities,
+  the macro triangle;
+- P15Structure (13): the realized family (Proposition P1 characterisation,
+  local decomposability and obstruction), Theorem P2's cover iff (P7), the
+  whole-ground chromatic number, the elementary palette formula (P9), and the
+  816-benchmark instance (realized, palette 816, whole ground 818, minimal
+  forbidder counts (P10), price);
+- Side24Elementary (5): e^(288/125) > 10 and the exp facts, the term ratio
+  512 e^(-864) < 1/2, the D_2 algebra, the reference coefficient identity (1),
+  the elementary cone integral;
+- RNProbability (5): Theorem N parts (N1)-(N5) as abstract probability
+  statements.
+All 38 depend only on propext, Classical.choice and Quot.sound. Gate
+(check.py, stdlib): identity, lexical refusal, theorem inventory whose types
+must be registered Props (source scan and a Lean environment audit), axiom
+audit, leanchecker, negative controls, receipt; 69 unit tests in both modes;
+.github/workflows/lean-specification-proofs.yml (lean-action + Mathlib cache).
+
+Statement packet register (REGISTER.json, README.md, SCOPE.md): +45 proved
+statement entries for these theorems and +41 for the 28 main P15 arithmetic
+theorems at main 91cffbb5 (PR #358, hosted run 38096827443); claim-level
+labels unchanged (171 claims: 33 specified, 138 none); DemandOneRefutation,
+the Prop that states claim p15-price-boundary, is now proved as stated and
+is recorded as a claim-level candidate for the operator, not relabelled.
+
+Not proved (recorded with the obstacle): Benchmark816UnionBound and
+CoverCostHazardBound (time), TraceMoments, ReferenceOddAndPinBlocks,
+DerivativeBoundAtZero, LatticeImageSumBound (need Gaussian moment / iterated
+Frechet derivative / lattice-sum lemmas absent from Mathlib), the
+20-digit rho_star enclosure and the analytic parents.
+
+Local evidence: every module elaborates with warnings as errors; both
+packets' source checks and unit tests pass; leanchecker could not run in
+the sandbox (memory limit), so the hosted workflow run is the authoritative
+execution.
+
+Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01Cz7WZybv8znP64SpPj6sWY

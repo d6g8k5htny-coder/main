@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "<SCRATCH>/lvs/register_update12/render_spec10.py", line 911, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "<SCRATCH>/lvs/register_update12/render_spec10.py", line 274, in main
+    assert DOC.read_text() == prev_doc, f"restore {DOC} to its {PREV_COMMIT[:8]} bytes first (git checkout {PREV_COMMIT[:8]} -- {DOC_PATH})"
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: restore <SCRATCH>/lvs_main/docs/LEAN_VERIFICATION_SPECIFICATION.md to its fe99ca31 bytes first (git checkout fe99ca31 -- docs/LEAN_VERIFICATION_SPECIFICATION.md)

@@ -1,0 +1,127 @@
+ResearchFormalCoreR1.torus_field_latticeVec_formula (d : ℕ) (L : ℝ) (n : Fin d → ℤ) :
+  ResearchFormalCoreR1.torus_latticeVec d L n = ∑ i, EuclideanSpace.single i (L * ↑(n i))
+ResearchFormalCoreR1.torus_basis_sum_eq_latticeVec (d : ℕ) (L : ℝ) (hL : 0 < L) (n : Fin d → ℤ) :
+  ∑ i, n i • (ResearchFormalCoreR1.torus_periodBasis d L hL) i = ResearchFormalCoreR1.torus_latticeVec d L n
+ResearchFormalCoreR1.torus_lattice_mem_iff (d : ℕ) (L : ℝ) (hL : 0 < L) (x : ResearchFormalCoreR1.torus_E d) :
+  x ∈ ResearchFormalCoreR1.torus_periodLattice d L hL ↔ ∃ n, ResearchFormalCoreR1.torus_latticeVec d L n = x
+ResearchFormalCoreR1.torus_proj_surjective (d : ℕ) (L : ℝ) (hL : 0 < L) :
+  Function.Surjective (ResearchFormalCoreR1.torus_proj d L hL)
+ResearchFormalCoreR1.torus_proj_continuous (d : ℕ) (L : ℝ) (hL : 0 < L) :
+  Continuous (ResearchFormalCoreR1.torus_proj d L hL)
+ResearchFormalCoreR1.torus_proj_eq_iff (d : ℕ) (L : ℝ) (hL : 0 < L) (x y : ResearchFormalCoreR1.torus_E d) :
+  ResearchFormalCoreR1.torus_proj d L hL x = ResearchFormalCoreR1.torus_proj d L hL y ↔
+    ∃ n, y = x + ResearchFormalCoreR1.torus_latticeVec d L n
+ResearchFormalCoreR1.torus_control_lattice_translate (d : ℕ) (L : ℝ) (hL : 0 < L) (x : ResearchFormalCoreR1.torus_E d)
+  (n : Fin d → ℤ) :
+  ResearchFormalCoreR1.torus_proj d L hL (x + ResearchFormalCoreR1.torus_latticeVec d L n) =
+    ResearchFormalCoreR1.torus_proj d L hL x
+ResearchFormalCoreR1.torus_proj_isCoveringMap (d : ℕ) (L : ℝ) (hL : 0 < L) :
+  IsCoveringMap (ResearchFormalCoreR1.torus_proj d L hL)
+ResearchFormalCoreR1.torus_compact (d : ℕ) (L : ℝ) (hL : 0 < L) : IsCompact Set.univ
+ResearchFormalCoreR1.torus_pathConnectedSpace (d : ℕ) (L : ℝ) (hL : 0 < L) :
+  PathConnectedSpace (ResearchFormalCoreR1.torus_quotient d L hL)
+ResearchFormalCoreR1.torus_field_periodic_formula (d : ℕ) (L : ℝ) (g : ResearchFormalCoreR1.torus_E d → ℝ) :
+  ResearchFormalCoreR1.torus_isPeriodic d L g ↔
+    ∀ (x : EuclideanSpace ℝ (Fin d)) (n : Fin d → ℤ), g (x + ∑ i, EuclideanSpace.single i (L * ↑(n i))) = g x
+ResearchFormalCoreR1.torus_periodic_respects (d : ℕ) (L : ℝ) (hL : 0 < L) (g : ResearchFormalCoreR1.torus_E d → ℝ)
+  (hg : ResearchFormalCoreR1.torus_isPeriodic d L g) (x y : ResearchFormalCoreR1.torus_E d)
+  (hxy : (QuotientAddGroup.leftRel (ResearchFormalCoreR1.torus_periodLattice d L hL).toAddSubgroup) x y) : g x = g y
+ResearchFormalCoreR1.torus_descend_proj (d : ℕ) (L : ℝ) (hL : 0 < L) (g : ResearchFormalCoreR1.torus_E d → ℝ)
+  (hg : ResearchFormalCoreR1.torus_isPeriodic d L g) (x : ResearchFormalCoreR1.torus_E d) :
+  ResearchFormalCoreR1.torus_descend d L hL g hg (ResearchFormalCoreR1.torus_proj d L hL x) = g x
+ResearchFormalCoreR1.torus_descend_continuous (d : ℕ) (L : ℝ) (hL : 0 < L) (g : ResearchFormalCoreR1.torus_E d → ℝ)
+  (hg : ResearchFormalCoreR1.torus_isPeriodic d L g) (hgc : Continuous g) :
+  Continuous (ResearchFormalCoreR1.torus_descend d L hL g hg)
+ResearchFormalCoreR1.torus_path_lift_from (d : ℕ) (L : ℝ) (hL : 0 < L) {M : ResearchFormalCoreR1.torus_E d}
+  {y : ResearchFormalCoreR1.torus_quotient d L hL} (γ : Path (ResearchFormalCoreR1.torus_proj d L hL M) y) :
+  ∃ z Γ,
+    ResearchFormalCoreR1.torus_proj d L hL z = y ∧
+      ∀ (t : ↑unitInterval), ResearchFormalCoreR1.torus_proj d L hL (Γ t) = γ t
+ResearchFormalCoreR1.torus_control_constant_path_endpoint (d : ℕ) (L : ℝ) (hL : 0 < L)
+  {M z : ResearchFormalCoreR1.torus_E d} (Γ : Path M z)
+  (hΓ :
+    ∀ (t : ↑unitInterval), ResearchFormalCoreR1.torus_proj d L hL (Γ t) = ResearchFormalCoreR1.torus_proj d L hL M) :
+  z = M
+ResearchFormalCoreR1.torus_control_no_arbitrary_endpoint (d : ℕ) (L : ℝ) (hL : 0 < L)
+  (M : ResearchFormalCoreR1.torus_E d) (n : Fin d → ℤ) (hn : ResearchFormalCoreR1.torus_latticeVec d L n ≠ 0) :
+  ResearchFormalCoreR1.torus_proj d L hL (M + ResearchFormalCoreR1.torus_latticeVec d L n) =
+      ResearchFormalCoreR1.torus_proj d L hL M ∧
+    ¬∃ Γ, ∀ (t : ↑unitInterval), ResearchFormalCoreR1.torus_proj d L hL (Γ t) = ResearchFormalCoreR1.torus_proj d L hL M
+ResearchFormalCoreR1.torus_higher_path_iff (d : ℕ) (L : ℝ) (hL : 0 < L) (g : ResearchFormalCoreR1.torus_E d → ℝ)
+  (hg : ResearchFormalCoreR1.torus_isPeriodic d L g) (M : ResearchFormalCoreR1.torus_E d) (P : ℝ → Prop) :
+  (∃ y, g M < g y ∧ ∃ γ, ∀ (t : ↑unitInterval), P (g (γ t))) ↔
+    ∃ y,
+      ResearchFormalCoreR1.torus_descend d L hL g hg (ResearchFormalCoreR1.torus_proj d L hL M) <
+          ResearchFormalCoreR1.torus_descend d L hL g hg y ∧
+        ∃ γ, ∀ (t : ↑unitInterval), P (ResearchFormalCoreR1.torus_descend d L hL g hg (γ t))
+ResearchFormalCoreR1.torus_strict_higher_path_iff (d : ℕ) (L : ℝ) (hL : 0 < L) (g : ResearchFormalCoreR1.torus_E d → ℝ)
+  (hg : ResearchFormalCoreR1.torus_isPeriodic d L g) (M : ResearchFormalCoreR1.torus_E d) (h : ℝ) :
+  (∃ y, g M < g y ∧ ∃ γ, ∀ (t : ↑unitInterval), h < g (γ t)) ↔
+    ∃ y,
+      ResearchFormalCoreR1.torus_descend d L hL g hg (ResearchFormalCoreR1.torus_proj d L hL M) <
+          ResearchFormalCoreR1.torus_descend d L hL g hg y ∧
+        ∃ γ, ∀ (t : ↑unitInterval), h < ResearchFormalCoreR1.torus_descend d L hL g hg (γ t)
+ResearchFormalCoreR1.torus_closed_higher_path_iff (d : ℕ) (L : ℝ) (hL : 0 < L) (g : ResearchFormalCoreR1.torus_E d → ℝ)
+  (hg : ResearchFormalCoreR1.torus_isPeriodic d L g) (M : ResearchFormalCoreR1.torus_E d) (h : ℝ) :
+  (∃ y, g M < g y ∧ ∃ γ, ∀ (t : ↑unitInterval), h ≤ g (γ t)) ↔
+    ∃ y,
+      ResearchFormalCoreR1.torus_descend d L hL g hg (ResearchFormalCoreR1.torus_proj d L hL M) <
+          ResearchFormalCoreR1.torus_descend d L hL g hg y ∧
+        ∃ γ, ∀ (t : ↑unitInterval), h ≤ ResearchFormalCoreR1.torus_descend d L hL g hg (γ t)
+ResearchFormalCoreR1.torus_global_max_iff (d : ℕ) (L : ℝ) (hL : 0 < L) (g : ResearchFormalCoreR1.torus_E d → ℝ)
+  (hg : ResearchFormalCoreR1.torus_isPeriodic d L g) (M : ResearchFormalCoreR1.torus_E d) :
+  (∀ (y : ResearchFormalCoreR1.torus_E d), g y ≤ g M) ↔
+    ∀ (y : ResearchFormalCoreR1.torus_quotient d L hL),
+      ResearchFormalCoreR1.torus_descend d L hL g hg y ≤
+        ResearchFormalCoreR1.torus_descend d L hL g hg (ResearchFormalCoreR1.torus_proj d L hL M)
+ResearchFormalCoreR1.superlevel_control_closed_endpoint (b : ℝ) :
+  () ∈ ResearchFormalCoreR1.superlevel_set (fun x => b) (-b)
+ResearchFormalCoreR1.superlevel_control_strict_endpoint (b : ℝ) : ¬- -b < (fun x => b) ()
+ResearchFormalCoreR1.superlevel_control_parameter_sign : () ∈ ResearchFormalCoreR1.superlevel_set (fun x => 0) 1
+ResearchFormalCoreR1.superlevel_control_inclusion_direction :
+  ¬ResearchFormalCoreR1.superlevel_set (fun x => 0) 1 ⊆ ResearchFormalCoreR1.superlevel_set (fun x => 0) (-1)
+ResearchFormalCoreR1.superlevel_control_essential.{u_1} {X : Type u_1} (g : X → ℝ) (M : X) (hM : ∀ (y : X), g y ≤ g M) :
+  ¬∃ y, g M < g y
+ResearchFormalCoreR1.superlevel_mono.{u_1} {X : Type u_1} (g : X → ℝ) {s t : ℝ} (hst : s ≤ t) :
+  ResearchFormalCoreR1.superlevel_set g s ⊆ ResearchFormalCoreR1.superlevel_set g t
+ResearchFormalCoreR1.superlevel_isClosed.{u_1} {X : Type u_1} [TopologicalSpace X] (g : X → ℝ) (hg : Continuous g)
+  (t : ℝ) : IsClosed (ResearchFormalCoreR1.superlevel_set g t)
+ResearchFormalCoreR1.superlevel_inclusion_id.{w} {X : Type w} [TopologicalSpace X] (g : X → ℝ) (t : ℝ) :
+  ResearchFormalCoreR1.superlevel_inclusion g ⋯ = ContinuousMap.id ↑(ResearchFormalCoreR1.superlevel_set g t)
+ResearchFormalCoreR1.superlevel_inclusion_comp.{w} {X : Type w} [TopologicalSpace X] (g : X → ℝ) {r s t : ℝ}
+  (hrs : r ≤ s) (hst : s ≤ t) :
+  (ResearchFormalCoreR1.superlevel_inclusion g hst).comp (ResearchFormalCoreR1.superlevel_inclusion g hrs) =
+    ResearchFormalCoreR1.superlevel_inclusion g ⋯
+ResearchFormalCoreR1.superlevel_mem_at_own_height.{u_1} {X : Type u_1} (g : X → ℝ) (x : X) :
+  x ∈ ResearchFormalCoreR1.superlevel_set g (-g x)
+ResearchFormalCoreR1.superlevel_neg_height.{u_1} {X : Type u_1} (g : X → ℝ) (h : ℝ) :
+  ResearchFormalCoreR1.superlevel_set g (-h) = {x | h ≤ g x}
+ResearchFormalCoreR1.superlevel_control_strict_thresholds : (∀ h < 0, ∃ k, h < k ∧ k < 0) ∧ ¬∃ k, 0 ≤ k ∧ k < 0
+ResearchFormalCoreR1.superlevel_componentMap_mk.{w} {X Y : Type w} [TopologicalSpace X] [TopologicalSpace Y]
+  (f : C(X, Y)) (x : X) : ResearchFormalCoreR1.superlevel_componentMap f (ZerothHomotopy.mk x) = ZerothHomotopy.mk (f x)
+ResearchFormalCoreR1.superlevel_componentMap_id.{w} {X : Type w} [TopologicalSpace X] :
+  ResearchFormalCoreR1.superlevel_componentMap (ContinuousMap.id X) = id
+ResearchFormalCoreR1.superlevel_componentMap_comp.{w} {X Y Z : Type w} [TopologicalSpace X] [TopologicalSpace Y]
+  [TopologicalSpace Z] (f : C(X, Y)) (g : C(Y, Z)) :
+  ResearchFormalCoreR1.superlevel_componentMap (g.comp f) =
+    ResearchFormalCoreR1.superlevel_componentMap g ∘ ResearchFormalCoreR1.superlevel_componentMap f
+ResearchFormalCoreR1.superlevel_componentInclusion_id.{w} {X : Type w} [TopologicalSpace X] (g : X → ℝ) (t : ℝ) :
+  ResearchFormalCoreR1.superlevel_componentInclusion g ⋯ = id
+ResearchFormalCoreR1.superlevel_componentInclusion_comp.{w} {X : Type w} [TopologicalSpace X] (g : X → ℝ) {r s t : ℝ}
+  (hrs : r ≤ s) (hst : s ≤ t) :
+  ResearchFormalCoreR1.superlevel_componentInclusion g ⋯ =
+    ResearchFormalCoreR1.superlevel_componentInclusion g hst ∘ ResearchFormalCoreR1.superlevel_componentInclusion g hrs
+ResearchFormalCoreR1.superlevel_component_eq_iff_joinedIn.{w} {X : Type w} [TopologicalSpace X] (g : X → ℝ) (t : ℝ)
+  (x y : ↑(ResearchFormalCoreR1.superlevel_set g t)) :
+  ZerothHomotopy.mk x = ZerothHomotopy.mk y ↔ JoinedIn (ResearchFormalCoreR1.superlevel_set g t) ↑x ↑y
+ResearchFormalCoreR1.superlevel_h0Filtration_map_id.{w, v, u} {C : Type u} [CategoryTheory.Category.{v, u} C]
+  [CategoryTheory.Limits.HasCoproducts C] [CategoryTheory.Preadditive C] [CategoryTheory.CategoryWithHomology C]
+  {X : Type w} [TopologicalSpace X] (g : X → ℝ) (R : C) (t : ℝ) :
+  (ResearchFormalCoreR1.superlevel_h0Filtration g R).map (CategoryTheory.CategoryStruct.id t) =
+    CategoryTheory.CategoryStruct.id ((ResearchFormalCoreR1.superlevel_h0Filtration g R).obj t)
+ResearchFormalCoreR1.superlevel_h0Filtration_map_comp.{w, v, u} {C : Type u} [CategoryTheory.Category.{v, u} C]
+  [CategoryTheory.Limits.HasCoproducts C] [CategoryTheory.Preadditive C] [CategoryTheory.CategoryWithHomology C]
+  {X : Type w} [TopologicalSpace X] (g : X → ℝ) (R : C) {r s t : ℝ} (f : r ⟶ s) (k : s ⟶ t) :
+  (ResearchFormalCoreR1.superlevel_h0Filtration g R).map (CategoryTheory.CategoryStruct.comp f k) =
+    CategoryTheory.CategoryStruct.comp ((ResearchFormalCoreR1.superlevel_h0Filtration g R).map f)
+      ((ResearchFormalCoreR1.superlevel_h0Filtration g R).map k)

@@ -1,0 +1,66 @@
+##### V0 static + snapshot facts
+(a) enumeration / MAIN_COMMIT hits in the 7 in-scope files:
+    tools/museum_data.py:20: MAIN_COMMIT = "71400b94f6cb354a8cf7aba73ffede2138a64efa"
+    MAIN_COMMIT load-uses in museum_data.py (AST): []
+(b) packet_descriptors() lines 454-460: docstring='Only the packet already present on the pinned main tree is selected.'; returns List literal with 1 element(s); args=0
+    print at line 553: arg is Constant -> 'Museum projection verified: 11 reviewed bullets, 3 AMEND rows, 1 landed packet; scientific effect NONE.'
+(c) declared main pin (STATUS/packet commit): 71400b94f6cb354a8cf7aba73ffede2138a64efa
+    ls-tree -d 71400b94 incoming/ : ['incoming/side24-identity-replay-20260926']
+    museum.json packets          : ['side24-identity-replay-20260926@71400b94']
+    ls-tree -d a12c178c incoming/ : ['incoming/side24-chart-claude-20260926', 'incoming/side24-identity-replay-20260926']
+    a12c178c subject: incoming/side24-chart-claude-20260926: regenerated SIDE24 coefficient chart, public task #141 (#150) | Sat Sep 26 12:52:56 2026 -0500
+    main source STATUS.md: blob@a12c178c == pinned blob: True
+    main source reviews/sard_g_successor_a1_a6_20260926/REVIEW.md: blob@a12c178c == pinned blob: True
+    main source incoming/side24-identity-replay-20260926/IDENTITY.json: blob@a12c178c == pinned blob: True
+    main source incoming/side24-identity-replay-20260926/output.json: blob@a12c178c == pinned blob: True
+    main source docs/notebooks/SIDE24_PUBLIC_COEFFICIENTS.ipynb: blob@a12c178c == pinned blob: True
+    main source incoming/side24-identity-replay-20260926/RESULT.md: blob@a12c178c == pinned blob: True
+##### V1 control: unmodified cd32303, whole CI museum step
+Museum projection verified: 11 reviewed bullets, 3 AMEND rows, 1 landed packet; scientific effect NONE.
+  generator exit=0
+  museum.json status_source.commit = 71400b94 | packets = ['side24-identity-replay-20260926@71400b94']
+  git ls-tree -d 71400b94 incoming/ = incoming/side24-identity-replay-20260926
+  [step 1] unittest test_museum_data.py exit=0 :: OK
+  [step 2] museum_check.py exit=0 :: # pass 15 # fail 0 :: Museum source export and actual display integration verified. Scientific effect NONE.
+  [step 3] node --test test_museum_geometry.mjs exit=0 :: # pass 8 # fail 0
+##### V1(A) complete refresh 71400b94 -> a12c178c, whole CI museum step
+pin replaced in: docs/site/IMPLEMENTATION.md docs/site/README.md docs/site/museum.json tests/test_museum_data.py tools/museum_data.py 
+Museum projection verified: 11 reviewed bullets, 3 AMEND rows, 1 landed packet; scientific effect NONE.
+  generator exit=0
+  museum.json status_source.commit = a12c178c | packets = ['side24-identity-replay-20260926@a12c178c']
+  git ls-tree -d a12c178c incoming/ = incoming/side24-chart-claude-20260926 incoming/side24-identity-replay-20260926
+  [step 1] unittest test_museum_data.py exit=0 :: OK
+  [step 2] museum_check.py exit=0 :: # pass 15 # fail 0 :: Museum source export and actual display integration verified. Scientific effect NONE.
+  [step 3] node --test test_museum_geometry.mjs exit=0 :: # pass 8 # fail 0
+##### V1(B) partial refresh (tools/museum_data.py only), whole CI museum step
+pin replaced in: tools/museum_data.py 
+Museum projection verified: 11 reviewed bullets, 3 AMEND rows, 1 landed packet; scientific effect NONE.
+  generator exit=0
+  museum.json status_source.commit = a12c178c | packets = ['side24-identity-replay-20260926@a12c178c']
+  git ls-tree -d a12c178c incoming/ = incoming/side24-chart-claude-20260926 incoming/side24-identity-replay-20260926
+  [step 1] unittest test_museum_data.py exit=1 :: FAILED (failures=1)
+      FAIL: test_packet_selection_excludes_unknown_fork_packet (test_museum_data.MuseumDataTests.test_packet_selection_excludes_unknown_fork_packet)
+      AssertionError: 'a12c178c0f857a130cf434e9efd44233a038195b' != '71400b94f6cb354a8cf7aba73ffede2138a64efa'
+  [step 2] museum_check.py exit=0 :: # pass 15 # fail 0 :: Museum source export and actual display integration verified. Scientific effect NONE.
+  [step 3] node --test test_museum_geometry.mjs exit=0 :: # pass 8 # fail 0
+##### V2(A) strict render of the complete-refresh manifest
+  manifest status_source.commit=a12c178c packets=["side24-identity-replay-20260926@a12c178c"]
+  git ls-tree -d a12c178c incoming/ = ["incoming/side24-chart-claude-20260926","incoming/side24-identity-replay-20260926"]
+  validateBoundManifest(manifest, PROOF_INDEX, STATUS@a12c178c) -> ACCEPTED
+  404 responses: 0 of 25
+  [museum-state] Source projections and displayed source bytes verified. These checks establish byte identity, not mathematical acceptance.
+  [claim-cards] 14 cards
+  [packet-cards] 1 child(ren): side24-identity-replay-20260926engineering-only Packet — not STATUS Repository d6g8k5htny-coder/main Path incoming/side24-identity-replay-20260926/RESULT.md Com
+##### V2(C) strict render of the real cd32303 manifest with packets:[]
+  manifest status_source.commit=71400b94 packets=[]
+  git ls-tree -d 71400b94 incoming/ = ["incoming/side24-identity-replay-20260926"]
+  validateBoundManifest(manifest, PROOF_INDEX, STATUS@71400b94) -> ACCEPTED
+  404 responses: 0 of 24
+  [museum-state] Source projections and displayed source bytes verified. These checks establish byte identity, not mathematical acceptance.
+  [claim-cards] 14 cards
+  [packet-cards] 1 child(ren): No packet appears in this pinned projection.
+##### V3 calibration (what CI catches)
+(D1) museum_check exit=1 :: ValueError: generated museum export differs: <SCRATCH>/museum/probes/verify_membership_0/q3f2/wt_d1/docs/site/museum.json
+(D2) generator stdout: Museum projection verified: 11 reviewed bullets, 3 AMEND rows, 1 landed packet; scientific effect NONE.
+     packets in regenerated museum.json: []
+     museum_check exit=1 :: not ok 15 - actual pinned museum renders all cards and rejects cross-claim source, scope and replay substitutions :: The input did not match the regular expression /packet — not STATUS/. Input:

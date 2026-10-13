@@ -1,0 +1,32 @@
+@Real.tsum_le_of_sum_le : ∀ {ι : Type u_1} {f : ι → ℝ} {c : ℝ},
+  0 ≤ f → (∀ (u : Finset ι), ∑ x ∈ u, f x ≤ c) → ∑' (x : ι), f x ≤ c
+@summable_of_sum_le : ∀ {ι : Type u_1} {f : ι → ℝ} {c : ℝ}, 0 ≤ f → (∀ (u : Finset ι), ∑ x ∈ u, f x ≤ c) → Summable f
+@HasSum.int_rec : ∀ {M : Type u_1} [inst : AddCommMonoid M] [inst_1 : TopologicalSpace M] {m m' : M} [ContinuousAdd M]
+  {f g : ℕ → M}, HasSum f m → HasSum g m' → HasSum (fun t => Int.rec f g t) (m + m')
+@Summable.sum_le_tsum : ∀ {ι : Type u_1} {α : Type u_2} {L : SummationFilter ι} [inst : AddCommMonoid α]
+  [inst_1 : Preorder α] [IsOrderedAddMonoid α] [inst_3 : TopologicalSpace α] [OrderClosedTopology α] [L.NeBot]
+  [L.LeAtTop] {f : ι → α} (s : Finset ι), (∀ i ∉ s, 0 ≤ f i) → Summable f L → ∑ i ∈ s, f i ≤ ∑'[L] (i : ι), f i
+@Finset.sum_le_sum_of_subset_of_nonneg : ∀ {ι : Type u_1} {N : Type u_2} [inst : AddCommMonoid N] [inst_1 : Preorder N]
+  {f : ι → N} {s t : Finset ι} [AddLeftMono N], s ⊆ t → (∀ i ∈ t, i ∉ s → 0 ≤ f i) → ∑ i ∈ s, f i ≤ ∑ i ∈ t, f i
+@Fintype.card_piFinset : ∀ {ι : Type u_1} {α : ι → Type u_2} [inst : DecidableEq ι] [inst_1 : Fintype ι]
+  (s : (i : ι) → Finset (α i)), (Fintype.piFinset s).card = ∏ i, (s i).card
+@Fintype.mem_piFinset : ∀ {α : Type u_1} [inst : DecidableEq α] [inst_1 : Fintype α] {δ : α → Type u_2}
+  {t : (a : α) → Finset (δ a)} {f : (a : α) → δ a}, f ∈ Fintype.piFinset t ↔ ∀ (a : α), f a ∈ t a
+@Finset.sum_fiberwise : ∀ {ι : Type u_1} {κ : Type u_2} {M : Type u_3} [inst : AddCommMonoid M] [inst_1 : DecidableEq κ]
+  [inst_2 : Fintype κ] (s : Finset ι) (g : ι → κ) (f : ι → M), ∑ j, ∑ i ∈ s with g i = j, f i = ∑ i ∈ s, f i
+@Finset.prod_univ_sum : ∀ {ι : Type u_1} {R : Type u_2} [inst : CommSemiring R] [inst_1 : DecidableEq ι]
+  {κ : ι → Type u_3} [inst_2 : Fintype ι] (t : (i : ι) → Finset (κ i)) (f : (i : ι) → κ i → R),
+  ∏ i, ∑ j ∈ t i, f i j = ∑ x ∈ Fintype.piFinset t, ∏ i, f i (x i)
+@Finset.prod_le_prod₀ : ∀ {ι : Type u_1} {R : Type u_2} [inst : CommMonoidWithZero R] [inst_1 : Preorder R]
+  [ZeroLEOneClass R] [PosMulMono R] {f g : ι → R} {s : Finset ι},
+  (∀ i ∈ s, 0 ≤ f i) → (∀ i ∈ s, f i ≤ g i) → ∏ i ∈ s, f i ≤ ∏ i ∈ s, g i
+tsum_geometric_two : ∑' (n : ℕ), (1 / 2) ^ n = 2
+@tsum_geometric_of_lt_one : ∀ {r : ℝ}, 0 ≤ r → r < 1 → ∑' (n : ℕ), r ^ n = (1 - r)⁻¹
+@Real.exp_sum : ∀ {α : Type u_1} (s : Finset α) (f : α → ℝ), Real.exp (∑ x ∈ s, f x) = ∏ x ∈ s, Real.exp (f x)
+HurwitzKernelBounds.summable_f_int : ∀ (k : ℕ) (a : ℝ) {t : ℝ}, 0 < t → Summable (HurwitzKernelBounds.f_int k a t)
+UniversalLaw.Proofs.Side24Elementary.successiveTermRatio : SuccessiveTermRatio
+UniversalLaw.Proofs.Side24Elementary.Aux.pow_succ_le : ∀ (j : ℕ), 1 ≤ j → (↑j + 1) ^ 9 ≤ 512 * ↑j ^ 9
+UniversalLaw.Proofs.Side24Elementary.Aux.exp_succ_le : ∀ (j : ℕ),
+  1 ≤ j → Real.exp (-288 * (↑j + 1) ^ 2) ≤ Real.exp (-864) * Real.exp (-288 * ↑j ^ 2)
+UniversalLaw.Proofs.Side24Elementary.Aux.ratio_const_lt_half : 512 * Real.exp (-864) < 1 / 2
+EXIT=0

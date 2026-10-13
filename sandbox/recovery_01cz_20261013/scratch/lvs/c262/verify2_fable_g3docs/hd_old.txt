@@ -1,0 +1,15 @@
+switch.
+
+Hosted duration: measured on the first green run,
+[38165155316](https://github.com/d6g8k5htny-coder/Math-/actions/runs/38165155316) (attempt 1, job
+114546073697, PR #428 head `0dd0cb17bfa12bab6983bc4b068a38fed5a9df9c`, tested merge
+`aa288a1377acc76bfb544de1c5e3d3b4c282a5e3`): the job took 4 min 20 s end to end (2026-10-11T18:45:38Z to
+18:49:58Z), of which the pinned-Lean install plus Mathlib cache retrieval took 2 min 47 s and the
+replay step itself 1 min 27 s at `LEAN_NUM_THREADS=2`; artifact `torus-filtration-38165155316-1`,
+42 files, 22,572 bytes, SHA-256 `c9bf02d33ddd9addb5d2883af982827b44ef3fd5e84d877ed78504efe8f19c0d`.
+The workflow's `timeout-minutes: 45` is kept: a cache miss or a slow runner needs the margin and
+lowering it buys nothing. One hosted completion is recorded here; every later run's receipt stands
+on its own, and a receipt is a record of a computation, not evidence of alignment.
+
+The replay writes `TorusTopology.olean`, `ClosedSuperlevel.olean` and `TorusFiltration.olean`
+into the companion directory (Lean needs them on `LEAN_PATH` for the root module and the audit

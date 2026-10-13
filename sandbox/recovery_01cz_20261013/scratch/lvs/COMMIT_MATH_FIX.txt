@@ -1,0 +1,14 @@
+Keep the statement-register fixture tests independent of the CI environment
+
+The first hosted run of lean-specifications.yml (38096978085) failed in the
+unit-test step: with GITHUB_ACTIONS set, check.py applies its CI-only
+requirements (GITHUB_SHA == HEAD, repository name, every pinned source
+verified against git history) to the synthetic fixture packets as well, whose
+pinned commits exist in no git history, so 139 fixture tests failed before
+the refusal under test was reached. Base.setUp now clears the GITHUB_*
+variables for fixture tests; the Identity test re-enables CI mode inside its
+own patch and still exercises exactly those refusals. The real packet's
+check.py passes with and without the CI variables. Scientific effect NONE.
+
+Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01Cz7WZybv8znP64SpPj6sWY

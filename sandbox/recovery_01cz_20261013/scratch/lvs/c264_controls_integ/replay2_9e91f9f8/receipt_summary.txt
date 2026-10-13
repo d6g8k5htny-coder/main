@@ -1,0 +1,47 @@
+receipt.json sha256 451c5a2d4cfb131ab32da58af6ad1f4ab69565ed1e03cd172b79cc9e5846a2fa bytes 46474
+schema = 1
+scientific_effect = "NONE"
+formalization_status = "kernel-checked"
+alignment_status = "PENDING_INDEPENDENT_REVIEW"
+scientific_acceptance = false
+checked_commit = "9e91f9f8fb01222d495468bddb16f89182ba3cd4"
+repository = "d6g8k5htny-coder/Math-"
+run_id = "local"
+run_attempt = "local"
+lean_version = "Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)"
+theorem_count = 118
+definition_count = {"abbrev": 6, "def": 26, "instance": 3}
+leanchecker = {"command": "leanchecker TorusTopology ClosedSuperlevel SuperlevelBar OrdinaryH0 OrdinaryH0Controls TorusFiltration", "mode": "modules"}
+census = {"constants": 181, "generated_user": ["TorusFiltration.torus_periodBasis.congr_simp"], "internal_generated": 27, "user_declarations": 153}
+declarations 153 axioms entries 153
+axiom sets [('Classical.choice', 'Quot.sound', 'propext'), ('Quot.sound', 'propext'), ('propext',)]
+log_sha256 entries 65
+negative_controls {
+ "RejectConstantNotPeriodic": "REJECTED_BY_LEAN",
+ "RejectCustomAxiom": "REJECTED_BY_AXIOM_AUDIT",
+ "RejectEssentialDeathBound": "REJECTED_BY_LEAN",
+ "RejectMergerKillsPointClass": "REJECTED_BY_LEAN",
+ "RejectNativeDecide": "REJECTED_BY_AXIOM_AUDIT",
+ "RejectNonmergerKillsDifference": "REJECTED_BY_LEAN",
+ "RejectReducedPointClass": "REJECTED_BY_LEAN",
+ "RejectSeparationWithoutNonzeroCoeff": "REJECTED_BY_LEAN",
+ "RejectSorry": "REJECTED_BY_AXIOM_AUDIT",
+ "RejectSuperlevelBelowThreshold": "REJECTED_BY_LEAN",
+ "RejectSuperlevelSignFlip": "REJECTED_BY_LEAN"
+}
+owner_modules in provenance: "e4f76f7cd7f4731c7e3ff8c77d39fc3259e7832d2b7f92539be8dc913ad3135d"
+dependency_revisions 9
+evidence dir members 66 (incl. receipt.json)
+-- build-OrdinaryH0Controls.status sha256 9a271f2a916b0b6e '0\n'
+-- build-OrdinaryH0Controls.log sha256 e3b0c44298fc1c14 ''
+-- RejectMergerKillsPointClass.status sha256 4355a46b19d348dc '1\n'
+-- RejectMergerKillsPointClass.log sha256 161885e4301e81de '<SCRATCH>/repos/math_c264ctl/.lake/torus-filtration-evidence/RejectMergerKillsPointClass.lean:3:255: error: unsolved goals\n⊢ False\n'
+-- RejectSeparationWithoutNonzeroCoeff.status sha256 4355a46b19d348dc '1\n'
+-- RejectSeparationWithoutNonzeroCoeff.log sha256 024fad8b14d7d93a '<SCRATCH>/repos/math_c264ctl/.lake/torus-filtration-evidence/RejectSeparationWithoutNonzeroCoeff.lean:3:160: error: unsolved goals\n⊢ False\n'
+-- RejectNonmergerKillsDifference.status sha256 4355a46b19d348dc '1\n'
+-- RejectNonmergerKillsDifference.log sha256 3d64541d8c60879e '<SCRATCH>/repos/math_c264ctl/.lake/torus-filtration-evidence/RejectNonmergerKillsDifference.lean:3:391: error: unsolved goals\n⊢ False\n'
+-- leanchecker.status sha256 9a271f2a916b0b6e '0\n'
+-- leanchecker.log sha256 e3b0c44298fc1c14 ''
+leanchecker.cmd 'leanchecker TorusTopology ClosedSuperlevel SuperlevelBar OrdinaryH0 OrdinaryH0Controls TorusFiltration\n'
+tests.log TORUS_FILTRATION_TESTS: outer optimize=0 | ['Ran 29 tests in 26.513s'] | OK
+tests-optimized.log TORUS_FILTRATION_TESTS: outer optimize=1 | ['Ran 29 tests in 26.856s'] | OK

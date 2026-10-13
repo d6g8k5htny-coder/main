@@ -1,0 +1,8 @@
+REGISTERED_HAS_PROP True {'module': 'Specifications/Side24.lean', 'claim_ids': ['side24-coefficient']}
+IMPORTS ['Specifications.Side24']
+NAMESPACES ['UniversalLaw.Proofs.Side24Interfaces', 'UniversalLaw.Proofs.Side24Interfaces.Aux']
+AUX_THEOREMS 14 AUX_DEFS 0 SET_OPTIONS []
+THEOREM {"name": "UniversalLaw.Proofs.Side24Interfaces.rayleighSquareLaw", "line": 303, "proves": "UniversalLaw.Spec.Side24.RayleighSquareLaw", "binders": [{"kind": "explicit", "names": ["I"]}], "arguments": ["I"], "doc": {"proves": "`UniversalLaw.Spec.Side24.RayleighSquareLaw` (claim `side24-coefficient`).", "method": "for `a ≥ 0`, `P {x^2 + y^2 ≤ a}` is the measure of the closed disk of radius `sqrt a`", "does_not_establish": "the informal Section 1 display \"The variable R^2 has density e^(-z/2)/2\" of"}}
+SCAN_OK
+NEGATIVE_CONTROL_OK: UniversalLaw.Proofs.Side24Interfaces.rayleighSquareLaw: explicit parameter 'h' is not passed to UniversalLaw.Spec.Side24.RayleighSquareLaw: an extra hypothesis 
+NEGATIVE_CONTROL_OK: refused token(s) in Side24Interfaces: ['sorry']

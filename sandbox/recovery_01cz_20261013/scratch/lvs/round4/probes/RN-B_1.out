@@ -1,0 +1,124 @@
+@Summable.sum_add_tsum_nat_add' : ∀ {M : Type u_1} [inst : AddCommMonoid M] [inst_1 : TopologicalSpace M] [T2Space M]
+  [ContinuousAdd M] {f : ℕ → M} {k : ℕ},
+  (Summable fun n => f (n + k)) → ∑ i ∈ Finset.range k, f i + ∑' (i : ℕ), f (i + k) = ∑' (i : ℕ), f i
+@Summable.sum_add_tsum_nat_add : ∀ {G : Type u_1} [inst : AddCommGroup G] [inst_1 : TopologicalSpace G]
+  [IsTopologicalAddGroup G] [T2Space G] {f : ℕ → G} (k : ℕ),
+  Summable f → ∑ i ∈ Finset.range k, f i + ∑' (i : ℕ), f (i + k) = ∑' (i : ℕ), f i
+<SCRATCH>/lvs/round4/probes/RN-B_1.lean:18:8: error(lean.unknownIdentifier): Unknown identifier `sum_add_tsum_nat_add'`
+@Summable.tsum_eq_zero_add : ∀ {G : Type u_1} [inst : AddCommGroup G] [inst_1 : TopologicalSpace G]
+  [IsTopologicalAddGroup G] [T2Space G] {f : ℕ → G}, Summable f → ∑' (b : ℕ), f b = f 0 + ∑' (b : ℕ), f (b + 1)
+@Summable.le_tsum : ∀ {ι : Type u_1} {α : Type u_2} {L : SummationFilter ι} [inst : AddCommMonoid α]
+  [inst_1 : Preorder α] [IsOrderedAddMonoid α] [inst_3 : TopologicalSpace α] [OrderClosedTopology α] {f : ι → α}
+  [L.NeBot] [L.LeAtTop], Summable f L → ∀ (i : ι), (∀ (j : ι), j ≠ i → 0 ≤ f j) → f i ≤ ∑'[L] (i : ι), f i
+@Summable.tsum_le_tsum : ∀ {ι : Type u_1} {α : Type u_2} {L : SummationFilter ι} [inst : AddCommMonoid α]
+  [inst_1 : Preorder α] [IsOrderedAddMonoid α] [inst_3 : TopologicalSpace α] [OrderClosedTopology α] {f g : ι → α}
+  [L.NeBot], (∀ (i : ι), f i ≤ g i) → Summable f L → Summable g L → ∑'[L] (i : ι), f i ≤ ∑'[L] (i : ι), g i
+@tsum_nonneg : ∀ {ι : Type u_1} {α : Type u_2} {L : SummationFilter ι} [inst : AddCommMonoid α] [inst_1 : Preorder α]
+  [IsOrderedAddMonoid α] [inst_3 : TopologicalSpace α] [OrderClosedTopology α] {g : ι → α},
+  (∀ (i : ι), 0 ≤ g i) → 0 ≤ ∑'[L] (i : ι), g i
+@Summable.tsum_sub : ∀ {α : Type u_1} {β : Type u_2} {L : SummationFilter β} [inst : AddCommGroup α]
+  [inst_1 : TopologicalSpace α] [IsTopologicalAddGroup α] {f g : β → α} [T2Space α] [L.NeBot],
+  Summable f L → Summable g L → ∑'[L] (b : β), (f b - g b) = ∑'[L] (b : β), f b - ∑'[L] (b : β), g b
+@Summable.tsum_add : ∀ {α : Type u_1} {β : Type u_2} [inst : AddCommMonoid α] [inst_1 : TopologicalSpace α]
+  {f g : β → α} {L : SummationFilter β} [T2Space α] [ContinuousAdd α] [L.NeBot],
+  Summable f L → Summable g L → ∑'[L] (b : β), (f b + g b) = ∑'[L] (b : β), f b + ∑'[L] (b : β), g b
+@Summable.sub : ∀ {α : Type u_1} {β : Type u_2} {L : SummationFilter β} [inst : AddCommGroup α]
+  [inst_1 : TopologicalSpace α] [IsTopologicalAddGroup α] {f g : β → α},
+  Summable f L → Summable g L → Summable (fun b => f b - g b) L
+@Summable.add : ∀ {α : Type u_1} {β : Type u_2} [inst : AddCommMonoid α] [inst_1 : TopologicalSpace α] {f g : β → α}
+  {L : SummationFilter β} [ContinuousAdd α], Summable f L → Summable g L → Summable (fun b => f b + g b) L
+@Summable.abs : ∀ {ι : Type u_1} {α : Type u_2} [inst : AddCommGroup α] [inst_1 : LinearOrder α] [IsOrderedAddMonoid α]
+  [inst_3 : UniformSpace α] [IsUniformAddGroup α] [CompleteSpace α] {f : ι → α}, Summable f → Summable fun x => |f x|
+@summable_abs_iff : ∀ {ι : Type u_1} {α : Type u_2} [inst : AddCommGroup α] [inst_1 : LinearOrder α]
+  [IsOrderedAddMonoid α] [inst_3 : UniformSpace α] [IsUniformAddGroup α] [CompleteSpace α] {f : ι → α},
+  (Summable fun x => |f x|) ↔ Summable f
+@Summable.norm : ∀ {α : Type u_1} {E : Type u_2} [inst : NormedAddCommGroup E] [inst_1 : NormedSpace ℝ E]
+  [FiniteDimensional ℝ E] {f : α → E}, Summable f → Summable fun x => ‖f x‖
+@norm_tsum_le_tsum_norm : ∀ {ι : Type u_1} {E : Type u_2} [inst : SeminormedAddCommGroup E] {f : ι → E},
+  (Summable fun i => ‖f i‖) → ‖∑' (i : ι), f i‖ ≤ ∑' (i : ι), ‖f i‖
+@Summable.of_nonneg_of_le : ∀ {β : Type u_1} {f g : β → ℝ},
+  (∀ (b : β), 0 ≤ g b) → (∀ (b : β), g b ≤ f b) → Summable f → Summable g
+@Summable.tsum_mul_left : ∀ {ι : Type u_1} {α : Type u_2} {L : SummationFilter ι} [inst : NonUnitalNonAssocSemiring α]
+  [inst_1 : TopologicalSpace α] [IsTopologicalSemiring α] {f : ι → α} [T2Space α] [L.NeBot] (a : α),
+  Summable f L → ∑'[L] (i : ι), a * f i = a * ∑'[L] (i : ι), f i
+@Real.abs_exp_sub_one_sub_id_le : ∀ {x : ℝ}, |x| ≤ 1 → |Real.exp x - 1 - x| ≤ x ^ 2
+Real.add_one_le_exp : ∀ (x : ℝ), x + 1 ≤ Real.exp x
+@NormedSpace.expSeries_div_hasSum_exp : ∀ {𝔸 : Type u_1} [inst : NormedDivisionRing 𝔸] [NormedAlgebra ℚ 𝔸]
+  [CompleteSpace 𝔸] (x : 𝔸), HasSum (fun n => x ^ n / ↑n.factorial) (NormedSpace.exp x)
+Real.exp_eq_exp_ℝ : Real.exp = NormedSpace.exp
+ProbabilityTheory.hasSum_one_poissonMeasure : ∀ (r : NNReal), HasSum (fun n => Real.exp (-↑r) * ↑r ^ n / ↑n.factorial) 1
+Real.summable_pow_div_factorial : ∀ (x : ℝ), Summable fun n => x ^ n / ↑n.factorial
+@HasSum.tsum_eq : ∀ {α : Type u_1} {β : Type u_2} [inst : AddCommMonoid α] [inst_1 : TopologicalSpace α]
+  {L : SummationFilter β} {f : β → α} {a : α} [T2Space α] [L.NeBot], HasSum f a L → ∑'[L] (b : β), f b = a
+@Summable.comp_injective : ∀ {α : Type u_1} {β : Type u_2} {γ : Type u_3} [inst : UniformSpace α]
+  [inst_1 : AddCommGroup α] [IsUniformAddGroup α] {f : β → α} [CompleteSpace α] {i : γ → β},
+  Summable f → Function.Injective i → Summable (f ∘ i)
+@summable_nat_add_iff : ∀ {G : Type u_1} [inst : AddCommGroup G] [inst_1 : TopologicalSpace G] [IsTopologicalAddGroup G]
+  {f : ℕ → G} (k : ℕ), (Summable fun n => f (n + k)) ↔ Summable f
+<SCRATCH>/lvs/round4/probes/RN-B_1.lean:60:4: error: unsolved goals
+case zero
+μ : ℕ → ℝ
+h0 : ∀ (n : ℕ), 0 ≤ μ n
+hs : Summable μ
+h1 : ∑' (n : ℕ), μ n = 1
+hμ1 : μ 0 ≤ 1
+⊢ |μ 0 - 1| = 1 - μ 0
+<SCRATCH>/lvs/round4/probes/RN-B_1.lean:68:13: error: No goals to be solved
+<SCRATCH>/lvs/round4/probes/RN-B_1.lean:70:13: error: Function expected at
+  Summable.sum_add_tsum_nat_add' ?m.229
+but this term has type
+  ∑ i ∈ Finset.range 1, ?m.226 i + ∑' (i : ℕ), ?m.226 (i + 1) = ∑' (i : ℕ), ?m.226 i
+
+Note: Expected a function because this term is being applied to the argument
+  (by simpa using (summable_nat_add_iff 1).mpr hs)
+<SCRATCH>/lvs/round4/probes/RN-B_1.lean:52:40: error: (deterministic) timeout at `whnf`, maximum number of heartbeats (200000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+<SCRATCH>/lvs/round4/probes/RN-B_1.lean:60:12: warning: This simp argument is unused:
+  abs_of_nonneg (sub_nonneg.mpr hμ1)
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [abs_sub_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+<SCRATCH>/lvs/round4/probes/RN-B_1.lean:60:48: warning: This simp argument is unused:
+  abs_sub_comm
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [abs_of_nonneg (sub_nonneg.mpr hμ1)]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+<SCRATCH>/lvs/round4/probes/RN-B_1.lean:87:14: error: Function expected at
+  Summable.sum_add_tsum_nat_add' ?m.198
+but this term has type
+  ∑ i ∈ Finset.range 1, ?m.195 i + ∑' (i : ℕ), ?m.195 (i + 1) = ∑' (i : ℕ), ?m.195 i
+
+Note: Expected a function because this term is being applied to the argument
+  hm1
+<SCRATCH>/lvs/round4/probes/RN-B_1.lean:87:14: error: (deterministic) timeout at `isDefEq`, maximum number of heartbeats (200000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+<SCRATCH>/lvs/round4/probes/RN-B_1.lean:97:30: warning: Variable name `h1` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _h1
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+<SCRATCH>/lvs/round4/probes/RN-B_1.lean:106:4: error: Type mismatch: After simplification, term
+  this
+ has type
+  @HasSum ℝ ℕ Real.instAddCommMonoid PseudoMetricSpace.toUniformSpace.toTopologicalSpace
+    (fun n => Real.exp (-↑⟨lam, hl⟩) * ↑⟨lam, hl⟩ ^ n / ↑n.factorial) 1 (SummationFilter.unconditional ℕ)
+but is expected to have type
+  @HasSum ℝ ℕ Real.instAddCommMonoid PseudoMetricSpace.toUniformSpace.toTopologicalSpace
+    (fun n => Real.exp (-lam) * lam ^ n / ↑n.factorial) 1 (SummationFilter.unconditional ℕ)
+<SCRATCH>/lvs/round4/probes/RN-B_1.lean:103:86: error: (deterministic) timeout at `whnf`, maximum number of heartbeats (200000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+<SCRATCH>/lvs/round4/probes/RN-B_1.lean:116:0: warning: declaration uses `sorry`

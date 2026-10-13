@@ -1,0 +1,146 @@
+@Measure.map_of_not_aemeasurable_of_ne_zero : ∀ {α : Type u_1} {β : Type u_2} {mα : MeasurableSpace α}
+  {mβ : MeasurableSpace β} {f : α → β} {μ : Measure α} (hf : ¬AEMeasurable f μ),
+  μ ≠ 0 → Measure.map f μ = Measure.dirac Classical.ofNonempty
+@Measure.dirac_apply_of_mem : ∀ {α : Type u_1} [inst : MeasurableSpace α] {s : Set α} {a : α},
+  a ∈ s → (Measure.dirac a) s = 1
+@IsProbabilityMeasure.ne_zero : ∀ {α : Type u_1} {m0 : MeasurableSpace α} (μ : Measure α) [IsProbabilityMeasure μ],
+  μ ≠ 0
+@nullSingletonClass_gaussianReal : ∀ {μ : ℝ} {v : NNReal}, v ≠ 0 → NullSingletonClass (gaussianReal μ v)
+@gaussianReal_map_neg : ∀ {μ : ℝ} {v : NNReal}, Measure.map (fun x => -x) (gaussianReal μ v) = gaussianReal (-μ) v
+@variance_fun_id_gaussianReal : ∀ {μ : ℝ} {v : NNReal}, Var[fun x => x; gaussianReal μ v] = ↑v
+@variance_eq_integral : ∀ {Ω : Type u_1} {mΩ : MeasurableSpace Ω} {X : Ω → ℝ} {μ : Measure Ω},
+  AEMeasurable X μ → Var[X; μ] = ∫ (ω : Ω), (X ω - ∫ (x : Ω), X x ∂μ) ^ 2 ∂μ
+@integral_id_gaussianReal : ∀ {μ : ℝ} {v : NNReal}, ∫ (x : ℝ), x ∂gaussianReal μ v = μ
+@memLp_id_gaussianReal : ∀ {μ : ℝ} {v : NNReal} (p : NNReal), MemLp id (↑p) (gaussianReal μ v)
+@MemLp.integrable_sq : ∀ {α : Type u_1} {m : MeasurableSpace α} {μ : Measure α} {f : α → ℝ},
+  MemLp f 2 μ → Integrable (fun x => f x ^ 2) μ
+@integral_map : ∀ {α : Type u_1} {G : Type u_2} [inst : NormedAddCommGroup G] [inst_1 : NormedSpace ℝ G]
+  {m : MeasurableSpace α} {μ : Measure α} {β : Type u_3} [inst_2 : MeasurableSpace β] {φ : α → β},
+  AEMeasurable φ μ →
+    ∀ {f : β → G}, AEStronglyMeasurable f (Measure.map φ μ) → ∫ (y : β), f y ∂Measure.map φ μ = ∫ (x : α), f (φ x) ∂μ
+@integral_indicator : ∀ {X : Type u_1} {E : Type u_2} {mX : MeasurableSpace X} [inst : NormedAddCommGroup E]
+  [inst_1 : NormedSpace ℝ E] {f : X → E} {s : Set X} {μ : Measure X},
+  MeasurableSet s → ∫ (x : X), s.indicator f x ∂μ = ∫ (x : X) in s, f x ∂μ
+@integral_add_compl : ∀ {X : Type u_1} {E : Type u_2} {mX : MeasurableSpace X} [inst : NormedAddCommGroup E]
+  [inst_1 : NormedSpace ℝ E] {f : X → E} {s : Set X} {μ : Measure X},
+  MeasurableSet s → Integrable f μ → ∫ (x : X) in s, f x ∂μ + ∫ (x : X) in sᶜ, f x ∂μ = ∫ (x : X), f x ∂μ
+@integral_Ici_eq_integral_Ioi : ∀ {X : Type u_1} {E : Type u_2} {mX : MeasurableSpace X} [inst : NormedAddCommGroup E]
+  [inst_1 : NormedSpace ℝ E] {f : X → E} {μ : Measure X} [inst_2 : PartialOrder X] {x : X} [NullSingletonClass μ],
+  ∫ (t : X) in Set.Ici x, f t ∂μ = ∫ (t : X) in Set.Ioi x, f t ∂μ
+@Measure.map_fst_prod : ∀ {α : Type u_1} {β : Type u_2} [inst : MeasurableSpace α] [inst_1 : MeasurableSpace β]
+  {μ : Measure α} {ν : Measure β} [SFinite ν], Measure.map Prod.fst (μ.prod ν) = ν Set.univ • μ
+@Measure.map_snd_prod : ∀ {α : Type u_1} {β : Type u_2} [inst : MeasurableSpace α] [inst_1 : MeasurableSpace β]
+  {μ : Measure α} {ν : Measure β} [SFinite ν], Measure.map Prod.snd (μ.prod ν) = μ Set.univ • ν
+@AEMeasurable.map_map_of_aemeasurable : ∀ {α : Type u_1} {β : Type u_2} {γ : Type u_3} {m0 : MeasurableSpace α}
+  [inst : MeasurableSpace β] [inst_1 : MeasurableSpace γ] {μ : Measure α} {g : β → γ} {f : α → β},
+  AEMeasurable g (Measure.map f μ) → AEMeasurable f μ → Measure.map g (Measure.map f μ) = Measure.map (g ∘ f) μ
+@AEMeasurable.fst : ∀ {α : Type u_1} {β : Type u_2} {γ : Type u_3} {m0 : MeasurableSpace α} [inst : MeasurableSpace β]
+  [inst_1 : MeasurableSpace γ] {μ : Measure α} {f : α → β × γ}, AEMeasurable f μ → AEMeasurable (fun x => (f x).1) μ
+@AEMeasurable.snd : ∀ {α : Type u_1} {β : Type u_2} {γ : Type u_3} {m0 : MeasurableSpace α} [inst : MeasurableSpace β]
+  [inst_1 : MeasurableSpace γ] {μ : Measure α} {f : α → β × γ}, AEMeasurable f μ → AEMeasurable (fun x => (f x).2) μ
+@Measure.map_apply_of_aemeasurable : ∀ {α : Type u_1} {β : Type u_2} {mα : MeasurableSpace α} {mβ : MeasurableSpace β}
+  {μ : Measure α} {f : α → β}, AEMeasurable f μ → ∀ {s : Set β}, MeasurableSet s → (Measure.map f μ) s = μ (f ⁻¹' s)
+@iteratedDeriv_mgf_zero : ∀ {Ω : Type u_1} {m : MeasurableSpace Ω} {X : Ω → ℝ} {μ : Measure Ω},
+  0 ∈ interior (integrableExpSet X μ) → ∀ (n : ℕ), iteratedDeriv n (mgf X μ) 0 = ∫ (x : Ω), (X ^ n) x ∂μ
+@mgf_fun_id_gaussianReal : ∀ {μ : ℝ} {v : NNReal},
+  mgf (fun x => x) (gaussianReal μ v) = fun t => Real.exp (μ * t + ↑v * t ^ 2 / 2)
+@mgf_gaussianReal : ∀ {Ω : Type u_1} {mΩ : MeasurableSpace Ω} {p : Measure Ω} {μ : ℝ} {v : NNReal} {X : Ω → ℝ},
+  HasLaw X (gaussianReal μ v) p → ∀ (t : ℝ), mgf X p t = Real.exp (μ * t + ↑v * t ^ 2 / 2)
+@integrableExpSet_fun_id_gaussianReal : ∀ {μ : ℝ} {v : NNReal},
+  integrableExpSet (fun x => x) (gaussianReal μ v) = Set.univ
+@integral_gaussianReal_eq_integral_smul : ∀ {E : Type u_1} [inst : NormedAddCommGroup E] [inst_1 : NormedSpace ℝ E]
+  {μ : ℝ} {v : NNReal} {f : ℝ → E}, v ≠ 0 → ∫ (x : ℝ), f x ∂gaussianReal μ v = ∫ (x : ℝ), gaussianPDFReal μ v x • f x
+gaussianPDFReal_def : ∀ (μ : ℝ) (v : NNReal),
+  gaussianPDFReal μ v = fun x => (√(2 * Real.pi * ↑v))⁻¹ * Real.exp (-(x - μ) ^ 2 / (2 * ↑v))
+integral_gaussian : ∀ (b : ℝ), ∫ (x : ℝ), Real.exp (-b * x ^ 2) = √(Real.pi / b)
+@integral_comp_polarCoord_symm : ∀ {E : Type u_1} [inst : NormedAddCommGroup E] [inst_1 : NormedSpace ℝ E]
+  (f : ℝ × ℝ → E), ∫ (p : ℝ × ℝ) in polarCoord.target, p.1 • f (↑polarCoord.symm p) = ∫ (p : ℝ × ℝ), f p
+polarCoord_symm_apply : ∀ (p : ℝ × ℝ), ↑polarCoord.symm p = (p.1 * Real.cos p.2, p.1 * Real.sin p.2)
+@prod_withDensity : ∀ {α : Type u_1} {m0 : MeasurableSpace α} {μ : Measure α} {β : Type u_2} {mβ : MeasurableSpace β}
+  {ν : Measure β} [SFinite ν] {f : α → ENNReal} {g : β → ENNReal},
+  Measurable f → Measurable g → (μ.withDensity f).prod (ν.withDensity g) = (μ.prod ν).withDensity fun z => f z.1 * g z.2
+@integral_prod : ∀ {α : Type u_1} {β : Type u_2} {E : Type u_3} [inst : MeasurableSpace α] [inst_1 : MeasurableSpace β]
+  {μ : Measure α} {ν : Measure β} [inst_2 : NormedAddCommGroup E] [SFinite ν] [inst_4 : NormedSpace ℝ E] [SFinite μ]
+  (f : α × β → E), Integrable f (μ.prod ν) → ∫ (z : α × β), f z ∂μ.prod ν = ∫ (x : α), ∫ (y : β), f (x, y) ∂ν ∂μ
+@setIntegral_prod_mul : ∀ {α : Type u_1} {β : Type u_2} [inst : MeasurableSpace α] [inst_1 : MeasurableSpace β]
+  {μ : Measure α} {ν : Measure β} [SFinite ν] [SFinite μ] {L : Type u_3} [inst_4 : RCLike L] (f : α → L) (g : β → L)
+  (s : Set α) (t : Set β),
+  ∫ (z : α × β) in s ×ˢ t, f z.1 * g z.2 ∂μ.prod ν = (∫ (x : α) in s, f x ∂μ) * ∫ (y : β) in t, g y ∂ν
+@Integrable.mul_prod : ∀ {α : Type u_1} {β : Type u_2} [inst : MeasurableSpace α] [inst_1 : MeasurableSpace β]
+  {μ : Measure α} {ν : Measure β} [SFinite ν] {L : Type u_3} [inst_3 : NormedRing L] {f : α → L} {g : β → L},
+  Integrable f μ → Integrable g ν → Integrable (fun z => f z.1 * g z.2) (μ.prod ν)
+@Measure.prod_restrict : ∀ {α : Type u_1} {β : Type u_2} [inst : MeasurableSpace α] [inst_1 : MeasurableSpace β]
+  {μ : Measure α} {ν : Measure β} [SFinite ν] [SFinite μ] (s : Set α) (t : Set β),
+  (μ.restrict s).prod (ν.restrict t) = (μ.prod ν).restrict (s ×ˢ t)
+@Matrix.posDef_iff_dotProduct_mulVec : ∀ {n : Type u_1} {R : Type u_2} [inst : Ring R] [inst_1 : PartialOrder R]
+  [inst_2 : StarRing R] [inst_3 : Fintype n] {M : Matrix n n R},
+  M.PosDef ↔ M.IsHermitian ∧ ∀ ⦃x : n → R⦄, x ≠ 0 → 0 < star x ⬝ᵥ M.mulVec x
+@Matrix.PosDef.det_pos : ∀ {n : Type u_1} {R' : Type u_2} [inst : CommRing R'] [inst_1 : PartialOrder R']
+  [inst_2 : StarRing R'] [inst_3 : Fintype n] [inst_4 : DecidableEq n] [Nontrivial R'] [IsOrderedRing R']
+  [PosMulReflectLT R'] {A : Matrix n n R'}, A.PosDef → 0 < A.det
+@Matrix.det_fin_two_of : ∀ {R : Type u_1} [inst : CommRing R] (a b c d : R), !![a, b; c, d].det = a * d - b * c
+@intervalIntegral.integral_comp_mul_deriv : ∀ {a b : ℝ} {f f' g : ℝ → ℝ},
+  (∀ x ∈ Set.uIcc a b, HasDerivAt f (f' x) x) →
+    ContinuousOn f' (Set.uIcc a b) → Continuous g → ∫ (x : ℝ) in a..b, (g ∘ f) x * f' x = ∫ (x : ℝ) in f a..f b, g x
+@intervalIntegral.integral_eq_sub_of_hasDerivAt : ∀ {E : Type u_1} [inst : NormedAddCommGroup E]
+  [inst_1 : NormedSpace ℝ E] {a b : ℝ} [CompleteSpace E] {f f' : ℝ → E},
+  (∀ x ∈ Set.uIcc a b, HasDerivAt f (f' x) x) → IntervalIntegrable f' ℙ a b → ∫ (y : ℝ) in a..b, f' y = f b - f a
+@HasLaw : {Ω : Type u_1} →
+  {𝓧 : Type u_2} →
+    {mΩ : MeasurableSpace Ω} →
+      {m𝓧 : MeasurableSpace 𝓧} → (Ω → 𝓧) → Measure 𝓧 → autoParam (Measure Ω) HasLaw._auto_1 → Prop
+@HasLaw.integral_comp : ∀ {Ω : Type u_1} {𝓧 : Type u_2} {mΩ : MeasurableSpace Ω} {m𝓧 : MeasurableSpace 𝓧}
+  {μ : Measure 𝓧} {P : Measure Ω} {E : Type u_3} [inst : NormedAddCommGroup E] [inst_1 : NormedSpace ℝ E] {X : Ω → 𝓧},
+  HasLaw X μ P → ∀ {f : 𝓧 → E}, AEStronglyMeasurable f μ → ∫ (x : Ω), (f ∘ X) x ∂P = ∫ (x : 𝓧), f x ∂μ
+@multivariateGaussian : {ι : Type u_1} →
+  [Fintype ι] → [DecidableEq ι] → EuclideanSpace ℝ ι → Matrix ι ι ℝ → Measure (EuclideanSpace ℝ ι)
+@condDistrib : {α : Type u_1} →
+  {β : Type u_2} →
+    {Ω : Type u_3} →
+      [inst : MeasurableSpace Ω] →
+        [StandardBorelSpace Ω] →
+          [Nonempty Ω] →
+            {x : MeasurableSpace α} →
+              [inst_3 : MeasurableSpace β] → (α → Ω) → (α → β) → (μ : Measure α) → [IsFiniteMeasure μ] → Kernel β Ω
+@integral_const_mul : ∀ {α : Type u_1} {m : MeasurableSpace α} {μ : Measure α} {L : Type u_2} [inst : RCLike L] (r : L)
+  (f : α → L), ∫ (a : α), r * f a ∂μ = r * ∫ (a : α), f a ∂μ
+@iteratedDeriv_succ : ∀ {𝕜 : Type u_1} [inst : NontriviallyNormedField 𝕜] {F : Type u_2} [inst_1 : NormedAddCommGroup F]
+  [inst_2 : NormedSpace 𝕜 F] {n : ℕ} {f : 𝕜 → F}, iteratedDeriv (n + 1) f = deriv (iteratedDeriv n f)
+@iteratedDeriv_one : ∀ {𝕜 : Type u_1} [inst : NontriviallyNormedField 𝕜] {F : Type u_2} [inst_1 : NormedAddCommGroup F]
+  [inst_2 : NormedSpace 𝕜 F] {f : 𝕜 → F}, iteratedDeriv 1 f = deriv f
+Real.sqrt_inv : ∀ (x : ℝ), √x⁻¹ = (√x)⁻¹
+@Real.sqrt_mul : ∀ {x : ℝ}, 0 ≤ x → ∀ (y : ℝ), √(x * y) = √x * √y
+<SCRATCH>/lvs/round4/probes/Side24-interfaces_1.lean:67:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+<SCRATCH>/lvs/round4/probes/Side24-interfaces_1.lean:81:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+<SCRATCH>/lvs/round4/probes/Side24-interfaces_1.lean:82:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+<SCRATCH>/lvs/round4/probes/Side24-interfaces_1.lean:85:2: warning: Try this: 
+  haveI̵
+
+The goal is a proposition, so `have` is preferred over `haveI`.
+The difference between `have` and `haveI` is that `haveI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+'probe_coneMomentD1Identity' depends on axioms: [propext, Classical.choice, Quot.sound]
+exit=0

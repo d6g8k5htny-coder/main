@@ -1,0 +1,27 @@
+test_complete_evidence_yields_a_bounded_receipt (__main__.FinishFixture.test_complete_evidence_yields_a_bounded_receipt) ... FAIL
+test_every_weakening_withholds_the_receipt (__main__.FinishFixture.test_every_weakening_withholds_the_receipt) ... FAIL
+
+======================================================================
+FAIL: test_complete_evidence_yields_a_bounded_receipt (__main__.FinishFixture.test_complete_evidence_yields_a_bounded_receipt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/lvs/c262/verify_fable_g3/M1_no_receipt_gate/companions/torus_filtration_20261011/test_torus_filtration.py", line 939, in test_complete_evidence_yields_a_bounded_receipt
+    self.assertFails(f.run('finish', str(out)), 'receipt.json already present')
+  File "<SCRATCH>/lvs/c262/verify_fable_g3/M1_no_receipt_gate/companions/torus_filtration_20261011/test_torus_filtration.py", line 205, in assertFails
+    self.assertIn('TORUS_FILTRATION_FAIL: ' + message, run.stderr)
+AssertionError: 'TORUS_FILTRATION_FAIL: receipt.json already present' not found in "TORUS_FILTRATION_FAIL: evidence membership differs: missing [], unexpected ['receipt.json']\n"
+
+======================================================================
+FAIL: test_every_weakening_withholds_the_receipt (__main__.FinishFixture.test_every_weakening_withholds_the_receipt)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/lvs/c262/verify_fable_g3/M1_no_receipt_gate/companions/torus_filtration_20261011/test_torus_filtration.py", line 1032, in test_every_weakening_withholds_the_receipt
+    self.assertFails(f.run('finish', str(out)), 'receipt.json already present')
+  File "<SCRATCH>/lvs/c262/verify_fable_g3/M1_no_receipt_gate/companions/torus_filtration_20261011/test_torus_filtration.py", line 205, in assertFails
+    self.assertIn('TORUS_FILTRATION_FAIL: ' + message, run.stderr)
+AssertionError: 'TORUS_FILTRATION_FAIL: receipt.json already present' not found in "TORUS_FILTRATION_FAIL: evidence membership differs: missing [], unexpected ['receipt.json']\n"
+
+----------------------------------------------------------------------
+Ran 2 tests in 5.776s
+
+FAILED (failures=2)

@@ -1,0 +1,101 @@
+TAP version 13
+# Subtest: museum exposes source-bound rendering rather than silently omitting the page
+ok 1 - museum exposes source-bound rendering rather than silently omitting the page
+  ---
+  duration_ms: 0.999555
+  type: 'test'
+  ...
+# Subtest: full reviewed bullets and all three AMEND rows retain their classes and source wording
+ok 2 - full reviewed bullets and all three AMEND rows retain their classes and source wording
+  ---
+  duration_ms: 5.584647
+  type: 'test'
+  ...
+# Subtest: source display cannot promote a counterexample or an AMEND row
+ok 3 - source display cannot promote a counterexample or an AMEND row
+  ---
+  duration_ms: 1.169117
+  type: 'test'
+  ...
+# Subtest: a genuine source elsewhere in the index cannot replace this claim proof or scope
+ok 4 - a genuine source elsewhere in the index cannot replace this claim proof or scope
+  ---
+  duration_ms: 0.730907
+  type: 'test'
+  ...
+# Subtest: replay command must occur exactly in the verified replay source
+ok 5 - replay command must occur exactly in the verified replay source
+  ---
+  duration_ms: 50.494198
+  type: 'test'
+  ...
+# Subtest: lifetime source identity must match D2 and packets must use the pinned main snapshot
+ok 6 - lifetime source identity must match D2 and packets must use the pinned main snapshot
+  ---
+  duration_ms: 1.07188
+  type: 'test'
+  ...
+# Subtest: malformed, mutable and falsely displayed source identities are refused before fetch
+ok 7 - malformed, mutable and falsely displayed source identities are refused before fetch
+  ---
+  duration_ms: 0.445506
+  type: 'test'
+  ...
+# Subtest: verified source bytes are required before a claim can be presented
+ok 8 - verified source bytes are required before a claim can be presented
+  ---
+  duration_ms: 4.315188
+  type: 'test'
+  ...
+# Subtest: streamed responses stop at the byte cap and cancel the reader
+ok 9 - streamed responses stop at the byte cap and cancel the reader
+  ---
+  duration_ms: 2.195637
+  type: 'test'
+  ...
+# Subtest: a stalled response body is aborted within its request deadline
+ok 10 - a stalled response body is aborted within its request deadline
+  ---
+  duration_ms: 15.964738
+  type: 'test'
+  ...
+# Subtest: review comment pointers cannot masquerade as byte-frozen comment content
+ok 11 - review comment pointers cannot masquerade as byte-frozen comment content
+  ---
+  duration_ms: 0.758303
+  type: 'test'
+  ...
+# Subtest: AMEND pointers bind their declared STATUS row or the specific open-obligation index entry
+ok 12 - AMEND pointers bind their declared STATUS row or the specific open-obligation index entry
+  ---
+  duration_ms: 0.812869
+  type: 'test'
+  ...
+# Subtest: packet index refuses a foreign packet, changed scientific effect and mismatched result path
+ok 13 - packet index refuses a foreign packet, changed scientific effect and mismatched result path
+  ---
+  duration_ms: 1.268268
+  type: 'test'
+  ...
+# Subtest: rendered claims use declared HTML containers, complete identities and literal disclaimer
+ok 14 - rendered claims use declared HTML containers, complete identities and literal disclaimer
+  ---
+  duration_ms: 10.172715
+  type: 'test'
+  ...
+# Subtest: actual pinned museum renders all cards and rejects cross-claim source, scope and replay substitutions
+ok 15 - actual pinned museum renders all cards and rejects cross-claim source, scope and replay substitutions
+  ---
+  duration_ms: 21.441002
+  type: 'test'
+  ...
+1..15
+# tests 15
+# suites 0
+# pass 15
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 256.074192
+Museum source export and actual display integration verified. Scientific effect NONE.

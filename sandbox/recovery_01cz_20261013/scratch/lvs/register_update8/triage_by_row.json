@@ -1,0 +1,1880 @@
+{
+ "side24-coefficient": [
+  {
+   "prop": "UniversalLaw.Spec.Side24.IsUnitTuple",
+   "verdict": "PREDICATE_VOCABULARY",
+   "effort": "n/a",
+   "finding": "",
+   "mathlib": [],
+   "module": "Side24.lean",
+   "group": "Side24-derivatives-lattice"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Side24.ThetaSummable",
+   "verdict": "PROVABLE_NOW",
+   "effort": "hours",
+   "finding": "The packet README's reason for this group ('Mathlib's Jacobi-theta results are one-dimensional') does not block: the one-dimensional `HurwitzKernelBounds.summable_f_int` plus a `Fintype.piFinset` product bound gives summability over `Fin d → ℤ` for every d. Probe 4 contains a complete sorry-free proof of `∀ d, ThetaSummable d` with standard axioms; the docstring's 'Does not claim: that the family is summable (true, but not shown here)' can be revisited by the maintainers once a theorem is in the packet. This is a statement about a Prop, not about the informal claim side24-coefficient, whose status is unchanged.",
+   "mathlib": [
+    "HurwitzKernelBounds.summable_f_int (Mathlib/NumberTheory/ModularForms/JacobiTheta/Bounds.lean:220)",
+    "HurwitzKernelBounds.f_int (Mathlib/NumberTheory/ModularForms/JacobiTheta/Bounds.lean:209)",
+    "summable_of_sum_le (Mathlib/Topology/Algebra/InfiniteSum/Real.lean:86)",
+    "Summable.of_nonneg_of_le (Mathlib/Topology/Algebra/InfiniteSum/ENNReal.lean:532)",
+    "Summable.sum_le_tsum (elaborated in probe 4; Mathlib/Topology/Algebra/InfiniteSum/Order.lean, to_additive)",
+    "Summable.mul_left (elaborated in probe 4)",
+    "Finset.prod_univ_sum (Mathlib/Algebra/BigOperators/Ring/Finset.lean:157)",
+    "Fintype.mem_piFinset (Mathlib/Data/Fintype/Pi.lean:37)",
+    "Finset.sum_le_sum_of_subset_of_nonneg (Mathlib/Algebra/Order/BigOperators/Group/Finset.lean, to_additive of prod_le_prod_of_subset_of_one_le'; elaborated)",
+    "Finset.prod_le_prod₀ (Mathlib/Algebra/Order/BigOperators/GroupWithZero/Finset.lean:39)",
+    "EuclideanSpace.norm_sq_eq (Mathlib/Analysis/InnerProductSpace/PiL2.lean:152)",
+    "WithLp.ofLp_sum (Mathlib/Analysis/Normed/Lp/WithLp.lean:201)",
+    "PiLp.single_apply (replacement named by the deprecation notice of EuclideanSpace.single_apply, Mathlib/Analysis/InnerProductSpace/PiL2.lean:311)",
+    "Real.exp_sum (elaborated in probes 2 and 4)"
+   ],
+   "module": "Side24.lean",
+   "group": "Side24-derivatives-lattice"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Side24.DerivativePairingBound",
+   "verdict": "PROVABLE_NOW",
+   "effort": "hours",
+   "finding": "The packet README row 'Side24 derivative bounds' gives as reason 'Mathlib has no closed form for the iterated Fréchet derivatives of a Gaussian'; that reason is not load-bearing: the operator-norm Leibniz bound `norm_iteratedFDeriv_smul_le` plus the Hermite-type recursion proves the Prop as stated without any closed form (probe 5, sorry-free, standard axioms). No change to any claim status follows; the informal claim side24-coefficient keeps its register labels.",
+   "mathlib": [
+    "norm_iteratedFDeriv_smul_le (Mathlib/Analysis/Calculus/ContDiff/Bounds.lean:251)",
+    "norm_iteratedFDeriv_fderiv (Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:934)",
+    "norm_iteratedFDeriv_zero (Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:824)",
+    "norm_iteratedFDeriv_one (Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:944)",
+    "iteratedFDeriv_succ_eq_comp_right (Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:927)",
+    "iteratedFDeriv_const_of_ne (Mathlib/Analysis/Calculus/ContDiff/Basic.lean:140)",
+    "ContinuousLinearMap.contDiff (Mathlib/Analysis/Calculus/ContDiff/Basic.lean:161)",
+    "ContinuousLinearMap.fderiv (Mathlib/Analysis/Calculus/FDeriv/Linear.lean:79)",
+    "hasStrictFDerivAt_norm_sq (Mathlib/Analysis/InnerProductSpace/Calculus.lean:197)",
+    "contDiff_norm_sq (Mathlib/Analysis/InnerProductSpace/Calculus.lean:140)",
+    "HasFDerivAt.exp (Mathlib/Analysis/SpecialFunctions/ExpDeriv.lean:355)",
+    "Real.contDiff_exp (Mathlib/Analysis/SpecialFunctions/ExpDeriv.lean:273)",
+    "HasFDerivAt.const_smul (Mathlib/Analysis/Calculus/FDeriv/Add.lean:67)",
+    "innerSL_apply_norm (Mathlib/Analysis/InnerProductSpace/LinearMap.lean:225)",
+    "norm_innerSL_le (Mathlib/Analysis/InnerProductSpace/LinearMap.lean:236)",
+    "ContinuousMultilinearMap.le_opNorm (Mathlib/Analysis/Normed/Module/Multilinear/Basic.lean:380)",
+    "LinearIsometryEquiv.map_zero (elaborated in probe 5)",
+    "Nat.choose_succ_self_right, Nat.choose_self (elaborated in probe 5)"
+   ],
+   "module": "Side24.lean",
+   "group": "Side24-derivatives-lattice"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Side24.DerivativeBoundAtLeastOne",
+   "verdict": "PROVABLE_NOW",
+   "effort": "hours",
+   "finding": "",
+   "mathlib": [
+    "norm_iteratedFDeriv_smul_le (Mathlib/Analysis/Calculus/ContDiff/Bounds.lean:251)",
+    "norm_iteratedFDeriv_fderiv (Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:934)",
+    "ContinuousMultilinearMap.le_opNorm (Mathlib/Analysis/Normed/Module/Multilinear/Basic.lean:380)",
+    "innerSL_apply_norm (Mathlib/Analysis/InnerProductSpace/LinearMap.lean:225)",
+    "norm_innerSL_le (Mathlib/Analysis/InnerProductSpace/LinearMap.lean:236)",
+    "hasStrictFDerivAt_norm_sq (Mathlib/Analysis/InnerProductSpace/Calculus.lean:197)",
+    "HasFDerivAt.exp (Mathlib/Analysis/SpecialFunctions/ExpDeriv.lean:355)",
+    "pow_le_pow_right₀, one_le_pow₀ (elaborated in probes 1 and 5)"
+   ],
+   "module": "Side24.lean",
+   "group": "Side24-derivatives-lattice"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Side24.DerivativeBoundAtZero",
+   "verdict": "PROVABLE_NOW",
+   "effort": "hours",
+   "finding": "",
+   "mathlib": [
+    "norm_iteratedFDeriv_smul_le (Mathlib/Analysis/Calculus/ContDiff/Bounds.lean:251)",
+    "norm_iteratedFDeriv_fderiv (Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:934)",
+    "norm_iteratedFDeriv_zero (Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:824)",
+    "norm_iteratedFDeriv_one (Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:944)",
+    "ContinuousMultilinearMap.le_opNorm (Mathlib/Analysis/Normed/Module/Multilinear/Basic.lean:380)",
+    "innerSL_apply_norm (Mathlib/Analysis/InnerProductSpace/LinearMap.lean:225)",
+    "norm_innerSL_le (Mathlib/Analysis/InnerProductSpace/LinearMap.lean:236)"
+   ],
+   "module": "Side24.lean",
+   "group": "Side24-derivatives-lattice"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Side24.LatticeImageSumBound",
+   "verdict": "PROVABLE_WITH_WORK",
+   "effort": "days",
+   "finding": "Not a defect: the Prop ranges over d ≤ 3 including d = 0 (where `Fin 0 → ℤ` has the single element 0, imageTerm is 0 and the tsum is 0) and d = 1; both are true instances, so the quantifier is not vacuous and the d = 2, 3 cases are substantive.",
+   "mathlib": [
+    "summable_of_sum_le (Mathlib/Topology/Algebra/InfiniteSum/Real.lean:86)",
+    "Real.tsum_le_of_sum_le (Mathlib/Topology/Algebra/InfiniteSum/Real.lean:97)",
+    "HurwitzKernelBounds.summable_f_int (Mathlib/NumberTheory/ModularForms/JacobiTheta/Bounds.lean:220)",
+    "HasSum.int_rec (used at Mathlib/NumberTheory/ModularForms/JacobiTheta/Bounds.lean:223)",
+    "Finset.prod_univ_sum (Mathlib/Algebra/BigOperators/Ring/Finset.lean:157)",
+    "Fintype.mem_piFinset (Mathlib/Data/Fintype/Pi.lean:37)",
+    "Fintype.card_piFinset (Mathlib/Data/Fintype/BigOperators.lean:124)",
+    "Finset.prod_le_prod₀ (Mathlib/Algebra/Order/BigOperators/GroupWithZero/Finset.lean:39)",
+    "Finset.sum_le_sum_of_subset_of_nonneg (elaborated in probe 4)",
+    "Summable.sum_le_tsum (elaborated in probe 4)",
+    "Finset.prod_fiberwise / Finset.sum_fiberwise (Mathlib/Algebra/BigOperators/Group/Finset/Basic.lean:282, 1018)",
+    "tsum_geometric_two (Mathlib/Analysis/SpecificLimits/Basic.lean:344)",
+    "tsum_geometric_of_lt_one (Mathlib/Analysis/SpecificLimits/Basic.lean:331)",
+    "Real.exp_sum (elaborated in probes 2 and 4)",
+    "Side24Elementary.successiveTermRatio and Aux.pow_succ_le, Aux.exp_succ_le, Aux.ratio_const_lt_half (proof packet SpecificationProofs/Side24Elementary.lean:76-87, 145-151)"
+   ],
+   "module": "Side24.lean",
+   "group": "Side24-derivatives-lattice"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Side24.ImageBound",
+   "verdict": "BLOCKED_MISSING_MATHLIB",
+   "effort": "weeks",
+   "finding": "Not a statement defect. The Prop's docstring hedge 'if K_24 is not C^q the derivative is 0 in Lean' is moot (K24 is smooth), but proving smoothness and the derivative formula is exactly the blocked step: Mathlib d13f23b7 has no local (open-set) version of `iteratedFDeriv_tsum`, and the global version is inapplicable to lattice translates of a fixed function.",
+   "mathlib": [
+    "iteratedFDeriv_tsum (Mathlib/Analysis/Calculus/SmoothSeries.lean:189) -- global bounds only",
+    "iteratedFDeriv_tsum_apply (Mathlib/Analysis/Calculus/SmoothSeries.lean:215) -- global bounds only",
+    "contDiff_tsum_of_eventually (Mathlib/Analysis/Calculus/SmoothSeries.lean:251) -- global bounds only",
+    "hasFDerivAt_tsum_of_isPreconnected (Mathlib/Analysis/Calculus/SmoothSeries.lean:72) -- local but first order only",
+    "Filter.EventuallyEq.iteratedFDeriv (Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:886)",
+    "iteratedFDeriv_comp_add_right (Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:964-970)",
+    "iteratedFDeriv_const_smul_apply (Mathlib/Analysis/Calculus/ContDiff/Operations.lean:664)",
+    "ContDiffBump (Mathlib/Analysis/Calculus/BumpFunction/Basic.lean:70), ContDiffBump.contDiff (:203), ContDiffBump.hasCompactSupport (:166)",
+    "norm_iteratedFDeriv_smul_le (Mathlib/Analysis/Calculus/ContDiff/Bounds.lean:251)",
+    "norm_tsum_le_tsum_norm (Mathlib/Analysis/Normed/Group/InfiniteSum.lean:151)",
+    "tsum_eq_add_tsum_ite (present as used in Mathlib; ENNReal/NNReal versions at Mathlib/Topology/Algebra/InfiniteSum/ENNReal.lean:294, 476; general version is a to_additive of Multipliable.tprod_eq_mul_tprod_ite', Mathlib/Topology/Algebra/InfiniteSum/Basic.lean:738)",
+    "Side24Elementary.Aux.exp_neg_lt (proof packet SpecificationProofs/Side24Elementary.lean:60)"
+   ],
+   "module": "Side24.lean",
+   "group": "Side24-derivatives-lattice"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Side24.NegDefCone",
+   "verdict": "PREDICATE_VOCABULARY",
+   "effort": "n/a",
+   "finding": "",
+   "mathlib": [
+    "Matrix.PosDef (Mathlib/LinearAlgebra/Matrix/PosDef.lean:162)"
+   ],
+   "module": "Side24.lean",
+   "group": "Side24-covariance-density"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Side24.ReferenceOddAndPinBlocks",
+   "verdict": "PROVABLE_NOW",
+   "effort": "hours",
+   "finding": "The proof packet README's informal reason for this row (\"the evaluation of the Fréchet derivatives is not available\") does not hold for this Prop: the values of `iteratedFDeriv ℝ n (Kinf d) 0` in frame directions through order six are computable with existing Mathlib API (peeling via `iteratedFDeriv_succ_apply_right` + `iteratedFDeriv_clm_apply_const_apply`), and a complete proof of the Prop as stated kernel-checks in probe _5. This is a correction of a previous informal reason, not a defect in the statement.",
+   "mathlib": [
+    "iteratedFDeriv_succ_apply_right (Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:919)",
+    "iteratedFDeriv_one_apply (Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:939)",
+    "iteratedFDeriv_clm_apply_const_apply (Mathlib/Analysis/Calculus/ContDiff/Comp.lean:563)",
+    "contDiff_infty_iff_fderiv (Mathlib/Analysis/Calculus/ContDiff/Defs.lean:1267)",
+    "ContDiff.div_const (Mathlib/Analysis/Calculus/ContDiff/Operations.lean:534)",
+    "contDiff_norm_sq (Mathlib/Analysis/InnerProductSpace/Calculus.lean:140)",
+    "ContDiff.inner (Mathlib/Analysis/InnerProductSpace/Calculus.lean:81)",
+    "ContDiff.exp (Mathlib/Analysis/SpecialFunctions/ExpDeriv.lean:335)",
+    "hasStrictFDerivAt_norm_sq (Mathlib/Analysis/InnerProductSpace/Calculus.lean:197)",
+    "HasFDerivAt.inner (Mathlib/Analysis/InnerProductSpace/Calculus.lean:98)",
+    "fderivInnerCLM_apply (Mathlib/Analysis/InnerProductSpace/Calculus.lean:52)",
+    "HasFDerivAt.exp (Mathlib/Analysis/SpecialFunctions/ExpDeriv.lean:355)",
+    "HasFDerivAt.mul_const (Mathlib/Analysis/Calculus/FDeriv/Mul.lean:299)",
+    "HasFDerivAt.mul (Mathlib/Analysis/Calculus/FDeriv/Mul.lean:205)",
+    "HasFDerivAt.const_mul (Mathlib/Analysis/Calculus/FDeriv/Mul.lean:352)",
+    "HasFDerivAt.neg (Mathlib/Analysis/Calculus/FDeriv/Add.lean:520)",
+    "innerSL_apply_apply (Mathlib/Analysis/InnerProductSpace/LinearMap.lean:172)",
+    "orthonormal_iff_ite (Mathlib/Analysis/InnerProductSpace/Orthonormal.lean:82)",
+    "Matrix.one_apply (Mathlib/Data/Matrix/Diagonal.lean:234)",
+    "Matrix.diagonal_apply (Mathlib/Data/Matrix/Diagonal.lean:54)",
+    "Matrix.one_mulVec (Mathlib/Data/Matrix/Mul.lean:1003)"
+   ],
+   "module": "Side24.lean",
+   "group": "Side24-covariance-density"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Side24.CovarianceOrdering",
+   "verdict": "BLOCKED_MISSING_MATHLIB",
+   "effort": "weeks",
+   "finding": "Display (3) does not need the exact pairing constants of display (2): the crude Faà di Bruno bound available in Mathlib (`norm_iteratedFDeriv_comp_le`) leaves `60E' < epsilon` true with a factor ≈ 8 to spare. The blockers are the local term-wise iterated differentiation of the lattice sum, the d-dimensional Gaussian tail bound, and higher-order symmetry of `iteratedFDeriv` (for the `IsHermitian` half of `PosSemidef`).",
+   "mathlib": [
+    "iteratedFDeriv_tsum (Mathlib/Analysis/Calculus/SmoothSeries.lean:189)",
+    "hasFDerivAt_tsum_of_isPreconnected (Mathlib/Analysis/Calculus/SmoothSeries.lean:72)",
+    "norm_iteratedFDeriv_comp_le (Mathlib/Analysis/Calculus/ContDiff/Bounds.lean:512)",
+    "isSymmSndFDerivAt_iff_iteratedFDeriv (Mathlib/Analysis/Calculus/FDeriv/Symmetric.lean:174)",
+    "IsSymmSndFDerivAt.iteratedFDeriv_cons (Mathlib/Analysis/Calculus/FDeriv/Symmetric.lean:189)",
+    "summable_prod_of_nonneg (Mathlib/Topology/Algebra/InfiniteSum/Real.lean:82)",
+    "Real.tsum_exp_neg_mul_int_sq (Mathlib/Analysis/SpecialFunctions/Gaussian/PoissonSummation.lean:122)",
+    "summable_jacobiTheta₂_term_iff (Mathlib/NumberTheory/ModularForms/JacobiTheta/TwoVariable.lean:123)",
+    "Matrix.posSemidef_iff_dotProduct_mulVec (Mathlib/LinearAlgebra/Matrix/PosDef.lean:298)",
+    "Matrix.PosSemidef (Mathlib/LinearAlgebra/Matrix/PosDef.lean:60)"
+   ],
+   "module": "Side24.lean",
+   "group": "Side24-covariance-density"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Side24.EntrywiseCovarianceBound",
+   "verdict": "BLOCKED_MISSING_MATHLIB",
+   "effort": "weeks",
+   "finding": "",
+   "mathlib": [
+    "norm_iteratedFDeriv_comp_le (Mathlib/Analysis/Calculus/ContDiff/Bounds.lean:512)",
+    "iteratedFDeriv_tsum (Mathlib/Analysis/Calculus/SmoothSeries.lean:189)",
+    "hasFDerivAt_tsum_of_isPreconnected (Mathlib/Analysis/Calculus/SmoothSeries.lean:72)",
+    "summable_prod_of_nonneg (Mathlib/Topology/Algebra/InfiniteSum/Real.lean:82)",
+    "Real.tsum_exp_neg_mul_int_sq (Mathlib/Analysis/SpecialFunctions/Gaussian/PoissonSummation.lean:122)",
+    "ContinuousLinearMap.iteratedFDeriv_comp_right (Mathlib/Analysis/Calculus/ContDiff/Basic.lean:461)"
+   ],
+   "module": "Side24.lean",
+   "group": "Side24-covariance-density"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Side24.ReferenceCovarianceLowerBound",
+   "verdict": "PROVABLE_WITH_WORK",
+   "effort": "weeks",
+   "finding": "",
+   "mathlib": [
+    "Matrix.posSemidef_iff_dotProduct_mulVec (Mathlib/LinearAlgebra/Matrix/PosDef.lean:298)",
+    "Matrix.PosSemidef (Mathlib/LinearAlgebra/Matrix/PosDef.lean:60)",
+    "iteratedFDeriv_succ_apply_right (Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:919)",
+    "iteratedFDeriv_clm_apply_const_apply (Mathlib/Analysis/Calculus/ContDiff/Comp.lean:563)",
+    "HasFDerivAt.inner (Mathlib/Analysis/InnerProductSpace/Calculus.lean:98)",
+    "orthonormal_iff_ite (Mathlib/Analysis/InnerProductSpace/Orthonormal.lean:82)",
+    "Matrix.one_apply (Mathlib/Data/Matrix/Diagonal.lean:234)"
+   ],
+   "module": "Side24.lean",
+   "group": "Side24-covariance-density"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Side24.DensityComparison",
+   "verdict": "PROVABLE_WITH_WORK",
+   "effort": "days",
+   "finding": "",
+   "mathlib": [
+    "Matrix.le_iff (Mathlib/Analysis/Matrix/Order.lean:58)",
+    "Matrix.instPartialOrder (scoped MatrixOrder, Mathlib/Analysis/Matrix/Order.lean:84)",
+    "Matrix.instStarOrderedRing (scoped MatrixOrder, Mathlib/Analysis/Matrix/Order.lean:120)",
+    "Matrix.PosSemidef.nonneg (Mathlib/Analysis/Matrix/Order.lean, checked by #check in probe _2)",
+    "Matrix.PosSemidef.inv_sqrt (Mathlib/Analysis/Matrix/Order.lean:146)",
+    "Matrix.PosSemidef.det_sqrt (Mathlib/Analysis/Matrix/Order.lean:152)",
+    "Matrix.posSemidef_iff_isHermitian_and_spectrum_nonneg (Mathlib/Analysis/Matrix/Order.lean:167)",
+    "Matrix.PosSemidef.posDef_iff_isUnit (Mathlib/Analysis/Matrix/Order.lean:180)",
+    "Matrix.instContinuousFunctionalCalculus (Mathlib/Analysis/Matrix/HermitianFunctionalCalculus.lean:97)",
+    "CFC.sqrt_mul_sqrt_self (checked by #check and elaborated for real matrices in probe _3)",
+    "CFC.sqrt_nonneg (checked by #check in probe _2)",
+    "star_left_conjugate_le_conjugate (Mathlib/Algebra/Order/Star/Basic.lean:257)",
+    "conjugate_le_conjugate_of_nonneg (Mathlib/Algebra/Order/Star/Basic.lean:272)",
+    "IsSelfAdjoint.conjugate_le_conjugate (Mathlib/Algebra/Order/Star/Basic.lean:268)",
+    "Matrix.IsHermitian.det_eq_prod_eigenvalues (Mathlib/Analysis/Matrix/Spectrum.lean:193)",
+    "Matrix.IsHermitian.eigenvalues_mem_spectrum_real (Mathlib/Analysis/Matrix/Spectrum.lean:83)",
+    "Matrix.IsHermitian.spectral_theorem (Mathlib/Analysis/Matrix/Spectrum.lean:143)",
+    "spectrum.sub_singleton_eq (Mathlib/Algebra/Algebra/Spectrum/Basic.lean:327)",
+    "Finset.one_le_prod (Mathlib/Algebra/Order/BigOperators/Group/Finset.lean:152)",
+    "Matrix.PosDef.det_pos (Mathlib/LinearAlgebra/Matrix/PosDef.lean:531)",
+    "Matrix.PosDef.inv (Mathlib/LinearAlgebra/Matrix/PosDef.lean:564)",
+    "Matrix.PosDef.smul (Mathlib/LinearAlgebra/Matrix/PosDef.lean:273)",
+    "Matrix.PosDef.isUnit (Mathlib/LinearAlgebra/Matrix/PosDef.lean:557)",
+    "Matrix.PosSemidef.conjTranspose_mul_mul_same (Mathlib/LinearAlgebra/Matrix/PosDef.lean:314)",
+    "Matrix.posSemidef_iff_dotProduct_mulVec (Mathlib/LinearAlgebra/Matrix/PosDef.lean:298)",
+    "Matrix.det_smul (Mathlib/LinearAlgebra/Matrix/Determinant/Basic.lean:272)",
+    "Matrix.det_fin_zero (Mathlib/LinearAlgebra/Matrix/Determinant/Basic.lean:795)",
+    "Real.mul_rpow (Mathlib/Analysis/SpecialFunctions/Pow/Real.lean:477)",
+    "Real.rpow_neg (Mathlib/Analysis/SpecialFunctions/Pow/Real.lean:260)",
+    "Real.rpow_mul (Mathlib/Analysis/SpecialFunctions/Pow/Real.lean:415)",
+    "Real.rpow_natCast (Mathlib/Analysis/SpecialFunctions/Pow/Real.lean:62)",
+    "CStarAlgebra.inv_le_inv (Mathlib/Analysis/CStarAlgebra/ContinuousFunctionalCalculus/Order.lean:352; requires [CStarAlgebra A], not applicable to real matrices)",
+    "Matrix.instCStarAlgebra (Mathlib/Analysis/CStarAlgebra/Matrix.lean:307, ℂ only)"
+   ],
+   "module": "Side24.lean",
+   "group": "Side24-covariance-density"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Side24.IntegrandRatioBounds",
+   "verdict": "PROVABLE_NOW",
+   "effort": "hours",
+   "finding": "The packet README groups this row under \"built on the derivative contractions\"; it is not: it is pure real arithmetic in `epsilon`, `exponentA`, `exponentB` and kernel-checks in probe _2 with no derivative input. Previous informal reason corrected; no statement defect.",
+   "mathlib": [
+    "one_add_mul_self_le_rpow_one_add (Mathlib/Analysis/Convex/SpecificFunctions/Basic.lean:127)",
+    "Real.rpow_le_rpow_of_exponent_le (Mathlib/Analysis/SpecialFunctions/Pow/Real.lean:617)",
+    "Real.rpow_natCast (Mathlib/Analysis/SpecialFunctions/Pow/Real.lean:62)",
+    "Real.rpow_pos_of_pos (Mathlib/Analysis/SpecialFunctions/Pow/Real.lean:117)",
+    "le_div_iff₀ and div_le_iff₀ (elaborated in probe _2)"
+   ],
+   "module": "Side24.lean",
+   "group": "Side24-covariance-density"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Side24.ReferencePinDensityProduct",
+   "verdict": "PROVABLE_NOW",
+   "effort": "hours",
+   "finding": "As for `ReferenceOddAndPinBlocks`: the README's reason (\"evaluation of the Fréchet derivatives is not available\") is tested and does not hold; a full proof of the Prop as stated kernel-checks in probes _4/_5.",
+   "mathlib": [
+    "Matrix.det_diagonal (Mathlib/LinearAlgebra/Matrix/Determinant/Basic.lean:77)",
+    "Matrix.det_one (Mathlib/LinearAlgebra/Matrix/Determinant/Basic.lean:92)",
+    "Finset.prod_ite_eq' (elaborated in probe _4/_5)",
+    "Real.rpow_add (Mathlib/Analysis/SpecialFunctions/Pow/Real.lean:208)",
+    "Real.rpow_neg (Mathlib/Analysis/SpecialFunctions/Pow/Real.lean:260)",
+    "Real.sqrt_eq_rpow (Mathlib/Analysis/SpecialFunctions/Pow/Real.lean:986)",
+    "Real.one_rpow (Mathlib/Analysis/SpecialFunctions/Pow/Real.lean:155)",
+    "orthonormal_iff_ite (Mathlib/Analysis/InnerProductSpace/Orthonormal.lean:82)",
+    "iteratedFDeriv_succ_apply_right (Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:919)",
+    "iteratedFDeriv_clm_apply_const_apply (Mathlib/Analysis/Calculus/ContDiff/Comp.lean:563)"
+   ],
+   "module": "Side24.lean",
+   "group": "Side24-covariance-density"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Side24.ConeMomentD1Identity",
+   "verdict": "PROVABLE_NOW",
+   "effort": "hours",
+   "finding": "",
+   "mathlib": [
+    "MeasureTheory.Measure.map_of_not_aemeasurable_of_ne_zero (Mathlib/MeasureTheory/Measure/Map.lean:125)",
+    "MeasureTheory.Measure.dirac_apply_of_mem (Mathlib/MeasureTheory/Measure/Dirac/Def.lean:61)",
+    "MeasureTheory.IsProbabilityMeasure.ne_zero (Mathlib/MeasureTheory/Measure/Typeclasses/Probability.lean:84)",
+    "ProbabilityTheory.nullSingletonClass_gaussianReal (Mathlib/Probability/Distributions/Gaussian/Real.lean:235)",
+    "ProbabilityTheory.gaussianReal_map_neg (Mathlib/Probability/Distributions/Gaussian/Real.lean:360)",
+    "ProbabilityTheory.variance_fun_id_gaussianReal (Mathlib/Probability/Distributions/Gaussian/Real.lean:547)",
+    "ProbabilityTheory.variance_eq_integral (Mathlib/Probability/Moments/Variance.lean:157)",
+    "ProbabilityTheory.integral_id_gaussianReal (Mathlib/Probability/Distributions/Gaussian/Real.lean:537)",
+    "ProbabilityTheory.memLp_id_gaussianReal (Mathlib/Probability/Distributions/Gaussian/Real.lean:577)",
+    "MeasureTheory.MemLp.integrable_sq (Mathlib/MeasureTheory/Function/L2Space.lean:42)",
+    "MeasureTheory.integral_map (Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1076)",
+    "MeasureTheory.integral_indicator (Mathlib/MeasureTheory/Integral/Bochner/Set.lean:172)",
+    "MeasureTheory.integral_add_compl (Mathlib/MeasureTheory/Integral/Bochner/Set.lean:158)",
+    "MeasureTheory.integral_Ici_eq_integral_Ioi (Mathlib/MeasureTheory/Integral/Bochner/Set.lean:726)",
+    "MeasureTheory.measure_singleton (via NullSingletonClass, Mathlib/MeasureTheory/Measure/Typeclasses/NullSingletonClass.lean)",
+    "ProbabilityTheory.instIsProbabilityMeasureGaussianReal (Mathlib/Probability/Distributions/Gaussian/Real.lean:232)"
+   ],
+   "module": "Side24.lean",
+   "group": "Side24-interfaces"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Side24.ConeMomentD2Identity",
+   "verdict": "PROVABLE_WITH_WORK",
+   "effort": "weeks",
+   "finding": "",
+   "mathlib": [
+    "MeasureTheory.integral_prod (Mathlib/MeasureTheory/Integral/Prod.lean:440)",
+    "MeasureTheory.Integrable.mul_prod (Mathlib/MeasureTheory/Integral/Prod.lean:297)",
+    "MeasureTheory.setIntegral_prod_mul (Mathlib/MeasureTheory/Integral/Prod.lean)",
+    "MeasureTheory.prod_withDensity (Mathlib/MeasureTheory/Measure/WithDensity.lean:726)",
+    "MeasureTheory.Measure.prod_restrict (Mathlib/MeasureTheory/Measure/Prod.lean:778)",
+    "MeasureTheory.Measure.prod.instNullSingletonClass_fst (Mathlib/MeasureTheory/Measure/Prod.lean:207)",
+    "integral_comp_polarCoord_symm (Mathlib/Analysis/SpecialFunctions/PolarCoord.lean:138)",
+    "polarCoord_symm_apply (Mathlib/Analysis/SpecialFunctions/PolarCoord.lean)",
+    "integral_gaussian_sq_complex (template, Mathlib/Analysis/SpecialFunctions/Gaussian/GaussianIntegral.lean:180)",
+    "intervalIntegral.integral_comp_mul_deriv (Mathlib/MeasureTheory/Integral/IntervalIntegral/IntegrationByParts.lean:531)",
+    "intervalIntegral.integral_eq_sub_of_hasDerivAt (Mathlib/MeasureTheory/Integral/IntervalIntegral/FundThmCalculus.lean:1148)",
+    "Matrix.posDef_iff_dotProduct_mulVec (Mathlib/LinearAlgebra/Matrix/PosDef.lean:454)",
+    "Matrix.PosDef.det_pos (Mathlib/LinearAlgebra/Matrix/PosDef.lean:531)",
+    "Matrix.PosDef.diag_pos (Mathlib/LinearAlgebra/Matrix/PosDef.lean, used in probe 4)",
+    "Matrix.det_fin_two_of (Mathlib/LinearAlgebra/Matrix/Determinant/Basic.lean:813)",
+    "Matrix.det_neg (used in probe 4)",
+    "MeasureTheory.integral_map (Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1076)",
+    "AEMeasurable.map_map_of_aemeasurable (Mathlib/MeasureTheory/Measure/AEMeasurable.lean:165)",
+    "MeasureTheory.Measure.map_fst_prod / map_snd_prod (Mathlib/MeasureTheory/Measure/Prod.lean:254ff)",
+    "ProbabilityTheory.gaussianReal_map_neg (Mathlib/Probability/Distributions/Gaussian/Real.lean:360)",
+    "ProbabilityTheory.gaussianReal_of_var_ne_zero (Mathlib/Probability/Distributions/Gaussian/Real.lean:225)",
+    "ProbabilityTheory.iteratedDeriv_mgf_zero (Mathlib/Probability/Moments/MGFAnalytic.lean:92)",
+    "ProbabilityTheory.memLp_id_gaussianReal (Mathlib/Probability/Distributions/Gaussian/Real.lean:577)",
+    "UniversalLaw.Proofs.Side24Elementary.elementaryConeIntegral (proof packet, SpecificationProofs/Side24Elementary.lean:199)"
+   ],
+   "module": "Side24.lean",
+   "group": "Side24-interfaces"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Side24.TraceMoments",
+   "verdict": "PROVABLE_NOW",
+   "effort": "hours",
+   "finding": "",
+   "mathlib": [
+    "ProbabilityTheory.iteratedDeriv_mgf_zero (Mathlib/Probability/Moments/MGFAnalytic.lean:92)",
+    "ProbabilityTheory.mgf_fun_id_gaussianReal (Mathlib/Probability/Distributions/Gaussian/Real.lean:499)",
+    "ProbabilityTheory.integrableExpSet_fun_id_gaussianReal (Mathlib/Probability/Distributions/Gaussian/Real.lean:525)",
+    "ProbabilityTheory.variance_fun_id_gaussianReal (Mathlib/Probability/Distributions/Gaussian/Real.lean:547)",
+    "ProbabilityTheory.variance_eq_integral (Mathlib/Probability/Moments/Variance.lean:157)",
+    "ProbabilityTheory.integral_gaussianReal_eq_integral_smul (Mathlib/Probability/Distributions/Gaussian/Real.lean:275)",
+    "ProbabilityTheory.gaussianPDFReal_def (Mathlib/Probability/Distributions/Gaussian/Real.lean:52)",
+    "integral_gaussian (Mathlib/Analysis/SpecialFunctions/Gaussian/GaussianIntegral.lean:211)",
+    "MeasureTheory.integral_const_mul (Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:290)",
+    "Real.sqrt_inv (Mathlib/Analysis/Real/Sqrt.lean:374)",
+    "Real.sqrt_mul (Mathlib/Analysis/Real/Sqrt.lean:366)",
+    "iteratedDeriv_succ (Mathlib/Analysis/Calculus/IteratedDeriv/Defs.lean:306)",
+    "iteratedDeriv_one (Mathlib/Analysis/Calculus/IteratedDeriv/Defs.lean:258)",
+    "HasDerivAt.mul (Mathlib/Analysis/Calculus/Deriv/Mul.lean:256; Pi-form at this revision)",
+    "HasDerivAt.const_mul (Mathlib/Analysis/Calculus/Deriv/Mul.lean:345)",
+    "HasDerivAt.add (Mathlib/Analysis/Calculus/Deriv/Add.lean:59; Pi-form)",
+    "HasDerivAt.fun_pow, HasDerivAt.const_add, HasDerivAt.exp (used in probe 2, elaborate)",
+    "MeasureTheory.Measure.map_fst_prod (Mathlib/MeasureTheory/Measure/Prod.lean:254)",
+    "AEMeasurable.map_map_of_aemeasurable (Mathlib/MeasureTheory/Measure/AEMeasurable.lean:165)",
+    "AEMeasurable.fst (Mathlib/MeasureTheory/Measure/AEMeasurable.lean:172)",
+    "MeasureTheory.Measure.map_of_not_aemeasurable_of_ne_zero (Mathlib/MeasureTheory/Measure/Map.lean:125)",
+    "MeasureTheory.Measure.dirac_apply_of_mem (Mathlib/MeasureTheory/Measure/Dirac/Def.lean:61)",
+    "ProbabilityTheory.nullSingletonClass_gaussianReal (Mathlib/Probability/Distributions/Gaussian/Real.lean:235)",
+    "MeasureTheory.Measure.prod.instNullSingletonClass_fst (Mathlib/MeasureTheory/Measure/Prod.lean:207)",
+    "MeasureTheory.integral_map (Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1076)"
+   ],
+   "module": "Side24.lean",
+   "group": "Side24-interfaces"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Side24.RayleighSquareLaw",
+   "verdict": "PROVABLE_WITH_WORK",
+   "effort": "days",
+   "finding": "",
+   "mathlib": [
+    "integral_comp_polarCoord_symm (Mathlib/Analysis/SpecialFunctions/PolarCoord.lean:138)",
+    "polarCoord_symm_apply (Mathlib/Analysis/SpecialFunctions/PolarCoord.lean:197 region)",
+    "integral_gaussian_sq_complex (template, Mathlib/Analysis/SpecialFunctions/Gaussian/GaussianIntegral.lean:180)",
+    "MeasureTheory.prod_withDensity (Mathlib/MeasureTheory/Measure/WithDensity.lean:726)",
+    "MeasureTheory.withDensity_apply (Mathlib/MeasureTheory/Measure/WithDensity.lean:44)",
+    "MeasureTheory.ofReal_integral_eq_lintegral_ofReal (Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:734)",
+    "MeasureTheory.Measure.prod_restrict (Mathlib/MeasureTheory/Measure/Prod.lean:778)",
+    "MeasureTheory.setIntegral_prod_mul (Mathlib/MeasureTheory/Integral/Prod.lean)",
+    "ProbabilityTheory.gaussianReal_of_var_ne_zero (Mathlib/Probability/Distributions/Gaussian/Real.lean:225)",
+    "MeasureTheory.Measure.map_apply_of_aemeasurable (Mathlib/MeasureTheory/Measure/Map.lean:166)",
+    "MeasureTheory.Measure.map_snd_prod (Mathlib/MeasureTheory/Measure/Prod.lean:259 region)",
+    "AEMeasurable.snd (Mathlib/MeasureTheory/Measure/AEMeasurable.lean:172 region)",
+    "measurableSet_le (used in probe 4, elaborates)",
+    "intervalIntegral.integral_eq_sub_of_hasDerivAt (Mathlib/MeasureTheory/Integral/IntervalIntegral/FundThmCalculus.lean:1148)",
+    "ENNReal.toReal_ofReal, Real.exp_le_one_iff (used in probe 4, elaborate)"
+   ],
+   "module": "Side24.lean",
+   "group": "Side24-interfaces"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Side24.CoefficientEnclosure",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "Probe-level (not a receipt): `(∀ I : PeriodicCoefficientInterface, CoefficientEnclosure I) → IsEmpty PeriodicCoefficientInterface` elaborates without sorry (Side24-interfaces_3.lean, `probe_enclosure_closure_implies_empty`), by doubling `coneMoment` and `c24`. The Prop is a predicate on the interface object exactly as its own `Interface:` line says; no theorem of its type can exist unless the interface is empty. The register's `specified` label is the right one; the proof packet README's reason for this group (conditional law not constructed) is confirmed as the precise missing ingredient.",
+   "mathlib": [
+    "MeasureTheory.integral_const_mul (Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:290)",
+    "ProbabilityTheory.multivariateGaussian (Mathlib/Probability/Distributions/Gaussian/Multivariate.lean:166)",
+    "ProbabilityTheory.stdGaussian (Mathlib/Probability/Distributions/Gaussian/Multivariate.lean:65)",
+    "ProbabilityTheory.condDistrib (Mathlib/Probability/Kernel/CondDistrib.lean)",
+    "ProbabilityTheory.gaussianReal (Mathlib/Probability/Distributions/Gaussian/Real.lean:222)"
+   ],
+   "module": "Side24.lean",
+   "group": "Side24-interfaces"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Side24.ReferenceComparison",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "Probe-level (not a receipt): `(∀ I : PeriodicCoefficientInterface, ReferenceComparison I) → IsEmpty PeriodicCoefficientInterface` elaborates without sorry (Side24-interfaces_3.lean, `probe_reference_closure_implies_empty`). As with `CoefficientEnclosure`, the Prop is a predicate on the interface object and no theorem of its type can exist unless the interface is empty; `specified` remains the correct label.",
+   "mathlib": [
+    "MeasureTheory.integral_const_mul (Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:290)",
+    "abs_lt, mul_div_assoc (used in probe 3, elaborate)",
+    "ProbabilityTheory.multivariateGaussian (Mathlib/Probability/Distributions/Gaussian/Multivariate.lean:166)",
+    "ProbabilityTheory.condDistrib (Mathlib/Probability/Kernel/CondDistrib.lean)",
+    "Real.Gamma, Real.rpow (Mathlib/Analysis/SpecialFunctions/Gamma/Basic.lean, Pow/Real.lean; definitions behind cRef)"
+   ],
+   "module": "Side24.lean",
+   "group": "Side24-interfaces"
+  }
+ ],
+ "math.side24-coefficient": [
+  {
+   "prop": "UniversalLaw.Spec.Side24.CoefficientEnclosure",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "Probe-level (not a receipt): `(∀ I : PeriodicCoefficientInterface, CoefficientEnclosure I) → IsEmpty PeriodicCoefficientInterface` elaborates without sorry (Side24-interfaces_3.lean, `probe_enclosure_closure_implies_empty`), by doubling `coneMoment` and `c24`. The Prop is a predicate on the interface object exactly as its own `Interface:` line says; no theorem of its type can exist unless the interface is empty. The register's `specified` label is the right one; the proof packet README's reason for this group (conditional law not constructed) is confirmed as the precise missing ingredient.",
+   "mathlib": [
+    "MeasureTheory.integral_const_mul (Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:290)",
+    "ProbabilityTheory.multivariateGaussian (Mathlib/Probability/Distributions/Gaussian/Multivariate.lean:166)",
+    "ProbabilityTheory.stdGaussian (Mathlib/Probability/Distributions/Gaussian/Multivariate.lean:65)",
+    "ProbabilityTheory.condDistrib (Mathlib/Probability/Kernel/CondDistrib.lean)",
+    "ProbabilityTheory.gaussianReal (Mathlib/Probability/Distributions/Gaussian/Real.lean:222)"
+   ],
+   "module": "Side24.lean",
+   "group": "Side24-interfaces"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Side24.ReferenceComparison",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "Probe-level (not a receipt): `(∀ I : PeriodicCoefficientInterface, ReferenceComparison I) → IsEmpty PeriodicCoefficientInterface` elaborates without sorry (Side24-interfaces_3.lean, `probe_reference_closure_implies_empty`). As with `CoefficientEnclosure`, the Prop is a predicate on the interface object and no theorem of its type can exist unless the interface is empty; `specified` remains the correct label.",
+   "mathlib": [
+    "MeasureTheory.integral_const_mul (Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:290)",
+    "abs_lt, mul_div_assoc (used in probe 3, elaborate)",
+    "ProbabilityTheory.multivariateGaussian (Mathlib/Probability/Distributions/Gaussian/Multivariate.lean:166)",
+    "ProbabilityTheory.condDistrib (Mathlib/Probability/Kernel/CondDistrib.lean)",
+    "Real.Gamma, Real.rpow (Mathlib/Analysis/SpecialFunctions/Gamma/Basic.lean, Pow/Real.lean; definitions behind cRef)"
+   ],
+   "module": "Side24.lean",
+   "group": "Side24-interfaces"
+  }
+ ],
+ "math.rn-region.mesoscopic-scaled-annulus": [
+  {
+   "prop": "UniversalLaw.Spec.RN.AnnulusBridgeAllHeight2",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "The Prop is not provable as stated for a reason sharper than the proof-packet README's 'a proof would be the research result': the interface admits an inhabitant (Dirac tilted law at a pinned smooth periodic path with one extra nondegenerate critical point in the annulus) that violates display (2) with a null Borel set E, so a theorem of the Prop cannot exist for any Mathlib. The source (rn-annulus-bridge PROOF.md lines 24-28) states (2) for the Gaussian regression law; the Lean interface carries no field that distinguishes that law from a Dirac mass. The reduction steps (Dirac mean = pathwise count; singleton volume 0; count ≥ 1) are kernel-checked in probe RN-A_1; the path construction is not. No edit to the statement is proposed.",
+   "mathlib": [
+    "MeasureTheory.integral_dirac (Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139)",
+    "MeasureTheory.integral_dirac' (Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1130)",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183)",
+    "MeasureTheory.ae_dirac_iff (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154)",
+    "MeasureTheory.ae_dirac_eq (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:159)",
+    "MeasureTheory.withDensity_one (Mathlib/MeasureTheory/Measure/WithDensity.lean:175)",
+    "MeasureTheory.withDensity_congr_ae (Mathlib/MeasureTheory/Measure/WithDensity.lean:88)",
+    "Set.ncard_singleton (Mathlib/Data/Set/Card.lean:694)",
+    "Set.ncard_pos (Mathlib/Data/Set/Card.lean:677)",
+    "Set.Infinite.ncard (Mathlib/Data/Set/Card.lean:651)",
+    "Set.image_singleton (Mathlib/Data/Set/Image.lean)",
+    "ContDiffBump, ContDiffBump.contDiff, ContDiffBump.one_of_mem_closedBall, ContDiffBump.zero_of_le_dist, ContDiffBump.support_eq (Mathlib/Analysis/Calculus/BumpFunction/Basic.lean:137,151,163,203)",
+    "hasContDiffBump_of_innerProductSpace (Mathlib/Analysis/Calculus/BumpFunction/InnerProduct.lean:57)",
+    "iteratedFDeriv_two_apply (Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:949)"
+   ],
+   "module": "RN.lean",
+   "group": "RN-A"
+  },
+  {
+   "prop": "UniversalLaw.Spec.RN.D5dSummedPinNeighbourhoodC2",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "Row D5-d as transcribed is refutable by a Dirac-law inhabitant with one extra nondegenerate critical point at the midpoint (count ≥ 1 > C r^3 as r → 0): interface under-determination, not a statement defect. Note the `Set.ncard` convention (infinite set ↦ 0) only lowers the left side and cannot rescue the bound against this inhabitant, whose critical set in the ball is finite.",
+   "mathlib": [
+    "MeasureTheory.integral_dirac (Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139)",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183)",
+    "MeasureTheory.ae_dirac_iff (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154)",
+    "MeasureTheory.withDensity_one (Mathlib/MeasureTheory/Measure/WithDensity.lean:175)",
+    "MeasureTheory.withDensity_congr_ae (Mathlib/MeasureTheory/Measure/WithDensity.lean:88)",
+    "Set.ncard_pos (Mathlib/Data/Set/Card.lean:677)",
+    "Set.Infinite.ncard (Mathlib/Data/Set/Card.lean:651)",
+    "ContDiffBump.contDiff (Mathlib/Analysis/Calculus/BumpFunction/Basic.lean:203)",
+    "iteratedFDeriv_two_apply (Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:949)"
+   ],
+   "module": "RN.lean",
+   "group": "RN-A"
+  }
+ ],
+ "math.d5-component.annulus-proof": [
+  {
+   "prop": "UniversalLaw.Spec.RN.AnnulusBridgeAllHeight2",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "The Prop is not provable as stated for a reason sharper than the proof-packet README's 'a proof would be the research result': the interface admits an inhabitant (Dirac tilted law at a pinned smooth periodic path with one extra nondegenerate critical point in the annulus) that violates display (2) with a null Borel set E, so a theorem of the Prop cannot exist for any Mathlib. The source (rn-annulus-bridge PROOF.md lines 24-28) states (2) for the Gaussian regression law; the Lean interface carries no field that distinguishes that law from a Dirac mass. The reduction steps (Dirac mean = pathwise count; singleton volume 0; count ≥ 1) are kernel-checked in probe RN-A_1; the path construction is not. No edit to the statement is proposed.",
+   "mathlib": [
+    "MeasureTheory.integral_dirac (Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139)",
+    "MeasureTheory.integral_dirac' (Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1130)",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183)",
+    "MeasureTheory.ae_dirac_iff (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154)",
+    "MeasureTheory.ae_dirac_eq (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:159)",
+    "MeasureTheory.withDensity_one (Mathlib/MeasureTheory/Measure/WithDensity.lean:175)",
+    "MeasureTheory.withDensity_congr_ae (Mathlib/MeasureTheory/Measure/WithDensity.lean:88)",
+    "Set.ncard_singleton (Mathlib/Data/Set/Card.lean:694)",
+    "Set.ncard_pos (Mathlib/Data/Set/Card.lean:677)",
+    "Set.Infinite.ncard (Mathlib/Data/Set/Card.lean:651)",
+    "Set.image_singleton (Mathlib/Data/Set/Image.lean)",
+    "ContDiffBump, ContDiffBump.contDiff, ContDiffBump.one_of_mem_closedBall, ContDiffBump.zero_of_le_dist, ContDiffBump.support_eq (Mathlib/Analysis/Calculus/BumpFunction/Basic.lean:137,151,163,203)",
+    "hasContDiffBump_of_innerProductSpace (Mathlib/Analysis/Calculus/BumpFunction/InnerProduct.lean:57)",
+    "iteratedFDeriv_two_apply (Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:949)"
+   ],
+   "module": "RN.lean",
+   "group": "RN-A"
+  }
+ ],
+ "math.rn-region.pin-collision": [
+  {
+   "prop": "UniversalLaw.Spec.RN.D5aPuncturedPinDisks",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "Row D5-a as transcribed is refutable by a Dirac-law inhabitant of PinnedLawInterface with one extra critical point in the punctured disk and a null E (RECONCILIATION.md line 47 states the row for the Gaussian regression law, which the interface does not single out). Not a defect of the source; a limit of what the interface determines. Reduction steps kernel-checked in probe RN-A_1; path construction not formalised.",
+   "mathlib": [
+    "MeasureTheory.integral_dirac (Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139)",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183)",
+    "MeasureTheory.ae_dirac_iff (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154)",
+    "MeasureTheory.withDensity_one (Mathlib/MeasureTheory/Measure/WithDensity.lean:175)",
+    "MeasureTheory.withDensity_congr_ae (Mathlib/MeasureTheory/Measure/WithDensity.lean:88)",
+    "Set.ncard_singleton (Mathlib/Data/Set/Card.lean:694)",
+    "Set.ncard_pos (Mathlib/Data/Set/Card.lean:677)",
+    "ContDiffBump.contDiff / one_of_mem_closedBall / zero_of_le_dist (Mathlib/Analysis/Calculus/BumpFunction/Basic.lean:203,137,163)",
+    "iteratedFDeriv_two_apply (Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:949)"
+   ],
+   "module": "RN.lean",
+   "group": "RN-A"
+  },
+  {
+   "prop": "UniversalLaw.Spec.RN.D5bMicrodisk",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "Row D5-b as transcribed is refutable by the same Dirac-law inhabitant (extra critical point at distance r^2 from M, κ = 1): interface under-determination, not a statement defect. Path construction not formalised; reduction steps kernel-checked in probe RN-A_1.",
+   "mathlib": [
+    "MeasureTheory.integral_dirac (Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139)",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183)",
+    "MeasureTheory.ae_dirac_iff (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154)",
+    "MeasureTheory.withDensity_one (Mathlib/MeasureTheory/Measure/WithDensity.lean:175)",
+    "MeasureTheory.withDensity_congr_ae (Mathlib/MeasureTheory/Measure/WithDensity.lean:88)",
+    "Set.ncard_pos (Mathlib/Data/Set/Card.lean:677)",
+    "ContDiffBump.contDiff (Mathlib/Analysis/Calculus/BumpFunction/Basic.lean:203)",
+    "iteratedFDeriv_two_apply (Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:949)"
+   ],
+   "module": "RN.lean",
+   "group": "RN-A"
+  },
+  {
+   "prop": "UniversalLaw.Spec.RN.D5dSummedPinNeighbourhoodC2",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "Row D5-d as transcribed is refutable by a Dirac-law inhabitant with one extra nondegenerate critical point at the midpoint (count ≥ 1 > C r^3 as r → 0): interface under-determination, not a statement defect. Note the `Set.ncard` convention (infinite set ↦ 0) only lowers the left side and cannot rescue the bound against this inhabitant, whose critical set in the ball is finite.",
+   "mathlib": [
+    "MeasureTheory.integral_dirac (Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139)",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183)",
+    "MeasureTheory.ae_dirac_iff (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154)",
+    "MeasureTheory.withDensity_one (Mathlib/MeasureTheory/Measure/WithDensity.lean:175)",
+    "MeasureTheory.withDensity_congr_ae (Mathlib/MeasureTheory/Measure/WithDensity.lean:88)",
+    "Set.ncard_pos (Mathlib/Data/Set/Card.lean:677)",
+    "Set.Infinite.ncard (Mathlib/Data/Set/Card.lean:651)",
+    "ContDiffBump.contDiff (Mathlib/Analysis/Calculus/BumpFunction/Basic.lean:203)",
+    "iteratedFDeriv_two_apply (Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:949)"
+   ],
+   "module": "RN.lean",
+   "group": "RN-A"
+  }
+ ],
+ "math.d5-pin-neighborhood-first-moment": [
+  {
+   "prop": "UniversalLaw.Spec.RN.D5aPuncturedPinDisks",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "Row D5-a as transcribed is refutable by a Dirac-law inhabitant of PinnedLawInterface with one extra critical point in the punctured disk and a null E (RECONCILIATION.md line 47 states the row for the Gaussian regression law, which the interface does not single out). Not a defect of the source; a limit of what the interface determines. Reduction steps kernel-checked in probe RN-A_1; path construction not formalised.",
+   "mathlib": [
+    "MeasureTheory.integral_dirac (Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139)",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183)",
+    "MeasureTheory.ae_dirac_iff (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154)",
+    "MeasureTheory.withDensity_one (Mathlib/MeasureTheory/Measure/WithDensity.lean:175)",
+    "MeasureTheory.withDensity_congr_ae (Mathlib/MeasureTheory/Measure/WithDensity.lean:88)",
+    "Set.ncard_singleton (Mathlib/Data/Set/Card.lean:694)",
+    "Set.ncard_pos (Mathlib/Data/Set/Card.lean:677)",
+    "ContDiffBump.contDiff / one_of_mem_closedBall / zero_of_le_dist (Mathlib/Analysis/Calculus/BumpFunction/Basic.lean:203,137,163)",
+    "iteratedFDeriv_two_apply (Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:949)"
+   ],
+   "module": "RN.lean",
+   "group": "RN-A"
+  },
+  {
+   "prop": "UniversalLaw.Spec.RN.D5bMicrodisk",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "Row D5-b as transcribed is refutable by the same Dirac-law inhabitant (extra critical point at distance r^2 from M, κ = 1): interface under-determination, not a statement defect. Path construction not formalised; reduction steps kernel-checked in probe RN-A_1.",
+   "mathlib": [
+    "MeasureTheory.integral_dirac (Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139)",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183)",
+    "MeasureTheory.ae_dirac_iff (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154)",
+    "MeasureTheory.withDensity_one (Mathlib/MeasureTheory/Measure/WithDensity.lean:175)",
+    "MeasureTheory.withDensity_congr_ae (Mathlib/MeasureTheory/Measure/WithDensity.lean:88)",
+    "Set.ncard_pos (Mathlib/Data/Set/Card.lean:677)",
+    "ContDiffBump.contDiff (Mathlib/Analysis/Calculus/BumpFunction/Basic.lean:203)",
+    "iteratedFDeriv_two_apply (Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:949)"
+   ],
+   "module": "RN.lean",
+   "group": "RN-A"
+  },
+  {
+   "prop": "UniversalLaw.Spec.RN.D5cCollarC1",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "Row D5-c as transcribed is refutable by a Dirac-law inhabitant with an extra critical point at the midpoint and E = {0} ⊆ C_{η,R}: interface under-determination. The register may also note that RECONCILIATION.md (line 49) never defines C_{η,R}; the Lean `collar` is taken from the dimension-lift source as the docstring says, and the refutation does not depend on that choice (the midpoint is in any reasonable collar).",
+   "mathlib": [
+    "MeasureTheory.integral_dirac (Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139)",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183)",
+    "MeasureTheory.ae_dirac_iff (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154)",
+    "MeasureTheory.withDensity_one (Mathlib/MeasureTheory/Measure/WithDensity.lean:175)",
+    "MeasureTheory.withDensity_congr_ae (Mathlib/MeasureTheory/Measure/WithDensity.lean:88)",
+    "Set.ncard_singleton (Mathlib/Data/Set/Card.lean:694)",
+    "Set.ncard_pos (Mathlib/Data/Set/Card.lean:677)",
+    "Set.image_singleton (Mathlib/Data/Set/Image.lean)",
+    "ContDiffBump.contDiff (Mathlib/Analysis/Calculus/BumpFunction/Basic.lean:203)",
+    "iteratedFDeriv_two_apply (Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:949)"
+   ],
+   "module": "RN.lean",
+   "group": "RN-A"
+  },
+  {
+   "prop": "UniversalLaw.Spec.RN.D5dSummedPinNeighbourhoodC2",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "Row D5-d as transcribed is refutable by a Dirac-law inhabitant with one extra nondegenerate critical point at the midpoint (count ≥ 1 > C r^3 as r → 0): interface under-determination, not a statement defect. Note the `Set.ncard` convention (infinite set ↦ 0) only lowers the left side and cannot rescue the bound against this inhabitant, whose critical set in the ball is finite.",
+   "mathlib": [
+    "MeasureTheory.integral_dirac (Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139)",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183)",
+    "MeasureTheory.ae_dirac_iff (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154)",
+    "MeasureTheory.withDensity_one (Mathlib/MeasureTheory/Measure/WithDensity.lean:175)",
+    "MeasureTheory.withDensity_congr_ae (Mathlib/MeasureTheory/Measure/WithDensity.lean:88)",
+    "Set.ncard_pos (Mathlib/Data/Set/Card.lean:677)",
+    "Set.Infinite.ncard (Mathlib/Data/Set/Card.lean:651)",
+    "ContDiffBump.contDiff (Mathlib/Analysis/Calculus/BumpFunction/Basic.lean:203)",
+    "iteratedFDeriv_two_apply (Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:949)"
+   ],
+   "module": "RN.lean",
+   "group": "RN-A"
+  },
+  {
+   "prop": "UniversalLaw.Spec.RN.D5eIntermediateShellsI3I4",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "Row D5-e as transcribed is refutable by a Dirac-law inhabitant with one extra window-height critical point at distance 8r from the midpoint: interface under-determination. The docstring's imported side conditions (A0 ≥ 4, A0 r < ρ ≤ s0, from dimension-lift (1.6)) do not affect the refutation.",
+   "mathlib": [
+    "MeasureTheory.integral_dirac (Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139)",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183)",
+    "MeasureTheory.ae_dirac_iff (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154)",
+    "MeasureTheory.withDensity_one (Mathlib/MeasureTheory/Measure/WithDensity.lean:175)",
+    "MeasureTheory.withDensity_congr_ae (Mathlib/MeasureTheory/Measure/WithDensity.lean:88)",
+    "Set.ncard_pos (Mathlib/Data/Set/Card.lean:677)",
+    "ContDiffBump.contDiff (Mathlib/Analysis/Calculus/BumpFunction/Basic.lean:203)",
+    "iteratedFDeriv_two_apply (Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:949)"
+   ],
+   "module": "RN.lean",
+   "group": "RN-A"
+  },
+  {
+   "prop": "UniversalLaw.Spec.RN.D5fGlobalWindowFirstMomentI5",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "Row D5-f as transcribed is refutable in both directions by Dirac-law inhabitants (one extra window critical point: probability 1 > C r^3; none: probability 0 < c r^3): interface under-determination. Additionally, the lower bound c r^3 ≤ P(A_r) is sensitive to the `Set.ncard` convention: an inhabitant whose paths have infinitely many window critical points gives torusWindowCount = 0 and probability 0; this is a property of the Lean encoding the register may want to record alongside the docstring's existing caveat about degenerate points.",
+   "mathlib": [
+    "MeasureTheory.integral_dirac (Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139)",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183)",
+    "MeasureTheory.ae_dirac_iff (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154)",
+    "MeasureTheory.withDensity_one (Mathlib/MeasureTheory/Measure/WithDensity.lean:175)",
+    "MeasureTheory.withDensity_congr_ae (Mathlib/MeasureTheory/Measure/WithDensity.lean:88)",
+    "Set.ncard_pos (Mathlib/Data/Set/Card.lean:677)",
+    "Set.Infinite.ncard (Mathlib/Data/Set/Card.lean:651)",
+    "ContDiffBump.contDiff (Mathlib/Analysis/Calculus/BumpFunction/Basic.lean:203)",
+    "iteratedFDeriv_two_apply (Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:949)"
+   ],
+   "module": "RN.lean",
+   "group": "RN-A"
+  }
+ ],
+ "math.d5-component.punctured-pin-proof": [
+  {
+   "prop": "UniversalLaw.Spec.RN.D5aPuncturedPinDisks",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "Row D5-a as transcribed is refutable by a Dirac-law inhabitant of PinnedLawInterface with one extra critical point in the punctured disk and a null E (RECONCILIATION.md line 47 states the row for the Gaussian regression law, which the interface does not single out). Not a defect of the source; a limit of what the interface determines. Reduction steps kernel-checked in probe RN-A_1; path construction not formalised.",
+   "mathlib": [
+    "MeasureTheory.integral_dirac (Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139)",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183)",
+    "MeasureTheory.ae_dirac_iff (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154)",
+    "MeasureTheory.withDensity_one (Mathlib/MeasureTheory/Measure/WithDensity.lean:175)",
+    "MeasureTheory.withDensity_congr_ae (Mathlib/MeasureTheory/Measure/WithDensity.lean:88)",
+    "Set.ncard_singleton (Mathlib/Data/Set/Card.lean:694)",
+    "Set.ncard_pos (Mathlib/Data/Set/Card.lean:677)",
+    "ContDiffBump.contDiff / one_of_mem_closedBall / zero_of_le_dist (Mathlib/Analysis/Calculus/BumpFunction/Basic.lean:203,137,163)",
+    "iteratedFDeriv_two_apply (Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:949)"
+   ],
+   "module": "RN.lean",
+   "group": "RN-A"
+  },
+  {
+   "prop": "UniversalLaw.Spec.RN.D5bMicrodisk",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "Row D5-b as transcribed is refutable by the same Dirac-law inhabitant (extra critical point at distance r^2 from M, κ = 1): interface under-determination, not a statement defect. Path construction not formalised; reduction steps kernel-checked in probe RN-A_1.",
+   "mathlib": [
+    "MeasureTheory.integral_dirac (Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139)",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183)",
+    "MeasureTheory.ae_dirac_iff (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154)",
+    "MeasureTheory.withDensity_one (Mathlib/MeasureTheory/Measure/WithDensity.lean:175)",
+    "MeasureTheory.withDensity_congr_ae (Mathlib/MeasureTheory/Measure/WithDensity.lean:88)",
+    "Set.ncard_pos (Mathlib/Data/Set/Card.lean:677)",
+    "ContDiffBump.contDiff (Mathlib/Analysis/Calculus/BumpFunction/Basic.lean:203)",
+    "iteratedFDeriv_two_apply (Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:949)"
+   ],
+   "module": "RN.lean",
+   "group": "RN-A"
+  }
+ ],
+ "math.d5-component.collar-proof": [
+  {
+   "prop": "UniversalLaw.Spec.RN.D5cCollarC1",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "Row D5-c as transcribed is refutable by a Dirac-law inhabitant with an extra critical point at the midpoint and E = {0} ⊆ C_{η,R}: interface under-determination. The register may also note that RECONCILIATION.md (line 49) never defines C_{η,R}; the Lean `collar` is taken from the dimension-lift source as the docstring says, and the refutation does not depend on that choice (the midpoint is in any reasonable collar).",
+   "mathlib": [
+    "MeasureTheory.integral_dirac (Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139)",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183)",
+    "MeasureTheory.ae_dirac_iff (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154)",
+    "MeasureTheory.withDensity_one (Mathlib/MeasureTheory/Measure/WithDensity.lean:175)",
+    "MeasureTheory.withDensity_congr_ae (Mathlib/MeasureTheory/Measure/WithDensity.lean:88)",
+    "Set.ncard_singleton (Mathlib/Data/Set/Card.lean:694)",
+    "Set.ncard_pos (Mathlib/Data/Set/Card.lean:677)",
+    "Set.image_singleton (Mathlib/Data/Set/Image.lean)",
+    "ContDiffBump.contDiff (Mathlib/Analysis/Calculus/BumpFunction/Basic.lean:203)",
+    "iteratedFDeriv_two_apply (Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:949)"
+   ],
+   "module": "RN.lean",
+   "group": "RN-A"
+  }
+ ],
+ "math.rn-region.intermediate-r-to-rho": [
+  {
+   "prop": "UniversalLaw.Spec.RN.D5eIntermediateShellsI3I4",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "Row D5-e as transcribed is refutable by a Dirac-law inhabitant with one extra window-height critical point at distance 8r from the midpoint: interface under-determination. The docstring's imported side conditions (A0 ≥ 4, A0 r < ρ ≤ s0, from dimension-lift (1.6)) do not affect the refutation.",
+   "mathlib": [
+    "MeasureTheory.integral_dirac (Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139)",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183)",
+    "MeasureTheory.ae_dirac_iff (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154)",
+    "MeasureTheory.withDensity_one (Mathlib/MeasureTheory/Measure/WithDensity.lean:175)",
+    "MeasureTheory.withDensity_congr_ae (Mathlib/MeasureTheory/Measure/WithDensity.lean:88)",
+    "Set.ncard_pos (Mathlib/Data/Set/Card.lean:677)",
+    "ContDiffBump.contDiff (Mathlib/Analysis/Calculus/BumpFunction/Basic.lean:203)",
+    "iteratedFDeriv_two_apply (Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:949)"
+   ],
+   "module": "RN.lean",
+   "group": "RN-A"
+  }
+ ],
+ "math.d5-component.intermediate-window-proof": [
+  {
+   "prop": "UniversalLaw.Spec.RN.D5eIntermediateShellsI3I4",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "Row D5-e as transcribed is refutable by a Dirac-law inhabitant with one extra window-height critical point at distance 8r from the midpoint: interface under-determination. The docstring's imported side conditions (A0 ≥ 4, A0 r < ρ ≤ s0, from dimension-lift (1.6)) do not affect the refutation.",
+   "mathlib": [
+    "MeasureTheory.integral_dirac (Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139)",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183)",
+    "MeasureTheory.ae_dirac_iff (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154)",
+    "MeasureTheory.withDensity_one (Mathlib/MeasureTheory/Measure/WithDensity.lean:175)",
+    "MeasureTheory.withDensity_congr_ae (Mathlib/MeasureTheory/Measure/WithDensity.lean:88)",
+    "Set.ncard_pos (Mathlib/Data/Set/Card.lean:677)",
+    "ContDiffBump.contDiff (Mathlib/Analysis/Calculus/BumpFunction/Basic.lean:203)",
+    "iteratedFDeriv_two_apply (Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:949)"
+   ],
+   "module": "RN.lean",
+   "group": "RN-A"
+  },
+  {
+   "prop": "UniversalLaw.Spec.RN.D5fGlobalWindowFirstMomentI5",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "Row D5-f as transcribed is refutable in both directions by Dirac-law inhabitants (one extra window critical point: probability 1 > C r^3; none: probability 0 < c r^3): interface under-determination. Additionally, the lower bound c r^3 ≤ P(A_r) is sensitive to the `Set.ncard` convention: an inhabitant whose paths have infinitely many window critical points gives torusWindowCount = 0 and probability 0; this is a property of the Lean encoding the register may want to record alongside the docstring's existing caveat about degenerate points.",
+   "mathlib": [
+    "MeasureTheory.integral_dirac (Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139)",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183)",
+    "MeasureTheory.ae_dirac_iff (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154)",
+    "MeasureTheory.withDensity_one (Mathlib/MeasureTheory/Measure/WithDensity.lean:175)",
+    "MeasureTheory.withDensity_congr_ae (Mathlib/MeasureTheory/Measure/WithDensity.lean:88)",
+    "Set.ncard_pos (Mathlib/Data/Set/Card.lean:677)",
+    "Set.Infinite.ncard (Mathlib/Data/Set/Card.lean:651)",
+    "ContDiffBump.contDiff (Mathlib/Analysis/Calculus/BumpFunction/Basic.lean:203)",
+    "iteratedFDeriv_two_apply (Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:949)"
+   ],
+   "module": "RN.lean",
+   "group": "RN-A"
+  }
+ ],
+ "CL-D5-DIMENSION-LIFT-20260929-v1": [
+  {
+   "prop": "UniversalLaw.Spec.RN.DimensionLiftCompactCollarC",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "Theorem C_d display (1.3) as transcribed is refutable by a Dirac-law inhabitant in every fixed d ≥ 2 (extra critical point at the midpoint, E = {0}): interface under-determination, not a statement defect.",
+   "mathlib": [
+    "MeasureTheory.integral_dirac (Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139)",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183)",
+    "MeasureTheory.ae_dirac_iff (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154)",
+    "MeasureTheory.withDensity_one (Mathlib/MeasureTheory/Measure/WithDensity.lean:175)",
+    "MeasureTheory.withDensity_congr_ae (Mathlib/MeasureTheory/Measure/WithDensity.lean:88)",
+    "Set.ncard_singleton (Mathlib/Data/Set/Card.lean:694)",
+    "Set.ncard_pos (Mathlib/Data/Set/Card.lean:677)",
+    "Set.image_singleton (Mathlib/Data/Set/Image.lean)",
+    "ContDiffBump.contDiff (Mathlib/Analysis/Calculus/BumpFunction/Basic.lean:203)",
+    "iteratedFDeriv_two_apply (Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:949)"
+   ],
+   "module": "RN.lean",
+   "group": "RN-A"
+  },
+  {
+   "prop": "UniversalLaw.Spec.RN.DimensionLiftGlobalWindowG",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "Theorem G_d display (1.7) as transcribed is refutable by a Dirac-law inhabitant with one extra window-height critical point at the midpoint: interface under-determination, not a statement defect.",
+   "mathlib": [
+    "MeasureTheory.integral_dirac (Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139)",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183)",
+    "MeasureTheory.ae_dirac_iff (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154)",
+    "MeasureTheory.withDensity_one (Mathlib/MeasureTheory/Measure/WithDensity.lean:175)",
+    "MeasureTheory.withDensity_congr_ae (Mathlib/MeasureTheory/Measure/WithDensity.lean:88)",
+    "Set.ncard_pos (Mathlib/Data/Set/Card.lean:677)",
+    "ContDiffBump.contDiff (Mathlib/Analysis/Calculus/BumpFunction/Basic.lean:203)",
+    "iteratedFDeriv_two_apply (Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:949)"
+   ],
+   "module": "RN.lean",
+   "group": "RN-A"
+  },
+  {
+   "prop": "UniversalLaw.Spec.RN.DimensionLiftIntermediateShellsI",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "Theorem I_d displays (1.5)-(1.6) as transcribed are refutable by a Dirac-law inhabitant with one extra window-height critical point at distance 8r from the midpoint: interface under-determination, not a statement defect.",
+   "mathlib": [
+    "MeasureTheory.integral_dirac (Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139)",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183)",
+    "MeasureTheory.ae_dirac_iff (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154)",
+    "MeasureTheory.withDensity_one (Mathlib/MeasureTheory/Measure/WithDensity.lean:175)",
+    "MeasureTheory.withDensity_congr_ae (Mathlib/MeasureTheory/Measure/WithDensity.lean:88)",
+    "Set.ncard_pos (Mathlib/Data/Set/Card.lean:677)",
+    "ContDiffBump.contDiff (Mathlib/Analysis/Calculus/BumpFunction/Basic.lean:203)",
+    "iteratedFDeriv_two_apply (Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:949)"
+   ],
+   "module": "RN.lean",
+   "group": "RN-A"
+  },
+  {
+   "prop": "UniversalLaw.Spec.RN.DimensionLiftPuncturedPinBallP",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "Theorem P_d display (1.2) as transcribed is refutable by a Dirac-law inhabitant with one extra critical point in the punctured pin ball and a null E (the weighted integral over a null set is 0): interface under-determination. Kernel-checked side fact: `omegaD 2 r p = 1` for all r, p (probe RN-A_1 (c)), so the d = 2 instance has the same right side as D5-a, consistent with the docstring's `omega_2 = 1`.",
+   "mathlib": [
+    "MeasureTheory.integral_dirac (Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139)",
+    "MeasureTheory.setIntegral_measure_zero (Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1021)",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183)",
+    "MeasureTheory.ae_dirac_iff (Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154)",
+    "MeasureTheory.withDensity_one (Mathlib/MeasureTheory/Measure/WithDensity.lean:175)",
+    "MeasureTheory.withDensity_congr_ae (Mathlib/MeasureTheory/Measure/WithDensity.lean:88)",
+    "Set.ncard_singleton (Mathlib/Data/Set/Card.lean:694)",
+    "Set.ncard_pos (Mathlib/Data/Set/Card.lean:677)",
+    "Real.rpow_zero (Mathlib/Analysis/SpecialFunctions/Pow/Real.lean:121)",
+    "ContDiffBump.contDiff (Mathlib/Analysis/Calculus/BumpFunction/Basic.lean:203)",
+    "iteratedFDeriv_two_apply (Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:949)"
+   ],
+   "module": "RN.lean",
+   "group": "RN-A"
+  }
+ ],
+ "rn-fixed-annulus-window": [
+  {
+   "prop": "UniversalLaw.Spec.RN.FixedAnnulusWindowCandidateA2",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "As stated, the bound with `(volume E0).toReal = 0` (any singleton `E0` in the annulus) requires `Q_r^W`-a.s. absence of index-`j` window critical points on every null set; no field of `PinnedLawInterface` supplies this (the sources get it from the weighted Kac-Rice formula (A21), which the docstring says is not transcribed). The Prop is therefore false for a Dirac inhabitant and cannot be proved from the interface as transcribed; no edit is proposed.",
+   "mathlib": [
+    "MeasureTheory.integral_dirac — Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139",
+    "MeasureTheory.withDensity_one — Mathlib/MeasureTheory/Measure/WithDensity.lean:175",
+    "MeasureTheory.ae_dirac_iff — Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure — Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183",
+    "measurable_from_top — Mathlib/MeasureTheory/MeasurableSpace/Basic.lean:236",
+    "Set.ncard_pos — Mathlib/Data/Set/Card.lean:677",
+    "Set.Infinite.ncard — Mathlib/Data/Set/Card.lean:651",
+    "iteratedFDeriv_two_apply — Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:949",
+    "Real.contDiff_cos — Mathlib/Analysis/SpecialFunctions/Trigonometric/Deriv.lean:367",
+    "ContDiff.comp — Mathlib/Analysis/Calculus/ContDiff/Comp.lean:155",
+    "ciInf_le' — Mathlib/Order/ConditionallyCompleteLattice/Indexed.lean:428"
+   ],
+   "module": "RN.lean",
+   "group": "RN-B"
+  }
+ ],
+ "math.rn-fixed-annulus-window": [
+  {
+   "prop": "UniversalLaw.Spec.RN.FixedAnnulusWindowCandidateA2",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "As stated, the bound with `(volume E0).toReal = 0` (any singleton `E0` in the annulus) requires `Q_r^W`-a.s. absence of index-`j` window critical points on every null set; no field of `PinnedLawInterface` supplies this (the sources get it from the weighted Kac-Rice formula (A21), which the docstring says is not transcribed). The Prop is therefore false for a Dirac inhabitant and cannot be proved from the interface as transcribed; no edit is proposed.",
+   "mathlib": [
+    "MeasureTheory.integral_dirac — Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139",
+    "MeasureTheory.withDensity_one — Mathlib/MeasureTheory/Measure/WithDensity.lean:175",
+    "MeasureTheory.ae_dirac_iff — Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure — Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183",
+    "measurable_from_top — Mathlib/MeasureTheory/MeasurableSpace/Basic.lean:236",
+    "Set.ncard_pos — Mathlib/Data/Set/Card.lean:677",
+    "Set.Infinite.ncard — Mathlib/Data/Set/Card.lean:651",
+    "iteratedFDeriv_two_apply — Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:949",
+    "Real.contDiff_cos — Mathlib/Analysis/SpecialFunctions/Trigonometric/Deriv.lean:367",
+    "ContDiff.comp — Mathlib/Analysis/Calculus/ContDiff/Comp.lean:155",
+    "ciInf_le' — Mathlib/Order/ConditionallyCompleteLattice/Indexed.lean:428"
+   ],
+   "module": "RN.lean",
+   "group": "RN-B"
+  }
+ ],
+ "math.rn-region.fixed-annulus-window": [
+  {
+   "prop": "UniversalLaw.Spec.RN.FixedAnnulusWindowCandidateA2",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "As stated, the bound with `(volume E0).toReal = 0` (any singleton `E0` in the annulus) requires `Q_r^W`-a.s. absence of index-`j` window critical points on every null set; no field of `PinnedLawInterface` supplies this (the sources get it from the weighted Kac-Rice formula (A21), which the docstring says is not transcribed). The Prop is therefore false for a Dirac inhabitant and cannot be proved from the interface as transcribed; no edit is proposed.",
+   "mathlib": [
+    "MeasureTheory.integral_dirac — Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139",
+    "MeasureTheory.withDensity_one — Mathlib/MeasureTheory/Measure/WithDensity.lean:175",
+    "MeasureTheory.ae_dirac_iff — Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure — Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183",
+    "measurable_from_top — Mathlib/MeasureTheory/MeasurableSpace/Basic.lean:236",
+    "Set.ncard_pos — Mathlib/Data/Set/Card.lean:677",
+    "Set.Infinite.ncard — Mathlib/Data/Set/Card.lean:651",
+    "iteratedFDeriv_two_apply — Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:949",
+    "Real.contDiff_cos — Mathlib/Analysis/SpecialFunctions/Trigonometric/Deriv.lean:367",
+    "ContDiff.comp — Mathlib/Analysis/Calculus/ContDiff/Comp.lean:155",
+    "ciInf_le' — Mathlib/Order/ConditionallyCompleteLattice/Indexed.lean:428"
+   ],
+   "module": "RN.lean",
+   "group": "RN-B"
+  }
+ ],
+ "rn-fixed-remote-window": [
+  {
+   "prop": "UniversalLaw.Spec.RN.FixedRemoteCountBoundA3",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "Both displays of Theorem A(3) fail for a Dirac inhabitant with one extra critical point on a null remote set; the interface transcribes neither the Kac-Rice representation (12) nor any regularity of `Q_r^W` that would exclude it. The statement is not provable as a theorem about `PinnedLawInterface`; no edit is proposed.",
+   "mathlib": [
+    "MeasureTheory.integral_dirac — Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139",
+    "MeasureTheory.withDensity_one — Mathlib/MeasureTheory/Measure/WithDensity.lean:175",
+    "MeasureTheory.ae_dirac_iff — Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure — Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183",
+    "measurable_from_top — Mathlib/MeasureTheory/MeasurableSpace/Basic.lean:236",
+    "Set.ncard_pos — Mathlib/Data/Set/Card.lean:677",
+    "ciInf_le' — Mathlib/Order/ConditionallyCompleteLattice/Indexed.lean:428",
+    "iteratedFDeriv_two_apply — Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:949"
+   ],
+   "module": "RN.lean",
+   "group": "RN-B"
+  },
+  {
+   "prop": "UniversalLaw.Spec.RN.FixedRemoteMeanMeasureA2",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "The kernel clause of Theorem A(2) is stated as a conclusion about the field `I.Λ`, which the interface leaves entirely free (RN.lean:382, no field constrains it); with `Λ := 0` the clause `0 < cΛ ≤ I.Λ … x` fails at any remote point. As transcribed the Prop cannot hold for all inhabitants, independently of any analysis; the identification of `I.Λ` with the Kac-Rice kernel (13) is explicitly not transcribed. No edit is proposed; this is a shape observation for the register.",
+   "mathlib": [
+    "MeasureTheory.integral_dirac — Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139",
+    "MeasureTheory.withDensity_one — Mathlib/MeasureTheory/Measure/WithDensity.lean:175",
+    "MeasureTheory.ae_dirac_iff — Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure — Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183",
+    "ciInf_le' — Mathlib/Order/ConditionallyCompleteLattice/Indexed.lean:428",
+    "Set.ncard_pos — Mathlib/Data/Set/Card.lean:677"
+   ],
+   "module": "RN.lean",
+   "group": "RN-B"
+  },
+  {
+   "prop": "UniversalLaw.Spec.RN.HessianHasInertia",
+   "verdict": "PREDICATE_VOCABULARY",
+   "effort": "n/a",
+   "finding": "",
+   "mathlib": [
+    "iteratedFDeriv_two_apply — Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:949"
+   ],
+   "module": "RN.lean",
+   "group": "RN-B"
+  },
+  {
+   "prop": "UniversalLaw.Spec.RN.IsCriticalPoint",
+   "verdict": "PREDICATE_VOCABULARY",
+   "effort": "n/a",
+   "finding": "",
+   "mathlib": [
+    "fderiv_zero_of_not_differentiableAt — Mathlib/Analysis/Calculus/FDeriv/Basic.lean:234"
+   ],
+   "module": "RN.lean",
+   "group": "RN-B"
+  }
+ ],
+ "math.rn-fixed-remote-window": [
+  {
+   "prop": "UniversalLaw.Spec.RN.FixedRemoteCountBoundA3",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "Both displays of Theorem A(3) fail for a Dirac inhabitant with one extra critical point on a null remote set; the interface transcribes neither the Kac-Rice representation (12) nor any regularity of `Q_r^W` that would exclude it. The statement is not provable as a theorem about `PinnedLawInterface`; no edit is proposed.",
+   "mathlib": [
+    "MeasureTheory.integral_dirac — Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139",
+    "MeasureTheory.withDensity_one — Mathlib/MeasureTheory/Measure/WithDensity.lean:175",
+    "MeasureTheory.ae_dirac_iff — Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure — Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183",
+    "measurable_from_top — Mathlib/MeasureTheory/MeasurableSpace/Basic.lean:236",
+    "Set.ncard_pos — Mathlib/Data/Set/Card.lean:677",
+    "ciInf_le' — Mathlib/Order/ConditionallyCompleteLattice/Indexed.lean:428",
+    "iteratedFDeriv_two_apply — Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:949"
+   ],
+   "module": "RN.lean",
+   "group": "RN-B"
+  },
+  {
+   "prop": "UniversalLaw.Spec.RN.FixedRemoteMeanMeasureA2",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "The kernel clause of Theorem A(2) is stated as a conclusion about the field `I.Λ`, which the interface leaves entirely free (RN.lean:382, no field constrains it); with `Λ := 0` the clause `0 < cΛ ≤ I.Λ … x` fails at any remote point. As transcribed the Prop cannot hold for all inhabitants, independently of any analysis; the identification of `I.Λ` with the Kac-Rice kernel (13) is explicitly not transcribed. No edit is proposed; this is a shape observation for the register.",
+   "mathlib": [
+    "MeasureTheory.integral_dirac — Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139",
+    "MeasureTheory.withDensity_one — Mathlib/MeasureTheory/Measure/WithDensity.lean:175",
+    "MeasureTheory.ae_dirac_iff — Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure — Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183",
+    "ciInf_le' — Mathlib/Order/ConditionallyCompleteLattice/Indexed.lean:428",
+    "Set.ncard_pos — Mathlib/Data/Set/Card.lean:677"
+   ],
+   "module": "RN.lean",
+   "group": "RN-B"
+  }
+ ],
+ "math.rn-region.fixed-remote": [
+  {
+   "prop": "UniversalLaw.Spec.RN.FixedRemoteCountBoundA3",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "Both displays of Theorem A(3) fail for a Dirac inhabitant with one extra critical point on a null remote set; the interface transcribes neither the Kac-Rice representation (12) nor any regularity of `Q_r^W` that would exclude it. The statement is not provable as a theorem about `PinnedLawInterface`; no edit is proposed.",
+   "mathlib": [
+    "MeasureTheory.integral_dirac — Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139",
+    "MeasureTheory.withDensity_one — Mathlib/MeasureTheory/Measure/WithDensity.lean:175",
+    "MeasureTheory.ae_dirac_iff — Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure — Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183",
+    "measurable_from_top — Mathlib/MeasureTheory/MeasurableSpace/Basic.lean:236",
+    "Set.ncard_pos — Mathlib/Data/Set/Card.lean:677",
+    "ciInf_le' — Mathlib/Order/ConditionallyCompleteLattice/Indexed.lean:428",
+    "iteratedFDeriv_two_apply — Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:949"
+   ],
+   "module": "RN.lean",
+   "group": "RN-B"
+  },
+  {
+   "prop": "UniversalLaw.Spec.RN.FixedRemoteMeanMeasureA2",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "The kernel clause of Theorem A(2) is stated as a conclusion about the field `I.Λ`, which the interface leaves entirely free (RN.lean:382, no field constrains it); with `Λ := 0` the clause `0 < cΛ ≤ I.Λ … x` fails at any remote point. As transcribed the Prop cannot hold for all inhabitants, independently of any analysis; the identification of `I.Λ` with the Kac-Rice kernel (13) is explicitly not transcribed. No edit is proposed; this is a shape observation for the register.",
+   "mathlib": [
+    "MeasureTheory.integral_dirac — Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139",
+    "MeasureTheory.withDensity_one — Mathlib/MeasureTheory/Measure/WithDensity.lean:175",
+    "MeasureTheory.ae_dirac_iff — Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure — Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183",
+    "ciInf_le' — Mathlib/Order/ConditionallyCompleteLattice/Indexed.lean:428",
+    "Set.ncard_pos — Mathlib/Data/Set/Card.lean:677"
+   ],
+   "module": "RN.lean",
+   "group": "RN-B"
+  }
+ ],
+ "math.d5-component.remote-window-proof": [
+  {
+   "prop": "UniversalLaw.Spec.RN.FixedRemoteCountBoundA3",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "Both displays of Theorem A(3) fail for a Dirac inhabitant with one extra critical point on a null remote set; the interface transcribes neither the Kac-Rice representation (12) nor any regularity of `Q_r^W` that would exclude it. The statement is not provable as a theorem about `PinnedLawInterface`; no edit is proposed.",
+   "mathlib": [
+    "MeasureTheory.integral_dirac — Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139",
+    "MeasureTheory.withDensity_one — Mathlib/MeasureTheory/Measure/WithDensity.lean:175",
+    "MeasureTheory.ae_dirac_iff — Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure — Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183",
+    "measurable_from_top — Mathlib/MeasureTheory/MeasurableSpace/Basic.lean:236",
+    "Set.ncard_pos — Mathlib/Data/Set/Card.lean:677",
+    "ciInf_le' — Mathlib/Order/ConditionallyCompleteLattice/Indexed.lean:428",
+    "iteratedFDeriv_two_apply — Mathlib/Analysis/Calculus/ContDiff/FTaylorSeries.lean:949"
+   ],
+   "module": "RN.lean",
+   "group": "RN-B"
+  },
+  {
+   "prop": "UniversalLaw.Spec.RN.FixedRemoteMeanMeasureA2",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "The kernel clause of Theorem A(2) is stated as a conclusion about the field `I.Λ`, which the interface leaves entirely free (RN.lean:382, no field constrains it); with `Λ := 0` the clause `0 < cΛ ≤ I.Λ … x` fails at any remote point. As transcribed the Prop cannot hold for all inhabitants, independently of any analysis; the identification of `I.Λ` with the Kac-Rice kernel (13) is explicitly not transcribed. No edit is proposed; this is a shape observation for the register.",
+   "mathlib": [
+    "MeasureTheory.integral_dirac — Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139",
+    "MeasureTheory.withDensity_one — Mathlib/MeasureTheory/Measure/WithDensity.lean:175",
+    "MeasureTheory.ae_dirac_iff — Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure — Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183",
+    "ciInf_le' — Mathlib/Order/ConditionallyCompleteLattice/Indexed.lean:428",
+    "Set.ncard_pos — Mathlib/Data/Set/Card.lean:677"
+   ],
+   "module": "RN.lean",
+   "group": "RN-B"
+  }
+ ],
+ "OA-C6-FOURIER-20260929-v1": [
+  {
+   "prop": "UniversalLaw.Spec.RN.FourierCutoffPlanarSecondFactorialF4",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "The antecedent `G_2` plus the interface fields are compatible with a rare large cluster (two-point law, cluster size `≥ 1/r` with probability `r^3/n_r`), under which `E N(N-1) ≳ r^2` while `E N = r^3`; so (F4) is not a consequence of its stated hypothesis for arbitrary inhabitants. The source's derivation needs Theorem W's Gaussian input, which is not transcribed. No edit is proposed.",
+   "mathlib": [
+    "MeasureTheory.integral_dirac — Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139",
+    "MeasureTheory.withDensity_one — Mathlib/MeasureTheory/Measure/WithDensity.lean:175",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure — Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183",
+    "measurable_from_top — Mathlib/MeasureTheory/MeasurableSpace/Basic.lean:236",
+    "Set.ncard_pos — Mathlib/Data/Set/Card.lean:677"
+   ],
+   "module": "RN.lean",
+   "group": "RN-B"
+  }
+ ],
+ "CL-C6-PALM-20260929-v1": [
+  {
+   "prop": "UniversalLaw.Spec.RN.PalmRouteFactorialMomentsQ",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "Theorem Q's shape fails for a Dirac inhabitant whose single path has two window critical points off the pins (`E (N)_2 = 2` for all small `r`); the interface carries none of the Gaussian inputs the source uses. No edit is proposed.",
+   "mathlib": [
+    "MeasureTheory.integral_dirac — Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139",
+    "MeasureTheory.withDensity_one — Mathlib/MeasureTheory/Measure/WithDensity.lean:175",
+    "MeasureTheory.ae_dirac_iff — Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure — Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183",
+    "Set.ncard_pos — Mathlib/Data/Set/Card.lean:677",
+    "Set.Infinite.ncard — Mathlib/Data/Set/Card.lean:651"
+   ],
+   "module": "RN.lean",
+   "group": "RN-B"
+  },
+  {
+   "prop": "UniversalLaw.Spec.RN.PalmRouteSecondFactorialTheta",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "The lower bounds `c r^3 ≤ E N(N-1)` and `c r^3 ≤ Q_r^W{N ≥ 2}` are falsified by (i) any inhabitant whose paths have no window critical points off the pins and (ii) any inhabitant whose paths have infinitely many, because `windowCountAll` uses `Set.ncard`, which is `0` on infinite sets (RN.lean:404-405 docstring acknowledges the convention). (ii) is a definitional degeneracy worth recording: the all-index count cannot distinguish 'no critical points' from 'a continuum of them'. No edit is proposed.",
+   "mathlib": [
+    "MeasureTheory.integral_dirac — Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139",
+    "MeasureTheory.withDensity_one — Mathlib/MeasureTheory/Measure/WithDensity.lean:175",
+    "MeasureTheory.ae_dirac_iff — Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure — Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183",
+    "Set.Infinite.ncard — Mathlib/Data/Set/Card.lean:651",
+    "Set.ncard_pos — Mathlib/Data/Set/Card.lean:677"
+   ],
+   "module": "RN.lean",
+   "group": "RN-B"
+  }
+ ],
+ "OA-C6-RARE-CLUSTER-20260929-v1": [
+  {
+   "prop": "UniversalLaw.Spec.RN.RareClusterPoissonObstructionO",
+   "verdict": "PROVABLE_NOW",
+   "effort": "hours",
+   "finding": "A theorem of this Prop would kernel-check only the abstract implication (H1)+(H2) ⇒ (3.1), exactly what the source claims ('the ONLY analytic inputs to this note are H1, H2, Hq'; Hq unused); it says nothing about whether (H1)/(H2) hold for the Gaussian window count, which the Prop deliberately does not tie to `μ`. The hypotheses imply `2a ≤ A` (as the source remarks), so `A > 0` is derivable and the Prop is not vacuous (e.g. `μ r = (1 - r^3) δ_0 + r^3 δ_2` with `a = 1`, `A = 2` satisfies the antecedents for `r ≤ 1`).",
+   "mathlib": [
+    "ProbabilityTheory.hasSum_one_poissonMeasure — Mathlib/Probability/Distributions/Poisson/Basic.lean:63 (poissonPMFRealSum at line 213 is a deprecated alias of it)",
+    "Summable.sum_add_tsum_nat_add — Mathlib/Topology/Algebra/InfiniteSum/NatInt.lean (to_additive of Multipliable.prod_mul_tprod_nat_mul; #check in RN-B_1.out)",
+    "Summable.sum_add_tsum_nat_add' — Mathlib/Topology/Algebra/InfiniteSum/NatInt.lean:188",
+    "Summable.tsum_eq_zero_add — Mathlib/Topology/Algebra/InfiniteSum/NatInt.lean:239",
+    "summable_nat_add_iff — #check in RN-B_1.out",
+    "Summable.le_tsum — Mathlib/Topology/Algebra/InfiniteSum/Order.lean:127",
+    "Summable.tsum_le_tsum — Mathlib/Topology/Algebra/InfiniteSum/Order.lean:132",
+    "tsum_nonneg — Mathlib/Topology/Algebra/InfiniteSum/Order.lean:168",
+    "Summable.sub — Mathlib/Topology/Algebra/InfiniteSum/Group.lean:60",
+    "Summable.tsum_sub — Mathlib/Topology/Algebra/InfiniteSum/Group.lean:173",
+    "Summable.add — Mathlib/Topology/Algebra/InfiniteSum/Basic.lean:330",
+    "Summable.tsum_add — Mathlib/Topology/Algebra/InfiniteSum/Basic.lean:717",
+    "Summable.abs / summable_abs_iff — #check in RN-B_1.out",
+    "Summable.tsum_mul_left — Mathlib/Topology/Algebra/InfiniteSum/Ring.lean:55",
+    "Summable.of_nonneg_of_le — Mathlib/Topology/Algebra/InfiniteSum/ENNReal.lean:532",
+    "norm_tsum_le_tsum_norm — Mathlib/Analysis/Normed/Group/InfiniteSum.lean:151",
+    "Finset.abs_sum_le_sum_abs — Mathlib/Algebra/Order/BigOperators/Group/Finset.lean:364",
+    "Real.abs_exp_sub_one_sub_id_le — Mathlib/Analysis/Complex/Exponential.lean:537",
+    "Real.add_one_le_exp — Mathlib/Analysis/Complex/Exponential.lean:632",
+    "NormedSpace.expSeries_div_hasSum_exp — Mathlib/Analysis/Normed/Algebra/Exponential.lean:639",
+    "Real.exp_eq_exp_ℝ — Mathlib/Analysis/SpecialFunctions/Exponential.lean:214",
+    "Real.summable_pow_div_factorial — Mathlib/Analysis/SpecificLimits/Normed.lean:1084",
+    "HasSum.tsum_eq — #check in RN-B_1.out"
+   ],
+   "module": "RN.lean",
+   "group": "RN-B"
+  }
+ ],
+ "math.rn-region.witness-collision": [
+  {
+   "prop": "UniversalLaw.Spec.RN.RemoteCollisionSecondFactorialD",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "Corollary D's displays with `|E| = 0` require a.s. absence of index-`j` window pairs on null remote sets, which no interface field supplies; a Dirac inhabitant with two prescribed remote critical points falsifies both displays. No edit is proposed.",
+   "mathlib": [
+    "MeasureTheory.integral_dirac — Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139",
+    "MeasureTheory.withDensity_one — Mathlib/MeasureTheory/Measure/WithDensity.lean:175",
+    "MeasureTheory.ae_dirac_iff — Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure — Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183",
+    "Set.ncard_pos — Mathlib/Data/Set/Card.lean:677",
+    "ciInf_le' — Mathlib/Order/ConditionallyCompleteLattice/Indexed.lean:428"
+   ],
+   "module": "RN.lean",
+   "group": "RN-B"
+  },
+  {
+   "prop": "UniversalLaw.Spec.RN.WitnessCollisionNearPinPairsTarget",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "The target is not implied by the interface (a Dirac inhabitant with two window critical points within `η` of a pin gives expectation `2` for all small `r`); this is consistent with, and adds nothing to, the node's OPEN status. No status change is implied and no edit is proposed.",
+   "mathlib": [
+    "MeasureTheory.integral_dirac — Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139",
+    "MeasureTheory.withDensity_one — Mathlib/MeasureTheory/Measure/WithDensity.lean:175",
+    "MeasureTheory.ae_dirac_iff — Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure — Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183",
+    "Set.ncard_pos — Mathlib/Data/Set/Card.lean:677",
+    "ciInf_le' — Mathlib/Order/ConditionallyCompleteLattice/Indexed.lean:428"
+   ],
+   "module": "RN.lean",
+   "group": "RN-B"
+  }
+ ],
+ "CL-D5-REMOTE-COLLISION-20260928-v1": [
+  {
+   "prop": "UniversalLaw.Spec.RN.RemoteCollisionSecondFactorialD",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "Corollary D's displays with `|E| = 0` require a.s. absence of index-`j` window pairs on null remote sets, which no interface field supplies; a Dirac inhabitant with two prescribed remote critical points falsifies both displays. No edit is proposed.",
+   "mathlib": [
+    "MeasureTheory.integral_dirac — Mathlib/MeasureTheory/Integral/Bochner/Basic.lean:1139",
+    "MeasureTheory.withDensity_one — Mathlib/MeasureTheory/Measure/WithDensity.lean:175",
+    "MeasureTheory.ae_dirac_iff — Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:154",
+    "MeasureTheory.Measure.dirac.isProbabilityMeasure — Mathlib/MeasureTheory/Measure/Dirac/Basic.lean:183",
+    "Set.ncard_pos — Mathlib/Data/Set/Card.lean:677",
+    "ciInf_le' — Mathlib/Order/ConditionallyCompleteLattice/Indexed.lean:428"
+   ],
+   "module": "RN.lean",
+   "group": "RN-B"
+  }
+ ],
+ "math.uniform-matrix-cap-lifetime": [
+  {
+   "prop": "UniversalLaw.Spec.Lifetime.HessianHasInertia",
+   "verdict": "PREDICATE_VOCABULARY",
+   "effort": "n/a",
+   "finding": "d = 0 degeneracy (kernel-checked, probe Lifetime-A_2): `HessianHasInertia 0 g x 0` holds for every g : E 0 → ℝ and every x. Every closed statement of the module guards `2 ≤ d` (lines 481, 500, 544, 561) or fixes d = 2 (lines 581-586, 598-605, 623-633), so no closed statement is affected; the predicate itself carries no guard and its docstring does not mention d = 0.",
+   "mathlib": [
+    "Submodule.finrank_le (Mathlib/LinearAlgebra/Dimension/Constructions.lean:402)",
+    "finrank_euclideanSpace_fin (Mathlib/Analysis/InnerProductSpace/PiL2.lean:208)",
+    "isCompl_bot_top (Mathlib/Order/Disjoint.lean:470)",
+    "iteratedFDeriv_const_of_ne (Mathlib/Analysis/Calculus/ContDiff/Basic.lean:140)",
+    "iteratedFDeriv_succ_const (Mathlib/Analysis/Calculus/ContDiff/Basic.lean:144)"
+   ],
+   "module": "Lifetime.lean",
+   "group": "Lifetime-A"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Lifetime.IsCandidatePair",
+   "verdict": "PREDICATE_VOCABULARY",
+   "effort": "n/a",
+   "finding": "",
+   "mathlib": [
+    "iInf_of_not_bddBelow (Mathlib/Algebra/Order/Archimedean/Real/Basic.lean:203; the Real iInf convention behind `torusDist`, only relevant if the family were unbounded below, which norms are not)"
+   ],
+   "module": "Lifetime.lean",
+   "group": "Lifetime-A"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Lifetime.IsCriticalPoint",
+   "verdict": "PREDICATE_VOCABULARY",
+   "effort": "n/a",
+   "finding": "The docstring's convention (\"if g is not differentiable, fderiv is 0\") is now kernel-checked as `IsCriticalPoint d g x` for every non-differentiability point (probe Lifetime-A_1, via `fderiv_zero_of_not_differentiableAt`); consequently `IsMorseDistinct` (line 312) applied to a non-C^2 function with a non-differentiability point x requires `HessianHasInertia d g x j` for the zero Hessian form, which fails for d ≥ 1, so such functions are never `IsMorseDistinct`. Consistent with the source's use on smooth paths; recorded for completeness, no defect.",
+   "mathlib": [
+    "fderiv_zero_of_not_differentiableAt (Mathlib/Analysis/Calculus/FDeriv/Basic.lean:234)",
+    "fderiv_fun_const (Mathlib/Analysis/Calculus/FDeriv/Const.lean:221)",
+    "fderiv_const (Mathlib/Analysis/Calculus/FDeriv/Const.lean:225)"
+   ],
+   "module": "Lifetime.lean",
+   "group": "Lifetime-A"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Lifetime.IsFiniteBar",
+   "verdict": "PREDICATE_VOCABULARY",
+   "effort": "n/a",
+   "finding": "",
+   "mathlib": [],
+   "module": "Lifetime.lean",
+   "group": "Lifetime-A"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Lifetime.IsIndexSaddle",
+   "verdict": "PREDICATE_VOCABULARY",
+   "effort": "n/a",
+   "finding": "At d = 0 the ℕ-subtraction `d - 1` evaluates to 0, so `IsIndexSaddle 0 g x` and `IsNondegMax 0 g x` coincide and both hold for every g and x (inertia conjunct kernel-checked in probe Lifetime-A_2; the critical-point conjunct on the trivial space is immediate but not kernel-checked): every point of `E 0` is simultaneously a nondegenerate maximum and an index saddle. Every closed statement guards `2 ≤ d` or fixes d = 2, so none is affected; the docstrings of the two predicates do not mention d = 0.",
+   "mathlib": [
+    "Submodule.finrank_le (Mathlib/LinearAlgebra/Dimension/Constructions.lean:402)",
+    "finrank_euclideanSpace_fin (Mathlib/Analysis/InnerProductSpace/PiL2.lean:208)",
+    "isCompl_bot_top (Mathlib/Order/Disjoint.lean:470)"
+   ],
+   "module": "Lifetime.lean",
+   "group": "Lifetime-A"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Lifetime.IsLPeriodic",
+   "verdict": "PREDICATE_VOCABULARY",
+   "effort": "n/a",
+   "finding": "L = 0 degeneracy (kernel-checked, probe Lifetime-A_3): `IsLPeriodic d 0 g` holds for every g. `GaussianFieldInterface d L` (Lifetime.lean:150-179) has no `0 < L` field; the guard `0 < L` lives only in the closed statements (lines 481, 500, 544, 561, 583, 601, 625), so no closed statement is affected. Observation, not kernel-checked: for L = 0 and d ≥ 1 the field `summable` (line 169) asks for summability of the constant positive family `n ↦ exp(-‖z‖²/2)` over the infinite type `Fin d → ℤ`, which fails, so `GaussianFieldInterface d 0` would be uninhabited for d ≥ 1 and every Prop quantifying over it would be vacuous at L = 0.",
+   "mathlib": [
+    "PiLp.single_eq_zero_iff (Mathlib/Analysis/Normed/Lp/PiLp.lean:184)",
+    "EuclideanSpace.single (abbrev, Mathlib/Analysis/InnerProductSpace/PiL2.lean:300)",
+    "EuclideanSpace.single_apply (Mathlib/Analysis/InnerProductSpace/PiL2.lean:311; deprecated in favour of PiLp.single_apply at this revision)"
+   ],
+   "module": "Lifetime.lean",
+   "group": "Lifetime-A"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Lifetime.IsLifetimeDensityVersion",
+   "verdict": "PREDICATE_VOCABULARY",
+   "effort": "n/a",
+   "finding": "Convention note, no defect: the normaliser `/ L ^ d` (Lifetime.lean:406) reads 0 for L = 0, d ≥ 1 (`div_zero`), and `pairCount` reads 0 on infinite pair sets (`Set.Infinite.ncard`); the first is guarded by `0 < L` in every closed statement, the second by the predicate's own a.e.-finiteness conjunct at line 403.",
+   "mathlib": [
+    "Set.Infinite.ncard (Mathlib/Data/Set/Card.lean:651)",
+    "div_zero (Mathlib/Algebra/GroupWithZero/Basic.lean:402)",
+    "ProbabilityTheory.gaussianReal (Mathlib/Probability/Distributions/Gaussian/Real.lean:222; the law named by the interface field `gaussian`)"
+   ],
+   "module": "Lifetime.lean",
+   "group": "Lifetime-A"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Lifetime.IsMorseDistinct",
+   "verdict": "PREDICATE_VOCABULARY",
+   "effort": "n/a",
+   "finding": "",
+   "mathlib": [
+    "fderiv_zero_of_not_differentiableAt (Mathlib/Analysis/Calculus/FDeriv/Basic.lean:234)",
+    "iInf_of_not_bddBelow (Mathlib/Algebra/Order/Archimedean/Real/Basic.lean:203)"
+   ],
+   "module": "Lifetime.lean",
+   "group": "Lifetime-A"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Lifetime.IsNondegMax",
+   "verdict": "PREDICATE_VOCABULARY",
+   "effort": "n/a",
+   "finding": "Same d = 0 degeneracy as recorded under IsIndexSaddle: `IsNondegMax 0 g x` holds for every g, x (inertia conjunct kernel-checked in probe Lifetime-A_2); guarded by `2 ≤ d` in every closed statement, so no closed statement is affected.",
+   "mathlib": [
+    "Submodule.finrank_le (Mathlib/LinearAlgebra/Dimension/Constructions.lean:402)",
+    "finrank_euclideanSpace_fin (Mathlib/Analysis/InnerProductSpace/PiL2.lean:208)",
+    "isCompl_bot_top (Mathlib/Order/Disjoint.lean:470)"
+   ],
+   "module": "Lifetime.lean",
+   "group": "Lifetime-A"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Lifetime.IsSmooth",
+   "verdict": "PREDICATE_VOCABULARY",
+   "effort": "n/a",
+   "finding": "",
+   "mathlib": [
+    "contDiff_const (Mathlib/Analysis/Calculus/ContDiff/Basic.lean:103)",
+    "contDiff_infty (Mathlib/Analysis/Calculus/ContDiff/Defs.lean:1115)"
+   ],
+   "module": "Lifetime.lean",
+   "group": "Lifetime-A"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Lifetime.IsUnrestrictedLeadingCoefficient",
+   "verdict": "PREDICATE_VOCABULARY",
+   "effort": "n/a",
+   "finding": "",
+   "mathlib": [
+    "Set.Infinite.ncard (Mathlib/Data/Set/Card.lean:651)",
+    "div_zero (Mathlib/Algebra/GroupWithZero/Basic.lean:402)",
+    "Real.zero_rpow (Mathlib/Analysis/SpecialFunctions/Pow/Real.lean:129; the `ℓ ^ (-1/3)` convention at ℓ = 0, irrelevant on the filter nhdsWithin 0 (Ioi 0))"
+   ],
+   "module": "Lifetime.lean",
+   "group": "Lifetime-A"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Lifetime.IsUnrestrictedPair",
+   "verdict": "PREDICATE_VOCABULARY",
+   "effort": "n/a",
+   "finding": "",
+   "mathlib": [
+    "ciInf_le (Mathlib/Order/ConditionallyCompleteLattice/Indexed.lean; used at :428, elaborated in probe B_2)",
+    "PiLp.single_apply (Mathlib/Analysis/InnerProductSpace/PiL2.lean; EuclideanSpace.single_apply deprecated alias at :311)"
+   ],
+   "module": "Lifetime.lean",
+   "group": "Lifetime-B"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Lifetime.IsWindowElderPair",
+   "verdict": "PREDICATE_VOCABULARY",
+   "effort": "n/a",
+   "finding": "",
+   "mathlib": [
+    "ciInf_le (Mathlib/Order/ConditionallyCompleteLattice/Indexed.lean; elaborated in probe B_2)"
+   ],
+   "module": "Lifetime.lean",
+   "group": "Lifetime-B"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Lifetime.IsWindowPair",
+   "verdict": "PREDICATE_VOCABULARY",
+   "effort": "n/a",
+   "finding": "",
+   "mathlib": [
+    "ciInf_le (Mathlib/Order/ConditionallyCompleteLattice/Indexed.lean; elaborated in probe B_2)"
+   ],
+   "module": "Lifetime.lean",
+   "group": "Lifetime-B"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Lifetime.ParentCompactWindowDensityB",
+   "verdict": "BLOCKED_MISSING_MATHLIB",
+   "effort": "weeks",
+   "finding": "",
+   "mathlib": [
+    "ProbabilityTheory.gaussianReal and instance IsProbabilityMeasure (gaussianReal μ v) (Mathlib/Probability/Distributions/Gaussian/Real.lean:232)",
+    "MeasureTheory.Measure.map (Mathlib/MeasureTheory/Measure/Map.lean:99)",
+    "MeasureTheory.Measure.map_of_not_aemeasurable_of_ne_zero (Mathlib/MeasureTheory/Measure/Map.lean:125)",
+    "MeasureTheory.aemeasurable_pi_iff (Mathlib/MeasureTheory/Measure/MeasureSpaceDef.lean:483)",
+    "MeasureTheory.ae_eq_of_forall_setIntegral_eq_of_sigmaFinite (Mathlib/MeasureTheory/Function/AEEqOfIntegral.lean:270)",
+    "Set.ncard_le_ncard (Mathlib/Data/Set/Card.lean:655)",
+    "Asymptotics.IsEquivalent (Mathlib/Analysis/Asymptotics/AsymptoticEquivalent.lean:76)",
+    "ProbabilityTheory.IsGaussianProcess (Mathlib/Probability/Distributions/Gaussian/IsGaussianProcess/Def.lean:30)",
+    "MeasureTheory.IsProjectiveLimit (Mathlib/MeasureTheory/Constructions/Projective.lean:115)",
+    "ABSENT: Kac–Rice / Rice formula, Bulinskaya lemma, expected-number-of-zeros or critical points (no hits under Mathlib/Probability, Mathlib/Analysis/Calculus)"
+   ],
+   "module": "Lifetime.lean",
+   "group": "Lifetime-B"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Lifetime.ParentUniformSelectionA",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "The falsifying inhabitant `p ≡ 0` named in the docstring is confirmed by elaboration (probe Lifetime-B_1): given any `G`, `I` and the five arithmetic hypotheses, `ParentUniformSelectionA d L G I ⟨fun _ _ _ _ => 0, _, _⟩ bLo bHi kLo kHi` is refuted. No new defect; recorded so the register can cite a run rather than prose.",
+   "mathlib": [
+    "EuclideanSpace.basisFun (Mathlib/Analysis/InnerProductSpace/PiL2.lean:805)",
+    "Set.left_mem_Icc (Mathlib/Order/Interval/Set/Basic.lean:88)",
+    "pow_le_of_le_one (Mathlib/Algebra/Order/GroupWithZero/Basic.lean:432)",
+    "div_lt_one (Mathlib/Algebra/Order/Field/Basic.lean:47)",
+    "div_le_one (Mathlib/Algebra/Order/Field/Basic.lean:43)",
+    "mul_one_div (Mathlib/Algebra/Group/Basic.lean:333)"
+   ],
+   "module": "Lifetime.lean",
+   "group": "Lifetime-B"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Lifetime.ParentUnrestrictedLeadingDensityC",
+   "verdict": "BLOCKED_MISSING_MATHLIB",
+   "effort": "weeks",
+   "finding": "",
+   "mathlib": [
+    "Asymptotics.IsEquivalent (Mathlib/Analysis/Asymptotics/AsymptoticEquivalent.lean:76)",
+    "MeasureTheory.ae_eq_of_forall_setIntegral_eq_of_sigmaFinite (Mathlib/MeasureTheory/Function/AEEqOfIntegral.lean:270)",
+    "ProbabilityTheory.IsGaussianProcess (Mathlib/Probability/Distributions/Gaussian/IsGaussianProcess/Def.lean:30)",
+    "MeasureTheory.IsProjectiveLimit (Mathlib/MeasureTheory/Constructions/Projective.lean:115)",
+    "ProbabilityTheory.gaussianReal, instance IsProbabilityMeasure (Mathlib/Probability/Distributions/Gaussian/Real.lean:232)",
+    "ABSENT: Kac–Rice / Rice formula, Bulinskaya lemma, critical-point counting measurability (no hits in Mathlib/Probability, Mathlib/Analysis/Calculus)"
+   ],
+   "module": "Lifetime.lean",
+   "group": "Lifetime-B"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Field.HessianHasInertia",
+   "verdict": "PREDICATE_VOCABULARY",
+   "effort": "n/a",
+   "finding": "Degeneracy at d = 0 (informational, not a defect of the vocabulary): `HessianHasInertia 0 g x 0` holds for every g, x, because in `E 0` the submodules ⊥ and ⊤ coincide, `IsCompl ⊥ ⊤` holds (`isCompl_bot_top`), both finranks are 0, and the two definiteness clauses are vacuous (the only vector is 0). The pinned source fixes d ≥ 2 (sources/lifetime-parent/UNIFORM_MATRIX_CAP_AND_LIFETIME.md line 11: \"Fix a dimension d >= 2 and a side length L > 0\"); no binder or interface field of Field.lean carries that restriction. Consumers quantifying over free d (the Lifetime module's copies) inherit the trivial d = 0 inhabitant.",
+   "mathlib": [
+    "Submodule.finrank_le (Mathlib/LinearAlgebra/Dimension/Constructions.lean:402)",
+    "finrank_euclideanSpace (Mathlib/Analysis/InnerProductSpace/PiL2.lean:203)",
+    "isCompl_bot_top (Mathlib/Order/Disjoint.lean:470)"
+   ],
+   "module": "Field.lean",
+   "group": "Field"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Field.IsCandidatePair",
+   "verdict": "PREDICATE_VOCABULARY",
+   "effort": "n/a",
+   "finding": "",
+   "mathlib": [],
+   "module": "Field.lean",
+   "group": "Field"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Field.IsCriticalPoint",
+   "verdict": "PREDICATE_VOCABULARY",
+   "effort": "n/a",
+   "finding": "Degeneracy at d = 0 (informational): `E 0` is a one-point space, every linear map out of it is 0, so `IsCriticalPoint 0 g x` holds for every g, x. Source fixes d ≥ 2 (lifetime-parent source line 11); the Field binders do not.",
+   "mathlib": [
+    "ContinuousLinearMap.fderiv (Mathlib/Analysis/Calculus/FDeriv/Linear.lean:79)",
+    "EuclideanSpace.proj (Mathlib/Analysis/InnerProductSpace/PiL2.lean:288)",
+    "EuclideanSpace.single_apply (Mathlib/Analysis/InnerProductSpace/PiL2.lean:311)",
+    "fderiv_zero_of_not_differentiableAt (Mathlib/Analysis/Calculus/FDeriv/Basic.lean:234)"
+   ],
+   "module": "Field.lean",
+   "group": "Field"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Field.IsFiniteBar",
+   "verdict": "PREDICATE_VOCABULARY",
+   "effort": "n/a",
+   "finding": "",
+   "mathlib": [],
+   "module": "Field.lean",
+   "group": "Field"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Field.IsIndexSaddle",
+   "verdict": "PREDICATE_VOCABULARY",
+   "effort": "n/a",
+   "finding": "Low-dimensional degeneracy (informational): because `d - 1` is truncated ℕ subtraction, `IsIndexSaddle 0 g x` holds for every g, x (see HessianHasInertia at d = 0), and for d = 1 the predicate describes a nondegenerate local minimum (W = ⊤ positive definite) rather than a saddle. Both are consistent with the source's \"index-(d-1)\" for d ≥ 2 (source line 11 fixes d ≥ 2; line 24 states the eigenvalue counts); the Field binders do not carry d ≥ 2.",
+   "mathlib": [],
+   "module": "Field.lean",
+   "group": "Field"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Field.IsLPeriodic",
+   "verdict": "PREDICATE_VOCABULARY",
+   "effort": "n/a",
+   "finding": "Degeneracy at L = 0 (informational): `latticeVec d 0 n = ∑ i, EuclideanSpace.single i (0 * n i) = 0` (Field.lean:56-57), so `IsLPeriodic d 0 g` holds for every g. The pinned source fixes L > 0 (lifetime-parent source line 11), but `GaussianFieldInterface d L` (Field.lean:122) and every Field predicate take an arbitrary real L, so the L = 0 inhabitants satisfy `periodic` trivially. Relevant to any Lifetime Prop quantifying over free L.",
+   "mathlib": [],
+   "module": "Field.lean",
+   "group": "Field"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Field.IsLifetimeDensityVersion",
+   "verdict": "PREDICATE_VOCABULARY",
+   "effort": "n/a",
+   "finding": "Two informational observations about the vocabulary, neither a defect requiring action. (1) `pairCount` is `Set.ncard` (Field.lean:354-356), which is 0 on infinite sets (`Set.Infinite.ncard`, Data/Set/Card.lean:651); the predicate guards this by requiring `(pairSet …).Finite` almost surely (Field.lean:375), so the count is the true count a.s.; the docstring at Field.lean:347-349 records the convention. (2) Degeneracy at L = 0 with d ≥ 1: `FundDomain d 0 = {x | ∀ i, 0 ≤ x i ∧ x i < 0} = ∅` (Field.lean:244-245), so every `pairSet` is empty, the right-hand side is `0 / 0 ^ d = 0`, and ν = 0 is a version for every G and Pair; the source fixes L > 0 (source line 11) while the Field binders do not.",
+   "mathlib": [
+    "Set.Infinite.ncard (Mathlib/Data/Set/Card.lean:651)"
+   ],
+   "module": "Field.lean",
+   "group": "Field"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Field.IsMorseDistinct",
+   "verdict": "PREDICATE_VOCABULARY",
+   "effort": "n/a",
+   "finding": "Degeneracy at d = 0 (informational): both clauses hold for every g (the unique point has inertia (0) trivially, and `torusDist 0 L x x = 0` so the second clause's guard never fires). Source fixes d ≥ 2 (source line 11).",
+   "mathlib": [],
+   "module": "Field.lean",
+   "group": "Field"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Field.IsNondegMax",
+   "verdict": "PREDICATE_VOCABULARY",
+   "effort": "n/a",
+   "finding": "Degeneracy at d = 0 (informational): `IsNondegMax 0 g x` holds for every g, x (see IsCriticalPoint and HessianHasInertia at d = 0). Source fixes d ≥ 2 (source line 11).",
+   "mathlib": [],
+   "module": "Field.lean",
+   "group": "Field"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Field.IsSmooth",
+   "verdict": "PREDICATE_VOCABULARY",
+   "effort": "n/a",
+   "finding": "",
+   "mathlib": [
+    "ContDiff.continuous (Mathlib/Analysis/Calculus/ContDiff/Defs.lean:1151)"
+   ],
+   "module": "Field.lean",
+   "group": "Field"
+  }
+ ],
+ "lifetime-remainder": [
+  {
+   "prop": "UniversalLaw.Spec.Lifetime.IsLifetimeDensityVersion",
+   "verdict": "PREDICATE_VOCABULARY",
+   "effort": "n/a",
+   "finding": "Convention note, no defect: the normaliser `/ L ^ d` (Lifetime.lean:406) reads 0 for L = 0, d ≥ 1 (`div_zero`), and `pairCount` reads 0 on infinite pair sets (`Set.Infinite.ncard`); the first is guarded by `0 < L` in every closed statement, the second by the predicate's own a.e.-finiteness conjunct at line 403.",
+   "mathlib": [
+    "Set.Infinite.ncard (Mathlib/Data/Set/Card.lean:651)",
+    "div_zero (Mathlib/Algebra/GroupWithZero/Basic.lean:402)",
+    "ProbabilityTheory.gaussianReal (Mathlib/Probability/Distributions/Gaussian/Real.lean:222; the law named by the interface field `gaussian`)"
+   ],
+   "module": "Lifetime.lean",
+   "group": "Lifetime-A"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Lifetime.IsUnrestrictedLeadingCoefficient",
+   "verdict": "PREDICATE_VOCABULARY",
+   "effort": "n/a",
+   "finding": "",
+   "mathlib": [
+    "Set.Infinite.ncard (Mathlib/Data/Set/Card.lean:651)",
+    "div_zero (Mathlib/Algebra/GroupWithZero/Basic.lean:402)",
+    "Real.zero_rpow (Mathlib/Analysis/SpecialFunctions/Pow/Real.lean:129; the `ℓ ^ (-1/3)` convention at ℓ = 0, irrelevant on the filter nhdsWithin 0 (Ioi 0))"
+   ],
+   "module": "Lifetime.lean",
+   "group": "Lifetime-A"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Lifetime.IsUnrestrictedPair",
+   "verdict": "PREDICATE_VOCABULARY",
+   "effort": "n/a",
+   "finding": "",
+   "mathlib": [
+    "ciInf_le (Mathlib/Order/ConditionallyCompleteLattice/Indexed.lean; used at :428, elaborated in probe B_2)",
+    "PiLp.single_apply (Mathlib/Analysis/InnerProductSpace/PiL2.lean; EuclideanSpace.single_apply deprecated alias at :311)"
+   ],
+   "module": "Lifetime.lean",
+   "group": "Lifetime-B"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Lifetime.RemainderBoundedR1",
+   "verdict": "BLOCKED_MISSING_MATHLIB",
+   "effort": "weeks",
+   "finding": "",
+   "mathlib": [
+    "MeasureTheory.ae_eq_of_forall_setIntegral_eq_of_sigmaFinite (Mathlib/MeasureTheory/Function/AEEqOfIntegral.lean:270)",
+    "Set.ncard_le_ncard (Mathlib/Data/Set/Card.lean:655)",
+    "Asymptotics.IsEquivalent (Mathlib/Analysis/Asymptotics/AsymptoticEquivalent.lean:76)",
+    "ProbabilityTheory.IsGaussianProcess (Mathlib/Probability/Distributions/Gaussian/IsGaussianProcess/Def.lean:30)",
+    "MeasureTheory.IsProjectiveLimit (Mathlib/MeasureTheory/Constructions/Projective.lean:115)",
+    "ABSENT: Kac–Rice / Rice formula, Bulinskaya lemma, critical-point counting measurability (no hits in Mathlib/Probability, Mathlib/Analysis/Calculus)"
+   ],
+   "module": "Lifetime.lean",
+   "group": "Lifetime-B"
+  }
+ ],
+ "D1-THM-B": [
+  {
+   "prop": "UniversalLaw.Spec.Lifetime.IsLifetimeDensityVersion",
+   "verdict": "PREDICATE_VOCABULARY",
+   "effort": "n/a",
+   "finding": "Convention note, no defect: the normaliser `/ L ^ d` (Lifetime.lean:406) reads 0 for L = 0, d ≥ 1 (`div_zero`), and `pairCount` reads 0 on infinite pair sets (`Set.Infinite.ncard`); the first is guarded by `0 < L` in every closed statement, the second by the predicate's own a.e.-finiteness conjunct at line 403.",
+   "mathlib": [
+    "Set.Infinite.ncard (Mathlib/Data/Set/Card.lean:651)",
+    "div_zero (Mathlib/Algebra/GroupWithZero/Basic.lean:402)",
+    "ProbabilityTheory.gaussianReal (Mathlib/Probability/Distributions/Gaussian/Real.lean:222; the law named by the interface field `gaussian`)"
+   ],
+   "module": "Lifetime.lean",
+   "group": "Lifetime-A"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Lifetime.IsWindowElderPair",
+   "verdict": "PREDICATE_VOCABULARY",
+   "effort": "n/a",
+   "finding": "",
+   "mathlib": [
+    "ciInf_le (Mathlib/Order/ConditionallyCompleteLattice/Indexed.lean; elaborated in probe B_2)"
+   ],
+   "module": "Lifetime.lean",
+   "group": "Lifetime-B"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Lifetime.IsWindowPair",
+   "verdict": "PREDICATE_VOCABULARY",
+   "effort": "n/a",
+   "finding": "",
+   "mathlib": [
+    "ciInf_le (Mathlib/Order/ConditionallyCompleteLattice/Indexed.lean; elaborated in probe B_2)"
+   ],
+   "module": "Lifetime.lean",
+   "group": "Lifetime-B"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Lifetime.ParentCompactWindowDensityB",
+   "verdict": "BLOCKED_MISSING_MATHLIB",
+   "effort": "weeks",
+   "finding": "",
+   "mathlib": [
+    "ProbabilityTheory.gaussianReal and instance IsProbabilityMeasure (gaussianReal μ v) (Mathlib/Probability/Distributions/Gaussian/Real.lean:232)",
+    "MeasureTheory.Measure.map (Mathlib/MeasureTheory/Measure/Map.lean:99)",
+    "MeasureTheory.Measure.map_of_not_aemeasurable_of_ne_zero (Mathlib/MeasureTheory/Measure/Map.lean:125)",
+    "MeasureTheory.aemeasurable_pi_iff (Mathlib/MeasureTheory/Measure/MeasureSpaceDef.lean:483)",
+    "MeasureTheory.ae_eq_of_forall_setIntegral_eq_of_sigmaFinite (Mathlib/MeasureTheory/Function/AEEqOfIntegral.lean:270)",
+    "Set.ncard_le_ncard (Mathlib/Data/Set/Card.lean:655)",
+    "Asymptotics.IsEquivalent (Mathlib/Analysis/Asymptotics/AsymptoticEquivalent.lean:76)",
+    "ProbabilityTheory.IsGaussianProcess (Mathlib/Probability/Distributions/Gaussian/IsGaussianProcess/Def.lean:30)",
+    "MeasureTheory.IsProjectiveLimit (Mathlib/MeasureTheory/Constructions/Projective.lean:115)",
+    "ABSENT: Kac–Rice / Rice formula, Bulinskaya lemma, expected-number-of-zeros or critical points (no hits under Mathlib/Probability, Mathlib/Analysis/Calculus)"
+   ],
+   "module": "Lifetime.lean",
+   "group": "Lifetime-B"
+  }
+ ],
+ "D1-THM-C": [
+  {
+   "prop": "UniversalLaw.Spec.Lifetime.IsUnrestrictedLeadingCoefficient",
+   "verdict": "PREDICATE_VOCABULARY",
+   "effort": "n/a",
+   "finding": "",
+   "mathlib": [
+    "Set.Infinite.ncard (Mathlib/Data/Set/Card.lean:651)",
+    "div_zero (Mathlib/Algebra/GroupWithZero/Basic.lean:402)",
+    "Real.zero_rpow (Mathlib/Analysis/SpecialFunctions/Pow/Real.lean:129; the `ℓ ^ (-1/3)` convention at ℓ = 0, irrelevant on the filter nhdsWithin 0 (Ioi 0))"
+   ],
+   "module": "Lifetime.lean",
+   "group": "Lifetime-A"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Lifetime.IsUnrestrictedPair",
+   "verdict": "PREDICATE_VOCABULARY",
+   "effort": "n/a",
+   "finding": "",
+   "mathlib": [
+    "ciInf_le (Mathlib/Order/ConditionallyCompleteLattice/Indexed.lean; used at :428, elaborated in probe B_2)",
+    "PiLp.single_apply (Mathlib/Analysis/InnerProductSpace/PiL2.lean; EuclideanSpace.single_apply deprecated alias at :311)"
+   ],
+   "module": "Lifetime.lean",
+   "group": "Lifetime-B"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Lifetime.ParentUnrestrictedLeadingDensityC",
+   "verdict": "BLOCKED_MISSING_MATHLIB",
+   "effort": "weeks",
+   "finding": "",
+   "mathlib": [
+    "Asymptotics.IsEquivalent (Mathlib/Analysis/Asymptotics/AsymptoticEquivalent.lean:76)",
+    "MeasureTheory.ae_eq_of_forall_setIntegral_eq_of_sigmaFinite (Mathlib/MeasureTheory/Function/AEEqOfIntegral.lean:270)",
+    "ProbabilityTheory.IsGaussianProcess (Mathlib/Probability/Distributions/Gaussian/IsGaussianProcess/Def.lean:30)",
+    "MeasureTheory.IsProjectiveLimit (Mathlib/MeasureTheory/Constructions/Projective.lean:115)",
+    "ProbabilityTheory.gaussianReal, instance IsProbabilityMeasure (Mathlib/Probability/Distributions/Gaussian/Real.lean:232)",
+    "ABSENT: Kac–Rice / Rice formula, Bulinskaya lemma, critical-point counting measurability (no hits in Mathlib/Probability, Mathlib/Analysis/Calculus)"
+   ],
+   "module": "Lifetime.lean",
+   "group": "Lifetime-B"
+  }
+ ],
+ "D1-THM-A": [
+  {
+   "prop": "UniversalLaw.Spec.Lifetime.ParentUniformSelectionA",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "The falsifying inhabitant `p ≡ 0` named in the docstring is confirmed by elaboration (probe Lifetime-B_1): given any `G`, `I` and the five arithmetic hypotheses, `ParentUniformSelectionA d L G I ⟨fun _ _ _ _ => 0, _, _⟩ bLo bHi kLo kHi` is refuted. No new defect; recorded so the register can cite a run rather than prose.",
+   "mathlib": [
+    "EuclideanSpace.basisFun (Mathlib/Analysis/InnerProductSpace/PiL2.lean:805)",
+    "Set.left_mem_Icc (Mathlib/Order/Interval/Set/Basic.lean:88)",
+    "pow_le_of_le_one (Mathlib/Algebra/Order/GroupWithZero/Basic.lean:432)",
+    "div_lt_one (Mathlib/Algebra/Order/Field/Basic.lean:47)",
+    "div_le_one (Mathlib/Algebra/Order/Field/Basic.lean:43)",
+    "mul_one_div (Mathlib/Algebra/Group/Basic.lean:333)"
+   ],
+   "module": "Lifetime.lean",
+   "group": "Lifetime-B"
+  }
+ ],
+ "OA-ELDER-LOWER-DENSITY-GAP-20260928-v1": [
+  {
+   "prop": "UniversalLaw.Spec.Lifetime.PlanarDensityGapE11",
+   "verdict": "BLOCKED_MISSING_MATHLIB",
+   "effort": "weeks",
+   "finding": "In the formal statement the hypothesis `ParentUniformSelectionA 2 L G I PL bLo bHi kLo kHi` of `PlanarDensityGapE11` is inert: it constrains only `PL.p`, no field of `PairLawInterface` ties `p` to `G` or `I` (Lifetime.lean:457-465), and the conclusion does not mention `PL`. The constant law `p ≡ 1` satisfies the hypothesis (probe Lifetime-B_1, `plOne_satisfies_A`, elaborated at the pin), so a theorem of E11 would be exactly a theorem of its conclusion for every `(G, I)` at `d = 2` with no parent upper input available to the proof; in particular the upper half `νc - νe ≤ C ℓ^(2/3)`, which the source says consumes (1.1), would have to be proven from the field and elder interfaces alone. This describes the formal shape only; no edit is proposed.",
+   "mathlib": [
+    "EuclideanSpace.basisFun (Mathlib/Analysis/InnerProductSpace/PiL2.lean:805)",
+    "MeasureTheory.ae_eq_of_forall_setIntegral_eq_of_sigmaFinite (Mathlib/MeasureTheory/Function/AEEqOfIntegral.lean:270)",
+    "Asymptotics.IsEquivalent (Mathlib/Analysis/Asymptotics/AsymptoticEquivalent.lean:76)",
+    "ProbabilityTheory.IsGaussianProcess (Mathlib/Probability/Distributions/Gaussian/IsGaussianProcess/Def.lean:30)",
+    "MeasureTheory.IsProjectiveLimit (Mathlib/MeasureTheory/Constructions/Projective.lean:115)",
+    "ABSENT: Kac–Rice / Rice formula, Bulinskaya lemma, critical-point counting measurability (no hits in Mathlib/Probability, Mathlib/Analysis/Calculus)"
+   ],
+   "module": "Lifetime.lean",
+   "group": "Lifetime-B"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Lifetime.PlanarElderLowerE2",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "The falsifying inhabitant `p ≡ 1` named in the docstring is confirmed by elaboration (probe Lifetime-B_1). No new defect.",
+   "mathlib": [
+    "EuclideanSpace.basisFun (Mathlib/Analysis/InnerProductSpace/PiL2.lean:805)",
+    "Set.left_mem_Icc (Mathlib/Order/Interval/Set/Basic.lean:88)"
+   ],
+   "module": "Lifetime.lean",
+   "group": "Lifetime-B"
+  },
+  {
+   "prop": "UniversalLaw.Spec.Lifetime.PlanarTwoSidedRateE4",
+   "verdict": "BLOCKED_INTERFACE",
+   "effort": "n/a",
+   "finding": "The falsifying inhabitant `p ≡ 1` named in the docstring is confirmed by elaboration (probe Lifetime-B_1): the hypothesis holds at `p ≡ 1` and the lower half fails. No new defect.",
+   "mathlib": [
+    "EuclideanSpace.basisFun (Mathlib/Analysis/InnerProductSpace/PiL2.lean:805)",
+    "Set.left_mem_Icc (Mathlib/Order/Interval/Set/Basic.lean:88)"
+   ],
+   "module": "Lifetime.lean",
+   "group": "Lifetime-B"
+  }
+ ],
+ "math.lifetime-remainder": [
+  {
+   "prop": "UniversalLaw.Spec.Lifetime.RemainderBoundedR1",
+   "verdict": "BLOCKED_MISSING_MATHLIB",
+   "effort": "weeks",
+   "finding": "",
+   "mathlib": [
+    "MeasureTheory.ae_eq_of_forall_setIntegral_eq_of_sigmaFinite (Mathlib/MeasureTheory/Function/AEEqOfIntegral.lean:270)",
+    "Set.ncard_le_ncard (Mathlib/Data/Set/Card.lean:655)",
+    "Asymptotics.IsEquivalent (Mathlib/Analysis/Asymptotics/AsymptoticEquivalent.lean:76)",
+    "ProbabilityTheory.IsGaussianProcess (Mathlib/Probability/Distributions/Gaussian/IsGaussianProcess/Def.lean:30)",
+    "MeasureTheory.IsProjectiveLimit (Mathlib/MeasureTheory/Constructions/Projective.lean:115)",
+    "ABSENT: Kac–Rice / Rice formula, Bulinskaya lemma, critical-point counting measurability (no hits in Mathlib/Probability, Mathlib/Analysis/Calculus)"
+   ],
+   "module": "Lifetime.lean",
+   "group": "Lifetime-B"
+  }
+ ]
+}

@@ -1,0 +1,32 @@
+<SCRATCH>/lvs/c254/verify_TorusTopology/probe_basis_only.lean:55:6: warning: This simp argument is unused:
+  PiLp.single_apply
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [torus_periodBasis, Module.Basis.unitsSMul_apply, OrthonormalBasis.coe_toBasis,
+    EuclideanSpace.basisFun_apply, Units.smul_def, PiLp.smul_apply, zsmul_eq_mul, mul_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+<SCRATCH>/lvs/c254/verify_TorusTopology/probe_basis_only.lean:58:6: warning: This simp argument is unused:
+  PiLp.single_apply
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [torus_periodBasis, Module.Basis.unitsSMul_apply, OrthonormalBasis.coe_toBasis,
+    EuclideanSpace.basisFun_apply, Units.smul_def, PiLp.smul_apply, hij, Ne.symm hij]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+<SCRATCH>/lvs/c254/verify_TorusTopology/probe_basis_only.lean:58:25: warning: This simp argument is unused:
+  hij
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [torus_periodBasis, Module.Basis.unitsSMul_apply, OrthonormalBasis.coe_toBasis,
+    EuclideanSpace.basisFun_apply, Units.smul_def, PiLp.smul_apply, PiLp.single_apply, Ne.symm hij]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+<SCRATCH>/lvs/c254/verify_TorusTopology/probe_basis_only.lean:110:4: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  DiscreteTopology ↑↑(torus_periodLattice d L hL).toAddSubgroup
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+<SCRATCH>/lvs/c254/verify_TorusTopology/probe_basis_only.lean:121:2: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  PathConnectedSpace (torus_quotient d L hL)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.

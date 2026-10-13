@@ -1,0 +1,67 @@
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dc_epsilon_pos
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dc_inv_sub_inv_posSemidef
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dc_one_le_det
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dc_det_smul
+AUDIT theorem UniversalLaw.Proofs.Side24Analysis.densityComparison UniversalLaw.Spec.Side24.DensityComparison
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dc_expand_identity._abel_1_1
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dc_expand_identity
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dc_one_sub_epsilon_pos
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dc_one_add_epsilon_pos
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dc_assemble_upper
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dc_expand_identity._abel_1_2
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dc_assemble_lower
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dc_epsilon_lt_one
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dc_conj_identity
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dc_det_le_det
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dc_scale_identity
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dc_quad_le
+AUDIT END 17 0 1
+UniversalLaw.Proofs.Side24Analysis.densityComparison : UniversalLaw.Spec.Side24.DensityComparison
+def UniversalLaw.Spec.Side24.DensityComparison : Prop :=
+∀ (m : ℕ)
+  (C0 C : Matrix (Fin (UniversalLaw.Spec.Side24.symCoordDim m)) (Fin (UniversalLaw.Spec.Side24.symCoordDim m)) ℝ),
+  C0.PosDef →
+    C.PosDef →
+      (C - (1 - UniversalLaw.Spec.Side24.epsilon) • C0).PosSemidef →
+        ((1 + UniversalLaw.Spec.Side24.epsilon) • C0 - C).PosSemidef →
+          ∀ (x : Fin (UniversalLaw.Spec.Side24.symCoordDim m) → ℝ),
+            ((1 - UniversalLaw.Spec.Side24.epsilon) / (1 + UniversalLaw.Spec.Side24.epsilon)) ^
+                    (↑(UniversalLaw.Spec.Side24.symCoordDim m) / 2) *
+                  UniversalLaw.Spec.Side24.gaussDensity (UniversalLaw.Spec.Side24.symCoordDim m)
+                    ((1 - UniversalLaw.Spec.Side24.epsilon) • C0) x ≤
+                UniversalLaw.Spec.Side24.gaussDensity (UniversalLaw.Spec.Side24.symCoordDim m) C x ∧
+              UniversalLaw.Spec.Side24.gaussDensity (UniversalLaw.Spec.Side24.symCoordDim m) C x ≤
+                ((1 + UniversalLaw.Spec.Side24.epsilon) / (1 - UniversalLaw.Spec.Side24.epsilon)) ^
+                    (↑(UniversalLaw.Spec.Side24.symCoordDim m) / 2) *
+                  UniversalLaw.Spec.Side24.gaussDensity (UniversalLaw.Spec.Side24.symCoordDim m)
+                    ((1 + UniversalLaw.Spec.Side24.epsilon) • C0) x
+'UniversalLaw.Proofs.Side24Analysis.Aux.dc_epsilon_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.dc_epsilon_lt_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.dc_one_sub_epsilon_pos' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.dc_one_add_epsilon_pos' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.dc_expand_identity' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.dc_conj_identity' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.dc_inv_sub_inv_posSemidef' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.dc_quad_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.dc_one_le_det' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.dc_det_le_det' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.dc_det_smul' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.dc_scale_identity' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.dc_assemble_lower' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.dc_assemble_upper' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.dc_expand_identity._abel_1_1' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.dc_expand_identity._abel_1_2' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.densityComparison' depends on axioms: [propext, Classical.choice, Quot.sound]
+VERIFY levelParams=[] type=UniversalLaw.Spec.Side24.DensityComparison
+VERIFY kind=theorem
+VERIFY_TYPE_EXACT_CONST OK

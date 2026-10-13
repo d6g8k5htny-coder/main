@@ -1,0 +1,53 @@
+<SCRATCH>/lvs/round4/work/LatticeImageSumBound.lean:157:0: error: (deterministic) timeout at `whnf`, maximum number of heartbeats (200000) has been reached
+
+Note: Use `set_option maxHeartbeats <num>` to set the limit.
+
+Hint: Additional diagnostic information may be available using the `set_option diagnostics true` command.
+<SCRATCH>/lvs/round4/work/LatticeImageSumBound.lean:183:25: error: `if_pos` has been deprecated: Use `ite_eq_left` instead
+<SCRATCH>/lvs/round4/work/LatticeImageSumBound.lean:185:42: error: `if_neg` has been deprecated: Use `ite_eq_right` instead
+<SCRATCH>/lvs/round4/work/LatticeImageSumBound.lean:277:25: error: `if_true` has been deprecated: Use `ite_true` instead
+<SCRATCH>/lvs/round4/work/LatticeImageSumBound.lean:279:25: error: `if_false` has been deprecated: Use `ite_false` instead
+<SCRATCH>/lvs/round4/work/LatticeImageSumBound.lean:287:23: error: `if_true` has been deprecated: Use `ite_true` instead
+<SCRATCH>/lvs/round4/work/LatticeImageSumBound.lean:287:6: error: unsolved goals
+case pos
+d : ℕ
+hd : d ≤ 3
+s : Finset (Fin d → ℤ)
+hgs : Summable fun m => Real.exp (-288 * ↑m ^ 2)
+hfs : Summable fun m => ↑m ^ 6 * Real.exp (-288 * ↑m ^ 2)
+hexp : 0 ≤ Real.exp (-288)
+A : ℝ := ∑' (m : ℤ), Real.exp (-288 * ↑m ^ 2)
+hgle : A ≤ 2
+hA0 : 0 ≤ A
+B : ℝ := ∑' (m : ℤ), ↑m ^ 6 * Real.exp (-288 * ↑m ^ 2)
+hfle : B ≤ 4 * Real.exp (-288)
+i : Fin d
+h1 :
+  (∑ n ∈ s, ∏ k, if k = i then ↑(n k) ^ 6 * Real.exp (-288 * ↑(n k) ^ 2) else Real.exp (-288 * ↑(n k) ^ 2)) ≤
+    ∏ k, ∑' (m : ℤ), if k = i then ↑m ^ 6 * Real.exp (-288 * ↑m ^ 2) else Real.exp (-288 * ↑m ^ 2)
+k : Fin d
+hk : k = i
+⊢ ∑' (m : ℤ), ↑m ^ 6 * Real.exp (-288 * ↑m ^ 2) = B
+<SCRATCH>/lvs/round4/work/LatticeImageSumBound.lean:288:23: error: `if_false` has been deprecated: Use `ite_false` instead
+<SCRATCH>/lvs/round4/work/LatticeImageSumBound.lean:288:6: error: unsolved goals
+case neg
+d : ℕ
+hd : d ≤ 3
+s : Finset (Fin d → ℤ)
+hgs : Summable fun m => Real.exp (-288 * ↑m ^ 2)
+hfs : Summable fun m => ↑m ^ 6 * Real.exp (-288 * ↑m ^ 2)
+hexp : 0 ≤ Real.exp (-288)
+A : ℝ := ∑' (m : ℤ), Real.exp (-288 * ↑m ^ 2)
+hgle : A ≤ 2
+hA0 : 0 ≤ A
+B : ℝ := ∑' (m : ℤ), ↑m ^ 6 * Real.exp (-288 * ↑m ^ 2)
+hfle : B ≤ 4 * Real.exp (-288)
+i : Fin d
+h1 :
+  (∑ n ∈ s, ∏ k, if k = i then ↑(n k) ^ 6 * Real.exp (-288 * ↑(n k) ^ 2) else Real.exp (-288 * ↑(n k) ^ 2)) ≤
+    ∏ k, ∑' (m : ℤ), if k = i then ↑m ^ 6 * Real.exp (-288 * ↑m ^ 2) else Real.exp (-288 * ↑m ^ 2)
+k : Fin d
+hk : ¬k = i
+⊢ ∑' (m : ℤ), Real.exp (-288 * ↑m ^ 2) = A
+<SCRATCH>/lvs/round4/work/LatticeImageSumBound.lean:255:8: error: (kernel) unknown constant 'UniversalLaw.Proofs.Side24Analysis.Aux.li_sum_prod_le'
+EXIT=1

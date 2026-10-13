@@ -1,0 +1,960 @@
+[
+ {
+  "name": "E",
+  "kind": "abbrev",
+  "module": "Specifications/Field.lean (namespace UniversalLaw.Spec.Field)",
+  "source_id": "lifetime-parent",
+  "anchor": "On the flat torus X = R^d/(L Z^d), let f be the centered stationary Gaussian field of variance one with covariance",
+  "does_not_claim": "that the torus is represented by any quotient type; periodicity is a hypothesis on functions.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "latticeVec",
+  "kind": "def",
+  "module": "Specifications/Field.lean (namespace UniversalLaw.Spec.Field)",
+  "source_id": "lifetime-parent",
+  "anchor": "K_L(z) = sum_{n in Z^d} exp(-|z+Ln|^2/2)",
+  "does_not_claim": "anything beyond the definition of the vector `L n`.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "thetaSum",
+  "kind": "def",
+  "module": "Specifications/Field.lean (namespace UniversalLaw.Spec.Field)",
+  "source_id": "lifetime-parent",
+  "anchor": "K_L(z) = sum_{n in Z^d} exp(-|z+Ln|^2/2)",
+  "does_not_claim": "convergence of the sum.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "periodicCovariance",
+  "kind": "def",
+  "module": "Specifications/Field.lean (namespace UniversalLaw.Spec.Field)",
+  "source_id": "lifetime-parent",
+  "anchor": "K_L(z) = sum_{n in Z^d} exp(-|z+Ln|^2/2)",
+  "does_not_claim": "positivity of the Fourier coefficients (Section 2 of the source) or any property of `K_L` beyond its definition.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "covQuadForm",
+  "kind": "def",
+  "module": "Specifications/Field.lean (namespace UniversalLaw.Spec.Field)",
+  "source_id": "lifetime-parent",
+  "anchor": "let f be the centered stationary Gaussian field of variance one with covariance",
+  "does_not_claim": "positive definiteness (Section 2 of the source).",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "IsLPeriodic",
+  "kind": "def_prop",
+  "module": "Specifications/Field.lean (namespace UniversalLaw.Spec.Field)",
+  "source_id": "lifetime-parent",
+  "anchor": "On the flat torus X = R^d/(L Z^d), let f be the centered stationary Gaussian field of variance one with covariance",
+  "does_not_claim": "anything about the field.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "IsSmooth",
+  "kind": "def_prop",
+  "module": "Specifications/Field.lean (namespace UniversalLaw.Spec.Field)",
+  "source_id": "lifetime-parent",
+  "anchor": "In particular the field has a smooth version and all finite moments of its global derivative suprema exist.",
+  "does_not_claim": "existence of a smooth version, or moment bounds on derivative suprema.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "GaussianFieldInterface",
+  "kind": "structure",
+  "module": "Specifications/Field.lean (namespace UniversalLaw.Spec.Field)",
+  "source_id": "lifetime-parent",
+  "anchor": "On the flat torus X = R^d/(L Z^d), let f be the centered stationary Gaussian field of variance one with covariance",
+  "does_not_claim": "existence or uniqueness in law of the field; the Fourier representation and positive spectrum of Section 2; almost-sure Morse genericity of Section 8.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "hessian",
+  "kind": "def",
+  "module": "Specifications/Field.lean (namespace UniversalLaw.Spec.Field)",
+  "source_id": "lifetime-parent",
+  "anchor": "A maximum has d negative Hessian eigenvalues; the relevant saddle has d-1 negative and one positive eigenvalue.",
+  "does_not_claim": "symmetry of the form (true for `C^2` functions, not stated here).",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "IsCriticalPoint",
+  "kind": "def_prop",
+  "module": "Specifications/Field.lean (namespace UniversalLaw.Spec.Field)",
+  "source_id": "lifetime-parent",
+  "anchor": "grad f(M)=grad f(S)=0.",
+  "does_not_claim": "differentiability of `g` at `x` (if `g` is not differentiable, `fderiv` is `0`).",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "HessianHasInertia",
+  "kind": "def_prop",
+  "module": "Specifications/Field.lean (namespace UniversalLaw.Spec.Field)",
+  "source_id": "lifetime-parent",
+  "anchor": "The index counts negative eigenvalues.",
+  "does_not_claim": "equivalence with an eigenvalue count for a non-symmetric form.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "IsNondegMax",
+  "kind": "def_prop",
+  "module": "Specifications/Field.lean (namespace UniversalLaw.Spec.Field)",
+  "source_id": "lifetime-parent",
+  "anchor": "A maximum has d negative Hessian eigenvalues; the relevant saddle has d-1 negative and one positive eigenvalue.",
+  "does_not_claim": "that every local maximum of a sample path is nondegenerate (Morse genericity is Section 8 of the source).",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "IsIndexSaddle",
+  "kind": "def_prop",
+  "module": "Specifications/Field.lean (namespace UniversalLaw.Spec.Field)",
+  "source_id": "lifetime-parent",
+  "anchor": "A maximum has d negative Hessian eigenvalues; the relevant saddle has d-1 negative and one positive eigenvalue.",
+  "does_not_claim": "that such a saddle is a merging saddle of any superlevel bar.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "pinM",
+  "kind": "def",
+  "module": "Specifications/Field.lean (namespace UniversalLaw.Spec.Field)",
+  "source_id": "lifetime-parent",
+  "anchor": "M=-(r/2)u,     S=(r/2)u,",
+  "does_not_claim": "that `u` is a unit vector (a hypothesis where used).",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "pinS",
+  "kind": "def",
+  "module": "Specifications/Field.lean (namespace UniversalLaw.Spec.Field)",
+  "source_id": "lifetime-parent",
+  "anchor": "M=-(r/2)u,     S=(r/2)u,",
+  "does_not_claim": "that `u` is a unit vector (a hypothesis where used).",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "torusDist",
+  "kind": "def",
+  "module": "Specifications/Field.lean (namespace UniversalLaw.Spec.Field)",
+  "source_id": "lifetime-parent",
+  "anchor": "Count ordered maximum/saddle pairs with 0<distance<=r_*, birth in B, and scaled gap (f(M)-f(S))/distance^3 in K.",
+  "does_not_claim": "anything about the injectivity radius of the torus.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "FundDomain",
+  "kind": "def",
+  "module": "Specifications/Field.lean (namespace UniversalLaw.Spec.Field)",
+  "source_id": "lifetime-parent",
+  "anchor": "Stationarity converts the spatial integral into a per-unit-volume density.",
+  "does_not_claim": "anything about stationarity; \"per unit volume\" is encoded by dividing a count over this domain by `L^d`.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "heightGap",
+  "kind": "def",
+  "module": "Specifications/Field.lean (namespace UniversalLaw.Spec.Field)",
+  "source_id": "lifetime-parent",
+  "anchor": "let nu_cand^all(ell) count ALL ordered maximum/index-(d-1)-saddle pairs with height difference ell>0, and let nu_eld^all(ell) count all finite ordinary superlevel H0 persistence bars, both in expectation per unit volume.",
+  "does_not_claim": "that the height gap of an elder pair is the persistence of a bar in any persistence module.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "scaledGap",
+  "kind": "def",
+  "module": "Specifications/Field.lean (namespace UniversalLaw.Spec.Field)",
+  "source_id": "lifetime-parent",
+  "anchor": "Count ordered maximum/saddle pairs with 0<distance<=r_*, birth in B, and scaled gap (f(M)-f(S))/distance^3 in K.",
+  "does_not_claim": "anything when the distance is `0` (division by zero gives `0` in Lean).",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "IsCandidatePair",
+  "kind": "def_prop",
+  "module": "Specifications/Field.lean (namespace UniversalLaw.Spec.Field)",
+  "source_id": "lifetime-parent",
+  "anchor": "let nu_cand^all(ell) count ALL ordered maximum/index-(d-1)-saddle pairs with height difference ell>0, and let nu_eld^all(ell) count all finite ordinary superlevel H0 persistence bars, both in expectation per unit volume.",
+  "does_not_claim": "positivity of the height gap (added separately where the source requires it).",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "IsMorseDistinct",
+  "kind": "def_prop",
+  "module": "Specifications/Field.lean (namespace UniversalLaw.Spec.Field)",
+  "source_id": "lifetime-parent",
+  "anchor": "Countable exhaustion now proves that Q is almost surely Morse with distinct critical values.",
+  "does_not_claim": "that sample paths are almost surely Morse (Section 8 of the source).",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "SuperlevelBarInterface",
+  "kind": "structure",
+  "module": "Specifications/Field.lean (namespace UniversalLaw.Spec.Field)",
+  "source_id": "lifetime-parent",
+  "anchor": "On the Morse distinct-value locus it expresses ordinary elder death at S; an essential maximum has no older endpoint.",
+  "does_not_claim": "Borel measurability of the elder event (Section 8 / the Section 9 replacement), identification with a persistence-module elder rule, or any behaviour off the Morse distinct-value locus.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "IsFiniteBar",
+  "kind": "def_prop",
+  "module": "Specifications/Field.lean (namespace UniversalLaw.Spec.Field)",
+  "source_id": "lifetime-parent",
+  "anchor": "each finite superlevel H0 bar has exactly one local-maximum birth and one index-(d-1) merging-saddle death.",
+  "does_not_claim": "the identification of these pairs with bars of a persistence module; that the count of such pairs equals the finite-bar count off the Morse locus.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "pairSet",
+  "kind": "def",
+  "module": "Specifications/Field.lean (namespace UniversalLaw.Spec.Field)",
+  "source_id": "lifetime-parent",
+  "anchor": "Let nu_cand(ell) be their expected lifetime density per unit volume; let nu_eld(ell) count only pairs which are actual ordinary elder partners.",
+  "does_not_claim": "finiteness of this set (a field of the density-version predicate).",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "pairCount",
+  "kind": "def",
+  "module": "Specifications/Field.lean (namespace UniversalLaw.Spec.Field)",
+  "source_id": "lifetime-parent",
+  "anchor": "Let nu_cand(ell) be their expected lifetime density per unit volume; let nu_eld(ell) count only pairs which are actual ordinary elder partners.",
+  "does_not_claim": "finiteness of the counted set.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "IsLifetimeDensityVersion",
+  "kind": "def_prop",
+  "module": "Specifications/Field.lean (namespace UniversalLaw.Spec.Field)",
+  "source_id": "lifetime-parent",
+  "anchor": "These densities admit versions with",
+  "does_not_claim": "existence of a version; the weighted Kac-Rice identity; the radial ledger (10.2); measurability of the pair count as a function of the sample.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "E",
+  "kind": "abbrev",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "lifetime-parent",
+  "anchor": "On the flat torus X = R^d/(L Z^d), let f be the centered stationary Gaussian field of variance one with covariance",
+  "does_not_claim": "(re-declaration of Specifications/Field.lean's E in this namespace; same text) that the torus is represented by any quotient type; periodicity is a hypothesis on functions.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "latticeVec",
+  "kind": "def",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "lifetime-parent",
+  "anchor": "K_L(z) = sum_{n in Z^d} exp(-|z+Ln|^2/2)",
+  "does_not_claim": "(re-declaration of Specifications/Field.lean's latticeVec in this namespace; same text) anything beyond the definition of the vector `L n`.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "thetaSum",
+  "kind": "def",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "lifetime-parent",
+  "anchor": "K_L(z) = sum_{n in Z^d} exp(-|z+Ln|^2/2)",
+  "does_not_claim": "(re-declaration of Specifications/Field.lean's thetaSum in this namespace; same text) convergence of the sum.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "periodicCovariance",
+  "kind": "def",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "lifetime-parent",
+  "anchor": "K_L(z) = sum_{n in Z^d} exp(-|z+Ln|^2/2)",
+  "does_not_claim": "(re-declaration of Specifications/Field.lean's periodicCovariance in this namespace; same text) positivity of the Fourier coefficients (Section 2 of the source) or any property of `K_L` beyond its definition.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "covQuadForm",
+  "kind": "def",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "lifetime-parent",
+  "anchor": "let f be the centered stationary Gaussian field of variance one with covariance",
+  "does_not_claim": "(re-declaration of Specifications/Field.lean's covQuadForm in this namespace; same text) positive definiteness (Section 2 of the source).",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "IsLPeriodic",
+  "kind": "def_prop",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "lifetime-parent",
+  "anchor": "On the flat torus X = R^d/(L Z^d), let f be the centered stationary Gaussian field of variance one with covariance",
+  "does_not_claim": "(re-declaration of Specifications/Field.lean's IsLPeriodic in this namespace; same text) anything about the field.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "IsSmooth",
+  "kind": "def_prop",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "lifetime-parent",
+  "anchor": "In particular the field has a smooth version and all finite moments of its global derivative suprema exist.",
+  "does_not_claim": "(re-declaration of Specifications/Field.lean's IsSmooth in this namespace; same text) existence of a smooth version, or moment bounds on derivative suprema.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "GaussianFieldInterface",
+  "kind": "structure",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "lifetime-parent",
+  "anchor": "On the flat torus X = R^d/(L Z^d), let f be the centered stationary Gaussian field of variance one with covariance",
+  "does_not_claim": "(re-declaration of Specifications/Field.lean's GaussianFieldInterface in this namespace; same text) existence or uniqueness in law of the field; the Fourier representation and positive spectrum of Section 2; almost-sure Morse genericity of Section 8.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "hessian",
+  "kind": "def",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "lifetime-parent",
+  "anchor": "A maximum has d negative Hessian eigenvalues; the relevant saddle has d-1 negative and one positive eigenvalue.",
+  "does_not_claim": "(re-declaration of Specifications/Field.lean's hessian in this namespace; same text) symmetry of the form (true for `C^2` functions, not stated here).",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "IsCriticalPoint",
+  "kind": "def_prop",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "lifetime-parent",
+  "anchor": "grad f(M)=grad f(S)=0.",
+  "does_not_claim": "(re-declaration of Specifications/Field.lean's IsCriticalPoint in this namespace; same text) differentiability of `g` at `x` (if `g` is not differentiable, `fderiv` is `0`).",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "HessianHasInertia",
+  "kind": "def_prop",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "lifetime-parent",
+  "anchor": "The index counts negative eigenvalues.",
+  "does_not_claim": "(re-declaration of Specifications/Field.lean's HessianHasInertia in this namespace; same text) equivalence with an eigenvalue count for a non-symmetric form.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "IsNondegMax",
+  "kind": "def_prop",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "lifetime-parent",
+  "anchor": "A maximum has d negative Hessian eigenvalues; the relevant saddle has d-1 negative and one positive eigenvalue.",
+  "does_not_claim": "(re-declaration of Specifications/Field.lean's IsNondegMax in this namespace; same text) that every local maximum of a sample path is nondegenerate (Morse genericity is Section 8 of the source).",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "IsIndexSaddle",
+  "kind": "def_prop",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "lifetime-parent",
+  "anchor": "A maximum has d negative Hessian eigenvalues; the relevant saddle has d-1 negative and one positive eigenvalue.",
+  "does_not_claim": "(re-declaration of Specifications/Field.lean's IsIndexSaddle in this namespace; same text) that such a saddle is a merging saddle of any superlevel bar.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "pinM",
+  "kind": "def",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "lifetime-parent",
+  "anchor": "M=-(r/2)u,     S=(r/2)u,",
+  "does_not_claim": "(re-declaration of Specifications/Field.lean's pinM in this namespace; same text) that `u` is a unit vector (a hypothesis where used).",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "pinS",
+  "kind": "def",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "lifetime-parent",
+  "anchor": "M=-(r/2)u,     S=(r/2)u,",
+  "does_not_claim": "(re-declaration of Specifications/Field.lean's pinS in this namespace; same text) that `u` is a unit vector (a hypothesis where used).",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "torusDist",
+  "kind": "def",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "lifetime-parent",
+  "anchor": "Count ordered maximum/saddle pairs with 0<distance<=r_*, birth in B, and scaled gap (f(M)-f(S))/distance^3 in K.",
+  "does_not_claim": "(re-declaration of Specifications/Field.lean's torusDist in this namespace; same text) anything about the injectivity radius of the torus.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "FundDomain",
+  "kind": "def",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "lifetime-parent",
+  "anchor": "Stationarity converts the spatial integral into a per-unit-volume density.",
+  "does_not_claim": "(re-declaration of Specifications/Field.lean's FundDomain in this namespace; same text) anything about stationarity; \"per unit volume\" is encoded by dividing a count over this domain by `L^d`.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "heightGap",
+  "kind": "def",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "lifetime-parent",
+  "anchor": "let nu_cand^all(ell) count ALL ordered maximum/index-(d-1)-saddle pairs with height difference ell>0, and let nu_eld^all(ell) count all finite ordinary superlevel H0 persistence bars, both in expectation per unit volume.",
+  "does_not_claim": "(re-declaration of Specifications/Field.lean's heightGap in this namespace; same text) that the height gap of an elder pair is the persistence of a bar in any persistence module.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "scaledGap",
+  "kind": "def",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "lifetime-parent",
+  "anchor": "Count ordered maximum/saddle pairs with 0<distance<=r_*, birth in B, and scaled gap (f(M)-f(S))/distance^3 in K.",
+  "does_not_claim": "(re-declaration of Specifications/Field.lean's scaledGap in this namespace; same text) anything when the distance is `0` (division by zero gives `0` in Lean).",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "IsCandidatePair",
+  "kind": "def_prop",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "lifetime-parent",
+  "anchor": "let nu_cand^all(ell) count ALL ordered maximum/index-(d-1)-saddle pairs with height difference ell>0, and let nu_eld^all(ell) count all finite ordinary superlevel H0 persistence bars, both in expectation per unit volume.",
+  "does_not_claim": "(re-declaration of Specifications/Field.lean's IsCandidatePair in this namespace; same text) positivity of the height gap (added separately where the source requires it).",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "IsMorseDistinct",
+  "kind": "def_prop",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "lifetime-parent",
+  "anchor": "Countable exhaustion now proves that Q is almost surely Morse with distinct critical values.",
+  "does_not_claim": "(re-declaration of Specifications/Field.lean's IsMorseDistinct in this namespace; same text) that sample paths are almost surely Morse (Section 8 of the source).",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "SuperlevelBarInterface",
+  "kind": "structure",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "lifetime-parent",
+  "anchor": "On the Morse distinct-value locus it expresses ordinary elder death at S; an essential maximum has no older endpoint.",
+  "does_not_claim": "(re-declaration of Specifications/Field.lean's SuperlevelBarInterface in this namespace; same text) Borel measurability of the elder event (Section 8 / the Section 9 replacement), identification with a persistence-module elder rule, or any behaviour off the Morse distinct-value locus.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "IsFiniteBar",
+  "kind": "def_prop",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "lifetime-parent",
+  "anchor": "each finite superlevel H0 bar has exactly one local-maximum birth and one index-(d-1) merging-saddle death.",
+  "does_not_claim": "(re-declaration of Specifications/Field.lean's IsFiniteBar in this namespace; same text) the identification of these pairs with bars of a persistence module; that the count of such pairs equals the finite-bar count off the Morse locus.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "pairSet",
+  "kind": "def",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "lifetime-parent",
+  "anchor": "Let nu_cand(ell) be their expected lifetime density per unit volume; let nu_eld(ell) count only pairs which are actual ordinary elder partners.",
+  "does_not_claim": "(re-declaration of Specifications/Field.lean's pairSet in this namespace; same text) finiteness of this set (a field of the density-version predicate).",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "pairCount",
+  "kind": "def",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "lifetime-parent",
+  "anchor": "Let nu_cand(ell) be their expected lifetime density per unit volume; let nu_eld(ell) count only pairs which are actual ordinary elder partners.",
+  "does_not_claim": "(re-declaration of Specifications/Field.lean's pairCount in this namespace; same text) finiteness of the counted set.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "IsLifetimeDensityVersion",
+  "kind": "def_prop",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "lifetime-parent",
+  "anchor": "These densities admit versions with",
+  "does_not_claim": "(re-declaration of Specifications/Field.lean's IsLifetimeDensityVersion in this namespace; same text) existence of a version; the weighted Kac-Rice identity; the radial ledger (10.2); measurability of the pair count as a function of the sample.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "IsWindowPair",
+  "kind": "def_prop",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "lifetime-parent",
+  "anchor": "Count ordered maximum/saddle pairs with 0<distance<=r_*, birth in B, and scaled gap (f(M)-f(S))/distance^3 in K.",
+  "does_not_claim": "that the distance cutoff `ρ` equals the `r_*` of (1.1); it is quantified existentially in the statements.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "D1-parent-lifetime-Theorem-B-(1.2)",
+   "OA-ELDER-LOWER-DENSITY-GAP-20260928-v1"
+  ]
+ },
+ {
+  "name": "IsWindowElderPair",
+  "kind": "def_prop",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "lifetime-parent",
+  "anchor": "let nu_eld(ell) count only pairs which are actual ordinary elder partners.",
+  "does_not_claim": "identification of `ElderPartner` with the source's elder rule off the Morse locus.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "D1-parent-lifetime-Theorem-B-(1.2)",
+   "OA-ELDER-LOWER-DENSITY-GAP-20260928-v1"
+  ]
+ },
+ {
+  "name": "IsUnrestrictedPair",
+  "kind": "def_prop",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "lifetime-parent",
+  "anchor": "let nu_cand^all(ell) count ALL ordered maximum/index-(d-1)-saddle pairs with height difference ell>0, and let nu_eld^all(ell) count all finite ordinary superlevel H0 persistence bars, both in expectation per unit volume.",
+  "does_not_claim": "anything about the off-diagonal (far) population separately (Section 14 of the source).",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "D1-parent-lifetime-Theorem-C-(1.3)",
+   "math.lifetime-remainder",
+   "lifetime-remainder"
+  ]
+ },
+ {
+  "name": "PairLawInterface",
+  "kind": "structure",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "lifetime-parent",
+  "anchor": "Let p_r(b,k,R) be the Q^W probability that the **global ordinary superlevel elder death partner** of M is S.",
+  "does_not_claim": "existence of the regression law, the typed weight, the full normalizer `Z_r > 0`, or that `p` is the probability of any event under any measure declared here.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "D1-parent-lifetime-Theorem-A-(1.1)",
+   "OA-ELDER-LOWER-DENSITY-GAP-20260928-v1"
+  ]
+ },
+ {
+  "name": "ParentUniformSelectionA",
+  "kind": "def_prop",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "lifetime-parent",
+  "anchor": "There exist r_*>0 and C<infinity such that, for all 0<r<=r_*, b in B, k in K, and all orthonormal frames,",
+  "does_not_claim": "the parent result itself or its proof (full-normalizer floor `Z_r ≥ z_* r^2`, boundary-layer integration); identification of `PL.p` with the source's `p_r`; the reading-rule amendments (congruence erratum, Section 9 replacement, embedding radius); any numerical `C` or `r_*`; nonauthor review or acceptance.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "D1-parent-lifetime-Theorem-A-(1.1)"
+  ]
+ },
+ {
+  "name": "ParentCompactWindowDensityB",
+  "kind": "def_prop",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "lifetime-parent",
+  "anchor": "0 <= nu_cand(ell)-nu_eld(ell) <= C_{B,K} ell^(2/3),",
+  "does_not_claim": "the parent result or its proof; the exact coefficient formula (11.3); existence of the versions; that the cutoff `r_*` is the one of (1.1); any numerical constant; nonauthor review or acceptance.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "D1-parent-lifetime-Theorem-B-(1.2)"
+  ]
+ },
+ {
+  "name": "IsUnrestrictedLeadingCoefficient",
+  "kind": "def_prop",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "lifetime-parent",
+  "anchor": "There is a positive finite constant c_{d,L} such that",
+  "does_not_claim": "the explicit Gaussian/angular representation (15.2) of `c_{d,L}`; uniqueness of `c` (which follows from the asymptotics but is not stated); existence of versions.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "D1-parent-lifetime-Theorem-C-(1.3)",
+   "math.lifetime-remainder",
+   "lifetime-remainder",
+   "side24-coefficient",
+   "math.side24-coefficient"
+  ]
+ },
+ {
+  "name": "ParentUnrestrictedLeadingDensityC",
+  "kind": "def_prop",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "lifetime-parent",
+  "anchor": "nu_cand^all(ell) ~ c_{d,L} ell^(-1/3),",
+  "does_not_claim": "the parent result or its proof (dominated convergence of Section 13, off-diagonal bound (14.1)); the representation (15.2); the compact-window `O(ell^(2/3))` difference for the unrestricted densities; any numerical enclosure of `c_{d,L}` (the SIDE24 coefficient track is separate); nonauthor review or acceptance.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "math.uniform-matrix-cap-lifetime",
+   "D1-parent-lifetime-Theorems-A-B-C",
+   "D1-parent-lifetime-Theorem-C-(1.3)",
+   "side24-coefficient",
+   "math.side24-coefficient"
+  ]
+ },
+ {
+  "name": "RemainderBoundedR1",
+  "kind": "def_prop",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "lifetime-remainder",
+  "anchor": "|nu_cand(ell)-c ell^(-1/3)| <= C,",
+  "does_not_claim": "the result or its proof (quadratic determinant cancellation (R7), coupling (R4), cap-loss bound (R12)); convergence of the remainder; a second coefficient; numerical `C` or `ell_*`; the compact-window `O(ell^(2/3))` difference without cutoffs; the parent interfaces it imports (D1-A-E); nonauthor review or acceptance. If no `c` satisfies the parent property the statement holds vacuously; that is a transcription of its dependency on (1.3), not a claim.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "lifetime-remainder",
+   "math.lifetime-remainder",
+   "D2-lifetime-remainder-Theorem-R-(R1)"
+  ]
+ },
+ {
+  "name": "PlanarElderLowerE2",
+  "kind": "def_prop",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "elder-lower-density-gap",
+  "anchor": "1-p_r(b,k,R) >= c r^3, 0<r<=r_*.",
+  "does_not_claim": "the result or its proof (polygonal path, tilted jet-box probability, extra-conditioned `C^4` control); any lower bound for `d ≥ 3`; identification of `PL.p` with the source's `p_r` or with any historical `q(r,b)`; numerical `c` or `r_*`; nonauthor review or acceptance.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "OA-ELDER-LOWER-DENSITY-GAP-20260928-v1",
+   "D1-elder-lower-(E2)"
+  ]
+ },
+ {
+  "name": "PlanarTwoSidedRateE4",
+  "kind": "def_prop",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "elder-lower-density-gap",
+  "anchor": "c r^3 <= 1-p_r(b,k,R) <= C r^3.",
+  "does_not_claim": "the upper half independently of the parent (1.1) (the source says the upper half consumes it); the result or its proof; numerical constants; nonauthor review or acceptance.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "OA-ELDER-LOWER-DENSITY-GAP-20260928-v1",
+   "D1-elder-lower-(E4)",
+   "D1-parent-lifetime-Theorem-A-(1.1)"
+  ]
+ },
+ {
+  "name": "PlanarDensityGapE11",
+  "kind": "def_prop",
+  "module": "Specifications/Lifetime.lean (namespace UniversalLaw.Spec.Lifetime)",
+  "source_id": "elder-lower-density-gap",
+  "anchor": "       <= C_{B,K} ell^(2/3).                             (E11)",
+  "does_not_claim": "the result or its proof; the upper half independently of the parent (1.2); sharpness of the `O(1)` remainder of (R1); removal of the compact-mark restriction; any numerical constant; nonauthor review or acceptance.",
+  "formal_progress": "specified",
+  "claim_ids": [
+   "OA-ELDER-LOWER-DENSITY-GAP-20260928-v1",
+   "D1-elder-lower-density-gap-(E11)",
+   "D1-parent-lifetime-Theorem-B-(1.2)"
+  ]
+ }
+]

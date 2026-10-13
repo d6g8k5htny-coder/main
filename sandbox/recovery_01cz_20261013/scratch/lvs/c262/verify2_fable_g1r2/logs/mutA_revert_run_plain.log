@@ -1,0 +1,53 @@
+TORUS_FILTRATION_TESTS: outer optimize=0
+test_children_run_in_the_outer_optimization_mode (__main__.ChildInterpreterMode.test_children_run_in_the_outer_optimization_mode) ... ok
+test_every_check_py_child_reports_the_outer_mode (__main__.ChildInterpreterMode.test_every_check_py_child_reports_the_outer_mode) ... ok
+test_complete_evidence_yields_a_bounded_receipt (__main__.FinishFixture.test_complete_evidence_yields_a_bounded_receipt) ... ok
+test_every_weakening_withholds_the_receipt (__main__.FinishFixture.test_every_weakening_withholds_the_receipt) ... ok
+test_comment_lexer_follows_lean_comment_rules (__main__.InventoryTests.test_comment_lexer_follows_lean_comment_rules) ... ok
+test_inventory_constants (__main__.InventoryTests.test_inventory_constants) ... ok
+test_lean_modules_match_inventory (__main__.InventoryTests.test_lean_modules_match_inventory) ... ok
+test_module_scan_accepts_only_the_whitelisted_shapes (__main__.InventoryTests.test_module_scan_accepts_only_the_whitelisted_shapes) ... ok
+test_module_scan_refuses_admissions_and_unexpected_kinds (__main__.InventoryTests.test_module_scan_refuses_admissions_and_unexpected_kinds) ... ok
+test_no_admission_tokens_in_comment_stripped_code (__main__.InventoryTests.test_no_admission_tokens_in_comment_stripped_code) ... ok
+test_source_files_inventory_provenance_and_identities (__main__.InventoryTests.test_source_files_inventory_provenance_and_identities) ... FAIL
+test_each_label_and_schema_rule_withholds_source (__main__.MetadataFixture.test_each_label_and_schema_rule_withholds_source) ... ok
+test_audit_axioms_rules (__main__.ParserControls.test_audit_axioms_rules) ... ok
+test_emit_writes_exactly_the_audit_types_positive_and_controls (__main__.ParserControls.test_emit_writes_exactly_the_audit_types_positive_and_controls) ... ok
+test_lean_version_and_packages (__main__.ParserControls.test_lean_version_and_packages) ... ok
+test_leanchecker_mode_accepts_exactly_the_two_recorded_invocations (__main__.ParserControls.test_leanchecker_mode_accepts_exactly_the_two_recorded_invocations) ... ok
+test_negative_false_controls_accept_only_the_intended_diagnostic (__main__.ParserControls.test_negative_false_controls_accept_only_the_intended_diagnostic) ... ok
+test_negative_injection_controls_require_the_audit_to_refuse (__main__.ParserControls.test_negative_injection_controls_require_the_audit_to_refuse) ... ok
+test_negative_injection_second_refusal_follows_the_audit_rules (__main__.ParserControls.test_negative_injection_second_refusal_follows_the_audit_rules) ... ok
+test_types_rules (__main__.ParserControls.test_types_rules) ... ok
+test_clean_fixture_passes_and_records_identity (__main__.SourceFixture.test_clean_fixture_passes_and_records_identity) ... ok
+test_environment_pins_are_enforced (__main__.SourceFixture.test_environment_pins_are_enforced) ... ok
+test_membership_and_byte_mutations_are_detected (__main__.SourceFixture.test_membership_and_byte_mutations_are_detected) ... ok
+test_module_mutations_are_detected (__main__.SourceFixture.test_module_mutations_are_detected) ... ok
+test_action_pins_match_the_d2_companion_workflow (__main__.WorkflowAndReplay.test_action_pins_match_the_d2_companion_workflow) ... ok
+test_documents_keep_the_status_vocabulary (__main__.WorkflowAndReplay.test_documents_keep_the_status_vocabulary) ... ok
+test_path_triggers_exclude_the_core_tree (__main__.WorkflowAndReplay.test_path_triggers_exclude_the_core_tree) ... ok
+test_replay_contract (__main__.WorkflowAndReplay.test_replay_contract) ... ok
+
+======================================================================
+FAIL: test_source_files_inventory_provenance_and_identities (__main__.InventoryTests.test_source_files_inventory_provenance_and_identities)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/lvs/c262/verify2_fable_g1r2/mutA_revert_run/companions/torus_filtration_20261011/test_torus_filtration.py", line 306, in test_source_files_inventory_provenance_and_identities
+    self.assertEqual(meta['files'][path], self.c.identity(target.read_bytes()), 'stale identity: ' + path)
+AssertionError: {'bytes': 79738, 'git_blob': '24154436193c5292ca859fa[92 chars]132'} != {'bytes': 79336, 'sha256': 'cb25433a24c777677a0865b8a[92 chars]51c'}
+- {'bytes': 79738,
+?             - ^
+
++ {'bytes': 79336,
+?              ^^
+
+-  'git_blob': '24154436193c5292ca859fac9ece048ea9b270c4',
+-  'sha256': '55bc0e7faac05adcf68244e64cc46507bf403664c95ace33c125e012a369e132'}
++  'git_blob': '57cc8cb8ffca1d56a5a8c2d5d648617016b3f51c',
++  'sha256': 'cb25433a24c777677a0865b8a7072d542a020d910fcec5dc98a38f68a61d8d29'} : stale identity: companions/torus_filtration_20261011/test_torus_filtration.py
+
+----------------------------------------------------------------------
+Ran 28 tests in 17.675s
+
+FAILED (failures=1)
+EXIT=1

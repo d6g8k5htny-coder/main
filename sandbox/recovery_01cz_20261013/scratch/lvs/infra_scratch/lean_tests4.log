@@ -1,0 +1,23 @@
+test_auto_implicit_is_off (__main__.LeanHelpers.test_auto_implicit_is_off)
+With `autoImplicit = false` an unbound name in a header is an error instead of a silent ... ok
+test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts)
+Module copies Lean builds without error must be refused by the environment audit, each ... ok
+test_fixture_packages (__main__.LeanHelpers.test_fixture_packages) ... FAIL
+
+======================================================================
+FAIL: test_fixture_packages (__main__.LeanHelpers.test_fixture_packages)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/repos/math/specifications/lean_statement_proofs_20261011/test_check.py", line 1039, in test_fixture_packages
+    self.assertIn('AUDIT generated UniversalLaw.Spec.Demo.B.eq_1', env_log := (self.out / 'environment.log').read_text(),
+AssertionError: 'AUDIT generated UniversalLaw.Spec.Demo.B.eq_1' not found in 'AUDIT auxiliary UniversalLaw.Proofs.Demo.Pair\nAUDIT auxiliary UniversalLaw.Proofs.Demo.Pair.a\nAUDIT auxiliary UniversalLaw.Proofs.Demo.Pair.casesOn\nAUDIT auxiliary UniversalLaw.Proofs.Demo.Pair.noConfusion\nAUDIT theorem UniversalLaw.Proofs.Demo.c UniversalLaw.Spec.Demo.C\nAUDIT auxiliary UniversalLaw.Proofs.Demo.Pair.rec\nAUDIT generated UniversalLaw.Proofs.Demo.Pair.mk.sizeOf_spec\nAUDIT auxiliary UniversalLaw.Proofs.Demo.Pair._sizeOf_1\nAUDIT aux_theorem UniversalLaw.Proofs.Demo.Aux.helper\nAUDIT auxiliary UniversalLaw.Proofs.Demo.Pair.mk._flat_ctor\nAUDIT auxiliary UniversalLaw.Proofs.Demo.Pair.b\nAUDIT auxiliary UniversalLaw.Proofs.Demo.Pair.mk.noConfusion\nAUDIT theorem UniversalLaw.Proofs.Demo.a UniversalLaw.Spec.Demo.A\nAUDIT auxiliary UniversalLaw.Proofs.Demo.Pair.recOn\nAUDIT generated UniversalLaw.Proofs.Demo.Pair.mk.injEq\nAUDIT generated UniversalLaw.Proofs.Demo.Pair.mk.inj\nAUDIT theorem UniversalLaw.Proofs.Demo.b UniversalLaw.Spec.Demo.B\nAUDIT auxiliary UniversalLaw.Proofs.Demo.demoInst\nAUDIT auxiliary UniversalLaw.Proofs.Demo.Pair.mk\nAUDIT auxiliary UniversalLaw.Proofs.Demo.Pair.noConfusionType\nAUDIT aux_theorem _private.SpecificationProofs.Demo.0.UniversalLaw.Proofs.Demo.hiddenHelper\nAUDIT auxiliary UniversalLaw.Proofs.Demo.Pair.ctorIdx\nAUDIT auxiliary UniversalLaw.Proofs.Demo.Pair._sizeOf_inst\nAUDIT auxiliary UniversalLaw.Proofs.Demo.twice\nAUDIT theorem UniversalLaw.Proofs.Demo2.bAgain UniversalLaw.Spec.Demo.B\nAUDIT END 25 0 4\n' : the equation lemma unfolded in both modules is audited once, as generated
+
+----------------------------------------------------------------------
+Ran 3 tests in 52.529s
+
+FAILED (failures=1)
+
+real	0m52.687s
+user	0m38.449s
+sys	0m20.158s
+exit 1

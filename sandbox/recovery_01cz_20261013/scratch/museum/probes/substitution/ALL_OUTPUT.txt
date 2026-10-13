@@ -1,0 +1,131 @@
+### python3 -I -B p1_review_role.py
+REFUSED   control: d5-all-height review := pr16 review (not in bullet): review pointer differs from audited projection
+ACCEPTED  A: d5-two-scale review := its own proof
+          -> d5-two-scale review=frontiers/rn_thin_tube_20260925/TWO_SCALE_ADDENDUM.md pointer_only=False review_is_proof=True
+ACCEPTED  B: d2 review := its own proof
+          -> d2-lifetime-remainder review=frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md pointer_only=False review_is_proof=True
+ACCEPTED  C: d2 review := bare main#67 ('remains open for other bundled fronts')
+          -> d2-lifetime-remainder review=https://github.com/d6g8k5htny-coder/main/issues/67 pointer_only=True review_is_proof=False
+ACCEPTED  D: d5-fixed-transverse review := its proof under reviews/
+          -> d5-fixed-transverse review=reviews/downstream_boundary_20260925/TRANSVERSE_BOUND_CANDIDATE.md pointer_only=False review_is_proof=True
+### /opt/node22/bin/node p1_review_role.mjs
+
+[A: d5-two-scale review := its own proof]
+  ACCEPTED by validateBoundManifest
+  card says: ["- D5 two-scale S6-S21: proof [frontiers/rn_thin_tube_20260925/TWO_SCALE_ADDENDUM.md](frontiers/rn_thin_tube_20260925/TWO_SCALE_ADDENDUM.md); review [reviews/replacement_20260925_pr19_pr21/TWO_SCALE_REVIEW.md](reviews/replacement_20260925_pr19_pr21/TWO_SCALE_REVIEW.md).","Source and review","Byte-verified review"]
+  links: [["Open pinned full proof ↗","https://github.com/d6g8k5htny-coder/Math-/blob/d6628da09384728992dcbe6e921cc28ba85aebb0/frontiers/rn_thin_tube_20260925/TWO_SCALE_ADDENDUM.md"],["Open review ↗","https://github.com/d6g8k5htny-coder/Math-/blob/d6628da09384728992dcbe6e921cc28ba85aebb0/frontiers/rn_thin_tube_20260925/TWO_SCALE_ADDENDUM.md"]]
+
+[B: d2 review := its own proof]
+  ACCEPTED by validateBoundManifest
+  card refused at render: D2 lifetime remainderUnavailable: Source unavailable (404). No result inferred.
+
+[C: d2 review := bare main#67 ('remains open for other bundled fronts')]
+  ACCEPTED by validateBoundManifest
+  card refused at render: D2 lifetime remainderUnavailable: Source unavailable (404). No result inferred.
+
+[D: d5-fixed-transverse review := its proof under reviews/]
+  ACCEPTED by validateBoundManifest
+  card refused at render: D5 fixed-transverse chartUnavailable: Replay command is not recorded exactly in its verified source. No result inferred.
+
+[B] verifyClaim (review bytes = D2 proof bytes) passed; renderClaim would print "Byte-verified review" -> https://github.com/d6g8k5htny-coder/Math-/blob/d6628da09384728992dcbe6e921cc28ba85aebb0/frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md
+### /opt/node22/bin/node p1b_suffix_match.mjs
+
+[d5-pin-neighborhoods-open] review := PROOF_INDEX.md (no pointer_only)
+  ACCEPTED by validateBoundManifest
+  rendered: ["Byte-verified review","Unmerged review pointer only. Its target is not fetched or adopted by this viewer."] 
+  link: ["Open review ↗","https://github.com/d6g8k5htny-coder/Math-/blob/d6628da09384728992dcbe6e921cc28ba85aebb0/PROOF_INDEX.md"]
+
+[p15-demand-one-counterexample] review := claims/LANDING_CLAIMS.json (no pointer_only)
+  ACCEPTED by validateBoundManifest
+  rendered: ["Byte-verified review"] 
+  link: ["Open review ↗","https://github.com/d6g8k5htny-coder/Math-/blob/d6628da09384728992dcbe6e921cc28ba85aebb0/claims/LANDING_CLAIMS.json"]
+### python3 -I -B p2_review_snapshot.py
+ACCEPTED (other Math- commit): d5-all-height-annulus review d6g8k5htny-coder/Math-@11111111 vs index d6g8k5htny-coder/Math-@d6628da0
+ACCEPTED (query- repository): d5-all-height-annulus review d6g8k5htny-coder/query-@22222222 vs index d6g8k5htny-coder/Math-@d6628da0
+builder also ACCEPTS proof at 33333333 (the frontend refuses that one, see p2_review_snapshot.mjs)
+### /opt/node22/bin/node p2_review_snapshot.mjs
+synthetic alternate differs from pinned review: true | contains AMEND row: true
+
+[other Math- commit] review d6g8k5htny-coder/Math-@11111111: ACCEPTED by validateBoundManifest
+  card renders: ["ACCEPT-scoped","Source label: ACCEPT","Byte-verified review"]
+  review link: ["Open review ↗","https://github.com/d6g8k5htny-coder/Math-/blob/1111111111111111111111111111111111111111/reviews/pr28_annulus_bridge_nonauthor_20260925/REVIEW.md"]
+  review identity shown: Repository d6g8k5htny-coder/Math- | Commit 1111111111111111111111111111111111111111
+
+[query- repository] review d6g8k5htny-coder/query-@22222222: ACCEPTED by validateBoundManifest
+  card renders: ["ACCEPT-scoped","Source label: ACCEPT","Byte-verified review"]
+  review link: ["Open review ↗","https://github.com/d6g8k5htny-coder/query-/blob/2222222222222222222222222222222222222222/reviews/pr28_annulus_bridge_nonauthor_20260925/REVIEW.md"]
+  review identity shown: Repository d6g8k5htny-coder/query- | Commit 2222222222222222222222222222222222222222
+
+[control: same change applied to the PROOF] REFUSED: Claim proof is not bound by its own pinned source quote
+### /opt/node22/bin/node p3_pointer_substring.mjs
+
+[d3-side24-coefficient: issue #6 (bullet links #65)]
+  quote contains "](https://github.com/d6g8k5htny-coder/main/issues/6)"? false | quote.includes(url)? true
+  ACCEPTED by validateBoundManifest
+  rendered: ["Review pointer in the verified index","The pinned source binds this review pointer; the linked review is not byte-frozen by this descriptor."] 
+  link: ["Open review ↗","https://github.com/d6g8k5htny-coder/main/issues/6"]
+
+[d3-side24-coefficient: truncated comment id]
+  quote contains "](https://github.com/d6g8k5htny-coder/main/issues/65#issuecomment-58412)"? false | quote.includes(url)? true
+  ACCEPTED by validateBoundManifest
+
+[d4-fixed-remote-rn: issue #7 (bullet links #76)]
+  quote contains "](https://github.com/d6g8k5htny-coder/main/issues/7)"? false | quote.includes(url)? true
+  ACCEPTED by validateBoundManifest
+
+[d1-parent-selection-open: issue #6 on the AMEND D1 card]
+  quote contains "](https://github.com/d6g8k5htny-coder/main/issues/6)"? false | quote.includes(url)? true
+  ACCEPTED by validateBoundManifest
+
+[d5-two-scale: review := {...index_source, pointer_only: 1, review_url: ""}]
+  ACCEPTED by validateBoundManifest
+  rendered: ["Review pointer in the verified index","Identity of the pointer source"] 
+  link: ["Open review ↗","https://github.com/d6g8k5htny-coder/Math-/blob/d6628da09384728992dcbe6e921cc28ba85aebb0/PROOF_INDEX.md"]
+### /opt/node22/bin/node p4_exhibit_binding.mjs
+validateBoundManifest: ACCEPTED by validateBoundManifest
+D5 all-height card links here: museum.html?view=annulus#active-exhibit | D5 proof commit d6628da0 | exhibit commit 44444444
+exhibit card rendered: true | title/id: ["D5 all-height fixed annulus","illustration","Fixed annulus"]
+identity shown: Commit 4444444444444444444444444444444444444444
+geometry mounted for kind: annulus
+"Exact source excerpt" shown contains widened scope: true | contains "global, all scales": true
+state: Pinned source projections verified. 3 source view(s) unavailable; no result inferred for those views.
+control (same change on exhibits.lifetime): REFUSED: Lifetime source identity differs from D2
+exhibits.remote := D5 height-window proof: ACCEPTED by validateBoundManifest
+### python3 -I -B p5_replay_binding.py
+ACCEPTED d2-lifetime-remainder    command='python -B -S frontiers/full_price_20260924/full_price.py' source=README.md@d6628da0
+ACCEPTED d4-fixed-remote-rn       command='python -B -S frontiers/downstream_gate_20260925/hard_gate.py' source=README.md@d6628da0
+ACCEPTED d6-p15-full-price        command="python -B -S -m unittest discover -s frontiers/three_fronts_20260924 -p 'test_*.py' -v" source=README.md@d6628da0
+### /opt/node22/bin/node p5_replay_binding.mjs
+swap D2<->D6 replay commands: ACCEPTED by validateBoundManifest
+give engineering-only P15 counterexample the D6 full_price.py replay: ACCEPTED by validateBoundManifest | class engineering-only
+verifyClaim d4-fixed-remote-rn with command "python -B -S frontiers/full_price_20260924/full_price.py" from README@10e1f191: PASSES
+verifyClaim d4-fixed-remote-rn with command "python -B -S frontiers/downstream_gate_20260925/hard_gate.py" from README@10e1f191: PASSES
+verifyClaim p15-demand-one-counterexample with command "python -B -S frontiers/full_price_20260924/full_price.py" from README@10e1f191: PASSES
+### python3 -I -B p6_open_row_position.py
+builder ACCEPTED successor STATUS:
+  id          : d5-pin-neighborhoods-open
+  title       : D5 — shrinking multiple-witness collision
+  status_quote: HYPOTHETICAL successor row: the shrinking-separation factorial-moment/collision  ...
+  proof       : PROOF_INDEX.md | availability: NO COMPLETE PROOF YET
+  review      : https://github.com/d6g8k5htny-coder/Math-/blob/4e188e25b1e1ef560f3eeb75c0d354d2ccf0ea22/reviews/d5_pin_neighborhood_20260926/REVIEW.md
+### /opt/node22/bin/node p6_open_row_position.mjs
+validateBoundManifest(successor): ACCEPTED by validateBoundManifest
+card id d5-pin-neighborhoods-open rendered: true
+  title: D5 — shrinking multiple-witness collision
+  shows: ["NO COMPLETE PROOF YET","Review pointer in the verified index","Unmerged review pointer only. Its target is not fetched or adopted by this viewer."]
+  review link: ["Open review ↗","https://github.com/d6g8k5htny-coder/Math-/blob/4e188e25b1e1ef560f3eeb75c0d354d2ccf0ea22/reviews/d5_pin_neighborhood_20260926/REVIEW.md"]
+### /opt/node22/bin/node p7_labels.mjs
+(a) D1 card text: ["Review pointer in the verified index"] | pointer identity Path: STATUS.md | STATUS row calls the target: "fail-closed reopening"
+(b) d5-height-window proof: frontiers/rn_thin_tube_20260925/FIXED_ANNULUS_CANDIDATE.md 081abc13 | illustration link: museum.html?view=annulus#active-exhibit -> exhibit source frontiers/rn_annulus_bridge_20260925/PROOF.md 6f317515 (= d5-all-height proof: true)
+    exhibit card title/id: ["D5 all-height fixed annulus","illustration","Fixed annulus"]
+(c) exhibits.annulus.scope_boundary = "The reviewed fixed annulus and the AMEND pin-neighborhood row are distinct scopes."
+    referenced in museum.mjs: false | present in rendered exhibit text: false
+### python3 -I -B p8_landing_axis.py
+museum_data.py lines mentioning LANDING_CLAIMS: [122, 125] (all inside the SOURCES literal)
+d2-lifetime-remainder          museum: class=ACCEPT-scoped   label=ACCEPT               | LANDING_CLAIMS lifetime-remainder: FAIL_CLOSED — all named parent source bytes are now in-tree; theorem remains fail-closed because parent/
+d3-side24-coefficient          museum: class=ACCEPT-scoped   label=ACCEPT               | LANDING_CLAIMS side24-coefficient: HOLD_WITH_DOMAIN — parent source is now byte-bound in-tree; persistence interpretation remains conditional on
+d4-fixed-remote-rn             museum: class=ACCEPT-scoped   label=ACCEPT               | LANDING_CLAIMS rn-fixed-remote-window: HOLD_WITH_DOMAIN — fixed-remote source exists; shrinking exclusion, collisions and global RN complement remai
+d5-height-window-annulus       museum: class=ACCEPT-scoped   label=ACCEPT               | LANDING_CLAIMS rn-fixed-annulus-window: REVIEWED_SCOPED — nonauthor technical review accepts exact fixed-annulus scope; no global D5/RN/JETMOD trans
+p15-demand-one-counterexample  museum: class=engineering-only label=EXACT_COUNTEREXAMPLE | LANDING_CLAIMS p15-price-boundary: EXACT_COUNTEREXAMPLE — kills only the declared demand-one same-palette extension; does not refute d_i>=2 successo
+d6-p15-full-price              museum: class=ACCEPT-scoped   label=ACCEPT               | LANDING_CLAIMS p15-full-price: REVIEWED_SCOPED — source-bound xAI/Grok nonauthor technical review ACCEPTS Theorem F at its exact realized-f
+LANDING_CLAIMS meaning: machine-readable landing inventory; source/review identity and scope only, never theorem acceptance by itself

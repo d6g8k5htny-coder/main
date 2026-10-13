@@ -1,0 +1,101 @@
+UniversalLaw.Proofs.Side24Analysis.derivativeBoundAtLeastOne : UniversalLaw.Spec.Side24.DerivativeBoundAtLeastOne
+UniversalLaw.Proofs.Side24Analysis.Aux.d1_derivativeBoundAtLeastOne_of_derivativePairingBound : UniversalLaw.Spec.Side24.DerivativePairingBound →
+  UniversalLaw.Spec.Side24.DerivativeBoundAtLeastOne
+UniversalLaw.Proofs.Side24Analysis.Aux.d1_derivativePairingBound : UniversalLaw.Spec.Side24.DerivativePairingBound
+def UniversalLaw.Spec.Side24.DerivativeBoundAtLeastOne : Prop :=
+∀ (d q : ℕ),
+  q ≤ 6 →
+    ∀ (x : UniversalLaw.Spec.Side24.E d),
+      1 ≤ ‖x‖ →
+        ∀ (u : Fin q → UniversalLaw.Spec.Side24.E d),
+          UniversalLaw.Spec.Side24.IsUnitTuple d q u →
+            |(iteratedFDeriv ℝ q (UniversalLaw.Spec.Side24.Kinf d) x) u| ≤ 76 * ‖x‖ ^ 6 * Real.exp (-‖x‖ ^ 2 / 2)
+def UniversalLaw.Spec.Side24.DerivativePairingBound : Prop :=
+∀ (d q : ℕ),
+  q ≤ 6 →
+    ∀ (x : UniversalLaw.Spec.Side24.E d) (u : Fin q → UniversalLaw.Spec.Side24.E d),
+      UniversalLaw.Spec.Side24.IsUnitTuple d q u →
+        |(iteratedFDeriv ℝ q (UniversalLaw.Spec.Side24.Kinf d) x) u| ≤
+          Real.exp (-‖x‖ ^ 2 / 2) * UniversalLaw.Spec.Side24.pairingSum q ‖x‖
+def UniversalLaw.Spec.Side24.IsUnitTuple : (d q : ℕ) → (Fin q → UniversalLaw.Spec.Side24.E d) → Prop :=
+fun d q u => ∀ (i : Fin q), ‖u i‖ = 1
+def UniversalLaw.Spec.Side24.Kinf : (d : ℕ) → UniversalLaw.Spec.Side24.E d → ℝ :=
+fun d z => Real.exp (-‖z‖ ^ 2 / 2)
+def UniversalLaw.Spec.Side24.pairingSum : ℕ → ℝ → ℝ :=
+fun q r =>
+  ∑ j ∈ Finset.range (q / 2 + 1), ↑q.factorial * r ^ (q - 2 * j) / (2 ^ j * ↑j.factorial * ↑(q - 2 * j).factorial)
+@[reducible] def UniversalLaw.Spec.Side24.E : ℕ → Type :=
+fun d => EuclideanSpace ℝ (Fin d)
+theorem UniversalLaw.Proofs.Side24Analysis.derivativeBoundAtLeastOne : UniversalLaw.Spec.Side24.DerivativeBoundAtLeastOne :=
+UniversalLaw.Proofs.Side24Analysis.Aux.d1_derivativeBoundAtLeastOne_of_derivativePairingBound
+  UniversalLaw.Proofs.Side24Analysis.Aux.d1_derivativePairingBound
+'UniversalLaw.Proofs.Side24Analysis.derivativeBoundAtLeastOne' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.d1_pairingSum_le_of_one_le' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.d1_derivativeBoundAtLeastOne_of_derivativePairingBound' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.d1_contDiff_Kinf' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.d1_hasFDerivAt_Kinf' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.d1_fderiv_Kinf' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.d1_contDiff_g' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.d1_g_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.d1_norm_g_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.d1_norm_g_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.d1_g_higher' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.d1_recursion' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.d1_Kinf_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.d1_b0' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.d1_b1' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.d1_b2' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.d1_b3' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.d1_b4' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.d1_b5' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.d1_b6' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.d1_pairing_all' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.d1_abs_le_opNorm' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.d1_derivativePairingBound' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+INVENTORY type == const DerivativeBoundAtLeastOne (syntactic): true; levelParams=[]; isThm=true
+HELPER type == (DerivativePairingBound → DerivativeBoundAtLeastOne) (syntactic, nondependent): true
+DPB-REPRO type == const DerivativePairingBound (syntactic): true
+UniversalLaw.Spec.Side24.DerivativeBoundAtLeastOne: def, in local map₂? false; value head: forallE
+UniversalLaw.Spec.Side24.DerivativePairingBound: def, in local map₂? false; value head: forallE
+thm prop=true unsafe=false matcher=false axioms=#[Classical.choice, Quot.sound, propext] axOK=true UniversalLaw.Proofs.Side24Analysis.Aux.d1_Kinf_pos
+thm prop=true unsafe=false matcher=false axioms=#[Classical.choice, Quot.sound, propext] axOK=true UniversalLaw.Proofs.Side24Analysis.Aux.d1_abs_le_opNorm
+thm prop=true unsafe=false matcher=false axioms=#[Classical.choice, Quot.sound, propext] axOK=true UniversalLaw.Proofs.Side24Analysis.Aux.d1_b0
+thm prop=true unsafe=false matcher=false axioms=#[Classical.choice, Quot.sound, propext] axOK=true UniversalLaw.Proofs.Side24Analysis.Aux.d1_b1
+thm prop=true unsafe=false matcher=false axioms=#[Classical.choice, Quot.sound, propext] axOK=true UniversalLaw.Proofs.Side24Analysis.Aux.d1_b2
+thm prop=true unsafe=false matcher=false axioms=#[Classical.choice, Quot.sound, propext] axOK=true UniversalLaw.Proofs.Side24Analysis.Aux.d1_b3
+thm prop=true unsafe=false matcher=false axioms=#[Classical.choice, Quot.sound, propext] axOK=true UniversalLaw.Proofs.Side24Analysis.Aux.d1_b4
+thm prop=true unsafe=false matcher=false axioms=#[Classical.choice, Quot.sound, propext] axOK=true UniversalLaw.Proofs.Side24Analysis.Aux.d1_b5
+thm prop=true unsafe=false matcher=false axioms=#[Classical.choice, Quot.sound, propext] axOK=true UniversalLaw.Proofs.Side24Analysis.Aux.d1_b6
+thm prop=true unsafe=false matcher=false axioms=#[Classical.choice, Quot.sound, propext] axOK=true UniversalLaw.Proofs.Side24Analysis.Aux.d1_contDiff_Kinf
+thm prop=true unsafe=false matcher=false axioms=#[Classical.choice, Quot.sound, propext] axOK=true UniversalLaw.Proofs.Side24Analysis.Aux.d1_contDiff_g
+thm prop=true unsafe=false matcher=false axioms=#[Classical.choice, Quot.sound, propext] axOK=true UniversalLaw.Proofs.Side24Analysis.Aux.d1_derivativeBoundAtLeastOne_of_derivativePairingBound
+thm prop=true unsafe=false matcher=false axioms=#[Classical.choice, Quot.sound, propext] axOK=true UniversalLaw.Proofs.Side24Analysis.Aux.d1_derivativePairingBound
+thm prop=true unsafe=false matcher=false axioms=#[Classical.choice, Quot.sound, propext] axOK=true UniversalLaw.Proofs.Side24Analysis.Aux.d1_fderiv_Kinf
+thm prop=true unsafe=false matcher=false axioms=#[Classical.choice, Quot.sound, propext] axOK=true UniversalLaw.Proofs.Side24Analysis.Aux.d1_g_eq
+thm prop=true unsafe=false matcher=false axioms=#[Classical.choice, Quot.sound, propext] axOK=true UniversalLaw.Proofs.Side24Analysis.Aux.d1_g_higher
+thm prop=true unsafe=false matcher=false axioms=#[Classical.choice, Quot.sound, propext] axOK=true UniversalLaw.Proofs.Side24Analysis.Aux.d1_hasFDerivAt_Kinf
+thm prop=true unsafe=false matcher=false axioms=#[Classical.choice, Quot.sound, propext] axOK=true UniversalLaw.Proofs.Side24Analysis.Aux.d1_norm_g_one
+thm prop=true unsafe=false matcher=false axioms=#[Classical.choice, Quot.sound, propext] axOK=true UniversalLaw.Proofs.Side24Analysis.Aux.d1_norm_g_zero
+thm prop=true unsafe=false matcher=false axioms=#[Classical.choice, Quot.sound, propext] axOK=true UniversalLaw.Proofs.Side24Analysis.Aux.d1_pairingSum_le_of_one_le
+thm prop=true unsafe=false matcher=false axioms=#[Classical.choice, Quot.sound, propext] axOK=true UniversalLaw.Proofs.Side24Analysis.Aux.d1_pairing_all
+thm prop=true unsafe=false matcher=false axioms=#[Classical.choice, Quot.sound, propext] axOK=true UniversalLaw.Proofs.Side24Analysis.Aux.d1_recursion
+thm prop=true unsafe=false matcher=false axioms=#[Classical.choice, Quot.sound, propext] axOK=true UniversalLaw.Proofs.Side24Analysis.derivativeBoundAtLeastOne
+thm prop=true unsafe=false matcher=false axioms=#[Classical.choice, Quot.sound, propext] axOK=true UniversalLaw.Spec.Side24.Kinf.eq_1
+thm prop=true unsafe=false matcher=false axioms=#[Classical.choice, Quot.sound, propext] axOK=true UniversalLaw.Spec.Side24.pairingSum.eq_1
+thm prop=true unsafe=false matcher=false axioms=#[Quot.sound, propext] axOK=true UniversalLaw.Proofs.Side24Analysis.Aux.d1_g_higher._proof_1_1
+thm prop=true unsafe=false matcher=false axioms=#[Quot.sound, propext] axOK=true UniversalLaw.Proofs.Side24Analysis.Aux.d1_g_higher._proof_1_2
+thm prop=true unsafe=false matcher=false axioms=#[Quot.sound, propext] axOK=true UniversalLaw.Proofs.Side24Analysis.Aux.d1_recursion._proof_1_1
+AUDIT TOTAL=28 nonThm=0 matchers=0 badAxioms=0
+
+real	0m20.204s
+user	0m31.587s
+sys	0m5.463s
+EXIT=0

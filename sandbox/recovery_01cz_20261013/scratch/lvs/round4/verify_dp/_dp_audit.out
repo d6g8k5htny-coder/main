@@ -1,0 +1,64 @@
+UniversalLaw.Proofs.Side24Analysis.derivativePairingBound : UniversalLaw.Spec.Side24.DerivativePairingBound
+def UniversalLaw.Spec.Side24.DerivativePairingBound : Prop :=
+∀ (d q : ℕ),
+  q ≤ 6 →
+    ∀ (x : UniversalLaw.Spec.Side24.E d) (u : Fin q → UniversalLaw.Spec.Side24.E d),
+      UniversalLaw.Spec.Side24.IsUnitTuple d q u →
+        |(iteratedFDeriv ℝ q (UniversalLaw.Spec.Side24.Kinf d) x) u| ≤
+          Real.exp (-‖x‖ ^ 2 / 2) * UniversalLaw.Spec.Side24.pairingSum q ‖x‖
+theorem UniversalLaw.Proofs.Side24Analysis.derivativePairingBound : UniversalLaw.Spec.Side24.DerivativePairingBound :=
+fun d q hq x u hu =>
+  LE.le.trans (UniversalLaw.Proofs.Side24Analysis.Aux.dp_abs_le_opNorm d q x u hu)
+    (UniversalLaw.Proofs.Side24Analysis.Aux.dp_pairing_all d x q hq)
+def UniversalLaw.Spec.Side24.Kinf : (d : ℕ) → UniversalLaw.Spec.Side24.E d → ℝ :=
+fun d z => Real.exp (-‖z‖ ^ 2 / 2)
+def UniversalLaw.Spec.Side24.pairingSum : ℕ → ℝ → ℝ :=
+fun q r =>
+  ∑ j ∈ Finset.range (q / 2 + 1), ↑q.factorial * r ^ (q - 2 * j) / (2 ^ j * ↑j.factorial * ↑(q - 2 * j).factorial)
+def UniversalLaw.Spec.Side24.IsUnitTuple : (d q : ℕ) → (Fin q → UniversalLaw.Spec.Side24.E d) → Prop :=
+fun d q u => ∀ (i : Fin q), ‖u i‖ = 1
+'UniversalLaw.Proofs.Side24Analysis.Aux.dp_contDiff_Kinf' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.dp_hasFDerivAt_Kinf' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.dp_fderiv_Kinf' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.dp_contDiff_g' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.dp_g_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.dp_norm_g_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.dp_norm_g_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.dp_g_higher' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.dp_recursion' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.dp_Kinf_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.dp_b0' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.dp_b1' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.dp_b2' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.dp_b3' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.dp_b4' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.dp_b5' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.dp_b6' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.dp_pairing_all' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.dp_abs_le_opNorm' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.derivativePairingBound' depends on axioms: [propext, Classical.choice, Quot.sound]
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dp_recursion._proof_1_1
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dp_fderiv_Kinf
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dp_abs_le_opNorm
+AUDIT theorem UniversalLaw.Proofs.Side24Analysis.derivativePairingBound UniversalLaw.Spec.Side24.DerivativePairingBound
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dp_contDiff_g
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dp_g_higher._proof_1_2
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dp_norm_g_one
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dp_Kinf_pos
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dp_hasFDerivAt_Kinf
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dp_b2
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dp_g_higher
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dp_b5
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dp_norm_g_zero
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dp_b0
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dp_g_higher._proof_1_1
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dp_b1
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dp_b4
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dp_recursion
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dp_g_eq
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dp_pairing_all
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dp_contDiff_Kinf
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dp_b6
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.dp_b3
+AUDIT END 23 0 1
+EXIT=0

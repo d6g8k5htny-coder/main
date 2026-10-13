@@ -1,0 +1,368 @@
+{
+  "schema_version": 1,
+  "object": "MATH-LANDING-CLAIMS-20260925-v1",
+  "repository": "d6g8k5htny-coder/Math-",
+  "audited_default_commit": "760340e921ac4ceda296b8118da936f1133e956e",
+  "landing_path": "README.md",
+  "live_queue": {
+    "repo": "d6g8k5htny-coder/main",
+    "issue": 86,
+    "url": "https://github.com/d6g8k5htny-coder/main/issues/86",
+    "required_state": "open"
+  },
+  "allowed_dispositions": [
+    "HOLD_WITH_DOMAIN",
+    "FAIL_CLOSED",
+    "EXACT_COUNTEREXAMPLE",
+    "REVIEWED_SCOPED",
+    "ENGINEERING_HOLD"
+  ],
+  "claims": [
+    {
+      "claim_id": "side24-coefficient",
+      "advertised_label": "Gaussian lifetime coefficient",
+      "claim_type": "derived numerical enclosure of imported expression",
+      "statement_path": "coefficients/side24_v1/PROOF.md",
+      "statement_heading": "Theorem",
+      "source": {
+        "commit": "760340e921ac4ceda296b8118da936f1133e956e",
+        "blob": "44b66f04f89fcd87383b3603fa69f1feb64cdddd"
+      },
+      "domain": "exact normalized SIDE24 periodized Gaussian model; dimensions d=2 and d=3; coefficient defined by parent main#63 Eq.15.2",
+      "measure": "scalar coefficient in the parent per-unit-volume lifetime-density normalization",
+      "required_dependencies": [
+        {
+          "kind": "support",
+          "id": "main#63:eq15.2-parent",
+          "path": "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+          "source": {
+            "commit": "c39164254ad1529ed49543743598d5dcb24bab98",
+            "blob": "dfed3b8d318a3ab1950957f393307733a4bef3f2"
+          },
+          "review": {
+            "kind": "github_issue",
+            "repo": "d6g8k5htny-coder/main",
+            "number": 63,
+            "url": "https://github.com/d6g8k5htny-coder/main/issues/63"
+          },
+          "required_for": "persistence interpretation"
+        }
+      ],
+      "review": {
+        "kind": "github_issue",
+        "repo": "d6g8k5htny-coder/main",
+        "number": 65,
+        "url": "https://github.com/d6g8k5htny-coder/main/issues/65"
+      },
+      "disposition": "HOLD_WITH_DOMAIN",
+      "disposition_reason": "parent source is now byte-bound in-tree; persistence interpretation remains conditional on open analytic review #63"
+    },
+    {
+      "claim_id": "lifetime-remainder",
+      "advertised_label": "Quantitative lifetime density",
+      "claim_type": "derived theorem",
+      "statement_path": "frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md",
+      "statement_heading": "Theorem R",
+      "source": {
+        "commit": "760340e921ac4ceda296b8118da936f1133e956e",
+        "blob": "247b3ecf80bfbe896948d5d489b2d5842a81c481"
+      },
+      "domain": "each fixed torus d>=2,L>0; all birth/gap marks, orientations and separations; finite ordinary H0 bars with essential global maximum excluded",
+      "measure": "per-unit-volume lifetime density with respect to d ell",
+      "required_dependencies": [
+        {
+          "kind": "support",
+          "id": "main#63:matrix-cap-lifetime",
+          "path": "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+          "source": {
+            "commit": "c39164254ad1529ed49543743598d5dcb24bab98",
+            "blob": "dfed3b8d318a3ab1950957f393307733a4bef3f2"
+          },
+          "review": {
+            "kind": "github_issue",
+            "repo": "d6g8k5htny-coder/main",
+            "number": 63,
+            "url": "https://github.com/d6g8k5htny-coder/main/issues/63"
+          },
+          "required_for": "marked Kac-Rice, global elder, regression and parent coefficient interfaces"
+        },
+        {
+          "kind": "support",
+          "id": "marked-cylinder-cap",
+          "path": "imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md",
+          "source": {
+            "commit": "c39164254ad1529ed49543743598d5dcb24bab98",
+            "blob": "0633aca3c2a2882b0de4399da0a75d64c2e6b2e1"
+          },
+          "review": {
+            "kind": "github_issue",
+            "repo": "d6g8k5htny-coder/main",
+            "number": 63,
+            "url": "https://github.com/d6g8k5htny-coder/main/issues/63"
+          },
+          "required_for": "deterministic sufficient pairing event"
+        }
+      ],
+      "review": {
+        "kind": "github_issue",
+        "repo": "d6g8k5htny-coder/main",
+        "number": 67,
+        "url": "https://github.com/d6g8k5htny-coder/main/issues/67"
+      },
+      "disposition": "FAIL_CLOSED",
+      "disposition_reason": "all named parent source bytes are now in-tree; theorem remains fail-closed because parent/global elder/Kac-Rice interfaces are still analytically open on #63"
+    },
+    {
+      "claim_id": "rn-count-interface",
+      "advertised_label": "RN critical-point counting",
+      "claim_type": "derived logical interface and exact counterexamples",
+      "statement_path": "frontiers/three_fronts_20260924/RN_COUNT_INTERFACE.md",
+      "statement_heading": "Theorem N",
+      "source": {
+        "commit": "760340e921ac4ceda296b8118da936f1133e956e",
+        "blob": "371fd6d17920f2eb3b1c5ec30297acf6daf1d385"
+      },
+      "domain": "abstract event/count implications plus pinned Gaussian weighted-count interface",
+      "measure": "event probability, integer-valued count expectation, and endpoint-weighted Kac-Rice integral kept distinct",
+      "required_dependencies": [],
+      "review": {
+        "kind": "github_issue",
+        "repo": "d6g8k5htny-coder/main",
+        "number": 67,
+        "url": "https://github.com/d6g8k5htny-coder/main/issues/67"
+      },
+      "disposition": "HOLD_WITH_DOMAIN",
+      "disposition_reason": "logical implications/counterexamples are in-tree; complete Gaussian numerator is a target rather than a discharged global RN theorem"
+    },
+    {
+      "claim_id": "rn-fixed-remote-window",
+      "advertised_label": "RN fixed-remote height window",
+      "claim_type": "derived theorem",
+      "statement_path": "frontiers/remote_window_20260924/PROOF.md",
+      "statement_heading": "Theorem A",
+      "source": {
+        "commit": "760340e921ac4ceda296b8118da936f1133e956e",
+        "blob": "b383bfcc88ec4ad497dff01fb6640e429ba24a84"
+      },
+      "domain": "fixed d>=2,L>0; fixed rho>0 spatial exclusion; compact birth interval and compact positive gap marks; between-pin height window",
+      "measure": "expected critical-point count / physical volume and corresponding mean intensity",
+      "required_dependencies": [
+        {
+          "kind": "external",
+          "id": "marked-kac-rice-framework",
+          "binding_status": "IMPORTED_FRAMEWORK",
+          "reference": "arXiv:2304.07424",
+          "required_for": "expected-count representation"
+        }
+      ],
+      "review": {
+        "kind": "github_issue",
+        "repo": "d6g8k5htny-coder/main",
+        "number": 76,
+        "url": "https://github.com/d6g8k5htny-coder/main/issues/76"
+      },
+      "disposition": "HOLD_WITH_DOMAIN",
+      "disposition_reason": "fixed-remote source exists; shrinking exclusion, collisions and global RN complement remain outside scope"
+    },
+    {
+      "claim_id": "rn-fixed-annulus-window",
+      "advertised_label": "RN reviewed fixed-annulus height window",
+      "claim_type": "source-bound reviewed scoped theorem",
+      "statement_path": "frontiers/rn_thin_tube_20260925/FIXED_ANNULUS_CANDIDATE.md",
+      "statement_heading": "Candidate theorem",
+      "source": {
+        "commit": "760340e921ac4ceda296b8118da936f1133e956e",
+        "blob": "081abc13c5e66342c13df2af2bd6b114f320486f",
+        "reviewed_subject_commit": "2804dc1db27ef3b1fdef6bb350b486162692cc4a"
+      },
+      "domain": "d=2; fixed L; fixed scaled annulus 1<A0<=|y|<=B0<infinity; compact positive gap marks k_->0; all frames; between-pin height window",
+      "measure": "expected index-j critical-point count in rE; physical area r^2 area(E)",
+      "required_dependencies": [
+        {
+          "kind": "support",
+          "id": "two-scale-s6-s21",
+          "path": "frontiers/rn_thin_tube_20260925/TWO_SCALE_ADDENDUM.md",
+          "source": {
+            "commit": "760340e921ac4ceda296b8118da936f1133e956e",
+            "blob": "89cae3a9734f2ec7172cd0b6b0b3af3ddd355d73",
+            "reviewed_subject_commit": "b2e1652f1374c3b45759324a1ad1fd4177458500"
+          },
+          "review": {
+            "path": "reviews/replacement_20260925_pr19_pr21/TWO_SCALE_REVIEW.md",
+            "source": {
+              "commit": "760340e921ac4ceda296b8118da936f1133e956e",
+              "blob": "8988251631cab8e65eb2b01a08f7fc593b018570",
+              "reviewed_subject_commit": "bc7d75454d30d84be9d46c210eefecde71835d1d"
+            }
+          }
+        },
+        {
+          "kind": "external",
+          "id": "marked-kac-rice-framework",
+          "binding_status": "IMPORTED_FRAMEWORK",
+          "reference": "arXiv:2304.07424",
+          "required_for": "expected-count representation"
+        }
+      ],
+      "review": {
+        "kind": "local_file",
+        "path": "reviews/pr22_fixed_annulus_nonauthor_20260925/REVIEW.md",
+        "source": {
+          "commit": "760340e921ac4ceda296b8118da936f1133e956e",
+          "blob": "1f153966dae48d10574db0d272f75d08ca3a8b23"
+        },
+        "disposition": "ACCEPT",
+        "scope": "eight declared interfaces for fixed-annulus between-pin-height-window theorem only"
+      },
+      "disposition": "REVIEWED_SCOPED",
+      "disposition_reason": "nonauthor technical review accepts exact fixed-annulus scope; no global D5/RN/JETMOD transfer"
+    },
+    {
+      "claim_id": "p15-realized-covers",
+      "advertised_label": "P15 obstruction covers",
+      "claim_type": "derived combinatorial theorem",
+      "statement_path": "frontiers/three_fronts_20260924/P15_REALIZED_COVERS.md",
+      "statement_heading": "Theorem P",
+      "source": {
+        "commit": "760340e921ac4ceda296b8118da936f1133e956e",
+        "blob": "173881916ccd0e738bdb41279e835e78e520fcbc"
+      },
+      "domain": "explicit realized capacity/clutter family on original coordinates",
+      "measure": "finite generator-cover cost and integer palette threshold",
+      "required_dependencies": [],
+      "review": {
+        "kind": "github_issue",
+        "repo": "d6g8k5htny-coder/main",
+        "number": 67,
+        "url": "https://github.com/d6g8k5htny-coder/main/issues/67"
+      },
+      "disposition": "HOLD_WITH_DOMAIN",
+      "disposition_reason": "scope is the realized family; no arbitrary-P15 extension"
+    },
+    {
+      "claim_id": "p15-price-boundary",
+      "advertised_label": "P15 failed extension",
+      "claim_type": "exact counterexample",
+      "statement_path": "frontiers/three_fronts_20260924/P15_PRICE_BOUNDARY.md",
+      "statement_heading": "Counterexample",
+      "source": {
+        "commit": "760340e921ac4ceda296b8118da936f1133e956e",
+        "blob": "1d6946658e00e2446d68e8a4884425d4bcec62fb"
+      },
+      "domain": "one capacity-one demand-one block; same palette; transformed prices",
+      "measure": "finite generator-cover price versus probability hazard",
+      "required_dependencies": [],
+      "review": {
+        "kind": "github_issue",
+        "repo": "d6g8k5htny-coder/main",
+        "number": 67,
+        "url": "https://github.com/d6g8k5htny-coder/main/issues/67"
+      },
+      "disposition": "EXACT_COUNTEREXAMPLE",
+      "disposition_reason": "kills only the declared demand-one same-palette extension; does not refute d_i>=2 successors"
+    },
+    {
+      "claim_id": "p15-price-budget-restricted",
+      "advertised_label": "P15 valid price extension",
+      "claim_type": "derived theorem",
+      "statement_path": "frontiers/price_budget_20260924/PROOF.md",
+      "statement_heading": "Theorem T1",
+      "source": {
+        "commit": "760340e921ac4ceda296b8118da936f1133e956e",
+        "blob": "9b17d179d2408dae9ea497d3c6e5c6538d2c3b8b"
+      },
+      "domain": "realized capacity/clutter family; demands d_i>=2; probabilities p_v<=1/4; c_v<=phi(p_v); same palette",
+      "measure": "generator-cover price compared with global hazard -log mu_p(D)",
+      "required_dependencies": [
+        {
+          "kind": "claim",
+          "id": "p15-realized-covers"
+        }
+      ],
+      "review": {
+        "kind": "github_issue",
+        "repo": "d6g8k5htny-coder/main",
+        "number": 67,
+        "url": "https://github.com/d6g8k5htny-coder/main/issues/67"
+      },
+      "disposition": "HOLD_WITH_DOMAIN",
+      "disposition_reason": "positive successor at restricted probability domain; independent theorem review not yet source-bound in manifest"
+    },
+    {
+      "claim_id": "p15-full-price",
+      "advertised_label": "P15 full probability range",
+      "claim_type": "derived theorem with sharp factor",
+      "statement_path": "frontiers/full_price_20260924/PROOF.md",
+      "statement_heading": "Theorem F",
+      "source": {
+        "commit": "760340e921ac4ceda296b8118da936f1133e956e",
+        "blob": "582180e41dca0ad815ad0f18574df42040912149"
+      },
+      "domain": "same realized capacity/clutter family; demands d_i>=2; all independent p_v in [0,1]; c_v<=phi(p_v); same palette",
+      "measure": "generator-cover price compared with global hazard -log mu_p(D)",
+      "required_dependencies": [
+        {
+          "kind": "support",
+          "id": "p15-realized-covers:setwise-interfaces",
+          "path": "frontiers/three_fronts_20260924/P15_REALIZED_COVERS.md",
+          "source": {
+            "commit": "760340e921ac4ceda296b8118da936f1133e956e",
+            "blob": "173881916ccd0e738bdb41279e835e78e520fcbc"
+          },
+          "review": {
+            "kind": "local_file",
+            "path": "reviews/p15_full_price_nonauthor_20260926/REVIEW.md",
+            "source": {
+              "commit": "1e1114f5eb8ef8cdbcde591bf74126274c250f88",
+              "blob": "07db19f826763b8faa7414ba2e403d9c45bc0b6e"
+            },
+            "disposition": "ACCEPT",
+            "scope": "Source exposure and sections 2/4: realized-family definition (P1), actual local restrictions (P2), and Theorem P2 full-block cover at K>=K_H(d), as used by Theorem F with d_i>=2; excludes the c_v<=p_v price theorem and broader parent acceptance"
+          },
+          "required_for": "actual capacity restrictions and setwise same-palette full-block coverage only; Theorem F derives its transformed-price budget separately"
+        }
+      ],
+      "review": {
+        "kind": "local_file",
+        "path": "reviews/p15_full_price_nonauthor_20260926/REVIEW.md",
+        "source": {
+          "commit": "1e1114f5eb8ef8cdbcde591bf74126274c250f88",
+          "blob": "07db19f826763b8faa7414ba2e403d9c45bc0b6e"
+        },
+        "disposition": "ACCEPT",
+        "scope": "Theorem F on the realized disjoint capacity/clutter family with a_i>=1, d_i>=2, all independent p in [0,1]^X, c_v<=phi(p_v), same palette K>=K_H(d), sharp rho*=1/[3-log(3e-2)]"
+      },
+      "disposition": "REVIEWED_SCOPED",
+      "disposition_reason": "source-bound xAI/Grok nonauthor technical review ACCEPTS Theorem F at its exact realized-family scope; no arbitrary-downset, demand-one, or unrestricted P15-prize transfer"
+    },
+    {
+      "claim_id": "downstream-hard-gate",
+      "advertised_label": "Downstream hard gate",
+      "claim_type": "engineering integrity control",
+      "statement_path": "frontiers/downstream_gate_20260925/README.md",
+      "statement_heading": "What it enforces",
+      "source": {
+        "commit": "760340e921ac4ceda296b8118da936f1133e956e",
+        "blob": "7f07316b733ab32aceeb982051c049d62fb1ef6f"
+      },
+      "domain": "machine dependency graph and repository-source transitions",
+      "measure": "not a mathematical measure; loss-only revalidation/control state",
+      "required_dependencies": [],
+      "review": {
+        "kind": "github_issue",
+        "repo": "d6g8k5htny-coder/main",
+        "number": 90,
+        "url": "https://github.com/d6g8k5htny-coder/main/issues/90"
+      },
+      "disposition": "ENGINEERING_HOLD",
+      "disposition_reason": "local integrity semantics exist; repository-wide external controlling-source binding remains unresolved"
+    }
+  ],
+  "forbidden_global_inferences": [
+    "global RN closure",
+    "unrestricted P15 prize closure",
+    "unconditional acceptance of the lifetime parent",
+    "lemma_closed=true"
+  ],
+  "meaning": "machine-readable landing inventory; source/review identity and scope only, never theorem acceptance by itself"
+}

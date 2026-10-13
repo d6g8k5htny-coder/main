@@ -1,0 +1,233 @@
+UniversalLaw.Proofs.Side24Interfaces.traceMoments : ∀ (I : UniversalLaw.Spec.Side24.ConeMomentInterface),
+  UniversalLaw.Spec.Side24.TraceMoments I
+def UniversalLaw.Spec.Side24.TraceMoments : UniversalLaw.Spec.Side24.ConeMomentInterface → Prop :=
+fun I =>
+  ∫ (ω : I.Ω), I.s ω ^ 2 ∂I.P = 5 / 3 ∧
+    ∫ (ω : I.Ω), I.s ω ^ 4 ∂I.P = 25 / 3 ∧ ∫ (ω : I.Ω), Real.exp (-I.s ω ^ 2 / 2) ∂I.P = √(3 / 8)
+theorem UniversalLaw.Proofs.Side24Interfaces.traceMoments : ∀ (I : UniversalLaw.Spec.Side24.ConeMomentInterface),
+  UniversalLaw.Spec.Side24.TraceMoments I :=
+fun I =>
+  id
+    ⟨have e :=
+        UniversalLaw.Proofs.Side24Interfaces.Aux.tm_integral_comp_s I (fun t => t ^ 2)
+          (Measurable.pow_const measurable_id' 2);
+      Eq.mpr (id (congrArg (fun _a => _a = 5 / 3) e))
+        (Eq.mpr
+          (id (congrArg (fun _a => _a = 5 / 3) (UniversalLaw.Proofs.Side24Interfaces.Aux.tm_second_moment (5 / 3))))
+          (id
+            (Mathlib.Tactic.Ring.of_eq
+              (Mathlib.Tactic.Ring.Common.div_congr
+                (Mathlib.Tactic.Ring.cast_pos (Mathlib.Meta.NormNum.isNat_ofNat ℝ (Eq.refl 5)))
+                (Mathlib.Tactic.Ring.cast_pos (Mathlib.Meta.NormNum.isNat_ofNat ℝ (Eq.refl 3)))
+                (Mathlib.Tactic.Ring.Common.div_pf
+                  (Mathlib.Tactic.Ring.Common.inv_single
+                    (Mathlib.Meta.NormNum.IsNNRat.to_raw_eq
+                      (Mathlib.Meta.NormNum.isNNRat_inv_pos
+                        (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.IsNat.of_raw ℝ 3)))))
+                  (Mathlib.Tactic.Ring.Common.add_mul
+                    (Mathlib.Tactic.Ring.Common.mul_add
+                      (Mathlib.Meta.NormNum.IsNNRat.to_raw_eq
+                        (Mathlib.Meta.NormNum.isNNRat_mul (Eq.refl HMul.hMul)
+                          (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.IsNat.of_raw ℝ 5))
+                          (Mathlib.Meta.NormNum.IsNNRat.of_raw ℝ 1 3
+                            (Mathlib.Meta.NormNum.IsNNRat.den_nz
+                              (Mathlib.Meta.NormNum.isNNRat_inv_pos
+                                (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.IsNat.of_raw ℝ 3)))))
+                          (Eq.refl (Nat.mul 5 1)) (Eq.refl 3)))
+                      (Mathlib.Tactic.Ring.Common.mul_zero (Nat.rawCast 5))
+                      (Mathlib.Tactic.Ring.Common.add_pf_add_zero (NNRat.rawCast 5 3 + 0)))
+                    (Mathlib.Tactic.Ring.Common.zero_mul (NNRat.rawCast 1 3 + 0))
+                    (Mathlib.Tactic.Ring.Common.add_pf_add_zero (NNRat.rawCast 5 3 + 0)))))
+              (Mathlib.Tactic.Ring.Common.div_congr
+                (Mathlib.Tactic.Ring.cast_pos (Mathlib.Meta.NormNum.isNat_ofNat ℝ (Eq.refl 5)))
+                (Mathlib.Tactic.Ring.cast_pos (Mathlib.Meta.NormNum.isNat_ofNat ℝ (Eq.refl 3)))
+                (Mathlib.Tactic.Ring.Common.div_pf
+                  (Mathlib.Tactic.Ring.Common.inv_single
+                    (Mathlib.Meta.NormNum.IsNNRat.to_raw_eq
+                      (Mathlib.Meta.NormNum.isNNRat_inv_pos
+                        (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.IsNat.of_raw ℝ 3)))))
+                  (Mathlib.Tactic.Ring.Common.add_mul
+                    (Mathlib.Tactic.Ring.Common.mul_add
+                      (Mathlib.Meta.NormNum.IsNNRat.to_raw_eq
+                        (Mathlib.Meta.NormNum.isNNRat_mul (Eq.refl HMul.hMul)
+                          (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.IsNat.of_raw ℝ 5))
+                          (Mathlib.Meta.NormNum.IsNNRat.of_raw ℝ 1 3
+                            (Mathlib.Meta.NormNum.IsNNRat.den_nz
+                              (Mathlib.Meta.NormNum.isNNRat_inv_pos
+                                (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.IsNat.of_raw ℝ 3)))))
+                          (Eq.refl (Nat.mul 5 1)) (Eq.refl 3)))
+                      (Mathlib.Tactic.Ring.Common.mul_zero (Nat.rawCast 5))
+                      (Mathlib.Tactic.Ring.Common.add_pf_add_zero (NNRat.rawCast 5 3 + 0)))
+                    (Mathlib.Tactic.Ring.Common.zero_mul (NNRat.rawCast 1 3 + 0))
+                    (Mathlib.Tactic.Ring.Common.add_pf_add_zero (NNRat.rawCast 5 3 + 0)))))))),
+      ⟨have e :=
+          UniversalLaw.Proofs.Side24Interfaces.Aux.tm_integral_comp_s I (fun t => t ^ 4)
+            (Measurable.pow_const measurable_id' 4);
+        Eq.mpr (id (congrArg (fun _a => _a = 25 / 3) e))
+          (Eq.mpr
+            (id (congrArg (fun _a => _a = 25 / 3) (UniversalLaw.Proofs.Side24Interfaces.Aux.tm_fourth_moment (5 / 3))))
+            (id
+              (Mathlib.Tactic.Ring.of_eq
+                (Mathlib.Tactic.Ring.Common.mul_congr
+                  (Mathlib.Tactic.Ring.cast_pos (Mathlib.Meta.NormNum.isNat_ofNat ℝ (Eq.refl 3)))
+                  (Mathlib.Tactic.Ring.Common.pow_congr
+                    (Mathlib.Tactic.Ring.Common.div_congr
+                      (Mathlib.Tactic.Ring.cast_pos (Mathlib.Meta.NormNum.isNat_ofNat ℝ (Eq.refl 5)))
+                      (Mathlib.Tactic.Ring.cast_pos (Mathlib.Meta.NormNum.isNat_ofNat ℝ (Eq.refl 3)))
+                      (Mathlib.Tactic.Ring.Common.div_pf
+                        (Mathlib.Tactic.Ring.Common.inv_single
+                          (Mathlib.Meta.NormNum.IsNNRat.to_raw_eq
+                            (Mathlib.Meta.NormNum.isNNRat_inv_pos
+                              (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.IsNat.of_raw ℝ 3)))))
+                        (Mathlib.Tactic.Ring.Common.add_mul
+                          (Mathlib.Tactic.Ring.Common.mul_add
+                            (Mathlib.Meta.NormNum.IsNNRat.to_raw_eq
+                              (Mathlib.Meta.NormNum.isNNRat_mul (Eq.refl HMul.hMul)
+                                (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.IsNat.of_raw ℝ 5))
+                                (Mathlib.Meta.NormNum.IsNNRat.of_raw ℝ 1 3
+                                  (Mathlib.Meta.NormNum.IsNNRat.den_nz
+                                    (Mathlib.Meta.NormNum.isNNRat_inv_pos
+                                      (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.IsNat.of_raw ℝ 3)))))
+                                (Eq.refl (Nat.mul 5 1)) (Eq.refl 3)))
+                            (Mathlib.Tactic.Ring.Common.mul_zero (Nat.rawCast 5))
+                            (Mathlib.Tactic.Ring.Common.add_pf_add_zero (NNRat.rawCast 5 3 + 0)))
+                          (Mathlib.Tactic.Ring.Common.zero_mul (NNRat.rawCast 1 3 + 0))
+                          (Mathlib.Tactic.Ring.Common.add_pf_add_zero (NNRat.rawCast 5 3 + 0)))))
+                    (Mathlib.Tactic.Ring.cast_pos (Mathlib.Meta.NormNum.isNat_ofNat ℕ (Eq.refl 2)))
+                    (Mathlib.Tactic.Ring.Common.pow_add
+                      (Mathlib.Tactic.Ring.Common.single_pow
+                        (Mathlib.Meta.NormNum.IsNNRat.to_raw_eq
+                          (Mathlib.Meta.NormNum.isNNRat_pow (Eq.refl HPow.hPow)
+                            (Mathlib.Meta.NormNum.IsNNRat.of_raw ℝ 5 3
+                              (Mathlib.Meta.NormNum.IsNNRat.den_nz
+                                (Mathlib.Meta.NormNum.isNNRat_mul (Eq.refl HMul.hMul)
+                                  (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.IsNat.of_raw ℝ 5))
+                                  (Mathlib.Meta.NormNum.IsNNRat.of_raw ℝ 1 3
+                                    (Mathlib.Meta.NormNum.IsNNRat.den_nz
+                                      (Mathlib.Meta.NormNum.isNNRat_inv_pos
+                                        (Mathlib.Meta.NormNum.IsNat.to_isNNRat
+                                          (Mathlib.Meta.NormNum.IsNat.of_raw ℝ 3)))))
+                                  (Eq.refl (Nat.mul 5 1)) (Eq.refl 3))))
+                            (Mathlib.Meta.NormNum.IsNat.raw_refl 2)
+                            (Mathlib.Meta.NormNum.IsNatPowT.run Mathlib.Meta.NormNum.IsNatPowT.bit0)
+                            (Mathlib.Meta.NormNum.IsNatPowT.run Mathlib.Meta.NormNum.IsNatPowT.bit0))))
+                      (Mathlib.Tactic.Ring.Common.pow_zero (NNRat.rawCast 5 3 + 0) rfl)
+                      (Mathlib.Tactic.Ring.Common.add_mul
+                        (Mathlib.Tactic.Ring.Common.mul_add
+                          (Mathlib.Meta.NormNum.IsNNRat.to_raw_eq
+                            (Mathlib.Meta.NormNum.isNNRat_mul (Eq.refl HMul.hMul)
+                              (Mathlib.Meta.NormNum.IsNNRat.of_raw ℝ 25 9
+                                (Mathlib.Meta.NormNum.IsNNRat.den_nz
+                                  (Mathlib.Meta.NormNum.isNNRat_pow (Eq.refl HPow.hPow)
+                                    (Mathlib.Meta.NormNum.IsNNRat.of_raw ℝ 5 3
+                                      (Mathlib.Meta.NormNum.IsNNRat.den_nz
+                                        (Mathlib.Meta.NormNum.isNNRat_mul (Eq.refl HMul.hMul)
+                                          (Mathlib.Meta.NormNum.IsNat.to_isNNRat
+                                            (Mathlib.Meta.NormNum.IsNat.of_raw ℝ 5))
+                                          (Mathlib.Meta.NormNum.IsNNRat.of_raw ℝ 1 3
+                                            (Mathlib.Meta.NormNum.IsNNRat.den_nz
+                                              (Mathlib.Meta.NormNum.isNNRat_inv_pos
+                                                (Mathlib.Meta.NormNum.IsNat.to_isNNRat
+                                                  (Mathlib.Meta.NormNum.IsNat.of_raw ℝ 3)))))
+                                          (Eq.refl (Nat.mul 5 1)) (Eq.refl 3))))
+                                    (Mathlib.Meta.NormNum.IsNat.raw_refl 2)
+                                    (Mathlib.Meta.NormNum.IsNatPowT.run Mathlib.Meta.NormNum.IsNatPowT.bit0)
+                                    (Mathlib.Meta.NormNum.IsNatPowT.run Mathlib.Meta.NormNum.IsNatPowT.bit0))))
+                              (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.IsNat.of_raw ℝ 1))
+                              (Eq.refl (Nat.mul 25 1)) (Eq.refl 9)))
+                          (Mathlib.Tactic.Ring.Common.mul_zero (NNRat.rawCast 25 9))
+                          (Mathlib.Tactic.Ring.Common.add_pf_add_zero (NNRat.rawCast 25 9 + 0)))
+                        (Mathlib.Tactic.Ring.Common.zero_mul (Nat.rawCast 1 + 0))
+                        (Mathlib.Tactic.Ring.Common.add_pf_add_zero (NNRat.rawCast 25 9 + 0)))))
+                  (Mathlib.Tactic.Ring.Common.add_mul
+                    (Mathlib.Tactic.Ring.Common.mul_add
+                      (Mathlib.Meta.NormNum.IsNNRat.to_raw_eq
+                        (Mathlib.Meta.NormNum.isNNRat_mul (Eq.refl HMul.hMul)
+                          (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.IsNat.of_raw ℝ 3))
+                          (Mathlib.Meta.NormNum.IsNNRat.of_raw ℝ 25 9
+                            (Mathlib.Meta.NormNum.IsNNRat.den_nz
+                              (Mathlib.Meta.NormNum.isNNRat_mul (Eq.refl HMul.hMul)
+                                (Mathlib.Meta.NormNum.IsNNRat.of_raw ℝ 25 9
+                                  (Mathlib.Meta.NormNum.IsNNRat.den_nz
+                                    (Mathlib.Meta.NormNum.isNNRat_pow (Eq.refl HPow.hPow)
+                                      (Mathlib.Meta.NormNum.IsNNRat.of_raw ℝ 5 3
+                                        (Mathlib.Meta.NormNum.IsNNRat.den_nz
+                                          (Mathlib.Meta.NormNum.isNNRat_mul (Eq.refl HMul.hMul)
+                                            (Mathlib.Meta.NormNum.IsNat.to_isNNRat
+                                              (Mathlib.Meta.NormNum.IsNat.of_raw ℝ 5))
+                                            (Mathlib.Meta.NormNum.IsNNRat.of_raw ℝ 1 3
+                                              (Mathlib.Meta.NormNum.IsNNRat.den_nz
+                                                (Mathlib.Meta.NormNum.isNNRat_inv_pos
+                                                  (Mathlib.Meta.NormNum.IsNat.to_isNNRat
+                                                    (Mathlib.Meta.NormNum.IsNat.of_raw ℝ 3)))))
+                                            (Eq.refl (Nat.mul 5 1)) (Eq.refl 3))))
+                                      (Mathlib.Meta.NormNum.IsNat.raw_refl 2)
+                                      (Mathlib.Meta.NormNum.IsNatPowT.run Mathlib.Meta.NormNum.IsNatPowT.bit0)
+                                      (Mathlib.Meta.NormNum.IsNatPowT.run Mathlib.Meta.NormNum.IsNatPowT.bit0))))
+                                (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.IsNat.of_raw ℝ 1))
+                                (Eq.refl (Nat.mul 25 1)) (Eq.refl 9))))
+                          (Eq.refl (Nat.mul 3 25)) (Eq.refl 9)))
+                      (Mathlib.Tactic.Ring.Common.mul_zero (Nat.rawCast 3))
+                      (Mathlib.Tactic.Ring.Common.add_pf_add_zero (NNRat.rawCast 25 3 + 0)))
+                    (Mathlib.Tactic.Ring.Common.zero_mul (NNRat.rawCast 25 9 + 0))
+                    (Mathlib.Tactic.Ring.Common.add_pf_add_zero (NNRat.rawCast 25 3 + 0))))
+                (Mathlib.Tactic.Ring.Common.div_congr
+                  (Mathlib.Tactic.Ring.cast_pos (Mathlib.Meta.NormNum.isNat_ofNat ℝ (Eq.refl 25)))
+                  (Mathlib.Tactic.Ring.cast_pos (Mathlib.Meta.NormNum.isNat_ofNat ℝ (Eq.refl 3)))
+                  (Mathlib.Tactic.Ring.Common.div_pf
+                    (Mathlib.Tactic.Ring.Common.inv_single
+                      (Mathlib.Meta.NormNum.IsNNRat.to_raw_eq
+                        (Mathlib.Meta.NormNum.isNNRat_inv_pos
+                          (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.IsNat.of_raw ℝ 3)))))
+                    (Mathlib.Tactic.Ring.Common.add_mul
+                      (Mathlib.Tactic.Ring.Common.mul_add
+                        (Mathlib.Meta.NormNum.IsNNRat.to_raw_eq
+                          (Mathlib.Meta.NormNum.isNNRat_mul (Eq.refl HMul.hMul)
+                            (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.IsNat.of_raw ℝ 25))
+                            (Mathlib.Meta.NormNum.IsNNRat.of_raw ℝ 1 3
+                              (Mathlib.Meta.NormNum.IsNNRat.den_nz
+                                (Mathlib.Meta.NormNum.isNNRat_inv_pos
+                                  (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.IsNat.of_raw ℝ 3)))))
+                            (Eq.refl (Nat.mul 25 1)) (Eq.refl 3)))
+                        (Mathlib.Tactic.Ring.Common.mul_zero (Nat.rawCast 25))
+                        (Mathlib.Tactic.Ring.Common.add_pf_add_zero (NNRat.rawCast 25 3 + 0)))
+                      (Mathlib.Tactic.Ring.Common.zero_mul (NNRat.rawCast 1 3 + 0))
+                      (Mathlib.Tactic.Ring.Common.add_pf_add_zero (NNRat.rawCast 25 3 + 0)))))))),
+        have e :=
+          UniversalLaw.Proofs.Side24Interfaces.Aux.tm_integral_comp_s I (fun t => Real.exp (-t ^ 2 / 2))
+            (Measurable.exp (Measurable.div_const (Measurable.fun_neg (Measurable.pow_const measurable_id' 2)) 2));
+        Eq.mpr (id (congrArg (fun _a => _a = √(3 / 8)) e))
+          (Eq.mpr (id (congrArg (fun _a => _a = √(3 / 8)) UniversalLaw.Proofs.Side24Interfaces.Aux.tm_exp_moment))
+            (Eq.refl √(3 / 8)))⟩⟩
+'UniversalLaw.Proofs.Side24Interfaces.traceMoments' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Interfaces.Aux.tm_hasDerivAt_exp_sq' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'UniversalLaw.Proofs.Side24Interfaces.Aux.tm_iteratedDeriv_four' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'UniversalLaw.Proofs.Side24Interfaces.Aux.tm_second_moment' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Interfaces.Aux.tm_fourth_moment' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Interfaces.Aux.tm_exp_moment' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Interfaces.Aux.tm_aemeasurable_triple' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'UniversalLaw.Proofs.Side24Interfaces.Aux.tm_aemeasurable_s' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Interfaces.Aux.tm_law_s' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Interfaces.Aux.tm_integral_comp_s' depends on axioms: [propext, Classical.choice, Quot.sound]
+EXACT_TYPE_OK binder=I explicit=true
+KIND thm
+PROVENANCE UniversalLaw.Spec.Side24.TraceMoments <- Specifications.Side24
+PROVENANCE UniversalLaw.Spec.Side24.ConeMomentInterface <- Specifications.Side24
+AUDIT thm prop=true unsafe=false partial=false UniversalLaw.Proofs.Side24Interfaces.Aux.tm_aemeasurable_s
+AUDIT thm prop=true unsafe=false partial=false UniversalLaw.Proofs.Side24Interfaces.Aux.tm_aemeasurable_triple
+AUDIT thm prop=true unsafe=false partial=false UniversalLaw.Proofs.Side24Interfaces.Aux.tm_exp_moment
+AUDIT thm prop=true unsafe=false partial=false UniversalLaw.Proofs.Side24Interfaces.Aux.tm_fourth_moment
+AUDIT thm prop=true unsafe=false partial=false UniversalLaw.Proofs.Side24Interfaces.Aux.tm_hasDerivAt_exp_sq
+AUDIT thm prop=true unsafe=false partial=false UniversalLaw.Proofs.Side24Interfaces.Aux.tm_integral_comp_s
+AUDIT thm prop=true unsafe=false partial=false UniversalLaw.Proofs.Side24Interfaces.Aux.tm_iteratedDeriv_four
+AUDIT thm prop=true unsafe=false partial=false UniversalLaw.Proofs.Side24Interfaces.Aux.tm_law_s
+AUDIT thm prop=true unsafe=false partial=false UniversalLaw.Proofs.Side24Interfaces.Aux.tm_second_moment
+AUDIT thm prop=true unsafe=false partial=false UniversalLaw.Proofs.Side24Interfaces.traceMoments
+AUDIT TOTAL 10
+EXIT=0

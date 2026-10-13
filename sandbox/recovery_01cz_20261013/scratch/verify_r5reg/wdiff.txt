@@ -1,0 +1,333 @@
+====================================================================================================
+claims/0/kernel_evidence/1/receipt_or_workflow
+--- replace
+  CTX< ...receipt theorem_count 73; artifact lean-specification-proofs-38180705952-1, sha256 
+  OLD: 87309efad9b804c53c543b60fdb466de1f797971417363cc2e8fa1e10eac26bd)
+  NEW: 87309efad9b804c53c543b60fdb466de1f797971417363cc2e8fa1e10eac26bd); theorems added after PR head be014794 (run 38187538744, actual tested merge 79d3964cf70e2eadad5c9629eef8f4b47f218dd0 with base 12e072d614dbe6e91b66d22a2ab55cf87860d693, receipt theorem_count 73) have no hosted receipt yet: the next hosted lean-specification-proofs.yml run is their first receipt
+  CTX> ...
+====================================================================================================
+claims/0/kernel_evidence/1/note
+--- replace
+  CTX< ...
+  OLD: 17
+  NEW: 19
+  CTX>  theorems of this row (Side24Elementary.exponentialBounds, Side24Elementary.successiveTermRatio,...
+--- replace
+  CTX< ...Side24Analysis.referencePinDensityProduct, Side24Analysis.integrandRatioBounds, Side24Analysis.latticeImageSumBound, Side24Analysis.densityComparison, Side24Interfaces.coneMomentD1Identity, Side24Interfaces.traceMoments, 
+  OLD: Side24Interfaces.rayleighSquareLaw)
+  NEW: Side24Interfaces.rayleighSquareLaw, Side24Covariance.referenceCovarianceLowerBound, Side24ConeMoment.coneMomentD2Identity)
+  CTX>  are inventoried by the proof packet's...
+--- replace
+  CTX< ...proof packet's check.py (source mode SOURCE_CHECK_PASS: 
+  OLD: 73
+  NEW: 75
+  CTX>  inventory theorems over SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean, 72 distinct...
+--- replace
+  CTX< ...mode SOURCE_CHECK_PASS: 73 inventory theorems over 
+  OLD: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean,
+  NEW: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean,
+  CTX>  72 distinct registered Props, each theorem...
+--- replace
+  CTX< ...SOURCE_CHECK_PASS: 73 inventory theorems over SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean, 
+  OLD: 72
+  NEW: 74
+  CTX>  distinct registered Props, each theorem typed...
+--- insert
+  CTX< ...theorem_count 73; artifact lean-specification-proofs-38180705952-1, sha256 87309efad9b804c53c543b60fdb466de1f797971417363cc2e8fa1e10eac26bd). 
+  OLD: 
+  NEW: 2 (Side24Covariance.referenceCovarianceLowerBound, Side24ConeMoment.coneMomentD2Identity) were added after PR head be014794 (the last head with a hosted receipt: run 38187538744, actual tested merge 79d3964cf70e2eadad5c9629eef8f4b47f218dd0 with base 12e072d614dbe6e91b66d22a2ab55cf87860d693, receipt theorem_count 73): locally `lake env lean -DwarningAsError=true` exit 0 and `#print axioms` within {propext, Classical.choice, Quot.sound} on an unverified worktree, not evidence about any commit; the next hosted lean-specification-proofs.yml run is the first receipt for them. 
+  CTX> `proved` is the label of a ...
+====================================================================================================
+claims/0/not_established
+--- insert
+  CTX< ...DerivativePairingBound, DerivativeBoundAtLeastOne, DerivativeBoundAtZero, LatticeImageSumBound, SuccessiveTermRatio, ExponentialBounds, 
+  OLD: 
+  NEW: ReferenceCovarianceLowerBound, 
+  CTX> ReferenceOddAndPinBlocks, DensityComparison, IntegrandRatioBounds, ReferencePinDensityProduct, ReferenceCoefficientIdentity, ConeMomentD1Identity, ...
+--- insert
+  CTX< ...ReferenceOddAndPinBlocks, DensityComparison, IntegrandRatioBounds, ReferencePinDensityProduct, ReferenceCoefficientIdentity, ConeMomentD1Identity, 
+  OLD: 
+  NEW: ConeMomentD2Identity, 
+  CTX> ConeMomentD2Algebra, TraceMoments, RayleighSquareLaw, ElementaryConeIntegral (17 entries ...
+--- replace
+  CTX< ...ReferenceCoefficientIdentity, ConeMomentD1Identity, ConeMomentD2Algebra, TraceMoments, RayleighSquareLaw, ElementaryConeIntegral 
+  OLD: (17
+  NEW: (19
+  CTX>  entries below, label `proved`; 5 of...
+--- replace
+  CTX< ...has the same tree as its 
+  OLD: head).
+  NEW: head; 2 of them (Side24Covariance.referenceCovarianceLowerBound, Side24ConeMoment.coneMomentD2Identity) were added after PR head be014794 (the last head with a hosted receipt: run 38187538744, actual tested merge 79d3964cf70e2eadad5c9629eef8f4b47f218dd0 with base 12e072d614dbe6e91b66d22a2ab55cf87860d693, receipt theorem_count 73): locally `lake env lean -DwarningAsError=true` exit 0 and `#print axioms` within {propext, Classical.choice, Quot.sound} on an unverified worktree, not evidence about any commit; the next hosted lean-specification-proofs.yml run is the first receipt for them).
+  CTX>  What those theorems prove, for the...
+--- insert
+  CTX< ...of any random vector or field); 
+  OLD: 
+  NEW: the lower bound C_ref - I/3 positive semidefinite for the formal matrix Cref at u = R 0 in an orthonormal frame, its IsHermitian half included (ReferenceCovarianceLowerBound: the odd-order contractions of the even kernel Kinf vanish at 0, and Cref - I/3 decomposes entrywise into a diagonal matrix and two rank-one squares; the hypothesis d = 2 or d = 3 is not used; Cref is not shown to be the covariance of any random vector, symmetry of Cref d u R for a general u or frame is not stated, and main's odd_block_eigenvalues, odd_block_shifted_minors and smaller_eigenvalue_exceeds_third are neither imported, cited nor relied on: no minor, no eigenvalue 8 +/- sqrt 58 and no comparison of an eigenvalue with 1/3 is computed); 
+  CTX> pure real arithmetic in epsilon and ...
+--- replace
+  CTX< ...a distribution function, not as a 
+  OLD: density).
+  NEW: density); and, over the same interface, the m = 2 cone moment, the integral of coneIntegrand (s, x, y) under I.P, equal to (1/2)(25/3 - 20/3 + 8 - 8 sqrt(3/8)) (ConeMomentD2Identity: proved for every inhabitant from the law field sxy_law and isProb alone, by transport along sxy_law, Fubini, the cone identification s < 0 and x^2 + y^2 < s^2, polar coordinates onto ElementaryConeIntegral and the symmetry halving under N(0, 5/3); RayleighSquareLaw is not used, the source's Rayleigh integration route is not reproduced as the source's statements, D_2 is not identified with the parent's cone moment D_u of (15.1) for the reference law, and the value 29/6 - sqrt 6 (ConeMomentD2Algebra) is not used).
+  CTX>  None of them is the Gaussian...
+--- delete
+  CTX< ... of them is the Gaussian conditioning,
+  OLD:  ConeMomentD2Identity,
+  NEW: 
+  CTX>  ImageBound, the covariance ordering or any...
+--- delete
+  CTX< ... with no theorem: ImageBound, CovarianceOrdering, EntrywiseCovarianceBound,
+  OLD:  ReferenceCovarianceLowerBound, ConeMomentD2Identity,
+  NEW: 
+  CTX>  CoefficientEnclosure, ReferenceComparison; the parametrised predicates IsUnitTuple,...
+====================================================================================================
+claims/0/next_step
+--- delete
+  CTX< ...Math- Mathlib lane: ImageBound, CovarianceOrdering, EntrywiseCovarianceBound,
+  OLD:  ReferenceCovarianceLowerBound, ConeMomentD2Identity,
+  NEW: 
+  CTX>  CoefficientEnclosure, ReferenceComparison remain the targets of...
+--- replace
+  CTX< ...IsUnitTuple, NegDefCone are vocabulary, not targets); 
+  OLD: every
+  NEW: the
+  CTX>  theorem of this row has a...
+--- replace
+  CTX< ...NegDefCone are vocabulary, not targets); every 
+  OLD: theorem
+  NEW: 2 theorems
+  CTX>  of this row has a hosted...
+--- replace
+  CTX< ...targets); every theorem of this row 
+  OLD: has
+  NEW: added after PR head be014794 (Side24Covariance.referenceCovarianceLowerBound, Side24ConeMoment.coneMomentD2Identity) await the next hosted lean-specification-proofs.yml run, their first receipt; the other theorems of this row have
+  CTX>  a hosted receipt: the 12 added...
+--- replace
+  CTX< ...with base 79731b961fac555f33be3cd90e379b246a5a80e3; receipt theorem_count 60); 
+  OLD: every theorem
+  NEW: each
+  CTX>  of this row receipted on PR...
+--- replace
+  CTX< ...receipt theorem_count 60); every theorem of 
+  OLD: this
+  NEW: those
+  CTX>  row receipted on PR head 48bfcbae...
+--- replace
+  CTX< ...theorem_count 60); every theorem of this 
+  OLD: row
+  NEW: 17 theorems
+  CTX>  receipted on PR head 48bfcbae by...
+--- replace
+  CTX< ...proved in round 4 (see entries); 
+  OLD: ReferenceCovarianceLowerBound PROVABLE_WITH_WORK (weeks);
+  NEW: ReferenceCovarianceLowerBound,
+  CTX>  ConeMomentD2Identity PROVABLE_WITH_WORK (weeks); ImageBound BLOCKED_MISSING_MATHLIB (weeks;...
+--- replace
+  CTX< ...entries); ReferenceCovarianceLowerBound PROVABLE_WITH_WORK (weeks); ConeMomentD2Identity PROVABLE_WITH_WORK 
+  OLD: (weeks);
+  NEW: (weeks): proved in round 5 (2026-10-12; see entries, no hosted receipt yet);
+  CTX>  ImageBound BLOCKED_MISSING_MATHLIB (weeks; missing at Mathlib...
+--- insert
+  CTX< ...moment is a given field; ConeMomentD2Identity 
+  OLD: 
+  NEW: now has a theorem for every inhabitant of ConeMomentInterface, with no hosted receipt yet, but no inhabitant is constructed and its laws are not derived as the conditional law A | V = 0 of the reference field, so D_2 is not identified with the parent's cone moment D_u of (15.1) 
+  CTX> for the reference law under ConeMomentInterface ...
+--- replace
+  CTX< ...given field; ConeMomentD2Identity for the reference 
+  OLD: law under ConeMomentInterface is the open Rayleigh-integration step).
+  NEW: law).
+  CTX>  Proof packet README: for the Props...
+--- insert
+  CTX< ...and are superseded by their theorems; 
+  OLD: 
+  NEW: for ReferenceCovarianceLowerBound and ConeMomentD2Identity, proved in round 5 (no hosted receipt yet), the README's PROVABLE_WITH_WORK (weeks) reasons are superseded by their theorems (the ReferenceCovarianceLowerBound lane records that the order-five peeling step and the Matrix.posSemidef_iff_dotProduct_mulVec route the README named are not load-bearing); 
+  CTX> the reasons for ImageBound, CovarianceOrdering, EntrywiseCovarianceBound, ...
+--- delete
+  CTX< ... the reasons for ImageBound, CovarianceOrdering, EntrywiseCovarianceBound,
+  OLD:  ReferenceCovarianceLowerBound, ConeMomentD2Identity,
+  NEW: 
+  CTX>  CoefficientEnclosure and ReferenceComparison stand (for the...
+--- replace
+  CTX< ...Side24 statements, in particular of the 
+  OLD: 17
+  NEW: 19
+  CTX>  Props of this row that have...
+--- replace
+  CTX< ...N(0, 5/3), x, y ~ N(0, 
+  OLD: 1)).
+  NEW: 1); ReferenceCovarianceLowerBound with the Section 3 display C_ref >= I/3, with Mathlib's Matrix.PosSemidef, IsHermitian included, read as the source's order).
+  CTX> ...
+====================================================================================================
+claims/2/kernel_evidence/0/note
+--- replace
+  CTX< ...proof packet's check.py (source mode SOURCE_CHECK_PASS: 
+  OLD: 73
+  NEW: 75
+  CTX>  inventory theorems over SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean, 72 distinct...
+--- replace
+  CTX< ...mode SOURCE_CHECK_PASS: 73 inventory theorems over 
+  OLD: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean,
+  NEW: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean,
+  CTX>  72 distinct registered Props, each theorem...
+--- replace
+  CTX< ...SOURCE_CHECK_PASS: 73 inventory theorems over SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean, 
+  OLD: 72
+  NEW: 74
+  CTX>  distinct registered Props, each theorem typed...
+====================================================================================================
+claims/5/kernel_evidence/1/note
+--- replace
+  CTX< ...proof packet's check.py (source mode SOURCE_CHECK_PASS: 
+  OLD: 73
+  NEW: 75
+  CTX>  inventory theorems over SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean, 72 distinct...
+--- replace
+  CTX< ...mode SOURCE_CHECK_PASS: 73 inventory theorems over 
+  OLD: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean,
+  NEW: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean,
+  CTX>  72 distinct registered Props, each theorem...
+--- replace
+  CTX< ...SOURCE_CHECK_PASS: 73 inventory theorems over SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean, 
+  OLD: 72
+  NEW: 74
+  CTX>  distinct registered Props, each theorem typed...
+====================================================================================================
+claims/6/kernel_evidence/1/note
+--- replace
+  CTX< ...proof packet's check.py (source mode SOURCE_CHECK_PASS: 
+  OLD: 73
+  NEW: 75
+  CTX>  inventory theorems over SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean, 72 distinct...
+--- replace
+  CTX< ...mode SOURCE_CHECK_PASS: 73 inventory theorems over 
+  OLD: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean,
+  NEW: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean,
+  CTX>  72 distinct registered Props, each theorem...
+--- replace
+  CTX< ...SOURCE_CHECK_PASS: 73 inventory theorems over SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean, 
+  OLD: 72
+  NEW: 74
+  CTX>  distinct registered Props, each theorem typed...
+====================================================================================================
+claims/7/kernel_evidence/1/note
+--- replace
+  CTX< ...proof packet's check.py (source mode SOURCE_CHECK_PASS: 
+  OLD: 73
+  NEW: 75
+  CTX>  inventory theorems over SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean, 72 distinct...
+--- replace
+  CTX< ...mode SOURCE_CHECK_PASS: 73 inventory theorems over 
+  OLD: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean,
+  NEW: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean,
+  CTX>  72 distinct registered Props, each theorem...
+--- replace
+  CTX< ...SOURCE_CHECK_PASS: 73 inventory theorems over SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean, 
+  OLD: 72
+  NEW: 74
+  CTX>  distinct registered Props, each theorem typed...
+====================================================================================================
+claims/8/kernel_evidence/1/note
+--- replace
+  CTX< ...proof packet's check.py (source mode SOURCE_CHECK_PASS: 
+  OLD: 73
+  NEW: 75
+  CTX>  inventory theorems over SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean, 72 distinct...
+--- replace
+  CTX< ...mode SOURCE_CHECK_PASS: 73 inventory theorems over 
+  OLD: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean,
+  NEW: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean,
+  CTX>  72 distinct registered Props, each theorem...
+--- replace
+  CTX< ...SOURCE_CHECK_PASS: 73 inventory theorems over SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean, 
+  OLD: 72
+  NEW: 74
+  CTX>  distinct registered Props, each theorem typed...
+====================================================================================================
+claims/16/not_established
+--- replace
+  CTX< ...arithmetic theorems of main and the 
+  OLD: 17
+  NEW: 19
+  CTX>  proof-packet theorems of the landing row...
+--- replace
+  CTX< ...Side24Analysis.referencePinDensityProduct, Side24Analysis.integrandRatioBounds, Side24Analysis.latticeImageSumBound, Side24Analysis.densityComparison, Side24Interfaces.coneMomentD1Identity, Side24Interfaces.traceMoments, 
+  OLD: Side24Interfaces.rayleighSquareLaw;
+  NEW: Side24Interfaces.rayleighSquareLaw, Side24Covariance.referenceCovarianceLowerBound, Side24ConeMoment.coneMomentD2Identity;
+  CTX>  none of them the enclosure; 5...
+--- replace
+  CTX< ...has the same tree as its 
+  OLD: head)
+  NEW: head; 2 of them (Side24Covariance.referenceCovarianceLowerBound, Side24ConeMoment.coneMomentD2Identity) were added after PR head be014794 (the last head with a hosted receipt: run 38187538744, actual tested merge 79d3964cf70e2eadad5c9629eef8f4b47f218dd0 with base 12e072d614dbe6e91b66d22a2ab55cf87860d693, receipt theorem_count 73): locally `lake env lean -DwarningAsError=true` exit 0 and `#print axioms` within {propext, Classical.choice, Quot.sound} on an unverified worktree, not evidence about any commit; the next hosted lean-specification-proofs.yml run is the first receipt for them)
+  CTX>  are listed on the landing row,...
+--- replace
+  CTX< ...interface theorems among them (ConeMomentD1Identity, TraceMoments, 
+  OLD: RayleighSquareLaw)
+  NEW: RayleighSquareLaw, ConeMomentD2Identity)
+  CTX>  hold for every inhabitant of ConeMomentInterface...
+====================================================================================================
+claims/17/kernel_evidence/0/note
+--- replace
+  CTX< ...proof packet's check.py (source mode SOURCE_CHECK_PASS: 
+  OLD: 73
+  NEW: 75
+  CTX>  inventory theorems over SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean, 72 distinct...
+--- replace
+  CTX< ...mode SOURCE_CHECK_PASS: 73 inventory theorems over 
+  OLD: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean,
+  NEW: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean,
+  CTX>  72 distinct registered Props, each theorem...
+--- replace
+  CTX< ...SOURCE_CHECK_PASS: 73 inventory theorems over SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean, 
+  OLD: 72
+  NEW: 74
+  CTX>  distinct registered Props, each theorem typed...
+====================================================================================================
+claims/25/kernel_evidence/1/note
+--- replace
+  CTX< ...proof packet's check.py (source mode SOURCE_CHECK_PASS: 
+  OLD: 73
+  NEW: 75
+  CTX>  inventory theorems over SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean, 72 distinct...
+--- replace
+  CTX< ...mode SOURCE_CHECK_PASS: 73 inventory theorems over 
+  OLD: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean,
+  NEW: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean,
+  CTX>  72 distinct registered Props, each theorem...
+--- replace
+  CTX< ...SOURCE_CHECK_PASS: 73 inventory theorems over SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean, 
+  OLD: 72
+  NEW: 74
+  CTX>  distinct registered Props, each theorem typed...
+====================================================================================================
+claims/26/kernel_evidence/1/note
+--- replace
+  CTX< ...proof packet's check.py (source mode SOURCE_CHECK_PASS: 
+  OLD: 73
+  NEW: 75
+  CTX>  inventory theorems over SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean, 72 distinct...
+--- replace
+  CTX< ...mode SOURCE_CHECK_PASS: 73 inventory theorems over 
+  OLD: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean,
+  NEW: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean,
+  CTX>  72 distinct registered Props, each theorem...
+--- replace
+  CTX< ...SOURCE_CHECK_PASS: 73 inventory theorems over SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean, 
+  OLD: 72
+  NEW: 74
+  CTX>  distinct registered Props, each theorem typed...
+====================================================================================================
+claims/54/kernel_evidence/0/note
+--- replace
+  CTX< ...proof packet's check.py (source mode SOURCE_CHECK_PASS: 
+  OLD: 73
+  NEW: 75
+  CTX>  inventory theorems over SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean, 72 distinct...
+--- replace
+  CTX< ...mode SOURCE_CHECK_PASS: 73 inventory theorems over 
+  OLD: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean,
+  NEW: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean,
+  CTX>  72 distinct registered Props, each theorem...
+--- replace
+  CTX< ...SOURCE_CHECK_PASS: 73 inventory theorems over SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean, 
+  OLD: 72
+  NEW: 74
+  CTX>  distinct registered Props, each theorem typed...

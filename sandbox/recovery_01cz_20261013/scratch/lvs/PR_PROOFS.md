@@ -1,0 +1,41 @@
+## Current disposition
+
+- Head and integration owner: `<<COMMIT>>` on `claude/lean-statement-proofs-20261011`, stacked on `claude/lean-specifications-20261010` (Math- #419); Anthropic / Claude (Claude Code cloud session `session_01Cz7WZybv8znP64SpPj6sWY`), author lane; a non-author lane integrates. Draft. Merge order: #419 first, then this PR retargets to `main`.
+- Claim / handoff: main #307 [6104777138](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6104777138); release with evidence posted there on completion.
+- Completed review scopes and source identities: none yet (author-side; organizational-independence credit 0). Statement alignment of the registered Props: `PENDING_INDEPENDENT_REVIEW` (Math- #419).
+- Unresolved finding IDs: none.
+- Validation: see Evidence; the hosted `lean-specification-proofs` run on this head is the authoritative execution.
+- Next action: hosted checks; then a non-author read of the 38 theorems against their registered Props.
+
+## What this adds
+
+**Scientific effect: NONE.** No `lemma_closed`, prize, premise, LANDING_CLAIMS disposition, PROOF_INDEX, GRAPH or STATUS change; nothing under `formal/**` is touched. A kernel-checked proof of a registered Prop is evidence about that Prop only, never acceptance of the informal claim.
+
+`specifications/lean_statement_proofs_20261011/` — a Lean 4.34.1 + Mathlib `d13f23b7…` package with a path dependency on the statement packet of #419. **38 theorems whose types are exactly registered `def … : Prop` declarations (37 distinct Props), no extra hypotheses, all depending only on `propext`, `Classical.choice`, `Quot.sound`:**
+
+| Module | Theorems | What they prove (as stated in the register) |
+|---|---|---|
+| `P15Elementary` | 15 | the demand-one counterexample Props (`TwoCoordGeneratorPrices`, `DemandOneRefutation`, `DemandOneBoundary`, `LogOnePlusBelowIdentity`, `LogRatioBound`, `CapTestAtTwoThirds`), `RhoStarBelowSixSevenths`, `SixSeventhsCertificate`, `HStarExceedsOne`, `PhiAtPStar`, `HazardStarPositive`, `RatioExponentBound`, `OddMajorityIdentity`, `CapacityWorstCase`, `TriangleNeedsThree` |
+| `P15Structure` | 13 | `MinimalForbiddenCharacterisation` (Proposition P1), `LocalDecomposability`, `LocalObstructionIsFullBlock`, `FullBlockCoverIff` (Theorem P2, display (P7)), `WholeGroundChromaticNumber`, `ElementaryPaletteFormula` (P9), `TriangleNeedsThree`, and the 816-benchmark instance: `Benchmark816IsRealized`, `Benchmark816Palette`, `Benchmark816WholeGround`, `Benchmark816MinimalForbiddenCounts` (P10), `Benchmark816Price`, `Benchmark816RationalPrice` |
+| `Side24Elementary` | 5 | `ExponentialBounds`, `SuccessiveTermRatio`, `ConeMomentD2Algebra`, `ReferenceCoefficientIdentity` (display (1)), `ElementaryConeIntegral` |
+| `RNProbability` | 5 | Theorem N parts `HolderCountBoundN1`, `HolderConsequenceN2`, `ConditionalMeanIdentityN3`, `UniformCounterexampleN4`, `ExponentialTailLayerCakeN5` |
+
+Gate `check.py` (stdlib): identity, lexical refusal of proof escapes, theorem inventory whose types must be registered Props (source scan plus a Lean environment audit in `--execute`), transitive axiom audit, `leanchecker`, negative controls (sorry, custom axiom, unregistered type, smuggled hypothesis, false statement), receipt (`proved` at source, `kernel-checked` only in the receipt). 69 unit tests in both Python modes. `.github/workflows/lean-specification-proofs.yml` (pinned lean-action with the Mathlib cache; the statement packet builds from source as the path dependency).
+
+**Register update** (`specifications/lean_statements_20261010/{REGISTER.json,README.md,SCOPE.md}`): +45 `proved` statement entries for these theorems and +41 for the 28 main P15 arithmetic theorems of main #358 at `91cffbb5` (hosted run 38096827443), each with the hosted-evidence note; statement entries 228 → 314. Claim-level labels unchanged (171 claims: 33 `specified`, 138 `none`, 0 `proved`). One candidate is recorded for the operator and deliberately not relabelled: `DemandOneRefutation`, the Prop the register names as stating claim `p15-price-boundary`, is now proved as stated.
+
+## Not established
+
+Any informal theorem's acceptance; the alignment of any Prop with its source (pending independent review); `Benchmark816UnionBound` and `CoverCostHazardBound` (out of time, believed provable), `TraceMoments`, `ReferenceOddAndPinBlocks`, `DerivativeBoundAtZero`, `LatticeImageSumBound` (need Gaussian-moment, iterated-Fréchet-derivative and lattice-sum lemmas Mathlib lacks), the 20-digit `RhoStarEnclosure`, Theorems F/T1 as wholes, and every analytic parent. The obstacles are recorded per target in the packet README.
+
+## Evidence
+
+- Every module elaborates with `-DwarningAsError=true`; `#print axioms` of all 38 theorems: `[propext, Classical.choice, Quot.sound]`; `lake build` of the packet against the pinned Mathlib succeeds locally.
+- `check.py` source mode: SOURCE_CHECK_PASS at `<<COMMIT>>` (clean worktree); `test_check.py` 69 OK in normal and -O modes; statement packet `check.py` SOURCE_CHECK_PASS and its 97 tests OK after the register update.
+- `leanchecker` over the full Mathlib environment cannot run in this sandbox (killed at its 13.5 GB limit, as for #419); the hosted workflow run is the authoritative execution.
+
+Companion PRs: statements Math- #419 (base of this PR); main #358 (environment specification and the 28 P15 arithmetic targets).
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+https://claude.ai/code/session_01Cz7WZybv8znP64SpPj6sWY

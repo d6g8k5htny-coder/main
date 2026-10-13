@@ -1,0 +1,23 @@
+...E....F...
+======================================================================
+ERROR: test_historical_snapshot_ignores_unrelated_working_tree_append (test_museum_data.MuseumDataTests.test_historical_snapshot_ignores_unrelated_working_tree_append)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/museum/probes/verify_membership_0/q3f3/wt_B/tests/test_museum_data.py", line 118, in test_historical_snapshot_ignores_unrelated_working_tree_append
+    subprocess.run(["git", "add", "STATUS.md"], cwd=checkout,
+  File "/usr/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['git', 'add', 'STATUS.md']' returned non-zero exit status 128.
+
+======================================================================
+FAIL: test_plain_fixture_directory_does_not_bypass_byte_verification (test_museum_data.MuseumDataTests.test_plain_fixture_directory_does_not_bypass_byte_verification)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/museum/probes/verify_membership_0/q3f3/wt_B/tests/test_museum_data.py", line 140, in test_plain_fixture_directory_does_not_bypass_byte_verification
+    with self.assertRaisesRegex(ValueError, "identity mismatch"):
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.030s
+
+FAILED (failures=1, errors=1)

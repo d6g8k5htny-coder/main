@@ -1,0 +1,17 @@
+import Mathlib
+#print Matrix.PosSemidef
+#check @Matrix.PosSemidef.isHermitian
+#check @Matrix.IsHermitian.sub
+#check @Matrix.IsHermitian.add
+#check @Matrix.IsHermitian.smul
+#check @Matrix.isHermitian_one
+#check @sq_sum_le_card_mul_sum_sq
+#check @Finset.inner_mul_le_norm_mul_norm
+#check @ContinuousLinearMap.iteratedFDeriv_comp_right
+#check @Equiv.tsum_eq
+#check @Fintype.card_subtype_le
+#check @finRotate
+#check @coe_finRotate
+#check @Matrix.dotProduct_mulVec
+#check @Matrix.mulVec
+#check @dotProduct

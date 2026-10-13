@@ -1,0 +1,858 @@
+# C254 torus quotient and closed-superlevel filtration, with the C263 strict-cut and C264 ordinary-H0 modules (isolated Lean companion)
+
+Dylan Roy — delegated AI work. Source authors: OpenAI/Codex lanes (C254 for `TorusTopology` and
+`ClosedSuperlevel`; C263 for `SuperlevelBar`; C264 for `OrdinaryH0`). Compile fixes, the C264
+owner repair, the owner-authored controls module `OrdinaryH0Controls` (C264 owner task item 4)
+and the companion: Anthropic/Claude lane. Scientific effect **NONE**.
+Organizational-independence credit **0** for every lane; no human review. Alignment status
+`PENDING_INDEPENDENT_REVIEW`. The two C26x modules are registered here as compiled successors
+under the handoffs' own **FORMAL HOLD** (see [C263 and C264 registration](#c263-and-c264-registration-2026-10-11)).
+That hold rests on the handoffs' own listed conditions (Math- #428 comments 6113033545 item 4,
+6113372506 and 6113277485 item 5), among them a distinct review of the source-bound execution
+output and source-bound hosted evidence and custody; the handoffs say a source review alone does
+not meet them. Since 2026-10-12 01:32Z a nonauthor exact-source review of the compiled successors
+exists, source-scoped only (Math- #428 review 5485883117, PASS source-scoped for each module): its
+reviewer did not run Lean and keeps Lean execution as an open condition under FORMAL HOLD, and it
+states no organizational-independence credit and was posted from the same project account. The
+engineering registration readback 5485829137 (01:16Z, PASS, identity and registration only)
+records credit 0. FORMAL HOLD is unchanged:
+its disposition is for the C263/C264 handoff owners, not this companion, and alignment still needs a
+reviewer with nonzero organizational-independence credit.
+`OrdinaryH0Controls` is not a review and lifts nothing (see
+[C264 owner task item 4 controls](#c264-owner-task-item-4-controls-2026-10-12)).
+Nothing here promotes, discharges or reclassifies any claim.
+
+## Purpose and route rationale
+
+The C254 handoff (claim `8a5c7a24-784b-4aaa-b951-cd9f37b0dc64`, Math- PR #419) proposed two
+Lean modules, `TorusTopology.lean` and `ClosedSuperlevel.lean`, as **NOT_COMPILED** source under
+namespace `ResearchFormalCoreR1`, intended for `formal/`. The handoff's own nonauthor source
+review (comment 6111059498) ended in **COMPILATION HOLD**: no known required correction, but no
+elaboration either. The local elaboration report (6111093545) then observed the first real
+elaboration failures at the pin (`Basis` is `Module.Basis` at Mathlib `d13f23b7`, among others).
+
+Placing the modules in `formal/` would change the whole `formal/` tree. The three D2 companions
+(`companions/d2_*_20261006`) pin that tree at `38b6d1a7746075b560349d184a461933745c11ce`, the
+primary manifest at SHA-256 `40cb6ffc…` and the gate at `278989bb…`; any change there is a new
+review scope for all three. The C255 route finding (6111255007) therefore recommended an
+isolated companion. This directory is that companion:
+
+- it holds the compile-fixed modules and the owner-authored controls module under namespace
+  `TorusFiltration` and a five-line root module (`import TorusTopology`, `import ClosedSuperlevel`,
+  `import SuperlevelBar`, `import OrdinaryH0`, `import OrdinaryH0Controls`, in dependency order; the
+  two C26x modules joined on 2026-10-11, the controls module on 2026-10-12);
+- it compiles them against the **same** pinned toolchain and dependency lock as `formal/`
+  (`formal/lean-toolchain`, `formal/lakefile.toml`, `formal/lake-manifest.json`), which it reads
+  but never edits;
+- it consumes nothing from the core: no import of `ResearchFormalCoreR1`, no pin on the core
+  tree, manifest or gate, and its replay runs neither `formal/gate.py` nor the formal tests.
+
+## Bound sources
+
+| Item | Identity |
+|---|---|
+| Claim | `8a5c7a24-784b-4aaa-b951-cd9f37b0dc64` (R17 Work Events 1559) |
+| Handoff | Math- PR #419, comments 6111056103 (modules), 6111059166 (overlay), 6111059498 (nonauthor source review, COMPILATION HOLD), 6111059848 (implementer report), 6111255007 (C255 route finding: D2 pins, companion route) |
+| This lane | local elaboration report 6111093545; pickup 6111139060 |
+| Original `TorusTopology.lean` (NOT_COMPILED) | SHA-256 `efa80d2879758b6d6473a0024a308ff758c308cdc8e4b5f400f39dde63a7f6f4`, 11542 bytes |
+| Original `ClosedSuperlevel.lean` (NOT_COMPILED) | SHA-256 `1fed3edada12b4dc7f5fcf874dae7ccde5d8f65af63cf103159debe58ba6789e`, 7827 bytes |
+| Namespace mapping | `ResearchFormalCoreR1.<n>` (handoff) -> `TorusFiltration.<n>` (companion); no other name changes. `SuperlevelBar` and `OrdinaryH0` were authored directly in namespace `TorusFiltration`, and so was the owner-authored `OrdinaryH0Controls` |
+| C263 handoff `SuperlevelBar.lean` (failed at the pin with warnings as errors) | SHA-256 `d74dc8b2c25eff5b90ce7133e51a0888c7885cae24ca6d5e648bc514089637a8`, 14904 bytes; Math- PR #428 comments 6113033147 (source), 6113033351 (nonauthor source review), 6113033545 (final handoff audit and owner task: 28/28 static checks, formal acceptance HOLD); allocation PR #419 comment 6112439759; this lane's compile report 428/6113229784 |
+| Registered `SuperlevelBar.lean` (successor) | SHA-256 `346eea948e18d5904422904006827930e27d3141ccbc19ee8ac2c24bcf65a4a9`, 15309 bytes; imports `Mathlib` only |
+| C264 handoff `OrdinaryH0.lean` (failed at the pin with warnings as errors) | SHA-256 `261dd0526d42890d8a4ac1225fcf47228eb3c9799af4106cb643a528bcbf968e`, 18469 bytes; Math- PR #428 comments 6113276830 (source, delivery 1/3), 6113277173 (nonauthor source review, 2/3), 6113277485 (verification and owner task, 3/3); this lane's failed-compile record 428/6113300903; owner repair handoff 428/6113372506; this lane's repair report with the full diff 428/6113438262 |
+| Registered `OrdinaryH0.lean` (successor) | SHA-256 `3d6b0d6b53413c484b1d010bccf0d53ae7f75becb2d747868f22dbd673fe0a88`, 19803 bytes; imports `Mathlib` and `ClosedSuperlevel` |
+| Owner-authored `OrdinaryH0Controls.lean` (C264 owner task item 4; no handoff bytes, not a successor) | SHA-256 `df9d3645282ca526b67eca3d5db691b622092a14b5fddee9be21013e39666184`, 29590 bytes; imports `Mathlib` and `OrdinaryH0`; Math- PR #428 comments 6113277485 (C264 owner task, item 4) and 6113277173 (the corrected CONTROL_OBLIGATIONS it instantiates); author: Anthropic/Claude lane |
+| Toolchain | `leanprover/lean4:v4.34.1`, release commit `5045d0056413266e57c625dcd7c365b10e377c52`; Mathlib `d13f23b723b8a846827a245b89c10fc7d3f11612` via `formal/lake-manifest.json` |
+
+`SOURCE_FILES.json` records bytes, SHA-256 and Git blob of every tracked companion file and the
+workflow, the per-module declaration inventory and this provenance. `check.py source` refuses to
+run unless the tracked tree, the working bytes and that manifest agree.
+
+## What the 118 theorems and 35 definitions establish
+
+Topology and scaffolding only: the period-lattice quotient, descent of periodic functions, path
+lifting with an **existential** endpoint, closed superlevel inclusions and their path-component
+and singular-H0 maps (C254); the total strict-clearance set, its real death value with an explicit
+empty-set default of `0`, and the exact strict supremum cut for continuous Euclidean heights (C263);
+and the natural comparison of Mathlib's actual ordinary singular H0 with component-indexed
+coproducts, restricted along the closed-superlevel filtration (C264); and fixtures that apply
+seven of the 20 C264 theorems, neither naturality theorem among them, to named spaces and
+coefficient modules, every premise proved inside the fixture (`OrdinaryH0Controls`,
+owner-authored for C264 owner task item 4). The sources label these
+`proved`; the hosted receipt may call them `kernel-checked`; neither label is alignment or
+acceptance. 153 declarations in all: 21 + 20 + 20 + 20 + 37 theorems, 6 abbrevs, 26 defs, 3 instances.
+
+### `TorusTopology` (21 theorems; 2 abbrevs, 6 defs, 3 instances)
+
+| Theorem | What it states |
+|---|---|
+| `torus_field_latticeVec_formula` | `torus_latticeVec d L n` is literally `∑ i, EuclideanSpace.single i (L * n i)` (by `rfl`) |
+| `torus_basis_sum_eq_latticeVec` | the integer combination of the `L`-scaled standard basis equals that lattice vector |
+| `torus_lattice_mem_iff` | lattice membership iff some integer vector produces the point |
+| `torus_proj_surjective`, `torus_proj_continuous` | the quotient projection is surjective and continuous |
+| `torus_proj_eq_iff` | equal images iff `y = x + torus_latticeVec d L n` (orientation fixed) |
+| `torus_control_lattice_translate` | control: a lattice translate has the same image |
+| `torus_proj_isCoveringMap` | the projection is a covering map |
+| `torus_compact` | `IsCompact (Set.univ : Set (torus_quotient d L hL))`; not a registered `CompactSpace` instance |
+| `torus_pathConnectedSpace` | the quotient is path connected |
+| `torus_field_periodic_formula` | the periodicity predicate is literally the Field formula (`Iff.rfl`) |
+| `torus_periodic_respects` | a periodic function respects the quotient relation |
+| `torus_descend_proj` | descent composed with projection is the function (`rfl`) |
+| `torus_descend_continuous` | the descended function is continuous when `g` is |
+| `torus_path_lift_from` | a quotient path from `proj M` lifts to a path from `M`; the endpoint `z` is existential, with `proj z` the path's endpoint |
+| `torus_control_constant_path_endpoint` | control: a lift of a constant projected path from `M` ends at `M` |
+| `torus_control_no_arbitrary_endpoint` | control: a nonzero lattice translate shares the image yet no lift of the constant path ends there |
+| `torus_higher_path_iff` | a strictly higher endpoint reached by a path whose heights satisfy a predicate `P` exists in `E` iff it exists in the quotient for the descended function |
+| `torus_strict_higher_path_iff`, `torus_closed_higher_path_iff` | the same with `h < g` and `h ≤ g` |
+| `torus_global_max_iff` | `M` is a global maximum of `g` iff `proj M` is one of the descended function |
+
+### `ClosedSuperlevel` (20 theorems; 6 defs)
+
+`superlevel_set g t = {x | -t ≤ g x}`, parameter `t = -h`, endpoint membership with `≤`.
+
+| Theorem | What it states |
+|---|---|
+| `superlevel_control_closed_endpoint`, `superlevel_control_strict_endpoint` | the threshold point belongs to the closed level; the strict inequality fails there |
+| `superlevel_control_parameter_sign`, `superlevel_control_inclusion_direction` | height `0` lies in `F(1)`; `F(1) ⊄ F(-1)` for the constant `0` |
+| `superlevel_control_essential` | a global maximum has no strictly higher endpoint |
+| `superlevel_mono` | `s ≤ t → F(s) ⊆ F(t)` |
+| `superlevel_isClosed` | `F(t)` is closed when `g` is continuous |
+| `superlevel_inclusion_id`, `superlevel_inclusion_comp` | the continuous inclusions satisfy the identity and composition laws |
+| `superlevel_mem_at_own_height` | `x ∈ F(-g x)`; point membership, not component birth |
+| `superlevel_neg_height` | `F(-h) = {x | h ≤ g x}` |
+| `superlevel_control_strict_thresholds` | scalar control: below `0` there are intermediate witnesses; no `k` with `0 ≤ k < 0` |
+| `superlevel_componentMap_mk`, `superlevel_componentMap_id`, `superlevel_componentMap_comp` | the induced map on `ZerothHomotopy` acts on representatives and is functorial |
+| `superlevel_componentInclusion_id`, `superlevel_componentInclusion_comp` | the induced component inclusions are functorial |
+| `superlevel_component_eq_iff_joinedIn` | equal path components iff `JoinedIn` the closed superlevel |
+| `superlevel_h0Filtration_map_id`, `superlevel_h0Filtration_map_comp` | functor laws of the singular-H0 filtration; they put the H0 definition into the axiom audit |
+
+### `SuperlevelBar` (20 theorems; 1 abbrev, 3 defs) — C263 total strict-clearance cut
+
+`superlevelBar_E d = EuclideanSpace ℝ (Fin d)`; `superlevelBar_isEssential g M := ∀ y, g y ≤ g M`;
+`superlevelBar_clearanceSet g M = {h | ∃ y, g M < g y ∧ ∃ γ : Path M y, ∀ t, h < g (γ t)}` (strict
+at every parameter, endpoints included); `superlevelBar_deathHeight g M` is `sSup` of that set when
+it is nonempty and the declared default `0` otherwise. The source's own docstring: the scalar zero
+on an empty set is a default, not an essential-bar death.
+
+| Theorem | What it states |
+|---|---|
+| `superlevelBar_essential_iff` | essentiality is exactly `∀ y, g y ≤ g M` (`Iff.rfl`) |
+| `superlevelBar_mem_lt_start` | every clearance member is strictly below the start height `g M` (the path at `0`) |
+| `superlevelBar_clearance_bddAbove` | the clearance set is bounded above by `g M`, including when empty |
+| `superlevelBar_clearance_empty_of_essential` | an essential `M` has empty clearance set |
+| `superlevelBar_death_eq_zero_of_empty`, `superlevelBar_death_eq_zero_of_essential` | an empty clearance set, hence an essential input, selects the declared default `0` |
+| `superlevelBar_death_eq_sSup_of_nonempty` | a nonempty clearance set selects its real supremum (the compile-fixed proof: `ite_eq_left`) |
+| `superlevelBar_path_minimum` | a continuous height attains a minimum along each path (compact unit interval) |
+| `superlevelBar_clearance_nonempty`, `superlevelBar_clearance_nonempty_iff` | for continuous `g`, the clearance set is nonempty exactly off the essential locus (`Path.segment`, minimum minus one) |
+| `superlevelBar_clearance_downward` | any threshold below a clearance is a clearance (same endpoint and path) |
+| `superlevelBar_clearance_improve` | each strict witness has a strictly larger witness on its own path (midpoint below the attained minimum) |
+| `superlevelBar_strict_cut` | for continuous nonessential inputs, `h < death ↔ h ∈ clearance` |
+| `superlevelBar_death_le_start_of_nonempty`, `superlevelBar_death_le_start` | death `≤ g M` when the clearance set is nonempty, hence for continuous nonessential inputs |
+| `superlevelBar_clearance_eq_Iio` | on that locus the clearance set is `Set.Iio death` |
+| `superlevelBar_death_not_mem_clearance` | death is not itself a strict clearance |
+| `superlevelBar_cut_unique` | a real with the same strict cut equals the death height |
+| `superlevelBar_death_const` | a constant height has death `0` at every point |
+| `superlevelBar_control_negative_essential` | control: the constant `-1` has death `0` and `¬ 0 ≤ -1`, so the death/start bound does not hold on the essential default branch |
+
+### `OrdinaryH0` (20 theorems; 7 defs) — C264 actual ordinary singular H0 and path components
+
+The homology objects and maps are Mathlib's `singularHomologyFunctor C 0`; the comparison is
+Mathlib's objectwise `TopCat.singularHomology₀Iso`, whose naturality is proved here from actual
+zero-cycle generators. Definitions: `ordinaryH0_componentFunctor : TopCat ⥤ Type` (objects
+`ZerothHomotopy X`, maps `superlevel_componentMap`); `ordinaryH0_componentCoproductFunctor R`
+(that functor followed by `sigmaConst.obj R`); `ordinaryH0_componentFiltration g R`
+(`superlevel_filtration g` followed by it); `ordinaryH0_simplicialPointClass S R x : R ⟶ S.homology R 0`
+(the chain generator of a zero-simplex, lifted through the zero differential, then its class);
+`ordinaryH0_pointClass X R x` (the same for the singular zero-simplex of a point);
+`ordinaryH0_naturalIso R : (singularHomologyFunctor C 0).obj R ≅ ordinaryH0_componentCoproductFunctor R`;
+`ordinaryH0_filtrationIso g R : superlevel_h0Filtration g R ≅ ordinaryH0_componentFiltration g R`
+(`Functor.isoWhiskerLeft`). The coefficient object lives in an arbitrary preadditive category with
+the required coproducts and homology; the nonzero/distinction statements require `𝟙 R ≠ 0`.
+
+| Theorem | What it states |
+|---|---|
+| `ordinaryH0_componentCoproductMap_iota` | `Sigma.ι q ≫ (coproduct functor).map f = Sigma.ι (superlevel_componentMap f.hom q)` |
+| `ordinaryH0_componentFiltration_map_iota` | the same for a closed-superlevel inclusion `homOfLE hst`, through `superlevel_componentInclusion` |
+| `ordinaryH0_simplicialPointClass_iso` | the simplicial point class composed with `S.homology₀Iso R` is the generator at `SSet.π₀.mk x` |
+| `ordinaryH0_simplicialPointClass_map` | the actual simplicial homology map carries a point class to the point class of the image simplex |
+| `ordinaryH0_toSSet_pointMap` | the singular zero-simplex of `x` maps to that of `f x` (`rfl`) |
+| `ordinaryH0_pointClass_map` | the induced singular-H0 map carries `pointClass x` to `pointClass (f x)` |
+| `ordinaryH0_pointClass_iso`, `ordinaryH0_componentIota_isoInv` | `pointClass x ≫ (singularHomology₀Iso X R).hom = Sigma.ι (ZerothHomotopy.mk x)`, and the inverse form |
+| `ordinaryH0_hom_ext` | two morphisms out of singular H0 agree if they agree on every point class |
+| `ordinaryH0_iso_naturality` | the objectwise comparison isomorphism commutes with every continuous map (the repaired proof: explicit `rw`/`erw` reassociation of both sides) |
+| `ordinaryH0_pointClass_augmentation` | `pointClass x ≫ singularHomology₀ε X R = 𝟙 R`: the ordinary point class is retained, not killed |
+| `ordinaryH0_pointClass_ne_zero` | `pointClass x ≠ 0` when `𝟙 R ≠ 0` |
+| `ordinaryH0_pointClass_eq_of_component_eq`, `ordinaryH0_sameComponent_difference_zero` | points of one path component have equal point classes; their difference is `0` (any coefficients) |
+| `ordinaryH0_pointClass_ne_of_component_ne`, `ordinaryH0_pointClass_eq_iff` | with `𝟙 R ≠ 0`, point classes are equal exactly when the path components are |
+| `ordinaryH0_difference_map`, `ordinaryH0_difference_map_eq_zero_iff` | the induced map of a difference is the difference of image classes; with `𝟙 R ≠ 0` it vanishes exactly when the image points share a component |
+| `ordinaryH0_filtration_naturality` | the H0/component square at every ordered closed-superlevel inclusion `s ≤ t` |
+| `ordinaryH0_filtration_difference_zero_iff_joinedIn` | under a closed-superlevel inclusion the difference of two point classes vanishes exactly when the points are `JoinedIn` the target closed superlevel (`𝟙 R ≠ 0`) |
+
+### `OrdinaryH0Controls` (37 theorems; 3 abbrevs, 4 defs) — C264 owner task item 4: instantiated ordinary-H0 controls
+
+Owner-authored by this lane against the registered `OrdinaryH0` successor (it imports `Mathlib` and
+`OrdinaryH0`); not a handoff module and not a review. Universe 0 throughout: spaces in `TopCat.{0}`,
+coefficients in `ModuleCat.{0} ℤ`. Every premise is proved inside the fixture (nonzero identities,
+the zero identity of the zero module, explicit paths, discrete separations, image-component
+equalities and separations, the absence of a path through `0`); no hypothesis, compatibility field
+or axiom states a naturality, merger or separation fact. The thirteen premise lemmas (coefficient
+identities, the empty space's lack of components, explicit paths, discrete separations, the parabola
+levels) are about the fixtures alone and are proved directly, naming no C264 theorem. The other 24
+theorems concern C264's point classes, its natural isomorphism and its component coproduct (or
+Mathlib's H0 through them) on cases whose answer is known independently; fourteen of them apply one
+of the C264 theorems above by name, seven distinct ones (`ordinaryH0_pointClass_augmentation`,
+`ordinaryH0_pointClass_ne_zero`, `ordinaryH0_sameComponent_difference_zero`,
+`ordinaryH0_pointClass_ne_of_component_ne`, `ordinaryH0_pointClass_map`,
+`ordinaryH0_difference_map_eq_zero_iff`, `ordinaryH0_filtration_difference_zero_iff_joinedIn`); the
+module names no other C264 theorem.
+
+| Declarations | What they state |
+|---|---|
+| `ordinaryH0Control_intCoeff`, `ordinaryH0Control_zeroCoeff`, `ordinaryH0Control_mod2Coeff` (abbrevs) | the coefficient objects `ℤ`, the one-point module `PUnit` and `ZMod 2`, each as an object of `ModuleCat.{0} ℤ` |
+| `ordinaryH0Control_intCoeff_id_ne_zero`, `ordinaryH0Control_mod2Coeff_id_ne_zero`, `ordinaryH0Control_mod2Coeff_id_add_self` | `𝟙 R ≠ 0` for `ℤ` and for `ZMod 2` (evaluation at `1`); `𝟙 + 𝟙 = 0` on `ZMod 2`, the characteristic-two object |
+| `ordinaryH0Control_zeroCoeff_isZero`, `ordinaryH0Control_zeroCoeff_id_eq_zero` | the one-point module is a zero object, and its identity is the zero morphism |
+| `ordinaryH0Control_empty_components`, `ordinaryH0Control_empty_componentCoproduct_isZero`, `ordinaryH0Control_empty_h0_isZero` | empty space: no path component; its component coproduct is a zero object for every coefficient module; actual singular H0 with `ℤ` coefficients is a zero object (transported along `ordinaryH0_naturalIso`) |
+| `ordinaryH0Control_zeroCoeff_componentCoproduct_isZero`, `ordinaryH0Control_zeroCoeff_h0_isZero` | with zero coefficients the component coproduct and actual singular H0 of every space in `TopCat.{0}` are zero objects |
+| `ordinaryH0Control_point_augmentation`, `ordinaryH0Control_point_ne_zero`, `ordinaryH0Control_point_h0_not_isZero` | one-point space with `ℤ` coefficients: the point class augments to `𝟙`, is nonzero, and H0 is not a zero object (ordinary, not reduced, H0) |
+| `ordinaryH0Control_line_component_eq`, `ordinaryH0Control_line_difference_zero_int`, `ordinaryH0Control_line_difference_zero_zeroCoeff`, `ordinaryH0Control_line_classes_ne_zero` | `0` and `1` share a path component of `ℝ` (the path `t ↦ t`); the difference of their point classes is `0` with `ℤ` and with zero coefficients; with `ℤ` each of the two classes is nonzero |
+| `ordinaryH0Control_discrete_component_ne`, `ordinaryH0Control_bool_component_ne` | distinct points of a discrete space lie in distinct path components (a path into a discrete space is constant); so do `true` and `false` in `Bool` |
+| `ordinaryH0Control_bool_pointClass_ne`, `ordinaryH0Control_bool_pointClass_ne_mod2` | the two point classes of `Bool` differ with `ℤ` and with `ZMod 2` coefficients |
+| `ordinaryH0Control_collapse` (def), `ordinaryH0Control_collapse_difference_zero`, `ordinaryH0Control_collapse_image_ne_zero`, `ordinaryH0Control_collapse_difference_dies_classes_survive` | merger: the collapse `Bool → Unit` kills the difference of the two point classes while each image class stays nonzero |
+| `ordinaryH0Control_fst` (def), `ordinaryH0Control_square_differences_ne_zero`, `ordinaryH0Control_fst_difference_zero`, `ordinaryH0Control_fst_difference_ne_zero` | the non-injective first projection `Bool × Bool → Bool`: before the map both differences below are nonzero; it kills the difference of the classes of `(true, false)` and `(true, true)` (same image) and keeps that of `(true, false)` and `(false, true)` nonzero (images in distinct components) |
+| `ordinaryH0Control_bool_zeroCoeff_eq`, `ordinaryH0Control_point_zeroCoeff_eq_zero`, `ordinaryH0Control_separation_needs_nonzero`, `ordinaryH0Control_nonvanishing_needs_nonzero` | zero coefficients: the two point classes of `Bool` are equal although their components differ, and the point class of the one-point space is `0`; hence the separation and nonvanishing statements are false once `𝟙 R ≠ 0` is deleted (the C264 statements keep that hypothesis) |
+| `ordinaryH0Control_parabolaLeft`, `ordinaryH0Control_parabolaRight` (defs), `ordinaryH0Control_parabola_le`, `ordinaryH0Control_parabola_strict_growth`, `ordinaryH0Control_parabola_not_joined_quarter`, `ordinaryH0Control_parabola_joined`, `ordinaryH0Control_parabola_difference_zero`, `ordinaryH0Control_parabola_strict_difference_ne_zero` | closed superlevels of `x ↦ x ^ 2`: the points `-1` and `1` of the level at parameter `-1`; the strict inclusion into the level at `-1/4` (which gains `1/2`) keeps the difference of their classes nonzero, since no path joins them in `{x | 1/4 ≤ x ^ 2}` (intermediate value theorem through `0`); the inclusion into the level at `0`, the whole line, kills it |
+
+Audited definitions: `torus_E`, `torus_quotient` (abbrev); `torus_latticeVec`, `torus_periodBasis`,
+`torus_periodLattice`, `torus_proj`, `torus_isPeriodic`, `torus_descend`; instances
+`torus_lattice_discrete`, `torus_lattice_addSubgroup_discrete`, `torus_lattice_isZLattice`;
+`superlevel_set`, `superlevel_inclusion`, `superlevel_componentMap`, `superlevel_componentInclusion`,
+`superlevel_filtration`, `superlevel_h0Filtration`; `superlevelBar_E` (abbrev), `superlevelBar_isEssential`,
+`superlevelBar_clearanceSet`, `superlevelBar_deathHeight`; `ordinaryH0_componentFunctor`,
+`ordinaryH0_componentCoproductFunctor`, `ordinaryH0_componentFiltration`, `ordinaryH0_simplicialPointClass`,
+`ordinaryH0_pointClass`, `ordinaryH0_naturalIso`, `ordinaryH0_filtrationIso`; `ordinaryH0Control_intCoeff`,
+`ordinaryH0Control_zeroCoeff`, `ordinaryH0Control_mod2Coeff` (abbrev), `ordinaryH0Control_collapse`,
+`ordinaryH0Control_fst`, `ordinaryH0Control_parabolaLeft`, `ordinaryH0Control_parabolaRight`. Every one of the 153
+declarations is a `#print axioms` target.
+
+## What is NOT established
+
+Copied from the handoff's own exclusions (TORUS_FILTRATION.md, source review F3–F4):
+
+- critical-level attainment: no theorem produces a witness at the critical height; strict
+  thresholds `h < 0` have no witness at `0`, and the path correspondence transfers predicates
+  only;
+- finitely many critical events; compactness plus closedness does not give finitely many path
+  components for an arbitrary continuous height;
+- label tracking, elder events, once-counting;
+- naturality comparing the displayed component maps with singular-H0 generators beyond the
+  functor laws actually proved; (companion note, 2026-10-12, Math- #428 comment 6116225936, not
+  part of the copied exclusion: C254 alone did not establish this; C264's `OrdinaryH0.lean`
+  establishes the stated ordinary-H0 naturality only (`ordinaryH0_iso_naturality`,
+  `ordinaryH0_naturalIso`, `ordinaryH0_filtration_naturality`), and nothing beyond it)
+- any interval decomposition, tameness, finiteness, barcode or endpoint-preserving bar bijection;
+- any identification of `PairLawInterface.p`, or any other interface predicate of C253;
+- smooth quotient charts, Morse index transfer, handle analysis, critical-free band invariance;
+- a compiled theorem naming the externally owned `Specifications.Field` module: the companion
+  carries the literal formulas (`torus_field_latticeVec_formula`, `torus_field_periodic_formula`)
+  and does not import that file.
+
+Copied from the C263 module's own docstrings (`SuperlevelBar.lean`):
+
+- an inhabitant of the separately owned Field or Lifetime record, an elder relation, Morse
+  endpoint attainment, ordinary H0 bar pairing, finite-bar counts, a Gaussian field or weighted
+  law, or scientific acceptance; the scalar zero on an empty set is a default, not an
+  essential-bar death;
+- closed-threshold attainment at the death height (the cut is strict; `superlevelBar_death_not_mem_clearance`
+  says death is not a clearance); a finite death for an essential class; the death/start bound on
+  the empty default branch (refuted by `superlevelBar_control_negative_essential`); compactness of
+  the whole Euclidean domain; a positive-dimensional or periodic quotient-space hypothesis (the
+  ambient type is `EuclideanSpace ℝ (Fin d)`, not the torus of `TorusTopology`); an optimal path
+  or a path attaining the supremum; a converse of `superlevelBar_clearance_empty_of_essential`
+  for discontinuous heights.
+
+Copied from the C264 module's own docstrings (`OrdinaryH0.lean`):
+
+- any Morse chart, critical-level attainment theorem, interval decomposition, elder correspondence,
+  Field adapter, count identity, stochastic law, or scientific-status promotion;
+- any nonzero or distinction claim for a zero coefficient object (every such statement carries
+  `𝟙 R ≠ 0`); reduced-H0 vanishing (the ordinary point class is retained); equality of connected
+  and path-connected components; injectivity of the induced map; a distinguished geometric
+  representative; a basis of geometric maxima or finiteness of components; a Morse merger event,
+  elder selection, death height or barcode; strict-level conventions; the later interval, elder,
+  maximum/saddle, count, Field or stochastic bridges.
+
+Copied from the controls module's own docstrings (`OrdinaryH0Controls.lean`):
+
+- any Morse chart, critical-level attainment theorem, interval decomposition, elder correspondence,
+  Field adapter, count identity, stochastic law, or scientific-status promotion; any review of
+  `OrdinaryH0` or lift of FORMAL HOLD;
+- the death of an individual point class under a merger (the fixtures kill the difference and keep
+  each class); injectivity of the induced H0 map (it fails on the first projection); a Morse merger
+  event, elder selection or death height; a first merger level, threshold attainment or the
+  behaviour at a parameter strictly between `-1/4` and `0`; separation for every characteristic-two
+  coefficient object or with zero coefficients; a computation of H0 of the point beyond its
+  nonvanishing; H0 of the empty space for coefficients other than `ℤ` and the zero module;
+  path components of a non-discrete space beyond the explicit cases.
+
+Compile success, the axiom audit, `leanchecker` and the negative controls say that Lean
+elaborated these statements with these proofs at this pin. They do not say that the statements
+are the ones the research programme needs; that is the pending independent alignment review.
+For the two C26x modules: the C263 nonauthor source review (6113033351) and the C264 nonauthor
+source review (6113277173) read the handoff bytes, not the successors. At the registration commit
+`940dffc9` (2026-10-11) no nonauthor review of the compiled successor bytes existed, and this
+paragraph said so. Until 2026-10-12 01:32Z no nonauthor exact-source (mathematical) review of them
+existed; the nonauthor engineering registration readback of `4c33d8cd..940dffc9` (Math- #428 review
+5485829137, 2026-10-12 01:16Z, PASS) read those bytes for identity and registration only, and records
+organizational-independence credit 0. Since 01:32Z Math- #428 review 5485883117 (Muse Spark / Meta,
+first read, PASS source-scoped for each module; count corrected in comment 6116328276) is such a
+review, source-scoped only: its reviewer did not run Lean and keeps Lean execution as an open
+condition under FORMAL HOLD, and it states no organizational-independence credit and was posted from
+the same project account. Both handoffs keep formal acceptance on HOLD on their own listed
+conditions (6113033545 item 4; 6113372506; 6113277485 item 5), among them a distinct review of the
+source-bound execution output and source-bound hosted evidence and custody, which they say a source
+review alone does not meet; its disposition is for the C263/C264 handoff owners and nothing in this
+companion moves it. Alignment still needs a reviewer with nonzero organizational-independence
+credit. No review of the `OrdinaryH0Controls` bytes is recorded.
+
+## Compile fixes at the pin
+
+The C254 handoff delivered both modules as NOT_COMPILED. At the pin they did not elaborate; the successor bytes in
+this companion differ from the handoff bytes only as listed here. No theorem or lemma statement changed (all 41
+statement lines are byte-identical before `:=`); the 21 + 20 theorem names and the 11 + 6 definition names keep their
+order; no `sorry`, `axiom`, `native_decide` or `set_option` was added; every declaration's axioms are within
+`propext`, `Classical.choice`, `Quot.sound`. The C263 and C264 handoffs were compiled at the pin by this lane with
+warnings as errors and failed; their successors are described after the C254 fixes.
+
+`TorusTopology.lean` (handoff sha256 `efa80d2879758b6d6473a0024a308ff758c308cdc8e4b5f400f39dde63a7f6f4`):
+- `def torus_periodBasis`: declared type `Basis (Fin d) ℝ (torus_E d)` → `Module.Basis (Fin d) ℝ (torus_E d)`. At the
+  pin the structure is `Module.Basis` (`Mathlib/LinearAlgebra/Basis/Defs.lean`, `namespace Module` line 76, `structure
+  Basis` line 90); bare `Basis` was an unknown identifier that `autoImplicit` turned into a variable, the root of the
+  first-run cascade. Same object; the body is unchanged.
+- `theorem torus_basis_sum_eq_latticeVec`, proof: `Basis.unitsSMul_apply` → `Module.Basis.unitsSMul_apply` in both
+  `simp` calls (`Mathlib/LinearAlgebra/Basis/SMul.lean` line 107); three unused simp arguments removed
+  (`PiLp.single_apply` twice, `hij`) so the file elaborates with warnings as errors.
+- `theorem torus_proj_isCoveringMap`, proof term: the discreteness witness `DiscreteTopology.isDiscrete` (which needs an
+  instance on the set-coercion subtype that instance search did not bridge) → `SetLike.isDiscrete_iff_discreteTopology.mpr
+  (torus_lattice_addSubgroup_discrete d L hL)` (`Mathlib/Topology/Constructions.lean` line 268), passed to the same
+  lemma `AddSubgroup.isAddQuotientCoveringMap_of_comm`.
+- `theorem torus_pathConnectedSpace`, proof: `infer_instance` → `exact inferInstanceAs <| PathConnectedSpace (Quotient _)`
+  (the pattern Mathlib uses for `AddCircle`; `infer_instance` does not unfold `HasQuotient.Quotient` to reach
+  `Quotient.instPathConnectedSpace`).
+- Module docstring: two lines recording the above; `namespace ResearchFormalCoreR1` → `namespace TorusFiltration`
+  (companion namespace; no qualified self-reference existed).
+
+`ClosedSuperlevel.lean` (handoff sha256 `1fed3edada12b4dc7f5fcf874dae7ccde5d8f65af63cf103159debe58ba6789e`):
+- `def superlevel_componentMap`: the second argument of `ZerothHomotopy.lift` is `∀ ⦃x y : X⦄, Path x y → f x = f y`
+  (`Mathlib/Topology/Connected/PathConnected.lean` lines 153-157); strict-implicit binders are not introduced by `fun`,
+  so `fun p => …` bound `p` to a point. Fixed to `fun _ _ p => ZerothHomotopy.sound (p.map f.continuous)`; the witness
+  and the defined map are the same.
+- Module docstring: three lines recording the above; `namespace ResearchFormalCoreR1` → `namespace TorusFiltration`.
+
+Evidence of the fixes themselves is local (`lean -DwarningAsError=true --root=<companion>` inside the pinned `formal/`
+Lake environment, exit 0 for both modules, `#print axioms` of all 58 declarations within the three allowed axioms): a
+record of a computation on an unverified worktree, not a receipt. The receipt is the hosted companion run.
+
+`SuperlevelBar.lean` (C263; handoff sha256 `d74dc8b2c25eff5b90ce7133e51a0888c7885cae24ca6d5e648bc514089637a8`, 14904 bytes;
+successor sha256 `346eea948e18d5904422904006827930e27d3141ccbc19ee8ac2c24bcf65a4a9`, 15309 bytes):
+- The handoff bytes produce exactly one diagnostic at the pin with warnings as errors: `SuperlevelBar.lean:123:40: error:
+  `if_pos` has been deprecated: Use `ite_eq_left` instead` (Lean core `Init/Core.lean`, deprecated since 2026-07-21; a
+  warning that `-DwarningAsError=true` promotes). The mathematics elaborates; no other error.
+- `theorem superlevelBar_death_eq_sSup_of_nonempty`, proof: `simp only [superlevelBar_deathHeight, if_pos hne]` →
+  `simp only [superlevelBar_deathHeight, ite_eq_left hne]` (handoff line 123; Lean's own named replacement, the same
+  statement). The module docstring gained six lines (a blank separator and five text lines) recording the handoff hash and this fix. No other byte changed; no
+  statement changed; the 20 theorem names and the 1 + 3 definition names keep their order. Record: Math- #428 comment
+  6113229784.
+
+`OrdinaryH0.lean` (C264; handoff sha256 `261dd0526d42890d8a4ac1225fcf47228eb3c9799af4106cb643a528bcbf968e`, 18469 bytes;
+successor sha256 `3d6b0d6b53413c484b1d010bccf0d53ae7f75becb2d747868f22dbd673fe0a88`, 19803 bytes). The handoff failed at
+the pin (record 428/6113300903: the unused-section-variable linter on `[Preadditive C] [CategoryWithHomology C]` at the
+component-map theorem, an unsolved goal in `ordinaryH0_iso_naturality` after its `simp only` with two unused simp
+arguments, and `Unknown identifier isoWhiskerLeft`); the source author diagnosed read-only and the C264 root handed the
+bounded repair to this lane as the actual repair author (428/6113372506). The repair, posted with its full diff in
+428/6113438262 and recorded in the module docstring:
+- `variable`: `[Preadditive C] [CategoryWithHomology C]` enter the scope only after the three declarations that do not
+  use them; `def ordinaryH0_componentFiltration` and `theorem ordinaryH0_componentFiltration_map_iota` therefore moved
+  up to precede the homology declarations (text unchanged; `omit … in` was not used because the scanner refuses
+  `omit`; no linter was disabled).
+- `theorem ordinaryH0_iso_naturality`, proof: the handoff's `simp only [...]` (which left the right side
+  unreassociated) and the source author's proposed five-step `calc` (which elaborated with an unresolved `Trans`
+  instance at the pin) are replaced by the same five steps as explicit rewrites: `rw [← Category.assoc,
+  ordinaryH0_pointClass_map, ordinaryH0_pointClass_iso]` on the left, `erw [← Category.assoc, ordinaryH0_pointClass_iso,
+  ordinaryH0_componentCoproductMap_iota]` on the right, then `rfl`. No naturality or compatibility field was assumed.
+- `isoWhiskerLeft` → `Functor.isoWhiskerLeft` (pinned Mathlib places it in `namespace Functor`).
+- The three declaration names containing `ι` (two ending in it; `ordinaryH0_componentι_isoInv` has it inside) are spelled `ordinaryH0_componentCoproductMap_iota`,
+  `ordinaryH0_componentIota_isoInv`, `ordinaryH0_componentFiltration_map_iota` (the companion's ASCII identifier rule),
+  all references updated.
+- Fourteen docstring lines (a blank separator and thirteen text lines) recording the above. No statement changed; the
+  20 theorem and 7 definition names are the handoff's except the three ASCII `iota` respellings above, in the successor's
+  file order.
+
+`OrdinaryH0Controls.lean` is not a handoff module and carries no compile fix: this lane wrote it against the registered
+`OrdinaryH0` successor and compiled it at the pin with warnings as errors before registration (first compiled form
+SHA-256 `e825837f3b0e43553a3a2f48ca48e4150182ad160eb0d7e1a10c141f9c395056`, 28503 bytes, 440 lines). The registered
+bytes (`df9d3645…`, 29590 bytes, 453 lines) differ from that form only in one module-docstring paragraph, which now
+records that FORMAL HOLD rests on the handoffs' own listed conditions, that the source-scoped review 5485883117
+(Lean execution kept as an open condition, no credit stated) and the engineering readback 5485829137 (credit 0)
+exist, and that FORMAL HOLD is unchanged; no declaration changed, and the module was recompiled, its axioms and its
+census re-run after the edit (see
+[C264 owner task item 4 controls](#c264-owner-task-item-4-controls-2026-10-12)).
+
+The C254 module docstrings still read `C254 proposed source. Compilation and kernel audit: NOT_RUN.`
+(line 6 of each file), and `OrdinaryH0.lean` reads `C264 isolated source candidate. Compilation
+and kernel audit: NOT_RUN.` (line 7); `SuperlevelBar.lean` says of itself that it makes no
+execution claim. Those lines are the handoffs' own status labels, retained verbatim as
+transcribed source labels; they are not updated by this companion. `OrdinaryH0Controls.lean`, the
+owner-authored module, says that compilation and kernel audit of its bytes are recorded only
+where a run is reported, and names no run. Whether the modules compiled
+and were replayed through the kernel is recorded in the hosted `receipt.json`
+(`formalization_status`, `leanchecker`), never in the module text, so the module lines
+under-state and the receipt is the record.
+
+## Namespace mapping
+
+Every C254 declaration keeps its handoff name: `ResearchFormalCoreR1.<n>` (handoff) ->
+`TorusFiltration.<n>` (companion). The C263 and C264 modules were authored directly in namespace
+`TorusFiltration` (there is no handoff namespace to map); the only C264 renames are the three
+ASCII `iota` spellings listed above. The owner-authored `OrdinaryH0Controls` was also written
+directly in namespace `TorusFiltration`, every name carrying the prefix `ordinaryH0Control_`. The
+inventory lists in `SOURCE_FILES.json` are derived from the originals (for `OrdinaryH0Controls`,
+from the module itself) by column-0 scans (`^theorem`, `^(noncomputable )?def`, `^abbrev`, `^instance`).
+`check.py source` re-derives them from the companion modules with a whitelist scanner
+(`scan_module`, not a Lean parser) and refuses any module whose scan differs. The scanner strips
+comments (`--`, nested `/- -/`, `/-- -/`, `/-! -/`) and then permits, at column 0, only:
+`import Mathlib` or `import Mathlib.…`, or `import <M>` for a companion module `M` that precedes
+the scanned module in `MODULES` (`OrdinaryH0.lean` imports `ClosedSuperlevel`,
+`OrdinaryH0Controls.lean` imports `OrdinaryH0`; a self, forward or root import is refused as
+`companion import out of dependency order`; both only before the namespace), `noncomputable section`, `open <Namespaces>`, `open scoped <Namespaces>`
+(`OrdinaryH0.lean` opens the scoped simplicial notation; capitalized names only, nothing else on
+the line), `universe …`, `variable …`, exactly one `namespace TorusFiltration` /
+`end TorusFiltration` pair, and inside it a named `theorem`, `def`, `noncomputable def`, `abbrev`
+or `instance` whose name matches `[A-Za-z][A-Za-z0-9_]*`. The two prelude forms (companion import,
+`open scoped`) were added by the C263/C264 registration because the registered `OrdinaryH0.lean`
+carries both lines; neither admits a declaration, a command or a foreign import, and each has
+its own negative controls. Everything else is refused: any other
+command keyword anywhere outside comments (`lemma`, `example`, `axiom`, `opaque`, `structure`,
+`inductive`, `class`, `private`, `protected`, `noncomputable instance`, an anonymous `instance`,
+`attribute`, `set_option`, `section`, `end`, `mutual`, `deriving`, `macro`, `macro_rules`,
+`syntax`, `elab`, `notation`, `scoped`, `local`, `export`, `include`, `omit`, `run_cmd`,
+`initialize`, `… in`, a second command on a declaration line, an indented command), any `@[`
+or `#`, any string literal (`"`), a primed or dotted declaration name, a declaration outside
+the namespace or after `end TorusFiltration`, any remaining `namespace ResearchFormalCoreR1`,
+and any admission token (`sorry`, `sorryAx`, `admit`, `axiom`, `native_decide`,
+`ofReduceBool`, `trustCompiler`, `unsafe`, `opaque`, `partial`, `implemented_by`, `extern`,
+`skipKernelTC`, `autoImplicit`) in comment-free code, and the declaration-producing commands of
+Lean core, Batteries, Aesop and Mathlib found at the pin (the list `COMMANDS` in `check.py`:
+`alias`, `irreducible_def`, the `simproc`/`dsimproc`/`cbv_simproc` families with their `_decl`
+and `builtin_` forms, `notation3`, `unif_hint`, `recall`, `binder_predicate`, `add_decl_doc`,
+`library_note`, `assert_not_exists`, `register_simp_attr`, `register_builtin_option`,
+`register_linter_set`, `register_label_attr`, `declare_aesop_rule_sets`, `add_aesop_rules`,
+`erase_aesop_rules`, `compile_inductive`, `compile_def`, `nonrec`, `mk_iff_of_inductive_prop`,
+`run_meta`, `grind_propagator`, `builtin_grind_propagator`, `declare_config_elab` and its legacy
+forms, `gen_injective_theorems`, `declare_uint_theorems`, `declare_int_theorems`,
+`declare_bitwise_uint_theorems`, `declare_bitwise_int_theorems`, `elab_stx_quot`, the
+`declare_eval_bin` family, `name_poly_vars`, `name_power_vars`, `with_weak_namespace`, `meta`,
+`public`, `aux_def`, `lrat_proof`, `reprove`, `declare_aesop_exception`, `declare_uint_simprocs`,
+`declare_sint_simprocs`, `seal`, `unseal`, `unset_option`, `suppress_compilation`, `grind_pattern`,
+`grind_annotated`, `extend_docs`, `init_quot`, `initialize_simps_projections`; Mathlib spells
+`compile_inductive%`, `compile_def%` and `gen_injective_theorems%` with a `%`, which the token scan
+does not need; a few listed commands only attach documentation or notes rather than declarations,
+and are refused all the same).
+The refused keywords are the explicit list `COMMANDS` in `check.py`: a first filter, not a Lean
+grammar and not a complete census. A declaration-producing command or form absent from that list
+passes an indented or same-line position uncounted: the C262 gate review (Math- #428 comment
+6112740935, finding G2) found `alias` absent at head `a898bb44`, the pre-push verification of
+the repair found further commands at the pin (`run_meta`, `mk_iff_of_inductive_prop`, the
+`cbv_simproc` family, `grind_propagator`, `register_builtin_option`, `register_linter_set`,
+`register_label_attr`, `declare_config_elab`, `gen_injective_theorems%`, `declare_uint_theorems`,
+`name_poly_vars`, `add_aesop_rules`, `aux_def`, `reprove`, and more, listed as found), and the
+`where` clause of a declaration adds a dotted auxiliary declaration that no keyword list can
+refuse. The lexer also treats a closed block comment as a token separator (`theorem/- -/hidden`
+is `theorem hidden`) and lexes numerals as Lean does (`0alias` is `0` then `alias`; `0x1Ftheorem`
+is `0x1F` then `theorem`), both found by that verification. **The declaration census the receipt
+stands on is therefore not the scanner but `Census.lean`**, emitted by `check.py emit` and run
+by the replay: Lean itself lists every constant the six companion modules (the five modules and
+the root) add to the environment, tagged `internal` or `user` (`Name.isInternalDetail`:
+`_`-prefixed, `eq_n`, `match_n`, `proof_n`, `omega_n` or numeric components) and `range` or
+`generated` (whether Lean recorded a declaration range, which every declaration elaborated from
+source syntax carries and compiler-generated constants lack). `check.py finish` requires the
+user-named ranged constants to equal the 153 inventoried names exactly, refuses any ranged
+constant with an internal-style name (a `where`-clause `proof_1` written by hand), and requires
+the user-named generated constants to equal `census_auxiliary` in `SOURCE_FILES.json` exactly
+(today `TorusFiltration.torus_periodBasis.congr_simp`, the simp-congruence lemma Lean generates
+for `torus_periodBasis`; the C263, C264 and controls modules add no user-named generated constant), so that
+list can name only constants Lean generated; internal generated constants (abstracted proofs,
+equation lemmas, `_simp` auxiliaries, and `CategoryTheory.Limits.sigmaConst.eq_1`, the equation
+lemma Lean generated for a Mathlib definition that `OrdinaryH0.lean` unfolds and attributed to
+that module) are counted and otherwise ignored: 27 at the pin for the six modules, of which 12
+belong to the C26x pair and 4 to `OrdinaryH0Controls` (`_proof_1` and `eq_1` of
+`ordinaryH0Control_parabolaLeft` and `ordinaryH0Control_parabolaRight`). A declaration
+the scanner missed is refused by the receipt whatever its spelling, because it was elaborated
+from source and therefore carries a range. A compile fix that needs a refused form must extend
+the scanner, the inventory and, for a new compiler-generated constant, `census_auxiliary`.
+
+## Vocabulary
+
+- `proved` is the source's own label for a declaration whose proof text it supplies; it is
+  transcribed, not awarded here.
+- `kernel-checked` appears only in `receipt.json`, written by `check.py finish` after a hosted
+  run in which every build exited `0`, `leanchecker` replayed the companion modules' declarations
+  through the kernel without output (the exact invocation is recorded in `leanchecker.cmd` and
+  copied into the receipt), and every axiom report lies in `{propext, Classical.choice, Quot.sound}`.
+- The words `verified`, `closed` (as a status) and `accepted` do not describe anything in this
+  companion. `alignment_status` stays `PENDING_INDEPENDENT_REVIEW`; `scientific_acceptance` is
+  `false`; a same-provider review would earn zero independence credit and would be recorded as
+  such.
+
+## How to run
+
+From a checkout with the pinned toolchain installed (`elan`, Lean v4.34.1) and the Mathlib
+cache for `formal/` retrieved:
+
+    bash companions/torus_filtration_20261011/replay.sh
+
+The replay: binds HEAD to the manifest (`check.py source`), runs the Python tests in normal and
+`-O` modes, emits the Lean audit files, then inside `lake env bash` from `formal/` records
+`lean --version` and every installed package HEAD, compiles `TorusTopology`, `ClosedSuperlevel`,
+`SuperlevelBar`, `OrdinaryH0`, `OrdinaryH0Controls` (in that dependency order) and the root
+`TorusFiltration` with `-DwarningAsError=true`, compiles `Positive.lean` (six concrete applications
+of the C254 theorems; unchanged by both registrations), `Audit.lean` (153 `#print axioms`),
+`Types.lean` (118 `#check` with `pp.explicit`), `Census.lean` (the elaborated declaration census
+above), runs
+`leanchecker TorusTopology ClosedSuperlevel SuperlevelBar OrdinaryH0 OrdinaryH0Controls TorusFiltration`,
+and runs eleven negative controls. The replay unsets `PYTHONOPTIMIZE` first, so each Python invocation runs in exactly the
+mode its command line names, and every `check.py` invocation prints the mode it runs in
+(`TORUS_FILTRATION_PYTHON: optimize=N`) to the job log (an invocation that argparse rejects
+exits 2 before that line; the replay never issues one).
+The emitted statements below are quoted verbatim from `check.py` (`FALSE_CONTROLS`); each is
+elaborated as `example : <statement> := by <tactic>` and must fail with exactly `⊢ False`:
+
+| Control | Kind | Exact expectation |
+|---|---|---|
+| `RejectSuperlevelSignFlip` | false statement `() ∈ superlevel_set (fun _ : Unit => (0 : ℝ)) (-1)` (true only if the parameter were `+t`), tactic `norm_num [superlevel_set]` | exit 1, `error: unsolved goals` / `⊢ False` |
+| `RejectSuperlevelBelowThreshold` | false statement `(3 : ℝ) ∈ superlevel_set (fun x : ℝ => x) (-4)` (`3 ∈ {x | 4 ≤ x}`), tactic `norm_num [superlevel_set]` | exit 1, `⊢ False` |
+| `RejectConstantNotPeriodic` | false statement `¬ torus_isPeriodic 1 (1 : ℝ) (fun _ => (0 : ℝ))`, tactic `simp [torus_isPeriodic]` | exit 1, `⊢ False` |
+| `RejectEssentialDeathBound` (C263) | false statement `superlevelBar_deathHeight (fun _ : superlevelBar_E 1 => (-1 : ℝ)) 0 ≤ (-1 : ℝ)` (the death/start bound on the essential default branch: the constant `-1` has death `0` by `superlevelBar_death_const`, and `0 ≤ -1` is false; the proposition of the C263 handoff's `FALSE_CONTROL_PROPOSAL` (Math- #428 comment 6113033351), whose tactic `rw [superlevelBar_death_const 1 (-1) (0 : superlevelBar_E 1)]; norm_num` is replaced here by `norm_num [superlevelBar_death_const]`), tactic `norm_num [superlevelBar_death_const]` | exit 1, `⊢ False` |
+| `RejectReducedPointClass` (C264) | false statement `CategoryTheory.CategoryStruct.comp (ordinaryH0_pointClass (TopCat.of Unit) (ModuleCat.of ℤ ℤ) ()) (TopCat.singularHomology₀ε (TopCat.of Unit) (ModuleCat.of ℤ ℤ)) ≠ CategoryTheory.CategoryStruct.id (ModuleCat.of ℤ ℤ)` (the ordinary point class of the one-point space with `ℤ`-module coefficients is **not** augmented to the identity, which is what a reduced-H0 substitution would give; `ordinaryH0_pointClass_augmentation` says it is the identity; the notation `≫`/`𝟙` is spelled out because the emitted file opens only `TorusFiltration`), tactic `simp [ordinaryH0_pointClass_augmentation]` | exit 1, `⊢ False` |
+| `RejectMergerKillsPointClass` (C264 item 4) | false statement `CategoryTheory.CategoryStruct.comp (ordinaryH0_pointClass (TopCat.of Bool) ordinaryH0Control_intCoeff true) (((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{0} ℤ) 0).obj ordinaryH0Control_intCoeff).map ordinaryH0Control_collapse) = 0` (the collapse `Bool → Unit` kills the individual point class of `true`; a merger kills the difference, not the class, and `ordinaryH0Control_collapse_image_ne_zero` says the image class is nonzero), tactic `simp only [ordinaryH0Control_collapse_image_ne_zero]` | exit 1, `⊢ False` |
+| `RejectSeparationWithoutNonzeroCoeff` (C264 item 4) | false statement `ordinaryH0_pointClass (TopCat.of Bool) ordinaryH0Control_zeroCoeff true ≠ ordinaryH0_pointClass (TopCat.of Bool) ordinaryH0Control_zeroCoeff false` (the two point classes of `Bool` differ with zero coefficients; `ordinaryH0Control_bool_zeroCoeff_eq` says they are equal, so the separation statement needs `𝟙 R ≠ 0`), tactic `simp [ordinaryH0Control_bool_zeroCoeff_eq]` | exit 1, `⊢ False` |
+| `RejectNonmergerKillsDifference` (C264 item 4) | false statement `CategoryTheory.CategoryStruct.comp (ordinaryH0_pointClass (TopCat.of (Bool × Bool)) ordinaryH0Control_intCoeff ((true, false) : Bool × Bool) - ordinaryH0_pointClass (TopCat.of (Bool × Bool)) ordinaryH0Control_intCoeff ((false, true) : Bool × Bool)) (((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{0} ℤ) 0).obj ordinaryH0Control_intCoeff).map ordinaryH0Control_fst) = 0` (the non-injective projection kills a difference whose images `true` and `false` stay in distinct components; `ordinaryH0Control_fst_difference_ne_zero` says it does not), tactic `simp only [ordinaryH0Control_fst_difference_ne_zero]` | exit 1, `⊢ False` |
+| `RejectSorry` | `theorem injected : False := by sorry` | exit 0 with the `sorry` warning; audit refuses `sorryAx` |
+| `RejectCustomAxiom` | `axiom hiddenPremise : False` behind one intermediate theorem | exit 0; audit refuses `hiddenPremise` |
+| `RejectNativeDecide` | `native_decide` proof | exit 0; audit refuses `injected._native.native_decide.ax_1_1` |
+
+The injection controls run **without** warnings-as-errors on purpose: Lean accepts those files,
+and only the axiom audit refuses them, which is what the audit is for. `check.py negative` uses
+`re.fullmatch` on each log, so a crash, an extra error or a different exit code is a failed
+control, not a passed one. `check.py finish` refuses an evidence directory that already holds
+`receipt.json` (a receipt is written once and never replaced; a new attempt needs a fresh
+directory) and requires exactly the 65 evidence files, each a regular file and nothing else: the
+fifteen emitted Lean files (`Audit.lean`, `Types.lean`, `Positive.lean`, `Census.lean` and the
+eleven controls' `.lean`), a `.log` and `.status` pair for each of the eleven Lean processes (six
+module builds, `positive`, `axioms`, `types`, `census`, `leanchecker`), the eleven controls'
+`.log`/`.status`, `leanchecker.cmd`, `packages.log`, `toolchain.log`, `source.json`,
+`tests.log` and `tests-optimized.log` (`EVIDENCE_FILES` in `check.py`; C262 finding G3; 44
+members before the C263/C264 registration added two builds and two controls, 54 before the
+item-4 controls added one build and three controls). It then
+re-runs the source binding, re-derives the fifteen emitted Lean files and requires byte equality
+with the ones Lean consumed, checks every status, the toolchain line, the installed package
+HEADs against `formal/lake-manifest.json`, the recorded `leanchecker` invocation, the axiom and
+type inventories, the declaration census and the eleven controls, and writes `receipt.json` with
+`log_sha256` over exactly those 65 files, created exclusively (`O_EXCL`, `O_NOFOLLOW`). The
+evidence directory `.lake/torus-filtration-evidence` must not pre-exist.
+
+### What `leanchecker` checks here, and why not `--fresh`
+
+All five modules `import Mathlib` (`OrdinaryH0` also imports `ClosedSuperlevel`, `OrdinaryH0Controls` also imports `OrdinaryH0`), so their import closure is all of Mathlib (6.1 GB of `.olean`
+files at the pin). `leanchecker --fresh TorusFiltration`, the shape of the D2 companions' step
+(`leanchecker --fresh D2MomentBridge`, affordable there only because that module imports
+`Mathlib.Tactic` and one Bochner file), re-checks that entire closure from scratch: measured locally against the pinned cache at 4 threads it was still
+running at 1500 s with 6.6 GB resident, so it cannot complete inside a hosted job. The hosted
+default is therefore `leanchecker TorusTopology ClosedSuperlevel SuperlevelBar OrdinaryH0 OrdinaryH0Controls TorusFiltration`
+(before the C263/C264 registration it named the three C254 modules, and before the item-4 controls the
+four modules and the root; `check.py finish` now refuses both shorter forms): leanchecker
+builds the environment from the cached, prebuilt dependency `.olean` files (trusted, exactly as
+`lean` itself trusts them when compiling the modules) and replays every declaration of the six
+named modules through the kernel. Measured locally at `LEAN_NUM_THREADS=2`: 30 s wall and 6.6 GB
+resident for the three C254 modules; 53 s for the five (2026-10-11, this lane's pre-commit run on the
+registered bytes) with a peak of about 8.4 to 8.7 GiB resident (two runs, sampled every 2 s); for the
+six (2026-10-12, this lane, the registered Lean bytes, sampled every 1 s), 75 s wall including the
+`lake env` start-up with a sampled peak of 8.64 GiB in the pre-commit run, and about 56 s of
+`leanchecker` itself with a sampled peak of 9.31 GiB inside a full local replay, no output on success (one
+`lean` compile of `ClosedSuperlevel.lean` takes 9 s and 6.8 GB; `OrdinaryH0.lean` compiles in 12 s,
+`OrdinaryH0Controls.lean` in 12 s at a sampled peak of 6.5 GiB).
+With `LEAN_NUM_THREADS` unset on a four-core machine the five-module `leanchecker` exceeded a
+13.36 GiB memory limit and was killed (twice, 2026-10-11), so `replay.sh` defaults `LEAN_NUM_THREADS`
+to 2, the hosted job's setting, when the operator has not set it; the six-module form was run only
+at two threads. `replay.sh` writes the exact invocation to
+`leanchecker.cmd`; `check.py finish` accepts only the two pinned forms, requires the modules-mode
+log to be empty, and copies command and mode into `receipt.json` under `leanchecker`.
+An operator who wants the whole-closure re-check runs
+`TORUS_LEANCHECKER_FRESH=1 bash companions/torus_filtration_20261011/replay.sh` locally with the
+time and memory to spare; the receipt then records mode `fresh`. The workflow never sets that
+switch.
+
+Hosted duration: measured on the first green run,
+[38165155316](https://github.com/d6g8k5htny-coder/Math-/actions/runs/38165155316) (attempt 1, job
+114546073697, PR #428 head `0dd0cb17bfa12bab6983bc4b068a38fed5a9df9c`, tested merge
+`aa288a1377acc76bfb544de1c5e3d3b4c282a5e3`): the job took 4 min 20 s end to end (2026-10-11T18:45:38Z to
+18:49:58Z), of which the pinned-Lean install plus Mathlib cache retrieval took 2 min 47 s and the
+replay step itself 1 min 27 s at `LEAN_NUM_THREADS=2`; artifact `torus-filtration-38165155316-1`,
+42 files, 22,572 bytes, SHA-256 `c9bf02d33ddd9addb5d2883af982827b44ef3fd5e84d877ed78504efe8f19c0d`.
+The workflow's `timeout-minutes: 45` is kept: a cache miss or a slow runner needs the margin and
+lowering it buys nothing. One hosted completion is measured here; every later run's receipt stands
+on its own, and a receipt is a record of a computation, not evidence of alignment. That measured
+run predates the C263/C264 registration (three module builds, six controls, 41 evidence files, 42 with the receipt);
+the registered set (five builds, the census, eight controls, 54 files) adds, relative to that run, the
+census `lean` run (from the C262 AMEND), two `lean` compiles of about 10 and 12 s, two control runs of
+about 10 s each and about 23 s more of `leanchecker` (30 s to 53 s), at `LEAN_NUM_THREADS=2`, measured
+locally. At the registration commit the registered set had no hosted completion. Hosted run
+[38187870416](https://github.com/d6g8k5htny-coder/Math-/actions/runs/38187870416) of `940dffc9` (created
+2026-10-12T00:24:18Z) later completed with conclusion success, as reported by the engineering readback
+5485829137 (credit 0), which inspected its artifact 11719939176 and receipt (GitHub's run record, read by this lane on
+2026-10-12, shows the same status, conclusion and head); this lane has not downloaded or re-inspected that
+artifact, and this README does not adopt its receipt or its timings. The item-4 set (six builds, the census,
+eleven controls, 65 files) adds one `lean` compile of about 12 s and three control runs of about 10 s each,
+and the six-module `leanchecker` took 56 to 75 s locally (with and without `lake env` start-up; measured 2026-10-12 at `LEAN_NUM_THREADS=2`;
+a full local replay took 279 s); the item-4 commit has no hosted completion recorded here.
+
+The replay writes `TorusTopology.olean`, `ClosedSuperlevel.olean`, `SuperlevelBar.olean`,
+`OrdinaryH0.olean`, `OrdinaryH0Controls.olean` and `TorusFiltration.olean`
+into the companion directory (Lean needs them on `LEAN_PATH` for the root module and the audit
+files). They are build artefacts and must never be committed: the repository has no root
+`.gitignore`, `git add -A` would stage them, and `check.py source` then refuses the companion
+with `tracked companion membership differs` until they are removed in a follow-up commit.
+Delete them before committing.
+
+Local protocol tests: `python3 -B -S companions/torus_filtration_20261011/test_torus_filtration.py`
+and the same with `-O`. They exercise `check.py` against a temporary Git fixture with
+inventory-exact placeholder modules; they execute no Lean. The fixture spawns its `check.py`
+children with the outer interpreter's optimization level (`-O` under `-O`) and strips
+`PYTHONOPTIMIZE` from their environment; every `check.py` invocation reports the mode it actually
+runs in on stderr, and the fixture refuses any child whose report differs from the outer mode,
+on every call, accept or refuse (so a fixture that stopped propagating `-O` fails, rather than
+passing with unoptimized children). The suite prints its own outer mode into the transcript
+(`TORUS_FILTRATION_TESTS: outer optimize=N`), so `tests.log` and `tests-optimized.log` record
+which mode each run was. Until head `a898bb44` the children ran unoptimized whatever the outer
+mode was in a clean environment, and in the mode of an ambient `PYTHONOPTIMIZE` otherwise (C262
+finding G1); the hosted runners are clean, so the `tests-optimized.log` transcripts of hosted runs 38165155316 and
+38165763430 therefore cover the imported helpers under `-O` and the CLI paths unoptimized; that
+narrower attribution stands for those runs and is not revised.
+
+## Amendments
+
+- C262 (Math- #428, nonauthor engineering gate review [6112740935](https://github.com/d6g8k5htny-coder/Math-/pull/428#issuecomment-6112740935),
+  disposition [6112743879](https://github.com/d6g8k5htny-coder/Math-/pull/428#issuecomment-6112743879), AMEND_ENGINEERING_GATE on
+  head `a898bb44`): G1 the test fixture now propagates the outer optimization level to its `check.py`
+  children, strips `PYTHONOPTIMIZE` and observes the child mode; G2 the scanner refuses `alias` and
+  the other declaration-producing commands listed above, with indented, same-line and column-0
+  negative controls, and the census claim is bounded to the enumeration; G3 `finish` never replaces
+  a receipt and requires the exact evidence set of regular files (44 members once the census
+  below was added), with controls for a
+  repeat `finish`, an existing receipt beside a newly failing input, every removed member, an extra
+  member and a symlinked member. Before the push, this lane's own adversarial verification of
+  the repair (same account, credit 0) refuted its first form and the fixes were folded into the
+  same commit: the child-mode control now observes every fixture child through the CLI's own
+  report, not a separate probe; the keyword list gained the further declaration-producing
+  commands found at the pin and the lexer no longer splices tokens across a closed block comment
+  or a numeral; the elaborated declaration census (`Census.lean`) replaces the scanner as the
+  census guarantee, with `census_auxiliary` naming the one compiler-generated constant; the
+  replay unsets `PYTHONOPTIMIZE` and records the outer mode in both test transcripts; the receipt
+  is created with `O_EXCL`/`O_NOFOLLOW` and a directory as a required member is refused. The
+  replay script changed by the one census invocation and the `unset`; the Actions workflow file,
+  every Lean byte, declaration and control statement are unchanged. The same review's Lean source verdict (PASS_SOURCE_SCOPE,
+  [6112740740](https://github.com/d6g8k5htny-coder/Math-/pull/428#issuecomment-6112740740)) and hosted-evidence verdict
+  (APPROVE_OBSERVED_EXECUTION_SCOPE, [6112741132](https://github.com/d6g8k5htny-coder/Math-/pull/428#issuecomment-6112741132))
+  were of head `a898bb44`; organizational-independence credit 0 throughout.
+- C263/C264 registration (2026-10-11, one forward commit on top of the C262 AMEND head `4c33d8cd`): the
+  two compiled successors `SuperlevelBar.lean` (346eea94…) and `OrdinaryH0.lean` (3d6b0d6b…) are
+  added as modules three and four; the root module imports four modules; `check.py` gains the two
+  module builds, the five-module `leanchecker` command, a census over five modules, the two
+  false controls above, the handoff and successor identities under `provenance.original_sha256`,
+  `provenance.original_bytes` and `provenance.successors` (compared whole; a changed hash, byte
+  count, census or status label is refused), and two prelude forms in the scanner (companion import
+  in dependency order, `open scoped`), each with negative controls; `EVIDENCE_FILES` goes from 44
+  to 54 members. The protocol tests (`InventoryTests`, run by the replay) refuse a registered module whose bytes are not the
+  recorded successor; the out-of-tree generator that writes `SOURCE_FILES.json` checks the same but is not part of this
+  tree, so no reader can audit it here. `TorusTopology.lean`, `ClosedSuperlevel.lean`, the Actions workflow file,
+  `Positive.lean`, the three C254 controls and the three injection controls are byte-for-byte
+  unchanged. The workflow's comment counting "twelve `lean` invocations" is therefore stale (17 now: five module
+  builds, the positive, audit, types and census files, and eight controls); the file is kept byte-identical rather than
+  edited for a comment. Details in [C263 and C264 registration](#c263-and-c264-registration-2026-10-11).
+- C264 owner task item 4 controls (2026-10-12, one forward commit on top of the registration head `940dffc9`): the
+  owner-authored `OrdinaryH0Controls.lean` (df9d3645…) is added as module five; the root module imports five modules;
+  `check.py` gains the module build, the six-module `leanchecker` command (the five-module form is now refused), a
+  census over six modules, the three false controls `RejectMergerKillsPointClass`,
+  `RejectSeparationWithoutNonzeroCoeff` and `RejectNonmergerKillsDifference`, and the owner-module record
+  `provenance.owner_modules` (compared whole, like the successor record; a changed hash, byte count, author, census,
+  comment pointer, kind or review status is refused); `EVIDENCE_FILES` goes from 54 to 65 members. The scanner's
+  rules are unchanged (its companion-import form follows `MODULES`, so `OrdinaryH0Controls.lean` may import the four
+  modules before it and no scanned module may import it). `Positive.lean`, the eight earlier controls' emitted files,
+  the four earlier modules and the Actions workflow file are byte-for-byte unchanged (the workflow's stale comment
+  now undercounts further: 21 `lean` invocations, six module builds, the positive, audit, types and census files, and
+  eleven controls). The same commit time-scopes the
+  statements that no review of the compiled successors existed (true at `940dffc9`; the engineering registration
+  readback 5485829137 exists since 2026-10-12 01:16Z, credit 0, and the source-scoped review 5485883117 since 01:32Z,
+  no credit stated, Lean execution kept open), restates FORMAL HOLD as resting on the handoffs' own listed conditions
+  rather than on one review, records that hosted run 38187870416 of `940dffc9` completed (as reported, not adopted),
+  and marks the relabel of the C254 naturality exclusion (Math- #428 comment 6116225936) as a dated companion note;
+  no label moves.
+  Details in [C264 owner task item 4 controls](#c264-owner-task-item-4-controls-2026-10-12).
+
+## C263 and C264 registration (2026-10-11)
+
+This commit registers two compiled Lean modules in the gate. **Registration is not review and
+not acceptance.** It records that the successor bytes elaborate at the pin and binds them to the
+gate; it moves no status label. Both handoffs keep their own label, **FORMAL HOLD**, which rests
+on the handoffs' own listed conditions (6113033545 item 4; 6113372506; 6113277485 item 5): among
+them a nonauthor exact-source review of the compiled successors, a distinct review of the
+source-bound execution output and source-bound hosted evidence and custody; the handoffs say a
+source review alone does not meet them. The C263 (6113033351) and C264 (6113277173) nonauthor
+source reviews read the handoff bytes, not the successors, and this lane (compile fix, repair,
+registration) is the same project account as the companion, organizational-independence credit
+0. (This section describes the registration commit `940dffc9` of 2026-10-11. At that commit this
+paragraph said that FORMAL HOLD stands until a nonauthor exact-source review of the compiled
+successors exists, which names only one of the handoffs' conditions; corrected on 2026-10-12. On
+2026-10-12 the nonauthor engineering readback of `4c33d8cd..940dffc9`, Math- #428 review 5485829137
+(01:16Z, PASS, identity and registration only, organizational-independence credit 0 as it records),
+was posted, and since 01:32Z a nonauthor exact-source review of the compiled successors exists,
+source-scoped only: Math- #428 review 5485883117, Muse Spark / Meta, first read, PASS source-scoped
+for each module, count corrected in comment 6116328276; its reviewer did not run Lean and keeps Lean
+execution as an open condition under FORMAL HOLD, and it states no organizational-independence
+credit and was posted from the same project account. FORMAL HOLD is unchanged and its disposition
+is for the C263/C264 handoff owners; no label below moves, and the record
+`provenance.successors.*.formal_status` keeps the text this commit transcribed.)
+
+| Item | `SuperlevelBar.lean` (C263) | `OrdinaryH0.lean` (C264) |
+|---|---|---|
+| Source author | OpenAI/Codex lane (`c262_lean_source_review` acting as C263 implementer), delegated AI work for Dylan Roy | OpenAI/Codex lane (`c264_h0_author`; root `01a0bbb5` supplied the target, custody and the nonzero-coefficient/projection control design, `c264_h0_author/api_support` did read-only pinned-API research and proposed the cycle/projection naturality rewrite chain (the step that failed at the pin and was repaired), as disclosed in Math- #428 comment 6113276830), delegated AI work for Dylan Roy |
+| Handoff bytes | `d74dc8b2c25eff5b90ce7133e51a0888c7885cae24ca6d5e648bc514089637a8`, 14904 bytes (428/6113033147; owner task 428/6113033545: 28/28 static checks, formal acceptance HOLD; allocation 419/6112439759) | `261dd0526d42890d8a4ac1225fcf47228eb3c9799af4106cb643a528bcbf968e`, 18469 bytes (428/6113276830, 6113277173, 6113277485) |
+| At the pin, warnings as errors | failed: deprecated `if_pos` at line 123 (428/6113229784) | failed: unused section instances, unsolved naturality goal, unknown `isoWhiskerLeft` (428/6113300903) |
+| Successor bytes | `346eea948e18d5904422904006827930e27d3141ccbc19ee8ac2c24bcf65a4a9`, 15309 bytes | `3d6b0d6b53413c484b1d010bccf0d53ae7f75becb2d747868f22dbd673fe0a88`, 19803 bytes |
+| Change | `if_pos hne` → `ite_eq_left hne`, one simp lemma in `superlevelBar_death_eq_sSup_of_nonempty`; docstring lines | the owner repair handed over in 428/6113372506, posted with its full diff in 428/6113438262: `variable` scope split, explicit `rw`/`erw` naturality proof, `Functor.isoWhiskerLeft`, three ASCII `iota` names, docstring lines; no statement changed |
+| Imports | `Mathlib` | `Mathlib`, `ClosedSuperlevel` |
+| Declarations | 20 theorems, 1 abbrev, 3 defs (`superlevelBar_` prefix) | 20 theorems, 7 defs (`ordinaryH0_` prefix) |
+| Range-aware census at the pin | 25 = 24 + 0 + 1 (user range + user generated + internal generated: `superlevelBar_deathHeight.eq_1`) | 38 = 27 + 0 + 11 (internal generated: `sigmaConst.eq_1`, three `eq_1`, `_proof_1`–`_proof_2` of the functor, `_proof_1`–`_proof_4` of the simplicial point class, `_simp_1_1` of `hom_ext`) |
+| `census_auxiliary` | no new entry | no new entry |
+| `#print axioms` | all 24 within `{propext, Classical.choice, Quot.sound}` | all 27 within the same set |
+| New false control | `RejectEssentialDeathBound` | `RejectReducedPointClass` |
+| Status | FORMAL HOLD (handoff's own label), on the handoff's own listed conditions (6113033545 item 4); `provenance.successors` records it as `FORMAL_HOLD until a nonauthor exact-source review of the compiled successor; registration is not review`, this commit's transcription, which names one of those conditions only | FORMAL HOLD, same (conditions: 6113372506; 6113277485 item 5) |
+
+What this commit does not establish: that either module's statements are the ones the
+research programme needs (alignment stays `PENDING_INDEPENDENT_REVIEW`); any of the exclusions the
+modules' own docstrings list (above, [What is NOT established](#what-is-not-established)); a Field
+or Lifetime inhabitant, a Field adapter or any coupling to the `Specifications` package of PR #419;
+an elder relation, bar pairing, finite-bar count, interval decomposition or stochastic law; any
+review of the compiled successors (none existed at this commit, 2026-10-11: this lane compiled, repaired and registered
+them and has not reviewed them; since 2026-10-12 the engineering registration readback 5485829137, 01:16Z, credit 0,
+and the source-scoped review 5485883117, 01:32Z, no credit stated, Lean execution kept open, exist, recorded above);
+any organizational-independence credit; any hosted receipt for the registered set (none existed at this commit; hosted
+run 38187870416 of `940dffc9` later completed with conclusion success, as reported by the engineering readback
+5485829137; this lane has not re-inspected it and this README does not adopt its receipt; a receipt is a record of a
+computation). The compile fix
+and the repair changed proof text and declaration spellings; whether every statement still says
+what the handoffs intended is part of the pending review, not something this registration
+decides. The concrete ordinary-H0 controls the C264 handoff asks for (item 4 of its owner task, Math- #428 comment
+6113277485: empty, point, two-component, merge/non-merge and zero-coefficient cases with premises proved in concrete
+fixtures) are not provided here: this commit adds one false control (`RejectReducedPointClass`) and no positive
+fixture, and that obligation stays open at this commit. The owner-authored fixtures added on 2026-10-12 are described
+in [C264 owner task item 4 controls](#c264-owner-task-item-4-controls-2026-10-12); that later commit does not mark the
+item closed. `provenance.original_status` (`NOT_COMPILED`) records the two C254 handoff
+modules at delivery; the C263 and C264 handoffs' statuses are `provenance.successors.*.handoff_status`. Local evidence for this commit (one run of each build, the emitted audit, types, census
+and positive files, the five-module `leanchecker` and the two new controls, all exit 0 or the
+pinned `⊢ False`, this lane, 2026-10-11) is a record of a computation on an unverified worktree,
+not a receipt.
+
+## C264 owner task item 4 controls (2026-10-12)
+
+This commit registers one owner-authored Lean module, `OrdinaryH0Controls.lean`, and three false
+controls against it. **Registration is not review**, and these fixtures are not a review of
+`OrdinaryH0`: they apply seven of its 20 theorems and three of its seven definitions
+(`ordinaryH0_pointClass`, `ordinaryH0_naturalIso`, `ordinaryH0_componentCoproductFunctor`) to named
+spaces and coefficient modules with every premise proved, so that those statements are seen in use,
+and the nonzero-coefficient hypothesis seen to be needed, on cases whose answer is known
+independently. The FORMAL HOLD of `SuperlevelBar` and `OrdinaryH0` is unchanged (it rests on the
+handoffs' own listed conditions; the source-scoped review 5485883117 that now exists, which states no
+organizational-independence credit and was posted from the same project account, retains it and keeps
+Lean execution as an open condition; its disposition is for the C263/C264 handoff owners);
+alignment stays `PENDING_INDEPENDENT_REVIEW`; organizational-independence credit 0 (the same project
+account wrote, compiled and registered the module); scientific effect NONE.
+
+| Item | `OrdinaryH0Controls.lean` |
+|---|---|
+| Task | C264 owner task, item 4 (Math- #428 comment 6113277485, which names this lane as recipient and gate owner) |
+| Specification | the corrected CONTROL_OBLIGATIONS of Math- #428 comment 6113277173 |
+| Author | Anthropic/Claude lane (companion owner), delegated AI work for Dylan Roy; not a handoff successor (no handoff bytes exist) |
+| Registered bytes | SHA-256 `df9d3645282ca526b67eca3d5db691b622092a14b5fddee9be21013e39666184`, 29590 bytes, 453 lines |
+| First compiled form | SHA-256 `e825837f3b0e43553a3a2f48ca48e4150182ad160eb0d7e1a10c141f9c395056`, 28503 bytes, 440 lines; the registered bytes change only the module-docstring paragraph on review status (FORMAL HOLD rests on the handoffs' listed conditions; the source-scoped review 5485883117, no credit stated, and the engineering readback 5485829137, credit 0, exist; FORMAL HOLD unchanged); no declaration changed |
+| Imports | `Mathlib`, `OrdinaryH0` |
+| Declarations | 37 theorems, 3 abbrevs, 4 defs, 0 instances; every name prefixed `ordinaryH0Control_` |
+| Range-aware census at the pin | 48 = 44 + 0 + 4 (user range + user generated + internal generated: `_proof_1` and `eq_1` of `ordinaryH0Control_parabolaLeft` and `ordinaryH0Control_parabolaRight`) |
+| `census_auxiliary` | no new entry |
+| `#print axioms` | all 44 within `{propext, Classical.choice, Quot.sound}` |
+| New false controls | `RejectMergerKillsPointClass`, `RejectSeparationWithoutNonzeroCoeff`, `RejectNonmergerKillsDifference` |
+| Provenance | `provenance.owner_modules` in `SOURCE_FILES.json`, compared whole with `OWNER_MODULES` in `check.py`; the protocol tests refuse tracked bytes that are not the recorded identity |
+| Status | registered; no review of these bytes is recorded; FORMAL HOLD of `OrdinaryH0` unchanged; credit 0 |
+
+What the fixtures show (the declarations are listed under
+[`OrdinaryH0Controls`](#ordinaryh0controls-37-theorems-3-abbrevs-4-defs--c264-owner-task-item-4-instantiated-ordinary-h0-controls)):
+the empty space has zero H0 (with `ℤ` and with zero coefficients); the point has a nonzero,
+augmented point class with `ℤ` coefficients (ordinary, not reduced, H0); two points of one path
+component (`0`, `1` in `ℝ`) have zero difference and nonzero classes; two path components (`Bool`)
+have distinct classes with `ℤ` and with `ZMod 2` coefficients; a merger (the collapse
+`Bool → Unit`) kills the difference while each image class survives; a non-injective map (the
+first projection of `Bool × Bool`) kills one difference and keeps another; with zero coefficients
+all of H0 is a zero object, the two classes of `Bool` coincide and the point class vanishes, so
+the separation and nonvanishing statements are false without `𝟙 R ≠ 0`; along the closed
+superlevels of `x ↦ x ^ 2` a strict inclusion keeps a difference alive and the inclusion into the
+whole line kills it.
+
+The three controls, each a false statement about the fixtures whose tactic rewrites with the true
+fixture theorem it contradicts and must leave exactly `⊢ False`:
+
+| Control | Intended reason for refusal | Diagnostic pinned from Lean at the pin |
+|---|---|---|
+| `RejectMergerKillsPointClass` | a merger kills the difference, not the individual class: `ordinaryH0Control_collapse_image_ne_zero` rewrites `pointClass true ≫ map collapse = 0` to `False` | `RejectMergerKillsPointClass.lean:3:255: error: unsolved goals` / `⊢ False`, exit 1 |
+| `RejectSeparationWithoutNonzeroCoeff` | with zero coefficients the two classes of `Bool` are equal (`ordinaryH0Control_bool_zeroCoeff_eq`), so the separation statement needs `𝟙 R ≠ 0` | `RejectSeparationWithoutNonzeroCoeff.lean:3:160: error: unsolved goals` / `⊢ False`, exit 1 |
+| `RejectNonmergerKillsDifference` | the projection keeps the difference of `(true, false)` and `(false, true)`, whose images stay in distinct components (`ordinaryH0Control_fst_difference_ne_zero`) | `RejectNonmergerKillsDifference.lean:3:391: error: unsolved goals` / `⊢ False`, exit 1 |
+
+Discriminators: the same tactic was applied, in the same emitted format and under the same file
+name, to each control's **true** sibling statement (the difference under the collapse; the
+`ℤ`-coefficient separation of `Bool`; the difference of `(true, false)` and `(true, true)` under
+the projection) and compiled at the pin. Lean printed `` `simp` made no progress `` for the first
+and third, and for the second an unsolved goal that is not `False` together with an unused-simp-argument
+error; `check.py negative` refuses all three as `not the intended False-goal diagnostic`. So each
+control's `⊢ False` comes from the falsehood of its statement, not from a tactic that turns any goal
+into `False`. The six diagnostics (three controls, three siblings) are pinned in the protocol tests
+(`CONTROL_LOGS`, `DISCRIMINATOR_LOGS`), where the sibling logs are negative controls of both
+`negative` and `finish`. The sibling runs are local records of this lane (2026-10-12), not
+members of the evidence directory; the control runs are, and the receipt hashes their logs.
+
+Evidence count: `EVIDENCE_FILES` goes from 54 to 65 members: `build-OrdinaryH0Controls.log` and
+`.status` (2), and for each of the three controls its `.lean`, `.log` and `.status` (9). The census
+grows from 133 to 181 constants (153 user range, the one user-generated `congr_simp`, 27 internal
+generated), `Audit.lean` from 109 to 153 `#print axioms`, `Types.lean` from 81 to 118 `#check`,
+and the `leanchecker` command names six modules.
+
+What this commit does not establish: any review of `OrdinaryH0` or of `SuperlevelBar` (FORMAL HOLD
+unchanged for both); that the fixtures meet every row of the CONTROL_OBLIGATIONS matrix, or that
+item 4 of the C264 owner task is closed (no label moves here); any Morse chart, critical-level
+attainment theorem, interval decomposition, elder correspondence, count identity, Field adapter,
+stochastic law or scientific-status promotion; a first merger level or threshold attainment; any
+statement about connected (as opposed to path) components; a fixture for any of the 13 C264
+theorems the module does not name (among them `ordinaryH0_iso_naturality` and
+`ordinaryH0_filtration_naturality`); alignment
+(`PENDING_INDEPENDENT_REVIEW`); any organizational-independence credit (0). This lane's own
+adversarial checks of the module before registration (kernel, specification and delta passes, a
+fix round) were the same project account, credit 0, and are not a review. Local evidence for this
+commit (each module build, the emitted positive, audit, types and census files, the six-module
+`leanchecker`, the eleven controls and the three siblings, exit 0 or the pinned diagnostic, this
+lane, 2026-10-12) is a record of a computation on a worktree, not a receipt.
+
+## What this companion does not do
+
+It does not modify `formal/`, the D2 companions or their workflows. It does not enter the q0
+dependency graph, raise any claim's grade, or substitute for the nonauthor source review, the
+independent alignment review or the operator's decisions. It does not lift the C263 or C264
+FORMAL HOLD, and it does not review the successor bytes it registers; `OrdinaryH0Controls` is not
+a review of `OrdinaryH0`. The hosted receipt is a
+record of a computation, not evidence of alignment with the research programme.

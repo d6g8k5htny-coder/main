@@ -1,0 +1,161 @@
+{
+  "alignment_status": "PENDING_INDEPENDENT_REVIEW",
+  "definitions": {
+    "ClosedSuperlevel": {
+      "abbrev": [],
+      "def": [
+        "superlevel_set",
+        "superlevel_inclusion",
+        "superlevel_componentMap",
+        "superlevel_componentInclusion",
+        "superlevel_filtration",
+        "superlevel_h0Filtration"
+      ],
+      "instance": []
+    },
+    "TorusTopology": {
+      "abbrev": [
+        "torus_E",
+        "torus_quotient"
+      ],
+      "def": [
+        "torus_latticeVec",
+        "torus_periodBasis",
+        "torus_periodLattice",
+        "torus_proj",
+        "torus_isPeriodic",
+        "torus_descend"
+      ],
+      "instance": [
+        "torus_lattice_discrete",
+        "torus_lattice_addSubgroup_discrete",
+        "torus_lattice_isZLattice"
+      ]
+    }
+  },
+  "files": {
+    ".github/workflows/torus-filtration.yml": {
+      "bytes": 1776,
+      "git_blob": "0081668588a62eb3ae7a844bcb89706613a104cf",
+      "sha256": "076cec2f322abab8bfff5733a0882aef13755e5f0221617a847177812d30e8bd"
+    },
+    "companions/torus_filtration_20261011/ClosedSuperlevel.lean": {
+      "bytes": 8088,
+      "git_blob": "a4323cb50fb2d5861c4e6240a18684bfb566fb80",
+      "sha256": "90d1481b75d9c6d14e462c3fbf0bf7c7cdd0efb9eaad68d6732400658753b1c2"
+    },
+    "companions/torus_filtration_20261011/README.md": {
+      "bytes": 13944,
+      "git_blob": "14023b1a7ba3c9666e40c80418efbd64bf73a777",
+      "sha256": "74c43014e022c2acdab9b233b00949dc874aca88a89ad7c1d92627cf94f3c655"
+    },
+    "companions/torus_filtration_20261011/SCOPE.md": {
+      "bytes": 9301,
+      "git_blob": "297053533fb33ace55b6cbdd3baafbc6328d35a0",
+      "sha256": "6246db6931244a3a208a722a65c70ce940f1ea2d5d255df7c8cf6a8f244d4599"
+    },
+    "companions/torus_filtration_20261011/TorusFiltration.lean": {
+      "bytes": 45,
+      "git_blob": "d8e52f866943d54959cd38d5ec496739f739bc17",
+      "sha256": "5498eb85d94965073f8cee18fda4bd8a6f4ceef36ed85efd7fb78784ab4f0e58"
+    },
+    "companions/torus_filtration_20261011/TorusTopology.lean": {
+      "bytes": 12257,
+      "git_blob": "ed678ea322fe5315b3aaff44e4e2f06b018399d8",
+      "sha256": "ddb145b3f791c181d4f2a51e54e711937297bd6476ba55bcd5252b7ddb57cfe1"
+    },
+    "companions/torus_filtration_20261011/check.py": {
+      "bytes": 22841,
+      "git_blob": "bbac950eb01ef4a81aa60b2651974d911a61e51f",
+      "sha256": "0f3a48a19c1b792f50f44828c9c924a7d857469bb5e1c21694a5ac6f6fab3aaa"
+    },
+    "companions/torus_filtration_20261011/replay.sh": {
+      "bytes": 3467,
+      "git_blob": "9d570538b40a600d85f19b448c4159fe6da62c13",
+      "sha256": "89542488f79907b6c3e722906f4f3a028f824834411fd07bdeb885b848d03201"
+    },
+    "companions/torus_filtration_20261011/test_torus_filtration.py": {
+      "bytes": 36418,
+      "git_blob": "d85b017f9ffa6ae226d5261b8865c19d8a10529f",
+      "sha256": "59ddf2cd29c857f235ce9681e3aa4631350d98bf94afb00132447c31fb79f23d"
+    }
+  },
+  "modules": [
+    "TorusTopology",
+    "ClosedSuperlevel"
+  ],
+  "namespace": "TorusFiltration",
+  "provenance": {
+    "claim": "8a5c7a24-784b-4aaa-b951-cd9f37b0dc64",
+    "compile_fixes_and_companion": "Anthropic/Claude lane, delegated AI work for Dylan Roy",
+    "handoff_comments": {
+      "c255_route_finding_d2_pins_companion_route": "6111255007",
+      "implementer_report": "6111059848",
+      "local_elaboration_report": "6111093545",
+      "modules": "6111056103",
+      "nonauthor_source_review_compilation_hold": "6111059498",
+      "overlay": "6111059166",
+      "pickup_this_lane": "6111139060"
+    },
+    "handoff_pr": "d6g8k5htny-coder/Math-#419",
+    "human_review": "none",
+    "namespace_mapping": "ResearchFormalCoreR1.<n> (handoff) -> TorusFiltration.<n> (companion)",
+    "organizational_independence_credit": 0,
+    "original_sha256": {
+      "ResearchFormalCoreR1/ClosedSuperlevel.lean": "1fed3edada12b4dc7f5fcf874dae7ccde5d8f65af63cf103159debe58ba6789e",
+      "ResearchFormalCoreR1/TorusTopology.lean": "efa80d2879758b6d6473a0024a308ff758c308cdc8e4b5f400f39dde63a7f6f4"
+    },
+    "original_status": "NOT_COMPILED",
+    "source_author": "OpenAI/Codex lane (C254), delegated AI work for Dylan Roy"
+  },
+  "root_module": "TorusFiltration",
+  "schema": 1,
+  "scientific_effect": "NONE",
+  "theorems": {
+    "ClosedSuperlevel": [
+      "superlevel_control_closed_endpoint",
+      "superlevel_control_strict_endpoint",
+      "superlevel_control_parameter_sign",
+      "superlevel_control_inclusion_direction",
+      "superlevel_control_essential",
+      "superlevel_mono",
+      "superlevel_isClosed",
+      "superlevel_inclusion_id",
+      "superlevel_inclusion_comp",
+      "superlevel_mem_at_own_height",
+      "superlevel_neg_height",
+      "superlevel_control_strict_thresholds",
+      "superlevel_componentMap_mk",
+      "superlevel_componentMap_id",
+      "superlevel_componentMap_comp",
+      "superlevel_componentInclusion_id",
+      "superlevel_componentInclusion_comp",
+      "superlevel_component_eq_iff_joinedIn",
+      "superlevel_h0Filtration_map_id",
+      "superlevel_h0Filtration_map_comp"
+    ],
+    "TorusTopology": [
+      "torus_field_latticeVec_formula",
+      "torus_basis_sum_eq_latticeVec",
+      "torus_lattice_mem_iff",
+      "torus_proj_surjective",
+      "torus_proj_continuous",
+      "torus_proj_eq_iff",
+      "torus_control_lattice_translate",
+      "torus_proj_isCoveringMap",
+      "torus_compact",
+      "torus_pathConnectedSpace",
+      "torus_field_periodic_formula",
+      "torus_periodic_respects",
+      "torus_descend_proj",
+      "torus_descend_continuous",
+      "torus_path_lift_from",
+      "torus_control_constant_path_endpoint",
+      "torus_control_no_arbitrary_endpoint",
+      "torus_higher_path_iff",
+      "torus_strict_higher_path_iff",
+      "torus_closed_higher_path_iff",
+      "torus_global_max_iff"
+    ]
+  }
+}

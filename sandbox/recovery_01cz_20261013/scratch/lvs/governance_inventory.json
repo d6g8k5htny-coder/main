@@ -1,0 +1,495 @@
+{
+ "summary": "Read-only reconnaissance of the formal-lane governance on d6g8k5htny-coder/main at origin/main f6deeba775c27e731366d4772dfe58744425236f (2026-10-10). The lane has ONE contract and two packages (Math- Mathlib pilot, main core-Lean SIDE24 arithmetic skeleton, 31 targets). Vocabulary: formal-progress labels none/specified/proved/kernel-checked (docs/FORMAL_VERIFICATION.md:35); `proved` is the only value a committed manifest may carry (tools/formal_gate_check.py:138); `kernel-checked` exists only in the receipt of a trusted --run-lean (gate:288-290); alignment is a separate pending/accepted/stale dimension with manifest value fixed at PENDING_INDEPENDENT_REVIEW and per-target verdicts ALIGNED / ALIGNED AT NARROWER SCOPE / MISALIGNED (formal/REVIEW_LANE.md:35-37); L0-L5 ladder is defined in issue #95 body §C and a trusted kernel-checked receipt is \"L5 evidence for exactly that target\" (rollout:84-85). Gate: source-only mode checks manifest shape/self-award refusal, SHA-256 of every bound file, toolchain v4.34.1, lock==dependency_revisions, root imports exactly the registered modules, no sorry/native_decide/axiom outside comments, target inventory == theorem declarations in order, pinned sources byte-identical and from the five public repos, verbatim informal anchors, does_not_claim nonempty, no unregistered/unbound files, ALIGNMENT.md regenerated; --run-lean additionally does fresh lake build, leanchecker, transitive #print axioms restricted to propext/Classical.choice/Quot.sound, elaborated types, 7 manifest mutation controls (REJECTED_BY_LEAN) + sorry/custom_imported/native controls (REJECTED_BY_AXIOM_GATE), re-check of manifest digest, Lean version check, and writes receipt.json with checked_commit, repository, workflow_run_id, lean_version, axioms, negative_controls, log digests. Required check on main is the single context `verify` (workspace-landing.yml:66-79) = aggregate over landing-checks + formal-verification.yml; tools/required_formal_check.py binds receipt to GITHUB_SHA==git HEAD, repository, run id, run attempt, manifest digest, log digests, and the aggregate refuses any non-success dependency; main also requires public-intake and public-shop (ruleset 23798639, zero approving reviews, pre-existing RepositoryRole5 bypass). Adding targets requires: theorem/lemma at column 0 inside the module's single namespace, manifest target row with fixed six-key schema and verbatim anchor from a byte-pinned public source copy, module registered in source_modules and root import, --refresh-hashes then --write-alignment then gate then --run-lean, updating tests/test_formal_gate.py:331-332 (hard-coded 31 targets, empty deps), SCOPE.md row with \"Not established\", any new refusal mirrored in Math- gate, claim in the relevant PR/#275 with the PR template's Current disposition block, author object kept author-side; alignment only by a reviewer differing in provider, family and agent; any source/scope/toolchain/manifest change stales prior alignment. Scope constraints: #95 §C \"Do not attempt to formalize the entire stochastic-topology theorem first\"; real-number statements belong in the Math- Mathlib package, not a second dependency tree on main (CONTRIBUTING.md:189-192); unformalised parents are explicit hypotheses, never axioms; LEAN_AUDIT_OWNER requires coverage by exact dependency slices with NOT ASSESSED for anything uninspected. Statement-only recording: the word `specified` exists but main has NO mechanism for it — the gate refuses any formalization_status but `proved`, refuses sorry/axiom, receipts with `specified` are refused by both binders; rollout:64-67 says \"not yet formalised\" is described in prose (SCOPE.md \"Not established\", work-offer table, GLOSSARY Lean column), not as register rows. Open asks: non-Anthropic alignment review of the 31 main targets (formal/reviews holds only the template), gate unification or package transfer to Math-, exact c_{d,ref} definition and proof-producing enclosure, ρ* as next full-theorem target, probability interface I1-I4, museum formalization view, Blueprint/Coq deferred; stale pointer lakefile.toml:7-8 to a README \"Expansion path\" section that no longer exists; VERIFICATION_LEVELS.json cited in #95 comment 5842121882 is not on origin/main.",
+ "data": {
+  "repo_identity": {
+   "repository": "d6g8k5htny-coder/main",
+   "branch": "origin/main",
+   "commit": "f6deeba775c27e731366d4772dfe58744425236f",
+   "read_date": "2026-10-10",
+   "formal_package": {
+    "package": "side24-arithmetic-skeleton",
+    "root_module": "UniversalLaw",
+    "targets": 31,
+    "toolchain": "leanprover/lean4:v4.34.1",
+    "dependency_revisions": {},
+    "author": {
+     "provider": "Anthropic",
+     "family": "Claude",
+     "agent": "Cursor cloud agent, 2026-09-27"
+    },
+    "formalization_status": "proved",
+    "alignment_status": "PENDING_INDEPENDENT_REVIEW",
+    "modules": [
+     "UniversalLaw/Side24/Ledger.lean (17 targets)",
+     "UniversalLaw/Side24/ConeMoments.lean (10)",
+     "UniversalLaw/Side24/Endpoints.lean (4)"
+    ],
+    "pinned_sources": [
+     "Math-@9d7b6802424fb4715b31999066aafca8ee2f3cca coefficients/side24_v1/PROOF.md (10272 B, c06daccc...)",
+     "Math-@9d7b6802424fb4715b31999066aafca8ee2f3cca coefficients/side24_v1/ENCLOSURE.json (1090 B, 72b6cd92...)"
+    ]
+   },
+   "last_formal_commits": [
+    "0c2c2919 2026-10-03 Keep Lean handoff alignment vocabulary source-bound",
+    "d6ca73ed 2026-10-03 Record dedicated UI/UX and Lean audit agent handoffs",
+    "66bd1cc5 2026-09-28 Record the formal-checks deployment in FORMAL_REQUIRED_CHECKS.md",
+    "21199927 2026-09-27 Require current-run formal evidence through the existing verify check",
+    "c7ce8ec5 2026-09-27 Converge the formal package onto the Math- lane contract (#177 / Math- PR92)"
+   ]
+  },
+  "vocabulary": [
+   {
+    "term": "formalization_status",
+    "meaning": "Per-package formal-progress label in the manifest sidecar. Admissible lane values: none / specified / proved / kernel-checked. In a committed manifest the gate accepts ONLY `proved`; `kernel-checked` may appear only in a run receipt.",
+    "defined_at": "docs/FORMAL_VERIFICATION.md:35; formal/manifest.json:8; tools/formal_gate_check.py:138 (require == 'proved'); tools/formal_gate_check.py:289 (receipt sets 'kernel-checked'); docs/agents/LEAN_AUDIT_OWNER.md:62-65"
+   },
+   {
+    "term": "none",
+    "meaning": "Formal-progress label: no formalization. The project-wide `none` rows for unformalised claims were dropped at convergence (#181); 'not yet formalised' is described in prose, not as register rows.",
+    "defined_at": "docs/FORMAL_VERIFICATION.md:35; docs/FORMAL_VERIFICATION_ROLLOUT_20260927.md:27, 64-67"
+   },
+   {
+    "term": "specified",
+    "meaning": "Formal-progress label: Lean statement written, proof not supplied. Named in the lane vocabulary and in the ρ* ask ('move from specified to proved') but NO mechanism on main accepts it: the gate refuses a manifest whose formalization_status is not `proved`, refuses `sorry`/`axiom`, and both receipt binders refuse a receipt saying `specified`.",
+    "defined_at": "docs/FORMAL_VERIFICATION.md:35; docs/FORMAL_VERIFICATION_ROLLOUT_20260927.md:27, 198; tools/formal_gate_check.py:138, 173, 175; tests/test_required_formal_check.py:101-103; tests/test_formal_execution_context.py:41-43"
+   },
+   {
+    "term": "proved",
+    "meaning": "Manifest-level label: proof text supplied and bound by SHA-256. The strongest label a committed manifest may carry. Not an execution claim.",
+    "defined_at": "docs/FORMAL_VERIFICATION.md:35 ('proof text supplied'); formal/README.md:43-46; formal/GLOSSARY.md:88; formal/manifest.json:8,10; tools/formal_gate_check.py:138"
+   },
+   {
+    "term": "kernel-checked",
+    "meaning": "Receipt-level label ONLY: a trusted --run-lean execution built the package, leanchecker passed, and every target's transitive axioms are within propext/Classical.choice/Quot.sound. Written to formal/.lake/formal-evidence/receipt.json with checked_commit; manifest cannot self-award it. Not 'verified' in the Layer 0 sense; L5 evidence for exactly that target.",
+    "defined_at": "formal/README.md:47-51; formal/GLOSSARY.md:89; tools/formal_gate_check.py:288-295; docs/FORMAL_VERIFICATION_ROLLOUT_20260927.md:62-63, 84-85, 214-216; CONTRIBUTING.md:184-188; tools/required_formal_check.py:60 (binder requires it)"
+   },
+   {
+    "term": "alignment_status",
+    "meaning": "Separate dimension from formalization_status: pending / accepted / stale. Manifest value must be exactly PENDING_INDEPENDENT_REVIEW; it never flips. An accepted alignment is a separate validated JSON record, consumed by a controller.",
+    "defined_at": "docs/FORMAL_VERIFICATION.md:35; formal/manifest.json:9; tools/formal_gate_check.py:138; formal/README.md:52-55; formal/REVIEW_LANE.md:78-80; docs/agents/LEAN_AUDIT_OWNER.md:63-65"
+   },
+   {
+    "term": "PENDING_INDEPENDENT_REVIEW",
+    "meaning": "The only alignment_status a manifest or receipt may carry; preserved verbatim; no new machine status values.",
+    "defined_at": "formal/manifest.json:9; tools/formal_gate_check.py:138, 290; docs/agents/LEAN_AUDIT_OWNER.md:64-65"
+   },
+   {
+    "term": "disposition (alignment record)",
+    "meaning": "Template lists ACCEPTED | REJECTED | ACCEPTED_AT_NARROWER_SCOPE; only ACCEPTED validates. ACCEPTED is allowed only if every target is ALIGNED or ALIGNED AT NARROWER SCOPE with the narrowing recorded.",
+    "defined_at": "formal/reviews/TEMPLATE_alignment_review.json:2; tools/formal_gate_check.py:301; formal/REVIEW_LANE.md:53-56"
+   },
+   {
+    "term": "ALIGNED / ALIGNED AT NARROWER SCOPE / MISALIGNED",
+    "meaning": "Per-target verdicts of the statement-alignment reviewer (recorded in the Markdown review file, not graded by the kernel). MISALIGNED is corrected at the source (new hash, new receipt) then re-reviewed.",
+    "defined_at": "formal/REVIEW_LANE.md:35-37, 67-68; docs/agents/LEAN_AUDIT_OWNER.md:66-68"
+   },
+   {
+    "term": "stale (alignment)",
+    "meaning": "A fresh source, scope, toolchain or manifest digest stales the old review; validator messages 'stale alignment manifest' / 'stale alignment scope'.",
+    "defined_at": "formal/SCOPE.md:64-65; formal/REVIEW_LANE.md:21-22; tools/formal_gate_check.py:302-303; docs/agents/LEAN_AUDIT_OWNER.md:173-176"
+   },
+   {
+    "term": "L0–L5 ladder (verification_level)",
+    "meaning": "L0 prose/LLM argument; L1 executable numerical/reproduction checks; L2 exact arithmetic/symbolic CAS checks; L3 property/mutation/falsification suite; L4 SMT/decision-procedure certificate; L5 proof-assistant checked theorem. verification_level is recorded separately from scientific status and is evidence, not acceptance. A target with a trusted kernel-checked receipt is L5 evidence for exactly that target.",
+    "defined_at": "GitHub issue d6g8k5htny-coder/main#95 body, section C (closed 2026-09-27T23:37:57Z, 141 comments); docs/FORMAL_VERIFICATION_ROLLOUT_20260927.md:82-85; formal/README.md:56-59. (A VERIFICATION_LEVELS.json under architecture/scientific_state/v1 is cited in #95 comment 5842121882 but is NOT present on origin/main.)"
+   },
+   {
+    "term": "Layer 0",
+    "meaning": "Existing provenance, scope, review and CI system: hashes, STATUS.md, PROOF_INDEX.md, source-bound review, public-intake guard. Owns ACCEPT/AMEND verdicts.",
+    "defined_at": "formal/GLOSSARY.md:83; docs/FORMAL_VERIFICATION_ROLLOUT_20260927.md:24-26"
+   },
+   {
+    "term": "Layer 1",
+    "meaning": "The Lean layer: statements and proofs checked by the Lean kernel and bound by hash to Layer 0 bytes.",
+    "defined_at": "formal/GLOSSARY.md:84; docs/FORMAL_VERIFICATION_ROLLOUT_20260927.md:26; CONTRIBUTING.md:158"
+   },
+   {
+    "term": "target",
+    "meaning": "One registered Lean theorem/lemma declaration (namespace-qualified name) with manifest row {name, module, title, source, informal_anchor, does_not_claim}. The target inventory must equal, in order, the theorem/lemma declarations found in the registered modules. Kernel evidence is 'for exactly the manifest's targets at the checked commit'.",
+    "defined_at": "formal/manifest.json:78-326; tools/formal_gate_check.py:55 (THEOREM regex), 178, 195-206; .github/workflows/formal-verification.yml:4-5"
+   },
+   {
+    "term": "informal anchor",
+    "meaning": "A verbatim quote from the pinned source bytes that a Lean target is attached to; verified as a substring by the gate.",
+    "defined_at": "formal/GLOSSARY.md:87; tools/formal_gate_check.py:203-204; CONTRIBUTING.md:172-174"
+   },
+   {
+    "term": "does_not_claim",
+    "meaning": "Mandatory nonempty per-target field naming what the Lean statement does not establish; rendered in ALIGNMENT.md.",
+    "defined_at": "formal/manifest.json (every target); tools/formal_gate_check.py:200-201; formal/ALIGNMENT.md:9"
+   },
+   {
+    "term": "Not established",
+    "meaning": "SCOPE.md table column giving, per target group, the analytic content outside the Lean statement; 'a visible boundary, not a defect and not a claim'.",
+    "defined_at": "formal/SCOPE.md:22-39; docs/FORMAL_VERIFICATION_ROLLOUT_20260927.md:217-218"
+   },
+   {
+    "term": "receipt",
+    "meaning": "receipt.json written by --run-lean only after build, leanchecker, axiom audit, elaborated types and all negative controls succeed and the manifest digest is unchanged. Fields: schema_version, scientific_effect NONE, scientific_status_authority false, package, formalization_status kernel-checked, alignment_status PENDING_INDEPENDENT_REVIEW, manifest_sha256, checked_commit (git HEAD), repository (GITHUB_REPOSITORY), workflow_run_id (GITHUB_RUN_ID), lean_version, dependency_revisions, axioms {target: [..]}, negative_controls {label: outcome}, logs {name.log: sha256}. A caller-supplied receipt is untrusted until matched to the actual workflow run and commit. A receipt is a record of a computation, not evidence of acceptance.",
+    "defined_at": "tools/formal_gate_check.py:288-295; formal/README.md:47-51; docs/FORMAL_VERIFICATION.md:33; audits/formal_enforcement/2026-09-27/Main188_receipt.json"
+   },
+   {
+    "term": "binding (required-check binding)",
+    "meaning": "required-check-binding.json produced by tools/required_formal_check.py receipt: {checked_commit, repository, run_id, run_attempt, receipt_sha256}, after verifying the receipt's checked_commit == GITHUB_SHA == git HEAD, repository, workflow_run_id, formalization_status kernel-checked, scientific_effect NONE, manifest_sha256 == sha256(formal/manifest.json), and every log digest. The original receipt is never rewritten.",
+    "defined_at": "tools/required_formal_check.py:50-73, 102-110; docs/FORMAL_REQUIRED_CHECKS.md:16-20; audits/formal_enforcement/2026-09-27/Main188_required-check-binding.json"
+   },
+   {
+    "term": "execution-context binding",
+    "meaning": "execution-context.json from tools/formal_execution_context.py: binds an unchanged Math- receipt (source repo d6g8k5htny-coder/Math- at an expected commit) to the execution repository d6g8k5htny-coder/main and run id; 'receipt repository field means execution repository, not source repository'.",
+    "defined_at": "tools/formal_execution_context.py:22-51; .github/workflows/release-snapshot.yml:81-83"
+   },
+   {
+    "term": "negative control",
+    "meaning": "Executable mutation that must be rejected: manifest `negative_controls` (replace/with text in a module, must be REJECTED_BY_LEAN) plus gate-injected sorry, custom_imported axiom, native_decide (must be REJECTED_BY_AXIOM_GATE). Main package has 7+3 = 10; Math scalar pilot 5; cap packet 3. Also the Python-level controls in tests/test_formal_gate.py (43 tests, normal and -O).",
+    "defined_at": "tools/formal_gate_check.py:232-244, 265-281; formal/manifest.json:328-363; docs/agents/LEAN_AUDIT_OWNER.md:169-172; docs/FORMAL_VERIFICATION_ROLLOUT_20260927.md:111-116"
+   },
+   {
+    "term": "allowed axioms",
+    "meaning": "propext, Classical.choice, Quot.sound only; sorryAx, custom axioms and native-computation axioms (Lean.ofReduceBool) rejected transitively.",
+    "defined_at": "tools/formal_gate_check.py:48 (ALLOWED), 125; formal/manifest.json:25-29; docs/FORMAL_VERIFICATION.md:31; docs/reconnaissance/2026-09-27-formal-verification.md:7"
+   },
+   {
+    "term": "SOURCE_IDENTITY_PASS / FORMAL_GATE_FAIL / ALIGNMENT_RECORD_STRUCTURE_PASS / REQUIRED_FORMAL_CHECK_FAILED",
+    "meaning": "Gate CLI output tokens: source-only pass line '(not a Lean build or scientific acceptance): <manifest digest>'; failure prefix; alignment structural pass '(identity, coverage and lineage only; the review itself must be retrieved and authenticated)'; required-check refusal prefix.",
+    "defined_at": "tools/formal_gate_check.py:380, 385, 373; tools/required_formal_check.py:116"
+   },
+   {
+    "term": "author-side",
+    "meaning": "Produced by the author (human or model) and not yet checked by a distinct reviewer; applies equally to AI-generated Lean text; label stays until a distinct reviewer's record validates.",
+    "defined_at": "formal/GLOSSARY.md:85; formal/README.md:132-134; docs/FORMAL_VERIFICATION_ROLLOUT_20260927.md:131-132"
+   },
+   {
+    "term": "alignment review",
+    "meaning": "A distinct reviewer's check that a Lean statement says what the informal statement says at the stated scope; does not re-prove (kernel did) and does not grade Layer 0 mathematics.",
+    "defined_at": "formal/GLOSSARY.md:86; formal/REVIEW_LANE.md:1-9, 19-41"
+   },
+   {
+    "term": "alignment record",
+    "meaning": "JSON validated by --alignment: disposition ACCEPTED, manifest_sha256, scope_sha256 (= files['formal/SCOPE.md']), targets exactly the manifest's, author/reviewer {provider, family, agent} all pairwise different (casefold), evidence {repository owner/name, 40-hex commit, path, sha256}; plus source_exposure. Validation is structural; authenticating that the review happened is a controller's job.",
+    "defined_at": "formal/GLOSSARY.md:90; tools/formal_gate_check.py:299-315; formal/reviews/TEMPLATE_alignment_review.json; formal/SCOPE.md:60-65"
+   },
+   {
+    "term": "cross-check lane",
+    "meaning": "An independent AI prover producing a proof of the same Lean statement; extra evidence, same kernel, still author-side; requires actual availability, pinned identity and recorded execution.",
+    "defined_at": "formal/GLOSSARY.md:91; docs/FORMAL_VERIFICATION.md:49"
+   },
+   {
+    "term": "work offer",
+    "meaning": "A table row offering formal work (reviewer, engineering reviewer, probability formalizer, numerical formalizer, acceptance/museum integrator); 'not assertions that other agents have accepted or completed them'; pickup recorded in the existing issue/PR.",
+    "defined_at": "docs/FORMAL_VERIFICATION.md:41-49"
+   },
+   {
+    "term": "conditional / imported premise",
+    "meaning": "The formal conclusion uses the premise as a hypothesis; Lean has not thereby proved that premise. Unformalised parent dependencies are stated as explicit hypotheses of the target, never as axioms.",
+    "defined_at": "docs/agents/LEAN_AUDIT_OWNER.md:71-72, 187-188; CONTRIBUTING.md:187-188"
+   },
+   {
+    "term": "NOT ASSESSED",
+    "meaning": "Coverage label for any source claim not inspected; must not be inferred covered from target counts.",
+    "defined_at": "docs/agents/LEAN_AUDIT_OWNER.md:141"
+   },
+   {
+    "term": "scientific_status_authority: false / scientific_effect: NONE",
+    "meaning": "Mandatory manifest and receipt declarations; the gate refuses a manifest saying otherwise.",
+    "defined_at": "formal/manifest.json:3-4; tools/formal_gate_check.py:136-137"
+   },
+   {
+    "term": "Dylan Roy — delegated AI review",
+    "meaning": "Owner-facing attribution for delegated reviews; must be followed by the actual performer/provider/agent; machine reviewer/lineage fields identify the performer, never the principal; delegation earns zero organizational-independence credit and cannot fill a formal-alignment requirement.",
+    "defined_at": "governance/OP-WORKFLOW-20260930.md:83-103; .github/ISSUE_TEMPLATE/review-record.yml:12-14, 76"
+   },
+   {
+    "term": "Formal evidence (closure-evidence axis)",
+    "meaning": "One axis of a derived evidence profile: 'Kernel-checked gate receipt and separate accepted alignment review'; an axis without a record reads `not recorded`, never a pass.",
+    "defined_at": "governance/OP-CLOSURE-EVIDENCE-20261006.md:23, 26-27"
+   },
+   {
+    "term": "Technical verdict vocabulary (review records)",
+    "meaning": "PASS_TECHNICAL / AMEND / FAIL / CANNOT_VERIFY / IN_REVIEW / NOT_REASSESSED — digest only; independence credit recorded separately (0 default).",
+    "defined_at": ".github/ISSUE_TEMPLATE/review-record.yml:51-89"
+   }
+  ],
+  "manifest_schema": [
+   {
+    "key": "schema_version",
+    "meaning": "Must be the integer 1 (gate:136)."
+   },
+   {
+    "key": "scientific_effect",
+    "meaning": "Must be the string \"NONE\" (gate:136)."
+   },
+   {
+    "key": "scientific_status_authority",
+    "meaning": "Must be boolean false; declares the manifest is an evidence sidecar, not a status register (gate:137)."
+   },
+   {
+    "key": "package",
+    "meaning": "Nonempty package identifier, e.g. side24-arithmetic-skeleton; copied into the receipt (gate:140-141, 289)."
+   },
+   {
+    "key": "package_root",
+    "meaning": "Repo-relative directory of the Lake package (\"formal\"); must exist and not be a symlink; every file under it must be in `files` or `unbound_files` (gate:143-145, 209-212)."
+   },
+   {
+    "key": "root_module",
+    "meaning": "Root Lean module name (UniversalLaw); <package_root>/<root_module>.lean must be bound and must import exactly the registered source_modules, nothing else (gate:152, 165-168)."
+   },
+   {
+    "key": "formalization_status",
+    "meaning": "Must be exactly \"proved\" in a committed manifest (gate:138)."
+   },
+   {
+    "key": "alignment_status",
+    "meaning": "Must be exactly \"PENDING_INDEPENDENT_REVIEW\" (gate:138)."
+   },
+   {
+    "key": "meaning",
+    "meaning": "Free-text statement of what the labels mean and that nothing here is a scientific register entry (manifest:10; not gate-checked)."
+   },
+   {
+    "key": "coordination",
+    "meaning": "Object with guide, work_item, math_pilot, rollout_record, work_offer_addressed pointers (manifest:11-17; not gate-checked)."
+   },
+   {
+    "key": "author",
+    "meaning": "Object {provider, family, agent} of the Lean text author; used as the lineage an alignment record's reviewer must differ from (manifest:18-22; compared in check_alignment via the record's own author object, gate:306-309)."
+   },
+   {
+    "key": "lean_toolchain",
+    "meaning": "Must equal \"leanprover/lean4:v4.34.1\" and match <package_root>/lean-toolchain; also hard-coded as TOOLCHAIN in the gate (gate:57, 142, 155)."
+   },
+   {
+    "key": "dependency_revisions",
+    "meaning": "Object {package name: 40-hex rev}; must equal the {name: rev} map of lake-manifest.json `packages`; empty for main (gate:156-162). Receipt copies it."
+   },
+   {
+    "key": "allowed_axioms",
+    "meaning": "Documentary list [propext, Classical.choice, Quot.sound]; the gate enforces its own frozenset ALLOWED regardless (gate:48; manifest:25-29)."
+   },
+   {
+    "key": "files",
+    "meaning": "Map repo-relative path -> SHA-256 (64 hex) of every bound file; must include lean-toolchain, lakefile.toml, lake-manifest.json, root module, SCOPE.md, GLOSSARY.md, README.md, tools/formal_gate_check.py, tests/test_formal_gate.py, every source module, every pinned local_copy; symlinks and path escapes refused (gate:146-154, 171, 193)."
+   },
+   {
+    "key": "unbound_files",
+    "meaning": "List of files inside package_root deliberately not hashed (formal/manifest.json itself, formal/ALIGNMENT.md); any other unlisted file in the package fails (gate:209-212)."
+   },
+   {
+    "key": "sources",
+    "meaning": "Nonempty list of pinned informal sources, each with EXACTLY the keys {id, repository, commit, path, bytes, sha256, local_copy}; repository must be one of d6g8k5htny-coder/{main, Math-, query-, meta-framework, Universal-Law-Workspace}; commit 40-hex; local_copy bytes must match `bytes` and `sha256` and be bound in `files` (gate:53-54, 182-194)."
+   },
+   {
+    "key": "source_modules",
+    "meaning": "Ordered, duplicate-free list of .lean paths relative to package_root; each must be bound, contain exactly one `namespace`, no sorry/native_decide/axiom outside comments; the set of .lean files under the package must be exactly these plus the root module (gate:163-178, 207-208)."
+   },
+   {
+    "key": "targets",
+    "meaning": "Ordered list of rows with EXACTLY {name, module, title, source, informal_anchor, does_not_claim}; name matches NAME regex; module in source_modules; title and does_not_claim nonempty; source is a sources id; informal_anchor a nonempty verbatim substring of that source's bytes; the list of names must equal, in order, namespace+'.'+theorem names declared in the modules (gate:179-206)."
+   },
+   {
+    "key": "negative_controls",
+    "meaning": "Map label -> {module, replace, with}; `replace` must occur in the module text; in --run-lean each mutated module copy must fail to compile ('is false' / 'unsolved goals' / 'failed') and is recorded REJECTED_BY_LEAN (gate:235-239, 280-281)."
+   },
+   {
+    "key": "(receipt-only fields, not in manifest)",
+    "meaning": "checked_commit, repository, workflow_run_id, lean_version, axioms, negative_controls outcomes, logs digests — written by execute() only (gate:288-295)."
+   }
+  ],
+  "gate_checks": {
+   "source_only": [
+    "Manifest parses with duplicate-key refusal (load_json, gate:70-77); schema_version 1, scientific_effect NONE, scientific_status_authority false; formalization_status == proved and alignment_status == PENDING_INDEPENDENT_REVIEW ('source metadata cannot self-award execution or review') (gate:136-139)",
+    "package/package_root/root_module/lean_toolchain nonempty strings; lean_toolchain == leanprover/lean4:v4.34.1; package root is a real directory (gate:140-145)",
+    "Every `files` entry is a 64-hex digest and the file's bytes hash to it; safe_path refuses absolute paths, '..', backslashes, symlinks, escapes (gate:80-89, 146-150)",
+    "Required bound set present: lean-toolchain, lakefile.toml, lake-manifest.json, <root_module>.lean, SCOPE.md, GLOSSARY.md, README.md, tools/formal_gate_check.py, tests/test_formal_gate.py (gate:151-154)",
+    "lean-toolchain file content == v4.34.1; lake-manifest.json packages {name: rev} == dependency_revisions, no duplicates, all revs 40-hex (gate:155-162)",
+    "Root module (comments stripped) consists of exactly `import <module>` lines for the registered source_modules in order (gate:165-168)",
+    "Each source module: bound, .lean, no \\bsorry\\b, no \\bnative_decide\\b, no line starting with `axiom` (after comment stripping), exactly one `namespace` (gate:169-178)",
+    "sources: nonempty, fixed 7-key schema, public repository allowlist, 40-hex commit, 64-hex sha256, positive int bytes, local copy byte-length and SHA-256 match, local copy bound (gate:182-194)",
+    "targets: fixed 6-key schema, valid name, registered module, nonempty title/does_not_claim, known source, informal_anchor nonempty and verbatim substring of source bytes; target name list == declared theorem/lemma names in module order (gate:195-206)",
+    "No unregistered .lean under the package (outside .lake); no file in the package that is neither bound nor declared unbound (gate:207-212)",
+    "CLI additionally requires formal/ALIGNMENT.md to equal render_alignment(manifest) exactly ('regenerate with --write-alignment') (gate:368-369)",
+    "Prints SOURCE_IDENTITY_PASS (not a Lean build or scientific acceptance): <sha256 of manifest bytes> plus a JSON summary; exit 1 with FORMAL_GATE_FAIL on any ValueError/KeyError/TypeError/OSError (gate:380-386)",
+    "--alignment REVIEW.json: disposition ACCEPTED; manifest_sha256 == current manifest digest; scope_sha256 == files['formal/SCOPE.md']; targets set == manifest targets, no duplicates; author and reviewer provider/family/agent all nonempty and pairwise different casefold; evidence repository 'x/y', commit 40-hex, sha256 64-hex, relative safe path; prints ALIGNMENT_RECORD_STRUCTURE_PASS (gate:299-315, 370-373)",
+    "--axioms-output FILE: audit a captured #print axioms text against the target list without Lean (gate:117-129, 374-376)",
+    "Maintenance writes: --refresh-hashes rewrites `files` digests from disk; --write-alignment regenerates ALIGNMENT.md (gate:334-344, 364-367)"
+   ],
+   "run_lean": [
+    "Requires `lake` on PATH or ~/.elan/bin/lake; removes formal/.lake/build; refuses symlinked build dirs; evidence dir formal/.lake/formal-evidence (gate:216-221, 248-255)",
+    "`lake build` must exit 0 (build.log) (gate:257)",
+    "`lake env leanchecker UniversalLaw` must exit 0 (leanchecker.log) (gate:258)",
+    "Writes Audit.lean = import root + `#print axioms <target>` per target; output parsed by AXIOM_LINE; every target must report; axioms must be subset of {propext, Classical.choice, Quot.sound}; any unrecognized output line fails ('unrecognized audit output'); result recorded per target (gate:117-129, 259-261)",
+    "Writes Types.lean with `set_option pp.explicit true` and `#check <target>` per target; must exit 0 (elaborated-types.log) (gate:262-264)",
+    "Negative controls: each manifest negative_controls mutation written to a scratch copy and compiled via `lake env lean`; must FAIL with 'is false'/'unsolved goals'/'failed' -> REJECTED_BY_LEAN; gate-injected `sorry`, `custom_imported` (axiom hiddenPremise : False via a middle theorem) and `native` (native_decide) must compile but their #print axioms must be rejected by audit_axioms -> REJECTED_BY_AXIOM_GATE; an escaping control fails the run (gate:232-244, 265-281)",
+    "Re-runs source_check; manifest digest must be unchanged ('manifest changed during execution') (gate:282-283)",
+    "`lake env lean --version` must contain 'version 4.34.1' (gate:284-285)",
+    "`git rev-parse HEAD` must be 40-hex; recorded as checked_commit (gate:286-287)",
+    "Receipt written to formal/.lake/formal-evidence/receipt.json with sorted keys: schema_version, scientific_effect, scientific_status_authority, package, formalization_status kernel-checked, alignment_status PENDING_INDEPENDENT_REVIEW, manifest_sha256, checked_commit, repository (env GITHUB_REPOSITORY), workflow_run_id (env GITHUB_RUN_ID), lean_version, dependency_revisions, axioms, negative_controls, logs {every *.log in the evidence dir: sha256} (gate:288-295)",
+    "Repository test tests/test_formal_gate.py::RepositoryControls::test_real_package_executes_with_receipt runs the real execute() when a toolchain is present and asserts kernel-checked, all axioms [], control outcomes (tests:347-362)",
+    "Workflow wrapping (formal-verification.yml): checkout pinned action, Python 3.11, actual-shell probe (exit 17 must propagate), shell regression tests, source-only gate BEFORE any download, elan v4.2.4 installer with SHA-256 a620ff16...bf53, `elan toolchain install $(cat formal/lean-toolchain)`, `--run-lean | tee`, gate tests in normal and -O mode, `required_formal_check.py receipt` binding step, evidence collected and uploaded as artifact formal-verification-<run_id> (30 days) even on failure, conditional step summary that never claims success unconditionally (workflow:43-107)"
+   ]
+  },
+  "rules_for_new_targets": [
+   "Vocabulary and register: do not open a third vocabulary or a second status register; the two packages share one sidecar contract; any new refusal must be added to both main's gate and Math- formal/gate.py until unified (CONTRIBUTING.md:166-169; AGENTS.md:25-29; docs/FORMAL_VERIFICATION_ROLLOUT_20260927.md:136-139, 166-169; LEAN_AUDIT_OWNER.md:159-160)",
+   "Claim before writing: declare the work in the relevant formal PR or main #275 (tasks/claims) / #307 (board); one claim per object; #95 is closed history and not the claim venue (CONTRIBUTING.md:18-24, 160-165; governance/OP-WORKFLOW-20260930.md:27-39; governance/OWNER_DECISION_20261005_CURSOR.md:38-39)",
+   "Placement: real-number / Mathlib statements (c_{d,ref}, enclosure, ρ*, Gaussian measures, Real.Gamma/exp/pi/log) go to the Math- Mathlib package, NOT a second dependency tree on main; main's package is deliberately dependency-free (CONTRIBUTING.md:189-192; formal/README.md:104-114; formal/lakefile.toml:4-8; rollout:140-144)",
+   "Lean text constraints enforced by gate: each module opens exactly one `namespace`; targets are `theorem`/`lemma` declarations starting at column 0 (THEOREM regex ^(?:theorem|lemma)); no sorry, native_decide, or `axiom` declarations even indirectly; root module imports exactly the registered modules; every .lean file under formal/ must be registered in source_modules (gate:55, 165-178, 207-208)",
+   "Unformalised parent dependencies are explicit hypotheses of the target, never axioms (CONTRIBUTING.md:187-188; LEAN_AUDIT_OWNER.md:71-72, 187-188)",
+   "Core Lean has no rationals: state rational identities as cross-multiplied integers, give the rational form in the docstring, put the exact 'not established' boundary in formal/SCOPE.md (CONTRIBUTING.md:189-191; formal/SCOPE.md:9-12)",
+   "Each new target needs a manifest row with exactly {name, module, title, source, informal_anchor (verbatim substring of a byte-pinned public source copy under formal/sources/), does_not_claim}; a new source needs a `sources` row with the 7 fixed keys and a byte-identical local copy bound in `files` (gate:182-206; CONTRIBUTING.md:171-176)",
+   "New manifest negative_controls should accompany new statements and must actually fail in --run-lean; 'Executable controls, not described ones' (rollout:148-150; gate:232-244)",
+   "Maintenance order after editing any bound file: `--refresh-hashes`, then `--write-alignment`, then the gate, then `--run-lean`; quote the receipt's checked_commit before citing a result; a red hosted run is preserved, not rewritten (formal/README.md:90-91; CONTRIBUTING.md:181-183; rollout:175-176, 219-220)",
+   "tests/test_formal_gate.py is hash-bound in the manifest and hard-codes len(targets)==31 and dependency_revisions=={} (tests:331-332): adding targets or a dependency requires editing that test and refreshing its hash; changing tools/formal_gate_check.py likewise changes its bound hash",
+   "Toolchain pin: lean_toolchain, lean-toolchain file, the gate's TOOLCHAIN constant and the 'version 4.34.1' check all fix v4.34.1; a toolchain change needs a separately reviewed change to the gate itself (gate:57, 142, 155, 285; LEAN_AUDIT_OWNER.md:164-166)",
+   "Frozen Layer 0 bodies are never edited: a formalisation attaches by hash; a defect found by formalisation becomes an erratum successor; new proof notes should display exact decimal/rational constants so anchors can quote them (rollout:192-194)",
+   "Authorship: the manifest `author` object records provider/family/agent of the Lean text; AI-authored text stays author-side until a distinct reviewer's record validates; the author cannot review own package for independence credit; cross-provider review of the other package is the cheapest independent review (formal/README.md:132-134; rollout:78-80, 131-132, 221-222)",
+   "Who may claim what: only a trusted --run-lean execution may write `kernel-checked`; only a reviewer differing in provider AND family AND agent may produce an ACCEPTED alignment record; nobody may flip manifest alignment_status or edit STATUS.md/PROOF_INDEX.md/LANDING_CLAIMS/claims/lemma_closed on formal evidence (REVIEW_LANE.md:11-17, 70-80; CONTRIBUTING.md:184-202; CLAUDE.md rule 1)",
+   "What counts as alignment review: read the exact current head; per target locate the anchor in the pinned copy, read the Lean STATEMENT (not proof) and docstring, check constants/quantifiers/inequality direction/scaling and cross-multiplication, confirm does_not_claim and SCOPE 'Not established' name what is omitted; record ALIGNED / ALIGNED AT NARROWER SCOPE / MISALIGNED per target; disclose source exposure; two files under formal/reviews/ named <date>_<reviewer-slug>.md/.json; JSON validated with --alignment; ACCEPTED only if all targets aligned (REVIEW_LANE.md:19-68; SCOPE.md:46-65)",
+   "Reuse of reviews: only for the same reviewed bytes, consumed dependencies and declared scope; changed metadata needs a bounded readback; changed proof/hypotheses need a successor review; regenerating an inventory cannot transfer an old review (LEAN_AUDIT_OWNER.md:173-176; OP-WORKFLOW:67-72)",
+   "What a PR must contain: PR template sections Change and purpose / Current disposition (head and integration owner, claim/handoff, completed review scopes and source identities, unresolved finding IDs, next action) / Verification (commands actually run, hosted check results at the tested commit) / Evidence and limits (what is NOT established, authorship/exposure, independence credit); open as draft; keep diff to the task; integration owner merges under expected_head_sha; merge commits only, never by the author; required hosted checks pass at the tested commit (.github/pull_request_template.md; CONTRIBUTING.md:218-234; OP-WORKFLOW:115-135; OWNER_DECISION_20261005:44-46)",
+   "Mathematical-change verification tier: exact source identity, hypotheses, substantive review of the changed scope and every applicable scientific predicate; a proof edit is never a cosmetic change (OP-WORKFLOW:52-61)",
+   "Per-packet execution contract (8 steps): pin informal text/statement/dependencies and name writer; record declaration inventory, elaborated hypotheses and imported premises in existing manifest/gate formats; bind tested repo/commit/run/attempt and receipt SHA-256 and inspect producer and aggregate; pinned v4.34.1 and locks (Mathlib d13f23b7...); preserve package-specific control counts; exact-source alignment for changed statements; record performer/provider/exposure; publish one source-bound disposition and release the claim (LEAN_AUDIT_OWNER.md:154-182)",
+   "Museum/catalog: a formalization view reads manifests and receipts and displays scientific_status_authority: false; PROOF_INDEX D3 may get one descriptive line, no status column; meta-framework may add a descriptive formal_evidence field (rollout:177-179, 188-191, 200-204)",
+   "External provers/checkers/AI generators need actual availability, pinned identity, explicit resource limits and recorded execution; a model's claim of success is not kernel evidence; Coq/Metamath deferred (docs/FORMAL_VERIFICATION.md:49; reconnaissance memo:25)"
+  ],
+  "required_checks": [
+   "main ruleset 23798639 requires contexts `verify`, `public-intake`, `public-shop`; zero GitHub approving reviews; pre-existing repository-role (RepositoryRole5) PR bypass; Math- ruleset 24045351 requires `math-downstream-gates` with no bypass actors; no ruleset write was possible through the connector (docs/FORMAL_REQUIRED_CHECKS.md:45-52; audits/formal_enforcement/2026-09-27/README.md:58)",
+   "`verify` is the `required` job of .github/workflows/workspace-landing.yml (on pull_request to main, push to main, workflow_dispatch; no path filters), `if: always()`, `needs: [checks, formal]`, runs `python3 -B -S tools/required_formal_check.py aggregate` with REQUIRED_FORMAL_NEEDS=${{ toJSON(needs) }} (workspace-landing.yml:5-10, 66-79)",
+   "`checks` (landing-checks) requires current-run architecture success binding, runs test_required_formal_check.py and test_required_formal_binding_control.py in normal and -O modes, delivery/landing tests, and outputs checked_commit after asserting git HEAD == GITHUB_SHA (workspace-landing.yml:19-63)",
+   "`formal` = `uses: ./.github/workflows/formal-verification.yml` (same-revision reusable workflow, workflow_call + workflow_dispatch only, no pull_request/push triggers of its own, no head.sha, no continue-on-error, no pull_request_target) exposing outputs checked_commit, repository, run_id, run_attempt, receipt_sha256 from the `required-binding` step (formal-verification.yml:8-39, 81-83; tests/test_required_formal_check.py:133-163)",
+   "Receipt-to-commit binding (`required_formal_check.py receipt`): GITHUB_REPOSITORY in {main, Math-}; GITHUB_SHA 40-hex and == `git rev-parse HEAD`; GITHUB_RUN_ID and GITHUB_RUN_ATTEMPT positive ints; receipt and manifest not symlinks; strict JSON (no duplicate keys, no NaN); receipt.checked_commit == GITHUB_SHA, receipt.repository == GITHUB_REPOSITORY, receipt.workflow_run_id == GITHUB_RUN_ID, formalization_status == kernel-checked, scientific_effect == NONE, manifest_sha256 == sha256(formal/manifest.json), logs nonempty and each <name>.log digest matches; writes required-check-binding.json {checked_commit, repository, run_id, run_attempt, receipt_sha256} and GITHUB_OUTPUT; never rewrites receipt.json (required_formal_check.py:39-73, 102-110)",
+   "Aggregate (`aggregate`): needs must be exactly {checks, formal}; each result must be exactly 'success' (failure/cancelled/skipped/neutral/timed_out/pending/empty/None/True all refused); each outputs.checked_commit == GITHUB_SHA; formal outputs checked_commit/repository/run_id/run_attempt must equal the aggregate job's own context; receipt_sha256 64-hex; emits conclusion success with meaning 'Required engineering checks and current-run formal evidence only; not statement alignment or scientific acceptance' (required_formal_check.py:76-93; tests/test_required_formal_check.py:53-95)",
+   "Semantics: both dependencies must report exactly success at the same tested merge commit; a base change changes the tested merge and old CI is not rebound; manual diagnostic runs do not substitute for PR checks; missing/skipped/failed is not success; this is not merge-queue configuration (FORMAL_REQUIRED_CHECKS.md:14-27; OP-WORKFLOW:130-135)",
+   "Deployment evidence: main #188 landed at 3592abbd5df433cb1816b69204e740a7cf00ca07, push run 36358139870, receipt SHA-256 a2dae00841d1fb2deb911a532a5b05bb3f291f788ce8150db9d0418662bf060f (31 targets, empty axiom sets, 10 rejected controls, 15 log hashes); Math- #96 at 22e79e84917e6bf5bec606c21ce713159d12dddf, run 36359933550, receipt 48871e21...; negative probes main #190 / Math- #97 made `verify`/`math-downstream-gates` execute and FAIL, closed unmerged (FORMAL_REQUIRED_CHECKS.md:61-73; audits/formal_enforcement/2026-09-27/README.md, CUSTODY.md, Main188_receipt.json, Main188_required-check-binding.json)",
+   "Non-required formal workflow: release-snapshot.yml (path-filtered PR trigger + dispatch) replays the Math- primary formal project at 867d9e34b60186ff46ab5b3ecf8ad5ba6a5cc8b4 with leanprover/lean-action@f061402b (use-mathlib-cache true), runs Math- formal/gate.py --execute, binds via tools/formal_execution_context.py, records runner tool hashes, uploads evidence 90 days (release-snapshot.yml:44-112)",
+   "Trust boundary: a workflow author could replace the aggregate; repository review, protected workflow ownership and administrative controls remain trust roots; increasing required approvals needs real eligible nonauthor identities — models sharing one login are not multiple approvals (FORMAL_REQUIRED_CHECKS.md:54-59)"
+  ],
+  "constraints_on_scope": [
+   "Issue #95 body §C: 'Start by selecting SMALL load-bearing algebraic lemmas ... Do not attempt to formalize the entire stochastic-topology theorem first.' Verification level is evidence, not automatic theorem acceptance (GitHub issue main#95 body)",
+   "#95 comment 5836944619 (2026-09-25): 'Take one small load-bearing algebraic lemma only, not the stochastic theorem'; source-bind the exact existing statement; preserve hypotheses exactly, no stronger informal replacement; include a negative control; place formal source in a new isolated directory/PR, not in the frozen proof body; record tool/version and exact theorem statement",
+   "The pilot packages are explicitly NOT a formalization of SIDE24's coefficient enclosure, Kac–Rice, Gaussian/Palm construction, elder pairing, the full lifetime theorem or a parent closure (docs/FORMAL_VERIFICATION.md:25; formal/SCOPE.md:41-44; formal/README.md:13-23)",
+   "Reconnaissance memo: proposed glossary equivalences were NOT adopted; elder selection needs its own point-process/pairing/conditioning definitions; a lifetime coefficient is not automatically a Hermite coefficient; 'A missing formal translation is an obligation to resolve, not proof of novelty or ill-definition'; rational arithmetic on two endpoints cannot establish that an analytically defined coefficient lies between them; GP214's upper bound cannot satisfy a lower-normalizer premise (docs/reconnaissance/2026-09-27-formal-verification.md:19-21; formal/GLOSSARY.md:7-15)",
+   "Core Lean for arithmetic only; real-number statements belong in the Math- Mathlib package (Lean v4.34.1, Mathlib d13f23b723b8a846827a245b89c10fc7d3f11612), not a second dependency tree (formal/README.md:104-114; rollout:140-144; CONTRIBUTING.md:191-192)",
+   "Kernel audit, not build success, is the criterion; a green lake build tolerates sorry warnings and native_decide (rollout:145-147)",
+   "An aligned arithmetic lemma remains an arithmetic lemma; alignment cannot substitute for formalising the analytic content (REVIEW_LANE.md:76-77)",
+   "`kernel-checked` is a receipt-level label for exact targets; it must not be written up as if the surrounding theorem were verified; before citing a formal result quote the run/receipt checked_commit, not the manifest alone (rollout:214-220)",
+   "Formal evidence is an additional conjunction in a future promotion decision, never a substitute for a missing parent obligation; the pilot does not change branch protection or the controlling promotion engine (docs/FORMAL_VERIFICATION.md:17)",
+   "Coverage expansion must proceed by exact dependency slices; anything not inspected is NOT ASSESSED; complete transfer may be reported only for an explicitly bounded slice whose in-scope statements have kernel-checked, aligned proofs; recording an absent declaration or unproved interface does not complete its formalization; the unresolved interfaces I1-I4 prevent any claim that all project mathematics is in Lean (LEAN_AUDIT_OWNER.md:132-152, 184-192)",
+   "Gate forbids `axiom` declarations and `sorry`, and the manifest formalization_status must be `proved` for the whole package, so a main package cannot contain statement-only or partially-proved targets, nor mix `specified` and `proved` (gate:138, 173-175)",
+   "Only `theorem`/`lemma` are targets; `def`s are untracked helpers (must still be in hashed modules); a target must be provable now (gate:55, 178, 206)",
+   "Formal evidence never moves Layer 0 status: STATUS.md, PROOF_INDEX.md, LANDING_CLAIMS, claims/, prizes, lemma_closed are outside the lane's write scope (CONTRIBUTING.md:198-202; formal/README.md:127-131; LEAN_AUDIT_OWNER.md:45-48; CLAUDE.md rules 1, 5)",
+   "Green CI, scalar Lean evidence or enclosure arithmetic cannot substitute for another predicate; formal kernel evidence and statement alignment are separate finding categories (governance/OP-MILESTONE-AUDITS-20261001.md:107-115)",
+   "Owner-level ceiling: no original prize problem is solved; the prize track must not enter the dependency graph; 'high precision is not certification' (CLAUDE.md rules 3, 5)"
+  ],
+  "recording_statement_only": [
+   "The lane vocabulary names `specified` (statement without proof) as a legitimate formal-progress label and the ρ* ask is phrased as moving 'from specified to proved' (docs/FORMAL_VERIFICATION.md:35; rollout:198), but main has NO machine format or gate path for it: formal_gate_check.py:138 refuses any manifest formalization_status other than `proved`; gate:173/175 refuse sorry and axiom declarations; required_formal_check.py and formal_execution_context.py refuse receipts whose formalization_status is `specified` (tests/test_required_formal_check.py:101-103; tests/test_formal_execution_context.py:41-43)",
+   "Prescribed way to record 'not yet formalised' on main: prose, not register rows — the SCOPE.md 'Not established' column per target group, the guide's work-offer table, and the README's 'What it does not cover' paragraph; the project-wide `none` rows were deliberately dropped so the lane records per-package targets only (rollout:64-67, 217-218; formal/SCOPE.md:22-44; CONTRIBUTING.md:190-191)",
+   "Prescribed way to record an unproved INPUT: as an explicit hypothesis of a proved implication ('Parent dependencies that are not formalised are stated as explicit hypotheses of the target, never as axioms'); the conclusion stays labeled conditional/imported-premise (CONTRIBUTING.md:187-188; LEAN_AUDIT_OWNER.md:71-72, 187-188; docs/FORMAL_VERIFICATION.md:13 'Truth of an unproved hypothesis' is not established)",
+   "GLOSSARY.md records statability without proof via its Lean column: `—` no Lean object yet, `core` statable in core Lean, `Mathlib` standard object exists in Mathlib; entries are 'proposed correspondences, not adopted equivalences' (formal/GLOSSARY.md:5-7, 29-31)",
+   "LEAN_AUDIT_OWNER coverage table and 'Coverage still missing' table record unformalized interfaces with a bounded disposition and a concrete next package, using NOT ASSESSED for uninspected claims; 'recording unformalized and unreviewed items instead of inventing declarations' (LEAN_AUDIT_OWNER.md:74-81, 132-152)",
+   "Blueprint declaration links exist in the Math- pilot for four statements; a full Blueprint website and natural-language equivalence checking are not delivered; checkdecls checks declaration existence, not meaning (docs/FORMAL_VERIFICATION.md:51; reconnaissance memo:9)",
+   "The L0-L5 `verification_level` field is the issue-#95 place for graded evidence per claim node, recorded separately from scientific status; #95 comment 5842121882 (cursor[bot], 2026-09-26) reports SCHEMA.json field `verification_level` and architecture/scientific_state/v1/VERIFICATION_LEVELS.json defining L0–L5 with 'No merged node carries a level value' — these files are NOT on origin/main (only architecture/__init__.py and graph_export.py exist), so no statement-register schema for specifications is presently available on main",
+   "Every record of any kind must say what it does not establish (CLAUDE.md rule 2; review-record.yml:97-103 'What this review does NOT establish'; manifest does_not_claim per target)"
+  ],
+  "open_asks": [
+   "Non-Anthropic alignment review of the 31 main targets per formal/REVIEW_LANE.md; record JSON+Markdown under formal/reviews/ and validate with --alignment — still open: formal/reviews/ holds only README.md and the template on origin/main (rollout:163-165; REVIEW_LANE.md:82-87; docs/RESEARCH_INDEX.md:82)",
+   "Gate unification: tools/formal_gate_check.py and Math- formal/gate.py implement the same contract twice; package the Math- gate for reuse or fold main's into it; until then keep vocabularies identical and add any new refusal to both (rollout:166-169, 250)",
+   "Package transfer: if all formal packages should live in Math- beside their sources, move formal/ there as a separate Lake package or lean_lib with an explicit successor note (rollout:170-174)",
+   "Numerical formalizer remaining steps (Math- Mathlib package): exact Lean `def` of c_{d,ref} (display (1) of the SIDE24 note) over ℝ and a proof-producing enclosure pipeline so the decimal endpoints become a theorem (rollout:183-187; docs/FORMAL_VERIFICATION.md:46; formal/README.md:20-23)",
+   "Next full-theorem target: D6 Theorem F constant ρ* = 1/(3 − log(3e − 2)), its 20-digit enclosure and ρ* < 6/7 — 'the most tractable statement to move from specified to proved' (rollout:195-198; GLOSSARY.md:77; #95 comment 5836944619 recommended it as the pilot target)",
+   "Probability formalizer: measurable/integrable objects and a measure-theoretic Cauchy–Schwarz interface, then the actual lower normalizer; interfaces I1 (source objects), I2 (persistence pairing identification), I3 (source data / good event supplies C4 collar data and K), I4 (measurability, weighted Gaussian/Palm law, Theorem A, Q^W(G_r^c) ≤ C r^3); analytic coefficient enclosure; L14/L15, L23, shrinking-scale collision, bar intensities, broader lifetime law remain NOT discharged (docs/FORMAL_VERIFICATION.md:45; LEAN_AUDIT_OWNER.md:132-147)",
+   "Independent engineering reviewer: adversarial tests for missing targets, imported axioms, stale scope, forged receipts and dependency changes (docs/FORMAL_VERIFICATION.md:44)",
+   "Acceptance/museum integrator: consume exact-run evidence plus authenticated alignment through the existing controller; museum formalization view reading manifests and receipts; no retrospective label conversion (docs/FORMAL_VERIFICATION.md:47; rollout:177-179)",
+   "Math- PROOF_INDEX D3 entry: one descriptive line pointing to the main sidecar and receipt; do not change the D3 verdict or add a status column (rollout:188-191)",
+   "meta-framework: optional descriptive formal_evidence field per source entry; Universal-Law-Workspace: navigation links only; query-: reuse repository+path+commit+blob+bytes+sha256 row shape if Lean identities are exposed (rollout:200-211)",
+   "Uncertain items left by the rollout: whether two Endpoints.lean anchors quoting ENCLOSURE.json metadata rather than prose are acceptable pairings (alignment reviewer to decide); GLOSSARY rows for D1 (matrix cap, marked cylinder, elder selection) and D5 region names say 'read the source'; whether the lane keeps two gates (rollout:244-250)",
+   "Blueprint full website and natural-language equivalence checking not delivered; Coq/Rocq, Metamath, additional Lean checkers and AI proof generators deferred pending identifiable execution/review artifacts (docs/FORMAL_VERIFICATION.md:51; reconnaissance memo:23-25)",
+   "Revisit conditions for the memo: toolchain changes, new upstream numerical/measure-theoretic libraries, a completed alignment review, an axiom-audit false negative, an actual prover integration (reconnaissance memo:27-28)",
+   "Stale pointer: formal/lakefile.toml:7-8 says 'Adding Mathlib is the documented next step ... (see README.md, \"Expansion path\")' but formal/README.md on origin/main has no 'Expansion path' section (the relevant text is 'Why core Lean and not Mathlib here', README:104-114)",
+   "Required-check hardening: increasing GitHub approvals needs real eligible nonauthor identities; no administrator-capable connection was available; shared login is one approval (FORMAL_REQUIRED_CHECKS.md:54-59; audits README:58)",
+   "Site: docs/site/formal.html 'Since this snapshot' (read 7 Oct 2026, Math- 390a2f0, main 4ff9e92) notes the Math- formal package lists 63 declarations and Math #279 40-target package reads exist but no accepted alignment.json for them; page does not track later work (formal.html:43)"
+  ],
+  "notes": [
+   "origin/main is f6deeba775c27e731366d4772dfe58744425236f; the working tree at /home/user/main is an older branch and was not used.",
+   "Two gates coexist: main tools/formal_gate_check.py (core-Lean package, receipt via --run-lean) and Math- formal/gate.py (Mathlib package, --execute; validator prints SOURCE_IDENTITY_PASS on --alignment success rather than main's ALIGNMENT_RECORD_STRUCTURE_PASS — per reviews/lean_probability_alignment_20261005/REVIEW_272_20.md:72). Keep vocabularies identical when designing additions.",
+   "Main's receipt (gate:288-295) does not itself carry run_attempt or installed-dependency comparison; run_attempt is added by the required-check binding; Math-'s gate compares installed dependency commits with the lock (docs/FORMAL_VERIFICATION.md:31).",
+   "The gate's THEOREM regex matches only lines beginning with `theorem` or `lemma`; attribute-prefixed or `private theorem` lines would not be counted as targets and `example`/`def`/`instance` are never targets — relevant when designing how specifications and proofs are laid out.",
+   "The gate hard-codes TOOLCHAIN v4.34.1, the PUBLIC_REPOS allowlist (main, Math-, query-, meta-framework, Universal-Law-Workspace) and the required bound-file set; those constants, and tests/test_formal_gate.py's 31/{} assertions, are the concrete edit points for any expansion, and both files are hash-bound in the manifest.",
+   "Main's three mandatory contexts (verify, public-intake, public-shop) mean any PR touching formal/ or tools/ must keep workspace-landing green at the tested merge commit; formal-verification.yml is only reachable via workflow_call from workspace-landing.yml or by manual dispatch.",
+   "docs/agents/LEAN_AUDIT_OWNER.md (OpenAI/Codex role accepted 2026-10-04) is the most current statement of the per-packet execution/review contract and the coverage map; snapshot identities main aab9f56a..., Math- 42f19d7d...; it names the cap first-exit Lean packet (Math- frontiers/cap_first_exit_lean_20261002, v1.4 53 targets landed, v1.5–v2.1 PRs 253–262 open at that date) as a third package with its own MANIFEST.json/ALIGNMENT.md and 3 controls.",
+   "reviews/lean_probability_alignment_20261005/ on main holds a Grok-performed 20-target alignment record for Math- #272 (ACCEPTED by Math-'s gate structurally; organizational-independence credit 0; Dylan's reading PENDING) published on main because cursor[bot] received HTTP 403 pushing to Math-; it is evidence that alignment records may be published on main when Math- is unwritable, with the evidence.repository field pointing at main.",
+   "Owner authority: OP-AUTONOMY-20260923-v2.1 grants agents autonomy to download/install tools and change workflows; OP-WORKFLOW-20260930 and OWNER_DECISION_20261005_CURSOR keep author/reviewer distinction, zero independence for shared accounts, required hosted checks at tested commit, merge commits not by author, and formal/ custody unchanged. CLAUDE.md rules 1-10 (status labels transcribed never decided; say what is not established; precision is not certification; no 2D/3D composition; no prize solved; independence cannot be manufactured) bind any Lean design.",
+   "GitHub data read via gh api: issue #95 body and comments pages 1-2 (141 comments), comments 5836944619 and 5840330437 in full."
+  ]
+ },
+ "files_read": [
+  "origin/main:docs/FORMAL_VERIFICATION.md",
+  "origin/main:docs/FORMAL_REQUIRED_CHECKS.md",
+  "origin/main:docs/FORMAL_VERIFICATION_ROLLOUT_20260927.md",
+  "origin/main:docs/reconnaissance/2026-09-27-formal-verification.md",
+  "origin/main:docs/agents/LEAN_AUDIT_OWNER.md",
+  "origin/main:formal/README.md",
+  "origin/main:formal/SCOPE.md",
+  "origin/main:formal/ALIGNMENT.md",
+  "origin/main:formal/REVIEW_LANE.md",
+  "origin/main:formal/GLOSSARY.md",
+  "origin/main:formal/reviews/README.md",
+  "origin/main:formal/reviews/TEMPLATE_alignment_review.json",
+  "origin/main:formal/manifest.json",
+  "origin/main:formal/lakefile.toml",
+  "origin/main:formal/lean-toolchain",
+  "origin/main:formal/lake-manifest.json",
+  "origin/main:formal/UniversalLaw.lean",
+  "origin/main:formal/UniversalLaw/Side24/Ledger.lean (header + first declarations)",
+  "origin/main:formal/UniversalLaw/Side24/ConeMoments.lean (header)",
+  "origin/main:formal/UniversalLaw/Side24/Endpoints.lean",
+  "origin/main:tools/formal_gate_check.py",
+  "origin/main:tools/required_formal_check.py",
+  "origin/main:tools/formal_execution_context.py",
+  "origin/main:tests/test_formal_gate.py",
+  "origin/main:tests/test_formal_execution_context.py",
+  "origin/main:tests/test_formal_workflow_shell.py",
+  "origin/main:tests/test_required_formal_binding_control.py",
+  "origin/main:tests/test_required_formal_check.py",
+  "origin/main:tests/fixtures/formal_scope_cc2989.md",
+  "origin/main:.github/workflows/formal-verification.yml",
+  "origin/main:.github/workflows/workspace-landing.yml",
+  "origin/main:.github/workflows/ci.yml",
+  "origin/main:.github/workflows/release-snapshot.yml",
+  "origin/main:.github/pull_request_template.md",
+  "origin/main:.github/ISSUE_TEMPLATE/review-record.yml",
+  "origin/main:governance/OP-WORKFLOW-20260930.md",
+  "origin/main:governance/OP-AUTONOMY-20260923-v2.1.md",
+  "origin/main:governance/OWNER_DECISION_20261005_CURSOR.md",
+  "origin/main:governance/OP-CLOSURE-EVIDENCE-20261006.md (lines 1-60)",
+  "origin/main:governance/OP-MILESTONE-AUDITS-20261001.md (lines 100-120)",
+  "origin/main:CONTRIBUTING.md",
+  "origin/main:STATUS.md",
+  "origin/main:README.md",
+  "origin/main:AGENTS.md",
+  "origin/main:docs/WORKSPACE.md (lines 105-158)",
+  "origin/main:docs/site/formal.html",
+  "origin/main:audits/formal_enforcement/2026-09-27/README.md",
+  "origin/main:audits/formal_enforcement/2026-09-27/CUSTODY.md",
+  "origin/main:audits/formal_enforcement/2026-09-27/Main188_receipt.json",
+  "origin/main:audits/formal_enforcement/2026-09-27/Main188_required-check-binding.json",
+  "origin/main:reviews/lean_probability_alignment_20261005/REVIEW_272_20.md",
+  "origin/main:reviews/lean_probability_alignment_20261005/VALIDATION.md",
+  "origin/main:reviews/lean_probability_alignment_20261005/VERIFICATION_29.md",
+  "origin/main:reviews/lean_probability_alignment_20261005/alignment_272_20.json",
+  "git grep over origin/main: governance/, docs/, architecture/, .github/workflows/ for formal|lean|specified|L0|L5|verification_level",
+  "gh api repos/d6g8k5htny-coder/main/issues/95 (body)",
+  "gh api repos/d6g8k5htny-coder/main/issues/95/comments pages 1-2 (141 comments, pattern-scanned)",
+  "gh api repos/d6g8k5htny-coder/main/issues/comments/5836944619",
+  "gh api repos/d6g8k5htny-coder/main/issues/comments/5840330437",
+  "/home/user/main/CLAUDE.md (system-provided)"
+ ],
+ "gaps": [
+  "architecture/scientific_state/v1/VERIFICATION_LEVELS.json and SCHEMA.json (cited in #95 comment 5842121882 as defining L0–L5 and the verification_level field) are not present on origin/main; only architecture/__init__.py and graph_export.py exist there. Where that schema lives now (another branch, Math-, or removed) was not determined.",
+  "Issue #95's 141 comments were pattern-scanned, not read in full; only the body and two formal-pilot comments (5836944619, 5840330437) were read verbatim. Issues #229, #275, #307 (current claim venues) were not read.",
+  "Math- side files (formal/gate.py, formal/SCOPE.md, frontiers/cap_first_exit_lean_20261002/*) were outside this reader's subsystem and were not read; statements about them are quoted from main's docs and the main-hosted review records.",
+  "No Lean toolchain was executed; gate behaviour is described from source, tests and the preserved Main188 receipt, not from a fresh --run-lean here.",
+  "docs/QUEUE_RECONCILIATION_20260927.md, docs/RESEARCH_INDEX.md and docs/WORKSPACE.md were grepped for formal lines only, not read in full.",
+  "Audit ZIP members (Main188_landed_formal_36358139870.zip etc.) and SHA256SUMS were not opened or verified.",
+  "Ruleset contents (main 23798639, Math- 24045351) are reported from docs/FORMAL_REQUIRED_CHECKS.md and the audit README, not re-read from GitHub."
+ ]
+}

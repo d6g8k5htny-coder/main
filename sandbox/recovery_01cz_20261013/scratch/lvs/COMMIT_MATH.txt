@@ -1,0 +1,34 @@
+Add the Lean statement register: statement-only Mathlib specifications of the registered claims
+
+Scientific effect NONE: no lemma_closed, prize, premise, LANDING_CLAIMS
+disposition, PROOF_INDEX, GRAPH or STATUS change; nothing under formal/ is
+touched; nothing here is a proof, a review or an acceptance. Same-account
+authorship: organizational-independence credit 0.
+
+specifications/lean_statements_20261010/: a statement-only Lean 4.34.1 +
+Mathlib d13f23b7 package (same lock as formal/).
+- Specifications/{Field,Lifetime,Side24,RN,P15}.lean: 141 def ... : Prop
+  specifications and 9 interface structures (123 auxiliary definitions) for
+  the registered claims; zero theorems, no sorry, no axioms; every docstring
+  carries Source, Anchor (verbatim in the byte-pinned copies under sources/),
+  Interface and Does not claim.
+- REGISTER.json: 171 claim rows (every LANDING_CLAIMS claim with its
+  disposition transcribed verbatim, every GRAPH math.* node, PROOF_INDEX
+  results and open obligations, existing Lean packages, main experiment
+  proofs, exact certificates); 33 claims specified, 138 none, none proved;
+  alignment PENDING_INDEPENDENT_REVIEW throughout.
+- check.py / test_check.py / replay.sh: stdlib gate (identity, lexical
+  refusal of proof constructs, inventory = register, vocabulary, verbatim
+  anchors, lock identity; --execute: fresh build, leanchecker, #check and
+  #print axioms of every declaration, environment audit, real negative
+  controls, receipt that can only say specified). 94 tests in both modes.
+- .github/workflows/lean-specifications.yml: lean-action (pinned) with the
+  Mathlib cache, runs the gate, uploads evidence.
+
+Local evidence: all five modules elaborate against the pinned Mathlib with
+warnings as errors (lake build 38 s); leanchecker could not run in the
+sandbox (killed at its 13.5 GB memory limit), so the hosted workflow run is
+the authoritative execution.
+
+Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01Cz7WZybv8znP64SpPj6sWY

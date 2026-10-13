@@ -1,0 +1,32 @@
+fixture: 29 pinned sources byte-verified; missing offline: ['README.md']
+baseline shipped claims == project(unmodified): True
+control (existing test): d5-all-height := pr16 review
+    project REFUSES: review pointer differs from audited projection
+    unit suite FAILS: test_exact_fourteen_projections_and_distinct_d5_scopes,test_replay_commands_bind_source_and_checkout,test_review_pointers_do_not_claim_comment_byte_custody,test_check_rejects_quote_identity_and_class_tampering
+A  d5-two-scale := its own proof
+    project ACCEPTS: review=frontiers/rn_thin_tube_20260925/TWO_SCALE_ADDENDUM.md pointer_only=False review_is_proof=True
+    unit suite PASSES
+A2 d5-height-window := its own proof
+    project ACCEPTS: review=frontiers/rn_thin_tube_20260925/FIXED_ANNULUS_CANDIDATE.md pointer_only=False review_is_proof=True
+    unit suite PASSES
+A3 d5-inner-belt := its own proof
+    project ACCEPTS: review=frontiers/axial_density_20260925/PROOF.md pointer_only=False review_is_proof=True
+    unit suite PASSES
+A4 d6-p15-full-price := its own proof
+    project ACCEPTS: review=frontiers/full_price_20260924/PROOF.md pointer_only=False review_is_proof=True
+    unit suite PASSES
+A5 cumulative-transfer := its own proof
+    project ACCEPTS: review=reviews/collision_mechanism_20260925/CUMULATIVE_TRANSFER_CORRECTION.md pointer_only=False review_is_proof=True
+    unit suite PASSES
+P  p15-counterexample := claims/LANDING_CLAIMS.json
+    project ACCEPTS: review=claims/LANDING_CLAIMS.json pointer_only=False review_is_proof=False
+    unit suite PASSES
+B  d2 := its own proof
+    project ACCEPTS: review=frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md pointer_only=False review_is_proof=True
+    unit suite FAILS: test_review_pointers_do_not_claim_comment_byte_custody
+C  d2 := bare main#67 (= P15 card's pointer)
+    project ACCEPTS: review=https://github.com/d6g8k5htny-coder/main/issues/67 pointer_only=True review_is_proof=False
+    unit suite FAILS: test_review_pointers_do_not_claim_comment_byte_custody
+X  d5-all-height := its own proof
+    project ACCEPTS: review=frontiers/rn_annulus_bridge_20260925/PROOF.md pointer_only=False review_is_proof=True
+    unit suite FAILS: test_review_pointers_do_not_claim_comment_byte_custody

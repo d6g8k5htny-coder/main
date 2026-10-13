@@ -1,0 +1,19 @@
+--- mutable issue comment (not in the D5 quote)
+validateDescriptor(review): PASS
+validateBoundManifest: PASS
+card class: ACCEPT-scoped | review block: {"label":"Byte-verified review","open_review_href":"https://github.com/d6g8k5htny-coder/main/issues/63#issuecomment-5841570965"}
+identity shown under "Review source identity" still names: reviews/pr28_annulus_bridge_nonauthor_20260925/REVIEW.md @ d6628da09384
+museum-state: Source projections and displayed source bytes verified. These checks establish byte identity, not mathematical acceptance.
+--- foreign host
+validateDescriptor(review): PASS
+validateBoundManifest: PASS
+card class: ACCEPT-scoped | review block: {"label":"Byte-verified review","open_review_href":"https://example.invalid/forged-review"}
+identity shown under "Review source identity" still names: reviews/pr28_annulus_bridge_nonauthor_20260925/REVIEW.md @ d6628da09384
+museum-state: Source projections and displayed source bytes verified. These checks establish byte identity, not mathematical acceptance.
+--- branch-mutable blob/main path
+validateDescriptor(review): PASS
+validateBoundManifest: PASS
+card class: ACCEPT-scoped | review block: {"label":"Byte-verified review","open_review_href":"https://github.com/d6g8k5htny-coder/Math-/blob/main/reviews/pr28_annulus_bridge_nonauthor_20260925/REVIEW.md"}
+identity shown under "Review source identity" still names: reviews/pr28_annulus_bridge_nonauthor_20260925/REVIEW.md @ d6628da09384
+museum-state: Source projections and displayed source bytes verified. These checks establish byte identity, not mathematical acceptance.
+--- control (pointer_only:true, same foreign URL): REFUSED: Invalid review pointer

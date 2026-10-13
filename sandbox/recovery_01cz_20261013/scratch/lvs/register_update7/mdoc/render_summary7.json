@@ -1,0 +1,74 @@
+{
+ "scientific_effect": "NONE",
+ "script": "<SCRATCH>/lvs/register_update7/render_spec7.py",
+ "derived_from": "<SCRATCH>/lvs/spec_doc/render_spec6.py",
+ "args": [
+  "423",
+  "38149888699",
+  "4363b6928c62da242952631c6b0357d096c3b252",
+  "cdeb5c73aa03124ed0db16fa14d25fb03a8fa842457fce1e0c6565dbc5ee7ca8",
+  "--round4-pr",
+  "PENDING"
+ ],
+ "sanity_check_render_spec6": {
+  "restored_doc": "91cffbb5",
+  "expected_sha256_dc97752f": "891427a6efc042115c366c3d79f2185d8e2c712b7bae3ab2662091549addf8f3",
+  "reproduced_sha256": "891427a6efc042115c366c3d79f2185d8e2c712b7bae3ab2662091549addf8f3",
+  "byte_identical": true,
+  "register_used": "committed REGISTER.json at 80e80243 (339 statements), extracted read-only to mdoc/register_committed_80e80243.json",
+  "register_committed_sha256": "4a241e132f1e3822958367275c59f2f36812411fc8bc84ec549ab6083bcd7052"
+ },
+ "round7_render": {
+  "restored_doc_sha256_91cffbb5": "5d92a38e28a6fe55dbb74510426862edaf3a00dc4f0daade47c314c93e9ee00f",
+  "output_sha256": "0fb51bbf9838a04af6a3b06b8c539c98fdc7dd8c1d058696c84905e439269688",
+  "scratch_run_sha256": "0fb51bbf9838a04af6a3b06b8c539c98fdc7dd8c1d058696c84905e439269688",
+  "deterministic": true,
+  "bytes": 162297,
+  "register_sha256": "943baa1b74a0a869de92b4e70856294bd4a8e9b0e9e9ab981e6ada28231cf452",
+  "statements": 352,
+  "proved_entries": 155,
+  "proof_theorems": 73,
+  "covered_props": 72,
+  "with_hosted_receipt": 60,
+  "without_hosted_receipt": 13,
+  "triage_counts": {
+   "PROVABLE_NOW": 10,
+   "PROVABLE_WITH_WORK": 5,
+   "BLOCKED_MISSING_MATHLIB": 7,
+   "BLOCKED_INTERFACE": 24,
+   "PREDICATE_VOCABULARY": 28
+  },
+  "diff": "<SCRATCH>/lvs/register_update7/mdoc/main_doc.diff",
+  "diff_stat": "79 insertions(+), 21 deletions(-) against HEAD dc97752f",
+  "table_rows_changed": [
+   "side24-coefficient",
+   "OA-C6-RARE-CLUSTER-20260929-v1",
+   "OA-C6-FOURIER-20260929-v1 (abridged next_step now reaches the appended triage sentence)",
+   "5.1 counts: proved row"
+  ]
+ },
+ "negative_control": {
+  "input": "pre-update register (339 statements) via RS7_REGISTER",
+  "exit": 1,
+  "assertion": "set(pending) == proof_names - RECEIPTED60 and NPEND4 == 13 and NT == 73 and NPE == 83 -> (0, 60, 70)",
+  "doc_untouched": true,
+  "log": "<SCRATCH>/lvs/register_update7/mdoc/negctl7.log"
+ },
+ "run_merge_bindings_in_doc": {
+  "38116277597": "c4c66bb8",
+  "38121713840": "5b198699",
+  "38122386459": "866136cc",
+  "38124262242": "318ff194",
+  "38149888699": "4363b692",
+  "38149524759": "3306233b",
+  "38150363063": "86a6e8c8"
+ },
+ "checkers": {
+  "requested": [
+   "python3 tools/disclosure_check.py",
+   "python3 tools/noncertifying_check.py"
+  ],
+  "result": "NOT RUN: neither file exists in lvs_main (repository d6g8k5htny-coder/main); its CLAUDE.md has no 'Before you commit' list; no tool or workflow in lvs_main names docs/LEAN_VERIFICATION_SPECIFICATION.md. Those two checkers belong to /home/user/main (q0/SIDE24) and were not run against a foreign repository."
+ },
+ "git_state": "lvs_main: only docs/LEAN_VERIFICATION_SPECIFICATION.md modified (plain file writes); no state-changing git command used; nothing committed or pushed"
+}

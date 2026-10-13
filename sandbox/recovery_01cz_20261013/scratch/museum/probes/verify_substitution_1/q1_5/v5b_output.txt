@@ -1,0 +1,19 @@
+A1 shipped manifest: ACCEPTED by validateBoundManifest
+A2 swap D2<->D6 commands: ACCEPTED by validateBoundManifest
+A3 D4 invented command (validateBoundManifest alone): ACCEPTED by validateBoundManifest
+A4 P15 counterexample given D6 replay: ACCEPTED by validateBoundManifest | class engineering-only | label EXACT_COUNTEREXAMPLE
+A5 control: D2 given D6 proof: REFUSED: Claim proof is not bound by its own pinned source quote
+B1 baseline (shipped commands, stand-in README): state="Source projections and displayed source bytes verified. These checks establish byte identity, not mathematical acceptance." | refused=[]
+   card d2-lifetime-remainder  rendered=true class=ACCEPT-scoped replay="python -B -S -m unittest discover -s frontiers/three_fronts_20260924 -p 'test_*.py' -v"
+   card d4-fixed-remote-rn     rendered=true class=ACCEPT-scoped replay="python -B -S -m unittest discover -s frontiers/remote_window_20260924 -p 'test_*.py' -v"
+   card d6-p15-full-price      rendered=true class=ACCEPT-scoped replay="python -B -S frontiers/full_price_20260924/full_price.py"
+B2 D2<->D6 swapped, D4 = hard_gate.py: state="Source projections and displayed source bytes verified. These checks establish byte identity, not mathematical acceptance." | refused=[]
+   card d2-lifetime-remainder  rendered=true class=ACCEPT-scoped replay="python -B -S frontiers/full_price_20260924/full_price.py"
+   card d4-fixed-remote-rn     rendered=true class=ACCEPT-scoped replay="python -B -S frontiers/downstream_gate_20260925/hard_gate.py"
+   card d6-p15-full-price      rendered=true class=ACCEPT-scoped replay="python -B -S -m unittest discover -s frontiers/three_fronts_20260924 -p 'test_*.py' -v"
+B3 control: D4 invented command: state="Pinned source projections verified. 1 source view(s) unavailable; no result inferred for those views." | refused=["D4 fixed-remote RN theoremUnavailable: Replay command is not recorded exactly in its verified source. No result inferred."]
+   card d2-lifetime-remainder  rendered=true class=ACCEPT-scoped replay="python -B -S -m unittest discover -s frontiers/three_fronts_20260924 -p 'test_*.py' -v"
+   card d4-fixed-remote-rn     rendered=false class=undefined replay=undefined
+   card d6-p15-full-price      rendered=true class=ACCEPT-scoped replay="python -B -S frontiers/full_price_20260924/full_price.py"
+C1 D2/D4/D6 replay.source descriptors identical: true | sha256 89d4c618ad456037 | bytes 6023
+C2 stand-in README sha256 ea5ee049a6258444 bytes 5638 (differs from the pin: stand-in only)

@@ -1,0 +1,1988 @@
+{
+ "proofs/README": [
+  [
+   "\\bclosed\\b",
+   "Transversal`, `IsProperDownset` | predicates with free arguments, not closed statements: a theorem of their type would assert them for every argum"
+  ],
+  [
+   "\\bclosed\\b",
+   " `Side24Analysis` since round 4. The previous reason (\"Mathlib has no closed form for the iterated Fr\u00e9chet derivatives of a Gaussian\") was not loa"
+  ],
+  [
+   "\\bclosed\\b",
+   "re, as a correction of an informal reason, not a statement defect: no closed form is needed. The operator norms `b_q = \u2016iteratedFDeriv \u211d q (Kinf d"
+  ],
+  [
+   "\\bclosed\\b",
+   "+ `iteratedFDeriv_clm_apply_const_apply`) with explicit `HasFDerivAt` closed forms of the intermediate functions, giving `-\u27eaa, b\u27eb`, the three pair"
+  ],
+  [
+   "\\baccepted\\b",
+   "execute` | not established | |---|---| | each inventoried theorem was accepted by the Lean kernel (`lake build`, replayed by `leanchecker`) at Lean "
+  ],
+  [
+   "\\baccepted\\b",
+   "l Layer 0 claim is true, aligned with its Lean statement, reviewed or accepted | | its transitive axioms are within `propext`, `Classical.choice`, `"
+  ],
+  [
+   "\\bindependent\\b",
+   "ce: alignment is PENDING_INDEPENDENT_REVIEW and is written only by an independent reviewer | | its type, after `forallTelescope`, is a registered Prop "
+  ],
+  [
+   "kernel-checked",
+   "lization_status: \"proved\"` (the label of a committed proof package); `kernel-checked` appears **only** in a run receipt (`.lake/evidence/receipt.json`). O"
+  ],
+  [
+   "kernel-checked",
+   "run receipt (`.lake/evidence/receipt.json`). On the evidence ladder a kernel-checked theorem is L5 *for that Prop*; the informal claim it serves keeps the"
+  ],
+  [
+   "\\bproved\\b",
+   "e credit: 0 (Anthropic / Claude). Alignment status of every statement proved here: **PENDING_INDEPENDENT_REVIEW**. No claim, premise, obligation o"
+  ],
+  [
+   "\\bproved\\b",
+   "ERIFICATION.md): the source-mode summary says `formalization_status: \"proved\"` (the label of a committed proof package); `kernel-checked` appears "
+  ],
+  [
+   "\\bproved\\b",
+   "e 141 registered `def \u2026 : Prop` declarations (`TriangleNeedsThree` is proved twice). The other 69 fall into the groups below. None is weakened, re"
+  ],
+  [
+   "\\bproved\\b",
+   "5` (values `1, 0, 1, 0, 3, 0, 15`). The pairing-sum arithmetic kernel-proved on main (`UniversalLaw.Side24.pairing_sum_six`, \u2026) is neither cited n"
+  ],
+  [
+   "\\bproved\\b",
+   "`Aux`), with no derivative input either. The matrix arithmetic kernel-proved on main (`UniversalLaw.Side24.conditional_third_derivative_variance`,"
+  ],
+  [
+   "\\bproved\\b",
+   "weeks), no missing theory: transport along `sxy_law` as for the three proved interface Props, the cone identification `NegDefCone (s, x, y) \u2194 s < "
+  ],
+  [
+   "\\bproved\\b",
+   "`(s\u00b2 + x\u00b2 + y\u00b2)\u00b2`, the inner truncated polar integral reducing to the proved `elementaryConeIntegral`, and the outer `gaussianReal 0 (5/3)` moment"
+  ],
+  [
+   "\\bproved\\b",
+   "to `\u222b_0^a exp(-z/2)/2 dz = 1 - exp(-a/2)`, measurability of the event proved so the outer-measure reading does not arise. Not established: that `C"
+  ],
+  [
+   "\\bproved\\b",
+   "lgebra`, `ElementaryConeIntegral` and `ReferenceCoefficientIdentity` (proved earlier) need no interface. | | RN beyond (N1)-(N5) and (O), Lifetime"
+  ],
+  [
+   "\\bproved\\b",
+   "imum form verbatim (the existential with witness `lam = 0` is what is proved). The claim `OA-C6-RARE-CLUSTER-20260929-v1` keeps its register label"
+  ],
+  [
+   "\\bproved\\b",
+   "used `Aux` lemma is audited where it   is used as well as where it is proved), nothing else; * exactly one top-level `namespace UniversalLaw.Proof"
+  ]
+ ],
+ "proofs/SCOPE": [
+  [
+   "\\bclosed\\b",
+   "ix is the covariance of a random object; the source's shell count and closed-form derivative displays, which stay unspecified; alignment of the fo"
+  ],
+  [
+   "\\bindependent\\b",
+   "IGNED / ALIGNED AT NARROWER SCOPE / MISALIGNED): written only by an   independent reviewer, never here. * Transcribed LANDING_CLAIMS dispositions: neve"
+  ],
+  [
+   "kernel-checked",
+   "thing under   `02_LEGACY_Q0_ARCHIVE`: not cited, not used.  ## What a kernel-checked theorem here means, per family  | family | the theorems establish | n"
+  ],
+  [
+   "kernel-checked",
+   "itted proof package. * The run receipt prints `formalization_status: \"kernel-checked\"`: a label that appears only in a   receipt, about the inventoried th"
+  ],
+  [
+   "\\bproved\\b",
+   "tatus authority: none. Alignment status of every registered statement proved here: **PENDING_INDEPENDENT_REVIEW**. Organizational-independence cre"
+  ],
+  [
+   "\\bproved\\b",
+   "says (`none` or `specified`); no research claim of this programme is `proved`. * Alignment verdicts (ALIGNED / ALIGNED AT NARROWER SCOPE / MISALIG"
+  ],
+  [
+   "\\bproved\\b",
+   "imum form verbatim (the existential with witness `lam = 0` is what is proved); the 19 remaining RN Props over `PinnedLawInterface` (the D5 window "
+  ],
+  [
+   "\\bproved\\b",
+   "by the gate.  ## Labels  * Source mode prints `formalization_status: \"proved\"`: the label of a committed proof package. * The run receipt prints `"
+  ]
+ ],
+ "stmts/README": [
+  [
+   "\\bclosed\\b",
+   " refuses proof-shaped result types, `Sort` and `_root_`. It is a fail-closed pre-Lean stage, not a Lean lexer. The authority is the environment au"
+  ],
+  [
+   "\\bclosed\\b",
+   "exit 137 at 13.4 GB resident) before finishing, so `execute()` failed closed at that step   and wrote no receipt. The later stages were then run w"
+  ],
+  [
+   "\\bindependent\\b",
+   "lts that the byte-pinned Layer 0 texts under `sources/` describe. Two independent stages hold the modules to \"statements only\". The source scan (`check"
+  ],
+  [
+   "\\bindependent\\b",
+   " an alignment review. Whether a Prop says what its anchor says is the independent reviewer's   question (DESIGN honesty checklist). The register only r"
+  ],
+  [
+   "kernel-checked",
+   "s statement entries of kind `theorem` with label `proved` (52 of them kernel-checked by the hosted run 38121713840: PR head 910809d6, actual tested merge "
+  ],
+  [
+   "kernel-checked",
+   "heorem` with label `proved` (the label of a committed proof package; `kernel-checked` appears only in a run receipt: the hosted `lean-specification-proofs"
+  ],
+  [
+   "kernel-checked",
+   "70d77876a10c365f5db5d3b6cafcf180af4e2, receipt theorem_count 52), are kernel-checked by the hosted run 38149888699 on PR head 0dcb0016 (actual tested merg"
+  ],
+  [
+   "kernel-checked",
+   "eclaration here, which stays `specified`, and not to any claim row; a kernel-checked theorem is evidence about its Prop only, and alignment of every state"
+  ],
+  [
+   "kernel-checked",
+   "| registered under claim rows | proved by (proof packet, `proved`; 52 kernel-checked by hosted run 38121713840: PR head 910809d6, actual tested merge 5b19"
+  ],
+  [
+   "kernel-checked",
+   "| registered under claim rows | proved by (proof packet, `proved`; 52 kernel-checked by hosted run 38121713840: PR head 910809d6, actual tested merge 5b19"
+  ],
+  [
+   "kernel-checked",
+   "| registered under claim rows | proved by (proof packet, `proved`; 52 kernel-checked by hosted run 38121713840: PR head 910809d6, actual tested merge 5b19"
+  ],
+  [
+   "kernel-checked",
+   "| registered under claim rows | proved by (proof packet, `proved`; 52 kernel-checked by hosted run 38121713840: PR head 910809d6, actual tested merge 5b19"
+  ],
+  [
+   "kernel-checked",
+   "| registered under claim rows | proved by (proof packet, `proved`; 52 kernel-checked by hosted run 38121713840: PR head 910809d6, actual tested merge 5b19"
+  ],
+  [
+   "kernel-checked",
+   " itself is registered), 138 `none`; no research claim is `proved` or `kernel-checked`. 197 statement entries point at the 150 declarations of this package"
+  ],
+  [
+   "kernel-checked",
+   "yml` run 38121713840 receipted the 52 theorems of PR head 910809d6 as kernel-checked and run 38116277597 the first 38; a pull_request run checks out the s"
+  ],
+  [
+   "kernel-checked",
+   "70d77876a10c365f5db5d3b6cafcf180af4e2, receipt theorem_count 52), are kernel-checked by the hosted run 38149888699 on PR head 0dcb0016 (actual tested merg"
+  ],
+  [
+   "kernel-checked",
+   "im rows with label `proved`, the label of a committed proof package; `kernel-checked`   appears only in that packet's hosted run receipts (`lean-specifica"
+  ],
+  [
+   "kernel-checked",
+   "ipt yet, marked \u2020).   The 150 declarations here remain `specified`; a kernel-checked theorem is evidence about its Prop   only, never about the informal c"
+  ],
+  [
+   "\\bproved\\b",
+   "der the claim rows as statement entries of kind `theorem` with label `proved` (52 of them kernel-checked by the hosted run 38121713840: PR head 91"
+  ],
+  [
+   "\\bproved\\b",
+   " packet exists, builds, or is green in CI, or because a Prop of it is proved.  ## What this packet is  A **statement-only** Lean 4 + Mathlib packa"
+  ],
+  [
+   "\\bproved\\b",
+   "Prop` that elaborates is a precise statement of what would have to be proved. It is not L5 of the #95 ladder; it is `specified`.  | file | role | "
+  ],
+  [
+   "\\bproved\\b",
+   "specification-proofs.yml`; its theorems appear in `REGISTER.json` as `proved` statement entries |  ## Declarations  150 registered declarations (1"
+  ],
+  [
+   "\\bproved\\b",
+   "): 72 of the 141 Props have one (73 theorems; `TriangleNeedsThree` is proved twice), each listed in the register under the claim rows as a stateme"
+  ],
+  [
+   "\\bproved\\b",
+   "der the claim rows as a statement entry of kind `theorem` with label `proved` (the label of a committed proof package; `kernel-checked` appears on"
+  ],
+  [
+   "\\bproved\\b",
+   "tions)  | declaration | kind | source | registered under claim rows | proved by (proof packet, `proved`; 52 kernel-checked by hosted run 381217138"
+  ],
+  [
+   "\\bproved\\b",
+   "nd | source | registered under claim rows | proved by (proof packet, `proved`; 52 kernel-checked by hosted run 38121713840: PR head 910809d6, actu"
+  ],
+  [
+   "\\bproved\\b",
+   "tions)  | declaration | kind | source | registered under claim rows | proved by (proof packet, `proved`; 52 kernel-checked by hosted run 381217138"
+  ],
+  [
+   "\\bproved\\b",
+   "nd | source | registered under claim rows | proved by (proof packet, `proved`; 52 kernel-checked by hosted run 38121713840: PR head 910809d6, actu"
+  ],
+  [
+   "\\bproved\\b",
+   "tions)  | declaration | kind | source | registered under claim rows | proved by (proof packet, `proved`; 52 kernel-checked by hosted run 381217138"
+  ],
+  [
+   "\\bproved\\b",
+   "nd | source | registered under claim rows | proved by (proof packet, `proved`; 52 kernel-checked by hosted run 38121713840: PR head 910809d6, actu"
+  ],
+  [
+   "\\bproved\\b",
+   "tions)  | declaration | kind | source | registered under claim rows | proved by (proof packet, `proved`; 52 kernel-checked by hosted run 381217138"
+  ],
+  [
+   "\\bproved\\b",
+   "nd | source | registered under claim rows | proved by (proof packet, `proved`; 52 kernel-checked by hosted run 38121713840: PR head 910809d6, actu"
+  ],
+  [
+   "\\bproved\\b",
+   "tions)  | declaration | kind | source | registered under claim rows | proved by (proof packet, `proved`; 52 kernel-checked by hosted run 381217138"
+  ],
+  [
+   "\\bproved\\b",
+   "nd | source | registered under claim rows | proved by (proof packet, `proved`; 52 kernel-checked by hosted run 38121713840: PR head 910809d6, actu"
+  ],
+  [
+   "\\bproved\\b",
+   "ng the claim itself is registered), 138 `none`; no research claim is `proved` or `kernel-checked`. 197 statement entries point at the 150 declarat"
+  ],
+  [
+   "\\bproved\\b",
+   "his package (all `specified`). 155 statement entries carry the label `proved` and are theorems of other packages, listed as the arithmetic skeleto"
+  ],
+  [
+   "\\bproved\\b",
+   "fficientInterface`, `CoefficientEnclosure`, `ReferenceComparison`; 27 proved (main, origin/main f6deeba7): `pairing_sum_six`, `pairing_sum_le_six`"
+  ],
+  [
+   "\\bproved\\b",
+   "pin_determinant_and_joint_dimension`, `hessian_block_eigenvalues`; 17 proved (proof packet): `Side24Elementary.exponentialBounds`, `Side24Elementa"
+  ],
+  [
+   "\\bproved\\b",
+   "entityN3`, `UniformCounterexampleN4`, `ExponentialTailLayerCakeN5`; 5 proved (proof packet): `RNProbability.conditionalMeanIdentityN3`, `RNProbabi"
+  ],
+  [
+   "\\bproved\\b",
+   "alForbiddenCounts`, `Benchmark816Price`, `Benchmark816UnionBound`; 12 proved (main 91cffbb5, PR #358, not on main): `benchmark_block_and_ground_si"
+  ],
+  [
+   "\\bproved\\b",
+   "und_arithmetic`, `cover_price_numerator_and_denominator_positive`; 20 proved (proof packet): `P15Elementary.triangleNeedsThree`, `P15Structure.ben"
+  ],
+  [
+   "\\bproved\\b",
+   "GeneratorPrices`, `DemandOneRefutation`, `LogOnePlusBelowIdentity`; 6 proved (main 91cffbb5, PR #358, not on main): `smallest_member_block_size`, "
+  ],
+  [
+   "\\bproved\\b",
+   "`generator_prices_ninths`, `minimum_generator_price_exceeds_third`; 3 proved (proof packet): `P15Elementary.twoCoordGeneratorPrices`, `P15Elementa"
+  ],
+  [
+   "\\bproved\\b",
+   "irds`, `Benchmark816TransformedRange`, `Benchmark816RationalPrice`; 3 proved (main 91cffbb5, PR #358, not on main): `t3_ratio_at_minimal_block`, `"
+  ],
+  [
+   "\\bproved\\b",
+   "k`, `t3_bound_finite_instances`, `explicit_rational_price_above_p`; 8 proved (proof packet): `P15Elementary.logRatioBound`, `P15Elementary.capTest"
+  ],
+  [
+   "\\bproved\\b",
+   "SharpnessOfRhoStar`, `DemandOneBoundary`, `SixSeventhsCertificate`; 7 proved (main 91cffbb5, PR #358, not on main): `rho_star_endpoints_adjacent`,"
+  ],
+  [
+   "\\bproved\\b",
+   "xths_taylor_certificate`, `h_star_rational_certificate_constants`; 19 proved (proof packet): `P15Elementary.rhoStarBelowSixSevenths`, `P15Elementa"
+  ],
+  [
+   "\\bproved\\b",
+   "entityN3`, `UniformCounterexampleN4`, `ExponentialTailLayerCakeN5`; 5 proved (proof packet): `RNProbability.conditionalMeanIdentityN3`, `RNProbabi"
+  ],
+  [
+   "\\bproved\\b",
+   "lTransformedPriceBudget`, `RhoStarEnclosure`, `SharpnessOfRhoStar`; 7 proved (main 91cffbb5, PR #358, not on main): `rho_star_endpoints_adjacent`,"
+  ],
+  [
+   "\\bproved\\b",
+   "ixths_taylor_certificate`, `h_star_rational_certificate_constants`; 3 proved (proof packet): `P15Elementary.sharpnessOfRhoStar`, `P15Interpolation"
+  ],
+  [
+   "\\bproved\\b",
+   "y` | 2 specified: `TwoCoordGeneratorPrices`, `DemandOneRefutation`; 6 proved (main 91cffbb5, PR #358, not on main): `smallest_member_block_size`, "
+  ],
+  [
+   "\\bproved\\b",
+   "`generator_prices_ninths`, `minimum_generator_price_exceeds_third`; 2 proved (proof packet): `P15Elementary.twoCoordGeneratorPrices`, `P15Elementa"
+  ],
+  [
+   "\\bproved\\b",
+   " `c6-rare-cluster` | 1 specified: `RareClusterPoissonObstructionO`; 1 proved (proof packet): `RNCluster.rareClusterPoissonObstructionO\u2020` | | `CL-D"
+  ],
+  [
+   "\\bproved\\b",
+   "salLaw` | existing_lean_package | \u2014 | `none` | `side24-enclosure` | 4 proved (main, origin/main f6deeba7): `d2_endpoints_adjacent`, `d3_endpoints_"
+  ],
+  [
+   "\\bproved\\b",
+   " The register lists those theorems   under the claim rows with label `proved`, the label of a committed proof package; `kernel-checked`   appears "
+  ],
+  [
+   "\\bproved\\b",
+   "INDEPENDENT_REVIEW), review or   acceptance; no claim-level label is `proved`, including the one row (`p15-price-boundary`) whose   claim-stating "
+  ]
+ ],
+ "stmts/SCOPE": [
+  [
+   "\\bclosed\\b",
+   "acket table placeholders in README.md or SCOPE.md. The scan is a fail-closed pre-Lean stage and not a Lean lexer.  The authority is the environmen"
+  ],
+  [
+   "\\bclosed\\b",
+   " a Hermite-type recursion on the operator norms of iteratedFDeriv, no closed form of the Gaussian derivatives, the contraction at a unit tuple bou"
+  ],
+  [
+   "\\bclosed\\b",
+   "es IsUnitTuple, NegDefCone are the vocabulary of the other Props, not closed statements (a theorem of their type would assert them for every argum"
+  ],
+  [
+   "\\bclosed\\b",
+   "e and ReferenceComparison are predicates on the interface object, not closed statements; their universal closure over all inhabitants is false whe"
+  ],
+  [
+   "\\bclosed\\b",
+   "24-jet enclosure, no ENV-RESCOV discharge; D3-LEMMA-RN-UNIF stays not closed. Disposition HOLD_WITH_DOMAIN is transcribed, not re-derived. Nonauth"
+  ],
+  [
+   "\\bclosed\\b",
+   "alForbidden, IsTransversal are the vocabulary of the other Props, not closed statements (a theorem of their type would assert them for every argum"
+  ],
+  [
+   "\\bclosed\\b",
+   "predicates IsProperDownset are the vocabulary of the other Props, not closed statements (a theorem of their type would assert them for every argum"
+  ],
+  [
+   "\\bclosed\\b",
+   ": the parent-shape Props are predicates on the interface objects, not closed statements; the universal closure of ParentUniformSelectionA over all"
+  ],
+  [
+   "\\bclosed\\b",
+   "ackage states the deterministic cap theorem (unique transverse ridge, closed cap through S separating M from every older point, elder death partne"
+  ],
+  [
+   "\\bclosed\\b",
+   "e and ReferenceComparison are predicates on the interface object, not closed statements; their universal closure over all inhabitants is false whe"
+  ],
+  [
+   "\\bclosed\\b",
+   "arentUniformSelectionA is a predicate on the interface objects, not a closed statement; its universal closure over all inhabitants is false whenev"
+  ],
+  [
+   "\\bclosed\\b",
+   "icted remainder or difference rate (that is Theorem R), no elementary closed form. The identification of the interface structures (GaussianFieldIn"
+  ],
+  [
+   "\\bclosed\\b",
+   " and PlanarDensityGapE11 are predicates on the interface objects, not closed statements; the universal closure of E2 and E4 over all inhabitants i"
+  ],
+  [
+   "\\bclosed\\b",
+   "statement not extracted | | `packet:soft_closed_form_20261002` | soft closed form (#244 07320089): Math- frontiers/soft_closed_form_20261002 at 6c"
+  ],
+  [
+   "\\bclosed\\b",
+   "y may be cited as evidence that a research claim is proved, verified, closed or certified. A `proved` statement entry of another package listed in"
+  ],
+  [
+   "\\bindependent\\b",
+   "`lambda = mu`; Theorems C and S, the factorial-moment matching or the independent-replica limit; the conditional-law liminf remark; that the upper half"
+  ],
+  [
+   "\\bindependent\\b",
+   "); independence of crossing events (\"Crossing events are not declared independent\"). | `P15Hazard.independentBlockHazard` | | `FullBlockCoverIff` | def"
+  ],
+  [
+   "\\bindependent\\b",
+   "replaced by v1.1, section 10, (14.1), (15.2)) as explicit hypotheses; independent reviewer: alignment verdict on RemainderBoundedR1 against (R1), inclu"
+  ],
+  [
+   "\\bindependent\\b",
+   "ce as a proof-lane target (Dirac mass at one admissible smooth path); independent reviewer: alignment of A2/A3 with displays (2)-(3), in particular the"
+  ],
+  [
+   "\\bindependent\\b",
+   "s 0. | Pin TWO_SCALE_ADDENDUM.md and state (S3)-(S5) and (S20)-(S21); independent reviewer: alignment of FixedAnnulusWindowCandidateA2 with (A2), check"
+  ],
+  [
+   "\\bindependent\\b",
+   "hether DemandOneRefutation says what the source paragraph says is the independent reviewer's alignment question (PENDING_INDEPENDENT_REVIEW), the hoste"
+  ],
+  [
+   "\\bindependent\\b",
+   "d only to the extent that row records. Disposition HOLD_WITH_DOMAIN (\"independent theorem review not yet source-bound in manifest\") is transcribed, not"
+  ],
+  [
+   "\\bindependent\\b",
+   "ps; state (15.2) as a Prop over an explicit Gaussian conditional law; independent reviewer: alignment of the three parent Props against (1.1)-(1.3) wit"
+  ],
+  [
+   "\\bindependent\\b",
+   " in Lifetime.lean so that the Math- lane's delta review has a target; independent (non-Claude) reviewer for the v1.5-v2.6 delta. | | `math.d1-component"
+  ],
+  [
+   "\\bindependent\\b",
+   "cal_collar_20260928) and re-anchor D5a/D5b/D5c to their own displays; independent reviewer: alignment of the three Props with rows D5-a, D5-b, D5-d. Ro"
+  ],
+  [
+   "\\bindependent\\b",
+   "e_window_20260928/PROOF.md and anchor the single-shell display there; independent reviewer: alignment of D5eIntermediateShellsI3I4 with row D5-e and wi"
+  ],
+  [
+   "\\bindependent\\b",
+   " of this packet is 0. | Pin the three component proofs and re-anchor; independent reviewer: alignment of the six Props with the section 2 table (all-he"
+  ],
+  [
+   "\\bindependent\\b",
+   "ce credit of this packet is 0. | State the R1-R7 interfaces as Props; independent reviewer: alignment of AnnulusBridgeAllHeight2 with display (2), chec"
+  ],
+  [
+   "\\bindependent\\b",
+   ". | State (11.3) as a Prop over an explicit Gaussian conditional law; independent reviewer: alignment of ParentCompactWindowDensityB with (1.2), includ"
+  ],
+  [
+   "\\bindependent\\b",
+   "dence credit of this packet is 0. | State (15.2) and (14.1) as Props; independent reviewer: alignment of ParentUnrestrictedLeadingDensityC with (1.3), "
+  ],
+  [
+   "\\bindependent\\b",
+   "he four Props if the displays changed; state Corollaries F_d and M_d; independent reviewer: alignment of the four Props with (1.2)-(1.7). Round-4 triag"
+  ],
+  [
+   "\\bindependent\\b",
+   "ational-independence credit of this packet is 0. | State Corollary P; independent reviewer: alignment of the two Props with (1.1)-(1.2), including whet"
+  ],
+  [
+   "\\bindependent\\b",
+   "ent lambda = mu, Theorems C and S, the factorial-moment matching, the independent-replica limit (7.1) and the conditional-law liminf remark are neither"
+  ],
+  [
+   "\\bindependent\\b",
+   "e credit of this packet is 0. | State Theorem C and Corollaries E, F; independent (non-Anthropic) reviewer for both the source and the Props. Round-4 t"
+  ],
+  [
+   "\\bindependent\\b",
+   " def : Prop in a main-side or Math- Mathlib statement module; then an independent (non-OpenAI) review. | | `main:experiments/universality/finite_candid"
+  ],
+  [
+   "\\bindependent\\b",
+   " def : Prop in a main-side or Math- Mathlib statement module; then an independent (non-OpenAI) review. | | `main:experiments/universality/finite_fold_c"
+  ],
+  [
+   "\\bindependent\\b",
+   " def : Prop in a main-side or Math- Mathlib statement module; then an independent (non-OpenAI) review. | | `main:experiments/universality/finite_weight"
+  ],
+  [
+   "\\bindependent\\b",
+   " def : Prop in a main-side or Math- Mathlib statement module; then an independent (non-OpenAI) review. | | `main:experiments/universality/finite_contac"
+  ],
+  [
+   "\\bindependent\\b",
+   " def : Prop in a main-side or Math- Mathlib statement module; then an independent (non-OpenAI) review. | | `main:experiments/universality/finite_elder_"
+  ],
+  [
+   "\\bindependent\\b",
+   " def : Prop in a main-side or Math- Mathlib statement module; then an independent (non-OpenAI) review. | | `main:experiments/universality/finite_h0_lif"
+  ],
+  [
+   "\\bindependent\\b",
+   " def : Prop in a main-side or Math- Mathlib statement module; then an independent (non-OpenAI) review. | | `main:experiments/universality/fold_structur"
+  ],
+  [
+   "\\bindependent\\b",
+   " def : Prop in a main-side or Math- Mathlib statement module; then an independent (non-OpenAI) review. | | `main:experiments/universality/periodized_ga"
+  ],
+  [
+   "\\bindependent\\b",
+   " def : Prop in a main-side or Math- Mathlib statement module; then an independent (non-OpenAI) review. | | `main:experiments/universality/iid_short_bar"
+  ],
+  [
+   "\\bindependent\\b",
+   " def : Prop in a main-side or Math- Mathlib statement module; then an independent (non-OpenAI) review. | | `main:experiments/periodic_h0/spectral_shrin"
+  ],
+  [
+   "kernel-checked",
+   "heorem` with label `proved` (the label of a committed proof package; `kernel-checked` appears only in a run receipt: the hosted `lean-specification-proofs"
+  ],
+  [
+   "kernel-checked",
+   "70d77876a10c365f5db5d3b6cafcf180af4e2, receipt theorem_count 52), are kernel-checked by the hosted run 38149888699 on PR head 0dcb0016 (actual tested merg"
+  ],
+  [
+   "kernel-checked",
+   "eclaration here, which stays `specified`, and not to any claim row; a kernel-checked theorem is evidence about its Prop only, and alignment of every state"
+  ],
+  [
+   "kernel-checked",
+   " (verbatim `Does not claim:`) | proved by (proof packet, `proved`; 52 kernel-checked by hosted run 38121713840: PR head 910809d6, actual tested merge 5b19"
+  ],
+  [
+   "kernel-checked",
+   " (verbatim `Does not claim:`) | proved by (proof packet, `proved`; 52 kernel-checked by hosted run 38121713840: PR head 910809d6, actual tested merge 5b19"
+  ],
+  [
+   "kernel-checked",
+   " (verbatim `Does not claim:`) | proved by (proof packet, `proved`; 52 kernel-checked by hosted run 38121713840: PR head 910809d6, actual tested merge 5b19"
+  ],
+  [
+   "kernel-checked",
+   "t arithmetic `1+15+45+15=76` and `76` bounding the smaller orders are kernel-checked on main (`UniversalLaw.Side24.pairing_sum_six`, `pairing_sum_le_six`)"
+  ],
+  [
+   "kernel-checked",
+   "absolute value at most15. | the bound (statement only); `5!! = 15` is kernel-checked on main (`UniversalLaw.Side24.sixth_moment_double_factorial`), not he"
+  ],
+  [
+   "kernel-checked",
+   "j^2)` shell count is not specified; `27*27 = 729`, `729*2 = 1458` are kernel-checked on main (`UniversalLaw.Side24.lattice_shell_constant`), not here. | `"
+  ],
+  [
+   "kernel-checked",
+   "4)<1/2. | the bounds (statement only); `2^9 = 512`, `288*3 = 864` are kernel-checked on main (`UniversalLaw.Side24.geometric_ratio_constants`), not here. "
+  ],
+  [
+   "kernel-checked",
+   "nt only); the rational Taylor sum through degree 20 exceeding `10` is kernel-checked on main (the `UniversalLaw.Side24` Taylor-sum target in `Ledger.lean`"
+  ],
+  [
+   "kernel-checked",
+   "ginal and conditional covariances (not specified); `60E < epsilon` is kernel-checked on main (`UniversalLaw.Side24.covariance_relative_bound`), not here; "
+  ],
+  [
+   "kernel-checked",
+   "e odd-block eigenvalues `8 \u00b1 sqrt 58` and the minors `2/3`, `7/9` are kernel-checked on main (`UniversalLaw.Side24.odd_block_eigenvalues`, `odd_block_shif"
+  ],
+  [
+   "kernel-checked",
+   "t,G)=(-3,0,...,0), | the identities (statement only); `15 - 9 = 6` is kernel-checked on main (`UniversalLaw.Side24.conditional_third_derivative_variance`)"
+  ],
+  [
+   "kernel-checked",
+   "t specified); `13 \u2264 32`, `28 \u2264 32` and `32*10^(-108) < 10^(-106)` are kernel-checked on main (`UniversalLaw.Side24.ratio_constant_ordering`, `density_comp"
+  ],
+  [
+   "kernel-checked",
+   " sqrt(3). | the identity (statement only); `det diag(3,1,\u2026,1) = 3` is kernel-checked on main (`UniversalLaw.Side24.pin_determinant_and_joint_dimension`), "
+  ],
+  [
+   "kernel-checked",
+   "nvariance of `K_infty`, a fact not specified here); `6^2*2 = 3*24` is kernel-checked on main (`UniversalLaw.Side24.cube_root_simplification`), not here; n"
+  ],
+  [
+   "kernel-checked",
+   "erivation of `Var(s) = 5/3` from the `(2/3) delta delta + \u2026` formula (kernel-checked arithmetic on main, `UniversalLaw.Side24.trace_and_traceless_variance"
+  ],
+  [
+   "kernel-checked",
+   "ty (statement only); its rational part and `4 sqrt(3/8) = sqrt 6` are kernel-checked on main (`UniversalLaw.Side24.cone_moment_m2_algebra`), not here. | `"
+  ],
+  [
+   "kernel-checked",
+   "entities (statement only); `3 (5/3)^2 = 25/3` and `1 + 5/3 = 8/3` are kernel-checked on main (`UniversalLaw.Side24.fourth_moment_of_trace`, `exponential_m"
+  ],
+  [
+   "kernel-checked",
+   "skeleton (endpoint adjacency, `d3 < d2`, endpoints in `(0, 1/10)`) is kernel-checked on main (31 `UniversalLaw.Side24` targets at origin/main f6deeba7), n"
+  ],
+  [
+   "kernel-checked",
+   "ts (the source says it is NOT claimed); `32*10^(-108) < 10^(-106)` is kernel-checked on main (`UniversalLaw.Side24.density_comparison_below_reported`), no"
+  ],
+  [
+   "kernel-checked",
+   " (verbatim `Does not claim:`) | proved by (proof packet, `proved`; 52 kernel-checked by hosted run 38121713840: PR head 910809d6, actual tested merge 5b19"
+  ],
+  [
+   "kernel-checked",
+   " (verbatim `Does not claim:`) | proved by (proof packet, `proved`; 52 kernel-checked by hosted run 38121713840: PR head 910809d6, actual tested merge 5b19"
+  ],
+  [
+   "kernel-checked",
+   " itself is registered), 138 `none`; no research claim is `proved` or `kernel-checked`. 197 statement entries point at the 150 declarations of this package"
+  ],
+  [
+   "kernel-checked",
+   "yml` run 38121713840 receipted the 52 theorems of PR head 910809d6 as kernel-checked and run 38116277597 the first 38; a pull_request run checks out the s"
+  ],
+  [
+   "kernel-checked",
+   "70d77876a10c365f5db5d3b6cafcf180af4e2, receipt theorem_count 52), are kernel-checked by the hosted run 38149888699 on PR head 0dcb0016 (actual tested merg"
+  ],
+  [
+   "kernel-checked",
+   "elementaryConeIntegral) are among the 38 theorems of PR head 00d2ac6e kernel-checked by the hosted run 38116277597 (actual tested merge c4c66bb8cb26f0cd9b"
+  ],
+  [
+   "kernel-checked",
+   " Classical.choice, Quot.sound} for each, receipt formalization_status kernel-checked, worktree CLEAN; artifact lean-specification-proofs-38116277597-1); 1"
+  ],
+  [
+   "kernel-checked",
+   "2bb25f1b3925b272c with base b2d70d77876a10c365f5db5d3b6cafcf180af4e2) kernel-checked them (receipt formalization_status kernel-checked, leanchecker PASS, "
+  ],
+  [
+   "kernel-checked",
+   "5d3b6cafcf180af4e2) kernel-checked them (receipt formalization_status kernel-checked, leanchecker PASS, `#print axioms` within {propext, Classical.choice,"
+  ],
+  [
+   "kernel-checked",
+   "2bb25f1b3925b272c with base b2d70d77876a10c365f5db5d3b6cafcf180af4e2) kernel-checked the five proved entries. Independent reviewer: alignment of the five "
+  ],
+  [
+   "kernel-checked",
+   "e.benchmark816MinimalForbiddenCounts, P15Structure.benchmark816Price) kernel-checked by the hosted run 38116277597 (PR head 00d2ac6e; actual tested merge "
+  ],
+  [
+   "kernel-checked",
+   "er, P15Covers.benchmark816UnionBound) added after commit 00d2ac6e and kernel-checked by the hosted run 38121713840 (PR head 910809d6; actual tested merge "
+  ],
+  [
+   "kernel-checked",
+   "{propext, Classical.choice, Quot.sound}, receipt formalization_status kernel-checked, worktree CLEAN)); among them Proposition P1 (MinimalForbiddenCharact"
+  ],
+  [
+   "kernel-checked",
+   "2bb25f1b3925b272c with base b2d70d77876a10c365f5db5d3b6cafcf180af4e2) kernel-checked them (receipt formalization_status kernel-checked, leanchecker PASS, "
+  ],
+  [
+   "kernel-checked",
+   "5d3b6cafcf180af4e2) kernel-checked them (receipt formalization_status kernel-checked, leanchecker PASS, `#print axioms` within {propext, Classical.choice,"
+  ],
+  [
+   "kernel-checked",
+   "2bb25f1b3925b272c with base b2d70d77876a10c365f5db5d3b6cafcf180af4e2) kernel-checked the Prop and nothing more, and a kernel-checked Prop is evidence abou"
+  ],
+  [
+   "kernel-checked",
+   "db5d3b6cafcf180af4e2) kernel-checked the Prop and nothing more, and a kernel-checked Prop is evidence about that Prop only. This is the one row of the reg"
+  ],
+  [
+   "kernel-checked",
+   "2d70d77876a10c365f5db5d3b6cafcf180af4e2) produced the first receipt (`kernel-checked` appears only there); later commits need their own run. Independent ("
+  ],
+  [
+   "kernel-checked",
+   "lementary.capTestAtTwoThirds, P15Structure.benchmark816RationalPrice) kernel-checked by the hosted run 38116277597 (PR head 00d2ac6e; actual tested merge "
+  ],
+  [
+   "kernel-checked",
+   "5Budget.benchmark816TransformedRange) added after commit 00d2ac6e and kernel-checked by the hosted run 38121713840 (PR head 910809d6; actual tested merge "
+  ],
+  [
+   "kernel-checked",
+   "{propext, Classical.choice, Quot.sound}, receipt formalization_status kernel-checked, worktree CLEAN)). Theorem-shaped Props of this row still `specified`"
+  ],
+  [
+   "kernel-checked",
+   "sixSeventhsCertificate) are among the 38 theorems of PR head 00d2ac6e kernel-checked by the hosted run 38116277597 (actual tested merge c4c66bb8cb26f0cd9b"
+  ],
+  [
+   "kernel-checked",
+   " Classical.choice, Quot.sound} for each, receipt formalization_status kernel-checked, worktree CLEAN; artifact lean-specification-proofs-38116277597-1); 3"
+  ],
+  [
+   "kernel-checked",
+   "15Elementary.sharpnessOfRhoStar) were added after commit 00d2ac6e and kernel-checked by the hosted run 38121713840 (PR head 910809d6; actual tested merge "
+  ],
+  [
+   "kernel-checked",
+   "{propext, Classical.choice, Quot.sound}, receipt formalization_status kernel-checked, worktree CLEAN); 8 of them (P15Interpolation.fullTransformedPriceBud"
+  ],
+  [
+   "kernel-checked",
+   "erpolation.localPriceBoundFull) were added after PR head 79731b96 and kernel-checked by the hosted run 38149888699 (PR head 0dcb0016; actual tested merge "
+  ],
+  [
+   "kernel-checked",
+   "{propext, Classical.choice, Quot.sound}, receipt formalization_status kernel-checked, theorem_count 60, worktree CLEAN; artifact lean-specification-proofs"
+  ],
+  [
+   "kernel-checked",
+   "eferenceCoefficientIdentity, Side24Elementary.elementaryConeIntegral) kernel-checked by the hosted run 38116277597 (PR head 00d2ac6e; actual tested merge "
+  ],
+  [
+   "kernel-checked",
+   "h proved as a theorem of the proof packet (5 entries below, `proved`; kernel-checked by the hosted run 38116277597 (PR head 00d2ac6e; actual tested merge "
+  ],
+  [
+   "kernel-checked",
+   "15Elementary.sharpnessOfRhoStar) were added after commit 00d2ac6e and kernel-checked by the hosted run 38121713840 (PR head 910809d6; actual tested merge "
+  ],
+  [
+   "kernel-checked",
+   "{propext, Classical.choice, Quot.sound}, receipt formalization_status kernel-checked, worktree CLEAN); 2 of them (P15Interpolation.fullTransformedPriceBud"
+  ],
+  [
+   "kernel-checked",
+   "Interpolation.rhoStarEnclosure) were added after PR head 79731b96 and kernel-checked by the hosted run 38149888699 (PR head 0dcb0016; actual tested merge "
+  ],
+  [
+   "kernel-checked",
+   "{propext, Classical.choice, Quot.sound}, receipt formalization_status kernel-checked, theorem_count 60, worktree CLEAN; artifact lean-specification-proofs"
+  ],
+  [
+   "kernel-checked",
+   "eorems of exactly their type in the proof packet (listed as `proved`; kernel-checked by the hosted run 38116277597 (PR head 00d2ac6e; actual tested merge "
+  ],
+  [
+   "kernel-checked",
+   "ied rational facts proved by decide (label `proved` in the manifest, `kernel-checked` only in a run receipt). The four Endpoints theorems listed here show"
+  ],
+  [
+   "kernel-checked",
+   "ean_statement_proofs_20261011 now holds the real-number P15 theorems, kernel-checked by the hosted run 38116277597 (PR head 00d2ac6e; actual tested merge "
+  ],
+  [
+   "kernel-checked",
+   "em in the proof packet specifications/lean_statement_proofs_20261011 (kernel-checked by the hosted run 38116277597 (PR head 00d2ac6e; actual tested merge "
+  ],
+  [
+   "kernel-checked",
+   "e already proved in specifications/lean_statement_proofs_20261011 and kernel-checked by the hosted run 38116277597 (PR head 00d2ac6e; actual tested merge "
+  ],
+  [
+   "kernel-checked",
+   "inite arithmetic identity), never about the claim row it sits under; `kernel-checked` is a run-receipt word (the proof packet's hosted run 38121713840 rec"
+  ],
+  [
+   "\\bproved\\b",
+   " of the 141 Props; the last column of the declaration tables and the `proved (proof packet \u2026)` entries of the claims table, where \u2020 marks a theore"
+  ],
+  [
+   "\\bproved\\b",
+   "): 72 of the 141 Props have one (73 theorems; `TriangleNeedsThree` is proved twice), each listed in the register under the claim rows as a stateme"
+  ],
+  [
+   "\\bproved\\b",
+   "der the claim rows as a statement entry of kind `theorem` with label `proved` (the label of a committed proof package; `kernel-checked` appears on"
+  ],
+  [
+   "\\bproved\\b",
+   "ge (verbatim anchor) | Not established (verbatim `Does not claim:`) | proved by (proof packet, `proved`; 52 kernel-checked by hosted run 381217138"
+  ],
+  [
+   "\\bproved\\b",
+   " established (verbatim `Does not claim:`) | proved by (proof packet, `proved`; 52 kernel-checked by hosted run 38121713840: PR head 910809d6, actu"
+  ],
+  [
+   "\\bproved\\b",
+   "ge (verbatim anchor) | Not established (verbatim `Does not claim:`) | proved by (proof packet, `proved`; 52 kernel-checked by hosted run 381217138"
+  ],
+  [
+   "\\bproved\\b",
+   " established (verbatim `Does not claim:`) | proved by (proof packet, `proved`; 52 kernel-checked by hosted run 38121713840: PR head 910809d6, actu"
+  ],
+  [
+   "\\bproved\\b",
+   "ge (verbatim anchor) | Not established (verbatim `Does not claim:`) | proved by (proof packet, `proved`; 52 kernel-checked by hosted run 381217138"
+  ],
+  [
+   "\\bproved\\b",
+   " established (verbatim `Does not claim:`) | proved by (proof packet, `proved`; 52 kernel-checked by hosted run 38121713840: PR head 910809d6, actu"
+  ],
+  [
+   "\\bproved\\b",
+   "ge (verbatim anchor) | Not established (verbatim `Does not claim:`) | proved by (proof packet, `proved`; 52 kernel-checked by hosted run 381217138"
+  ],
+  [
+   "\\bproved\\b",
+   " established (verbatim `Does not claim:`) | proved by (proof packet, `proved`; 52 kernel-checked by hosted run 38121713840: PR head 910809d6, actu"
+  ],
+  [
+   "\\bproved\\b",
+   "ge (verbatim anchor) | Not established (verbatim `Does not claim:`) | proved by (proof packet, `proved`; 52 kernel-checked by hosted run 381217138"
+  ],
+  [
+   "\\bproved\\b",
+   " established (verbatim `Does not claim:`) | proved by (proof packet, `proved`; 52 kernel-checked by hosted run 38121713840: PR head 910809d6, actu"
+  ],
+  [
+   "\\bproved\\b",
+   " labels within blocks, one may take \\|P_i\\|=d_i. | the statement (not proved here; disjoint palettes of sizes `d_i` are a witness in the sources' "
+  ],
+  [
+   "\\bproved\\b",
+   "st three blocks. | the statement (finite, decidable in principle; not proved here). | `P15Structure.benchmark816IsRealized` | | `Benchmark816Palet"
+  ],
+  [
+   "\\bproved\\b",
+   "/40900 + (1/40900)^2/2 = 81801/3345620000` is exact arithmetic not re-proved here; admissibility rests on `integral_0^p 1/(1-t) dt > integral_0^p "
+  ],
+  [
+   "\\bproved\\b",
+   "ty price<=q_i is NOT required and is in general stronger than what is proved here\"). | `P15Interpolation.localPriceBoundFull` | | `GlobalAssemblyH"
+  ],
+  [
+   "\\bproved\\b",
+   " only); the two exact rational identities are exact arithmetic not re-proved here; the series and geometric-tail bounds behind `e < 31967/11760` a"
+  ],
+  [
+   "\\bproved\\b",
+   "ng the claim itself is registered), 138 `none`; no research claim is `proved` or `kernel-checked`. 197 statement entries point at the 150 declarat"
+  ],
+  [
+   "\\bproved\\b",
+   "his package (all `specified`). 155 statement entries carry the label `proved` and are theorems of other packages, listed as the arithmetic skeleto"
+  ],
+  [
+   "\\bproved\\b",
+   "fficientInterface`, `CoefficientEnclosure`, `ReferenceComparison`; 27 proved (main, origin/main f6deeba7): `pairing_sum_six`, `pairing_sum_le_six`"
+  ],
+  [
+   "\\bproved\\b",
+   "pin_determinant_and_joint_dimension`, `hessian_block_eigenvalues`; 17 proved (proof packet): `Side24Elementary.exponentialBounds`, `Side24Elementa"
+  ],
+  [
+   "\\bproved\\b",
+   "ean and no inhabitant is constructed. The 27 main theorems listed as `proved` are the integer/rational arithmetic skeleton of PROOF.md sections 1-"
+  ],
+  [
+   "\\bproved\\b",
+   ", RayleighSquareLaw, ElementaryConeIntegral (17 entries below, label `proved`; 5 of them (Side24Elementary.successiveTermRatio, Side24Elementary.e"
+  ],
+  [
+   "\\bproved\\b",
+   "sum_le_six and sixth_moment_double_factorial are neither cited nor re-proved; nothing for q > 6); the lattice image sum (LatticeImageSumBound: sum"
+  ],
+  [
+   "\\bproved\\b",
+   "dz for a >= 0 (ConeMomentD1Identity, TraceMoments, RayleighSquareLaw: proved for every inhabitant from the law fields A_law, sxy_law and isProb al"
+  ],
+  [
+   "\\bproved\\b",
+   "tional law A \\| V = 0 of the reference field, and the Rayleigh law is proved as a distribution function, not as a density). None of them is the Ga"
+  ],
+  [
+   "\\bproved\\b",
+   "ageSumBound, DensityComparison, RayleighSquareLaw PROVABLE_WITH_WORK: proved in round 4 (see entries); ReferenceCovarianceLowerBound PROVABLE_WITH"
+  ],
+  [
+   "\\bproved\\b",
+   "ignment verdicts on the 28 Side24 statements, in particular of the 17 proved Props with their anchors (ThetaSummable with the source's R^d, 24 Z^d"
+  ],
+  [
+   "\\bproved\\b",
+   "ns of the densities under the interface structures; the result is not proved. Not stated: (R19)-(R20), the observation transform and determinant l"
+  ],
+  [
+   "\\bproved\\b",
+   "entityN3`, `UniformCounterexampleN4`, `ExponentialTailLayerCakeN5`; 5 proved (proof packet): `RNProbability.conditionalMeanIdentityN3`, `RNProbabi"
+  ],
+  [
+   "\\bproved\\b",
+   "pecifications/lean_statement_proofs_20261011 (5 entries below, label `proved`; the hosted lean-specification-proofs.yml run 38116277597 (PR head 0"
+  ],
+  [
+   "\\bproved\\b",
+   "nts they quantify over: nothing about the Gaussian model is stated or proved; no RN rate, no 24-jet enclosure, no ENV-RESCOV discharge; D3-LEMMA-R"
+  ],
+  [
+   "\\bproved\\b",
+   "ase b2d70d77876a10c365f5db5d3b6cafcf180af4e2) kernel-checked the five proved entries. Independent reviewer: alignment of the five Props with (N1)-"
+  ],
+  [
+   "\\bproved\\b",
+   " (14), and the multi-witness Section 6 displays (15)-(16). Nothing is proved; no numerical C or r_*; no shrinking exclusion rho -> 0, no collision"
+  ],
+  [
+   "\\bproved\\b",
+   "between-pin height window) over PinnedLawInterface; the result is not proved. Not stated: the six-pin regression (A3)-(A5), normalizer (A8), conta"
+  ],
+  [
+   "\\bproved\\b",
+   "alForbiddenCounts`, `Benchmark816Price`, `Benchmark816UnionBound`; 12 proved (main 91cffbb5, PR #358, not on main): `benchmark_block_and_ground_si"
+  ],
+  [
+   "\\bproved\\b",
+   "und_arithmetic`, `cover_price_numerator_and_denominator_positive`; 20 proved (proof packet): `P15Elementary.triangleNeedsThree`, `P15Structure.ben"
+  ],
+  [
+   "\\bproved\\b",
+   ", Benchmark816Price, Benchmark816UnionBound (20 entries below, label `proved`; 13 of them (P15Structure.minimalForbiddenCharacterisation, P15Struc"
+  ],
+  [
+   "\\bproved\\b",
+   "r every argument, which is false), and are not targets. Theorem P2 is proved as the two Props state it (for the formal RealizedData record and the"
+  ],
+  [
+   "\\bproved\\b",
+   "a different claim row. The 12 main P15 arithmetic theorems listed as `proved` (finite arithmetic of Section 6: 409, 2454, 15, 500616, 419743994415"
+  ],
+  [
+   "\\bproved\\b",
+   "GeneratorPrices`, `DemandOneRefutation`, `LogOnePlusBelowIdentity`; 6 proved (main 91cffbb5, PR #358, not on main): `smallest_member_block_size`, "
+  ],
+  [
+   "\\bproved\\b",
+   "`generator_prices_ninths`, `minimum_generator_price_exceeds_third`; 3 proved (proof packet): `P15Elementary.twoCoordGeneratorPrices`, `P15Elementa"
+  ],
+  [
+   "\\bproved\\b",
+   "acket specifications/lean_statement_proofs_20261011 (listed below as `proved`, the label of a committed proof package; the hosted lean-specificati"
+  ],
+  [
+   "\\bproved\\b",
+   "> 2/3 and log(4/3) < 1/3 are conjuncts of DemandOneRefutation and are proved inside its theorem from Mathlib's Real.log bounds. The claim-level la"
+  ],
+  [
+   "\\bproved\\b",
+   "hlib's Real.log bounds. The claim-level label stays `specified`, not `proved`: this register admits only none/specified at claim level (no researc"
+  ],
+  [
+   "\\bproved\\b",
+   "none/specified at claim level (no research claim of this programme is proved), whether DemandOneRefutation says what the source paragraph says is "
+  ],
+  [
+   "\\bproved\\b",
+   "rator and not acted on. The 6 main P15 arithmetic theorems listed as `proved` (good sets, obstruction, 3/4 over denominator 4, prices 9,6,6,4 over"
+  ],
+  [
+   "\\bproved\\b",
+   "irds`, `Benchmark816TransformedRange`, `Benchmark816RationalPrice`; 3 proved (main 91cffbb5, PR #358, not on main): `t3_ratio_at_minimal_block`, `"
+  ],
+  [
+   "\\bproved\\b",
+   "k`, `t3_bound_finite_instances`, `explicit_rational_price_above_p`; 8 proved (proof packet): `P15Elementary.logRatioBound`, `P15Elementary.capTest"
+  ],
+  [
+   "\\bproved\\b",
+   "ed family with a_i >= 1, d_i >= 2, p_v <= 1/4, c_v <= phi(p_v) and is proved as stated in the proof packet; that is evidence about the Prop (for t"
+  ],
+  [
+   "\\bproved\\b",
+   "6TransformedRange, Benchmark816RationalPrice (8 entries below, label `proved`; 4 of them (P15Elementary.logRatioBound, P15Elementary.ratioExponent"
+  ],
+  [
+   "\\bproved\\b",
+   "fied` with no theorem: none. The intermediate ratio steps of (T3) are proved inside the theorems that use them; the integral representation behind"
+  ],
+  [
+   "\\bproved\\b",
+   "gram are not specified. The 3 main P15 arithmetic theorems listed as `proved` (the a = 1, n = 3 instance 16/27, finite instances of the (T3) bound"
+  ],
+  [
+   "\\bproved\\b",
+   "SharpnessOfRhoStar`, `DemandOneBoundary`, `SixSeventhsCertificate`; 7 proved (main 91cffbb5, PR #358, not on main): `rho_star_endpoints_adjacent`,"
+  ],
+  [
+   "\\bproved\\b",
+   "xths_taylor_certificate`, `h_star_rational_certificate_constants`; 19 proved (proof packet): `P15Elementary.rhoStarBelowSixSevenths`, `P15Elementa"
+  ],
+  [
+   "\\bproved\\b",
+   "ansformedPriceBudget` | FullTransformedPriceBudget states (F2) and is proved as stated; RhoStarEnclosure states (F3) and is proved as stated; Shar"
+  ],
+  [
+   "\\bproved\\b",
+   "tes (F2) and is proved as stated; RhoStarEnclosure states (F3) and is proved as stated; SharpnessOfRhoStar states the attainment clause and is pro"
+  ],
+  [
+   "\\bproved\\b",
+   "ved as stated; SharpnessOfRhoStar states the attainment clause and is proved as stated. The claim-level label stays `specified` (claim-level vocab"
+  ],
+  [
+   "\\bproved\\b",
+   "nce of Theorem F; alignment PENDING_INDEPENDENT_REVIEW). Theorem F is proved as FullTransformedPriceBudget states it: for the formal RealizedData "
+  ],
+  [
+   "\\bproved\\b",
+   "se Props, not acceptance of the informal theorem. RhoStarEnclosure is proved by a rational certificate (Real.exp_bound series enclosures for e and"
+  ],
+  [
+   "\\bproved\\b",
+   ", DemandOneBoundary, SixSeventhsCertificate (19 entries below, label `proved`; 8 of them (P15Elementary.rhoStarBelowSixSevenths, P15Elementary.haz"
+  ],
+  [
+   "\\bproved\\b",
+   "F5) are not specified; CoordinatewiseConcavity, their consequence, is proved from the one-coordinate split of mu_p(A) (display (F4): affine in exp"
+  ],
+  [
+   "\\bproved\\b",
+   "urce's series argument. The 7 main P15 arithmetic theorems listed as `proved` (finite arithmetic of the Section 6 certificate chain: adjacent 20-d"
+  ],
+  [
+   "\\bproved\\b",
+   "on over ALL p in [0,1]^X and the SAME palette K >= K_H(d), and of the proved interpolation chain (CoordinatewiseConcavity through LocalPriceBoundF"
+  ],
+  [
+   "\\bproved\\b",
+   ", (1.2), (1.3) for every object satisfying the interfaces; nothing is proved. The identification of the interface structures (GaussianFieldInterfa"
+  ],
+  [
+   "\\bproved\\b",
+   "chors against the pinned CAP bytes (statements of kind theorem, label proved, kernel_evidence cap-first-exit-lean.yml), or state the deterministic"
+  ],
+  [
+   "\\bproved\\b",
+   "RemainderBoundedR1` | See row lifetime-remainder: (R1) is stated, not proved; the imports of parent interfaces D1-A-E are not transcribed; Theorem"
+  ],
+  [
+   "\\bproved\\b",
+   "ted for any object satisfying PeriodicCoefficientInterface and is not proved; the \"evaluates_eq_15_2\" edge to the parent is represented only by th"
+  ],
+  [
+   "\\bproved\\b",
+   "Of the three statements of this node, none has a theorem; stated, not proved: CoefficientEnclosure, ReferenceComparison. The 27 arithmetic theorem"
+  ],
+  [
+   "\\bproved\\b",
+   "entityN3`, `UniformCounterexampleN4`, `ExponentialTailLayerCakeN5`; 5 proved (proof packet): `RNProbability.conditionalMeanIdentityN3`, `RNProbabi"
+  ],
+  [
+   "\\bproved\\b",
+   "lLayerCakeN5` | See row rn-count-interface: (N1)-(N5) stated and each proved as a theorem of the proof packet (5 entries below, `proved`; kernel-c"
+  ],
+  [
+   "\\bproved\\b",
+   "d and each proved as a theorem of the proof packet (5 entries below, `proved`; kernel-checked by the hosted run 38116277597 (PR head 00d2ac6e; act"
+  ],
+  [
+   "\\bproved\\b",
+   " a whole and the node stays none; nothing about the Gaussian model is proved. Nonauthor review and acceptance are not claimed by any statement or "
+  ],
+  [
+   "\\bproved\\b",
+   "d-remote-window: displays (2)-(3) stated over PinnedLawInterface, not proved; Section 6 not stated; no inhabitant of the interface. Nonauthor revi"
+  ],
+  [
+   "\\bproved\\b",
+   "fixed-remote Theorem A at exactly this scope, stated by A2/A3 and not proved. The coverage classification itself (COVERED_BY_CANDIDATE, coverage_s"
+  ],
+  [
+   "\\bproved\\b",
+   "nulusBridgeAllHeight2 the all-height fixed-annulus bridge; neither is proved, and the \"covers the reviewed fixed annulus\" reading (R >= B) is not "
+  ],
+  [
+   "\\bproved\\b",
+   "s are stated for any object satisfying PinnedLawInterface and are not proved; the P2 source (PUNCTURED_PIN_PROOF.md) is not pinned here, so the Pr"
+  ],
+  [
+   "\\bproved\\b",
+   "X\\| <= rho} with side conditions taken from dimension-lift (1.6); not proved. The I3/I4 source (frontiers/intermediate_window_20260928) is not pin"
+  ],
+  [
+   "\\bproved\\b",
+   "lTransformedPriceBudget`, `RhoStarEnclosure`, `SharpnessOfRhoStar`; 7 proved (main 91cffbb5, PR #358, not on main): `rho_star_endpoints_adjacent`,"
+  ],
+  [
+   "\\bproved\\b",
+   "ixths_taylor_certificate`, `h_star_rational_certificate_constants`; 3 proved (proof packet): `P15Elementary.sharpnessOfRhoStar`, `P15Interpolation"
+  ],
+  [
+   "\\bproved\\b",
+   "Budget, RhoStarEnclosure, SharpnessOfRhoStar (3 entries below, label `proved`; 1 of them (P15Elementary.sharpnessOfRhoStar) were added after commi"
+  ],
+  [
+   "\\bproved\\b",
+   "d` | 2 specified: `TwoCoordGeneratorPrices`, `DemandOneRefutation`; 6 proved (main 91cffbb5, PR #358, not on main): `smallest_member_block_size`, "
+  ],
+  [
+   "\\bproved\\b",
+   "`generator_prices_ninths`, `minimum_generator_price_exceeds_third`; 2 proved (proof packet): `P15Elementary.twoCoordGeneratorPrices`, `P15Elementa"
+  ],
+  [
+   "\\bproved\\b",
+   ") have theorems of exactly their type in the proof packet (listed as `proved`; kernel-checked by the hosted run 38116277597 (PR head 00d2ac6e; act"
+  ],
+  [
+   "\\bproved\\b",
+   "indowCandidateA2` | See row rn-fixed-annulus-window: (A2) stated, not proved; no global D5/RN/JETMOD, k -> 0, d >= 3, pin-neighbourhood, intermedi"
+  ],
+  [
+   "\\bproved\\b",
+   "A2` | The region's content is (A2) at its exact scope, stated and not proved; the coverage classification is graph bookkeeping, not a Lean stateme"
+  ],
+  [
+   "\\bproved\\b",
+   "nterface (sample space Omega, gated pin regime 0 < r < L) and are not proved. The consumption graph (D5-d from D5-a + D5-c, D5-f from D5-d + I4 + "
+  ],
+  [
+   "\\bproved\\b",
+   "7, P20 and the continuum argument reviewed are not stated; nothing is proved. Nonauthor review and acceptance are not claimed by any statement; al"
+  ],
+  [
+   "\\bproved\\b",
+   "it imports and the corollary C2 are not stated separately; nothing is proved. Nonauthor review and acceptance are not claimed by any statement; al"
+  ],
+  [
+   "\\bproved\\b",
+   " birth, k_- > 0, 1 < A < B, all heights) over PinnedLawInterface; not proved. Not stated: displays (4)-(20), the R1-R7 review interfaces as separa"
+  ],
+  [
+   "\\bproved\\b",
+   "eview and the planar F+ lower bound source are not stated; nothing is proved. Nonauthor review and acceptance are not claimed by any statement; al"
+  ],
+  [
+   "\\bproved\\b",
+   " frames, for the interface field p of PairLawInterface. Not stated or proved: the full-normalizer floor Z_r >= z_* r^2 (5.5), the transverse-matri"
+  ],
+  [
+   "\\bproved\\b",
+   "the O(ell^(2/3)) difference) for compact B, K of positive length; not proved. Not stated: the exact coefficient formula (11.3), the radial ledger "
+  ],
+  [
+   "\\bproved\\b",
+   "abstract positive constant c in IsUnrestrictedLeadingCoefficient; not proved. The Gaussian/angular representation (15.2), the target-growth majora"
+  ],
+  [
+   "\\bproved\\b",
+   "thesis the source does not need, disclosed in the docstring). None is proved. Not stated: (E3), (E7)-(E10), the polygonal-path and tilted jet-box "
+  ],
+  [
+   "\\bproved\\b",
+   "6), (1.7) are stated over PinnedLawInterface for fixed d >= 2 and not proved. Not stated: display (1.4), Corollaries F_d (1.8) and M_d (1.9), the "
+  ],
+  [
+   "\\bproved\\b",
+   " (E N <= C r^3), so the claim as a whole is not specified. Nothing is proved; the logarithm is neither shown sharp nor removable here; no numerica"
+  ],
+  [
+   "\\bproved\\b",
+   "lmRouteSecondFactorialTheta states (1.2) over PinnedLawInterface; not proved. Corollary P (size-biased law) and Sections 3-7 (the cap Psi, the par"
+  ],
+  [
+   "\\bproved\\b",
+   "esult | \u2014 | `none` | 1 specified: `RareClusterPoissonObstructionO`; 1 proved (proof packet): `RNCluster.rareClusterPoissonObstructionO\u2020` | Only Th"
+  ],
+  [
+   "\\bproved\\b",
+   " specifications/lean_statement_proofs_20261011 (1 entry below, label `proved`; 1 of them (RNCluster.rareClusterPoissonObstructionO) were added aft"
+  ],
+  [
+   "\\bproved\\b",
+   "it (7.1) and the conditional-law liminf remark are neither stated nor proved. For A < 2a the hypotheses are unsatisfiable (the source's own remark"
+  ],
+  [
+   "\\bproved\\b",
+   "edit 0, no label moves): RareClusterPoissonObstructionO PROVABLE_NOW: proved in round 4 (see entries). Independent reviewer: alignment of RareClus"
+  ],
+  [
+   "\\bproved\\b",
+   "er bound) are not, so the packet is not specified as a whole. Nothing proved; pairs with a witness near the pins are excluded; no torus-wide secon"
+  ],
+  [
+   "\\bproved\\b",
+   "+1)) int B0 kappa^(-beta)), although its bytes are pinned. Nothing is proved; the correction does not license inferring a density asymptotic from "
+  ],
+  [
+   "\\bproved\\b",
+   "an:main-formal-UniversalLaw` | existing_lean_package | \u2014 | `none` | 4 proved (main, origin/main f6deeba7): `d2_endpoints_adjacent`, `d3_endpoints_"
+  ],
+  [
+   "\\bproved\\b",
+   "igin/main f6deeba7 are finite integer/cross-multiplied rational facts proved by decide (label `proved` in the manifest, `kernel-checked` only in a"
+  ],
+  [
+   "\\bproved\\b",
+   "nite integer/cross-multiplied rational facts proved by decide (label `proved` in the manifest, `kernel-checked` only in a run receipt). The four E"
+  ],
+  [
+   "\\bproved\\b",
+   " are at commit 91cffbb5 of main PR #358 (not on main), are listed as `proved` statements on the rows p15-price-boundary, math.p15-price-boundary, "
+  ],
+  [
+   "\\bproved\\b",
+   "O mechanism for `specified`: its gate refuses any manifest label but `proved`, so statement-only work cannot live in this package. Alignment revie"
+  ],
+  [
+   "\\bproved\\b",
+   "al sources in a later packet revision and register the 63 targets as `proved` statements with anchors; obtain a fresh alignment record for the 63-"
+  ],
+  [
+   "\\bproved\\b",
+   "e credit 0. | Pin the companion sources and register its theorems as `proved` statements in a later packet revision; a reviewer differing in provi"
+  ],
+  [
+   "\\bproved\\b",
+   "e credit 0. | Pin the companion sources and register its theorems as `proved` statements in a later packet revision; a reviewer differing in provi"
+  ],
+  [
+   "\\bproved\\b",
+   "e credit 0. | Pin the companion sources and register its theorems as `proved` statements in a later packet revision; a reviewer differing in provi"
+  ],
+  [
+   "\\bproved\\b",
+   "inition of the H0 superlevel persistence pairing (only the level s is proved); L23, P section 8, Theorem A, measurability and Q^W(G_r^c) <= C r^3 "
+  ],
+  [
+   "\\bproved\\b",
+   "nscribe ALIGNMENT.md row by row and register the 152 declarations as `proved` statements anchored in the pinned CAP bytes (and a pinned SP review)"
+  ],
+  [
+   "\\bproved\\b",
+   "st; only then could its statements enter a register with anchors and `proved` labels. | | `main:experiments/universality/finite_gaussian_contact` "
+  ],
+  [
+   "\\bproved\\b",
+   "credit 0, no human, blind or provider-distinct acceptance. Nothing is proved in Lean; no catalogue model is admitted to the full persistence theor"
+  ],
+  [
+   "\\bproved\\b",
+   "credit 0, no human, blind or provider-distinct acceptance. Nothing is proved in Lean; no catalogue model is admitted to the full persistence theor"
+  ],
+  [
+   "\\bproved\\b",
+   "credit 0, no human, blind or provider-distinct acceptance. Nothing is proved in Lean; no catalogue model is admitted to the full persistence theor"
+  ],
+  [
+   "\\bproved\\b",
+   "credit 0, no human, blind or provider-distinct acceptance. Nothing is proved in Lean; no catalogue model is admitted to the full persistence theor"
+  ],
+  [
+   "\\bproved\\b",
+   "credit 0, no human, blind or provider-distinct acceptance. Nothing is proved in Lean; no catalogue model is admitted to the full persistence theor"
+  ],
+  [
+   "\\bproved\\b",
+   "credit 0, no human, blind or provider-distinct acceptance. Nothing is proved in Lean; no catalogue model is admitted to the full persistence theor"
+  ],
+  [
+   "\\bproved\\b",
+   "credit 0, no human, blind or provider-distinct acceptance. Nothing is proved in Lean; no catalogue model is admitted to the full persistence theor"
+  ],
+  [
+   "\\bproved\\b",
+   "credit 0, no human, blind or provider-distinct acceptance. Nothing is proved in Lean; no catalogue model is admitted to the full persistence theor"
+  ],
+  [
+   "\\bproved\\b",
+   "credit 0, no human, blind or provider-distinct acceptance. Nothing is proved in Lean; no catalogue model is admitted to the full persistence theor"
+  ],
+  [
+   "\\bproved\\b",
+   "credit 0, no human, blind or provider-distinct acceptance. Nothing is proved in Lean; no catalogue model is admitted to the full persistence theor"
+  ],
+  [
+   "\\bproved\\b",
+   "ushforward exponent identities are elementary and could be stated and proved over \u211a in a proof package; low priority. | | `cert:math-side24_v1-coe"
+  ],
+  [
+   "\\bproved\\b",
+   "he enclosure statement itself is CoefficientEnclosure (specified, not proved) on row side24-coefficient; ENCLOSURE.json says scientific_acceptance"
+  ],
+  [
+   "\\bproved\\b",
+   " 91cffbb5 of main PR #358 (not on main; its 10 targets are listed as `proved` statements on the rows p15-full-price, math.p15-full-price and p15-p"
+  ],
+  [
+   "\\bproved\\b",
+   "ecified only); RhoStarBelowSixSevenths and SixSeventhsCertificate are proved as the Props state them in the proof packet specifications/lean_state"
+  ],
+  [
+   "\\bproved\\b",
+   "losures (RhoStarBelowSixSevenths / SixSeventhsCertificate are already proved in specifications/lean_statement_proofs_20261011 and kernel-checked b"
+  ],
+  [
+   "\\bproved\\b",
+   "e not transcribed here; no verdict is implied by this row. Nothing is proved. Shared `next_step` (per packet path): Read Math-:frontiers/side24_pe"
+  ],
+  [
+   "\\bproved\\b",
+   "nder this directory may be cited as evidence that a research claim is proved, verified, closed or certified. A `proved` statement entry of another"
+  ],
+  [
+   "\\bproved\\b",
+   "ce that a research claim is proved, verified, closed or certified. A `proved` statement entry of another package listed in the register is evidenc"
+  ]
+ ],
+ "main/SPEC": [
+  [
+   "\\bclosed\\b",
+   "ved`, `kernel-checked`. In the ladder of work item #95 (GitHub issue, closed 2026-09-27) (L0 prose \u2026 L5 proof-assistant checked), a target with a "
+  ],
+  [
+   "\\bclosed\\b",
+   " `cache.mathlib.org` (Mathlib olean cache; `lake exe cache get` fails closed without it), `reservoir.lean-lang.org` (Lake's package index, consult"
+  ],
+  [
+   "\\bclosed\\b",
+   "ackage states the deterministic cap theorem (unique transverse ridge, closed cap through S separating M from every older point, elder death partne"
+  ],
+  [
+   "\\bclosed\\b",
+   "riv_smul_le` and the Hermite-type recursion on the operator norms, no closed form of the Gaussian derivatives), `LatticeImageSumBound` (the same l"
+  ],
+  [
+   "\\baccepted\\b",
+   "t`, Math- `formal/gate.py --alignment`). 4. **A proved Prop is not an accepted claim.** The proof packet (\u00a73.7) proves 72 of the 141 registered    P"
+  ],
+  [
+   "\\bindependent\\b",
+   "hecked` only in a run receipt | | Is the formalization faithful? | an independent statement/alignment review (different provider, family and agent) | `"
+  ],
+  [
+   "\\bindependent\\b",
+   "that each informal theorem now has one exact    Lean sentence that an independent reviewer can compare with the source and that a future    prover can "
+  ],
+  [
+   "\\bindependent\\b",
+   "` or `none` (the register admits no other claim-level label) until an independent alignment    review and the controlling acceptance machinery say othe"
+  ],
+  [
+   "\\bindependent\\b",
+   "ce as a proof-lane target (Dirac mass at one admissible smooth path); independent \u2026 | | `rn-fixed-annulus-window` | `760340e9:frontiers/rn_thin_tube_20"
+  ],
+  [
+   "\\bindependent\\b",
+   "ved. | Pin TWO_SCALE_ADDENDUM.md and state (S3)-(S5) and (S20)-(S21); independent reviewer: alignment of FixedAnnulusWindowCandidateA2 with (A2), check"
+  ],
+  [
+   "\\bindependent\\b",
+   "cal_collar_20260928) and re-anchor D5a/D5b/D5c to their own displays; independent reviewer: alignment of the three Props with rows D5-a \u2026 | | `math.rn-"
+  ],
+  [
+   "\\bindependent\\b",
+   "e_window_20260928/PROOF.md and anchor the single-shell display there; independent reviewer: alignment of D5eIntermediateShellsI3I4 with row D5-e and wi"
+  ],
+  [
+   "\\bindependent\\b",
+   ") and are not proved. | Pin the three component proofs and re-anchor; independent reviewer: alignment of the six Props with the section 2 table (all-he"
+  ],
+  [
+   "\\bindependent\\b",
+   "innedLawInterface; not proved. | State the R1-R7 interfaces as Props; independent reviewer: alignment of AnnulusBridgeAllHeight2 with display (2), chec"
+  ],
+  [
+   "\\bindependent\\b",
+   ". | State (11.3) as a Prop over an explicit Gaussian conditional law; independent reviewer: alignment of ParentCompactWindowDensityB with (1.2), includ"
+  ],
+  [
+   "\\bindependent\\b",
+   "edLeadingCoefficient; not proved. | State (15.2) and (14.1) as Props; independent reviewer: alignment of ParentUnrestrictedLeadingDensityC with (1.3), "
+  ],
+  [
+   "\\bindependent\\b",
+   "he four Props if the displays changed; state Corollaries F_d and M_d; independent reviewer: alignment of the four Props with (1.2)-(1.7). | | `OA-C6-FO"
+  ],
+  [
+   "\\bindependent\\b",
+   "tates (1.2) over PinnedLawInterface; not proved. | State Corollary P; independent reviewer: alignment of the two Props with (1.1)-(1.2), including whet"
+  ],
+  [
+   "\\bindependent\\b",
+   "e not, so the packet is not \u2026 | State Theorem C and Corollaries E, F; independent (non-Anthropic) reviewer for both the source and the Props. | | `cumu"
+  ],
+  [
+   "\\bindependent\\b",
+   "ty; `kernel-checked` is written only by a trusted run receipt; and an independent alignment review is a separate dimension that none of this produces. "
+  ],
+  [
+   "\\bindependent\\b",
+   "y` stays `specified`: a claim-level move is the operator's, after the independent alignment read.  **Step 3 \u2014 the abstract probability parts of Theorem"
+  ],
+  [
+   "\\bindependent\\b",
+   "omplement) needed for `A_u | V_u = 0`; the law of a sum of squares of independent Gaussians as a theorem; `d`-dimensional lattice theta sums over `Fin "
+  ],
+  [
+   "\\bindependent\\b",
+   "nt records an alignment through the existing validators. The cheapest independent review available is the cross-provider one the rollout record names: "
+  ],
+  [
+   "kernel-checked",
+   "om audit + negative controls, in a trusted run | `proved` at source, `kernel-checked` only in a run receipt | | Is the formalization faithful? | an indepe"
+  ],
+  [
+   "kernel-checked",
+   "|  Formal-progress labels are exactly `none`, `specified`, `proved`, `kernel-checked`. In the ladder of work item #95 (GitHub issue, closed 2026-09-27) (L"
+  ],
+  [
+   "kernel-checked",
+   "27) (L0 prose \u2026 L5 proof-assistant checked), a target with a trusted `kernel-checked` receipt is L5 evidence **for exactly that target**; a `specified` st"
+  ],
+  [
+   "kernel-checked",
+   "em.** The integer identities on `main`    (\u00a73.1; `proved` at source, `kernel-checked` only where a trusted receipt exists) establish the    displayed numb"
+  ],
+  [
+   "kernel-checked",
+   "d numbers, not the analysis around them. A claim whose skeleton is    kernel-checked stays `none` or `specified` as a claim. 3. **Nothing here is reviewed"
+  ],
+  [
+   "kernel-checked",
+   "execute` | `.lake/evidence/receipt.json` with `formalization_status: \"kernel-checked\"` (source mode says `proved`); hosted run 38121713840 receipted the 5"
+  ],
+  [
+   "kernel-checked",
+   "urces/`, and refuses a register row or receipt that says `proved` or `kernel-checked`: a statement package cannot self-award a proof label.  The proof-pac"
+  ],
+  [
+   "kernel-checked",
+   " statement rejected by Lean) and writes the only record that may say `kernel-checked`. Helpers live in `Aux` namespaces and are audited but not inventorie"
+  ],
+  [
+   "kernel-checked",
+   "is exactly one of the registered Props of the row, label `proved` (52 kernel-checked by the hosted run 38121713840: PR head `910809d6`, actual tested merg"
+  ],
+  [
+   "kernel-checked",
+   " **Formal progress**: the claim-level label; no claim is `proved` or `kernel-checked`. **Not established** and **Next step** are abridged here to their fi"
+  ],
+  [
+   "kernel-checked",
+   "6bb8\u2026 (PR head 00d2ac6e, base b2d70d77\u2026) produced the first receipt (`kernel-checked` appears only there); later commits need \u2026 | | `p15-price-budget-rest"
+  ],
+  [
+   "kernel-checked",
+   "h proved as a theorem of the proof packet (5 entries below, `proved`; kernel-checked by the hosted run 38116277597/tested-merge-c4c66bb8\u2026 (PR head 00d2ac6"
+  ],
+  [
+   "kernel-checked",
+   "eorems of exactly their type in the proof packet (listed as `proved`; kernel-checked by the hosted run \u2026 | As for row p15-price-boundary. | | `math.rn-sel"
+  ],
+  [
+   "kernel-checked",
+   "neath claims; 13 of the 73 have no hosted receipt yet); no claim | | `kernel-checked` | 0 | 0 | run receipts only, never in the register |  By claim kind:"
+  ],
+  [
+   "kernel-checked",
+   "s one of 72 registered Props (`TriangleNeedsThree` twice): 52 of them kernel-checked by the hosted `lean-specification-proofs` run 38121713840 on PR head "
+  ],
+  [
+   "kernel-checked",
+   "specification-proofs` run 38121713840 on PR head `910809d6` (receipt `kernel-checked`, `leanchecker` PASS, axioms within the three allowed; artifact `lean"
+  ],
+  [
+   "kernel-checked",
+   "hoStarEnclosure`) were added after head `79731b96` in PR #423 and are kernel-checked by the hosted run 38149888699 on that PR (receipt `kernel-checked`, `"
+  ],
+  [
+   "kernel-checked",
+   "are kernel-checked by the hosted run 38149888699 on that PR (receipt `kernel-checked`, `leanchecker` PASS, theorem_count 60, worktree CLEAN, axioms within"
+  ],
+  [
+   "kernel-checked",
+   "ps and labels them `proved`, the label of a committed proof package; `kernel-checked` is written by no local run. A proof-packet theorem is evidence about"
+  ],
+  [
+   "kernel-checked",
+   "f the theorem proves the claim's display itself, not a sub-identity; `kernel-checked` is written only by a trusted run receipt; and an independent alignme"
+  ],
+  [
+   "kernel-checked",
+   "xSeventhsCertificate` are proved as stated in the proof packet (\u00a73.7; kernel-checked by run 38116277597: PR head `00d2ac6e`, actual tested merge `c4c66bb8"
+  ],
+  [
+   "kernel-checked",
+   "s proved as stated in the round-3 module `P15Interpolation` (PR #423; kernel-checked by run 38149888699: PR head `0dcb0016`, actual tested merge `4363b692"
+  ],
+  [
+   "kernel-checked",
+   " `P15Covers`, `P15Budget`). All 52 theorems of PR head `910809d6` are kernel-checked by the hosted run 38121713840 (actual tested merge `5b198699\u2026`; 38 of"
+  ],
+  [
+   "kernel-checked",
+   "e. *Status 2026-10-11:* done; the five theorems (`RNProbability`) are kernel-checked by run 38116277597 (PR head `00d2ac6e`; actual tested merge `c4c66bb8"
+  ],
+  [
+   "kernel-checked",
+   "Integral` and `ReferenceCoefficientIdentity` are proved as stated and kernel-checked by run 38116277597 (PR head `00d2ac6e`; actual tested merge `c4c66bb8"
+  ],
+  [
+   "\\bproved\\b",
+   "er` + transitive axiom audit + negative controls, in a trusted run | `proved` at source, `kernel-checked` only in a run receipt | | Is the formali"
+  ],
+  [
+   "\\bproved\\b",
+   " document |  Formal-progress labels are exactly `none`, `specified`, `proved`, `kernel-checked`. In the ladder of work item #95 (GitHub issue, clo"
+  ],
+  [
+   "\\bproved\\b",
+   "ton is not the theorem.** The integer identities on `main`    (\u00a73.1; `proved` at source, `kernel-checked` only where a trusted receipt exists) est"
+  ],
+  [
+   "\\bproved\\b",
+   "te_check.py --alignment`, Math- `formal/gate.py --alignment`). 4. **A proved Prop is not an accepted claim.** The proof packet (\u00a73.7) proves 72 of"
+  ],
+  [
+   "\\bproved\\b",
+   "dence/receipt.json` with `formalization_status: \"specified\"` \u2014 never `proved` | | 3.7 | **Lean statement proofs** (this programme) | Math- `specif"
+  ],
+  [
+   "\\bproved\\b",
+   "son` with `formalization_status: \"kernel-checked\"` (source mode says `proved`); hosted run 38121713840 receipted the 52 theorems of PR head `91080"
+  ],
+  [
+   "\\bproved\\b",
+   "es under `sources/`, and refuses a register row or receipt that says `proved` or `kernel-checked`: a statement package cannot self-award a proof l"
+  ],
+  [
+   "\\bproved\\b",
+   "n` core-Lean package `formal/` listed beneath the claim with its own `proved` manifest label (an arithmetic skeleton, never the claim); `proof:` p"
+  ],
+  [
+   "\\bproved\\b",
+   " whose type is exactly one of the registered Props of the row, label `proved` (52 kernel-checked by the hosted run 38121713840: PR head `910809d6`"
+  ],
+  [
+   "\\bproved\\b",
+   "t the claim. **Formal progress**: the claim-level label; no claim is `proved` or `kernel-checked`. **Not established** and **Next step** are abrid"
+  ],
+  [
+   "\\bproved\\b",
+   "eorem | `REVIEWED_SCOPED` | 28 packet statements + 27 main theorems (`proved`) + 17 proof-packet theorems (`proved`, 12 \u2020): `Side24.ThetaSummable`"
+  ],
+  [
+   "\\bproved\\b",
+   "statements + 27 main theorems (`proved`) + 17 proof-packet theorems (`proved`, 12 \u2020): `Side24.ThetaSummable`, `Side24.IsUnitTuple`, `Side24.Deriva"
+  ],
+  [
+   "\\bproved\\b",
+   "ound`, \u2026 (+66 more) \u2026, proof:`Side24Interfaces.coneMomentD1Identity` (proved)\u2020, proof:`Side24Interfaces.traceMoments` (proved)\u2020, proof:`Side24Inte"
+  ],
+  [
+   "\\bproved\\b",
+   "neMomentD1Identity` (proved)\u2020, proof:`Side24Interfaces.traceMoments` (proved)\u2020, proof:`Side24Interfaces.rayleighSquareLaw` (proved)\u2020 | `specified`"
+  ],
+  [
+   "\\bproved\\b",
+   ".traceMoments` (proved)\u2020, proof:`Side24Interfaces.rayleighSquareLaw` (proved)\u2020 | `specified` | Nothing here encloses the coefficient. | Math- Math"
+  ],
+  [
+   "\\bproved\\b",
+   "ns of the densities under the interface structures; the result is not proved. | State (R19) (cumulative form) as a further Prop; transcribe the pa"
+  ],
+  [
+   "\\bproved\\b",
+   " `HOLD_WITH_DOMAIN` | 5 packet statements + 5 proof-packet theorems (`proved`): `RN.HolderCountBoundN1`, `RN.HolderConsequenceN2`, `RN.Conditional"
+  ],
+  [
+   "\\bproved\\b",
+   "dentityN3`, \u2026 (+4 more) \u2026, proof:`RNProbability.holderConsequenceN2` (proved), proof:`RNProbability.uniformCounterexampleN4` (proved), proof:`RNPr"
+  ],
+  [
+   "\\bproved\\b",
+   "nsequenceN2` (proved), proof:`RNProbability.uniformCounterexampleN4` (proved), proof:`RNProbability.exponentialTailLayerCakeN5` (proved) | `none` "
+  ],
+  [
+   "\\bproved\\b",
+   "xampleN4` (proved), proof:`RNProbability.exponentialTailLayerCakeN5` (proved) | `none` | No Prop states Theorem N as a whole, so the claim-level l"
+  ],
+  [
+   "\\bproved\\b",
+   "between-pin height window) over PinnedLawInterface; the result is not proved. | Pin TWO_SCALE_ADDENDUM.md and state (S3)-(S5) and (S20)-(S21); ind"
+  ],
+  [
+   "\\bproved\\b",
+   "em P | `HOLD_WITH_DOMAIN` | 27 packet statements + 12 main theorems (`proved`) + 20 proof-packet theorems (`proved`): `P15.RealizedData`, `P15.IsR"
+  ],
+  [
+   "\\bproved\\b",
+   "statements + 12 main theorems (`proved`) + 20 proof-packet theorems (`proved`): `P15.RealizedData`, `P15.IsRealizedFamily`, `P15.IsGood`, \u2026 (+53 m"
+  ],
+  [
+   "\\bproved\\b",
+   "P15.IsGood`, \u2026 (+53 more) \u2026, proof:`P15Covers.paletteNumberAttained` (proved), proof:`P15Covers.benchmark816UnionBound` (proved), proof:`P15Budget"
+  ],
+  [
+   "\\bproved\\b",
+   "teNumberAttained` (proved), proof:`P15Covers.benchmark816UnionBound` (proved), proof:`P15Budget.coverCostHazardBound` (proved) | `specified` | Pro"
+  ],
+  [
+   "\\bproved\\b",
+   "hmark816UnionBound` (proved), proof:`P15Budget.coverCostHazardBound` (proved) | `specified` | Props of this row with a theorem of exactly their ty"
+  ],
+  [
+   "\\bproved\\b",
+   "le | `EXACT_COUNTEREXAMPLE` | 3 packet statements + 6 main theorems (`proved`) + 3 proof-packet theorems (`proved`): `P15.TwoCoordGeneratorPrices`"
+  ],
+  [
+   "\\bproved\\b",
+   "t statements + 6 main theorems (`proved`) + 3 proof-packet theorems (`proved`): `P15.TwoCoordGeneratorPrices`, `P15.DemandOneRefutation`, `P15.Log"
+  ],
+  [
+   "\\bproved\\b",
+   "ntity`, \u2026 (+6 more) \u2026, proof:`P15Elementary.twoCoordGeneratorPrices` (proved), proof:`P15Elementary.logOnePlusBelowIdentity` (proved), proof:`P15E"
+  ],
+  [
+   "\\bproved\\b",
+   "ratorPrices` (proved), proof:`P15Elementary.logOnePlusBelowIdentity` (proved), proof:`P15Elementary.demandOneRefutation` (proved) | `specified` | "
+  ],
+  [
+   "\\bproved\\b",
+   "usBelowIdentity` (proved), proof:`P15Elementary.demandOneRefutation` (proved) | `specified` | DemandOneRefutation states the refutation (the two-c"
+  ],
+  [
+   "\\bproved\\b",
+   "rem T1 | `HOLD_WITH_DOMAIN` | 8 packet statements + 3 main theorems (`proved`) + 8 proof-packet theorems (`proved`): `P15.LogRatioBound`, `P15.Rat"
+  ],
+  [
+   "\\bproved\\b",
+   "t statements + 3 main theorems (`proved`) + 8 proof-packet theorems (`proved`): `P15.LogRatioBound`, `P15.RatioExponentBound`, `P15.RestrictedLoca"
+  ],
+  [
+   "\\bproved\\b",
+   "tedLocalBudget`, \u2026 (+13 more) \u2026, proof:`P15Budget.rhoTestSufficient` (proved), proof:`P15Budget.restrictedTransformedPriceBudget` (proved), proof:"
+  ],
+  [
+   "\\bproved\\b",
+   "icient` (proved), proof:`P15Budget.restrictedTransformedPriceBudget` (proved), proof:`P15Budget.benchmark816TransformedRange` (proved) | `specifie"
+  ],
+  [
+   "\\bproved\\b",
+   "riceBudget` (proved), proof:`P15Budget.benchmark816TransformedRange` (proved) | `specified` | RestrictedTransformedPriceBudget states (T1) for eve"
+  ],
+  [
+   "\\bproved\\b",
+   "ed family with a_i >= 1, d_i >= 2, p_v <= 1/4, c_v <= phi(p_v) and is proved as stated in the proof packet; that is evidence about the Prop (for t"
+  ],
+  [
+   "\\bproved\\b",
+   "orem F | `REVIEWED_SCOPED` | 20 packet statements + 7 main theorems (`proved`) + 19 proof-packet theorems (`proved`): `P15.FullTransformedPriceBud"
+  ],
+  [
+   "\\bproved\\b",
+   " statements + 7 main theorems (`proved`) + 19 proof-packet theorems (`proved`): `P15.FullTransformedPriceBudget`, `P15.RhoStarEnclosure`, `P15.Rho"
+  ],
+  [
+   "\\bproved\\b",
+   "enths`, \u2026 (+40 more) \u2026, proof:`P15Interpolation.fullGroundBudgetIff` (proved), proof:`P15Interpolation.localPriceBoundFull` (proved), proof:`P15In"
+  ],
+  [
+   "\\bproved\\b",
+   "undBudgetIff` (proved), proof:`P15Interpolation.localPriceBoundFull` (proved), proof:`P15Interpolation.fullTransformedPriceBudget` (proved) | `spe"
+  ],
+  [
+   "\\bproved\\b",
+   "dFull` (proved), proof:`P15Interpolation.fullTransformedPriceBudget` (proved) | `specified` | FullTransformedPriceBudget states (F2) and is proved"
+  ],
+  [
+   "\\bproved\\b",
+   "proved) | `specified` | FullTransformedPriceBudget states (F2) and is proved as stated; RhoStarEnclosure states (F3) and is proved as stated; Shar"
+  ],
+  [
+   "\\bproved\\b",
+   "tes (F2) and is proved as stated; RhoStarEnclosure states (F3) and is proved as stated; SharpnessOfRhoStar states the attainment clause and is pro"
+  ],
+  [
+   "\\bproved\\b",
+   "ved as stated; SharpnessOfRhoStar states the attainment clause and is proved as stated. | Math- Mathlib lane: every theorem-shaped Prop of this ro"
+  ],
+  [
+   "\\bproved\\b",
+   ", (1.2), (1.3) for every object satisfying the interfaces; nothing is proved. | Pin ERRATUM_CONGRUENCE.md, REPAIR.md (Section 9 v1.1) and the reco"
+  ],
+  [
+   "\\bproved\\b",
+   "chors against the pinned CAP bytes (statements of kind theorem, label proved, kernel_evidence cap-first-exit-lean.yml), or state \u2026 | | `math.d1-co"
+  ],
+  [
+   "\\bproved\\b",
+   "edR1` | `specified` | See row lifetime-remainder: (R1) is stated, not proved; the imports of parent interfaces D1-A-E are not transcribed; Theorem"
+  ],
+  [
+   "\\bproved\\b",
+   "ted for any object satisfying PeriodicCoefficientInterface and is not proved; the \"evaluates_eq_15_2\" edge to the parent is represented only by th"
+  ],
+  [
+   "\\bproved\\b",
+   "md` \u2014 Theorem N | \u2014 | 5 packet statements + 5 proof-packet theorems (`proved`): `RN.HolderCountBoundN1`, `RN.HolderConsequenceN2`, `RN.Conditional"
+  ],
+  [
+   "\\bproved\\b",
+   "dentityN3`, \u2026 (+4 more) \u2026, proof:`RNProbability.holderConsequenceN2` (proved), proof:`RNProbability.uniformCounterexampleN4` (proved), proof:`RNPr"
+  ],
+  [
+   "\\bproved\\b",
+   "nsequenceN2` (proved), proof:`RNProbability.uniformCounterexampleN4` (proved), proof:`RNProbability.exponentialTailLayerCakeN5` (proved) | `none` "
+  ],
+  [
+   "\\bproved\\b",
+   "xampleN4` (proved), proof:`RNProbability.exponentialTailLayerCakeN5` (proved) | `none` | See row rn-count-interface: (N1)-(N5) stated and each pro"
+  ],
+  [
+   "\\bproved\\b",
+   "ved) | `none` | See row rn-count-interface: (N1)-(N5) stated and each proved as a theorem of the proof packet (5 entries below, `proved`; kernel-c"
+  ],
+  [
+   "\\bproved\\b",
+   "d and each proved as a theorem of the proof packet (5 entries below, `proved`; kernel-checked by the hosted run 38116277597/tested-merge-c4c66bb8\u2026"
+  ],
+  [
+   "\\bproved\\b",
+   "d-remote-window: displays (2)-(3) stated over PinnedLawInterface, not proved; Section 6 not stated; no inhabitant of the interface. | As for row r"
+  ],
+  [
+   "\\bproved\\b",
+   "fixed-remote Theorem A at exactly this scope, stated by A2/A3 and not proved. | As for row rn-fixed-remote-window; nothing region-specific to add."
+  ],
+  [
+   "\\bproved\\b",
+   "nulusBridgeAllHeight2 the all-height fixed-annulus bridge; neither is proved, and the \"covers the \u2026 | Independent reviewer: alignment of D5dSummed"
+  ],
+  [
+   "\\bproved\\b",
+   "s are stated for any object satisfying PinnedLawInterface and are not proved; the P2 source (PUNCTURED_PIN_PROOF.md) is not pinned here, so the Pr"
+  ],
+  [
+   "\\bproved\\b",
+   "X\\| <= rho} with side conditions taken from dimension-lift (1.6); not proved. | Pin intermediate_window_20260928/PROOF.md and anchor the single-sh"
+  ],
+  [
+   "\\bproved\\b",
+   "4/PROOF.md` \u2014 Theorem F | \u2014 | 3 packet statements + 7 main theorems (`proved`) + 3 proof-packet theorems (`proved`): `P15.FullTransformedPriceBudg"
+  ],
+  [
+   "\\bproved\\b",
+   "t statements + 7 main theorems (`proved`) + 3 proof-packet theorems (`proved`): `P15.FullTransformedPriceBudget`, `P15.RhoStarEnclosure`, `P15.Sha"
+  ],
+  [
+   "\\bproved\\b",
+   "sOfRhoStar`, \u2026 (+7 more) \u2026, proof:`P15Elementary.sharpnessOfRhoStar` (proved), proof:`P15Interpolation.rhoStarEnclosure` (proved), proof:`P15Inter"
+  ],
+  [
+   "\\bproved\\b",
+   "rpnessOfRhoStar` (proved), proof:`P15Interpolation.rhoStarEnclosure` (proved), proof:`P15Interpolation.fullTransformedPriceBudget` (proved) | `spe"
+  ],
+  [
+   "\\bproved\\b",
+   "osure` (proved), proof:`P15Interpolation.fullTransformedPriceBudget` (proved) | `specified` | See row p15-full-price. | As for row p15-full-price."
+  ],
+  [
+   "\\bproved\\b",
+   "RY.md` \u2014 Counterexample | \u2014 | 2 packet statements + 6 main theorems (`proved`) + 2 proof-packet theorems (`proved`): `P15.TwoCoordGeneratorPrices`"
+  ],
+  [
+   "\\bproved\\b",
+   "t statements + 6 main theorems (`proved`) + 2 proof-packet theorems (`proved`): `P15.TwoCoordGeneratorPrices`, `P15.DemandOneRefutation`, main:`P1"
+  ],
+  [
+   "\\bproved\\b",
+   "s`, `P15.DemandOneRefutation`, main:`P15.smallest_member_block_size` (proved), \u2026 (+4 more) \u2026, main:`P15.minimum_generator_price_exceeds_third` (pr"
+  ],
+  [
+   "\\bproved\\b",
+   "ed), \u2026 (+4 more) \u2026, main:`P15.minimum_generator_price_exceeds_third` (proved), proof:`P15Elementary.twoCoordGeneratorPrices` (proved), proof:`P15E"
+  ],
+  [
+   "\\bproved\\b",
+   "ceeds_third` (proved), proof:`P15Elementary.twoCoordGeneratorPrices` (proved), proof:`P15Elementary.demandOneRefutation` (proved) | `specified` | "
+  ],
+  [
+   "\\bproved\\b",
+   "GeneratorPrices` (proved), proof:`P15Elementary.demandOneRefutation` (proved) | `specified` | See row p15-price-boundary: TwoCoordGeneratorPrices "
+  ],
+  [
+   "\\bproved\\b",
+   ") have theorems of exactly their type in the proof packet (listed as `proved`; kernel-checked by the hosted run \u2026 | As for row p15-price-boundary."
+  ],
+  [
+   "\\bproved\\b",
+   "A2` | `specified` | See row rn-fixed-annulus-window: (A2) stated, not proved; no global D5/RN/JETMOD, k -> 0, d >= 3, pin-neighbourhood, intermedi"
+  ],
+  [
+   "\\bproved\\b",
+   "ed` | The region's content is (A2) at its exact scope, stated and not proved; the coverage classification is graph bookkeeping, not a Lean stateme"
+  ],
+  [
+   "\\bproved\\b",
+   "nterface (sample space Omega, gated pin regime 0 < r < L) and are not proved. | Pin the three component proofs and re-anchor; independent reviewer"
+  ],
+  [
+   "\\bproved\\b",
+   "7, P20 and the continuum argument reviewed are not stated; nothing is proved. | Pin PUNCTURED_PIN_PROOF.md (SHA-256 f972e50b\u2026 (GRAPH.json fingerpr"
+  ],
+  [
+   "\\bproved\\b",
+   "it imports and the corollary C2 are not stated separately; nothing is proved. | Pin COLLAR_PROOF.md (SHA-256 794babe0\u2026 (GRAPH.json fingerprint)) a"
+  ],
+  [
+   "\\bproved\\b",
+   " birth, k_- > 0, 1 < A < B, all heights) over PinnedLawInterface; not proved. | State the R1-R7 interfaces as Props; independent reviewer: alignme"
+  ],
+  [
+   "\\bproved\\b",
+   "eview and the planar F+ lower bound source are not stated; nothing is proved. | Pin intermediate_window_20260928/PROOF.md (SHA-256 b3eb9456\u2026 (GRAP"
+  ],
+  [
+   "\\bproved\\b",
+   "the O(ell^(2/3)) difference) for compact B, K of positive length; not proved. | State (11.3) as a Prop over an explicit Gaussian conditional law; "
+  ],
+  [
+   "\\bproved\\b",
+   "abstract positive constant c in IsUnrestrictedLeadingCoefficient; not proved. | State (15.2) and (14.1) as Props; independent reviewer: alignment "
+  ],
+  [
+   "\\bproved\\b",
+   "6), (1.7) are stated over PinnedLawInterface for fixed d >= 2 and not proved. | Read reviews/d5_dimension_lift_erratum_20261005 and amend the four"
+  ],
+  [
+   "\\bproved\\b",
+   "lmRouteSecondFactorialTheta states (1.2) over PinnedLawInterface; not proved. | State Corollary P; independent reviewer: alignment of the two Prop"
+  ],
+  [
+   "\\bproved\\b",
+   "issonObstructionO`, proof:`RNCluster.rareClusterPoissonObstructionO` (proved)\u2020 | `none` | Only Theorem O (3.1) is stated, for a family of laws wit"
+  ],
+  [
+   "\\bproved\\b",
+   "nchor here; the other 55 \u2026 | \u2014 | main:`Side24.d2_endpoints_adjacent` (proved), main:`Side24.d3_endpoints_adjacent` (proved), main:`Side24.d3_below"
+  ],
+  [
+   "\\bproved\\b",
+   "d2_endpoints_adjacent` (proved), main:`Side24.d3_endpoints_adjacent` (proved), main:`Side24.d3_below_d2` (proved), main:`Side24.endpoints_in_unit_"
+  ],
+  [
+   "\\bproved\\b",
+   "n:`Side24.d3_endpoints_adjacent` (proved), main:`Side24.d3_below_d2` (proved), main:`Side24.endpoints_in_unit_tenth` (proved) | `none` | The packa"
+  ],
+  [
+   "\\bproved\\b",
+   "`Side24.d3_below_d2` (proved), main:`Side24.endpoints_in_unit_tenth` (proved) | `none` | The package states no research claim as a Prop, so the cl"
+  ],
+  [
+   "\\bproved\\b",
+   "igin/main f6deeba7 are finite integer/cross-multiplied rational facts proved by decide (label `proved` in the manifest \u2026 | PR #358 merge is the op"
+  ],
+  [
+   "\\bproved\\b",
+   "nite integer/cross-multiplied rational facts proved by decide (label `proved` in the manifest \u2026 | PR #358 merge is the operator's decision; until "
+  ],
+  [
+   "\\bproved\\b",
+   "al sources in a later packet revision and register the 63 targets as `proved` statements with anchors; obtain a fresh alignment record for the 63-"
+  ],
+  [
+   "\\bproved\\b",
+   "and listed. | Pin the companion sources and register its theorems as `proved` statements in a later packet revision; a reviewer differing in provi"
+  ],
+  [
+   "\\bproved\\b",
+   "and listed. | Pin the companion sources and register its theorems as `proved` statements in a later packet revision; a reviewer differing in provi"
+  ],
+  [
+   "\\bproved\\b",
+   "and listed. | Pin the companion sources and register its theorems as `proved` statements in a later packet revision; a reviewer differing in provi"
+  ],
+  [
+   "\\bproved\\b",
+   "nscribe ALIGNMENT.md row by row and register the 152 declarations as `proved` statements anchored in the pinned CAP bytes (and a pinned SP review)"
+  ],
+  [
+   "\\bproved\\b",
+   "st; only then could its statements enter a register with anchors and `proved` labels. |  #### 4.6 main experiment proofs (12: 12 `none`) \u2014 prose p"
+  ],
+  [
+   "\\bproved\\b",
+   "ushforward exponent identities are elementary and could be stated and proved over \u211a in a proof package; low priority. | | `cert:math-side24_v1-coe"
+  ],
+  [
+   "\\bproved\\b",
+   "losures (RhoStarBelowSixSevenths / SixSeventhsCertificate are already proved in \u2026 |  ## 5. Coverage summary  Every number here is computed from `R"
+  ],
+  [
+   "\\bproved\\b",
+   "pecified` | 33 | 197 | claim rows; every statement of the packet | | `proved` | 0 | 155 | statements of other packages (the 59 `main` arithmetic t"
+  ],
+  [
+   "\\bproved\\b",
+   "t the Props are stated about; they are not register entries. The 155 `proved` entries are theorems of two other packages, each listed beneath a cl"
+  ],
+  [
+   "\\bproved\\b",
+   "es the 73 theorems over 72 distinct registered Props and labels them `proved`, the label of a committed proof package; `kernel-checked` is written"
+  ],
+  [
+   "\\bproved\\b",
+   "p's own antecedents (H1), (H2) (`RareClusterPoissonObstructionO`) are proved *as the Props state them*. Every claim they sit under stays `specifie"
+  ],
+  [
+   "\\bproved\\b",
+   " next step for each is to pin those sources and list the theorems as `proved` statements in a later packet revision.  ### 5.2 What stays at `none`"
+  ],
+  [
+   "\\bproved\\b",
+   "C6-RARE-CLUSTER-20260929-v1`, only Theorem O stated (and, in round 4, proved as the Prop states it, no hosted receipt yet; the row stays `none` be"
+  ],
+  [
+   "\\bproved\\b",
+   "e-transfer-correction`, no Prop).  ## 6. Roadmap from `specified` to `proved`  Ordered by how much of each proof already exists in the pinned Math"
+  ],
+  [
+   "\\bproved\\b",
+   "the register then lists the theorem beneath its claim with the label `proved`; the claim's own label moves to `proved` only if the theorem proves "
+  ],
+  [
+   "\\bproved\\b",
+   "th its claim with the label `proved`; the claim's own label moves to `proved` only if the theorem proves the claim's display itself, not a sub-ide"
+  ],
+  [
+   "\\bproved\\b",
+   "elementary. Outcome if done: `P15.RhoStarBelowSixSevenths` becomes a `proved` statement; the landing claim `p15-full-price` stays `specified` beca"
+  ],
+  [
+   "\\bproved\\b",
+   ":* `P15.RhoStarBelowSixSevenths` and `P15.SixSeventhsCertificate` are proved as stated in the proof packet (\u00a73.7; kernel-checked by run 3811627759"
+  ],
+  [
+   "\\bproved\\b",
+   "wer bound of `Real.sum_le_exp_of_nonneg`); `RhoStarEnclosure` (F3) is proved as stated in the round-3 module `P15Interpolation` (PR #423; kernel-c"
+  ],
+  [
+   "\\bproved\\b",
+   "he first claim whose own display (`DemandOneRefutation`) could carry `proved`; the register's next-step column already names it as the smallest co"
+  ],
+  [
+   "\\bproved\\b",
+   "ors, `toReal`, integrability side conditions). Outcome if done: five `proved` statements, and `rn-count-interface` still at `none`, because (N6)\u2013("
+  ],
+  [
+   "\\bproved\\b",
+   "issonObstructionO`, Theorem O of `OA-C6-RARE-CLUSTER-20260929-v1`, is proved as the Prop states it: an elementary statement about pmfs on \u2115 (the u"
+  ],
+  [
+   "\\bproved\\b",
+   " `ConeMomentD2Algebra` is `Real.sqrt` algebra and could be the first `proved` statement of this module; `ElementaryConeIntegral` is one applicatio"
+  ],
+  [
+   "\\bproved\\b",
+   "bra`, `ElementaryConeIntegral` and `ReferenceCoefficientIdentity` are proved as stated and kernel-checked by run 38116277597 (PR head `00d2ac6e`; "
+  ],
+  [
+   "\\bproved\\b",
+   "t) `ConeMomentD1Identity`, `TraceMoments` and `RayleighSquareLaw` are proved over `ConeMomentInterface` from its law fields alone (a.e.-measurabil"
+  ],
+  [
+   "\\bproved\\b",
+   ", so the `d`-dimensional theta summability listed as lacking above is proved for the formal family), `DerivativePairingBound`, `DerivativeBoundAtL"
+  ],
+  [
+   "\\bproved\\b",
+   "(Loewner inverse and determinant monotonicity through `CFC.sqrt`) are proved as the Props state them. Still open: `ReferenceCovarianceLowerBound`,"
+  ],
+  [
+   "\\bproved\\b",
+   "es), each of which raises a `none` row to `specified` and nothing to `proved`. The claims stay `specified`. *Status 2026-10-11:* unchanged for eve"
+  ],
+  [
+   "\\bproved\\b",
+   "`GlobalAssemblyHazard`) and the cover criterion (`FullBlockCoverIff`) proved, (F2) reduces to (F12), and (F12) to (F8) for each block's capacity f"
+  ],
+  [
+   "\\bproved\\b",
+   "apacity family together with `H_(n,a) \u2265 h_star` (`CapacityWorstCase`, proved) and `\u03c1* = 1/h_star`. (F8) and (F7) follow from (F6), and (F6) from t"
+  ],
+  [
+   "\\bproved\\b",
+   "en the chain of inequalities. Effort: moderate. Outcome if done: (F2) proved as the Prop states it, for the formal objects; `p15-full-price` stays"
+  ]
+ ]
+}

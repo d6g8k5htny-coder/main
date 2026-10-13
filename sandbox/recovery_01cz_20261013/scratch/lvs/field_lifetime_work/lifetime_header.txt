@@ -1,0 +1,61 @@
+import Mathlib
+
+/-!
+# Lifetime-track statements: parent Theorems A, B, C, the bounded remainder R and the
+# planar elder lower bound / density gap (statements only)
+
+Scientific effect: NONE. Formal progress of every declaration here: `specified`.
+Organizational-independence credit of this transcription: 0 (Anthropic / Claude).
+
+This module states, as `Prop`-valued definitions, the shapes of the parent lifetime
+results (1.1), (1.2), (1.3) of UNIFORM_MATRIX_CAP_AND_LIFETIME.md, of the bounded
+remainder (R1) of LIFETIME_REMAINDER.md, and of the planar lower bound (E2), the
+two-sided rate (E4) and the compact-window density gap (E11) of
+ELDER_LOWER_AND_DENSITY_GAP.md. Every statement is parametrised by interface objects
+(the Gaussian field, the superlevel-bar / elder-partner relation, and the typed pair law
+probability `p_r(b,k,R)`); it is a statement about whatever objects satisfy those
+interfaces, and the identification of those objects with the objects of the source texts
+is not part of the statement.
+
+This module is self-contained: it imports only Mathlib and re-declares, verbatim up to
+the namespace, the shared objects of `Specifications/Field.lean` (covariance, field
+interface, critical points, Hessian inertia, pairs, superlevel bars, density versions).
+The duplication is deliberate at this layer and is recorded as such.
+
+What this module does not establish. It consists only of definitions and structures;
+it states nothing as a result and proves nothing: none of the parent results, the
+remainder bound or the planar bounds is shown here, and no kernel receipt about them
+exists. It does not transcribe the explicit Gaussian/angular integral (15.2) for the
+leading coefficient `c_{d,L}` (the coefficient is characterised only through the
+leading-term asymptotics of (1.3)); it does not transcribe the regression law
+`Q_{r,b,k,R}`, the typed weight `W_r`, the full normalizer `Z_r` or the marked Kac-Rice
+representation (all informal in the source and taken as the interface field `p`); it
+does not transcribe the reading-rule amendments bound to the parent (congruence erratum,
+Section 9 replacement v1.1, wording W1, embedding radius `r < L/(4 sqrt 2)`), nor the
+marked-cylinder cap support; it asserts no numerical `C`, `r_*`, `z_*`, `ell_*` or
+coefficient value; it does not state Theorem A as consumed by Theorem R; and it does
+not state the compact-window `O(ell^(2/3))` difference for the unrestricted densities.
+Nothing here promotes, reclassifies or discharges any claim, premise or obligation of
+the registers; the dispositions `REVIEWED_SCOPED` (lifetime-remainder) and
+`PROVED_REVIEWED` / `ACCEPT_AT_EXISTENTIAL_SCOPE` (math.uniform-matrix-cap-lifetime)
+are transcribed from the registers, not re-derived; alignment of these statements with
+the sources is PENDING_INDEPENDENT_REVIEW.
+
+Sources (Layer 0, byte-pinned, `d6g8k5htny-coder/Math-`):
+* `lifetime-parent`: commit `c39164254ad1529ed49543743598d5dcb24bab98`, path
+  `imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md`,
+  sha256 `9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7`.
+* `lifetime-remainder`: commit `760340e921ac4ceda296b8118da936f1133e956e`, path
+  `frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md`,
+  sha256 `380b7d0abdb0fe2de5a6564565af9560d3f1b1ce22fd5538927db0c52f4f3a4a`.
+* `elder-lower-density-gap`: commit `6c020d6a72936632f2055122e71a7818a4ff497e`, path
+  `frontiers/window_multiplicity_laws_20260928/ELDER_LOWER_AND_DENSITY_GAP.md`,
+  sha256 `8ce05a43bde8e0d718f09e2da1ffe75d3ec5893489254afdbf5b58b602cdba0c`.
+-/
+
+namespace UniversalLaw.Spec.Lifetime
+
+open MeasureTheory
+
+/-! ### Shared objects, re-declared from `Specifications/Field.lean` (same text, this
+namespace). The duplication is deliberate: modules of this packet import only Mathlib. -/

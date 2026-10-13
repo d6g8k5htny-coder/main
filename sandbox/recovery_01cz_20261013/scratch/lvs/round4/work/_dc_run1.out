@@ -1,0 +1,45 @@
+<SCRATCH>/lvs/round4/work/DensityComparison.lean:107:22: error: unexpected token 'ᴴ'; expected ')', ',' or ':'
+<SCRATCH>/lvs/round4/work/DensityComparison.lean:107:16: error: Type mismatch
+  C - A
+has type
+  Matrix (Fin k) (Fin k) ℝ
+but is expected to have type
+  Prop
+<SCRATCH>/lvs/round4/work/DensityComparison.lean:106:44: error: unsolved goals
+case h1
+k : ℕ
+A C : Matrix (Fin k) (Fin k) ℝ
+hA : A.PosDef
+hC : C.PosDef
+hAC : (C - A).PosSemidef
+hAu : IsUnit A.det
+hCu : IsUnit C.det
+⊢ sorry
+
+k : ℕ
+A C : Matrix (Fin k) (Fin k) ℝ
+hA : A.PosDef
+hC : C.PosDef
+hAC : (C - A).PosSemidef
+hAu : IsUnit A.det
+hCu : IsUnit C.det
+h1 : sorry
+⊢ (C * A⁻¹ * C - C).PosSemidef
+<SCRATCH>/lvs/round4/work/DensityComparison.lean:103:30: error: unsolved goals
+k : ℕ
+A C : Matrix (Fin k) (Fin k) ℝ
+hA : A.PosDef
+hC : C.PosDef
+hAC : (C - A).PosSemidef
+hAu : IsUnit A.det
+hCu : IsUnit C.det
+hP : (C * A⁻¹ * C - C).PosSemidef
+⊢ (A⁻¹ - C⁻¹).PosSemidef
+<SCRATCH>/lvs/round4/work/DensityComparison.lean:154:84: error(lean.invalidField): Invalid field `posSemidef`: The environment does not contain `And.posSemidef`, so it is not possible to project the field `posSemidef` from an expression
+  CFC.sqrt_nonneg A
+of type
+  (CFC.sqrt A - 0).IsHermitian ∧
+    ∀ (x : Fin k →₀ ℝ), 0 ≤ x.sum fun i xi => x.sum fun j xj => star xi * (CFC.sqrt A - 0) i j * xj
+<SCRATCH>/lvs/round4/work/DensityComparison.lean:155:16: error: type expected, got
+  (S : Matrix (Fin k) (Fin k) ℝ)
+<SCRATCH>/lvs/round4/work/DensityComparison.lean:155:17: error: unexpected token 'ᴴ'; expected command

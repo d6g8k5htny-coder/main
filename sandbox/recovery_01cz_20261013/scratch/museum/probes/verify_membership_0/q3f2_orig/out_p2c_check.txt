@@ -1,0 +1,124 @@
+TAP version 13
+# Subtest: museum exposes source-bound rendering rather than silently omitting the page
+ok 1 - museum exposes source-bound rendering rather than silently omitting the page
+  ---
+  duration_ms: 1.022768
+  type: 'test'
+  ...
+# Subtest: full reviewed bullets and all three AMEND rows retain their classes and source wording
+ok 2 - full reviewed bullets and all three AMEND rows retain their classes and source wording
+  ---
+  duration_ms: 4.940006
+  type: 'test'
+  ...
+# Subtest: source display cannot promote a counterexample or an AMEND row
+ok 3 - source display cannot promote a counterexample or an AMEND row
+  ---
+  duration_ms: 1.089661
+  type: 'test'
+  ...
+# Subtest: a genuine source elsewhere in the index cannot replace this claim proof or scope
+ok 4 - a genuine source elsewhere in the index cannot replace this claim proof or scope
+  ---
+  duration_ms: 0.610087
+  type: 'test'
+  ...
+# Subtest: replay command must occur exactly in the verified replay source
+ok 5 - replay command must occur exactly in the verified replay source
+  ---
+  duration_ms: 49.624307
+  type: 'test'
+  ...
+# Subtest: lifetime source identity must match D2 and packets must use the pinned main snapshot
+ok 6 - lifetime source identity must match D2 and packets must use the pinned main snapshot
+  ---
+  duration_ms: 1.024036
+  type: 'test'
+  ...
+# Subtest: malformed, mutable and falsely displayed source identities are refused before fetch
+ok 7 - malformed, mutable and falsely displayed source identities are refused before fetch
+  ---
+  duration_ms: 0.501753
+  type: 'test'
+  ...
+# Subtest: verified source bytes are required before a claim can be presented
+ok 8 - verified source bytes are required before a claim can be presented
+  ---
+  duration_ms: 3.66569
+  type: 'test'
+  ...
+# Subtest: streamed responses stop at the byte cap and cancel the reader
+ok 9 - streamed responses stop at the byte cap and cancel the reader
+  ---
+  duration_ms: 2.060517
+  type: 'test'
+  ...
+# Subtest: a stalled response body is aborted within its request deadline
+ok 10 - a stalled response body is aborted within its request deadline
+  ---
+  duration_ms: 15.826954
+  type: 'test'
+  ...
+# Subtest: review comment pointers cannot masquerade as byte-frozen comment content
+ok 11 - review comment pointers cannot masquerade as byte-frozen comment content
+  ---
+  duration_ms: 0.569081
+  type: 'test'
+  ...
+# Subtest: AMEND pointers bind their declared STATUS row or the specific open-obligation index entry
+ok 12 - AMEND pointers bind their declared STATUS row or the specific open-obligation index entry
+  ---
+  duration_ms: 0.796566
+  type: 'test'
+  ...
+# Subtest: packet index refuses a foreign packet, changed scientific effect and mismatched result path
+ok 13 - packet index refuses a foreign packet, changed scientific effect and mismatched result path
+  ---
+  duration_ms: 1.248286
+  type: 'test'
+  ...
+# Subtest: rendered claims use declared HTML containers, complete identities and literal disclaimer
+ok 14 - rendered claims use declared HTML containers, complete identities and literal disclaimer
+  ---
+  duration_ms: 10.683186
+  type: 'test'
+  ...
+# Subtest: actual pinned museum renders all cards and rejects cross-claim source, scope and replay substitutions
+not ok 15 - actual pinned museum renders all cards and rejects cross-claim source, scope and replay substitutions
+  ---
+  duration_ms: 17.319583
+  type: 'test'
+  location: '<SCRATCH>/museum/probes/verify_membership_0/q3f2_orig/wt_p2c/tests/test_museum_frontend.mjs:127:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /packet — not STATUS/. Input:
+    
+    'No packet appears in this pinned projection.'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: 'No packet appears in this pinned projection.'
+  operator: 'match'
+  stack: |-
+    TestContext.<anonymous> (file://<SCRATCH>/museum/probes/verify_membership_0/q3f2_orig/wt_p2c/tests/test_museum_frontend.mjs:144:10)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..15
+# tests 15
+# suites 0
+# pass 14
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 220.195401
+Traceback (most recent call last):
+  File "<SCRATCH>/museum/probes/verify_membership_0/q3f2_orig/wt_p2c/tools/museum_check.py", line 48, in <module>
+    main()
+  File "<SCRATCH>/museum/probes/verify_membership_0/q3f2_orig/wt_p2c/tools/museum_check.py", line 42, in main
+    subprocess.run(["node", "--test", "tests/test_museum_frontend.mjs"],
+  File "/usr/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['node', '--test', 'tests/test_museum_frontend.mjs']' returned non-zero exit status 1.

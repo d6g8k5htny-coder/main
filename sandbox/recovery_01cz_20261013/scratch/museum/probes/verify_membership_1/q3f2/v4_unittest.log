@@ -1,0 +1,29 @@
+.....E.F....
+======================================================================
+ERROR: test_landed_packet_can_be_read_from_pinned_sparse_checkout (test_museum_data.MuseumDataTests.test_landed_packet_can_be_read_from_pinned_sparse_checkout)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/museum/probes/verify_membership_1/q3f2/wt_empty/tests/test_museum_data.py", line 106, in test_landed_packet_can_be_read_from_pinned_sparse_checkout
+    source = museum.packet_descriptors()[0]["result"]
+             ~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^
+IndexError: list index out of range
+
+======================================================================
+FAIL: test_packet_selection_excludes_unknown_fork_packet (test_museum_data.MuseumDataTests.test_packet_selection_excludes_unknown_fork_packet)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/museum/probes/verify_membership_1/q3f2/wt_empty/tests/test_museum_data.py", line 87, in test_packet_selection_excludes_unknown_fork_packet
+    self.assertEqual([p["id"] for p in packets], ["side24-identity-replay-20260926"])
+AssertionError: Lists differ: [] != ['side24-identity-replay-20260926']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'side24-identity-replay-20260926'
+
+- []
++ ['side24-identity-replay-20260926']
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.042s
+
+FAILED (failures=1, errors=1)

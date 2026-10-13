@@ -1,0 +1,14 @@
+Hidden.lean:15:0: warning: Definition `proofAsDef` is a proposition; use `theorem` instead of `def`
+
+Note: This linter can be disabled with `set_option linter.defProp false`
+Hidden.lean:16:4: warning: declaration uses `sorry`
+AUDIT statement UniversalLaw.Spec.Control.Closer
+AUDIT statement UniversalLaw.Spec.Control.Opener
+AUDIT statement UniversalLaw.Spec.Control.HiddenIndented
+AUDIT REFUSED:axiom UniversalLaw.Spec.Control.hidden
+AUDIT REFUSED:theorem UniversalLaw.Spec.Control.smuggledBetweenStrings
+AUDIT REFUSED:proof UniversalLaw.Spec.Control.proofAsDef
+AUDIT REFUSED:instance UniversalLaw.Spec.Control.controlInstance
+AUDIT REFUSED:axioms:sorryAx UniversalLaw.Spec.Control.usesSorry
+AUDIT END 8 5
+Hidden.lean:32:0: error: AUDIT REFUSED 5 constant(s); see the AUDIT lines

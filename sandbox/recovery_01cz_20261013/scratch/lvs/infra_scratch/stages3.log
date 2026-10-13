@@ -1,0 +1,27 @@
+environment: exit 0
+environment audit classes: {'aux_theorem': 218, 'auxiliary': 11, 'generated': 54, 'theorem': 38}
+control_sorry_axioms: exit 0
+control_false_arithmetic: exit 1
+control_missing_declaration: exit 1
+control_environment_hidden: exit 1
+control_environment_honest: exit 0
+{
+ "sorry": "REFUSED_BY_SOURCE_CHECK",
+ "axiom": "REFUSED_BY_SOURCE_CHECK",
+ "native_decide": "REFUSED_BY_SOURCE_CHECK",
+ "maxHeartbeats_unjustified": "REFUSED_BY_SOURCE_CHECK",
+ "unregistered_type": "REFUSED_BY_SOURCE_CHECK",
+ "smuggled_hypothesis": "REFUSED_BY_SOURCE_CHECK",
+ "implication": "REFUSED_BY_SOURCE_CHECK",
+ "missing_docstring_labels": "REFUSED_BY_SOURCE_CHECK",
+ "maxHeartbeats_justified": "ACCEPTED_BY_SOURCE_CHECK (comment on the line before)",
+ "sorry_axiom_audit": "REFUSED_BY_AXIOM_AUDIT (sorryAx)",
+ "false_arithmetic": "REJECTED_BY_LEAN (unsolved goal False, twice)",
+ "missing_declaration": "REJECTED_BY_LEAN",
+ "environment_audit": "REFUSED_BY_ENVIRONMENT_AUDIT (sorry, custom axiom and its user, unregistered type, smuggled hypothesis, P \u2192 P implication, proof as def, opaque, unsafe) and the honest control classified exactly"
+}
+
+real	0m48.147s
+user	0m28.362s
+sys	0m19.726s
+exit 0

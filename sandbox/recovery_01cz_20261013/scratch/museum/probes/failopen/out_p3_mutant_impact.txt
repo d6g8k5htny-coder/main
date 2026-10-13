@@ -1,0 +1,36 @@
+### tamper=promote_amend  mutant=M31: startMuseum never calls validateBoundManifest
+[original cd32303] tamper=promote_amend
+  museum-state: Unavailable: Claim class promotion or source label mismatch. No result inferred.
+  rendered claim cards: 0 | refusal cards: 0
+  d1-parent-selection-open: refused (no card)
+[mutant impact_M31] tamper=promote_amend
+  museum-state: Source projections and displayed source bytes verified. These checks establish byte identity, not mathematical acceptance.
+  rendered claim cards: 14 | refusal cards: 0
+  d1-parent-selection-open: data-object-class=ACCEPT-scoped | "Open review ↗ -> https://github.com/d6g8k5htny-coder/main/issues/63#issuecomment-5841830743" | strip="Source byte count and SHA-256 verified…"
+### tamper=swap_review  mutant=M02: delete byte-frozen review-file binding (cross-claim review substitution guard)
+[original cd32303] tamper=swap_review
+  museum-state: Unavailable: Review file differs from the source quote. No result inferred.
+  rendered claim cards: 0 | refusal cards: 0
+  d5-all-height-annulus: refused (no card)
+[mutant impact_M02] tamper=swap_review
+  museum-state: Source projections and displayed source bytes verified. These checks establish byte identity, not mathematical acceptance.
+  rendered claim cards: 14 | refusal cards: 0
+  d5-all-height-annulus: data-object-class=ACCEPT-scoped | "Open review ↗ -> https://github.com/d6g8k5htny-coder/Math-/blob/d6628da09384728992dcbe6e921cc28ba85aebb0/reviews/p15_full_price_nonauthor_20260926/REVIEW.md" | strip="Source byte count and SHA-256 verified…"
+### tamper=bad_proof_digest  mutant=M33: startMuseum renders claim cards without verifyClaim
+[original cd32303] tamper=bad_proof_digest
+  museum-state: Pinned source projections verified. 1 source view(s) unavailable; no result inferred for those views.
+  rendered claim cards: 13 | refusal cards: 1
+  d5-height-window-annulus: refused (no card)
+[mutant impact_M33] tamper=bad_proof_digest
+  museum-state: Source projections and displayed source bytes verified. These checks establish byte identity, not mathematical acceptance.
+  rendered claim cards: 14 | refusal cards: 0
+  d5-height-window-annulus: data-object-class=ACCEPT-scoped | "Open review ↗ -> https://github.com/d6g8k5htny-coder/Math-/blob/d6628da09384728992dcbe6e921cc28ba85aebb0/reviews/pr22_fixed_annulus_nonauthor_20260925/REVIEW.md" | strip="Source byte count and SHA-256 verified…"
+### tamper=bad_proof_digest  mutant=M21: claim catch swallows verification failure and renders the card as verified
+[original cd32303] tamper=bad_proof_digest
+  museum-state: Pinned source projections verified. 1 source view(s) unavailable; no result inferred for those views.
+  rendered claim cards: 13 | refusal cards: 1
+  d5-height-window-annulus: refused (no card)
+[mutant impact_M21] tamper=bad_proof_digest
+  museum-state: Source projections and displayed source bytes verified. These checks establish byte identity, not mathematical acceptance.
+  rendered claim cards: 14 | refusal cards: 0
+  d5-height-window-annulus: data-object-class=ACCEPT-scoped | "Open review ↗ -> https://github.com/d6g8k5htny-coder/Math-/blob/d6628da09384728992dcbe6e921cc28ba85aebb0/reviews/pr22_fixed_annulus_nonauthor_20260925/REVIEW.md" | strip="Source byte count and SHA-256 verified…"

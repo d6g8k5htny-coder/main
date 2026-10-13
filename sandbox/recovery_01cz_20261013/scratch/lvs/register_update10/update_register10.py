@@ -1,0 +1,538 @@
+"""Round-10 register update (round 5 of the proof packet): statement entries, a pending receipt tier and the regenerated
+side24 texts for the two round-5 proof-packet theorems
+
+    UniversalLaw.Proofs.Side24Covariance.referenceCovarianceLowerBound : UniversalLaw.Spec.Side24.ReferenceCovarianceLowerBound
+    UniversalLaw.Proofs.Side24ConeMoment.coneMomentD2Identity (I)      : UniversalLaw.Spec.Side24.ConeMomentD2Identity I
+
+(modules SpecificationProofs/{Side24Covariance,Side24ConeMoment}.lean, uncommitted in the worktree on top of PR #434 head
+be014794). Derived from update_register8.py (round 4: proved entries from docstrings, the pending tier PENDING4_PHRASE /
+WF_PENDING4, the receipt_clause 'await the next hosted ...' form, the triage sentence and the regenerated row texts) and
+update_register9.py (the round-4 receipt binding, whose committed output, as amended by r4amend/apply_r4_fix2.py and
+apply_r4_prose.py, is the input here: be014794:specifications/lean_statements_20261010/REGISTER.json, blob c8bb36ca...).
+Because the committed register carries hand amendments that no generator reproduces, every edit here is an exact-string
+replacement over the committed text with an asserted occurrence count; no row text is re-generated wholesale.
+
+Scientific effect: NONE. Edits, and nothing else (asserted):
+  (a) two `proved` statement entries appended to the statements of row side24-coefficient (the only row registering either
+      Prop: check.py's claim_ids), in the exact shape of the round-4 entries: package, module, declaration, kind theorem,
+      formal_progress proved, the Prop's own registered anchor, and does_not_claim = the theorem docstring's
+      'Does not establish:' field (lines joined by single spaces, as update_register8 did);
+  (b) row side24-coefficient's proof-packet kernel_evidence: the theorem count/listing and inventory sentence regenerated,
+      one pending-tier sentence (PENDING5_PHRASE, the shape of round 4's PENDING4_PHRASE) for the two theorems, naming PR
+      head be014794 (run 38187538744, actual tested merge 79d3964c... with base 12e072d6..., receipt theorem_count 73) as the
+      last head with a hosted receipt; WF_PENDING5 appended to its receipt_or_workflow; in the other nine proof-packet
+      kernel_evidence notes ONLY the inventory parenthetical moves (73 -> 75 theorems over 11 -> 13 modules, 72 -> 74 Props:
+      the source-mode inventory of the tree this register describes);
+  (c) not_established / next_step of side24-coefficient and not_established of math.side24-coefficient: the Prop listings,
+      entry and theorem counts, the 'remain the targets' / 'still specified with no theorem' lists, the receipt clause
+      (two theorems now await their first receipt; the 'every theorem of this row' sentences narrowed to the 17 receipted
+      ones), the round-4 triage item (verdict and effort kept verbatim, PROVABLE_WITH_WORK (weeks), plus 'proved in round 5
+      (2026-10-12; see entries, no hosted receipt yet)'), the 'open Rayleigh-integration step' and 'reasons ... stand'
+      sentences, and one sentence per theorem saying what it proves for the formal objects, taken from its docstring.
+No claim-level label changes (claim formal_progress stays none/specified on all 171 rows); `proved` only on the two
+theorem entries; `kernel-checked` only as a receipt word; every mention of a hosted run names the PR head AND the actual
+tested merge (C422-E1), asserted per string leaf. A theorem is evidence about its Prop for the formal objects only, never
+about an informal claim; alignment PENDING_INDEPENDENT_REVIEW; same-account author, organizational-independence credit 0;
+dispositions are transcribed, never re-derived; no triage verdict is altered.
+
+FACTS (coordinator-verified; artifact name, digest, event, PR head and base re-read with read-only `gh api` on 2026-10-12):
+lean-specification-proofs.yml run 38187538744, attempt 1, event pull_request on PR #434 head
+be01479435f98f34b802258ee9ec3c3578f37169; actual tested merge 79d3964cf70e2eadad5c9629eef8f4b47f218dd0 with base
+12e072d614dbe6e91b66d22a2ab55cf87860d693; receipt theorem_count 73, leanchecker PASS; artifact
+lean-specification-proofs-38187538744-1 (id 11720557007), GitHub digest sha256 60c9be0b49d45931d6c82f04d73fb7e6b6e97d539e7c10a376c3e99e302f2617.
+The two theorems: kernel-checked locally at the pin with -DwarningAsError=true, axioms within {propext, Classical.choice,
+Quot.sound}, on an unverified worktree (2026-10-12): evidence about no commit.
+
+usage: python3 -B -S update_register10.py   (R10_OUT=<file> writes the result there instead of the worktree register)
+"""
+import difflib
+import hashlib
+import importlib.util
+import json
+import os
+import re
+import subprocess
+import sys
+from pathlib import Path
+
+SCRATCH = Path('<SCRATCH>')
+REPO = SCRATCH / 'repos/math_r5'
+STMT_REL = 'specifications/lean_statements_20261010'
+PROOF_REL = 'specifications/lean_statement_proofs_20261011'
+STMT, PROOF = REPO / STMT_REL, REPO / PROOF_REL
+REG_PATH = STMT / 'REGISTER.json'
+OUT_DIR = SCRATCH / 'lvs/register_update10'
+OUT_REG = Path(os.environ['R10_OUT']) if os.environ.get('R10_OUT') else REG_PATH
+STMT_PACKAGE = STMT_REL
+PROOF_PACKAGE = 'd6g8k5htny-coder/Math- specifications/lean_statement_proofs_20261011'
+EXPECTED_HEAD = 'be01479435f98f34b802258ee9ec3c3578f37169'
+EXPECTED_BLOB = 'c8bb36ca15e9c395ef04fd24930cf1c3362dbe1b'      # be014794:specifications/lean_statements_20261010/REGISTER.json
+AXIOMS = '{propext, Classical.choice, Quot.sound}'
+MIN_ANCHOR = 16
+
+# ---- rounds 1-4 (update_register9 verbatim; never re-derived here)
+BASE = 'b2d70d77876a10c365f5db5d3b6cafcf180af4e2'
+BASE2 = '79731b961fac555f33be3cd90e379b246a5a80e3'
+RUN1, C1, M1 = '38116277597', '00d2ac6e', 'c4c66bb8cb26f0cd9bc03d52bb25f1b3925b272c'
+RUN2, C2, M2 = '38121713840', '910809d6', '5b198699308e0585904c21d12bf540cf2475d2f0'
+RUN3B, C3B, M3B = '38122386459', 'd9b8dd33', '866136cca66b46e6dbd3186b47c9340f7e93b4f6'
+RUN4, C4, M4 = '38124262242', '79731b96', '318ff194eecc42c39a6b27c1d7bf03f30d6a34d9'
+RUN6, C6, M6 = '38149888699', '0dcb0016', '4363b6928c62da242952631c6b0357d096c3b252'
+RUNA, C5A, M5A = '38149524759', '88c21058', '3306233bbdeadb15d9b4b07b94cc52a80ed8caeb'
+RUN7, C7, M7 = '38150363063', '12e072d6', '86a6e8c876f7904cadda2d006a56f8792dc5c1af'
+RUN8, C8, M8 = '38180705952', '48bfcbae', '9833d6d9f9facc335e1a56e243c3144adefe6225'
+BASE3 = '12e072d614dbe6e91b66d22a2ab55cf87860d693'     # head of PR #423 = base of PR #434
+# ---- round 5 (FACTS): the last head with a hosted receipt
+RUN9, C9, M9 = '38187538744', 'be014794', '79d3964cf70e2eadad5c9629eef8f4b47f218dd0'
+SHA9 = '60c9be0b49d45931d6c82f04d73fb7e6b6e97d539e7c10a376c3e99e302f2617'
+assert EXPECTED_HEAD.startswith(C9) and BASE3.startswith(C7)
+RUN_MERGE = ((RUN1, M1), (RUN2, M2), (RUN3B, M3B), (RUN4, M4), (RUN6, M6), (RUNA, M5A), (RUN7, M7), (RUN8, M8), (RUN9, M9))
+RUN_HEAD = {RUN1: C1, RUN2: C2, RUN3B: C3B, RUN4: C4, RUN6: C6, RUNA: C5A, RUN7: C7, RUN8: C8, RUN9: C9}
+for r, m in RUN_MERGE:
+    assert r.isdigit() and len(r) == 11 and re.fullmatch(r'[0-9a-f]{40}', m), (r, m)
+assert re.fullmatch(r'[0-9a-f]{64}', SHA9) and len({r for r, _ in RUN_MERGE}) == len(RUN_MERGE)
+WORKSPACE_LANDING_RUN = '38096827443'   # main's workspace-landing run, pre-existing in the register; not a pull_request run
+
+NEW_MODULES = ('SpecificationProofs/Side24Covariance.lean', 'SpecificationProofs/Side24ConeMoment.lean')   # root import order
+ROUND4_MODULES = ('SpecificationProofs/Side24Analysis.lean', 'SpecificationProofs/Side24Interfaces.lean', 'SpecificationProofs/RNCluster.lean')
+S24 = 'UniversalLaw.Spec.Side24.'
+NEW_PROPS = (S24 + 'ReferenceCovarianceLowerBound', S24 + 'ConeMomentD2Identity')
+ROW, NODE = 'side24-coefficient', 'math.side24-coefficient'
+
+# ---- the pending forms of round 5: update_register8's PENDING4_PHRASE / WF_PENDING4 / receipt_clause, with be014794's facts
+PENDING5_PHRASE = (f'were added after PR head {C9} (the last head with a hosted receipt: run {RUN9}, actual tested merge {M9} with base {BASE3}, '
+                   f'receipt theorem_count 73): locally `lake env lean -DwarningAsError=true` exit 0 and `#print axioms` within {AXIOMS} on an '
+                   'unverified worktree, not evidence about any commit; the next hosted lean-specification-proofs.yml run is the first receipt for them')
+WF_PENDING5 = (f'; theorems added after PR head {C9} (run {RUN9}, actual tested merge {M9} with base {BASE3}, receipt theorem_count 73) have no hosted '
+               'receipt yet: the next hosted lean-specification-proofs.yml run is their first receipt')
+PROVED_LABEL = '`proved` is the label of a committed proof package; `kernel-checked` appears only in a run receipt.'
+
+# ----------------------------------------------------------------------------- load: HEAD, committed == worktree == blob
+def git(*args):
+    return subprocess.run(['git', '-C', str(REPO), *args], check=True, capture_output=True, text=True, encoding='utf-8').stdout
+
+
+head = git('rev-parse', 'HEAD').strip()
+if head != EXPECTED_HEAD:
+    sys.exit(f'REFUSED: worktree HEAD is {head}, expected {EXPECTED_HEAD}')
+committed = git('show', f'{EXPECTED_HEAD}:{STMT_REL}/REGISTER.json')
+raw = REG_PATH.read_bytes()
+blob = hashlib.sha1(b'blob %d\0' % len(raw) + raw).hexdigest()
+if raw.decode('utf-8') != committed or blob != EXPECTED_BLOB:
+    sys.exit(f'REFUSED: the worktree REGISTER.json (blob {blob}) is not the be014794 blob {EXPECTED_BLOB} (already transformed?)')
+old = json.loads(committed)
+reg = json.loads(committed)
+rows = {c['claim_id']: c for c in reg['claims']}
+old_rows = {c['claim_id']: c for c in old['claims']}
+assert len(rows) == 171
+
+
+def load_module(name, path):
+    spec = importlib.util.spec_from_file_location(name, path)
+    mod = importlib.util.module_from_spec(spec)
+    sys.modules[name] = mod
+    spec.loader.exec_module(mod)
+    return mod
+
+
+pcheck = load_module('proof_check10', PROOF / 'check.py')
+scheck = load_module('stmt_check10', STMT / 'check.py')
+inv = pcheck.source_check(PROOF, REPO, allow_dirty=True)
+assert inv['formalization_status'] == 'proved' and inv['worktree'] != 'CLEAN'      # the two modules are uncommitted
+assert inv['theorem_count'] == 75 and len(inv['covered_props']) == 74, (inv['theorem_count'], len(inv['covered_props']))
+assert inv['duplicate_proofs'] == ['UniversalLaw.Spec.P15.TriangleNeedsThree'], inv['duplicate_proofs']
+assert list(inv['modules'][-5:]) == list(ROUND4_MODULES + NEW_MODULES) and len(inv['modules']) == 13, inv['modules']
+theorems = inv['theorems']
+T5 = [t['name'] for t in theorems if t['module'] in NEW_MODULES]
+assert T5 == ['UniversalLaw.Proofs.Side24Covariance.referenceCovarianceLowerBound', 'UniversalLaw.Proofs.Side24ConeMoment.coneMomentD2Identity'], T5
+assert [t['proves'] for t in theorems if t['module'] in NEW_MODULES] == list(NEW_PROPS)
+assert all(t['claim_ids'] == [ROW] for t in theorems if t['module'] in NEW_MODULES)
+listed_before = {s['declaration'] for c in old['claims'] for s in c['statements'] if s['package'] == PROOF_PACKAGE}
+assert listed_before == {t['name'] for t in theorems} - set(T5) and len(listed_before) == 73
+assert all(p in inv['covered_props'] for p in NEW_PROPS)
+LABELS = ('Proves:', 'Method:', 'Does not establish:')
+
+
+def docstring_fields(module: str, line: int) -> dict:      # update_register8 verbatim
+    text = (PROOF / module).read_text(encoding='utf-8')
+    code, docs = pcheck.lex(text)
+    lines = code.split('\n')
+    doc_end = {end: raw for _, end, raw in docs}
+    i = line - 1
+    j = i if i in doc_end else i - 1
+    while j >= 0 and j not in doc_end and not lines[j].strip():
+        j -= 1
+    raw = doc_end[j][3:-2]
+    out = {}
+    for label in LABELS:
+        m = re.search(r'^[ \t]*' + re.escape(label) + r'(.*)$', raw, re.M)
+        cont = []
+        for ln in raw[m.end():].split('\n')[1:]:
+            if not ln.strip() or any(ln.strip().startswith(l) for l in LABELS):
+                break
+            cont.append(ln.strip())
+        out[label.rstrip(':')] = ' '.join([m.group(1).strip()] + cont).strip()
+    return out
+
+
+for t in theorems:
+    if t['module'] in NEW_MODULES:
+        t['doc_full'] = docstring_fields(t['module'], t['line'])
+        assert t['doc_full']['Does not establish'] and t['doc_full']['Proves'].split('`')[1] == t['proves'], t['name']
+        # the docstring field, whitespace-normalised, is the field read independently from the raw docstring text
+        src = (PROOF / t['module']).read_text(encoding='utf-8')
+        k = src.index('theorem ' + t['name'].rsplit('.', 1)[1])
+        d = src[src.rindex('/--', 0, k) + 3:src.index('-/', src.rindex('/--', 0, k))]
+        assert ' '.join(d[d.index('Does not establish:') + len('Does not establish:'):].split()) == t['doc_full']['Does not establish'], t['name']
+
+sources, _ = scheck.load_sources(STMT, None, reg)
+
+
+def strings(o):
+    if isinstance(o, str):
+        yield o
+    elif isinstance(o, dict):
+        for v in o.values():
+            yield from strings(v)
+    elif isinstance(o, list):
+        for v in o:
+            yield from strings(v)
+
+
+def leaves(o, path=''):
+    if isinstance(o, str):
+        yield path, o
+    elif isinstance(o, dict):
+        for k, v in o.items():
+            yield from leaves(v, f'{path}/{k}')
+    elif isinstance(o, list):
+        for i, v in enumerate(o):
+            yield from leaves(v, f'{path}[{i}]')
+
+
+def count_all(o, needle):
+    return sum(s.count(needle) for s in strings(o))
+
+
+def census(r):
+    return {'statements': sum(len(c['statements']) for c in r['claims']),
+            'proved': sum(1 for c in r['claims'] for s in c['statements'] if s['formal_progress'] == 'proved'),
+            'kernel_evidence': sum(len(c['kernel_evidence']) for c in r['claims']),
+            'claims': len(r['claims']),
+            'claim_fp': {k: sum(1 for c in r['claims'] if c['formal_progress'] == k) for k in ('none', 'specified')}}
+
+
+before = census(old)
+assert before == {'statements': 352, 'proved': 155, 'kernel_evidence': 28, 'claims': 171, 'claim_fp': {'none': 138, 'specified': 33}}, before
+assert RUN9 not in committed and C9 not in committed and M9 not in committed, 'the committed register already names round-5 facts'
+for needle in ('round 5', 'Side24Covariance', 'Side24ConeMoment', 'referenceCovarianceLowerBound', 'coneMomentD2Identity'):
+    assert needle not in committed, needle
+TRIAGE_MARK = 'Round-4 triage (2026-10-11'
+triaged_before = {c['claim_id'] for c in old['claims'] if TRIAGE_MARK in c['next_step']}
+assert len(triaged_before) == 30
+
+# ----------------------------------------------------------------------------- shared listing helpers (update_register8)
+short = lambda ns: ', '.join(n.split('.', 2)[-1] for n in ns)
+prop_short = lambda n: n.split('.', 3)[-1]
+listing = lambda props: ', '.join(prop_short(p) for p in props) if props else 'none'
+PREDICATES = {'IsRealizedFamily', 'IsGood', 'IsKDecomposable', 'IsGeneratorCover', 'IsPaletteFeasible', 'IsMinimalForbidden',
+              'IsTransversal', 'IsProperDownset', 'IsUnitTuple', 'NegDefCone'}
+
+
+def row_props(row, names):
+    """(local def_props, {prop: [theorems]}, with theorem, without) for the given set of inventory theorem names."""
+    local = [s['declaration'] for s in row['statements'] if s['package'] == STMT_PACKAGE and s['kind'] == 'def_prop']
+    proved_props = {}
+    for t in theorems:
+        if t['name'] in names and row['claim_id'] in t['claim_ids']:
+            proved_props.setdefault(t['proves'], []).append(t['name'])
+    return local, proved_props, [p for p in local if p in proved_props], [p for p in local if p not in proved_props]
+
+
+def split_targets(props):
+    return [p for p in props if prop_short(p) not in PREDICATES], [p for p in props if prop_short(p) in PREDICATES]
+
+
+def remaining_sentence(without):           # update_register8 verbatim
+    targets, preds = split_targets(without)
+    s = f'Theorem-shaped Props of this row still `specified` with no theorem: {listing(targets)}'
+    if preds:
+        s += (f'; the parametrised predicates {listing(preds)} are the vocabulary of the other Props, not closed statements '
+              '(a theorem of their type would assert them for every argument, which is false), and are not targets')
+    return s + '. '
+
+
+def targets_clause(without, lane):         # update_register8 verbatim
+    targets, preds = split_targets(without)
+    if targets:
+        return f'{lane}: {listing(targets)} remain the targets of this row' + (f' (the parametrised predicates {listing(preds)} are vocabulary, not targets)' if preds else '')
+    return f'{lane}: every theorem-shaped Prop of this row has a theorem' + (f' (the parametrised predicates {listing(preds)} are vocabulary, not targets)' if preds else '')
+
+
+ALL_NAMES = {t['name'] for t in theorems}
+OLD_NAMES = ALL_NAMES - set(T5)
+counts = {}
+
+
+def replace_once(text, old_s, new_s, label):
+    n = text.count(old_s)
+    assert n == 1, (label, n, old_s[:140])
+    counts[label] = counts.get(label, 0) + 1
+    return text.replace(old_s, new_s)
+
+
+# ----------------------------------------------------------------------------- A. the two statement entries
+added = []
+for t in theorems:
+    if t['module'] not in NEW_MODULES:
+        continue
+    for cid in t['claim_ids']:
+        row = rows[cid]
+        assert not any(s['package'] == PROOF_PACKAGE and s['declaration'] == t['name'] for s in row['statements'])
+        local = [s for s in row['statements'] if s['package'] == STMT_PACKAGE and s['declaration'] == t['proves']]
+        assert len(local) == 1 and local[0]['kind'] == 'def_prop' and local[0]['formal_progress'] == 'specified', (cid, t['proves'])
+        anchor = local[0]['anchor']
+        sid = row['layer0']['source_id']
+        assert sid and anchor in sources[sid]['text'] and len(anchor) >= MIN_ANCHOR, (cid, t['name'])   # anchor rule: refuse, never weaken
+        row['statements'].append({'package': PROOF_PACKAGE, 'module': t['module'], 'declaration': t['name'], 'kind': 'theorem',
+                                  'formal_progress': 'proved', 'anchor': anchor, 'does_not_claim': t['doc_full']['Does not establish']})
+        added.append((cid, t['name']))
+assert added == [(ROW, T5[0]), (ROW, T5[1])], added
+# the new entries have exactly the keys, in the order, of the round-4 entries of the same row
+r4 = [s for s in old_rows[ROW]['statements'] if s['package'] == PROOF_PACKAGE and s['module'] in ROUND4_MODULES]
+assert len(r4) == 12 and all(list(s) == list(r4[0]) for s in rows[ROW]['statements'][-2:])
+for c in reg['claims']:
+    for s in c['statements']:
+        if s['package'] == PROOF_PACKAGE:
+            assert s['declaration'] in ALL_NAMES, s['declaration']
+assert {s['declaration'] for c in reg['claims'] for s in c['statements'] if s['package'] == PROOF_PACKAGE} == ALL_NAMES
+
+# ----------------------------------------------------------------------------- B. kernel_evidence notes and the WF clause
+OLD_MODULES_TXT = 'SpecificationProofs/{' + ','.join(Path(m).stem for m in inv['modules'] if m not in NEW_MODULES) + '}.lean'
+NEW_MODULES_TXT = 'SpecificationProofs/{' + ','.join(Path(m).stem for m in inv['modules']) + '}.lean'
+OLD_INV = f'(source mode SOURCE_CHECK_PASS: 73 inventory theorems over {OLD_MODULES_TXT}, 72 distinct registered Props, each theorem typed exactly'
+NEW_INV = (f'(source mode SOURCE_CHECK_PASS: {inv["theorem_count"]} inventory theorems over {NEW_MODULES_TXT}, {len(inv["covered_props"])} distinct '
+           'registered Props, each theorem typed exactly')
+assert count_all(old, OLD_INV) == 10
+row_mine_old = [s['declaration'] for s in old_rows[ROW]['statements'] if s['package'] == PROOF_PACKAGE]
+row_mine = [s['declaration'] for s in rows[ROW]['statements'] if s['package'] == PROOF_PACKAGE]
+assert len(row_mine_old) == 17 and row_mine == row_mine_old + T5
+pp_rows = []
+for cid, row in rows.items():
+    pp = [e for e in row['kernel_evidence'] if e['package'] == PROOF_PACKAGE]
+    mine = [s['declaration'] for s in row['statements'] if s['package'] == PROOF_PACKAGE]
+    assert len(pp) == (1 if mine else 0), cid
+    if not pp:
+        continue
+    pp_rows.append(cid)
+    e = pp[0]
+    e['note'] = replace_once(e['note'], OLD_INV, NEW_INV, 'B.inventory_parenthetical')
+    if cid == ROW:
+        e['note'] = replace_once(e['note'], f'17 theorems of this row ({short(row_mine_old)}) are inventoried',
+                                 f'{len(row_mine)} theorems of this row ({short(row_mine)}) are inventoried', 'B.row_count_listing')
+        e['note'] = replace_once(e['note'], '. ' + PROVED_LABEL, f'. {len(T5)} ({short(T5)}) {PENDING5_PHRASE}. ' + PROVED_LABEL, 'B.pending_tier')
+        assert WF_PENDING5 not in e['receipt_or_workflow'] and e['receipt_or_workflow'].endswith(')')
+        e['receipt_or_workflow'] = e['receipt_or_workflow'] + WF_PENDING5
+        counts['B.wf_pending'] = 1
+assert len(pp_rows) == 10 and counts['B.inventory_parenthetical'] == 10, counts
+
+# ----------------------------------------------------------------------------- C. not_established of side24-coefficient
+r = rows[ROW]
+_, pp_old, with_old, without_old = row_props(old_rows[ROW], OLD_NAMES)
+_, pp_new, with_new, without_new = row_props(r, ALL_NAMES)
+assert len(with_old) == 17 and len(without_old) == 9 and len(with_new) == 19 and len(without_new) == 7
+assert set(with_new) - set(with_old) == set(NEW_PROPS) and [p for p in without_old if p not in NEW_PROPS] == without_new
+ne = r['not_established']
+ne = replace_once(ne, f'specifications/lean_statement_proofs_20261011: {listing(with_old)} (17 entries below, label `proved`;',
+                  f'specifications/lean_statement_proofs_20261011: {listing(with_new)} (19 entries below, label `proved`;', 'C.listing_and_count')
+ne = replace_once(ne, 'and the merge has the same tree as its head). What those theorems prove',
+                  f'and the merge has the same tree as its head; {len(T5)} of them ({short(T5)}) {PENDING5_PHRASE}). What those theorems prove',
+                  'C.pending_tier')
+RCLB_DESC = ('the lower bound C_ref - I/3 positive semidefinite for the formal matrix Cref at u = R 0 in an orthonormal frame, for d = 2 or 3 '
+             'as the Prop states it, its IsHermitian half included (ReferenceCovarianceLowerBound: the odd-order contractions of the even kernel '
+             'Kinf vanish at 0, and Cref - I/3 decomposes entrywise into a diagonal matrix and two rank-one squares; the proof does not use the '
+             'hypothesis d = 2 or d = 3, and only the helper Aux.cv_psd, not an inventory theorem, is stated for every 0 < d; Cref is not shown '
+             'to be the covariance of any random vector, symmetry of Cref d u R for a general u or frame is not stated, and main\'s '
+             'odd_block_eigenvalues, odd_block_shifted_minors and smaller_eigenvalue_exceeds_third are neither imported, cited nor relied on: no '
+             'minor, no eigenvalue 8 +/- sqrt 58 and no comparison of an eigenvalue with 1/3 is computed); ')
+assert 'for d = 2 or 3 as the Prop states it' in RCLB_DESC and 'only the helper Aux.cv_psd, not an inventory theorem' in RCLB_DESC
+ne = replace_once(ne, 'none of these matrices is shown to be the covariance of any random vector or field); ',
+                  'none of these matrices is shown to be the covariance of any random vector or field); ' + RCLB_DESC, 'C.rclb_description')
+CMD2_DESC = ('; and, over the same interface, the m = 2 cone moment, the integral of coneIntegrand (s, x, y) under I.P, equal to '
+             '(1/2)(25/3 - 20/3 + 8 - 8 sqrt(3/8)) (ConeMomentD2Identity: proved for every inhabitant using, of the law fields, only sxy_law, '
+             'with the instances mΩ and isProb; the fields A and A_law are not used; '
+             'by transport along sxy_law, Fubini, the cone identification s < 0 and x^2 + y^2 < s^2, polar coordinates onto ElementaryConeIntegral '
+             'and the symmetry halving under N(0, 5/3); RayleighSquareLaw is not used, the source\'s Rayleigh integration route is not reproduced '
+             'as the source\'s statements, D_2 is not identified with the parent\'s cone moment D_u of (15.1) for the reference law, and the value '
+             '29/6 - sqrt 6 (ConeMomentD2Algebra) is not used)')
+assert 'only sxy_law, with the instances mΩ and isProb; the fields A and A_law are not used' in CMD2_DESC and 'isProb alone' not in CMD2_DESC
+ne = replace_once(ne, 'and the Rayleigh law is proved as a distribution function, not as a density). None of them is the Gaussian conditioning, '
+                  'ConeMomentD2Identity, ImageBound, the covariance ordering or any enclosure of the coefficient',
+                  'and the Rayleigh law is proved as a distribution function, not as a density)' + CMD2_DESC + '. None of them is the Gaussian '
+                  'conditioning, ImageBound, the covariance ordering or any enclosure of the coefficient', 'C.cmd2_description_and_none_of_them')
+ne = replace_once(ne, remaining_sentence(without_old), remaining_sentence(without_new), 'C.remaining_sentence')
+r['not_established'] = ne
+
+# ----------------------------------------------------------------------------- D. next_step of side24-coefficient
+ns = r['next_step']
+ns = replace_once(ns, targets_clause(without_old, 'Math- Mathlib lane'), targets_clause(without_new, 'Math- Mathlib lane'), 'D.targets_clause')
+ns = replace_once(ns, f'; every theorem of this row has a hosted receipt: the 12 added after PR head {C7} (',
+                  f'; the {len(T5)} theorems of this row added after PR head {C9} ({short(T5)}) await the next hosted lean-specification-proofs.yml '
+                  f'run, their first receipt; the other theorems of this row have a hosted receipt: the 12 added after PR head {C7} (',
+                  'D.receipt_clause_pending')
+ns = replace_once(ns, f'; every theorem of this row receipted on PR head {C8} by run {RUN8}',
+                  f'; each of those {len(row_mine_old)} theorems receipted on PR head {C8} by run {RUN8}', 'D.receipt_clause_narrowed')
+ns = replace_once(ns, 'ReferenceCovarianceLowerBound PROVABLE_WITH_WORK (weeks); ConeMomentD2Identity PROVABLE_WITH_WORK (weeks); ',
+                  'ReferenceCovarianceLowerBound, ConeMomentD2Identity PROVABLE_WITH_WORK (weeks): proved in round 5 (2026-10-12; see entries, '
+                  'no hosted receipt yet); ', 'D.triage_item')
+ns = replace_once(ns, '(the cone moment is a given field; ConeMomentD2Identity for the reference law under ConeMomentInterface is the open '
+                  'Rayleigh-integration step)',
+                  '(the cone moment is a given field; ConeMomentD2Identity now has a theorem for every inhabitant of ConeMomentInterface, with no '
+                  'hosted receipt yet, but no inhabitant is constructed and its laws are not derived as the conditional law A | V = 0 of the '
+                  'reference field, so D_2 is not identified with the parent\'s cone moment D_u of (15.1) for the reference law)',
+                  'D.rayleigh_step')
+ns = replace_once(ns, 'are superseded by their theorems; the reasons for ImageBound, CovarianceOrdering, EntrywiseCovarianceBound, '
+                  'ReferenceCovarianceLowerBound, ConeMomentD2Identity, CoefficientEnclosure and ReferenceComparison stand',
+                  'are superseded by their theorems; for ReferenceCovarianceLowerBound and ConeMomentD2Identity, proved in round 5 (no hosted '
+                  'receipt yet), the README\'s PROVABLE_WITH_WORK (weeks) reasons are superseded by their theorems (the ReferenceCovarianceLowerBound '
+                  'lane records that the order-five peeling step and the Matrix.posSemidef_iff_dotProduct_mulVec route the README named are not '
+                  'load-bearing); the reasons for ImageBound, CovarianceOrdering, EntrywiseCovarianceBound, CoefficientEnclosure and '
+                  'ReferenceComparison stand', 'D.readme_reasons')
+ns = replace_once(ns, 'in particular of the 17 Props of this row that have a theorem of exactly their type',
+                  f'in particular of the {len(with_new)} Props of this row that have a theorem of exactly their type', 'D.reviewer_count')
+ns = replace_once(ns, 'the interface Props with the source\'s A ~ N(0, 8/3), s ~ N(0, 5/3), x, y ~ N(0, 1)).',
+                  'the interface Props with the source\'s A ~ N(0, 8/3), s ~ N(0, 5/3), x, y ~ N(0, 1); ReferenceCovarianceLowerBound with the '
+                  'Section 3 display C_ref >= I/3, with Mathlib\'s Matrix.PosSemidef, IsHermitian included, read as the source\'s order).',
+                  'D.reviewer_anchors')
+r['next_step'] = ns
+assert ns.count(TRIAGE_MARK) == 1
+
+# ----------------------------------------------------------------------------- E. not_established of math.side24-coefficient
+n = rows[NODE]
+_, _, w_node, wo_node = row_props(n, ALL_NAMES)
+assert not w_node and [prop_short(p) for p in wo_node] == ['CoefficientEnclosure', 'ReferenceComparison']
+nn = n['not_established']
+nn = replace_once(nn, f'the 17 proof-packet theorems of the landing row ({short(row_mine_old)}; none of them the enclosure;',
+                  f'the {len(row_mine)} proof-packet theorems of the landing row ({short(row_mine)}; none of them the enclosure;', 'E.count_listing')
+nn = replace_once(nn, 'and the merge has the same tree as its head) are listed on the landing row',
+                  f'and the merge has the same tree as its head; {len(T5)} of them ({short(T5)}) {PENDING5_PHRASE}) are listed on the landing row',
+                  'E.pending_tier')
+nn = replace_once(nn, 'the interface theorems among them (ConeMomentD1Identity, TraceMoments, RayleighSquareLaw) hold',
+                  'the interface theorems among them (ConeMomentD1Identity, TraceMoments, RayleighSquareLaw, ConeMomentD2Identity) hold', 'E.interface_list')
+n['not_established'] = nn
+
+# ----------------------------------------------------------------------------- F. invariants: nothing else changed
+for k in reg:
+    if k != 'claims':
+        assert reg[k] == old[k], k
+assert [c['claim_id'] for c in reg['claims']] == [c['claim_id'] for c in old['claims']]
+ALLOWED = {ROW: {'statements', 'kernel_evidence', 'not_established', 'next_step'}, NODE: {'not_established'}}
+for cid in pp_rows:
+    ALLOWED.setdefault(cid, set()).add('kernel_evidence')
+changed_fields = {}
+for cid, row in rows.items():
+    o = old_rows[cid]
+    assert list(row) == list(o), cid
+    assert row['formal_progress'] == o['formal_progress'] and row['formal_progress'] in ('none', 'specified'), cid
+    for k in row:
+        if row[k] != o[k]:
+            assert k in ALLOWED.get(cid, set()), (cid, k)
+            changed_fields.setdefault(cid, []).append(k)
+    if cid == ROW:
+        assert row['statements'][:-2] == o['statements'] and len(row['statements']) == len(o['statements']) + 2
+    elif 'statements' in row:
+        assert row['statements'] == o['statements'], cid
+    for e_new, e_old in zip(row['kernel_evidence'], o['kernel_evidence']):
+        assert len(row['kernel_evidence']) == len(o['kernel_evidence']) and list(e_new) == list(e_old) and e_new['package'] == e_old['package']
+        if e_new['package'] != PROOF_PACKAGE:
+            assert e_new == e_old, (cid, e_new['package'])
+        elif cid != ROW:
+            assert e_new['receipt_or_workflow'] == e_old['receipt_or_workflow'], cid
+            assert e_new['note'] == e_old['note'].replace(OLD_INV, NEW_INV), cid       # only the inventory parenthetical moved
+assert set(changed_fields) == set(pp_rows) | {NODE}, sorted(changed_fields)
+assert sorted(changed_fields[ROW]) == ['kernel_evidence', 'next_step', 'not_established', 'statements']
+assert changed_fields[NODE] == ['not_established']
+for c in reg['claims']:
+    for s in c['statements']:
+        if s['package'] == STMT_PACKAGE:
+            assert s['formal_progress'] == 'specified' and s['kind'] in ('def_prop', 'structure')
+        else:
+            assert (s['kind'] == 'theorem') == (s['formal_progress'] == 'proved')
+        assert s['formal_progress'] != 'kernel-checked'
+triaged_after = {c['claim_id'] for c in reg['claims'] if TRIAGE_MARK in c['next_step']}
+assert triaged_after == triaged_before and all(rows[c]['next_step'].count(TRIAGE_MARK) == 1 for c in triaged_after)
+# every triage sentence except side24-coefficient's is byte-identical; in that one only the one item moved
+for cid in triaged_after - {ROW}:
+    assert rows[cid]['next_step'].split(TRIAGE_MARK)[1] == old_rows[cid]['next_step'].split(TRIAGE_MARK)[1], cid
+# no PROVABLE_WITH_WORK item without a theorem remains anywhere in the register
+for s in strings(reg):
+    assert 'PROVABLE_WITH_WORK (weeks); ' not in s and 'PROVABLE_WITH_WORK (weeks).' not in s, s[:120]
+    for p in NEW_PROPS:
+        assert prop_short(p) + ' PROVABLE_WITH_WORK (weeks); ' not in s
+
+# C422-E1: every run id named in any string leaf is bound to its PR head and actual tested merge in that same leaf
+for s in strings(reg):
+    for run, merge in RUN_MERGE:
+        if run in s:
+            assert merge in s and RUN_HEAD[run] in s, (run, s[:160])
+    for m in re.finditer(r'\b38\d{9}\b', s):
+        assert m.group(0) in dict(RUN_MERGE) or m.group(0) == WORKSPACE_LANDING_RUN, (m.group(0), s[:120])
+# the round-5 facts appear exactly where planned: 3 PENDING5 phrases (row note, row not_established, node not_established), one WF clause
+assert count_all(reg, PENDING5_PHRASE) == 3 and count_all(reg, WF_PENDING5) == 1
+assert count_all(reg, RUN9) == 3 * PENDING5_PHRASE.count(RUN9) + WF_PENDING5.count(RUN9) == 4
+assert count_all(reg, 'not evidence about any commit') == count_all(old, 'not evidence about any commit') + 3
+assert count_all(reg, 'await the next hosted') == count_all(old, 'await the next hosted') + 1 == 1
+# 'no hosted receipt yet': WF_PENDING5, the triage item, the Rayleigh-step sentence and the README-reasons sentence
+assert count_all(old, 'no hosted receipt yet') == 0 and count_all(reg, 'no hosted receipt yet') == 4
+after = census(reg)
+assert after == {**before, 'statements': before['statements'] + 2, 'proved': before['proved'] + 2}, (before, after)
+kc = json.dumps(reg, ensure_ascii=False)
+assert '"formal_progress": "kernel-checked"' not in kc
+
+out = json.dumps(reg, indent=2, ensure_ascii=False) + '\n'
+assert json.loads(out) == reg and out != committed
+# the serialisation is the committed one: re-serialising the committed register reproduces its bytes
+assert json.dumps(old, indent=2, ensure_ascii=False) + '\n' == committed
+OUT_REG.write_text(out, encoding='utf-8')
+new_blob = hashlib.sha1(b'blob %d\0' % len(out.encode()) + out.encode()).hexdigest()
+
+# ----------------------------------------------------------------------------- log of every changed string leaf
+old_leaves, new_leaves = dict(leaves(old)), dict(leaves(reg))
+assert set(old_leaves) <= set(new_leaves)
+changed = [(p, old_leaves.get(p), v) for p, v in new_leaves.items() if old_leaves.get(p) != v]
+log = [f'update_register10: {len(changed)} changed string leaves of {STMT_REL}/REGISTER.json '
+       f'(be014794 blob {EXPECTED_BLOB} -> worktree blob {new_blob}); census {before} -> {after}', '']
+rowname = {f'/claims[{i}]': c['claim_id'] for i, c in enumerate(reg['claims'])}
+for p, a, b in changed:
+    head_path = re.match(r'/claims\[\d+\]', p).group(0)
+    log.append(f'== {p}  (row {rowname[head_path]}){"  [NEW LEAF]" if a is None else ""}')
+    if a is None:
+        log.append('   + ' + b)
+    else:
+        aw, bw = a.split(' '), b.split(' ')
+        for op, i1, i2, j1, j2 in difflib.SequenceMatcher(None, aw, bw, autojunk=False).get_opcodes():
+            if op == 'equal':
+                continue
+            ctx = ' '.join(aw[max(0, i1 - 6):i1])
+            log.append(f'   {op} after "...{ctx}":')
+            if i2 > i1:
+                log.append('     - ' + ' '.join(aw[i1:i2]))
+            if j2 > j1:
+                log.append('     + ' + ' '.join(bw[j1:j2]))
+    log.append('')
+(OUT_DIR / 'update_register10.log').write_text('\n'.join(log) + '\n', encoding='utf-8')
+(OUT_DIR / 'update_register10_leaves.json').write_text(json.dumps([{'path': p, 'old': a, 'new': b} for p, a, b in changed],
+                                                                  indent=1, ensure_ascii=False) + '\n', encoding='utf-8')
+summary = {'scientific_effect': 'NONE', 'committed_head': head, 'input_blob': EXPECTED_BLOB, 'output_blob': new_blob, 'output_path': str(OUT_REG),
+           'before': before, 'after': after, 'added_entries': added, 'replacements': counts,
+           'changed_fields': changed_fields, 'changed_string_leaves': [p for p, _, _ in changed],
+           'inventory': {'theorem_count': inv['theorem_count'], 'covered_props': len(inv['covered_props']), 'modules': inv['modules'],
+                         'duplicate_proofs': inv['duplicate_proofs'], 'round5_theorems': T5},
+           'last_receipted_head': {'run': RUN9, 'pr': 434, 'pr_head': EXPECTED_HEAD, 'actual_tested_merge': M9, 'base': BASE3,
+                                   'theorem_count': 73, 'artifact': f'lean-specification-proofs-{RUN9}-1', 'artifact_sha256_github_digest': SHA9},
+           'claim_level_formal_progress_unchanged': all(rows[c]['formal_progress'] == old_rows[c]['formal_progress'] for c in rows),
+           'run_merge_bindings_asserted': dict(RUN_MERGE), 'run_head_bindings_asserted': RUN_HEAD,
+           'phrases': {'PENDING5': PENDING5_PHRASE, 'WF_PENDING5': WF_PENDING5, 'RCLB_DESC': RCLB_DESC, 'CMD2_DESC': CMD2_DESC}}
+(OUT_DIR / 'update_summary10.json').write_text(json.dumps(summary, indent=1, ensure_ascii=False) + '\n', encoding='utf-8')
+print(json.dumps({k: v for k, v in summary.items() if k not in ('phrases', 'changed_string_leaves')}, indent=1, ensure_ascii=False))
+print(f'{len(changed)} changed string leaves logged to {OUT_DIR / "update_register10.log"}')

@@ -1,0 +1,228 @@
+#!/usr/bin/env python3
+"""Round-10 hand edit of the proof packet's README.md and SCOPE.md for the two round-5 modules
+SpecificationProofs/{Side24Covariance,Side24ConeMoment}.lean (uncommitted in the worktree on top of PR #434 head be014794):
+inventory 73 -> 75 theorems over 72 -> 74 Props (the other 69 -> 67 Props without a theorem); the two theorems marked
+† = "no hosted receipt yet" (added after PR head be014794, the last head with a hosted receipt: run 38187538744, actual
+tested merge 79d3964c... with base 12e072d6..., receipt theorem_count 73, artifact lean-specification-proofs-38187538744-1
+sha256 60c9be0b... as GitHub reports it); the PROVABLE_WITH_WORK (weeks) reasons this README gave for
+ReferenceCovarianceLowerBound and ConeMomentD2Identity are removed from the "why no theorem here" rows and superseded by
+one "formerly listed here (round 5)" row each, naming the module, its route (one sentence, taken from the module's own
+docstring) and what the theorem does not establish (from its docstring); the Layout listing gains the two modules; the
+SCOPE Side24 family row gains them. Derived from register_update9/edit_proof_docs9.py: exact string replacements over the
+COMMITTED text (read-only `git show be014794:...`), refusing unexpected text and a worktree that differs from the commit.
+
+Scientific effect: NONE. Documentation only: no label, disposition or status changes; alignment
+PENDING_INDEPENDENT_REVIEW; organizational-independence credit 0. Never touches check.py, tests or Lean. A theorem is
+evidence about its registered Prop for the formal objects only, never about an informal claim; a local kernel check on an
+unverified worktree is evidence about no commit. Every mention of a hosted run names the PR head and the actual tested
+merge (C422-E1), asserted per paragraph.
+
+usage: python3 -B -S edit_proof_docs10.py      (R10_PDOCS_OUT=<dir> writes the two docs there instead of the worktree)
+"""
+import os
+import re
+import subprocess
+import sys
+from pathlib import Path
+
+CLONE = Path('<SCRATCH>/repos/math_r5')
+PACKET_REL = 'specifications/lean_statement_proofs_20261011'
+PACKET = CLONE / PACKET_REL
+OUT = Path(os.environ['R10_PDOCS_OUT']) if os.environ.get('R10_PDOCS_OUT') else PACKET
+HEAD = 'be01479435f98f34b802258ee9ec3c3578f37169'
+# FACTS (coordinator-verified; artifact name and digest re-read with read-only `gh api`)
+RUN9, C9, M9F, BASE3F = '38187538744', 'be014794', '79d3964cf70e2eadad5c9629eef8f4b47f218dd0', '12e072d614dbe6e91b66d22a2ab55cf87860d693'
+SHA9 = '60c9be0b49d45931d6c82f04d73fb7e6b6e97d539e7c10a376c3e99e302f2617'
+M9, BASE3 = M9F[:8], BASE3F[:8]
+RUN8, C8, M8 = '38180705952', '48bfcbae', '9833d6d9'
+assert HEAD.startswith(C9)
+NEW_MODULES = ('SpecificationProofs/Side24Covariance.lean', 'SpecificationProofs/Side24ConeMoment.lean')
+
+
+def git(*args):
+    return subprocess.run(['git', '-C', str(CLONE), *args], check=True, capture_output=True, text=True, encoding='utf-8').stdout
+
+
+def pristine(name: str) -> str:
+    head = git('rev-parse', 'HEAD').strip()
+    if head != HEAD:
+        sys.exit(f'REFUSED: clone HEAD is {head}, expected {HEAD}')
+    text = git('show', f'{HEAD}:{PACKET_REL}/{name}')
+    if (PACKET / name).read_text(encoding='utf-8') != text:
+        sys.exit(f'REFUSED: worktree {name} differs from {HEAD[:8]} (already edited?)')
+    return text
+
+
+def replace_once(text: str, old: str, new: str, label: str) -> str:
+    n = text.count(old)
+    if n != 1:
+        sys.exit(f'REFUSED: {label}: expected exactly one occurrence of the old text, found {n}')
+    return text.replace(old, new)
+
+
+for m in NEW_MODULES:    # the modules this edit describes exist in the worktree and are imported by the root
+    assert (PACKET / m).is_file(), m
+    assert ('import ' + m[:-5].replace('/', '.')) in (PACKET / 'SpecificationProofs.lean').read_text(encoding='utf-8'), m
+
+DAGGER_NOTE = '† = no hosted receipt yet, see above'
+COV_ROW = (
+    '| Side24 covariance and density, formerly listed here (round 5) | — | `ReferenceCovarianceLowerBound` has a theorem in `Side24Covariance` '
+    f'since round 5 (`Side24Covariance.referenceCovarianceLowerBound†`; {DAGGER_NOTE}). The PROVABLE_WITH_WORK (weeks) reason this table gave '
+    'for it is superseded by the theorem, and the module records that two of its details were not load-bearing: no order-five '
+    'general-direction level of the peeling is needed, and no quadratic-form expansion through `Matrix.posSemidef_iff_dotProduct_mulVec`. '
+    'Route (the module docstring): the odd-order contractions of the even kernel `Kinf d` vanish at `0` in arbitrary directions '
+    '(`ContinuousLinearMap.iteratedFDeriv_comp_right`, `ContinuousMultilinearMap.map_smul_univ`), the orders two, four and six are the '
+    'round-4 helpers `Side24Analysis.Aux.rb_order_two`, `rb_order_four`, `rb_order_six` (imported, not re-proved), and in an orthonormal '
+    'frame with `u = R 0` the matrix `Cref - I/3` is entrywise `diagonal δ + (2/3) v vᵀ + w wᵀ` (`v = e_{G_0} - (9/2) e_t`, `w` the '
+    'indicator of the diagonal Hessian coordinates), each summand positive semidefinite, for every `d > 0` (the hypothesis `d = 2 ∨ d = 3` '
+    'of the Prop is not used; the `IsHermitian` half follows from the decomposition, not from any symmetry of `iteratedFDeriv`). Not '
+    'established: that `Cref` is the covariance of any random vector; symmetry of `Cref d u R` for a general `u` or frame; main\'s '
+    '`UniversalLaw.Side24.odd_block_eigenvalues`, `odd_block_shifted_minors` and `smaller_eigenvalue_exceeds_third` are neither imported, '
+    'cited nor relied on, and no minor, no eigenvalue `8 ± sqrt 58` and no comparison of an eigenvalue with `1/3` is computed here. |\n')
+CONE_ROW = (
+    '| Side24 interface statements, formerly listed here (round 5) | — | `ConeMomentD2Identity` has a theorem in `Side24ConeMoment` since '
+    f'round 5 (`Side24ConeMoment.coneMomentD2Identity†`; {DAGGER_NOTE}), for a GIVEN `I : ConeMomentInterface`. The PROVABLE_WITH_WORK '
+    '(weeks) reason this table gave for it is superseded by the theorem. Route (the module docstring): transport along the law field '
+    '`sxy_law` (`integral_map` after `Side24Interfaces.Aux.tm_aemeasurable_triple`), Fubini with the bound `\\|coneIntegrand q\\| ≤ q.1^4`, '
+    'the cone identification `NegDefCone (s, x, y) ↔ s < 0 ∧ x² + y² < s²`, the inner planar Gaussian integral '
+    '`s⁴ - 4s² + 8 - 8 exp(-s²/2)` for `s < 0` by polar coordinates and the substitution `z = r²` onto `elementaryConeIntegral`, the '
+    'halving of the even bracket under `gaussianReal 0 (5/3)`, and the moments `25/3`, `5/3`, `√(3/8)` from `Side24Interfaces`; only '
+    '`sxy_law` and `isProb` are used (not `A` or `A_law`), and `RayleighSquareLaw` is not invoked. Not established: that '
+    '`ConeMomentInterface` has an inhabitant, or that its laws are the conditional law `A \\| V = 0` of the reference field; that `D_2` is '
+    'the parent\'s cone moment `D_u` of (15.1) for the reference law; the source\'s Rayleigh integration route as the source\'s statements '
+    '(for the formal objects the proof follows the shape of the source\'s Section 1 computation, so it is not a cross-check of it by a '
+    'different route); any enclosure of the coefficient. |\n')
+
+README_EDITS = [
+    ('inventory counts',
+     'Inventory at this commit: 73 theorems, 72 of the 141 registered `def … : Prop` declarations (`TriangleNeedsThree`\n'
+     'is proved twice). The other 69 fall into the groups below.',
+     'Inventory at this commit: 75 theorems, 74 of the 141 registered `def … : Prop` declarations (`TriangleNeedsThree`\n'
+     'is proved twice). The other 67 fall into the groups below.'),
+    ('round-5 receipt status',
+     'run, is evidence about no commit; later commits need their own run.\n\n| group |',
+     'run, is evidence about no commit; later commits need their own run. The 2 theorems of the two round-5 modules\n'
+     '(`Side24Covariance`, `Side24ConeMoment`), marked † below, have **no hosted receipt yet**: they were added after PR head\n'
+     f'`{C9}`, the last head with a hosted receipt (run {RUN9}, event pull_request on PR #434; the actually tested\n'
+     f'checkout is the synthetic merge `{M9}…` of that head into base `{BASE3}…`; receipt theorem_count 73, `leanchecker`\n'
+     f'PASS; artifact `lean-specification-proofs-{RUN9}-1`, sha256 `{SHA9[:8]}…` as GitHub reports it), which does not name\n'
+     'them. Locally, `lake env lean -DwarningAsError=true` exited 0 on each module at the pin and `#print axioms` stayed\n'
+     'within `propext`, `Classical.choice`, `Quot.sound`, on an unverified worktree, which is evidence about no commit; the\n'
+     'next hosted `lean-specification-proofs.yml` run is their first receipt.\n\n| group |'),
+    ('covariance row: Props column',
+     '| Side24 covariance and density | `NegDefCone` (predicate), `CovarianceOrdering`, `EntrywiseCovarianceBound`, `ReferenceCovarianceLowerBound` | ',
+     '| Side24 covariance and density | `NegDefCone` (predicate), `CovarianceOrdering`, `EntrywiseCovarianceBound` | '),
+    ('covariance row: superseded reason',
+     ' `ReferenceCovarianceLowerBound`: PROVABLE_WITH_WORK (weeks), no missing theory: the entries of `Cref` from the contraction values '
+     'already in `Side24Analysis` (orders 2, 4, 6) and the vanishing odd orders at `0` (order 5 needs one more general-direction level of '
+     'the peeling), then an explicit sum-of-squares certificate for the block matrix (odd block `[[1, -3], [-3, 15]]`, `I_{d-1}`, Hessian '
+     'block with eigenvalues `4, 2, 2` resp. `5, 2, …, 2`) minus `I/3` through `Matrix.posSemidef_iff_dotProduct_mulVec`. |\n',
+     ' |\n'),
+    ('covariance round-5 row',
+     'kernel-proved on main (`UniversalLaw.Side24.conditional_third_derivative_variance`, …) is neither cited nor relied on. |\n',
+     'kernel-proved on main (`UniversalLaw.Side24.conditional_third_derivative_variance`, …) is neither cited nor relied on. |\n' + COV_ROW),
+    ('interface row: Props column and superseded reason',
+     '| Side24 interface statements | `ConeMomentD2Identity` (over `ConeMomentInterface`); `CoefficientEnclosure`, `ReferenceComparison` (over '
+     '`PeriodicCoefficientInterface`) | `ConeMomentD2Identity`: PROVABLE_WITH_WORK (weeks), no missing theory: transport along `sxy_law` as '
+     'for the three proved interface Props, the cone identification `NegDefCone (s, x, y) ↔ s < 0 ∧ x² + y² < s²` (both directions '
+     'elaborate in a probe), Fubini with the integrable bound `(s² + x² + y²)²`, the inner truncated polar integral reducing to the proved '
+     '`elementaryConeIntegral`, and the outer `gaussianReal 0 (5/3)` moments already in `Side24Interfaces`; several hundred lines. '
+     '`CoefficientEnclosure`, `ReferenceComparison`: BLOCKED_INTERFACE;',
+     '| Side24 interface statements | `CoefficientEnclosure`, `ReferenceComparison` (over `PeriodicCoefficientInterface`) | '
+     '`CoefficientEnclosure`, `ReferenceComparison`: BLOCKED_INTERFACE;'),
+    ('interface formerly-listed row: D2 pointer',
+     'or that its laws are the conditional law `A \\| V = 0` of the reference field; `ConeMomentD2Identity`; any cone moment of the `K24` '
+     'field.',
+     'or that its laws are the conditional law `A \\| V = 0` of the reference field; `ConeMomentD2Identity` (by these three; it has its own '
+     'theorem since round 5, next row); any cone moment of the `K24` field.'),
+    ('interface round-5 row',
+     '`ElementaryConeIntegral` and `ReferenceCoefficientIdentity` (proved earlier) need no interface. |\n',
+     '`ElementaryConeIntegral` and `ReferenceCoefficientIdentity` (proved earlier) need no interface. |\n' + CONE_ROW),
+    ('triage totals',
+     'Across the whole table the triage\'s counts for the 69 Props without a theorem are 28 predicates (these 26 plus `IsUnitTuple`, '
+     '`NegDefCone`), 24 BLOCKED_INTERFACE (these 22 plus `CoefficientEnclosure`, `ReferenceComparison`), 7 BLOCKED_MISSING_MATHLIB (these 4 '
+     'plus `ImageBound`, `CovarianceOrdering`, `EntrywiseCovarianceBound`), 2 PROVABLE_WITH_WORK (`ReferenceCovarianceLowerBound`, '
+     '`ConeMomentD2Identity`) and the 8 P15 predicates it did not re-examine.',
+     'Across the whole table the triage\'s counts for the 67 Props without a theorem are 28 predicates (these 26 plus `IsUnitTuple`, '
+     '`NegDefCone`), 24 BLOCKED_INTERFACE (these 22 plus `CoefficientEnclosure`, `ReferenceComparison`), 7 BLOCKED_MISSING_MATHLIB (these 4 '
+     'plus `ImageBound`, `CovarianceOrdering`, `EntrywiseCovarianceBound`) and the 8 P15 predicates it did not re-examine; its 2 '
+     'PROVABLE_WITH_WORK Props (`ReferenceCovarianceLowerBound`, `ConeMomentD2Identity`) have theorems since round 5 (marked †, no hosted '
+     'receipt yet).'),
+    ('layout listing',
+     '                                       P15Interpolation; Side24 into Side24Elementary, Side24Analysis,\n'
+     '                                       Side24Interfaces; RN into RNProbability, RNCluster (each list in\n'
+     '                                       import order; the root imports the eight modules of rounds 1-3 and\n'
+     '                                       then Side24Analysis, Side24Interfaces, RNCluster)\n',
+     '                                       P15Interpolation; Side24 into Side24Elementary, Side24Analysis,\n'
+     '                                       Side24Interfaces, Side24Covariance, Side24ConeMoment; RN into\n'
+     '                                       RNProbability, RNCluster (each list in import order; the root\n'
+     '                                       imports the eight modules of rounds 1-3, then Side24Analysis,\n'
+     '                                       Side24Interfaces, RNCluster (round 4) and Side24Covariance,\n'
+     '                                       Side24ConeMoment (round 5))\n'),
+]
+SCOPE_EDITS = [
+    ('Side24 family: modules',
+     '| Side24 (`Specifications.Side24`, modules Side24Elementary, Side24Analysis, Side24Interfaces) |',
+     '| Side24 (`Specifications.Side24`, modules Side24Elementary, Side24Analysis, Side24Interfaces, Side24Covariance, Side24ConeMoment) |'),
+    ('Side24 family: reference covariance bound',
+     'with `(1 - epsilon) • C0 ≤ C ≤ (1 + epsilon) • C0` in the Loewner order; and, for a GIVEN `I : ConeMomentInterface`,',
+     'with `(1 - epsilon) • C0 ≤ C ≤ (1 + epsilon) • C0` in the Loewner order; the reference covariance lower bound: '
+     '`Cref d (R 0) R - (1/3) • 1` positive semidefinite, its `IsHermitian` half included, for every orthonormal frame `R` and `0 < d`†; '
+     'and, for a GIVEN `I : ConeMomentInterface`,'),
+    ('Side24 family: D2 cone moment and the dagger',
+     'the Rayleigh law of `x² + y²` as a distribution function, from the interface\'s law fields alone; all as the Props state them, for the '
+     'formal objects (`E d`, `Kinf`, `latticeVec`, `derivContraction`, `gaussDensity`, the interface structures) |',
+     'the Rayleigh law of `x² + y²` as a distribution function, from the interface\'s law fields alone, and the `m = 2` cone moment '
+     '`∫ coneIntegrand (s, x, y) ∂I.P = (1/2)(25/3 - 20/3 + 8 - 8 √(3/8))`† from `sxy_law` alone; all as the Props state them, for the '
+     'formal objects (`E d`, `Kinf`, `latticeVec`, `derivContraction`, `gaussDensity`, `jointCov`, `Cref`, `coneIntegrand`, the interface '
+     f'structures); † = no hosted receipt yet (added after PR head `{C9}`, the last head with a hosted receipt: run {RUN9}, actual tested '
+     f'merge `{M9}…` with base `{BASE3}…`) |'),
+    ('Side24 family: not established',
+     '`ImageBound`, `CovarianceOrdering`, `EntrywiseCovarianceBound` (no local term-wise iterated differentiation of the lattice sum at '
+     'Mathlib `d13f23b7`), `ReferenceCovarianceLowerBound`, `ConeMomentD2Identity`; that `ConeMomentInterface`',
+     '`ImageBound`, `CovarianceOrdering`, `EntrywiseCovarianceBound` (no local term-wise iterated differentiation of the lattice sum at '
+     'Mathlib `d13f23b7`); that `ConeMomentInterface`'),
+    ('Side24 family: not established, round-5 items',
+     'that any `gradCov`/`pinCov` matrix is the covariance of a random object;',
+     'that any `gradCov`/`pinCov` matrix or `Cref` is the covariance of a random object; symmetry of `Cref d u R` for a general `u` or '
+     'frame; the odd-block minors and eigenvalues `8 ± sqrt 58` (main\'s theorems, neither imported nor relied on here); that `D_2` is the '
+     'parent\'s cone moment `D_u` of (15.1) for the reference law, and the source\'s Rayleigh integration route as the source\'s statements;'),
+]
+
+
+def main() -> None:
+    for name, edits in (('README.md', README_EDITS), ('SCOPE.md', SCOPE_EDITS)):
+        text = pristine(name)
+        orig = text
+        assert '†' not in orig and RUN9 not in orig and C9 not in orig, name
+        for label, old, new in edits:
+            text = replace_once(text, old, new, f'{name}: {label}')
+        # the superseded informal reasons are gone; the two Props appear only as theorems (†) or in round-5 / triage-history text
+        assert 'several hundred lines' not in text and 'order 5 needs one more general-direction level' not in text, name
+        assert 'PROVABLE_WITH_WORK (weeks), no missing theory' not in text, name
+        assert text.count('kernel-checked') == orig.count('kernel-checked'), name   # a receipt word: this edit adds none
+        for para in text.split('\n\n'):      # C422-E1: a hosted run is named with its PR head and its tested merge
+            if RUN9 in para:
+                assert C9 in para and M9 in para and BASE3 in para, (name, para[:120])
+            if RUN8 in para:
+                assert C8 in para and M8 in para, (name, para[:120])
+        for found in set(re.findall(r'\b38\d{9}\b', text)) - set(re.findall(r'\b38\d{9}\b', orig)):
+            assert found == RUN9, (name, found)
+        for phrase in ('Scientific effect', 'NONE', 'PENDING_INDEPENDENT_REVIEW'):
+            assert phrase in text, (name, phrase)
+        if name == 'README.md':
+            assert text.count('†') == 6, text.count('†')       # receipt paragraph, two theorem names, two DAGGER_NOTEs, triage totals
+            assert 'Side24Covariance.referenceCovarianceLowerBound†' in text and 'Side24ConeMoment.coneMomentD2Identity†' in text
+            assert text.count('formerly listed here (round 5)') == 2
+            # the "why no theorem here" rows list neither Prop any more
+            for line in text.split('\n'):
+                if line.startswith('| Side24 covariance and density |') or line.startswith('| Side24 interface statements |'):
+                    assert 'ReferenceCovarianceLowerBound' not in line and 'ConeMomentD2Identity' not in line, line[:80]
+        else:
+            assert text.count('†') == 3, text.count('†')
+        (OUT / name).write_text(text, encoding='utf-8')
+        print(f'{name}: {len(edits)} replacement(s) applied -> {OUT / name}')
+
+
+if __name__ == '__main__':
+    main()

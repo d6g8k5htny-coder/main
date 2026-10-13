@@ -1,0 +1,10 @@
+ok 15 - actual pinned museum renders all cards and rejects cross-claim source, scope and replay substitutions # SKIP
+# tests 15
+# pass 14
+# fail 0
+# skipped 1
+Museum source export and actual display integration verified. Scientific effect NONE.
+museum_check exit=0
+C01 SURVIVED S1=ok S2=ok S3=ok S4=ok | tools/museum_check.py: museum_check: drop the export comparison
+C02 SURVIVED S1=ok S2=ok S3=ok S4=ok | tools/museum_check.py: museum_check: ignore node test failures
+C03 SURVIVED S1=ok S2=ok [# skipped 1] S3=ok S4=ok | tools/museum_check.py: museum_check: env var drift silently skips the pinned integration test

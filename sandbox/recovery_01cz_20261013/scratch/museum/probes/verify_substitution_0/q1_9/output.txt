@@ -1,0 +1,18 @@
+[static] lines mentioning LANDING_CLAIMS: [122, 125]; SOURCES literal spans 25-258; string refs outside it: []
+[baseline] build() vs shipped museum.json: 9 differing leaves; all README-descriptor fields: True; ['/claims/0/replay/source/blob', '/claims/0/replay/source/bytes', '/claims/0/replay/source/sha256', '/claims/10/replay/source/blob', '/claims/10/replay/source/bytes', '/claims/10/replay/source/sha256', '/claims/2/replay/source/blob', '/claims/2/replay/source/bytes', '/claims/2/replay/source/sha256']
+[mutate] LANDING_CLAIMS dispositions all rewritten (sha256 d12d858cb854): museum.json identical to baseline: True
+[remove] LANDING_CLAIMS dropped from SOURCES and fixture: build succeeds, museum.json identical to baseline: True
+[absent-but-pinned] build refuses: FileNotFoundError: [Errno 2] No such file or directory: '<SCRATCH>/museum/probes/verify_substitution_0/q1_9/q1_9_we333322/math_rm/claims/LANDING_CLAIMS.json'
+[axis] d2-lifetime-remainder          label=ACCEPT               status_quote=yes | LANDING lifetime-remainder: FAIL_CLOSED
+[axis] d3-side24-coefficient          label=ACCEPT               status_quote=yes | LANDING side24-coefficient: HOLD_WITH_DOMAIN
+[axis] d4-fixed-remote-rn             label=ACCEPT               status_quote=yes | LANDING rn-fixed-remote-window: HOLD_WITH_DOMAIN
+[axis] d5-height-window-annulus       label=ACCEPT               status_quote=no  | LANDING rn-fixed-annulus-window: REVIEWED_SCOPED
+[axis] p15-demand-one-counterexample  label=EXACT_COUNTEREXAMPLE status_quote=no  | LANDING p15-price-boundary: EXACT_COUNTEREXAMPLE
+[axis] d6-p15-full-price              label=ACCEPT               status_quote=yes | LANDING p15-full-price: REVIEWED_SCOPED
+[axis] LANDING_CLAIMS meaning: 'machine-readable landing inventory; source/review identity and scope only, never theorem acceptance by itself'; audited_default_commit 760340e9 (pinned at d6628da0)
+[axis] PROOF_INDEX D6 bullet says: True ('leaves the landing disposition untouched')
+state: Source projections and displayed source bytes verified. These checks establish byte identity, not mathematical acceptance.
+d2-lifetime-remainder [ACCEPT-scoped]: ["Source label: ACCEPT"]; card mentions FAIL_CLOSED/HOLD_WITH_DOMAIN/landing disposition: false; mentions 'Theorem A' open parent: true
+d3-side24-coefficient [ACCEPT-scoped]: ["Source label: ACCEPT"]; card mentions FAIL_CLOSED/HOLD_WITH_DOMAIN/landing disposition: false; mentions 'Theorem A' open parent: true
+d4-fixed-remote-rn [ACCEPT-scoped]: ["Source label: ACCEPT"]; card mentions FAIL_CLOSED/HOLD_WITH_DOMAIN/landing disposition: false; mentions 'Theorem A' open parent: false
+whole rendered page mentions FAIL_CLOSED: false, HOLD_WITH_DOMAIN: false, 'landing disposition': true (only inside the D6 PROOF_INDEX quote: 1 hit(s))

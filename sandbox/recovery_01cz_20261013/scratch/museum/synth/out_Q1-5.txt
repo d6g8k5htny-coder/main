@@ -1,0 +1,12 @@
+12708 e4cb1d943eaeb2049d080fcc53a57e042aebc6e8 f9c4db77aeab1c61d2a0c02f88a964cbfc6be63d18619acf0e047c884e0c0249
+Math- sources byte-verified from local objects: 21
+c5e64b9ba3a906535f1ae58a161d594a427371599c102ae4a68849b087a2f62c  fixture/Math-/imports/hardening_ebedb780/EC-014/proof.md.export.txt
+ea5ee049a6258444946b2e318cca7acfd93b0699849b88a5686a154730890c33  readme_10e1f191.md
+ACCEPTED d2-lifetime-remainder    command='python -B -S frontiers/full_price_20260924/full_price.py' source=README.md@d6628da0
+ACCEPTED d4-fixed-remote-rn       command='python -B -S frontiers/downstream_gate_20260925/hard_gate.py' source=README.md@d6628da0
+ACCEPTED d6-p15-full-price        command="python -B -S -m unittest discover -s frontiers/three_fronts_20260924 -p 'test_*.py' -v" source=README.md@d6628da0
+swap D2<->D6 replay commands: ACCEPTED by validateBoundManifest
+give engineering-only P15 counterexample the D6 full_price.py replay: ACCEPTED by validateBoundManifest | class engineering-only
+verifyClaim d4-fixed-remote-rn with command "python -B -S frontiers/full_price_20260924/full_price.py" from README@10e1f191: PASSES
+verifyClaim d4-fixed-remote-rn with command "python -B -S frontiers/downstream_gate_20260925/hard_gate.py" from README@10e1f191: PASSES
+verifyClaim p15-demand-one-counterexample with command "python -B -S frontiers/full_price_20260924/full_price.py" from README@10e1f191: PASSES

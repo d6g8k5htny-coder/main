@@ -1,0 +1,27 @@
+test_auto_implicit_is_off (__main__.LeanHelpers.test_auto_implicit_is_off)
+With `autoImplicit = false` an unbound name in a header is an error instead of a silent ... ok
+test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts)
+Module copies Lean builds without error must be refused by the environment audit, each ... ok
+test_fixture_packages (__main__.LeanHelpers.test_fixture_packages) ... ERROR
+
+======================================================================
+ERROR: test_fixture_packages (__main__.LeanHelpers.test_fixture_packages)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/repos/math/specifications/lean_statement_proofs_20261011/test_check.py", line 1007, in test_fixture_packages
+    check.check_lean_version(check.run([LAKE, 'env', 'lean', '--version'], 'version', self.out, self.proofs, self.env))
+  File "<SCRATCH>/repos/math/specifications/lean_statement_proofs_20261011/check.py", line 785, in check_lean_version
+    require(lines and all(line.startswith('info:') for line in lines[:-1]), 'unexpected output around the Lean version: ' + repr(text[:200]))
+  File "<SCRATCH>/repos/math/specifications/lean_statement_proofs_20261011/check.py", line 136, in require
+    raise ValueError(message)
+ValueError: unexpected output around the Lean version: 'info: spec_fixture_proofs: no previous manifest, creating one from scratch\ninfo: toolchain not updated; already up-to-date\nwarning: spec_fixture_statements: ignoring missing manifest:\n  /tmp/tmpor6x88'
+
+----------------------------------------------------------------------
+Ran 3 tests in 79.083s
+
+FAILED (errors=1)
+
+real	1m19.329s
+user	0m33.115s
+sys	0m30.983s
+exit 1

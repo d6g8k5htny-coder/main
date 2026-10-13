@@ -1,0 +1,26 @@
+## (1a) pre-commit: check.py source in the WORKTREE (uncommitted bytes; expected refusal, HEAD is still 940dffc9)
+TORUS_FILTRATION_PYTHON: optimize=0
+TORUS_FILTRATION_FAIL: tracked companion membership differs: ['companions/torus_filtration_20261011/OrdinaryH0Controls.lean']
+exit=1
+
+## (1b) pre-commit: check.py source in a scratch clone of the worktree with the same bytes committed provisionally (8fbe63f5eb38693fa0913e962137454232ff81a0)
+TORUS_FILTRATION_PYTHON: optimize=0
+exit=0
+checked_commit 8fbe63f5eb38693fa0913e962137454232ff81a0
+declarations 153 theorems 118
+sources 13
+OrdinaryH0Controls.lean {'bytes': 28898, 'git_blob': 'f91f287d99e973480d8afc1221b78bdd7110181c', 'sha256': 'e4f76f7cd7f4731c7e3ff8c77d39fc3259e7832d2b7f92539be8dc913ad3135d'}
+## (1c) post-commit: check.py source in the worktree at 64b51aea95ed94dff90635af7469e2bbd62d7114
+TORUS_FILTRATION_PYTHON: optimize=0
+exit=0
+checked_commit 64b51aea95ed94dff90635af7469e2bbd62d7114 declarations 153 theorems 118 sources 13
+
+## AMEND ROUND (after the first replay of 64b51aea passed; README/replay.sh memory figures corrected)
+## (1a') pre-amend: check.py source in the WORKTREE (uncommitted edits; expected refusal)
+TORUS_FILTRATION_PYTHON: optimize=0
+TORUS_FILTRATION_FAIL: dirty execution/source bytes: companions/torus_filtration_20261011/README.md
+exit=1
+## (1b') pre-amend: check.py source in the scratch clone with the same bytes committed provisionally (585f769830f94a0024bfbb8846d46b337f0a5d7b)
+TORUS_FILTRATION_PYTHON: optimize=0
+exit=0
+checked_commit 585f769830f94a0024bfbb8846d46b337f0a5d7b declarations 153 theorems 118 sources 13

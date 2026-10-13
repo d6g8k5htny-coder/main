@@ -1,0 +1,31 @@
+--- mutable issue comment (not in the D5 quote)
+validateDescriptor(review): PASS
+validateBoundManifest: PASS
+card class: ACCEPT-scoped | review block: {"label":"Byte-verified review","open_review_href":"https://github.com/d6g8k5htny-coder/main/issues/63#issuecomment-5841570965"}
+identity shown under "Review source identity" still names: reviews/pr28_annulus_bridge_nonauthor_20260925/REVIEW.md @ d6628da09384
+museum-state: Source projections and displayed source bytes verified. These checks establish byte identity, not mathematical acceptance.
+--- foreign host
+validateDescriptor(review): PASS
+validateBoundManifest: PASS
+card class: ACCEPT-scoped | review block: {"label":"Byte-verified review","open_review_href":"https://example.invalid/forged-review"}
+identity shown under "Review source identity" still names: reviews/pr28_annulus_bridge_nonauthor_20260925/REVIEW.md @ d6628da09384
+museum-state: Source projections and displayed source bytes verified. These checks establish byte identity, not mathematical acceptance.
+--- branch-mutable blob/main path
+validateDescriptor(review): PASS
+validateBoundManifest: PASS
+card class: ACCEPT-scoped | review block: {"label":"Byte-verified review","open_review_href":"https://github.com/d6g8k5htny-coder/Math-/blob/main/reviews/pr28_annulus_bridge_nonauthor_20260925/REVIEW.md"}
+identity shown under "Review source identity" still names: reviews/pr28_annulus_bridge_nonauthor_20260925/REVIEW.md @ d6628da09384
+museum-state: Source projections and displayed source bytes verified. These checks establish byte identity, not mathematical acceptance.
+--- control (pointer_only:true, same foreign URL): REFUSED: Invalid review pointer
+[control] exit=0 :: tools/museum_data.py --math-root <SCRATCH>/museum/probes/pointers/fixture/Math- :: Museum projection verified: 11 reviewed bullets, 3 AMEND rows, 1 landed packet; scientific effect NONE.
+[control] exit=0 :: -m unittest discover :: Ran 12 tests in 0.057s | OK
+[control] exit=0 :: tools/museum_check.py --math-root <SCRATCH>/museum/probes/pointers/fixture/Math- :: # pass 15 | # fail 0 | Museum source export and actual display integration verified. Scientific effect NONE.
+[control] exit=0 :: node --test tests/test_museum_geometry.mjs :: # pass 8 | # fail 0
+[F1_review_url_on_byte_verified] exit=0 :: tools/museum_data.py --math-root <SCRATCH>/museum/probes/pointers/fixture/Math- :: Museum projection verified: 11 reviewed bullets, 3 AMEND rows, 1 landed packet; scientific effect NONE.
+[F1_review_url_on_byte_verified] exit=0 :: -m unittest discover :: Ran 12 tests in 0.050s | OK
+[F1_review_url_on_byte_verified] exit=0 :: tools/museum_check.py --math-root <SCRATCH>/museum/probes/pointers/fixture/Math- :: # pass 15 | # fail 0 | Museum source export and actual display integration verified. Scientific effect NONE.
+[F1_review_url_on_byte_verified] exit=0 :: node --test tests/test_museum_geometry.mjs :: # pass 8 | # fail 0
+[F1_review_url_on_byte_verified] validateBoundManifest: PASS
+[F1_review_url_on_byte_verified] d5-all-height-annulus: {"label":"Byte-verified review","open_review_href":"https://example.invalid/forged-review"}
+[F1_review_url_on_byte_verified] museum-state: Source projections and displayed source bytes verified. These checks establish byte identity, not mathematical acceptance.
+museum_check exit: 1 | ValueError: generated museum export differs: <SCRATCH>/museum/probes/pointers/sim/handedit_control/docs/site/museum.json

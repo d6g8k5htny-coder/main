@@ -1,0 +1,1361 @@
+warning: unused variable
+TorusFiltration.torus_field_latticeVec_formula (d : Nat) (L : Real) (n : Fin d → Int) :
+  @Eq (TorusFiltration.torus_E d) (TorusFiltration.torus_latticeVec d L n)
+    (∑ i,
+      @EuclideanSpace.single (Fin d) Real Real.instRCLike (instDecidableEqFin d) i
+        (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) L (@Int.cast Real Real.instIntCast (n i))))
+TorusFiltration.torus_basis_sum_eq_latticeVec (d : Nat) (L : Real)
+  (hL : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) L)
+  (n : Fin d → Int) :
+  @Eq (TorusFiltration.torus_E d)
+    (∑ i,
+      @HSMul.hSMul Int (TorusFiltration.torus_E d) (TorusFiltration.torus_E d)
+        (@instHSMul Int (TorusFiltration.torus_E d)
+          (@ZSMul.toSMul (TorusFiltration.torus_E d)
+            (@SubNegMonoid.toZSMul (TorusFiltration.torus_E d)
+              (@AddGroup.toSubNegMonoid (TorusFiltration.torus_E d)
+                (@AddCommGroup.toAddGroup (TorusFiltration.torus_E d)
+                  (@WithLp.instAddCommGroup
+                    (@OfNat.ofNat ENNReal (nat_lit 2)
+                      (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                        (@AddMonoidWithOne.toNatCast ENNReal
+                          (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                        PiLp.innerProductSpace._proof_1))
+                    ((i : Fin d) → (fun x => Real) i)
+                    (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))))))
+        (n i)
+        (@DFunLike.coe
+          (@Module.Basis (Fin d) Real (TorusFiltration.torus_E d) Real.semiring
+            (@AddCommGroup.toAddCommMonoid (TorusFiltration.torus_E d)
+              (@WithLp.instAddCommGroup
+                (@OfNat.ofNat ENNReal (nat_lit 2)
+                  (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                    (@AddMonoidWithOne.toNatCast ENNReal
+                      (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                    PiLp.innerProductSpace._proof_1))
+                ((i : Fin d) → (fun x => Real) i)
+                (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))
+            (@WithLp.instModule
+              (@OfNat.ofNat ENNReal (nat_lit 2)
+                (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                  (@AddMonoidWithOne.toNatCast ENNReal
+                    (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                  PiLp.innerProductSpace._proof_1))
+              Real ((i : Fin d) → (fun x => Real) i) Real.semiring
+              (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)
+              (@Pi.Function.module (Fin d) Real Real Real.semiring
+                (@Semiring.toAddCommMonoid Real (@Ring.toSemiring Real Real.instRing))
+                (@Semiring.toModule Real Real.semiring))))
+          (Fin d) (fun x => TorusFiltration.torus_E d)
+          (@Module.Basis.instFunLike (Fin d) Real (TorusFiltration.torus_E d) Real.semiring
+            (@AddCommGroup.toAddCommMonoid (TorusFiltration.torus_E d)
+              (@WithLp.instAddCommGroup
+                (@OfNat.ofNat ENNReal (nat_lit 2)
+                  (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                    (@AddMonoidWithOne.toNatCast ENNReal
+                      (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                    PiLp.innerProductSpace._proof_1))
+                ((i : Fin d) → (fun x => Real) i)
+                (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))
+            (@WithLp.instModule
+              (@OfNat.ofNat ENNReal (nat_lit 2)
+                (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                  (@AddMonoidWithOne.toNatCast ENNReal
+                    (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                  PiLp.innerProductSpace._proof_1))
+              Real ((i : Fin d) → (fun x => Real) i) Real.semiring
+              (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)
+              (@Pi.Function.module (Fin d) Real Real Real.semiring
+                (@Semiring.toAddCommMonoid Real (@Ring.toSemiring Real Real.instRing))
+                (@Semiring.toModule Real Real.semiring))))
+          (TorusFiltration.torus_periodBasis d L hL) i))
+    (TorusFiltration.torus_latticeVec d L n)
+TorusFiltration.torus_lattice_mem_iff (d : Nat) (L : Real)
+  (hL : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) L)
+  (x : TorusFiltration.torus_E d) :
+  Iff
+    (@Membership.mem (TorusFiltration.torus_E d)
+      (@Submodule Int (TorusFiltration.torus_E d) Int.instSemiring
+        (@AddCommGroup.toAddCommMonoid (TorusFiltration.torus_E d)
+          (@WithLp.instAddCommGroup
+            (@OfNat.ofNat ENNReal (nat_lit 2)
+              (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                (@AddMonoidWithOne.toNatCast ENNReal
+                  (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                PiLp.innerProductSpace._proof_1))
+            ((i : Fin d) → (fun x => Real) i)
+            (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))
+        (@AddCommGroup.toIntModule (TorusFiltration.torus_E d)
+          (@WithLp.instAddCommGroup
+            (@OfNat.ofNat ENNReal (nat_lit 2)
+              (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                (@AddMonoidWithOne.toNatCast ENNReal
+                  (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                PiLp.innerProductSpace._proof_1))
+            ((i : Fin d) → (fun x => Real) i)
+            (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup))))
+      (@SetLike.instMembership
+        (@Submodule Int (TorusFiltration.torus_E d) Int.instSemiring
+          (@AddCommGroup.toAddCommMonoid (TorusFiltration.torus_E d)
+            (@WithLp.instAddCommGroup
+              (@OfNat.ofNat ENNReal (nat_lit 2)
+                (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                  (@AddMonoidWithOne.toNatCast ENNReal
+                    (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                  PiLp.innerProductSpace._proof_1))
+              ((i : Fin d) → (fun x => Real) i)
+              (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))
+          (@AddCommGroup.toIntModule (TorusFiltration.torus_E d)
+            (@WithLp.instAddCommGroup
+              (@OfNat.ofNat ENNReal (nat_lit 2)
+                (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                  (@AddMonoidWithOne.toNatCast ENNReal
+                    (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                  PiLp.innerProductSpace._proof_1))
+              ((i : Fin d) → (fun x => Real) i)
+              (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup))))
+        (TorusFiltration.torus_E d)
+        (@Submodule.setLike Int (TorusFiltration.torus_E d) Int.instSemiring
+          (@AddCommGroup.toAddCommMonoid (TorusFiltration.torus_E d)
+            (@WithLp.instAddCommGroup
+              (@OfNat.ofNat ENNReal (nat_lit 2)
+                (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                  (@AddMonoidWithOne.toNatCast ENNReal
+                    (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                  PiLp.innerProductSpace._proof_1))
+              ((i : Fin d) → (fun x => Real) i)
+              (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))
+          (@AddCommGroup.toIntModule (TorusFiltration.torus_E d)
+            (@WithLp.instAddCommGroup
+              (@OfNat.ofNat ENNReal (nat_lit 2)
+                (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                  (@AddMonoidWithOne.toNatCast ENNReal
+                    (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                  PiLp.innerProductSpace._proof_1))
+              ((i : Fin d) → (fun x => Real) i)
+              (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))))
+      (TorusFiltration.torus_periodLattice d L hL) x)
+    (∃ n, @Eq (TorusFiltration.torus_E d) (TorusFiltration.torus_latticeVec d L n) x)
+TorusFiltration.torus_proj_surjective (d : Nat) (L : Real)
+  (hL : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) L) :
+  @Function.Surjective (TorusFiltration.torus_E d) (TorusFiltration.torus_quotient d L hL)
+    (TorusFiltration.torus_proj d L hL)
+TorusFiltration.torus_proj_continuous (d : Nat) (L : Real)
+  (hL : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) L) :
+  @Continuous (TorusFiltration.torus_E d) (TorusFiltration.torus_quotient d L hL)
+    (@PiLp.topologicalSpace
+      (@OfNat.ofNat ENNReal (nat_lit 2)
+        (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+          (@AddMonoidWithOne.toNatCast ENNReal
+            (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+          PiLp.innerProductSpace._proof_1))
+      (Fin d) (fun x => Real) fun i =>
+      @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+    (@QuotientAddGroup.instTopologicalSpace (TorusFiltration.torus_E d)
+      (@PiLp.topologicalSpace
+        (@OfNat.ofNat ENNReal (nat_lit 2)
+          (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+            (@AddMonoidWithOne.toNatCast ENNReal
+              (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+            PiLp.innerProductSpace._proof_1))
+        (Fin d) (fun x => Real) fun i =>
+        @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@AddCommGroup.toAddGroup (TorusFiltration.torus_E d)
+        (@WithLp.instAddCommGroup
+          (@OfNat.ofNat ENNReal (nat_lit 2)
+            (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+              (@AddMonoidWithOne.toNatCast ENNReal
+                (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+              PiLp.innerProductSpace._proof_1))
+          ((i : Fin d) → (fun x => Real) i) (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))
+      (@Submodule.toAddSubgroup Int (TorusFiltration.torus_E d) Int.instRing
+        (@WithLp.instAddCommGroup
+          (@OfNat.ofNat ENNReal (nat_lit 2)
+            (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+              (@AddMonoidWithOne.toNatCast ENNReal
+                (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+              PiLp.innerProductSpace._proof_1))
+          ((i : Fin d) → (fun x => Real) i) (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup))
+        (@AddCommGroup.toIntModule (TorusFiltration.torus_E d)
+          (@WithLp.instAddCommGroup
+            (@OfNat.ofNat ENNReal (nat_lit 2)
+              (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                (@AddMonoidWithOne.toNatCast ENNReal
+                  (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                PiLp.innerProductSpace._proof_1))
+            ((i : Fin d) → (fun x => Real) i)
+            (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))
+        (TorusFiltration.torus_periodLattice d L hL)))
+    (TorusFiltration.torus_proj d L hL)
+TorusFiltration.torus_proj_eq_iff (d : Nat) (L : Real)
+  (hL : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) L)
+  (x y : TorusFiltration.torus_E d) :
+  Iff
+    (@Eq (TorusFiltration.torus_quotient d L hL) (TorusFiltration.torus_proj d L hL x)
+      (TorusFiltration.torus_proj d L hL y))
+    (∃ n,
+      @Eq (TorusFiltration.torus_E d) y
+        (@HAdd.hAdd (TorusFiltration.torus_E d) (TorusFiltration.torus_E d) (TorusFiltration.torus_E d)
+          (@instHAdd (TorusFiltration.torus_E d)
+            (@AddCommMagma.toAdd (TorusFiltration.torus_E d)
+              (@AddCommSemigroup.toAddCommMagma (TorusFiltration.torus_E d)
+                (@AddCommMonoid.toAddCommSemigroup (TorusFiltration.torus_E d)
+                  (@AddCommGroup.toAddCommMonoid (TorusFiltration.torus_E d)
+                    (@WithLp.instAddCommGroup
+                      (@OfNat.ofNat ENNReal (nat_lit 2)
+                        (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                          (@AddMonoidWithOne.toNatCast ENNReal
+                            (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                          PiLp.innerProductSpace._proof_1))
+                      ((i : Fin d) → (fun x => Real) i)
+                      (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))))))
+          x (TorusFiltration.torus_latticeVec d L n)))
+TorusFiltration.torus_control_lattice_translate (d : Nat) (L : Real)
+  (hL : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) L)
+  (x : TorusFiltration.torus_E d) (n : Fin d → Int) :
+  @Eq (TorusFiltration.torus_quotient d L hL)
+    (TorusFiltration.torus_proj d L hL
+      (@HAdd.hAdd (TorusFiltration.torus_E d) (TorusFiltration.torus_E d) (TorusFiltration.torus_E d)
+        (@instHAdd (TorusFiltration.torus_E d)
+          (@AddCommMagma.toAdd (TorusFiltration.torus_E d)
+            (@AddCommSemigroup.toAddCommMagma (TorusFiltration.torus_E d)
+              (@AddCommMonoid.toAddCommSemigroup (TorusFiltration.torus_E d)
+                (@AddCommGroup.toAddCommMonoid (TorusFiltration.torus_E d)
+                  (@WithLp.instAddCommGroup
+                    (@OfNat.ofNat ENNReal (nat_lit 2)
+                      (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                        (@AddMonoidWithOne.toNatCast ENNReal
+                          (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                        PiLp.innerProductSpace._proof_1))
+                    ((i : Fin d) → (fun x => Real) i)
+                    (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))))))
+        x (TorusFiltration.torus_latticeVec d L n)))
+    (TorusFiltration.torus_proj d L hL x)
+TorusFiltration.torus_proj_isCoveringMap (d : Nat) (L : Real)
+  (hL : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) L) :
+  @IsCoveringMap (TorusFiltration.torus_E d) (TorusFiltration.torus_quotient d L hL)
+    (@PiLp.topologicalSpace
+      (@OfNat.ofNat ENNReal (nat_lit 2)
+        (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+          (@AddMonoidWithOne.toNatCast ENNReal
+            (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+          PiLp.innerProductSpace._proof_1))
+      (Fin d) (fun x => Real) fun i =>
+      @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+    (@QuotientAddGroup.instTopologicalSpace (TorusFiltration.torus_E d)
+      (@PiLp.topologicalSpace
+        (@OfNat.ofNat ENNReal (nat_lit 2)
+          (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+            (@AddMonoidWithOne.toNatCast ENNReal
+              (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+            PiLp.innerProductSpace._proof_1))
+        (Fin d) (fun x => Real) fun i =>
+        @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@AddCommGroup.toAddGroup (TorusFiltration.torus_E d)
+        (@WithLp.instAddCommGroup
+          (@OfNat.ofNat ENNReal (nat_lit 2)
+            (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+              (@AddMonoidWithOne.toNatCast ENNReal
+                (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+              PiLp.innerProductSpace._proof_1))
+          ((i : Fin d) → (fun x => Real) i) (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))
+      (@Submodule.toAddSubgroup Int (TorusFiltration.torus_E d) Int.instRing
+        (@WithLp.instAddCommGroup
+          (@OfNat.ofNat ENNReal (nat_lit 2)
+            (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+              (@AddMonoidWithOne.toNatCast ENNReal
+                (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+              PiLp.innerProductSpace._proof_1))
+          ((i : Fin d) → (fun x => Real) i) (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup))
+        (@AddCommGroup.toIntModule (TorusFiltration.torus_E d)
+          (@WithLp.instAddCommGroup
+            (@OfNat.ofNat ENNReal (nat_lit 2)
+              (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                (@AddMonoidWithOne.toNatCast ENNReal
+                  (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                PiLp.innerProductSpace._proof_1))
+            ((i : Fin d) → (fun x => Real) i)
+            (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))
+        (TorusFiltration.torus_periodLattice d L hL)))
+    (TorusFiltration.torus_proj d L hL)
+TorusFiltration.torus_compact (d : Nat) (L : Real)
+  (hL : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) L) :
+  @IsCompact (TorusFiltration.torus_quotient d L hL)
+    (@QuotientAddGroup.instTopologicalSpace (TorusFiltration.torus_E d)
+      (@PiLp.topologicalSpace
+        (@OfNat.ofNat ENNReal (nat_lit 2)
+          (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+            (@AddMonoidWithOne.toNatCast ENNReal
+              (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+            PiLp.innerProductSpace._proof_1))
+        (Fin d) (fun x => Real) fun i =>
+        @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@AddCommGroup.toAddGroup (TorusFiltration.torus_E d)
+        (@WithLp.instAddCommGroup
+          (@OfNat.ofNat ENNReal (nat_lit 2)
+            (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+              (@AddMonoidWithOne.toNatCast ENNReal
+                (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+              PiLp.innerProductSpace._proof_1))
+          ((i : Fin d) → (fun x => Real) i) (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))
+      (@Submodule.toAddSubgroup Int (TorusFiltration.torus_E d) Int.instRing
+        (@WithLp.instAddCommGroup
+          (@OfNat.ofNat ENNReal (nat_lit 2)
+            (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+              (@AddMonoidWithOne.toNatCast ENNReal
+                (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+              PiLp.innerProductSpace._proof_1))
+          ((i : Fin d) → (fun x => Real) i) (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup))
+        (@AddCommGroup.toIntModule (TorusFiltration.torus_E d)
+          (@WithLp.instAddCommGroup
+            (@OfNat.ofNat ENNReal (nat_lit 2)
+              (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                (@AddMonoidWithOne.toNatCast ENNReal
+                  (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                PiLp.innerProductSpace._proof_1))
+            ((i : Fin d) → (fun x => Real) i)
+            (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))
+        (TorusFiltration.torus_periodLattice d L hL)))
+    (@Set.univ (TorusFiltration.torus_quotient d L hL))
+TorusFiltration.torus_pathConnectedSpace (d : Nat) (L : Real)
+  (hL : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) L) :
+  @PathConnectedSpace (TorusFiltration.torus_quotient d L hL)
+    (@QuotientAddGroup.instTopologicalSpace (TorusFiltration.torus_E d)
+      (@PiLp.topologicalSpace
+        (@OfNat.ofNat ENNReal (nat_lit 2)
+          (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+            (@AddMonoidWithOne.toNatCast ENNReal
+              (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+            PiLp.innerProductSpace._proof_1))
+        (Fin d) (fun x => Real) fun i =>
+        @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@AddCommGroup.toAddGroup (TorusFiltration.torus_E d)
+        (@WithLp.instAddCommGroup
+          (@OfNat.ofNat ENNReal (nat_lit 2)
+            (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+              (@AddMonoidWithOne.toNatCast ENNReal
+                (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+              PiLp.innerProductSpace._proof_1))
+          ((i : Fin d) → (fun x => Real) i) (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))
+      (@Submodule.toAddSubgroup Int (TorusFiltration.torus_E d) Int.instRing
+        (@WithLp.instAddCommGroup
+          (@OfNat.ofNat ENNReal (nat_lit 2)
+            (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+              (@AddMonoidWithOne.toNatCast ENNReal
+                (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+              PiLp.innerProductSpace._proof_1))
+          ((i : Fin d) → (fun x => Real) i) (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup))
+        (@AddCommGroup.toIntModule (TorusFiltration.torus_E d)
+          (@WithLp.instAddCommGroup
+            (@OfNat.ofNat ENNReal (nat_lit 2)
+              (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                (@AddMonoidWithOne.toNatCast ENNReal
+                  (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                PiLp.innerProductSpace._proof_1))
+            ((i : Fin d) → (fun x => Real) i)
+            (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))
+        (TorusFiltration.torus_periodLattice d L hL)))
+TorusFiltration.torus_field_periodic_formula (d : Nat) (L : Real) (g : TorusFiltration.torus_E d → Real) :
+  Iff (TorusFiltration.torus_isPeriodic d L g)
+    (∀ (x : EuclideanSpace Real (Fin d)) (n : Fin d → Int),
+      @Eq Real
+        (g
+          (@HAdd.hAdd (EuclideanSpace Real (Fin d)) (EuclideanSpace Real (Fin d)) (EuclideanSpace Real (Fin d))
+            (@instHAdd (EuclideanSpace Real (Fin d))
+              (@AddCommMagma.toAdd (EuclideanSpace Real (Fin d))
+                (@AddCommSemigroup.toAddCommMagma (EuclideanSpace Real (Fin d))
+                  (@AddCommMonoid.toAddCommSemigroup (EuclideanSpace Real (Fin d))
+                    (@AddCommGroup.toAddCommMonoid (EuclideanSpace Real (Fin d))
+                      (@WithLp.instAddCommGroup
+                        (@OfNat.ofNat ENNReal (nat_lit 2)
+                          (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                            (@AddMonoidWithOne.toNatCast ENNReal
+                              (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                            PiLp.innerProductSpace._proof_1))
+                        ((i : Fin d) → (fun x => Real) i)
+                        (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))))))
+            x
+            (∑ i,
+              @EuclideanSpace.single (Fin d) Real Real.instRCLike (instDecidableEqFin d) i
+                (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) L (@Int.cast Real Real.instIntCast (n i))))))
+        (g x))
+TorusFiltration.torus_periodic_respects (d : Nat) (L : Real)
+  (hL : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) L)
+  (g : TorusFiltration.torus_E d → Real) (hg : TorusFiltration.torus_isPeriodic d L g) (x y : TorusFiltration.torus_E d)
+  (hxy :
+    @Setoid.r (TorusFiltration.torus_E d)
+      (@QuotientAddGroup.leftRel (TorusFiltration.torus_E d)
+        (@AddCommGroup.toAddGroup (TorusFiltration.torus_E d)
+          (@WithLp.instAddCommGroup
+            (@OfNat.ofNat ENNReal (nat_lit 2)
+              (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                (@AddMonoidWithOne.toNatCast ENNReal
+                  (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                PiLp.innerProductSpace._proof_1))
+            ((i : Fin d) → (fun x => Real) i)
+            (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))
+        (@Submodule.toAddSubgroup Int (TorusFiltration.torus_E d) Int.instRing
+          (@WithLp.instAddCommGroup
+            (@OfNat.ofNat ENNReal (nat_lit 2)
+              (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                (@AddMonoidWithOne.toNatCast ENNReal
+                  (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                PiLp.innerProductSpace._proof_1))
+            ((i : Fin d) → (fun x => Real) i) (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup))
+          (@AddCommGroup.toIntModule (TorusFiltration.torus_E d)
+            (@WithLp.instAddCommGroup
+              (@OfNat.ofNat ENNReal (nat_lit 2)
+                (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                  (@AddMonoidWithOne.toNatCast ENNReal
+                    (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                  PiLp.innerProductSpace._proof_1))
+              ((i : Fin d) → (fun x => Real) i)
+              (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))
+          (TorusFiltration.torus_periodLattice d L hL)))
+      x y) :
+  @Eq Real (g x) (g y)
+TorusFiltration.torus_descend_proj (d : Nat) (L : Real)
+  (hL : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) L)
+  (g : TorusFiltration.torus_E d → Real) (hg : TorusFiltration.torus_isPeriodic d L g) (x : TorusFiltration.torus_E d) :
+  @Eq Real (TorusFiltration.torus_descend d L hL g hg (TorusFiltration.torus_proj d L hL x)) (g x)
+TorusFiltration.torus_descend_continuous (d : Nat) (L : Real)
+  (hL : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) L)
+  (g : TorusFiltration.torus_E d → Real) (hg : TorusFiltration.torus_isPeriodic d L g)
+  (hgc :
+    @Continuous (TorusFiltration.torus_E d) Real
+      (@PiLp.topologicalSpace
+        (@OfNat.ofNat ENNReal (nat_lit 2)
+          (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+            (@AddMonoidWithOne.toNatCast ENNReal
+              (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+            PiLp.innerProductSpace._proof_1))
+        (Fin d) (fun x => Real) fun i =>
+        @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace)) g) :
+  @Continuous (TorusFiltration.torus_quotient d L hL) Real
+    (@QuotientAddGroup.instTopologicalSpace (TorusFiltration.torus_E d)
+      (@PiLp.topologicalSpace
+        (@OfNat.ofNat ENNReal (nat_lit 2)
+          (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+            (@AddMonoidWithOne.toNatCast ENNReal
+              (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+            PiLp.innerProductSpace._proof_1))
+        (Fin d) (fun x => Real) fun i =>
+        @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@AddCommGroup.toAddGroup (TorusFiltration.torus_E d)
+        (@WithLp.instAddCommGroup
+          (@OfNat.ofNat ENNReal (nat_lit 2)
+            (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+              (@AddMonoidWithOne.toNatCast ENNReal
+                (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+              PiLp.innerProductSpace._proof_1))
+          ((i : Fin d) → (fun x => Real) i) (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))
+      (@Submodule.toAddSubgroup Int (TorusFiltration.torus_E d) Int.instRing
+        (@WithLp.instAddCommGroup
+          (@OfNat.ofNat ENNReal (nat_lit 2)
+            (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+              (@AddMonoidWithOne.toNatCast ENNReal
+                (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+              PiLp.innerProductSpace._proof_1))
+          ((i : Fin d) → (fun x => Real) i) (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup))
+        (@AddCommGroup.toIntModule (TorusFiltration.torus_E d)
+          (@WithLp.instAddCommGroup
+            (@OfNat.ofNat ENNReal (nat_lit 2)
+              (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                (@AddMonoidWithOne.toNatCast ENNReal
+                  (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                PiLp.innerProductSpace._proof_1))
+            ((i : Fin d) → (fun x => Real) i)
+            (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))
+        (TorusFiltration.torus_periodLattice d L hL)))
+    (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+    (TorusFiltration.torus_descend d L hL g hg)
+TorusFiltration.torus_path_lift_from (d : Nat) (L : Real)
+  (hL : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) L)
+  {M : TorusFiltration.torus_E d} {y : TorusFiltration.torus_quotient d L hL}
+  (γ :
+    @Path (TorusFiltration.torus_quotient d L hL)
+      (@QuotientAddGroup.instTopologicalSpace (TorusFiltration.torus_E d)
+        (@PiLp.topologicalSpace
+          (@OfNat.ofNat ENNReal (nat_lit 2)
+            (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+              (@AddMonoidWithOne.toNatCast ENNReal
+                (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+              PiLp.innerProductSpace._proof_1))
+          (Fin d) (fun x => Real) fun i =>
+          @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+        (@AddCommGroup.toAddGroup (TorusFiltration.torus_E d)
+          (@WithLp.instAddCommGroup
+            (@OfNat.ofNat ENNReal (nat_lit 2)
+              (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                (@AddMonoidWithOne.toNatCast ENNReal
+                  (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                PiLp.innerProductSpace._proof_1))
+            ((i : Fin d) → (fun x => Real) i)
+            (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))
+        (@Submodule.toAddSubgroup Int (TorusFiltration.torus_E d) Int.instRing
+          (@WithLp.instAddCommGroup
+            (@OfNat.ofNat ENNReal (nat_lit 2)
+              (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                (@AddMonoidWithOne.toNatCast ENNReal
+                  (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                PiLp.innerProductSpace._proof_1))
+            ((i : Fin d) → (fun x => Real) i) (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup))
+          (@AddCommGroup.toIntModule (TorusFiltration.torus_E d)
+            (@WithLp.instAddCommGroup
+              (@OfNat.ofNat ENNReal (nat_lit 2)
+                (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                  (@AddMonoidWithOne.toNatCast ENNReal
+                    (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                  PiLp.innerProductSpace._proof_1))
+              ((i : Fin d) → (fun x => Real) i)
+              (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))
+          (TorusFiltration.torus_periodLattice d L hL)))
+      (TorusFiltration.torus_proj d L hL M) y) :
+  ∃ z Γ,
+    And (@Eq (TorusFiltration.torus_quotient d L hL) (TorusFiltration.torus_proj d L hL z) y)
+      (∀ (t : @Set.Elem Real unitInterval),
+        @Eq (TorusFiltration.torus_quotient d L hL)
+          (TorusFiltration.torus_proj d L hL
+            (@DFunLike.coe
+              (@Path (TorusFiltration.torus_E d)
+                (@PiLp.topologicalSpace
+                  (@OfNat.ofNat ENNReal (nat_lit 2)
+                    (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                      (@AddMonoidWithOne.toNatCast ENNReal
+                        (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                      PiLp.innerProductSpace._proof_1))
+                  (Fin d) (fun x => Real) fun i =>
+                  @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+                M z)
+              (@Set.Elem Real unitInterval) (fun x => TorusFiltration.torus_E d)
+              (@Path.instFunLike (TorusFiltration.torus_E d)
+                (@PiLp.topologicalSpace
+                  (@OfNat.ofNat ENNReal (nat_lit 2)
+                    (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                      (@AddMonoidWithOne.toNatCast ENNReal
+                        (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                      PiLp.innerProductSpace._proof_1))
+                  (Fin d) (fun x => Real) fun i =>
+                  @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+                M z)
+              Γ t))
+          (@DFunLike.coe
+            (@Path (TorusFiltration.torus_quotient d L hL)
+              (@QuotientAddGroup.instTopologicalSpace (TorusFiltration.torus_E d)
+                (@PiLp.topologicalSpace
+                  (@OfNat.ofNat ENNReal (nat_lit 2)
+                    (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                      (@AddMonoidWithOne.toNatCast ENNReal
+                        (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                      PiLp.innerProductSpace._proof_1))
+                  (Fin d) (fun x => Real) fun i =>
+                  @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+                (@AddCommGroup.toAddGroup (TorusFiltration.torus_E d)
+                  (@WithLp.instAddCommGroup
+                    (@OfNat.ofNat ENNReal (nat_lit 2)
+                      (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                        (@AddMonoidWithOne.toNatCast ENNReal
+                          (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                        PiLp.innerProductSpace._proof_1))
+                    ((i : Fin d) → (fun x => Real) i)
+                    (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))
+                (@Submodule.toAddSubgroup Int (TorusFiltration.torus_E d) Int.instRing
+                  (@WithLp.instAddCommGroup
+                    (@OfNat.ofNat ENNReal (nat_lit 2)
+                      (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                        (@AddMonoidWithOne.toNatCast ENNReal
+                          (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                        PiLp.innerProductSpace._proof_1))
+                    ((i : Fin d) → (fun x => Real) i)
+                    (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup))
+                  (@AddCommGroup.toIntModule (TorusFiltration.torus_E d)
+                    (@WithLp.instAddCommGroup
+                      (@OfNat.ofNat ENNReal (nat_lit 2)
+                        (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                          (@AddMonoidWithOne.toNatCast ENNReal
+                            (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                          PiLp.innerProductSpace._proof_1))
+                      ((i : Fin d) → (fun x => Real) i)
+                      (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))
+                  (TorusFiltration.torus_periodLattice d L hL)))
+              (TorusFiltration.torus_proj d L hL M) y)
+            (@Set.Elem Real unitInterval) (fun x => TorusFiltration.torus_quotient d L hL)
+            (@Path.instFunLike (TorusFiltration.torus_quotient d L hL)
+              (@QuotientAddGroup.instTopologicalSpace (TorusFiltration.torus_E d)
+                (@PiLp.topologicalSpace
+                  (@OfNat.ofNat ENNReal (nat_lit 2)
+                    (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                      (@AddMonoidWithOne.toNatCast ENNReal
+                        (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                      PiLp.innerProductSpace._proof_1))
+                  (Fin d) (fun x => Real) fun i =>
+                  @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+                (@AddCommGroup.toAddGroup (TorusFiltration.torus_E d)
+                  (@WithLp.instAddCommGroup
+                    (@OfNat.ofNat ENNReal (nat_lit 2)
+                      (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                        (@AddMonoidWithOne.toNatCast ENNReal
+                          (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                        PiLp.innerProductSpace._proof_1))
+                    ((i : Fin d) → (fun x => Real) i)
+                    (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))
+                (@Submodule.toAddSubgroup Int (TorusFiltration.torus_E d) Int.instRing
+                  (@WithLp.instAddCommGroup
+                    (@OfNat.ofNat ENNReal (nat_lit 2)
+                      (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                        (@AddMonoidWithOne.toNatCast ENNReal
+                          (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                        PiLp.innerProductSpace._proof_1))
+                    ((i : Fin d) → (fun x => Real) i)
+                    (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup))
+                  (@AddCommGroup.toIntModule (TorusFiltration.torus_E d)
+                    (@WithLp.instAddCommGroup
+                      (@OfNat.ofNat ENNReal (nat_lit 2)
+                        (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                          (@AddMonoidWithOne.toNatCast ENNReal
+                            (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                          PiLp.innerProductSpace._proof_1))
+                      ((i : Fin d) → (fun x => Real) i)
+                      (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))
+                  (TorusFiltration.torus_periodLattice d L hL)))
+              (TorusFiltration.torus_proj d L hL M) y)
+            γ t))
+TorusFiltration.torus_control_constant_path_endpoint (d : Nat) (L : Real)
+  (hL : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) L)
+  {M z : TorusFiltration.torus_E d}
+  (Γ :
+    @Path (TorusFiltration.torus_E d)
+      (@PiLp.topologicalSpace
+        (@OfNat.ofNat ENNReal (nat_lit 2)
+          (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+            (@AddMonoidWithOne.toNatCast ENNReal
+              (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+            PiLp.innerProductSpace._proof_1))
+        (Fin d) (fun x => Real) fun i =>
+        @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      M z)
+  (hΓ :
+    ∀ (t : @Set.Elem Real unitInterval),
+      @Eq (TorusFiltration.torus_quotient d L hL)
+        (TorusFiltration.torus_proj d L hL
+          (@DFunLike.coe
+            (@Path (TorusFiltration.torus_E d)
+              (@PiLp.topologicalSpace
+                (@OfNat.ofNat ENNReal (nat_lit 2)
+                  (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                    (@AddMonoidWithOne.toNatCast ENNReal
+                      (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                    PiLp.innerProductSpace._proof_1))
+                (Fin d) (fun x => Real) fun i =>
+                @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+              M z)
+            (@Set.Elem Real unitInterval) (fun x => TorusFiltration.torus_E d)
+            (@Path.instFunLike (TorusFiltration.torus_E d)
+              (@PiLp.topologicalSpace
+                (@OfNat.ofNat ENNReal (nat_lit 2)
+                  (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                    (@AddMonoidWithOne.toNatCast ENNReal
+                      (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                    PiLp.innerProductSpace._proof_1))
+                (Fin d) (fun x => Real) fun i =>
+                @UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+              M z)
+            Γ t))
+        (TorusFiltration.torus_proj d L hL M)) :
+  @Eq (TorusFiltration.torus_E d) z M
+TorusFiltration.torus_control_no_arbitrary_endpoint (d : Nat) (L : Real)
+  (hL : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) L)
+  (M : TorusFiltration.torus_E d) (n : Fin d → Int)
+  (hn :
+    @Ne (TorusFiltration.torus_E d) (TorusFiltration.torus_latticeVec d L n)
+      (@OfNat.ofNat (TorusFiltration.torus_E d) (nat_lit 0)
+        (@Zero.toOfNat0 (TorusFiltration.torus_E d)
+          (@NegZeroClass.toZero (TorusFiltration.torus_E d)
+            (@SubNegZeroMonoid.toNegZeroClass (TorusFiltration.torus_E d)
+              (@SubtractionMonoid.toSubNegZeroMonoid (TorusFiltration.torus_E d)
+                (@SubtractionCommMonoid.toSubtractionMonoid (TorusFiltration.torus_E d)
+                  (@AddCommGroup.toDivisionAddCommMonoid (TorusFiltration.torus_E d)
+                    (@WithLp.instAddCommGroup
+                      (@OfNat.ofNat ENNReal (nat_lit 2)
+                        (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                          (@AddMonoidWithOne.toNatCast ENNReal
+                            (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                          PiLp.innerProductSpace._proof_1))
+                      ((i : Fin d) → (fun x => Real) i)
+                      (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))))))))) :
+  And
+    (@Eq (TorusFiltration.torus_quotient d L hL)
+      (TorusFiltration.torus_proj d L hL
+        (@HAdd.hAdd (TorusFiltration.torus_E d) (TorusFiltration.torus_E d) (TorusFiltration.torus_E d)
+          (@instHAdd (TorusFiltration.torus_E d)
+            (@AddCommMagma.toAdd (TorusFiltration.torus_E d)
+              (@AddCommSemigroup.toAddCommMagma (TorusFiltration.torus_E d)
+                (@AddCommMonoid.toAddCommSemigroup (TorusFiltration.torus_E d)
+                  (@AddCommGroup.toAddCommMonoid (TorusFiltration.torus_E d)
+                    (@WithLp.instAddCommGroup
+                      (@OfNat.ofNat ENNReal (nat_lit 2)
+                        (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                          (@AddMonoidWithOne.toNatCast ENNReal
+                            (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                          PiLp.innerProductSpace._proof_1))
+                      ((i : Fin d) → (fun x => Real) i)
+                      (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))))))
+          M (TorusFiltration.torus_latticeVec d L n)))
+      (TorusFiltration.torus_proj d L hL M))
+    (Not
+      (∃ Γ,
+        ∀ (t : @Set.Elem Real unitInterval),
+          @Eq (TorusFiltration.torus_quotient d L hL)
+            (TorusFiltration.torus_proj d L hL
+              (@DFunLike.coe
+                (@Path (TorusFiltration.torus_E d)
+                  (@PiLp.topologicalSpace
+                    (@OfNat.ofNat ENNReal (nat_lit 2)
+                      (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                        (@AddMonoidWithOne.toNatCast ENNReal
+                          (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                        PiLp.innerProductSpace._proof_1))
+                    (Fin d) (fun x => Real) fun i =>
+                    @UniformSpace.toTopologicalSpace Real
+                      (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+                  M
+                  (@HAdd.hAdd (TorusFiltration.torus_E d) (TorusFiltration.torus_E d) (TorusFiltration.torus_E d)
+                    (@instHAdd (TorusFiltration.torus_E d)
+                      (@AddCommMagma.toAdd (TorusFiltration.torus_E d)
+                        (@AddCommSemigroup.toAddCommMagma (TorusFiltration.torus_E d)
+                          (@AddCommMonoid.toAddCommSemigroup (TorusFiltration.torus_E d)
+                            (@AddCommGroup.toAddCommMonoid (TorusFiltration.torus_E d)
+                              (@WithLp.instAddCommGroup
+                                (@OfNat.ofNat ENNReal (nat_lit 2)
+                                  (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                                    (@AddMonoidWithOne.toNatCast ENNReal
+                                      (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal
+                                        ENNReal.instAddCommMonoidWithOne))
+                                    PiLp.innerProductSpace._proof_1))
+                                ((i : Fin d) → (fun x => Real) i)
+                                (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))))))
+                    M (TorusFiltration.torus_latticeVec d L n)))
+                (@Set.Elem Real unitInterval) (fun x => TorusFiltration.torus_E d)
+                (@Path.instFunLike (TorusFiltration.torus_E d)
+                  (@PiLp.topologicalSpace
+                    (@OfNat.ofNat ENNReal (nat_lit 2)
+                      (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                        (@AddMonoidWithOne.toNatCast ENNReal
+                          (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                        PiLp.innerProductSpace._proof_1))
+                    (Fin d) (fun x => Real) fun i =>
+                    @UniformSpace.toTopologicalSpace Real
+                      (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+                  M
+                  (@HAdd.hAdd (TorusFiltration.torus_E d) (TorusFiltration.torus_E d) (TorusFiltration.torus_E d)
+                    (@instHAdd (TorusFiltration.torus_E d)
+                      (@AddCommMagma.toAdd (TorusFiltration.torus_E d)
+                        (@AddCommSemigroup.toAddCommMagma (TorusFiltration.torus_E d)
+                          (@AddCommMonoid.toAddCommSemigroup (TorusFiltration.torus_E d)
+                            (@AddCommGroup.toAddCommMonoid (TorusFiltration.torus_E d)
+                              (@WithLp.instAddCommGroup
+                                (@OfNat.ofNat ENNReal (nat_lit 2)
+                                  (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                                    (@AddMonoidWithOne.toNatCast ENNReal
+                                      (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal
+                                        ENNReal.instAddCommMonoidWithOne))
+                                    PiLp.innerProductSpace._proof_1))
+                                ((i : Fin d) → (fun x => Real) i)
+                                (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))))))
+                    M (TorusFiltration.torus_latticeVec d L n)))
+                Γ t))
+            (TorusFiltration.torus_proj d L hL M)))
+TorusFiltration.torus_higher_path_iff (d : Nat) (L : Real)
+  (hL : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) L)
+  (g : TorusFiltration.torus_E d → Real) (hg : TorusFiltration.torus_isPeriodic d L g) (M : TorusFiltration.torus_E d)
+  (P : Real → Prop) :
+  Iff
+    (∃ y,
+      And (@LT.lt Real Real.instLT (g M) (g y))
+        (∃ γ,
+          ∀ (t : @Set.Elem Real unitInterval),
+            P
+              (g
+                (@DFunLike.coe
+                  (@Path (TorusFiltration.torus_E d)
+                    (@PiLp.topologicalSpace
+                      (@OfNat.ofNat ENNReal (nat_lit 2)
+                        (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                          (@AddMonoidWithOne.toNatCast ENNReal
+                            (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                          PiLp.innerProductSpace._proof_1))
+                      (Fin d) (fun x => Real) fun i =>
+                      @UniformSpace.toTopologicalSpace Real
+                        (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+                    M y)
+                  (@Set.Elem Real unitInterval) (fun x => TorusFiltration.torus_E d)
+                  (@Path.instFunLike (TorusFiltration.torus_E d)
+                    (@PiLp.topologicalSpace
+                      (@OfNat.ofNat ENNReal (nat_lit 2)
+                        (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                          (@AddMonoidWithOne.toNatCast ENNReal
+                            (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                          PiLp.innerProductSpace._proof_1))
+                      (Fin d) (fun x => Real) fun i =>
+                      @UniformSpace.toTopologicalSpace Real
+                        (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+                    M y)
+                  γ t))))
+    (∃ y,
+      And
+        (@LT.lt Real Real.instLT (TorusFiltration.torus_descend d L hL g hg (TorusFiltration.torus_proj d L hL M))
+          (TorusFiltration.torus_descend d L hL g hg y))
+        (∃ γ,
+          ∀ (t : @Set.Elem Real unitInterval),
+            P
+              (TorusFiltration.torus_descend d L hL g hg
+                (@DFunLike.coe
+                  (@Path (TorusFiltration.torus_quotient d L hL)
+                    (@QuotientAddGroup.instTopologicalSpace (TorusFiltration.torus_E d)
+                      (@PiLp.topologicalSpace
+                        (@OfNat.ofNat ENNReal (nat_lit 2)
+                          (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                            (@AddMonoidWithOne.toNatCast ENNReal
+                              (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                            PiLp.innerProductSpace._proof_1))
+                        (Fin d) (fun x => Real) fun i =>
+                        @UniformSpace.toTopologicalSpace Real
+                          (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+                      (@AddCommGroup.toAddGroup (TorusFiltration.torus_E d)
+                        (@WithLp.instAddCommGroup
+                          (@OfNat.ofNat ENNReal (nat_lit 2)
+                            (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                              (@AddMonoidWithOne.toNatCast ENNReal
+                                (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                              PiLp.innerProductSpace._proof_1))
+                          ((i : Fin d) → (fun x => Real) i)
+                          (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))
+                      (@Submodule.toAddSubgroup Int (TorusFiltration.torus_E d) Int.instRing
+                        (@WithLp.instAddCommGroup
+                          (@OfNat.ofNat ENNReal (nat_lit 2)
+                            (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                              (@AddMonoidWithOne.toNatCast ENNReal
+                                (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                              PiLp.innerProductSpace._proof_1))
+                          ((i : Fin d) → (fun x => Real) i)
+                          (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup))
+                        (@AddCommGroup.toIntModule (TorusFiltration.torus_E d)
+                          (@WithLp.instAddCommGroup
+                            (@OfNat.ofNat ENNReal (nat_lit 2)
+                              (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                                (@AddMonoidWithOne.toNatCast ENNReal
+                                  (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                                PiLp.innerProductSpace._proof_1))
+                            ((i : Fin d) → (fun x => Real) i)
+                            (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))
+                        (TorusFiltration.torus_periodLattice d L hL)))
+                    (TorusFiltration.torus_proj d L hL M) y)
+                  (@Set.Elem Real unitInterval) (fun x => TorusFiltration.torus_quotient d L hL)
+                  (@Path.instFunLike (TorusFiltration.torus_quotient d L hL)
+                    (@QuotientAddGroup.instTopologicalSpace (TorusFiltration.torus_E d)
+                      (@PiLp.topologicalSpace
+                        (@OfNat.ofNat ENNReal (nat_lit 2)
+                          (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                            (@AddMonoidWithOne.toNatCast ENNReal
+                              (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                            PiLp.innerProductSpace._proof_1))
+                        (Fin d) (fun x => Real) fun i =>
+                        @UniformSpace.toTopologicalSpace Real
+                          (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+                      (@AddCommGroup.toAddGroup (TorusFiltration.torus_E d)
+                        (@WithLp.instAddCommGroup
+                          (@OfNat.ofNat ENNReal (nat_lit 2)
+                            (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                              (@AddMonoidWithOne.toNatCast ENNReal
+                                (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                              PiLp.innerProductSpace._proof_1))
+                          ((i : Fin d) → (fun x => Real) i)
+                          (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))
+                      (@Submodule.toAddSubgroup Int (TorusFiltration.torus_E d) Int.instRing
+                        (@WithLp.instAddCommGroup
+                          (@OfNat.ofNat ENNReal (nat_lit 2)
+                            (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                              (@AddMonoidWithOne.toNatCast ENNReal
+                                (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                              PiLp.innerProductSpace._proof_1))
+                          ((i : Fin d) → (fun x => Real) i)
+                          (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup))
+                        (@AddCommGroup.toIntModule (TorusFiltration.torus_E d)
+                          (@WithLp.instAddCommGroup
+                            (@OfNat.ofNat ENNReal (nat_lit 2)
+                              (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                                (@AddMonoidWithOne.toNatCast ENNReal
+                                  (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                                PiLp.innerProductSpace._proof_1))
+                            ((i : Fin d) → (fun x => Real) i)
+                            (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))
+                        (TorusFiltration.torus_periodLattice d L hL)))
+                    (TorusFiltration.torus_proj d L hL M) y)
+                  γ t))))
+TorusFiltration.torus_strict_higher_path_iff (d : Nat) (L : Real)
+  (hL : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) L)
+  (g : TorusFiltration.torus_E d → Real) (hg : TorusFiltration.torus_isPeriodic d L g) (M : TorusFiltration.torus_E d)
+  (h : Real) :
+  Iff
+    (∃ y,
+      And (@LT.lt Real Real.instLT (g M) (g y))
+        (∃ γ,
+          ∀ (t : @Set.Elem Real unitInterval),
+            @LT.lt Real Real.instLT h
+              (g
+                (@DFunLike.coe
+                  (@Path (TorusFiltration.torus_E d)
+                    (@PiLp.topologicalSpace
+                      (@OfNat.ofNat ENNReal (nat_lit 2)
+                        (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                          (@AddMonoidWithOne.toNatCast ENNReal
+                            (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                          PiLp.innerProductSpace._proof_1))
+                      (Fin d) (fun x => Real) fun i =>
+                      @UniformSpace.toTopologicalSpace Real
+                        (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+                    M y)
+                  (@Set.Elem Real unitInterval) (fun x => TorusFiltration.torus_E d)
+                  (@Path.instFunLike (TorusFiltration.torus_E d)
+                    (@PiLp.topologicalSpace
+                      (@OfNat.ofNat ENNReal (nat_lit 2)
+                        (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                          (@AddMonoidWithOne.toNatCast ENNReal
+                            (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                          PiLp.innerProductSpace._proof_1))
+                      (Fin d) (fun x => Real) fun i =>
+                      @UniformSpace.toTopologicalSpace Real
+                        (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+                    M y)
+                  γ t))))
+    (∃ y,
+      And
+        (@LT.lt Real Real.instLT (TorusFiltration.torus_descend d L hL g hg (TorusFiltration.torus_proj d L hL M))
+          (TorusFiltration.torus_descend d L hL g hg y))
+        (∃ γ,
+          ∀ (t : @Set.Elem Real unitInterval),
+            @LT.lt Real Real.instLT h
+              (TorusFiltration.torus_descend d L hL g hg
+                (@DFunLike.coe
+                  (@Path (TorusFiltration.torus_quotient d L hL)
+                    (@QuotientAddGroup.instTopologicalSpace (TorusFiltration.torus_E d)
+                      (@PiLp.topologicalSpace
+                        (@OfNat.ofNat ENNReal (nat_lit 2)
+                          (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                            (@AddMonoidWithOne.toNatCast ENNReal
+                              (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                            PiLp.innerProductSpace._proof_1))
+                        (Fin d) (fun x => Real) fun i =>
+                        @UniformSpace.toTopologicalSpace Real
+                          (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+                      (@AddCommGroup.toAddGroup (TorusFiltration.torus_E d)
+                        (@WithLp.instAddCommGroup
+                          (@OfNat.ofNat ENNReal (nat_lit 2)
+                            (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                              (@AddMonoidWithOne.toNatCast ENNReal
+                                (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                              PiLp.innerProductSpace._proof_1))
+                          ((i : Fin d) → (fun x => Real) i)
+                          (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))
+                      (@Submodule.toAddSubgroup Int (TorusFiltration.torus_E d) Int.instRing
+                        (@WithLp.instAddCommGroup
+                          (@OfNat.ofNat ENNReal (nat_lit 2)
+                            (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                              (@AddMonoidWithOne.toNatCast ENNReal
+                                (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                              PiLp.innerProductSpace._proof_1))
+                          ((i : Fin d) → (fun x => Real) i)
+                          (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup))
+                        (@AddCommGroup.toIntModule (TorusFiltration.torus_E d)
+                          (@WithLp.instAddCommGroup
+                            (@OfNat.ofNat ENNReal (nat_lit 2)
+                              (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                                (@AddMonoidWithOne.toNatCast ENNReal
+                                  (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                                PiLp.innerProductSpace._proof_1))
+                            ((i : Fin d) → (fun x => Real) i)
+                            (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))
+                        (TorusFiltration.torus_periodLattice d L hL)))
+                    (TorusFiltration.torus_proj d L hL M) y)
+                  (@Set.Elem Real unitInterval) (fun x => TorusFiltration.torus_quotient d L hL)
+                  (@Path.instFunLike (TorusFiltration.torus_quotient d L hL)
+                    (@QuotientAddGroup.instTopologicalSpace (TorusFiltration.torus_E d)
+                      (@PiLp.topologicalSpace
+                        (@OfNat.ofNat ENNReal (nat_lit 2)
+                          (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                            (@AddMonoidWithOne.toNatCast ENNReal
+                              (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                            PiLp.innerProductSpace._proof_1))
+                        (Fin d) (fun x => Real) fun i =>
+                        @UniformSpace.toTopologicalSpace Real
+                          (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+                      (@AddCommGroup.toAddGroup (TorusFiltration.torus_E d)
+                        (@WithLp.instAddCommGroup
+                          (@OfNat.ofNat ENNReal (nat_lit 2)
+                            (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                              (@AddMonoidWithOne.toNatCast ENNReal
+                                (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                              PiLp.innerProductSpace._proof_1))
+                          ((i : Fin d) → (fun x => Real) i)
+                          (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))
+                      (@Submodule.toAddSubgroup Int (TorusFiltration.torus_E d) Int.instRing
+                        (@WithLp.instAddCommGroup
+                          (@OfNat.ofNat ENNReal (nat_lit 2)
+                            (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                              (@AddMonoidWithOne.toNatCast ENNReal
+                                (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                              PiLp.innerProductSpace._proof_1))
+                          ((i : Fin d) → (fun x => Real) i)
+                          (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup))
+                        (@AddCommGroup.toIntModule (TorusFiltration.torus_E d)
+                          (@WithLp.instAddCommGroup
+                            (@OfNat.ofNat ENNReal (nat_lit 2)
+                              (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                                (@AddMonoidWithOne.toNatCast ENNReal
+                                  (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                                PiLp.innerProductSpace._proof_1))
+                            ((i : Fin d) → (fun x => Real) i)
+                            (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))
+                        (TorusFiltration.torus_periodLattice d L hL)))
+                    (TorusFiltration.torus_proj d L hL M) y)
+                  γ t))))
+TorusFiltration.torus_closed_higher_path_iff (d : Nat) (L : Real)
+  (hL : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) L)
+  (g : TorusFiltration.torus_E d → Real) (hg : TorusFiltration.torus_isPeriodic d L g) (M : TorusFiltration.torus_E d)
+  (h : Real) :
+  Iff
+    (∃ y,
+      And (@LT.lt Real Real.instLT (g M) (g y))
+        (∃ γ,
+          ∀ (t : @Set.Elem Real unitInterval),
+            @LE.le Real Real.instLE h
+              (g
+                (@DFunLike.coe
+                  (@Path (TorusFiltration.torus_E d)
+                    (@PiLp.topologicalSpace
+                      (@OfNat.ofNat ENNReal (nat_lit 2)
+                        (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                          (@AddMonoidWithOne.toNatCast ENNReal
+                            (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                          PiLp.innerProductSpace._proof_1))
+                      (Fin d) (fun x => Real) fun i =>
+                      @UniformSpace.toTopologicalSpace Real
+                        (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+                    M y)
+                  (@Set.Elem Real unitInterval) (fun x => TorusFiltration.torus_E d)
+                  (@Path.instFunLike (TorusFiltration.torus_E d)
+                    (@PiLp.topologicalSpace
+                      (@OfNat.ofNat ENNReal (nat_lit 2)
+                        (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                          (@AddMonoidWithOne.toNatCast ENNReal
+                            (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                          PiLp.innerProductSpace._proof_1))
+                      (Fin d) (fun x => Real) fun i =>
+                      @UniformSpace.toTopologicalSpace Real
+                        (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+                    M y)
+                  γ t))))
+    (∃ y,
+      And
+        (@LT.lt Real Real.instLT (TorusFiltration.torus_descend d L hL g hg (TorusFiltration.torus_proj d L hL M))
+          (TorusFiltration.torus_descend d L hL g hg y))
+        (∃ γ,
+          ∀ (t : @Set.Elem Real unitInterval),
+            @LE.le Real Real.instLE h
+              (TorusFiltration.torus_descend d L hL g hg
+                (@DFunLike.coe
+                  (@Path (TorusFiltration.torus_quotient d L hL)
+                    (@QuotientAddGroup.instTopologicalSpace (TorusFiltration.torus_E d)
+                      (@PiLp.topologicalSpace
+                        (@OfNat.ofNat ENNReal (nat_lit 2)
+                          (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                            (@AddMonoidWithOne.toNatCast ENNReal
+                              (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                            PiLp.innerProductSpace._proof_1))
+                        (Fin d) (fun x => Real) fun i =>
+                        @UniformSpace.toTopologicalSpace Real
+                          (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+                      (@AddCommGroup.toAddGroup (TorusFiltration.torus_E d)
+                        (@WithLp.instAddCommGroup
+                          (@OfNat.ofNat ENNReal (nat_lit 2)
+                            (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                              (@AddMonoidWithOne.toNatCast ENNReal
+                                (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                              PiLp.innerProductSpace._proof_1))
+                          ((i : Fin d) → (fun x => Real) i)
+                          (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))
+                      (@Submodule.toAddSubgroup Int (TorusFiltration.torus_E d) Int.instRing
+                        (@WithLp.instAddCommGroup
+                          (@OfNat.ofNat ENNReal (nat_lit 2)
+                            (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                              (@AddMonoidWithOne.toNatCast ENNReal
+                                (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                              PiLp.innerProductSpace._proof_1))
+                          ((i : Fin d) → (fun x => Real) i)
+                          (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup))
+                        (@AddCommGroup.toIntModule (TorusFiltration.torus_E d)
+                          (@WithLp.instAddCommGroup
+                            (@OfNat.ofNat ENNReal (nat_lit 2)
+                              (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                                (@AddMonoidWithOne.toNatCast ENNReal
+                                  (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                                PiLp.innerProductSpace._proof_1))
+                            ((i : Fin d) → (fun x => Real) i)
+                            (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))
+                        (TorusFiltration.torus_periodLattice d L hL)))
+                    (TorusFiltration.torus_proj d L hL M) y)
+                  (@Set.Elem Real unitInterval) (fun x => TorusFiltration.torus_quotient d L hL)
+                  (@Path.instFunLike (TorusFiltration.torus_quotient d L hL)
+                    (@QuotientAddGroup.instTopologicalSpace (TorusFiltration.torus_E d)
+                      (@PiLp.topologicalSpace
+                        (@OfNat.ofNat ENNReal (nat_lit 2)
+                          (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                            (@AddMonoidWithOne.toNatCast ENNReal
+                              (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                            PiLp.innerProductSpace._proof_1))
+                        (Fin d) (fun x => Real) fun i =>
+                        @UniformSpace.toTopologicalSpace Real
+                          (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+                      (@AddCommGroup.toAddGroup (TorusFiltration.torus_E d)
+                        (@WithLp.instAddCommGroup
+                          (@OfNat.ofNat ENNReal (nat_lit 2)
+                            (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                              (@AddMonoidWithOne.toNatCast ENNReal
+                                (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                              PiLp.innerProductSpace._proof_1))
+                          ((i : Fin d) → (fun x => Real) i)
+                          (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))
+                      (@Submodule.toAddSubgroup Int (TorusFiltration.torus_E d) Int.instRing
+                        (@WithLp.instAddCommGroup
+                          (@OfNat.ofNat ENNReal (nat_lit 2)
+                            (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                              (@AddMonoidWithOne.toNatCast ENNReal
+                                (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                              PiLp.innerProductSpace._proof_1))
+                          ((i : Fin d) → (fun x => Real) i)
+                          (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup))
+                        (@AddCommGroup.toIntModule (TorusFiltration.torus_E d)
+                          (@WithLp.instAddCommGroup
+                            (@OfNat.ofNat ENNReal (nat_lit 2)
+                              (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                                (@AddMonoidWithOne.toNatCast ENNReal
+                                  (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                                PiLp.innerProductSpace._proof_1))
+                            ((i : Fin d) → (fun x => Real) i)
+                            (@Pi.addCommGroup (Fin d) (fun x => Real) fun i => Real.instAddCommGroup)))
+                        (TorusFiltration.torus_periodLattice d L hL)))
+                    (TorusFiltration.torus_proj d L hL M) y)
+                  γ t))))
+TorusFiltration.torus_global_max_iff (d : Nat) (L : Real)
+  (hL : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) L)
+  (g : TorusFiltration.torus_E d → Real) (hg : TorusFiltration.torus_isPeriodic d L g) (M : TorusFiltration.torus_E d) :
+  Iff (∀ (y : TorusFiltration.torus_E d), @LE.le Real Real.instLE (g y) (g M))
+    (∀ (y : TorusFiltration.torus_quotient d L hL),
+      @LE.le Real Real.instLE (TorusFiltration.torus_descend d L hL g hg y)
+        (TorusFiltration.torus_descend d L hL g hg (TorusFiltration.torus_proj d L hL M)))
+TorusFiltration.superlevel_control_closed_endpoint (b : Real) :
+  @Membership.mem Unit (Set Unit) (@Set.instMembership Unit)
+    (@TorusFiltration.superlevel_set Unit (fun x => b) (@Neg.neg Real Real.instNeg b)) Unit.unit
+TorusFiltration.superlevel_control_strict_endpoint (b : Real) :
+  Not (@LT.lt Real Real.instLT (@Neg.neg Real Real.instNeg (@Neg.neg Real Real.instNeg b)) ((fun x => b) Unit.unit))
+TorusFiltration.superlevel_control_parameter_sign :
+  @Membership.mem Unit (Set Unit) (@Set.instMembership Unit)
+    (@TorusFiltration.superlevel_set Unit (fun x => @OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero))
+      (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne)))
+    Unit.unit
+TorusFiltration.superlevel_control_inclusion_direction :
+  Not
+    (@LE.le (Set Unit) (@Set.instLE Unit)
+      (@TorusFiltration.superlevel_set Unit (fun x => @OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero))
+        (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne)))
+      (@TorusFiltration.superlevel_set Unit (fun x => @OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero))
+        (@Neg.neg Real Real.instNeg (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne)))))
+TorusFiltration.superlevel_control_essential.{u_1} {X : Type u_1} (g : X → Real) (M : X)
+  (hM : ∀ (y : X), @LE.le Real Real.instLE (g y) (g M)) : Not (∃ y, @LT.lt Real Real.instLT (g M) (g y))
+TorusFiltration.superlevel_mono.{u_1} {X : Type u_1} (g : X → Real) {s t : Real} (hst : @LE.le Real Real.instLE s t) :
+  @LE.le (Set X) (@Set.instLE X) (@TorusFiltration.superlevel_set X g s) (@TorusFiltration.superlevel_set X g t)
+TorusFiltration.superlevel_isClosed.{u_1} {X : Type u_1} [TopologicalSpace X] (g : X → Real)
+  (hg :
+    @Continuous X Real inst✝
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace)) g)
+  (t : Real) : @IsClosed X inst✝ (@TorusFiltration.superlevel_set X g t)
+TorusFiltration.superlevel_inclusion_id.{w} {X : Type w} [TopologicalSpace X] (g : X → Real) (t : Real) :
+  @Eq
+    (@ContinuousMap (@Set.Elem X (@TorusFiltration.superlevel_set X g t))
+      (@Set.Elem X (@TorusFiltration.superlevel_set X g t))
+      (@instTopologicalSpaceSubtype X
+        (fun x => @Membership.mem X (Set X) (@Set.instMembership X) (@TorusFiltration.superlevel_set X g t) x) inst✝)
+      (@instTopologicalSpaceSubtype X
+        (fun x => @Membership.mem X (Set X) (@Set.instMembership X) (@TorusFiltration.superlevel_set X g t) x) inst✝))
+    (@TorusFiltration.superlevel_inclusion X inst✝ g t t ⋯)
+    (@ContinuousMap.id (@Set.Elem X (@TorusFiltration.superlevel_set X g t))
+      (@instTopologicalSpaceSubtype X
+        (fun x => @Membership.mem X (Set X) (@Set.instMembership X) (@TorusFiltration.superlevel_set X g t) x) inst✝))
+TorusFiltration.superlevel_inclusion_comp.{w} {X : Type w} [TopologicalSpace X] (g : X → Real) {r s t : Real}
+  (hrs : @LE.le Real Real.instLE r s) (hst : @LE.le Real Real.instLE s t) :
+  @Eq
+    (@ContinuousMap (@Set.Elem X (@TorusFiltration.superlevel_set X g r))
+      (@Set.Elem X (@TorusFiltration.superlevel_set X g t))
+      (@instTopologicalSpaceSubtype X
+        (fun x => @Membership.mem X (Set X) (@Set.instMembership X) (@TorusFiltration.superlevel_set X g r) x) inst✝)
+      (@instTopologicalSpaceSubtype X
+        (fun x => @Membership.mem X (Set X) (@Set.instMembership X) (@TorusFiltration.superlevel_set X g t) x) inst✝))
+    (@ContinuousMap.comp (@Set.Elem X (@TorusFiltration.superlevel_set X g r))
+      (@Set.Elem X (@TorusFiltration.superlevel_set X g s)) (@Set.Elem X (@TorusFiltration.superlevel_set X g t))
+      (@instTopologicalSpaceSubtype X
+        (fun x => @Membership.mem X (Set X) (@Set.instMembership X) (@TorusFiltration.superlevel_set X g r) x) inst✝)
+      (@instTopologicalSpaceSubtype X
+        (fun x => @Membership.mem X (Set X) (@Set.instMembership X) (@TorusFiltration.superlevel_set X g s) x) inst✝)
+      (@instTopologicalSpaceSubtype X
+        (fun x => @Membership.mem X (Set X) (@Set.instMembership X) (@TorusFiltration.superlevel_set X g t) x) inst✝)
+      (@TorusFiltration.superlevel_inclusion X inst✝ g s t hst)
+      (@TorusFiltration.superlevel_inclusion X inst✝ g r s hrs))
+    (@TorusFiltration.superlevel_inclusion X inst✝ g r t ⋯)
+TorusFiltration.superlevel_mem_at_own_height.{u_1} {X : Type u_1} (g : X → Real) (x : X) :
+  @Membership.mem X (Set X) (@Set.instMembership X)
+    (@TorusFiltration.superlevel_set X g (@Neg.neg Real Real.instNeg (g x))) x
+TorusFiltration.superlevel_neg_height.{u_1} {X : Type u_1} (g : X → Real) (h : Real) :
+  @Eq (Set X) (@TorusFiltration.superlevel_set X g (@Neg.neg Real Real.instNeg h))
+    (@Set.ofPred X fun x => @LE.le Real Real.instLE h (g x))
+TorusFiltration.superlevel_control_strict_thresholds :
+  And
+    (∀ (h : Real),
+      @LT.lt Real Real.instLT h (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) →
+        ∃ k,
+          And (@LT.lt Real Real.instLT h k)
+            (@LT.lt Real Real.instLT k (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero))))
+    (Not
+      (∃ k,
+        And (@LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) k)
+          (@LT.lt Real Real.instLT k (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)))))
+TorusFiltration.superlevel_componentMap_mk.{w} {X Y : Type w} [TopologicalSpace X] [TopologicalSpace Y]
+  (f : @ContinuousMap X Y inst✝ inst✝¹) (x : X) :
+  @Eq (@ZerothHomotopy Y inst✝¹)
+    (@TorusFiltration.superlevel_componentMap X Y inst✝ inst✝¹ f (@ZerothHomotopy.mk X inst✝ x))
+    (@ZerothHomotopy.mk Y inst✝¹
+      (@DFunLike.coe (@ContinuousMap X Y inst✝ inst✝¹) X (fun x => Y) (@ContinuousMap.instFunLike X Y inst✝ inst✝¹) f
+        x))
+TorusFiltration.superlevel_componentMap_id.{w} {X : Type w} [TopologicalSpace X] :
+  @Eq (@ZerothHomotopy X inst✝ → @ZerothHomotopy X inst✝)
+    (@TorusFiltration.superlevel_componentMap X X inst✝ inst✝ (@ContinuousMap.id X inst✝))
+    (@id (@ZerothHomotopy X inst✝))
+TorusFiltration.superlevel_componentMap_comp.{w} {X Y Z : Type w} [TopologicalSpace X] [TopologicalSpace Y]
+  [TopologicalSpace Z] (f : @ContinuousMap X Y inst✝ inst✝¹) (g : @ContinuousMap Y Z inst✝¹ inst✝²) :
+  @Eq (@ZerothHomotopy X inst✝ → @ZerothHomotopy Z inst✝²)
+    (@TorusFiltration.superlevel_componentMap X Z inst✝ inst✝² (@ContinuousMap.comp X Y Z inst✝ inst✝¹ inst✝² g f))
+    (@Function.comp (@ZerothHomotopy X inst✝) (@ZerothHomotopy Y inst✝¹) (@ZerothHomotopy Z inst✝²)
+      (@TorusFiltration.superlevel_componentMap Y Z inst✝¹ inst✝² g)
+      (@TorusFiltration.superlevel_componentMap X Y inst✝ inst✝¹ f))
+TorusFiltration.superlevel_componentInclusion_id.{w} {X : Type w} [TopologicalSpace X] (g : X → Real) (t : Real) :
+  @Eq
+    (@ZerothHomotopy (@Set.Elem X (@TorusFiltration.superlevel_set X g t))
+        (@instTopologicalSpaceSubtype X
+          (fun x => @Membership.mem X (Set X) (@Set.instMembership X) (@TorusFiltration.superlevel_set X g t) x)
+          inst✝) →
+      @ZerothHomotopy (@Set.Elem X (@TorusFiltration.superlevel_set X g t))
+        (@instTopologicalSpaceSubtype X
+          (fun x => @Membership.mem X (Set X) (@Set.instMembership X) (@TorusFiltration.superlevel_set X g t) x) inst✝))
+    (@TorusFiltration.superlevel_componentInclusion X inst✝ g t t ⋯)
+    (@id
+      (@ZerothHomotopy (@Set.Elem X (@TorusFiltration.superlevel_set X g t))
+        (@instTopologicalSpaceSubtype X
+          (fun x => @Membership.mem X (Set X) (@Set.instMembership X) (@TorusFiltration.superlevel_set X g t) x)
+          inst✝)))
+TorusFiltration.superlevel_componentInclusion_comp.{w} {X : Type w} [TopologicalSpace X] (g : X → Real) {r s t : Real}
+  (hrs : @LE.le Real Real.instLE r s) (hst : @LE.le Real Real.instLE s t) :
+  @Eq
+    (@ZerothHomotopy (@Set.Elem X (@TorusFiltration.superlevel_set X g r))
+        (@instTopologicalSpaceSubtype X
+          (fun x => @Membership.mem X (Set X) (@Set.instMembership X) (@TorusFiltration.superlevel_set X g r) x)
+          inst✝) →
+      @ZerothHomotopy (@Set.Elem X (@TorusFiltration.superlevel_set X g t))
+        (@instTopologicalSpaceSubtype X
+          (fun x => @Membership.mem X (Set X) (@Set.instMembership X) (@TorusFiltration.superlevel_set X g t) x) inst✝))
+    (@TorusFiltration.superlevel_componentInclusion X inst✝ g r t ⋯)
+    (@Function.comp
+      (@ZerothHomotopy (@Set.Elem X (@TorusFiltration.superlevel_set X g r))
+        (@instTopologicalSpaceSubtype X
+          (fun x => @Membership.mem X (Set X) (@Set.instMembership X) (@TorusFiltration.superlevel_set X g r) x) inst✝))
+      (@ZerothHomotopy (@Set.Elem X (@TorusFiltration.superlevel_set X g s))
+        (@instTopologicalSpaceSubtype X
+          (fun x => @Membership.mem X (Set X) (@Set.instMembership X) (@TorusFiltration.superlevel_set X g s) x) inst✝))
+      (@ZerothHomotopy (@Set.Elem X (@TorusFiltration.superlevel_set X g t))
+        (@instTopologicalSpaceSubtype X
+          (fun x => @Membership.mem X (Set X) (@Set.instMembership X) (@TorusFiltration.superlevel_set X g t) x) inst✝))
+      (@TorusFiltration.superlevel_componentInclusion X inst✝ g s t hst)
+      (@TorusFiltration.superlevel_componentInclusion X inst✝ g r s hrs))
+TorusFiltration.superlevel_component_eq_iff_joinedIn.{w} {X : Type w} [TopologicalSpace X] (g : X → Real) (t : Real)
+  (x y : @Set.Elem X (@TorusFiltration.superlevel_set X g t)) :
+  Iff
+    (@Eq
+      (@ZerothHomotopy (@Set.Elem X (@TorusFiltration.superlevel_set X g t))
+        (@instTopologicalSpaceSubtype X
+          (fun x => @Membership.mem X (Set X) (@Set.instMembership X) (@TorusFiltration.superlevel_set X g t) x) inst✝))
+      (@ZerothHomotopy.mk (@Set.Elem X (@TorusFiltration.superlevel_set X g t))
+        (@instTopologicalSpaceSubtype X
+          (fun x => @Membership.mem X (Set X) (@Set.instMembership X) (@TorusFiltration.superlevel_set X g t) x) inst✝)
+        x)
+      (@ZerothHomotopy.mk (@Set.Elem X (@TorusFiltration.superlevel_set X g t))
+        (@instTopologicalSpaceSubtype X
+          (fun x => @Membership.mem X (Set X) (@Set.instMembership X) (@TorusFiltration.superlevel_set X g t) x) inst✝)
+        y))
+    (@JoinedIn X inst✝ (@TorusFiltration.superlevel_set X g t)
+      (@Subtype.val X
+        (fun x => @Membership.mem X (Set X) (@Set.instMembership X) (@TorusFiltration.superlevel_set X g t) x) x)
+      (@Subtype.val X
+        (fun x => @Membership.mem X (Set X) (@Set.instMembership X) (@TorusFiltration.superlevel_set X g t) x) y))
+TorusFiltration.superlevel_h0Filtration_map_id.{w, v, u} {C : Type u} [CategoryTheory.Category.{v, u} C]
+  [@CategoryTheory.Limits.HasCoproducts C inst✝] [@CategoryTheory.Preadditive C inst✝]
+  [@CategoryTheory.CategoryWithHomology C inst✝
+      (@CategoryTheory.Preadditive.preadditiveHasZeroMorphisms C inst✝ inst✝¹)]
+  {X : Type w} [TopologicalSpace X] (g : X → Real) (R : C) (t : Real) :
+  @Eq
+    (@Quiver.Hom C (@CategoryTheory.CategoryStruct.toQuiver C (@CategoryTheory.Category.toCategoryStruct C inst✝))
+      (@CategoryTheory.Functor.obj Real (@Preorder.smallCategory Real Real.instPreorder) C inst✝
+        (@TorusFiltration.superlevel_h0Filtration C inst✝ inst✝² inst✝¹ inst✝³ X inst✝⁴ g R) t)
+      (@CategoryTheory.Functor.obj Real (@Preorder.smallCategory Real Real.instPreorder) C inst✝
+        (@TorusFiltration.superlevel_h0Filtration C inst✝ inst✝² inst✝¹ inst✝³ X inst✝⁴ g R) t))
+    (@CategoryTheory.Functor.map Real (@Preorder.smallCategory Real Real.instPreorder) C inst✝
+      (@TorusFiltration.superlevel_h0Filtration C inst✝ inst✝² inst✝¹ inst✝³ X inst✝⁴ g R) t t
+      (@CategoryTheory.CategoryStruct.id Real
+        (@CategoryTheory.Category.toCategoryStruct Real (@Preorder.smallCategory Real Real.instPreorder)) t))
+    (@CategoryTheory.CategoryStruct.id C (@CategoryTheory.Category.toCategoryStruct C inst✝)
+      (@CategoryTheory.Functor.obj Real (@Preorder.smallCategory Real Real.instPreorder) C inst✝
+        (@TorusFiltration.superlevel_h0Filtration C inst✝ inst✝² inst✝¹ inst✝³ X inst✝⁴ g R) t))
+TorusFiltration.superlevel_h0Filtration_map_comp.{w, v, u} {C : Type u} [CategoryTheory.Category.{v, u} C]
+  [@CategoryTheory.Limits.HasCoproducts C inst✝] [@CategoryTheory.Preadditive C inst✝]
+  [@CategoryTheory.CategoryWithHomology C inst✝
+      (@CategoryTheory.Preadditive.preadditiveHasZeroMorphisms C inst✝ inst✝¹)]
+  {X : Type w} [TopologicalSpace X] (g : X → Real) (R : C) {r s t : Real}
+  (f :
+    @Quiver.Hom Real
+      (@CategoryTheory.ReflQuiver.toQuiver Real
+        (@CategoryTheory.catToReflQuiver Real (@Preorder.smallCategory Real Real.instPreorder)))
+      r s)
+  (k :
+    @Quiver.Hom Real
+      (@CategoryTheory.ReflQuiver.toQuiver Real
+        (@CategoryTheory.catToReflQuiver Real (@Preorder.smallCategory Real Real.instPreorder)))
+      s t) :
+  @Eq
+    (@Quiver.Hom C (@CategoryTheory.CategoryStruct.toQuiver C (@CategoryTheory.Category.toCategoryStruct C inst✝))
+      (@CategoryTheory.Functor.obj Real (@Preorder.smallCategory Real Real.instPreorder) C inst✝
+        (@TorusFiltration.superlevel_h0Filtration C inst✝ inst✝² inst✝¹ inst✝³ X inst✝⁴ g R) r)
+      (@CategoryTheory.Functor.obj Real (@Preorder.smallCategory Real Real.instPreorder) C inst✝
+        (@TorusFiltration.superlevel_h0Filtration C inst✝ inst✝² inst✝¹ inst✝³ X inst✝⁴ g R) t))
+    (@CategoryTheory.Functor.map Real (@Preorder.smallCategory Real Real.instPreorder) C inst✝
+      (@TorusFiltration.superlevel_h0Filtration C inst✝ inst✝² inst✝¹ inst✝³ X inst✝⁴ g R) r t
+      (@CategoryTheory.CategoryStruct.comp Real
+        (@CategoryTheory.Category.toCategoryStruct Real (@Preorder.smallCategory Real Real.instPreorder)) r s t f k))
+    (@CategoryTheory.CategoryStruct.comp C (@CategoryTheory.Category.toCategoryStruct C inst✝)
+      (@CategoryTheory.Functor.obj Real (@Preorder.smallCategory Real Real.instPreorder) C inst✝
+        (@TorusFiltration.superlevel_h0Filtration C inst✝ inst✝² inst✝¹ inst✝³ X inst✝⁴ g R) r)
+      (@CategoryTheory.Functor.obj Real (@Preorder.smallCategory Real Real.instPreorder) C inst✝
+        (@TorusFiltration.superlevel_h0Filtration C inst✝ inst✝² inst✝¹ inst✝³ X inst✝⁴ g R) s)
+      (@CategoryTheory.Functor.obj Real (@Preorder.smallCategory Real Real.instPreorder) C inst✝
+        (@TorusFiltration.superlevel_h0Filtration C inst✝ inst✝² inst✝¹ inst✝³ X inst✝⁴ g R) t)
+      (@CategoryTheory.Functor.map Real (@Preorder.smallCategory Real Real.instPreorder) C inst✝
+        (@TorusFiltration.superlevel_h0Filtration C inst✝ inst✝² inst✝¹ inst✝³ X inst✝⁴ g R) r s f)
+      (@CategoryTheory.Functor.map Real (@Preorder.smallCategory Real Real.instPreorder) C inst✝
+        (@TorusFiltration.superlevel_h0Filtration C inst✝ inst✝² inst✝¹ inst✝³ X inst✝⁴ g R) s t k))

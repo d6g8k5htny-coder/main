@@ -1,0 +1,20 @@
+module under test: $S/probes/verify_substitution_0/q1_3/patched/museum.mjs sha256 91f4db4f97740283
+baseline shipped museum.json: ACCEPTED
+[d3-side24-coefficient] CONTROL: unrelated issue, not a prefix: review_url=main/issues/99 | "](url)" in quote=false | substring=false -> REFUSED (Review pointer is not bound by its pinned source quote)
+[d3-side24-coefficient] other link in the same bullet (delimited): review_url=main/issues/65#issuecomment-5841779222 | "](url)" in quote=true | substring=true -> ACCEPTED
+[d3-side24-coefficient] issue #6, prefix of #65: review_url=main/issues/6 | "](url)" in quote=false | substring=true -> REFUSED (Review pointer is not bound by its pinned source quote)
+[d3-side24-coefficient] truncated comment id: review_url=main/issues/65#issuecomment-58412 | "](url)" in quote=false | substring=true -> REFUSED (Review pointer is not bound by its pinned source quote)
+[d2-lifetime-remainder] issue #6, prefix of #67: review_url=main/issues/6 | "](url)" in quote=false | substring=true -> REFUSED (Review pointer is not bound by its pinned source quote)
+[d2-lifetime-remainder] other comment in the same bullet (delimited): review_url=main/issues/67#issuecomment-5841270276 | "](url)" in quote=true | substring=true -> ACCEPTED
+[d4-fixed-remote-rn] issue #7, prefix of #76: review_url=main/issues/7 | "](url)" in quote=false | substring=true -> REFUSED (Review pointer is not bound by its pinned source quote)
+[p15-demand-one-counterexample] issue #6, prefix of #67: review_url=main/issues/6 | "](url)" in quote=false | substring=true -> REFUSED (Review pointer is not bound by its pinned source quote)
+[d1-parent-selection-open] AMEND D1: issue #6, prefix of #63: review_url=main/issues/6 | "](url)" in quote=false | substring=true -> REFUSED (Review pointer is not bound by its pinned source quote)
+[d1-parent-selection-open] AMEND D1: task issue #63 itself (delimited link in row): review_url=main/issues/63 | "](url)" in quote=true | substring=true -> ACCEPTED
+validateDescriptor({pointer_only:true, review_url:"", no notice}) throws Invalid review pointer; d5-two-scale manifest -> REFUSED (Invalid review pointer)
+validateDescriptor({pointer_only:1, review_url:"", no notice}) passes; d5-two-scale manifest -> REFUSED (Review file differs from the source quote)
+validateDescriptor({pointer_only:"yes", review_url:"", no notice}) passes; d5-two-scale manifest -> REFUSED (Review file differs from the source quote)
+validateDescriptor({pointer_only:1, review_url:"reviews/replacement_20260925_pr19_pr21/TWO_SCALE_REVIEW.md", no notice}) passes; d5-two-scale manifest -> REFUSED (Review file differs from the source quote)
+RENDER [d3 review_url -> main/issues/6] None [] None Unavailable: Review pointer is not bound by its pinned source quote. No result inferred.
+RENDER [AMEND D1 review_url -> main/issues/6] None [] None Unavailable: Review pointer is not bound by its pinned source quote. No result inferred.
+RENDER [d5-two-scale review := pointer_only:1, review_url:"" (no notice)] None [] None Unavailable: Review file differs from the source quote. No result inferred.
+RENDER [baseline d5-two-scale] ACCEPT-scoped ['Byte-verified review'] ['Open review ↗', 'https://github.com/d6g8k5htny-coder/Math-/blob/d6628da09384728992dcbe6e921cc28ba85aebb0/reviews/replacement_20260925_pr19_pr21/TWO_SCALE_REVIEW.md'] None

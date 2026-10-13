@@ -1,0 +1,63 @@
+BASELINE (unmodified copy): exit 0 failed=[]
+W01 audit: allow forbidden axioms                       CAUGHT test_audit_axioms_rules,test_complete_evidence_yields_a_bounded_receipt,test_every_weakening_withholds_the_receipt,test_negative_injection_controls_require_the_audit_to_refuse
+W02 audit: drop missing-target check                    CAUGHT test_audit_axioms_rules,test_every_weakening_withholds_the_receipt
+W03 audit: drop unexpected/duplicate target             CAUGHT test_audit_axioms_rules
+W04 audit: drop unrecognized-output check               CAUGHT test_audit_axioms_rules,test_every_weakening_withholds_the_receipt
+W05 audit: drop malformed-name check                    ESCAPED 
+W06 types: drop error/warning check                     ESCAPED 
+W07 types: order-insensitive                            CAUGHT test_types_rules
+W08 types: drop preamble check                          CAUGHT test_types_rules
+W09 negative: drop unknown-control check                CAUGHT test_negative_false_controls_accept_only_the_intended_diagnostic
+W10 negative: false control accepts exit 0 or 1         CAUGHT test_every_weakening_withholds_the_receipt,test_negative_false_controls_accept_only_the_intended_diagnostic
+W11 negative: false control search not fullmatch        CAUGHT test_negative_false_controls_accept_only_the_intended_diagnostic
+W12 negative: injection search not fullmatch            CAUGHT test_negative_injection_controls_require_the_audit_to_refuse
+W13 negative: injection accepts exit 0 or 1             CAUGHT test_every_weakening_withholds_the_receipt,test_negative_injection_controls_require_the_audit_to_refuse
+W14 negative: audit refusal not required                ESCAPED 
+W15 negative: drop int-type check                       CAUGHT test_negative_false_controls_accept_only_the_intended_diagnostic
+W16 lean_version: accept any 4.34.x                     CAUGHT test_every_weakening_withholds_the_receipt,test_lean_version_and_packages
+W17 packages: subset instead of equality                CAUGHT test_every_weakening_withholds_the_receipt,test_lean_version_and_packages
+W18 finish: drop build-status check                     CAUGHT test_every_weakening_withholds_the_receipt
+W19 finish: drop source-stability check                 CAUGHT test_every_weakening_withholds_the_receipt
+W20 finish: BUILDS without leanchecker                  CAUGHT test_every_weakening_withholds_the_receipt
+W21 source: drop membership check                       CAUGHT test_membership_and_byte_mutations_are_detected
+W22 source: drop dirty-bytes check                      CAUGHT test_membership_and_byte_mutations_are_detected
+W23 source: drop manifest-identity check                CAUGHT test_membership_and_byte_mutations_are_detected
+W24 source: drop git diff check                         CAUGHT test_membership_and_byte_mutations_are_detected
+W25 source: drop files==REQUIRED check                  CAUGHT test_module_mutations_are_detected
+W26 source: drop GITHUB_SHA/REPOSITORY check            CAUGHT test_clean_fixture_passes_and_records_identity
+W27 source: drop GITHUB_REPOSITORY only                 ESCAPED 
+W28 source: drop run-identity check                     CAUGHT test_clean_fixture_passes_and_records_identity
+W29 source: drop check_modules                          CAUGHT test_module_mutations_are_detected
+W30 scan: drop admission token scan                     CAUGHT test_module_mutations_are_detected,test_module_scan_refuses_admissions_and_unexpected_kinds
+W31 scan: drop unexpected-kind check                    CAUGHT test_module_mutations_are_detected,test_module_scan_refuses_admissions_and_unexpected_kinds
+W32 scan: drop namespace check                          CAUGHT test_module_mutations_are_detected,test_module_scan_refuses_admissions_and_unexpected_kinds
+W33 scan: drop handoff-namespace check                  ESCAPED 
+W34 scan: drop anonymous-declaration check              CAUGHT test_module_scan_refuses_admissions_and_unexpected_kinds
+W35 check_modules: drop root-module text check          CAUGHT test_module_mutations_are_detected
+W36 environment: drop toolchain text check              ESCAPED 
+W37 environment: drop unpinned-dependency check         ESCAPED 
+W38 environment: drop duplicate-package check           ESCAPED 
+W39 metadata: drop scientific_effect NONE               ESCAPED 
+W40 metadata: drop alignment PENDING                    ESCAPED 
+W41 metadata: drop credit==0/human_review none          ESCAPED 
+W42 metadata: drop provenance identity                  ESCAPED 
+W43 metadata: drop NOT_COMPILED/namespace_mapping       ESCAPED 
+W44 metadata: drop schema-keys check                    ESCAPED 
+W45 metadata: drop files<=REQUIRED check                ESCAPED 
+W46 metadata: drop duplicate-declaration check          ESCAPED 
+W47 metadata: drop per-module inventory key check       ESCAPED 
+W48 ALLOWED gains sorryAx                               CAUGHT test_audit_axioms_rules,test_complete_evidence_yields_a_bounded_receipt,test_emit_writes_exactly_the_audit_types_positive_and_controls,test_every_weakening_withholds_the_receipt,test_negative_injection_controls_require_the_audit_to_refuse
+W49 emit: Types.lean without pp.explicit                CAUGHT test_emit_writes_exactly_the_audit_types_positive_and_controls
+W50 finish: scientific_acceptance True                  CAUGHT test_complete_evidence_yields_a_bounded_receipt
+W51 finish: receipt written before checks               CAUGHT test_complete_evidence_yields_a_bounded_receipt,test_every_weakening_withholds_the_receipt
+W52 strict: drop duplicate-key check                    ESCAPED 
+W53 source: drop symlink check                          ESCAPED 
+W54 negative: goal pattern any                          CAUGHT test_complete_evidence_yields_a_bounded_receipt,test_every_weakening_withholds_the_receipt,test_negative_false_controls_accept_only_the_intended_diagnostic
+W55 finish: control status not read (always 1 for false) CAUGHT test_every_weakening_withholds_the_receipt
+W56 targets: drop duplicate/empty check                 ESCAPED 
+W57 audit: drop empty/duplicate target-list check       ESCAPED 
+W58 finish: log_sha256 only *.log                       ESCAPED 
+W59 finish: formalization_status proved                 CAUGHT test_complete_evidence_yields_a_bounded_receipt
+W60 metadata: drop schema==1 int check                  ESCAPED 
+
+ESCAPED (23): W05 audit: drop malformed-name check; W06 types: drop error/warning check; W14 negative: audit refusal not required; W27 source: drop GITHUB_REPOSITORY only; W33 scan: drop handoff-namespace check; W36 environment: drop toolchain text check; W37 environment: drop unpinned-dependency check; W38 environment: drop duplicate-package check; W39 metadata: drop scientific_effect NONE; W40 metadata: drop alignment PENDING; W41 metadata: drop credit==0/human_review none; W42 metadata: drop provenance identity; W43 metadata: drop NOT_COMPILED/namespace_mapping; W44 metadata: drop schema-keys check; W45 metadata: drop files<=REQUIRED check; W46 metadata: drop duplicate-declaration check; W47 metadata: drop per-module inventory key check; W52 strict: drop duplicate-key check; W53 source: drop symlink check; W56 targets: drop duplicate/empty check; W57 audit: drop empty/duplicate target-list check; W58 finish: log_sha256 only *.log; W60 metadata: drop schema==1 int check

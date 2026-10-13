@@ -1,0 +1,105 @@
+UniversalLaw.Proofs.RNCluster.rareClusterPoissonObstructionO : ∀ (μ : ℝ → ℕ → ℝ) (a A : ℝ),
+  UniversalLaw.Spec.RN.RareClusterPoissonObstructionO μ a A
+UniversalLaw.Proofs.RNCluster.rareClusterPoissonObstructionO : ∀ (μ : Real → Nat → Real) (a A : Real),
+  UniversalLaw.Spec.RN.RareClusterPoissonObstructionO μ a A
+def UniversalLaw.Spec.RN.RareClusterPoissonObstructionO : (ℝ → ℕ → ℝ) → ℝ → ℝ → Prop :=
+fun μ a A =>
+  0 < a →
+    (∃ r0,
+        0 < r0 ∧
+          ∀ (r : ℝ),
+            0 < r →
+              r ≤ r0 →
+                (∀ (n : ℕ), 0 ≤ μ r n) ∧
+                  Summable (μ r) ∧
+                    ∑' (n : ℕ), μ r n = 1 ∧
+                      (Summable fun n => ↑n * μ r n) ∧
+                        ∑' (n : ℕ), ↑n * μ r n ≤ A * r ^ 3 ∧ a * r ^ 3 ≤ 1 - μ r 0 - μ r 1) →
+      ∃ rStar,
+        0 < rStar ∧
+          ∀ (r : ℝ),
+            0 < r →
+              r ≤ rStar →
+                (∀ (lam : ℝ),
+                    0 ≤ lam → a / 2 * r ^ 3 ≤ UniversalLaw.Spec.RN.pmfTV (μ r) (UniversalLaw.Spec.RN.poissonPMF lam)) ∧
+                  ∃ lam, 0 ≤ lam ∧ UniversalLaw.Spec.RN.pmfTV (μ r) (UniversalLaw.Spec.RN.poissonPMF lam) ≤ A * r ^ 3
+def UniversalLaw.Spec.RN.pmfTV : (ℕ → ℝ) → (ℕ → ℝ) → ℝ :=
+fun μ ν => 1 / 2 * ∑' (n : ℕ), |μ n - ν n|
+def UniversalLaw.Spec.RN.poissonPMF : ℝ → ℕ → ℝ :=
+fun lam n => Real.exp (-lam) * lam ^ n / ↑n.factorial
+'UniversalLaw.Proofs.RNCluster.rareClusterPoissonObstructionO' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'UniversalLaw.Proofs.RNCluster.Aux.rc_tail_one_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.RNCluster.Aux.rc_tail_two_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.RNCluster.Aux.rc_tail_one_le_mean' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.RNCluster.Aux.rc_one_sub_head_le_mean' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.RNCluster.Aux.rc_two_mul_tail_two_le_mean' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'UniversalLaw.Proofs.RNCluster.Aux.rc_hasSum_poissonPMF' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.RNCluster.Aux.rc_poissonPMF_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.RNCluster.Aux.rc_poissonPMF_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.RNCluster.Aux.rc_poisson_tail_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.RNCluster.Aux.rc_poisson_tail_two' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.RNCluster.Aux.rc_half_le_one_sub_exp' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.RNCluster.Aux.rc_poisson_tail_two_le_sq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.RNCluster.Aux.rc_pmfTV_poissonPMF_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.RNCluster.Aux.rc_abs_tail_sub_le_pmfTV' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.RNCluster.Aux.rc_tail_two_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.RNCluster.Aux.rc_tail_one_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.RNCluster.Aux.rc_lower_half' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.RNCluster.Aux.rc_upper_half' depends on axioms: [propext, Classical.choice, Quot.sound]
+EXACTNESS kind_is_theorem=true unsafe=false partial=false
+EXACTNESS binders=3 binderTypes=[ℝ → ℕ → ℝ,
+ ℝ,
+ ℝ] head=UniversalLaw.Spec.RN.RareClusterPoissonObstructionO headOk=true argsOk=true
+EXACTNESS body=UniversalLaw.Spec.RN.RareClusterPoissonObstructionO μ a A
+EXACTNESS type_is_prop=true
+EXACTNESS OK
+PROVENANCE UniversalLaw.Spec.RN.RareClusterPoissonObstructionO <- Specifications.RN
+PROVENANCE UniversalLaw.Spec.RN.pmfTV <- Specifications.RN
+PROVENANCE UniversalLaw.Spec.RN.poissonPMF <- Specifications.RN
+PROVENANCE ProbabilityTheory.hasSum_one_poissonMeasure <- Mathlib.Probability.Distributions.Poisson.Basic
+AUDIT thm prop=true unsafe=false partial=false matcher=false range=false regHead=false head=Eq UniversalLaw.Spec.RN.poissonPMF.eq_1
+AUDIT thm prop=true unsafe=false partial=false matcher=false range=true regHead=false head=Eq UniversalLaw.Proofs.RNCluster.Aux.rc_pmfTV_poissonPMF_zero
+AUDIT thm prop=true unsafe=false partial=false matcher=false range=true regHead=false head=Eq UniversalLaw.Proofs.RNCluster.Aux.rc_poissonPMF_one
+AUDIT thm prop=true unsafe=false partial=false matcher=false range=true regHead=false head=Eq UniversalLaw.Proofs.RNCluster.Aux.rc_poissonPMF_zero
+AUDIT thm prop=true unsafe=false partial=false matcher=false range=true regHead=false head=Eq UniversalLaw.Proofs.RNCluster.Aux.rc_poisson_tail_one
+AUDIT thm prop=true unsafe=false partial=false matcher=false range=true regHead=false head=Eq UniversalLaw.Proofs.RNCluster.Aux.rc_poisson_tail_two
+AUDIT thm prop=true unsafe=false partial=false matcher=false range=true regHead=false head=Eq UniversalLaw.Proofs.RNCluster.Aux.rc_tail_one_eq
+AUDIT thm prop=true unsafe=false partial=false matcher=false range=true regHead=false head=Eq UniversalLaw.Proofs.RNCluster.Aux.rc_tail_two_eq
+AUDIT thm prop=true unsafe=false partial=false matcher=false range=true regHead=false head=HasSum UniversalLaw.Proofs.RNCluster.Aux.rc_hasSum_poissonPMF
+AUDIT thm prop=true unsafe=false partial=false matcher=false range=true regHead=false head=LE.le UniversalLaw.Proofs.RNCluster.Aux.rc_abs_tail_sub_le_pmfTV
+AUDIT thm prop=true unsafe=false partial=false matcher=false range=true regHead=false head=LE.le UniversalLaw.Proofs.RNCluster.Aux.rc_half_le_one_sub_exp
+AUDIT thm prop=true unsafe=false partial=false matcher=false range=true regHead=false head=LE.le UniversalLaw.Proofs.RNCluster.Aux.rc_lower_half
+AUDIT thm prop=true unsafe=false partial=false matcher=false range=true regHead=false head=LE.le UniversalLaw.Proofs.RNCluster.Aux.rc_one_sub_head_le_mean
+AUDIT thm prop=true unsafe=false partial=false matcher=false range=true regHead=false head=LE.le UniversalLaw.Proofs.RNCluster.Aux.rc_poisson_tail_two_le_sq
+AUDIT thm prop=true unsafe=false partial=false matcher=false range=true regHead=false head=LE.le UniversalLaw.Proofs.RNCluster.Aux.rc_tail_one_bound
+AUDIT thm prop=true unsafe=false partial=false matcher=false range=true regHead=false head=LE.le UniversalLaw.Proofs.RNCluster.Aux.rc_tail_one_le_mean
+AUDIT thm prop=true unsafe=false partial=false matcher=false range=true regHead=false head=LE.le UniversalLaw.Proofs.RNCluster.Aux.rc_tail_two_bound
+AUDIT thm prop=true unsafe=false partial=false matcher=false range=true regHead=false head=LE.le UniversalLaw.Proofs.RNCluster.Aux.rc_two_mul_tail_two_le_mean
+AUDIT thm prop=true unsafe=false partial=false matcher=false range=true regHead=false head=LE.le UniversalLaw.Proofs.RNCluster.Aux.rc_upper_half
+AUDIT thm prop=true unsafe=false partial=false matcher=false range=true regHead=true head=UniversalLaw.Spec.RN.RareClusterPoissonObstructionO UniversalLaw.Proofs.RNCluster.rareClusterPoissonObstructionO
+AUDIT TOTAL 20 REFUSED 0
+AXIOMS UniversalLaw.Proofs.RNCluster.Aux.rc_pmfTV_poissonPMF_zero #[propext, Classical.choice, Quot.sound] within_std=true
+AXIOMS UniversalLaw.Proofs.RNCluster.Aux.rc_hasSum_poissonPMF #[propext, Classical.choice, Quot.sound] within_std=true
+AXIOMS UniversalLaw.Proofs.RNCluster.Aux.rc_poissonPMF_one #[propext, Classical.choice, Quot.sound] within_std=true
+AXIOMS UniversalLaw.Proofs.RNCluster.Aux.rc_poisson_tail_one #[propext, Classical.choice, Quot.sound] within_std=true
+AXIOMS UniversalLaw.Proofs.RNCluster.Aux.rc_upper_half #[propext, Classical.choice, Quot.sound] within_std=true
+AXIOMS UniversalLaw.Proofs.RNCluster.Aux.rc_tail_two_bound #[propext, Classical.choice, Quot.sound] within_std=true
+AXIOMS UniversalLaw.Proofs.RNCluster.Aux.rc_tail_two_eq #[propext, Classical.choice, Quot.sound] within_std=true
+AXIOMS UniversalLaw.Proofs.RNCluster.Aux.rc_tail_one_eq #[propext, Classical.choice, Quot.sound] within_std=true
+AXIOMS UniversalLaw.Proofs.RNCluster.Aux.rc_poissonPMF_zero #[propext, Classical.choice, Quot.sound] within_std=true
+AXIOMS UniversalLaw.Proofs.RNCluster.Aux.rc_one_sub_head_le_mean #[propext, Classical.choice, Quot.sound] within_std=true
+AXIOMS UniversalLaw.Proofs.RNCluster.Aux.rc_poisson_tail_two #[propext, Classical.choice, Quot.sound] within_std=true
+AXIOMS UniversalLaw.Proofs.RNCluster.Aux.rc_tail_one_bound #[propext, Classical.choice, Quot.sound] within_std=true
+AXIOMS UniversalLaw.Spec.RN.poissonPMF.eq_1 #[propext, Classical.choice, Quot.sound] within_std=true
+AXIOMS UniversalLaw.Proofs.RNCluster.Aux.rc_tail_one_le_mean #[propext, Classical.choice, Quot.sound] within_std=true
+AXIOMS UniversalLaw.Proofs.RNCluster.rareClusterPoissonObstructionO #[propext, Classical.choice, Quot.sound] within_std=true
+AXIOMS UniversalLaw.Proofs.RNCluster.Aux.rc_abs_tail_sub_le_pmfTV #[propext, Classical.choice, Quot.sound] within_std=true
+AXIOMS UniversalLaw.Proofs.RNCluster.Aux.rc_half_le_one_sub_exp #[propext, Classical.choice, Quot.sound] within_std=true
+AXIOMS UniversalLaw.Proofs.RNCluster.Aux.rc_lower_half #[propext, Classical.choice, Quot.sound] within_std=true
+AXIOMS UniversalLaw.Proofs.RNCluster.Aux.rc_poisson_tail_two_le_sq #[propext, Classical.choice, Quot.sound] within_std=true
+AXIOMS UniversalLaw.Proofs.RNCluster.Aux.rc_two_mul_tail_two_le_mean #[propext, Classical.choice, Quot.sound] within_std=true
+EXIT=0

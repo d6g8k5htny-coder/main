@@ -1,0 +1,76 @@
+lvs/fixer_rn/EmptyInterface_gated.lean:72:10: warning: `EuclideanSpace.single_apply` has been deprecated: Use `PiLp.single_apply` instead
+
+Note: The updated constant has a different type:
+  ∀ (p : ENNReal) (𝕜 : Type u_1) {ι : Type u_2} [inst : DecidableEq ι] [inst_1 : Zero 𝕜] (i : ι) (a : 𝕜) (j : ι),
+    (PiLp.single p i a).ofLp j = if j = i then a else 0
+instead of
+  ∀ {ι : Type u_1} {𝕜 : Type u_3} [inst : RCLike 𝕜] [inst_1 : DecidableEq ι] (i : ι) (a : 𝕜) (j : ι),
+    (EuclideanSpace.single i a).ofLp j = if j = i then a else 0
+
+Note: The updated constant is in a different namespace. Dot notation may need to be changed (e.g., from `x.single_apply` to `PiLp.single_apply x`).
+lvs/fixer_rn/EmptyInterface_gated.lean:72:10: warning: This simp argument is unused:
+  EuclideanSpace.single_apply
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Pi.single_apply, hi]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+lvs/fixer_rn/EmptyInterface_gated.lean:72:39: warning: This simp argument is unused:
+  Pi.single_apply
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [EuclideanSpace.single_apply, hi]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+lvs/fixer_rn/EmptyInterface_gated.lean:84:20: warning: `EuclideanSpace.single_apply` has been deprecated: Use `PiLp.single_apply` instead
+
+Note: The updated constant has a different type:
+  ∀ (p : ENNReal) (𝕜 : Type u_1) {ι : Type u_2} [inst : DecidableEq ι] [inst_1 : Zero 𝕜] (i : ι) (a : 𝕜) (j : ι),
+    (PiLp.single p i a).ofLp j = if j = i then a else 0
+instead of
+  ∀ {ι : Type u_1} {𝕜 : Type u_3} [inst : RCLike 𝕜] [inst_1 : DecidableEq ι] (i : ι) (a : 𝕜) (j : ι),
+    (EuclideanSpace.single i a).ofLp j = if j = i then a else 0
+
+Note: The updated constant is in a different namespace. Dot notation may need to be changed (e.g., from `x.single_apply` to `PiLp.single_apply x`).
+lvs/fixer_rn/EmptyInterface_gated.lean:85:10: warning: `EuclideanSpace.single_apply` has been deprecated: Use `PiLp.single_apply` instead
+
+Note: The updated constant has a different type:
+  ∀ (p : ENNReal) (𝕜 : Type u_1) {ι : Type u_2} [inst : DecidableEq ι] [inst_1 : Zero 𝕜] (i : ι) (a : 𝕜) (j : ι),
+    (PiLp.single p i a).ofLp j = if j = i then a else 0
+instead of
+  ∀ {ι : Type u_1} {𝕜 : Type u_3} [inst : RCLike 𝕜] [inst_1 : DecidableEq ι] (i : ι) (a : 𝕜) (j : ι),
+    (EuclideanSpace.single i a).ofLp j = if j = i then a else 0
+
+Note: The updated constant is in a different namespace. Dot notation may need to be changed (e.g., from `x.single_apply` to `PiLp.single_apply x`).
+lvs/fixer_rn/EmptyInterface_gated.lean:84:20: warning: This simp argument is unused:
+  EuclideanSpace.single_apply
+
+Hint: Omit it from the simp argument list.
+  [apply] simp
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+lvs/fixer_rn/EmptyInterface_gated.lean:85:10: warning: This simp argument is unused:
+  EuclideanSpace.single_apply
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [hj]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+lvs/fixer_rn/EmptyInterface_gated.lean:94:20: error: Application type mismatch: The argument
+  hae
+has type
+  L < L →
+    ∀ᵐ (ω : Ω) ∂I.Q L 0 1 (EuclideanSpace.basisFun (Fin d) ℝ),
+      I.F ω (pinM d L ((EuclideanSpace.basisFun (Fin d) ℝ) 0)) = 0 ∧
+        I.F ω (pinS d L ((EuclideanSpace.basisFun (Fin d) ℝ) 0)) = 0 - 1 * L ^ 3 ∧
+          IsCriticalPoint d (I.F ω) (pinM d L ((EuclideanSpace.basisFun (Fin d) ℝ) 0)) ∧
+            IsCriticalPoint d (I.F ω) (pinS d L ((EuclideanSpace.basisFun (Fin d) ℝ) 0))
+but is expected to have type
+  ?m.75 ∈ ae (I.Q L 0 1 (EuclideanSpace.basisFun (Fin d) ℝ))
+in the application
+  Filter.mp_mem hae
+lvs/fixer_rn/EmptyInterface_gated.lean:95:11: error: Tactic `rcases` failed: `hω : ?m.75 ω` is not an inductive datatype
+
+real	0m3.852s
+user	0m2.459s
+sys	0m1.498s

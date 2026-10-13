@@ -1,0 +1,438 @@
+diff --git a/companions/torus_filtration_20261011/README.md b/companions/torus_filtration_20261011/README.md
+index 19dea18..83544ff 100644
+--- a/companions/torus_filtration_20261011/README.md
++++ b/companions/torus_filtration_20261011/README.md
+@@ -189,9 +189,18 @@ or `#`, any string literal (`"`), a primed or dotted declaration name, a declara
+ the namespace or after `end TorusFiltration`, any remaining `namespace ResearchFormalCoreR1`,
+ and any admission token (`sorry`, `sorryAx`, `admit`, `axiom`, `native_decide`,
+ `ofReduceBool`, `trustCompiler`, `unsafe`, `opaque`, `partial`, `implemented_by`, `extern`,
+-`skipKernelTC`, `autoImplicit`) in comment-free code. A compile fix that needs a refused form
+-must extend the scanner and the inventory explicitly; nothing escapes the `#print axioms` audit
+-by being written in a shape the scanner does not count.
++`skipKernelTC`, `autoImplicit`) in comment-free code, and the declaration-producing commands of
++Batteries, Aesop and Mathlib at the pin (`alias`, `irreducible_def`, `simproc`, `simproc_decl`,
++`dsimproc`, `dsimproc_decl`, `builtin_simproc`, `builtin_dsimproc`, `notation3`, `unif_hint`,
++`recall`, `binder_predicate`, `add_decl_doc`, `library_note`, `assert_not_exists`,
++`register_simp_attr`, `declare_aesop_rule_sets`, `compile_inductive`, `compile_def`, `nonrec`).
++The refused keywords are the explicit enumeration `COMMANDS` in `check.py`, not a Lean grammar:
++a declaration-producing command absent from that enumeration would pass an indented or
++same-line position uncounted, and the `#print axioms` audit covers the inventoried names only.
++The C262 gate review (Math- #428 comment 6112740935, finding G2) found `alias` absent from the
++enumeration at head `a898bb44`; the enumeration now lists it and the other commands above, and
++the census claim is bounded to that list. A compile fix that needs a refused form must extend
++the scanner and the inventory explicitly.
+ 
+ ## Vocabulary
+ 
+@@ -235,13 +244,18 @@ elaborated as `example : <statement> := by <tactic>` and must fail with exactly
+ The injection controls run **without** warnings-as-errors on purpose: Lean accepts those files,
+ and only the axiom audit refuses them, which is what the audit is for. `check.py negative` uses
+ `re.fullmatch` on each log, so a crash, an extra error or a different exit code is a failed
+-control, not a passed one. `check.py finish` re-runs the source binding, re-derives the nine
+-emitted Lean files (`Audit.lean`, `Types.lean`, `Positive.lean`, six controls) and requires byte
+-equality with the ones Lean consumed, checks every status, the toolchain line, the installed
+-package HEADs against `formal/lake-manifest.json`, the recorded `leanchecker` invocation, the
+-axiom and type inventories and the six controls, and writes `receipt.json` with `log_sha256`
+-over every file in the evidence directory. The evidence directory
+-`.lake/torus-filtration-evidence` must not pre-exist.
++control, not a passed one. `check.py finish` refuses an evidence directory that already holds
++`receipt.json` (a receipt is written once and never replaced; a new attempt needs a fresh
++directory) and requires exactly the 41 evidence files, each a regular file and nothing else: the
++nine emitted Lean files, a `.log` and `.status` pair for each of the seven Lean processes
++(three module builds, `positive`, `axioms`, `types`, `leanchecker`), the six controls'
++`.lean`/`.log`/`.status`, `leanchecker.cmd`, `packages.log`, `toolchain.log`, `source.json`,
++`tests.log` and `tests-optimized.log` (`EVIDENCE_FILES` in `check.py`; C262 finding G3). It then
++re-runs the source binding, re-derives the nine emitted Lean files and requires byte equality
++with the ones Lean consumed, checks every status, the toolchain line, the installed package
++HEADs against `formal/lake-manifest.json`, the recorded `leanchecker` invocation, the axiom and
++type inventories and the six controls, and writes `receipt.json` with `log_sha256` over exactly
++those 41 files. The evidence directory `.lake/torus-filtration-evidence` must not pre-exist.
+ 
+ ### What `leanchecker` checks here, and why not `--fresh`
+ 
+@@ -283,7 +297,30 @@ Delete them before committing.
+ 
+ Local protocol tests: `python3 -B -S companions/torus_filtration_20261011/test_torus_filtration.py`
+ and the same with `-O`. They exercise `check.py` against a temporary Git fixture with
+-inventory-exact placeholder modules; they execute no Lean.
++inventory-exact placeholder modules; they execute no Lean. The fixture spawns its `check.py`
++children with the outer interpreter's optimization level (`-O` under `-O`) and strips
++`PYTHONOPTIMIZE` from their environment, and two controls observe the mode the children actually
++run in (`sys.flags.optimize` reported from inside the child, including from a child running the
++real `check.py source`). Until head `a898bb44` the children ran unoptimized whatever the outer
++mode was (C262 finding G1): the `tests-optimized.log` transcripts of hosted runs 38165155316 and
++38165763430 therefore cover the imported helpers under `-O` and the CLI paths unoptimized; that
++narrower attribution stands for those runs and is not revised.
++
++## Amendments
++
++- C262 (Math- #428, nonauthor engineering gate review [6112740935](https://github.com/d6g8k5htny-coder/Math-/pull/428#issuecomment-6112740935),
++  disposition [6112743879](https://github.com/d6g8k5htny-coder/Math-/pull/428#issuecomment-6112743879), AMEND_ENGINEERING_GATE on
++  head `a898bb44`): G1 the test fixture now propagates the outer optimization level to its `check.py`
++  children, strips `PYTHONOPTIMIZE` and observes the child mode; G2 the scanner refuses `alias` and
++  the other declaration-producing commands listed above, with indented, same-line and column-0
++  negative controls, and the census claim is bounded to the enumeration; G3 `finish` never replaces
++  a receipt and requires the exact 41-member evidence set of regular files, with controls for a
++  repeat `finish`, an existing receipt beside a newly failing input, every removed member, an extra
++  member and a symlinked member. No Lean byte, declaration, control statement or workflow line
++  changed. The same review's Lean source verdict (PASS_SOURCE_SCOPE,
++  [6112740740](https://github.com/d6g8k5htny-coder/Math-/pull/428#issuecomment-6112740740)) and hosted-evidence verdict
++  (APPROVE_OBSERVED_EXECUTION_SCOPE, [6112741132](https://github.com/d6g8k5htny-coder/Math-/pull/428#issuecomment-6112741132))
++  were of head `a898bb44`; organizational-independence credit 0 throughout.
+ 
+ ## What this companion does not do
+ 
+diff --git a/companions/torus_filtration_20261011/SCOPE.md b/companions/torus_filtration_20261011/SCOPE.md
+index 68361d9..a59330c 100644
+--- a/companions/torus_filtration_20261011/SCOPE.md
++++ b/companions/torus_filtration_20261011/SCOPE.md
+@@ -64,7 +64,10 @@ renamed theorem, hidden or indented declaration, injected admission, every hones
+ schema field of `SOURCE_FILES.json` one at a time, wrong or unpinned toolchain and dependency
+ lock, host identity mismatch, an emitted Lean file altered between `emit` and `finish`, an
+ unrecognized `leanchecker` invocation, leanchecker output in modules mode, wrong installed
+-dependency).
++dependency, a second `finish` on a directory already holding a receipt, an existing receipt
++beside a newly failing input, any missing, extra or symlinked evidence member, an uninventoried
++`alias` indented after the namespace opening or on a declaration line, and a `check.py` child
++running in a different optimization mode from the outer test interpreter).
+ 
+ ## Evidence boundary
+ 
+diff --git a/companions/torus_filtration_20261011/SOURCE_FILES.json b/companions/torus_filtration_20261011/SOURCE_FILES.json
+index 33ddb7d..cc60b22 100644
+--- a/companions/torus_filtration_20261011/SOURCE_FILES.json
++++ b/companions/torus_filtration_20261011/SOURCE_FILES.json
+@@ -45,14 +45,14 @@
+       "sha256": "90d1481b75d9c6d14e462c3fbf0bf7c7cdd0efb9eaad68d6732400658753b1c2"
+     },
+     "companions/torus_filtration_20261011/README.md": {
+-      "bytes": 22334,
+-      "git_blob": "19dea18ff92b8a438bd35477e751ed68e02126e7",
+-      "sha256": "c26fbc29b062177f2060e125ed2002e5e5d898c4fccb97c02d8bec8a0ef6e386"
++      "bytes": 25720,
++      "git_blob": "83544ff1e3819c46b5677875bf54043e50d28077",
++      "sha256": "77da5ec25297512c168f79a116f59cfa55b8146eaa7f83163c9f968ba545b77d"
+     },
+     "companions/torus_filtration_20261011/SCOPE.md": {
+-      "bytes": 10073,
+-      "git_blob": "68361d93bb6b701c3c3c6c32ab942db3e4bcedc3",
+-      "sha256": "bcd3c49a8cc05dc33a424092622b0ad1dabc82684bee037cd85ee8c131d33dbb"
++      "bytes": 10417,
++      "git_blob": "a59330cfc29a40b8cb52b4325d8c02fac1ce3047",
++      "sha256": "5328795f3e9e5e597533ce4700cb8ea497c9a068c1e502dcecf99e19665045d5"
+     },
+     "companions/torus_filtration_20261011/TorusFiltration.lean": {
+       "bytes": 45,
+@@ -65,9 +65,9 @@
+       "sha256": "ddb145b3f791c181d4f2a51e54e711937297bd6476ba55bcd5252b7ddb57cfe1"
+     },
+     "companions/torus_filtration_20261011/check.py": {
+-      "bytes": 29134,
+-      "git_blob": "8443ae3192c44b912952b9cd1984a7290e95acc8",
+-      "sha256": "57a75907677e074579b501168ad0a406d51168f41daa96b8627615b037acfc6b"
++      "bytes": 32040,
++      "git_blob": "bbd8517b8bb9452e36a03db96f4828a5f6ba2699",
++      "sha256": "133e9c6317465e555c51f0795d847b5b1f25d9d8861e6bdda10e6f7a873b7012"
+     },
+     "companions/torus_filtration_20261011/replay.sh": {
+       "bytes": 4161,
+@@ -75,9 +75,9 @@
+       "sha256": "74de4c98df96bfa59b879dc79bad78bc708573b1ee16c2582393837cc4e9d189"
+     },
+     "companions/torus_filtration_20261011/test_torus_filtration.py": {
+-      "bytes": 62092,
+-      "git_blob": "6eb9a3eb3b319c59dd27f08463b0679274b06901",
+-      "sha256": "b5102880bd937d13d92e61f2896ec368177d1828113f75565d6471b8fcccfa50"
++      "bytes": 70196,
++      "git_blob": "84c00cb29e1a54d53f0e7c67f6dcedff101a202e",
++      "sha256": "96b00c7681d2260720eeb34774bf2e52c87bed2c5e718253973ffeb966e2fe43"
+     }
+   },
+   "modules": [
+diff --git a/companions/torus_filtration_20261011/check.py b/companions/torus_filtration_20261011/check.py
+index 8443ae3..bbd8517 100644
+--- a/companions/torus_filtration_20261011/check.py
++++ b/companions/torus_filtration_20261011/check.py
+@@ -55,14 +55,24 @@ LEANCHECKER = {'leanchecker TorusTopology ClosedSuperlevel TorusFiltration': 'mo
+ ADMISSION = ('sorry', 'sorryAx', 'admit', 'axiom', 'native_decide', 'ofReduceBool', 'trustCompiler', 'unsafe',
+              'opaque', 'partial', 'implemented_by', 'extern', 'skipKernelTC', 'autoImplicit')
+ # Module scanner (scan_module): a whitelist of what may start a column-0 code line. Lean itself accepts a
+-# command anywhere (indented, after another command on the same line, behind `open … in`), so every other
+-# command keyword is refused wherever it appears outside comments; the scanner refuses what it cannot place.
++# command anywhere (indented, after another command on the same line, behind `open … in`), so every command
++# keyword in COMMANDS is refused wherever it appears outside comments; the scanner refuses what it cannot place.
++# COMMANDS is an explicit enumeration, not a Lean grammar: a declaration-producing command absent from it would
++# pass an indented or same-line position uncounted (C262 gate review G2, Math- #428 comment 6112740935, found
++# `alias` absent at head a898bb44; Batteries/Tactic/Alias.lean at the pin elaborates `alias n := c` into a new
++# declaration). The enumeration therefore lists every declaration-producing command of Lean core, Batteries,
++# Aesop and Mathlib known at the pin, and the README bounds the census claim to this list.
+ COMMANDS = ('theorem', 'lemma', 'def', 'abbrev', 'instance', 'axiom', 'axioms', 'example', 'structure', 'inductive',
+             'class', 'opaque', 'macro', 'macro_rules', 'syntax', 'elab', 'elab_rules', 'notation', 'infix', 'infixl',
+             'infixr', 'prefix', 'postfix', 'set_option', 'attribute', 'namespace', 'section', 'end', 'universe',
+             'variable', 'import', 'private', 'protected', 'noncomputable', 'unsafe', 'partial', 'scoped', 'local',
+             'mutual', 'deriving', 'initialize', 'builtin_initialize', 'declare_syntax_cat', 'register_option',
+-            'open', 'export', 'include', 'omit', 'run_cmd', 'run_tac', 'run_elab', 'in')
++            'open', 'export', 'include', 'omit', 'run_cmd', 'run_tac', 'run_elab', 'in',
++            # declaration-producing commands of Batteries, Aesop and Mathlib at the pin (C262 G2)
++            'alias', 'irreducible_def', 'simproc', 'simproc_decl', 'dsimproc', 'dsimproc_decl', 'builtin_simproc',
++            'builtin_dsimproc', 'notation3', 'unif_hint', 'recall', 'binder_predicate', 'add_decl_doc', 'library_note',
++            'assert_not_exists', 'register_simp_attr', 'declare_aesop_rule_sets', 'compile_inductive', 'compile_def',
++            'nonrec')
+ COMMAND_TOKEN = re.compile(r'(?<![A-Za-z0-9_.])(?:' + '|'.join(COMMANDS) + r')(?![A-Za-z0-9_])')
+ DECLARATION = re.compile(r'(theorem|abbrev|instance|def|noncomputable def) (' + IDENT + r')(?=$|[\s:(\[{⦃])')
+ PRELUDE = {'import': re.compile(r'import Mathlib(?:\.[A-Za-z0-9_]+)*'),
+@@ -86,6 +96,16 @@ INJECTIONS = {
+     'RejectNativeDecide': ("theorem injected : (2 : Nat) + 2 = 4 := by native_decide\n",
+                            'injected._native.native_decide.ax_1_1', '')}
+ CONTROLS = tuple(FALSE_CONTROLS) + tuple(INJECTIONS)
++# The exact membership of the evidence directory when `finish` runs (C262 gate review G3): the nine files emit()
++# writes, a .log/.status pair per Lean process, the two protocol-test transcripts and the four environment records.
++# finish() refuses a directory with any member missing or unexpected, any member that is not a regular file, and
++# any directory already holding receipt.json: a receipt is written once and never replaced.
++EMITTED_FILES = ('Audit.lean', 'Types.lean', 'Positive.lean') + tuple(c + '.lean' for c in CONTROLS)
++EVIDENCE_FILES = frozenset(EMITTED_FILES) | {label + ext for label in BUILDS for ext in ('.log', '.status')} \
++    | {control + ext for control in CONTROLS for ext in ('.log', '.status')} \
++    | {'leanchecker.cmd', 'packages.log', 'toolchain.log', 'source.json', 'tests.log', 'tests-optimized.log'}
++if len(EVIDENCE_FILES) != 41:   # an explicit check, not an `assert`: the gate must hold under -O too
++    raise RuntimeError('EVIDENCE_FILES must enumerate exactly 41 members')
+ POSITIVE = '''import TorusFiltration
+ open TorusFiltration
+ 
+@@ -446,6 +466,16 @@ def emit(out):
+ 
+ 
+ def finish(out):
++    require(out.is_dir() and not out.is_symlink(), 'evidence directory absent: ' + str(out))
++    receipt_path = out / 'receipt.json'
++    require(not receipt_path.exists() and not receipt_path.is_symlink(),
++            'receipt.json already present: finish never replaces a receipt; a new attempt needs a fresh evidence directory')
++    present = {p.name for p in out.iterdir()}
++    missing, unexpected = sorted(EVIDENCE_FILES - present), sorted(present - EVIDENCE_FILES)
++    require(not missing and not unexpected, 'evidence membership differs: missing %s, unexpected %s' % (missing, unexpected))
++    for name in sorted(EVIDENCE_FILES):
++        member = out / name
++        require(member.is_file() and not member.is_symlink(), 'evidence member is not a regular file: ' + name)
+     initial = strict((out / 'source.json').read_bytes())
+     current = source()
+     require(initial == current, 'source changed across execution')
+@@ -486,8 +516,9 @@ def finish(out):
+         'scope_note': 'kernel-checked records that Lean elaborated these declarations at the pinned toolchain and '
+                       'that leanchecker replayed ' + replayed + '; it is not alignment with the handoff scope, '
+                       'not review, and not acceptance.',
+-        'log_sha256': {p.name: sha(p.read_bytes()) for p in sorted(out.iterdir()) if p.is_file()}}
+-    (out / 'receipt.json').write_text(json.dumps(receipt, indent=2, sort_keys=True) + '\n')
++        'log_sha256': {name: sha((out / name).read_bytes()) for name in sorted(EVIDENCE_FILES)}}
++    require(not receipt_path.exists() and not receipt_path.is_symlink(), 'receipt.json appeared during finalization')
++    receipt_path.write_text(json.dumps(receipt, indent=2, sort_keys=True) + '\n')
+     return receipt
+ 
+ 
+diff --git a/companions/torus_filtration_20261011/test_torus_filtration.py b/companions/torus_filtration_20261011/test_torus_filtration.py
+index 6eb9a3e..84c00cb 100644
+--- a/companions/torus_filtration_20261011/test_torus_filtration.py
++++ b/companions/torus_filtration_20261011/test_torus_filtration.py
+@@ -61,6 +61,32 @@ def checker():
+     return module
+ 
+ 
++def child_python():
++    """Interpreter prefix for every check.py child: `-B -S` plus the OUTER interpreter's optimization level.
++
++    A child spawned through sys.executable does not inherit the parent's -O; until C262 (Math- #428 comment
++    6112740935, finding G1) the -O test run therefore exercised check.py's CLI paths unoptimized."""
++    flags = ['-B', '-S']
++    if sys.flags.optimize:
++        flags.append('-' + 'O' * sys.flags.optimize)
++    return [sys.executable, *flags]
++
++
++def child_env(extra=None):
++    """Child environment: no GITHUB_* (host identity is set explicitly where a test needs it) and no PYTHONOPTIMIZE,
++    ambient or injected, so the child's mode is exactly the one child_python() selects."""
++    environment = {k: v for k, v in os.environ.items() if not k.startswith('GITHUB_')}
++    environment.update(extra or {})
++    environment.pop('PYTHONOPTIMIZE', None)
++    return environment
++
++
++OPTIMIZE_PROBE = 'import sys; print(sys.flags.optimize)'
++# Runs the real check.py `source` inside a child that first reports the mode it actually executes in.
++CHECK_SOURCE_OBSERVED = ('import sys, runpy; print("child optimize", sys.flags.optimize, file=sys.stderr); '
++                         'sys.argv = [sys.argv[1], "source"]; runpy.run_path(sys.argv[0], run_name="__main__")')
++
++
+ def placeholder_module(module):
+     """Inventory-exact Lean text that is never compiled; only the whitelist scan reads it."""
+     lines = ['import Mathlib', '', '/-! fixture module; not the companion source -/', '', 'namespace TorusFiltration', '']
+@@ -133,10 +159,8 @@ class Fixture:
+         self.commit()
+ 
+     def run(self, *args, env=None):
+-        environment = {k: v for k, v in os.environ.items() if not k.startswith('GITHUB_')}
+-        environment.update(env or {})
+-        return subprocess.run([sys.executable, '-B', '-S', str(self.side / 'check.py'), *args], cwd=self.root,
+-                              capture_output=True, text=True, env=environment)
++        return subprocess.run([*child_python(), str(self.side / 'check.py'), *args], cwd=self.root,
++                              capture_output=True, text=True, env=child_env(env))
+ 
+     def evidence(self):
+         out = self.root / 'evidence'
+@@ -150,6 +174,8 @@ class Fixture:
+             raise AssertionError(emitted.stderr)
+         (out / 'toolchain.log').write_text(LEAN_VERSION_LINE)
+         (out / 'packages.log').write_text(''.join('%s %s\n' % kv for kv in self.revisions.items()))
++        (out / 'tests.log').write_text('Ran 1 test\n\nOK\n')
++        (out / 'tests-optimized.log').write_text('Ran 1 test\n\nOK\n')
+         for label in self.c.BUILDS:
+             (out / (label + '.status')).write_text('0\n')
+             (out / (label + '.log')).write_text('')
+@@ -179,6 +205,53 @@ class FixtureCase(unittest.TestCase):
+         self.assertIn('TORUS_FILTRATION_FAIL: ' + message, run.stderr)
+ 
+ 
++class ChildInterpreterMode(unittest.TestCase):
++    """C262 G1: the mode a check.py child actually runs in is observed, not inferred from an argument string."""
++
++    def test_children_run_in_the_outer_optimization_mode(self):
++        outer = sys.flags.optimize
++        probe = subprocess.run([*child_python(), '-c', OPTIMIZE_PROBE], capture_output=True, text=True, env=child_env())
++        self.assertEqual((probe.returncode, probe.stdout.strip()), (0, str(outer)), probe.stderr)
++        # Ambient or injected PYTHONOPTIMIZE never reaches the child: the mode is the outer one in both cases.
++        saved = os.environ.get('PYTHONOPTIMIZE')
++        os.environ['PYTHONOPTIMIZE'] = '2'
++        try:
++            ambient = subprocess.run([*child_python(), '-c', OPTIMIZE_PROBE], capture_output=True, text=True, env=child_env())
++            injected = subprocess.run([*child_python(), '-c', OPTIMIZE_PROBE], capture_output=True, text=True,
++                                      env=child_env({'PYTHONOPTIMIZE': '1'}))
++        finally:
++            if saved is None:
++                del os.environ['PYTHONOPTIMIZE']
++            else:
++                os.environ['PYTHONOPTIMIZE'] = saved
++        self.assertEqual(ambient.stdout.strip(), str(outer))
++        self.assertEqual(injected.stdout.strip(), str(outer))
++        self.assertNotIn('PYTHONOPTIMIZE', child_env({'PYTHONOPTIMIZE': '1'}))
++        # The invocation the fixture used before C262 (no propagation) runs the child unoptimized whatever the outer
++        # mode is; under `-O` that is exactly the G1 observation, under the normal mode the two agree at 0.
++        plain = subprocess.run([sys.executable, '-B', '-S', '-c', OPTIMIZE_PROBE], capture_output=True, text=True, env=child_env())
++        self.assertEqual(plain.stdout.strip(), '0')
++        if outer:
++            self.assertNotEqual(plain.stdout.strip(), str(outer))
++        self.assertEqual(child_python()[1:], ['-B', '-S'] + (['-' + 'O' * outer] if outer else []))
++
++    def test_check_py_source_child_reports_the_outer_mode(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            f = Fixture(checker(), tmp)
++            run = subprocess.run([*child_python(), '-c', CHECK_SOURCE_OBSERVED, str(f.side / 'check.py')], cwd=f.root,
++                                 capture_output=True, text=True, env=child_env())
++            self.assertEqual(run.returncode, 0, run.stderr)
++            self.assertIn('child optimize %d' % sys.flags.optimize, run.stderr)
++            self.assertEqual(json.loads(run.stdout)['checked_commit'], f.git('rev-parse', 'HEAD').strip())
++            # The CLI refusal path is exercised in the same observed mode.
++            (f.side / 'README.md').write_text('# edited without a commit\n')
++            refused = subprocess.run([*child_python(), '-c', CHECK_SOURCE_OBSERVED, str(f.side / 'check.py')], cwd=f.root,
++                                     capture_output=True, text=True, env=child_env())
++            self.assertEqual(refused.returncode, 1)
++            self.assertIn('child optimize %d' % sys.flags.optimize, refused.stderr)
++            self.assertIn('TORUS_FILTRATION_FAIL: dirty execution/source bytes', refused.stderr)
++
++
+ class InventoryTests(unittest.TestCase):
+     @classmethod
+     def setUpClass(cls):
+@@ -291,6 +364,16 @@ class InventoryTests(unittest.TestCase):
+             (inject('set_option maxHeartbeats 0 in'), unexpected),
+             (inject('section\n  theorem indented_hidden : True := trivial\nend'), unexpected),
+             (inject('  theorem indented_hidden : True := trivial'), command),
++            (good.replace('namespace TorusFiltration\n', 'namespace TorusFiltration\n  alias hidden := Nat.add_comm\n'), command),
++            (inject('theorem a_hidden : True := trivial alias hidden := Nat.add_comm'), command),
++            (inject('alias hidden := Nat.add_comm'), unexpected),
++            (inject('  irreducible_def hidden : Nat := 0'), command),
++            (inject('  simproc hidden (Nat.succ _) := fun _ => return .continue'), command),
++            (inject('  notation3 hidden => Nat.zero'), command),
++            (inject('  unif_hint (x : Nat) where ⊢ x =?= x'), command),
++            (inject('  recall superlevel_set : Nat := 0'), command),
++            (inject('  add_decl_doc superlevel_set'), command),
++            (inject('  nonrec def hidden : Nat := 0'), command),
+             (inject('theorem a_hidden : True := trivial theorem b_hidden : True := trivial'), command),
+             (inject('theorem a_hidden : True := by\n  open Classical in exact trivial'), command),
+             (inject('variable (h : False) in theorem hidden : True := trivial'), command),
+@@ -690,6 +773,12 @@ class SourceFixture(FixtureCase):
+                       'unexpected column-0 line in ClosedSuperlevel:'),
+                      (original.replace('\nend TorusFiltration', '\n  theorem hidden : True := trivial\nend TorusFiltration'),
+                       'command token outside a column-0 declaration in ClosedSuperlevel:'),
++                     # C262 G2: an indented imported `alias` immediately after the namespace opening, refused by the source CLI
++                     (original.replace('namespace TorusFiltration\n', 'namespace TorusFiltration\n  alias hidden := Nat.add_comm\n'),
++                      'command token outside a column-0 declaration in ClosedSuperlevel:'),
++                     (original.replace('theorem superlevel_mono : True := trivial',
++                                       'theorem superlevel_mono : True := trivial alias hidden := Nat.add_comm'),
++                      'command token outside a column-0 declaration in ClosedSuperlevel:'),
+                      (original.replace('namespace TorusFiltration', 'namespace ResearchFormalCoreR1'),
+                       'handoff namespace left in place: ClosedSuperlevel')]
+             for text, message in cases:
+@@ -838,9 +927,22 @@ class FinishFixture(FixtureCase):
+             for name, digest in receipt['log_sha256'].items():
+                 self.assertEqual(hashlib.sha256((out / name).read_bytes()).hexdigest(), digest, name)
+             self.assertEqual(set(receipt['log_sha256']), {p.name for p in out.iterdir() if p.is_file()} - {'receipt.json'})
++            self.assertEqual(set(receipt['log_sha256']), set(self.c.EVIDENCE_FILES))
++            self.assertEqual(len(receipt['log_sha256']), 41)
+             self.assertIn('axioms.log', receipt['log_sha256'])
+             self.assertIn('leanchecker.cmd', receipt['log_sha256'])
+             self.assertIn('Positive.lean', receipt['log_sha256'])
++            self.assertIn('tests-optimized.log', receipt['log_sha256'])
++            # C262 G3: a receipt is never replaced. A second finish on the same directory is refused and leaves the
++            # old bytes intact, with or without a newly failing input; no digest of the receipt itself appears.
++            frozen = (out / 'receipt.json').read_bytes()
++            self.assertFails(f.run('finish', str(out)), 'receipt.json already present')
++            self.assertEqual((out / 'receipt.json').read_bytes(), frozen)
++            (out / 'leanchecker.status').write_text('1\n')
++            self.assertFails(f.run('finish', str(out)), 'receipt.json already present')
++            self.assertEqual((out / 'receipt.json').read_bytes(), frozen)
++            (out / 'leanchecker.status').write_text('0\n')
++            self.assertNotIn('receipt.json', receipt['log_sha256'])
+             # An operator's --fresh run is recorded as such, with leanchecker's own progress line tolerated.
+             (out / 'receipt.json').unlink()
+             (out / 'leanchecker.cmd').write_text(LEANCHECKER_FRESH + '\n')
+@@ -900,17 +1002,35 @@ class FinishFixture(FixtureCase):
+                         self.assertFalse((out / 'receipt.json').exists(), 'receipt written despite refusal')
+                     finally:
+                         (out / name).write_text(saved)
+-            for name, message in (('leanchecker.cmd', 'leanchecker invocation record absent'),
+-                                  ('Positive.lean', 'emitted Lean file changed across execution: Positive.lean'),
+-                                  ('RejectSuperlevelBelowThreshold.status', '[Errno 2] No such file or directory')):
+-                with self.subTest(name=name, message=message):
+-                    saved = (out / name).read_text()
++            # C262 G3: every one of the 41 required evidence members is required; removing any one withholds the receipt.
++            self.assertEqual({p.name for p in out.iterdir()}, set(self.c.EVIDENCE_FILES))
++            for name in sorted(self.c.EVIDENCE_FILES):
++                with self.subTest(removed=name):
++                    saved = (out / name).read_bytes()
+                     (out / name).unlink()
+                     try:
+-                        self.assertFails(f.run('finish', str(out)), message)
++                        self.assertFails(f.run('finish', str(out)), "evidence membership differs: missing ['%s'], unexpected []" % name)
+                         self.assertFalse((out / 'receipt.json').exists(), 'receipt written despite refusal')
+                     finally:
+-                        (out / name).write_text(saved)
++                        (out / name).write_bytes(saved)
++            # An unexpected member, a symlinked member and a stray subdirectory are refused too.
++            (out / 'extra.log').write_text('')
++            self.assertFails(f.run('finish', str(out)), "evidence membership differs: missing [], unexpected ['extra.log']")
++            (out / 'extra.log').unlink()
++            (out / 'stray').mkdir()
++            self.assertFails(f.run('finish', str(out)), "evidence membership differs: missing [], unexpected ['stray']")
++            (out / 'stray').rmdir()
++            saved = (out / 'tests.log').read_bytes()
++            (out / 'tests.log').unlink()
++            os.symlink('tests-optimized.log', out / 'tests.log')
++            self.assertFails(f.run('finish', str(out)), 'evidence member is not a regular file: tests.log')
++            self.assertFalse((out / 'receipt.json').exists())
++            (out / 'tests.log').unlink()
++            (out / 'tests.log').write_bytes(saved)
++            # A pre-existing receipt (even a symlink to nothing) is never replaced.
++            os.symlink('absent-target', out / 'receipt.json')
++            self.assertFails(f.run('finish', str(out)), 'receipt.json already present')
++            (out / 'receipt.json').unlink()
+             self.assertEqual(f.run('finish', str(out)).returncode, 0)
+ 
+ 

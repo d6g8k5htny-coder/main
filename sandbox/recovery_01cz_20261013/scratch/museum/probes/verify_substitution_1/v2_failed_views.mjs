@@ -1,0 +1,11 @@
+import {shipped, render, texts, walk} from './common.mjs';
+const m = shipped();
+const r = await render(m, {search: '?view=annulus', withGeometry: true});
+console.log('fetch misses:', JSON.stringify(r.log));
+const refused = []; walk(r.document.getElementById('claim-cards'), n => { if (n.className === 'museum-card refused') refused.push(texts(n).join(' | ')); });
+walk(r.document.getElementById('packet-cards'), n => { if (n.className === 'museum-card refused') refused.push('packet: ' + texts(n).join(' | ')); });
+walk(r.document.getElementById('lifetime-fixture'), n => { if (n.className === 'museum-card refused') refused.push('lifetime: ' + texts(n).join(' | ')); });
+console.log('refused cards:', JSON.stringify(refused, null, 1));
+const ex = r.document.getElementById('active-exhibit');
+const q = texts(ex).find(s => s.startsWith('## 1. Statement'));
+console.log('excerpt sentences with "height":', JSON.stringify((q || '').split(/(?<=\.)\s+/).filter(s => /height/.test(s))));

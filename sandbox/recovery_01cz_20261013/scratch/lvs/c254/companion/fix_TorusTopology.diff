@@ -1,0 +1,51 @@
+--- <SCRATCH>/lvs/c254/overlay/ResearchFormalCoreR1/TorusTopology.lean	2026-10-11 16:24:41.630613451 +0000
++++ formal/ResearchFormalCoreR1/TorusTopology.lean	2026-10-11 16:33:53.934512519 +0000
+@@ -8,6 +8,7 @@
+ source-bound Field.lean; this module does not import or alter that owner's file.
+ All quotient, compactness, covering and descent properties are constructed.
+ The final lift endpoint is existential. No critical-level attainment is claimed.
++Compile fixes at the pin (Lean v4.34.1, Mathlib d13f23b7), no statement altered: `Basis` → `Module.Basis`, `Basis.unitsSMul_apply` → `Module.Basis.unitsSMul_apply`, lattice discreteness passed via `SetLike.isDiscrete_iff_discreteTopology.mpr` instead of `DiscreteTopology.isDiscrete`, quotient path-connectedness via `inferInstanceAs (PathConnectedSpace (Quotient _))` instead of `infer_instance`.
+ -/
+ 
+ noncomputable section
+@@ -26,7 +27,7 @@
+     torus_latticeVec d L n = ∑ i, EuclideanSpace.single i (L * (n i : ℝ)) := rfl
+ 
+ def torus_periodBasis (d : ℕ) (L : ℝ) (hL : 0 < L) :
+-    Basis (Fin d) ℝ (torus_E d) :=
++    Module.Basis (Fin d) ℝ (torus_E d) :=
+   (EuclideanSpace.basisFun (Fin d) ℝ).toBasis.unitsSMul
+     (fun _ => Units.mk0 L hL.ne')
+ 
+@@ -50,10 +51,10 @@
+   ext j
+   by_cases hij : i = j
+   · subst j
+-    simp [torus_periodBasis, Basis.unitsSMul_apply, OrthonormalBasis.coe_toBasis,
++    simp [torus_periodBasis, Module.Basis.unitsSMul_apply, OrthonormalBasis.coe_toBasis,
+       EuclideanSpace.basisFun_apply, Units.smul_def, PiLp.smul_apply,
+       PiLp.single_apply, zsmul_eq_mul, mul_comm]
+-  · simp [torus_periodBasis, Basis.unitsSMul_apply, OrthonormalBasis.coe_toBasis,
++  · simp [torus_periodBasis, Module.Basis.unitsSMul_apply, OrthonormalBasis.coe_toBasis,
+       EuclideanSpace.basisFun_apply, Units.smul_def, PiLp.smul_apply,
+       PiLp.single_apply, hij, Ne.symm hij]
+ 
+@@ -107,7 +108,8 @@
+ theorem torus_proj_isCoveringMap (d : ℕ) (L : ℝ) (hL : 0 < L) :
+     IsCoveringMap (torus_proj d L hL) :=
+   ((torus_periodLattice d L hL).toAddSubgroup.isAddQuotientCoveringMap_of_comm
+-    DiscreteTopology.isDiscrete).isCoveringMap
++    (SetLike.isDiscrete_iff_discreteTopology.mpr
++      (torus_lattice_addSubgroup_discrete d L hL))).isCoveringMap
+ 
+ theorem torus_compact (d : ℕ) (L : ℝ) (hL : 0 < L) :
+     IsCompact (Set.univ : Set (torus_quotient d L hL)) := by
+@@ -118,7 +120,7 @@
+ 
+ theorem torus_pathConnectedSpace (d : ℕ) (L : ℝ) (hL : 0 < L) :
+     PathConnectedSpace (torus_quotient d L hL) := by
+-  infer_instance
++  exact inferInstanceAs <| PathConnectedSpace (Quotient _)
+ 
+ /-- Exact Field periodicity predicate with the literal lattice-vector adapter above. -/
+ def torus_isPeriodic (d : ℕ) (L : ℝ) (g : torus_E d → ℝ) : Prop :=

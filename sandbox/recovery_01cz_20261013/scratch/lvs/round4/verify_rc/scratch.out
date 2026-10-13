@@ -1,0 +1,73 @@
+UniversalLaw.Proofs.RNCluster.rareClusterPoissonObstructionO : ∀ (μ : ℝ → ℕ → ℝ) (a A : ℝ),
+  UniversalLaw.Spec.RN.RareClusterPoissonObstructionO μ a A
+UniversalLaw.Proofs.RNCluster.rareClusterPoissonObstructionO : ∀ (μ : Real → Nat → Real) (a A : Real),
+  UniversalLaw.Spec.RN.RareClusterPoissonObstructionO μ a A
+def UniversalLaw.Spec.RN.RareClusterPoissonObstructionO : (ℝ → ℕ → ℝ) → ℝ → ℝ → Prop :=
+fun μ a A =>
+  0 < a →
+    (∃ r0,
+        0 < r0 ∧
+          ∀ (r : ℝ),
+            0 < r →
+              r ≤ r0 →
+                (∀ (n : ℕ), 0 ≤ μ r n) ∧
+                  Summable (μ r) ∧
+                    ∑' (n : ℕ), μ r n = 1 ∧
+                      (Summable fun n => ↑n * μ r n) ∧
+                        ∑' (n : ℕ), ↑n * μ r n ≤ A * r ^ 3 ∧ a * r ^ 3 ≤ 1 - μ r 0 - μ r 1) →
+      ∃ rStar,
+        0 < rStar ∧
+          ∀ (r : ℝ),
+            0 < r →
+              r ≤ rStar →
+                (∀ (lam : ℝ),
+                    0 ≤ lam → a / 2 * r ^ 3 ≤ UniversalLaw.Spec.RN.pmfTV (μ r) (UniversalLaw.Spec.RN.poissonPMF lam)) ∧
+                  ∃ lam, 0 ≤ lam ∧ UniversalLaw.Spec.RN.pmfTV (μ r) (UniversalLaw.Spec.RN.poissonPMF lam) ≤ A * r ^ 3
+def UniversalLaw.Spec.RN.pmfTV : (ℕ → ℝ) → (ℕ → ℝ) → ℝ :=
+fun μ ν => 1 / 2 * ∑' (n : ℕ), |μ n - ν n|
+def UniversalLaw.Spec.RN.poissonPMF : ℝ → ℕ → ℝ :=
+fun lam n => Real.exp (-lam) * lam ^ n / ↑n.factorial
+'UniversalLaw.Proofs.RNCluster.rareClusterPoissonObstructionO' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'UniversalLaw.Proofs.RNCluster.Aux.rc_tail_one_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.RNCluster.Aux.rc_tail_two_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.RNCluster.Aux.rc_tail_one_le_mean' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.RNCluster.Aux.rc_one_sub_head_le_mean' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.RNCluster.Aux.rc_two_mul_tail_two_le_mean' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'UniversalLaw.Proofs.RNCluster.Aux.rc_hasSum_poissonPMF' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.RNCluster.Aux.rc_poissonPMF_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.RNCluster.Aux.rc_poissonPMF_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.RNCluster.Aux.rc_poisson_tail_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.RNCluster.Aux.rc_poisson_tail_two' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.RNCluster.Aux.rc_half_le_one_sub_exp' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.RNCluster.Aux.rc_poisson_tail_two_le_sq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.RNCluster.Aux.rc_pmfTV_poissonPMF_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.RNCluster.Aux.rc_abs_tail_sub_le_pmfTV' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.RNCluster.Aux.rc_tail_two_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.RNCluster.Aux.rc_tail_one_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.RNCluster.Aux.rc_lower_half' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.RNCluster.Aux.rc_upper_half' depends on axioms: [propext, Classical.choice, Quot.sound]
+<SCRATCH>/lvs/round4/verify_rc/scratch.lean:364:45: error: Type mismatch
+  true
+has type
+  Bool
+but is expected to have type
+  MessageData
+<SCRATCH>/lvs/round4/verify_rc/scratch.lean:364:57: error: Type mismatch
+  false
+has type
+  Bool
+but is expected to have type
+  MessageData
+<SCRATCH>/lvs/round4/verify_rc/scratch.lean:380:31: error: Application type mismatch: The argument
+  isThm
+has type
+  MessageData
+but is expected to have type
+  Bool
+in the application
+  headOk && argsOk && isThm
+EXIT=1

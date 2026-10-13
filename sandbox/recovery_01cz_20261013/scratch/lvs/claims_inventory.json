@@ -1,0 +1,1522 @@
+{
+ "summary": "Read-only inventory of every mathematical claim/result/obligation the q0/SIDE24 program tracks, built from Math- tip 6c020d6a72936632f2055122e71a7818a4ff497e (claims/LANDING_CLAIMS.json 10 claims; frontiers/downstream_gate_20260925/GRAPH.json 49 nodes/55 edges; PROOF_INDEX.md; docs/integration/2026-09-29-navigation-refresh.md; docs/integration/2026-10-02-proof-reachability.md) and main origin/main f6deeba775c27e731366d4772dfe58744425236f (STATUS.md, docs/STATUS_RECONCILIATION_20260929.md). For each reviewed scoped result the proof file was opened and the theorem statement copied verbatim (trimmed), with hypotheses, objects, review records (blob-bound), disposition and explicit out-of-scope lists. All LANDING_CLAIMS statement blobs re-hashed at tip and match. Main issues 63/65/67/74/76/86/90 and the cited comment ids confirmed via gh api (all issues closed). Graph edge list (55) and forbidden_global_inferences (4) returned verbatim. Packets integrated 27 Sep–3 Oct listed by id. Scratch under scratchpad/recon/claims/ (NOTES.md, graph_dump.txt, navrefresh.md, graph_extract.json).",
+ "data": {
+  "repositories": {
+   "math": {
+    "repo": "d6g8k5htny-coder/Math-",
+    "tip": "6c020d6a72936632f2055122e71a7818a4ff497e",
+    "tip_date": "2026-10-09",
+    "formal_toolchain": "leanprover/lean4:v4.34.1",
+    "mathlib_rev": "d13f23b723b8a846827a245b89c10fc7d3f11612"
+   },
+   "main": {
+    "repo": "d6g8k5htny-coder/main",
+    "default_branch_tip": "f6deeba775c27e731366d4772dfe58744425236f",
+    "tip_date": "2026-10-10",
+    "status_snapshot_date": "2026-09-29",
+    "status_readback_math_commit": "4d062e2a976abc8800a1ae63a49a943526b6bc0d"
+   }
+  },
+  "common_model": {
+   "field": "centered stationary Gaussian field f of variance one on the flat torus X=R^d/(L Z^d), covariance K_L(z)=sum_{n in Z^d} exp(-|z+Ln|^2/2) / sum_n exp(-|Ln|^2/2) (exact normalized periodized Gaussian); SIDE24 application d=3,L=24 (also d=2,L=24 for the coefficient)",
+   "pins": "frame R in O(d), axial unit u=R e_1; M=-(r/2)u, S=(r/2)u; f(M)=b, f(S)=s=b-k r^3, grad f(M)=grad f(S)=0 (2(d+1) observations); d=2 writes M=(-r/2,0), S=(r/2,0) six pins",
+   "marks": "compact birth interval B=[b_-,b_+], compact gap interval K=[k_-,k_+] with 0<k_-<=k_+<infinity",
+   "law": "Q_r = continuous Gaussian regression law at the pins (not a conditioning on a positive-probability event, no adjacency/elder conditioning); F_j(H)=|det H| 1{H nonsingular with j negative eigenvalues}; W_r=F_d(H_M)F_{d-1}(H_S) (= |det H_M det H_S| 1{H_M<0, index(H_S)=d-1}); Z_r=E_{Q_r} W_r (FULL normalizer, no pin density/Jacobian/adjacency); dQ_r^W=(W_r/Z_r)dQ_r",
+   "selection": "p_r(b,k,R) = Q^W probability that the global ordinary superlevel elder death partner of M is S; G_r = cap good event (CAP (1))",
+   "counts": "N_j(B) = index-j critical points in Borel B at all heights; N_{r,j}(B) = those with height in the between-pin window I_r=(b-k r^3,b); N = all window critical points other than M,S (all indices); (N)_q falling factorial; scaled chart X = M + r(p,q) or midpoint X = r(u,v)",
+   "densities": "nu_cand(ell), nu_eld(ell) expected lifetime densities per unit volume (compact mark window); nu_cand^all, nu_eld^all unrestricted; c_{B,K}, c_{d,L} leading coefficients; c_{d,L} given by parent Eq (15.2)"
+  },
+  "objects": [
+   {
+    "id": "math.uniform-matrix-cap-lifetime / D1-THM-A",
+    "title": "D1 Theorem A (uniform selection candidate) — parent UNIFORM-MATRIX-CAP-LIFETIME-20260924-v1",
+    "repo": "Math-",
+    "path": "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+    "commit_or_tip": "blob dfed3b8d318a3ab1950957f393307733a4bef3f2, 40261 B, SHA256 9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7; last commit b6282ecc; read at tip 6c020d6",
+    "statement_verbatim": "**Theorem A (uniform selection candidate).** There exist r_*>0 and C<infinity such that, for all 0<r<=r_*, b in B, k in K, and all orthonormal frames,\n\n    0 <= 1-p_r(b,k,R) <= C r^3.                         (1.1)\n\nThe proof includes a positive full-normalizer lower bound Z_r>=z_* r^2 and the full transverse-matrix boundary layer, including simultaneous small transverse eigenvalues. It does not presume isotropy under arbitrary rotations of the torus.",
+    "hypotheses": [
+     "fixed d>=2, L>0, torus X=R^d/(L Z^d) with exact normalized periodized Gaussian covariance K_L, variance one",
+     "compact B=[b_-,b_+], K=[k_-,k_+], 0<k_-<=k_+<infinity",
+     "pins M=-(r/2)u, S=(r/2)u, f(M)=b, f(S)=b-k r^3, grad f=0 at both; Q_{r,b,k,R} Gaussian regression law",
+     "W_r=|det H_M det H_S|1{H_M<0,index(H_S)=d-1}, Z_r=E_Q W_r full normalizer, dQ^W=(W_r/Z_r)dQ",
+     "reading rule (reconciliation): P sec.5 read with congruence erratum D_r=diag(r^{-1/2},I); sec.9 replaced by REPAIR.md v1.1; wording W1 (convergence in law via Slutsky); 'sufficiently small r' includes embedding radius r < L/(4 sqrt 2)"
+    ],
+    "conclusion": "0 <= 1-p_r(b,k,R) <= C r^3 uniformly over b in B, k in K, all frames, 0<r<=r_*; existential constants",
+    "objects_used": [
+     "Gaussian field f on R^d/(LZ^d)",
+     "covariance K_L",
+     "frame R, axial vector u",
+     "radius r",
+     "pins M,S",
+     "birth b, gap mark k",
+     "Hessians H_M,H_S, transverse block A_u",
+     "weight W_r, normalizer Z_r, tilted law Q^W",
+     "elder partner probability p_r",
+     "cap event G_r, cap cylinder D=[-2r,2r]x closed_ball(0,2r)",
+     "constants C, r_*, z_* (existential)"
+    ],
+    "disposition_or_classification": "GRAPH: PROVED_REVIEWED (controlling:false; review_disposition ACCEPT_AT_EXISTENTIAL_SCOPE; author_provider OpenAI; review_issue 63). STATUS.md: ACCEPT — scoped. PROOF_INDEX: reviewed scoped result.",
+    "review_records": [
+     "reviews/d1_chain_reconciliation_20260928/RECONCILIATION.md (blob 75da2597…, Anthropic reconciler) + LEDGER.json",
+     "https://github.com/d6g8k5htny-coder/main/issues/63#issuecomment-5841570965 (xAI/Grok via Cursor, D1-A–E ACCEPT)",
+     "https://github.com/d6g8k5htny-coder/main/issues/63#issuecomment-5873873903 (Anthropic Claude, A1–A7, CAP, sec.9 C1–C6 ACCEPT)",
+     "reviews/d1_theorem_a_nonauthor_20260928/REVIEW.md (blob bc11369c41ebc76de5700df3f931939ccfc88b9b; A1–A7 ACCEPT, CAP ACCEPT, Theorem A ACCEPT at existential scope, W1)",
+     "reviews/d1_cde_full_depth_claude_20260929/REVIEW.md (blob f05700e2…; D1-C sec.10, D1-D sec.13–14, D1-E sec.15 ACCEPT full depth)",
+     "reviews/d1_section9_borel_grok_lucas_20260928/REVIEW.md (blob 48ea9ad5…; C1–C6 ACCEPT; executions unverified)",
+     "reviews/pr124_c1_c2_nonauthor_20260926/REVIEW.md (xAI; C1 AMEND on H_branch conditioning, C2 PREMISE-Z-LOWER isolated)",
+     "Math-#126 pullrequestreview-5345687857 (OpenAI, author provider, non-discharge)",
+     "independence: all lanes one GitHub account; zero organizational-independence credit"
+    ],
+    "what_is_explicitly_out_of_scope": [
+     "no numerical r_*, C, z_*, c_{B,K} or c_{d,L}",
+     "no globally uniform O(r^3) constant over unbounded b,k",
+     "no lower bound 1-p_r>=c r^3 for d>=3 inside this row (planar lower bound is separately sourced in ELDER_LOWER_AND_DENSITY_GAP.md (E2); every-fixed-d lower bound Math-#129/#149 is not part of this reconciliation)",
+     "no shrinking-annulus RN certificate, no 24-jet displacement enclosure",
+     "no formal proof verification; no unrestricted P15 prize closure",
+     "CAP sections 6–8 not consumed; only sections 1–5 (lines 1–168)"
+    ]
+   },
+   {
+    "id": "math.uniform-matrix-cap-lifetime / D1-THM-B",
+    "title": "D1 Theorem B (compact-mark density candidate)",
+    "repo": "Math-",
+    "path": "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md (sec.1, sec.11)",
+    "commit_or_tip": "blob dfed3b8d318a3ab1950957f393307733a4bef3f2 at tip 6c020d6",
+    "statement_verbatim": "**Theorem B (compact-mark density candidate).** Suppose B and K have positive lengths. Count ordered maximum/saddle pairs with 0<distance<=r_*, birth in B, and scaled gap (f(M)-f(S))/distance^3 in K. Let nu_cand(ell) be their expected lifetime density per unit volume; let nu_eld(ell) count only pairs which are actual ordinary elder partners. These densities admit versions with\n\n    nu_cand(ell) ~ c_{B,K} ell^(-1/3),\n    nu_eld (ell) ~ c_{B,K} ell^(-1/3),       c_{B,K}>0,\n    0 <= nu_cand(ell)-nu_eld(ell) <= C_{B,K} ell^(2/3),    (1.2)\n\nas ell decreases to zero. An exact finite-dimensional Gaussian integral for c_{B,K} appears in Section 11.",
+    "hypotheses": [
+     "as Theorem A; additionally B and K of positive length (singleton intervals give zero mark-window intensity — reconciliation note)",
+     "pairs restricted to distance <= r_*, birth in B, scaled gap in K"
+    ],
+    "conclusion": "nu_cand ~ nu_eld ~ c_{B,K} ell^{-1/3}, c_{B,K}>0, with 0 <= nu_cand - nu_eld <= C_{B,K} ell^{2/3} as ell->0",
+    "objects_used": [
+     "lifetime ell = height difference",
+     "ordered maximum/index-(d-1)-saddle pairs",
+     "elder partner indicator (Borel elder mark, sec.8–9)",
+     "marked Kac–Rice (Armentano–Azaïs–León arXiv:2304.07424v3 Thm 2.2/7.1 via REPAIR.md)",
+     "radial ledger r A_r dr db dk dsigma (sec.10)",
+     "pushforward r=(ell/k)^{1/3} (sec.11)",
+     "c_{B,K} = 4 int k^{-2/3} pi_0 z_0"
+    ],
+    "disposition_or_classification": "PROVED_REVIEWED at existential scope (GRAPH node math.uniform-matrix-cap-lifetime); STATUS.md ACCEPT — scoped",
+    "review_records": [
+     "reviews/d1_chain_reconciliation_20260928/RECONCILIATION.md sec.6 (C2: sec.11 ACCEPT, sec.12 ACCEPT)",
+     "main#63 comment 5841570965 (D1-C sec.10 ACCEPT)",
+     "main#67 comments 5841270276 / 5841782206 (G4 partial: (11.1), (11.3)=(13.6) identity)"
+    ],
+    "what_is_explicitly_out_of_scope": [
+     "compact O(ell^{2/3}) difference NOT asserted for unrestricted densities",
+     "no numerical c_{B,K}, C_{B,K}",
+     "does not replace or re-certify the historical H3 finite-band floor; no claim r_*=1/20"
+    ]
+   },
+   {
+    "id": "math.uniform-matrix-cap-lifetime / D1-THM-C",
+    "title": "D1 Theorem C (unrestricted finite-lifetime leading density candidate) and coefficient Eq (15.2)",
+    "repo": "Math-",
+    "path": "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md (sec.1, sec.13–15)",
+    "commit_or_tip": "blob dfed3b8d318a3ab1950957f393307733a4bef3f2 at tip 6c020d6",
+    "statement_verbatim": "**Theorem C (unrestricted finite-lifetime leading density candidate).** For the same fixed torus and dimension, let nu_cand^all(ell) count ALL ordered maximum/index-(d-1)-saddle pairs with height difference ell>0, and let nu_eld^all(ell) count all finite ordinary superlevel H0 persistence bars, both in expectation per unit volume. There is a positive finite constant c_{d,L} such that\n\n    nu_cand^all(ell) ~ c_{d,L} ell^(-1/3),\n    nu_eld^all(ell)  ~ c_{d,L} ell^(-1/3).                (1.3)\n\nAll birth heights, all positive scaled-gap marks and all spatial separations on the torus are included in (1.3). The essential global-maximum class is excluded from the finite-lifetime count. [...] (15.2):\n\n    c_{d,L}= Gamma(7/6) / [24^(1/3) sqrt(pi)]\n       * integral_{S^(d-1)} p_G(0) p_Vu(0) tau_u^(4/3)\n                              D_u d sigma(u).            (15.2)\n\nwith tau_u^2=Var(t_u | G=0)>0, D_u=E[(det A_u)^2 1{A_u<0} | V_u=0] (15.1), G=grad f, t_u=partial_u^3 f, V_u=H_f u, A_u transverse Hessian block; (14.1): 0<=nu_eld^far(ell)<=nu_cand^far(ell)<=C, 0<ell<=1.",
+    "hypotheses": [
+     "fixed d>=2, L; all births, all positive gap marks, all separations; essential global-maximum class excluded",
+     "target-growth majorant (13.3)–(13.6), integrability at k=0 (13.5), off-diagonal bound (14.1) from nonsingular covariance on fixed compact set",
+     "parity of stationary real covariance (no isotropy)"
+    ],
+    "conclusion": "nu_cand^all ~ nu_eld^all ~ c_{d,L} ell^{-1/3} (leading term only) with c_{d,L} the explicit finite Gaussian/angular integral (15.2)",
+    "objects_used": [
+     "sphere S^{d-1}, sigma surface measure",
+     "gradient density p_G(0), p_{V_u}(0)",
+     "tau_u, D_u (negative-definite cone moment)",
+     "Gamma(7/6), factor 24 (numerical Jacobian/gamma factor, not L)",
+     "near/far pair populations"
+    ],
+    "disposition_or_classification": "PROVED_REVIEWED at existential scope, leading term only (GRAPH; STATUS ACCEPT — scoped)",
+    "review_records": [
+     "main#63 comment 5841570965 (D1-D sec.13–14, D1-E sec.15 ACCEPT)",
+     "reviews/d1_cde_full_depth_claude_20260929/REVIEW.md (full depth ACCEPT sec.10,13,14,15; gamma factor re-derived)",
+     "reviews/d1_chain_reconciliation_20260928 (C2 spot re-derivations (13.1),(13.4),(15.2))"
+    ],
+    "what_is_explicitly_out_of_scope": [
+     "no elementary closed form or numerical enclosure of (15.2) in the parent",
+     "no unrestricted remainder or difference rate",
+     "no rigorously evaluated lower coefficient for pairing failure"
+    ]
+   },
+   {
+    "id": "math.d1-component.congruence-erratum",
+    "title": "D1 erratum E1 — endpoint Hessian congruence factor",
+    "repo": "Math-",
+    "path": "imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md",
+    "commit_or_tip": "blob 213594d6ca6a86fb938110f4d166d9ce275a02d0, 1782 B, SHA256 bad7ef60…; last commit d8f5505",
+    "statement_verbatim": "Given the source's own definition H_i = [[r alpha_i, r beta_i^T],[r beta_i, A_i]], that displayed congruence factor is incorrect. The matrix used by the argument is D_r = diag(r^(-1/2), I), because D_r H_i D_r = [[alpha_i, sqrt(r) beta_i^T],[sqrt(r) beta_i, A_i]]. It also satisfies det(D_r H_i D_r) = det(H_i)/r [...] With alpha_M -> -6k, alpha_S -> 6k, bounded beta_i, and A_i -> A_0, this corrected congruence gives D_r H_M D_r -> diag(-6k,A_0), D_r H_S D_r -> diag(6k,A_0). No formula (5.3), (5.4), (5.5), or the subsequent soft-factor/eigenvalue integration is changed.",
+    "hypotheses": [
+     "parent sec.5 block form of H_i"
+    ],
+    "conclusion": "replaces displayed diag(sqrt r, I) by D_r=diag(r^{-1/2},I); det normalization det/r",
+    "objects_used": [
+     "endpoint Hessians H_M,H_S",
+     "blocks alpha_i, beta_i, A_i",
+     "limit A_0"
+    ],
+    "disposition_or_classification": "GRAPH reading_rule_component PROVED_REVIEWED (component_role amendment; ledger A3-E1)",
+    "review_records": [
+     "C1 Anthropic ACCEPT full (reviews/d1_theorem_a_nonauthor_20260928)",
+     "G3 xAI ACCEPT full (main incoming/grok-session-20260926-replay/)"
+    ],
+    "what_is_explicitly_out_of_scope": [
+     "correction of a displayed sentence only; no theorem promotion"
+    ]
+   },
+   {
+    "id": "math.d1-component.section9-replacement-v1_1",
+    "title": "D1 Section 9 repair v1.1 — Borel elder mark in weighted pair Kac–Rice (D1-SECTION9-BOREL-REPAIR-20260925-v1.1)",
+    "repo": "Math-",
+    "path": "reviews/d1_section9_borel_repair_20260925/REPAIR.md",
+    "commit_or_tip": "blob fe9b9ce4999908bb3814b500ee2d0ceb0c6f704a, 9062 B, SHA256 845abf9f…; last commit 694b7ff",
+    "statement_verbatim": "Fix a compact ordered-pair domain D contained in the off-diagonal set of X x X [...] G(x,y)=(grad f(x), grad f(y)) in R^(2d) [...] Delta(x,y)=|det H_x det H_y|. [...] 9.2: mu(A)=E sum_{t in D: G(t)=0} 1_A(t,f); nu(A)=integral_D p_(G(t))(0) E[Delta(t) 1_A(t,f) | G(t)=0] dt. For every bounded nonnegative continuous cylinder function h(t,phi), Theorem 7.1 gives integral h dmu = integral h dnu (9.1). 9.3: [...] The functional monotone-class theorem therefore implies that H contains every bounded Borel function on D x E. 9.4: [...] (t,phi) -> 1{d_phi(x)=phi(y)} is Borel on the Morse distinct-critical-value locus [...] candidate pair intensity contains the full-pin density times E_Q W_r; the selected intensity contains the same factor times the Q^W global elder probability p_r. There is no second determinant factor. Finally exhaust D toward the diagonal.",
+    "hypotheses": [
+     "positive Fourier spectrum / distinct-site jet rank (parent sec.2)",
+     "E=C^2(X) separable Banach; regular conditional Gaussian kernel K(t,z,.)",
+     "Armentano–Azaïs–León arXiv:2304.07424v3 Theorems 2.2 and 7.1 for continuous cylinder weights",
+     "parent sec.8 countable polygonal-path representation of the elder event",
+     "parent sec.10 r dr bound for near-diagonal exhaustion (imported, not re-proved)"
+    ],
+    "conclusion": "weighted pair Kac–Rice identity extends to the bounded Borel global elder/type mark; candidate and selected intensities as stated",
+    "objects_used": [
+     "pair domain D",
+     "gradient vector field G",
+     "Jacobian Delta",
+     "finite measures mu, nu on D x C^2(X)",
+     "elder indicator d_phi(x)=phi(y)",
+     "type indicators"
+    ],
+    "disposition_or_classification": "GRAPH reading_rule_component PROVED_REVIEWED (ledger D1-B-E2)",
+    "review_records": [
+     "C1 Anthropic ACCEPT C1–C6 (theorem-number objection withdrawn)",
+     "G2 xAI Grok/Lucas ACCEPT C1–C6 (reviews/d1_section9_borel_grok_lucas_20260928/REVIEW.md blob 48ea9ad5…; runner absent, executions UNVERIFIED)"
+    ],
+    "what_is_explicitly_out_of_scope": [
+     "contact covariance; residual independence (sec.4); typed boundary integration; full normalizer; Theorem A; off-diagonal domination; coefficient (15.2); numerical constants; RN/24-jet certificates"
+    ]
+   },
+   {
+    "id": "math.d1-component.marked-cylinder-cap",
+    "title": "MARKED-CYLINDER-CAP-20260924-v1 deterministic separating-cap theorem (sections 1–5 consumed)",
+    "repo": "Math-",
+    "path": "imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md",
+    "commit_or_tip": "blob 0633aca3c2a2882b0de4399da0a75d64c2e6b2e1, 15160 B, SHA256 0bf922b9…; last commit a8beaa0",
+    "statement_verbatim": "**Deterministic theorem.** Let d>=2 and use coordinates (x,y) in R x R^(d-1) on an embedded product cylinder D=[-2r,2r] x closed_ball(0,2r), r>0. Suppose f is C4 on a neighborhood of D, has critical pins M=(-r/2,0), S=(r/2,0), with f(M)=b and f(S)=b-kappa*r^3, kappa>0. For j=3,4 define the partial-block norm M_j=max_{a+c=j} sup_D || partial_x^a D_y^c f ||_op. [...] Put lambda=lambda_min(-D_y^2 f(M)). The explicit sufficient conditions are\n\n    lambda > (4/(3*kappa))*r*M_3^2,\n    r*M_4 <= 3*kappa/10.                                  (1)\n\nThey give a unique transverse-critical ridge on D and a closed cap through S separating M from every older point. On a compact manifold, for a global Morse extension with distinct critical values, the ordinary superlevel elder death partner of M is S. Exactly one ascending unstable branch of S ends at M, for a smooth Riemannian gradient. No Morse-Smale assumption and no identification of the ridge with a flow trajectory are used.\n\n**Probabilistic corollary, narrower scope.** [2D normalized SIDE24 six-pin law of #57/#58: b=6/5, kappa=1/6, 0<r<=1/20] 1-p_elder(r) <= min(1, C3_new*r^3+C4_new*r^4) <= min(1, 2.4*10^23*r^3), (2) C3_new=(10/51)[(32^3/3)*320^8+(3*32^2/2)*320^7], C4_new=(23/5)[10240^4+6800^4]. (3)",
+    "hypotheses": [
+     "f in C^4 near D; critical pins; gap kappa r^3; block norms M_3,M_4; (H1) lambda>(4/(3kappa)) r M_3^2; (H2) r M_4<=3kappa/10",
+     "global Morse extension with distinct critical values on compact manifold"
+    ],
+    "conclusion": "unique transverse ridge, closed cap through S separating M from every older point; elder death partner of M is S",
+    "objects_used": [
+     "cylinder D",
+     "third/fourth derivative block norms M_3, M_4",
+     "transverse Hessian minimal eigenvalue lambda",
+     "ridge, cap",
+     "superlevel elder rule"
+    ],
+    "disposition_or_classification": "GRAPH reading_rule_component PROVED_REVIEWED (deterministic_support; sections 1–5 only; sections 6–8 not consumed)",
+    "review_records": [
+     "C1 Anthropic ACCEPT (CAP sec.2–5, constants exact, identity (11) symbolic m=1,2)",
+     "G3 xAI ACCEPT (EMBEDDED_CHART_AND_MORSE)",
+     "Lean: frontiers/cap_first_exit_lean_20261002 (see separate object)"
+    ],
+    "what_is_explicitly_out_of_scope": [
+     "probabilistic corollary (2)–(3) is at the 2D normalized SIDE24 law only and is NOT consumed by D1 (sections 6–8 not consumed); bound vacuous at r=1/20",
+     "no 3D eight-pin matrix-boundary estimate, all-angle covariance bound, all-mark normalizer or lifetime integration here"
+    ]
+   },
+   {
+    "id": "math.d1-component.reconciliation-record",
+    "title": "D1 chain reconciliation record (W1 wording, embedding radius r<L/(4 sqrt 2), interface ledger)",
+    "repo": "Math-",
+    "path": "reviews/d1_chain_reconciliation_20260928/ (RECONCILIATION.md blob 75da2597971510f843f8d90c743950cb8c177342; LEDGER.json f6c329fb…; SOURCE_FILES.json; reconciliation_check.py)",
+    "commit_or_tip": "read at tip 6c020d6; record read by main STATUS at Math- 82247833b5dd58e04291d55353b52938d73ec614",
+    "statement_verbatim": "W1: P l.165 says the scaled endpoint Hessians converge 'in probability' to diag(∓6k, A_0). Correctly: D_r H_M D_r - diag(-6k, A_M) and D_r H_S D_r - diag(6k, A_M) tend to 0 in probability [...]; A_M -> A_0 in law. Slutsky then gives joint convergence in law, and continuous mapping applies off the null set {det A_0 = 0}. Embedding radius: D ⊂ B̄(0, 2√2 r) [...] D is embedded whenever 2√2 r < L/2, that is r < L/(4√2). Sharpness in d=2 (composition, separately sourced): 1 - p_r = Θ(r^3) and ν_cand - ν_eld = Θ(ℓ^{2/3}) on compact marks. No lower bound is asserted for d >= 3.",
+    "hypotheses": [
+     "binds P, CAP, E1, E2 by blob/SHA256; every interface has full-depth nonauthor ACCEPT from at least one provider (table sec.4)"
+    ],
+    "conclusion": "Theorems A, B, C accepted at existential scope under the reading rule; register edits justified in sec.9",
+    "objects_used": [
+     "interfaces S1,A1–A7,CAP,D1-A–E,sec.11,sec.12",
+     "review ids G1,G2,G3,G4,C1,C2,O1"
+    ],
+    "disposition_or_classification": "GRAPH reading_rule_component PROVED_REVIEWED (reading_rule_record; author_provider Anthropic)",
+    "review_records": [
+     "C2 Anthropic sec.11–12 ACCEPT",
+     "R-W1 raised C1 discharged sec.5; R-embedding-radius raised G3 discharged sec.5",
+     "OpenAI Math-#126 pullrequestreview-5345687857 non-discharge (author provider)"
+    ],
+    "what_is_explicitly_out_of_scope": [
+     "no new mathematical claim about the parent; lemma_closed, prizes, premises untouched",
+     "planar lower composition only (d=2)"
+    ]
+   },
+   {
+    "id": "math.lifetime-remainder / lifetime-remainder",
+    "title": "D2 Theorem R — bounded unrestricted short-lifetime remainder (LIFETIME-BOUNDED-REMAINDER-20260924-v1)",
+    "repo": "Math-",
+    "path": "frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md",
+    "commit_or_tip": "blob 247b3ecf80bfbe896948d5d489b2d5842a81c481, 17734 B, SHA256 380b7d0a…; last commit 8a13ee9; LANDING_CLAIMS source commit 760340e9",
+    "statement_verbatim": "**Theorem R (candidate).** There are ell_*>0 and C<infinity such that versions of the unrestricted expected per-unit-volume densities satisfy, for 0<ell<=ell_*,\n\n    |nu_cand(ell)-c ell^(-1/3)| <= C,\n    0 <= nu_cand(ell)-nu_eld(ell) <= C,\n    |nu_eld(ell)-c ell^(-1/3)| <= C.                       (R1)\n\nHere candidates are ALL ordered maximum/index-(d-1)-saddle pairs with positive height gap ell, and selected pairs are all finite ordinary superlevel H0 bars. All birth heights, all positive gap marks, all orientations and all separations on the fixed torus are included. The essential global-maximum class is excluded.\n\nThus the relative error is O(ell^(1/3)). We do not prove convergence of the bounded remainder, identify a second coefficient, supply a numerical C or ell_*, or claim that the compact-window O(ell^(2/3)) selection difference holds without cutoffs. [...] (R19): E N_eld(0,t] = (3/2)c t^(2/3)+O(t), 0<=E N_cand-but-not-eld(0,t]<=C t.",
+    "hypotheses": [
+     "parent model (fixed d>=2, L>0, K_L); pins, Q, W, Z full normalizer, p as in parent",
+     "imports parent interfaces D1-A–E (sec.8 comparison, sec.9 as replaced v1.1, sec.10, (14.1), (15.2)); does NOT consume Theorem A's cubic bound (1.1)",
+     "deterministic cap import MARKED-CYLINDER-CAP (unchanged)",
+     "c = c_{d,L} exactly parent Eq (15.2)"
+    ],
+    "conclusion": "unrestricted densities equal c ell^{-1/3} up to a bounded O(1) remainder; nonselected density bounded",
+    "objects_used": [
+     "observation transform U_r=T_r O_r, |det|=12 r^{-(d+3)}, target v_r=(b-k r^3/2,-k r^2,0,12k,0,...)",
+     "inertia-filtered determinant lemmas R3.1, R3.2",
+     "unnormalized cap-loss bound with k dependence",
+     "q-moments (R20)"
+    ],
+    "disposition_or_classification": "LANDING_CLAIMS: REVIEWED_SCOPED. GRAPH: AUTHOR_SIDE_CANDIDATE with review_disposition ACCEPT (xAI/Grok). STATUS.md: ACCEPT — scoped.",
+    "review_records": [
+     "https://github.com/d6g8k5htny-coder/main/issues/67#issuecomment-5841270276 (xAI/Grok via Cursor: R1–R4 ACCEPT, R5/R6 IMPORTED-OPEN)",
+     "https://github.com/d6g8k5htny-coder/main/issues/67#issuecomment-5841782206 (R5, R6 ACCEPT; Theorem R accepted at stated O(1) scope)",
+     "reviews/d2_remainder_full_depth_claude_20260930/ (later record, not read in detail)",
+     "parent imports reconciled in reviews/d1_chain_reconciliation_20260928/"
+    ],
+    "what_is_explicitly_out_of_scope": [
+     "no numerical constants, radii or ell_*; no second coefficient; no convergence of remainder",
+     "no RN expected-critical-count estimate; no 24-jet certificate; no RN/24-jet closure",
+     "compact-window O(ell^{2/3}) difference not claimed without cutoffs"
+    ]
+   },
+   {
+    "id": "math.side24-coefficient / side24-coefficient",
+    "title": "D3 SIDE24 coefficient enclosure in d=2,3 (SIDE24-COEFFICIENT-D23-20260924-v1)",
+    "repo": "Math-",
+    "path": "coefficients/side24_v1/PROOF.md (+ ENCLOSURE.json, coefficient.py, test_coefficient.py)",
+    "commit_or_tip": "PROOF.md blob 44b66f04f89fcd87383b3603fa69f1feb64cdddd, 10272 B; ENCLOSURE.json blob 57af39a05e14ed0ba8ebc00a9b4aca4dffb067c7; last commits ee18323 / d83af85",
+    "statement_verbatim": "This note evaluates the coefficient defined in equation (15.2) of UNIFORM-MATRIX-CAP-LIFETIME-20260924-v1 [...] Use its centered variance-one field with the exact normalized covariance K_24(z) = sum_{n in Z^d} exp(-|z+24n|^2/2) / sum_{n in Z^d} exp(-|24n|^2/2), d in {2,3}. Let c_d,24 be precisely its equation (15.2), using ordinary sphere area, ordered maximum/saddle roles and the full height/gradient pin Jacobian. Then the bounds proved below, with endpoints rational decimal numbers, are\n\n    0.07340691930603427103 < c_2,24 < 0.07340691930603427104,\n    0.04177593184059834334 < c_3,24 < 0.04177593184059834335.\n\n[...] reference: c_d,ref = Gamma(7/6)*(3/2)^(1/3)*D_(d-1) / [2sqrt(3)*pi^(d-1)*sqrt(pi)], d=2,3 (1), with D_1=4/3, D_2=29/6-sqrt(6); image bound E := 1458*(76*24^6+15)*10^(-125) (2); (1-eps)C_ref<=C_24<=(1+eps)C_ref, eps=10^(-108) (3); |c_d,24/c_d,ref -1| < 10^(-106), d=2,3 (4).",
+    "hypotheses": [
+     "parent Eq (15.2) definition and conventions (persistence interpretation conditional on parent)",
+     "exact variance-one SIDE24 covariance, L=24, d=2,3",
+     "outward rational arithmetic on grid 10^{-80}; Machin pi; Stirling log-gamma through B20 with DLMF 5.11(ii) remainder"
+    ],
+    "conclusion": "20-digit rational enclosures of c_{2,24} and c_{3,24}; ENCLOSURE.json records cone_moments {2:'4/3',3:'29/6-sqrt(6)'}, relative_periodization_bound 1e-106, scientific_acceptance false",
+    "objects_used": [
+     "covariance K_24",
+     "reference covariance exp(-|z|^2/2): Cov(G)=I_d, Var(t)=15, Cov(t,G)=(-3,0,..), tau^2=6",
+     "transverse Hessian A|V=0 law A=Q+sqrt(2/3)Z I_m",
+     "cone moments D_1, D_2",
+     "Gamma(7/6), pi, log, exp enclosures"
+    ],
+    "disposition_or_classification": "LANDING_CLAIMS: REVIEWED_SCOPED (arithmetic enclosure of stated expression only; no finite-radius band). GRAPH: AUTHOR_SIDE_CANDIDATE, review_disposition ACCEPT (xAI/Grok). STATUS.md ACCEPT — scoped.",
+    "review_records": [
+     "https://github.com/d6g8k5htny-coder/main/issues/65#issuecomment-5841269490 (xAI/Grok C1–C6 ACCEPT; COEFFICIENT-CALC-REVIEWED / PARENT-IMPORTED-OPEN)",
+     "https://github.com/d6g8k5htny-coder/main/issues/65#issuecomment-5841779222 (reconciliation)",
+     "reviews/side24_v1_coefficient_claude_20260929/REVIEW.md (blob 665d1683…; Anthropic ACCEPT at arithmetic-enclosure scope)",
+     "later packets: side24_periodization_20260929 (#144), side24_remainder_20260929 (#154), side24_periodization_remainder_20260929 (#156), reviews/side24_d2_certified_small_L_claude_20261005"
+    ],
+    "what_is_explicitly_out_of_scope": [
+     "no independent acceptance of the parent's elder-selection/Kac–Rice proof",
+     "no finite-radius error estimate, unrestricted remainder, RN/24-jet claim",
+     "no frozen proof, review grade, P15 assertion or completion flag changed"
+    ]
+   },
+   {
+    "id": "math.rn-count-interface / rn-count-interface",
+    "title": "D4 RN count interface ('Theorem N' in LANDING_CLAIMS; file carries (N1)–(N7)) — RN-COUNT-INTERFACE-20260924-v1",
+    "repo": "Math-",
+    "path": "frontiers/three_fronts_20260924/RN_COUNT_INTERFACE.md",
+    "commit_or_tip": "blob 371fd6d17920f2eb3b1c5ec30297acf6daf1d385, 8938 B, SHA256 aa993f52…; last commit 8a13ee9",
+    "statement_verbatim": "(N1) E[N_r 1_Er] <= (E N_r^p)^(1/p) P(E_r)^(1-1/p) for p>1. (N2) If E N_r^p<=A r^(-beta), E[N_r 1_Er] <= A^(1/p) C^(1-1/p) r^([3(p-1)-beta]/p). (N3) E[N_r 1_Er]=q E[N_r | E_r]. (N4) counterexample: U uniform, E_r={U<=r^3}, N_r=ceil(log(1/r))1_Er: P(E_r)=r^3 but E N_r/r^3 -> infinity while sup_r E N_r^p<infinity for each p. (N5) P(N_r>t)<=A exp(-t/B) gives E[N_r 1_Er] <= B q[1+log(A/q)]. (N6) E_Q^W N_B = 1/Z_r integral_B p_(grad f(x)|O_r=v)(0) E[W_r |det H_x| chi(x,f) | O_r=v, grad f(x)=0] dx. (N7) With Z_r>=z_* r^2, an enclosure integral_B p(...)E[W_r|det H_x|chi | all pins]dx <= A r^5 would imply E_Q^W N_B<=(A/z_*)r^3. Completion test (sec.6): provide (N7) with all chart/Jacobian/conditioning controls, or a uniform conditional count mean on the rare event plus the required support relation.",
+    "hypotheses": [
+     "abstract: event E_r, integer count N_r>=0, P(E_r)<=C r^3",
+     "pinned law Q, W_r, Z_r as parent; Borel region B not containing M,S; Borel selector 0<=chi<=1",
+     "marked Kac–Rice (parent sec.9 convention) on compacts separated from pins"
+    ],
+    "conclusion": "exact probability-to-count implications, sharp counterexamples, and the full-pin Kac–Rice expression; no RN rate concluded",
+    "objects_used": [
+     "N_B(f)=sum_{x in B: grad f=0} chi(x,f)",
+     "Hölder, layer cake",
+     "three determinant factors W_r |det H_x|",
+     "historical predicates ENV-RESCOV, ALLCELL-FDZ-Q4, LOGQ-TAIL, SYM-Fw-jet, CH-LIFT (not modified)"
+    ],
+    "disposition_or_classification": "LANDING_CLAIMS: HOLD_WITH_DOMAIN (complete Gaussian numerator is a target, not a discharged global RN theorem). GRAPH: AUTHOR_SIDE_CANDIDATE. PROOF_INDEX: open/conditional with complete proof text.",
+    "review_records": [
+     "https://github.com/d6g8k5htny-coder/main/issues/67 (pointer only)"
+    ],
+    "what_is_explicitly_out_of_scope": [
+     "does not evaluate the Gaussian triple integral; does not discharge ENV-RESCOV, 24-jet roster or any historical missing carrier",
+     "no 24-jet enclosure; not an RN numerical certificate"
+    ]
+   },
+   {
+    "id": "math.rn-fixed-remote-window / rn-fixed-remote-window",
+    "title": "D4 Theorem A (fixed-remote mean measure) — RN-FIXED-REMOTE-WINDOW-20260924-v1",
+    "repo": "Math-",
+    "path": "frontiers/remote_window_20260924/PROOF.md",
+    "commit_or_tip": "blob b383bfcc88ec4ad497dff01fb6640e429ba24a84, 18355 B, SHA256 a332bae9…; last commit 191ea7d (reviewed commit 191ea7d541a486736ba7bbddfd4eac25a6c456…)",
+    "statement_verbatim": "Fix 0<rho<L/4 and D_rho={x:dist_X(x,0)>=rho}. For a Borel E contained in D_rho and j in {0,...,d}, let N_(r,j)(E)=#{x in E: grad f(x)=0, index H_x=j, b-k r^3<f(x)<b}. (1)\n\n**Theorem A (fixed-remote mean measure).** There are r_*>0 and C<infinity, depending on d,L,rho,B,K, such that for r<=r_* and all b,k,R,j and Borel E subset D_rho,\n\n    | E_(Q_r^W) N_(r,j)(E)/(k r^3) - integral_E Lambda_j(x;b,k,u) dx | <= C r |E|.  (2)\n\nThe explicitly defined contact kernel Lambda_j in Section 5 is continuous, finite and strictly positive. On these compact parameter sets it is bounded above and away from zero. In particular\n\n    E_(Q_r^W) N_(r,j)(E) <= C k r^3 |E|,\n    P_(Q_r^W){N_(r,j)(E)>=1} <= C k r^3 |E|.              (3)\n\n[Sec.6, m>=2 witnesses with mutual separation >= eta in D_rho:] E_(Q_r^W) T_(r,j,m,eta) = (k r^3)^m integral_(D_(rho,eta,m)) Lambda_(j,m) dx + O((k r^3)^m r) (15); P(exists m pairwise-eta-separated qualifying points) <= E T/m! = O(r^(3m)) (16).",
+    "hypotheses": [
+     "fixed d>=2, L>0; compact B, K with k_->0; all frames; F_j, W_r=F_d(H_M)F_{d-1}(H_S), Z_r full",
+     "fixed exclusion radius 0<rho<L/4 (not shrinking); between-pin height window",
+     "marked Kac–Rice framework arXiv:2304.07424v3 Thm 7.1 / sec.8.1 (IMPORTED_FRAMEWORK)",
+     "weight-stability algebra reused from LIFETIME_REMAINDER (rederived); does NOT consume elder-selection or cap theorem"
+    ],
+    "conclusion": "mean measure of window critical points on fixed remote region is k r^3 Lambda_j dx + O(r^4); cubic count/probability bounds; separated m-tuples O(r^{3m})",
+    "objects_used": [
+     "D_rho, Borel E, |E| volume",
+     "N_{r,j}(E)",
+     "contact kernel Lambda_j(x;b,k,u), Lambda_{j,m}",
+     "centered transform U_r, regression coupling",
+     "ordered tuple count T_{r,j,m,eta}, separation eta"
+    ],
+    "disposition_or_classification": "LANDING_CLAIMS: HOLD_WITH_DOMAIN. GRAPH: AUTHOR_SIDE_CANDIDATE (review_issue 76); region math.rn-region.fixed-remote COVERED_BY_CANDIDATE; also D5 component math.d5-component.remote-window-proof PROVED_REVIEWED (STATUS D4 main#76 external ACCEPT). STATUS.md ACCEPT — scoped.",
+    "review_records": [
+     "https://github.com/d6g8k5htny-coder/main/issues/76#issuecomment-5841783172 (xAI/Grok source-bound review at commit 191ea7d; seven fixed-rho/fixed-eta interfaces ACCEPT)",
+     "https://github.com/d6g8k5htny-coder/main/issues/76#issuecomment-5841861362 (scoped reconciliation)",
+     "consumed by reviews/d5_reconciliation_20260929 (rho=s_0 outer tile) and d5_dimension_lift (every d)"
+    ],
+    "what_is_explicitly_out_of_scope": [
+     "regions with distance to pins -> 0 (intermediate annulus); witness separation eta -> 0; all remote points with no height restriction",
+     "no numerical C, r_*; no original RN all-cell/24-jet enclosures; no proof that a legacy witness definition lies in this count region",
+     "no matching probability lower bound; no Poisson limit; no uniformity as rho->0, marks unbounded, d,L vary"
+    ]
+   },
+   {
+    "id": "math.d5-component.annulus-proof (PROOF_INDEX: D5 all-height fixed annulus)",
+    "title": "D5 all-height fixed-annulus bridge candidate theorem (D5-ALL-HEIGHT-ANNULUS-BRIDGE-20260925-v1, PR28)",
+    "repo": "Math-",
+    "path": "frontiers/rn_annulus_bridge_20260925/PROOF.md",
+    "commit_or_tip": "blob 6f317515b3d417661f86e2fed09bc7d950899c2b, 16948 B, SHA256 d55e2c03…; reviewed at commit dedc69e1b786f7ad148e6b66718277f4145c99cd",
+    "statement_verbatim": "Fix L>0 and the centered variance-one Gaussian field on the two-dimensional torus with covariance K_L [...]. Fix a compact birth interval, 0<k_-<=k<=k_+<infinity, and 1<A<B<infinity. For every orthonormal frame write f(x,z)=F(x e1+z e2), with midpoint zero. Impose exactly the six finite-r observations f(M)=b, f(S)=b-k r^3, grad f(M)=grad f(S)=0, M=(-r/2,0), S=(r/2,0). (1) [...] W_r=F_2(H_M) F_1(H_S), Z_r=E_Qr W_r, dQ_r^W=(W_r/Z_r)dQ_r. For a Borel set E in K_AB={(u,v): A<=sqrt(u^2+v^2)<=B}, let N_j(rE) count index-j critical points in rE at **all heights**.\n\n**Candidate theorem.** There are C,r_*>0, uniform in the stated marks, frames, Borel E and j=0,1,2, such that\n\n    E_(Q_r^W) N_j(rE) <= C r^3 area(E), 0<r<=r_*.           (2)\n\nEquivalently, the physical-area weighted critical-point intensity satisfies rho_j^W(ru,rv)<=Cr throughout this fixed scaled annulus. [...] there is no height-window factor in the proof and no assertion uniform as k approaches zero.",
+    "hypotheses": [
+     "d=2, fixed L, compact birth, k_->0, fixed scaled annulus 1<A<B<infinity, all frames",
+     "deterministic three-Hessian lemma; conditional full C^3 moments after witness gradient condition; original Z_r"
+    ],
+    "conclusion": "all-height first moment on the fixed scaled annulus is O(r^3) area(E)",
+    "objects_used": [
+     "scaled annulus K_AB",
+     "N_j(rE) all heights",
+     "intensity rho_j^W",
+     "factor min(1,(r/|v|)^6)",
+     "Hermite jet U_r=(H_r(0),H'_r(0),H''_r(0),H'''_r(0),L_r(0),L'_r(0))"
+    ],
+    "disposition_or_classification": "GRAPH: math.d5-component.annulus-proof PROVED_REVIEWED (component_of math.d5-pin-neighborhood-first-moment; review_basis xAI ACCEPT R1–R7). PROOF_INDEX: reviewed scoped result. Covered region math.rn-region.mesoscopic-scaled-annulus PROVED_REVIEWED at D5-d with R>=B.",
+    "review_records": [
+     "reviews/pr28_annulus_bridge_nonauthor_20260925/REVIEW.md (blob 559d7224…; xAI Grok; R1–R7 ACCEPT at commit dedc69e1; organizational independence not awarded)"
+    ],
+    "what_is_explicitly_out_of_scope": [
+     "pin neighborhoods, A->1/2, B growing with r, r<<distance<<rho, witness collisions, d>=3, uniform-L, numerical all-cell certificates, elder selection, unrestricted lifetime acceptance, k->0 uniformity",
+     "no matching lower bound, no numerical constant/radius, no fixed-remote all-height bound, no all-scales RN theorem, no persistence partner statement"
+    ]
+   },
+   {
+    "id": "math.rn-fixed-annulus-window / rn-fixed-annulus-window",
+    "title": "D5 fixed-annulus height-window candidate (D5-FIXED-ANNULUS-STITCH-20260925-v1, PR22)",
+    "repo": "Math-",
+    "path": "frontiers/rn_thin_tube_20260925/FIXED_ANNULUS_CANDIDATE.md",
+    "commit_or_tip": "blob 081abc13c5e66342c13df2af2bd6b114f320486f, 17646 B; reviewed_subject_commit 2804dc1db27ef3b1fdef6bb350b486162692cc4a",
+    "statement_verbatim": "Fix L>0 and the centered variance-one Gaussian field on R^2/(L Z^2) with FULL covariance K_L [...]. Let b range over a fixed compact interval and 0<k_-<=k<=k_+<infinity. At M=(-r/2,0), S=(r/2,0) prescribe the six ORIGINAL pins f(M)=b, f(S)=b-k*r^3, grad f(M)=grad f(S)=0. (A1) [...] W_r=F_2(H_M) F_1(H_S), Z_r=E_Qr W_r, dQ_r^W=(W_r/Z_r)dQ_r. Fix 1<A0<B0<infinity and the entire scaled annulus K={ (u,t): A0<=sqrt(u^2+t^2)<=B0 }. For a Borel E0 subset K let N_j(r E0) count index-j critical points in r E0 whose heights lie STRICTLY between b-k*r^3 and b.\n\n**Candidate theorem.** There are C,r_*>0, uniform in the frame, compact marks, E0 and j=0,1,2, such that\n\n    E_Qr^W N_j(r E0) <= C*k*r^3*area(E0),  0<r<=r_*.       (A2)\n\n[...] Unlike the earlier thin-tube result, (A2) is NOT an all-height assertion. The shrinking height window is essential in the outer part of the proof. Constants depend on L,A0,B0 and the mark compacts.",
+    "hypotheses": [
+     "d=2; fixed L; fixed scaled annulus 1<A0<=|y|<=B0<infinity; compact positive gaps k_->0; all frames; between-pin height window",
+     "support: TWO_SCALE_ADDENDUM S6–S21 (inner strip all-height bound); marked Kac–Rice framework arXiv:2304.07424"
+    ],
+    "conclusion": "height-window first moment on fixed scaled annulus is <= C k r^3 area(E0)",
+    "objects_used": [
+     "annulus K, Borel E0",
+     "height-restricted count N_j(rE0)",
+     "three-row contact vector",
+     "cutoff r^{1/24}",
+     "inner strip h_r"
+    ],
+    "disposition_or_classification": "LANDING_CLAIMS: REVIEWED_SCOPED (eight declared interfaces). GRAPH: AUTHOR_SIDE_CANDIDATE with review_disposition ACCEPT (xAI/Grok), scientific_status_unchanged true; region math.rn-region.fixed-annulus-window COVERED_BY_CANDIDATE; regional.fixed-annulus.high-jet-route SUPERSEDED_NONBLOCKING (bypass of CH-LIFT/Piece-2/OBL-H5-JETMOD for this scope only).",
+    "review_records": [
+     "reviews/pr22_fixed_annulus_nonauthor_20260925/REVIEW.md (blob 1f153966dae48d10574db0d272f75d08ca3a8b23; xAI Grok; eight interfaces ACCEPT at commit 2804dc1d)",
+     "reviews/replacement_20260925_pr19_pr21/TWO_SCALE_REVIEW.md (support)"
+    ],
+    "what_is_explicitly_out_of_scope": [
+     "pin neighborhoods, B0->infinity, r<<distance<<rho, witness collisions, d>=3, k_->0, uniform torus-size limits, numerical 24-jet constants, elder pairing",
+     "no all-height O(r^3) over the full annulus, no positive leading coefficient, no probability lower bound",
+     "no global D5/RN/JETMOD transfer"
+    ]
+   },
+   {
+    "id": "two-scale-s6-s21",
+    "title": "D5 two-scale addendum S6–S21 (D5-TWO-SCALE-20260925-v1, PR22)",
+    "repo": "Math-",
+    "path": "frontiers/rn_thin_tube_20260925/TWO_SCALE_ADDENDUM.md",
+    "commit_or_tip": "blob 89cae3a9734f2ec7172cd0b6b0b3af3ddd355d73, 15902 B, SHA256 079f9399…; reviewed_subject_commit b2e1652f1374c3b45759324a1ad1fd4177458500",
+    "statement_verbatim": "**Candidate conclusions.** Constants C,c,delta_0>0 exist, depending on the preceding fixed parameters, such that for A<=|u|<=B, r>0 and delta<=delta_0, uniformly in the frame and marks,\n\n    p_{grad f(ru,rt)|S1}(0) <= C*r^-3*delta^-2*exp(-c/delta^2),   (S3)\n\nand the endpoint-weighted index-j critical-point intensity per PHYSICAL area satisfies\n\n    rho_j^W(ru,rt) <= C*r^-5*delta^-8*exp(-c/delta^2).            (S4)\n\n[...] For T_r(epsilon)={(r*u,r*t): A<=|u|<=B, |t|<=epsilon}, if sqrt(r^2+epsilon^2)<=delta_0,\n\n    E_Qr^W N_j(T_r(epsilon)) <= C*r^-3 * int_{-epsilon}^{epsilon} (r^2+t^2)^-4 * exp[-c/(r^2+t^2)] dt.  (S5)\n\n(S20) for epsilon(r)=K r^gamma: E_Qr^W N_j(T_r(K*r^gamma)) <= C_gamma*r^(-3-7gamma)*exp(-c_gamma/r^(2gamma)); (S21) for each N there is D_N with E_Qr^W N_j(T_r(D_N/sqrt(log(1/r)))) = O(r^N).",
+    "hypotheses": [
+     "d=2, full covariance K_L fixed L; compact b; 0<k_-<=k<=k_+; 1<A<B; six pins (S1); delta=sqrt(r^2+t^2), alpha=r/delta, beta=t/delta",
+     "weighted Kac–Rice: Stecconi arXiv:2103.10853v1 Theorem 29"
+    ],
+    "conclusion": "uniform near-axis crossover density and intensity bounds across aspect ratio t/r; all-height inner-tube counts",
+    "objects_used": [
+     "witness (ru,rt)",
+     "aspect parameters delta, alpha, beta",
+     "tube T_r(epsilon)",
+     "rho_j^W intensity"
+    ],
+    "disposition_or_classification": "support dependency of rn-fixed-annulus-window (LANDING_CLAIMS); PROOF_INDEX reviewed scoped result",
+    "review_records": [
+     "reviews/replacement_20260925_pr19_pr21/TWO_SCALE_REVIEW.md (blob 8988251631cab8e65eb2b01a08f7fc593b018570; xAI; S6–S21 and (S3)–(S5) ACCEPT; reviewed_subject_commit bc7d7545… per LANDING_CLAIMS, source b2e1652f per review text)"
+    ],
+    "what_is_explicitly_out_of_scope": [
+     "does not establish uniform O(r^3) on a fixed scaled-width annulus; no result at pin sites, near u=0, r<<|x|<<rho, witness collisions, d>=3, k_-=0, uniform over L; no elder-selection or lifetime promotion"
+    ]
+   },
+   {
+    "id": "axial-density (PROOF_INDEX: D5 inner-belt gradient density)",
+    "title": "Inner axial belt exponential conditional-gradient density bound (RN-INNER-AXIAL-DENSITY-20260925-v1, PR21)",
+    "repo": "Math-",
+    "path": "frontiers/axial_density_20260925/PROOF.md",
+    "commit_or_tip": "blob a72418d78fd3c1ec96260dbf19f9a2f3f4ca35ba, 10858 B, SHA256 8b9376a6…; last commit b420099",
+    "statement_verbatim": "Fix B0<infinity, 0<k0<=k1<infinity, 1<A<B<infinity, and 0<=W<infinity. For any orthonormal frame R, use local coordinates (x,z) along its columns. With M=R(-r/2,0), S=R(r/2,0), condition on the ORIGINAL six observations f(M)=b, f(S)=b-k*r^3, grad f(M)=grad f(S)=0, |b|<=B0, k0<=k<=k1. [...] At the witness X=R(r*u,r^2*w), assume A<=|u|<=B and |w|<=W.\n\n**Candidate theorem.** There are C,c,r_*>0 depending only on L,B0,k0,k1,A,B,W such that, uniformly in the stated parameters and frame, for 0<r<=r_*,\n\n    p_{grad f(X) under Q_r}(0) <= C*r^(-5)*exp(-c*k^2/r^2).       (1)\n\n[...] It contains neither a pin-density factor nor a spatial Jacobian nor an endpoint Palm weight. This covers the physical belt |z|<=W*r^2.",
+    "hypotheses": [
+     "d=2 torus R^2/(LZ^2); six original pins; witness in belt |z|<=W r^2, A<=|u|<=B"
+    ],
+    "conclusion": "conditional gradient density at zero is <= C r^{-5} exp(-c k^2/r^2) on the inner belt",
+    "objects_used": [
+     "Hermite observations U_r, exact pinned values (3): U_r=v_r=(b-k r^3/2,-(3/2)k r^2,0,12k,0,0)",
+     "normalized unconditional witness Y",
+     "belt width W"
+    ],
+    "disposition_or_classification": "PROOF_INDEX reviewed scoped result (density bound only, corollary (1) on |z|<=W r^2)",
+    "review_records": [
+     "reviews/replacement_20260925_pr19_pr21/REVIEW.md (blob f1868bd9…; xAI; equations (2)–(8) ACCEPT; corollary (1) ACCEPT as existence bound; M1–M7, S1–S4 of C6 remainders ACCEPT)"
+    ],
+    "what_is_explicitly_out_of_scope": [
+     "not the height-conditioned density, conditional Hessian moments, endpoint-weighted Palm count, full normalizer, remaining thin belt W r<|v|<eta, pin/witness collisions, intermediate distances, d=3, numerical C_H, historical 24-jet certification"
+    ]
+   },
+   {
+    "id": "fixed-transverse-chart (PROOF_INDEX: D5 fixed-transverse chart, PR16)",
+    "title": "Corrected fixed-transverse chart: cubic conditional count bound",
+    "repo": "Math-",
+    "path": "reviews/downstream_boundary_20260925/TRANSVERSE_BOUND_CANDIDATE.md (byte-for-byte import of commit 32b80ee085dc6a40113d1e46e333cda50d57ba21)",
+    "commit_or_tip": "blob 024d927779f79fadaf932541ea6474f2995f8c50, 9902 B; last commit 6e4085a",
+    "statement_verbatim": "For fixed A>1, B>A and eta>0, let K = {(u,v): A<=sqrt(u^2+v^2)<=B, |v|>=eta}. Let E be any Borel subset of K, and N_j(rE) count critical points of index j in rE whose heights lie strictly between b-k*r^3 and b.\n\n**Candidate theorem.** There are C<infinity and r_*>0 such that, uniformly over the compact marks, all frames, E and j=0,1,2,\n\n    E_(Qr^W) N_j(rE) <= C*k*r^3*area(E),    0<r<=r_*.\n\nThe constants are qualitative. They are NOT uniform as eta tends to zero, B tends to infinity or the gap interval approaches zero.",
+    "hypotheses": [
+     "d=2, fixed L; compact birth/gap 0<k_min<=k<=k_max; six pins; W_r, Z_r full; chart bounded away from axis |v|>=eta"
+    ],
+    "conclusion": "height-window first moment on fixed transverse chart is <= C k r^3 area(E)",
+    "objects_used": [
+     "chart K with |v|>=eta",
+     "centered six-observation transform U_r, target (b-k r^3/2,-k r^2,0,12k,0,0)",
+     "three Hessian determinant factors"
+    ],
+    "disposition_or_classification": "PROOF_INDEX reviewed scoped result",
+    "review_records": [
+     "reviews/pr16_fixed_transverse_nonauthor_20260925/REVIEW.md (blob 4003ff13…; xAI; R1–R5 ACCEPT at commit 32b80ee0)"
+    ],
+    "what_is_explicitly_out_of_scope": [
+     "eta->0 (thin belt/axis), pin collisions, intermediate r<<distance<<rho, multiple witness collisions, d=3, numerical constants, historical all-cell/24-jet certificate; no positive leading coefficient; no probability lower bound"
+    ]
+   },
+   {
+    "id": "math.d5-pin-neighborhood-first-moment (D5-a…D5-f)",
+    "title": "D5 planar pin/collar/intermediate first moment — source-bound reconciliation D5-RECONCILIATION-20260929-v2.1",
+    "repo": "Math-",
+    "path": "reviews/d5_reconciliation_20260929/RECONCILIATION.md (+ PROPOSED_TRANSITIONS.json, reconciliation_check.py)",
+    "commit_or_tip": "blob 4062d76bdf3c60bc73f04295b88c245bcee395de, 12536 B; last commit 49531f8; graph fold executed by Math- commit 5a878dc (2026-09-29)",
+    "statement_verbatim": "| D5-a (P2) | E_{Q_r^W} N_j(M + rE) ≤ C r³|E| for Borel E ⊂ {0 < p² + q² ≤ 1/16}, and the same at S | all heights |\n| D5-b (microdisk) | the nested disks of radius κr² about each pin, for fixed κ: O(r⁵) | all |\n| D5-c (C1) | E_{Q_r^W} N_j(rE) ≤ C r³|E| for Borel E ⊂ C_{η,R}, η ≤ 1/4, fixed R ≥ 1 | all |\n| D5-d (C2), the summed pin-neighborhood bound | the same on {|(u,v)| ≤ R} ∖ {(±1/2, 0)}, so E_{Q_r^W} N_j(r B_R ∖ {M,S}) ≤ C_R r³ | all |\n| D5-e (I3/I4) | the dyadic shells and {A_0 r ≤ |X| ≤ ρ}: E N ≤ C r³(A_0^{−2} + ρ²) | window I_r |\n| D5-f (I5) | E_{Q_r^W} N_{r,j}(T² ∖ {M,S}) ≤ C r³; planar c r³ ≤ P(A_r) ≤ C r³ | window I_r |\nConsumption graph: D5-a ← P2; D5-b ← P2; D5-c ← C1; D5-d ← D5-a + D5-c at η = 1/4; D5-e ← I3, I4; D5-f ← D5-d (R = 4) + I4 (A_0 = 4, ρ = s_0) + remote Theorem A (ρ = s_0).",
+    "hypotheses": [
+     "planar d=2, fixed T (torus), compact b, 0<k_-<=k<=k_+, all frames O(2), all indices; original six pins, W_r=F_2(H_M)F_1(H_S), full Z_r; counts exclude the conditioned pins M,S; existential constants",
+     "components: PUNCTURED_PIN_PROOF.md (blob d8acf0bc…), COLLAR_PROOF.md (blob b5647907…), rn_annulus_bridge PROOF.md, intermediate_window PROOF.md (blob f53a527c…), remote_window PROOF.md, remote_collision PROOF.md (P_eta)"
+    ],
+    "conclusion": "all-height O(r^3) first moments on punctured pin disks/collar/scaled ball, O(r^5) on nested microdisks; window-only O(r^3) on intermediate shells and torus-wide; planar c r^3 <= P(A_r) <= C r^3",
+    "objects_used": [
+     "scaled coordinates X=r(u,v), pins (±1/2,0)",
+     "punctured disk {0<p^2+q^2<=1/16}",
+     "collar C_{eta,R}",
+     "microdisk kappa r^2",
+     "dyadic shells, A_0, rho, s_0",
+     "window I_r",
+     "event A_r (some non-pin window critical point)",
+     "P_eta fixed-separation second factorial moment"
+    ],
+    "disposition_or_classification": "GRAPH (post-fold): math.d5-pin-neighborhood-first-moment PROVED_REVIEWED; regions math.rn-region.pin-collision (D5-a,b,d), .mesoscopic-scaled-annulus (D5-d, R>=B), .intermediate-r-to-rho (D5-e) PROVED_REVIEWED at stated scopes with 30 required evidence edges; math.rn-region.witness-collision OPEN_ACTIVE. STATUS.md: ACCEPT — scoped (D5 planar row). PROOF_INDEX: reviewed scoped result.",
+    "review_records": [
+     "reviews/d5_punctured_pin_nonauthor_20260928/REVIEW.md (xAI #111: P4,P9,P17,P20 ACCEPT; (P2) continuum HOLD)",
+     "reviews/d5_punctured_pin_continuum_claude_20260929/REVIEW.md (blob 4904e3d9…; Anthropic: (P2) ACCEPT existential; P17 not voted, exposure) + pp_continuum_check.py",
+     "Math-#141 comment 5894512272 (xAI planar P2 continuum check; no d>2 transfer)",
+     "reviews/d5_collar_count_20260928/REVIEW.md (C1 ACCEPT existential, C2 ACCEPT corollary; lane not named)",
+     "Math-#105 comment 5872932723 (Anthropic collar CONFIRMED, external)",
+     "reviews/pr28_annulus_bridge_nonauthor_20260925/REVIEW.md (R1–R7 ACCEPT)",
+     "reviews/d5_i5_planar_f_20260928/REVIEW.md (xAI: I3/I4 ACCEPT existential, I5 ACCEPT, planar F+ ACCEPT)",
+     "reviews/d5_intermediate_window_claude_20260928/REVIEW.md (Anthropic: (I3),(I4),(I5) ACCEPT with tiling N1)",
+     "reviews/d5_offpin_second_moment_20260928/REVIEW.md (P_eta ACCEPT)",
+     "Math-#138 pullrequestreview-5355167471 (OpenAI reconciliation guards review)",
+     "reviews/d5_graph_fold_20260929/ (fold executed; verify.py)"
+    ],
+    "what_is_explicitly_out_of_scope": [
+     "d>2; numerical constants; uniformity in T, R, eta, k->0; elder pairing; RN/24-jet/JETMOD certificates; numerical RN partition budgets; all-radius RN",
+     "no all-height intermediate or global count; no torus-wide second factorial moment; regional shrinking witness-collision mechanism remains OPEN_ACTIVE",
+     "including the deterministic pin atoms would invalidate the vanishing bounds"
+    ]
+   },
+   {
+    "id": "CL-D5-DIMENSION-LIFT-20260929-v1 (Math-#141)",
+    "title": "D5 in every fixed dimension: Theorems P_d, C_d, I_d, G_d, Corollaries F_d, M_d",
+    "repo": "Math-",
+    "path": "frontiers/d5_dimension_lift_20260929/PROOF.md (+ CONTINUUM_CROSSWALK.md, README.md, SOURCE_MAP.json, lift_exact_check.py)",
+    "commit_or_tip": "blob 9d82c707fdb17d3072a8930f26dabedf59e456fc, 53727 B; merged at e1ca400b3414e5a7bec13b91bc4f1e5293df32be; reviews bound to c709854; erratum packet reviews/d5_dimension_lift_erratum_20261005 exists (not read)",
+    "statement_verbatim": "D = { (p, q) : 0 < p^2 + |q|^2 <= 1/16 }, omega_d(p, q) = max(|q|, r |p|)^(2-d) (omega_2 = 1). (1.1)\n**Theorem P_d (all-height punctured pin ball).** There are C, r_* > 0 such that for 0 < r <= r_*, all b, k, R, j and every Borel E contained in D, E_(Q_r^W) N_j(M + r E) <= C r^3 integral_E omega_d(p, q) dp dq <= C' r^3. (1.2) [...] For a nested ball p^2 + |q|^2 <= kappa^2 r^2 (physical radius kappa r^2), the right side is O(r^5).\n**Theorem C_d (compact collar).** [...] fix R >= 1 and 0 < eta <= 1/4, C(eta, R) the closed ball of radius R minus the two open balls of radius eta about (∓1/2, 0). There are C, r_* > 0 such that for every Borel E contained in C(eta, R), E_(Q_r^W) N_j(r E) <= C r^3 |E|. (1.3) Consequently [...] E_(Q_r^W) N_j(r E) <= C r^3 (1 + integral_(E cap pin balls) omega_d) <= C' r^3. (1.4)\n**Theorem I_d (intermediate height-window shells).** There are C, s_0 > 0 such that for 0 < r <= s/4 and 0 < s <= s_0, E_(Q_r^W) N_(r,j)({ s <= |X| <= 2 s }) <= C r^3 [ (r/s)^2 + s^2 ], (1.5) and hence, uniformly for A_0 >= 4 and A_0 r < rho <= s_0, E_(Q_r^W) N_(r,j)({ A_0 r <= |X| <= rho }) <= C r^3 ( A_0^(-2) + rho^2 ). (1.6)\n**Theorem G_d (global height-window first moment).** There are C, r_* > 0 such that E_(Q_r^W) N_(r,j)( X minus {M, S} ) <= C r^3. (1.7)\n**Corollary F_d.** [...] c r^3 <= Q_r^W(A_r) <= C r^3. (1.8)\n**Corollary M_d.** [...] c r^3 <= Q_r^W{ N_r >= 2 } <= C r^3, E_(Q_r^W)[ N_r (N_r - 1) ] >= c r^3. (1.9)",
+    "hypotheses": [
+     "fixed d>=2, m=d-1, L>0; compact B, K with 0<k_-; frames O(d); 2(d+1) pins; W_r=F_d(H_M)F_{d-1}(H_S), full Z_r; window I_r; counts exclude M,S",
+     "consumed: [LP] sec.2–5 (A1–A4), (5.5) Z_r>=z_* r^2; [PP],[CP],[IW] planar templates; [RM] Theorem A every d; [RC] (F-); [EDL] (A4); [LOCAL] sec.7 TV identity",
+     "Armentano–Azaïs–León Theorems 2.1, 2.2, 7.1"
+    ],
+    "conclusion": "first moments O(r^3) (pin ball all-height; collar all-height; shells and global in the height window) and event probabilities Theta(r^3) in every fixed d>=2",
+    "objects_used": [
+     "weight omega_d",
+     "pin ball D, collar C(eta,R), shells",
+     "five devices D1–D5 (two/one soft directions, jet functionals, transverse block determinant, pin weight)",
+     "K = multiple of 1+||f||_{C^6}"
+    ],
+    "disposition_or_classification": "PROOF_INDEX: reviewed scoped result (separate packet, not folded into planar graph); STATUS.md AMEND/open row notes accepted and merged for fixed d>=2 but separate from planar reconciliation; GRAPH: no node",
+    "review_records": [
+     "Math-#141 pullrequestreview-5357858391 (OpenAI, source-exposed; P_d, C_d ACCEPT at c709854)",
+     "Math-#141 pullrequestreview-5357882570 (OpenAI; I_d, G_d, F_d, M_d ACCEPT)",
+     "Math-#141 comment 5894512272 (xAI planar continuum base verdict)"
+    ],
+    "what_is_explicitly_out_of_scope": [
+     "no all-height intermediate or global O(r^3) count (window load-bearing; all-height shell method gives O(r))",
+     "no torus-wide second factorial moment upper bound; no collision estimate outside fixed remote region",
+     "no elder selection; no uniformity in k, L, d; no numerical C, c, r_*, s_0",
+     "no recovery of historical RN/JETMOD/24-jet carriers; no register change"
+    ]
+   },
+   {
+    "id": "OA-C6-FOURIER-20260929-v1 (Math-#148)",
+    "title": "C6 Fourier cutoff: Theorem F (count cap), Theorem W (window consequence), Proposition B",
+    "repo": "Math-",
+    "path": "frontiers/c6_fourier_cutoff_20260929/PROOF.md (+ reviews/c6_fourier_completion_20260929/READING_NOTE.md)",
+    "commit_or_tip": "blob 1d9177a259654df0fb7c558fcb803685e09608d2, 18174 B, SHA256 c1692379…; review native commit_id 4d59319b7fbe0790ebd5a1482bc91c4d9cc2d4f3; integration 4d062e2a976a",
+    "statement_verbatim": "N counts critical points other than M,S with values in I_r=(b-kr^3,b), all indices. C(f) counts ALL real critical points on the torus, including the pins and all heights.\n**Theorem F (count cap, no G_d input).** There is a measurable field functional Psi_F>=C(f) such that uniformly in this original pin family\n    Q_r(Psi_F>x) <= C exp(-c x^(2/d)),\n    Q_r^W(Psi_F>x) <= C exp(-c x^(2/d)),                         (F1)\nfor x>=1, after changing constants. [...] sup E_Qr^W exp(a Psi_F^(2/d)) < infinity. (F2)\n**Theorem W (window consequence).** Let G_d denote the dimension-matched hypothesis E_Qr^W N<=C r^3. Given G_d, for every fixed integer p>=2,\n    E_Qr^W (N)_p <= C_p r^3 [log(1/r)]^(d(p-1)/2).             (F3)\nFor d=2, G_2 is the reviewed planar I5 composition [...]. Hence\n    E_Qr^W N(N-1) <= C r^3 log(1/r),                           (F4)\n    E_Qr^W (N)_p <= C_p r^3 [log(1/r)]^(p-1).\n**Proposition B (an inference boundary, not a Gaussian counterexample).** The factor [log(1/r)]^(d(p-1)/2) cannot in general be removed using only G_d, a nonnegative count cap, and the tail/moment statements (F1)-(F2).",
+    "hypotheses": [
+     "fixed d>=2, T>0; Fourier variances a_n=c_T exp(-omega^2|n|^2/2), omega=2pi/T; fixed lattice (not rotated with pin frame)",
+     "original pins, compact marks k>=k_->0, W_r, full Z_r",
+     "LP sec.3–5: uniform covariance sandwich, ||W_r||_{L2}<=C r^2, Z_r>=c r^2 (F5); C6L/C6S Laurent-polynomial and holomorphic-degree arguments; planar G_2 from D5/I5 reading rule"
+    ],
+    "conclusion": "stretched-exponential count tail for all critical points; conditional factorial-moment bounds; planar E N(N-1) <= C r^3 log(1/r)",
+    "objects_used": [
+     "cap functional Psi_F",
+     "total critical count C(f)",
+     "Fourier truncation / Laurent system, Bézout",
+     "falling factorial (N)_p",
+     "hypothesis G_d"
+    ],
+    "disposition_or_classification": "PROOF_INDEX: reviewed scoped result (separately reviewed upper theorem; not the sharp route; does not close witness-collision). STATUS.md ACCEPT — scoped (C6 row). GRAPH: no node (fold scope mentions planar C6 upper bound).",
+    "review_records": [
+     "https://github.com/d6g8k5htny-coder/Math-/pull/148#pullrequestreview-5356335148 (Anthropic nonauthor; F (F1)-(F2) every fixed d ACCEPT; W conditional on G_d; (F4) at d=2; B as abstract construction)",
+     "reviews/c6_fourier_completion_20260929/READING_NOTE.md (blob 682d7045…; OpenAI editorial; multiplicity reference N1)"
+    ],
+    "what_is_explicitly_out_of_scope": [
+     "for d>=3 factorial composition conditional on G_d; sharp O(r^3)/Theta(r^3) and marked-Palm route not accepted here; no numerical cutoff or parameter-uniform constants; abstract barrier is not a Gaussian counterexample",
+     "no persistent-pair law, Poisson approximation, SARD rate, C103 certificate, status promotion"
+    ]
+   },
+   {
+    "id": "CL-C6-PALM-20260929-v1 (Math-#145)",
+    "title": "C6 sharp Palm route: Theorem Q, Corollary Theta, Corollary P",
+    "repo": "Math-",
+    "path": "frontiers/c6_palm_route_20260929/PROOF.md (+ README.md, SOURCE_MAP.json)",
+    "commit_or_tip": "blob 89eb8adf08fe7afc2cab9662d3a9875c05ae5cc5, 53364 B; merged 820d4435c5f13c12b9c2f3590e859212d2648dc0; last commit 78ac110; review bound to 06bc0d6",
+    "statement_verbatim": "**Theorem Q (factorial moments, every fixed dimension).** There are C_q, r_* > 0 such that for 0 < r <= r_*, all b, k, R and every fixed integer q >= 2,\n    E_(Q_r^W)[ (N)_q ] <= C_q r^3.                                                    (1.1)\nIn particular E_(Q_r^W)[N(N-1)] <= C r^3.\n**Corollary Theta.** In every fixed d >= 2,\n    c r^3 <= E_(Q_r^W)[ N(N-1) ] <= C r^3,        c r^3 <= Q_r^W{ N >= 2 } <= C r^3.       (1.2)\n**Corollary P.** E_(Q_r^W)[N(N-1)] / E_(Q_r^W) N is bounded above and below by positive constants. [size-biased law statement; no lower bound of order r^3 claimed for q>=3]",
+    "hypotheses": [
+     "fixed d>=2, L>0, compact B,K with k_->0, frames O(d), 2(d+1) pins, W_r, Z_r, I_r; N = window critical points other than M,S, all indices",
+     "stacked on [C6L] frontiers/c6_factorial_moment_20260929 (Lemma M, cap Psi) and [DL] d5_dimension_lift (first moments every d); lower bound [EDL] (A4)",
+     "marked Kac–Rice with global mark (Lemma 5.1), Hölder insertion, parametric Rouché tail (Lemma M')",
+     "Morse genericity cited from [LP] sec.8"
+    ],
+    "conclusion": "torus-wide factorial moments of the window count are O(r^3) in every fixed d; second factorial moment Theta(r^3)",
+    "objects_used": [
+     "cap Psi (Rouché–Bézout, complexified gradient on C^d)",
+     "regression laws Q' with invariants (mean gradient/Hessian sup, residual floor)",
+     "size-biased (Palm) law dP^sb=N dQ_r^W/E N",
+     "tiling: pin balls, collar, shells, remote region"
+    ],
+    "disposition_or_classification": "PROOF_INDEX: reviewed scoped result (separate packet, not folded; global result does not resolve math.rn-region.witness-collision). STATUS.md: marked-Palm route 'not accepted here' in C6 row (snapshot 2026-09-29). reviews/c6_witness_collision_reconciliation_20260929 proposes discharge of the C6 obligation via Theorem Q + (A4) (declarative, execution pending).",
+    "review_records": [
+     "Math-#145 pullrequestreview-5356233690 (OpenAI, sec.4 ACCEPT)",
+     "Math-#145 pullrequestreview-5358116559 (OpenAI, sec.5–7, Theorem Q, Corollaries Theta, P ACCEPT at 06bc0d6; source-exposed)",
+     "Codex review 5358203608 (provenance findings fixed)",
+     "reviews/c6_witness_collision_reconciliation_20260929/RECONCILIATION.md (xAI 5901345590 ACCEPT as inventory, HOLD on execution; OpenAI 5359701805)"
+    ],
+    "what_is_explicitly_out_of_scope": [
+     "fixed-eta remote pair kernel of remote_collision (Corollary D) not reproved or sharpened",
+     "distribution of N beyond factorial moments; no Poisson/compound-Poisson rate",
+     "no elder selection; no uniformity in L, d, k->0, marks; no numerical constants; no register/catalog/status change",
+     "for d>=3 conditional on [DL] at its OpenAI acceptance"
+    ]
+   },
+   {
+    "id": "OA-C6-RARE-CLUSTER-20260929-v1 (+A1) (Math-#153)",
+    "title": "C6 rare-cluster laws: Theorems O, C, S, independent-replica limit (7.1); addendum (A1)–(A2)",
+    "repo": "Math-",
+    "path": "frontiers/c6_rare_cluster_laws_20260929/PROOF.md; SHARP_POISSON_COEFFICIENT.md; REVIEW_RECORD.md",
+    "commit_or_tip": "PROOF.md blob 2ab625cedfc2e47575c4a7fa4853413418c532da (11811 B); SHARP_POISSON_COEFFICIENT.md blob 9f96f7d619a3486d0b125a4f4a3528e213f149d6; merged 190cf2bd4f31c7caf219d5d9b3d1fa468c450ea6; reviews bound to 877f8825 and 848e85f6",
+    "statement_verbatim": "Put e=r^3. The ONLY analytic inputs to this note are (H1) E N <= A e, (H2) P(N>=2) >= a e, where a>0, (Hq) E (N)_q <= A_q e for every fixed integer q>=2.\n**Theorem O.** Under H1 and H2 alone, for all sufficiently small r, (a/2) r^3 <= inf_{lambda>=0} dTV(Law N, Pois(lambda)) <= A r^3. (3.1)\n**Theorem C.** Under H1 and H2, for p<=1, p^2/3 <= dTV(Law N, Law C_r) <= p(1-exp(-p)) <= p^2. (4.1) [C_r ~ CP(p,F), F=Law(N|N>0)]\n(5.2) 0 <= E(C_r)_q-E(N)_q = O_q(e^2)=O_q(r^6).\n**Theorem S.** Every sequence r_i->0 has a subsequence and a finite measure nu on N_+ such that for every fixed nonnegative integer k, sum_{n>=1} n^k |nu_{r_i}(n)-nu(n)| -> 0. (6.1) [nu_r(n)=r^{-3}P(N_r=n)]\n(7.1) dTV(Law T_r, CP(t nu)) <= t A^2 r^3 + A r^3 + t ||nu_r-nu||_1 -> 0 for m_r=floor(t/r^3) INDEPENDENT copies.\nAddendum (A1): beta-2p^2 <= inf_lambda dTV(Law N,Pois(lambda)) <= beta+p^2; (A2): dTV(Law N,Bern(mu)) = h, |dTV(Law N,Pois(mu))-h| <= mu^2 (mu<=1).",
+    "hypotheses": [
+     "N under Q_r^W as in [C6] sec.1.1; fixed d>=2, L, compact marks k>=k_->0",
+     "H1 from [D5] Theorem G_d; H2 from [C6] Corollary Theta; Hq from [C6] Theorem Q; sources pinned at commit 78ac1100217279e7b692f0959f86eee34cd1910e (SOURCE_PINS.json)"
+    ],
+    "conclusion": "elementary consequences of the count interface: sharp ordinary-Poisson obstruction at order r^3, canonical compound-Poisson error Theta(r^6), subsequential cluster-intensity limits, independent-replica compound-Poisson limit",
+    "objects_used": [
+     "p=P(N>0), mu=E N, beta=P(N>=2), h=E[N;N>=2]",
+     "conditional law F=Law(N|N>0), size-biased law",
+     "compound Poisson CP(p,F), CP(t nu)",
+     "Stirling numbers S(k,j), B_k",
+     "measures nu_r, nu"
+    ],
+    "disposition_or_classification": "PROOF_INDEX: reviewed scoped result (separate conditional packet; limiting cluster law unidentified; no graph/register transition)",
+    "review_records": [
+     "https://github.com/d6g8k5htny-coder/Math-/pull/153#pullrequestreview-5358565704 (Anthropic; sec.1,2,5,6,7 ACCEPT; source-exposed)",
+     "https://github.com/d6g8k5htny-coder/Math-/pull/153#pullrequestreview-5358623521 (xAI/Grok Harper; sec.3–4 and A1–A6 ACCEPT)",
+     "Codex review comment 4138392498 (verifier prior-credit identity repair)"
+    ],
+    "what_is_explicitly_out_of_scope": [
+     "H1/H2/Hq not revalidated; no identification of cluster law F or unique limit nu; no spatial Poisson-cluster process; no independence of windows in ONE field; no Lean formalization; no register promotion"
+    ]
+   },
+   {
+    "id": "cumulative-transfer-correction (D2)",
+    "title": "Correction to the cumulative transfer statement (D2) — corrected cumulative theorem",
+    "repo": "Math-",
+    "path": "reviews/collision_mechanism_20260925/CUMULATIVE_TRANSFER_CORRECTION.md",
+    "commit_or_tip": "blob 044ac5fdaf403a38e33983e31f0ad69f8e76d6d5, 3272 B, SHA256 83f65339…; PR25 head d06a562dc7717894b75c3adf2528ecf9ea743c73",
+    "statement_verbatim": "Let (Z,lambda) be sigma-finite, alpha>-1, m>0, beta=(alpha+1)/m, and r0>0. Let all integrands be jointly measurable. Assume, for lambda-almost every z: 1. kappa(z)>0; 0<=B(r,z)<=G(z); B(r,z)->B0(z) as r->0. 2. The weighted negative moment integral G(z)*kappa(z)^(-beta) dlambda is finite. 3. h(r,z) is continuous and strictly increasing for 0<r<r0, with h(0+,z)=0 and h(r,z)/(kappa(z)*r^m) -> 1. 4. Uniformly in r,z, h(r,z)>=c0*kappa(z)*r^m for a fixed c0>0. [...] Define N(ell)=integral_Z integral_0^r0 r^alpha B(r,z) 1{h(r,z)<=ell} dr dlambda. Then lim_(ell->0) N(ell)/ell^beta = 1/(alpha+1) * integral_Z B0(z)*kappa(z)^(-beta) dlambda. If the displayed coefficient is positive, this limit is a positive asymptotic equivalence. If it is zero, only the corresponding o(ell^beta) conclusion is asserted.",
+    "hypotheses": [
+     "abstract measure space; ratio hypothesis h/(kappa r^m)->1 retained; no derivative hypotheses"
+    ],
+    "conclusion": "cumulative asymptotic with exact coefficient 1/(alpha+1) int B0 kappa^{-beta}",
+    "objects_used": [
+     "(Z,lambda), kappa, B, G, h, alpha, m, beta, r0"
+    ],
+    "disposition_or_classification": "PROOF_INDEX: reviewed scoped result (this correction only); replaces cumulative paragraph of Section D of reviews/collision_mechanism_20260925/NOTE.md (source ad35e46d)",
+    "review_records": [
+     "reviews/d2_cumulative_correction_20260925/REVIEW.md (blob 3ab51b01…; xAI; ACCEPT for this correction only)",
+     "reviews/pr25_typed_transfer_nonauthor_20260925/REVIEW.md (R1–R2 ACCEPT, R3 AMEND_REQUIRED -> this correction)",
+     "reviews/pr25_contact_kernel_20260925/REVIEW.md (sections B–C R1–R4 ACCEPT)"
+    ],
+    "what_is_explicitly_out_of_scope": [
+     "not an excuse to infer a density asymptotic from a cumulative one; D1 still requires separate derivative controls; Gaussian contact, thin-belt, whole-annulus, global persistence statuses untouched; Section A of NOTE.md outside both acceptances"
+    ]
+   },
+   {
+    "id": "math.p15-price-boundary / p15-price-boundary",
+    "title": "P15 price boundary exact counterexample (P15-PRICE-BOUNDARY-20260924-v1)",
+    "repo": "Math-",
+    "path": "frontiers/three_fronts_20260924/P15_PRICE_BOUNDARY.md",
+    "commit_or_tip": "blob 1d6946658e00e2446d68e8a4884425d4bcec62fb, 2266 B, SHA256 498af650…; last commit 9b5fb7f",
+    "statement_verbatim": "Consider its smallest one-block member: a_1=d_1=1, X={x,y}, no macro edges. Its good sets are the empty set and singletons, its palette optimum is K_H(d)=1, and its one-piece obstruction is exactly {X}. The prescribed cover is {{x,y}}. Take independent original probabilities p_x=p_y=1/2 and prices c_x=c_y=2/3. These are admissible TRANSFORMED prices: phi(1/2)=log 2>2/3. [...] Nevertheless mu_p(D)=3/4, and min(1,-log mu_p(D))=log(4/3)<1/3 [...] Therefore the EXACT optimal cover price is covercost_c(O_1(D))=4/9 > 1/3 > log(4/3). Thus replacing c<=p by c<=phi(p) in the realized-family theorem while keeping its same palette K_H(d) is FALSE in general, even if arbitrary alternative covers rather than the prescribed cover are permitted.",
+    "hypotheses": [
+     "one capacity-one demand-one block; same palette K=1; phi(p)=min(1,-log(1-p))"
+    ],
+    "conclusion": "demand-one same-palette transformed-price extension refuted",
+    "objects_used": [
+     "ground set X={x,y}, downset D, obstruction O_1(D), generator cover, product measure mu_p, phi"
+    ],
+    "disposition_or_classification": "LANDING_CLAIMS: EXACT_COUNTEREXAMPLE. GRAPH: REFUTED (boundary_counterexample_not_required_premise edge from math.p15-full-price).",
+    "review_records": [
+     "https://github.com/d6g8k5htny-coder/main/issues/67 (pointer)"
+    ],
+    "what_is_explicitly_out_of_scope": [
+     "does not contradict P15-B; does not refute theorems with more colors; no conclusion about 408-scale or unrestricted prize; does not refute d_i>=2 successors"
+    ]
+   },
+   {
+    "id": "math.p15-full-price / p15-full-price",
+    "title": "D6 Theorem F — P15 full transformed-price budget (P15-FULL-TRANSFORMED-PRICE-20260924-v1)",
+    "repo": "Math-",
+    "path": "frontiers/full_price_20260924/PROOF.md (+ ASCII_3E_MINUS_2.md, full_price.py)",
+    "commit_or_tip": "blob 582180e41dca0ad815ad0f18574df42040912149, 11352 B; last commit f993833",
+    "statement_verbatim": "Put phi(p)=min(1,-log(1-p)), with phi(1)=1. Define p_star=1-exp(-1), h_star=3-log(3e-2), rho_star=1/h_star. (F1)\n**Theorem F.** For EVERY independent original probability vector p in [0,1]^X, every price vector 0<=c_v<=phi(p_v), and the SAME palette K>=K_H(d),\n    covercost_c(O_K(D)) <= min(1,rho_star[-log mu_p(D)]).  (F2)\nBefore capping, the union of full-block generators has price at most rho_star times the global hazard. The constant rho_star is optimal uniformly over this entire realized class, even when alternative generator covers are allowed. Explicitly,\n    0.84547981724898672067 < rho_star < 0.84547981724898672068 < 6/7. (F3)\n[ASCII 3e-2 means 3*e-2]",
+    "hypotheses": [
+     "realized family: finite clutter H of block supports (edges size>=2, empty allowed); disjoint blocks |X_i|=a_i d_i+1, a_i>=1, d_i>=2; D = sets with |U∩X_i|<=a_i and support containing no H-edge",
+     "O_K(D) sets not partitionable into <=K members of D; K_H(d) least palette size; full-block generators {X_i} cover O_K(D) for K>=K_H(d) (from P15_REALIZED_COVERS P1, P2)",
+     "hazard interpolation lemma (sec.2): coordinatewise concavity of F_A(t)=-log mu_{p(t)}(A)"
+    ],
+    "conclusion": "generator-cover price bounded by rho_star times global hazard on the full probability cube; rho_star sharp",
+    "objects_used": [
+     "downset D, obstruction O_K(D), generator price product c_v, phi, mu_p(D), K_H(d), p_star, h_star, rho_star"
+    ],
+    "disposition_or_classification": "LANDING_CLAIMS: REVIEWED_SCOPED. GRAPH: AUTHOR_SIDE_CANDIDATE (review_issue 74; notes 'review open' — stale relative to LANDING_CLAIMS). STATUS.md ACCEPT — scoped (D6).",
+    "review_records": [
+     "reviews/p15_full_price_nonauthor_20260926/REVIEW.md (blob 07db19f826763b8faa7414ba2e403d9c45bc0b6e, commit 1e1114f5…; xAI Grok; six slices ACCEPT; Theorem F ACCEPT at exact realized-family scope)",
+     "https://github.com/d6g8k5htny-coder/main/issues/74#issuecomment-5842112010 (review reconciliation)",
+     "Math- issue 57"
+    ],
+    "what_is_explicitly_out_of_scope": [
+     "demand one remains an obstruction (sec.5); no arbitrary-downset or unrestricted P15 prize extension; palette K_H(d) may depend on H and d",
+     "no independent reviewer/formal checker claimed by the proof itself; finite suite supports algebra only"
+    ]
+   },
+   {
+    "id": "math.p15-realized-covers / p15-realized-covers",
+    "title": "P15 realized covers ('Theorem P' in LANDING_CLAIMS; file: Proposition P1, Theorem P2) — P15-REALIZED-COVERS-20260924-v1",
+    "repo": "Math-",
+    "path": "frontiers/three_fronts_20260924/P15_REALIZED_COVERS.md",
+    "commit_or_tip": "blob 173881916ccd0e738bdb41279e835e78e520fcbc, 11467 B, SHA256 c0dbb821…; last commit 8a13ee9",
+    "statement_verbatim": "D={U subset X: |U intersect X_i|<=a_i for every i, supp(U) contains no edge of H}, supp(U)={i:U intersect X_i is nonempty}. (P1)\n**Proposition P1.** The inclusion-minimal forbidden ORIGINAL sets are exactly (a) every (a_i+1)-subset of a single X_i; (b) for each e in H, EVERY transversal {x_i:i in e}, with x_i in X_i. [...] the actual local restriction is D_i=D intersect 2^(X_i)={S subset X_i: |S|<=a_i}. (P2)\nG_i={X_i} (P3) is an exact local obstruction cover. [...] price(G_i)=product_(v in X_i)c_v <= product p_v = P(U_i=X_i) <= q_i <= phi(q_i) (P4) for 0<=c_v<=p_v.\n**Theorem P2.** For D in (P1), the fixed family G={X_1,...,X_b} covers O_K(D) if and only if K>=K_H(d). (P7)\nCombining (P4)-(P7), for K>=K_H(d), covercost_c(O_K(D)) <= min(1,-log mu_p(D)). (P8)",
+    "hypotheses": [
+     "clutter H on b macro-indices, edges size>=2; positive integers a_i, d_i; disjoint blocks n_i=a_i d_i+1; prices 0<=c_v<=p_v (subset of P15-B's c_v<=phi(p_v))",
+     "source P15-B (Drive 19D-eHQAIXMGGy2ThZUfZ0GGjIKWm5C2j, SHA256 9b18b6e9…) read in full"
+    ],
+    "conclusion": "explicit realized family satisfying all P15-B inputs with nonempty local covers; exact palette threshold K_H(d); cover-cost bound (P8) at prices c_v<=p_v",
+    "objects_used": [
+     "I_k(D), O_k(D), generator cover, price, K_H(d) demand-palette optimum, 816-label example (P9)–(P11)"
+    ],
+    "disposition_or_classification": "LANDING_CLAIMS: HOLD_WITH_DOMAIN (scope is the realized family). GRAPH: no node. PROOF_INDEX: open/conditional with complete proof text. Setwise interfaces (P1, P2, Theorem P2) ACCEPTed as support for Theorem F.",
+    "review_records": [
+     "reviews/p15_full_price_nonauthor_20260926/REVIEW.md (support scope: realized-family definition P1, local restrictions P2, Theorem P2 full-block cover at K>=K_H(d); excludes the c_v<=p_v price theorem)",
+     "https://github.com/d6g8k5htny-coder/main/issues/67 (pointer)"
+    ],
+    "what_is_explicitly_out_of_scope": [
+     "no assertion for prices p_v<c_v<=phi(p_v) here; no arbitrary-P15 extension; no unrestricted prize; optimality (P7) is for the specified cover only; does not improve P15-D's 256 factor"
+    ]
+   },
+   {
+    "id": "p15-price-budget-restricted",
+    "title": "P15 restricted transformed-price extension, Theorem T1 (P15-TRANSFORMED-PRICE-BUDGET-20260924-v1)",
+    "repo": "Math-",
+    "path": "frontiers/price_budget_20260924/PROOF.md",
+    "commit_or_tip": "blob 9b17d179d2408dae9ea497d3c6e5c6538d2c3b8b, 7935 B; last commit 1dfd49e",
+    "statement_verbatim": "**Theorem (restricted transformed-price extension).** Suppose every a_i>=1, every d_i>=2, and all independent original probabilities satisfy 0<=p_v<=1/4. Then for EVERY set of prices 0<=c_v<=phi(p_v), at the SAME K>=K_H(d),\n    covercost_c(O_K(D)) <= min(1,(16/27)*[-log mu_p(D)]).       (T1)\nThe uncapped full-block union has cost at most the expression inside the second argument of this minimum. [...] The constants in this theorem are explicit.",
+    "hypotheses": [
+     "realized family of P15_REALIZED_COVERS; a_i>=1, d_i>=2; p_v<=1/4; c_v<=phi(p_v); same palette K>=K_H(d)",
+     "(T2) -log(1-p)<=p/(1-p); (T3) ratio bound 4^{a+1}/3^n<=16/27; (T6) sum q_i<=-log mu_p(D)"
+    ],
+    "conclusion": "cover cost <= min(1,(16/27)(-log mu_p(D))) on the restricted probability domain",
+    "objects_used": [
+     "local failure probability q_i, full-block generator price, phi, mu_p(D)"
+    ],
+    "disposition_or_classification": "LANDING_CLAIMS: HOLD_WITH_DOMAIN (independent theorem review not yet source-bound in manifest; depends on claim p15-realized-covers). PROOF_INDEX: open/conditional with complete proof text.",
+    "review_records": [
+     "https://github.com/d6g8k5htny-coder/main/issues/67 (pointer)",
+     "Theorem F's review notes the 1/4 theorem gives stronger factor 16/27 on its smaller domain"
+    ],
+    "what_is_explicitly_out_of_scope": [
+     "does not retract the demand-one counterexample; no unrestricted prize; no new classical coloring theory; finite tests are not analytic acceptance"
+    ]
+   },
+   {
+    "id": "CAP-FIRST-EXIT-LEAN-20261002-v1",
+    "title": "Cap first exit in Lean: topological global step of D1 component III (Lean 4 / Mathlib)",
+    "repo": "Math-",
+    "path": "frontiers/cap_first_exit_lean_20261002/ (CapFirstExit.lean, README.md, ALIGNMENT.md, MANIFEST.json, gate.py, lakefile.toml, lean-toolchain, lake-manifest.json); workflow .github/workflows/cap-first-exit-lean.yml",
+    "commit_or_tip": "CapFirstExit.lean blob 01744e2cf571049d7d1557b9ed54646881d341cf (326607 B, SHA256 040aa91f…); README blob 4f5e1bf0…; MANIFEST blob d909b477…; toolchain leanprover/lean4:v4.34.1; mathlib d13f23b723b8a846827a245b89c10fc7d3f11612; allowed_axioms [Classical.choice, Quot.sound, propext]; sorry count 0; pins_on_main: reviews/d1_cap_elder_partner_second_pass_claude_20260930/REVIEW.md (a653dbc7…), MARKED_CYLINDER_CAP_PROOF.md (0633aca3…)",
+    "statement_verbatim": "structure CapHyp (f : X → ℝ) (C : Set X) (M z : X) (b s : ℝ) : Prop — (C1) f ≤ b on C; (C2) f ≤ s on the frontier of C, with only S attaining s (C2⁺); (C3) a path from M to an older point z, f(z) > b, along which f ≥ s. Conclusions: CapHyp.maximin_eq: sSup (connectionLevels f M b) = s; elder_merge_iff_closed/open; elder_death_level: IsGreatest (joinedLevels f M b) s; path_through_saddle; saddle_cut; older_peak and elder_death_level_peak on compact locally connected spaces; CapHyp.toTorus via torusCover; ridge_profile (L13,L16,L17,L20); ridge_capHyp… chain through ridge_capHyp_E (f ∈ C⁴ on open U ⊇ D, SP bounds on D), ridge_capHyp_K (every gap k>0 on P §7's event G_r = {λ_min(−A_M) > [4/(3k)] r M3², r M4 ≤ 3k/10} with f(M)−f(S)=k r³), ridge_capHyp_blocks (CAP (1) with partial-block norms M_j), torus_capHyp_blocks and torus_elder_death_level_blocks on (ℝ/Lℤ)^d; toys spToyF, h1ToyF, quarticToyF, mixedToy, torusToy_elder.",
+    "hypotheses": [
+     "topological core: X any topological space, (C1)–(C3) only; older-peak theorems add CompactSpace, LocallyConnectedSpace, continuity",
+     "analytic chain: SP (second pass L1–L20) hypotheses: f ∈ C⁴ near D=[−2r,2r]×B̄(0,2r), block bounds m=M3, n=M4, (H1) λ>8rm² (normalized) / CAP (1), (H2) rn≤1/20, critical pins, gap r³/6 or k r³"
+    ],
+    "conclusion": "kernel-checked: from CAP (1) hypotheses on the periodic lift in any frame, the cap (C1)–(C3),(C2⁺) and the elder death level s of M on the torus",
+    "objects_used": [
+     "CapHyp structure",
+     "connectionLevels, joinedLevels",
+     "ridge h, slice strong concavity δ=λ−5rm",
+     "torusCover L d",
+     "iteratedFDeriv ℝ k f, partial-block norms",
+     "Mathlib implicit function theorem"
+    ],
+    "disposition_or_classification": "MANIFEST: scientific_effect NONE, mathematical_acceptance false, alignment_review NOT_CLAIMED; PROOF_INDEX (10-02 reachability supplement) lists it; not in GRAPH or LANDING_CLAIMS; Math-#193 'D1 Lean / kernel formalization' remains partially unsupplied",
+    "review_records": [
+     "ALIGNMENT.md (author-side source-line map; alignment review requested, not claimed)",
+     "reviews/d1_cap_elder_partner_second_pass_claude_20260930/REVIEW.md (pinned SP source)"
+    ],
+    "what_is_explicitly_out_of_scope": [
+     "that the local field on G_r satisfies SP §2 setting (SP's input) not formalized; reading of P's contact frame/field as the Lean objects is informal",
+     "H0 superlevel persistence pairing bookkeeping informal (only the level s proved)",
+     "L14 (critical-point count), L15 (Morse indices), L23, P §8 and every probabilistic statement (Theorem A, Q^W(G_r^c) ≤ C r^3) not formalized",
+     "zero organizational-independence credit; author will not merge"
+    ]
+   },
+   {
+    "id": "math.rn-region.witness-collision (catalog C6, PROOF_INDEX open obligation)",
+    "title": "D5 shrinking multiple-witness collision — regional mechanism (OPEN)",
+    "repo": "Math-",
+    "path": "frontiers/downstream_gate_20260925/GRAPH.json node; machinery frontiers/remote_collision_20260928/PROOF.md (blob 7b48a88e…, CL-D5-REMOTE-COLLISION-20260928-v1); reviews/c6_witness_collision_reconciliation_20260929/RECONCILIATION.md",
+    "commit_or_tip": "GRAPH at tip 6c020d6 (last change 42db0ef 2026-09-29)",
+    "statement_verbatim": "GRAPH notes: 'Off-pin fixed-separation second-moment evidence is reviewed and sharp global order is reviewed and merged through Math-#145, but the regional shrinking pin/witness-collision mechanism and its source-bound graph fold remain open.' PROOF_INDEX: 'NO COMPLETE REGIONAL PROOF YET: math.rn-region.witness-collision remains OPEN_ACTIVE; the global Theta(r^3) result is not a proof of that node.' remote_collision Theorem C/D/E/F (nav refresh abridged): near-diagonal window pairs, fixed remote D_rho: E#pairs <= C r^5|E|; D: E N(N-1)=O(r^5)|E|; E: P{N_j(E)>=1}=k r^3 int Lambda_j+O(r^4); F: torus-wide P >= c r^3. P_eta: E N_eta(N_eta-1) <= C_eta r^5 at fixed eta>0.",
+    "hypotheses": [
+     "fixed eta>0 separation (P_eta); fixed remote region"
+    ],
+    "conclusion": "obligation open: shrinking-separation factorial-moment/collision estimate with pin neighbourhoods included (the witness-collision reconciliation proposes discharge via Palm Theorem Q + (A4), declarative, execution contingent)",
+    "objects_used": [
+     "N_eta, eta->0 mutual witness separation",
+     "fingerprint 'eta->0 mutual witness separation'"
+    ],
+    "disposition_or_classification": "GRAPH: OPEN_ACTIVE (review_disposition OPEN; reading_rule math.d5-component.offpin-second-moment-review PROVED_REVIEWED). STATUS.md: not accepted (D5 collision C6 row text).",
+    "review_records": [
+     "reviews/d5_offpin_second_moment_20260928/REVIEW.md (P_eta ACCEPT)",
+     "reviews/d5_remote_collision_grok_20260928/REVIEW.md (xAI, v3 head bbb5c7eb ledger/Bonferroni slice)",
+     "reviews/c6_witness_collision_reconciliation_20260929/ (xAI 5901345590 ACCEPT as inventory, HOLD execution; OpenAI 5359701805; Codex 5359693191)"
+    ],
+    "what_is_explicitly_out_of_scope": [
+     "global Theta(r^3) (Palm) does not identify the regional mechanism; no matching lower bound for selected subregions; no pointwise Kac–Rice density, no leading coefficient, no o(r^3) for mixed pairs"
+    ]
+   },
+   {
+    "id": "hist.* D0 historical predicates and carriers",
+    "title": "D0 historical RN-UNIF obligations (OPEN_HISTORICAL / OPEN_ACTIVE / BLOCKED_ABSENT) and lemma_closed register",
+    "repo": "Math-",
+    "path": "frontiers/downstream_gate_20260925/GRAPH.json; reviews/d0_custody_audit_20260926/AUDIT.md; main docs/math_status/STATUS_RN_UNIF.md (blob ccd542fb…) cited by RN_COUNT_INTERFACE",
+    "commit_or_tip": "GRAPH at tip 6c020d6",
+    "statement_verbatim": "hist.ENV-RESCOV (OPEN_HISTORICAL; 'OPEN for historical D3; qualitatively rederived on newer routes where proved'); hist.ALLCELL-FDZ-Q4 (OPEN_HISTORICAL; 'Not a dependency of the fixed-remote theorem'); hist.LOGQ-TAIL (OPEN_HISTORICAL; 'Replaced only inside named successors'); hist.SYM-Fw-jet (OPEN_HISTORICAL); hist.CH-LIFT (OPEN_ACTIVE; 'Still mathematically relevant for shrinking charts'); hist.Piece-2-annulus (OPEN_ACTIVE; 'Active mathematical blocker for shrinking/pin-collision regions'); hist.OBL-H5-JETMOD (OPEN_HISTORICAL; 'No 2026-09-24 proof claims certified 24-jet enclosure'); carriers hist.rnu_env.py, hist.CL_ANTHROPIC_BUNDLE_2026-09-17_v5.zip, hist.allcell_fdz_enclosures.json BLOCKED_ABSENT (fingerprint ABSENT); hist.lemma_closed register FALSE ('Scientific effect NONE; this gate never flips the register'); regional.fixed-annulus.high-jet-route SUPERSEDED_NONBLOCKING (bypass of CH-LIFT/Piece-2/OBL-H5-JETMOD for the fixed d=2 annulus scope only).",
+    "hypotheses": [
+     "historical numerical RN all-cell/24-jet certification program (D3 historical lane); carriers absent"
+    ],
+    "conclusion": "no complete proof where not explicitly superseded; absent carriers remain ABSENT; lemma_closed=false",
+    "objects_used": [
+     "24-jet displacement enclosure",
+     "all-cell FDZ enclosures",
+     "RN annulus partition / area-weighted budget",
+     "env_form / rnu_env.py carrier"
+    ],
+    "disposition_or_classification": "as listed per node; PROOF_INDEX 'Open obligations without a complete proof yet'",
+    "review_records": [
+     "reviews/d0_custody_audit_20260926/AUDIT.md (D0-PROOF-CUSTODY-AUDIT-20260926)",
+     "reviews/drive_hole_substitutes_20260926/LEDGER.md (OA-DRIVE-HOLE-LEDGER-20260926-v4)"
+    ],
+    "what_is_explicitly_out_of_scope": [
+     "regional bypass does not reopen or close historical predicates in their original replay scopes; no numerical certificate exists in tree"
+    ]
+   },
+   {
+    "id": "eng.hard-gate / downstream-hard-gate (+ eng.main-pr87-crosswalk, eng.d0-packet-allowlist-fix, math.rn-selector-region-crosswalk, math.rn-mesoscopic-reduction)",
+    "title": "Engineering/integrity nodes (non-mathematical) and legacy PR7 reduction",
+    "repo": "Math-",
+    "path": "frontiers/downstream_gate_20260925/README.md ('What it enforces'), SELECTOR_REGION.json, patches/d0_packet_allowlist.patch; frontiers/rn_mesoscopic_20260925/PROOF.md (RN-MESOSCOPIC-ANNULUS-REDUCTION-20260925-v1, blob 0ef068fe…)",
+    "commit_or_tip": "LANDING_CLAIMS source commit 2e0a7b37d18277c5965e9a65adabcb26c7e44234 blob 6ff49b96…; GRAPH at tip",
+    "statement_verbatim": "downstream-hard-gate: 'machine dependency graph and repository-source transitions; not a mathematical measure; loss-only revalidation/control state'. math.rn-mesoscopic-reduction (AUTHOR_SIDE_REDUCTION, source external:Math-PR7): 'Legacy author-side PR7 route. Regionally superseded/nonblocking for the reviewed fixed-annulus between-pin height-window subregion; still unresolved for scopes outside that theorem.' rn_mesoscopic Lemma A (nav refresh): for fixed 1<A<B, the covariance of the independent rows of (U_0, J_0(y)) is positive definite with smallest eigenvalue bounded below on K_AB; finite-r covariances converge uniformly.",
+    "hypotheses": [],
+    "conclusion": "engineering controls; no theorem content",
+    "objects_used": [
+     "GRAPH terminal_classifications [PROVED_REVIEWED, SUPERSEDED_NONBLOCKING, REFUTED, BLOCKED_ABSENT]",
+     "non_discharge_tokens [GREEN_CI, HASH_MATCH, ARCHITECTURAL_ADMISSION, NUMERICAL_EXPERIMENT, SAME_AUTHOR_REVIEW, NAVIGATION_SUCCESS, AUTHOR_SELF_CHECK]"
+    ],
+    "disposition_or_classification": "LANDING_CLAIMS downstream-hard-gate: ENGINEERING_HOLD; GRAPH eng.hard-gate ENGINEERING_CONTROL, eng.main-pr87-crosswalk HOLD, eng.d0-packet-allowlist-fix AUTHOR_SIDE_CANDIDATE, math.rn-selector-region-crosswalk ENGINEERING_CONTROL, math.rn-mesoscopic-reduction AUTHOR_SIDE_REDUCTION",
+    "review_records": [
+     "https://github.com/d6g8k5htny-coder/main/issues/90 (closed; engineering gate closure at own scope)",
+     "https://github.com/d6g8k5htny-coder/main/issues/86 (closed; LANDING_CLAIMS live_queue required_state closed — satisfied)"
+    ],
+    "what_is_explicitly_out_of_scope": [
+     "never mathematical discharge"
+    ]
+   },
+   {
+    "id": "packets-integrated-2026-09-27..2026-10-03 (ids only)",
+    "title": "Packets listed by PROOF_INDEX navigation refresh (26–29 Sep) and 2 Oct reachability inventory (+3 Oct supplement)",
+    "repo": "Math-",
+    "path": "PROOF_INDEX.md; docs/integration/2026-09-29-navigation-refresh.md; docs/integration/2026-10-02-proof-reachability.md",
+    "commit_or_tip": "tip 6c020d6 (nav refresh rebased onto 6f74f7a 2026-10-02; reachability cut 2–3 Oct)",
+    "statement_verbatim": "NAV REFRESH (PR — path — object id): #71 reviews/pr124_c1_c2_nonauthor_20260926 (review; C1 AMEND, C2 ACCEPT); #114 reviews/d1_section9_borel_grok_lucas_20260928; #143 reviews/d1_cde_full_depth_claude_20260929 CL-D1-CDE-FULLDEPTH-20260929-v1; #144 frontiers/side24_periodization_20260929 CL-SIDE24-PFV-20260929-v1 (P_3(L)=-L^2(10L^4-147L^2+315)/105, P_3(24)=-620813376/35); #147 reviews/literature_lifetime_law_recon_20260929 CL-LIT-RECON-LIFETIME-20260929-v1.1; #152 reviews/side24_v1_coefficient_claude_20260929 CL-SIDE24-V1-REVIEW-20260929-v1; #154 coefficients/side24_remainder_20260929 OA-SIDE24-REMAINDER-20260929-v1 (|c_{d,24}/c_{d,ref}-1-P_d(24)e^{-288}|<10^{-216}); #156 frontiers/side24_periodization_remainder_20260929 CL-SIDE24-PERIODIZATION-REMAINDER-20260929-v1; #7 frontiers/rn_mesoscopic_20260925 RN-MESOSCOPIC-ANNULUS-REDUCTION-20260925-v1; #35 reviews/contact_angular_tail_20260925 OA-CONTACT-ANGULAR-TAIL-20260925-v1; #60 reviews/pin_micro_covariance_20260926 OA-PIN-MICRO-COV-20260926-v1; #72 reviews/pr125_shrinking_witness_nonauthor_20260926; #82 reviews/d5_microdisk_20260926 OA-D5-MICRODISK-20260926-v1; #90 reviews/d5_pin_microdisk_20260927 D5-PIN-MICRODISK-20260927-v1; #89 certificates/bf_six_pin_hessian_20260926 OA-BF-SIX-PIN-HESSIAN-20260926-v1 (+SCALAR); #80 reviews/contact_kernel_substitute_20260926 OA-CONTACT-KERNEL-SUBSTITUTE-20260926-v1; #87 incoming/grok-cycle4-20260926/harper; #103 reviews/d5_short_edge_20260928 OA-D5-SHORT-EDGE-20260928-v1; #104 reviews/d5_pin_disk_all_directions_20260928 CL-D5-PIN-DISK-20260928-v1; #105 reviews/d5_local_collar_20260928 OA-D5-PUNCTURED-PIN-20260928-v1 / OA-D5-COMPACT-COLLAR-20260928-v1; #107 frontiers/intermediate_window_20260928 OA-D5-INTERMEDIATE-WINDOW-20260928-v1; #108 reviews/d5_intermediate_window_grok_20260928 GROK-D5-INTERMEDIATE-WINDOW-REVIEW-20260928-v1.1; #109 reviews/d5_intermediate_window_claude_20260928; #111 reviews/d5_punctured_pin_nonauthor_20260928; #110 frontiers/remote_collision_20260928 CL-D5-REMOTE-COLLISION-20260928-v1; #113 reviews/d5_remote_collision_grok_20260928; #115 frontiers/remote_singleton_law_20260928 OA-D5-REMOTE-SINGLETON-LAW-20260928-v1; #117 reviews/d5_i5_planar_f_20260928 (+ reviews/candidates_pending_20260928); #119 reviews/d5_collar_count_20260928 (+ d5_offpin_second_moment_20260928); #121 reviews/d5_consumption_bridge_20260928; #138 reviews/d5_reconciliation_20260929 D5-RECONCILIATION-20260929-v2.1; #120 frontiers/remote_height_decoupling_20260928 OA-REMOTE-HEIGHT-DECOUPLING-20260928-v1; #123 reviews/d1_elder_lower_claude_20260928 (+ p15_overlap_tail_claude, remote_height_claude); #116 frontiers/window_multiplicity_laws_20260928 C1 OA-ELDER-LOWER-DENSITY-GAP-20260928-v1, C2 OA-WINDOW-MULTIPLICITY-LOCAL, C3 -REMOTE, C4 -DISTANCE, C5 -HEIGHT; #124 docs/integration/2026-09-28-reviewed-mathematics.md; #128 frontiers/remote_inverse_separation_20260928 OA-REMOTE-INVERSE-SEPARATION-20260928-v1; #129 docs/integration/2026-09-29-reviewed-dimension-and-pair.md; #130 reviews/remote_inverse_separation_claude_20260929 (+ remote_distance_moments_claude, remote_height_marks_claude); #131 docs/integration/2026-09-29-reviewed-window-and-inverse.md; #125 frontiers/elder_dimension_lift_20260928 OA-ELDER-DIMENSION-LIFT-20260928-v1 (1-p_r>=c r^3 every fixed d); #127 reviews/elder_dimension_lift_claude_20260928 (+ remote_pair_law_claude); #141 frontiers/d5_dimension_lift_20260929 CL-D5-DIMENSION-LIFT-20260929-v1; #149 frontiers/elder_lower_all_d_20260929 CL-ELDER-LOWER-ALL-D-20260929-v1.1; #140 frontiers/c6_factorial_moment_20260929 CL-C6-FACTORIAL-20260929-v1 (v1.3); #142 frontiers/c6_sharpened_20260929 CL-C6-SHARPENED-20260929-v1 (v1.2); #146 frontiers/c6_count_cap_boundary_20260929 OA-C6-COUNT-CAP-BOUNDARY-20260929-v1; #148 frontiers/c6_fourier_cutoff_20260929 OA-C6-FOURIER-20260929-v1; #145 frontiers/c6_palm_route_20260929 CL-C6-PALM-20260929-v1 (v1.4); #153 frontiers/c6_rare_cluster_laws_20260929 OA-C6-RARE-CLUSTER-20260929-v1 (+A1); #161 frontiers/local_cluster_tightness_20260929 OA-LOCAL-CLUSTER-TIGHTNESS-20260929-v1; #132 frontiers/remote_mixed_inverse_20260929 OA-REMOTE-MIXED-INVERSE-20260929-v1; #133 frontiers/unrestricted_selection_difference_20260929 CL-D1-UNRESTRICTED-DIFFERENCE-20260929-v3 (Theorem U: C7 unrestricted O(ell^{2/3}) rate is false); #134 docs/integration/2026-09-29-c7-and-mixed-review.md; #150 frontiers/c7_total_bounded_20260929 CL-C7-TOTAL-BOUNDED-20260929-v1.2 (read with ERRATUM_NORMALIZED_FORM.md and RATE_READING.md per 2026-10-07 guidance); #155 frontiers/c7_zero_gap_limit_20260929 OA-C7-ZERO-GAP-LIMIT-20260929-v1; #135 frontiers/sard_g_robust_charts_20260929 OA-SARD-ROBUST-CHARTS-20260929-v1; #136 reviews/sard_g_r3r4_claude_20260929; #137 frontiers/sard_g_a2_parameter_20260929/v2/A2_FIXED_FRAME.md OA-SARD-A2-FIXED-FRAME-20260929-v2; #139 reviews/sard_closure_integration_20260929/READING_RULE.md; #118 frontiers/p15_bipartite_overlap_20260928 OA-P15-BIPARTITE-OVERLAP-20260928-v1; #122 frontiers/p15_tail_load_20260928 OA-P15-TAIL-LOAD-20260928-v1; custody: #65 reviews/d0_custody_audit_20260926, #81 reviews/drive_hole_substitutes_20260926, #83 imports/upper2d_stage_e_20260926, #84 imports/upper2d_h5_ledgers_20260926, #86 repairs/h5_rim_contract_20260926, #88 PUBLIC_READING_MAP.md, #91 repairs/c026_reciprocal_20260927, #73 reviews/pr36_kernel_tail_nonauthor_20260926. Also publication-only: imports/hardening_ebedb780 (PR70 at 9d7b6802; nine BYTE_COPY ids EC-014, EC-015, EC-021, P02-LM-001, P02-LM-002, P02-LM-005, P02-LM-007, P02-LM-008, P15-B); imports/gp_data_114_embedded_20260930 (#165, bb429d39). 2-OCT REACHABILITY TABLE (frontiers/*/PROOF.md, PR, integration commit): price_budget_20260924 #4 f3a6e554; full_price_20260924 #5 a0cd46d2; remote_window_20260924 #6 593adcaa; axial_density_20260925 #21 c3cee9bb; rn_annulus_bridge_20260925 #28 f2899d8f; rn_thin_tube_20260925 #22 760340e9; rn_mesoscopic_20260925 #7 c021278b; intermediate_window_20260928 #107 541d4e9d; remote_collision_20260928 #114 5a5b97d2; remote_singleton_law_20260928 #115 4b2aa45b; p15_bipartite_overlap_20260928 #124 d39dbbc2; p15_tail_load_20260928 #124; remote_height_decoupling_20260928 #124; elder_dimension_lift_20260928 #129 e7f8aca4; remote_inverse_separation_20260928 #131 0b0b2819; remote_mixed_inverse_20260929 #134 5bd92496; unrestricted_selection_difference_20260929 #134; sard_g_a2_parameter_20260929, sard_g_a2_regularity_20260929, sard_g_pinned_transfer_20260929, sard_g_robust_charts_20260929 #139 e947ade5; c6_factorial_moment_20260929 #140 e7d975f4; c6_sharpened_20260929 #142 bf7c45f5; c6_count_cap_boundary_20260929 #146 52ed202a; c6_fourier_cutoff_20260929 #148 4d062e2a; d5_dimension_lift_20260929 #141 e1ca400b; c6_palm_route_20260929 #145 820d4435; elder_lower_all_d_20260929 #149 21244e5e; c7_total_bounded_20260929 #150 7f438fca; side24_periodization_20260929 #144 0cd0b821; c6_rare_cluster_laws_20260929 #153 190cf2bd; side24_periodization_remainder_20260929 #156 8ba851fb; c7_zero_gap_limit_20260929 #155 7a1cb09a; local_cluster_tightness_20260929 #161 5c484bfd; planar_cubic_cluster_20260929 #158 aa288385; c6_marked_fourier_20260929 #157 2479a7c2; c6_cluster_law_20260929 #159 98fdb549; cluster_exponential_weight_20260930 #164 7d0c89a5; spectral_cluster_closure_20260929 #162 358f2562; lifetime_moment_boundary_20260930 #177 dda8991f; radial_rate_20260930 #176 7ca3eb00; extreme_cluster_sampling_20260930 #169 f430fdec; fixed_r_inverse_lifetime_20260930 #182 2a10ed34; local_elder_geometry_20260930 #170 fa2e9909; concave_fibre_elder_20260930 #175 eb659bd3; elder_partner_extremes_20260930 #181 443212fb; remainder_vanishing_20260930 #191 95565474; elder_selected_extremes_20260930 #179 6e5f36d7; remainder_rate_20260930 #198 124c37d9; far_elder_rate_20260930 #187 c2f1270d; short_bar_endpoint_law_20261001 #221 f166ef52; c2_finite_jet_transfer_20261001 #232 7fe06b01; cusp_second_order_20261001 #207 566b1a14; candidate_third_order_20261001 #218 fb6ee97b; elder_third_order_20261001 #220 0d797780; third_order_rate_20261001 #229 6f74f7a7; elder_cusp_parity_20261002 #240 7636cae5; separated_fold_multiplicity_20261002 #239 240a9bfa; subpin_collision_20261002 #245 2d8616ef; soft_rejected_pairs_20261002 #242 54c6759e; soft_fold_limit_20261002 #243 fa8b0d21; soft_closed_form_20261002 #244 07320089. 3-OCT SUPPLEMENT: cusp_torus_transfer_20261001; moving_remote_collision_20261003; ordinary_short_bar_occurrence_20261001; replacement_bar_occurrence_20261001; strict_unique_replacement_coefficient_20261003; unique_replacement_bar_intensity_20261001; nested: planar_rejected_endpoint_margin_20261003/A4; planar_soft_layer_chain_20261003/{C91,C92,C93,C94,C95,C96,C97,C98,C99,C101,C102,C103,C124}. Packets after 3 Oct (e.g. reviews/* dated 20261005–20261008, companions/, frontiers/cap_first_exit_lean_20261002 README-only) are present in the tree but not indexed by PROOF_INDEX at this cut.",
+    "hypotheses": [],
+    "conclusion": "availability inventory only; no verdicts",
+    "objects_used": [],
+    "disposition_or_classification": "navigation refresh / reachability: availability only; each packet's own disposition governs (mostly author-side proof candidates with per-packet review records)",
+    "review_records": [
+     "docs/integration/2026-09-29-navigation-refresh.md review-records column (69 verbatim excerpts, 112 labelled summaries; audited 2026-09-30 by tools/check_doc_quotes.py --github)"
+    ],
+    "what_is_explicitly_out_of_scope": [
+     "a wrong row never changes a verdict recorded elsewhere; scientific effect NONE"
+    ]
+   }
+  ],
+  "graph_edges": [
+   {
+    "from": "math.lifetime-remainder",
+    "to": "math.uniform-matrix-cap-lifetime",
+    "type": "imports_named_interfaces",
+    "required": true
+   },
+   {
+    "from": "math.side24-coefficient",
+    "to": "math.uniform-matrix-cap-lifetime",
+    "type": "evaluates_eq_15_2",
+    "required": true
+   },
+   {
+    "from": "math.uniform-matrix-cap-lifetime",
+    "to": "math.d1-component.congruence-erratum",
+    "type": "reads_with_congruence_erratum",
+    "required": true
+   },
+   {
+    "from": "math.uniform-matrix-cap-lifetime",
+    "to": "math.d1-component.section9-replacement-v1_1",
+    "type": "reads_section9_as_replaced_v1_1",
+    "required": true
+   },
+   {
+    "from": "math.uniform-matrix-cap-lifetime",
+    "to": "math.d1-component.marked-cylinder-cap",
+    "type": "consumes_cap_sections_1_5",
+    "required": true
+   },
+   {
+    "from": "math.uniform-matrix-cap-lifetime",
+    "to": "math.d1-component.reconciliation-record",
+    "type": "reads_with_reconciled_rule_W1_radius",
+    "required": true
+   },
+   {
+    "from": "math.rn-fixed-remote-window",
+    "to": "math.rn-count-interface",
+    "type": "supplies_numerator_on_restricted_region",
+    "required": true
+   },
+   {
+    "from": "math.rn-fixed-remote-window",
+    "to": "math.rn-region.fixed-remote",
+    "type": "covers_region",
+    "required": false
+   },
+   {
+    "from": "math.rn-mesoscopic-reduction",
+    "to": "math.rn-fixed-remote-window",
+    "type": "successor_scale_after_fixed_remote",
+    "required": true
+   },
+   {
+    "from": "math.rn-mesoscopic-reduction",
+    "to": "math.rn-region.mesoscopic-scaled-annulus",
+    "type": "targets_region",
+    "required": false
+   },
+   {
+    "from": "math.rn-mesoscopic-reduction",
+    "to": "hist.CH-LIFT",
+    "type": "reopens_scaled_chart_problem",
+    "required": false
+   },
+   {
+    "from": "math.rn-mesoscopic-reduction",
+    "to": "hist.Piece-2-annulus",
+    "type": "addresses_partial_piece",
+    "required": false
+   },
+   {
+    "from": "math.p15-full-price",
+    "to": "math.p15-price-boundary",
+    "type": "boundary_counterexample_not_required_premise",
+    "required": false
+   },
+   {
+    "from": "hist.ENV-RESCOV",
+    "to": "hist.rnu_env.py",
+    "type": "historical_certificate_carrier",
+    "required": true
+   },
+   {
+    "from": "hist.ALLCELL-FDZ-Q4",
+    "to": "hist.allcell_fdz_enclosures.json",
+    "type": "historical_certificate_carrier",
+    "required": true
+   },
+   {
+    "from": "hist.SYM-Fw-jet",
+    "to": "hist.CL_ANTHROPIC_BUNDLE_2026-09-17_v5.zip",
+    "type": "historical_bundle_identity",
+    "required": false
+   },
+   {
+    "from": "eng.main-pr87-crosswalk",
+    "to": "eng.d0-packet-allowlist-fix",
+    "type": "ci_unblock_depends_on_allowlist_patch",
+    "required": true
+   },
+   {
+    "from": "math.rn-selector-region-crosswalk",
+    "to": "math.rn-fixed-remote-window",
+    "type": "inventories_covered_region",
+    "required": false
+   },
+   {
+    "from": "math.rn-selector-region-crosswalk",
+    "to": "math.rn-count-interface",
+    "type": "inherits_no_markov_reversal",
+    "required": false
+   },
+   {
+    "from": "math.rn-fixed-annulus-window",
+    "to": "math.rn-count-interface",
+    "type": "supplies_expected_count_on_reviewed_scoped_region",
+    "required": true
+   },
+   {
+    "from": "math.rn-fixed-annulus-window",
+    "to": "math.rn-region.fixed-annulus-window",
+    "type": "covers_reviewed_subregion",
+    "required": false
+   },
+   {
+    "from": "math.rn-fixed-annulus-window",
+    "to": "regional.fixed-annulus.high-jet-route",
+    "type": "regionally_supersedes_historical_high_jet_route",
+    "required": false
+   },
+   {
+    "from": "regional.fixed-annulus.high-jet-route",
+    "to": "hist.CH-LIFT",
+    "type": "regional_bypass_only",
+    "required": false
+   },
+   {
+    "from": "regional.fixed-annulus.high-jet-route",
+    "to": "hist.Piece-2-annulus",
+    "type": "regional_bypass_only",
+    "required": false
+   },
+   {
+    "from": "regional.fixed-annulus.high-jet-route",
+    "to": "hist.OBL-H5-JETMOD",
+    "type": "regional_bypass_only",
+    "required": false
+   },
+   {
+    "from": "math.d5-pin-neighborhood-first-moment",
+    "to": "math.d5-component.punctured-pin-proof",
+    "type": "requires_evidence",
+    "required": true
+   },
+   {
+    "from": "math.d5-pin-neighborhood-first-moment",
+    "to": "math.d5-component.punctured-pin-review-111",
+    "type": "requires_evidence",
+    "required": true
+   },
+   {
+    "from": "math.d5-pin-neighborhood-first-moment",
+    "to": "math.d5-component.punctured-pin-continuum-review",
+    "type": "requires_evidence",
+    "required": true
+   },
+   {
+    "from": "math.d5-pin-neighborhood-first-moment",
+    "to": "math.d5-component.punctured-pin-continuum-check",
+    "type": "requires_evidence",
+    "required": true
+   },
+   {
+    "from": "math.d5-pin-neighborhood-first-moment",
+    "to": "math.d5-component.collar-proof",
+    "type": "requires_evidence",
+    "required": true
+   },
+   {
+    "from": "math.d5-pin-neighborhood-first-moment",
+    "to": "math.d5-component.collar-review",
+    "type": "requires_evidence",
+    "required": true
+   },
+   {
+    "from": "math.d5-pin-neighborhood-first-moment",
+    "to": "math.d5-component.annulus-proof",
+    "type": "requires_evidence",
+    "required": true
+   },
+   {
+    "from": "math.d5-pin-neighborhood-first-moment",
+    "to": "math.d5-component.annulus-review",
+    "type": "requires_evidence",
+    "required": true
+   },
+   {
+    "from": "math.d5-pin-neighborhood-first-moment",
+    "to": "math.d5-component.intermediate-window-proof",
+    "type": "requires_evidence",
+    "required": true
+   },
+   {
+    "from": "math.d5-pin-neighborhood-first-moment",
+    "to": "math.d5-component.i5-review-xai",
+    "type": "requires_evidence",
+    "required": true
+   },
+   {
+    "from": "math.d5-pin-neighborhood-first-moment",
+    "to": "math.d5-component.i5-review-claude",
+    "type": "requires_evidence",
+    "required": true
+   },
+   {
+    "from": "math.d5-pin-neighborhood-first-moment",
+    "to": "math.d5-component.remote-window-proof",
+    "type": "requires_evidence",
+    "required": true
+   },
+   {
+    "from": "math.rn-region.pin-collision",
+    "to": "math.d5-component.punctured-pin-proof",
+    "type": "requires_evidence",
+    "required": true
+   },
+   {
+    "from": "math.rn-region.pin-collision",
+    "to": "math.d5-component.punctured-pin-review-111",
+    "type": "requires_evidence",
+    "required": true
+   },
+   {
+    "from": "math.rn-region.pin-collision",
+    "to": "math.d5-component.punctured-pin-continuum-review",
+    "type": "requires_evidence",
+    "required": true
+   },
+   {
+    "from": "math.rn-region.pin-collision",
+    "to": "math.d5-component.punctured-pin-continuum-check",
+    "type": "requires_evidence",
+    "required": true
+   },
+   {
+    "from": "math.rn-region.pin-collision",
+    "to": "math.d5-component.collar-proof",
+    "type": "requires_evidence",
+    "required": true
+   },
+   {
+    "from": "math.rn-region.pin-collision",
+    "to": "math.d5-component.collar-review",
+    "type": "requires_evidence",
+    "required": true
+   },
+   {
+    "from": "math.rn-region.mesoscopic-scaled-annulus",
+    "to": "math.d5-component.punctured-pin-proof",
+    "type": "requires_evidence",
+    "required": true
+   },
+   {
+    "from": "math.rn-region.mesoscopic-scaled-annulus",
+    "to": "math.d5-component.punctured-pin-review-111",
+    "type": "requires_evidence",
+    "required": true
+   },
+   {
+    "from": "math.rn-region.mesoscopic-scaled-annulus",
+    "to": "math.d5-component.punctured-pin-continuum-review",
+    "type": "requires_evidence",
+    "required": true
+   },
+   {
+    "from": "math.rn-region.mesoscopic-scaled-annulus",
+    "to": "math.d5-component.punctured-pin-continuum-check",
+    "type": "requires_evidence",
+    "required": true
+   },
+   {
+    "from": "math.rn-region.mesoscopic-scaled-annulus",
+    "to": "math.d5-component.collar-proof",
+    "type": "requires_evidence",
+    "required": true
+   },
+   {
+    "from": "math.rn-region.mesoscopic-scaled-annulus",
+    "to": "math.d5-component.collar-review",
+    "type": "requires_evidence",
+    "required": true
+   },
+   {
+    "from": "math.rn-region.mesoscopic-scaled-annulus",
+    "to": "math.d5-component.annulus-proof",
+    "type": "requires_evidence",
+    "required": true
+   },
+   {
+    "from": "math.rn-region.mesoscopic-scaled-annulus",
+    "to": "math.d5-component.annulus-review",
+    "type": "requires_evidence",
+    "required": true
+   },
+   {
+    "from": "math.rn-region.intermediate-r-to-rho",
+    "to": "math.d5-component.intermediate-window-proof",
+    "type": "requires_evidence",
+    "required": true
+   },
+   {
+    "from": "math.rn-region.intermediate-r-to-rho",
+    "to": "math.d5-component.i5-review-xai",
+    "type": "requires_evidence",
+    "required": true
+   },
+   {
+    "from": "math.rn-region.intermediate-r-to-rho",
+    "to": "math.d5-component.i5-review-claude",
+    "type": "requires_evidence",
+    "required": true
+   },
+   {
+    "from": "math.rn-region.witness-collision",
+    "to": "math.d5-component.offpin-second-moment-review",
+    "type": "requires_evidence",
+    "required": true
+   }
+  ],
+  "graph_meta": {
+   "object": "DOWNSTREAM-HARD-GATE-20260925-v1",
+   "campaign": {
+    "main_issues": [
+     86,
+     90
+    ],
+    "disposition": "research-integrity control; scientific effect NONE"
+   },
+   "terminal_classifications": [
+    "PROVED_REVIEWED",
+    "SUPERSEDED_NONBLOCKING",
+    "REFUTED",
+    "BLOCKED_ABSENT"
+   ],
+   "non_discharge_tokens": [
+    "GREEN_CI",
+    "HASH_MATCH",
+    "ARCHITECTURAL_ADMISSION",
+    "NUMERICAL_EXPERIMENT",
+    "SAME_AUTHOR_REVIEW",
+    "NAVIGATION_SUCCESS",
+    "AUTHOR_SELF_CHECK"
+   ],
+   "node_count": 49,
+   "edge_count": 55,
+   "node_classification_summary": {
+    "PROVED_REVIEWED": [
+     "math.uniform-matrix-cap-lifetime",
+     "math.d1-component.congruence-erratum",
+     "math.d1-component.section9-replacement-v1_1",
+     "math.d1-component.marked-cylinder-cap",
+     "math.d1-component.reconciliation-record",
+     "math.rn-region.mesoscopic-scaled-annulus",
+     "math.rn-region.pin-collision",
+     "math.rn-region.intermediate-r-to-rho",
+     "math.d5-pin-neighborhood-first-moment",
+     "math.d5-component.punctured-pin-proof",
+     "math.d5-component.punctured-pin-review-111",
+     "math.d5-component.punctured-pin-continuum-review",
+     "math.d5-component.punctured-pin-continuum-check",
+     "math.d5-component.collar-proof",
+     "math.d5-component.collar-review",
+     "math.d5-component.annulus-proof",
+     "math.d5-component.annulus-review",
+     "math.d5-component.intermediate-window-proof",
+     "math.d5-component.i5-review-xai",
+     "math.d5-component.i5-review-claude",
+     "math.d5-component.remote-window-proof",
+     "math.d5-component.offpin-second-moment-review"
+    ],
+    "AUTHOR_SIDE_CANDIDATE": [
+     "math.lifetime-remainder",
+     "math.side24-coefficient",
+     "math.rn-count-interface",
+     "math.rn-fixed-remote-window",
+     "math.p15-full-price",
+     "math.rn-fixed-annulus-window",
+     "eng.d0-packet-allowlist-fix"
+    ],
+    "AUTHOR_SIDE_REDUCTION": [
+     "math.rn-mesoscopic-reduction"
+    ],
+    "COVERED_BY_CANDIDATE": [
+     "math.rn-region.fixed-remote",
+     "math.rn-region.fixed-annulus-window"
+    ],
+    "OPEN_ACTIVE": [
+     "hist.CH-LIFT",
+     "hist.Piece-2-annulus",
+     "math.rn-region.witness-collision"
+    ],
+    "OPEN_HISTORICAL": [
+     "hist.ENV-RESCOV",
+     "hist.ALLCELL-FDZ-Q4",
+     "hist.LOGQ-TAIL",
+     "hist.SYM-Fw-jet",
+     "hist.OBL-H5-JETMOD"
+    ],
+    "BLOCKED_ABSENT": [
+     "hist.rnu_env.py",
+     "hist.CL_ANTHROPIC_BUNDLE_2026-09-17_v5.zip",
+     "hist.allcell_fdz_enclosures.json"
+    ],
+    "REFUTED": [
+     "math.p15-price-boundary"
+    ],
+    "SUPERSEDED_NONBLOCKING": [
+     "regional.fixed-annulus.high-jet-route"
+    ],
+    "FALSE": [
+     "hist.lemma_closed"
+    ],
+    "ENGINEERING_CONTROL": [
+     "eng.hard-gate",
+     "math.rn-selector-region-crosswalk"
+    ],
+    "HOLD": [
+     "eng.main-pr87-crosswalk"
+    ]
+   },
+   "all_controlling_false": true,
+   "full_node_dump": "scratchpad/recon/claims/graph_dump.txt and graph_extract.json"
+  },
+  "forbidden_global_inferences": [
+   "global RN closure",
+   "unrestricted P15 prize closure",
+   "unconditional acceptance of the lifetime parent",
+   "lemma_closed=true"
+  ],
+  "landing_claims_meta": {
+   "object": "MATH-LANDING-CLAIMS-20260925-v1",
+   "audited_default_commit": "760340e921ac4ceda296b8118da936f1133e956e",
+   "live_queue": {
+    "repo": "d6g8k5htny-coder/main",
+    "issue": 86,
+    "required_state": "closed",
+    "observed_state_2026-10-10": "closed"
+   },
+   "allowed_dispositions": [
+    "HOLD_WITH_DOMAIN",
+    "FAIL_CLOSED",
+    "EXACT_COUNTEREXAMPLE",
+    "REVIEWED_SCOPED",
+    "ENGINEERING_HOLD"
+   ],
+   "claims": {
+    "side24-coefficient": "REVIEWED_SCOPED",
+    "lifetime-remainder": "REVIEWED_SCOPED",
+    "rn-count-interface": "HOLD_WITH_DOMAIN",
+    "rn-fixed-remote-window": "HOLD_WITH_DOMAIN",
+    "rn-fixed-annulus-window": "REVIEWED_SCOPED",
+    "p15-realized-covers": "HOLD_WITH_DOMAIN",
+    "p15-price-boundary": "EXACT_COUNTEREXAMPLE",
+    "p15-price-budget-restricted": "HOLD_WITH_DOMAIN",
+    "p15-full-price": "REVIEWED_SCOPED",
+    "downstream-hard-gate": "ENGINEERING_HOLD"
+   },
+   "meaning": "machine-readable landing inventory; source/review identity and scope only, never theorem acceptance by itself",
+   "blob_check_at_tip": "all 10 statement_path blobs re-hashed at 6c020d6 and equal the recorded source.blob values"
+  },
+  "main_status_summary": {
+   "path": "STATUS.md @ origin/main f6deeba7",
+   "snapshot_date": "2026-09-29",
+   "accept_scoped_rows": [
+    "D1 (Theorems A,B,C) at Math- 82247833",
+    "D2 Theorem R",
+    "D3 SIDE24 coefficient",
+    "D4 fixed-remote RN count",
+    "D6 P15 full-price Theorem F",
+    "D5 planar pin neighborhoods and global window first moment (reconciliation 79f9a735)",
+    "SARD-G qualitative robust-chart successor (reading rule e947ade5)",
+    "C6 Fourier count tail and planar factorial upper bound (4d59319b)"
+   ],
+   "amend_open_rows": [
+    "D5 remaining quantitative obligations (numerical RN partition/area budget, all-radius RN, RN/24-jet; #141 continuum counts accepted separately; GRAPH transitions 'not executed by this summary')",
+    "SARD-G A1/A6 original formulation remains AMEND"
+   ],
+   "reconciliation_doc": "docs/STATUS_RECONCILIATION_20260929.md (readback main f43f243c, Math- 4d062e2a; 17 D5 files matched ledger STATUS_RECONCILIATION_20260929.json; 'Engineering tests and Lean receipts do not independently establish the scientific statements')",
+   "formal_lane_paths_on_main": [
+    "formal/ (UniversalLaw.lean, UniversalLaw/Side24/{ConeMoments,Endpoints,Ledger}.lean, lakefile.toml, lean-toolchain, manifest.json, SCOPE.md, ALIGNMENT.md, GLOSSARY.md, REVIEW_LANE.md, sources/side24_v1/{PROOF.md,ENCLOSURE.json})",
+    "docs/FORMAL_VERIFICATION.md, docs/FORMAL_REQUIRED_CHECKS.md, docs/FORMAL_VERIFICATION_ROLLOUT_20260927.md, docs/reconnaissance/2026-09-27-formal-verification.md, docs/agents/LEAN_AUDIT_OWNER.md",
+    "tools/formal_gate_check.py, tools/required_formal_check.py, tools/formal_execution_context.py; tests/test_formal_*.py; .github/workflows/formal-verification.yml",
+    "reviews/lean_probability_alignment_20261005/",
+    "audits/formal_enforcement/2026-09-27/"
+   ]
+  },
+  "math_formal_lane_summary": {
+   "path": "Math- formal/ (ResearchFormalCoreR1: AlgebraV2, ProbabilityCompanionsV2, MeasureBridge, WeightedLaw, MomentTail, MomentGenerality, WeightPerturbation, D2Schur)",
+   "toolchain": "leanprover/lean4:v4.34.1; mathlib d13f23b723b8a846827a245b89c10fc7d3f11612; dependency revisions pinned in formal/manifest.json",
+   "targets": "63 theorem targets (13 original scalar companions from recovered GP-FOR-192 + 7 MeasureBridge + 9 WeightedLaw + 7 MomentTail + 4 MomentGenerality + 7 WeightPerturbation + 16 D2Schur); formalization_status proved; alignment_status PENDING_INDEPENDENT_REVIEW",
+   "scope_statement": "formal/SCOPE.md: none of these targets is the SIDE24 coefficient enclosure, the elder-rule selection theorem, or the joint extremum/merging-saddle law; all remain conditional at displayed hypotheses",
+   "other_lean": "frontiers/cap_first_exit_lean_20261002 (separate lake package cap_first_exit, same toolchain/mathlib; workflow .github/workflows/cap-first-exit-lean.yml)"
+  },
+  "notes": [
+   "Naming: LANDING_CLAIMS statement_heading 'Theorem N' (RN_COUNT_INTERFACE.md) and 'Theorem P' (P15_REALIZED_COVERS.md) do not occur literally in the files; the files carry equations (N1)–(N7) and Proposition P1 / Theorem P2 respectively.",
+   "GRAPH node math.p15-full-price notes still say 'review open' (fingerprint full-price-20260924, review_issue 74) while LANDING_CLAIMS records REVIEWED_SCOPED with the blob-bound xAI review (reviews/p15_full_price_nonauthor_20260926) — a stale-notes discrepancy, not a status conflict (both are non-controlling).",
+   "main STATUS.md (snapshot 2026-09-29, Math- readback 4d062e2a) states D5 GRAPH transitions were not executed; Math- GRAPH.json was subsequently folded (commits 5a878dc, 42db0ef on 2026-09-29): D5 region nodes now PROVED_REVIEWED at stated scopes with 30 required edges; math.rn-region.witness-collision remains OPEN_ACTIVE. STATUS.md was not updated for this fold.",
+   "Every GRAPH node has controlling:false; hist.lemma_closed is FALSE; all lanes share one GitHub account, so no review record carries organizational-independence credit (stated in every review file read).",
+   "LANDING_CLAIMS forbidden_global_inferences are returned verbatim; the D1 reading rule (erratum E1, sec.9 replacement E2, W1, embedding radius r<L/(4 sqrt 2)) must accompany any Lean specification of Theorems A/B/C.",
+   "External framework dependency recurring in nearly every Gaussian object: Armentano–Azaïs–León arXiv:2304.07424v3 (Theorems 2.1/2.2/7.1, Remarks 7–8) marked-Kac–Rice; two-scale addendum also cites Stecconi arXiv:2103.10853v1 Theorem 29. These are IMPORTED_FRAMEWORK, not in-tree proofs.",
+   "GitHub verification: main issues 63, 65, 67, 74, 76, 86, 90 are all closed (closures 'change no scientific status'); all comment ids cited in LANDING_CLAIMS/PROOF_INDEX resolve. Issue 86 (live_queue) closed satisfies required_state.",
+   "Later review dirs present at tip but not indexed by PROOF_INDEX (dated 20260930–20261008): d1_cap_elder_partner_second_pass_claude_20260930, d1_external_audit_20260930, d2_remainder_full_depth_claude_20260930, d2_joint_mass_schur_20261006, d2_two_mass_floors_20261006, d5_dimension_lift_erratum_20261005, lean_cycle2_20261005, lean_probability_alignment_20261005, moment_generality_alignment(_claude)_20261005, moment_tail_alignment_20261005, weight_perturbation_new7_20261005, side24_d2_certified_small_L_claude_20261005, c6_numerics_protocol_20261006, c6_residual_closure_20260930, c6_tail_constant_certified_20260930, cap_i4_d3_spectral_adapter_20261005, iba1/iba2_* (20261005–06), lm006_* (20261005–06), periodic_tau_* 20261005, proof_dependencies_20261008, w3_side24_source_proposal_20261008, retrofit_20261006, register_alignment_20260930, register_execution_readiness_20260930, radial_moment_corollaries_20260930, remainder_rate_protocol_20261006, literature_classical_neighbors_20261001, c2_interval_audit_20261001, direct_import_trigger_coverage_20261006, d5_c6_workflow_repair_20261005 — ids only; contents not read.",
+   "Scratch written: scratchpad/recon/claims/NOTES.md, graph_dump.txt (full node/edge dump), navrefresh.md (copy of navigation refresh), graph_extract.json, build_inventory.py."
+  ]
+ },
+ "files_read": [
+  "<SCRATCH>/repos/math/claims/LANDING_CLAIMS.json",
+  "<SCRATCH>/repos/math/frontiers/downstream_gate_20260925/GRAPH.json",
+  "<SCRATCH>/repos/math/PROOF_INDEX.md",
+  "<SCRATCH>/repos/math/docs/integration/2026-09-29-navigation-refresh.md",
+  "<SCRATCH>/repos/math/docs/integration/2026-10-02-proof-reachability.md",
+  "/home/user/main (origin/main:STATUS.md)",
+  "/home/user/main (origin/main:docs/STATUS_RECONCILIATION_20260929.md)",
+  "<SCRATCH>/repos/math/imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+  "<SCRATCH>/repos/math/imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md",
+  "<SCRATCH>/repos/math/reviews/d1_section9_borel_repair_20260925/REPAIR.md",
+  "<SCRATCH>/repos/math/imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md",
+  "<SCRATCH>/repos/math/reviews/d1_chain_reconciliation_20260928/RECONCILIATION.md",
+  "<SCRATCH>/repos/math/frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md",
+  "<SCRATCH>/repos/math/coefficients/side24_v1/PROOF.md",
+  "<SCRATCH>/repos/math/coefficients/side24_v1/ENCLOSURE.json",
+  "<SCRATCH>/repos/math/frontiers/remote_window_20260924/PROOF.md",
+  "<SCRATCH>/repos/math/frontiers/three_fronts_20260924/RN_COUNT_INTERFACE.md",
+  "<SCRATCH>/repos/math/frontiers/rn_annulus_bridge_20260925/PROOF.md",
+  "<SCRATCH>/repos/math/frontiers/rn_thin_tube_20260925/FIXED_ANNULUS_CANDIDATE.md",
+  "<SCRATCH>/repos/math/frontiers/rn_thin_tube_20260925/TWO_SCALE_ADDENDUM.md",
+  "<SCRATCH>/repos/math/frontiers/axial_density_20260925/PROOF.md",
+  "<SCRATCH>/repos/math/reviews/downstream_boundary_20260925/TRANSVERSE_BOUND_CANDIDATE.md",
+  "<SCRATCH>/repos/math/reviews/d5_reconciliation_20260929/RECONCILIATION.md",
+  "<SCRATCH>/repos/math/frontiers/d5_dimension_lift_20260929/PROOF.md",
+  "<SCRATCH>/repos/math/frontiers/d5_dimension_lift_20260929/README.md",
+  "<SCRATCH>/repos/math/frontiers/c6_fourier_cutoff_20260929/PROOF.md",
+  "<SCRATCH>/repos/math/reviews/c6_fourier_completion_20260929/READING_NOTE.md",
+  "<SCRATCH>/repos/math/frontiers/c6_palm_route_20260929/PROOF.md",
+  "<SCRATCH>/repos/math/frontiers/c6_palm_route_20260929/README.md",
+  "<SCRATCH>/repos/math/frontiers/c6_rare_cluster_laws_20260929/PROOF.md",
+  "<SCRATCH>/repos/math/frontiers/c6_rare_cluster_laws_20260929/SHARP_POISSON_COEFFICIENT.md",
+  "<SCRATCH>/repos/math/frontiers/c6_rare_cluster_laws_20260929/REVIEW_RECORD.md",
+  "<SCRATCH>/repos/math/reviews/collision_mechanism_20260925/CUMULATIVE_TRANSFER_CORRECTION.md",
+  "<SCRATCH>/repos/math/frontiers/three_fronts_20260924/P15_PRICE_BOUNDARY.md",
+  "<SCRATCH>/repos/math/frontiers/full_price_20260924/PROOF.md",
+  "<SCRATCH>/repos/math/frontiers/three_fronts_20260924/P15_REALIZED_COVERS.md",
+  "<SCRATCH>/repos/math/frontiers/price_budget_20260924/PROOF.md",
+  "<SCRATCH>/repos/math/frontiers/cap_first_exit_lean_20261002/README.md",
+  "<SCRATCH>/repos/math/frontiers/cap_first_exit_lean_20261002/CapFirstExit.lean (declaration headers only)",
+  "<SCRATCH>/repos/math/frontiers/cap_first_exit_lean_20261002/MANIFEST.json",
+  "<SCRATCH>/repos/math/frontiers/cap_first_exit_lean_20261002/lakefile.toml",
+  "<SCRATCH>/repos/math/formal/SCOPE.md",
+  "<SCRATCH>/repos/math/formal/manifest.json",
+  "<SCRATCH>/repos/math/formal/lakefile.toml",
+  "<SCRATCH>/repos/math/reviews/pr28_annulus_bridge_nonauthor_20260925/REVIEW.md",
+  "<SCRATCH>/repos/math/reviews/pr22_fixed_annulus_nonauthor_20260925/REVIEW.md",
+  "<SCRATCH>/repos/math/reviews/replacement_20260925_pr19_pr21/TWO_SCALE_REVIEW.md",
+  "<SCRATCH>/repos/math/reviews/replacement_20260925_pr19_pr21/REVIEW.md",
+  "<SCRATCH>/repos/math/reviews/pr16_fixed_transverse_nonauthor_20260925/REVIEW.md",
+  "<SCRATCH>/repos/math/reviews/d2_cumulative_correction_20260925/REVIEW.md",
+  "<SCRATCH>/repos/math/reviews/p15_full_price_nonauthor_20260926/REVIEW.md",
+  "<SCRATCH>/repos/math/reviews/d1_theorem_a_nonauthor_20260928/REVIEW.md",
+  "<SCRATCH>/repos/math/reviews/side24_v1_coefficient_claude_20260929/REVIEW.md",
+  "<SCRATCH>/repos/math/reviews/d1_cde_full_depth_claude_20260929/REVIEW.md",
+  "<SCRATCH>/repos/math/reviews/d1_section9_borel_grok_lucas_20260928/REVIEW.md",
+  "<SCRATCH>/repos/math/reviews/d5_punctured_pin_continuum_claude_20260929/REVIEW.md",
+  "<SCRATCH>/repos/math/reviews/d5_collar_count_20260928/REVIEW.md",
+  "<SCRATCH>/repos/math/reviews/d5_i5_planar_f_20260928/REVIEW.md",
+  "<SCRATCH>/repos/math/reviews/d5_intermediate_window_claude_20260928/REVIEW.md",
+  "<SCRATCH>/repos/math/reviews/d5_offpin_second_moment_20260928/REVIEW.md",
+  "<SCRATCH>/repos/math/reviews/d5_punctured_pin_nonauthor_20260928/REVIEW.md",
+  "<SCRATCH>/repos/math/reviews/c6_witness_collision_reconciliation_20260929/RECONCILIATION.md (head and sec.4)",
+  "<SCRATCH>/repos/math/reviews/d5_graph_fold_20260929/README.md",
+  "gh api repos/d6g8k5htny-coder/main/issues/{63,65,67,74,76,86,90} and their comments"
+ ],
+ "gaps": [
+  "Statement text was read in full for the theorem/statement sections; proof bodies of the longer files (d5_dimension_lift 53 KB, c6_palm_route 53 KB, cap_first_exit README table, CapFirstExit.lean 326 KB) were read only at headings/declaration level, not line by line.",
+  "Review records for D5 components were read via grep of verdict lines, not in full; the two external xAI comments (Math-#141 5894512272, Math-#105 5872932723) and the OpenAI PR reviews (5357858391, 5357882570, 5356233690, 5358116559, 5356335148, 5358565704, 5358623521) were not fetched via gh api — identities are taken from the in-tree records that cite them.",
+  "The 2-October reachability inventory and post-29-September packets (frontiers/* dated 20260930–20261003, reviews/* dated 20261001–20261008, companions/, certificates/) are listed by id only; their statements and dispositions were not extracted.",
+  "Historical D0 predicates (ENV-RESCOV, ALLCELL-FDZ-Q4, LOGQ-TAIL, SYM-Fw-jet, CH-LIFT, Piece-2, OBL-H5-JETMOD) are recorded from GRAPH.json notes only; main's docs/math_status/STATUS_RN_UNIF.md (blob ccd542fb) was not opened.",
+  "SARD-G packets (#135, #137, #139 reading rule, sard_g_* PROOF.md files) and C7 packets (#133 Theorem U, #150 Theorem K, #155 Theorem Z) are listed from the navigation refresh abridged statements; the proof files were not opened.",
+  "Main repo formal/ lane contents (UniversalLaw/Side24/*.lean, FORMAL_VERIFICATION.md, reviews/lean_probability_alignment_20261005) were only listed by path; assumed to be another reader's subsystem.",
+  "reviews/d5_dimension_lift_erratum_20261005 exists at tip and may amend the dimension-lift statements; not read.",
+  "PROOF_INDEX's 'Theorem N' / 'Theorem P' headings (as in LANDING_CLAIMS) could not be located verbatim in the referenced files (noted as a naming discrepancy)."
+ ]
+}

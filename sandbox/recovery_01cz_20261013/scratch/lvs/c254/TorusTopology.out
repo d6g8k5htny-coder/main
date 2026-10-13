@@ -1,0 +1,156 @@
+<SCRATCH>/lvs/c254/src/TorusTopology.lean:29:4: error: Function expected at
+  Basis
+but this term has type
+  ?m.1
+
+Note: Expected a function because this term is being applied to the argument
+  (Fin d)
+
+Hint: The identifier `Basis` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.
+<SCRATCH>/lvs/c254/src/TorusTopology.lean:33:4: warning: declaration uses `sorry`
+<SCRATCH>/lvs/c254/src/TorusTopology.lean:53:29: error(lean.unknownIdentifier): Unknown identifier `Basis.unitsSMul_apply`
+<SCRATCH>/lvs/c254/src/TorusTopology.lean:52:2: error: unsolved goals
+case pos
+d : ℕ
+L : ℝ
+hL : 0 < L
+n : Fin d → ℤ
+i : Fin d
+hi : i ∈ Finset.univ
+⊢ ↑(n i) * (sorry ()).ofLp i = L * ↑(n i)
+<SCRATCH>/lvs/c254/src/TorusTopology.lean:56:29: error(lean.unknownIdentifier): Unknown identifier `Basis.unitsSMul_apply`
+<SCRATCH>/lvs/c254/src/TorusTopology.lean:56:2: error: unsolved goals
+case neg
+d : ℕ
+L : ℝ
+hL : 0 < L
+n : Fin d → ℤ
+i : Fin d
+hi : i ∈ Finset.univ
+j : Fin d
+hij : ¬i = j
+⊢ n i = 0 ∨ (sorry ()).ofLp j = 0
+<SCRATCH>/lvs/c254/src/TorusTopology.lean:53:10: warning: declaration uses `sorry`
+<SCRATCH>/lvs/c254/src/TorusTopology.lean:53:10: warning: This simp argument is unused:
+  torus_periodBasis
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Basis.unitsSMul_apply, OrthonormalBasis.coe_toBasis, EuclideanSpace.basisFun_apply, Units.smul_def,
+    PiLp.smul_apply, PiLp.single_apply, zsmul_eq_mul, mul_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+<SCRATCH>/lvs/c254/src/TorusTopology.lean:53:52: warning: This simp argument is unused:
+  OrthonormalBasis.coe_toBasis
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [torus_periodBasis, Basis.unitsSMul_apply, EuclideanSpace.basisFun_apply, Units.smul_def,
+    PiLp.smul_apply, PiLp.single_apply, zsmul_eq_mul, mul_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+<SCRATCH>/lvs/c254/src/TorusTopology.lean:54:6: warning: This simp argument is unused:
+  EuclideanSpace.basisFun_apply
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [torus_periodBasis, Basis.unitsSMul_apply, OrthonormalBasis.coe_toBasis, Units.smul_def, PiLp.smul_apply,
+    PiLp.single_apply, zsmul_eq_mul, mul_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+<SCRATCH>/lvs/c254/src/TorusTopology.lean:54:37: warning: This simp argument is unused:
+  Units.smul_def
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [torus_periodBasis, Basis.unitsSMul_apply, OrthonormalBasis.coe_toBasis, EuclideanSpace.basisFun_apply,
+    PiLp.smul_apply, PiLp.single_apply, zsmul_eq_mul, mul_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+<SCRATCH>/lvs/c254/src/TorusTopology.lean:55:6: warning: This simp argument is unused:
+  PiLp.single_apply
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [torus_periodBasis, Basis.unitsSMul_apply, OrthonormalBasis.coe_toBasis, EuclideanSpace.basisFun_apply,
+    Units.smul_def, PiLp.smul_apply, zsmul_eq_mul, mul_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+<SCRATCH>/lvs/c254/src/TorusTopology.lean:55:39: warning: This simp argument is unused:
+  mul_comm
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [torus_periodBasis, Basis.unitsSMul_apply, OrthonormalBasis.coe_toBasis, EuclideanSpace.basisFun_apply,
+    Units.smul_def, PiLp.smul_apply, PiLp.single_apply, zsmul_eq_mul]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+<SCRATCH>/lvs/c254/src/TorusTopology.lean:56:10: warning: This simp argument is unused:
+  torus_periodBasis
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Basis.unitsSMul_apply, OrthonormalBasis.coe_toBasis, EuclideanSpace.basisFun_apply, Units.smul_def,
+    PiLp.smul_apply, PiLp.single_apply, hij, Ne.symm hij]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+<SCRATCH>/lvs/c254/src/TorusTopology.lean:56:52: warning: This simp argument is unused:
+  OrthonormalBasis.coe_toBasis
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [torus_periodBasis, Basis.unitsSMul_apply, EuclideanSpace.basisFun_apply, Units.smul_def,
+    PiLp.smul_apply, PiLp.single_apply, hij, Ne.symm hij]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+<SCRATCH>/lvs/c254/src/TorusTopology.lean:57:6: warning: This simp argument is unused:
+  EuclideanSpace.basisFun_apply
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [torus_periodBasis, Basis.unitsSMul_apply, OrthonormalBasis.coe_toBasis, Units.smul_def, PiLp.smul_apply,
+    PiLp.single_apply, hij, Ne.symm hij]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+<SCRATCH>/lvs/c254/src/TorusTopology.lean:57:37: warning: This simp argument is unused:
+  Units.smul_def
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [torus_periodBasis, Basis.unitsSMul_apply, OrthonormalBasis.coe_toBasis, EuclideanSpace.basisFun_apply,
+    PiLp.smul_apply, PiLp.single_apply, hij, Ne.symm hij]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+<SCRATCH>/lvs/c254/src/TorusTopology.lean:58:6: warning: This simp argument is unused:
+  PiLp.single_apply
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [torus_periodBasis, Basis.unitsSMul_apply, OrthonormalBasis.coe_toBasis, EuclideanSpace.basisFun_apply,
+    Units.smul_def, PiLp.smul_apply, hij, Ne.symm hij]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+<SCRATCH>/lvs/c254/src/TorusTopology.lean:58:25: warning: This simp argument is unused:
+  hij
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [torus_periodBasis, Basis.unitsSMul_apply, OrthonormalBasis.coe_toBasis, EuclideanSpace.basisFun_apply,
+    Units.smul_def, PiLp.smul_apply, PiLp.single_apply, Ne.symm hij]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+<SCRATCH>/lvs/c254/src/TorusTopology.lean:60:8: warning: declaration uses `sorry`
+<SCRATCH>/lvs/c254/src/TorusTopology.lean:64:2: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+<SCRATCH>/lvs/c254/src/TorusTopology.lean:65:2: warning: this tactic is never executed
+
+Note: This linter can be disabled with `set_option linter.unreachableTactic false`
+<SCRATCH>/lvs/c254/src/TorusTopology.lean:63:2: warning: Unused tactic linter: `change x ∈ Submodule.span ℤ (Set.range (torus_periodBasis d L hL)) ↔ _` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+<SCRATCH>/lvs/c254/src/TorusTopology.lean:64:2: warning: Unused tactic linter: `rw [Submodule.mem_span_range_iff_exists_fun]` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+<SCRATCH>/lvs/c254/src/TorusTopology.lean:65:2: warning: Unused tactic linter: `simp only [torus_basis_sum_eq_latticeVec]` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+<SCRATCH>/lvs/c254/src/TorusTopology.lean:67:9: warning: declaration uses `sorry`
+<SCRATCH>/lvs/c254/src/TorusTopology.lean:72:9: warning: declaration uses `sorry`
+<SCRATCH>/lvs/c254/src/TorusTopology.lean:77:9: warning: declaration uses `sorry`
+<SCRATCH>/lvs/c254/src/TorusTopology.lean:110:4: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  DiscreteTopology ↑↑(torus_periodLattice d L hL).toAddSubgroup
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+<SCRATCH>/lvs/c254/src/TorusTopology.lean:121:2: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  PathConnectedSpace (torus_quotient d L hL)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.

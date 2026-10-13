@@ -1,0 +1,28 @@
+Merge main (940e4855) into the Lean verification specification branch: resolve the RESEARCH_INDEX adjacency with landed main #371
+
+A base-only merge commit, no rebase and no force push. Its only purpose is to clear the
+conflict main #371 (research guide refresh, landed at fc89c6a3) created in
+docs/RESEARCH_INDEX.md. #371 rewrote the rows above the "Formalization (Layer 1)" row and
+carried that row byte-identical to main's version (SHA-256 643dd120... with its trailing
+newline), as agreed on main #307 (comment 6115894702: "Whichever PR lands second keeps
+both sides. If the refresh lands first, I resolve it inside #358").
+
+Resolution: main's file with this PR's one-line formal-row change re-applied, so both
+sides are kept. Against main the merged docs/RESEARCH_INDEX.md differs in that one row
+only. No other file conflicted. Against main the merged tree differs by exactly this PR's
+18 files.
+
+This is not the 315-first recomposition (main #358 comment 6113333751): main #315 has
+not merged, the manifest hashes and the target-count test are untouched, and the formal
+row keeps the wording it has had since fe99ca31. Those wait for #315.
+
+Checked on the merged tree: tools/formal_gate_check.py exit 0;
+tests.test_formal_gate OK under -B -S and -B -O -S; test_formal_workflow_shell OK;
+pytest (experiments/periodic_h0 excluded, numpy absent here) 654 passed, 5 skipped, 10
+failed, the same 10 tests/casefold failures as plain main. These are records of
+computations on a worktree, not receipts.
+
+Scientific effect NONE. No claim, premise or gate label moves.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01Cz7WZybv8znP64SpPj6sWY

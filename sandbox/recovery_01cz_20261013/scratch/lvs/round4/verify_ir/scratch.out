@@ -1,0 +1,200 @@
+UniversalLaw.Proofs.Side24Analysis.integrandRatioBounds : UniversalLaw.Spec.Side24.IntegrandRatioBounds
+def UniversalLaw.Spec.Side24.IntegrandRatioBounds : Prop :=
+∀ (d : ℕ),
+  d = 2 ∨ d = 3 →
+    1 - 13 * UniversalLaw.Spec.Side24.epsilon ≤
+        (1 - UniversalLaw.Spec.Side24.epsilon) ^ UniversalLaw.Spec.Side24.exponentA d /
+          (1 + UniversalLaw.Spec.Side24.epsilon) ^ UniversalLaw.Spec.Side24.exponentB d ∧
+      (1 + UniversalLaw.Spec.Side24.epsilon) ^ UniversalLaw.Spec.Side24.exponentA d /
+          (1 - UniversalLaw.Spec.Side24.epsilon) ^ UniversalLaw.Spec.Side24.exponentB d ≤
+        1 + 28 * UniversalLaw.Spec.Side24.epsilon
+theorem UniversalLaw.Proofs.Side24Analysis.integrandRatioBounds : UniversalLaw.Spec.Side24.IntegrandRatioBounds :=
+fun d hd =>
+  Or.casesOn hd
+    (fun h =>
+      Eq.symm h ▸
+        Eq.mpr
+          (id
+            (congrArg
+              (fun _a =>
+                1 - 13 * UniversalLaw.Spec.Side24.epsilon ≤
+                    (1 - UniversalLaw.Spec.Side24.epsilon) ^ _a /
+                      (1 + UniversalLaw.Spec.Side24.epsilon) ^ UniversalLaw.Spec.Side24.exponentB 2 ∧
+                  (1 + UniversalLaw.Spec.Side24.epsilon) ^ _a /
+                      (1 - UniversalLaw.Spec.Side24.epsilon) ^ UniversalLaw.Spec.Side24.exponentB 2 ≤
+                    1 + 28 * UniversalLaw.Spec.Side24.epsilon)
+              UniversalLaw.Proofs.Side24Analysis.Aux.ir_exponentA_two))
+          (Eq.mpr
+            (id
+              (congrArg
+                (fun _a =>
+                  1 - 13 * UniversalLaw.Spec.Side24.epsilon ≤
+                      (1 - UniversalLaw.Spec.Side24.epsilon) ^ (13 / 6) / (1 + UniversalLaw.Spec.Side24.epsilon) ^ _a ∧
+                    (1 + UniversalLaw.Spec.Side24.epsilon) ^ (13 / 6) / (1 - UniversalLaw.Spec.Side24.epsilon) ^ _a ≤
+                      1 + 28 * UniversalLaw.Spec.Side24.epsilon)
+                UniversalLaw.Proofs.Side24Analysis.Aux.ir_exponentB_two))
+            (UniversalLaw.Proofs.Side24Analysis.Aux.ir_ratio_bounds (13 / 6) (5 / 2)
+              (Mathlib.Meta.NormNum.isRat_le_true
+                (Mathlib.Meta.NormNum.IsNNRat.to_isRat
+                  (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.isNat_ofNat ℝ Nat.cast_one)))
+                (Mathlib.Meta.NormNum.IsNNRat.to_isRat
+                  (Mathlib.Meta.NormNum.isNNRat_div
+                    (Mathlib.Meta.NormNum.isNNRat_mul (Eq.refl HMul.hMul)
+                      (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.isNat_ofNat ℝ (Eq.refl 13)))
+                      (Mathlib.Meta.NormNum.isNNRat_inv_pos
+                        (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.isNat_ofNat ℝ (Eq.refl 6))))
+                      (Eq.refl (Nat.mul 13 1)) (Eq.refl 6))))
+                (Eq.refl true))
+              (Mathlib.Meta.NormNum.isRat_le_true
+                (Mathlib.Meta.NormNum.IsNNRat.to_isRat
+                  (Mathlib.Meta.NormNum.isNNRat_div
+                    (Mathlib.Meta.NormNum.isNNRat_mul (Eq.refl HMul.hMul)
+                      (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.isNat_ofNat ℝ (Eq.refl 13)))
+                      (Mathlib.Meta.NormNum.isNNRat_inv_pos
+                        (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.isNat_ofNat ℝ (Eq.refl 6))))
+                      (Eq.refl (Nat.mul 13 1)) (Eq.refl 6))))
+                (Mathlib.Meta.NormNum.IsNNRat.to_isRat
+                  (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.isNat_ofNat ℝ (Eq.refl 5))))
+                (Eq.refl true))
+              (Mathlib.Meta.NormNum.isRat_le_true
+                (Mathlib.Meta.NormNum.IsNNRat.to_isRat
+                  (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.isNat_ofNat ℝ Nat.cast_one)))
+                (Mathlib.Meta.NormNum.IsNNRat.to_isRat
+                  (Mathlib.Meta.NormNum.isNNRat_div
+                    (Mathlib.Meta.NormNum.isNNRat_mul (Eq.refl HMul.hMul)
+                      (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.isNat_ofNat ℝ (Eq.refl 5)))
+                      (Mathlib.Meta.NormNum.isNNRat_inv_pos
+                        (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.isNat_ofNat ℝ (Eq.refl 2))))
+                      (Eq.refl (Nat.mul 5 1)) (Eq.refl 2))))
+                (Eq.refl true))
+              (Mathlib.Meta.NormNum.isRat_le_true
+                (Mathlib.Meta.NormNum.IsNNRat.to_isRat
+                  (Mathlib.Meta.NormNum.isNNRat_div
+                    (Mathlib.Meta.NormNum.isNNRat_mul (Eq.refl HMul.hMul)
+                      (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.isNat_ofNat ℝ (Eq.refl 5)))
+                      (Mathlib.Meta.NormNum.isNNRat_inv_pos
+                        (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.isNat_ofNat ℝ (Eq.refl 2))))
+                      (Eq.refl (Nat.mul 5 1)) (Eq.refl 2))))
+                (Mathlib.Meta.NormNum.IsNNRat.to_isRat
+                  (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.isNat_ofNat ℝ (Eq.refl 5))))
+                (Eq.refl true)))))
+    fun h =>
+    Eq.symm h ▸
+      Eq.mpr
+        (id
+          (congrArg
+            (fun _a =>
+              1 - 13 * UniversalLaw.Spec.Side24.epsilon ≤
+                  (1 - UniversalLaw.Spec.Side24.epsilon) ^ _a /
+                    (1 + UniversalLaw.Spec.Side24.epsilon) ^ UniversalLaw.Spec.Side24.exponentB 3 ∧
+                (1 + UniversalLaw.Spec.Side24.epsilon) ^ _a /
+                    (1 - UniversalLaw.Spec.Side24.epsilon) ^ UniversalLaw.Spec.Side24.exponentB 3 ≤
+                  1 + 28 * UniversalLaw.Spec.Side24.epsilon)
+            UniversalLaw.Proofs.Side24Analysis.Aux.ir_exponentA_three))
+        (Eq.mpr
+          (id
+            (congrArg
+              (fun _a =>
+                1 - 13 * UniversalLaw.Spec.Side24.epsilon ≤
+                    (1 - UniversalLaw.Spec.Side24.epsilon) ^ (25 / 6) / (1 + UniversalLaw.Spec.Side24.epsilon) ^ _a ∧
+                  (1 + UniversalLaw.Spec.Side24.epsilon) ^ (25 / 6) / (1 - UniversalLaw.Spec.Side24.epsilon) ^ _a ≤
+                    1 + 28 * UniversalLaw.Spec.Side24.epsilon)
+              UniversalLaw.Proofs.Side24Analysis.Aux.ir_exponentB_three))
+          (UniversalLaw.Proofs.Side24Analysis.Aux.ir_ratio_bounds (25 / 6) (9 / 2)
+            (Mathlib.Meta.NormNum.isRat_le_true
+              (Mathlib.Meta.NormNum.IsNNRat.to_isRat
+                (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.isNat_ofNat ℝ Nat.cast_one)))
+              (Mathlib.Meta.NormNum.IsNNRat.to_isRat
+                (Mathlib.Meta.NormNum.isNNRat_div
+                  (Mathlib.Meta.NormNum.isNNRat_mul (Eq.refl HMul.hMul)
+                    (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.isNat_ofNat ℝ (Eq.refl 25)))
+                    (Mathlib.Meta.NormNum.isNNRat_inv_pos
+                      (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.isNat_ofNat ℝ (Eq.refl 6))))
+                    (Eq.refl (Nat.mul 25 1)) (Eq.refl 6))))
+              (Eq.refl true))
+            (Mathlib.Meta.NormNum.isRat_le_true
+              (Mathlib.Meta.NormNum.IsNNRat.to_isRat
+                (Mathlib.Meta.NormNum.isNNRat_div
+                  (Mathlib.Meta.NormNum.isNNRat_mul (Eq.refl HMul.hMul)
+                    (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.isNat_ofNat ℝ (Eq.refl 25)))
+                    (Mathlib.Meta.NormNum.isNNRat_inv_pos
+                      (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.isNat_ofNat ℝ (Eq.refl 6))))
+                    (Eq.refl (Nat.mul 25 1)) (Eq.refl 6))))
+              (Mathlib.Meta.NormNum.IsNNRat.to_isRat
+                (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.isNat_ofNat ℝ (Eq.refl 5))))
+              (Eq.refl true))
+            (Mathlib.Meta.NormNum.isRat_le_true
+              (Mathlib.Meta.NormNum.IsNNRat.to_isRat
+                (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.isNat_ofNat ℝ Nat.cast_one)))
+              (Mathlib.Meta.NormNum.IsNNRat.to_isRat
+                (Mathlib.Meta.NormNum.isNNRat_div
+                  (Mathlib.Meta.NormNum.isNNRat_mul (Eq.refl HMul.hMul)
+                    (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.isNat_ofNat ℝ (Eq.refl 9)))
+                    (Mathlib.Meta.NormNum.isNNRat_inv_pos
+                      (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.isNat_ofNat ℝ (Eq.refl 2))))
+                    (Eq.refl (Nat.mul 9 1)) (Eq.refl 2))))
+              (Eq.refl true))
+            (Mathlib.Meta.NormNum.isRat_le_true
+              (Mathlib.Meta.NormNum.IsNNRat.to_isRat
+                (Mathlib.Meta.NormNum.isNNRat_div
+                  (Mathlib.Meta.NormNum.isNNRat_mul (Eq.refl HMul.hMul)
+                    (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.isNat_ofNat ℝ (Eq.refl 9)))
+                    (Mathlib.Meta.NormNum.isNNRat_inv_pos
+                      (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.isNat_ofNat ℝ (Eq.refl 2))))
+                    (Eq.refl (Nat.mul 9 1)) (Eq.refl 2))))
+              (Mathlib.Meta.NormNum.IsNNRat.to_isRat
+                (Mathlib.Meta.NormNum.IsNat.to_isNNRat (Mathlib.Meta.NormNum.isNat_ofNat ℝ (Eq.refl 5))))
+              (Eq.refl true))))
+'UniversalLaw.Proofs.Side24Analysis.integrandRatioBounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.ir_epsilon_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.ir_epsilon_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.ir_one_sub_epsilon_pos' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.ir_one_le_one_add_epsilon' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.ir_rpow_le_pow_five' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.ir_bernoulli' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.ir_lower_rational' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.ir_upper_rational' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.ir_lower_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.ir_upper_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.ir_ratio_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.ir_exponentA_two' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.ir_exponentB_two' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.ir_exponentA_three' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.ir_exponentB_three' depends on axioms: [propext, Classical.choice, Quot.sound]
+<SCRATCH>/lvs/round4/verify_ir/scratch.lean:212:60: error: Type mismatch
+  true
+has type
+  Bool
+but is expected to have type
+  MessageData
+<SCRATCH>/lvs/round4/verify_ir/scratch.lean:212:72: error: Type mismatch
+  false
+has type
+  Bool
+but is expected to have type
+  MessageData
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.ir_one_le_one_add_epsilon
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.ir_exponentA_three
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.ir_lower_bound
+AUDIT generated UniversalLaw.Spec.Side24.symCoordDim.eq_1
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.ir_lower_rational
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.ir_exponentA_two
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.ir_upper_rational
+AUDIT generated UniversalLaw.Spec.Side24.exponentB.eq_1
+AUDIT theorem UniversalLaw.Proofs.Side24Analysis.integrandRatioBounds UniversalLaw.Spec.Side24.IntegrandRatioBounds
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.ir_bernoulli
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.ir_one_sub_epsilon_pos
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.ir_rpow_le_pow_five
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.ir_exponentB_three
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.ir_epsilon_pos
+AUDIT generated UniversalLaw.Spec.Side24.exponentA.eq_1
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.ir_ratio_bounds
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.ir_upper_bound
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.ir_exponentB_two
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.ir_epsilon_lt
+AUDIT END 19 0 1
+EXIT=1

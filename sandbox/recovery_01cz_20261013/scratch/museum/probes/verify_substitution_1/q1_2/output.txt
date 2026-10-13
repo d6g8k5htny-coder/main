@@ -1,0 +1,40 @@
+alt differs: True | alt has AMEND verdict row: True
+baseline: every Math- SOURCES pin at INDEX commit: True
+[other Math- commit] project() ACCEPTS: d5-all-height-annulus class=ACCEPT-scoped review=d6g8k5htny-coder/Math-@11111111 index=d6g8k5htny-coder/Math-@d6628da0
+    verify_bytes (read_source/build path) ACCEPTS alt bytes
+[main repository] project() ACCEPTS: d5-all-height-annulus class=ACCEPT-scoped review=d6g8k5htny-coder/main@22222222 index=d6g8k5htny-coder/Math-@d6628da0
+    verify_bytes (read_source/build path) ACCEPTS alt bytes
+[query- repository] project() ACCEPTS: d5-all-height-annulus class=ACCEPT-scoped review=d6g8k5htny-coder/query-@33333333 index=d6g8k5htny-coder/Math-@d6628da0
+    verify_bytes (read_source/build path) REFUSES: invalid source identity
+[contrast] builder project() also accepts PROOF at 44444444 (no proof binding in the builder either)
+index bytes match pin: true | status bytes match pin: true
+pinned review bytes match shipped descriptor: true | shipped review commit == index commit: true
+synthetic alternate differs: true | has AMEND verdict row: true
+
+[baseline shipped manifest] validateBoundManifest ACCEPTS
+  card: ["ACCEPT-scoped","Source label: ACCEPT","Byte-verified review"]
+  review identity shown: d6g8k5htny-coder/Math- @ d6628da09384 | index: d6g8k5htny-coder/Math- @ d6628da09384
+  museum-state: Pinned source projections verified. 3 source view(s) unavailable; no result inferred for those views.
+
+[review other Math- commit] validateBoundManifest ACCEPTS
+  card: ["ACCEPT-scoped","Source label: ACCEPT","Byte-verified review"]
+  review identity shown: d6g8k5htny-coder/Math- @ 111111111111 | index: d6g8k5htny-coder/Math- @ d6628da09384
+  museum-state: Pinned source projections verified. 3 source view(s) unavailable; no result inferred for those views.
+
+[review main repository] validateBoundManifest ACCEPTS
+  card: ["ACCEPT-scoped","Source label: ACCEPT","Byte-verified review"]
+  review identity shown: d6g8k5htny-coder/main @ 222222222222 | index: d6g8k5htny-coder/Math- @ d6628da09384
+  museum-state: Pinned source projections verified. 3 source view(s) unavailable; no result inferred for those views.
+
+[review query- repository] validateBoundManifest ACCEPTS
+  card: ["ACCEPT-scoped","Source label: ACCEPT","Byte-verified review"]
+  review identity shown: d6g8k5htny-coder/query- @ 333333333333 | index: d6g8k5htny-coder/Math- @ d6628da09384
+  museum-state: Pinned source projections verified. 3 source view(s) unavailable; no result inferred for those views.
+
+[control: same commit change on the PROOF] validateBoundManifest REFUSES: Claim proof is not bound by its own pinned source quote
+  card REFUSED: 
+
+[sard-g open: review at a Math- commit instead of status snapshot] validateBoundManifest ACCEPTS
+  card: ["AMEND/open","Source label: AMEND / open","Byte-verified review"]
+  review identity shown: d6g8k5htny-coder/Math- @ 555555555555 | index: d6g8k5htny-coder/Math- @ d6628da09384
+  museum-state: Pinned source projections verified. 3 source view(s) unavailable; no result inferred for those views.

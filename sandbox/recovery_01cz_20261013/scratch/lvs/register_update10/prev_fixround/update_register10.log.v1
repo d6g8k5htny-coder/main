@@ -1,0 +1,209 @@
+update_register10: 28 changed string leaves of specifications/lean_statements_20261010/REGISTER.json (be014794 blob c8bb36ca15e9c395ef04fd24930cf1c3362dbe1b -> worktree blob fa96260ce42cebff30fa0507c7db6e440df2025f); census {'statements': 352, 'proved': 155, 'kernel_evidence': 28, 'claims': 171, 'claim_fp': {'none': 138, 'specified': 33}} -> {'statements': 354, 'proved': 157, 'kernel_evidence': 28, 'claims': 171, 'claim_fp': {'none': 138, 'specified': 33}}
+
+== /claims[0]/statements[72]/package  (row side24-coefficient)  [NEW LEAF]
+   + d6g8k5htny-coder/Math- specifications/lean_statement_proofs_20261011
+
+== /claims[0]/statements[72]/module  (row side24-coefficient)  [NEW LEAF]
+   + SpecificationProofs/Side24Covariance.lean
+
+== /claims[0]/statements[72]/declaration  (row side24-coefficient)  [NEW LEAF]
+   + UniversalLaw.Proofs.Side24Covariance.referenceCovarianceLowerBound
+
+== /claims[0]/statements[72]/kind  (row side24-coefficient)  [NEW LEAF]
+   + theorem
+
+== /claims[0]/statements[72]/formal_progress  (row side24-coefficient)  [NEW LEAF]
+   + proved
+
+== /claims[0]/statements[72]/anchor  (row side24-coefficient)  [NEW LEAF]
+   + Thus C_ref >= I/3 and
+
+== /claims[0]/statements[72]/does_not_claim  (row side24-coefficient)  [NEW LEAF]
+   + the informal Section 3 display "C_ref >= I/3" of the source as the source's object (the alignment of `E d`, `Kinf`, `derivContraction`, `jetDirs`, `svecScale`, `jointCov` and `Cref` with the source's `R^d`, `K_infty`, jet and joint covariance, and of Mathlib's `Matrix.PosSemidef` (which includes `IsHermitian`) with the source's `>=` order, is PENDING_INDEPENDENT_REVIEW); that `Cref` is the covariance of any random vector (no field is constructed); symmetry of `Cref d u R` for general `u` or a general frame (only the `IsHermitian` half of the `Prop`'s `PosSemidef`, at `u = R 0` in an orthonormal frame with `0 < d`, is proved); the statement module's own `Does not claim:` text ("the bound (statement only); the odd-block eigenvalues `8 ± sqrt 58` and the minors `2/3`, `7/9` are kernel-checked on main (`UniversalLaw.Side24.odd_block_eigenvalues`, `odd_block_shifted_minors`, `smaller_eigenvalue_exceeds_third`), not here"), which describes the statement packet and is not edited here; main's `UniversalLaw.Side24.odd_block_eigenvalues`, `odd_block_shifted_minors` and `smaller_eigenvalue_exceeds_third` are neither imported, cited nor relied on (the certificate's entry arithmetic is discharged inline by `simp`/`norm_num` in `Aux.cv_decomp`), and no minor (in particular not `7/9`), no eigenvalue `8 ± sqrt 58` and no comparison of the smaller eigenvalue with `1/3` is computed or stated here; anything about `C_24`, `CovarianceOrdering` or `EntrywiseCovarianceBound`; any enclosure of the coefficient `c_{d,24}`; the disposition of `side24-coefficient` (REVIEWED_SCOPED), which is transcribed in the register, not derived here; nonauthor review or acceptance of SIDE24-COEFFICIENT-D23-20260924-v1. It promotes, closes, discharges or reclassifies nothing.
+
+== /claims[0]/statements[73]/package  (row side24-coefficient)  [NEW LEAF]
+   + d6g8k5htny-coder/Math- specifications/lean_statement_proofs_20261011
+
+== /claims[0]/statements[73]/module  (row side24-coefficient)  [NEW LEAF]
+   + SpecificationProofs/Side24ConeMoment.lean
+
+== /claims[0]/statements[73]/declaration  (row side24-coefficient)  [NEW LEAF]
+   + UniversalLaw.Proofs.Side24ConeMoment.coneMomentD2Identity
+
+== /claims[0]/statements[73]/kind  (row side24-coefficient)  [NEW LEAF]
+   + theorem
+
+== /claims[0]/statements[73]/formal_progress  (row side24-coefficient)  [NEW LEAF]
+   + proved
+
+== /claims[0]/statements[73]/anchor  (row side24-coefficient)  [NEW LEAF]
+   + D_2 = (1/2)[25/3-20/3+8-8sqrt(3/8)]
+
+== /claims[0]/statements[73]/does_not_claim  (row side24-coefficient)  [NEW LEAF]
+   + the informal identity `D_2 = E[det(A)^2 1{A<0}] = (1/2)[25/3 - 20/3 + 8 - 8 sqrt(3/8)]` of the source as the source's object (the alignment of `ConeMomentInterface`, `transverseMatrix`, `NegDefCone`, `coneIntegrand` and `gaussianReal` with the source's objects is PENDING_INDEPENDENT_REVIEW); the source's Rayleigh integration route or its reduction of the cone to `s < -R` as the source's statements (the helper `Aux.cm_cone_iff` characterises the formal `NegDefCone` only, and `RayleighSquareLaw` is not used); integrability of the sample-space integrand under `I.P` as a separate statement (the integral is transported by `integral_map`, which needs only a.e.-measurability); that `D_2` is the parent's cone moment `D_u` of (15.1) for the reference law; that `ConeMomentInterface` has an inhabitant, or that its laws are the conditional law `A | V = 0` of the reference field; the value `29/6 - sqrt 6` (`ConeMomentD2Algebra`, not used here); any enclosure of the coefficient; the disposition of `side24-coefficient` (REVIEWED_SCOPED), which is transcribed in the register, not derived here; nonauthor review or acceptance of SIDE24-COEFFICIENT-D23-20260924-v1.
+
+== /claims[0]/kernel_evidence[1]/receipt_or_workflow  (row side24-coefficient)
+   replace after "...receipt theorem_count 73; artifact lean-specification-proofs-38180705952-1, sha256":
+     - 87309efad9b804c53c543b60fdb466de1f797971417363cc2e8fa1e10eac26bd)
+     + 87309efad9b804c53c543b60fdb466de1f797971417363cc2e8fa1e10eac26bd); theorems added after PR head be014794 (run 38187538744, actual tested merge 79d3964cf70e2eadad5c9629eef8f4b47f218dd0 with base 12e072d614dbe6e91b66d22a2ab55cf87860d693, receipt theorem_count 73) have no hosted receipt yet: the next hosted lean-specification-proofs.yml run is their first receipt
+
+== /claims[0]/kernel_evidence[1]/note  (row side24-coefficient)
+   replace after "...":
+     - 17
+     + 19
+   replace after "...Side24Analysis.referencePinDensityProduct, Side24Analysis.integrandRatioBounds, Side24Analysis.latticeImageSumBound, Side24Analysis.densityComparison, Side24Interfaces.coneMomentD1Identity, Side24Interfaces.traceMoments,":
+     - Side24Interfaces.rayleighSquareLaw)
+     + Side24Interfaces.rayleighSquareLaw, Side24Covariance.referenceCovarianceLowerBound, Side24ConeMoment.coneMomentD2Identity)
+   replace after "...proof packet's check.py (source mode SOURCE_CHECK_PASS:":
+     - 73
+     + 75
+   replace after "...mode SOURCE_CHECK_PASS: 73 inventory theorems over":
+     - SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean, 72
+     + SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean, 74
+   insert after "...theorem_count 73; artifact lean-specification-proofs-38180705952-1, sha256 87309efad9b804c53c543b60fdb466de1f797971417363cc2e8fa1e10eac26bd).":
+     + 2 (Side24Covariance.referenceCovarianceLowerBound, Side24ConeMoment.coneMomentD2Identity) were added after PR head be014794 (the last head with a hosted receipt: run 38187538744, actual tested merge 79d3964cf70e2eadad5c9629eef8f4b47f218dd0 with base 12e072d614dbe6e91b66d22a2ab55cf87860d693, receipt theorem_count 73): locally `lake env lean -DwarningAsError=true` exit 0 and `#print axioms` within {propext, Classical.choice, Quot.sound} on an unverified worktree, not evidence about any commit; the next hosted lean-specification-proofs.yml run is the first receipt for them.
+
+== /claims[0]/not_established  (row side24-coefficient)
+   insert after "...DerivativePairingBound, DerivativeBoundAtLeastOne, DerivativeBoundAtZero, LatticeImageSumBound, SuccessiveTermRatio, ExponentialBounds,":
+     + ReferenceCovarianceLowerBound,
+   insert after "...ReferenceOddAndPinBlocks, DensityComparison, IntegrandRatioBounds, ReferencePinDensityProduct, ReferenceCoefficientIdentity, ConeMomentD1Identity,":
+     + ConeMomentD2Identity,
+   replace after "...ReferenceCoefficientIdentity, ConeMomentD1Identity, ConeMomentD2Algebra, TraceMoments, RayleighSquareLaw, ElementaryConeIntegral":
+     - (17
+     + (19
+   replace after "...has the same tree as its":
+     - head).
+     + head; 2 of them (Side24Covariance.referenceCovarianceLowerBound, Side24ConeMoment.coneMomentD2Identity) were added after PR head be014794 (the last head with a hosted receipt: run 38187538744, actual tested merge 79d3964cf70e2eadad5c9629eef8f4b47f218dd0 with base 12e072d614dbe6e91b66d22a2ab55cf87860d693, receipt theorem_count 73): locally `lake env lean -DwarningAsError=true` exit 0 and `#print axioms` within {propext, Classical.choice, Quot.sound} on an unverified worktree, not evidence about any commit; the next hosted lean-specification-proofs.yml run is the first receipt for them).
+   insert after "...of any random vector or field);":
+     + the lower bound C_ref - I/3 positive semidefinite for the formal matrix Cref at u = R 0 in an orthonormal frame, its IsHermitian half included (ReferenceCovarianceLowerBound: the odd-order contractions of the even kernel Kinf vanish at 0, and Cref - I/3 decomposes entrywise into a diagonal matrix and two rank-one squares; the hypothesis d = 2 or d = 3 is not used; Cref is not shown to be the covariance of any random vector, symmetry of Cref d u R for a general u or frame is not stated, and main's odd_block_eigenvalues, odd_block_shifted_minors and smaller_eigenvalue_exceeds_third are neither imported, cited nor relied on: no minor, no eigenvalue 8 +/- sqrt 58 and no comparison of an eigenvalue with 1/3 is computed);
+   replace after "...a distribution function, not as a":
+     - density).
+     + density); and, over the same interface, the m = 2 cone moment, the integral of coneIntegrand (s, x, y) under I.P, equal to (1/2)(25/3 - 20/3 + 8 - 8 sqrt(3/8)) (ConeMomentD2Identity: proved for every inhabitant from the law field sxy_law and isProb alone, by transport along sxy_law, Fubini, the cone identification s < 0 and x^2 + y^2 < s^2, polar coordinates onto ElementaryConeIntegral and the symmetry halving under N(0, 5/3); RayleighSquareLaw is not used, the source's Rayleigh integration route is not reproduced as the source's statements, D_2 is not identified with the parent's cone moment D_u of (15.1) for the reference law, and the value 29/6 - sqrt 6 (ConeMomentD2Algebra) is not used).
+   delete after "...of them is the Gaussian conditioning,":
+     - ConeMomentD2Identity,
+   delete after "...with no theorem: ImageBound, CovarianceOrdering, EntrywiseCovarianceBound,":
+     - ReferenceCovarianceLowerBound, ConeMomentD2Identity,
+
+== /claims[0]/next_step  (row side24-coefficient)
+   delete after "...Math- Mathlib lane: ImageBound, CovarianceOrdering, EntrywiseCovarianceBound,":
+     - ReferenceCovarianceLowerBound, ConeMomentD2Identity,
+   replace after "...IsUnitTuple, NegDefCone are vocabulary, not targets);":
+     - every theorem
+     + the 2 theorems
+   replace after "...targets); every theorem of this row":
+     - has
+     + added after PR head be014794 (Side24Covariance.referenceCovarianceLowerBound, Side24ConeMoment.coneMomentD2Identity) await the next hosted lean-specification-proofs.yml run, their first receipt; the other theorems of this row have
+   replace after "...with base 79731b961fac555f33be3cd90e379b246a5a80e3; receipt theorem_count 60);":
+     - every theorem
+     + each
+   replace after "...receipt theorem_count 60); every theorem of":
+     - this row
+     + those 17 theorems
+   replace after "...proved in round 4 (see entries);":
+     - ReferenceCovarianceLowerBound PROVABLE_WITH_WORK (weeks);
+     + ReferenceCovarianceLowerBound,
+   replace after "...entries); ReferenceCovarianceLowerBound PROVABLE_WITH_WORK (weeks); ConeMomentD2Identity PROVABLE_WITH_WORK":
+     - (weeks);
+     + (weeks): proved in round 5 (2026-10-12; see entries, no hosted receipt yet);
+   insert after "...moment is a given field; ConeMomentD2Identity":
+     + now has a theorem for every inhabitant of ConeMomentInterface, with no hosted receipt yet, but no inhabitant is constructed and its laws are not derived as the conditional law A | V = 0 of the reference field, so D_2 is not identified with the parent's cone moment D_u of (15.1)
+   replace after "...given field; ConeMomentD2Identity for the reference":
+     - law under ConeMomentInterface is the open Rayleigh-integration step).
+     + law).
+   insert after "...and are superseded by their theorems;":
+     + for ReferenceCovarianceLowerBound and ConeMomentD2Identity, proved in round 5 (no hosted receipt yet), the README's PROVABLE_WITH_WORK (weeks) reasons are superseded by their theorems (the ReferenceCovarianceLowerBound lane records that the order-five peeling step and the Matrix.posSemidef_iff_dotProduct_mulVec route the README named are not load-bearing);
+   delete after "...the reasons for ImageBound, CovarianceOrdering, EntrywiseCovarianceBound,":
+     - ReferenceCovarianceLowerBound, ConeMomentD2Identity,
+   replace after "...Side24 statements, in particular of the":
+     - 17
+     + 19
+   replace after "...N(0, 5/3), x, y ~ N(0,":
+     - 1)).
+     + 1); ReferenceCovarianceLowerBound with the Section 3 display C_ref >= I/3, with Mathlib's Matrix.PosSemidef, IsHermitian included, read as the source's order).
+
+== /claims[2]/kernel_evidence[0]/note  (row rn-count-interface)
+   replace after "...proof packet's check.py (source mode SOURCE_CHECK_PASS:":
+     - 73
+     + 75
+   replace after "...mode SOURCE_CHECK_PASS: 73 inventory theorems over":
+     - SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean, 72
+     + SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean, 74
+
+== /claims[5]/kernel_evidence[1]/note  (row p15-realized-covers)
+   replace after "...proof packet's check.py (source mode SOURCE_CHECK_PASS:":
+     - 73
+     + 75
+   replace after "...mode SOURCE_CHECK_PASS: 73 inventory theorems over":
+     - SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean, 72
+     + SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean, 74
+
+== /claims[6]/kernel_evidence[1]/note  (row p15-price-boundary)
+   replace after "...proof packet's check.py (source mode SOURCE_CHECK_PASS:":
+     - 73
+     + 75
+   replace after "...mode SOURCE_CHECK_PASS: 73 inventory theorems over":
+     - SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean, 72
+     + SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean, 74
+
+== /claims[7]/kernel_evidence[1]/note  (row p15-price-budget-restricted)
+   replace after "...proof packet's check.py (source mode SOURCE_CHECK_PASS:":
+     - 73
+     + 75
+   replace after "...mode SOURCE_CHECK_PASS: 73 inventory theorems over":
+     - SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean, 72
+     + SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean, 74
+
+== /claims[8]/kernel_evidence[1]/note  (row p15-full-price)
+   replace after "...proof packet's check.py (source mode SOURCE_CHECK_PASS:":
+     - 73
+     + 75
+   replace after "...mode SOURCE_CHECK_PASS: 73 inventory theorems over":
+     - SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean, 72
+     + SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean, 74
+
+== /claims[16]/not_established  (row math.side24-coefficient)
+   replace after "...arithmetic theorems of main and the":
+     - 17
+     + 19
+   replace after "...Side24Analysis.referencePinDensityProduct, Side24Analysis.integrandRatioBounds, Side24Analysis.latticeImageSumBound, Side24Analysis.densityComparison, Side24Interfaces.coneMomentD1Identity, Side24Interfaces.traceMoments,":
+     - Side24Interfaces.rayleighSquareLaw;
+     + Side24Interfaces.rayleighSquareLaw, Side24Covariance.referenceCovarianceLowerBound, Side24ConeMoment.coneMomentD2Identity;
+   replace after "...has the same tree as its":
+     - head)
+     + head; 2 of them (Side24Covariance.referenceCovarianceLowerBound, Side24ConeMoment.coneMomentD2Identity) were added after PR head be014794 (the last head with a hosted receipt: run 38187538744, actual tested merge 79d3964cf70e2eadad5c9629eef8f4b47f218dd0 with base 12e072d614dbe6e91b66d22a2ab55cf87860d693, receipt theorem_count 73): locally `lake env lean -DwarningAsError=true` exit 0 and `#print axioms` within {propext, Classical.choice, Quot.sound} on an unverified worktree, not evidence about any commit; the next hosted lean-specification-proofs.yml run is the first receipt for them)
+   replace after "...interface theorems among them (ConeMomentD1Identity, TraceMoments,":
+     - RayleighSquareLaw)
+     + RayleighSquareLaw, ConeMomentD2Identity)
+
+== /claims[17]/kernel_evidence[0]/note  (row math.rn-count-interface)
+   replace after "...proof packet's check.py (source mode SOURCE_CHECK_PASS:":
+     - 73
+     + 75
+   replace after "...mode SOURCE_CHECK_PASS: 73 inventory theorems over":
+     - SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean, 72
+     + SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean, 74
+
+== /claims[25]/kernel_evidence[1]/note  (row math.p15-full-price)
+   replace after "...proof packet's check.py (source mode SOURCE_CHECK_PASS:":
+     - 73
+     + 75
+   replace after "...mode SOURCE_CHECK_PASS: 73 inventory theorems over":
+     - SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean, 72
+     + SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean, 74
+
+== /claims[26]/kernel_evidence[1]/note  (row math.p15-price-boundary)
+   replace after "...proof packet's check.py (source mode SOURCE_CHECK_PASS:":
+     - 73
+     + 75
+   replace after "...mode SOURCE_CHECK_PASS: 73 inventory theorems over":
+     - SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean, 72
+     + SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean, 74
+
+== /claims[54]/kernel_evidence[0]/note  (row OA-C6-RARE-CLUSTER-20260929-v1)
+   replace after "...proof packet's check.py (source mode SOURCE_CHECK_PASS:":
+     - 73
+     + 75
+   replace after "...mode SOURCE_CHECK_PASS: 73 inventory theorems over":
+     - SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster}.lean, 72
+     + SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean, 74
+

@@ -1,0 +1,13 @@
+**Landing on Math- main (2026-10-12).** The statement register (3.6) and the proof packet (3.7) landed on Math- main through five normal
+protected merge commits (no squash, rebase or force push), in stack order (times are GitHub `merged_at`; each merge commit's own committer date is at most one second earlier): #419 (statement register) by `d6f2c325c55b78002a113e827d23539df90cad88` at 2026-10-12T03:57:27Z; #422 (proof packet, rounds 1-2) by `8a61d5fb59fa8fa18bddcfc7d8f8bb88b12a46c0` at 04:10:53Z; #423 (round 3) by `6e366697546ad2afadb84150e0d4c609d0918945` at 04:24:30Z; #434 (round 4) by `7fd045a6677bc27b95c05c4149bbf51e86c364b9` at 04:40:46Z; #439 (round 5) by `4afcca6a79a8a0acef251ae73988a7914c8080e7` at 04:57:01Z, the final cut, whose `REGISTER.json` (blob `05cc80c1`, 599,058 bytes,
+sha256 `d185a292c20084d6f12e56a4ed76f7d6b9294b0d224830e47885934b1869f87c`) is the register this document renders. Each merge was made by a distinct
+OpenAI/Codex engineering integrator under the same project account (organizational-independence credit 0): an engineering integration, not a
+mathematical acceptance and not an alignment, and it moves no claim, Prop or theorem label. For the final cut the integrator's pre-merge hosted
+runs (event pull_request) ran on PR #439's head at merge, `de732f1e8622ad92d80126e11df8ace85075f0ed` (the integration candidate: a merge of the then-current
+Math- main into the PR branch), actual tested merge `8fe0759edb8d93b9cfc840ebbafb5ea8cb6b7ca4`: the proof run 38205232428 (attempt 1; receipt `kernel-checked`,
+75 theorems over 74 Props, `leanchecker` PASS), the statement run 38205232441 (PR head `de732f1e`, actual tested merge `8fe0759e…`; receipt
+`specified`, 150 registered declarations) and the required-aggregate run 38205232621 (PR head `de732f1e`, actual tested merge `8fe0759e…`). The tested merge's tree
+`d323c3d63c3afd9981f679c6fb1c873f09772523` equals the landing tree of `4afcca6a` (integrator review 5486666735 and release comment
+6118068559 on Math- PR #439). The landing push run 38205855996 (event push: its checked commit is the pushed merge `4afcca6a`
+itself, with no PR head and no synthetic merge) ran only `downstream-replay`, `formal / formal-evidence` and `math-downstream-gates`; it did not
+run the Lean statement or proof packets and is not a receipt for them. The 28 P15 targets of main PR #358 (3.1) are still not on main.

@@ -1,0 +1,17 @@
+shipped exhibits.remote == claims[2] (d4-fixed-remote-rn).proof identity: True
+shipped exhibits.annulus == claims[3] (d5-all-height-annulus).proof identity: True
+shipped exhibits.p15 == claims[10] (d6-p15-full-price).proof identity: True
+shipped exhibits.lifetime == claims[0] (d2-lifetime-remainder).proof identity: True
+shipped exhibits.annulus == claims[4] (d5-height-window-annulus).proof identity: False | height-window proof path: frontiers/rn_thin_tube_20260925/FIXED_ANNULUS_CANDIDATE.md
+SOURCES keyed by path (one identity per path): True
+builder descriptor(remote path) == shipped exhibit identity: True
+builder descriptor(annulus path) == shipped exhibit identity: True
+builder descriptor(p15 path) == shipped exhibit identity: True
+shipped museum.json is canonical dump(): True
+hand-edited exhibit commit equals canonical export: False
+CI step runs museum_check.py: True
+tests/test_museum_data.py: lines tying a remote/annulus/p15 exhibit to a claim proof: 0 []
+tests/test_museum_frontend.mjs: lines tying a remote/annulus/p15 exhibit to a claim proof: 1 ['return {index,status,manifest:{schema_version:1,scientific_status_authority:false,index_so']
+tests/test_museum_geometry.mjs: lines tying a remote/annulus/p15 exhibit to a claim proof: 0 []
+tools/museum_check.py: lines tying a remote/annulus/p15 exhibit to a claim proof: 0 []
+tools/museum_data.py: lines tying a remote/annulus/p15 exhibit to a claim proof: 0 []

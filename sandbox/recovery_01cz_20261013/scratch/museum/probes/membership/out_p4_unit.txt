@@ -1,0 +1,87 @@
+.EEE..F..EE.
+======================================================================
+ERROR: test_check_rejects_quote_identity_and_class_tampering (test_museum_data.MuseumDataTests.test_check_rejects_quote_identity_and_class_tampering)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/museum/probes/membership/wt_p4/tests/test_museum_data.py", line 69, in test_check_rejects_quote_identity_and_class_tampering
+    expected = {"claims": museum.project(INDEX_BYTES, self.status)}
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SCRATCH>/museum/probes/membership/wt_p4/tools/museum_data.py", line 392, in project
+    status = verify_bytes(status_raw, STATUS).decode("utf-8")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SCRATCH>/museum/probes/membership/wt_p4/tools/museum_data.py", line 358, in verify_bytes
+    raise ValueError("source identity mismatch: " + expected["path"])
+ValueError: source identity mismatch: STATUS.md
+
+======================================================================
+ERROR: test_exact_fourteen_projections_and_distinct_d5_scopes (test_museum_data.MuseumDataTests.test_exact_fourteen_projections_and_distinct_d5_scopes)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/museum/probes/membership/wt_p4/tests/test_museum_data.py", line 24, in test_exact_fourteen_projections_and_distinct_d5_scopes
+    claims = museum.project(INDEX_BYTES, self.status)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SCRATCH>/museum/probes/membership/wt_p4/tools/museum_data.py", line 392, in project
+    status = verify_bytes(status_raw, STATUS).decode("utf-8")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SCRATCH>/museum/probes/membership/wt_p4/tools/museum_data.py", line 358, in verify_bytes
+    raise ValueError("source identity mismatch: " + expected["path"])
+ValueError: source identity mismatch: STATUS.md
+
+======================================================================
+ERROR: test_historical_snapshot_ignores_unrelated_working_tree_append (test_museum_data.MuseumDataTests.test_historical_snapshot_ignores_unrelated_working_tree_append)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/museum/probes/membership/wt_p4/tests/test_museum_data.py", line 130, in test_historical_snapshot_ignores_unrelated_working_tree_append
+    raw = museum.read_source(source, checkout, None)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SCRATCH>/museum/probes/membership/wt_p4/tools/museum_data.py", line 479, in read_source
+    return verify_bytes(raw, identity)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SCRATCH>/museum/probes/membership/wt_p4/tools/museum_data.py", line 358, in verify_bytes
+    raise ValueError("source identity mismatch: " + expected["path"])
+ValueError: source identity mismatch: STATUS.md
+
+======================================================================
+ERROR: test_replay_commands_bind_source_and_checkout (test_museum_data.MuseumDataTests.test_replay_commands_bind_source_and_checkout)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/museum/probes/membership/wt_p4/tests/test_museum_data.py", line 55, in test_replay_commands_bind_source_and_checkout
+    claims = museum.project(INDEX_BYTES, self.status)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SCRATCH>/museum/probes/membership/wt_p4/tools/museum_data.py", line 392, in project
+    status = verify_bytes(status_raw, STATUS).decode("utf-8")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SCRATCH>/museum/probes/membership/wt_p4/tools/museum_data.py", line 358, in verify_bytes
+    raise ValueError("source identity mismatch: " + expected["path"])
+ValueError: source identity mismatch: STATUS.md
+
+======================================================================
+ERROR: test_review_pointers_do_not_claim_comment_byte_custody (test_museum_data.MuseumDataTests.test_review_pointers_do_not_claim_comment_byte_custody)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/museum/probes/membership/wt_p4/tests/test_museum_data.py", line 96, in test_review_pointers_do_not_claim_comment_byte_custody
+    claims = museum.project(INDEX_BYTES, self.status)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SCRATCH>/museum/probes/membership/wt_p4/tools/museum_data.py", line 392, in project
+    status = verify_bytes(status_raw, STATUS).decode("utf-8")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SCRATCH>/museum/probes/membership/wt_p4/tools/museum_data.py", line 358, in verify_bytes
+    raise ValueError("source identity mismatch: " + expected["path"])
+ValueError: source identity mismatch: STATUS.md
+
+======================================================================
+FAIL: test_misdirected_review_pointer_refused (test_museum_data.MuseumDataTests.test_misdirected_review_pointer_refused)
+----------------------------------------------------------------------
+ValueError: source identity mismatch: STATUS.md
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "<SCRATCH>/museum/probes/membership/wt_p4/tests/test_museum_data.py", line 51, in test_misdirected_review_pointer_refused
+    with patch.object(museum, "CLAIM_SPECS", specs), self.assertRaisesRegex(ValueError, "review pointer"):
+AssertionError: "review pointer" does not match "source identity mismatch: STATUS.md"
+
+----------------------------------------------------------------------
+Ran 12 tests in 0.056s
+
+FAILED (failures=1, errors=5)

@@ -1,0 +1,104 @@
+'UniversalLaw.Proofs.Side24Interfaces.rayleighSquareLaw' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Interfaces.Aux.rl_rhs_integral' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Interfaces.Aux.rl_radial_integral' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Interfaces.Aux.rl_angular_integral' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'UniversalLaw.Proofs.Side24Interfaces.Aux.rl_pdf_mul' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Interfaces.Aux.rl_measurableSet_disk' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'UniversalLaw.Proofs.Side24Interfaces.Aux.rl_measurableSet_radial' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'UniversalLaw.Proofs.Side24Interfaces.Aux.rl_polar_integrand' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Interfaces.Aux.rl_Ioi_inter_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Interfaces.Aux.rl_disk_integral' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Interfaces.Aux.rl_disk_measure' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Interfaces.Aux.rl_aemeasurable_triple' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'UniversalLaw.Proofs.Side24Interfaces.Aux.rl_aemeasurable_xy' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Interfaces.Aux.rl_law_xy' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Interfaces.Aux.rl_prob_eq_disk_measure' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+UniversalLaw.Proofs.Side24Interfaces.rayleighSquareLaw : ∀ (I : UniversalLaw.Spec.Side24.ConeMomentInterface),
+  UniversalLaw.Spec.Side24.RayleighSquareLaw I
+def UniversalLaw.Spec.Side24.RayleighSquareLaw : UniversalLaw.Spec.Side24.ConeMomentInterface → Prop :=
+fun I => ∀ (a : ℝ), 0 ≤ a → (I.P {ω | I.x ω ^ 2 + I.y ω ^ 2 ≤ a}).toReal = ∫ (z : ℝ) in 0..a, Real.exp (-z / 2) / 2
+structure UniversalLaw.Spec.Side24.ConeMomentInterface : Type 1
+number of parameters: 0
+fields:
+  UniversalLaw.Spec.Side24.ConeMomentInterface.Ω : Type
+  UniversalLaw.Spec.Side24.ConeMomentInterface.mΩ : MeasurableSpace self.Ω
+  UniversalLaw.Spec.Side24.ConeMomentInterface.P : MeasureTheory.Measure self.Ω
+  UniversalLaw.Spec.Side24.ConeMomentInterface.isProb : MeasureTheory.IsProbabilityMeasure self.P
+  UniversalLaw.Spec.Side24.ConeMomentInterface.A : self.Ω → ℝ
+  UniversalLaw.Spec.Side24.ConeMomentInterface.A_law : MeasureTheory.Measure.map self.A self.P =
+      ProbabilityTheory.gaussianReal 0 (8 / 3)
+  UniversalLaw.Spec.Side24.ConeMomentInterface.s : self.Ω → ℝ
+  UniversalLaw.Spec.Side24.ConeMomentInterface.x : self.Ω → ℝ
+  UniversalLaw.Spec.Side24.ConeMomentInterface.y : self.Ω → ℝ
+  UniversalLaw.Spec.Side24.ConeMomentInterface.sxy_law : MeasureTheory.Measure.map
+        (fun ω => (self.s ω, self.x ω, self.y ω)) self.P =
+      (ProbabilityTheory.gaussianReal 0 (5 / 3)).prod
+        ((ProbabilityTheory.gaussianReal 0 1).prod (ProbabilityTheory.gaussianReal 0 1))
+constructor:
+  UniversalLaw.Spec.Side24.ConeMomentInterface.mk (Ω : Type) [mΩ : MeasurableSpace Ω] (P : MeasureTheory.Measure Ω)
+    [isProb : MeasureTheory.IsProbabilityMeasure P] (A : Ω → ℝ)
+    (A_law : MeasureTheory.Measure.map A P = ProbabilityTheory.gaussianReal 0 (8 / 3)) (s x y : Ω → ℝ)
+    (sxy_law :
+      MeasureTheory.Measure.map (fun ω => (s ω, x ω, y ω)) P =
+        (ProbabilityTheory.gaussianReal 0 (5 / 3)).prod
+          ((ProbabilityTheory.gaussianReal 0 1).prod (ProbabilityTheory.gaussianReal 0 1))) :
+    UniversalLaw.Spec.Side24.ConeMomentInterface
+UniversalLaw.Proofs.Side24Interfaces.rayleighSquareLaw : ∀ (I : UniversalLaw.Spec.Side24.ConeMomentInterface),
+  UniversalLaw.Spec.Side24.RayleighSquareLaw I
+<SCRATCH>/lvs/round4/verify_rl/scratch.lean:343:45: error: Type mismatch
+  true
+has type
+  Bool
+but is expected to have type
+  MessageData
+<SCRATCH>/lvs/round4/verify_rl/scratch.lean:343:57: error: Type mismatch
+  false
+has type
+  Bool
+but is expected to have type
+  MessageData
+<SCRATCH>/lvs/round4/verify_rl/scratch.lean:359:31: error: Application type mismatch: The argument
+  isThm
+has type
+  MessageData
+but is expected to have type
+  Bool
+in the application
+  headOk && argsOk && isThm
+AUDIT thm prop=true unsafe=false UniversalLaw.Proofs.Side24Interfaces.Aux.rl_Ioi_inter_eq
+AUDIT thm prop=true unsafe=false UniversalLaw.Proofs.Side24Interfaces.Aux.rl_Ioi_inter_eq._simp_1_1
+AUDIT thm prop=true unsafe=false UniversalLaw.Proofs.Side24Interfaces.Aux.rl_Ioi_inter_eq._simp_1_2
+AUDIT thm prop=true unsafe=false UniversalLaw.Proofs.Side24Interfaces.Aux.rl_Ioi_inter_eq._simp_1_3
+AUDIT thm prop=true unsafe=false UniversalLaw.Proofs.Side24Interfaces.Aux.rl_aemeasurable_triple
+AUDIT thm prop=true unsafe=false UniversalLaw.Proofs.Side24Interfaces.Aux.rl_aemeasurable_xy
+AUDIT thm prop=true unsafe=false UniversalLaw.Proofs.Side24Interfaces.Aux.rl_angular_integral
+AUDIT thm prop=true unsafe=false UniversalLaw.Proofs.Side24Interfaces.Aux.rl_disk_integral
+AUDIT thm prop=true unsafe=false UniversalLaw.Proofs.Side24Interfaces.Aux.rl_disk_integral._simp_1_1
+AUDIT thm prop=true unsafe=false UniversalLaw.Proofs.Side24Interfaces.Aux.rl_disk_integral._simp_1_2
+AUDIT thm prop=true unsafe=false UniversalLaw.Proofs.Side24Interfaces.Aux.rl_disk_integral._simp_1_3
+AUDIT thm prop=true unsafe=false UniversalLaw.Proofs.Side24Interfaces.Aux.rl_disk_integral._simp_1_4
+AUDIT thm prop=true unsafe=false UniversalLaw.Proofs.Side24Interfaces.Aux.rl_disk_integral._simp_1_5
+AUDIT thm prop=true unsafe=false UniversalLaw.Proofs.Side24Interfaces.Aux.rl_disk_integral._simp_1_6
+AUDIT thm prop=true unsafe=false UniversalLaw.Proofs.Side24Interfaces.Aux.rl_disk_integral._simp_1_7
+AUDIT thm prop=true unsafe=false UniversalLaw.Proofs.Side24Interfaces.Aux.rl_disk_measure
+AUDIT thm prop=true unsafe=false UniversalLaw.Proofs.Side24Interfaces.Aux.rl_law_xy
+AUDIT thm prop=true unsafe=false UniversalLaw.Proofs.Side24Interfaces.Aux.rl_measurableSet_disk
+AUDIT thm prop=true unsafe=false UniversalLaw.Proofs.Side24Interfaces.Aux.rl_measurableSet_radial
+AUDIT thm prop=true unsafe=false UniversalLaw.Proofs.Side24Interfaces.Aux.rl_pdf_mul
+AUDIT thm prop=true unsafe=false UniversalLaw.Proofs.Side24Interfaces.Aux.rl_polar_integrand
+AUDIT thm prop=true unsafe=false UniversalLaw.Proofs.Side24Interfaces.Aux.rl_prob_eq_disk_measure
+AUDIT thm prop=true unsafe=false UniversalLaw.Proofs.Side24Interfaces.Aux.rl_radial_integral
+AUDIT thm prop=true unsafe=false UniversalLaw.Proofs.Side24Interfaces.Aux.rl_rhs_integral
+AUDIT thm prop=true unsafe=false UniversalLaw.Proofs.Side24Interfaces.rayleighSquareLaw
+AUDIT TOTAL 25 REFUSED 0
+exit=1

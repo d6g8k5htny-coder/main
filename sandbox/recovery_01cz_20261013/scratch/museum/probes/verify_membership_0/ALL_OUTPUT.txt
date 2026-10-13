@@ -1,0 +1,82 @@
+$ ./setup.sh
+Math- fixture re-verified with cd32303 verify_bytes: 24 files
+.git
+commit
+$ python3 -I -B v1_read_source.py
+(a) declared pin: commit=71400b94f6cb path-in-commit-tree=True -> read_source ACCEPTED 1118 bytes, sha256 ok
+(b) bd9fc9d6: commit=bd9fc9d603fd path-in-commit-tree=False -> read_source ACCEPTED 1118 bytes, sha256 ok
+(c) no such commit: commit=ffffffffffff path-in-commit-tree=False -> read_source ACCEPTED 1118 bytes, sha256 ok
+(d) bd9fc9d6, working-tree file removed: commit=bd9fc9d603fd path-in-commit-tree=False -> read_source REFUSED FileNotFoundError: [Errno 2] No such file or directory: '<SCRATCH>/museum/probes/verify_membership_0/wt_nofile/incoming/side24-identity-replay-20260926/RESULT.md'
+(e) declared pin, working-tree file removed: commit=71400b94f6cb path-in-commit-tree=True -> read_source ACCEPTED 1118 bytes, sha256 ok
+$ bash v2_ci_gate.sh
+--- diff of tools/museum_data.py vs cd32303 (lines changed):
+7
+--- incoming/ entries in tree of bd9fc9d603fd70946de364afcc3c902f09a5bf29: 0; in 71400b94: 3
+Museum projection verified: 11 reviewed bullets, 3 AMEND rows, 1 landed packet; scientific effect NONE.
+generator exit=0
+--- museum.json changes vs cd32303 (unique changed tokens):
+     25 <
+     25 <SHA:71400b94f6cb354a8cf7aba73ffede2138a64efa>
+     25 <SHA:bd9fc9d603fd70946de364afcc3c902f09a5bf29>
+     25 >
+packet side24-identity-replay-20260926 result.commit= bd9fc9d603fd70946de364afcc3c902f09a5bf29 url= https://raw.githubusercontent.com/d6g8k5htny-coder/main/bd9fc9d603fd70946de364afcc3c902f09a5bf29/incoming/side24-identity-replay-20260926/RESULT.md
+--- python3 -B -m unittest discover -s tests -p test_museum_data.py
+Ran 12 tests in 0.047s
+
+FAILED (failures=1)
+--- python3 -B tools/museum_check.py --math-root <fixture>
+# Subtest: actual pinned museum renders all cards and rejects cross-claim source, scope and replay substitutions
+ok 15 - actual pinned museum renders all cards and rejects cross-claim source, scope and replay substitutions
+# tests 15
+# pass 15
+# fail 0
+# skipped 0
+Museum source export and actual display integration verified. Scientific effect NONE.
+museum_check exit=0
+$ bash v2b_full_refresh.sh
+docs/site/IMPLEMENTATION.md
+docs/site/README.md
+docs/site/museum.json
+tests/test_museum_data.py
+tools/museum_data.py
+Museum projection verified: 11 reviewed bullets, 3 AMEND rows, 1 landed packet; scientific effect NONE.
+--- step 'Museum source projection and refusal controls':
+OK
+unittest exit=0
+# tests 15
+# pass 15
+# fail 0
+Museum source export and actual display integration verified. Scientific effect NONE.
+museum_check exit=0
+# tests 8
+# pass 8
+# fail 0
+--- membership of every main source path at bd9fc9d603fd70946de364afcc3c902f09a5bf29 (what raw.githubusercontent.com/<repo>/bd9fc9d603fd70946de364afcc3c902f09a5bf29/<path> serves):
+MEMBER     bd9fc9d6 docs/notebooks/SIDE24_PUBLIC_COEFFICIENTS.ipynb
+MEMBER     bd9fc9d6 STATUS.md
+MEMBER     bd9fc9d6 reviews/sard_g_successor_a1_a6_20260926/REVIEW.md
+NOT-MEMBER bd9fc9d6 incoming/side24-identity-replay-20260926/IDENTITY.json
+NOT-MEMBER bd9fc9d6 incoming/side24-identity-replay-20260926/output.json
+NOT-MEMBER bd9fc9d6 incoming/side24-identity-replay-20260926/RESULT.md
+$ node v3_render.mjs wt_base harness
+[harness] museum-state: Source projections and displayed source bytes verified. These checks establish byte identity, not mathematical acceptance.
+[harness] packet-cards: side24-identity-replay-20260926 engineering-only Packet — not STATUS Repository d6g8k5htny-coder/main Path incoming/side24-identity-replay-20260926/RESULT.md Commit 71400b94f6cb354a8cf7aba73ffede2138a64efa SHA-256 fa40a6b8afc413646081145d6d5d7b01cc4b5b4ddec32f4c6e82caa399e38cd8 This canvas explains 
+[harness] packet fetches: 200 71400b94:incoming/side24-identity-replay-20260926/RESULT.md
+$ node v3_render.mjs wt_base strict
+[strict] museum-state: Source projections and displayed source bytes verified. These checks establish byte identity, not mathematical acceptance.
+[strict] packet-cards: side24-identity-replay-20260926 engineering-only Packet — not STATUS Repository d6g8k5htny-coder/main Path incoming/side24-identity-replay-20260926/RESULT.md Commit 71400b94f6cb354a8cf7aba73ffede2138a64efa SHA-256 fa40a6b8afc413646081145d6d5d7b01cc4b5b4ddec32f4c6e82caa399e38cd8 This canvas explains 
+[strict] packet fetches: 200 71400b94:incoming/side24-identity-replay-20260926/RESULT.md
+$ node v3_render.mjs wt_bd9_full harness
+[harness] museum-state: Source projections and displayed source bytes verified. These checks establish byte identity, not mathematical acceptance.
+[harness] packet-cards: side24-identity-replay-20260926 engineering-only Packet — not STATUS Repository d6g8k5htny-coder/main Path incoming/side24-identity-replay-20260926/RESULT.md Commit bd9fc9d603fd70946de364afcc3c902f09a5bf29 SHA-256 fa40a6b8afc413646081145d6d5d7b01cc4b5b4ddec32f4c6e82caa399e38cd8 This canvas explains 
+[harness] packet fetches: 200 bd9fc9d6:incoming/side24-identity-replay-20260926/RESULT.md
+$ node v3_render.mjs wt_bd9_full strict
+[strict] museum-state: Pinned source projections verified. 1 source view(s) unavailable; no result inferred for those views.
+[strict] packet-cards: Packet source Unavailable: Source unavailable (404). No result inferred.
+[strict] packet fetches: 404 bd9fc9d6:incoming/side24-identity-replay-20260926/RESULT.md
+$ bash v4_env_dependent.sh
+--- (a) TMPDIR unset (/tmp, no repository):
+OK
+--- (b) TMPDIR inside the worktree:
+AssertionError: ValueError not raised
+FAILED (failures=1)

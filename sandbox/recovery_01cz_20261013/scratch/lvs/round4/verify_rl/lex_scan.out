@@ -1,0 +1,32 @@
+REFUSED_OR_WATCH_TOKENS_IN_CODE []
+HASH_COMMANDS []
+FUN_ANON_CONSTRUCTOR_PATTERNS []
+MATCH_USES []
+SET_OPTION []
+OPEN_LINES ['open MeasureTheory ProbabilityTheory UniversalLaw.Spec.Side24']
+COLUMN0_LINES:
+   1 import Specifications.Side24
+   39 namespace UniversalLaw.Proofs.Side24Interfaces
+   41 open MeasureTheory ProbabilityTheory UniversalLaw.Spec.Side24
+   43 namespace Aux
+   49 theorem rl_rhs_integral (a : ℝ) :
+   68 theorem rl_radial_integral (a : ℝ) (ha : 0 ≤ a) :
+   92 theorem rl_angular_integral : ∫ _θ in Set.Ioo (-Real.pi) Real.pi, (1 : ℝ) = 2 * Real.pi := by
+   101 theorem rl_pdf_mul (x y : ℝ) :
+   118 theorem rl_measurableSet_disk (a : ℝ) :
+   123 theorem rl_measurableSet_radial (a : ℝ) : MeasurableSet {r : ℝ | r ^ 2 ≤ a} :=
+   129 theorem rl_polar_integrand (a : ℝ) (p : ℝ × ℝ) :
+   142 theorem rl_Ioi_inter_eq (a : ℝ) (ha : 0 ≤ a) :
+   156 theorem rl_disk_integral (a : ℝ) (ha : 0 ≤ a) :
+   198 theorem rl_disk_measure (a : ℝ) (ha : 0 ≤ a) :
+   224 theorem rl_aemeasurable_triple (I : ConeMomentInterface) :
+   243 theorem rl_aemeasurable_xy (I : ConeMomentInterface) :
+   250 theorem rl_law_xy (I : ConeMomentInterface) :
+   262 theorem rl_prob_eq_disk_measure (I : ConeMomentInterface) (a : ℝ) :
+   271 end Aux
+   303 theorem rayleighSquareLaw (I : ConeMomentInterface) : UniversalLaw.Spec.Side24.RayleighSquareLaw I := by
+   313 end UniversalLaw.Proofs.Side24Interfaces
+LABEL_LINE 275 /-- Proves: `UniversalLaw.Spec.Side24.RayleighSquareLaw` (claim `side24-coefficient`).
+LABEL_LINE 276 Method: for `a ≥ 0`, `P {x^2 + y^2 ≤ a}` is the measure of the closed disk of radius `sqrt a`
+LABEL_LINE 287 Does not establish: the informal Section 1 display "The variable R^2 has density e^(-z/2)/2" of
+CLAIM_ID_IN_PROVES True

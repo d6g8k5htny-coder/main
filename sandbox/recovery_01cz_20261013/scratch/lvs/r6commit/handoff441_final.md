@@ -1,0 +1,42 @@
+**Receipt-binding handoff. Final head: `4a3fbadf56c807f7f538fb42ab304ab789d77878`** (tree `c2791586…`), one forward commit on the reviewed head `9e305ea5`. It was pushed as a fast-forward and the remote head was verified with `git ls-remote`. I am the only writer on this branch. Anthropic / Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`. Organizational-independence credit 0. Scientific effect NONE.
+
+**What the successor changes: metadata only.** Exactly five files change:
+- `specifications/lean_statements_20261010/REGISTER.json` (blob `84d0dd07` → `4ba43ed9`, 23 string leaves);
+- `specifications/lean_statements_20261010/README.md` and `SCOPE.md`;
+- `specifications/lean_statement_proofs_20261011/README.md` and `SCOPE.md`.
+
+No `.lean`, `lakefile.toml`, `lake-manifest.json`, `lean-toolchain`, `check.py`, test or workflow byte changes. The `SpecificationProofs/` tree is `cd4259a6…` at both heads.
+
+**Unchanged-source attestation against [5493661142](https://github.com/d6g8k5htny-coder/Math-/pull/441#pullrequestreview-5493661142).** Every identity that review names is byte-identical at `4a3fbadf` (`git rev-parse 4a3fbadf:<path>`):
+
+| path | blob at `9e305ea5` and `4a3fbadf` |
+|---|---|
+| `…proofs…/SpecificationProofs/Side24Images.lean` | `595eb11f6bc5eb39de1a5093ab29d92f4bf2c801` (sha256 `ca643c39…`, 49,482 B) |
+| `…proofs…/SpecificationProofs/Side24Elementary.lean` | `9d4d045c8c0452f3af817502e80168d3a5c22913` |
+| `…proofs…/SpecificationProofs/Side24Analysis.lean` | `64caafbc88b6ccd64cd60519866c53a3cb427028` |
+| `…proofs…/SpecificationProofs/Side24Covariance.lean` | `46303750e5a0c25b9ee50ecf12d8e64bcb25ab94` |
+| `…proofs…/SpecificationProofs.lean` | `ad71949dc3ada7019f5515644fd193434364b98e` |
+| `…proofs…/lakefile.toml`, `lake-manifest.json` | `0256ce64…`, `550a1b0c…` |
+| `…statements…/Specifications/Side24.lean` | `d77832273d8bd3f407ba39dfb33c02fdd21cf8db` |
+| `…statements…/lakefile.toml`, `lake-manifest.json` | `15113ca7…`, `95a952ce…` |
+| both `lean-toolchain` (Lean v4.34.1); Mathlib pin | `ba8ebf2d…`; `d13f23b723b8a846827a245b89c10fc7d3f11612` |
+
+The only reviewed artefact that changes is the registration, `REGISTER.json`. Its statements arrays, every `formal_progress` (138 `none`, 33 `specified`), the three anchors and every triage verdict are unchanged. Only the prose leaves that bind the receipt move. Per the review's own rule, the proof read carries forward by this attestation; the changed receipt prose is the part to re-read.
+
+**The original receipt stays bound to what it tested.** Run 38277458954, attempt 1, job 114906310832, on PR head `9e305ea5` and actual tested merge `1376175ce5536a6ac74cb03706d18e65fdb695fa` (parents `a0323b94`, `9e305ea5`): `kernel-checked`, `theorem_count` 78, artifact `lean-specification-proofs-38277458954-1` (sha256 `1f32d60e…`). The register and documents say that this merge's tree differs from the head's only outside both packets (13 files under `companions/torus_filtration_20261011/` and `.github/workflows/torus-filtration.yml`), and that both packets are byte-identical between the head and the merge. They never say "same tree", and the receipt is not relabelled for `4a3fbadf`.
+
+**Successor composition checks on `4a3fbadf`, named separately:** all five check runs succeeded on PR head `4a3fbadf`. Every job checked out, and each receipt records as `checked_commit`, the synthetic merge `0017d0ceeabed4dddcca69a9fb44c3f29a59280c` (parents `a0323b94`, `4a3fbadf`). Like `1376175c`, its tree differs from the head's only in the same 14 paths outside both packets; both packets are byte-identical between that head and that merge.
+- proof run [38285814238](https://github.com/d6g8k5htny-coder/Math-/actions/runs/38285814238) (attempt 1, job proof-evidence 114933796783): receipt `kernel-checked`, `leanchecker` PASS, `theorem_count` 78, 77 covered Props, worktree CLEAN. Its source-check receipt's `register_sha256` is `bcafecbb…`, the sha256 of `REGISTER.json` at `4a3fbadf`. Artifact `lean-specification-proofs-38285814238-1` (id 11763666123, 47,043 B), GitHub digest sha256 `500205d9602263d789f3fed3cf1c0442b69f92fef7855cce8ff2cf0b8fb1d6da`;
+- statement run [38285814239](https://github.com/d6g8k5htny-coder/Math-/actions/runs/38285814239) (`lean-specifications.yml`, job statement-evidence 114933796507): receipt `specified`, 150 registered declarations; artifact `lean-specifications-38285814239-1` (id 11763118651), digest `d9b9b246…`;
+- aggregate run [38285815086](https://github.com/d6g8k5htny-coder/Math-/actions/runs/38285815086): downstream-replay, formal / formal-evidence, math-downstream-gates all success.
+These facts come from the job logs and the Actions API; this lane did not download the artifacts. They are a fresh composition check of the successor. They do not re-label run 38277458954, which stays the round-6 theorems' first receipt.
+
+**The audit's qualifications stay visible.**
+- The statement packet's workflow file is `.github/workflows/lean-specifications.yml`; my earlier PR-body slip is corrected there.
+- The hosted source-only `test_check.py` suites skip the 3 `LeanHelpers` tests in each mode, in both packets. `LeanHelpers` then runs and passes in normal mode only.
+- Locally, with `lake` available, the same suites ran 97 and 70 tests in both modes with no skip. That is a record of a local computation, not a receipt.
+
+Nothing else is open on the author side.
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_

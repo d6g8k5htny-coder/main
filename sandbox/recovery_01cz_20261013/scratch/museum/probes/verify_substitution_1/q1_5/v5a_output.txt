@@ -1,0 +1,9 @@
+0 baseline CLAIM_SPECS: ACCEPTED
+1 D2 command = 'python invented-solver.py' (in no source): ACCEPTED
+   D2 replay: python invented-solver.py | source README.md
+2 swap D2 <-> D6 commands: ACCEPTED
+   d2-lifetime-remainder  class=ACCEPT-scoped  command='python -B -S frontiers/full_price_20260924/full_price.py'
+   d6-p15-full-price      class=ACCEPT-scoped  command="python -B -S -m unittest discover -s frontiers/three_fronts_20260924 -p 'test_*.py' -v"
+3 D5-all-height review pointer -> pr16 REVIEW.md (shipped negative control): REFUSED (ValueError: review pointer differs from audited projection)
+4 P15 counterexample command = D6 full_price.py: REFUSED (KeyError: 'https://github.com/d6g8k5htny-coder/main/issues/67')
+5 regenerated claims vs shipped museum.json: differing top-level fields [('d2-lifetime-remainder', 'replay'), ('d6-p15-full-price', 'replay')] | differing replay fields [('d2-lifetime-remainder', 'command'), ('d6-p15-full-price', 'command')]

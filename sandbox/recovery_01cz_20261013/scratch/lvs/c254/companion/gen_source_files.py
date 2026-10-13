@@ -1,0 +1,266 @@
+#!/usr/bin/env python3
+"""Regenerate companions/torus_filtration_20261011/SOURCE_FILES.json from the worktree (stdlib only).
+
+Lives outside the repository on purpose: the inventory it writes is derived from the
+C254 handoff originals (hashes efa80d28… / 1fed3eda…) and, since the C263/C264
+registration, from the C263 and C264 handoffs (d74dc8b2… / 261dd052…, whose successors
+346eea94… / 3d6b0d6b… the companion registers); the fixed modules must carry exactly
+the same declaration names under namespace TorusFiltration (the three C264 names ending
+in `ι` are spelled `…_iota` / `…Iota…` in the successor, per the C264 repair handoff). Since
+2026-10-12 the companion also registers the owner-authored OrdinaryH0Controls.lean (C264 owner
+task item 4; no handoff bytes): its inventory is this lane's own module, recorded in check.py
+OWNER_MODULES with its sha256 and byte count; since the Field adapter (Math- #428 comments 6112932068 and
+6124097060) also the owner-authored SuperlevelBarField.lean, recorded the same way, and the one external
+input it imports (check.py EXTERNAL_INPUTS, copied into the manifest's external_inputs). The
+generator recomputes every file identity (bytes, sha256, git blob) from the worktree,
+verifies the module inventories against the Lean files when they are present, requires
+each registered C26x module to carry exactly the successor sha256 recorded in check.py
+(SUCCESSORS) and each owner-authored module the identity recorded in OWNER_MODULES, and refuses to run when the companion directory holds files the manifest
+cannot account for.
+
+    python3 -B -S gen_source_files.py [--worktree PATH] [--check] [--allow-missing]
+
+--check compares and exits 1 on drift without writing. --allow-missing tolerates
+absent required files (before the integrator places the modules); the integrator
+runs the generator WITHOUT it, last, after every other companion byte is final.
+Scientific effect NONE; this writes an identity inventory, not a status.
+"""
+import argparse
+import importlib.util
+import json
+from pathlib import Path
+import sys
+
+DEFAULT_WORKTREE = Path('<SCRATCH>/repos/math_c264ctl')
+IGNORED_SUFFIXES = ('.olean', '.ilean', '.trace', '.hash', '.pyc')
+IGNORED_NAMES = ('__pycache__', '.lake')
+
+THEOREMS = {
+    'TorusTopology': [
+        'torus_field_latticeVec_formula', 'torus_basis_sum_eq_latticeVec', 'torus_lattice_mem_iff',
+        'torus_proj_surjective', 'torus_proj_continuous', 'torus_proj_eq_iff', 'torus_control_lattice_translate',
+        'torus_proj_isCoveringMap', 'torus_compact', 'torus_pathConnectedSpace', 'torus_field_periodic_formula',
+        'torus_periodic_respects', 'torus_descend_proj', 'torus_descend_continuous', 'torus_path_lift_from',
+        'torus_control_constant_path_endpoint', 'torus_control_no_arbitrary_endpoint', 'torus_higher_path_iff',
+        'torus_strict_higher_path_iff', 'torus_closed_higher_path_iff', 'torus_global_max_iff'],
+    'ClosedSuperlevel': [
+        'superlevel_control_closed_endpoint', 'superlevel_control_strict_endpoint', 'superlevel_control_parameter_sign',
+        'superlevel_control_inclusion_direction', 'superlevel_control_essential', 'superlevel_mono', 'superlevel_isClosed',
+        'superlevel_inclusion_id', 'superlevel_inclusion_comp', 'superlevel_mem_at_own_height', 'superlevel_neg_height',
+        'superlevel_control_strict_thresholds', 'superlevel_componentMap_mk', 'superlevel_componentMap_id',
+        'superlevel_componentMap_comp', 'superlevel_componentInclusion_id', 'superlevel_componentInclusion_comp',
+        'superlevel_component_eq_iff_joinedIn', 'superlevel_h0Filtration_map_id', 'superlevel_h0Filtration_map_comp'],
+    # C263 handoff (Math- #428 comment 6113033545, DECLARATIONS.json: 20 theorems, 1 abbrev, 3 defs, 0 instances)
+    'SuperlevelBar': [
+        'superlevelBar_essential_iff', 'superlevelBar_mem_lt_start', 'superlevelBar_clearance_bddAbove',
+        'superlevelBar_clearance_empty_of_essential', 'superlevelBar_death_eq_zero_of_empty',
+        'superlevelBar_death_eq_zero_of_essential', 'superlevelBar_death_eq_sSup_of_nonempty', 'superlevelBar_path_minimum',
+        'superlevelBar_clearance_nonempty', 'superlevelBar_clearance_nonempty_iff', 'superlevelBar_clearance_downward',
+        'superlevelBar_clearance_improve', 'superlevelBar_strict_cut', 'superlevelBar_death_le_start_of_nonempty',
+        'superlevelBar_death_le_start', 'superlevelBar_clearance_eq_Iio', 'superlevelBar_death_not_mem_clearance',
+        'superlevelBar_cut_unique', 'superlevelBar_death_const', 'superlevelBar_control_negative_essential'],
+    # C264 handoff (Math- #428 comments 6113276830 and 6113372506: 20 theorems, 7 defs; the successor's file order,
+    # in which the two filtration declarations precede the homology ones, and the ASCII `iota` spellings)
+    'OrdinaryH0': [
+        'ordinaryH0_componentCoproductMap_iota', 'ordinaryH0_componentFiltration_map_iota',
+        'ordinaryH0_simplicialPointClass_iso', 'ordinaryH0_simplicialPointClass_map', 'ordinaryH0_toSSet_pointMap',
+        'ordinaryH0_pointClass_map', 'ordinaryH0_pointClass_iso', 'ordinaryH0_componentIota_isoInv', 'ordinaryH0_hom_ext',
+        'ordinaryH0_iso_naturality', 'ordinaryH0_pointClass_augmentation', 'ordinaryH0_pointClass_ne_zero',
+        'ordinaryH0_pointClass_eq_of_component_eq', 'ordinaryH0_sameComponent_difference_zero',
+        'ordinaryH0_pointClass_ne_of_component_ne', 'ordinaryH0_pointClass_eq_iff', 'ordinaryH0_difference_map',
+        'ordinaryH0_difference_map_eq_zero_iff', 'ordinaryH0_filtration_naturality',
+        'ordinaryH0_filtration_difference_zero_iff_joinedIn'],
+    # owner-authored (this lane), C264 owner task item 4 (Math- #428 comment 6113277485) against the CONTROL_OBLIGATIONS
+    # of comment 6113277173: 37 theorems, 3 abbrevs, 4 defs, 0 instances, in file order
+    'OrdinaryH0Controls': [
+        'ordinaryH0Control_intCoeff_id_ne_zero', 'ordinaryH0Control_mod2Coeff_id_ne_zero',
+        'ordinaryH0Control_mod2Coeff_id_add_self', 'ordinaryH0Control_zeroCoeff_isZero',
+        'ordinaryH0Control_zeroCoeff_id_eq_zero', 'ordinaryH0Control_empty_components',
+        'ordinaryH0Control_empty_componentCoproduct_isZero', 'ordinaryH0Control_empty_h0_isZero',
+        'ordinaryH0Control_zeroCoeff_componentCoproduct_isZero', 'ordinaryH0Control_zeroCoeff_h0_isZero',
+        'ordinaryH0Control_point_augmentation', 'ordinaryH0Control_point_ne_zero', 'ordinaryH0Control_point_h0_not_isZero',
+        'ordinaryH0Control_line_component_eq', 'ordinaryH0Control_line_difference_zero_int',
+        'ordinaryH0Control_line_difference_zero_zeroCoeff', 'ordinaryH0Control_line_classes_ne_zero',
+        'ordinaryH0Control_discrete_component_ne', 'ordinaryH0Control_bool_component_ne',
+        'ordinaryH0Control_bool_pointClass_ne', 'ordinaryH0Control_bool_pointClass_ne_mod2',
+        'ordinaryH0Control_collapse_difference_zero', 'ordinaryH0Control_collapse_image_ne_zero',
+        'ordinaryH0Control_collapse_difference_dies_classes_survive', 'ordinaryH0Control_square_differences_ne_zero',
+        'ordinaryH0Control_fst_difference_zero', 'ordinaryH0Control_fst_difference_ne_zero',
+        'ordinaryH0Control_bool_zeroCoeff_eq', 'ordinaryH0Control_point_zeroCoeff_eq_zero',
+        'ordinaryH0Control_separation_needs_nonzero', 'ordinaryH0Control_nonvanishing_needs_nonzero',
+        'ordinaryH0Control_parabola_le', 'ordinaryH0Control_parabola_strict_growth',
+        'ordinaryH0Control_parabola_not_joined_quarter', 'ordinaryH0Control_parabola_joined',
+        'ordinaryH0Control_parabola_difference_zero', 'ordinaryH0Control_parabola_strict_difference_ne_zero'],
+    # owner-authored (this lane), the C263 Field adapter (Math- #428 comments 6112932068 and 6124097060): 12 theorems,
+    # 2 defs, in file order
+    'SuperlevelBarField': [
+        'superlevelBarField_continuous', 'superlevelBarField_nonempty', 'superlevelBarField_deathHeight_eq',
+        'superlevelBarField_isEssential_iff', 'superlevelBarField_elderPartner_iff', 'superlevelBarField_essential_unique',
+        'superlevelBarField_deathHeight_unique', 'superlevelBarField_elderPartner_unique',
+        'superlevelBarField_shift_deathHeight_const', 'superlevelBarField_const_smooth', 'superlevelBarField_const_periodic',
+        'superlevelBarField_control_essential_free']}
+DEFINITIONS = {
+    'TorusTopology': {
+        'abbrev': ['torus_E', 'torus_quotient'],
+        'def': ['torus_latticeVec', 'torus_periodBasis', 'torus_periodLattice', 'torus_proj', 'torus_isPeriodic',
+                'torus_descend'],
+        'instance': ['torus_lattice_discrete', 'torus_lattice_addSubgroup_discrete', 'torus_lattice_isZLattice']},
+    'ClosedSuperlevel': {
+        'abbrev': [],
+        'def': ['superlevel_set', 'superlevel_inclusion', 'superlevel_componentMap', 'superlevel_componentInclusion',
+                'superlevel_filtration', 'superlevel_h0Filtration'],
+        'instance': []},
+    'SuperlevelBar': {
+        'abbrev': ['superlevelBar_E'],
+        'def': ['superlevelBar_isEssential', 'superlevelBar_clearanceSet', 'superlevelBar_deathHeight'],
+        'instance': []},
+    'OrdinaryH0': {
+        'abbrev': [],
+        'def': ['ordinaryH0_componentFunctor', 'ordinaryH0_componentCoproductFunctor', 'ordinaryH0_componentFiltration',
+                'ordinaryH0_simplicialPointClass', 'ordinaryH0_pointClass', 'ordinaryH0_naturalIso', 'ordinaryH0_filtrationIso'],
+        'instance': []},
+    'OrdinaryH0Controls': {
+        'abbrev': ['ordinaryH0Control_intCoeff', 'ordinaryH0Control_zeroCoeff', 'ordinaryH0Control_mod2Coeff'],
+        'def': ['ordinaryH0Control_collapse', 'ordinaryH0Control_fst', 'ordinaryH0Control_parabolaLeft',
+                'ordinaryH0Control_parabolaRight'],
+        'instance': []},
+    'SuperlevelBarField': {
+        'abbrev': [],
+        'def': ['superlevelBarField_interface', 'superlevelBarField_shift'],
+        'instance': []}}
+PROVENANCE = {
+    'claim': '8a5c7a24-784b-4aaa-b951-cd9f37b0dc64',
+    'handoff_pr': 'd6g8k5htny-coder/Math-#419',
+    'handoff_comments': {
+        'modules': '6111056103', 'overlay': '6111059166', 'nonauthor_source_review_compilation_hold': '6111059498',
+        'implementer_report': '6111059848', 'local_elaboration_report': '6111093545', 'pickup_this_lane': '6111139060',
+        'c255_route_finding_d2_pins_companion_route': '6111255007'},
+    'original_sha256': {
+        'ResearchFormalCoreR1/TorusTopology.lean': 'efa80d2879758b6d6473a0024a308ff758c308cdc8e4b5f400f39dde63a7f6f4',
+        'ResearchFormalCoreR1/ClosedSuperlevel.lean': '1fed3edada12b4dc7f5fcf874dae7ccde5d8f65af63cf103159debe58ba6789e',
+        # C263 and C264 handoff bytes as posted on Math- #428 (comments 6113033147 and 6113276830), before the fixes
+        'C263-handoff/SuperlevelBar.lean': 'd74dc8b2c25eff5b90ce7133e51a0888c7885cae24ca6d5e648bc514089637a8',
+        'C264-handoff/OrdinaryH0.lean': '261dd0526d42890d8a4ac1225fcf47228eb3c9799af4106cb643a528bcbf968e'},
+    'original_bytes': {
+        'ResearchFormalCoreR1/TorusTopology.lean': 11542, 'ResearchFormalCoreR1/ClosedSuperlevel.lean': 7827,
+        'C263-handoff/SuperlevelBar.lean': 14904, 'C264-handoff/OrdinaryH0.lean': 18469},
+    'original_status': 'NOT_COMPILED',
+    'namespace_mapping': ('ResearchFormalCoreR1.<n> (handoff) -> TorusFiltration.<n> (companion) for TorusTopology and '
+                          'ClosedSuperlevel; SuperlevelBar and OrdinaryH0 were authored directly in namespace TorusFiltration, '
+                          'and so were the owner-authored OrdinaryH0Controls and SuperlevelBarField'),
+    'source_author': 'OpenAI/Codex lane (C254), delegated AI work for Dylan Roy',
+    'compile_fixes_and_companion': 'Anthropic/Claude lane, delegated AI work for Dylan Roy',
+    'organizational_independence_credit': 0,
+    'human_review': 'none',
+    # the C26x successor record (handoff and successor identities, fixes, census, comments, FORMAL HOLD) is the
+    # checker's SUCCESSORS constant, copied in main() so that one text is the source of both files
+    'successors': None,
+    # the owner-authored module record (identity, author, census, comments, review status) is the checker's OWNER_MODULES
+    # constant, copied in main() in the same way
+    'owner_modules': None}
+
+
+def load_checker(side):
+    spec = importlib.util.spec_from_file_location('torus_filtration_check', side / 'check.py')
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument('--worktree', type=Path, default=DEFAULT_WORKTREE)
+    parser.add_argument('--check', action='store_true', help='compare only; exit 1 on drift')
+    parser.add_argument('--allow-missing', action='store_true', help='tolerate absent required files (pre-integration)')
+    args = parser.parse_args()
+    root = args.worktree.resolve()
+    checker = load_checker(root / 'companions/torus_filtration_20261011')
+    side = root / checker.PACKAGE
+    failures = []
+    files = {}
+    for path in checker.REQUIRED_FILES:
+        target = root / path
+        if target.is_file():
+            files[path] = checker.identity(target.read_bytes())
+        else:
+            failures.append('missing required file: ' + path)
+    accounted = {Path(p).name for p in checker.REQUIRED_FILES if p.startswith(checker.PACKAGE + '/')} | {'SOURCE_FILES.json'}
+    for entry in sorted(side.iterdir()):
+        if entry.name in accounted or entry.name in IGNORED_NAMES or entry.name.endswith(IGNORED_SUFFIXES):
+            continue
+        failures.append('unaccounted file in companion directory: ' + entry.name)
+    for module in checker.MODULES:
+        path = side / (module + '.lean')
+        if not path.is_file():
+            continue
+        try:
+            scan = checker.scan_module(path.read_text(encoding='utf-8'), module)
+        except ValueError as failure:
+            failures.append(str(failure))
+            continue
+        if scan['theorem'] != THEOREMS[module]:
+            failures.append('theorem inventory differs from the handoff originals: ' + module)
+        for kind in ('abbrev', 'def', 'instance'):
+            if scan[kind] != DEFINITIONS[module][kind]:
+                failures.append(kind + ' inventory differs from the handoff originals: ' + module)
+    # the registered C26x successors must carry exactly the recorded successor bytes (check.py SUCCESSORS)
+    for name, record in checker.SUCCESSORS.items():
+        path = side / name
+        if path.is_file():
+            actual = checker.identity(path.read_bytes())
+            if (actual['sha256'], actual['bytes']) != (record['successor_sha256'], record['successor_bytes']):
+                failures.append('registered module is not the recorded successor: ' + name)
+    # the owner-authored modules must carry exactly the recorded identity (check.py OWNER_MODULES)
+    for name, record in checker.OWNER_MODULES.items():
+        path = side / name
+        if path.is_file():
+            actual = checker.identity(path.read_bytes())
+            if (actual['sha256'], actual['bytes']) != (record['sha256'], record['bytes']):
+                failures.append('owner-authored module is not the recorded identity: ' + name)
+    # the external inputs must carry exactly the recorded identity (check.py EXTERNAL_INPUTS)
+    for path, record in checker.EXTERNAL_INPUTS.items():
+        target = root / path
+        if not target.is_file() or target.is_symlink():
+            failures.append('external input absent or a symlink: ' + path)
+            continue
+        actual = checker.identity(target.read_bytes())
+        if actual != {k: record[k] for k in ('bytes', 'sha256', 'git_blob')}:
+            failures.append('external input is not the recorded identity: ' + path)
+    root_module = side / (checker.ROOT_MODULE + '.lean')
+    if root_module.is_file() and root_module.read_text(encoding='utf-8') != checker.ROOT_SOURCE:
+        failures.append('root module text differs from the fixed import list')
+    missing = [f for f in failures if f.startswith('missing required file')]
+    hard = [f for f in failures if not f.startswith('missing required file')]
+    if hard or (missing and not args.allow_missing):
+        for failure in failures:
+            print('GEN_SOURCE_FILES_FAIL: ' + failure, file=sys.stderr)
+        return 1
+    provenance = dict(PROVENANCE, successors=checker.SUCCESSORS, owner_modules=checker.OWNER_MODULES)
+    meta = {'schema': 1, 'scientific_effect': 'NONE', 'alignment_status': 'PENDING_INDEPENDENT_REVIEW',
+            'namespace': checker.NAMESPACE, 'root_module': checker.ROOT_MODULE, 'modules': list(checker.MODULES),
+            'definitions': DEFINITIONS, 'theorems': THEOREMS, 'files': files, 'provenance': provenance,
+            # compiler-generated user-named auxiliaries the elaborated census lists for these modules at the pin (C262 G2
+            # closure); the C263/C264 modules and OrdinaryH0Controls add none (their generated constants are all internal:
+            # eq_1, _proof_n, _simp)
+            'census_auxiliary': ['TorusFiltration.torus_periodBasis.congr_simp'],
+            # the statement packet's Field module that SuperlevelBarField imports, identity pinned in check.py
+            'external_inputs': checker.EXTERNAL_INPUTS}
+    rendered = json.dumps(meta, indent=2, sort_keys=True) + '\n'
+    target = side / 'SOURCE_FILES.json'
+    current = target.read_text(encoding='utf-8') if target.is_file() else None
+    if args.check:
+        if current != rendered:
+            print('GEN_SOURCE_FILES_DRIFT: SOURCE_FILES.json does not match the worktree', file=sys.stderr)
+            return 1
+        print('SOURCE_FILES_MATCH: %d files, %d theorems, %d definitions%s' % (
+            len(files), sum(len(v) for v in THEOREMS.values()),
+            sum(len(k) for m in DEFINITIONS.values() for k in m.values()),
+            '; missing tolerated: ' + ', '.join(missing) if missing else ''))
+        return 0
+    target.write_text(rendered, encoding='utf-8')
+    print('SOURCE_FILES_WRITTEN: %s (%d files%s)' % (target, len(files), '; MISSING: ' + '; '.join(missing) if missing else ''))
+    return 0
+
+
+if __name__ == '__main__':
+    sys.exit(main())

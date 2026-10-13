@@ -1,0 +1,30 @@
+@[reducible] def UniversalLaw.Spec.Side24.E : ℕ → Type :=
+fun d => EuclideanSpace ℝ (Fin d)
+def UniversalLaw.Spec.Side24.Kinf : (d : ℕ) → UniversalLaw.Spec.Side24.E d → ℝ :=
+fun d z => Real.exp (-‖z‖ ^ 2 / 2)
+def UniversalLaw.Spec.Side24.derivContraction : (d : ℕ) →
+  (UniversalLaw.Spec.Side24.E d → ℝ) → UniversalLaw.Spec.Side24.E d → List (UniversalLaw.Spec.Side24.E d) → ℝ :=
+fun d K x l => (iteratedFDeriv ℝ l.length K x) fun i => l.get i
+def UniversalLaw.Spec.Side24.gradCov : (d : ℕ) →
+  (UniversalLaw.Spec.Side24.E d → ℝ) → (Fin d → UniversalLaw.Spec.Side24.E d) → Matrix (Fin d) (Fin d) ℝ :=
+fun d K R => Matrix.of fun i j => -UniversalLaw.Spec.Side24.derivContraction d K 0 [R i, R j]
+def UniversalLaw.Spec.Side24.pinCov : (d : ℕ) →
+  (UniversalLaw.Spec.Side24.E d → ℝ) →
+    UniversalLaw.Spec.Side24.E d → (Fin d → UniversalLaw.Spec.Side24.E d) → Matrix (Fin d) (Fin d) ℝ :=
+fun d K u R => Matrix.of fun i j => UniversalLaw.Spec.Side24.derivContraction d K 0 [u, R i, u, R j]
+def UniversalLaw.Spec.Side24.gaussDensity : (n : ℕ) → Matrix (Fin n) (Fin n) ℝ → (Fin n → ℝ) → ℝ :=
+fun n C x => (2 * Real.pi) ^ (-↑n / 2) * C.det ^ (-1 / 2) * Real.exp (-(x ⬝ᵥ C⁻¹.mulVec x) / 2)
+def UniversalLaw.Spec.Side24.ReferenceOddAndPinBlocks : Prop :=
+∀ (d : ℕ),
+  d = 2 ∨ d = 3 →
+    ∀ (hd : 0 < d) (R : Fin d → UniversalLaw.Spec.Side24.E d),
+      Orthonormal ℝ R →
+        UniversalLaw.Spec.Side24.gradCov d (UniversalLaw.Spec.Side24.Kinf d) R = 1 ∧
+          UniversalLaw.Spec.Side24.thirdVar d (UniversalLaw.Spec.Side24.Kinf d) (R ⟨0, hd⟩) = 15 ∧
+            (UniversalLaw.Spec.Side24.thirdGradCov d (UniversalLaw.Spec.Side24.Kinf d) (R ⟨0, hd⟩) R = fun j =>
+                if j = ⟨0, hd⟩ then -3 else 0) ∧
+              (UniversalLaw.Spec.Side24.pinCov d (UniversalLaw.Spec.Side24.Kinf d) (R ⟨0, hd⟩) R =
+                  Matrix.diagonal fun i => if i = ⟨0, hd⟩ then 3 else 1) ∧
+                UniversalLaw.Spec.Side24.condThirdVariance d (UniversalLaw.Spec.Side24.Kinf d) (R ⟨0, hd⟩) R = 6
+'UniversalLaw.Spec.Side24.ReferencePinDensityProduct' depends on axioms: [propext, Classical.choice, Quot.sound]
+EXIT=0

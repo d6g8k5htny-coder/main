@@ -1,0 +1,43 @@
+declared main snapshot (STATUS.md / packet commit): 71400b94f6cb354a8cf7aba73ffede2138a64efa
+MAIN_COMMIT constant: 71400b94f6cb354a8cf7aba73ffede2138a64efa | referenced elsewhere in museum_data.py: 0 times
+packets in tree at snapshot: ['incoming/side24-identity-replay-20260926']
+packets in museum.json     : ['incoming/side24-identity-replay-20260926']
+build(main_root=git objects @/home/user/main) == cd32303 museum.json: True
+build(main_root=plain fixture) == cd32303 museum.json: True
+Museum projection verified: 11 reviewed bullets, 3 AMEND rows, 1 landed packet; scientific effect NONE.
+--- (a) git ls-tree -d a12c178c0f857a130cf434e9efd44233a038195b incoming/:
+incoming/side24-chart-claude-20260926
+incoming/side24-identity-replay-20260926
+# pass 15
+# fail 0
+Museum source export and actual display integration verified. Scientific effect NONE.
+museum_check exit=0
+[strict] manifest status_source.commit=a12c178c packets=["side24-identity-replay-20260926@a12c178c"]
+[strict] museum-state: Source projections and displayed source bytes verified. These checks establish byte identity, not mathematical acceptance.
+[strict] packet requests: 200 main@a12c178c:incoming/side24-identity-replay-20260926/RESULT.md
+--- (b) real cd32303 manifest with packets:[] (git ls-tree -d 71400b94 incoming/ -> incoming/side24-identity-replay-20260926)
+[strict] manifest status_source.commit=71400b94 packets=[]
+[strict] museum-state: Source projections and displayed source bytes verified. These checks establish byte identity, not mathematical acceptance.
+[strict] packet-cards: No packet appears in this pinned projection.
+--- membership code paths in the three files (no ls-tree / incoming enumeration / MAIN_COMMIT use):
+../../cd32303/tools/museum_data.py:20:MAIN_COMMIT = "71400b94f6cb354a8cf7aba73ffede2138a64efa"
+../../cd32303/tools/museum_data.py:218:  "incoming/side24-identity-replay-20260926/IDENTITY.json": {
+../../cd32303/tools/museum_data.py:221:    "path": "incoming/side24-identity-replay-20260926/IDENTITY.json",
+../../cd32303/tools/museum_data.py:226:  "incoming/side24-identity-replay-20260926/output.json": {
+../../cd32303/tools/museum_data.py:229:    "path": "incoming/side24-identity-replay-20260926/output.json",
+../../cd32303/tools/museum_data.py:242:  "incoming/side24-identity-replay-20260926/RESULT.md": {
+../../cd32303/tools/museum_data.py:245:    "path": "incoming/side24-identity-replay-20260926/RESULT.md",
+../../cd32303/tools/museum_data.py:456:    prefix = "incoming/side24-identity-replay-20260926/"
+../../cd32303/tools/museum_data.py:518:    identity = json.loads(raw_files["incoming/side24-identity-replay-20260926/IDENTITY.json"])
+../../cd32303/tools/museum_data.py:519:    output = json.loads(raw_files["incoming/side24-identity-replay-20260926/output.json"])
+../../cd32303/docs/site/museum.mjs:106:    if(packet.result.repository!=='d6g8k5htny-coder/main'||packet.result.path!==`incoming/${packet.id}/RESULT.md`)throw Error('Packet result path differs from its identity');
+../../cd32303/docs/site/museum.mjs:176:export async function startMuseum({document=globalThis.document,fetcher=globalThis.fetch,search=globalThis.location?.search||'',geometryLoader=()=>import('./geometry.mjs')}={}){
+Museum projection verified: 11 reviewed bullets, 3 AMEND rows, 1 landed packet; scientific effect NONE.
+packets in regenerated museum.json: []
+museum_check exit=1
+# Subtest: lifetime source identity must match D2 and packets must use the pinned main snapshot
+ok 6 - lifetime source identity must match D2 and packets must use the pinned main snapshot
+# Subtest: packet index refuses a foreign packet, changed scientific effect and mismatched result path
+ok 13 - packet index refuses a foreign packet, changed scientific effect and mismatched result path
+not ok 15 - actual pinned museum renders all cards and rejects cross-claim source, scope and replay substitutions
+    The input did not match the regular expression /packet — not STATUS/. Input:

@@ -1,0 +1,804 @@
+{
+ "summary": "Read-only reconnaissance of peer-lane activity on d6g8k5htny-coder/main (origin/main = f6deeba775c27e731366d4772dfe58744425236f, 564 commits since 2026-09-26) and the Math- proof vault (6c020d6a72936632f2055122e71a7818a4ff497e). Key findings: (1) the default branch has a new layout (architecture/, audits/, experiments/, formal/, history/, incoming/, interface/, reviews/, docs/site) and does NOT carry claims/, registers/, engine/ or research/interval — those live only on the hardening branch chatgpt/drive-github-hardening-20260919 that the working tree's CLAUDE.md describes. (2) Between 30 Sep and 8 Oct, five merged codex/* PRs (#319, #321, #323, #326, #329) added ten prose Markdown PROOF.md/REVIEW.md pairs under experiments/universality/ (finite Gaussian contact, candidate lifetime, fold chart, weighted fold window, contact genericity, elder transfer, finite H0 lifetime, fold structural universality, periodized Gaussian H0, iid short-bar process); all are labelled source proposals / conventional analytic results with same-provider PASS verdicts, organizational-independence credit zero, scientific promotion NONE, no Lean target. A stacked unmerged chain of eight codex/* PRs (#330-#349, base 1966a74) adds five more PROOF.md files plus the first exact Fraction/interval Python certificates (population_certificate.py -> results/exact_population_1 PASS; global_h0_selector.py -> results/global_selector_1 CERTIFIED) with explicit scope statuses lean_kernel: NOT_RUN. PROOF_INDEX.md and claims/LANDING_CLAIMS.json exist only in Math- and reference none of these. (3) The formal lane: main formal/ = dependency-free Lean 4 v4.34.1 package UniversalLaw with 31 decide-proved integer targets (manifest formalization_status proved, alignment PENDING_INDEPENDENT_REVIEW, author Anthropic/Claude via Cursor); Math- formal/ = Lean 4 v4.34.1 + mathlib d13f23b723b8a846827a245b89c10fc7d3f11612, 63 targets in 8 modules (scalar companions, measure bridge, weighted law, moment tail, weight perturbation, D2 Schur) plus Lean companions under companions/d2_* and frontiers/cap_first_exit_lean_20261002 (5473-line Mathlib project) and a W3Scratch SIDE24 Lean proposal under reviews/. (4) Protocol: OP-WORKFLOW-20260930 — claim exact scope/paths in the relevant PR or board #307 (#275 task queue; #229 historical, full at 2,500 comments), one integration owner per object, lease expiry/handoff before touching another's branch, expected_head_sha merges; required checks on main: verify (= landing-checks + formal-verification aggregate), public-intake, public-shop; on Math-: math-downstream-gates; formal/ rules in CONTRIBUTING (manifest sidecar, register everything, no sorry/native_decide/axiom, allowed axioms propext/Classical.choice/Quot.sound, core Lean cross-multiplied integers, reals go to Math- Mathlib lane, alignment review by different provider/family/agent, formal evidence never moves Layer 0). (5) 35+ exact-arithmetic/interval certifiers enumerated (main: experiments/periodic_h0/*_certificate.py chain, fold_controls.py, cusp population certificate on the unmerged lane; Math-: coefficients/side24_v1 20-digit enclosure 0.07340691930603427103..04 (d=2) and 0.04177593184059834334..35 (d=3), side24_d4/d5/d6 cone moments and closed forms, side24_remainder, d3_l4_anisotropic, lm006 enclosure, bf_six_pin certificates, c2_exact, c6 tail constants, c8 elder/window/normalizer/theorem-A constants, c2 interval audit oracle, p15 tail load, companions/d2_*). Scratch written to <SCRATCH>/recon/peers/.",
+ "data": {
+  "as_of": {
+   "date": "2026-10-10",
+   "main_origin_main": "f6deeba775c27e731366d4772dfe58744425236f",
+   "main_commits_since_2026_09_26": 564,
+   "math_default_head": "6c020d6a72936632f2055122e71a7818a4ff497e",
+   "remote_refs_on_main": 176
+  },
+  "layout": [
+   {
+    "dir": ".github/",
+    "holds": "CODEOWNERS (/PROOF_INDEX.md routed to owner), 5 issue templates (mathematical-finding, review-record, task, engineering), PR template with 'Current disposition' block, dependabot, 14 workflows: workspace-landing (jobs architecture -> landing-checks -> formal -> required aggregate named `verify`), formal-verification (reusable; elan v4.2.4 pinned by sha256, Lean v4.34.1, lake build, leanchecker, axiom audit, negative controls, receipt), research-architecture (sandboxed proof-graph export, python:3.11.14-slim pinned), periodic-h0-pilot (Py 3.12 + requirements.txt; runs all nine *_certificate.py --verify), universality-controls (Py 3.12; fold controls, run_pilot, verify_published), public-intake (pull_request_target guard), public-intake-controls, public-shop (+browser-smoke), museum-conditionals (node --test), navigation, release-snapshot, source-census, interface-runtime-preparation, architecture-casefold-probe, ci.yml (path-holder only)"
+   },
+   {
+    "dir": "architecture/",
+    "holds": "graph_export.py (+__init__): source-bound proof dependency-graph export used by tools/proof_graph_export.py inside the restricted research-architecture lane; landed 2026-10-08 (f0a0c18, bf9793a, 1966a74)"
+   },
+   {
+    "dir": "audits/",
+    "holds": "audits/dropbox_import (110 files), audits/formal_enforcement/2026-09-27 (14 files: deployment evidence for required formal checks main #188 / Math- #96, runs 36358139870 and 36359933550, never-merge probes #190/#97), audits/vault_99 (6 files)"
+   },
+   {
+    "dir": "experiments/",
+    "holds": "experiments/periodic_h0 (117 files): exact integer periodic H0 (exact_h0.py, EXACT_H0.md), nine stdlib Fraction certificate modules with results/*/CERTIFICATE.json+RUN.json (certificate8, nodal1, hessian1, exact_h0_1, gaussian_tail1, gaussian_coupling1, word_polynomial1, finite_count_loss1, count_confidence1), exploratory pilot32/refinement8 (numpy FFT, NON-certifying), APPROXIMATION.md, CONFIRMATION_READINESS.md, EXACT_SAMPLE_SHRINKING_BIN.md (C131 reading record), spectral_shrinking_bins/PROOF.md (C132). experiments/universality (34 files): fifty-law falsification pilot (models.json, models.py, run_pilot.py, verify_published.py, PROTOCOL.md, results/exploratory50), exact fold_controls.py, and ten proof directories <name>/PROOF.md + REVIEW.md (prose)"
+   },
+   {
+    "dir": "formal/",
+    "holds": "Main-side Lean 4 package `UniversalLaw` (lean-toolchain leanprover/lean4:v4.34.1, lakefile.toml with NO dependencies, lake-manifest.json empty lock): UniversalLaw.lean root + Side24/Ledger.lean (17 targets), Side24/ConeMoments.lean (10), Side24/Endpoints.lean (4) = 31 decide-proved integer theorems; manifest.json evidence sidecar (formalization_status proved, alignment_status PENDING_INDEPENDENT_REVIEW, scientific_status_authority false, allowed axioms propext/Classical.choice/Quot.sound, 7 negative controls); SCOPE.md (per-target 'not established'), ALIGNMENT.md (generated), GLOSSARY.md, README.md, REVIEW_LANE.md, reviews/README.md + TEMPLATE_alignment_review.json, sources/side24_v1/{PROOF.md,ENCLOSURE.json} byte copies of Math-@9d7b6802424fb4715b31999066aafca8ee2f3cca"
+   },
+   {
+    "dir": "history/",
+    "holds": "history/2025 (original 2025 README/body), history/carrier20_recovery_20260928 (KIMI-AUD/DER/THM carrier texts, CARRIER20_CUSTODY.json, PUBLIC_SUBSET.sha256, three mpmath verify_*.py scripts: verify_gamma_loc_iic_v1.py, verify_thm023_v1_1_v1.py, verify_wp_witness_v1.py)"
+   },
+   {
+    "dir": "incoming/",
+    "holds": "192 files in ten reviewed intake packages dated 26-28 Sep 2026 (chatgpt-c022-q0-recovery, chatgpt-cl46-custody-crosscheck, chatgpt-q0-recovery-crosswalk, chatgpt-t9-source-recovery, claude-audit-package-recovery, claude-bundle-v3-native-copies, drive-lane-map, grok-session-20260926-replay incl. A_M_TO_A0.md, side24-chart-claude, side24-identity-replay); scientific effect NONE by intake rule"
+   },
+   {
+    "dir": "interface/",
+    "holds": "package.json + package-lock.json only (frozen hosted Astro runtime lock, PR #328); interface source (cubic-model.mjs, elder-model.mjs) exists only on unmerged codex/canvas-model-controls-20261009"
+   },
+   {
+    "dir": "reviews/",
+    "holds": "reviews/grok_uploads_20260926 (4-part review + checks/*.py floats), reviews/lb_rate_thm023_landing_20260926, reviews/sard_g_a1_a6_20260926 and sard_g_successor, reviews/owner_review_20260930 (Dylan Roy — delegated AI review digest), reviews/continuation_audit_20261005, reviews/lean_probability_alignment_20261005 (REVIEW_272_20.md + alignment_272_20.json: xAI/Grok 4.7 statement-alignment ACCEPTED for the 20 Math-#272 formal targets at 270167900b71539d0e2135131a3a96f1f04289f6, Lean not re-executed, independence credit 0)"
+   },
+   {
+    "dir": "docs/",
+    "holds": "162 files: contributor guides (WORKSPACE.md, FORMAL_VERIFICATION.md, FORMAL_REQUIRED_CHECKS.md, FORMAL_VERIFICATION_ROLLOUT_20260927.md, RELEASE_OPERATIONS.md, REPRODUCE.md, REPOSITORY_STANDARDS.md, SIMULATION_PROTOCOL.md, PERSISTENCE_UNIVERSALITY_PROGRAM.md, RESEARCH_INDEX.md, PUBLIC_MATHEMATICS.md, STATUS_RECONCILIATION_20260929.*), docs/site (54: public reader site incl. formal.html, museum.json, research.html reading cuts, dependency viewer), docs/public-math (36: frozen source inventory, 2,138 artifacts), docs/research-translation/20260930 (20: MANUSCRIPT.md, APPENDICES.md, COMPLETION_AUDIT.md, PERSISTENCE_BRIDGE.md, cap-assumption-ablation/probe.py), docs/superpowers (15 plans), docs/plans (2), docs/agents (2), docs/notebooks (2), docs/reconnaissance/2026-09-27-formal-verification.md"
+   },
+   {
+    "dir": "governance/",
+    "holds": "OP-AUTONOMY-20260923-v2.1.md, OP-WORKFLOW-20260930.md (current claim/ownership/verification/merge rules), OP-MILESTONE-AUDITS-20261001.md, OP-CLOSURE-EVIDENCE-20261006.md (blind reconstruction, adversarial attack, derived evidence profiles), OP-PRIVACY-20260927.md, OWNER_STOP_20260927.md (no longer in effect), OWNER_DECISION_20261005_CURSOR.md, OWNER_DECISION_20261006_SURFACES.md"
+   },
+   {
+    "dir": "tests/",
+    "holds": "51 files: Python unittest (test_formal_gate.py with Lean mutants, test_required_formal_check.py, test_required_formal_binding_control.py, test_formal_workflow_shell.py, test_formal_execution_context.py, test_architecture_*.py, test_public_intake*.py, test_public_shop_*.py, test_release_snapshot.py, test_research_delivery.py, test_workspace_landing.py, test_navigation.py, test_d5_shrinking_witness.py (exact Fractions), test_exact_sample_shrinking_bin.py, casefold/) and node --test .mjs suites for docs/site; fixtures/ incl. formal_scope_cc2989.md"
+   },
+   {
+    "dir": "tools/",
+    "holds": "25 files: formal_gate_check.py (source-only gate / --run-lean / --alignment / --refresh-hashes / --write-alignment), required_formal_check.py (receipt + aggregate binding for the `verify` check), formal_execution_context.py, architecture_check_binding.py, architecture_run_receipt.py, proof_graph_export.py, museum_check.py, museum_data.py, museum_conditionals.mjs, navigation_check.py, workspace_landing_check.py, public_intake_check.py, public_shop_check.py, public_shop_data.py, public_shop_browser_check.py, release_snapshot.py, research_delivery.py, site_asset_release.py, dropbox_reconcile.py, source_census_20260927/"
+   },
+   {
+    "dir": "root files",
+    "holds": "README.md, STATUS.md (snapshot 2026-09-29; D1 ACCEPT — scoped since 510efe6; D5/SARD-G AMEND rows), AGENTS.md (cross-model entry), CLAUDE.md (points to AGENTS/OP-WORKFLOW; the working-tree CLAUDE.md describing claims/registers/engine is the OLD hardening-branch text), CONTRIBUTING.md, CITATION.cff, SECURITY.md, LICENSE, .gitignore"
+   },
+   {
+    "dir": "ABSENT on origin/main",
+    "holds": "No claims/, registers/, engine/, research/, drive/, quarantine/, packages/, legacy/, PROOF_INDEX.md or LANDING_CLAIMS on the default branch; those live on chatgpt/drive-github-hardening-20260919 (last merge 2026-09-27 a01c72f1) and Math- (PROOF_INDEX.md, claims/LANDING_CLAIMS.json)"
+   }
+  ],
+  "new_math": [
+   {
+    "commit": "c74aa739d91c64a25558f7c9b5b5b005117aaeb6",
+    "branch_or_pr": "codex/finite-gaussian-contact-20261008 / PR #319 (merged 2026-10-08)",
+    "files": [
+     "experiments/universality/finite_gaussian_contact/PROOF.md",
+     "experiments/universality/finite_gaussian_contact/REVIEW.md",
+     "experiments/universality/README.md"
+    ],
+    "kind": "prose (Markdown theorem text + review record)",
+    "status_label": "source proposal, not a scientific-status register; contact covariance, small-separation regression, compact-mark normalizer for ten ideal Gaussian profiles at cutoffs 2,3; all readers OpenAI agents; organizational-independence credit zero; REVIEW verdict no critical/important/minor amendment",
+    "indexed_in": "experiments/universality/README.md only; not PROOF_INDEX, not LANDING_CLAIMS (both Math--only), not STATUS.md"
+   },
+   {
+    "commit": "4b94a1b1bd3336fa0730c1bc8d4dfe007c8bf259",
+    "branch_or_pr": "codex/finite-gaussian-successors-20261008 / PR #321 (merged 2026-10-08)",
+    "files": [
+     "experiments/universality/finite_candidate_lifetime/PROOF.md",
+     "experiments/universality/finite_candidate_lifetime/REVIEW.md",
+     "experiments/universality/finite_fold_chart/PROOF.md",
+     "experiments/universality/finite_fold_chart/REVIEW.md"
+    ],
+    "kind": "prose",
+    "status_label": "candidate lifetime theorem: finite continuous density C_loc*ell^(-1/3), cumulative (3/2)C_loc t^(2/3) for fixed positive full-grid ideal Gaussian law at cutoff>=2; REVIEW verdict PASS within requested scope, 'ATTACK STATUS: counterexample not found'; same-provider, independence zero; 'literal C210/Lean source alignment remains open'",
+    "indexed_in": "experiments/universality/README.md; not PROOF_INDEX/LANDING_CLAIMS"
+   },
+   {
+    "commit": "d4432d11bacaf13e4cd6b7d554ce06b630071a2e",
+    "branch_or_pr": "codex/finite-gaussian-conditional-inputs-20261008 / PR #323 'Weighted fold windows and contact-conditioned finite Gaussian genericity' (merged 2026-10-08)",
+    "files": [
+     "experiments/universality/finite_weighted_fold_window/PROOF.md",
+     "experiments/universality/finite_weighted_fold_window/REVIEW.md",
+     "experiments/universality/finite_contact_genericity/PROOF.md",
+     "experiments/universality/finite_contact_genericity/REVIEW.md",
+     "docs/superpowers/plans/2026-10-08-research-architecture-progress.md"
+    ],
+    "kind": "prose",
+    "status_label": "uniform marginal family bound with probability >= 1-epsilon under determinant-weighted pin regression; contact-conditioned genericity (forced contact isolated, other critical points Morse, distinct values); 'not a Lean proof, numerical confirmation'; REVIEW verdicts PASS; independence credit zero",
+    "indexed_in": "experiments/universality/README.md; not PROOF_INDEX/LANDING_CLAIMS"
+   },
+   {
+    "commit": "c69cc727dede6f524131b753045390b16cc1639d",
+    "branch_or_pr": "codex/finite-gaussian-actual-h0-20261008 / PR #326 'Actual finite Gaussian H0 elder-bar lifetime intensity' (merged 2026-10-08)",
+    "files": [
+     "experiments/universality/finite_elder_transfer/PROOF.md",
+     "experiments/universality/finite_elder_transfer/REVIEW.md",
+     "experiments/universality/finite_h0_lifetime/PROOF.md",
+     "experiments/universality/finite_h0_lifetime/REVIEW.md"
+    ],
+    "kind": "prose",
+    "status_label": "finite H0 lifetime theorem: Borel selector counting every finite superlevel H0 bar once, density C_loc*ell^(-1/3) for fixed positive full-square ideal Gaussian law, cutoff>=2; 'No human, blind or provider-distinct acceptance'; verdicts PASS bound to blob 5f529e5e...; REVIEW requested one AMEND to an exposure sentence; independence zero",
+    "indexed_in": "experiments/universality/README.md; docs/site/research.html lines 58,72 (9 Oct reading cut, PR #337); not PROOF_INDEX/LANDING_CLAIMS"
+   },
+   {
+    "commit": "4ee141e6033567ccdce96019007b491cee251d00",
+    "branch_or_pr": "codex/fold-universality-periodized-process-20261008 / PR #329 'Prove structural fold law, exact Gaussian H0 adapter and iid-copy process' (merged 2026-10-08)",
+    "files": [
+     "experiments/universality/fold_structural_universality/PROOF.md",
+     "experiments/universality/fold_structural_universality/REVIEW.md",
+     "experiments/universality/periodized_gaussian_h0/PROOF.md",
+     "experiments/universality/periodized_gaussian_h0/REVIEW.md",
+     "experiments/universality/iid_short_bar_process/PROOF.md",
+     "experiments/universality/iid_short_bar_process/REVIEW.md"
+    ],
+    "kind": "prose",
+    "status_label": "regular-fold structural theorem (dimension-independent exponent -1/3 under five interfaces); exact periodized Gaussian H0 adapter for d>=2, L>0; marked short-bar Poisson limit for n iid copies; 'no sampler, applicability label, scientific register, compiler or Lean target'; REVIEW.md: predecessor verdict source-bound, present-bytes verdict PENDING at construction snapshot; 'Scientific promotion:NONE'; independence zero",
+    "indexed_in": "experiments/universality/README.md; not PROOF_INDEX/LANDING_CLAIMS"
+   },
+   {
+    "commit": "1966a74693f5cebfc63ace00b85d9efa0d07a3d7",
+    "branch_or_pr": "codex/architecture-source-isolation-20261008 / PR #324 (merged 2026-10-08) 'Reconcile fold universality proofs with landed site and source isolation'",
+    "files": [
+     "architecture/graph_export.py",
+     "tools/public_shop_browser_check.py",
+     "docs/site/*",
+     "tests/casefold/test_source_isolation_casefold.py"
+    ],
+    "kind": "Python/JS engineering; no mathematics",
+    "status_label": "n/a (engineering)",
+    "indexed_in": "n/a"
+   },
+   {
+    "commit": "f3808295e2537c6c5a7ac43b003656951ea49596",
+    "branch_or_pr": "codex/c132-spectral-shrinking-bins-20261004 / PR #264 (merged 2026-10-04)",
+    "files": [
+     "experiments/periodic_h0/spectral_shrinking_bins/PROOF.md",
+     "experiments/periodic_h0/spectral_shrinking_bins/README.md",
+     "experiments/periodic_h0/spectral_shrinking_bins/SOURCES.json"
+    ],
+    "kind": "prose",
+    "status_label": "Object C132-SPECTRAL-SHRINKING-BINS-v1: 'Author-side conditional analytic theorem; source-bound nonauthor review pending'; independence credit 0; no formalization or human review asserted",
+    "indexed_in": "docs/site/research.html line 171; experiments/periodic_h0/README.md; not PROOF_INDEX/LANDING_CLAIMS"
+   },
+   {
+    "commit": "7db74a9 (2026-10-03)",
+    "branch_or_pr": "codex/c131-exact-sample-shrinking-bin / PR #263 (merged)",
+    "files": [
+     "experiments/periodic_h0/EXACT_SAMPLE_SHRINKING_BIN.md",
+     "tests/test_exact_sample_shrinking_bin.py"
+    ],
+    "kind": "prose reading record + Python publication-fidelity test",
+    "status_label": "reviewed exact-sample shrinking-bin lemma reading record (C131); test is 'offline publication fidelity, not validation of the mathematical argument'",
+    "indexed_in": "docs/site/research.html line 170"
+   },
+   {
+    "commit": "287f0058b5450442cd9d04428e13e3ce612d39fb",
+    "branch_or_pr": "PR #215 (merged 2026-09-30) 'Add coupled H0 refinement, deterministic approximation and proof appendices'",
+    "files": [
+     "docs/research-translation/20260930/APPENDICES.md",
+     "docs/research-translation/20260930/APPENDIX_SOURCES.json",
+     "docs/research-translation/20260930/LITERATURE.md",
+     "experiments/periodic_h0/APPROXIMATION.md",
+     "experiments/periodic_h0/REFINEMENT_PROTOCOL.md",
+     "experiments/periodic_h0/CONFIRMATION_READINESS.md",
+     "experiments/periodic_h0/refinement.py",
+     "experiments/periodic_h0/run_refinement.py",
+     "experiments/periodic_h0/results/refinement8/*"
+    ],
+    "kind": "prose (appendices assembling existing arguments at Math- fa2e9909...; deterministic approximation bounds) + Python exploratory refinement (numpy FFT, NON-certifying)",
+    "status_label": "APPENDICES: 'not a newly reviewed result'; APPROXIMATION: 'floating-point evaluations of the bounds are diagnostics until their inputs and arithmetic have rigorous enclosures'; refinement8 exploratory",
+    "indexed_in": "docs/RESEARCH_INDEX.md lines 15-19"
+   },
+   {
+    "commit": "26f32b7150c6d8ad10deb5593148c60664ef4253",
+    "branch_or_pr": "PR #225 (merged 2026-10-01) 'Audit the planar theorem dependencies and weighted error transfer'",
+    "files": [
+     "docs/research-translation/20260930/COMPLETION_AUDIT.md",
+     "docs/research-translation/20260930/COMPLETION_SOURCES.json"
+    ],
+    "kind": "prose audit",
+    "status_label": "completion-directive audit: 'neither promotes a scientific status nor certifies the whole research program as complete'",
+    "indexed_in": "docs/research-translation/20260930/README.md, CROSSWALK.md"
+   },
+   {
+    "commit": "c1bac3b, b39e111, 17a3722, 4dc645c, 160d84f, 6f7da57, 79d92ab, db67116, 56de0a8, 38bbd61 (2026-09-30 .. 2026-10-01)",
+    "branch_or_pr": "periodic_h0 certificate chain (PRs landing 30 Sep-1 Oct)",
+    "files": [
+     "experiments/periodic_h0/finite_certificate.py",
+     "experiments/periodic_h0/nodal_certificate.py",
+     "experiments/periodic_h0/hessian_grid_certificate.py",
+     "experiments/periodic_h0/exact_barcode_certificate.py",
+     "experiments/periodic_h0/exact_h0.py",
+     "experiments/periodic_h0/gaussian_tail_certificate.py",
+     "experiments/periodic_h0/gaussian_coupling_certificate.py",
+     "experiments/periodic_h0/word_polynomial_certificate.py",
+     "experiments/periodic_h0/finite_count_loss_certificate.py",
+     "experiments/periodic_h0/count_confidence_certificate.py",
+     "experiments/periodic_h0/results/{certificate8,nodal1,hessian1,exact_h0_1,gaussian_tail1,gaussian_coupling1,word_polynomial1,finite_count_loss1,count_confidence1}/CERTIFICATE.json",
+     "experiments/periodic_h0/{FINITE_CERTIFICATE,NODAL_CERTIFICATE,HESSIAN_GRID,EXACT_H0,GAUSSIAN_TAIL,GAUSSIAN_COUPLING,WORD_POLYNOMIAL,FINITE_COUNT_LOSS}.md"
+    ],
+    "kind": "Python stdlib exact Fraction certificates with Markdown proofs of the finite statements",
+    "status_label": "every CERTIFICATE.json carries gaussian_law_certified:false, historical_fft_certified:false, infinite_field/lifetime_law_certified:false, input_law_is_hypothesis:true; finite rounded-polynomial scope only",
+    "indexed_in": "docs/RESEARCH_INDEX.md lines 30-36; experiments/periodic_h0/README.md; periodic-h0-pilot workflow runs each --verify"
+   },
+   {
+    "commit": "887c9b8 (2026-10-08) + 457c910, a9cc814, 666e0ca",
+    "branch_or_pr": "codex/persistence-universality-20261008 / PR #314 (merged 2026-10-08)",
+    "files": [
+     "docs/PERSISTENCE_UNIVERSALITY_PROGRAM.md",
+     "experiments/universality/PROTOCOL.md",
+     "experiments/universality/models.json",
+     "experiments/universality/models.py",
+     "experiments/universality/fold_controls.py",
+     "experiments/universality/run_pilot.py",
+     "experiments/universality/verify_published.py",
+     "experiments/universality/results/exploratory50/*"
+    ],
+    "kind": "prose research design + Python (fold_controls.py exact Fraction; run_pilot.py float/PRNG exploratory)",
+    "status_label": "'research design and execution route, not a new scientific-status register'; fold_controls 'exact toy pushforward, not a stationary random-field counterexample or a formal kernel proof'; pilot 'explicitly exploratory'",
+    "indexed_in": "experiments/universality/README.md; universality-controls workflow"
+   },
+   {
+    "commit": "c0e56020285291aff14152a389a0df37f37c325b (2026-09-27) + 8b68433, c7ce8ec, dc36629",
+    "branch_or_pr": "cursor/formal-verification-layer-1b16 / PRs #178, #181 (merged 2026-09-27)",
+    "files": [
+     "formal/UniversalLaw.lean",
+     "formal/UniversalLaw/Side24/Ledger.lean",
+     "formal/UniversalLaw/Side24/ConeMoments.lean",
+     "formal/UniversalLaw/Side24/Endpoints.lean",
+     "formal/manifest.json",
+     "formal/SCOPE.md",
+     "formal/ALIGNMENT.md",
+     "formal/GLOSSARY.md",
+     "formal/REVIEW_LANE.md",
+     "formal/sources/side24_v1/PROOF.md",
+     "formal/sources/side24_v1/ENCLOSURE.json",
+     "tools/formal_gate_check.py",
+     "tests/test_formal_gate.py"
+    ],
+    "kind": "Lean 4 (core only, 31 theorems proved by decide) + Python gate",
+    "status_label": "formalization_status proved; alignment_status PENDING_INDEPENDENT_REVIEW; kernel-checked appears only in --run-lean receipt; 'first step only of the Numerical formalizer offer'; not an enclosure of the SIDE24 coefficient; author Anthropic/Claude via Cursor cloud agent; registry.json and Audit.lean of c0e5602 were later replaced by manifest.json under the Math- lane contract (c7ce8ec)",
+    "indexed_in": "docs/FORMAL_VERIFICATION.md, docs/FORMAL_VERIFICATION_ROLLOUT_20260927.md, docs/site/formal.html; formal evidence never moves STATUS.md/PROOF_INDEX"
+   },
+   {
+    "commit": "644d06e, e9a4e3f (2026-10-05)",
+    "branch_or_pr": "cursor/lean-probability-alignment-272-20-676d / PR #267 (merged 2026-10-05); chatgpt/custody-267-successor-20261005 / PR #268",
+    "files": [
+     "reviews/lean_probability_alignment_20261005/REVIEW_272_20.md",
+     "reviews/lean_probability_alignment_20261005/alignment_272_20.json",
+     "reviews/lean_probability_alignment_20261005/VALIDATION.md",
+     "reviews/lean_probability_alignment_20261005/VERIFICATION_29.md"
+    ],
+    "kind": "prose + JSON statement-alignment review record for Math- formal targets",
+    "status_label": "Verdict PASS; alignment ACCEPTED for exactly 20 Math-#272 targets at 270167900b71539d0e2135131a3a96f1f04289f6; performer xAI/Grok 4.7 via Cursor Cloud; Lean not re-executed; independence credit 0; Dylan's reading PENDING",
+    "indexed_in": "docs/WORKSPACE.md (Dylan's review desk), Math- formal lane"
+   },
+   {
+    "commit": "510efe6a25ac29176b5643a84d900597aa8fd721 (2026-09-29)",
+    "branch_or_pr": "main (Claude Opus 5.5 session 017Mi3hx...)",
+    "files": [
+     "STATUS.md",
+     "formal/GLOSSARY.md",
+     "formal/manifest.json",
+     "docs/site/README.md"
+    ],
+    "kind": "status transcription (prose)",
+    "status_label": "D1 row moved AMEND/open -> 'ACCEPT — scoped', transcribing Math- #126 reconciliation (merge 8224783); lemma_closed, prizes, premises unchanged",
+    "indexed_in": "STATUS.md"
+   },
+   {
+    "commit": "b0f6e4ecbf85378ea171d9733775ab52d25ecf59 (2026-09-26)",
+    "branch_or_pr": "main",
+    "files": [
+     "incoming/grok-session-20260926-replay/A_M_TO_A0.md"
+    ],
+    "kind": "prose (conditional Gaussian-regression lemma slice)",
+    "status_label": "Scientific effect NONE; conditional on A1-A2; does not accept Theorem A or z_* floor",
+    "indexed_in": "none"
+   },
+   {
+    "commit": "88ff922 (head) / 0c8ad2e",
+    "branch_or_pr": "codex/spectral-gaussian-admission-20261008 / PR #330 (OPEN, 2026-10-09)",
+    "files": [
+     "experiments/universality/spectral_gaussian_admission/PROOF.md",
+     "experiments/universality/spectral_gaussian_admission/REVIEW.md",
+     "experiments/universality/README.md"
+    ],
+    "kind": "prose",
+    "status_label": "fixed-law spectral/carrier admission theorem, C4 regularity weaker than smooth; original 42,038 B source SHA 43e81809... with two fresh full nonauthor PASS verdicts (same provider)",
+    "indexed_in": "branch README only"
+   },
+   {
+    "commit": "89657c7c48289378949dc59e7fbe6dc1a55d9c62",
+    "branch_or_pr": "codex/higher-homology-fold-20261008 / PR #331 (OPEN)",
+    "files": [
+     "experiments/universality/higher_homology_fold/PROOF.md",
+     "experiments/universality/higher_homology_fold/REVIEW.md"
+    ],
+    "kind": "prose",
+    "status_label": "preparation SHA256 de1cad97... has two fresh FULL nonauthor PASS verdicts; wrapper pending its own review; 'no main landing is implied'",
+    "indexed_in": "branch README only"
+   },
+   {
+    "commit": "6bd133d591e43e75a9292463bb4bfde7a34984dc",
+    "branch_or_pr": "codex/spectral-amplitude-crossover-20261008 / PR #334 (OPEN)",
+    "files": [
+     "experiments/universality/spectral_amplitude_crossover/PROOF.md",
+     "experiments/universality/spectral_amplitude_crossover/REVIEW.md"
+    ],
+    "kind": "prose",
+    "status_label": "sections 1-11 preserved from 34,110-byte source SHA 9e8f1016...; integration under native claim 6071350791, lease through 00:30 UTC 9 Oct",
+    "indexed_in": "branch README only"
+   },
+   {
+    "commit": "3ab12c6542c88554ad0d42e0e19aff2461dc3c0d",
+    "branch_or_pr": "codex/stationary-quartic-cusp-20261009 / PR #336 (OPEN)",
+    "files": [
+     "experiments/universality/quartic_cusp_field/PROOF.md",
+     "experiments/universality/quartic_cusp_field/REVIEW.md"
+    ],
+    "kind": "prose",
+    "status_label": "actual stationary quartic contact; 'no main landing or model-catalogue admission is implied'",
+    "indexed_in": "branch README only"
+   },
+   {
+    "commit": "f027585 (two-control) / 5bf0bcd (certificate) / 519b235 (guards) / 945c2ce (selector)",
+    "branch_or_pr": "codex/two-control-cusp-population-20261009 PR #340; codex/exact-population-certificate-20261009-root01a11cbf PR #343 (+ PR #344 CI validation 33e91e3); codex/cusp-analytic-guards-20261009-root01a11cbf PR #346; codex/global-cusp-h0-selector-20261009-root01a11cbf PR #349 (+ PR #350 validation 4ccbaf6) — all OPEN, stacked on base 1966a74",
+    "files": [
+     "experiments/universality/two_parameter_cusp_population/PROOF.md",
+     "experiments/universality/two_parameter_cusp_population/REVIEW.md",
+     "experiments/universality/two_parameter_cusp_population/CONTROLLED_FALSIFICATION.md",
+     "experiments/universality/two_parameter_cusp_population/ANALYTIC_GUARDS.md",
+     "experiments/universality/two_parameter_cusp_population/GLOBAL_SELECTOR_CONTRACT.md",
+     "experiments/universality/two_parameter_cusp_population/population_certificate.py",
+     "experiments/universality/two_parameter_cusp_population/run_population_certificate.py",
+     "experiments/universality/two_parameter_cusp_population/test_population_certificate.py",
+     "experiments/universality/two_parameter_cusp_population/global_h0_selector.py",
+     "experiments/universality/two_parameter_cusp_population/surgery_field.py",
+     "experiments/universality/two_parameter_cusp_population/run_global_h0_selector.py",
+     "experiments/universality/two_parameter_cusp_population/test_global_h0_selector.py",
+     "experiments/universality/two_parameter_cusp_population/test_global_h0_runner.py",
+     "experiments/universality/two_parameter_cusp_population/test_surgery_field.py",
+     "experiments/universality/results/exact_population_1/{CERTIFICATE.json,RESULTS.md,RUN.json}",
+     "experiments/universality/results/global_selector_1/{CERTIFICATE.json,RESULTS.md,RUN.json}",
+     "docs/plans/2026-10-09-global-h0-selector.md",
+     ".github/workflows/universality-controls.yml"
+    ],
+    "kind": "prose (PROOF, guards, contracts) + Python stdlib exact Fraction interval certificates (BITS=128 outward, reuse periodic_h0 sqrt_bounds/exp_neg_bounds/log_bounds) + exact global H0 selector",
+    "status_label": "PROOF: smooth two-control cusp population, fold-edge dominance; exact_population_1 RESULTS.md Disposition PASS with scope statuses exact_non_gaussian_population PASS, rational_guard_consequents PASS_RATIONAL_GUARDS, analytic_cutoff_derivative_premise REVIEW_REQUIRED, complete_surgery_field NOT_RUN, independent_global_h0_selector NOT_RUN, gaussian_universality/blind_50_campaign/higher_homology/same_field_spatial_poisson/lean_kernel/scientific_promotion NOT_RUN, organizational_independence_credit 0; global_selector_1 Driver disposition CERTIFIED (18 fixtures, conditional on bound historical analytic guards), Lean/kernel NOT_RUN; ANALYTIC_GUARDS: 'Separate mathematical review is required'",
+    "indexed_in": "branch README and docs/plans only"
+   },
+   {
+    "commit": "674f88c (2026-09-26)",
+    "branch_or_pr": "cursor/intermediate-scale-bridge-ab2f (unmerged, base 01d4598)",
+    "files": [
+     "notes/intermediate_scale_20260926/PROOF.md",
+     "notes/intermediate_scale_20260926/README.md",
+     "notes/intermediate_scale_20260926/test_intermediate_scale.py",
+     "docs/RESEARCH_INDEX.md"
+    ],
+    "kind": "prose + Python test",
+    "status_label": "intermediate-scale Kac-Rice envelope note (unreviewed, unmerged)",
+    "indexed_in": "branch RESEARCH_INDEX only"
+   },
+   {
+    "commit": "77d35fe",
+    "branch_or_pr": "codex/canvas-model-controls-20261009 / PR #345 (OPEN)",
+    "files": [
+     "interface/src/scripts/cubic-model.mjs",
+     "interface/src/scripts/elder-model.mjs",
+     "interface/tests/cubic.test.mjs",
+     "interface/tests/elder.test.mjs",
+     ".github/workflows/architecture-canvas-tests.yml"
+    ],
+    "kind": "JavaScript UI models ('real cubic arithmetic and exact finite barcode predecessors')",
+    "status_label": "engineering/UI; no scientific claim",
+    "indexed_in": "n/a"
+   }
+  ],
+  "lanes": [
+   {
+    "prefix": "claude/",
+    "branch": "claude/site-currency-20261009 (merged as PR #352, branch deleted) ; open: claude/auditor-c1-access-record-20261007 (PR #282)",
+    "last_commit": "2026-10-10 (merge f6deeba) / 2026-10-07",
+    "subject": "Route site readers to the active board and stop overclaiming coverage / Apply the automated finding on 6ac2b53: the refusal sources are candidates; only the refusals are confirmed"
+   },
+   {
+    "prefix": "claude/",
+    "branch": "claude/reader-ux-inc1..inc11-20261008, claude/reader-cut-20261009, claude/museum-packet-order-20261009 (all merged PRs #296-#317, #337, #348)",
+    "last_commit": "2026-10-08 .. 2026-10-09",
+    "subject": "reader site increments; 9 October reading cut for the landed finite Gaussian H0 lifetime source"
+   },
+   {
+    "prefix": "claude/",
+    "branch": "claude/drive-audit-github-migration-rrglpp (18 claude/* refs total; older ones 2026-09-23..26 on hardening line)",
+    "last_commit": "2026-10-02",
+    "subject": "Merge pull request #238 from d6g8k5htny-coder/codex/test-dispatcher-missing-manifest-20261002"
+   },
+   {
+    "prefix": "codex/",
+    "branch": "codex/lease-protocol-tests-20261009 (PR #351 open)",
+    "last_commit": "2026-10-09",
+    "subject": "test(leases): freeze sixty external guards before lease implementation"
+   },
+   {
+    "prefix": "codex/",
+    "branch": "codex/global-cusp-h0-selector-20261009-root01a11cbf (PR #349) and codex/global-cusp-h0-validation-20261009-root01a11cbf (PR #350)",
+    "last_commit": "2026-10-09",
+    "subject": "Add complete periodic cusp field and exact global H0 certificates / Validate complete periodic cusp H0 sources on current main"
+   },
+   {
+    "prefix": "codex/",
+    "branch": "codex/exact-population-certificate-20261009-root01a11cbf (PR #343), -ci- (PR #344), codex/cusp-analytic-guards-20261009-root01a11cbf (PR #346), codex/two-control-cusp-population-20261009 (PR #340)",
+    "last_commit": "2026-10-09",
+    "subject": "Add the frozen exact cusp-population falsification certificate / Prove explicit cutoff and annular guards for the fixed cusp model / Prove the smooth cusp population and fold-edge lifetime law"
+   },
+   {
+    "prefix": "codex/",
+    "branch": "codex/stationary-quartic-cusp-20261009 (PR #336), codex/spectral-amplitude-crossover-20261008 (PR #334), codex/higher-homology-fold-20261008 (PR #331), codex/spectral-gaussian-admission-20261008 (PR #330)",
+    "last_commit": "2026-10-08",
+    "subject": "Prove stationary quartic selected H0 law with explicit sampling weights / Prove exact amplitude crossover and whole-barcode cluster limits / Prove higher-homology fold bars and degree-marked iid limits / Reconcile reviewed spectral admission with actual PR329 main"
+   },
+   {
+    "prefix": "codex/",
+    "branch": "codex/c226-formal-phase-evidence (PR #347), codex/architecture-evidence-adapter-20261008 (PR #325), codex/architecture-interface-20261008 (PR #327), codex/canvas-model-controls-20261009 (PR #345), codex/routing-broker-tests-20261009 (PR #342), codex/lease-crypto-runtime-preparation-20261009 (PR #341), codex/semantic-runtime-preparation-20261008 (PR #333), codex/routing-sqlite-runtime-preparation-20261008 (PR #338)",
+    "last_commit": "2026-10-09",
+    "subject": "fix(formal): retain distinct real-execution evidence before reuse / test(evidence): isolate nonempty Main package / Keep graph reader observers on candidate execution / Complete cubic normalization and actual finite elder trace / Admit exact pinned pip cffi wrapper and fail closed on owned-container inventory"
+   },
+   {
+    "prefix": "codex/",
+    "branch": "codex/architecture-post-upload-probe-20261008 (PR #322 closed, DIAGNOSTIC NEVER MERGE), codex/casefold-adapter-*-20261008 (probe merges), codex/parallel-reader-tools-20261003, codex/milestone-audit-summary-20261002, codex/verification-museum-20260926, codex/single-account-autonomy-20260926 (29 codex/* refs total)",
+    "last_commit": "2026-10-08 / 2026-10-03 / 2026-10-01 / 2026-09-26",
+    "subject": "DIAGNOSTIC NEVER MERGE: prove native failure rejects valid receipt and retained archive / Add curvature presets and brace-safe BibTeX source templates / Record bounded milestone audit partial coverage and recovery / Make pinned-history regression independent of checkout depth"
+   },
+   {
+    "prefix": "grok/",
+    "branch": "grok/c221-doc-01-w8b-commands",
+    "last_commit": "2026-10-09",
+    "subject": "C221-DOC-01: restore full README with W8b commands, corrected macOS note, and R1-R5 for #newer-work maintained navigation (unblocks #352). Scientific effect NONE."
+   },
+   {
+    "prefix": "grok/",
+    "branch": "grok/formal-guide-routing-20261007; grok/h02-workspace-board-pointer-20261009; grok/workspace-board-pointer-20261009; grok/c160-path-01-* (4 refs, 2026-10-07/08); grok/drive-missing-source-hunt-20260926 (9 grok/* refs total)",
+    "last_commit": "2026-10-07 .. 2026-10-09",
+    "subject": "Clarify current formal-guide claim route; preserve September pilot history / Docs: point contributor coordination intake to active board #307 / tests: compare site-asset inventory against canonical temp roots"
+   },
+   {
+    "prefix": "grok-h01/ grok-h02/ grok-h04/",
+    "branch": "grok-h01/c221-doc-01-readme-20261010; grok-h02/docs-agents-board-pointers-20261009, grok-h02/docs-board-currency-20261009, grok-h02/workspace-board-pointer-20261009 (merged PR #339); grok-h04/c221-doc-01-w8b-commands, grok-h04/c221-doc-01-public-shop-commands",
+    "last_commit": "2026-10-09",
+    "subject": "Docs: list implemented W8b identity controls and macOS invocation note / Align the public-shop verify list with the W8b identity controls / Merge pull request #348"
+   },
+   {
+    "prefix": "grokbot15/",
+    "branch": "grokbot15/w8b-ci-c177-01 (merged PR #304, branch deleted)",
+    "last_commit": "2026-10-08",
+    "subject": "W8B-CI-C177-01: W8b controls in existing landing-checks and public-shop jobs"
+   },
+   {
+    "prefix": "cursor/",
+    "branch": "cursor/intermediate-scale-bridge-ab2f (newest of 52 cursor/* refs; all others 2026-09-22..26 on the hardening line, e.g. cursor/side24-missing-source-custody-0532, cursor/q0-ledger-reconcile-ebedb78-31c5, cursor/rn-unif-walkdown-scope-fixes, cursor/math-status-* OPEN/HOLD packets); merged-and-deleted: cursor/formal-verification-layer-1b16 (PRs #178/#181, 2026-09-27), cursor/lean-probability-alignment-272-20-676d (PR #267, 2026-10-05), cursor/w8b-required-check-controls (PR #292, 2026-10-08)",
+    "last_commit": "2026-09-26",
+    "subject": "Add the intermediate-scale Kac-Rice envelope."
+   },
+   {
+    "prefix": "copilot/",
+    "branch": "copilot/update-coordination-references-307 (PR #353 open)",
+    "last_commit": "2026-10-09",
+    "subject": "Preserve historical #229 handoff receipt; #307 only for current coordination"
+   },
+   {
+    "prefix": "chatgpt/",
+    "branch": "chatgpt/main-lean-preflight-20261008-r1 (PR #315 open); chatgpt/never-merge-formal-negative-20260927 (TEST ONLY); chatgpt/formal-shell-fix-20260927 (merged PR #183); chatgpt/drive-github-hardening-20260919 (hardening research branch, 38 chatgpt/* refs total)",
+    "last_commit": "2026-10-08 / 2026-09-27",
+    "subject": "fix: bind complete Lean release identity / TEST ONLY: inject formal receipt-stage failure; NEVER MERGE / Merge pull request #7 ..."
+   },
+   {
+    "prefix": "docs/ harper/ lucas-h01/ agent/ agents/ agent3/ inventable/ transport/ custody/ cos/ incoming/",
+    "branch": "docs/agents-board-307-pointers, docs/workspace-board-pointer-307, docs/workspace-board-307-h04 (2026-10-08/09); harper/workspace-coord-307-pointer (2026-10-08); lucas-h01/delete-stop-record (2026-10-07); agent/paper1-note-current-20261001, agent/observer-notes-20261001, agents/p15-and-simulation (2026-10-01); agent3/jetmod-rnunif-status-open-hold (2026-09-22); inventable/* (7 refs 2026-09-25); transport/* (2026-09-23); custody/status-erratum-boundary-bullet-20260926; cos/revert-pr2-never-main (2026-09-23); incoming/grok-cycle2-nd-d5-sard-20260926",
+    "last_commit": "2026-10-09 (docs/*) .. 2026-09-22",
+    "subject": "Point workspace coordination intake to active board #307 / Add conditional Paper 1 note, P15 split, and simulation protocol. Scientific effect NONE. / Add fail-closed JETMOD/RN-UNIF STATUS and math_console snapshot"
+   }
+  ],
+  "protocol": {
+   "claim_lease": "governance/OP-WORKFLOW-20260930.md (effective 30 Sep 2026 under OP-AUTONOMY v2.1): claim the exact scope and intended paths in the relevant existing PR or work discussion before writing, after checking current contenders; if R17 Work Events (Drive registers) are used, link that claim ID in the same discussion; lease ledgers/handoffs are as-of views (an old or missing row does not erase a live peer claim); do not create another global ownership or scientific-status register; one named integration owner per object controls branch refresh, readiness and merge; other contributors use disjoint scopes or isolated proposals; mutate another owner's branch only after an explicit scoped handoff, release, or confirmed lease expiry followed by current-state reconciliation; review may proceed without taking the writer's branch; release finished claims; an offered task becomes active only on actual pickup; cooperative, not a distributed lock — a competing mutation stops the update and requires reconciliation, not a second write; maintain one short current disposition (head, owner, completed review scopes, unresolved finding IDs, validation, next action) in the PR body (template .github/pull_request_template.md). Coordination surfaces (docs/WORKSPACE.md, CONTRIBUTING.md): active Agent Message Board main #307; task and claim queue main #275; #229 historical (GitHub stopped accepting comments at 2,500); #95 closed formal-rollout history (obligations not discharged); most proof review in Math- PRs. Public starter tasks: comment `/claim` then `/release`, one open claim per person, states open -> claimed -> results-pr -> review -> parked|landed-eng (manual convention, no bot). In practice (PROOF.md headers on codex lanes) claims are #307 comment IDs with UTC lease expiries, e.g. 'Native claim 6071732615 ... through 02:20 UTC on 9 October 2026', 'lease through 00:30 UTC on 9 October 2026', R17 Work Events row 1359 / event f87f892a-7031-4624-9cba-592b081181ea. Signed-lease machinery is only proposed on unmerged codex/lease-protocol-tests-20261009 and codex/lease-crypto-runtime-preparation-20261009. Delegated owner review: attribution 'Dylan Roy — delegated AI review' followed by the actual performer; Dylan's personal reading marked PENDING; delegation earns zero organizational-independence credit. Merges use expected_head_sha; wait for the automatic review that readiness starts; a base change changes the tested merge.",
+   "branch_naming": "Not codified in OP-WORKFLOW; observed convention is `<agent-or-lane>/<topic>-<YYYYMMDD>[-rootNNNNNNNN|-<hash>]` with prefixes claude/, codex/, chatgpt/, grok/, grok-h01/ grok-h02/ grok-h04/, grokbot15/, cursor/, copilot/, docs/, harper/, lucas-h01/, agent(s)/, inventable/, transport/; diagnostic branches carry 'NEVER MERGE' / 'TEST ONLY' in the subject; PRs open as drafts against main; public (fork) results must change only a new `incoming/<id>/` directory (lowercase letters/digits/hyphens) and go through the public-intake lane; docs/WORKSPACE.md: 'No branch name makes work correct or permanently unmergeable'; new work lands via PRs to main and to Math-; the hardening branch chatgpt/drive-github-hardening-20260919 (last merge 2026-09-27 a01c72f1) and claude/drive-audit-github-migration-rrglpp (last merge 2026-10-02 b6ccb5e2) are readable context only.",
+   "required_checks": [
+    "main ruleset 23798639 (docs/FORMAL_REQUIRED_CHECKS.md): required contexts `verify`, `public-intake`, `public-shop`; zero GitHub approving reviews required; pre-existing repository-role PR bypass exists on main",
+    "`verify` = job `required` in .github/workflows/workspace-landing.yml, `if: always()`, needs [checks (landing-checks), formal (reusable formal-verification.yml)], runs `python3 -B -S tools/required_formal_check.py aggregate`; both dependencies must report exactly success at the tested merge commit, bound by repository, run id, attempt and receipt SHA-256",
+    "landing-checks job: tools/architecture_check_binding.py against the research-architecture reusable workflow; tests/test_required_formal_check.py (normal and -O); tests/test_research_delivery.py; test_workspace_landing.py; tools/workspace_landing_check.py; W8b controls tests/test_required_formal_binding_control.py and tests/test_public_intake_artifact_identity_control.py (normal and -O)",
+    "formal-verification job: shell failure-propagation control; tests/test_formal_workflow_shell.py; `python -B -S tools/formal_gate_check.py` (source-only, before any download); elan-init.sh v4.2.4 pinned sha256 a620ff16...; `elan toolchain install $(cat formal/lean-toolchain)` = leanprover/lean4:v4.34.1; `tools/formal_gate_check.py --run-lean`; tests.test_formal_gate in -S and -O -S; `tools/required_formal_check.py receipt`; artifact formal-verification-<run_id> (30 days)",
+    "`public-intake` (.github/workflows/public-intake.yml, pull_request_target, tools/public_intake_check.py) and `public-shop` (.github/workflows/public-shop.yml; browser-smoke optional)",
+    "Math- ruleset 24045351: required `math-downstream-gates` (.github/workflows/downstream-gate.yml: unchanged downstream replay + the Mathlib formal package; formal/gate.py --execute requires Lean 4.34.1 commit 5045d0056413266e57c625dcd7c365b10e377c52, lake exe cache get, leanchecker, 63-declaration axiom audit)",
+    "Non-required but CI-run on main: research-architecture (python:3.11.14-slim-bookworm@sha256:83f339c1..., tests/test_architecture_*.py, tools/proof_graph_export.py, tools/architecture_run_receipt.py), navigation (tools/navigation_check.py), periodic-h0-pilot (Py 3.12, pip install -r experiments/periodic_h0/requirements.txt, unittest normal/-O, run_refinement --verify, nine *_certificate.py --verify, run_pilot replay), universality-controls (Py 3.12, unittest normal/-O, run_pilot --output/--verify, verify_published.py results/exploratory50), museum-conditionals (node --test), release-snapshot (source-custody, primary-toolchain-replay), source-census, interface-runtime-preparation, architecture-casefold-probe, public-intake-controls",
+    "Local pre-commit list (docs/WORKSPACE.md, CONTRIBUTING.md): python3 tools/workspace_landing_check.py; python3 tools/navigation_check.py; python3 -m unittest discover -s tests -p test_workspace_landing.py -v; python3 tools/formal_gate_check.py; python3 tools/formal_gate_check.py --run-lean; python3 -B -S -m unittest tests.test_formal_gate -v; python3 -B -S -m unittest discover -s tests -p test_required_formal_check.py -v (and with -O); for docs/site or docs/public-math: python3 -B tools/site_asset_release.py then --check and the public-shop steps in docs/site/README.md#verify-the-reader-experience; Python 3.11 stdlib + unittest (public-shop and periodic-h0-pilot run 3.12); node --test for site modules"
+   ],
+   "formal_rules": [
+    "One contract, two packages, no third vocabulary and no second register: Math- formal/ (Lean 4 v4.34.1 + mathlib d13f23b723b8a846827a245b89c10fc7d3f11612, 63 targets, lake exe cache get) and main formal/ (core Lean, dependency-free, 31 targets). Real-number statements (ℝ, Real.Gamma, exp, pi, Gaussian measures, matrices, c_{d,ref}, the enclosure, ρ*) go to the Math- Mathlib package, never to a second dependency tree on main (CONTRIBUTING.md 'Formal verification (Lean 4, Layer 1)', formal/README.md)",
+    "formal/manifest.json is an evidence sidecar: binds every Lean, source, scope, control and doc file by SHA-256; lists every target with a verbatim informal_anchor from a byte-pinned copy under formal/sources/ and a does_not_claim; it says `proved` and `PENDING_INDEPENDENT_REVIEW`; the gate refuses a manifest that self-awards `kernel-checked` or `ACCEPTED`; scientific_status_authority false",
+    "Register everything: tools/formal_gate_check.py refuses an unregistered .lean file, an unbound file inside formal/, a target inventory differing from the declared theorem names (in module order), `sorry`, `native_decide`, any `axiom` declaration outside comments, a root module importing anything unregistered, toolchain (leanprover/lean4:v4.34.1) or lock drift, a pinned source whose bytes changed or whose repository is not in {d6g8k5htny-coder/main, Math-, query-, meta-framework, Universal-Law-Workspace}, a non-verbatim anchor, a missing does_not_claim, a stale ALIGNMENT.md, duplicate JSON keys. After editing bound files: --refresh-hashes, then --write-alignment, then the gate; before citing a result: --run-lean and quote the receipt's checked_commit",
+    "`kernel-checked` is a receipt label written only by a trusted --run-lean execution (formal/.lake/formal-evidence/receipt.json) after fresh build, leanchecker, transitive #print axioms audit restricted to propext / Classical.choice / Quot.sound, elaborated-type capture and every negative control actually failing (7 tightened/wrong statements + sorry + indirect custom axiom + native_decide); a caller-supplied receipt is untrusted until matched to the actual workflow run and commit. Parent dependencies not formalised are explicit hypotheses of the target, never axioms",
+    "Core Lean has no rationals: state rational identities as cross-multiplied integers, give the rational form in the docstring, put the exact 'not established' boundary per target in formal/SCOPE.md",
+    "Statement alignment is its own review: AI- or human-authored Lean text is author-side until a reviewer with a different provider, family and agent records an alignment (Markdown + JSON under formal/reviews/, validated with --alignment; record carries disposition ACCEPTED, manifest_sha256, scope_sha256, exactly all targets, author/reviewer provider/family/agent, evidence repo/path/40-char commit/sha256); same-provider reviewers earn zero independence credit; a fresh source, scope, toolchain or manifest digest stales the old review (formal/REVIEW_LANE.md, formal/SCOPE.md)",
+    "Formal evidence never moves Layer 0 status: a kernel-checked target does not edit STATUS.md, PROOF_INDEX.md, LANDING_CLAIMS, claims/, prizes, lemma_closed or any ACCEPT/AMEND row and does not make the surrounding analytic argument verified; formal/GLOSSARY.md mappings are descriptive/proposed; formal-progress labels none/specified/proved/kernel-checked are not scientific labels; ladder L0 prose ... L5 proof-assistant-checked with verification_level separate from scientific status (main #95)",
+    "Required-check bridge (docs/FORMAL_REQUIRED_CHECKS.md): current-commit formal execution is mandatory in `verify`; missing, skipped, cancelled or neutral is not success; no historical receipt is edited; manual diagnostic runs do not substitute for PR checks; do not bypass a rule or simulate another account's approval; models sharing one login are not multiple approvals",
+    "Evidence standards for tests/ (CONTRIBUTING.md): exact rational arithmetic (fractions.Fraction) wherever a bound is claimed, float paths labelled NON-CERTIFYING in code and output; certified enclosures via the interval module; every checker and claimed bound needs a negative control that fails when the check is weakened or an inequality flipped; resolve module globals at call time and drive checkers through CLI flags in tests; generated files regenerated never hand-edited; frozen bodies get numbered successors; Python 3.11 stdlib unittest, run in both normal and -O (and -S) modes; guard mpmath/numpy imports and skip when absent; W8b identity controls must stay in landing-checks and public-shop",
+    "Change-tier verification (OP-WORKFLOW 'Match verification to the change'): a mathematical statement, proof or dependency change needs exact source identity, hypotheses, substantive review of the changed scope and every applicable scientific predicate; review reuse only for exact unchanged proof bytes, hypotheses and consumed dependency slice; changed reviewed bytes invalidate the review and require a successor disposition; record author/reviewer exposure and separate technical verdict from organizational independence; blind reconstruction and adversarial attack follow governance/OP-CLOSURE-EVIDENCE-20261006.md (evidence profiles derived, never stored; an axis without record reads 'not recorded')",
+    "Math- side (Math- AGENTS.md, formal/README.md, formal/gate.py): read formal/README.md, SCOPE.md and main #95 before claiming formal work; gate.py --execute requires exact `Lean (version 4.34.1, ..., commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)`, allowed axioms propext/Classical.choice/Quot.sound, all 63 declarations audited; original GP-FOR-192 bytes preserved under formal/originals/*.lean.txt with separately named V2 modules; initial build failures preserved under formal/evidence/"
+   ]
+  },
+  "exact_checkers": [
+   {
+    "repo": "main (origin/main)",
+    "path": "experiments/periodic_h0/exact_h0.py (+ EXACT_H0.md, exact_barcode_certificate.py, results/exact_h0_1/CERTIFICATE.json)",
+    "certifies": "Exact ordinary H0 barcode of an integer-valued periodic vertex cubical filtration (elder rule, ties, independent connectivity check, bin transfer) for the frozen 1024x1024 dyadic grid (seed label 34000, fixed_point_scale 2^96 = 79228162514264337593543950336)",
+    "outputs": "barcode.zero_count 1048506; computed_barcode_error 0; independent_connectivity_check true; finite_polynomial_diagram_bound_decimal_up 0.001061264136756651120320; gaussian_law_certified/infinite_field_certified/lifetime_law_certified false; sample_sha256 f549a5db7215213ff36b4704da4aef5b37472ae2dd3371d77ff38fe8a8d4d410"
+   },
+   {
+    "repo": "main",
+    "path": "experiments/periodic_h0/finite_certificate.py (results/certificate8/CERTIFICATE.json; also exports sqrt_bounds used by other certifiers)",
+    "certifies": "Derivative bounds (spatial budget B) for exactly defined rounded dyadic finite Fourier polynomials, BITS=128, Machin pi and integer square roots; certifies no FFT, sampling law, spectral tail or persistence implementation",
+    "outputs": "model exact_dyadic_rounded_coefficients; precision_bits 128; coefficient_object_sha256 f9703c9098bff546efda6eb8da6f012ac0e8f23b84b48cb2d997562d235faf71; all *_certified flags false"
+   },
+   {
+    "repo": "main",
+    "path": "experiments/periodic_h0/nodal_certificate.py + nodal_core.py (results/nodal1/CERTIFICATE.json)",
+    "certifies": "Finite rounded-polynomial nodal error and abstract filtration stability bound for a 128-grid sample",
+    "outputs": "nodal_error = 6394184597743681070692285328755979607035850443/6427752177035961102167848369364650410088811975131171341205504 (decimal_up 0.000000000000000994777712); abstract_diagram_bound_decimal_up 0.479769953926644019; center_error_bound 13235240104357483911310362468143836875/6427752177035961102167848369364650410088811975131171341205504"
+   },
+   {
+    "repo": "main",
+    "path": "experiments/periodic_h0/hessian_grid_certificate.py + hessian_grid_core.py (results/hessian1/CERTIFICATE.json)",
+    "certifies": "Sharper finite-field spatial and nodal bound via exact Hessian grid (derivative_grid 256, samples 1024^2)",
+    "outputs": "spatial_bound_decimal_up 0.001061264136756651119821; abstract_diagram_bound_decimal_up 0.001061264136756651120320; nodal_error_decimal_up 0.000000000000000000000499362592; grid_hessian_center_norm 16722774630911149284017939602015/158456325028528675187087900672; samples.nodal_error 205425854962539531570091639731168733748047/411376139330301510538742295639337626245683966408394965837152256"
+   },
+   {
+    "repo": "main",
+    "path": "experiments/periodic_h0/gaussian_tail_certificate.py + gaussian_tail.py (exp_neg_bounds) (results/gaussian_tail1/CERTIFICATE.json)",
+    "certifies": "Ideal Gaussian omitted-mode (spectral tail) probability bound for normalized periodized Bargmann-Fock on (R/24Z)^2 with cutoff 24; conditional contract epsilon_total <= epsilon_finite + tau + rho + normalization_loss*norm(P); coupling to the frozen sample remains open",
+    "outputs": "finite_object.norm_upper 168121244410939291221773941820374436395/10633823966279326983230456482242756608 (decimal_up 15.810045844661777130197921); historical_gaussian_draw_certified false"
+   },
+   {
+    "repo": "main",
+    "path": "experiments/periodic_h0/gaussian_coupling_certificate.py + gaussian_coupling.py (results/gaussian_coupling1/CERTIFICATE.json)",
+    "certifies": "Prospective 128-bit inverse-normal coupling J_i = floor(2^128 U_i) under an explicit ideal IID uniform-word input hypothesis (deterministic fixture, cutoff 1)",
+    "outputs": "precision_contract.exponential_width_upper 1/113078212145816597093331040047546785012958969400039613319782796882727665664; series_remainder_upper 3254972697/193589899193638014223782740561400095942185755612867818003468148263229763616768; maximum_ordinary_halvings 69; fixture dc -8885014607108177287726549108309159841/10633823966279326983230456482242756608; iid_input_law_certified false"
+   },
+   {
+    "repo": "main",
+    "path": "experiments/periodic_h0/word_polynomial_certificate.py + word_polynomial.py (results/word_polynomial1/CERTIFICATE.json)",
+    "certifies": "Explicit finite words -> smooth polynomial -> exact H0 bin counts (grid 128, hessian grid 32, cutoff 1, side 24); deterministic, no RNG",
+    "outputs": "real_polynomial.dc -128229013988295542567833856603121750387525058952548055593/784637716923335095479473677900958302012794430558004314112; result.finite_polynomial_diagram_bound_decimal_up 0.000375408633135674692468; computed_barcode_error 0; new_deterministic_barcodes 1"
+   },
+   {
+    "repo": "main",
+    "path": "experiments/periodic_h0/finite_count_loss_certificate.py + finite_count_loss.py (results/finite_count_loss1/CERTIFICATE.json)",
+    "certifies": "Finite-cutoff count-loss budgets for F64,K on the side-24 torus under the declared word-input law",
+    "outputs": "expectation_formula max(0,E[L]-16*K^2*p_clip) <= E[N_F64,K([a,b))] <= min(16*K^2,E[U]+16*K^2*p_clip); positive_finite_bar_cap 16*K^2; expected_bin_counts_computed false"
+   },
+   {
+    "repo": "main",
+    "path": "experiments/periodic_h0/count_confidence_certificate.py + count_confidence.py + mean_adaptive_confidence.py (log_bounds) (results/count_confidence1/CERTIFICATE.json)",
+    "certifies": "Exact planning/finite-law controls for conditional count confidence (Hoeffding-type family risk, toy enumerations), K in {1,24,32}",
+    "outputs": "family_risk_formula min(1,2*m*exp(-2*n*(r/(16*K^2))^2)); interval_formula [max(0,mean(L)-r-16*K^2*p), min(16*K^2,mean(U)+r+16*K^2*p)]; toy_controls.exact_two_sided_failure 9/128; retained_unresolved_upper_failure 9/256; discarding_failure 255/256; correct_two_sided_risk 21298764540348831456955801040300466007493857928255494872408911038212689096057/28948022309329048855892746252171976963317496166410141009864396001978282409984"
+   },
+   {
+    "repo": "main",
+    "path": "experiments/universality/fold_controls.py (+ test_fold_controls.py)",
+    "certifies": "Exact toy pushforward: density power (alpha+1)/p - 1 and cumulative exponent (alpha+1)/p for dI = C r^alpha dr, ell = k r^p; exact bin masses; shows cubic gap alone gives powers -2/3, -1/3, 0, +1 under different radial laws",
+    "outputs": "JSON report of exact Fractions (cumulative exponent 2/3 and density exponent -1/3 for alpha=1,p=3); 'no random-field admissibility or Lean claim'"
+   },
+   {
+    "repo": "main",
+    "path": "tests/test_d5_shrinking_witness.py (companion of docs/rn_d5_shrinking_witness_20260926.md)",
+    "certifies": "Exact rational/integer determinant identities for the shrinking witness-pair reconnaissance (object RN-SHRINKING-WITNESS-M2-20260926)",
+    "outputs": "unittest assertions over Fraction determinants; no numeric outputs published"
+   },
+   {
+    "repo": "main",
+    "path": "docs/research-translation/20260930/cap-assumption-ablation/probe.py",
+    "certifies": "Stdlib exact polynomial controls for the cap-assumption ablation PROOF.md (Fractions + outward Decimal)",
+    "outputs": "JSON report with source hash; 'not a continuum/formal proof'"
+   },
+   {
+    "repo": "main",
+    "path": "history/carrier20_recovery_20260928/public_carriers/verify_gamma_loc_iic_v1.py (S1/S2 exact Fractions; S3 numeric), verify_thm023_v1_1_v1.py and verify_wp_witness_v1.py (mpmath dps=100, NON-certifying)",
+    "certifies": "Recovered KIMI carriers: gamma-LOC (ii-c) discharge chain margins (R=1,2,5,50) and terminal ledger; THM-023 v1.1 9-pin conditioning witnesses on the periodized side-24 Bargmann-Fock field",
+    "outputs": "S1: 512 eps0 = 1/8192, 2 K eps0 = 1/512, eta_R = 1/(8192 R^3); S2: p0(-1/2)=0, p0(1/2)=-1/6, p0(5/4)=49/192, 49/192 - 1/768 = 65/256 > 1/4, margin ratio 195/128; mpmath prints (mu_t - b)/ell ~ -0.4997159 (diagnostic)"
+   },
+   {
+    "repo": "main (unmerged codex/exact-population-certificate-20261009-root01a11cbf, PR #343; also PR #344, #346, #349)",
+    "path": "experiments/universality/two_parameter_cusp_population/population_certificate.py + run_population_certificate.py (results/exact_population_1/CERTIFICATE.json, RESULTS.md)",
+    "certifies": "Deterministic 128-bit outward Fraction interval enclosures of eight normalized cusp-population predictions (tau = 8^-j, j=1..8) and the row-8 finite iid-copy void probability against exp(-B), threshold 1/8192; reuses periodic_h0 sqrt_bounds, exp_neg_bounds, log_bounds; A = 1/2^16, U0=3A^2, V0=2A^3",
+    "outputs": "all 8 rows PASS (e.g. j=1 CDF interval [9698669598254516463664625632439578707/42535295865117307932921825928971026432, 19397339196509032927329251266404394463/85070591730234615865843651857942052864]); void interval [2803722782782673251877380393776657242403798367195026522469331952123672246895/3618502788666131106986593281521497120414687020801267626233049500247285301248, 89719129049045544060076172820002359990801435547911798031414733543146336604957/115792089237316195423570985008687907853269984665640564039457584007913129639936]; max cross-endpoint distance 518538081611300330636719918461647525585798813205589795474212705283500573/115792089237316195423570985008687907853269984665640564039457584007913129639936 < 1/8192; scope statuses lean_kernel NOT_RUN, scientific_promotion NOT_RUN, independence credit 0"
+   },
+   {
+    "repo": "main (unmerged codex/global-cusp-h0-selector-20261009-root01a11cbf, PR #349/#350)",
+    "path": "experiments/universality/two_parameter_cusp_population/global_h0_selector.py, surgery_field.py, run_global_h0_selector.py (results/global_selector_1/CERTIFICATE.json, RESULTS.md)",
+    "certifies": "Exact rational evaluation of the complete periodic cusp field (model explicit_periodic_cusp_v1) and an exact global H0 selector on 18 planned fixtures, conditional on the bound historical analytic guards",
+    "outputs": "Driver disposition CERTIFIED; computed positive finite lifetimes e.g. fixture_01 1/75557863725914323419136, fixture_03 1/9444732965739290427392, fixture_05 27/75557863725914323419136, fixture_09 1/1180591620717411303424, fixture_13 3/18889465931478580854784, fixture_18 9/295147905179352825856; remaining_scopes gaussian_universality, higher_homology, lean_kernel, random_blind_campaign, same_field_spatial_poisson, scientific_promotion"
+   },
+   {
+    "repo": "Math-",
+    "path": "coefficients/side24_v1/coefficient.py (+ test_coefficient.py, ENCLOSURE.json, PROOF.md; byte-pinned into main formal/sources/side24_v1 at Math-@9d7b6802)",
+    "certifies": "Outward rational enclosure of the SIDE24 coefficient c_{d,24} of main issue 63 Eq. (15.2), d=2,3; SCALE 10^80, EPS 10^-108, Stirling remainder (DLMF 5.11), image/periodization ledger; the arithmetic skeleton of this is what main formal/ formalises (31 integer facts)",
+    "outputs": "d=2: [0.07340691930603427103, 0.07340691930603427104]; d=3: [0.04177593184059834334, 0.04177593184059834335]; cone moments D_1 = 4/3, D_2 = 29/6 - sqrt(6); relative_periodization_bound 1e-106; covariance_relative_bound 31763607879717/25*10^-124; exp_lower_gt_10 true; object SIDE24-COEFFICIENT-D23-20260924-v1; scientific_acceptance false"
+   },
+   {
+    "repo": "Math-",
+    "path": "coefficients/side24_d4_20260930/cone_moment_d4.py (RESULTS.json)",
+    "certifies": "Certified cone moment D_3 = E[det(A)^2 1{A<0}] for A = Q + sqrt(2/3) Z I_3 (GOE), and c_{4,ref}, c_{4,24}; decimal 60-digit directed-rounding intervals, Machin pi, Taylor quadrature with Cauchy remainders; mutant controls",
+    "outputs": "D_3 in [5.32318026888989689492319873968726063578438852940845576405060, 5.32318026888989689492319873968726063578438852947338433618854]; c_4_ref in [0.0233216660029528350945211949528568851531013723630981034059901, 0.0233216660029528350945211949528568851531013723633825654059788]; c_4_24 in [0.0233216660029528350945211949528568851531013723630981034059898, 0.0233216660029528350945211949528568851531013723633825654059791]; reproduces c_2_ref, c_3_ref inside the SIDE24 intervals; E_4 ~ 1.24614968346183326e-111"
+   },
+   {
+    "repo": "Math-",
+    "path": "coefficients/side24_d4_closed_form_20260930/closed_form_d3.py (RESULTS.json)",
+    "certifies": "Exact closed form D_3 = 50/3 - 76/(3 pi) - (200/(9 pi)) arctan(1/2) = (50 pi + 200 arctan 2 - 228)/(9 pi), computed in the Q-span of sqrt(r) pi^(k/2) {1, arctan atoms}; interval evaluation inside the #199 enclosure (47 common digits)",
+    "outputs": "D_3 interval [5.32318026888989689492319873968726063578438852944092005011779, ...012189]; c_{4,ref} = Gamma(7/6)(3/2)^(1/3)(50 pi + 200 arctan 2 - 228)/(72 sqrt3 pi^(7/2)) in [0.0233216660029528350945211949528568851531013723632403344029687, ...4090027]; checks D1_EXACT, D2_EXACT, D3_INSIDE_CERTIFIED, C4_CLOSED true"
+   },
+   {
+    "repo": "Math-",
+    "path": "coefficients/side24_d5_20260930/cone_moment_d5.py and coefficients/side24_d5_closed_form_20260930/closed_form_d4.py",
+    "certifies": "D_4 certified enclosure and exact closed form D_4 = 6695/54 - (405/32) sqrt6 - (1/pi)[(1375/72) sqrt21 + (6695/27) arctan(sqrt(3/7)) + (405/16) sqrt6 arctan(1/sqrt14)]; Mehta Z_4 = 1536 pi; c_{5,ref}, c_{5,24}",
+    "outputs": "D_4 in [14.2187634589773576013064656778740783173406003782976930345926, 14.2187634589773576013064656778740783173406042538663501338228] (closed form interval [...3406023160820215841833, ...842323]); c_5_ref in [0.0132193193800849680760334875146413965210528883241234179643777, 0.0132193193800849680760334875146413965210528919272763929401087]; c_5_24 [0.0132193193800849680760334875146413965210528883241234179643775, ...401089]"
+   },
+   {
+    "repo": "Math-",
+    "path": "coefficients/side24_d6_20260930/cone_moment_d6.py (about three minutes)",
+    "certifies": "D_5 via two exact layers and one certified cumulative (Owen-T-type) layer; Mehta Z_5 = 46080 pi^(3/2); c_{6,ref} = Gamma(7/6)(3/2)^(1/3) D_5/(64 sqrt3 pi^(7/2)) and c_{6,24}",
+    "outputs": "D_5 in [44.1306518750741327103620248954026331485852349159356435082422, 44.1306518750741327103620248954026331489792412102184405166029]; c_6_ref in [0.00769287862923684827866663128122739008112489691080122434668372, 0.00769287862923684827866663128122739008119358029688972504148788]; c_6_24 [0.00769287862923684827866663128122739008112489691080122434668364, ...148796]; object CL-SIDE24-D6-COEFFICIENT-20260930-v1, certified true"
+   },
+   {
+    "repo": "Math-",
+    "path": "coefficients/side24_remainder_20260929/check.py (+ test_check.py, RESULTS.json)",
+    "certifies": "Exact finite rational controls for OA-SIDE24-REMAINDER-20260929-v1 (density scores, nearest-image first variation, infinite shells, remainder sign) with six mutants; not the continuum argument",
+    "outputs": "relative_remainder_bound < 1e-216 (d=2,3; L=24), relative_remainder_rational 161428285685827186686842837397771/5*10^-252...; taylor_majorant 25300000/19683; P_d_24 = -26045568; correction interval endpoints printed at e-260 scale"
+   },
+   {
+    "repo": "Math-",
+    "path": "coefficients/d3_l4_anisotropic_20261005/certificate.py (+ source_crosscheck.py, RESULTS.json, REFERENCE.json, CROSSCHECKS.json, VALIDATION.json)",
+    "certifies": "Outward 60-digit Decimal interval evaluation of the pinned Eq. (15.2) coefficient at d=3, L=4 (anisotropic torus) with analytic cone series (degree 16) and proved angular midpoint error, N_theta=N_phi=128; author-side (OpenAI GPT-6 Astra Pro)",
+    "outputs": "coefficient_interval [0.0404150419925377070255472220341911930853395863844049876852494, 0.0404819343425843457950697038731959963580543767609554289482136]; ratio to reference [0.967424069599373783269432399160131451988741566670054065605536, 0.969025287025280055574609207090646634637531893769007597058636]; reference_interval reproduces SIDE24 d=3 [0.04177593184059834334, 0.04177593184059834335]; lean_verification false"
+   },
+   {
+    "repo": "Math-",
+    "path": "coefficients/lm006_wrong_sign_20261006_r20/enclose.py (+ test_enclosure.py, RESULTS.json)",
+    "certifies": "Outward rational enclosure (SCALE 10^36, integer/Fraction only) of the Math-#358 coefficient under the LM-006 wrong-sign asymptotic note; d=2, L=24, b=6/5, six pins, gap r^3/6",
+    "outputs": "coefficient [0.001305365507, 0.001338803452]; gamma [0.021429752302, 0.021978691924]; p0 [0.196810857928, 0.196810857929]; z0 [3.230978535287, 3.230978535288]; tail_gamma_upper 0.000000001492544918; exp288_lower_gt_10pow125 true"
+   },
+   {
+    "repo": "Math-",
+    "path": "certificates/bf_six_pin_scalar_20260926/certificate.py (CERTIFICATE.json) and certificates/bf_six_pin_hessian_20260926/hessian_certificate.py (CERTIFICATE.json); certificates/bf_source_integrity.py",
+    "certifies": "Exact Fraction arithmetic for Var(f_ts(M) | six linear pins)/r^2 on the unperiodized planar Bargmann-Fock field (0 < r <= 1/40), and the six-pin Hessian regression polynomials (Gram determinant, inverse identity, Schur numerator) with rational endpoint checks; the all-order analytic proofs are separate",
+    "outputs": "normalized_variance in [1599/3200, 1/2]; Hessian: covariance_lower 1/7, covariance_upper 2, axial_internal_interval [23995/144258, 224477/1343790], diagonal_intervals [[1/7,1/5],[1599/3200,1/2],[2,2]], centered residual determinant second moment upper 23/20 r^4; review_status REVIEW_REQUIRED; kernel_checked false"
+   },
+   {
+    "repo": "Math-",
+    "path": "companions/d2_atom_integral_20261006/{check.py,D2AtomIntegral.lean,Contract.lean}, companions/d2_moment_bridge_20261006/{check.py,D2MomentBridge.lean}, companions/d2_square_schur_20261006/{check.py,D2SquareSchur.lean,Contract.lean}",
+    "certifies": "Lean/Mathlib companion declarations (6, 16, 4 theorems) for the D2 remainder: atom integral, moment bridge, square Schur, each with a Python source-bound custody/axiom-audit driver (pinned core parser from #343/#317) and replay.sh",
+    "outputs": "receipts of axiom audits (propext/Classical.choice/Quot.sound only); no numerical enclosure; 'not independent scientific acceptance'"
+   },
+   {
+    "repo": "Math-",
+    "path": "frontiers/c2_exact_20261001/{certificate.py,exact.py,pseries.py,ia.py,elem.py,gam.py,controls.py} (RESULTS.json)",
+    "certifies": "Closed forms (exact Fractions) and binary64 outward-interval enclosures of the leading coefficient c and third-order coefficient c2 of the short-lifetime law, Gaussian kernel, d=1,2,3 (Math-#216/#218 (0.1)); ia.py = one-ulp outward IEEE interval arithmetic with series-based pi, ln2, exp, Phi",
+    "outputs": "d=1: c = (1/6) pi^(-3/2) Gamma(1/6) 12^(-1/6) in [0.1101103789590410, 0.1101103789590625]; c2 = 9 pi^(-3/2) Gamma(5/6) 12^(-5/6) in [0.2300445802661503, 0.2300445802661998]; c2/c = 54 Gamma(5/6)/(12^(2/3) Gamma(1/6)) in [2.089217950577392, 2.089217950578207]; d=2: c = (1/9) pi^(-3/2) Gamma(1/6) 12^(-1/6) in [0.07340691930602738, 0.07340691930604167] (consistent with SIDE24), c2 = (26/3) pi^(-3/2) Gamma(5/6) 12^(-5/6); d=3 cone exponents [3/10, 3/10, 1/5, 3/20]"
+   },
+   {
+    "repo": "Math-",
+    "path": "reviews/c6_tail_constant_certified_20260930/certify_tail_constants.py (RESULTS.json)",
+    "certifies": "48-digit Decimal directed-rounding enclosures of the planar microscopic radius-tail cusp integrals J_cusp, T1, T2, Tb and assembled constants of Math-#178 (160 cells, Taylor order 12, truncation 16)",
+    "outputs": "D_inner in [109.769950345687984746091911144322714480157052373, ...375]; kappa in [0.0613843941821676280477188642920775402962871118467, ...476]; B2 (k=1,b=0) in [0.820060477332820453427583913757754509621126819120, 0.820060477332820453437420585881481923303985092503]; exact relations T2 = -T1/12, Tb = (12k^2+1)/(36k^3), B_sign prefactor 4587821/876544, c lower 66451/11128"
+   },
+   {
+    "repo": "Math-",
+    "path": "frontiers/c8_elder_failure_coefficient_20261001/{certificate.py,ia.py,boxes.py,torus.py,controls.py} (RESULTS.json)",
+    "certifies": "Binary64 one-ulp outward interval enclosures (adaptive boxes, ~1e6 leaves) of the planar near-cluster elder-failure coefficients J_fail(k) = 3k^2(E[2(B_-)^3]+E[2T]+E[V]), J_2(k), I_k, C_fail^{B,K} for k in {1/2,1,2}",
+    "outputs": "k=0.5: J_fail in [36.78305814, 36.78680021], J_1 in [35.67360980, 35.68065110], J_2 in [1.106148894, 1.109448563], share J2/Jfail in [0.03006918240, 0.03016194161]; published intervals widened 1e-7 relatively, 10 significant digits"
+   },
+   {
+    "repo": "Math-",
+    "path": "frontiers/c8_window_coefficient_planar_20260930/window_coefficient.py, frontiers/c8_window_coefficient_d3_torus_20260930/window_coefficient_d3.py, c8_window_coefficient_d4..d7_20261001/*.py, frontiers/c8_theorem_a_constants_planar_20260930/theorem_a.py, c8_theorem_a_constants_d3_20261001/theorem_a3.py, frontiers/c8_normalizer_floor_planar_20260930/floor.py, c8_cap_failure_coefficient_{planar,dims}/*.py, c8_lifetime_difference_constant_20261001/{theorem_b,engine_e2,engine_e3}.py, c8_torus_vanishing_remainder_20261001/*.py",
+    "certifies": "Decimal directed-rounding / exact-rational enclosures of [LP] Theorem B compact-window coefficient c_{B,K} (exact factorization + closed forms), Theorem A explicit constants (1 - p_r <= C(r_*) r^3 for L >= 10, SIDE24 point (b,k)=(6/5,1/6)), the planar finite-r normalizer floor z_* (exact Laurent-polynomial covariances, 6x6 interval regression), cap-failure coefficients and lifetime-difference constants; each with --mutant controls",
+    "outputs": "JSON RESULTS.json per packet with [lo,hi] decimal intervals and checks (not all read in this pass; see each RESULTS.json)"
+   },
+   {
+    "repo": "Math-",
+    "path": "reviews/c2_interval_audit_20261001/oracle.py (+ verify.py, tests)",
+    "certifies": "Independent rational (BITS=240 outward) re-enclosure of PR223's nine numerical outputs using series-tail bounds for log/exp and the positive-real Stirling remainder for Gamma; imports no source numerical engine",
+    "outputs": "nine rational intervals compared with PR223 outputs (JSON); evaluates supplied closed forms, not their derivation"
+   },
+   {
+    "repo": "Math-",
+    "path": "frontiers/p15_tail_load_20260928/certificate.py (+ verify.py, RESULTS.json); frontiers/p15_bipartite_overlap_20260928/overlap.py; frontiers/full_price_20260924/full_price.py; frontiers/price_budget_20260924/price_budget.py; frontiers/three_fronts_20260924/frontier_math.py",
+    "certifies": "Exact Fraction finite controls for the P15 (prize reconnaissance, HOLD) tail/load, bipartite overlap, full-price theorem (rho* = 1/(3-log(3e-2...))) and price budget",
+    "outputs": "p15_tail_load: baseline_passed true, all_mutants_assertion_rejected true, 15 tests per mode, continuum_verified false"
+   },
+   {
+    "repo": "Math-",
+    "path": "imports/gp_data_114_embedded_20260930/GP-DATA-114-v1.0_uniform_q_degree4_interval.py",
+    "certifies": "Outward-rounded interval certificate for a full-dimensional degree-four uniform-q Route-B PRCP box for r in (0,1/20] (gates G0-G7); recovered import",
+    "outputs": "interval sufficient conditions pass/fail per gate; mass, exact-field transfer, P0.1, P0.2 remain separate"
+   },
+   {
+    "repo": "Math-",
+    "path": "Other exact/interval checkers (headers not all read): frontiers/c6_*/{verify.py,*_check.py} (fourier cutoff, marked fourier, rare cluster laws, count cap boundary, palm route, sharpened), frontiers/c7_*/check.py, frontiers/remote_*_2026092x/*.py, frontiers/rn_annulus_bridge_20260925, frontiers/rn_thin_tube_20260925, frontiers/intermediate_window_20260928/algebra.py, frontiers/planar_cubic_cluster_20260929/cubic.py, frontiers/lifetime_moment_boundary_20260930/check_exact.py, frontiers/replacement_bar_occurrence_20261001/check_exact.py, frontiers/unique_replacement_bar_intensity_20261001/check_exact.py, frontiers/planar_soft_layer_chain_20261003/C*/checker.py (C127/c127_exact.py), frontiers/qs_d3_soft_layer_chain_20261005/A3*/author_controls.py, frontiers/lifetime_two_thirds_chain_20261007/*/author_controls.py, repairs/c026_reciprocal_20260927/reciprocal.py, repairs/h5_rim_contract_20260926/rim_contract.py, reviews/d1_*/{theorem_a_exact_check,elder_lower_exact_check,cap_maximin_check}.py, reviews/d5_*/{iw_exact_check,collar_algebra,pin_frame,finite_r_contact}.py, reviews/collision_mechanism_20260925/exact_checks.py, reviews/d2_two_mass_floors_20261006/two_mass.py, reviews/d2_joint_mass_schur_20261006/joint_mass.py",
+    "certifies": "Per-packet exact rational or outward-interval finite controls accompanying frontier/review PROOF or NOTE files; each is author-side arithmetic for its packet, run by a dedicated Math- workflow (60+ .github/workflows/*.yml, e.g. c2-exact.yml, c6-tail-constant-certified.yml, c8-elder-failure-coefficient.yml, cap-first-exit-lean.yml)",
+    "outputs": "RESULTS.json / printed JSON per packet; not enumerated individually in this pass"
+   },
+   {
+    "repo": "Math- (Lean, already formal)",
+    "path": "formal/ResearchFormalCoreR1/{AlgebraV2,ProbabilityCompanionsV2,MeasureBridge,WeightedLaw,MomentTail,MomentGenerality,WeightPerturbation,D2Schur}.lean (63 targets, manifest.json), frontiers/cap_first_exit_lean_20261002/CapFirstExit.lean (5473 lines, 139 theorem/lemma, own lakefile mathlib d13f23b7..., gate.py, MANIFEST.json, ALIGNMENT.md; author Anthropic/Claude), reviews/w3_side24_source_proposal_20261008/W3Scratch/{D2SchurLinks,Side24Law,Side24Poisson}.lean (Grok Bot agent 13 scratch, 'not reviewed, not aligned, not a discharge')",
+    "certifies": "Existing Lean statements: EC-005/008/010/011/014 scalar identities, P02-LM-008/009 quotient/measure transfers, weighted law construction, Markov moment-to-tail, weight perturbation, D2 Schur real algebra (16 declarations); CapFirstExit: topological global step of D1 component III plus Hermite/slice lemmas L1-L8; W3Scratch: theta-function moment formulas for the SIDE24 periodized law (scratch)",
+    "outputs": "kernel receipts only (formal/gate.py --execute); no numeric enclosures; formalization_status proved, alignment PENDING_INDEPENDENT_REVIEW (20 targets separately ACCEPTED by the main reviews/lean_probability_alignment_20261005 record)"
+   }
+  ],
+  "notes": [
+   "Branch identity caveat: /home/user/main's working tree and its CLAUDE.md describe the hardening research branch (claims/, registers/, engine/, research/interval, tools/claims_check.py); none of those paths exist on origin/main. Lean-restatement work that cites 'research/interval' must target chatgpt/drive-github-hardening-20260919 (last merge 2026-09-27 a01c72f1) or Math-, not origin/main.",
+   "PROOF_INDEX.md and claims/LANDING_CLAIMS.json live only in Math- (d6g8k5htny-coder/Math-); grep of both at 6c020d6 finds no reference to experiments/universality or experiments/periodic_h0. On main, docs/site/research.html (9 Oct reading cut, PR #337) names experiments/universality/finite_h0_lifetime/PROOF.md and experiments/periodic_h0/spectral_shrinking_bins/PROOF.md; docs/RESEARCH_INDEX.md names the periodic_h0 certificate notes.",
+   "All ten merged and five unmerged experiments/universality proofs are prose Markdown authored by OpenAI/Codex agents (universality_review, final_contract_review, root task 01a11cbf-068d-7102-861e-75814e715c98), each preserving a frozen external preparation by SHA-256 and byte count, with same-provider PASS verdicts and organizational-independence credit zero; they are candidates for Lean specification but none has a Lean target, and several explicitly list 'literal C210/Lean source alignment remains open' or 'lean_kernel: NOT_RUN'.",
+   "The unmerged codex cusp chain (PRs #330, #331, #334, #336, #340, #343, #344, #346, #349, #350) is stacked: each later branch contains all earlier PROOF files, all based on 1966a74; merging in order matters. PR #343/#349 contain the first exact-arithmetic Python certificates in experiments/universality and import periodic_h0 bound helpers (finite_certificate.sqrt_bounds, gaussian_tail.exp_neg_bounds, mean_adaptive_confidence.log_bounds), which are therefore shared primitives worth Lean restatement.",
+   "main formal/ history: c0e5602 (2026-09-27) introduced formal/registry.json and UniversalLaw/Audit.lean; c7ce8ec converged onto the Math- lane contract and the current tree has formal/manifest.json (31 targets) and no Audit.lean. tests/fixtures/formal_scope_cc2989.md pins the Math- pilot scope at cc2989c1280f4f227d0c6aa30c8841d6ba01e46e.",
+   "Formal toolchain pins observed: Lean leanprover/lean4:v4.34.1 in main formal/, Math- formal/ and Math- frontiers/cap_first_exit_lean_20261002; mathlib rev d13f23b723b8a846827a245b89c10fc7d3f11612 in both Math- Lean projects (lake-manifest also pins plausible 118aa17e..., LeanSearchClient ddf04cf3..., importGraph e928b725...); Math- gate.py requires the exact Lean release commit 5045d0056413266e57c625dcd7c365b10e377c52; main CI installs elan via v4.2.4 elan-init.sh sha256 a620ff1641616222c8d37c54845492004bb84d6877cdbc944dd65c1aa685bf53; unmerged chatgpt/main-lean-preflight-20261008-r1 (PR #315) adds a Lean-release preflight to formal_gate_check.py; codex/c226-formal-phase-evidence (PR #347) adds tools/formal_evidence_history.py.",
+   "Status-label movement observed on main since 26 Sep: 510efe6 (2026-09-29, Claude Opus 5.5) moved the STATUS.md D1 row to 'ACCEPT — scoped' as a transcription of the Math- #126 reconciliation (merge 8224783); STATUS.md snapshot date is 2026-09-29; D5 quantitative obligations and SARD-G A1/A6 remain AMEND/open.",
+   "Review-independence facts relevant to a Lean design: the only alignment record on main (reviews/lean_probability_alignment_20261005) is by xAI/Grok 4.7 for 20 Math- targets, Lean not re-executed; main formal/ (author Anthropic/Claude) still has alignment PENDING_INDEPENDENT_REVIEW; all lanes share one GitHub account, so every record states independence credit 0 and Dylan's reading PENDING.",
+   "Both repositories' required checks bind to the tested merge commit; a new Lean package on main must either be registered in formal/manifest.json (gate refuses unregistered .lean files and any non-empty dependency lock on the core package) or live in Math- under the Mathlib lane; docs/FORMAL_VERIFICATION.md work-offer table names 'Numerical formalizer: exact definition of the SIDE24 coefficient and proof-producing enclosure pipeline' and 'Probability formalizer' as open offers.",
+   "Scratch files: <SCRATCH>/recon/peers/{NOTES.md,log_all.txt,log_math.txt,branches.txt,math_commits_stat.txt,math_cert_json_dump.txt}."
+  ]
+ },
+ "files_read": [
+  "/home/user/main (git) origin/main:CLAUDE.md",
+  "origin/main:AGENTS.md",
+  "origin/main:CONTRIBUTING.md",
+  "origin/main:STATUS.md",
+  "origin/main:governance/OP-WORKFLOW-20260930.md",
+  "origin/main:governance/OP-CLOSURE-EVIDENCE-20261006.md (head)",
+  "origin/main:docs/WORKSPACE.md",
+  "origin/main:docs/FORMAL_REQUIRED_CHECKS.md",
+  "origin/main:docs/FORMAL_VERIFICATION.md",
+  "origin/main:docs/PERSISTENCE_UNIVERSALITY_PROGRAM.md (head)",
+  "origin/main:formal/README.md",
+  "origin/main:formal/SCOPE.md",
+  "origin/main:formal/manifest.json",
+  "origin/main:formal/lean-toolchain",
+  "origin/main:formal/lakefile.toml",
+  "origin/main:tools/formal_gate_check.py (head)",
+  "origin/main:tools/required_formal_check.py (head)",
+  "origin/main:.github/workflows/workspace-landing.yml",
+  "origin/main:.github/workflows/formal-verification.yml",
+  "origin/main:.github/workflows/periodic-h0-pilot.yml (commands)",
+  "origin/main:.github/workflows/universality-controls.yml (commands)",
+  "origin/main:.github/workflows/research-architecture.yml (commands)",
+  "origin/main:.github/workflows/ci.yml",
+  "origin/main:experiments/universality/README.md",
+  "origin/main:experiments/universality/*/PROOF.md and REVIEW.md (status lines, 10 directories)",
+  "origin/main:experiments/periodic_h0/spectral_shrinking_bins/{PROOF.md,README.md} (heads)",
+  "origin/main:experiments/periodic_h0/APPROXIMATION.md (head)",
+  "origin/main:experiments/periodic_h0/*_certificate.py, exact_h0.py (heads)",
+  "origin/main:experiments/periodic_h0/results/*/CERTIFICATE.json (9 files)",
+  "origin/main:experiments/universality/fold_controls.py (head)",
+  "origin/main:docs/research-translation/20260930/{APPENDICES.md,COMPLETION_AUDIT.md} (heads)",
+  "origin/main:docs/rn_d5_shrinking_witness_20260926.md (head)",
+  "origin/main:incoming/grok-session-20260926-replay/A_M_TO_A0.md (head)",
+  "origin/main:history/carrier20_recovery_20260928/public_carriers/verify_*.py (heads)",
+  "origin/main:tests/test_d5_shrinking_witness.py, tests/test_exact_sample_shrinking_bin.py (heads)",
+  "origin/main:reviews/lean_probability_alignment_20261005/REVIEW_272_20.md (head)",
+  "origin/codex/global-cusp-h0-selector-20261009-root01a11cbf: experiments/universality/{higher_homology_fold,quartic_cusp_field,spectral_amplitude_crossover,spectral_gaussian_admission,two_parameter_cusp_population}/*.md (heads), two_parameter_cusp_population/population_certificate.py (head), results/exact_population_1/{RESULTS.md,CERTIFICATE.json}, results/global_selector_1/{RESULTS.md,CERTIFICATE.json}",
+  "git log/ls-tree/diff --stat of origin/main and 15 unmerged branches; git show --stat of 16 math-related commits; gh api repos/d6g8k5htny-coder/main/pulls (100 most recently updated)",
+  "<SCRATCH>/repos/math: formal/README.md, formal/manifest.json, formal/lean-toolchain, formal/lakefile.toml, formal/lake-manifest.json, formal/gate.py (head), AGENTS.md (formal lines), PROOF_INDEX.md and claims/LANDING_CLAIMS.json (grep), .github/workflows listing, coefficients/side24_v1/{coefficient.py,ENCLOSURE.json}, coefficients/side24_d4|d5|d6_20260930/*.py and RESULTS.json, coefficients/side24_d4|d5_closed_form_20260930/*.py and RESULTS.json, coefficients/side24_remainder_20260929/{check.py,RESULTS.json}, coefficients/d3_l4_anisotropic_20261005/{certificate.py,RESULTS.json,REFERENCE.json,CROSSCHECKS.json,VALIDATION.json}, coefficients/lm006_wrong_sign_20261006_r20/{enclose.py,RESULTS.json,SOURCES.json}, certificates/bf_six_pin_{scalar,hessian}_20260926/{*.py,CERTIFICATE.json,SOURCE_MANIFEST.json}, companions/d2_*/check.py (heads), frontiers/c2_exact_20261001/{ia.py,certificate.py,RESULTS.json}, frontiers/c8_elder_failure_coefficient_20261001/{certificate.py,RESULTS.json}, reviews/c6_tail_constant_certified_20260930/{certify_tail_constants.py,RESULTS.json}, reviews/c2_interval_audit_20261001/oracle.py (head), frontiers/p15_tail_load_20260928/{certificate.py,RESULTS.json}, frontiers/c8_theorem_a_constants_planar_20260930/theorem_a.py (head), frontiers/c8_window_coefficient_planar_20260930/window_coefficient.py (head), frontiers/c8_normalizer_floor_planar_20260930/floor.py (head), imports/gp_data_114_embedded_20260930/*.py (head), reviews/w3_side24_source_proposal_20261008/W3Scratch/Side24Law.lean (head), frontiers/cap_first_exit_lean_20261002/{README.md,lean-toolchain,lakefile.toml}"
+ ],
+ "gaps": [
+  "Did not read the bodies of the ten merged and five unmerged PROOF.md files (25-46 KB each); only their headers, status lines and README summaries were extracted, so theorem statements for Lean specification still need a full read.",
+  "Did not read issue #307 / #275 comment threads via gh api (claim IDs such as 6071732615, 6070584604, 6087579322 and R17 Work Events rows were taken from PROOF.md headers, not from the board itself); live lease state on the board was not verified.",
+  "Did not fetch GitHub Actions run results; required-check status for the open codex PRs (#330-#350) is unknown. PR state/merge data came from one gh api pulls page (100 most recently updated); older PRs (#1-#243 not listed) were inferred from commit messages.",
+  "Math- exact checkers: only ~30 of the ~150 frontiers/reviews/repairs Python files were opened; the remainder are listed by path with their packet names but their exact outputs were not extracted. Math- RESULTS.json intervals were truncated to the first ~300 characters per field in some cases (e.g. c2_exact d=2 c2, lm006 details beyond four fields).",
+  "Did not read Math- formal/SCOPE.md, MEASURE_BRIDGE.md, D2_SCHUR.md etc. or the Lean files' statements; only target names, module list and declaration counts were recorded. The D2 companions' Lean statements and the W3Scratch files were not read beyond headers.",
+  "Branch-level detail for cursor/*, chatgpt/* and inventable/* lanes older than 2026-09-26 (hardening line) was taken from ref subjects only; their diffs were not inspected.",
+  "The hardening branch (chatgpt/drive-github-hardening-20260919) and claude/drive-audit-github-migration-rrglpp — which hold research/interval and tools/claims_check.py — were out of scope for this reader and not inventoried.",
+  "Branch naming is reported as an observed convention; no document on origin/main codifies it.",
+  "Did not verify SHA-256 of any pinned source or run any checker (read-only recon; no Lean, no Python execution of certifiers)."
+ ]
+}

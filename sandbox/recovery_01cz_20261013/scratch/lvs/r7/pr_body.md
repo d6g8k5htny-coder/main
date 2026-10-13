@@ -1,0 +1,28 @@
+## Frontier section for the 64 registered Props without a theorem (docs only)
+
+**Scientific effect: NONE.** Documentation only: `README.md` and `SCOPE.md` of `specifications/lean_statements_20261010`. `REGISTER.json`, every `.lean` file, the gate `check.py`, the lock and the toolchain are untouched. No claim-level label moves; every one of the 64 Props stays `specified`; alignment stays `PENDING_INDEPENDENT_REVIEW`. Organizational-independence credit 0 (Anthropic / Claude, the packets' author). Coordination: main#307 pickup [6136169673](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6136169673).
+
+**What it adds.** At the base `8acc4856` (current Math- main) the sibling proof packet proves 77 of the 141 registered Props. One new section, inserted identically into both documents before their closing sections, classifies the other 64 so the remaining formal work is named where the register lives:
+
+- **36 vocabulary predicates**: `def … : Prop` with explicit non-instance arguments, consumed only as hypotheses; the universal closure is false or empty, so they are not theorem targets (counted among the 141 because the register inventories every Prop-valued definition).
+- **24 interface-blocked**: the pinned interface's fields do not determine the conclusion; for each row the (mathematical, not kernel-checked) inhabitant that satisfies every field and violates the conclusion is named; the route is a numbered successor interface, not a cleverer proof.
+- **4 Mathlib-blocked**: Lifetime Theorems B, C, E11 and R1, whose truth value the interface fixes but whose proofs need Gaussian-field and density theory absent from Mathlib `d13f23b7`.
+
+So of the 105 target Props, 77 are proved and 28 remain, all blocked at the specification or library level. Each row cites the defining line of the statement module (last changed at `873c6c0`, before the round-4 triage of 2026-10-11 whose verdicts this section re-applies). One cross-reference clause is added next to each document's existing "77 of the 141 Props" sentence.
+
+**Identities (head `9fb0a4a06900da5cc3f9126f30e117a747df1587`, tree `5f1ceda12195d71d178fcad1937dc2b57faa74ea`, base `8acc48566de3ae613c1ae320903b66c1d5411797`):**
+
+| file | bytes | blob | sha256 |
+|---|---|---|---|
+| `README.md` | 95031 | `756e3378` | `ff31f359e1ef514cd6dd2d6d45578b0c1d05b2984e3d759bc727dd1a01c19e3b` |
+| `SCOPE.md` | 273906 | `66b6a30a` | `762c0475dd4a5a28b5bd34a93d29616614b4b2e445ad4ab5feeff38e2f003693` |
+
+**Local checks on this head:** `python3 -B -S specifications/lean_statements_20261010/check.py` (source mode) exit 0, worktree CLEAN, 357 statements, 9 structures; `test_check.py` 97 tests OK. The hosted `lean-specifications.yml` run on this PR will be bound here (PR head and actual tested merge commit) when it completes. Generator: a fail-closed exact-anchor script over the committed bytes (anchors asserted unique; the 64 names asserted equal to the register's def_props minus the proof packet's theorem types; counts 36 + 24 + 4 asserted), kept in the author's scratch and listed in the recovery checkpoint.
+
+**What this does not establish.** Nothing about the truth of any statement or claim. The classification is the author's single reading (this session's parallel-verification capacity is exhausted until 2026-10-17 03:00Z); a reader may move a row between classes, and the "interface-blocked" inhabitants are described, not formalised. It does not say the informal sources are wrong: their hypotheses are exactly what the interfaces do not transcribe. Nothing here is a receipt; hosted runs remain the kernel evidence.
+
+**Review and integration:** head frozen; a nonauthor reader and a distinct integrator are needed; the author does not mark ready or merge.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+https://claude.ai/code/session_01Cz7WZybv8znP64SpPj6sWY

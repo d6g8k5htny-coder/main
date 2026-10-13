@@ -1,0 +1,56 @@
+<SCRATCH>/lvs/round4/verify_th/_vth_control.lean:39:8: error: declaration uses `sorry`
+<SCRATCH>/lvs/round4/verify_th/_vth_control.lean:152:30: error: Variable name `hd` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hd
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+UniversalLaw.Proofs.Side24Analysis.thetaSummable : ∀ (d : ℕ), UniversalLaw.Spec.Side24.ThetaSummable d
+def UniversalLaw.Spec.Side24.ThetaSummable : ℕ → Prop :=
+fun d =>
+  ∀ (z : UniversalLaw.Spec.Side24.E d),
+    Summable fun n => Real.exp (-‖z + UniversalLaw.Spec.Side24.latticeVec d n‖ ^ 2 / 2)
+'UniversalLaw.Proofs.Side24Analysis.thetaSummable' depends on axioms: [propext, sorryAx, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.ctrlNarrowed' depends on axioms: [propext, sorryAx, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.th_latticeVec_apply' depends on axioms: [propext,
+ sorryAx,
+ Classical.choice,
+ Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.th_norm_latticeVec_sq' depends on axioms: [propext,
+ sorryAx,
+ Classical.choice,
+ Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.th_exp_neg_norm_latticeVec_sq' depends on axioms: [propext,
+ sorryAx,
+ Classical.choice,
+ Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.th_summable_gauss_int' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.th_summable_pi_prod' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.th_exp_shift_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.th_summable_dominant' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.th_term_le_dominant' depends on axioms: [propext,
+ sorryAx,
+ Classical.choice,
+ Quot.sound]
+AUDIT REFUSED:axioms:sorryAx UniversalLaw.Proofs.Side24Analysis.Aux.th_exp_neg_norm_latticeVec_sq head=Eq telescope=2 exact=false prop=true range=true axioms=#[propext, sorryAx, Classical.choice, Quot.sound]
+AUDIT REFUSED:axioms:sorryAx UniversalLaw.Proofs.Side24Analysis.Aux.th_latticeVec_apply head=Eq telescope=3 exact=false prop=true range=true axioms=#[propext, sorryAx, Classical.choice, Quot.sound]
+AUDIT REFUSED:axioms:sorryAx UniversalLaw.Proofs.Side24Analysis.Aux.th_norm_latticeVec_sq head=Eq telescope=2 exact=false prop=true range=true axioms=#[propext, sorryAx, Classical.choice, Quot.sound]
+AUDIT REFUSED:axioms:sorryAx UniversalLaw.Proofs.Side24Analysis.Aux.th_term_le_dominant head=LE.le telescope=3 exact=false prop=true range=true axioms=#[propext, sorryAx, Classical.choice, Quot.sound]
+AUDIT REFUSED:axioms:sorryAx UniversalLaw.Proofs.Side24Analysis.thetaSummable head=UniversalLaw.Spec.Side24.ThetaSummable telescope=1 exact=true prop=true range=true axioms=#[propext, sorryAx, Classical.choice, Quot.sound]
+AUDIT REFUSED:premise:UniversalLaw.Spec.Side24.ThetaSummable UniversalLaw.Proofs.Side24Analysis.ctrlNarrowed head=UniversalLaw.Spec.Side24.ThetaSummable telescope=2 exact=false prop=true range=true axioms=#[propext, sorryAx, Classical.choice, Quot.sound]
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.th_exp_shift_le head=LE.le telescope=3 exact=false prop=true range=true axioms=#[propext, Classical.choice, Quot.sound]
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.th_summable_dominant head=Summable telescope=2 exact=false prop=true range=true axioms=#[propext, Classical.choice, Quot.sound]
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.th_summable_gauss_int head=Summable telescope=2 exact=false prop=true range=true axioms=#[propext, Classical.choice, Quot.sound]
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.th_summable_gauss_int._simp_1_1 head=Eq telescope=4 exact=false prop=true range=false axioms=#[propext]
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.th_summable_gauss_int._simp_1_2 head=Eq telescope=4 exact=false prop=true range=false axioms=#[propext]
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.th_summable_gauss_int._simp_1_3 head=Eq telescope=4 exact=false prop=true range=false axioms=#[propext]
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.th_summable_gauss_int._simp_1_4 head=Eq telescope=8 exact=false prop=true range=false axioms=#[propext]
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.th_summable_gauss_int._simp_1_5 head=Eq telescope=6 exact=false prop=true range=false axioms=#[propext]
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.th_summable_gauss_int._simp_1_6 head=Eq telescope=5 exact=false prop=true range=false axioms=#[propext, Classical.choice, Quot.sound]
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.th_summable_gauss_int._simp_1_7 head=Eq telescope=4 exact=false prop=true range=false axioms=#[propext]
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Analysis.Aux.th_summable_pi_prod head=Summable telescope=4 exact=false prop=true range=true axioms=#[propext, Classical.choice, Quot.sound]
+AUDIT generated UniversalLaw.Spec.Side24.intNormSq.eq_1 head=Eq telescope=2 exact=false prop=true range=false axioms=#[propext, Classical.choice, Quot.sound]
+AUDIT END 18 6 0
+EXIT=1

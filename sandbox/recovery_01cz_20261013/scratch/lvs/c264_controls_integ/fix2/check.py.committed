@@ -1,0 +1,812 @@
+#!/usr/bin/env python3
+"""Source-bound evidence driver for the torus-filtration companion (stdlib only).
+
+The companion holds the C254 torus/closed-superlevel modules and, since the C263/C264
+registration, the strict-cut module SuperlevelBar and the ordinary-H0 module OrdinaryH0; since 2026-10-12 also the
+owner-authored OrdinaryH0Controls (instantiated ordinary-H0 controls for C264 owner task item 4; not a handoff
+successor, not a review). Not an acceptance engine, not a general Lean parser, not a review. It binds the
+companion's bytes to Git HEAD, emits the audit/type/positive/negative Lean files,
+refuses negative-control logs that are not the intended diagnostic, and writes a
+receipt that records what ran. The companion consumes nothing from formal/ except
+the pinned toolchain, lakefile and dependency lock, so it pins no core tree,
+manifest or gate. Scientific effect NONE; organizational-independence credit 0.
+"""
+import argparse
+import hashlib
+import json
+import os
+from pathlib import Path
+import re
+import subprocess
+import sys
+import tempfile
+
+SIDE = Path(__file__).resolve().parent
+ROOT = SIDE.parents[1]
+PACKAGE = 'companions/torus_filtration_20261011'
+WORKFLOW = '.github/workflows/torus-filtration.yml'
+REPO = 'd6g8k5htny-coder/Math-'
+NAMESPACE = 'TorusFiltration'
+# Dependency order: a module may `import` only Mathlib and companion modules listed before it (scan_module).
+MODULES = ('TorusTopology', 'ClosedSuperlevel', 'SuperlevelBar', 'OrdinaryH0', 'OrdinaryH0Controls')
+ROOT_MODULE = 'TorusFiltration'
+ROOT_SOURCE = ''.join('import ' + m + '\n' for m in MODULES)
+REQUIRED_FILES = tuple(PACKAGE + '/' + n for n in (
+    'TorusFiltration.lean', 'TorusTopology.lean', 'ClosedSuperlevel.lean', 'SuperlevelBar.lean', 'OrdinaryH0.lean',
+    'OrdinaryH0Controls.lean', 'check.py', 'replay.sh', 'test_torus_filtration.py', 'README.md', 'SCOPE.md')) + (WORKFLOW,)
+PINNED_CORE = ('formal/lakefile.toml', 'formal/lake-manifest.json', 'formal/lean-toolchain')
+TOOLCHAIN = 'leanprover/lean4:v4.34.1'
+LEAN_VERSION = re.compile(r'Lean \(version 4\.34\.1, [^()\r\n]+, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release\)')
+CLAIM = '8a5c7a24-784b-4aaa-b951-cd9f37b0dc64'
+# Handoff bytes as posted, before any compile fix: the two C254 originals (Math- #419, NOT_COMPILED) and the C263 and
+# C264 originals (Math- #428), which were compiled at the pin with warnings as errors and failed (SUCCESSORS below).
+ORIGINAL_SHA256 = {
+    'ResearchFormalCoreR1/TorusTopology.lean': 'efa80d2879758b6d6473a0024a308ff758c308cdc8e4b5f400f39dde63a7f6f4',
+    'ResearchFormalCoreR1/ClosedSuperlevel.lean': '1fed3edada12b4dc7f5fcf874dae7ccde5d8f65af63cf103159debe58ba6789e',
+    'C263-handoff/SuperlevelBar.lean': 'd74dc8b2c25eff5b90ce7133e51a0888c7885cae24ca6d5e648bc514089637a8',
+    'C264-handoff/OrdinaryH0.lean': '261dd0526d42890d8a4ac1225fcf47228eb3c9799af4106cb643a528bcbf968e'}
+ORIGINAL_BYTES = {
+    'ResearchFormalCoreR1/TorusTopology.lean': 11542, 'ResearchFormalCoreR1/ClosedSuperlevel.lean': 7827,
+    'C263-handoff/SuperlevelBar.lean': 14904, 'C264-handoff/OrdinaryH0.lean': 18469}
+# The two C26x successors as registered. `metadata` requires SOURCE_FILES.json to carry exactly this record; the
+# protocol tests (InventoryTests, run by the replay) and the out-of-tree generator require the tracked module bytes to carry exactly these identities, so
+# neither successor changes by a byte without this record changing with it. Every label here is transcribed from the
+# handoffs (Math- #428 comments 6113033545 and 6113372506) or records a computation of this lane; FORMAL HOLD is the
+# handoffs' own acceptance status. It rests on the handoffs' own listed conditions (6113033545 item 4, 6113372506,
+# 6113277485 item 5), among them a nonauthor exact-source review of the compiled successor bytes, a distinct review of
+# the source-bound execution output and source-bound hosted evidence and custody; a source review alone does not meet
+# them. `formal_status` below is the registration commit's transcription, naming one of those conditions; it is kept
+# unchanged, and no review recorded since (2026-10-12: engineering readback 5485829137, source-scoped review
+# 5485883117) moves it. Registration is not review, not acceptance; organizational-independence credit 0 (same project
+# account).
+SUCCESSORS = {
+    'SuperlevelBar.lean': {
+        'lane': 'C263',
+        'source_author': 'OpenAI/Codex lane (C263, c262_lean_source_review acting as implementer), delegated AI work for Dylan Roy',
+        'handoff_sha256': 'd74dc8b2c25eff5b90ce7133e51a0888c7885cae24ca6d5e648bc514089637a8', 'handoff_bytes': 14904,
+        'handoff_status': 'FAILED_AT_PIN_WITH_WARNINGS_AS_ERRORS: deprecated if_pos at line 123 (Lean core, deprecated since 2026-07-21)',
+        'successor_sha256': '346eea948e18d5904422904006827930e27d3141ccbc19ee8ac2c24bcf65a4a9', 'successor_bytes': 15309,
+        'successor_changes': 'superlevelBar_death_eq_sSup_of_nonempty: simp lemma if_pos hne -> ite_eq_left hne (same statement, '
+                             'Lean\'s own replacement); six module-docstring lines (a blank separator and five text lines) recording the handoff hash and the fix; no other byte',
+        'successor_author': 'Anthropic/Claude lane (companion owner), delegated AI work for Dylan Roy',
+        'namespace': 'authored directly in namespace TorusFiltration (no handoff namespace to map)',
+        'imports': ['Mathlib'],
+        'census_at_pin': '25 constants = 24 user range + 0 user generated + 1 internal generated (superlevelBar_deathHeight.eq_1)',
+        'comments': {'allocation_419': '6112439759', 'delivery_and_owner_task_428': '6113033545',
+                     'compile_report_this_lane_428': '6113229784'},
+        'formal_status': 'FORMAL_HOLD until a nonauthor exact-source review of the compiled successor; registration is not review',
+        'organizational_independence_credit': 0},
+    'OrdinaryH0.lean': {
+        'lane': 'C264',
+        'source_author': 'OpenAI/Codex lane (C264, c264_h0_author; root 01a0bbb5 supplied the target, custody and the '
+                         'nonzero-coefficient/projection control design; c264_h0_author/api_support did read-only pinned-API '
+                         'research and proposed the cycle/projection naturality rewrite chain; as disclosed in Math- #428 '
+                         'comment 6113276830), '
+                         'delegated AI work for Dylan Roy',
+        'handoff_sha256': '261dd0526d42890d8a4ac1225fcf47228eb3c9799af4106cb643a528bcbf968e', 'handoff_bytes': 18469,
+        'handoff_status': 'FAILED_AT_PIN_WITH_WARNINGS_AS_ERRORS: unused section instances, an unsolved naturality goal and two '
+                          'unused simp arguments, unknown identifier isoWhiskerLeft (Math- #428 comment 6113300903)',
+        'successor_sha256': '3d6b0d6b53413c484b1d010bccf0d53ae7f75becb2d747868f22dbd673fe0a88', 'successor_bytes': 19803,
+        'successor_changes': 'owner repair per the C264 handoff: the homology instances enter the variable scope after the two '
+                             'filtration declarations (moved up; no statement changed); ordinaryH0_iso_naturality proved by explicit '
+                             'rw/erw reassociation; Functor.isoWhiskerLeft qualified; the three names containing iota spelled in '
+                             'ASCII; module-docstring lines recording the repair (full diff: Math- #428 comment 6113438262)',
+        'successor_author': 'Anthropic/Claude lane (companion owner, actual repair author), delegated AI work for Dylan Roy',
+        'namespace': 'authored directly in namespace TorusFiltration (no handoff namespace to map)',
+        'imports': ['Mathlib', 'ClosedSuperlevel'],
+        'census_at_pin': '38 constants = 27 user range + 0 user generated + 11 internal generated',
+        'comments': {'delivery_1_of_3_source_428': '6113276830', 'delivery_2_of_3_nonauthor_source_review_428': '6113277173',
+                     'delivery_3_of_3_verification_and_owner_task_428': '6113277485', 'failed_compile_record_this_lane_428': '6113300903',
+                     'owner_repair_handoff_428': '6113372506', 'repair_report_this_lane_428': '6113438262'},
+        'formal_status': 'FORMAL_HOLD until a nonauthor exact-source review of the compiled successor; registration is not review',
+        'organizational_independence_credit': 0}}
+# Owner-authored modules: no handoff bytes, no successor relation. OrdinaryH0Controls.lean holds the instantiated
+# ordinary-H0 controls this lane wrote for C264 owner task item 4 (Math- #428 comment 6113277485) against the corrected
+# CONTROL_OBLIGATIONS of comment 6113277173. `metadata` requires SOURCE_FILES.json to carry exactly this record (compared
+# whole, like SUCCESSORS); the protocol tests and the out-of-tree generator require the tracked module bytes to carry
+# exactly this identity. It is not a review of OrdinaryH0, lifts no FORMAL HOLD and moves no label; credit 0.
+OWNER_MODULES = {
+    'OrdinaryH0Controls.lean': {
+        'lane': 'C264 owner task item 4 (instantiated ordinary-H0 controls)',
+        'author': 'Anthropic/Claude lane (companion owner), delegated AI work for Dylan Roy',
+        'kind': 'owner-authored controls module; not a handoff successor (no handoff bytes exist); not a review',
+        'sha256': 'df9d3645282ca526b67eca3d5db691b622092a14b5fddee9be21013e39666184', 'bytes': 29590,
+        'imports': ['Mathlib', 'OrdinaryH0'],
+        'namespace': 'authored directly in namespace TorusFiltration; every declaration carries the prefix ordinaryH0Control_',
+        'declarations': '37 theorems, 3 abbrevs, 4 defs, 0 instances',
+        'census_at_pin': '48 constants = 44 user range + 0 user generated + 4 internal generated (ordinaryH0Control_parabolaLeft '
+                         'and ordinaryH0Control_parabolaRight: _proof_1 and eq_1 each)',
+        'comments': {'owner_task_item_4_428': '6113277485', 'control_obligations_specification_428': '6113277173'},
+        'review_status': 'not a review of OrdinaryH0 and lifts nothing: the FORMAL HOLD of OrdinaryH0 (and of SuperlevelBar) '
+                         'is unchanged; no review of these bytes is recorded; registration is not review',
+        'organizational_independence_credit': 0}}
+NAMESPACE_MAPPING = ('ResearchFormalCoreR1.<n> (handoff) -> TorusFiltration.<n> (companion) for TorusTopology and ClosedSuperlevel; '
+                     'SuperlevelBar and OrdinaryH0 were authored directly in namespace TorusFiltration, and so was the '
+                     'owner-authored OrdinaryH0Controls')
+# Own copy of formal/gate.py's audit rules; the companion imports nothing from the core.
+ALLOWED = frozenset({'propext', 'Classical.choice', 'Quot.sound'})
+NAME = r'[A-Za-z_][A-Za-z0-9_.]*'
+AXIOM = re.compile(r"'(" + NAME + r")' (?:depends on axioms: \[([^\]]*)\]|does not depend on any axioms)")
+IDENT = r'[A-Za-z][A-Za-z0-9_]*'
+HEX40 = re.compile(r'[0-9a-f]{40}')
+HEX64 = re.compile(r'[0-9a-f]{64}')
+BUILDS = tuple('build-' + m for m in MODULES + (ROOT_MODULE,)) + ('positive', 'axioms', 'types', 'census', 'leanchecker')
+# The leanchecker invocations replay.sh may record in leanchecker.cmd. All five modules `import Mathlib`, so
+# `--fresh` (kernel re-check of the whole import closure) exceeds a hosted job: measured locally at 4 threads
+# it was still running at 1500 s with 6.6 GB resident. The hosted default replays the companion's own
+# declarations against the cached, prebuilt dependency .oleans (33 s at 2 threads locally for the C254 pair). The
+# modules form names every companion module and the root; a shorter form (the three-module form before the C263/C264
+# registration, the five-module form before OrdinaryH0Controls) is refused.
+LEANCHECKER = {'leanchecker ' + ' '.join(MODULES + (ROOT_MODULE,)): 'modules',
+               'leanchecker --fresh TorusFiltration': 'fresh'}
+ADMISSION = ('sorry', 'sorryAx', 'admit', 'axiom', 'native_decide', 'ofReduceBool', 'trustCompiler', 'unsafe',
+             'opaque', 'partial', 'implemented_by', 'extern', 'skipKernelTC', 'autoImplicit')
+# Module scanner (scan_module): a whitelist of what may start a column-0 code line. Lean itself accepts a
+# command anywhere (indented, after another command on the same line, behind `open … in`), so every command
+# keyword in COMMANDS is refused wherever it appears outside comments; the scanner refuses what it cannot place.
+# COMMANDS is an explicit list of refused keywords, not a Lean grammar and not a complete census: a
+# declaration-producing command or form absent from it passes an indented or same-line position uncounted (C262
+# gate review G2, Math- #428 comment 6112740935, found `alias` absent at head a898bb44; the pre-push adversarial
+# verification of the repair then enumerated further commands at the pin, listed below, and the `where` clause of
+# a declaration, which no keyword list can refuse). The scanner is therefore only a first filter. The declaration
+# census that the receipt stands on is Census.lean (CENSUS below): Lean itself lists every non-internal constant
+# the companion modules add to the environment, and `finish` requires that list to equal the inventory plus the
+# explicitly named compiler-generated auxiliaries (`census_auxiliary` in SOURCE_FILES.json), nothing else.
+COMMANDS = ('theorem', 'lemma', 'def', 'abbrev', 'instance', 'axiom', 'axioms', 'example', 'structure', 'inductive',
+            'class', 'opaque', 'macro', 'macro_rules', 'syntax', 'elab', 'elab_rules', 'notation', 'infix', 'infixl',
+            'infixr', 'prefix', 'postfix', 'set_option', 'attribute', 'namespace', 'section', 'end', 'universe',
+            'variable', 'import', 'private', 'protected', 'noncomputable', 'unsafe', 'partial', 'scoped', 'local',
+            'mutual', 'deriving', 'initialize', 'builtin_initialize', 'declare_syntax_cat', 'register_option',
+            'open', 'export', 'include', 'omit', 'run_cmd', 'run_tac', 'run_elab', 'in',
+            # declaration-producing commands of Lean core, Batteries, Aesop and Mathlib found at the pin (C262 G2 and
+            # the verification of its repair); refused wherever they appear, column 0 included
+            'alias', 'irreducible_def', 'simproc', 'simproc_decl', 'dsimproc', 'dsimproc_decl', 'builtin_simproc',
+            'builtin_simproc_decl', 'builtin_dsimproc', 'builtin_dsimproc_decl', 'cbv_simproc', 'cbv_simproc_decl',
+            'builtin_cbv_simproc', 'builtin_cbv_simproc_decl', 'notation3', 'unif_hint', 'recall', 'binder_predicate',
+            'add_decl_doc', 'library_note', 'assert_not_exists', 'register_simp_attr', 'register_builtin_option',
+            'register_linter_set', 'register_label_attr', 'declare_aesop_rule_sets', 'add_aesop_rules',
+            'erase_aesop_rules', 'compile_inductive', 'compile_def', 'nonrec', 'mk_iff_of_inductive_prop', 'run_meta',
+            'grind_propagator', 'builtin_grind_propagator', 'declare_config_elab', 'declare_config_elab_legacy',
+            'declare_command_config_elab_legacy', 'gen_injective_theorems', 'declare_uint_theorems',
+            'declare_int_theorems', 'declare_bitwise_uint_theorems', 'declare_bitwise_int_theorems', 'elab_stx_quot',
+            'declare_eval_bin', 'declare_eval_bin_bitwise', 'declare_eval_bin_bool_pred', 'name_poly_vars',
+            'name_power_vars', 'with_weak_namespace', 'meta', 'public', 'aux_def', 'lrat_proof', 'reprove',
+            'declare_aesop_exception', 'declare_uint_simprocs', 'declare_sint_simprocs', 'seal', 'unseal', 'unset_option',
+            'suppress_compilation', 'grind_pattern', 'grind_annotated', 'extend_docs', 'init_quot',
+            'initialize_simps_projections')
+# Token scan for keyword detection. ASCII identifiers (dotted components, primes, `!`, `?`) and numerals are whole
+# tokens, with numerals in Lean's own grammar (Lean/Parser/Basic.lean numberFnAux: decimal with `_` separators,
+# fraction and exponent; `0x`/`0b`/`0o` prefixes): `0alias` is the numeral `0` followed by the keyword `alias`
+# (refused), `0x1Ftheorem` is `0x1F` then `theorem` (refused), `foo2alias` is one identifier (accepted). A component
+# after a dot is a name component, not a keyword. Any non-ASCII character separates tokens, a refusal in the safe
+# direction when a keyword abuts a unicode letter.
+TOKEN = re.compile(r"[A-Za-z_][A-Za-z0-9_'!?]*(?:\.[A-Za-z_][A-Za-z0-9_'!?]*)*"
+                   r"|0[xX][0-9a-fA-F_]+|0[bB][01_]+|0[oO][0-7_]+|[0-9][0-9_]*(?:\.[0-9][0-9_]*)?(?:[eE][+-]?[0-9]+)?")
+COMMAND_SET = frozenset(COMMANDS)
+
+
+def command_token(text):
+    """The first command keyword that appears as a whole token in comment-free `text`, or None."""
+    for found in TOKEN.finditer(text):
+        if found.group() in COMMAND_SET:
+            return found.group()
+    return None
+
+
+def admission_tokens(text):
+    """Every ADMISSION word that appears as a whole token or as a dotted component in comment-free `text`."""
+    present = set()
+    for found in TOKEN.finditer(text):
+        present.update(found.group().split('.'))
+    return [token for token in ADMISSION if token in present]
+DECLARATION = re.compile(r'(theorem|abbrev|instance|def|noncomputable def) (' + IDENT + r')(?=$|[\s:(\[{⦃])')
+# Column-0 prelude lines. `import` admits Mathlib and, since the C263/C264 registration, a companion module named in
+# MODULES (scan_module further requires it to precede the importing module in MODULES: no self, forward or root import;
+# OrdinaryH0.lean imports ClosedSuperlevel and OrdinaryH0Controls.lean imports OrdinaryH0).
+# `open scoped <Namespaces>` activates scoped notation and instances only, a strictly smaller effect than the `open`
+# already admitted; both lines appear in OrdinaryH0.lean. Keys are tried in order, so `open scoped` precedes `open`.
+PRELUDE = {'import': re.compile(r'import (?:Mathlib(?:\.[A-Za-z0-9_]+)*|' + '|'.join(MODULES) + ')'),
+           'noncomputable section': re.compile(r'noncomputable section'),
+           'open scoped': re.compile(r'open scoped(?: [A-Z][A-Za-z0-9_.]*)+'),
+           'open': re.compile(r'open(?: [A-Z][A-Za-z0-9_.]*)+'),
+           'universe': re.compile(r'universe(?: [A-Za-z_][A-Za-z0-9_]*)+'),
+           'variable': re.compile(r'variable .*')}
+# False statements about the companion's own definitions; Lean must leave exactly `⊢ False`. The two C26x controls:
+# RejectEssentialDeathBound asserts the death/start bound on the essential default branch (the constant height -1 has
+# death 0 by superlevelBar_death_const, and 0 ≤ -1 is false; the proposition of the C263 handoff's FALSE_CONTROL_PROPOSAL,
+# Math- #428 comment 6113033351, with its rw-then-norm_num tactic replaced by norm_num [superlevelBar_death_const]);
+# RejectReducedPointClass asserts that the ordinary point class of the one-point space with ℤ-module coefficients is NOT
+# augmented to the identity, which is what reduced H0 would give and what ordinaryH0_pointClass_augmentation refutes.
+# Both diagnostics were pinned from actual Lean 4.34.1 output at the Mathlib d13f23b7 pin against the registered bytes.
+# The three C264 item-4 controls (2026-10-12) are false statements about the fixtures of OrdinaryH0Controls.lean, each
+# closed to `⊢ False` by rewriting with the true fixture theorem it contradicts: RejectMergerKillsPointClass asserts that
+# the collapse Bool -> Unit kills the individual point class of `true` (a merger kills the difference, not the class;
+# ordinaryH0Control_collapse_image_ne_zero); RejectSeparationWithoutNonzeroCoeff asserts that the two point classes of
+# Bool differ with zero coefficients (ordinaryH0Control_bool_zeroCoeff_eq: they are equal, so the separation needs
+# `𝟙 R ≠ 0`); RejectNonmergerKillsDifference asserts that the non-injective projection Bool × Bool -> Bool kills the
+# difference of the classes of (true, false) and (false, true), whose images stay in distinct components
+# (ordinaryH0Control_fst_difference_ne_zero). The same tactic on each control's true sibling statement leaves a
+# different diagnostic (`simp` made no progress, or a goal other than `False` plus an unused simp argument), which
+# `negative` refuses; all six diagnostics were pinned from actual Lean 4.34.1 output at the d13f23b7 pin.
+FALSE_CONTROLS = {
+    'RejectSuperlevelSignFlip': ('() ∈ superlevel_set (fun _ : Unit => (0 : ℝ)) (-1)', 'norm_num [superlevel_set]'),
+    'RejectSuperlevelBelowThreshold': ('(3 : ℝ) ∈ superlevel_set (fun x : ℝ => x) (-4)', 'norm_num [superlevel_set]'),
+    'RejectConstantNotPeriodic': ('¬ torus_isPeriodic 1 (1 : ℝ) (fun _ => (0 : ℝ))', 'simp [torus_isPeriodic]'),
+    'RejectEssentialDeathBound': ('superlevelBar_deathHeight (fun _ : superlevelBar_E 1 => (-1 : ℝ)) 0 ≤ (-1 : ℝ)',
+                                  'norm_num [superlevelBar_death_const]'),
+    'RejectReducedPointClass': ('CategoryTheory.CategoryStruct.comp (ordinaryH0_pointClass (TopCat.of Unit) (ModuleCat.of ℤ ℤ) ()) '
+                                '(TopCat.singularHomology₀ε (TopCat.of Unit) (ModuleCat.of ℤ ℤ)) '
+                                '≠ CategoryTheory.CategoryStruct.id (ModuleCat.of ℤ ℤ)',
+                                'simp [ordinaryH0_pointClass_augmentation]'),
+    'RejectMergerKillsPointClass': ('CategoryTheory.CategoryStruct.comp (ordinaryH0_pointClass (TopCat.of Bool) ordinaryH0Control_intCoeff true) '
+                                    '(((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{0} ℤ) 0).obj ordinaryH0Control_intCoeff).map '
+                                    'ordinaryH0Control_collapse) = 0',
+                                    'simp only [ordinaryH0Control_collapse_image_ne_zero]'),
+    'RejectSeparationWithoutNonzeroCoeff': ('ordinaryH0_pointClass (TopCat.of Bool) ordinaryH0Control_zeroCoeff true ≠ '
+                                            'ordinaryH0_pointClass (TopCat.of Bool) ordinaryH0Control_zeroCoeff false',
+                                            'simp [ordinaryH0Control_bool_zeroCoeff_eq]'),
+    'RejectNonmergerKillsDifference': ('CategoryTheory.CategoryStruct.comp (ordinaryH0_pointClass (TopCat.of (Bool × Bool)) ordinaryH0Control_intCoeff '
+                                       '((true, false) : Bool × Bool) - ordinaryH0_pointClass (TopCat.of (Bool × Bool)) ordinaryH0Control_intCoeff '
+                                       '((false, true) : Bool × Bool)) (((AlgebraicTopology.singularHomologyFunctor (ModuleCat.{0} ℤ) 0).obj '
+                                       'ordinaryH0Control_intCoeff).map ordinaryH0Control_fst) = 0',
+                                       'simp only [ordinaryH0Control_fst_difference_ne_zero]')}
+# Admission injections; Lean accepts each file (exit 0), the transitive axiom audit must refuse it.
+# Diagnostics pinned from Lean 4.34.1 at the Mathlib d13f23b7 pin: the sorry warning uses backticks, and
+# native_decide introduces the auxiliary axiom `injected._native.native_decide.ax_1_1` (not Lean.ofReduceBool).
+INJECTIONS = {
+    'RejectSorry': ("theorem injected : False := by sorry\n", 'sorryAx',
+                    r"(?:[^\r\n]*[/\\])?RejectSorry\.lean:[0-9]+:[0-9]+: warning: declaration uses `sorry`\n"),
+    'RejectCustomAxiom': ("axiom hiddenPremise : False\ntheorem middle : False := hiddenPremise\n"
+                          "theorem injected : False := middle\n", 'hiddenPremise', ''),
+    'RejectNativeDecide': ("theorem injected : (2 : Nat) + 2 = 4 := by native_decide\n",
+                           'injected._native.native_decide.ax_1_1', '')}
+CONTROLS = tuple(FALSE_CONTROLS) + tuple(INJECTIONS)
+# The exact membership of the evidence directory when `finish` runs (C262 gate review G3): the fifteen files emit()
+# writes, a .log/.status pair per Lean process (six module builds, positive, axioms, types, census, leanchecker, eleven
+# controls), the two protocol-test transcripts and the four environment records.
+# finish() refuses a directory with any member missing or unexpected, any member that is not a regular file, and
+# any directory already holding receipt.json: a receipt is written once and never replaced.
+EMITTED_FILES = ('Audit.lean', 'Types.lean', 'Positive.lean', 'Census.lean') + tuple(c + '.lean' for c in CONTROLS)
+# The elaborated declaration census (C262 G2 closure): Lean lists EVERY constant the companion modules add to the
+# environment, each tagged `internal`/`user` (`Name.isInternalDetail`) and `range`/`generated` (whether Lean recorded
+# a declaration range, which every declaration elaborated from source syntax has and compiler-generated constants
+# such as `congr_simp` lemmas, abstracted proofs and equation lemmas lack). `finish` requires: the user-named ranged
+# constants equal the inventory exactly (a `where`-clause or unlisted-command declaration is refused whatever its
+# spelling); no ranged constant carries an internal-style name (a user-written `proof_1` is refused); the user-named
+# generated constants equal `census_auxiliary` exactly (so that whitelist can name only compiler-generated constants);
+# internal generated constants are counted and otherwise ignored (the C26x modules add twelve at the pin: equation
+# lemmas, abstracted proofs, a `_simp` auxiliary and the equation lemma Lean generated for Mathlib's `sigmaConst`;
+# OrdinaryH0Controls adds four: `_proof_1` and `eq_1` of its two subtype-point definitions).
+CENSUS = '''import TorusFiltration
+open Lean in
+#eval show Lean.Elab.Command.CommandElabM Unit from do
+  let env ← Lean.getEnv
+  let modules : Array Lean.Name := #[`TorusTopology, `ClosedSuperlevel, `SuperlevelBar, `OrdinaryH0, `OrdinaryH0Controls, `TorusFiltration]
+  let idxs := modules.filterMap env.getModuleIdx?
+  if idxs.size != modules.size then throwError "census: a companion module is not imported"
+  let names := env.constants.fold (init := (#[] : Array Lean.Name)) fun acc n _ =>
+    match env.getModuleIdxFor? n with
+    | some i => if idxs.contains i then acc.push n else acc
+    | none => acc
+  for n in names.qsort (fun a b => a.toString < b.toString) do
+    let ranged ← Lean.findDeclarationRanges? n
+    IO.println s!"{n} {if n.isInternalDetail then "internal" else "user"} {if ranged.isSome then "range" else "generated"}"
+  IO.println s!"CENSUS_END {names.size}"
+'''
+EVIDENCE_FILES = frozenset(EMITTED_FILES) | {label + ext for label in BUILDS for ext in ('.log', '.status')} \
+    | {control + ext for control in CONTROLS for ext in ('.log', '.status')} \
+    | {'leanchecker.cmd', 'packages.log', 'toolchain.log', 'source.json', 'tests.log', 'tests-optimized.log'}
+# 15 emitted + 11 processes x 2 + 11 controls x 2 + 6 records = 65 (44 before the C263/C264 registration added two
+# module builds and two controls, 54 before OrdinaryH0Controls added one module build and three controls: 2 + 3 x 3).
+# An explicit check, not an `assert`: the gate must hold under -O too.
+if len(EVIDENCE_FILES) != 65:
+    raise RuntimeError('EVIDENCE_FILES must enumerate exactly 65 members')
+POSITIVE = '''import TorusFiltration
+open TorusFiltration
+
+-- Lattice membership of the literal Field lattice vector (torus_lattice_mem_iff).
+example (d : ℕ) (L : ℝ) (hL : 0 < L) (n : Fin d → ℤ) :
+    torus_latticeVec d L n ∈ torus_periodLattice d L hL :=
+  (torus_lattice_mem_iff d L hL _).2 ⟨n, rfl⟩
+
+-- A concrete lattice translate of the origin has the same quotient image (torus_control_lattice_translate).
+example : torus_proj 2 1 one_pos (0 + torus_latticeVec 2 1 ![3, -5]) = torus_proj 2 1 one_pos 0 :=
+  torus_control_lattice_translate 2 1 one_pos 0 ![3, -5]
+
+-- Constants are periodic and descend to themselves (torus_descend_proj).
+example (d : ℕ) (L : ℝ) (hL : 0 < L) (c : ℝ) (x : torus_E d) :
+    torus_descend d L hL (fun _ => c) (fun _ _ => rfl) (torus_proj d L hL x) = c :=
+  torus_descend_proj d L hL (fun _ => c) (fun _ _ => rfl) x
+
+-- The path-component map on a representative (superlevel_componentMap_mk).
+example {X Y : Type} [TopologicalSpace X] [TopologicalSpace Y] (f : C(X, Y)) (x : X) :
+    superlevel_componentMap f (ZerothHomotopy.mk x) = ZerothHomotopy.mk (f x) :=
+  superlevel_componentMap_mk f x
+
+-- Closed-superlevel monotonicity at concrete parameters (superlevel_mono).
+example : superlevel_set (fun x : ℝ => x) (-2) ⊆ superlevel_set (fun x : ℝ => x) 1 :=
+  superlevel_mono (fun x : ℝ => x) (by norm_num)
+
+-- Closed endpoint membership for the identity height: 2 ≤ 3, so 3 ∈ F(-2).
+example : (3 : ℝ) ∈ superlevel_set (fun x : ℝ => x) (-2) := by
+  norm_num [superlevel_set]
+'''
+
+
+def require(condition, message):
+    if not condition:
+        raise ValueError(message)
+
+
+def sha(raw):
+    return hashlib.sha256(raw).hexdigest()
+
+
+def blob(raw):
+    return hashlib.sha1(b'blob %d\0' % len(raw) + raw).hexdigest()
+
+
+def identity(raw):
+    return {'bytes': len(raw), 'sha256': sha(raw), 'git_blob': blob(raw)}
+
+
+def strict(raw):
+    def pairs(items):
+        result = {}
+        for key, value in items:
+            require(key not in result, 'duplicate JSON key: ' + str(key))
+            result[key] = value
+        return result
+
+    def reject(_):
+        raise ValueError('nonfinite or noninteger JSON number')
+    return json.loads(raw, object_pairs_hook=pairs, parse_constant=reject, parse_float=reject)
+
+
+def git(*args):
+    run = subprocess.run(['git', *args], cwd=ROOT, capture_output=True, text=True, timeout=60)
+    require(run.returncode == 0, 'git ' + ' '.join(args) + ' failed: ' + run.stderr.strip())
+    return run.stdout.strip()
+
+
+def metadata():
+    meta = strict((SIDE / 'SOURCE_FILES.json').read_bytes())
+    require(set(meta) == {'schema', 'scientific_effect', 'alignment_status', 'namespace', 'root_module', 'modules',
+                          'definitions', 'theorems', 'files', 'provenance', 'census_auxiliary'}, 'SOURCE_FILES schema keys')
+    aux = meta['census_auxiliary']
+    # Dotted names under the namespace; that each is compiler-generated is checked by the census (`finish` requires
+    # every entry to appear without a declaration range), not by this schema rule.
+    require(isinstance(aux, list) and all(isinstance(n, str) and re.fullmatch(NAME, n) and n.startswith(NAMESPACE + '.')
+                                          and n.count('.') >= 2 for n in aux) and len(aux) == len(set(aux)),
+            'census_auxiliary must list dotted auxiliary names under the companion namespace')
+    require(type(meta['schema']) is int and meta['schema'] == 1, 'SOURCE_FILES schema version')
+    require(meta['scientific_effect'] == 'NONE', 'scientific effect must be NONE')
+    require(meta['alignment_status'] == 'PENDING_INDEPENDENT_REVIEW', 'alignment status cannot self-award review')
+    require(meta['namespace'] == NAMESPACE and meta['root_module'] == ROOT_MODULE, 'namespace or root module')
+    require(meta['modules'] == list(MODULES), 'module list')
+    require(set(meta['theorems']) == set(MODULES) and set(meta['definitions']) == set(MODULES), 'per-module inventory keys')
+    seen = []
+    for module in MODULES:
+        theorems = meta['theorems'][module]
+        require(isinstance(theorems, list) and theorems, 'empty theorem list: ' + module)
+        kinds = meta['definitions'][module]
+        require(isinstance(kinds, dict) and set(kinds) == {'abbrev', 'def', 'instance'}, 'definition kinds: ' + module)
+        for names in (theorems, kinds['abbrev'], kinds['def'], kinds['instance']):
+            require(isinstance(names, list) and all(isinstance(n, str) and re.fullmatch(IDENT, n) for n in names),
+                    'invalid declaration name in ' + module)
+            seen.extend(names)
+    require(len(seen) == len(set(seen)), 'duplicate declaration name')
+    files = meta['files']
+    require(isinstance(files, dict) and files and set(files) <= set(REQUIRED_FILES), 'files inventory outside the companion')
+    for path, entry in files.items():
+        require(isinstance(entry, dict) and set(entry) == {'bytes', 'sha256', 'git_blob'}, 'file entry keys: ' + path)
+        require(type(entry['bytes']) is int and entry['bytes'] >= 0, 'file bytes: ' + path)
+        require(isinstance(entry['sha256'], str) and HEX64.fullmatch(entry['sha256']), 'file sha256: ' + path)
+        require(isinstance(entry['git_blob'], str) and HEX40.fullmatch(entry['git_blob']), 'file git blob: ' + path)
+    prov = meta['provenance']
+    require(isinstance(prov, dict), 'provenance object')
+    for key in ('claim', 'handoff_pr', 'handoff_comments', 'original_sha256', 'original_bytes', 'original_status',
+                'namespace_mapping', 'source_author', 'compile_fixes_and_companion', 'organizational_independence_credit',
+                'human_review', 'successors', 'owner_modules'):
+        require(key in prov, 'provenance key missing: ' + key)
+    require(prov['claim'] == CLAIM and prov['original_sha256'] == ORIGINAL_SHA256, 'provenance identity')
+    # The C26x record is compared whole: a changed hash, byte count, author, census or status label (a self-awarded
+    # acceptance in `formal_status`, say) is refused as one mismatch, never partially accepted.
+    require(prov['original_bytes'] == ORIGINAL_BYTES and prov['successors'] == SUCCESSORS, 'successor provenance identity')
+    # The owner-authored record is compared whole in the same way (identity, author, census, comments, review status).
+    require(prov['owner_modules'] == OWNER_MODULES, 'owner module provenance identity')
+    require(prov['original_status'] == 'NOT_COMPILED' and prov['namespace_mapping'] == NAMESPACE_MAPPING, 'provenance labels')
+    require(prov['organizational_independence_credit'] == 0 and prov['human_review'] == 'none', 'credit must stay zero')
+    return meta
+
+
+def theorem_targets(meta):
+    return [NAMESPACE + '.' + n for module in MODULES for n in meta['theorems'][module]]
+
+
+def definition_targets(meta):
+    return [NAMESPACE + '.' + n for module in MODULES for kind in ('abbrev', 'def', 'instance')
+            for n in meta['definitions'][module][kind]]
+
+
+def targets(meta):
+    result = theorem_targets(meta) + definition_targets(meta)
+    require(result and len(result) == len(set(result)), 'duplicate or empty target list')
+    return result
+
+
+def code_lines(text):
+    """The comment-free text of a Lean source, line by line (a comment lexer, not a Lean parser).
+
+    Handles `--` to end of line and nested `/- … -/` blocks (`/--` and `/-!` included); a closed
+    block comment leaves one space in the code, as Lean treats it as whitespace between tokens, so
+    `theorem/- -/hidden` is scanned as `theorem hidden`, not `theoremhidden`. String literals are
+    not modelled, so scan_module refuses any `"` left in code; a `-/` outside a comment or an
+    unterminated block is refused rather than guessed at.
+    """
+    lines = []
+    depth = 0
+    for raw in text.split('\n'):
+        code = []
+        i = 0
+        while i < len(raw):
+            two = raw[i:i + 2]
+            if depth:
+                if two == '/-':
+                    depth += 1
+                    i += 2
+                elif two == '-/':
+                    depth -= 1
+                    i += 2
+                    if depth == 0:
+                        code.append(' ')
+                else:
+                    i += 1
+            elif two == '/-':
+                depth = 1
+                i += 2
+            elif two == '--':
+                break
+            elif two == '-/':
+                raise ValueError('comment closer outside a comment')
+            else:
+                code.append(raw[i])
+                i += 1
+        lines.append(''.join(code))
+    require(depth == 0, 'unterminated block comment')
+    return lines
+
+
+def strip_comments(text):
+    return '\n'.join(code_lines(text))
+
+
+def scan_module(text, module):
+    """Declaration inventory of one companion module by whitelist; refuses every line it cannot place.
+
+    Outside comments, a column-0 line may only be `import Mathlib[.…]` or `import <M>` for a
+    companion module `M` listed before `module` in MODULES (both before the namespace),
+    `noncomputable section`, `open <Namespaces>`, `open scoped <Namespaces>`, `universe …`,
+    `variable …`, the single `namespace TorusFiltration` / `end TorusFiltration` pair, or a named
+    `theorem`, `def`, `noncomputable def`, `abbrev` or `instance` inside that namespace. Any other
+    command keyword anywhere in code (indented, after a declaration on the same line, `… in`),
+    any `@[` or `#`, any string literal and any admission token is refused. Not a Lean parser.
+    """
+    require(module in MODULES, 'not a companion module: ' + module)
+    lines = code_lines(text)
+    for number, code in enumerate(lines, 1):
+        require('"' not in code, 'string literal in code: ' + module + ':' + str(number))
+    code_text = '\n'.join(lines)
+    for token in admission_tokens(code_text):
+        require(False, 'admission token in ' + module + ': ' + token)
+    require(not re.search(r'^namespace ResearchFormalCoreR1(?![A-Za-z0-9_])', code_text, re.M),
+            'handoff namespace left in place: ' + module)
+    scan = {'theorem': [], 'abbrev': [], 'def': [], 'instance': []}
+    state = 'prelude'
+    for number, code in enumerate(lines, 1):
+        where = module + ':' + str(number)
+        if not code.strip():
+            continue
+        if code[0].isspace():
+            rest = code
+        else:
+            line = code.rstrip()
+            if line == 'namespace ' + NAMESPACE:
+                require(state == 'prelude', 'namespace declaration: ' + where)
+                state = 'body'
+                continue
+            if line == 'end ' + NAMESPACE:
+                require(state == 'body', 'namespace end: ' + where)
+                state = 'closed'
+                continue
+            require(state != 'closed', 'code after end ' + NAMESPACE + ': ' + where)
+            declaration = DECLARATION.match(line)
+            if declaration:
+                require(state == 'body', 'declaration outside namespace ' + NAMESPACE + ': ' + where)
+                kind, name = declaration.groups()
+                scan[kind.split()[-1]].append(name)
+                rest = line[declaration.end():]
+            else:
+                keyword = next((k for k in PRELUDE if line == k or line.startswith(k + ' ')), None)
+                require(keyword is not None and PRELUDE[keyword].fullmatch(line),
+                        'unexpected column-0 line in ' + where + ': ' + line[:60])
+                require(keyword != 'import' or state == 'prelude', 'import inside the namespace: ' + where)
+                if keyword == 'import' and line.split()[1] in MODULES:
+                    # a companion import must name a module that precedes this one (acyclic, no self or forward import)
+                    require(line.split()[1] in MODULES[:MODULES.index(module)],
+                            'companion import out of dependency order in ' + where + ': ' + line.split()[1])
+                rest = line[len(keyword):]
+        found = command_token(rest)
+        require(found is None, 'command token outside a column-0 declaration in ' + where + ': ' + (found or ''))
+        require('#' not in rest and '@[' not in rest, 'attribute or #-command in ' + where)
+    require(state == 'closed', 'namespace ' + NAMESPACE + ' not opened and closed exactly once: ' + module)
+    return scan
+
+
+def check_modules(meta, side):
+    for module in MODULES:
+        path = side / (module + '.lean')
+        require(path.is_file(), 'module absent: ' + module)
+        scan = scan_module(path.read_text(encoding='utf-8'), module)
+        require(scan['theorem'] == meta['theorems'][module], 'theorem inventory differs from source: ' + module)
+        for kind in ('abbrev', 'def', 'instance'):
+            require(scan[kind] == meta['definitions'][module][kind], kind + ' inventory differs from source: ' + module)
+    require((side / (ROOT_MODULE + '.lean')).read_text(encoding='utf-8') == ROOT_SOURCE,
+            'root module must import exactly the five modules')
+
+
+def environment(root):
+    toolchain = (root / 'formal/lean-toolchain').read_text().strip()
+    require(toolchain == TOOLCHAIN, 'wrong Lean toolchain: ' + repr(toolchain))
+    lock = strict((root / 'formal/lake-manifest.json').read_bytes())
+    packages = lock['packages']
+    names = [p['name'] for p in packages]
+    require(names and len(names) == len(set(names)), 'duplicate or empty dependency list')
+    revisions = {p['name']: p['rev'] for p in packages}
+    require(all(isinstance(v, str) and HEX40.fullmatch(v) for v in revisions.values()), 'unpinned dependency')
+    return {'lean_toolchain': toolchain, 'dependency_revisions': revisions}
+
+
+def source():
+    meta = metadata()
+    head = git('rev-parse', 'HEAD')
+    require(HEX40.fullmatch(head) is not None, 'invalid HEAD')
+    require(set(meta['files']) == set(REQUIRED_FILES), 'files inventory must list every required companion file and the workflow')
+    if os.environ.get('GITHUB_ACTIONS') == 'true':
+        require(os.environ.get('GITHUB_SHA') == head and os.environ.get('GITHUB_REPOSITORY') == REPO, 'host/source mismatch')
+        require(os.environ.get('GITHUB_RUN_ID') and os.environ.get('GITHUB_RUN_ATTEMPT'), 'run identity absent')
+    expected = set(REQUIRED_FILES) | {PACKAGE + '/SOURCE_FILES.json'}
+    actual = set(git('ls-tree', '-r', '--name-only', head, '--', PACKAGE).splitlines()) | {WORKFLOW}
+    require(actual == expected, 'tracked companion membership differs: ' + repr(sorted(actual ^ expected)))
+    ids = {}
+    for path in sorted(expected):
+        parts = Path(path).parts
+        require(not any(ROOT.joinpath(*parts[:i]).is_symlink() for i in range(1, len(parts) + 1)), 'symlink source: ' + path)
+        raw = (ROOT / path).read_bytes()
+        ids[path] = identity(raw)
+        require(git('rev-parse', head + ':' + path) == ids[path]['git_blob'], 'dirty execution/source bytes: ' + path)
+        if path in meta['files']:
+            require(meta['files'][path] == ids[path], 'manifest source mismatch: ' + path)
+    diff = subprocess.run(['git', 'diff', '--exit-code', 'HEAD', '--', PACKAGE, WORKFLOW, *PINNED_CORE],
+                          cwd=ROOT, capture_output=True, text=True, timeout=60)
+    require(diff.returncode == 0, 'uncommitted modification in bound paths')
+    env = environment(ROOT)
+    check_modules(meta, SIDE)
+    return {'checked_commit': head, 'repository': REPO, 'run_id': os.environ.get('GITHUB_RUN_ID', 'local'),
+            'run_attempt': os.environ.get('GITHUB_RUN_ATTEMPT', 'local'), 'sources': ids,
+            'declarations': targets(meta), 'theorems': theorem_targets(meta), 'environment': env,
+            'scientific_effect': 'NONE', 'provenance': meta['provenance']}
+
+
+def lean_version(text):
+    version = text.strip()
+    require(LEAN_VERSION.fullmatch(version) is not None, 'unexpected running Lean version: ' + repr(version))
+    return version
+
+
+def packages(text, expected):
+    records = {}
+    for line in text.splitlines():
+        match = re.fullmatch(r'([A-Za-z][A-Za-z0-9_.-]*) ([0-9a-f]{40})', line)
+        require(match is not None, 'malformed package line: ' + repr(line))
+        name, rev = match.groups()
+        require(name not in records, 'duplicate installed package: ' + name)
+        records[name] = rev
+    require(records == expected, 'installed dependency HEADs differ from formal/lake-manifest.json: '
+            + repr(sorted(set(records.items()) ^ set(expected.items()))))
+    return records
+
+
+def audit_axioms(text, names):
+    require(isinstance(names, list) and names and len(set(names)) == len(names), 'empty or duplicate target list')
+    records = {}
+    for match in AXIOM.finditer(text):
+        name, raw = match.groups()
+        require(name in names and name not in records, 'unexpected or duplicate axiom target: ' + name)
+        axioms = [] if raw is None or not raw.strip() else [a.strip() for a in raw.split(',')]
+        require(all(re.fullmatch(NAME, a) for a in axioms), 'malformed axiom name')
+        require(set(axioms) <= ALLOWED, 'forbidden transitive axiom: ' + repr(sorted(set(axioms) - ALLOWED)))
+        records[name] = sorted(set(axioms))
+    require(not AXIOM.sub('', text).strip(), 'unrecognized audit output')
+    require(set(records) == set(names), 'missing target axiom report: ' + repr(sorted(set(names) - set(records))))
+    return records
+
+
+def types(text, names):
+    require('error:' not in text and 'warning:' not in text, 'type diagnostic')
+    matches = list(re.finditer(r'^' + NAMESPACE + r'\.' + IDENT, text, re.M))
+    actual = [m.group() for m in matches]
+    require(actual == names and len(set(actual)) == len(actual), 'type inventory mismatch')
+    require(not text[:matches[0].start()].strip(), 'unrecognized type preamble')
+    return actual
+
+
+CENSUS_LINE = re.compile(r'(' + NAME + r') (internal|user) (range|generated)')
+
+
+def census(text, names, auxiliary):
+    """Parse census.log (`<name> internal|user range|generated` per constant, then `CENSUS_END <count>`).
+
+    user+range must equal `names` exactly; internal+range is refused; user+generated must equal `auxiliary` exactly."""
+    lines = text.strip('\n').split('\n') if text.strip() else []
+    require(lines and re.fullmatch(r'CENSUS_END [0-9]+', lines[-1]), 'census terminator absent')
+    rows = [CENSUS_LINE.fullmatch(line) for line in lines[:-1]]
+    require(all(rows), 'unrecognized census output')
+    listed = [m.group(1) for m in rows]
+    require(int(lines[-1].split()[1]) == len(listed) and len(set(listed)) == len(listed), 'census count mismatch')
+    kinds = {m.group(1): (m.group(2), m.group(3)) for m in rows}
+    ranged_user = sorted(n for n, k in kinds.items() if k == ('user', 'range'))
+    ranged_internal = sorted(n for n, k in kinds.items() if k == ('internal', 'range'))
+    generated_user = sorted(n for n, k in kinds.items() if k == ('user', 'generated'))
+    require(not ranged_internal, 'user-written declarations with internal-style names: %s' % ranged_internal)
+    extra, missing = sorted(set(ranged_user) - set(names)), sorted(set(names) - set(ranged_user))
+    require(not extra, 'user-written declarations outside the inventory: %s' % extra)
+    require(not missing, 'inventory targets absent from the census: %s' % missing)
+    unlisted, absent = sorted(set(generated_user) - set(auxiliary)), sorted(set(auxiliary) - set(generated_user))
+    require(not unlisted, 'compiler-generated constants not listed in census_auxiliary: %s' % unlisted)
+    require(not absent, 'census_auxiliary entries absent or not compiler-generated: %s' % absent)
+    return {'constants': len(listed), 'user_declarations': len(ranged_user), 'generated_user': generated_user,
+            'internal_generated': sum(1 for k in kinds.values() if k == ('internal', 'generated'))}
+
+
+def write_new_file(path, text):
+    """Create `path` exclusively (O_EXCL, O_NOFOLLOW): an existing file or a planted symlink fails the open instead of
+    being replaced or followed; nothing is truncated."""
+    descriptor = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, 'O_NOFOLLOW', 0), 0o644)
+    with os.fdopen(descriptor, 'w', encoding='utf-8') as handle:
+        handle.write(text)
+
+
+def leanchecker_mode(text):
+    command = text.strip()
+    require(command in LEANCHECKER, 'unrecognized leanchecker invocation: ' + repr(command))
+    return LEANCHECKER[command]
+
+
+def negative(text, control, status):
+    require(control in CONTROLS, 'unknown negative control: ' + repr(control))
+    require(type(status) is int, 'negative exit status must be an integer')
+    if control in FALSE_CONTROLS:
+        require(status == 1, 'false-statement control must exit exactly one')
+        pattern = r'(?:[^\r\n]*[/\\])?' + control + r'\.lean:[0-9]+:[0-9]+: error: unsolved goals\s*\n⊢ False\s*'
+        require(re.fullmatch(pattern, text) is not None, 'not the intended False-goal diagnostic: ' + control)
+        return 'REJECTED_BY_LEAN'
+    _, forbidden, prefix = INJECTIONS[control]
+    require(status == 0, 'injection control must be accepted by Lean (exit zero) so that only the audit refuses it')
+    line = "'injected' depends on axioms: [" + forbidden + "]\n"
+    require(re.fullmatch(prefix + re.escape(line), text) is not None, 'not the intended injected axiom report: ' + control)
+    # The regex above already pins the forbidden axiom name; this is a second, ALLOWED-dependent refusal that
+    # also checks the audit parser refuses that very line for the intended reason (not, e.g., as malformed).
+    try:
+        audit_axioms(line, ['injected'])
+    except ValueError as refusal:
+        require(str(refusal).startswith('forbidden transitive axiom'), 'audit refused for the wrong reason')
+        return 'REJECTED_BY_AXIOM_AUDIT'
+    raise ValueError('negative control escaped the axiom audit: ' + control)
+
+
+def emit(out):
+    meta = metadata()
+    header = 'import ' + ROOT_MODULE + '\n'
+    (out / 'Audit.lean').write_text(header + '\n'.join('#print axioms ' + n for n in targets(meta)) + '\n')
+    (out / 'Types.lean').write_text(header + 'set_option pp.explicit true\n'
+                                    + '\n'.join('#check ' + n for n in theorem_targets(meta)) + '\n')
+    (out / 'Positive.lean').write_text(POSITIVE)
+    (out / 'Census.lean').write_text(CENSUS)
+    for name, (statement, tactic) in FALSE_CONTROLS.items():
+        (out / (name + '.lean')).write_text(header + 'open ' + NAMESPACE + '\nexample : ' + statement + ' := by\n  ' + tactic + '\n')
+    for name, (body, _, _) in INJECTIONS.items():
+        (out / (name + '.lean')).write_text(header + body + '#print axioms injected\n')
+
+
+def finish(out):
+    require(out.is_dir() and not out.is_symlink(), 'evidence directory absent, not a directory, or a symlink: ' + str(out))
+    receipt_path = out / 'receipt.json'
+    require(not receipt_path.exists() and not receipt_path.is_symlink(),
+            'receipt.json already present: finish never replaces a receipt; a new attempt needs a fresh evidence directory')
+    present = {p.name for p in out.iterdir()}
+    missing, unexpected = sorted(EVIDENCE_FILES - present), sorted(present - EVIDENCE_FILES)
+    require(not missing and not unexpected, 'evidence membership differs: missing %s, unexpected %s' % (missing, unexpected))
+    for name in sorted(EVIDENCE_FILES):
+        member = out / name
+        require(member.is_file() and not member.is_symlink(), 'evidence member is not a regular file: ' + name)
+    initial = strict((out / 'source.json').read_bytes())
+    current = source()
+    require(initial == current, 'source changed across execution')
+    meta = metadata()
+    # Lean consumed the files emit() wrote at the start of the replay; re-derive them and require byte equality.
+    with tempfile.TemporaryDirectory() as tmp:
+        emit(Path(tmp))
+        for emitted in sorted(Path(tmp).iterdir()):
+            consumed = out / emitted.name
+            require(consumed.is_file() and consumed.read_bytes() == emitted.read_bytes(),
+                    'emitted Lean file changed across execution: ' + emitted.name)
+    version = lean_version((out / 'toolchain.log').read_text())
+    installed = packages((out / 'packages.log').read_text(), current['environment']['dependency_revisions'])
+    for label in BUILDS:
+        require((out / (label + '.status')).read_bytes() == b'0\n', 'missing successful process: ' + label)
+    require((out / 'leanchecker.cmd').is_file(), 'leanchecker invocation record absent')
+    mode = leanchecker_mode((out / 'leanchecker.cmd').read_text())
+    # leanchecker prints nothing on success; in the measured modules mode any output is a diagnostic.
+    require(mode == 'fresh' or not (out / 'leanchecker.log').read_text().strip(), 'leanchecker reported diagnostics')
+    axioms = audit_axioms((out / 'axioms.log').read_text(), targets(meta))
+    types((out / 'types.log').read_text(), theorem_targets(meta))
+    counted = census((out / 'census.log').read_text(), targets(meta), meta['census_auxiliary'])
+    outcomes = {}
+    for control in CONTROLS:
+        status = int((out / (control + '.status')).read_text().strip())
+        outcomes[control] = negative((out / (control + '.log')).read_text(), control, status)
+    definitions = {kind: sum(len(meta['definitions'][m][kind]) for m in MODULES) for kind in ('abbrev', 'def', 'instance')}
+    replayed = ('the companion modules\' own declarations against the cached, prebuilt dependency .oleans'
+                if mode == 'modules' else 'the whole import closure from scratch (--fresh)')
+    receipt = {
+        'schema': 1, 'scientific_effect': 'NONE', 'formalization_status': 'kernel-checked',
+        'alignment_status': 'PENDING_INDEPENDENT_REVIEW', 'scientific_acceptance': False,
+        'checked_commit': current['checked_commit'], 'repository': current['repository'],
+        'run_id': current['run_id'], 'run_attempt': current['run_attempt'], 'lean_version': version,
+        'dependency_revisions': installed, 'sources': current['sources'], 'declarations': current['declarations'],
+        'theorem_count': len(current['theorems']), 'definition_count': definitions, 'axioms': axioms,
+        'negative_controls': outcomes, 'provenance': current['provenance'],
+        'leanchecker': {'command': (out / 'leanchecker.cmd').read_text().strip(), 'mode': mode},
+        'census': counted,
+        'scope_note': 'kernel-checked records that Lean elaborated these declarations at the pinned toolchain and '
+                      'that leanchecker replayed ' + replayed + '; it is not alignment with the handoff scope, '
+                      'not review, and not acceptance.',
+        'log_sha256': {name: sha((out / name).read_bytes()) for name in sorted(EVIDENCE_FILES)}}
+    write_new_file(receipt_path, json.dumps(receipt, indent=2, sort_keys=True) + '\n')
+    return receipt
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('command', choices=('source', 'emit', 'negative', 'finish'))
+    parser.add_argument('path', type=Path, nargs='?')
+    parser.add_argument('--control', choices=CONTROLS)
+    parser.add_argument('--status', type=int)
+    args = parser.parse_args()
+    # The interpreter mode this invocation actually runs in, for the test fixture (which requires it to equal the
+    # outer mode for every child) and for the hosted job log (C262 G1).
+    print('TORUS_FILTRATION_PYTHON: optimize=%d' % sys.flags.optimize, file=sys.stderr)
+    try:
+        if args.command == 'source':
+            result = source()
+        elif args.command == 'emit':
+            require(args.path is not None and args.path.is_dir(), 'emit needs an existing output directory')
+            emit(args.path)
+            result = {'emitted': True, 'controls': list(CONTROLS)}
+        elif args.command == 'finish':
+            require(args.path is not None, 'finish needs the evidence directory')
+            result = finish(args.path)
+        else:
+            require(args.path is not None and args.control is not None and args.status is not None,
+                    'negative needs <log> --control C --status N')
+            result = {'negative': args.control, 'outcome': negative(args.path.read_text(), args.control, args.status)}
+    except (ValueError, KeyError, TypeError, OSError, subprocess.SubprocessError) as failure:
+        print('TORUS_FILTRATION_FAIL: ' + str(failure), file=sys.stderr)
+        return 1
+    print(json.dumps(result, indent=2, sort_keys=True))
+    return 0
+
+
+if __name__ == '__main__':
+    sys.exit(main())

@@ -1,0 +1,20 @@
+axioms: exit 0
+types: exit 0
+axioms distinct: ['Classical.choice', 'Quot.sound', 'propext']
+sample signature: UniversalLaw.Proofs.P15Elementary.twoCoordGeneratorPrices : UniversalLaw.Spec.P15.TwoCoordGeneratorPrices
+environment: exit 0
+Traceback (most recent call last):
+  File "<stdin>", line 14, in <module>
+  File "<SCRATCH>/lvs/infra_copy/specifications/lean_statement_proofs_20261011/check.py", line 972, in environment_audit
+    classes, heads = parse_audit(run([lake, 'env', 'lean', str(path)], 'environment', out, root, env))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SCRATCH>/lvs/infra_copy/specifications/lean_statement_proofs_20261011/check.py", line 951, in parse_audit
+    require(name not in seen, 'duplicate audit line for ' + name)
+  File "<SCRATCH>/lvs/infra_copy/specifications/lean_statement_proofs_20261011/check.py", line 136, in require
+    raise ValueError(message)
+ValueError: duplicate audit line for UniversalLaw.Spec.P15.genPrice.eq_1
+
+real	0m35.136s
+user	0m14.355s
+sys	0m14.206s
+exit 1

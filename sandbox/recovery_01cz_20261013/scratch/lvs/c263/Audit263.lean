@@ -1,0 +1,25 @@
+import SuperlevelBar
+#print axioms TorusFiltration.superlevelBar_E
+#print axioms TorusFiltration.superlevelBar_isEssential
+#print axioms TorusFiltration.superlevelBar_clearanceSet
+#print axioms TorusFiltration.superlevelBar_deathHeight
+#print axioms TorusFiltration.superlevelBar_essential_iff
+#print axioms TorusFiltration.superlevelBar_mem_lt_start
+#print axioms TorusFiltration.superlevelBar_clearance_bddAbove
+#print axioms TorusFiltration.superlevelBar_clearance_empty_of_essential
+#print axioms TorusFiltration.superlevelBar_death_eq_zero_of_empty
+#print axioms TorusFiltration.superlevelBar_death_eq_zero_of_essential
+#print axioms TorusFiltration.superlevelBar_death_eq_sSup_of_nonempty
+#print axioms TorusFiltration.superlevelBar_path_minimum
+#print axioms TorusFiltration.superlevelBar_clearance_nonempty
+#print axioms TorusFiltration.superlevelBar_clearance_nonempty_iff
+#print axioms TorusFiltration.superlevelBar_clearance_downward
+#print axioms TorusFiltration.superlevelBar_clearance_improve
+#print axioms TorusFiltration.superlevelBar_strict_cut
+#print axioms TorusFiltration.superlevelBar_death_le_start_of_nonempty
+#print axioms TorusFiltration.superlevelBar_death_le_start
+#print axioms TorusFiltration.superlevelBar_clearance_eq_Iio
+#print axioms TorusFiltration.superlevelBar_death_not_mem_clearance
+#print axioms TorusFiltration.superlevelBar_cut_unique
+#print axioms TorusFiltration.superlevelBar_death_const
+#print axioms TorusFiltration.superlevelBar_control_negative_essential

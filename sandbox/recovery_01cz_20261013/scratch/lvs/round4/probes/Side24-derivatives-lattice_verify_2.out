@@ -1,0 +1,5 @@
+'Probe4.thetaSummable_all' depends on axioms: [propext, Classical.choice, Quot.sound]
+Probe4.thetaSummable_all : ∀ (d : ℕ), ThetaSummable d
+def UniversalLaw.Spec.Side24.ThetaSummable : ℕ → Prop :=
+fun d => ∀ (z : E d), Summable fun n => Real.exp (-‖z + latticeVec d n‖ ^ 2 / 2)
+EXIT=0

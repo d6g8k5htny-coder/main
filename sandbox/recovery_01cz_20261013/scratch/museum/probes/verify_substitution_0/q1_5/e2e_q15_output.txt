@@ -1,0 +1,8 @@
+baseline: built museum.json replay commands: d2=python -B -S -m unittest discover -s frontiers/three_fronts_20260924 -p 'test_*.py' -v | d4=python -B -S -m unittest discover -s frontiers/remote_window_20260924 -p 'test_*.py' -v | d6=python -B -S frontiers/full_price_20260924/full_price.py
+  museum_check PASSED -> # pass 15 # fail 0 | Museum source export and actual display integration verified. Scientific effect NONE.
+SWAP_D2_D6__D4_gets_D0_hard_gate: built museum.json replay commands: d2=python -B -S frontiers/full_price_20260924/full_price.py | d4=python -B -S frontiers/downstream_gate_20260925/hard_gate.py | d6=python -B -S -m unittest discover -s frontiers/three_fronts_20260924 -p 'test_*.py' -v
+  museum_check PASSED -> # pass 15 # fail 0 | Museum source export and actual display integration verified. Scientific effect NONE.
+D2_D4_D6_all_get_full_price: built museum.json replay commands: d2=python -B -S frontiers/full_price_20260924/full_price.py | d4=python -B -S frontiers/full_price_20260924/full_price.py | d6=python -B -S frontiers/full_price_20260924/full_price.py
+  museum_check PASSED -> # pass 15 # fail 0 | Museum source export and actual display integration verified. Scientific effect NONE.
+CONTROL_D2_invented_command: built museum.json replay commands: d2=python invented-solver.py | d4=python -B -S -m unittest discover -s frontiers/remote_window_20260924 -p 'test_*.py' -v | d6=python -B -S frontiers/full_price_20260924/full_price.py
+  museum_check FAILED -> not ok 15 - actual pinned museum renders all cards and rejects cross-claim source, scope and replay substitutions # pass 14 # fail 1 

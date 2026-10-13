@@ -1,0 +1,37 @@
+<SCRATCH>/lvs/round4/work/ReferenceOddAndPinBlocks.lean:307:22: error(lean.unknownIdentifier): Unknown identifier `i`
+<SCRATCH>/lvs/round4/work/ReferenceOddAndPinBlocks.lean:308:4: error: unsolved goals
+case pos
+d : ℕ
+hd : 0 < d
+R : Fin d → E d
+hR : Orthonormal ℝ R
+hite : ∀ (i j : Fin d), ⟪R i, R j⟫ = if i = j then 1 else 0
+⊢ (((if ⟨0, hd⟩ = sorry () then 1 else 0) + if ⟨0, hd⟩ = sorry () then 1 else 0) +
+      if ⟨0, hd⟩ = sorry () then 1 else 0) =
+    if ⟨0, hd⟩ = sorry () then 3 else 0
+<SCRATCH>/lvs/round4/work/ReferenceOddAndPinBlocks.lean:310:4: error: unsolved goals
+case neg
+d : ℕ
+hd : 0 < d
+R : Fin d → E d
+hR : Orthonormal ℝ R
+hite : ∀ (i j : Fin d), ⟪R i, R j⟫ = if i = j then 1 else 0
+j : Fin d
+hj : ¬j = sorry
+⊢ (((if ⟨0, hd⟩ = j then 1 else 0) + if ⟨0, hd⟩ = j then 1 else 0) + if ⟨0, hd⟩ = j then 1 else 0) =
+    if ⟨0, hd⟩ = j then 3 else 0
+<SCRATCH>/lvs/round4/work/ReferenceOddAndPinBlocks.lean:310:12: error: This simp argument is unused:
+  hj
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [Ne.symm hj]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+<SCRATCH>/lvs/round4/work/ReferenceOddAndPinBlocks.lean:314:16: error: This simp argument is unused:
+  hj
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [hi, Ne.symm hi, Ne.symm hj]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+EXIT=1

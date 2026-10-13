@@ -1,0 +1,45 @@
+## Change and purpose
+
+Mathematics + engineering + documentation; **scientific effect NONE** (no `lemma_closed`, prize, premise, LANDING_CLAIMS disposition, PROOF_INDEX, GRAPH or STATUS change; nothing here is a review or an acceptance). Owner instruction of 10 October: make sure all the mathematical work can be verified in Lean and provide the specifications and versions. After this change a reader can:
+
+1. Read `docs/LEAN_VERIFICATION_SPECIFICATION.md`: exact pinned versions (Lean `v4.34.1` release commit `5045d005…`, Lake 5.0.0, elan, Mathlib `d13f23b7…` with its lock, action SHAs), two install routes (standard; restricted-network via GitHub release assets with the hashes observed here), the hosts a build machine must reach for the Mathlib cache, every package/gate/receipt of the lane including the Math- proof packet (row 3.7), the complete claim table rendered from the statement register (Math- `specifications/lean_statements_20261010/REGISTER.json` as of Math- `79731b96`, companion PRs https://github.com/d6g8k5htny-coder/Math-/pull/419 and https://github.com/d6g8k5htny-coder/Math-/pull/422), a coverage summary (329 statement entries; 132 `proved` entries: 72 for main's 59 arithmetic theorems, 60 for the proof packet's 52 theorems, all 52 kernel-checked by the hosted run 38121713840, PR head Math- `910809d6`, actual tested checkout the synthetic merge `5b198699…` of that head into its base `b2d70d77…`, same tree as the head; claim-level labels 33 `specified` / 138 `none`, never `proved`) and a roadmap from `specified` to `proved` with per-step status and a step 6 for Theorem F's hazard interpolation.
+2. Run the main core-Lean gate on 28 kernel-proved targets in `formal/UniversalLaw/P15/{PriceBoundary,RealizedCovers,FullPrice}.lean`: the exact integer/rational arithmetic displayed in the P15 notes (demand-one counterexample masses and prices; the 816/818 benchmark with (P10)/(P11); the (F3) 20-digit endpoints of ρ* and `< 6/7`; 16/27 and (T3)). Sources are byte-pinned under `formal/sources/p15_v1/` (Math- `760340e921ac4ceda296b8118da936f1133e956e`); every target has a verbatim `informal_anchor` and a `does_not_claim`; 8 new executable negative controls; `SCOPE.md`, `README.md`, `ALIGNMENT.md` (regenerated) and the single target-count assertion in `tests/test_formal_gate.py` are updated. `tools/formal_gate_check.py` is **not** edited (main #315 owns it).
+3. Follow one descriptive pointer line each in `docs/FORMAL_VERIFICATION.md` and `docs/RESEARCH_INDEX.md`.
+
+Discussion: main #307 claim [6100419142](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6100419142), release [6103552566](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6103552566), proof-packet release [6106009489](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6106009489), addendum [6106630257](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6106630257) and receipt follow-up [6106816766](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6106816766); lane contract `docs/FORMAL_VERIFICATION.md`.
+
+## Current disposition
+
+- Head and integration owner: `dc97752f7e2e2262e5e3ae9ab94a46ee7fcc90f2` (six commits: `91cffbb5` the specification and the 28 targets; `f67b0456`, `5262613c`, `fb33fd11`, `9ecbbc38` and `dc97752f` documentation-only re-renders of the specification from the Math- register; `fb33fd11` binds each hosted run to its PR head and to its actually tested checkout, after review finding C422-E1 on Math- #422; `9ecbbc38` records the round-3 proof module of Math- #423, eight theorems typed exactly as the remaining `p15-full-price` Props ((F3), (F5)-(F8), (F12), (F2)) ; `dc97752f` binds those eight to their hosted receipts: run 38149888699 on Math- #423 PR head `0dcb0016`, actual tested merge `4363b692…` with base `79731b96`, and first run 38149524759 on PR head `88c21058`, actual tested merge `3306233b…`, same base, so every one of the 60 proof-packet theorems now carries a bound receipt), Anthropic / Claude (Claude Code cloud session `session_01Cz7WZybv8znP64SpPj6sWY`); draft, this session does not merge.
+- Claim / handoff: main #307 6100419142 (lease to 23:55Z 10 Oct, released at 6103552566); the docs commits are the follow-up the proof-packet release named ("regenerate the claim table of the specification from the updated register").
+- Completed review scopes and source identities: author-side only. Same-account authorship: organizational-independence credit 0. Independent alignment review (different provider/family/agent) of the 28 targets: none yet (`PENDING_INDEPENDENT_REVIEW`). The OpenAI/Codex review of Math- #422 (finding C422-E1, evidence wording) applied to this document's wording too and is reflected in `fb33fd11`.
+- Unresolved finding IDs and next action: none open. Hosted checks on the current head `dc97752f` (one Markdown file): all succeeded (`workspace-landing` run [38150392163](https://github.com/d6g8k5htny-coder/main/actions/runs/38150392163), `Research navigation and public source checks` 38150391843, `public-shop` 38150391949, `Public results intake` 38150390471 and 38150476446). Hosted checks on the previous head `fb33fd11` (one Markdown file): `verify`, `landing-checks`, `architecture / research-architecture`, `formal / formal-evidence` (workspace-landing run [38124312407](https://github.com/d6g8k5htny-coder/main/actions/runs/38124312407)), `public-shop`, `browser-smoke`, `navigation` and `public-intake` all success; the same set was green on `5262613c` (run [38122460510](https://github.com/d6g8k5htny-coder/main/actions/runs/38122460510)) and on `91cffbb5` (run [38096827443](https://github.com/d6g8k5htny-coder/main/actions/runs/38096827443), receipt artifact `formal-verification-38096827443`); the docs commits leave `formal/manifest.json` (digest `d039ef64…`) untouched. Next action: cross-provider alignment review of the 28 targets and of the Math- statement register; integration is the owner's decision. Nothing is open for the author.
+
+## Verification
+
+Run locally at `91cffbb5` in the sandbox (Ubuntu 24.04, Lean 4.34.1 commit 5045d005…, no Mathlib needed for this package), unchanged by the docs commits:
+
+```
+python3 tools/formal_gate_check.py              # SOURCE_IDENTITY_PASS … d039ef64a841ac382a9ee7fbea9576f8691322a5dc87cf01eab127084a4394e1
+python3 tools/formal_gate_check.py --run-lean   # build, leanchecker, axiom audit (all []), 18 negative controls rejected (15 textual mutations REJECTED_BY_LEAN, sorry / imported custom axiom / native_decide REJECTED_BY_AXIOM_GATE), receipt
+python3 -B -S -m unittest tests.test_formal_gate -v   # 43 tests OK in normal and -O modes; test_formal*.py 58 OK, test_required*.py 37 OK
+python3 -B -O -S -m unittest tests.test_formal_gate -v
+```
+
+At `5262613c`: `tools/formal_gate_check.py` SOURCE_IDENTITY_PASS (same digest), `tools/navigation_check.py`, `tools/workspace_landing_check.py`, `tools/museum_check.py`, `tools/public_shop_check.py` all pass; `pytest tests/` 530 passed, 5 skipped, 10 failures all in `tests/casefold` (the pre-existing git-isolation family, identical before this change). At `fb33fd11` (one Markdown file re-rendered): `tools/formal_gate_check.py`, `tools/navigation_check.py`, `tools/workspace_landing_check.py` and `tools/museum_check.py` pass. The rendering script asserts every number the document quotes against `REGISTER.json` and, since `fb33fd11`, refuses any paragraph or table cell that names one of the three hosted `lean-specification-proofs` runs without its tested merge commit.
+
+Hosted: the required `verify` aggregate runs the same gate on the merge commit (`formal-verification.yml`, unchanged).
+
+## Evidence and limits
+
+- The receipt establishes the 28 integer statements only, relative to the Lean kernel and the pinned toolchain. It does not establish Theorems P2, T1 or F, the counterexample's logarithm inequalities, any probability or measure semantics, or anything about the P15 prize; each target's `does_not_claim` says what it leaves out, and `formal/SCOPE.md` carries the "Not established" column.
+- The specification document is an inventory of formal statements and an environment specification, not a status register (`scientific_status_authority: false`; dispositions transcribed, never derived). A `specified` statement is a precise question, not evidence of truth; a `proved` statement entry is evidence about the registered Prop for the formal objects, never about the claim it sits under. Where it cites a hosted `pull_request` run it names both the PR head and the synthetic merge commit the run actually checked out (the receipt's `checked_commit`), whose tree equals the head's.
+- Known integration note: both this PR and main #315 re-hash the `tests/test_formal_gate.py` line in `formal/manifest.json`; the second to land re-runs `--refresh-hashes`.
+- Authorship/exposure: Anthropic / Claude read every pinned source; no human review; independence credit 0.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+https://claude.ai/code/session_01Cz7WZybv8znP64SpPj6sWY
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_

@@ -1,0 +1,95 @@
+ConeMomentInterface.A_law : ∀ (self : ConeMomentInterface), Measure.map self.A self.P = gaussianReal 0 (8 / 3)
+ConeMomentInterface.sxy_law : ∀ (self : ConeMomentInterface),
+  Measure.map (fun ω => (self.s ω, self.x ω, self.y ω)) self.P =
+    (gaussianReal 0 (5 / 3)).prod ((gaussianReal 0 1).prod (gaussianReal 0 1))
+ConeMomentD1Identity : ConeMomentInterface → Prop
+ConeMomentD2Identity : ConeMomentInterface → Prop
+TraceMoments : ConeMomentInterface → Prop
+RayleighSquareLaw : ConeMomentInterface → Prop
+lintegral_comp_polarCoord_symm : ∀ (f : ℝ × ℝ → ENNReal),
+  ∫⁻ (p : ℝ × ℝ) in polarCoord.target, ENNReal.ofReal p.1 • f (↑polarCoord.symm p) = ∫⁻ (p : ℝ × ℝ), f p
+polarCoord_target : polarCoord.target = Set.Ioi 0 ×ˢ Set.Ioo (-Real.pi) Real.pi
+@withDensity_apply : ∀ {α : Type u_1} {m0 : MeasurableSpace α} {μ : Measure α} (f : α → ENNReal) {s : Set α},
+  MeasurableSet s → (μ.withDensity f) s = ∫⁻ (a : α) in s, f a ∂μ
+@lintegral_withDensity_eq_lintegral_mul : ∀ {α : Type u_1} {m0 : MeasurableSpace α} (μ : Measure α) {f : α → ENNReal},
+  Measurable f → ∀ {g : α → ENNReal}, Measurable g → ∫⁻ (a : α), g a ∂μ.withDensity f = ∫⁻ (a : α), (f * g) a ∂μ
+<SCRATCH>/lvs/round4/probes/Side24-interfaces_verify_1.lean:26:8: error(lean.unknownIdentifier): Unknown identifier `MeasureTheory.integral_withDensity_eq_integral_smul`
+measurable_gaussianPDF : ∀ (μ : ℝ) (v : NNReal), Measurable (gaussianPDF μ v)
+gaussianPDF_def : ∀ (μ : ℝ) (v : NNReal), gaussianPDF μ v = fun x => ENNReal.ofReal (gaussianPDFReal μ v x)
+gaussianPDFReal_pos : ∀ (μ : ℝ) (v : NNReal) (x : ℝ), v ≠ 0 → 0 < gaussianPDFReal μ v x
+@ofReal_integral_eq_lintegral_ofReal : ∀ {α : Type u_1} {m : MeasurableSpace α} {μ : Measure α} {f : α → ℝ},
+  Integrable f μ → 0 ≤ᵐ[μ] f → ENNReal.ofReal (∫ (x : α), f x ∂μ) = ∫⁻ (x : α), ENNReal.ofReal (f x) ∂μ
+@lintegral_prod : ∀ {α : Type u_1} {β : Type u_2} [inst : MeasurableSpace α] [inst_1 : MeasurableSpace β]
+  {μ : Measure α} {ν : Measure β} [SFinite ν] (f : α × β → ENNReal),
+  AEMeasurable f (μ.prod ν) → ∫⁻ (z : α × β), f z ∂μ.prod ν = ∫⁻ (x : α), ∫⁻ (y : β), f (x, y) ∂ν ∂μ
+@Measure.prod_apply : ∀ {α : Type u_1} {β : Type u_2} [inst : MeasurableSpace α] [inst_1 : MeasurableSpace β]
+  {μ : Measure α} {ν : Measure β} [SFinite ν] {s : Set (α × β)},
+  MeasurableSet s → (μ.prod ν) s = ∫⁻ (x : α), ν (Prod.mk x ⁻¹' s) ∂μ
+@Measure.prod_restrict : ∀ {α : Type u_1} {β : Type u_2} [inst : MeasurableSpace α] [inst_1 : MeasurableSpace β]
+  {μ : Measure α} {ν : Measure β} [SFinite ν] [SFinite μ] (s : Set α) (t : Set β),
+  (μ.restrict s).prod (ν.restrict t) = (μ.prod ν).restrict (s ×ˢ t)
+@Measure.restrict_prod_eq_prod_univ : ∀ {α : Type u_1} {β : Type u_2} [inst : MeasurableSpace α]
+  [inst_1 : MeasurableSpace β] {μ : Measure α} {ν : Measure β} [SFinite ν] [SFinite μ] (s : Set α),
+  (μ.restrict s).prod ν = (μ.prod ν).restrict (s ×ˢ Set.univ)
+@lintegral_indicator : ∀ {α : Type u_1} {m : MeasurableSpace α} {μ : Measure α} {s : Set α},
+  MeasurableSet s → ∀ (f : α → ENNReal), ∫⁻ (a : α), s.indicator f a ∂μ = ∫⁻ (a : α) in s, f a ∂μ
+@lintegral_indicator_one : ∀ {α : Type u_1} {m : MeasurableSpace α} {μ : Measure α} {s : Set α},
+  MeasurableSet s → ∫⁻ (a : α), s.indicator 1 a ∂μ = μ s
+@Real.volume_Ioo : ∀ {a b : ℝ}, ℙ (Set.Ioo a b) = ENNReal.ofReal (b - a)
+Real.cos_sq_add_sin_sq : ∀ (x : ℝ), Real.cos x ^ 2 + Real.sin x ^ 2 = 1
+@Matrix.det_neg : ∀ {n : Type u_2} [inst : DecidableEq n] [inst_1 : Fintype n] {R : Type u_1} [inst_2 : CommRing R]
+  (A : Matrix n n R), (-A).det = (-1) ^ Fintype.card n * A.det
+@Matrix.PosDef.diag_pos : ∀ {n : Type u_1} {R : Type u_2} [inst : Ring R] [inst_1 : PartialOrder R]
+  [inst_2 : StarRing R] [Nontrivial R] {A : Matrix n n R}, A.PosDef → ∀ {i : n}, 0 < A i i
+@Matrix.PosDef.det_pos : ∀ {n : Type u_1} {R' : Type u_2} [inst : CommRing R'] [inst_1 : PartialOrder R']
+  [inst_2 : StarRing R'] [inst_3 : Fintype n] [inst_4 : DecidableEq n] [Nontrivial R'] [IsOrderedRing R']
+  [PosMulReflectLT R'] {A : Matrix n n R'}, A.PosDef → 0 < A.det
+@Matrix.posDef_iff_dotProduct_mulVec : ∀ {n : Type u_1} {R : Type u_2} [inst : Ring R] [inst_1 : PartialOrder R]
+  [inst_2 : StarRing R] [inst_3 : Fintype n] {M : Matrix n n R},
+  M.PosDef ↔ M.IsHermitian ∧ ∀ ⦃x : n → R⦄, x ≠ 0 → 0 < star x ⬝ᵥ M.mulVec x
+@Integrable.mul_prod : ∀ {α : Type u_1} {β : Type u_2} [inst : MeasurableSpace α] [inst_1 : MeasurableSpace β]
+  {μ : Measure α} {ν : Measure β} [SFinite ν] {L : Type u_3} [inst_3 : NormedRing L] {f : α → L} {g : β → L},
+  Integrable f μ → Integrable g ν → Integrable (fun z => f z.1 * g z.2) (μ.prod ν)
+@integral_prod : ∀ {α : Type u_1} {β : Type u_2} {E : Type u_3} [inst : MeasurableSpace α] [inst_1 : MeasurableSpace β]
+  {μ : Measure α} {ν : Measure β} [inst_2 : NormedAddCommGroup E] [SFinite ν] [inst_4 : NormedSpace ℝ E] [SFinite μ]
+  (f : α × β → E), Integrable f (μ.prod ν) → ∫ (z : α × β), f z ∂μ.prod ν = ∫ (x : α), ∫ (y : β), f (x, y) ∂ν ∂μ
+@Integrable.mono : ∀ {α : Type u_1} {β : Type u_2} {γ : Type u_3} {m : MeasurableSpace α} {μ : Measure α}
+  [inst : NormedAddCommGroup β] [inst_1 : NormedAddCommGroup γ] {f : α → β} {g : α → γ},
+  Integrable g μ → AEStronglyMeasurable f μ → (∀ᵐ (a : α) ∂μ, ‖f a‖ ≤ ‖g a‖) → Integrable f μ
+@Integrable.indicator : ∀ {α : Type u_1} {ε' : Type u_2} {mα : MeasurableSpace α} {s : Set α} {μ : Measure α}
+  [inst : TopologicalSpace ε'] [inst_1 : ESeminormedAddMonoid ε'] {f : α → ε'},
+  Integrable f μ → MeasurableSet s → Integrable (s.indicator f) μ
+@intervalIntegral.integral_comp_mul_deriv : ∀ {a b : ℝ} {f f' g : ℝ → ℝ},
+  (∀ x ∈ Set.uIcc a b, HasDerivAt f (f' x) x) →
+    ContinuousOn f' (Set.uIcc a b) → Continuous g → ∫ (x : ℝ) in a..b, (g ∘ f) x * f' x = ∫ (x : ℝ) in f a..f b, g x
+<SCRATCH>/lvs/round4/probes/Side24-interfaces_verify_1.lean:48:8: error(lean.unknownIdentifier): Unknown identifier `MeasureTheory.integral_Ioi_eq_integral_Ioc`
+@intervalIntegral.integral_of_le : ∀ {E : Type u_1} [inst : NormedAddCommGroup E] [inst_1 : NormedSpace ℝ E] {a b : ℝ}
+  {f : ℝ → E} {μ : Measure ℝ}, a ≤ b → ∫ (x : ℝ) in a..b, f x ∂μ = ∫ (x : ℝ) in Set.Ioc a b, f x ∂μ
+@integral_Ioc_eq_integral_Ioo : ∀ {X : Type u_1} {E : Type u_2} {mX : MeasurableSpace X} [inst : NormedAddCommGroup E]
+  [inst_1 : NormedSpace ℝ E] {f : X → E} {μ : Measure X} [inst_2 : PartialOrder X] {x y : X} [NullSingletonClass μ],
+  ∫ (t : X) in Set.Ioc x y, f t ∂μ = ∫ (t : X) in Set.Ioo x y, f t ∂μ
+'probe_interface_nonempty' depends on axioms: [propext, Classical.choice, Quot.sound]
+<SCRATCH>/lvs/round4/probes/Side24-interfaces_verify_1.lean:89:6: warning: `push_neg` has been deprecated. Prefer using `push Not` instead.
+If you'd rather continue using `push_neg` in your project, you can implement it as follows:
+```
+open Lean.Parser.Tactic in
+macro "push_neg" cfg:optConfig loc:(location)? : tactic =>
+  `(tactic| push $cfg:optConfig Not $[$loc]?)
+```
+<SCRATCH>/lvs/round4/probes/Side24-interfaces_verify_1.lean:110:66: warning: This simp argument is unused:
+  Matrix.head_cons
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [transverseMatrix, Matrix.mulVec, dotProduct, Fin.sum_univ_two, Matrix.neg_apply, Matrix.of_apply,
+    Matrix.cons_val_zero, Matrix.cons_val_one, star_trivial, Matrix.cons_val_fin_one]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+<SCRATCH>/lvs/round4/probes/Side24-interfaces_verify_1.lean:123:28: warning: This simp argument is unused:
+  Matrix.diag
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [transverseMatrix] at hdiag hdiag'
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+'probe_cone_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+exit=1

@@ -1,0 +1,38 @@
+fixture verified: 30 of 30 sources; missing: []
+71400b94 (declared snapshot, control)
+   path in commit tree: True | museum_data.read_source: ACCEPTED (bytes returned) | strict commit:path read: accepted
+bd9fc9d6 (main, parent of the packet's landing commit d10c2fb)
+   path in commit tree: False | museum_data.read_source: ACCEPTED (bytes returned) | strict commit:path read: REFUSED
+4aa316f (merged side-branch commit of #150, packet never in its tree)
+   path in commit tree: False | museum_data.read_source: ACCEPTED (bytes returned) | strict commit:path read: REFUSED
+ffff... (no such commit)
+   path in commit tree: False | museum_data.read_source: ACCEPTED (bytes returned) | strict commit:path read: REFUSED
+Museum projection verified: 11 reviewed bullets, 3 AMEND rows, 1 landed packet; scientific effect NONE.
+--- git ls-tree bd9fc9d603fd70946de364afcc3c902f09a5bf29 incoming/ (empty = no packet at the declared snapshot):
+[end ls-tree]
+--- generated museum.json packets:
+side24-identity-replay-20260926 result.commit= bd9fc9d603fd70946de364afcc3c902f09a5bf29 status_source.commit= bd9fc9d603fd70946de364afcc3c902f09a5bf29
+--- PR CI gate: python3 -B tools/museum_check.py --math-root fixture/Math-
+# tests 15
+# pass 15
+# fail 0
+# skipped 0
+Museum source export and actual display integration verified. Scientific effect NONE.
+museum_check exit=0
+--- PR unit test that claims to read the landed packet from the pinned checkout:
+Ran 1 test in 0.005s
+
+OK
+[undefined] manifest status_source.commit=bd9fc9d6 packets=["side24-identity-replay-20260926@bd9fc9d6"]
+[undefined] museum-state: Source projections and displayed source bytes verified. These checks establish byte identity, not mathematical acceptance.
+[undefined] packet-cards: side24-identity-replay-20260926engineering-only Packet — not STATUS Repository d6g8k5htny-coder/main Path incoming/side24-identity-replay-20260926/RESULT.md Commit bd9fc9d603fd70946de364afcc3c902f09a5bf29 SHA-256 fa40a6b8afc413646081145d6d5d7b01cc4b5b4ddec32f4c6e82caa399e38cd8 This canvas explains the pinned source. It is not a proof and does not change status. packet — not STATUS Packet ID: side2
+[undefined] packet requests: 200 main@bd9fc9d6:incoming/side24-identity-replay-20260926/RESULT.md
+[undefined] manifest status_source.commit=bd9fc9d6 packets=["side24-identity-replay-20260926@bd9fc9d6"]
+[undefined] museum-state: Source projections and displayed source bytes verified. These checks establish byte identity, not mathematical acceptance.
+[undefined] packet-cards: side24-identity-replay-20260926engineering-only Packet — not STATUS Repository d6g8k5htny-coder/main Path incoming/side24-identity-replay-20260926/RESULT.md Commit bd9fc9d603fd70946de364afcc3c902f09a5bf29 SHA-256 fa40a6b8afc413646081145d6d5d7b01cc4b5b4ddec32f4c6e82caa399e38cd8 This canvas explains the pinned source. It is not a proof and does not change status. packet — not STATUS Packet ID: side2
+[undefined] packet requests: 200 main@bd9fc9d6:incoming/side24-identity-replay-20260926/RESULT.md
+--- no discoverable repository:
+OK
+--- GIT_DIR=<SCRATCH>/museum/probes/membership/objstore.git (read-only):
+AssertionError: ValueError not raised
+FAILED (failures=1)

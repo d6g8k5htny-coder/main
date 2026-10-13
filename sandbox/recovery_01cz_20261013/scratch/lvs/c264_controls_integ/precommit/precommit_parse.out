@@ -1,0 +1,25 @@
+positive status 0
+axioms status 0
+types status 0
+census status 0
+leanchecker status 0
+positive log empty: True
+leanchecker log empty: True
+audit_axioms OK: 153 targets; axiom sets used: [('Classical.choice', 'Quot.sound', 'propext'), ('Quot.sound', 'propext'), ('propext',)]
+controls-module targets audited: 44 True axiom sets: [('Classical.choice', 'Quot.sound', 'propext'), ('Quot.sound', 'propext'), ('propext',)]
+types OK: 118
+census: {"constants": 181, "user_declarations": 153, "generated_user": ["TorusFiltration.torus_periodBasis.congr_simp"], "internal_generated": 27}
+RejectSuperlevelSignFlip status 1 -> REJECTED_BY_LEAN
+RejectSuperlevelBelowThreshold status 1 -> REJECTED_BY_LEAN
+RejectConstantNotPeriodic status 1 -> REJECTED_BY_LEAN
+RejectEssentialDeathBound status 1 -> REJECTED_BY_LEAN
+RejectReducedPointClass status 1 -> REJECTED_BY_LEAN
+RejectMergerKillsPointClass status 1 -> REJECTED_BY_LEAN
+RejectSeparationWithoutNonzeroCoeff status 1 -> REJECTED_BY_LEAN
+RejectNonmergerKillsDifference status 1 -> REJECTED_BY_LEAN
+RejectSorry status 0 -> REJECTED_BY_AXIOM_AUDIT
+RejectCustomAxiom status 0 -> REJECTED_BY_AXIOM_AUDIT
+RejectNativeDecide status 0 -> REJECTED_BY_AXIOM_AUDIT
+discriminator RejectMergerKillsPointClass status 1 refused: not the intended False-goal diagnostic: RejectMergerKillsPointClass
+discriminator RejectSeparationWithoutNonzeroCoeff status 1 refused: not the intended False-goal diagnostic: RejectSeparationWithoutNonzeroCoeff
+discriminator RejectNonmergerKillsDifference status 1 refused: not the intended False-goal diagnostic: RejectNonmergerKillsDifference

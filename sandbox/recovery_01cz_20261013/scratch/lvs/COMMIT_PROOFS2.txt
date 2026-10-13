@@ -1,0 +1,58 @@
+Proof packet round 2: 14 more kernel-checkable theorems, Theorem P2 and (T1) as stated
+
+Scientific effect NONE: no lemma_closed, prize, premise, LANDING_CLAIMS
+disposition, PROOF_INDEX, GRAPH or STATUS change; a kernel-checked proof of a
+registered Prop is evidence about that Prop only, never acceptance of the
+informal claim. Same-account authorship: organizational-independence credit 0.
+
+New proof modules of specifications/lean_statement_proofs_20261011 (every
+theorem typed exactly as a registered `def ... : Prop`, no extra hypotheses):
+- P15Hazard (3): LocalPriceChain (P4), IndependentBlockHazard (P5),
+  GlobalAssemblyHazard (F13), through the factorisation of the product weight
+  over the blocks (no independence of crossing events used);
+- P15Covers (4): Benchmark816Cover, LocalRestriction (P2),
+  PaletteNumberAttained, Benchmark816UnionBound (P11) via the minimal-forbidden
+  characterisation and the marginal identity sum_{U >= M} w(U) = prod_M p;
+- P15Budget (5): CoverCostHazardBound (P8), RestrictedLocalBudget (T4),
+  RhoTestSufficient (T5), RestrictedTransformedPriceBudget (T1),
+  Benchmark816TransformedRange;
+- P15Elementary (+2, additions only): CapacityHazardIsBinomial (F9) for every
+  a, SharpnessOfRhoStar (triple block, cover cost one, hazard h_star).
+Inventory 38 -> 52 theorems, 37 -> 51 of the 141 registered Props; every
+theorem depends only on propext, Classical.choice, Quot.sound (`lake build`
+of the packet and a meta audit of every inventory theorem's head constant).
+
+Gate: a proof module may now import a sibling `SpecificationProofs.<Module>`
+of this packet (Lean forbids cycles; the axiom audit is transitive); the
+former refusal becomes "not a proof module of this packet" for unknown
+siblings; 70 unit tests in both Python modes (one positive test added). README
+gains the per-group table of the 90 registered Props without a theorem and
+why (parametrised predicates; the hazard interpolation (F4)-(F8), (F12), (F2);
+the 20-digit enclosure (F3); Side24 Frechet derivatives, lattice sums and
+interface statements; RN/Lifetime/Field interface-level research claims);
+SCOPE's P15 row is updated.
+
+Statement packet register (REGISTER.json, README.md, SCOPE.md): +15 `proved`
+statement entries for the 14 new theorems (SharpnessOfRhoStar sits on two
+rows); every proof-packet kernel_evidence row now cites the hosted run
+38116277597 on commit 00d2ac6e (receipt kernel-checked, leanchecker PASS, 38
+theorems; artifact lean-specification-proofs-38116277597-1) and marks the 14
+later theorems as awaiting the next hosted run; the P15 rows'
+not_established / next_step texts are regenerated from the inventory and
+separate parametrised predicates from theorem-shaped targets. Claim-level
+labels unchanged (171 claims: 33 specified, 138 none, 0 proved); Theorem P2
+and (T1) are proved as the Props state them, which the register records as
+evidence about the Props, not as acceptance.
+
+Not proved (recorded per group in the packet README): FullTransformedPriceBudget
+(F2), LocalPriceBoundFull (F12), the hazard interpolation Props (F4)-(F8),
+RhoStarEnclosure (F3), the Side24 derivative/lattice/interface Props, every
+RN/Lifetime/Field interface-level Prop.
+
+Local evidence: `lake build` of the packet (rc 0), both packets' source
+checks and unit tests pass (70 and 97, both Python modes); leanchecker cannot
+run in the sandbox (memory limit), so the hosted run is the authoritative
+execution.
+
+Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01Cz7WZybv8znP64SpPj6sWY

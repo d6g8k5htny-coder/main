@@ -1,0 +1,56 @@
+UniversalLaw.Proofs.Side24Interfaces.coneMomentD1Identity : ∀ (I : UniversalLaw.Spec.Side24.ConeMomentInterface),
+  UniversalLaw.Spec.Side24.ConeMomentD1Identity I
+def UniversalLaw.Spec.Side24.ConeMomentD1Identity : UniversalLaw.Spec.Side24.ConeMomentInterface → Prop :=
+fun I => ∫ (ω : I.Ω), (Set.Iio 0).indicator (fun a => a ^ 2) (I.A ω) ∂I.P = UniversalLaw.Spec.Side24.coneMomentD1
+def UniversalLaw.Spec.Side24.coneMomentD1 : ℝ :=
+4 / 3
+'UniversalLaw.Proofs.Side24Interfaces.coneMomentD1Identity' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Interfaces.Aux.c1_aemeasurable_of_map_eq_gaussian' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'UniversalLaw.Proofs.Side24Interfaces.Aux.c1_measurable_indicator_sq' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'UniversalLaw.Proofs.Side24Interfaces.Aux.c1_second_moment_gaussianReal' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'UniversalLaw.Proofs.Side24Interfaces.Aux.c1_integrable_sq_gaussianReal' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'UniversalLaw.Proofs.Side24Interfaces.Aux.c1_setIntegral_sq_Iio_eq_Ioi' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'UniversalLaw.Proofs.Side24Interfaces.Aux.c1_setIntegral_sq_Iio' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'UniversalLaw.Proofs.Side24Interfaces.Aux.c1_integral_indicator_eq' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Interfaces.Aux.c1_integral_indicator_eq
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Interfaces.Aux.c1_setIntegral_sq_Iio_eq_Ioi
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Interfaces.Aux.c1_setIntegral_sq_Iio_eq_Ioi._simp_1_2
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Interfaces.Aux.c1_second_moment_gaussianReal
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Interfaces.Aux.c1_measurable_indicator_sq
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Interfaces.Aux.c1_setIntegral_sq_Iio_eq_Ioi._simp_1_1
+AUDIT theorem UniversalLaw.Proofs.Side24Interfaces.coneMomentD1Identity UniversalLaw.Spec.Side24.ConeMomentD1Identity
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Interfaces.Aux.c1_aemeasurable_of_map_eq_gaussian
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Interfaces.Aux.c1_setIntegral_sq_Iio_eq_Ioi._simp_1_3
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Interfaces.Aux.c1_setIntegral_sq_Iio
+AUDIT aux_theorem UniversalLaw.Proofs.Side24Interfaces.Aux.c1_integrable_sq_gaussianReal
+AUDIT END 11 0 1
+STAGE2 def prop=false unsafe=false auditModules
+STAGE2 def prop=false unsafe=false auditPrefix
+STAGE2 def prop=false unsafe=false registeredProps
+STAGE2 thm prop=true unsafe=false UniversalLaw.Proofs.Side24Interfaces.Aux.c1_aemeasurable_of_map_eq_gaussian
+STAGE2 thm prop=true unsafe=false UniversalLaw.Proofs.Side24Interfaces.Aux.c1_integrable_sq_gaussianReal
+STAGE2 thm prop=true unsafe=false UniversalLaw.Proofs.Side24Interfaces.Aux.c1_integral_indicator_eq
+STAGE2 thm prop=true unsafe=false UniversalLaw.Proofs.Side24Interfaces.Aux.c1_measurable_indicator_sq
+STAGE2 thm prop=true unsafe=false UniversalLaw.Proofs.Side24Interfaces.Aux.c1_second_moment_gaussianReal
+STAGE2 thm prop=true unsafe=false UniversalLaw.Proofs.Side24Interfaces.Aux.c1_setIntegral_sq_Iio
+STAGE2 thm prop=true unsafe=false UniversalLaw.Proofs.Side24Interfaces.Aux.c1_setIntegral_sq_Iio_eq_Ioi
+STAGE2 thm prop=true unsafe=false UniversalLaw.Proofs.Side24Interfaces.Aux.c1_setIntegral_sq_Iio_eq_Ioi._simp_1_1
+STAGE2 thm prop=true unsafe=false UniversalLaw.Proofs.Side24Interfaces.Aux.c1_setIntegral_sq_Iio_eq_Ioi._simp_1_2
+STAGE2 thm prop=true unsafe=false UniversalLaw.Proofs.Side24Interfaces.Aux.c1_setIntegral_sq_Iio_eq_Ioi._simp_1_3
+STAGE2 thm prop=true unsafe=false UniversalLaw.Proofs.Side24Interfaces.coneMomentD1Identity
+STAGE2 TOTAL 14
+EXIT=0

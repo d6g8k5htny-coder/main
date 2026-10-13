@@ -1,0 +1,40 @@
+'UniversalLaw.Proofs.Side24Analysis.latticeImageSumBound' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.li_geom_tail' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.li_pow6_succ_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.li_exp_succ_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.li_summable_int_tsum_le' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.li_gauss_int' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.li_pow_gauss_int' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.li_sum_prod_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.li_prod_ite_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.li_prod_exp' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.li_sum_cube_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.li_imageTerm_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.li_imageTerm_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+'UniversalLaw.Proofs.Side24Analysis.Aux.li_partial_sum_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+UniversalLaw.Proofs.Side24Analysis.latticeImageSumBound : UniversalLaw.Spec.Side24.LatticeImageSumBound
+def UniversalLaw.Spec.Side24.LatticeImageSumBound : Prop :=
+∀ d ≤ 3,
+  (Summable fun n => UniversalLaw.Spec.Side24.imageTerm d n) ∧
+    ∑' (n : Fin d → ℤ), UniversalLaw.Spec.Side24.imageTerm d n ≤ 1458 * Real.exp (-288)
+def UniversalLaw.Spec.Side24.imageTerm : (d : ℕ) → (Fin d → ℤ) → ℝ :=
+fun d n =>
+  if n = 0 then 0
+  else UniversalLaw.Spec.Side24.intNormSq d n ^ 3 * Real.exp (-288 * UniversalLaw.Spec.Side24.intNormSq d n)
+def UniversalLaw.Spec.Side24.intNormSq : (d : ℕ) → (Fin d → ℤ) → ℝ :=
+fun d n => ∑ i, ↑(n i) ^ 2
+<SCRATCH>/lvs/round4/work/_liv_scratch.lean:381:45: error: Type mismatch
+  true
+has type
+  Bool
+but is expected to have type
+  MessageData
+<SCRATCH>/lvs/round4/work/_liv_scratch.lean:381:57: error: Type mismatch
+  false
+has type
+  Bool
+but is expected to have type
+  MessageData
+EXIT=1

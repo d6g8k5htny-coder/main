@@ -1,0 +1,692 @@
+[
+ {
+  "module": "Specifications/Field.lean",
+  "declaration": "UniversalLaw.Spec.Field.HessianHasInertia",
+  "claims": [
+   "math.uniform-matrix-cap-lifetime"
+  ],
+  "source": "/-- Sylvester-inertia encoding of \"the Hessian at `x` is nondegenerate with exactly `j`\nnegative and `d - j` positive eigenvalues\": there are complementary subspaces `V`, `W` of\ndimensions `j` and `d - j` on which the Hessian form is negative definite, respectively\npositive definite. Intended to agree with the eigenvalue count for symmetric (`C^2`)\nHessians; not shown here.\n\nSource: d6g8k5htny-coder/Math- commit c39164254ad1529ed49543743598d5dcb24bab98 path imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md sha256 9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7\nAnchor: \"The index counts negative eigenvalues.\"\nInterface: none.\nDoes not claim: equivalence with an eigenvalue count for a non-symmetric form. -/\ndef HessianHasInertia (d : ℕ) (g : E d → ℝ) (x : E d) (j : ℕ) : Prop :=\n  ∃ V W : Submodule ℝ (E d), IsCompl V W ∧\n    Module.finrank ℝ V = j ∧ Module.finrank ℝ W = d - j ∧\n    (∀ v ∈ V, v ≠ 0 → hessian d g x v v < 0) ∧\n    (∀ w ∈ W, w ≠ 0 → 0 < hessian d g x w w)"
+ },
+ {
+  "module": "Specifications/Field.lean",
+  "declaration": "UniversalLaw.Spec.Field.IsCandidatePair",
+  "claims": [
+   "math.uniform-matrix-cap-lifetime"
+  ],
+  "source": "/-- Ordered maximum / index-(d-1)-saddle pair at positive torus distance (distinct torus\npoints): a nondegenerate local maximum `M` and an index-(d-1) saddle `S`.\n\nSource: d6g8k5htny-coder/Math- commit c39164254ad1529ed49543743598d5dcb24bab98 path imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md sha256 9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7\nAnchor: \"let nu_cand^all(ell) count ALL ordered maximum/index-(d-1)-saddle pairs with height difference ell>0, and let nu_eld^all(ell) count all finite ordinary superlevel H0 persistence bars, both in expectation per unit volume.\"\nInterface: none.\nDoes not claim: positivity of the height gap (added separately where the source requires it). -/\ndef IsCandidatePair (d : ℕ) (L : ℝ) (g : E d → ℝ) (M S : E d) : Prop :=\n  IsNondegMax d g M ∧ IsIndexSaddle d g S ∧ 0 < torusDist d L M S"
+ },
+ {
+  "module": "Specifications/Field.lean",
+  "declaration": "UniversalLaw.Spec.Field.IsCriticalPoint",
+  "claims": [
+   "math.uniform-matrix-cap-lifetime"
+  ],
+  "source": "/-- Critical point: vanishing Fréchet derivative (`grad f = 0`).\n\nSource: d6g8k5htny-coder/Math- commit c39164254ad1529ed49543743598d5dcb24bab98 path imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md sha256 9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7\nAnchor: \"grad f(M)=grad f(S)=0.\"\nInterface: none.\nDoes not claim: differentiability of `g` at `x` (if `g` is not differentiable, `fderiv` is `0`). -/\ndef IsCriticalPoint (d : ℕ) (g : E d → ℝ) (x : E d) : Prop :=\n  fderiv ℝ g x = 0"
+ },
+ {
+  "module": "Specifications/Field.lean",
+  "declaration": "UniversalLaw.Spec.Field.IsFiniteBar",
+  "claims": [
+   "math.uniform-matrix-cap-lifetime"
+  ],
+  "source": "/-- Finite ordinary superlevel H0 bar, as an ordered pair: a nondegenerate maximum `M`\n(birth) with its ordinary elder death partner `S`, an index-(d-1) saddle at positive torus\ndistance. The essential global-maximum class is excluded because `ElderPartner` requires\n`¬ IsEssential` on the Morse locus.\n\nSource: d6g8k5htny-coder/Math- commit c39164254ad1529ed49543743598d5dcb24bab98 path imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md sha256 9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7\nAnchor: \"each finite superlevel H0 bar has exactly one local-maximum birth and one index-(d-1) merging-saddle death.\"\nInterface: `I : SuperlevelBarInterface d L` is given.\nDoes not claim: the identification of these pairs with bars of a persistence module; that the count of such pairs equals the finite-bar count off the Morse locus. -/\ndef IsFiniteBar (d : ℕ) (L : ℝ) (I : SuperlevelBarInterface d L) (g : E d → ℝ) (M S : E d) : Prop :=\n  IsCandidatePair d L g M S ∧ 0 < heightGap d g M S ∧ I.ElderPartner g M S"
+ },
+ {
+  "module": "Specifications/Field.lean",
+  "declaration": "UniversalLaw.Spec.Field.IsIndexSaddle",
+  "claims": [
+   "math.uniform-matrix-cap-lifetime"
+  ],
+  "source": "/-- Index-(d-1) saddle: a critical point whose Hessian has `d - 1` negative and one\npositive eigenvalue.\n\nSource: d6g8k5htny-coder/Math- commit c39164254ad1529ed49543743598d5dcb24bab98 path imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md sha256 9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7\nAnchor: \"A maximum has d negative Hessian eigenvalues; the relevant saddle has d-1 negative and one positive eigenvalue.\"\nInterface: none.\nDoes not claim: that such a saddle is a merging saddle of any superlevel bar. -/\ndef IsIndexSaddle (d : ℕ) (g : E d → ℝ) (x : E d) : Prop :=\n  IsCriticalPoint d g x ∧ HessianHasInertia d g x (d - 1)"
+ },
+ {
+  "module": "Specifications/Field.lean",
+  "declaration": "UniversalLaw.Spec.Field.IsLPeriodic",
+  "claims": [
+   "math.uniform-matrix-cap-lifetime"
+  ],
+  "source": "/-- `L`-periodicity of a function on `R^d`: invariance under every lattice translation.\n\nSource: d6g8k5htny-coder/Math- commit c39164254ad1529ed49543743598d5dcb24bab98 path imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md sha256 9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7\nAnchor: \"On the flat torus X = R^d/(L Z^d), let f be the centered stationary Gaussian field of variance one with covariance\"\nInterface: none; this is the defining predicate of a function on the torus.\nDoes not claim: anything about the field. -/\ndef IsLPeriodic (d : ℕ) (L : ℝ) (g : E d → ℝ) : Prop :=\n  ∀ (x : E d) (n : Fin d → ℤ), g (x + latticeVec d L n) = g x"
+ },
+ {
+  "module": "Specifications/Field.lean",
+  "declaration": "UniversalLaw.Spec.Field.IsLifetimeDensityVersion",
+  "claims": [
+   "math.uniform-matrix-cap-lifetime"
+  ],
+  "source": "/-- `ν` is a VERSION of the expected per-unit-volume lifetime density of the population\n`Pair` under the field `G`: it is nonnegative and measurable, the pair sets are almost\nsurely finite with integrable counts, `ν` is integrable on every Borel `A ⊆ (0, ∞)`, and\n`∫_A ν = E[#pairs with lifetime in A and base point in [0,L)^d] / L^d` for every such `A`.\nThe source's densities are only defined up to such versions. The sigma-algebra of the sample\nspace is brought into scope by the inlined term-level `haveI := G.mΩ` (a square-bracket\nfield of a bundled record is not registered for typeclass resolution after the declaration).\n\nSource: d6g8k5htny-coder/Math- commit c39164254ad1529ed49543743598d5dcb24bab98 path imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md sha256 9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7\nAnchor: \"These densities admit versions with\"\nInterface: the field `G` and the population predicate `Pair` are given; the Kac-Rice representation of the expectation (Sections 9-10 of the source) is NOT used; the density is characterised only by the integral identity.\nDoes not claim: existence of a version; the weighted Kac-Rice identity; the radial ledger (10.2). Measurability of the pair count as a function of the sample is REQUIRED by the predicate (through `Integrable`, hence `AEStronglyMeasurable`), not established here. -/\ndef IsLifetimeDensityVersion (d : ℕ) (L : ℝ) (G : GaussianFieldInterface d L)\n    (Pair : (E d → ℝ) → E d → E d → Prop) (ν : ℝ → ℝ) : Prop :=\n  haveI := G.mΩ\n  (∀ ℓ : ℝ, 0 ≤ ν ℓ) ∧ Measurable ν ∧\n  (∀ A : Set ℝ, MeasurableSet A → A ⊆ Set.Ioi 0 →\n    (∀ᵐ ω ∂G.P, (pairSet d L Pair (G.F ω) A).Finite) ∧\n    Integrable (fun ω => ((pairCount d L Pair (G.F ω) A : ℕ) : ℝ)) G.P ∧\n    IntegrableOn ν A ∧\n    ∫ ℓ in A, ν ℓ = (∫ ω, ((pairCount d L Pair (G.F ω) A : ℕ) : ℝ) ∂G.P) / L ^ d)"
+ },
+ {
+  "module": "Specifications/Field.lean",
+  "declaration": "UniversalLaw.Spec.Field.IsMorseDistinct",
+  "claims": [
+   "math.uniform-matrix-cap-lifetime"
+  ],
+  "source": "/-- Morse genericity with distinct critical values on the torus: every critical point is\nnondegenerate (has some inertia) and critical points at distinct torus positions have\ndistinct critical values.\n\nSource: d6g8k5htny-coder/Math- commit c39164254ad1529ed49543743598d5dcb24bab98 path imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md sha256 9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7\nAnchor: \"Countable exhaustion now proves that Q is almost surely Morse with distinct critical values.\"\nInterface: none; used only as a hypothesis of the elder-partner interface clause.\nDoes not claim: that sample paths are almost surely Morse (Section 8 of the source). -/\ndef IsMorseDistinct (d : ℕ) (L : ℝ) (g : E d → ℝ) : Prop :=\n  (∀ x : E d, IsCriticalPoint d g x → ∃ j : ℕ, HessianHasInertia d g x j) ∧\n  (∀ x y : E d, IsCriticalPoint d g x → IsCriticalPoint d g y →\n    0 < torusDist d L x y → g x ≠ g y)"
+ },
+ {
+  "module": "Specifications/Field.lean",
+  "declaration": "UniversalLaw.Spec.Field.IsNondegMax",
+  "claims": [
+   "math.uniform-matrix-cap-lifetime"
+  ],
+  "source": "/-- Nondegenerate local maximum: a critical point whose Hessian has `d` negative\neigenvalues (negative definite).\n\nSource: d6g8k5htny-coder/Math- commit c39164254ad1529ed49543743598d5dcb24bab98 path imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md sha256 9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7\nAnchor: \"A maximum has d negative Hessian eigenvalues; the relevant saddle has d-1 negative and one positive eigenvalue.\"\nInterface: none.\nDoes not claim: that every local maximum of a sample path is nondegenerate (Morse genericity is Section 8 of the source). -/\ndef IsNondegMax (d : ℕ) (g : E d → ℝ) (x : E d) : Prop :=\n  IsCriticalPoint d g x ∧ HessianHasInertia d g x d"
+ },
+ {
+  "module": "Specifications/Field.lean",
+  "declaration": "UniversalLaw.Spec.Field.IsSmooth",
+  "claims": [
+   "math.uniform-matrix-cap-lifetime"
+  ],
+  "source": "/-- Smoothness of a sample path: `C^n` for every finite `n` (written without `⊤`).\n\nSource: d6g8k5htny-coder/Math- commit c39164254ad1529ed49543743598d5dcb24bab98 path imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md sha256 9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7\nAnchor: \"In particular the field has a smooth version and all finite moments of its global derivative suprema exist.\"\nInterface: smoothness of every sample path is the field `GaussianFieldInterface.smooth`.\nDoes not claim: existence of a smooth version, or moment bounds on derivative suprema. -/\ndef IsSmooth (d : ℕ) (g : E d → ℝ) : Prop :=\n  ∀ n : ℕ, ContDiff ℝ n g"
+ },
+ {
+  "module": "Specifications/Lifetime.lean",
+  "declaration": "UniversalLaw.Spec.Lifetime.HessianHasInertia",
+  "claims": [
+   "math.uniform-matrix-cap-lifetime"
+  ],
+  "source": "/-- Sylvester-inertia encoding of \"the Hessian at `x` is nondegenerate with exactly `j`\nnegative and `d - j` positive eigenvalues\": there are complementary subspaces `V`, `W` of\ndimensions `j` and `d - j` on which the Hessian form is negative definite, respectively\npositive definite. Intended to agree with the eigenvalue count for symmetric (`C^2`)\nHessians; not shown here.\n\nSource: d6g8k5htny-coder/Math- commit c39164254ad1529ed49543743598d5dcb24bab98 path imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md sha256 9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7\nAnchor: \"The index counts negative eigenvalues.\"\nInterface: none.\nDoes not claim: equivalence with an eigenvalue count for a non-symmetric form. -/\ndef HessianHasInertia (d : ℕ) (g : E d → ℝ) (x : E d) (j : ℕ) : Prop :=\n  ∃ V W : Submodule ℝ (E d), IsCompl V W ∧\n    Module.finrank ℝ V = j ∧ Module.finrank ℝ W = d - j ∧\n    (∀ v ∈ V, v ≠ 0 → hessian d g x v v < 0) ∧\n    (∀ w ∈ W, w ≠ 0 → 0 < hessian d g x w w)"
+ },
+ {
+  "module": "Specifications/Lifetime.lean",
+  "declaration": "UniversalLaw.Spec.Lifetime.IsCandidatePair",
+  "claims": [
+   "math.uniform-matrix-cap-lifetime"
+  ],
+  "source": "/-- Ordered maximum / index-(d-1)-saddle pair at positive torus distance (distinct torus\npoints): a nondegenerate local maximum `M` and an index-(d-1) saddle `S`.\n\nSource: d6g8k5htny-coder/Math- commit c39164254ad1529ed49543743598d5dcb24bab98 path imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md sha256 9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7\nAnchor: \"let nu_cand^all(ell) count ALL ordered maximum/index-(d-1)-saddle pairs with height difference ell>0, and let nu_eld^all(ell) count all finite ordinary superlevel H0 persistence bars, both in expectation per unit volume.\"\nInterface: none.\nDoes not claim: positivity of the height gap (added separately where the source requires it). -/\ndef IsCandidatePair (d : ℕ) (L : ℝ) (g : E d → ℝ) (M S : E d) : Prop :=\n  IsNondegMax d g M ∧ IsIndexSaddle d g S ∧ 0 < torusDist d L M S"
+ },
+ {
+  "module": "Specifications/Lifetime.lean",
+  "declaration": "UniversalLaw.Spec.Lifetime.IsCriticalPoint",
+  "claims": [
+   "math.uniform-matrix-cap-lifetime"
+  ],
+  "source": "/-- Critical point: vanishing Fréchet derivative (`grad f = 0`).\n\nSource: d6g8k5htny-coder/Math- commit c39164254ad1529ed49543743598d5dcb24bab98 path imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md sha256 9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7\nAnchor: \"grad f(M)=grad f(S)=0.\"\nInterface: none.\nDoes not claim: differentiability of `g` at `x` (if `g` is not differentiable, `fderiv` is `0`). -/\ndef IsCriticalPoint (d : ℕ) (g : E d → ℝ) (x : E d) : Prop :=\n  fderiv ℝ g x = 0"
+ },
+ {
+  "module": "Specifications/Lifetime.lean",
+  "declaration": "UniversalLaw.Spec.Lifetime.IsFiniteBar",
+  "claims": [
+   "math.uniform-matrix-cap-lifetime"
+  ],
+  "source": "/-- Finite ordinary superlevel H0 bar, as an ordered pair: a nondegenerate maximum `M`\n(birth) with its ordinary elder death partner `S`, an index-(d-1) saddle at positive torus\ndistance. The essential global-maximum class is excluded because `ElderPartner` requires\n`¬ IsEssential` on the Morse locus.\n\nSource: d6g8k5htny-coder/Math- commit c39164254ad1529ed49543743598d5dcb24bab98 path imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md sha256 9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7\nAnchor: \"each finite superlevel H0 bar has exactly one local-maximum birth and one index-(d-1) merging-saddle death.\"\nInterface: `I : SuperlevelBarInterface d L` is given.\nDoes not claim: the identification of these pairs with bars of a persistence module; that the count of such pairs equals the finite-bar count off the Morse locus. -/\ndef IsFiniteBar (d : ℕ) (L : ℝ) (I : SuperlevelBarInterface d L) (g : E d → ℝ) (M S : E d) : Prop :=\n  IsCandidatePair d L g M S ∧ 0 < heightGap d g M S ∧ I.ElderPartner g M S"
+ },
+ {
+  "module": "Specifications/Lifetime.lean",
+  "declaration": "UniversalLaw.Spec.Lifetime.IsIndexSaddle",
+  "claims": [
+   "math.uniform-matrix-cap-lifetime"
+  ],
+  "source": "/-- Index-(d-1) saddle: a critical point whose Hessian has `d - 1` negative and one\npositive eigenvalue.\n\nSource: d6g8k5htny-coder/Math- commit c39164254ad1529ed49543743598d5dcb24bab98 path imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md sha256 9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7\nAnchor: \"A maximum has d negative Hessian eigenvalues; the relevant saddle has d-1 negative and one positive eigenvalue.\"\nInterface: none.\nDoes not claim: that such a saddle is a merging saddle of any superlevel bar. -/\ndef IsIndexSaddle (d : ℕ) (g : E d → ℝ) (x : E d) : Prop :=\n  IsCriticalPoint d g x ∧ HessianHasInertia d g x (d - 1)"
+ },
+ {
+  "module": "Specifications/Lifetime.lean",
+  "declaration": "UniversalLaw.Spec.Lifetime.IsLPeriodic",
+  "claims": [
+   "math.uniform-matrix-cap-lifetime"
+  ],
+  "source": "/-- `L`-periodicity of a function on `R^d`: invariance under every lattice translation.\n\nSource: d6g8k5htny-coder/Math- commit c39164254ad1529ed49543743598d5dcb24bab98 path imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md sha256 9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7\nAnchor: \"On the flat torus X = R^d/(L Z^d), let f be the centered stationary Gaussian field of variance one with covariance\"\nInterface: none; this is the defining predicate of a function on the torus.\nDoes not claim: anything about the field. -/\ndef IsLPeriodic (d : ℕ) (L : ℝ) (g : E d → ℝ) : Prop :=\n  ∀ (x : E d) (n : Fin d → ℤ), g (x + latticeVec d L n) = g x"
+ },
+ {
+  "module": "Specifications/Lifetime.lean",
+  "declaration": "UniversalLaw.Spec.Lifetime.IsLifetimeDensityVersion",
+  "claims": [
+   "D1-THM-B",
+   "lifetime-remainder",
+   "math.uniform-matrix-cap-lifetime"
+  ],
+  "source": "/-- `ν` is a VERSION of the expected per-unit-volume lifetime density of the population\n`Pair` under the field `G`: it is nonnegative and measurable, the pair sets are almost\nsurely finite with integrable counts, `ν` is integrable on every Borel `A ⊆ (0, ∞)`, and\n`∫_A ν = E[#pairs with lifetime in A and base point in [0,L)^d] / L^d` for every such `A`.\nThe source's densities are only defined up to such versions. The sigma-algebra of the sample\nspace is brought into scope by the inlined term-level `haveI := G.mΩ` (a square-bracket\nfield of a bundled record is not registered for typeclass resolution after the declaration).\n\nSource: d6g8k5htny-coder/Math- commit c39164254ad1529ed49543743598d5dcb24bab98 path imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md sha256 9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7\nAnchor: \"These densities admit versions with\"\nInterface: the field `G` and the population predicate `Pair` are given; the Kac-Rice representation of the expectation (Sections 9-10 of the source) is NOT used; the density is characterised only by the integral identity.\nDoes not claim: existence of a version; the weighted Kac-Rice identity; the radial ledger (10.2). Measurability of the pair count as a function of the sample is REQUIRED by the predicate (through `Integrable`, hence `AEStronglyMeasurable`), not established here. -/\ndef IsLifetimeDensityVersion (d : ℕ) (L : ℝ) (G : GaussianFieldInterface d L)\n    (Pair : (E d → ℝ) → E d → E d → Prop) (ν : ℝ → ℝ) : Prop :=\n  haveI := G.mΩ\n  (∀ ℓ : ℝ, 0 ≤ ν ℓ) ∧ Measurable ν ∧\n  (∀ A : Set ℝ, MeasurableSet A → A ⊆ Set.Ioi 0 →\n    (∀ᵐ ω ∂G.P, (pairSet d L Pair (G.F ω) A).Finite) ∧\n    Integrable (fun ω => ((pairCount d L Pair (G.F ω) A : ℕ) : ℝ)) G.P ∧\n    IntegrableOn ν A ∧\n    ∫ ℓ in A, ν ℓ = (∫ ω, ((pairCount d L Pair (G.F ω) A : ℕ) : ℝ) ∂G.P) / L ^ d)"
+ },
+ {
+  "module": "Specifications/Lifetime.lean",
+  "declaration": "UniversalLaw.Spec.Lifetime.IsMorseDistinct",
+  "claims": [
+   "math.uniform-matrix-cap-lifetime"
+  ],
+  "source": "/-- Morse genericity with distinct critical values on the torus: every critical point is\nnondegenerate (has some inertia) and critical points at distinct torus positions have\ndistinct critical values.\n\nSource: d6g8k5htny-coder/Math- commit c39164254ad1529ed49543743598d5dcb24bab98 path imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md sha256 9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7\nAnchor: \"Countable exhaustion now proves that Q is almost surely Morse with distinct critical values.\"\nInterface: none; used only as a hypothesis of the elder-partner interface clause.\nDoes not claim: that sample paths are almost surely Morse (Section 8 of the source). -/\ndef IsMorseDistinct (d : ℕ) (L : ℝ) (g : E d → ℝ) : Prop :=\n  (∀ x : E d, IsCriticalPoint d g x → ∃ j : ℕ, HessianHasInertia d g x j) ∧\n  (∀ x y : E d, IsCriticalPoint d g x → IsCriticalPoint d g y →\n    0 < torusDist d L x y → g x ≠ g y)"
+ },
+ {
+  "module": "Specifications/Lifetime.lean",
+  "declaration": "UniversalLaw.Spec.Lifetime.IsNondegMax",
+  "claims": [
+   "math.uniform-matrix-cap-lifetime"
+  ],
+  "source": "/-- Nondegenerate local maximum: a critical point whose Hessian has `d` negative\neigenvalues (negative definite).\n\nSource: d6g8k5htny-coder/Math- commit c39164254ad1529ed49543743598d5dcb24bab98 path imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md sha256 9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7\nAnchor: \"A maximum has d negative Hessian eigenvalues; the relevant saddle has d-1 negative and one positive eigenvalue.\"\nInterface: none.\nDoes not claim: that every local maximum of a sample path is nondegenerate (Morse genericity is Section 8 of the source). -/\ndef IsNondegMax (d : ℕ) (g : E d → ℝ) (x : E d) : Prop :=\n  IsCriticalPoint d g x ∧ HessianHasInertia d g x d"
+ },
+ {
+  "module": "Specifications/Lifetime.lean",
+  "declaration": "UniversalLaw.Spec.Lifetime.IsSmooth",
+  "claims": [
+   "math.uniform-matrix-cap-lifetime"
+  ],
+  "source": "/-- Smoothness of a sample path: `C^n` for every finite `n` (written without `⊤`).\n\nSource: d6g8k5htny-coder/Math- commit c39164254ad1529ed49543743598d5dcb24bab98 path imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md sha256 9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7\nAnchor: \"In particular the field has a smooth version and all finite moments of its global derivative suprema exist.\"\nInterface: smoothness of every sample path is the field `GaussianFieldInterface.smooth`.\nDoes not claim: existence of a smooth version, or moment bounds on derivative suprema. -/\ndef IsSmooth (d : ℕ) (g : E d → ℝ) : Prop :=\n  ∀ n : ℕ, ContDiff ℝ n g"
+ },
+ {
+  "module": "Specifications/Lifetime.lean",
+  "declaration": "UniversalLaw.Spec.Lifetime.IsUnrestrictedLeadingCoefficient",
+  "claims": [
+   "D1-THM-C",
+   "lifetime-remainder",
+   "math.uniform-matrix-cap-lifetime"
+  ],
+  "source": "/-- `c` is a leading coefficient of the unrestricted finite-lifetime densities: `c > 0` and\nversions `νc`, `νe` of the unrestricted candidate density and of the finite ordinary\nsuperlevel H0 bar density satisfy `νc(ℓ) ~ c ℓ^(-1/3)` and `νe(ℓ) ~ c ℓ^(-1/3)` as `ℓ ↓ 0`.\nThe essential global-maximum class is excluded from `νe` through `IsFiniteBar`. This is the\nconclusion of (1.3) for a given `c`; it characterises `c_{d,L}` by its leading-term role,\nnot by the integral (13.6)/(15.2).\n\nSource: d6g8k5htny-coder/Math- commit c39164254ad1529ed49543743598d5dcb24bab98 path imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md sha256 9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7\nAnchor: \"There is a positive finite constant c_{d,L} such that\"\nInterface: `G` and `I` are given; versions are characterised by the integral identity only.\nDoes not claim: the explicit Gaussian/angular representation (15.2) of `c_{d,L}`; uniqueness of `c` (which follows from the asymptotics but is not stated); existence of versions. -/\ndef IsUnrestrictedLeadingCoefficient (d : ℕ) (L : ℝ) (G : GaussianFieldInterface d L)\n    (I : SuperlevelBarInterface d L) (c : ℝ) : Prop :=\n  0 < c ∧ ∃ νc νe : ℝ → ℝ,\n    IsLifetimeDensityVersion d L G (IsUnrestrictedPair d L) νc ∧\n    IsLifetimeDensityVersion d L G (IsFiniteBar d L I) νe ∧\n    Asymptotics.IsEquivalent (nhdsWithin (0 : ℝ) (Set.Ioi 0)) νc\n      (fun ℓ : ℝ => c * ℓ ^ ((-1 : ℝ) / 3)) ∧\n    Asymptotics.IsEquivalent (nhdsWithin (0 : ℝ) (Set.Ioi 0)) νe\n      (fun ℓ : ℝ => c * ℓ ^ ((-1 : ℝ) / 3))"
+ },
+ {
+  "module": "Specifications/Lifetime.lean",
+  "declaration": "UniversalLaw.Spec.Lifetime.IsUnrestrictedPair",
+  "claims": [
+   "D1-THM-C",
+   "lifetime-remainder",
+   "math.uniform-matrix-cap-lifetime"
+  ],
+  "source": "/-- Unrestricted population of Theorem C and Theorem R: ALL ordered\nmaximum / index-(d-1)-saddle pairs with positive height difference, every birth height,\nevery positive gap mark and every separation on the torus.\n\nSource: d6g8k5htny-coder/Math- commit c39164254ad1529ed49543743598d5dcb24bab98 path imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md sha256 9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7\nAnchor: \"let nu_cand^all(ell) count ALL ordered maximum/index-(d-1)-saddle pairs with height difference ell>0, and let nu_eld^all(ell) count all finite ordinary superlevel H0 persistence bars, both in expectation per unit volume.\"\nInterface: none beyond the shared predicates.\nDoes not claim: anything about the off-diagonal (far) population separately (Section 14 of the source). -/\ndef IsUnrestrictedPair (d : ℕ) (L : ℝ) (g : E d → ℝ) (M S : E d) : Prop :=\n  IsCandidatePair d L g M S ∧ 0 < heightGap d g M S"
+ },
+ {
+  "module": "Specifications/Lifetime.lean",
+  "declaration": "UniversalLaw.Spec.Lifetime.IsWindowElderPair",
+  "claims": [
+   "D1-THM-B",
+   "math.uniform-matrix-cap-lifetime"
+  ],
+  "source": "/-- Compact-window pairs which are actual ordinary elder partners (the population of\n`nu_eld` in Theorem B).\n\nSource: d6g8k5htny-coder/Math- commit c39164254ad1529ed49543743598d5dcb24bab98 path imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md sha256 9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7\nAnchor: \"let nu_eld(ell) count only pairs which are actual ordinary elder partners.\"\nInterface: `I : SuperlevelBarInterface d L` supplies the elder-partner relation.\nDoes not claim: identification of `ElderPartner` with the source's elder rule off the Morse locus. -/\ndef IsWindowElderPair (d : ℕ) (L ρ bLo bHi kLo kHi : ℝ) (I : SuperlevelBarInterface d L)\n    (g : E d → ℝ) (M S : E d) : Prop :=\n  IsWindowPair d L ρ bLo bHi kLo kHi g M S ∧ I.ElderPartner g M S"
+ },
+ {
+  "module": "Specifications/Lifetime.lean",
+  "declaration": "UniversalLaw.Spec.Lifetime.IsWindowPair",
+  "claims": [
+   "D1-THM-B",
+   "math.uniform-matrix-cap-lifetime"
+  ],
+  "source": "/-- Compact-window population of Theorem B: ordered maximum / index-(d-1)-saddle pairs with\n`0 < distance <= ρ`, birth `f(M)` in `B = [bLo, bHi]` and scaled gap in `K = [kLo, kHi]`.\n\nSource: d6g8k5htny-coder/Math- commit c39164254ad1529ed49543743598d5dcb24bab98 path imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md sha256 9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7\nAnchor: \"Count ordered maximum/saddle pairs with 0<distance<=r_*, birth in B, and scaled gap (f(M)-f(S))/distance^3 in K.\"\nInterface: none beyond the shared predicates.\nDoes not claim: that the distance cutoff `ρ` equals the `r_*` of (1.1); it is quantified existentially in the statements. -/\ndef IsWindowPair (d : ℕ) (L ρ bLo bHi kLo kHi : ℝ) (g : E d → ℝ) (M S : E d) : Prop :=\n  IsCandidatePair d L g M S ∧ torusDist d L M S ≤ ρ ∧\n    g M ∈ Set.Icc bLo bHi ∧ scaledGap d L g M S ∈ Set.Icc kLo kHi"
+ },
+ {
+  "module": "Specifications/Lifetime.lean",
+  "declaration": "UniversalLaw.Spec.Lifetime.ParentCompactWindowDensityB",
+  "claims": [
+   "D1-THM-B",
+   "math.uniform-matrix-cap-lifetime"
+  ],
+  "source": "/-- Shape of Theorem B (1.2), compact-mark density candidate: for fixed `d ≥ 2`, `L > 0` and\nwindows `B`, `K` of positive length with `kLo > 0`, there are a distance cutoff `r_* > 0`, a\nconstant `c_{B,K} > 0` and a constant `C_{B,K}` such that the compact-window candidate and\nelder lifetime densities admit versions `νc`, `νe` with `νc(ℓ) ~ c_{B,K} ℓ^(-1/3)`,\n`νe(ℓ) ~ c_{B,K} ℓ^(-1/3)` as `ℓ ↓ 0` (filter `nhdsWithin 0 (Set.Ioi 0)`) and\n`0 ≤ νc(ℓ) - νe(ℓ) ≤ C_{B,K} ℓ^(2/3)` for all sufficiently small `ℓ > 0`.\n\nSource: d6g8k5htny-coder/Math- commit c39164254ad1529ed49543743598d5dcb24bab98 path imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md sha256 9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7\nAnchor: \"0 <= nu_cand(ell)-nu_eld(ell) <= C_{B,K} ell^(2/3),\"\nInterface: `G` and `I` are given; \"versions\" are any `νc`, `νe` satisfying `IsLifetimeDensityVersion` (integral identity), not a Kac-Rice representation; the coefficient `c_{B,K}` is existential, not the Gaussian integral (11.3).\nDoes not claim: the parent result or its proof; the exact coefficient formula (11.3); existence of the versions; that the cutoff `r_*` is the one of (1.1); any numerical constant; nonauthor review or acceptance. -/\ndef ParentCompactWindowDensityB (d : ℕ) (L : ℝ) (G : GaussianFieldInterface d L)\n    (I : SuperlevelBarInterface d L) (bLo bHi kLo kHi : ℝ) : Prop :=\n  2 ≤ d → 0 < L → bLo < bHi → 0 < kLo → kLo < kHi →\n    ∃ rStar : ℝ, 0 < rStar ∧ ∃ c : ℝ, 0 < c ∧ ∃ C : ℝ, ∃ νc νe : ℝ → ℝ,\n      IsLifetimeDensityVersion d L G (IsWindowPair d L rStar bLo bHi kLo kHi) νc ∧\n      IsLifetimeDensityVersion d L G (IsWindowElderPair d L rStar bLo bHi kLo kHi I) νe ∧\n      Asymptotics.IsEquivalent (nhdsWithin (0 : ℝ) (Set.Ioi 0)) νc\n        (fun ℓ : ℝ => c * ℓ ^ ((-1 : ℝ) / 3)) ∧\n      Asymptotics.IsEquivalent (nhdsWithin (0 : ℝ) (Set.Ioi 0)) νe\n        (fun ℓ : ℝ => c * ℓ ^ ((-1 : ℝ) / 3)) ∧\n      ∃ ℓStar : ℝ, 0 < ℓStar ∧ ∀ ℓ : ℝ, 0 < ℓ → ℓ ≤ ℓStar →\n        0 ≤ νc ℓ - νe ℓ ∧ νc ℓ - νe ℓ ≤ C * ℓ ^ ((2 : ℝ) / 3)"
+ },
+ {
+  "module": "Specifications/Lifetime.lean",
+  "declaration": "UniversalLaw.Spec.Lifetime.ParentUniformSelectionA",
+  "claims": [
+   "D1-THM-A",
+   "math.uniform-matrix-cap-lifetime"
+  ],
+  "source": "/-- Shape of Theorem A (1.1), uniform selection candidate: for fixed `d ≥ 2`, `L > 0`,\ncompact `B = [bLo, bHi]` and `K = [kLo, kHi]` with `0 < kLo ≤ kHi`, there exist `r_* > 0`\nand `C` (quantified OUTSIDE the universal quantifiers over `r`, `b`, `k` and the frame)\nsuch that `0 <= 1 - p_r(b,k,R) <= C r^3` for all `0 < r ≤ r_*`, `b ∈ B`, `k ∈ K` and all\northonormal frames `R`.\n\nSource: d6g8k5htny-coder/Math- commit c39164254ad1529ed49543743598d5dcb24bab98 path imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md sha256 9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7\nAnchor: \"There exist r_*>0 and C<infinity such that, for all 0<r<=r_*, b in B, k in K, and all orthonormal frames,\"\nInterface: `G` (field), `I` (elder relation) and `PL` (typed pair law probability `p`) are given objects; the statement is about any `p` satisfying `PairLawInterface`. The interface does not determine `p`: the Prop is a predicate on the interface object, not a closed statement; its universal closure over all inhabitants is false whenever the interfaces are inhabited (take `p ≡ 0`), and `specified` refers to the statement shape at the source's object, which is not constructed.\nDoes not claim: the parent result itself or its proof (full-normalizer floor `Z_r ≥ z_* r^2`, boundary-layer integration); identification of `PL.p` with the source's `p_r`; the reading-rule amendments (congruence erratum, Section 9 replacement, embedding radius); any numerical `C` or `r_*`; nonauthor review or acceptance. -/\ndef ParentUniformSelectionA (d : ℕ) (L : ℝ) (G : GaussianFieldInterface d L)\n    (I : SuperlevelBarInterface d L) (PL : PairLawInterface d L G I) (bLo bHi kLo kHi : ℝ) : Prop :=\n  2 ≤ d → 0 < L → bLo ≤ bHi → 0 < kLo → kLo ≤ kHi →\n    ∃ rStar : ℝ, 0 < rStar ∧ ∃ C : ℝ,\n      ∀ r : ℝ, 0 < r → r ≤ rStar → ∀ b ∈ Set.Icc bLo bHi, ∀ k ∈ Set.Icc kLo kHi,\n        ∀ R : OrthonormalBasis (Fin d) ℝ (E d),\n          0 ≤ 1 - PL.p r b k R ∧ 1 - PL.p r b k R ≤ C * r ^ 3"
+ },
+ {
+  "module": "Specifications/Lifetime.lean",
+  "declaration": "UniversalLaw.Spec.Lifetime.ParentUnrestrictedLeadingDensityC",
+  "claims": [
+   "D1-THM-C",
+   "math.uniform-matrix-cap-lifetime"
+  ],
+  "source": "/-- Shape of Theorem C (1.3), unrestricted finite-lifetime leading density candidate: for\nfixed `d ≥ 2` and `L > 0` there is a positive finite constant `c_{d,L}` such that the\nunrestricted candidate density and the finite ordinary superlevel H0 bar density (all birth\nheights, all positive gap marks, all separations; essential global maximum excluded) admit\nversions with `ν(ℓ) ~ c_{d,L} ℓ^(-1/3)` as `ℓ ↓ 0`. Leading term only.\n\nSource: d6g8k5htny-coder/Math- commit c39164254ad1529ed49543743598d5dcb24bab98 path imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md sha256 9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7\nAnchor: \"nu_cand^all(ell) ~ c_{d,L} ell^(-1/3),\"\nInterface: `G` and `I` are given; versions are characterised by the integral identity only.\nDoes not claim: the parent result or its proof (dominated convergence of Section 13, off-diagonal bound (14.1)); the representation (15.2); the compact-window `O(ell^(2/3))` difference for the unrestricted densities; any numerical enclosure of `c_{d,L}` (the SIDE24 coefficient track is separate); nonauthor review or acceptance. -/\ndef ParentUnrestrictedLeadingDensityC (d : ℕ) (L : ℝ) (G : GaussianFieldInterface d L)\n    (I : SuperlevelBarInterface d L) : Prop :=\n  2 ≤ d → 0 < L → ∃ c : ℝ, IsUnrestrictedLeadingCoefficient d L G I c"
+ },
+ {
+  "module": "Specifications/Lifetime.lean",
+  "declaration": "UniversalLaw.Spec.Lifetime.PlanarDensityGapE11",
+  "claims": [
+   "OA-ELDER-LOWER-DENSITY-GAP-20260928-v1"
+  ],
+  "source": "/-- Shape of the planar compact-window density gap (E11): in `d = 2`, if (1.1) holds for the\ntyped pair law on the windows `B`, `K` (the source says the upper half consumes the parent\nupper bound already identified in its Corollary E2 as \"the precise Theorem A upper bound in\n[LP]\"), then for windows of positive length with `kLo > 0` there are a distance cutoff\n`r_* > 0`, constants `c_{B,K} > 0`, `C_{B,K}` and `ell_* > 0` such that versions of the\ncompact-window candidate and ordinary elder densities satisfy\n`c_{B,K} ℓ^(2/3) ≤ νc(ℓ) - νe(ℓ) ≤ C_{B,K} ℓ^(2/3)` for all `0 < ℓ ≤ ell_*`. The parent upper\ninput is an explicit hypothesis, not folded into the conclusion. The lower half, which the\nsource derives from (E2) alone, is stated under the same hypothesis because the source displays\n(E11) as one two-sided inequality; that is a hypothesis the source does not need for the lower\nhalf, recorded here as such.\n\nSource: d6g8k5htny-coder/Math- commit 6c020d6a72936632f2055122e71a7818a4ff497e path frontiers/window_multiplicity_laws_20260928/ELDER_LOWER_AND_DENSITY_GAP.md sha256 8ce05a43bde8e0d718f09e2da1ffe75d3ec5893489254afdbf5b58b602cdba0c\nAnchor: \"       <= C_{B,K} ell^(2/3).                             (E11)\"\nInterface: `G`, `I` and `PL` are given; the hypothesis `ParentUniformSelectionA 2 L G I PL bLo bHi kLo kHi` is the consumed parent upper input (a statement shape, not the parent result); versions are characterised by the integral identity only; the weighted Kac-Rice / radial ledger of [LP, Sections 9-11] that the source consumes is not transcribed. The interface does not determine `p` or the field: the Prop is a predicate on the interface objects, not a closed statement about the source's objects; nothing is asserted about its universal closure over all inhabitants, and `specified` refers to the statement shape at the source's object, which is not constructed.\nDoes not claim: the result or its proof; the upper half independently of the parent (1.1); the parent (1.1) itself; the lower half without the hypothesis (the source has it from (E2) alone); sharpness of the `O(1)` remainder of (R1); removal of the compact-mark restriction; that the cutoff `r_*` is the one of (1.1); any numerical constant; nonauthor review or acceptance. -/\ndef PlanarDensityGapE11 (L : ℝ) (G : GaussianFieldInterface 2 L) (I : SuperlevelBarInterface 2 L)\n    (PL : PairLawInterface 2 L G I) (bLo bHi kLo kHi : ℝ) : Prop :=\n  ParentUniformSelectionA 2 L G I PL bLo bHi kLo kHi →\n    (0 < L → bLo < bHi → 0 < kLo → kLo < kHi →\n      ∃ rStar : ℝ, 0 < rStar ∧ ∃ c : ℝ, 0 < c ∧ ∃ C : ℝ, ∃ ℓStar : ℝ, 0 < ℓStar ∧\n        ∃ νc νe : ℝ → ℝ,\n          IsLifetimeDensityVersion 2 L G (IsWindowPair 2 L rStar bLo bHi kLo kHi) νc ∧\n          IsLifetimeDensityVersion 2 L G (IsWindowElderPair 2 L rStar bLo bHi kLo kHi I) νe ∧\n          ∀ ℓ : ℝ, 0 < ℓ → ℓ ≤ ℓStar →\n            c * ℓ ^ ((2 : ℝ) / 3) ≤ νc ℓ - νe ℓ ∧ νc ℓ - νe ℓ ≤ C * ℓ ^ ((2 : ℝ) / 3))"
+ },
+ {
+  "module": "Specifications/Lifetime.lean",
+  "declaration": "UniversalLaw.Spec.Lifetime.PlanarElderLowerE2",
+  "claims": [
+   "OA-ELDER-LOWER-DENSITY-GAP-20260928-v1"
+  ],
+  "source": "/-- Shape of the planar direct lower bound (E2): on the fixed planar torus (`d = 2`), with\nbirth `b` in a fixed compact interval, `k ∈ [kLo, kHi]` with `kLo > 0` and frames ranging\nover `O(2)`, there are `c > 0` and `r_* > 0` such that `1 - p_r(b,k,R) ≥ c r^3` for all\n`0 < r ≤ r_*`, uniformly in `b`, `k` and the frame.\n\nSource: d6g8k5htny-coder/Math- commit 6c020d6a72936632f2055122e71a7818a4ff497e path frontiers/window_multiplicity_laws_20260928/ELDER_LOWER_AND_DENSITY_GAP.md sha256 8ce05a43bde8e0d718f09e2da1ffe75d3ec5893489254afdbf5b58b602cdba0c\nAnchor: \"1-p_r(b,k,R) >= c r^3, 0<r<=r_*.\"\nInterface: `G`, `I` and `PL` (the same typed pair law probability `p_r(b,k,R)` as in (1.1), which the source says is exactly the definition of [LP, Section 1]) are given objects. The interface does not determine `p`: the Prop is a predicate on the interface object, not a closed statement; its universal closure over all inhabitants is false whenever the interfaces are inhabited (take `p ≡ 1`), and `specified` refers to the statement shape at the source's object, which is not constructed.\nDoes not claim: the result or its proof (polygonal path, tilted jet-box probability, extra-conditioned `C^4` control); any lower bound for `d ≥ 3`; identification of `PL.p` with the source's `p_r` or with any historical `q(r,b)`; numerical `c` or `r_*`; nonauthor review or acceptance. -/\ndef PlanarElderLowerE2 (L : ℝ) (G : GaussianFieldInterface 2 L) (I : SuperlevelBarInterface 2 L)\n    (PL : PairLawInterface 2 L G I) (bLo bHi kLo kHi : ℝ) : Prop :=\n  0 < L → bLo ≤ bHi → 0 < kLo → kLo ≤ kHi →\n    ∃ c : ℝ, 0 < c ∧ ∃ rStar : ℝ, 0 < rStar ∧\n      ∀ r : ℝ, 0 < r → r ≤ rStar → ∀ b ∈ Set.Icc bLo bHi, ∀ k ∈ Set.Icc kLo kHi,\n        ∀ R : OrthonormalBasis (Fin 2) ℝ (E 2), c * r ^ 3 ≤ 1 - PL.p r b k R"
+ },
+ {
+  "module": "Specifications/Lifetime.lean",
+  "declaration": "UniversalLaw.Spec.Lifetime.PlanarTwoSidedRateE4",
+  "claims": [
+   "OA-ELDER-LOWER-DENSITY-GAP-20260928-v1"
+  ],
+  "source": "/-- Shape of the planar two-sided selection rate (E4), Corollary E2 of the source: if (1.1)\nholds for the same typed pair law at `d = 2` (the source: \"If the precise Theorem A upper\nbound in [LP] is consumed\"), then `c r^3 ≤ 1 - p_r(b,k,R) ≤ C r^3` for `0 < r ≤ r_*`,\nuniformly on the compact planar model. The parent upper input is an explicit hypothesis of\nthe statement, not folded into its conclusion.\n\nSource: d6g8k5htny-coder/Math- commit 6c020d6a72936632f2055122e71a7818a4ff497e path frontiers/window_multiplicity_laws_20260928/ELDER_LOWER_AND_DENSITY_GAP.md sha256 8ce05a43bde8e0d718f09e2da1ffe75d3ec5893489254afdbf5b58b602cdba0c\nAnchor: \"c r^3 <= 1-p_r(b,k,R) <= C r^3.\"\nInterface: `G`, `I`, `PL` are given objects as in `PlanarElderLowerE2`; the hypothesis `ParentUniformSelectionA 2 L G I PL bLo bHi kLo kHi` is the consumed upper input (a statement shape, not the parent result). The interface does not determine `p`: the Prop is a predicate on the interface object, not a closed statement; its universal closure over all inhabitants is false whenever the interfaces are inhabited (take `p ≡ 1`, for which the hypothesis holds and the lower half fails), and `specified` refers to the statement shape at the source's object, which is not constructed.\nDoes not claim: the upper half independently of the parent (1.1) (the source says the upper half consumes it, and the statement is conditional on it); the parent (1.1) itself; the result or its proof; numerical constants; nonauthor review or acceptance. -/\ndef PlanarTwoSidedRateE4 (L : ℝ) (G : GaussianFieldInterface 2 L) (I : SuperlevelBarInterface 2 L)\n    (PL : PairLawInterface 2 L G I) (bLo bHi kLo kHi : ℝ) : Prop :=\n  ParentUniformSelectionA 2 L G I PL bLo bHi kLo kHi →\n    (0 < L → bLo ≤ bHi → 0 < kLo → kLo ≤ kHi →\n      ∃ c : ℝ, 0 < c ∧ ∃ C : ℝ, ∃ rStar : ℝ, 0 < rStar ∧\n        ∀ r : ℝ, 0 < r → r ≤ rStar → ∀ b ∈ Set.Icc bLo bHi, ∀ k ∈ Set.Icc kLo kHi,\n          ∀ R : OrthonormalBasis (Fin 2) ℝ (E 2),\n            c * r ^ 3 ≤ 1 - PL.p r b k R ∧ 1 - PL.p r b k R ≤ C * r ^ 3)"
+ },
+ {
+  "module": "Specifications/Lifetime.lean",
+  "declaration": "UniversalLaw.Spec.Lifetime.RemainderBoundedR1",
+  "claims": [
+   "lifetime-remainder",
+   "math.lifetime-remainder"
+  ],
+  "source": "/-- Shape of Theorem R (R1), bounded unrestricted short-lifetime remainder: for fixed\n`d ≥ 2`, `L > 0` and with `c = c_{d,L}` the parent leading coefficient (characterised here\nby `IsUnrestrictedLeadingCoefficient`), there are `ell_* > 0` and `C` such that versions of\nthe unrestricted candidate and finite-bar densities satisfy, for `0 < ℓ ≤ ell_*`,\n`|νc(ℓ) - c ℓ^(-1/3)| ≤ C`, `0 ≤ νc(ℓ) - νe(ℓ) ≤ C` and `|νe(ℓ) - c ℓ^(-1/3)| ≤ C`.\nThe `O(1)` remainder is stated with an explicit absolute-value bound.\n\nSource: d6g8k5htny-coder/Math- commit 760340e921ac4ceda296b8118da936f1133e956e path frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md sha256 380b7d0abdb0fe2de5a6564565af9560d3f1b1ce22fd5538927db0c52f4f3a4a\nAnchor: \"|nu_cand(ell)-c ell^(-1/3)| <= C,\"\nInterface: `G` and `I` are given; `c` is any real satisfying the parent leading-coefficient property (the source says the coefficient \"is exactly the parent's equation (15.2)\"; that integral is not transcribed, so `c` is pinned through (1.3) instead); versions are characterised by the integral identity only. The statement does not mention the typed pair law: Theorem R does not consume (1.1).\nDoes not claim: the result or its proof (quadratic determinant cancellation (R7), coupling (R4), cap-loss bound (R12)); convergence of the remainder; a second coefficient; numerical `C` or `ell_*`; the compact-window `O(ell^(2/3))` difference without cutoffs; the parent interfaces it imports (D1-A-E); nonauthor review or acceptance. If no `c` satisfies the parent property the statement holds vacuously; that is a transcription of its dependency on (1.3), not a claim. -/\ndef RemainderBoundedR1 (d : ℕ) (L : ℝ) (G : GaussianFieldInterface d L)\n    (I : SuperlevelBarInterface d L) : Prop :=\n  2 ≤ d → 0 < L → ∀ c : ℝ, IsUnrestrictedLeadingCoefficient d L G I c →\n    ∃ ℓStar : ℝ, 0 < ℓStar ∧ ∃ C : ℝ, ∃ νc νe : ℝ → ℝ,\n      IsLifetimeDensityVersion d L G (IsUnrestrictedPair d L) νc ∧\n      IsLifetimeDensityVersion d L G (IsFiniteBar d L I) νe ∧\n      ∀ ℓ : ℝ, 0 < ℓ → ℓ ≤ ℓStar →\n        |νc ℓ - c * ℓ ^ ((-1 : ℝ) / 3)| ≤ C ∧\n        0 ≤ νc ℓ - νe ℓ ∧ νc ℓ - νe ℓ ≤ C ∧\n        |νe ℓ - c * ℓ ^ ((-1 : ℝ) / 3)| ≤ C"
+ },
+ {
+  "module": "Specifications/P15.lean",
+  "declaration": "UniversalLaw.Spec.P15.IsGeneratorCover",
+  "claims": [
+   "p15-realized-covers"
+  ],
+  "source": "/-- `G` is a generator cover of `O_K(D)`: every obstructed set contains some `g in G`.\n\nSource: d6g8k5htny-coder/Math- commit 760340e921ac4ceda296b8118da936f1133e956e path frontiers/three_fronts_20260924/P15_REALIZED_COVERS.md sha256 c0dbb821fb57b685a20cc321e4074456f39a9697f3104afd1f728e4732179bb9\nAnchor: \"A generator cover G of O_k(D) means every obstructed set contains some g in G.\"\nInterface: none.\nDoes not claim: anything. -/\ndef IsGeneratorCover {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) (K : ℕ)\n    (G : Finset (Finset X)) : Prop :=\n  ∀ U : Finset X, U ∈ obstruction F K → ∃ g ∈ G, g ⊆ U"
+ },
+ {
+  "module": "Specifications/P15.lean",
+  "declaration": "UniversalLaw.Spec.P15.IsGood",
+  "claims": [
+   "p15-realized-covers"
+  ],
+  "source": "/-- Membership in the downset `D` of display (P1): `|U intersect X_i| <= a_i` for every `i`, and\n`supp(U)` contains no edge of `H`.\n\nSource: d6g8k5htny-coder/Math- commit 760340e921ac4ceda296b8118da936f1133e956e path frontiers/three_fronts_20260924/P15_REALIZED_COVERS.md sha256 c0dbb821fb57b685a20cc321e4074456f39a9697f3104afd1f728e4732179bb9\nAnchor: \"D={U subset X: |U intersect X_i|<=a_i for every i,\"\nInterface: none.\nDoes not claim: that `D` is decreasing or contains the empty set (facts of the sources, not stated separately). -/\ndef IsGood {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) (U : Finset X) : Prop :=\n  (∀ i, (U ∩ block F i).card ≤ F.a i) ∧ ∀ e ∈ F.H, ¬ e ⊆ supp F U"
+ },
+ {
+  "module": "Specifications/P15.lean",
+  "declaration": "UniversalLaw.Spec.P15.IsKDecomposable",
+  "claims": [
+   "p15-realized-covers"
+  ],
+  "source": "/-- `U in I_k(D)`: `U` is partitionable into at most `k` members of `D` (a family of `k`\npairwise disjoint good parts, possibly empty, with union `U`).\n\nSource: d6g8k5htny-coder/Math- commit 760340e921ac4ceda296b8118da936f1133e956e path frontiers/three_fronts_20260924/P15_REALIZED_COVERS.md sha256 c0dbb821fb57b685a20cc321e4074456f39a9697f3104afd1f728e4732179bb9\nAnchor: \"write I_k(D) for sets partitionable into at most k members of D\"\nInterface: none.\nDoes not claim: equivalence with coverings by at most `k` good sets (true for a decreasing family, not stated). -/\ndef IsKDecomposable {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X) (k : ℕ)\n    (U : Finset X) : Prop :=\n  ∃ parts : Fin k → Finset X, (∀ j, IsGood F (parts j)) ∧\n    (∀ j j', j ≠ j' → Disjoint (parts j) (parts j')) ∧\n    (Finset.univ : Finset (Fin k)).biUnion parts = U"
+ },
+ {
+  "module": "Specifications/P15.lean",
+  "declaration": "UniversalLaw.Spec.P15.IsMinimalForbidden",
+  "claims": [
+   "p15-realized-covers"
+  ],
+  "source": "/-- `U` is an inclusion-minimal forbidden set: not good, and every proper subset obtained by\nremoving one element is good.\n\nSource: d6g8k5htny-coder/Math- commit 760340e921ac4ceda296b8118da936f1133e956e path frontiers/three_fronts_20260924/P15_REALIZED_COVERS.md sha256 c0dbb821fb57b685a20cc321e4074456f39a9697f3104afd1f728e4732179bb9\nAnchor: \"The inclusion-minimal forbidden ORIGINAL sets are exactly\"\nInterface: none.\nDoes not claim: anything. -/\ndef IsMinimalForbidden {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X)\n    (U : Finset X) : Prop :=\n  ¬ IsGood F U ∧ ∀ v ∈ U, IsGood F (U.erase v)"
+ },
+ {
+  "module": "Specifications/P15.lean",
+  "declaration": "UniversalLaw.Spec.P15.IsPaletteFeasible",
+  "claims": [
+   "p15-realized-covers"
+  ],
+  "source": "/-- `K` is a feasible palette size for the clutter `H` and demands `d`: there are label sets\n`P_i subset {0, ..., K-1}` with `|P_i| >= d_i` and empty intersection over every `H`-edge\n(no label lies in `P_i` for all `i in e`).\n\nSource: d6g8k5htny-coder/Math- commit 760340e921ac4ceda296b8118da936f1133e956e path frontiers/three_fronts_20260924/P15_REALIZED_COVERS.md sha256 c0dbb821fb57b685a20cc321e4074456f39a9697f3104afd1f728e4732179bb9\nAnchor: \"    intersection_(i in e) P_i = empty, for every e in H. (P6)\"\nInterface: none.\nDoes not claim: upward closure in `K` (true, not stated). -/\ndef IsPaletteFeasible (b : ℕ) (H : Finset (Finset (Fin b))) (d : Fin b → ℕ) (K : ℕ) : Prop :=\n  ∃ P : Fin b → Finset (Fin K), (∀ i, d i ≤ (P i).card) ∧\n    ∀ e ∈ H, ∀ ℓ : Fin K, ∃ i ∈ e, ℓ ∉ P i"
+ },
+ {
+  "module": "Specifications/P15.lean",
+  "declaration": "UniversalLaw.Spec.P15.IsProperDownset",
+  "claims": [
+   "p15-full-price"
+  ],
+  "source": "/-- `A` is a proper decreasing family containing the empty set: `empty in A`, `X notin A`, and\n`A` is closed under taking subsets.\n\nSource: d6g8k5htny-coder/Math- commit 760340e921ac4ceda296b8118da936f1133e956e path frontiers/full_price_20260924/PROOF.md sha256 87521901ca8e5405b4d1e47f1deb1cd0326affbd6f5967b53c4178590da993f9\nAnchor: \"Let A be any proper decreasing family on n>=1 coordinates containing the empty set.\"\nInterface: none.\nDoes not claim: anything. -/\ndef IsProperDownset {Y : Type} [Fintype Y] (A : Finset (Finset Y)) : Prop :=\n  ∅ ∈ A ∧ Finset.univ ∉ A ∧ ∀ U ∈ A, ∀ V : Finset Y, V ⊆ U → V ∈ A"
+ },
+ {
+  "module": "Specifications/P15.lean",
+  "declaration": "UniversalLaw.Spec.P15.IsRealizedFamily",
+  "claims": [
+   "p15-realized-covers"
+  ],
+  "source": "/-- The side conditions of the realized family: `a_i >= 1`, `d_i >= 1` (\"positive integers\na_i,d_i\"), `|X_i| = a_i d_i + 1`, every edge of `H` has size at least `2`, and `H` is a clutter\n(no edge properly contains another; edges are distinct as members of a `Finset`).\n\nSource: d6g8k5htny-coder/Math- commit 760340e921ac4ceda296b8118da936f1133e956e path frontiers/three_fronts_20260924/P15_REALIZED_COVERS.md sha256 c0dbb821fb57b685a20cc321e4074456f39a9697f3104afd1f728e4732179bb9\nAnchor: \"    n_i=|X_i|=a_i d_i+1.\"\nInterface: none; this `Prop` IS the interface of the sources, stated for a data record.\nDoes not claim: that any particular data record satisfies it. -/\ndef IsRealizedFamily {X : Type} [Fintype X] (F : RealizedData X) : Prop :=\n  (∀ i, 1 ≤ F.a i) ∧ (∀ i, 1 ≤ F.d i) ∧ (∀ i, (block F i).card = F.a i * F.d i + 1) ∧\n    (∀ e ∈ F.H, 2 ≤ e.card) ∧ (∀ e ∈ F.H, ∀ f ∈ F.H, e ⊆ f → e = f)"
+ },
+ {
+  "module": "Specifications/P15.lean",
+  "declaration": "UniversalLaw.Spec.P15.IsTransversal",
+  "claims": [
+   "p15-realized-covers"
+  ],
+  "source": "/-- `U` is a transversal `{x_i : i in e}` of the edge `e`: its support is `e` and it meets each\nblock of `e` in exactly one coordinate.\n\nSource: d6g8k5htny-coder/Math- commit 760340e921ac4ceda296b8118da936f1133e956e path frontiers/three_fronts_20260924/P15_REALIZED_COVERS.md sha256 c0dbb821fb57b685a20cc321e4074456f39a9697f3104afd1f728e4732179bb9\nAnchor: \"(b) for each e in H, EVERY transversal {x_i:i in e}, with x_i in X_i.\"\nInterface: none.\nDoes not claim: anything. -/\ndef IsTransversal {X : Type} [Fintype X] [DecidableEq X] (F : RealizedData X)\n    (e : Finset (Fin F.b)) (U : Finset X) : Prop :=\n  supp F U = e ∧ ∀ i ∈ e, (U ∩ block F i).card = 1"
+ },
+ {
+  "module": "Specifications/RN.lean",
+  "declaration": "UniversalLaw.Spec.RN.AnnulusBridgeAllHeight2",
+  "claims": [
+   "math.d5-component.annulus-proof",
+   "math.rn-region.mesoscopic-scaled-annulus"
+  ],
+  "source": "/-- Shape of the all-height fixed-annulus bridge candidate statement, display (2): `d = 2`,\nfixed `L > 0`, compact marks, fixed scaled annulus `K_AB = {A ≤ |(u,v)| ≤ B}` with\n`1 < A < B`; there are `C, r_* > 0`, uniform in the marks, frames, Borel `E ⊆ K_AB` and\n`j ∈ {0,1,2}`, such that `E_(Q_r^W) N_j(rE) ≤ C r^3 area(E)` for `0 < r ≤ r_*`, where\n`N_j(rE)` counts index-`j` critical points in `rE` at ALL heights. The review interfaces\nR1-R7 of the source are the steps of its proof, not parts of this statement.\n\nSource: d6g8k5htny-coder/Math- commit 760340e921ac4ceda296b8118da936f1133e956e path frontiers/rn_annulus_bridge_20260925/PROOF.md sha256 d55e2c03bb17e7977ff94130cc1ff21e54840cd1e20dc4e41ea9ad52228beb05\nAnchor: \"E_(Q_r^W) N_j(rE) <= C r^3 area(E), 0<r<=r_*.\"\nInterface: `I` is a given object; `rE` is embedded through the frame by `scaledAt`; the intensity formula (16) and the normalizer (5) are not transcribed.\nDoes not claim: the result or its proof (R1 subtraction and remainders, R2 full-rank compactification (12), R3 conditional moments (14), R4 three-Hessian bound (6)-(8), R5 original `Z`, R6 weighted Kac-Rice, R7 crossover and cover); the rewriting with a `k` factor through `k_-`; uniformity as `k → 0`; pin neighbourhoods, `d ≥ 3`, intermediate distances or collisions; any numerical constant; nonauthor review or acceptance (the R1-R7 ACCEPT record is transcribed by the register, not here). -/\ndef AnnulusBridgeAllHeight2 (L : ℝ) (Ω : Type) [MeasurableSpace Ω]\n    (I : PinnedLawInterface 2 L Ω) (bLo bHi kLo kHi A B : ℝ) : Prop :=\n  0 < L → bLo ≤ bHi → 0 < kLo → kLo ≤ kHi → 1 < A → A < B →\n    ∃ C rStar : ℝ, 0 < C ∧ 0 < rStar ∧\n      ∀ r : ℝ, 0 < r → r ≤ rStar → ∀ b ∈ Set.Icc bLo bHi, ∀ k ∈ Set.Icc kLo kHi,\n        ∀ R : OrthonormalBasis (Fin 2) ℝ (E 2), ∀ j : ℕ, j ≤ 2 →\n          ∀ E0 : Set (E 2), MeasurableSet E0 → E0 ⊆ {p : E 2 | A ≤ ‖p‖ ∧ ‖p‖ ≤ B} →\n            meanAllHeightCount 2 L Ω I r b k R j (scaledAt 2 R r 0 E0) ≤\n              C * r ^ 3 * (volume E0).toReal"
+ },
+ {
+  "module": "Specifications/RN.lean",
+  "declaration": "UniversalLaw.Spec.RN.D5aPuncturedPinDisks",
+  "claims": [
+   "math.d5-component.punctured-pin-proof",
+   "math.d5-pin-neighborhood-first-moment",
+   "math.rn-region.pin-collision"
+  ],
+  "source": "/-- Shape of row D5-a (P2, punctured pin disks): all heights; for Borel\n`E ⊂ {0 < p² + q² ≤ 1/16}` in the endpoint chart, `E_{Q_r^W} N_j(M + rE) ≤ C r³|E|`, and\nthe same at `S`.\n\nSource: d6g8k5htny-coder/Math- commit 6c020d6a72936632f2055122e71a7818a4ff497e path reviews/d5_reconciliation_20260929/RECONCILIATION.md sha256 14342b7eb0ad47c1c99b06be58fb6c901f5c7c72fc70f73e81de3dde50c23432\nAnchor: \"E_{Q_r^W} N_j(M + rE) ≤ C r³|E|\"\nInterface: `I` is a given object; the chart `M + rE` is `scaledAt` based at the pin.\nDoes not claim: the P2 source (PUNCTURED_PIN_PROOF.md) or its proof; the P2 continuum review or the proposed register transitions of the reconciliation; any numerical constant; nonauthor review or acceptance. -/\ndef D5aPuncturedPinDisks (L : ℝ) (Ω : Type) [MeasurableSpace Ω]\n    (I : PinnedLawInterface 2 L Ω) (bLo bHi kLo kHi : ℝ) : Prop :=\n  0 < L → bLo ≤ bHi → 0 < kLo → kLo ≤ kHi →\n    ∃ C rStar : ℝ, 0 < C ∧ 0 < rStar ∧\n      ∀ r : ℝ, 0 < r → r ≤ rStar → ∀ b ∈ Set.Icc bLo bHi, ∀ k ∈ Set.Icc kLo kHi,\n        ∀ R : OrthonormalBasis (Fin 2) ℝ (E 2), ∀ j : ℕ, j ≤ 2 →\n          ∀ E0 : Set (E 2), MeasurableSet E0 →\n            E0 ⊆ {p : E 2 | 0 < ‖p‖ ^ 2 ∧ ‖p‖ ^ 2 ≤ (1 : ℝ) / 16} →\n              meanAllHeightCount 2 L Ω I r b k R j (scaledAt 2 R r (pinM 2 r (R 0)) E0) ≤\n                C * r ^ 3 * (volume E0).toReal ∧\n              meanAllHeightCount 2 L Ω I r b k R j (scaledAt 2 R r (pinS 2 r (R 0)) E0) ≤\n                C * r ^ 3 * (volume E0).toReal"
+ },
+ {
+  "module": "Specifications/RN.lean",
+  "declaration": "UniversalLaw.Spec.RN.D5bMicrodisk",
+  "claims": [
+   "math.d5-component.punctured-pin-proof",
+   "math.d5-pin-neighborhood-first-moment",
+   "math.rn-region.pin-collision"
+  ],
+  "source": "/-- Shape of row D5-b (microdisk): all heights; for fixed `κ > 0`, the expected index-`j`\ncount in the punctured disk of physical radius `κ r²` about each pin is `O(r⁵)`: there are\n`C, r_* > 0` with `E_{Q_r^W} N_j(disk) ≤ C r^5` for `0 < r ≤ r_*`.\n\nSource: d6g8k5htny-coder/Math- commit 6c020d6a72936632f2055122e71a7818a4ff497e path reviews/d5_reconciliation_20260929/RECONCILIATION.md sha256 14342b7eb0ad47c1c99b06be58fb6c901f5c7c72fc70f73e81de3dde50c23432\nAnchor: \"the nested disks of radius `κr²` about each pin, for fixed `κ`: `O(r⁵)`\"\nInterface: `I` is a given object; the disk is punctured at the pin (the pin itself is a critical point under the law), following the dimension-lift reading \"nested ball\" inside the punctured ball `D`.\nDoes not claim: the P2 source or its nested-disk corollary; any numerical constant; uniformity in `κ`; nonauthor review or acceptance. -/\ndef D5bMicrodisk (L : ℝ) (Ω : Type) [MeasurableSpace Ω]\n    (I : PinnedLawInterface 2 L Ω) (bLo bHi kLo kHi : ℝ) : Prop :=\n  0 < L → bLo ≤ bHi → 0 < kLo → kLo ≤ kHi →\n    ∀ κ : ℝ, 0 < κ → ∃ C rStar : ℝ, 0 < C ∧ 0 < rStar ∧\n      ∀ r : ℝ, 0 < r → r ≤ rStar → ∀ b ∈ Set.Icc bLo bHi, ∀ k ∈ Set.Icc kLo kHi,\n        ∀ R : OrthonormalBasis (Fin 2) ℝ (E 2), ∀ j : ℕ, j ≤ 2 →\n          meanAllHeightCount 2 L Ω I r b k R j\n            {x : E 2 | 0 < ‖x - pinM 2 r (R 0)‖ ∧ ‖x - pinM 2 r (R 0)‖ ≤ κ * r ^ 2} ≤ C * r ^ 5 ∧\n          meanAllHeightCount 2 L Ω I r b k R j\n            {x : E 2 | 0 < ‖x - pinS 2 r (R 0)‖ ∧ ‖x - pinS 2 r (R 0)‖ ≤ κ * r ^ 2} ≤ C * r ^ 5"
+ },
+ {
+  "module": "Specifications/RN.lean",
+  "declaration": "UniversalLaw.Spec.RN.D5cCollarC1",
+  "claims": [
+   "math.d5-component.collar-proof",
+   "math.d5-pin-neighborhood-first-moment"
+  ],
+  "source": "/-- Shape of row D5-c (C1, compact collar): all heights; for fixed `R ≥ 1` and\n`0 < η ≤ 1/4`, for Borel `E ⊂ C_{η,R}` in midpoint scaled coordinates,\n`E_{Q_r^W} N_j(rE) ≤ C r³|E|`.\n\nSource: d6g8k5htny-coder/Math- commit 6c020d6a72936632f2055122e71a7818a4ff497e path reviews/d5_reconciliation_20260929/RECONCILIATION.md sha256 14342b7eb0ad47c1c99b06be58fb6c901f5c7c72fc70f73e81de3dde50c23432\nAnchor: \"for Borel `E ⊂ C_{η,R}`, `η ≤ 1/4`, fixed `R ≥ 1`\"\nInterface: `I` is a given object; `C_{η,R}` is `collar 2 η R` (definition taken from the dimension-lift source, since RECONCILIATION.md does not define it).\nDoes not claim: the C1 source (COLLAR_PROOF.md) or its proof; the normalizer (P14) it imports; any numerical constant; nonauthor review or acceptance. -/\ndef D5cCollarC1 (L : ℝ) (Ω : Type) [MeasurableSpace Ω]\n    (I : PinnedLawInterface 2 L Ω) (bLo bHi kLo kHi : ℝ) : Prop :=\n  0 < L → bLo ≤ bHi → 0 < kLo → kLo ≤ kHi →\n    ∀ η R0 : ℝ, 0 < η → η ≤ (1 : ℝ) / 4 → 1 ≤ R0 → ∃ C rStar : ℝ, 0 < C ∧ 0 < rStar ∧\n      ∀ r : ℝ, 0 < r → r ≤ rStar → ∀ b ∈ Set.Icc bLo bHi, ∀ k ∈ Set.Icc kLo kHi,\n        ∀ R : OrthonormalBasis (Fin 2) ℝ (E 2), ∀ j : ℕ, j ≤ 2 →\n          ∀ E0 : Set (E 2), MeasurableSet E0 → E0 ⊆ collar 2 η R0 →\n            meanAllHeightCount 2 L Ω I r b k R j (scaledAt 2 R r 0 E0) ≤\n              C * r ^ 3 * (volume E0).toReal"
+ },
+ {
+  "module": "Specifications/RN.lean",
+  "declaration": "UniversalLaw.Spec.RN.D5dSummedPinNeighbourhoodC2",
+  "claims": [
+   "math.d5-pin-neighborhood-first-moment",
+   "math.rn-region.mesoscopic-scaled-annulus",
+   "math.rn-region.pin-collision"
+  ],
+  "source": "/-- Shape of row D5-d (C2, the summed pin-neighbourhood bound): all heights; for fixed\n`R ≥ 1`, `E_{Q_r^W} N_j(r B_R ∖ {M,S}) ≤ C_R r³`, the scaled ball of radius `R` with the\ntwo pins removed.\n\nSource: d6g8k5htny-coder/Math- commit 6c020d6a72936632f2055122e71a7818a4ff497e path reviews/d5_reconciliation_20260929/RECONCILIATION.md sha256 14342b7eb0ad47c1c99b06be58fb6c901f5c7c72fc70f73e81de3dde50c23432\nAnchor: \"E_{Q_r^W} N_j(r B_R ∖ {M,S}) ≤ C_R r³\"\nInterface: `I` is a given object.\nDoes not claim: the composition `D5-a + D5-c at η = 1/4` as a proof; the \"collar to the reviewed annulus\" remark; any numerical constant; nonauthor review or acceptance. -/\ndef D5dSummedPinNeighbourhoodC2 (L : ℝ) (Ω : Type) [MeasurableSpace Ω]\n    (I : PinnedLawInterface 2 L Ω) (bLo bHi kLo kHi : ℝ) : Prop :=\n  0 < L → bLo ≤ bHi → 0 < kLo → kLo ≤ kHi →\n    ∀ R0 : ℝ, 1 ≤ R0 → ∃ C rStar : ℝ, 0 < C ∧ 0 < rStar ∧\n      ∀ r : ℝ, 0 < r → r ≤ rStar → ∀ b ∈ Set.Icc bLo bHi, ∀ k ∈ Set.Icc kLo kHi,\n        ∀ R : OrthonormalBasis (Fin 2) ℝ (E 2), ∀ j : ℕ, j ≤ 2 →\n          meanAllHeightCount 2 L Ω I r b k R j (scaledAt 2 R r 0\n            {p : E 2 | ‖p‖ ≤ R0 ∧ p ≠ EuclideanSpace.single (0 : Fin 2) (-(1 : ℝ) / 2) ∧\n              p ≠ EuclideanSpace.single (0 : Fin 2) ((1 : ℝ) / 2)}) ≤ C * r ^ 3"
+ },
+ {
+  "module": "Specifications/RN.lean",
+  "declaration": "UniversalLaw.Spec.RN.D5eIntermediateShellsI3I4",
+  "claims": [
+   "math.d5-component.intermediate-window-proof",
+   "math.d5-pin-neighborhood-first-moment",
+   "math.rn-region.intermediate-r-to-rho"
+  ],
+  "source": "/-- Shape of row D5-e (I3/I4, intermediate shells): window `I_r`; the dyadic shells and\n`{A_0 r ≤ |X| ≤ ρ}` satisfy `E N ≤ C r³(A_0^{−2} + ρ²)`: there are `C, s_0 > 0` such that\nfor `A_0 ≥ 4` and `A_0 r < ρ ≤ s_0` the expected index-`j` window count in\n`{A_0 r ≤ |X| ≤ ρ}` (distance from the midpoint) is at most `C r^3 (A_0^(-2) + ρ^2)`.\n\nSource: d6g8k5htny-coder/Math- commit 6c020d6a72936632f2055122e71a7818a4ff497e path reviews/d5_reconciliation_20260929/RECONCILIATION.md sha256 14342b7eb0ad47c1c99b06be58fb6c901f5c7c72fc70f73e81de3dde50c23432\nAnchor: \"E N ≤ C r³(A_0^{−2} + ρ²)\"\nInterface: `I` is a given object; the side conditions `A_0 ≥ 4`, `A_0 r < ρ ≤ s_0` are taken from the dimension-lift display (1.6), since RECONCILIATION.md states the row without them.\nDoes not claim: the single-shell display (1.5) (stated in `DimensionLiftIntermediateShellsI`); the I3/I4 source (intermediate_window_20260928) or its proof; any numerical constant; nonauthor review or acceptance. -/\ndef D5eIntermediateShellsI3I4 (L : ℝ) (Ω : Type) [MeasurableSpace Ω]\n    (I : PinnedLawInterface 2 L Ω) (bLo bHi kLo kHi : ℝ) : Prop :=\n  0 < L → bLo ≤ bHi → 0 < kLo → kLo ≤ kHi →\n    ∃ C s0 : ℝ, 0 < C ∧ 0 < s0 ∧\n      ∀ A0 ρ r : ℝ, 4 ≤ A0 → 0 < r → A0 * r < ρ → ρ ≤ s0 →\n        ∀ b ∈ Set.Icc bLo bHi, ∀ k ∈ Set.Icc kLo kHi,\n          ∀ R : OrthonormalBasis (Fin 2) ℝ (E 2), ∀ j : ℕ, j ≤ 2 →\n            meanWindowCount 2 L Ω I r b k R j {x : E 2 | A0 * r ≤ ‖x‖ ∧ ‖x‖ ≤ ρ} ≤\n              C * r ^ 3 * ((A0 ^ 2)⁻¹ + ρ ^ 2)"
+ },
+ {
+  "module": "Specifications/RN.lean",
+  "declaration": "UniversalLaw.Spec.RN.D5fGlobalWindowFirstMomentI5",
+  "claims": [
+   "math.d5-component.intermediate-window-proof",
+   "math.d5-pin-neighborhood-first-moment"
+  ],
+  "source": "/-- Shape of row D5-f (I5, global window first moment and planar event order): window\n`I_r`; `E_{Q_r^W} N_{r,j}(T² ∖ {M,S}) ≤ C r³`, and for the event `A_r` that some critical\npoint other than `M, S` has height in `I_r`, `c r³ ≤ P(A_r) ≤ C r³` with `c > 0`.\n\nSource: d6g8k5htny-coder/Math- commit 6c020d6a72936632f2055122e71a7818a4ff497e path reviews/d5_reconciliation_20260929/RECONCILIATION.md sha256 14342b7eb0ad47c1c99b06be58fb6c901f5c7c72fc70f73e81de3dde50c23432\nAnchor: \"E_{Q_r^W} N_{r,j}(T² ∖ {M,S}) ≤ C r³\"\nInterface: `I` is a given object; `A_r` is the event `{N ≥ 1}` for the all-index torus-wide window count.\nDoes not claim: the tiling composition `D5-d (R = 4) + I4 + remote Theorem A` as a proof; the lower bound's source (remote_collision Corollary F-) or the I5 source; any numerical constant; nonauthor review or acceptance; any register transition proposed by the reconciliation; that the count `torusWindowCount` (every critical point off the pins, degenerate ones included) equals the sum of the index counts: it dominates the source's all-index `N`, and the two agree only off the degenerate locus. -/\ndef D5fGlobalWindowFirstMomentI5 (L : ℝ) (Ω : Type) [MeasurableSpace Ω]\n    (I : PinnedLawInterface 2 L Ω) (bLo bHi kLo kHi : ℝ) : Prop :=\n  0 < L → bLo ≤ bHi → 0 < kLo → kLo ≤ kHi →\n    (∃ C rStar : ℝ, 0 < C ∧ 0 < rStar ∧\n      ∀ r : ℝ, 0 < r → r ≤ rStar → ∀ b ∈ Set.Icc bLo bHi, ∀ k ∈ Set.Icc kLo kHi,\n        ∀ R : OrthonormalBasis (Fin 2) ℝ (E 2), ∀ j : ℕ, j ≤ 2 →\n          meanWindowCount 2 L Ω I r b k R j (torusMinusPins 2 L r (R 0)) ≤ C * r ^ 3) ∧\n    (∃ c C rStar : ℝ, 0 < c ∧ 0 < rStar ∧\n      ∀ r : ℝ, 0 < r → r ≤ rStar → ∀ b ∈ Set.Icc bLo bHi, ∀ k ∈ Set.Icc kLo kHi,\n        ∀ R : OrthonormalBasis (Fin 2) ℝ (E 2),\n          c * r ^ 3 ≤ ((I.QW r b k R) {ω | 1 ≤ torusWindowCount 2 L Ω I r b k R ω}).toReal ∧\n          ((I.QW r b k R) {ω | 1 ≤ torusWindowCount 2 L Ω I r b k R ω}).toReal ≤ C * r ^ 3)"
+ },
+ {
+  "module": "Specifications/RN.lean",
+  "declaration": "UniversalLaw.Spec.RN.DimensionLiftCompactCollarC",
+  "claims": [
+   "CL-D5-DIMENSION-LIFT-20260929-v1"
+  ],
+  "source": "/-- Shape of Theorem C_d (compact collar), display (1.3): fixed `d ≥ 2`, `L > 0`, compact\nmarks, fixed `R ≥ 1` and `0 < η ≤ 1/4`; there are `C, r_* > 0` such that for every Borel\n`E ⊆ C(η, R)`, `E_(Q_r^W) N_j(r E) ≤ C r^3 |E|` for `0 < r ≤ r_*`, all `b, k, R, j`.\n\nSource: d6g8k5htny-coder/Math- commit 6c020d6a72936632f2055122e71a7818a4ff497e path frontiers/d5_dimension_lift_20260929/PROOF.md sha256 6fb94b247e8e45bca9dc02f46670ac6029fb54e0ef906001efe48fe908549b80\nAnchor: \"E_(Q_r^W) N_j(r E) <= C r^3 |E|.\"\nInterface: `I` is a given object; `C(η, R)` is `collar d η R`.\nDoes not claim: the consequence (1.4) for the scaled ball with pins removed (stated for `d = 2` as `D5dSummedPinNeighbourhoodC2`); the result or its proof; any numerical constant; nonauthor review or acceptance. -/\ndef DimensionLiftCompactCollarC (d : ℕ) [NeZero d] (L : ℝ) (Ω : Type) [MeasurableSpace Ω]\n    (I : PinnedLawInterface d L Ω) (bLo bHi kLo kHi : ℝ) : Prop :=\n  2 ≤ d → 0 < L → bLo ≤ bHi → 0 < kLo → kLo ≤ kHi →\n    ∀ η R0 : ℝ, 0 < η → η ≤ (1 : ℝ) / 4 → 1 ≤ R0 → ∃ C rStar : ℝ, 0 < C ∧ 0 < rStar ∧\n      ∀ r : ℝ, 0 < r → r ≤ rStar → ∀ b ∈ Set.Icc bLo bHi, ∀ k ∈ Set.Icc kLo kHi,\n        ∀ R : OrthonormalBasis (Fin d) ℝ (E d), ∀ j : ℕ, j ≤ d →\n          ∀ E0 : Set (E d), MeasurableSet E0 → E0 ⊆ collar d η R0 →\n            meanAllHeightCount d L Ω I r b k R j (scaledAt d R r 0 E0) ≤\n              C * r ^ 3 * (volume E0).toReal"
+ },
+ {
+  "module": "Specifications/RN.lean",
+  "declaration": "UniversalLaw.Spec.RN.DimensionLiftGlobalWindowG",
+  "claims": [
+   "CL-D5-DIMENSION-LIFT-20260929-v1"
+  ],
+  "source": "/-- Shape of Theorem G_d (global height-window first moment), display (1.7): fixed `d ≥ 2`,\n`L > 0`, compact marks; there are `C, r_* > 0` such that\n`E_(Q_r^W) N_(r,j)( X minus {M, S} ) ≤ C r^3` for `0 < r ≤ r_*`, all `b, k, R, j`.\n\nSource: d6g8k5htny-coder/Math- commit 6c020d6a72936632f2055122e71a7818a4ff497e path frontiers/d5_dimension_lift_20260929/PROOF.md sha256 6fb94b247e8e45bca9dc02f46670ac6029fb54e0ef906001efe48fe908549b80\nAnchor: \"E_(Q_r^W) N_(r,j)( X minus {M, S} ) <= C r^3.\"\nInterface: `I` is a given object.\nDoes not claim: the tiling proof (P_d, C_d, I_d and the fixed-remote Theorem A); Corollaries F_d and M_d; the planar I5 identification; the `d = 3` SIDE24 application; any regional supersession of historical carriers; any numerical constant; nonauthor review or acceptance. -/\ndef DimensionLiftGlobalWindowG (d : ℕ) [NeZero d] (L : ℝ) (Ω : Type) [MeasurableSpace Ω]\n    (I : PinnedLawInterface d L Ω) (bLo bHi kLo kHi : ℝ) : Prop :=\n  2 ≤ d → 0 < L → bLo ≤ bHi → 0 < kLo → kLo ≤ kHi →\n    ∃ C rStar : ℝ, 0 < C ∧ 0 < rStar ∧\n      ∀ r : ℝ, 0 < r → r ≤ rStar → ∀ b ∈ Set.Icc bLo bHi, ∀ k ∈ Set.Icc kLo kHi,\n        ∀ R : OrthonormalBasis (Fin d) ℝ (E d), ∀ j : ℕ, j ≤ d →\n          meanWindowCount d L Ω I r b k R j (torusMinusPins d L r (R 0)) ≤ C * r ^ 3"
+ },
+ {
+  "module": "Specifications/RN.lean",
+  "declaration": "UniversalLaw.Spec.RN.DimensionLiftIntermediateShellsI",
+  "claims": [
+   "CL-D5-DIMENSION-LIFT-20260929-v1"
+  ],
+  "source": "/-- Shape of Theorem I_d (intermediate height-window shells), displays (1.5) and (1.6):\nthere are `C, s_0 > 0` such that for `0 < r ≤ s/4` and `0 < s ≤ s_0`,\n`E_(Q_r^W) N_(r,j)({ s ≤ |X| ≤ 2 s }) ≤ C r^3 [ (r/s)^2 + s^2 ]`, and hence, uniformly for\n`A_0 ≥ 4` and `A_0 r < ρ ≤ s_0`, `E_(Q_r^W) N_(r,j)({ A_0 r ≤ |X| ≤ ρ }) ≤ C r^3 (A_0^(-2) + ρ^2)`.\n`|X|` is the distance from the midpoint.\n\nSource: d6g8k5htny-coder/Math- commit 6c020d6a72936632f2055122e71a7818a4ff497e path frontiers/d5_dimension_lift_20260929/PROOF.md sha256 6fb94b247e8e45bca9dc02f46670ac6029fb54e0ef906001efe48fe908549b80\nAnchor: \"E_(Q_r^W) N_(r,j)({ s <= |X| <= 2 s }) <= C r^3 [ (r/s)^2 + s^2 ],\"\nInterface: `I` is a given object.\nDoes not claim: the result or its proof (polynomial row rank, Euler suppression, shell ledger, dyadic sum); the planar I3/I4 identification; any numerical constant; nonauthor review or acceptance. -/\ndef DimensionLiftIntermediateShellsI (d : ℕ) [NeZero d] (L : ℝ) (Ω : Type) [MeasurableSpace Ω]\n    (I : PinnedLawInterface d L Ω) (bLo bHi kLo kHi : ℝ) : Prop :=\n  2 ≤ d → 0 < L → bLo ≤ bHi → 0 < kLo → kLo ≤ kHi →\n    ∃ C s0 : ℝ, 0 < C ∧ 0 < s0 ∧\n      (∀ r s : ℝ, 0 < r → r ≤ s / 4 → 0 < s → s ≤ s0 →\n        ∀ b ∈ Set.Icc bLo bHi, ∀ k ∈ Set.Icc kLo kHi,\n          ∀ R : OrthonormalBasis (Fin d) ℝ (E d), ∀ j : ℕ, j ≤ d →\n            meanWindowCount d L Ω I r b k R j {x : E d | s ≤ ‖x‖ ∧ ‖x‖ ≤ 2 * s} ≤\n              C * r ^ 3 * ((r / s) ^ 2 + s ^ 2)) ∧\n      (∀ A0 ρ r : ℝ, 4 ≤ A0 → 0 < r → A0 * r < ρ → ρ ≤ s0 →\n        ∀ b ∈ Set.Icc bLo bHi, ∀ k ∈ Set.Icc kLo kHi,\n          ∀ R : OrthonormalBasis (Fin d) ℝ (E d), ∀ j : ℕ, j ≤ d →\n            meanWindowCount d L Ω I r b k R j {x : E d | A0 * r ≤ ‖x‖ ∧ ‖x‖ ≤ ρ} ≤\n              C * r ^ 3 * ((A0 ^ 2)⁻¹ + ρ ^ 2))"
+ },
+ {
+  "module": "Specifications/RN.lean",
+  "declaration": "UniversalLaw.Spec.RN.DimensionLiftPuncturedPinBallP",
+  "claims": [
+   "CL-D5-DIMENSION-LIFT-20260929-v1"
+  ],
+  "source": "/-- Shape of Theorem P_d (all-height punctured pin ball), display (1.2): fixed `d ≥ 2`,\n`L > 0`, compact marks; there are `C, C', r_* > 0` such that for `0 < r ≤ r_*`, all `b, k, R, j`\nand every Borel `E ⊆ D = {0 < p² + |q|² ≤ 1/16}` in the endpoint chart,\n`E_(Q_r^W) N_j(M + r E) ≤ C r^3 ∫_E omega_d ≤ C' r^3`, and the same about `S`.\n\nSource: d6g8k5htny-coder/Math- commit 6c020d6a72936632f2055122e71a7818a4ff497e path frontiers/d5_dimension_lift_20260929/PROOF.md sha256 6fb94b247e8e45bca9dc02f46670ac6029fb54e0ef906001efe48fe908549b80\nAnchor: \"E_(Q_r^W) N_j(M + r E) <= C r^3 integral_E omega_d(p, q) dp dq <= C' r^3.\"\nInterface: `I` is a given object; the chart is `scaledAt` based at the pin; the weight is `omegaD`.\nDoes not claim: the result or its proof (devices D1-D5, stable gradient frame, density and conditional moments, weighted Kac-Rice (4.10), crossover); the nested-ball `O(r^5)` corollary (stated for `d = 2` as `D5bMicrodisk`); the planar P2 identification; any numerical constant; uniformity in `d`; nonauthor review or acceptance. -/\ndef DimensionLiftPuncturedPinBallP (d : ℕ) [NeZero d] (L : ℝ) (Ω : Type) [MeasurableSpace Ω]\n    (I : PinnedLawInterface d L Ω) (bLo bHi kLo kHi : ℝ) : Prop :=\n  2 ≤ d → 0 < L → bLo ≤ bHi → 0 < kLo → kLo ≤ kHi →\n    ∃ C C' rStar : ℝ, 0 < C ∧ 0 < C' ∧ 0 < rStar ∧\n      ∀ r : ℝ, 0 < r → r ≤ rStar → ∀ b ∈ Set.Icc bLo bHi, ∀ k ∈ Set.Icc kLo kHi,\n        ∀ R : OrthonormalBasis (Fin d) ℝ (E d), ∀ j : ℕ, j ≤ d →\n          ∀ E0 : Set (E d), MeasurableSet E0 →\n            E0 ⊆ {p : E d | 0 < ‖p‖ ^ 2 ∧ ‖p‖ ^ 2 ≤ (1 : ℝ) / 16} →\n              (meanAllHeightCount d L Ω I r b k R j (scaledAt d R r (pinM d r (R 0)) E0) ≤\n                  C * r ^ 3 * ∫ p in E0, omegaD d r p ∧\n                C * r ^ 3 * ∫ p in E0, omegaD d r p ≤ C' * r ^ 3) ∧\n              (meanAllHeightCount d L Ω I r b k R j (scaledAt d R r (pinS d r (R 0)) E0) ≤\n                  C * r ^ 3 * ∫ p in E0, omegaD d r p ∧\n                C * r ^ 3 * ∫ p in E0, omegaD d r p ≤ C' * r ^ 3)"
+ },
+ {
+  "module": "Specifications/RN.lean",
+  "declaration": "UniversalLaw.Spec.RN.FixedAnnulusWindowCandidateA2",
+  "claims": [
+   "math.rn-fixed-annulus-window",
+   "math.rn-region.fixed-annulus-window",
+   "rn-fixed-annulus-window"
+  ],
+  "source": "/-- Shape of the fixed-annulus height-window candidate statement (A2): `d = 2`, fixed `L > 0`,\ncompact marks (`b ∈ [bLo, bHi]`, `0 < kLo ≤ k ≤ kHi`), fixed scaled annulus\n`K = {A0 ≤ |(u,t)| ≤ B0}` with `1 < A0 < B0`; there are `C, r_* > 0`, uniform in the frame,\nthe marks, the Borel `E0 ⊆ K` and `j ∈ {0,1,2}`, such that\n`E_(Q_r^W) N_j(r E0) ≤ C k r^3 area(E0)` for `0 < r ≤ r_*`, where `N_j(r E0)` counts\nindex-`j` critical points in `r E0` with height STRICTLY between `b - k r^3` and `b`.\n\nSource: d6g8k5htny-coder/Math- commit 760340e921ac4ceda296b8118da936f1133e956e path frontiers/rn_thin_tube_20260925/FIXED_ANNULUS_CANDIDATE.md sha256 1fd9fe7141e464fd1c09ebf0318d8a701729c9c61ea24f73f7e20a9cf10c552b\nAnchor: \"E_Qr^W N_j(r E0) <= C*k*r^3*area(E0),\"\nInterface: `I` is a given object; `r E0` is embedded in the torus through the frame by `scaledAt`; the six-pin regression (A3)-(A5), the normalizer (A8) and the weighted Kac-Rice formula (A21) are not transcribed.\nDoes not claim: the result or its proof (contact vector (A10), eigenfloor (A12), cutoff (A13), three-Hessian estimate (A18), inner-strip bound (A26)); the all-index sum or the Markov event bound; an all-height assertion; uniformity in `L`, as `k → 0`, as `B0 → ∞`, or for `d ≥ 3`; any numerical constant; nonauthor review or acceptance (the landing disposition REVIEWED_SCOPED is transcribed by the register, not here). -/\ndef FixedAnnulusWindowCandidateA2 (L : ℝ) (Ω : Type) [MeasurableSpace Ω]\n    (I : PinnedLawInterface 2 L Ω) (bLo bHi kLo kHi A0 B0 : ℝ) : Prop :=\n  0 < L → bLo ≤ bHi → 0 < kLo → kLo ≤ kHi → 1 < A0 → A0 < B0 →\n    ∃ C rStar : ℝ, 0 < C ∧ 0 < rStar ∧\n      ∀ r : ℝ, 0 < r → r ≤ rStar → ∀ b ∈ Set.Icc bLo bHi, ∀ k ∈ Set.Icc kLo kHi,\n        ∀ R : OrthonormalBasis (Fin 2) ℝ (E 2), ∀ j : ℕ, j ≤ 2 →\n          ∀ E0 : Set (E 2), MeasurableSet E0 → E0 ⊆ {p : E 2 | A0 ≤ ‖p‖ ∧ ‖p‖ ≤ B0} →\n            meanWindowCount 2 L Ω I r b k R j (scaledAt 2 R r 0 E0) ≤\n              C * k * r ^ 3 * (volume E0).toReal"
+ },
+ {
+  "module": "Specifications/RN.lean",
+  "declaration": "UniversalLaw.Spec.RN.FixedRemoteCountBoundA3",
+  "claims": [
+   "math.d5-component.remote-window-proof",
+   "math.rn-fixed-remote-window",
+   "math.rn-region.fixed-remote",
+   "rn-fixed-remote-window"
+  ],
+  "source": "/-- Shape of Theorem A, display (3) (fixed-remote count and event bounds): with the same\nfixed data and existential `r_* > 0`, `C`, for all `0 < r ≤ r_*`, `b ∈ B`, `k ∈ K`, frames,\nindices and Borel `E ⊆ D_ρ`, `E_(Q_r^W) N_(r,j)(E) ≤ C k r^3 |E|` and\n`P_(Q_r^W){N_(r,j)(E) ≥ 1} ≤ C k r^3 |E|`.\n\nSource: d6g8k5htny-coder/Math- commit 760340e921ac4ceda296b8118da936f1133e956e path frontiers/remote_window_20260924/PROOF.md sha256 a332bae9bdc0106ce17047f7e0409cc3d94eb610a0c7b74ba5ba2d01a1620cb7\nAnchor: \"E_(Q_r^W) N_(r,j)(E) <= C k r^3 |E|,\"\nInterface: `I` is a given object as in `FixedRemoteMeanMeasureA2`.\nDoes not claim: a matching lower bound on the event probability (the source says this is NOT one); the unnormalized numerator bound (14); the result or its proof; any numerical constant; nonauthor review or acceptance. -/\ndef FixedRemoteCountBoundA3 (d : ℕ) [NeZero d] (L : ℝ) (Ω : Type) [MeasurableSpace Ω]\n    (I : PinnedLawInterface d L Ω) (ρ bLo bHi kLo kHi : ℝ) : Prop :=\n  2 ≤ d → 0 < L → 0 < ρ → ρ < L / 4 → bLo ≤ bHi → 0 < kLo → kLo ≤ kHi →\n    ∃ rStar : ℝ, 0 < rStar ∧ ∃ C : ℝ,\n      ∀ r : ℝ, 0 < r → r ≤ rStar → ∀ b ∈ Set.Icc bLo bHi, ∀ k ∈ Set.Icc kLo kHi,\n        ∀ R : OrthonormalBasis (Fin d) ℝ (E d), ∀ j : ℕ, j ≤ d →\n          ∀ A : Set (E d), MeasurableSet A → A ⊆ remoteRegion d L ρ →\n            meanWindowCount d L Ω I r b k R j A ≤ C * k * r ^ 3 * (volume A).toReal ∧\n            ((I.QW r b k R) {ω | 1 ≤ windowCount d (I.F ω) b k r j A}).toReal ≤\n              C * k * r ^ 3 * (volume A).toReal"
+ },
+ {
+  "module": "Specifications/RN.lean",
+  "declaration": "UniversalLaw.Spec.RN.FixedRemoteMeanMeasureA2",
+  "claims": [
+   "math.d5-component.remote-window-proof",
+   "math.rn-fixed-remote-window",
+   "math.rn-region.fixed-remote",
+   "rn-fixed-remote-window"
+  ],
+  "source": "/-- Shape of Theorem A, display (2) (fixed-remote mean measure): for fixed `d ≥ 2`, `L > 0`,\n`0 < ρ < L/4`, compact `B = [bLo, bHi]` and `K = [kLo, kHi]` with `kLo > 0`, there are\n`r_* > 0` and `C` (quantified OUTSIDE the universal quantifiers) such that for all\n`0 < r ≤ r_*`, `b ∈ B`, `k ∈ K`, frames `R`, indices `j ≤ d` and Borel `E ⊆ D_ρ`,\n`| E_(Q_r^W) N_(r,j)(E)/(k r^3) - ∫_E Lambda_j(x;b,k,u) dx | ≤ C r |E|`; and the kernel\n`Lambda_j` is continuous on `D_ρ`, bounded above and away from zero uniformly on the\ncompact parameter sets.\n\nSource: d6g8k5htny-coder/Math- commit 760340e921ac4ceda296b8118da936f1133e956e path frontiers/remote_window_20260924/PROOF.md sha256 a332bae9bdc0106ce17047f7e0409cc3d94eb610a0c7b74ba5ba2d01a1620cb7\nAnchor: \"| E_(Q_r^W) N_(r,j)(E)/(k r^3)\"\nInterface: `I` (sample paths, laws `Q_r`, `Q_r^W`, weight, kernel `Λ`) is a given object; the statement is about any `Λ` and any laws satisfying `PinnedLawInterface`; the Kac-Rice representation (12) and the contact formula (13) are not transcribed.\nDoes not claim: the result or its proof (uniform remote nondegeneracy, coupling (5), weight expansion (10), normalizer (11)); identification of `I.Λ` with the kernel (13); the total-variation convergence remark; the multi-witness Section 6; any numerical `C` or `r_*`; uniformity as `ρ → 0`; nonauthor review or acceptance (the landing disposition HOLD_WITH_DOMAIN is transcribed by the register, not here). -/\ndef FixedRemoteMeanMeasureA2 (d : ℕ) [NeZero d] (L : ℝ) (Ω : Type) [MeasurableSpace Ω]\n    (I : PinnedLawInterface d L Ω) (ρ bLo bHi kLo kHi : ℝ) : Prop :=\n  2 ≤ d → 0 < L → 0 < ρ → ρ < L / 4 → bLo ≤ bHi → 0 < kLo → kLo ≤ kHi →\n    ∃ rStar : ℝ, 0 < rStar ∧ ∃ C : ℝ,\n      (∃ cΛ : ℝ, 0 < cΛ ∧ ∃ CΛ : ℝ, ∀ j : ℕ, j ≤ d →\n        ∀ b ∈ Set.Icc bLo bHi, ∀ k ∈ Set.Icc kLo kHi, ∀ R : OrthonormalBasis (Fin d) ℝ (E d),\n          ContinuousOn (I.Λ j b k (R 0)) (remoteRegion d L ρ) ∧\n          ∀ x ∈ remoteRegion d L ρ, cΛ ≤ I.Λ j b k (R 0) x ∧ I.Λ j b k (R 0) x ≤ CΛ) ∧\n      ∀ r : ℝ, 0 < r → r ≤ rStar → ∀ b ∈ Set.Icc bLo bHi, ∀ k ∈ Set.Icc kLo kHi,\n        ∀ R : OrthonormalBasis (Fin d) ℝ (E d), ∀ j : ℕ, j ≤ d →\n          ∀ A : Set (E d), MeasurableSet A → A ⊆ remoteRegion d L ρ →\n            |meanWindowCount d L Ω I r b k R j A / (k * r ^ 3) - ∫ x in A, I.Λ j b k (R 0) x| ≤\n              C * r * (volume A).toReal"
+ },
+ {
+  "module": "Specifications/RN.lean",
+  "declaration": "UniversalLaw.Spec.RN.FourierCutoffPlanarSecondFactorialF4",
+  "claims": [
+   "OA-C6-FOURIER-20260929-v1"
+  ],
+  "source": "/-- Shape of the planar Fourier-cutoff consequence (F4): in `d = 2`, GIVEN the\ndimension-matched first-moment hypothesis `G_2` (`E_(Q_r^W) N ≤ C r^3` for small `r`,\nuniformly in the marks and frames), there are `C` and `r_* > 0` such that\n`E_(Q_r^W) N(N-1) ≤ C r^3 log(1/r)` for `0 < r ≤ r_*`, all `b, k, R`. The source derives\nthis from Theorem W with `p = 2`; the hypothesis `G_2` is stated as a hypothesis here, not\ndischarged.\n\nSource: d6g8k5htny-coder/Math- commit 6c020d6a72936632f2055122e71a7818a4ff497e path frontiers/c6_fourier_cutoff_20260929/PROOF.md sha256 c1692379a3a066589bd2522aaa5b4d480e736b737c8c39a474d1735185793733\nAnchor: \"E_Qr^W N(N-1) <= C r^3 log(1/r),\"\nInterface: `I` is a given object; `N` is `torusWindowCount`; `(N)_2 = N(N-1)` is `Nat.descFactorial N 2`.\nDoes not claim: Theorem F (the cap `Psi_F` and its tail (F1)-(F2)); Theorem W for general `d` and `p` (F3); that `G_2` holds (the source takes it from the reviewed planar I5 composition); Proposition B; that the logarithm is sharp or removable; any numerical constant; nonauthor review or acceptance; that the count `torusWindowCount` (every critical point off the pins, degenerate ones included) equals the sum of the index counts: it dominates the source's all-index `N`, and the two agree only off the degenerate locus. -/\ndef FourierCutoffPlanarSecondFactorialF4 (L : ℝ) (Ω : Type) [MeasurableSpace Ω]\n    (I : PinnedLawInterface 2 L Ω) (bLo bHi kLo kHi : ℝ) : Prop :=\n  0 < L → bLo ≤ bHi → 0 < kLo → kLo ≤ kHi →\n    (∃ C0 r0 : ℝ, 0 < r0 ∧\n      ∀ r : ℝ, 0 < r → r ≤ r0 → ∀ b ∈ Set.Icc bLo bHi, ∀ k ∈ Set.Icc kLo kHi,\n        ∀ R : OrthonormalBasis (Fin 2) ℝ (E 2),\n          ∫ ω, (torusWindowCount 2 L Ω I r b k R ω : ℝ) ∂(I.QW r b k R) ≤ C0 * r ^ 3) →\n    ∃ C rStar : ℝ, 0 < rStar ∧\n      ∀ r : ℝ, 0 < r → r ≤ rStar → ∀ b ∈ Set.Icc bLo bHi, ∀ k ∈ Set.Icc kLo kHi,\n        ∀ R : OrthonormalBasis (Fin 2) ℝ (E 2),\n          ∫ ω, (Nat.descFactorial (torusWindowCount 2 L Ω I r b k R ω) 2 : ℝ) ∂(I.QW r b k R) ≤\n            C * r ^ 3 * Real.log (1 / r)"
+ },
+ {
+  "module": "Specifications/RN.lean",
+  "declaration": "UniversalLaw.Spec.RN.HessianHasInertia",
+  "claims": [
+   "rn-fixed-remote-window"
+  ],
+  "source": "/-- Sylvester-inertia encoding of \"the Hessian at `x` is nondegenerate with exactly `j`\nnegative and `d - j` positive eigenvalues\": there are complementary subspaces `V`, `W` of\ndimensions `j` and `d - j` on which the Hessian form is negative definite, respectively\npositive definite. Intended to agree with the eigenvalue count for symmetric (`C^2`)\nHessians; not shown here.\n\nSource: d6g8k5htny-coder/Math- commit c39164254ad1529ed49543743598d5dcb24bab98 path imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md sha256 9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7\nAnchor: \"The index counts negative eigenvalues.\"\nInterface: none.\nDoes not claim: equivalence with an eigenvalue count for a non-symmetric form. -/\ndef HessianHasInertia (d : ℕ) (g : E d → ℝ) (x : E d) (j : ℕ) : Prop :=\n  ∃ V W : Submodule ℝ (E d), IsCompl V W ∧\n    Module.finrank ℝ V = j ∧ Module.finrank ℝ W = d - j ∧\n    (∀ v ∈ V, v ≠ 0 → hessian d g x v v < 0) ∧\n    (∀ w ∈ W, w ≠ 0 → 0 < hessian d g x w w)"
+ },
+ {
+  "module": "Specifications/RN.lean",
+  "declaration": "UniversalLaw.Spec.RN.IsCriticalPoint",
+  "claims": [
+   "rn-fixed-remote-window"
+  ],
+  "source": "/-- Critical point: vanishing Fréchet derivative (`grad f = 0`).\n\nSource: d6g8k5htny-coder/Math- commit c39164254ad1529ed49543743598d5dcb24bab98 path imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md sha256 9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7\nAnchor: \"grad f(M)=grad f(S)=0.\"\nInterface: none.\nDoes not claim: differentiability of `g` at `x` (if `g` is not differentiable, `fderiv` is `0`). -/\ndef IsCriticalPoint (d : ℕ) (g : E d → ℝ) (x : E d) : Prop :=\n  fderiv ℝ g x = 0"
+ },
+ {
+  "module": "Specifications/RN.lean",
+  "declaration": "UniversalLaw.Spec.RN.PalmRouteFactorialMomentsQ",
+  "claims": [
+   "CL-C6-PALM-20260929-v1"
+  ],
+  "source": "/-- Shape of Theorem Q (Palm route, factorial moments in every fixed dimension): fixed\n`d ≥ 2`, `L > 0`, compact marks; for every fixed integer `q ≥ 2` there are `C_q, r_* > 0`\nsuch that `E_(Q_r^W)[ (N)_q ] ≤ C_q r^3` for `0 < r ≤ r_*`, all `b, k, R`. The radius\nthreshold is allowed to depend on `q` (the source's quantifier order is \"There are\n`C_q, r_* > 0` such that for `0 < r ≤ r_*`, all `b, k, R` and every fixed integer `q ≥ 2`\";\nthe weaker reading with `r_*` after `q` is stated).\n\nSource: d6g8k5htny-coder/Math- commit 6c020d6a72936632f2055122e71a7818a4ff497e path frontiers/c6_palm_route_20260929/PROOF.md sha256 aa37f16040ab9e05bb2e4e3f1d678367497e8dc2cf43eef197a4d6592c2f129b\nAnchor: \"E_(Q_r^W)[ (N)_q ] <= C_q r^3.\"\nInterface: `I` is a given object; `N` is `torusWindowCount`; `(N)_q` is `Nat.descFactorial N q`.\nDoes not claim: the result or its proof (the cap `Psi` in `d` dimensions, the parametric Rouché tail, the marked Kac-Rice formula with Hölder insertion, the regimes R1-R4); the dependence on [C6L] and [DL] at their bytes; a lower bound for `q ≥ 3`; Corollary P; any numerical constant; nonauthor review or acceptance; that the count `torusWindowCount` (every critical point off the pins, degenerate ones included) equals the sum of the index counts: it dominates the source's all-index `N`, and the two agree only off the degenerate locus. -/\ndef PalmRouteFactorialMomentsQ (d : ℕ) [NeZero d] (L : ℝ) (Ω : Type) [MeasurableSpace Ω]\n    (I : PinnedLawInterface d L Ω) (bLo bHi kLo kHi : ℝ) : Prop :=\n  2 ≤ d → 0 < L → bLo ≤ bHi → 0 < kLo → kLo ≤ kHi →\n    ∀ q : ℕ, 2 ≤ q → ∃ Cq rStar : ℝ, 0 < Cq ∧ 0 < rStar ∧\n      ∀ r : ℝ, 0 < r → r ≤ rStar → ∀ b ∈ Set.Icc bLo bHi, ∀ k ∈ Set.Icc kLo kHi,\n        ∀ R : OrthonormalBasis (Fin d) ℝ (E d),\n          ∫ ω, (Nat.descFactorial (torusWindowCount d L Ω I r b k R ω) q : ℝ) ∂(I.QW r b k R) ≤\n            Cq * r ^ 3"
+ },
+ {
+  "module": "Specifications/RN.lean",
+  "declaration": "UniversalLaw.Spec.RN.PalmRouteSecondFactorialTheta",
+  "claims": [
+   "CL-C6-PALM-20260929-v1"
+  ],
+  "source": "/-- Shape of Corollary Theta (the C6 order is `r^3`): in every fixed `d ≥ 2`, there are\n`c > 0`, `C` and `r_* > 0` such that `c r^3 ≤ E_(Q_r^W)[ N(N-1) ] ≤ C r^3` and\n`c r^3 ≤ Q_r^W{ N ≥ 2 } ≤ C r^3` for `0 < r ≤ r_*`, all `b, k, R`.\n\nSource: d6g8k5htny-coder/Math- commit 6c020d6a72936632f2055122e71a7818a4ff497e path frontiers/c6_palm_route_20260929/PROOF.md sha256 aa37f16040ab9e05bb2e4e3f1d678367497e8dc2cf43eef197a4d6592c2f129b\nAnchor: \"c r^3 <= E_(Q_r^W)[ N(N-1) ] <= C r^3,\"\nInterface: `I` is a given object; `N` is `torusWindowCount`.\nDoes not claim: the lower bounds' source ([EDL] (A4)) or the upper bounds' sources (Theorem Q, [DL] Corollary M_d); that the logarithm of the Fourier cutoff is removed as a reviewed fact; any statement about the positions of the pairs; any numerical constant; nonauthor review or acceptance; that the count `torusWindowCount` (every critical point off the pins, degenerate ones included) equals the sum of the index counts: it dominates the source's all-index `N`, and the two agree only off the degenerate locus. -/\ndef PalmRouteSecondFactorialTheta (d : ℕ) [NeZero d] (L : ℝ) (Ω : Type) [MeasurableSpace Ω]\n    (I : PinnedLawInterface d L Ω) (bLo bHi kLo kHi : ℝ) : Prop :=\n  2 ≤ d → 0 < L → bLo ≤ bHi → 0 < kLo → kLo ≤ kHi →\n    ∃ c C rStar : ℝ, 0 < c ∧ 0 < rStar ∧\n      ∀ r : ℝ, 0 < r → r ≤ rStar → ∀ b ∈ Set.Icc bLo bHi, ∀ k ∈ Set.Icc kLo kHi,\n        ∀ R : OrthonormalBasis (Fin d) ℝ (E d),\n          c * r ^ 3 ≤\n            ∫ ω, (Nat.descFactorial (torusWindowCount d L Ω I r b k R ω) 2 : ℝ) ∂(I.QW r b k R) ∧\n          ∫ ω, (Nat.descFactorial (torusWindowCount d L Ω I r b k R ω) 2 : ℝ) ∂(I.QW r b k R) ≤\n            C * r ^ 3 ∧\n          c * r ^ 3 ≤ ((I.QW r b k R) {ω | 2 ≤ torusWindowCount d L Ω I r b k R ω}).toReal ∧\n          ((I.QW r b k R) {ω | 2 ≤ torusWindowCount d L Ω I r b k R ω}).toReal ≤ C * r ^ 3"
+ },
+ {
+  "module": "Specifications/RN.lean",
+  "declaration": "UniversalLaw.Spec.RN.RareClusterPoissonObstructionO",
+  "claims": [
+   "OA-C6-RARE-CLUSTER-20260929-v1"
+  ],
+  "source": "/-- Shape of Theorem O (sharp ordinary-Poisson obstruction): for a family of laws\n`μ_r` on `ℕ` (the law of the window count `N_r`) which, for all sufficiently small `r`\n(that is, for `0 < r ≤ r_0` for some `r_0 > 0`), are probability mass functions with\nsummable mean satisfying only (H1) `E N_r ≤ A r^3` and (H2) `P(N_r ≥ 2) ≥ a r^3` with\n`a > 0`: then, for all sufficiently small `r`,\n`(a/2) r^3 ≤ inf_{lambda ≥ 0} dTV(Law N_r, Pois(lambda)) ≤ A r^3`: every nonnegative\nintensity is at distance at least `(a/2) r^3`, and some intensity is within `A r^3`. The\nhypotheses are imposed only on `0 < r ≤ r_0`, as in the source (\"for all sufficiently small\nr\"); imposing (H2) for every `r > 0` would be unsatisfiable (`a r^3 ≤ 1` fails for large\n`r`) and would make the statement hold for every family. The source's remark that the\npremises imply `2a ≤ A` is not taken as a hypothesis.\n\nSource: d6g8k5htny-coder/Math- commit 6c020d6a72936632f2055122e71a7818a4ff497e path frontiers/c6_rare_cluster_laws_20260929/PROOF.md sha256 c52a3cf197b5cf26071a8cc951e15ef3ac564b3d7453d41647f91af540a1b8eb\nAnchor: \"(a/2) r^3 <= inf_{lambda>=0} dTV(Law N, Pois(lambda)) <= A r^3.\"\nInterface: the laws `μ_r` are given probability mass functions on `ℕ` (nonnegative, summing to one, with summable mean) for `0 < r ≤ r_0`; the hypotheses (H1), (H2) are hypotheses on that range only; nothing ties `μ_r` to the Gaussian model here (the source says the only analytic inputs are H1, H2, Hq).\nDoes not claim: the result (Theorem O) or its proof; that `2a ≤ A` (derived in the source, not a hypothesis here); that H1 or H2 hold for the Gaussian window count (the source takes them from [D5] Theorem G_d and [C6] Corollary Theta); the mean-matched statement `lambda = mu`; Theorems C and S, the factorial-moment matching or the independent-replica limit; the conditional-law liminf remark; that the upper half is the source's infimum bound verbatim: `∃ lam ≥ 0, dTV(Law N_r, Pois(lam)) ≤ A r^3` implies `inf_{lam ≥ 0} dTV ≤ A r^3` and is stronger unless the infimum is attained, and the existential form is used because the source's proof exhibits the witness `lam = 0` (the source: The upper bound in (3.1) uses Pois(0)=delta_0 and dTV(Law N,delta_0)=p); nonauthor review or acceptance. -/\ndef RareClusterPoissonObstructionO (μ : ℝ → ℕ → ℝ) (a A : ℝ) : Prop :=\n  0 < a →\n  (∃ r0 : ℝ, 0 < r0 ∧ ∀ r : ℝ, 0 < r → r ≤ r0 →\n    (∀ n : ℕ, 0 ≤ μ r n) ∧ Summable (μ r) ∧ ∑' n : ℕ, μ r n = 1 ∧\n    Summable (fun n : ℕ => (n : ℝ) * μ r n) ∧ ∑' n : ℕ, (n : ℝ) * μ r n ≤ A * r ^ 3 ∧\n    a * r ^ 3 ≤ 1 - μ r 0 - μ r 1) →\n  ∃ rStar : ℝ, 0 < rStar ∧ ∀ r : ℝ, 0 < r → r ≤ rStar →\n    (∀ lam : ℝ, 0 ≤ lam → (a / 2) * r ^ 3 ≤ pmfTV (μ r) (poissonPMF lam)) ∧\n    (∃ lam : ℝ, 0 ≤ lam ∧ pmfTV (μ r) (poissonPMF lam) ≤ A * r ^ 3)"
+ },
+ {
+  "module": "Specifications/RN.lean",
+  "declaration": "UniversalLaw.Spec.RN.RemoteCollisionSecondFactorialD",
+  "claims": [
+   "CL-D5-REMOTE-COLLISION-20260928-v1",
+   "math.rn-region.witness-collision"
+  ],
+  "source": "/-- Shape of Corollary D (second factorial moment in the fixed remote region): fixed `d ≥ 2`,\n`L > 0`, `0 < ρ < L/4`, compact marks; there are `C` and `r_* > 0` such that for\n`0 < r ≤ r_*`, all marks and frames and every Borel `E ⊆ D_ρ`,\n`E_(Q_r^W) N(E)(N(E)-1) ≤ C r^5 |E|` and `Q_r^W{ N(E) ≥ 2 } ≤ C r^5 |E|`, where\n`N(E) = sum_j N_j(E)` is the sum of the index-`j` window counts in `E`\n(`windowCountIndexSum`, the source's definition). Pairs at every mutual separation inside\n`D_ρ`, down to coincidence, are included.\n\nSource: d6g8k5htny-coder/Math- commit 6c020d6a72936632f2055122e71a7818a4ff497e path frontiers/remote_collision_20260928/PROOF.md sha256 b9b8b58fd8266db7ffe6537078003888ef138b445d3289ec5588f116af9050c2\nAnchor: \"E_(Q_r^W) N(E)(N(E)-1) <= C r^5 |E|,\"\nInterface: `I` is a given object; the pair Kac-Rice formula (3.1) and the divided-difference coordinates (4.1) are not transcribed.\nDoes not claim: Theorem C (the ordered near-pair count) or its proof (Lemmas 1-5); Corollaries E and F; a torus-wide second factorial moment or `math.rn-region.witness-collision` in its full sense; pairs with a witness near the pins; equality of `N(E)` with the all-critical-point count `windowCountAll` (they agree only off the degenerate locus); any numerical constant; nonauthor review or acceptance. -/\ndef RemoteCollisionSecondFactorialD (d : ℕ) [NeZero d] (L : ℝ) (Ω : Type) [MeasurableSpace Ω]\n    (I : PinnedLawInterface d L Ω) (ρ bLo bHi kLo kHi : ℝ) : Prop :=\n  2 ≤ d → 0 < L → 0 < ρ → ρ < L / 4 → bLo ≤ bHi → 0 < kLo → kLo ≤ kHi →\n    ∃ C rStar : ℝ, 0 < rStar ∧\n      ∀ r : ℝ, 0 < r → r ≤ rStar → ∀ b ∈ Set.Icc bLo bHi, ∀ k ∈ Set.Icc kLo kHi,\n        ∀ R : OrthonormalBasis (Fin d) ℝ (E d),\n          ∀ A : Set (E d), MeasurableSet A → A ⊆ remoteRegion d L ρ →\n            ∫ ω, (Nat.descFactorial (windowCountIndexSum d (I.F ω) b k r A) 2 : ℝ) ∂(I.QW r b k R) ≤\n              C * r ^ 5 * (volume A).toReal ∧\n            ((I.QW r b k R) {ω | 2 ≤ windowCountIndexSum d (I.F ω) b k r A}).toReal ≤\n              C * r ^ 5 * (volume A).toReal"
+ },
+ {
+  "module": "Specifications/RN.lean",
+  "declaration": "UniversalLaw.Spec.RN.WitnessCollisionNearPinPairsTarget",
+  "claims": [
+   "math.rn-region.witness-collision"
+  ],
+  "source": "/-- OPEN OBLIGATION, stated as a TARGET and not as a result. GRAPH node\n`math.rn-region.witness-collision` (classification OPEN_ACTIVE, catalog C6): the regional\nshrinking pin/witness-collision mechanism. The reconciliation describes what is missing as\na torus-wide second factorial moment of the window count \"with pairs where at least one\nwitness is within fixed `η` of a pin\", at every mutual separation (the fixed-remote `P_η`\nof Corollary D covers only pairs with both witnesses at distance `≥ η` from the pins). The\nProp below is that target: fixed `d ≥ 2`, `L > 0`, `η > 0`, compact marks; there are `C` and\n`r_* > 0` with `E_(Q_r^W) #{ordered window pairs with the first witness within η of a pin} ≤ C r^3`\nfor `0 < r ≤ r_*`, all `b, k, R`. No source in this packet establishes it; its register\nstatus is OPEN and this declaration does not change that.\n\nSource: d6g8k5htny-coder/Math- commit 6c020d6a72936632f2055122e71a7818a4ff497e path reviews/d5_reconciliation_20260929/RECONCILIATION.md sha256 14342b7eb0ad47c1c99b06be58fb6c901f5c7c72fc70f73e81de3dde50c23432\nAnchor: \"A torus-wide second factorial moment `E_{Q_r^W} N(N−1)` for the window count, with pairs where at least\"\nInterface: `I` is a given object; the pair count is `nearPinPairCount`.\nDoes not claim: that this target holds, is attainable, or is implied by any reviewed source (the Palm route's Theorem Q is an author-side candidate whose `q = 2` case would imply it; that candidate is stated separately as `PalmRouteFactorialMomentsQ` and is not consumed here); that the lower obstruction `E N(N−1) ≥ 2c r³` is stated here; the optimal order; any status transition of the node. -/\ndef WitnessCollisionNearPinPairsTarget (d : ℕ) [NeZero d] (L : ℝ) (Ω : Type) [MeasurableSpace Ω]\n    (I : PinnedLawInterface d L Ω) (η bLo bHi kLo kHi : ℝ) : Prop :=\n  2 ≤ d → 0 < L → 0 < η → bLo ≤ bHi → 0 < kLo → kLo ≤ kHi →\n    ∃ C rStar : ℝ, 0 < rStar ∧\n      ∀ r : ℝ, 0 < r → r ≤ rStar → ∀ b ∈ Set.Icc bLo bHi, ∀ k ∈ Set.Icc kLo kHi,\n        ∀ R : OrthonormalBasis (Fin d) ℝ (E d),\n          ∫ ω, (nearPinPairCount d L (I.F ω) b k r η (R 0) : ℝ) ∂(I.QW r b k R) ≤ C * r ^ 3"
+ },
+ {
+  "module": "Specifications/Side24.lean",
+  "declaration": "UniversalLaw.Spec.Side24.CoefficientEnclosure",
+  "claims": [
+   "math.side24-coefficient",
+   "side24-coefficient"
+  ],
+  "source": "/-- The headline statement of the source: the two enclosures\n`0.07340691930603427103 < c_{2,24} < 0.07340691930603427104` and\n`0.04177593184059834334 < c_{3,24} < 0.04177593184059834335`, for any coefficient satisfying\nthe interface.\n\nSource: d6g8k5htny-coder/Math- commit 760340e921ac4ceda296b8118da936f1133e956e path coefficients/side24_v1/PROOF.md sha256 c06daccc4ba4b9168522b9888b76a7d599934fc3b91bd753ee5d492262917769\nAnchor: \"0.07340691930603427103 < c_2,24 < 0.07340691930603427104,\"\nInterface: `I : PeriodicCoefficientInterface` is given; its `c24` is pinned only by the hypothesis fields of the interface (parent (15.2) with a GIVEN cone moment). The interface does not determine `c24`: the Prop is a predicate on the interface object, not a closed statement; its universal closure over all inhabitants is false whenever the interface is inhabited (scaling `coneMoment` by a positive constant scales `c24` through `eq_15_2` and gives another inhabitant), and `specified` refers to the statement shape at the source's object, which is not constructed.\nDoes not claim: the enclosures (statement only: nothing here encloses the coefficient); that an object satisfying the interface exists or is the coefficient of the source; the parent's results or the persistence interpretation; any finite-radius error estimate, unrestricted remainder or RN/24-jet statement; the arithmetic skeleton (endpoint adjacency, `d3 < d2`, endpoints in `(0, 1/10)`) is kernel-checked on main (31 `UniversalLaw.Side24` targets at origin/main f6deeba7), not here; nonauthor review or acceptance. -/\ndef CoefficientEnclosure (I : PeriodicCoefficientInterface) : Prop :=\n  d2Lower < I.c24 2 ∧ I.c24 2 < d2Upper ∧ d3Lower < I.c24 3 ∧ I.c24 3 < d3Upper"
+ },
+ {
+  "module": "Specifications/Side24.lean",
+  "declaration": "UniversalLaw.Spec.Side24.ConeMomentD1Identity",
+  "claims": [
+   "side24-coefficient"
+  ],
+  "source": "/-- Section 1 identity `D_1 = E[A^2 1{A<0}] = 4/3` for `A ~ N(0, 8/3)`.\n\nSource: d6g8k5htny-coder/Math- commit 760340e921ac4ceda296b8118da936f1133e956e path coefficients/side24_v1/PROOF.md sha256 c06daccc4ba4b9168522b9888b76a7d599934fc3b91bd753ee5d492262917769\nAnchor: \"D_1=E[A^2 1{A<0}]=4/3.\"\nInterface: `I : ConeMomentInterface` is given; the law of `A` is its hypothesis field.\nDoes not claim: the identity (statement only); that `D_1` is the parent's cone moment `D_u` of (15.1) for the reference law; nothing here encloses the coefficient. -/\ndef ConeMomentD1Identity (I : ConeMomentInterface) : Prop :=\n  ∫ ω, Set.indicator (Set.Iio (0 : ℝ)) (fun a => a ^ 2) (I.A ω) ∂I.P = coneMomentD1"
+ },
+ {
+  "module": "Specifications/Side24.lean",
+  "declaration": "UniversalLaw.Spec.Side24.ConeMomentD2Identity",
+  "claims": [
+   "side24-coefficient"
+  ],
+  "source": "/-- Section 1 identity `D_2 = E[det(A)^2 1{A<0}] = (1/2)[25/3 - 20/3 + 8 - 8 sqrt(3/8)]` for\n`A = [[s+x, y], [y, s-x]]` with the product Gaussian law.\n\nSource: d6g8k5htny-coder/Math- commit 760340e921ac4ceda296b8118da936f1133e956e path coefficients/side24_v1/PROOF.md sha256 c06daccc4ba4b9168522b9888b76a7d599934fc3b91bd753ee5d492262917769\nAnchor: \"D_2 = (1/2)[25/3-20/3+8-8sqrt(3/8)]\"\nInterface: `I : ConeMomentInterface` is given; the joint law is its hypothesis field.\nDoes not claim: the identity (statement only); the Rayleigh integration route; that `D_2` is the parent's `D_u` for the reference law; nothing here encloses the coefficient; nonauthor review or acceptance. -/\ndef ConeMomentD2Identity (I : ConeMomentInterface) : Prop :=\n  ∫ ω, coneIntegrand (I.s ω, I.x ω, I.y ω) ∂I.P =\n    (1 / 2) * (25 / 3 - 20 / 3 + 8 - 8 * Real.sqrt (3 / 8))"
+ },
+ {
+  "module": "Specifications/Side24.lean",
+  "declaration": "UniversalLaw.Spec.Side24.CovarianceOrdering",
+  "claims": [
+   "side24-coefficient"
+  ],
+  "source": "/-- Display (3): for `d ∈ {2, 3}`, in every orthonormal frame `R` (with `u = R 0`),\n`(1-epsilon) C_ref ≤ C_24 ≤ (1+epsilon) C_ref` in the positive-semidefinite order.\n\nSource: d6g8k5htny-coder/Math- commit 760340e921ac4ceda296b8118da936f1133e956e path coefficients/side24_v1/PROOF.md sha256 c06daccc4ba4b9168522b9888b76a7d599934fc3b91bd753ee5d492262917769\nAnchor: \"The inequalities are in the positive-semidefinite ordering and hold in every\"\nInterface: summability of the theta family is the premise `ThetaSummable d`; the matrices are defined by the derivative rule of `jointCov`.\nDoes not claim: the ordering (statement only); the passage to marginal and conditional covariances (not specified); `60E < epsilon` is kernel-checked on main (`UniversalLaw.Side24.covariance_relative_bound`), not here; nothing here encloses the coefficient; nonauthor review or acceptance. -/\ndef CovarianceOrdering : Prop :=\n  ∀ d : ℕ, d = 2 ∨ d = 3 → ThetaSummable d →\n    ∀ (hd : 0 < d) (R : Fin d → E d), Orthonormal ℝ R →\n      (C24 d (R ⟨0, hd⟩) R - (1 - epsilon) • Cref d (R ⟨0, hd⟩) R).PosSemidef ∧\n      ((1 + epsilon) • Cref d (R ⟨0, hd⟩) R - C24 d (R ⟨0, hd⟩) R).PosSemidef"
+ },
+ {
+  "module": "Specifications/Side24.lean",
+  "declaration": "UniversalLaw.Spec.Side24.DensityComparison",
+  "claims": [
+   "side24-coefficient"
+  ],
+  "source": "/-- Section 4 density comparison: if `(1-epsilon) C0 ≤ C ≤ (1+epsilon) C0` in the\npositive-semidefinite order, with `C0` positive definite, then pointwise\n`[(1-epsilon)/(1+epsilon)]^(n/2) phi_{(1-epsilon)C0} ≤ phi_C ≤ [(1+epsilon)/(1-epsilon)]^(n/2) phi_{(1+epsilon)C0}`,\n`n = m(m+1)/2`, `epsilon = 10^(-108)`.\n\nSource: d6g8k5htny-coder/Math- commit 760340e921ac4ceda296b8118da936f1133e956e path coefficients/side24_v1/PROOF.md sha256 c06daccc4ba4b9168522b9888b76a7d599934fc3b91bd753ee5d492262917769\nAnchor: \"[(1-epsilon)/(1+epsilon)]^(n/2) phi_((1-epsilon)C0)\"\nInterface: none; `C.PosDef` is stated as a premise although it follows from `C0.PosDef` and the ordering.\nDoes not claim: the comparison (statement only); the cone-moment consequence `(1 ± epsilon)^m D0` and the scaling `a^m` of `h(A) = det(A)^2 1{A<0}` (not specified); nothing here encloses the coefficient; nonauthor review or acceptance. -/\ndef DensityComparison : Prop :=\n  ∀ (m : ℕ) (C0 C : Matrix (Fin (symCoordDim m)) (Fin (symCoordDim m)) ℝ),\n    C0.PosDef → C.PosDef →\n    (C - (1 - epsilon) • C0).PosSemidef → ((1 + epsilon) • C0 - C).PosSemidef →\n    ∀ x : Fin (symCoordDim m) → ℝ,\n      ((1 - epsilon) / (1 + epsilon)) ^ ((symCoordDim m : ℝ) / 2) *\n          gaussDensity (symCoordDim m) ((1 - epsilon) • C0) x ≤\n        gaussDensity (symCoordDim m) C x ∧\n      gaussDensity (symCoordDim m) C x ≤\n        ((1 + epsilon) / (1 - epsilon)) ^ ((symCoordDim m : ℝ) / 2) *\n          gaussDensity (symCoordDim m) ((1 + epsilon) • C0) x"
+ },
+ {
+  "module": "Specifications/Side24.lean",
+  "declaration": "UniversalLaw.Spec.Side24.DerivativeBoundAtLeastOne",
+  "claims": [
+   "side24-coefficient"
+  ],
+  "source": "/-- Section 2: at `|x| ≥ 1` every unit-direction contraction of order `q ≤ 6` of\n`phi(x) = exp(-|x|^2/2)` is bounded by `76 |x|^6 exp(-|x|^2/2)`.\n\nSource: d6g8k5htny-coder/Math- commit 760340e921ac4ceda296b8118da936f1133e956e path coefficients/side24_v1/PROOF.md sha256 c06daccc4ba4b9168522b9888b76a7d599934fc3b91bd753ee5d492262917769\nAnchor: \"At |x|>=1 this is at most76 |x|^6 e^(-|x|^2/2).\"\nInterface: none.\nDoes not claim: the bound (statement only); the coefficient arithmetic `1+15+45+15=76` and `76` bounding the smaller orders are kernel-checked on main (`UniversalLaw.Side24.pairing_sum_six`, `pairing_sum_le_six`), not here; nothing here encloses the coefficient. -/\ndef DerivativeBoundAtLeastOne : Prop :=\n  ∀ (d q : ℕ), q ≤ 6 → ∀ (x : E d), 1 ≤ ‖x‖ → ∀ (u : Fin q → E d), IsUnitTuple d q u →\n    |iteratedFDeriv ℝ q (Kinf d) x u| ≤ 76 * ‖x‖ ^ 6 * Real.exp (-(‖x‖ ^ 2) / 2)"
+ },
+ {
+  "module": "Specifications/Side24.lean",
+  "declaration": "UniversalLaw.Spec.Side24.DerivativeBoundAtZero",
+  "claims": [
+   "side24-coefficient"
+  ],
+  "source": "/-- Section 2: at zero every unit-direction contraction of order `q ≤ 6` of `phi` has absolute\nvalue at most `15`.\n\nSource: d6g8k5htny-coder/Math- commit 760340e921ac4ceda296b8118da936f1133e956e path coefficients/side24_v1/PROOF.md sha256 c06daccc4ba4b9168522b9888b76a7d599934fc3b91bd753ee5d492262917769\nAnchor: \"contraction has absolute value at most15.\"\nInterface: none.\nDoes not claim: the bound (statement only); `5!! = 15` is kernel-checked on main (`UniversalLaw.Side24.sixth_moment_double_factorial`), not here. -/\ndef DerivativeBoundAtZero : Prop :=\n  ∀ (d q : ℕ), q ≤ 6 → ∀ (u : Fin q → E d), IsUnitTuple d q u →\n    |iteratedFDeriv ℝ q (Kinf d) 0 u| ≤ 15"
+ },
+ {
+  "module": "Specifications/Side24.lean",
+  "declaration": "UniversalLaw.Spec.Side24.DerivativePairingBound",
+  "claims": [
+   "side24-coefficient"
+  ],
+  "source": "/-- Section 2, first display: for `q ≤ 6` and unit directions, the absolute `q`-th directional\nderivative of `phi(x) = exp(-|x|^2/2)` is at most `exp(-|x|^2/2)` times the pairing sum.\n\nSource: d6g8k5htny-coder/Math- commit 760340e921ac4ceda296b8118da936f1133e956e path coefficients/side24_v1/PROOF.md sha256 c06daccc4ba4b9168522b9888b76a7d599934fc3b91bd753ee5d492262917769\nAnchor: \"pairings bound the absolute derivative by\"\nInterface: none; the derivative is Mathlib's `iteratedFDeriv ℝ q` applied to the direction tuple.\nDoes not claim: the bound (statement only); validity for `q > 6` (the source restricts to `q ≤ 6`); nothing here encloses the coefficient. -/\ndef DerivativePairingBound : Prop :=\n  ∀ (d q : ℕ), q ≤ 6 → ∀ (x : E d) (u : Fin q → E d), IsUnitTuple d q u →\n    |iteratedFDeriv ℝ q (Kinf d) x u| ≤ Real.exp (-(‖x‖ ^ 2) / 2) * pairingSum q ‖x‖"
+ },
+ {
+  "module": "Specifications/Side24.lean",
+  "declaration": "UniversalLaw.Spec.Side24.EntrywiseCovarianceBound",
+  "claims": [
+   "side24-coefficient"
+  ],
+  "source": "/-- Section 3: each entry of `C_24` differs from the corresponding entry of `C_ref` by at most\n`2E`, in every orthonormal frame.\n\nSource: d6g8k5htny-coder/Math- commit 760340e921ac4ceda296b8118da936f1133e956e path coefficients/side24_v1/PROOF.md sha256 c06daccc4ba4b9168522b9888b76a7d599934fc3b91bd753ee5d492262917769\nAnchor: \"Each covariance entry differs from the reference by at most2E, by (2).\"\nInterface: summability of the theta family is the premise `ThetaSummable d`.\nDoes not claim: the bound (statement only); the spectral-norm bound `20E` (not specified); nonauthor review or acceptance. -/\ndef EntrywiseCovarianceBound : Prop :=\n  ∀ d : ℕ, d = 2 ∨ d = 3 → ThetaSummable d →\n    ∀ (hd : 0 < d) (R : Fin d → E d), Orthonormal ℝ R →\n      ∀ a b : JointIndex d,\n        |C24 d (R ⟨0, hd⟩) R a b - Cref d (R ⟨0, hd⟩) R a b| ≤ 2 * imageConstE"
+ },
+ {
+  "module": "Specifications/Side24.lean",
+  "declaration": "UniversalLaw.Spec.Side24.ImageBound",
+  "claims": [
+   "side24-coefficient"
+  ],
+  "source": "/-- Display (2): for `d ∈ {2, 3}`, every unit-direction contraction through total order `6`,\nmixed directions included, satisfies `|D^q K_24(0) - D^q K_infty(0)| < E`.\n\nSource: d6g8k5htny-coder/Math- commit 760340e921ac4ceda296b8118da936f1133e956e path coefficients/side24_v1/PROOF.md sha256 c06daccc4ba4b9168522b9888b76a7d599934fc3b91bd753ee5d492262917769\nAnchor: \"|D^q K_24(0)-D^q K_infty(0)|\"\nInterface: summability of the theta family is the premise `ThetaSummable d`; derivatives are Mathlib's `iteratedFDeriv ℝ q`.\nDoes not claim: the bound (statement only); differentiability of `K_24` (if `K_24` is not `C^q` the derivative is `0` in Lean); nothing here encloses the coefficient; nonauthor review or acceptance. -/\ndef ImageBound : Prop :=\n  ∀ d : ℕ, d = 2 ∨ d = 3 → ThetaSummable d →\n    ∀ q : ℕ, q ≤ 6 → ∀ u : Fin q → E d, IsUnitTuple d q u →\n      |iteratedFDeriv ℝ q (K24 d) 0 u - iteratedFDeriv ℝ q (Kinf d) 0 u| < imageConstE"
+ },
+ {
+  "module": "Specifications/Side24.lean",
+  "declaration": "UniversalLaw.Spec.Side24.IntegrandRatioBounds",
+  "claims": [
+   "side24-coefficient"
+  ],
+  "source": "/-- Section 4 ratio bounds: for `d ∈ {2, 3}`,\n`1 - 13 epsilon ≤ (1-epsilon)^a / (1+epsilon)^b` and `(1+epsilon)^a / (1-epsilon)^b ≤ 1 + 28 epsilon`.\n\nSource: d6g8k5htny-coder/Math- commit 760340e921ac4ceda296b8118da936f1133e956e path coefficients/side24_v1/PROOF.md sha256 c06daccc4ba4b9168522b9888b76a7d599934fc3b91bd753ee5d492262917769\nAnchor: \"ratio between1-13epsilon and\"\nInterface: none.\nDoes not claim: the bounds (statement only); that the integrand ratio of the source equals these power quotients (not specified); `13 ≤ 32`, `28 ≤ 32` and `32*10^(-108) < 10^(-106)` are kernel-checked on main (`UniversalLaw.Side24.ratio_constant_ordering`, `density_comparison_below_reported`), not here. -/\ndef IntegrandRatioBounds : Prop :=\n  ∀ d : ℕ, d = 2 ∨ d = 3 →\n    1 - 13 * epsilon ≤ (1 - epsilon) ^ exponentA d / (1 + epsilon) ^ exponentB d ∧\n    (1 + epsilon) ^ exponentA d / (1 - epsilon) ^ exponentB d ≤ 1 + 28 * epsilon"
+ },
+ {
+  "module": "Specifications/Side24.lean",
+  "declaration": "UniversalLaw.Spec.Side24.IsUnitTuple",
+  "claims": [
+   "side24-coefficient"
+  ],
+  "source": "/-- A tuple of `q` unit directions in `R^d` (the \"unit directional differentiations\", mixed\ndirections allowed).\n\nSource: d6g8k5htny-coder/Math- commit 760340e921ac4ceda296b8118da936f1133e956e path coefficients/side24_v1/PROOF.md sha256 c06daccc4ba4b9168522b9888b76a7d599934fc3b91bd753ee5d492262917769\nAnchor: \"For q<=6 unit directional differentiations of phi(x)=exp(-|x|^2/2), product-rule\"\nInterface: none.\nDoes not claim: anything. -/\ndef IsUnitTuple (d q : ℕ) (u : Fin q → E d) : Prop :=\n  ∀ i, ‖u i‖ = 1"
+ },
+ {
+  "module": "Specifications/Side24.lean",
+  "declaration": "UniversalLaw.Spec.Side24.LatticeImageSumBound",
+  "claims": [
+   "side24-coefficient"
+  ],
+  "source": "/-- Section 2 lattice bound: for `d ≤ 3`, the image family is summable and\n`sum_{n ≠ 0} |n|^6 exp(-288|n|^2) ≤ 1458 exp(-288)`. Summability is stated so the `tsum` is\nnot the vacuous `0`.\n\nSource: d6g8k5htny-coder/Math- commit 760340e921ac4ceda296b8118da936f1133e956e path coefficients/side24_v1/PROOF.md sha256 c06daccc4ba4b9168522b9888b76a7d599934fc3b91bd753ee5d492262917769\nAnchor: \"<=1458 e^(-288).\"\nInterface: none.\nDoes not claim: the bound (statement only); the intermediate `729 sum_j j^9 e^(-288 j^2)` shell count is not specified; `27*27 = 729`, `729*2 = 1458` are kernel-checked on main (`UniversalLaw.Side24.lattice_shell_constant`), not here. -/\ndef LatticeImageSumBound : Prop :=\n  ∀ d : ℕ, d ≤ 3 →\n    Summable (fun n : Fin d → ℤ => imageTerm d n) ∧\n    (∑' n : Fin d → ℤ, imageTerm d n) ≤ 1458 * Real.exp (-288)"
+ },
+ {
+  "module": "Specifications/Side24.lean",
+  "declaration": "UniversalLaw.Spec.Side24.NegDefCone",
+  "claims": [
+   "side24-coefficient"
+  ],
+  "source": "/-- The negative-definite cone `A < 0` for the `m = 2` matrix, as positive definiteness of `-A`.\n\nSource: d6g8k5htny-coder/Math- commit 760340e921ac4ceda296b8118da936f1133e956e path coefficients/side24_v1/PROOF.md sha256 c06daccc4ba4b9168522b9888b76a7d599934fc3b91bd753ee5d492262917769\nAnchor: \"R=sqrt(x^2+y^2), and det A=s^2-R^2.\"\nInterface: none.\nDoes not claim: the source's reduction of the cone to `s < -R` (not specified; the cone is taken by its definition). -/\ndef NegDefCone (q : ℝ × ℝ × ℝ) : Prop :=\n  (-(transverseMatrix q.1 q.2.1 q.2.2)).PosDef"
+ },
+ {
+  "module": "Specifications/Side24.lean",
+  "declaration": "UniversalLaw.Spec.Side24.RayleighSquareLaw",
+  "claims": [
+   "side24-coefficient"
+  ],
+  "source": "/-- Section 1: `R^2 = x^2 + y^2` has density `exp(-z/2)/2` on `(0, ∞)`, written through its\ndistribution function `P(R^2 ≤ a) = ∫_0^a exp(-z/2)/2 dz` for `a ≥ 0`.\n\nSource: d6g8k5htny-coder/Math- commit 760340e921ac4ceda296b8118da936f1133e956e path coefficients/side24_v1/PROOF.md sha256 c06daccc4ba4b9168522b9888b76a7d599934fc3b91bd753ee5d492262917769\nAnchor: \"The variable R^2 has density e^(-z/2)/2.\"\nInterface: `I : ConeMomentInterface` is given.\nDoes not claim: the law (statement only); measurability of the event (if the event is not measurable, `P` is its outer measure). -/\ndef RayleighSquareLaw (I : ConeMomentInterface) : Prop :=\n  ∀ a : ℝ, 0 ≤ a →\n    (I.P {ω | I.x ω ^ 2 + I.y ω ^ 2 ≤ a}).toReal = ∫ z in (0 : ℝ)..a, Real.exp (-z / 2) / 2"
+ },
+ {
+  "module": "Specifications/Side24.lean",
+  "declaration": "UniversalLaw.Spec.Side24.ReferenceComparison",
+  "claims": [
+   "math.side24-coefficient",
+   "side24-coefficient"
+  ],
+  "source": "/-- Display (4): `|c_{d,24} / c_{d,ref} - 1| < 10^(-106)` for `d = 2, 3`, for any coefficient\nsatisfying the interface.\n\nSource: d6g8k5htny-coder/Math- commit 760340e921ac4ceda296b8118da936f1133e956e path coefficients/side24_v1/PROOF.md sha256 c06daccc4ba4b9168522b9888b76a7d599934fc3b91bd753ee5d492262917769\nAnchor: \"|c_d,24/c_d,ref -1| < 10^(-106), d=2,3.\"\nInterface: `I : PeriodicCoefficientInterface` is given; `c_{d,ref}` is the explicit `cRef`. The interface does not determine `c24`: the Prop is a predicate on the interface object, not a closed statement; its universal closure over all inhabitants is false whenever the interface is inhabited (scaling `coneMoment` by a positive constant scales `c24` through `eq_15_2` and gives another inhabitant), and `specified` refers to the statement shape at the source's object, which is not constructed.\nDoes not claim: the bound (statement only); equality of the periodic and reference constants (the source says it is NOT claimed); `32*10^(-108) < 10^(-106)` is kernel-checked on main (`UniversalLaw.Side24.density_comparison_below_reported`), not here; nothing here encloses the coefficient. -/\ndef ReferenceComparison (I : PeriodicCoefficientInterface) : Prop :=\n  ∀ d : ℕ, d = 2 ∨ d = 3 → |I.c24 d / cRef d - 1| < 1 / 10 ^ 106"
+ },
+ {
+  "module": "Specifications/Side24.lean",
+  "declaration": "UniversalLaw.Spec.Side24.ReferenceCovarianceLowerBound",
+  "claims": [
+   "side24-coefficient"
+  ],
+  "source": "/-- Section 3: `C_ref ≥ I/3` in the positive-semidefinite order, in every orthonormal frame.\n\nSource: d6g8k5htny-coder/Math- commit 760340e921ac4ceda296b8118da936f1133e956e path coefficients/side24_v1/PROOF.md sha256 c06daccc4ba4b9168522b9888b76a7d599934fc3b91bd753ee5d492262917769\nAnchor: \"Thus C_ref >= I/3 and\"\nInterface: none.\nDoes not claim: the bound (statement only); the odd-block eigenvalues `8 ± sqrt 58` and the minors `2/3`, `7/9` are kernel-checked on main (`UniversalLaw.Side24.odd_block_eigenvalues`, `odd_block_shifted_minors`, `smaller_eigenvalue_exceeds_third`), not here. -/\ndef ReferenceCovarianceLowerBound : Prop :=\n  ∀ d : ℕ, d = 2 ∨ d = 3 → ∀ (hd : 0 < d) (R : Fin d → E d), Orthonormal ℝ R →\n    (Cref d (R ⟨0, hd⟩) R - (1 / 3 : ℝ) • (1 : Matrix (JointIndex d) (JointIndex d) ℝ)).PosSemidef"
+ },
+ {
+  "module": "Specifications/Side24.lean",
+  "declaration": "UniversalLaw.Spec.Side24.ReferenceOddAndPinBlocks",
+  "claims": [
+   "side24-coefficient"
+  ],
+  "source": "/-- Section 1 reference blocks, in every orthonormal frame with `u = R 0`: `Cov(G) = I_d`,\n`Var(t) = 15`, `Cov(t, G) = (-3, 0, …, 0)`, `Cov(V) = diag(3, 1, …, 1)` and `tau^2 = 6`.\n\nSource: d6g8k5htny-coder/Math- commit 760340e921ac4ceda296b8118da936f1133e956e path coefficients/side24_v1/PROOF.md sha256 c06daccc4ba4b9168522b9888b76a7d599934fc3b91bd753ee5d492262917769\nAnchor: \"Var(t)=15,  Cov(t,G)=(-3,0,...,0),\"\nInterface: none; the blocks are the derivative-rule matrices of `K_infty`.\nDoes not claim: the identities (statement only); `15 - 9 = 6` is kernel-checked on main (`UniversalLaw.Side24.conditional_third_derivative_variance`), not here. -/\ndef ReferenceOddAndPinBlocks : Prop :=\n  ∀ d : ℕ, d = 2 ∨ d = 3 → ∀ (hd : 0 < d) (R : Fin d → E d), Orthonormal ℝ R →\n    gradCov d (Kinf d) R = 1 ∧\n    thirdVar d (Kinf d) (R ⟨0, hd⟩) = 15 ∧\n    thirdGradCov d (Kinf d) (R ⟨0, hd⟩) R = (fun j => if j = ⟨0, hd⟩ then -3 else 0) ∧\n    pinCov d (Kinf d) (R ⟨0, hd⟩) R = Matrix.diagonal (fun i => if i = ⟨0, hd⟩ then 3 else 1) ∧\n    condThirdVariance d (Kinf d) (R ⟨0, hd⟩) R = 6"
+ },
+ {
+  "module": "Specifications/Side24.lean",
+  "declaration": "UniversalLaw.Spec.Side24.ReferencePinDensityProduct",
+  "claims": [
+   "side24-coefficient"
+  ],
+  "source": "/-- Section 1: in every orthonormal frame with `u = R 0`, the reference gradient and pin\ndensities at zero satisfy `p_G(0) p_V(0) = (2 pi)^(-d) / sqrt 3`.\n\nSource: d6g8k5htny-coder/Math- commit 760340e921ac4ceda296b8118da936f1133e956e path coefficients/side24_v1/PROOF.md sha256 c06daccc4ba4b9168522b9888b76a7d599934fc3b91bd753ee5d492262917769\nAnchor: \"p_G(0) p_V(0) = (2pi)^(-d) / sqrt(3).\"\nInterface: none; the densities are `gaussDensity` of the derivative-rule blocks of `K_infty`.\nDoes not claim: the identity (statement only); `det diag(3,1,…,1) = 3` is kernel-checked on main (`UniversalLaw.Side24.pin_determinant_and_joint_dimension`), not here. -/\ndef ReferencePinDensityProduct : Prop :=\n  ∀ d : ℕ, d = 2 ∨ d = 3 → ∀ (hd : 0 < d) (R : Fin d → E d), Orthonormal ℝ R →\n    gaussDensity d (gradCov d (Kinf d) R) 0 *\n        gaussDensity d (pinCov d (Kinf d) (R ⟨0, hd⟩) R) 0 =\n      (2 * Real.pi) ^ (-(d : ℝ)) / Real.sqrt 3"
+ },
+ {
+  "module": "Specifications/Side24.lean",
+  "declaration": "UniversalLaw.Spec.Side24.ThetaSummable",
+  "claims": [
+   "side24-coefficient"
+  ],
+  "source": "/-- Summability of the Gaussian theta family at every point (so that `thetaSum24` is the sum\nthe source writes). Taken as a hypothesis wherever `K_24` enters a specification.\n\nSource: d6g8k5htny-coder/Math- commit 760340e921ac4ceda296b8118da936f1133e956e path coefficients/side24_v1/PROOF.md sha256 c06daccc4ba4b9168522b9888b76a7d599934fc3b91bd753ee5d492262917769\nAnchor: \"K_24(z) = sum_{n in Z^d} exp(-|z+24n|^2/2)\"\nInterface: this predicate is itself the hypothesis; the source takes convergence for granted.\nDoes not claim: that the family is summable (true, but not shown here). -/\ndef ThetaSummable (d : ℕ) : Prop :=\n  ∀ z : E d, Summable (fun n : Fin d → ℤ => Real.exp (-(‖z + latticeVec d n‖ ^ 2) / 2))"
+ },
+ {
+  "module": "Specifications/Side24.lean",
+  "declaration": "UniversalLaw.Spec.Side24.TraceMoments",
+  "claims": [
+   "side24-coefficient"
+  ],
+  "source": "/-- Section 1 moments of the trace shift `s ~ N(0, 5/3)`: `E s^2 = 5/3`, `E s^4 = 25/3`,\n`E exp(-s^2/2) = sqrt(3/8)`.\n\nSource: d6g8k5htny-coder/Math- commit 760340e921ac4ceda296b8118da936f1133e956e path coefficients/side24_v1/PROOF.md sha256 c06daccc4ba4b9168522b9888b76a7d599934fc3b91bd753ee5d492262917769\nAnchor: \"E s^2=5/3, E s^4=25/3 and\"\nInterface: `I : ConeMomentInterface` is given.\nDoes not claim: the identities (statement only); `3 (5/3)^2 = 25/3` and `1 + 5/3 = 8/3` are kernel-checked on main (`UniversalLaw.Side24.fourth_moment_of_trace`, `exponential_moment_of_trace`), not here. -/\ndef TraceMoments (I : ConeMomentInterface) : Prop :=\n  ∫ ω, I.s ω ^ 2 ∂I.P = 5 / 3 ∧\n  ∫ ω, I.s ω ^ 4 ∂I.P = 25 / 3 ∧\n  ∫ ω, Real.exp (-(I.s ω ^ 2) / 2) ∂I.P = Real.sqrt (3 / 8)"
+ }
+]

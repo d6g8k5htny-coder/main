@@ -1,0 +1,21 @@
+--- <SCRATCH>/lvs/c254/overlay/ResearchFormalCoreR1/ClosedSuperlevel.lean	2026-10-11 16:24:41.630956057 +0000
++++ formal/ResearchFormalCoreR1/ClosedSuperlevel.lean	2026-10-11 16:29:44.212053952 +0000
+@@ -6,6 +6,9 @@
+ C254 proposed source. Compilation and kernel audit: NOT_RUN.
+ The parameter is `t = -h`; endpoint membership uses `≤`.
+ This file supplies no Morse theorem, labels, bars, or H0/component naturality.
++Compile fix at the pin (Lean v4.34.1, Mathlib d13f23b7), altering no statement: in
++`superlevel_componentMap` the `ZerothHomotopy.lift` witness binds its two strict-implicit
++points before the `Path` argument (`fun _ _ p => ...`), as `ZerothHomotopy.lift` requires here.
+ -/
+ 
+ noncomputable section
+@@ -105,7 +108,7 @@
+ def superlevel_componentMap {X Y : Type w} [TopologicalSpace X] [TopologicalSpace Y]
+     (f : C(X, Y)) : ZerothHomotopy X → ZerothHomotopy Y :=
+   ZerothHomotopy.lift (fun x => ZerothHomotopy.mk (f x))
+-    (fun p => ZerothHomotopy.sound (p.map f.continuous))
++    (fun _ _ p => ZerothHomotopy.sound (p.map f.continuous))
+ 
+ theorem superlevel_componentMap_mk {X Y : Type w}
+     [TopologicalSpace X] [TopologicalSpace Y] (f : C(X, Y)) (x : X) :

@@ -1,0 +1,30 @@
+Add the Lean verification specification and 28 kernel-proved P15 arithmetic targets
+
+Scientific effect NONE: no lemma_closed, prize, premise, LANDING_CLAIMS
+disposition, PROOF_INDEX, GRAPH or STATUS change; nothing here is a review or
+an acceptance. Same-account authorship: organizational-independence credit 0.
+
+- docs/LEAN_VERIFICATION_SPECIFICATION.md: pinned environment (Lean v4.34.1
+  release commit 5045d005..., Lake 5.0.0, elan, Mathlib d13f23b7... with its
+  lock, action SHAs), two install routes with observed hashes, the Mathlib
+  cache hosts a build machine must reach, every package/gate/receipt of the
+  lane, the claim table rendered from the Math- statement register
+  (171 claims: 33 specified, 138 none, none proved), coverage summary and a
+  tractability-ordered roadmap from specified to proved.
+- formal/UniversalLaw/P15/{PriceBoundary,RealizedCovers,FullPrice}.lean: 28
+  decide-proved integer statements of the exact arithmetic displayed in the
+  P15 notes, sources byte-pinned at Math- 760340e9 under formal/sources/p15_v1,
+  verbatim informal anchors and does_not_claim per target, 8 new executable
+  negative controls; manifest 31 -> 59 targets; SCOPE/README/REVIEW_LANE/
+  ALIGNMENT updated; the single target-count assertion in
+  tests/test_formal_gate.py. tools/formal_gate_check.py is not edited.
+- One descriptive pointer line each in docs/FORMAL_VERIFICATION.md and
+  docs/RESEARCH_INDEX.md.
+
+Local evidence: gate SOURCE_IDENTITY_PASS (manifest d039ef64...), --run-lean
+build/leanchecker/axiom audit (all 59 targets axiom-free)/18 negative controls
+rejected, unit tests 43 OK in normal and -O modes. The hosted verify aggregate
+is the authoritative run.
+
+Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01Cz7WZybv8znP64SpPj6sWY

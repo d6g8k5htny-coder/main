@@ -1,0 +1,860 @@
+diff --git a/companions/torus_filtration_20261011/README.md b/companions/torus_filtration_20261011/README.md
+index 19dea18..bc09f1e 100644
+--- a/companions/torus_filtration_20261011/README.md
++++ b/companions/torus_filtration_20261011/README.md
+@@ -189,9 +189,32 @@ or `#`, any string literal (`"`), a primed or dotted declaration name, a declara
+ the namespace or after `end TorusFiltration`, any remaining `namespace ResearchFormalCoreR1`,
+ and any admission token (`sorry`, `sorryAx`, `admit`, `axiom`, `native_decide`,
+ `ofReduceBool`, `trustCompiler`, `unsafe`, `opaque`, `partial`, `implemented_by`, `extern`,
+-`skipKernelTC`, `autoImplicit`) in comment-free code. A compile fix that needs a refused form
+-must extend the scanner and the inventory explicitly; nothing escapes the `#print axioms` audit
+-by being written in a shape the scanner does not count.
++`skipKernelTC`, `autoImplicit`) in comment-free code, and the declaration-producing commands of
++Batteries, Aesop and Mathlib at the pin (`alias`, `irreducible_def`, `simproc`, `simproc_decl`,
++`dsimproc`, `dsimproc_decl`, `builtin_simproc`, `builtin_dsimproc`, `notation3`, `unif_hint`,
++`recall`, `binder_predicate`, `add_decl_doc`, `library_note`, `assert_not_exists`,
++`register_simp_attr`, `declare_aesop_rule_sets`, `compile_inductive`, `compile_def`, `nonrec`).
++The refused keywords are the explicit list `COMMANDS` in `check.py`: a first filter, not a Lean
++grammar and not a complete census. A declaration-producing command or form absent from that list
++passes an indented or same-line position uncounted: the C262 gate review (Math- #428 comment
++6112740935, finding G2) found `alias` absent at head `a898bb44`, the pre-push verification of
++the repair found further commands at the pin (`run_meta`, `mk_iff_of_inductive_prop`, the
++`cbv_simproc` family, `grind_propagator`, `register_builtin_option`, `register_linter_set`,
++`register_label_attr`, `declare_config_elab`, `gen_injective_theorems%`, `declare_uint_theorems`,
++`name_poly_vars`, `add_aesop_rules`, and more, all now listed), and the `where` clause of a
++declaration adds a dotted auxiliary declaration that no keyword list can refuse. The lexer also
++treats a closed block comment as a token separator (`theorem/- -/hidden` is `theorem hidden`)
++and ends a numeral at its first non-digit (`0alias` is `0` then `alias`), both found by that
++verification. **The declaration census the receipt stands on is therefore not the scanner but
++`Census.lean`**, emitted by `check.py emit` and run by the replay: Lean itself lists every
++constant the three companion modules add to the environment that is not an internal detail
++(`Name.isInternalDetail`: `_`-prefixed, `eq_n`, `match_n`, `proof_n`, `omega_n` or numeric
++components), and `check.py finish` requires that list to equal the 58 inventoried names plus
++the compiler-generated auxiliaries named in `SOURCE_FILES.json` (`census_auxiliary`, today
++exactly `TorusFiltration.torus_periodBasis.congr_simp`, the simp-congruence lemma Lean generates
++for `torus_periodBasis`), nothing more and nothing less. A declaration the scanner missed is
++refused by the receipt whatever its spelling. A compile fix that needs a refused form must
++extend the scanner, the inventory and, for a new auxiliary, `census_auxiliary` explicitly.
+ 
+ ## Vocabulary
+ 
+@@ -218,8 +241,11 @@ The replay: binds HEAD to the manifest (`check.py source`), runs the Python test
+ `lean --version` and every installed package HEAD, compiles `TorusTopology`, `ClosedSuperlevel`
+ and the root `TorusFiltration` with `-DwarningAsError=true`, compiles `Positive.lean` (six
+ concrete applications of the companion's theorems), `Audit.lean` (58 `#print axioms`),
+-`Types.lean` (41 `#check` with `pp.explicit`), runs
+-`leanchecker TorusTopology ClosedSuperlevel TorusFiltration`, and runs six negative controls.
++`Types.lean` (41 `#check` with `pp.explicit`), `Census.lean` (the elaborated declaration census
++above), runs `leanchecker TorusTopology ClosedSuperlevel TorusFiltration`, and runs six negative
++controls. The replay unsets `PYTHONOPTIMIZE` first, so each Python invocation runs in exactly the
++mode its command line names, and every `check.py` invocation prints the mode it runs in
++(`TORUS_FILTRATION_PYTHON: optimize=N`) to the job log.
+ The emitted statements below are quoted verbatim from `check.py` (`FALSE_CONTROLS`); each is
+ elaborated as `example : <statement> := by <tactic>` and must fail with exactly `⊢ False`:
+ 
+@@ -235,13 +261,19 @@ elaborated as `example : <statement> := by <tactic>` and must fail with exactly
+ The injection controls run **without** warnings-as-errors on purpose: Lean accepts those files,
+ and only the axiom audit refuses them, which is what the audit is for. `check.py negative` uses
+ `re.fullmatch` on each log, so a crash, an extra error or a different exit code is a failed
+-control, not a passed one. `check.py finish` re-runs the source binding, re-derives the nine
+-emitted Lean files (`Audit.lean`, `Types.lean`, `Positive.lean`, six controls) and requires byte
+-equality with the ones Lean consumed, checks every status, the toolchain line, the installed
+-package HEADs against `formal/lake-manifest.json`, the recorded `leanchecker` invocation, the
+-axiom and type inventories and the six controls, and writes `receipt.json` with `log_sha256`
+-over every file in the evidence directory. The evidence directory
+-`.lake/torus-filtration-evidence` must not pre-exist.
++control, not a passed one. `check.py finish` refuses an evidence directory that already holds
++`receipt.json` (a receipt is written once and never replaced; a new attempt needs a fresh
++directory) and requires exactly the 44 evidence files, each a regular file and nothing else: the
++ten emitted Lean files, a `.log` and `.status` pair for each of the eight Lean processes
++(three module builds, `positive`, `axioms`, `types`, `census`, `leanchecker`), the six controls'
++`.lean`/`.log`/`.status`, `leanchecker.cmd`, `packages.log`, `toolchain.log`, `source.json`,
++`tests.log` and `tests-optimized.log` (`EVIDENCE_FILES` in `check.py`; C262 finding G3). It then
++re-runs the source binding, re-derives the ten emitted Lean files and requires byte equality
++with the ones Lean consumed, checks every status, the toolchain line, the installed package
++HEADs against `formal/lake-manifest.json`, the recorded `leanchecker` invocation, the axiom and
++type inventories, the declaration census and the six controls, and writes `receipt.json` with
++`log_sha256` over exactly those 44 files, created exclusively (`O_EXCL`, `O_NOFOLLOW`). The
++evidence directory `.lake/torus-filtration-evidence` must not pre-exist.
+ 
+ ### What `leanchecker` checks here, and why not `--fresh`
+ 
+@@ -283,7 +315,42 @@ Delete them before committing.
+ 
+ Local protocol tests: `python3 -B -S companions/torus_filtration_20261011/test_torus_filtration.py`
+ and the same with `-O`. They exercise `check.py` against a temporary Git fixture with
+-inventory-exact placeholder modules; they execute no Lean.
++inventory-exact placeholder modules; they execute no Lean. The fixture spawns its `check.py`
++children with the outer interpreter's optimization level (`-O` under `-O`) and strips
++`PYTHONOPTIMIZE` from their environment; every `check.py` invocation reports the mode it actually
++runs in on stderr, and the fixture refuses any child whose report differs from the outer mode,
++on every call, accept or refuse (so a fixture that stopped propagating `-O` fails, rather than
++passing with unoptimized children). The suite prints its own outer mode into the transcript
++(`TORUS_FILTRATION_TESTS: outer optimize=N`), so `tests.log` and `tests-optimized.log` record
++which mode each run was. Until head `a898bb44` the children ran unoptimized whatever the outer
++mode was (C262 finding G1): the `tests-optimized.log` transcripts of hosted runs 38165155316 and
++38165763430 therefore cover the imported helpers under `-O` and the CLI paths unoptimized; that
++narrower attribution stands for those runs and is not revised.
++
++## Amendments
++
++- C262 (Math- #428, nonauthor engineering gate review [6112740935](https://github.com/d6g8k5htny-coder/Math-/pull/428#issuecomment-6112740935),
++  disposition [6112743879](https://github.com/d6g8k5htny-coder/Math-/pull/428#issuecomment-6112743879), AMEND_ENGINEERING_GATE on
++  head `a898bb44`): G1 the test fixture now propagates the outer optimization level to its `check.py`
++  children, strips `PYTHONOPTIMIZE` and observes the child mode; G2 the scanner refuses `alias` and
++  the other declaration-producing commands listed above, with indented, same-line and column-0
++  negative controls, and the census claim is bounded to the enumeration; G3 `finish` never replaces
++  a receipt and requires the exact 41-member evidence set of regular files, with controls for a
++  repeat `finish`, an existing receipt beside a newly failing input, every removed member, an extra
++  member and a symlinked member. Before the push, this lane's own adversarial verification of
++  the repair (same account, credit 0) refuted its first form and the fixes were folded into the
++  same commit: the child-mode control now observes every fixture child through the CLI's own
++  report, not a separate probe; the keyword list gained the further declaration-producing
++  commands found at the pin and the lexer no longer splices tokens across a closed block comment
++  or a numeral; the elaborated declaration census (`Census.lean`) replaces the scanner as the
++  census guarantee, with `census_auxiliary` naming the one compiler-generated constant; the
++  replay unsets `PYTHONOPTIMIZE` and records the outer mode in both test transcripts; the receipt
++  is created with `O_EXCL`/`O_NOFOLLOW` and a directory as a required member is refused. The
++  replay step and workflow changed by the one census invocation and the `unset`; no Lean byte,
++  declaration or control statement changed. The same review's Lean source verdict (PASS_SOURCE_SCOPE,
++  [6112740740](https://github.com/d6g8k5htny-coder/Math-/pull/428#issuecomment-6112740740)) and hosted-evidence verdict
++  (APPROVE_OBSERVED_EXECUTION_SCOPE, [6112741132](https://github.com/d6g8k5htny-coder/Math-/pull/428#issuecomment-6112741132))
++  were of head `a898bb44`; organizational-independence credit 0 throughout.
+ 
+ ## What this companion does not do
+ 
+diff --git a/companions/torus_filtration_20261011/SCOPE.md b/companions/torus_filtration_20261011/SCOPE.md
+index 68361d9..85778d8 100644
+--- a/companions/torus_filtration_20261011/SCOPE.md
++++ b/companions/torus_filtration_20261011/SCOPE.md
+@@ -64,12 +64,20 @@ renamed theorem, hidden or indented declaration, injected admission, every hones
+ schema field of `SOURCE_FILES.json` one at a time, wrong or unpinned toolchain and dependency
+ lock, host identity mismatch, an emitted Lean file altered between `emit` and `finish`, an
+ unrecognized `leanchecker` invocation, leanchecker output in modules mode, wrong installed
+-dependency).
++dependency, a second `finish` on a directory already holding a receipt, an existing receipt
++beside a newly failing input, any missing, extra or symlinked evidence member, an uninventoried
++`alias` indented after the namespace opening, on a declaration line or at column 0, a keyword
++spliced to a closed block comment or to a numeral, every refused command keyword indented after
++the namespace opening, a declaration census (`Census.lean`) with an extra, missing or unlisted
++constant, a wrong census count or terminator, and a `check.py` child running in a different
++optimization mode from the outer test interpreter, which the fixture checks on every child).
+ 
+ ## Evidence boundary
+ 
+ A green hosted run establishes, for these 58 declarations at this toolchain and dependency
+-lock, that Lean elaborated them with warnings as errors, that
++lock, that Lean elaborated them with warnings as errors, that Lean's own census of the
++constants the three modules add to the environment (`Census.lean`, non-internal names) is
++exactly these 58 plus the one named compiler-generated auxiliary, that
+ `leanchecker TorusTopology ClosedSuperlevel TorusFiltration` replayed the companion modules' own
+ declarations through the kernel against the cached, prebuilt dependency `.olean` files (the
+ import closure, all of Mathlib, is trusted from that cache and not re-checked; a `--fresh`
+diff --git a/companions/torus_filtration_20261011/SOURCE_FILES.json b/companions/torus_filtration_20261011/SOURCE_FILES.json
+index 33ddb7d..0e1ccf0 100644
+--- a/companions/torus_filtration_20261011/SOURCE_FILES.json
++++ b/companions/torus_filtration_20261011/SOURCE_FILES.json
+@@ -1,5 +1,8 @@
+ {
+   "alignment_status": "PENDING_INDEPENDENT_REVIEW",
++  "census_auxiliary": [
++    "TorusFiltration.torus_periodBasis.congr_simp"
++  ],
+   "definitions": {
+     "ClosedSuperlevel": {
+       "abbrev": [],
+@@ -45,14 +48,14 @@
+       "sha256": "90d1481b75d9c6d14e462c3fbf0bf7c7cdd0efb9eaad68d6732400658753b1c2"
+     },
+     "companions/torus_filtration_20261011/README.md": {
+-      "bytes": 22334,
+-      "git_blob": "19dea18ff92b8a438bd35477e751ed68e02126e7",
+-      "sha256": "c26fbc29b062177f2060e125ed2002e5e5d898c4fccb97c02d8bec8a0ef6e386"
++      "bytes": 28602,
++      "git_blob": "bc09f1ee3627cf8a7cbe14b9e1f6be701cc1375a",
++      "sha256": "0535a9408e3eb90a865159bed2c3a7212e14cd0b1c07dd2274641b96b9b59bac"
+     },
+     "companions/torus_filtration_20261011/SCOPE.md": {
+-      "bytes": 10073,
+-      "git_blob": "68361d93bb6b701c3c3c6c32ab942db3e4bcedc3",
+-      "sha256": "bcd3c49a8cc05dc33a424092622b0ad1dabc82684bee037cd85ee8c131d33dbb"
++      "bytes": 10904,
++      "git_blob": "85778d85f412b47bce70d3b50127bd2d90be3c96",
++      "sha256": "4709381d2fde00e434fa1156ef5d0a24b7176946184827b9658d2fefaf4d2036"
+     },
+     "companions/torus_filtration_20261011/TorusFiltration.lean": {
+       "bytes": 45,
+@@ -65,19 +68,19 @@
+       "sha256": "ddb145b3f791c181d4f2a51e54e711937297bd6476ba55bcd5252b7ddb57cfe1"
+     },
+     "companions/torus_filtration_20261011/check.py": {
+-      "bytes": 29134,
+-      "git_blob": "8443ae3192c44b912952b9cd1984a7290e95acc8",
+-      "sha256": "57a75907677e074579b501168ad0a406d51168f41daa96b8627615b037acfc6b"
++      "bytes": 37695,
++      "git_blob": "646461d203e3b980cedc6bee84df966c727e2d9d",
++      "sha256": "ed571effff1850b213ff393b3eb6265e736b80f30fe4a3a8a7b658ecccbfd5f3"
+     },
+     "companions/torus_filtration_20261011/replay.sh": {
+-      "bytes": 4161,
+-      "git_blob": "c217643224412785a9306600809e43c8e0c5d71f",
+-      "sha256": "74de4c98df96bfa59b879dc79bad78bc708573b1ee16c2582393837cc4e9d189"
++      "bytes": 4382,
++      "git_blob": "05602a3f7f5fd2cada98625b27c5268a407cc8f1",
++      "sha256": "cb6b54e1aabda382c48eca7316d5e892845f68e2a708082a30b5e2acf81fe95c"
+     },
+     "companions/torus_filtration_20261011/test_torus_filtration.py": {
+-      "bytes": 62092,
+-      "git_blob": "6eb9a3eb3b319c59dd27f08463b0679274b06901",
+-      "sha256": "b5102880bd937d13d92e61f2896ec368177d1828113f75565d6471b8fcccfa50"
++      "bytes": 79738,
++      "git_blob": "24154436193c5292ca859fac9ece048ea9b270c4",
++      "sha256": "55bc0e7faac05adcf68244e64cc46507bf403664c95ace33c125e012a369e132"
+     }
+   },
+   "modules": [
+diff --git a/companions/torus_filtration_20261011/check.py b/companions/torus_filtration_20261011/check.py
+index 8443ae3..646461d 100644
+--- a/companions/torus_filtration_20261011/check.py
++++ b/companions/torus_filtration_20261011/check.py
+@@ -45,7 +45,8 @@ AXIOM = re.compile(r"'(" + NAME + r")' (?:depends on axioms: \[([^\]]*)\]|does n
+ IDENT = r'[A-Za-z][A-Za-z0-9_]*'
+ HEX40 = re.compile(r'[0-9a-f]{40}')
+ HEX64 = re.compile(r'[0-9a-f]{64}')
+-BUILDS = ('build-TorusTopology', 'build-ClosedSuperlevel', 'build-TorusFiltration', 'positive', 'axioms', 'types', 'leanchecker')
++BUILDS = ('build-TorusTopology', 'build-ClosedSuperlevel', 'build-TorusFiltration', 'positive', 'axioms', 'types', 'census',
++          'leanchecker')
+ # The leanchecker invocations replay.sh may record in leanchecker.cmd. Both modules `import Mathlib`, so
+ # `--fresh` (kernel re-check of the whole import closure) exceeds a hosted job: measured locally at 4 threads
+ # it was still running at 1500 s with 6.6 GB resident. The hosted default replays the companion's own
+@@ -55,15 +56,57 @@ LEANCHECKER = {'leanchecker TorusTopology ClosedSuperlevel TorusFiltration': 'mo
+ ADMISSION = ('sorry', 'sorryAx', 'admit', 'axiom', 'native_decide', 'ofReduceBool', 'trustCompiler', 'unsafe',
+              'opaque', 'partial', 'implemented_by', 'extern', 'skipKernelTC', 'autoImplicit')
+ # Module scanner (scan_module): a whitelist of what may start a column-0 code line. Lean itself accepts a
+-# command anywhere (indented, after another command on the same line, behind `open … in`), so every other
+-# command keyword is refused wherever it appears outside comments; the scanner refuses what it cannot place.
++# command anywhere (indented, after another command on the same line, behind `open … in`), so every command
++# keyword in COMMANDS is refused wherever it appears outside comments; the scanner refuses what it cannot place.
++# COMMANDS is an explicit list of refused keywords, not a Lean grammar and not a complete census: a
++# declaration-producing command or form absent from it passes an indented or same-line position uncounted (C262
++# gate review G2, Math- #428 comment 6112740935, found `alias` absent at head a898bb44; the pre-push adversarial
++# verification of the repair then enumerated further commands at the pin, listed below, and the `where` clause of
++# a declaration, which no keyword list can refuse). The scanner is therefore only a first filter. The declaration
++# census that the receipt stands on is Census.lean (CENSUS below): Lean itself lists every non-internal constant
++# the companion modules add to the environment, and `finish` requires that list to equal the inventory plus the
++# explicitly named compiler-generated auxiliaries (`census_auxiliary` in SOURCE_FILES.json), nothing else.
+ COMMANDS = ('theorem', 'lemma', 'def', 'abbrev', 'instance', 'axiom', 'axioms', 'example', 'structure', 'inductive',
+             'class', 'opaque', 'macro', 'macro_rules', 'syntax', 'elab', 'elab_rules', 'notation', 'infix', 'infixl',
+             'infixr', 'prefix', 'postfix', 'set_option', 'attribute', 'namespace', 'section', 'end', 'universe',
+             'variable', 'import', 'private', 'protected', 'noncomputable', 'unsafe', 'partial', 'scoped', 'local',
+             'mutual', 'deriving', 'initialize', 'builtin_initialize', 'declare_syntax_cat', 'register_option',
+-            'open', 'export', 'include', 'omit', 'run_cmd', 'run_tac', 'run_elab', 'in')
+-COMMAND_TOKEN = re.compile(r'(?<![A-Za-z0-9_.])(?:' + '|'.join(COMMANDS) + r')(?![A-Za-z0-9_])')
++            'open', 'export', 'include', 'omit', 'run_cmd', 'run_tac', 'run_elab', 'in',
++            # declaration-producing commands of Lean core, Batteries, Aesop and Mathlib found at the pin (C262 G2 and
++            # the verification of its repair); refused wherever they appear, column 0 included
++            'alias', 'irreducible_def', 'simproc', 'simproc_decl', 'dsimproc', 'dsimproc_decl', 'builtin_simproc',
++            'builtin_simproc_decl', 'builtin_dsimproc', 'builtin_dsimproc_decl', 'cbv_simproc', 'cbv_simproc_decl',
++            'builtin_cbv_simproc', 'builtin_cbv_simproc_decl', 'notation3', 'unif_hint', 'recall', 'binder_predicate',
++            'add_decl_doc', 'library_note', 'assert_not_exists', 'register_simp_attr', 'register_builtin_option',
++            'register_linter_set', 'register_label_attr', 'declare_aesop_rule_sets', 'add_aesop_rules',
++            'erase_aesop_rules', 'compile_inductive', 'compile_def', 'nonrec', 'mk_iff_of_inductive_prop', 'run_meta',
++            'grind_propagator', 'builtin_grind_propagator', 'declare_config_elab', 'declare_config_elab_legacy',
++            'declare_command_config_elab_legacy', 'gen_injective_theorems', 'declare_uint_theorems',
++            'declare_int_theorems', 'declare_bitwise_uint_theorems', 'declare_bitwise_int_theorems', 'elab_stx_quot',
++            'declare_eval_bin', 'declare_eval_bin_bitwise', 'declare_eval_bin_bool_pred', 'name_poly_vars',
++            'name_power_vars', 'with_weak_namespace', 'meta', 'public')
++# Token scan for keyword detection. ASCII identifiers (dotted components, primes, `!`, `?`) and numerals are whole
++# tokens, as Lean lexes them: `0alias` is the numeral `0` followed by the keyword `alias` (refused), `foo2alias` is
++# one identifier (accepted). A component after a dot is a name component, not a keyword. Any non-ASCII character
++# separates tokens, a refusal in the safe direction when a keyword abuts a unicode letter.
++TOKEN = re.compile(r"[A-Za-z_][A-Za-z0-9_'!?]*(?:\.[A-Za-z_][A-Za-z0-9_'!?]*)*|[0-9]+")
++COMMAND_SET = frozenset(COMMANDS)
++
++
++def command_token(text):
++    """The first command keyword that appears as a whole token in comment-free `text`, or None."""
++    for found in TOKEN.finditer(text):
++        if found.group() in COMMAND_SET:
++            return found.group()
++    return None
++
++
++def admission_tokens(text):
++    """Every ADMISSION word that appears as a whole token or as a dotted component in comment-free `text`."""
++    present = set()
++    for found in TOKEN.finditer(text):
++        present.update(found.group().split('.'))
++    return [token for token in ADMISSION if token in present]
+ DECLARATION = re.compile(r'(theorem|abbrev|instance|def|noncomputable def) (' + IDENT + r')(?=$|[\s:(\[{⦃])')
+ PRELUDE = {'import': re.compile(r'import Mathlib(?:\.[A-Za-z0-9_]+)*'),
+            'noncomputable section': re.compile(r'noncomputable section'),
+@@ -86,6 +129,36 @@ INJECTIONS = {
+     'RejectNativeDecide': ("theorem injected : (2 : Nat) + 2 = 4 := by native_decide\n",
+                            'injected._native.native_decide.ax_1_1', '')}
+ CONTROLS = tuple(FALSE_CONTROLS) + tuple(INJECTIONS)
++# The exact membership of the evidence directory when `finish` runs (C262 gate review G3): the nine files emit()
++# writes, a .log/.status pair per Lean process, the two protocol-test transcripts and the four environment records.
++# finish() refuses a directory with any member missing or unexpected, any member that is not a regular file, and
++# any directory already holding receipt.json: a receipt is written once and never replaced.
++EMITTED_FILES = ('Audit.lean', 'Types.lean', 'Positive.lean', 'Census.lean') + tuple(c + '.lean' for c in CONTROLS)
++# The elaborated declaration census (C262 G2 closure): Lean lists every constant that the companion modules add to
++# the environment and that is not an internal detail (`Name.isInternalDetail`: `_`-prefixed, `eq_n`, `match_n`,
++# `proof_n`, `omega_n`, numeric components). `finish` requires the list to equal the inventory plus the named
++# compiler-generated auxiliaries, so a declaration the scanner missed (an unlisted command, a `where` clause) is
++# refused by the receipt, whatever its spelling.
++CENSUS = '''import TorusFiltration
++open Lean in
++#eval show Lean.Elab.Command.CommandElabM Unit from do
++  let env ← Lean.getEnv
++  let modules : Array Lean.Name := #[`TorusTopology, `ClosedSuperlevel, `TorusFiltration]
++  let idxs := modules.filterMap env.getModuleIdx?
++  if idxs.size != modules.size then throwError "census: a companion module is not imported"
++  let names := env.constants.fold (init := (#[] : Array Lean.Name)) fun acc n _ =>
++    match env.getModuleIdxFor? n with
++    | some i => if idxs.contains i && !n.isInternalDetail then acc.push n else acc
++    | none => acc
++  for n in names.qsort (fun a b => a.toString < b.toString) do
++    IO.println n
++  IO.println s!"CENSUS_END {names.size}"
++'''
++EVIDENCE_FILES = frozenset(EMITTED_FILES) | {label + ext for label in BUILDS for ext in ('.log', '.status')} \
++    | {control + ext for control in CONTROLS for ext in ('.log', '.status')} \
++    | {'leanchecker.cmd', 'packages.log', 'toolchain.log', 'source.json', 'tests.log', 'tests-optimized.log'}
++if len(EVIDENCE_FILES) != 44:   # an explicit check, not an `assert`: the gate must hold under -O too
++    raise RuntimeError('EVIDENCE_FILES must enumerate exactly 44 members')
+ POSITIVE = '''import TorusFiltration
+ open TorusFiltration
+ 
+@@ -157,7 +230,11 @@ def git(*args):
+ def metadata():
+     meta = strict((SIDE / 'SOURCE_FILES.json').read_bytes())
+     require(set(meta) == {'schema', 'scientific_effect', 'alignment_status', 'namespace', 'root_module', 'modules',
+-                          'definitions', 'theorems', 'files', 'provenance'}, 'SOURCE_FILES schema keys')
++                          'definitions', 'theorems', 'files', 'provenance', 'census_auxiliary'}, 'SOURCE_FILES schema keys')
++    aux = meta['census_auxiliary']
++    require(isinstance(aux, list) and all(isinstance(n, str) and re.fullmatch(NAME, n) and n.startswith(NAMESPACE + '.')
++                                          and n.count('.') >= 2 for n in aux) and len(aux) == len(set(aux)),
++            'census_auxiliary must list dotted auxiliary names under the companion namespace')
+     require(type(meta['schema']) is int and meta['schema'] == 1, 'SOURCE_FILES schema version')
+     require(meta['scientific_effect'] == 'NONE', 'scientific effect must be NONE')
+     require(meta['alignment_status'] == 'PENDING_INDEPENDENT_REVIEW', 'alignment status cannot self-award review')
+@@ -211,9 +288,11 @@ def targets(meta):
+ def code_lines(text):
+     """The comment-free text of a Lean source, line by line (a comment lexer, not a Lean parser).
+ 
+-    Handles `--` to end of line and nested `/- … -/` blocks (`/--` and `/-!` included). String
+-    literals are not modelled, so scan_module refuses any `"` left in code; a `-/` outside a comment
+-    or an unterminated block is refused rather than guessed at.
++    Handles `--` to end of line and nested `/- … -/` blocks (`/--` and `/-!` included); a closed
++    block comment leaves one space in the code, as Lean treats it as whitespace between tokens, so
++    `theorem/- -/hidden` is scanned as `theorem hidden`, not `theoremhidden`. String literals are
++    not modelled, so scan_module refuses any `"` left in code; a `-/` outside a comment or an
++    unterminated block is refused rather than guessed at.
+     """
+     lines = []
+     depth = 0
+@@ -229,6 +308,8 @@ def code_lines(text):
+                 elif two == '-/':
+                     depth -= 1
+                     i += 2
++                    if depth == 0:
++                        code.append(' ')
+                 else:
+                     i += 1
+             elif two == '/-':
+@@ -264,9 +345,8 @@ def scan_module(text, module):
+     for number, code in enumerate(lines, 1):
+         require('"' not in code, 'string literal in code: ' + module + ':' + str(number))
+     code_text = '\n'.join(lines)
+-    for token in ADMISSION:
+-        require(re.search(r'(?<![A-Za-z0-9_])' + token + r'(?![A-Za-z0-9_])', code_text) is None,
+-                'admission token in ' + module + ': ' + token)
++    for token in admission_tokens(code_text):
++        require(False, 'admission token in ' + module + ': ' + token)
+     require(not re.search(r'^namespace ResearchFormalCoreR1(?![A-Za-z0-9_])', code_text, re.M),
+             'handoff namespace left in place: ' + module)
+     scan = {'theorem': [], 'abbrev': [], 'def': [], 'instance': []}
+@@ -300,8 +380,8 @@ def scan_module(text, module):
+                         'unexpected column-0 line in ' + where + ': ' + line[:60])
+                 require(keyword != 'import' or state == 'prelude', 'import inside the namespace: ' + where)
+                 rest = line[len(keyword):]
+-        found = COMMAND_TOKEN.search(rest)
+-        require(found is None, 'command token outside a column-0 declaration in ' + where + ': ' + (found.group() if found else ''))
++        found = command_token(rest)
++        require(found is None, 'command token outside a column-0 declaration in ' + where + ': ' + (found or ''))
+         require('#' not in rest and '@[' not in rest, 'attribute or #-command in ' + where)
+     require(state == 'closed', 'namespace ' + NAMESPACE + ' not opened and closed exactly once: ' + module)
+     return scan
+@@ -404,6 +484,19 @@ def types(text, names):
+     return actual
+ 
+ 
++def census(text, names, auxiliary):
++    """Parse census.log: one constant per line, then `CENSUS_END <count>`; the set must equal names ∪ auxiliary."""
++    lines = text.strip('\n').split('\n') if text.strip() else []
++    require(lines and re.fullmatch(r'CENSUS_END [0-9]+', lines[-1]), 'census terminator absent')
++    listed = lines[:-1]
++    require(all(re.fullmatch(NAME, n) for n in listed), 'unrecognized census output')
++    require(int(lines[-1].split()[1]) == len(listed) and len(set(listed)) == len(listed), 'census count mismatch')
++    expected = set(names) | set(auxiliary)
++    extra, missing = sorted(set(listed) - expected), sorted(expected - set(listed))
++    require(not extra and not missing, 'declaration census differs: extra %s, missing %s' % (extra, missing))
++    return {'constants': len(listed), 'auxiliary': sorted(auxiliary)}
++
++
+ def leanchecker_mode(text):
+     command = text.strip()
+     require(command in LEANCHECKER, 'unrecognized leanchecker invocation: ' + repr(command))
+@@ -439,6 +532,7 @@ def emit(out):
+     (out / 'Types.lean').write_text(header + 'set_option pp.explicit true\n'
+                                     + '\n'.join('#check ' + n for n in theorem_targets(meta)) + '\n')
+     (out / 'Positive.lean').write_text(POSITIVE)
++    (out / 'Census.lean').write_text(CENSUS)
+     for name, (statement, tactic) in FALSE_CONTROLS.items():
+         (out / (name + '.lean')).write_text(header + 'open ' + NAMESPACE + '\nexample : ' + statement + ' := by\n  ' + tactic + '\n')
+     for name, (body, _, _) in INJECTIONS.items():
+@@ -446,6 +540,16 @@ def emit(out):
+ 
+ 
+ def finish(out):
++    require(out.is_dir() and not out.is_symlink(), 'evidence directory absent, not a directory, or a symlink: ' + str(out))
++    receipt_path = out / 'receipt.json'
++    require(not receipt_path.exists() and not receipt_path.is_symlink(),
++            'receipt.json already present: finish never replaces a receipt; a new attempt needs a fresh evidence directory')
++    present = {p.name for p in out.iterdir()}
++    missing, unexpected = sorted(EVIDENCE_FILES - present), sorted(present - EVIDENCE_FILES)
++    require(not missing and not unexpected, 'evidence membership differs: missing %s, unexpected %s' % (missing, unexpected))
++    for name in sorted(EVIDENCE_FILES):
++        member = out / name
++        require(member.is_file() and not member.is_symlink(), 'evidence member is not a regular file: ' + name)
+     initial = strict((out / 'source.json').read_bytes())
+     current = source()
+     require(initial == current, 'source changed across execution')
+@@ -467,6 +571,7 @@ def finish(out):
+     require(mode == 'fresh' or not (out / 'leanchecker.log').read_text().strip(), 'leanchecker reported diagnostics')
+     axioms = audit_axioms((out / 'axioms.log').read_text(), targets(meta))
+     types((out / 'types.log').read_text(), theorem_targets(meta))
++    counted = census((out / 'census.log').read_text(), targets(meta), meta['census_auxiliary'])
+     outcomes = {}
+     for control in CONTROLS:
+         status = int((out / (control + '.status')).read_text().strip())
+@@ -483,11 +588,16 @@ def finish(out):
+         'theorem_count': len(current['theorems']), 'definition_count': definitions, 'axioms': axioms,
+         'negative_controls': outcomes, 'provenance': current['provenance'],
+         'leanchecker': {'command': (out / 'leanchecker.cmd').read_text().strip(), 'mode': mode},
++        'census': counted,
+         'scope_note': 'kernel-checked records that Lean elaborated these declarations at the pinned toolchain and '
+                       'that leanchecker replayed ' + replayed + '; it is not alignment with the handoff scope, '
+                       'not review, and not acceptance.',
+-        'log_sha256': {p.name: sha(p.read_bytes()) for p in sorted(out.iterdir()) if p.is_file()}}
+-    (out / 'receipt.json').write_text(json.dumps(receipt, indent=2, sort_keys=True) + '\n')
++        'log_sha256': {name: sha((out / name).read_bytes()) for name in sorted(EVIDENCE_FILES)}}
++    # Exclusive creation (O_EXCL, O_NOFOLLOW): a receipt that appeared meanwhile, or a symlink planted at the path,
++    # fails the open instead of being replaced or followed.
++    descriptor = os.open(receipt_path, os.O_WRONLY | os.O_CREAT | os.O_EXCL | getattr(os, 'O_NOFOLLOW', 0), 0o644)
++    with os.fdopen(descriptor, 'w', encoding='utf-8') as handle:
++        handle.write(json.dumps(receipt, indent=2, sort_keys=True) + '\n')
+     return receipt
+ 
+ 
+@@ -498,6 +608,9 @@ def main():
+     parser.add_argument('--control', choices=CONTROLS)
+     parser.add_argument('--status', type=int)
+     args = parser.parse_args()
++    # The interpreter mode this invocation actually runs in, for the test fixture (which requires it to equal the
++    # outer mode for every child) and for the hosted job log (C262 G1).
++    print('TORUS_FILTRATION_PYTHON: optimize=%d' % sys.flags.optimize, file=sys.stderr)
+     try:
+         if args.command == 'source':
+             result = source()
+diff --git a/companions/torus_filtration_20261011/replay.sh b/companions/torus_filtration_20261011/replay.sh
+index c217643..05602a3 100644
+--- a/companions/torus_filtration_20261011/replay.sh
++++ b/companions/torus_filtration_20261011/replay.sh
+@@ -3,6 +3,8 @@
+ # tests: the companion consumes only the pinned toolchain, lakefile and dependency lock from
+ # formal/, and its evidence is kernel-checked declarations, not alignment or acceptance.
+ set -euo pipefail
++# The outer Python mode is the one named on each command line below, never an ambient PYTHONOPTIMIZE (C262 G1).
++unset PYTHONOPTIMIZE
+ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
+ SIDE="$ROOT/companions/torus_filtration_20261011"
+ OUT="$ROOT/.lake/torus-filtration-evidence"
+@@ -40,6 +42,7 @@ run_lean build-TorusFiltration lean -DwarningAsError=true --root="$TORUS_SIDE" -
+ run_lean positive lean -DwarningAsError=true --root="$TORUS_OUT" "$TORUS_OUT/Positive.lean"
+ run_lean axioms lean -DwarningAsError=true --root="$TORUS_OUT" "$TORUS_OUT/Audit.lean"
+ run_lean types lean -DwarningAsError=true --root="$TORUS_OUT" "$TORUS_OUT/Types.lean"
++run_lean census lean -DwarningAsError=true --root="$TORUS_OUT" "$TORUS_OUT/Census.lean"
+ # Kernel replay of the companion modules' own declarations against the cached, prebuilt dependency
+ # .oleans (30 s at 2 threads locally). Both modules `import Mathlib`, so `--fresh` (re-check of the whole
+ # import closure) does not fit a hosted job: still running at 1500 s with 6.6 GB resident at 4 threads.
+diff --git a/companions/torus_filtration_20261011/test_torus_filtration.py b/companions/torus_filtration_20261011/test_torus_filtration.py
+index 6eb9a3e..2415443 100644
+--- a/companions/torus_filtration_20261011/test_torus_filtration.py
++++ b/companions/torus_filtration_20261011/test_torus_filtration.py
+@@ -50,8 +50,13 @@ SORRY_WARNING = "/tmp/evidence/RejectSorry.lean:2:8: warning: declaration uses `
+ INJECTED = "'injected' depends on axioms: [{0}]\n"
+ LEANCHECKER_MODULES = 'leanchecker TorusTopology ClosedSuperlevel TorusFiltration'
+ LEANCHECKER_FRESH = 'leanchecker --fresh TorusFiltration'
+-EMITTED = ('Audit.lean', 'Types.lean', 'Positive.lean', 'RejectSuperlevelSignFlip.lean', 'RejectSuperlevelBelowThreshold.lean',
+-           'RejectConstantNotPeriodic.lean', 'RejectSorry.lean', 'RejectCustomAxiom.lean', 'RejectNativeDecide.lean')
++EMITTED = ('Audit.lean', 'Types.lean', 'Positive.lean', 'Census.lean', 'RejectSuperlevelSignFlip.lean',
++           'RejectSuperlevelBelowThreshold.lean', 'RejectConstantNotPeriodic.lean', 'RejectSorry.lean', 'RejectCustomAxiom.lean',
++           'RejectNativeDecide.lean')
++PYTHON_LINE = 'TORUS_FILTRATION_PYTHON: optimize=%d' % sys.flags.optimize
++# The outer interpreter mode goes into the test transcript (tests.log / tests-optimized.log), so the hosted
++# evidence records which mode each suite ran in (C262 G1).
++print('TORUS_FILTRATION_TESTS: outer optimize=%d' % sys.flags.optimize, file=sys.stderr)
+ 
+ 
+ def checker():
+@@ -61,6 +66,29 @@ def checker():
+     return module
+ 
+ 
++def child_python():
++    """Interpreter prefix for every check.py child: `-B -S` plus the OUTER interpreter's optimization level.
++
++    A child spawned through sys.executable does not inherit the parent's -O; until C262 (Math- #428 comment
++    6112740935, finding G1) the -O test run therefore exercised check.py's CLI paths unoptimized."""
++    flags = ['-B', '-S']
++    if sys.flags.optimize:
++        flags.append('-' + 'O' * sys.flags.optimize)
++    return [sys.executable, *flags]
++
++
++def child_env(extra=None):
++    """Child environment: no GITHUB_* (host identity is set explicitly where a test needs it) and no PYTHONOPTIMIZE,
++    ambient or injected, so the child's mode is exactly the one child_python() selects."""
++    environment = {k: v for k, v in os.environ.items() if not k.startswith('GITHUB_')}
++    environment.update(extra or {})
++    environment.pop('PYTHONOPTIMIZE', None)
++    return environment
++
++
++OPTIMIZE_PROBE = 'import sys; print(sys.flags.optimize)'
++
++
+ def placeholder_module(module):
+     """Inventory-exact Lean text that is never compiled; only the whitelist scan reads it."""
+     lines = ['import Mathlib', '', '/-! fixture module; not the companion source -/', '', 'namespace TorusFiltration', '']
+@@ -133,10 +161,13 @@ class Fixture:
+         self.commit()
+ 
+     def run(self, *args, env=None):
+-        environment = {k: v for k, v in os.environ.items() if not k.startswith('GITHUB_')}
+-        environment.update(env or {})
+-        return subprocess.run([sys.executable, '-B', '-S', str(self.side / 'check.py'), *args], cwd=self.root,
+-                              capture_output=True, text=True, env=environment)
++        result = subprocess.run([*child_python(), str(self.side / 'check.py'), *args], cwd=self.root,
++                                capture_output=True, text=True, env=child_env(env))
++        # Every child reports the mode it actually runs in (check.py main); it must be the outer mode, on every
++        # call, accept or refuse. A fixture that stopped propagating -O would fail here, not pass silently (C262 G1).
++        if result.stderr.count(PYTHON_LINE + '\n') != 1 or 'TORUS_FILTRATION_PYTHON: optimize=' in result.stderr.replace(PYTHON_LINE, ''):
++            raise AssertionError('check.py child did not report the outer interpreter mode %d: %r' % (sys.flags.optimize, result.stderr[:300]))
++        return result
+ 
+     def evidence(self):
+         out = self.root / 'evidence'
+@@ -150,6 +181,8 @@ class Fixture:
+             raise AssertionError(emitted.stderr)
+         (out / 'toolchain.log').write_text(LEAN_VERSION_LINE)
+         (out / 'packages.log').write_text(''.join('%s %s\n' % kv for kv in self.revisions.items()))
++        (out / 'tests.log').write_text('TORUS_FILTRATION_TESTS: outer optimize=0\nRan 1 test\n\nOK\n')
++        (out / 'tests-optimized.log').write_text('TORUS_FILTRATION_TESTS: outer optimize=1\nRan 1 test\n\nOK\n')
+         for label in self.c.BUILDS:
+             (out / (label + '.status')).write_text('0\n')
+             (out / (label + '.log')).write_text('')
+@@ -166,6 +199,8 @@ class Fixture:
+         for control in self.c.INJECTIONS:
+             (out / (control + '.log')).write_text(good_injection_log(self.c, control))
+             (out / (control + '.status')).write_text('0\n')
++        listed = sorted(targets + list(meta['census_auxiliary']))
++        (out / 'census.log').write_text(''.join(n + '\n' for n in listed) + 'CENSUS_END %d\n' % len(listed))
+         return out
+ 
+ 
+@@ -179,6 +214,65 @@ class FixtureCase(unittest.TestCase):
+         self.assertIn('TORUS_FILTRATION_FAIL: ' + message, run.stderr)
+ 
+ 
++class ChildInterpreterMode(unittest.TestCase):
++    """C262 G1: the mode a check.py child actually runs in is observed, not inferred from an argument string."""
++
++    def test_children_run_in_the_outer_optimization_mode(self):
++        outer = sys.flags.optimize
++        probe = subprocess.run([*child_python(), '-c', OPTIMIZE_PROBE], capture_output=True, text=True, env=child_env())
++        self.assertEqual((probe.returncode, probe.stdout.strip()), (0, str(outer)), probe.stderr)
++        # Ambient or injected PYTHONOPTIMIZE never reaches the child: the mode is the outer one in both cases.
++        saved = os.environ.get('PYTHONOPTIMIZE')
++        os.environ['PYTHONOPTIMIZE'] = '2'
++        try:
++            ambient = subprocess.run([*child_python(), '-c', OPTIMIZE_PROBE], capture_output=True, text=True, env=child_env())
++            injected = subprocess.run([*child_python(), '-c', OPTIMIZE_PROBE], capture_output=True, text=True,
++                                      env=child_env({'PYTHONOPTIMIZE': '1'}))
++        finally:
++            if saved is None:
++                del os.environ['PYTHONOPTIMIZE']
++            else:
++                os.environ['PYTHONOPTIMIZE'] = saved
++        self.assertEqual(ambient.stdout.strip(), str(outer))
++        self.assertEqual(injected.stdout.strip(), str(outer))
++        self.assertNotIn('PYTHONOPTIMIZE', child_env({'PYTHONOPTIMIZE': '1'}))
++        # The invocation the fixture used before C262 (no propagation) runs the child unoptimized whatever the outer
++        # mode is; under `-O` that is exactly the G1 observation, under the normal mode the two agree at 0.
++        plain = subprocess.run([sys.executable, '-B', '-S', '-c', OPTIMIZE_PROBE], capture_output=True, text=True, env=child_env())
++        self.assertEqual(plain.stdout.strip(), '0')
++        if outer:
++            self.assertNotEqual(plain.stdout.strip(), str(outer))
++        self.assertEqual(child_python()[1:], ['-B', '-S'] + (['-' + 'O' * outer] if outer else []))
++
++    def test_every_check_py_child_reports_the_outer_mode(self):
++        with tempfile.TemporaryDirectory() as tmp:
++            f = Fixture(checker(), tmp)
++            accepted = f.run('source')                      # Fixture.run itself requires the diagnostic on every call
++            self.assertEqual(accepted.returncode, 0, accepted.stderr)
++            self.assertEqual(accepted.stderr.strip(), PYTHON_LINE)
++            (f.side / 'README.md').write_text('# edited without a commit\n')
++            refused = f.run('source')
++            self.assertEqual(refused.returncode, 1)
++            self.assertEqual(refused.stderr.splitlines()[0], PYTHON_LINE)
++            self.assertIn('TORUS_FILTRATION_FAIL: dirty execution/source bytes', refused.stderr)
++            f.git('checkout', '--', '.')
++            # The invocation the fixture used before C262 runs the real check.py unoptimized under an outer -O, and
++            # check.py now says so itself; under the normal outer mode both report 0.
++            plain = subprocess.run([sys.executable, '-B', '-S', str(f.side / 'check.py'), 'source'], cwd=f.root,
++                                   capture_output=True, text=True, env=child_env())
++            self.assertEqual(plain.returncode, 0, plain.stderr)
++            self.assertEqual(plain.stderr.strip(), 'TORUS_FILTRATION_PYTHON: optimize=0')
++            if sys.flags.optimize:
++                self.assertNotEqual(plain.stderr.strip(), PYTHON_LINE)
++            # A child forced into another mode is refused by the fixture's own check.
++            with self.assertRaises(AssertionError):
++                saved = sys.flags.optimize
++                other = [sys.executable, '-B', '-S'] + ([] if saved else ['-O'])
++                result = subprocess.run([*other, str(f.side / 'check.py'), 'source'], cwd=f.root, capture_output=True, text=True, env=child_env())
++                if result.stderr.count(PYTHON_LINE + '\n') != 1:
++                    raise AssertionError('other mode')
++
++
+ class InventoryTests(unittest.TestCase):
+     @classmethod
+     def setUpClass(cls):
+@@ -291,6 +385,37 @@ class InventoryTests(unittest.TestCase):
+             (inject('set_option maxHeartbeats 0 in'), unexpected),
+             (inject('section\n  theorem indented_hidden : True := trivial\nend'), unexpected),
+             (inject('  theorem indented_hidden : True := trivial'), command),
++            (good.replace('namespace TorusFiltration\n', 'namespace TorusFiltration\n  alias hidden := Nat.add_comm\n'), command),
++            (inject('theorem a_hidden : True := trivial alias hidden := Nat.add_comm'), command),
++            (inject('alias hidden := Nat.add_comm'), unexpected),
++            (inject('  irreducible_def hidden : Nat := 0'), command),
++            (inject('  simproc hidden (Nat.succ _) := fun _ => return .continue'), command),
++            (inject('  notation3 hidden => Nat.zero'), command),
++            (inject('  run_meta pure ()'), command),
++            (inject('  mk_iff_of_inductive_prop Nat.le hidden'), command),
++            (inject('  cbv_simproc hidden (Nat.succ _) := fun _ => return .continue'), command),
++            (inject('  builtin_simproc_decl hidden (Nat.succ _) := fun _ => return .continue'), command),
++            (inject('  add_aesop_rules safe hidden'), command),
++            (inject('  register_label_attr hidden'), command),
++            (inject('  grind_propagator hidden ↓Nat.le := fun _ => pure ()'), command),
++            (inject('  declare_uint_theorems Nat'), command),
++            (inject('  name_poly_vars X over Nat'), command),
++            (inject('  with_weak_namespace Hidden theorem hidden : True := trivial'), command),
++            (inject('  meta def hidden : Nat := 0'), command),
++            (inject('  public theorem hidden : True := trivial'), command),
++            # lexical splices found by the verification of the G2 repair: a closed block comment is a token separator
++            # (as in Lean), and a numeral ends at the first non-digit, so `0alias` is `0` then the keyword
++            (inject('  theorem/- -/hidden : True := trivial'), command),
++            (inject('  alias/- -/hidden := Nat.add_comm'), command),
++            (inject('theorem a_hidden : True := trivial theorem/- -/b_hidden : True := trivial'), command),
++            (good.replace('noncomputable def superlevel_set : Nat := 0', 'noncomputable def superlevel_set : Nat := 0alias hidden := Nat.add_comm'), command),
++            (good.replace('noncomputable def superlevel_set : Nat := 0', 'noncomputable def superlevel_set : Nat := 0theorem hidden : True := trivial'), command),
++            (good.replace(':= trivial', ':= by\n  exact/- -/sorry', 1), 'admission token in ClosedSuperlevel: sorry'),
++            (good.replace(':= trivial', ':= by/- -/native_decide', 1), 'admission token in ClosedSuperlevel: native_decide'),
++            (inject('  unif_hint (x : Nat) where ⊢ x =?= x'), command),
++            (inject('  recall superlevel_set : Nat := 0'), command),
++            (inject('  add_decl_doc superlevel_set'), command),
++            (inject('  nonrec def hidden : Nat := 0'), command),
+             (inject('theorem a_hidden : True := trivial theorem b_hidden : True := trivial'), command),
+             (inject('theorem a_hidden : True := by\n  open Classical in exact trivial'), command),
+             (inject('variable (h : False) in theorem hidden : True := trivial'), command),
+@@ -340,10 +465,23 @@ class InventoryTests(unittest.TestCase):
+         for text, message in cases:
+             with self.subTest(message=message, text=text[-70:]), self.assertRaisesRegex(ValueError, re.escape(message)):
+                 self.c.scan_module(text, 'ClosedSuperlevel')
+-        # Every command keyword the scanner knows is refused somewhere other than the start of a whitelisted line.
++        # Every command keyword the scanner knows is refused somewhere other than the start of a whitelisted line,
++        # indented after the namespace opening included (the C262 G2 position).
+         for keyword in self.c.COMMANDS:
+             with self.subTest(keyword=keyword), self.assertRaises(ValueError):
+                 self.c.scan_module(inject('theorem k_hidden : True := trivial ' + keyword), 'ClosedSuperlevel')
++            with self.subTest(keyword=keyword, position='indented after namespace'), self.assertRaises(ValueError):
++                self.c.scan_module(good.replace('namespace TorusFiltration\n', 'namespace TorusFiltration\n  ' + keyword + ' hidden\n'), 'ClosedSuperlevel')
++        # Identifiers that merely contain a keyword, or dotted components, are not keywords (no false refusal).
++        for text in (good.replace(':= trivial', ':= (fun (_ : Foo.alias = 0) => trivial) rfl', 1),
++                     good.replace(':= trivial', ':= (fun (foo2alias : True) => foo2alias) trivial', 1),
++                     good.replace(':= trivial', ':= (fun (alias_like theorem_like : True) => theorem_like) trivial trivial', 1),
++                     good.replace(':= trivial', ':= (Classical.byContradiction fun h => h trivial)', 1)):
++            self.assertEqual(self.c.scan_module(text, 'ClosedSuperlevel'), INVENTORY['ClosedSuperlevel'])
++        # A `where` clause adds a dotted auxiliary declaration that no keyword list refuses: the scanner accepts it
++        # and the elaborated census (Census.lean, `finish`) is what refuses it. Recorded here so the boundary is explicit.
++        where_clause = good.replace('theorem superlevel_mono : True := trivial', 'theorem superlevel_mono : True := trivial\n  where hidden : True := trivial')
++        self.assertEqual(self.c.scan_module(where_clause, 'ClosedSuperlevel'), INVENTORY['ClosedSuperlevel'])
+ 
+ 
+ class ParserControls(unittest.TestCase):
+@@ -471,7 +609,11 @@ class ParserControls(unittest.TestCase):
+             self.c.emit(out)
+             self.assertEqual({p.name for p in out.iterdir()}, set(EMITTED))
+             self.assertEqual({p.name for p in out.iterdir()},
+-                             {'Audit.lean', 'Types.lean', 'Positive.lean'} | {n + '.lean' for n in self.c.CONTROLS})
++                             {'Audit.lean', 'Types.lean', 'Positive.lean', 'Census.lean'} | {n + '.lean' for n in self.c.CONTROLS})
++            census = (out / 'Census.lean').read_text()
++            self.assertTrue(census.startswith('import TorusFiltration\n'))
++            for needed in ('isInternalDetail', 'getModuleIdxFor?', '`TorusTopology', '`ClosedSuperlevel', '`TorusFiltration', 'CENSUS_END'):
++                self.assertIn(needed, census)
+             audit = (out / 'Audit.lean').read_text().splitlines()
+             self.assertEqual(audit[0], 'import TorusFiltration')
+             self.assertEqual(audit[1:], ['#print axioms ' + n for n in self.c.targets(meta)])
+@@ -556,7 +698,9 @@ class WorkflowAndReplay(unittest.TestCase):
+                          'printf \'%s\\n\' "$LEANCHECKER_COMMAND" > "$TORUS_OUT/leanchecker.cmd"',
+                          'run_lean leanchecker $LEANCHECKER_COMMAND',
+                          'run_lean positive lean -DwarningAsError=true', 'run_lean axioms lean -DwarningAsError=true',
+-                         'run_lean types lean -DwarningAsError=true'):
++                         'run_lean types lean -DwarningAsError=true',
++                         'run_lean census lean -DwarningAsError=true --root="$TORUS_OUT" "$TORUS_OUT/Census.lean"',
++                         'set -euo pipefail\n# The outer Python mode is the one named on each command line below, never an ambient PYTHONOPTIMIZE (C262 G1).\nunset PYTHONOPTIMIZE\n'):
+             self.assertIn(required, self.replay, required)
+         for module in ('TorusTopology', 'ClosedSuperlevel', 'TorusFiltration'):
+             self.assertIn('run_lean build-%s lean -DwarningAsError=true --root="$TORUS_SIDE" -o "$TORUS_SIDE/%s.olean" "$TORUS_SIDE/%s.lean"'
+@@ -690,6 +834,18 @@ class SourceFixture(FixtureCase):
+                       'unexpected column-0 line in ClosedSuperlevel:'),
+                      (original.replace('\nend TorusFiltration', '\n  theorem hidden : True := trivial\nend TorusFiltration'),
+                       'command token outside a column-0 declaration in ClosedSuperlevel:'),
++                     # C262 G2: an indented imported `alias` immediately after the namespace opening, refused by the source CLI
++                     (original.replace('namespace TorusFiltration\n', 'namespace TorusFiltration\n  alias hidden := Nat.add_comm\n'),
++                      'command token outside a column-0 declaration in ClosedSuperlevel:'),
++                     (original.replace('theorem superlevel_mono : True := trivial',
++                                       'theorem superlevel_mono : True := trivial alias hidden := Nat.add_comm'),
++                      'command token outside a column-0 declaration in ClosedSuperlevel:'),
++                     (original.replace('\nend TorusFiltration', '\nalias hidden := Nat.add_comm\nend TorusFiltration'),
++                      'unexpected column-0 line in ClosedSuperlevel:'),
++                     (original.replace('\nend TorusFiltration', '\n  theorem/- -/hidden : True := trivial\nend TorusFiltration'),
++                      'command token outside a column-0 declaration in ClosedSuperlevel:'),
++                     (original.replace('noncomputable def superlevel_set : Nat := 0', 'noncomputable def superlevel_set : Nat := 0alias hidden := Nat.add_comm'),
++                      'command token outside a column-0 declaration in ClosedSuperlevel:'),
+                      (original.replace('namespace TorusFiltration', 'namespace ResearchFormalCoreR1'),
+                       'handoff namespace left in place: ClosedSuperlevel')]
+             for text, message in cases:
+@@ -768,6 +924,11 @@ class MetadataFixture(FixtureCase):
+             (setter(('provenance',), 'none'), 'provenance object'),
+             (setter(('extra',), 1), 'SOURCE_FILES schema keys'),
+             (deleter(('provenance',)), 'SOURCE_FILES schema keys'),
++            (deleter(('census_auxiliary',)), 'SOURCE_FILES schema keys'),
++            (setter(('census_auxiliary',), 'TorusFiltration.torus_periodBasis.congr_simp'), 'census_auxiliary must list dotted auxiliary names'),
++            (setter(('census_auxiliary',), ['TorusFiltration.hidden']), 'census_auxiliary must list dotted auxiliary names'),
++            (setter(('census_auxiliary',), ['Other.torus_periodBasis.congr_simp']), 'census_auxiliary must list dotted auxiliary names'),
++            (setter(('census_auxiliary',), ['TorusFiltration.torus_periodBasis.congr_simp'] * 2), 'census_auxiliary must list dotted auxiliary names'),
+             (setter(('schema',), 2), 'SOURCE_FILES schema version'),
+             (setter(('schema',), '1'), 'SOURCE_FILES schema version'),
+             (setter(('schema',), True), 'SOURCE_FILES schema version'),
+@@ -838,9 +999,25 @@ class FinishFixture(FixtureCase):
+             for name, digest in receipt['log_sha256'].items():
+                 self.assertEqual(hashlib.sha256((out / name).read_bytes()).hexdigest(), digest, name)
+             self.assertEqual(set(receipt['log_sha256']), {p.name for p in out.iterdir() if p.is_file()} - {'receipt.json'})
++            self.assertEqual(set(receipt['log_sha256']), set(self.c.EVIDENCE_FILES))
++            self.assertEqual(len(receipt['log_sha256']), 44)
++            self.assertEqual(receipt['census'], {'constants': 58 + len(self.c.metadata()['census_auxiliary']),
++                                                 'auxiliary': sorted(self.c.metadata()['census_auxiliary'])})
++            self.assertIn('census.log', receipt['log_sha256'])
+             self.assertIn('axioms.log', receipt['log_sha256'])
+             self.assertIn('leanchecker.cmd', receipt['log_sha256'])
+             self.assertIn('Positive.lean', receipt['log_sha256'])
++            self.assertIn('tests-optimized.log', receipt['log_sha256'])
++            # C262 G3: a receipt is never replaced. A second finish on the same directory is refused and leaves the
++            # old bytes intact, with or without a newly failing input; no digest of the receipt itself appears.
++            frozen = (out / 'receipt.json').read_bytes()
++            self.assertFails(f.run('finish', str(out)), 'receipt.json already present')
++            self.assertEqual((out / 'receipt.json').read_bytes(), frozen)
++            (out / 'leanchecker.status').write_text('1\n')
++            self.assertFails(f.run('finish', str(out)), 'receipt.json already present')
++            self.assertEqual((out / 'receipt.json').read_bytes(), frozen)
++            (out / 'leanchecker.status').write_text('0\n')
++            self.assertNotIn('receipt.json', receipt['log_sha256'])
+             # An operator's --fresh run is recorded as such, with leanchecker's own progress line tolerated.
+             (out / 'receipt.json').unlink()
+             (out / 'leanchecker.cmd').write_text(LEANCHECKER_FRESH + '\n')
+@@ -875,6 +1052,21 @@ class FinishFixture(FixtureCase):
+                 ('axioms.log', 'warning: noise\n' + axioms, 'unrecognized audit output'),
+                 ('types.log', ''.join(types_log.splitlines(True)[1:]), 'type inventory mismatch'),
+                 ('types.log', types_log + 'error: crash\n', 'type diagnostic'),
++                # C262 G2 closure: the elaborated census must equal the inventory plus the named auxiliaries exactly
++                ('census.log', (out / 'census.log').read_text().replace('CENSUS_END', 'TorusFiltration.superlevel_mono.hidden\nCENSUS_END'),
++                 'census count mismatch'),
++                ('census.log', (out / 'census.log').read_text().replace('\nCENSUS_END %d' % (58 + len(meta['census_auxiliary'])),
++                                                                        '\nTorusFiltration.superlevel_mono.hidden\nCENSUS_END %d' % (59 + len(meta['census_auxiliary']))),
++                 "declaration census differs: extra ['TorusFiltration.superlevel_mono.hidden'], missing []"),
++                ('census.log', (out / 'census.log').read_text().replace('TorusFiltration.superlevel_mono\n', '').replace(
++                    'CENSUS_END %d' % (58 + len(meta['census_auxiliary'])), 'CENSUS_END %d' % (57 + len(meta['census_auxiliary']))),
++                 "declaration census differs: extra [], missing ['TorusFiltration.superlevel_mono']"),
++                ('census.log', (out / 'census.log').read_text().replace('TorusFiltration.torus_periodBasis.congr_simp\n', '').replace(
++                    'CENSUS_END %d' % (58 + len(meta['census_auxiliary'])), 'CENSUS_END %d' % (57 + len(meta['census_auxiliary']))),
++                 "declaration census differs: extra [], missing ['TorusFiltration.torus_periodBasis.congr_simp']"),
++                ('census.log', ''.join((out / 'census.log').read_text().splitlines(True)[:-1]), 'census terminator absent'),
++                ('census.log', 'warning: noise\n' + (out / 'census.log').read_text(), 'unrecognized census output'),
++                ('census.status', '1\n', 'missing successful process: census'),
+                 ('RejectSuperlevelSignFlip.log', FALSE_LOG.format('RejectSuperlevelSignFlip').replace('False', 'True'),
+                  'not the intended False-goal diagnostic'),
+                 ('RejectSuperlevelSignFlip.status', '0\n', 'false-statement control must exit exactly one'),
+@@ -900,17 +1092,43 @@ class FinishFixture(FixtureCase):
+                         self.assertFalse((out / 'receipt.json').exists(), 'receipt written despite refusal')
+                     finally:
+                         (out / name).write_text(saved)
+-            for name, message in (('leanchecker.cmd', 'leanchecker invocation record absent'),
+-                                  ('Positive.lean', 'emitted Lean file changed across execution: Positive.lean'),
+-                                  ('RejectSuperlevelBelowThreshold.status', '[Errno 2] No such file or directory')):
+-                with self.subTest(name=name, message=message):
+-                    saved = (out / name).read_text()
++            # C262 G3: every one of the 41 required evidence members is required; removing any one withholds the receipt.
++            self.assertEqual({p.name for p in out.iterdir()}, set(self.c.EVIDENCE_FILES))
++            for name in sorted(self.c.EVIDENCE_FILES):
++                with self.subTest(removed=name):
++                    saved = (out / name).read_bytes()
+                     (out / name).unlink()
+                     try:
+-                        self.assertFails(f.run('finish', str(out)), message)
++                        self.assertFails(f.run('finish', str(out)), "evidence membership differs: missing ['%s'], unexpected []" % name)
+                         self.assertFalse((out / 'receipt.json').exists(), 'receipt written despite refusal')
+                     finally:
+-                        (out / name).write_text(saved)
++                        (out / name).write_bytes(saved)
++            # An unexpected member, a symlinked member and a stray subdirectory are refused too.
++            (out / 'extra.log').write_text('')
++            self.assertFails(f.run('finish', str(out)), "evidence membership differs: missing [], unexpected ['extra.log']")
++            (out / 'extra.log').unlink()
++            (out / 'stray').mkdir()
++            self.assertFails(f.run('finish', str(out)), "evidence membership differs: missing [], unexpected ['stray']")
++            (out / 'stray').rmdir()
++            # A required member that is a directory is not a regular file.
++            saved = (out / 'tests.log').read_bytes()
++            (out / 'tests.log').unlink()
++            (out / 'tests.log').mkdir()
++            self.assertFails(f.run('finish', str(out)), 'evidence member is not a regular file: tests.log')
++            self.assertFalse((out / 'receipt.json').exists())
++            (out / 'tests.log').rmdir()
++            (out / 'tests.log').write_bytes(saved)
++            saved = (out / 'tests.log').read_bytes()
++            (out / 'tests.log').unlink()
++            os.symlink('tests-optimized.log', out / 'tests.log')
++            self.assertFails(f.run('finish', str(out)), 'evidence member is not a regular file: tests.log')
++            self.assertFalse((out / 'receipt.json').exists())
++            (out / 'tests.log').unlink()
++            (out / 'tests.log').write_bytes(saved)
++            # A pre-existing receipt (even a symlink to nothing) is never replaced.
++            os.symlink('absent-target', out / 'receipt.json')
++            self.assertFails(f.run('finish', str(out)), 'receipt.json already present')
++            (out / 'receipt.json').unlink()
+             self.assertEqual(f.run('finish', str(out)).returncode, 0)
+ 
+ 

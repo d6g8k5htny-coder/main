@@ -1,0 +1,88 @@
+$ ./setup.sh
+fixture re-verified with cd32303 verify_bytes: 30 of 30 SOURCES; extra files: []
+$ python3 -I -B v1_static.py
+MAIN_COMMIT occurrences in tools/museum_data.py: [20]
+tree/directory enumeration calls in the 7 museum files: []
+museum_data.py:454-460 packet_descriptors body:
+    def packet_descriptors():
+        """Only the packet already present on the pinned main tree is selected."""
+        prefix = "incoming/side24-identity-replay-20260926/"
+        return [dict(id="side24-identity-replay-20260926", issue=None,
+            result=descriptor(prefix + "RESULT.md"), identity=descriptor(prefix + "IDENTITY.json"),
+            output=descriptor(prefix + "output.json"),
+            scientific_effect="NONE", review_status="REVIEW_REQUIRED")]
+museum_data.py:553: print("Museum projection verified: 11 reviewed bullets, 3 AMEND rows, 1 landed packet; scientific effect NONE.")
+museum.mjs:102: if(!Array.isArray(manifest.packets)||manifest.packets.length>1)throw Error('Unexpected packet projection');
+museum.mjs:104 (id literal): if(packet.id!=='side24-identity-replay-20260926'||packet.issue!==null||packet.scientific_effect!=='NONE'||packet.review_
+museum.mjs:191: if(!manifest.packets.length)containers['packet-cards'].append(element(document,'p','No packet appears in this pinned projection.'));
+declared snapshot 71400b94 incoming/ tree: ['incoming/side24-identity-replay-20260926']
+committed museum.json packets: ['side24-identity-replay-20260926@71400b94']
+$ ./v0_baseline_render.sh
+--- V0 strict render of the unmodified cd32303 museum.json
+  manifest status_source.commit=71400b94; packets in manifest=["side24-identity-replay-20260926@71400b94"]
+  claim cards rendered=14 refused=0
+  museum-state: Source projections and displayed source bytes verified. These checks establish byte identity, not mathematical acceptance.
+  packet-cards: side24-identity-replay-20260926 engineering-only Packet — not STATUS Repository d6g8k5htny-coder/main Path incoming/side24-identity-replay-20260926/RESULT.md Commit 71400b94f6cb354a8cf7aba73ffede2138a64efa SHA-256 fa40a6b8afc413646081145d6d5d7b01cc4b5b4ddec32f
+  packet requests: 200 main@71400b94:incoming/side24-identity-replay-20260926/RESULT.md
+  non-200 requests: 0
+$ ./v2_full_refresh.sh
+--- files naming the old pin (all rewritten to a12c178c0f857a130cf434e9efd44233a038195b):
+docs/site/IMPLEMENTATION.md
+docs/site/README.md
+docs/site/museum.json
+tests/test_museum_data.py
+tools/museum_data.py
+--- remaining old-pin occurrences under tools/ tests/ docs/: 0
+--- main-repo pinned blobs at old vs new commit (git rev-parse <c>:<path>):
+    STATUS.md same
+    reviews/sard_g_successor_a1_a6_20260926/REVIEW.md same
+    incoming/side24-identity-replay-20260926/IDENTITY.json same
+    incoming/side24-identity-replay-20260926/output.json same
+    docs/notebooks/SIDE24_PUBLIC_COEFFICIENTS.ipynb same
+    incoming/side24-identity-replay-20260926/RESULT.md same
+--- generator (main objects read with git show a12c178c0f857a130cf434e9efd44233a038195b:<path>):
+Museum projection verified: 11 reviewed bullets, 3 AMEND rows, 1 landed packet; scientific effect NONE.
+generator exit=0
+--- public-shop.yml step 'Museum source projection and refusal controls':
+OK
+  unittest exit=0
+  # tests 15
+  # pass 15
+  # fail 0
+  Museum source export and actual display integration verified. Scientific effect NONE.
+  museum_check exit=0
+  # tests 8
+  # pass 8
+  # fail 0
+--- membership at the declared commit:
+  git ls-tree -d a12c178c0f857a130cf434e9efd44233a038195b incoming/: incoming/side24-chart-claude-20260926 incoming/side24-identity-replay-20260926 
+  museum.json status_source.commit: a12c178c | packets: ['side24-identity-replay-20260926@a12c178c']
+--- strict raw-at-commit render of the refreshed manifest with the refreshed display code:
+  manifest status_source.commit=a12c178c; packets in manifest=["side24-identity-replay-20260926@a12c178c"]
+  claim cards rendered=14 refused=0
+  museum-state: Source projections and displayed source bytes verified. These checks establish byte identity, not mathematical acceptance.
+  packet-cards: side24-identity-replay-20260926 engineering-only Packet — not STATUS Repository d6g8k5htny-coder/main Path incoming/side24-identity-replay-20260926/RESULT.md Commit a12c178c0f857a130cf434e9efd44233a038195b SHA-256 fa40a6b8afc413646081145d6d5d7b01cc4b5b4ddec32f
+  packet requests: 200 main@a12c178c:incoming/side24-identity-replay-20260926/RESULT.md
+  non-200 requests: 0
+$ ./v3_v4_empty.sh
+=== V3: git ls-tree -d 71400b94 incoming/: incoming/side24-identity-replay-20260926
+  manifest status_source.commit=71400b94; packets in manifest=[]
+  claim cards rendered=14 refused=0
+  museum-state: Source projections and displayed source bytes verified. These checks establish byte identity, not mathematical acceptance.
+  packet-cards: No packet appears in this pinned projection.
+  packet requests: (none)
+  non-200 requests: 0
+=== V4: generator with packet_descriptors() returning []
+Museum projection verified: 11 reviewed bullets, 3 AMEND rows, 1 landed packet; scientific effect NONE.
+generator exit=0
+packets in regenerated museum.json: []
+unittest exit=1 (ERROR: test_landed_packet_can_be_read_from_pinned_sparse_checkout (test_museum_data.MuseumDataTests.test_landed_packet_can_be_read_from_pinned_sparse_checkout) FAIL: test_packet_selection_excludes_unknown_fork_packet (test_museum_data.MuseumDataTests.test_packet_selection_excludes_unknown_fork_packet) )
+museum_check exit=1
+not ok 15 - actual pinned museum renders all cards and rejects cross-claim source, scope and replay substitutions
+    The input did not match the regular expression /packet — not STATUS/. Input:
+# pass 14
+# fail 1
+$ ./v5_narrow_refresh_unittest.sh
+unittest exit=1
+FAIL: test_packet_selection_excludes_unknown_fork_packet (test_museum_data.MuseumDataTests.test_packet_selection_excludes_unknown_fork_packet)
+AssertionError: 'a12c178c0f857a130cf434e9efd44233a038195b' != '71400b94f6cb354a8cf7aba73ffede2138a64efa'

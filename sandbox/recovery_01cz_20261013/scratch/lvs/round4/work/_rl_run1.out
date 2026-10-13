@@ -1,0 +1,47 @@
+<SCRATCH>/lvs/round4/work/RayleighSquareLaw.lean:134:51: error: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+<SCRATCH>/lvs/round4/work/RayleighSquareLaw.lean:142:45: error: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+<SCRATCH>/lvs/round4/work/RayleighSquareLaw.lean:183:20: error(lean.unknownIdentifier): Unknown identifier `volume_eq_prod`
+<SCRATCH>/lvs/round4/work/RayleighSquareLaw.lean:155:85: error: unsolved goals
+a : ℝ
+ha : 0 ≤ a
+h1 :
+  ∫ (p : ℝ × ℝ) in {p | p.1 ^ 2 + p.2 ^ 2 ≤ a}, gaussianPDFReal 0 1 p.1 * gaussianPDFReal 0 1 p.2 =
+    ∫ (p : ℝ × ℝ), {q | q.1 ^ 2 + q.2 ^ 2 ≤ a}.indicator (fun q => gaussianPDFReal 0 1 q.1 * gaussianPDFReal 0 1 q.2) p
+h2 :
+  ∫ (p : ℝ × ℝ), {q | q.1 ^ 2 + q.2 ^ 2 ≤ a}.indicator (fun q => gaussianPDFReal 0 1 q.1 * gaussianPDFReal 0 1 q.2) p =
+    ∫ (p : ℝ × ℝ) in polarCoord.target,
+      p.1 •
+        {q | q.1 ^ 2 + q.2 ^ 2 ≤ a}.indicator (fun q => gaussianPDFReal 0 1 q.1 * gaussianPDFReal 0 1 q.2)
+          (↑polarCoord.symm p)
+h3 :
+  ∫ (p : ℝ × ℝ) in polarCoord.target,
+      p.1 •
+        {q | q.1 ^ 2 + q.2 ^ 2 ≤ a}.indicator (fun q => gaussianPDFReal 0 1 q.1 * gaussianPDFReal 0 1 q.2)
+          (↑polarCoord.symm p) =
+    ∫ (p : ℝ × ℝ) in Set.Ioi 0 ×ˢ Set.Ioo (-Real.pi) Real.pi,
+      {r | r ^ 2 ≤ a}.indicator (fun r => r * ((2 * Real.pi)⁻¹ * Real.exp (-r ^ 2 / 2))) p.1 * (fun x => 1) p.2
+h4 :
+  ∫ (z : ℝ × ℝ) in Set.Ioi 0 ×ˢ Set.Ioo (-Real.pi) Real.pi,
+      {r | r ^ 2 ≤ a}.indicator (fun r => r * ((2 * Real.pi)⁻¹ * Real.exp (-r ^ 2 / 2))) z.1 * 1 ∂ℙ.prod ℙ =
+    (∫ (x : ℝ) in Set.Ioi 0, {r | r ^ 2 ≤ a}.indicator (fun r => r * ((2 * Real.pi)⁻¹ * Real.exp (-r ^ 2 / 2))) x) *
+      ∫ (y : ℝ) in Set.Ioo (-Real.pi) Real.pi, 1
+h5 :
+  ∫ (r : ℝ) in Set.Ioi 0, {r | r ^ 2 ≤ a}.indicator (fun r => r * ((2 * Real.pi)⁻¹ * Real.exp (-r ^ 2 / 2))) r =
+    (2 * Real.pi)⁻¹ * (1 - Real.exp (-a / 2))
+⊢ ∫ (p : ℝ × ℝ) in Set.Ioi 0 ×ˢ Set.Ioo (-Real.pi) Real.pi,
+      {r | r ^ 2 ≤ a}.indicator (fun r => r * ((2 * Real.pi)⁻¹ * Real.exp (-r ^ 2 / 2))) p.1 * (fun x => 1) p.2 =
+    1 - Real.exp (-a / 2)
+<SCRATCH>/lvs/round4/work/RayleighSquareLaw.lean:206:6: error: Tactic `rewrite` failed: Did not find an occurrence of the pattern
+  ENNReal.ofReal
+    (∫ (x : ℝ × ℝ) in {p | p.1 ^ 2 + p.2 ^ 2 ≤ a}, gaussianPDFReal 0 1 x.1 * gaussianPDFReal 0 1 x.2 ∂ℙ.prod ℙ)
+in the target expression
+  ∫⁻ (a : ℝ × ℝ) in {p | p.1 ^ 2 + p.2 ^ 2 ≤ a}, gaussianPDF 0 1 a.1 * gaussianPDF 0 1 a.2 ∂ℙ.prod ℙ =
+    ENNReal.ofReal (∫ (p : ℝ × ℝ) in {p | p.1 ^ 2 + p.2 ^ 2 ≤ a}, gaussianPDFReal 0 1 p.1 * gaussianPDFReal 0 1 p.2)
+
+a : ℝ
+ha : 0 ≤ a
+hD : MeasurableSet {p | p.1 ^ 2 + p.2 ^ 2 ≤ a}
+hint : Integrable (fun p => gaussianPDFReal 0 1 p.1 * gaussianPDFReal 0 1 p.2) (ℙ.prod ℙ)
+hnn : 0 ≤ᵐ[(ℙ.prod ℙ).restrict {p | p.1 ^ 2 + p.2 ^ 2 ≤ a}] fun p => gaussianPDFReal 0 1 p.1 * gaussianPDFReal 0 1 p.2
+⊢ ∫⁻ (a : ℝ × ℝ) in {p | p.1 ^ 2 + p.2 ^ 2 ≤ a}, gaussianPDF 0 1 a.1 * gaussianPDF 0 1 a.2 ∂ℙ.prod ℙ =
+    ENNReal.ofReal (∫ (p : ℝ × ℝ) in {p | p.1 ^ 2 + p.2 ^ 2 ≤ a}, gaussianPDFReal 0 1 p.1 * gaussianPDFReal 0 1 p.2)

@@ -1,0 +1,16 @@
+HessianHasInertia : (d : ℕ) → (E d → ℝ) → E d → ℕ → Prop
+IsCriticalPoint : (d : ℕ) → (E d → ℝ) → E d → Prop
+IsLPeriodic : (d : ℕ) → ℝ → (E d → ℝ) → Prop
+IsSmooth : (d : ℕ) → (E d → ℝ) → Prop
+IsLifetimeDensityVersion : (d : ℕ) →
+  (L : ℝ) → GaussianFieldInterface d L → ((E d → ℝ) → E d → E d → Prop) → (ℝ → ℝ) → Prop
+@finrank_euclideanSpace : ∀ {ι : Type u_1} {𝕜 : Type u_2} [inst : RCLike 𝕜] [inst_1 : Fintype ι],
+  Module.finrank 𝕜 (EuclideanSpace 𝕜 ι) = Fintype.card ι
+@Submodule.finrank_le : ∀ {R : Type u_1} {M : Type u_2} [inst : Semiring R] [inst_1 : AddCommMonoid M]
+  [inst_2 : Module R M] [StrongRankCondition R] [Module.Finite R M] (s : Submodule R M),
+  Module.finrank R ↥s ≤ Module.finrank R M
+@ContinuousLinearMap.fderiv : ∀ {𝕜 : Type u_1} [inst : NontriviallyNormedField 𝕜] {E : Type u_2}
+  [inst_1 : AddCommGroup E] [inst_2 : Module 𝕜 E] [inst_3 : TopologicalSpace E] {F : Type u_3} [inst_4 : AddCommGroup F]
+  [inst_5 : Module 𝕜 F] [inst_6 : TopologicalSpace F] (f : E →L[𝕜] F) {x : E} [ContinuousAdd E] [ContinuousSMul 𝕜 E]
+  [ContinuousAdd F] [ContinuousSMul 𝕜 F] [T2Space F], fderiv 𝕜 (⇑f) x = f
+@Set.Infinite.ncard : ∀ {α : Type u_1} {s : Set α}, s.Infinite → s.ncard = 0

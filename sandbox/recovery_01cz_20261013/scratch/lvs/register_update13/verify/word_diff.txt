@@ -1,0 +1,260 @@
+====================================================================================================
+/claims[0]/kernel_evidence[1]/receipt_or_workflow old len 3564 new len 3917
+--- replace @tok 652
+  CONTEXT: ...receipt theorem_count 75; artifact lean-specification-proofs-38195810463-1, sha256 
+  OLD: d8abd42be0facd4248647c3c7eb67a264bd19b9b47c6128733b5b5fc93b0a6ff)
+  NEW: d8abd42be0facd4248647c3c7eb67a264bd19b9b47c6128733b5b5fc93b0a6ff); the theorems added in round 6 after PR head c6ce0256 (module Side24Images; run 38195810463, actual tested merge 1320c5b217e491d301ea140e5cc25b07ff5a21b7 with base be01479435f98f34b802258ee9ec3c3578f37169, receipt theorem_count 75, does not name them) have no hosted receipt yet: the next hosted lean-specification-proofs.yml run is their first receipt
+====================================================================================================
+/claims[0]/kernel_evidence[1]/note old len 5343 new len 6117
+--- replace @tok 0
+  CONTEXT: ...
+  OLD: 19
+  NEW: 22
+--- replace @tok 46
+  CONTEXT: ...geSumBound, Side24Analysis.densityComparison, Side24Interfaces.coneMomentD1Identity, Side24Interfaces.traceMoments, Side24Interfaces.rayleighSquareLaw, Side24Covariance.referenceCovarianceLowerBound, 
+  OLD: Side24ConeMoment.coneMomentD2Identity)
+  NEW: Side24ConeMoment.coneMomentD2Identity, Side24Images.imageBound, Side24Images.entrywiseCovarianceBound, Side24Images.covarianceOrdering)
+--- replace @tok 68
+  CONTEXT: ...proof packet's check.py (source mode SOURCE_CHECK_PASS: 
+  OLD: 75
+  NEW: 78
+--- replace @tok 76
+  CONTEXT: ...mode SOURCE_CHECK_PASS: 75 inventory theorems over 
+  OLD: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean,
+  NEW: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment,Side24Images}.lean,
+--- replace @tok 78
+  CONTEXT: ...tionProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean, 
+  OLD: 74
+  NEW: 77
+--- insert @tok 774
+  CONTEXT: ...theorem_count 75; artifact lean-specification-proofs-38195810463-1, sha256 d8abd42be0facd4248647c3c7eb67a264bd19b9b47c6128733b5b5fc93b0a6ff). 
+  OLD: 
+  NEW: 3 (Side24Images.imageBound, Side24Images.entrywiseCovarianceBound, Side24Images.covarianceOrdering) were added in round 6 on top of Math- main 4afcca6a, the merge of PR #439, after PR head c6ce0256 (the last head whose receipt this register binds: run 38195810463, actual tested merge 1320c5b217e491d301ea140e5cc25b07ff5a21b7 with base be01479435f98f34b802258ee9ec3c3578f37169, receipt theorem_count 75): locally `lake env lean -DwarningAsError=true` exit 0 and `#print axioms` within {propext, Classical.choice, Quot.sound} on an unverified worktree, not evidence about any commit; the next hosted lean-specification-proofs.yml run is the first receipt for them. 
+====================================================================================================
+/claims[0]/not_established old len 10232 new len 13024
+--- insert @tok 232
+  CONTEXT: ...DerivativePairingBound, DerivativeBoundAtLeastOne, DerivativeBoundAtZero, LatticeImageSumBound, SuccessiveTermRatio, ExponentialBounds, 
+  OLD: 
+  NEW: ImageBound, CovarianceOrdering, EntrywiseCovarianceBound, 
+--- replace @tok 256
+  CONTEXT: ...ConeMomentD1Identity, ConeMomentD2Identity, ConeMomentD2Algebra, TraceMoments, RayleighSquareLaw, ElementaryConeIntegral 
+  OLD: (19
+  NEW: (22
+--- replace @tok 726
+  CONTEXT: ...has the same tree as its 
+  OLD: head).
+  NEW: head; 3 of them (Side24Images.imageBound, Side24Images.entrywiseCovarianceBound, Side24Images.covarianceOrdering) were added in round 6 on top of Math- main 4afcca6a, the merge of PR #439, after PR head c6ce0256 (the last head whose receipt this register binds: run 38195810463, actual tested merge 1320c5b217e491d301ea140e5cc25b07ff5a21b7 with base be01479435f98f34b802258ee9ec3c3578f37169, receipt theorem_count 75): locally `lake env lean -DwarningAsError=true` exit 0 and `#print axioms` within {propext, Classical.choice, Quot.sound} on an unverified worktree, not evidence about any commit; the next hosted lean-specification-proofs.yml run is the first receipt for them).
+--- replace @tok 2096
+  CONTEXT: ...- sqrt 6 (ConeMomentD2Algebra) is not 
+  OLD: used).
+  NEW: used); and, for the formal K24, Kinf, C24 and Cref, display (2): |D^q K24(0) u - D^q Kinf(0) u| < imageConstE for d = 2 or 3, every q <= 6 and every unit tuple u (ImageBound: the term-wise derivative D^q K24(0) = theta(0)^(-1) sum_n D^q Kinf(24 n) on the unit ball, through a local, open-set version of iteratedFDeriv_tsum proved inside the module as the helper Aux.ib_iteratedFDeriv_tsum_of_isOpen from hasFDerivAt_tsum_of_isPreconnected (a helper, not an inventory theorem and not a Mathlib result), then the packet's DerivativeBoundAtLeastOne, DerivativeBoundAtZero, LatticeImageSumBound and ExponentialBounds theorems, 1458 (76 * 24^6 + 15) e^(-288) < imageConstE; the hypothesis ThetaSummable d is not used; nothing for q > 6; differentiability of K24 is used inside the proof but stated by no inventory theorem); the entrywise bound |C24 a b - Cref a b| <= 2 imageConstE at u = R 0 in an orthonormal frame (EntrywiseCovarianceBound: the common factor svecScale a * svecScale b * (-1)^|b| has absolute value at most 2 and the contractions run along at most six unit frame vectors, so ImageBound applies; the spectral-norm bound 20E is not specified); and display (3): C24 - (1 - epsilon) Cref and (1 + epsilon) Cref - C24 positive semidefinite in Mathlib's sense, IsHermitian included, at u = R 0 in an orthonormal frame for d = 2 or 3 (CovarianceOrdering: C24 is symmetric because each contraction of K24 at 0 is theta(0)^(-1) sum_n of contractions of the analytic Kinf at 24 n, invariant under the block swap by Mathlib's ContDiffAt.iteratedFDeriv_comp_perm, with the odd total orders vanishing by n -> -n; Cref is symmetric with Cref - I/3 positive semidefinite by ReferenceCovarianceLowerBound; Cauchy-Schwarz over at most 13 coordinates gives |x . (C24 - Cref) x| <= 26 imageConstE (x . x), and 78 imageConstE <= epsilon by norm_num; the source's route through the spectral-norm bound 20E and 60E < epsilon is not reproduced and main's covariance_relative_bound is neither imported, cited nor relied on; none of these matrices is shown to be the covariance of any random vector, and the passage to marginal and conditional covariances is not specified).
+--- replace @tok 2110
+  CONTEXT: ...None of them is the Gaussian 
+  OLD: conditioning, ImageBound, the covariance ordering
+  NEW: conditioning
+--- delete @tok 2213
+  CONTEXT: ... row still `specified` with no theorem:
+  OLD:  ImageBound, CovarianceOrdering, EntrywiseCovarianceBound,
+  NEW: 
+====================================================================================================
+/claims[0]/next_step old len 6665 new len 8329
+--- delete @tok 5
+  CONTEXT: ...Math- Mathlib lane:
+  OLD:  ImageBound, CovarianceOrdering, EntrywiseCovarianceBound,
+  NEW: 
+--- replace @tok 46
+  CONTEXT: ...IsUnitTuple, NegDefCone are vocabulary, not targets); 
+  OLD: every
+  NEW: the
+--- replace @tok 48
+  CONTEXT: ...NegDefCone are vocabulary, not targets); every 
+  OLD: theorem
+  NEW: 3 theorems
+--- replace @tok 56
+  CONTEXT: ...targets); every theorem of this row 
+  OLD: has
+  NEW: added in round 6 after PR head c6ce0256 (Side24Images.imageBound, Side24Images.entrywiseCovarianceBound, Side24Images.covarianceOrdering) await the next hosted lean-specification-proofs.yml run, their first receipt; the other theorems of this row have
+--- replace @tok 322
+  CONTEXT: ...with base 12e072d614dbe6e91b66d22a2ab55cf87860d693; receipt theorem_count 73); 
+  OLD: every theorem
+  NEW: each
+--- replace @tok 328
+  CONTEXT: ...receipt theorem_count 73); every theorem of 
+  OLD: this
+  NEW: those
+--- replace @tok 330
+  CONTEXT: ...theorem_count 73); every theorem of this 
+  OLD: row
+  NEW: 19 theorems
+--- replace @tok 500
+  CONTEXT: ...present but insufficient: iteratedFDeriv_tsum (SmoothSeries.lean), iteratedFDeriv_tsum_apply 
+  OLD: (SmoothSeries.lean));
+  NEW: (SmoothSeries.lean)): proved in round 6 (2026-10-12; see entries, no hosted receipt yet; the missing local iteratedFDeriv_tsum is supplied inside the proof module, not by Mathlib, as the helper Aux.ib_iteratedFDeriv_tsum_of_isOpen, by the induction of the global version from hasFDerivAt_tsum_of_isPreconnected);
+--- replace @tok 662
+  CONTEXT: ...present but insufficient: iteratedFDeriv_tsum (SmoothSeries.lean), hasFDerivAt_tsum_of_isPreconnected 
+  OLD: (SmoothSeries.lean));
+  NEW: (SmoothSeries.lean)): proved in round 6 (2026-10-12; see entries, no hosted receipt yet; the local term-wise differentiation is the same helper as for ImageBound; the higher-order symmetry used is Mathlib's ContDiffAt.iteratedFDeriv_comp_perm (Analysis/Analytic/IteratedFDeriv.lean), present at d13f23b7 and applicable because Kinf d is analytic, so the listed "higher-order symmetry of iteratedFDeriv" was not missing; the bound used is 26E, 2E times at most 13 coordinates, with 78E <= epsilon);
+--- replace @tok 740
+  CONTEXT: ...present but insufficient: norm_iteratedFDeriv_comp_le (Bounds.lean), iteratedFDeriv_tsum 
+  OLD: (SmoothSeries.lean));
+  NEW: (SmoothSeries.lean)): proved in round 6 (2026-10-12; see entries, no hosted receipt yet; from the ImageBound theorem, whose proof supplies the local term-wise differentiation);
+--- insert @tok 1126
+  CONTEXT: ...the README named are not load-bearing); 
+  OLD: 
+  NEW: for ImageBound, CovarianceOrdering and EntrywiseCovarianceBound, proved in round 6 (no hosted receipt yet), the README's BLOCKED_MISSING_MATHLIB (weeks) reasons are superseded by their theorems (the local term-wise differentiation the README named as missing from Mathlib is supplied inside the proof module, and the higher-order symmetry it named as missing is present at the pin as ContDiffAt.iteratedFDeriv_comp_perm, for analytic functions); 
+--- delete @tok 1131
+  CONTEXT: ... are not load-bearing); the reasons for
+  OLD:  ImageBound, CovarianceOrdering, EntrywiseCovarianceBound,
+  NEW: 
+--- replace @tok 1148
+  CONTEXT: ...EntrywiseCovarianceBound, CoefficientEnclosure and ReferenceComparison stand (for 
+  OLD: the last
+  NEW: these
+--- replace @tok 1216
+  CONTEXT: ...Side24 statements, in particular of the 
+  OLD: 19
+  NEW: 22
+--- insert @tok 1352
+  CONTEXT: ...IsHermitian included, read as the source's 
+  OLD: 
+  NEW: order; ImageBound with display (2); EntrywiseCovarianceBound with the Section 3 entrywise sentence; CovarianceOrdering with display (3), with the same reading of the 
+====================================================================================================
+/claims[2]/kernel_evidence[0]/note old len 2771 new len 2784
+--- replace @tok 40
+  CONTEXT: ...proof packet's check.py (source mode SOURCE_CHECK_PASS: 
+  OLD: 75
+  NEW: 78
+--- replace @tok 48
+  CONTEXT: ...mode SOURCE_CHECK_PASS: 75 inventory theorems over 
+  OLD: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean,
+  NEW: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment,Side24Images}.lean,
+--- replace @tok 50
+  CONTEXT: ...tionProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean, 
+  OLD: 74
+  NEW: 77
+====================================================================================================
+/claims[5]/kernel_evidence[1]/note old len 4206 new len 4219
+--- replace @tok 70
+  CONTEXT: ...proof packet's check.py (source mode SOURCE_CHECK_PASS: 
+  OLD: 75
+  NEW: 78
+--- replace @tok 78
+  CONTEXT: ...mode SOURCE_CHECK_PASS: 75 inventory theorems over 
+  OLD: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean,
+  NEW: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment,Side24Images}.lean,
+--- replace @tok 80
+  CONTEXT: ...tionProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean, 
+  OLD: 74
+  NEW: 77
+====================================================================================================
+/claims[6]/kernel_evidence[1]/note old len 2615 new len 2628
+--- replace @tok 36
+  CONTEXT: ...proof packet's check.py (source mode SOURCE_CHECK_PASS: 
+  OLD: 75
+  NEW: 78
+--- replace @tok 44
+  CONTEXT: ...mode SOURCE_CHECK_PASS: 75 inventory theorems over 
+  OLD: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean,
+  NEW: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment,Side24Images}.lean,
+--- replace @tok 46
+  CONTEXT: ...tionProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean, 
+  OLD: 74
+  NEW: 77
+====================================================================================================
+/claims[7]/kernel_evidence[1]/note old len 3350 new len 3363
+--- replace @tok 46
+  CONTEXT: ...proof packet's check.py (source mode SOURCE_CHECK_PASS: 
+  OLD: 75
+  NEW: 78
+--- replace @tok 54
+  CONTEXT: ...mode SOURCE_CHECK_PASS: 75 inventory theorems over 
+  OLD: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean,
+  NEW: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment,Side24Images}.lean,
+--- replace @tok 56
+  CONTEXT: ...tionProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean, 
+  OLD: 74
+  NEW: 77
+====================================================================================================
+/claims[8]/kernel_evidence[1]/note old len 5121 new len 5134
+--- replace @tok 68
+  CONTEXT: ...proof packet's check.py (source mode SOURCE_CHECK_PASS: 
+  OLD: 75
+  NEW: 78
+--- replace @tok 76
+  CONTEXT: ...mode SOURCE_CHECK_PASS: 75 inventory theorems over 
+  OLD: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean,
+  NEW: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment,Side24Images}.lean,
+--- replace @tok 78
+  CONTEXT: ...tionProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean, 
+  OLD: 74
+  NEW: 77
+====================================================================================================
+/claims[16]/not_established old len 4928 new len 5697
+--- replace @tok 124
+  CONTEXT: ...arithmetic theorems of main and the 
+  OLD: 19
+  NEW: 22
+--- replace @tok 174
+  CONTEXT: ...geSumBound, Side24Analysis.densityComparison, Side24Interfaces.coneMomentD1Identity, Side24Interfaces.traceMoments, Side24Interfaces.rayleighSquareLaw, Side24Covariance.referenceCovarianceLowerBound, 
+  OLD: Side24ConeMoment.coneMomentD2Identity;
+  NEW: Side24ConeMoment.coneMomentD2Identity, Side24Images.imageBound, Side24Images.entrywiseCovarianceBound, Side24Images.covarianceOrdering;
+--- replace @tok 592
+  CONTEXT: ...has the same tree as its 
+  OLD: head)
+  NEW: head; 3 of them (Side24Images.imageBound, Side24Images.entrywiseCovarianceBound, Side24Images.covarianceOrdering) were added in round 6 on top of Math- main 4afcca6a, the merge of PR #439, after PR head c6ce0256 (the last head whose receipt this register binds: run 38195810463, actual tested merge 1320c5b217e491d301ea140e5cc25b07ff5a21b7 with base be01479435f98f34b802258ee9ec3c3578f37169, receipt theorem_count 75): locally `lake env lean -DwarningAsError=true` exit 0 and `#print axioms` within {propext, Classical.choice, Quot.sound} on an unverified worktree, not evidence about any commit; the next hosted lean-specification-proofs.yml run is the first receipt for them)
+====================================================================================================
+/claims[17]/kernel_evidence[0]/note old len 2771 new len 2784
+--- replace @tok 40
+  CONTEXT: ...proof packet's check.py (source mode SOURCE_CHECK_PASS: 
+  OLD: 75
+  NEW: 78
+--- replace @tok 48
+  CONTEXT: ...mode SOURCE_CHECK_PASS: 75 inventory theorems over 
+  OLD: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean,
+  NEW: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment,Side24Images}.lean,
+--- replace @tok 50
+  CONTEXT: ...tionProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean, 
+  OLD: 74
+  NEW: 77
+====================================================================================================
+/claims[25]/kernel_evidence[1]/note old len 3531 new len 3544
+--- replace @tok 36
+  CONTEXT: ...proof packet's check.py (source mode SOURCE_CHECK_PASS: 
+  OLD: 75
+  NEW: 78
+--- replace @tok 44
+  CONTEXT: ...mode SOURCE_CHECK_PASS: 75 inventory theorems over 
+  OLD: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean,
+  NEW: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment,Side24Images}.lean,
+--- replace @tok 46
+  CONTEXT: ...tionProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean, 
+  OLD: 74
+  NEW: 77
+====================================================================================================
+/claims[26]/kernel_evidence[1]/note old len 2537 new len 2550
+--- replace @tok 34
+  CONTEXT: ...proof packet's check.py (source mode SOURCE_CHECK_PASS: 
+  OLD: 75
+  NEW: 78
+--- replace @tok 42
+  CONTEXT: ...mode SOURCE_CHECK_PASS: 75 inventory theorems over 
+  OLD: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean,
+  NEW: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment,Side24Images}.lean,
+--- replace @tok 44
+  CONTEXT: ...tionProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean, 
+  OLD: 74
+  NEW: 77
+====================================================================================================
+/claims[54]/kernel_evidence[0]/note old len 1995 new len 2008
+--- replace @tok 32
+  CONTEXT: ...proof packet's check.py (source mode SOURCE_CHECK_PASS: 
+  OLD: 75
+  NEW: 78
+--- replace @tok 40
+  CONTEXT: ...mode SOURCE_CHECK_PASS: 75 inventory theorems over 
+  OLD: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean,
+  NEW: SpecificationProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment,Side24Images}.lean,
+--- replace @tok 42
+  CONTEXT: ...tionProofs/{P15Elementary,P15Structure,P15Hazard,P15Covers,P15Budget,Side24Elementary,RNProbability,P15Interpolation,Side24Analysis,Side24Interfaces,RNCluster,Side24Covariance,Side24ConeMoment}.lean, 
+  OLD: 74
+  NEW: 77

@@ -1,0 +1,115 @@
+TorusFiltration.ordinaryH0Control_intCoeff_id_ne_zero : CategoryTheory.CategoryStruct.id
+    TorusFiltration.ordinaryH0Control_intCoeff ≠
+  0
+TorusFiltration.ordinaryH0Control_zeroCoeff_isZero : CategoryTheory.Limits.IsZero
+  TorusFiltration.ordinaryH0Control_zeroCoeff
+TorusFiltration.ordinaryH0Control_zeroCoeff_id_eq_zero : CategoryTheory.CategoryStruct.id
+    TorusFiltration.ordinaryH0Control_zeroCoeff =
+  0
+TorusFiltration.ordinaryH0Control_empty_components : IsEmpty (ZerothHomotopy ↑↧Empty)
+TorusFiltration.ordinaryH0Control_empty_componentCoproduct_isZero : ∀ (R : ModuleCat ℤ),
+  CategoryTheory.Limits.IsZero ((TorusFiltration.ordinaryH0_componentCoproductFunctor R).obj ↧Empty)
+TorusFiltration.ordinaryH0Control_empty_h0_isZero : CategoryTheory.Limits.IsZero
+  (((AlgebraicTopology.singularHomologyFunctor (ModuleCat ℤ) 0).obj TorusFiltration.ordinaryH0Control_intCoeff).obj
+    ↧Empty)
+TorusFiltration.ordinaryH0Control_point_augmentation : CategoryTheory.CategoryStruct.comp
+    (TorusFiltration.ordinaryH0_pointClass (↧Unit) TorusFiltration.ordinaryH0Control_intCoeff ())
+    ((↧Unit).singularHomology₀ε TorusFiltration.ordinaryH0Control_intCoeff) =
+  CategoryTheory.CategoryStruct.id TorusFiltration.ordinaryH0Control_intCoeff
+TorusFiltration.ordinaryH0Control_point_ne_zero : TorusFiltration.ordinaryH0_pointClass (↧Unit)
+    TorusFiltration.ordinaryH0Control_intCoeff () ≠
+  0
+TorusFiltration.ordinaryH0Control_point_h0_not_isZero : ¬CategoryTheory.Limits.IsZero
+    (((AlgebraicTopology.singularHomologyFunctor (ModuleCat ℤ) 0).obj TorusFiltration.ordinaryH0Control_intCoeff).obj
+      ↧Unit)
+TorusFiltration.ordinaryH0Control_line_component_eq : ZerothHomotopy.mk 0 = ZerothHomotopy.mk 1
+TorusFiltration.ordinaryH0Control_line_difference_zero_int : TorusFiltration.ordinaryH0_pointClass (↧ℝ)
+      TorusFiltration.ordinaryH0Control_intCoeff 0 -
+    TorusFiltration.ordinaryH0_pointClass (↧ℝ) TorusFiltration.ordinaryH0Control_intCoeff 1 =
+  0
+TorusFiltration.ordinaryH0Control_line_difference_zero_zeroCoeff : TorusFiltration.ordinaryH0_pointClass (↧ℝ)
+      TorusFiltration.ordinaryH0Control_zeroCoeff 0 -
+    TorusFiltration.ordinaryH0_pointClass (↧ℝ) TorusFiltration.ordinaryH0Control_zeroCoeff 1 =
+  0
+TorusFiltration.ordinaryH0Control_line_classes_ne_zero : TorusFiltration.ordinaryH0_pointClass (↧ℝ)
+      TorusFiltration.ordinaryH0Control_intCoeff 0 ≠
+    0 ∧
+  TorusFiltration.ordinaryH0_pointClass (↧ℝ) TorusFiltration.ordinaryH0Control_intCoeff 1 ≠ 0
+TorusFiltration.ordinaryH0Control_bool_component_ne : ZerothHomotopy.mk true ≠ ZerothHomotopy.mk false
+TorusFiltration.ordinaryH0Control_bool_pointClass_ne : TorusFiltration.ordinaryH0_pointClass (↧Bool)
+    TorusFiltration.ordinaryH0Control_intCoeff true ≠
+  TorusFiltration.ordinaryH0_pointClass (↧Bool) TorusFiltration.ordinaryH0Control_intCoeff false
+TorusFiltration.ordinaryH0Control_collapse_difference_zero : CategoryTheory.CategoryStruct.comp
+    (TorusFiltration.ordinaryH0_pointClass (↧Bool) TorusFiltration.ordinaryH0Control_intCoeff true -
+      TorusFiltration.ordinaryH0_pointClass (↧Bool) TorusFiltration.ordinaryH0Control_intCoeff false)
+    (((AlgebraicTopology.singularHomologyFunctor (ModuleCat ℤ) 0).obj TorusFiltration.ordinaryH0Control_intCoeff).map
+      TorusFiltration.ordinaryH0Control_collapse) =
+  0
+TorusFiltration.ordinaryH0Control_collapse_image_ne_zero : ∀ (b : Bool),
+  CategoryTheory.CategoryStruct.comp
+      (TorusFiltration.ordinaryH0_pointClass (↧Bool) TorusFiltration.ordinaryH0Control_intCoeff b)
+      (((AlgebraicTopology.singularHomologyFunctor (ModuleCat ℤ) 0).obj TorusFiltration.ordinaryH0Control_intCoeff).map
+        TorusFiltration.ordinaryH0Control_collapse) ≠
+    0
+TorusFiltration.ordinaryH0Control_collapse_difference_dies_classes_survive : CategoryTheory.CategoryStruct.comp
+      (TorusFiltration.ordinaryH0_pointClass (↧Bool) TorusFiltration.ordinaryH0Control_intCoeff true -
+        TorusFiltration.ordinaryH0_pointClass (↧Bool) TorusFiltration.ordinaryH0Control_intCoeff false)
+      (((AlgebraicTopology.singularHomologyFunctor (ModuleCat ℤ) 0).obj TorusFiltration.ordinaryH0Control_intCoeff).map
+        TorusFiltration.ordinaryH0Control_collapse) =
+    0 ∧
+  ∀ (b : Bool),
+    CategoryTheory.CategoryStruct.comp
+        (TorusFiltration.ordinaryH0_pointClass (↧Bool) TorusFiltration.ordinaryH0Control_intCoeff b)
+        (((AlgebraicTopology.singularHomologyFunctor (ModuleCat ℤ) 0).obj
+              TorusFiltration.ordinaryH0Control_intCoeff).map
+          TorusFiltration.ordinaryH0Control_collapse) ≠
+      0
+TorusFiltration.ordinaryH0Control_swap_difference_ne_zero : CategoryTheory.CategoryStruct.comp
+    (TorusFiltration.ordinaryH0_pointClass (↧Bool) TorusFiltration.ordinaryH0Control_intCoeff true -
+      TorusFiltration.ordinaryH0_pointClass (↧Bool) TorusFiltration.ordinaryH0Control_intCoeff false)
+    (((AlgebraicTopology.singularHomologyFunctor (ModuleCat ℤ) 0).obj TorusFiltration.ordinaryH0Control_intCoeff).map
+      TorusFiltration.ordinaryH0Control_swap) ≠
+  0
+TorusFiltration.ordinaryH0Control_bool_zeroCoeff_eq : TorusFiltration.ordinaryH0_pointClass (↧Bool)
+    TorusFiltration.ordinaryH0Control_zeroCoeff true =
+  TorusFiltration.ordinaryH0_pointClass (↧Bool) TorusFiltration.ordinaryH0Control_zeroCoeff false
+TorusFiltration.ordinaryH0Control_point_zeroCoeff_eq_zero : TorusFiltration.ordinaryH0_pointClass (↧Unit)
+    TorusFiltration.ordinaryH0Control_zeroCoeff () =
+  0
+TorusFiltration.ordinaryH0Control_separation_needs_nonzero : ¬∀ (X : TopCat) (R : ModuleCat ℤ) (x y : ↑X),
+    ZerothHomotopy.mk x ≠ ZerothHomotopy.mk y →
+      TorusFiltration.ordinaryH0_pointClass X R x ≠ TorusFiltration.ordinaryH0_pointClass X R y
+TorusFiltration.ordinaryH0Control_nonvanishing_needs_nonzero : ¬∀ (X : TopCat) (R : ModuleCat ℤ) (x : ↑X),
+    TorusFiltration.ordinaryH0_pointClass X R x ≠ 0
+TorusFiltration.ordinaryH0Control_parabola_not_joined : ¬JoinedIn (TorusFiltration.superlevel_set (fun x => x ^ 2) (-1))
+    ↑TorusFiltration.ordinaryH0Control_parabolaLeft ↑TorusFiltration.ordinaryH0Control_parabolaRight
+TorusFiltration.ordinaryH0Control_parabola_joined : JoinedIn (TorusFiltration.superlevel_set (fun x => x ^ 2) 0)
+  ↑TorusFiltration.ordinaryH0Control_parabolaLeft ↑TorusFiltration.ordinaryH0Control_parabolaRight
+TorusFiltration.ordinaryH0Control_parabola_difference_zero : CategoryTheory.CategoryStruct.comp
+    (TorusFiltration.ordinaryH0_pointClass (↧↑(TorusFiltration.superlevel_set (fun x => x ^ 2) (-1)))
+        TorusFiltration.ordinaryH0Control_intCoeff TorusFiltration.ordinaryH0Control_parabolaLeft -
+      TorusFiltration.ordinaryH0_pointClass (↧↑(TorusFiltration.superlevel_set (fun x => x ^ 2) (-1)))
+        TorusFiltration.ordinaryH0Control_intCoeff TorusFiltration.ordinaryH0Control_parabolaRight)
+    ((TorusFiltration.superlevel_h0Filtration (fun x => x ^ 2) TorusFiltration.ordinaryH0Control_intCoeff).map
+      (CategoryTheory.homOfLE ⋯)) =
+  0
+TorusFiltration.ordinaryH0Control_parabola_difference_ne_zero : CategoryTheory.CategoryStruct.comp
+    (TorusFiltration.ordinaryH0_pointClass (↧↑(TorusFiltration.superlevel_set (fun x => x ^ 2) (-1)))
+        TorusFiltration.ordinaryH0Control_intCoeff TorusFiltration.ordinaryH0Control_parabolaLeft -
+      TorusFiltration.ordinaryH0_pointClass (↧↑(TorusFiltration.superlevel_set (fun x => x ^ 2) (-1)))
+        TorusFiltration.ordinaryH0Control_intCoeff TorusFiltration.ordinaryH0Control_parabolaRight)
+    ((TorusFiltration.superlevel_h0Filtration (fun x => x ^ 2) TorusFiltration.ordinaryH0Control_intCoeff).map
+      (CategoryTheory.homOfLE ⋯)) ≠
+  0
+@[reducible] def TorusFiltration.ordinaryH0Control_intCoeff : ModuleCat ℤ :=
+↧ℤ
+@[reducible] def TorusFiltration.ordinaryH0Control_zeroCoeff : ModuleCat ℤ :=
+↧PUnit.{1}
+def TorusFiltration.ordinaryH0Control_collapse : ↧Bool ⟶ ↧Unit :=
+TopCat.ofHom (ContinuousMap.const Bool ())
+def TorusFiltration.ordinaryH0Control_swap : ↧Bool ⟶ ↧Bool :=
+TopCat.ofHom { toFun := not, continuous_toFun := ⋯ }
+def TorusFiltration.ordinaryH0Control_parabolaLeft : ↑(TorusFiltration.superlevel_set (fun x => x ^ 2) (-1)) :=
+⟨-1, TorusFiltration.ordinaryH0Control_parabolaLeft._proof_1⟩
+def TorusFiltration.ordinaryH0Control_parabolaRight : ↑(TorusFiltration.superlevel_set (fun x => x ^ 2) (-1)) :=
+⟨1, TorusFiltration.ordinaryH0Control_parabolaRight._proof_1⟩

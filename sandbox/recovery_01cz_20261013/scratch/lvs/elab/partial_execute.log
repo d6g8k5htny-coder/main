@@ -1,0 +1,52 @@
+version: exit 0
+build: exit 0
+axioms: exit 0
+types: exit 0
+environment: exit 0
+control_injected_theorem: exit 0
+control_type_error: exit 1
+control_missing_declaration: exit 1
+control_environment_honest: exit 0
+control_environment_hidden: exit 1
+{
+  "axiom_sets": [
+    [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    [
+      "Quot.sound",
+      "propext"
+    ]
+  ],
+  "declarations_audited": 150,
+  "dependency_revisions": {
+    "Cli": "e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204",
+    "LeanSearchClient": "ddf04cf3949fa556442341e87d47f9f6e6074707",
+    "Qq": "6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259",
+    "aesop": "355695d523e41d0554926416cba2a2b3544fbbc9",
+    "batteries": "f2effa3d803fda822b1f97b806c47cf2adfbcbc2",
+    "importGraph": "e928b72544873815af278d38681b31c0293588e3",
+    "mathlib": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+    "plausible": "118aa17ee84656b8bd727fef7c458ee8c833385c",
+    "proofwidgets": "106ff4fafc74ef4ac99d81dbf3ab399118f497a5"
+  },
+  "environment_audit": {
+    "auxiliary": 123,
+    "generated": 285,
+    "statement": 141,
+    "structure": 9
+  },
+  "lean_version": "Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+  "leanchecker": "NOT_RUN (OOM-killed at 13.5 GB in this sandbox; hosted run is authoritative)",
+  "negative_controls": {
+    "environment_audit": "REFUSED_BY_ENVIRONMENT_AUDIT (theorem between string literals, proof as def, sorry, axiom, instance; the indented Prop definition surfaces as a statement absent from any register) and the honest control classified exactly",
+    "injected_theorem": "REFUSED_BY_SOURCE_CHECK (Lean accepts the file: exit 0, so the scan is the refusal point)",
+    "missing_declaration": "REFUSED_BY_SOURCE_CHECK and REJECTED_BY_LEAN",
+    "proved_label": "REFUSED_BY_SOURCE_CHECK",
+    "type_error": "REJECTED_BY_LEAN",
+    "unregistered_declaration": "REFUSED_BY_SOURCE_CHECK"
+  },
+  "register_sha256": "fc661b877b96c3bdc6c671a499e7f5d0c586903802f515eba90f36101d4c60b5"
+}

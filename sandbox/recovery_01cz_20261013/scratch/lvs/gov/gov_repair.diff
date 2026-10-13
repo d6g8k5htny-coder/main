@@ -1,0 +1,68 @@
+--- orig/check_work_leases.py	2026-10-11 22:16:17.344861207 +0000
++++ fixed/work_leases/check_work_leases.py	2026-10-11 22:16:17.391756241 +0000
+@@ -42,19 +42,18 @@
+     """True when two write_scope entries collide (exact or prefix)."""
+     if not a or not b:
+         return False
++    # A trailing "/" is an explicit directory marker; remember it before stripping it.
++    a_marked_dir = a.endswith("/")
++    b_marked_dir = b.endswith("/")
+     a = a.rstrip("/")
+     b = b.rstrip("/")
+     if a == b:
+         return True
+-    # Directory prefix: "docs/" overlaps "docs/foo.md"; file vs sibling file does not.
+-    if a.endswith((".py", ".md", ".json", ".yml", ".yaml")) or "/" not in a + "/":
+-        a_is_file = "." in Path(a).name
+-    else:
+-        a_is_file = False
+-    if b.endswith((".py", ".md", ".json", ".yml", ".yaml")) or "/" not in b + "/":
+-        b_is_file = "." in Path(b).name
+-    else:
+-        b_is_file = False
++    # Classification: an explicit "dir/" is a directory; otherwise a last component with a dot is a
++    # file ("LICENSE" without a dot is a directory claim, which is the conservative reading: it
++    # collides with anything beneath it). The former fallback `"/" not in a + "/"` was always false.
++    a_is_file = (not a_marked_dir) and "." in Path(a).name
++    b_is_file = (not b_marked_dir) and "." in Path(b).name
+     if a_is_file and b_is_file:
+         return a == b
+     # Treat trailing-path as directory prefix when either side looks like a dir claim.
+@@ -98,6 +97,11 @@
+         return
+     if lease.get("scientific_authority") is not False:
+         problems.append(f"{wid}: scientific_authority must be false")
++    scope = lease.get("write_scope")
++    if scope is not None and not (isinstance(scope, list) and all(isinstance(p, str) and p for p in scope)):
++        # A string here would be iterated character by character by scopes_overlap and evade the
++        # ACTIVE overlap check; refuse the shape instead of guessing what was meant.
++        problems.append(f"{wid}: write_scope must be a list of nonempty strings, got {type(scope).__name__}")
+     if state != "ACTIVE":
+         return
+     evidence = lease.get("evidence") or []
+--- orig/check_mesoscopic_d2_taylor.py	2026-10-11 22:16:17.346262745 +0000
++++ fixed/amendments/check_mesoscopic_d2_taylor.py	2026-10-11 22:17:31.339866158 +0000
+@@ -54,7 +54,11 @@
+ assert height_perp.series(r, 0, 4).removeO() != 0
+ # Leading O(r^3) includes forced Hermite piece 2k y1^3
+ lead3 = height_perp.series(r, 0, 4).removeO().coeff(r**3)
+-assert sp.simplify(lead3 - (2 * k * y1**3 + fxxy * y1**2 * y2 / 4 + fxyy * y1 * y2**2 / 4 - fyyy * y2**3 / 12)) == 0 or True
++# Exact O(r^3) coefficient. The hand-written expression this line carried until 2026-10-11 had an
++# extra +fxyy*y1*y2**2/4 term and the assertion ended in `or True`, so it could never fail; the fxyy
++# contribution cancels between F0 and (r/2)*y2*Ty0 at this order.
++expect_lead3 = (2 * k * y1**3 + fxxy * y1**2 * y2 / 4 - fyyy * y2**3 / 12).expand()
++assert sp.simplify(lead3 - expect_lead3) == 0, lead3
+ # At least confirm 2k y1^3 is present when free jets vanish
+ assert sp.simplify(lead3.subs({fxxy: 0, fxyy: 0, fyyy: 0}) - 2 * k * y1**3) == 0, lead3
+ 
+--- orig/20260925-measured-conflicts.md	2026-10-11 22:16:17.351908114 +0000
++++ fixed/amendments/20260925-measured-conflicts.md	2026-10-11 22:16:17.392340421 +0000
+@@ -4,7 +4,7 @@
+ 
+ **HOLD / NEVER-MERGE (owner 2026-09-27, reaffirmed again):** default **still binds — not merging**. Exception: does not apply when agents agree the land moves the project forward positively. Measured: main [#8](https://github.com/d6g8k5htny-coder/main/pull/8) → hardening tip `9458b90…` after prior HOLD ([5801735092](https://github.com/d6g8k5htny-coder/main/pull/8#issuecomment-5801735092)). Still: no peer races; no scientific-status flips. This App does not merge under HOLD absent that consensus.
+ 
+-**Release-manager coordination (2026-09-27, [5860429350](https://github.com/d6g8k5htny-coder/governance-/pull/5#issuecomment-5860429350) / [5860770012](https://github.com/d6g8k5htny-coder/governance-/pull/5#issuecomment-5860770012)):** watcher stopped per [OWNER_STOP.md](../OWNER_STOP.md) (no new loop / no duplicate workflow edits). Eng [#180](https://github.com/d6g8k5htny-coder/main/pull/180)–[#189](https://github.com/d6g8k5htny-coder/main/pull/189) cascade **MERGED** — main tip `0a168ca…`. Math- tip `22e79e8…` ([#96](https://github.com/d6g8k5htny-coder/Math-/pull/96)). governance- tip `73ba510…` ([#9](https://github.com/d6g8k5htny-coder/governance-/pull/9); [#6](https://github.com/d6g8k5htny-coder/governance-/pull/6) **MERGED** `5c5307b…`). Formal-layer: `docs/FORMAL_REQUIRED_CHECKS.md`; deployment evidence main [audits/formal_enforcement/2026-09-27/](https://github.com/d6g8k5htny-coder/main/tree/main/audits/formal_enforcement/2026-09-27) ([#192](https://github.com/d6g8k5htny-coder/main/pull/192)); main [#95](https://github.com/d6g8k5htny-coder/main/issues/95) is closed for issue-list cleanup (history kept; open obligations not discharged); Math- [#96](https://github.com/d6g8k5htny-coder/Math-/pull/96) **MERGED** `22e79e8…`, the temporary Math- default-merge coordination hold is **RELEASED** ([Math-#96 5860985432](https://github.com/d6g8k5htny-coder/Math-/pull/96#issuecomment-5860985432)). NEVER-MERGE probe [#97](https://github.com/d6g8k5htny-coder/Math-/pull/97) **CLOSED UNMERGED**. Experimental formal Math- [#93](https://github.com/d6g8k5htny-coder/Math-/pull/93) + trial [#160](https://github.com/d6g8k5htny-coder/trial/pull/160)/[#138](https://github.com/d6g8k5htny-coder/trial/pull/138) **CLOSED UNMERGED** (owner hygiene). Trial tip `792ba7b…` ([#121](https://github.com/d6g8k5htny-coder/trial/pull/121)). Math- [#87](https://github.com/d6g8k5htny-coder/Math-/pull/87) **MERGED**. Never merge labelled negative-control branches. Sci effect NONE.
++**Release-manager coordination (2026-09-27, [5860429350](https://github.com/d6g8k5htny-coder/governance-/pull/5#issuecomment-5860429350) / [5860770012](https://github.com/d6g8k5htny-coder/governance-/pull/5#issuecomment-5860770012)):** watcher stopped per [OWNER_STOP.md](https://github.com/d6g8k5htny-coder/governance-/blob/a9a85ab48a73f3b66b14f68170b5709feb00c665/OWNER_STOP.md) (immutable link to the historical bytes; the owner deleted the file on 7 October 2026) (no new loop / no duplicate workflow edits). Eng [#180](https://github.com/d6g8k5htny-coder/main/pull/180)–[#189](https://github.com/d6g8k5htny-coder/main/pull/189) cascade **MERGED** — main tip `0a168ca…`. Math- tip `22e79e8…` ([#96](https://github.com/d6g8k5htny-coder/Math-/pull/96)). governance- tip `73ba510…` ([#9](https://github.com/d6g8k5htny-coder/governance-/pull/9); [#6](https://github.com/d6g8k5htny-coder/governance-/pull/6) **MERGED** `5c5307b…`). Formal-layer: `docs/FORMAL_REQUIRED_CHECKS.md`; deployment evidence main [audits/formal_enforcement/2026-09-27/](https://github.com/d6g8k5htny-coder/main/tree/main/audits/formal_enforcement/2026-09-27) ([#192](https://github.com/d6g8k5htny-coder/main/pull/192)); main [#95](https://github.com/d6g8k5htny-coder/main/issues/95) is closed for issue-list cleanup (history kept; open obligations not discharged); Math- [#96](https://github.com/d6g8k5htny-coder/Math-/pull/96) **MERGED** `22e79e8…`, the temporary Math- default-merge coordination hold is **RELEASED** ([Math-#96 5860985432](https://github.com/d6g8k5htny-coder/Math-/pull/96#issuecomment-5860985432)). NEVER-MERGE probe [#97](https://github.com/d6g8k5htny-coder/Math-/pull/97) **CLOSED UNMERGED**. Experimental formal Math- [#93](https://github.com/d6g8k5htny-coder/Math-/pull/93) + trial [#160](https://github.com/d6g8k5htny-coder/trial/pull/160)/[#138](https://github.com/d6g8k5htny-coder/trial/pull/138) **CLOSED UNMERGED** (owner hygiene). Trial tip `792ba7b…` ([#121](https://github.com/d6g8k5htny-coder/trial/pull/121)). Math- [#87](https://github.com/d6g8k5htny-coder/Math-/pull/87) **MERGED**. Never merge labelled negative-control branches. Sci effect NONE.
+ 
+ ## Landed
+ 

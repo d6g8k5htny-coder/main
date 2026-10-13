@@ -1,0 +1,16 @@
+--- control, unmodified STATUS.md:
+OK
+--- after appending one unrelated line to working-tree STATUS.md:
+unit exit=1
+      6 ValueError: source identity mismatch: STATUS.md
+      1 FAILED (failures=1, errors=5)
+      1 FAIL: test_misdirected_review_pointer_refused
+      1 ERROR: test_review_pointers_do_not_claim_comment_byte_custody
+      1 ERROR: test_replay_commands_bind_source_and_checkout
+      1 ERROR: test_historical_snapshot_ignores_unrelated_working_tree_append
+      1 ERROR: test_exact_fourteen_projections_and_distinct_d5_scopes
+      1 ERROR: test_check_rejects_quote_identity_and_class_tampering
+      1 AssertionError: "review pointer" does not match "source identity mismatch: STATUS.md"
+--- CI gate on the same tree (full-clone objects via GIT_DIR):
+museum_check exit=0
+Museum source export and actual display integration verified. Scientific effect NONE.

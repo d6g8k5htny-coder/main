@@ -1,0 +1,59 @@
+TORUS_FILTRATION_TESTS: outer optimize=1
+hex 0x1Ftheorem                                                        | ACCEPTED rc=0 | scan ok
+hex 0x1Ftheorem proof_1 (internal name)                                | ACCEPTED rc=0 | scan ok
+sci 1e5theorem                                                         | ACCEPTED rc=0 | scan ok
+sci 1E5theorem                                                         | ACCEPTED rc=0 | scan ok
+bin 0b1def                                                             | ACCEPTED rc=0 | scan ok
+oct 0o7instance                                                        | ACCEPTED rc=0 | scan ok
+sep 1_0theorem                                                         | ACCEPTED rc=0 | scan ok
+bin 0b1axiom proof_1 (hidden axiom, internal name)                     | ACCEPTED rc=0 | scan ok
+sci 1e5axiom hidden                                                    | ACCEPTED rc=0 | scan ok
+hex 0x1Fset_option maxHeartbeats 0                                     | ACCEPTED rc=0 | scan ok
+bin 0b1attribute [simp] superlevel_set                                 | ACCEPTED rc=0 | scan ok
+hex 0x1Fprivate theorem (second keyword still a token)                 | REFUSED rc=1 ['TORUS_FILTRATION_FAIL: command token outside a column-0 declaration in ClosedSuperlevel:27: theorem'] | scan refused: command token outside a column-0 declaration in ClosedSuperlevel:27: theorem
+open Lean.Elab.Command + 0x1Fprotected aux_def                         | ACCEPTED rc=0 | scan ok
+dec 0alias (control)                                                   | REFUSED rc=1 ['TORUS_FILTRATION_FAIL: command token outside a column-0 declaration in ClosedSuperlevel:27: alias'] | scan refused: command token outside a column-0 declaration in ClosedSuperlevel:27: alias
+dec 0theorem (control)                                                 | REFUSED rc=1 ['TORUS_FILTRATION_FAIL: command token outside a column-0 declaration in ClosedSuperlevel:27: theorem'] | scan refused: command token outside a column-0 declaration in ClosedSuperlevel:27: theorem
+dec 1.theorem (Lean error anyway)                                      | REFUSED rc=1 ['TORUS_FILTRATION_FAIL: command token outside a column-0 declaration in ClosedSuperlevel:27: theorem'] | scan refused: command token outside a column-0 declaration in ClosedSuperlevel:27: theorem
+dec 1.5theorem                                                         | REFUSED rc=1 ['TORUS_FILTRATION_FAIL: command token outside a column-0 declaration in ClosedSuperlevel:27: theorem'] | scan refused: command token outside a column-0 declaration in ClosedSuperlevel:27: theorem
+dec 1e-5theorem                                                        | REFUSED rc=1 ['TORUS_FILTRATION_FAIL: command token outside a column-0 declaration in ClosedSuperlevel:27: theorem'] | scan refused: command token outside a column-0 declaration in ClosedSuperlevel:27: theorem
+nested /- /- -/ -/ splice                                              | REFUSED rc=1 ['TORUS_FILTRATION_FAIL: command token outside a column-0 declaration in ClosedSuperlevel:34: theorem'] | scan refused: command token outside a column-0 declaration in ClosedSuperlevel:34: theorem
+multi-line block splice                                                | REFUSED rc=1 ['TORUS_FILTRATION_FAIL: command token outside a column-0 declaration in ClosedSuperlevel:34: theorem'] | scan refused: command token outside a column-0 declaration in ClosedSuperlevel:34: theorem
+doc-comment splice /-- -/                                              | REFUSED rc=1 ['TORUS_FILTRATION_FAIL: command token outside a column-0 declaration in ClosedSuperlevel:34: theorem'] | scan refused: command token outside a column-0 declaration in ClosedSuperlevel:34: theorem
+-- at line end then indented keyword                                   | REFUSED rc=1 ['TORUS_FILTRATION_FAIL: command token outside a column-0 declaration in ClosedSuperlevel:35: theorem'] | scan refused: command token outside a column-0 declaration in ClosedSuperlevel:35: theorem
+-- hides /- opener, next line keyword                                  | REFUSED rc=1 ['TORUS_FILTRATION_FAIL: command token outside a column-0 declaration in ClosedSuperlevel:35: theorem'] | scan refused: command token outside a column-0 declaration in ClosedSuperlevel:35: theorem
+)theorem                                                               | REFUSED rc=1 ['TORUS_FILTRATION_FAIL: command token outside a column-0 declaration in ClosedSuperlevel:27: theorem'] | scan refused: command token outside a column-0 declaration in ClosedSuperlevel:27: theorem
+]theorem                                                               | REFUSED rc=1 ['TORUS_FILTRATION_FAIL: command token outside a column-0 declaration in ClosedSuperlevel:27: theorem'] | scan refused: command token outside a column-0 declaration in ClosedSuperlevel:27: theorem
+,theorem                                                               | REFUSED rc=1 ['TORUS_FILTRATION_FAIL: command token outside a column-0 declaration in ClosedSuperlevel:27: theorem'] | scan refused: command token outside a column-0 declaration in ClosedSuperlevel:27: theorem
+«theorem» (Lean: escaped ident; scanner: safe false refusal)           | REFUSED rc=1 ['TORUS_FILTRATION_FAIL: command token outside a column-0 declaration in ClosedSuperlevel:34: theorem'] | scan refused: command token outside a column-0 declaration in ClosedSuperlevel:34: theorem
+x.«theorem»                                                            | REFUSED rc=1 ['TORUS_FILTRATION_FAIL: command token outside a column-0 declaration in ClosedSuperlevel:27: theorem'] | scan refused: command token outside a column-0 declaration in ClosedSuperlevel:27: theorem
+.theorem adjacency                                                     | REFUSED rc=1 ['TORUS_FILTRATION_FAIL: command token outside a column-0 declaration in ClosedSuperlevel:27: theorem'] | scan refused: command token outside a column-0 declaration in ClosedSuperlevel:27: theorem
+unicode αtheorem (Lean ident; safe false refusal)                      | REFUSED rc=1 ['TORUS_FILTRATION_FAIL: command token outside a column-0 declaration in ClosedSuperlevel:27: theorem'] | scan refused: command token outside a column-0 declaration in ClosedSuperlevel:27: theorem
+unicode theoremα                                                       | REFUSED rc=1 ['TORUS_FILTRATION_FAIL: command token outside a column-0 declaration in ClosedSuperlevel:27: theorem'] | scan refused: command token outside a column-0 declaration in ClosedSuperlevel:27: theorem
+NBSP-indented theorem                                                  | REFUSED rc=1 ['TORUS_FILTRATION_FAIL: command token outside a column-0 declaration in ClosedSuperlevel:34: theorem'] | scan refused: command token outside a column-0 declaration in ClosedSuperlevel:34: theorem
+zero-width-space col0 theorem                                          | REFUSED rc=1 ['TORUS_FILTRATION_FAIL: unexpected column-0 line in ClosedSuperlevel:34: \u200btheorem hidden : True := trivial'] | scan refused: unexpected column-0 line in ClosedSuperlevel:34: ​theorem hidden : True := trivial
+col-0 block-comment prefix /- c -/theorem (now refused: safe direction) | REFUSED rc=1 ['TORUS_FILTRATION_FAIL: command token outside a column-0 declaration in ClosedSuperlevel:12: theorem'] | scan refused: command token outside a column-0 declaration in ClosedSuperlevel:12: theorem
+_theorem identifier (Lean ident)                                       | ACCEPTED rc=0 | scan ok
+theorem' identifier (Lean ident)                                       | ACCEPTED rc=0 | scan ok
+theorem.hidden dotted identifier (Lean ident)                          | ACCEPTED rc=0 | scan ok
+theorem?                                                               | ACCEPTED rc=0 | scan ok
+1.theorem in where                                                     | REFUSED rc=1 ['TORUS_FILTRATION_FAIL: command token outside a column-0 declaration in ClosedSuperlevel:35: theorem'] | scan refused: command token outside a column-0 declaration in ClosedSuperlevel:35: theorem
+where hidden (non-internal: census refuses)                            | ACCEPTED rc=0 | scan ok
+where proof_1 (internal: census excludes)                              | ACCEPTED rc=0 | scan ok
+where _hidden (internal)                                               | ACCEPTED rc=0 | scan ok
+where eq_ (internal: empty suffix)                                     | ACCEPTED rc=0 | scan ok
+where match_1 omega_2 eq_3                                             | ACCEPTED rc=0 | scan ok
+where «proof_1»                                                        | ACCEPTED rc=0 | scan ok
+where eq_def (NOT internal)                                            | ACCEPTED rc=0 | scan ok
+register_parser_alias indented                                         | ACCEPTED rc=0 | scan ok
+initialize_simps_projections indented                                  | ACCEPTED rc=0 | scan ok
+lrat_proof (string-guarded)                                            | REFUSED rc=1 ['TORUS_FILTRATION_FAIL: string literal in code: ClosedSuperlevel:6'] | scan refused: string literal in code: ClosedSuperlevel:6
+init_quot indented                                                     | ACCEPTED rc=0 | scan ok
+seal indented (no decl)                                                | ACCEPTED rc=0 | scan ok
+grind_pattern indented (no decl)                                       | ACCEPTED rc=0 | scan ok
+---- census_auxiliary abuse
+aux=TorusFiltration.superlevel_mono.hidden source rc=0 []
+aux=TorusFiltration..x source rc=0 []
+aux=TorusFiltration._private.x source rc=0 []
+aux=TorusFiltration.a.b.c.d source rc=0 []
+finish with whitelisted superlevel_mono.hidden: rc=0 {'auxiliary': ['TorusFiltration.torus_periodBasis.congr_simp'], 'constants': 59}

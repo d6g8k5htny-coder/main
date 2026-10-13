@@ -1,0 +1,16 @@
+(a) enumeration / MAIN_COMMIT hits in the 7 in-scope files:
+    tools/museum_data.py:20: MAIN_COMMIT = "71400b94f6cb354a8cf7aba73ffede2138a64efa"
+    MAIN_COMMIT load-uses in museum_data.py (AST): []
+(b) packet_descriptors() lines 454-460: docstring='Only the packet already present on the pinned main tree is selected.'; returns List literal with 1 element(s); args=0
+    print at line 553: arg is Constant -> 'Museum projection verified: 11 reviewed bullets, 3 AMEND rows, 1 landed packet; scientific effect NONE.'
+(c) declared main pin (STATUS/packet commit): 71400b94f6cb354a8cf7aba73ffede2138a64efa
+    ls-tree -d 71400b94 incoming/ : ['incoming/side24-identity-replay-20260926']
+    museum.json packets          : ['side24-identity-replay-20260926@71400b94']
+    ls-tree -d a12c178c incoming/ : ['incoming/side24-chart-claude-20260926', 'incoming/side24-identity-replay-20260926']
+    a12c178c subject: incoming/side24-chart-claude-20260926: regenerated SIDE24 coefficient chart, public task #141 (#150) | Sat Sep 26 12:52:56 2026 -0500
+    main source STATUS.md: blob@a12c178c == pinned blob: True
+    main source reviews/sard_g_successor_a1_a6_20260926/REVIEW.md: blob@a12c178c == pinned blob: True
+    main source incoming/side24-identity-replay-20260926/IDENTITY.json: blob@a12c178c == pinned blob: True
+    main source incoming/side24-identity-replay-20260926/output.json: blob@a12c178c == pinned blob: True
+    main source docs/notebooks/SIDE24_PUBLIC_COEFFICIENTS.ipynb: blob@a12c178c == pinned blob: True
+    main source incoming/side24-identity-replay-20260926/RESULT.md: blob@a12c178c == pinned blob: True

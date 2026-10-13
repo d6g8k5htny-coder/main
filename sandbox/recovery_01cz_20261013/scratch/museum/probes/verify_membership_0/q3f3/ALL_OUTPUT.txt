@@ -1,0 +1,44 @@
+== facts
+  3b8c454 TEST ONLY: inject formal receipt-stage failure; NEVER MERGE
+  3b8c4545 ancestor of main 513261bb: NO
+  3b8c4545 ancestor of #151 merge d77a85a7: NO
+  control: real pin 71400b94 ancestor of #151 merge d77a85a7: yes
+  STATUS.md identical at both commits (git show from object store, not working tree)
+  incoming/side24-identity-replay-20260926/RESULT.md identical at both commits (git show from object store, not working tree)
+== variant A (pin changed in: tools/museum_data.py)
+  unittest test_museum_data.py exit=1 :: FAILED (failures=2, errors=1)
+    FAIL: test_packet_selection_excludes_unknown_fork_packet (test_museum_data.MuseumDataTests.test_packet_selection_excludes_unknown_fork_packet)
+    AssertionError: '3b8c45452c01f669a7245c472acdb8cc4af5b2f6' != '71400b94f6cb354a8cf7aba73ffede2138a64efa'
+    FAIL: test_plain_fixture_directory_does_not_bypass_byte_verification (test_museum_data.MuseumDataTests.test_plain_fixture_directory_does_not_bypass_byte_verification)
+  museum_check exit=0 :: Museum source export and actual display integration verified. Scientific effect NONE.
+  geometry exit=0
+  museum.json       8 "commit": "3b8c45452c01f669a7245c472acdb8cc4af5b2f6"
+  museum.json      37 "commit": "d6628da09384728992dcbe6e921cc28ba85aebb0"
+  strict render: status_source.commit=3b8c4545 packet.result.commit=3b8c4545
+  museum-state: Source projections and displayed source bytes verified. These checks establish byte identity, not mathematical acceptance.
+  main fetches: 200 main@3b8c4545:STATUS.md | 200 main@3b8c4545:incoming/side24-identity-replay-20260926/RESULT.md | 200 main@3b8c4545:reviews/sard_g_successor_a1_a6_20260926/REVIEW.md | 200 main@3b8c4545:docs/notebooks/SIDE24_PUBLIC_COEFFICIENTS.ipynb
+  packet card shows: Packet — not STATUS Repository d6g8k5htny-coder/main Path incoming/side24-identity-replay-20260926/RESULT.md Commit 3b8c45452c01f669a7245c472acdb8cc4af5b2f6
+  static section text: These are pinned landed submissions....
+  refused cards: 0
+== variant B (pin changed in: tools/museum_data.py, tests/test_museum_data.py)
+  unittest test_museum_data.py exit=1 :: FAILED (failures=1, errors=1)
+    FAIL: test_plain_fixture_directory_does_not_bypass_byte_verification (test_museum_data.MuseumDataTests.test_plain_fixture_directory_does_not_bypass_byte_verification)
+    AssertionError: ValueError not raised
+  museum_check exit=0 :: Museum source export and actual display integration verified. Scientific effect NONE.
+  geometry exit=0
+  museum.json       8 "commit": "3b8c45452c01f669a7245c472acdb8cc4af5b2f6"
+  museum.json      37 "commit": "d6628da09384728992dcbe6e921cc28ba85aebb0"
+  strict render: status_source.commit=3b8c4545 packet.result.commit=3b8c4545
+  museum-state: Source projections and displayed source bytes verified. These checks establish byte identity, not mathematical acceptance.
+  main fetches: 200 main@3b8c4545:STATUS.md | 200 main@3b8c4545:incoming/side24-identity-replay-20260926/RESULT.md | 200 main@3b8c4545:reviews/sard_g_successor_a1_a6_20260926/REVIEW.md | 200 main@3b8c4545:docs/notebooks/SIDE24_PUBLIC_COEFFICIENTS.ipynb
+  packet card shows: Packet — not STATUS Repository d6g8k5htny-coder/main Path incoming/side24-identity-replay-20260926/RESULT.md Commit 3b8c45452c01f669a7245c472acdb8cc4af5b2f6
+  static section text: These are pinned landed submissions....
+  refused cards: 0
+== ancestry/default-branch logic anywhere in museum code, tests or workflows at cd32303:
+  tools/museum_data.py:0
+  tools/museum_check.py:0
+  docs/site/museum.mjs:0
+  docs/site/core.mjs:0
+  tests/test_museum_data.py:0
+  tests/test_museum_frontend.mjs:0
+  .github/workflows/public-shop.yml:0

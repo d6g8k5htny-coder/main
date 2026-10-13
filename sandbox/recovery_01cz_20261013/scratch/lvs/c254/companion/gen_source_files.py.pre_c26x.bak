@@ -1,0 +1,147 @@
+#!/usr/bin/env python3
+"""Regenerate companions/torus_filtration_20261011/SOURCE_FILES.json from the worktree (stdlib only).
+
+Lives outside the repository on purpose: the inventory it writes is derived from the
+C254 handoff originals (hashes efa80d28… / 1fed3eda…) and the fixed modules must carry
+exactly the same declaration names under namespace TorusFiltration. The generator
+recomputes every file identity (bytes, sha256, git blob) from the worktree, verifies
+the module inventories against the Lean files when they are present, and refuses to
+run when the companion directory holds files the manifest cannot account for.
+
+    python3 -B -S gen_source_files.py [--worktree PATH] [--check] [--allow-missing]
+
+--check compares and exits 1 on drift without writing. --allow-missing tolerates
+absent required files (before the integrator places the modules); the integrator
+runs the generator WITHOUT it, last, after every other companion byte is final.
+Scientific effect NONE; this writes an identity inventory, not a status.
+"""
+import argparse
+import importlib.util
+import json
+from pathlib import Path
+import sys
+
+DEFAULT_WORKTREE = Path('<SCRATCH>/repos/math_c254')
+IGNORED_SUFFIXES = ('.olean', '.ilean', '.trace', '.hash', '.pyc')
+IGNORED_NAMES = ('__pycache__', '.lake')
+
+THEOREMS = {
+    'TorusTopology': [
+        'torus_field_latticeVec_formula', 'torus_basis_sum_eq_latticeVec', 'torus_lattice_mem_iff',
+        'torus_proj_surjective', 'torus_proj_continuous', 'torus_proj_eq_iff', 'torus_control_lattice_translate',
+        'torus_proj_isCoveringMap', 'torus_compact', 'torus_pathConnectedSpace', 'torus_field_periodic_formula',
+        'torus_periodic_respects', 'torus_descend_proj', 'torus_descend_continuous', 'torus_path_lift_from',
+        'torus_control_constant_path_endpoint', 'torus_control_no_arbitrary_endpoint', 'torus_higher_path_iff',
+        'torus_strict_higher_path_iff', 'torus_closed_higher_path_iff', 'torus_global_max_iff'],
+    'ClosedSuperlevel': [
+        'superlevel_control_closed_endpoint', 'superlevel_control_strict_endpoint', 'superlevel_control_parameter_sign',
+        'superlevel_control_inclusion_direction', 'superlevel_control_essential', 'superlevel_mono', 'superlevel_isClosed',
+        'superlevel_inclusion_id', 'superlevel_inclusion_comp', 'superlevel_mem_at_own_height', 'superlevel_neg_height',
+        'superlevel_control_strict_thresholds', 'superlevel_componentMap_mk', 'superlevel_componentMap_id',
+        'superlevel_componentMap_comp', 'superlevel_componentInclusion_id', 'superlevel_componentInclusion_comp',
+        'superlevel_component_eq_iff_joinedIn', 'superlevel_h0Filtration_map_id', 'superlevel_h0Filtration_map_comp']}
+DEFINITIONS = {
+    'TorusTopology': {
+        'abbrev': ['torus_E', 'torus_quotient'],
+        'def': ['torus_latticeVec', 'torus_periodBasis', 'torus_periodLattice', 'torus_proj', 'torus_isPeriodic',
+                'torus_descend'],
+        'instance': ['torus_lattice_discrete', 'torus_lattice_addSubgroup_discrete', 'torus_lattice_isZLattice']},
+    'ClosedSuperlevel': {
+        'abbrev': [],
+        'def': ['superlevel_set', 'superlevel_inclusion', 'superlevel_componentMap', 'superlevel_componentInclusion',
+                'superlevel_filtration', 'superlevel_h0Filtration'],
+        'instance': []}}
+PROVENANCE = {
+    'claim': '8a5c7a24-784b-4aaa-b951-cd9f37b0dc64',
+    'handoff_pr': 'd6g8k5htny-coder/Math-#419',
+    'handoff_comments': {
+        'modules': '6111056103', 'overlay': '6111059166', 'nonauthor_source_review_compilation_hold': '6111059498',
+        'implementer_report': '6111059848', 'local_elaboration_report': '6111093545', 'pickup_this_lane': '6111139060',
+        'c255_route_finding_d2_pins_companion_route': '6111255007'},
+    'original_sha256': {
+        'ResearchFormalCoreR1/TorusTopology.lean': 'efa80d2879758b6d6473a0024a308ff758c308cdc8e4b5f400f39dde63a7f6f4',
+        'ResearchFormalCoreR1/ClosedSuperlevel.lean': '1fed3edada12b4dc7f5fcf874dae7ccde5d8f65af63cf103159debe58ba6789e'},
+    'original_status': 'NOT_COMPILED',
+    'namespace_mapping': 'ResearchFormalCoreR1.<n> (handoff) -> TorusFiltration.<n> (companion)',
+    'source_author': 'OpenAI/Codex lane (C254), delegated AI work for Dylan Roy',
+    'compile_fixes_and_companion': 'Anthropic/Claude lane, delegated AI work for Dylan Roy',
+    'organizational_independence_credit': 0,
+    'human_review': 'none'}
+
+
+def load_checker(side):
+    spec = importlib.util.spec_from_file_location('torus_filtration_check', side / 'check.py')
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
+    parser.add_argument('--worktree', type=Path, default=DEFAULT_WORKTREE)
+    parser.add_argument('--check', action='store_true', help='compare only; exit 1 on drift')
+    parser.add_argument('--allow-missing', action='store_true', help='tolerate absent required files (pre-integration)')
+    args = parser.parse_args()
+    root = args.worktree.resolve()
+    checker = load_checker(root / 'companions/torus_filtration_20261011')
+    side = root / checker.PACKAGE
+    failures = []
+    files = {}
+    for path in checker.REQUIRED_FILES:
+        target = root / path
+        if target.is_file():
+            files[path] = checker.identity(target.read_bytes())
+        else:
+            failures.append('missing required file: ' + path)
+    accounted = {Path(p).name for p in checker.REQUIRED_FILES if p.startswith(checker.PACKAGE + '/')} | {'SOURCE_FILES.json'}
+    for entry in sorted(side.iterdir()):
+        if entry.name in accounted or entry.name in IGNORED_NAMES or entry.name.endswith(IGNORED_SUFFIXES):
+            continue
+        failures.append('unaccounted file in companion directory: ' + entry.name)
+    for module in checker.MODULES:
+        path = side / (module + '.lean')
+        if not path.is_file():
+            continue
+        try:
+            scan = checker.scan_module(path.read_text(encoding='utf-8'), module)
+        except ValueError as failure:
+            failures.append(str(failure))
+            continue
+        if scan['theorem'] != THEOREMS[module]:
+            failures.append('theorem inventory differs from the handoff originals: ' + module)
+        for kind in ('abbrev', 'def', 'instance'):
+            if scan[kind] != DEFINITIONS[module][kind]:
+                failures.append(kind + ' inventory differs from the handoff originals: ' + module)
+    root_module = side / (checker.ROOT_MODULE + '.lean')
+    if root_module.is_file() and root_module.read_text(encoding='utf-8') != checker.ROOT_SOURCE:
+        failures.append('root module text differs from the fixed import list')
+    missing = [f for f in failures if f.startswith('missing required file')]
+    hard = [f for f in failures if not f.startswith('missing required file')]
+    if hard or (missing and not args.allow_missing):
+        for failure in failures:
+            print('GEN_SOURCE_FILES_FAIL: ' + failure, file=sys.stderr)
+        return 1
+    meta = {'schema': 1, 'scientific_effect': 'NONE', 'alignment_status': 'PENDING_INDEPENDENT_REVIEW',
+            'namespace': checker.NAMESPACE, 'root_module': checker.ROOT_MODULE, 'modules': list(checker.MODULES),
+            'definitions': DEFINITIONS, 'theorems': THEOREMS, 'files': files, 'provenance': PROVENANCE,
+            # compiler-generated auxiliaries the elaborated census lists for these modules at the pin (C262 G2 closure)
+            'census_auxiliary': ['TorusFiltration.torus_periodBasis.congr_simp']}
+    rendered = json.dumps(meta, indent=2, sort_keys=True) + '\n'
+    target = side / 'SOURCE_FILES.json'
+    current = target.read_text(encoding='utf-8') if target.is_file() else None
+    if args.check:
+        if current != rendered:
+            print('GEN_SOURCE_FILES_DRIFT: SOURCE_FILES.json does not match the worktree', file=sys.stderr)
+            return 1
+        print('SOURCE_FILES_MATCH: %d files, %d theorems, %d definitions%s' % (
+            len(files), sum(len(v) for v in THEOREMS.values()),
+            sum(len(k) for m in DEFINITIONS.values() for k in m.values()),
+            '; missing tolerated: ' + ', '.join(missing) if missing else ''))
+        return 0
+    target.write_text(rendered, encoding='utf-8')
+    print('SOURCE_FILES_WRITTEN: %s (%d files%s)' % (target, len(files), '; MISSING: ' + '; '.join(missing) if missing else ''))
+    return 0
+
+
+if __name__ == '__main__':
+    sys.exit(main())

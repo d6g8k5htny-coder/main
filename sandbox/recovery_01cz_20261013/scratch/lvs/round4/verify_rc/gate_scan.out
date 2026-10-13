@@ -1,0 +1,26 @@
+HAS_PROP True
+REG_ENTRY {"module": "Specifications/RN.lean", "claim_ids": ["OA-C6-RARE-CLUSTER-20260929-v1"]}
+IMPORTS ['Specifications.RN']
+NAMESPACES ['UniversalLaw.Proofs.RNCluster', 'UniversalLaw.Proofs.RNCluster.Aux']
+AUX_THEOREMS 18 AUXDEFS 0
+SET_OPTIONS []
+THEOREM {"name": "UniversalLaw.Proofs.RNCluster.rareClusterPoissonObstructionO", "line": 302, "proves": "UniversalLaw.Spec.RN.RareClusterPoissonObstructionO", "binders": [{"kind": "explicit", "names": ["μ"]}, {"kind": "explicit", "names": ["a", "A"]}], "arguments": ["μ", "a", "A"], "doc": {"proves": "`UniversalLaw.Spec.RN.RareClusterPoissonObstructionO` (claim `OA-C6-RARE-CLUSTER-20260929-v1`).", "method": "the antecedents at `r0` give `2a ≤ A` (`Aux.rc_two_mul_tail_two_le_mean`,", "does_not_establish": "the informal Theorem O (3.1) of the source as the source's statement (the"}}
+REFUSED []
+HASH None
+PATTERN fun\s*⟨ []
+PATTERN fun\s*\| []
+PATTERN \bmatch\b []
+PATTERN set_option []
+PATTERN \bprivate\b []
+PATTERN \bdef\b []
+PATTERN \babbrev\b []
+PATTERN \binstance\b []
+PATTERN \bexample\b []
+PATTERN \bvariable\b []
+PATTERN \bsection\b []
+SCAN_OK
+CONTROL_EXTRA_HYP refused: UniversalLaw.Proofs.RNCluster.rareClusterPoissonObstructionO: explicit parameter 'h' is not passed to UniversalLaw.Spec.RN.RareClusterPoissonObstructionO: an ex
+CONTROL_SORRY refused: refused token(s) in RNCluster: ['sorry']
+CONTROL_NARROW refused: RNCluster:302: theorem UniversalLaw.Proofs.RNCluster.rareClusterPoissonObstructionO: result type 'UniversalLaw.Spec.RN.RareClusterPoissonObstructionO μ a (2*A)'
+CONTROL_HASH refused: RNCluster:328: `#` commands have no place in a proof module
+CONTROL_NS refused: RNCluster:36: namespace UniversalLaw.Proofs.RNClusterX is outside the module namespace UniversalLaw.Proofs.RNCluster

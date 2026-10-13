@@ -1,0 +1,6 @@
+[baseline] project() == committed claims: True
+(a) generator edit: d5-pin open_specs review_target := 'PROOF_INDEX.md' -> ACCEPTED; d5-pin review pointer_only=None, path=PROOF_INDEX.md, equals JS probe (a1) descriptor: True
+(b1) generator edit: SOURCES[pr28 REVIEW.md].commit := bebb77ae -> ACCEPTED; review commit=bebb77ae while INDEX commit=d6628da0
+(b2/control) generator: repository query- in a SOURCES identity (verify_bytes, run for every source by build()) -> REFUSED: ValueError invalid source identity
+(c/control) generator: CLAIM_SPECS d5-all-height review := 'REVIEW.md' -> REFUSED: ValueError review pointer differs from audited projection
+(d) generator edit: CLAIM_SPECS d2 review := d2 proof path -> ACCEPTED; d2 review path=frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md pointer_only=None

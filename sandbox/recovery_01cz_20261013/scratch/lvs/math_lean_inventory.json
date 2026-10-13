@@ -1,0 +1,2348 @@
+{
+ "summary": "Exhaustive read of every Lean module in Math- (6c020d6): the 8-module ResearchFormalCoreR1 package (63 gate targets, Lean v4.34.1, mathlib d13f23b7), three D2 companions (26 targets, compiled via lake env with hash-pinned core), the 152-declaration CapFirstExit frontier (D1 component III cap/first-exit, own gate), and three unregistered W3Scratch modules (101 declarations, SIDE24 dual law / theta-series, built by no workflow). All formal work is conditional scalar algebra, abstract measure-theoretic transfer, D2 Schur positivity, or the deterministic cap topology; no Gaussian field, Palm law, coefficient enclosure, D1 validity premise, D3-LEMMA-RN-UNIF, lifetime law or prize claim is touched. Every alignment status is PENDING_INDEPENDENT_REVIEW; no kernel receipt is committed (workflow artifacts only, 14/30-day retention). Math-'s gate (flat name list, hard-coded namespace, exact Lean release commit, blueprint links, 5 controls, proposal-author lineage) differs from main's (structured targets with verbatim informal anchors and does_not_claim, lexical sorry/axiom scan, manifest-declared textual controls, dependency-free, substring version check).",
+ "data": {
+  "projects": [
+   {
+    "root": "formal/ (Math- d6g8k5htny-coder/Math- @ 6c020d6; formal tree 38b6d1a7746075b560349d184a461933745c11ce; manifest.json sha256 40cb6ffc6776717a26d2a0a66815aeef508b0c8411588fff06ff2cec43a752a1; gate.py sha256 278989bbba7e1f90870ea0d197a996bc0a65b2a4b217e2eb284accb1282356c1)",
+    "package": "universal_law_formal / lean_lib ResearchFormalCoreR1 (lakefile.toml defaultTargets)",
+    "toolchain": "leanprover/lean4:v4.34.1 (gate.py additionally requires `lake env lean --version` to read exactly 'Lean (version 4.34.1, ..., commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)')",
+    "mathlib_rev": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+    "other_dependency_revisions": {
+     "plausible": "118aa17ee84656b8bd727fef7c458ee8c833385c",
+     "LeanSearchClient": "ddf04cf3949fa556442341e87d47f9f6e6074707",
+     "importGraph": "e928b72544873815af278d38681b31c0293588e3",
+     "proofwidgets": "106ff4fafc74ef4ac99d81dbf3ab399118f497a5",
+     "aesop": "355695d523e41d0554926416cba2a2b3544fbbc9",
+     "Qq": "6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259",
+     "batteries": "f2effa3d803fda822b1f97b806c47cf2adfbcbc2",
+     "Cli": "e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204"
+    },
+    "manifest_status": {
+     "formalization_status": "proved (manifest may not say kernel-checked; only a run receipt may)",
+     "alignment_status": "PENDING_INDEPENDENT_REVIEW",
+     "scientific_effect": "NONE",
+     "target_count": 63,
+     "bound_files": 39
+    },
+    "gate": "formal/gate.py (stdlib): source_check = manifest schema, SHA-256 of every bound file, originals hashes hard-coded, toolchain string, lake-manifest == dependency_revisions, root imports exactly source_modules, targets == regex ^(theorem|lemma) names prefixed ResearchFormalCoreR1., blueprint \\lean{} links resolve and no \\leanok, no unregistered .lean; --execute = version preflight (exact release commit), rm .lake/build, lake build, lake env leanchecker ResearchFormalCoreR1, #print axioms for all 63 (only propext/Classical.choice/Quot.sound), #check with pp.explicit, 5 negative controls (false_fold, false_power rejected by Lean; sorry, custom_imported axiom, native_decide rejected by axiom gate), re-source-check, installed dependency HEAD == lock, receipt.json in .lake/formal-evidence/; --alignment validates ACCEPTED record: manifest/scope digests, exact target set, author/reviewer/proposal_authors provider+family+agent all nonempty, non-placeholder and pairwise different, evidence repo/40-hex commit/sha256/path",
+    "blueprint": "formal/blueprint/src/content.tex: link-only; 7 \\lean links (ec005_fold_gap, ec014_contact_power, p02_lm008_quotient_bound, p02_lm009_palm_r4_to_r3, p02_lm008_event_cs, p02_lm008_measure_transfer, d2_schur_endpoint_lower); no plasTeX site",
+    "evidence_dir": "formal/evidence/: initial-build-failure.log (run 36351673121 at 9cc0fff6, noncomputable + surplus ring), moment-tail-initial-build-failure.log (run 37315764990), weight-perturbation-initial-build-failure.log; all FAILURE logs, no success receipt committed",
+    "tests": "formal/tests/: test_gate.py (gate, blueprint, source contract, runtime-version incl. exact release commit refusal), test_alignment_lineage.py (23 methods), test_measure_bridge.py, test_weighted_law.py, test_moment_tail.py, test_moment_generality.py, test_weight_perturbation.py, test_d2_schur.py; each binds its exact inventory slice (13:20, 20:29, 29:36, 36:40, 40:47, 47:63) plus exact rational finite-model falsification; none runs Lean",
+    "modules": [
+     {
+      "path": "formal/ResearchFormalCoreR1.lean",
+      "imports_mathlib": false,
+      "imports": [
+       "ResearchFormalCoreR1.AlgebraV2",
+       "ResearchFormalCoreR1.ProbabilityCompanionsV2",
+       "ResearchFormalCoreR1.MeasureBridge",
+       "ResearchFormalCoreR1.WeightedLaw",
+       "ResearchFormalCoreR1.MomentTail",
+       "ResearchFormalCoreR1.MomentGenerality",
+       "ResearchFormalCoreR1.WeightPerturbation",
+       "ResearchFormalCoreR1.D2Schur"
+      ],
+      "declarations": [],
+      "bound_source": "root module; gate requires it to import exactly manifest.source_modules in order",
+      "gate_target": false,
+      "does_not_establish": "n/a (no declarations)"
+     },
+     {
+      "path": "formal/ResearchFormalCoreR1/AlgebraV2.lean",
+      "imports_mathlib": true,
+      "imports": [
+       "Mathlib"
+      ],
+      "declarations": [
+       {
+        "name": "foldPotential",
+        "kind": "noncomputable def",
+        "meaning": "V_s(x) = -x^3/3 + s^2 x, canonical A2 normal-form potential with lambda = s^2"
+       },
+       {
+        "name": "ec005_fold_gap",
+        "kind": "theorem",
+        "meaning": "V_s(s) - V_s(-s) = (2s)^3/6 for every real s"
+       },
+       {
+        "name": "ec008_factor_expansion",
+        "kind": "theorem",
+        "meaning": "scalar polynomial identity in real c,s: 2s^2(A*B - C^2) = s^8(c^2+s^2)(3c^2+s^2)/24 (companion to planar collision-Gram determinant)"
+       },
+       {
+        "name": "ec010_generic",
+        "kind": "theorem",
+        "meaning": "convex-combination polynomial identity (K+8αcη)^2+64α(1-α)c^2η^2 = (1-α)K^2+α(K+8cη)^2"
+       },
+       {
+        "name": "ec010_transverse",
+        "kind": "theorem",
+        "meaning": "convex-combination identity (a+(1-2α)η)^2+4α(1-α)η^2 = (1-α)(a+η)^2+α(a-η)^2"
+       },
+       {
+        "name": "ec011_scalar_cancellation",
+        "kind": "theorem",
+        "meaning": "(-h w) g + w (h g) = 0 (scalar companion to adjoint-orbit calculation)"
+       },
+       {
+        "name": "ec014_contact_power",
+        "kind": "theorem",
+        "meaning": "(r^3/6)(1/r^5) r^2 = 1/6 for r != 0"
+       }
+      ],
+      "bound_source": "GP-FOR-192 recovered archive research_formal_core_r2.zip (SHA256 a6440511fc259706457b18227734013966251105d538fdeabe633bb73f168631, 10,644 B); original bytes formal/originals/Algebra.lean.txt (SHA256 4c196820...); compiler-only repairs documented in COMPATIBILITY.md; labels EC-005, EC-008, EC-010, EC-011, EC-014 (register labels did not supply these theorems; Status.lean deliberately not imported)",
+      "gate_target": true,
+      "does_not_establish": "random-field normal-form construction or persistence pairing (EC-005); construction/positivity of the actual conditional covariance matrix (EC-008); validity/coverage of the geometric charts (EC-010); any ODE, matrix adjoint transport or Hessian symmetry (EC-011); six-pin determinant, change of variables or Kac-Rice density (EC-014)"
+     },
+     {
+      "path": "formal/ResearchFormalCoreR1/ProbabilityCompanionsV2.lean",
+      "imports_mathlib": true,
+      "imports": [
+       "Mathlib"
+      ],
+      "declarations": [
+       {
+        "name": "p02_lm008_r2_cancel",
+        "kind": "theorem",
+        "meaning": "(sqrt cW * r^2 * sqrt q)/(cZ r^2) = (sqrt cW / cZ) sqrt q for r, cZ != 0"
+       },
+       {
+        "name": "p02_lm008_cross_multiplied",
+        "kind": "theorem",
+        "meaning": "from n <= sqrt cW r^2 sqrt q and cZ r^2 <= z (signs supplied) derive n (cZ r^2) <= (sqrt cW r^2 sqrt q) z"
+       },
+       {
+        "name": "p02_lm008_quotient_bound",
+        "kind": "theorem",
+        "meaning": "with z > 0, cZ r^2 <= z, n <= sqrt cW r^2 sqrt q: n/z <= (sqrt cW / cZ) sqrt q (Palm square-root transfer coefficient, conditional)"
+       },
+       {
+        "name": "p02_lm009_bad_event_threshold",
+        "kind": "theorem",
+        "meaning": "ε < r R^5 with r > 0 implies ε/r < R^5"
+       },
+       {
+        "name": "p02_lm009_power40_identity",
+        "kind": "theorem",
+        "meaning": "(R^5)^8 = R^40"
+       },
+       {
+        "name": "p02_lm009_r4_le_r3",
+        "kind": "theorem",
+        "meaning": "r^4 <= r^3 on 0 <= r <= 1"
+       },
+       {
+        "name": "p02_lm009_palm_r4_to_r3",
+        "kind": "theorem",
+        "meaning": "p <= C r^4 with C >= 0, 0 <= r <= 1 implies p <= C r^3"
+       }
+      ],
+      "bound_source": "GP-FOR-192 archive; original bytes formal/originals/ProbabilityCompanions.lean.txt (SHA256 4ace6600...); successor SHA256 338452a0ca2ba24d016059354d543cc995b8cb29c9d4a41d98bb93499f5f8cb8f; labels P02-LM-008 and P02-LM-009",
+      "gate_target": true,
+      "does_not_establish": "the measure-theoretic Cauchy-Schwarz step, moment estimates, existence or uniformity of the lower normalizer, a probabilistic conditioning argument, Markov/moment hypotheses or tail-event measurability, existence of a uniform C, any all-small-r stochastic theorem or parent closure; GP214's upper bound Z_r <= 15 r^2 cannot supply the needed lower bound cZ r^2 <= z"
+     },
+     {
+      "path": "formal/ResearchFormalCoreR1/MeasureBridge.lean",
+      "imports_mathlib": true,
+      "imports": [
+       "ResearchFormalCoreR1.ProbabilityCompanionsV2"
+      ],
+      "declarations": [
+       {
+        "name": "p02_lm008_integral_cs",
+        "kind": "theorem",
+        "meaning": "Bochner Cauchy-Schwarz: ∫ f g <= sqrt(∫ f^2) sqrt(∫ g^2) for a.e.-nonnegative MemLp 2 functions under one measure (via mathlib integral_mul_le_Lp_mul_Lq_of_nonneg, exponents 2,2)"
+       },
+       {
+        "name": "p02_lm008_event_cs",
+        "kind": "theorem",
+        "meaning": "∫_A W <= sqrt(∫ W^2) sqrt(μ A) for probability μ, measurable A, W >= 0 a.e. in L2; no independence"
+       },
+       {
+        "name": "p02_lm008_event_numerator",
+        "kind": "theorem",
+        "meaning": "∫ W^2 <= cW r^4 implies ∫_A W <= sqrt cW r^2 sqrt(μ A)"
+       },
+       {
+        "name": "p02_lm008_measure_transfer",
+        "kind": "theorem",
+        "meaning": "with cZ r^2 <= ∫ W (lower normalizer) and the second-moment premise: (∫_A W)/(∫ W) <= (sqrt cW / cZ) sqrt(μ A); positivity of ∫ W derived from the lower bound"
+       },
+       {
+        "name": "p02_lm009_measure_transfer_r8_to_r3",
+        "kind": "theorem",
+        "meaning": "adding μ A <= K r^8 and r <= 1: (∫_A W)/(∫ W) <= ((sqrt cW / cZ) sqrt K) r^3"
+       },
+       {
+        "name": "p02_lm008_sqrt_counterexample",
+        "kind": "theorem",
+        "meaning": "1 = sqrt 4 * sqrt(1/4) and not 1 <= sqrt 4 * (1/4): omitting the event square root is false"
+       },
+       {
+        "name": "p02_lm008_upper_normalizer_counterexample",
+        "kind": "theorem",
+        "meaning": "1 <= 2*1^2 but 1/1 > (sqrt 1 / 2) sqrt 1: an upper normalizer bound cannot replace the lower one"
+       }
+      ],
+      "bound_source": "P02-LM-008, LCR-CAP-024-v1.0, §§2-3 and §§6-8 at d6g8k5htny-coder/Math- commit 22876edaaec054d3ab8b0b16668ce3ff8cbf8c73, path imports/hardening_ebedb780/P02-LM-008/proof.md.export.txt (MEASURE_BRIDGE.md); author OpenAI / GPT-6 Astra Pro 2026-10-05; module SHA256 28ac130db490c3c3e2fbfabf3ac5be43c854ab1468bf573bf5a8c0dd2c50955f",
+      "gate_target": true,
+      "does_not_establish": "any concrete model moment estimate; validity or uniformity of the second-moment premise in a field model; construction of the reweighted/Palm probability measure (PT1) or proof of its lower normalizer; an event-tail theorem; uniform family of constants; P0.2; parent closure; kernel construction of the finite realizations of the two counterexamples; GT5, exponential/super-polynomial corollary, P02-LM-006, P02-LM-007"
+     },
+     {
+      "path": "formal/ResearchFormalCoreR1/WeightedLaw.lean",
+      "imports_mathlib": true,
+      "imports": [
+       "ResearchFormalCoreR1.MeasureBridge"
+      ],
+      "declarations": [
+       {
+        "name": "weightedLaw",
+        "kind": "noncomputable def",
+        "meaning": "weightedLaw μ W = (ofReal ∫ W)⁻¹ • μ.withDensity (ofReal ∘ W), the normalized nonnegative-weight measure"
+       },
+       {
+        "name": "weightedLaw_apply",
+        "kind": "theorem",
+        "meaning": "ENNReal mass of a measurable A equals (ofReal ∫ W)⁻¹ * ofReal(∫_A W) for integrable a.e.-nonnegative W"
+       },
+       {
+        "name": "weightedLaw_isProbabilityMeasure",
+        "kind": "theorem",
+        "meaning": "integrable, a.e. >= 0, ∫ W > 0 imply total mass one"
+       },
+       {
+        "name": "weightedLaw_event_real",
+        "kind": "theorem",
+        "meaning": "(weightedLaw μ W A).toReal = (∫_A W)/(∫ W)"
+       },
+       {
+        "name": "weightedLaw_absolutelyContinuous",
+        "kind": "theorem",
+        "meaning": "weightedLaw μ W ≪ μ for any W"
+       },
+       {
+        "name": "weightedLaw_congr_ae",
+        "kind": "theorem",
+        "meaning": "W =ᵐ V implies weightedLaw μ W = weightedLaw μ V"
+       },
+       {
+        "name": "weightedLaw_zero",
+        "kind": "theorem",
+        "meaning": "the zero weight gives the zero measure"
+       },
+       {
+        "name": "weightedLaw_one",
+        "kind": "theorem",
+        "meaning": "unit weight on a probability space recovers μ"
+       },
+       {
+        "name": "p02_lm008_probability_transfer",
+        "kind": "theorem",
+        "meaning": "constructed law is a probability measure and (weightedLaw μ W A).toReal <= (sqrt cW / cZ) sqrt(μ A) under the moment/lower-normalizer premises"
+       },
+       {
+        "name": "p02_lm009_probability_transfer_r8_to_r3",
+        "kind": "theorem",
+        "meaning": "same with μ A <= K r^8, r <= 1: bound ((sqrt cW / cZ) sqrt K) r^3"
+       }
+      ],
+      "bound_source": "P02-LM-008 (LCR-CAP-024-v1.0) §§2-3 and PT1 in §4, same commit/path as MeasureBridge; consumed MeasureBridge from Math-#272 at 270167900b71539d0e2135131a3a96f1f04289f6; module SHA256 f31dfd2cd048cc0c0446c54c46d89c9cdd5d7bb9d76e9d8d16b7c034f351d736",
+      "gate_target": true,
+      "does_not_establish": "identification of the constructed law with the program's concrete typed Palm/conditioned field law; concrete model correspondence, moment bounds, lower normalizers, event tails, constant uniformity, GT5, P0.2, the parent persistence theorem; no hypothesis independence asserted"
+     },
+     {
+      "path": "formal/ResearchFormalCoreR1/MomentTail.lean",
+      "imports_mathlib": true,
+      "imports": [
+       "ResearchFormalCoreR1.WeightedLaw"
+      ],
+      "declarations": [
+       {
+        "name": "badJetEvent",
+        "kind": "def",
+        "meaning": "badJetEvent R r ε = {x | ε < r R(x)^5}, the strict fifth-power threshold event"
+       },
+       {
+        "name": "p02_lm009_markov_event",
+        "kind": "theorem",
+        "meaning": "Markov on a finite measure: A ⊆ {a <= Y}, Y integrable a.e. >= 0, a > 0 give (μ A).toReal <= (∫ Y)/a"
+       },
+       {
+        "name": "p02_lm009_badJet_measurable",
+        "kind": "theorem",
+        "meaning": "measurability of badJetEvent from Measurable R"
+       },
+       {
+        "name": "p02_lm009_badJet_subset",
+        "kind": "theorem",
+        "meaning": "badJetEvent R r ε ⊆ {(ε/r)^8 <= R^40}, signed R allowed"
+       },
+       {
+        "name": "p02_lm009_moment40_tail",
+        "kind": "theorem",
+        "meaning": "probability μ, integrable R^40 with ∫ R^40 <= M: μ(badJetEvent) <= (M/ε^8) r^8"
+       },
+       {
+        "name": "p02_lm009_moment40_weighted_r4",
+        "kind": "theorem",
+        "meaning": "weighted law is a probability measure and P_W(badJetEvent) <= ((sqrt cW / cZ) sqrt(M/ε^8)) r^4"
+       },
+       {
+        "name": "p02_lm009_moment40_weighted_r3",
+        "kind": "theorem",
+        "meaning": "same with cubic rate on 0 < r <= 1"
+       },
+       {
+        "name": "p02_lm009_moment40_family_r3",
+        "kind": "theorem",
+        "meaning": "∃ C >= 0, ∀ 0 < r <= r0: probability property and P_{W r}(badJetEvent (R r) r ε) <= C r^3, from uniformly supplied family premises (μ r all probability measures)"
+       }
+      ],
+      "bound_source": "P02-LM-009 scalar companions in ProbabilityCompanionsV2 (SHA256 338452a0...) at predecessor dce1b197be3431673289905259be38b450e9b898 (Math-#273); mathlib MeasureTheory.mul_meas_ge_le_integral_of_nonneg; MOMENT_TAIL.md; module SHA256 87fe3ee90afc52d8c2652881f1ae195d1b0b15a2ffc18c84d6166d1a4d0de2aa",
+      "gate_target": true,
+      "does_not_establish": "a fortieth-moment estimate for a Gaussian jet, a concrete Palm normalizer, derivative-supremum bound, GT5 repair, Kac-Rice identification, the full good event (event is exactly one strict scalar threshold), P0.2, parent persistence theorem; uniformity of constants is assumed not deduced"
+     },
+     {
+      "path": "formal/ResearchFormalCoreR1/MomentGenerality.lean",
+      "imports_mathlib": true,
+      "imports": [
+       "ResearchFormalCoreR1.MomentTail"
+      ],
+      "declarations": [
+       {
+        "name": "p02_lm009_moment40_tail_finite",
+        "kind": "theorem",
+        "meaning": "finite-measure version of the fortieth-moment tail: real MASS of badJetEvent <= (M/ε^8) r^8, no normalization by total mass"
+       },
+       {
+        "name": "p02_lm009_moment40_tail_of_finite",
+        "kind": "theorem",
+        "meaning": "probability-measure version recovered as a specialization"
+       },
+       {
+        "name": "p02_lm009_moment40_family_r3_interval",
+        "kind": "theorem",
+        "meaning": "one C for 0 < r <= r0 assuming probability and all model bounds only on that interval"
+       },
+       {
+        "name": "p02_lm009_moment40_family_r3_of_interval",
+        "kind": "theorem",
+        "meaning": "the globally-probability family interface recovered from the interval theorem"
+       }
+      ],
+      "bound_source": "Math-#276 review reviews/moment_tail_alignment_20261005/REVIEW.md at 0cb17c1b (notes MT-N1, MT-N2); proposals Math-#277 (d1267a61, reviews/lean_cycle2_20261005/agent6/MomentTail_finite_MT_N2.lean.txt) and #278 (cf58e5b8, agent7/MomentTail_family_interval_MT_N1.lean.txt) by Grok Bot agents 6/7; executable adaptation by OpenAI / GPT-6 Astra Pro; integration base a44db48f; module SHA256 fdec55f1...",
+      "gate_target": true,
+      "does_not_establish": "no concrete Gaussian/typed Palm model, supremum moment, lower normalizer, global good-event complement, P0.2 or parent persistence theorem; no theorem asserts every pointwise collection of constants admits one uniform constant"
+     },
+     {
+      "path": "formal/ResearchFormalCoreR1/WeightPerturbation.lean",
+      "imports_mathlib": true,
+      "imports": [
+       "ResearchFormalCoreR1.WeightedLaw"
+      ],
+      "declarations": [
+       {
+        "name": "weightPerturbation_integral",
+        "kind": "theorem",
+        "meaning": "|∫ W - ∫ V| <= ∫ |W - V| for integrable W, V"
+       },
+       {
+        "name": "weightPerturbation_setIntegral",
+        "kind": "theorem",
+        "meaning": "|∫_A W - ∫_A V| <= ∫ |W - V| for any set A"
+       },
+       {
+        "name": "weightPerturbation_normalizer_lower",
+        "kind": "theorem",
+        "meaning": "c <= ∫ V and ∫|W-V| <= δ imply c - δ <= ∫ W"
+       },
+       {
+        "name": "weightPerturbation_event_integral_bounds",
+        "kind": "theorem",
+        "meaning": "0 <= ∫_A W <= ∫ W for nonnegative integrable W"
+       },
+       {
+        "name": "weightPerturbation_quotient_bound",
+        "kind": "theorem",
+        "meaning": "scalar: z,t > 0, 0 <= a <= z, |a-b|,|z-t| <= δ imply |a/z - b/t| <= 2δ/t"
+       },
+       {
+        "name": "weightedLaw_event_perturbation",
+        "kind": "theorem",
+        "meaning": "common measure, V reference with ∫ V >= c > 0, L1 error <= δ <= c/2: ∫ W >= c/2, both weighted laws probability, every measurable-event probability error <= 2δ/c"
+       },
+       {
+        "name": "weightedLaw_event_perturbation_r2",
+        "kind": "theorem",
+        "meaning": "r^2-scaled version: reference >= c r^2, error <= η r^2, η <= c/2 give error <= 2η/c with no r <= 1 restriction"
+       }
+      ],
+      "bound_source": "WEIGHT_PERTURBATION.md (abstract error-propagation interface; no informal register lemma cited); consumed WeightedLaw at 5b012335b279d1f93b930e7b906da09164332c47; mathlib abs_integral_le_integral_abs, integral_sub, setIntegral_le_integral; author OpenAI / GPT-6 Astra Pro session lean-weight-perturbation-20261005; module SHA256 50ce1570...",
+      "gate_target": true,
+      "does_not_establish": "no concrete Gaussian/typed Palm law, coupling of different base measures, convergence of a density, reference normalizer floor, determinant approximation, QS transfer, good-event complement or persistence theorem; does not replace a proof under μ_r with one under μ_0; constant 2 not claimed optimal; η(r) → 0 not proved"
+     },
+     {
+      "path": "formal/ResearchFormalCoreR1/D2Schur.lean",
+      "imports_mathlib": true,
+      "imports": [
+       "Mathlib.Data.Real.Basic",
+       "Mathlib.Tactic"
+      ],
+      "declarations": [
+       {
+        "name": "d2Alpha",
+        "kind": "noncomputable def",
+        "meaning": "alpha = m4 - 2 k4 q with k4 = m4 - 3 m2^2"
+       },
+       {
+        "name": "d2Gamma",
+        "kind": "noncomputable def",
+        "meaning": "gamma = m2^2 + 2 k4 q"
+       },
+       {
+        "name": "d2DetV",
+        "kind": "noncomputable def",
+        "meaning": "D = m2^2 m4 + k4 (m4 + m2^2) q (pin determinant, affine in q)"
+       },
+       {
+        "name": "d2Numerator",
+        "kind": "noncomputable def",
+        "meaning": "N = m2^2 (m4^2 - m2^4)"
+       },
+       {
+        "name": "d2Schur",
+        "kind": "noncomputable def",
+        "meaning": "S = alpha - (gamma^3 + (2 gamma + alpha) k4^2 q (1-4q))/D (conditional Schur expression, Lean total division)"
+       },
+       {
+        "name": "d2Delta",
+        "kind": "noncomputable def",
+        "meaning": "Delta = m6 - m4^2/m2"
+       },
+       {
+        "name": "d2Tau",
+        "kind": "noncomputable def",
+        "meaning": "T = (1-4q) Delta + 4q (Delta + 9 m2 (m4 - m2^2))/4 (cubic variance in cumulant form)"
+       },
+       {
+        "name": "d2_schur_numerator",
+        "kind": "theorem",
+        "meaning": "alpha D - gamma^3 - (2gamma+alpha) k4^2 q(1-4q) = N, no denominator hypothesis"
+       },
+       {
+        "name": "d2_det_axis",
+        "kind": "theorem",
+        "meaning": "D(0) = m2^2 m4"
+       },
+       {
+        "name": "d2_det_diagonal",
+        "kind": "theorem",
+        "meaning": "D(1/4) = (m4 - m2^2)(m4 + 3 m2^2)/4"
+       },
+       {
+        "name": "d2_det_interpolation",
+        "kind": "theorem",
+        "meaning": "D(q) = (1-4q) D(0) + 4q D(1/4) for all real q"
+       },
+       {
+        "name": "d2_schur_ratio",
+        "kind": "theorem",
+        "meaning": "S = N/D when D != 0"
+       },
+       {
+        "name": "d2_numerator_pos",
+        "kind": "theorem",
+        "meaning": "N > 0 from m2 > 0, m4 > m2^2"
+       },
+       {
+        "name": "d2_det_pos",
+        "kind": "theorem",
+        "meaning": "D > 0 from those and 0 <= q <= 1/4"
+       },
+       {
+        "name": "d2_schur_pos",
+        "kind": "theorem",
+        "meaning": "S > 0 under the same conditions"
+       },
+       {
+        "name": "d2_det_le_endpoint_max",
+        "kind": "theorem",
+        "meaning": "D(q) <= max(D(0), D(1/4)) on [0,1/4], no moment positivity needed"
+       },
+       {
+        "name": "d2_schur_endpoint_lower",
+        "kind": "theorem",
+        "meaning": "N / max(D(0), D(1/4)) <= S on [0,1/4] under strict moment hypotheses"
+       },
+       {
+        "name": "d2_tau_cumulant_eq",
+        "kind": "theorem",
+        "meaning": "original sixth/fourth cumulant formula equals T when m2 != 0"
+       },
+       {
+        "name": "d2_tau_axis",
+        "kind": "theorem",
+        "meaning": "T(0) = Delta"
+       },
+       {
+        "name": "d2_tau_diagonal",
+        "kind": "theorem",
+        "meaning": "T(1/4) = (Delta + 9 m2 (m4 - m2^2))/4"
+       },
+       {
+        "name": "d2_tau_pos",
+        "kind": "theorem",
+        "meaning": "T > 0 from m2 > 0, m4 > m2^2, Delta > 0, 0 <= q <= 1/4"
+       },
+       {
+        "name": "d2_gaussian_control",
+        "kind": "theorem",
+        "meaning": "at (m2,m4,m6) = (1,3,15): D = 3, S = 8/3, T = 6 for every real q"
+       },
+       {
+        "name": "d2_degenerate_control",
+        "kind": "theorem",
+        "meaning": "at m2=m4=m6=1, q=1/4: D = 0, S = 2 but N/D = 0, and T(0) = 0: unguarded quotient identity is false at the boundary"
+       }
+      ],
+      "bound_source": "reviews/side24_d2_certified_small_L_claude_20261005/NOTE.md section 2 at Math- ec61d0a4e1d7c29554c0af93fca983092327b618, blob 852f7403a8a06a1ef061e363df9502ae16f7a341, SHA256 407828facb8dde26a036a08a5b3978eb74d6d8a508c68e2758c291e16e911588; Math-#302 comment 6005199919 (attribution/context); author OpenAI / GPT-6 Astra Pro session lean-d2-schur-expansion-20261005; module SHA256 d3fb3ed7..., blob b95460c0d263a32ea274b347079cca6aaab3d2e9",
+      "gate_target": true,
+      "does_not_establish": "construction or covariance identification of the random field; actual matrix inverse/Schur complement or Gram rotation; derivation/realizability of the moment assumptions; q's trigonometric representation; finite-L tails; interval arithmetic or quadrature; coefficient formula (15.2), Gamma normalization or lifetime laws; higher dimensions; persistence matching; CapI4 transport; the informal numerical packet is not validated"
+     }
+    ]
+   },
+   {
+    "root": "companions/d2_moment_bridge_20261006/ (compiled with `lake env lean -DwarningAsError=true --root=<dir>` from formal/, LEAN_PATH prepended; no own lakefile)",
+    "toolchain": "leanprover/lean4:v4.34.1 via formal/ (replay.sh logs lean --version; core gate enforces exact release commit)",
+    "mathlib_rev": "d13f23b723b8a846827a245b89c10fc7d3f11612 (inherited from formal/.lake)",
+    "gate": "companions/d2_moment_bridge_20261006/check.py: source (pins CORE_TREE 38b6d1a7..., CORE_MANIFEST 40cb6ffc..., CORE_GATE 278989bb...; every companion byte == git HEAD blob; GITHUB_SHA/REPOSITORY binding), emit (Audit.lean #print axioms, Types.lean #check, Positive.lean, RejectZeroAtom.lean, RejectSameRadius.lean), negative (log must be exactly '<control>.lean:L:C: error: unsolved goals ⊢ False', exit 1), finish (reuses core gate audit_axioms by hash, requires build/positive/axioms/types/leanchecker --fresh status 0, requires fresh core receipt kernel-checked at same commit); SOURCE_FILES.json lists 2 definitions + 16 theorems",
+    "modules": [
+     {
+      "path": "companions/d2_moment_bridge_20261006/D2MomentBridge.lean",
+      "imports_mathlib": true,
+      "imports": [
+       "ResearchFormalCoreR1.D2Schur",
+       "Mathlib.MeasureTheory.Integral.Bochner.Basic",
+       "Mathlib.Tactic"
+      ],
+      "namespace": "D2MomentBridge",
+      "declarations": [
+       {
+        "name": "moment",
+        "kind": "def (noncomputable section)",
+        "meaning": "moment μ X n = ∫ X^n dμ, actual Bochner integral"
+       },
+       {
+        "name": "cubicResidual",
+        "kind": "def",
+        "meaning": "cubicResidual c x = x^3 - c x"
+       },
+       {
+        "name": "residual_sq_expand",
+        "kind": "theorem",
+        "meaning": "(x^3 - c x)^2 = x^6 - 2c x^4 + c^2 x^2"
+       },
+       {
+        "name": "residual_sq_integrable",
+        "kind": "theorem",
+        "meaning": "integrable X^2, X^4, X^6 imply integrable residual square"
+       },
+       {
+        "name": "residual_integral_eq_delta",
+        "kind": "theorem",
+        "meaning": "∫ (X^3 - (m4/m2) X)^2 = d2Delta m2 m4 m6 at actual moments, m2 != 0"
+       },
+       {
+        "name": "delta_nonneg",
+        "kind": "theorem",
+        "meaning": "Delta >= 0 under the same hypotheses"
+       },
+       {
+        "name": "delta_eq_zero_iff_residual",
+        "kind": "theorem",
+        "meaning": "Delta = 0 iff a.e. cubicResidual (m4/m2) X = 0"
+       },
+       {
+        "name": "cubicResidual_eq_zero_iff",
+        "kind": "theorem",
+        "meaning": "x^3 - c x = 0 iff x = 0 or x^2 = c"
+       },
+       {
+        "name": "delta_eq_zero_iff_support",
+        "kind": "theorem",
+        "meaning": "Delta = 0 iff a.e. X = 0 or X^2 = m4/m2 (zero atom permitted)"
+       },
+       {
+        "name": "delta_pos_iff_not_support",
+        "kind": "theorem",
+        "meaning": "Delta > 0 iff that a.e. condition fails"
+       },
+       {
+        "name": "property_of_ae_of_atom",
+        "kind": "theorem",
+        "meaning": "a positive-mass atom {X = a} inherits any a.e. value property"
+       },
+       {
+        "name": "moment_two_pos_of_atom",
+        "kind": "theorem",
+        "meaning": "integrable X^2 and a nonzero positive-mass atom give m2 > 0"
+       },
+       {
+        "name": "delta_pos_of_two_atoms",
+        "kind": "theorem",
+        "meaning": "two nonzero positive-mass atoms with a^2 != b^2 give Delta > 0"
+       },
+       {
+        "name": "square_gap_integrable",
+        "kind": "theorem",
+        "meaning": "(X^2 - m2)^2 integrable on a probability space with X^2, X^4 integrable"
+       },
+       {
+        "name": "square_gap_integral",
+        "kind": "theorem",
+        "meaning": "∫ (X^2 - m2)^2 = m4 - m2^2 on a probability space"
+       },
+       {
+        "name": "fourth_gt_second_sq_of_two_atoms",
+        "kind": "theorem",
+        "meaning": "probability law with two atoms of distinct squared radii: m2^2 < m4"
+       },
+       {
+        "name": "tau_pos_of_two_atoms",
+        "kind": "theorem",
+        "meaning": "actual-law two-atom premises feed d2_tau_pos: T > 0 on 0 <= q <= 1/4"
+       },
+       {
+        "name": "zero_atom_counterexample",
+        "kind": "theorem",
+        "meaning": "scalar moments of P(0)=1/2, P(±1)=1/4: m4 - m2^2 = 1/4 but Delta = 0"
+       }
+      ],
+      "bound_source": "Math-#302 NOTE.md section 4 and C7 (blob 852f7403); review correction AUD-309-REVIEW-STRICTNESS-01 (#309 comments 6006934456 / 6006807347); consumed D2Schur blob b95460c0; base 2f8b6f372be383d752e9dd30d38234faa977243c (#309 landing); author OpenAI / GPT-6 Astra Pro session d2-moment-law-bridge-20261006; module blob b3184107e290189b91e3e18fd2aa1cb631bb9bde, SHA256 cde3bbd9...",
+      "gate_target": "companion check.py targets (18 axiom/type targets: 2 defs + 16 theorems); NOT in formal/manifest.json",
+      "does_not_establish": "no uniform spectral floor, concrete periodic probability law, moment summability for that law, trigonometric q map, Gaussian/Palm identification, interval quadrature, numerical coefficient or persistence/cap theorem; the finite countermodel law is tested in Python, not constructed in Lean"
+     }
+    ]
+   },
+   {
+    "root": "companions/d2_square_schur_20261006/",
+    "toolchain": "leanprover/lean4:v4.34.1 via formal/",
+    "mathlib_rev": "d13f23b723b8a846827a245b89c10fc7d3f11612 (inherited)",
+    "gate": "companions/d2_square_schur_20261006/check.py (same design as moment bridge; 4 fixed targets; Contract.lean exact-type examples compiled; 3 controls RejectSignedWeights, RejectEndpointMaximum, RejectOutsideDirection must fail with exactly ⊢ False)",
+    "modules": [
+     {
+      "path": "companions/d2_square_schur_20261006/D2SquareSchur.lean",
+      "imports_mathlib": true,
+      "imports": [
+       "ResearchFormalCoreR1.D2Schur"
+      ],
+      "namespace": "D2SquareSchur",
+      "declarations": [
+       {
+        "name": "weighted_square_identity",
+        "kind": "theorem",
+        "meaning": "u(a-c)^2 + v(b-c)^2 = uv/(u+v) (a-b)^2 + (u+v)(c - (ua+vb)/(u+v))^2 for u+v != 0"
+       },
+       {
+        "name": "weighted_square_lower",
+        "kind": "theorem",
+        "meaning": "uv/(u+v) (a-b)^2 <= u(a-c)^2 + v(b-c)^2 for u, v > 0"
+       },
+       {
+        "name": "schur_no_upper",
+        "kind": "theorem",
+        "meaning": "min(m4 - m2^2, 2 m2^2) <= d2Schur m2 m4 q for m2 > 0, m4 > m2^2, 0 <= q <= 1/4 (no upper moment input)"
+       },
+       {
+        "name": "schur_from_lower_inputs",
+        "kind": "theorem",
+        "meaning": "positive lower inputs s0 <= m2, g0 <= m4 - m2^2 give min(g0, 2 s0^2) <= d2Schur"
+       }
+      ],
+      "bound_source": "Math-#328 NOTE sections 3 and 5 at 31f7a6b5a36045be7795a6461da067a8ada96343, blob cedbb44a237d1a158111dca81c30983f7efd37f1; shared two-mass calculation in #326; consumed D2Schur blob b95460c0; author OpenAI / GPT-6 Astra Pro session d2-square-schur-formal-20261006; module blob 4855c92d55254969e1de7f8cf8dec2bdc027cf69",
+      "gate_target": "companion check.py targets (4 theorems); NOT in formal/manifest.json",
+      "does_not_establish": "no atom-measure integral lower bound, moment realizability, periodic spectral law, trigonometric parameterization, Gaussian/Palm covariance identification, quadrature or persistence theorem; #328 comment Part B stronger proposal NOT incorporated"
+     },
+     {
+      "path": "companions/d2_square_schur_20261006/Contract.lean",
+      "imports_mathlib": true,
+      "imports": [
+       "D2SquareSchur"
+      ],
+      "declarations": [
+       {
+        "name": "(4 anonymous examples)",
+        "kind": "example",
+        "meaning": "exact-type restatements of the four targets; compiled with warnings-as-errors as the fixed contract"
+       }
+      ],
+      "bound_source": "same packet",
+      "gate_target": "compiled by replay.sh step 'contract'",
+      "does_not_establish": "nothing beyond type identity of the four targets"
+     }
+    ]
+   },
+   {
+    "root": "companions/d2_atom_integral_20261006/",
+    "toolchain": "leanprover/lean4:v4.34.1 via formal/",
+    "mathlib_rev": "d13f23b723b8a846827a245b89c10fc7d3f11612 (inherited)",
+    "gate": "companions/d2_atom_integral_20261006/check.py (also pins CONSUMED blobs D2MomentBridge b3184107 and D2SquareSchur 4855c92d; compiles both dependencies first; 6 fixed targets; 3 controls RejectOverlappingEvents, RejectNonProbabilityGap, RejectZeroRadiusStrictness)",
+    "modules": [
+     {
+      "path": "companions/d2_atom_integral_20261006/D2AtomIntegral.lean",
+      "imports_mathlib": true,
+      "imports": [
+       "D2MomentBridge",
+       "D2SquareSchur",
+       "Mathlib.MeasureTheory.Integral.Bochner.Set"
+      ],
+      "namespace": "D2AtomIntegral",
+      "declarations": [
+       {
+        "name": "two_event_integral_lower",
+        "kind": "theorem",
+        "meaning": "disjoint measurable S, T, integrable f >= 0 with a <= f on S, b <= f on T: μ.real S * a + μ.real T * b <= ∫ f"
+       },
+       {
+        "name": "two_radius_integral_lower",
+        "kind": "theorem",
+        "meaning": "specialization to S = {X^2 = s}, T = {X^2 = t}, s != t, mass lower bounds p, q and constant values a, b >= 0: p a + q b <= ∫ f"
+       },
+       {
+        "name": "second_moment_floor",
+        "kind": "theorem",
+        "meaning": "p s + q t <= m2 for positive s, t"
+       },
+       {
+        "name": "fourth_gap_floor",
+        "kind": "theorem",
+        "meaning": "pq/(p+q) (s-t)^2 <= m4 - m2^2 for p, q > 0 on a probability space"
+       },
+       {
+        "name": "residual_moment_floor",
+        "kind": "theorem",
+        "meaning": "(ps)(qt)/(ps+qt) (s-t)^2 <= d2Delta at actual moments (powers 2/4/6 integrable)"
+       },
+       {
+        "name": "schur_floor_of_radius_masses",
+        "kind": "theorem",
+        "meaning": "min(pq/(p+q)(s-t)^2, 2(ps+qt)^2) <= d2Schur m2 m4 u for u in [0,1/4]"
+       }
+      ],
+      "bound_source": "#326 two-squared-radius result, #328 signed atoms (specialization), #343 upper-moment-free Schur inequality; #371 Part B excluded; pickup main#229/6016691076; author OpenAI / GPT-6 Astra Pro session d2-atom-integral-r12-20261006-1255; module blob adbbf555...",
+      "gate_target": "companion check.py targets (6 theorems); NOT in formal/manifest.json",
+      "does_not_establish": "formal sharpness, an actual periodic spectral measure and its summability, numerical values/radii, uniform-L/family floors, Gaussian/Palm conditioning, the coefficient integral, persistence matching"
+     },
+     {
+      "path": "companions/d2_atom_integral_20261006/Contract.lean",
+      "imports_mathlib": true,
+      "imports": [
+       "D2AtomIntegral"
+      ],
+      "declarations": [
+       {
+        "name": "(6 anonymous examples)",
+        "kind": "example",
+        "meaning": "exact-type restatements of the six targets (initial publication deliberately failed against an empty module)"
+       }
+      ],
+      "bound_source": "same packet",
+      "gate_target": "compiled by replay.sh step 'contract'",
+      "does_not_establish": "nothing beyond type identity"
+     }
+    ]
+   },
+   {
+    "root": "frontiers/cap_first_exit_lean_20261002/ (own lakefile.toml, lake-manifest.json, lean-toolchain; neither imports nor alters formal/)",
+    "object": "CAP-FIRST-EXIT-LEAN-20261002-v1 (v2.6 as of commit 4013764, 2026-10-05)",
+    "toolchain": "leanprover/lean4:v4.34.1 (gate checks running version prefix 'Lean (version 4.34.1,' only, no release-commit pin)",
+    "mathlib_rev": "d13f23b723b8a846827a245b89c10fc7d3f11612 (same 9 dependency revisions as formal/)",
+    "gate": "frontiers/cap_first_exit_lean_20261002/gate.py: MANIFEST.json files (bytes+sha256, flat tree exact), pins_on_main by git blob (reviews/d1_cap_elder_partner_second_pass_claude_20260930/REVIEW.md a653dbc7bd8bd692433587f050ab8678713c297e; imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md 0633aca3c2a2882b0de4399da0a75d64c2e6b2e1), toolchain/lakefile rev/lock revs, import exactly 'Mathlib', forbidden tokens outside comments (sorry admit axiom native_decide implemented_by extern unsafe opaque set_option macro elab syntax run_cmd run_tac decreasing_by partial debug ofReduceBool trustCompiler), declared theorem/def/structure names == MANIFEST targets (152), expected_axioms covers exactly targets, allowed axioms set; --execute: version check, dependency worktrees at pinned rev and clean, fresh lake build (no 'error', no 'declaration uses'), leanchecker CapFirstExit, #print axioms must equal MANIFEST expected_axioms, 3 controls (sorry, custom_axiom, native_decide) rejected for the reason 'forbidden transitive axiom', receipt.json with alignment_review NOT_CLAIMED",
+    "alignment": "ALIGNMENT.md maps every Lean statement to SP/CAP source lines (§§1-4) and lists interfaces I1-I4; v1.4 (53 decls) received an ALIGNED_SCOPED review on PR #246 (review 5396110365); v1.5-v2.6 additions (99 further decls) await delta review; author Anthropic / Claude (Claude Code session 017Mi3hx…), zero independence credit; required reviewer: non-Claude lane",
+    "modules": [
+     {
+      "path": "frontiers/cap_first_exit_lean_20261002/CapFirstExit.lean",
+      "imports_mathlib": true,
+      "imports": [
+       "Mathlib"
+      ],
+      "namespace": "CapFirstExit (sub-namespace CapHyp; sections Ridge, Slice, GapK, PartialBlock, Torus)",
+      "declaration_counts": {
+       "theorem": 138,
+       "def": 13,
+       "structure": 1,
+       "total": 152
+      },
+      "declarations": [
+       {
+        "name": "path_meets_frontier",
+        "kind": "theorem",
+        "meaning": "a path from a point of C to a point outside C meets frontier C"
+       },
+       {
+        "name": "preconnected_subset_of_frontier_disjoint",
+        "kind": "theorem",
+        "meaning": "a preconnected set meeting C and avoiding frontier C lies in C"
+       },
+       {
+        "name": "CapHyp",
+        "kind": "structure (Prop)",
+        "meaning": "cap hypotheses (C1) M ∈ C, f <= b on C; (C2) f <= s on frontier C; (C3) ridge path from M to older z with f z > b and f >= s along it"
+       },
+       {
+        "name": "CapHyp.s_le_f_M",
+        "kind": "theorem",
+        "meaning": "s <= f M"
+       },
+       {
+        "name": "CapHyp.barrier",
+        "kind": "theorem",
+        "meaning": "every path from M to a point above b passes a point of height <= s"
+       },
+       {
+        "name": "connectionLevels",
+        "kind": "def",
+        "meaning": "levels m such that some path from M to a point above b stays >= m"
+       },
+       {
+        "name": "CapHyp.maximin_isGreatest",
+        "kind": "theorem",
+        "meaning": "s is the greatest connection level (L21)"
+       },
+       {
+        "name": "CapHyp.maximin_eq",
+        "kind": "theorem",
+        "meaning": "sSup connectionLevels = s"
+       },
+       {
+        "name": "CapHyp.component_separated",
+        "kind": "theorem",
+        "meaning": "component of M in U avoiding frontier C contains no point above b"
+       },
+       {
+        "name": "component_joined",
+        "kind": "theorem",
+        "meaning": "a path in U from M to z puts z in M's component in U"
+       },
+       {
+        "name": "CapHyp.elder_merge_iff_closed",
+        "kind": "theorem",
+        "meaning": "component of M in {f >= h} contains a point above b iff h <= s"
+       },
+       {
+        "name": "CapHyp.elder_merge_iff_open",
+        "kind": "theorem",
+        "meaning": "component of M in {f > h} contains a point above b iff h < s"
+       },
+       {
+        "name": "CapHyp.joinedLevels",
+        "kind": "def",
+        "meaning": "levels at which the class born at M is joined to an older point"
+       },
+       {
+        "name": "CapHyp.elder_death_level",
+        "kind": "theorem",
+        "meaning": "IsGreatest joinedLevels s (L22 death level)"
+       },
+       {
+        "name": "CapHyp.path_through_saddle",
+        "kind": "theorem",
+        "meaning": "under (C2+) every path from M above b inside {f >= s} passes through S"
+       },
+       {
+        "name": "CapHyp.saddle_cut",
+        "kind": "theorem",
+        "meaning": "under (C2+), M != S: M lies in its own component of {f >= s} \\ {S} with no point above b"
+       },
+       {
+        "name": "CapHyp.congr",
+        "kind": "theorem",
+        "meaning": "exterior invariance: agreement on closure C and along one ridge preserves CapHyp"
+       },
+       {
+        "name": "isClosed_connectedComponentIn",
+        "kind": "theorem",
+        "meaning": "component of a closed set is closed"
+       },
+       {
+        "name": "CapHyp.older_peak",
+        "kind": "theorem",
+        "meaning": "compact, locally connected, f continuous: for h <= s the component of M in {f >= h} has a highest local maximum p with f p > b"
+       },
+       {
+        "name": "CapHyp.elder_alive",
+        "kind": "theorem",
+        "meaning": "b = f M: for h > s, M is a highest point of its component in {f >= h}"
+       },
+       {
+        "name": "CapHyp.olderPeakLevels",
+        "kind": "def",
+        "meaning": "levels at which M's component in {f >= h} contains a strictly higher local maximum"
+       },
+       {
+        "name": "CapHyp.elder_death_level_peak",
+        "kind": "theorem",
+        "meaning": "IsGreatest olderPeakLevels s under compactness/local connectedness/continuity, b = f M"
+       },
+       {
+        "name": "frontier_image_subset",
+        "kind": "theorem",
+        "meaning": "frontier of e '' C ⊆ e '' frontier C for continuous open e, compact C, Hausdorff target"
+       },
+       {
+        "name": "CapHyp.map",
+        "kind": "theorem",
+        "meaning": "transport of CapHyp along a continuous open map from a compact cap"
+       },
+       {
+        "name": "CapHyp.map_saddle",
+        "kind": "theorem",
+        "meaning": "transport of (C2+)"
+       },
+       {
+        "name": "frontier_cylinder",
+        "kind": "theorem",
+        "meaning": "frontier([a,c] × closedBall 0 R) = end faces ∪ curved side"
+       },
+       {
+        "name": "isCompact_cylinder",
+        "kind": "theorem",
+        "meaning": "the cylinder cap is compact in a proper space"
+       },
+       {
+        "name": "torusCover",
+        "kind": "def",
+        "meaning": "covering map ℝ^d → (ℝ/Lℤ)^d"
+       },
+       {
+        "name": "torusCover_continuous",
+        "kind": "theorem",
+        "meaning": "torusCover is continuous"
+       },
+       {
+        "name": "torusCover_isOpenMap",
+        "kind": "theorem",
+        "meaning": "torusCover is open"
+       },
+       {
+        "name": "CapHyp.toTorus",
+        "kind": "theorem",
+        "meaning": "CapHyp for the periodic lift in any frame φ transfers to the torus with same b, s"
+       },
+       {
+        "name": "convex_zeros_between",
+        "kind": "theorem",
+        "meaning": "convex φ vanishing at a <= c is <= 0 between"
+       },
+       {
+        "name": "convex_zeros_right",
+        "kind": "theorem",
+        "meaning": "convex φ vanishing at a < c is >= 0 right of c"
+       },
+       {
+        "name": "convex_zeros_left",
+        "kind": "theorem",
+        "meaning": "convex φ vanishing at a < c is >= 0 left of a"
+       },
+       {
+        "name": "ridge_profile",
+        "kind": "theorem",
+        "meaning": "L13/L16/L17/L20 in one variable: g' = F, F(∓r/2) = 0, F - (x+r/2)(x-r/2)/8 convex give g <= g(-r/2) on [-2r, r/2], g >= g(r/2) on [-r/2, 2r] and face gaps 9r^3/32"
+       },
+       {
+        "name": "ridge_capHyp",
+        "kind": "theorem",
+        "meaning": "(C1)-(C3) on [-2r, r/2] × closedBall 0 2r from the multi-variable L7/L11/L12/L18 outputs and gap < 9r^3/32"
+       },
+       {
+        "name": "ridge_saddle_strict",
+        "kind": "theorem",
+        "meaning": "(C2+) from unique transverse maximizer and strict curved side"
+       },
+       {
+        "name": "strongConcave_le_of_hasFDerivAt",
+        "kind": "theorem",
+        "meaning": "δ-strongly concave φ with derivative L at p: φ y <= φ p + L(y-p) - (δ/2)‖y-p‖^2"
+       },
+       {
+        "name": "slice_le",
+        "kind": "theorem",
+        "meaning": "L7: at a critical point of a δ-strongly concave slice, φ y <= φ p - (δ/2)‖y-p‖^2"
+       },
+       {
+        "name": "slice_ridge_bound",
+        "kind": "theorem",
+        "meaning": "L8: δ‖p‖ <= ‖w‖"
+       },
+       {
+        "name": "slice_curved",
+        "kind": "theorem",
+        "meaning": "L18: on the sphere of radius R the slice is < s once ‖w‖ <= ω <= Rδ, φ p <= b, 2δ(b-s) < (Rδ-ω)^2"
+       },
+       {
+        "name": "slice_hasFDerivAt",
+        "kind": "theorem",
+        "meaning": "slice derivative is the joint derivative restricted to transverse directions"
+       },
+       {
+        "name": "ridge_hasDerivAt",
+        "kind": "theorem",
+        "meaning": "L11: g' = ∂_x f(x, h x) along the ridge"
+       },
+       {
+        "name": "ridge_capHyp_of_slices",
+        "kind": "theorem",
+        "meaning": "(C1)-(C3), (C2+) with transverse hypotheses replaced by L4 strong concavity, critical points in the ball, L5 and curvature condition"
+       },
+       {
+        "name": "ridge_inputs_of_joint",
+        "kind": "theorem",
+        "meaning": "joint derivative along ridge + differentiable h + ridge equation supply hh, hg and slice critical points"
+       },
+       {
+        "name": "sp_curved_side_constants",
+        "kind": "theorem",
+        "meaning": "SP's constants m >= 2, δ > rm(8m-5), ω <= 2mr^2, gap r^3/6 satisfy ω <= 2rδ and the curvature condition"
+       },
+       {
+        "name": "convexOn_add_node",
+        "kind": "theorem",
+        "meaning": "adding (m/2)((t-a)(t-c) - t^2) preserves convexity"
+       },
+       {
+        "name": "two_node_bound",
+        "kind": "theorem",
+        "meaning": "L5 scalar: weak |u''| <= m and u(a) = u(c) = 0 give |u x| <= (m/2)|(x-a)(x-c)|"
+       },
+       {
+        "name": "slice_gradient_bound",
+        "kind": "theorem",
+        "meaning": "L5 for slice derivatives at y = 0: ‖w x‖ <= (m/2)|x^2 - r^2/4|"
+       },
+       {
+        "name": "ridge_capHyp_sp",
+        "kind": "theorem",
+        "meaning": "the cap from SP's normalized hypotheses with m >= 2 assumed"
+       },
+       {
+        "name": "hermite_gap_le",
+        "kind": "theorem",
+        "meaning": "L1: g' = G vanishing at a < c with weak |G''| <= m gives g(a) - g(c) <= m(c-a)^3/12"
+       },
+       {
+        "name": "hermite_m_ge_two",
+        "kind": "theorem",
+        "meaning": "L2: gap r^3/6 on the pin interval forces m >= 2"
+       },
+       {
+        "name": "ridge_capHyp_normalized",
+        "kind": "theorem",
+        "meaning": "the cap with m >= 2 derived from the normalization"
+       },
+       {
+        "name": "strongConcaveOn_of_hessian",
+        "kind": "theorem",
+        "meaning": "H y v v <= -δ‖v‖^2 on a convex set gives δ-strong concavity"
+       },
+       {
+        "name": "transverse_hessian_le",
+        "kind": "theorem",
+        "meaning": "L3-L4: H(M) <= -λ and increments give H <= -(λ - 5rm) on the cap"
+       },
+       {
+        "name": "hessian_increment",
+        "kind": "theorem",
+        "meaning": "L3: ‖H(p) - H(M)‖ <= m(|Δx| + ‖Δy‖) from block bounds"
+       },
+       {
+        "name": "slices_strongConcave",
+        "kind": "theorem",
+        "meaning": "L4: each slice is (λ - 5rm)-strongly concave"
+       },
+       {
+        "name": "ridge_capHyp_H1",
+        "kind": "theorem",
+        "meaning": "the cap from SP's (H1) λ > 8rm^2 with Hessian data"
+       },
+       {
+        "name": "slice_critical_unique",
+        "kind": "theorem",
+        "meaning": "L7: at most one critical point of a δ-strongly concave slice"
+       },
+       {
+        "name": "slice_critical_exists",
+        "kind": "theorem",
+        "meaning": "L7: existence of the critical point in the open ball when ‖∂_y f(x,0)‖ < δ·2r"
+       },
+       {
+        "name": "isInvertible_of_negDef",
+        "kind": "theorem",
+        "meaning": "negative definite bilinear form on finite-dimensional E is invertible E → E*"
+       },
+       {
+        "name": "ridge_hasStrictFDerivAt",
+        "kind": "theorem",
+        "meaning": "L7: implicit function regularity of h at a point"
+       },
+       {
+        "name": "ridge_differentiable",
+        "kind": "theorem",
+        "meaning": "L7: h strictly differentiable on [-2r, 2r] with h' = -(∂_y G)⁻¹ ∂_x G"
+       },
+       {
+        "name": "ridge_exists",
+        "kind": "theorem",
+        "meaning": "L7: a ridge map h exists on an open set of x-values"
+       },
+       {
+        "name": "hessian_increment_D",
+        "kind": "theorem",
+        "meaning": "L3 on the collar [-2r-ε, 2r+ε]"
+       },
+       {
+        "name": "transverse_hessian_le_D",
+        "kind": "theorem",
+        "meaning": "L4 Hessian bound on the collar (increment <= 5r)"
+       },
+       {
+        "name": "slices_strongConcave_D",
+        "kind": "theorem",
+        "meaning": "L4 on the collar"
+       },
+       {
+        "name": "ridge_capHyp_source",
+        "kind": "theorem",
+        "meaning": "v1.8 composed route: from source data on the collar, a ridge exists, h(∓r/2) = 0, and the cap with M = (-r/2, 0), S = (r/2, 0)"
+       },
+       {
+        "name": "convex_deriv_sign",
+        "kind": "theorem",
+        "meaning": "convex φ with φ a = φ c has derivative >= 0 right of c, <= 0 left of a"
+       },
+       {
+        "name": "two_node_deriv_bound",
+        "kind": "theorem",
+        "meaning": "L6 scalar: |u'(x)| <= m max(|x|, r/2)"
+       },
+       {
+        "name": "slice_gradient_deriv_bound",
+        "kind": "theorem",
+        "meaning": "L6 (CAP (7)): ‖w' x‖ <= m max(|x|, r/2) <= 2mr on [-2r, 2r]"
+       },
+       {
+        "name": "schur_max",
+        "kind": "theorem",
+        "meaning": "L9 and the Schur maximum for a bilinear form with δ-negative-definite transverse part"
+       },
+       {
+        "name": "trilinear_lower",
+        "kind": "theorem",
+        "meaning": "L12 correction terms from the block bound"
+       },
+       {
+        "name": "l12_constants",
+        "kind": "theorem",
+        "meaning": "SP's constants give 7/4 - m((1+u)^3 - 1) >= 1/4"
+       },
+       {
+        "name": "transverse_hessian_eq",
+        "kind": "theorem",
+        "meaning": "H = D²f[(0,·),(0,·)]"
+       },
+       {
+        "name": "ridge_second_identity",
+        "kind": "theorem",
+        "meaning": "differentiated ridge equation D²f[(1,h'),(0,·)] = 0"
+       },
+       {
+        "name": "ridge_hconv",
+        "kind": "theorem",
+        "meaning": "L12 as hconv: F - (x+r/2)(x-r/2)/8 convex on [-2r, 2r]"
+       },
+       {
+        "name": "dx_grad_increment",
+        "kind": "theorem",
+        "meaning": "L3 in y for ∂_x ∇_y f"
+       },
+       {
+        "name": "l9_arith",
+        "kind": "theorem",
+        "meaning": "L9 arithmetic: ‖h'‖ <= 2s + 2s^2 with s = mr/δ"
+       },
+       {
+        "name": "l12_lower",
+        "kind": "theorem",
+        "meaning": "L12 bound at one point from the block bound and f_xxx >= 7/4"
+       },
+       {
+        "name": "ridge_source_facts",
+        "kind": "theorem",
+        "meaning": "m >= 2, δ > rm(8m-5), ridge bounds from SP's source data"
+       },
+       {
+        "name": "ridge_capHyp_C3",
+        "kind": "theorem",
+        "meaning": "the cap from SP's C³ data with hconv derived, assuming f_xxx >= 7/4 on D"
+       },
+       {
+        "name": "hermite_gap_le_concave",
+        "kind": "theorem",
+        "meaning": "L1 from the concave half alone"
+       },
+       {
+        "name": "third_deriv_exists_two",
+        "kind": "theorem",
+        "meaning": "L2 second statement: some pin-interval point has g''' >= 2"
+       },
+       {
+        "name": "fxxx_lower",
+        "kind": "theorem",
+        "meaning": "L4: f_xxx >= 7/4 on D from fourth-order blocks <= n and (H2) rn <= 1/20"
+       },
+       {
+        "name": "ridge_capHyp_C4",
+        "kind": "theorem",
+        "meaning": "the cap from (H1), (H2), pins, gap and derivative bounds m (collar) and n (D); no step of L1-L20 remains a hypothesis"
+       },
+       {
+        "name": "hessian_x_bound",
+        "kind": "theorem",
+        "meaning": "L3 x-input from the block bound"
+       },
+       {
+        "name": "hessian_r_bound",
+        "kind": "theorem",
+        "meaning": "L3 radial input from the block bound"
+       },
+       {
+        "name": "axis_convexConcave",
+        "kind": "theorem",
+        "meaning": "convex/concave envelopes of Df(·,0) u from a second-derivative bound"
+       },
+       {
+        "name": "block_nonneg",
+        "kind": "theorem",
+        "meaning": "block weight ∏(|s_i| + ‖y_i‖) - ∏|s_i| >= 0"
+       },
+       {
+        "name": "block_bound_collar",
+        "kind": "theorem",
+        "meaning": "block bound m on D plus x-derivative bound K gives m + Kε on the collar"
+       },
+       {
+        "name": "ridge_capHyp_C5",
+        "kind": "theorem",
+        "meaning": "ridge_capHyp_C4 with six derivative-bound hypotheses derived from the block bound and |f_xxx| <= m on the pin segment"
+       },
+       {
+        "name": "ridge_capHyp_D",
+        "kind": "theorem",
+        "meaning": "the cap from SP's quantitative bounds on D only, qualitative derivative data on a collar"
+       },
+       {
+        "name": "block_of_norm",
+        "kind": "theorem",
+        "meaning": "‖B‖ <= K gives the block bound with constant K"
+       },
+       {
+        "name": "collar_subset_open",
+        "kind": "theorem",
+        "meaning": "a closed collar of D lies inside any open U ⊇ D"
+       },
+       {
+        "name": "ridge_capHyp_E",
+        "kind": "theorem",
+        "meaning": "the cap from f ∈ C⁴ on an open U ⊇ D and SP's bounds on D (I3 qualitative part)"
+       },
+       {
+        "name": "toyF",
+        "kind": "noncomputable def",
+        "meaning": "toy height max(-|x|, x - 2) on ℝ"
+       },
+       {
+        "name": "toyRidge",
+        "kind": "def",
+        "meaning": "path t ↦ 3t"
+       },
+       {
+        "name": "toy_ridge_ge",
+        "kind": "theorem",
+        "meaning": "toyF >= -1 along toyRidge"
+       },
+       {
+        "name": "toy_frontier",
+        "kind": "theorem",
+        "meaning": "frontier [-2, 1] = {-2, 1}"
+       },
+       {
+        "name": "toy_capHyp",
+        "kind": "theorem",
+        "meaning": "toy satisfies CapHyp with C = [-2,1], M = 0, z = 3, b = 0, s = -1"
+       },
+       {
+        "name": "toy_saddle_strict",
+        "kind": "theorem",
+        "meaning": "S = 1 is the only frontier point at height -1"
+       },
+       {
+        "name": "toy_saddle_cut",
+        "kind": "theorem",
+        "meaning": "removing S disconnects M from older points, non-vacuously"
+       },
+       {
+        "name": "toy_death_level",
+        "kind": "theorem",
+        "meaning": "toy death level is -1"
+       },
+       {
+        "name": "toy_f_M",
+        "kind": "theorem",
+        "meaning": "toyF 0 = 0"
+       },
+       {
+        "name": "toy_f_S",
+        "kind": "theorem",
+        "meaning": "toyF 1 = -1"
+       },
+       {
+        "name": "toy_needs_C2",
+        "kind": "theorem",
+        "meaning": "necessity of (C2): others hold, (C2) fails, conclusion fails"
+       },
+       {
+        "name": "toy_needs_C1",
+        "kind": "theorem",
+        "meaning": "necessity of (C1)"
+       },
+       {
+        "name": "toy_needs_C3",
+        "kind": "theorem",
+        "meaning": "necessity of (C3)"
+       },
+       {
+        "name": "ridgeToyF",
+        "kind": "noncomputable def",
+        "meaning": "x^3/3 - x/4 - y^2 (SP normalization at r = 1)"
+       },
+       {
+        "name": "ridgeToy_capHyp",
+        "kind": "theorem",
+        "meaning": "ridge hypotheses jointly satisfiable"
+       },
+       {
+        "name": "ridgeToy_saddle_strict",
+        "kind": "theorem",
+        "meaning": "(C2+) for the ridge toy"
+       },
+       {
+        "name": "ridgeToy_joint",
+        "kind": "theorem",
+        "meaning": "joint derivative of the ridge toy along y = 0"
+       },
+       {
+        "name": "ridgeToy_slices",
+        "kind": "theorem",
+        "meaning": "slice route jointly satisfiable (δ = 2, ω = 0)"
+       },
+       {
+        "name": "spToyF",
+        "kind": "noncomputable def",
+        "meaning": "x^3/3 - x/4 - 12y^2 (m = 2, δ = 24 > 22)"
+       },
+       {
+        "name": "spToy_capHyp",
+        "kind": "theorem",
+        "meaning": "ridge_capHyp_sp not vacuous"
+       },
+       {
+        "name": "spToy_normalized",
+        "kind": "theorem",
+        "meaning": "ridge_capHyp_normalized not vacuous"
+       },
+       {
+        "name": "h1ToyF",
+        "kind": "noncomputable def",
+        "meaning": "x^3/3 - x/4 - 20y^2 (λ = 40 > 32)"
+       },
+       {
+        "name": "h1Toy_capHyp",
+        "kind": "theorem",
+        "meaning": "ridge_capHyp_H1 not vacuous"
+       },
+       {
+        "name": "h1Toy_ridge_differentiable",
+        "kind": "theorem",
+        "meaning": "ridge_differentiable not vacuous"
+       },
+       {
+        "name": "h1Toy_source",
+        "kind": "theorem",
+        "meaning": "ridge_capHyp_source not vacuous (ε = 1/2)"
+       },
+       {
+        "name": "h1Toy_C3",
+        "kind": "theorem",
+        "meaning": "ridge_capHyp_C3 not vacuous"
+       },
+       {
+        "name": "h1Toy_C4",
+        "kind": "theorem",
+        "meaning": "ridge_capHyp_C4 not vacuous (n = 0)"
+       },
+       {
+        "name": "h1Toy_D",
+        "kind": "theorem",
+        "meaning": "ridge_capHyp_D not vacuous (K = 0)"
+       },
+       {
+        "name": "h1Toy_E",
+        "kind": "theorem",
+        "meaning": "ridge_capHyp_E not vacuous with U = ℝ²"
+       },
+       {
+        "name": "quarticToyF",
+        "kind": "noncomputable def",
+        "meaning": "h1ToyF + (x^2 - 1/4)^2/480, pin-preserving quartic perturbation"
+       },
+       {
+        "name": "quarticToy_E",
+        "kind": "theorem",
+        "meaning": "ridge_capHyp_E with varying f_xxx and nonzero D⁴f, (H2) sharp"
+       },
+       {
+        "name": "CapHyp.of_const_mul",
+        "kind": "theorem",
+        "meaning": "cap for c f at (cb, cs), c > 0, is a cap for f at (b, s)"
+       },
+       {
+        "name": "hasFDerivAt_zero_const_mul_iff",
+        "kind": "theorem",
+        "meaning": "nonzero factor preserves zeros of the derivative"
+       },
+       {
+        "name": "iteratedFDeriv_const_mul_of_isOpen",
+        "kind": "theorem",
+        "meaning": "D^i(c f) = c D^i f for i <= 4 on an open set where f ∈ C⁴"
+       },
+       {
+        "name": "ridge_capHyp_K",
+        "kind": "theorem",
+        "meaning": "the cap for every pin gap k > 0 on P §7's G_r: (4/(3k)) r m^2 < λ, r n <= 3k/10"
+       },
+       {
+        "name": "ridge_capHyp_norm_K",
+        "kind": "theorem",
+        "meaning": "ridge_capHyp_K with operator-norm bounds ‖D³f‖ <= M3, ‖D⁴f‖ <= M4 on D"
+       },
+       {
+        "name": "iteratedFDeriv_three_swap₁₂",
+        "kind": "theorem",
+        "meaning": "third derivative of a C³ function symmetric in slots 1,2"
+       },
+       {
+        "name": "iteratedFDeriv_three_swap₂₃",
+        "kind": "theorem",
+        "meaning": "symmetric in slots 2,3"
+       },
+       {
+        "name": "block_of_partial",
+        "kind": "theorem",
+        "meaning": "CAP's partial-block bounds (c = 1,2,3) give the block inequality for a symmetric trilinear form"
+       },
+       {
+        "name": "ridge_capHyp_blocks",
+        "kind": "theorem",
+        "meaning": "the cap under CAP (1) as written with partial-block norms M3, M4"
+       },
+       {
+        "name": "mixedToyF",
+        "kind": "noncomputable def",
+        "meaning": "h1ToyF + x y^2 (nonzero mixed block ∂_x D_y² f = 2)"
+       },
+       {
+        "name": "mixedToy_blocks",
+        "kind": "theorem",
+        "meaning": "ridge_capHyp_blocks with a nonzero mixed block (M3 = 2, M4 = 0, λ = 41)"
+       },
+       {
+        "name": "addCircle_locallyConnectedSpace",
+        "kind": "theorem",
+        "meaning": "ℝ/Lℤ is locally connected"
+       },
+       {
+        "name": "torus_locallyConnectedSpace",
+        "kind": "theorem",
+        "meaning": "(ℝ/Lℤ)^d is locally connected"
+       },
+       {
+        "name": "torus_capHyp_blocks",
+        "kind": "theorem",
+        "meaning": "the cap and (C2+) on the torus for a field whose lift meets CAP (1) in any frame φ"
+       },
+       {
+        "name": "torus_elder_death_level_blocks",
+        "kind": "theorem",
+        "meaning": "L > 0, f continuous: elder death level of the class born at M on the torus is f(S)"
+       },
+       {
+        "name": "circleChart",
+        "kind": "noncomputable def",
+        "meaning": "chart ‖θ + L/4‖ - L/4 of ℝ/Lℤ"
+       },
+       {
+        "name": "circleChart_continuous",
+        "kind": "theorem",
+        "meaning": "circleChart is continuous"
+       },
+       {
+        "name": "circleChart_coe",
+        "kind": "theorem",
+        "meaning": "circleChart inverts the covering map on [-L/4, L/4]"
+       },
+       {
+        "name": "mixedToy_hasFDerivAt",
+        "kind": "theorem",
+        "meaning": "derivative of mixedToyF"
+       },
+       {
+        "name": "mixedToy_contDiff",
+        "kind": "theorem",
+        "meaning": "mixedToyF is C⁴"
+       },
+       {
+        "name": "mixedToy_iteratedFDeriv_two",
+        "kind": "theorem",
+        "meaning": "second derivative of mixedToyF"
+       },
+       {
+        "name": "mixedToy_iteratedFDeriv_three",
+        "kind": "theorem",
+        "meaning": "third derivative of mixedToyF"
+       },
+       {
+        "name": "mixedToy_iteratedFDeriv_four",
+        "kind": "theorem",
+        "meaning": "fourth derivative of mixedToyF vanishes"
+       },
+       {
+        "name": "torusToyF",
+        "kind": "noncomputable def",
+        "meaning": "mixedToyF read through circleChart on (ℝ/16ℤ)²"
+       },
+       {
+        "name": "torusToy_elder",
+        "kind": "theorem",
+        "meaning": "concrete elder death level instance on (ℝ/16ℤ)²"
+       }
+      ],
+      "bound_source": "SP = reviews/d1_cap_elder_partner_second_pass_claude_20260930/REVIEW.md (blob a653dbc7; line-numbered reconstruction of CAP §§2-5, steps L1-L22) and CAP = imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md (blob 0633aca3); P §7 event G_r and §8 referenced; D1 component III audit (issue Math-#193)",
+      "gate_target": "all 152 declarations are MANIFEST.json targets with expected_axioms = [Classical.choice, Quot.sound, propext]",
+      "does_not_establish": "the source data themselves (that the local field on G_r satisfies SP's §2 setting); the identification of SP's coordinates/contact frame and P's field with the Lean objects; L14 (critical-point count) and L15 (Morse indices); the definition of the H0 superlevel persistence pairing (persistence-module bookkeeping); L23, P §8, Theorem A, measurability and Q^W(G_r^c) <= C r^3 (every probabilistic statement); so Math-#193's D1 kernel formalization remains PARTIALLY unsupplied"
+     }
+    ]
+   },
+   {
+    "root": "reviews/w3_side24_source_proposal_20261008/W3Scratch/ (unregistered, unreviewed, source-only proposal; option B of main#229 6050818585; NOT part of ResearchFormalCoreR1; NO lakefile; built by NO workflow; ordinary PR CI does not certify)",
+    "toolchain": "leanprover/lean4:v4.34.1 (author's box-local builds in a scratch copy of formal/ with an appended lean_lib W3Scratch; UNVERIFIED by any nonauthor)",
+    "mathlib_rev": "d13f23b723b8a846827a245b89c10fc7d3f11612 (inherited from formal/lake-manifest.json)",
+    "gate": "none; author reports source-only gate dry runs produced SOURCE_IDENTITY_PASS only after editing lakefile/manifest in a scratch copy, with test_d2_schur test_manifest_exact_extension failing (133 tests, 1 failure); gate.py --execute never satisfied (namespace mismatch: gate expects ResearchFormalCoreR1.<name>); a box-local option-A variant (140 targets) hit gate.py's 900 s build timeout",
+    "author": "Grok Bot agent 13 (W3 scratch author), Oct 7 2026; one Grok-Bot-on-Grok-Bot reader verdict (agent 3, AMEND README/comments only, at previous head 0b336384): credit 0",
+    "modules": [
+     {
+      "path": "reviews/w3_side24_source_proposal_20261008/W3Scratch/D2SchurLinks.lean",
+      "imports_mathlib": true,
+      "imports": [
+       "ResearchFormalCoreR1.D2Schur",
+       "Mathlib.LinearAlgebra.Matrix.Determinant.Basic",
+       "Mathlib.LinearAlgebra.Matrix.Notation",
+       "Mathlib.Analysis.SpecialFunctions.Trigonometric.Inverse"
+      ],
+      "namespace": "W3Scratch",
+      "declarations": [
+       {
+        "name": "k2",
+        "kind": "def",
+        "meaning": "cumulant k2 = m2 (NOTE L23)"
+       },
+       {
+        "name": "k4",
+        "kind": "def",
+        "meaning": "k4 = m4 - 3 m2^2"
+       },
+       {
+        "name": "k6",
+        "kind": "def",
+        "meaning": "k6 = m6 - 15 m4 m2 + 30 m2^3"
+       },
+       {
+        "name": "srcAlpha",
+        "kind": "def",
+        "meaning": "NOTE L30 alpha in cumulants"
+       },
+       {
+        "name": "srcGamma",
+        "kind": "def",
+        "meaning": "NOTE L30 gamma in cumulants"
+       },
+       {
+        "name": "srcQ",
+        "kind": "def",
+        "meaning": "q = c^2 s^2 (NOTE L26)"
+       },
+       {
+        "name": "srcE",
+        "kind": "def",
+        "meaning": "e = c s (c^2 - s^2)"
+       },
+       {
+        "name": "srcDet",
+        "kind": "def",
+        "meaning": "NOTE L34 determinant alpha gamma - k4^2 q(1-4q)"
+       },
+       {
+        "name": "srcSchur",
+        "kind": "def",
+        "meaning": "NOTE L35 Schur expression in cumulants"
+       },
+       {
+        "name": "srcTau",
+        "kind": "def",
+        "meaning": "NOTE L36 tau^2 in cumulants"
+       },
+       {
+        "name": "srcQTheta",
+        "kind": "def",
+        "meaning": "q(θ) = (1 - cos 4θ)/8 (NOTE L43)"
+       },
+       {
+        "name": "finMoment",
+        "kind": "def",
+        "meaning": "raw moment Σ p_i x_i^n of a finite weighted law"
+       },
+       {
+        "name": "d2Alpha_eq_src",
+        "kind": "theorem",
+        "meaning": "d2Alpha = srcAlpha"
+       },
+       {
+        "name": "d2Gamma_eq_src",
+        "kind": "theorem",
+        "meaning": "d2Gamma = srcGamma"
+       },
+       {
+        "name": "srcE_sq",
+        "kind": "theorem",
+        "meaning": "e^2 = q(1-4q) when c^2 + s^2 = 1"
+       },
+       {
+        "name": "d2DetV_eq_alpha_gamma_q",
+        "kind": "theorem",
+        "meaning": "d2DetV = alpha gamma - k4^2 q(1-4q)"
+       },
+       {
+        "name": "d2DetV_eq_srcDet",
+        "kind": "theorem",
+        "meaning": "d2DetV = srcDet"
+       },
+       {
+        "name": "d2DetV_eq_alpha_gamma_e",
+        "kind": "theorem",
+        "meaning": "d2DetV at q = c^2 s^2 equals alpha gamma - k4^2 e^2 under unit norm"
+       },
+       {
+        "name": "d2DetV_eq_det_varV",
+        "kind": "theorem",
+        "meaning": "d2DetV equals a 2x2 Matrix.det [[alpha, -k4 e],[-k4 e, gamma]]"
+       },
+       {
+        "name": "d2DetV_eq_note_linear",
+        "kind": "theorem",
+        "meaning": "NOTE's linear-in-q form of det V in cumulants"
+       },
+       {
+        "name": "d2DetV_eq_alpha_gamma_e_needs_unit",
+        "kind": "theorem",
+        "meaning": "the unit-norm hypothesis cannot be dropped (counterexample c = s = 1)"
+       },
+       {
+        "name": "srcQ_mem_Icc",
+        "kind": "theorem",
+        "meaning": "q ∈ [0, 1/4] on the unit circle"
+       },
+       {
+        "name": "exists_unit_of_mem_Icc",
+        "kind": "theorem",
+        "meaning": "every q ∈ [0, 1/4] is c^2 s^2 for some unit (c, s)"
+       },
+       {
+        "name": "unit_q_range",
+        "kind": "theorem",
+        "meaning": "set of q over the unit circle = Icc 0 (1/4)"
+       },
+       {
+        "name": "unit_q_image",
+        "kind": "theorem",
+        "meaning": "same as an image of the unit circle"
+       },
+       {
+        "name": "srcQTheta_eq",
+        "kind": "theorem",
+        "meaning": "q(θ) = srcQ (cos θ) (sin θ)"
+       },
+       {
+        "name": "srcQTheta_range",
+        "kind": "theorem",
+        "meaning": "range of q(θ) = Icc 0 (1/4)"
+       },
+       {
+        "name": "d2_schur_endpoint_isLeast",
+        "kind": "theorem",
+        "meaning": "N/max(D(0),D(1/4)) is the least value of d2Schur on [0,1/4]"
+       },
+       {
+        "name": "d2_schur_endpoint_sInf",
+        "kind": "theorem",
+        "meaning": "sInf of d2Schur image = that endpoint value"
+       },
+       {
+        "name": "d2_schur_min_over_unit_directions",
+        "kind": "theorem",
+        "meaning": "the same minimum over unit directions"
+       },
+       {
+        "name": "d2_schur_min_over_angles",
+        "kind": "theorem",
+        "meaning": "the same minimum over angles θ"
+       },
+       {
+        "name": "moments_of_cumulants",
+        "kind": "theorem",
+        "meaning": "inverse map m4 = k4 + 3k2^2, m6 = k6 + 15 k2 k4 + 15 k2^3"
+       },
+       {
+        "name": "cumulants_of_moments",
+        "kind": "theorem",
+        "meaning": "round trip from cumulants"
+       },
+       {
+        "name": "gaussian_cumulants_iff",
+        "kind": "theorem",
+        "meaning": "(k2,k4,k6) = (1,0,0) iff (m2,m4,m6) = (1,3,15)"
+       },
+       {
+        "name": "k4_sq_div",
+        "kind": "theorem",
+        "meaning": "k4^2/k2 identity for all real m2 (total division)"
+       },
+       {
+        "name": "d2Tau_eq_srcTau",
+        "kind": "theorem",
+        "meaning": "d2Tau = srcTau with no hypothesis on m2"
+       },
+       {
+        "name": "d2Schur_eq_srcSchur",
+        "kind": "theorem",
+        "meaning": "d2Schur = srcSchur for all real q"
+       },
+       {
+        "name": "d2Numerator_eq_comment",
+        "kind": "theorem",
+        "meaning": "N = x(2x+b)(4x+b) with x = m2^2, b = k4 (comment 6005199919)"
+       },
+       {
+        "name": "src_delta_cumulant",
+        "kind": "theorem",
+        "meaning": "k6 - k4^2/k2 = d2Delta - 9 m4 m2 + 21 m2^3"
+       },
+       {
+        "name": "restrict_all_q",
+        "kind": "theorem",
+        "meaning": "an all-q statement restricts to [0,1/4] and to unit directions"
+       },
+       {
+        "name": "note_section2_every_direction",
+        "kind": "theorem",
+        "meaning": "NOTE §2 L34-36 identities in every unit direction"
+       },
+       {
+        "name": "gaussian_control_on_Icc",
+        "kind": "theorem",
+        "meaning": "Gaussian controls on [0,1/4]"
+       },
+       {
+        "name": "positivity_every_direction",
+        "kind": "theorem",
+        "meaning": "0 < m2, m2^2 < m4, Delta > 0 give det V, Schur, tau^2 > 0 for every unit u"
+       },
+       {
+        "name": "lagrange_weighted",
+        "kind": "theorem",
+        "meaning": "weighted Lagrange identity for finite sums"
+       },
+       {
+        "name": "double_sum_pos",
+        "kind": "theorem",
+        "meaning": "a nonnegative double sum with one positive term is positive"
+       },
+       {
+        "name": "finite_law_moment_hyps",
+        "kind": "theorem",
+        "meaning": "finite probability law with two nonzero atoms of distinct squares: 0 < m2, m2^2 < m4, Delta > 0"
+       },
+       {
+        "name": "finite_law_positivity_every_direction",
+        "kind": "theorem",
+        "meaning": "every-direction positivity for finite laws"
+       }
+      ],
+      "bound_source": "N = reviews/side24_d2_certified_small_L_claude_20261005/NOTE.md blob 852f7403 (L23, L26-28, L30, L34-36, L43, L48, L59, L78); Math-#302 comment 6005199919 (body sha256 28f5d504...); C = certified_d2.py blob 6fd5b751 L12; D2Schur blob b95460c0; Math- base 7014efec8fb68cc926350caa8fa65dcd296f7f63",
+      "gate_target": false,
+      "does_not_establish": "not reviewed, not aligned, not a discharge; R3 (c^2 + s^2 = 1) is a source-supported reading not written at N L26; no status field changes; OBL OPEN"
+     },
+     {
+      "path": "reviews/w3_side24_source_proposal_20261008/W3Scratch/Side24Law.lean",
+      "imports_mathlib": true,
+      "imports": [
+       "W3Scratch.D2SchurLinks",
+       "Mathlib.NumberTheory.ModularForms.JacobiTheta.TwoVariable",
+       "Mathlib.Analysis.SpecialFunctions.Gaussian.PoissonSummation",
+       "Mathlib.RingTheory.Polynomial.Hermite.Gaussian"
+      ],
+      "namespace": "W3Scratch.Side24",
+      "declarations": [
+       {
+        "name": "rawSum",
+        "kind": "def",
+        "meaning": "Σ' w_i a_i^n"
+       },
+       {
+        "name": "lawMoment",
+        "kind": "def",
+        "meaning": "rawSum n / rawSum 0"
+       },
+       {
+        "name": "atom",
+        "kind": "def",
+        "meaning": "2πk/L (N L54)"
+       },
+       {
+        "name": "weight",
+        "kind": "def",
+        "meaning": "exp(-(2πk/L)^2/2)"
+       },
+       {
+        "name": "dualZ",
+        "kind": "def",
+        "meaning": "normalizer Σ weight"
+       },
+       {
+        "name": "dualMoment",
+        "kind": "def",
+        "meaning": "raw moment m_n(L) of the Poisson-dual law"
+       },
+       {
+        "name": "theta",
+        "kind": "def",
+        "meaning": "θ_L(t) = Σ_n exp(-(t+Ln)^2/2) (N L21)"
+       },
+       {
+        "name": "imageSum",
+        "kind": "def",
+        "meaning": "Σ_n He_j(Ln) exp(-(Ln)^2/2) (N L53, probabilists' Hermite)"
+       },
+       {
+        "name": "imageMoment",
+        "kind": "def",
+        "meaning": "(-1)^(j/2) imageSum j / imageSum 0 (C L153)"
+       },
+       {
+        "name": "residual4_tsum",
+        "kind": "theorem",
+        "meaning": "summability and value of Σ w (a^2 - m)^2"
+       },
+       {
+        "name": "residual6_tsum",
+        "kind": "theorem",
+        "meaning": "summability and value of Σ w (a^3 - c a)^2"
+       },
+       {
+        "name": "sq_pos_of_ne",
+        "kind": "theorem",
+        "meaning": "x != 0 gives x^2 > 0"
+       },
+       {
+        "name": "countable_law_moment_hyps",
+        "kind": "theorem",
+        "meaning": "countable law with two nonzero atoms of distinct squares: 0 < m2, m2^2 < m4, Delta > 0"
+       },
+       {
+        "name": "weight_pos",
+        "kind": "theorem",
+        "meaning": "weights are positive"
+       },
+       {
+        "name": "summable_weight_mul_atom_pow",
+        "kind": "theorem",
+        "meaning": "Σ_k w_k atom_k^n summable for L != 0 (via summable_pow_mul_jacobiTheta₂_term_bound)"
+       },
+       {
+        "name": "summable_sixth",
+        "kind": "theorem",
+        "meaning": "n = 6 case (X^6 integrability)"
+       },
+       {
+        "name": "dualZ_pos",
+        "kind": "theorem",
+        "meaning": "normalizer positive"
+       },
+       {
+        "name": "dual_normalized",
+        "kind": "theorem",
+        "meaning": "Σ w_k / Z = 1"
+       },
+       {
+        "name": "dual_odd_moment_zero",
+        "kind": "theorem",
+        "meaning": "odd raw moments vanish by symmetry"
+       },
+       {
+        "name": "dual_moment_hyps",
+        "kind": "theorem",
+        "meaning": "moment hypotheses for the dual law at every L != 0 (atoms k = 1, 2)"
+       },
+       {
+        "name": "dual_positivity_every_direction",
+        "kind": "theorem",
+        "meaning": "det V, Schur, tau^2 > 0 at dual-law moments for every L != 0 and unit u (NEW all-L statement; N certifies six L values numerically only)"
+       },
+       {
+        "name": "imageSum_zero",
+        "kind": "theorem",
+        "meaning": "imageSum L 0 = θ_L(0)"
+       },
+       {
+        "name": "theta_zero_eq_dual",
+        "kind": "theorem",
+        "meaning": "θ_L(0) = (L^2/(2π))^(-1/2) dualZ L via Real.tsum_exp_neg_mul_int_sq"
+       },
+       {
+        "name": "theta_term_iteratedDeriv",
+        "kind": "theorem",
+        "meaning": "j-th derivative of one θ-term at 0 is (-1)^j He_j(y) exp(-y^2/2)"
+       },
+       {
+        "name": "imageSum_even_eq_tsum_termwise",
+        "kind": "theorem",
+        "meaning": "even image sum equals the sum of termwise derivatives"
+       }
+      ],
+      "bound_source": "N blob 852f7403 (L21, L22, L53, L54); C = certified_d2.py blob 6fd5b751 (L8, L111-121, L137-153, L156-177); iba1 NOTE reviews/iba1_periodic_jet_claude_20261005/NOTE.md blob e36e341f L32; reading R1: k ranges over ℤ",
+      "gate_target": false,
+      "does_not_establish": "that the dual law is the NOTE's spectral law (analytic question (a) open); the all-L positivity statement is not the source's six-L interval certificate; no status change"
+     },
+     {
+      "path": "reviews/w3_side24_source_proposal_20261008/W3Scratch/Side24Poisson.lean",
+      "imports_mathlib": true,
+      "imports": [
+       "W3Scratch.Side24Law"
+      ],
+      "namespace": "W3Scratch.Side24",
+      "declarations": [
+       {
+        "name": "gauss",
+        "kind": "def",
+        "meaning": "exp(-(y^2/2))"
+       },
+       {
+        "name": "thetaD",
+        "kind": "def",
+        "meaning": "termwise j-th derivative series Σ_n g^(j)(t + Ln)"
+       },
+       {
+        "name": "cosD",
+        "kind": "def",
+        "meaning": "termwise j-th derivative series of the cosine side"
+       },
+       {
+        "name": "theta_eq_cos_series",
+        "kind": "theorem",
+        "meaning": "θ_L(t) = (L^2/(2π))^(-1/2) Σ_k w_k cos(2πkt/L) for all t, L != 0 (Poisson summation via Complex.tsum_exp_neg_quadratic)"
+       },
+       {
+        "name": "contDiff_gauss",
+        "kind": "theorem",
+        "meaning": "gauss is smooth"
+       },
+       {
+        "name": "hasDerivAt_iterate_deriv_gauss",
+        "kind": "theorem",
+        "meaning": "derivative of iterated derivatives of gauss"
+       },
+       {
+        "name": "poly_exp_bound",
+        "kind": "theorem",
+        "meaning": "every integer polynomial is bounded by B exp|x|"
+       },
+       {
+        "name": "abs_sub_sq_le",
+        "kind": "theorem",
+        "meaning": "auxiliary exponent inequality for the majorant"
+       },
+       {
+        "name": "iterate_deriv_gauss_bound",
+        "kind": "theorem",
+        "meaning": "uniform majorant for g^(j)(t + Ln) on |t| <= R"
+       },
+       {
+        "name": "summable_majorant",
+        "kind": "theorem",
+        "meaning": "the majorant is summable over ℤ"
+       },
+       {
+        "name": "summable_thetaD_terms",
+        "kind": "theorem",
+        "meaning": "termwise derivative series summable"
+       },
+       {
+        "name": "hasDerivAt_thetaD",
+        "kind": "theorem",
+        "meaning": "thetaD L j has derivative thetaD L (j+1)"
+       },
+       {
+        "name": "summable_abs_weight_mul_atom_pow",
+        "kind": "theorem",
+        "meaning": "Σ w_k |atom_k|^j summable"
+       },
+       {
+        "name": "cosD_term_bound",
+        "kind": "theorem",
+        "meaning": "norm bound on cosine terms"
+       },
+       {
+        "name": "hasDerivAt_cosD",
+        "kind": "theorem",
+        "meaning": "cosD L j has derivative cosD L (j+1)"
+       },
+       {
+        "name": "thetaD_zero",
+        "kind": "theorem",
+        "meaning": "thetaD L 0 = theta L"
+       },
+       {
+        "name": "cosD_zero",
+        "kind": "theorem",
+        "meaning": "cosD L 0 = cosine series"
+       },
+       {
+        "name": "iteratedDeriv_theta",
+        "kind": "theorem",
+        "meaning": "iteratedDeriv j θ_L = thetaD L j (term-by-term differentiation)"
+       },
+       {
+        "name": "iteratedDeriv_theta_termwise",
+        "kind": "theorem",
+        "meaning": "derivative of the sum = sum of derivatives"
+       },
+       {
+        "name": "iteratedDeriv_cos_series",
+        "kind": "theorem",
+        "meaning": "term-by-term differentiation of the cosine side"
+       },
+       {
+        "name": "thetaD_eq_cosD",
+        "kind": "theorem",
+        "meaning": "Poisson identity for every termwise derivative"
+       },
+       {
+        "name": "imageSum_even_eq_thetaD",
+        "kind": "theorem",
+        "meaning": "imageSum L (2m) = thetaD L (2m) 0"
+       },
+       {
+        "name": "iteratedDeriv_theta_zero_even",
+        "kind": "theorem",
+        "meaning": "N L53 for even order: θ_L^(2m)(0) = imageSum L (2m)"
+       },
+       {
+        "name": "cosD_even_zero",
+        "kind": "theorem",
+        "meaning": "cosD L (2m) 0 = (-1)^m rawSum (2m)"
+       },
+       {
+        "name": "imageSum_even_eq",
+        "kind": "theorem",
+        "meaning": "even image sum in terms of the dual raw sum"
+       },
+       {
+        "name": "imageMoment_even_eq_dualMoment",
+        "kind": "theorem",
+        "meaning": "θ-route moment = dual-law moment for every even order, L != 0"
+       },
+       {
+        "name": "imageMoment_eq_dualMoment",
+        "kind": "theorem",
+        "meaning": "j = 2, 4, 6 case"
+       },
+       {
+        "name": "image_moment_hyps",
+        "kind": "theorem",
+        "meaning": "θ-route moments satisfy 0 < m2, m2^2 < m4, Delta > 0 for L != 0"
+       },
+       {
+        "name": "image_positivity_every_direction",
+        "kind": "theorem",
+        "meaning": "every-direction positivity at θ-route moments for L != 0"
+       }
+      ],
+      "bound_source": "N blob 852f7403 (L21, L53, L54); C blob 6fd5b751 (L137-153, L156-177); mathlib Polynomial.deriv_gaussian_eq_hermite_mul_gaussian, hasDerivAt_tsum_of_isPreconnected",
+      "gate_target": false,
+      "does_not_establish": "odd-j N L53 (holds as written, not formalized); measure-level identification of the dual law with the NOTE spectral law; nothing reviewed or aligned"
+     }
+    ]
+   },
+   {
+    "root": "main repository d6g8k5htny-coder/main origin/main formal/ (read for the gate comparison only)",
+    "package": "UniversalLaw (side24-arithmetic-skeleton), dependency-free core Lean",
+    "toolchain": "leanprover/lean4:v4.34.1 (fixedToolchain false in lake-manifest; gate checks 'version 4.34.1' substring)",
+    "mathlib_rev": "none (dependency_revisions = {})",
+    "gate": "tools/formal_gate_check.py (see gate_differences)",
+    "modules": [
+     {
+      "path": "formal/UniversalLaw/Side24/Ledger.lean",
+      "imports_mathlib": false,
+      "declarations": [
+       {
+        "name": "17 theorems (pairing_sum_six ... density_comparison_below_reported) + defs fact, pairingSum, imageConstant, expTaylorNumerator, sixA, sixB",
+        "kind": "theorem/def",
+        "meaning": "Nat/Int arithmetic facts behind SIDE24 note §§1-4, proved by decide"
+       }
+      ],
+      "bound_source": "coefficients/side24_v1/PROOF.md at Math- 9d7b6802424fb4715b31999066aafca8ee2f3cca (SHA256 c06daccc...), local copy formal/sources/side24_v1/PROOF.md; verbatim informal_anchor per target",
+      "gate_target": true,
+      "does_not_establish": "per-target does_not_claim; not the coefficient bound, definition, Gaussian/Kac-Rice/cone-integral/Stirling/interval steps, not coefficient.py"
+     },
+     {
+      "path": "formal/UniversalLaw/Side24/ConeMoments.lean",
+      "imports_mathlib": false,
+      "declarations": [
+       {
+        "name": "10 theorems (conditional_third_derivative_variance ... hessian_block_eigenvalues)",
+        "kind": "theorem",
+        "meaning": "integer cross-multiplied forms of the cone-moment rational identities"
+       }
+      ],
+      "bound_source": "same PROOF.md",
+      "gate_target": true,
+      "does_not_establish": "Gaussian conditioning, delta formula, Rayleigh cone integration, spectral decomposition"
+     },
+     {
+      "path": "formal/UniversalLaw/Side24/Endpoints.lean",
+      "imports_mathlib": false,
+      "declarations": [
+       {
+        "name": "4 theorems (d2_endpoints_adjacent, d3_endpoints_adjacent, d3_below_d2, endpoints_in_unit_tenth) + defs d2Lower, d2Upper, d3Lower, d3Upper",
+        "kind": "theorem/def",
+        "meaning": "the published 20-digit endpoints as Nat: adjacency, ordering, magnitude"
+       },
+       {
+        "name": "note",
+        "kind": "note",
+        "meaning": "explicitly NOT an enclosure of the coefficient"
+       }
+      ],
+      "bound_source": "coefficients/side24_v1/ENCLOSURE.json at Math- 9d7b6802 (SHA256 72b6cd92...)",
+      "gate_target": true,
+      "does_not_establish": "that c_2,24 or c_3,24 lies between the endpoints; anything about the true coefficients"
+     }
+    ]
+   }
+  ],
+  "gate_differences": {
+   "math_formal_gate_py": [
+    "manifest.targets is a flat list of fully qualified names; inventory derived from regex ^(theorem|lemma) in each module with hard-coded prefix ResearchFormalCoreR1. (defs such as weightedLaw, badJetEvent, d2Alpha are NOT targets; they are audited only transitively)",
+    "requires exact running Lean banner incl. release commit 5045d0056413266e57c625dcd7c365b10e377c52 both before build and before receipt (added 2026-10-08, commit 27804b9)",
+    "hard-codes the two GP-FOR-192 originals' SHA-256 and a fixed required file set (gate, tests, toolchain, lakefile, lock, root, SCOPE, GLOSSARY, README, blueprint, lineage test and note)",
+    "checks blueprint \\lean{} links resolve to targets and forbids \\leanok",
+    "no lexical sorry/axiom scan in the gate itself (relies on #print axioms audit; the per-module Python tests add lexical checks)",
+    "five fixed negative controls hard-coded in gate.py (false_fold, false_power, sorry, custom_imported, native)",
+    "alignment validator checks author, reviewer AND every proposal_authors entry for provider/family/agent, rejects placeholders (unknown, tbd, n/a, ...), requires 40-hex evidence commit",
+    "receipt fields: checked_commit, repository, workflow_run_id, lean_version, dependency_revisions, axioms, negative_controls, logs hashes; required_formal_check.py receipt binds it to GITHUB_SHA/RUN_ID/RUN_ATTEMPT",
+    "no informal anchors or does_not_claim per target in the manifest; coverage/non-coverage lives in prose SCOPE.md and per-module .md files",
+    "requires mathlib (9 pinned dependency revisions must equal lake-manifest)"
+   ],
+   "main_tools_formal_gate_check_py": [
+    "manifest.targets are structured rows {name, module, title, source, informal_anchor, does_not_claim}; manifest.sources rows {id, repository (allowlisted public repos), commit, path, bytes, sha256, local_copy}; every informal_anchor must be a verbatim substring of the pinned local copy",
+    "requires scientific_status_authority: false in manifest and receipt",
+    "namespace derived from the module (exactly one `namespace` per module) rather than hard-coded",
+    "lexical scan rejects sorry, native_decide and `axiom` declarations outside comments (comment stripper)",
+    "every file under the package must be bound in files or listed in unbound_files",
+    "generates formal/ALIGNMENT.md from the manifest and fails if stale; --write-alignment, --refresh-hashes, --axioms-output maintenance modes",
+    "negative controls are declared in the manifest as text replacements (7 tightened/wrong statements) applied to scratch copies, plus sorry/custom_imported/native",
+    "accepts a dependency-free lock (dependency_revisions = {}); installs elan v4.2.4 by pinned script digest and the toolchain directly, no lean-action, no mathlib cache",
+    "Lean version check is substring 'version 4.34.1' only (no release-commit pin)",
+    "alignment validator is the older schema: author vs reviewer only, no proposal_authors, no placeholder rejection",
+    "allowed_axioms listed in the manifest (propext, Classical.choice, Quot.sound)"
+   ],
+   "math_frontier_gate_py": [
+    "MANIFEST.json files list with bytes+sha256 and exact flat tree; pins_on_main by git blob of two informal sources",
+    "targets include theorem, def and structure (152), with expected_axioms per target that must match the audit exactly",
+    "forbidden-token list beyond sorry/axiom/native_decide: admit implemented_by extern unsafe opaque set_option macro elab syntax run_cmd run_tac decreasing_by partial debug ofReduceBool trustCompiler",
+    "import must be exactly Mathlib; dependency worktrees must be at pinned rev and clean (checked twice)",
+    "three negative controls; receipt carries alignment_review NOT_CLAIMED; no alignment-record validator, no blueprint"
+   ],
+   "math_companion_check_py": [
+    "pins the whole formal/ tree hash, manifest sha and gate sha; refuses if the core changed",
+    "binds every companion byte and the workflow file to the git HEAD blob; refuses dirty trees",
+    "imports the core gate's audit_axioms by hash; exact-type Contract.lean compiled with -DwarningAsError=true; leanchecker --fresh",
+    "negative controls must fail with exactly 'error: unsolved goals ⊢ False' at the control file and exit 1",
+    "finish requires a fresh core receipt.json with formalization_status kernel-checked at the same commit; emits its own receipt with scientific_acceptance false"
+   ]
+  },
+  "ci": [
+   {
+    "workflow": ".github/workflows/formal-lean.yml (Math-)",
+    "builds_what": "formal/ ResearchFormalCoreR1: formal/tests in normal and -O modes, gate.py source, gate.py --execute (lake build, leanchecker, 63-target axiom audit, types, 5 controls, receipt), tools/required_formal_check.py receipt; artifact formal-evidence-<run>-<attempt> 14 days",
+    "uses_cache": "leanprover/lean-action@f061402b660e0c34644504b324e830f2991d4865 with use-mathlib-cache true (lake exe cache get), use-github-cache false, lake-package-directory formal; LEAN_NUM_THREADS 2; timeout 25 min",
+    "trigger": "workflow_call (from downstream-gate.yml) and workflow_dispatch"
+   },
+   {
+    "workflow": ".github/workflows/downstream-gate.yml (Math-)",
+    "builds_what": "job checks (downstream replay, required_formal_check tests, proof-slice P-C paired validation) + job formal (calls formal-lean.yml) + aggregate job math-downstream-gates running tools/required_formal_check.py aggregate (both must be success at the same commit); this is the ruleset-required check (Math- ruleset 24045351)",
+    "uses_cache": "formal job inherits the mathlib cache via formal-lean.yml",
+    "trigger": "every pull_request and push to main (no path filter) and dispatch"
+   },
+   {
+    "workflow": ".github/workflows/cap-first-exit-lean.yml (Math-)",
+    "builds_what": "frontiers/cap_first_exit_lean_20261002: unit tests both modes, gate.py source, gate.py --execute (fresh lake build, leanchecker, 152-target axiom audit vs expected_axioms, 3 controls), git diff --exit-code; artifact 14 days",
+    "uses_cache": "lean-action f061402b with use-mathlib-cache true, lake-package-directory frontiers/cap_first_exit_lean_20261002; setup-python 3.11.16; timeout 30 min",
+    "trigger": "pull_request on paths frontiers/cap_first_exit_lean_20261002/**, the workflow, the two pinned sources; dispatch"
+   },
+   {
+    "workflow": ".github/workflows/d2-moment-bridge.yml (Math-)",
+    "builds_what": "companions/d2_moment_bridge_20261006/replay.sh: check.py source, companion tests both modes, formal/tests both modes, formal/gate.py --execute (full 63-target core replay), compile D2MomentBridge.lean with warnings-as-errors via lake env, Positive.lean, 18-target axiom/type audit, leanchecker --fresh, 2 False-goal controls, check.py finish; artifact 30 days incl. formal/.lake/formal-evidence",
+    "uses_cache": "lean-action f061402b with use-mathlib-cache true, lake-package-directory formal; timeout 25 min",
+    "trigger": "pull_request and push main on paths companions/d2_moment_bridge_20261006/**, the workflow, formal/**; dispatch"
+   },
+   {
+    "workflow": ".github/workflows/d2-square-schur.yml (Math-)",
+    "builds_what": "companions/d2_square_schur_20261006/replay.sh: as above plus root tests/ suites, Contract.lean, 4-target audit, 3 controls; artifact 30 days",
+    "uses_cache": "lean-action f061402b with use-mathlib-cache true, lake-package-directory formal; fetch-depth 0; timeout 25 min",
+    "trigger": "pull_request and push main on paths companions/d2_square_schur_20261006/**, the workflow, formal/**; dispatch"
+   },
+   {
+    "workflow": ".github/workflows/d2-atom-integral.yml (Math-)",
+    "builds_what": "companions/d2_atom_integral_20261006/replay.sh: compiles D2MomentBridge and D2SquareSchur dependencies first, then D2AtomIntegral, Contract.lean, 6-target audit, leanchecker --fresh, 3 controls, plus full core replay and all Python suites; artifact 30 days",
+    "uses_cache": "lean-action f061402b with use-mathlib-cache true, lake-package-directory formal; fetch-depth 0; timeout 30 min",
+    "trigger": "pull_request and push main on paths companions/d2_atom_integral_20261006/**, the workflow, the two consumed .lean files, formal/**; dispatch"
+   },
+   {
+    "workflow": "(none) for reviews/w3_side24_source_proposal_20261008/W3Scratch",
+    "builds_what": "nothing; README states these modules are not built by any workflow and ordinary PR CI does not certify them",
+    "uses_cache": "n/a"
+   },
+   {
+    "workflow": ".github/workflows/d2-two-mass-floors.yml and d2-remainder-fulldepth-review.yml (Math-)",
+    "builds_what": "Python-only exact rational controls and source-identity checks for review packets (d2-two-mass-floors pins D2Schur.lean blob b95460c0 and NOTE.md blob 852f7403); no Lean",
+    "uses_cache": "none (setup-python only)"
+   },
+   {
+    "workflow": ".github/workflows/formal-verification.yml (main)",
+    "builds_what": "main formal/ UniversalLaw: shell failure-propagation check, tests/test_formal_workflow_shell.py, tools/formal_gate_check.py source, elan v4.2.4 pinned-digest install + toolchain from formal/lean-toolchain, tools/formal_gate_check.py --run-lean (31 targets, decide proofs, 7+3 controls, receipt), tests.test_formal_gate both modes, required_formal_check.py receipt; artifact 30 days",
+    "uses_cache": "no mathlib cache (dependency-free package); timeout 15 min",
+    "trigger": "workflow_call (from main's verify aggregate) and dispatch"
+   }
+  ],
+  "mathematical_coverage": {
+   "covered": [
+    "GP-FOR-192 scalar companions: canonical fold-gap polynomial identity (EC-005), planar collision-Gram determinant polynomial factor (EC-008), chart convex-combination identities (EC-010), adjoint-orbit scalar cancellation (EC-011), contact-power scalar cancellation (EC-014) — all as pure real-polynomial facts",
+    "P02-LM-008 (LCR-CAP-024-v1.0): Bochner Cauchy-Schwarz numerator step, same-law integral-ratio transfer under explicit second-moment and positive lower-normalizer premises, r^2 cancellation and sqrt transfer coefficient, construction of the normalized nonnegative weighted law (withDensity) with probability property, event-ratio identity, absolute continuity, a.e. invariance; two scalar counterexamples (missing sqrt, upper-for-lower normalizer)",
+    "P02-LM-009: strict fifth-power bad-jet event, its measurability, Markov from an integrable fortieth moment to an eighth-order event tail (M/ε^8) r^8 on probability and finite measures, weighted-law fourth- and cubic-order bounds, r^4 → r^3 ledger, uniform-family quantifier assembly (global and interval-only)",
+    "Same-law L1 weight perturbation: normalizer stability and uniform measurable-event probability error 2δ/c, r^2-scaled variant",
+    "D2 Schur (SIDE24 d=2 small-L NOTE §2): exact Schur numerator cancellation, affine determinant interpolation between q = 0 and q = 1/4 endpoints, positivity of N, D, S, T under 0 < m2, m2^2 < m4, Delta > 0 on [0, 1/4], endpoint lower bound N/max(D(0), D(1/4)), cumulant-to-moment τ conversion, Gaussian (1,3,15) and degenerate boundary controls",
+    "Companions (actual Bochner moments of an arbitrary measurable X): Delta = ∫ (X^3 - (m4/m2) X)^2, Delta = 0 iff a.e. X = 0 or X^2 = m4/m2, strictness from two nonzero atoms of distinct squared radii, probability fourth-gap identity m4 - m2^2 = ∫ (X^2 - m2)^2, quantitative two-radius floors on m2, m4 - m2^2, Delta and on d2Schur, upper-moment-free Schur lower bound min(m4 - m2^2, 2 m2^2) and min(g0, 2 s0^2) from lower inputs",
+    "W3Scratch (unregistered, unverified by any workflow): D2Schur ↔ NOTE cumulant forms, det V as a 2x2 determinant, q = c^2 s^2 sweeps exactly [0, 1/4] over the unit circle and via q(θ) = (1 - cos 4θ)/8, endpoint minimum as IsLeast/sInf, finite and countable two-atom laws; SIDE24 Poisson-dual law atoms 2πk/L with Gaussian weights: summability of all moments, normalization, odd moments zero, moment hypotheses and every-direction positivity for every L != 0; θ_L cosine series by Poisson summation, term-by-term differentiation of both series, θ-route image moments (Hermite sums) equal dual-law moments for j = 2, 4, 6",
+    "CapFirstExit (D1 component III, CAP §§2-5 / SP L1-L22): the whole topological part (maximin level, closed/open elder merge, elder death level, saddle cut, older peak and elder death level in peak form on compact locally connected spaces, exterior invariance, transport along continuous open maps and to the flat torus, cylinder faces); the analytic steps L1-L13 and L16-L20 of SP from f ∈ C⁴ near D and CAP (1) partial-block norms for every pin gap k > 0 (ridge existence/regularity via implicit function theorem, strong concavity of slices, Hermite gap bounds, L12 convexity, continuity step to a collar, symmetry of D³f for C³ functions); torus statements torus_capHyp_blocks and torus_elder_death_level_blocks; concrete toys and proved necessity of each of (C1)-(C3)",
+    "main's UniversalLaw: 31 integer/rational arithmetic facts behind SIDE24 note §§1-4 and the adjacency/ordering of the published 20-digit endpoints (not the enclosure)"
+   ],
+   "untouched": [
+    "the five OPEN validity premises of Theorem D1 v2.2(2) (not formalized anywhere; the frontier's hypotheses are SP's §2 setting and CAP (1), taken as premises)",
+    "D3-LEMMA-RN-UNIF and every Rn uniformity statement",
+    "Theorem A, measurability and Q^W(G_r^c) <= C r^3 (probability side of D1, interface I4), L23, P §8; L14 critical-point count and L15 Morse indices; identification of the persistence-module pairing with the elder rule; reading of P's contact frame and field as the Lean objects",
+    "any construction of the Gaussian field, its periodic lift being C⁴ a.s., the typed Palm/conditioned law, concrete moment bounds M, cW, cZ, event tails, constant uniformity; GT5, P0.2, parent persistence theorem, P02-LM-006, P02-LM-007",
+    "the SIDE24 coefficient enclosure 0.07340691930603427103 < c_{2,24} < 0.07340691930603427104 (and d = 3), the definition of c_{d,ref}, Gaussian/Kac-Rice/cone-integral/Stirling/interval-arithmetic steps, coefficient.py and certified_d2.py (W3 formalizes the dual law for all L but not the six-L numerical certificate)",
+    "realizability of the raw moments (m2, m4, m6) as an actual spectral law; identification of the Poisson-dual law with the NOTE's spectral law (W3 question (a), open); Gram rotation / actual matrix Schur complement; finite-L tails; interval quadrature; coefficient formula (15.2); Gamma normalization; lifetime laws; D2 Schur in dimensions d >= 3; CapI4 transport",
+    "six-pin Jacobian / Kac-Rice density, change of variables, random-field normal-form construction, elder-rule selection theorem, joint extremum/merging-saddle law, candidate density, lifetime coefficient (GLOSSARY: UNMAPPED)",
+    "the 2D upper/lower tracks, the 3D lifetime track and their (withdrawn) composition; all prize claims (original_prize_closed false); ERRATA items",
+    "any statement-alignment acceptance: every manifest says PENDING_INDEPENDENT_REVIEW; frontier alignment_review NOT_CLAIMED (v1.4 ALIGNED_SCOPED on 53 decls only); W3 unreviewed; all authors same GitHub account, zero organizational-independence credit"
+   ]
+  },
+  "notes": [
+   "No kernel receipt is committed anywhere in Math- (git ls-files shows receipts only for unrelated frontiers); formal/evidence/ holds three FAILURE logs; success receipts exist only as workflow artifacts with 14-day (formal, frontier) or 30-day (companions) retention, so evidence for a specific commit must be captured from GitHub Actions or re-run",
+   "The hosted runs cited in the docs: first core run 36351673121 at 9cc0fff6 failed (noncomputable def + surplus ring; repaired as V2 modules); moment-tail 37315764990 failed (needed `change`); moment-bridge 37399665489 and 37400492648 failed then repaired (probReal_univ); square-schur 37411527600 failed on history, 37414215874 passed with the stub failing Contract on exactly the 4 names; downstream gate deployed by Math-#96 at 22e79e8 run 36359933550",
+   "Math-'s formal/ gate derives targets from theorem/lemma only; the 9 defs (foldPotential, weightedLaw, badJetEvent, d2Alpha, d2Gamma, d2DetV, d2Numerator, d2Schur, d2Delta, d2Tau) are not named targets, whereas the frontier gate and companion check.py treat defs as audited targets",
+   "All three companions compile outside lake libraries via `lake env lean --root=<dir>` with LEAN_PATH/LEAN_SRC_PATH prepended, writing .olean files next to the sources; they are not registered in any lakefile; W3Scratch's README proposes appending a lean_lib only in a throwaway copy because gate.py hashes lakefile.toml",
+   "formal-lean.yml runs the full 63-target mathlib build on EVERY PR via downstream-gate.yml (no path filter), while companion and frontier builds are path-filtered; the companion workflows re-run the entire core gate --execute each time",
+   "Math- formal docs record author provider per module: GP-FOR-192 originals (recovered), MeasureBridge/WeightedLaw/MomentTail/WeightPerturbation/D2Schur by OpenAI GPT-6 Astra Pro, MomentGenerality adapts Grok Bot agents 6/7 proposals, 2026-10-08 version-guard successor by OpenAI/Codex, CapFirstExit by Anthropic/Claude, W3Scratch by Grok Bot agent 13; all under Dylan Roy's delegation",
+   "main's formal/ README and manifest point to the Math- pilot at cc2989c1280f4f227d0c6aa30c8841d6ba01e46e (13 targets) as the lane's first package; main's package deliberately avoids mathlib and states that any ℝ/Gamma/exp/Gaussian statement belongs in the Math- mathlib lane",
+   "Blueprint coverage in Math- is 7 of 63 targets, link-only, no plasTeX site; the gate forbids \\leanok so no completion label can be self-awarded",
+   "tools/required_formal_check.py in both repos binds the receipt to GITHUB_SHA, GITHUB_RUN_ID, GITHUB_RUN_ATTEMPT and repository ∈ {d6g8k5htny-coder/main, d6g8k5htny-coder/Math-}; main also has tools/formal_execution_context.py binding a Math- source commit to a main execution run",
+   "W3Scratch proof terms use mathlib facilities (Complex.tsum_exp_neg_quadratic, summable_pow_mul_jacobiTheta₂_term_bound, Polynomial.deriv_gaussian_eq_hermite_mul_gaussian, hasDerivAt_tsum_of_isPreconnected) that pin it to the same mathlib revision; author-reported builds took 135-159 s and 3.7-4.3 GB per module",
+   "Scratch notes: <SCRATCH>/recon/math_lean/NOTES.md"
+  ]
+ },
+ "files_read": [
+  "<SCRATCH>/repos/math/formal/README.md",
+  "<SCRATCH>/repos/math/formal/SCOPE.md",
+  "<SCRATCH>/repos/math/formal/COMPATIBILITY.md",
+  "<SCRATCH>/repos/math/formal/LINEAGE_VALIDATION.md",
+  "<SCRATCH>/repos/math/formal/GLOSSARY.md",
+  "<SCRATCH>/repos/math/formal/MEASURE_BRIDGE.md",
+  "<SCRATCH>/repos/math/formal/WEIGHTED_LAW.md",
+  "<SCRATCH>/repos/math/formal/MOMENT_TAIL.md",
+  "<SCRATCH>/repos/math/formal/MOMENT_GENERALITY.md",
+  "<SCRATCH>/repos/math/formal/WEIGHT_PERTURBATION.md",
+  "<SCRATCH>/repos/math/formal/D2_SCHUR.md",
+  "<SCRATCH>/repos/math/formal/manifest.json",
+  "<SCRATCH>/repos/math/formal/gate.py",
+  "<SCRATCH>/repos/math/formal/lean-toolchain",
+  "<SCRATCH>/repos/math/formal/lakefile.toml",
+  "<SCRATCH>/repos/math/formal/lake-manifest.json",
+  "<SCRATCH>/repos/math/formal/.gitignore",
+  "<SCRATCH>/repos/math/formal/blueprint/src/content.tex",
+  "<SCRATCH>/repos/math/formal/evidence/initial-build-failure.log",
+  "<SCRATCH>/repos/math/formal/ResearchFormalCoreR1.lean",
+  "<SCRATCH>/repos/math/formal/ResearchFormalCoreR1/AlgebraV2.lean",
+  "<SCRATCH>/repos/math/formal/ResearchFormalCoreR1/ProbabilityCompanionsV2.lean",
+  "<SCRATCH>/repos/math/formal/ResearchFormalCoreR1/MeasureBridge.lean",
+  "<SCRATCH>/repos/math/formal/ResearchFormalCoreR1/WeightedLaw.lean",
+  "<SCRATCH>/repos/math/formal/ResearchFormalCoreR1/MomentTail.lean",
+  "<SCRATCH>/repos/math/formal/ResearchFormalCoreR1/MomentGenerality.lean",
+  "<SCRATCH>/repos/math/formal/ResearchFormalCoreR1/WeightPerturbation.lean",
+  "<SCRATCH>/repos/math/formal/ResearchFormalCoreR1/D2Schur.lean",
+  "<SCRATCH>/repos/math/formal/tests/ (8 files: test names, docstrings and version-guard test names only)",
+  "<SCRATCH>/repos/math/companions/d2_moment_bridge_20261006/{README.md,SOURCE_FILES.json,replay.sh,check.py,D2MomentBridge.lean,test_bridge.py (names)}",
+  "<SCRATCH>/repos/math/companions/d2_atom_integral_20261006/{SCOPE.md,SOURCE_FILES.json,replay.sh,check.py,Contract.lean,D2AtomIntegral.lean,test_check.py (names)}",
+  "<SCRATCH>/repos/math/companions/d2_square_schur_20261006/{SCOPE.md,SOURCE_FILES.json,replay.sh,check.py,Contract.lean,D2SquareSchur.lean,test_check.py (names)}",
+  "<SCRATCH>/repos/math/frontiers/cap_first_exit_lean_20261002/{README.md,ALIGNMENT.md (§4-5 and headers),MANIFEST.json,gate.py,test_gate.py (names),CapFirstExit.lean (section structure, all 152 declarations with docstrings and statement heads)}",
+  "<SCRATCH>/repos/math/reviews/w3_side24_source_proposal_20261008/{README.md,W3Scratch/D2SchurLinks.lean,W3Scratch/Side24Law.lean,W3Scratch/Side24Poisson.lean}",
+  "<SCRATCH>/repos/math/.github/workflows/{formal-lean.yml,cap-first-exit-lean.yml,d2-moment-bridge.yml,d2-atom-integral.yml,d2-square-schur.yml,downstream-gate.yml,d2-two-mass-floors.yml,d2-remainder-fulldepth-review.yml}",
+  "<SCRATCH>/repos/math/tools/required_formal_check.py",
+  "<SCRATCH>/repos/math/docs/FORMAL_REQUIRED_CHECKS.md",
+  "git -C /home/user/main show origin/main:.github/workflows/formal-verification.yml",
+  "git -C /home/user/main show origin/main:tools/formal_gate_check.py",
+  "git -C /home/user/main show origin/main:tools/formal_execution_context.py (head)",
+  "git -C /home/user/main show origin/main:formal/{README.md,manifest.json,UniversalLaw.lean,lakefile.toml,lake-manifest.json,lean-toolchain,ALIGNMENT.md (head),REVIEW_LANE.md (head)}",
+  "git -C /home/user/main show origin/main:formal/UniversalLaw/Side24/{Ledger,ConeMoments,Endpoints}.lean (declaration lines)"
+ ],
+ "gaps": [
+  "No Lean toolchain is installed in this container, so nothing was built or kernel-checked here; all 'kernel-checked' statements are the repositories' own claims about past hosted runs, and no success receipt is committed in either repository (workflow artifacts expire after 14/30 days). GitHub Actions run logs/artifacts were not fetched.",
+  "frontiers/cap_first_exit_lean_20261002/ALIGNMENT.md §§1-3 (per-hypothesis and per-slice-row source line mapping) were only partially read (headers, §4 interfaces, §5 review contract); the 152-row declaration meanings are taken from the Lean docstrings and the README table, not from ALIGNMENT.md row by row. The frontier's lakefile.toml and lake-manifest.json contents were not displayed (identity inferred from MANIFEST.json and gate.py checks).",
+  "The informal sources that the Lean binds to were not read: imports/hardening_ebedb780/P02-LM-008/proof.md.export.txt, reviews/side24_d2_certified_small_L_claude_20261005/NOTE.md and certified_d2.py, reviews/d1_cap_elder_partner_second_pass_claude_20260930/REVIEW.md, imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md, coefficients/side24_v1/PROOF.md; so informal-formal correspondence is reported as the docs state it, not independently assessed.",
+  "Test files were read by method names and module docstrings only, not bodies (formal/tests/*.py, companions' test files, frontier test_gate.py, Math- tests/test_required_formal_check.py and test_proof_slice_check.py were not opened).",
+  "main's docs/FORMAL_VERIFICATION.md, docs/FORMAL_VERIFICATION_ROLLOUT_20260927.md, docs/agents/LEAN_AUDIT_OWNER.md, formal/SCOPE.md, formal/GLOSSARY.md, formal/reviews/*, reviews/lean_probability_alignment_20261005/* and audits/formal_enforcement/2026-09-27/* were listed but not read (outside the stated subsystem; gate comparison used README, manifest, gate and workflow only).",
+  "The reviewer identity/provider of the frontier's v1.4 ALIGNED_SCOPED review (Math- PR #246 review 5396110365) and of Math-#272/#276 alignment reviews were not retrieved from GitHub; issue/PR comments cited in the docs (main#229, Math-#302/#309/#403 etc.) were not fetched.",
+  "The W3Scratch build/axiom evidence is author-reported (Grok Bot agent 13) and box-local; nothing in the repository or CI verifies it, and this reader did not attempt to compile it.",
+  "formal/evidence/moment-tail-initial-build-failure.log and weight-perturbation-initial-build-failure.log were not opened (only initial-build-failure.log head/tail); their content is summarized from MOMENT_TAIL.md and README.",
+  "The seven mathlib lemma names cited by the modules (integral_mul_le_Lp_mul_Lq_of_nonneg, mul_meas_ge_le_integral_of_nonneg, Complex.tsum_exp_neg_quadratic, etc.) were not verified to exist at mathlib d13f23b7 since no mathlib checkout is present."
+ ]
+}

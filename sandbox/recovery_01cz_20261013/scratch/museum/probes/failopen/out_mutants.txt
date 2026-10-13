@@ -1,0 +1,48 @@
+M01 SURVIVED S1=ok S2=ok S3=ok S4=ok | docs/site/museum.mjs: delete claim-title binding
+M02 SURVIVED S1=ok S2=ok S3=ok S4=ok | docs/site/museum.mjs: delete byte-frozen review-file binding (cross-claim review substitution guard)
+M03 SURVIVED S1=ok S2=ok S3=ok S4=ok | docs/site/museum.mjs: delete AMEND reason binding
+M04 SURVIVED S1=ok S2=ok S3=ok S4=ok | docs/site/museum.mjs: delete replay declaration validation
+M05 SURVIVED S1=ok S2=ok S3=ok S4=ok | docs/site/museum.mjs: delete replay URL/identity binding
+M06 SURVIVED S1=ok S2=ok S3=ok S4=ok | docs/site/museum.mjs: delete replay checkout binding
+M07 SURVIVED S1=ok S2=ok S3=ok S4=ok | docs/site/museum.mjs: delete packet-count cap
+M08 SURVIVED S1=ok S2=ok S3=ok S4=ok | docs/site/museum.mjs: delete proof repository/commit = index snapshot binding
+M09 SURVIVED S1=ok S2=ok S3=ok S4=ok | docs/site/museum.mjs: delete D1 parent proof binding
+M10 SURVIVED S1=ok S2=ok S3=ok S4=ok | docs/site/museum.mjs: delete open-claim source identity binding
+M11 killed   S1=ok S2=FAIL S3=ok S4=ok | docs/site/museum.mjs: delete pointer-source identity binding
+M12 SURVIVED S1=ok S2=ok S3=ok S4=ok | docs/site/museum.mjs: delete D5 open-review pin in validateBoundManifest
+M13 SURVIVED S1=ok S2=ok S3=ok S4=ok | docs/site/museum.mjs: delete review-pointer URL shape + notice guard
+M14 SURVIVED S1=ok S2=ok S3=ok S4=ok | docs/site/museum.mjs: delete claim id/order binding
+M15 SURVIVED S1=ok S2=ok S3=ok S4=ok | docs/site/museum.mjs: delete pinned-source row-count guard
+M16 SURVIVED S1=ok S2=ok S3=ok S4=ok | docs/site/museum.mjs: verifyClaim: skip review byte verification
+M17 killed   S1=ok S2=FAIL S3=ok S4=ok | docs/site/museum.mjs: verifyClaim: skip replay source verification (control)
+M18 SURVIVED S1=ok S2=ok S3=ok S4=ok | docs/site/museum.mjs: renderPacket: delete source-declaration check
+M19 SURVIVED S1=ok S2=ok S3=ok S4=ok | docs/site/museum.mjs: exhibit view: delete quote-in-source check
+M20 SURVIVED S1=ok S2=ok S3=ok S4=ok | docs/site/museum.mjs: banner always says 'displayed source bytes verified' even with refused views
+M21 SURVIVED S1=ok S2=ok S3=ok S4=ok | docs/site/museum.mjs: claim catch swallows verification failure and renders the card as verified
+M22 SURVIVED S1=ok S2=ok S3=ok S4=ok | docs/site/museum.mjs: lifetime card rendered without byte verification
+M23 SURVIVED S1=ok S2=ok S3=ok S4=ok | docs/site/museum.mjs: packet card rendered without fetching/verifying RESULT.md
+M24 killed   S1=ok S2=FAIL S3=ok S4=ok | docs/site/museum.mjs: verifyClaim: skip proof byte verification (control)
+M25 SURVIVED S1=ok S2=ok S3=ok S4=ok | docs/site/museum.mjs: open obligations labelled 'Open pinned full proof'
+M26 SURVIVED S1=ok S2=ok S3=ok S4=ok | docs/site/museum.mjs: drop OPEN / NOT LANDED line from AMEND cards
+M27 SURVIVED S1=ok S2=ok S3=ok S4=ok | docs/site/museum.mjs: drop 'not byte-frozen' pointer notice
+M28 killed   S1=ok S2=FAIL S3=ok S4=ok | docs/site/museum.mjs: accept scientific_status_authority:true (control)
+M31 SURVIVED S1=ok S2=ok S3=ok S4=ok | docs/site/museum.mjs: startMuseum never calls validateBoundManifest
+M32 SURVIVED S1=ok S2=ok S3=ok S4=ok | docs/site/museum.mjs: startMuseum uses index/status bytes without digest verification
+M33 SURVIVED S1=ok S2=ok S3=ok S4=ok | docs/site/museum.mjs: startMuseum renders claim cards without verifyClaim
+G02 SURVIVED S1=ok S2=ok S3=ok S4=ok | docs/site/geometry.mjs: p15Model: delete duplicate-selection guard
+G06 SURVIVED S1=ok S2=ok S3=ok S4=ok | docs/site/geometry.mjs: loadThree: delete revision check
+G01 killed   S1=ok S2=ok S3=FAIL S4=ok | docs/site/geometry.mjs: mountGeometry: delete source identity check (control)
+P01 SURVIVED S1=ok S2=ok S3=ok S4=ok | tools/museum_data.py: project: delete proof-pointer binding
+P02 killed   S1=FAIL S2=ok S3=ok S4=ok | tools/museum_data.py: project: delete review-pointer binding (control)
+P03 SURVIVED S1=ok S2=ok S3=ok S4=ok | tools/museum_data.py: project: delete eleven-bullet guard
+P04 SURVIVED S1=ok S2=ok S3=ok S4=ok | tools/museum_data.py: project: delete three-AMEND-row guard
+P05 SURVIVED S1=ok S2=ok S3=ok S4=ok | tools/museum_data.py: build: delete landed-packet authority check
+P06 SURVIVED S1=ok S2=ok S3=ok S4=ok | tools/museum_data.py: excerpt: delete boundary check
+P07 SURVIVED S1=ok S2=ok S3=ok S4=ok | tools/museum_data.py: verify_bytes: delete repository allow-list
+P08 SURVIVED S1=ok S2=ok S3=ok S4=ok | tools/museum_data.py: verify_bytes: delete path traversal guard
+P09 SURVIVED S1=ok S2=ok S3=ok S4=ok | tools/museum_data.py: verify_bytes: delete SHA-256 comparison (git blob SHA-1 still compared)
+P10 SURVIVED S1=ok S2=ok S3=ok S4=ok | tools/museum_data.py: section: delete missing/duplicate heading guard
+P11 killed   S1=FAIL S2=ok S3=ok S4=ok | tools/museum_data.py: check_export: never differs (control)
+C01 SURVIVED S1=ok S2=ok S3=ok S4=ok | tools/museum_check.py: museum_check: drop the export comparison
+C02 SURVIVED S1=ok S2=ok S3=ok S4=ok | tools/museum_check.py: museum_check: ignore node test failures
+C03 SURVIVED S1=ok S2=ok [# skipped 1] S3=ok S4=ok | tools/museum_check.py: museum_check: env var drift silently skips the pinned integration test

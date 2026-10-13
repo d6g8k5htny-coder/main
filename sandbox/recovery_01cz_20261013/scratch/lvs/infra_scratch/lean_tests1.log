@@ -1,0 +1,203 @@
+test_auto_implicit_is_off (__main__.LeanHelpers.test_auto_implicit_is_off)
+With `autoImplicit = false` an unbound name in a header is an error instead of a silent ... ok
+test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts)
+Module copies Lean builds without error must be refused by the environment audit, each ... 
+  test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts) (label='implicit smuggled hypothesis')
+Module copies Lean builds without error must be refused by the environment audit, each ... FAIL
+  test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts) (label='explicit smuggled hypothesis')
+Module copies Lean builds without error must be refused by the environment audit, each ... FAIL
+  test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts) (label='narrowed argument')
+Module copies Lean builds without error must be refused by the environment audit, each ... FAIL
+  test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts) (label='fixed instance argument')
+Module copies Lean builds without error must be refused by the environment audit, each ... FAIL
+  test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts) (label='implication P → P')
+Module copies Lean builds without error must be refused by the environment audit, each ... FAIL
+  test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts) (label='unregistered type')
+Module copies Lean builds without error must be refused by the environment audit, each ... FAIL
+  test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts) (label='structure type is not a Prop')
+Module copies Lean builds without error must be refused by the environment audit, each ... FAIL
+  test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts) (label='non-Aux sub-namespace')
+Module copies Lean builds without error must be refused by the environment audit, each ... FAIL
+  test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts) (label='indented hidden theorem')
+Module copies Lean builds without error must be refused by the environment audit, each ... FAIL
+  test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts) (label='theorem between string literals')
+Module copies Lean builds without error must be refused by the environment audit, each ... FAIL
+  test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts) (label='axiom')
+Module copies Lean builds without error must be refused by the environment audit, each ... FAIL
+  test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts) (label='axiom used by a registered-type theorem')
+Module copies Lean builds without error must be refused by the environment audit, each ... FAIL
+  test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts) (label='opaque')
+Module copies Lean builds without error must be refused by the environment audit, each ... FAIL
+  test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts) (label='unsafe')
+Module copies Lean builds without error must be refused by the environment audit, each ... FAIL
+  test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts) (label='bound-variable type')
+Module copies Lean builds without error must be refused by the environment audit, each ... FAIL
+test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts)
+Module copies Lean builds without error must be refused by the environment audit, each ... FAIL
+test_fixture_packages (__main__.LeanHelpers.test_fixture_packages) ... ERROR
+
+======================================================================
+ERROR: test_fixture_packages (__main__.LeanHelpers.test_fixture_packages)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/repos/math/specifications/lean_statement_proofs_20261011/test_check.py", line 1007, in test_fixture_packages
+    check.check_lean_version(check.run([LAKE, 'env', 'lean', '--version'], 'version', self.out, self.proofs, self.env))
+  File "<SCRATCH>/repos/math/specifications/lean_statement_proofs_20261011/check.py", line 785, in check_lean_version
+    require(lines and all(line.startswith('info:') for line in lines[:-1]), 'unexpected output around the Lean version: ' + repr(text[:200]))
+  File "<SCRATCH>/repos/math/specifications/lean_statement_proofs_20261011/check.py", line 136, in require
+    raise ValueError(message)
+ValueError: unexpected output around the Lean version: 'info: spec_fixture_proofs: no previous manifest, creating one from scratch\ninfo: toolchain not updated; already up-to-date\nwarning: spec_fixture_statements: ignoring missing manifest:\n  /tmp/tmpzskmb2'
+
+======================================================================
+FAIL: test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts) (label='implicit smuggled hypothesis')
+Module copies Lean builds without error must be refused by the environment audit, each
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/repos/math/specifications/lean_statement_proofs_20261011/test_check.py", line 1092, in test_environment_audit_refuses_escapes_lean_accepts
+    self.assertIn(fragment, str(ctx.exception) + (self.out / 'environment.log').read_text())
+AssertionError: 'REFUSED:premise:UniversalLaw.Spec.Demo.A' not found in 'unexpected process outcome: environment\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:71:60: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:generated_proof:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:72:68: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:premise:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:73:15: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:type:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:71:60: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:generated_proof:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:72:68: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:premise:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:73:15: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:type:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n'
+
+======================================================================
+FAIL: test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts) (label='explicit smuggled hypothesis')
+Module copies Lean builds without error must be refused by the environment audit, each
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/repos/math/specifications/lean_statement_proofs_20261011/test_check.py", line 1092, in test_environment_audit_refuses_escapes_lean_accepts
+    self.assertIn(fragment, str(ctx.exception) + (self.out / 'environment.log').read_text())
+AssertionError: 'REFUSED:premise:UniversalLaw.Spec.Demo.A' not found in 'unexpected process outcome: environment\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:71:60: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:generated_proof:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:72:68: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:premise:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:73:15: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:type:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:71:60: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:generated_proof:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:72:68: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:premise:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:73:15: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:type:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n'
+
+======================================================================
+FAIL: test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts) (label='narrowed argument')
+Module copies Lean builds without error must be refused by the environment audit, each
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/repos/math/specifications/lean_statement_proofs_20261011/test_check.py", line 1092, in test_environment_audit_refuses_escapes_lean_accepts
+    self.assertIn(fragment, str(ctx.exception) + (self.out / 'environment.log').read_text())
+AssertionError: 'REFUSED:premise:UniversalLaw.Spec.Demo.B' not found in 'unexpected process outcome: environment\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:71:60: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:generated_proof:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:72:68: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:premise:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:73:15: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:type:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:71:60: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:generated_proof:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:72:68: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:premise:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:73:15: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:type:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n'
+
+======================================================================
+FAIL: test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts) (label='fixed instance argument')
+Module copies Lean builds without error must be refused by the environment audit, each
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/repos/math/specifications/lean_statement_proofs_20261011/test_check.py", line 1092, in test_environment_audit_refuses_escapes_lean_accepts
+    self.assertIn(fragment, str(ctx.exception) + (self.out / 'environment.log').read_text())
+AssertionError: 'REFUSED:premise:UniversalLaw.Spec.Demo.C' not found in 'unexpected process outcome: environment\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:71:60: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:generated_proof:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:72:68: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:premise:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:73:15: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:type:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:71:60: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:generated_proof:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:72:68: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:premise:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:73:15: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:type:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n'
+
+======================================================================
+FAIL: test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts) (label='implication P → P')
+Module copies Lean builds without error must be refused by the environment audit, each
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/repos/math/specifications/lean_statement_proofs_20261011/test_check.py", line 1092, in test_environment_audit_refuses_escapes_lean_accepts
+    self.assertIn(fragment, str(ctx.exception) + (self.out / 'environment.log').read_text())
+AssertionError: 'REFUSED:premise:UniversalLaw.Spec.Demo.A' not found in 'unexpected process outcome: environment\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:71:60: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:generated_proof:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:72:68: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:premise:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:73:15: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:type:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:71:60: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:generated_proof:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:72:68: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:premise:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:73:15: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:type:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n'
+
+======================================================================
+FAIL: test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts) (label='unregistered type')
+Module copies Lean builds without error must be refused by the environment audit, each
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/repos/math/specifications/lean_statement_proofs_20261011/test_check.py", line 1092, in test_environment_audit_refuses_escapes_lean_accepts
+    self.assertIn(fragment, str(ctx.exception) + (self.out / 'environment.log').read_text())
+AssertionError: 'REFUSED:type:True' not found in 'unexpected process outcome: environment\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:71:60: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:generated_proof:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:72:68: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:premise:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:73:15: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:type:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:71:60: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:generated_proof:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:72:68: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:premise:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:73:15: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:type:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n'
+
+======================================================================
+FAIL: test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts) (label='structure type is not a Prop')
+Module copies Lean builds without error must be refused by the environment audit, each
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/repos/math/specifications/lean_statement_proofs_20261011/test_check.py", line 1092, in test_environment_audit_refuses_escapes_lean_accepts
+    self.assertIn(fragment, str(ctx.exception) + (self.out / 'environment.log').read_text())
+AssertionError: 'REFUSED:type:Eq' not found in 'unexpected process outcome: environment\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:71:60: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:generated_proof:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:72:68: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:premise:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:73:15: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:type:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:71:60: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:generated_proof:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:72:68: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:premise:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:73:15: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:type:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n'
+
+======================================================================
+FAIL: test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts) (label='non-Aux sub-namespace')
+Module copies Lean builds without error must be refused by the environment audit, each
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/repos/math/specifications/lean_statement_proofs_20261011/test_check.py", line 1092, in test_environment_audit_refuses_escapes_lean_accepts
+    self.assertIn(fragment, str(ctx.exception) + (self.out / 'environment.log').read_text())
+AssertionError: 'REFUSED:type:True' not found in 'unexpected process outcome: environment\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:71:60: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:generated_proof:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:72:68: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:premise:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:73:15: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:type:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:71:60: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:generated_proof:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:72:68: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:premise:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:73:15: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:type:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n'
+
+======================================================================
+FAIL: test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts) (label='indented hidden theorem')
+Module copies Lean builds without error must be refused by the environment audit, each
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/repos/math/specifications/lean_statement_proofs_20261011/test_check.py", line 1092, in test_environment_audit_refuses_escapes_lean_accepts
+    self.assertIn(fragment, str(ctx.exception) + (self.out / 'environment.log').read_text())
+AssertionError: 'REFUSED:type:True' not found in 'unexpected process outcome: environment\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:71:60: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:generated_proof:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:72:68: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:premise:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:73:15: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:type:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:71:60: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:generated_proof:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:72:68: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:premise:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:73:15: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:type:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n'
+
+======================================================================
+FAIL: test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts) (label='theorem between string literals')
+Module copies Lean builds without error must be refused by the environment audit, each
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/repos/math/specifications/lean_statement_proofs_20261011/test_check.py", line 1092, in test_environment_audit_refuses_escapes_lean_accepts
+    self.assertIn(fragment, str(ctx.exception) + (self.out / 'environment.log').read_text())
+AssertionError: 'REFUSED:type:True' not found in 'unexpected process outcome: environment\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:71:60: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:generated_proof:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:72:68: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:premise:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:73:15: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:type:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:71:60: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:generated_proof:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:72:68: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:premise:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:73:15: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:type:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n'
+
+======================================================================
+FAIL: test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts) (label='axiom')
+Module copies Lean builds without error must be refused by the environment audit, each
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/repos/math/specifications/lean_statement_proofs_20261011/test_check.py", line 1092, in test_environment_audit_refuses_escapes_lean_accepts
+    self.assertIn(fragment, str(ctx.exception) + (self.out / 'environment.log').read_text())
+AssertionError: 'REFUSED:axiom' not found in 'unexpected process outcome: environment\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:71:60: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:generated_proof:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:72:68: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:premise:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:73:15: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:type:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:71:60: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:generated_proof:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:72:68: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:premise:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:73:15: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:type:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n'
+
+======================================================================
+FAIL: test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts) (label='axiom used by a registered-type theorem')
+Module copies Lean builds without error must be refused by the environment audit, each
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/repos/math/specifications/lean_statement_proofs_20261011/test_check.py", line 1092, in test_environment_audit_refuses_escapes_lean_accepts
+    self.assertIn(fragment, str(ctx.exception) + (self.out / 'environment.log').read_text())
+AssertionError: 'REFUSED:axioms:UniversalLaw.Proofs.Demo.hidden' not found in 'unexpected process outcome: environment\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:71:60: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:generated_proof:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:72:68: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:premise:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:73:15: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:type:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:71:60: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:generated_proof:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:72:68: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:premise:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:73:15: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:type:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n'
+
+======================================================================
+FAIL: test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts) (label='opaque')
+Module copies Lean builds without error must be refused by the environment audit, each
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/repos/math/specifications/lean_statement_proofs_20261011/test_check.py", line 1092, in test_environment_audit_refuses_escapes_lean_accepts
+    self.assertIn(fragment, str(ctx.exception) + (self.out / 'environment.log').read_text())
+AssertionError: 'REFUSED:opaque' not found in 'unexpected process outcome: environment\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:71:60: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:generated_proof:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:72:68: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:premise:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:73:15: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:type:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:71:60: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:generated_proof:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:72:68: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:premise:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:73:15: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:type:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n'
+
+======================================================================
+FAIL: test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts) (label='unsafe')
+Module copies Lean builds without error must be refused by the environment audit, each
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/repos/math/specifications/lean_statement_proofs_20261011/test_check.py", line 1092, in test_environment_audit_refuses_escapes_lean_accepts
+    self.assertIn(fragment, str(ctx.exception) + (self.out / 'environment.log').read_text())
+AssertionError: 'REFUSED:unsafe' not found in 'unexpected process outcome: environment\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:71:60: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:generated_proof:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:72:68: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:premise:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:73:15: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:type:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:71:60: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:generated_proof:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:72:68: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:premise:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:73:15: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:type:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n'
+
+======================================================================
+FAIL: test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts) (label='bound-variable type')
+Module copies Lean builds without error must be refused by the environment audit, each
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/repos/math/specifications/lean_statement_proofs_20261011/test_check.py", line 1092, in test_environment_audit_refuses_escapes_lean_accepts
+    self.assertIn(fragment, str(ctx.exception) + (self.out / 'environment.log').read_text())
+AssertionError: 'REFUSED:type:nonconstant' not found in 'unexpected process outcome: environment\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:71:60: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:generated_proof:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:72:68: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:premise:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:73:15: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:type:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:71:60: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:generated_proof:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:72:68: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:premise:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:73:15: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:type:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n'
+
+======================================================================
+FAIL: test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts)
+Module copies Lean builds without error must be refused by the environment audit, each
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/repos/math/specifications/lean_statement_proofs_20261011/test_check.py", line 1098, in test_environment_audit_refuses_escapes_lean_accepts
+    self.assertIn('AUDIT REFUSED:proof_as_def UniversalLaw.Proofs.Demo.proofAsDef', env_log)
+AssertionError: 'AUDIT REFUSED:proof_as_def UniversalLaw.Proofs.Demo.proofAsDef' not found in '/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:71:60: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:generated_proof:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:72:68: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:premise:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n/tmp/tmpw3pszp72/proofs/.lake/evidence/Environment.lean:73:15: error: Type mismatch\n  (MessageData.ofFormat ∘ format) "REFUSED:type:" ++ headStr\nhas type\n  MessageData\nbut is expected to have type\n  String\n'
+
+----------------------------------------------------------------------
+Ran 3 tests in 45.221s
+
+FAILED (failures=16, errors=1)
+
+real	0m45.371s
+user	0m24.210s
+sys	0m18.329s
+exit 1

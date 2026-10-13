@@ -1,0 +1,9 @@
+Museum projection verified: 11 reviewed bullets, 3 AMEND rows, 1 landed packet; scientific effect NONE.
+packets in regenerated museum.json: []
+museum_check exit=1
+# Subtest: lifetime source identity must match D2 and packets must use the pinned main snapshot
+ok 6 - lifetime source identity must match D2 and packets must use the pinned main snapshot
+# Subtest: packet index refuses a foreign packet, changed scientific effect and mismatched result path
+ok 13 - packet index refuses a foreign packet, changed scientific effect and mismatched result path
+not ok 15 - actual pinned museum renders all cards and rejects cross-claim source, scope and replay substitutions
+    The input did not match the regular expression /packet — not STATUS/. Input:

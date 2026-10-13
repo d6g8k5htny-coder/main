@@ -1,0 +1,122 @@
+Companion torus_filtration_20261011: register the owner-authored OrdinaryH0Controls fixtures and three false controls (C264 owner task item 4; not a review, FORMAL HOLD unchanged)
+
+One forward commit on top of the registration head 940dffc9. It registers one
+owner-authored Lean module and three false controls in the existing gate; it moves
+no status label.
+
+Module. OrdinaryH0Controls.lean (29590 B, 453 lines, sha256
+df9d3645282ca526b67eca3d5db691b622092a14b5fddee9be21013e39666184), written by this
+lane for C264 owner task item 4 (Math- #428 comment 6113277485) against the
+corrected CONTROL_OBLIGATIONS of comment 6113277173; imports Mathlib and
+OrdinaryH0; namespace TorusFiltration, prefix ordinaryH0Control_; 37 theorems,
+3 abbrevs, 4 defs, 0 instances. Not a handoff successor (no handoff bytes), not a
+review of OrdinaryH0. Its first compiled form (e825837f..., 28503 B, 440 lines)
+said the OrdinaryH0 successor "is FORMAL HOLD until a nonauthor exact-source
+review of the compiled successor". The one docstring paragraph now says instead
+that the handoffs rest FORMAL HOLD on their own listed conditions (6113277485
+item 5 and 6113372506; for C263, 6113033545 item 4), among them a distinct review
+of the source-bound execution output and source-bound hosted evidence and
+custody, which they say a source review alone does not meet; that the nonauthor
+engineering readback of 4c33d8cd..940dffc9 (review 5485829137, 2026-10-12
+01:16Z, PASS) read the successor bytes for identity and registration only and
+records credit 0; that since 01:32Z a nonauthor exact-source review exists,
+source-scoped only (review 5485883117, Muse Spark / Meta, PASS source-scoped for
+each module, count corrected in comment 6116328276), whose reviewer did not run
+Lean and keeps Lean execution as an open condition under FORMAL HOLD, and which
+states no organizational-independence credit and was posted from the same
+project account; that FORMAL HOLD is unchanged, its disposition is for the
+C263/C264 handoff owners and alignment still needs a nonzero-credit reviewer;
+and that the fixtures lift nothing. No declaration changed; the module was
+recompiled and its axioms and census re-run after the edit. The four earlier
+modules and the Actions workflow file are byte-identical. Root module
+TorusFiltration.lean gains `import OrdinaryH0Controls` as its fifth line.
+
+check.py. MODULES, REQUIRED_FILES, BUILDS (build-OrdinaryH0Controls after
+build-OrdinaryH0), ROOT_SOURCE, the census module array and the modules-mode
+leanchecker command (six modules; the five-module form is now refused as the
+five-module change refused the three-module form). FALSE_CONTROLS gains
+RejectMergerKillsPointClass, RejectSeparationWithoutNonzeroCoeff and
+RejectNonmergerKillsDifference (the statements and tactics of the item-4
+controls specification), with a comment stating each intended reason.
+EVIDENCE_FILES 54 -> 65 (2 for build-OrdinaryH0Controls, 9 for the three
+controls) with its explicit count check. Provenance: OWNER_MODULES records the
+module (author, task 6113277485 item 4, specification 6113277173, sha256 and
+bytes, imports, census 48 = 44 + 0 + 4, not a handoff successor, not a review,
+FORMAL HOLD of OrdinaryH0 unchanged, credit 0); metadata() requires
+provenance.owner_modules to equal it whole, like SUCCESSORS. NAMESPACE_MAPPING
+names the controls module. The scanner's rules are unchanged (its
+companion-import form follows MODULES). census_auxiliary gains no entry. The
+comment above SUCCESSORS now says that FORMAL HOLD rests on the handoffs' listed
+conditions and that formal_status is the registration commit's transcription,
+naming one of them; the formal_status labels themselves are unchanged.
+
+test_torus_filtration.py: the inventory of the new module as scan_module reports
+it; the four internal generated names of its census; every count this change
+moves (118 theorems, 153 declarations, 6 abbrevs, 26 defs, 65 evidence members,
+19 internal generated rows); the owner record and the tracked bytes against
+OWNER_IDENTITY; thirteen single-field or whole-entry mutations of the owner
+record through the CLI (identity, author, kind, review status, credit, census,
+a dropped comment pointer, an added field, a dropped or added entry, the record
+copied into the successor record, the key removed); the pre-controls root,
+five-module leanchecker command and module lists refused; companion-import
+order for the new module; the exact item-4 controls and their tactics naming
+fixture theorems; and the three controls' Lean diagnostics and their true
+siblings' diagnostics (CONTROL_LOGS, DISCRIMINATOR_LOGS) as negative controls of
+negative and finish. The status-vocabulary test requires the handoffs' listed
+conditions, the open condition, the same-account and nonzero-credit statements,
+the dated companion note on the C254 exclusion and the reported-not-adopted
+hosted run, and refuses the corrected phrasings (FORMAL HOLD presented as tied
+to one review that now exists, "until 01:32Z no nonauthor review", "records none
+since", "beyond the discrete cases", "each statement applies one of the C264
+theorems"). 29 tests (28 before) pass in both Python modes. replay.sh: the build
+line, the leanchecker command, the control loop, comments with the measured
+six-module figures.
+
+README.md and SCOPE.md: a dated section for the item-4 controls (what each
+fixture shows, the three controls and their intended reasons, the
+discriminators, the evidence-count change, what it does not establish), every
+moved count, and the two documentation items riding this commit (Math- #428
+comment 6116225936): the C254 naturality exclusion keeps its copied words and
+gains a dated companion note (C254 alone did not establish it; OrdinaryH0.lean
+establishes the stated ordinary-H0 naturality only), and the statements that no
+review of the compiled successors existed are time-scoped to 940dffc9, with the
+engineering readback 5485829137 (01:16Z, identity and registration only, credit
+0) and the source-scoped review 5485883117 (01:32Z, no credit stated, Lean
+execution kept open) recorded with verdict and credit apart. FORMAL HOLD is
+described as resting on the handoffs' own listed conditions, not on one review
+(the registration section discloses its earlier one-condition wording; the
+transcribed label is quoted unchanged). Hosted run 38187870416 of 940dffc9 is
+recorded as completed with conclusion success, as reported by 5485829137, not
+re-inspected and its receipt not adopted. The controls module is described as
+applying seven of the 20 C264 theorems and three of its definitions; its
+thirteen premise lemmas name no C264 theorem. No label moves;
+provenance.successors.*.formal_status keeps the text transcribed at 940dffc9.
+SOURCE_FILES.json regenerated, last, by the out-of-tree generator, which also
+requires the owner module to carry the recorded identity.
+
+Checked locally at Lean v4.34.1 / Mathlib d13f23b7 on the registered bytes before
+this commit, one Lean process at a time, two threads: all six modules compile
+with warnings as errors (exit 0, empty logs); Audit (153 #print axioms, the 44
+new ones within propext, Classical.choice, Quot.sound), Types (118 #check),
+Census (181 constants = 153 user range + 1 user generated + 27 internal
+generated) and Positive exit 0. The emitted gate files are byte-identical to
+those of the three earlier local forms of this commit (64b51aea and 9e91f9f8,
+whose module differed only in the docstring paragraph, and d042e9a2, with these
+Lean bytes; all superseded, never pushed). On those forms `leanchecker
+TorusTopology ClosedSuperlevel SuperlevelBar OrdinaryH0 OrdinaryH0Controls
+TorusFiltration` exited 0 with no output, the eight false controls exited 1
+with exactly `⊢ False`, the three injections were refused by the audit, the
+three true siblings left other diagnostics, which check.py negative refuses,
+and all three full local replays passed (leanchecker sampled peaks 9.31, 9.06
+and 8.98 GiB; 8.64 GiB in the first pre-commit run). These are records of
+computations on a worktree, not a receipt.
+
+Registration is not review and not acceptance. The fixtures apply seven of the
+C264 theorems to known cases; they are not a review of OrdinaryH0 or
+SuperlevelBar, they do not lift FORMAL HOLD, and they do not mark item 4 closed.
+Alignment PENDING_INDEPENDENT_REVIEW; organizational-independence credit 0 (the
+same project account wrote, compiled and registered the module). Scientific
+effect NONE.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01Cz7WZybv8znP64SpPj6sWY

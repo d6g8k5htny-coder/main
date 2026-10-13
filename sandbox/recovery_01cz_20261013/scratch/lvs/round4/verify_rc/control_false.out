@@ -1,0 +1,37 @@
+<SCRATCH>/lvs/round4/verify_rc/control_false.lean:152:2: error: linarith failed to find a contradiction
+lam : ℝ
+h0 : 0 ≤ lam
+h : -lam + 1 ≤ Real.exp (-lam)
+hprod : 0 ≤ (Real.exp (-lam) - (-lam + 1)) * (1 + lam)
+a✝ : lam ^ 3 < 1 - Real.exp (-lam) - lam * Real.exp (-lam)
+⊢ False
+failed
+<SCRATCH>/lvs/round4/verify_rc/control_false.lean:250:4: error: linarith failed to find a contradiction
+case inl
+μ : ℕ → ℝ
+a A r : ℝ
+hA : 0 < A
+hr : 0 < r
+hr_a : r ≤ a / 2
+hr_A : r ≤ 1 / (a + 2 * A)
+hr_half : r ≤ 1 / 2
+h0 : ∀ (n : ℕ), 0 ≤ μ n
+hs : Summable μ
+h1 : ∑' (n : ℕ), μ n = 1
+hm : Summable fun n => ↑n * μ n
+hmean : ∑' (n : ℕ), ↑n * μ n ≤ A * r ^ 3
+hH2 : a * r ^ 3 ≤ 1 - μ 0 - μ 1
+lam : ℝ
+hlam : 0 ≤ lam
+hr3 : 0 ≤ r ^ 3
+hr2 : r ^ 2 ≤ 1 / 2
+hcase : lam ≤ r ^ 2
+hk2 :
+  -pmfTV μ (poissonPMF lam) ≤ 1 - μ 0 - μ 1 - (1 - Real.exp (-lam) - lam * Real.exp (-lam)) ∧
+    1 - μ 0 - μ 1 - (1 - Real.exp (-lam) - lam * Real.exp (-lam)) ≤ pmfTV μ (poissonPMF lam)
+hsq : 1 - Real.exp (-lam) - lam * Real.exp (-lam) ≤ lam ^ 3
+hlam2 : lam ^ 2 ≤ a / 2 * r ^ 3
+a✝ : pmfTV μ (poissonPMF lam) < a / 2 * r ^ 3
+⊢ False
+failed
+EXIT=1

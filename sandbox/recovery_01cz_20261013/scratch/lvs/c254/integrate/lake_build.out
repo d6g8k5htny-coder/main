@@ -1,0 +1,76 @@
+START 2026-10-11T16:44:43Z nproc=4 jobs=4 pwd=<SCRATCH>/repos/math_c254/formal
+⚠ [8924/8935] Built ResearchFormalCoreR1.D2Schur (6.0s)
+warning: ResearchFormalCoreR1/D2Schur.lean:1:0: 'Mathlib.Data.Real.Basic' has been deprecated: please replace this import by
+
+import Mathlib.Basic.Real.Basic
+warning: ResearchFormalCoreR1/D2Schur.lean:134:2: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+warning: ResearchFormalCoreR1/D2Schur.lean:161:2: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+✔ [8925/8935] Built ResearchFormalCoreR1.AlgebraV2 (11s)
+⚠ [8926/8935] Built ResearchFormalCoreR1.ProbabilityCompanionsV2 (11s)
+warning: ResearchFormalCoreR1/ProbabilityCompanionsV2.lean:22:18: Variable name `hcW` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hcW
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+warning: ResearchFormalCoreR1/ProbabilityCompanionsV2.lean:22:48: Variable name `hq` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hq
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+✔ [8927/8935] Built ResearchFormalCoreR1.ClosedSuperlevel (11s)
+⚠ [8928/8935] Built ResearchFormalCoreR1.TorusTopology (9.3s)
+warning: ResearchFormalCoreR1/TorusTopology.lean:56:6: This simp argument is unused:
+  PiLp.single_apply
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [torus_periodBasis, Module.Basis.unitsSMul_apply, OrthonormalBasis.coe_toBasis,
+    EuclideanSpace.basisFun_apply, Units.smul_def, PiLp.smul_apply, zsmul_eq_mul, mul_comm]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: ResearchFormalCoreR1/TorusTopology.lean:59:6: This simp argument is unused:
+  PiLp.single_apply
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [torus_periodBasis, Module.Basis.unitsSMul_apply, OrthonormalBasis.coe_toBasis,
+    EuclideanSpace.basisFun_apply, Units.smul_def, PiLp.smul_apply, hij, Ne.symm hij]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+warning: ResearchFormalCoreR1/TorusTopology.lean:59:25: This simp argument is unused:
+  hij
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [torus_periodBasis, Module.Basis.unitsSMul_apply, OrthonormalBasis.coe_toBasis,
+    EuclideanSpace.basisFun_apply, Units.smul_def, PiLp.smul_apply, PiLp.single_apply, Ne.symm hij]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+✔ [8929/8935] Built ResearchFormalCoreR1.MeasureBridge (6.9s)
+✔ [8930/8935] Built ResearchFormalCoreR1.WeightedLaw (7.3s)
+⚠ [8931/8935] Built ResearchFormalCoreR1.WeightPerturbation (9.4s)
+warning: ResearchFormalCoreR1/WeightPerturbation.lean:73:42: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+⚠ [8932/8935] Built ResearchFormalCoreR1.MomentTail (9.6s)
+warning: ResearchFormalCoreR1/MomentTail.lean:49:0: automatically included section variable(s) unused in theorem `ResearchFormalCoreR1.p02_lm009_badJet_subset`:
+  [MeasurableSpace Ω]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [MeasurableSpace Ω] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+⚠ [8933/8935] Built ResearchFormalCoreR1.MomentGenerality (9.1s)
+warning: ResearchFormalCoreR1/MomentGenerality.lean:72:2: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+✔ [8934/8935] Built ResearchFormalCoreR1 (7.8s)
+Build completed successfully (8935 jobs).
+END 2026-10-11T16:45:44Z elapsed=61s exit=0

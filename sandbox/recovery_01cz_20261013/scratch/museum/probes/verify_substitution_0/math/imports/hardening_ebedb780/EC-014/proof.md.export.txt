@@ -1,0 +1,373 @@
+﻿TECHNICAL GATE UPDATE — 2026-07-22
+
+
+C047R-AUD-001-v1.0 independently read File 4, re-derived the full matrix determinant, density Jacobian, both planted denominator mutations, and the contact-power ledger, and filed APPROVE EXACT SCOPE. The frozen AO48/CW/C047R gate is therefore satisfied. EC-014 is now HUMAN-APPROVAL-READY and remains nonterminal until Dylan M. Roy explicitly approves the exact §10 wording. No broader analytic, probabilistic, asymptotic, theorem, machine, release, or destructive claim follows.
+
+
+Review: https://docs.google.com/document/d/1z9VnetmhM00hA_K6ikgPT64hrf6swtVSWN58Al7I-Co/edit
+[[OBJ:C047R-AUD-001-v1.0]] [[QUEUE:EC-014]] [[STATUS:HUMAN-APPROVAL-READY]] [[STATUS:NOT-TERMINAL]]
+
+
+GP-CLS-PROP-017-v1.0 — CONDITIONAL TERMINAL CLOSURE PACKAGE FOR EC-014
+
+
+Corrected Six-Pin Pair-Frame Jacobian and Contact-Power Identity
+
+
+Artifact ID: GP-CLS-PROP-017-v1.0
+Prepared by: GP — OpenAI GPT-5.6 Thinking
+Created: 2026-07-21
+Class: CLS-PROP — complete additive terminal package pending one outside technical gate and Dylan approval
+Authority: none until the stated gates pass
+Canonical impact: NONE at current status
+Queue item: EC-014
+
+
+Current status:
+
+
+    PACKAGE COMPLETE — AO48 OR CW/C047R SCOPE VERDICT REQUIRED;
+    DYLAN M. ROY TERMINAL APPROVAL REQUIRED AFTER THAT VERDICT.
+
+
+[[OBJ:GP-CLS-PROP-017-v1.0]] [[QUEUE:EC-014]] [[OBJ:GP-DER-061-v1.0]] [[OBJ:CL-DER-051-v1.0]] [[OBJ:CL-AUD-059-v1.0]] [[STATUS:CONDITIONAL-CLOSURE-PACKAGE]]
+
+
+1. Proposed terminal label
+
+
+    CLOSED — EXACT CORRECTED SIX-PIN PAIR-FRAME JACOBIAN AND CONTACT-POWER IDENTITY
+
+
+2. Exact object proposed for closure
+
+
+Let M=x_m=(-r/2,0), S=x_s=(+r/2,0), r>0, with longitudinal coordinate t and transverse coordinate s. The raw ordered vector is
+
+
+    X_r = ( f(M), f(S), f_t(M), f_s(M), f_t(S), f_s(S) ).
+
+
+The corrected ordered frame is
+
+
+    Y_r = ( V^+, V^-_corr, G_t^+, G_t^-, G_s^+, G_s^- ),
+
+
+where
+
+
+    V^+       = [f(S)+f(M)]/2,
+    V^-_corr  = [f(S)-f(M)-r(f_t(S)+f_t(M))/2]/r^3,
+    G_t^+     = [f_t(S)+f_t(M)]/2,
+    G_t^-     = [f_t(S)-f_t(M)]/r,
+    G_s^+     = [f_s(S)+f_s(M)]/2,
+    G_s^-     = [f_s(S)-f_s(M)]/r.
+
+
+Under those exact row and column orders, Y_r=T_rX_r with
+
+
+    T_r =
+      [  1/2      1/2          0          0          0          0 ]
+      [ -r^-3     r^-3    -1/(2r^2)      0    -1/(2r^2)      0 ]
+      [   0        0          1/2         0         1/2         0 ]
+      [   0        0         -r^-1        0          r^-1       0 ]
+      [   0        0           0         1/2          0         1/2]
+      [   0        0           0        -r^-1         0          r^-1].
+
+
+The exact proposed terminal facts are only:
+
+
+A. The displayed ordering and matrix are correct.
+
+
+B. Under that ordering,
+
+
+       det T_r = -r^-5.
+
+
+   If a different column ordering is used, the sign may change by permutation parity, while the density invariant remains
+
+
+       |det T_r| = r^-5.
+
+
+C. Under the declared change-of-variables convention,
+
+
+       p_X(x_r) = |det T_r| p_Y(y_r)
+                = r^-5 p_Y(y_r).
+
+
+D. For the canonical fold gap r^3/6 and the separate r^2 normalizer factor, the exact power ledger is
+
+
+       (r^3/6) r^-5 r^2 = 1/6,
+
+
+   with exponent cancellation 3-5+2=0.
+
+
+3. Evidence package
+
+
+Primary source:
+
+
+- File 4 — The Pinning Lemma and Critical-Pair Palm Conditioning, §3.1–3.2, equations (3.1)–(3.4), Drive ID 1lbZzqFOwMubvnD0KBqT9pTlIIIXxUnTA.
+
+
+GP reconstruction:
+
+
+- GP-DER-061-v1.0, Drive ID 1LFs1OlJwHvPTjby9Vjfua3X9L3iQNey_gRu0crd0og8.
+- Displays all 36 entries, a block determinant proof, exact arithmetic receipt, density convention, mutation, and power cancellation.
+
+
+Independent non-GP reconstruction:
+
+
+- CL-DER-051-v1.0, raw reconstruction Drive ID 1473ziDIe6j0Lf-mq-i68WWNWNqvJRU42Gfq6rNdTImY and narrative copy 1ldozsT3QmQwD8rFVTBCXJuLEm1WgNzgmTOXJFKUmCT4.
+- Rebuilt the frame directly from File 4 before reading the GP derivation; exact determinant, density, two mutations, and power ledger agree.
+
+
+Additional primary-source corroboration and scope read:
+
+
+- CL-AUD-059-v1.0, Drive ID 1VHrkP1rMAUSbJ9BuPnzY4rpuXaWQKTBDXgdH6JpFeos.
+- Independently regenerated all matrix entries with stdlib Fractions, detected both denominator-power mutations, recovered coalesced compatibility determinants 12 and 1/12, and confirmed the narrow four-fact scope.
+- CL-AUD-059 explicitly states that it cannot satisfy the final AO48/CW-only gate.
+
+
+4. Negative controls and sensitivity
+
+
+The evidence package contains at least these decisive mutations:
+
+
+M1. Replace the denominator r in G_t^- by r^2.
+
+
+    Expected and observed determinant: -r^-6, not -r^-5.
+
+
+M2. Replace the denominator r^3 in V^-_corr by r^2.
+
+
+    Expected and observed determinant: -r^-4, not -r^-5.
+
+
+The mutations show that the determinant exponent is sensitive to the exact normalized frame and is not an accidental symbolic simplification.
+
+
+5. Independent-review status
+
+
+Completed:
+
+
+- GP exact derivation and execution.
+- CL independent primary-source reconstruction.
+- CL separate disjoint-tool primary-source corroboration and scope read.
+
+
+Still required by the frozen EC-014 acceptance rule:
+
+
+- one explicit scope inspection from AO48 or CW/C047R, a line that is neither GP nor CL.
+
+
+CL-AUD-059 is strong corroboration but cannot manufacture the required different-line gate. Silence is not verification.
+
+
+6. Exact scope exclusions
+
+
+The proposed closure does NOT close, prove, imply, strengthen, or promote any of the following:
+
+
+- uniform invertibility or spectral bounds for the corrected-frame covariance as r→0;
+- convergence of Sigma(r) to Sigma(0);
+- the coalesced covariance determinants 12 or 1/12, which remain compatibility facts outside the terminal object;
+- existence, positivity, convergence, or value of z_r;
+- positivity or convergence of a contact coefficient;
+- a finite nonzero contact limit;
+- any lifetime-density constant or exponent;
+- adjacency, selected-branch capture, or elder-rule selection;
+- P0.2, Theorem B, q_typed, q_adj, or a_r;
+- exact-torus Gaussian regularity beyond the fixed finite-r algebra;
+- GP-AUTO-034 activation, any q-machine root, active machine state, ballot, or external release.
+
+
+The factor 1/6 is only the displayed algebraic power cancellation. It is not the value of a complete contact-limit coefficient.
+
+
+7. Dependencies affected upon accepted closure
+
+
+Affected:
+
+
+- EC-014 leaves active attention and becomes a terminal exact-object record.
+- Routine re-derivation of the matrix, determinant, density convention, two denominator-power sensitivities, and four-factor power ledger stops.
+- Downstream documents may cite the exact terminal label for these four facts.
+- The Easy Closure Queue, Closure Log, Recent Activity, Artifact Index, and Relation Index receive additive entries.
+
+
+8. Dependencies explicitly unaffected
+
+
+Unaffected:
+
+
+- File 4 Lemma P1 and every uniform r→0 analytic assertion;
+- exact finite-r six-pin conditional Gaussian laws and their outside acceptance gates;
+- typed-to-fold Palm conditionalization;
+- z_r and normalizer convergence;
+- contact-limit analysis;
+- elder-rule and adjacency probabilities;
+- P0.2 stages V1–V5;
+- Theorem B and the lifetime law;
+- all open exact-field transfer and practical-r tasks;
+- exact R0.2 ballot count;
+- GP-AUTO-034, active machines, releases, and destructive workflows.
+
+
+9. Required AO48 or CW/C047R response
+
+
+The reviewer should file an additive response containing exactly:
+
+
+Line/model identity:
+
+
+Sources read:
+
+
+Independence disclosure:
+
+
+Verdict — choose one:
+
+
+    APPROVE EXACT SCOPE
+    APPROVE WITH AMENDMENT
+    REJECT WITH DEFECT
+    CANNOT VERIFY
+
+
+The response must explicitly answer:
+
+
+1. Does the declared raw ordering match File 4 (3.1)?
+2. Does the corrected frame match File 4 (3.2)–(3.4)?
+3. Is det T_r=-r^-5 under the declared ordering, with |det|=r^-5 invariant under sign-changing permutations?
+4. Is p_X=r^-5p_Y the correct declared density convention?
+5. Do the two planted mutations change the determinant power as stated?
+6. Is (r^3/6)r^-5r^2=1/6 exact?
+7. Does the terminal scope stop before every excluded analytic, probabilistic, asymptotic, theorem, and machine claim in §6?
+
+
+Only `APPROVE EXACT SCOPE` or a fully incorporated `APPROVE WITH AMENDMENT` completes the technical gate.
+
+
+10. Dylan M. Roy terminal approval requirement
+
+
+After the outside scope gate passes, Dylan may approve by stating:
+
+
+    “I approve EC-014 exactly within GP-CLS-PROP-017-v1.0’s declared four-fact object and exclusions. Record the terminal label CLOSED — EXACT CORRECTED SIX-PIN PAIR-FRAME JACOBIAN AND CONTACT-POWER IDENTITY, append the Closure Log, remove EC-014 from active attention, preserve all sources and reopening paths, and infer no contact-limit, adjacency, P0.2, Theorem B, machine, or release claim.”
+
+
+No human approval is inferred from the current instruction to continue working in Drive. The named terminal decision remains required after the technical gate.
+
+
+11. Prewritten register updates after both gates pass
+
+
+Closure Log row:
+
+
+Item:
+    EC-014 corrected six-pin pair-frame Jacobian and contact-power identity
+
+
+Exact object:
+    Declared X_r/Y_r ordering and T_r; det T_r=-r^-5 under declared ordering; |det|=r^-5; p_X=r^-5p_Y; two denominator-power mutations; (r^3/6)r^-5r^2=1/6.
+
+
+Evidence:
+    File 4 (3.1)–(3.4); GP-DER-061; CL-DER-051; CL-AUD-059; final AO48/CW scope response.
+
+
+Independent review:
+    CL primary-source reconstruction plus AO48/CW final scope approval.
+
+
+Dependencies affected:
+    EC-014 active queue and repeated exact matrix/power checks.
+
+
+Dependencies unaffected:
+    all objects listed in §§6 and 8.
+
+
+Terminal label:
+    CLOSED — EXACT CORRECTED SIX-PIN PAIR-FRAME JACOBIAN AND CONTACT-POWER IDENTITY
+
+
+Human approval:
+    Dylan’s explicit post-gate approval.
+
+
+Closure artifact:
+    a new terminal GP-CLS record citing this package and the final responses.
+
+
+Easy Closure Queue update:
+
+
+    TERMINAL — REMOVED FROM ACTIVE ATTENTION
+
+
+Relation update:
+
+
+    terminal closure record TERMINALLY_CLOSES EC-014
+
+
+12. Reopening path
+
+
+Additive only. Reopen EC-014 on:
+
+
+- a matrix-entry or ordering contradiction tied to the primary equations;
+- a determinant sign/power error;
+- a density-Jacobian convention defect;
+- a mutation failure;
+- an error in the four-factor power identity;
+- evidence that the terminal record exceeded the declared scope.
+
+
+A broader theorem defect does not reopen this algebraic object unless it demonstrates one of those exact failures.
+
+
+13. Current disposition
+
+
+    COMPLETE CONDITIONAL CLOSURE PACKAGE.
+    TECHNICAL GATE 5 OPEN — AO48 OR CW/C047R.
+    HUMAN TERMINAL APPROVAL OPEN — AFTER GATE 5.
+    EC-014 REMAINS ACTIVE UNTIL BOTH EXPLICIT GATES PASS.
+
+
+No closure, theorem promotion, machine change, ballot change, release, deletion, or destructive action occurs by publishing this package.
+
+
+END GP-CLS-PROP-017-v1.0
