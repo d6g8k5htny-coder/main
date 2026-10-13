@@ -1,0 +1,16 @@
+=== GS3_verify_completeness_trivial: global_h0_selector.py mutated (sha256 5b2f0e0cd575f99d..., pristine d11bbdca7c3c5fb9...)
+  [normal] python3.12 -B -E -S -m unittest discover -s experiments/universality/two_parameter_cusp_population -p test_*.py -v
+  [normal] rc=1 ran=107 summary=FAILED (failures=1) wall=10.45s
+  [normal] failing tests: ['test_global_h0_selector.VerificationTamperingTests.test_omitted_bounding_roots_are_rejected_by_the_completeness_replay_alone.test_omitted_bounding_roots_are_rejected_by_the_completeness_replay_alone']
+  [-O] python3.12 -B -E -O -S -m unittest discover -s experiments/universality/two_parameter_cusp_population -p test_*.py -v
+  [-O] rc=1 ran=107 summary=FAILED (failures=1) wall=11.01s
+  [-O] failing tests: ['test_global_h0_selector.VerificationTamperingTests.test_omitted_bounding_roots_are_rejected_by_the_completeness_replay_alone.test_omitted_bounding_roots_are_rejected_by_the_completeness_replay_alone']
+  restored: sha256 d11bbdca7c3c5fb90235f975e099ae6a3c17a680767a2925662d1e97ffb33876 == pristine d11bbdca7c3c5fb90235f975e099ae6a3c17a680767a2925662d1e97ffb33876 -> OK
+=== RN2_core_overlap_trivial: run_global_h0_selector.py mutated (sha256 701b0ecd02e977a1..., pristine 8e696aa0f1791491...)
+  [normal] python3.12 -B -E -S -m unittest discover -s experiments/universality/two_parameter_cusp_population -p test_*.py -v
+  [normal] rc=1 ran=107 summary=FAILED (failures=1) wall=11.59s
+  [normal] failing tests: ['test_global_h0_runner.MainLifecycle.test_main_root_box_height_disagreement_fails_the_core_identity_gate_before_expectations.test_main_root_box_height_disagreement_fails_the_core_identity_gate_before_expectations']
+  [-O] python3.12 -B -E -O -S -m unittest discover -s experiments/universality/two_parameter_cusp_population -p test_*.py -v
+  [-O] rc=1 ran=107 summary=FAILED (failures=1) wall=10.61s
+  [-O] failing tests: ['test_global_h0_runner.MainLifecycle.test_main_root_box_height_disagreement_fails_the_core_identity_gate_before_expectations.test_main_root_box_height_disagreement_fails_the_core_identity_gate_before_expectations']
+  restored: sha256 8e696aa0f179149193a6d0c2d772f0c4b602c30d837a6679b5cf9f793a072681 == pristine 8e696aa0f179149193a6d0c2d772f0c4b602c30d837a6679b5cf9f793a072681 -> OK
