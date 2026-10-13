@@ -537,5 +537,62 @@ class CampaignWiringTests(unittest.TestCase):
             self.assertFalse(rec['full_declared_campaign'])
 
 
+class MassControlRouteTests(unittest.TestCase):
+    # A1: alter the normalization inside the real CDF route, not the reported
+    # controls. All three controls must depend on that computed probability.
+    def halved_cdf_normalization(self):
+        scale = pc._scale
+
+        def missing_sign(value, weight):
+            return scale(value, weight / 2 if weight == Q(1, 15) else weight)
+
+        return mock.patch.object(pc, '_scale', side_effect=missing_sign)
+
+    def test_saturation_at_and_above_support_uses_the_computed_route(self):
+        with self.halved_cdf_normalization():
+            for tau in (Q(9, 4), Q(3)):
+                self.assertEqual(pc.cdf_mass(tau), (Q(1, 10), Q(1, 10)))
+
+    def test_whole_rectangle_control_fails_for_missing_route_normalization(self):
+        with self.halved_cdf_normalization():
+            controls = pc.negative_controls()
+        self.assertFalse(controls['gates']['whole_rectangle_mass'])
+        self.assertEqual(controls['status'], 'FAIL_IMPLEMENTATION')
+
+    def test_missing_sign_control_is_derived_from_the_computed_route(self):
+        with self.halved_cdf_normalization():
+            controls = pc.negative_controls()
+        self.assertEqual(controls['missing_sign_mass'], (Q(1, 20), Q(1, 20)))
+        self.assertFalse(controls['gates']['missing_sign_detected'])
+
+    def test_conditioned_control_is_derived_from_the_computed_route(self):
+        with self.halved_cdf_normalization():
+            controls = pc.negative_controls()
+        self.assertEqual(controls['conditioned_mass'], (Q(1, 2), Q(1, 2)))
+        self.assertFalse(controls['gates']['conditioning_detected'])
+
+    def test_real_campaign_withholds_acceptance_after_mass_control_fault(self):
+        with self.halved_cdf_normalization():
+            certificate = runner._campaign(pc, 0, time.monotonic() + 900)
+        self.assertEqual(certificate['negative_controls']['status'], 'FAIL_IMPLEMENTATION')
+        self.assertEqual(certificate['status'], 'FAIL_IMPLEMENTATION')
+        self.assertEqual(certificate['scope_statuses']['exact_non_gaussian_population'],
+                         'FAIL_IMPLEMENTATION')
+        self.assertTrue(all(row['coefficient_status'] == 'NOT_RUN'
+                            for row in certificate['rows']))
+
+    def test_unmutated_mass_controls_preserve_expected_probabilities(self):
+        controls = pc.negative_controls()
+        self.assertEqual(controls['whole_rectangle_mass'], (Q(1, 5), Q(1, 5)))
+        self.assertEqual(controls['missing_sign_mass'], (Q(1, 10), Q(1, 10)))
+        self.assertEqual(controls['conditioned_mass'], (Q(1), Q(1)))
+        self.assertEqual(controls['status'], 'PASS')
+
+    def test_rectangle_control_accepts_enclosure_and_rejects_disjoint_mass(self):
+        self.assertTrue(pc.rectangle_mass_control((Q(199, 1000), Q(201, 1000))))
+        self.assertFalse(pc.rectangle_mass_control((Q(99, 1000), Q(101, 1000))))
+        self.assertFalse(pc.rectangle_mass_control((Q(999, 1000), Q(1))))
+
+
 if __name__ == '__main__':
     unittest.main()
