@@ -302,3 +302,10 @@ Incremental commit, no rewrite, after checkpoint 21 (`b07483b3`).
 - **main#386 fresh event:** `lvs/r7/pr386/` holds the body before and after the one description edit that ran the repaired checker after main#391 landed as `9eea35f3`. That run was cancelled at the job's five-minute limit, and the follow-up is recorded on #386.
 
 Nothing was pushed to Math-, and no code changed. Local reads are not receipts, and no label moved.
+
+## Checkpoint 23 (2026-10-13, about 20:40Z): the intake scan-once patch for main#386's timeout
+
+Incremental commit after checkpoint 22 (`5ddfce20`).
+- **The patch:** `intakefix_out/cache/public_intake_scan_once.patch` is a proposed, unpushed change to `tools/public_intake_check.py` and `tests/test_public_intake.py` at main `9eea35f3`. It fetches each source commit's reachability scan and recursive tree once per run, instead of once per source.
+- **Why:** main#386's fresh `public-intake` run (job 115520509698) was cancelled at the job's five-minute limit. #386 pins five sources across two commits, so the old code made about 311 compare calls.
+- **Local controls:** 77 tests pass in normal and `-O` modes. On the old checker, the scan-once test fails (12 compare calls against 4). A cache keyed by repository alone fails the negative control. No label moved.
