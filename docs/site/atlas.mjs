@@ -1,5 +1,5 @@
-import {currentSnapshot,element,anchor} from './current.mjs?site-release=93fcc09ee90ea25c2ed68c5b59f063fa89d6543631ff98d686bd911b9873bc6b';
-import {hasNode,readState,neighborhood,searchGraph,downstreamReach,requiredDependencyPaths,REQUIRED_ROUTE_SEMANTICS,evidenceAxes,sourceURL,sourceForNode,nodePage} from './current-model.mjs?site-release=93fcc09ee90ea25c2ed68c5b59f063fa89d6543631ff98d686bd911b9873bc6b';
+import {currentSnapshot,element,anchor} from './current.mjs?site-release=4764cf2cfa0123b97aca3ec6ff8a1aba79e9ad1b5506d8616775b59c20e65ebc';
+import {hasNode,readState,neighborhood,searchGraph,downstreamReach,requiredDependencyPaths,REQUIRED_ROUTE_SEMANTICS,evidenceAxes,sourceURL,sourceForNode,nodePage} from './current-model.mjs?site-release=4764cf2cfa0123b97aca3ec6ff8a1aba79e9ad1b5506d8616775b59c20e65ebc';
 const byId=id=>document.getElementById(id);
 const svgElement=(tag,attrs)=>{const n=document.createElementNS('http://www.w3.org/2000/svg',tag);for(const [k,v]of Object.entries(attrs))n.setAttribute(k,String(v));return n;};
 function linkRecord(label,value){const p=element('p');if(typeof value==='string'){try{const u=new URL(value);if(u.protocol==='https:'&&u.hostname==='github.com'&&!u.username&&!u.password&&!u.port){p.append(anchor(label,value));return p;}}catch{}}p.textContent=`${label}: ${value||'not recorded'}`;return p;}
@@ -65,7 +65,7 @@ async function start() {
   eq.addEventListener('change',()=>{renderEquation();urlState();});
   for(const [id,step] of [['equation-next',1],['equation-previous',-1]])byId(id).addEventListener('click',()=>{eq.selectedIndex=Math.max(1,Math.min(eq.options.length-1,eq.selectedIndex+step));renderEquation();urlState();});
   eqSearch.addEventListener('input',()=>{equationOptions();renderEquation();urlState();});
-  window.addEventListener('popstate',()=>{state=readState(location.search,data);selected=state.node;view=state.view;query.value=state.query;offset=state.offset||0;eqSearch.value=state.equationQuery||'';const ids=(new URLSearchParams(location.search).get('atlas-expanded')||selected).split(',');expanded=new Set(ids.filter(id=>hasNode(graph,id)).slice(0,150));error.textContent=state.error||'';error.hidden=!state.error;equationOptions(state.equation);renderEquation();render();});
+  window.addEventListener('popstate',()=>{state=readState(location.search,data);selected=state.node;view=state.view;query.value=state.query;offset=state.offset||0;eqSearch.value=state.equationQuery||'';const ids=(new URLSearchParams(location.search).get('atlas-expanded')||selected).split(',');expanded=new Set(ids.filter(id=>hasNode(graph,id)).slice(0,150));error.textContent=state.error||'';error.hidden=!state.error;equationOptions(state.equation);renderEquation();render();if(state.error)byId('atlas-share').href=location.href;else urlState(false,false);});
   renderEquation();render();if(!state.error)urlState(false,false);
 }
 if(typeof document!=='undefined')start().catch(e=>{const s=byId('atlas-status');if(s)s.textContent=`Unavailable: ${e.message}. No current graph inferred.`;});
