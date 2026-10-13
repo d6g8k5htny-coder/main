@@ -1,0 +1,168 @@
+diff --git a/experiments/universality/two_parameter_cusp_population/run_population_certificate.py b/experiments/universality/two_parameter_cusp_population/run_population_certificate.py
+index 0f2adf1..8c7266e 100644
+--- a/experiments/universality/two_parameter_cusp_population/run_population_certificate.py
++++ b/experiments/universality/two_parameter_cusp_population/run_population_certificate.py
+@@ -2,7 +2,12 @@
+ 
+ Standard invocation (from repository root):
+ python3 -B -S experiments/universality/two_parameter_cusp_population/run_population_certificate.py
++
++Use --performer and --exposure to disclose the actual invocation's executor
++and source/reviewer exposure. Omitted disclosures are recorded as UNSPECIFIED.
++These are caller reports, not authenticated identity or independence evidence.
+ """
++import argparse
+ from datetime import datetime, timezone
+ from fractions import Fraction as Q
+ import hashlib
+@@ -309,7 +314,15 @@ def render_report(certificate):
+     return '\n'.join(lines).encode()
+ 
+ 
+-def run(output_dir=DEFAULT_OUTPUT, max_evaluations=80000, time_budget=900):
++def _disclosure(value):
++    _require(type(value) is str and bool(value.strip()),
++             'Attribution disclosure must be a nonblank string')
++    return value
++
++
++def run(output_dir=DEFAULT_OUTPUT, max_evaluations=80000, time_budget=900, *,
++        performer='UNSPECIFIED', exposure='UNSPECIFIED'):
++    performer, exposure = _disclosure(performer), _disclosure(exposure)
+     _require(type(max_evaluations) is int and 0 <= max_evaluations <= 80000,
+              'Evaluation budget may only be reduced')
+     _require(type(time_budget) is int and 0 <= time_budget <= 900,
+@@ -357,8 +370,8 @@ def run(output_dir=DEFAULT_OUTPUT, max_evaluations=80000, time_budget=900):
+                   'final_runtime_budget_gate': 'PASS',
+                   'exit_code': exit_code, 'status': certificate['status'],
+                   'sources_before': before, 'sources_after': after, 'source_drift': drift,
+-                  'performer': 'OpenAI/Codex population certificate runner',
+-                  'exposure': 'Source-exposed same provider/team',
++                  'performer': performer,
++                  'exposure': exposure,
+                   'organizational_independence_credit': 0,
+                   'python': sys.version, 'full_declared_campaign':
+                   full_declared_campaign(certificate, max_evaluations, time_budget, drift),
+@@ -400,12 +413,22 @@ def run(output_dir=DEFAULT_OUTPUT, max_evaluations=80000, time_budget=900):
+     return run_record
+ 
+ 
+-if __name__ == '__main__':
++def main(argv=None):
++    parser = argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('--performer', type=_disclosure, default='UNSPECIFIED',
++                        help='Self-reported actual executor/provider/session')
++    parser.add_argument('--exposure', type=_disclosure, default='UNSPECIFIED',
++                        help='Self-reported source/reviewer exposure; no credit inferred')
++    arguments = parser.parse_args(argv)
+     try:
+-        result = run()
++        result = run(performer=arguments.performer, exposure=arguments.exposure)
+         print(result['status'] + '; direct evaluations=' + str(result['actual_route_evaluations'])
+               + '; runtime_seconds=' + result['runtime_seconds'])
+-        raise SystemExit(result['exit_code'])
++        return result['exit_code']
+     except FileExistsError as exc:
+         print('REFUSED_EXISTING_ATTEMPT: ' + str(exc), file=sys.stderr)
+-        raise SystemExit(3)
++        return 3
++
++
++if __name__ == '__main__':
++    raise SystemExit(main())
+diff --git a/experiments/universality/two_parameter_cusp_population/test_population_certificate.py b/experiments/universality/two_parameter_cusp_population/test_population_certificate.py
+index d781ec9..e9d2aca 100644
+--- a/experiments/universality/two_parameter_cusp_population/test_population_certificate.py
++++ b/experiments/universality/two_parameter_cusp_population/test_population_certificate.py
+@@ -6,6 +6,8 @@ No full eight-row integration campaign is performed by this test file.
+ from fractions import Fraction as Q
+ from pathlib import Path
+ import importlib.util
++import subprocess
++import sys
+ import tempfile
+ import time
+ import types
+@@ -604,5 +606,82 @@ class MassControlRouteTests(unittest.TestCase):
+         self.assertFalse(pc.rectangle_mass_control((Q(999, 1000), Q(1))))
+ 
+ 
++class RunnerAttributionTests(unittest.TestCase):
++    # Disclosure strings below are test fixtures, not executor attestations.
++    # Actual test execution and its source-exposed performer belong in the log.
++    def test_omitted_disclosures_do_not_claim_a_provider(self):
++        with tempfile.TemporaryDirectory() as temporary:
++            output = Path(temporary) / 'attempt'
++            runner.run(output_dir=output, max_evaluations=0)
++            record = runner.load_json(output / 'RUN.json')
++            self.assertEqual(record['performer'], 'UNSPECIFIED')
++            self.assertEqual(record['exposure'], 'UNSPECIFIED')
++            self.assertEqual(record['organizational_independence_credit'], 0)
++
++    def test_caller_disclosures_reach_the_retained_receipt(self):
++        with tempfile.TemporaryDirectory() as temporary:
++            output = Path(temporary) / 'attempt'
++            runner.run(output_dir=output, max_evaluations=0,
++                       performer='Anthropic/Claude fixture; session fixture-451',
++                       exposure='Source-exposed fixture; shared principal')
++            record = runner.load_json(output / 'RUN.json')
++            self.assertEqual(record['performer'],
++                             'Anthropic/Claude fixture; session fixture-451')
++            self.assertEqual(record['exposure'],
++                             'Source-exposed fixture; shared principal')
++            self.assertEqual(record['organizational_independence_credit'], 0)
++            self.assertFalse(record['full_declared_campaign'])
++            self.assertEqual(record['actual_route_evaluations'], 0)
++
++    def test_invalid_disclosure_is_refused_before_creating_an_attempt(self):
++        for field in ('performer', 'exposure'):
++            for value in ('', ' \t\n', None, 42, False):
++                with self.subTest(field=field, value=value), tempfile.TemporaryDirectory() as temporary:
++                    output = Path(temporary) / 'attempt'
++                    with self.assertRaises(ValueError):
++                        runner.run(output_dir=output, max_evaluations=0,
++                                   **{field: value})
++                    self.assertFalse(output.exists())
++
++    def test_disclosures_do_not_change_certificate_or_report_bytes(self):
++        with tempfile.TemporaryDirectory() as temporary:
++            base = Path(temporary)
++            runner.run(output_dir=base / 'undisclosed', max_evaluations=0)
++            runner.run(output_dir=base / 'disclosed', max_evaluations=0,
++                       performer='Non-OpenAI fixture', exposure='Source-exposed fixture')
++            for name in ('CERTIFICATE.json', 'RESULTS.md'):
++                self.assertEqual((base / 'undisclosed' / name).read_bytes(),
++                                 (base / 'disclosed' / name).read_bytes())
++
++    def test_cli_disclosures_and_defaults_reach_a_source_refusal_receipt(self):
++        cases = [([], 'UNSPECIFIED', 'UNSPECIFIED'),
++                 (['--performer', 'Anthropic/Claude CLI fixture',
++                   '--exposure', 'Source-exposed CLI fixture'],
++                  'Anthropic/Claude CLI fixture', 'Source-exposed CLI fixture')]
++        for arguments, performer, exposure in cases:
++            with self.subTest(arguments=arguments), tempfile.TemporaryDirectory() as temporary:
++                base = Path(temporary)
++                for source in runner.SOURCE_PATHS:
++                    target = base / source.relative_to(runner.REPOSITORY)
++                    target.parent.mkdir(parents=True, exist_ok=True)
++                    target.write_bytes(source.read_bytes())
++                # Refuse this real copied source before numerical evaluation.
++                # The CLI still has to retain the supplied attribution correctly.
++                contract = base / 'experiments/universality/two_parameter_cusp_population/CONTROLLED_FALSIFICATION.md'
++                contract.write_bytes(contract.read_bytes() + b'\n')
++                script = base / runner.POPULATION.relative_to(runner.REPOSITORY) / 'run_population_certificate.py'
++                mode = ['-O'] if sys.flags.optimize else []
++                completed = subprocess.run([sys.executable, '-B', '-E', '-S'] + mode
++                                           + [str(script)] + arguments,
++                                           capture_output=True, text=True, timeout=10)
++                self.assertEqual(completed.returncode, 2, completed.stderr)
++                record = runner.load_json(base / 'experiments/universality/results/exact_population_1/RUN.json')
++                self.assertEqual(record['status'], 'INCONCLUSIVE_SOURCE_DRIFT')
++                self.assertEqual(record['performer'], performer)
++                self.assertEqual(record['exposure'], exposure)
++                self.assertEqual(record['organizational_independence_credit'], 0)
++                self.assertEqual(record['actual_route_evaluations'], 0)
++
++
+ if __name__ == '__main__':
+     unittest.main()

@@ -1,0 +1,42 @@
+test_omitted_disclosures_do_not_claim_a_provider (test_population_certificate.RunnerAttributionTests.test_omitted_disclosures_do_not_claim_a_provider) ... FAIL
+test_cli_disclosures_and_defaults_reach_a_source_refusal_receipt (test_population_certificate.RunnerAttributionTests.test_cli_disclosures_and_defaults_reach_a_source_refusal_receipt) ... 
+  test_cli_disclosures_and_defaults_reach_a_source_refusal_receipt (test_population_certificate.RunnerAttributionTests.test_cli_disclosures_and_defaults_reach_a_source_refusal_receipt) (arguments=[]) ... FAIL
+  test_cli_disclosures_and_defaults_reach_a_source_refusal_receipt (test_population_certificate.RunnerAttributionTests.test_cli_disclosures_and_defaults_reach_a_source_refusal_receipt) (arguments=['--performer', 'Anthropic/Claude CLI fixture', '--exposure', 'Source-exposed CLI fixture']) ... FAIL
+
+======================================================================
+FAIL: test_omitted_disclosures_do_not_claim_a_provider (test_population_certificate.RunnerAttributionTests.test_omitted_disclosures_do_not_claim_a_provider)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<isolated-checkout>/experiments/universality/two_parameter_cusp_population/test_population_certificate.py", line 617, in test_omitted_disclosures_do_not_claim_a_provider
+    self.assertEqual(record['performer'], 'UNSPECIFIED')
+AssertionError: 'OpenAI/Codex population certificate runner' != 'UNSPECIFIED'
+- OpenAI/Codex population certificate runner
++ UNSPECIFIED
+
+
+======================================================================
+FAIL: test_cli_disclosures_and_defaults_reach_a_source_refusal_receipt (test_population_certificate.RunnerAttributionTests.test_cli_disclosures_and_defaults_reach_a_source_refusal_receipt) (arguments=[])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<isolated-checkout>/experiments/universality/two_parameter_cusp_population/test_population_certificate.py", line 680, in test_cli_disclosures_and_defaults_reach_a_source_refusal_receipt
+    self.assertEqual(record['performer'], performer)
+AssertionError: 'OpenAI/Codex population certificate runner' != 'UNSPECIFIED'
+- OpenAI/Codex population certificate runner
++ UNSPECIFIED
+
+
+======================================================================
+FAIL: test_cli_disclosures_and_defaults_reach_a_source_refusal_receipt (test_population_certificate.RunnerAttributionTests.test_cli_disclosures_and_defaults_reach_a_source_refusal_receipt) (arguments=['--performer', 'Anthropic/Claude CLI fixture', '--exposure', 'Source-exposed CLI fixture'])
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<isolated-checkout>/experiments/universality/two_parameter_cusp_population/test_population_certificate.py", line 680, in test_cli_disclosures_and_defaults_reach_a_source_refusal_receipt
+    self.assertEqual(record['performer'], performer)
+AssertionError: 'OpenAI/Codex population certificate runner' != 'Anthropic/Claude CLI fixture'
+- OpenAI/Codex population certificate runner
++ Anthropic/Claude CLI fixture
+
+
+----------------------------------------------------------------------
+Ran 2 tests in 0.076s
+
+FAILED (failures=3)

@@ -1,0 +1,111 @@
+{
+  "stage": "qualified",
+  "actual_executor": "OpenAI/Codex root01a11cbf-068d-7102-861e-75814e715c98",
+  "provider": "OpenAI",
+  "source_exposed": true,
+  "organizational_independence_credit": 0,
+  "scientific_effect": "NONE",
+  "python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "platform": "macOS-15.7.4-arm64-arm-64bit",
+  "machine": "arm64",
+  "source_before": {
+    "experiments/universality/two_parameter_cusp_population/run_population_certificate.py": {
+      "bytes": 24197,
+      "sha256": "301adfeba7c39fa45e4cbb406cb3cc66c5661188071fc15400e6924ca2ac4c46"
+    },
+    "experiments/universality/two_parameter_cusp_population/test_population_certificate.py": {
+      "bytes": 38390,
+      "sha256": "a7a0b774e7705bfcebcc1398101856fdcd4767381e78be4d6a99bf76f60cfdae"
+    }
+  },
+  "commands": [
+    {
+      "group": "repository",
+      "mode": "normal",
+      "argv": [
+        "<bundled-python-3.12.14>/bin/python3",
+        "-B",
+        "-E",
+        "-S",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "cwd": "<isolated-checkout>",
+      "exit_code": 1,
+      "started_utc": "2026-10-13T20:40:05.792610+00:00",
+      "ended_utc": "2026-10-13T20:40:58.147275+00:00",
+      "stdout": {
+        "path": "repository-normal.stdout.log",
+        "bytes": 386,
+        "sha256": "ced6ac2371d2afe990c4984adb615f41c07ff9517fde374693d5466673e71318",
+        "export_bytes": 386,
+        "export_sha256": "ced6ac2371d2afe990c4984adb615f41c07ff9517fde374693d5466673e71318"
+      },
+      "stderr": {
+        "path": "repository-normal.stderr.log",
+        "bytes": 77764,
+        "sha256": "d662107921d198fd8f025c2ecbc94b511341d161e590c29520709b641e8af02d",
+        "export_bytes": 77539,
+        "export_sha256": "62b60286e7a017153f4fcdef2f5a0094dd945afaab16eb68460c072b64651e38"
+      }
+    },
+    {
+      "group": "repository",
+      "mode": "optimized",
+      "argv": [
+        "<bundled-python-3.12.14>/bin/python3",
+        "-B",
+        "-E",
+        "-S",
+        "-O",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "cwd": "<isolated-checkout>",
+      "exit_code": 1,
+      "started_utc": "2026-10-13T20:40:58.148146+00:00",
+      "ended_utc": "2026-10-13T20:42:47.456345+00:00",
+      "stdout": {
+        "path": "repository-optimized.stdout.log",
+        "bytes": 386,
+        "sha256": "ced6ac2371d2afe990c4984adb615f41c07ff9517fde374693d5466673e71318",
+        "export_bytes": 386,
+        "export_sha256": "ced6ac2371d2afe990c4984adb615f41c07ff9517fde374693d5466673e71318"
+      },
+      "stderr": {
+        "path": "repository-optimized.stderr.log",
+        "bytes": 77765,
+        "sha256": "71b80358914ad312e55670acad198535a0de8c98b0ea2446440c39c248e154af",
+        "export_bytes": 77540,
+        "export_sha256": "9e576083eaab70da4c1401aee5c6de72b729f81038dc9b824ab785c34149eb6b"
+      }
+    }
+  ],
+  "test_environment": {
+    "TMPDIR": "<local-packet>/resolved-runtime-tmp",
+    "python_on_PATH": "<bundled-python-3.12.14>/bin/python"
+  },
+  "source_after": {
+    "experiments/universality/two_parameter_cusp_population/run_population_certificate.py": {
+      "bytes": 24197,
+      "sha256": "301adfeba7c39fa45e4cbb406cb3cc66c5661188071fc15400e6924ca2ac4c46"
+    },
+    "experiments/universality/two_parameter_cusp_population/test_population_certificate.py": {
+      "bytes": 38390,
+      "sha256": "a7a0b774e7705bfcebcc1398101856fdcd4767381e78be4d6a99bf76f60cfdae"
+    }
+  },
+  "source_drift": false
+}

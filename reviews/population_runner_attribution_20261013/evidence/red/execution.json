@@ -1,0 +1,101 @@
+{
+  "stage": "red",
+  "actual_executor": "OpenAI/Codex root01a11cbf-068d-7102-861e-75814e715c98",
+  "provider": "OpenAI",
+  "source_exposed": true,
+  "organizational_independence_credit": 0,
+  "scientific_effect": "NONE",
+  "python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "platform": "macOS-15.7.4-arm64-arm-64bit",
+  "machine": "arm64",
+  "source_before": {
+    "experiments/universality/two_parameter_cusp_population/run_population_certificate.py": {
+      "bytes": 23196,
+      "sha256": "3799f53e2066ae3f47a6b65ca93a130f2531ee78df1e0f4a094077cd8eabfb4e"
+    },
+    "experiments/universality/two_parameter_cusp_population/test_population_certificate.py": {
+      "bytes": 38390,
+      "sha256": "a7a0b774e7705bfcebcc1398101856fdcd4767381e78be4d6a99bf76f60cfdae"
+    }
+  },
+  "commands": [
+    {
+      "group": "regression",
+      "mode": "normal",
+      "argv": [
+        "<bundled-python-3.12.14>/bin/python3",
+        "-B",
+        "-E",
+        "-S",
+        "-m",
+        "unittest",
+        "-v",
+        "test_population_certificate.RunnerAttributionTests.test_omitted_disclosures_do_not_claim_a_provider",
+        "test_population_certificate.RunnerAttributionTests.test_cli_disclosures_and_defaults_reach_a_source_refusal_receipt"
+      ],
+      "cwd": "<isolated-checkout>/experiments/universality/two_parameter_cusp_population",
+      "exit_code": 1,
+      "started_utc": "2026-10-13T20:37:15.314772+00:00",
+      "ended_utc": "2026-10-13T20:37:15.481519+00:00",
+      "stdout": {
+        "path": "regression-normal.stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "export_bytes": 0,
+        "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "regression-normal.stderr.log",
+        "bytes": 3560,
+        "sha256": "5c8819d811722c4371a2e738b25f87d467f3fa720063470fe40256eafb85ca88",
+        "export_bytes": 3335,
+        "export_sha256": "01c179bdb67b0d04ae0b13f9acb1f1e387fc243121ea56aac52e7f9c58dab8e4"
+      }
+    },
+    {
+      "group": "regression",
+      "mode": "optimized",
+      "argv": [
+        "<bundled-python-3.12.14>/bin/python3",
+        "-B",
+        "-E",
+        "-S",
+        "-O",
+        "-m",
+        "unittest",
+        "-v",
+        "test_population_certificate.RunnerAttributionTests.test_omitted_disclosures_do_not_claim_a_provider",
+        "test_population_certificate.RunnerAttributionTests.test_cli_disclosures_and_defaults_reach_a_source_refusal_receipt"
+      ],
+      "cwd": "<isolated-checkout>/experiments/universality/two_parameter_cusp_population",
+      "exit_code": 1,
+      "started_utc": "2026-10-13T20:37:15.482094+00:00",
+      "ended_utc": "2026-10-13T20:37:15.880983+00:00",
+      "stdout": {
+        "path": "regression-optimized.stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "export_bytes": 0,
+        "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "regression-optimized.stderr.log",
+        "bytes": 3560,
+        "sha256": "a1578f1c753979df60afa75dd1582bc4cd62da260a5d6f4c56f129e96dbb988b",
+        "export_bytes": 3335,
+        "export_sha256": "30aad4c66d3719a3cd3f561b4059369f4f3157c1eb87b0397060e81122bb1ce1"
+      }
+    }
+  ],
+  "source_after": {
+    "experiments/universality/two_parameter_cusp_population/run_population_certificate.py": {
+      "bytes": 23196,
+      "sha256": "3799f53e2066ae3f47a6b65ca93a130f2531ee78df1e0f4a094077cd8eabfb4e"
+    },
+    "experiments/universality/two_parameter_cusp_population/test_population_certificate.py": {
+      "bytes": 38390,
+      "sha256": "a7a0b774e7705bfcebcc1398101856fdcd4767381e78be4d6a99bf76f60cfdae"
+    }
+  },
+  "source_drift": false
+}

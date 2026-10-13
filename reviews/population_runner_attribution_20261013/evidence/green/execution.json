@@ -1,0 +1,253 @@
+{
+  "stage": "green",
+  "actual_executor": "OpenAI/Codex root01a11cbf-068d-7102-861e-75814e715c98",
+  "provider": "OpenAI",
+  "source_exposed": true,
+  "organizational_independence_credit": 0,
+  "scientific_effect": "NONE",
+  "python": "3.12.14 (main, Aug 25 2026, 13:50:33) [Clang 22.1.3 ]",
+  "platform": "macOS-15.7.4-arm64-arm-64bit",
+  "machine": "arm64",
+  "source_before": {
+    "experiments/universality/two_parameter_cusp_population/run_population_certificate.py": {
+      "bytes": 24197,
+      "sha256": "301adfeba7c39fa45e4cbb406cb3cc66c5661188071fc15400e6924ca2ac4c46"
+    },
+    "experiments/universality/two_parameter_cusp_population/test_population_certificate.py": {
+      "bytes": 38390,
+      "sha256": "a7a0b774e7705bfcebcc1398101856fdcd4767381e78be4d6a99bf76f60cfdae"
+    }
+  },
+  "commands": [
+    {
+      "group": "population",
+      "mode": "normal",
+      "argv": [
+        "<bundled-python-3.12.14>/bin/python3",
+        "-B",
+        "-E",
+        "-S",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "experiments/universality/two_parameter_cusp_population",
+        "-p",
+        "test_population_certificate.py",
+        "-v"
+      ],
+      "cwd": "<isolated-checkout>",
+      "exit_code": 0,
+      "started_utc": "2026-10-13T20:37:43.895143+00:00",
+      "ended_utc": "2026-10-13T20:37:47.809845+00:00",
+      "stdout": {
+        "path": "population-normal.stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "export_bytes": 0,
+        "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "population-normal.stderr.log",
+        "bytes": 10512,
+        "sha256": "9009c7153734694799479e5d7dd3068d121df936057fc650cbb1df837f9b172c",
+        "export_bytes": 10512,
+        "export_sha256": "9009c7153734694799479e5d7dd3068d121df936057fc650cbb1df837f9b172c"
+      }
+    },
+    {
+      "group": "population",
+      "mode": "optimized",
+      "argv": [
+        "<bundled-python-3.12.14>/bin/python3",
+        "-B",
+        "-E",
+        "-S",
+        "-O",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "experiments/universality/two_parameter_cusp_population",
+        "-p",
+        "test_population_certificate.py",
+        "-v"
+      ],
+      "cwd": "<isolated-checkout>",
+      "exit_code": 0,
+      "started_utc": "2026-10-13T20:37:47.810354+00:00",
+      "ended_utc": "2026-10-13T20:37:52.761544+00:00",
+      "stdout": {
+        "path": "population-optimized.stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "export_bytes": 0,
+        "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "population-optimized.stderr.log",
+        "bytes": 10512,
+        "sha256": "a31085d5c5d5ae7a358a5887ff645f95f090eb69c69d0345f96f969c4900be0e",
+        "export_bytes": 10512,
+        "export_sha256": "a31085d5c5d5ae7a358a5887ff645f95f090eb69c69d0345f96f969c4900be0e"
+      }
+    },
+    {
+      "group": "universality",
+      "mode": "normal",
+      "argv": [
+        "<bundled-python-3.12.14>/bin/python3",
+        "-B",
+        "-E",
+        "-S",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "experiments/universality",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "cwd": "<isolated-checkout>",
+      "exit_code": 0,
+      "started_utc": "2026-10-13T20:37:52.762066+00:00",
+      "ended_utc": "2026-10-13T20:38:01.168122+00:00",
+      "stdout": {
+        "path": "universality-normal.stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "export_bytes": 0,
+        "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "universality-normal.stderr.log",
+        "bytes": 11363,
+        "sha256": "6e27a079b9057a90c036962eb78dd82441c8337efd82bbd2e765508435f6952d",
+        "export_bytes": 11363,
+        "export_sha256": "6e27a079b9057a90c036962eb78dd82441c8337efd82bbd2e765508435f6952d"
+      }
+    },
+    {
+      "group": "universality",
+      "mode": "optimized",
+      "argv": [
+        "<bundled-python-3.12.14>/bin/python3",
+        "-B",
+        "-E",
+        "-S",
+        "-O",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "experiments/universality",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "cwd": "<isolated-checkout>",
+      "exit_code": 0,
+      "started_utc": "2026-10-13T20:38:01.169020+00:00",
+      "ended_utc": "2026-10-13T20:38:09.667752+00:00",
+      "stdout": {
+        "path": "universality-optimized.stdout.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "export_bytes": 0,
+        "export_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "universality-optimized.stderr.log",
+        "bytes": 11363,
+        "sha256": "8e2501f61714b39390aafc951f9d90c0a8d23c20523651a81ce4eaa30fe4116a",
+        "export_bytes": 11363,
+        "export_sha256": "8e2501f61714b39390aafc951f9d90c0a8d23c20523651a81ce4eaa30fe4116a"
+      }
+    },
+    {
+      "group": "repository",
+      "mode": "normal",
+      "argv": [
+        "<bundled-python-3.12.14>/bin/python3",
+        "-B",
+        "-E",
+        "-S",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "cwd": "<isolated-checkout>",
+      "exit_code": 1,
+      "started_utc": "2026-10-13T20:38:09.668601+00:00",
+      "ended_utc": "2026-10-13T20:38:59.498264+00:00",
+      "stdout": {
+        "path": "repository-normal.stdout.log",
+        "bytes": 386,
+        "sha256": "ced6ac2371d2afe990c4984adb615f41c07ff9517fde374693d5466673e71318",
+        "export_bytes": 386,
+        "export_sha256": "ced6ac2371d2afe990c4984adb615f41c07ff9517fde374693d5466673e71318"
+      },
+      "stderr": {
+        "path": "repository-normal.stderr.log",
+        "bytes": 105864,
+        "sha256": "0f6d6cb4163f9aa2a7401dafb04c10aecbb195b468d37096bad8b840326f7b82",
+        "export_bytes": 100914,
+        "export_sha256": "7026a2e792d55cdb0c9799b67360e8dbc02c600665a346a733f85a81fbb74baa"
+      }
+    },
+    {
+      "group": "repository",
+      "mode": "optimized",
+      "argv": [
+        "<bundled-python-3.12.14>/bin/python3",
+        "-B",
+        "-E",
+        "-S",
+        "-O",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "cwd": "<isolated-checkout>",
+      "exit_code": 1,
+      "started_utc": "2026-10-13T20:38:59.499428+00:00",
+      "ended_utc": "2026-10-13T20:40:50.448605+00:00",
+      "stdout": {
+        "path": "repository-optimized.stdout.log",
+        "bytes": 386,
+        "sha256": "ced6ac2371d2afe990c4984adb615f41c07ff9517fde374693d5466673e71318",
+        "export_bytes": 386,
+        "export_sha256": "ced6ac2371d2afe990c4984adb615f41c07ff9517fde374693d5466673e71318"
+      },
+      "stderr": {
+        "path": "repository-optimized.stderr.log",
+        "bytes": 105865,
+        "sha256": "b977ce60ce56ac6d802a7482ab23298fa812b6a913303c75fbdd1bf26fa67300",
+        "export_bytes": 100915,
+        "export_sha256": "ffa87bb042304bbb649ebc82073893f3bf9ce734eb24ff9c444f43d7ba265b5c"
+      }
+    }
+  ],
+  "source_after": {
+    "experiments/universality/two_parameter_cusp_population/run_population_certificate.py": {
+      "bytes": 24197,
+      "sha256": "301adfeba7c39fa45e4cbb406cb3cc66c5661188071fc15400e6924ca2ac4c46"
+    },
+    "experiments/universality/two_parameter_cusp_population/test_population_certificate.py": {
+      "bytes": 38390,
+      "sha256": "a7a0b774e7705bfcebcc1398101856fdcd4767381e78be4d6a99bf76f60cfdae"
+    }
+  },
+  "source_drift": false
+}
