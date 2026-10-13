@@ -1,0 +1,42 @@
+name: Contact kernel tail exact replay
+'on':
+  pull_request:
+    paths: ['frontiers/contact_kernel_tail_20260925/**', '.github/workflows/contact-kernel-tail.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11'
+      - name: Source-pinned tests and semantic mutations
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          python -B -S - <<'PY'
+          import json, os, pathlib, subprocess, sys
+          if sys.version_info[:2] != (3, 11):
+              raise RuntimeError('actual Python 3.11 required')
+          root=pathlib.Path('frontiers/contact_kernel_tail_20260925').resolve()
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'contact-kernel-tail'
+          subprocess.run([sys.executable,'-B','-S',str(root/'run_validation.py'),'--output',str(out)],check=True,timeout=120)
+          report=json.loads((out/'REPORT.json').read_text())
+          if not report['passed'] or report['tests']!=22 or report['mutants']!=8:
+              raise RuntimeError('coverage mismatch')
+          if report['analytic_acceptance'] is not False or report['scientific_effect']!='NONE':
+              raise RuntimeError('forbidden acceptance')
+          (out/'GITHUB_CONTEXT.json').write_text(json.dumps({'run':os.environ['GITHUB_RUN_ID'],'tested_commit':os.environ['GITHUB_SHA'],'python':sys.version},indent=2)+'\n')
+          PY
+      - name: Preserve execution evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: contact-kernel-tail-${{ github.run_id }}
+          path: ${{ runner.temp }}/contact-kernel-tail
+          if-no-files-found: error
+          retention-days: 30

@@ -1,0 +1,73 @@
+name: Remainder vanishing exact controls
+
+'on':
+  pull_request:
+    paths:
+      - 'frontiers/remainder_vanishing_20260930/**'
+      - '.github/workflows/remainder-vanishing.yml'
+      # bound sources (consumed and cited_only in SOURCES.json)
+      - 'frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md'
+      - 'imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md'
+      - 'imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md'
+      - 'reviews/d1_section9_borel_repair_20260925/REPAIR.md'
+      - 'reviews/d1_chain_reconciliation_20260928/RECONCILIATION.md'
+      - 'frontiers/c7_total_bounded_20260929/PROOF.md'
+      - 'frontiers/unrestricted_selection_difference_20260929/PROOF.md'
+      - 'frontiers/c7_zero_gap_limit_20260929/PROOF.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-controls:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Verify sources, replay both modes, reject mutants
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          set -euo pipefail
+          python -B -S - <<'PY'
+          import hashlib, json, pathlib, subprocess, sys
+          root = pathlib.Path('frontiers/remainder_vanishing_20260930').resolve()
+          manifest = json.loads((root / 'SOURCES.json').read_text())
+          present = sorted(p.name for p in root.iterdir())
+          expected_names = sorted([e['path'] for e in manifest['files']] + ['SOURCES.json'])
+          if present != expected_names:
+              raise ValueError('packet tree differs from manifest: ' + repr(present))
+          for entry in manifest['files']:
+              path = root / entry['path']
+              if path.is_symlink():
+                  raise ValueError('symlink: ' + entry['path'])
+              data = path.read_bytes()
+              if len(data) != entry['bytes'] or hashlib.sha256(data).hexdigest() != entry['sha256']:
+                  raise ValueError('packet file identity mismatch: ' + entry['path'])
+          for entry in manifest['consumed'] + manifest['cited_only']:
+              data = pathlib.Path(entry['path']).read_bytes()
+              framed = b'blob ' + str(len(data)).encode() + b'\0' + data
+              if len(data) != entry['bytes'] or hashlib.sha256(data).hexdigest() != entry['sha256'] or hashlib.sha1(framed).hexdigest() != entry['git_blob']:
+                  raise ValueError('merged source drifted: ' + entry['path'])
+          script = str(root / 'even_contact_check.py')
+          expected = (root / 'RESULTS.json').read_bytes()
+          for flags in (['-B', '-S'], ['-B', '-O', '-S']):
+              out = subprocess.run([sys.executable, *flags, script], check=True, capture_output=True, timeout=600).stdout
+              if out != expected:
+                  raise RuntimeError('output differs from RESULTS.json under ' + ' '.join(flags))
+              for m in manifest['mutants']:
+                  rc = subprocess.run([sys.executable, *flags, script, '--mutant', m], capture_output=True, timeout=600).returncode
+                  if rc != 1:
+                      raise RuntimeError('mutant ' + m + ' not rejected')
+              rc = subprocess.run([sys.executable, *flags, script, '--mutant', 'M9'], capture_output=True, timeout=600).returncode
+              if rc != 2:
+                  raise RuntimeError('unknown mutant label not rejected with exit 2')
+          print(json.dumps({'scientific_effect': 'NONE', 'mathematical_acceptance': False}))
+          PY
+          git diff --exit-code

@@ -1,0 +1,81 @@
+name: C6 factorial-moment candidate checks
+
+# PR-time full tests/ suite (both modes) runs once in full-regression-suite.yml
+# (C166). This workflow keeps the suite before its packet for manual dispatch.
+'on':
+  pull_request:
+    paths:
+      - 'frontiers/c6_factorial_moment_20260929/**'
+      - '.github/workflows/c6-factorial-moment.yml'
+      - 'tools/d5_c6_replay.py'
+      - 'tests/test_d5_c6_workflows.py'
+      - 'tests/test_c6_factorial_job_budget.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-and-probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Bind tested commit
+        env:
+          TESTED_SHA: ${{ github.sha }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          EVENT_NAME: ${{ github.event_name }}
+          RUN_ID: ${{ github.run_id }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          set -euo pipefail
+          checked_out="$(git rev-parse HEAD)"
+          if [ "$checked_out" != "$TESTED_SHA" ]; then
+            echo "checked-out commit $checked_out is not the tested commit $TESTED_SHA" >&2
+            exit 1
+          fi
+          record="tested-commit sha=$TESTED_SHA tree=$(git rev-parse 'HEAD^{tree}') pr_head=${PR_HEAD_SHA:-none} event=$EVENT_NAME run=$RUN_ID/$RUN_ATTEMPT"
+          echo "$record"
+          echo "$record" >> "${GITHUB_STEP_SUMMARY:-/dev/null}"
+      - name: Full repository regression suite in both Python modes
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          set -euo pipefail
+          python -B -S -m unittest discover -s tests -v
+          python -B -O -S -m unittest discover -s tests -v
+      - name: Verify sources, replay both modes, reject mutants
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          set -euo pipefail
+          python -B -S - <<'PY'
+          import hashlib, json, pathlib
+          from tools.d5_c6_replay import replay
+          root = pathlib.Path('frontiers/c6_factorial_moment_20260929').resolve()
+          manifest = json.loads((root / 'SOURCE_FILES.json').read_text())['files']
+          present = sorted(p.name for p in root.iterdir())
+          expected_names = sorted([e['path'] for e in manifest] + ['SOURCE_FILES.json'])
+          if present != expected_names:
+              raise ValueError('packet tree differs from manifest: ' + repr(present))
+          for entry in manifest:
+              path = root / entry['path']
+              if pathlib.PurePosixPath(entry['path']).name != entry['path'] or path.is_symlink():
+                  raise ValueError('flat regular source required: ' + entry['path'])
+              data = path.read_bytes()
+              if len(data) != entry['bytes'] or hashlib.sha256(data).hexdigest() != entry['sha256']:
+                  raise ValueError('source identity mismatch: ' + entry['path'])
+          script = str(root / 'c6_check.py')
+          expected = (root / 'RESULTS.json').read_bytes()
+          mutants = ['wrong-elimination', 'touching-balls', 'no-log', 'short-remainder']
+          for flags in (['-B', '-S'], ['-B', '-O', '-S']):
+              replay(script, expected, mutants, 'factorial', flags, timeout=300)
+          print(json.dumps({'scientific_effect': 'NONE', 'mathematical_acceptance': False}))
+          PY
+          git diff --exit-code

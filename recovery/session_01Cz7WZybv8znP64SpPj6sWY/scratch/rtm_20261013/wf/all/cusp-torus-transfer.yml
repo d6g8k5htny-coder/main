@@ -1,0 +1,49 @@
+name: Cusp torus transfer exact checks
+
+'on':
+  pull_request:
+    paths:
+      - 'frontiers/cusp_torus_transfer_20261001/**'
+      - '.github/workflows/cusp-torus-transfer.yml'
+      - 'imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md'
+      - 'frontiers/cusp_second_order_20261001/PROOF.md'
+      - 'frontiers/cusp_coefficient_certified_20261001/NOTE.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-and-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Fetch exact historical source commits
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin 3e0a91b69892b9717564c592e7a966492a81566a
+          git fetch --no-tags origin 826b8be512e86f2de73c33d6ac7a76908dc2e0e6
+          git fetch --no-tags origin 3ac897a16d79d6c37aed29d59b71966058e75a00
+      - name: Authenticate sources and replay exact controls
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+          GIT_NO_REPLACE_OBJECTS: '1'
+        run: |
+          set -euo pipefail
+          cd frontiers/cusp_torus_transfer_20261001
+          python -B -S verify_sources.py
+          python -B -S -m unittest discover -v
+          python -B -O -S -m unittest discover -v
+          python -B -S transfer.py > "$RUNNER_TEMP/cusp-transfer-normal.json"
+          python -B -O -S transfer.py > "$RUNNER_TEMP/cusp-transfer-optimized.json"
+          cmp RESULTS.json "$RUNNER_TEMP/cusp-transfer-normal.json"
+          cmp RESULTS.json "$RUNNER_TEMP/cusp-transfer-optimized.json"
+          python -B -S verify_sources.py
+          git diff --exit-code

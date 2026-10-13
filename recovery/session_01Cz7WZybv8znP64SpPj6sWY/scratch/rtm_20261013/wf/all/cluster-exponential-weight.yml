@@ -1,0 +1,40 @@
+name: Cluster exponential weight controls
+'on':
+  pull_request:
+    paths:
+      - 'frontiers/cluster_exponential_weight_20260930/**'
+      - '.github/workflows/cluster-exponential-weight.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'frontiers/cluster_exponential_weight_20260930/**'
+      - '.github/workflows/cluster-exponential-weight.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  exact-exponential:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Finite controls and immutable source custody (not proof acceptance)
+        run: |
+          set -euo pipefail
+          packet=frontiers/cluster_exponential_weight_20260930
+          python -B -S "$packet/verify_packet.py"
+          python -B -O -S "$packet/verify_packet.py"
+          python -B -S "$packet/finite_checks.py" > /tmp/exponential-normal.json
+          python -B -O -S "$packet/finite_checks.py" > /tmp/exponential-optimized.json
+          cmp /tmp/exponential-normal.json /tmp/exponential-optimized.json
+          python -B -S -m unittest discover -s "$packet" -p 'test_*.py' -v
+          python -B -O -S -m unittest discover -s "$packet" -p 'test_*.py' -v
+          git fetch --no-tags origin cbb2f978f9b3e8e2eaca94f3b359b18d7c144f1b 7a44130b41b827577424a73c4feac4cde20b5568
+          python -B -S "$packet/verify_sources.py" --repo-root "$GITHUB_WORKSPACE"
+          git diff --exit-code

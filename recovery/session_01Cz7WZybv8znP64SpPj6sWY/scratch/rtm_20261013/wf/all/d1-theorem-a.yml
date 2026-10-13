@@ -1,0 +1,69 @@
+name: D1 Theorem A nonauthor review checks
+
+'on':
+  pull_request:
+    paths:
+      - 'reviews/d1_theorem_a_nonauthor_20260928/**'
+      - 'imports/lifetime_parent_20260925/**'
+      - '.github/workflows/d1-theorem-a.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-and-probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Verify sources, replay both modes, reject mutants
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          set -euo pipefail
+          python -B -S - <<'PY'
+          import hashlib, json, pathlib, subprocess, sys
+          reviewed = {
+              'imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md':
+                  '9350ad6eaba6626b93c3dedeef9e2ff816e5cdf1c8318e85fb27499141c84bc7',
+              'imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md':
+                  'bad7ef609c4ad8c41ad6af562c1b6807921e19a9d556ed793ad1a0db6e202028',
+              'imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md':
+                  '0bf922b9203c29088b12388807aa0e2ecd020485eb0f6e919679841b5b2636fc',
+              'reviews/d1_section9_borel_repair_20260925/REPAIR.md':
+                  '845abf9f9c99d672c2a10a887b5a2e7206a3d2de3d876f35f75ff6e2dc13e62f',
+          }
+          for path, digest in reviewed.items():
+              if hashlib.sha256(pathlib.Path(path).read_bytes()).hexdigest() != digest:
+                  raise ValueError('reviewed object changed: ' + path)
+          root = pathlib.Path('reviews/d1_theorem_a_nonauthor_20260928').resolve()
+          for entry in json.loads((root / 'SOURCE_FILES.json').read_text())['files']:
+              path = root / entry['path']
+              if pathlib.PurePosixPath(entry['path']).name != entry['path'] or path.is_symlink():
+                  raise ValueError('flat regular source required: ' + entry['path'])
+              data = path.read_bytes()
+              if len(data) != entry['bytes'] or hashlib.sha256(data).hexdigest() != entry['sha256']:
+                  raise ValueError('source identity mismatch: ' + entry['path'])
+          script = str(root / 'theorem_a_exact_check.py')
+          expected = (root / 'RESULTS.json').read_bytes()
+          mutants = ['u3-row', 'bordered-det', 'mixed-square', 'drop-far-branch',
+                     'ridge-coefficient', 'pivot-quarter', 'no-shift']
+          for flags in (['-B', '-S'], ['-B', '-O', '-S']):
+              out = subprocess.run([sys.executable, *flags, script],
+                                   check=True, capture_output=True, timeout=300).stdout
+              if out != expected:
+                  raise RuntimeError('output differs from RESULTS.json under ' + ' '.join(flags))
+              for m in mutants:
+                  rc = subprocess.run([sys.executable, *flags, script, '--mutant', m],
+                                      capture_output=True, timeout=300).returncode
+                  if rc != 1:
+                      raise RuntimeError('mutant ' + m + ' not rejected')
+          print(json.dumps({'scientific_effect': 'NONE', 'mathematical_acceptance': False}))
+          PY
+          git diff --exit-code

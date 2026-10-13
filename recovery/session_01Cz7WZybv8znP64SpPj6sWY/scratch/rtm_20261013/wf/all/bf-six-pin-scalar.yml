@@ -1,0 +1,45 @@
+name: BF six-pin scalar arithmetic
+on:
+  pull_request:
+    paths:
+      - 'certificates/bf_six_pin_scalar_20260926/**'
+      - 'certificates/bf_six_pin_hessian_20260926/**'
+      - 'certificates/bf_source_integrity.py'
+      - 'certificates/test_bf_source_integrity.py'
+      - '.github/workflows/bf-six-pin-scalar.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  scalar-arithmetic:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11'
+      - name: Normal and optimized refusal tests
+        run: |
+          python -B -S -m unittest discover -s certificates/bf_six_pin_scalar_20260926 -p 'test_*.py' -v
+          python -O -B -S -m unittest discover -s certificates/bf_six_pin_scalar_20260926 -p 'test_*.py' -v
+      - name: Reproduce the finite arithmetic record
+        run: |
+          python -B -S certificates/bf_six_pin_scalar_20260926/certificate.py > /tmp/bf-scalar.json
+          cmp /tmp/bf-scalar.json certificates/bf_six_pin_scalar_20260926/CERTIFICATE.json
+          python -B -S certificates/bf_six_pin_scalar_20260926/certificate.py --check /tmp/bf-scalar.json
+      - name: Endpoint Hessian normal and optimized controls
+        run: |
+          python -B -S -m unittest discover -s certificates/bf_six_pin_hessian_20260926 -p 'test_*.py' -v
+          python -O -B -S -m unittest discover -s certificates/bf_six_pin_hessian_20260926 -p 'test_*.py' -v
+          python -B -S certificates/bf_six_pin_hessian_20260926/hessian_certificate.py --check certificates/bf_six_pin_hessian_20260926/CERTIFICATE.json > /tmp/bf-hessian.json
+          python -O -B -S certificates/bf_six_pin_hessian_20260926/hessian_certificate.py --check certificates/bf_six_pin_hessian_20260926/CERTIFICATE.json > /tmp/bf-hessian-optimized.json
+          cmp /tmp/bf-hessian.json /tmp/bf-hessian-optimized.json
+      - name: Frozen source manifests and negative controls
+        run: |
+          python -B -S certificates/bf_source_integrity.py
+          python -O -B -S certificates/bf_source_integrity.py
+          python -B -S -m unittest discover -s certificates -p 'test_bf_source_integrity.py' -v
+          python -O -B -S -m unittest discover -s certificates -p 'test_bf_source_integrity.py' -v

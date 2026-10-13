@@ -1,0 +1,88 @@
+name: c2 torus transfer (replay)
+
+'on':
+  pull_request:
+    paths:
+      - 'frontiers/c2_torus_transfer_20261001/**'
+      - '.github/workflows/c2-torus-transfer.yml'
+      - 'frontiers/c2_exact_20261001/**'
+      - 'coefficients/side24_v1/PROOF.md'
+      - 'frontiers/candidate_third_order_20261001/PROOF.md'
+      - 'frontiers/cusp_coefficient_certified_20261001/RESULTS.json'
+      - 'frontiers/elder_third_order_20261001/PROOF.md'
+      - 'frontiers/cusp_torus_transfer_20261001/PROOF.md'
+      - 'frontiers/c2_finite_jet_transfer_20261001/PROOF.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  transfer-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        flags: ['-B -S', '-B -O -S']
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Verify manifest, main-resident pins and byte-identical copies
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          set -euo pipefail
+          python -B -S - <<'PY'
+          import hashlib, json, pathlib
+          root = pathlib.Path('frontiers/c2_torus_transfer_20261001').resolve()
+          manifest = json.loads((root / 'SOURCE_FILES.json').read_text())['files']
+          present = sorted(p.name for p in root.iterdir())
+          if present != sorted([e['path'] for e in manifest] + ['SOURCE_FILES.json']):
+              raise ValueError('packet tree differs from manifest: ' + repr(present))
+          def ident(data):
+              return len(data), hashlib.sha256(data).hexdigest(), hashlib.sha1(b'blob %d\0' % len(data) + data).hexdigest()
+          for entry in manifest:
+              path = root / entry['path']
+              if pathlib.PurePosixPath(entry['path']).name != entry['path'] or path.is_symlink():
+                  raise ValueError('flat regular source required: ' + entry['path'])
+              if ident(path.read_bytes()) != (entry['bytes'], entry['sha256'], entry['git_blob']):
+                  raise ValueError('source identity mismatch: ' + entry['path'])
+          pins = json.loads((root / 'SOURCE_MAP.json').read_text())
+          for entry in pins['sources']:
+              if not entry['current_required']:
+                  continue
+              if ident(pathlib.Path(entry['path']).read_bytes()) != (entry['bytes'], entry['sha256'], entry['git_blob']):
+                  raise ValueError('consumed source identity mismatch on this tree: ' + entry['path'])
+          for copy, orig in pins['copies'].items():
+              if (root / copy).read_bytes() != pathlib.Path(orig).read_bytes():
+                  raise ValueError('copy differs from its pinned original: ' + copy)
+          print('manifest, pins and copies verified')
+          PY
+      - name: Ball-arithmetic replay against RESULTS.json, mutants, controls
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+          FLAGS: ${{ matrix.flags }}
+        run: |
+          set -euo pipefail
+          cd frontiers/c2_torus_transfer_20261001
+          pids=()
+          for m in no-image no-theta drop-ratio eta-half fp-const; do
+            ( set +e; python $FLAGS transfer.py --mutant "$m" > "/tmp/mutant_$m.log" 2>&1; echo $? > "/tmp/mutant_$m.rc" ) &
+            pids+=($!)
+          done
+          python $FLAGS transfer.py --check
+          python $FLAGS controls.py
+          wait "${pids[@]}"
+          for m in no-image no-theta drop-ratio eta-half fp-const; do
+            rc=$(cat "/tmp/mutant_$m.rc")
+            if [ "$rc" -ne 1 ]; then echo "mutant $m not rejected (rc=$rc)"; cat "/tmp/mutant_$m.log"; exit 1; fi
+            echo "mutant $m rejected"
+          done
+          cd "$GITHUB_WORKSPACE"
+          git diff --exit-code
+          test -z "$(git status --porcelain)"

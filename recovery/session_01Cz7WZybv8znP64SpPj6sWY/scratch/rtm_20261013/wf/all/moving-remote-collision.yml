@@ -1,0 +1,92 @@
+name: Moving remote collision exact controls
+
+'on':
+  pull_request:
+    paths:
+      - 'frontiers/moving_remote_collision_20261003/**'
+      - 'frontiers/remote_collision_20260928/PROOF.md'
+      - 'frontiers/remote_window_20260924/PROOF.md'
+      - 'imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md'
+      - 'imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md'
+      - 'reviews/d1_section9_borel_repair_20260925/REPAIR.md'
+      - 'reviews/d1_chain_reconciliation_20260928/RECONCILIATION.md'
+      - '.github/workflows/moving-remote-collision.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'frontiers/moving_remote_collision_20261003/**'
+      - 'frontiers/remote_collision_20260928/PROOF.md'
+      - 'frontiers/remote_window_20260924/PROOF.md'
+      - 'imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md'
+      - 'imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md'
+      - 'reviews/d1_section9_borel_repair_20260925/REPAIR.md'
+      - 'reviews/d1_chain_reconciliation_20260928/RECONCILIATION.md'
+      - '.github/workflows/moving-remote-collision.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: moving-remote-collision-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  exact:
+    name: moving-remote-exact (${{ matrix.mode }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Verify sources and run bounded exact controls
+        shell: bash
+        env:
+          MODE: ${{ matrix.mode }}
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          set -euo pipefail
+          packet=frontiers/moving_remote_collision_20261003
+          evidence="$RUNNER_TEMP/moving-remote-$MODE"
+          mkdir -p "$evidence"
+          flags=(-B -S)
+          if [ "$MODE" = optimized ]; then flags+=(-O); fi
+          python "${flags[@]}" "$packet/verify_sources.py" > "$evidence/custody.log" 2>&1
+          python "${flags[@]}" -m unittest discover -s "$packet" -p 'test_*.py' -v > "$evidence/custody-tests.log" 2>&1
+          python "${flags[@]}" "$packet/author_controls.py" > "$evidence/author.log" 2>&1
+          cmp "$packet/author_controls.normal.stdout" "$evidence/author.log"
+          python "${flags[@]}" "$packet/review/independent_controls.py" > "$evidence/independent.json"
+          python -B -S - <<'PY'
+          import json, os, pathlib, platform, subprocess
+          out = pathlib.Path(os.environ['RUNNER_TEMP']) / ('moving-remote-' + os.environ['MODE'])
+          result = json.loads((out / 'independent.json').read_text())
+          if result['status'] != 'PASS' or result['positive_evaluations'] != 425 or result['rejected_mutant_evaluations'] != 46:
+              raise RuntimeError('unexpected independent control result')
+          head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+          if head != os.environ['GITHUB_SHA']:
+              raise RuntimeError('tested commit mismatch')
+          (out / 'CONTEXT.json').write_text(json.dumps({
+              'commit': head, 'run': os.environ['GITHUB_RUN_ID'],
+              'attempt': os.environ['GITHUB_RUN_ATTEMPT'], 'mode': os.environ['MODE'],
+              'python': platform.python_version(), 'scientific_effect': 'NONE',
+              'meaning': 'source custody and finite controls; not continuum proof acceptance'
+          }, indent=2) + '\n')
+          PY
+          git diff --exit-code
+      - name: Retain execution evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: moving-remote-${{ matrix.mode }}-${{ github.run_id }}
+          path: ${{ runner.temp }}/moving-remote-${{ matrix.mode }}
+          if-no-files-found: error
+          retention-days: 30

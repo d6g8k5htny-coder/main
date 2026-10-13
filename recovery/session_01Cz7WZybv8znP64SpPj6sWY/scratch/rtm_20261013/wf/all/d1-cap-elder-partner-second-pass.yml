@@ -1,0 +1,78 @@
+name: D1 cap elder-partner second pass
+
+'on':
+  pull_request:
+    paths:
+      - 'reviews/d1_cap_elder_partner_second_pass_claude_20260930/**'
+      - '.github/workflows/d1-cap-elder-partner-second-pass.yml'
+      - 'imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md'
+      - 'imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md'
+      - 'imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md'
+      - 'reviews/d1_theorem_a_nonauthor_20260928/REVIEW.md'
+      - 'reviews/d1_chain_reconciliation_20260928/RECONCILIATION.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-and-finite-controls:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Verify sources and pins, replay both modes, reject mutants
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          set -euo pipefail
+          python -B -S - <<'PY'
+          import hashlib, json, pathlib, subprocess, sys
+          root = pathlib.Path('reviews/d1_cap_elder_partner_second_pass_claude_20260930').resolve()
+          manifest_doc = json.loads((root / 'SOURCE_FILES.json').read_text())
+          manifest = manifest_doc['files']
+          present = sorted(p.name for p in root.iterdir())
+          expected_names = sorted([e['path'] for e in manifest] + ['SOURCE_FILES.json'])
+          if present != expected_names:
+              raise ValueError('packet tree differs from manifest: ' + repr(present))
+          for entry in manifest:
+              path = root / entry['path']
+              if pathlib.PurePosixPath(entry['path']).name != entry['path'] or path.is_symlink():
+                  raise ValueError('flat regular source required: ' + entry['path'])
+              data = path.read_bytes()
+              if len(data) != entry['bytes'] or hashlib.sha256(data).hexdigest() != entry['sha256']:
+                  raise ValueError('source identity mismatch: ' + entry['path'])
+          for pin in manifest_doc['pins_on_main']:
+              if not pin.get('workflow_checked'):
+                  continue
+              p = pathlib.Path(pin['path'])
+              if p.is_symlink() or not p.is_file():
+                  raise ValueError('pinned source missing: ' + pin['path'])
+              data = p.read_bytes()
+              blob = hashlib.sha1(b'blob %d\0' % len(data) + data).hexdigest()
+              if blob != pin['git_blob']:
+                  raise ValueError('pinned source drifted: ' + pin['path'] + ' ' + blob)
+          script = str(root / 'cap_maximin_check.py')
+          expected = (root / 'RESULTS.json').read_bytes()
+          mutants = ['kernel-mass', 'depth-four', 'coefficient-two', 'drop-cross-terms', 'no-depth', 'gap-sign', 'm4-over']
+          for flags in (['-B', '-S'], ['-B', '-O', '-S']):
+              out = subprocess.run([sys.executable, *flags, script],
+                                   check=True, capture_output=True, timeout=600).stdout
+              if out != expected:
+                  raise RuntimeError('output differs from RESULTS.json under ' + ' '.join(flags))
+              doc = json.loads(out)
+              if not (doc['passed'] and len(doc['checks']) == 6 and all(doc['checks'].values())):
+                  raise RuntimeError('controls did not pass under ' + ' '.join(flags))
+              for m in mutants:
+                  rc = subprocess.run([sys.executable, *flags, script, '--mutant', m],
+                                      capture_output=True, timeout=600).returncode
+                  if rc != 1:
+                      raise RuntimeError('mutant ' + m + ' not rejected under ' + ' '.join(flags))
+          print(json.dumps({'scientific_effect': 'NONE', 'mathematical_acceptance': False, 'review_verdict': 'ACCEPT_UNCHANGED'}))
+          PY
+          git diff --exit-code

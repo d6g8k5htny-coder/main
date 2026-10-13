@@ -1,0 +1,51 @@
+name: Typed contact angular tails exact replay
+'on':
+  pull_request:
+    paths: ['reviews/contact_angular_tail_20260925/**', '.github/workflows/contact-angular.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Verify exact sources and run both modes
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          python -B -S - <<'PY'
+          import hashlib,json,os,pathlib,subprocess,sys
+          root=pathlib.Path('reviews/contact_angular_tail_20260925').resolve()
+          pins=json.loads((root/'SOURCE_FILES.json').read_text())['files']
+          def verify():
+              for name,identity in pins.items():
+                  if pathlib.PurePosixPath(name).name != name or (root/name).is_symlink():
+                      raise ValueError('flat regular source required')
+                  data=(root/name).read_bytes()
+                  if len(data)!=identity['bytes'] or hashlib.sha256(data).hexdigest()!=identity['sha256']:
+                      raise ValueError('source identity mismatch: '+name)
+          verify()
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'contact-angular-results'
+          subprocess.run([sys.executable,'-B','-S',str(root/'run_validation.py'),'--output',str(out)],check=True,timeout=120)
+          verify()
+          report=json.loads((out/'REPORT.json').read_text())
+          if not report['passed'] or report['distinct_tests']!=26 or report['distinct_mutants']!=9 or report['modes']!=['normal','optimized']:
+              raise RuntimeError('unexpected replay coverage')
+          (out/'GITHUB_CONTEXT.json').write_text(json.dumps({'sha':os.environ['GITHUB_SHA'],'run':os.environ['GITHUB_RUN_ID'],'python':sys.version,'source_files_verified':len(pins),'scientific_effect':'NONE'},indent=2)+'\n')
+          PY
+          git diff --exit-code
+      - name: Retain evidence including failures
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: contact-angular-${{ github.run_id }}
+          path: ${{ runner.temp }}/contact-angular-results
+          if-no-files-found: error
+          retention-days: 30

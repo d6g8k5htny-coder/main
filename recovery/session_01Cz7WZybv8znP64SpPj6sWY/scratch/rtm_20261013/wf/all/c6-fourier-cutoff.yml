@@ -1,0 +1,45 @@
+name: C6 Fourier-cutoff finite controls
+
+'on':
+  pull_request:
+    paths:
+      - 'frontiers/c6_fourier_cutoff_20260929/**'
+      - '.github/workflows/c6-fourier-cutoff.yml'
+      - 'imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md'
+      - 'frontiers/c6_factorial_moment_20260929/PROOF.md'
+      - 'frontiers/c6_sharpened_20260929/PROOF.md'
+      - 'frontiers/intermediate_window_20260928/PROOF.md'
+      - 'reviews/d5_reconciliation_20260929/RECONCILIATION.md'
+      - 'reviews/d5_punctured_pin_continuum_claude_20260929/REVIEW.md'
+  push:
+    branches: [main]
+    paths:
+      - 'frontiers/c6_fourier_cutoff_20260929/**'
+      - '.github/workflows/c6-fourier-cutoff.yml'
+      - 'imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md'
+      - 'frontiers/c6_factorial_moment_20260929/PROOF.md'
+      - 'frontiers/c6_sharpened_20260929/PROOF.md'
+      - 'frontiers/intermediate_window_20260928/PROOF.md'
+      - 'reviews/d5_reconciliation_20260929/RECONCILIATION.md'
+      - 'reviews/d5_punctured_pin_continuum_claude_20260929/REVIEW.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-fourier:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Exact packet, both Python modes, and six upstream identities
+        run: |
+          set -euo pipefail
+          python -B -S frontiers/c6_fourier_cutoff_20260929/verify.py --repo "${GITHUB_WORKSPACE}" --output "${RUNNER_TEMP}/fourier-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          git diff --exit-code

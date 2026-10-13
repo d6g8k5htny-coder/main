@@ -1,0 +1,61 @@
+name: Fixed-remote count exact replay
+'on':
+  push:
+    branches: [chatgpt/remote-window-20260924]
+  pull_request:
+    paths: ['frontiers/remote_window_20260924/**', '.github/workflows/remote-window.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11'
+      - name: Verify the new sources and run actual controls plus regressions
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          python -B -S - <<'PY'
+          import hashlib,json,os,pathlib,subprocess,sys
+          root=pathlib.Path('frontiers/remote_window_20260924').resolve()
+          pins=json.loads((root/'SOURCE_FILES.json').read_text())['files']
+          def verify():
+              for name,identity in pins.items():
+                  if pathlib.PurePosixPath(name).name!=name or (root/name).is_symlink():
+                      raise ValueError('flat regular source required')
+                  raw=(root/name).read_bytes()
+                  if len(raw)!=identity['bytes'] or hashlib.sha256(raw).hexdigest()!=identity['sha256']:
+                      raise ValueError('source identity mismatch: '+name)
+          if sys.version_info[:2]!=(3,11):
+              raise RuntimeError('actual Python 3.11 required')
+          verify()
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'remote-window-results'
+          subprocess.run([sys.executable,'-B','-S',str(root/'run_validation.py'),'--output',str(out)],check=True,timeout=120)
+          regressions=[('coefficients/side24_v1',30),('frontiers/three_fronts_20260924',57),('frontiers/price_budget_20260924',26),('frontiers/full_price_20260924',36)]
+          for mode,flags in [('normal',[]),('optimized',['-O'])]:
+              for index,(folder,count) in enumerate(regressions):
+                  run=subprocess.run([sys.executable,'-B',*flags,'-S','-m','unittest','discover','-s',folder,'-p','test_*.py','-v'],capture_output=True,text=True,timeout=90)
+                  (out/f'regression_{mode}_{index}.stdout').write_text(run.stdout)
+                  (out/f'regression_{mode}_{index}.stderr').write_text(run.stderr)
+                  if run.returncode or f'Ran {count} tests' not in run.stderr or 'skipped=' in run.stderr:
+                      raise RuntimeError('regression failed: '+folder)
+          verify()
+          report=json.loads((out/'REPORT.json').read_text())
+          if not report['passed'] or report['distinct_tests']!=28 or report['distinct_semantic_mutations']!=7:
+              raise RuntimeError('unexpected new-test scope')
+          (out/'GITHUB_CONTEXT.json').write_text(json.dumps({'run':os.environ['GITHUB_RUN_ID'],'sha':os.environ['GITHUB_SHA'],'python':sys.version,'new_distinct_tests':28,'regression_distinct_tests':149,'total_distinct_tests':177,'new_semantic_mutations':7,'source_files_verified':len(pins),'meaning':'same-author finite checks; not analytic review'},indent=2)+'\n')
+          print('REMOTE_WINDOW_PASSED')
+          PY
+      - name: Retain evidence even on failure
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: remote-window-${{ github.run_id }}
+          path: ${{ runner.temp }}/remote-window-results
+          if-no-files-found: error
+          retention-days: 30

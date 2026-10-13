@@ -1,0 +1,85 @@
+name: C8 window coefficient d3 torus
+
+'on':
+  pull_request:
+    paths:
+      - 'frontiers/c8_window_coefficient_d3_torus_20260930/**'
+      - '.github/workflows/c8-window-coefficient-d3-torus.yml'
+      - 'imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md'
+      - 'coefficients/side24_v1/PROOF.md'
+      - 'coefficients/side24_v1/ENCLOSURE.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  certify-and-reject-mutants:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Verify sources and pins, replay both modes, reject mutants
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          set -euo pipefail
+          python -B -S - <<'PY'
+          import concurrent.futures, hashlib, json, pathlib, subprocess, sys
+          root = pathlib.Path('frontiers/c8_window_coefficient_d3_torus_20260930').resolve()
+          manifest_doc = json.loads((root / 'SOURCE_FILES.json').read_text())
+          manifest = manifest_doc['files']
+          present = sorted(p.name for p in root.iterdir())
+          expected_names = sorted([e['path'] for e in manifest] + ['SOURCE_FILES.json'])
+          if present != expected_names:
+              raise ValueError('packet tree differs from manifest: ' + repr(present))
+          for entry in manifest:
+              path = root / entry['path']
+              if pathlib.PurePosixPath(entry['path']).name != entry['path'] or path.is_symlink():
+                  raise ValueError('flat regular source required: ' + entry['path'])
+              data = path.read_bytes()
+              if len(data) != entry['bytes'] or hashlib.sha256(data).hexdigest() != entry['sha256']:
+                  raise ValueError('source identity mismatch: ' + entry['path'])
+          # main-resident pins: the consumed sources must be the cited bytes
+          for pin in manifest_doc['pins_on_main']:
+              if not pin.get('workflow_checked'):
+                  continue
+              p = pathlib.Path(pin['path'])
+              if p.is_symlink() or not p.is_file():
+                  raise ValueError('pinned source missing: ' + pin['path'])
+              data = p.read_bytes()
+              blob = hashlib.sha1(b'blob %d\0' % len(data) + data).hexdigest()
+              if blob != pin['git_blob']:
+                  raise ValueError('pinned source drifted: ' + pin['path'] + ' ' + blob)
+          # the SIDE24 enclosure quoted inside the script must be the one on main
+          enc = json.loads(pathlib.Path('coefficients/side24_v1/ENCLOSURE.json').read_text())['dimensions']['3']
+          src = (root / 'window_coefficient_d3.py').read_text()
+          if ('"%s", "%s"' % (enc['lower'], enc['upper'])) not in src:
+              raise ValueError('SIDE24 d = 3 enclosure quoted in the script differs from ENCLOSURE.json')
+          script = str(root / 'window_coefficient_d3.py')
+          expected = (root / 'RESULTS.json').read_bytes()
+          mutants = ['image-shells', 'lambda-min', 'sandwich-swap', 'window-scale', 'd3-cross', 'schur-sign', 'sphere', 'tau-cross', 'tail-dropped', 'no-owen', 'gamma-shape']
+          def mutant_rc(args):
+              flags, m = args
+              return m, flags, subprocess.run([sys.executable, *flags, script, '--mutant', m],
+                                              capture_output=True, timeout=1500).returncode
+          for flags in (['-B', '-S'], ['-B', '-O', '-S']):
+              out = subprocess.run([sys.executable, *flags, script],
+                                   check=True, capture_output=True, timeout=1500).stdout
+              if out != expected:
+                  raise RuntimeError('output differs from RESULTS.json under ' + ' '.join(flags))
+              doc = json.loads(out)
+              if not (doc['passed'] and len(doc['checks']) == 15 and all(doc['checks'].values())):
+                  raise RuntimeError('certification did not pass under ' + ' '.join(flags))
+              with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
+                  for m, fl, rc in pool.map(mutant_rc, [(flags, m) for m in mutants]):
+                      if rc != 1:
+                          raise RuntimeError('mutant ' + m + ' not rejected under ' + ' '.join(fl))
+          print(json.dumps({'scientific_effect': 'NONE', 'mathematical_acceptance': False, 'certified_enclosures': True, 'C8': 'OPEN'}))
+          PY
+          git diff --exit-code

@@ -1,0 +1,25 @@
+name: SARD-G A2 finite interface controls
+'on':
+  pull_request:
+    paths:
+      - 'frontiers/sard_g_a2_parameter_20260929/**'
+      - '.github/workflows/sard-g-a2-parameter.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  finite-a2:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - run: |
+          set -euo pipefail
+          python -B -S frontiers/sard_g_a2_parameter_20260929/check.py
+          python -B -O -S frontiers/sard_g_a2_parameter_20260929/check.py
+          git diff --exit-code

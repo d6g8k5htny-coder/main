@@ -1,0 +1,42 @@
+name: Fixed-r inverse-lifetime checks
+
+'on':
+  pull_request:
+    paths:
+      - 'frontiers/fixed_r_inverse_lifetime_20260930/**'
+      - '.github/workflows/fixed-r-inverse-lifetime.yml'
+      - 'tests/test_fixed_r_replay_protocol.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-and-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Fetch exact public parent model
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin 7a1cb09a9d58d179393e6d29146252f714b9c9bf
+      - name: Verify failure-protocol regressions in both Python modes
+        run: |
+          set -euo pipefail
+          python -B -S tests/test_fixed_r_replay_protocol.py
+          python -B -O -S tests/test_fixed_r_replay_protocol.py
+      - name: Verify source, packet and both Python modes
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+          GIT_NO_REPLACE_OBJECTS: '1'
+        run: |
+          set -euo pipefail
+          python -B -S frontiers/fixed_r_inverse_lifetime_20260930/verify.py
+          git diff --exit-code

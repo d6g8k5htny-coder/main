@@ -1,0 +1,67 @@
+name: Formal Lean evidence (no scientific promotion)
+on:
+  workflow_call:
+    outputs:
+      checked_commit:
+        description: Exact tested commit
+        value: ${{ jobs.formal-evidence.outputs.checked_commit }}
+      repository:
+        description: Checked source repository
+        value: ${{ jobs.formal-evidence.outputs.repository }}
+      run_id:
+        description: Producing workflow run
+        value: ${{ jobs.formal-evidence.outputs.run_id }}
+      run_attempt:
+        description: Producing workflow attempt
+        value: ${{ jobs.formal-evidence.outputs.run_attempt }}
+      receipt_sha256:
+        description: Original executed receipt SHA256
+        value: ${{ jobs.formal-evidence.outputs.receipt_sha256 }}
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  formal-evidence:
+    outputs:
+      checked_commit: ${{ steps.required-binding.outputs.checked_commit }}
+      repository: ${{ steps.required-binding.outputs.repository }}
+      run_id: ${{ steps.required-binding.outputs.run_id }}
+      run_attempt: ${{ steps.required-binding.outputs.run_attempt }}
+      receipt_sha256: ${{ steps.required-binding.outputs.receipt_sha256 }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 25
+    env:
+      LEAN_NUM_THREADS: 2
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Gate tests and exact source identity
+        run: |
+          python3 -m unittest discover -s formal/tests -v
+          python3 -O -m unittest discover -s formal/tests -v
+          python3 formal/gate.py
+      - name: Install pinned Lean and retrieve dependency cache
+        uses: leanprover/lean-action@f061402b660e0c34644504b324e830f2991d4865
+        with:
+          lake-package-directory: formal
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Build, recheck, audit axioms and execute negative controls
+        run: python3 formal/gate.py --execute
+      - name: Bind current-run receipt to required check
+        id: required-binding
+        run: python3 -B -S tools/required_formal_check.py receipt
+      - name: Preserve logs and exact-run receipt
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: formal-evidence-${{ github.run_id }}-${{ github.run_attempt }}
+          path: formal/.lake/formal-evidence/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 90

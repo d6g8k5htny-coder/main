@@ -1,0 +1,39 @@
+name: Axial density algebra and regression replay
+on:
+  pull_request:
+    paths:
+      - 'frontiers/axial_density_20260925/**'
+      - '.github/workflows/axial-density-review.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11'
+      - name: Exact algebra in both modes with semantic mutations
+        run: python -B -S frontiers/axial_density_20260925/run_validation.py --output "$RUNNER_TEMP/axial-evidence"
+      - name: Existing repository suites in both modes
+        shell: bash
+        run: |
+          set -euo pipefail
+          for mode in normal optimized; do
+            flags=()
+            if [ "$mode" = optimized ]; then flags=(-O); fi
+            for package in coefficients/side24_v1 frontiers/three_fronts_20260924 frontiers/remote_window_20260924 frontiers/price_budget_20260924 frontiers/full_price_20260924 frontiers/downstream_gate_20260925; do
+              label="${package//\//_}"
+              python "${flags[@]}" -B -S -m unittest discover -s "$package" -p 'test_*.py' -v 2>&1 | tee "$RUNNER_TEMP/axial-evidence/regression_${mode}_${label}.log"
+            done
+          done
+          git rev-parse HEAD > "$RUNNER_TEMP/axial-evidence/checkout_commit.txt"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        if: always()
+        with:
+          name: axial-density-replay
+          path: ${{ runner.temp }}/axial-evidence
+          if-no-files-found: error

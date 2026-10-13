@@ -1,0 +1,169 @@
+name: Downstream hard-gate exact replay
+'on':
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      base_sha:
+        description: Full immutable base commit for a diagnostic replay
+        required: true
+permissions:
+  contents: read
+defaults:
+  run:
+    shell: bash
+jobs:
+  checks:
+    outputs:
+      checked_commit: ${{ steps.checks-identity.outputs.checked_commit }}
+    name: downstream-replay
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11'
+      - name: Required-check integration controls in both Python modes
+        run: |
+          python3 -B -S -m unittest discover -s tests -p test_required_formal_check.py -v
+          python3 -B -O -S -m unittest discover -s tests -p test_required_formal_check.py -v
+      - name: Validation timeout evidence controls in both Python modes
+        run: |
+          python3 -B -S -m unittest discover -s tests -p test_downstream_validation.py -v
+          python3 -B -O -S -m unittest discover -s tests -p test_downstream_validation.py -v
+      - name: Verify exact sources, transition inputs and regressions
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before || inputs.base_sha }}
+        run: |
+          python -B -S - <<'PYTHON'
+          import hashlib, json, os, pathlib, subprocess, sys
+          root = pathlib.Path('frontiers/downstream_gate_20260925').resolve()
+          pins = json.loads((root / 'SOURCE_FILES.json').read_text())['files']
+          def verify():
+              for name, identity in pins.items():
+                  part = pathlib.PurePosixPath(name)
+                  path = root / name
+                  if part.is_absolute() or '..' in part.parts or not path.resolve().is_relative_to(root):
+                      raise ValueError('safe repository-relative pinned source required')
+                  if any((root / pathlib.Path(*part.parts[:i])).is_symlink() for i in range(1, len(part.parts)+1)):
+                      raise ValueError('symlink pinned source rejected')
+                  raw = path.read_bytes()
+                  if len(raw) != identity['bytes'] or hashlib.sha256(raw).hexdigest() != identity['sha256']:
+                      raise ValueError('source identity mismatch: ' + name)
+          if sys.version_info[:2] != (3, 11):
+              raise RuntimeError('actual Python 3.11 required')
+          verify()
+          out = pathlib.Path(os.environ['RUNNER_TEMP']) / 'downstream-gate-results'
+          subprocess.run([sys.executable, '-B', '-S', str(root / 'run_validation.py'), '--output', str(out)], check=True, timeout=480)
+          subprocess.run([
+              sys.executable, '-B', '-S', str(root / 'git_transition_audit.py'),
+              '--repo', str(pathlib.Path.cwd()), '--base', os.environ['BASE_SHA'],
+              '--head', os.environ['GITHUB_SHA'], '--output', str(out / 'TRANSITION_AUDIT.json'),
+          ], check=True, timeout=120)
+          regressions = [
+              ('coefficients/side24_v1', 30),
+              ('frontiers/three_fronts_20260924', 57),
+              ('frontiers/price_budget_20260924', 26),
+              ('frontiers/full_price_20260924', 36),
+              ('frontiers/remote_window_20260924', 28),
+          ]
+          for mode, flags in [('normal', []), ('optimized', ['-O'])]:
+              for index, (folder, count) in enumerate(regressions):
+                  run = subprocess.run(
+                      [sys.executable, '-B', *flags, '-S', '-m', 'unittest', 'discover', '-s', folder, '-p', 'test_*.py', '-v'],
+                      capture_output=True, text=True, timeout=90,
+                  )
+                  (out / f'regression_{mode}_{index}.stdout').write_text(run.stdout)
+                  (out / f'regression_{mode}_{index}.stderr').write_text(run.stderr)
+                  if run.returncode or f'Ran {count} tests' not in run.stderr or 'skipped=' in run.stderr:
+                      raise RuntimeError('regression failed: ' + folder)
+          verify()
+          report = json.loads((out / 'REPORT.json').read_text())
+          if not report['passed'] or report['distinct_tests'] != 71 or report['distinct_semantic_mutations'] != 24:
+              raise RuntimeError('unexpected new-test scope')
+          (out / 'GITHUB_CONTEXT.json').write_text(json.dumps({
+              'run': os.environ['GITHUB_RUN_ID'], 'tested_commit': os.environ['GITHUB_SHA'],
+              'base_commit': os.environ['BASE_SHA'], 'event': os.environ['GITHUB_EVENT_NAME'],
+              'python': sys.version, 'gate_distinct_tests': 71,
+              'regression_distinct_tests': 177, 'total_distinct_tests': 248,
+              'semantic_mutations': 24, 'source_files_verified': len(pins),
+              'lemma_closed': False, 'scientific_effect': 'NONE',
+              'meaning': 'same-author software verification; no independent theorem acceptance',
+          }, indent=2) + '\n')
+          print('DOWNSTREAM_GATE_PASSED')
+          PYTHON
+      - name: P-C paired A/B source-bound conformance
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+          GIT_NO_LAZY_FETCH: '1'
+        run: |
+          set -euo pipefail
+          test "$(git --no-replace-objects --no-lazy-fetch rev-parse HEAD)" = "$GITHUB_SHA"
+          test "$(git --no-replace-objects --no-lazy-fetch rev-parse --is-shallow-repository)" = false
+          git --no-replace-objects --no-lazy-fetch cat-file -e '9fd261135b41daf1e377f9ef2db193fee6ec36be^{commit}'
+          git --no-replace-objects --no-lazy-fetch cat-file -e '92a45e1749936a19ebfe31e803289e0f4683d754^{commit}'
+          git --no-replace-objects --no-lazy-fetch cat-file -e "$GITHUB_SHA^{commit}"
+          out="$RUNNER_TEMP/downstream-gate-results"
+          mkdir -p "$out"
+          python3 -B -S -m unittest discover -s tests -p test_proof_slice_check.py -v > "$out/proof-slice-tests-normal.stdout" 2> "$out/proof-slice-tests-normal.stderr"
+          python3 -B -O -S -m unittest discover -s tests -p test_proof_slice_check.py -v > "$out/proof-slice-tests-optimized.stdout" 2> "$out/proof-slice-tests-optimized.stderr"
+          python3 -B -S - "$out" <<'PC_TEST_EVIDENCE'
+          import pathlib, re, sys
+          # Conventional unittest output checks, not hostile-producer authentication.
+          expected_count = 94
+          out = pathlib.Path(sys.argv[1])
+          for mode in ('normal', 'optimized'):
+              stderr = (out / f'proof-slice-tests-{mode}.stderr').read_text(encoding='utf-8')
+              summary = re.search(r'\nRan ([1-9][0-9]*) tests in [0-9]+\.[0-9]{3}s\n\nOK\n\Z', stderr)
+              if summary is None or int(summary.group(1)) != expected_count or 'skipped=' in stderr:
+                  raise RuntimeError('P-C focused tests have incomplete or unsuccessful execution: ' + mode)
+          print('P_C_FOCUSED_TESTS_PASSED: normal and optimized, 94 methods each, no skips')
+          PC_TEST_EVIDENCE
+          python3 -B -S tools/proof_slice_check.py --repo . --expected-commit 92a45e1749936a19ebfe31e803289e0f4683d754 --expected-path reviews/proof_dependencies_20261008/P_C/EXPECTED_INVENTORY.json --companion-commit "$GITHUB_SHA" --companion-path reviews/proof_dependencies_20261008/P_C/PROOF_SLICE.json > "$out/proof-slice-paired-normal.json" 2> "$out/proof-slice-paired-normal.stderr"
+          python3 -B -O -S tools/proof_slice_check.py --repo . --expected-commit 92a45e1749936a19ebfe31e803289e0f4683d754 --expected-path reviews/proof_dependencies_20261008/P_C/EXPECTED_INVENTORY.json --companion-commit "$GITHUB_SHA" --companion-path reviews/proof_dependencies_20261008/P_C/PROOF_SLICE.json > "$out/proof-slice-paired-optimized.json" 2> "$out/proof-slice-paired-optimized.stderr"
+          python3 -B -S - "$out" <<'PC_PAIRED_SCOPE'
+          import json, os, pathlib, sys
+          for mode in ('normal', 'optimized'):
+              report = json.loads((pathlib.Path(sys.argv[1]) / f'proof-slice-paired-{mode}.json').read_text())
+              if not (report['valid'] is True and report['phase'] == 'paired'
+                      and report['validation_scope'] == 'pc-pilot-fixed-source'
+                      and report['fixed_source_commit'] == '9fd261135b41daf1e377f9ef2db193fee6ec36be'
+                      and report['inputs']['inventory']['commit'] == '92a45e1749936a19ebfe31e803289e0f4683d754'
+                      and report['inputs']['companion']['commit'] == os.environ['GITHUB_SHA']):
+                  raise RuntimeError('P-C requires independently pinned, pilot-scoped paired validation')
+          PC_PAIRED_SCOPE
+      - name: Retain evidence even on failure
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: downstream-gate-${{ github.run_id }}
+          path: ${{ runner.temp }}/downstream-gate-results
+          if-no-files-found: error
+          retention-days: 30
+      - name: Bind existing checks to tested commit
+        id: checks-identity
+        run: |
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          echo "checked_commit=$GITHUB_SHA" >> "$GITHUB_OUTPUT"
+  formal:
+    uses: ./.github/workflows/formal-lean.yml
+  required:
+    name: math-downstream-gates
+    if: ${{ always() }}
+    needs: [checks, formal]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Require both checks and source-bound current-run formal success
+        env:
+          REQUIRED_FORMAL_NEEDS: ${{ toJSON(needs) }}
+        run: python3 -B -S tools/required_formal_check.py aggregate

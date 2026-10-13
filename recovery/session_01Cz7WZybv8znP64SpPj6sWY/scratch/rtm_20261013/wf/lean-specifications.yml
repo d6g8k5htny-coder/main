@@ -1,0 +1,60 @@
+name: Lean statement specifications (statements only, no proof, no scientific promotion)
+
+'on':
+  pull_request:
+    paths:
+      - 'specifications/lean_statements_20261010/**'
+      - '.github/workflows/lean-specifications.yml'
+      - 'formal/lake-manifest.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  statement-evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    env:
+      LEAN_NUM_THREADS: 2
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Unit tests in both Python modes and the source check (no Lean)
+        run: |
+          set -euo pipefail
+          P=specifications/lean_statements_20261010
+          python -B -S "$P/test_check.py"
+          python -B -O -S "$P/test_check.py"
+          python -B -S "$P/check.py"
+      - name: Install pinned Lean and retrieve the Mathlib cache
+        uses: leanprover/lean-action@f061402b660e0c34644504b324e830f2991d4865
+        with:
+          lake-package-directory: specifications/lean_statements_20261010
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Lean-driving unit tests on dependency-free fixture packages (environment audit and its controls, autoImplicit off)
+        run: python -B -S specifications/lean_statements_20261010/test_check.py LeanHelpers
+      - name: "Fresh build, leanchecker, #check and #print axioms of every registered statement, environment audit, negative controls, receipt"
+        run: python -B -S specifications/lean_statements_20261010/check.py --execute
+      - name: Tracked tree unchanged
+        run: git diff --exit-code
+      - name: Preserve logs and receipt
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: lean-specifications-${{ github.run_id }}-${{ github.run_attempt }}
+          path: specifications/lean_statements_20261010/.lake/evidence/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 14

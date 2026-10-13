@@ -1,0 +1,66 @@
+name: C7 nonvanishing independent finite review controls
+
+'on':
+  pull_request:
+    paths:
+      - 'reviews/c7_nonvanishing_openai_20260929/**'
+      - '.github/workflows/c7-nonvanishing-review.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'reviews/c7_nonvanishing_openai_20260929/**'
+      - '.github/workflows/c7-nonvanishing-review.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  c7-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Exact sources and both-mode intended refusals
+        run: |
+          set -euo pipefail
+          python -B -S - reviews/c7_nonvanishing_openai_20260929 <<'PY'
+          import hashlib,json,pathlib,subprocess,sys
+          root=pathlib.Path(sys.argv[1]).resolve()
+          def require(ok,message):
+              if not ok:raise ValueError(message)
+          def pairs(items):
+              out={}
+              for k,v in items:
+                  require(k not in out,'duplicate JSON key');out[k]=v
+              return out
+          def load(b):return json.loads(b,object_pairs_hook=pairs)
+          def identity(p):
+              require(p.is_file() and not p.is_symlink(),'regular source required')
+              b=p.read_bytes()
+              return len(b),hashlib.sha256(b).hexdigest(),hashlib.sha1(f'blob {len(b)}\0'.encode()+b).hexdigest()
+          def sources():
+              entries=load((root/'SOURCE_FILES.json').read_bytes())['files']
+              require(sorted(e['path'] for e in entries)==['RESULTS.json','REVIEW.md','check.py'],'manifest membership')
+              require(sorted(p.name for p in root.iterdir())==['RESULTS.json','REVIEW.md','SOURCE_FILES.json','check.py'],'packet membership')
+              for e in entries:require(identity(root/e['path'])==(e['bytes'],e['sha256'],e['git_blob']),'source identity')
+              return {p.name:identity(p) for p in root.iterdir()}
+          before=sources()
+          expected={'above-level':'LEVEL.incidence_uses_critical_level','bad-shell':'WITNESS.all_shell_faces_have_uniform_slack','missing-pin-correction':'SUPPORT.exact_constraints_after_projection','wrong-jacobian':'JACOBIAN.full_height_map_absolute_determinant_one','omit-log-endpoint':'MOMENT.log_endpoint_diverges'}
+          for case in ['baseline',*expected]:
+              outputs=[]
+              for flags in ([],['-O']):
+                  cmd=[sys.executable,'-B',*flags,'-S',str(root/'check.py')]+([] if case=='baseline' else ['--mutant',case])
+                  p=subprocess.run(cmd,capture_output=True,timeout=30);r=load(p.stdout)
+                  require(not p.stderr and len(r['groups'])==6,'execution or group count')
+                  if case=='baseline':require(p.returncode==0 and r['passed'] and p.stdout==(root/'RESULTS.json').read_bytes(),'baseline')
+                  else:require(p.returncode==1 and not r['passed'] and expected[case] in r['failed'],'intended semantic rejection')
+                  outputs.append(p.stdout)
+              require(outputs[0]==outputs[1],'mode mismatch')
+          require(sources()==before,'source mutation')
+          print(json.dumps(dict(groups_per_mode=6,mutants_per_mode=5,identical_output_pairs=6,source_identities='PASS',scientific_effect='NONE'),sort_keys=True))
+          PY
+          git diff --exit-code

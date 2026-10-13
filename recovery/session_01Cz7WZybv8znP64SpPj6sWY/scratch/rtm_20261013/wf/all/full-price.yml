@@ -1,0 +1,97 @@
+name: Full-price proof controls and source catalog verification
+'on':
+  push:
+    branches: [chatgpt/full-price-20260924]
+  pull_request:
+    paths: ['frontiers/full_price_20260924/**', '.github/workflows/full-price.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  exact-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11'
+      - name: Exact new mathematical controls and existing regressions
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          python -B -S - <<'PY'
+          import hashlib,json,os,pathlib,shutil,subprocess,sys
+          root=pathlib.Path('frontiers/full_price_20260924').resolve()
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'full-price-evidence'
+          out.mkdir()
+          if sys.version_info[:2]!=(3,11): raise RuntimeError('actual Python3.11 required')
+          pins=json.loads((root/'SOURCE_FILES.json').read_text())['files']
+          def verify():
+              for name,identity in pins.items():
+                  if pathlib.PurePosixPath(name).name!=name: raise ValueError('flat path required')
+                  path=root/name
+                  if path.is_symlink(): raise ValueError('symlink refused')
+                  raw=path.read_bytes()
+                  if len(raw)!=identity['bytes'] or hashlib.sha256(raw).hexdigest()!=identity['sha256']: raise ValueError('source mismatch: '+name)
+          verify()
+          subprocess.run([sys.executable,'-B','-S',str(root/'run_validation.py'),'--output',str(out/'mathematics')],check=True,timeout=360)
+          counts=[]
+          for folder,expected in [('coefficients/side24_v1',30),('frontiers/three_fronts_20260924',57),('frontiers/price_budget_20260924',26)]:
+              for mode,flags in [('normal',[]),('optimized',['-O'])]:
+                  p=subprocess.run([sys.executable,'-B',*flags,'-S','-m','unittest','discover','-s',folder,'-p','test_*.py','-v'],capture_output=True,text=True,timeout=90)
+                  tag=folder.split('/')[-1]+'_'+mode
+                  (out/(tag+'.stdout')).write_text(p.stdout)
+                  (out/(tag+'.stderr')).write_text(p.stderr)
+                  if p.returncode or f'Ran {expected} tests' not in p.stderr or 'skipped=' in p.stderr: raise RuntimeError('regression failed: '+tag)
+              counts.append(expected)
+          verify()
+          report=json.loads((out/'mathematics/REPORT.json').read_text())
+          if not report['passed'] or report['distinct_tests']!=36 or report['distinct_semantic_mutations']!=7: raise RuntimeError('new controls incomplete')
+          shutil.copytree(root,out/'source')
+          (out/'CONTEXT.json').write_text(json.dumps({'commit':os.environ['GITHUB_SHA'],'run_id':os.environ['GITHUB_RUN_ID'],'python':sys.version,'new_distinct_tests':36,'existing_regression_tests':sum(counts),'total_distinct_tests':36+sum(counts),'new_semantic_mutations':7,'modes':['normal','optimized'],'scope':'targeted finite replay only; not analytic review or whole research CI'},indent=2)+'\n')
+          PY
+      - name: Verify the pending public catalog against exact payloads
+        run: |
+          python -B -S - <<'PY'
+          import hashlib,importlib.util,json,os,pathlib,re,sys,urllib.request
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/'full-price-evidence/catalog'
+          root.mkdir()
+          def fetch(repo,commit,path,limit=1000000):
+              if repo not in {'Math-','meta-framework','query-','google-drive'} or not re.fullmatch('[0-9a-f]{40}',commit): raise ValueError('unapproved source')
+              pp=pathlib.PurePosixPath(path)
+              if pp.is_absolute() or '..' in pp.parts or str(pp)!=path or '\\' in path or ':' in path: raise ValueError('unsafe path')
+              with urllib.request.urlopen(f'https://raw.githubusercontent.com/d6g8k5htny-coder/{repo}/{commit}/{path}',timeout=30) as response: raw=response.read(limit+1)
+              if len(raw)>limit: raise ValueError('source too large')
+              return raw
+          raw=fetch('meta-framework','f31957cc9291daef869d0a2de0ef2c0dd816c712','registry.json')
+          git=hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
+          if git!='42a3728525c53a6aba95d7eb460a8062a26d72d1': raise ValueError('catalog identity mismatch')
+          code=fetch('query-','8e201316d17cf4ff3c679e1e9906d4b016ac6730','research_query.py')
+          if len(code)!=5577 or hashlib.sha256(code).hexdigest()!='54105dcd723e71b19263afc8f449a7d77b78cec27148f13603f33be7727e6b6b': raise ValueError('query identity mismatch')
+          (root/'query.py').write_bytes(code);(root/'registry.json').write_bytes(raw)
+          spec=importlib.util.spec_from_file_location('verified_query',root/'query.py');q=importlib.util.module_from_spec(spec);spec.loader.exec_module(q)
+          catalog=q.load_catalog(root/'registry.json')
+          if len(catalog['artifacts'])!=13: raise ValueError('expected13 actual entries')
+          old=fetch('meta-framework','149b1287929ee1aa8b5e4418dfb5a8c44646201b','registry.json')
+          if hashlib.sha256(old).hexdigest()!='32799b1fbed43d1cf02d14a4e62e0b6a43e6601a7c3b457bb2e730653ab6e7d6': raise ValueError('old catalog identity mismatch')
+          prior=json.loads(old)
+          if catalog['artifacts'][:5]!=prior['artifacts'] or catalog['repositories']!=prior['repositories']: raise ValueError('old entries changed')
+          (root/'prior_registry.json').write_bytes(old)
+          workspace=root/'workspace';workspace.mkdir()
+          for row in catalog['artifacts']:
+              data=fetch(row['repository'],row['commit'],row['path'],row['bytes'])
+              if len(data)!=row['bytes'] or hashlib.sha256(data).hexdigest()!=row['sha256']: raise ValueError('payload mismatch: '+row['key'])
+              dest=workspace/row['repository']/row['path'];dest.parent.mkdir(parents=True,exist_ok=True);dest.write_bytes(data)
+          verification=q.verify(catalog,workspace)
+          (root/'VERIFIED.json').write_text(json.dumps({'verified':verification,'old_five_unchanged':True,'catalog_sha256':hashlib.sha256(raw).hexdigest(),'catalog_git_blob':git,'private_sources_fetched':False,'scope':'source identity and lookup only; not theorem acceptance'},indent=2)+'\n')
+          print('VERIFIED13_PUBLIC_CATALOG_ARTIFACTS')
+          PY
+      - name: Preserve actual source and evidence, including failures
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: full-price-${{ github.run_id }}
+          path: ${{ runner.temp }}/full-price-evidence
+          if-no-files-found: error
+          retention-days: 30

@@ -1,0 +1,62 @@
+name: Unique replacement-bar exact controls
+on:
+  pull_request:
+    paths:
+      - 'frontiers/unique_replacement_bar_intensity_20261001/**'
+      - 'frontiers/local_elder_geometry_20260930/PROOF.md'
+      - 'frontiers/planar_cubic_cluster_20260929/PROOF.md'
+      - 'imports/lifetime_parent_20260925/**'
+      - 'reviews/d1_section9_borel_repair_20260925/REPAIR.md'
+      - 'reviews/d1_chain_reconciliation_20260928/RECONCILIATION.md'
+      - '.github/workflows/unique-replacement-bars.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'frontiers/unique_replacement_bar_intensity_20261001/**'
+      - 'frontiers/local_elder_geometry_20260930/PROOF.md'
+      - 'frontiers/planar_cubic_cluster_20260929/PROOF.md'
+      - 'imports/lifetime_parent_20260925/**'
+      - 'reviews/d1_section9_borel_repair_20260925/REPAIR.md'
+      - 'reviews/d1_chain_reconciliation_20260928/RECONCILIATION.md'
+      - '.github/workflows/unique-replacement-bars.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: unique-replacement-bars-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  exact:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Ensure pinned source commit is available
+        env:
+          GIT_NO_REPLACE_OBJECTS: '1'
+          GIT_NO_LAZY_FETCH: '1'
+          GIT_TERMINAL_PROMPT: '0'
+        run: |
+          source_commit=044d42d5bd7f31df6f7e6b9034d6711e8fb7ee43
+          if ! git --no-lazy-fetch cat-file -e "$source_commit^{commit}" 2>/dev/null; then
+            git -c fetch.recurseSubmodules=false fetch --no-tags --depth=1 origin "$source_commit"
+          fi
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11'
+      - name: Verify pinned sources and rational falsifiers
+        env:
+          PYTHON_MODE: ${{ matrix.mode }}
+        run: |
+          if [ "$PYTHON_MODE" = optimized ]; then
+            python3 -B -O -S frontiers/unique_replacement_bar_intensity_20261001/test_sources.py
+            python3 -B -O -S frontiers/unique_replacement_bar_intensity_20261001/check_exact.py
+          else
+            python3 -B -S frontiers/unique_replacement_bar_intensity_20261001/test_sources.py
+            python3 -B -S frontiers/unique_replacement_bar_intensity_20261001/check_exact.py
+          fi

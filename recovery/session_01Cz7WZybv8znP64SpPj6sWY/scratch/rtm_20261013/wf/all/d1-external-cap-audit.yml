@@ -1,0 +1,45 @@
+name: D1 external cap audit controls
+
+'on':
+  pull_request:
+    paths:
+      - 'reviews/d1_external_audit_20260930/**'
+      - '.github/workflows/d1-external-cap-audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-and-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Authenticate the frozen source set
+        env:
+          GIT_NO_REPLACE_OBJECTS: '1'
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin 3e0a91b69892b9717564c592e7a966492a81566a
+          python -B -S reviews/d1_external_audit_20260930/verify_sources.py
+      - name: Exact finite controls in both interpreter modes
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+          GIT_NO_REPLACE_OBJECTS: '1'
+        run: |
+          set -euo pipefail
+          cd reviews/d1_external_audit_20260930
+          python -B -S -m unittest -v
+          python -B -O -S -m unittest -v
+          python -B -S cap_audit.py > "$RUNNER_TEMP/cap-normal.json"
+          python -B -O -S cap_audit.py > "$RUNNER_TEMP/cap-optimized.json"
+          cmp "$RUNNER_TEMP/cap-normal.json" "$RUNNER_TEMP/cap-optimized.json"
+          python -B -S verify_sources.py
+          git diff --exit-code

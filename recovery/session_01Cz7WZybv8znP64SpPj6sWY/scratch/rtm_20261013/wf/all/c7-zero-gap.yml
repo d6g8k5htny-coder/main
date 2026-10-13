@@ -1,0 +1,40 @@
+name: C7 zero-gap finite controls
+
+'on':
+  pull_request:
+    paths:
+      - 'frontiers/c7_zero_gap_limit_20260929/**'
+      - '.github/workflows/c7-zero-gap.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'frontiers/c7_zero_gap_limit_20260929/**'
+      - '.github/workflows/c7-zero-gap.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-zero-gap:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Exact sources, both Python modes, semantic and path negatives
+        run: |
+          set -euo pipefail
+          P=frontiers/c7_zero_gap_limit_20260929
+          python -B -S "$P/check.py" --verify-sources "$GITHUB_WORKSPACE"
+          python -B -S "$P/check.py" > "$RUNNER_TEMP/zero-gap-normal.json"
+          python -B -O -S "$P/check.py" > "$RUNNER_TEMP/zero-gap-optimized.json"
+          cmp "$P/RESULTS.json" "$RUNNER_TEMP/zero-gap-normal.json"
+          cmp "$RUNNER_TEMP/zero-gap-normal.json" "$RUNNER_TEMP/zero-gap-optimized.json"
+          python -B -S "$P/test_check.py" -v
+          python -B -O -S "$P/test_check.py" -v
+          git diff --exit-code

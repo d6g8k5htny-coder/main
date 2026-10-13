@@ -1,0 +1,75 @@
+name: Contact small-gap law and source-bound review replay
+'on':
+  pull_request:
+    paths: ['reviews/contact_kernel_tail_20260925/**', '.github/workflows/contact-small-gap.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  exact-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          repository: d6g8k5htny-coder/Math-
+          ref: 32b80ee085dc6a40113d1e46e333cda50d57ba21
+          path: reviewed-source
+          persist-credentials: false
+          sparse-checkout-cone-mode: false
+          sparse-checkout: /reviews/downstream_boundary_20260925/TRANSVERSE_BOUND_CANDIDATE.md
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Run new tests and mutations, then reproduce the exact reviewer algebra
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          python -B -S - <<'PY'
+          import hashlib,json,os,pathlib,shutil,subprocess,sys
+          root=pathlib.Path('reviews/contact_kernel_tail_20260925').resolve()
+          out=pathlib.Path(os.environ['RUNNER_TEMP'])/'contact-small-gap'
+          subprocess.run([sys.executable,'-B','-S',str(root/'run_validation.py'),'--output',str(out)],check=True,timeout=150)
+          review=pathlib.Path('reviews/pr16_fixed_transverse_nonauthor_20260925')
+          script=review/'algebra_check.py'
+          candidate=pathlib.Path('reviewed-source/reviews/downstream_boundary_20260925/TRANSVERSE_BOUND_CANDIDATE.md')
+          pins=[(script,'9f3580d4e6e99b7f3c7409a97123a2a1d20fa63f45a4cae0b8cbbe1046b98c38'),
+                (candidate,'f64c954245f17bcbc64a5ccf58a60689cf2a2fd85362f8321c0f64ff66584e36')]
+          identities={}
+          for p,expected in pins:
+              raw=p.read_bytes();actual=hashlib.sha256(raw).hexdigest()
+              if p.is_symlink() or actual!=expected:
+                  raise RuntimeError('review source mismatch: '+str(p))
+              identities[str(p)]={'bytes':len(raw),'sha256':actual}
+          raw=(review/'REVIEW.md').read_bytes()
+          blob=hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest()
+          if blob!='4003ff13cf696389b9530fd445ee46daf3b4c646':
+              raise RuntimeError('review text changed')
+          for mode,flags in [('normal',[]),('optimized',['-O'])]:
+              proc=subprocess.run([sys.executable,'-B',*flags,'-S',str(script)],capture_output=True,text=True,timeout=30)
+              (out/('reviewer_'+mode+'.stdout')).write_text(proc.stdout)
+              (out/('reviewer_'+mode+'.stderr')).write_text(proc.stderr)
+              if proc.returncode:
+                  raise RuntimeError('reviewer finite algebra failed: '+mode)
+          evidence=out/'reviewed_sources';evidence.mkdir()
+          for p,_ in pins:shutil.copyfile(p,evidence/p.name)
+          shutil.copyfile(review/'REVIEW.md',evidence/'REVIEW.md')
+          report={'python':sys.version,'run':os.environ['GITHUB_RUN_ID'],'sha':os.environ['GITHUB_SHA'],
+                  'new_distinct_tests':24,'new_distinct_mutants':7,'reviewer_source_commit':'c360f46bf5d3e4bfbb77be98d5e671b5b834d403',
+                  'source_identities':identities,'review_blob':blob,
+                  'meaning':'new finite checks plus reproduction of nonauthor finite algebra; no new analytic acceptance'}
+          (out/'HOSTED_CONTEXT.json').write_text(json.dumps(report,indent=2,sort_keys=True)+'\n')
+          subprocess.run(['git','diff','--exit-code'],check=True)
+          subprocess.run(['git','-C','reviewed-source','diff','--exit-code'],check=True)
+          PY
+      - name: Retain complete evidence, including failures
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: contact-small-gap-${{ github.run_id }}
+          path: ${{ runner.temp }}/contact-small-gap
+          if-no-files-found: error
+          retention-days: 30

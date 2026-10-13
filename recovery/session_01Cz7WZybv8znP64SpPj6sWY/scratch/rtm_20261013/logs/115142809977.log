@@ -1,0 +1,998 @@
+﻿2026-10-13T05:20:40.9247421Z Current runner version: '2.337.0'
+2026-10-13T05:20:40.9273656Z ##[group]Runner Image Provisioner
+2026-10-13T05:20:40.9274951Z Hosted Compute Agent
+2026-10-13T05:20:40.9276102Z Version: 20261002.596
+2026-10-13T05:20:40.9277259Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+2026-10-13T05:20:40.9278545Z Build Date: 2026-10-02T22:28:27Z
+2026-10-13T05:20:40.9280020Z Worker ID: {303864c0-8462-4df1-b65b-87a1f5ef64bc}
+2026-10-13T05:20:40.9281843Z Region: centralus
+2026-10-13T05:20:40.9283140Z Cloud: Azure
+2026-10-13T05:20:40.9284325Z ##[endgroup]
+2026-10-13T05:20:40.9286639Z ##[group]Operating System
+2026-10-13T05:20:40.9288463Z Ubuntu
+2026-10-13T05:20:40.9289493Z 24.04.5
+2026-10-13T05:20:40.9290831Z LTS
+2026-10-13T05:20:40.9291973Z ##[endgroup]
+2026-10-13T05:20:40.9292982Z ##[group]Runner Image
+2026-10-13T05:20:40.9294276Z Image: ubuntu-24.04
+2026-10-13T05:20:40.9295297Z Version: 20261004.327.1
+2026-10-13T05:20:40.9297655Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-13T05:20:40.9300797Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+2026-10-13T05:20:40.9302750Z ##[endgroup]
+2026-10-13T05:20:40.9304734Z ##[group]GITHUB_TOKEN Permissions
+2026-10-13T05:20:40.9307720Z Contents: read
+2026-10-13T05:20:40.9308832Z Metadata: read
+2026-10-13T05:20:40.9309840Z ##[endgroup]
+2026-10-13T05:20:40.9313156Z Secret source: Actions
+2026-10-13T05:20:40.9314643Z Cache mode: write
+2026-10-13T05:20:40.9316335Z Prepare workflow directory
+2026-10-13T05:20:40.9794525Z Prepare all required actions
+2026-10-13T05:20:40.9866824Z Getting action download info
+2026-10-13T05:20:41.2705800Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-10-13T05:20:41.3793669Z Download action repository 'actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97' (SHA:5fda3b95a4ea91299a34e894583c3862153e4b97)
+2026-10-13T05:20:41.4617474Z Download action repository 'leanprover/lean-action@f061402b660e0c34644504b324e830f2991d4865' (SHA:f061402b660e0c34644504b324e830f2991d4865)
+2026-10-13T05:20:41.6695051Z Download action repository 'actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a' (SHA:043fb46d1a93c77aae656e7c1c64a875d1fc6a0a)
+2026-10-13T05:20:41.8559901Z Getting action download info
+2026-10-13T05:20:41.9576062Z Download action repository 'actions/cache@caa296126883cff596d87d8935842f9db880ef25' (SHA:caa296126883cff596d87d8935842f9db880ef25)
+2026-10-13T05:20:42.1225419Z Complete job name: statement-evidence
+2026-10-13T05:20:42.2115972Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-10-13T05:20:42.2117076Z with:
+2026-10-13T05:20:42.2117525Z   persist-credentials: false
+2026-10-13T05:20:42.2118043Z   fetch-depth: 0
+2026-10-13T05:20:42.2118505Z   repository: d6g8k5htny-coder/Math-
+2026-10-13T05:20:42.2122893Z   token: ***
+2026-10-13T05:20:42.2123331Z   ssh-strict: true
+2026-10-13T05:20:42.2123760Z   ssh-user: git
+2026-10-13T05:20:42.2124207Z   clean: true
+2026-10-13T05:20:42.2124648Z   sparse-checkout-cone-mode: true
+2026-10-13T05:20:42.2125171Z   fetch-tags: false
+2026-10-13T05:20:42.2125626Z   show-progress: true
+2026-10-13T05:20:42.2126147Z   lfs: false
+2026-10-13T05:20:42.2126562Z   submodules: false
+2026-10-13T05:20:42.2127025Z   set-safe-directory: true
+2026-10-13T05:20:42.2127531Z   allow-unsafe-pr-checkout: false
+2026-10-13T05:20:42.2128317Z env:
+2026-10-13T05:20:42.2128733Z   LEAN_NUM_THREADS: 2
+2026-10-13T05:20:42.2129221Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-13T05:20:42.2129761Z ##[endgroup]
+2026-10-13T05:20:42.3133649Z Syncing repository: d6g8k5htny-coder/Math-
+2026-10-13T05:20:42.3135803Z ##[group]Getting Git version info
+2026-10-13T05:20:42.3136524Z Working directory is '/home/runner/work/Math-/Math-'
+2026-10-13T05:20:42.3137522Z [command]/usr/bin/git version
+2026-10-13T05:20:42.3254774Z git version 2.55.0
+2026-10-13T05:20:42.3280134Z ##[endgroup]
+2026-10-13T05:20:42.3294116Z Temporarily overriding HOME='/home/runner/work/_temp/9a43c152-0915-4c06-ad28-ee8e6eceacde' before making global git config changes
+2026-10-13T05:20:42.3296706Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-13T05:20:42.3301039Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Math-/Math-
+2026-10-13T05:20:42.3354470Z Deleting the contents of '/home/runner/work/Math-/Math-'
+2026-10-13T05:20:42.3358182Z ##[group]Determining repository object format
+2026-10-13T05:20:42.3360086Z ##[endgroup]
+2026-10-13T05:20:42.3361569Z ##[group]Initializing the repository
+2026-10-13T05:20:42.3365721Z [command]/usr/bin/git init /home/runner/work/Math-/Math-
+2026-10-13T05:20:42.3520355Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-13T05:20:42.3522408Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-13T05:20:42.3524013Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-13T05:20:42.3525458Z hint: call:
+2026-10-13T05:20:42.3526156Z hint:
+2026-10-13T05:20:42.3526853Z hint: 	git config --global init.defaultBranch <name>
+2026-10-13T05:20:42.3527553Z hint:
+2026-10-13T05:20:42.3528194Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-13T05:20:42.3529385Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-13T05:20:42.3530193Z hint:
+2026-10-13T05:20:42.3531052Z hint: 	git branch -m <name>
+2026-10-13T05:20:42.3531962Z hint:
+2026-10-13T05:20:42.3533252Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-13T05:20:42.3535179Z Initialized empty Git repository in /home/runner/work/Math-/Math-/.git/
+2026-10-13T05:20:42.3537636Z [command]/usr/bin/git remote add origin https://github.com/d6g8k5htny-coder/Math-
+2026-10-13T05:20:42.3594849Z ##[endgroup]
+2026-10-13T05:20:42.3596234Z ##[group]Disabling automatic garbage collection
+2026-10-13T05:20:42.3614933Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-13T05:20:42.3657878Z ##[endgroup]
+2026-10-13T05:20:42.3660086Z ##[group]Setting up auth
+2026-10-13T05:20:42.3661688Z Removing SSH command configuration
+2026-10-13T05:20:42.3664343Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-13T05:20:42.3714621Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-13T05:20:42.4096965Z Removing HTTP extra header
+2026-10-13T05:20:42.4111788Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-13T05:20:42.4147170Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-13T05:20:42.4367757Z Removing includeIf entries pointing to credentials config files
+2026-10-13T05:20:42.4374532Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-13T05:20:42.4411827Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-13T05:20:42.4646185Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-1f6085ae-9341-4229-9636-2409414ef074.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-13T05:20:42.4687362Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/Math-/Math-/.git.path /home/runner/work/_temp/git-credentials-1f6085ae-9341-4229-9636-2409414ef074.config
+2026-10-13T05:20:42.4721731Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/Math-/Math-/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-1f6085ae-9341-4229-9636-2409414ef074.config
+2026-10-13T05:20:42.4761637Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-1f6085ae-9341-4229-9636-2409414ef074.config
+2026-10-13T05:20:42.4796828Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-1f6085ae-9341-4229-9636-2409414ef074.config
+2026-10-13T05:20:42.4828468Z ##[endgroup]
+2026-10-13T05:20:42.4829704Z ##[group]Fetching the repository
+2026-10-13T05:20:42.4835372Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/* +ce3b69d322466e36936d5c64988dd387266c0536:refs/remotes/pull/447/merge
+2026-10-13T05:20:43.8764551Z From https://github.com/d6g8k5htny-coder/Math-
+2026-10-13T05:20:43.8765987Z  * [new branch]      agents/paper1-license-citation           -> origin/agents/paper1-license-citation
+2026-10-13T05:20:43.8767367Z  * [new branch]      archive/math421-20261011-pr416           -> origin/archive/math421-20261011-pr416
+2026-10-13T05:20:43.8768578Z  * [new branch]      archive/math421-20261011-pr417           -> origin/archive/math421-20261011-pr417
+2026-10-13T05:20:43.8769414Z  * [new branch]      archive/math421-20261011-pr418           -> origin/archive/math421-20261011-pr418
+2026-10-13T05:20:43.8770177Z  * [new branch]      archive/math421-20261011-pr420           -> origin/archive/math421-20261011-pr420
+2026-10-13T05:20:43.8771606Z  * [new branch]      benjamin/d5-collar-nonauthor-20260928b   -> origin/benjamin/d5-collar-nonauthor-20260928b
+2026-10-13T05:20:43.8773128Z  * [new branch]      chatgpt/ac1-f1-synthetic-controls-20261007-gp -> origin/chatgpt/ac1-f1-synthetic-controls-20261007-gp
+2026-10-13T05:20:43.8774476Z  * [new branch]      chatgpt/bq11-import-profile-20261007-f81c -> origin/chatgpt/bq11-import-profile-20261007-f81c
+2026-10-13T05:20:43.8776025Z  * [new branch]      chatgpt/c6residual-protocol-20261013-r1  -> origin/chatgpt/c6residual-protocol-20261013-r1
+2026-10-13T05:20:43.8777280Z  * [new branch]      chatgpt/c7-output-contract-20261006      -> origin/chatgpt/c7-output-contract-20261006
+2026-10-13T05:20:43.8778389Z  * [new branch]      chatgpt/cap-i4-adapter-envelope-20261005 -> origin/chatgpt/cap-i4-adapter-envelope-20261005
+2026-10-13T05:20:43.8779277Z  * [new branch]      chatgpt/cap-i4-angular-formal-20261006   -> origin/chatgpt/cap-i4-angular-formal-20261006
+2026-10-13T05:20:43.8780963Z  * [new branch]      chatgpt/cap-i4-chamber-bridge-20261006-r21 -> origin/chatgpt/cap-i4-chamber-bridge-20261006-r21
+2026-10-13T05:20:43.8782474Z  * [new branch]      chatgpt/cap-i4-clipped-integral-20261006-r17 -> origin/chatgpt/cap-i4-clipped-integral-20261006-r17
+2026-10-13T05:20:43.8783726Z  * [new branch]      chatgpt/cap-i4-d3-moment8-20261005       -> origin/chatgpt/cap-i4-d3-moment8-20261005
+2026-10-13T05:20:43.8785115Z  * [new branch]      chatgpt/cap-i4-depth-kernel-20261006-r16 -> origin/chatgpt/cap-i4-depth-kernel-20261006-r16
+2026-10-13T05:20:43.8786051Z  * [new branch]      chatgpt/cap-i4-entry-volume-20261006     -> origin/chatgpt/cap-i4-entry-volume-20261006
+2026-10-13T05:20:43.8786927Z  * [new branch]      chatgpt/cap-i4-evidence-r2-20261005      -> origin/chatgpt/cap-i4-evidence-r2-20261005
+2026-10-13T05:20:43.8787823Z  * [new branch]      chatgpt/cap-i4-gaussian-envelope-20261006-r18 -> origin/chatgpt/cap-i4-gaussian-envelope-20261006-r18
+2026-10-13T05:20:43.8788704Z  * [new branch]      chatgpt/cap-i4-independent-20261006-r15  -> origin/chatgpt/cap-i4-independent-20261006-r15
+2026-10-13T05:20:43.8789938Z  * [new branch]      chatgpt/cap-i4-inner-integration-20261006-r19 -> origin/chatgpt/cap-i4-inner-integration-20261006-r19
+2026-10-13T05:20:43.8791176Z  * [new branch]      chatgpt/cap-i4-linear-formal-20261006    -> origin/chatgpt/cap-i4-linear-formal-20261006
+2026-10-13T05:20:43.8792148Z  * [new branch]      chatgpt/cap-i4-matrix-formal-20261006    -> origin/chatgpt/cap-i4-matrix-formal-20261006
+2026-10-13T05:20:43.8793010Z  * [new branch]      chatgpt/cap-i4-outer-composition-20261006-r20 -> origin/chatgpt/cap-i4-outer-composition-20261006-r20
+2026-10-13T05:20:43.8794071Z  * [new branch]      chatgpt/cap-i4-polar-formal-20261006     -> origin/chatgpt/cap-i4-polar-formal-20261006
+2026-10-13T05:20:43.8795116Z  * [new branch]      chatgpt/cap-i4-product-transport-20261006-r14 -> origin/chatgpt/cap-i4-product-transport-20261006-r14
+2026-10-13T05:20:43.8796097Z  * [new branch]      chatgpt/cap-i4-proposal-diagnostic-20261006-r12 -> origin/chatgpt/cap-i4-proposal-diagnostic-20261006-r12
+2026-10-13T05:20:43.8796993Z  * [new branch]      chatgpt/cap-i4-residual-law-20261006-r22 -> origin/chatgpt/cap-i4-residual-law-20261006-r22
+2026-10-13T05:20:43.8797905Z  * [new branch]      chatgpt/cap-i4-source-bridge-20261005    -> origin/chatgpt/cap-i4-source-bridge-20261005
+2026-10-13T05:20:43.8798804Z  * [new branch]      chatgpt/cap-i4-spectral-assembly-20261006 -> origin/chatgpt/cap-i4-spectral-assembly-20261006
+2026-10-13T05:20:43.8799687Z  * [new branch]      chatgpt/collision-mechanism-transfer-20260925 -> origin/chatgpt/collision-mechanism-transfer-20260925
+2026-10-13T05:20:43.8800878Z  * [new branch]      chatgpt/contact-kernel-tail-20260925     -> origin/chatgpt/contact-kernel-tail-20260925
+2026-10-13T05:20:43.8801704Z  * [new branch]      chatgpt/contact-small-gap-20260925-oa    -> origin/chatgpt/contact-small-gap-20260925-oa
+2026-10-13T05:20:43.8802653Z  * [new branch]      chatgpt/cusp-contract-characterization-20261006-rfgate -> origin/chatgpt/cusp-contract-characterization-20261006-rfgate
+2026-10-13T05:20:43.8803779Z  * [new branch]      chatgpt/d1-borel-kac-rice-amend-20260925 -> origin/chatgpt/d1-borel-kac-rice-amend-20260925
+2026-10-13T05:20:43.8804616Z  * [new branch]      chatgpt/d1-section9-borel-repair-20260925 -> origin/chatgpt/d1-section9-borel-repair-20260925
+2026-10-13T05:20:43.8805541Z  * [new branch]      chatgpt/d2-sharp-scalar-publication-20261006-r5 -> origin/chatgpt/d2-sharp-scalar-publication-20261006-r5
+2026-10-13T05:20:43.8806459Z  * [new branch]      chatgpt/d2-two-atom-floors-20261006      -> origin/chatgpt/d2-two-atom-floors-20261006
+2026-10-13T05:20:43.8807328Z  * [new branch]      chatgpt/d3-l4-timeout-evidence-20261005-r5 -> origin/chatgpt/d3-l4-timeout-evidence-20261005-r5
+2026-10-13T05:20:43.8808158Z  * [new branch]      chatgpt/d5-annulus-bridge-20260925       -> origin/chatgpt/d5-annulus-bridge-20260925
+2026-10-13T05:20:43.8809007Z  * [new branch]      chatgpt/d5-finite-r-hermite-repair-20260925 -> origin/chatgpt/d5-finite-r-hermite-repair-20260925
+2026-10-13T05:20:43.8809893Z  * [new branch]      chatgpt/d5-graph-regional-update-20260925 -> origin/chatgpt/d5-graph-regional-update-20260925
+2026-10-13T05:20:43.8811216Z  * [new branch]      chatgpt/d5-inner-axial-density-20260925  -> origin/chatgpt/d5-inner-axial-density-20260925
+2026-10-13T05:20:43.8812162Z  * [new branch]      chatgpt/d5-pin-compatibility-review-20260925 -> origin/chatgpt/d5-pin-compatibility-review-20260925
+2026-10-13T05:20:43.8813025Z  * [new branch]      chatgpt/d5-thin-tube-20260925            -> origin/chatgpt/d5-thin-tube-20260925
+2026-10-13T05:20:43.8813867Z  * [new branch]      chatgpt/doc-summary-word-boundary-20261006 -> origin/chatgpt/doc-summary-word-boundary-20261006
+2026-10-13T05:20:43.8814995Z  * [new branch]      chatgpt/downstream-boundary-review-20260925 -> origin/chatgpt/downstream-boundary-review-20260925
+2026-10-13T05:20:43.8815904Z  * [new branch]      chatgpt/fail-closed-claim-audit-20260925 -> origin/chatgpt/fail-closed-claim-audit-20260925
+2026-10-13T05:20:43.8816805Z  * [new branch]      chatgpt/fail-closed-claim-audit-20260925-v2 -> origin/chatgpt/fail-closed-claim-audit-20260925-v2
+2026-10-13T05:20:43.8817891Z  * [new branch]      chatgpt/federation-coefficient-20260924  -> origin/chatgpt/federation-coefficient-20260924
+2026-10-13T05:20:43.8818769Z  * [new branch]      chatgpt/fold-affine-bridge-20261006-f81c -> origin/chatgpt/fold-affine-bridge-20261006-f81c
+2026-10-13T05:20:43.8819682Z  * [new branch]      chatgpt/formal-admission-hardening-20261005 -> origin/chatgpt/formal-admission-hardening-20261005
+2026-10-13T05:20:43.8820764Z  * [new branch]      chatgpt/full-price-20260924              -> origin/chatgpt/full-price-20260924
+2026-10-13T05:20:43.8821832Z  * [new branch]      chatgpt/gate-refuted-union-hotfix-20260925 -> origin/chatgpt/gate-refuted-union-hotfix-20260925
+2026-10-13T05:20:43.8822904Z  * [new branch]      chatgpt/integrate-reviewed-collision-package-20260925 -> origin/chatgpt/integrate-reviewed-collision-package-20260925
+2026-10-13T05:20:43.8823927Z  * [new branch]      chatgpt/landing-claim-manifest-20260925  -> origin/chatgpt/landing-claim-manifest-20260925
+2026-10-13T05:20:43.8824837Z  * [new branch]      chatgpt/legacy-fixture-signing-20261006-r11 -> origin/chatgpt/legacy-fixture-signing-20261006-r11
+2026-10-13T05:20:43.8825731Z  * [new branch]      chatgpt/legacy-json-refresh-20261006-r9  -> origin/chatgpt/legacy-json-refresh-20261006-r9
+2026-10-13T05:20:43.8826588Z  * [new branch]      chatgpt/legacy-json-repair-20261006-r8   -> origin/chatgpt/legacy-json-repair-20261006-r8
+2026-10-13T05:20:43.8827577Z  * [new branch]      chatgpt/legacy-json-trigger-current-main-20261006-r13 -> origin/chatgpt/legacy-json-trigger-current-main-20261006-r13
+2026-10-13T05:20:43.8828565Z  * [new branch]      chatgpt/legacy-parser-plus-20261006-r13  -> origin/chatgpt/legacy-parser-plus-20261006-r13
+2026-10-13T05:20:43.8829678Z  * [new branch]      chatgpt/legacy-signing-isolation-20261006-r12 -> origin/chatgpt/legacy-signing-isolation-20261006-r12
+2026-10-13T05:20:43.8831008Z  * [new branch]      chatgpt/legacy-trigger-coverage-20261006-r6 -> origin/chatgpt/legacy-trigger-coverage-20261006-r6
+2026-10-13T05:20:43.8831929Z  * [new branch]      chatgpt/legacy-tty-followon-20261006     -> origin/chatgpt/legacy-tty-followon-20261006
+2026-10-13T05:20:43.8832810Z  * [new branch]      chatgpt/lifetime-parent-imports-20260925 -> origin/chatgpt/lifetime-parent-imports-20260925
+2026-10-13T05:20:43.8833871Z  * [new branch]      chatgpt/lm006-certificate-ci-20261006-r21-1145 -> origin/chatgpt/lm006-certificate-ci-20261006-r21-1145
+2026-10-13T05:20:43.8834821Z  * [new branch]      chatgpt/lm006-coefficient-oned-20261006-a62c -> origin/chatgpt/lm006-coefficient-oned-20261006-a62c
+2026-10-13T05:20:43.8835796Z  * [new branch]      chatgpt/lm006-coefficient-refine-4096-20261006-r22 -> origin/chatgpt/lm006-coefficient-refine-4096-20261006-r22
+2026-10-13T05:20:43.8836793Z  * [new branch]      chatgpt/lm006-oned-certificate-ci-20261006-b91e -> origin/chatgpt/lm006-oned-certificate-ci-20261006-b91e
+2026-10-13T05:20:43.8837697Z  * [new branch]      chatgpt/lm006-oned-replay-20261006-b91e  -> origin/chatgpt/lm006-oned-replay-20261006-b91e
+2026-10-13T05:20:43.8838778Z  * [new branch]      chatgpt/lm006-quantified-regression-20261005-r17 -> origin/chatgpt/lm006-quantified-regression-20261005-r17
+2026-10-13T05:20:43.8839724Z  * [new branch]      chatgpt/lm006-regression-rate-20261006   -> origin/chatgpt/lm006-regression-rate-20261006
+2026-10-13T05:20:43.8840889Z  * [new branch]      chatgpt/math-gate-identity-20260926      -> origin/chatgpt/math-gate-identity-20260926
+2026-10-13T05:20:43.8841785Z  * [new branch]      chatgpt/nav-source-locator-20261006-r11  -> origin/chatgpt/nav-source-locator-20261006-r11
+2026-10-13T05:20:43.8843422Z  * [new branch]      chatgpt/nav-verdict-word-start-20261006-r10 -> origin/chatgpt/nav-verdict-word-start-20261006-r10
+2026-10-13T05:20:43.8845125Z  * [new branch]      chatgpt/navigation-citation-identity-20261006 -> origin/chatgpt/navigation-citation-identity-20261006
+2026-10-13T05:20:43.8846214Z  * [new branch]      chatgpt/navigation-corpus-observation-20261006 -> origin/chatgpt/navigation-corpus-observation-20261006
+2026-10-13T05:20:43.8847249Z  * [new branch]      chatgpt/navigation-live-quote-audit-20261006 -> origin/chatgpt/navigation-live-quote-audit-20261006
+2026-10-13T05:20:43.8848515Z  * [new branch]      chatgpt/navigation-price-20260924        -> origin/chatgpt/navigation-price-20260924
+2026-10-13T05:20:43.8850653Z  * [new branch]      chatgpt/navigation-reviewed-stack-preparation-20261006 -> origin/chatgpt/navigation-reviewed-stack-preparation-20261006
+2026-10-13T05:20:43.8852302Z  * [new branch]      chatgpt/navigation-verdict-boundaries-20261006 -> origin/chatgpt/navigation-verdict-boundaries-20261006
+2026-10-13T05:20:43.8853279Z  * [new branch]      chatgpt/navigation-verdict-boundary-20261006 -> origin/chatgpt/navigation-verdict-boundary-20261006
+2026-10-13T05:20:43.8854222Z  * [new branch]      chatgpt/never-merge-formal-negative-20260927 -> origin/chatgpt/never-merge-formal-negative-20260927
+2026-10-13T05:20:43.8855132Z  * [new branch]      chatgpt/p15-reviewed-manifest-20260926   -> origin/chatgpt/p15-reviewed-manifest-20260926
+2026-10-13T05:20:43.8855959Z  * [new branch]      chatgpt/p15-smt-pilot-20260925-1918      -> origin/chatgpt/p15-smt-pilot-20260925-1918
+2026-10-13T05:20:43.8856840Z  * [new branch]      chatgpt/pr334-native-contract-support-20261006 -> origin/chatgpt/pr334-native-contract-support-20261006
+2026-10-13T05:20:43.8857866Z  * [new branch]      chatgpt/pr8-own-node-eligibility-fix     -> origin/chatgpt/pr8-own-node-eligibility-fix
+2026-10-13T05:20:43.8858807Z  * [new branch]      chatgpt/proof-availability-audit-20260925 -> origin/chatgpt/proof-availability-audit-20260925
+2026-10-13T05:20:43.8859623Z  * [new branch]      chatgpt/proof-index-20260925-v2          -> origin/chatgpt/proof-index-20260925-v2
+2026-10-13T05:20:43.8860576Z  * [new branch]      chatgpt/public-imports-pointer-20260926  -> origin/chatgpt/public-imports-pointer-20260926
+2026-10-13T05:20:43.8861451Z  * [new branch]      chatgpt/qs-raw-child-evidence-20261006-r9 -> origin/chatgpt/qs-raw-child-evidence-20261006-r9
+2026-10-13T05:20:43.8862423Z  * [new branch]      chatgpt/qs340-inventory-amendment-support-20261006 -> origin/chatgpt/qs340-inventory-amendment-support-20261006
+2026-10-13T05:20:43.8863310Z  * [new branch]      chatgpt/remote-window-20260924           -> origin/chatgpt/remote-window-20260924
+2026-10-13T05:20:43.8864101Z  * [new branch]      chatgpt/retrospective-round10-20261005   -> origin/chatgpt/retrospective-round10-20261005
+2026-10-13T05:20:43.8865029Z  * [new branch]      chatgpt/rf-gate-helper-replay-22393e7b-20261006-r8 -> origin/chatgpt/rf-gate-helper-replay-22393e7b-20261006-r8
+2026-10-13T05:20:43.8866061Z  * [new branch]      chatgpt/rf-gate-incorporation-rehearsal-20261006-r9 -> origin/chatgpt/rf-gate-incorporation-rehearsal-20261006-r9
+2026-10-13T05:20:43.8866986Z  * [new branch]      chatgpt/soft-fold-protocol-20261006      -> origin/chatgpt/soft-fold-protocol-20261006
+2026-10-13T05:20:43.8868198Z  * [new branch]      chatgpt/third-order-protocol-20261006-37bd-r4 -> origin/chatgpt/third-order-protocol-20261006-37bd-r4
+2026-10-13T05:20:43.8869079Z  * [new branch]      chatgpt/three-fronts-20260924            -> origin/chatgpt/three-fronts-20260924
+2026-10-13T05:20:43.8869881Z  * [new branch]      chatgpt/transition-integrity-v2-20260925 -> origin/chatgpt/transition-integrity-v2-20260925
+2026-10-13T05:20:43.8871222Z  * [new branch]      chatgpt/two-scale-custody-postmerge-repair-20260929 -> origin/chatgpt/two-scale-custody-postmerge-repair-20260929
+2026-10-13T05:20:43.8872182Z  * [new branch]      claude/cj-model-j-packet-20261012        -> origin/claude/cj-model-j-packet-20261012
+2026-10-13T05:20:43.8872996Z  * [new branch]      claude/dd-model-d-enclosure-wip-20261013 -> origin/claude/dd-model-d-enclosure-wip-20261013
+2026-10-13T05:20:43.8873819Z  * [new branch]      claude/determined-bardeen-mrqy4y         -> origin/claude/determined-bardeen-mrqy4y
+2026-10-13T05:20:43.8874687Z  * [new branch]      claude/lean-statements-round7-side24b-20261013 -> origin/claude/lean-statements-round7-side24b-20261013
+2026-10-13T05:20:43.8875568Z  * [new branch]      claude/round4-triage-table-20261011      -> origin/claude/round4-triage-table-20261011
+2026-10-13T05:20:43.8876436Z  * [new branch]      claude/v24-dc-two-thirds-sign-packet-20261007 -> origin/claude/v24-dc-two-thirds-sign-packet-20261007
+2026-10-13T05:20:43.8877485Z  * [new branch]      codex/axial-exact-release-pins-20261011T2058-root01a11c48 -> origin/codex/axial-exact-release-pins-20261011T2058-root01a11c48
+2026-10-13T05:20:43.8878731Z  * [new branch]      codex/compact-cutoff-baseline-20261009-root01a11cbf -> origin/codex/compact-cutoff-baseline-20261009-root01a11cbf
+2026-10-13T05:20:43.8879911Z  * [new branch]      codex/compact-cutoff-controls-final-repair-20261011-root01a11cbf -> origin/codex/compact-cutoff-controls-final-repair-20261011-root01a11cbf
+2026-10-13T05:20:43.8881299Z  * [new branch]      codex/compact-cutoff-controls-repair-20261011-root01a11cbf -> origin/codex/compact-cutoff-controls-repair-20261011-root01a11cbf
+2026-10-13T05:20:43.8882425Z  * [new branch]      codex/compact-cutoff-proof-20261010-root01a11cbf -> origin/codex/compact-cutoff-proof-20261010-root01a11cbf
+2026-10-13T05:20:43.8883504Z  * [new branch]      codex/compact-cutoff-proof-repair-20261011-root01a11cbf -> origin/codex/compact-cutoff-proof-repair-20261011-root01a11cbf
+2026-10-13T05:20:43.8884986Z  * [new branch]      codex/compact-cutoff-proper-partial-control-20261011-root01a11cbf -> origin/codex/compact-cutoff-proper-partial-control-20261011-root01a11cbf
+2026-10-13T05:20:43.8887050Z  * [new branch]      codex/compact-cutoff-proper-partial-repair-20261011-root01a11cbf -> origin/codex/compact-cutoff-proper-partial-repair-20261011-root01a11cbf
+2026-10-13T05:20:43.8888150Z  * [new branch]      codex/math-runner-24-source-20261011     -> origin/codex/math-runner-24-source-20261011
+2026-10-13T05:20:43.8888957Z  * [new branch]      codex/pr409-current-source-b4a66e52      -> origin/codex/pr409-current-source-b4a66e52
+2026-10-13T05:20:43.8890012Z  * [new branch]      copilot/add-license-citation-files       -> origin/copilot/add-license-citation-files
+2026-10-13T05:20:43.8891405Z  * [new branch]      cursor/cross-repo-proof-custody-7eca     -> origin/cursor/cross-repo-proof-custody-7eca
+2026-10-13T05:20:43.8892214Z  * [new branch]      cursor/d2-cumulative-confirm-870a        -> origin/cursor/d2-cumulative-confirm-870a
+2026-10-13T05:20:43.8893065Z  * [new branch]      cursor/d2-cumulative-correction-review-5dce -> origin/cursor/d2-cumulative-correction-review-5dce
+2026-10-13T05:20:43.8893914Z  * [new branch]      cursor/d5-chart-graph-node-91fa          -> origin/cursor/d5-chart-graph-node-91fa
+2026-10-13T05:20:43.8894669Z  * [new branch]      cursor/d5-chart-j0-on-hotfix-91fa        -> origin/cursor/d5-chart-j0-on-hotfix-91fa
+2026-10-13T05:20:43.8895404Z  * [new branch]      cursor/d5-pin-microdisk-c059             -> origin/cursor/d5-pin-microdisk-c059
+2026-10-13T05:20:43.8896301Z  * [new branch]      cursor/downstream-hard-gate-91fa         -> origin/cursor/downstream-hard-gate-91fa
+2026-10-13T05:20:43.8897149Z  * [new branch]      cursor/formal-verification-layer-ae3b    -> origin/cursor/formal-verification-layer-ae3b
+2026-10-13T05:20:43.8898144Z  * [new branch]      cursor/lemma-theorem-registers-f339      -> origin/cursor/lemma-theorem-registers-f339
+2026-10-13T05:20:43.8898981Z  * [new branch]      cursor/moment-generality-alignment-cdd1  -> origin/cursor/moment-generality-alignment-cdd1
+2026-10-13T05:20:43.8899891Z  * [new branch]      cursor/nonauthor-hermite-axial-review-5dce -> origin/cursor/nonauthor-hermite-axial-review-5dce
+2026-10-13T05:20:43.8901030Z  * [new branch]      cursor/p15-full-price-review-55ed        -> origin/cursor/p15-full-price-review-55ed
+2026-10-13T05:20:43.8901879Z  * [new branch]      cursor/pr25-contact-kernel-review-b00c   -> origin/cursor/pr25-contact-kernel-review-b00c
+2026-10-13T05:20:43.8902726Z  * [new branch]      cursor/pr25-typed-transfer-review-bebc   -> origin/cursor/pr25-typed-transfer-review-bebc
+2026-10-13T05:20:43.8903603Z  * [new branch]      cursor/pr28-annulus-nonauthor-review-bed2 -> origin/cursor/pr28-annulus-nonauthor-review-bed2
+2026-10-13T05:20:43.8904872Z  * [new branch]      cursor/pr69-pin-microdisk-review-4f5c    -> origin/cursor/pr69-pin-microdisk-review-4f5c
+2026-10-13T05:20:43.8906036Z  * [new branch]      cursor/proof-custody-repair-8e33         -> origin/cursor/proof-custody-repair-8e33
+2026-10-13T05:20:43.8906840Z  * [new branch]      cursor/rn-mesoscopic-chart-j0-91fa       -> origin/cursor/rn-mesoscopic-chart-j0-91fa
+2026-10-13T05:20:43.8907924Z  * [new branch]      custody/proof-index-erratum-pointer-20260926 -> origin/custody/proof-index-erratum-pointer-20260926
+2026-10-13T05:20:43.8908855Z  * [new branch]      grok/congruence-erratum-on-default-20260926 -> origin/grok/congruence-erratum-on-default-20260926
+2026-10-13T05:20:43.8910216Z  * [new branch]      grok/required-math-20260926              -> origin/grok/required-math-20260926
+2026-10-13T05:20:43.8911869Z  * [new branch]      grokbot-agent12/steward-source-refresh-01 -> origin/grokbot-agent12/steward-source-refresh-01
+2026-10-13T05:20:43.8913015Z  * [new branch]      harper/d5-contact-kernel-tail-review-20260928 -> origin/harper/d5-contact-kernel-tail-review-20260928
+2026-10-13T05:20:43.8913887Z  * [new branch]      inventable/purpose-readme-seed           -> origin/inventable/purpose-readme-seed
+2026-10-13T05:20:43.8914532Z  * [new branch]      main                                     -> origin/main
+2026-10-13T05:20:43.8915312Z  * [new branch]      support/navigation-336-344-353-on-08f86862-20261006 -> origin/support/navigation-336-344-353-on-08f86862-20261006
+2026-10-13T05:20:43.8916226Z  * [new branch]      xai/outsider-directions-note-20260930    -> origin/xai/outsider-directions-note-20260930
+2026-10-13T05:20:43.8916916Z  * [new ref]         ce3b69d322466e36936d5c64988dd387266c0536 -> pull/447/merge
+2026-10-13T05:20:43.8918390Z ##[endgroup]
+2026-10-13T05:20:43.8918861Z ##[group]Determining the checkout info
+2026-10-13T05:20:43.8919346Z ##[endgroup]
+2026-10-13T05:20:43.8919650Z [command]/usr/bin/git sparse-checkout disable
+2026-10-13T05:20:43.8920894Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-13T05:20:43.8921944Z ##[group]Checking out the ref
+2026-10-13T05:20:43.8922402Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/447/merge
+2026-10-13T05:20:44.1107390Z Note: switching to 'refs/remotes/pull/447/merge'.
+2026-10-13T05:20:44.1108041Z 
+2026-10-13T05:20:44.1108506Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-10-13T05:20:44.1109558Z changes and commit them, and you can discard any commits you make in this
+2026-10-13T05:20:44.1110897Z state without impacting any branches by switching back to a branch.
+2026-10-13T05:20:44.1111510Z 
+2026-10-13T05:20:44.1111951Z If you want to create a new branch to retain commits you create, you may
+2026-10-13T05:20:44.1113009Z do so (now or later) by using -c with the switch command. Example:
+2026-10-13T05:20:44.1113570Z 
+2026-10-13T05:20:44.1114145Z   git switch -c <new-branch-name>
+2026-10-13T05:20:44.1114586Z 
+2026-10-13T05:20:44.1114845Z Or undo this operation with:
+2026-10-13T05:20:44.1115206Z 
+2026-10-13T05:20:44.1115419Z   git switch -
+2026-10-13T05:20:44.1115687Z 
+2026-10-13T05:20:44.1116272Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-10-13T05:20:44.1116963Z 
+2026-10-13T05:20:44.1117737Z HEAD is now at ce3b69d Merge f6ba2e6ab398b2c4081d0de2a551caea2e6d46ba into 6b5b9a5d7cd1c7f89c2dc5139277c36c8ebe2aaa
+2026-10-13T05:20:44.1129707Z ##[endgroup]
+2026-10-13T05:20:44.1185689Z [command]/usr/bin/git log -1 --format=%H
+2026-10-13T05:20:44.1218590Z ce3b69d322466e36936d5c64988dd387266c0536
+2026-10-13T05:20:44.1233863Z ##[group]Removing auth
+2026-10-13T05:20:44.1234526Z Removing SSH command configuration
+2026-10-13T05:20:44.1235462Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-13T05:20:44.1275120Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-13T05:20:44.1511677Z Removing HTTP extra header
+2026-10-13T05:20:44.1516008Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-13T05:20:44.1556042Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-13T05:20:44.1791906Z Removing includeIf entries pointing to credentials config files
+2026-10-13T05:20:44.1795614Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-13T05:20:44.1827633Z includeif.gitdir:/home/runner/work/Math-/Math-/.git.path
+2026-10-13T05:20:44.1828390Z includeif.gitdir:/home/runner/work/Math-/Math-/.git/worktrees/*.path
+2026-10-13T05:20:44.1828897Z includeif.gitdir:/github/workspace/.git.path
+2026-10-13T05:20:44.1829383Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-10-13T05:20:44.1837651Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/Math-/Math-/.git.path
+2026-10-13T05:20:44.1865779Z /home/runner/work/_temp/git-credentials-1f6085ae-9341-4229-9636-2409414ef074.config
+2026-10-13T05:20:44.1874835Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/Math-/Math-/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-1f6085ae\-9341\-4229\-9636\-2409414ef074\.config
+2026-10-13T05:20:44.1912211Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/Math-/Math-/.git/worktrees/*.path
+2026-10-13T05:20:44.1937643Z /home/runner/work/_temp/git-credentials-1f6085ae-9341-4229-9636-2409414ef074.config
+2026-10-13T05:20:44.1946503Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/Math-/Math-/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-1f6085ae\-9341\-4229\-9636\-2409414ef074\.config
+2026-10-13T05:20:44.1983399Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-10-13T05:20:44.2012892Z /github/runner_temp/git-credentials-1f6085ae-9341-4229-9636-2409414ef074.config
+2026-10-13T05:20:44.2022249Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-1f6085ae\-9341\-4229\-9636\-2409414ef074\.config
+2026-10-13T05:20:44.2056891Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-10-13T05:20:44.2083231Z /github/runner_temp/git-credentials-1f6085ae-9341-4229-9636-2409414ef074.config
+2026-10-13T05:20:44.2096025Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-1f6085ae\-9341\-4229\-9636\-2409414ef074\.config
+2026-10-13T05:20:44.2134437Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-13T05:20:44.2368835Z Removing credentials config '/home/runner/work/_temp/git-credentials-1f6085ae-9341-4229-9636-2409414ef074.config'
+2026-10-13T05:20:44.2380003Z ##[endgroup]
+2026-10-13T05:20:44.2706182Z ##[group]Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+2026-10-13T05:20:44.2706682Z with:
+2026-10-13T05:20:44.2706959Z   python-version: 3.11.16
+2026-10-13T05:20:44.2707288Z   check-latest: false
+2026-10-13T05:20:44.2710280Z   token: ***
+2026-10-13T05:20:44.2710828Z   update-environment: true
+2026-10-13T05:20:44.2711149Z   allow-prereleases: false
+2026-10-13T05:20:44.2711625Z   freethreaded: false
+2026-10-13T05:20:44.2712026Z env:
+2026-10-13T05:20:44.2712276Z   LEAN_NUM_THREADS: 2
+2026-10-13T05:20:44.2712568Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-13T05:20:44.2712868Z ##[endgroup]
+2026-10-13T05:20:44.3877100Z ##[group]Installed versions
+2026-10-13T05:20:44.3897685Z Version 3.11.16 was not found in the local cache
+2026-10-13T05:20:45.2761911Z Version 3.11.16 is available for downloading
+2026-10-13T05:20:45.2762638Z Download from "https://github.com/actions/python-versions/releases/download/3.11.16-31661435402/python-3.11.16-linux-24.04-x64.tar.gz"
+2026-10-13T05:20:46.0383493Z Extract downloaded archive
+2026-10-13T05:20:46.0511339Z [command]/usr/bin/tar xz --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/7e72121d-cae3-4805-996b-24c434b4dc00 -f /home/runner/work/_temp/918eeca5-ce26-4b80-8db2-c4921462bc02
+2026-10-13T05:20:47.9452904Z Execute installation script
+2026-10-13T05:20:47.9548221Z Check if Python hostedtoolcache folder exist...
+2026-10-13T05:20:47.9549073Z Create Python 3.11.16 folder
+2026-10-13T05:20:47.9566943Z Copy Python binaries to hostedtoolcache folder
+2026-10-13T05:20:48.4812538Z Create additional symlinks (Required for the UsePythonVersion Azure Pipelines task and the setup-python GitHub Action)
+2026-10-13T05:20:48.4855510Z Upgrading pip...
+2026-10-13T05:20:50.2672806Z Collecting pip
+2026-10-13T05:20:50.3295829Z Downloading pip-26.2.1-py3-none-any.whl.metadata (4.6 kB)
+2026-10-13T05:20:50.3478657Z Downloading pip-26.2.1-py3-none-any.whl (1.8 MB)
+2026-10-13T05:20:50.4456793Z ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.8/1.8 MB 19.5 MB/s eta 0:00:00
+2026-10-13T05:20:50.4457519Z 
+2026-10-13T05:20:50.4972228Z Installing collected packages: pip
+2026-10-13T05:20:50.4973849Z Attempting uninstall: pip
+2026-10-13T05:20:50.4992374Z Found existing installation: pip 24.0
+2026-10-13T05:20:50.5399546Z Uninstalling pip-24.0:
+2026-10-13T05:20:50.5460095Z Successfully uninstalled pip-24.0
+2026-10-13T05:20:51.3209139Z Successfully installed pip-26.2.1
+2026-10-13T05:20:51.3792576Z Create complete file
+2026-10-13T05:20:51.3830931Z Successfully set up CPython (3.11.16)
+2026-10-13T05:20:51.3832501Z ##[endgroup]
+2026-10-13T05:20:51.3984724Z ##[group]Run set -euo pipefail
+2026-10-13T05:20:51.3985088Z [36;1mset -euo pipefail[0m
+2026-10-13T05:20:51.3985399Z [36;1mP=specifications/lean_statements_20261010[0m
+2026-10-13T05:20:51.3985748Z [36;1mpython -B -S "$P/test_check.py"[0m
+2026-10-13T05:20:51.3986056Z [36;1mpython -B -O -S "$P/test_check.py"[0m
+2026-10-13T05:20:51.3986355Z [36;1mpython -B -S "$P/check.py"[0m
+2026-10-13T05:20:51.4268593Z shell: /usr/bin/bash -e {0}
+2026-10-13T05:20:51.4268921Z env:
+2026-10-13T05:20:51.4269162Z   LEAN_NUM_THREADS: 2
+2026-10-13T05:20:51.4269473Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-13T05:20:51.4269883Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-13T05:20:51.4270818Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-13T05:20:51.4271407Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-13T05:20:51.4271919Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-13T05:20:51.4272476Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-13T05:20:51.4272989Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-13T05:20:51.4273458Z ##[endgroup]
+2026-10-13T05:20:51.8741492Z test_docstring_anchor_verbatim (__main__.Anchors.test_docstring_anchor_verbatim) ... ok
+2026-10-13T05:20:51.8903735Z test_external_anchor_verbatim (__main__.Anchors.test_external_anchor_verbatim) ... ok
+2026-10-13T05:20:51.9003116Z test_statement_anchor_verbatim (__main__.Anchors.test_statement_anchor_verbatim) ... ok
+2026-10-13T05:20:51.9005133Z test_allowed (__main__.Audit.test_allowed) ... ok
+2026-10-13T05:20:51.9006055Z test_audit_source (__main__.Audit.test_audit_source) ... ok
+2026-10-13T05:20:51.9021499Z test_forbidden (__main__.Audit.test_forbidden) ... ok
+2026-10-13T05:20:51.9031752Z test_lean_version (__main__.Audit.test_lean_version) ... ok
+2026-10-13T05:20:51.9032814Z test_missing_duplicate_unrecognized (__main__.Audit.test_missing_duplicate_unrecognized) ... ok
+2026-10-13T05:20:51.9033895Z test_parse_audit (__main__.Audit.test_parse_audit) ... ok
+2026-10-13T05:20:51.9034639Z test_signatures (__main__.Audit.test_signatures) ... ok
+2026-10-13T05:20:51.9035370Z test_strict_json (__main__.Audit.test_strict_json) ... ok
+2026-10-13T05:20:51.9121427Z test_placeholder_check_runs_after_the_inventory (__main__.Docs.test_placeholder_check_runs_after_the_inventory) ... ok
+2026-10-13T05:20:51.9335586Z test_placeholders_refused (__main__.Docs.test_placeholders_refused) ... ok
+2026-10-13T05:20:51.9795556Z test_commands_that_add_declarations_under_other_names (__main__.Escapes.test_commands_that_add_declarations_under_other_names) ... ok
+2026-10-13T05:20:51.9970464Z test_guillemet_desync (__main__.Escapes.test_guillemet_desync) ... ok
+2026-10-13T05:20:52.0506688Z test_in_chains (__main__.Escapes.test_in_chains) ... ok
+2026-10-13T05:20:52.0605239Z test_in_inside_binders_is_fine (__main__.Escapes.test_in_inside_binders_is_fine) ... ok
+2026-10-13T05:20:52.1474010Z test_indented_commands (__main__.Escapes.test_indented_commands) ... ok
+2026-10-13T05:20:52.1574185Z test_line_comment_desync_with_statement_registered (__main__.Escapes.test_line_comment_desync_with_statement_registered) ... ok
+2026-10-13T05:20:52.2273587Z test_proof_written_as_definition (__main__.Escapes.test_proof_written_as_definition) ... ok
+2026-10-13T05:20:52.2376513Z test_relations_inside_brackets_are_types_not_proofs (__main__.Escapes.test_relations_inside_brackets_are_types_not_proofs) ... ok
+2026-10-13T05:20:52.2553595Z test_sort_and_root (__main__.Escapes.test_sort_and_root) ... ok
+2026-10-13T05:20:52.2649500Z test_string_literal_alone_is_refused (__main__.Escapes.test_string_literal_alone_is_refused) ... ok
+2026-10-13T05:20:52.2757297Z test_theorem_axiom_sorry_between_string_literals_with_opener_registered (__main__.Escapes.test_theorem_axiom_sorry_between_string_literals_with_opener_registered) ... ok
+2026-10-13T05:20:52.2852471Z test_two_commands_on_one_line (__main__.Escapes.test_two_commands_on_one_line) ... ok
+2026-10-13T05:20:52.3055953Z test_underscore_name_components (__main__.Escapes.test_underscore_name_components) ... ok
+2026-10-13T05:20:52.3349615Z test_untyped_definition (__main__.Escapes.test_untyped_definition) ... ok
+2026-10-13T05:20:52.4220765Z test_clean_and_dirty_worktrees (__main__.Identity.test_clean_and_dirty_worktrees) ... ok
+2026-10-13T05:20:52.4272601Z test_requires_git_without_allow_dirty (__main__.Identity.test_requires_git_without_allow_dirty) ... ok
+2026-10-13T05:20:52.4372112Z test_control_row_helper (__main__.Inventory.test_control_row_helper) ... ok
+2026-10-13T05:20:52.4532674Z test_kind_and_module_mismatch (__main__.Inventory.test_kind_and_module_mismatch) ... ok
+2026-10-13T05:20:52.4690859Z test_missing_declaration (__main__.Inventory.test_missing_declaration) ... ok
+2026-10-13T05:20:52.4915763Z test_short_anchors_are_refused (__main__.Inventory.test_short_anchors_are_refused) ... ok
+2026-10-13T05:20:52.4916808Z test_source_side_negative_controls (__main__.Inventory.test_source_side_negative_controls)
+2026-10-13T05:20:52.5037400Z The four source-side controls that --execute runs, exercised on the fixture without Lean. ... ok
+2026-10-13T05:20:52.5136087Z test_unregistered_declaration (__main__.Inventory.test_unregistered_declaration) ... ok
+2026-10-13T05:20:52.5232358Z test_unregistered_structure (__main__.Inventory.test_unregistered_structure) ... ok
+2026-10-13T05:20:52.5233479Z test_auto_implicit_is_off (__main__.LeanHelpers.test_auto_implicit_is_off)
+2026-10-13T05:20:52.5235148Z With `autoImplicit = false` an unbound name in a header is an error instead of a silent ... skipped 'lake not available; the Lean-driving helpers are exercised only with the toolchain'
+2026-10-13T05:20:52.5237185Z test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts)
+2026-10-13T05:20:52.5239263Z Module copies Lean builds without error (the source scan never saw them) must be refused ... skipped 'lake not available; the Lean-driving helpers are exercised only with the toolchain'
+2026-10-13T05:20:52.5241762Z test_fixture_package (__main__.LeanHelpers.test_fixture_package) ... skipped 'lake not available; the Lean-driving helpers are exercised only with the toolchain'
+2026-10-13T05:20:52.5774481Z test_column0_commands (__main__.Lexical.test_column0_commands) ... ok
+2026-10-13T05:20:52.5917720Z test_imports_must_be_mathlib (__main__.Lexical.test_imports_must_be_mathlib) ... ok
+2026-10-13T05:20:52.5955204Z test_refused_token_detection_unit (__main__.Lexical.test_refused_token_detection_unit) ... ok
+2026-10-13T05:20:52.8061454Z test_refused_tokens (__main__.Lexical.test_refused_tokens) ... ok
+2026-10-13T05:20:52.8063040Z test_section_and_variable_are_refused (__main__.Lexical.test_section_and_variable_are_refused)
+2026-10-13T05:20:52.8585102Z `variable (h : False)` mentioned in a body adds a vacuating hypothesis the scan cannot see, ... ok
+2026-10-13T05:20:52.8677830Z test_declaration_outside_namespace (__main__.Namespaces.test_declaration_outside_namespace) ... ok
+2026-10-13T05:20:52.8768777Z test_mismatched_end (__main__.Namespaces.test_mismatched_end) ... ok
+2026-10-13T05:20:52.8860263Z test_two_namespaces (__main__.Namespaces.test_two_namespaces) ... ok
+2026-10-13T05:20:52.8951796Z test_unclosed (__main__.Namespaces.test_unclosed) ... ok
+2026-10-13T05:20:52.9095531Z test_wrong_namespace (__main__.Namespaces.test_wrong_namespace) ... ok
+2026-10-13T05:20:52.9318822Z test_auto_implicit_must_be_off (__main__.Pins.test_auto_implicit_must_be_off) ... ok
+2026-10-13T05:20:52.9451579Z test_lakefile (__main__.Pins.test_lakefile) ... ok
+2026-10-13T05:20:52.9521508Z test_lock_drift (__main__.Pins.test_lock_drift) ... ok
+2026-10-13T05:20:52.9589696Z test_lock_name (__main__.Pins.test_lock_name) ... ok
+2026-10-13T05:20:52.9662737Z test_mathlib_rev_pinned_even_if_reference_moves (__main__.Pins.test_mathlib_rev_pinned_even_if_reference_moves) ... ok
+2026-10-13T05:20:52.9758533Z test_toolchain (__main__.Pins.test_toolchain) ... ok
+2026-10-13T05:20:53.7553964Z test_cli (__main__.Positive.test_cli) ... ok
+2026-10-13T05:20:53.7658988Z test_comments_may_mention_refused_words (__main__.Positive.test_comments_may_mention_refused_words) ... ok
+2026-10-13T05:20:53.7753793Z test_fixture_passes (__main__.Positive.test_fixture_passes) ... ok
+2026-10-13T05:20:53.7843949Z test_unnamed_end_is_refused (__main__.Positive.test_unnamed_end_is_refused) ... ok
+2026-10-13T05:20:53.8946682Z test_modules_scan (__main__.RealPacket.test_modules_scan) ... ok
+2026-10-13T05:20:53.8954439Z test_pins (__main__.RealPacket.test_pins) ... ok
+2026-10-13T05:20:53.9045170Z test_register_skeleton_and_sources (__main__.RealPacket.test_register_skeleton_and_sources) ... ok
+2026-10-13T05:20:53.9046957Z test_shared_declarations_are_byte_identical (__main__.RealPacket.test_shared_declarations_are_byte_identical)
+2026-10-13T05:20:53.9378607Z Field.lean is duplicated into Lifetime.lean (26 declarations, docstrings and bodies) and ... ok
+2026-10-13T05:20:54.1388822Z test_source_check (__main__.RealPacket.test_source_check) ... ok
+2026-10-13T05:20:54.1493331Z test_comments_in_root_ignored (__main__.Root.test_comments_in_root_ignored) ... ok
+2026-10-13T05:20:54.1632294Z test_missing_and_extra (__main__.Root.test_missing_and_extra) ... ok
+2026-10-13T05:20:54.1702401Z test_order (__main__.Root.test_order) ... ok
+2026-10-13T05:20:54.1707095Z test_arrow_prop_result_refused (__main__.Scanner.test_arrow_prop_result_refused) ... ok
+2026-10-13T05:20:54.1708442Z test_depth_zero (__main__.Scanner.test_depth_zero) ... ok
+2026-10-13T05:20:54.1730156Z test_docstring_requirements (__main__.Scanner.test_docstring_requirements) ... ok
+2026-10-13T05:20:54.1738213Z test_fixture_module_shapes (__main__.Scanner.test_fixture_module_shapes) ... ok
+2026-10-13T05:20:54.1739516Z test_header_and_result_type (__main__.Scanner.test_header_and_result_type) ... ok
+2026-10-13T05:20:54.1740728Z test_lex (__main__.Scanner.test_lex) ... ok
+2026-10-13T05:20:54.1742230Z test_lex_strings_and_guillemets_do_not_open_comments (__main__.Scanner.test_lex_strings_and_guillemets_do_not_open_comments) ... ok
+2026-10-13T05:20:54.1743974Z test_pattern_arms_end_header (__main__.Scanner.test_pattern_arms_end_header) ... ok
+2026-10-13T05:20:54.1746191Z test_prop_abbrev_is_a_registered_kind (__main__.Scanner.test_prop_abbrev_is_a_registered_kind) ... ok
+2026-10-13T05:20:54.1749091Z test_where_definition_is_auxiliary (__main__.Scanner.test_where_definition_is_auxiliary) ... ok
+2026-10-13T05:20:54.1811638Z test_local_copy_bytes (__main__.Sources.test_local_copy_bytes) ... ok
+2026-10-13T05:20:54.1874721Z test_local_copy_location (__main__.Sources.test_local_copy_location) ... ok
+2026-10-13T05:20:54.1938250Z test_nonpublic_repository (__main__.Sources.test_nonpublic_repository) ... ok
+2026-10-13T05:20:54.2132389Z test_register_differs_from_sources_json (__main__.Sources.test_register_differs_from_sources_json) ... ok
+2026-10-13T05:20:54.2192526Z test_sources_json_blob (__main__.Sources.test_sources_json_blob) ... ok
+2026-10-13T05:20:54.2257266Z test_extra_file (__main__.Tree.test_extra_file) ... ok
+2026-10-13T05:20:54.2324119Z test_extra_lean_module (__main__.Tree.test_extra_lean_module) ... ok
+2026-10-13T05:20:54.2392723Z test_gitignore (__main__.Tree.test_gitignore) ... ok
+2026-10-13T05:20:54.2505020Z test_lake_directory_ignored (__main__.Tree.test_lake_directory_ignored) ... ok
+2026-10-13T05:20:54.2570825Z test_missing_fixed_file (__main__.Tree.test_missing_fixed_file) ... ok
+2026-10-13T05:20:54.2788284Z test_claim_level_progress (__main__.Vocabulary.test_claim_level_progress) ... ok
+2026-10-13T05:20:54.3151445Z test_dispositions_are_transcriptions (__main__.Vocabulary.test_dispositions_are_transcriptions) ... ok
+2026-10-13T05:20:54.3247318Z test_external_theorem_label (__main__.Vocabulary.test_external_theorem_label) ... ok
+2026-10-13T05:20:54.3473905Z test_local_statement_never_kernel_checked_or_none (__main__.Vocabulary.test_local_statement_never_kernel_checked_or_none) ... ok
+2026-10-13T05:20:54.3574891Z test_local_statement_never_proved (__main__.Vocabulary.test_local_statement_never_proved) ... ok
+2026-10-13T05:20:54.3672736Z test_local_statement_never_theorem (__main__.Vocabulary.test_local_statement_never_theorem) ... ok
+2026-10-13T05:20:54.4431209Z test_row_fields (__main__.Vocabulary.test_row_fields) ... ok
+2026-10-13T05:20:54.4532275Z test_specified_requires_def_prop (__main__.Vocabulary.test_specified_requires_def_prop) ... ok
+2026-10-13T05:20:54.5403667Z test_top_level_vocabulary (__main__.Vocabulary.test_top_level_vocabulary) ... ok
+2026-10-13T05:20:54.5648990Z test_unknown_keys (__main__.Vocabulary.test_unknown_keys) ... ok
+2026-10-13T05:20:54.5649529Z 
+2026-10-13T05:20:54.5649794Z ----------------------------------------------------------------------
+2026-10-13T05:20:54.5650629Z Ran 97 tests in 2.703s
+2026-10-13T05:20:54.5650945Z 
+2026-10-13T05:20:54.5651105Z OK (skipped=3)
+2026-10-13T05:20:55.0220272Z test_docstring_anchor_verbatim (__main__.Anchors.test_docstring_anchor_verbatim) ... ok
+2026-10-13T05:20:55.0388366Z test_external_anchor_verbatim (__main__.Anchors.test_external_anchor_verbatim) ... ok
+2026-10-13T05:20:55.0494865Z test_statement_anchor_verbatim (__main__.Anchors.test_statement_anchor_verbatim) ... ok
+2026-10-13T05:20:55.0497047Z test_allowed (__main__.Audit.test_allowed) ... ok
+2026-10-13T05:20:55.0498012Z test_audit_source (__main__.Audit.test_audit_source) ... ok
+2026-10-13T05:20:55.0499488Z test_forbidden (__main__.Audit.test_forbidden) ... ok
+2026-10-13T05:20:55.0503587Z test_lean_version (__main__.Audit.test_lean_version) ... ok
+2026-10-13T05:20:55.0505005Z test_missing_duplicate_unrecognized (__main__.Audit.test_missing_duplicate_unrecognized) ... ok
+2026-10-13T05:20:55.0507793Z test_parse_audit (__main__.Audit.test_parse_audit) ... ok
+2026-10-13T05:20:55.0512053Z test_signatures (__main__.Audit.test_signatures) ... ok
+2026-10-13T05:20:55.0512942Z test_strict_json (__main__.Audit.test_strict_json) ... ok
+2026-10-13T05:20:55.0622162Z test_placeholder_check_runs_after_the_inventory (__main__.Docs.test_placeholder_check_runs_after_the_inventory) ... ok
+2026-10-13T05:20:55.0845272Z test_placeholders_refused (__main__.Docs.test_placeholders_refused) ... ok
+2026-10-13T05:20:55.1231640Z test_commands_that_add_declarations_under_other_names (__main__.Escapes.test_commands_that_add_declarations_under_other_names) ... ok
+2026-10-13T05:20:55.1414579Z test_guillemet_desync (__main__.Escapes.test_guillemet_desync) ... ok
+2026-10-13T05:20:55.1995522Z test_in_chains (__main__.Escapes.test_in_chains) ... ok
+2026-10-13T05:20:55.2100006Z test_in_inside_binders_is_fine (__main__.Escapes.test_in_inside_binders_is_fine) ... ok
+2026-10-13T05:20:55.3003574Z test_indented_commands (__main__.Escapes.test_indented_commands) ... ok
+2026-10-13T05:20:55.3098987Z test_line_comment_desync_with_statement_registered (__main__.Escapes.test_line_comment_desync_with_statement_registered) ... ok
+2026-10-13T05:20:55.3826566Z test_proof_written_as_definition (__main__.Escapes.test_proof_written_as_definition) ... ok
+2026-10-13T05:20:55.3931641Z test_relations_inside_brackets_are_types_not_proofs (__main__.Escapes.test_relations_inside_brackets_are_types_not_proofs) ... ok
+2026-10-13T05:20:55.4107309Z test_sort_and_root (__main__.Escapes.test_sort_and_root) ... ok
+2026-10-13T05:20:55.4204224Z test_string_literal_alone_is_refused (__main__.Escapes.test_string_literal_alone_is_refused) ... ok
+2026-10-13T05:20:55.4309800Z test_theorem_axiom_sorry_between_string_literals_with_opener_registered (__main__.Escapes.test_theorem_axiom_sorry_between_string_literals_with_opener_registered) ... ok
+2026-10-13T05:20:55.4407299Z test_two_commands_on_one_line (__main__.Escapes.test_two_commands_on_one_line) ... ok
+2026-10-13T05:20:55.4615597Z test_underscore_name_components (__main__.Escapes.test_underscore_name_components) ... ok
+2026-10-13T05:20:55.4909926Z test_untyped_definition (__main__.Escapes.test_untyped_definition) ... ok
+2026-10-13T05:20:55.5742150Z test_clean_and_dirty_worktrees (__main__.Identity.test_clean_and_dirty_worktrees) ... ok
+2026-10-13T05:20:55.5793938Z test_requires_git_without_allow_dirty (__main__.Identity.test_requires_git_without_allow_dirty) ... ok
+2026-10-13T05:20:55.5893388Z test_control_row_helper (__main__.Inventory.test_control_row_helper) ... ok
+2026-10-13T05:20:55.6052857Z test_kind_and_module_mismatch (__main__.Inventory.test_kind_and_module_mismatch) ... ok
+2026-10-13T05:20:55.6207912Z test_missing_declaration (__main__.Inventory.test_missing_declaration) ... ok
+2026-10-13T05:20:55.6425728Z test_short_anchors_are_refused (__main__.Inventory.test_short_anchors_are_refused) ... ok
+2026-10-13T05:20:55.6426693Z test_source_side_negative_controls (__main__.Inventory.test_source_side_negative_controls)
+2026-10-13T05:20:55.6547654Z The four source-side controls that --execute runs, exercised on the fixture without Lean. ... ok
+2026-10-13T05:20:55.6649003Z test_unregistered_declaration (__main__.Inventory.test_unregistered_declaration) ... ok
+2026-10-13T05:20:55.6745981Z test_unregistered_structure (__main__.Inventory.test_unregistered_structure) ... ok
+2026-10-13T05:20:55.6747168Z test_auto_implicit_is_off (__main__.LeanHelpers.test_auto_implicit_is_off)
+2026-10-13T05:20:55.6748573Z With `autoImplicit = false` an unbound name in a header is an error instead of a silent ... skipped 'lake not available; the Lean-driving helpers are exercised only with the toolchain'
+2026-10-13T05:20:55.6749971Z test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts)
+2026-10-13T05:20:55.6751777Z Module copies Lean builds without error (the source scan never saw them) must be refused ... skipped 'lake not available; the Lean-driving helpers are exercised only with the toolchain'
+2026-10-13T05:20:55.6753384Z test_fixture_package (__main__.LeanHelpers.test_fixture_package) ... skipped 'lake not available; the Lean-driving helpers are exercised only with the toolchain'
+2026-10-13T05:20:55.7289738Z test_column0_commands (__main__.Lexical.test_column0_commands) ... ok
+2026-10-13T05:20:55.7433791Z test_imports_must_be_mathlib (__main__.Lexical.test_imports_must_be_mathlib) ... ok
+2026-10-13T05:20:55.7474008Z test_refused_token_detection_unit (__main__.Lexical.test_refused_token_detection_unit) ... ok
+2026-10-13T05:20:55.9616714Z test_refused_tokens (__main__.Lexical.test_refused_tokens) ... ok
+2026-10-13T05:20:55.9617995Z test_section_and_variable_are_refused (__main__.Lexical.test_section_and_variable_are_refused)
+2026-10-13T05:20:56.0146466Z `variable (h : False)` mentioned in a body adds a vacuating hypothesis the scan cannot see, ... ok
+2026-10-13T05:20:56.0239682Z test_declaration_outside_namespace (__main__.Namespaces.test_declaration_outside_namespace) ... ok
+2026-10-13T05:20:56.0332375Z test_mismatched_end (__main__.Namespaces.test_mismatched_end) ... ok
+2026-10-13T05:20:56.0425938Z test_two_namespaces (__main__.Namespaces.test_two_namespaces) ... ok
+2026-10-13T05:20:56.0518065Z test_unclosed (__main__.Namespaces.test_unclosed) ... ok
+2026-10-13T05:20:56.0661318Z test_wrong_namespace (__main__.Namespaces.test_wrong_namespace) ... ok
+2026-10-13T05:20:56.0884735Z test_auto_implicit_must_be_off (__main__.Pins.test_auto_implicit_must_be_off) ... ok
+2026-10-13T05:20:56.1019917Z test_lakefile (__main__.Pins.test_lakefile) ... ok
+2026-10-13T05:20:56.1091088Z test_lock_drift (__main__.Pins.test_lock_drift) ... ok
+2026-10-13T05:20:56.1160555Z test_lock_name (__main__.Pins.test_lock_name) ... ok
+2026-10-13T05:20:56.1234852Z test_mathlib_rev_pinned_even_if_reference_moves (__main__.Pins.test_mathlib_rev_pinned_even_if_reference_moves) ... ok
+2026-10-13T05:20:56.1336976Z test_toolchain (__main__.Pins.test_toolchain) ... ok
+2026-10-13T05:20:56.8984807Z test_cli (__main__.Positive.test_cli) ... ok
+2026-10-13T05:20:56.9089617Z test_comments_may_mention_refused_words (__main__.Positive.test_comments_may_mention_refused_words) ... ok
+2026-10-13T05:20:56.9184387Z test_fixture_passes (__main__.Positive.test_fixture_passes) ... ok
+2026-10-13T05:20:56.9276983Z test_unnamed_end_is_refused (__main__.Positive.test_unnamed_end_is_refused) ... ok
+2026-10-13T05:20:57.0390110Z test_modules_scan (__main__.RealPacket.test_modules_scan) ... ok
+2026-10-13T05:20:57.0398875Z test_pins (__main__.RealPacket.test_pins) ... ok
+2026-10-13T05:20:57.0488179Z test_register_skeleton_and_sources (__main__.RealPacket.test_register_skeleton_and_sources) ... ok
+2026-10-13T05:20:57.0489721Z test_shared_declarations_are_byte_identical (__main__.RealPacket.test_shared_declarations_are_byte_identical)
+2026-10-13T05:20:57.0837807Z Field.lean is duplicated into Lifetime.lean (26 declarations, docstrings and bodies) and ... ok
+2026-10-13T05:20:57.2838238Z test_source_check (__main__.RealPacket.test_source_check) ... ok
+2026-10-13T05:20:57.2941012Z test_comments_in_root_ignored (__main__.Root.test_comments_in_root_ignored) ... ok
+2026-10-13T05:20:57.3077522Z test_missing_and_extra (__main__.Root.test_missing_and_extra) ... ok
+2026-10-13T05:20:57.3147856Z test_order (__main__.Root.test_order) ... ok
+2026-10-13T05:20:57.3152764Z test_arrow_prop_result_refused (__main__.Scanner.test_arrow_prop_result_refused) ... ok
+2026-10-13T05:20:57.3153837Z test_depth_zero (__main__.Scanner.test_depth_zero) ... ok
+2026-10-13T05:20:57.3175826Z test_docstring_requirements (__main__.Scanner.test_docstring_requirements) ... ok
+2026-10-13T05:20:57.3183832Z test_fixture_module_shapes (__main__.Scanner.test_fixture_module_shapes) ... ok
+2026-10-13T05:20:57.3185124Z test_header_and_result_type (__main__.Scanner.test_header_and_result_type) ... ok
+2026-10-13T05:20:57.3185942Z test_lex (__main__.Scanner.test_lex) ... ok
+2026-10-13T05:20:57.3187185Z test_lex_strings_and_guillemets_do_not_open_comments (__main__.Scanner.test_lex_strings_and_guillemets_do_not_open_comments) ... ok
+2026-10-13T05:20:57.3188576Z test_pattern_arms_end_header (__main__.Scanner.test_pattern_arms_end_header) ... ok
+2026-10-13T05:20:57.3191495Z test_prop_abbrev_is_a_registered_kind (__main__.Scanner.test_prop_abbrev_is_a_registered_kind) ... ok
+2026-10-13T05:20:57.3194886Z test_where_definition_is_auxiliary (__main__.Scanner.test_where_definition_is_auxiliary) ... ok
+2026-10-13T05:20:57.3255255Z test_local_copy_bytes (__main__.Sources.test_local_copy_bytes) ... ok
+2026-10-13T05:20:57.3319239Z test_local_copy_location (__main__.Sources.test_local_copy_location) ... ok
+2026-10-13T05:20:57.3384512Z test_nonpublic_repository (__main__.Sources.test_nonpublic_repository) ... ok
+2026-10-13T05:20:57.3580765Z test_register_differs_from_sources_json (__main__.Sources.test_register_differs_from_sources_json) ... ok
+2026-10-13T05:20:57.3641029Z test_sources_json_blob (__main__.Sources.test_sources_json_blob) ... ok
+2026-10-13T05:20:57.3706423Z test_extra_file (__main__.Tree.test_extra_file) ... ok
+2026-10-13T05:20:57.3772540Z test_extra_lean_module (__main__.Tree.test_extra_lean_module) ... ok
+2026-10-13T05:20:57.3839388Z test_gitignore (__main__.Tree.test_gitignore) ... ok
+2026-10-13T05:20:57.3937347Z test_lake_directory_ignored (__main__.Tree.test_lake_directory_ignored) ... ok
+2026-10-13T05:20:57.4001274Z test_missing_fixed_file (__main__.Tree.test_missing_fixed_file) ... ok
+2026-10-13T05:20:57.4219908Z test_claim_level_progress (__main__.Vocabulary.test_claim_level_progress) ... ok
+2026-10-13T05:20:57.4585868Z test_dispositions_are_transcriptions (__main__.Vocabulary.test_dispositions_are_transcriptions) ... ok
+2026-10-13T05:20:57.4683797Z test_external_theorem_label (__main__.Vocabulary.test_external_theorem_label) ... ok
+2026-10-13T05:20:57.4912669Z test_local_statement_never_kernel_checked_or_none (__main__.Vocabulary.test_local_statement_never_kernel_checked_or_none) ... ok
+2026-10-13T05:20:57.5017235Z test_local_statement_never_proved (__main__.Vocabulary.test_local_statement_never_proved) ... ok
+2026-10-13T05:20:57.5114435Z test_local_statement_never_theorem (__main__.Vocabulary.test_local_statement_never_theorem) ... ok
+2026-10-13T05:20:57.5877891Z test_row_fields (__main__.Vocabulary.test_row_fields) ... ok
+2026-10-13T05:20:57.5977554Z test_specified_requires_def_prop (__main__.Vocabulary.test_specified_requires_def_prop) ... ok
+2026-10-13T05:20:57.6834763Z test_top_level_vocabulary (__main__.Vocabulary.test_top_level_vocabulary) ... ok
+2026-10-13T05:20:57.7075415Z test_unknown_keys (__main__.Vocabulary.test_unknown_keys) ... ok
+2026-10-13T05:20:57.7075924Z 
+2026-10-13T05:20:57.7076189Z ----------------------------------------------------------------------
+2026-10-13T05:20:57.7076764Z Ran 97 tests in 2.698s
+2026-10-13T05:20:57.7076999Z 
+2026-10-13T05:20:57.7077141Z OK (skipped=3)
+2026-10-13T05:20:58.1769319Z SOURCE_CHECK_PASS (statements only: not a Lean build, not a proof, not a review, not an acceptance)
+2026-10-13T05:20:58.1770109Z {
+2026-10-13T05:20:58.1770646Z   "alignment_status": "PENDING_INDEPENDENT_REVIEW",
+2026-10-13T05:20:58.1771111Z   "auxiliary_definitions": 132,
+2026-10-13T05:20:58.1771523Z   "checked_commit": "ce3b69d322466e36936d5c64988dd387266c0536",
+2026-10-13T05:20:58.1771957Z   "claims": 171,
+2026-10-13T05:20:58.1772222Z   "declarations": 285,
+2026-10-13T05:20:58.1772520Z   "dependency_revisions": {
+2026-10-13T05:20:58.1772884Z     "Cli": "e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204",
+2026-10-13T05:20:58.1773406Z     "LeanSearchClient": "ddf04cf3949fa556442341e87d47f9f6e6074707",
+2026-10-13T05:20:58.1773916Z     "Qq": "6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259",
+2026-10-13T05:20:58.1774366Z     "aesop": "355695d523e41d0554926416cba2a2b3544fbbc9",
+2026-10-13T05:20:58.1774851Z     "batteries": "f2effa3d803fda822b1f97b806c47cf2adfbcbc2",
+2026-10-13T05:20:58.1775352Z     "importGraph": "e928b72544873815af278d38681b31c0293588e3",
+2026-10-13T05:20:58.1775829Z     "mathlib": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+2026-10-13T05:20:58.1776304Z     "plausible": "118aa17ee84656b8bd727fef7c458ee8c833385c",
+2026-10-13T05:20:58.1776810Z     "proofwidgets": "106ff4fafc74ef4ac99d81dbf3ab399118f497a5"
+2026-10-13T05:20:58.1777238Z   },
+2026-10-13T05:20:58.1777499Z   "formalization_status": "specified",
+2026-10-13T05:20:58.1777864Z   "prop_definitions": 143,
+2026-10-13T05:20:58.1778382Z   "register_sha256": "64674ac463c624d1258c5b7e6766bf0482e14b4a1ad241480f0b0c4de306eaf4",
+2026-10-13T05:20:58.1778991Z   "registered_local_statements": 153,
+2026-10-13T05:20:58.1779345Z   "scientific_effect": "NONE",
+2026-10-13T05:20:58.1779651Z   "sources": 23,
+2026-10-13T05:20:58.1779935Z   "sources_verified_in_git_history": 23,
+2026-10-13T05:20:58.1780283Z   "statements": 360,
+2026-10-13T05:20:58.1780679Z   "structures": 10,
+2026-10-13T05:20:58.1780947Z   "worktree": "CLEAN"
+2026-10-13T05:20:58.1781210Z }
+2026-10-13T05:20:58.2092065Z ##[group]Run leanprover/lean-action@f061402b660e0c34644504b324e830f2991d4865
+2026-10-13T05:20:58.2092492Z with:
+2026-10-13T05:20:58.2092801Z   lake-package-directory: specifications/lean_statements_20261010
+2026-10-13T05:20:58.2093359Z   auto-config: false
+2026-10-13T05:20:58.2093573Z   build: false
+2026-10-13T05:20:58.2093764Z   test: false
+2026-10-13T05:20:58.2093948Z   lint: false
+2026-10-13T05:20:58.2094145Z   use-mathlib-cache: true
+2026-10-13T05:20:58.2094382Z   use-github-cache: false
+2026-10-13T05:20:58.2094609Z   mk_all-check: false
+2026-10-13T05:20:58.2094845Z   check-reservoir-eligibility: false
+2026-10-13T05:20:58.2095117Z   leanchecker: false
+2026-10-13T05:20:58.2095327Z   lean4checker: false
+2026-10-13T05:20:58.2095530Z   nanoda: false
+2026-10-13T05:20:58.2095747Z   nanoda-allow-sorry: true
+2026-10-13T05:20:58.2096091Z   axiom-audit: false
+2026-10-13T05:20:58.2096470Z   axiom-audit-allow: propext,Classical.choice,Quot.sound
+2026-10-13T05:20:58.2097082Z   reinstall-transient-toolchain: false
+2026-10-13T05:20:58.2097440Z env:
+2026-10-13T05:20:58.2097842Z   LEAN_NUM_THREADS: 2
+2026-10-13T05:20:58.2098168Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-13T05:20:58.2098599Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-13T05:20:58.2099146Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-13T05:20:58.2099662Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-13T05:20:58.2100214Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-13T05:20:58.2100886Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-13T05:20:58.2101447Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-13T05:20:58.2101883Z ##[endgroup]
+2026-10-13T05:20:58.2182594Z ##[start-action display=install elan;id=__leanprover_lean-action.__run]
+2026-10-13T05:20:58.2211574Z ##[group]Run : Install Elan
+2026-10-13T05:20:58.2211864Z [36;1m: Install Elan[0m
+2026-10-13T05:20:58.2212172Z [36;1m${GITHUB_ACTION_PATH}/scripts/install_elan.sh[0m
+2026-10-13T05:20:58.2276846Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-13T05:20:58.2277200Z env:
+2026-10-13T05:20:58.2277401Z   LEAN_NUM_THREADS: 2
+2026-10-13T05:20:58.2277669Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-13T05:20:58.2278050Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-13T05:20:58.2278509Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-13T05:20:58.2278950Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-13T05:20:58.2279341Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-13T05:20:58.2279737Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-13T05:20:58.2280133Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-13T05:20:58.2280608Z ##[endgroup]
+2026-10-13T05:20:58.2393542Z ##[group]Elan Installation Output
+2026-10-13T05:20:58.3054342Z info: downloading installer
+2026-10-13T05:20:59.6550003Z info: downloading https://releases.lean-lang.org/lean4/v4.34.1/lean-4.34.1-linux.tar.zst
+2026-10-13T05:21:02.4276567Z info: installing /home/runner/.elan/toolchains/leanprover--lean4---v4.34.1
+2026-10-13T05:21:09.4117289Z Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)
+2026-10-13T05:21:09.4573665Z Lake version 5.0.0-src+5045d00 (Lean version 4.34.1)
+2026-10-13T05:21:09.4593414Z ##[endgroup]
+2026-10-13T05:21:09.4593754Z 
+2026-10-13T05:21:09.4613620Z ##[end-action id=__leanprover_lean-action.__run;outcome=success;conclusion=success;duration_ms=11242]
+2026-10-13T05:21:09.4618093Z ##[start-action display=configure `lean-action`;id=__leanprover_lean-action.config]
+2026-10-13T05:21:09.4744252Z ##[group]Run : Configure Lean Action
+2026-10-13T05:21:09.4744578Z [36;1m: Configure Lean Action[0m
+2026-10-13T05:21:09.4744864Z [36;1m${GITHUB_ACTION_PATH}/scripts/config.sh[0m
+2026-10-13T05:21:09.4808684Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-13T05:21:09.4809256Z env:
+2026-10-13T05:21:09.4809462Z   LEAN_NUM_THREADS: 2
+2026-10-13T05:21:09.4809700Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-13T05:21:09.4810027Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-13T05:21:09.4810817Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-13T05:21:09.4811465Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-13T05:21:09.4811862Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-13T05:21:09.4812247Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-13T05:21:09.4812631Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-13T05:21:09.4812958Z   AUTO_CONFIG: false
+2026-10-13T05:21:09.4813168Z   BUILD: false
+2026-10-13T05:21:09.4813360Z   TEST: false
+2026-10-13T05:21:09.4813543Z   LINT: false
+2026-10-13T05:21:09.4813735Z ##[endgroup]
+2026-10-13T05:21:09.4924080Z ##[group]Configure lean-action
+2026-10-13T05:21:09.4979828Z ##[end-action id=__leanprover_lean-action.config;outcome=success;conclusion=success;duration_ms=36]
+2026-10-13T05:21:09.4985045Z ##[start-action display=reinstall transient toolchain;id=__leanprover_lean-action.__run_2]
+2026-10-13T05:21:09.4991295Z ##[end-action id=__leanprover_lean-action.__run_2;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-13T05:21:09.4994137Z ##[start-action display=ensure all files are imported;id=__leanprover_lean-action.mk_all]
+2026-10-13T05:21:09.4997899Z ##[end-action id=__leanprover_lean-action.mk_all;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-13T05:21:09.5000146Z ##[start-action display=Run actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25;id=__leanprover_lean-action.__actions_cache]
+2026-10-13T05:21:09.5004218Z ##[end-action id=__leanprover_lean-action.__actions_cache;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-13T05:21:09.5006140Z ##[start-action display=detect mathlib;id=__leanprover_lean-action.detect-mathlib]
+2026-10-13T05:21:09.5009645Z ##[end-action id=__leanprover_lean-action.detect-mathlib;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-13T05:21:09.5011946Z ##[start-action display=get mathlib cache;id=__leanprover_lean-action.__run_3]
+2026-10-13T05:21:09.6241231Z ##[group]Run : Get Mathlib Cache
+2026-10-13T05:21:09.6241621Z [36;1m: Get Mathlib Cache[0m
+2026-10-13T05:21:09.6241937Z [36;1mecho "::group::Mathlib Cache"[0m
+2026-10-13T05:21:09.6242274Z [36;1mlake exe cache get[0m
+2026-10-13T05:21:09.6242577Z [36;1mecho "::endgroup::"[0m
+2026-10-13T05:21:09.6242862Z [36;1mecho[0m
+2026-10-13T05:21:09.6304873Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-13T05:21:09.6305290Z env:
+2026-10-13T05:21:09.6305533Z   LEAN_NUM_THREADS: 2
+2026-10-13T05:21:09.6305823Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-13T05:21:09.6306226Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-13T05:21:09.6306760Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-13T05:21:09.6307306Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-13T05:21:09.6307783Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-13T05:21:09.6308258Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-13T05:21:09.6308737Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-13T05:21:09.6309155Z ##[endgroup]
+2026-10-13T05:21:09.7781037Z ##[group]Mathlib Cache
+2026-10-13T05:21:09.8169206Z info: mathlib: cloning https://github.com/leanprover-community/mathlib4.git
+2026-10-13T05:21:41.0675969Z info: mathlib: checking out revision 'd13f23b723b8a846827a245b89c10fc7d3f11612'
+2026-10-13T05:21:43.0263476Z info: plausible: cloning https://github.com/leanprover-community/plausible
+2026-10-13T05:21:43.3855835Z info: plausible: checking out revision '118aa17ee84656b8bd727fef7c458ee8c833385c'
+2026-10-13T05:21:43.3985492Z info: LeanSearchClient: cloning https://github.com/leanprover-community/LeanSearchClient
+2026-10-13T05:21:43.7389381Z info: LeanSearchClient: checking out revision 'ddf04cf3949fa556442341e87d47f9f6e6074707'
+2026-10-13T05:21:43.7513467Z info: importGraph: cloning https://github.com/leanprover-community/import-graph
+2026-10-13T05:21:44.2388667Z info: importGraph: checking out revision 'e928b72544873815af278d38681b31c0293588e3'
+2026-10-13T05:21:44.2573515Z info: proofwidgets: cloning https://github.com/leanprover-community/ProofWidgets4
+2026-10-13T05:21:45.2434679Z info: proofwidgets: checking out revision '106ff4fafc74ef4ac99d81dbf3ab399118f497a5'
+2026-10-13T05:21:45.9130025Z info: aesop: cloning https://github.com/leanprover-community/aesop
+2026-10-13T05:21:46.7477451Z info: aesop: checking out revision '355695d523e41d0554926416cba2a2b3544fbbc9'
+2026-10-13T05:21:46.7670636Z info: Qq: cloning https://github.com/leanprover-community/quote4
+2026-10-13T05:21:47.2562588Z info: Qq: checking out revision '6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259'
+2026-10-13T05:21:47.2691627Z info: batteries: cloning https://github.com/leanprover-community/batteries
+2026-10-13T05:21:55.2405493Z info: batteries: checking out revision 'f2effa3d803fda822b1f97b806c47cf2adfbcbc2'
+2026-10-13T05:21:55.2777904Z info: Cli: cloning https://github.com/leanprover/lean4-cli
+2026-10-13T05:21:55.6514294Z info: Cli: checking out revision 'e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204'
+2026-10-13T05:21:56.0654419Z ✔ [1/5] Built Cache.Cli (370ms)
+2026-10-13T05:21:56.1656960Z ✔ [2/12] Built Cache.Lean (431ms)
+2026-10-13T05:21:56.5665418Z ✔ [5/12] Built Cache.Env (331ms)
+2026-10-13T05:21:56.9670868Z ✔ [7/42] Built Cache.Infra (434ms)
+2026-10-13T05:21:57.1681975Z ✔ [8/42] Built Batteries.Tactic.OpenPrivate (1.0s)
+2026-10-13T05:21:57.1682459Z ✔ [9/42] Built Cache.Cli:c.o (150ms)
+2026-10-13T05:21:57.2677134Z ✔ [10/42] Built Cache.Lean:c.o (164ms)
+2026-10-13T05:21:57.3678845Z ✔ [11/42] Built Cache.Env:c.o (164ms)
+2026-10-13T05:21:57.5681927Z ✔ [12/42] Built Cache.Infra:c.o (238ms)
+2026-10-13T05:21:58.7687174Z ✔ [13/42] Built Batteries.Tactic.OpenPrivate:c.o (1.4s)
+2026-10-13T05:21:58.9689963Z ✔ [14/42] Built Cache.IO (1.5s)
+2026-10-13T05:21:59.7716446Z ✔ [15/42] Built Cache.Hashing (832ms)
+2026-10-13T05:22:00.2733110Z ✔ [16/42] Built Cache.Hashing:c.o (447ms)
+2026-10-13T05:22:00.6738387Z ✔ [17/42] Built Cache.IO:c.o (1.7s)
+2026-10-13T05:22:02.0782255Z ✔ [18/42] Built Cache.Requests (1.8s)
+2026-10-13T05:22:02.6756071Z ✔ [19/42] Built Cache.Marker (604ms)
+2026-10-13T05:22:02.7771992Z ✔ [20/42] Built Cache.Marker:c.o (120ms)
+2026-10-13T05:22:03.4791826Z ✔ [21/42] Built Cache.Query (718ms)
+2026-10-13T05:22:04.0778107Z ✔ [22/42] Built Cache.Upload.Dest (595ms)
+2026-10-13T05:22:04.3783067Z ✔ [23/42] Built Cache.Query:c.o (317ms)
+2026-10-13T05:22:04.5775634Z ✔ [24/42] Built Cache.Upload.Dest:c.o (130ms)
+2026-10-13T05:22:04.9780637Z ✔ [25/42] Built Cache.Requests:c.o (2.9s)
+2026-10-13T05:22:05.2776713Z ✔ [26/42] Built Cache.Warning (699ms)
+2026-10-13T05:22:05.6782331Z ✔ [27/42] Built Cache.Upload.Rclone (674ms)
+2026-10-13T05:22:05.8775786Z ✔ [28/42] Built Cache.Upload.Curl (637ms)
+2026-10-13T05:22:05.9777633Z ✔ [29/42] Built Cache.Warning:c.o (300ms)
+2026-10-13T05:22:06.0779903Z ✔ [30/42] Built Cache.Upload.Rclone:c.o (196ms)
+2026-10-13T05:22:06.1781859Z ✔ [31/42] Built Cache.Upload.Curl:c.o (208ms)
+2026-10-13T05:22:06.6794180Z ✔ [32/42] Built Cache.Upload.Azure (617ms)
+2026-10-13T05:22:06.8826837Z ✔ [33/42] Built Cache.Upload.S3 (755ms)
+2026-10-13T05:22:06.8834118Z ✔ [34/42] Built Cache.Upload.Azure:c.o (176ms)
+2026-10-13T05:22:07.2828273Z ✔ [35/42] Built Cache.Upload.S3:c.o (353ms)
+2026-10-13T05:22:07.4833389Z ✔ [36/42] Built Cache.Upload.Defs (589ms)
+2026-10-13T05:22:07.6835955Z ✔ [37/42] Built Cache.Upload.Defs:c.o (171ms)
+2026-10-13T05:22:08.0840829Z ✔ [38/42] Built Cache.Upload (540ms)
+2026-10-13T05:22:08.1841642Z ✔ [39/42] Built Cache.Upload:c.o (137ms)
+2026-10-13T05:22:09.1852728Z ✔ [40/42] Built Cache.Main (1.2s)
+2026-10-13T05:22:10.1853437Z ✔ [41/42] Built Cache.Main:c.o (999ms)
+2026-10-13T05:22:10.9862494Z ✔ [42/42] Built cache:exe (761ms)
+2026-10-13T05:22:13.9456339Z Current branch: HEAD
+2026-10-13T05:22:13.9457285Z Using cache from origin: (some leanprover-community/mathlib4)
+2026-10-13T05:22:13.9458478Z Attempting to download 8908 file(s) from leanprover-community/mathlib4 cache at https://cache.mathlib.org/mathlib4-master
+2026-10-13T05:22:14.0959828Z 
+2026-10-13T05:22:14.2041773Z Downloaded: 1 file(s) [attempted 1/8908 = 0%, 486 KB/s], Decompressed: 0
+2026-10-13T05:22:14.3021752Z Downloaded: 51 file(s) [attempted 51/8908 = 0%, 112 KB/s], Decompressed: 12
+2026-10-13T05:22:14.4054297Z Downloaded: 186 file(s) [attempted 186/8908 = 2%, 1316 KB/s], Decompressed: 27
+2026-10-13T05:22:14.5143109Z Downloaded: 286 file(s) [attempted 286/8908 = 3%, 4410 KB/s], Decompressed: 27
+2026-10-13T05:22:14.6141941Z Downloaded: 392 file(s) [attempted 392/8908 = 4%, 664 KB/s], Decompressed: 27
+2026-10-13T05:22:14.7434668Z Downloaded: 500 file(s) [attempted 500/8908 = 5%, 4566 KB/s], Decompressed: 84
+2026-10-13T05:22:14.8671707Z Downloaded: 615 file(s) [attempted 615/8908 = 6%, 3454 KB/s], Decompressed: 84
+2026-10-13T05:22:14.9756434Z Downloaded: 728 file(s) [attempted 728/8908 = 8%, 180 KB/s], Decompressed: 84
+2026-10-13T05:22:15.1041988Z Downloaded: 827 file(s) [attempted 827/8908 = 9%, 1620 KB/s], Decompressed: 84
+2026-10-13T05:22:15.2201266Z Downloaded: 935 file(s) [attempted 935/8908 = 10%, 5631 KB/s], Decompressed: 84
+2026-10-13T05:22:15.3193224Z Downloaded: 1041 file(s) [attempted 1041/8908 = 11%, 313 KB/s], Decompressed: 84
+2026-10-13T05:22:15.4475534Z Downloaded: 1148 file(s) [attempted 1148/8908 = 12%, 1326 KB/s], Decompressed: 84
+2026-10-13T05:22:15.5519535Z Downloaded: 1257 file(s) [attempted 1257/8908 = 14%, 287 KB/s], Decompressed: 84
+2026-10-13T05:22:15.6587113Z Downloaded: 1367 file(s) [attempted 1367/8908 = 15%, 2290 KB/s], Decompressed: 84
+2026-10-13T05:22:15.7571698Z Downloaded: 1490 file(s) [attempted 1490/8908 = 16%, 1377 KB/s], Decompressed: 84
+2026-10-13T05:22:15.8735692Z Downloaded: 1588 file(s) [attempted 1588/8908 = 17%, 96 KB/s], Decompressed: 84
+2026-10-13T05:22:15.9811767Z Downloaded: 1691 file(s) [attempted 1691/8908 = 18%, 597 KB/s], Decompressed: 84
+2026-10-13T05:22:16.0802878Z Downloaded: 1804 file(s) [attempted 1804/8908 = 20%, 2892 KB/s], Decompressed: 84
+2026-10-13T05:22:16.1913020Z Downloaded: 1912 file(s) [attempted 1912/8908 = 21%, 695 KB/s], Decompressed: 84
+2026-10-13T05:22:16.2945504Z Downloaded: 1984 file(s) [attempted 1984/8908 = 22%, 6049 KB/s], Decompressed: 447
+2026-10-13T05:22:16.4018705Z Downloaded: 2068 file(s) [attempted 2068/8908 = 23%, 1203 KB/s], Decompressed: 447
+2026-10-13T05:22:16.5104021Z Downloaded: 2200 file(s) [attempted 2200/8908 = 24%, 469 KB/s], Decompressed: 447
+2026-10-13T05:22:16.6225113Z Downloaded: 2320 file(s) [attempted 2320/8908 = 26%, 359 KB/s], Decompressed: 447
+2026-10-13T05:22:16.7373254Z Downloaded: 2428 file(s) [attempted 2428/8908 = 27%, 620 KB/s], Decompressed: 447
+2026-10-13T05:22:16.8411904Z Downloaded: 2527 file(s) [attempted 2527/8908 = 28%, 831 KB/s], Decompressed: 447
+2026-10-13T05:22:16.9409371Z Downloaded: 2647 file(s) [attempted 2647/8908 = 29%, 847 KB/s], Decompressed: 447
+2026-10-13T05:22:17.0491622Z Downloaded: 2755 file(s) [attempted 2755/8908 = 30%, 96 KB/s], Decompressed: 447
+2026-10-13T05:22:17.1483985Z Downloaded: 2892 file(s) [attempted 2892/8908 = 32%, 2537 KB/s], Decompressed: 447
+2026-10-13T05:22:17.2602297Z Downloaded: 3021 file(s) [attempted 3021/8908 = 33%, 2084 KB/s], Decompressed: 447
+2026-10-13T05:22:17.3637403Z Downloaded: 3172 file(s) [attempted 3172/8908 = 35%, 2914 KB/s], Decompressed: 447
+2026-10-13T05:22:17.4621832Z Downloaded: 3283 file(s) [attempted 3283/8908 = 36%, 2283 KB/s], Decompressed: 447
+2026-10-13T05:22:17.5628835Z Downloaded: 3415 file(s) [attempted 3415/8908 = 38%, 2790 KB/s], Decompressed: 447
+2026-10-13T05:22:17.6908693Z Downloaded: 3524 file(s) [attempted 3524/8908 = 39%, 278 KB/s], Decompressed: 447
+2026-10-13T05:22:17.7931900Z Downloaded: 3621 file(s) [attempted 3621/8908 = 40%, 521 KB/s], Decompressed: 447
+2026-10-13T05:22:17.8986958Z Downloaded: 3746 file(s) [attempted 3746/8908 = 42%, 833 KB/s], Decompressed: 447
+2026-10-13T05:22:18.0112175Z Downloaded: 3820 file(s) [attempted 3820/8908 = 42%, 1519 KB/s], Decompressed: 447
+2026-10-13T05:22:18.1083804Z Downloaded: 3938 file(s) [attempted 3938/8908 = 44%, 258 KB/s], Decompressed: 447
+2026-10-13T05:22:18.2151680Z Downloaded: 4075 file(s) [attempted 4075/8908 = 45%, 457 KB/s], Decompressed: 447
+2026-10-13T05:22:18.3242943Z Downloaded: 4209 file(s) [attempted 4209/8908 = 47%, 660 KB/s], Decompressed: 447
+2026-10-13T05:22:18.4298316Z Downloaded: 4334 file(s) [attempted 4334/8908 = 48%, 144 KB/s], Decompressed: 447
+2026-10-13T05:22:18.5342336Z Downloaded: 4445 file(s) [attempted 4445/8908 = 49%, 1373 KB/s], Decompressed: 447
+2026-10-13T05:22:18.6334771Z Downloaded: 4574 file(s) [attempted 4574/8908 = 51%, 4255 KB/s], Decompressed: 447
+2026-10-13T05:22:18.7355306Z Downloaded: 4663 file(s) [attempted 4663/8908 = 52%, 228 KB/s], Decompressed: 447
+2026-10-13T05:22:18.8371630Z Downloaded: 4806 file(s) [attempted 4806/8908 = 53%, 1719 KB/s], Decompressed: 447
+2026-10-13T05:22:18.9401989Z Downloaded: 4939 file(s) [attempted 4939/8908 = 55%, 6357 KB/s], Decompressed: 447
+2026-10-13T05:22:19.0791416Z Downloaded: 5081 file(s) [attempted 5081/8908 = 57%, 866 KB/s], Decompressed: 447
+2026-10-13T05:22:19.1839895Z Downloaded: 5220 file(s) [attempted 5220/8908 = 58%, 1303 KB/s], Decompressed: 447
+2026-10-13T05:22:19.2867131Z Downloaded: 5318 file(s) [attempted 5318/8908 = 59%, 907 KB/s], Decompressed: 447
+2026-10-13T05:22:19.3994190Z Downloaded: 5433 file(s) [attempted 5433/8908 = 60%, 4483 KB/s], Decompressed: 447
+2026-10-13T05:22:19.5047788Z Downloaded: 5561 file(s) [attempted 5561/8908 = 62%, 1390 KB/s], Decompressed: 447
+2026-10-13T05:22:19.6091864Z Downloaded: 5676 file(s) [attempted 5676/8908 = 63%, 1629 KB/s], Decompressed: 447
+2026-10-13T05:22:19.7382283Z Downloaded: 5784 file(s) [attempted 5784/8908 = 64%, 2391 KB/s], Decompressed: 447
+2026-10-13T05:22:19.8394399Z Downloaded: 5899 file(s) [attempted 5899/8908 = 66%, 286 KB/s], Decompressed: 447
+2026-10-13T05:22:19.9395963Z Downloaded: 6002 file(s) [attempted 6002/8908 = 67%, 616 KB/s], Decompressed: 447
+2026-10-13T05:22:20.1001912Z Downloaded: 6106 file(s) [attempted 6106/8908 = 68%, 203 KB/s], Decompressed: 447
+2026-10-13T05:22:20.2241824Z Downloaded: 6211 file(s) [attempted 6211/8908 = 69%, 1048 KB/s], Decompressed: 447
+2026-10-13T05:22:20.3716984Z Downloaded: 6310 file(s) [attempted 6310/8908 = 70%, 5614 KB/s], Decompressed: 447
+2026-10-13T05:22:20.4772279Z Downloaded: 6415 file(s) [attempted 6415/8908 = 72%, 751 KB/s], Decompressed: 447
+2026-10-13T05:22:20.5781882Z Downloaded: 6516 file(s) [attempted 6516/8908 = 73%, 478 KB/s], Decompressed: 447
+2026-10-13T05:22:20.6941768Z Downloaded: 6617 file(s) [attempted 6617/8908 = 74%, 316 KB/s], Decompressed: 447
+2026-10-13T05:22:20.7984322Z Downloaded: 6722 file(s) [attempted 6722/8908 = 75%, 811 KB/s], Decompressed: 447
+2026-10-13T05:22:20.9673949Z Downloaded: 6823 file(s) [attempted 6823/8908 = 76%, 1291 KB/s], Decompressed: 447
+2026-10-13T05:22:21.0829229Z Downloaded: 6919 file(s) [attempted 6919/8908 = 77%, 894 KB/s], Decompressed: 447
+2026-10-13T05:22:21.1823063Z Downloaded: 7032 file(s) [attempted 7032/8908 = 78%, 228 KB/s], Decompressed: 447
+2026-10-13T05:22:21.2881208Z Downloaded: 7143 file(s) [attempted 7143/8908 = 80%, 1203 KB/s], Decompressed: 447
+2026-10-13T05:22:21.3902266Z Downloaded: 7241 file(s) [attempted 7241/8908 = 81%, 924 KB/s], Decompressed: 447
+2026-10-13T05:22:21.4891630Z Downloaded: 7332 file(s) [attempted 7332/8908 = 82%, 898 KB/s], Decompressed: 447
+2026-10-13T05:22:21.5969032Z Downloaded: 7407 file(s) [attempted 7407/8908 = 83%, 447 KB/s], Decompressed: 447
+2026-10-13T05:22:21.7061667Z Downloaded: 7512 file(s) [attempted 7512/8908 = 84%, 1737 KB/s], Decompressed: 447
+2026-10-13T05:22:21.8031068Z Downloaded: 7608 file(s) [attempted 7608/8908 = 85%, 3894 KB/s], Decompressed: 447
+2026-10-13T05:22:21.9031719Z Downloaded: 7723 file(s) [attempted 7723/8908 = 86%, 1085 KB/s], Decompressed: 447
+2026-10-13T05:22:22.0022504Z Downloaded: 7857 file(s) [attempted 7857/8908 = 88%, 235 KB/s], Decompressed: 1977
+2026-10-13T05:22:22.1042272Z Downloaded: 7960 file(s) [attempted 7960/8908 = 89%, 2198 KB/s], Decompressed: 1977
+2026-10-13T05:22:22.2281666Z Downloaded: 8043 file(s) [attempted 8043/8908 = 90%, 2117 KB/s], Decompressed: 1977
+2026-10-13T05:22:22.3395605Z Downloaded: 8144 file(s) [attempted 8144/8908 = 91%, 3027 KB/s], Decompressed: 1977
+2026-10-13T05:22:22.4411874Z Downloaded: 8244 file(s) [attempted 8244/8908 = 92%, 2025 KB/s], Decompressed: 1977
+2026-10-13T05:22:22.5441860Z Downloaded: 8345 file(s) [attempted 8345/8908 = 93%, 85 KB/s], Decompressed: 1977
+2026-10-13T05:22:22.6581843Z Downloaded: 8511 file(s) [attempted 8511/8908 = 95%, 1747 KB/s], Decompressed: 1977
+2026-10-13T05:22:22.7688993Z Downloaded: 8604 file(s) [attempted 8604/8908 = 96%, 504 KB/s], Decompressed: 1977
+2026-10-13T05:22:22.8714290Z Downloaded: 8712 file(s) [attempted 8712/8908 = 97%, 2168 KB/s], Decompressed: 1977
+2026-10-13T05:22:22.9345615Z Downloaded: 8808 file(s) [attempted 8808/8908 = 98%, 453 KB/s], Decompressed: 1977
+2026-10-13T05:22:22.9353452Z Downloaded: 8908 file(s) [attempted 8908/8908 = 100%, 453 KB/s], Decompressed: 1977
+2026-10-13T05:22:42.9140728Z Decompressed 8908 file(s)
+2026-10-13T05:22:42.9141299Z Already decompressed 8908 file(s)
+2026-10-13T05:22:42.9740856Z ##[endgroup]
+2026-10-13T05:22:42.9743390Z 
+2026-10-13T05:22:42.9751147Z ##[end-action id=__leanprover_lean-action.__run_3;outcome=success;conclusion=success;duration_ms=93473]
+2026-10-13T05:22:42.9786440Z ##[start-action display=build d6g8k5htny-coder/Math-;id=__leanprover_lean-action.build]
+2026-10-13T05:22:42.9794493Z ##[end-action id=__leanprover_lean-action.build;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-13T05:22:42.9813574Z ##[start-action display=Run actions/cache/save@caa296126883cff596d87d8935842f9db880ef25;id=__leanprover_lean-action.__actions_cache_2]
+2026-10-13T05:22:42.9817672Z ##[end-action id=__leanprover_lean-action.__actions_cache_2;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-13T05:22:42.9821580Z ##[start-action display=test d6g8k5htny-coder/Math-;id=__leanprover_lean-action.test]
+2026-10-13T05:22:42.9825743Z ##[end-action id=__leanprover_lean-action.test;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-13T05:22:42.9828528Z ##[start-action display=lint d6g8k5htny-coder/Math-;id=__leanprover_lean-action.lint]
+2026-10-13T05:22:42.9832845Z ##[end-action id=__leanprover_lean-action.lint;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-13T05:22:42.9834627Z ##[start-action display=check reservoir eligibility;id=__leanprover_lean-action.__run_4]
+2026-10-13T05:22:42.9838065Z ##[end-action id=__leanprover_lean-action.__run_4;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-13T05:22:42.9840839Z ##[start-action display=check environment with leanchecker;id=__leanprover_lean-action.__run_5]
+2026-10-13T05:22:42.9845488Z ##[end-action id=__leanprover_lean-action.__run_5;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-13T05:22:42.9847687Z ##[start-action display=check environment with nanoda;id=__leanprover_lean-action.nanoda]
+2026-10-13T05:22:42.9851174Z ##[end-action id=__leanprover_lean-action.nanoda;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-13T05:22:42.9853529Z ##[start-action display=audit axioms with axiom-audit;id=__leanprover_lean-action.axiom-audit]
+2026-10-13T05:22:42.9856749Z ##[end-action id=__leanprover_lean-action.axiom-audit;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-13T05:22:42.9914108Z ##[group]Run python -B -S specifications/lean_statements_20261010/test_check.py LeanHelpers
+2026-10-13T05:22:42.9914776Z [36;1mpython -B -S specifications/lean_statements_20261010/test_check.py LeanHelpers[0m
+2026-10-13T05:22:43.0043564Z shell: /usr/bin/bash -e {0}
+2026-10-13T05:22:43.0044074Z env:
+2026-10-13T05:22:43.0044291Z   LEAN_NUM_THREADS: 2
+2026-10-13T05:22:43.0044555Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-13T05:22:43.0044911Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-13T05:22:43.0045615Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-13T05:22:43.0046335Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-13T05:22:43.0047014Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-13T05:22:43.0047695Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-13T05:22:43.0048477Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-13T05:22:43.0048880Z ##[endgroup]
+2026-10-13T05:22:43.5058643Z test_auto_implicit_is_off (__main__.LeanHelpers.test_auto_implicit_is_off)
+2026-10-13T05:22:43.8639716Z With `autoImplicit = false` an unbound name in a header is an error instead of a silent ... ok
+2026-10-13T05:22:43.8641227Z test_environment_audit_refuses_escapes_lean_accepts (__main__.LeanHelpers.test_environment_audit_refuses_escapes_lean_accepts)
+2026-10-13T05:23:00.3593910Z Module copies Lean builds without error (the source scan never saw them) must be refused ... ok
+2026-10-13T05:23:09.7770058Z test_fixture_package (__main__.LeanHelpers.test_fixture_package) ... ok
+2026-10-13T05:23:09.7771285Z 
+2026-10-13T05:23:09.7771553Z ----------------------------------------------------------------------
+2026-10-13T05:23:09.7791202Z Ran 3 tests in 26.271s
+2026-10-13T05:23:09.7791392Z 
+2026-10-13T05:23:09.7791479Z OK
+2026-10-13T05:23:09.7944281Z ##[group]Run python -B -S specifications/lean_statements_20261010/check.py --execute
+2026-10-13T05:23:09.7944946Z [36;1mpython -B -S specifications/lean_statements_20261010/check.py --execute[0m
+2026-10-13T05:23:09.8008365Z shell: /usr/bin/bash -e {0}
+2026-10-13T05:23:09.8008616Z env:
+2026-10-13T05:23:09.8008808Z   LEAN_NUM_THREADS: 2
+2026-10-13T05:23:09.8009044Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-13T05:23:09.8009364Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-13T05:23:09.8009835Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-13T05:23:09.8010275Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-13T05:23:09.8010968Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-13T05:23:09.8011363Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-13T05:23:09.8011775Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-13T05:23:09.8012118Z ##[endgroup]
+2026-10-13T05:23:11.1661654Z version: exit 0
+2026-10-13T05:23:35.7544508Z build: exit 0
+2026-10-13T05:24:00.2264993Z leanchecker: exit 0
+2026-10-13T05:24:04.9405632Z axioms: exit 0
+2026-10-13T05:24:09.7109339Z types: exit 0
+2026-10-13T05:24:15.0818895Z environment: exit 0
+2026-10-13T05:24:19.8211657Z control_injected_theorem: exit 0
+2026-10-13T05:24:24.4674477Z control_type_error: exit 1
+2026-10-13T05:24:29.1141547Z control_missing_declaration: exit 1
+2026-10-13T05:24:34.2179977Z control_environment_honest: exit 0
+2026-10-13T05:24:39.3255458Z control_environment_hidden: exit 1
+2026-10-13T05:24:39.5314770Z {
+2026-10-13T05:24:39.5315261Z   "alignment_status": "PENDING_INDEPENDENT_REVIEW",
+2026-10-13T05:24:39.5315903Z   "checked_commit": "ce3b69d322466e36936d5c64988dd387266c0536",
+2026-10-13T05:24:39.5316460Z   "declarations": 153,
+2026-10-13T05:24:39.5316843Z   "formalization_status": "specified",
+2026-10-13T05:24:39.5317278Z   "negative_controls": {
+2026-10-13T05:24:39.5318845Z     "environment_audit": "REFUSED_BY_ENVIRONMENT_AUDIT (theorem between string literals, proof as def, sorry, axiom, instance; the indented Prop definition surfaces as a statement absent from any register) and the honest control classified exactly",
+2026-10-13T05:24:39.5321337Z     "injected_theorem": "REFUSED_BY_SOURCE_CHECK (Lean accepts the file: exit 0, so the scan is the refusal point)",
+2026-10-13T05:24:39.5322338Z     "missing_declaration": "REFUSED_BY_SOURCE_CHECK and REJECTED_BY_LEAN",
+2026-10-13T05:24:39.5323029Z     "proved_label": "REFUSED_BY_SOURCE_CHECK",
+2026-10-13T05:24:39.5323555Z     "type_error": "REJECTED_BY_LEAN",
+2026-10-13T05:24:39.5324052Z     "unregistered_declaration": "REFUSED_BY_SOURCE_CHECK"
+2026-10-13T05:24:39.5324521Z   },
+2026-10-13T05:24:39.5324804Z   "passed": true,
+2026-10-13T05:24:39.5325117Z   "worktree": "CLEAN"
+2026-10-13T05:24:39.5325433Z }
+2026-10-13T05:24:39.5465366Z ##[group]Run git diff --exit-code
+2026-10-13T05:24:39.5465716Z [36;1mgit diff --exit-code[0m
+2026-10-13T05:24:39.5548059Z shell: /usr/bin/bash -e {0}
+2026-10-13T05:24:39.5548481Z env:
+2026-10-13T05:24:39.5548673Z   LEAN_NUM_THREADS: 2
+2026-10-13T05:24:39.5548910Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-13T05:24:39.5549227Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-13T05:24:39.5549678Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-13T05:24:39.5550132Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-13T05:24:39.5550830Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-13T05:24:39.5551225Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-13T05:24:39.5551620Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-13T05:24:39.5551946Z ##[endgroup]
+2026-10-13T05:24:39.5754179Z ##[group]Run actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+2026-10-13T05:24:39.5754611Z with:
+2026-10-13T05:24:39.5754849Z   name: lean-specifications-38350897827-1
+2026-10-13T05:24:39.5755241Z   path: specifications/lean_statements_20261010/.lake/evidence/
+2026-10-13T05:24:39.5755620Z   include-hidden-files: true
+2026-10-13T05:24:39.5755881Z   if-no-files-found: error
+2026-10-13T05:24:39.5756124Z   retention-days: 14
+2026-10-13T05:24:39.5756359Z   compression-level: 6
+2026-10-13T05:24:39.5756591Z   overwrite: false
+2026-10-13T05:24:39.5756802Z   archive: true
+2026-10-13T05:24:39.5757001Z env:
+2026-10-13T05:24:39.5757193Z   LEAN_NUM_THREADS: 2
+2026-10-13T05:24:39.5757433Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-13T05:24:39.5757760Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-13T05:24:39.5758231Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-13T05:24:39.5758697Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-13T05:24:39.5759098Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-13T05:24:39.5759511Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-13T05:24:39.5759910Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-13T05:24:39.5760251Z ##[endgroup]
+2026-10-13T05:24:39.9243924Z With the provided path, there will be 23 files uploaded
+2026-10-13T05:24:39.9244794Z Artifact name is valid!
+2026-10-13T05:24:39.9245199Z Root directory input is valid!
+2026-10-13T05:24:40.1952406Z Uploading artifact: lean-specifications-38350897827-1.zip
+2026-10-13T05:24:40.1999498Z Beginning upload of artifact content to blob storage
+2026-10-13T05:24:40.4915974Z Uploaded bytes 42423
+2026-10-13T05:24:40.5367815Z Finished uploading artifact content to blob storage!
+2026-10-13T05:24:40.5369137Z SHA256 digest of uploaded artifact is f4b14f8ebb37790cadd11fb4609c6fd65385d9ba826fca2ae6dd48dd84fe55a2
+2026-10-13T05:24:40.5370311Z Finalizing artifact upload
+2026-10-13T05:24:40.8445188Z Artifact lean-specifications-38350897827-1 successfully finalized. Artifact ID 11790998418
+2026-10-13T05:24:40.8446337Z Artifact lean-specifications-38350897827-1 has been successfully uploaded! Final size is 42423 bytes. Artifact ID is 11790998418
+2026-10-13T05:24:40.8449264Z Artifact download URL: https://github.com/d6g8k5htny-coder/Math-/actions/runs/38350897827/artifacts/11790998418
+2026-10-13T05:24:40.8633755Z Post job cleanup.
+2026-10-13T05:24:41.0014940Z Post job cleanup.
+2026-10-13T05:24:41.1031598Z [command]/usr/bin/git version
+2026-10-13T05:24:41.1084789Z git version 2.55.0
+2026-10-13T05:24:41.1127628Z Temporarily overriding HOME='/home/runner/work/_temp/668e6ea7-e4d0-4daf-aeeb-e99e17acfc98' before making global git config changes
+2026-10-13T05:24:41.1129208Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-13T05:24:41.1132025Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Math-/Math-
+2026-10-13T05:24:41.1168207Z Removing SSH command configuration
+2026-10-13T05:24:41.1176169Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-13T05:24:41.1223041Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-13T05:24:41.1519060Z Removing HTTP extra header
+2026-10-13T05:24:41.1525335Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-13T05:24:41.1581141Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-13T05:24:41.1839903Z Removing includeIf entries pointing to credentials config files
+2026-10-13T05:24:41.1847068Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-13T05:24:41.1888686Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-13T05:24:41.2277665Z Cleaning up orphan processes

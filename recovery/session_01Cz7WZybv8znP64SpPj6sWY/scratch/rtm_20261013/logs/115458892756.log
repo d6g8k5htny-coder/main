@@ -1,0 +1,1275 @@
+﻿2026-10-13T18:09:04.7159622Z Current runner version: '2.337.0'
+2026-10-13T18:09:04.7181637Z ##[group]Runner Image Provisioner
+2026-10-13T18:09:04.7182333Z Hosted Compute Agent
+2026-10-13T18:09:04.7182799Z Version: 20261002.596
+2026-10-13T18:09:04.7183412Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+2026-10-13T18:09:04.7184077Z Build Date: 2026-10-02T22:28:27Z
+2026-10-13T18:09:04.7184698Z Worker ID: {da195fc4-c4ea-4c96-b808-a9972af08d5d}
+2026-10-13T18:09:04.7185274Z Region: westus3
+2026-10-13T18:09:04.7185715Z Cloud: Azure
+2026-10-13T18:09:04.7186256Z ##[endgroup]
+2026-10-13T18:09:04.7187395Z ##[group]Operating System
+2026-10-13T18:09:04.7187969Z Ubuntu
+2026-10-13T18:09:04.7188415Z 24.04.5
+2026-10-13T18:09:04.7188838Z LTS
+2026-10-13T18:09:04.7189313Z ##[endgroup]
+2026-10-13T18:09:04.7189963Z ##[group]Runner Image
+2026-10-13T18:09:04.7190504Z Image: ubuntu-24.04
+2026-10-13T18:09:04.7190982Z Version: 20261004.327.1
+2026-10-13T18:09:04.7192059Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-13T18:09:04.7193343Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+2026-10-13T18:09:04.7194173Z ##[endgroup]
+2026-10-13T18:09:04.7195072Z ##[group]GITHUB_TOKEN Permissions
+2026-10-13T18:09:04.7196722Z Contents: read
+2026-10-13T18:09:04.7197220Z Metadata: read
+2026-10-13T18:09:04.7197708Z ##[endgroup]
+2026-10-13T18:09:04.7199603Z Secret source: Actions
+2026-10-13T18:09:04.7200458Z Cache mode: write
+2026-10-13T18:09:04.7201096Z Prepare workflow directory
+2026-10-13T18:09:04.7532284Z Prepare all required actions
+2026-10-13T18:09:04.7573509Z Getting action download info
+2026-10-13T18:09:05.0942479Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-10-13T18:09:05.3514358Z Download action repository 'leanprover/lean-action@f061402b660e0c34644504b324e830f2991d4865' (SHA:f061402b660e0c34644504b324e830f2991d4865)
+2026-10-13T18:09:05.6560111Z Download action repository 'actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9' (SHA:cf430e030ddbb5b0abf93d22962f4752f3646cd9)
+2026-10-13T18:09:06.7150867Z Getting action download info
+2026-10-13T18:09:06.8397018Z Download action repository 'actions/cache@caa296126883cff596d87d8935842f9db880ef25' (SHA:caa296126883cff596d87d8935842f9db880ef25)
+2026-10-13T18:09:07.0508451Z Uses: d6g8k5htny-coder/Math-/.github/workflows/formal-lean.yml@refs/heads/main (9844f785910d097b7b4591dcbd9e377bd7b38280)
+2026-10-13T18:09:07.0513658Z Complete job name: formal / formal-evidence
+2026-10-13T18:09:07.1212393Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-10-13T18:09:07.1213625Z with:
+2026-10-13T18:09:07.1214256Z   persist-credentials: false
+2026-10-13T18:09:07.1215014Z   repository: d6g8k5htny-coder/Math-
+2026-10-13T18:09:07.1220867Z   token: ***
+2026-10-13T18:09:07.1221489Z   ssh-strict: true
+2026-10-13T18:09:07.1222121Z   ssh-user: git
+2026-10-13T18:09:07.1222770Z   clean: true
+2026-10-13T18:09:07.1223455Z   sparse-checkout-cone-mode: true
+2026-10-13T18:09:07.1224182Z   fetch-depth: 1
+2026-10-13T18:09:07.1224811Z   fetch-tags: false
+2026-10-13T18:09:07.1225470Z   show-progress: true
+2026-10-13T18:09:07.1226111Z   lfs: false
+2026-10-13T18:09:07.1226714Z   submodules: false
+2026-10-13T18:09:07.1227360Z   set-safe-directory: true
+2026-10-13T18:09:07.1228089Z   allow-unsafe-pr-checkout: false
+2026-10-13T18:09:07.1228999Z env:
+2026-10-13T18:09:07.1229839Z   LEAN_NUM_THREADS: 2
+2026-10-13T18:09:07.1230484Z ##[endgroup]
+2026-10-13T18:09:07.2217074Z Syncing repository: d6g8k5htny-coder/Math-
+2026-10-13T18:09:07.2220117Z ##[group]Getting Git version info
+2026-10-13T18:09:07.2221406Z Working directory is '/home/runner/work/Math-/Math-'
+2026-10-13T18:09:07.2223347Z [command]/usr/bin/git version
+2026-10-13T18:09:07.2558277Z git version 2.55.0
+2026-10-13T18:09:07.2577498Z ##[endgroup]
+2026-10-13T18:09:07.2591627Z Temporarily overriding HOME='/home/runner/work/_temp/1f5d30ea-6109-4af8-b5c5-eba56272383f' before making global git config changes
+2026-10-13T18:09:07.2594809Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-13T18:09:07.2596831Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Math-/Math-
+2026-10-13T18:09:07.2659281Z Deleting the contents of '/home/runner/work/Math-/Math-'
+2026-10-13T18:09:07.2668420Z ##[group]Determining repository object format
+2026-10-13T18:09:07.2670054Z ##[endgroup]
+2026-10-13T18:09:07.2671587Z ##[group]Initializing the repository
+2026-10-13T18:09:07.2673101Z [command]/usr/bin/git init /home/runner/work/Math-/Math-
+2026-10-13T18:09:07.2796310Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-13T18:09:07.2799072Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-13T18:09:07.2801504Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-13T18:09:07.2803342Z hint: call:
+2026-10-13T18:09:07.2804284Z hint:
+2026-10-13T18:09:07.2805490Z hint: 	git config --global init.defaultBranch <name>
+2026-10-13T18:09:07.2806806Z hint:
+2026-10-13T18:09:07.2808431Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-13T18:09:07.2811413Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-13T18:09:07.2813164Z hint:
+2026-10-13T18:09:07.2814201Z hint: 	git branch -m <name>
+2026-10-13T18:09:07.2815513Z hint:
+2026-10-13T18:09:07.2816819Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-13T18:09:07.2818842Z Initialized empty Git repository in /home/runner/work/Math-/Math-/.git/
+2026-10-13T18:09:07.2821504Z [command]/usr/bin/git remote add origin https://github.com/d6g8k5htny-coder/Math-
+2026-10-13T18:09:07.2867527Z ##[endgroup]
+2026-10-13T18:09:07.2869018Z ##[group]Disabling automatic garbage collection
+2026-10-13T18:09:07.2871110Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-13T18:09:07.2907835Z ##[endgroup]
+2026-10-13T18:09:07.2909571Z ##[group]Setting up auth
+2026-10-13T18:09:07.2910657Z Removing SSH command configuration
+2026-10-13T18:09:07.2913791Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-13T18:09:07.2948399Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-13T18:09:07.5978549Z Removing HTTP extra header
+2026-10-13T18:09:07.5981123Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-13T18:09:07.6021839Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-13T18:09:07.6215049Z Removing includeIf entries pointing to credentials config files
+2026-10-13T18:09:07.6218611Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-13T18:09:07.6251214Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-13T18:09:07.6451134Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-12d0c113-ab14-4538-89b5-46f412a3390e.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-13T18:09:07.6486802Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/Math-/Math-/.git.path /home/runner/work/_temp/git-credentials-12d0c113-ab14-4538-89b5-46f412a3390e.config
+2026-10-13T18:09:07.6517530Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/Math-/Math-/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-12d0c113-ab14-4538-89b5-46f412a3390e.config
+2026-10-13T18:09:07.6552263Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-12d0c113-ab14-4538-89b5-46f412a3390e.config
+2026-10-13T18:09:07.6582926Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-12d0c113-ab14-4538-89b5-46f412a3390e.config
+2026-10-13T18:09:07.6611519Z ##[endgroup]
+2026-10-13T18:09:07.6612183Z ##[group]Fetching the repository
+2026-10-13T18:09:07.6616767Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +9844f785910d097b7b4591dcbd9e377bd7b38280:refs/remotes/origin/main
+2026-10-13T18:09:10.2777211Z From https://github.com/d6g8k5htny-coder/Math-
+2026-10-13T18:09:10.2778745Z  * [new ref]         9844f785910d097b7b4591dcbd9e377bd7b38280 -> origin/main
+2026-10-13T18:09:10.2786132Z [command]/usr/bin/git branch --list --remote origin/main
+2026-10-13T18:09:10.2815643Z   origin/main
+2026-10-13T18:09:10.2822932Z [command]/usr/bin/git rev-parse refs/remotes/origin/main
+2026-10-13T18:09:10.2848628Z 9844f785910d097b7b4591dcbd9e377bd7b38280
+2026-10-13T18:09:10.2852044Z ##[endgroup]
+2026-10-13T18:09:10.2852478Z ##[group]Determining the checkout info
+2026-10-13T18:09:10.2853737Z ##[endgroup]
+2026-10-13T18:09:10.2857583Z [command]/usr/bin/git sparse-checkout disable
+2026-10-13T18:09:10.2912943Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-13T18:09:10.2946634Z ##[group]Checking out the ref
+2026-10-13T18:09:10.2951188Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+2026-10-13T18:09:10.5090083Z Switched to a new branch 'main'
+2026-10-13T18:09:10.5093785Z branch 'main' set up to track 'origin/main'.
+2026-10-13T18:09:10.5106192Z ##[endgroup]
+2026-10-13T18:09:10.5155014Z [command]/usr/bin/git log -1 --format=%H
+2026-10-13T18:09:10.5186300Z 9844f785910d097b7b4591dcbd9e377bd7b38280
+2026-10-13T18:09:10.5197496Z ##[group]Removing auth
+2026-10-13T18:09:10.5197765Z Removing SSH command configuration
+2026-10-13T18:09:10.5199502Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-13T18:09:10.5236415Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-13T18:09:10.5442048Z Removing HTTP extra header
+2026-10-13T18:09:10.5445523Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-13T18:09:10.5481979Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-13T18:09:10.5686995Z Removing includeIf entries pointing to credentials config files
+2026-10-13T18:09:10.5689728Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-13T18:09:10.5718698Z includeif.gitdir:/home/runner/work/Math-/Math-/.git.path
+2026-10-13T18:09:10.5719257Z includeif.gitdir:/home/runner/work/Math-/Math-/.git/worktrees/*.path
+2026-10-13T18:09:10.5719949Z includeif.gitdir:/github/workspace/.git.path
+2026-10-13T18:09:10.5720300Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-10-13T18:09:10.5726251Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/Math-/Math-/.git.path
+2026-10-13T18:09:10.5750441Z /home/runner/work/_temp/git-credentials-12d0c113-ab14-4538-89b5-46f412a3390e.config
+2026-10-13T18:09:10.5758502Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/Math-/Math-/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-12d0c113\-ab14\-4538\-89b5\-46f412a3390e\.config
+2026-10-13T18:09:10.5796068Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/Math-/Math-/.git/worktrees/*.path
+2026-10-13T18:09:10.5826613Z /home/runner/work/_temp/git-credentials-12d0c113-ab14-4538-89b5-46f412a3390e.config
+2026-10-13T18:09:10.5833837Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/Math-/Math-/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-12d0c113\-ab14\-4538\-89b5\-46f412a3390e\.config
+2026-10-13T18:09:10.5878265Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-10-13T18:09:10.5951013Z /github/runner_temp/git-credentials-12d0c113-ab14-4538-89b5-46f412a3390e.config
+2026-10-13T18:09:10.5974386Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-12d0c113\-ab14\-4538\-89b5\-46f412a3390e\.config
+2026-10-13T18:09:10.6016571Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-10-13T18:09:10.6045977Z /github/runner_temp/git-credentials-12d0c113-ab14-4538-89b5-46f412a3390e.config
+2026-10-13T18:09:10.6052069Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-12d0c113\-ab14\-4538\-89b5\-46f412a3390e\.config
+2026-10-13T18:09:10.6090586Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-13T18:09:10.6319100Z Removing credentials config '/home/runner/work/_temp/git-credentials-12d0c113-ab14-4538-89b5-46f412a3390e.config'
+2026-10-13T18:09:10.6328989Z ##[endgroup]
+2026-10-13T18:09:10.6518137Z ##[group]Run python3 -m unittest discover -s formal/tests -v
+2026-10-13T18:09:10.6518573Z [36;1mpython3 -m unittest discover -s formal/tests -v[0m
+2026-10-13T18:09:10.6518906Z [36;1mpython3 -O -m unittest discover -s formal/tests -v[0m
+2026-10-13T18:09:10.6519191Z [36;1mpython3 formal/gate.py[0m
+2026-10-13T18:09:10.6736934Z shell: /usr/bin/bash -e {0}
+2026-10-13T18:09:10.6737225Z env:
+2026-10-13T18:09:10.6737416Z   LEAN_NUM_THREADS: 2
+2026-10-13T18:09:10.6737603Z ##[endgroup]
+2026-10-13T18:09:10.9419199Z test_blank_or_nonstring_proposer_identity (test_alignment_lineage.AlignmentLineageTests.test_blank_or_nonstring_proposer_identity) ... ok
+2026-10-13T18:09:10.9420369Z test_disposition_only_edit_cannot_hide_unknown_proposer (test_alignment_lineage.AlignmentLineageTests.test_disposition_only_edit_cannot_hide_unknown_proposer) ... ok
+2026-10-13T18:09:10.9421560Z test_every_declared_proposer_is_checked (test_alignment_lineage.AlignmentLineageTests.test_every_declared_proposer_is_checked) ... ok
+2026-10-13T18:09:10.9422540Z test_existing_digest_scope_and_coverage_checks (test_alignment_lineage.AlignmentLineageTests.test_existing_digest_scope_and_coverage_checks) ... ok
+2026-10-13T18:09:10.9423468Z test_explicit_empty_proposer_list (test_alignment_lineage.AlignmentLineageTests.test_explicit_empty_proposer_list) ... ok
+2026-10-13T18:09:10.9424224Z test_input_not_mutated (test_alignment_lineage.AlignmentLineageTests.test_input_not_mutated) ... ok
+2026-10-13T18:09:10.9425938Z test_invalid_proposer_target_scope (test_alignment_lineage.AlignmentLineageTests.test_invalid_proposer_target_scope) ... ok
+2026-10-13T18:09:10.9426838Z test_known_distinct_proposer (test_alignment_lineage.AlignmentLineageTests.test_known_distinct_proposer) ... ok
+2026-10-13T18:09:10.9427836Z test_legacy_single_author_record (test_alignment_lineage.AlignmentLineageTests.test_legacy_single_author_record) ... ok
+2026-10-13T18:09:10.9435688Z test_lineage_scope_cannot_be_unbound (test_alignment_lineage.AlignmentLineageTests.test_lineage_scope_cannot_be_unbound) ... ok
+2026-10-13T18:09:10.9439994Z test_lineage_tests_cannot_be_unbound (test_alignment_lineage.AlignmentLineageTests.test_lineage_tests_cannot_be_unbound) ... ok
+2026-10-13T18:09:10.9442097Z test_malformed_primary_and_reviewer_objects (test_alignment_lineage.AlignmentLineageTests.test_malformed_primary_and_reviewer_objects) ... ok
+2026-10-13T18:09:10.9443239Z test_malformed_proposer_collection (test_alignment_lineage.AlignmentLineageTests.test_malformed_proposer_collection) ... ok
+2026-10-13T18:09:10.9444297Z test_malformed_proposer_object (test_alignment_lineage.AlignmentLineageTests.test_malformed_proposer_object) ... ok
+2026-10-13T18:09:10.9445614Z test_missing_proposer_identity_field (test_alignment_lineage.AlignmentLineageTests.test_missing_proposer_identity_field) ... ok
+2026-10-13T18:09:10.9464179Z test_placeholder_lineage_in_all_roles (test_alignment_lineage.AlignmentLineageTests.test_placeholder_lineage_in_all_roles) ... ok
+2026-10-13T18:09:10.9465218Z test_primary_identity_normalization (test_alignment_lineage.AlignmentLineageTests.test_primary_identity_normalization) ... ok
+2026-10-13T18:09:10.9490420Z test_proposer_identity_normalization (test_alignment_lineage.AlignmentLineageTests.test_proposer_identity_normalization) ... ok
+2026-10-13T18:09:10.9500251Z test_same_proposer_agent (test_alignment_lineage.AlignmentLineageTests.test_same_proposer_agent) ... ok
+2026-10-13T18:09:10.9501106Z test_same_proposer_family (test_alignment_lineage.AlignmentLineageTests.test_same_proposer_family) ... ok
+2026-10-13T18:09:10.9501673Z test_same_proposer_provider (test_alignment_lineage.AlignmentLineageTests.test_same_proposer_provider) ... ok
+2026-10-13T18:09:10.9502265Z test_unscoped_known_proposer (test_alignment_lineage.AlignmentLineageTests.test_unscoped_known_proposer) ... ok
+2026-10-13T18:09:10.9502891Z test_withheld_record_remains_rejected (test_alignment_lineage.AlignmentLineageTests.test_withheld_record_remains_rejected) ... ok
+2026-10-13T18:09:10.9516367Z test_all_endpoint_inequalities_on_rational_controls (test_d2_schur.D2SchurTests.test_all_endpoint_inequalities_on_rational_controls) ... ok
+2026-10-13T18:09:10.9520906Z test_exact_declarations (test_d2_schur.D2SchurTests.test_exact_declarations) ... ok
+2026-10-13T18:09:10.9522160Z test_gaussian_reference_and_required_denominator_guard (test_d2_schur.D2SchurTests.test_gaussian_reference_and_required_denominator_guard) ... ok
+2026-10-13T18:09:10.9540136Z test_import_and_blueprint_wiring (test_d2_schur.D2SchurTests.test_import_and_blueprint_wiring) ... ok
+2026-10-13T18:09:10.9756712Z test_independent_spectral_gram_rotations (test_d2_schur.D2SchurTests.test_independent_spectral_gram_rotations) ... ok
+2026-10-13T18:09:10.9759905Z test_manifest_exact_extension (test_d2_schur.D2SchurTests.test_manifest_exact_extension) ... ok
+2026-10-13T18:09:10.9761167Z test_no_proof_holes_or_native_shortcut (test_d2_schur.D2SchurTests.test_no_proof_holes_or_native_shortcut) ... ok
+2026-10-13T18:09:10.9762272Z test_wrong_sign_and_missing_soft_factor_are_detected (test_d2_schur.D2SchurTests.test_wrong_sign_and_missing_soft_factor_are_detected) ... ok
+2026-10-13T18:09:10.9780202Z test_empty_link (test_gate.BlueprintTests.test_empty_link) ... ok
+2026-10-13T18:09:10.9810717Z test_unsupported_leanok (test_gate.BlueprintTests.test_unsupported_leanok) ... ok
+2026-10-13T18:09:10.9811528Z test_valid_link (test_gate.BlueprintTests.test_valid_link) ... ok
+2026-10-13T18:09:10.9812175Z test_wrong_link (test_gate.BlueprintTests.test_wrong_link) ... ok
+2026-10-13T18:09:10.9812773Z test_axiom_free (test_gate.GateTests.test_axiom_free) ... ok
+2026-10-13T18:09:10.9813306Z test_custom (test_gate.GateTests.test_custom) ... ok
+2026-10-13T18:09:10.9813962Z test_duplicate_target_output (test_gate.GateTests.test_duplicate_target_output) ... ok
+2026-10-13T18:09:10.9814761Z test_duplicate_target_request (test_gate.GateTests.test_duplicate_target_request) ... ok
+2026-10-13T18:09:10.9815523Z test_manifest_absolute (test_gate.GateTests.test_manifest_absolute) ... ok
+2026-10-13T18:09:10.9816216Z test_manifest_content (test_gate.GateTests.test_manifest_content) ... ok
+2026-10-13T18:09:10.9816863Z test_manifest_empty (test_gate.GateTests.test_manifest_empty) ... ok
+2026-10-13T18:09:10.9817504Z test_manifest_escape (test_gate.GateTests.test_manifest_escape) ... ok
+2026-10-13T18:09:10.9818096Z test_manifest_missing (test_gate.GateTests.test_manifest_missing) ... ok
+2026-10-13T18:09:10.9818682Z test_manifest_symlink (test_gate.GateTests.test_manifest_symlink) ... ok
+2026-10-13T18:09:10.9819264Z test_manifest_tamper (test_gate.GateTests.test_manifest_tamper) ... ok
+2026-10-13T18:09:10.9820024Z test_missing_target (test_gate.GateTests.test_missing_target) ... ok
+2026-10-13T18:09:10.9820808Z test_multiline (test_gate.GateTests.test_multiline) ... ok
+2026-10-13T18:09:10.9821262Z test_native (test_gate.GateTests.test_native) ... ok
+2026-10-13T18:09:10.9821739Z test_noise_denied (test_gate.GateTests.test_noise_denied) ... ok
+2026-10-13T18:09:10.9822345Z test_review_bad_disposition (test_gate.GateTests.test_review_bad_disposition) ... ok
+2026-10-13T18:09:10.9823003Z test_review_bad_evidence (test_gate.GateTests.test_review_bad_evidence) ... ok
+2026-10-13T18:09:10.9823662Z test_review_changed_scope (test_gate.GateTests.test_review_changed_scope) ... ok
+2026-10-13T18:09:10.9824294Z test_review_partial (test_gate.GateTests.test_review_partial) ... ok
+2026-10-13T18:09:10.9824887Z test_review_same_provider (test_gate.GateTests.test_review_same_provider) ... ok
+2026-10-13T18:09:10.9825482Z test_review_self (test_gate.GateTests.test_review_self) ... ok
+2026-10-13T18:09:10.9826008Z test_review_stale (test_gate.GateTests.test_review_stale) ... ok
+2026-10-13T18:09:10.9826510Z test_review_valid (test_gate.GateTests.test_review_valid) ... ok
+2026-10-13T18:09:10.9826972Z test_sorry (test_gate.GateTests.test_sorry) ... ok
+2026-10-13T18:09:10.9827467Z test_standard_axioms (test_gate.GateTests.test_standard_axioms) ... ok
+2026-10-13T18:09:10.9828244Z test_unexpected_target (test_gate.GateTests.test_unexpected_target) ... ok
+2026-10-13T18:09:10.9828993Z test_complete_pinned_release_record (test_gate.RuntimeVersionTests.test_complete_pinned_release_record) ... ok
+2026-10-13T18:09:10.9985762Z test_installed_dependency_change_still_refuses_receipt (test_gate.RuntimeVersionTests.test_installed_dependency_change_still_refuses_receipt) ... ok
+2026-10-13T18:09:11.0098932Z test_invalid_preflight_preserves_build_and_runs_no_build (test_gate.RuntimeVersionTests.test_invalid_preflight_preserves_build_and_runs_no_build) ... ok
+2026-10-13T18:09:11.0271002Z test_other_commit_after_execution_refuses_receipt (test_gate.RuntimeVersionTests.test_other_commit_after_execution_refuses_receipt) ... ok
+2026-10-13T18:09:11.0389902Z test_other_commit_preflight_preserves_build (test_gate.RuntimeVersionTests.test_other_commit_preflight_preserves_build) ... ok
+2026-10-13T18:09:11.0390762Z test_other_versions_and_incomplete_or_extra_records_refused (test_gate.RuntimeVersionTests.test_other_versions_and_incomplete_or_extra_records_refused) ... ok
+2026-10-13T18:09:11.0506468Z test_preflight_process_failure_preserves_build (test_gate.RuntimeVersionTests.test_preflight_process_failure_preserves_build) ... ok
+2026-10-13T18:09:11.0507218Z test_short_and_other_release_commits_refused (test_gate.RuntimeVersionTests.test_short_and_other_release_commits_refused) ... ok
+2026-10-13T18:09:11.0647094Z test_source_change_during_build_still_refuses_receipt (test_gate.RuntimeVersionTests.test_source_change_during_build_still_refuses_receipt) ... ok
+2026-10-13T18:09:11.0834697Z test_success_checks_before_build_and_after_controls_and_binds_both_logs (test_gate.RuntimeVersionTests.test_success_checks_before_build_and_after_controls_and_binds_both_logs) ... ok
+2026-10-13T18:09:11.1038259Z test_version_change_after_execution_refuses_receipt (test_gate.RuntimeVersionTests.test_version_change_after_execution_refuses_receipt) ... ok
+2026-10-13T18:09:11.1039293Z test_duplicate_json_rejected (test_gate.SourceContractTests.test_duplicate_json_rejected) ... ok
+2026-10-13T18:09:11.1040278Z test_json_object (test_gate.SourceContractTests.test_json_object) ... ok
+2026-10-13T18:09:11.1109142Z test_manifest_cannot_claim_kernel_status (test_gate.SourceContractTests.test_manifest_cannot_claim_kernel_status) ... ok
+2026-10-13T18:09:11.1210167Z test_root_declaration_cannot_evade_audit (test_gate.SourceContractTests.test_root_declaration_cannot_evade_audit) ... ok
+2026-10-13T18:09:11.1322700Z test_source_baseline (test_gate.SourceContractTests.test_source_baseline) ... ok
+2026-10-13T18:09:11.1390114Z test_unbound_gate_refused (test_gate.SourceContractTests.test_unbound_gate_refused) ... ok
+2026-10-13T18:09:11.1391058Z test_only_documented_algebra_repairs (test_gate.SuccessorTests.test_only_documented_algebra_repairs) ... ok
+2026-10-13T18:09:11.1392325Z test_only_documented_probability_repair (test_gate.SuccessorTests.test_only_documented_probability_repair) ... ok
+2026-10-13T18:09:11.1393429Z test_cross_law_substitution_fails (test_measure_bridge.MeasureBridgeFiniteModelTests.test_cross_law_substitution_fails) ... ok
+2026-10-13T18:09:11.1431549Z test_dependent_events_and_zero_edges (test_measure_bridge.MeasureBridgeFiniteModelTests.test_dependent_events_and_zero_edges) ... ok
+2026-10-13T18:09:11.1432753Z test_eighth_order_tail_ledger (test_measure_bridge.MeasureBridgeFiniteModelTests.test_eighth_order_tail_ledger) ... ok
+2026-10-13T18:09:11.1433889Z test_omitted_square_root_is_false_and_cs_is_sharp (test_measure_bridge.MeasureBridgeFiniteModelTests.test_omitted_square_root_is_false_and_cs_is_sharp) ... ok
+2026-10-13T18:09:11.1435151Z test_second_moment_cannot_be_replaced_by_first (test_measure_bridge.MeasureBridgeFiniteModelTests.test_second_moment_cannot_be_replaced_by_first) ... ok
+2026-10-13T18:09:11.1436526Z test_upper_normalizer_bound_does_not_replace_lower (test_measure_bridge.MeasureBridgeFiniteModelTests.test_upper_normalizer_bound_does_not_replace_lower) ... ok
+2026-10-13T18:09:11.1437984Z test_bridge_module_present (test_measure_bridge.MeasureBridgeSourceTests.test_bridge_module_present) ... ok
+2026-10-13T18:09:11.1438920Z test_exact_new_inventory (test_measure_bridge.MeasureBridgeSourceTests.test_exact_new_inventory) ... ok
+2026-10-13T18:09:11.1439954Z test_module_and_scope_bound (test_measure_bridge.MeasureBridgeSourceTests.test_module_and_scope_bound) ... ok
+2026-10-13T18:09:11.1441008Z test_original_companion_identities_retained (test_measure_bridge.MeasureBridgeSourceTests.test_original_companion_identities_retained) ... ok
+2026-10-13T18:09:11.1442938Z test_registered_declarations_and_import (test_measure_bridge.MeasureBridgeSourceTests.test_registered_declarations_and_import) ... ok
+2026-10-13T18:09:11.1446345Z test_interval_family_and_outside_zero_measure (test_moment_generality.MomentGeneralityFiniteModelTests.test_interval_family_and_outside_zero_measure) ... ok
+2026-10-13T18:09:11.1447834Z test_invalid_threshold_parameters_rejected (test_moment_generality.MomentGeneralityFiniteModelTests.test_invalid_threshold_parameters_rejected) ... ok
+2026-10-13T18:09:11.1449015Z test_mass_scaling (test_moment_generality.MomentGeneralityFiniteModelTests.test_mass_scaling) ... ok
+2026-10-13T18:09:11.1450300Z test_no_extra_total_mass_normalization (test_moment_generality.MomentGeneralityFiniteModelTests.test_no_extra_total_mass_normalization) ... ok
+2026-10-13T18:09:11.1587491Z test_nonunit_mass_tail_grid (test_moment_generality.MomentGeneralityFiniteModelTests.test_nonunit_mass_tail_grid) ... ok
+2026-10-13T18:09:11.1588653Z test_r_dependent_coefficient_is_not_uniform (test_moment_generality.MomentGeneralityFiniteModelTests.test_r_dependent_coefficient_is_not_uniform) ... ok
+2026-10-13T18:09:11.1589932Z test_strict_signed_and_null_edges (test_moment_generality.MomentGeneralityFiniteModelTests.test_strict_signed_and_null_edges) ... ok
+2026-10-13T18:09:11.1591183Z test_exact_inventory (test_moment_generality.MomentGeneralitySourceTests.test_exact_inventory) ... ok
+2026-10-13T18:09:11.1592955Z test_module_and_exact_declarations (test_moment_generality.MomentGeneralitySourceTests.test_module_and_exact_declarations) ... ok
+2026-10-13T18:09:11.1594186Z test_predecessor_and_gate_pins_preserved (test_moment_generality.MomentGeneralitySourceTests.test_predecessor_and_gate_pins_preserved) ... ok
+2026-10-13T18:09:11.1595250Z test_root_import (test_moment_generality.MomentGeneralitySourceTests.test_root_import) ... ok
+2026-10-13T18:09:11.1596918Z test_source_scope_and_tests_bound (test_moment_generality.MomentGeneralitySourceTests.test_source_scope_and_tests_bound) ... ok
+2026-10-13T18:09:11.1885922Z test_actual_weighted_probabilities_and_cubic_composition (test_moment_tail.MomentTailFiniteModelTests.test_actual_weighted_probabilities_and_cubic_composition) ... ok
+2026-10-13T18:09:11.1887783Z test_epsilon_factor_cannot_be_omitted (test_moment_tail.MomentTailFiniteModelTests.test_epsilon_factor_cannot_be_omitted) ... ok
+2026-10-13T18:09:11.1954584Z test_markov_tail_and_threshold_inclusion (test_moment_tail.MomentTailFiniteModelTests.test_markov_tail_and_threshold_inclusion) ... ok
+2026-10-13T18:09:11.1955828Z test_strict_boundary_and_signed_jet (test_moment_tail.MomentTailFiniteModelTests.test_strict_boundary_and_signed_jet) ... ok
+2026-10-13T18:09:11.1956904Z test_twentieth_moment_cannot_replace_fortieth (test_moment_tail.MomentTailFiniteModelTests.test_twentieth_moment_cannot_replace_fortieth) ... ok
+2026-10-13T18:09:11.1957902Z test_wrong_r_sixteen_power_fails (test_moment_tail.MomentTailFiniteModelTests.test_wrong_r_sixteen_power_fails) ... ok
+2026-10-13T18:09:11.1959002Z test_zero_moment_null_atom_and_dependent_weight (test_moment_tail.MomentTailFiniteModelTests.test_zero_moment_null_atom_and_dependent_weight) ... ok
+2026-10-13T18:09:11.1970856Z test_exact_inventory (test_moment_tail.MomentTailSourceTests.test_exact_inventory) ... ok
+2026-10-13T18:09:11.1971897Z test_new_source_and_exact_declarations (test_moment_tail.MomentTailSourceTests.test_new_source_and_exact_declarations) ... ok
+2026-10-13T18:09:11.1973452Z test_retained_control_and_proof_pins (test_moment_tail.MomentTailSourceTests.test_retained_control_and_proof_pins) ... ok
+2026-10-13T18:09:11.1974363Z test_root_import (test_moment_tail.MomentTailSourceTests.test_root_import) ... ok
+2026-10-13T18:09:11.1975214Z test_source_scope_and_tests_bound (test_moment_tail.MomentTailSourceTests.test_source_scope_and_tests_bound) ... ok
+2026-10-13T18:09:11.1976488Z test_absolute_integral_cannot_replace_integral_absolute (test_weight_perturbation.WeightPerturbationFiniteTests.test_absolute_integral_cannot_replace_integral_absolute) ... ok
+2026-10-13T18:09:11.2108477Z test_generic_integral_bound_including_signed_weights (test_weight_perturbation.WeightPerturbationFiniteTests.test_generic_integral_bound_including_signed_weights) ... ok
+2026-10-13T18:09:11.2110248Z test_half_budget_endpoint_still_normalizes (test_weight_perturbation.WeightPerturbationFiniteTests.test_half_budget_endpoint_still_normalizes) ... ok
+2026-10-13T18:09:11.3431454Z test_normalized_laws_uniform_over_all_events (test_weight_perturbation.WeightPerturbationFiniteTests.test_normalized_laws_uniform_over_all_events) ... ok
+2026-10-13T18:09:11.3440391Z test_quotient_bound_does_not_need_b_nonnegative (test_weight_perturbation.WeightPerturbationFiniteTests.test_quotient_bound_does_not_need_b_nonnegative) ... ok
+2026-10-13T18:09:11.3442170Z test_r2_scale_cancels_without_r_le_one (test_weight_perturbation.WeightPerturbationFiniteTests.test_r2_scale_cancels_without_r_le_one) ... ok
+2026-10-13T18:09:11.3443334Z test_same_weight_under_different_laws_is_not_zero_error_transfer (test_weight_perturbation.WeightPerturbationFiniteTests.test_same_weight_under_different_laws_is_not_zero_error_transfer) ... ok
+2026-10-13T18:09:11.3476193Z test_set_integral_domination_and_nonnegative_bounds (test_weight_perturbation.WeightPerturbationFiniteTests.test_set_integral_domination_and_nonnegative_bounds) ... ok
+2026-10-13T18:09:11.3477858Z test_signed_clipping_and_zero_normalizer_are_not_probability_cases (test_weight_perturbation.WeightPerturbationFiniteTests.test_signed_clipping_and_zero_normalizer_are_not_probability_cases) ... ok
+2026-10-13T18:09:11.3479296Z test_small_absolute_error_without_normalizer_scale_is_insufficient (test_weight_perturbation.WeightPerturbationFiniteTests.test_small_absolute_error_without_normalizer_scale_is_insufficient) ... ok
+2026-10-13T18:09:11.3480414Z test_zero_error_and_null_set_changes (test_weight_perturbation.WeightPerturbationFiniteTests.test_zero_error_and_null_set_changes) ... ok
+2026-10-13T18:09:11.3481692Z test_exact_extension_inventory (test_weight_perturbation.WeightPerturbationSourceTests.test_exact_extension_inventory) ... ok
+2026-10-13T18:09:11.3483191Z test_module_and_exact_declarations (test_weight_perturbation.WeightPerturbationSourceTests.test_module_and_exact_declarations) ... ok
+2026-10-13T18:09:11.3484908Z test_predecessor_and_gate_identity_contract (test_weight_perturbation.WeightPerturbationSourceTests.test_predecessor_and_gate_identity_contract) ... ok
+2026-10-13T18:09:11.3485717Z test_root_import (test_weight_perturbation.WeightPerturbationSourceTests.test_root_import) ... ok
+2026-10-13T18:09:11.3486738Z test_source_scope_and_tests_are_bound (test_weight_perturbation.WeightPerturbationSourceTests.test_source_scope_and_tests_are_bound) ... ok
+2026-10-13T18:09:11.3487976Z test_ae_representatives_and_null_events (test_weighted_law.WeightedLawFiniteModelTests.test_ae_representatives_and_null_events) ... ok
+2026-10-13T18:09:11.3518011Z test_all_event_ratios_and_transfer (test_weighted_law.WeightedLawFiniteModelTests.test_all_event_ratios_and_transfer) ... ok
+2026-10-13T18:09:11.3519040Z test_constant_positive_weights (test_weighted_law.WeightedLawFiniteModelTests.test_constant_positive_weights) ... ok
+2026-10-13T18:09:11.3520339Z test_countable_additivity_finite_partition_witness (test_weighted_law.WeightedLawFiniteModelTests.test_countable_additivity_finite_partition_witness) ... ok
+2026-10-13T18:09:11.3521516Z test_omitting_normalizer_changes_total_mass (test_weighted_law.WeightedLawFiniteModelTests.test_omitting_normalizer_changes_total_mass) ... ok
+2026-10-13T18:09:11.3522724Z test_positive_rescaling (test_weighted_law.WeightedLawFiniteModelTests.test_positive_rescaling) ... ok
+2026-10-13T18:09:11.3523659Z test_signed_weight_rejected_and_clipping_is_not_normalization (test_weighted_law.WeightedLawFiniteModelTests.test_signed_weight_rejected_and_clipping_is_not_normalization) ... ok
+2026-10-13T18:09:11.3524427Z test_zero_normalizer_rejected (test_weighted_law.WeightedLawFiniteModelTests.test_zero_normalizer_rejected) ... ok
+2026-10-13T18:09:11.3525372Z test_bound_source_scope_and_tests (test_weighted_law.WeightedLawSourceTests.test_bound_source_scope_and_tests) ... ok
+2026-10-13T18:09:11.3526329Z test_exact_target_inventory (test_weighted_law.WeightedLawSourceTests.test_exact_target_inventory) ... ok
+2026-10-13T18:09:11.3527151Z test_module_and_declarations (test_weighted_law.WeightedLawSourceTests.test_module_and_declarations) ... ok
+2026-10-13T18:09:11.3528252Z test_parent_proofs_and_execution_controls_retained (test_weighted_law.WeightedLawSourceTests.test_parent_proofs_and_execution_controls_retained) ... ok
+2026-10-13T18:09:11.3529242Z test_root_import (test_weighted_law.WeightedLawSourceTests.test_root_import) ... ok
+2026-10-13T18:09:11.3529780Z 
+2026-10-13T18:09:11.3529943Z ----------------------------------------------------------------------
+2026-10-13T18:09:11.3530224Z Ran 144 tests in 0.412s
+2026-10-13T18:09:11.3530339Z 
+2026-10-13T18:09:11.3530417Z OK
+2026-10-13T18:09:12.0164672Z test_blank_or_nonstring_proposer_identity (test_alignment_lineage.AlignmentLineageTests.test_blank_or_nonstring_proposer_identity) ... ok
+2026-10-13T18:09:12.0166058Z test_disposition_only_edit_cannot_hide_unknown_proposer (test_alignment_lineage.AlignmentLineageTests.test_disposition_only_edit_cannot_hide_unknown_proposer) ... ok
+2026-10-13T18:09:12.0167449Z test_every_declared_proposer_is_checked (test_alignment_lineage.AlignmentLineageTests.test_every_declared_proposer_is_checked) ... ok
+2026-10-13T18:09:12.0168763Z test_existing_digest_scope_and_coverage_checks (test_alignment_lineage.AlignmentLineageTests.test_existing_digest_scope_and_coverage_checks) ... ok
+2026-10-13T18:09:12.0170139Z test_explicit_empty_proposer_list (test_alignment_lineage.AlignmentLineageTests.test_explicit_empty_proposer_list) ... ok
+2026-10-13T18:09:12.0171078Z test_input_not_mutated (test_alignment_lineage.AlignmentLineageTests.test_input_not_mutated) ... ok
+2026-10-13T18:09:12.0171972Z test_invalid_proposer_target_scope (test_alignment_lineage.AlignmentLineageTests.test_invalid_proposer_target_scope) ... ok
+2026-10-13T18:09:12.0172927Z test_known_distinct_proposer (test_alignment_lineage.AlignmentLineageTests.test_known_distinct_proposer) ... ok
+2026-10-13T18:09:12.0173914Z test_legacy_single_author_record (test_alignment_lineage.AlignmentLineageTests.test_legacy_single_author_record) ... ok
+2026-10-13T18:09:12.0178159Z test_lineage_scope_cannot_be_unbound (test_alignment_lineage.AlignmentLineageTests.test_lineage_scope_cannot_be_unbound) ... ok
+2026-10-13T18:09:12.0181917Z test_lineage_tests_cannot_be_unbound (test_alignment_lineage.AlignmentLineageTests.test_lineage_tests_cannot_be_unbound) ... ok
+2026-10-13T18:09:12.0183587Z test_malformed_primary_and_reviewer_objects (test_alignment_lineage.AlignmentLineageTests.test_malformed_primary_and_reviewer_objects) ... ok
+2026-10-13T18:09:12.0184818Z test_malformed_proposer_collection (test_alignment_lineage.AlignmentLineageTests.test_malformed_proposer_collection) ... ok
+2026-10-13T18:09:12.0185925Z test_malformed_proposer_object (test_alignment_lineage.AlignmentLineageTests.test_malformed_proposer_object) ... ok
+2026-10-13T18:09:12.0187041Z test_missing_proposer_identity_field (test_alignment_lineage.AlignmentLineageTests.test_missing_proposer_identity_field) ... ok
+2026-10-13T18:09:12.0198616Z test_placeholder_lineage_in_all_roles (test_alignment_lineage.AlignmentLineageTests.test_placeholder_lineage_in_all_roles) ... ok
+2026-10-13T18:09:12.0199940Z test_primary_identity_normalization (test_alignment_lineage.AlignmentLineageTests.test_primary_identity_normalization) ... ok
+2026-10-13T18:09:12.0201333Z test_proposer_identity_normalization (test_alignment_lineage.AlignmentLineageTests.test_proposer_identity_normalization) ... ok
+2026-10-13T18:09:12.0202311Z test_same_proposer_agent (test_alignment_lineage.AlignmentLineageTests.test_same_proposer_agent) ... ok
+2026-10-13T18:09:12.0203208Z test_same_proposer_family (test_alignment_lineage.AlignmentLineageTests.test_same_proposer_family) ... ok
+2026-10-13T18:09:12.0204160Z test_same_proposer_provider (test_alignment_lineage.AlignmentLineageTests.test_same_proposer_provider) ... ok
+2026-10-13T18:09:12.0205163Z test_unscoped_known_proposer (test_alignment_lineage.AlignmentLineageTests.test_unscoped_known_proposer) ... ok
+2026-10-13T18:09:12.0206278Z test_withheld_record_remains_rejected (test_alignment_lineage.AlignmentLineageTests.test_withheld_record_remains_rejected) ... ok
+2026-10-13T18:09:12.0231501Z test_all_endpoint_inequalities_on_rational_controls (test_d2_schur.D2SchurTests.test_all_endpoint_inequalities_on_rational_controls) ... ok
+2026-10-13T18:09:12.0234742Z test_exact_declarations (test_d2_schur.D2SchurTests.test_exact_declarations) ... ok
+2026-10-13T18:09:12.0235732Z test_gaussian_reference_and_required_denominator_guard (test_d2_schur.D2SchurTests.test_gaussian_reference_and_required_denominator_guard) ... ok
+2026-10-13T18:09:12.0237031Z test_import_and_blueprint_wiring (test_d2_schur.D2SchurTests.test_import_and_blueprint_wiring) ... ok
+2026-10-13T18:09:12.0399723Z test_independent_spectral_gram_rotations (test_d2_schur.D2SchurTests.test_independent_spectral_gram_rotations) ... ok
+2026-10-13T18:09:12.0402850Z test_manifest_exact_extension (test_d2_schur.D2SchurTests.test_manifest_exact_extension) ... ok
+2026-10-13T18:09:12.0404284Z test_no_proof_holes_or_native_shortcut (test_d2_schur.D2SchurTests.test_no_proof_holes_or_native_shortcut) ... ok
+2026-10-13T18:09:12.0405301Z test_wrong_sign_and_missing_soft_factor_are_detected (test_d2_schur.D2SchurTests.test_wrong_sign_and_missing_soft_factor_are_detected) ... ok
+2026-10-13T18:09:12.0406571Z test_empty_link (test_gate.BlueprintTests.test_empty_link) ... ok
+2026-10-13T18:09:12.0407225Z test_unsupported_leanok (test_gate.BlueprintTests.test_unsupported_leanok) ... ok
+2026-10-13T18:09:12.0407814Z test_valid_link (test_gate.BlueprintTests.test_valid_link) ... ok
+2026-10-13T18:09:12.0408367Z test_wrong_link (test_gate.BlueprintTests.test_wrong_link) ... ok
+2026-10-13T18:09:12.0408905Z test_axiom_free (test_gate.GateTests.test_axiom_free) ... ok
+2026-10-13T18:09:12.0409760Z test_custom (test_gate.GateTests.test_custom) ... ok
+2026-10-13T18:09:12.0410345Z test_duplicate_target_output (test_gate.GateTests.test_duplicate_target_output) ... ok
+2026-10-13T18:09:12.0411396Z test_duplicate_target_request (test_gate.GateTests.test_duplicate_target_request) ... ok
+2026-10-13T18:09:12.0413767Z test_manifest_absolute (test_gate.GateTests.test_manifest_absolute) ... ok
+2026-10-13T18:09:12.0417695Z test_manifest_content (test_gate.GateTests.test_manifest_content) ... ok
+2026-10-13T18:09:12.0419234Z test_manifest_empty (test_gate.GateTests.test_manifest_empty) ... ok
+2026-10-13T18:09:12.0421612Z test_manifest_escape (test_gate.GateTests.test_manifest_escape) ... ok
+2026-10-13T18:09:12.0440241Z test_manifest_missing (test_gate.GateTests.test_manifest_missing) ... ok
+2026-10-13T18:09:12.0440888Z test_manifest_symlink (test_gate.GateTests.test_manifest_symlink) ... ok
+2026-10-13T18:09:12.0441478Z test_manifest_tamper (test_gate.GateTests.test_manifest_tamper) ... ok
+2026-10-13T18:09:12.0442058Z test_missing_target (test_gate.GateTests.test_missing_target) ... ok
+2026-10-13T18:09:12.0442580Z test_multiline (test_gate.GateTests.test_multiline) ... ok
+2026-10-13T18:09:12.0443029Z test_native (test_gate.GateTests.test_native) ... ok
+2026-10-13T18:09:12.0443522Z test_noise_denied (test_gate.GateTests.test_noise_denied) ... ok
+2026-10-13T18:09:12.0444125Z test_review_bad_disposition (test_gate.GateTests.test_review_bad_disposition) ... ok
+2026-10-13T18:09:12.0445053Z test_review_bad_evidence (test_gate.GateTests.test_review_bad_evidence) ... ok
+2026-10-13T18:09:12.0445705Z test_review_changed_scope (test_gate.GateTests.test_review_changed_scope) ... ok
+2026-10-13T18:09:12.0446299Z test_review_partial (test_gate.GateTests.test_review_partial) ... ok
+2026-10-13T18:09:12.0446906Z test_review_same_provider (test_gate.GateTests.test_review_same_provider) ... ok
+2026-10-13T18:09:12.0447500Z test_review_self (test_gate.GateTests.test_review_self) ... ok
+2026-10-13T18:09:12.0448017Z test_review_stale (test_gate.GateTests.test_review_stale) ... ok
+2026-10-13T18:09:12.0448523Z test_review_valid (test_gate.GateTests.test_review_valid) ... ok
+2026-10-13T18:09:12.0448977Z test_sorry (test_gate.GateTests.test_sorry) ... ok
+2026-10-13T18:09:12.0449649Z test_standard_axioms (test_gate.GateTests.test_standard_axioms) ... ok
+2026-10-13T18:09:12.0450249Z test_unexpected_target (test_gate.GateTests.test_unexpected_target) ... ok
+2026-10-13T18:09:12.0451029Z test_complete_pinned_release_record (test_gate.RuntimeVersionTests.test_complete_pinned_release_record) ... ok
+2026-10-13T18:09:12.0622229Z test_installed_dependency_change_still_refuses_receipt (test_gate.RuntimeVersionTests.test_installed_dependency_change_still_refuses_receipt) ... ok
+2026-10-13T18:09:12.0737485Z test_invalid_preflight_preserves_build_and_runs_no_build (test_gate.RuntimeVersionTests.test_invalid_preflight_preserves_build_and_runs_no_build) ... ok
+2026-10-13T18:09:12.0907783Z test_other_commit_after_execution_refuses_receipt (test_gate.RuntimeVersionTests.test_other_commit_after_execution_refuses_receipt) ... ok
+2026-10-13T18:09:12.1020507Z test_other_commit_preflight_preserves_build (test_gate.RuntimeVersionTests.test_other_commit_preflight_preserves_build) ... ok
+2026-10-13T18:09:12.1021843Z test_other_versions_and_incomplete_or_extra_records_refused (test_gate.RuntimeVersionTests.test_other_versions_and_incomplete_or_extra_records_refused) ... ok
+2026-10-13T18:09:12.1277036Z test_preflight_process_failure_preserves_build (test_gate.RuntimeVersionTests.test_preflight_process_failure_preserves_build) ... ok
+2026-10-13T18:09:12.1277799Z test_short_and_other_release_commits_refused (test_gate.RuntimeVersionTests.test_short_and_other_release_commits_refused) ... ok
+2026-10-13T18:09:12.1421263Z test_source_change_during_build_still_refuses_receipt (test_gate.RuntimeVersionTests.test_source_change_during_build_still_refuses_receipt) ... ok
+2026-10-13T18:09:12.2078400Z test_success_checks_before_build_and_after_controls_and_binds_both_logs (test_gate.RuntimeVersionTests.test_success_checks_before_build_and_after_controls_and_binds_both_logs) ... ok
+2026-10-13T18:09:12.2253026Z test_version_change_after_execution_refuses_receipt (test_gate.RuntimeVersionTests.test_version_change_after_execution_refuses_receipt) ... ok
+2026-10-13T18:09:12.2254240Z test_duplicate_json_rejected (test_gate.SourceContractTests.test_duplicate_json_rejected) ... ok
+2026-10-13T18:09:12.2254690Z test_json_object (test_gate.SourceContractTests.test_json_object) ... ok
+2026-10-13T18:09:12.3175787Z test_manifest_cannot_claim_kernel_status (test_gate.SourceContractTests.test_manifest_cannot_claim_kernel_status) ... ok
+2026-10-13T18:09:12.3274001Z test_root_declaration_cannot_evade_audit (test_gate.SourceContractTests.test_root_declaration_cannot_evade_audit) ... ok
+2026-10-13T18:09:12.3382175Z test_source_baseline (test_gate.SourceContractTests.test_source_baseline) ... ok
+2026-10-13T18:09:12.3447419Z test_unbound_gate_refused (test_gate.SourceContractTests.test_unbound_gate_refused) ... ok
+2026-10-13T18:09:12.3449012Z test_only_documented_algebra_repairs (test_gate.SuccessorTests.test_only_documented_algebra_repairs) ... ok
+2026-10-13T18:09:12.3450278Z test_only_documented_probability_repair (test_gate.SuccessorTests.test_only_documented_probability_repair) ... ok
+2026-10-13T18:09:12.3451357Z test_cross_law_substitution_fails (test_measure_bridge.MeasureBridgeFiniteModelTests.test_cross_law_substitution_fails) ... ok
+2026-10-13T18:09:12.3487824Z test_dependent_events_and_zero_edges (test_measure_bridge.MeasureBridgeFiniteModelTests.test_dependent_events_and_zero_edges) ... ok
+2026-10-13T18:09:12.3488727Z test_eighth_order_tail_ledger (test_measure_bridge.MeasureBridgeFiniteModelTests.test_eighth_order_tail_ledger) ... ok
+2026-10-13T18:09:12.3489806Z test_omitted_square_root_is_false_and_cs_is_sharp (test_measure_bridge.MeasureBridgeFiniteModelTests.test_omitted_square_root_is_false_and_cs_is_sharp) ... ok
+2026-10-13T18:09:12.3490619Z test_second_moment_cannot_be_replaced_by_first (test_measure_bridge.MeasureBridgeFiniteModelTests.test_second_moment_cannot_be_replaced_by_first) ... ok
+2026-10-13T18:09:12.3491424Z test_upper_normalizer_bound_does_not_replace_lower (test_measure_bridge.MeasureBridgeFiniteModelTests.test_upper_normalizer_bound_does_not_replace_lower) ... ok
+2026-10-13T18:09:12.3500656Z test_bridge_module_present (test_measure_bridge.MeasureBridgeSourceTests.test_bridge_module_present) ... ok
+2026-10-13T18:09:12.3501561Z test_exact_new_inventory (test_measure_bridge.MeasureBridgeSourceTests.test_exact_new_inventory) ... ok
+2026-10-13T18:09:12.3502333Z test_module_and_scope_bound (test_measure_bridge.MeasureBridgeSourceTests.test_module_and_scope_bound) ... ok
+2026-10-13T18:09:12.3502980Z test_original_companion_identities_retained (test_measure_bridge.MeasureBridgeSourceTests.test_original_companion_identities_retained) ... ok
+2026-10-13T18:09:12.3503711Z test_registered_declarations_and_import (test_measure_bridge.MeasureBridgeSourceTests.test_registered_declarations_and_import) ... ok
+2026-10-13T18:09:12.3504470Z test_interval_family_and_outside_zero_measure (test_moment_generality.MomentGeneralityFiniteModelTests.test_interval_family_and_outside_zero_measure) ... ok
+2026-10-13T18:09:12.3505286Z test_invalid_threshold_parameters_rejected (test_moment_generality.MomentGeneralityFiniteModelTests.test_invalid_threshold_parameters_rejected) ... ok
+2026-10-13T18:09:12.3505950Z test_mass_scaling (test_moment_generality.MomentGeneralityFiniteModelTests.test_mass_scaling) ... ok
+2026-10-13T18:09:12.3506598Z test_no_extra_total_mass_normalization (test_moment_generality.MomentGeneralityFiniteModelTests.test_no_extra_total_mass_normalization) ... ok
+2026-10-13T18:09:12.3636383Z test_nonunit_mass_tail_grid (test_moment_generality.MomentGeneralityFiniteModelTests.test_nonunit_mass_tail_grid) ... ok
+2026-10-13T18:09:12.3637591Z test_r_dependent_coefficient_is_not_uniform (test_moment_generality.MomentGeneralityFiniteModelTests.test_r_dependent_coefficient_is_not_uniform) ... ok
+2026-10-13T18:09:12.3638446Z test_strict_signed_and_null_edges (test_moment_generality.MomentGeneralityFiniteModelTests.test_strict_signed_and_null_edges) ... ok
+2026-10-13T18:09:12.3639656Z test_exact_inventory (test_moment_generality.MomentGeneralitySourceTests.test_exact_inventory) ... ok
+2026-10-13T18:09:12.3641228Z test_module_and_exact_declarations (test_moment_generality.MomentGeneralitySourceTests.test_module_and_exact_declarations) ... ok
+2026-10-13T18:09:12.3642424Z test_predecessor_and_gate_pins_preserved (test_moment_generality.MomentGeneralitySourceTests.test_predecessor_and_gate_pins_preserved) ... ok
+2026-10-13T18:09:12.3643367Z test_root_import (test_moment_generality.MomentGeneralitySourceTests.test_root_import) ... ok
+2026-10-13T18:09:12.3644602Z test_source_scope_and_tests_bound (test_moment_generality.MomentGeneralitySourceTests.test_source_scope_and_tests_bound) ... ok
+2026-10-13T18:09:12.3929539Z test_actual_weighted_probabilities_and_cubic_composition (test_moment_tail.MomentTailFiniteModelTests.test_actual_weighted_probabilities_and_cubic_composition) ... ok
+2026-10-13T18:09:12.3930853Z test_epsilon_factor_cannot_be_omitted (test_moment_tail.MomentTailFiniteModelTests.test_epsilon_factor_cannot_be_omitted) ... ok
+2026-10-13T18:09:12.3994869Z test_markov_tail_and_threshold_inclusion (test_moment_tail.MomentTailFiniteModelTests.test_markov_tail_and_threshold_inclusion) ... ok
+2026-10-13T18:09:12.3995797Z test_strict_boundary_and_signed_jet (test_moment_tail.MomentTailFiniteModelTests.test_strict_boundary_and_signed_jet) ... ok
+2026-10-13T18:09:12.3997033Z test_twentieth_moment_cannot_replace_fortieth (test_moment_tail.MomentTailFiniteModelTests.test_twentieth_moment_cannot_replace_fortieth) ... ok
+2026-10-13T18:09:12.3997736Z test_wrong_r_sixteen_power_fails (test_moment_tail.MomentTailFiniteModelTests.test_wrong_r_sixteen_power_fails) ... ok
+2026-10-13T18:09:12.3998560Z test_zero_moment_null_atom_and_dependent_weight (test_moment_tail.MomentTailFiniteModelTests.test_zero_moment_null_atom_and_dependent_weight) ... ok
+2026-10-13T18:09:12.3999172Z test_exact_inventory (test_moment_tail.MomentTailSourceTests.test_exact_inventory) ... ok
+2026-10-13T18:09:12.4000130Z test_new_source_and_exact_declarations (test_moment_tail.MomentTailSourceTests.test_new_source_and_exact_declarations) ... ok
+2026-10-13T18:09:12.4001228Z test_retained_control_and_proof_pins (test_moment_tail.MomentTailSourceTests.test_retained_control_and_proof_pins) ... ok
+2026-10-13T18:09:12.4001871Z test_root_import (test_moment_tail.MomentTailSourceTests.test_root_import) ... ok
+2026-10-13T18:09:12.4003904Z test_source_scope_and_tests_bound (test_moment_tail.MomentTailSourceTests.test_source_scope_and_tests_bound) ... ok
+2026-10-13T18:09:12.4005120Z test_absolute_integral_cannot_replace_integral_absolute (test_weight_perturbation.WeightPerturbationFiniteTests.test_absolute_integral_cannot_replace_integral_absolute) ... ok
+2026-10-13T18:09:12.4141137Z test_generic_integral_bound_including_signed_weights (test_weight_perturbation.WeightPerturbationFiniteTests.test_generic_integral_bound_including_signed_weights) ... ok
+2026-10-13T18:09:12.4142048Z test_half_budget_endpoint_still_normalizes (test_weight_perturbation.WeightPerturbationFiniteTests.test_half_budget_endpoint_still_normalizes) ... ok
+2026-10-13T18:09:12.5424346Z test_normalized_laws_uniform_over_all_events (test_weight_perturbation.WeightPerturbationFiniteTests.test_normalized_laws_uniform_over_all_events) ... ok
+2026-10-13T18:09:12.5433725Z test_quotient_bound_does_not_need_b_nonnegative (test_weight_perturbation.WeightPerturbationFiniteTests.test_quotient_bound_does_not_need_b_nonnegative) ... ok
+2026-10-13T18:09:12.5435201Z test_r2_scale_cancels_without_r_le_one (test_weight_perturbation.WeightPerturbationFiniteTests.test_r2_scale_cancels_without_r_le_one) ... ok
+2026-10-13T18:09:12.5436764Z test_same_weight_under_different_laws_is_not_zero_error_transfer (test_weight_perturbation.WeightPerturbationFiniteTests.test_same_weight_under_different_laws_is_not_zero_error_transfer) ... ok
+2026-10-13T18:09:12.5470777Z test_set_integral_domination_and_nonnegative_bounds (test_weight_perturbation.WeightPerturbationFiniteTests.test_set_integral_domination_and_nonnegative_bounds) ... ok
+2026-10-13T18:09:12.5473076Z test_signed_clipping_and_zero_normalizer_are_not_probability_cases (test_weight_perturbation.WeightPerturbationFiniteTests.test_signed_clipping_and_zero_normalizer_are_not_probability_cases) ... ok
+2026-10-13T18:09:12.5474661Z test_small_absolute_error_without_normalizer_scale_is_insufficient (test_weight_perturbation.WeightPerturbationFiniteTests.test_small_absolute_error_without_normalizer_scale_is_insufficient) ... ok
+2026-10-13T18:09:12.5475951Z test_zero_error_and_null_set_changes (test_weight_perturbation.WeightPerturbationFiniteTests.test_zero_error_and_null_set_changes) ... ok
+2026-10-13T18:09:12.5477085Z test_exact_extension_inventory (test_weight_perturbation.WeightPerturbationSourceTests.test_exact_extension_inventory) ... ok
+2026-10-13T18:09:12.5478883Z test_module_and_exact_declarations (test_weight_perturbation.WeightPerturbationSourceTests.test_module_and_exact_declarations) ... ok
+2026-10-13T18:09:12.5480351Z test_predecessor_and_gate_identity_contract (test_weight_perturbation.WeightPerturbationSourceTests.test_predecessor_and_gate_identity_contract) ... ok
+2026-10-13T18:09:12.5481476Z test_root_import (test_weight_perturbation.WeightPerturbationSourceTests.test_root_import) ... ok
+2026-10-13T18:09:12.5483291Z test_source_scope_and_tests_are_bound (test_weight_perturbation.WeightPerturbationSourceTests.test_source_scope_and_tests_are_bound) ... ok
+2026-10-13T18:09:12.5484546Z test_ae_representatives_and_null_events (test_weighted_law.WeightedLawFiniteModelTests.test_ae_representatives_and_null_events) ... ok
+2026-10-13T18:09:12.5514757Z test_all_event_ratios_and_transfer (test_weighted_law.WeightedLawFiniteModelTests.test_all_event_ratios_and_transfer) ... ok
+2026-10-13T18:09:12.5515875Z test_constant_positive_weights (test_weighted_law.WeightedLawFiniteModelTests.test_constant_positive_weights) ... ok
+2026-10-13T18:09:12.5517163Z test_countable_additivity_finite_partition_witness (test_weighted_law.WeightedLawFiniteModelTests.test_countable_additivity_finite_partition_witness) ... ok
+2026-10-13T18:09:12.5518400Z test_omitting_normalizer_changes_total_mass (test_weighted_law.WeightedLawFiniteModelTests.test_omitting_normalizer_changes_total_mass) ... ok
+2026-10-13T18:09:12.5519675Z test_positive_rescaling (test_weighted_law.WeightedLawFiniteModelTests.test_positive_rescaling) ... ok
+2026-10-13T18:09:12.5520867Z test_signed_weight_rejected_and_clipping_is_not_normalization (test_weighted_law.WeightedLawFiniteModelTests.test_signed_weight_rejected_and_clipping_is_not_normalization) ... ok
+2026-10-13T18:09:12.5522142Z test_zero_normalizer_rejected (test_weighted_law.WeightedLawFiniteModelTests.test_zero_normalizer_rejected) ... ok
+2026-10-13T18:09:12.5523201Z test_bound_source_scope_and_tests (test_weighted_law.WeightedLawSourceTests.test_bound_source_scope_and_tests) ... ok
+2026-10-13T18:09:12.5524179Z test_exact_target_inventory (test_weighted_law.WeightedLawSourceTests.test_exact_target_inventory) ... ok
+2026-10-13T18:09:12.5525731Z test_module_and_declarations (test_weighted_law.WeightedLawSourceTests.test_module_and_declarations) ... ok
+2026-10-13T18:09:12.5526921Z test_parent_proofs_and_execution_controls_retained (test_weighted_law.WeightedLawSourceTests.test_parent_proofs_and_execution_controls_retained) ... ok
+2026-10-13T18:09:12.5527850Z test_root_import (test_weighted_law.WeightedLawSourceTests.test_root_import) ... ok
+2026-10-13T18:09:12.5528214Z 
+2026-10-13T18:09:12.5528383Z ----------------------------------------------------------------------
+2026-10-13T18:09:12.5528803Z Ran 144 tests in 0.537s
+2026-10-13T18:09:12.5528968Z 
+2026-10-13T18:09:12.5529064Z OK
+2026-10-13T18:09:12.6035725Z SOURCE_IDENTITY_PASS (not a Lean build or scientific acceptance): 40cb6ffc6776717a26d2a0a66815aeef508b0c8411588fff06ff2cec43a752a1
+2026-10-13T18:09:12.6371856Z ##[group]Run leanprover/lean-action@f061402b660e0c34644504b324e830f2991d4865
+2026-10-13T18:09:12.6372186Z with:
+2026-10-13T18:09:12.6372371Z   lake-package-directory: formal
+2026-10-13T18:09:12.6372587Z   auto-config: false
+2026-10-13T18:09:12.6372935Z   build: false
+2026-10-13T18:09:12.6373093Z   test: false
+2026-10-13T18:09:12.6373250Z   lint: false
+2026-10-13T18:09:12.6373430Z   use-mathlib-cache: true
+2026-10-13T18:09:12.6373627Z   use-github-cache: false
+2026-10-13T18:09:12.6373819Z   mk_all-check: false
+2026-10-13T18:09:12.6374024Z   check-reservoir-eligibility: false
+2026-10-13T18:09:12.6374246Z   leanchecker: false
+2026-10-13T18:09:12.6374418Z   lean4checker: false
+2026-10-13T18:09:12.6374583Z   nanoda: false
+2026-10-13T18:09:12.6374757Z   nanoda-allow-sorry: true
+2026-10-13T18:09:12.6374948Z   axiom-audit: false
+2026-10-13T18:09:12.6375177Z   axiom-audit-allow: propext,Classical.choice,Quot.sound
+2026-10-13T18:09:12.6375468Z   reinstall-transient-toolchain: false
+2026-10-13T18:09:12.6375727Z env:
+2026-10-13T18:09:12.6375880Z   LEAN_NUM_THREADS: 2
+2026-10-13T18:09:12.6376049Z ##[endgroup]
+2026-10-13T18:09:12.6431212Z ##[start-action display=install elan;id=__leanprover_lean-action.__run]
+2026-10-13T18:09:12.6458713Z ##[group]Run : Install Elan
+2026-10-13T18:09:12.6458983Z [36;1m: Install Elan[0m
+2026-10-13T18:09:12.6459236Z [36;1m${GITHUB_ACTION_PATH}/scripts/install_elan.sh[0m
+2026-10-13T18:09:12.6518688Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-13T18:09:12.6518996Z env:
+2026-10-13T18:09:12.6519180Z   LEAN_NUM_THREADS: 2
+2026-10-13T18:09:12.6519458Z ##[endgroup]
+2026-10-13T18:09:12.6619741Z ##[group]Elan Installation Output
+2026-10-13T18:09:12.7129814Z info: downloading installer
+2026-10-13T18:09:14.1762284Z info: downloading https://releases.lean-lang.org/lean4/v4.34.1/lean-4.34.1-linux.tar.zst
+2026-10-13T18:09:18.5588175Z info: installing /home/runner/.elan/toolchains/leanprover--lean4---v4.34.1
+2026-10-13T18:09:25.4271063Z Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)
+2026-10-13T18:09:25.4659747Z Lake version 5.0.0-src+5045d00 (Lean version 4.34.1)
+2026-10-13T18:09:25.4694474Z ##[endgroup]
+2026-10-13T18:09:25.4694687Z 
+2026-10-13T18:09:25.4712304Z ##[end-action id=__leanprover_lean-action.__run;outcome=success;conclusion=success;duration_ms=12827]
+2026-10-13T18:09:25.4716886Z ##[start-action display=configure `lean-action`;id=__leanprover_lean-action.config]
+2026-10-13T18:09:25.4818675Z ##[group]Run : Configure Lean Action
+2026-10-13T18:09:25.4819072Z [36;1m: Configure Lean Action[0m
+2026-10-13T18:09:25.4819606Z [36;1m${GITHUB_ACTION_PATH}/scripts/config.sh[0m
+2026-10-13T18:09:25.4882445Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-13T18:09:25.4882739Z env:
+2026-10-13T18:09:25.4882925Z   LEAN_NUM_THREADS: 2
+2026-10-13T18:09:25.4883108Z   AUTO_CONFIG: false
+2026-10-13T18:09:25.4883286Z   BUILD: false
+2026-10-13T18:09:25.4883447Z   TEST: false
+2026-10-13T18:09:25.4883629Z   LINT: false
+2026-10-13T18:09:25.4883790Z ##[endgroup]
+2026-10-13T18:09:25.5152152Z ##[group]Configure lean-action
+2026-10-13T18:09:25.5202309Z ##[end-action id=__leanprover_lean-action.config;outcome=success;conclusion=success;duration_ms=48]
+2026-10-13T18:09:25.5206633Z ##[start-action display=reinstall transient toolchain;id=__leanprover_lean-action.__run_2]
+2026-10-13T18:09:25.5222726Z ##[end-action id=__leanprover_lean-action.__run_2;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-13T18:09:25.5225419Z ##[start-action display=ensure all files are imported;id=__leanprover_lean-action.mk_all]
+2026-10-13T18:09:25.5228738Z ##[end-action id=__leanprover_lean-action.mk_all;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-13T18:09:25.5230928Z ##[start-action display=Run actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25;id=__leanprover_lean-action.__actions_cache]
+2026-10-13T18:09:25.5234131Z ##[end-action id=__leanprover_lean-action.__actions_cache;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-13T18:09:25.5235598Z ##[start-action display=detect mathlib;id=__leanprover_lean-action.detect-mathlib]
+2026-10-13T18:09:25.5238268Z ##[end-action id=__leanprover_lean-action.detect-mathlib;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-13T18:09:25.5240155Z ##[start-action display=get mathlib cache;id=__leanprover_lean-action.__run_3]
+2026-10-13T18:09:25.5917405Z ##[group]Run : Get Mathlib Cache
+2026-10-13T18:09:25.5917684Z [36;1m: Get Mathlib Cache[0m
+2026-10-13T18:09:25.5917901Z [36;1mecho "::group::Mathlib Cache"[0m
+2026-10-13T18:09:25.5918133Z [36;1mlake exe cache get[0m
+2026-10-13T18:09:25.5918335Z [36;1mecho "::endgroup::"[0m
+2026-10-13T18:09:25.5918532Z [36;1mecho[0m
+2026-10-13T18:09:25.5977082Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-13T18:09:25.5977370Z env:
+2026-10-13T18:09:25.5977554Z   LEAN_NUM_THREADS: 2
+2026-10-13T18:09:25.5977738Z ##[endgroup]
+2026-10-13T18:09:25.6145496Z ##[group]Mathlib Cache
+2026-10-13T18:09:25.6509796Z info: mathlib: cloning https://github.com/leanprover-community/mathlib4.git
+2026-10-13T18:09:58.6109286Z info: mathlib: checking out revision 'd13f23b723b8a846827a245b89c10fc7d3f11612'
+2026-10-13T18:10:00.5378404Z info: plausible: cloning https://github.com/leanprover-community/plausible
+2026-10-13T18:10:01.3122717Z info: plausible: checking out revision '118aa17ee84656b8bd727fef7c458ee8c833385c'
+2026-10-13T18:10:01.3252072Z info: LeanSearchClient: cloning https://github.com/leanprover-community/LeanSearchClient
+2026-10-13T18:10:01.9290659Z info: LeanSearchClient: checking out revision 'ddf04cf3949fa556442341e87d47f9f6e6074707'
+2026-10-13T18:10:01.9423755Z info: importGraph: cloning https://github.com/leanprover-community/import-graph
+2026-10-13T18:10:02.7287020Z info: importGraph: checking out revision 'e928b72544873815af278d38681b31c0293588e3'
+2026-10-13T18:10:02.7481051Z info: proofwidgets: cloning https://github.com/leanprover-community/ProofWidgets4
+2026-10-13T18:10:04.1421651Z info: proofwidgets: checking out revision '106ff4fafc74ef4ac99d81dbf3ab399118f497a5'
+2026-10-13T18:10:04.7265168Z info: aesop: cloning https://github.com/leanprover-community/aesop
+2026-10-13T18:10:06.1780521Z info: aesop: checking out revision '355695d523e41d0554926416cba2a2b3544fbbc9'
+2026-10-13T18:10:06.1962984Z info: Qq: cloning https://github.com/leanprover-community/quote4
+2026-10-13T18:10:06.8769704Z info: Qq: checking out revision '6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259'
+2026-10-13T18:10:06.8903812Z info: batteries: cloning https://github.com/leanprover-community/batteries
+2026-10-13T18:10:10.0993168Z info: batteries: checking out revision 'f2effa3d803fda822b1f97b806c47cf2adfbcbc2'
+2026-10-13T18:10:10.1322633Z info: Cli: cloning https://github.com/leanprover/lean4-cli
+2026-10-13T18:10:10.8612694Z info: Cli: checking out revision 'e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204'
+2026-10-13T18:10:11.2760804Z ✔ [1/5] Built Cache.Cli (311ms)
+2026-10-13T18:10:11.2761137Z ✔ [2/5] Built Cache.Lean (364ms)
+2026-10-13T18:10:11.9775674Z ✔ [5/12] Built Cache.Env (311ms)
+2026-10-13T18:10:12.4780399Z ✔ [7/42] Built Cache.Infra (413ms)
+2026-10-13T18:10:12.5782843Z ✔ [8/42] Built Batteries.Tactic.OpenPrivate (848ms)
+2026-10-13T18:10:12.5783821Z ✔ [9/42] Built Cache.Cli:c.o (109ms)
+2026-10-13T18:10:12.6785542Z ✔ [10/42] Built Cache.Lean:c.o (135ms)
+2026-10-13T18:10:12.6786371Z ✔ [11/42] Built Cache.Env:c.o (137ms)
+2026-10-13T18:10:12.8788284Z ✔ [12/42] Built Cache.Infra:c.o (179ms)
+2026-10-13T18:10:13.6798366Z ✔ [13/42] Built Batteries.Tactic.OpenPrivate:c.o (1.0s)
+2026-10-13T18:10:14.0802729Z ✔ [14/42] Built Cache.IO (1.2s)
+2026-10-13T18:10:14.7811397Z ✔ [15/42] Built Cache.Hashing (717ms)
+2026-10-13T18:10:15.0805684Z ✔ [16/42] Built Cache.Hashing:c.o (338ms)
+2026-10-13T18:10:15.3810012Z ✔ [17/42] Built Cache.IO:c.o (1.3s)
+2026-10-13T18:10:16.6824858Z ✔ [18/42] Built Cache.Requests (1.5s)
+2026-10-13T18:10:17.1830967Z ✔ [19/42] Built Cache.Marker (541ms)
+2026-10-13T18:10:17.2832741Z ✔ [20/42] Built Cache.Marker:c.o (87ms)
+2026-10-13T18:10:17.8841149Z ✔ [21/42] Built Cache.Query (651ms)
+2026-10-13T18:10:18.4849125Z ✔ [22/42] Built Cache.Upload.Dest (546ms)
+2026-10-13T18:10:18.6852338Z ✔ [23/42] Built Cache.Query:c.o (236ms)
+2026-10-13T18:10:18.7843822Z ✔ [24/42] Built Cache.Upload.Dest:c.o (96ms)
+2026-10-13T18:10:18.8845392Z ✔ [25/42] Built Cache.Requests:c.o (2.2s)
+2026-10-13T18:10:19.3896290Z ✔ [26/42] Built Cache.Warning (636ms)
+2026-10-13T18:10:19.4898460Z ✔ [27/42] Built Cache.Upload.Rclone (609ms)
+2026-10-13T18:10:19.6901806Z ✔ [28/42] Built Cache.Warning:c.o (209ms)
+2026-10-13T18:10:19.7897338Z ✔ [29/42] Built Cache.Upload.Rclone:c.o (144ms)
+2026-10-13T18:10:19.9895182Z ✔ [30/42] Built Cache.Upload.Curl (547ms)
+2026-10-13T18:10:20.1898244Z ✔ [31/42] Built Cache.Upload.Curl:c.o (159ms)
+2026-10-13T18:10:20.4908468Z ✔ [32/42] Built Cache.Upload.Azure (535ms)
+2026-10-13T18:10:20.5903815Z ✔ [33/42] Built Cache.Upload.Azure:c.o (109ms)
+2026-10-13T18:10:20.7910946Z ✔ [34/42] Built Cache.Upload.S3 (670ms)
+2026-10-13T18:10:21.0909333Z ✔ [35/42] Built Cache.Upload.S3:c.o (275ms)
+2026-10-13T18:10:21.3912317Z ✔ [36/42] Built Cache.Upload.Defs (558ms)
+2026-10-13T18:10:21.4913765Z ✔ [37/42] Built Cache.Upload.Defs:c.o (127ms)
+2026-10-13T18:10:21.8918196Z ✔ [38/42] Built Cache.Upload (514ms)
+2026-10-13T18:10:21.9919289Z ✔ [39/42] Built Cache.Upload:c.o (103ms)
+2026-10-13T18:10:22.8929624Z ✔ [40/42] Built Cache.Main (980ms)
+2026-10-13T18:10:23.5938346Z ✔ [41/42] Built Cache.Main:c.o (737ms)
+2026-10-13T18:10:24.2949237Z ✔ [42/42] Built cache:exe (685ms)
+2026-10-13T18:10:26.8878490Z Current branch: HEAD
+2026-10-13T18:10:26.8879236Z Using cache from origin: (some leanprover-community/mathlib4)
+2026-10-13T18:10:26.8880436Z Attempting to download 8908 file(s) from leanprover-community/mathlib4 cache at https://cache.mathlib.org/mathlib4-master
+2026-10-13T18:10:27.4342360Z 
+2026-10-13T18:10:27.5595822Z Downloaded: 1 file(s) [attempted 1/8908 = 0%, 42 KB/s], Decompressed: 0
+2026-10-13T18:10:27.6897535Z Downloaded: 2 file(s) [attempted 2/8908 = 0%, 28 KB/s], Decompressed: 1
+2026-10-13T18:10:27.8201814Z Downloaded: 3 file(s) [attempted 3/8908 = 0%, 88 KB/s], Decompressed: 2
+2026-10-13T18:10:28.0025281Z Downloaded: 10 file(s) [attempted 10/8908 = 0%, 18 KB/s], Decompressed: 7
+2026-10-13T18:10:28.1330884Z Downloaded: 15 file(s) [attempted 15/8908 = 0%, 113 KB/s], Decompressed: 12
+2026-10-13T18:10:28.2562056Z Downloaded: 19 file(s) [attempted 19/8908 = 0%, 28 KB/s], Decompressed: 17
+2026-10-13T18:10:28.4228890Z Downloaded: 31 file(s) [attempted 31/8908 = 0%, 41 KB/s], Decompressed: 24
+2026-10-13T18:10:28.5441232Z Downloaded: 48 file(s) [attempted 48/8908 = 0%, 6 KB/s], Decompressed: 46
+2026-10-13T18:10:28.6431175Z Downloaded: 63 file(s) [attempted 63/8908 = 0%, 62 KB/s], Decompressed: 58
+2026-10-13T18:10:28.7449923Z Downloaded: 80 file(s) [attempted 80/8908 = 0%, 78 KB/s], Decompressed: 77
+2026-10-13T18:10:28.8460711Z Downloaded: 104 file(s) [attempted 104/8908 = 1%, 195 KB/s], Decompressed: 92
+2026-10-13T18:10:28.9652014Z Downloaded: 130 file(s) [attempted 130/8908 = 1%, 438 KB/s], Decompressed: 101
+2026-10-13T18:10:29.0722155Z Downloaded: 161 file(s) [attempted 161/8908 = 1%, 864 KB/s], Decompressed: 142
+2026-10-13T18:10:29.1795900Z Downloaded: 210 file(s) [attempted 210/8908 = 2%, 260 KB/s], Decompressed: 161
+2026-10-13T18:10:29.2811871Z Downloaded: 243 file(s) [attempted 243/8908 = 2%, 626 KB/s], Decompressed: 195
+2026-10-13T18:10:29.4167568Z Downloaded: 270 file(s) [attempted 270/8908 = 3%, 29 KB/s], Decompressed: 246
+2026-10-13T18:10:29.5711394Z Downloaded: 311 file(s) [attempted 311/8908 = 3%, 302 KB/s], Decompressed: 291
+2026-10-13T18:10:29.7200531Z Downloaded: 361 file(s) [attempted 361/8908 = 4%, 117 KB/s], Decompressed: 332
+2026-10-13T18:10:29.8806510Z Downloaded: 412 file(s) [attempted 412/8908 = 4%, 89 KB/s], Decompressed: 361
+2026-10-13T18:10:30.0240938Z Downloaded: 462 file(s) [attempted 462/8908 = 5%, 235 KB/s], Decompressed: 448
+2026-10-13T18:10:30.1870608Z Downloaded: 510 file(s) [attempted 510/8908 = 5%, 796 KB/s], Decompressed: 484
+2026-10-13T18:10:30.3347945Z Downloaded: 561 file(s) [attempted 561/8908 = 6%, 758 KB/s], Decompressed: 510
+2026-10-13T18:10:30.4726469Z Downloaded: 611 file(s) [attempted 611/8908 = 6%, 19 KB/s], Decompressed: 586
+2026-10-13T18:10:30.5721459Z Downloaded: 659 file(s) [attempted 659/8908 = 7%, 34 KB/s], Decompressed: 611
+2026-10-13T18:10:30.6775669Z Downloaded: 701 file(s) [attempted 701/8908 = 7%, 128 KB/s], Decompressed: 643
+2026-10-13T18:10:30.8277411Z Downloaded: 712 file(s) [attempted 712/8908 = 7%, 138 KB/s], Decompressed: 667
+2026-10-13T18:10:30.9787641Z Downloaded: 760 file(s) [attempted 760/8908 = 8%, 41 KB/s], Decompressed: 741
+2026-10-13T18:10:31.1362047Z Downloaded: 811 file(s) [attempted 811/8908 = 9%, 1422 KB/s], Decompressed: 760
+2026-10-13T18:10:31.2851297Z Downloaded: 861 file(s) [attempted 861/8908 = 9%, 606 KB/s], Decompressed: 842
+2026-10-13T18:10:31.4364375Z Downloaded: 912 file(s) [attempted 912/8908 = 10%, 186 KB/s], Decompressed: 861
+2026-10-13T18:10:31.5795184Z Downloaded: 962 file(s) [attempted 962/8908 = 10%, 544 KB/s], Decompressed: 953
+2026-10-13T18:10:31.7303372Z Downloaded: 1011 file(s) [attempted 1011/8908 = 11%, 29 KB/s], Decompressed: 1009
+2026-10-13T18:10:31.8817308Z Downloaded: 1061 file(s) [attempted 1061/8908 = 11%, 65 KB/s], Decompressed: 1039
+2026-10-13T18:10:32.0367730Z Downloaded: 1111 file(s) [attempted 1111/8908 = 12%, 1035 KB/s], Decompressed: 1092
+2026-10-13T18:10:32.1944861Z Downloaded: 1162 file(s) [attempted 1162/8908 = 13%, 437 KB/s], Decompressed: 1148
+2026-10-13T18:10:32.3342451Z Downloaded: 1212 file(s) [attempted 1212/8908 = 13%, 335 KB/s], Decompressed: 1184
+2026-10-13T18:10:32.4823650Z Downloaded: 1260 file(s) [attempted 1260/8908 = 14%, 735 KB/s], Decompressed: 1241
+2026-10-13T18:10:32.5831248Z Downloaded: 1311 file(s) [attempted 1311/8908 = 14%, 79 KB/s], Decompressed: 1289
+2026-10-13T18:10:32.6824177Z Downloaded: 1352 file(s) [attempted 1352/8908 = 15%, 165 KB/s], Decompressed: 1311
+2026-10-13T18:10:32.7849224Z Downloaded: 1384 file(s) [attempted 1384/8908 = 15%, 790 KB/s], Decompressed: 1340
+2026-10-13T18:10:32.8854784Z Downloaded: 1412 file(s) [attempted 1412/8908 = 15%, 957 KB/s], Decompressed: 1361
+2026-10-13T18:10:32.9891672Z Downloaded: 1453 file(s) [attempted 1453/8908 = 16%, 63 KB/s], Decompressed: 1414
+2026-10-13T18:10:33.0930653Z Downloaded: 1489 file(s) [attempted 1489/8908 = 16%, 356 KB/s], Decompressed: 1443
+2026-10-13T18:10:33.1947426Z Downloaded: 1513 file(s) [attempted 1513/8908 = 16%, 859 KB/s], Decompressed: 1491
+2026-10-13T18:10:33.3005697Z Downloaded: 1551 file(s) [attempted 1551/8908 = 17%, 516 KB/s], Decompressed: 1510
+2026-10-13T18:10:33.4040923Z Downloaded: 1590 file(s) [attempted 1590/8908 = 17%, 266 KB/s], Decompressed: 1558
+2026-10-13T18:10:33.5073914Z Downloaded: 1616 file(s) [attempted 1616/8908 = 18%, 128 KB/s], Decompressed: 1573
+2026-10-13T18:10:33.6118768Z Downloaded: 1654 file(s) [attempted 1654/8908 = 18%, 285 KB/s], Decompressed: 1623
+2026-10-13T18:10:33.7160667Z Downloaded: 1688 file(s) [attempted 1688/8908 = 18%, 134 KB/s], Decompressed: 1654
+2026-10-13T18:10:33.8147761Z Downloaded: 1719 file(s) [attempted 1719/8908 = 19%, 541 KB/s], Decompressed: 1683
+2026-10-13T18:10:33.9205456Z Downloaded: 1751 file(s) [attempted 1751/8908 = 19%, 65 KB/s], Decompressed: 1710
+2026-10-13T18:10:34.0242304Z Downloaded: 1782 file(s) [attempted 1782/8908 = 20%, 390 KB/s], Decompressed: 1743
+2026-10-13T18:10:34.1245666Z Downloaded: 1820 file(s) [attempted 1820/8908 = 20%, 383 KB/s], Decompressed: 1772
+2026-10-13T18:10:34.2255073Z Downloaded: 1856 file(s) [attempted 1856/8908 = 20%, 76 KB/s], Decompressed: 1823
+2026-10-13T18:10:34.3458549Z Downloaded: 1883 file(s) [attempted 1883/8908 = 21%, 837 KB/s], Decompressed: 1851
+2026-10-13T18:10:34.4611589Z Downloaded: 1921 file(s) [attempted 1921/8908 = 21%, 468 KB/s], Decompressed: 1877
+2026-10-13T18:10:34.5670081Z Downloaded: 1962 file(s) [attempted 1962/8908 = 22%, 1508 KB/s], Decompressed: 1933
+2026-10-13T18:10:34.6694250Z Downloaded: 2000 file(s) [attempted 2000/8908 = 22%, 379 KB/s], Decompressed: 1962
+2026-10-13T18:10:34.7740345Z Downloaded: 2032 file(s) [attempted 2032/8908 = 22%, 611 KB/s], Decompressed: 1962
+2026-10-13T18:10:34.8795033Z Downloaded: 2065 file(s) [attempted 2065/8908 = 23%, 104 KB/s], Decompressed: 1993
+2026-10-13T18:10:34.9830032Z Downloaded: 2104 file(s) [attempted 2104/8908 = 23%, 29 KB/s], Decompressed: 2039
+2026-10-13T18:10:35.0843244Z Downloaded: 2137 file(s) [attempted 2137/8908 = 23%, 106 KB/s], Decompressed: 2080
+2026-10-13T18:10:35.1979224Z Downloaded: 2169 file(s) [attempted 2169/8908 = 24%, 90 KB/s], Decompressed: 2118
+2026-10-13T18:10:35.3085129Z Downloaded: 2209 file(s) [attempted 2209/8908 = 24%, 102 KB/s], Decompressed: 2152
+2026-10-13T18:10:35.4114257Z Downloaded: 2248 file(s) [attempted 2248/8908 = 25%, 659 KB/s], Decompressed: 2217
+2026-10-13T18:10:35.5141789Z Downloaded: 2274 file(s) [attempted 2274/8908 = 25%, 171 KB/s], Decompressed: 2243
+2026-10-13T18:10:35.6149102Z Downloaded: 2313 file(s) [attempted 2313/8908 = 25%, 411 KB/s], Decompressed: 2286
+2026-10-13T18:10:35.7160994Z Downloaded: 2354 file(s) [attempted 2354/8908 = 26%, 142 KB/s], Decompressed: 2320
+2026-10-13T18:10:35.8742680Z Downloaded: 2382 file(s) [attempted 2382/8908 = 26%, 275 KB/s], Decompressed: 2361
+2026-10-13T18:10:36.0261418Z Downloaded: 2411 file(s) [attempted 2411/8908 = 27%, 1087 KB/s], Decompressed: 2375
+2026-10-13T18:10:36.2264574Z Downloaded: 2462 file(s) [attempted 2462/8908 = 27%, 247 KB/s], Decompressed: 2427
+2026-10-13T18:10:36.3747342Z Downloaded: 2512 file(s) [attempted 2512/8908 = 28%, 597 KB/s], Decompressed: 2462
+2026-10-13T18:10:36.5300682Z Downloaded: 2563 file(s) [attempted 2563/8908 = 28%, 400 KB/s], Decompressed: 2462
+2026-10-13T18:10:36.6706078Z Downloaded: 2613 file(s) [attempted 2613/8908 = 29%, 47 KB/s], Decompressed: 2512
+2026-10-13T18:10:36.7718944Z Downloaded: 2661 file(s) [attempted 2661/8908 = 29%, 470 KB/s], Decompressed: 2582
+2026-10-13T18:10:36.9219768Z Downloaded: 2704 file(s) [attempted 2704/8908 = 30%, 347 KB/s], Decompressed: 2582
+2026-10-13T18:10:37.0700922Z Downloaded: 2731 file(s) [attempted 2731/8908 = 30%, 31 KB/s], Decompressed: 2582
+2026-10-13T18:10:37.2170104Z Downloaded: 2781 file(s) [attempted 2781/8908 = 31%, 20 KB/s], Decompressed: 2661
+2026-10-13T18:10:37.3697199Z Downloaded: 2832 file(s) [attempted 2832/8908 = 31%, 294 KB/s], Decompressed: 2661
+2026-10-13T18:10:37.5271593Z Downloaded: 2882 file(s) [attempted 2882/8908 = 32%, 43 KB/s], Decompressed: 2762
+2026-10-13T18:10:37.6756822Z Downloaded: 2930 file(s) [attempted 2930/8908 = 32%, 699 KB/s], Decompressed: 2834
+2026-10-13T18:10:37.8229853Z Downloaded: 2981 file(s) [attempted 2981/8908 = 33%, 227 KB/s], Decompressed: 2899
+2026-10-13T18:10:37.9734291Z Downloaded: 3031 file(s) [attempted 3031/8908 = 34%, 69 KB/s], Decompressed: 2966
+2026-10-13T18:10:38.1221839Z Downloaded: 3082 file(s) [attempted 3082/8908 = 34%, 69 KB/s], Decompressed: 2966
+2026-10-13T18:10:38.2728425Z Downloaded: 3132 file(s) [attempted 3132/8908 = 35%, 266 KB/s], Decompressed: 3031
+2026-10-13T18:10:38.4211702Z Downloaded: 3180 file(s) [attempted 3180/8908 = 35%, 409 KB/s], Decompressed: 3091
+2026-10-13T18:10:38.5558120Z Downloaded: 3231 file(s) [attempted 3231/8908 = 36%, 291 KB/s], Decompressed: 3171
+2026-10-13T18:10:38.7101003Z Downloaded: 3271 file(s) [attempted 3271/8908 = 36%, 607 KB/s], Decompressed: 3171
+2026-10-13T18:10:38.8532483Z Downloaded: 3319 file(s) [attempted 3319/8908 = 37%, 1354 KB/s], Decompressed: 3231
+2026-10-13T18:10:39.0062808Z Downloaded: 3370 file(s) [attempted 3370/8908 = 37%, 106 KB/s], Decompressed: 3317
+2026-10-13T18:10:39.1064987Z Downloaded: 3420 file(s) [attempted 3420/8908 = 38%, 135 KB/s], Decompressed: 3370
+2026-10-13T18:10:39.2483179Z Downloaded: 3449 file(s) [attempted 3449/8908 = 38%, 115 KB/s], Decompressed: 3370
+2026-10-13T18:10:39.4022830Z Downloaded: 3485 file(s) [attempted 3485/8908 = 39%, 197 KB/s], Decompressed: 3420
+2026-10-13T18:10:39.5533475Z Downloaded: 3536 file(s) [attempted 3536/8908 = 39%, 107 KB/s], Decompressed: 3471
+2026-10-13T18:10:39.6775017Z Downloaded: 3586 file(s) [attempted 3586/8908 = 40%, 351 KB/s], Decompressed: 3545
+2026-10-13T18:10:39.7917339Z Downloaded: 3634 file(s) [attempted 3634/8908 = 40%, 972 KB/s], Decompressed: 3584
+2026-10-13T18:10:39.9010437Z Downloaded: 3682 file(s) [attempted 3682/8908 = 41%, 469 KB/s], Decompressed: 3584
+2026-10-13T18:10:40.0377627Z Downloaded: 3694 file(s) [attempted 3694/8908 = 41%, 340 KB/s], Decompressed: 3634
+2026-10-13T18:10:40.1462992Z Downloaded: 3738 file(s) [attempted 3738/8908 = 41%, 104 KB/s], Decompressed: 3685
+2026-10-13T18:10:40.2485178Z Downloaded: 3786 file(s) [attempted 3786/8908 = 42%, 91 KB/s], Decompressed: 3685
+2026-10-13T18:10:40.3958060Z Downloaded: 3800 file(s) [attempted 3800/8908 = 42%, 669 KB/s], Decompressed: 3735
+2026-10-13T18:10:40.5000811Z Downloaded: 3846 file(s) [attempted 3846/8908 = 43%, 31 KB/s], Decompressed: 3735
+2026-10-13T18:10:40.6042177Z Downloaded: 3894 file(s) [attempted 3894/8908 = 43%, 133 KB/s], Decompressed: 3795
+2026-10-13T18:10:40.7130874Z Downloaded: 3935 file(s) [attempted 3935/8908 = 44%, 236 KB/s], Decompressed: 3795
+2026-10-13T18:10:40.8372875Z Downloaded: 3951 file(s) [attempted 3951/8908 = 44%, 403 KB/s], Decompressed: 3867
+2026-10-13T18:10:40.9547208Z Downloaded: 3995 file(s) [attempted 3995/8908 = 44%, 114 KB/s], Decompressed: 3939
+2026-10-13T18:10:41.0538678Z Downloaded: 4038 file(s) [attempted 4038/8908 = 45%, 242 KB/s], Decompressed: 3939
+2026-10-13T18:10:41.2080457Z Downloaded: 4061 file(s) [attempted 4061/8908 = 45%, 60 KB/s], Decompressed: 3995
+2026-10-13T18:10:41.3559713Z Downloaded: 4093 file(s) [attempted 4093/8908 = 45%, 206 KB/s], Decompressed: 4045
+2026-10-13T18:10:41.5085200Z Downloaded: 4144 file(s) [attempted 4144/8908 = 46%, 746 KB/s], Decompressed: 4093
+2026-10-13T18:10:41.6601417Z Downloaded: 4194 file(s) [attempted 4194/8908 = 47%, 47 KB/s], Decompressed: 4093
+2026-10-13T18:10:41.8166473Z Downloaded: 4245 file(s) [attempted 4245/8908 = 47%, 6268 KB/s], Decompressed: 4144
+2026-10-13T18:10:41.9169006Z Downloaded: 4295 file(s) [attempted 4295/8908 = 48%, 241 KB/s], Decompressed: 4201
+2026-10-13T18:10:42.0220951Z Downloaded: 4340 file(s) [attempted 4340/8908 = 48%, 118 KB/s], Decompressed: 4252
+2026-10-13T18:10:42.1223339Z Downloaded: 4350 file(s) [attempted 4350/8908 = 48%, 102 KB/s], Decompressed: 4252
+2026-10-13T18:10:42.2230747Z Downloaded: 4398 file(s) [attempted 4398/8908 = 49%, 23 KB/s], Decompressed: 4338
+2026-10-13T18:10:42.3429234Z Downloaded: 4408 file(s) [attempted 4408/8908 = 49%, 741 KB/s], Decompressed: 4338
+2026-10-13T18:10:42.4430330Z Downloaded: 4451 file(s) [attempted 4451/8908 = 49%, 40 KB/s], Decompressed: 4413
+2026-10-13T18:10:42.5463911Z Downloaded: 4490 file(s) [attempted 4490/8908 = 50%, 170 KB/s], Decompressed: 4413
+2026-10-13T18:10:42.6690043Z Downloaded: 4511 file(s) [attempted 4511/8908 = 50%, 109 KB/s], Decompressed: 4451
+2026-10-13T18:10:42.8000738Z Downloaded: 4554 file(s) [attempted 4554/8908 = 51%, 95 KB/s], Decompressed: 4526
+2026-10-13T18:10:42.9010739Z Downloaded: 4603 file(s) [attempted 4603/8908 = 51%, 718 KB/s], Decompressed: 4554
+2026-10-13T18:10:43.0503403Z Downloaded: 4631 file(s) [attempted 4631/8908 = 51%, 137 KB/s], Decompressed: 4588
+2026-10-13T18:10:43.1965879Z Downloaded: 4665 file(s) [attempted 4665/8908 = 52%, 101 KB/s], Decompressed: 4612
+2026-10-13T18:10:43.2972448Z Downloaded: 4715 file(s) [attempted 4715/8908 = 52%, 70 KB/s], Decompressed: 4703
+2026-10-13T18:10:43.4242446Z Downloaded: 4764 file(s) [attempted 4764/8908 = 53%, 27 KB/s], Decompressed: 4715
+2026-10-13T18:10:43.5260703Z Downloaded: 4804 file(s) [attempted 4804/8908 = 53%, 93 KB/s], Decompressed: 4754
+2026-10-13T18:10:43.6495155Z Downloaded: 4840 file(s) [attempted 4840/8908 = 54%, 479 KB/s], Decompressed: 4754
+2026-10-13T18:10:43.7978740Z Downloaded: 4864 file(s) [attempted 4864/8908 = 54%, 810 KB/s], Decompressed: 4804
+2026-10-13T18:10:43.8987910Z Downloaded: 4915 file(s) [attempted 4915/8908 = 55%, 466 KB/s], Decompressed: 4855
+2026-10-13T18:10:44.1261936Z Downloaded: 4961 file(s) [attempted 4961/8908 = 55%, 266 KB/s], Decompressed: 4855
+2026-10-13T18:10:44.2820375Z Downloaded: 4977 file(s) [attempted 4977/8908 = 55%, 83 KB/s], Decompressed: 4915
+2026-10-13T18:10:44.4308684Z Downloaded: 5025 file(s) [attempted 5025/8908 = 56%, 1061 KB/s], Decompressed: 4965
+2026-10-13T18:10:44.5839090Z Downloaded: 5076 file(s) [attempted 5076/8908 = 56%, 214 KB/s], Decompressed: 5025
+2026-10-13T18:10:44.7316089Z Downloaded: 5126 file(s) [attempted 5126/8908 = 57%, 276 KB/s], Decompressed: 5076
+2026-10-13T18:10:44.8803378Z Downloaded: 5177 file(s) [attempted 5177/8908 = 58%, 207 KB/s], Decompressed: 5076
+2026-10-13T18:10:45.0238844Z Downloaded: 5227 file(s) [attempted 5227/8908 = 58%, 371 KB/s], Decompressed: 5126
+2026-10-13T18:10:45.1727059Z Downloaded: 5275 file(s) [attempted 5275/8908 = 59%, 967 KB/s], Decompressed: 5206
+2026-10-13T18:10:45.2737027Z Downloaded: 5326 file(s) [attempted 5326/8908 = 59%, 379 KB/s], Decompressed: 5206
+2026-10-13T18:10:45.3767533Z Downloaded: 5371 file(s) [attempted 5371/8908 = 60%, 154 KB/s], Decompressed: 5206
+2026-10-13T18:10:45.5065931Z Downloaded: 5388 file(s) [attempted 5388/8908 = 60%, 294 KB/s], Decompressed: 5275
+2026-10-13T18:10:45.6467495Z Downloaded: 5429 file(s) [attempted 5429/8908 = 60%, 87 KB/s], Decompressed: 5275
+2026-10-13T18:10:45.7505686Z Downloaded: 5477 file(s) [attempted 5477/8908 = 61%, 492 KB/s], Decompressed: 5275
+2026-10-13T18:10:45.8571533Z Downloaded: 5504 file(s) [attempted 5504/8908 = 61%, 465 KB/s], Decompressed: 5275
+2026-10-13T18:10:45.9593066Z Downloaded: 5544 file(s) [attempted 5544/8908 = 62%, 197 KB/s], Decompressed: 5376
+2026-10-13T18:10:46.0600052Z Downloaded: 5580 file(s) [attempted 5580/8908 = 62%, 393 KB/s], Decompressed: 5376
+2026-10-13T18:10:46.1694010Z Downloaded: 5614 file(s) [attempted 5614/8908 = 63%, 1062 KB/s], Decompressed: 5376
+2026-10-13T18:10:46.2704095Z Downloaded: 5645 file(s) [attempted 5645/8908 = 63%, 131 KB/s], Decompressed: 5376
+2026-10-13T18:10:46.3790789Z Downloaded: 5691 file(s) [attempted 5691/8908 = 63%, 70 KB/s], Decompressed: 5376
+2026-10-13T18:10:46.5146495Z Downloaded: 5722 file(s) [attempted 5722/8908 = 64%, 254 KB/s], Decompressed: 5376
+2026-10-13T18:10:46.6646019Z Downloaded: 5744 file(s) [attempted 5744/8908 = 64%, 134 KB/s], Decompressed: 5376
+2026-10-13T18:10:46.8067576Z Downloaded: 5794 file(s) [attempted 5794/8908 = 65%, 226 KB/s], Decompressed: 5376
+2026-10-13T18:10:46.9562458Z Downloaded: 5842 file(s) [attempted 5842/8908 = 65%, 501 KB/s], Decompressed: 5376
+2026-10-13T18:10:47.1029328Z Downloaded: 5893 file(s) [attempted 5893/8908 = 66%, 974 KB/s], Decompressed: 5544
+2026-10-13T18:10:47.5466312Z Downloaded: 5943 file(s) [attempted 5943/8908 = 66%, 298 KB/s], Decompressed: 5544
+2026-10-13T18:10:47.6959205Z Downloaded: 5974 file(s) [attempted 5974/8908 = 67%, 127 KB/s], Decompressed: 5544
+2026-10-13T18:10:47.8305250Z Downloaded: 6025 file(s) [attempted 6025/8908 = 67%, 445 KB/s], Decompressed: 5544
+2026-10-13T18:10:47.9814083Z Downloaded: 6068 file(s) [attempted 6068/8908 = 68%, 211 KB/s], Decompressed: 5544
+2026-10-13T18:10:48.1335755Z Downloaded: 6119 file(s) [attempted 6119/8908 = 68%, 170 KB/s], Decompressed: 5544
+2026-10-13T18:10:48.2876112Z Downloaded: 6169 file(s) [attempted 6169/8908 = 69%, 528 KB/s], Decompressed: 5544
+2026-10-13T18:10:48.4345738Z Downloaded: 6220 file(s) [attempted 6220/8908 = 69%, 375 KB/s], Decompressed: 5544
+2026-10-13T18:10:48.5806209Z Downloaded: 6270 file(s) [attempted 6270/8908 = 70%, 702 KB/s], Decompressed: 5544
+2026-10-13T18:10:48.7290860Z Downloaded: 6320 file(s) [attempted 6320/8908 = 70%, 231 KB/s], Decompressed: 5544
+2026-10-13T18:10:48.8746485Z Downloaded: 6369 file(s) [attempted 6369/8908 = 71%, 53 KB/s], Decompressed: 5544
+2026-10-13T18:10:49.0249638Z Downloaded: 6419 file(s) [attempted 6419/8908 = 72%, 91 KB/s], Decompressed: 5544
+2026-10-13T18:10:49.1734559Z Downloaded: 6469 file(s) [attempted 6469/8908 = 72%, 67 KB/s], Decompressed: 5544
+2026-10-13T18:10:49.3280762Z Downloaded: 6520 file(s) [attempted 6520/8908 = 73%, 49 KB/s], Decompressed: 5878
+2026-10-13T18:10:49.4758142Z Downloaded: 6570 file(s) [attempted 6570/8908 = 73%, 73 KB/s], Decompressed: 5878
+2026-10-13T18:10:49.5860955Z Downloaded: 6618 file(s) [attempted 6618/8908 = 74%, 136 KB/s], Decompressed: 5878
+2026-10-13T18:10:49.7372348Z Downloaded: 6623 file(s) [attempted 6623/8908 = 74%, 141 KB/s], Decompressed: 5878
+2026-10-13T18:10:49.8829776Z Downloaded: 6674 file(s) [attempted 6674/8908 = 74%, 640 KB/s], Decompressed: 5878
+2026-10-13T18:10:50.0340122Z Downloaded: 6722 file(s) [attempted 6722/8908 = 75%, 219 KB/s], Decompressed: 5878
+2026-10-13T18:10:50.1435585Z Downloaded: 6772 file(s) [attempted 6772/8908 = 76%, 532 KB/s], Decompressed: 5878
+2026-10-13T18:10:50.2457147Z Downloaded: 6820 file(s) [attempted 6820/8908 = 76%, 103 KB/s], Decompressed: 5878
+2026-10-13T18:10:50.3474512Z Downloaded: 6851 file(s) [attempted 6851/8908 = 76%, 394 KB/s], Decompressed: 5878
+2026-10-13T18:10:50.4798140Z Downloaded: 6878 file(s) [attempted 6878/8908 = 77%, 181 KB/s], Decompressed: 5878
+2026-10-13T18:10:50.5904303Z Downloaded: 6921 file(s) [attempted 6921/8908 = 77%, 703 KB/s], Decompressed: 5878
+2026-10-13T18:10:50.6919310Z Downloaded: 6969 file(s) [attempted 6969/8908 = 78%, 214 KB/s], Decompressed: 5878
+2026-10-13T18:10:50.7916177Z Downloaded: 7000 file(s) [attempted 7000/8908 = 78%, 81 KB/s], Decompressed: 5878
+2026-10-13T18:10:50.9183772Z Downloaded: 7027 file(s) [attempted 7027/8908 = 78%, 220 KB/s], Decompressed: 5878
+2026-10-13T18:10:51.0211043Z Downloaded: 7070 file(s) [attempted 7070/8908 = 79%, 402 KB/s], Decompressed: 5878
+2026-10-13T18:10:51.1263178Z Downloaded: 7118 file(s) [attempted 7118/8908 = 79%, 103 KB/s], Decompressed: 5878
+2026-10-13T18:10:51.2291232Z Downloaded: 7145 file(s) [attempted 7145/8908 = 80%, 129 KB/s], Decompressed: 5878
+2026-10-13T18:10:51.3282342Z Downloaded: 7173 file(s) [attempted 7173/8908 = 80%, 124 KB/s], Decompressed: 5878
+2026-10-13T18:10:51.4347441Z Downloaded: 7219 file(s) [attempted 7219/8908 = 81%, 105 KB/s], Decompressed: 5878
+2026-10-13T18:10:51.5401431Z Downloaded: 7246 file(s) [attempted 7246/8908 = 81%, 168 KB/s], Decompressed: 5878
+2026-10-13T18:10:51.6468877Z Downloaded: 7277 file(s) [attempted 7277/8908 = 81%, 29 KB/s], Decompressed: 5878
+2026-10-13T18:10:51.7487466Z Downloaded: 7320 file(s) [attempted 7320/8908 = 82%, 319 KB/s], Decompressed: 5878
+2026-10-13T18:10:51.8505118Z Downloaded: 7351 file(s) [attempted 7351/8908 = 82%, 481 KB/s], Decompressed: 5878
+2026-10-13T18:10:51.9977489Z Downloaded: 7358 file(s) [attempted 7358/8908 = 82%, 138 KB/s], Decompressed: 5878
+2026-10-13T18:10:52.1472414Z Downloaded: 7409 file(s) [attempted 7409/8908 = 83%, 416 KB/s], Decompressed: 5878
+2026-10-13T18:10:52.2516460Z Downloaded: 7459 file(s) [attempted 7459/8908 = 83%, 1068 KB/s], Decompressed: 5878
+2026-10-13T18:10:52.4078538Z Downloaded: 7482 file(s) [attempted 7482/8908 = 83%, 235 KB/s], Decompressed: 5878
+2026-10-13T18:10:52.5626963Z Downloaded: 7531 file(s) [attempted 7531/8908 = 84%, 1057 KB/s], Decompressed: 5878
+2026-10-13T18:10:52.7125958Z Downloaded: 7582 file(s) [attempted 7582/8908 = 85%, 82 KB/s], Decompressed: 5878
+2026-10-13T18:10:52.8726967Z Downloaded: 7632 file(s) [attempted 7632/8908 = 85%, 544 KB/s], Decompressed: 5878
+2026-10-13T18:10:53.0224916Z Downloaded: 7680 file(s) [attempted 7680/8908 = 86%, 243 KB/s], Decompressed: 6484
+2026-10-13T18:10:53.1710684Z Downloaded: 7731 file(s) [attempted 7731/8908 = 86%, 839 KB/s], Decompressed: 6484
+2026-10-13T18:10:53.3210364Z Downloaded: 7781 file(s) [attempted 7781/8908 = 87%, 76 KB/s], Decompressed: 6484
+2026-10-13T18:10:53.4688790Z Downloaded: 7832 file(s) [attempted 7832/8908 = 87%, 106 KB/s], Decompressed: 6484
+2026-10-13T18:10:53.6161823Z Downloaded: 7882 file(s) [attempted 7882/8908 = 88%, 1268 KB/s], Decompressed: 6484
+2026-10-13T18:10:53.7630123Z Downloaded: 7930 file(s) [attempted 7930/8908 = 89%, 330 KB/s], Decompressed: 6484
+2026-10-13T18:10:53.9107270Z Downloaded: 7981 file(s) [attempted 7981/8908 = 89%, 142 KB/s], Decompressed: 6484
+2026-10-13T18:10:54.0576604Z Downloaded: 8031 file(s) [attempted 8031/8908 = 90%, 84 KB/s], Decompressed: 6484
+2026-10-13T18:10:54.2051799Z Downloaded: 8082 file(s) [attempted 8082/8908 = 90%, 45 KB/s], Decompressed: 6484
+2026-10-13T18:10:54.3533175Z Downloaded: 8132 file(s) [attempted 8132/8908 = 91%, 68 KB/s], Decompressed: 6484
+2026-10-13T18:10:54.4575401Z Downloaded: 8180 file(s) [attempted 8180/8908 = 91%, 154 KB/s], Decompressed: 6484
+2026-10-13T18:10:54.5670712Z Downloaded: 8219 file(s) [attempted 8219/8908 = 92%, 188 KB/s], Decompressed: 6484
+2026-10-13T18:10:54.7149021Z Downloaded: 8235 file(s) [attempted 8235/8908 = 92%, 107 KB/s], Decompressed: 6484
+2026-10-13T18:10:54.8193236Z Downloaded: 8286 file(s) [attempted 8286/8908 = 93%, 46 KB/s], Decompressed: 6484
+2026-10-13T18:10:54.9244488Z Downloaded: 8334 file(s) [attempted 8334/8908 = 93%, 608 KB/s], Decompressed: 6484
+2026-10-13T18:10:55.0269105Z Downloaded: 8380 file(s) [attempted 8380/8908 = 94%, 1451 KB/s], Decompressed: 6484
+2026-10-13T18:10:55.1880819Z Downloaded: 8384 file(s) [attempted 8384/8908 = 94%, 246 KB/s], Decompressed: 6484
+2026-10-13T18:10:55.3495013Z Downloaded: 8432 file(s) [attempted 8432/8908 = 94%, 171 KB/s], Decompressed: 6484
+2026-10-13T18:10:55.5039236Z Downloaded: 8483 file(s) [attempted 8483/8908 = 95%, 48 KB/s], Decompressed: 6484
+2026-10-13T18:10:55.6348533Z Downloaded: 8533 file(s) [attempted 8533/8908 = 95%, 162 KB/s], Decompressed: 6484
+2026-10-13T18:10:55.7837421Z Downloaded: 8581 file(s) [attempted 8581/8908 = 96%, 510 KB/s], Decompressed: 6484
+2026-10-13T18:10:55.9465293Z Downloaded: 8632 file(s) [attempted 8632/8908 = 96%, 173 KB/s], Decompressed: 6484
+2026-10-13T18:10:56.0924759Z Downloaded: 8682 file(s) [attempted 8682/8908 = 97%, 431 KB/s], Decompressed: 6484
+2026-10-13T18:10:56.2476665Z Downloaded: 8733 file(s) [attempted 8733/8908 = 98%, 397 KB/s], Decompressed: 6484
+2026-10-13T18:10:56.3802752Z Downloaded: 8783 file(s) [attempted 8783/8908 = 98%, 433 KB/s], Decompressed: 6484
+2026-10-13T18:10:56.4832529Z Downloaded: 8831 file(s) [attempted 8831/8908 = 99%, 144 KB/s], Decompressed: 6484
+2026-10-13T18:10:56.5925849Z Downloaded: 8879 file(s) [attempted 8879/8908 = 99%, 656 KB/s], Decompressed: 6484
+2026-10-13T18:10:56.6063115Z Downloaded: 8901 file(s) [attempted 8901/8908 = 99%, 149 KB/s], Decompressed: 6484
+2026-10-13T18:10:56.6065904Z Downloaded: 8908 file(s) [attempted 8908/8908 = 100%, 149 KB/s], Decompressed: 6484
+2026-10-13T18:11:07.6702385Z Decompressed 8908 file(s)
+2026-10-13T18:11:07.6702833Z Already decompressed 8908 file(s)
+2026-10-13T18:11:07.7358273Z ##[endgroup]
+2026-10-13T18:11:07.7358464Z 
+2026-10-13T18:11:07.7366599Z ##[end-action id=__leanprover_lean-action.__run_3;outcome=success;conclusion=success;duration_ms=102212]
+2026-10-13T18:11:07.7392725Z ##[start-action display=build d6g8k5htny-coder/Math-;id=__leanprover_lean-action.build]
+2026-10-13T18:11:07.7397611Z ##[end-action id=__leanprover_lean-action.build;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-13T18:11:07.7399960Z ##[start-action display=Run actions/cache/save@caa296126883cff596d87d8935842f9db880ef25;id=__leanprover_lean-action.__actions_cache_2]
+2026-10-13T18:11:07.7403282Z ##[end-action id=__leanprover_lean-action.__actions_cache_2;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-13T18:11:07.7406258Z ##[start-action display=test d6g8k5htny-coder/Math-;id=__leanprover_lean-action.test]
+2026-10-13T18:11:07.7410091Z ##[end-action id=__leanprover_lean-action.test;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-13T18:11:07.7412290Z ##[start-action display=lint d6g8k5htny-coder/Math-;id=__leanprover_lean-action.lint]
+2026-10-13T18:11:07.7415704Z ##[end-action id=__leanprover_lean-action.lint;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-13T18:11:07.7417259Z ##[start-action display=check reservoir eligibility;id=__leanprover_lean-action.__run_4]
+2026-10-13T18:11:07.7420714Z ##[end-action id=__leanprover_lean-action.__run_4;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-13T18:11:07.7422821Z ##[start-action display=check environment with leanchecker;id=__leanprover_lean-action.__run_5]
+2026-10-13T18:11:07.7426825Z ##[end-action id=__leanprover_lean-action.__run_5;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-13T18:11:07.7428556Z ##[start-action display=check environment with nanoda;id=__leanprover_lean-action.nanoda]
+2026-10-13T18:11:07.7431395Z ##[end-action id=__leanprover_lean-action.nanoda;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-13T18:11:07.7433413Z ##[start-action display=audit axioms with axiom-audit;id=__leanprover_lean-action.axiom-audit]
+2026-10-13T18:11:07.7436020Z ##[end-action id=__leanprover_lean-action.axiom-audit;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-13T18:11:07.8256576Z ##[group]Run python3 formal/gate.py --execute
+2026-10-13T18:11:07.8256941Z [36;1mpython3 formal/gate.py --execute[0m
+2026-10-13T18:11:07.8581168Z shell: /usr/bin/bash -e {0}
+2026-10-13T18:11:07.8581407Z env:
+2026-10-13T18:11:07.8581590Z   LEAN_NUM_THREADS: 2
+2026-10-13T18:11:07.8581779Z ##[endgroup]
+2026-10-13T18:11:09.6373581Z version-preflight: exit 0
+2026-10-13T18:11:39.5056030Z build: exit 0
+2026-10-13T18:12:07.9867591Z leanchecker: exit 0
+2026-10-13T18:12:13.0271525Z axioms: exit 0
+2026-10-13T18:12:18.2545362Z elaborated-types: exit 0
+2026-10-13T18:12:23.1095937Z false_fold: exit 1
+2026-10-13T18:12:27.8780832Z false_power: exit 1
+2026-10-13T18:12:32.6932440Z sorry: exit 0
+2026-10-13T18:12:37.5532468Z custom_imported: exit 0
+2026-10-13T18:12:42.4469696Z native: exit 0
+2026-10-13T18:12:43.9224810Z version: exit 0
+2026-10-13T18:12:43.9364058Z {
+2026-10-13T18:12:43.9364522Z   "alignment_status": "PENDING_INDEPENDENT_REVIEW",
+2026-10-13T18:12:43.9364921Z   "axioms": {
+2026-10-13T18:12:43.9365277Z     "ResearchFormalCoreR1.d2_degenerate_control": [
+2026-10-13T18:12:43.9365629Z       "Classical.choice",
+2026-10-13T18:12:43.9365879Z       "Quot.sound",
+2026-10-13T18:12:43.9366092Z       "propext"
+2026-10-13T18:12:43.9366294Z     ],
+2026-10-13T18:12:43.9366522Z     "ResearchFormalCoreR1.d2_det_axis": [
+2026-10-13T18:12:43.9366829Z       "Classical.choice",
+2026-10-13T18:12:43.9367069Z       "Quot.sound",
+2026-10-13T18:12:43.9367284Z       "propext"
+2026-10-13T18:12:43.9367492Z     ],
+2026-10-13T18:12:43.9367721Z     "ResearchFormalCoreR1.d2_det_diagonal": [
+2026-10-13T18:12:43.9368035Z       "Classical.choice",
+2026-10-13T18:12:43.9368279Z       "Quot.sound",
+2026-10-13T18:12:43.9368506Z       "propext"
+2026-10-13T18:12:43.9368723Z     ],
+2026-10-13T18:12:43.9368969Z     "ResearchFormalCoreR1.d2_det_interpolation": [
+2026-10-13T18:12:43.9369298Z       "Classical.choice",
+2026-10-13T18:12:43.9369698Z       "Quot.sound",
+2026-10-13T18:12:43.9369899Z       "propext"
+2026-10-13T18:12:43.9370105Z     ],
+2026-10-13T18:12:43.9370356Z     "ResearchFormalCoreR1.d2_det_le_endpoint_max": [
+2026-10-13T18:12:43.9370668Z       "Classical.choice",
+2026-10-13T18:12:43.9370895Z       "Quot.sound",
+2026-10-13T18:12:43.9371097Z       "propext"
+2026-10-13T18:12:43.9371289Z     ],
+2026-10-13T18:12:43.9371509Z     "ResearchFormalCoreR1.d2_det_pos": [
+2026-10-13T18:12:43.9371802Z       "Classical.choice",
+2026-10-13T18:12:43.9372029Z       "Quot.sound",
+2026-10-13T18:12:43.9372229Z       "propext"
+2026-10-13T18:12:43.9372418Z     ],
+2026-10-13T18:12:43.9372652Z     "ResearchFormalCoreR1.d2_gaussian_control": [
+2026-10-13T18:12:43.9372970Z       "Classical.choice",
+2026-10-13T18:12:43.9373198Z       "Quot.sound",
+2026-10-13T18:12:43.9373402Z       "propext"
+2026-10-13T18:12:43.9373598Z     ],
+2026-10-13T18:12:43.9373833Z     "ResearchFormalCoreR1.d2_numerator_pos": [
+2026-10-13T18:12:43.9374140Z       "Classical.choice",
+2026-10-13T18:12:43.9374367Z       "Quot.sound",
+2026-10-13T18:12:43.9374569Z       "propext"
+2026-10-13T18:12:43.9374769Z     ],
+2026-10-13T18:12:43.9375007Z     "ResearchFormalCoreR1.d2_schur_endpoint_lower": [
+2026-10-13T18:12:43.9375323Z       "Classical.choice",
+2026-10-13T18:12:43.9375551Z       "Quot.sound",
+2026-10-13T18:12:43.9375754Z       "propext"
+2026-10-13T18:12:43.9375945Z     ],
+2026-10-13T18:12:43.9376209Z     "ResearchFormalCoreR1.d2_schur_numerator": [
+2026-10-13T18:12:43.9376575Z       "Classical.choice",
+2026-10-13T18:12:43.9376838Z       "Quot.sound",
+2026-10-13T18:12:43.9377082Z       "propext"
+2026-10-13T18:12:43.9377309Z     ],
+2026-10-13T18:12:43.9377558Z     "ResearchFormalCoreR1.d2_schur_pos": [
+2026-10-13T18:12:43.9377901Z       "Classical.choice",
+2026-10-13T18:12:43.9378169Z       "Quot.sound",
+2026-10-13T18:12:43.9378665Z       "propext"
+2026-10-13T18:12:43.9378890Z     ],
+2026-10-13T18:12:43.9379144Z     "ResearchFormalCoreR1.d2_schur_ratio": [
+2026-10-13T18:12:43.9379613Z       "Classical.choice",
+2026-10-13T18:12:43.9379877Z       "Quot.sound",
+2026-10-13T18:12:43.9380336Z       "propext"
+2026-10-13T18:12:43.9380561Z     ],
+2026-10-13T18:12:43.9380813Z     "ResearchFormalCoreR1.d2_tau_axis": [
+2026-10-13T18:12:43.9381137Z       "Classical.choice",
+2026-10-13T18:12:43.9381393Z       "Quot.sound",
+2026-10-13T18:12:43.9381617Z       "propext"
+2026-10-13T18:12:43.9381812Z     ],
+2026-10-13T18:12:43.9382042Z     "ResearchFormalCoreR1.d2_tau_cumulant_eq": [
+2026-10-13T18:12:43.9382379Z       "Classical.choice",
+2026-10-13T18:12:43.9382633Z       "Quot.sound",
+2026-10-13T18:12:43.9382845Z       "propext"
+2026-10-13T18:12:43.9383061Z     ],
+2026-10-13T18:12:43.9383306Z     "ResearchFormalCoreR1.d2_tau_diagonal": [
+2026-10-13T18:12:43.9383636Z       "Classical.choice",
+2026-10-13T18:12:43.9383915Z       "Quot.sound",
+2026-10-13T18:12:43.9384166Z       "propext"
+2026-10-13T18:12:43.9384395Z     ],
+2026-10-13T18:12:43.9384645Z     "ResearchFormalCoreR1.d2_tau_pos": [
+2026-10-13T18:12:43.9384986Z       "Classical.choice",
+2026-10-13T18:12:43.9385262Z       "Quot.sound",
+2026-10-13T18:12:43.9385514Z       "propext"
+2026-10-13T18:12:43.9385740Z     ],
+2026-10-13T18:12:43.9386002Z     "ResearchFormalCoreR1.ec005_fold_gap": [
+2026-10-13T18:12:43.9386360Z       "Classical.choice",
+2026-10-13T18:12:43.9386636Z       "Quot.sound",
+2026-10-13T18:12:43.9386880Z       "propext"
+2026-10-13T18:12:43.9387120Z     ],
+2026-10-13T18:12:43.9387394Z     "ResearchFormalCoreR1.ec008_factor_expansion": [
+2026-10-13T18:12:43.9387771Z       "Classical.choice",
+2026-10-13T18:12:43.9388046Z       "Quot.sound",
+2026-10-13T18:12:43.9388289Z       "propext"
+2026-10-13T18:12:43.9388521Z     ],
+2026-10-13T18:12:43.9388761Z     "ResearchFormalCoreR1.ec010_generic": [
+2026-10-13T18:12:43.9389097Z       "Classical.choice",
+2026-10-13T18:12:43.9389350Z       "Quot.sound",
+2026-10-13T18:12:43.9389703Z       "propext"
+2026-10-13T18:12:43.9389903Z     ],
+2026-10-13T18:12:43.9390148Z     "ResearchFormalCoreR1.ec010_transverse": [
+2026-10-13T18:12:43.9390515Z       "Classical.choice",
+2026-10-13T18:12:43.9390815Z       "Quot.sound",
+2026-10-13T18:12:43.9391037Z       "propext"
+2026-10-13T18:12:43.9391270Z     ],
+2026-10-13T18:12:43.9391569Z     "ResearchFormalCoreR1.ec011_scalar_cancellation": [
+2026-10-13T18:12:43.9391964Z       "Classical.choice",
+2026-10-13T18:12:43.9392235Z       "Quot.sound",
+2026-10-13T18:12:43.9392467Z       "propext"
+2026-10-13T18:12:43.9392679Z     ],
+2026-10-13T18:12:43.9392915Z     "ResearchFormalCoreR1.ec014_contact_power": [
+2026-10-13T18:12:43.9393260Z       "Classical.choice",
+2026-10-13T18:12:43.9393522Z       "Quot.sound",
+2026-10-13T18:12:43.9393746Z       "propext"
+2026-10-13T18:12:43.9393956Z     ],
+2026-10-13T18:12:43.9394237Z     "ResearchFormalCoreR1.p02_lm008_cross_multiplied": [
+2026-10-13T18:12:43.9394600Z       "Classical.choice",
+2026-10-13T18:12:43.9394866Z       "Quot.sound",
+2026-10-13T18:12:43.9395093Z       "propext"
+2026-10-13T18:12:43.9395302Z     ],
+2026-10-13T18:12:43.9395556Z     "ResearchFormalCoreR1.p02_lm008_event_cs": [
+2026-10-13T18:12:43.9395892Z       "Classical.choice",
+2026-10-13T18:12:43.9396148Z       "Quot.sound",
+2026-10-13T18:12:43.9396363Z       "propext"
+2026-10-13T18:12:43.9396578Z     ],
+2026-10-13T18:12:43.9396849Z     "ResearchFormalCoreR1.p02_lm008_event_numerator": [
+2026-10-13T18:12:43.9397207Z       "Classical.choice",
+2026-10-13T18:12:43.9397453Z       "Quot.sound",
+2026-10-13T18:12:43.9397672Z       "propext"
+2026-10-13T18:12:43.9397884Z     ],
+2026-10-13T18:12:43.9398252Z     "ResearchFormalCoreR1.p02_lm008_integral_cs": [
+2026-10-13T18:12:43.9398615Z       "Classical.choice",
+2026-10-13T18:12:43.9398863Z       "Quot.sound",
+2026-10-13T18:12:43.9399082Z       "propext"
+2026-10-13T18:12:43.9399289Z     ],
+2026-10-13T18:12:43.9399902Z     "ResearchFormalCoreR1.p02_lm008_measure_transfer": [
+2026-10-13T18:12:43.9400600Z       "Classical.choice",
+2026-10-13T18:12:43.9400863Z       "Quot.sound",
+2026-10-13T18:12:43.9401090Z       "propext"
+2026-10-13T18:12:43.9401310Z     ],
+2026-10-13T18:12:43.9401785Z     "ResearchFormalCoreR1.p02_lm008_probability_transfer": [
+2026-10-13T18:12:43.9402206Z       "Classical.choice",
+2026-10-13T18:12:43.9402459Z       "Quot.sound",
+2026-10-13T18:12:43.9402742Z       "propext"
+2026-10-13T18:12:43.9402967Z     ],
+2026-10-13T18:12:43.9403244Z     "ResearchFormalCoreR1.p02_lm008_quotient_bound": [
+2026-10-13T18:12:43.9403620Z       "Classical.choice",
+2026-10-13T18:12:43.9403871Z       "Quot.sound",
+2026-10-13T18:12:43.9404100Z       "propext"
+2026-10-13T18:12:43.9404311Z     ],
+2026-10-13T18:12:43.9404583Z     "ResearchFormalCoreR1.p02_lm008_r2_cancel": [
+2026-10-13T18:12:43.9404956Z       "Classical.choice",
+2026-10-13T18:12:43.9405235Z       "Quot.sound",
+2026-10-13T18:12:43.9484090Z       "propext"
+2026-10-13T18:12:43.9484389Z     ],
+2026-10-13T18:12:43.9484697Z     "ResearchFormalCoreR1.p02_lm008_sqrt_counterexample": [
+2026-10-13T18:12:43.9485094Z       "Classical.choice",
+2026-10-13T18:12:43.9485364Z       "Quot.sound",
+2026-10-13T18:12:43.9485604Z       "propext"
+2026-10-13T18:12:43.9485827Z     ],
+2026-10-13T18:12:43.9486069Z     "ResearchFormalCoreR1.p02_lm008_upper_normalizer_counterexample": [
+2026-10-13T18:12:43.9486370Z       "Classical.choice",
+2026-10-13T18:12:43.9486552Z       "Quot.sound",
+2026-10-13T18:12:43.9486717Z       "propext"
+2026-10-13T18:12:43.9486877Z     ],
+2026-10-13T18:12:43.9487070Z     "ResearchFormalCoreR1.p02_lm009_badJet_measurable": [
+2026-10-13T18:12:43.9487315Z       "Classical.choice",
+2026-10-13T18:12:43.9487484Z       "Quot.sound",
+2026-10-13T18:12:43.9487641Z       "propext"
+2026-10-13T18:12:43.9487789Z     ],
+2026-10-13T18:12:43.9487968Z     "ResearchFormalCoreR1.p02_lm009_badJet_subset": [
+2026-10-13T18:12:43.9488287Z       "Classical.choice",
+2026-10-13T18:12:43.9488512Z       "Quot.sound",
+2026-10-13T18:12:43.9488759Z       "propext"
+2026-10-13T18:12:43.9488999Z     ],
+2026-10-13T18:12:43.9489306Z     "ResearchFormalCoreR1.p02_lm009_bad_event_threshold": [
+2026-10-13T18:12:43.9489829Z       "Classical.choice",
+2026-10-13T18:12:43.9490012Z       "Quot.sound",
+2026-10-13T18:12:43.9490175Z       "propext"
+2026-10-13T18:12:43.9490325Z     ],
+2026-10-13T18:12:43.9490505Z     "ResearchFormalCoreR1.p02_lm009_markov_event": [
+2026-10-13T18:12:43.9490751Z       "Classical.choice",
+2026-10-13T18:12:43.9490920Z       "Quot.sound",
+2026-10-13T18:12:43.9491071Z       "propext"
+2026-10-13T18:12:43.9491214Z     ],
+2026-10-13T18:12:43.9491423Z     "ResearchFormalCoreR1.p02_lm009_measure_transfer_r8_to_r3": [
+2026-10-13T18:12:43.9491695Z       "Classical.choice",
+2026-10-13T18:12:43.9491869Z       "Quot.sound",
+2026-10-13T18:12:43.9492026Z       "propext"
+2026-10-13T18:12:43.9492177Z     ],
+2026-10-13T18:12:43.9492375Z     "ResearchFormalCoreR1.p02_lm009_moment40_family_r3": [
+2026-10-13T18:12:43.9492627Z       "Classical.choice",
+2026-10-13T18:12:43.9492812Z       "Quot.sound",
+2026-10-13T18:12:43.9492970Z       "propext"
+2026-10-13T18:12:43.9493122Z     ],
+2026-10-13T18:12:43.9493343Z     "ResearchFormalCoreR1.p02_lm009_moment40_family_r3_interval": [
+2026-10-13T18:12:43.9493616Z       "Classical.choice",
+2026-10-13T18:12:43.9493791Z       "Quot.sound",
+2026-10-13T18:12:43.9493944Z       "propext"
+2026-10-13T18:12:43.9494090Z     ],
+2026-10-13T18:12:43.9494305Z     "ResearchFormalCoreR1.p02_lm009_moment40_family_r3_of_interval": [
+2026-10-13T18:12:43.9494584Z       "Classical.choice",
+2026-10-13T18:12:43.9494753Z       "Quot.sound",
+2026-10-13T18:12:43.9494910Z       "propext"
+2026-10-13T18:12:43.9495057Z     ],
+2026-10-13T18:12:43.9495235Z     "ResearchFormalCoreR1.p02_lm009_moment40_tail": [
+2026-10-13T18:12:43.9495470Z       "Classical.choice",
+2026-10-13T18:12:43.9495637Z       "Quot.sound",
+2026-10-13T18:12:43.9495788Z       "propext"
+2026-10-13T18:12:43.9495931Z     ],
+2026-10-13T18:12:43.9496124Z     "ResearchFormalCoreR1.p02_lm009_moment40_tail_finite": [
+2026-10-13T18:12:43.9496556Z       "Classical.choice",
+2026-10-13T18:12:43.9496726Z       "Quot.sound",
+2026-10-13T18:12:43.9496881Z       "propext"
+2026-10-13T18:12:43.9497025Z     ],
+2026-10-13T18:12:43.9497425Z     "ResearchFormalCoreR1.p02_lm009_moment40_tail_of_finite": [
+2026-10-13T18:12:43.9497695Z       "Classical.choice",
+2026-10-13T18:12:43.9497870Z       "Quot.sound",
+2026-10-13T18:12:43.9498023Z       "propext"
+2026-10-13T18:12:43.9498170Z     ],
+2026-10-13T18:12:43.9498369Z     "ResearchFormalCoreR1.p02_lm009_moment40_weighted_r3": [
+2026-10-13T18:12:43.9498619Z       "Classical.choice",
+2026-10-13T18:12:43.9498787Z       "Quot.sound",
+2026-10-13T18:12:43.9498937Z       "propext"
+2026-10-13T18:12:43.9499084Z     ],
+2026-10-13T18:12:43.9499271Z     "ResearchFormalCoreR1.p02_lm009_moment40_weighted_r4": [
+2026-10-13T18:12:43.9499678Z       "Classical.choice",
+2026-10-13T18:12:43.9499848Z       "Quot.sound",
+2026-10-13T18:12:43.9499998Z       "propext"
+2026-10-13T18:12:43.9500142Z     ],
+2026-10-13T18:12:43.9500328Z     "ResearchFormalCoreR1.p02_lm009_palm_r4_to_r3": [
+2026-10-13T18:12:43.9500558Z       "Classical.choice",
+2026-10-13T18:12:43.9500722Z       "Quot.sound",
+2026-10-13T18:12:43.9500869Z       "propext"
+2026-10-13T18:12:43.9501020Z     ],
+2026-10-13T18:12:43.9501204Z     "ResearchFormalCoreR1.p02_lm009_power40_identity": [
+2026-10-13T18:12:43.9501439Z       "Classical.choice",
+2026-10-13T18:12:43.9501605Z       "Quot.sound",
+2026-10-13T18:12:43.9501759Z       "propext"
+2026-10-13T18:12:43.9501904Z     ],
+2026-10-13T18:12:43.9502119Z     "ResearchFormalCoreR1.p02_lm009_probability_transfer_r8_to_r3": [
+2026-10-13T18:12:43.9502392Z       "Classical.choice",
+2026-10-13T18:12:43.9502557Z       "Quot.sound",
+2026-10-13T18:12:43.9502707Z       "propext"
+2026-10-13T18:12:43.9502848Z     ],
+2026-10-13T18:12:43.9503015Z     "ResearchFormalCoreR1.p02_lm009_r4_le_r3": [
+2026-10-13T18:12:43.9503237Z       "Classical.choice",
+2026-10-13T18:12:43.9503404Z       "Quot.sound",
+2026-10-13T18:12:43.9503560Z       "propext"
+2026-10-13T18:12:43.9503706Z     ],
+2026-10-13T18:12:43.9503935Z     "ResearchFormalCoreR1.weightPerturbation_event_integral_bounds": [
+2026-10-13T18:12:43.9504229Z       "Classical.choice",
+2026-10-13T18:12:43.9504405Z       "Quot.sound",
+2026-10-13T18:12:43.9504560Z       "propext"
+2026-10-13T18:12:43.9504705Z     ],
+2026-10-13T18:12:43.9504897Z     "ResearchFormalCoreR1.weightPerturbation_integral": [
+2026-10-13T18:12:43.9505148Z       "Classical.choice",
+2026-10-13T18:12:43.9505313Z       "Quot.sound",
+2026-10-13T18:12:43.9505464Z       "propext"
+2026-10-13T18:12:43.9505603Z     ],
+2026-10-13T18:12:43.9505816Z     "ResearchFormalCoreR1.weightPerturbation_normalizer_lower": [
+2026-10-13T18:12:43.9506093Z       "Classical.choice",
+2026-10-13T18:12:43.9506256Z       "Quot.sound",
+2026-10-13T18:12:43.9506403Z       "propext"
+2026-10-13T18:12:43.9506545Z     ],
+2026-10-13T18:12:43.9506750Z     "ResearchFormalCoreR1.weightPerturbation_quotient_bound": [
+2026-10-13T18:12:43.9507016Z       "Classical.choice",
+2026-10-13T18:12:43.9507189Z       "Quot.sound",
+2026-10-13T18:12:43.9507343Z       "propext"
+2026-10-13T18:12:43.9507487Z     ],
+2026-10-13T18:12:43.9507689Z     "ResearchFormalCoreR1.weightPerturbation_setIntegral": [
+2026-10-13T18:12:43.9507953Z       "Classical.choice",
+2026-10-13T18:12:43.9508119Z       "Quot.sound",
+2026-10-13T18:12:43.9508268Z       "propext"
+2026-10-13T18:12:43.9508407Z     ],
+2026-10-13T18:12:43.9508608Z     "ResearchFormalCoreR1.weightedLaw_absolutelyContinuous": [
+2026-10-13T18:12:43.9508869Z       "Classical.choice",
+2026-10-13T18:12:43.9509029Z       "Quot.sound",
+2026-10-13T18:12:43.9509182Z       "propext"
+2026-10-13T18:12:43.9509322Z     ],
+2026-10-13T18:12:43.9509661Z     "ResearchFormalCoreR1.weightedLaw_apply": [
+2026-10-13T18:12:43.9509892Z       "Classical.choice",
+2026-10-13T18:12:43.9510055Z       "Quot.sound",
+2026-10-13T18:12:43.9510204Z       "propext"
+2026-10-13T18:12:43.9510345Z     ],
+2026-10-13T18:12:43.9510518Z     "ResearchFormalCoreR1.weightedLaw_congr_ae": [
+2026-10-13T18:12:43.9510880Z       "Classical.choice",
+2026-10-13T18:12:43.9511052Z       "Quot.sound",
+2026-10-13T18:12:43.9511208Z       "propext"
+2026-10-13T18:12:43.9511355Z     ],
+2026-10-13T18:12:43.9511659Z     "ResearchFormalCoreR1.weightedLaw_event_perturbation": [
+2026-10-13T18:12:43.9511933Z       "Classical.choice",
+2026-10-13T18:12:43.9512098Z       "Quot.sound",
+2026-10-13T18:12:43.9512246Z       "propext"
+2026-10-13T18:12:43.9512389Z     ],
+2026-10-13T18:12:43.9512597Z     "ResearchFormalCoreR1.weightedLaw_event_perturbation_r2": [
+2026-10-13T18:12:43.9512861Z       "Classical.choice",
+2026-10-13T18:12:43.9513021Z       "Quot.sound",
+2026-10-13T18:12:43.9513169Z       "propext"
+2026-10-13T18:12:43.9513309Z     ],
+2026-10-13T18:12:43.9513490Z     "ResearchFormalCoreR1.weightedLaw_event_real": [
+2026-10-13T18:12:43.9513732Z       "Classical.choice",
+2026-10-13T18:12:43.9513901Z       "Quot.sound",
+2026-10-13T18:12:43.9514051Z       "propext"
+2026-10-13T18:12:43.9514203Z     ],
+2026-10-13T18:12:43.9514415Z     "ResearchFormalCoreR1.weightedLaw_isProbabilityMeasure": [
+2026-10-13T18:12:43.9514672Z       "Classical.choice",
+2026-10-13T18:12:43.9514835Z       "Quot.sound",
+2026-10-13T18:12:43.9514981Z       "propext"
+2026-10-13T18:12:43.9515128Z     ],
+2026-10-13T18:12:43.9515292Z     "ResearchFormalCoreR1.weightedLaw_one": [
+2026-10-13T18:12:43.9515509Z       "Classical.choice",
+2026-10-13T18:12:43.9515675Z       "Quot.sound",
+2026-10-13T18:12:43.9515821Z       "propext"
+2026-10-13T18:12:43.9515959Z     ],
+2026-10-13T18:12:43.9516122Z     "ResearchFormalCoreR1.weightedLaw_zero": [
+2026-10-13T18:12:43.9516340Z       "Classical.choice",
+2026-10-13T18:12:43.9516502Z       "Quot.sound",
+2026-10-13T18:12:43.9516649Z       "propext"
+2026-10-13T18:12:43.9516788Z     ]
+2026-10-13T18:12:43.9516922Z   },
+2026-10-13T18:12:43.9517120Z   "checked_commit": "9844f785910d097b7b4591dcbd9e377bd7b38280",
+2026-10-13T18:12:43.9517377Z   "dependency_revisions": {
+2026-10-13T18:12:43.9517596Z     "Cli": "e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204",
+2026-10-13T18:12:43.9517904Z     "LeanSearchClient": "ddf04cf3949fa556442341e87d47f9f6e6074707",
+2026-10-13T18:12:43.9518197Z     "Qq": "6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259",
+2026-10-13T18:12:43.9518458Z     "aesop": "355695d523e41d0554926416cba2a2b3544fbbc9",
+2026-10-13T18:12:43.9518733Z     "batteries": "f2effa3d803fda822b1f97b806c47cf2adfbcbc2",
+2026-10-13T18:12:43.9519024Z     "importGraph": "e928b72544873815af278d38681b31c0293588e3",
+2026-10-13T18:12:43.9519308Z     "mathlib": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+2026-10-13T18:12:43.9519766Z     "plausible": "118aa17ee84656b8bd727fef7c458ee8c833385c",
+2026-10-13T18:12:43.9520063Z     "proofwidgets": "106ff4fafc74ef4ac99d81dbf3ab399118f497a5"
+2026-10-13T18:12:43.9520305Z   },
+2026-10-13T18:12:43.9520482Z   "formalization_status": "kernel-checked",
+2026-10-13T18:12:43.9520906Z   "lean_version": "Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+2026-10-13T18:12:43.9521306Z   "logs": {
+2026-10-13T18:12:43.9521568Z     "axioms.log": "f6250270087bf71bf6dbafaef40a4ee5c55ef9c5a00811692d4a75b4e96cb3d4",
+2026-10-13T18:12:43.9521989Z     "build.log": "57493546fb14835dea14dcbe3024d0af02f2b88ffc133a8f6ee2c8f295e94d7c",
+2026-10-13T18:12:43.9522425Z     "custom_imported.log": "6e7f917c7fe2fdc3efe1943dcc327c56acadd0b0ca96507a4327073fdfd2f083",
+2026-10-13T18:12:43.9522904Z     "elaborated-types.log": "b4add63c0a9d145ac0c983bb1590b53f2d97bf8d99fe8b6bf57a7d90c9853318",
+2026-10-13T18:12:43.9523358Z     "false_fold.log": "f65eb81822771b61f93462ff85ad391457a42a6067fdcaf3484cbee75a3a076e",
+2026-10-13T18:12:43.9523786Z     "false_power.log": "524606005d0840d19fa214da23e54032f2f91ad007f7f25fa5c5fce5129c9b19",
+2026-10-13T18:12:43.9524208Z     "leanchecker.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+2026-10-13T18:12:43.9524614Z     "native.log": "8a0b9f79f3265724af58b27461627f9d532535f8a23681361da731c9ea37c101",
+2026-10-13T18:12:43.9525008Z     "sorry.log": "920ae8bc56050f33d15d1fb033bcfb1f5017625b223106e9c14d386bf115d98b",
+2026-10-13T18:12:43.9525586Z     "version-preflight.log": "355a9a028f81641782d75d6e6b58dec70f29d2f61238a9e271690259d9bf5680",
+2026-10-13T18:12:43.9526115Z     "version.log": "355a9a028f81641782d75d6e6b58dec70f29d2f61238a9e271690259d9bf5680"
+2026-10-13T18:12:43.9526417Z   },
+2026-10-13T18:12:43.9526684Z   "manifest_sha256": "40cb6ffc6776717a26d2a0a66815aeef508b0c8411588fff06ff2cec43a752a1",
+2026-10-13T18:12:43.9527013Z   "negative_controls": {
+2026-10-13T18:12:43.9527215Z     "custom_imported": "REJECTED_BY_AXIOM_GATE",
+2026-10-13T18:12:43.9527446Z     "false_fold": "REJECTED_BY_LEAN",
+2026-10-13T18:12:43.9527652Z     "false_power": "REJECTED_BY_LEAN",
+2026-10-13T18:12:43.9527861Z     "native": "REJECTED_BY_AXIOM_GATE",
+2026-10-13T18:12:43.9528066Z     "sorry": "REJECTED_BY_AXIOM_GATE"
+2026-10-13T18:12:43.9528249Z   },
+2026-10-13T18:12:43.9528409Z   "repository": "d6g8k5htny-coder/Math-",
+2026-10-13T18:12:43.9528615Z   "schema_version": 1,
+2026-10-13T18:12:43.9528800Z   "scientific_effect": "NONE",
+2026-10-13T18:12:43.9528992Z   "workflow_run_id": "38444399262"
+2026-10-13T18:12:43.9529187Z }
+2026-10-13T18:12:43.9663532Z ##[group]Run python3 -B -S tools/required_formal_check.py receipt
+2026-10-13T18:12:43.9663942Z [36;1mpython3 -B -S tools/required_formal_check.py receipt[0m
+2026-10-13T18:12:44.0017962Z shell: /usr/bin/bash -e {0}
+2026-10-13T18:12:44.0018193Z env:
+2026-10-13T18:12:44.0018373Z   LEAN_NUM_THREADS: 2
+2026-10-13T18:12:44.0018550Z ##[endgroup]
+2026-10-13T18:12:44.0416372Z {
+2026-10-13T18:12:44.0416777Z   "checked_commit": "9844f785910d097b7b4591dcbd9e377bd7b38280",
+2026-10-13T18:12:44.0417093Z   "repository": "d6g8k5htny-coder/Math-",
+2026-10-13T18:12:44.0417320Z   "run_id": "38444399262",
+2026-10-13T18:12:44.0417504Z   "run_attempt": "1",
+2026-10-13T18:12:44.0417808Z   "receipt_sha256": "87db28272260cb6eeb9c7f627fef9b160a66480aded3df3c3530ac7233e7189e"
+2026-10-13T18:12:44.0418136Z }
+2026-10-13T18:12:44.0523613Z ##[group]Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+2026-10-13T18:12:44.0523947Z with:
+2026-10-13T18:12:44.0524126Z   name: formal-evidence-38444399262-1
+2026-10-13T18:12:44.0524352Z   path: formal/.lake/formal-evidence/
+2026-10-13T18:12:44.0524563Z   include-hidden-files: true
+2026-10-13T18:12:44.0524760Z   if-no-files-found: error
+2026-10-13T18:12:44.0524947Z   retention-days: 90
+2026-10-13T18:12:44.0525122Z   compression-level: 6
+2026-10-13T18:12:44.0525298Z   overwrite: false
+2026-10-13T18:12:44.0525464Z   archive: true
+2026-10-13T18:12:44.0525620Z env:
+2026-10-13T18:12:44.0525769Z   LEAN_NUM_THREADS: 2
+2026-10-13T18:12:44.0525937Z ##[endgroup]
+2026-10-13T18:12:45.8750449Z With the provided path, there will be 20 files uploaded
+2026-10-13T18:12:45.8754093Z Artifact name is valid!
+2026-10-13T18:12:45.8754415Z Root directory input is valid!
+2026-10-13T18:12:46.4641146Z Uploading artifact: formal-evidence-38444399262-1.zip
+2026-10-13T18:12:46.4673255Z Beginning upload of artifact content to blob storage
+2026-10-13T18:12:47.0211257Z Uploaded bytes 15101
+2026-10-13T18:12:47.0928036Z Finished uploading artifact content to blob storage!
+2026-10-13T18:12:47.0928681Z SHA256 digest of uploaded artifact is f64ef87125854de31e82dba56819794ede77b73d97178c56cb7e05365223f4bb
+2026-10-13T18:12:47.0929341Z Finalizing artifact upload
+2026-10-13T18:12:47.4710855Z Artifact formal-evidence-38444399262-1 successfully finalized. Artifact ID 11837338425
+2026-10-13T18:12:47.4711743Z Artifact formal-evidence-38444399262-1 has been successfully uploaded! Final size is 15101 bytes. Artifact ID is 11837338425
+2026-10-13T18:12:47.4714701Z Artifact download URL: https://github.com/d6g8k5htny-coder/Math-/actions/runs/38444399262/artifacts/11837338425
+2026-10-13T18:12:47.4901854Z Post job cleanup.
+2026-10-13T18:12:47.6981453Z [command]/usr/bin/git version
+2026-10-13T18:12:47.7033209Z git version 2.55.0
+2026-10-13T18:12:47.7062958Z Temporarily overriding HOME='/home/runner/work/_temp/fe0cdc1e-4d3f-40c0-aa45-10869bcd8f76' before making global git config changes
+2026-10-13T18:12:47.7064309Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-13T18:12:47.7068113Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Math-/Math-
+2026-10-13T18:12:47.7102488Z Removing SSH command configuration
+2026-10-13T18:12:47.7109122Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-13T18:12:47.7147166Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-13T18:12:47.7383365Z Removing HTTP extra header
+2026-10-13T18:12:47.7389661Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-13T18:12:47.7432696Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-13T18:12:47.7658283Z Removing includeIf entries pointing to credentials config files
+2026-10-13T18:12:47.7667309Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-13T18:12:47.7725483Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-13T18:12:47.8066001Z Evaluate and set job outputs
+2026-10-13T18:12:47.8070935Z Set output 'checked_commit'
+2026-10-13T18:12:47.8085588Z Set output 'repository'
+2026-10-13T18:12:47.8086226Z Set output 'run_id'
+2026-10-13T18:12:47.8086479Z Set output 'run_attempt'
+2026-10-13T18:12:47.8086833Z Set output 'receipt_sha256'
+2026-10-13T18:12:47.8087502Z Cleaning up orphan processes

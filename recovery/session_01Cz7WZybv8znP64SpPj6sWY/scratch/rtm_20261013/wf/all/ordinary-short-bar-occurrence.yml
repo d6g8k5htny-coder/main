@@ -1,0 +1,53 @@
+name: Ordinary short-bar occurrence exact controls
+on:
+  pull_request:
+    paths:
+      - 'frontiers/ordinary_short_bar_occurrence_20261001/**'
+      - 'frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md'
+      - 'frontiers/short_bar_endpoint_law_20261001/PROOF.md'
+      - 'imports/lifetime_parent_20260925/**'
+      - 'reviews/d1_section9_borel_repair_20260925/REPAIR.md'
+      - 'reviews/d1_chain_reconciliation_20260928/RECONCILIATION.md'
+      - '.github/workflows/ordinary-short-bar-occurrence.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'frontiers/ordinary_short_bar_occurrence_20261001/**'
+      - 'frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md'
+      - 'frontiers/short_bar_endpoint_law_20261001/PROOF.md'
+      - 'imports/lifetime_parent_20260925/**'
+      - 'reviews/d1_section9_borel_repair_20260925/REPAIR.md'
+      - 'reviews/d1_chain_reconciliation_20260928/RECONCILIATION.md'
+      - '.github/workflows/ordinary-short-bar-occurrence.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: ordinary-short-bar-occurrence-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  exact:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      matrix:
+        mode: [normal, optimized]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11'
+      - name: Verify pinned sources and rational falsifiers
+        env:
+          PYTHON_MODE: ${{ matrix.mode }}
+        run: |
+          if [ "$PYTHON_MODE" = optimized ]; then
+            python3 -B -O -S frontiers/ordinary_short_bar_occurrence_20261001/test_check.py -v
+          else
+            python3 -B -S frontiers/ordinary_short_bar_occurrence_20261001/test_check.py -v
+          fi
+      - name: Reject implementation mutations in both Python modes
+        if: matrix.mode == 'normal'
+        run: python3 -B -S frontiers/ordinary_short_bar_occurrence_20261001/test_check.py --mutants

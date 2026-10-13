@@ -1,0 +1,41 @@
+name: Independent c2 interval audit
+
+'on':
+  pull_request:
+    paths:
+      - 'reviews/c2_interval_audit_20261001/**'
+      - '.github/workflows/c2-interval-audit.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  rational-and-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Verify the frozen peer source and independent certificate
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+          GIT_NO_REPLACE_OBJECTS: '1'
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin 59a06b65d138994119551059fa336919c07188bf
+          python -B -S reviews/c2_interval_audit_20261001/verify.py
+          cd reviews/c2_interval_audit_20261001
+          python -B -S -m unittest -v
+          python -B -O -S -m unittest -v
+          python -B -S oracle.py > "$RUNNER_TEMP/c2-normal.json"
+          python -B -O -S oracle.py > "$RUNNER_TEMP/c2-optimized.json"
+          cmp "$RUNNER_TEMP/c2-normal.json" "$RUNNER_TEMP/c2-optimized.json"
+          cmp RESULTS.json "$RUNNER_TEMP/c2-normal.json"
+          python -B -S verify.py
+          git diff --exit-code

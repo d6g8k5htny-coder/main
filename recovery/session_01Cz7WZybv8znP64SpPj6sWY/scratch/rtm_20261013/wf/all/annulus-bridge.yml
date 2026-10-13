@@ -1,0 +1,47 @@
+name: All-height annulus bridge exact replay
+'on':
+  pull_request:
+    paths: ['frontiers/rn_annulus_bridge_20260925/**', '.github/workflows/annulus-bridge.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11'
+      - name: Source-pinned algebra and omission controls
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          python -B -S - <<'PY'
+          import json, os, pathlib, subprocess, sys
+          if sys.version_info[:2] != (3, 11):
+              raise RuntimeError('actual Python 3.11 required')
+          root = pathlib.Path('frontiers/rn_annulus_bridge_20260925').resolve()
+          out = pathlib.Path(os.environ['RUNNER_TEMP']) / 'annulus-bridge-results'
+          subprocess.run([sys.executable, '-B', '-S', str(root / 'run_validation.py'), '--output', str(out)], check=True, timeout=120)
+          report = json.loads((out / 'REPORT.json').read_text())
+          if not report['passed'] or report['distinct_tests'] != 21 or report['distinct_semantic_mutants'] != 7:
+              raise RuntimeError('unexpected bridge-control scope')
+          if report['mathematical_acceptance'] is not False or report['scientific_effect'] != 'NONE':
+              raise RuntimeError('forbidden scientific promotion')
+          (out / 'GITHUB_CONTEXT.json').write_text(json.dumps({
+              'run': os.environ['GITHUB_RUN_ID'], 'sha': os.environ['GITHUB_SHA'],
+              'python': sys.version, 'mathematical_acceptance': False,
+              'scientific_effect': 'NONE',
+          }, indent=2) + '\n')
+          print('ANNULUS_BRIDGE_ALGEBRA_PASSED')
+          PY
+      - name: Preserve evidence
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: annulus-bridge-${{ github.run_id }}
+          path: ${{ runner.temp }}/annulus-bridge-results
+          if-no-files-found: error
+          retention-days: 30

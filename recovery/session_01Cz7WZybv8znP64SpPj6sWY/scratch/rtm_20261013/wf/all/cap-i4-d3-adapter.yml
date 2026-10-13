@@ -1,0 +1,83 @@
+name: Cap I4 d3 adapter finite controls
+on:
+  push:
+    branches: [chatgpt/cap-i4-d3-spectral-adapter-20261005]
+    paths:
+      - reviews/cap_i4_d3_spectral_adapter_20261005/**
+      - imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md
+      - imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md
+      - .github/workflows/cap-i4-d3-adapter.yml
+  pull_request:
+    paths:
+      - reviews/cap_i4_d3_spectral_adapter_20261005/**
+      - imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md
+      - imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md
+      - .github/workflows/cap-i4-d3-adapter.yml
+permissions:
+  contents: read
+jobs:
+  replay:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    env:
+      MODE: ${{ matrix.mode }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.13.5'
+      - name: Authenticate source and execute finite algebra controls
+        shell: bash
+        run: |
+          set -euo pipefail
+          REL=reviews/cap_i4_d3_spectral_adapter_20261005
+          OUT="$PWD/.lake/cap-i4-d3-$MODE"
+          test ! -e "$OUT"
+          mkdir -p "$OUT"
+          source_record() {
+            python -B -S - <<'PY'
+          import hashlib, json, os, subprocess
+          from pathlib import Path
+          rel = Path('reviews/cap_i4_d3_spectral_adapter_20261005')
+          manifest = rel / 'SOURCES.json'
+          if manifest.is_symlink() or hashlib.sha256(manifest.read_bytes()).hexdigest() != '7d15141f245ca1a79c4a6c21fc8dc4a2abe5c140fe04aeaf16584c66821e341b':
+              raise ValueError('frozen manifest mismatch')
+          pins = {
+              'imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md': 'dfed3b8d318a3ab1950957f393307733a4bef3f2',
+              'imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md': '213594d6ca6a86fb938110f4d166d9ce275a02d0',
+          }
+          for path, expected in pins.items():
+              actual = subprocess.check_output(['git', 'hash-object', path], text=True).strip()
+              if actual != expected: raise ValueError('consumed source mismatch: ' + path)
+          workflow = '.github/workflows/cap-i4-d3-adapter.yml'
+          subprocess.run(['git','diff','--exit-code','HEAD','--',str(rel),workflow,*pins],check=True)
+          head = subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
+          if head != os.environ['GITHUB_SHA']: raise ValueError('tested head mismatch')
+          print(json.dumps({'head':head,'run':os.environ['GITHUB_RUN_ID'],
+              'attempt':os.environ['GITHUB_RUN_ATTEMPT'],'mode':os.environ['MODE'],
+              'workflow_sha256':hashlib.sha256(Path(workflow).read_bytes()).hexdigest(),
+              'manifest_sha256':hashlib.sha256(manifest.read_bytes()).hexdigest(),
+              'source_blobs':pins},sort_keys=True))
+          PY
+          }
+          source_record | tee "$OUT/before.json"
+          FLAGS=(-B -S)
+          if [ "$MODE" = optimized ]; then FLAGS+=(-O); fi
+          python "${FLAGS[@]}" "$REL/replay.py" --mode "$MODE" --evidence "$OUT/replay.json" | tee "$OUT/stdout.json"
+          source_record | tee "$OUT/after.json"
+          cmp "$OUT/before.json" "$OUT/after.json"
+          (cd "$OUT" && sha256sum -- *.json > SHA256SUMS)
+      - name: Preserve execution evidence even on failure
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: cap-i4-d3-${{ matrix.mode }}-${{ github.sha }}
+          path: .lake/cap-i4-d3-${{ matrix.mode }}/
+          include-hidden-files: true
+          if-no-files-found: warn

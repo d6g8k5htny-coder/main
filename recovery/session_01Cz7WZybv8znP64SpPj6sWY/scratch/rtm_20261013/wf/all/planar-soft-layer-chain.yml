@@ -1,0 +1,32 @@
+name: Planar soft-layer chain C91-C98 replay
+
+'on':
+  pull_request:
+    paths:
+      - 'frontiers/planar_soft_layer_chain_20261003/**'
+      - '.github/workflows/planar-soft-layer-chain.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  chain-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Verify stored identities and replay every published checker, both modes
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          set -euo pipefail
+          python -B -S frontiers/planar_soft_layer_chain_20261003/replay.py
+          python -B -O -S frontiers/planar_soft_layer_chain_20261003/replay.py
+          git diff --exit-code
+          test -z "$(git status --porcelain)"

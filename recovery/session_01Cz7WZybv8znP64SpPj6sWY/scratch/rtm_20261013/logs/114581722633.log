@@ -1,0 +1,605 @@
+﻿2026-10-11T21:37:11.9123144Z Current runner version: '2.337.0'
+2026-10-11T21:37:11.9148741Z ##[group]Runner Image Provisioner
+2026-10-11T21:37:11.9149715Z Hosted Compute Agent
+2026-10-11T21:37:11.9150404Z Version: 20261002.596
+2026-10-11T21:37:11.9151125Z Commit: c3d12f3313a95f25162a1503be624f3b0617f8c0
+2026-10-11T21:37:11.9151898Z Build Date: 2026-10-02T22:28:27Z
+2026-10-11T21:37:11.9152620Z Worker ID: {ae02866e-861b-4dfb-9391-a07534653df5}
+2026-10-11T21:37:11.9153541Z Region: centralus
+2026-10-11T21:37:11.9154152Z Cloud: Azure
+2026-10-11T21:37:11.9154783Z ##[endgroup]
+2026-10-11T21:37:11.9156152Z ##[group]Operating System
+2026-10-11T21:37:11.9156799Z Ubuntu
+2026-10-11T21:37:11.9157372Z 24.04.5
+2026-10-11T21:37:11.9157899Z LTS
+2026-10-11T21:37:11.9158439Z ##[endgroup]
+2026-10-11T21:37:11.9159039Z ##[group]Runner Image
+2026-10-11T21:37:11.9159644Z Image: ubuntu-24.04
+2026-10-11T21:37:11.9160253Z Version: 20261004.327.1
+2026-10-11T21:37:11.9161611Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20261004.327/images/ubuntu/Ubuntu2404-Readme.md
+2026-10-11T21:37:11.9163494Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20261004.327
+2026-10-11T21:37:11.9164564Z ##[endgroup]
+2026-10-11T21:37:11.9165759Z ##[group]GITHUB_TOKEN Permissions
+2026-10-11T21:37:11.9167918Z Contents: read
+2026-10-11T21:37:11.9168588Z Metadata: read
+2026-10-11T21:37:11.9169157Z ##[endgroup]
+2026-10-11T21:37:11.9171652Z Secret source: Actions
+2026-10-11T21:37:11.9172611Z Cache mode: write
+2026-10-11T21:37:11.9173704Z Prepare workflow directory
+2026-10-11T21:37:11.9709339Z Prepare all required actions
+2026-10-11T21:37:11.9776069Z Getting action download info
+2026-10-11T21:37:12.2514698Z Download action repository 'actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1' (SHA:3d3c42e5aac5ba805825da76410c181273ba90b1)
+2026-10-11T21:37:12.4595195Z Download action repository 'actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97' (SHA:5fda3b95a4ea91299a34e894583c3862153e4b97)
+2026-10-11T21:37:12.9837230Z Download action repository 'leanprover/lean-action@f061402b660e0c34644504b324e830f2991d4865' (SHA:f061402b660e0c34644504b324e830f2991d4865)
+2026-10-11T21:37:13.4211331Z Download action repository 'actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9' (SHA:cf430e030ddbb5b0abf93d22962f4752f3646cd9)
+2026-10-11T21:37:14.0568254Z Getting action download info
+2026-10-11T21:37:14.1504035Z Download action repository 'actions/cache@caa296126883cff596d87d8935842f9db880ef25' (SHA:caa296126883cff596d87d8935842f9db880ef25)
+2026-10-11T21:37:14.3510747Z Complete job name: kernel-evidence
+2026-10-11T21:37:14.4052924Z ##[group]Run actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+2026-10-11T21:37:14.4053748Z with:
+2026-10-11T21:37:14.4054061Z   persist-credentials: false
+2026-10-11T21:37:14.4054400Z   repository: d6g8k5htny-coder/Math-
+2026-10-11T21:37:14.4056433Z   token: ***
+2026-10-11T21:37:14.4056710Z   ssh-strict: true
+2026-10-11T21:37:14.4056977Z   ssh-user: git
+2026-10-11T21:37:14.4057239Z   clean: true
+2026-10-11T21:37:14.4057552Z   sparse-checkout-cone-mode: true
+2026-10-11T21:37:14.4057872Z   fetch-depth: 1
+2026-10-11T21:37:14.4058154Z   fetch-tags: false
+2026-10-11T21:37:14.4058424Z   show-progress: true
+2026-10-11T21:37:14.4058698Z   lfs: false
+2026-10-11T21:37:14.4058966Z   submodules: false
+2026-10-11T21:37:14.4059258Z   set-safe-directory: true
+2026-10-11T21:37:14.4059571Z   allow-unsafe-pr-checkout: false
+2026-10-11T21:37:14.4060067Z env:
+2026-10-11T21:37:14.4060323Z   LEAN_NUM_THREADS: 2
+2026-10-11T21:37:14.4060624Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-11T21:37:14.4060958Z ##[endgroup]
+2026-10-11T21:37:14.4874625Z Syncing repository: d6g8k5htny-coder/Math-
+2026-10-11T21:37:14.4875902Z ##[group]Getting Git version info
+2026-10-11T21:37:14.4876269Z Working directory is '/home/runner/work/Math-/Math-'
+2026-10-11T21:37:14.4877104Z [command]/usr/bin/git version
+2026-10-11T21:37:14.4950617Z git version 2.55.0
+2026-10-11T21:37:14.4972433Z ##[endgroup]
+2026-10-11T21:37:14.4984150Z Temporarily overriding HOME='/home/runner/work/_temp/d094d43c-c3cf-4477-a754-a7c28eeef1ad' before making global git config changes
+2026-10-11T21:37:14.4985565Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-11T21:37:14.4989767Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Math-/Math-
+2026-10-11T21:37:14.5028438Z Deleting the contents of '/home/runner/work/Math-/Math-'
+2026-10-11T21:37:14.5030961Z ##[group]Determining repository object format
+2026-10-11T21:37:14.5032035Z ##[endgroup]
+2026-10-11T21:37:14.5032505Z ##[group]Initializing the repository
+2026-10-11T21:37:14.5036388Z [command]/usr/bin/git init /home/runner/work/Math-/Math-
+2026-10-11T21:37:14.5133179Z hint: Using 'master' as the name for the initial branch. This default branch name
+2026-10-11T21:37:14.5134389Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+2026-10-11T21:37:14.5137275Z hint: to use in all of your new repositories, which will suppress this warning,
+2026-10-11T21:37:14.5137954Z hint: call:
+2026-10-11T21:37:14.5138407Z hint:
+2026-10-11T21:37:14.5138861Z hint: 	git config --global init.defaultBranch <name>
+2026-10-11T21:37:14.5139224Z hint:
+2026-10-11T21:37:14.5139544Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+2026-10-11T21:37:14.5140141Z hint: 'development'. The just-created branch can be renamed via this command:
+2026-10-11T21:37:14.5140559Z hint:
+2026-10-11T21:37:14.5140807Z hint: 	git branch -m <name>
+2026-10-11T21:37:14.5141065Z hint:
+2026-10-11T21:37:14.5141416Z hint: Disable this message with "git config set advice.defaultBranchName false"
+2026-10-11T21:37:14.5141933Z Initialized empty Git repository in /home/runner/work/Math-/Math-/.git/
+2026-10-11T21:37:14.5145138Z [command]/usr/bin/git remote add origin https://github.com/d6g8k5htny-coder/Math-
+2026-10-11T21:37:14.5196430Z ##[endgroup]
+2026-10-11T21:37:14.5196957Z ##[group]Disabling automatic garbage collection
+2026-10-11T21:37:14.5200420Z [command]/usr/bin/git config --local gc.auto 0
+2026-10-11T21:37:14.5227290Z ##[endgroup]
+2026-10-11T21:37:14.5228029Z ##[group]Setting up auth
+2026-10-11T21:37:14.5228384Z Removing SSH command configuration
+2026-10-11T21:37:14.5234842Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-11T21:37:14.5257856Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-11T21:37:14.5546927Z Removing HTTP extra header
+2026-10-11T21:37:14.5555132Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-11T21:37:14.5583014Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-11T21:37:14.5739616Z Removing includeIf entries pointing to credentials config files
+2026-10-11T21:37:14.5744128Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-11T21:37:14.5767773Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-11T21:37:14.5925413Z [command]/usr/bin/git config --file /home/runner/work/_temp/git-credentials-b0bb7d82-5ab2-45dd-88d8-7459a1f8bf25.config http.https://github.com/.extraheader AUTHORIZATION: basic ***
+2026-10-11T21:37:14.5954151Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/Math-/Math-/.git.path /home/runner/work/_temp/git-credentials-b0bb7d82-5ab2-45dd-88d8-7459a1f8bf25.config
+2026-10-11T21:37:14.5978945Z [command]/usr/bin/git config --local includeIf.gitdir:/home/runner/work/Math-/Math-/.git/worktrees/*.path /home/runner/work/_temp/git-credentials-b0bb7d82-5ab2-45dd-88d8-7459a1f8bf25.config
+2026-10-11T21:37:14.6011566Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-b0bb7d82-5ab2-45dd-88d8-7459a1f8bf25.config
+2026-10-11T21:37:14.6037798Z [command]/usr/bin/git config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-b0bb7d82-5ab2-45dd-88d8-7459a1f8bf25.config
+2026-10-11T21:37:14.6060217Z ##[endgroup]
+2026-10-11T21:37:14.6060730Z ##[group]Fetching the repository
+2026-10-11T21:37:14.6065350Z [command]/usr/bin/git -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +4b9e372e89f3b1064565a661c2e82d49dedf8f36:refs/remotes/pull/431/merge
+2026-10-11T21:37:15.9601533Z From https://github.com/d6g8k5htny-coder/Math-
+2026-10-11T21:37:15.9602153Z  * [new ref]         4b9e372e89f3b1064565a661c2e82d49dedf8f36 -> pull/431/merge
+2026-10-11T21:37:15.9604427Z ##[endgroup]
+2026-10-11T21:37:15.9604812Z ##[group]Determining the checkout info
+2026-10-11T21:37:15.9605336Z ##[endgroup]
+2026-10-11T21:37:15.9610118Z [command]/usr/bin/git sparse-checkout disable
+2026-10-11T21:37:15.9658340Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+2026-10-11T21:37:15.9830157Z ##[group]Checking out the ref
+2026-10-11T21:37:15.9834837Z [command]/usr/bin/git checkout --progress --force refs/remotes/pull/431/merge
+2026-10-11T21:37:16.1186799Z Note: switching to 'refs/remotes/pull/431/merge'.
+2026-10-11T21:37:16.1187185Z 
+2026-10-11T21:37:16.1187420Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-10-11T21:37:16.1187954Z changes and commit them, and you can discard any commits you make in this
+2026-10-11T21:37:16.1188617Z state without impacting any branches by switching back to a branch.
+2026-10-11T21:37:16.1188971Z 
+2026-10-11T21:37:16.1205384Z If you want to create a new branch to retain commits you create, you may
+2026-10-11T21:37:16.1206008Z do so (now or later) by using -c with the switch command. Example:
+2026-10-11T21:37:16.1206269Z 
+2026-10-11T21:37:16.1206387Z   git switch -c <new-branch-name>
+2026-10-11T21:37:16.1206592Z 
+2026-10-11T21:37:16.1206750Z Or undo this operation with:
+2026-10-11T21:37:16.1206952Z 
+2026-10-11T21:37:16.1207062Z   git switch -
+2026-10-11T21:37:16.1207218Z 
+2026-10-11T21:37:16.1207475Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-10-11T21:37:16.1207757Z 
+2026-10-11T21:37:16.1208124Z HEAD is now at 4b9e372 Merge f3c1a3cd98679b7990220d3d46661e1e205d41e6 into b3b6c0daa2237a4dc27910781053ece4b6543365
+2026-10-11T21:37:16.1209767Z ##[endgroup]
+2026-10-11T21:37:16.1240751Z [command]/usr/bin/git log -1 --format=%H
+2026-10-11T21:37:16.1262301Z 4b9e372e89f3b1064565a661c2e82d49dedf8f36
+2026-10-11T21:37:16.1272963Z ##[group]Removing auth
+2026-10-11T21:37:16.1273507Z Removing SSH command configuration
+2026-10-11T21:37:16.1279496Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-11T21:37:16.1299868Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-11T21:37:16.1466100Z Removing HTTP extra header
+2026-10-11T21:37:16.1469393Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-11T21:37:16.1525092Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-11T21:37:16.1649196Z Removing includeIf entries pointing to credentials config files
+2026-10-11T21:37:16.1652405Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-11T21:37:16.1672702Z includeif.gitdir:/home/runner/work/Math-/Math-/.git.path
+2026-10-11T21:37:16.1673252Z includeif.gitdir:/home/runner/work/Math-/Math-/.git/worktrees/*.path
+2026-10-11T21:37:16.1673824Z includeif.gitdir:/github/workspace/.git.path
+2026-10-11T21:37:16.1674188Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-10-11T21:37:16.1679328Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/Math-/Math-/.git.path
+2026-10-11T21:37:16.1695569Z /home/runner/work/_temp/git-credentials-b0bb7d82-5ab2-45dd-88d8-7459a1f8bf25.config
+2026-10-11T21:37:16.1703238Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/Math-/Math-/.git.path \/home\/runner\/work\/_temp\/git\-credentials\-b0bb7d82\-5ab2\-45dd\-88d8\-7459a1f8bf25\.config
+2026-10-11T21:37:16.1729743Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/home/runner/work/Math-/Math-/.git/worktrees/*.path
+2026-10-11T21:37:16.1785859Z /home/runner/work/_temp/git-credentials-b0bb7d82-5ab2-45dd-88d8-7459a1f8bf25.config
+2026-10-11T21:37:16.1789068Z [command]/usr/bin/git config --local --unset includeif.gitdir:/home/runner/work/Math-/Math-/.git/worktrees/*.path \/home\/runner\/work\/_temp\/git\-credentials\-b0bb7d82\-5ab2\-45dd\-88d8\-7459a1f8bf25\.config
+2026-10-11T21:37:16.1816846Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-10-11T21:37:16.1834872Z /github/runner_temp/git-credentials-b0bb7d82-5ab2-45dd-88d8-7459a1f8bf25.config
+2026-10-11T21:37:16.1840302Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git.path \/github\/runner_temp\/git\-credentials\-b0bb7d82\-5ab2\-45dd\-88d8\-7459a1f8bf25\.config
+2026-10-11T21:37:16.1866853Z [command]/usr/bin/git config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-10-11T21:37:16.1884389Z /github/runner_temp/git-credentials-b0bb7d82-5ab2-45dd-88d8-7459a1f8bf25.config
+2026-10-11T21:37:16.1915015Z [command]/usr/bin/git config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path \/github\/runner_temp\/git\-credentials\-b0bb7d82\-5ab2\-45dd\-88d8\-7459a1f8bf25\.config
+2026-10-11T21:37:16.1963869Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-11T21:37:16.2112756Z Removing credentials config '/home/runner/work/_temp/git-credentials-b0bb7d82-5ab2-45dd-88d8-7459a1f8bf25.config'
+2026-10-11T21:37:16.2122022Z ##[endgroup]
+2026-10-11T21:37:16.2315912Z ##[group]Run actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+2026-10-11T21:37:16.2316270Z with:
+2026-10-11T21:37:16.2316488Z   python-version: 3.11.16
+2026-10-11T21:37:16.2316737Z   check-latest: false
+2026-10-11T21:37:16.2318473Z   token: ***
+2026-10-11T21:37:16.2318702Z   update-environment: true
+2026-10-11T21:37:16.2318981Z   allow-prereleases: false
+2026-10-11T21:37:16.2319215Z   freethreaded: false
+2026-10-11T21:37:16.2319488Z env:
+2026-10-11T21:37:16.2319700Z   LEAN_NUM_THREADS: 2
+2026-10-11T21:37:16.2319918Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-11T21:37:16.2320205Z ##[endgroup]
+2026-10-11T21:37:16.3313676Z ##[group]Installed versions
+2026-10-11T21:37:16.3327176Z Version 3.11.16 was not found in the local cache
+2026-10-11T21:37:17.1834590Z Version 3.11.16 is available for downloading
+2026-10-11T21:37:17.1835593Z Download from "https://github.com/actions/python-versions/releases/download/3.11.16-31661435402/python-3.11.16-linux-24.04-x64.tar.gz"
+2026-10-11T21:37:17.9213983Z Extract downloaded archive
+2026-10-11T21:37:17.9321135Z [command]/usr/bin/tar xz --warning=no-unknown-keyword --overwrite -C /home/runner/work/_temp/fa5d0313-9474-4d12-9e81-8e3b6289d460 -f /home/runner/work/_temp/72dcc7c0-c6ae-4989-ab84-6ff87a631519
+2026-10-11T21:37:19.7156696Z Execute installation script
+2026-10-11T21:37:19.7226572Z Check if Python hostedtoolcache folder exist...
+2026-10-11T21:37:19.7227147Z Create Python 3.11.16 folder
+2026-10-11T21:37:19.7235104Z Copy Python binaries to hostedtoolcache folder
+2026-10-11T21:37:20.0909711Z Create additional symlinks (Required for the UsePythonVersion Azure Pipelines task and the setup-python GitHub Action)
+2026-10-11T21:37:20.0943189Z Upgrading pip...
+2026-10-11T21:37:21.4546498Z Collecting pip
+2026-10-11T21:37:21.5243447Z Downloading pip-26.2.1-py3-none-any.whl.metadata (4.6 kB)
+2026-10-11T21:37:21.5418954Z Downloading pip-26.2.1-py3-none-any.whl (1.8 MB)
+2026-10-11T21:37:21.6434893Z ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.8/1.8 MB 18.7 MB/s eta 0:00:00
+2026-10-11T21:37:21.6435239Z 
+2026-10-11T21:37:21.6769265Z Installing collected packages: pip
+2026-10-11T21:37:21.6775888Z Attempting uninstall: pip
+2026-10-11T21:37:21.6785073Z Found existing installation: pip 24.0
+2026-10-11T21:37:21.6991956Z Uninstalling pip-24.0:
+2026-10-11T21:37:21.7028585Z Successfully uninstalled pip-24.0
+2026-10-11T21:37:22.2354232Z Successfully installed pip-26.2.1
+2026-10-11T21:37:22.2983079Z Create complete file
+2026-10-11T21:37:22.3011234Z Successfully set up CPython (3.11.16)
+2026-10-11T21:37:22.3012156Z ##[endgroup]
+2026-10-11T21:37:22.3117232Z ##[group]Run set -euo pipefail
+2026-10-11T21:37:22.3117592Z [36;1mset -euo pipefail[0m
+2026-10-11T21:37:22.3117884Z [36;1mP=frontiers/cap_first_exit_lean_20261002[0m
+2026-10-11T21:37:22.3118277Z [36;1mpython -B -S -m unittest discover -s "$P" -p 'test_*.py' -v[0m
+2026-10-11T21:37:22.3118713Z [36;1mpython -B -O -S -m unittest discover -s "$P" -p 'test_*.py' -v[0m
+2026-10-11T21:37:22.3119034Z [36;1mpython -B -S "$P/gate.py"[0m
+2026-10-11T21:37:22.3296016Z shell: /usr/bin/bash -e {0}
+2026-10-11T21:37:22.3296378Z env:
+2026-10-11T21:37:22.3296629Z   LEAN_NUM_THREADS: 2
+2026-10-11T21:37:22.3296918Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-11T21:37:22.3297255Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-11T21:37:22.3297717Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-11T21:37:22.3298138Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-11T21:37:22.3298655Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-11T21:37:22.3299011Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-11T21:37:22.3299354Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-11T21:37:22.3299681Z ##[endgroup]
+2026-10-11T21:37:22.5338299Z test_allowed (test_gate.Axioms.test_allowed) ... ok
+2026-10-11T21:37:22.5338857Z test_forbidden (test_gate.Axioms.test_forbidden) ... ok
+2026-10-11T21:37:22.5339500Z test_missing_and_duplicate (test_gate.Axioms.test_missing_and_duplicate) ... ok
+2026-10-11T21:37:22.5343862Z test_anonymous_section_rejected (test_gate.Declarations.test_anonymous_section_rejected) ... ok
+2026-10-11T21:37:22.5344783Z test_namespaces (test_gate.Declarations.test_namespaces) ... ok
+2026-10-11T21:37:22.5345560Z test_sections_do_not_prefix (test_gate.Declarations.test_sections_do_not_prefix) ... ok
+2026-10-11T21:37:22.5346208Z test_unbalanced (test_gate.Declarations.test_unbalanced) ... ok
+2026-10-11T21:37:22.5348468Z test_version_exact (test_gate.Pins.test_version_exact) ... ok
+2026-10-11T21:37:22.5349018Z test_worktree_clean (test_gate.Pins.test_worktree_clean) ... ok
+2026-10-11T21:37:22.7350994Z test_copy_passes (test_gate.SourceGate.test_copy_passes) ... ok
+2026-10-11T21:37:22.7381033Z test_extra_file_rejected (test_gate.SourceGate.test_extra_file_rejected) ... ok
+2026-10-11T21:37:22.7437124Z test_modified_lean_rejected (test_gate.SourceGate.test_modified_lean_rejected) ... ok
+2026-10-11T21:37:22.7475737Z test_pin_drift_rejected (test_gate.SourceGate.test_pin_drift_rejected) ... ok
+2026-10-11T21:37:22.8992507Z test_tree_passes (test_gate.SourceGate.test_tree_passes) ... ok
+2026-10-11T21:37:22.8993475Z test_code_detected (test_gate.Tokens.test_code_detected) ... ok
+2026-10-11T21:37:22.8994022Z test_comments_ignored (test_gate.Tokens.test_comments_ignored) ... ok
+2026-10-11T21:37:22.8994617Z test_nested_comment (test_gate.Tokens.test_nested_comment) ... ok
+2026-10-11T21:37:22.8995150Z test_unterminated_comment (test_gate.Tokens.test_unterminated_comment) ... ok
+2026-10-11T21:37:22.8995525Z 
+2026-10-11T21:37:22.8995769Z ----------------------------------------------------------------------
+2026-10-11T21:37:22.8996299Z Ran 18 tests in 0.366s
+2026-10-11T21:37:22.8996501Z 
+2026-10-11T21:37:22.8996613Z OK
+2026-10-11T21:37:23.1054296Z test_allowed (test_gate.Axioms.test_allowed) ... ok
+2026-10-11T21:37:23.1055241Z test_forbidden (test_gate.Axioms.test_forbidden) ... ok
+2026-10-11T21:37:23.1055997Z test_missing_and_duplicate (test_gate.Axioms.test_missing_and_duplicate) ... ok
+2026-10-11T21:37:23.1060396Z test_anonymous_section_rejected (test_gate.Declarations.test_anonymous_section_rejected) ... ok
+2026-10-11T21:37:23.1061174Z test_namespaces (test_gate.Declarations.test_namespaces) ... ok
+2026-10-11T21:37:23.1062263Z test_sections_do_not_prefix (test_gate.Declarations.test_sections_do_not_prefix) ... ok
+2026-10-11T21:37:23.1063079Z test_unbalanced (test_gate.Declarations.test_unbalanced) ... ok
+2026-10-11T21:37:23.1065881Z test_version_exact (test_gate.Pins.test_version_exact) ... ok
+2026-10-11T21:37:23.1066778Z test_worktree_clean (test_gate.Pins.test_worktree_clean) ... ok
+2026-10-11T21:37:23.2922807Z test_copy_passes (test_gate.SourceGate.test_copy_passes) ... ok
+2026-10-11T21:37:23.2942557Z test_extra_file_rejected (test_gate.SourceGate.test_extra_file_rejected) ... ok
+2026-10-11T21:37:23.2981771Z test_modified_lean_rejected (test_gate.SourceGate.test_modified_lean_rejected) ... ok
+2026-10-11T21:37:23.3006018Z test_pin_drift_rejected (test_gate.SourceGate.test_pin_drift_rejected) ... ok
+2026-10-11T21:37:23.4566337Z test_tree_passes (test_gate.SourceGate.test_tree_passes) ... ok
+2026-10-11T21:37:23.4567603Z test_code_detected (test_gate.Tokens.test_code_detected) ... ok
+2026-10-11T21:37:23.4568568Z test_comments_ignored (test_gate.Tokens.test_comments_ignored) ... ok
+2026-10-11T21:37:23.4569492Z test_nested_comment (test_gate.Tokens.test_nested_comment) ... ok
+2026-10-11T21:37:23.4570416Z test_unterminated_comment (test_gate.Tokens.test_unterminated_comment) ... ok
+2026-10-11T21:37:23.4571044Z 
+2026-10-11T21:37:23.4571341Z ----------------------------------------------------------------------
+2026-10-11T21:37:23.4572039Z Ran 18 tests in 0.351s
+2026-10-11T21:37:23.4572364Z 
+2026-10-11T21:37:23.4572531Z OK
+2026-10-11T21:37:23.7866185Z {"passed": true, "source_check": "PASS", "targets": 152}
+2026-10-11T21:37:23.8130601Z ##[group]Run leanprover/lean-action@f061402b660e0c34644504b324e830f2991d4865
+2026-10-11T21:37:23.8131044Z with:
+2026-10-11T21:37:23.8131363Z   lake-package-directory: frontiers/cap_first_exit_lean_20261002
+2026-10-11T21:37:23.8131760Z   auto-config: false
+2026-10-11T21:37:23.8132016Z   build: false
+2026-10-11T21:37:23.8132279Z   test: false
+2026-10-11T21:37:23.8132512Z   lint: false
+2026-10-11T21:37:23.8132745Z   use-mathlib-cache: true
+2026-10-11T21:37:23.8133066Z   use-github-cache: false
+2026-10-11T21:37:23.8133764Z   mk_all-check: false
+2026-10-11T21:37:23.8134071Z   check-reservoir-eligibility: false
+2026-10-11T21:37:23.8134378Z   leanchecker: false
+2026-10-11T21:37:23.8134617Z   lean4checker: false
+2026-10-11T21:37:23.8134911Z   nanoda: false
+2026-10-11T21:37:23.8135166Z   nanoda-allow-sorry: true
+2026-10-11T21:37:23.8135437Z   axiom-audit: false
+2026-10-11T21:37:23.8135758Z   axiom-audit-allow: propext,Classical.choice,Quot.sound
+2026-10-11T21:37:23.8136258Z   reinstall-transient-toolchain: false
+2026-10-11T21:37:23.8136565Z env:
+2026-10-11T21:37:23.8136798Z   LEAN_NUM_THREADS: 2
+2026-10-11T21:37:23.8137115Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-11T21:37:23.8137450Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-11T21:37:23.8137885Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-11T21:37:23.8138311Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-11T21:37:23.8138695Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-11T21:37:23.8139096Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-11T21:37:23.8139524Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-11T21:37:23.8139908Z ##[endgroup]
+2026-10-11T21:37:23.8204895Z ##[start-action display=install elan;id=__leanprover_lean-action.__run]
+2026-10-11T21:37:23.8235162Z ##[group]Run : Install Elan
+2026-10-11T21:37:23.8235512Z [36;1m: Install Elan[0m
+2026-10-11T21:37:23.8235891Z [36;1m${GITHUB_ACTION_PATH}/scripts/install_elan.sh[0m
+2026-10-11T21:37:23.8274090Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-11T21:37:23.8274432Z env:
+2026-10-11T21:37:23.8274655Z   LEAN_NUM_THREADS: 2
+2026-10-11T21:37:23.8274992Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-11T21:37:23.8275316Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-11T21:37:23.8275784Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-11T21:37:23.8276182Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-11T21:37:23.8276535Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-11T21:37:23.8276941Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-11T21:37:23.8277301Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-11T21:37:23.8277624Z ##[endgroup]
+2026-10-11T21:37:23.8354400Z ##[group]Elan Installation Output
+2026-10-11T21:37:23.8914008Z info: downloading installer
+2026-10-11T21:37:24.9833964Z info: downloading https://releases.lean-lang.org/lean4/v4.34.1/lean-4.34.1-linux.tar.zst
+2026-10-11T21:37:31.5519402Z info: installing /home/runner/.elan/toolchains/leanprover--lean4---v4.34.1
+2026-10-11T21:37:41.2841324Z Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)
+2026-10-11T21:37:41.3248537Z Lake version 5.0.0-src+5045d00 (Lean version 4.34.1)
+2026-10-11T21:37:41.3268093Z ##[endgroup]
+2026-10-11T21:37:41.3268430Z 
+2026-10-11T21:37:41.3288566Z ##[end-action id=__leanprover_lean-action.__run;outcome=success;conclusion=success;duration_ms=17508]
+2026-10-11T21:37:41.3294206Z ##[start-action display=configure `lean-action`;id=__leanprover_lean-action.config]
+2026-10-11T21:37:41.3324632Z ##[group]Run : Configure Lean Action
+2026-10-11T21:37:41.3325018Z [36;1m: Configure Lean Action[0m
+2026-10-11T21:37:41.3325324Z [36;1m${GITHUB_ACTION_PATH}/scripts/config.sh[0m
+2026-10-11T21:37:41.3366335Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-11T21:37:41.3366996Z env:
+2026-10-11T21:37:41.3367315Z   LEAN_NUM_THREADS: 2
+2026-10-11T21:37:41.3367619Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-11T21:37:41.3367993Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-11T21:37:41.3368417Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-11T21:37:41.3368819Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-11T21:37:41.3369203Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-11T21:37:41.3369598Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-11T21:37:41.3369957Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-11T21:37:41.3370330Z   AUTO_CONFIG: false
+2026-10-11T21:37:41.3370580Z   BUILD: false
+2026-10-11T21:37:41.3370854Z   TEST: false
+2026-10-11T21:37:41.3371107Z   LINT: false
+2026-10-11T21:37:41.3371319Z ##[endgroup]
+2026-10-11T21:37:41.4038169Z ##[group]Configure lean-action
+2026-10-11T21:37:41.4086329Z ##[end-action id=__leanprover_lean-action.config;outcome=success;conclusion=success;duration_ms=79]
+2026-10-11T21:37:41.4091211Z ##[start-action display=reinstall transient toolchain;id=__leanprover_lean-action.__run_2]
+2026-10-11T21:37:41.4097539Z ##[end-action id=__leanprover_lean-action.__run_2;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-11T21:37:41.4100310Z ##[start-action display=ensure all files are imported;id=__leanprover_lean-action.mk_all]
+2026-10-11T21:37:41.4104890Z ##[end-action id=__leanprover_lean-action.mk_all;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-11T21:37:41.4107082Z ##[start-action display=Run actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25;id=__leanprover_lean-action.__actions_cache]
+2026-10-11T21:37:41.4110713Z ##[end-action id=__leanprover_lean-action.__actions_cache;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-11T21:37:41.4112448Z ##[start-action display=detect mathlib;id=__leanprover_lean-action.detect-mathlib]
+2026-10-11T21:37:41.4116202Z ##[end-action id=__leanprover_lean-action.detect-mathlib;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-11T21:37:41.4118215Z ##[start-action display=get mathlib cache;id=__leanprover_lean-action.__run_3]
+2026-10-11T21:37:41.4201187Z ##[group]Run : Get Mathlib Cache
+2026-10-11T21:37:41.4201536Z [36;1m: Get Mathlib Cache[0m
+2026-10-11T21:37:41.4201821Z [36;1mecho "::group::Mathlib Cache"[0m
+2026-10-11T21:37:41.4202125Z [36;1mlake exe cache get[0m
+2026-10-11T21:37:41.4202401Z [36;1mecho "::endgroup::"[0m
+2026-10-11T21:37:41.4202651Z [36;1mecho[0m
+2026-10-11T21:37:41.4239042Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+2026-10-11T21:37:41.4239398Z env:
+2026-10-11T21:37:41.4239763Z   LEAN_NUM_THREADS: 2
+2026-10-11T21:37:41.4240042Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-11T21:37:41.4240398Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-11T21:37:41.4240812Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-11T21:37:41.4241236Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-11T21:37:41.4241627Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-11T21:37:41.4241995Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-11T21:37:41.4242357Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-11T21:37:41.4242756Z ##[endgroup]
+2026-10-11T21:37:41.4343273Z ##[group]Mathlib Cache
+2026-10-11T21:37:41.4707697Z info: mathlib: cloning https://github.com/leanprover-community/mathlib4.git
+2026-10-11T21:38:11.7361411Z info: mathlib: checking out revision 'd13f23b723b8a846827a245b89c10fc7d3f11612'
+2026-10-11T21:38:13.4979965Z info: plausible: cloning https://github.com/leanprover-community/plausible
+2026-10-11T21:38:13.9202016Z info: plausible: checking out revision '118aa17ee84656b8bd727fef7c458ee8c833385c'
+2026-10-11T21:38:13.9302252Z info: LeanSearchClient: cloning https://github.com/leanprover-community/LeanSearchClient
+2026-10-11T21:38:14.2518304Z info: LeanSearchClient: checking out revision 'ddf04cf3949fa556442341e87d47f9f6e6074707'
+2026-10-11T21:38:14.2626178Z info: importGraph: cloning https://github.com/leanprover-community/import-graph
+2026-10-11T21:38:14.7056699Z info: importGraph: checking out revision 'e928b72544873815af278d38681b31c0293588e3'
+2026-10-11T21:38:14.7197006Z info: proofwidgets: cloning https://github.com/leanprover-community/ProofWidgets4
+2026-10-11T21:38:15.3455680Z info: proofwidgets: checking out revision '106ff4fafc74ef4ac99d81dbf3ab399118f497a5'
+2026-10-11T21:38:15.8553237Z info: aesop: cloning https://github.com/leanprover-community/aesop
+2026-10-11T21:38:16.5670623Z info: aesop: checking out revision '355695d523e41d0554926416cba2a2b3544fbbc9'
+2026-10-11T21:38:16.5811621Z info: Qq: cloning https://github.com/leanprover-community/quote4
+2026-10-11T21:38:16.9792627Z info: Qq: checking out revision '6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259'
+2026-10-11T21:38:16.9895836Z info: batteries: cloning https://github.com/leanprover-community/batteries
+2026-10-11T21:38:24.4572645Z info: batteries: checking out revision 'f2effa3d803fda822b1f97b806c47cf2adfbcbc2'
+2026-10-11T21:38:24.4837899Z info: Cli: cloning https://github.com/leanprover/lean4-cli
+2026-10-11T21:38:24.9047721Z info: Cli: checking out revision 'e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204'
+2026-10-11T21:38:25.2158134Z ✔ [1/5] Built Cache.Cli (229ms)
+2026-10-11T21:38:25.5162986Z ✔ [4/12] Built Cache.Lean (294ms)
+2026-10-11T21:38:25.7165492Z ✔ [5/12] Built Cache.Env (259ms)
+2026-10-11T21:38:26.0168538Z ✔ [6/12] Built Batteries.Tactic.OpenPrivate (667ms)
+2026-10-11T21:38:26.1172962Z ✔ [8/42] Built Cache.Infra (327ms)
+2026-10-11T21:38:26.2176240Z ✔ [9/42] Built Cache.Cli:c.o (98ms)
+2026-10-11T21:38:26.3177249Z ✔ [10/42] Built Cache.Lean:c.o (104ms)
+2026-10-11T21:38:27.1195236Z ✔ [11/42] Built Cache.IO (1.1s)
+2026-10-11T21:38:27.2196309Z ✔ [12/42] Built Batteries.Tactic.OpenPrivate:c.o (989ms)
+2026-10-11T21:38:27.2197528Z ✔ [13/42] Built Cache.Env:c.o (114ms)
+2026-10-11T21:38:27.3197694Z ✔ [14/42] Built Cache.Infra:c.o (148ms)
+2026-10-11T21:38:27.9208607Z ✔ [15/42] Built Cache.Hashing (604ms)
+2026-10-11T21:38:28.3213905Z ✔ [16/42] Built Cache.Hashing:c.o (312ms)
+2026-10-11T21:38:28.5216565Z ✔ [17/42] Built Cache.IO:c.o (1.2s)
+2026-10-11T21:38:29.6219929Z ✔ [18/42] Built Cache.Requests (1.3s)
+2026-10-11T21:38:30.0225143Z ✔ [19/42] Built Cache.Marker (405ms)
+2026-10-11T21:38:30.1226665Z ✔ [20/42] Built Cache.Marker:c.o (80ms)
+2026-10-11T21:38:30.6233560Z ✔ [21/42] Built Cache.Query (528ms)
+2026-10-11T21:38:31.0238803Z ✔ [22/42] Built Cache.Upload.Dest (444ms)
+2026-10-11T21:38:31.2241487Z ✔ [23/42] Built Cache.Query:c.o (206ms)
+2026-10-11T21:38:31.3285490Z ✔ [24/42] Built Cache.Upload.Dest:c.o (80ms)
+2026-10-11T21:38:31.6261810Z ✔ [25/42] Built Cache.Requests:c.o (2.0s)
+2026-10-11T21:38:31.8265215Z ✔ [26/42] Built Cache.Warning (481ms)
+2026-10-11T21:38:32.1268533Z ✔ [27/42] Built Cache.Upload.Rclone (462ms)
+2026-10-11T21:38:32.3271778Z ✔ [28/42] Built Cache.Upload.Curl (470ms)
+2026-10-11T21:38:32.3272403Z ✔ [29/42] Built Cache.Warning:c.o (192ms)
+2026-10-11T21:38:32.4275253Z ✔ [30/42] Built Cache.Upload.Curl:c.o (138ms)
+2026-10-11T21:38:32.4277566Z ✔ [31/42] Built Cache.Upload.Rclone:c.o (129ms)
+2026-10-11T21:38:32.8275557Z ✔ [32/42] Built Cache.Upload.Azure (433ms)
+2026-10-11T21:38:32.9284221Z ✔ [33/42] Built Cache.Upload.S3 (528ms)
+2026-10-11T21:38:32.9285376Z ✔ [34/42] Built Cache.Upload.Azure:c.o (108ms)
+2026-10-11T21:38:33.2273509Z ✔ [35/42] Built Cache.Upload.S3:c.o (235ms)
+2026-10-11T21:38:33.4275918Z ✔ [36/42] Built Cache.Upload.Defs (460ms)
+2026-10-11T21:38:33.5267116Z ✔ [37/42] Built Cache.Upload.Defs:c.o (113ms)
+2026-10-11T21:38:33.8270897Z ✔ [38/42] Built Cache.Upload (389ms)
+2026-10-11T21:38:33.9272047Z ✔ [39/42] Built Cache.Upload:c.o (96ms)
+2026-10-11T21:38:34.6289886Z ✔ [40/42] Built Cache.Main (869ms)
+2026-10-11T21:38:35.3299986Z ✔ [41/42] Built Cache.Main:c.o (684ms)
+2026-10-11T21:38:35.9307724Z ✔ [42/42] Built cache:exe (619ms)
+2026-10-11T21:38:37.4151377Z Current branch: HEAD
+2026-10-11T21:38:37.4152387Z Using cache from origin: (some leanprover-community/mathlib4)
+2026-10-11T21:38:37.4153763Z Attempting to download 8908 file(s) from leanprover-community/mathlib4 cache at https://cache.mathlib.org/mathlib4-master
+2026-10-11T21:38:37.6222393Z 
+2026-10-11T21:38:37.7215727Z Downloaded: 1 file(s) [attempted 1/8908 = 0%, 116 KB/s], Decompressed: 0
+2026-10-11T21:38:37.8255092Z Downloaded: 26 file(s) [attempted 26/8908 = 0%, 92 KB/s], Decompressed: 17
+2026-10-11T21:38:37.9254760Z Downloaded: 80 file(s) [attempted 80/8908 = 0%, 45 KB/s], Decompressed: 43
+2026-10-11T21:38:38.0265139Z Downloaded: 217 file(s) [attempted 217/8908 = 2%, 1181 KB/s], Decompressed: 60
+2026-10-11T21:38:38.1270991Z Downloaded: 344 file(s) [attempted 344/8908 = 3%, 579 KB/s], Decompressed: 104
+2026-10-11T21:38:38.2267782Z Downloaded: 481 file(s) [attempted 481/8908 = 5%, 322 KB/s], Decompressed: 104
+2026-10-11T21:38:38.3294946Z Downloaded: 606 file(s) [attempted 606/8908 = 6%, 339 KB/s], Decompressed: 104
+2026-10-11T21:38:38.4320257Z Downloaded: 738 file(s) [attempted 738/8908 = 8%, 521 KB/s], Decompressed: 104
+2026-10-11T21:38:38.5385221Z Downloaded: 849 file(s) [attempted 849/8908 = 9%, 312 KB/s], Decompressed: 277
+2026-10-11T21:38:38.6378031Z Downloaded: 960 file(s) [attempted 960/8908 = 10%, 1182 KB/s], Decompressed: 277
+2026-10-11T21:38:38.7509039Z Downloaded: 1070 file(s) [attempted 1070/8908 = 12%, 545 KB/s], Decompressed: 277
+2026-10-11T21:38:38.8586362Z Downloaded: 1181 file(s) [attempted 1181/8908 = 13%, 849 KB/s], Decompressed: 277
+2026-10-11T21:38:38.9602834Z Downloaded: 1296 file(s) [attempted 1296/8908 = 14%, 305 KB/s], Decompressed: 277
+2026-10-11T21:38:39.0584835Z Downloaded: 1417 file(s) [attempted 1417/8908 = 15%, 721 KB/s], Decompressed: 277
+2026-10-11T21:38:39.1585808Z Downloaded: 1550 file(s) [attempted 1550/8908 = 17%, 1065 KB/s], Decompressed: 277
+2026-10-11T21:38:39.2634979Z Downloaded: 1661 file(s) [attempted 1661/8908 = 18%, 3700 KB/s], Decompressed: 277
+2026-10-11T21:38:39.3660942Z Downloaded: 1767 file(s) [attempted 1767/8908 = 19%, 1908 KB/s], Decompressed: 277
+2026-10-11T21:38:39.4689989Z Downloaded: 1892 file(s) [attempted 1892/8908 = 21%, 3000 KB/s], Decompressed: 277
+2026-10-11T21:38:39.5706968Z Downloaded: 2012 file(s) [attempted 2012/8908 = 22%, 746 KB/s], Decompressed: 277
+2026-10-11T21:38:39.6739631Z Downloaded: 2117 file(s) [attempted 2117/8908 = 23%, 211 KB/s], Decompressed: 277
+2026-10-11T21:38:39.7738639Z Downloaded: 2230 file(s) [attempted 2230/8908 = 25%, 444 KB/s], Decompressed: 277
+2026-10-11T21:38:39.8754963Z Downloaded: 2353 file(s) [attempted 2353/8908 = 26%, 1837 KB/s], Decompressed: 277
+2026-10-11T21:38:39.9757434Z Downloaded: 2487 file(s) [attempted 2487/8908 = 27%, 4810 KB/s], Decompressed: 844
+2026-10-11T21:38:40.0765045Z Downloaded: 2571 file(s) [attempted 2571/8908 = 28%, 3098 KB/s], Decompressed: 844
+2026-10-11T21:38:40.1757096Z Downloaded: 2684 file(s) [attempted 2684/8908 = 30%, 184 KB/s], Decompressed: 844
+2026-10-11T21:38:40.2794714Z Downloaded: 2817 file(s) [attempted 2817/8908 = 31%, 1837 KB/s], Decompressed: 844
+2026-10-11T21:38:40.3776354Z Downloaded: 2900 file(s) [attempted 2900/8908 = 32%, 779 KB/s], Decompressed: 844
+2026-10-11T21:38:40.4821450Z Downloaded: 3006 file(s) [attempted 3006/8908 = 33%, 1083 KB/s], Decompressed: 844
+2026-10-11T21:38:40.5825369Z Downloaded: 3155 file(s) [attempted 3155/8908 = 35%, 320 KB/s], Decompressed: 844
+2026-10-11T21:38:40.6845375Z Downloaded: 3268 file(s) [attempted 3268/8908 = 36%, 2495 KB/s], Decompressed: 844
+2026-10-11T21:38:40.7858957Z Downloaded: 3378 file(s) [attempted 3378/8908 = 37%, 7338 KB/s], Decompressed: 844
+2026-10-11T21:38:40.9038203Z Downloaded: 3522 file(s) [attempted 3522/8908 = 39%, 218 KB/s], Decompressed: 844
+2026-10-11T21:38:41.0045171Z Downloaded: 3587 file(s) [attempted 3587/8908 = 40%, 1206 KB/s], Decompressed: 844
+2026-10-11T21:38:41.1030606Z Downloaded: 3686 file(s) [attempted 3686/8908 = 41%, 199 KB/s], Decompressed: 844
+2026-10-11T21:38:41.2046329Z Downloaded: 3797 file(s) [attempted 3797/8908 = 42%, 3723 KB/s], Decompressed: 844
+2026-10-11T21:38:41.3134060Z Downloaded: 3938 file(s) [attempted 3938/8908 = 44%, 351 KB/s], Decompressed: 844
+2026-10-11T21:38:41.4146064Z Downloaded: 4053 file(s) [attempted 4053/8908 = 45%, 883 KB/s], Decompressed: 844
+2026-10-11T21:38:41.5135302Z Downloaded: 4169 file(s) [attempted 4169/8908 = 46%, 871 KB/s], Decompressed: 844
+2026-10-11T21:38:41.6129558Z Downloaded: 4313 file(s) [attempted 4313/8908 = 48%, 13319 KB/s], Decompressed: 844
+2026-10-11T21:38:41.7274956Z Downloaded: 4428 file(s) [attempted 4428/8908 = 49%, 140 KB/s], Decompressed: 844
+2026-10-11T21:38:41.8351346Z Downloaded: 4490 file(s) [attempted 4490/8908 = 50%, 664 KB/s], Decompressed: 844
+2026-10-11T21:38:41.9441937Z Downloaded: 4596 file(s) [attempted 4596/8908 = 51%, 742 KB/s], Decompressed: 844
+2026-10-11T21:38:42.0406917Z Downloaded: 4704 file(s) [attempted 4704/8908 = 52%, 485 KB/s], Decompressed: 844
+2026-10-11T21:38:42.1439324Z Downloaded: 4846 file(s) [attempted 4846/8908 = 54%, 1248 KB/s], Decompressed: 844
+2026-10-11T21:38:42.2495255Z Downloaded: 4961 file(s) [attempted 4961/8908 = 55%, 1199 KB/s], Decompressed: 844
+2026-10-11T21:38:42.3509914Z Downloaded: 5089 file(s) [attempted 5089/8908 = 57%, 644 KB/s], Decompressed: 844
+2026-10-11T21:38:42.4652458Z Downloaded: 5204 file(s) [attempted 5204/8908 = 58%, 1093 KB/s], Decompressed: 844
+2026-10-11T21:38:42.5695663Z Downloaded: 5338 file(s) [attempted 5338/8908 = 59%, 339 KB/s], Decompressed: 844
+2026-10-11T21:38:42.6666344Z Downloaded: 5449 file(s) [attempted 5449/8908 = 61%, 953 KB/s], Decompressed: 844
+2026-10-11T21:38:42.7720459Z Downloaded: 5566 file(s) [attempted 5566/8908 = 62%, 1670 KB/s], Decompressed: 844
+2026-10-11T21:38:42.8805165Z Downloaded: 5687 file(s) [attempted 5687/8908 = 63%, 234 KB/s], Decompressed: 844
+2026-10-11T21:38:42.9824562Z Downloaded: 5823 file(s) [attempted 5823/8908 = 65%, 1560 KB/s], Decompressed: 844
+2026-10-11T21:38:43.1015373Z Downloaded: 5946 file(s) [attempted 5946/8908 = 66%, 1699 KB/s], Decompressed: 844
+2026-10-11T21:38:43.2187657Z Downloaded: 6047 file(s) [attempted 6047/8908 = 67%, 1631 KB/s], Decompressed: 844
+2026-10-11T21:38:43.3215083Z Downloaded: 6157 file(s) [attempted 6157/8908 = 69%, 380 KB/s], Decompressed: 844
+2026-10-11T21:38:43.4215004Z Downloaded: 6270 file(s) [attempted 6270/8908 = 70%, 738 KB/s], Decompressed: 844
+2026-10-11T21:38:43.5352925Z Downloaded: 6373 file(s) [attempted 6373/8908 = 71%, 413 KB/s], Decompressed: 844
+2026-10-11T21:38:43.6432982Z Downloaded: 6474 file(s) [attempted 6474/8908 = 72%, 2278 KB/s], Decompressed: 844
+2026-10-11T21:38:43.7440005Z Downloaded: 6623 file(s) [attempted 6623/8908 = 74%, 956 KB/s], Decompressed: 2360
+2026-10-11T21:38:43.8486054Z Downloaded: 6736 file(s) [attempted 6736/8908 = 75%, 1812 KB/s], Decompressed: 2360
+2026-10-11T21:38:43.9977726Z Downloaded: 6849 file(s) [attempted 6849/8908 = 76%, 123 KB/s], Decompressed: 2360
+2026-10-11T21:38:44.1003714Z Downloaded: 6902 file(s) [attempted 6902/8908 = 77%, 1047 KB/s], Decompressed: 2360
+2026-10-11T21:38:44.2055069Z Downloaded: 7008 file(s) [attempted 7008/8908 = 78%, 1565 KB/s], Decompressed: 2360
+2026-10-11T21:38:44.3065618Z Downloaded: 7123 file(s) [attempted 7123/8908 = 79%, 1189 KB/s], Decompressed: 2360
+2026-10-11T21:38:44.4060241Z Downloaded: 7236 file(s) [attempted 7236/8908 = 81%, 674 KB/s], Decompressed: 2360
+2026-10-11T21:38:44.5084961Z Downloaded: 7341 file(s) [attempted 7341/8908 = 82%, 461 KB/s], Decompressed: 2360
+2026-10-11T21:38:44.6132185Z Downloaded: 7476 file(s) [attempted 7476/8908 = 83%, 958 KB/s], Decompressed: 2360
+2026-10-11T21:38:44.7214895Z Downloaded: 7598 file(s) [attempted 7598/8908 = 85%, 372 KB/s], Decompressed: 2360
+2026-10-11T21:38:44.8215340Z Downloaded: 7711 file(s) [attempted 7711/8908 = 86%, 286 KB/s], Decompressed: 2360
+2026-10-11T21:38:44.9230320Z Downloaded: 7855 file(s) [attempted 7855/8908 = 88%, 3039 KB/s], Decompressed: 2360
+2026-10-11T21:38:45.0230177Z Downloaded: 7988 file(s) [attempted 7988/8908 = 89%, 604 KB/s], Decompressed: 2360
+2026-10-11T21:38:45.1244169Z Downloaded: 8105 file(s) [attempted 8105/8908 = 90%, 81 KB/s], Decompressed: 2360
+2026-10-11T21:38:45.2241604Z Downloaded: 8230 file(s) [attempted 8230/8908 = 92%, 936 KB/s], Decompressed: 2360
+2026-10-11T21:38:45.3265454Z Downloaded: 8372 file(s) [attempted 8372/8908 = 93%, 648 KB/s], Decompressed: 2360
+2026-10-11T21:38:45.4273285Z Downloaded: 8509 file(s) [attempted 8509/8908 = 95%, 1235 KB/s], Decompressed: 2360
+2026-10-11T21:38:45.5324861Z Downloaded: 8638 file(s) [attempted 8638/8908 = 96%, 567 KB/s], Decompressed: 2360
+2026-10-11T21:38:45.6324119Z Downloaded: 8684 file(s) [attempted 8684/8908 = 97%, 494 KB/s], Decompressed: 2360
+2026-10-11T21:38:45.7294501Z Downloaded: 8792 file(s) [attempted 8792/8908 = 98%, 475 KB/s], Decompressed: 2360
+2026-10-11T21:38:45.7297082Z Downloaded: 8908 file(s) [attempted 8908/8908 = 100%, 475 KB/s], Decompressed: 2360
+2026-10-11T21:39:13.0161941Z Decompressed 8908 file(s)
+2026-10-11T21:39:13.0162851Z Already decompressed 8908 file(s)
+2026-10-11T21:39:13.0608267Z ##[endgroup]
+2026-10-11T21:39:13.0608747Z 
+2026-10-11T21:39:13.0617475Z ##[end-action id=__leanprover_lean-action.__run_3;outcome=success;conclusion=success;duration_ms=91649]
+2026-10-11T21:39:13.0644800Z ##[start-action display=build d6g8k5htny-coder/Math-;id=__leanprover_lean-action.build]
+2026-10-11T21:39:13.0650549Z ##[end-action id=__leanprover_lean-action.build;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-11T21:39:13.0652904Z ##[start-action display=Run actions/cache/save@caa296126883cff596d87d8935842f9db880ef25;id=__leanprover_lean-action.__actions_cache_2]
+2026-10-11T21:39:13.0657412Z ##[end-action id=__leanprover_lean-action.__actions_cache_2;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-11T21:39:13.0660979Z ##[start-action display=test d6g8k5htny-coder/Math-;id=__leanprover_lean-action.test]
+2026-10-11T21:39:13.0666729Z ##[end-action id=__leanprover_lean-action.test;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-11T21:39:13.0670320Z ##[start-action display=lint d6g8k5htny-coder/Math-;id=__leanprover_lean-action.lint]
+2026-10-11T21:39:13.0676136Z ##[end-action id=__leanprover_lean-action.lint;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-11T21:39:13.0678478Z ##[start-action display=check reservoir eligibility;id=__leanprover_lean-action.__run_4]
+2026-10-11T21:39:13.0682191Z ##[end-action id=__leanprover_lean-action.__run_4;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-11T21:39:13.0685024Z ##[start-action display=check environment with leanchecker;id=__leanprover_lean-action.__run_5]
+2026-10-11T21:39:13.0690027Z ##[end-action id=__leanprover_lean-action.__run_5;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-11T21:39:13.0692150Z ##[start-action display=check environment with nanoda;id=__leanprover_lean-action.nanoda]
+2026-10-11T21:39:13.0696366Z ##[end-action id=__leanprover_lean-action.nanoda;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-11T21:39:13.0698651Z ##[start-action display=audit axioms with axiom-audit;id=__leanprover_lean-action.axiom-audit]
+2026-10-11T21:39:13.0702255Z ##[end-action id=__leanprover_lean-action.axiom-audit;outcome=skipped;conclusion=skipped;duration_ms=0]
+2026-10-11T21:39:13.0813548Z ##[group]Run python -B -S frontiers/cap_first_exit_lean_20261002/gate.py --execute
+2026-10-11T21:39:13.0814070Z [36;1mpython -B -S frontiers/cap_first_exit_lean_20261002/gate.py --execute[0m
+2026-10-11T21:39:13.0880387Z shell: /usr/bin/bash -e {0}
+2026-10-11T21:39:13.0880740Z env:
+2026-10-11T21:39:13.0881046Z   LEAN_NUM_THREADS: 2
+2026-10-11T21:39:13.0881324Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-11T21:39:13.0881643Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-11T21:39:13.0882026Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-11T21:39:13.0882466Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-11T21:39:13.0882816Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-11T21:39:13.0883273Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-11T21:39:13.0883732Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-11T21:39:13.0884058Z ##[endgroup]
+2026-10-11T21:40:48.6396806Z {"axioms_allowed_only": true, "negative_controls": {"custom_axiom": "REJECTED", "native_decide": "REJECTED", "sorry": "REJECTED"}, "passed": true, "targets": 152}
+2026-10-11T21:40:48.6518195Z ##[group]Run git diff --exit-code
+2026-10-11T21:40:48.6518613Z [36;1mgit diff --exit-code[0m
+2026-10-11T21:40:48.6579730Z shell: /usr/bin/bash -e {0}
+2026-10-11T21:40:48.6580090Z env:
+2026-10-11T21:40:48.6580308Z   LEAN_NUM_THREADS: 2
+2026-10-11T21:40:48.6580601Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-11T21:40:48.6580919Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-11T21:40:48.6581268Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-11T21:40:48.6581653Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-11T21:40:48.6581995Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-11T21:40:48.6582323Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-11T21:40:48.6582677Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-11T21:40:48.6583000Z ##[endgroup]
+2026-10-11T21:40:49.0813625Z ##[group]Run actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+2026-10-11T21:40:49.0814061Z with:
+2026-10-11T21:40:49.0814392Z   name: cap-first-exit-lean-38177115116-1
+2026-10-11T21:40:49.0814818Z   path: frontiers/cap_first_exit_lean_20261002/.lake/evidence/
+2026-10-11T21:40:49.0815175Z   include-hidden-files: true
+2026-10-11T21:40:49.0815660Z   if-no-files-found: error
+2026-10-11T21:40:49.0815962Z   retention-days: 90
+2026-10-11T21:40:49.0816206Z   compression-level: 6
+2026-10-11T21:40:49.0816446Z   overwrite: false
+2026-10-11T21:40:49.0816686Z   archive: true
+2026-10-11T21:40:49.0816909Z env:
+2026-10-11T21:40:49.0817155Z   LEAN_NUM_THREADS: 2
+2026-10-11T21:40:49.0817406Z   PYTHONDONTWRITEBYTECODE: 1
+2026-10-11T21:40:49.0817720Z   pythonLocation: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-11T21:40:49.0818277Z   PKG_CONFIG_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib/pkgconfig
+2026-10-11T21:40:49.0818742Z   Python_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-11T21:40:49.0819149Z   Python2_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-11T21:40:49.0819502Z   Python3_ROOT_DIR: /opt/hostedtoolcache/Python/3.11.16/x64
+2026-10-11T21:40:49.0819883Z   LD_LIBRARY_PATH: /opt/hostedtoolcache/Python/3.11.16/x64/lib
+2026-10-11T21:40:49.0820198Z ##[endgroup]
+2026-10-11T21:40:49.3549631Z With the provided path, there will be 12 files uploaded
+2026-10-11T21:40:49.3554087Z Artifact name is valid!
+2026-10-11T21:40:49.3554446Z Root directory input is valid!
+2026-10-11T21:40:49.6172648Z Uploading artifact: cap-first-exit-lean-38177115116-1.zip
+2026-10-11T21:40:49.6208349Z Beginning upload of artifact content to blob storage
+2026-10-11T21:40:49.8108429Z Uploaded bytes 6899
+2026-10-11T21:40:49.8547603Z Finished uploading artifact content to blob storage!
+2026-10-11T21:40:49.8548427Z SHA256 digest of uploaded artifact is 78cb6d83916d3052155a3f5058bb59a14563f75d4ac939e86d3052ffdcfd34bc
+2026-10-11T21:40:49.8549250Z Finalizing artifact upload
+2026-10-11T21:40:50.1439114Z Artifact cap-first-exit-lean-38177115116-1 successfully finalized. Artifact ID 11715999365
+2026-10-11T21:40:50.1440278Z Artifact cap-first-exit-lean-38177115116-1 has been successfully uploaded! Final size is 6899 bytes. Artifact ID is 11715999365
+2026-10-11T21:40:50.1443558Z Artifact download URL: https://github.com/d6g8k5htny-coder/Math-/actions/runs/38177115116/artifacts/11715999365
+2026-10-11T21:40:50.1587937Z Post job cleanup.
+2026-10-11T21:40:50.2577331Z Post job cleanup.
+2026-10-11T21:40:50.3234147Z [command]/usr/bin/git version
+2026-10-11T21:40:50.3268197Z git version 2.55.0
+2026-10-11T21:40:50.3291832Z Temporarily overriding HOME='/home/runner/work/_temp/c0969ea3-c8e9-4426-b10b-fb853c759b63' before making global git config changes
+2026-10-11T21:40:50.3293006Z Adding repository directory to the temporary git global config as a safe directory
+2026-10-11T21:40:50.3295843Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/Math-/Math-
+2026-10-11T21:40:50.3320391Z Removing SSH command configuration
+2026-10-11T21:40:50.3324791Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+2026-10-11T21:40:50.3349159Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+2026-10-11T21:40:50.3510236Z Removing HTTP extra header
+2026-10-11T21:40:50.3514698Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-10-11T21:40:50.3553593Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+2026-10-11T21:40:50.3781642Z Removing includeIf entries pointing to credentials config files
+2026-10-11T21:40:50.3782665Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-10-11T21:40:50.3814713Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+2026-10-11T21:40:50.4098724Z Cleaning up orphan processes

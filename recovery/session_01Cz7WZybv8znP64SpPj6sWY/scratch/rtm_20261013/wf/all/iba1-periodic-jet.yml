@@ -1,0 +1,116 @@
+name: IBA1 periodic jet (exact-periodic anisotropy replay)
+
+'on':
+  pull_request:
+    paths:
+      - 'reviews/iba1_periodic_jet_claude_20261005/**'
+      - '.github/workflows/iba1-periodic-jet.yml'
+      - 'tests/test_periodic_jet_workflow.py'
+      - 'coefficients/side24_v1/ENCLOSURE.json'
+      - 'coefficients/side24_v1/PROOF.md'
+      - 'imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  periodic-jet-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        flags: ['-B -S', '-B -O -S']
+    name: periodic-jet-replay (${{ matrix.flags }})
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Verify the manifest and main pins, replay the checker, reject the mutants
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+          FLAGS: ${{ matrix.flags }}
+        run: |
+          set -euo pipefail
+          python $FLAGS -m unittest discover -s tests -p test_periodic_jet_workflow.py -v
+          python -B -S - <<'PY'
+          import hashlib, json, math, os, pathlib, subprocess, sys
+          def strict_json(raw):
+              def pairs(items):
+                  out = {}
+                  for key, value in items:
+                      if key in out:
+                          raise ValueError('duplicate JSON key: ' + key)
+                      out[key] = value
+                  return out
+              def constant(value):
+                  raise ValueError('nonfinite JSON constant: ' + value)
+              def finite_float(value):
+                  number = float(value)
+                  if not math.isfinite(number):
+                      raise ValueError('nonfinite JSON number: ' + value)
+                  return number
+              return json.loads(raw, object_pairs_hook=pairs,
+                                parse_constant=constant, parse_float=finite_float)
+          root = pathlib.Path('reviews/iba1_periodic_jet_claude_20261005').resolve()
+          meta = json.loads((root / 'SOURCE_FILES.json').read_text())
+          present = sorted(p.name for p in root.iterdir())
+          if present != sorted([e['path'] for e in meta['files']] + ['SOURCE_FILES.json']):
+              raise ValueError('packet tree differs from manifest: ' + repr(present))
+          def blob(data):
+              return hashlib.sha1(b'blob %d\0' % len(data) + data).hexdigest()
+          for entry in meta['files'] + meta['pins_on_main']:
+              path = pathlib.Path(entry['path']) if 'pins' in entry.get('kind', '') else root / entry['path']
+              if path.is_symlink():
+                  raise ValueError('regular file required: ' + entry['path'])
+              data = path.read_bytes()
+              if blob(data) != entry['git_blob']:
+                  raise ValueError('git blob mismatch: ' + entry['path'])
+              if 'sha256' in entry and (len(data) != entry['bytes'] or hashlib.sha256(data).hexdigest() != entry['sha256']):
+                  raise ValueError('source identity mismatch: ' + entry['path'])
+          flags = os.environ['FLAGS'].split()
+          checker = str(root / 'periodic_jet_check.py')
+          run = subprocess.run([sys.executable] + flags + [checker], capture_output=True, cwd=root)
+          if run.returncode != 0 or run.stderr or run.stdout != (root / 'RESULTS.json').read_bytes():
+              raise ValueError('replay differs from RESULTS.json')
+          reference = strict_json(run.stdout)
+          if (reference['passed'] is not True
+                  or not all(value is True for value in reference['checks'].values())):
+              raise ValueError('baseline must report every check passing')
+          intended = {
+              'M1': {'R3_L24_anisotropy_measured', 'R3_L4_anisotropy_visible'},
+              'M2': {'R1_reference_d3_trace_frobenius', 'R1_reference_jet',
+                     'R4_c224_in_side24_interval'},
+              'M3': {'R4_c224_in_side24_interval'},
+              'M4': {'R1_reference_d3_trace_frobenius',
+                     'R6_transverse_frame_invariance_d3', 'R6_transverse_frame_invariance_d4'},
+          }
+          for label, code in (('M1', 1), ('M2', 1), ('M3', 1), ('M4', 1), ('M9', 2)):
+              m = subprocess.run([sys.executable] + flags + [checker, '--mutant', label], capture_output=True, cwd=root)
+              if m.returncode != code or m.stderr:
+                  raise ValueError('mutant %s: wrong exit or unexpected stderr' % label)
+              if label == 'M9':
+                  if m.stdout != b'unknown mutant\n':
+                      raise ValueError('M9: wrong unknown-label response')
+                  print('M9: exact unknown-label rejection PASS')
+                  continue
+              result = strict_json(m.stdout)
+              if (type(result) is not dict or result.keys() != reference.keys()
+                      or result['passed'] is not False
+                      or any(result[key] != reference[key]
+                             for key in ('object', 'scientific_effect', 'precision_digits'))
+                      or type(result['precision_digits']) is not int
+                      or type(result['checks']) is not dict
+                      or result['checks'].keys() != reference['checks'].keys()
+                      or any(type(value) is not bool for value in result['checks'].values())):
+                  raise ValueError('mutant %s: malformed rejection contract' % label)
+              failed = {key for key, value in result['checks'].items() if value is False}
+              if failed != intended[label]:
+                  raise ValueError('mutant %s: wrong failed checks: %r' % (label, sorted(failed)))
+              print(json.dumps({'mutant': label, 'failed_checks': sorted(failed)}, sort_keys=True))
+          print('periodic jet replay: manifest, pins, replay and mutants PASS')
+          PY

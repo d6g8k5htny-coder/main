@@ -1,0 +1,31 @@
+name: SARD robust-chart exact interface controls
+
+'on':
+  pull_request:
+    paths:
+      - 'frontiers/sard_g_robust_charts_20260929/**'
+      - '.github/workflows/sard-robust-charts.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'frontiers/sard_g_robust_charts_20260929/**'
+      - '.github/workflows/sard-robust-charts.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  robust-chart-controls:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Exact packet and both-mode geometric negatives
+        run: |
+          set -euo pipefail
+          python -B -S frontiers/sard_g_robust_charts_20260929/verify.py --output "${RUNNER_TEMP}/sard-robust-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          git diff --exit-code

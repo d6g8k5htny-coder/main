@@ -1,0 +1,95 @@
+name: SIDE24 d=2 certified small-L coefficients (outward interval replay)
+
+'on':
+  pull_request:
+    paths:
+      - 'reviews/side24_d2_certified_small_L_claude_20261005/**'
+      - '.github/workflows/side24-d2-certified.yml'
+      - 'tests/test_certified_d2_workflow.py'
+      - 'coefficients/side24_v1/coefficient.py'
+      - 'coefficients/side24_v1/ENCLOSURE.json'
+      - 'reviews/iba1_periodic_jet_claude_20261005/RESULTS.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  certified-d2-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        flags: ['-B -S', '-B -O -S']
+    name: certified-d2-replay (${{ matrix.flags }})
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Verify the manifest and main pins, replay the checker, reject the mutants
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+          FLAGS: ${{ matrix.flags }}
+        run: |
+          set -euo pipefail
+          python -B -S - <<'PY'
+          import hashlib, json, os, pathlib, subprocess, sys
+          root = pathlib.Path('reviews/side24_d2_certified_small_L_claude_20261005').resolve()
+          meta = json.loads((root / 'SOURCE_FILES.json').read_text())
+          present = sorted(p.name for p in root.iterdir())
+          if present != sorted([e['path'] for e in meta['files']] + ['SOURCE_FILES.json']):
+              raise ValueError('packet tree differs from manifest: ' + repr(present))
+          def blob(data):
+              return hashlib.sha1(b'blob %d\0' % len(data) + data).hexdigest()
+          for entry in meta['files'] + meta['pins_on_main']:
+              path = pathlib.Path(entry['path']) if 'pins' in entry.get('kind', '') else root / entry['path']
+              if path.is_symlink():
+                  raise ValueError('regular file required: ' + entry['path'])
+              data = path.read_bytes()
+              if blob(data) != entry['git_blob']:
+                  raise ValueError('git blob mismatch: ' + entry['path'])
+              if len(data) != entry['bytes'] or hashlib.sha256(data).hexdigest() != entry['sha256']:
+                  raise ValueError('source identity mismatch: ' + entry['path'])
+          flags = os.environ['FLAGS'].split()
+          checker = str(root / 'certified_d2.py')
+          run = subprocess.run([sys.executable] + flags + [checker], capture_output=True, cwd=root)
+          if run.returncode != 0 or run.stderr != b'' or run.stdout != (root / 'RESULTS.json').read_bytes():
+              raise ValueError('replay differs from RESULTS.json (exit %d, stderr %r)' % (run.returncode, run.stderr[:200]))
+          # A mutant must be rejected by its named check, with a clean JSON diagnostic and no stderr.
+          # Exit code alone is not enough: a crash also exits 1 (finding AUD-302-MUTANT-REASON-01).
+          def strict_json(data):
+              def no_duplicates(pairs):
+                  keys = [k for k, _ in pairs]
+                  if len(keys) != len(set(keys)):
+                      raise ValueError('duplicate key in mutant diagnostic')
+                  return dict(pairs)
+              return json.loads(data.decode('ascii'), object_pairs_hook=no_duplicates)
+          expected = {'M1': 'C4_strip_and_error_bound_L4', 'M2': 'C1_reference_equals_side24_closed_form',
+                      'M3': 'C6_matches_iba1_diagnostic_L4', 'M4': 'C9_coarse_rule_consistent_L4'}
+          accepted = []
+          for label, reason in expected.items():
+              m = subprocess.run([sys.executable] + flags + [checker, '--mutant', label], capture_output=True, cwd=root)
+              if m.returncode != 1 or m.stderr != b'':
+                  raise ValueError('mutant %s: exit %d, stderr %r' % (label, m.returncode, m.stderr[:200]))
+              try:
+                  diag = strict_json(m.stdout)
+              except ValueError as exc:
+                  raise ValueError('mutant %s: unreadable diagnostic %r (%s)' % (label, m.stdout[:200], exc))
+              if not (isinstance(diag, dict) and set(diag) == {'mutant', 'failed_check'}
+                      and diag['mutant'] == label and diag['failed_check'] == reason):
+                  raise ValueError('mutant %s: wrong diagnostic %r, expected failed_check %s' % (label, m.stdout[:200], reason))
+              accepted.append('%s rejected by %s' % (label, reason))
+          m = subprocess.run([sys.executable] + flags + [checker, '--mutant', 'M9'], capture_output=True, cwd=root)
+          if m.returncode != 2 or m.stdout != b'unknown mutant\n' or m.stderr != b'':
+              raise ValueError('unknown-label control: exit %d, stdout %r, stderr %r' % (m.returncode, m.stdout[:80], m.stderr[:200]))
+          accepted.append('M9 refused as an unknown label (exit 2)')
+          print('certified d=2 replay: manifest, pins, replay and mutants PASS')
+          for line in accepted:
+              print('  ' + line)
+          PY
+      - name: Reject crashes and wrong-cause mutant diagnostics
+        run: python ${{ matrix.flags }} -m unittest discover -s tests -p test_certified_d2_workflow.py -v

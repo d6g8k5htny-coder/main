@@ -1,0 +1,36 @@
+name: Spectral cluster closure checks
+
+'on':
+  pull_request:
+    paths:
+      - 'frontiers/spectral_cluster_closure_20260929/**'
+      - '.github/workflows/spectral-cluster-closure.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-and-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Fetch exact public non-main source objects
+        run: |
+          set -euo pipefail
+          git fetch --no-tags --depth=1 origin bfcc67dc8957b3ed1fbb789e5a0305e98d7359c8
+          git fetch --no-tags --depth=1 origin f0d11805854b1938a2f89235ec590a37b04a7cb9
+      - name: Verify every source and replay both Python modes
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          set -euo pipefail
+          python -B -S frontiers/spectral_cluster_closure_20260929/verify.py
+          git diff --exit-code

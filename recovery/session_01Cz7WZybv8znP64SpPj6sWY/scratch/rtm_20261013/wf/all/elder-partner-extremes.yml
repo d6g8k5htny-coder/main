@@ -1,0 +1,39 @@
+name: Elder-selected extreme partner checks
+
+'on':
+  pull_request:
+    paths:
+      - 'frontiers/elder_partner_extremes_20260930/**'
+      - '.github/workflows/elder-partner-extremes.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-and-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Fetch exact public source commits
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin 80059a97cd8eb32d1a17a0ad9cb22cb2a0d7b337
+          git fetch --no-tags origin 56a7904f9ad7d409c31e23195c0e7eeab230613a
+          git fetch --no-tags origin 79f18f0cb318fceccd5bdf4e6dad29815165bc7d
+          git fetch --no-tags origin 9c6a73489c5ed2465a3cf65dcc950eeeae074b05
+      - name: Verify five source identities, packet and both Python modes
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+          GIT_NO_REPLACE_OBJECTS: '1'
+        run: |
+          set -euo pipefail
+          python -B -S frontiers/elder_partner_extremes_20260930/verify.py
+          git diff --exit-code

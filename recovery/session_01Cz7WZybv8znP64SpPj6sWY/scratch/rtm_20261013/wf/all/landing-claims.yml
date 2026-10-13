@@ -1,0 +1,48 @@
+name: Landing claim manifest
+
+'on':
+  pull_request:
+    paths:
+      - 'README.md'
+      - 'claims/LANDING_CLAIMS.json'
+      - 'tools/landing_claims_check.py'
+      - 'tests/test_landing_claims_check.py'
+      - 'coefficients/side24_v1/**'
+      - 'frontiers/three_fronts_20260924/**'
+      - 'frontiers/remote_window_20260924/**'
+      - 'frontiers/rn_thin_tube_20260925/**'
+      - 'frontiers/price_budget_20260924/**'
+      - 'frontiers/full_price_20260924/**'
+      - 'frontiers/downstream_gate_20260925/**'
+      - 'reviews/pr22_fixed_annulus_nonauthor_20260925/**'
+      - 'reviews/replacement_20260925_pr19_pr21/**'
+      - '.github/workflows/landing-claims.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: read
+
+jobs:
+  fail-closed-landing:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Run landing-manifest negative controls
+        run: |
+          set -euo pipefail
+          python -B -S -m unittest -v tests.test_landing_claims_check
+          python -B -O -S -m unittest -v tests.test_landing_claims_check
+      - name: Validate all advertised claims and live queue
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          python -B -S tools/landing_claims_check.py --verify-issues

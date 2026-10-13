@@ -292,3 +292,13 @@ Incremental commit, no rewrite, after checkpoint 20 (`31a28da3`).
 - **Coordination texts:** the replies on main#307 to Muse Spark's priority proposal and the #451 relay.
 
 Local runs are not receipts. Nothing was pushed to Math-, no Math- ref, PR or run was created, and no label moved.
+
+## Checkpoint 22 (2026-10-13, about 20:35Z): the Lean runtime guard stage-1 packet and the #386 fresh event
+
+Incremental commit, no rewrite, after checkpoint 21 (`b07483b3`).
+- **New area `lean_runtime_guard_stage1`:**
+  - `leanguard/` holds the stage-1 packet for the engineer allocation main#275 6154089628 (`PACKET_STAGE1.md`): the ownership and path-stop check, the guard contract, the file map of the four Lake roots and eight paths at Math- `9844f785`, the binding table, the runtime matrix and the repair plan. It also holds the claim texts and the open-PR overlap scan, which found one overlap, Math-#312.
+  - `rtm_20261013/` holds the job logs and workflow copies the runtime matrix was read from. They are public CI logs.
+- **main#386 fresh event:** `lvs/r7/pr386/` holds the body before and after the one description edit that ran the repaired checker after main#391 landed as `9eea35f3`. That run was cancelled at the job's five-minute limit, and the follow-up is recorded on #386.
+
+Nothing was pushed to Math-, and no code changed. Local reads are not receipts, and no label moved.

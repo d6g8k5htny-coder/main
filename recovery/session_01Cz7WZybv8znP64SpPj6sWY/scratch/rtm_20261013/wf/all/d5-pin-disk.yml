@@ -1,0 +1,62 @@
+name: D5 pin disk and covariance review checks
+
+'on':
+  pull_request:
+    paths:
+      - 'reviews/d5_pin_disk_all_directions_20260928/**'
+      - 'reviews/pin_micro_covariance_nonauthor_20260928/**'
+      - '.github/workflows/d5-pin-disk.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-and-probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Verify sources, replay both modes, reject mutants
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          set -euo pipefail
+          python -B -S - <<'PY'
+          import hashlib, json, pathlib, subprocess, sys
+          packages = {
+              'reviews/pin_micro_covariance_nonauthor_20260928': (
+                  'cov_exact_check.py', [['--mutant', 'pin-sign'], ['--mutant', 'B-entry'],
+                                         ['--mutant', 'column-r-power'], ['--mutant', 'trace-constant']]),
+              'reviews/d5_pin_disk_all_directions_20260928': (
+                  'triangle_bounds_probe.py', [['--mutant-noncritical']]),
+          }
+          for pkg, (script, mutants) in packages.items():
+              root = pathlib.Path(pkg).resolve()
+              for entry in json.loads((root / 'SOURCE_FILES.json').read_text())['files']:
+                  path = root / entry['path']
+                  if pathlib.PurePosixPath(entry['path']).name != entry['path'] or path.is_symlink():
+                      raise ValueError('flat regular source required: ' + entry['path'])
+                  data = path.read_bytes()
+                  if len(data) != entry['bytes'] or hashlib.sha256(data).hexdigest() != entry['sha256']:
+                      raise ValueError('source identity mismatch: ' + pkg + '/' + entry['path'])
+              expected = (root / 'RESULTS.json').read_bytes()
+              for flags in (['-B', '-S'], ['-B', '-O', '-S']):
+                  out = subprocess.run([sys.executable, *flags, str(root / script)],
+                                       check=True, capture_output=True, timeout=300).stdout
+                  if out != expected:
+                      raise RuntimeError(pkg + ': output differs from RESULTS.json under ' + ' '.join(flags))
+                  for m in mutants:
+                      rc = subprocess.run([sys.executable, *flags, str(root / script), *m],
+                                          capture_output=True, timeout=300).returncode
+                      if rc != 1:
+                          raise RuntimeError(pkg + ': mutant ' + ' '.join(m) + ' not rejected')
+              print(pkg, 'OK')
+          print(json.dumps({'scientific_effect': 'NONE', 'mathematical_acceptance': False}))
+          PY
+          git diff --exit-code

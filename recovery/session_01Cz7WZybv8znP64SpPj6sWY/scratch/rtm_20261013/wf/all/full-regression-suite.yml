@@ -1,0 +1,69 @@
+name: Full repository regression suite
+
+# C166 (W9f Option 4B + W7h E): the one PR-time execution of the complete
+# tests/ suite in both Python modes for the former c6-palm-route,
+# d5-dimension-lift and c6-factorial-moment trigger union, widened to tools/**.
+# Those three workflows keep the same suite for workflow_dispatch only.
+# This check is not required by any ruleset merely because this file exists.
+'on':
+  pull_request:
+    paths:
+      - '.github/workflows/full-regression-suite.yml'
+      - '.github/workflows/c6-factorial-moment.yml'
+      - '.github/workflows/c6-palm-route.yml'
+      - '.github/workflows/d5-dimension-lift.yml'
+      - 'frontiers/c6_factorial_moment_20260929/**'
+      - 'frontiers/c6_palm_route_20260929/**'
+      - 'frontiers/d5_dimension_lift_20260929/**'
+      - 'tests/**'
+      - 'tools/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  full-suite:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Bind tested commit
+        env:
+          TESTED_SHA: ${{ github.sha }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          EVENT_NAME: ${{ github.event_name }}
+          RUN_ID: ${{ github.run_id }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+        run: |
+          set -euo pipefail
+          checked_out="$(git rev-parse HEAD)"
+          if [ "$checked_out" != "$TESTED_SHA" ]; then
+            echo "checked-out commit $checked_out is not the tested commit $TESTED_SHA" >&2
+            exit 1
+          fi
+          record="tested-commit sha=$TESTED_SHA tree=$(git rev-parse 'HEAD^{tree}') pr_head=${PR_HEAD_SHA:-none} event=$EVENT_NAME run=$RUN_ID/$RUN_ATTEMPT"
+          echo "$record"
+          echo "$record" >> "${GITHUB_STEP_SUMMARY:-/dev/null}"
+      - name: Full repository regression suite in both Python modes
+        run: |
+          set -euo pipefail
+          log_dir="$(mktemp -d)"
+          trap 'rm -rf "$log_dir"' EXIT
+          python -B -S -m unittest discover -s tests -v 2>&1 | tee "$log_dir/normal.log"
+          grep -Eq '^Ran [1-9][0-9]* tests? in [0-9]+([.][0-9]+)?s$' "$log_dir/normal.log"
+          python -B -O -S -m unittest discover -s tests -v 2>&1 | tee "$log_dir/optimized.log"
+          grep -Eq '^Ran [1-9][0-9]* tests? in [0-9]+([.][0-9]+)?s$' "$log_dir/optimized.log"
+      - name: Confirm the suite left the tested commit unchanged
+        env:
+          TESTED_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD)" = "$TESTED_SHA"
+          git diff --exit-code

@@ -1,0 +1,58 @@
+name: Cap first exit (Lean kernel evidence, no scientific promotion)
+
+'on':
+  pull_request:
+    paths:
+      - 'frontiers/cap_first_exit_lean_20261002/**'
+      - '.github/workflows/cap-first-exit-lean.yml'
+      - 'reviews/d1_cap_elder_partner_second_pass_claude_20260930/REVIEW.md'
+      - 'imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  kernel-evidence:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      LEAN_NUM_THREADS: 2
+      PYTHONDONTWRITEBYTECODE: '1'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Source gate and unit tests in both Python modes (no Lean)
+        run: |
+          set -euo pipefail
+          P=frontiers/cap_first_exit_lean_20261002
+          python -B -S -m unittest discover -s "$P" -p 'test_*.py' -v
+          python -B -O -S -m unittest discover -s "$P" -p 'test_*.py' -v
+          python -B -S "$P/gate.py"
+      - name: Install pinned Lean and retrieve the Mathlib cache
+        uses: leanprover/lean-action@f061402b660e0c34644504b324e830f2991d4865
+        with:
+          lake-package-directory: frontiers/cap_first_exit_lean_20261002
+          auto-config: 'false'
+          build: 'false'
+          test: 'false'
+          lint: 'false'
+          use-mathlib-cache: 'true'
+          use-github-cache: 'false'
+      - name: Fresh build, leanchecker replay, axiom audit, negative controls
+        run: python -B -S frontiers/cap_first_exit_lean_20261002/gate.py --execute
+      - name: Tracked tree unchanged
+        run: git diff --exit-code
+      - name: Preserve logs and receipt
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: cap-first-exit-lean-${{ github.run_id }}-${{ github.run_attempt }}
+          path: frontiers/cap_first_exit_lean_20261002/.lake/evidence/
+          include-hidden-files: true
+          if-no-files-found: error
+          retention-days: 90

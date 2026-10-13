@@ -1,0 +1,80 @@
+name: C6 tail constants certified enclosure
+
+'on':
+  pull_request:
+    paths:
+      - 'reviews/c6_tail_constant_certified_20260930/**'
+      - '.github/workflows/c6-tail-constant-certified.yml'
+      - 'frontiers/two_scale_cluster_geometry_20260929/RADIAL_TAIL.md'
+      - 'frontiers/extreme_cluster_sampling_20260930/PROOF.md'
+      - 'frontiers/radial_rate_20260930/PROOF.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  certify-and-reject-mutants:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Verify sources and pins, replay both modes, reject mutants
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          set -euo pipefail
+          python -B -S - <<'PY'
+          import concurrent.futures, hashlib, json, pathlib, subprocess, sys
+          root = pathlib.Path('reviews/c6_tail_constant_certified_20260930').resolve()
+          manifest_doc = json.loads((root / 'SOURCE_FILES.json').read_text())
+          manifest = manifest_doc['files']
+          present = sorted(p.name for p in root.iterdir())
+          expected_names = sorted([e['path'] for e in manifest] + ['SOURCE_FILES.json'])
+          if present != expected_names:
+              raise ValueError('packet tree differs from manifest: ' + repr(present))
+          for entry in manifest:
+              path = root / entry['path']
+              if pathlib.PurePosixPath(entry['path']).name != entry['path'] or path.is_symlink():
+                  raise ValueError('flat regular source required: ' + entry['path'])
+              data = path.read_bytes()
+              if len(data) != entry['bytes'] or hashlib.sha256(data).hexdigest() != entry['sha256']:
+                  raise ValueError('source identity mismatch: ' + entry['path'])
+          # main-resident pins: the consumed sources must be the reviewed bytes
+          for pin in manifest_doc['pins_on_main']:
+              if not pin.get('workflow_checked'):
+                  continue
+              p = pathlib.Path(pin['path'])
+              if p.is_symlink() or not p.is_file():
+                  raise ValueError('pinned source missing: ' + pin['path'])
+              data = p.read_bytes()
+              blob = hashlib.sha1(b'blob %d\0' % len(data) + data).hexdigest()
+              if blob != pin['git_blob']:
+                  raise ValueError('pinned source drifted: ' + pin['path'] + ' ' + blob)
+          script = str(root / 'certify_tail_constants.py')
+          expected = (root / 'RESULTS.json').read_bytes()
+          mutants = ['gamma-power', 'cusp-shift', 'prefactor', 'pi-truncated', 'log2-truncated', 'tail-dropped', 'tb-power', 't2-weight', 't1t2-scale', 'j-scale', 'context-neg']
+          def mutant_rc(args):
+              flags, m = args
+              return m, flags, subprocess.run([sys.executable, *flags, script, '--mutant', m],
+                                              capture_output=True, timeout=1500).returncode
+          for flags in (['-B', '-S'], ['-B', '-O', '-S']):
+              out = subprocess.run([sys.executable, *flags, script],
+                                   check=True, capture_output=True, timeout=1500).stdout
+              if out != expected:
+                  raise RuntimeError('output differs from RESULTS.json under ' + ' '.join(flags))
+              doc = json.loads(out)
+              if not (doc['passed'] and len(doc['checks']) == 12 and all(doc['checks'].values())):
+                  raise RuntimeError('certification did not pass under ' + ' '.join(flags))
+              with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
+                  for m, fl, rc in pool.map(mutant_rc, [(flags, m) for m in mutants]):
+                      if rc != 1:
+                          raise RuntimeError('mutant ' + m + ' not rejected under ' + ' '.join(fl))
+          print(json.dumps({'scientific_effect': 'NONE', 'mathematical_acceptance': False, 'certified_enclosures': True}))
+          PY
+          git diff --exit-code

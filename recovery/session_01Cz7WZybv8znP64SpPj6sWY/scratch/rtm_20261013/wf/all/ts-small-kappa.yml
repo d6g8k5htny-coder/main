@@ -1,0 +1,64 @@
+name: Lifetime note TS replay
+
+'on':
+  pull_request:
+    paths:
+      - 'frontiers/ts_small_kappa_20261006/**'
+      - 'tests/test_ts_small_kappa_replay_protocol.py'
+      - 'tests/test_ts_small_kappa_replay_evidence.py'
+      - '.github/workflows/ts-small-kappa.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: ['-B -S', '-B -O -S']
+    name: replay (python ${{ matrix.mode }})
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Verify protocol, stored identities, extractions and all published controls
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/qs-replay-evidence"
+          mkdir -p "$out/logs"
+          python ${{ matrix.mode }} -m unittest discover -s tests -p test_ts_small_kappa_replay_protocol.py -v 2>&1 | tee "$out/logs/protocol.txt"
+          python ${{ matrix.mode }} -m unittest discover -s tests -p test_ts_small_kappa_replay_evidence.py -v 2>&1 | tee "$out/logs/process-evidence-tests.txt"
+          QS_REPLAY_EVIDENCE_DIR="$out/children" python ${{ matrix.mode }} frontiers/ts_small_kappa_20261006/replay.py 2>&1 | tee "$out/logs/replay.txt"
+          git diff --exit-code
+          test -z "$(git status --porcelain)"
+      - name: Preserve exact public sources and available execution logs
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          out="$RUNNER_TEMP/qs-replay-evidence"
+          mkdir -p "$out"
+          cp -a frontiers/ts_small_kappa_20261006 "$out/packet"
+          cp tests/test_ts_small_kappa_replay_protocol.py "$out/"
+          cp tests/test_ts_small_kappa_replay_evidence.py "$out/"
+          cp .github/workflows/ts-small-kappa.yml "$out/"
+          git rev-parse HEAD > "$out/tested_commit.txt"
+          printf '%s\n' '${{ matrix.mode }}' > "$out/mode.txt"
+          printf '%s\n' "$GITHUB_RUN_ID/$GITHUB_RUN_ATTEMPT" > "$out/run.txt"
+      - name: Retain evidence on success or failure
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: qs-replay-${{ strategy.job-index }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/qs-replay-evidence/
+          if-no-files-found: error

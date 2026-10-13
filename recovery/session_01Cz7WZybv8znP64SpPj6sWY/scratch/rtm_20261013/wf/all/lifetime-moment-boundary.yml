@@ -1,0 +1,33 @@
+name: Lifetime and radial moment exact controls
+'on':
+  pull_request:
+    paths:
+      - 'frontiers/lifetime_moment_boundary_20260930/**'
+      - 'reviews/radial_moment_corollaries_20260930/**'
+      - '.github/workflows/lifetime-moment-boundary.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'frontiers/lifetime_moment_boundary_20260930/**'
+      - 'reviews/radial_moment_corollaries_20260930/**'
+      - '.github/workflows/lifetime-moment-boundary.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  exact-moments:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - run: python -B -S frontiers/lifetime_moment_boundary_20260930/verify.py
+      - name: Receipt and frozen-source regression controls
+        run: |
+          python -B -S -m unittest discover -s frontiers/lifetime_moment_boundary_20260930 -p 'test_*.py' -v
+          python -B -O -S -m unittest discover -s frontiers/lifetime_moment_boundary_20260930 -p 'test_*.py' -v
+      - run: git diff --exit-code

@@ -1,0 +1,56 @@
+name: SARD-G A2 regularity note checks
+
+'on':
+  pull_request:
+    paths:
+      - 'frontiers/sard_g_a2_regularity_20260929/**'
+      - '.github/workflows/sard-g-a2-regularity.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  witness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Verify sources, replay both modes, reject mutants
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          set -euo pipefail
+          python -B -S - <<'PY'
+          import hashlib, json, pathlib, subprocess, sys
+          root = pathlib.Path('frontiers/sard_g_a2_regularity_20260929').resolve()
+          manifest = json.loads((root / 'SOURCE_FILES.json').read_text())
+          present = sorted(p.name for p in root.iterdir())
+          expected_names = sorted([e['path'] for e in manifest['files']] + ['SOURCE_FILES.json'])
+          if present != expected_names:
+              raise ValueError('packet tree differs from manifest: ' + repr(present))
+          for entry in manifest['files']:
+              path = root / entry['path']
+              data = path.read_bytes()
+              if len(data) != entry['bytes'] or hashlib.sha256(data).hexdigest() != entry['sha256']:
+                  raise ValueError('source identity mismatch: ' + entry['path'])
+          script = str(root / 'a2_check.py')
+          expected = (root / 'RESULTS.json').read_bytes()
+          for flags in (['-B', '-S'], ['-B', '-O', '-S']):
+              out = subprocess.run([sys.executable, *flags, script],
+                                   check=True, capture_output=True, timeout=120).stdout
+              if out != expected:
+                  raise RuntimeError('output differs from RESULTS.json under ' + ' '.join(flags))
+              for m in ['lp-exponent', 'nonlinear-superposition', 'saddle-sign']:
+                  rc = subprocess.run([sys.executable, *flags, script, '--mutant', m],
+                                      capture_output=True, timeout=120).returncode
+                  if rc != 1:
+                      raise RuntimeError('mutant ' + m + ' not rejected')
+          print(json.dumps({'scientific_effect': 'NONE', 'mathematical_acceptance': False}))
+          PY
+          git diff --exit-code

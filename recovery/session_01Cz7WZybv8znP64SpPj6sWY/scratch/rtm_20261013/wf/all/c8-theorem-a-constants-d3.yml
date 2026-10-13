@@ -1,0 +1,68 @@
+name: C8 Theorem A constants in d = 3 (certified replay)
+
+'on':
+  pull_request:
+    paths:
+      - 'frontiers/c8_theorem_a_constants_d3_20261001/**'
+      - '.github/workflows/c8-theorem-a-constants-d3.yml'
+      - 'imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md'
+      - 'imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md'
+      - 'frontiers/c8_cap_failure_coefficient_dims_20261001/RESULTS.json'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  certified-replay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Verify manifest and main-resident pins, replay every band and the C table in both interpreter modes, reject mutants
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          set -euo pipefail
+          python -B -S - <<'PY'
+          import hashlib, json, os, pathlib, subprocess, sys
+          root = pathlib.Path('frontiers/c8_theorem_a_constants_d3_20261001').resolve()
+          manifest = json.loads((root / 'SOURCE_FILES.json').read_text())['files']
+          present = sorted(p.name for p in root.iterdir())
+          if present != sorted([e['path'] for e in manifest] + ['SOURCE_FILES.json']):
+              raise ValueError('packet tree differs from manifest: ' + repr(present))
+          for entry in manifest:
+              path = root / entry['path']
+              if pathlib.PurePosixPath(entry['path']).name != entry['path'] or path.is_symlink():
+                  raise ValueError('flat regular source required: ' + entry['path'])
+              data = path.read_bytes()
+              if len(data) != entry['bytes'] or hashlib.sha256(data).hexdigest() != entry['sha256']:
+                  raise ValueError('source identity mismatch: ' + entry['path'])
+          pins = json.loads((root / 'SOURCE_MAP.json').read_text())
+          for entry in pins['sources']:
+              if not entry['current_required']:
+                  continue
+              data = pathlib.Path(entry['path']).read_bytes()
+              blob = hashlib.sha1(b'blob %d\0' % len(data) + data).hexdigest()
+              if len(data) != entry['bytes'] or hashlib.sha256(data).hexdigest() != entry['sha256'] or blob != entry['git_blob']:
+                  raise ValueError('consumed source identity mismatch on this tree: ' + entry['path'])
+          script = str(root / 'theorem_a3.py')
+          procs = str(max(2, os.cpu_count() or 2))
+          # every one of the 121 bands in one mode, the sampled replay in the other
+          for flags, mode in ((['-B', '-S'], '--check-full'), (['-B', '-O', '-S'], '--check')):
+              out = subprocess.run([sys.executable, *flags, script, mode, '--procs', procs], cwd=root, capture_output=True, timeout=5400)
+              if out.returncode != 0:
+                  raise RuntimeError(mode + ' failed under ' + ' '.join(flags) + ': ' + out.stdout.decode()[-400:] + out.stderr.decode()[-400:])
+              print(flags, mode, out.stdout.decode().strip()[-600:])
+          for m in ('no-delta', 'cap-half', 'no-zfloor-correction', 'no-om-term', 'no-lambda2'):
+              rc = subprocess.run([sys.executable, '-B', '-S', script, '--check', '--procs', procs, '--mutant', m], cwd=root, capture_output=True, timeout=2400).returncode
+              if rc != 1:
+                  raise RuntimeError('mutant ' + m + ' not rejected')
+          print(json.dumps({'scientific_effect': 'NONE', 'bands_replayed': 121, 'mutants_rejected': 5}))
+          PY
+          git diff --exit-code

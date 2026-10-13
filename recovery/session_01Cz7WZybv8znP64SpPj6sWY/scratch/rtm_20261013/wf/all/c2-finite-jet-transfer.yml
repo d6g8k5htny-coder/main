@@ -1,0 +1,43 @@
+name: c2 finite-jet transfer controls
+
+'on':
+  pull_request:
+    paths:
+      - 'frontiers/c2_finite_jet_transfer_20261001/**'
+      - '.github/workflows/c2-finite-jet-transfer.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-and-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Authenticate the historical sources and run exact controls
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+          GIT_NO_REPLACE_OBJECTS: '1'
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin f9ebba17f5cc590232b2fb2cd37b04b996abc143
+          git fetch --no-tags origin 0cf048d18eb28a4ba37eba89c238a2910d4ca915
+          python -B -S frontiers/c2_finite_jet_transfer_20261001/verify.py
+          cd frontiers/c2_finite_jet_transfer_20261001
+          python -B -S -m unittest -v
+          python -B -O -S -m unittest -v
+          python -B -S controls.py > "$RUNNER_TEMP/c2-transfer-normal.json"
+          python -B -O -S controls.py > "$RUNNER_TEMP/c2-transfer-optimized.json"
+          cmp "$RUNNER_TEMP/c2-transfer-normal.json" "$RUNNER_TEMP/c2-transfer-optimized.json"
+          cmp RESULTS.json "$RUNNER_TEMP/c2-transfer-normal.json"
+          python -B -S verify.py
+          git diff --exit-code
+          test -z "$(git status --porcelain)"

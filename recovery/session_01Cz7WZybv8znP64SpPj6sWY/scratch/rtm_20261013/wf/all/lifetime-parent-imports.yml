@@ -1,0 +1,26 @@
+name: Lifetime parent import custody
+
+'on':
+  pull_request:
+    paths:
+      - 'imports/lifetime_parent_20260925/**'
+      - 'claims/LANDING_CLAIMS.json'
+      - '.github/workflows/lifetime-parent-imports.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-imports:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Verify exact imported bytes
+        run: python -B -S imports/lifetime_parent_20260925/verify.py

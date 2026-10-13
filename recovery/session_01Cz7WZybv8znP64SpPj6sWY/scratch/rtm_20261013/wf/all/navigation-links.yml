@@ -1,0 +1,40 @@
+name: Navigation document links and quotations
+
+'on':
+  pull_request:
+    paths:
+      - 'PROOF_INDEX.md'
+      - 'docs/integration/**'
+      - 'tools/check_doc_links.py'
+      - 'tools/check_doc_quotes.py'
+      - 'tests/test_navigation_links.py'
+      - 'tests/test_navigation_quotes.py'
+      - '.github/workflows/navigation-links.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  document-relative-links:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Resolve every link from the containing document and check every file-sourced quotation, in both interpreter modes
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          set -euo pipefail
+          python -B -S tools/check_doc_links.py PROOF_INDEX.md docs/integration/*.md
+          python -B -O -S tools/check_doc_links.py PROOF_INDEX.md docs/integration/*.md
+          python -B -S tools/check_doc_quotes.py PROOF_INDEX.md docs/integration/2026-09-29-navigation-refresh.md
+          python -B -O -S tools/check_doc_quotes.py PROOF_INDEX.md docs/integration/2026-09-29-navigation-refresh.md
+          python -B -S -m unittest -v tests.test_navigation_links tests.test_navigation_quotes
+          python -B -O -S -m unittest -v tests.test_navigation_links tests.test_navigation_quotes
+          git diff --exit-code

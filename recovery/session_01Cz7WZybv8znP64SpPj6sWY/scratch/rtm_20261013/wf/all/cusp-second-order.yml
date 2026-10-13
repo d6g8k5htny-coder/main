@@ -1,0 +1,118 @@
+name: Cusp second-order exact controls
+
+'on':
+  pull_request:
+    paths:
+      - 'frontiers/cusp_second_order_20261001/**'
+      - '.github/workflows/cusp-second-order.yml'
+      - 'tests/test_cusp_workflow_protocol.py'
+      # bound merged sources (consumed in SOURCES.json) and the pinned unmerged dependencies (#191, #198; verified by blob)
+      - 'frontiers/remainder_vanishing_20260930/PROOF.md'
+      - 'frontiers/remainder_rate_20260930/PROOF.md'
+      - 'frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md'
+      - 'frontiers/c7_total_bounded_20260929/PROOF.md'
+      - 'imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md'
+      - 'imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md'
+      - 'reviews/d1_section9_borel_repair_20260925/REPAIR.md'
+      - 'reviews/d1_chain_reconciliation_20260928/RECONCILIATION.md'
+      - 'frontiers/fixed_r_inverse_lifetime_20260930/PROOF.md'
+      - 'frontiers/c7_zero_gap_limit_20260929/PROOF.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-controls:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Cusp workflow protocol regressions
+        run: |
+          python -B -S -m unittest discover -s tests -p test_cusp_workflow_protocol.py -v
+          python -B -O -S -m unittest discover -s tests -p test_cusp_workflow_protocol.py -v
+      - name: Verify sources, replay both modes, reject mutants
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+          GH_TOKEN: ${{ github.token }}
+          GH_REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          python -B -S - <<'PY'
+          import base64, hashlib, json, os, pathlib, subprocess, sys, urllib.request
+          root = pathlib.Path('frontiers/cusp_second_order_20261001').resolve()
+          manifest = json.loads((root / 'SOURCES.json').read_text())
+          present = sorted(p.name for p in root.iterdir())
+          expected_names = sorted([e['path'] for e in manifest['files']] + ['SOURCES.json'])
+          if present != expected_names:
+              raise ValueError('packet tree differs from manifest: ' + repr(present))
+          for entry in manifest['files']:
+              path = root / entry['path']
+              if path.is_symlink():
+                  raise ValueError('symlink: ' + entry['path'])
+              data = path.read_bytes()
+              if len(data) != entry['bytes'] or hashlib.sha256(data).hexdigest() != entry['sha256']:
+                  raise ValueError('packet file identity mismatch: ' + entry['path'])
+          for entry in manifest['consumed'] + manifest['cited_only']:
+              data = pathlib.Path(entry['path']).read_bytes()
+              framed = b'blob ' + str(len(data)).encode() + b'\0' + data
+              if len(data) != entry['bytes'] or hashlib.sha256(data).hexdigest() != entry['sha256'] or hashlib.sha1(framed).hexdigest() != entry['git_blob']:
+                  raise ValueError('merged source drifted: ' + entry['path'])
+          # each consumed unmerged dependency (#191, #198) is verified by its pinned blob: from the tree if the dependency
+          # has landed (then it must be byte-identical to the pinned version, else this packet needs rebinding),
+          # otherwise fetched by blob id through the repository API; absence or drift fails the job
+          for entry in manifest.get('consumed_unmerged', []):
+              tree_path = pathlib.Path(entry['path'])
+              if tree_path.exists():
+                  data = tree_path.read_bytes()
+                  where = 'tree'
+              else:
+                  req = urllib.request.Request(
+                      'https://api.github.com/repos/' + os.environ['GH_REPOSITORY'] + '/git/blobs/' + entry['git_blob'],
+                      headers={'Authorization': 'Bearer ' + os.environ['GH_TOKEN'], 'Accept': 'application/vnd.github+json'})
+                  with urllib.request.urlopen(req, timeout=60) as resp:
+                      blob = json.load(resp)
+                  if blob.get('encoding') != 'base64':
+                      raise ValueError('unexpected blob encoding for ' + entry['path'])
+                  data = base64.b64decode(blob['content'])
+                  where = 'blob api'
+              framed = b'blob ' + str(len(data)).encode() + b'\0' + data
+              if len(data) != entry['bytes'] or hashlib.sha256(data).hexdigest() != entry['sha256'] or hashlib.sha1(framed).hexdigest() != entry['git_blob']:
+                  raise ValueError('consumed unmerged dependency differs from the pinned blob (rebind required): ' + entry['path'] + ' via ' + where)
+              print(json.dumps({'consumed_unmerged_verified': entry['path'], 'git_blob': entry['git_blob'], 'via': where}))
+          # Complete immutable reports from the original five mutants, characterized
+          # in both modes at 11f9127f (run 37465152509/1). These are not exit-only
+          # expectations or reports generated by the current mutant as its own oracle.
+          contracts = {
+              'M1': (1536, '9302b83844a9c6d9a2b9f65bfc68ff9c96b7a1e610447b796bee130f08bd625b', 'C2 elder window'),
+              'M2': (1514, '0b55d471950c3a2dc4914d78ac6810ddffd4c903ae128e4ff0e2d333fe969852', 'C6 elder cusp integral'),
+              'M3': (1571, '72f2b370a2ff1a1202852e8eb328f7b3b86cb8df5fb520fdc20b69b325bbef25', 'C4 cusp limit field'),
+              'M4': (1604, '056b3738ae7319b50377c1f30c428e1f55ac5d331db890d30a81776c8507ae56', 'C3 fiber identity'),
+              'M5': (1456, '3e863170bff01721399a056d94f651427a064bfc86e032e9cfe39d54b218c963', 'C8 determinant derivative'),
+          }
+          if manifest['mutants'] != list(contracts):
+              raise ValueError('cusp mutant inventory differs from the complete ordered contract')
+          script = str(root / 'cusp_check.py')
+          expected = (root / 'RESULTS.json').read_bytes()
+          for flags in (['-B', '-S'], ['-B', '-O', '-S']):
+              baseline = subprocess.run([sys.executable, *flags, script], check=True, capture_output=True, timeout=600)
+              if baseline.stdout != expected or baseline.stderr:
+                  raise RuntimeError('baseline streams differ from RESULTS.json/empty stderr under ' + ' '.join(flags))
+              for m in manifest['mutants']:
+                  result = subprocess.run([sys.executable, *flags, script, '--mutant', m], capture_output=True, timeout=600)
+                  size, sha256, reason = contracts[m]
+                  if (result.returncode != 1 or result.stderr or len(result.stdout) != size
+                          or hashlib.sha256(result.stdout).hexdigest() != sha256):
+                      raise RuntimeError('mutant ' + m + ' did not emit its exact ' + reason + ' rejection report')
+              unknown = subprocess.run([sys.executable, *flags, script, '--mutant', 'M9'], capture_output=True, timeout=600)
+              if unknown.returncode != 2 or unknown.stdout or unknown.stderr != b'unknown mutant label\n':
+                  raise RuntimeError('unknown mutant label did not emit the complete expected exit-2 diagnostic')
+          print(json.dumps({'scientific_effect': 'NONE', 'mathematical_acceptance': False}))
+          PY
+          git diff --exit-code

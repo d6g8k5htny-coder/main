@@ -1,0 +1,75 @@
+name: C6 residual closure checks
+
+'on':
+  pull_request:
+    paths:
+      - 'reviews/c6_residual_closure_20260930/**'
+      - '.github/workflows/c6-residual-closure.yml'
+      - 'frontiers/spectral_cluster_closure_20260929/PROOF.md'
+      - 'frontiers/spectral_cluster_closure_20260929/REVIEW_RECORD.md'
+      - 'frontiers/spectral_cluster_closure_20260929/README.md'
+      - 'frontiers/c6_cluster_law_20260929/PROOF.md'
+      - 'frontiers/c6_cluster_law_20260929/README.md'
+      - 'frontiers/c6_cluster_law_20260929/SOURCE_MAP.json'
+      - 'frontiers/c6_palm_route_20260929/PROOF.md'
+      - 'frontiers/two_scale_cluster_geometry_20260929/TWO_SCALE_LAW.md'
+      - 'frontiers/two_scale_cluster_geometry_20260929/REVIEW_RECORD.md'
+      - 'frontiers/two_scale_cluster_geometry_20260929/REVIEW_RECORD.json'
+      - 'frontiers/downstream_gate_20260925/GRAPH.json'
+      - 'frontiers/downstream_gate_20260925/SELECTOR_REGION.json'
+      - 'frontiers/downstream_gate_20260925/hard_gate.py'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-and-probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Verify sources, replay both modes (baseline or installed register), reject mutants
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          set -euo pipefail
+          python -B -S - <<'PY'
+          import hashlib, json, pathlib, subprocess, sys
+          root = pathlib.Path('reviews/c6_residual_closure_20260930').resolve()
+          manifest = json.loads((root / 'SOURCE_FILES.json').read_text())['files']
+          present = sorted(p.name for p in root.iterdir())
+          expected_names = sorted([e['path'] for e in manifest] + ['SOURCE_FILES.json'])
+          if present != expected_names:
+              raise ValueError('packet tree differs from manifest: ' + repr(present))
+          for entry in manifest:
+              path = root / entry['path']
+              if pathlib.PurePosixPath(entry['path']).name != entry['path'] or path.is_symlink():
+                  raise ValueError('flat regular source required: ' + entry['path'])
+              data = path.read_bytes()
+              if len(data) != entry['bytes'] or hashlib.sha256(data).hexdigest() != entry['sha256']:
+                  raise ValueError('source identity mismatch: ' + entry['path'])
+          script = str(root / 'residual_check.py')
+          mutants = ['partial-install', 'allow-symlink', 'no-hash', 'stale-fingerprint', 'drop-required-edge', 'executed-flag', 'controlling-true', 'tail-reversed', 'pair-identity-broken', 'route-c-broken', 'drop-review-needle', 'installed-drift', 'snapshot-omitted', 'record-unreviewed', 'reviewed-text-drift']
+          for flags in (['-B', '-S'], ['-B', '-O', '-S']):
+              out = subprocess.run([sys.executable, *flags, script],
+                                   check=True, capture_output=True, timeout=300).stdout
+              state = json.loads(out).get('register_state')
+              if state not in ('baseline', 'installed'):
+                  raise RuntimeError('checker reports register_state ' + repr(state))
+              pinned = 'RESULTS.json' if state == 'baseline' else 'RESULTS_INSTALLED.json'
+              if out != (root / pinned).read_bytes():
+                  raise RuntimeError('output differs from ' + pinned + ' under ' + ' '.join(flags))
+              for m in mutants:
+                  rc = subprocess.run([sys.executable, *flags, script, '--mutant', m],
+                                      capture_output=True, timeout=300).returncode
+                  if rc != 1:
+                      raise RuntimeError('mutant ' + m + ' not rejected')
+          print(json.dumps({'scientific_effect': 'NONE', 'mathematical_acceptance': False}))
+          PY
+          git diff --exit-code

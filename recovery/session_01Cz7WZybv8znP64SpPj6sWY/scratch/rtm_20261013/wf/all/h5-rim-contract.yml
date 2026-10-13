@@ -1,0 +1,31 @@
+name: H5 rim input contract
+'on':
+  pull_request:
+    paths:
+      - 'repairs/h5_rim_contract_20260926/**'
+      - 'imports/upper2d_h5_ledgers_20260926/**'
+      - 'imports/upper2d_stage_e_20260926/raw/STAGE_E/hunt_rim.py'
+      - '.github/workflows/h5-rim-contract.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    name: h5-rim-contract
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11'
+      - name: Reproduce source finding and contract controls
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+        run: |
+          python -B -S repairs/h5_rim_contract_20260926/verify.py
+          python -B -O -S repairs/h5_rim_contract_20260926/verify.py
+          python -B -S -m unittest discover -s repairs/h5_rim_contract_20260926 -p 'test_*.py' -v
+          python -B -O -S -m unittest discover -s repairs/h5_rim_contract_20260926 -p 'test_*.py' -v
+          python -B -S imports/upper2d_h5_ledgers_20260926/verify.py
+          python -B -O -S imports/upper2d_h5_ledgers_20260926/verify.py

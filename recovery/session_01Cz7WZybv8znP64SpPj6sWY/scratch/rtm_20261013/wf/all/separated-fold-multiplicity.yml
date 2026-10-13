@@ -1,0 +1,55 @@
+name: Separated-fold multiplicity controls
+
+'on':
+  pull_request:
+    paths:
+      - 'frontiers/separated_fold_multiplicity_20261002/**'
+      - '.github/workflows/separated-fold-multiplicity.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-and-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Authenticate historical interfaces and replay exact controls
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+          GIT_NO_REPLACE_OBJECTS: '1'
+        run: |
+          set -euo pipefail
+          git fetch --no-tags origin 6f74f7a77bae15d6aa07506bab38977e34dcc449 c46377738b711a5cc2114b58bf7726ae6e7bc553
+          cd frontiers/separated_fold_multiplicity_20261002
+          python -B -S verify_sources.py
+          python -B -S -m unittest -v
+          python -B -O -S -m unittest -v
+          python -B -S check.py > "$RUNNER_TEMP/fold-normal.json"
+          python -B -O -S check.py > "$RUNNER_TEMP/fold-optimized.json"
+          cmp RESULTS.json "$RUNNER_TEMP/fold-normal.json"
+          cmp "$RUNNER_TEMP/fold-normal.json" "$RUNNER_TEMP/fold-optimized.json"
+          for optimized in no yes; do
+            flags=(-B -S)
+            if [ "$optimized" = yes ]; then flags=(-B -O -S); fi
+            for m in M1 M2 M3 M4 M5 BAD; do
+              expected=1
+              if [ "$m" = BAD ]; then expected=2; fi
+              rc=0
+              python "${flags[@]}" check.py --mutant "$m" > "$RUNNER_TEMP/fold-$optimized-$m.out" 2>&1 || rc=$?
+              if [ "$rc" -ne "$expected" ]; then
+                cat "$RUNNER_TEMP/fold-$optimized-$m.out"
+                exit 1
+              fi
+            done
+          done
+          python -B -S verify_sources.py
+          git diff --exit-code

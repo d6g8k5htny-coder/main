@@ -1,0 +1,52 @@
+name: GP DATA 114 inert custody
+'on':
+  pull_request:
+    paths:
+      - 'imports/gp_data_114_embedded_20260930/**'
+      - '.github/workflows/gpdata114-inert-custody.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'imports/gp_data_114_embedded_20260930/**'
+      - '.github/workflows/gpdata114-inert-custody.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  inert-custody:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Verify inert bytes and decoder controls only
+        run: |
+          set -euo pipefail
+          packet=imports/gp_data_114_embedded_20260930
+          python -B -S - <<'PY'
+          import hashlib, json, pathlib, urllib.parse, urllib.request
+          packet = pathlib.Path('imports/gp_data_114_embedded_20260930')
+          source = json.loads((packet / 'SOURCES.json').read_text())['wrapper']
+          url = 'https://raw.githubusercontent.com/' + source['repository'] + '/' + source['commit'] + '/' + urllib.parse.quote(source['path'], safe='/')
+          raw = urllib.request.urlopen(url, timeout=30).read(65537)
+          if len(raw) != source['bytes'] or hashlib.sha256(raw).hexdigest() != source['sha256']:
+              raise SystemExit('exact public wrapper identity mismatch')
+          pathlib.Path('/tmp/gpdata114-wrapper.txt').write_bytes(raw)
+          PY
+          python -B -S "$packet/verify_packet.py" --packet "$packet" --wrapper-input /tmp/gpdata114-wrapper.txt > /tmp/gpdata114-packet-normal.json
+          python -B -O -S "$packet/verify_packet.py" --packet "$packet" --wrapper-input /tmp/gpdata114-wrapper.txt > /tmp/gpdata114-packet-optimized.json
+          cmp /tmp/gpdata114-packet-normal.json /tmp/gpdata114-packet-optimized.json
+          python -B -S "$packet/test_verify_packet.py" --wrapper-input /tmp/gpdata114-wrapper.txt > /tmp/gpdata114-packet-tests-normal.json
+          python -B -O -S "$packet/test_verify_packet.py" --wrapper-input /tmp/gpdata114-wrapper.txt > /tmp/gpdata114-packet-tests-optimized.json
+          cmp /tmp/gpdata114-packet-tests-normal.json /tmp/gpdata114-packet-tests-optimized.json
+          python -B -S "$packet/inert_decoder.py" --wrapper-input /tmp/gpdata114-wrapper.txt --verify-existing "$packet" > /tmp/gpdata114-normal.json
+          python -B -O -S "$packet/inert_decoder.py" --wrapper-input /tmp/gpdata114-wrapper.txt --verify-existing "$packet" > /tmp/gpdata114-optimized.json
+          cmp /tmp/gpdata114-normal.json /tmp/gpdata114-optimized.json
+          python -B -S "$packet/test_inert_decoder.py" --wrapper-input /tmp/gpdata114-wrapper.txt > /tmp/gpdata114-tests-normal.json
+          python -B -O -S "$packet/test_inert_decoder.py" --wrapper-input /tmp/gpdata114-wrapper.txt > /tmp/gpdata114-tests-optimized.json
+          cmp /tmp/gpdata114-tests-normal.json /tmp/gpdata114-tests-optimized.json
+          git diff --exit-code

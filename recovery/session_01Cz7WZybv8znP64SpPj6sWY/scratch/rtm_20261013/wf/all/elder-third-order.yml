@@ -1,0 +1,158 @@
+name: Elder third-order exact controls
+
+'on':
+  pull_request:
+    paths:
+      - 'frontiers/elder_third_order_20261001/**'
+      - '.github/workflows/elder-third-order.yml'
+      # bound merged sources (consumed in SOURCES.json) and the pinned unmerged dependencies
+      - 'frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md'
+      - 'imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md'
+      - 'imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md'
+      - 'reviews/d1_section9_borel_repair_20260925/REPAIR.md'
+      - 'reviews/d1_chain_reconciliation_20260928/RECONCILIATION.md'
+      - 'frontiers/c7_zero_gap_limit_20260929/PROOF.md'
+      - 'frontiers/c7_total_bounded_20260929/PROOF.md'
+      - 'frontiers/remainder_vanishing_20260930/PROOF.md'
+      - 'frontiers/remainder_rate_20260930/PROOF.md'
+      - 'frontiers/cusp_second_order_20261001/PROOF.md'
+      - 'frontiers/candidate_third_order_20261001/PROOF.md'
+      - 'frontiers/far_elder_rate_20260930/PROOF.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  exact-controls:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Verify sources, replay both modes, reject mutants
+        env:
+          PYTHONDONTWRITEBYTECODE: '1'
+          GH_TOKEN: ${{ github.token }}
+          GH_REPOSITORY: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          python -B -S - <<'PY'
+          import base64, hashlib, json, os, pathlib, subprocess, sys, urllib.parse, urllib.request
+          root = pathlib.Path('frontiers/elder_third_order_20261001').resolve()
+          manifest = json.loads((root / 'SOURCES.json').read_text())
+          present = sorted(p.name for p in root.iterdir())
+          expected_names = sorted([e['path'] for e in manifest['files']] + ['SOURCES.json'])
+          if present != expected_names:
+              raise ValueError('packet tree differs from manifest: ' + repr(present))
+          for entry in manifest['files']:
+              path = root / entry['path']
+              if path.is_symlink():
+                  raise ValueError('symlink: ' + entry['path'])
+              data = path.read_bytes()
+              if len(data) != entry['bytes'] or hashlib.sha256(data).hexdigest() != entry['sha256']:
+                  raise ValueError('packet file identity mismatch: ' + entry['path'])
+          def same(data, entry):
+              framed = b'blob ' + str(len(data)).encode() + b'\0' + data
+              return len(data) == entry['bytes'] and hashlib.sha256(data).hexdigest() == entry['sha256'] and hashlib.sha1(framed).hexdigest() == entry['git_blob']
+          def tree_entry(path):
+              # the checked-out commit's tree entry for path: (mode, type, blob) or None; symlinks have mode 120000
+              out = subprocess.run(['git', 'ls-tree', '-z', 'HEAD', '--', path], check=True, capture_output=True).stdout
+              if not out:
+                  return None
+              meta, name = out.rstrip(b'\0').split(b'\t', 1)
+              if name.decode() != path:
+                  raise ValueError('unexpected tree entry for ' + path)
+              mode, kind, sha = meta.decode().split()
+              return mode, kind, sha
+          def tree_bytes(entry):
+              # a source read from the checkout must be a regular file whose tree blob is the recorded one
+              te = tree_entry(entry['path'])
+              if te is None:
+                  return None
+              mode, kind, sha = te
+              if mode != '100644' or kind != 'blob' or sha != entry['git_blob']:
+                  raise ValueError('tree entry is not the recorded regular-file blob (mode/type/blob ' + ' '.join(te) + '): ' + entry['path'])
+              path = pathlib.Path(entry['path'])
+              if path.is_symlink() or not path.is_file():
+                  raise ValueError('checkout path is not a regular file: ' + entry['path'])
+              return path.read_bytes()
+          for entry in manifest['consumed'] + manifest['cited_only']:
+              data = tree_bytes(entry)
+              if data is None or not same(data, entry):
+                  raise ValueError('merged source drifted or absent: ' + entry['path'])
+          # unmerged sources are bound to their recorded commit, path and blob through the repository API: the head must
+          # resolve, the path in that head's tree must be a file with the recorded blob id and size, and the bytes must have
+          # the recorded sha256; a consumed dependency that has landed is instead read from the tree and must be identical
+          # to the pinned version (else this packet needs rebinding)
+          api = 'https://api.github.com/repos/' + os.environ['GH_REPOSITORY']
+          def get_json(url):
+              req = urllib.request.Request(url, headers={'Authorization': 'Bearer ' + os.environ['GH_TOKEN'],
+                                                         'Accept': 'application/vnd.github+json'})
+              with urllib.request.urlopen(req, timeout=60) as resp:
+                  return json.load(resp)
+          def bound(entry):
+              commit = get_json(api + '/commits/' + entry['head'])
+              if commit.get('sha') != entry['head']:
+                  raise ValueError('recorded head does not resolve: ' + entry['head'])
+              node = get_json(api + '/contents/' + urllib.parse.quote(entry['path']) + '?ref=' + entry['head'])
+              if (node.get('type') != 'file' or node.get('path') != entry['path'] or node.get('sha') != entry['git_blob']
+                      or node.get('size') != entry['bytes']):
+                  raise ValueError('recorded head/path does not map to the recorded blob: ' + entry['path'])
+              blob = get_json(api + '/git/blobs/' + entry['git_blob'])
+              if blob.get('encoding') != 'base64':
+                  raise ValueError('unexpected blob encoding for ' + entry['path'])
+              return base64.b64decode(blob['content'])
+          def current(entry):
+              # drift gate (Copilot review on #220): the recorded head keeps resolving after a dependency PR advances, so
+              # also resolve the dependency PR now. Open: the file at its current head must be the pinned blob. Merged:
+              # the file at its merge commit must be the pinned blob. Closed unmerged: rebinding is required.
+              pr = get_json(api + '/pulls/' + entry['pr'].split('#', 1)[1])
+              if pr.get('merged'):
+                  ref = pr.get('merge_commit_sha')
+              elif pr.get('state') == 'open':
+                  ref = pr['head']['sha']
+              else:
+                  raise ValueError('dependency ' + entry['pr'] + ' closed without merge: rebind required')
+              node = get_json(api + '/contents/' + urllib.parse.quote(entry['path']) + '?ref=' + ref)
+              if node.get('type') != 'file' or node.get('sha') != entry['git_blob'] or node.get('size') != entry['bytes']:
+                  raise ValueError('dependency ' + entry['pr'] + ' advanced: ' + entry['path'] + ' at ' + ref
+                                   + ' is not the pinned blob (rebind required)')
+              return ref
+          for kind in ('consumed_unmerged', 'cited_unmerged'):
+              for entry in manifest.get(kind, []):
+                  # a landed consumed dependency must be the recorded regular-file blob in this tree (symlinks and any
+                  # other mode are rejected by tree_bytes); otherwise the source is bound through the API
+                  landed = tree_bytes(entry) if kind == 'consumed_unmerged' else None
+                  if landed is not None:
+                      data, where = landed, 'tree'
+                  else:
+                      if os.path.lexists(entry['path']) and kind == 'consumed_unmerged':
+                          raise ValueError('path present in the checkout but not as a tracked blob: ' + entry['path'])
+                      data, where = bound(entry), 'head/path/blob api'
+                  if not same(data, entry):
+                      raise ValueError(kind + ' source differs from its pinned blob (rebind required): ' + entry['path'] + ' via ' + where)
+                  now = current(entry) if kind == 'consumed_unmerged' else None
+                  print(json.dumps({kind + '_bound': entry['path'], 'git_blob': entry['git_blob'], 'head': entry['head'],
+                                    'via': where, 'current_ref_checked': now}))
+          script = str(root / 'e3_check.py')
+          expected = (root / 'RESULTS.json').read_bytes()
+          for flags in (['-B', '-S'], ['-B', '-O', '-S']):
+              out = subprocess.run([sys.executable, *flags, script], check=True, capture_output=True, timeout=600).stdout
+              if out != expected:
+                  raise RuntimeError('output differs from RESULTS.json under ' + ' '.join(flags))
+              for m in manifest['mutants']:
+                  rc = subprocess.run([sys.executable, *flags, script, '--mutant', m], capture_output=True, timeout=600).returncode
+                  if rc != 1:
+                      raise RuntimeError('mutant ' + m + ' not rejected')
+              rc = subprocess.run([sys.executable, *flags, script, '--mutant', 'M9'], capture_output=True, timeout=600).returncode
+              if rc != 2:
+                  raise RuntimeError('unknown mutant label not rejected with exit 2')
+          print(json.dumps({'scientific_effect': 'NONE', 'mathematical_acceptance': False}))
+          PY
+          git diff --exit-code

@@ -1,0 +1,65 @@
+name: D3 L4 anisotropic coefficient replay
+
+'on':
+  pull_request:
+    paths:
+      - 'coefficients/d3_l4_anisotropic_20261005/**'
+      - 'tools/d3_l4_replay.py'
+      - 'tests/test_d3_l4_replay.py'
+      - '.github/workflows/d3-l4-anisotropic.yml'
+      - 'reviews/iba1_periodic_jet_claude_20261005/periodic_jet_check.py'
+      - 'coefficients/side24_v1/PROOF.md'
+      - 'coefficients/side24_v1/ENCLOSURE.json'
+      - 'imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md'
+  push:
+    branches: [main]
+    paths:
+      - 'coefficients/d3_l4_anisotropic_20261005/**'
+      - 'tools/d3_l4_replay.py'
+      - 'tests/test_d3_l4_replay.py'
+      - '.github/workflows/d3-l4-anisotropic.yml'
+      - 'reviews/iba1_periodic_jet_claude_20261005/periodic_jet_check.py'
+      - 'coefficients/side24_v1/PROOF.md'
+      - 'coefficients/side24_v1/ENCLOSURE.json'
+      - 'imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  d3-l4-replay:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    name: d3-l4-replay (${{ matrix.mode }})
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.13.5'
+      - name: Test replay protocol and execute exact pinned numerical packet
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p .d3-l4-protocol-evidence
+          FLAGS="-B -S"
+          if [ "${{ matrix.mode }}" = optimized ]; then FLAGS="-B -O -S"; fi
+          python $FLAGS -m unittest discover -s tests -v 2>&1 | tee ".d3-l4-protocol-evidence/${{ matrix.mode }}.log"
+          python -B -S tools/d3_l4_replay.py --mode "${{ matrix.mode }}" --output ".d3-l4-evidence/${{ matrix.mode }}"
+      - name: Preserve success or failure logs
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: d3-l4-${{ matrix.mode }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            .d3-l4-evidence/${{ matrix.mode }}/
+            .d3-l4-protocol-evidence/
+          include-hidden-files: true
+          if-no-files-found: error

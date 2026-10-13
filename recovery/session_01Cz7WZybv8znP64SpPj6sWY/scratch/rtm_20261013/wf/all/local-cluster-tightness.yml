@@ -1,0 +1,40 @@
+name: Local cluster tightness and conditional closure controls
+
+'on':
+  pull_request:
+    paths:
+      - 'frontiers/local_cluster_tightness_20260929/**'
+      - '.github/workflows/local-cluster-tightness.yml'
+      - 'frontiers/c6_palm_route_20260929/PROOF.md'
+      - 'frontiers/d5_dimension_lift_20260929/PROOF.md'
+      - 'frontiers/remote_window_20260924/PROOF.md'
+      - 'frontiers/remote_collision_20260928/PROOF.md'
+      - 'frontiers/window_multiplicity_laws_20260928/LOCAL_MULTIPLICITY.md'
+      - 'frontiers/c6_rare_cluster_laws_20260929/PROOF.md'
+  push:
+    branches: [main]
+    paths:
+      - 'frontiers/local_cluster_tightness_20260929/**'
+      - '.github/workflows/local-cluster-tightness.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  exact-tightness:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.16'
+      - name: Both modes, semantic controls and exact current/historical sources
+        run: |
+          set -euo pipefail
+          python -B -S frontiers/local_cluster_tightness_20260929/verify.py --repo "${GITHUB_WORKSPACE}" --output "${RUNNER_TEMP}/tightness-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          git diff --exit-code

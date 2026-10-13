@@ -20,6 +20,7 @@ AREAS = {
  'recovery_tooling': ['recovery'],
  'intake_checker_fix': ['intakefix_out'],
  'math451_compile_check': ['m451'],
+ 'lean_runtime_guard_stage1': ['leanguard', 'rtm_20261013'],
 }
 LVS_TOP_FILES = True  # also the loose files directly under lvs/
 EXCL_DIR = {'.lake', 'node_modules', '__pycache__', '.git', 'wt', 'wt2', 'wt3', 'base_wt', 'idx_wt', 'idx_wt2', 'verify_pub', 'pp', 'clone', 'mirror'}
