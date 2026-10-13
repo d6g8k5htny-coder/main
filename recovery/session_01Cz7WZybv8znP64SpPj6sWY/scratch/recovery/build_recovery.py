@@ -10,7 +10,7 @@ S = Path(sys.argv[1]); PUB = S / 'recovery/pub'; OUT = PUB / 'scratch'
 AREAS = {
  'renderer_versions_1_9': ['lvs/spec_doc', 'lvs/register_update7', 'lvs/register_update8', 'lvs/register_update9'],
  'binders_rounds_1_9': ['lvs/register_update2', 'lvs/register_update5', 'lvs/register_update6'],
- 'binders_rounds_10_14_with_logs': ['lvs/register_update10', 'lvs/register_update11', 'lvs/register_update12', 'lvs/register_update13', 'lvs/register_update14'],
+ 'binders_rounds_10_14_with_logs': ['lvs/register_update10', 'lvs/register_update11', 'lvs/register_update12', 'lvs/register_update13', 'lvs/register_update14', 'lvs/register_update15'],
  'round4_triage_probes': ['lvs/round4'],
  'proof_packet_rounds_5_6_verification': ['lvs/r6commit', 'r6', 'r6d2', 'r6verify', 'verify_r5', 'verify_r5reg', 'verif_r5d', 'r5cone_verify_py', 'r5cov_verify_scripts', 'vr9', 'vr9log', 'verify13d', 'verify_reg11', 'side24', 'p15', 'dv2'],
  'museum_review_probes': ['museum/probes', 'museum/synth', 'a2'],

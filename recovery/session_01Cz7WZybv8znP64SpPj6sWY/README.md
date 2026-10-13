@@ -259,3 +259,14 @@ draft module `RN_draft.lean` with its elaboration log at the pin (exit 0), the g
 provisional register (pass), the 41 proposed rows across 20 claim rows (NOT applied) and `DESIGN_REVIEW_PACKET_RN.md`.
 Prepared, not proposed: the Lifetime slice (checkpoint 17's bound candidate) is the proposal in line; nothing pushed to
 Math-, no PR, no label moved.
+
+## Checkpoint 19 (2026-10-13, about 08:25Z): the main-side specification document re-rendered at the landed Math- cut
+
+Incremental commit, no rewrite, after checkpoint 18 (`4e4980fd`): adds `lvs/register_update15/` with the incremental renderer
+`render_spec11.py` (base text the document as committed at main `b4615124`, read from git; the section 4 claim table and the
+section 5.1 counts table regenerated from the Math- register at `7f5f1c82`, blob `2eed9bf7`, 626,270 bytes; exact-anchor
+prose edits for round 6 of the proof packet and round 7 of the statement register; every run mention asserted to carry its
+PR head and tested merge), the register copy `REGISTER_7f5f1c82.json` it renders and the rendered document as committed at
+main `e665b69c` on the #358 branch (`claude/lean-verification-specification-20261010`, pushed and read back). Counts moved
+354 -> 360 statement entries, 157 -> 160 proved, 75 -> 78 theorems over 74 -> 77 Props, 150 -> 153 registered declarations,
+67 -> 66 Props without a theorem; no claim-level label moves. The Lifetime and RN slices are unchanged (checkpoints 17, 18).
