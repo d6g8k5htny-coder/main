@@ -4,7 +4,7 @@ Dylan Roy — delegated AI work. Actual performer: Anthropic Claude, Claude Code
 
 ## Contents
 
-- `SIDE24_V3_DRAFT_20261013.pdf`: the compiled draft, 18 pages. Its first section, "Status of this draft", is for the author and is removed before submission.
+- `SIDE24_V3_DRAFT_20261013.pdf`: the compiled draft, revision r1, 19 pages. Its first section, "Status of this draft", is for the author and is removed before submission. Revision r0 (18 pages, SHA-256 `8270e498…`) is kept at commit `6deb0899`. `V3_CHANGE_LIST.md` records both revisions.
 - `main.tex`, `s0_status.tex` … `s7_disclosure.tex`, `appA_records.tex`, `refs.bib`: the LaTeX sources. `build.sh` rebuilds the PDF with `pdflatex` and `bibtex` (amsart, amsplain).
 - `V3_CHANGE_LIST.md`: where every V2 amendment (M1–M7) and every V3 edit-pack item (E1–E78) went, the corrections found while drafting, the record of the pre-delivery check, and the "do not print" compliance.
 - `SHA256SUMS`: hashes of every file above except this README.

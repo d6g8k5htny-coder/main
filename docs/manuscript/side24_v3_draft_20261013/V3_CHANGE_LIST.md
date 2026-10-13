@@ -108,6 +108,32 @@ A fresh read-only checker that had not seen the drafting compared every display,
   - the [R18], [R20] and [R21] locators are added;
   - the bibliography is corrected (Rice, Cartwright–Longuet-Higgins doi, Lindgren 2019 pp. 100–128, Lindgren–Rychlik doi, Klein's first name).
 
+## Revision r1 (13 October, about 18:40Z)
+
+r0 is the PDF delivered first: 533,836 B, SHA-256 `8270e498e142f3cb94f1d1d45b9302b2518912593af2de4bf5478894d59d916e`. Git keeps it at commit `6deb0899` of main#389, and the author's archive keeps it too. r1 is this PDF, 19 pages.
+
+**Commit 1 (`46474c0f`): the Slice A AMEND of Cursor (Grok), main#389 6152054602, applied exactly.**
+1. Corollary 3.5: (3.13a) holds for `0 < r ≤ r_*`, with `c, r_* > 0` depending on the compact mark set. This is Theorem E1_d's scope.
+2. The far-elder vanishing sentence cites [R9] instead of [R7].
+3. The sentence after Proposition 3.12 is now the reader's text: Theorem R does not prove that the remainder tends to zero; the far elder density tends to zero; the rejected density tends to a positive constant.
+4. §4: "the relative bound `|c_{3,24}/c_{3,∞} − 1| < 10⁻¹⁰⁶`" replaces "the enclosure of `c_{3,∞}` to 10⁻¹⁰⁶". This follows `coefficients/side24_v1/PROOF.md` (4).
+
+**Commit 2: the four findings of the documentary consistency read of r0 (main#307 6151934937), assessed and all accepted, plus consequential fixes.**
+1. §5.1 now writes the pair measure as `r⁻² dr dh`. With `dh = r³ dk` it becomes `r dr dk`, which is (3.10) with `k = κ/6`, and the pushforward is `r dr = ⅓k^{−2/3}ℓ^{−1/3}dℓ` (cf. (3.12)). The r0 text left out the height-gap Jacobian.
+2. Remark 3.7: "rejected exactly when …" is restricted to the limiting pinned planar model. The transfer to the actual field is stated to hold only up to exceptional sets and under the conditions of §§5.3 and 5.5.
+3. §5.2: "only through this cusp scale" is restricted to the order `ℓ^{1/3}`. Fold-scale rejection is stated to enter at `ℓ^{2/3}` through `R_{2/3}`.
+4. Abstract: "for compact positive marks … in Palm probability" is added to the `O(r³)` selection statement.
+5. Optional wording, accepted. §7 now reads "All nonauthor checks of the proof chain to date were AI checks …"
+6. Consequential to AMEND item 4, so that the same record is described the same way everywhere:
+   - the status box uses the relative bound;
+   - Theorem 2.3(iii) states the twenty-digit enclosure `0.04177593184059834334 < c_{3,24} < 0.04177593184059834335` of [R5];
+   - §7 says that `c_{3,24}` is enclosed to twenty digits;
+   - [R5] describes both statements of the record.
+
+**Pages of r1 whose text changed:** 1, 2, 5, 8, 10, 12, 13, 14, 16 and 17. Every other page differs only by reflow.
+
+**Correction to the edit pack.** E8 item 3 called `coefficients/side24_v1` "the 10⁻¹⁰⁶ enclosure of `c_{3,∞}`". The record gives a twenty-digit enclosure of `c_{3,24}` and the bound `|c_{d,24}/c_{d,ref} − 1| < 10⁻¹⁰⁶`. This is recorded as E80.
+
 ## "Do not print" compliance (checked item by item)
 
 No numerical ε₂₄ (E1). No `O(ℓ)` for the far density, and the far rejected density is not called vanishing (E4). No numerical selection-loss constant (E2, E9). No "first" or "absent from the literature", and Pérez is not said to call the smooth law open (E5). No "1% at ℓ ≈ 2.3·10⁻⁵" (E15). The simulation is an illustration, and its residuals are not called an ℓ^{1/2} term (E17, E43). `B_{3,24}` and `I^{cand}` are not certified digits (E19). No sharpness of 3/4, and no d ≥ 2 edge statement (E20). Proposition 2′ of #242 is not stated about the field (E22). No planar result is called d = 3, and the planar chain is not called independently reviewed (E23). The d = 3 rate carries its conditionality (E49–E58). No C104 quotient line (E25). "Certified" carries #219's and #223/#232's scope (E43). [K]'s normalized cap bound is not stated (E50). PD_U is not cited (E59). δ is not called sharp, and the elder ℓ^{2/3} statement stays o(ℓ^{2/3}) (E76).
