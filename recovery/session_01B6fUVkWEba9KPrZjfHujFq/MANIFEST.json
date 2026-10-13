@@ -1,0 +1,141 @@
+{
+ "session": "session_01B6fUVkWEba9KPrZjfHujFq",
+ "actor": "Anthropic Claude (Claude 01B6)",
+ "request": [
+  "main#307/6136156988",
+  "main#307/6136210973",
+  "main#307/6136231457"
+ ],
+ "retention": "payload branch; keep while any work relies on it (main#307/6136476552); not for merge",
+ "scientific_effect": "NONE",
+ "organizational_independence_credit": 0,
+ "files": [
+  {
+   "path": "README.md",
+   "bytes": 5006,
+   "sha256": "5eb93266db7f2b8ad426088425f7f7071d33786f187f0ef72efc60b956257f52",
+   "provenance": "Claude 01B6, 2026-10-13",
+   "stage": "index",
+   "supersession": "none",
+   "next_step": "none"
+  },
+  {
+   "path": "grok_held_survey_20261013/after.py",
+   "bytes": 447,
+   "sha256": "a897c925ed9ce9d58385954e9194f109850459ca6d2ed320e3fc61955297bbd1",
+   "provenance": "as above",
+   "stage": "delivered",
+   "supersession": "none",
+   "next_step": "none"
+  },
+  {
+   "path": "grok_held_survey_20261013/classify.py",
+   "bytes": 1648,
+   "sha256": "3810c225d15cb06a748ae0b88cfc874c176f92c979e75333289f2791833199cf",
+   "provenance": "as above",
+   "stage": "delivered",
+   "supersession": "none",
+   "next_step": "none"
+  },
+  {
+   "path": "grok_held_survey_20261013/fetch.py",
+   "bytes": 1382,
+   "sha256": "e3dd2020add3c249ea4bbb9459a37a255e394c4424729ff56fc9a1763403bf33",
+   "provenance": "Claude 01B6, 2026-10-13, survey ITEM3-GROK-HELD-SURVEY-01B6",
+   "stage": "delivered in main #307 comment 6154355553",
+   "supersession": "none",
+   "next_step": "none; data regenerable from GitHub"
+  },
+  {
+   "path": "historical_recovery/gaps.json",
+   "bytes": 110855,
+   "sha256": "92262e4a697d60a2fb9a2e7177c7b8586a01fff11b6a53dd33da341a52f90228",
+   "provenance": "output of workflow current-gap-inventory (run wf_b0ac7270-d84), merged from Math- a1fd679, main 2eaf083, hardening a01c72f",
+   "stage": "snapshot 2026-09-28; statuses transcribed, not verdicts",
+   "supersession": "superseded for current status by each item's own record",
+   "next_step": "refresh against current heads before reuse"
+  },
+  {
+   "path": "historical_recovery/tools/build_corpus.py",
+   "bytes": 6475,
+   "sha256": "6aff2e76fee11de6247b124cc2c64fa9b671f5e89290063cd464d12e290a27cc",
+   "provenance": "Claude 01B6, written 2026-09-28 in session scratch",
+   "stage": "working tool",
+   "supersession": "none",
+   "next_step": "rebuild the corpus when a historical search is routed"
+  },
+  {
+   "path": "historical_recovery/tools/cs.py",
+   "bytes": 2960,
+   "sha256": "575daead9a42e04c327b5c9e6bc7d7938d322575e266446472a8070694911e34",
+   "provenance": "Claude 01B6, written 2026-09-28 in session scratch",
+   "stage": "working tool",
+   "supersession": "none",
+   "next_step": "search helper; returns provenance rows only"
+  },
+  {
+   "path": "historical_recovery/tools/supplement.py",
+   "bytes": 3590,
+   "sha256": "f8051459072207000db3c041f334dfbc7764b43ea06969b16aaf195ea3de2139",
+   "provenance": "Claude 01B6, written 2026-09-28 in session scratch",
+   "stage": "working tool",
+   "supersession": "none",
+   "next_step": "as above; adds Office XML, PDF and Dropbox text extraction"
+  },
+  {
+   "path": "historical_recovery/workflows/current-gap-inventory.js",
+   "bytes": 8626,
+   "sha256": "58ac449c25574378fe01f491ccab6de327af84c6718819cd5d8df8003cf818fe",
+   "provenance": "Claude 01B6 workflow script (run wf_b0ac7270-d84)",
+   "stage": "completed; produced gaps.json",
+   "supersession": "none",
+   "next_step": "none"
+  },
+  {
+   "path": "historical_recovery/workflows/historical-math-recovery.js",
+   "bytes": 25795,
+   "sha256": "660a2c22b99e171e4a05cc0c501c70bad02387739129165549d3b5a7e8f6f61e",
+   "provenance": "Claude 01B6 workflow script (run wf_2da6b197-ad3)",
+   "stage": "NOT_RUN: all agents hit a usage limit on 2026-09-28",
+   "supersession": "none",
+   "next_step": "route on main #307 before resuming; no-invention rule applies"
+  }
+ ],
+ "excluded_identity_only": [
+  {
+   "path": "scratch corpus/ (text) + corpus/index.tsv",
+   "reason": "contains text from the owner's private Drive and Dropbox archives; regenerable with the tools above",
+   "index_sha256": "aa32b745efdda2ba7b50bd76827806c803e2365b38c0af362c611b1a3033d07d",
+   "index_rows": 91276
+  },
+  {
+   "path": "recovery/gaps_raw.json",
+   "reason": "carries about 200 Drive file identifiers; regenerable from the three pinned commits",
+   "sha256": "b0086bcf62179ab99a27f0fa7af4e09385e95eb7253dd50c512fe0ab25ff995f"
+  },
+  {
+   "path": "dbx/, gd/, redact_tool/, redact_work/",
+   "reason": "private archive data or owner-stopped privacy work"
+  }
+ ],
+ "already_on_github": [
+  {
+   "what": "Grok uploads review Parts 1-4",
+   "where": "main commits 544fafbf, 8d0061e5",
+   "check": "blob-identical"
+  },
+  {
+   "what": "formal-enforcement evidence bundle (13 files)",
+   "where": "main #192, audits/formal_enforcement/2026-09-27/",
+   "check": "blob-identical"
+  },
+  {
+   "what": "tools/dropbox_reconcile.py",
+   "where": "main #184"
+  },
+  {
+   "what": "OP-PRIVACY owner clarifications",
+   "where": "main #189"
+  }
+ ]
+}

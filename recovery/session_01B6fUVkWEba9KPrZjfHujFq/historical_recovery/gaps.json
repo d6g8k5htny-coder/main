@@ -1,0 +1,3986 @@
+[
+ {
+  "id": "G01",
+  "cluster": "D0-RN-WALLS",
+  "lane": "D0",
+  "key": "RN-UNIF-LEMMA",
+  "name": "D3-LEMMA-RN-UNIF historical RN uniform lemma (Piece 1 / Piece 2)",
+  "statement": "Close the RN uniform lemma at r=0.05 (Piece 1: far cover of d in [5,17]; Piece 2: annulus Riemann sum on 0.1<=|y|<=5), or supersede it by an exact crosswalk, or classify it ABSENT. Includes the E-RNU-1 mean_grad_exact defect. lemma_closed and certified_C_H may flip only on discharge.",
+  "current_status": "OPEN; lemma_closed=false; certified_C_H=false; graph NOT_CLOSED",
+  "status_sources": [
+   "M:GRAPH.json hist.lemma_closed",
+   "M:d0_custody_audit AUDIT.md",
+   "N:#86 body D0; c5840326256",
+   "N:vault_99 EXTRACTED_FACTS_BATCH1",
+   "N:PUBLIC_MATHEMATICS.md:63",
+   "H:claims/graph.json D3-LEMMA-RN-UNIF",
+   "H:STATUS_RN_UNIF.md",
+   "H:PACKET.json",
+   "H:OPEN_PROBLEMS A5"
+  ],
+  "cited_artifacts": [
+   "STATUS_RN_UNIF blob ccd542fb",
+   "CL-RNU-001 Drive 16o9u_Kg",
+   "CL-RNU-003 sha 59b8f002",
+   "rnu_ds3.py sha bd3074fd",
+   "d3_rn_unif.py 85d7725f",
+   "walk-down ledger 1X7ha4is",
+   "RN_UNIF hub 1FmKnSQR"
+  ],
+  "missing_carriers": [
+   "rnu_env.py",
+   "CL_ANTHROPIC_BUNDLE_2026-09-17_v5.zip",
+   "allcell_fdz_enclosures.json",
+   "rnu_t4.py",
+   "rnu_spine.py",
+   "historical rnu_white.py"
+  ],
+  "aliases": [
+   "M:D0-RN-UNIF-LEMMA",
+   "N:D0-RN-UNIF-LEMMA",
+   "H:D0-D3-LEMMA-RN-UNIF",
+   "RN_UNIF",
+   "RN-04"
+  ],
+  "depends_on": [
+   "G02",
+   "G03",
+   "G04",
+   "G05",
+   "G06",
+   "G07",
+   "G08"
+  ]
+ },
+ {
+  "id": "G02",
+  "cluster": "D0-RN-WALLS",
+  "lane": "D0",
+  "key": "RNU-PIECE1-FAR",
+  "name": "RN-UNIF Piece 1 far zone 5<=|y|<=17",
+  "statement": "Wire the certified grad, Hessian and T4 envelopes into certify_cell, complete the theta-halved polar cover of [5,17] at r=0.05, and freeze with MUT-RN-1..5.",
+  "current_status": "Piece 1 OPEN; RN3 replacement route AMEND with zero independence credit",
+  "status_sources": [
+   "H:OPEN_PROBLEMS A5",
+   "H:STATUS_RN_UNIF.md",
+   "H:STATUS_MATH_PUSH_2026-09-21.md"
+  ],
+  "cited_artifacts": [
+   "CL-RNU-003 (1,170 closed / 561 pending cells)",
+   "RN-JOINT-001 I_far<2.83312 r^3"
+  ],
+  "missing_carriers": [
+   "CL_ANTHROPIC_BUNDLE v5",
+   "rnu_t4.py",
+   "rnu_spine.py"
+  ],
+  "aliases": [
+   "H:D0-RNU-PIECE1-FAR"
+  ],
+  "depends_on": [
+   "G08",
+   "G10"
+  ]
+ },
+ {
+  "id": "G03",
+  "cluster": "D0-RN-WALLS",
+  "lane": "D0",
+  "key": "PIECE2-ANNULUS",
+  "name": "Piece-2 annulus driver / corrected Piece 2' cover",
+  "statement": "Build the certified Riemann sum for rho_spine on 0.1<=|y|<=5 with per-cell error bounds. The cover must be complete, with no pending cells. Then reassemble the remote budget. This is the active blocker for the shrinking and pin-collision regions.",
+  "current_status": "UNWRITTEN / REQUIRED CARRIER ABSENT; OPEN_ACTIVE; first wall",
+  "status_sources": [
+   "M:GRAPH.json hist.Piece-2-annulus",
+   "M:SELECTOR_REGION.json",
+   "N:#86 c5842125218",
+   "H:STATUS_RN_UNIF.md",
+   "H:PACKET.json",
+   "H:OPEN_PROBLEMS_FROZEN_ERRATA E2",
+   "H:DOWNSTREAM_RN_CROSSWALK"
+  ],
+  "cited_artifacts": [
+   "GRAPH blob 23a6759e",
+   "Q-RN5-MOMENT-001..004",
+   "target 17.6804 r^3 (unproved)"
+  ],
+  "missing_carriers": [
+   "CL-RNU-001 Piece-2 driver",
+   "certified corrected Piece-2 integrand"
+  ],
+  "aliases": [
+   "M:D0-PIECE-2",
+   "H:D0-PIECE2-ANNULUS",
+   "hist.Piece-2-annulus",
+   "status-rn-unif-piece-2"
+  ],
+  "depends_on": [
+   "G29"
+  ]
+ },
+ {
+  "id": "G04",
+  "cluster": "D0-RN-WALLS",
+  "lane": "D0",
+  "key": "ENV-RESCOV",
+  "name": "ENV-RESCOV predicate",
+  "statement": "Prove uniform bounds on d^q A and d^q m for q<=4 on every far-zone cell at r=0.05, with a y-free whitening. The smallest pinned successor is the single cell at y=(5,0).",
+  "current_status": "OPEN_HISTORICAL; not cleared; successor UNCLAIMED",
+  "status_sources": [
+   "M:d0_custody_audit AUDIT.md",
+   "N:#86 c5840326256",
+   "H:NODE_ENV_RESCOV_20260925.md",
+   "H:DOWNSTREAM_RN_CROSSWALK"
+  ],
+  "cited_artifacts": [
+   "b9c2 RN_WHITENED_JET_THEOREM sha 1324a006",
+   "ledger 1NuKMa4c"
+  ],
+  "missing_carriers": [
+   "rnu_env.py",
+   "b9c2 s6 item 1 input-jet carrier"
+  ],
+  "aliases": [
+   "H:D0-ENV-RESCOV",
+   "LEMMA-RNU-ENV-RESCOV"
+  ],
+  "depends_on": [
+   "G05"
+  ]
+ },
+ {
+  "id": "G05",
+  "cluster": "D0-RN-WALLS",
+  "lane": "D0",
+  "key": "ALLCELL-FDZ-Q4",
+  "name": "ALLCELL-FDZ-Q4 all-cell F,D,z enclosures (allcell_fdz_enclosures.json)",
+  "statement": "Give valid interval jet enclosures (j<=4) over every far-zone cell, including tails and whitening errors, or recover the historical enclosure dump. The dump must not be substituted.",
+  "current_status": "OPEN_HISTORICAL; carrier BLOCKED_ABSENT",
+  "status_sources": [
+   "M:GRAPH.json",
+   "M:d0_custody_audit AUDIT.md",
+   "M:contact_kernel_substitute SUBSTITUTE.md s4",
+   "N:#86 c5840326256",
+   "N:Math96_landed_readback.json",
+   "H:NODE_ENV_RESCOV s3",
+   "H:STATUS_RN_UNIF.md"
+  ],
+  "cited_artifacts": [
+   "GRAPH blob 23a6759e",
+   "b9c2 VALIDATION_REPORT 123/123"
+  ],
+  "missing_carriers": [
+   "allcell_fdz_enclosures.json"
+  ],
+  "aliases": [
+   "M:D0-ALLCELL-FDZ",
+   "H:D0-ALLCELL-FDZ-Q4",
+   "status-rn-unif-ordered-wall-2"
+  ]
+ },
+ {
+  "id": "G06",
+  "cluster": "D0-RN-WALLS",
+  "lane": "D0",
+  "key": "LOGQ-TAIL",
+  "name": "LOGQ-TAIL",
+  "statement": "Give over-cell bounds at orders 2-4 for the whitened log q(A,m'); the b9c2 route also needs a0<1.",
+  "current_status": "OPEN_HISTORICAL; no exact historical proof path found",
+  "status_sources": [
+   "M:GRAPH.json",
+   "M:d0_custody_audit AUDIT.md",
+   "N:#86 c5840326256",
+   "H:DOWNSTREAM_RN_CROSSWALK",
+   "H:STATUS_RN_UNIF.md"
+  ],
+  "cited_artifacts": [
+   "CL-RNU-001 s5 item 1"
+  ],
+  "missing_carriers": [
+   "rnu_env.py",
+   "exact historical proof path"
+  ],
+  "aliases": [
+   "M:D0-LOGQ-TAIL",
+   "H:D0-LOGQ-TAIL",
+   "status-rn-unif-ordered-wall-3"
+  ]
+ },
+ {
+  "id": "G07",
+  "cluster": "D0-RN-WALLS",
+  "lane": "D0",
+  "key": "SYM-FW-JET",
+  "name": "SYM-Fw-jet",
+  "statement": "Supply the symmetric F_w jet envelope, the fourth ordered blocker, which feeds CH-LIFT.",
+  "current_status": "OPEN_HISTORICAL; no historical certificate identity",
+  "status_sources": [
+   "N:#86 c5840326256",
+   "H:DOWNSTREAM_RN_CROSSWALK",
+   "H:STATUS_RN_UNIF.md"
+  ],
+  "cited_artifacts": [],
+  "missing_carriers": [
+   "CL_ANTHROPIC_BUNDLE v5 (receipts)"
+  ],
+  "aliases": [
+   "H:D0-SYM-FW-JET",
+   "status-rn-unif-ordered-wall-4"
+  ]
+ },
+ {
+  "id": "G08",
+  "cluster": "D0-RN-WALLS",
+  "lane": "D0",
+  "key": "CH-LIFT",
+  "name": "CH-LIFT / certified C_H",
+  "statement": "Certify C_H in ||Hess kappa_pair|| <= C_H*RSS(env_form q=2), or replace it; the b9c2 route needs a chi^2 floor. It is bypassed only for the fixed d=2 annulus between-pin window.",
+  "current_status": "OPEN_ACTIVE; certified_C_H=false; REGIONALLY_SUPERSEDED_NONBLOCKING for fixed annulus only",
+  "status_sources": [
+   "M:GRAPH.json",
+   "M:d0_custody_audit AUDIT.md",
+   "M:PROOF_INDEX.md:47",
+   "N:#86 c5842125218",
+   "H:DOWNSTREAM_RN_CROSSWALK",
+   "H:math_status/STATUS.md",
+   "H:math_console_snapshot.json"
+  ],
+  "cited_artifacts": [
+   "regional-bypass-fixed-annulus-window-v1",
+   "C_H prior 20.0 vs measured 0.012127"
+  ],
+  "missing_carriers": [
+   "rnu_env.py",
+   "historical rnu_white.py"
+  ],
+  "aliases": [
+   "M:D0-CH-LIFT",
+   "H:D0-CH-LIFT",
+   "hist.CH-LIFT"
+  ],
+  "depends_on": [
+   "G04",
+   "G09"
+  ],
+  "notes": "Distinct from the axial-density 'numerical C_H' in G78."
+ },
+ {
+  "id": "G09",
+  "cluster": "D0-RN-WALLS",
+  "lane": "D0",
+  "key": "S1-CHI2-FLOOR",
+  "name": "Successor S1: chi^2 floor on far annulus",
+  "statement": "Prove chi^2 >= delta > 0 on the far annulus (b9c2 s6 item 3).",
+  "current_status": "target, not yet proved",
+  "status_sources": [
+   "H:OPEN_PROBLEMS_FROZEN_ERRATA E2"
+  ],
+  "cited_artifacts": [
+   "b9c2 SQRT-CHI2-MODULUS sha c9e6dd2d"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:D0-S1-CHI2-FLOOR"
+  ]
+ },
+ {
+  "id": "G10",
+  "cluster": "D0-RN-WALLS",
+  "lane": "D0",
+  "key": "S2-C-COMP",
+  "name": "Successor S2: C_comp and b9c2/RN-FIELD complement",
+  "statement": "Prove or replace C_comp, run the [5,17] cover, and freeze. The complement remains: the near annulus, r!=1/20, higher sqrt(chi^2) derivatives, kappa_y and kappa_cross.",
+  "current_status": "required for freeze; complement all open",
+  "status_sources": [
+   "H:OPEN_PROBLEMS_FROZEN_ERRATA E2",
+   "H:CL-RNU-003_T4_PUSH mirror"
+  ],
+  "cited_artifacts": [
+   "CL-RNU-003 T4 sha 7743de12",
+   "rn_field.py sha d9167ae8"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:D0-S2-C-COMP"
+  ]
+ },
+ {
+  "id": "G11",
+  "cluster": "D0-RN-WALLS",
+  "lane": "D0",
+  "key": "ENVFORM-Q2-4",
+  "name": "Whitened env_form orders 2-4; q=2 box claim",
+  "statement": "Build a runnable whitened env_form smoke test at orders 2-4. Certify q=2 on a true far-zone box; the recorded box uses d_min=4.999.",
+  "current_status": "q=2 claim REQUIRED CARRIER ABSENT / conditional",
+  "status_sources": [
+   "H:math_status/README.md",
+   "H:math_status/STATUS.md",
+   "H:OPEN_PROBLEMS A5"
+  ],
+  "cited_artifacts": [
+   "reconstruction rnu_white.py sha 859e1963"
+  ],
+  "missing_carriers": [
+   "rnu_white_box_grad_bound_v1.py + receipt"
+  ],
+  "aliases": [
+   "H:D0-ENVFORM-Q2-4"
+  ]
+ },
+ {
+  "id": "G12",
+  "cluster": "CUSTODY-MISSING",
+  "lane": "D0",
+  "key": "HIST-RNU-ENV",
+  "name": "rnu_env.py historical carrier",
+  "statement": "Recover rnu_env.py, or keep every importing sentence conditional. The recovered bytes would carry the FORM envelope, not ENV-RESCOV.",
+  "current_status": "BLOCKED_ABSENT; CARRIER_ABSENT_STOP_REPLAY",
+  "status_sources": [
+   "M:GRAPH.json",
+   "M:d0_custody_audit AUDIT.md",
+   "M:drive_hole_substitutes LEDGER s2",
+   "N:#86 c5840326256, c5842125218",
+   "N:Math96_landed_readback.json",
+   "H:DOWNSTREAM_RN_CROSSWALK",
+   "H:CONDITIONAL_IMPORTERS A"
+  ],
+  "cited_artifacts": [
+   "GRAPH blob 23a6759e",
+   "side-branch blob 9bde5a7e",
+   "Drive absence receipt 1tdyP-Ux"
+  ],
+  "missing_carriers": [
+   "rnu_env.py"
+  ],
+  "aliases": [
+   "M:D0-RNU-ENV",
+   "N:D0-ABSENT-CARRIERS",
+   "H:D0-HIST-RNU-ENV",
+   "status-rn-unif-ordered-wall-1"
+  ]
+ },
+ {
+  "id": "G13",
+  "cluster": "CUSTODY-MISSING",
+  "lane": "D0",
+  "key": "HIST-CL-BUNDLE-V5",
+  "name": "CL_ANTHROPIC_BUNDLE_2026-09-17_v5.zip (rnu_t4.py, rnu_spine.py)",
+  "statement": "Recover the v5 bundle and scripts that carry the CL-RNU-003 receipts, including the SYM-Fw-jet receipts.",
+  "current_status": "BLOCKED_ABSENT; CANNOT_VERIFY",
+  "status_sources": [
+   "M:GRAPH.json",
+   "M:d0_custody_audit AUDIT.md",
+   "N:#86 c5840326256",
+   "H:DOWNSTREAM_RN_CROSSWALK",
+   "H:OPEN_PROBLEMS E",
+   "H:CONDITIONAL_IMPORTERS D"
+  ],
+  "cited_artifacts": [
+   "CL-RNU-003 1aCa-QG9 line 5"
+  ],
+  "missing_carriers": [
+   "CL_ANTHROPIC_BUNDLE_2026-09-17_v5.zip",
+   "rnu_t4.py",
+   "rnu_spine.py"
+  ],
+  "aliases": [
+   "M:D0-CL-ANTHROPIC-BUNDLE-V5",
+   "N:D0-ABSENT-CARRIERS",
+   "H:D0-HIST-CL-BUNDLE-V5"
+  ]
+ },
+ {
+  "id": "G14",
+  "cluster": "CUSTODY-MISSING",
+  "lane": "D0",
+  "key": "HIST-CL-BUNDLE-V3",
+  "name": "CL_ANTHROPIC_BUNDLE_2026-09-16_v3.zip",
+  "statement": "Recover the v3 bundle so that D1_ASSEMBLY_v2_3_DRAFT.md and d1_falsify_v4.py can be re-hashed against it.",
+  "current_status": "CARRIER_ABSENT; no successor",
+  "status_sources": [
+   "H:CONDITIONAL_IMPORTERS B"
+  ],
+  "cited_artifacts": [
+   "CL-MIRROR-001 manifest"
+  ],
+  "missing_carriers": [
+   "CL_ANTHROPIC_BUNDLE_2026-09-16_v3.zip"
+  ],
+  "aliases": [
+   "H:D0-HIST-CL-BUNDLE-V3"
+  ]
+ },
+ {
+  "id": "G15",
+  "cluster": "D0-RN-WALLS",
+  "lane": "D0",
+  "key": "OBL-H5-JETMOD",
+  "name": "OBL-H5-JETMOD certified 24-jet band enclosure",
+  "statement": "Certify interval bounds for the full 24-jet set over the r-bands, with uniform lattice tails. Needs the jet roster with its powers, band endpoints, Hermite envelopes and an interval-r PinFrame. Intervals may not be invented.",
+  "current_status": "OPEN (display only); NOT_DISCHARGED all regions; roster UNENUMERATED",
+  "status_sources": [
+   "M:GRAPH.json",
+   "M:SELECTOR_REGION.json",
+   "N:vault_99 BATCH1/2",
+   "N:#86 c5840326256",
+   "H:STATUS_JETMOD.md",
+   "H:PACKET.json",
+   "H:graph.json OBL-H5-JETMOD"
+  ],
+  "cited_artifacts": [
+   "EXTRACTED_FACTS_BATCH1 blob 4557982e",
+   "H5_PROMOTE.md s3",
+   "H5-ANALYTIC-ADVANCE sha 3c95c4b5",
+   "CHART_SIDE_JETMOD_PLAN blob 9446daa2"
+  ],
+  "missing_carriers": [
+   "enumerated 24-jet roster + p_J",
+   "certified interval table"
+  ],
+  "aliases": [
+   "M:D0-OBL-H5-JETMOD",
+   "H:D0-OBL-H5-JETMOD",
+   "24-jet",
+   "JETMOD",
+   "RUNG2/RUNG3"
+  ],
+  "depends_on": [
+   "G16"
+  ]
+ },
+ {
+  "id": "G16",
+  "cluster": "D0-RN-WALLS",
+  "lane": "D0",
+  "key": "JETMOD-FMAP",
+  "name": "F-map on G12 boxes and open-band inequality",
+  "statement": "Build an explicit interval map F: G12-box -> R+ with a certified Lipschitz bound, then prove Ihat(r)/r^3 <= F(G12-band) on the open bands.",
+  "current_status": "CARRIER_ABSENT_STOP_REPLAY; eval_F REFUSED; band OPEN on complement",
+  "status_sources": [
+   "M:contact_kernel_substitute SUBSTITUTE.md s4",
+   "H:CONDITIONAL_IMPORTERS C",
+   "H:STATUS_JETMOD.md",
+   "H:HUNT_BANK_JOINT_FMAP_PHI"
+  ],
+  "cited_artifacts": [
+   "jetmod_certified_F_G12_band receipt"
+  ],
+  "missing_carriers": [
+   "explicit_interval_map_F_G12box_to_Rplus"
+  ],
+  "aliases": [
+   "H:D0-JETMOD-FMAP-BANDS",
+   "M:D0-OTHER-ABSENT-CARRIERS"
+  ]
+ },
+ {
+  "id": "G17",
+  "cluster": "D0-RN-WALLS",
+  "lane": "D0",
+  "key": "JETMOD-DETGG",
+  "name": "Joint (r,y) cancelled detgg / phi(det A) bridge (StationBox)",
+  "statement": "Give a documented cancellation identity or phi bridge that makes detgg/s_t2 non-straddling under joint (r,y). Inventing phi is refused.",
+  "current_status": "REFUSED_IA_STRADDLES; hunt EMPTY; bridge ABSENT",
+  "status_sources": [
+   "M:contact_kernel_substitute SUBSTITUTE.md s4",
+   "H:STATUS_JETMOD.md",
+   "H:HUNT_BANK_JOINT_FMAP_PHI"
+  ],
+  "cited_artifacts": [
+   "jetmod_joint_ry_cancel receipts"
+  ],
+  "missing_carriers": [
+   "cancelled_detgg",
+   "StationBox",
+   "correlated C_Ainv_Ct cancellation"
+  ],
+  "aliases": [
+   "H:D0-JETMOD-DETGG-JOINT-RY",
+   "M:D0-OTHER-ABSENT-CARRIERS"
+  ]
+ },
+ {
+  "id": "G18",
+  "cluster": "OTHER",
+  "lane": "D0",
+  "key": "H5-RUNG-LADDER",
+  "name": "H5 rung ladder r=0.0177/0.0125",
+  "statement": "Finish the RUNG2 cells at r=0.0177 (42/70 done) and r=0.0125 (21/70 done).",
+  "current_status": "FROZEN mid-flight; not closure",
+  "status_sources": [
+   "H:OPEN_PROBLEMS A2",
+   "N:vault_99 FULL_MATH_CLAIM_INVENTORY"
+  ],
+  "cited_artifacts": [
+   "h5_totals_v3.json 8d7028e4"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:D0-H5-RUNG-LADDER",
+   "N:H5-ZBAND-REMOTE-D1PROMOTE"
+  ]
+ },
+ {
+  "id": "G19",
+  "cluster": "OTHER",
+  "lane": "D0",
+  "key": "OBL-H5-ZBAND-HI",
+  "name": "OBL-H5-ZBAND high side (H3 band ceiling)",
+  "statement": "Discharge the high side of the normalizer bracket Z_r/r^2 <= 3.7477 on (0,0.05]. This needs a uniform conditional-law enclosure.",
+  "current_status": "OPEN; proposal to DISCHARGE has no authority",
+  "status_sources": [
+   "H:graph.json OBL-H5-ZBAND",
+   "H:OPEN_PROBLEMS A3",
+   "N:vault_99 BATCH1"
+  ],
+  "cited_artifacts": [
+   "h3_band_ceil.py b97c5428",
+   "bracket 2.3066..3.7477"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:D0-OBL-H5-ZBAND-HI",
+   "N:H5-ZBAND-REMOTE-D1PROMOTE"
+  ]
+ },
+ {
+  "id": "G20",
+  "cluster": "OTHER",
+  "lane": "D0",
+  "key": "OBL-H5-REMOTE-THRESHOLD",
+  "name": "OBL-H5-REMOTE-THRESHOLD",
+  "statement": "Certify D3's remote bracket at d>=2r, or extend the chart cover to an absolute d0. The fixed-remote candidate does not discharge this.",
+  "current_status": "OPEN (OPEN_ACTIVE on mesoscopic/pin/intermediate/witness regions)",
+  "status_sources": [
+   "H:graph.json",
+   "H:DOWNSTREAM_RN_CROSSWALK",
+   "N:vault_99 BATCH1",
+   "M:SELECTOR_REGION.json"
+  ],
+  "cited_artifacts": [
+   "H5_PROMOTE.md s3"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:D0-OBL-H5-REMOTE-THRESHOLD",
+   "H5-REMOTE-THRESHOLD"
+  ],
+  "depends_on": [
+   "G01"
+  ]
+ },
+ {
+  "id": "G21",
+  "cluster": "OTHER",
+  "lane": "D0",
+  "key": "OBL-D1-PROMOTE",
+  "name": "OBL-D1-PROMOTE chart side",
+  "statement": "Chart side: the H5 r-scaled rung family plus interpolation, and the uniform-band extension of the B4LOC/B2-far certificates. The normalizer sub-part is discharged.",
+  "current_status": "OPEN (chart side)",
+  "status_sources": [
+   "H:graph.json OBL-D1-PROMOTE",
+   "N:vault_99 BATCH1"
+  ],
+  "cited_artifacts": [
+   "D1_ASSEMBLY_v2_2 s3/s5"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:D0-OBL-D1-PROMOTE"
+  ],
+  "depends_on": [
+   "G15",
+   "G19",
+   "G20"
+  ]
+ },
+ {
+  "id": "G22",
+  "cluster": "OTHER",
+  "lane": "D0",
+  "key": "D1-V2.2-RUNG1",
+  "name": "Theorem D1 v2.2(1) certified-rung bound at r=0.05",
+  "statement": "Prove the r=0.05 rung bound 1-q <= 650.18 r^3 + ... . Its remote part rests on the uncertified I_ann=17.6804 r^3.",
+  "current_status": "CONDITIONAL; HOLD_WITH_DOMAIN",
+  "status_sources": [
+   "H:graph.json D1-v2.2(1)",
+   "H:FAIL_CLOSED_CLAIM_AUDIT_REPAIRS"
+  ],
+  "cited_artifacts": [
+   "D1_ASSEMBLY_v2_2 sha 490ad6b2"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:D0-D1-V2.2-RUNG1"
+  ],
+  "depends_on": [
+   "G01",
+   "G27"
+  ]
+ },
+ {
+  "id": "G23",
+  "cluster": "OTHER",
+  "lane": "D0",
+  "key": "D1-V2.2-ALLSMALLR",
+  "name": "Theorem D1 v2.2(2) all-small-r 1-q(r,6/5)<=C r^3 (v2.3 DRAFT)",
+  "statement": "Discharge the five open validity premises of the all-small-r cubic upper bound. The v2.3 draft reduces them to two but has not been promoted.",
+  "current_status": "v2.2(2) CONDITIONAL; v2.3 PROPOSED/DRAFT",
+  "status_sources": [
+   "H:graph.json D1-v2.2(2), D1-v2.3-DRAFT(2)",
+   "H:RESEARCH_MAP s2"
+  ],
+  "cited_artifacts": [
+   "D1_ASSEMBLY_v2_3_DRAFT 1RQE2B3E",
+   "d1_falsify_v4.py"
+  ],
+  "missing_carriers": [
+   "CL bundle v3 (v2.3 bytes unverified)"
+  ],
+  "aliases": [
+   "H:D0-D1-V2.2-ALLSMALLR"
+  ],
+  "depends_on": [
+   "G21",
+   "G01",
+   "G24",
+   "G25",
+   "G26"
+  ]
+ },
+ {
+  "id": "G24",
+  "cluster": "OTHER",
+  "lane": "D0",
+  "key": "PERC-DECAY-PDCONN",
+  "name": "PERC-DECAY (restated Theta(r^3)) and PD-CONN",
+  "statement": "Supply certified constants for the restated Theta(r^3) PERC-DECAY and PD-CONN pieces (i)-(iii).",
+  "current_status": "OPEN / RESTATED; PD-CONN OPEN",
+  "status_sources": [
+   "H:graph.json PERC-DECAY, PD-CONN",
+   "H:OPEN_PROBLEMS A6"
+  ],
+  "cited_artifacts": [
+   "PERC_DECAY.md"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:D0-PERC-DECAY-PDCONN"
+  ]
+ },
+ {
+  "id": "G25",
+  "cluster": "OTHER",
+  "lane": "D0",
+  "key": "OBL-B1-BRANCH",
+  "name": "OBL-B1-BRANCH(loop|B1)",
+  "statement": "Bound the constant-level branch-control loop factor.",
+  "current_status": "OPEN (frozen); REFINEMENT (note)",
+  "status_sources": [
+   "H:graph.json",
+   "H:OPEN_PROBLEMS A7"
+  ],
+  "cited_artifacts": [
+   "D1_ASSEMBLY_v2_2_REGISTER_NOTE s5"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:D0-OBL-B1-BRANCH"
+  ]
+ },
+ {
+  "id": "G26",
+  "cluster": "OTHER",
+  "lane": "D0",
+  "key": "B4LOC-DAMLINE",
+  "name": "B4.loc dam line / B4.rem reconciliation",
+  "statement": "Reconcile the frozen-layer premise with the note-layer B4LOC-R1 closure, which takes effect only at the next issuance.",
+  "current_status": "OPEN (frozen v2.2); CLOSED (note layer)",
+  "status_sources": [
+   "H:graph.json B4.loc-damline",
+   "H:OPEN_PROBLEMS A8"
+  ],
+  "cited_artifacts": [
+   "B4LOC_DAMLINE.md",
+   "B4LOC-R1"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:D0-B4LOC-DAMLINE"
+  ]
+ },
+ {
+  "id": "G27",
+  "cluster": "D0-RN-WALLS",
+  "lane": "D0",
+  "key": "RN3-FAR-REVIEW",
+  "name": "RN3 far-zone joint proof RN-JOINT-001 review findings",
+  "statement": "Clear the three MAJOR findings: the quarantined 17.6804 import; the Kac-Rice integrand and the 0.6798 budget, which have no source identity; and the 384-bit core, which was not replayed.",
+  "current_status": "AMEND; gate UNCHANGED; AUTHOR_SIDE_CERTIFIED, independence 0",
+  "status_sources": [
+   "H:REV-RN3-FARZONE-20260918.json",
+   "H:review_queue RV-RN3",
+   "H:graph.json RN3-FAR"
+  ],
+  "cited_artifacts": [
+   "RN_JOINT_PROOF sha 0c9446b7",
+   "bundle sha 1a4df0e9"
+  ],
+  "missing_carriers": [
+   "source of Kac-Rice integrand rho(y,v)",
+   "source of 0.6798 budget"
+  ],
+  "aliases": [
+   "H:D0-RN3-FAR-REVIEW"
+  ]
+ },
+ {
+  "id": "G28",
+  "cluster": "D0-RN-WALLS",
+  "lane": "D0",
+  "key": "RV-RN-ALIGN",
+  "name": "CL-RNU-003 <-> RN3 exact-object crosswalk",
+  "statement": "Correct the near-moment claim and complete the spatial cover. Match law, normalization, kappa and domain before comparing 0.12058 with 0.67728.",
+  "current_status": "AMEND; zero org credit",
+  "status_sources": [
+   "H:review_queue RV-RN-ALIGN",
+   "H:RESEARCH_MAP s3"
+  ],
+  "cited_artifacts": [
+   "RN3 0c9446b7",
+   "CL-RNU-003 59b8f002"
+  ],
+  "missing_carriers": [
+   "CL bundle v5",
+   "rnu_t4.py",
+   "rnu_spine.py"
+  ],
+  "aliases": [
+   "H:D0-RV-RN-ALIGN"
+  ]
+ },
+ {
+  "id": "G29",
+  "cluster": "D0-RN-WALLS",
+  "lane": "D0",
+  "key": "RN5-NEAR-REPAIR",
+  "name": "RN5 corrected near-moment repair and near cover",
+  "statement": "Reconstruct the Holder bound, the L2 Taylor remainders and the whitening, then give a complete near cover. The ten boxes do not cover the annulus.",
+  "current_status": "READY/UNASSIGNED; AUTHOR_SIDE_PARTIAL; DEFECTIVE_SCOPE",
+  "status_sources": [
+   "H:review_queue RV-RN5-MOMENT-REPAIR",
+   "H:graph.json RN5-NEAR-POINT-CERTS",
+   "H:quarantine_index.json"
+  ],
+  "cited_artifacts": [
+   "RN5-PROOF sha ac89f60b",
+   "RN5-LM004-ERRATUM sha 84189b73"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:D0-RN5-NEAR-REPAIR"
+  ]
+ },
+ {
+  "id": "G30",
+  "cluster": "OTHER",
+  "lane": "D0",
+  "key": "RV-H5-REPAIR",
+  "name": "H5 corrected-kernel full consumer replay",
+  "statement": "Replay every upper/lower certificate consumer against the repaired H5 kernel (Q-R17-H5-01..11) before certification.",
+  "current_status": "AMEND; DEFECTIVE_SCOPE",
+  "status_sources": [
+   "H:review_queue RV-H5-REPAIR",
+   "H:quarantine_index Q-R17-H5-01",
+   "H:OPEN_PROBLEMS E"
+  ],
+  "cited_artifacts": [
+   "h5_kernel.py b2e6014c",
+   "h5_totals_v3.json 8d7028e4"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:D0-RV-H5-REPAIR"
+  ]
+ },
+ {
+  "id": "G31",
+  "cluster": "D0-RN-WALLS",
+  "lane": "D0",
+  "key": "H3-NORMALIZER-ALLR",
+  "name": "H3 normalizer floor: all-r, all-angle, explicit radius",
+  "statement": "Turn Z(r)/r^2 -> 3.2309785... into an explicit radius interval, extend it to all angles and all r, and get the fixed-r H3 floor accepted.",
+  "current_status": "radius not numerically certified; IMPORTED_SOURCE_PREMISE_NOT_REPROVED; LABEL_PRESERVED_NOT_CONTROLLING",
+  "status_sources": [
+   "H:TWELVE_PROJECT_MATH s1",
+   "H:PARALLEL_MATH.md",
+   "H:RN_SIDE24_DENSITY.md",
+   "H:graph.json H3-RUNG-FLOOR",
+   "N:vault_99 BATCH1 (H3-RUNG-FLOOR)"
+  ],
+  "cited_artifacts": [
+   "H3_RUNG_FLOOR.md sha 6347275d",
+   "RV-H3-SOLVER-20260921-01",
+   "H3-RN-N6 sha ff642dd0"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:D0-H3-NORMALIZER-ALLR"
+  ]
+ },
+ {
+  "id": "G32",
+  "cluster": "D0-RN-WALLS",
+  "lane": "D0",
+  "key": "RN-LOCAL-COMPLEMENT",
+  "name": "Local RN positive controls and their open complement",
+  "statement": "Cover the complement of the fixed-r=1/20 x-axis local results: the rest of the annulus, other radii and orientations, the remote budget, and the Palm/event interfaces.",
+  "current_status": "complement open; AUTHOR_SIDE; R2 review rows READY",
+  "status_sources": [
+   "H:RN_INNER_WEDGE.md",
+   "H:RN_SECTOR_AUTHOR_REVIEW.md",
+   "H:OPEN_PROBLEMS_FROZEN_ERRATA E1",
+   "H:GP-REG-032 R2 review_queue"
+  ],
+  "cited_artifacts": [
+   "rn_fullmark_sector_20260921_v1.zip sha f7195d27",
+   "RV-RN-INNER-WEDGE sha f363629f"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:D0-RN-LOCAL-CANDIDATES-COMPLEMENT"
+  ]
+ },
+ {
+  "id": "G33",
+  "cluster": "D0-RN-WALLS",
+  "lane": "D0",
+  "key": "RN-SECTOR-PACKET",
+  "name": "RN full-mark sector packet premises (hardening PR #8)",
+  "statement": "Discharge the RN sector premises under which the full-mark sector candidate is held in custody. No third full replay has been run.",
+  "current_status": "custody under imported premises; third_full_numerical_replay_performed=false",
+  "status_sources": [
+   "N:QUEUE_RECONCILIATION_20260927 s2, s5"
+  ],
+  "cited_artifacts": [
+   "hardening PR #8 merge 9458b90"
+  ],
+  "missing_carriers": [
+   "rn-sector-review-master-20260921.zip + logs (Dropbox NOT_IMPORTED)"
+  ],
+  "aliases": [
+   "N:RN-SECTOR-PACKET"
+  ]
+ },
+ {
+  "id": "G34",
+  "cluster": "CUSTODY-MISSING",
+  "lane": "D0",
+  "key": "SIDE24-PREP-TRIAD-ABSENT",
+  "name": "SIDE24 RN prep triad absent objects",
+  "statement": "Supply what the prep notes mark ABSENT: the density/window factor, the H3 normalizer, a spatial cover, an all-small-r result, and the remote-budget assembly.",
+  "current_status": "ABSENT; field_certified=false",
+  "status_sources": [
+   "H:RN_SIDE24.md",
+   "H:RN_SIDE24_CELL.md",
+   "H:RESEARCH_INDEX.md"
+  ],
+  "cited_artifacts": [
+   "tools/rn_side24_check.py"
+  ],
+  "missing_carriers": [
+   "SIDE24 source-of-truth carrier after 2026-08-06"
+  ],
+  "aliases": [
+   "H:D0-SIDE24-PREP-TRIAD-ABSENT"
+  ]
+ },
+ {
+  "id": "G35",
+  "cluster": "OTHER",
+  "lane": "D0",
+  "key": "H5-RIM-FLATNESS",
+  "name": "H5-RIM flatness enclosure, angle-175 literal, hunt rerun",
+  "statement": "Establish the H5-RIM flatness/continuum enclosure and define the radius-aware input contract. Resolve the angle-175 RHO_HI value, which is off by about 1e35, then rerun hunt_rim/hunt_wedges and address the absent mbwd angle-176 probes.",
+  "current_status": "AUTHOR-SIDE SOFTWARE REPAIR/FALSIFIER; AMEND; hunt unverified",
+  "status_sources": [
+   "M:repairs/h5_rim_contract REPAIR.md, REVIEW_RESPONSE.md",
+   "M:upper2d_h5_ledgers REVIEW.md",
+   "N:#86 c5850120354, c5850382556"
+  ],
+  "cited_artifacts": [
+   "hunt_rim.py de73e5fe",
+   "rimprobes.jsonl 22c7107e",
+   "H5_TOTALS_ERRATA blob 91b5a955",
+   "Math #84 bebe09d2"
+  ],
+  "missing_carriers": [
+   "H5-RIM analytic flatness proof",
+   "UPPER2D.zip (NOT_IMPORTED)"
+  ],
+  "aliases": [
+   "M:H5-RIM-FLATNESS",
+   "N:H5-LEDGER-RIM-STAGE-E"
+  ]
+ },
+ {
+  "id": "G36",
+  "cluster": "OTHER",
+  "lane": "D0",
+  "key": "STAGE-E-CERTS",
+  "name": "UPPER2D STAGE_E numerical scripts; H4/C2/D2 target texts",
+  "statement": "Repair or withdraw isserlis_break (tuple-index defect; mean-shift degrees 4-6), certify_axis_break (extra s_t_lo factor, float endpoints) and the c1_grid chain, and recover the H4/C2/D2 target texts.",
+  "current_status": "numerical certification unaccepted; unresolved bound obligation",
+  "status_sources": [
+   "M:upper2d_stage_e REVIEW.md, README.md",
+   "N:#86 c5850001076"
+  ],
+  "cited_artifacts": [
+   "STAGE_E REVIEW blob bdc16ca5",
+   "Math #83 3a7dffc3",
+   "hunt_wedges.py f03507da"
+  ],
+  "missing_carriers": [
+   "H4/C2/D2 target texts"
+  ],
+  "aliases": [
+   "M:STAGE-E-NUMERICAL-CERTS",
+   "N:H5-LEDGER-RIM-STAGE-E"
+  ]
+ },
+ {
+  "id": "G37",
+  "cluster": "OTHER",
+  "lane": "D0",
+  "key": "C026-C027",
+  "name": "C026 LS.inv() defect; C026/C027 truncation and 258-row sweep",
+  "statement": "Beyond the noncontrolling reciprocal repair: certify the C026 truncation, nine-pin conditioning and normalizers, and replay the 258-row C027 table (1 row done). Check the other LS.inv() callers and the 2,890-test suites.",
+  "current_status": "Scientific effect: NONE; one station is not the full sweep",
+  "status_sources": [
+   "M:repairs/c026_reciprocal README.md",
+   "N:#86 c5858478286, c5858687444"
+  ],
+  "cited_artifacts": [
+   "Math PR91 3b2ac59",
+   "main PR168 73eb8da0",
+   "series.py 4058cad4"
+  ],
+  "missing_carriers": [
+   "nonauthor review"
+  ],
+  "aliases": [
+   "M:C026-C027-TRUNCATION",
+   "N:C026-C027-SWEEP"
+  ]
+ },
+ {
+  "id": "G38",
+  "cluster": "CUSTODY-MISSING",
+  "lane": "D0",
+  "key": "R2-NINE-TARGETS",
+  "name": "R2 nine unresolved expected-byte targets",
+  "statement": "Recover the nine exact originals: seven images and two clipboard carriers (6,426 B assessment and 72,105 B Side-24 gap-fill supplement).",
+  "current_status": "nine remain unchanged; zero additional recovered",
+  "status_sources": [
+   "M:transverse_contact_library README, SOURCE_BINDING.json",
+   "M:#56 c5860307645",
+   "N:#86 c5860019761, c5860500096, c5860631824"
+  ],
+  "cited_artifacts": [
+   "R2_TARGETS csv blob 5ad6c11a",
+   "FILE_LEDGER.tsv 34416efd",
+   "Side-24 clipboard 924b9ca7"
+  ],
+  "missing_carriers": [
+   "7 image originals",
+   "clipboard carriers 6426 B and 72105 B"
+  ],
+  "aliases": [
+   "M:R2-NINE-TARGET-REMAINDER",
+   "N:PROV-R2-NINE-TARGETS"
+  ]
+ },
+ {
+  "id": "G39",
+  "cluster": "D1-PARENT",
+  "lane": "D1",
+  "key": "THMA-SELECTION-CHAIN",
+  "name": "Parent Theorem A quantitative selection chain ss2-7 (A1-A7)",
+  "statement": "Nonauthor review of the Theorem A bound 0<=1-p_r<=C r^3, uniformly on compact marks and all frames. Covers A1 contact frame, A2 regression, A3 normalizer, A4 soft determinants, A5 corank, A6 m=1 far branch, and A7 composition.",
+  "current_status": "AMEND / open; A1-A7 not reconciled (D1-A-E ACCEPT covers ss8-10,13-15 only)",
+  "status_sources": [
+   "M:PROOF_INDEX.md:32",
+   "M:PUBLIC_READING_MAP firewall",
+   "M:GRAPH math.uniform-matrix-cap-lifetime",
+   "N:STATUS.md D1",
+   "N:#63 c5841766952, c5841830743, c5850251715",
+   "N:QUEUE_RECONCILIATION s4",
+   "H:DOWNSTREAM_RN_CROSSWALK",
+   "H:ID_CROSSWALK"
+  ],
+  "cited_artifacts": [
+   "blob dfed3b8d (40261 B) sha 9350ad6e",
+   "Drive 1foDgiDi",
+   "source c3916425 / Math 703e9474",
+   "capsule 1xrKSRwz",
+   "arXiv:2304.07424v3"
+  ],
+  "missing_carriers": [
+   "nonauthor A1-A7 review record",
+   "numerical r_*/C"
+  ],
+  "aliases": [
+   "M:D1-THMA-SEC2-7",
+   "N:D1-THMA-SELECTION-CHAIN",
+   "H:D1-UNIFORM-MATRIX-CAP-LIFETIME",
+   "UNIFORM-MATRIX-CAP-LIFETIME-20260924-v1",
+   "Theorem A (1.1)"
+  ],
+  "depends_on": [
+   "G40",
+   "G41",
+   "G42"
+  ]
+ },
+ {
+  "id": "G40",
+  "cluster": "D1-PARENT",
+  "lane": "D1",
+  "key": "A3-ERRATUM-TYPECONV",
+  "name": "A3 congruence erratum binding and type-indicator convergence",
+  "statement": "Review the parent together with the erratum D_r=diag(r^-1/2,I). Prove uniform integrability of W_r/r^2 and convergence of the type indicator to 1{A_0<0}. Also fix the custody gap: the erratum files are missing from MANIFEST.",
+  "current_status": "AMEND / ACCEPT_ERRATUM only; parent A3 remains AMEND",
+  "status_sources": [
+   "M:ERRATUM_CONGRUENCE.md, ERRATUM_POINTER.md",
+   "M:ALPHA_4PIN_SERIES.md",
+   "N:#63 c5841947606, c5850158114, c5850177692",
+   "N:grok_uploads REVIEW s4/s7"
+  ],
+  "cited_artifacts": [
+   "erratum blob 213594d6",
+   "Math PR64 d8f55054 (head d573b99d)",
+   "Math PR85 5ed3b455"
+  ],
+  "missing_carriers": [
+   "A1-A7 review covering erratum",
+   "MANIFEST records for 3 erratum files",
+   "answer to AMEND 5848593803"
+  ],
+  "aliases": [
+   "M:D1-A3-ERRATUM",
+   "N:D1-A3-TYPECONV-FLOOR (part)"
+  ]
+ },
+ {
+  "id": "G41",
+  "cluster": "D1-PARENT",
+  "lane": "D1",
+  "key": "A3-Z-FLOOR",
+  "name": "Parent endpoint normalizer floor Z_r >= z_* r^2 (compact marks)",
+  "statement": "Prove a uniform positive floor on Z_r=E_Q W_r for finite r, as a reviewed theorem. It is used in every division by Z_r. The limit z_0>0 alone does not suffice.",
+  "current_status": "needs A3 floor as reviewed theorem; A7 blocked on floor",
+  "status_sources": [
+   "M:CAP_PAIRING_IDENTITIES.md s7",
+   "M:pr124 REVIEW.md",
+   "N:#63 c5850158114",
+   "N:grok_uploads REVIEW s7 item 3"
+  ],
+  "cited_artifacts": [
+   "CAP_PAIRING blob 96407c95",
+   "C098 3e3037b6",
+   "C100 04d6e1c5",
+   "C101 1daec257"
+  ],
+  "missing_carriers": [
+   "reviewed proof of inf_r Z_r/r^2>0"
+  ],
+  "aliases": [
+   "M:D1-Z-FLOOR",
+   "N:D1-A3-TYPECONV-FLOOR (part)",
+   "A3 floor"
+  ]
+ },
+ {
+  "id": "G42",
+  "cluster": "D1-PARENT",
+  "lane": "D1",
+  "key": "CAP-PAIRING",
+  "name": "Marked-cylinder cap ss2-4 / G_r => elder pairing and s7 r^5 skeleton",
+  "statement": "Get a filed nonauthor review of cap ss2-4 and complete the implication G_r => ordinary elder partner S. This needs the embedded 2r chart, the Morse/s8 distinct values, and the m=1 scalar far branch.",
+  "current_status": "skeleton not Theorem A; cap accepted by citation only (IMPORTED-OPEN); Still AMEND",
+  "status_sources": [
+   "M:CAP_PAIRING_IDENTITIES.md",
+   "M:LANDING_CLAIMS lifetime-remainder",
+   "N:grok PART3 U11-F2",
+   "N:#63 c5850251715",
+   "N:#67 c5841270276"
+  ],
+  "cited_artifacts": [
+   "MARKED_CYLINDER_CAP blob 0633aca3 sha 0bf922b9",
+   "Drive 1BnPods7",
+   "PR112 c5839550742"
+  ],
+  "missing_carriers": [
+   "filed nonauthor review of cap ss2-4"
+  ],
+  "aliases": [
+   "M:D1-CAP-PAIRING",
+   "N:D1-CAP-SS2-4",
+   "MARKED-CYLINDER-CAP-20260924-v1"
+  ],
+  "depends_on": [
+   "G41"
+  ]
+ },
+ {
+  "id": "G43",
+  "cluster": "D1-PARENT",
+  "lane": "D1",
+  "key": "THMC-SS11-12",
+  "name": "Theorem C conditional step and unreviewed ss11-12",
+  "statement": "Mark (10.3), (13.6) and Theorem C as conditional on Theorem A, or derive them from D2. Review parent ss11-12 and record the PR112 N1-N6 verdicts.",
+  "current_status": "U11-F1 PLAUSIBLE; U11-F12 CONFIRMED: ss11-12 not reviewed",
+  "status_sources": [
+   "N:grok PART3 U11-F1, U11-F12"
+  ],
+  "cited_artifacts": [
+   "PR112 c5841317882, c5841289285, c5841352633"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "N:D1-THMC-SS11-12-SCOPE"
+  ],
+  "depends_on": [
+   "G39"
+  ]
+ },
+ {
+  "id": "G44",
+  "cluster": "D1-ELDER-BOREL",
+  "lane": "D1",
+  "key": "SEC9-BOREL-REPAIR",
+  "name": "Section 9 Borel elder-mark weighted Kac-Rice repair (C1-C6)",
+  "statement": "Get a nonauthor re-review of the replacement s9 and bind D1-B's ACCEPT to it. Settle the PR112 theorem-number objection and verify the arXiv:2304.07424v3 numbering.",
+  "current_status": "author-side amendment; nonauthor re-review required (index possibly stale per U11-F4)",
+  "status_sources": [
+   "M:d1_section9_borel_repair REPAIR.md",
+   "M:PROOF_INDEX.md:33",
+   "N:grok PART3 U11-F4",
+   "N:grok PART4 D4-F2",
+   "N:#63 c5841570965"
+  ],
+  "cited_artifacts": [
+   "REPAIR blob fe9b9ce4 (694b7ff)",
+   "Math PR37 c5841032512",
+   "PR112 c5839550742",
+   "arXiv:2304.07424v3"
+  ],
+  "missing_carriers": [
+   "nonauthor C1-C6 review record"
+  ],
+  "aliases": [
+   "M:D1-SEC9-BOREL-REPAIR",
+   "N:D1-BOREL-ELDER-SS9-REPAIR",
+   "D1-B",
+   "D1-SECTION9-BOREL-REPAIR-20260925-v1.1"
+  ]
+ },
+ {
+  "id": "G45",
+  "cluster": "D1-ELDER-BOREL",
+  "lane": "D1",
+  "key": "MARKED-KAC-RICE-D2",
+  "name": "Marked Kac-Rice / global elder / regression interfaces consumed by D2",
+  "statement": "Accept analytically the parent interfaces that the fail-closed D2 landing claim consumes.",
+  "current_status": "FAIL_CLOSED",
+  "status_sources": [
+   "M:LANDING_CLAIMS lifetime-remainder"
+  ],
+  "cited_artifacts": [
+   "blob dfed3b8d",
+   "blob 0633aca3"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "M:D1-MARKED-KAC-RICE"
+  ],
+  "depends_on": [
+   "G39",
+   "G44"
+  ]
+ },
+ {
+  "id": "G46",
+  "cluster": "D1-PARENT",
+  "lane": "D1",
+  "key": "PAIRING-FAILURE-LOWER",
+  "name": "Parent elder-defect lower bound 1-q >= c r^3 (evaluated lower coefficient)",
+  "statement": "Prove a matching lower bound of order r^3 on pairing failure in the parent setting. This needs the intermediate saddles to defeat elder pairing, and anti-clustering to turn counts into probabilities.",
+  "current_status": "Not supplied (parent s16)",
+  "status_sources": [
+   "M:UNIFORM_MATRIX_CAP s16",
+   "M:contact_kernel_tail NOTE s6",
+   "M:collision_mechanism NOTE:108",
+   "M:remote_window PROOF:51"
+  ],
+  "cited_artifacts": [
+   "collision NOTE 3ee30829",
+   "kernel NOTE 8da0cc85"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "M:D1-PAIRING-FAILURE-LOWER"
+  ],
+  "notes": "Related to but not merged with the side-24 LOWER2D lane (G104-G112)."
+ },
+ {
+  "id": "G47",
+  "cluster": "OTHER",
+  "lane": "D1",
+  "key": "THMB-COND-ND",
+  "name": "Theorem B Condition (ND)/(ND') repair; File-3 Table 4.1",
+  "statement": "Write the repaired nondegeneracy sentence (ND'); (ND) as written is refuted by K4. Handle the absent Table 4.1 / 15-matrix, which must not be invented, and issue a successor/erratum to the PR163 packet.",
+  "current_status": "PROVEN-MODULO repaired ND; Table 4.1 ABSENT",
+  "status_sources": [
+   "M:REDUCED_FRAME_4SLOT.md",
+   "M:CLOSED_FORMS_FTS_FTT.md",
+   "N:grok PART1 BC5, CS3, FM3",
+   "N:grok REVIEW s4, s7 item 4"
+  ],
+  "cited_artifacts": [
+   "REDUCED_FRAME blob bd558a26",
+   "Q0_MASTER blob ed0f51f1",
+   "PR163 46c0f69"
+  ],
+  "missing_carriers": [
+   "Table 4.1 / File-3 15-matrix",
+   "13x13 certificate",
+   "ND_REDUCED_FRAME.md",
+   "00.2_CANONICAL_MASTER.zip (NOT_IMPORTED)"
+  ],
+  "aliases": [
+   "M:THM-B-ND-TABLE41",
+   "N:FILES16-COND-ND-THM-B",
+   "(ND)",
+   "GCJA C4",
+   "K4"
+  ]
+ },
+ {
+  "id": "G48",
+  "cluster": "OTHER",
+  "lane": "D1",
+  "key": "TB-THEOREM-B-PARENT",
+  "name": "Theorem B short-bar law nu_B(l)=C* l^-1/3 (Q0-C104)",
+  "statement": "Restore Theorem B only after TB-G1..G7 are proved under one exact object and reviewed. No numerical C* may be stated.",
+  "current_status": "RETRACTED_TO_CANDIDATE; five bridges open; package UNSEALED",
+  "status_sources": [
+   "H:automation_config THEOREM_B_CURRENT_STATUS",
+   "H:graph.json Q0-C104",
+   "H:OQ-011",
+   "H:HB-043",
+   "H:OPEN_PROBLEMS G"
+  ],
+  "cited_artifacts": [
+   "GP-AUD-187",
+   "Q0_C104 package f592bc6f",
+   "LS-MAN-046 be812808"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:TB-THEOREM-B-PARENT"
+  ],
+  "depends_on": [
+   "G49",
+   "G50",
+   "G51",
+   "G52",
+   "G53",
+   "G54"
+  ],
+  "notes": "Same Theorem B lineage as G47; different obligation."
+ },
+ {
+  "id": "G49",
+  "cluster": "OTHER",
+  "lane": "D1",
+  "key": "TB-G1",
+  "name": "TB-G1 exact persistence-pair process and unit multiplicity",
+  "statement": "Establish the exact typed pair process, the Borel marks and the eta interface; formalization and package gates remain.",
+  "current_status": "DQ-012 APPROVE WITH CLARIFICATIONS / PACKAGE-REPLAY HOLD; DQ-051 gates OPEN",
+  "status_sources": [
+   "H:frozen S2-DER-010",
+   "H:DQ-012",
+   "H:DQ-051"
+  ],
+  "cited_artifacts": [
+   "S2-DER-010 sha bd4e839f"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:TB-G1"
+  ]
+ },
+ {
+  "id": "G50",
+  "cluster": "OTHER",
+  "lane": "D1",
+  "key": "TB-G2",
+  "name": "TB-G2 compact-mark contact intensity / six-pin covariance",
+  "statement": "Adjudicate the six-pin eigenfloor, the uniform envelope and the full normalizer (LS-DER-021), and reconstruct the LS-DER-032 inputs.",
+  "current_status": "DQ-023 OPEN; DQ-053 OPEN",
+  "status_sources": [
+   "H:frozen LS-DER-021",
+   "H:DQ-023, DQ-053",
+   "H:RV-DQ-023"
+  ],
+  "cited_artifacts": [
+   "LS-DER-021 sha 3369ddd5",
+   "LS-DER-032 sha 3531e6e5"
+  ],
+  "missing_carriers": [
+   "LS-DATA-015 R1/R2 capsules (UNRECOVERABLE)"
+  ],
+  "aliases": [
+   "H:TB-G2"
+  ]
+ },
+ {
+  "id": "G51",
+  "cluster": "OTHER",
+  "lane": "D1",
+  "key": "TB-G3",
+  "name": "TB-G3 uniform persistence selection (G3A adjacency; G3B loop residual)",
+  "statement": "Prove the selection reduction, TB-G3A sup(1-a_r)<=C_A r^3, the TB-G3B corrected trichotomy with the H5 loop residual, and the compact synthesis with factor 576.",
+  "current_status": "DQ-038/028/057/061 OPEN; LS-DER-025 AMEND",
+  "status_sources": [
+   "H:dispatch_queue",
+   "H:frozen_objects",
+   "H:RV-DQ-038/057/061"
+  ],
+  "cited_artifacts": [
+   "LS-DER-022 e5a61739",
+   "LS-DER-036-v1.1 3416ddee",
+   "LS-DER-038 5fd2413c"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:TB-G3"
+  ]
+ },
+ {
+  "id": "G52",
+  "cluster": "OTHER",
+  "lane": "D1",
+  "key": "TB-G4",
+  "name": "TB-G4 full-kappa selected near-diagonal tails",
+  "statement": "Reconstruct the corrected-pin decay, determinant moments and dominated convergence, with coherent joint Gaussian bounds.",
+  "current_status": "DQ-035 OPEN; LS-DER-039 REVIEW DEFERRED",
+  "status_sources": [
+   "H:DQ-035",
+   "H:frozen LS-DER-026",
+   "H:TWELVE s8"
+  ],
+  "cited_artifacts": [
+   "LS-DER-026 e4d8094e"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:TB-G4"
+  ]
+ },
+ {
+  "id": "G53",
+  "cluster": "OTHER",
+  "lane": "D1",
+  "key": "TB-G5",
+  "name": "TB-G5 off-fold / nonlocal complement o(l^-1/3)",
+  "statement": "Get external review of the off-fold complement theorem.",
+  "current_status": "DQ-033 COMPLETED / EXTERNAL REVIEW OPEN",
+  "status_sources": [
+   "H:DQ-033",
+   "H:frozen LS-DER-027"
+  ],
+  "cited_artifacts": [
+   "LS-DER-027 60768783"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:TB-G5"
+  ]
+ },
+ {
+  "id": "G54",
+  "cluster": "OTHER",
+  "lane": "D1",
+  "key": "TB-G6-G7",
+  "name": "TB-G6 independent reconstruction; TB-G7 continuum falsification",
+  "statement": "Carry out an independent reconstruction and a clean continuum falsification with exact elder-rule lifetimes.",
+  "current_status": "open gates; OQ-007/008 OPEN; HB-003 WAITING FOR DATA",
+  "status_sources": [
+   "H:THEOREM_B_OPEN_GATES",
+   "H:OQ-007, OQ-008",
+   "H:HB-003, HB-004",
+   "H:GOA-P12-001"
+  ],
+  "cited_artifacts": [
+   "GP-AUD-187 s8"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:TB-G6-G7"
+  ]
+ },
+ {
+  "id": "G55",
+  "cluster": "OTHER",
+  "lane": "D1",
+  "key": "TB-GLOBAL-BIRTH",
+  "name": "LS-DER-039..042 global-birth theorems and C_* normalization",
+  "statement": "Review the global-birth near and finite-torus candidates and the coefficient candidates (C_tot=576 c_spec).",
+  "current_status": "REVIEW DEFERRED; DQ-041 EXTERNAL REVIEW OPEN",
+  "status_sources": [
+   "H:frozen_objects",
+   "H:DQ-041",
+   "H:OPEN_PROBLEMS G"
+  ],
+  "cited_artifacts": [
+   "LS-DER-040 2754e08b",
+   "LS-DER-041 a6dc7146",
+   "LS-DER-042 54cedb1e"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:TB-GLOBAL-BIRTH-COEFF"
+  ]
+ },
+ {
+  "id": "G56",
+  "cluster": "OTHER",
+  "lane": "D1",
+  "key": "T3-FULL-LIFETIME",
+  "name": "T3 full lifetime law remaining review",
+  "statement": "Review the remaining contact, selection, tail and nonlocal steps and the shared adjacency obligation.",
+  "current_status": "T3 FULL MATHEMATICAL REVIEW OPEN",
+  "status_sources": [
+   "H:HB-035"
+  ],
+  "cited_artifacts": [
+   "GP-RSP-139"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:T3-FULL-LIFETIME-LAW"
+  ]
+ },
+ {
+  "id": "G57",
+  "cluster": "D2-SUCCESSOR",
+  "lane": "D2",
+  "key": "THEOREM-R",
+  "name": "Lifetime successor Theorem R (c ell^-1/3 + O(1)) landing and register reconciliation",
+  "statement": "Reconcile STATUS 'ACCEPT scoped' with LANDING FAIL_CLOSED and the GRAPH candidate node. Name the IMPORTED-OPEN items and file byte-bound review records.",
+  "current_status": "ACCEPT scoped (STATUS) vs FAIL_CLOSED (LANDING) vs AUTHOR_SIDE_CANDIDATE (GRAPH); promote refused",
+  "status_sources": [
+   "M:LANDING_CLAIMS lifetime-remainder",
+   "M:PROOF_INDEX D2",
+   "M:GRAPH, RESULTS.json",
+   "N:STATUS.md D2",
+   "N:#67 c5841270276, c5841782206",
+   "N:grok PART3 U11-F3/F11, U7-F5",
+   "N:Math96_landed_readback",
+   "H:DOWNSTREAM_RN_CROSSWALK"
+  ],
+  "cited_artifacts": [
+   "LIFETIME_REMAINDER blob 247b3ecf sha 380b7d0a",
+   "Drive 1xWGvtYU",
+   "Math PR3 44d15d83"
+  ],
+  "missing_carriers": [
+   "byte-bound review records of comments 5841270276/5841570965/5841782206"
+  ],
+  "aliases": [
+   "M:D2-THM-R-LANDING",
+   "N:D2-THEOREM-R-RECONCILE",
+   "H:D2-LIFETIME-BOUNDED-REMAINDER",
+   "LIFETIME-BOUNDED-REMAINDER-20260924-v1"
+  ],
+  "depends_on": [
+   "G39",
+   "G42",
+   "G45"
+  ]
+ },
+ {
+  "id": "G58",
+  "cluster": "D2-SUCCESSOR",
+  "lane": "D2",
+  "key": "D2-NUMERICAL-CONSTANTS",
+  "name": "D2 numerical remainder constant, lifetime cutoff, second coefficient",
+  "statement": "Evaluate usable C and ell_*, and settle convergence of the remainder or a second coefficient. Also needed: numerical C/r_*, a global constant over unbounded marks, and c_dL.",
+  "current_status": "not supplied; open work",
+  "status_sources": [
+   "M:LIFETIME_REMAINDER source",
+   "N:STATUS.md D2 limits",
+   "N:RESEARCH_INDEX open work",
+   "N:#67 c5841782206",
+   "N:#63 body",
+   "H:RESEARCH_INDEX.md"
+  ],
+  "cited_artifacts": [
+   "LIFETIME_REMAINDER 380b7d0a"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "N:D2-NUMERICAL-CONSTANTS"
+  ]
+ },
+ {
+  "id": "G59",
+  "cluster": "D2-SUCCESSOR",
+  "lane": "D2",
+  "key": "COLLISION-SECA-D1",
+  "name": "Collision note Section A and density transfer theorem (D1) review",
+  "statement": "Review Section A (critical-simplex geometry), the proof of density theorem D1, and the recovered COLLISION_TRANSFER_THEOREM.md, keeping h/(kappa r^m)->1.",
+  "current_status": "Section A outside both acceptances; PR25 R3 AMEND_REQUIRED",
+  "status_sources": [
+   "M:PROOF_INDEX:39",
+   "M:d2_cumulative_correction REVIEW",
+   "M:pr25_typed_transfer REVIEW",
+   "M:transverse_contact_library companions"
+  ],
+  "cited_artifacts": [
+   "NOTE blob 3ee30829",
+   "PR25 ad35e46d",
+   "PR32 18962811",
+   "COLLISION_TRANSFER blob c8901cd1",
+   "D2-confirm f5e8594 (origin/pr/52 only)"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "M:D2-COLLISION-SECA-D1",
+   "OA-SIMPLEX-CONTACT-TRANSFER-20260925-v1"
+  ]
+ },
+ {
+  "id": "G60",
+  "cluster": "D3-COEFF",
+  "lane": "D3",
+  "key": "SIDE24-COEFF-PARENT",
+  "name": "SIDE24 d2/d3 coefficient: parent interpretation and outward-arithmetic audit",
+  "statement": "The arithmetic is accepted. Still open: identifying Eq. 15.2 as the lifetime constant (a parent input), auditing the cone truncation, normalization and outward arithmetic, answering the review request, and any finite-r error band.",
+  "current_status": "HOLD_WITH_DOMAIN; ACCEPT scoped (arithmetic only); D3-F3 request unanswered",
+  "status_sources": [
+   "M:LANDING side24-coefficient",
+   "M:side24_v1 PROOF.md",
+   "M:#40 c5840221357",
+   "N:STATUS.md D3",
+   "N:grok PART4 D3-F3/F5/F9",
+   "N:Math96_landed_readback",
+   "H:RESEARCH_INDEX",
+   "H:ID_CROSSWALK"
+  ],
+  "cited_artifacts": [
+   "PROOF blob 44b66f04 sha c06daccc",
+   "source e329fba1",
+   "main#65 c5841269490, c5841779222",
+   "0.0734069193060342710[3,4]"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "M:D3-SIDE24-PARENT-INTERP",
+   "N:D3-PARENT-IMPORTED-OPEN",
+   "H:D3-SIDE24-COEFFICIENT",
+   "Eq.15.2"
+  ],
+  "depends_on": [
+   "G39",
+   "G40"
+  ]
+ },
+ {
+  "id": "G61",
+  "cluster": "D3-COEFF",
+  "lane": "D3",
+  "key": "LS-COEFF-CHAIN",
+  "name": "Register coefficient chain LS-DER-043..062",
+  "statement": "Give full-digit machine interval certification and independent review of the finite-L coefficient chain.",
+  "current_status": "FULL-DIGIT/MACHINE INTERVAL OPEN; review READY zero credit",
+  "status_sources": [
+   "H:frozen_objects",
+   "H:dispatch_queue DQ-066/079/080/083/084/085",
+   "H:HB-LS-D3-CLAUDE-REVIEW"
+  ],
+  "cited_artifacts": [
+   "LS-DER-043 41c72fb3",
+   "LS-DER-061 58be3457",
+   "LS-CLS-077"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:D3-LS-COEFF-CHAIN"
+  ]
+ },
+ {
+  "id": "G62",
+  "cluster": "D3-COEFF",
+  "lane": "D3",
+  "key": "LS-D3-REMAINDER-TRANSFER",
+  "name": "Side-24 analytic remainder / persistence chain LS-DER-064..069",
+  "statement": "Verify the Hessian/image-tail remainder and the G1-G7 persistence bridges, and issue a terminal verdict.",
+  "current_status": "NEEDS_RECONCILIATION; first review AMEND; no successor PASS",
+  "status_sources": [
+   "H:RV-DQ-096",
+   "H:DQ-096",
+   "H:HB-LS-D3-AMEND-REVIEW",
+   "H:frozen LS-DER-067"
+  ],
+  "cited_artifacts": [
+   "LS-DER-067 3660cfb2",
+   "LS-REQ-037 e5ae1b6d"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:D3-SIDE24-D3-REMAINDER-TRANSFER"
+  ]
+ },
+ {
+  "id": "G63",
+  "cluster": "SIDE24-BF",
+  "lane": "D3",
+  "key": "SIDE24-BF-TRANSFER",
+  "name": "Planar BF six-pin identities transferred to SIDE24 periodized field / parent mixed block",
+  "statement": "Prove the planar Harper closed forms, the reduced 4-slot Gram and the BF certificates for the exact SIDE24 periodized covariance and the coupled two-endpoint block.",
+  "current_status": "no statement covers SIDE24",
+  "status_sources": [
+   "M:bf_six_pin_hessian PROOF.md s7",
+   "M:CLOSED_FORMS_FTS_FTT.md"
+  ],
+  "cited_artifacts": [
+   "CLOSED_FORMS 27cb967a",
+   "REDUCED_FRAME c3d59403"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "M:SIDE24-BF-TRANSFER"
+  ],
+  "depends_on": [
+   "G86"
+  ]
+ },
+ {
+  "id": "G64",
+  "cluster": "D4-RN-COUNT",
+  "lane": "D4",
+  "key": "RN-COUNT-N7",
+  "name": "RN probability-to-count interface: integrated (N7) numerator",
+  "statement": "Enclose the (N7) integral int_B p(0) E[W_r|det H| chi|pins] <= A r^5 over all of B and all faces, or prove a uniform conditional count mean. A cubic probability does not give a cubic count.",
+  "current_status": "HOLD_WITH_DOMAIN; integral written, not evaluated",
+  "status_sources": [
+   "M:LANDING rn-count-interface",
+   "M:RN_COUNT_INTERFACE.md s4,s6",
+   "H:RESEARCH_INDEX RN-counting"
+  ],
+  "cited_artifacts": [
+   "blob 371fd6d1 sha aa993f52",
+   "STATUS_RN_UNIF ccd542fb"
+  ],
+  "missing_carriers": [
+   "absent RN driver"
+  ],
+  "aliases": [
+   "M:D4-RN-COUNT-N7",
+   "H:D4-RN-COUNT-INTERFACE",
+   "RN-04",
+   "Theorem N"
+  ]
+ },
+ {
+  "id": "G65",
+  "cluster": "D4-RN-COUNT",
+  "lane": "D4",
+  "key": "RN-FIXED-REMOTE",
+  "name": "Fixed-remote window: selector crosswalk and uncovered complement",
+  "statement": "Show which historical predicates imply the fixed-remote condition. Count remote critical points with no height restriction, and prove the shrinking/global complement and numerical C/r_*.",
+  "current_status": "HOLD_WITH_DOMAIN; Interface 6 ACCEPT s7 only; candidate not accepted (hardening)",
+  "status_sources": [
+   "M:LANDING rn-fixed-remote-window",
+   "M:remote_window PROOF s7",
+   "N:#76 c5841783172, c5841861362",
+   "N:grok PART4 D4-F4..F9",
+   "H:DOWNSTREAM_RN_CROSSWALK",
+   "H:ID_CROSSWALK"
+  ],
+  "cited_artifacts": [
+   "PROOF blob b383bfcc sha a332bae9",
+   "commit 191ea7d5",
+   "Drive 1Un31SxL"
+  ],
+  "missing_carriers": [
+   "legacy selectors ENV-RESCOV..CH-LIFT"
+  ],
+  "aliases": [
+   "M:D4-FIXED-REMOTE-OUTSIDE",
+   "N:D4-COMPLEMENT-SELECTOR-CROSSWALK",
+   "H:D4-RN-FIXED-REMOTE-WINDOW"
+  ],
+  "depends_on": [
+   "G01"
+  ]
+ },
+ {
+  "id": "G66",
+  "cluster": "D4-RN-COUNT",
+  "lane": "D4",
+  "key": "SELECTOR-REGION-CELLS",
+  "name": "Selector x region crosswalk: 24 open/partial cells",
+  "statement": "Close the 24 open or partial cells, including H5-REMOTE-THRESHOLD, OBL-H5-JETMOD and ALLCELL/ENV-RESCOV.",
+  "current_status": "legacy_24jet_discharged=false; open_or_partial=24",
+  "status_sources": [
+   "M:SELECTOR_REGION.json",
+   "M:RESULTS.json",
+   "N:Math96_landed_readback node math.rn-selector-region-crosswalk"
+  ],
+  "cited_artifacts": [
+   "SELECTOR_REGION blob ebffdb09"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "M:RN-SELECTOR-REGION-CELLS"
+  ],
+  "depends_on": [
+   "G04",
+   "G05",
+   "G15",
+   "G20"
+  ]
+ },
+ {
+  "id": "G67",
+  "cluster": "D5-GEOMETRY",
+  "lane": "D5",
+  "key": "PIN-NEIGHBORHOOD",
+  "name": "Pin neighborhoods / pin-collision region: summed bound",
+  "statement": "Prove the all-height O(r^3) count for witnesses within O(r) of M or S with a valid determinant ledger, including a quantitative pin-separation modulus.",
+  "current_status": "AMEND; NO COMPLETE PROOF YET; OPEN_ACTIVE",
+  "status_sources": [
+   "M:d5_pin_neighborhood REVIEW",
+   "M:PROOF_INDEX:44",
+   "M:pin_neighborhood_recon NOTE",
+   "N:STATUS.md D5",
+   "N:#86 c5841652516, c5841909311",
+   "N:grok PART3 U8-F1, U9-F4",
+   "H:DOWNSTREAM_RN_CROSSWALK pin-collision",
+   "H:RN_MESOSCOPIC_REDUCTION_CHALLENGE"
+  ],
+  "cited_artifacts": [
+   "PR53 9a6f8a66 blob c396e64b",
+   "PR55 4e188e25",
+   "PR69 ae45d351",
+   "PR74 eb8bf7a5"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "M:D5-PIN-SUMMED-BOUND",
+   "N:D5-PIN-NEIGHBORHOOD",
+   "H:D5-PIN-COLLISION"
+  ],
+  "depends_on": [
+   "G68",
+   "G69",
+   "G73"
+  ]
+ },
+ {
+  "id": "G68",
+  "cluster": "D5-GEOMETRY",
+  "lane": "D5",
+  "key": "CONE-LP-ASSEMBLY",
+  "name": "Outer cone / steep strips: three-determinant envelope and L^p assembly",
+  "statement": "Write out the conditional-moment and uniform-integrability steps giving an O(r^6(|q|+r)^2) product and O(r^3) integration on kappa r<=|s|<=1/4.",
+  "current_status": "reconnaissance level; O(r^3) ledger unreviewed",
+  "status_sources": [
+   "M:pin_neighborhood_recon NOTE",
+   "M:D5_OBSTRUCTION_LEDGER s6"
+  ],
+  "cited_artifacts": [
+   "NOTE c83640bc",
+   "ledger 45afad9f"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "M:D5-CONE-LP-ASSEMBLY"
+  ]
+ },
+ {
+  "id": "G69",
+  "cluster": "D5-GEOMETRY",
+  "lane": "D5",
+  "key": "INNER-MICRODISK",
+  "name": "Inner microdisk and nested r^2 disk majorant",
+  "statement": "Prove a uniform E_Q[N W_r]/Z_r microdisk lemma that controls the on-axis nested disk where the 9-pin Gram is singular. This needs an immutable PR69 successor plus fresh review.",
+  "current_status": "obstruction remains; D5 AMEND",
+  "status_sources": [
+   "M:d5_pin_microdisk_20260927 NOTE, RESULTS.json",
+   "M:d5_microdisk_20260926 NOTE",
+   "M:#58 c5850921404",
+   "N:STATUS.md D5",
+   "N:#86 c5841909311, c5848851438",
+   "N:grok PART3 U9-F1..F11"
+  ],
+  "cited_artifacts": [
+   "PR90 5ee7cfea",
+   "PR82 e85de878",
+   "PR69 ae45d351",
+   "PR60 ad27c6b8"
+  ],
+  "missing_carriers": [
+   "PR69 successor at immutable head"
+  ],
+  "aliases": [
+   "M:D5-INNER-MICRODISK",
+   "N:D5-INNER-MICRODISK",
+   "Math-#58",
+   "P5 inner microdisk"
+  ],
+  "depends_on": [
+   "G70",
+   "G71"
+  ]
+ },
+ {
+  "id": "G70",
+  "cluster": "D5-GEOMETRY",
+  "lane": "D5",
+  "key": "MICRO-DET-LEMMA",
+  "name": "Microdisk conditioned determinant (repulsion h^2) lemma",
+  "statement": "Prove E[W_r|det H_X| | pins, grad f(X)=0]/Z_r <= C r^6 h^2 Poly(P/h), and review the covariance lemma.",
+  "current_status": "author-side lemma for separate review; remaining blocker",
+  "status_sources": [
+   "M:pin_micro_covariance NOTE s5-6",
+   "N:#86 c5848851438"
+  ],
+  "cited_artifacts": [
+   "NOTE 36cc6cfc",
+   "PR60 46a2a596"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "M:D5-MICRO-DET-LEMMA"
+  ]
+ },
+ {
+  "id": "G71",
+  "cluster": "D5-GEOMETRY",
+  "lane": "D5",
+  "key": "QUARTIC-LAMBDA",
+  "name": "Microdisk quartic: conditional law of lambda, Q=0 blow-up",
+  "statement": "Compute the conditional law of the quartic jet after Phi=0, handle the Q=0 divergence, and supply the conditional C^6 moments.",
+  "current_status": "no expected-count rate",
+  "status_sources": [
+   "M:d5_microdisk QUARTIC.md s3"
+  ],
+  "cited_artifacts": [
+   "QUARTIC 16e29976",
+   "C6_REMAINDERS 2f8dc9ba"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "M:D5-QUARTIC-LAMBDA"
+  ]
+ },
+ {
+  "id": "G72",
+  "cluster": "D5-GEOMETRY",
+  "lane": "D5",
+  "key": "D5-POWER-COUNT",
+  "name": "Same-law transport of f_ss(S); D5 det H_S power-counting errata",
+  "statement": "Decide the on-axis product order: O(r^6 q^2), Theta(k^3 r^6 q^2), or O(r^3 q^2) in 2D. Correct the PR87 ledger, issue a PR82 erratum, and post corrections on #58, #165 and cycle-2.",
+  "current_status": "open; PR87 AMEND do not merge; PR82 REJECT as stated; #165 unresolved",
+  "status_sources": [
+   "M:D5_OBSTRUCTION_LEDGER s5,s7",
+   "M:PUBLIC_READING_MAP",
+   "M:#58 c5850921404",
+   "N:grok REVIEW s1,s3,s5,s7",
+   "N:grok PART2 s3.4, PART1 s6",
+   "N:QUEUE_RECONCILIATION s4",
+   "N:#95 c5860584618"
+  ],
+  "cited_artifacts": [
+   "ledger 52c953c6 sha a06ab084",
+   "PR87 0fab933",
+   "PR82 b190a4d",
+   "d5_detHS_scaling.py"
+  ],
+  "missing_carriers": [
+   "fresh review of 52c953c",
+   "cycle-2 IDENTITY.json"
+  ],
+  "aliases": [
+   "M:D5-SAME-LAW-TRANSPORT",
+   "N:D5-POWER-COUNT-ERRATA"
+  ]
+ },
+ {
+  "id": "G73",
+  "cluster": "D5-GEOMETRY",
+  "lane": "D5",
+  "key": "COLLAR",
+  "name": "Collar from pin chart to reviewed annulus",
+  "statement": "Estimate the region 1/4<|s| with rho<A, including off-ray directions, and glue it to PR28/PR44 with uniform constants.",
+  "current_status": "missing / open",
+  "status_sources": [
+   "M:d5_pin_microdisk NOTE, RESULTS.json",
+   "M:PROOF_INDEX:44",
+   "N:#86 c5842125218",
+   "N:STATUS.md D5",
+   "N:grok PART3 U9-F12"
+  ],
+  "cited_artifacts": [
+   "PR28 dedc69e1 / f2899d8f",
+   "PR44 559d7224",
+   "TWO_SCALE 89cae3a9"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "M:D5-COLLAR",
+   "N:D5-COLLAR-TO-ANNULUS"
+  ]
+ },
+ {
+  "id": "G74",
+  "cluster": "D5-GEOMETRY",
+  "lane": "D5",
+  "key": "INTERMEDIATE-SCALE",
+  "name": "Intermediate scale r << |x| << rho",
+  "statement": "Prove the count bound uniformly between a growing multiple of r and a fixed rho. The PR128 candidate has a s5 gap.",
+  "current_status": "NO COMPLETE PROOF YET; OPEN_ACTIVE; PR128 AMEND-parked",
+  "status_sources": [
+   "M:PROOF_INDEX:45",
+   "M:GRAPH",
+   "N:#86 c5841652516",
+   "N:#67 c5841863393, c5841899531",
+   "N:QUEUE_RECONCILIATION s1,s4",
+   "H:DOWNSTREAM_RN_CROSSWALK"
+  ],
+  "cited_artifacts": [
+   "main PR128 674f88cd",
+   "remote blob b383bfcc",
+   "annulus blob 6f317515"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "M:D5-INTERMEDIATE-SCALE",
+   "N:D5-INTERMEDIATE-SCALE",
+   "H:D5-INTERMEDIATE-R-TO-RHO"
+  ]
+ },
+ {
+  "id": "G75",
+  "cluster": "D5-GEOMETRY",
+  "lane": "D5",
+  "key": "WITNESS-COLLISION",
+  "name": "Shrinking multiple-witness collision / factorial moments",
+  "statement": "Prove sharp order and kernel for the m=2 pair count, repair the eta->0 transition, and extend to m>=3 factorial moments and a Poisson law.",
+  "current_status": "NO COMPLETE PROOF YET; PR125 AMEND; OPEN_ACTIVE",
+  "status_sources": [
+   "M:PROOF_INDEX:46",
+   "M:pr125 REVIEW",
+   "N:#86 c5841652516",
+   "N:RESEARCH_INDEX",
+   "N:#76 c5841862224",
+   "H:DOWNSTREAM_RN_CROSSWALK",
+   "H:TWELVE s12"
+  ],
+  "cited_artifacts": [
+   "main PR125 00c9d08a",
+   "note blob d29d00f2",
+   "Math PR72 cdb6bdd4"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "M:D5-WITNESS-COLLISION",
+   "N:D5-SHRINKING-WITNESS-COLLISION",
+   "H:D5-WITNESS-COLLISION"
+  ]
+ },
+ {
+  "id": "G76",
+  "cluster": "D5-GEOMETRY",
+  "lane": "D5",
+  "key": "MESOSCOPIC-J0",
+  "name": "Mesoscopic scaled annulus: J_0 row list and det exponent ledger",
+  "statement": "Enumerate the J_0(y) rows, the det S_r powers and the chart cover with integrability, and prove gamma_AB <= C r^-d outside the fixed-annulus window.",
+  "current_status": "OPEN_ACTIVE; AMEND-shaped challenge",
+  "status_sources": [
+   "M:GRAPH",
+   "M:rn_mesoscopic PROOF s5-6",
+   "H:DOWNSTREAM_RN_CROSSWALK",
+   "H:RN_MESOSCOPIC_REDUCTION_CHALLENGE"
+  ],
+  "cited_artifacts": [
+   "PROOF blob 0ef068fe / sha b7ef84cd",
+   "Math PR7"
+  ],
+  "missing_carriers": [
+   "explicit J_0 / det S_r ledger"
+  ],
+  "aliases": [
+   "M:D5-MESOSCOPIC-J0-LEDGER",
+   "H:D5-MESOSCOPIC-ANNULUS"
+  ]
+ },
+ {
+  "id": "G77",
+  "cluster": "D5-GEOMETRY",
+  "lane": "D5",
+  "key": "THIN-TUBE",
+  "name": "Thin-tube candidate R1-R8 review",
+  "statement": "Independent analytic review of the r^-10 exp(-c/r^2) thin-tube proof.",
+  "current_status": "independent review OPEN",
+  "status_sources": [
+   "M:rn_thin_tube PROOF.md",
+   "M:PROOF_INDEX"
+  ],
+  "cited_artifacts": [
+   "PROOF 338d92d1"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "M:D5-THIN-TUBE-REVIEW"
+  ]
+ },
+ {
+  "id": "G78",
+  "cluster": "D5-GEOMETRY",
+  "lane": "D5",
+  "key": "AXIAL-BELT",
+  "name": "Inner axial belt W r<|v|<eta; numerical C_H",
+  "statement": "Prove the height-conditioned density, the conditional Hessian moments, the weighted Palm count on the belt, and a numerical C_H.",
+  "current_status": "omitted region open",
+  "status_sources": [
+   "M:axial_density PROOF:27,151",
+   "M:PROOF_INDEX"
+  ],
+  "cited_artifacts": [
+   "PROOF a72418d7",
+   "review f1868bd9"
+  ],
+  "missing_carriers": [
+   "numerical C_H"
+  ],
+  "aliases": [
+   "M:D5-AXIAL-THIN-BELT"
+  ]
+ },
+ {
+  "id": "G79",
+  "cluster": "D5-GEOMETRY",
+  "lane": "D5",
+  "key": "KERNEL-G1G2-BRIDGE",
+  "name": "Whole-annulus windowed saddle asymptotic (G1+G2 bridge)",
+  "statement": "Establish G1 and G2 at a common model, so that E N_1 = r^3 int Lambda_1 + o(r^3) holds on the whole annulus, with a rate.",
+  "current_status": "CONDITIONAL on PR22/PR25 interfaces; PR33 draft",
+  "status_sources": [
+   "M:ANNULUS_ASYMPTOTIC_BRIDGE.md",
+   "M:contact_kernel_tail NOTE",
+   "M:drive_hole LEDGER s3",
+   "N:#86 c5840160473",
+   "N:grok PART3 U3-F3"
+  ],
+  "cited_artifacts": [
+   "bridge 1ab83027",
+   "PR33 90e0743a"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "M:D5-KERNEL-G1G2-BRIDGE",
+   "N:D5-CONTACT-KERNEL-TAILS (part)"
+  ]
+ },
+ {
+  "id": "G80",
+  "cluster": "D5-GEOMETRY",
+  "lane": "D5",
+  "key": "KERNEL-FINITE-R",
+  "name": "Contact-kernel tails: finite-r uniformity, eta->0, k/r interchange",
+  "statement": "Transfer the limiting kernel results (27392/315, k^6/|v|^13) to finite-r counts. PR36/PR73 review and the PR80 substitute are included.",
+  "current_status": "OPEN/BLOCKED_ABSENT; PR80 AMEND nav-only",
+  "status_sources": [
+   "M:contact_kernel_substitute SUBSTITUTE s4",
+   "M:pr36 REVIEW",
+   "N:#86 c5840190425, c5842125218",
+   "N:grok PART3 U4-F3, U10b; PART1 s5"
+  ],
+  "cited_artifacts": [
+   "KERNEL_TAILS 4d03f110",
+   "PR36 ef312fed",
+   "PR73 5913b004",
+   "PR80 a79007e"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "M:D5-KERNEL-FINITE-R",
+   "N:D5-CONTACT-KERNEL-TAILS (part)"
+  ]
+ },
+ {
+  "id": "G81",
+  "cluster": "D5-GEOMETRY",
+  "lane": "D5",
+  "key": "ANGULAR-AXIS",
+  "name": "Angular tails and near-axis uniform integrability",
+  "statement": "Review the angular-tail derivations and the conditional composition, and settle the near-axis uniform integrability including a moving concentration at v~r.",
+  "current_status": "author-side; separate review required",
+  "status_sources": [
+   "M:contact_angular_tail NOTE:79",
+   "N:#86 c5840167483"
+  ],
+  "cited_artifacts": [
+   "NOTE df008a07",
+   "PR35 513bd15f"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "M:D5-ANGULAR-AXIS",
+   "N:D5-CONTACT-KERNEL-TAILS (part)"
+  ]
+ },
+ {
+  "id": "G82",
+  "cluster": "D5-GEOMETRY",
+  "lane": "D5",
+  "key": "AXIS-SINGULARITY-ND",
+  "name": "Fold-axis singularity of reduced ND/W-block density",
+  "statement": "Replace the claimed log divergence with the power law |z_s|^-2 or ^-4, prove the Palm suppression, and source kappa r^2 ~ 1.95.",
+  "current_status": "IS1-IS3 CONFIRMED majors",
+  "status_sources": [
+   "N:grok REVIEW s4",
+   "N:grok PART1 s9"
+  ],
+  "cited_artifacts": [
+   "main #165",
+   "ND_CUBIC_SLAVING.md:51"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "N:D5-AXIS-SINGULARITY"
+  ]
+ },
+ {
+  "id": "G83",
+  "cluster": "D5-GEOMETRY",
+  "lane": "D5",
+  "key": "TRANSVERSE-EXPOSITION",
+  "name": "Recovered TRANSVERSE_CONTACT_ASYMPTOTIC.md review",
+  "statement": "Nonauthor source-custody and mathematical review of the recovered fixed-chart exposition (2.1)-(2.3).",
+  "current_status": "bytes recovered; mathematics unreviewed (main: no PR25 acceptance transfers)",
+  "status_sources": [
+   "M:drive_hole LEDGER s1",
+   "M:transverse_contact_library README",
+   "M:#56 c5860163781",
+   "N:scope note (PR94 db6a8d5)"
+  ],
+  "cited_artifacts": [
+   "blob c2499674 sha e3ad42b8",
+   "companion 58fbeb8f"
+  ],
+  "missing_carriers": [
+   "nonauthor source-custody review"
+  ],
+  "aliases": [
+   "M:D5-TRANSVERSE-EXPOSITION-REVIEW"
+  ]
+ },
+ {
+  "id": "G84",
+  "cluster": "D5-GEOMETRY",
+  "lane": "D5",
+  "key": "D5-EXCLUDED-REGIMES",
+  "name": "D5 exclusions: d>=3, k->0, uniform L, near-axis, unrestricted marks",
+  "statement": "Extend the D5 results beyond d=2, fixed L, k_->0, near-pin/u=0 sites and fixed scaled width.",
+  "current_status": "exclusions open; OUTSIDE D5 closure",
+  "status_sources": [
+   "M:TWO_SCALE_REVIEW",
+   "M:FIXED_ANNULUS s9",
+   "N:#86 c5841652516, c5840304803"
+  ],
+  "cited_artifacts": [
+   "TWO_SCALE 89cae3a9",
+   "FIXED_ANNULUS 081abc13"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "M:D5-EXCLUDED-REGIMES",
+   "N:D5-HIGHER-SCOPE"
+  ]
+ },
+ {
+  "id": "G85",
+  "cluster": "D5-GEOMETRY",
+  "lane": "D5",
+  "key": "PR9-FINITE-R-ROWS",
+  "name": "PR9 chart rows: finite-r pin drift; axial compensation density",
+  "statement": "Regenerate the PR9 Taylor rows using the correct drift 6k(u^2-1/4), and prove an axial compensation-density bound.",
+  "current_status": "defect remains; axial_compensation_density_bound_proved=false",
+  "status_sources": [
+   "N:#86 c5837139657, c5838237722, c5838538562, c5839557320"
+  ],
+  "cited_artifacts": [
+   "PR9 ea52f84",
+   "PR17 e707da6f",
+   "PR21 b420099b"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "N:D5-PR9-FINITE-R-ROWS"
+  ],
+  "notes": "Possibly superseded for fixed annulus; no explicit closure found."
+ },
+ {
+  "id": "G86",
+  "cluster": "SIDE24-BF",
+  "lane": "D5",
+  "key": "BF-SIX-PIN-CERTS",
+  "name": "Six-linear-pin BF scalar and endpoint-Hessian covariance certificates",
+  "statement": "Nonauthor review of 1599/3200 <= Var(f_ts|P)/r^2 <= 1/2, the (1/7)I..2I covariance floor, and E[(det H0)^2|P] <= 23 r^4/20 on 0<r<=1/40.",
+  "current_status": "REVIEW_REQUIRED; AUTHOR_DERIVATION",
+  "status_sources": [
+   "M:bf_six_pin_scalar/hessian CERTIFICATE.json",
+   "N:#86 c5851785935, c5851997921"
+  ],
+  "cited_artifacts": [
+   "PR89 0be9c76 / heads 81de9a6a, e2e427e9",
+   "arXiv:1911.03455v3"
+  ],
+  "missing_carriers": [
+   "nonauthor review record"
+  ],
+  "aliases": [
+   "M:BF-SIX-PIN-CERT-REVIEW",
+   "N:BF-SIX-PIN-ENDPOINT-HESSIAN"
+  ]
+ },
+ {
+  "id": "G87",
+  "cluster": "D6-P15",
+  "lane": "D6",
+  "key": "P15-UNRESTRICTED",
+  "name": "Unrestricted P15 prize: arbitrary downsets; P15-B external review",
+  "statement": "Extend beyond the realized capacity/clutter family: bounded palette localization for every downset, input support identification and the prize. Also needed: independent review and a novelty check of P15-B.",
+  "current_status": "open; original_prize_closed=false; demand-one refuted (scope boundary)",
+  "status_sources": [
+   "M:P15_REALIZED_COVERS:140",
+   "M:hardening_ebedb780 README, P15-B",
+   "N:STATUS.md D6",
+   "N:RESEARCH_INDEX",
+   "N:#74 c5832280593, c5842112010",
+   "H:graph.json P15-A..D",
+   "H:RV-P15"
+  ],
+  "cited_artifacts": [
+   "P15-B blob deab15eb sha 9b18b6e9",
+   "REV-P15-B 0579a10c",
+   "full_price sha 87521901",
+   "P15 archive 1XXMf-B4"
+  ],
+  "missing_carriers": [
+   "REV-P15-B.md not in Math-"
+  ],
+  "aliases": [
+   "M:D6-P15-UNRESTRICTED",
+   "N:D6-P15-EXTENSION",
+   "H:D6-P15-PARENT"
+  ]
+ },
+ {
+  "id": "G88",
+  "cluster": "D6-P15",
+  "lane": "D6",
+  "key": "P15-T1-REALIZED",
+  "name": "P15 restricted price theorem T1 and realized covers review binding",
+  "statement": "Source-bound review of T1 (d_i>=2, p_v<=1/4) and of the realized covers claim. The broader realized-cover price claim is held.",
+  "current_status": "HOLD_WITH_DOMAIN; GRAPH 'review open' stale",
+  "status_sources": [
+   "M:LANDING p15-price-budget-restricted, p15-realized-covers",
+   "M:#39 c5840219772",
+   "N:#86 c5842081902, c5842260705",
+   "N:grok PART3 U7-F4",
+   "H:RESEARCH_INDEX"
+  ],
+  "cited_artifacts": [
+   "price_budget 9b17d179",
+   "realized covers 173881916c / sha c0dbb821",
+   "Math PR66 10e1f191"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "M:D6-P15-T1-REVIEW",
+   "H:D6-P15-PRICE-REALIZED",
+   "N:P15-IMPORTED-PRIMITIVES (part)"
+  ]
+ },
+ {
+  "id": "G89",
+  "cluster": "D6-P15",
+  "lane": "D6",
+  "key": "P15-C-AMEND",
+  "name": "P15-C 816-color certificate set-membership",
+  "statement": "Correct the C3 assertion, which states the negation of what the section establishes.",
+  "current_status": "REV-P15-C AMEND",
+  "status_sources": [
+   "H:REV-P15-C.json",
+   "N:QUEUE_RECONCILIATION s2"
+  ],
+  "cited_artifacts": [
+   "03_CONNECTED... sha 357dd573"
+  ],
+  "missing_carriers": [
+   "P12 exact-empty-activation condition"
+  ],
+  "aliases": [
+   "H:D6-P15-C-AMEND",
+   "N:P15-IMPORTED-PRIMITIVES (part)"
+  ]
+ },
+ {
+  "id": "G90",
+  "cluster": "D6-P15",
+  "lane": "D6",
+  "key": "P15-D-P14E",
+  "name": "P15-D composition and P14-E substitution identity",
+  "statement": "Bind or supply the P14-E disjoint-substitution identity for arbitrary-depth composition.",
+  "current_status": "REV-P15-D AMEND",
+  "status_sources": [
+   "H:REV-P15-D.json",
+   "H:P15_FOUNDATION_FIRST_REVIEW",
+   "N:QUEUE_RECONCILIATION s2"
+  ],
+  "cited_artifacts": [
+   "04_COMPLETE... sha ad2c55b8"
+  ],
+  "missing_carriers": [
+   "P14-E carrier"
+  ],
+  "aliases": [
+   "H:D6-P15-D-P14E",
+   "N:P15-IMPORTED-PRIMITIVES (part)"
+  ],
+  "notes": "Conflict: main says P14-E is not a dependency (routed via P10-A)."
+ },
+ {
+  "id": "G91",
+  "cluster": "D6-P15",
+  "lane": "D6",
+  "key": "P15-A-P14A",
+  "name": "P15-A threshold attribution; unreviewed P14-A/P14-B",
+  "statement": "Verify the identification of alpha with the critical threshold, and review P14-A and P14-B.",
+  "current_status": "PASS_TECHNICAL with MAJOR unverified; P14 external reviews 0",
+  "status_sources": [
+   "H:REV-P15-A.json",
+   "H:REV-P15-B.json",
+   "H:graph.json P14-A..E"
+  ],
+  "cited_artifacts": [
+   "P14_01 sha b3c7ea04",
+   "arXiv:1810.08841v1"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:D6-P15-A-P14A"
+  ]
+ },
+ {
+  "id": "G92",
+  "cluster": "OTHER",
+  "lane": "D7",
+  "key": "HARD-GATE-EXTERNAL-BINDING",
+  "name": "Downstream hard gate: repository-wide external controlling-source binding",
+  "statement": "Engineering: resolve the external references (FC-09) and land the allowlist patch before the main PR87 crosswalk leaves HOLD.",
+  "current_status": "ENGINEERING_HOLD",
+  "status_sources": [
+   "M:LANDING downstream-hard-gate",
+   "M:GRAPH eng.main-pr87-crosswalk",
+   "N:#95 c5842121882"
+  ],
+  "cited_artifacts": [
+   "patch sha 84b7ad72",
+   "main PR87 3d4969ab"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "M:D7-HARD-GATE-BINDING",
+   "DOWNSTREAM-HARD-GATE-20260925-v1"
+  ]
+ },
+ {
+  "id": "G93",
+  "cluster": "OTHER",
+  "lane": "D7",
+  "key": "PR8-OWN-NODE",
+  "name": "Math- PR #8 gate own-node eligibility hole",
+  "statement": "Enforce CONTROLLING_ELIGIBLE={PROVED_REVIEWED} on Math-; the patch exists but has not been applied.",
+  "current_status": "hole open on Math- tip",
+  "status_sources": [
+   "H:MATH_PR8_ELIGIBILITY_HANDOFF",
+   "H:DOWNSTREAM_RN_CROSSWALK"
+  ],
+  "cited_artifacts": [
+   "patch sha 1648237d"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:GATE-MATH-PR8-OWN-NODE"
+  ]
+ },
+ {
+  "id": "G94",
+  "cluster": "OTHER",
+  "lane": "D7",
+  "key": "SCHEMA-GRAPH-REGISTERS",
+  "name": "Populated schema graph and register reconciliation (main #95)",
+  "statement": "Populate the schema-v1 nodes for the five families, repair the stale Math GRAPH.json, resolve FC-01/02/10, and align STATUS, LANDING and GRAPH.",
+  "current_status": "PARTIAL; still missing",
+  "status_sources": [
+   "N:#95 c5842121882",
+   "N:QUEUE_RECONCILIATION s4",
+   "N:#86 c5841110564",
+   "N:grok PART4 D4-F6",
+   "M:scope note (stale GRAPH, PROOF_INDEX:44, PUBLIC_READING_MAP)"
+  ],
+  "cited_artifacts": [
+   "scientific_state/v1 SCHEMA, ID_CROSSWALK",
+   "Math PR45",
+   "PR48 232a182f"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "N:ARCH-95-SCHEMA-GRAPH"
+  ]
+ },
+ {
+  "id": "G95",
+  "cluster": "OTHER",
+  "lane": "D7",
+  "key": "FORMAL-ALIGNMENT",
+  "name": "Formal/informal statement alignment (13 Math- + 31 main targets)",
+  "statement": "A different-provider review must bind the manifest and check alignment of all 13 Math- GP-FOR-192 declarations and 31 SIDE24 targets. Source preservation and scientific acceptance also remain.",
+  "current_status": "PENDING_INDEPENDENT_REVIEW; all 31 open",
+  "status_sources": [
+   "M:FORMAL_REQUIRED_CHECKS.md",
+   "N:QUEUE_RECONCILIATION s6",
+   "N:FORMAL_VERIFICATION_ROLLOUT",
+   "N:#95 c5860162472, c5860996324"
+  ],
+  "cited_artifacts": [
+   "Math- formal cc2989c1",
+   "manifest 8a479e7c",
+   "rulesets 23798639, 24045351",
+   "Math PR96 22e79e8"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "M:FORMAL-ALIGNMENT-MAIN95",
+   "N:FORMAL-ALIGNMENT"
+  ]
+ },
+ {
+  "id": "G96",
+  "cluster": "OTHER",
+  "lane": "Q0/UPPER2D",
+  "key": "Q0-C101",
+  "name": "Q0-C101 qualitative 0<=1-q(r,6/5)<=C_Q0 r^3",
+  "statement": "Finish the nonauthor source audit of each regional estimate (the C101 blob names no lemma path). No decimal C_Q0 may be stated.",
+  "current_status": "LIVE_ROOT_THEOREM; audit not finished (#116 auto-closed)",
+  "status_sources": [
+   "N:QUEUE_RECONCILIATION s4",
+   "N:lb_rate REVIEW s8",
+   "N:grok REVIEW s7 item 6",
+   "H:graph.json Q0-C101",
+   "H:FAIL_CLOSED_CLAIM_AUDIT_REPAIRS"
+  ],
+  "cited_artifacts": [
+   "C101 3957 B sha 8c2ded65 / blob 7c170c31",
+   "main#116 comments"
+  ],
+  "missing_carriers": [
+   "C101 lemma path"
+  ],
+  "aliases": [
+   "N:Q0-C101-UPPER",
+   "H:Q0-C101-SOURCE-AUDIT"
+  ]
+ },
+ {
+  "id": "G97",
+  "cluster": "OTHER",
+  "lane": "Q0/UPPER2D",
+  "key": "Q0-C103",
+  "name": "Q0-C103 typed pair-Palm cubic rate for q_MS^br (C1-C8)",
+  "statement": "Replace the conditional display with the joint-event bound and get C1-C8 dispositions. C3-C8 are unreviewed. The full-Gaussian corollary also needs SARD-G.",
+  "current_status": "C1 AMEND; REVIEW_PENDING; full-Gaussian HOLD",
+  "status_sources": [
+   "M:pr124 REVIEW",
+   "N:QUEUE_RECONCILIATION s2,s5",
+   "N:#86 c5842125218",
+   "H:Q0_C103_SOURCE_BOUND_CUBIC_RATE.md",
+   "H:Q0_C103_SOURCE_MAP.json"
+  ],
+  "cited_artifacts": [
+   "PR124 a380dcfb",
+   "C102 blob 25917bef",
+   "C101 1daec257",
+   "C098 3e3037b6",
+   "C100 04d6e1c5"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "M:Q0-C103-CUBIC-ENVELOPE",
+   "N:Q0-C103",
+   "H:Q0-C103-CONDITIONAL-CUBIC"
+  ],
+  "depends_on": [
+   "G98",
+   "G99",
+   "G100",
+   "G101"
+  ]
+ },
+ {
+  "id": "G98",
+  "cluster": "OTHER",
+  "lane": "Q0/UPPER2D",
+  "key": "PREMISE-Z-LOWER",
+  "name": "PREMISE-Z-LOWER Z_r >= c r^2 on 0<r<=0.025 (b=6/5)",
+  "statement": "Prove the finite-radius normalizer floor for C101/C103; the open point is liminf at 0. Decide whether D4 (10)-(11) with C102 discharges it.",
+  "current_status": "UNRESOLVED(_AT_ZERO); BLOCKED (#116)",
+  "status_sources": [
+   "M:pr124 REVIEW",
+   "N:grok PART4 D4-F1",
+   "N:grok PART3 U11-F9",
+   "H:Q0_C103_SOURCE_MAP gates"
+  ],
+  "cited_artifacts": [
+   "C098 table 3.2337/3.2245",
+   "C100/C101 s2"
+  ],
+  "missing_carriers": [
+   "proof of inf Z_r/r^2>0",
+   "carrier named missing in #116"
+  ],
+  "aliases": [
+   "M:PREMISE-Z-LOWER",
+   "N:D4-D1-NORMALIZER-XREF",
+   "H:Q0-C103-Z-LOWER",
+   "PREMIS-Z-LOWER"
+  ],
+  "depends_on": [
+   "G41"
+  ]
+ },
+ {
+  "id": "G99",
+  "cluster": "OTHER",
+  "lane": "Q0/UPPER2D",
+  "key": "PREMISE-BRANCH-MASS",
+  "name": "PREMISE-BRANCH-MASS inf P_MS(H_branch)>0",
+  "statement": "Prove the branch-mass premise needed to pass from the joint cubic to 1-q_MS^br.",
+  "current_status": "UNRESOLVED",
+  "status_sources": [
+   "H:Q0_C103_SOURCE_MAP gates",
+   "M:pr124 REVIEW"
+  ],
+  "cited_artifacts": [],
+  "missing_carriers": [
+   "premise P_MS(H_branch)>=c"
+  ],
+  "aliases": [
+   "H:Q0-C103-BRANCH-MASS"
+  ]
+ },
+ {
+  "id": "G100",
+  "cluster": "OTHER",
+  "lane": "Q0/UPPER2D",
+  "key": "BMISS-ENVELOPE",
+  "name": "B_miss cap {D(M)!=S} cubic envelope",
+  "statement": "Give a cubic bound when neither ascending branch of S reaches M, which yields the unconditioned 1-q_MS.",
+  "current_status": "UNRESOLVED",
+  "status_sources": [
+   "H:Q0_C103_SOURCE_MAP",
+   "M:pr124 REVIEW"
+  ],
+  "cited_artifacts": [],
+  "missing_carriers": [
+   "B_miss O(r^3) envelope"
+  ],
+  "aliases": [
+   "H:Q0-C103-BMISS-DEFECT"
+  ]
+ },
+ {
+  "id": "G101",
+  "cluster": "OTHER",
+  "lane": "Q0/UPPER2D",
+  "key": "SARD-G-A1-A6",
+  "name": "SARD-G A1 open charts / A6 slicing (genericity gate)",
+  "statement": "State RI1-RI4 so that every U_chi is open (the endpoint-hit counterexample shows it is not). Then A6 applies. Also needed: Clarifications A and C, and review of A2-A5.",
+  "current_status": "A1 AMEND; A6 conditionally valid, application AMEND; HOLD_WITH_DOMAIN",
+  "status_sources": [
+   "M:SARD_G_A1_RELATIVE_INTERIOR_LEMMA.md",
+   "M:SARD_G_A1_APPLIED_TO_SUCCESSOR.md",
+   "N:STATUS.md SARD-G",
+   "N:sard_g_successor REVIEW",
+   "N:grok PART2 s3.5-3.6",
+   "H:Q0_C103_SOURCE_MAP",
+   "H:SARD_G_EXECUTION_REPAIR",
+   "H:HB-034"
+  ],
+  "cited_artifacts": [
+   "SARD_G_EXECUTION_REPAIR blob 8f86e0c9",
+   "transversality blob a0f4aa6a",
+   "KIMI-AUD-022 e968385a",
+   "T2 archive 46923d44"
+  ],
+  "missing_carriers": [
+   "SARD_G_A1_REPAIR_PREDICATE.md",
+   "cycle-2 IDENTITY.json",
+   "Lucas P1-P6 definitions"
+  ],
+  "aliases": [
+   "M:SARD-G-A1",
+   "M:SARD-G-A6",
+   "N:SARD-G-A1-A6",
+   "H:SARD-G-FULL-GAUSSIAN"
+  ]
+ },
+ {
+  "id": "G102",
+  "cluster": "OTHER",
+  "lane": "Q0/UPPER2D",
+  "key": "MATCHING-2D-UPPER",
+  "name": "Matching 2D upper 1-q_2(r,6/5)<=C r^3",
+  "statement": "Prove exhaustive failure-event inclusion, the exact Kac-Rice height integral, and all-small-r control, without composing with the 3D theorem.",
+  "current_status": "OPEN",
+  "status_sources": [
+   "N:LPW_Return_05 CURRENT_STATE.json, 05_WORK_ORDER",
+   "H:graph.json MATCHING-2D-UPPER",
+   "H:lpw_fold_dispositions",
+   "H:OPEN_PROBLEMS B"
+  ],
+  "cited_artifacts": [
+   "C020/C021",
+   "upper work order 1b-oSNqN"
+  ],
+  "missing_carriers": [
+   "UPPER2D.zip",
+   "LPW_Return_04 zip (NOT_IMPORTED)"
+  ],
+  "aliases": [
+   "N:UB-2D-MATCHING-UPPER",
+   "H:MATCHING-2D-UPPER"
+  ]
+ },
+ {
+  "id": "G103",
+  "cluster": "OTHER",
+  "lane": "Q0/UPPER2D",
+  "key": "QUARTIC-GAUGE",
+  "name": "Quartic gauge 31-gauge protocol",
+  "statement": "Run the amended protocol and report the gauge-specific and common-cohort estimands.",
+  "current_status": "READY AFTER AMENDMENT",
+  "status_sources": [
+   "H:HB-002"
+  ],
+  "cited_artifacts": [
+   "GP-AUD-030"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:HB-002-QUARTIC-GAUGE"
+  ]
+ },
+ {
+  "id": "G104",
+  "cluster": "OTHER",
+  "lane": "LOWER2D",
+  "key": "LPW-QUALITATIVE",
+  "name": "LPW qualitative lower bound 1-q>=c r^3 (2D side-24)",
+  "statement": "Correct the body-rule separator, run the Class-3 technical gates, and supply an exact event identity for applying the bound to GP-DER-118/q0.",
+  "current_status": "ACCEPTED_AT_REVIEW_SCOPE; Class-3 HOLD; body-rule reconciliation open",
+  "status_sources": [
+   "H:graph.json LPW-QUALITATIVE",
+   "H:lpw_fold_dispositions",
+   "H:LPW-OPR-R04-QUAL",
+   "N:LPW_Return_05 CURRENT_STATE.json"
+  ],
+  "cited_artifacts": [
+   "LPW-CAND sha cf58f72e",
+   "verdict 04bcbdf2"
+  ],
+  "missing_carriers": [
+   "raw reviewer ZIP receipt"
+  ],
+  "aliases": [
+   "H:LB-LPW-QUALITATIVE",
+   "N:LPW-CONSTANT-2D (part)"
+  ]
+ },
+ {
+  "id": "G105",
+  "cluster": "OTHER",
+  "lane": "LOWER2D",
+  "key": "LPW-CONSTANT",
+  "name": "LPW explicit constant repair (6.238e-44)",
+  "statement": "Freeze the corrected fraction (F1), fix E[(|X|+|Y|)^4]=12+32/pi (F2), and add full outward rounding (F3). Kimi must review the R05 Rayleigh repair.",
+  "current_status": "AMEND_REQUIRED_AS_CERTIFIED_PACKAGE",
+  "status_sources": [
+   "N:LPW_Return_05 CURRENT_STATE, 02_CONSTANT_FINDINGS",
+   "H:graph.json LPW-CONSTANT-DELIVERED",
+   "H:OPEN_PROBLEMS C"
+  ],
+  "cited_artifacts": [
+   "lpw_constant.py e258322c",
+   "R05 repair 1ngaO6hz"
+  ],
+  "missing_carriers": [
+   "LPW_Return_04/05 zips",
+   "MANIFEST_AUDIT.json",
+   "LPW_Review_Reconciliation zip"
+  ],
+  "aliases": [
+   "N:LPW-CONSTANT-2D",
+   "H:LB-LPW-CONSTANT"
+  ]
+ },
+ {
+  "id": "G106",
+  "cluster": "OTHER",
+  "lane": "LOWER2D",
+  "key": "QC-RETURN03",
+  "name": "QC-RETURN03 fallback 1-q>=1e-1235 r^3",
+  "statement": "Keep the fallback separate and supply the raw QC receipts.",
+  "current_status": "ACCEPTED_AT_REVIEW_SCOPE; promotion technical-gated",
+  "status_sources": [
+   "H:LPW-OPR-R04-FALLBACK",
+   "H:graph.json QC-RETURN03"
+  ],
+  "cited_artifacts": [
+   "QC-RETURN03 sha 18a6e27c"
+  ],
+  "missing_carriers": [
+   "raw QC receipts"
+  ],
+  "aliases": [
+   "H:LB-QC-RETURN03"
+  ]
+ },
+ {
+  "id": "G107",
+  "cluster": "OTHER",
+  "lane": "LOWER2D",
+  "key": "K3-CAMPAIGN",
+  "name": "K3 2D lower campaign (K3-THM-001 refuted as written)",
+  "statement": "Prove a positive uniform Lambda constant, the Palm losses, eta_r, exit o(1) and H-Bonf, then do a blind review and a clean-room replay.",
+  "current_status": "REFUTED_AS_WRITTEN; LOWER HOLD",
+  "status_sources": [
+   "H:OQ-016-U1",
+   "H:graph.json K3-THM-001",
+   "H:OPEN_PROBLEMS H"
+  ],
+  "cited_artifacts": [
+   "GP-LB-STAT-004 26a9c7ef",
+   "K3-THM-001 715124db"
+  ],
+  "missing_carriers": [
+   "K3 Phase-0 raw carriers",
+   "W2/W3/W4 receipts",
+   "K3_SIDE24_LB.zip (NOT_IMPORTED)"
+  ],
+  "aliases": [
+   "H:LB-K3-CAMPAIGN"
+  ]
+ },
+ {
+  "id": "G108",
+  "cluster": "OTHER",
+  "lane": "LOWER2D",
+  "key": "LB-RATE-THM023",
+  "name": "KIMI-THM-023 lower rate (c=0.9144 candidate) and v1.1/DER-027b drafts",
+  "statement": "Prove 1-q(r,6/5)>=c r^3 with a proved uniform constant. Finish DER-027b, remove the THM-023 v1.1 placeholders, fix the verifier, and settle eta_r.",
+  "current_status": "HOLD conditional assembly; 0.9144 measured-grade; v1.1 INCOMPLETE",
+  "status_sources": [
+   "N:lb_rate_thm023 REVIEW",
+   "N:#86 c5849166966",
+   "N:QUEUE_RECONCILIATION s4",
+   "H:OQ-016",
+   "H:artifact_index"
+  ],
+  "cited_artifacts": [
+   "KIMI-THM-023 sha 61e14810",
+   "KIMI-AUD-023/024",
+   "C031 e7998ef0",
+   "GP-DER-118-v1.10"
+  ],
+  "missing_carriers": [
+   "DER-027b -O transcript",
+   "0.005 rung data",
+   "KIMI-DER-009/010 bodies unchecked"
+  ],
+  "aliases": [
+   "N:LB-RATE-THM023",
+   "H:LB-DER027B-THM023",
+   "LB-RATE"
+  ],
+  "depends_on": [
+   "G109",
+   "G110"
+  ]
+ },
+ {
+  "id": "G109",
+  "cluster": "OTHER",
+  "lane": "LOWER2D",
+  "key": "LB-WP",
+  "name": "WP loss: valid upper bound and minimal o(1) rate",
+  "statement": "Prove the WP loss o(1) under the exact weighted triple-Palm law, with a correct Cauchy-Schwarz min term. Also fix the R2 collar comparison, the LB-1 punctured count, and the tail sign.",
+  "current_status": "WP ub DECERTIFIED; OPEN / proof absent",
+  "status_sources": [
+   "N:lb_rate REVIEW s4-5",
+   "N:#86 c5849166966",
+   "H:OQ-014, OQ-014-U1",
+   "H:GP-LB-WO-001"
+  ],
+  "cited_artifacts": [
+   "LB1_sup_over_zone be85b2ed",
+   "KIMI-DER-025",
+   "DEF-WP-CS-01"
+  ],
+  "missing_carriers": [
+   "WP certificate source bytes"
+  ],
+  "aliases": [
+   "N:LB-WP-R2-LB1-SUBLEMMAS",
+   "H:LB-WP"
+  ]
+ },
+ {
+  "id": "G110",
+  "cluster": "OTHER",
+  "lane": "LOWER2D",
+  "key": "GAMMA-LOC",
+  "name": "P-NMZ-gamma tube clearance gamma-LOC(ii-c) and exit o(1)",
+  "statement": "Certify the third-saddle ascent tube clearance, with ratio exceeding sqrt(2 log(1/r)).",
+  "current_status": "OPEN; conditional",
+  "status_sources": [
+   "H:OQ-015, OQ-015-U1",
+   "N:lb_rate REVIEW (LB-3)"
+  ],
+  "cited_artifacts": [
+   "KIMI-DER-026"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:LB-PNMZ-GAMMA"
+  ]
+ },
+ {
+  "id": "G111",
+  "cluster": "OTHER",
+  "lane": "LOWER2D",
+  "key": "W8-HB3",
+  "name": "W8 Lambda side / H-B3 premise",
+  "statement": "Prove an analytic H-B3 replacement and produce complete immutable W8 receipts.",
+  "current_status": "OPEN; no whole-run pass; finite_r closure false",
+  "status_sources": [
+   "H:OQ-016-U2",
+   "H:graph.json H-B3",
+   "H:lpw_fold W8-v3",
+   "N:LPW_Return_05 CURRENT_STATE"
+  ],
+  "cited_artifacts": [
+   "GP-LB-STAT-004A",
+   "c027 core40.json 0003756d"
+  ],
+  "missing_carriers": [
+   "W8 transcript_O",
+   "identity stamp",
+   "HASHES"
+  ],
+  "aliases": [
+   "H:LB-W8-HB3",
+   "N:LPW-CONSTANT-2D (W8 part)"
+  ]
+ },
+ {
+  "id": "G112",
+  "cluster": "OTHER",
+  "lane": "LOWER2D",
+  "key": "C030-C031",
+  "name": "C030/C031 base cycle set; LB-4 residue enumeration",
+  "statement": "Repair the LB-4 enumeration against frozen C030/C031.",
+  "current_status": "KIMI-AUD-023 AMEND REQUIRED",
+  "status_sources": [
+   "H:artifact_index KIMI-AUD-023, GP-LB-ERR-001, AO48-AUD-062"
+  ],
+  "cited_artifacts": [
+   "C031",
+   "GP-LB-REC-001"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:LB-C030-C031"
+  ]
+ },
+ {
+  "id": "G113",
+  "cluster": "OTHER",
+  "lane": "P0.1",
+  "key": "P01-PARENT",
+  "name": "P0.1 selected-branch adjacency positivity inf P_r^MS(A_r)>=c_A",
+  "statement": "Promote the frozen GP-DER-118-v1.10 theorem once the RP-C/RP-S, recombination, integrity and independence gates close.",
+  "current_status": "HOLD; FOUNDATION/APPLICATION true; NOT PROMOTED; [[P0.1:OPEN]]",
+  "status_sources": [
+   "H:autonomy_control P01_V110",
+   "H:OQ-009",
+   "H:easy_closure_queue P0.1",
+   "H:GOA-P01-017",
+   "M:P02-LM-005 export"
+  ],
+  "cited_artifacts": [
+   "GP-DER-118-v1.10 sha 9b7901e1",
+   "GP-DER-118-v1.9 d894c0fe",
+   "LS-CTL-003-v1.3",
+   "AO48-OPR-042",
+   "CL-DER-204",
+   "AO48-DER-031",
+   "CL-REC-242"
+  ],
+  "missing_carriers": [
+   "GP-AUD-231 body (EMPTY)"
+  ],
+  "aliases": [
+   "H:P01-PARENT"
+  ],
+  "depends_on": [
+   "G114",
+   "G115",
+   "G118"
+  ]
+ },
+ {
+  "id": "G114",
+  "cluster": "OTHER",
+  "lane": "P0.1",
+  "key": "P01-INDEP-INTEGRITY",
+  "name": "P0.1 independence/integrity predicates (LS-CTL-003-v1.3)",
+  "statement": "Resolve the A0, family-distinction and integrity predicates, fold B0, and complete the C2 crosswalk.",
+  "current_status": "INDEPENDENCE/INTEGRITY false; CRITICAL alarm",
+  "status_sources": [
+   "H:DQ-016",
+   "H:autonomy_control",
+   "H:alarms.json",
+   "N:LPW_Return_05 CURRENT_STATE (P01)",
+   "N:#86 c5851626923"
+  ],
+  "cited_artifacts": [
+   "LS-CTL-003-v1.3",
+   "LS-WO-001",
+   "P0.1 frozen 666f582c"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:P01-INDEPENDENCE-INTEGRITY",
+   "N:P0.1-LS-CTL-003"
+  ]
+ },
+ {
+  "id": "G115",
+  "cluster": "OTHER",
+  "lane": "P0.1",
+  "key": "P01-PZ0-N1",
+  "name": "P0.1 upper-normalizer periodization C_Z=15",
+  "statement": "A non-Anthropic, non-author reviewer must verify the B4/B5 periodization and the M13 firewall with r-free constants.",
+  "current_status": "PZ0 UNCLAIMED; N1 FALSE",
+  "status_sources": [
+   "H:DQ-015, DQ-013, DQ-001",
+   "H:alarms.json"
+  ],
+  "cited_artifacts": [
+   "GP-DATA/DER-214",
+   "LS-COR-011"
+  ],
+  "missing_carriers": [
+   "LS-DATA-009-v1.1 chunks",
+   "CL-DATA-251 exact bytes"
+  ],
+  "aliases": [
+   "H:P01-PZ0-N1-NORMALIZER"
+  ]
+ },
+ {
+  "id": "G116",
+  "cluster": "OTHER",
+  "lane": "P0.1",
+  "key": "P01-QUANTITATIVE",
+  "name": "P0.1 quantitative constants r_GR, p_B, C_D, r_star",
+  "statement": "Produce interval certificates for the explicit constants, and audit the GP-DATA-212 spectral witnesses and the GP-DER-206 tail radius.",
+  "current_status": "OPEN; no numerical P0.1 claim",
+  "status_sources": [
+   "H:HB-P01-QCONST-001",
+   "H:HB-P01-RADIUS-199",
+   "H:DQ-005",
+   "H:artifact_index GP-DER-206, GP-DATA-206"
+  ],
+  "cited_artifacts": [
+   "GP-DER/DATA-212",
+   "GP-DER-206",
+   "GP-DATA-206"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:P01-QUANTITATIVE"
+  ]
+ },
+ {
+  "id": "G117",
+  "cluster": "OTHER",
+  "lane": "P0.1",
+  "key": "P01-TAYLOR",
+  "name": "Shared Taylor transfer (Domain D + P02-LM-004) and U1* small ball",
+  "statement": "Reconstruct the pin-preserving C1 Taylor transfer once, and review GP-DER-146 U1*.",
+  "current_status": "OPEN; review open",
+  "status_sources": [
+   "H:HB-TAYLOR-194",
+   "H:HB-026"
+  ],
+  "cited_artifacts": [
+   "GP-DER-146"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:P01-TAYLOR-DOMAIN-D"
+  ]
+ },
+ {
+  "id": "G118",
+  "cluster": "OTHER",
+  "lane": "P0.1",
+  "key": "BOREL-SELECTED-BRANCH",
+  "name": "Shared P0.1/P0.2 measurable selected branch and Borel adjacency event (P02-LM-013)",
+  "statement": "Reconstruct GP-DER-197, adjudicate LCR-DER-057, and convert Carrier B LCR-DER-061-v1.1. Then give the joint-stack verdict.",
+  "current_status": "OPEN; zero independence credit; Carrier B conversion OPEN; A0 FALSE",
+  "status_sources": [
+   "H:HB-EVENT-197",
+   "H:HB-LP057-201",
+   "H:easy_closure_queue P02-LM-013",
+   "H:graph.json LM013-JOINT-STACK",
+   "H:alarms.json"
+  ],
+  "cited_artifacts": [
+   "GP-DER-197 035d5a18",
+   "LCR-DER-061-v1.1 8ec4386f",
+   "Carrier A 62c23788"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:P01-EVENT-BOREL",
+   "H:P02-LM013"
+  ]
+ },
+ {
+  "id": "G119",
+  "cluster": "OTHER",
+  "lane": "P0.2",
+  "key": "P02-PARENT",
+  "name": "P0.2 adjacency-to-one 1-a_r=O(r^3) thirteen-interface chain",
+  "statement": "Obtain the exact-object verdicts for the pending LM interfaces, then the final synthesis.",
+  "current_status": "OPEN; five terminal / eight pending; [[P0.2:OPEN]]",
+  "status_sources": [
+   "H:OQ-005",
+   "H:HB-P02-190",
+   "H:DQ-010",
+   "H:GOA-P02-002",
+   "M:P02-LM-005 export"
+  ],
+  "cited_artifacts": [
+   "P02 READ_FIRST 1_hJQkq7",
+   "LCR-REQ-051..053"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:P02-PARENT"
+  ],
+  "depends_on": [
+   "G118",
+   "G120",
+   "G121",
+   "G122",
+   "G123",
+   "G124",
+   "G125",
+   "G126",
+   "G127"
+  ]
+ },
+ {
+  "id": "G120",
+  "cluster": "OTHER",
+  "lane": "P0.2",
+  "key": "P02-LM003",
+  "name": "P02-LM-003 boundary-layer integration",
+  "statement": "Get an organizationally distinct exact-hash verdict on LCR-DER-014.",
+  "current_status": "NONTERMINAL; NEEDS_RECONCILIATION",
+  "status_sources": [
+   "H:ECQ P02-LM-003",
+   "H:RV-LM003-MAIN"
+  ],
+  "cited_artifacts": [
+   "LCR-DER-014 5173d26d"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:P02-LM003"
+  ]
+ },
+ {
+  "id": "G121",
+  "cluster": "OTHER",
+  "lane": "P0.2",
+  "key": "P02-LM004",
+  "name": "P02-LM-004 adaptive C1 robustness",
+  "statement": "Get one organizationally distinct LCR-REQ-039 verdict.",
+  "current_status": "PASS_TECHNICAL same-provider; NONTERMINAL",
+  "status_sources": [
+   "H:RV-LM004-MAIN",
+   "H:ECQ P02-LM-004"
+  ],
+  "cited_artifacts": [
+   "LCR-DER-016-v1.1 d43179f3"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:P02-LM004"
+  ]
+ },
+ {
+  "id": "G122",
+  "cluster": "OTHER",
+  "lane": "P0.2",
+  "key": "P02-LM005-HASH",
+  "name": "P02-LM-005 hash-specific review of snapshot 0d1776ab",
+  "statement": "Carry out a hash-specific review; CL-AUD-074 is not one.",
+  "current_status": "[[HASH-REVIEW:OPEN]]",
+  "status_sources": [
+   "M:hardening_ebedb780 P02-LM-005:25"
+  ],
+  "cited_artifacts": [
+   "P02-LM-005 blob 8fa13431"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "M:P02-LM-005-HASH-REVIEW"
+  ]
+ },
+ {
+  "id": "G123",
+  "cluster": "OTHER",
+  "lane": "P0.2",
+  "key": "P02-LM006",
+  "name": "P02-LM-006 exact full-field typed normalizer",
+  "statement": "Obtain the full distinct theorem verdict for Z_r/r^2 -> E[Q^2 1{Q<0}] with two-sided bounds. Reconstruct it jointly with P0.1-G, which is terminal.",
+  "current_status": "NONTERMINAL; open exact-normalizer theorem",
+  "status_sources": [
+   "M:P02-LM-008 export:68",
+   "H:ECQ P02-LM-006",
+   "H:RV-LM006-MAIN",
+   "H:HB-050",
+   "H:HB-NORM-191"
+  ],
+  "cited_artifacts": [
+   "LCR-DER-019 239ed094",
+   "P02-LM-008 70112651",
+   "GP-DATA-123 666f582c"
+  ],
+  "missing_carriers": [
+   "P02-LM-006 carrier (not in Math-)"
+  ],
+  "aliases": [
+   "M:P02-LM-006",
+   "H:P02-LM006",
+   "H:P01-P02-SHARED-NORMALIZER"
+  ]
+ },
+ {
+  "id": "G124",
+  "cluster": "OTHER",
+  "lane": "P0.2",
+  "key": "P02-LM009",
+  "name": "P02-LM-009 super-polynomial tail",
+  "statement": "Get an external exact-hash verdict.",
+  "current_status": "NONTERMINAL",
+  "status_sources": [
+   "H:RV-LM009-MAIN",
+   "H:ECQ P02-LM-009"
+  ],
+  "cited_artifacts": [
+   "LCR-DER-027 ccc07d95"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:P02-LM009"
+  ]
+ },
+ {
+  "id": "G125",
+  "cluster": "OTHER",
+  "lane": "P0.2",
+  "key": "P02-LM010",
+  "name": "P02-LM-010 good-remainder crosswalk",
+  "statement": "Get an exact-hash verdict on v1.1.",
+  "current_status": "NONTERMINAL",
+  "status_sources": [
+   "H:ECQ P02-LM-010",
+   "H:RV-LM010-MAIN"
+  ],
+  "cited_artifacts": [
+   "LCR-DER-030-v1.1 05e0f20f"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:P02-LM010"
+  ]
+ },
+ {
+  "id": "G126",
+  "cluster": "OTHER",
+  "lane": "P0.2",
+  "key": "P02-LM011",
+  "name": "P02-LM-011 cubic synthesis",
+  "statement": "Issue the final synthesis verdict after all component verdicts.",
+  "current_status": "NONTERMINAL; waiting on 7 prerequisites",
+  "status_sources": [
+   "H:ECQ P02-LM-011",
+   "H:HB-P02-BUNDLE-D"
+  ],
+  "cited_artifacts": [
+   "LCR-DER-033 17c37fa1"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:P02-LM011"
+  ]
+ },
+ {
+  "id": "G127",
+  "cluster": "OTHER",
+  "lane": "P0.2",
+  "key": "P02-LM012",
+  "name": "P02-LM-012 common small-r domain lift",
+  "statement": "Get the LCR-REQ-045 exact-hash verdict.",
+  "current_status": "NONTERMINAL",
+  "status_sources": [
+   "H:ECQ P02-LM-012",
+   "H:RV-LM012-MAIN"
+  ],
+  "cited_artifacts": [
+   "LCR-DER-043-v1.1 68df3208"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:P02-LM012"
+  ]
+ },
+ {
+  "id": "G128",
+  "cluster": "OTHER",
+  "lane": "P0.2",
+  "key": "P02-E1-BRIDGE",
+  "name": "P0.2 E1 pair-Palm to configured-process bridge",
+  "statement": "Audit the six-pin law-to-process identification and the gate-2 CL-DATA-052.",
+  "current_status": "MANUSCRIPT BRIDGE OPEN; gate 2 OPEN",
+  "status_sources": [
+   "H:HB-047",
+   "H:HB-014",
+   "H:alarms.json"
+  ],
+  "cited_artifacts": [
+   "CL-DATA-052"
+  ],
+  "missing_carriers": [
+   "GP-AUD-039 body (EMPTY)"
+  ],
+  "aliases": [
+   "H:P02-E1-PAIR-PALM-BRIDGE"
+  ]
+ },
+ {
+  "id": "G129",
+  "cluster": "OTHER",
+  "lane": "P0.2",
+  "key": "P02-V4-FOLD",
+  "name": "P0.2 V4 typed Palm to fold-Palm bridge",
+  "statement": "Verify the fold identities and label each intensity as typed or fold-conditioned.",
+  "current_status": "outside manuscript review OPEN; CRITICAL alarm",
+  "status_sources": [
+   "H:HB-022",
+   "H:alarms.json"
+  ],
+  "cited_artifacts": [
+   "GP-AUD-089"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:P02-V4-FOLD-BRIDGE"
+  ]
+ },
+ {
+  "id": "G130",
+  "cluster": "OTHER",
+  "lane": "P0.2",
+  "key": "P02-V3-REPLAY",
+  "name": "P0.2 V3 outside rerun and T-F nonvacuous replay",
+  "statement": "Rerun GP-DATA-072 and build the T-F replay at nonvacuous events; fix the NaN-to-STALL classifier.",
+  "current_status": "V3 PARTIAL; T-F and outside replay OPEN",
+  "status_sources": [
+   "H:HB-049",
+   "H:HB-021",
+   "H:alarms.json"
+  ],
+  "cited_artifacts": [
+   "GP-DATA-072",
+   "CL-AUD-050"
+  ],
+  "missing_carriers": [
+   "CL-AUD-050 event functions"
+  ],
+  "aliases": [
+   "H:P02-V3-REPLAY"
+  ]
+ },
+ {
+  "id": "G131",
+  "cluster": "OTHER",
+  "lane": "P0.2",
+  "key": "PRCP-EXACT-FIELD",
+  "name": "PRCP practical-r bridge / exact-field C1 transfer (HB-024/025)",
+  "statement": "Repair GP-AUD-090 F1-F4 and give a rigorous conditioned H5 or C1 remainder. Populate GP-SCHEMA-095 and settle exact-field membership.",
+  "current_status": "AMENDMENTS REQUIRED; outside execution OPEN",
+  "status_sources": [
+   "H:HB-020, HB-024, HB-025",
+   "M:EC-015 export",
+   "M:P02-LM-001 export"
+  ],
+  "cited_artifacts": [
+   "GP-AUD-090",
+   "GP-DER-095",
+   "GP-DER-100",
+   "GP-SCHEMA-095",
+   "GP-DATA-098-v1.1",
+   "source ebedb780"
+  ],
+  "missing_carriers": [
+   "CL-DATA-059",
+   "GP-DATA-093 (blank shell)"
+  ],
+  "aliases": [
+   "M:P0.1-P0.2-OPEN",
+   "H:P02-PRCP-PRACTICAL-R"
+  ]
+ },
+ {
+  "id": "G132",
+  "cluster": "OTHER",
+  "lane": "P1.1",
+  "key": "Q-MACHINE",
+  "name": "Law-specific q machine successor 1.2.2",
+  "statement": "Organizationally distinct review of candidate 1.2.2, then the adoption gates.",
+  "current_status": "OPEN; GOA-QM-001 FAIL; do not install",
+  "status_sources": [
+   "H:OQ-012",
+   "H:GOA-QM-001/002",
+   "H:HB-044"
+  ],
+  "cited_artifacts": [
+   "1.2.2 sha 63e88fd9"
+  ],
+  "missing_carriers": [
+   "LS-DATA-013 body"
+  ],
+  "aliases": [
+   "H:P11-Q-MACHINE"
+  ]
+ },
+ {
+  "id": "G133",
+  "cluster": "OTHER",
+  "lane": "P1.2",
+  "key": "EXACT-PAIRING",
+  "name": "Exact-field pairing instrument GP-DATA-054 v1.1",
+  "statement": "Republish the exact source, then do a non-author reconstruction and one frozen production field.",
+  "current_status": "BLOCKED; TARGET OPEN",
+  "status_sources": [
+   "H:HB-011",
+   "H:global_object_audit"
+  ],
+  "cited_artifacts": [
+   "GP-DATA-054-v1.1 sha f1371c16"
+  ],
+  "missing_carriers": [
+   "GP-DATA-054-v1.1 source",
+   "ep2.py"
+  ],
+  "aliases": [
+   "H:P12-EXACT-PAIRING"
+  ]
+ },
+ {
+  "id": "G134",
+  "cluster": "SIDE24-BF",
+  "lane": "SIDE24-3D",
+  "key": "SIDE24-PACKAGE",
+  "name": "SIDE24 3D theorem package (T1,T2, |eps_24|<1e-180) self-contained review",
+  "statement": "Assemble and independently review the self-contained package over RP-A/L/F/C/S, G.3.1, A.3.3 and the coefficient. Custody of the bytes is not acceptance.",
+  "current_status": "HOLD pending independent review; not self-contained",
+  "status_sources": [
+   "M:#40 c5842107257",
+   "N:#117 body, c5841187684, c5841641409, c5846580248"
+  ],
+  "cited_artifacts": [
+   "PACKAGE_v1.0 e12c1fa2",
+   "FACEWISE v1.1 db5b193a",
+   "GAP_FILL bdf5f060 sha 05967f14",
+   "LS-DER-064 d3400623",
+   "LS-DER-068 543b5a51",
+   "04_APPENDIX cbc9e513",
+   "AO48-OPR-045 2186043e"
+  ],
+  "missing_carriers": [
+   "d2_closed_form.py, goe_cone_coefficient.py, first_variation_derivation.py"
+  ],
+  "aliases": [
+   "M:D3-SIDE24-PACKAGE-HOLD",
+   "N:SIDE24-3D-PROOF-SUFFICIENCY",
+   "AO48-AUD-044",
+   "LS-DER-064/068"
+  ],
+  "depends_on": [
+   "G135",
+   "G136",
+   "G138",
+   "G139",
+   "G140"
+  ]
+ },
+ {
+  "id": "G135",
+  "cluster": "SIDE24-BF",
+  "lane": "SIDE24-3D",
+  "key": "RPC-RPS",
+  "name": "RP-C collar / RP-S singular-near witness O(r^3); ratified sup(1-p_r)<=C r^3",
+  "statement": "Give two-sided control of the witness-covariance determinant on the boundary strata, plus the three-Hessian envelope. The supplement's G.9/G.10 still read OPEN.",
+  "current_status": "RATIFIED-AT-STATED-SCOPE vs supplement G.10 OPEN/HOLD; math use needs exact chain",
+  "status_sources": [
+   "H:AO48-OPR-045",
+   "H:GOA-SIDE24-RPCS",
+   "H:GAP_FILL G.9-G.10",
+   "H:FAIL_CLOSED_CLAIM_AUDIT_REPAIRS",
+   "N:#117"
+  ],
+  "cited_artifacts": [
+   "AO48-OPR-045 e48d7c27",
+   "three_hessian 3e9ed0e6 / f19132b4",
+   "rp_c_rp_s relay 2aa2408c"
+  ],
+  "missing_carriers": [
+   "V3.3 tables",
+   "KIMI-AUD-006/006b in corpus",
+   "RP-C/RP-S sandbox original"
+  ],
+  "aliases": [
+   "H:S24-RPC-RPS"
+  ],
+  "depends_on": [
+   "G138",
+   "G139"
+  ]
+ },
+ {
+  "id": "G136",
+  "cluster": "SIDE24-BF",
+  "lane": "SIDE24-3D",
+  "key": "RPA-RPL-RPF",
+  "name": "RP-A/RP-L (G.7.1 Palm transfer) and RP-F (G.8)",
+  "statement": "Independent proofread of the adjacency, self-attachment and far-witness O(r^3) proofs.",
+  "current_status": "CLOSED in supplement; proofread only",
+  "status_sources": [
+   "H:GAP_FILL F.6",
+   "N:#117",
+   "M:#40 c5842107257 (G.8)"
+  ],
+  "cited_artifacts": [
+   "GAP_FILL 05967f14",
+   "Module I (25)-(32)"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:S24-RPA-RPL-RPF",
+   "G.7.1",
+   "G.8"
+  ]
+ },
+ {
+  "id": "G137",
+  "cluster": "SIDE24-BF",
+  "lane": "SIDE24-3D",
+  "key": "DOSSIER-SUPPLEMENT-RESIDUALS",
+  "name": "Pre-review dossier 12-item register / supplement residuals",
+  "statement": "Discharge the residual items. Needed: nu_far=O(1), the near pushforward with Kac-Rice review, and the Borel elder-mark proofread. Also: the trichotomy exhaustion, capture/escape normal form, the joint blow-up lemma, the Module E/F/K items, and a literature novelty pass.",
+  "current_status": "not self-contained; joint blow-up lemma OPEN; proofreads pending",
+  "status_sources": [
+   "N:02_PRE_REVIEW_DOSSIER s12",
+   "H:GAP_FILL F.6, register summary"
+  ],
+  "cited_artifacts": [
+   "02_PRE_REVIEW_DOSSIER.pdf 374,433 B",
+   "verify_constrained_triple_contact.py"
+  ],
+  "missing_carriers": [
+   "original dossier PDFs"
+  ],
+  "aliases": [
+   "N:SIDE24-3D-DOSSIER-GAP-REGISTER",
+   "H:S24-SUPPLEMENT-RESIDUALS"
+  ],
+  "notes": "Whether the V3.4/FACEWISE ratification supersedes these is recorded nowhere."
+ },
+ {
+  "id": "G138",
+  "cluster": "CUSTODY-MISSING",
+  "lane": "SIDE24-3D",
+  "key": "V33-EIGENFLOOR",
+  "name": "Historical V3.3 eigenfloor tables (AO48-AUD-044 s.C(a))",
+  "statement": "Recover the V3.3 archive or a full row manifest, or get the independent kernel reconstruction accepted as a replacement. Axial and angular uniformity have not been re-derived.",
+  "current_status": "ABSENT / HISTORICAL_PROVENANCE_ONLY; unrecovered",
+  "status_sources": [
+   "M:#40 c5842107257",
+   "N:#117 c5841187684, c5846580248",
+   "N:PUBLIC_MATHEMATICS:15",
+   "N:#86 c5842260705",
+   "H:SOURCE_RECOVERY.json",
+   "H:eigenfloor README"
+  ],
+  "cited_artifacts": [
+   "V3_3 checkpoint zip 12,388,862 B sha 4040d654",
+   "AO48-AUD-044 7711431e",
+   "EIGENFLOOR_INDEPENDENT 0d108ea3",
+   "negative-provenance 06ace09e"
+  ],
+  "missing_carriers": [
+   "SIDE24_V3_3_V5_ADJUDICATION_CHECKPOINT_2026-08-01.zip",
+   "standalone V3.3 tables"
+  ],
+  "aliases": [
+   "M:D3-V33-TABLE-ARCHIVE",
+   "N:SIDE24-3D-V33-EIGENFLOOR",
+   "H:S24-V33-EIGENFLOOR-TABLES"
+  ]
+ },
+ {
+  "id": "G139",
+  "cluster": "SIDE24-BF",
+  "lane": "SIDE24-3D",
+  "key": "V33-PALM-NORMALIZER",
+  "name": "V3.3 Palm normalizer c r^2<=Z_r<=C r^2 (G.3.1; s.C(c))",
+  "statement": "Bind the carried normalizer to G.3.1; no separately indexed V3.3 checkpoint hash exists.",
+  "current_status": "carrier-level limitation preserved",
+  "status_sources": [
+   "H:SIDE24_THEOREM_PACKAGE s7",
+   "M:#40 c5842107257 (G.3.1)"
+  ],
+  "cited_artifacts": [
+   "GAP_FILL G.3.1 05967f14"
+  ],
+  "missing_carriers": [
+   "V3.3 checkpoint hash"
+  ],
+  "aliases": [
+   "H:S24-V33-PALM-NORMALIZER",
+   "G.3.1"
+  ]
+ },
+ {
+  "id": "G140",
+  "cluster": "CUSTODY-MISSING",
+  "lane": "SIDE24-3D",
+  "key": "MODULE-I-9700",
+  "name": "Module I s3 extraction, 9,700 B (eqs 25-32)",
+  "statement": "Recover the exact 9,700-byte extraction cited by G.8 and (H2).",
+  "current_status": "BLOCKED_ABSENT (main, hardening); REPLACEABLE_BY_PRESENT_EXACT_SOURCE (Math-)",
+  "status_sources": [
+   "M:#40 c5842107257",
+   "N:#117 c5841641409, c5846580248",
+   "N:PUBLIC_MATHEMATICS:17",
+   "H:source_recovery README",
+   "H:SOURCE_RECOVERY.json"
+  ],
+  "cited_artifacts": [
+   "sha b958c21d",
+   "appendix blob cbc9e513",
+   "non-matching Drive 19UCMJeh"
+  ],
+  "missing_carriers": [
+   "Module I 9,700 B file"
+  ],
+  "aliases": [
+   "M:D3-MODULE-I-9700",
+   "N:SIDE24-3D-MODULE-I",
+   "H:S24-MODULE-I-9700"
+  ]
+ },
+ {
+  "id": "G141",
+  "cluster": "CUSTODY-MISSING",
+  "lane": "SIDE24-3D",
+  "key": "V34-REPLAY-ARCHIVE",
+  "name": "V3.4 replay archive (s6X withdrawal-completeness)",
+  "statement": "Recover and bind the V3.4 replay zip.",
+  "current_status": "HISTORICAL_PROVENANCE_ONLY (Math-); main: PRESENT_EXACT via PR126 cd66a655",
+  "status_sources": [
+   "M:#40 c5842107257",
+   "N:scope note (PR126)",
+   "N:#117"
+  ],
+  "cited_artifacts": [
+   "12,465,983 B sha ba2a296b",
+   "blob b2901c1d",
+   "Drive 1TSH5V0f"
+  ],
+  "missing_carriers": [
+   "V3.4 zip not a blob on PR120 tip"
+  ],
+  "aliases": [
+   "M:D3-V34-REPLAY-ARCHIVE"
+  ]
+ },
+ {
+  "id": "G142",
+  "cluster": "CUSTODY-MISSING",
+  "lane": "SIDE24-3D",
+  "key": "ARITH-LEDGERS-PY",
+  "name": "arithmetic_ledgers.py behind ASSEMBLED_EPSILON_24<1e-180",
+  "statement": "Recover the executable that printed the 1e-180 receipt.",
+  "current_status": "HISTORICAL_PROVENANCE_ONLY (Math-); main: PRESENT_EXACT via PR126",
+  "status_sources": [
+   "M:#40 c5842107257",
+   "N:scope note (PR126)",
+   "N:#117"
+  ],
+  "cited_artifacts": [
+   "receipt blob d72a3f9d",
+   "blobs 68da0f8c, cf1434d6"
+  ],
+  "missing_carriers": [
+   "arithmetic_ledgers.py (Math-)"
+  ],
+  "aliases": [
+   "M:D3-ARITH-LEDGERS-PY"
+  ]
+ },
+ {
+  "id": "G143",
+  "cluster": "CUSTODY-MISSING",
+  "lane": "SIDE24-3D",
+  "key": "V34-DIAG-SCRIPTS",
+  "name": "Three V3.4 diagnostic scripts delivery",
+  "statement": "Deliver the three PASSing scripts into the Kimi audit corpus.",
+  "current_status": "pending (non-blocking)",
+  "status_sources": [
+   "H:SIDE24_THEOREM_PACKAGE s7"
+  ],
+  "cited_artifacts": [
+   "0ba99085",
+   "bb4fdb73",
+   "abc5b8cd"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:S24-V34-DIAG-SCRIPTS"
+  ]
+ },
+ {
+  "id": "G144",
+  "cluster": "CUSTODY-MISSING",
+  "lane": "SIDE24-3D",
+  "key": "KIMI-AUD-006-RAW",
+  "name": "KIMI-AUD-006/006b raw audit carriers",
+  "statement": "Land the raw texts frozen whole-file and reconcile the 4b66f85e and 17c8eba9 identities.",
+  "current_status": "AMEND REQUIRED / pending",
+  "status_sources": [
+   "H:frozen_objects",
+   "H:SIDE24_THEOREM_PACKAGE s6",
+   "H:FAIL_CLOSED s4"
+  ],
+  "cited_artifacts": [
+   "006-RAW 17c8eba9",
+   "006b-RAW 2a38f2d4",
+   "AO48-AUD-043 d1ceb50d"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "H:S24-KIMI-AUD-006-RAW",
+   "KIMI-AUD-006/006b"
+  ]
+ },
+ {
+  "id": "G145",
+  "cluster": "CUSTODY-MISSING",
+  "lane": "SIDE24-3D",
+  "key": "AUDIT-EVIDENCE-ZIP",
+  "name": "SIDE24_AUDIT_EVIDENCE_2026-08-01.zip corrupt members",
+  "statement": "Recover the exact bytes of the two .md members.",
+  "current_status": "READ_FAILED; CANDIDATE",
+  "status_sources": [
+   "H:recovery/LEDGER RDF-01/02",
+   "H:Exceptions.csv"
+  ],
+  "cited_artifacts": [
+   "carrier 19GhKdHa"
+  ],
+  "missing_carriers": [
+   "INDEPENDENT_AUDIT_FINDINGS/RUN_LOG_2026-07-31.md"
+  ],
+  "aliases": [
+   "H:S24-AUDIT-EVIDENCE-ZIP"
+  ]
+ },
+ {
+  "id": "G146",
+  "cluster": "CUSTODY-MISSING",
+  "lane": "SIDE24-3D",
+  "key": "EIGENFLOOR-VERIFIER-GIT",
+  "name": "Eigenfloor verifier raw bytes in Git",
+  "statement": "Land the 18,701 B verifier byte-exactly.",
+  "current_status": "not landed on hardening; main cites blob 2c7fdde7",
+  "status_sources": [
+   "H:eigenfloor README",
+   "N:#117 (artifact list)"
+  ],
+  "cited_artifacts": [
+   "sha 17209cb6",
+   "blob 2c7fdde7"
+  ],
+  "missing_carriers": [
+   "hardening Git copy"
+  ],
+  "aliases": [
+   "H:S24-EIGENFLOOR-VERIFIER-GIT"
+  ]
+ },
+ {
+  "id": "G147",
+  "cluster": "SIDE24-BF",
+  "lane": "SIDE24-3D",
+  "key": "KIMI-TASK6",
+  "name": "Blind d^3/48 midpoint-reflection vs Kimi Task-6",
+  "statement": "Run the pre-registered comparison.",
+  "current_status": "frozen pending",
+  "status_sources": [
+   "H:SIDE24_THEOREM_PACKAGE s10"
+  ],
+  "cited_artifacts": [],
+  "missing_carriers": [],
+  "aliases": [
+   "H:S24-KIMI-TASK6-D3-48"
+  ]
+ },
+ {
+  "id": "G148",
+  "cluster": "OTHER",
+  "lane": "FORMAL",
+  "key": "LEAN-BUILD",
+  "name": "GP-FOR-189/192 clean Lean build",
+  "statement": "Freeze the toolchain and Mathlib commit, compile clean, then get a distinct review.",
+  "current_status": "LEAN CI NOT RUN; no machine-checked proof",
+  "status_sources": [
+   "H:OQ-013",
+   "H:HB-045",
+   "H:DQ-002"
+  ],
+  "cited_artifacts": [
+   "GP-FOR-001 e0eb1a73"
+  ],
+  "missing_carriers": [
+   "original GP-FOR-001 ZIP, Lake project",
+   "GP-FOR-192 ZIP body"
+  ],
+  "aliases": [
+   "H:FORMAL-LEAN"
+  ]
+ },
+ {
+  "id": "G149",
+  "cluster": "OTHER",
+  "lane": "FORMAL",
+  "key": "FORMAL-LOWER-NORMALIZER",
+  "name": "Formal measure-theoretic interface and lower normalizer",
+  "statement": "Formalize the measurable objects and the Cauchy-Schwarz interface and prove the lower normalizer bound. The GP214 upper bound does not supply it.",
+  "current_status": "work offer not picked up",
+  "status_sources": [
+   "N:FORMAL_VERIFICATION.md",
+   "N:#95 c5859879064, c5860091769",
+   "M:scope note formal/SCOPE.md"
+  ],
+  "cited_artifacts": [
+   "GP-FOR-192",
+   "GP214"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "N:FORMAL-PROB-LOWER-NORMALIZER"
+  ],
+  "depends_on": [
+   "G98"
+  ]
+ },
+ {
+  "id": "G150",
+  "cluster": "OTHER",
+  "lane": "FORMAL",
+  "key": "FORMAL-NUMERICAL",
+  "name": "Formal SIDE24 c_{d,ref} enclosure; D6 rho* target",
+  "statement": "Define c_{d,ref} in Lean, prove a proof-producing enclosure, and then rho*=1/(3-log(3e-2))<6/7.",
+  "current_status": "not enclosed; SMT pilot proof_assistant_checked=false",
+  "status_sources": [
+   "N:FORMAL_VERIFICATION.md",
+   "N:ROLLOUT",
+   "N:#95 c5838296706"
+  ],
+  "cited_artifacts": [
+   "Math PR18 d87637de"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "N:FORMAL-NUMERICAL-SIDE24-RHO"
+  ]
+ },
+ {
+  "id": "G151",
+  "cluster": "CUSTODY-MISSING",
+  "lane": "provenance",
+  "key": "DROPBOX-NOT-IMPORTED",
+  "name": "Dropbox 26 not-imported files; MISSING tier",
+  "statement": "Import or hash-bind the 26 files, resolve the 373-file MISSING tier, and assess the 11 Math-imports-candidate rows.",
+  "current_status": "26 NOT_IMPORTED; fitness not established",
+  "status_sources": [
+   "N:dropbox_import README, NOT_IMPORTED.csv",
+   "N:QUEUE_RECONCILIATION s7"
+  ],
+  "cited_artifacts": [
+   "UPPER2D.zip 568e7c73",
+   "K3_SIDE24_LB.zip 3ab6ecdb",
+   "T2 SARD-G zip 18c3319e"
+  ],
+  "missing_carriers": [
+   "26 NOT_IMPORTED rows"
+  ],
+  "aliases": [
+   "N:PROV-DROPBOX-NOT-IMPORTED"
+  ]
+ },
+ {
+  "id": "G152",
+  "cluster": "OTHER",
+  "lane": "provenance",
+  "key": "MPV3-Q0-COSMO",
+  "name": "MPV3 state carriers; Q0 flagship external attack; COS-O2",
+  "statement": "Recover the MPV3 state files, get a provenance-separated recomputation of nu(ell)=c ell^-1/3, and resolve COS-O2.",
+  "current_status": "zero separated attacks; COS-MEA-001 HISTORICAL-UNAUDITABLE",
+  "status_sources": [
+   "N:MPV3 MASTER Part IV",
+   "N:MPV3 MANIFEST"
+  ],
+  "cited_artifacts": [
+   "MPV3 release d3f6afe0"
+  ],
+  "missing_carriers": [
+   "MPV3_OBLIGATIONS/LEDGER/KERNEL/DOMAIN_* files"
+  ],
+  "aliases": [
+   "N:PROV-MPV3-Q0-COSMO"
+  ]
+ },
+ {
+  "id": "G153",
+  "cluster": "CUSTODY-MISSING",
+  "lane": "provenance",
+  "key": "UNRECOVERABLE-CARRIERS",
+  "name": "Unrecoverable / candidate Drive carriers",
+  "statement": "Recover the exact bytes of the math-relevant UNRECOVERABLE/CANDIDATE carriers (15 unrecoverable + 1 candidate).",
+  "current_status": "UNRECOVERABLE 15; CANDIDATE 1; not invented",
+  "status_sources": [
+   "H:recovery/LEDGER.json",
+   "H:Exceptions.csv",
+   "H:OPEN_PROBLEMS E"
+  ],
+  "cited_artifacts": [
+   "ARF-02 cl_der_239_verify.py 54f2e9ab",
+   "EBF/ENB records"
+  ],
+  "missing_carriers": [
+   "cl_der_239_verify.py",
+   "LS-DATA-009-v1.1 chunks",
+   "LS-DATA-015 capsules",
+   "GP-AUD-039/231 bodies"
+  ],
+  "aliases": [
+   "H:CUSTODY-UNRECOVERABLE-CARRIERS"
+  ]
+ },
+ {
+  "id": "G154",
+  "cluster": "OTHER",
+  "lane": "other",
+  "key": "GEN-94-GATE",
+  "name": "General lifetime theorem for stationary Gaussian fields (gated)",
+  "statement": "Activate only after the #86 closure report and #90 checker success, with no REVALIDATION_REQUIRED node.",
+  "current_status": "GATED",
+  "status_sources": [
+   "N:#94 body",
+   "N:#86 c5842125218",
+   "N:QUEUE_RECONCILIATION s4"
+  ],
+  "cited_artifacts": [],
+  "missing_carriers": [],
+  "aliases": [
+   "N:GEN-94-GATE"
+  ],
+  "depends_on": [
+   "G39",
+   "G67",
+   "G74",
+   "G75",
+   "G01"
+  ]
+ },
+ {
+  "id": "G155",
+  "cluster": "OTHER",
+  "lane": "other",
+  "key": "SANDBOX-113",
+  "name": "Alien-hypothesis sandbox H1-H4, H7-H10",
+  "statement": "Test the remaining method hypotheses (engineering only).",
+  "current_status": "untested; H5/H6 REJECT",
+  "status_sources": [
+   "N:QUEUE_RECONCILIATION s4",
+   "N:#113 c5842122103"
+  ],
+  "cited_artifacts": [
+   "trial PR121 391f6a8e"
+  ],
+  "missing_carriers": [],
+  "aliases": [
+   "N:SANDBOX-113-HYPOTHESES"
+  ]
+ }
+]
