@@ -472,6 +472,45 @@ class IntakeTests(unittest.TestCase):
         self.api.routes[f'/repos/{REPO}/compare/{orphan}...{"d" * 40}?per_page=1'] = urllib.error.HTTPError('u', 404, 'Not Found', None, None)
         self.reject('not reachable from any branch')
 
+    def test_repeated_source_commit_is_scanned_once(self):
+        # Three sources pin one commit that only a late branch contains. Its reachability scan and
+        # its tree are fetched once, not once per source (main#386 timed out on the repeats).
+        commit, vouching = 'd' * 40, 'claude/recovery-real'
+        files = {'research/a.json': b'a\n', 'research/b.json': b'b\n', 'research/c.json': b'c\n'}
+        self.manifest['sources'] = [{'repository': REPO, 'path': p, 'commit': commit, 'sha256': sha(raw)} for p, raw in files.items()]
+        self.save()
+        for p, raw in files.items():
+            self.install_source(REPO, commit, p, raw, branches=('main', 'chatgpt/one', 'chatgpt/two', vouching), reachable_from=(vouching,))
+        self.api.routes[f'/repos/{REPO}/git/trees/{commit}?recursive=1'] = {'truncated': False, 'tree': [
+            {'path': p, 'mode': '100644', 'type': 'blob', 'size': len(raw), 'sha': blob(raw)} for p, raw in files.items()]}
+        self.assertEqual(self.run_check()['verified_sources'], 3)
+        self.assertEqual(len([c for c in self.api.calls if f'...{commit}?per_page=1' in c]), 4)
+        self.assertEqual(len([c for c in self.api.calls if c == f'/repos/{REPO}/branches?per_page=100&page=1']), 1)
+        self.assertEqual(len([c for c in self.api.calls if c == f'/repos/{REPO}/git/trees/{commit}?recursive=1']), 1)
+
+    def test_repeated_unreachable_source_commit_still_rejects(self):
+        # Negative control: reuse never creates reachability; a repeated unreachable commit is refused.
+        commit = 'd' * 40
+        files = {'research/a.json': b'a\n', 'research/b.json': b'b\n'}
+        self.manifest['sources'] = [{'repository': REPO, 'path': p, 'commit': commit, 'sha256': sha(raw)} for p, raw in files.items()]
+        self.save()
+        for p, raw in files.items():
+            self.install_source(REPO, commit, p, raw, branches=('main', 'chatgpt/one'), reachable_from=())
+        self.reject('not reachable from any branch')
+
+    def test_reachable_commit_never_vouches_for_another_commit(self):
+        # Negative control: the reuse is keyed by commit. A reachable first source must not let a
+        # second source at an unreachable commit of the same repository through.
+        good, bad, vouching = 'd' * 40, 'e' * 40, 'claude/recovery-real'
+        good_raw, bad_raw = b'reachable\n', b'unreachable\n'
+        self.manifest['sources'] = [{'repository': REPO, 'path': 'research/good.json', 'commit': good, 'sha256': sha(good_raw)},
+                                    {'repository': REPO, 'path': 'research/bad.json', 'commit': bad, 'sha256': sha(bad_raw)}]
+        self.save()
+        self.install_source(REPO, good, 'research/good.json', good_raw, branches=('main', vouching), reachable_from=(vouching,))
+        self.install_source(REPO, bad, 'research/bad.json', bad_raw, branches=('main', vouching), reachable_from=())
+        self.reject('not reachable from any branch')
+        self.assertFalse(any(f'/git/trees/{bad}' in c for c in self.api.calls))
+
     def test_compare_non_404_http_error_still_rejects(self):
         # Negative control: only 404 means "this branch does not vouch"; a 403 or 500 is not evidence and rejects.
         route = f'/repos/{MATH}/compare/main...{SOURCE}?per_page=1'
