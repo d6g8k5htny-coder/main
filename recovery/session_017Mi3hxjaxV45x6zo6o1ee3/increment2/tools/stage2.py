@@ -20,7 +20,7 @@ SCRATCH = os.path.abspath(sys.argv[1])
 STAGE = os.path.abspath(sys.argv[2])
 REC2 = os.path.join(SCRATCH, "rec2")
 SESSION = "session_017Mi3hxjaxV45x6zo6o1ee3"
-SCRATCH_UUID = os.path.basename(os.path.dirname(SCRATCH))  # 159201a6-...
+SCRATCH_UUID = os.path.basename(os.path.dirname(SCRATCH))  # <SESSION-UUID>
 CHECKPOINT1 = "d579bcc05aa8173986fdb2634fbcf75df7e9f53b"
 
 EXCLUDE_DIRS = {  # top-level directories never walked: clones, caches, private material, this tool's own output
