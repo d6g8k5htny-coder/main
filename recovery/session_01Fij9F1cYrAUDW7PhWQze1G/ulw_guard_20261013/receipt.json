@@ -1,0 +1,166 @@
+{
+ "python": "3.11.15",
+ "bash": "GNU bash, version 5.2.21(1)-release (x86_64-pc-linux-gnu)",
+ "cases": [
+  {
+   "fixture": "empty",
+   "workflow": "ci",
+   "original": {
+    "exit": 0,
+    "ran": "Ran 0 tests in 0.000s",
+    "error_line": false,
+    "log_exists": false
+   },
+   "candidate": {
+    "exit": 1,
+    "ran": "Ran 0 tests in 0.000s",
+    "error_line": true,
+    "log_exists": true
+   }
+  },
+  {
+   "fixture": "empty",
+   "workflow": "pins",
+   "original": {
+    "exit": 0,
+    "ran": "Ran 0 tests in 0.000s",
+    "error_line": false,
+    "log_exists": false
+   },
+   "candidate": {
+    "exit": 1,
+    "ran": "Ran 0 tests in 0.000s",
+    "error_line": true,
+    "log_exists": true
+   }
+  },
+  {
+   "fixture": "one_passing",
+   "workflow": "ci",
+   "original": {
+    "exit": 0,
+    "ran": "Ran 1 test in 0.000s",
+    "error_line": false,
+    "log_exists": false
+   },
+   "candidate": {
+    "exit": 0,
+    "ran": "Ran 1 test in 0.000s",
+    "error_line": false,
+    "log_exists": true
+   }
+  },
+  {
+   "fixture": "one_passing",
+   "workflow": "pins",
+   "original": {
+    "exit": 0,
+    "ran": "Ran 1 test in 0.000s",
+    "error_line": false,
+    "log_exists": false
+   },
+   "candidate": {
+    "exit": 0,
+    "ran": "Ran 1 test in 0.000s",
+    "error_line": false,
+    "log_exists": true
+   }
+  },
+  {
+   "fixture": "one_failing",
+   "workflow": "ci",
+   "original": {
+    "exit": 1,
+    "ran": "Ran 1 test in 0.001s",
+    "error_line": false,
+    "log_exists": false
+   },
+   "candidate": {
+    "exit": 1,
+    "ran": "Ran 1 test in 0.000s",
+    "error_line": false,
+    "log_exists": true
+   }
+  },
+  {
+   "fixture": "one_failing",
+   "workflow": "pins",
+   "original": {
+    "exit": 1,
+    "ran": "Ran 1 test in 0.000s",
+    "error_line": false,
+    "log_exists": false
+   },
+   "candidate": {
+    "exit": 1,
+    "ran": "Ran 1 test in 0.000s",
+    "error_line": false,
+    "log_exists": true
+   }
+  },
+  {
+   "fixture": "import_error",
+   "workflow": "ci",
+   "original": {
+    "exit": 1,
+    "ran": "Ran 1 test in 0.000s",
+    "error_line": false,
+    "log_exists": false
+   },
+   "candidate": {
+    "exit": 1,
+    "ran": "Ran 1 test in 0.000s",
+    "error_line": false,
+    "log_exists": true
+   }
+  },
+  {
+   "fixture": "import_error",
+   "workflow": "pins",
+   "original": {
+    "exit": 1,
+    "ran": "Ran 1 test in 0.000s",
+    "error_line": false,
+    "log_exists": false
+   },
+   "candidate": {
+    "exit": 1,
+    "ran": "Ran 1 test in 0.000s",
+    "error_line": false,
+    "log_exists": true
+   }
+  },
+  {
+   "fixture": "ulw_real_tests_a152b9d1",
+   "workflow": "ci",
+   "original": {
+    "exit": 0,
+    "ran": "Ran 49 tests in 5.941s",
+    "error_line": false,
+    "log_exists": false
+   },
+   "candidate": {
+    "exit": 0,
+    "ran": "Ran 49 tests in 5.867s",
+    "error_line": false,
+    "log_exists": true
+   }
+  },
+  {
+   "fixture": "ulw_real_tests_a152b9d1",
+   "workflow": "pins",
+   "original": {
+    "exit": 0,
+    "ran": "Ran 49 tests in 6.641s",
+    "error_line": false,
+    "log_exists": false
+   },
+   "candidate": {
+    "exit": 0,
+    "ran": "Ran 49 tests in 6.867s",
+    "error_line": false,
+    "log_exists": true
+   }
+  }
+ ]
+}
