@@ -7,11 +7,11 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'self'; style-src 'self'; script-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'">
   <title>Claim dependencies · Universal Law</title>
   <meta name="color-scheme" content="dark light"><meta name="theme-color" media="(prefers-color-scheme: light)" content="#f6f8fc"><meta name="theme-color" media="(prefers-color-scheme: dark)" content="#07111f">
-  <link rel="stylesheet" href="style.css?site-release=71158f8540c870b058b5a5a6ff18a5fca16d04e9d00f9d59904856fa985e8a09">
-  <link rel="stylesheet" href="brand.css?site-release=71158f8540c870b058b5a5a6ff18a5fca16d04e9d00f9d59904856fa985e8a09">
-  <link rel="stylesheet" href="dependencies.css?site-release=71158f8540c870b058b5a5a6ff18a5fca16d04e9d00f9d59904856fa985e8a09">
-  <link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=71158f8540c870b058b5a5a6ff18a5fca16d04e9d00f9d59904856fa985e8a09">
-  <script type="module" src="dependencies.mjs?site-release=71158f8540c870b058b5a5a6ff18a5fca16d04e9d00f9d59904856fa985e8a09"></script>
+  <link rel="stylesheet" href="style.css?site-release=a553f6dffda7220bfa990dc0dacfae36e400ae33f07f3ba8ea9a2b6ea15aa17e">
+  <link rel="stylesheet" href="brand.css?site-release=a553f6dffda7220bfa990dc0dacfae36e400ae33f07f3ba8ea9a2b6ea15aa17e">
+  <link rel="stylesheet" href="dependencies.css?site-release=a553f6dffda7220bfa990dc0dacfae36e400ae33f07f3ba8ea9a2b6ea15aa17e">
+  <link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=a553f6dffda7220bfa990dc0dacfae36e400ae33f07f3ba8ea9a2b6ea15aa17e">
+  <script type="module" src="dependencies.mjs?site-release=a553f6dffda7220bfa990dc0dacfae36e400ae33f07f3ba8ea9a2b6ea15aa17e"></script>
 </head>
 <body class="dependency-page">
 <a class="skip-link" href="#main-content">Skip to content</a>
@@ -64,8 +64,9 @@
   </section>
 
   <section aria-labelledby="targets-heading">
-    <div class="section-heading"><div><p class="eyebrow">UNRESOLVED TARGETS</p><h2 id="targets-heading">Ranked by recorded downstream impact</h2></div><p class="section-intro">Unresolved here means a node whose recorded classification is OPEN_ACTIVE, OPEN_HISTORICAL, AUTHOR_SIDE_CANDIDATE or AUTHOR_SIDE_REDUCTION and whose kind is not engineering, integrity_control, inventory or register (the viewer's list rule in dependency-model.mjs, not a source verdict). Impact counts transitive dependents in this snapshot. Open leaves remain listed even when their recorded impact is zero.</p></div>
-    <ol id="unresolved-targets" class="target-list" role="list"></ol>
+    <div class="section-heading"><div><p class="eyebrow">UNRESOLVED TARGETS</p><h2 id="targets-heading">Ranked by all-edge reach (includes context)</h2></div><p class="section-intro">Unresolved here means a node whose recorded classification is OPEN_ACTIVE, OPEN_HISTORICAL, AUTHOR_SIDE_CANDIDATE or AUTHOR_SIDE_REDUCTION and whose kind is not engineering, integrity_control, inventory or register (the viewer's list rule in dependency-model.mjs, not a source verdict). Open leaves remain listed even when both counts are zero.</p></div>
+    <p id="reach-definitions" class="muted">All-edge reach counts the distinct nodes that reach a target through any recorded edge in this snapshot, including context edges that are not required premises; the target itself is excluded. Required-dependency reach counts only the nodes that reach a target through required edges at every step, in this snapshot. Neither count says how many results are blocked, how many premises remain unsatisfied, or whether a proof is complete.</p>
+    <ol id="unresolved-targets" class="target-list" role="list" aria-describedby="reach-definitions"></ol>
   </section>
 
   <section id="node-detail" class="node-detail" aria-labelledby="detail-heading" tabindex="-1">
@@ -77,7 +78,7 @@
       <article id="object-scope-panel" tabindex="-1" class="object-panel"><h3>Recorded scope and limits</h3><p id="object-classification"></p><p id="object-scope"></p><p id="object-notes"></p><p class="muted">These are the source's recorded fields, not a new summary of its theorem. Scope and exclusions not stated here must be read in the linked proof and review.</p></article>
       <article id="object-evidence" tabindex="-1" class="object-panel"><h3>Evidence references</h3><p>Each lane reports what this graph records. A link is not a byte check, proof validation, independent review or scientific acceptance. “Not recorded” means this graph supplies no typed interface; it does not mean the evidence does not exist elsewhere.</p><div class="evidence-scroll" tabindex="0" role="region" aria-label="Evidence references table"><table class="evidence-table"><caption>Recorded evidence for the selected object</caption><thead><tr><th scope="col">Lane</th><th scope="col">Record state</th><th scope="col">Source detail</th></tr></thead><tbody id="evidence-body"></tbody></table></div></article>
       <article id="object-reading-context" tabindex="-1" class="object-panel" aria-labelledby="reading-context-heading"><h3 id="reading-context-heading">Recorded reading context</h3><p>These are the graph's contextual record fields, distinct from required source-edge dependencies. They do not infer theorem applicability, scientific acceptance or new evidence. Reading-rule order is shown as recorded; reference buttons select nodes in this pinned snapshot. “Not recorded” means the field is absent here, without inference from other fields or edges.</p><dl id="recorded-context" class="metadata-grid"></dl></article>
-      <details id="object-audit" tabindex="-1" class="object-panel"><summary>Audit: inspect the complete recorded metadata</summary><p class="muted">Exact fields from the pinned graph, including providers, review disposition and non-discharge limits when recorded. Provider labels do not establish independence. Source paths below resolve at this graph's pinned commit; review URLs retain their recorded destination.</p><dl id="node-metadata" class="metadata-grid"></dl><h4>Complete source node (formatted JSON)</h4><p class="muted">All recorded node fields are retained below. Formatting is for reading; use the pinned graph for exact file bytes.</p><pre id="node-record"></pre></details>
+      <details id="object-audit" tabindex="-1" class="object-panel"><summary>Audit: inspect the complete recorded metadata</summary><p class="muted">Exact fields from the pinned graph, including providers, review disposition and non-discharge limits when recorded; the two reach rows are counts this viewer derives over the whole snapshot, not graph fields. Provider labels do not establish independence. Source paths below resolve at this graph's pinned commit; review URLs retain their recorded destination.</p><dl id="node-metadata" class="metadata-grid"></dl><h4>Complete source node (formatted JSON)</h4><p class="muted">All recorded node fields are retained below. Formatting is for reading; use the pinned graph for exact file bytes.</p><pre id="node-record"></pre></details>
       <div id="object-context" tabindex="-1" class="relation-grid">
         <article><h3>Consumes</h3><p class="muted">Edges point from a dependent claim to the source it consumes.</p><ul id="dependency-list" class="relation-list" role="list"></ul></article>
         <article><h3>Consumed by</h3><p class="muted">Direct dependents recorded in this source snapshot.</p><ul id="dependent-list" class="relation-list" role="list"></ul></article>

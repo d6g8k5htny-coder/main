@@ -218,6 +218,10 @@ for (const fragment of ['', '#object-evidence', '#object-audit', '#object-readin
     assert.match(nodes.get('search-results').textContent,/review: not recorded/);
     assert.doesNotMatch(nodes.get('search-results').textContent,/review: none/);
     assert.match(nodes.get('unresolved-targets').textContent,/hist\.CH-LIFT[^]*?review: not recorded/);
+    const badge=id=>nodes.get('unresolved-targets').children.find(item=>item.children[0].children[0].textContent===id)
+      .children[1].children.filter(child=>typeof child!=='string').map(child=>child.textContent);
+    assert.deepEqual(badge('hist.CH-LIFT'),['All-edge reach (includes context)\u00a03','Required-dependency reach\u00a00']);
+    assert.deepEqual(badge('math.rn-count-interface'),['All-edge reach (includes context)\u00a04','Required-dependency reach\u00a03']);
     const optionValues=nodes.get('classification-filter').children.map(option=>option.value);
     assert.deepEqual(optionValues,['',...evidenceModel.classificationOptions(await fixtureIndex())]);
     assert.equal(nodes.get('classification-filter').children.find(option=>option.value==='PROVED_REVIEWED'),seededOptions[1],'the first existing option is reused');
@@ -335,6 +339,105 @@ test('unresolved targets rank by transitive impact without hiding zero-impact le
     assert.ok(previous.impact > current.impact ||
       (previous.impact === current.impact && previous.id.localeCompare(current.id) <= 0));
   }
+});
+
+function syntheticGraph(edges, classifications = {}) {
+  const ids = [...new Set(edges.flatMap(edge => [edge.from, edge.to]))];
+  return {
+    terminal_classifications: ['PROVED_REVIEWED'],
+    nodes: Object.fromEntries(ids.map(id => [id, { classification: classifications[id] || 'OPEN_ACTIVE', kind: 'candidate', layer: 'T' }])),
+    edges: edges.map(edge => ({ relation: 'synthetic', ...edge })),
+  };
+}
+
+const reach = (index, id) => [index.nodes.get(id).impact, index.nodes.get(id).requiredImpact];
+
+test('downstream counts keep all-edge reach separate from required-only reach', () => {
+  // Required diamond, dependent to prerequisite: A→B, A→C, B→D, C→D; D is the sole unresolved target.
+  const proved = { A: 'PROVED_REVIEWED', B: 'PROVED_REVIEWED', C: 'PROVED_REVIEWED' };
+  const diamond = buildGraphIndex(syntheticGraph([
+    { from: 'A', to: 'B', required: true }, { from: 'A', to: 'C', required: true },
+    { from: 'B', to: 'D', required: true }, { from: 'C', to: 'D', required: true },
+  ], proved));
+  assert.deepEqual(reach(diamond, 'D'), [3, 3]);
+  assert.deepEqual(reach(diamond, 'A'), [0, 0]);
+  assert.deepEqual(unresolvedTargets(diamond).map(node => node.id), ['D']);
+  assert.deepEqual(dependencyPaths(diamond, 'A').map(path => path.ids), [['A', 'B', 'D']]);
+  assert.equal(diamond.nodes.get('D').dependents.length, 2);
+  // Context-only target: A→U is not a required premise.
+  const context = buildGraphIndex(syntheticGraph([
+    { from: 'A', to: 'U', required: false, relation: 'context_only' },
+  ]));
+  assert.equal(context.nodes.get('U').impact, 1);
+  assert.equal(context.nodes.get('U').requiredImpact, 0);
+  assert.equal(context.nodes.get('U').dependents[0].relation, 'context_only');
+  assert.deepEqual(dependencyPaths(context, 'A'), []);
+  // A reverse path counts as required only when every step is required.
+  const mixed = buildGraphIndex(syntheticGraph([
+    { from: 'X', to: 'Y', required: false }, { from: 'Y', to: 'Z', required: true },
+  ]));
+  assert.equal(mixed.nodes.get('Z').impact, 2);
+  assert.equal(mixed.nodes.get('Z').requiredImpact, 1);
+  // A node reached by a short context path and by a longer all-required path counts as required.
+  const both = buildGraphIndex(syntheticGraph([
+    { from: 'X', to: 'Z', required: false }, { from: 'X', to: 'Y', required: true }, { from: 'Y', to: 'Z', required: true },
+  ]));
+  assert.deepEqual(reach(both, 'Z'), [2, 2]);
+  // Parallel edges between one pair with different relations and required flags.
+  const parallel = buildGraphIndex(syntheticGraph([
+    { from: 'A', to: 'B', required: true, relation: 'premise' }, { from: 'A', to: 'B', required: false, relation: 'context_note' },
+  ]));
+  assert.deepEqual(reach(parallel, 'B'), [1, 1]);
+  // A cycle through a required and a context edge terminates and excludes the start node.
+  const cycle = buildGraphIndex(syntheticGraph([
+    { from: 'A', to: 'B', required: true }, { from: 'B', to: 'A', required: false },
+  ]));
+  assert.deepEqual(reach(cycle, 'B'), [1, 1]);
+  assert.deepEqual(reach(cycle, 'A'), [1, 0]);
+});
+
+test('the pinned snapshot keeps its recorded counterexample and 19 differing counts', async () => {
+  const index = buildGraphIndex(await fixture());
+  const boundary = index.nodes.get('math.p15-price-boundary');
+  assert.equal(boundary.classification, 'REFUTED');
+  assert.equal(boundary.impact, 1);
+  assert.equal(boundary.requiredImpact, 0);
+  assert.ok(boundary.dependents.some(edge => edge.id === 'math.p15-full-price' && edge.required === false &&
+    edge.relation === 'boundary_counterexample_not_required_premise'));
+  const nodes = [...index.nodes.values()];
+  assert.equal(nodes.filter(node => node.impact !== node.requiredImpact).length, 19);
+  for (const node of nodes) assert.ok(node.requiredImpact <= node.impact, node.id);
+  const listed = Object.fromEntries(unresolvedTargets(index).map(node => [node.id, [node.impact, node.requiredImpact]]));
+  assert.deepEqual(listed['hist.CH-LIFT'], [3, 0]);
+  assert.deepEqual(listed['hist.Piece-2-annulus'], [3, 0]);
+  assert.deepEqual(listed['hist.OBL-H5-JETMOD'], [2, 0]);
+  assert.deepEqual(listed['math.rn-count-interface'], [4, 3]);
+  assert.deepEqual(listed['math.rn-fixed-remote-window'], [2, 1]);
+  const entries = new Map(metadataEntries(index.nodes.get('hist.CH-LIFT')));
+  assert.equal(entries.get('All-edge reach (includes context)'), '3 nodes in this snapshot');
+  assert.equal(entries.get('Required-dependency reach'), '0 nodes in this snapshot');
+  assert.equal(new Map(metadataEntries(boundary)).get('All-edge reach (includes context)'), '1 node in this snapshot');
+  assert.equal(entries.get('Recorded impact'), undefined);
+  const uncomputedEntries = metadataEntries({ id: 'x', classification: 'OPEN_ACTIVE', layer: 'T', kind: 'candidate' });
+  assert.deepEqual(uncomputedEntries.slice(5, 7), [
+    ['All-edge reach (includes context)', 'not computed'], ['Required-dependency reach', 'not computed'],
+  ]);
+});
+
+test('reach labels state their edge scope and do not describe reach as blocking', async () => {
+  const [page, app] = await Promise.all([readFile(pageURL, 'utf8'), readFile(appURL, 'utf8')]);
+  assert.ok(page.includes('<h2 id="targets-heading">Ranked by all-edge reach (includes context)</h2>'));
+  assert.ok(page.includes('class="muted">All-edge reach counts the distinct nodes that reach a target through any recorded edge in this snapshot, including context edges that are not required premises; the target itself is excluded.'));
+  assert.ok(page.includes('Required-dependency reach counts only the nodes that reach a target through required edges at every step, in this snapshot.'));
+  assert.ok(page.includes('(the viewer\'s list rule in dependency-model.mjs, not a source verdict). Open leaves remain listed even when both counts are zero.</p></div>'));
+  assert.ok(page.includes('the two reach rows are counts this viewer derives over the whole snapshot, not graph fields.'));
+  assert.ok(page.includes('Neither count says how many results are blocked, how many premises remain unsatisfied, or whether a proof is complete.'));
+  for (const old of ['Ranked by recorded downstream impact', 'Impact counts transitive dependents', 'recorded impact'])
+    assert.ok(!page.includes(old), old);
+  assert.ok(app.includes("impact.append(element('span', { text: `All-edge reach (includes context)\\u00a0${target.impact}` }), ' · ', element('span', { text: `Required-dependency reach\\u00a0${target.requiredImpact}` }));"));
+  assert.ok(page.includes('<p id="reach-definitions" class="muted">All-edge reach counts'));
+  assert.ok(page.includes('<ol id="unresolved-targets" class="target-list" role="list" aria-describedby="reach-definitions"></ol>'));
+  assert.ok(!app.includes('${target.impact} downstream'));
 });
 
 test('search covers ids, notes, source paths, classifications and edge relations', async () => {
@@ -498,6 +601,20 @@ test('the viewer page exposes its source boundary and accessible interaction con
   assert.match(style, /:focus-visible/);
   assert.match(style, /\.path-arrow[^}]*overflow-wrap:\s*anywhere/s);
   assert.match(style, /classification-proved-reviewed/);
+});
+
+test('the evidence table keeps automatic layout and breaks words only in Source detail', async () => {
+  // table-layout:fixed with overflow-wrap:anywhere on every cell split ordinary Lane and Record state words on phones.
+  const style = (await readFile(styleURL, 'utf8')).replace(/\/\*[\s\S]*?\*\//g, '');
+  const rules = [...style.matchAll(/([^{}]+)\{([^{}]*)\}/g)]
+    .map(([, selectors, body]) => ({ selectors: selectors.split(',').map(s => s.trim().replace(/\s+/g, ' ')), body }))
+    .filter(rule => rule.selectors.some(s => s.startsWith('.evidence-table')));
+  for (const rule of rules) assert.doesNotMatch(rule.body, /table-layout\s*:\s*fixed/, rule.selectors.join(', '));
+  const cells = rules.find(rule => ['.evidence-table th', '.evidence-table td'].every(s => rule.selectors.includes(s)) && /overflow-wrap\s*:/.test(rule.body));
+  assert.ok(cells, 'evidence table th/td overflow-wrap rule');
+  assert.match(cells.body, /overflow-wrap\s*:\s*normal\s*(?:;|$)/);
+  const breaking = rules.filter(rule => /overflow-wrap\s*:\s*(?:anywhere|break-word)|word-break\s*:\s*break-(?:all|word)/.test(rule.body));
+  assert.deepEqual(breaking.map(rule => rule.selectors.join(', ')), ['.evidence-table td:nth-child(3)']);
 });
 
 test('the three schema-absent evidence lanes read identically for different nodes and never claim a failure', async () => {

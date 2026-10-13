@@ -29,6 +29,13 @@ const REFUSED=/^Unavailable: .+\. No conditional result inferred\.$/;
 // The route's outcome lives in the page's one static status line; the host holds only the route.
 const statusLine=document=>document.getElementById('conditional-route-status');
 const hostOf=document=>document.getElementById('conditional-route');
+// An older page has no route status line at all: remove the static node from the page, not just
+// from lookup, and check it is gone before the route runs.
+const withoutStatusLine=document=>{
+  const line=statusLine(document);line.remove();document.nodes.delete('conditional-route-status');
+  assert.equal(line.isConnected,false);assert.ok(!document.body.children.includes(line));assert.equal(statusLine(document),null);
+  return document;
+};
 function assertRefused(document,pattern=REFUSED){
   assert.match(statusLine(document).textContent,pattern);assert.match(statusLine(document).textContent,REFUSED);
   assert.equal(statusLine(document).className,'conditional-route-refusal error');
@@ -188,7 +195,7 @@ test('on a first run the static Verifying… line receives no write while the ro
   assert.deepEqual(log.filter(e=>e.kind==='status').map(e=>[e.prop,e.value]),[['textContent',VERIFIED]]);
 });
 test('an older page without the status line shows one plain Verifying… paragraph in the host until the refusal replaces it',async()=>{
-  const {fetcher,document}=scene();document.nodes.delete('conditional-route-status');
+  const {fetcher,document}=scene();withoutStatusLine(document);
   // A className write would give the paragraph class="" in a browser; record any such write.
   const classWrites=[],create=document.createElement;
   document.createElement=tag=>{const node=create(tag);let value=node.className;Object.defineProperty(node,'className',{get:()=>value,set:v=>{classWrites.push([node.tagName,v]);value=v;}});return node;};
@@ -207,7 +214,7 @@ test('an older page without the status line shows one plain Verifying… paragra
   assert.deepEqual([hostOf(document).getAttribute('role'),isLive(hostOf(document))],[null,false],'the host is not live');
 });
 test('an older page without the status line still shows the refusal as a plain paragraph in the host',async()=>{
-  const {bodies,fetcher,document}=scene();document.nodes.delete('conditional-route-status');
+  const {bodies,fetcher,document}=scene();withoutStatusLine(document);
   bodies.set('museum.json',bodies.get('museum.json')+' ');
   assert.equal(await conditionals.startConditionals({document,fetcher}),false);
   const [line,...rest]=hostOf(document).children;
@@ -216,7 +223,7 @@ test('an older page without the status line still shows the refusal as a plain p
   assert.deepEqual([hostOf(document).getAttribute('role'),isLive(hostOf(document))],[null,false],'the host is not live');
 });
 test('an older page without the status line draws only the route on success',async()=>{
-  const {fetcher,document}=scene();document.nodes.delete('conditional-route-status');
+  const {fetcher,document}=scene();withoutStatusLine(document);
   assert.equal(await conditionals.startConditionals({document,fetcher}),true);
   const host=hostOf(document);
   assert.deepEqual(host.children.map(n=>n.tagName),['ARTICLE'],'the route replaces the Verifying… paragraph; no outcome paragraph is added');

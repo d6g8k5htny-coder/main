@@ -79,3 +79,46 @@ test('styles do not hide evidence, scope disclaimers or refusal states',()=>{
  for(const p of ['config.json','museum.json','status.json'])assert.ok(!css().includes(p),'No theme-owned evidence loading');
 });
 test('low-contrast adversarial palette fails the same numerical threshold',()=>assert.ok(contrast('#777777','#888888')<4.5));
+// Rules of brand.css and museum.css (the museum page loads both; comments removed), each with its normalised selector list and enclosing at-rules, so rules inside @media count too.
+// These checks read literal px lengths only: a custom property (var(--x)) or other unit in a ring width, ring offset or padding is not resolved and fails, so keep those declarations literal px.
+const sheets=['docs/site/brand.css','docs/site/museum.css'];
+const normSel=s=>s.trim().replace(/\s*([>+~])\s*/g,' $1 ').replace(/\s+/g,' ');
+function cssRules(){const out=[];for(const file of sheets){const stack=[];let buf='';for(const ch of read(file).replace(/\/\*[\s\S]*?\*\//g,'')){if(ch==='{'){stack.push(buf.trim());buf='';}else if(ch==='}'){const pre=stack.pop();if(pre!==undefined&&!pre.startsWith('@'))out.push({file,selectors:pre.split(',').map(normSel),body:buf,media:stack.filter(x=>x.startsWith('@'))});buf='';}else buf+=ch;}}return out;}
+// A rule names `sel` when a selector in its list is `sel` or `sel` in a narrower context (`.museum-card sel`, `main > sel`).
+const rulesFor=sel=>cssRules().filter(r=>r.selectors.some(s=>s===sel||s.endsWith(' '+sel)));
+// The last declaration of `prop` in a rule body: a later declaration overrides an earlier one in the same rule.
+const decl=(body,prop)=>{let v;for(const d of body.split(';')){const i=d.indexOf(':');if(i>0&&d.slice(0,i).trim()===prop)v=d.slice(i+1).replace(/!important/,'').trim();}return v;};
+const px=v=>{const m=String(v).match(/^(-?\d*\.?\d+)(px)?$/);assert.ok(m&&(m[2]||Number(m[1])===0),`${v} is not a literal px length`);return Number(m[1]);};
+const outlineWidths=body=>{const out=[];const w=decl(body,'outline-width');if(w!==undefined)out.push(px(w));const sh=decl(body,'outline');if(sh!==undefined){const t=sh.split(/\s+/).find(x=>/^-?\d*\.?\d+(px)?$/.test(x));assert.ok(t,`outline: ${sh} has no literal px width`);out.push(px(t));}return out;};
+const outlineOffset=body=>{const o=decl(body,'outline-offset');return o===undefined?[]:[px(o)];};
+// Padding per side from every padding property of one rule (each property's last declaration; the pages are LTR, so inline-start is left).
+function paddingSides(body){
+ const s={top:[],right:[],bottom:[],left:[]};const put=(side,v)=>s[side].push(px(v));
+ const sh=decl(body,'padding');if(sh!==undefined){const [t,r=t,b=t,l=r]=sh.split(/\s+/);put('top',t);put('right',r);put('bottom',b);put('left',l);}
+ for(const [prop,a,b] of [['padding-inline','left','right'],['padding-block','top','bottom']]){const v=decl(body,prop);if(v!==undefined){const [x,y=x]=v.split(/\s+/);put(a,x);put(b,y);}}
+ for(const [prop,side] of [['padding-top','top'],['padding-right','right'],['padding-bottom','bottom'],['padding-left','left'],['padding-inline-start','left'],['padding-inline-end','right'],['padding-block-start','top'],['padding-block-end','bottom']]){const v=decl(body,prop);if(v!==undefined)put(side,v);}
+ return s;
+}
+const where=r=>`${r.file}${r.media.length?' '+r.media.join(' '):''}`;
+test('the museum figure focus ring keeps its 3px width, 4px offset and the clip room drawn for it',()=>{
+ const sel='.geometry-host > .museum-visual:focus-visible';const rules=rulesFor(sel);
+ assert.ok(rules.some(r=>!r.media.length&&outlineWidths(r.body).length&&outlineOffset(r.body).length),`no unconditional outline rule for ${sel}`);
+ for(const r of rules){
+  for(const w of outlineWidths(r.body))assert.equal(w,3,`figure ring width (${where(r)})`);
+  for(const o of outlineOffset(r.body)){assert.ok(o>0,`figure ring offset ${o}px is not outside the figure (${where(r)})`);assert.equal(o,4,`figure ring offset (${where(r)})`);}
+ }
+ const need=4+3;const host=rulesFor('.geometry-host').map(r=>({r,s:paddingSides(r.body)}));
+ for(const side of ['top','right','bottom','left'])assert.ok(host.some(x=>!x.r.media.length&&x.s[side].length),`no unconditional .geometry-host padding on the ${side}`);
+ for(const {r,s} of host)for(const [side,v] of Object.entries(s))for(const x of v)assert.ok(x>=need,`.geometry-host ${side} padding ${x}px < ${need}px (${where(r)})`);
+});
+test('the conditional-route card leaves room inside its clip for the focus ring of its summaries and links',()=>{
+ // Room the ring needs: the widest width plus the largest offset set by any rule for a link's or summary's focus in either sheet.
+ const ringRules=cssRules().filter(r=>r.selectors.some(s=>/^(?:a|summary)(?![\w-])[^ ]*:focus(?:-visible)?$/.test(s.split(' ').pop())));
+ const widths=ringRules.flatMap(r=>outlineWidths(r.body)),offsets=ringRules.flatMap(r=>outlineOffset(r.body));
+ assert.ok(widths.length&&offsets.length,'link and summary focus ring width and offset');
+ const need=Math.max(...widths)+Math.max(...offsets);
+ const sel='#conditional-route > .museum-card';const card=rulesFor(sel).map(r=>({r,s:paddingSides(r.body)}));
+ assert.ok(card.some(x=>!x.r.media.length),`no rule for ${sel} outside @media`);
+ for(const side of ['left','right'])assert.ok(card.some(x=>!x.r.media.length&&x.s[side].length),`no ${side} padding for ${sel} outside @media`);
+ for(const {r,s} of card){const v=[...s.left,...s.right];if(v.length)assert.ok(Math.min(...v)>=need,`${sel} inline padding ${Math.min(...v)}px < ${need}px (${where(r)})`);}
+});
