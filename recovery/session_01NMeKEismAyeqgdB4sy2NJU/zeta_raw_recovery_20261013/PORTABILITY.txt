@@ -1,0 +1,15 @@
+Byte-identity of zeta_A.npz (expected 4,485,518 B, sha256 f365833e32edbf3545d0094367c918a54be88bec1c0f6b34cd1d786ce538d26c)
+under different CPU-dispatch settings, Python 3.12.3, numpy 2.5.3, mpmath 1.4.1, on the AVX-512 machine in ENVIRONMENT.txt:
+
+OPENBLAS_NUM_THREADS unset (2 threads)                    -> 4,485,523 B  8686614c054e73df  DIFFERENT
+  same, numpy AVX-512 dispatch disabled                   -> 4,485,423 B  907fe0f662528b02  DIFFERENT
+OPENBLAS_NUM_THREADS=1 (default kernel, SkylakeX-class)   -> 4,485,518 B  f365833e32edbf35  IDENTICAL
+OPENBLAS_NUM_THREADS=1, OPENBLAS_CORETYPE=SkylakeX        -> 4,485,518 B  f365833e32edbf35  IDENTICAL
+OPENBLAS_NUM_THREADS=1, OPENBLAS_CORETYPE=Haswell         -> 4,485,493 B  86dbc957e45dc866  DIFFERENT
+OPENBLAS_NUM_THREADS=1, OPENBLAS_CORETYPE=Zen             -> 4,485,493 B  86dbc957e45dc866  DIFFERENT
+OPENBLAS_NUM_THREADS=1, NPY_DISABLE_CPU_FEATURES="X86_V4 AVX512_ICL AVX512_SPR"
+                                                          -> 4,485,427 B  04b3fc1e457662fa  DIFFERENT
+
+So byte-identity needs single-threaded BLAS (the packet README's section 8 says so) AND an AVX-512 x86-64 CPU
+(OpenBLAS SkylakeX-class kernels and numpy's AVX-512 paths). Elsewhere the values differ at about 1e-10 relative
+with identical counts (README section 8 reports the same size of difference for the unpinned case).

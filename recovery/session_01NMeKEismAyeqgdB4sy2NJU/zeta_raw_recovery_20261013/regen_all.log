@@ -1,0 +1,22 @@
+16:03:25Z START pkt/stats/rs_zeta.py A 1e4 1e5
+16:03:33Z END rc=0 8s pkt/stats/rs_zeta.py A 1e4 1e5
+16:03:33Z START pkt/stats/rs_zeta.py B 1e5 1e6
+16:07:22Z END rc=0 229s pkt/stats/rs_zeta.py B 1e5 1e6
+16:07:22Z START pkt/stats/gauss_proc.py 500 4
+16:07:41Z END rc=0 19s pkt/stats/gauss_proc.py 500 4
+16:07:41Z START pkt/stats/cue.py 12 86016 4
+16:07:47Z END rc=0 6s pkt/stats/cue.py 12 86016 4
+16:07:47Z START pkt/stats/cue.py 128 8064 4
+16:09:12Z END rc=0 85s pkt/stats/cue.py 128 8064 4
+16:09:12Z START pkt/stats/analyze.py
+16:09:40Z END rc=0 28s pkt/stats/analyze.py
+MATCH zeta_A.npz  bytes=4485518 (expected 4485518) sha=f365833e32edbf35
+MATCH zeta_B.npz  bytes=56001495 (expected 56001495) sha=6104917e71cfb2f3
+MATCH rs_cheb_coeffs.npz  bytes=2194 (expected 2194) sha=7b86066629cb2be0
+MATCH gauss.npz  bytes=22802514 (expected 22802514) sha=1a705fbed3fe41d9
+MATCH cue12.npz  bytes=24028758 (expected 24028758) sha=a7cbd4fd4db065d1
+MATCH cue128.npz  bytes=23690220 (expected 23690220) sha=a96192115efc6a1e
+MATCH ecdf_samples.npz  bytes=71881098 (expected 71881098) sha=e368290b558a3b59
+MISSING Z_grid_600_900.npz
+MISSING Z_grid_5000_5200.npz
+DONE
