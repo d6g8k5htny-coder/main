@@ -1,6 +1,6 @@
 # Recovery increment 2 — Anthropic Claude session `session_017Mi3hxjaxV45x6zo6o1ee3`
 
-Generated 2026-10-13T02:06:21Z. Follows checkpoint 1 (commit `d579bcc05aa8173986fdb2634fbcf75df7e9f53b`, verified by the coordinator in main#307 comment 6136304987) and answers its three asks: map every local file to an exact remote artifact or upload it, preserve local Lean logs with labels, register the checkpoint. Performer: Anthropic Claude, Claude Code cloud session `session_017Mi3hxjaxV45x6zo6o1ee3`, delegated for Dylan Roy. Organizational-independence credit 0. Scientific effect NONE. Everything here is scratch: drafts, probes, local diagnostic outputs, logs. Nothing is a receipt, a review record or a landed object.
+Generated 2026-10-13T02:08:00Z. Follows checkpoint 1 (commit `d579bcc05aa8173986fdb2634fbcf75df7e9f53b`, verified by the coordinator in main#307 comment 6136304987) and answers its three asks: map every local file to an exact remote artifact or upload it, preserve local Lean logs with labels, register the checkpoint. Performer: Anthropic Claude, Claude Code cloud session `session_017Mi3hxjaxV45x6zo6o1ee3`, delegated for Dylan Roy. Organizational-independence credit 0. Scientific effect NONE. Everything here is scratch: drafts, probes, local diagnostic outputs, logs. Nothing is a receipt, a review record or a landed object.
 
 ## 1. The map (`RECOVERY_MAP.tsv`)
 
@@ -11,14 +11,14 @@ One row per local file of the session's scratch area (plus one row per unwalked 
 | MATCHED_SESSION_COMMIT | 7055 | byte-identical to a blob in a commit carrying this session's trailer; column `locator_or_reason` gives repo, commit, path and PR. All 191 Math- and 2 meta-framework session commits are on their default branches; 14 of the 15 main session commits are (the fifteenth is checkpoint 1 on the retention branch) |
 | MATCHED_REPO_HISTORY | 7652 | byte-identical to a blob somewhere in the history of Math-, meta-framework or main (every branch and pull-request head fetched on 13 October 01:55Z); path given |
 | UPLOADED_CHECKPOINT1 | 0 | same SHA-256 as a file published in checkpoint 1 and not otherwise matched (0 here: the checkpoint-1 originals match commit d579bcc0 directly and appear under MATCHED_SESSION_COMMIT with `on_default_branch` False) |
-| UPLOADED_INCREMENT2 | 2297 | published in this increment under `scratch/<original relative path>` or `local_lean_evidence/` |
-| EXCLUDED | 564 | not uploaded; the reason and, where one exists, an exact remote locator are in the row and in `EXCLUDED.json` |
+| UPLOADED_INCREMENT2 | 2289 | published in this increment under `scratch/<original relative path>` or `local_lean_evidence/` |
+| EXCLUDED | 572 | not uploaded; the reason and, where one exists, an exact remote locator are in the row and in `EXCLUDED.json` |
 
 A match is a byte identity (git blob id), not a name match: an older draft of a landed file is unmatched and therefore uploaded, with `related_landed_paths` in `MANIFEST2.json` naming landed files of the same name where they exist.
 
 ## 2. What this increment publishes
 
-2299 files, 13,785,571 bytes, each listed in `MANIFEST2.json` with published SHA-256, as-run SHA-256, byte counts and a scrubbed flag, and in `SHA256SUMS2.txt`. Text files had the container's private scratch path replaced by `<SCRATCH>` and its UUID by `<SESSION-UUID>` (457 files changed by that alone); nothing else was edited.
+2291 files, 13,764,570 bytes, each listed in `MANIFEST2.json` with published SHA-256, as-run SHA-256, byte counts and a scrubbed flag, and in `SHA256SUMS2.txt`. Text files had the container's private scratch path replaced by `<SCRATCH>` and its UUID by `<SESSION-UUID>` (456 files changed by that alone); nothing else was edited.
 
 ### 2a. Local Lean logs and receipts (`local_lean_evidence/`), labeled
 
@@ -77,7 +77,6 @@ A match is a byte identity (git blob id), not a name match: an older draft of a 
 | `lean25` | 4 | 25,462 | Lean sources of the v2.5 draft; landed in Math-#285 |
 | `v18` | 5 | 24,580 | draft of Lean packet v1.8; landed in Math-#258 |
 | `lean26` | 2 | 21,401 | Lean sources of the v2.6 draft; landed in Math-#295 |
-| `leanbuild` | 8 | 21,001 | working files of this session; see RECOVERY_MAP.tsv |
 | `d5_collar_20260928` | 4 | 20,729 | draft of the D5 collar packet (28 September) |
 | `c5051` | 4 | 20,410 | probe scripts (C50/C51 lemma work on Math-#233) |
 | `mf27` | 8 | 19,919 | meta-framework#27 read working texts |
@@ -132,12 +131,9 @@ Directory names follow the pull request, packet or round they served; where a no
 | 68 | GitHub API response saved during work; regenerable from the API |
 | 48 | mutation run output tree (each mutant is the packet with one mutation applied; regenerable from the packet named in rt/downstream-gate-results/REPORT.json) |
 | 48 | mutation run output tree (regenerable, see rtfOEb/downstream-gate-results/REPORT.json) |
+| 32 | Lean build products (generated IR and setup files; regenerable; also matched by the repository .gitignore rule .lake/) |
 | 14 | mutant copies of main packets used for local mutation checks (regenerable) |
-| 12 | binary or checkout pointer (.hash); regenerable |
 | 6 | downloaded CSV exports of the shared R17 registers (the registers themselves are the source; linked from docs/WORKSPACE.md) |
-| 4 | binary or checkout pointer (.ilean); regenerable |
-| 4 | binary or checkout pointer (.olean); regenerable |
-| 4 | binary or checkout pointer (.trace); regenerable |
 | 4 | copy of the Mathlib cache tool source (upstream Mathlib; regenerable) |
 | 2 | HTML rendering of the third-party document above |
 | 2 | owner-supplied third-party document (the owner holds the original); not project work product |
