@@ -1,0 +1,22 @@
+✖ [3356/3367] Building SourceSmooth (5.5s)
+trace: .> LEAN_PATH=<SCRATCH>/mathf/.lake/packages/Cli/.lake/build/lib/lean:<SCRATCH>/mathf/.lake/packages/batteries/.lake/build/lib/lean:<SCRATCH>/mathf/.lake/packages/Qq/.lake/build/lib/lean:<SCRATCH>/mathf/.lake/packages/aesop/.lake/build/lib/lean:<SCRATCH>/mathf/.lake/packages/proofwidgets/.lake/build/lib/lean:<SCRATCH>/mathf/.lake/packages/importGraph/.lake/build/lib/lean:<SCRATCH>/mathf/.lake/packages/LeanSearchClient/.lake/build/lib/lean:<SCRATCH>/mathf/.lake/packages/plausible/.lake/build/lib/lean:<SCRATCH>/mathf/.lake/packages/mathlib/.lake/build/lib/lean:<SCRATCH>/m451/repair_pkg/.lake/build/lib/lean <SCRATCH>/lean-toolchain/lean-4.34.1-linux/bin/lean <SCRATCH>/m451/repair_pkg/SourceSmooth.lean -o <SCRATCH>/m451/repair_pkg/.lake/build/lib/lean/SourceSmooth.olean -i <SCRATCH>/m451/repair_pkg/.lake/build/lib/lean/SourceSmooth.ilean -c <SCRATCH>/m451/repair_pkg/.lake/build/ir/SourceSmooth.c --setup <SCRATCH>/m451/repair_pkg/.lake/build/ir/SourceSmooth.setup.json --json
+warning: SourceSmooth.lean:48:15: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+error: SourceSmooth.lean:107:4: Type mismatch: After simplification, term
+  Summable.mul_of_nonneg hs hb (fun k => orderModeBound_nonneg n d L (some (k, false))) fun x => zero_le_one
+ has type
+  @Summable ℝ (Subtype (halfLattice d) × Bool) Real.instAddCommMonoid
+    PseudoMetricSpace.toUniformSpace.toTopologicalSpace (fun x => orderPairedBound n d L ↑x.1)
+    (SummationFilter.unconditional (Subtype (halfLattice d) × Bool))
+but is expected to have type
+  @Summable ℝ (↑(halfLattice d) × Bool) Real.instAddCommMonoid PseudoMetricSpace.toUniformSpace.toTopologicalSpace
+    (fun p => orderPairedBound n d L ↑p.1) (SummationFilter.unconditional (↑(halfLattice d) × Bool))
+✔ [3359/3367] Built SourceLattice (5.1s)
+✔ [3361/3367] Built SourceGaussianLaw (5.4s)
+✔ [3362/3367] Built SourceKernel (19s)
+✔ [3363/3367] Built SourceCovariance (3.3s)
+✔ [3364/3367] Built SourceTorus (3.3s)
+✔ [3365/3367] Built SourceTorusC4 (3.3s)
+Some required targets logged failures:
+- SourceSmooth

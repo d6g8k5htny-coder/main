@@ -1,0 +1,216 @@
+⚠ [3364/3367] Built SourceSmooth (5.3s)
+warning: SourceSmooth.lean:48:15: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+✖ [3366/3367] Building SourceSmoothCarrier (4.3s)
+trace: .> LEAN_PATH=<SCRATCH>/mathf/.lake/packages/Cli/.lake/build/lib/lean:<SCRATCH>/mathf/.lake/packages/batteries/.lake/build/lib/lean:<SCRATCH>/mathf/.lake/packages/Qq/.lake/build/lib/lean:<SCRATCH>/mathf/.lake/packages/aesop/.lake/build/lib/lean:<SCRATCH>/mathf/.lake/packages/proofwidgets/.lake/build/lib/lean:<SCRATCH>/mathf/.lake/packages/importGraph/.lake/build/lib/lean:<SCRATCH>/mathf/.lake/packages/LeanSearchClient/.lake/build/lib/lean:<SCRATCH>/mathf/.lake/packages/plausible/.lake/build/lib/lean:<SCRATCH>/mathf/.lake/packages/mathlib/.lake/build/lib/lean:<SCRATCH>/m451/altA/.lake/build/lib/lean <SCRATCH>/lean-toolchain/lean-4.34.1-linux/bin/lean <SCRATCH>/m451/altA/SourceSmoothCarrier.lean -o <SCRATCH>/m451/altA/.lake/build/lib/lean/SourceSmoothCarrier.olean -i <SCRATCH>/m451/altA/.lake/build/lib/lean/SourceSmoothCarrier.ilean -c <SCRATCH>/m451/altA/.lake/build/ir/SourceSmoothCarrier.c --setup <SCRATCH>/m451/altA/.lake/build/ir/SourceSmoothCarrier.setup.json --json
+error: SourceSmoothCarrier.lean:33:3: Type mismatch
+  ⊤
+has type
+  ℕ∞ω
+but is expected to have type
+  SourceMode d → ℝ
+error: SourceSmoothCarrier.lean:35:42: unexpected token 'ω'; expected '_' or identifier
+error: SourceSmoothCarrier.lean:40:45: unexpected token 'ω'; expected '_' or identifier
+error: SourceSmoothCarrier.lean:44:5: unexpected token 'ω'; expected '_' or identifier
+error: SourceSmoothCarrier.lean:51:16: Function expected at
+  orderAbsTotal
+but this term has type
+  ?m.1
+
+Note: Expected a function because this term is being applied to the argument
+  n
+
+Hint: The identifier `orderAbsTotal` is unknown, and Lean's `autoImplicit` option causes an unknown identifier to be treated as an implicitly bound variable with an unknown type. However, the unknown type cannot be a function, and a function is what Lean expects here. This is often the result of a typo or a missing `import` or `open` statement.
+error: SourceSmoothCarrier.lean:52:9: Tactic `unfold` failed: Local variable `orderAbsTotal` has no definition
+error: SourceSmoothCarrier.lean:65:16: Type mismatch
+  ⊤
+has type
+  ℕ∞ω
+but is expected to have type
+  SourceMode d → ℝ
+error: SourceSmoothCarrier.lean:65:69: unsolved goals
+d : ℕ
+L : ℝ
+x✝ : SourceMode d → ℝ
+⊢ x✝ ∈ goodSet d L ↔ x✝ ∈ ⋂ n, {x | sorry}
+error: SourceSmoothCarrier.lean:63:76: unsolved goals
+d : ℕ
+L : ℝ
+heq : goodSet d L = ⋂ n, {x | sorry}
+⊢ MeasurableSet (goodSet d L)
+error: SourceSmoothCarrier.lean:66:8: unexpected token 'ω'; expected command
+error: SourceSmoothCarrier.lean:77:6: unexpected token 'ω'; expected ',' or '∂'
+warning: SourceSmoothCarrier.lean:80:8: declaration uses `sorry`
+warning: SourceSmoothCarrier.lean:80:45: Variable name `hL` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hL
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+error: SourceSmoothCarrier.lean:100:63: unsolved goals
+d : ℕ
+L : ℝ
+hL : L ≠ 0
+⊢ (sourceLaw d).restrict (goodSet d L) = sourceLaw d
+warning: SourceSmoothCarrier.lean:110:8: declaration uses `sorry`
+warning: SourceSmoothCarrier.lean:110:56: Variable name `hL` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hL
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+error: SourceSmoothCarrier.lean:118:29: Type mismatch
+  ⊤
+has type
+  ℕ∞ω
+but is expected to have type
+  SmoothSample d L
+error: SourceSmoothCarrier.lean:123:29: Type mismatch
+  ⊤
+has type
+  ℕ∞ω
+but is expected to have type
+  SmoothSample d L
+error: SourceSmoothCarrier.lean:124:35: Type mismatch
+  ⊤
+has type
+  ℕ∞ω
+but is expected to have type
+  SourceMode d → ℝ
+error: SourceSmoothCarrier.lean:129:29: Type mismatch
+  ⊤
+has type
+  ℕ∞ω
+but is expected to have type
+  SmoothSample d L
+error: SourceSmoothCarrier.lean:130:29: Type mismatch
+  ⊤
+has type
+  ℕ∞ω
+but is expected to have type
+  SourceMode d → ℝ
+error: SourceSmoothCarrier.lean:130:24: Application type mismatch: The argument
+  fun x j => ?m.25
+has type
+  (x : SourceMode d → ℝ) → (j : ?m.26 x) → ?m.27 x j
+but is expected to have type
+  (SourceMode d → ℝ) → ?m.5
+in the application
+  Measure.map fun x j => ?m.25
+error: SourceSmoothCarrier.lean:134:39: unexpected token 'ω'; expected '_' or identifier
+error: SourceSmoothCarrier.lean:138:5: unexpected token 'ω'; expected '_' or identifier
+error: SourceSmoothCarrier.lean:142:5: unexpected token 'ω'; expected '_' or identifier
+error: SourceSmoothCarrier.lean:147:29: Type mismatch
+  ⊤
+has type
+  ℕ∞ω
+but is expected to have type
+  SmoothSample d L
+error: SourceSmoothCarrier.lean:148:29: Type mismatch
+  ⊤
+has type
+  ℕ∞ω
+but is expected to have type
+  SourceMode d → ℝ
+error: SourceSmoothCarrier.lean:148:24: Application type mismatch: The argument
+  fun x j => ?m.25
+has type
+  (x : SourceMode d → ℝ) → (j : ?m.26 x) → ?m.27 x j
+but is expected to have type
+  (SourceMode d → ℝ) → ?m.5
+in the application
+  Measure.map fun x j => ?m.25
+error: SourceSmoothCarrier.lean:154:24: Type mismatch
+  ⊤
+has type
+  ℕ∞ω
+but is expected to have type
+  SmoothSample d L
+error: SourceSmoothCarrier.lean:154:19: Application type mismatch: The argument
+  fun x j => ?m.14
+has type
+  (x : SmoothSample d L) → (j : ?m.15 x) → ?m.16 x j
+but is expected to have type
+  SmoothSample d L → ?m.5
+in the application
+  HasGaussianLaw fun x j => ?m.14
+error: SourceSmoothCarrier.lean:164:12: Type mismatch
+  ⊤
+has type
+  ℕ∞ω
+but is expected to have type
+  SmoothSample d L
+error: SourceSmoothCarrier.lean:164:48: Type mismatch
+  ⊤
+has type
+  ℕ∞ω
+but is expected to have type
+  SmoothSample d L
+error: SourceSmoothCarrier.lean:174:12: Type mismatch
+  ⊤
+has type
+  ℕ∞ω
+but is expected to have type
+  SmoothSample d L
+error: SourceSmoothCarrier.lean:174:48: Type mismatch
+  ⊤
+has type
+  ℕ∞ω
+but is expected to have type
+  SmoothSample d L
+error: SourceSmoothCarrier.lean:177:16: Type mismatch
+  ⊤
+has type
+  ℕ∞ω
+but is expected to have type
+  SourceMode d → ℝ
+error: SourceSmoothCarrier.lean:177:46: Type mismatch
+  ⊤
+has type
+  ℕ∞ω
+but is expected to have type
+  SourceMode d → ℝ
+error: SourceSmoothCarrier.lean:184:5: unexpected token 'ω'; expected '_' or identifier
+error: SourceSmoothCarrier.lean:190:5: unexpected token 'ω'; expected '_' or identifier
+error: SourceSmoothCarrier.lean:208:24: Type mismatch
+  ⊤
+has type
+  ℕ∞ω
+but is expected to have type
+  SmoothSample d L
+error: SourceSmoothCarrier.lean:208:19: Application type mismatch: The argument
+  fun x j => ?m.15
+has type
+  (x : SmoothSample d L) → (j : ?m.16 x) → ?m.17 x j
+but is expected to have type
+  SmoothSample d L → ?m.6
+in the application
+  HasGaussianLaw fun x j => ?m.15
+error: SourceSmoothCarrier.lean:221:12: Type mismatch
+  ⊤
+has type
+  ℕ∞ω
+but is expected to have type
+  SmoothSample d L
+error: SourceSmoothCarrier.lean:221:53: Type mismatch
+  ⊤
+has type
+  ℕ∞ω
+but is expected to have type
+  SmoothSample d L
+error: SourceSmoothCarrier.lean:225:16: Type mismatch
+  ⊤
+has type
+  ℕ∞ω
+but is expected to have type
+  SourceMode d → ℝ
+error: SourceSmoothCarrier.lean:225:51: Type mismatch
+  ⊤
+has type
+  ℕ∞ω
+but is expected to have type
+  SourceMode d → ℝ
+Some required targets logged failures:
+- SourceSmoothCarrier
+error: build failed

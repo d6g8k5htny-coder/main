@@ -1,0 +1,31 @@
+✔ [3337/3342] Built GaussianSeriesFoundation (367s)
+✔ [3338/3342] Built SpectralWeights (354s)
+✔ [3339/3342] Built SourceFourierSeries (4.5s)
+✔ [3340/3342] Built SourceC4 (4.1s)
+✖ [3341/3342] Building SourceSmooth (3.8s)
+trace: .> LEAN_PATH=<SCRATCH>/mathf/.lake/packages/Cli/.lake/build/lib/lean:<SCRATCH>/mathf/.lake/packages/batteries/.lake/build/lib/lean:<SCRATCH>/mathf/.lake/packages/Qq/.lake/build/lib/lean:<SCRATCH>/mathf/.lake/packages/aesop/.lake/build/lib/lean:<SCRATCH>/mathf/.lake/packages/proofwidgets/.lake/build/lib/lean:<SCRATCH>/mathf/.lake/packages/importGraph/.lake/build/lib/lean:<SCRATCH>/mathf/.lake/packages/LeanSearchClient/.lake/build/lib/lean:<SCRATCH>/mathf/.lake/packages/plausible/.lake/build/lib/lean:<SCRATCH>/mathf/.lake/packages/mathlib/.lake/build/lib/lean:<SCRATCH>/m451/wt/frontiers/source_smooth_realization_20261011/.lake/build/lib/lean <SCRATCH>/lean-toolchain/lean-4.34.1-linux/bin/lean <SCRATCH>/m451/wt/frontiers/source_smooth_realization_20261011/SourceSmooth.lean -o <SCRATCH>/m451/wt/frontiers/source_smooth_realization_20261011/.lake/build/lib/lean/SourceSmooth.olean -i <SCRATCH>/m451/wt/frontiers/source_smooth_realization_20261011/.lake/build/lib/lean/SourceSmooth.ilean -c <SCRATCH>/m451/wt/frontiers/source_smooth_realization_20261011/.lake/build/ir/SourceSmooth.c --setup <SCRATCH>/m451/wt/frontiers/source_smooth_realization_20261011/.lake/build/ir/SourceSmooth.setup.json --json
+warning: SourceSmooth.lean:48:15: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+error: SourceSmooth.lean:107:4: Type mismatch: After simplification, term
+  Summable.mul_of_nonneg hs hb (fun k => orderModeBound_nonneg n d L (some (k, false))) fun x => zero_le_one
+ has type
+  @Summable ℝ (Subtype (halfLattice d) × Bool) Real.instAddCommMonoid
+    PseudoMetricSpace.toUniformSpace.toTopologicalSpace (fun x => (orderPairedBound n d L ∘ Subtype.val) x.1)
+    (SummationFilter.unconditional (Subtype (halfLattice d) × Bool))
+but is expected to have type
+  @Summable ℝ (↑(halfLattice d) × Bool) Real.instAddCommMonoid PseudoMetricSpace.toUniformSpace.toTopologicalSpace
+    (fun p => orderPairedBound n d L ↑p.1) (SummationFilter.unconditional (↑(halfLattice d) × Bool))
+error: SourceSmooth.lean:127:6: Type mismatch: After simplification, term
+  modeCoefficient_bound d hL none x
+ has type
+  @LE.le ℝ Real.instLE |modeCoefficient d L none x| (modeMajorant d L none)
+but is expected to have type
+  @LE.le ℝ Real.instLE |modeCoefficient d L none x| √(1 / sourceZ d L)
+Some required targets logged failures:
+- SourceSmooth
+error: build failed
+
+real	9m18.010s
+user	0m31.904s
+sys	0m16.825s

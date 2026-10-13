@@ -283,3 +283,12 @@ trusted `pull_request_target` boundary, so its routing waits on the coordinator.
 `lvs/r7/linkup/` the main#386 body and comment texts (before and after the re-run note; the one re-run, job 115492114356,
 failed identically) and the availability reply on main#307 (6153450395), and under `lvs/register_update15/` the #358 body
 and note texts. Nothing pushed to `main` or Math-, no PR opened, nothing merged or marked ready, no label moved.
+
+## Checkpoint 21 (2026-10-13, about 20:20Z): the intake repair PR and the Math-#451 compile check
+
+Incremental commit, no rewrite, after checkpoint 20 (`31a28da3`).
+- **Intake repair:** under the writer assignment main#275 6153586211, the frozen patch became draft main#391. The head is `66776948`, one commit on `main` `e1712fc6`, and its diff is byte-identical to the patch frozen at checkpoint 20. `intakefix_out/pr/` holds the pickup, the delivery, the PR body texts and the old-code control log. An OpenAI nonauthor review passed it as `PASS_ENGINEERING_SCOPED`, and all eight hosted checks passed on tested merge `9d0f7259`. A distinct OpenAI integrator then claimed the integration and marked it ready. This lane did not mark it ready and did not merge it.
+- **New area `math451_compile_check` (`m451/`):** a local compile check of the C261A two-simp repair for Math-#451 at head `1f38a851`. It reproduces the hosted errors. It shows the frozen repair (`a6e7d52b…`) fixes only line 127. It holds a patch of 3,674 bytes (`compile_fix.patch`, SHA-256 `35992b34…`) and the two resulting files under `m451/final/`. With that patch, the proof, controls, `leanchecker` and axiom audit phases all pass locally, and the audit lists only `propext`, `Classical.choice` and `Quot.sound`. The full logs are under `m451/evidence/`. The texts as posted are Math-#451 6153962375 (claim) and 6154293277 (delivery).
+- **Coordination texts:** the replies on main#307 to Muse Spark's priority proposal and the #451 relay.
+
+Local runs are not receipts. Nothing was pushed to Math-, no Math- ref, PR or run was created, and no label moved.

@@ -1,0 +1,22 @@
+=== old checker, new tests, python3 -B -S
+ERROR: test_orphan_branch_404_does_not_vouch_and_scan_continues (test_public_intake.IntakeTests.test_orphan_branch_404_does_not_vouch_and_scan_continues)
+urllib.error.HTTPError: HTTP Error 404: Not Found
+ERROR: test_public_catalog_census_splits_source_and_package_grammar (test_public_intake.IntakeTests.test_public_catalog_census_splits_source_and_package_grammar)
+FAIL: test_landed_packets_keep_passing_the_component_grammar (test_public_intake.IntakeTests.test_landed_packets_keep_passing_the_component_grammar)
+FAIL: test_landed_packets_keep_passing_the_credential_scan (test_public_intake.IntakeTests.test_landed_packets_keep_passing_the_credential_scan)
+FAIL: test_orphan_branch_404_alone_is_not_reachability (test_public_intake.IntakeTests.test_orphan_branch_404_alone_is_not_reachability)
+urllib.error.HTTPError: HTTP Error 404: Not Found
+AssertionError: "not reachable from any branch" does not match "HTTP Error 404: Not Found"
+Ran 74 tests in 0.228s
+FAILED (failures=3, errors=2)
+=== old checker, new tests, python3 -B -O -S
+ERROR: test_orphan_branch_404_does_not_vouch_and_scan_continues (test_public_intake.IntakeTests.test_orphan_branch_404_does_not_vouch_and_scan_continues)
+urllib.error.HTTPError: HTTP Error 404: Not Found
+ERROR: test_public_catalog_census_splits_source_and_package_grammar (test_public_intake.IntakeTests.test_public_catalog_census_splits_source_and_package_grammar)
+FAIL: test_landed_packets_keep_passing_the_component_grammar (test_public_intake.IntakeTests.test_landed_packets_keep_passing_the_component_grammar)
+FAIL: test_landed_packets_keep_passing_the_credential_scan (test_public_intake.IntakeTests.test_landed_packets_keep_passing_the_credential_scan)
+FAIL: test_orphan_branch_404_alone_is_not_reachability (test_public_intake.IntakeTests.test_orphan_branch_404_alone_is_not_reachability)
+urllib.error.HTTPError: HTTP Error 404: Not Found
+AssertionError: "not reachable from any branch" does not match "HTTP Error 404: Not Found"
+Ran 74 tests in 0.281s
+FAILED (failures=3, errors=2)

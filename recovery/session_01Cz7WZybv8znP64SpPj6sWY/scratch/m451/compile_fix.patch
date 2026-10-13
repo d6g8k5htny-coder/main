@@ -1,0 +1,74 @@
+--- a/frontiers/source_smooth_realization_20261011/SourceSmooth.lean
++++ b/frontiers/source_smooth_realization_20261011/SourceSmooth.lean
+@@ -101,10 +101,11 @@
+ theorem orderModeBound_summable (n d : ℕ) {L : ℝ} (hL : L ≠ 0) :
+     Summable (orderModeBound n d L) := by
+   classical
+-  have hs := (orderPairedBound_summable n d hL).subtype (halfLattice d)
++  have hs : Summable (fun k : ↥(halfLattice d) => orderPairedBound n d L k) :=
++    (orderPairedBound_summable n d hL).subtype (halfLattice d)
+   have hb : Summable (fun _ : Bool => (1 : ℝ)) := (hasSum_fintype _).summable
+   have hp : Summable (fun p : ↥(halfLattice d) × Bool => orderPairedBound n d L p.1) := by
+-    simpa only [mul_one] using hs.mul_of_nonneg hb
++    simpa only [mul_one, Function.comp_def] using hs.mul_of_nonneg hb
+       (fun k => orderModeBound_nonneg n d L (some (k, false))) (fun _ => zero_le_one)
+   let e := Equiv.optionEquivSumPUnit.{0, 0} (↥(halfLattice d) × Bool)
+   apply e.symm.summable_iff.mp
+@@ -124,7 +125,7 @@
+   | none =>
+     cases j with
+     | zero =>
+-      simpa only [norm_iteratedFDeriv_zero, Real.norm_eq_abs, orderModeBound] using
++      simpa only [norm_iteratedFDeriv_zero, Real.norm_eq_abs, orderModeBound, modeMajorant] using
+         modeCoefficient_bound d hL none x
+     | succ j =>
+       change ‖iteratedFDeriv ℝ (j + 1)
+--- a/frontiers/source_smooth_realization_20261011/SourceSmoothCarrier.lean
++++ b/frontiers/source_smooth_realization_20261011/SourceSmoothCarrier.lean
+@@ -24,7 +24,7 @@
+ noncomputable section
+ open I4Foundation I4Source I4Smooth I4SourceGaussian I4SourceCovariance I4Kernel
+ open I4Torus I4TorusC4 MeasureTheory ProbabilityTheory
+-open scoped BigOperators ENNReal Manifold ContDiff Topology
++open scoped BigOperators ENNReal NNReal Manifold Topology
+ 
+ namespace I4SmoothCarrier
+ 
+@@ -44,8 +44,7 @@
+     (ω : SourceMode d → ℝ) :
+     orderAbsTotal n d L ω ≠ ∞ ↔
+       Summable (fun m => orderModeBound n d L m * |ω m|) := by
+-  simpa only [orderAbsTotal, orderAbsNN] using
+-    (ENNReal.tsum_coe_ne_top_iff_summable_coe (f := orderAbsNN n d L ω))
++  exact ENNReal.tsum_coe_ne_top_iff_summable_coe (f := orderAbsNN n d L ω)
+ 
+ private theorem orderAbsTotal_measurable (n d : ℕ) (L : ℝ) :
+     Measurable (orderAbsTotal n d L) := by
+@@ -57,7 +56,8 @@
+   intro m _
+   have hm : Measurable (fun ω : SourceMode d → ℝ => orderAbsNN n d L ω m) := by
+     unfold orderAbsNN
+-    exact (measurable_const.mul (measurable_pi_apply m).abs).nnreal_mk
++    exact (show Measurable (fun ω : SourceMode d → ℝ => orderModeBound n d L m * |ω m|) by
++      fun_prop).nnreal_mk
+   exact hm.coe_nnreal_ennreal
+ 
+ theorem goodSet_measurable (d : ℕ) (L : ℝ) : MeasurableSet (goodSet d L) := by
+@@ -139,7 +139,7 @@
+   sourceField_smooth_of_goodSample d hL (sampleInclusion d L ω) ω.property n
+ 
+ theorem smoothSourceField_smooth (d : ℕ) {L : ℝ} (hL : L ≠ 0)
+-    (ω : SmoothSample d L) : ContDiff ℝ ∞ (smoothSourceField d L ω) :=
++    (ω : SmoothSample d L) : ContDiff ℝ (⊤ : ℕ∞) (smoothSourceField d L ω) :=
+   contDiff_infty.mpr (smoothSourceField_contDiff d hL ω)
+ 
+ theorem smoothSourceField_finiteVector_map_eq (d : ℕ) {L : ℝ} (hL : L ≠ 0)
+@@ -188,7 +188,7 @@
+ 
+ theorem smoothTorusSourceField_smooth (d : ℕ) (L : ℝ) [Fact (0 < L)]
+     (ω : SmoothSample d L) :
+-    ContMDiff 𝓘(ℝ, Fin d → ℝ) 𝓘(ℝ) ∞ (smoothTorusSourceField d L ω) := by
++    ContMDiff 𝓘(ℝ, Fin d → ℝ) 𝓘(ℝ) (⊤ : ℕ∞) (smoothTorusSourceField d L ω) := by
+   let _ := torus_isManifold d L
+   have hs := smoothSourceField_smooth d (Fact.out : 0 < L).ne' ω
+   intro q
