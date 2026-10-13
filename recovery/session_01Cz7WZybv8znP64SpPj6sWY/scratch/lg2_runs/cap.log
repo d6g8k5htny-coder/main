@@ -1,0 +1,30 @@
+### ROW LOCAL:claude-01Cz-container:cap head=7c1cd5d0bd896fa09b284da84787fd27d97d8041 tree=4f3d904b40184819ddbc02f4ef6a9bb4a2297541 start=2026-10-13T21:12:28Z
+### HOST Linux 6.18.44-fc-v114 x86_64 | Python 3.11.15 | Ubuntu 24.04.4 LTS | nproc=4
+----------------------------------------------------------------------
+Ran 38 tests in 8.741s
+
+OK
+### EXIT 0 after 9s: python3 -B -S -m unittest discover -s frontiers/cap_first_exit_lean_20261002 -p test_*.py
+----------------------------------------------------------------------
+Ran 38 tests in 9.561s
+
+OK
+### EXIT 0 after 10s: python3 -B -O -S -m unittest discover -s frontiers/cap_first_exit_lean_20261002 -p test_*.py
+### STEP python3 -B -S frontiers/cap_first_exit_lean_20261002/gate.py @ 2026-10-13T21:12:47Z
+{"passed": true, "source_check": "PASS", "targets": 152}
+### EXIT 0 after 0s: python3 -B -S frontiers/cap_first_exit_lean_20261002/gate.py
+### STEP python3 -B -S frontiers/cap_first_exit_lean_20261002/gate.py --execute @ 2026-10-13T21:12:47Z
+{"axioms_allowed_only": true, "negative_controls": {"custom_axiom": "REJECTED", "native_decide": "REJECTED", "sorry": "REJECTED"}, "passed": true, "targets": 152}
+### EXIT 0 after 170s: python3 -B -S frontiers/cap_first_exit_lean_20261002/gate.py --execute
+### TRACKED DIFF:
+### PACKAGES AFTER:
+Cli e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204 clean
+LeanSearchClient ddf04cf3949fa556442341e87d47f9f6e6074707 clean
+Qq 6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259 clean
+aesop 355695d523e41d0554926416cba2a2b3544fbbc9 clean
+batteries f2effa3d803fda822b1f97b806c47cf2adfbcbc2 clean
+importGraph e928b72544873815af278d38681b31c0293588e3 clean
+mathlib d13f23b723b8a846827a245b89c10fc7d3f11612 clean
+plausible 118aa17ee84656b8bd727fef7c458ee8c833385c clean
+proofwidgets 106ff4fafc74ef4ac99d81dbf3ab399118f497a5 clean
+### ROW RESULT rc=0 end=2026-10-13T21:15:38Z

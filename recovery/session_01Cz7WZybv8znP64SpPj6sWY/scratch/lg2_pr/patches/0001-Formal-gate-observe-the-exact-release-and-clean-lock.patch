@@ -1,0 +1,316 @@
+From 04f98d4b9382a0d5177c0e5686816ca340527eb8 Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Tue, 13 Oct 2026 20:50:19 +0000
+Subject: [PATCH 1/7] Formal gate: observe the exact release and clean locked
+ dependencies at both ends
+
+execute() now records one observation before the first Lean execution and one
+after the last: the exact Lean release (4.34.1, commit 5045d005, Release), the
+nine dependency HEADs equal to the lock with clean worktrees, and the bound
+manifest digest. The two must be equal. Dependency cleanliness was never
+checked before, and dependency HEADs were read only at the end. The receipt adds
+workflow_run_attempt, dependency_worktrees and both observations; every
+existing key is unchanged.
+
+New RuntimeGuardTests controls fail on the previous gate: a dirty dependency
+before or after execution, a wrong dependency at preflight (refused before the
+old build is deleted), a well-formed runtime change between the observations,
+and the receipt's attempt and observation fields.
+
+Rotations: formal/manifest.json binds the new gate.py and test hashes, and the
+five gate-hash literals in formal/tests move together (as in Math-#412).
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01Cz7WZybv8znP64SpPj6sWY
+---
+ formal/gate.py                           | 35 ++++++++++--
+ formal/manifest.json                     | 14 ++---
+ formal/tests/test_d2_schur.py            |  2 +-
+ formal/tests/test_gate.py                | 72 +++++++++++++++++++++++-
+ formal/tests/test_moment_generality.py   |  2 +-
+ formal/tests/test_moment_tail.py         |  2 +-
+ formal/tests/test_weight_perturbation.py |  2 +-
+ formal/tests/test_weighted_law.py        |  2 +-
+ 8 files changed, 112 insertions(+), 19 deletions(-)
+
+diff --git a/formal/gate.py b/formal/gate.py
+index 240a263..e5975f3 100644
+--- a/formal/gate.py
++++ b/formal/gate.py
+@@ -30,6 +30,25 @@ def check_lean_version(text):
+             'unexpected running Lean version: ' + repr(version))
+     return version
+ 
++def check_worktree_clean(name, status):
++    """`git status --porcelain` output of a dependency: staged, unstaged or untracked changes fail."""
++    require(status.strip() == '', 'dependency worktree is not clean: ' + name + ': ' + status.strip()[:200])
++
++def dependency_state(m):
++    """Exact locked revision and a clean worktree for every dependency, read from the checkouts."""
++    actual = {}
++    for name in m['dependency_revisions']:
++        repo = str(ROOT / '.lake' / 'packages' / name)
++        actual[name] = subprocess.check_output(['git', '-C', repo, 'rev-parse', 'HEAD'], text=True).strip()
++        check_worktree_clean(name, subprocess.check_output(
++            ['git', '-C', repo, 'status', '--porcelain', '--untracked-files=normal'], text=True))
++    require(actual == m['dependency_revisions'], 'installed dependency HEAD differs from lock')
++    return actual
++
++def observation(version, dependencies, digest):
++    return {'lean_version': version, 'dependency_revisions': dependencies, 'dependency_worktrees': 'CLEAN',
++            'manifest_sha256': digest}
++
+ def audit_axioms(text, targets):
+     require(isinstance(targets, list) and targets and len(set(targets)) == len(targets), 'empty or duplicate target list')
+     records = {}
+@@ -160,7 +179,8 @@ def execute(m, digest):
+     out = ROOT / '.lake' / 'formal-evidence'
+     out.mkdir(parents=True, exist_ok=True)
+     require(not (ROOT / '.lake').is_symlink() and not (ROOT / '.lake/build').is_symlink(), 'symlink build directory')
+-    check_lean_version(run(['lake', 'env', 'lean', '--version'], 'version-preflight', out))
++    preflight_version = check_lean_version(run(['lake', 'env', 'lean', '--version'], 'version-preflight', out))
++    preflight = observation(preflight_version, dependency_state(m), digest)
+     if (ROOT / '.lake/build').exists():
+         shutil.rmtree(ROOT / '.lake/build')  # fresh local-package build; dependency cache is untouched
+     run(['lake', 'build'], 'build', out)
+@@ -200,16 +220,21 @@ def execute(m, digest):
+             outcomes[label] = 'REJECTED_BY_LEAN'
+     # Recheck after compilation: a build hook must not rewrite bound sources/lock.
+     _, after = source_check(); require(after == digest, 'manifest changed during execution')
++    # Final observation after the last Lean execution: the same exact release, the same locked
++    # and clean dependencies and the same bound sources as before the first one.
+     version = check_lean_version(run(['lake', 'env', 'lean', '--version'], 'version', out))
+-    actual_dependencies = {name: subprocess.check_output(['git', '-C', str(ROOT / '.lake/packages' / name), 'rev-parse', 'HEAD'], text=True).strip() for name in m['dependency_revisions']}
+-    require(actual_dependencies == m['dependency_revisions'], 'installed dependency HEAD differs from lock')
++    final = observation(version, dependency_state(m), after)
++    require(final == preflight, 'runtime, dependencies or sources changed during execution')
+     head = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
+     require(COMMIT.fullmatch(head), 'missing exact checked commit')
+     receipt = dict(schema_version=1, scientific_effect='NONE', formalization_status='kernel-checked',
+                    alignment_status='PENDING_INDEPENDENT_REVIEW', manifest_sha256=digest,
+                    checked_commit=head, repository=os.environ.get('GITHUB_REPOSITORY'),
+-                   workflow_run_id=os.environ.get('GITHUB_RUN_ID'), lean_version=version,
+-                   dependency_revisions=m['dependency_revisions'], axioms=axioms, negative_controls=outcomes)
++                   workflow_run_id=os.environ.get('GITHUB_RUN_ID'),
++                   workflow_run_attempt=os.environ.get('GITHUB_RUN_ATTEMPT'), lean_version=version,
++                   dependency_revisions=m['dependency_revisions'], dependency_worktrees='CLEAN',
++                   observations={'preflight': preflight, 'final': final},
++                   axioms=axioms, negative_controls=outcomes)
+     receipt['logs'] = {p.name: sha(p.read_bytes()) for p in sorted(out.glob('*.log'))}
+     (out / 'receipt.json').write_text(json.dumps(receipt, indent=2, sort_keys=True) + '\n')
+     print(json.dumps(receipt, indent=2, sort_keys=True))
+diff --git a/formal/manifest.json b/formal/manifest.json
+index 9d6f71b..444642f 100644
+--- a/formal/manifest.json
++++ b/formal/manifest.json
+@@ -105,34 +105,34 @@
+     "SCOPE.md": "8fa7e879e23742aba77df8687659ca9dcfd13a19e0add6192229c2f80629b3cb",
+     "blueprint/src/content.tex": "0c976e8e4a5e69a443e93796c8f6cbf91bf73c224448c4256de72a041e04161f",
+     "evidence/initial-build-failure.log": "43393d2e2b3148a2453e3092a1ff04e257dbd4a6dc97eb2853a8bc0451002591",
+-    "gate.py": "278989bbba7e1f90870ea0d197a996bc0a65b2a4b217e2eb284accb1282356c1",
++    "gate.py": "25e08d9054b929dd657668e4ee4a3524688dc476e5af958f950de3b919f04e9a",
+     "lake-manifest.json": "d63753befccc21923783a5085148e3ff028d97134ea52f5a08bd87ecf1b0b043",
+     "lakefile.toml": "d629891716c169404d1f0d76492441c8dd66f1e790b1b8b0819e51c8d5059255",
+     "lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
+     "originals/Algebra.lean.txt": "4c196820c4db8fafc288dd35642828ba577e3544d60aba7d1d6d24f14ad1e8ae",
+     "originals/ProbabilityCompanions.lean.txt": "4ace6600a476859982c8851ae9097c89b082d3c96291b3c8330bd4cc00bae65d",
+-    "tests/test_gate.py": "94aaf74693ddb817a3d728344209f9b87f47367a31d2efdf35afd5aca6f2aae3",
++    "tests/test_gate.py": "e279e5b1e8c14f913728a18fa345dd1060d856799369fc4c9dce4a5f6dfb7574",
+     "ResearchFormalCoreR1/MeasureBridge.lean": "28ac130db490c3c3e2fbfabf3ac5be43c854ab1468bf573bf5a8c0dd2c50955f",
+     "MEASURE_BRIDGE.md": "bdb6c06f359f17d493d6057adbed61edb20236b7a3a3ca4880ae0b33d8a7200e",
+     "tests/test_measure_bridge.py": "0e54b2ed7c2e197967180993b4c0c1ece1e63576ad34fd74ac232a4d507628a2",
+     "ResearchFormalCoreR1/WeightedLaw.lean": "f31dfd2cd048cc0c0446c54c46d89c9cdd5d7bb9d76e9d8d16b7c034f351d736",
+     "WEIGHTED_LAW.md": "a530dc957923c4c9111b734d8fcc0f4cd3cdba45b08480cfc2e241ecefc5fba4",
+-    "tests/test_weighted_law.py": "057d81914e03050dba75ff05a43ee00ae01e1d1260d716aca945b72b25ae16ac",
++    "tests/test_weighted_law.py": "46c0f11a7a441f085cd339a9f61aa27d1574691c279ef8b6a7a500d089374d27",
+     "ResearchFormalCoreR1/MomentTail.lean": "87fe3ee90afc52d8c2652881f1ae195d1b0b15a2ffc18c84d6166d1a4d0de2aa",
+     "MOMENT_TAIL.md": "20ecddcd830c41935dc4b366882db4d0432240932af6632d025b981f90e044bd",
+-    "tests/test_moment_tail.py": "249eb6b8a7e7ab544bcda99a9ba76913ea80fca0c340ab2f5e2da19d0d9c05be",
++    "tests/test_moment_tail.py": "4aa8ef5b1646f4cbef837a5b024da18fd75bf9d5dcb1489835482874d8cb48df",
+     "evidence/moment-tail-initial-build-failure.log": "61bee2d55d0dd548b0bccc4d2e40970f654fca8ab1385af7f371592d45c0ab08",
+     "ResearchFormalCoreR1/MomentGenerality.lean": "fdec55f1602938cd8fdb5b71535962e76a9671bf230dea53868b14147fb3b509",
+     "MOMENT_GENERALITY.md": "5386c763f95ecd0946e0f23a22d1ba90e7956ff1a1bfcada0d454d1b5ace0cf2",
+-    "tests/test_moment_generality.py": "e53634eaeafa168d315082c7ae840a63884de777becebb766c77daabb7c12c4b",
++    "tests/test_moment_generality.py": "c6bdd3a3952358a14e2a211f8f6369367ab80703e8eb5196ec9c9f3a97878c8d",
+     "tests/test_alignment_lineage.py": "c510c6566d7689bebde76843582e9936dfa9e62e783b816b5e4f63d83434b893",
+     "LINEAGE_VALIDATION.md": "bba9d0a859f1ba45670fe122e4e72ae1094a2226de98aa814d838b0baaf61815",
+     "ResearchFormalCoreR1/WeightPerturbation.lean": "50ce15709a133da12a0b4333cc653d26c5fd8a412976c975a7c2f3b25ed5c00f",
+     "WEIGHT_PERTURBATION.md": "0ac969b86f5b2cc4e84b4bb61790c7497164b923dc5f3fc5be99195b75b1b212",
+-    "tests/test_weight_perturbation.py": "8dcb3ad863803472022d4f2f7185ba9280491479cd1fa1823e17a161e0b71095",
++    "tests/test_weight_perturbation.py": "0a978f8b56faceb3be6c91dea62b8837e06874ef4fcad3356842aa475d339854",
+     "evidence/weight-perturbation-initial-build-failure.log": "2abe4ec4bcfa4de282e7983ffebb225af21308c60b84083a1696bcced31b9c7c",
+     "D2_SCHUR.md": "c25f4add4c92479ae0f6dfaac43fc9be7a71766f050a79acbc2c72acf47ef4d3",
+     "ResearchFormalCoreR1/D2Schur.lean": "d3fb3ed7b4043227f1d5a06e208de9d94eb413c067e9d0f8802388407c9e15b9",
+-    "tests/test_d2_schur.py": "f87bcd034192c1abbc2d4c0cbc0704c744c2865636a5486a19630823301b607a"
++    "tests/test_d2_schur.py": "3db66384d7068129346871ca169e602b5bcd2594693090f4ddfc5d5297678f83"
+   }
+ }
+diff --git a/formal/tests/test_d2_schur.py b/formal/tests/test_d2_schur.py
+index 219d0a0..7e6b23b 100644
+--- a/formal/tests/test_d2_schur.py
++++ b/formal/tests/test_d2_schur.py
+@@ -52,7 +52,7 @@ class D2SchurTests(unittest.TestCase):
+         for path in (MODULE, 'D2_SCHUR.md', 'tests/test_d2_schur.py'):
+             self.assertEqual(hashlib.sha256((ROOT/path).read_bytes()).hexdigest(), m['files'][path])
+         self.assertEqual(m['files']['gate.py'],
+-                         '278989bbba7e1f90870ea0d197a996bc0a65b2a4b217e2eb284accb1282356c1')
++                         '25e08d9054b929dd657668e4ee4a3524688dc476e5af958f950de3b919f04e9a')
+         self.assertEqual(m['files']['ResearchFormalCoreR1/WeightPerturbation.lean'],
+                          '50ce15709a133da12a0b4333cc653d26c5fd8a412976c975a7c2f3b25ed5c00f')
+ 
+diff --git a/formal/tests/test_gate.py b/formal/tests/test_gate.py
+index 20bbe6b..e031f0b 100644
+--- a/formal/tests/test_gate.py
++++ b/formal/tests/test_gate.py
+@@ -160,7 +160,8 @@ class RuntimeVersionTests(unittest.TestCase):
+         self.calls = []
+         self.version_index = 0
+ 
+-    def execute_synthetic(self, versions, version_exit=0, mutate_source=False, wrong_dependency=False):
++    def execute_synthetic(self, versions, version_exit=0, mutate_source=False, wrong_dependency=False,
++                          dirty_dependency=None, drift_dependency=False, env=None):
+         def external_run(command, **kwargs):
+             self.calls.append(command)
+             if command == ['lake', 'env', 'lean', '--version']:
+@@ -186,11 +187,16 @@ class RuntimeVersionTests(unittest.TestCase):
+             if command == ['git', 'rev-parse', 'HEAD']:
+                 return 'b' * 40 + '\n'
+             name = Path(command[2]).name
++            final_phase = self.version_index >= 2  # after the final version observation
++            if command[3:] == ['status', '--porcelain', '--untracked-files=normal']:
++                dirty = dirty_dependency == 'preflight' and not final_phase or dirty_dependency == 'final' and final_phase
++                return ' M Mathlib/Injected.lean\n' if dirty else ''
+             revision = self.manifest['dependency_revisions'][name]
+-            return ('c' * 40 if wrong_dependency else revision) + '\n'
++            return ('c' * 40 if wrong_dependency or drift_dependency and final_phase else revision) + '\n'
+ 
+         with patch.object(gate.subprocess, 'run', side_effect=external_run), \
+              patch.object(gate.subprocess, 'check_output', side_effect=external_git), \
++             patch.dict(gate.os.environ, env or {}), \
+              contextlib.redirect_stdout(io.StringIO()):
+             return gate.execute(self.manifest, self.digest)
+ 
+@@ -289,6 +295,68 @@ class RuntimeVersionTests(unittest.TestCase):
+             self.execute_synthetic([self.RELEASE], wrong_dependency=True)
+         self.assert_no_receipt()
+ 
++class RuntimeGuardTests(unittest.TestCase):
++    # The uniform runtime guard: the exact release, locked and clean dependencies and the bound
++    # sources are observed before the first Lean execution and again after the last one, and the
++    # two observations must be equal. These controls fail on a gate that checks only versions.
++    # Reuses the synthetic-process harness above without re-running its tests.
++    RELEASE = RuntimeVersionTests.RELEASE
++    OTHER_PLATFORM = RELEASE.replace('x86_64-unknown-linux-gnu', 'aarch64-unknown-linux-gnu')
++    fixture = RuntimeVersionTests.fixture
++    execute_synthetic = RuntimeVersionTests.execute_synthetic
++    assert_no_receipt = RuntimeVersionTests.assert_no_receipt
++
++    def test_dirty_dependency_before_execution_refuses_and_preserves_build(self):
++        self.fixture()
++        with self.assertRaisesRegex(ValueError, 'dependency worktree is not clean'):
++            self.execute_synthetic([self.RELEASE, self.RELEASE], dirty_dependency='preflight')
++        self.assertEqual(self.calls, [['lake', 'env', 'lean', '--version']])
++        self.assertTrue(self.sentinel.exists(), 'preflight refusal deleted the old build')
++        self.assert_no_receipt()
++
++    def test_wrong_dependency_before_execution_refuses_and_preserves_build(self):
++        self.fixture()
++        with self.assertRaisesRegex(ValueError, 'installed dependency HEAD differs from lock'):
++            self.execute_synthetic([self.RELEASE, self.RELEASE], wrong_dependency=True)
++        self.assertEqual(self.calls, [['lake', 'env', 'lean', '--version']])
++        self.assertTrue(self.sentinel.exists(), 'preflight refusal deleted the old build')
++        self.assert_no_receipt()
++
++    def test_dependency_dirtied_during_execution_refuses_receipt(self):
++        self.fixture()
++        with self.assertRaisesRegex(ValueError, 'dependency worktree is not clean'):
++            self.execute_synthetic([self.RELEASE, self.RELEASE], dirty_dependency='final')
++        self.assertEqual(self.version_index, 2)
++        self.assert_no_receipt()
++
++    def test_dependency_moved_during_execution_refuses_receipt(self):
++        self.fixture()
++        with self.assertRaisesRegex(ValueError, 'installed dependency HEAD differs from lock'):
++            self.execute_synthetic([self.RELEASE, self.RELEASE], drift_dependency=True)
++        self.assertEqual(self.version_index, 2)
++        self.assert_no_receipt()
++
++    def test_runtime_changed_between_observations_refuses_receipt(self):
++        # Both lines are well-formed records of the pinned release; only the platform differs.
++        self.fixture()
++        self.assertEqual(gate.check_lean_version(self.OTHER_PLATFORM), self.OTHER_PLATFORM)
++        with self.assertRaisesRegex(ValueError, 'changed during execution'):
++            self.execute_synthetic([self.RELEASE, self.OTHER_PLATFORM])
++        self.assert_no_receipt()
++
++    def test_receipt_binds_attempt_and_both_equal_observations(self):
++        self.fixture()
++        receipt = self.execute_synthetic([self.RELEASE, self.RELEASE],
++                                         env={'GITHUB_RUN_ID': '12345', 'GITHUB_RUN_ATTEMPT': '2'})
++        self.assertEqual(receipt['workflow_run_id'], '12345')
++        self.assertEqual(receipt['workflow_run_attempt'], '2')
++        self.assertEqual(receipt['dependency_worktrees'], 'CLEAN')
++        expected = {'lean_version': self.RELEASE, 'dependency_revisions': self.manifest['dependency_revisions'],
++                    'dependency_worktrees': 'CLEAN', 'manifest_sha256': self.digest}
++        self.assertEqual(receipt['observations'], {'preflight': expected, 'final': expected})
++        written = json.loads((self.root / '.lake/formal-evidence/receipt.json').read_text())
++        self.assertEqual(written['observations'], receipt['observations'])
++
+ class SuccessorTests(unittest.TestCase):
+     def test_only_documented_algebra_repairs(self):
+         original=(ROOT/'originals/Algebra.lean.txt').read_text()
+diff --git a/formal/tests/test_moment_generality.py b/formal/tests/test_moment_generality.py
+index f12cbfe..22672d3 100644
+--- a/formal/tests/test_moment_generality.py
++++ b/formal/tests/test_moment_generality.py
+@@ -55,7 +55,7 @@ class MomentGeneralitySourceTests(unittest.TestCase):
+         pins = {
+             'ResearchFormalCoreR1/MomentTail.lean': '87fe3ee90afc52d8c2652881f1ae195d1b0b15a2ffc18c84d6166d1a4d0de2aa',
+             'ResearchFormalCoreR1/WeightedLaw.lean': 'f31dfd2cd048cc0c0446c54c46d89c9cdd5d7bb9d76e9d8d16b7c034f351d736',
+-            'gate.py': '278989bbba7e1f90870ea0d197a996bc0a65b2a4b217e2eb284accb1282356c1',
++            'gate.py': '25e08d9054b929dd657668e4ee4a3524688dc476e5af958f950de3b919f04e9a',
+         }
+         for path, digest in pins.items():
+             self.assertEqual(m['files'][path], digest)
+diff --git a/formal/tests/test_moment_tail.py b/formal/tests/test_moment_tail.py
+index 0e3dc3d..d0c0869 100644
+--- a/formal/tests/test_moment_tail.py
++++ b/formal/tests/test_moment_tail.py
+@@ -57,7 +57,7 @@ class MomentTailSourceTests(unittest.TestCase):
+         pins = {
+             'ResearchFormalCoreR1/MeasureBridge.lean': '28ac130db490c3c3e2fbfabf3ac5be43c854ab1468bf573bf5a8c0dd2c50955f',
+             'ResearchFormalCoreR1/WeightedLaw.lean': 'f31dfd2cd048cc0c0446c54c46d89c9cdd5d7bb9d76e9d8d16b7c034f351d736',
+-            'gate.py': '278989bbba7e1f90870ea0d197a996bc0a65b2a4b217e2eb284accb1282356c1',
++            'gate.py': '25e08d9054b929dd657668e4ee4a3524688dc476e5af958f950de3b919f04e9a',
+         }
+         for name, digest in pins.items():
+             self.assertEqual(m['files'][name], digest)
+diff --git a/formal/tests/test_weight_perturbation.py b/formal/tests/test_weight_perturbation.py
+index 67ee95b..ce462f9 100644
+--- a/formal/tests/test_weight_perturbation.py
++++ b/formal/tests/test_weight_perturbation.py
+@@ -65,7 +65,7 @@ class WeightPerturbationSourceTests(unittest.TestCase):
+         pins = {
+             'ResearchFormalCoreR1/WeightedLaw.lean': 'f31dfd2cd048cc0c0446c54c46d89c9cdd5d7bb9d76e9d8d16b7c034f351d736',
+             'ResearchFormalCoreR1/MomentGenerality.lean': 'fdec55f1602938cd8fdb5b71535962e76a9671bf230dea53868b14147fb3b509',
+-            'gate.py': '278989bbba7e1f90870ea0d197a996bc0a65b2a4b217e2eb284accb1282356c1',
++            'gate.py': '25e08d9054b929dd657668e4ee4a3524688dc476e5af958f950de3b919f04e9a',
+         }
+         for path, digest in pins.items():
+             self.assertEqual(m['files'][path], digest)
+diff --git a/formal/tests/test_weighted_law.py b/formal/tests/test_weighted_law.py
+index b585d2d..ceac056 100644
+--- a/formal/tests/test_weighted_law.py
++++ b/formal/tests/test_weighted_law.py
+@@ -57,7 +57,7 @@ class WeightedLawSourceTests(unittest.TestCase):
+         m = json.loads((ROOT/'manifest.json').read_text())
+         pins = {
+             'ResearchFormalCoreR1/MeasureBridge.lean': '28ac130db490c3c3e2fbfabf3ac5be43c854ab1468bf573bf5a8c0dd2c50955f',
+-            'gate.py': '278989bbba7e1f90870ea0d197a996bc0a65b2a4b217e2eb284accb1282356c1',
++            'gate.py': '25e08d9054b929dd657668e4ee4a3524688dc476e5af958f950de3b919f04e9a',
+             'lean-toolchain': 'd5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b',
+         }
+         for path, digest in pins.items():
+-- 
+2.43.0
+

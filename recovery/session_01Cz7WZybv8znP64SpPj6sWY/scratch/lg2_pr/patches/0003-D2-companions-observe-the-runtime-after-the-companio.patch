@@ -1,0 +1,746 @@
+From 4a751cca7d1ad6fec4f958843fcbdcefca4c7fdc Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Tue, 13 Oct 2026 20:56:06 +0000
+Subject: [PATCH 3/7] D2 companions: observe the runtime after the companion's
+ own last Lean run
+
+Each D2 replay runs the core formal gate first and then its own Lean
+executions; the core gate's observations precede those runs and so cannot
+cover them, and toolchain.log was written but never validated. Now, in all
+three companions:
+- replay.sh writes toolchain-final.log and packages-final.log (name, HEAD,
+  clean|dirty per dependency) after the companion's last Lean execution;
+- check.py finish calls final_runtime(): both toolchain lines must equal the
+  core receipt's exact release (4.34.1, commit 5045d005, Release), the core
+  receipt must carry equal preflight and final observations, and every final
+  dependency must equal the formal lock and be clean. The companion receipt
+  records the final observation.
+
+FinalRuntimeTests fail on the previous check.py/replay.sh (8 errors per mode in
+each companion): same semver with another commit or a Debug build, a runtime
+change after the core gate, dependency HEAD drift or dirt, a missing final
+observation, a core receipt without equal observations, and the placement of
+the final observation after the last Lean call.
+
+Rotations for the new formal core (as in Math-#412): CORE_TREE fc0b1170,
+CORE_MANIFEST 71499156, CORE_GATE 25e08d90 in each check.py; core_tree and the
+changed files' bytes/git_blob/sha256 in each SOURCE_FILES.json; moment's
+test_bridge.py core-tree literal; a dated provenance section appended to each
+SCOPE.md/README.md, earlier text preserved.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01Cz7WZybv8znP64SpPj6sWY
+---
+ companions/d2_atom_integral_20261006/SCOPE.md | 25 +++++++++
+ .../SOURCE_FILES.json                         | 26 ++++-----
+ companions/d2_atom_integral_20261006/check.py | 38 +++++++++++--
+ .../d2_atom_integral_20261006/replay.sh       | 10 ++++
+ .../d2_atom_integral_20261006/test_check.py   | 52 ++++++++++++++++++
+ .../d2_moment_bridge_20261006/README.md       | 25 +++++++++
+ .../SOURCE_FILES.json                         | 26 ++++-----
+ companions/d2_moment_bridge_20261006/check.py | 38 +++++++++++--
+ .../d2_moment_bridge_20261006/replay.sh       | 10 ++++
+ .../d2_moment_bridge_20261006/test_bridge.py  | 53 ++++++++++++++++++-
+ companions/d2_square_schur_20261006/SCOPE.md  | 25 +++++++++
+ .../SOURCE_FILES.json                         | 26 ++++-----
+ companions/d2_square_schur_20261006/check.py  | 38 +++++++++++--
+ companions/d2_square_schur_20261006/replay.sh | 10 ++++
+ .../d2_square_schur_20261006/test_check.py    | 53 +++++++++++++++++++
+ 15 files changed, 403 insertions(+), 52 deletions(-)
+
+diff --git a/companions/d2_atom_integral_20261006/SCOPE.md b/companions/d2_atom_integral_20261006/SCOPE.md
+index fa50a4d..7100889 100644
+--- a/companions/d2_atom_integral_20261006/SCOPE.md
++++ b/companions/d2_atom_integral_20261006/SCOPE.md
+@@ -149,3 +149,28 @@ The pin checks the reported compiler identity; it is not executable-byte
+ authentication or independent source alignment. New current-commit
+ kernel receipts and hosted checks are still required after publication.
+ Alignment remains PENDING_INDEPENDENT_REVIEW; scientific effect NONE.
++
++## Uniform runtime guard successor — 2026-10-13
++
++The tool/version adoption guard ([main#275 6154089628](https://github.com/d6g8k5htny-coder/main/issues/275#issuecomment-6154089628))
++requires the exact runtime and clean locked dependencies to be observed
++before the first and after the last Lean execution of every path. This
++companion's own Lean runs follow the core gate, so the core receipt's
++observations do not cover them. `replay.sh` now writes `toolchain-final.log`
++and `packages-final.log` (name, HEAD and clean/dirty for each dependency)
++after the companion's last Lean execution. `check.py finish` requires both
++toolchain lines to equal the core receipt's exact release, every final
++dependency to equal the formal lock and be clean, and the core receipt to
++carry equal preflight and final observations. The companion receipt records
++the final observation.
++
++This consumer now pins whole formal tree `fc0b11706d064b9de42331ee0a2464865107b87b`,
++manifest SHA256 `7149915669414e22f593ce2c6540c5e10d922eb758c7464794fc64764e679778`,
++and gate SHA256 `25e08d9054b929dd657668e4ee4a3524688dc476e5af958f950de3b919f04e9a`.
++
++All earlier document text is preserved as the historical prefix. Proofs,
++imports, toolchain/dependency locks, workflows and contracts keep their
++bytes. The new tests are synthetic and do not execute Lean. New
++current-commit kernel receipts and hosted checks are still required after
++publication. Alignment remains PENDING_INDEPENDENT_REVIEW; scientific
++effect NONE.
+diff --git a/companions/d2_atom_integral_20261006/SOURCE_FILES.json b/companions/d2_atom_integral_20261006/SOURCE_FILES.json
+index 0bcbd40..c68d2d7 100644
+--- a/companions/d2_atom_integral_20261006/SOURCE_FILES.json
++++ b/companions/d2_atom_integral_20261006/SOURCE_FILES.json
+@@ -1,5 +1,5 @@
+ {
+-  "core_tree": "38b6d1a7746075b560349d184a461933745c11ce",
++  "core_tree": "fc0b11706d064b9de42331ee0a2464865107b87b",
+   "files": {
+     ".github/workflows/d2-atom-integral.yml": {
+       "bytes": 1942,
+@@ -17,24 +17,24 @@
+       "sha256": "247507c4b7aeaccc033cd4d648442172d61227bb27239a7dacccd0f2fa1ba6c3"
+     },
+     "companions/d2_atom_integral_20261006/SCOPE.md": {
+-      "bytes": 9439,
+-      "git_blob": "fa50a4dbae2f95ce337d7f022faed05d686f942e",
+-      "sha256": "e52b047f49475e8e1bdf83333d55be8f207345e40fbca123800d55ae98426ce3"
++      "bytes": 10928,
++      "git_blob": "71008894a5a3aa01da18163afbce1903dabe51df",
++      "sha256": "90f12484ead012929ce0664ed0d4ef90f40c2d75d39d2d8580115f19b2db40ec"
+     },
+     "companions/d2_atom_integral_20261006/check.py": {
+-      "bytes": 7852,
+-      "git_blob": "d7e7df7dfc49de50596059db3d11dd3f552cb0c0",
+-      "sha256": "5686c2d1914061ff01c0faa2409e19398be81207b1899448854bdd87569768e7"
++      "bytes": 10044,
++      "git_blob": "eb918b7ee775c0bb61a9ffff2cadba0b76e40673",
++      "sha256": "df3f8aec73478b74d0d0f2f06d2655097f80b9d9ebbb4c720d6a63076493315d"
+     },
+     "companions/d2_atom_integral_20261006/replay.sh": {
+-      "bytes": 2879,
+-      "git_blob": "a4247be9ff3eff0229fef62c9b4a6b792159a6c7",
+-      "sha256": "66387fcea3e2795fbe69856b0b0c37013f3b0540c2fe2e11dc2a97b373285bcf"
++      "bytes": 3471,
++      "git_blob": "7dcfcf055f01a973e9e934abe0d732a580685568",
++      "sha256": "89d9a0c64fd88aa8cf8c6614df84b3f543c3d4ecc87ad2e529feffda90091c75"
+     },
+     "companions/d2_atom_integral_20261006/test_check.py": {
+-      "bytes": 5418,
+-      "git_blob": "cd9a642876878d1f18b494f5bee2cf30a6da3f83",
+-      "sha256": "b6448618b35e44a2181a12703a7ec464409a1b35ea641b95c690a60c6184247d"
++      "bytes": 8946,
++      "git_blob": "efa3793f8ffeecc3e504b559601d52c6e68008f0",
++      "sha256": "83750832498ac74f96297174c494262537069c9c82eacb7aa2315f39a77ad454"
+     }
+   },
+   "scientific_effect": "NONE",
+diff --git a/companions/d2_atom_integral_20261006/check.py b/companions/d2_atom_integral_20261006/check.py
+index d7e7df7..eb918b7 100644
+--- a/companions/d2_atom_integral_20261006/check.py
++++ b/companions/d2_atom_integral_20261006/check.py
+@@ -18,9 +18,9 @@ ROOT=SIDE.parents[1]
+ PACKAGE='companions/d2_atom_integral_20261006'
+ WORKFLOW='.github/workflows/d2-atom-integral.yml'
+ REPO='d6g8k5htny-coder/Math-'
+-CORE_TREE='38b6d1a7746075b560349d184a461933745c11ce'
+-CORE_MANIFEST='40cb6ffc6776717a26d2a0a66815aeef508b0c8411588fff06ff2cec43a752a1'
+-CORE_GATE='278989bbba7e1f90870ea0d197a996bc0a65b2a4b217e2eb284accb1282356c1'
++CORE_TREE='fc0b11706d064b9de42331ee0a2464865107b87b'
++CORE_MANIFEST='7149915669414e22f593ce2c6540c5e10d922eb758c7464794fc64764e679778'
++CORE_GATE='25e08d9054b929dd657668e4ee4a3524688dc476e5af958f950de3b919f04e9a'
+ CONSUMED={
+  'companions/d2_moment_bridge_20261006/D2MomentBridge.lean':'b3184107e290189b91e3e18fd2aa1cb631bb9bde',
+  'companions/d2_square_schur_20261006/D2SquareSchur.lean':'4855c92d55254969e1de7f8cf8dec2bdc027cf69'}
+@@ -110,6 +110,35 @@ def emit(out):
+     for label,statement in FALSE_STATEMENTS.items():
+         (out/(label+'.lean')).write_text('import D2AtomIntegral\nexample : '+statement+' := by\n  norm_num\n')
+ 
++LEAN_VERSION=re.compile(r'Lean \(version 4\.34\.1, [^()\r\n]+, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release\)')
++
++
++def final_runtime(out,core,lock):
++    """The companion's own Lean runs follow the core gate, so the core's observations do not cover them.
++    replay.sh observes the runtime and the dependencies again after the companion's last Lean execution;
++    both must equal the core gate's equal preflight and final observations, the exact release and the lock."""
++    version=core.get('lean_version')
++    require(isinstance(version,str) and LEAN_VERSION.fullmatch(version) is not None,'core receipt runtime is not the pinned release')
++    obs=core.get('observations')
++    require(isinstance(obs,dict) and set(obs)=={'preflight','final'} and isinstance(obs['final'],dict) and obs['final']==obs['preflight'],
++            'core receipt lacks equal preflight and final observations')
++    require(obs['final'].get('lean_version')==version and obs['final'].get('dependency_revisions')==lock
++            and obs['final'].get('dependency_worktrees')=='CLEAN','core final observation differs from the lock')
++    for name in ('toolchain.log','toolchain-final.log'):
++        require((out/name).is_file() and (out/name).read_text()==version+'\n','companion runtime differs from the core gate: '+name)
++    require((out/'packages-final.log').is_file(),'missing final dependency observation')
++    seen={}
++    for line in (out/'packages-final.log').read_text().splitlines():
++        parts=line.split(' ')
++        require(len(parts)==3 and parts[0] not in seen,'malformed final dependency record')
++        seen[parts[0]]=(parts[1],parts[2])
++    require(set(seen)==set(lock),'final dependency set differs from the lock')
++    for name,(head,state) in sorted(seen.items()):
++        require(head==lock[name],'final dependency HEAD differs from the lock: '+name)
++        require(state=='clean','final dependency worktree is not clean: '+name)
++    return {'lean_version':version,'dependency_revisions':dict(sorted(lock.items())),'dependency_worktrees':'CLEAN'}
++
++
+ def finish(out):
+     current=source();require(strict((out/'source.json').read_bytes())==current,'source changed during execution')
+     ax=core_gate().audit_axioms((out/'axioms.log').read_text(),list(TARGETS))
+@@ -122,7 +151,8 @@ def finish(out):
+     raw=(ROOT/'formal/.lake/formal-evidence/receipt.json').read_bytes();core=strict(raw)
+     require(core['checked_commit']==current['checked_commit'] and core['manifest_sha256']==CORE_MANIFEST,'core identity')
+     require(core['formalization_status']=='kernel-checked','no core kernel receipt')
+-    result={**current,'axioms':ax,'theorem_count':6,'definition_count':0,'core_receipt_sha256':sha(raw),
++    final=final_runtime(out,core,strict((ROOT/'formal/manifest.json').read_bytes())['dependency_revisions'])
++    result={**current,'axioms':ax,'theorem_count':6,'definition_count':0,'core_receipt_sha256':sha(raw),'final_observation':final,
+        'formalization_status':'kernel-checked','alignment_status':'PENDING_INDEPENDENT_REVIEW',
+        'scientific_acceptance':False,'log_sha256':{p.name:sha(p.read_bytes()) for p in sorted(out.iterdir()) if p.is_file()}}
+     (out/'receipt.json').write_text(json.dumps(result,sort_keys=True,indent=2)+'\n')
+diff --git a/companions/d2_atom_integral_20261006/replay.sh b/companions/d2_atom_integral_20261006/replay.sh
+index a4247be..7dcfcf0 100644
+--- a/companions/d2_atom_integral_20261006/replay.sh
++++ b/companions/d2_atom_integral_20261006/replay.sh
+@@ -46,6 +46,16 @@ for control in RejectOverlappingEvents RejectNonProbabilityGap RejectZeroRadiusS
+   printf '%s\n' "$code" >"$ATOM_OUT/$control.status"
+   python3 -B -S "$ATOM_SIDE/check.py" negative "$ATOM_OUT/$control.log" --control "$control" --status "$code"
+ done
++# Final observation after the companion's last Lean execution: the core gate observed the runtime
++# before these runs, so it is observed again here, and `check.py finish` requires it unchanged.
++lean --version > "$ATOM_OUT/toolchain-final.log"
++: > "$ATOM_OUT/packages-final.log"
++for pkg in "$PWD"/.lake/packages/*/; do
++  head="$(git -C "$pkg" rev-parse HEAD)"
++  status="$(git -C "$pkg" status --porcelain --untracked-files=normal)"
++  if [ -z "$status" ]; then state=clean; else state=dirty; fi
++  printf '%s %s %s\n' "$(basename "$pkg")" "$head" "$state" >> "$ATOM_OUT/packages-final.log"
++done
+ INNER
+ cd "$ROOT"
+ python3 -B -S "$SIDE/check.py" finish "$OUT"
+diff --git a/companions/d2_atom_integral_20261006/test_check.py b/companions/d2_atom_integral_20261006/test_check.py
+index cd9a642..efa3793 100644
+--- a/companions/d2_atom_integral_20261006/test_check.py
++++ b/companions/d2_atom_integral_20261006/test_check.py
+@@ -98,4 +98,56 @@ class AtomIntegralTests(unittest.TestCase):
+         self.assertNotIn('continue-on-error',workflow)
+         self.assertNotIn('linter.unnecessarySeqFocus false',shell)
+ 
++
++class FinalRuntimeTests(unittest.TestCase):
++    """The companion's runtime is re-observed after its own last Lean run; earlier core evidence does not cover it."""
++    RELEASE='Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)'
++
++    def setUp(self):
++        spec=importlib.util.spec_from_file_location('final_runtime_check_d2_atom_i',SIDE/'check.py')
++        self.c=importlib.util.module_from_spec(spec);spec.loader.exec_module(self.c)
++        tmp=tempfile.TemporaryDirectory();self.addCleanup(tmp.cleanup);self.out=Path(tmp.name)
++        self.lock={'mathlib':'d'*40,'batteries':'e'*40}
++        observed={'lean_version':self.RELEASE,'dependency_revisions':dict(self.lock),'dependency_worktrees':'CLEAN','manifest_sha256':'a'*64}
++        self.core={'lean_version':self.RELEASE,'observations':{'preflight':dict(observed),'final':dict(observed)}}
++        for name in ('toolchain.log','toolchain-final.log'):(self.out/name).write_text(self.RELEASE+'\n')
++        self.packages({n:(h,'clean') for n,h in self.lock.items()})
++
++    def packages(self,rows):
++        (self.out/'packages-final.log').write_text(''.join(n+' '+h+' '+s+'\n' for n,(h,s) in rows.items()))
++
++    def refuse(self,message):
++        with self.assertRaisesRegex(ValueError,message):self.c.final_runtime(self.out,self.core,self.lock)
++
++    def test_final_observation_equal_to_core_passes(self):
++        self.assertEqual(self.c.final_runtime(self.out,self.core,self.lock)['dependency_worktrees'],'CLEAN')
++
++    def test_same_semver_other_commit_or_build_refused(self):
++        for text in (self.RELEASE.replace('5045d0056413266e57c625dcd7c365b10e377c52','0'*40),self.RELEASE.replace(', Release)',', Debug)')):
++            with self.subTest(text=text):
++                (self.out/'toolchain-final.log').write_text(text+'\n');self.refuse('differs from the core gate')
++
++    def test_runtime_changed_after_core_gate_refused(self):
++        other=self.RELEASE.replace('x86_64-unknown-linux-gnu','aarch64-unknown-linux-gnu')
++        (self.out/'toolchain-final.log').write_text(other+'\n');self.refuse('differs from the core gate: toolchain-final.log')
++
++    def test_dependency_moved_or_dirtied_after_core_gate_refused(self):
++        self.packages({'mathlib':('f'*40,'clean'),'batteries':('e'*40,'clean')});self.refuse('HEAD differs')
++        self.packages({'mathlib':('d'*40,'dirty'),'batteries':('e'*40,'clean')});self.refuse('not clean')
++        self.packages({'mathlib':('d'*40,'clean')});self.refuse('set differs')
++
++    def test_missing_final_observation_refused(self):
++        (self.out/'packages-final.log').unlink();self.refuse('missing final dependency observation')
++        self.packages({n:(h,'clean') for n,h in self.lock.items()});(self.out/'toolchain-final.log').unlink();self.refuse('toolchain-final.log')
++
++    def test_core_receipt_without_equal_observations_refused(self):
++        self.core.pop('observations');self.refuse('lacks equal preflight and final')
++
++    def test_replay_observes_after_the_last_lean_run_and_finish_requires_it(self):
++        replay=(SIDE/'replay.sh').read_text();inner=replay[:replay.index('\nINNER\n')]
++        self.assertGreater(inner.index('toolchain-final.log'),inner.rindex('lean -DwarningAsError=true'))
++        self.assertGreater(inner.index('packages-final.log'),inner.rindex('lean -DwarningAsError=true'))
++        source=(SIDE/'check.py').read_text();body=source[source.index('def finish(out):'):source.index('def main(')]
++        self.assertIn('final_runtime(out,',body)
++
+ if __name__=='__main__':unittest.main(verbosity=2)
+diff --git a/companions/d2_moment_bridge_20261006/README.md b/companions/d2_moment_bridge_20261006/README.md
+index 5b948ca..005796b 100644
+--- a/companions/d2_moment_bridge_20261006/README.md
++++ b/companions/d2_moment_bridge_20261006/README.md
+@@ -175,3 +175,28 @@ The pin checks the reported compiler identity; it is not executable-byte
+ authentication or independent source alignment. New current-commit
+ kernel receipts and hosted checks are still required after publication.
+ Alignment remains PENDING_INDEPENDENT_REVIEW; scientific effect NONE.
++
++## Uniform runtime guard successor — 2026-10-13
++
++The tool/version adoption guard ([main#275 6154089628](https://github.com/d6g8k5htny-coder/main/issues/275#issuecomment-6154089628))
++requires the exact runtime and clean locked dependencies to be observed
++before the first and after the last Lean execution of every path. This
++companion's own Lean runs follow the core gate, so the core receipt's
++observations do not cover them. `replay.sh` now writes `toolchain-final.log`
++and `packages-final.log` (name, HEAD and clean/dirty for each dependency)
++after the companion's last Lean execution. `check.py finish` requires both
++toolchain lines to equal the core receipt's exact release, every final
++dependency to equal the formal lock and be clean, and the core receipt to
++carry equal preflight and final observations. The companion receipt records
++the final observation.
++
++This consumer now pins whole formal tree `fc0b11706d064b9de42331ee0a2464865107b87b`,
++manifest SHA256 `7149915669414e22f593ce2c6540c5e10d922eb758c7464794fc64764e679778`,
++and gate SHA256 `25e08d9054b929dd657668e4ee4a3524688dc476e5af958f950de3b919f04e9a`.
++
++All earlier document text is preserved as the historical prefix. Proofs,
++imports, toolchain/dependency locks, workflows and contracts keep their
++bytes. The new tests are synthetic and do not execute Lean. New
++current-commit kernel receipts and hosted checks are still required after
++publication. Alignment remains PENDING_INDEPENDENT_REVIEW; scientific
++effect NONE.
+diff --git a/companions/d2_moment_bridge_20261006/SOURCE_FILES.json b/companions/d2_moment_bridge_20261006/SOURCE_FILES.json
+index 932d2ac..76b1c59 100644
+--- a/companions/d2_moment_bridge_20261006/SOURCE_FILES.json
++++ b/companions/d2_moment_bridge_20261006/SOURCE_FILES.json
+@@ -1,5 +1,5 @@
+ {
+-  "core_tree": "38b6d1a7746075b560349d184a461933745c11ce",
++  "core_tree": "fc0b11706d064b9de42331ee0a2464865107b87b",
+   "definitions": [
+     "moment",
+     "cubicResidual"
+@@ -16,24 +16,24 @@
+       "sha256": "cde3bbd96eb29eb9ab7ff1448ffab1f794fb2b80355ac618800155eea6ccc42f"
+     },
+     "companions/d2_moment_bridge_20261006/README.md": {
+-      "bytes": 10788,
+-      "git_blob": "5b948caaeef3abaf990c66581bfc8194506dde2d",
+-      "sha256": "a5fc959720d65590f682956244a61bd9bb4d7f4426d8b82bf401cc07f5a4408e"
++      "bytes": 12277,
++      "git_blob": "005796b5527601c1156d2deaa9c950adf253faf3",
++      "sha256": "16b5b7e07eaa2a047160c2a295333eea370644d8343b635d6d92a4556a33eff6"
+     },
+     "companions/d2_moment_bridge_20261006/check.py": {
+-      "bytes": 8037,
+-      "git_blob": "882130d0a5428799c654b60c3ba01903df970d7d",
+-      "sha256": "d51bcdf964c1c4655602fcbd0b852da1dd3683d04a377842eb23a20f3e9e6727"
++      "bytes": 10232,
++      "git_blob": "867324d3829e35d503df993f1a69a159c4a664c0",
++      "sha256": "04310a141a4c042eb8d255bba2c073b9ec348460e6dc522b6d7189285acd2730"
+     },
+     "companions/d2_moment_bridge_20261006/replay.sh": {
+-      "bytes": 2195,
+-      "git_blob": "85c0de87f883386a8a36f5db79c51391313f09c9",
+-      "sha256": "9df04dab884e78d8404334724dc62bf4f3e4c44248cbd5968225885af388f303"
++      "bytes": 2793,
++      "git_blob": "8661a6c998fc2900c7a6dba66c548341887999ee",
++      "sha256": "1e50e7ffc5c68b3771e32f2574d709d055a9b5b43ef1fa74bcaccfc14e912a68"
+     },
+     "companions/d2_moment_bridge_20261006/test_bridge.py": {
+-      "bytes": 7607,
+-      "git_blob": "2f6ab4e8cc5d0202320045a41f90966f3cecd6f5",
+-      "sha256": "31a071461dc0d38093f075c8772c20c3a8ad902d6e53cb78878940176a048059"
++      "bytes": 11134,
++      "git_blob": "5bcc4628bf61f035f96f7a4faf6c796a38e05fe9",
++      "sha256": "cf257c0dd750c5cc108d5af5d61129531d7f57e2ed03c6a5ab8261964fb25469"
+     }
+   },
+   "schema": 1,
+diff --git a/companions/d2_moment_bridge_20261006/check.py b/companions/d2_moment_bridge_20261006/check.py
+index 882130d..867324d 100644
+--- a/companions/d2_moment_bridge_20261006/check.py
++++ b/companions/d2_moment_bridge_20261006/check.py
+@@ -13,9 +13,9 @@ SIDE=Path(__file__).resolve().parent
+ ROOT=SIDE.parents[1]
+ PACKAGE='companions/d2_moment_bridge_20261006'
+ WORKFLOW='.github/workflows/d2-moment-bridge.yml'
+-CORE_TREE='38b6d1a7746075b560349d184a461933745c11ce'
+-CORE_MANIFEST='40cb6ffc6776717a26d2a0a66815aeef508b0c8411588fff06ff2cec43a752a1'
+-CORE_GATE='278989bbba7e1f90870ea0d197a996bc0a65b2a4b217e2eb284accb1282356c1'
++CORE_TREE='fc0b11706d064b9de42331ee0a2464865107b87b'
++CORE_MANIFEST='7149915669414e22f593ce2c6540c5e10d922eb758c7464794fc64764e679778'
++CORE_GATE='25e08d9054b929dd657668e4ee4a3524688dc476e5af958f950de3b919f04e9a'
+ REPO='d6g8k5htny-coder/Math-'
+ CONTROLS=('RejectZeroAtom','RejectSameRadius')
+ 
+@@ -124,6 +124,35 @@ example : d2Delta (1 / 2) (1 / 2) (1 / 2) = 0 := zero_atom_counterexample.2
+         (out/(name+'.lean')).write_text('import D2MomentBridge\nopen ResearchFormalCoreR1\nexample : '+statement+' := by\n  norm_num [d2Delta]\n')
+ 
+ 
++LEAN_VERSION=re.compile(r'Lean \(version 4\.34\.1, [^()\r\n]+, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release\)')
++
++
++def final_runtime(out,core,lock):
++    """The companion's own Lean runs follow the core gate, so the core's observations do not cover them.
++    replay.sh observes the runtime and the dependencies again after the companion's last Lean execution;
++    both must equal the core gate's equal preflight and final observations, the exact release and the lock."""
++    version=core.get('lean_version')
++    require(isinstance(version,str) and LEAN_VERSION.fullmatch(version) is not None,'core receipt runtime is not the pinned release')
++    obs=core.get('observations')
++    require(isinstance(obs,dict) and set(obs)=={'preflight','final'} and isinstance(obs['final'],dict) and obs['final']==obs['preflight'],
++            'core receipt lacks equal preflight and final observations')
++    require(obs['final'].get('lean_version')==version and obs['final'].get('dependency_revisions')==lock
++            and obs['final'].get('dependency_worktrees')=='CLEAN','core final observation differs from the lock')
++    for name in ('toolchain.log','toolchain-final.log'):
++        require((out/name).is_file() and (out/name).read_text()==version+'\n','companion runtime differs from the core gate: '+name)
++    require((out/'packages-final.log').is_file(),'missing final dependency observation')
++    seen={}
++    for line in (out/'packages-final.log').read_text().splitlines():
++        parts=line.split(' ')
++        require(len(parts)==3 and parts[0] not in seen,'malformed final dependency record')
++        seen[parts[0]]=(parts[1],parts[2])
++    require(set(seen)==set(lock),'final dependency set differs from the lock')
++    for name,(head,state) in sorted(seen.items()):
++        require(head==lock[name],'final dependency HEAD differs from the lock: '+name)
++        require(state=='clean','final dependency worktree is not clean: '+name)
++    return {'lean_version':version,'dependency_revisions':dict(sorted(lock.items())),'dependency_worktrees':'CLEAN'}
++
++
+ def finish(out):
+     initial=strict((out/'source.json').read_bytes());current=source()
+     require(initial==current,'source changed across execution')
+@@ -140,8 +169,9 @@ def finish(out):
+     require(receipt['checked_commit']==current['checked_commit'],'core executed different source')
+     require(receipt['manifest_sha256']==CORE_MANIFEST,'core receipt manifest')
+     require(receipt['formalization_status']=='kernel-checked','no core kernel receipt')
++    final=final_runtime(out,receipt,strict((ROOT/'formal/manifest.json').read_bytes())['dependency_revisions'])
+     result={**current,'axioms':ax,'theorem_count':len(metadata()['theorems']),
+-      'definition_count':len(metadata()['definitions']),'core_receipt_sha256':sha(raw),
++      'definition_count':len(metadata()['definitions']),'core_receipt_sha256':sha(raw),'final_observation':final,
+       'formalization_status':'kernel-checked','alignment_status':'PENDING_INDEPENDENT_REVIEW',
+       'scientific_acceptance':False,'log_sha256':{p.name:sha(p.read_bytes()) for p in sorted(out.iterdir()) if p.is_file()}}
+     (out/'receipt.json').write_text(json.dumps(result,indent=2,sort_keys=True)+'\n')
+diff --git a/companions/d2_moment_bridge_20261006/replay.sh b/companions/d2_moment_bridge_20261006/replay.sh
+index 85c0de8..8661a6c 100644
+--- a/companions/d2_moment_bridge_20261006/replay.sh
++++ b/companions/d2_moment_bridge_20261006/replay.sh
+@@ -39,6 +39,16 @@ for control in RejectZeroAtom RejectSameRadius; do
+   printf '%s\n' "$code" >"$MOMENT_OUT/$control.status"
+   python3 -B -S "$MOMENT_SIDE/check.py" negative "$MOMENT_OUT/$control.log" --control "$control" --status "$code"
+ done
++# Final observation after the companion's last Lean execution: the core gate observed the runtime
++# before these runs, so it is observed again here, and `check.py finish` requires it unchanged.
++lean --version > "$MOMENT_OUT/toolchain-final.log"
++: > "$MOMENT_OUT/packages-final.log"
++for pkg in "$PWD"/.lake/packages/*/; do
++  head="$(git -C "$pkg" rev-parse HEAD)"
++  status="$(git -C "$pkg" status --porcelain --untracked-files=normal)"
++  if [ -z "$status" ]; then state=clean; else state=dirty; fi
++  printf '%s %s %s\n' "$(basename "$pkg")" "$head" "$state" >> "$MOMENT_OUT/packages-final.log"
++done
+ INNER
+ cd "$ROOT"
+ python3 -B -S "$SIDE/check.py" finish "$OUT"
+diff --git a/companions/d2_moment_bridge_20261006/test_bridge.py b/companions/d2_moment_bridge_20261006/test_bridge.py
+index 2f6ab4e..5bcc462 100644
+--- a/companions/d2_moment_bridge_20261006/test_bridge.py
++++ b/companions/d2_moment_bridge_20261006/test_bridge.py
+@@ -49,7 +49,7 @@ class BridgeTests(unittest.TestCase):
+         self.assertEqual(meta['theorems'],THEOREMS)
+         self.assertEqual(meta['definitions'],DEFINITIONS)
+         self.assertEqual(meta['scientific_effect'],'NONE')
+-        self.assertEqual(meta['core_tree'],'38b6d1a7746075b560349d184a461933745c11ce')
++        self.assertEqual(meta['core_tree'],'fc0b11706d064b9de42331ee0a2464865107b87b')
+ 
+     def test_residual_identity_and_exact_equality_class(self):
+         count=0
+@@ -147,5 +147,56 @@ class BridgeTests(unittest.TestCase):
+             with self.assertRaises(ValueError):m.types(bad,names)
+ 
+ 
++class FinalRuntimeTests(unittest.TestCase):
++    """The companion's runtime is re-observed after its own last Lean run; earlier core evidence does not cover it."""
++    RELEASE='Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)'
++
++    def setUp(self):
++        spec=importlib.util.spec_from_file_location('final_runtime_check_d2_moment',SIDE/'check.py')
++        self.c=importlib.util.module_from_spec(spec);spec.loader.exec_module(self.c)
++        tmp=tempfile.TemporaryDirectory();self.addCleanup(tmp.cleanup);self.out=Path(tmp.name)
++        self.lock={'mathlib':'d'*40,'batteries':'e'*40}
++        observed={'lean_version':self.RELEASE,'dependency_revisions':dict(self.lock),'dependency_worktrees':'CLEAN','manifest_sha256':'a'*64}
++        self.core={'lean_version':self.RELEASE,'observations':{'preflight':dict(observed),'final':dict(observed)}}
++        for name in ('toolchain.log','toolchain-final.log'):(self.out/name).write_text(self.RELEASE+'\n')
++        self.packages({n:(h,'clean') for n,h in self.lock.items()})
++
++    def packages(self,rows):
++        (self.out/'packages-final.log').write_text(''.join(n+' '+h+' '+s+'\n' for n,(h,s) in rows.items()))
++
++    def refuse(self,message):
++        with self.assertRaisesRegex(ValueError,message):self.c.final_runtime(self.out,self.core,self.lock)
++
++    def test_final_observation_equal_to_core_passes(self):
++        self.assertEqual(self.c.final_runtime(self.out,self.core,self.lock)['dependency_worktrees'],'CLEAN')
++
++    def test_same_semver_other_commit_or_build_refused(self):
++        for text in (self.RELEASE.replace('5045d0056413266e57c625dcd7c365b10e377c52','0'*40),self.RELEASE.replace(', Release)',', Debug)')):
++            with self.subTest(text=text):
++                (self.out/'toolchain-final.log').write_text(text+'\n');self.refuse('differs from the core gate')
++
++    def test_runtime_changed_after_core_gate_refused(self):
++        other=self.RELEASE.replace('x86_64-unknown-linux-gnu','aarch64-unknown-linux-gnu')
++        (self.out/'toolchain-final.log').write_text(other+'\n');self.refuse('differs from the core gate: toolchain-final.log')
++
++    def test_dependency_moved_or_dirtied_after_core_gate_refused(self):
++        self.packages({'mathlib':('f'*40,'clean'),'batteries':('e'*40,'clean')});self.refuse('HEAD differs')
++        self.packages({'mathlib':('d'*40,'dirty'),'batteries':('e'*40,'clean')});self.refuse('not clean')
++        self.packages({'mathlib':('d'*40,'clean')});self.refuse('set differs')
++
++    def test_missing_final_observation_refused(self):
++        (self.out/'packages-final.log').unlink();self.refuse('missing final dependency observation')
++        self.packages({n:(h,'clean') for n,h in self.lock.items()});(self.out/'toolchain-final.log').unlink();self.refuse('toolchain-final.log')
++
++    def test_core_receipt_without_equal_observations_refused(self):
++        self.core.pop('observations');self.refuse('lacks equal preflight and final')
++
++    def test_replay_observes_after_the_last_lean_run_and_finish_requires_it(self):
++        replay=(SIDE/'replay.sh').read_text();inner=replay[:replay.index('\nINNER\n')]
++        self.assertGreater(inner.index('toolchain-final.log'),inner.rindex('lean -DwarningAsError=true'))
++        self.assertGreater(inner.index('packages-final.log'),inner.rindex('lean -DwarningAsError=true'))
++        source=(SIDE/'check.py').read_text();body=source[source.index('def finish(out):'):source.index('def main(')]
++        self.assertIn('final_runtime(out,',body)
++
+ if __name__=='__main__':
+     unittest.main(verbosity=2)
+diff --git a/companions/d2_square_schur_20261006/SCOPE.md b/companions/d2_square_schur_20261006/SCOPE.md
+index 593c361..284ff40 100644
+--- a/companions/d2_square_schur_20261006/SCOPE.md
++++ b/companions/d2_square_schur_20261006/SCOPE.md
+@@ -126,3 +126,28 @@ The pin checks the reported compiler identity; it is not executable-byte
+ authentication or independent source alignment. New current-commit
+ kernel receipts and hosted checks are still required after publication.
+ Alignment remains PENDING_INDEPENDENT_REVIEW; scientific effect NONE.
++
++## Uniform runtime guard successor — 2026-10-13
++
++The tool/version adoption guard ([main#275 6154089628](https://github.com/d6g8k5htny-coder/main/issues/275#issuecomment-6154089628))
++requires the exact runtime and clean locked dependencies to be observed
++before the first and after the last Lean execution of every path. This
++companion's own Lean runs follow the core gate, so the core receipt's
++observations do not cover them. `replay.sh` now writes `toolchain-final.log`
++and `packages-final.log` (name, HEAD and clean/dirty for each dependency)
++after the companion's last Lean execution. `check.py finish` requires both
++toolchain lines to equal the core receipt's exact release, every final
++dependency to equal the formal lock and be clean, and the core receipt to
++carry equal preflight and final observations. The companion receipt records
++the final observation.
++
++This consumer now pins whole formal tree `fc0b11706d064b9de42331ee0a2464865107b87b`,
++manifest SHA256 `7149915669414e22f593ce2c6540c5e10d922eb758c7464794fc64764e679778`,
++and gate SHA256 `25e08d9054b929dd657668e4ee4a3524688dc476e5af958f950de3b919f04e9a`.
++
++All earlier document text is preserved as the historical prefix. Proofs,
++imports, toolchain/dependency locks, workflows and contracts keep their
++bytes. The new tests are synthetic and do not execute Lean. New
++current-commit kernel receipts and hosted checks are still required after
++publication. Alignment remains PENDING_INDEPENDENT_REVIEW; scientific
++effect NONE.
+diff --git a/companions/d2_square_schur_20261006/SOURCE_FILES.json b/companions/d2_square_schur_20261006/SOURCE_FILES.json
+index fa8cba1..f424d05 100644
+--- a/companions/d2_square_schur_20261006/SOURCE_FILES.json
++++ b/companions/d2_square_schur_20261006/SOURCE_FILES.json
+@@ -1,5 +1,5 @@
+ {
+-  "core_tree": "38b6d1a7746075b560349d184a461933745c11ce",
++  "core_tree": "fc0b11706d064b9de42331ee0a2464865107b87b",
+   "files": {
+     ".github/workflows/d2-square-schur.yml": {
+       "bytes": 1650,
+@@ -17,24 +17,24 @@
+       "sha256": "e0f9560e6f129216cd989cea3cdf97254972ca9b1cae7bab57df664329ae78fa"
+     },
+     "companions/d2_square_schur_20261006/SCOPE.md": {
+-      "bytes": 7865,
+-      "git_blob": "593c361778f489de99975469c0fa44ab3f7a3f82",
+-      "sha256": "3fbea22cd5fc88e21dd18e60c212fea9380d59a83b7c6509030d9cab980c2923"
++      "bytes": 9354,
++      "git_blob": "284ff4057933a7106d92784b4328bde5adbae1d4",
++      "sha256": "d0ed0e8665e601407afe00b7293c2fdbae0ac22bc22ed8fc06a3ee7e2a1a98dd"
+     },
+     "companions/d2_square_schur_20261006/check.py": {
+-      "bytes": 7611,
+-      "git_blob": "4e02c2d939d1f5b19a72c562df6174c2cb4c4dbc",
+-      "sha256": "13995706d8357a3136701df484aef142f9b4e86878f9b71c762abaebc60017fe"
++      "bytes": 9803,
++      "git_blob": "3aea440c6cb1b2ce3f193d36b2058590da816a4c",
++      "sha256": "73726f63407ee4b612caa7c101d35cf0e285ebc55cc11872a1bc24c75799daf3"
+     },
+     "companions/d2_square_schur_20261006/replay.sh": {
+-      "bytes": 2473,
+-      "git_blob": "f5bc850272b3823fde320894142078abafdc6d0d",
+-      "sha256": "2240cd236425f31e9cd549b1d180645da50e0e19099d9f1a53ec4b17a2217934"
++      "bytes": 3071,
++      "git_blob": "f0e73cc8308e6e0f36b707e3b12f27b6f9721387",
++      "sha256": "bad86f8be8df812ceb0a13cb7d0dba7e0f3ade11a4525ec5aee9660bbf3e5067"
+     },
+     "companions/d2_square_schur_20261006/test_check.py": {
+-      "bytes": 4038,
+-      "git_blob": "547ac0e50e36846c98999fc2d94150054468829e",
+-      "sha256": "95277602acfddce10e585722144bb9759a69d76a597a1511788a93d143f9ea60"
++      "bytes": 7582,
++      "git_blob": "e058c4548aca3d434d795f012e971342eb0f00ca",
++      "sha256": "57dfd8f8b8b51a74a9f3ea036bc6d6fb536a920052c399281945319285bb83c4"
+     }
+   },
+   "scientific_effect": "NONE",
+diff --git a/companions/d2_square_schur_20261006/check.py b/companions/d2_square_schur_20261006/check.py
+index 4e02c2d..3aea440 100644
+--- a/companions/d2_square_schur_20261006/check.py
++++ b/companions/d2_square_schur_20261006/check.py
+@@ -18,9 +18,9 @@ ROOT=SIDE.parents[1]
+ PACKAGE='companions/d2_square_schur_20261006'
+ WORKFLOW='.github/workflows/d2-square-schur.yml'
+ REPO='d6g8k5htny-coder/Math-'
+-CORE_TREE='38b6d1a7746075b560349d184a461933745c11ce'
+-CORE_MANIFEST='40cb6ffc6776717a26d2a0a66815aeef508b0c8411588fff06ff2cec43a752a1'
+-CORE_GATE='278989bbba7e1f90870ea0d197a996bc0a65b2a4b217e2eb284accb1282356c1'
++CORE_TREE='fc0b11706d064b9de42331ee0a2464865107b87b'
++CORE_MANIFEST='7149915669414e22f593ce2c6540c5e10d922eb758c7464794fc64764e679778'
++CORE_GATE='25e08d9054b929dd657668e4ee4a3524688dc476e5af958f950de3b919f04e9a'
+ TARGETS=tuple('D2SquareSchur.'+n for n in ('weighted_square_identity','weighted_square_lower',
+     'schur_no_upper','schur_from_lower_inputs'))
+ CONTROLS=('RejectSignedWeights','RejectEndpointMaximum','RejectOutsideDirection')
+@@ -108,6 +108,35 @@ def emit(out):
+     for label,statement in expressions.items():
+         (out/(label+'.lean')).write_text('import D2SquareSchur\nopen ResearchFormalCoreR1\nexample : '+statement+' := by\n  norm_num [d2Schur, d2Alpha, d2Gamma, d2DetV]\n')
+ 
++LEAN_VERSION=re.compile(r'Lean \(version 4\.34\.1, [^()\r\n]+, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release\)')
++
++
++def final_runtime(out,core,lock):
++    """The companion's own Lean runs follow the core gate, so the core's observations do not cover them.
++    replay.sh observes the runtime and the dependencies again after the companion's last Lean execution;
++    both must equal the core gate's equal preflight and final observations, the exact release and the lock."""
++    version=core.get('lean_version')
++    require(isinstance(version,str) and LEAN_VERSION.fullmatch(version) is not None,'core receipt runtime is not the pinned release')
++    obs=core.get('observations')
++    require(isinstance(obs,dict) and set(obs)=={'preflight','final'} and isinstance(obs['final'],dict) and obs['final']==obs['preflight'],
++            'core receipt lacks equal preflight and final observations')
++    require(obs['final'].get('lean_version')==version and obs['final'].get('dependency_revisions')==lock
++            and obs['final'].get('dependency_worktrees')=='CLEAN','core final observation differs from the lock')
++    for name in ('toolchain.log','toolchain-final.log'):
++        require((out/name).is_file() and (out/name).read_text()==version+'\n','companion runtime differs from the core gate: '+name)
++    require((out/'packages-final.log').is_file(),'missing final dependency observation')
++    seen={}
++    for line in (out/'packages-final.log').read_text().splitlines():
++        parts=line.split(' ')
++        require(len(parts)==3 and parts[0] not in seen,'malformed final dependency record')
++        seen[parts[0]]=(parts[1],parts[2])
++    require(set(seen)==set(lock),'final dependency set differs from the lock')
++    for name,(head,state) in sorted(seen.items()):
++        require(head==lock[name],'final dependency HEAD differs from the lock: '+name)
++        require(state=='clean','final dependency worktree is not clean: '+name)
++    return {'lean_version':version,'dependency_revisions':dict(sorted(lock.items())),'dependency_worktrees':'CLEAN'}
++
++
+ def finish(out):
+     current=source();require(strict((out/'source.json').read_bytes())==current,'source changed during execution')
+     ax=core_gate().audit_axioms((out/'axioms.log').read_text(),list(TARGETS))
+@@ -120,7 +149,8 @@ def finish(out):
+     raw=(ROOT/'formal/.lake/formal-evidence/receipt.json').read_bytes();core=strict(raw)
+     require(core['checked_commit']==current['checked_commit'] and core['manifest_sha256']==CORE_MANIFEST,'core identity')
+     require(core['formalization_status']=='kernel-checked','no core kernel receipt')
+-    result={**current,'axioms':ax,'theorem_count':4,'definition_count':0,'core_receipt_sha256':sha(raw),
++    final=final_runtime(out,core,strict((ROOT/'formal/manifest.json').read_bytes())['dependency_revisions'])
++    result={**current,'axioms':ax,'theorem_count':4,'definition_count':0,'core_receipt_sha256':sha(raw),'final_observation':final,
+        'formalization_status':'kernel-checked','alignment_status':'PENDING_INDEPENDENT_REVIEW',
+        'scientific_acceptance':False,'log_sha256':{p.name:sha(p.read_bytes()) for p in sorted(out.iterdir()) if p.is_file()}}
+     (out/'receipt.json').write_text(json.dumps(result,sort_keys=True,indent=2)+'\n')
+diff --git a/companions/d2_square_schur_20261006/replay.sh b/companions/d2_square_schur_20261006/replay.sh
+index f5bc850..f0e73cc 100644
+--- a/companions/d2_square_schur_20261006/replay.sh
++++ b/companions/d2_square_schur_20261006/replay.sh
+@@ -42,6 +42,16 @@ for control in RejectSignedWeights RejectEndpointMaximum RejectOutsideDirection;
+   printf '%s\n' "$code" >"$SQUARE_OUT/$control.status"
+   python3 -B -S "$SQUARE_SIDE/check.py" negative "$SQUARE_OUT/$control.log" --control "$control" --status "$code"
+ done
++# Final observation after the companion's last Lean execution: the core gate observed the runtime
++# before these runs, so it is observed again here, and `check.py finish` requires it unchanged.
++lean --version > "$SQUARE_OUT/toolchain-final.log"
++: > "$SQUARE_OUT/packages-final.log"
++for pkg in "$PWD"/.lake/packages/*/; do
++  head="$(git -C "$pkg" rev-parse HEAD)"
++  status="$(git -C "$pkg" status --porcelain --untracked-files=normal)"
++  if [ -z "$status" ]; then state=clean; else state=dirty; fi
++  printf '%s %s %s\n' "$(basename "$pkg")" "$head" "$state" >> "$SQUARE_OUT/packages-final.log"
++done
+ INNER
+ cd "$ROOT"
+ python3 -B -S "$SIDE/check.py" finish "$OUT"
+diff --git a/companions/d2_square_schur_20261006/test_check.py b/companions/d2_square_schur_20261006/test_check.py
+index 547ac0e..e058c45 100644
+--- a/companions/d2_square_schur_20261006/test_check.py
++++ b/companions/d2_square_schur_20261006/test_check.py
+@@ -1,3 +1,4 @@
++import tempfile
+ #!/usr/bin/env python3
+ """Finite diagnostics and exact evidence-parser controls, not Lean execution."""
+ from fractions import Fraction as F
+@@ -83,4 +84,56 @@ class Controls(unittest.TestCase):
+         self.assertNotEqual(a['sha256'],b['sha256'])
+         self.assertNotEqual(a['git_blob'],b['git_blob'])
+ 
++
++class FinalRuntimeTests(unittest.TestCase):
++    """The companion's runtime is re-observed after its own last Lean run; earlier core evidence does not cover it."""
++    RELEASE='Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)'
++
++    def setUp(self):
++        spec=importlib.util.spec_from_file_location('final_runtime_check_d2_square',SIDE/'check.py')
++        self.c=importlib.util.module_from_spec(spec);spec.loader.exec_module(self.c)
++        tmp=tempfile.TemporaryDirectory();self.addCleanup(tmp.cleanup);self.out=Path(tmp.name)
++        self.lock={'mathlib':'d'*40,'batteries':'e'*40}
++        observed={'lean_version':self.RELEASE,'dependency_revisions':dict(self.lock),'dependency_worktrees':'CLEAN','manifest_sha256':'a'*64}
++        self.core={'lean_version':self.RELEASE,'observations':{'preflight':dict(observed),'final':dict(observed)}}
++        for name in ('toolchain.log','toolchain-final.log'):(self.out/name).write_text(self.RELEASE+'\n')
++        self.packages({n:(h,'clean') for n,h in self.lock.items()})
++
++    def packages(self,rows):
++        (self.out/'packages-final.log').write_text(''.join(n+' '+h+' '+s+'\n' for n,(h,s) in rows.items()))
++
++    def refuse(self,message):
++        with self.assertRaisesRegex(ValueError,message):self.c.final_runtime(self.out,self.core,self.lock)
++
++    def test_final_observation_equal_to_core_passes(self):
++        self.assertEqual(self.c.final_runtime(self.out,self.core,self.lock)['dependency_worktrees'],'CLEAN')
++
++    def test_same_semver_other_commit_or_build_refused(self):
++        for text in (self.RELEASE.replace('5045d0056413266e57c625dcd7c365b10e377c52','0'*40),self.RELEASE.replace(', Release)',', Debug)')):
++            with self.subTest(text=text):
++                (self.out/'toolchain-final.log').write_text(text+'\n');self.refuse('differs from the core gate')
++
++    def test_runtime_changed_after_core_gate_refused(self):
++        other=self.RELEASE.replace('x86_64-unknown-linux-gnu','aarch64-unknown-linux-gnu')
++        (self.out/'toolchain-final.log').write_text(other+'\n');self.refuse('differs from the core gate: toolchain-final.log')
++
++    def test_dependency_moved_or_dirtied_after_core_gate_refused(self):
++        self.packages({'mathlib':('f'*40,'clean'),'batteries':('e'*40,'clean')});self.refuse('HEAD differs')
++        self.packages({'mathlib':('d'*40,'dirty'),'batteries':('e'*40,'clean')});self.refuse('not clean')
++        self.packages({'mathlib':('d'*40,'clean')});self.refuse('set differs')
++
++    def test_missing_final_observation_refused(self):
++        (self.out/'packages-final.log').unlink();self.refuse('missing final dependency observation')
++        self.packages({n:(h,'clean') for n,h in self.lock.items()});(self.out/'toolchain-final.log').unlink();self.refuse('toolchain-final.log')
++
++    def test_core_receipt_without_equal_observations_refused(self):
++        self.core.pop('observations');self.refuse('lacks equal preflight and final')
++
++    def test_replay_observes_after_the_last_lean_run_and_finish_requires_it(self):
++        replay=(SIDE/'replay.sh').read_text();inner=replay[:replay.index('\nINNER\n')]
++        self.assertGreater(inner.index('toolchain-final.log'),inner.rindex('lean -DwarningAsError=true'))
++        self.assertGreater(inner.index('packages-final.log'),inner.rindex('lean -DwarningAsError=true'))
++        source=(SIDE/'check.py').read_text();body=source[source.index('def finish(out):'):source.index('def main(')]
++        self.assertIn('final_runtime(out,',body)
++
+ if __name__=='__main__':unittest.main(verbosity=2)
+-- 
+2.43.0
+

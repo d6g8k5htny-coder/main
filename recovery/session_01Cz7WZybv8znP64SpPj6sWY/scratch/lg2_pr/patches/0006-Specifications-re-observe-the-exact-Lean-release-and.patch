@@ -1,0 +1,524 @@
+From 6500b03b07d0ce47213ff8d2e84cdecc37a7937d Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Tue, 13 Oct 2026 20:56:47 +0000
+Subject: [PATCH 6/7] Specifications: re-observe the exact Lean release and
+ dependencies after the last Lean run
+
+Both execute() paths (lean_statements_20261010, lean_statement_proofs_20261011)
+now call final_observation() after the negative controls and the post
+source_check equality: `lake env lean --version` again (log version-final),
+held to the pinned release and to the preflight line exactly, and
+dependency_state() again, held to the preflight revisions and clean
+worktrees. Any difference fails closed before a receipt is written. The
+receipt keeps lean_version, dependency_revisions and dependency_worktrees
+and adds observations = {preflight, final}.
+
+New FinalObservation tests drive execute() with check.run replaced by a fake
+(no Lean is started) and real disposable git checkouts as dependencies:
+final version differs, a dependency HEAD moves or a worktree is dirtied
+during the last control run -> refused; happy path -> observations.final ==
+observations.preflight and version-final is the last Lean call.
+
+Scientific effect: NONE. This is an engineering guard on the runtime a
+receipt describes; it raises no label, proves nothing and is not a review.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01Cz7WZybv8znP64SpPj6sWY
+---
+ .../lean_statement_proofs_20261011/check.py   |  24 ++-
+ .../test_check.py                             | 184 ++++++++++++++++++
+ .../lean_statements_20261010/check.py         |  24 ++-
+ .../lean_statements_20261010/test_check.py    | 170 ++++++++++++++++
+ 4 files changed, 398 insertions(+), 4 deletions(-)
+
+diff --git a/specifications/lean_statement_proofs_20261011/check.py b/specifications/lean_statement_proofs_20261011/check.py
+index 9b0bf0f..006fa6a 100644
+--- a/specifications/lean_statement_proofs_20261011/check.py
++++ b/specifications/lean_statement_proofs_20261011/check.py
+@@ -13,7 +13,10 @@
+                                      inventoried theorem, the environment audit (every constant
+                                      Lean added for the modules, classified by its ConstantInfo
+                                      and its type after `forallTelescope`), real negative controls,
+-                                     a receipt under .lake/evidence/
++                                     the exact Lean release and the dependency checkouts
++                                     re-observed after the last Lean run (both must equal the
++                                     preflight observation), a receipt under .lake/evidence/
++                                     recording both observations
+     python3 check.py --allow-dirty   local development only: the clean-worktree requirement is
+                                      skipped; a receipt then records the worktree as unverified
+                                      and must not be trusted as evidence about any commit. With
+@@ -863,6 +866,20 @@ def dependency_state(root: Path, revs: dict) -> dict:
+     return actual
+ 
+ 
++def final_observation(lake: str, root: Path, env: dict, out: Path, version: str, revs: dict) -> dict:
++    """The runtime re-observed after the last Lean execution: `lake env lean --version` again (log
++    `version-final`), held to the pinned release by `check_lean_version` and to the preflight line
++    exactly, and `dependency_state` again, held to the preflight revisions and to clean worktrees.
++    The preflight observation alone says nothing about the runtime the later runs used, so any
++    difference fails closed and no receipt is written."""
++    final_version = check_lean_version(run([lake, 'env', 'lean', '--version'], 'version-final', out, root, env))
++    require(final_version == version, 'running Lean changed during execution: preflight ' + repr(version[:160])
++            + ', final ' + repr(final_version[:160]))
++    final_revs = dependency_state(root, revs)
++    require(final_revs == revs, 'dependency revisions changed during execution: preflight ' + repr(revs) + ', final ' + repr(final_revs))
++    return {'lean_version': final_version, 'dependency_revisions': final_revs, 'dependency_worktrees': 'CLEAN'}
++
++
+ def audit_axioms(text: str, targets: list) -> dict:
+     require(isinstance(targets, list) and targets and len(set(targets)) == len(targets), 'empty or duplicate target list')
+     records = {}
+@@ -1271,6 +1288,7 @@ def execute(root: Path, repo: Path, info: dict, allow_dirty: bool) -> dict:
+     require(after['register_sha256'] == info['register_sha256'] and after['module_sha256'] == info['module_sha256']
+             and after['statement_module_sha256'] == info['statement_module_sha256'] and after['checked_commit'] == info['checked_commit'],
+             'packet changed during execution')
++    final = final_observation(lake, root, env, out, version, revs)  # after the last Lean execution (the controls)
+     theorems = [dict(t, axioms=axioms[t['name']], signature=sigs[t['name']], formal_progress='kernel-checked') for t in info['theorems']]
+     (out / 'theorems.json').write_text(json.dumps(theorems, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
+     receipt = {'schema_version': 1, 'object': RECEIPT_OBJECT, 'scientific_effect': 'NONE', 'scientific_status_authority': False,
+@@ -1297,7 +1315,9 @@ def execute(root: Path, repo: Path, info: dict, allow_dirty: bool) -> dict:
+                              'axioms': t['axioms'], 'formal_progress': 'kernel-checked'} for t in theorems],
+                'axioms': axioms, 'environment_audit': environment, 'lean_options': {'autoImplicit': False},
+                'negative_controls': outcomes, 'build': 'PASS', 'leanchecker': 'PASS' if leanchecker == 'RUN' else leanchecker,
+-               'dependency_worktrees': 'CLEAN'}
++               'dependency_worktrees': 'CLEAN',
++               'observations': {'preflight': {'lean_version': version, 'dependency_revisions': revs, 'dependency_worktrees': 'CLEAN'},
++                                'final': final}}
+     receipt['logs'] = {p.name: sha(p.read_bytes()) for p in sorted(out.glob('*.log'))}
+     (out / 'receipt.json').write_text(json.dumps(receipt, indent=2, sort_keys=True) + '\n', encoding='utf-8')
+     return receipt
+diff --git a/specifications/lean_statement_proofs_20261011/test_check.py b/specifications/lean_statement_proofs_20261011/test_check.py
+index 5d5c9d4..c829982 100644
+--- a/specifications/lean_statement_proofs_20261011/test_check.py
++++ b/specifications/lean_statement_proofs_20261011/test_check.py
+@@ -1022,6 +1022,190 @@ class Controls(Base):
+         self.assertIn('wrong reason', str(ctx.exception))
+ 
+ 
++# ----------------------------------------------------------------------------- final runtime observation (no Lean)
++
++GOOD_VERSION = f'Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit {check.LEAN_COMMIT}, Release)'
++LAST_CONTROL = 'control_environment_honest'  # the last Lean run of negative_controls()
++
++
++def git_fixture(path, *args):
++    return subprocess.run(['git', '-C', str(path), '-c', 'user.name=t', '-c', 'user.email=t@t', '-c', 'commit.gpgsign=false', *args],
++                          capture_output=True, text=True, check=True).stdout
++
++
++def dependency_checkouts(packet, names):
++    """Real disposable git checkouts under <packet>/.lake/packages, one commit each; {name: HEAD}."""
++    heads = {}
++    for name in names:
++        pkg = packet / '.lake' / 'packages' / name
++        pkg.mkdir(parents=True)
++        git_fixture(pkg, 'init', '-q')
++        (pkg / 'lakefile.toml').write_text('name = "' + name + '"\n')
++        git_fixture(pkg, 'add', '-A')
++        git_fixture(pkg, 'commit', '-q', '-m', 'pin')
++        heads[name] = git_fixture(pkg, 'rev-parse', 'HEAD').strip()
++    return heads
++
++
++def audit_log(lines, refused, theorems):
++    return (''.join(f'Environment.lean:1:0: info: AUDIT {line}\n' for line in lines)
++            + f'Environment.lean:1:0: info: AUDIT END {len(lines)} {refused} {theorems}\n')
++
++
++class FakeLean:
++    """Stands in for check.run, through which every Lean execution of execute() passes: answers
++    each label with output of the shape check.py parses, writes the log as run() does, records
++    the label sequence, and calls `hook(label)` first so that a test can change the runtime during
++    a chosen run. Never starts Lean; nothing it prints is evidence about anything."""
++
++    def __init__(self, info=None, final_version=GOOD_VERSION, hook=None):
++        self.info, self.hook, self.labels = info, hook, []
++        self.versions = {'version': GOOD_VERSION, 'version-final': final_version}
++
++    def __call__(self, command, label, out, cwd, env, expect_success=True, timeout=3600):
++        self.labels.append(label)
++        if self.hook:
++            self.hook(label)
++        text = self.answer(command, label)
++        (out / (label + '.log')).write_text(text, encoding='utf-8')
++        return text
++
++    def answer(self, command, label):
++        c = check.CONTROL_NS + '.'
++        if label in self.versions:
++            return 'info: toolchain already up to date\n' + self.versions[label] + '\n'
++        if label in ('axioms', 'types', 'control_environment_hidden', 'control_environment_honest'):
++            text = Path(command[-1]).read_text(encoding='utf-8')
++        if label == 'axioms':
++            return ''.join(f"'{n}' depends on axioms: [propext]\n" for n in re.findall(r'^#print axioms (\S+)$', text, re.M))
++        if label == 'types':
++            proves = {t['name']: t['proves'] for t in self.info['theorems']}
++            return ''.join(f'{n} : {proves[n]}\n' for n in re.findall(r'^#check (\S+)$', text, re.M))
++        if label == 'environment':
++            return audit_log([f'theorem {t["name"]} {t["proves"]}' for t in self.info['theorems']], 0, len(self.info['theorems']))
++        if label == 'control_sorry_axioms':
++            return f"ControlSorry.lean:3:8: warning: declaration uses 'sorry'\n'{c}sorried' depends on axioms: [sorryAx]\n"
++        if label == 'control_false_arithmetic':
++            return ''.join(f'ControlFalseArithmetic.lean:{k}:0: error: unsolved goals\n⊢ False\n' for k in (4, 5))
++        if label == 'control_missing_declaration':
++            return f'ControlMissing.lean:2:7: error(lean.unknownIdentifier): Unknown identifier `{c}DoesNotExist`\n'
++        if label == 'control_environment_hidden':
++            prop = re.search(r'^theorem smuggled \(h : False\) : (\S+) :=', text, re.M).group(1)
++            return audit_log([f'REFUSED:axioms:sorryAx {c}sorried', f'REFUSED:axiom {c}hidden', f'REFUSED:axioms:{c}hidden {c}usesAxiom',
++                              f'REFUSED:type:True {c}unregistered', f'REFUSED:premise:{prop} {c}smuggled', f'REFUSED:premise:{prop} {c}implication',
++                              f'REFUSED:proof_as_def {c}proofAsDef', f'REFUSED:opaque {c}opq', f'REFUSED:unsafe {c}unsafeDef'], 9, 0) + \
++                'Environment.lean:1:0: error: AUDIT REFUSED 9 constant(s); see the AUDIT lines\n'
++        if label == 'control_environment_honest':
++            honest = re.search(r'^theorem honest : (\S+) :=', text, re.M)
++            lines = ([f'theorem {c}honest {honest.group(1)}'] if honest else []) + [
++                f'aux_theorem {c}Aux.helper', f'aux_theorem _private.SpecificationProofs.0.{c}privateHelper', f'auxiliary {c}helper',
++                f'auxiliary {c}controlInst']
++            return audit_log(lines, 0, 1 if honest else 0)
++        return ''  # build, leanchecker: a clean log
++
++
++@unittest.skipUnless(shutil.which('git'), 'git not available')
++class FinalObservation(Base):
++    """G4 placement: after its last Lean run execute() re-observes the exact Lean release and the
++    dependency checkouts and requires both to equal the preflight observation. Lean is never run
++    (check.run is a FakeLean); the dependency checkouts are real disposable git repositories, so the
++    real dependency_state() and git decide. Each refusal test fails against a checker that observes
++    the runtime only before the build."""
++
++    def setUp(self):
++        super().setUp()
++        os.environ.pop(check.SKIP_LEANCHECKER_ENV, None)
++        self.heads = dependency_checkouts(self.f.packet, ('batteries', 'mathlib'))
++        self.out = Path(self.f.tmp) / 'evidence'
++        self.out.mkdir()
++
++    def observe(self, final_version=GOOD_VERSION):
++        fake = FakeLean(final_version=final_version)
++        with mock.patch.object(check, 'run', fake):
++            return check.final_observation('/nonexistent/lake', self.f.packet, {}, self.out, GOOD_VERSION, dict(self.heads)), fake
++
++    def execute(self, **fake_args):
++        info = dict(self.f.run(), dependency_revisions=dict(self.heads))  # the fixture lock's revisions name no real checkout
++        fake = FakeLean(info, **fake_args)
++        with mock.patch.object(check, 'run', fake), mock.patch.object(check, 'lake_binary', return_value='/nonexistent/lake'):
++            return check.execute(self.f.packet, self.f.repo, info, True), fake
++
++    def move_head(self, label, name='mathlib'):
++        if label == LAST_CONTROL:
++            git_fixture(self.f.packet / '.lake' / 'packages' / name, 'commit', '-q', '--allow-empty', '-m', 'moved during the last Lean run')
++
++    def make_dirty(self, label, name='batteries'):
++        if label == LAST_CONTROL:
++            (self.f.packet / '.lake' / 'packages' / name / 'lakefile.toml').write_text('name = "edited during the last Lean run"\n')
++
++    def assertExecuteRefused(self, fragment, **fake_args):
++        with self.assertRaises(ValueError) as ctx:
++            self.execute(**fake_args)
++        self.assertIn(fragment, str(ctx.exception))
++        self.assertFalse((self.f.packet / '.lake' / 'evidence' / 'receipt.json').exists(), 'a refused execution writes no receipt')
++
++    def test_unchanged_runtime_is_observed_equal(self):
++        obs, fake = self.observe()
++        self.assertEqual(obs, {'lean_version': GOOD_VERSION, 'dependency_revisions': self.heads, 'dependency_worktrees': 'CLEAN'})
++        self.assertEqual(fake.labels, ['version-final'])
++        self.assertTrue((self.out / 'version-final.log').is_file())
++
++    def test_final_lean_version_differs(self):
++        for bad, fragment in ((GOOD_VERSION.replace(check.LEAN_COMMIT, 'f' * 40), 'not the pinned release'),
++                              (GOOD_VERSION.replace('Release', 'Debug'), 'not the pinned release'),
++                              (GOOD_VERSION.replace('4.34.1', '4.34.2'), 'not the pinned release'),
++                              # the pinned release on another platform passes check_lean_version; only the preflight equality refuses it
++                              (GOOD_VERSION.replace('x86_64-unknown-linux-gnu', 'aarch64-unknown-linux-gnu'), 'changed during execution')):
++            with self.subTest(final=bad):
++                with self.assertRaises(ValueError) as ctx:
++                    self.observe(bad)
++                self.assertIn(fragment, str(ctx.exception))
++
++    def test_dependency_head_moves(self):
++        self.move_head(LAST_CONTROL)
++        with self.assertRaises(ValueError) as ctx:
++            self.observe()
++        self.assertIn('dependency revisions', str(ctx.exception))
++
++    def test_dependency_worktree_becomes_dirty(self):
++        self.make_dirty(LAST_CONTROL)
++        with self.assertRaises(ValueError) as ctx:
++            self.observe()
++        self.assertIn('dependency worktree is not clean: batteries', str(ctx.exception))
++        git_fixture(self.f.packet / '.lake' / 'packages' / 'batteries', 'checkout', '--', '.')
++        self.observe()
++        (self.f.packet / '.lake' / 'packages' / 'mathlib' / 'untracked.lean').write_text('-- untracked\n')
++        with self.assertRaises(ValueError) as ctx:
++            self.observe()
++        self.assertIn('dependency worktree is not clean: mathlib', str(ctx.exception))
++
++    def test_execute_receipt_records_equal_observations_after_the_last_lean_run(self):
++        receipt, fake = self.execute()
++        preflight = {'lean_version': GOOD_VERSION, 'dependency_revisions': self.heads, 'dependency_worktrees': 'CLEAN'}
++        self.assertEqual(receipt['observations'], {'preflight': preflight, 'final': preflight})
++        self.assertEqual((receipt['lean_version'], receipt['dependency_revisions'], receipt['dependency_worktrees']),
++                         (GOOD_VERSION, self.heads, 'CLEAN'), 'the existing receipt keys are kept as they were')
++        self.assertEqual(receipt['leanchecker'], 'PASS')
++        self.assertEqual(fake.labels[0], 'version')
++        self.assertEqual(fake.labels[-1], 'version-final', 'the final observation follows every other Lean run')
++        self.assertEqual(fake.labels.count('version-final'), 1)
++        self.assertIn(LAST_CONTROL, fake.labels)
++        self.assertIn('version-final.log', receipt['logs'])
++        written = json.loads((self.f.packet / '.lake' / 'evidence' / 'receipt.json').read_text(encoding='utf-8'))
++        self.assertEqual(written['observations']['final'], written['observations']['preflight'])
++
++    def test_execute_refuses_a_lean_version_change(self):
++        self.assertExecuteRefused('not the pinned release', final_version=GOOD_VERSION.replace(check.LEAN_COMMIT, '0' * 40))
++        self.assertExecuteRefused('not the pinned release', final_version=GOOD_VERSION.replace('Release', 'Debug'))
++        self.assertExecuteRefused('changed during execution', final_version=GOOD_VERSION.replace('x86_64-unknown-linux-gnu', 'aarch64-apple-darwin'))
++
++    def test_execute_refuses_a_dependency_head_moved_during_the_last_lean_run(self):
++        self.assertExecuteRefused('dependency revisions', hook=self.move_head)
++
++    def test_execute_refuses_a_dependency_worktree_dirtied_during_the_last_lean_run(self):
++        self.assertExecuteRefused('dependency worktree is not clean: batteries', hook=self.make_dirty)
++
++
+ # ----------------------------------------------------------------------------- Lean-driving tests
+ 
+ LAKE = check.lake_binary()
+diff --git a/specifications/lean_statements_20261010/check.py b/specifications/lean_statements_20261010/check.py
+index ace85b6..3c5617d 100644
+--- a/specifications/lean_statements_20261010/check.py
++++ b/specifications/lean_statements_20261010/check.py
+@@ -10,7 +10,10 @@
+                                      and `#print axioms` of every registered declaration, the
+                                      environment audit (every constant Lean added for the five
+                                      modules, classified by its ConstantInfo and compared with the
+-                                     register), real negative controls, a receipt under .lake/evidence/
++                                     register), real negative controls, the exact Lean release and
++                                     the dependency checkouts re-observed after the last Lean run
++                                     (both must equal the preflight observation), a receipt under
++                                     .lake/evidence/ recording both observations
+     python3 check.py --allow-dirty   local development only: the clean-worktree requirement is
+                                      skipped; a receipt then records the worktree as unverified
+                                      and must not be trusted as evidence about any commit
+@@ -704,6 +707,20 @@ def dependency_state(root: Path, revs: dict) -> dict:
+     return actual
+ 
+ 
++def final_observation(lake: str, root: Path, env: dict, out: Path, version: str, revs: dict) -> dict:
++    """The runtime re-observed after the last Lean execution: `lake env lean --version` again (log
++    `version-final`), held to the pinned release by `check_lean_version` and to the preflight line
++    exactly, and `dependency_state` again, held to the preflight revisions and to clean worktrees.
++    The preflight observation alone says nothing about the runtime the later runs used, so any
++    difference fails closed and no receipt is written."""
++    final_version = check_lean_version(run([lake, 'env', 'lean', '--version'], 'version-final', out, root, env))
++    require(final_version == version, 'running Lean changed during execution: preflight ' + repr(version[:160])
++            + ', final ' + repr(final_version[:160]))
++    final_revs = dependency_state(root, revs)
++    require(final_revs == revs, 'dependency revisions changed during execution: preflight ' + repr(revs) + ', final ' + repr(final_revs))
++    return {'lean_version': final_version, 'dependency_revisions': final_revs, 'dependency_worktrees': 'CLEAN'}
++
++
+ def audit_axioms(text: str, targets: list) -> dict:
+     require(isinstance(targets, list) and targets and len(set(targets)) == len(targets), 'empty or duplicate target list')
+     records = {}
+@@ -1051,6 +1068,7 @@ def execute(root: Path, repo: Path, info: dict, allow_dirty: bool, modules=MODUL
+     after = source_check(root, repo, allow_dirty, modules)
+     require(after['register_sha256'] == info['register_sha256'] and after['module_sha256'] == info['module_sha256']
+             and after['checked_commit'] == info['checked_commit'], 'packet changed during execution')
++    final = final_observation(lake, root, env, out, version, revs)  # after the last Lean execution (the controls)
+     declarations = [{'name': d['name'], 'module': m, 'kind': d['kind'], 'lean': d['lean'], 'source_id': d['source_id'],
+                      'doc_anchor': d['doc_anchor'], 'line': d['line'], 'signature': sigs[d['name']], 'axioms': axioms[d['name']],
+                      'formal_progress': 'specified'} for m in modules for d in info['scans'][m] if d['kind']]
+@@ -1072,7 +1090,9 @@ def execute(root: Path, repo: Path, info: dict, allow_dirty: bool, modules=MODUL
+                'declarations': len(names), 'prop_definitions': info['prop_definitions'], 'structures': info['structures'],
+                'auxiliary_definitions': info['auxiliary_definitions'], 'claims': info['claims'], 'statements': info['statements'],
+                'axioms': axioms, 'environment_audit': environment, 'lean_options': {'autoImplicit': False},
+-               'negative_controls': outcomes, 'build': 'PASS', 'leanchecker': 'PASS', 'dependency_worktrees': 'CLEAN'}
++               'negative_controls': outcomes, 'build': 'PASS', 'leanchecker': 'PASS', 'dependency_worktrees': 'CLEAN',
++               'observations': {'preflight': {'lean_version': version, 'dependency_revisions': revs, 'dependency_worktrees': 'CLEAN'},
++                                'final': final}}
+     receipt['logs'] = {p.name: sha(p.read_bytes()) for p in sorted(out.glob('*.log'))}
+     (out / 'receipt.json').write_text(json.dumps(receipt, indent=2, sort_keys=True) + '\n', encoding='utf-8')
+     return receipt
+diff --git a/specifications/lean_statements_20261010/test_check.py b/specifications/lean_statements_20261010/test_check.py
+index 39a2449..df4a722 100644
+--- a/specifications/lean_statements_20261010/test_check.py
++++ b/specifications/lean_statements_20261010/test_check.py
+@@ -1053,6 +1053,176 @@ class Audit(unittest.TestCase):
+         self.assertIn('def auditPrefix : Name := `UniversalLaw.Spec.Control', ctrl)
+ 
+ 
++GOOD_VERSION = f'Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit {check.LEAN_COMMIT}, Release)'
++LAST_CONTROL = 'control_environment_hidden'  # the last Lean run of negative_controls()
++
++
++def git_fixture(path, *args):
++    return subprocess.run(['git', '-C', str(path), '-c', 'user.name=t', '-c', 'user.email=t@t', '-c', 'commit.gpgsign=false', *args],
++                          capture_output=True, text=True, check=True).stdout
++
++
++def dependency_checkouts(packet, names):
++    """Real disposable git checkouts under <packet>/.lake/packages, one commit each; {name: HEAD}."""
++    heads = {}
++    for name in names:
++        pkg = packet / '.lake' / 'packages' / name
++        pkg.mkdir(parents=True)
++        git_fixture(pkg, 'init', '-q')
++        (pkg / 'lakefile.toml').write_text('name = "' + name + '"\n')
++        git_fixture(pkg, 'add', '-A')
++        git_fixture(pkg, 'commit', '-q', '-m', 'pin')
++        heads[name] = git_fixture(pkg, 'rev-parse', 'HEAD').strip()
++    return heads
++
++
++def audit_log(lines, refused):
++    return ''.join(f'Environment.lean:1:0: info: AUDIT {line}\n' for line in lines) + f'Environment.lean:1:0: info: AUDIT END {len(lines)} {refused}\n'
++
++
++class FakeLean:
++    """Stands in for check.run, through which every Lean execution of execute() passes: answers
++    each label with output of the shape check.py parses, writes the log as run() does, records
++    the label sequence, and calls `hook(label)` first so that a test can change the runtime during
++    a chosen run. Never starts Lean; nothing it prints is evidence about anything."""
++
++    def __init__(self, info=None, final_version=GOOD_VERSION, hook=None):
++        self.info, self.hook, self.labels = info, hook, []
++        self.versions = {'version': GOOD_VERSION, 'version-final': final_version}
++
++    def __call__(self, command, label, out, cwd, env, expect_success=True, timeout=1800):
++        self.labels.append(label)
++        if self.hook:
++            self.hook(label)
++        text = self.answer(command, label)
++        (out / (label + '.log')).write_text(text, encoding='utf-8')
++        return text
++
++    def answer(self, command, label):
++        c = check.CONTROL_NS
++        if label in self.versions:
++            return 'info: toolchain already up to date\n' + self.versions[label] + '\n'
++        if label == 'axioms':
++            return ''.join(f"'{n}' does not depend on any axioms\n" for n in re.findall(r'^#print axioms (\S+)$', Path(command[-1]).read_text(), re.M))
++        if label == 'types':
++            return ''.join(f'{n} : Prop\n' for n in re.findall(r'^#check (\S+)$', Path(command[-1]).read_text(), re.M))
++        if label == 'environment':
++            kinds = {'def_prop': 'statement', 'structure': 'structure', None: 'auxiliary'}
++            return audit_log([f'{kinds[d["kind"]]} {d["name"]}' for m in check.MODULES for d in self.info['scans'][m]], 0)
++        if label == 'control_type_error':
++            return 'ControlTypeError.lean:6:30: error: type mismatch\n  1\nhas type\n  Nat : Type\n'
++        if label == 'control_missing_declaration':
++            return 'ControlMissing.lean:2:7: error(lean.unknownIdentifier): Unknown identifier `x`\n'
++        if label == 'control_environment_honest':
++            return audit_log([f'statement {c}IsTwo', f'structure {c}Iface', f'structure {c}Ext', f'auxiliary {c}helper', f'auxiliary {c}E',
++                              f'generated {c}Iface.mk'], 0)
++        if label == 'control_environment_hidden':
++            return audit_log([f'REFUSED:theorem {c}smuggledBetweenStrings', f'REFUSED:proof {c}proofAsDef', f'REFUSED:axioms:sorryAx {c}usesSorry',
++                              f'REFUSED:axiom {c}hidden', f'REFUSED:instance {c}controlInstance', f'statement {c}Opener', f'statement {c}Closer',
++                              f'statement {c}HiddenIndented'], 5) + 'Environment.lean:1:0: error: AUDIT REFUSED 5 constant(s); see the AUDIT lines\n'
++        return ''  # build, leanchecker, control_injected_theorem: a clean log
++
++
++@unittest.skipUnless(shutil.which('git'), 'git not available')
++class FinalObservation(Base):
++    """G4 placement: after its last Lean run execute() re-observes the exact Lean release and the
++    dependency checkouts and requires both to equal the preflight observation. Lean is never run
++    (check.run is a FakeLean); the dependency checkouts are real disposable git repositories, so the
++    real dependency_state() and git decide. Each refusal test fails against a checker that observes
++    the runtime only before the build."""
++
++    def setUp(self):
++        super().setUp()
++        self.heads = dependency_checkouts(self.f.packet, ('batteries', 'mathlib'))
++        self.out = Path(self.f.tmp) / 'evidence'
++        self.out.mkdir()
++
++    def observe(self, final_version=GOOD_VERSION):
++        fake = FakeLean(final_version=final_version)
++        with mock.patch.object(check, 'run', fake):
++            return check.final_observation('/nonexistent/lake', self.f.packet, {}, self.out, GOOD_VERSION, dict(self.heads)), fake
++
++    def execute(self, **fake_args):
++        info = dict(self.f.run(), dependency_revisions=dict(self.heads))  # the fixture lock's revisions name no real checkout
++        fake = FakeLean(info, **fake_args)
++        with mock.patch.object(check, 'run', fake), mock.patch.object(check, 'lake_binary', return_value='/nonexistent/lake'):
++            return check.execute(self.f.packet, self.f.repo, info, True), fake
++
++    def move_head(self, label, name='mathlib'):
++        if label == LAST_CONTROL:
++            git_fixture(self.f.packet / '.lake' / 'packages' / name, 'commit', '-q', '--allow-empty', '-m', 'moved during the last Lean run')
++
++    def make_dirty(self, label, name='batteries'):
++        if label == LAST_CONTROL:
++            (self.f.packet / '.lake' / 'packages' / name / 'lakefile.toml').write_text('name = "edited during the last Lean run"\n')
++
++    def assertExecuteRefused(self, fragment, **fake_args):
++        with self.assertRaises(ValueError) as ctx:
++            self.execute(**fake_args)
++        self.assertIn(fragment, str(ctx.exception))
++        self.assertFalse((self.f.packet / '.lake' / 'evidence' / 'receipt.json').exists(), 'a refused execution writes no receipt')
++
++    def test_unchanged_runtime_is_observed_equal(self):
++        obs, fake = self.observe()
++        self.assertEqual(obs, {'lean_version': GOOD_VERSION, 'dependency_revisions': self.heads, 'dependency_worktrees': 'CLEAN'})
++        self.assertEqual(fake.labels, ['version-final'])
++        self.assertTrue((self.out / 'version-final.log').is_file())
++
++    def test_final_lean_version_differs(self):
++        for bad, fragment in ((GOOD_VERSION.replace(check.LEAN_COMMIT, 'f' * 40), 'not the pinned release'),
++                              (GOOD_VERSION.replace('Release', 'Debug'), 'not the pinned release'),
++                              (GOOD_VERSION.replace('4.34.1', '4.34.2'), 'not the pinned release'),
++                              # the pinned release on another platform passes check_lean_version; only the preflight equality refuses it
++                              (GOOD_VERSION.replace('x86_64-unknown-linux-gnu', 'aarch64-unknown-linux-gnu'), 'changed during execution')):
++            with self.subTest(final=bad):
++                with self.assertRaises(ValueError) as ctx:
++                    self.observe(bad)
++                self.assertIn(fragment, str(ctx.exception))
++
++    def test_dependency_head_moves(self):
++        self.move_head(LAST_CONTROL)
++        with self.assertRaises(ValueError) as ctx:
++            self.observe()
++        self.assertIn('dependency revisions', str(ctx.exception))
++
++    def test_dependency_worktree_becomes_dirty(self):
++        self.make_dirty(LAST_CONTROL)
++        with self.assertRaises(ValueError) as ctx:
++            self.observe()
++        self.assertIn('dependency worktree is not clean: batteries', str(ctx.exception))
++        git_fixture(self.f.packet / '.lake' / 'packages' / 'batteries', 'checkout', '--', '.')
++        self.observe()
++        (self.f.packet / '.lake' / 'packages' / 'mathlib' / 'untracked.lean').write_text('-- untracked\n')
++        with self.assertRaises(ValueError) as ctx:
++            self.observe()
++        self.assertIn('dependency worktree is not clean: mathlib', str(ctx.exception))
++
++    def test_execute_receipt_records_equal_observations_after_the_last_lean_run(self):
++        receipt, fake = self.execute()
++        preflight = {'lean_version': GOOD_VERSION, 'dependency_revisions': self.heads, 'dependency_worktrees': 'CLEAN'}
++        self.assertEqual(receipt['observations'], {'preflight': preflight, 'final': preflight})
++        self.assertEqual((receipt['lean_version'], receipt['dependency_revisions'], receipt['dependency_worktrees']),
++                         (GOOD_VERSION, self.heads, 'CLEAN'), 'the existing receipt keys are kept as they were')
++        self.assertEqual(fake.labels[0], 'version')
++        self.assertEqual(fake.labels[-1], 'version-final', 'the final observation follows every other Lean run')
++        self.assertEqual(fake.labels.count('version-final'), 1)
++        self.assertIn(LAST_CONTROL, fake.labels)
++        self.assertIn('version-final.log', receipt['logs'])
++        written = json.loads((self.f.packet / '.lake' / 'evidence' / 'receipt.json').read_text(encoding='utf-8'))
++        self.assertEqual(written['observations']['final'], written['observations']['preflight'])
++
++    def test_execute_refuses_a_lean_version_change(self):
++        self.assertExecuteRefused('not the pinned release', final_version=GOOD_VERSION.replace(check.LEAN_COMMIT, '0' * 40))
++        self.assertExecuteRefused('not the pinned release', final_version=GOOD_VERSION.replace('Release', 'Debug'))
++        self.assertExecuteRefused('changed during execution', final_version=GOOD_VERSION.replace('x86_64-unknown-linux-gnu', 'aarch64-apple-darwin'))
++
++    def test_execute_refuses_a_dependency_head_moved_during_the_last_lean_run(self):
++        self.assertExecuteRefused('dependency revisions', hook=self.move_head)
++
++    def test_execute_refuses_a_dependency_worktree_dirtied_during_the_last_lean_run(self):
++        self.assertExecuteRefused('dependency worktree is not clean: batteries', hook=self.make_dirty)
++
++
+ LAKE = check.lake_binary()
+ 
+ 
+-- 
+2.43.0
+

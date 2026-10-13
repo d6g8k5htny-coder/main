@@ -309,3 +309,22 @@ Incremental commit after checkpoint 22 (`5ddfce20`).
 - **The patch:** `intakefix_out/cache/public_intake_scan_once.patch` is a proposed, unpushed change to `tools/public_intake_check.py` and `tests/test_public_intake.py` at main `9eea35f3`. It fetches each source commit's reachability scan and recursive tree once per run, instead of once per source.
 - **Why:** main#386's fresh `public-intake` run (job 115520509698) was cancelled at the job's five-minute limit. #386 pins five sources across two commits, so the old code made about 311 compare calls.
 - **Local controls:** 77 tests pass in normal and `-O` modes. On the old checker, the scan-once test fails (12 compare calls against 4). A cache keyed by repository alone fails the negative control. No label moved.
+
+## Checkpoint 24 (2026-10-13, about 22:10Z): the Lean runtime guard stage 2 and the main#397 carry
+
+Incremental commit, no rewrite, after checkpoint 23 (`21c99d92`).
+- **New area `lean_runtime_guard_stage2`:**
+  - `lg2_pr/` holds the draft Math-#455 PR bodies (the initial one and the frozen one), the seven `git format-patch` files, the frozen candidate diff, the torus subagent's diff, and the checkpoint and delivery texts posted on main#275.
+    - The candidate is head `7c1cd5d0`, tree `4f3d904b`, on base `b64e70c9`.
+    - The frozen diff is 169,773 bytes, SHA-256 `152a1391…`.
+    - The texts are the 21:14Z publication, the 21:39Z checkpoint (which miscounted the local rows: 6 of 8 were green then, not 7) and the 22:04Z delivery and release, [6156160889](https://github.com/d6g8k5htny-coder/main/issues/275#issuecomment-6156160889).
+  - `lg2_runs/` holds one log per local runtime row (`row.sh`, under `LOCAL:` provenance), the lane status files, `evidence/` and `GIT_BUILD_PROVENANCE.txt`.
+    - `evidence/` copies each row's receipt and runtime observations, with `.lake` renamed `lake`.
+    - `GIT_BUILD_PROVENANCE.txt` records git v2.55.0 (commit `e9019fca`, executable SHA-256 `fc6ff158…`), built in scratch for the D2 square and atom re-runs.
+    - The first D2 square and atom rows failed before any Lean run because the container's git 2.43.0 lacks `--no-lazy-fetch`. Their logs are kept as negative evidence.
+- **New area `intake_scan_once_review_and_carry`:** `p397/` holds the main#397 body update recording the assigned OpenAI read, the #307 integrator note, the carry acceptance and claim, and the carried and frozen diffs.
+  - The carry is merge `6e865e29`, tree `2fdc755b`, with parents `58b7000c` and `b6ebaf12`.
+  - Its diff against `main` is byte-identical to the frozen 6,283-byte patch.
+- **Also:** the formal row's `formal_execute.log` from the first local gate run.
+
+Local rows are not receipts. Hosted runs are the record. Nothing here moves any claim, premise or label, and scientific effect is NONE.

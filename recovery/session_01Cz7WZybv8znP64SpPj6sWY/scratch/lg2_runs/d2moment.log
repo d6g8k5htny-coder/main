@@ -1,0 +1,1819 @@
+### ROW LOCAL:claude-01Cz-container:d2moment head=7c1cd5d0bd896fa09b284da84787fd27d97d8041 tree=4f3d904b40184819ddbc02f4ef6a9bb4a2297541 start=2026-10-13T21:06:58Z
+### HOST Linux 6.18.44-fc-v114 x86_64 | Python 3.11.15 | Ubuntu 24.04.4 LTS | nproc=4
+### STEP bash companions/d2_moment_bridge_20261006/replay.sh @ 2026-10-13T21:06:58Z
+{
+  "checked_commit": "7c1cd5d0bd896fa09b284da84787fd27d97d8041",
+  "core_tree": "fc0b11706d064b9de42331ee0a2464865107b87b",
+  "declarations": [
+    "D2MomentBridge.moment",
+    "D2MomentBridge.cubicResidual",
+    "D2MomentBridge.residual_sq_expand",
+    "D2MomentBridge.residual_sq_integrable",
+    "D2MomentBridge.residual_integral_eq_delta",
+    "D2MomentBridge.delta_nonneg",
+    "D2MomentBridge.delta_eq_zero_iff_residual",
+    "D2MomentBridge.cubicResidual_eq_zero_iff",
+    "D2MomentBridge.delta_eq_zero_iff_support",
+    "D2MomentBridge.delta_pos_iff_not_support",
+    "D2MomentBridge.property_of_ae_of_atom",
+    "D2MomentBridge.moment_two_pos_of_atom",
+    "D2MomentBridge.delta_pos_of_two_atoms",
+    "D2MomentBridge.square_gap_integrable",
+    "D2MomentBridge.square_gap_integral",
+    "D2MomentBridge.fourth_gt_second_sq_of_two_atoms",
+    "D2MomentBridge.tau_pos_of_two_atoms",
+    "D2MomentBridge.zero_atom_counterexample"
+  ],
+  "repository": "d6g8k5htny-coder/Math-",
+  "run_attempt": "local",
+  "run_id": "local",
+  "scientific_effect": "NONE",
+  "sources": {
+    ".github/workflows/d2-moment-bridge.yml": {
+      "bytes": 1665,
+      "git_blob": "069d028c5080f9f81728d6aca0c557d0fa2abeaf",
+      "sha256": "7893a4b0b407cea0f54ed3db3cde9d02b41dda518b9c5ac89db69459785fa337"
+    },
+    "companions/d2_moment_bridge_20261006/D2MomentBridge.lean": {
+      "bytes": 10696,
+      "git_blob": "b3184107e290189b91e3e18fd2aa1cb631bb9bde",
+      "sha256": "cde3bbd96eb29eb9ab7ff1448ffab1f794fb2b80355ac618800155eea6ccc42f"
+    },
+    "companions/d2_moment_bridge_20261006/README.md": {
+      "bytes": 12277,
+      "git_blob": "005796b5527601c1156d2deaa9c950adf253faf3",
+      "sha256": "16b5b7e07eaa2a047160c2a295333eea370644d8343b635d6d92a4556a33eff6"
+    },
+    "companions/d2_moment_bridge_20261006/SOURCE_FILES.json": {
+      "bytes": 2139,
+      "git_blob": "76b1c59d2ea8b0ba98384888408bc92be0d52bd0",
+      "sha256": "72aa3c4bd8c7cf7cef6eb723f6a3c0e722e023fbca6cfc09645b6bb7dd74d8d1"
+    },
+    "companions/d2_moment_bridge_20261006/check.py": {
+      "bytes": 10232,
+      "git_blob": "867324d3829e35d503df993f1a69a159c4a664c0",
+      "sha256": "04310a141a4c042eb8d255bba2c073b9ec348460e6dc522b6d7189285acd2730"
+    },
+    "companions/d2_moment_bridge_20261006/replay.sh": {
+      "bytes": 2793,
+      "git_blob": "8661a6c998fc2900c7a6dba66c548341887999ee",
+      "sha256": "1e50e7ffc5c68b3771e32f2574d709d055a9b5b43ef1fa74bcaccfc14e912a68"
+    },
+    "companions/d2_moment_bridge_20261006/test_bridge.py": {
+      "bytes": 11134,
+      "git_blob": "5bcc4628bf61f035f96f7a4faf6c796a38e05fe9",
+      "sha256": "cf257c0dd750c5cc108d5af5d61129531d7f57e2ed03c6a5ab8261964fb25469"
+    }
+  }
+}
+test_exact_declared_inventory (__main__.BridgeTests.test_exact_declared_inventory) ... ok
+test_final_command_does_not_hash_a_live_tee_output (__main__.BridgeTests.test_final_command_does_not_hash_a_live_tee_output) ... ok
+test_fourth_gap_needs_probability_normalization (__main__.BridgeTests.test_fourth_gap_needs_probability_normalization) ... ok
+test_negative_control_accepts_only_intended_false (__main__.BridgeTests.test_negative_control_accepts_only_intended_false) ... ok
+test_residual_factorization (__main__.BridgeTests.test_residual_factorization) ... ok
+test_residual_identity_and_exact_equality_class (__main__.BridgeTests.test_residual_identity_and_exact_equality_class) ... ok
+test_source_exists_and_no_admission (__main__.BridgeTests.test_source_exists_and_no_admission) ... ok
+test_two_nonzero_distinct_squared_atoms (__main__.BridgeTests.test_two_nonzero_distinct_squared_atoms) ... ok
+test_type_inventory_missing_duplicate_unrecognized (__main__.BridgeTests.test_type_inventory_missing_duplicate_unrecognized) ... ok
+test_zero_atom_and_same_radius_countermodels (__main__.BridgeTests.test_zero_atom_and_same_radius_countermodels) ... ok
+test_core_receipt_without_equal_observations_refused (__main__.FinalRuntimeTests.test_core_receipt_without_equal_observations_refused) ... ok
+test_dependency_moved_or_dirtied_after_core_gate_refused (__main__.FinalRuntimeTests.test_dependency_moved_or_dirtied_after_core_gate_refused) ... ok
+test_final_observation_equal_to_core_passes (__main__.FinalRuntimeTests.test_final_observation_equal_to_core_passes) ... ok
+test_missing_final_observation_refused (__main__.FinalRuntimeTests.test_missing_final_observation_refused) ... ok
+test_replay_observes_after_the_last_lean_run_and_finish_requires_it (__main__.FinalRuntimeTests.test_replay_observes_after_the_last_lean_run_and_finish_requires_it) ... ok
+test_runtime_changed_after_core_gate_refused (__main__.FinalRuntimeTests.test_runtime_changed_after_core_gate_refused) ... ok
+test_same_semver_other_commit_or_build_refused (__main__.FinalRuntimeTests.test_same_semver_other_commit_or_build_refused) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.172s
+
+OK
+test_exact_declared_inventory (__main__.BridgeTests.test_exact_declared_inventory) ... ok
+test_final_command_does_not_hash_a_live_tee_output (__main__.BridgeTests.test_final_command_does_not_hash_a_live_tee_output) ... ok
+test_fourth_gap_needs_probability_normalization (__main__.BridgeTests.test_fourth_gap_needs_probability_normalization) ... ok
+test_negative_control_accepts_only_intended_false (__main__.BridgeTests.test_negative_control_accepts_only_intended_false) ... ok
+test_residual_factorization (__main__.BridgeTests.test_residual_factorization) ... ok
+test_residual_identity_and_exact_equality_class (__main__.BridgeTests.test_residual_identity_and_exact_equality_class) ... ok
+test_source_exists_and_no_admission (__main__.BridgeTests.test_source_exists_and_no_admission) ... ok
+test_two_nonzero_distinct_squared_atoms (__main__.BridgeTests.test_two_nonzero_distinct_squared_atoms) ... ok
+test_type_inventory_missing_duplicate_unrecognized (__main__.BridgeTests.test_type_inventory_missing_duplicate_unrecognized) ... ok
+test_zero_atom_and_same_radius_countermodels (__main__.BridgeTests.test_zero_atom_and_same_radius_countermodels) ... ok
+test_core_receipt_without_equal_observations_refused (__main__.FinalRuntimeTests.test_core_receipt_without_equal_observations_refused) ... ok
+test_dependency_moved_or_dirtied_after_core_gate_refused (__main__.FinalRuntimeTests.test_dependency_moved_or_dirtied_after_core_gate_refused) ... ok
+test_final_observation_equal_to_core_passes (__main__.FinalRuntimeTests.test_final_observation_equal_to_core_passes) ... ok
+test_missing_final_observation_refused (__main__.FinalRuntimeTests.test_missing_final_observation_refused) ... ok
+test_replay_observes_after_the_last_lean_run_and_finish_requires_it (__main__.FinalRuntimeTests.test_replay_observes_after_the_last_lean_run_and_finish_requires_it) ... ok
+test_runtime_changed_after_core_gate_refused (__main__.FinalRuntimeTests.test_runtime_changed_after_core_gate_refused) ... ok
+test_same_semver_other_commit_or_build_refused (__main__.FinalRuntimeTests.test_same_semver_other_commit_or_build_refused) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.171s
+
+OK
+test_blank_or_nonstring_proposer_identity (test_alignment_lineage.AlignmentLineageTests.test_blank_or_nonstring_proposer_identity) ... ok
+test_disposition_only_edit_cannot_hide_unknown_proposer (test_alignment_lineage.AlignmentLineageTests.test_disposition_only_edit_cannot_hide_unknown_proposer) ... ok
+test_every_declared_proposer_is_checked (test_alignment_lineage.AlignmentLineageTests.test_every_declared_proposer_is_checked) ... ok
+test_existing_digest_scope_and_coverage_checks (test_alignment_lineage.AlignmentLineageTests.test_existing_digest_scope_and_coverage_checks) ... ok
+test_explicit_empty_proposer_list (test_alignment_lineage.AlignmentLineageTests.test_explicit_empty_proposer_list) ... ok
+test_input_not_mutated (test_alignment_lineage.AlignmentLineageTests.test_input_not_mutated) ... ok
+test_invalid_proposer_target_scope (test_alignment_lineage.AlignmentLineageTests.test_invalid_proposer_target_scope) ... ok
+test_known_distinct_proposer (test_alignment_lineage.AlignmentLineageTests.test_known_distinct_proposer) ... ok
+test_legacy_single_author_record (test_alignment_lineage.AlignmentLineageTests.test_legacy_single_author_record) ... ok
+test_lineage_scope_cannot_be_unbound (test_alignment_lineage.AlignmentLineageTests.test_lineage_scope_cannot_be_unbound) ... ok
+test_lineage_tests_cannot_be_unbound (test_alignment_lineage.AlignmentLineageTests.test_lineage_tests_cannot_be_unbound) ... ok
+test_malformed_primary_and_reviewer_objects (test_alignment_lineage.AlignmentLineageTests.test_malformed_primary_and_reviewer_objects) ... ok
+test_malformed_proposer_collection (test_alignment_lineage.AlignmentLineageTests.test_malformed_proposer_collection) ... ok
+test_malformed_proposer_object (test_alignment_lineage.AlignmentLineageTests.test_malformed_proposer_object) ... ok
+test_missing_proposer_identity_field (test_alignment_lineage.AlignmentLineageTests.test_missing_proposer_identity_field) ... ok
+test_placeholder_lineage_in_all_roles (test_alignment_lineage.AlignmentLineageTests.test_placeholder_lineage_in_all_roles) ... ok
+test_primary_identity_normalization (test_alignment_lineage.AlignmentLineageTests.test_primary_identity_normalization) ... ok
+test_proposer_identity_normalization (test_alignment_lineage.AlignmentLineageTests.test_proposer_identity_normalization) ... ok
+test_same_proposer_agent (test_alignment_lineage.AlignmentLineageTests.test_same_proposer_agent) ... ok
+test_same_proposer_family (test_alignment_lineage.AlignmentLineageTests.test_same_proposer_family) ... ok
+test_same_proposer_provider (test_alignment_lineage.AlignmentLineageTests.test_same_proposer_provider) ... ok
+test_unscoped_known_proposer (test_alignment_lineage.AlignmentLineageTests.test_unscoped_known_proposer) ... ok
+test_withheld_record_remains_rejected (test_alignment_lineage.AlignmentLineageTests.test_withheld_record_remains_rejected) ... ok
+test_all_endpoint_inequalities_on_rational_controls (test_d2_schur.D2SchurTests.test_all_endpoint_inequalities_on_rational_controls) ... ok
+test_exact_declarations (test_d2_schur.D2SchurTests.test_exact_declarations) ... ok
+test_gaussian_reference_and_required_denominator_guard (test_d2_schur.D2SchurTests.test_gaussian_reference_and_required_denominator_guard) ... ok
+test_import_and_blueprint_wiring (test_d2_schur.D2SchurTests.test_import_and_blueprint_wiring) ... ok
+test_independent_spectral_gram_rotations (test_d2_schur.D2SchurTests.test_independent_spectral_gram_rotations) ... ok
+test_manifest_exact_extension (test_d2_schur.D2SchurTests.test_manifest_exact_extension) ... ok
+test_no_proof_holes_or_native_shortcut (test_d2_schur.D2SchurTests.test_no_proof_holes_or_native_shortcut) ... ok
+test_wrong_sign_and_missing_soft_factor_are_detected (test_d2_schur.D2SchurTests.test_wrong_sign_and_missing_soft_factor_are_detected) ... ok
+test_empty_link (test_gate.BlueprintTests.test_empty_link) ... ok
+test_unsupported_leanok (test_gate.BlueprintTests.test_unsupported_leanok) ... ok
+test_valid_link (test_gate.BlueprintTests.test_valid_link) ... ok
+test_wrong_link (test_gate.BlueprintTests.test_wrong_link) ... ok
+test_axiom_free (test_gate.GateTests.test_axiom_free) ... ok
+test_custom (test_gate.GateTests.test_custom) ... ok
+test_duplicate_target_output (test_gate.GateTests.test_duplicate_target_output) ... ok
+test_duplicate_target_request (test_gate.GateTests.test_duplicate_target_request) ... ok
+test_manifest_absolute (test_gate.GateTests.test_manifest_absolute) ... ok
+test_manifest_content (test_gate.GateTests.test_manifest_content) ... ok
+test_manifest_empty (test_gate.GateTests.test_manifest_empty) ... ok
+test_manifest_escape (test_gate.GateTests.test_manifest_escape) ... ok
+test_manifest_missing (test_gate.GateTests.test_manifest_missing) ... ok
+test_manifest_symlink (test_gate.GateTests.test_manifest_symlink) ... ok
+test_manifest_tamper (test_gate.GateTests.test_manifest_tamper) ... ok
+test_missing_target (test_gate.GateTests.test_missing_target) ... ok
+test_multiline (test_gate.GateTests.test_multiline) ... ok
+test_native (test_gate.GateTests.test_native) ... ok
+test_noise_denied (test_gate.GateTests.test_noise_denied) ... ok
+test_review_bad_disposition (test_gate.GateTests.test_review_bad_disposition) ... ok
+test_review_bad_evidence (test_gate.GateTests.test_review_bad_evidence) ... ok
+test_review_changed_scope (test_gate.GateTests.test_review_changed_scope) ... ok
+test_review_partial (test_gate.GateTests.test_review_partial) ... ok
+test_review_same_provider (test_gate.GateTests.test_review_same_provider) ... ok
+test_review_self (test_gate.GateTests.test_review_self) ... ok
+test_review_stale (test_gate.GateTests.test_review_stale) ... ok
+test_review_valid (test_gate.GateTests.test_review_valid) ... ok
+test_sorry (test_gate.GateTests.test_sorry) ... ok
+test_standard_axioms (test_gate.GateTests.test_standard_axioms) ... ok
+test_unexpected_target (test_gate.GateTests.test_unexpected_target) ... ok
+test_dependency_dirtied_during_execution_refuses_receipt (test_gate.RuntimeGuardTests.test_dependency_dirtied_during_execution_refuses_receipt) ... ok
+test_dependency_moved_during_execution_refuses_receipt (test_gate.RuntimeGuardTests.test_dependency_moved_during_execution_refuses_receipt) ... ok
+test_dirty_dependency_before_execution_refuses_and_preserves_build (test_gate.RuntimeGuardTests.test_dirty_dependency_before_execution_refuses_and_preserves_build) ... ok
+test_receipt_binds_attempt_and_both_equal_observations (test_gate.RuntimeGuardTests.test_receipt_binds_attempt_and_both_equal_observations) ... ok
+test_runtime_changed_between_observations_refuses_receipt (test_gate.RuntimeGuardTests.test_runtime_changed_between_observations_refuses_receipt) ... ok
+test_wrong_dependency_before_execution_refuses_and_preserves_build (test_gate.RuntimeGuardTests.test_wrong_dependency_before_execution_refuses_and_preserves_build) ... ok
+test_complete_pinned_release_record (test_gate.RuntimeVersionTests.test_complete_pinned_release_record) ... ok
+test_installed_dependency_change_still_refuses_receipt (test_gate.RuntimeVersionTests.test_installed_dependency_change_still_refuses_receipt) ... ok
+test_invalid_preflight_preserves_build_and_runs_no_build (test_gate.RuntimeVersionTests.test_invalid_preflight_preserves_build_and_runs_no_build) ... ok
+test_other_commit_after_execution_refuses_receipt (test_gate.RuntimeVersionTests.test_other_commit_after_execution_refuses_receipt) ... ok
+test_other_commit_preflight_preserves_build (test_gate.RuntimeVersionTests.test_other_commit_preflight_preserves_build) ... ok
+test_other_versions_and_incomplete_or_extra_records_refused (test_gate.RuntimeVersionTests.test_other_versions_and_incomplete_or_extra_records_refused) ... ok
+test_preflight_process_failure_preserves_build (test_gate.RuntimeVersionTests.test_preflight_process_failure_preserves_build) ... ok
+test_short_and_other_release_commits_refused (test_gate.RuntimeVersionTests.test_short_and_other_release_commits_refused) ... ok
+test_source_change_during_build_still_refuses_receipt (test_gate.RuntimeVersionTests.test_source_change_during_build_still_refuses_receipt) ... ok
+test_success_checks_before_build_and_after_controls_and_binds_both_logs (test_gate.RuntimeVersionTests.test_success_checks_before_build_and_after_controls_and_binds_both_logs) ... ok
+test_version_change_after_execution_refuses_receipt (test_gate.RuntimeVersionTests.test_version_change_after_execution_refuses_receipt) ... ok
+test_duplicate_json_rejected (test_gate.SourceContractTests.test_duplicate_json_rejected) ... ok
+test_json_object (test_gate.SourceContractTests.test_json_object) ... ok
+test_manifest_cannot_claim_kernel_status (test_gate.SourceContractTests.test_manifest_cannot_claim_kernel_status) ... ok
+test_root_declaration_cannot_evade_audit (test_gate.SourceContractTests.test_root_declaration_cannot_evade_audit) ... ok
+test_source_baseline (test_gate.SourceContractTests.test_source_baseline) ... ok
+test_unbound_gate_refused (test_gate.SourceContractTests.test_unbound_gate_refused) ... ok
+test_only_documented_algebra_repairs (test_gate.SuccessorTests.test_only_documented_algebra_repairs) ... ok
+test_only_documented_probability_repair (test_gate.SuccessorTests.test_only_documented_probability_repair) ... ok
+test_cross_law_substitution_fails (test_measure_bridge.MeasureBridgeFiniteModelTests.test_cross_law_substitution_fails) ... ok
+test_dependent_events_and_zero_edges (test_measure_bridge.MeasureBridgeFiniteModelTests.test_dependent_events_and_zero_edges) ... ok
+test_eighth_order_tail_ledger (test_measure_bridge.MeasureBridgeFiniteModelTests.test_eighth_order_tail_ledger) ... ok
+test_omitted_square_root_is_false_and_cs_is_sharp (test_measure_bridge.MeasureBridgeFiniteModelTests.test_omitted_square_root_is_false_and_cs_is_sharp) ... ok
+test_second_moment_cannot_be_replaced_by_first (test_measure_bridge.MeasureBridgeFiniteModelTests.test_second_moment_cannot_be_replaced_by_first) ... ok
+test_upper_normalizer_bound_does_not_replace_lower (test_measure_bridge.MeasureBridgeFiniteModelTests.test_upper_normalizer_bound_does_not_replace_lower) ... ok
+test_bridge_module_present (test_measure_bridge.MeasureBridgeSourceTests.test_bridge_module_present) ... ok
+test_exact_new_inventory (test_measure_bridge.MeasureBridgeSourceTests.test_exact_new_inventory) ... ok
+test_module_and_scope_bound (test_measure_bridge.MeasureBridgeSourceTests.test_module_and_scope_bound) ... ok
+test_original_companion_identities_retained (test_measure_bridge.MeasureBridgeSourceTests.test_original_companion_identities_retained) ... ok
+test_registered_declarations_and_import (test_measure_bridge.MeasureBridgeSourceTests.test_registered_declarations_and_import) ... ok
+test_interval_family_and_outside_zero_measure (test_moment_generality.MomentGeneralityFiniteModelTests.test_interval_family_and_outside_zero_measure) ... ok
+test_invalid_threshold_parameters_rejected (test_moment_generality.MomentGeneralityFiniteModelTests.test_invalid_threshold_parameters_rejected) ... ok
+test_mass_scaling (test_moment_generality.MomentGeneralityFiniteModelTests.test_mass_scaling) ... ok
+test_no_extra_total_mass_normalization (test_moment_generality.MomentGeneralityFiniteModelTests.test_no_extra_total_mass_normalization) ... ok
+test_nonunit_mass_tail_grid (test_moment_generality.MomentGeneralityFiniteModelTests.test_nonunit_mass_tail_grid) ... ok
+test_r_dependent_coefficient_is_not_uniform (test_moment_generality.MomentGeneralityFiniteModelTests.test_r_dependent_coefficient_is_not_uniform) ... ok
+test_strict_signed_and_null_edges (test_moment_generality.MomentGeneralityFiniteModelTests.test_strict_signed_and_null_edges) ... ok
+test_exact_inventory (test_moment_generality.MomentGeneralitySourceTests.test_exact_inventory) ... ok
+test_module_and_exact_declarations (test_moment_generality.MomentGeneralitySourceTests.test_module_and_exact_declarations) ... ok
+test_predecessor_and_gate_pins_preserved (test_moment_generality.MomentGeneralitySourceTests.test_predecessor_and_gate_pins_preserved) ... ok
+test_root_import (test_moment_generality.MomentGeneralitySourceTests.test_root_import) ... ok
+test_source_scope_and_tests_bound (test_moment_generality.MomentGeneralitySourceTests.test_source_scope_and_tests_bound) ... ok
+test_actual_weighted_probabilities_and_cubic_composition (test_moment_tail.MomentTailFiniteModelTests.test_actual_weighted_probabilities_and_cubic_composition) ... ok
+test_epsilon_factor_cannot_be_omitted (test_moment_tail.MomentTailFiniteModelTests.test_epsilon_factor_cannot_be_omitted) ... ok
+test_markov_tail_and_threshold_inclusion (test_moment_tail.MomentTailFiniteModelTests.test_markov_tail_and_threshold_inclusion) ... ok
+test_strict_boundary_and_signed_jet (test_moment_tail.MomentTailFiniteModelTests.test_strict_boundary_and_signed_jet) ... ok
+test_twentieth_moment_cannot_replace_fortieth (test_moment_tail.MomentTailFiniteModelTests.test_twentieth_moment_cannot_replace_fortieth) ... ok
+test_wrong_r_sixteen_power_fails (test_moment_tail.MomentTailFiniteModelTests.test_wrong_r_sixteen_power_fails) ... ok
+test_zero_moment_null_atom_and_dependent_weight (test_moment_tail.MomentTailFiniteModelTests.test_zero_moment_null_atom_and_dependent_weight) ... ok
+test_exact_inventory (test_moment_tail.MomentTailSourceTests.test_exact_inventory) ... ok
+test_new_source_and_exact_declarations (test_moment_tail.MomentTailSourceTests.test_new_source_and_exact_declarations) ... ok
+test_retained_control_and_proof_pins (test_moment_tail.MomentTailSourceTests.test_retained_control_and_proof_pins) ... ok
+test_root_import (test_moment_tail.MomentTailSourceTests.test_root_import) ... ok
+test_source_scope_and_tests_bound (test_moment_tail.MomentTailSourceTests.test_source_scope_and_tests_bound) ... ok
+test_absolute_integral_cannot_replace_integral_absolute (test_weight_perturbation.WeightPerturbationFiniteTests.test_absolute_integral_cannot_replace_integral_absolute) ... ok
+test_generic_integral_bound_including_signed_weights (test_weight_perturbation.WeightPerturbationFiniteTests.test_generic_integral_bound_including_signed_weights) ... ok
+test_half_budget_endpoint_still_normalizes (test_weight_perturbation.WeightPerturbationFiniteTests.test_half_budget_endpoint_still_normalizes) ... ok
+test_normalized_laws_uniform_over_all_events (test_weight_perturbation.WeightPerturbationFiniteTests.test_normalized_laws_uniform_over_all_events) ... ok
+test_quotient_bound_does_not_need_b_nonnegative (test_weight_perturbation.WeightPerturbationFiniteTests.test_quotient_bound_does_not_need_b_nonnegative) ... ok
+test_r2_scale_cancels_without_r_le_one (test_weight_perturbation.WeightPerturbationFiniteTests.test_r2_scale_cancels_without_r_le_one) ... ok
+test_same_weight_under_different_laws_is_not_zero_error_transfer (test_weight_perturbation.WeightPerturbationFiniteTests.test_same_weight_under_different_laws_is_not_zero_error_transfer) ... ok
+test_set_integral_domination_and_nonnegative_bounds (test_weight_perturbation.WeightPerturbationFiniteTests.test_set_integral_domination_and_nonnegative_bounds) ... ok
+test_signed_clipping_and_zero_normalizer_are_not_probability_cases (test_weight_perturbation.WeightPerturbationFiniteTests.test_signed_clipping_and_zero_normalizer_are_not_probability_cases) ... ok
+test_small_absolute_error_without_normalizer_scale_is_insufficient (test_weight_perturbation.WeightPerturbationFiniteTests.test_small_absolute_error_without_normalizer_scale_is_insufficient) ... ok
+test_zero_error_and_null_set_changes (test_weight_perturbation.WeightPerturbationFiniteTests.test_zero_error_and_null_set_changes) ... ok
+test_exact_extension_inventory (test_weight_perturbation.WeightPerturbationSourceTests.test_exact_extension_inventory) ... ok
+test_module_and_exact_declarations (test_weight_perturbation.WeightPerturbationSourceTests.test_module_and_exact_declarations) ... ok
+test_predecessor_and_gate_identity_contract (test_weight_perturbation.WeightPerturbationSourceTests.test_predecessor_and_gate_identity_contract) ... ok
+test_root_import (test_weight_perturbation.WeightPerturbationSourceTests.test_root_import) ... ok
+test_source_scope_and_tests_are_bound (test_weight_perturbation.WeightPerturbationSourceTests.test_source_scope_and_tests_are_bound) ... ok
+test_ae_representatives_and_null_events (test_weighted_law.WeightedLawFiniteModelTests.test_ae_representatives_and_null_events) ... ok
+test_all_event_ratios_and_transfer (test_weighted_law.WeightedLawFiniteModelTests.test_all_event_ratios_and_transfer) ... ok
+test_constant_positive_weights (test_weighted_law.WeightedLawFiniteModelTests.test_constant_positive_weights) ... ok
+test_countable_additivity_finite_partition_witness (test_weighted_law.WeightedLawFiniteModelTests.test_countable_additivity_finite_partition_witness) ... ok
+test_omitting_normalizer_changes_total_mass (test_weighted_law.WeightedLawFiniteModelTests.test_omitting_normalizer_changes_total_mass) ... ok
+test_positive_rescaling (test_weighted_law.WeightedLawFiniteModelTests.test_positive_rescaling) ... ok
+test_signed_weight_rejected_and_clipping_is_not_normalization (test_weighted_law.WeightedLawFiniteModelTests.test_signed_weight_rejected_and_clipping_is_not_normalization) ... ok
+test_zero_normalizer_rejected (test_weighted_law.WeightedLawFiniteModelTests.test_zero_normalizer_rejected) ... ok
+test_bound_source_scope_and_tests (test_weighted_law.WeightedLawSourceTests.test_bound_source_scope_and_tests) ... ok
+test_exact_target_inventory (test_weighted_law.WeightedLawSourceTests.test_exact_target_inventory) ... ok
+test_module_and_declarations (test_weighted_law.WeightedLawSourceTests.test_module_and_declarations) ... ok
+test_parent_proofs_and_execution_controls_retained (test_weighted_law.WeightedLawSourceTests.test_parent_proofs_and_execution_controls_retained) ... ok
+test_root_import (test_weighted_law.WeightedLawSourceTests.test_root_import) ... ok
+
+----------------------------------------------------------------------
+Ran 150 tests in 0.668s
+
+OK
+test_blank_or_nonstring_proposer_identity (test_alignment_lineage.AlignmentLineageTests.test_blank_or_nonstring_proposer_identity) ... ok
+test_disposition_only_edit_cannot_hide_unknown_proposer (test_alignment_lineage.AlignmentLineageTests.test_disposition_only_edit_cannot_hide_unknown_proposer) ... ok
+test_every_declared_proposer_is_checked (test_alignment_lineage.AlignmentLineageTests.test_every_declared_proposer_is_checked) ... ok
+test_existing_digest_scope_and_coverage_checks (test_alignment_lineage.AlignmentLineageTests.test_existing_digest_scope_and_coverage_checks) ... ok
+test_explicit_empty_proposer_list (test_alignment_lineage.AlignmentLineageTests.test_explicit_empty_proposer_list) ... ok
+test_input_not_mutated (test_alignment_lineage.AlignmentLineageTests.test_input_not_mutated) ... ok
+test_invalid_proposer_target_scope (test_alignment_lineage.AlignmentLineageTests.test_invalid_proposer_target_scope) ... ok
+test_known_distinct_proposer (test_alignment_lineage.AlignmentLineageTests.test_known_distinct_proposer) ... ok
+test_legacy_single_author_record (test_alignment_lineage.AlignmentLineageTests.test_legacy_single_author_record) ... ok
+test_lineage_scope_cannot_be_unbound (test_alignment_lineage.AlignmentLineageTests.test_lineage_scope_cannot_be_unbound) ... ok
+test_lineage_tests_cannot_be_unbound (test_alignment_lineage.AlignmentLineageTests.test_lineage_tests_cannot_be_unbound) ... ok
+test_malformed_primary_and_reviewer_objects (test_alignment_lineage.AlignmentLineageTests.test_malformed_primary_and_reviewer_objects) ... ok
+test_malformed_proposer_collection (test_alignment_lineage.AlignmentLineageTests.test_malformed_proposer_collection) ... ok
+test_malformed_proposer_object (test_alignment_lineage.AlignmentLineageTests.test_malformed_proposer_object) ... ok
+test_missing_proposer_identity_field (test_alignment_lineage.AlignmentLineageTests.test_missing_proposer_identity_field) ... ok
+test_placeholder_lineage_in_all_roles (test_alignment_lineage.AlignmentLineageTests.test_placeholder_lineage_in_all_roles) ... ok
+test_primary_identity_normalization (test_alignment_lineage.AlignmentLineageTests.test_primary_identity_normalization) ... ok
+test_proposer_identity_normalization (test_alignment_lineage.AlignmentLineageTests.test_proposer_identity_normalization) ... ok
+test_same_proposer_agent (test_alignment_lineage.AlignmentLineageTests.test_same_proposer_agent) ... ok
+test_same_proposer_family (test_alignment_lineage.AlignmentLineageTests.test_same_proposer_family) ... ok
+test_same_proposer_provider (test_alignment_lineage.AlignmentLineageTests.test_same_proposer_provider) ... ok
+test_unscoped_known_proposer (test_alignment_lineage.AlignmentLineageTests.test_unscoped_known_proposer) ... ok
+test_withheld_record_remains_rejected (test_alignment_lineage.AlignmentLineageTests.test_withheld_record_remains_rejected) ... ok
+test_all_endpoint_inequalities_on_rational_controls (test_d2_schur.D2SchurTests.test_all_endpoint_inequalities_on_rational_controls) ... ok
+test_exact_declarations (test_d2_schur.D2SchurTests.test_exact_declarations) ... ok
+test_gaussian_reference_and_required_denominator_guard (test_d2_schur.D2SchurTests.test_gaussian_reference_and_required_denominator_guard) ... ok
+test_import_and_blueprint_wiring (test_d2_schur.D2SchurTests.test_import_and_blueprint_wiring) ... ok
+test_independent_spectral_gram_rotations (test_d2_schur.D2SchurTests.test_independent_spectral_gram_rotations) ... ok
+test_manifest_exact_extension (test_d2_schur.D2SchurTests.test_manifest_exact_extension) ... ok
+test_no_proof_holes_or_native_shortcut (test_d2_schur.D2SchurTests.test_no_proof_holes_or_native_shortcut) ... ok
+test_wrong_sign_and_missing_soft_factor_are_detected (test_d2_schur.D2SchurTests.test_wrong_sign_and_missing_soft_factor_are_detected) ... ok
+test_empty_link (test_gate.BlueprintTests.test_empty_link) ... ok
+test_unsupported_leanok (test_gate.BlueprintTests.test_unsupported_leanok) ... ok
+test_valid_link (test_gate.BlueprintTests.test_valid_link) ... ok
+test_wrong_link (test_gate.BlueprintTests.test_wrong_link) ... ok
+test_axiom_free (test_gate.GateTests.test_axiom_free) ... ok
+test_custom (test_gate.GateTests.test_custom) ... ok
+test_duplicate_target_output (test_gate.GateTests.test_duplicate_target_output) ... ok
+test_duplicate_target_request (test_gate.GateTests.test_duplicate_target_request) ... ok
+test_manifest_absolute (test_gate.GateTests.test_manifest_absolute) ... ok
+test_manifest_content (test_gate.GateTests.test_manifest_content) ... ok
+test_manifest_empty (test_gate.GateTests.test_manifest_empty) ... ok
+test_manifest_escape (test_gate.GateTests.test_manifest_escape) ... ok
+test_manifest_missing (test_gate.GateTests.test_manifest_missing) ... ok
+test_manifest_symlink (test_gate.GateTests.test_manifest_symlink) ... ok
+test_manifest_tamper (test_gate.GateTests.test_manifest_tamper) ... ok
+test_missing_target (test_gate.GateTests.test_missing_target) ... ok
+test_multiline (test_gate.GateTests.test_multiline) ... ok
+test_native (test_gate.GateTests.test_native) ... ok
+test_noise_denied (test_gate.GateTests.test_noise_denied) ... ok
+test_review_bad_disposition (test_gate.GateTests.test_review_bad_disposition) ... ok
+test_review_bad_evidence (test_gate.GateTests.test_review_bad_evidence) ... ok
+test_review_changed_scope (test_gate.GateTests.test_review_changed_scope) ... ok
+test_review_partial (test_gate.GateTests.test_review_partial) ... ok
+test_review_same_provider (test_gate.GateTests.test_review_same_provider) ... ok
+test_review_self (test_gate.GateTests.test_review_self) ... ok
+test_review_stale (test_gate.GateTests.test_review_stale) ... ok
+test_review_valid (test_gate.GateTests.test_review_valid) ... ok
+test_sorry (test_gate.GateTests.test_sorry) ... ok
+test_standard_axioms (test_gate.GateTests.test_standard_axioms) ... ok
+test_unexpected_target (test_gate.GateTests.test_unexpected_target) ... ok
+test_dependency_dirtied_during_execution_refuses_receipt (test_gate.RuntimeGuardTests.test_dependency_dirtied_during_execution_refuses_receipt) ... ok
+test_dependency_moved_during_execution_refuses_receipt (test_gate.RuntimeGuardTests.test_dependency_moved_during_execution_refuses_receipt) ... ok
+test_dirty_dependency_before_execution_refuses_and_preserves_build (test_gate.RuntimeGuardTests.test_dirty_dependency_before_execution_refuses_and_preserves_build) ... ok
+test_receipt_binds_attempt_and_both_equal_observations (test_gate.RuntimeGuardTests.test_receipt_binds_attempt_and_both_equal_observations) ... ok
+test_runtime_changed_between_observations_refuses_receipt (test_gate.RuntimeGuardTests.test_runtime_changed_between_observations_refuses_receipt) ... ok
+test_wrong_dependency_before_execution_refuses_and_preserves_build (test_gate.RuntimeGuardTests.test_wrong_dependency_before_execution_refuses_and_preserves_build) ... ok
+test_complete_pinned_release_record (test_gate.RuntimeVersionTests.test_complete_pinned_release_record) ... ok
+test_installed_dependency_change_still_refuses_receipt (test_gate.RuntimeVersionTests.test_installed_dependency_change_still_refuses_receipt) ... ok
+test_invalid_preflight_preserves_build_and_runs_no_build (test_gate.RuntimeVersionTests.test_invalid_preflight_preserves_build_and_runs_no_build) ... ok
+test_other_commit_after_execution_refuses_receipt (test_gate.RuntimeVersionTests.test_other_commit_after_execution_refuses_receipt) ... ok
+test_other_commit_preflight_preserves_build (test_gate.RuntimeVersionTests.test_other_commit_preflight_preserves_build) ... ok
+test_other_versions_and_incomplete_or_extra_records_refused (test_gate.RuntimeVersionTests.test_other_versions_and_incomplete_or_extra_records_refused) ... ok
+test_preflight_process_failure_preserves_build (test_gate.RuntimeVersionTests.test_preflight_process_failure_preserves_build) ... ok
+test_short_and_other_release_commits_refused (test_gate.RuntimeVersionTests.test_short_and_other_release_commits_refused) ... ok
+test_source_change_during_build_still_refuses_receipt (test_gate.RuntimeVersionTests.test_source_change_during_build_still_refuses_receipt) ... ok
+test_success_checks_before_build_and_after_controls_and_binds_both_logs (test_gate.RuntimeVersionTests.test_success_checks_before_build_and_after_controls_and_binds_both_logs) ... ok
+test_version_change_after_execution_refuses_receipt (test_gate.RuntimeVersionTests.test_version_change_after_execution_refuses_receipt) ... ok
+test_duplicate_json_rejected (test_gate.SourceContractTests.test_duplicate_json_rejected) ... ok
+test_json_object (test_gate.SourceContractTests.test_json_object) ... ok
+test_manifest_cannot_claim_kernel_status (test_gate.SourceContractTests.test_manifest_cannot_claim_kernel_status) ... ok
+test_root_declaration_cannot_evade_audit (test_gate.SourceContractTests.test_root_declaration_cannot_evade_audit) ... ok
+test_source_baseline (test_gate.SourceContractTests.test_source_baseline) ... ok
+test_unbound_gate_refused (test_gate.SourceContractTests.test_unbound_gate_refused) ... ok
+test_only_documented_algebra_repairs (test_gate.SuccessorTests.test_only_documented_algebra_repairs) ... ok
+test_only_documented_probability_repair (test_gate.SuccessorTests.test_only_documented_probability_repair) ... ok
+test_cross_law_substitution_fails (test_measure_bridge.MeasureBridgeFiniteModelTests.test_cross_law_substitution_fails) ... ok
+test_dependent_events_and_zero_edges (test_measure_bridge.MeasureBridgeFiniteModelTests.test_dependent_events_and_zero_edges) ... ok
+test_eighth_order_tail_ledger (test_measure_bridge.MeasureBridgeFiniteModelTests.test_eighth_order_tail_ledger) ... ok
+test_omitted_square_root_is_false_and_cs_is_sharp (test_measure_bridge.MeasureBridgeFiniteModelTests.test_omitted_square_root_is_false_and_cs_is_sharp) ... ok
+test_second_moment_cannot_be_replaced_by_first (test_measure_bridge.MeasureBridgeFiniteModelTests.test_second_moment_cannot_be_replaced_by_first) ... ok
+test_upper_normalizer_bound_does_not_replace_lower (test_measure_bridge.MeasureBridgeFiniteModelTests.test_upper_normalizer_bound_does_not_replace_lower) ... ok
+test_bridge_module_present (test_measure_bridge.MeasureBridgeSourceTests.test_bridge_module_present) ... ok
+test_exact_new_inventory (test_measure_bridge.MeasureBridgeSourceTests.test_exact_new_inventory) ... ok
+test_module_and_scope_bound (test_measure_bridge.MeasureBridgeSourceTests.test_module_and_scope_bound) ... ok
+test_original_companion_identities_retained (test_measure_bridge.MeasureBridgeSourceTests.test_original_companion_identities_retained) ... ok
+test_registered_declarations_and_import (test_measure_bridge.MeasureBridgeSourceTests.test_registered_declarations_and_import) ... ok
+test_interval_family_and_outside_zero_measure (test_moment_generality.MomentGeneralityFiniteModelTests.test_interval_family_and_outside_zero_measure) ... ok
+test_invalid_threshold_parameters_rejected (test_moment_generality.MomentGeneralityFiniteModelTests.test_invalid_threshold_parameters_rejected) ... ok
+test_mass_scaling (test_moment_generality.MomentGeneralityFiniteModelTests.test_mass_scaling) ... ok
+test_no_extra_total_mass_normalization (test_moment_generality.MomentGeneralityFiniteModelTests.test_no_extra_total_mass_normalization) ... ok
+test_nonunit_mass_tail_grid (test_moment_generality.MomentGeneralityFiniteModelTests.test_nonunit_mass_tail_grid) ... ok
+test_r_dependent_coefficient_is_not_uniform (test_moment_generality.MomentGeneralityFiniteModelTests.test_r_dependent_coefficient_is_not_uniform) ... ok
+test_strict_signed_and_null_edges (test_moment_generality.MomentGeneralityFiniteModelTests.test_strict_signed_and_null_edges) ... ok
+test_exact_inventory (test_moment_generality.MomentGeneralitySourceTests.test_exact_inventory) ... ok
+test_module_and_exact_declarations (test_moment_generality.MomentGeneralitySourceTests.test_module_and_exact_declarations) ... ok
+test_predecessor_and_gate_pins_preserved (test_moment_generality.MomentGeneralitySourceTests.test_predecessor_and_gate_pins_preserved) ... ok
+test_root_import (test_moment_generality.MomentGeneralitySourceTests.test_root_import) ... ok
+test_source_scope_and_tests_bound (test_moment_generality.MomentGeneralitySourceTests.test_source_scope_and_tests_bound) ... ok
+test_actual_weighted_probabilities_and_cubic_composition (test_moment_tail.MomentTailFiniteModelTests.test_actual_weighted_probabilities_and_cubic_composition) ... ok
+test_epsilon_factor_cannot_be_omitted (test_moment_tail.MomentTailFiniteModelTests.test_epsilon_factor_cannot_be_omitted) ... ok
+test_markov_tail_and_threshold_inclusion (test_moment_tail.MomentTailFiniteModelTests.test_markov_tail_and_threshold_inclusion) ... ok
+test_strict_boundary_and_signed_jet (test_moment_tail.MomentTailFiniteModelTests.test_strict_boundary_and_signed_jet) ... ok
+test_twentieth_moment_cannot_replace_fortieth (test_moment_tail.MomentTailFiniteModelTests.test_twentieth_moment_cannot_replace_fortieth) ... ok
+test_wrong_r_sixteen_power_fails (test_moment_tail.MomentTailFiniteModelTests.test_wrong_r_sixteen_power_fails) ... ok
+test_zero_moment_null_atom_and_dependent_weight (test_moment_tail.MomentTailFiniteModelTests.test_zero_moment_null_atom_and_dependent_weight) ... ok
+test_exact_inventory (test_moment_tail.MomentTailSourceTests.test_exact_inventory) ... ok
+test_new_source_and_exact_declarations (test_moment_tail.MomentTailSourceTests.test_new_source_and_exact_declarations) ... ok
+test_retained_control_and_proof_pins (test_moment_tail.MomentTailSourceTests.test_retained_control_and_proof_pins) ... ok
+test_root_import (test_moment_tail.MomentTailSourceTests.test_root_import) ... ok
+test_source_scope_and_tests_bound (test_moment_tail.MomentTailSourceTests.test_source_scope_and_tests_bound) ... ok
+test_absolute_integral_cannot_replace_integral_absolute (test_weight_perturbation.WeightPerturbationFiniteTests.test_absolute_integral_cannot_replace_integral_absolute) ... ok
+test_generic_integral_bound_including_signed_weights (test_weight_perturbation.WeightPerturbationFiniteTests.test_generic_integral_bound_including_signed_weights) ... ok
+test_half_budget_endpoint_still_normalizes (test_weight_perturbation.WeightPerturbationFiniteTests.test_half_budget_endpoint_still_normalizes) ... ok
+test_normalized_laws_uniform_over_all_events (test_weight_perturbation.WeightPerturbationFiniteTests.test_normalized_laws_uniform_over_all_events) ... ok
+test_quotient_bound_does_not_need_b_nonnegative (test_weight_perturbation.WeightPerturbationFiniteTests.test_quotient_bound_does_not_need_b_nonnegative) ... ok
+test_r2_scale_cancels_without_r_le_one (test_weight_perturbation.WeightPerturbationFiniteTests.test_r2_scale_cancels_without_r_le_one) ... ok
+test_same_weight_under_different_laws_is_not_zero_error_transfer (test_weight_perturbation.WeightPerturbationFiniteTests.test_same_weight_under_different_laws_is_not_zero_error_transfer) ... ok
+test_set_integral_domination_and_nonnegative_bounds (test_weight_perturbation.WeightPerturbationFiniteTests.test_set_integral_domination_and_nonnegative_bounds) ... ok
+test_signed_clipping_and_zero_normalizer_are_not_probability_cases (test_weight_perturbation.WeightPerturbationFiniteTests.test_signed_clipping_and_zero_normalizer_are_not_probability_cases) ... ok
+test_small_absolute_error_without_normalizer_scale_is_insufficient (test_weight_perturbation.WeightPerturbationFiniteTests.test_small_absolute_error_without_normalizer_scale_is_insufficient) ... ok
+test_zero_error_and_null_set_changes (test_weight_perturbation.WeightPerturbationFiniteTests.test_zero_error_and_null_set_changes) ... ok
+test_exact_extension_inventory (test_weight_perturbation.WeightPerturbationSourceTests.test_exact_extension_inventory) ... ok
+test_module_and_exact_declarations (test_weight_perturbation.WeightPerturbationSourceTests.test_module_and_exact_declarations) ... ok
+test_predecessor_and_gate_identity_contract (test_weight_perturbation.WeightPerturbationSourceTests.test_predecessor_and_gate_identity_contract) ... ok
+test_root_import (test_weight_perturbation.WeightPerturbationSourceTests.test_root_import) ... ok
+test_source_scope_and_tests_are_bound (test_weight_perturbation.WeightPerturbationSourceTests.test_source_scope_and_tests_are_bound) ... ok
+test_ae_representatives_and_null_events (test_weighted_law.WeightedLawFiniteModelTests.test_ae_representatives_and_null_events) ... ok
+test_all_event_ratios_and_transfer (test_weighted_law.WeightedLawFiniteModelTests.test_all_event_ratios_and_transfer) ... ok
+test_constant_positive_weights (test_weighted_law.WeightedLawFiniteModelTests.test_constant_positive_weights) ... ok
+test_countable_additivity_finite_partition_witness (test_weighted_law.WeightedLawFiniteModelTests.test_countable_additivity_finite_partition_witness) ... ok
+test_omitting_normalizer_changes_total_mass (test_weighted_law.WeightedLawFiniteModelTests.test_omitting_normalizer_changes_total_mass) ... ok
+test_positive_rescaling (test_weighted_law.WeightedLawFiniteModelTests.test_positive_rescaling) ... ok
+test_signed_weight_rejected_and_clipping_is_not_normalization (test_weighted_law.WeightedLawFiniteModelTests.test_signed_weight_rejected_and_clipping_is_not_normalization) ... ok
+test_zero_normalizer_rejected (test_weighted_law.WeightedLawFiniteModelTests.test_zero_normalizer_rejected) ... ok
+test_bound_source_scope_and_tests (test_weighted_law.WeightedLawSourceTests.test_bound_source_scope_and_tests) ... ok
+test_exact_target_inventory (test_weighted_law.WeightedLawSourceTests.test_exact_target_inventory) ... ok
+test_module_and_declarations (test_weighted_law.WeightedLawSourceTests.test_module_and_declarations) ... ok
+test_parent_proofs_and_execution_controls_retained (test_weighted_law.WeightedLawSourceTests.test_parent_proofs_and_execution_controls_retained) ... ok
+test_root_import (test_weighted_law.WeightedLawSourceTests.test_root_import) ... ok
+
+----------------------------------------------------------------------
+Ran 150 tests in 0.748s
+
+OK
+version-preflight: exit 0
+build: exit 0
+leanchecker: exit 0
+axioms: exit 0
+elaborated-types: exit 0
+false_fold: exit 1
+false_power: exit 1
+sorry: exit 0
+custom_imported: exit 0
+native: exit 0
+version: exit 0
+{
+  "alignment_status": "PENDING_INDEPENDENT_REVIEW",
+  "axioms": {
+    "ResearchFormalCoreR1.d2_degenerate_control": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.d2_det_axis": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.d2_det_diagonal": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.d2_det_interpolation": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.d2_det_le_endpoint_max": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.d2_det_pos": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.d2_gaussian_control": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.d2_numerator_pos": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.d2_schur_endpoint_lower": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.d2_schur_numerator": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.d2_schur_pos": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.d2_schur_ratio": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.d2_tau_axis": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.d2_tau_cumulant_eq": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.d2_tau_diagonal": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.d2_tau_pos": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.ec005_fold_gap": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.ec008_factor_expansion": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.ec010_generic": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.ec010_transverse": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.ec011_scalar_cancellation": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.ec014_contact_power": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.p02_lm008_cross_multiplied": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.p02_lm008_event_cs": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.p02_lm008_event_numerator": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.p02_lm008_integral_cs": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.p02_lm008_measure_transfer": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.p02_lm008_probability_transfer": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.p02_lm008_quotient_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.p02_lm008_r2_cancel": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.p02_lm008_sqrt_counterexample": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.p02_lm008_upper_normalizer_counterexample": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.p02_lm009_badJet_measurable": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.p02_lm009_badJet_subset": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.p02_lm009_bad_event_threshold": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.p02_lm009_markov_event": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.p02_lm009_measure_transfer_r8_to_r3": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.p02_lm009_moment40_family_r3": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.p02_lm009_moment40_family_r3_interval": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.p02_lm009_moment40_family_r3_of_interval": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.p02_lm009_moment40_tail": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.p02_lm009_moment40_tail_finite": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.p02_lm009_moment40_tail_of_finite": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.p02_lm009_moment40_weighted_r3": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.p02_lm009_moment40_weighted_r4": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.p02_lm009_palm_r4_to_r3": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.p02_lm009_power40_identity": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.p02_lm009_probability_transfer_r8_to_r3": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.p02_lm009_r4_le_r3": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.weightPerturbation_event_integral_bounds": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.weightPerturbation_integral": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.weightPerturbation_normalizer_lower": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.weightPerturbation_quotient_bound": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.weightPerturbation_setIntegral": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.weightedLaw_absolutelyContinuous": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.weightedLaw_apply": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.weightedLaw_congr_ae": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.weightedLaw_event_perturbation": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.weightedLaw_event_perturbation_r2": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.weightedLaw_event_real": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.weightedLaw_isProbabilityMeasure": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.weightedLaw_one": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "ResearchFormalCoreR1.weightedLaw_zero": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  "checked_commit": "7c1cd5d0bd896fa09b284da84787fd27d97d8041",
+  "dependency_revisions": {
+    "Cli": "e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204",
+    "LeanSearchClient": "ddf04cf3949fa556442341e87d47f9f6e6074707",
+    "Qq": "6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259",
+    "aesop": "355695d523e41d0554926416cba2a2b3544fbbc9",
+    "batteries": "f2effa3d803fda822b1f97b806c47cf2adfbcbc2",
+    "importGraph": "e928b72544873815af278d38681b31c0293588e3",
+    "mathlib": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+    "plausible": "118aa17ee84656b8bd727fef7c458ee8c833385c",
+    "proofwidgets": "106ff4fafc74ef4ac99d81dbf3ab399118f497a5"
+  },
+  "dependency_worktrees": "CLEAN",
+  "formalization_status": "kernel-checked",
+  "lean_version": "Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+  "logs": {
+    "axioms.log": "f6250270087bf71bf6dbafaef40a4ee5c55ef9c5a00811692d4a75b4e96cb3d4",
+    "build.log": "c0271ade4fd62b2e220fa7321492f58c4ad2926349b17745e6656cfef5a65d4b",
+    "custom_imported.log": "6e7f917c7fe2fdc3efe1943dcc327c56acadd0b0ca96507a4327073fdfd2f083",
+    "elaborated-types.log": "b4add63c0a9d145ac0c983bb1590b53f2d97bf8d99fe8b6bf57a7d90c9853318",
+    "false_fold.log": "068098860e3e82dd44dfc6789527aca95807cbdbd18318e6e3eb2a1fd727d2ba",
+    "false_power.log": "11299a6b8128c77823faa312f7a6022b1a4b2e47d413f6ddcf88418f9c4be4bf",
+    "leanchecker.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native.log": "8a0b9f79f3265724af58b27461627f9d532535f8a23681361da731c9ea37c101",
+    "sorry.log": "1aa4fd6d1e2571f477db8242eb2f9f487115b7f0d629a87436ae7452fc0a27a2",
+    "version-preflight.log": "355a9a028f81641782d75d6e6b58dec70f29d2f61238a9e271690259d9bf5680",
+    "version.log": "355a9a028f81641782d75d6e6b58dec70f29d2f61238a9e271690259d9bf5680"
+  },
+  "manifest_sha256": "7149915669414e22f593ce2c6540c5e10d922eb758c7464794fc64764e679778",
+  "negative_controls": {
+    "custom_imported": "REJECTED_BY_AXIOM_GATE",
+    "false_fold": "REJECTED_BY_LEAN",
+    "false_power": "REJECTED_BY_LEAN",
+    "native": "REJECTED_BY_AXIOM_GATE",
+    "sorry": "REJECTED_BY_AXIOM_GATE"
+  },
+  "observations": {
+    "final": {
+      "dependency_revisions": {
+        "Cli": "e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204",
+        "LeanSearchClient": "ddf04cf3949fa556442341e87d47f9f6e6074707",
+        "Qq": "6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259",
+        "aesop": "355695d523e41d0554926416cba2a2b3544fbbc9",
+        "batteries": "f2effa3d803fda822b1f97b806c47cf2adfbcbc2",
+        "importGraph": "e928b72544873815af278d38681b31c0293588e3",
+        "mathlib": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+        "plausible": "118aa17ee84656b8bd727fef7c458ee8c833385c",
+        "proofwidgets": "106ff4fafc74ef4ac99d81dbf3ab399118f497a5"
+      },
+      "dependency_worktrees": "CLEAN",
+      "lean_version": "Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+      "manifest_sha256": "7149915669414e22f593ce2c6540c5e10d922eb758c7464794fc64764e679778"
+    },
+    "preflight": {
+      "dependency_revisions": {
+        "Cli": "e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204",
+        "LeanSearchClient": "ddf04cf3949fa556442341e87d47f9f6e6074707",
+        "Qq": "6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259",
+        "aesop": "355695d523e41d0554926416cba2a2b3544fbbc9",
+        "batteries": "f2effa3d803fda822b1f97b806c47cf2adfbcbc2",
+        "importGraph": "e928b72544873815af278d38681b31c0293588e3",
+        "mathlib": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+        "plausible": "118aa17ee84656b8bd727fef7c458ee8c833385c",
+        "proofwidgets": "106ff4fafc74ef4ac99d81dbf3ab399118f497a5"
+      },
+      "dependency_worktrees": "CLEAN",
+      "lean_version": "Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)",
+      "manifest_sha256": "7149915669414e22f593ce2c6540c5e10d922eb758c7464794fc64764e679778"
+    }
+  },
+  "repository": null,
+  "schema_version": 1,
+  "scientific_effect": "NONE",
+  "workflow_run_attempt": null,
+  "workflow_run_id": null
+}
+{
+  "emitted": true
+}
+Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)
+'D2MomentBridge.moment' depends on axioms: [propext, Classical.choice, Quot.sound]
+'D2MomentBridge.cubicResidual' depends on axioms: [propext, Classical.choice, Quot.sound]
+'D2MomentBridge.residual_sq_expand' depends on axioms: [propext, Classical.choice, Quot.sound]
+'D2MomentBridge.residual_sq_integrable' depends on axioms: [propext, Classical.choice, Quot.sound]
+'D2MomentBridge.residual_integral_eq_delta' depends on axioms: [propext, Classical.choice, Quot.sound]
+'D2MomentBridge.delta_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+'D2MomentBridge.delta_eq_zero_iff_residual' depends on axioms: [propext, Classical.choice, Quot.sound]
+'D2MomentBridge.cubicResidual_eq_zero_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'D2MomentBridge.delta_eq_zero_iff_support' depends on axioms: [propext, Classical.choice, Quot.sound]
+'D2MomentBridge.delta_pos_iff_not_support' depends on axioms: [propext, Classical.choice, Quot.sound]
+'D2MomentBridge.property_of_ae_of_atom' depends on axioms: [propext, Classical.choice, Quot.sound]
+'D2MomentBridge.moment_two_pos_of_atom' depends on axioms: [propext, Classical.choice, Quot.sound]
+'D2MomentBridge.delta_pos_of_two_atoms' depends on axioms: [propext, Classical.choice, Quot.sound]
+'D2MomentBridge.square_gap_integrable' depends on axioms: [propext, Classical.choice, Quot.sound]
+'D2MomentBridge.square_gap_integral' depends on axioms: [propext, Classical.choice, Quot.sound]
+'D2MomentBridge.fourth_gt_second_sq_of_two_atoms' depends on axioms: [propext, Classical.choice, Quot.sound]
+'D2MomentBridge.tau_pos_of_two_atoms' depends on axioms: [propext, Classical.choice, Quot.sound]
+'D2MomentBridge.zero_atom_counterexample' depends on axioms: [propext, Classical.choice, Quot.sound]
+D2MomentBridge.moment.{u_1} {Ω : Type u_1} [MeasurableSpace Ω] (μ : @MeasureTheory.Measure Ω inst✝) (X : Ω → Real)
+  (n : Nat) : Real
+D2MomentBridge.cubicResidual (c x : Real) : Real
+D2MomentBridge.residual_sq_expand (c x : Real) :
+  @Eq Real
+    (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid)))
+      (D2MomentBridge.cubicResidual c x) (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+    (@HAdd.hAdd Real Real Real (@instHAdd Real Real.instAdd)
+      (@HSub.hSub Real Real Real (@instHSub Real Real.instSub)
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) x
+          (@OfNat.ofNat Nat (nat_lit 6) (instOfNatNat (nat_lit 6))))
+        (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+          (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+            (@OfNat.ofNat Real (nat_lit 2) (@instOfNatAtLeastTwo Real (nat_lit 2) Real.instNatCast ⋯)) c)
+          (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) x
+            (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))))
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) c
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) x
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))))
+D2MomentBridge.residual_sq_integrable.{u_1} {Ω : Type u_1} [MeasurableSpace Ω] (μ : @MeasureTheory.Measure Ω inst✝)
+  (X : Ω → Real) (c : Real)
+  (h2 :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝
+      (fun w =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (X w)
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      μ)
+  (h4 :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝
+      (fun w =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (X w)
+          (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))
+      μ)
+  (h6 :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝
+      (fun w =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (X w)
+          (@OfNat.ofNat Nat (nat_lit 6) (instOfNatNat (nat_lit 6))))
+      μ) :
+  @MeasureTheory.Integrable Real
+    (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+    (@SeminormedAddGroup.toContinuousENorm Real
+      (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+        (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+          (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+            (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+              (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+    Ω inst✝
+    (fun w =>
+      @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid)))
+        (D2MomentBridge.cubicResidual c (X w)) (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+    μ
+D2MomentBridge.residual_integral_eq_delta.{u_1} {Ω : Type u_1} [MeasurableSpace Ω] (μ : @MeasureTheory.Measure Ω inst✝)
+  (X : Ω → Real)
+  (h2 :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝
+      (fun w =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (X w)
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      μ)
+  (h4 :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝
+      (fun w =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (X w)
+          (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))
+      μ)
+  (h6 :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝
+      (fun w =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (X w)
+          (@OfNat.ofNat Nat (nat_lit 6) (instOfNatNat (nat_lit 6))))
+      μ)
+  (hm2 :
+    @Ne Real (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero))) :
+  @Eq Real
+    (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+      (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+        (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+        (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+      inst✝ μ fun w =>
+      @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid)))
+        (D2MomentBridge.cubicResidual
+          (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+            (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))
+            (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+          (X w))
+        (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+    (ResearchFormalCoreR1.d2Delta
+      (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))
+      (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 6) (instOfNatNat (nat_lit 6)))))
+D2MomentBridge.delta_nonneg.{u_1} {Ω : Type u_1} [MeasurableSpace Ω] (μ : @MeasureTheory.Measure Ω inst✝) (X : Ω → Real)
+  (h2 :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝
+      (fun w =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (X w)
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      μ)
+  (h4 :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝
+      (fun w =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (X w)
+          (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))
+      μ)
+  (h6 :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝
+      (fun w =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (X w)
+          (@OfNat.ofNat Nat (nat_lit 6) (instOfNatNat (nat_lit 6))))
+      μ)
+  (hm2 :
+    @Ne Real (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero))) :
+  @LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero))
+    (ResearchFormalCoreR1.d2Delta
+      (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))
+      (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 6) (instOfNatNat (nat_lit 6)))))
+D2MomentBridge.delta_eq_zero_iff_residual.{u_1} {Ω : Type u_1} [MeasurableSpace Ω] (μ : @MeasureTheory.Measure Ω inst✝)
+  (X : Ω → Real)
+  (h2 :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝
+      (fun w =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (X w)
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      μ)
+  (h4 :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝
+      (fun w =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (X w)
+          (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))
+      μ)
+  (h6 :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝
+      (fun w =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (X w)
+          (@OfNat.ofNat Nat (nat_lit 6) (instOfNatNat (nat_lit 6))))
+      μ)
+  (hm2 :
+    @Ne Real (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero))) :
+  Iff
+    (@Eq Real
+      (ResearchFormalCoreR1.d2Delta
+        (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+        (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))
+        (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 6) (instOfNatNat (nat_lit 6)))))
+      (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)))
+    (@Filter.Eventually Ω
+      (fun w =>
+        @Eq Real
+          (D2MomentBridge.cubicResidual
+            (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+              (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))
+              (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+            (X w))
+          (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)))
+      (@MeasureTheory.ae Ω (@MeasureTheory.Measure Ω inst✝) (@MeasureTheory.Measure.instFunLike Ω inst✝) ⋯ μ))
+D2MomentBridge.cubicResidual_eq_zero_iff (c x : Real) :
+  Iff (@Eq Real (D2MomentBridge.cubicResidual c x) (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)))
+    (Or (@Eq Real x (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)))
+      (@Eq Real
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) x
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+        c))
+D2MomentBridge.delta_eq_zero_iff_support.{u_1} {Ω : Type u_1} [MeasurableSpace Ω] (μ : @MeasureTheory.Measure Ω inst✝)
+  (X : Ω → Real)
+  (h2 :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝
+      (fun w =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (X w)
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      μ)
+  (h4 :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝
+      (fun w =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (X w)
+          (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))
+      μ)
+  (h6 :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝
+      (fun w =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (X w)
+          (@OfNat.ofNat Nat (nat_lit 6) (instOfNatNat (nat_lit 6))))
+      μ)
+  (hm2 :
+    @Ne Real (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero))) :
+  Iff
+    (@Eq Real
+      (ResearchFormalCoreR1.d2Delta
+        (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+        (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))
+        (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 6) (instOfNatNat (nat_lit 6)))))
+      (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)))
+    (@Filter.Eventually Ω
+      (fun w =>
+        Or (@Eq Real (X w) (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)))
+          (@Eq Real
+            (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid)))
+              (X w) (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+            (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+              (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))
+              (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))))
+      (@MeasureTheory.ae Ω (@MeasureTheory.Measure Ω inst✝) (@MeasureTheory.Measure.instFunLike Ω inst✝) ⋯ μ))
+D2MomentBridge.delta_pos_iff_not_support.{u_1} {Ω : Type u_1} [MeasurableSpace Ω] (μ : @MeasureTheory.Measure Ω inst✝)
+  (X : Ω → Real)
+  (h2 :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝
+      (fun w =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (X w)
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      μ)
+  (h4 :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝
+      (fun w =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (X w)
+          (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))
+      μ)
+  (h6 :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝
+      (fun w =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (X w)
+          (@OfNat.ofNat Nat (nat_lit 6) (instOfNatNat (nat_lit 6))))
+      μ)
+  (hm2 :
+    @Ne Real (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero))) :
+  Iff
+    (@LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero))
+      (ResearchFormalCoreR1.d2Delta
+        (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+        (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))
+        (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 6) (instOfNatNat (nat_lit 6))))))
+    (Not
+      (@Filter.Eventually Ω
+        (fun w =>
+          Or (@Eq Real (X w) (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)))
+            (@Eq Real
+              (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid)))
+                (X w) (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+              (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+                (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))
+                (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))))
+        (@MeasureTheory.ae Ω (@MeasureTheory.Measure Ω inst✝) (@MeasureTheory.Measure.instFunLike Ω inst✝) ⋯ μ)))
+D2MomentBridge.property_of_ae_of_atom.{u_1} {Ω : Type u_1} [MeasurableSpace Ω] (μ : @MeasureTheory.Measure Ω inst✝)
+  (X : Ω → Real) (p : Real → Prop)
+  (h :
+    @Filter.Eventually Ω (fun w => p (X w))
+      (@MeasureTheory.ae Ω (@MeasureTheory.Measure Ω inst✝) (@MeasureTheory.Measure.instFunLike Ω inst✝) ⋯ μ))
+  (a : Real)
+  (ha :
+    @Ne ENNReal
+      (@DFunLike.coe (@MeasureTheory.Measure Ω inst✝) (Set Ω) (fun x => ENNReal)
+        (@MeasureTheory.Measure.instFunLike Ω inst✝) μ (@Set.ofPred Ω fun w => @Eq Real (X w) a))
+      (@OfNat.ofNat ENNReal (nat_lit 0) (@Zero.toOfNat0 ENNReal ENNReal.instZero))) :
+  p a
+D2MomentBridge.moment_two_pos_of_atom.{u_1} {Ω : Type u_1} [MeasurableSpace Ω] (μ : @MeasureTheory.Measure Ω inst✝)
+  (X : Ω → Real)
+  (h2 :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝
+      (fun w =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (X w)
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      μ)
+  (a : Real) (ha0 : @Ne Real a (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)))
+  (ha :
+    @Ne ENNReal
+      (@DFunLike.coe (@MeasureTheory.Measure Ω inst✝) (Set Ω) (fun x => ENNReal)
+        (@MeasureTheory.Measure.instFunLike Ω inst✝) μ (@Set.ofPred Ω fun w => @Eq Real (X w) a))
+      (@OfNat.ofNat ENNReal (nat_lit 0) (@Zero.toOfNat0 ENNReal ENNReal.instZero))) :
+  @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero))
+    (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+D2MomentBridge.delta_pos_of_two_atoms.{u_1} {Ω : Type u_1} [MeasurableSpace Ω] (μ : @MeasureTheory.Measure Ω inst✝)
+  (X : Ω → Real)
+  (h2 :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝
+      (fun w =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (X w)
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      μ)
+  (h4 :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝
+      (fun w =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (X w)
+          (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))
+      μ)
+  (h6 :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝
+      (fun w =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (X w)
+          (@OfNat.ofNat Nat (nat_lit 6) (instOfNatNat (nat_lit 6))))
+      μ)
+  (a b : Real) (ha0 : @Ne Real a (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)))
+  (hb0 : @Ne Real b (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)))
+  (hab :
+    @Ne Real
+      (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) a
+        (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) b
+        (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+  (ha :
+    @Ne ENNReal
+      (@DFunLike.coe (@MeasureTheory.Measure Ω inst✝) (Set Ω) (fun x => ENNReal)
+        (@MeasureTheory.Measure.instFunLike Ω inst✝) μ (@Set.ofPred Ω fun w => @Eq Real (X w) a))
+      (@OfNat.ofNat ENNReal (nat_lit 0) (@Zero.toOfNat0 ENNReal ENNReal.instZero)))
+  (hb :
+    @Ne ENNReal
+      (@DFunLike.coe (@MeasureTheory.Measure Ω inst✝) (Set Ω) (fun x => ENNReal)
+        (@MeasureTheory.Measure.instFunLike Ω inst✝) μ (@Set.ofPred Ω fun w => @Eq Real (X w) b))
+      (@OfNat.ofNat ENNReal (nat_lit 0) (@Zero.toOfNat0 ENNReal ENNReal.instZero))) :
+  @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero))
+    (ResearchFormalCoreR1.d2Delta
+      (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))
+      (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 6) (instOfNatNat (nat_lit 6)))))
+D2MomentBridge.square_gap_integrable.{u_1} {Ω : Type u_1} [MeasurableSpace Ω] (μ : @MeasureTheory.Measure Ω inst✝)
+  [@MeasureTheory.IsProbabilityMeasure Ω inst✝ μ] (X : Ω → Real)
+  (h2 :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝
+      (fun w =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (X w)
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      μ)
+  (h4 :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝
+      (fun w =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (X w)
+          (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))
+      μ) :
+  @MeasureTheory.Integrable Real
+    (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+    (@SeminormedAddGroup.toContinuousENorm Real
+      (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+        (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+          (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+            (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+              (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+    Ω inst✝
+    (fun w =>
+      @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid)))
+        (@HSub.hSub Real Real Real (@instHSub Real Real.instSub)
+          (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (X w)
+            (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+          (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+        (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+    μ
+D2MomentBridge.square_gap_integral.{u_1} {Ω : Type u_1} [MeasurableSpace Ω] (μ : @MeasureTheory.Measure Ω inst✝)
+  [@MeasureTheory.IsProbabilityMeasure Ω inst✝ μ] (X : Ω → Real)
+  (h2 :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝
+      (fun w =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (X w)
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      μ)
+  (h4 :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝
+      (fun w =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (X w)
+          (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))
+      μ) :
+  @Eq Real
+    (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+      (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+        (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+        (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+      inst✝ μ fun w =>
+      @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid)))
+        (@HSub.hSub Real Real Real (@instHSub Real Real.instSub)
+          (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (X w)
+            (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+          (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+        (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+    (@HSub.hSub Real Real Real (@instHSub Real Real.instSub)
+      (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))
+      (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid)))
+        (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+        (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+D2MomentBridge.fourth_gt_second_sq_of_two_atoms.{u_1} {Ω : Type u_1} [MeasurableSpace Ω]
+  (μ : @MeasureTheory.Measure Ω inst✝) [@MeasureTheory.IsProbabilityMeasure Ω inst✝ μ] (X : Ω → Real)
+  (h2 :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝
+      (fun w =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (X w)
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      μ)
+  (h4 :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝
+      (fun w =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (X w)
+          (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))
+      μ)
+  (a b : Real)
+  (hab :
+    @Ne Real
+      (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) a
+        (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) b
+        (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+  (ha :
+    @Ne ENNReal
+      (@DFunLike.coe (@MeasureTheory.Measure Ω inst✝) (Set Ω) (fun x => ENNReal)
+        (@MeasureTheory.Measure.instFunLike Ω inst✝) μ (@Set.ofPred Ω fun w => @Eq Real (X w) a))
+      (@OfNat.ofNat ENNReal (nat_lit 0) (@Zero.toOfNat0 ENNReal ENNReal.instZero)))
+  (hb :
+    @Ne ENNReal
+      (@DFunLike.coe (@MeasureTheory.Measure Ω inst✝) (Set Ω) (fun x => ENNReal)
+        (@MeasureTheory.Measure.instFunLike Ω inst✝) μ (@Set.ofPred Ω fun w => @Eq Real (X w) b))
+      (@OfNat.ofNat ENNReal (nat_lit 0) (@Zero.toOfNat0 ENNReal ENNReal.instZero))) :
+  @LT.lt Real Real.instLT
+    (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid)))
+      (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+    (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))
+D2MomentBridge.tau_pos_of_two_atoms.{u_1} {Ω : Type u_1} [MeasurableSpace Ω] (μ : @MeasureTheory.Measure Ω inst✝)
+  [@MeasureTheory.IsProbabilityMeasure Ω inst✝ μ] (X : Ω → Real)
+  (h2 :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝
+      (fun w =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (X w)
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      μ)
+  (h4 :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝
+      (fun w =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (X w)
+          (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))
+      μ)
+  (h6 :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝
+      (fun w =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (X w)
+          (@OfNat.ofNat Nat (nat_lit 6) (instOfNatNat (nat_lit 6))))
+      μ)
+  (a b q : Real) (ha0 : @Ne Real a (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)))
+  (hb0 : @Ne Real b (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)))
+  (hab :
+    @Ne Real
+      (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) a
+        (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) b
+        (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+  (ha :
+    @Ne ENNReal
+      (@DFunLike.coe (@MeasureTheory.Measure Ω inst✝) (Set Ω) (fun x => ENNReal)
+        (@MeasureTheory.Measure.instFunLike Ω inst✝) μ (@Set.ofPred Ω fun w => @Eq Real (X w) a))
+      (@OfNat.ofNat ENNReal (nat_lit 0) (@Zero.toOfNat0 ENNReal ENNReal.instZero)))
+  (hb :
+    @Ne ENNReal
+      (@DFunLike.coe (@MeasureTheory.Measure Ω inst✝) (Set Ω) (fun x => ENNReal)
+        (@MeasureTheory.Measure.instFunLike Ω inst✝) μ (@Set.ofPred Ω fun w => @Eq Real (X w) b))
+      (@OfNat.ofNat ENNReal (nat_lit 0) (@Zero.toOfNat0 ENNReal ENNReal.instZero)))
+  (hq0 : @LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) q)
+  (hq1 :
+    @LE.le Real Real.instLE q
+      (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+        (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+        (@OfNat.ofNat Real (nat_lit 4) (@instOfNatAtLeastTwo Real (nat_lit 4) Real.instNatCast ⋯)))) :
+  @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero))
+    (ResearchFormalCoreR1.d2Tau
+      (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))
+      (@D2MomentBridge.moment Ω inst✝ μ X (@OfNat.ofNat Nat (nat_lit 6) (instOfNatNat (nat_lit 6)))) q)
+D2MomentBridge.zero_atom_counterexample :
+  And
+    (@Eq Real
+      (@HSub.hSub Real Real Real (@instHSub Real Real.instSub)
+        (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+          (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+          (@OfNat.ofNat Real (nat_lit 2) (@instOfNatAtLeastTwo Real (nat_lit 2) Real.instNatCast ⋯)))
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid)))
+          (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+            (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+            (@OfNat.ofNat Real (nat_lit 2) (@instOfNatAtLeastTwo Real (nat_lit 2) Real.instNatCast ⋯)))
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+      (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+        (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+        (@OfNat.ofNat Real (nat_lit 4) (@instOfNatAtLeastTwo Real (nat_lit 4) Real.instNatCast ⋯))))
+    (@Eq Real
+      (ResearchFormalCoreR1.d2Delta
+        (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+          (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+          (@OfNat.ofNat Real (nat_lit 2) (@instOfNatAtLeastTwo Real (nat_lit 2) Real.instNatCast ⋯)))
+        (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+          (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+          (@OfNat.ofNat Real (nat_lit 2) (@instOfNatAtLeastTwo Real (nat_lit 2) Real.instNatCast ⋯)))
+        (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+          (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+          (@OfNat.ofNat Real (nat_lit 2) (@instOfNatAtLeastTwo Real (nat_lit 2) Real.instNatCast ⋯))))
+      (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)))
+{
+  "negative": "RejectZeroAtom"
+}
+{
+  "negative": "RejectSameRadius"
+}
+{
+  "alignment_status": "PENDING_INDEPENDENT_REVIEW",
+  "axioms": {
+    "D2MomentBridge.cubicResidual": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "D2MomentBridge.cubicResidual_eq_zero_iff": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "D2MomentBridge.delta_eq_zero_iff_residual": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "D2MomentBridge.delta_eq_zero_iff_support": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "D2MomentBridge.delta_nonneg": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "D2MomentBridge.delta_pos_iff_not_support": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "D2MomentBridge.delta_pos_of_two_atoms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "D2MomentBridge.fourth_gt_second_sq_of_two_atoms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "D2MomentBridge.moment": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "D2MomentBridge.moment_two_pos_of_atom": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "D2MomentBridge.property_of_ae_of_atom": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "D2MomentBridge.residual_integral_eq_delta": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "D2MomentBridge.residual_sq_expand": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "D2MomentBridge.residual_sq_integrable": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "D2MomentBridge.square_gap_integrable": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "D2MomentBridge.square_gap_integral": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "D2MomentBridge.tau_pos_of_two_atoms": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ],
+    "D2MomentBridge.zero_atom_counterexample": [
+      "Classical.choice",
+      "Quot.sound",
+      "propext"
+    ]
+  },
+  "checked_commit": "7c1cd5d0bd896fa09b284da84787fd27d97d8041",
+  "core_receipt_sha256": "79464b17afc687e3e5b4d7f5a1766d9fe8c91b0c3aa3cf44007649ea712665d9",
+  "core_tree": "fc0b11706d064b9de42331ee0a2464865107b87b",
+  "declarations": [
+    "D2MomentBridge.moment",
+    "D2MomentBridge.cubicResidual",
+    "D2MomentBridge.residual_sq_expand",
+    "D2MomentBridge.residual_sq_integrable",
+    "D2MomentBridge.residual_integral_eq_delta",
+    "D2MomentBridge.delta_nonneg",
+    "D2MomentBridge.delta_eq_zero_iff_residual",
+    "D2MomentBridge.cubicResidual_eq_zero_iff",
+    "D2MomentBridge.delta_eq_zero_iff_support",
+    "D2MomentBridge.delta_pos_iff_not_support",
+    "D2MomentBridge.property_of_ae_of_atom",
+    "D2MomentBridge.moment_two_pos_of_atom",
+    "D2MomentBridge.delta_pos_of_two_atoms",
+    "D2MomentBridge.square_gap_integrable",
+    "D2MomentBridge.square_gap_integral",
+    "D2MomentBridge.fourth_gt_second_sq_of_two_atoms",
+    "D2MomentBridge.tau_pos_of_two_atoms",
+    "D2MomentBridge.zero_atom_counterexample"
+  ],
+  "definition_count": 2,
+  "final_observation": {
+    "dependency_revisions": {
+      "Cli": "e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204",
+      "LeanSearchClient": "ddf04cf3949fa556442341e87d47f9f6e6074707",
+      "Qq": "6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259",
+      "aesop": "355695d523e41d0554926416cba2a2b3544fbbc9",
+      "batteries": "f2effa3d803fda822b1f97b806c47cf2adfbcbc2",
+      "importGraph": "e928b72544873815af278d38681b31c0293588e3",
+      "mathlib": "d13f23b723b8a846827a245b89c10fc7d3f11612",
+      "plausible": "118aa17ee84656b8bd727fef7c458ee8c833385c",
+      "proofwidgets": "106ff4fafc74ef4ac99d81dbf3ab399118f497a5"
+    },
+    "dependency_worktrees": "CLEAN",
+    "lean_version": "Lean (version 4.34.1, x86_64-unknown-linux-gnu, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)"
+  },
+  "formalization_status": "kernel-checked",
+  "log_sha256": {
+    "Audit.lean": "ce152272d8add65877380cdc5fb4422f04022632e1465926ef7ca279238211fc",
+    "Positive.lean": "c358f2fd15b9afc9cfd38b398dc1acef31e986b8fe223a8973c359ee2835a7b1",
+    "RejectSameRadius.lean": "14672c49ea9e8286ec5cae80526afd84b681abf04cb87b280b6712078d2ce18e",
+    "RejectSameRadius.log": "7c52f6ad63bc839deb85a57eede229d4f17a99435fb1233028b33ad0c59f639c",
+    "RejectSameRadius.status": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "RejectZeroAtom.lean": "3c7f1e93b819c9982700e9c302f37b86789bf1f6d03af8f5f1327f5defc8f026",
+    "RejectZeroAtom.log": "721bbf27017fbefad3cb10c01ca0b5ca769237e67401b5926a02a2c92ece520b",
+    "RejectZeroAtom.status": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+    "Types.lean": "bcc26e9e5e6e34fac8be9eedfb355e7dad523bb2e8860d698a109c2fb7b78b6c",
+    "axioms.log": "38523bb6678a8963854afcc437741efa55fdcc67c22170c49900c53287345090",
+    "axioms.status": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "build.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "build.status": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "core-execute.log": "d671c30b804f539fa39a4ed06f3a9941112c5b186d8666f49d9e717c9aa5f840",
+    "core-tests-optimized.log": "0d9f5886ae0d9fcf9075eb93694d642a8390a3319a0bbcb90c49195f99eac23a",
+    "core-tests.log": "469cef468597646fc9ccbf8b8ad5529de7cfd67e813204f8d808cbe314f0483c",
+    "leanchecker.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "leanchecker.status": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "packages-final.log": "98c0687a9b5e5e4c13182567e8c3c47d1f7db7b9cbdaa9cd1154861b8595de3c",
+    "positive.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "positive.status": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+    "source.json": "96a10c9f20f126cbb6a6d352ae6d41733cf7d58aacb6309ffc0f830d6a280e3a",
+    "tests-optimized.log": "a442db28de959100e97b152bd72ecbd5cee90ee5dac2090d89cc551854ebf749",
+    "tests.log": "40f77463ea50fc9a423f7774956f399d8c43d475c5980ba105d8a2b3a361989e",
+    "toolchain-final.log": "355a9a028f81641782d75d6e6b58dec70f29d2f61238a9e271690259d9bf5680",
+    "toolchain.log": "355a9a028f81641782d75d6e6b58dec70f29d2f61238a9e271690259d9bf5680",
+    "types.log": "f9ed0566e1ac8551f5a0faff35e3e8a576f9618c334844e93ec986957b53b309",
+    "types.status": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa"
+  },
+  "repository": "d6g8k5htny-coder/Math-",
+  "run_attempt": "local",
+  "run_id": "local",
+  "scientific_acceptance": false,
+  "scientific_effect": "NONE",
+  "sources": {
+    ".github/workflows/d2-moment-bridge.yml": {
+      "bytes": 1665,
+      "git_blob": "069d028c5080f9f81728d6aca0c557d0fa2abeaf",
+      "sha256": "7893a4b0b407cea0f54ed3db3cde9d02b41dda518b9c5ac89db69459785fa337"
+    },
+    "companions/d2_moment_bridge_20261006/D2MomentBridge.lean": {
+      "bytes": 10696,
+      "git_blob": "b3184107e290189b91e3e18fd2aa1cb631bb9bde",
+      "sha256": "cde3bbd96eb29eb9ab7ff1448ffab1f794fb2b80355ac618800155eea6ccc42f"
+    },
+    "companions/d2_moment_bridge_20261006/README.md": {
+      "bytes": 12277,
+      "git_blob": "005796b5527601c1156d2deaa9c950adf253faf3",
+      "sha256": "16b5b7e07eaa2a047160c2a295333eea370644d8343b635d6d92a4556a33eff6"
+    },
+    "companions/d2_moment_bridge_20261006/SOURCE_FILES.json": {
+      "bytes": 2139,
+      "git_blob": "76b1c59d2ea8b0ba98384888408bc92be0d52bd0",
+      "sha256": "72aa3c4bd8c7cf7cef6eb723f6a3c0e722e023fbca6cfc09645b6bb7dd74d8d1"
+    },
+    "companions/d2_moment_bridge_20261006/check.py": {
+      "bytes": 10232,
+      "git_blob": "867324d3829e35d503df993f1a69a159c4a664c0",
+      "sha256": "04310a141a4c042eb8d255bba2c073b9ec348460e6dc522b6d7189285acd2730"
+    },
+    "companions/d2_moment_bridge_20261006/replay.sh": {
+      "bytes": 2793,
+      "git_blob": "8661a6c998fc2900c7a6dba66c548341887999ee",
+      "sha256": "1e50e7ffc5c68b3771e32f2574d709d055a9b5b43ef1fa74bcaccfc14e912a68"
+    },
+    "companions/d2_moment_bridge_20261006/test_bridge.py": {
+      "bytes": 11134,
+      "git_blob": "5bcc4628bf61f035f96f7a4faf6c796a38e05fe9",
+      "sha256": "cf257c0dd750c5cc108d5af5d61129531d7f57e2ed03c6a5ab8261964fb25469"
+    }
+  },
+  "theorem_count": 16
+}
+PASS: actual-law D2 companion; concrete periodic law and scientific acceptance remain unproved here.
+### EXIT 0 after 854s: bash companions/d2_moment_bridge_20261006/replay.sh
+### TRACKED DIFF:
+### PACKAGES AFTER:
+Cli e92c9f15fdfacc8536f31cfb3b7ad26c3c8cd204 clean
+LeanSearchClient ddf04cf3949fa556442341e87d47f9f6e6074707 clean
+Qq 6a489d9af5d0c47e5b259e2e8bcdfc1811b5a259 clean
+aesop 355695d523e41d0554926416cba2a2b3544fbbc9 clean
+batteries f2effa3d803fda822b1f97b806c47cf2adfbcbc2 clean
+importGraph e928b72544873815af278d38681b31c0293588e3 clean
+mathlib d13f23b723b8a846827a245b89c10fc7d3f11612 clean
+plausible 118aa17ee84656b8bd727fef7c458ee8c833385c clean
+proofwidgets 106ff4fafc74ef4ac99d81dbf3ab399118f497a5 clean
+### ROW RESULT rc=0 end=2026-10-13T21:21:12Z

@@ -1,0 +1,59 @@
+From 9454ed1c21d10132d883863649c2de1487cefa3f Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Tue, 13 Oct 2026 20:58:54 +0000
+Subject: [PATCH 5/7] Cap: document the runtime guard successor in README and
+ re-pin it
+
+Appends a dated section describing the exact-release check and the preflight
+and final observations; earlier text unchanged. MANIFEST.json re-pins only
+README.md's bytes and sha256.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01Cz7WZybv8znP64SpPj6sWY
+---
+ .../cap_first_exit_lean_20261002/MANIFEST.json   |  4 ++--
+ frontiers/cap_first_exit_lean_20261002/README.md | 16 ++++++++++++++++
+ 2 files changed, 18 insertions(+), 2 deletions(-)
+
+diff --git a/frontiers/cap_first_exit_lean_20261002/MANIFEST.json b/frontiers/cap_first_exit_lean_20261002/MANIFEST.json
+index b37796d..5252de5 100644
+--- a/frontiers/cap_first_exit_lean_20261002/MANIFEST.json
++++ b/frontiers/cap_first_exit_lean_20261002/MANIFEST.json
+@@ -966,8 +966,8 @@
+   },
+   {
+    "path": "README.md",
+-   "bytes": 30364,
+-   "sha256": "826c0d67f25119f242575f65c29e70c2621266980b96527a428bbba6aa04a2ab"
++   "bytes": 31519,
++   "sha256": "7eb062ebd12cb181bab71d00fbc3f86d9b8b515222ec5cedf01d50246d0e644a"
+   },
+   {
+    "path": "gate.py",
+diff --git a/frontiers/cap_first_exit_lean_20261002/README.md b/frontiers/cap_first_exit_lean_20261002/README.md
+index 4f5e1bf..e87c1b1 100644
+--- a/frontiers/cap_first_exit_lean_20261002/README.md
++++ b/frontiers/cap_first_exit_lean_20261002/README.md
+@@ -235,3 +235,19 @@ The workflow `.github/workflows/cap-first-exit-lean.yml` runs all of this on pul
+ A green run is kernel evidence for the displayed Lean statements, relative to Lean's kernel and the pinned toolchain.
+ It does not show that the statements say what the source says. That is the job of the alignment review requested
+ in [ALIGNMENT.md](ALIGNMENT.md), which must come from a non-Claude lane.
++
++## Uniform runtime guard successor (2026-10-13)
++
++The tool/version adoption guard ([main#275 6154089628](https://github.com/d6g8k5htny-coder/main/issues/275#issuecomment-6154089628))
++tightens `gate.py --execute`:
++
++- the version check now requires the full official release: the last line of `lake env lean --version` must be
++  `Lean (version 4.34.1, …, commit 5045d0056413266e57c625dcd7c365b10e377c52, Release)`, with only `info:` lines
++  before it. A matching semver with another commit, or a non-Release build, is refused;
++- one observation is taken before the first Lean execution and one after the last: the exact release, every
++  dependency at its pinned HEAD with a clean worktree, and a digest of the bound source (this manifest, its files
++  and the pinned sources on `main`). The two must be equal, or no receipt is written;
++- the receipt adds `observations` (`preflight` and `final`); every earlier key keeps its meaning.
++
++The new tests drive `execute` with synthetic process results and do not run Lean. The paragraphs above are kept as
++written. This changes no statement, proof, import, toolchain or dependency pin, and no scientific status.
+-- 
+2.43.0
+

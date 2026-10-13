@@ -1,0 +1,490 @@
+diff --git a/companions/torus_filtration_20261011/README.md b/companions/torus_filtration_20261011/README.md
+index 41dd087..0611e85 100644
+--- a/companions/torus_filtration_20261011/README.md
++++ b/companions/torus_filtration_20261011/README.md
+@@ -612,23 +612,31 @@ and only the axiom audit refuses them, which is what the audit is for. `check.py
+ `re.fullmatch` on each log, so a crash, an extra error or a different exit code is a failed
+ control, not a passed one. `check.py finish` refuses an evidence directory that already holds
+ `receipt.json` (a receipt is written once and never replaced; a new attempt needs a fresh
+-directory) and requires exactly the 72 evidence files, each a regular file and nothing else: the
++directory) and requires exactly the 74 evidence files, each a regular file and nothing else: the
+ sixteen emitted Lean files (`Audit.lean`, `Types.lean`, `Positive.lean`, `Census.lean` and the
+ twelve controls' `.lean`), a `.log` and `.status` pair for each of the thirteen Lean processes (the
+ external Field build `build-spec-Field`, seven module builds, `positive`, `axioms`, `types`,
+ `census`, `leanchecker`), the twelve controls'
+-`.log`/`.status`, `leanchecker.cmd`, `packages.log`, `toolchain.log`, `source.json`,
++`.log`/`.status`, `leanchecker.cmd`, `packages.log`, `toolchain.log`, `toolchain-final.log`,
++`packages-final.log`, `source.json`,
+ `tests.log` and `tests-optimized.log` (`EVIDENCE_FILES` in `check.py`; C262 finding G3; 44
+ members before the C263/C264 registration added two builds and two controls, 54 before the
+ item-4 controls added one build and three controls, 65 before the Field adapter added two builds
+-and one control). It then
++and one control, 72 before the runtime guard added the two observations after the last Lean
++execution). It then
+ re-runs the source binding, re-derives the sixteen emitted Lean files and requires byte equality
+-with the ones Lean consumed, checks every status, the toolchain line, the installed package
+-HEADs against `formal/lake-manifest.json`, the recorded `leanchecker` invocation, the axiom and
++with the ones Lean consumed, checks every status, the runtime guard (the replay observes the running
++Lean and every installed package, as `<name> <HEAD> <clean|dirty>`, before the first Lean execution in
++`toolchain.log` and `packages.log` and again after the last one in `toolchain-final.log` and
++`packages-final.log`; both toolchain lines must match the pinned release and commit and be
++byte-identical, and both package observations must list exactly the HEADs of
++`formal/lake-manifest.json` with clean worktrees; the receipt records the final observation as
++`lean_version_final`, `dependency_revisions_final` and `dependency_worktrees`; two observations
++are two instants and do not show that nothing changed between them), the recorded `leanchecker` invocation, the axiom and
+ type inventories, the declaration census and the twelve controls, and writes `receipt.json` (which
+ also carries the external input record `external_inputs`, and whose `scope_note`, in the default
+ modules mode, names the external `Specifications.Field` among what `leanchecker` replayed; in
+-`--fresh` mode it says the whole import closure was re-checked from scratch) with `log_sha256` over exactly those 72 files, created exclusively (`O_EXCL`, `O_NOFOLLOW`). The
++`--fresh` mode it says the whole import closure was re-checked from scratch) with `log_sha256` over exactly those 74 files, created exclusively (`O_EXCL`, `O_NOFOLLOW`). The
+ evidence directory `.lake/torus-filtration-evidence` and the Field build directory
+ `.lake/torus-filtration-spec` must not pre-exist.
+ 
+diff --git a/companions/torus_filtration_20261011/SOURCE_FILES.json b/companions/torus_filtration_20261011/SOURCE_FILES.json
+index c00edb6..4234b2a 100644
+--- a/companions/torus_filtration_20261011/SOURCE_FILES.json
++++ b/companions/torus_filtration_20261011/SOURCE_FILES.json
+@@ -115,9 +115,9 @@
+       "sha256": "df9d3645282ca526b67eca3d5db691b622092a14b5fddee9be21013e39666184"
+     },
+     "companions/torus_filtration_20261011/README.md": {
+-      "bytes": 102550,
+-      "git_blob": "41dd08778188ddfbce2319dafe642671e6df4aae",
+-      "sha256": "f587577832bd62e90a42711f0e984caeefa0648661032cd477330e8477e03895"
++      "bytes": 103271,
++      "git_blob": "0611e8588e60888aa9ef93a7e45170c7765ef00a",
++      "sha256": "d348b4774a76c1eca7268ea896e4bd7659ea33343cab98ef673012825fee7289"
+     },
+     "companions/torus_filtration_20261011/SCOPE.md": {
+       "bytes": 41948,
+@@ -145,19 +145,19 @@
+       "sha256": "ddb145b3f791c181d4f2a51e54e711937297bd6476ba55bcd5252b7ddb57cfe1"
+     },
+     "companions/torus_filtration_20261011/check.py": {
+-      "bytes": 63394,
+-      "git_blob": "45681a4b936f8a9a83985cbd47f54a4102ba66b4",
+-      "sha256": "8ed25915a7de769bd9eb64032d50e09960ce49fd90e86404e20b356be4747450"
++      "bytes": 65278,
++      "git_blob": "06d6b92cc54976de5a18b60635cc9ca552bfccc1",
++      "sha256": "b4625bc486ed55b5a0bccf9f86a1421a5eec966b874a1122cd3587ef4f6fa27e"
+     },
+     "companions/torus_filtration_20261011/replay.sh": {
+-      "bytes": 7304,
+-      "git_blob": "ffc29a41f01b7007abeeb1460d03e010f204c016",
+-      "sha256": "0d481c72bbccbc5bd64250108a8481e7c1e66f2046592ef1e0341aab8d5030e2"
++      "bytes": 8279,
++      "git_blob": "4ec7c04837e4d6afcb5c5c988b6f776e720674b7",
++      "sha256": "89f6081cdba62de5ad8e2e87882f47fc6df7f83a3bcf83ac7e7da3470459caeb"
+     },
+     "companions/torus_filtration_20261011/test_torus_filtration.py": {
+-      "bytes": 158823,
+-      "git_blob": "44e4445e6f78fcaaf930595c673cc7fdc8faf9fd",
+-      "sha256": "fdd126fb0ca6281a7d4d08c1caeb6cfcbd0875d200f02b56ad2ef9f277250450"
++      "bytes": 171433,
++      "git_blob": "764f38e657225e65589b29e7d2c2cef206b0a382",
++      "sha256": "6170e7fdce8ba07243d37d8360640199fef7e0c27de926bda387924d4d7ad93a"
+     }
+   },
+   "modules": [
+diff --git a/companions/torus_filtration_20261011/check.py b/companions/torus_filtration_20261011/check.py
+index 45681a4..06d6b92 100644
+--- a/companions/torus_filtration_20261011/check.py
++++ b/companions/torus_filtration_20261011/check.py
+@@ -322,7 +322,9 @@ INJECTIONS = {
+ CONTROLS = tuple(FALSE_CONTROLS) + tuple(INJECTIONS)
+ # The exact membership of the evidence directory when `finish` runs (C262 gate review G3): the sixteen files emit()
+ # writes, a .log/.status pair per Lean process (the external Field build, seven module builds, positive, axioms, types,
+-# census, leanchecker, twelve controls), the two protocol-test transcripts and the four environment records.
++# census, leanchecker, twelve controls), the two protocol-test transcripts and the six environment records (source.json,
++# leanchecker.cmd, and the runtime guard's two observations of the running Lean and the installed dependencies: toolchain.log
++# and packages.log before the first Lean execution, toolchain-final.log and packages-final.log after the last one).
+ # finish() refuses a directory with any member missing or unexpected, any member that is not a regular file, and
+ # any directory already holding receipt.json: a receipt is written once and never replaced.
+ EMITTED_FILES = ('Audit.lean', 'Types.lean', 'Positive.lean', 'Census.lean') + tuple(c + '.lean' for c in CONTROLS)
+@@ -356,13 +358,15 @@ open Lean in
+ '''
+ EVIDENCE_FILES = frozenset(EMITTED_FILES) | {label + ext for label in BUILDS for ext in ('.log', '.status')} \
+     | {control + ext for control in CONTROLS for ext in ('.log', '.status')} \
+-    | {'leanchecker.cmd', 'packages.log', 'toolchain.log', 'source.json', 'tests.log', 'tests-optimized.log'}
+-# 16 emitted + 13 processes x 2 + 12 controls x 2 + 6 records = 72 (44 before the C263/C264 registration added two
++    | {'leanchecker.cmd', 'packages.log', 'toolchain.log', 'source.json', 'tests.log', 'tests-optimized.log',
++       'toolchain-final.log', 'packages-final.log'}
++# 16 emitted + 13 processes x 2 + 12 controls x 2 + 8 records = 74 (44 before the C263/C264 registration added two
+ # module builds and two controls, 54 before OrdinaryH0Controls added one module build and three controls: 2 + 3 x 3,
+-# 65 before SuperlevelBarField added two builds, the external Field and the module, and one control: 2 x 2 + 3).
++# 65 before SuperlevelBarField added two builds, the external Field and the module, and one control: 2 x 2 + 3,
++# 72 before the runtime guard added the two observations after the last Lean execution).
+ # An explicit check, not an `assert`: the gate must hold under -O too.
+-if len(EVIDENCE_FILES) != 72:
+-    raise RuntimeError('EVIDENCE_FILES must enumerate exactly 72 members')
++if len(EVIDENCE_FILES) != 74:
++    raise RuntimeError('EVIDENCE_FILES must enumerate exactly 74 members')
+ POSITIVE = '''import TorusFiltration
+ open TorusFiltration
+ 
+@@ -681,16 +685,22 @@ def lean_version(text):
+     return version
+ 
+ 
+-def packages(text, expected):
++def packages(text, expected, record='packages.log'):
++    """Parse one dependency observation (`<name> <HEAD> <clean|dirty>` per installed package, replay.sh
++    observe_packages): the installed set and HEADs must equal `expected` exactly and every worktree must be clean."""
+     records = {}
++    dirty = []
+     for line in text.splitlines():
+-        match = re.fullmatch(r'([A-Za-z][A-Za-z0-9_.-]*) ([0-9a-f]{40})', line)
+-        require(match is not None, 'malformed package line: ' + repr(line))
+-        name, rev = match.groups()
+-        require(name not in records, 'duplicate installed package: ' + name)
++        match = re.fullmatch(r'([A-Za-z][A-Za-z0-9_.-]*) ([0-9a-f]{40}) (clean|dirty)', line)
++        require(match is not None, 'malformed package line in ' + record + ': ' + repr(line))
++        name, rev, state = match.groups()
++        require(name not in records, 'duplicate installed package in ' + record + ': ' + name)
+         records[name] = rev
+-    require(records == expected, 'installed dependency HEADs differ from formal/lake-manifest.json: '
++        if state != 'clean':
++            dirty.append(name)
++    require(records == expected, 'installed dependency HEADs differ from formal/lake-manifest.json in ' + record + ': '
+             + repr(sorted(set(records.items()) ^ set(expected.items()))))
++    require(not dirty, 'installed dependency worktree not clean in ' + record + ': ' + repr(sorted(dirty)))
+     return records
+ 
+ 
+@@ -818,8 +828,16 @@ def finish(out):
+             consumed = out / emitted.name
+             require(consumed.is_file() and consumed.read_bytes() == emitted.read_bytes(),
+                     'emitted Lean file changed across execution: ' + emitted.name)
++    # Runtime guard: the running Lean and the installed dependencies, observed before the first Lean execution and again
++    # after the last one, must each be the pinned release and the manifest's revisions with clean worktrees, and the two
++    # toolchain observations must be byte-identical. Two instants, not continuous custody of the runtime between them.
++    expected = current['environment']['dependency_revisions']
+     version = lean_version((out / 'toolchain.log').read_text())
+-    installed = packages((out / 'packages.log').read_text(), current['environment']['dependency_revisions'])
++    installed = packages((out / 'packages.log').read_text(), expected, 'packages.log')
++    final_version = lean_version((out / 'toolchain-final.log').read_text())
++    require((out / 'toolchain-final.log').read_bytes() == (out / 'toolchain.log').read_bytes(),
++            'running Lean differs between toolchain.log and toolchain-final.log: ' + repr((version, final_version)))
++    final_installed = packages((out / 'packages-final.log').read_text(), expected, 'packages-final.log')
+     for label in BUILDS:
+         require((out / (label + '.status')).read_bytes() == b'0\n', 'missing successful process: ' + label)
+     require((out / 'leanchecker.cmd').is_file(), 'leanchecker invocation record absent')
+@@ -842,7 +860,10 @@ def finish(out):
+         'alignment_status': 'PENDING_INDEPENDENT_REVIEW', 'scientific_acceptance': False,
+         'checked_commit': current['checked_commit'], 'repository': current['repository'],
+         'run_id': current['run_id'], 'run_attempt': current['run_attempt'], 'lean_version': version,
+-        'dependency_revisions': installed, 'sources': current['sources'], 'declarations': current['declarations'],
++        'dependency_revisions': installed, 'lean_version_final': final_version,
++        'dependency_revisions_final': final_installed,
++        'dependency_worktrees': {'before_first_lean': 'clean', 'after_last_lean': 'clean'},
++        'sources': current['sources'], 'declarations': current['declarations'],
+         'theorem_count': len(current['theorems']), 'definition_count': definitions, 'axioms': axioms,
+         'negative_controls': outcomes, 'provenance': current['provenance'], 'external_inputs': EXTERNAL_INPUTS,
+         'leanchecker': {'command': (out / 'leanchecker.cmd').read_text().strip(), 'mode': mode},
+diff --git a/companions/torus_filtration_20261011/replay.sh b/companions/torus_filtration_20261011/replay.sh
+index ffc29a4..4ec7c04 100644
+--- a/companions/torus_filtration_20261011/replay.sh
++++ b/companions/torus_filtration_20261011/replay.sh
+@@ -34,13 +34,26 @@ set -euo pipefail
+ # shadow it.
+ export LEAN_PATH="$TORUS_SPEC_OUT:$TORUS_SIDE:${LEAN_PATH:-}"
+ export LEAN_SRC_PATH="$TORUS_SIDE:${LEAN_SRC_PATH:-}"
++# Runtime guard: the running Lean and every installed dependency (`<name> <HEAD> <clean|dirty>`, clean meaning
++# `git status --porcelain --untracked-files=normal` prints nothing) are observed before the first Lean execution and
++# again after the last one (toolchain-final.log, packages-final.log); check.py finish requires both observations.
++# Each git result is taken by a plain assignment, so a failing git aborts the replay under `set -e` (a command
++# substitution inside printf's arguments would not).
++observe_packages() {
++  local log="$1" pkg name head porcelain state
++  : > "$log"
++  for pkg in "$TORUS_ROOT"/formal/.lake/packages/*/; do
++    name="$(basename "$pkg")"
++    head="$(git -C "$pkg" rev-parse HEAD)"
++    porcelain="$(git -C "$pkg" status --porcelain --untracked-files=normal)"
++    if [ -z "$porcelain" ]; then state=clean; else state=dirty; fi
++    printf '%s %s %s\n' "$name" "$head" "$state" >> "$log"
++  done
++  cat "$log"
++}
+ lean --version > "$TORUS_OUT/toolchain.log"
+ cat "$TORUS_OUT/toolchain.log"
+-: > "$TORUS_OUT/packages.log"
+-for pkg in "$TORUS_ROOT"/formal/.lake/packages/*/; do
+-  printf '%s %s\n' "$(basename "$pkg")" "$(git -C "$pkg" rev-parse HEAD)" >> "$TORUS_OUT/packages.log"
+-done
+-cat "$TORUS_OUT/packages.log"
++observe_packages "$TORUS_OUT/packages.log"
+ run_lean() {
+   local label="$1"; shift
+   local code=0
+@@ -92,6 +105,10 @@ for control in RejectSorry RejectCustomAxiom RejectNativeDecide; do
+   printf '%s\n' "$code" >"$TORUS_OUT/$control.status"
+   python3 -B -S "$TORUS_SIDE/check.py" negative "$TORUS_OUT/$control.log" --control "$control" --status "$code"
+ done
++# Runtime guard, after the last Lean execution: the same observations again.
++lean --version > "$TORUS_OUT/toolchain-final.log"
++cat "$TORUS_OUT/toolchain-final.log"
++observe_packages "$TORUS_OUT/packages-final.log"
+ INNER
+ cd "$ROOT"
+ python3 -B -S "$SIDE/check.py" finish "$OUT"
+diff --git a/companions/torus_filtration_20261011/test_torus_filtration.py b/companions/torus_filtration_20261011/test_torus_filtration.py
+index 44e4445..764f38e 100644
+--- a/companions/torus_filtration_20261011/test_torus_filtration.py
++++ b/companions/torus_filtration_20261011/test_torus_filtration.py
+@@ -231,6 +231,11 @@ def good_injection_log(c, control):
+     return (SORRY_WARNING if control == 'RejectSorry' else '') + INJECTED.format(forbidden)
+ 
+ 
++def package_log(revisions, dirty=()):
++    """A dependency observation as replay.sh observe_packages writes it: `<name> <HEAD> <clean|dirty>` per package."""
++    return ''.join('%s %s %s\n' % (name, rev, 'dirty' if name in dirty else 'clean') for name, rev in revisions.items())
++
++
+ class Fixture:
+     """A committed temporary repository carrying the companion layout and a matching manifest."""
+ 
+@@ -309,8 +314,11 @@ class Fixture:
+         emitted = self.run('emit', str(out))
+         if emitted.returncode != 0:
+             raise AssertionError(emitted.stderr)
++        # the runtime guard's two observations: before the first Lean execution and after the last one
+         (out / 'toolchain.log').write_text(LEAN_VERSION_LINE)
+-        (out / 'packages.log').write_text(''.join('%s %s\n' % kv for kv in self.revisions.items()))
++        (out / 'packages.log').write_text(package_log(self.revisions))
++        (out / 'toolchain-final.log').write_text(LEAN_VERSION_LINE)
++        (out / 'packages-final.log').write_text(package_log(self.revisions))
+         (out / 'tests.log').write_text('TORUS_FILTRATION_TESTS: outer optimize=0\nRan 1 test\n\nOK\n')
+         (out / 'tests-optimized.log').write_text('TORUS_FILTRATION_TESTS: outer optimize=1\nRan 1 test\n\nOK\n')
+         for label in self.c.BUILDS:
+@@ -970,12 +978,32 @@ class ParserControls(unittest.TestCase):
+             with self.subTest(bad=bad), self.assertRaises(ValueError):
+                 self.c.lean_version(bad)
+         expected = {'mathlib': 'd1' * 20, 'batteries': 'f2' * 20}
+-        good = 'batteries %s\nmathlib %s\n' % ('f2' * 20, 'd1' * 20)
++        good = 'batteries %s clean\nmathlib %s clean\n' % ('f2' * 20, 'd1' * 20)
+         self.assertEqual(self.c.packages(good, expected), expected)
+-        for bad in ('mathlib %s\n' % ('d1' * 20), good + 'aesop %s\n' % ('a3' * 20), good.replace('d1' * 20, 'e1' * 20),
+-                    good + 'mathlib %s\n' % ('d1' * 20), good.replace('\nmathlib', '\n mathlib'), 'mathlib short\n'):
+-            with self.subTest(bad=bad), self.assertRaises(ValueError):
++        self.assertEqual(self.c.packages(good, expected, 'packages-final.log'), expected)
++        for bad, message in (
++                ('mathlib %s clean\n' % ('d1' * 20), 'installed dependency HEADs differ'),
++                (good + 'aesop %s clean\n' % ('a3' * 20), 'installed dependency HEADs differ'),
++                (good.replace('d1' * 20, 'e1' * 20), 'installed dependency HEADs differ'),
++                ('', 'installed dependency HEADs differ'),
++                (good + 'mathlib %s clean\n' % ('d1' * 20), 'duplicate installed package'),
++                (good.replace('\nmathlib', '\n mathlib'), 'malformed package line'),
++                ('mathlib short clean\n', 'malformed package line'),
++                # the observation records worktree cleanliness: the HEAD-only format of the pre-guard replay, an
++                # unknown state, a trailing field and a blank line are malformed, never read as clean
++                ('batteries %s\nmathlib %s\n' % ('f2' * 20, 'd1' * 20), 'malformed package line'),
++                (good.replace('mathlib %s clean' % ('d1' * 20), 'mathlib %s unknown' % ('d1' * 20)), 'malformed package line'),
++                (good.replace(' clean\nmathlib', ' clean extra\nmathlib'), 'malformed package line'),
++                (good.replace(' clean\n', ' clean \n', 1), 'malformed package line'),
++                (good + '\n', 'malformed package line'),
++                # a dirty worktree is refused although every HEAD matches, in either position
++                (good.replace('d1' * 20 + ' clean', 'd1' * 20 + ' dirty'), "installed dependency worktree not clean in packages.log: ['mathlib']"),
++                (good.replace('f2' * 20 + ' clean', 'f2' * 20 + ' dirty'), "installed dependency worktree not clean in packages.log: ['batteries']"),
++                (good.replace('clean', 'dirty'), "installed dependency worktree not clean in packages.log: ['batteries', 'mathlib']")):
++            with self.subTest(bad=bad), self.assertRaisesRegex(ValueError, '^' + re.escape(message)):
+                 self.c.packages(bad, expected)
++        with self.assertRaisesRegex(ValueError, re.escape("installed dependency worktree not clean in packages-final.log: ['mathlib']")):
++            self.c.packages(package_log(expected, dirty=('mathlib',)), expected, 'packages-final.log')
+ 
+     def test_leanchecker_mode_accepts_exactly_the_two_recorded_invocations(self):
+         self.assertEqual(self.c.leanchecker_mode(LEANCHECKER_MODULES + '\n'), 'modules')
+@@ -1077,7 +1105,9 @@ class ParserControls(unittest.TestCase):
+                                                  'RejectEssentialDeathBound', 'RejectReducedPointClass', 'RejectMergerKillsPointClass',
+                                                  'RejectSeparationWithoutNonzeroCoeff', 'RejectNonmergerKillsDifference',
+                                                  'RejectEssentialDeathDetermined', 'RejectSorry', 'RejectCustomAxiom', 'RejectNativeDecide'])
+-        self.assertEqual(len(self.c.EVIDENCE_FILES), 72)
++        self.assertEqual(len(self.c.EVIDENCE_FILES), 74)
++        # the runtime guard's records: one observation before the first Lean execution, one after the last
++        self.assertLessEqual({'toolchain.log', 'packages.log', 'toolchain-final.log', 'packages-final.log'}, self.c.EVIDENCE_FILES)
+         self.assertEqual(self.c.BUILDS, ('build-spec-Field', 'build-TorusTopology', 'build-ClosedSuperlevel', 'build-SuperlevelBar',
+                                          'build-OrdinaryH0', 'build-OrdinaryH0Controls', 'build-SuperlevelBarField', 'build-TorusFiltration',
+                                          'positive', 'axioms', 'types', 'census', 'leanchecker'))
+@@ -1144,7 +1174,14 @@ class WorkflowAndReplay(unittest.TestCase):
+                          'python3 -B -S "$SIDE/check.py" source > "$OUT/source.json"',
+                          'python3 -B -S "$SIDE/test_torus_filtration.py"', 'python3 -B -O -S "$SIDE/test_torus_filtration.py"',
+                          'python3 -B -S "$SIDE/check.py" emit "$OUT"', 'lake env bash', 'lean --version > "$TORUS_OUT/toolchain.log"',
+-                         'rev-parse HEAD)" >> "$TORUS_OUT/packages.log"',
++                         # the runtime guard: name, HEAD and worktree state of every installed package, before and after
++                         'observe_packages "$TORUS_OUT/packages.log"', 'lean --version > "$TORUS_OUT/toolchain-final.log"',
++                         'observe_packages "$TORUS_OUT/packages-final.log"',
++                         'for pkg in "$TORUS_ROOT"/formal/.lake/packages/*/; do',
++                         '    head="$(git -C "$pkg" rev-parse HEAD)"\n',
++                         '    porcelain="$(git -C "$pkg" status --porcelain --untracked-files=normal)"\n',
++                         '    if [ -z "$porcelain" ]; then state=clean; else state=dirty; fi\n',
++                         '    printf \'%s %s %s\\n\' "$name" "$head" "$state" >> "$log"\n',
+                          'printf \'%s\\n\' "$LEANCHECKER_COMMAND" > "$TORUS_OUT/leanchecker.cmd"',
+                          'run_lean leanchecker $LEANCHECKER_COMMAND',
+                          'run_lean positive lean -DwarningAsError=true', 'run_lean axioms lean -DwarningAsError=true',
+@@ -1195,6 +1232,24 @@ class WorkflowAndReplay(unittest.TestCase):
+         self.assertIn('-DwarningAsError=true', loops[0][1])
+         self.assertEqual(loops[1][0].split(), list(self.c.INJECTIONS))
+         self.assertNotIn('warningAsError', loops[1][1])
++        # Runtime guard: inside the `lake env` block, the running Lean and the dependencies are observed before the first
++        # Lean execution and again after the last one (the final observation closes the block), each exactly once.
++        inner = self.replay.split("lake env bash <<'INNER'\n", 1)[1].split('\nINNER\n', 1)[0].splitlines()
++        executions = [i for i, line in enumerate(inner) if not line.lstrip().startswith('#') and 'lean --version' not in line
++                      and re.search(r'(?:^|\s)(?:lean|leanchecker)(?:\s|$)', line)]
++        self.assertEqual(len(executions), 8 + 4 + 1 + 2, executions)
++        before = [inner.index('lean --version > "$TORUS_OUT/toolchain.log"'), inner.index('observe_packages "$TORUS_OUT/packages.log"')]
++        after = [inner.index('lean --version > "$TORUS_OUT/toolchain-final.log"'), inner.index('observe_packages "$TORUS_OUT/packages-final.log"')]
++        self.assertLess(max(before), min(executions))
++        self.assertLess(max(executions), min(after))
++        self.assertEqual(inner[-3:], ['lean --version > "$TORUS_OUT/toolchain-final.log"', 'cat "$TORUS_OUT/toolchain-final.log"',
++                                      'observe_packages "$TORUS_OUT/packages-final.log"'])
++        self.assertEqual(commands.count('lean --version'), 2)
++        self.assertEqual(commands.count('observe_packages "'), 2)
++        self.assertEqual(commands.count('observe_packages() {'), 1)
++        # a git failure must abort the replay: no git command substitution in printf's arguments (its status is lost
++        # there), and no `local x="$(…)"` (local's own status masks it)
++        self.assertFalse([line for line in commands.splitlines() if '$(git' in line and ('printf' in line or 'local ' in line)])
+         finish = [line for line in self.replay.splitlines() if 'check.py" finish' in line]
+         self.assertEqual(finish, ['python3 -B -S "$SIDE/check.py" finish "$OUT"'])
+         self.assertTrue(self.replay.strip().splitlines()[-1].startswith("echo 'PASS:"))
+@@ -1257,7 +1312,7 @@ class WorkflowAndReplay(unittest.TestCase):
+         for statement, _ in self.c.FALSE_CONTROLS.values():
+             self.assertIn('`' + statement + '`', readme, 'control statement not quoted verbatim: ' + statement)
+         for required in ('.olean', 'never be committed', 'NOT_RUN', 'TORUS_LEANCHECKER_FRESH', 'leanchecker.cmd',
+-                         'exactly the 72 evidence files', 'Registration is not review', 'OrdinaryH0Controls.olean',
++                         'exactly the 74 evidence files', 'Registration is not review', 'OrdinaryH0Controls.olean',
+                          'SuperlevelBarField.olean', '.lake/torus-filtration-spec', 'build-spec-Field', 'FIELD_SIBLING_LOG',
+                          '6116225936', 'C254 alone did not establish this', 'DISCRIMINATOR_LOGS',
+                          # the relabel is a dated companion note, the hosted run of 940dffc9 is reported, not adopted
+@@ -1274,6 +1329,8 @@ class WorkflowAndReplay(unittest.TestCase):
+                       'exactly the 65 evidence files', 'those 65 files', 'What the 118 theorems and 35 definitions',
+                       'Every one of the 153', 'five-line root module', 'the fifteen emitted Lean files', 'All five modules `import Mathlib`',
+                       'and runs eleven negative controls', 'unchanged by both registrations',
++                      # counts the runtime-guard commit moved
++                      'exactly the 72 evidence files', 'exactly those 72 files',
+                       # template tokens of the drafting round must never ship
+                       'REPLAY_MEASUREMENT', 'LCK_MEASUREMENT', 'CENSUS_PENDING'):
+             self.assertNotIn(stale, readme, 'README keeps a superseded count or statement: ' + stale)
+@@ -1702,6 +1759,12 @@ class FinishFixture(FixtureCase):
+             self.assertIs(receipt['scientific_acceptance'], False)
+             self.assertEqual(receipt['lean_version'], LEAN_VERSION_LINE.strip())
+             self.assertEqual(receipt['dependency_revisions'], f.revisions)
++            # the runtime guard's observation after the last Lean execution is recorded beside the one before the first
++            self.assertEqual(receipt['lean_version_final'], LEAN_VERSION_LINE.strip())
++            self.assertEqual(receipt['dependency_revisions_final'], f.revisions)
++            self.assertEqual(receipt['dependency_worktrees'], {'before_first_lean': 'clean', 'after_last_lean': 'clean'})
++            for name in ('toolchain.log', 'packages.log', 'toolchain-final.log', 'packages-final.log'):
++                self.assertIn(name, receipt['log_sha256'])
+             self.assertEqual(len(receipt['declarations']), 167)
+             self.assertEqual(len(receipt['axioms']), 58 + 24 + 27 + 44 + 14)
+             self.assertEqual(receipt['theorem_count'], 130)
+@@ -1725,7 +1788,7 @@ class FinishFixture(FixtureCase):
+                 self.assertEqual(hashlib.sha256((out / name).read_bytes()).hexdigest(), digest, name)
+             self.assertEqual(set(receipt['log_sha256']), {p.name for p in out.iterdir() if p.is_file()} - {'receipt.json'})
+             self.assertEqual(set(receipt['log_sha256']), set(self.c.EVIDENCE_FILES))
+-            self.assertEqual(len(receipt['log_sha256']), 72)
++            self.assertEqual(len(receipt['log_sha256']), 74)
+             self.assertEqual(receipt['census'], {'constants': 167 + len(self.c.metadata()['census_auxiliary']) + len(INTERNAL_GENERATED),
+                                                  'user_declarations': 167,
+                                                  'generated_user': sorted(self.c.metadata()['census_auxiliary']),
+@@ -1763,6 +1826,83 @@ class FinishFixture(FixtureCase):
+             self.assertEqual(receipt['leanchecker'], {'command': LEANCHECKER_FRESH, 'mode': 'fresh'})
+             self.assertIn('--fresh', receipt['scope_note'])
+ 
++    def test_runtime_guard_after_the_last_lean_run_withholds_the_receipt(self):
++        """The running Lean and the installed dependencies are observed before the first Lean execution and again after the
++        last one. finish refuses a final toolchain line that is not the pinned release or differs from the first, a final
++        dependency HEAD other than the manifest's, a dirty dependency worktree in either observation, and an evidence set
++        without the final observation (a preflight-only record)."""
++        with tempfile.TemporaryDirectory() as tmp:
++            f = Fixture(self.c, tmp)
++            out = f.evidence()
++            commit = '5045d0056413266e57c625dcd7c365b10e377c52'
++            other_platform = LEAN_VERSION_LINE.replace('x86_64-unknown-linux-gnu', 'aarch64-unknown-linux-gnu')
++            head_only = ''.join('%s %s\n' % kv for kv in f.revisions.items())
++            final_heads = 'installed dependency HEADs differ from formal/lake-manifest.json in packages-final.log'
++            cases = [
++                # the final toolchain line: the same semver at another commit, a non-Release build, malformed or empty
++                ({'toolchain-final.log': LEAN_VERSION_LINE.replace(commit, 'c' * 40)}, 'unexpected running Lean version'),
++                ({'toolchain-final.log': LEAN_VERSION_LINE.replace(commit, commit[:-1] + '3')}, 'unexpected running Lean version'),
++                ({'toolchain-final.log': LEAN_VERSION_LINE.replace('Release', 'Debug')}, 'unexpected running Lean version'),
++                ({'toolchain-final.log': LEAN_VERSION_LINE.replace(', Release)', ')')}, 'unexpected running Lean version'),
++                ({'toolchain-final.log': LEAN_VERSION_LINE.replace('4.34.1', '4.34.2')}, 'unexpected running Lean version'),
++                ({'toolchain-final.log': LEAN_VERSION_LINE + LEAN_VERSION_LINE}, 'unexpected running Lean version'),
++                ({'toolchain-final.log': ''}, 'unexpected running Lean version'),
++                # each line is the pinned release, but the final observation is not byte-identical to the first
++                ({'toolchain-final.log': other_platform}, 'running Lean differs between toolchain.log and toolchain-final.log'),
++                ({'toolchain.log': other_platform}, 'running Lean differs between toolchain.log and toolchain-final.log'),
++                ({'toolchain-final.log': LEAN_VERSION_LINE.strip()}, 'running Lean differs between toolchain.log and toolchain-final.log'),
++                # a final dependency HEAD other than the manifest revision; a package missing, added or listed twice
++                ({'packages-final.log': package_log(dict(f.revisions, mathlib='e1' * 20))}, final_heads),
++                ({'packages-final.log': package_log({'mathlib': f.revisions['mathlib']})}, final_heads),
++                ({'packages-final.log': package_log(dict(f.revisions, aesop='a3' * 20))}, final_heads),
++                ({'packages-final.log': ''}, final_heads),
++                ({'packages-final.log': package_log(f.revisions) + 'mathlib %s clean\n' % f.revisions['mathlib']},
++                 'duplicate installed package in packages-final.log: mathlib'),
++                # an observation without the worktree state (the pre-guard format) is malformed, before or after
++                ({'packages-final.log': head_only}, 'malformed package line in packages-final.log'),
++                ({'packages.log': head_only}, 'malformed package line in packages.log'),
++                # a dirty dependency worktree, every HEAD matching: after the last Lean execution, before the first, both
++                ({'packages-final.log': package_log(f.revisions, dirty=('mathlib',))},
++                 "installed dependency worktree not clean in packages-final.log: ['mathlib']"),
++                ({'packages.log': package_log(f.revisions, dirty=('batteries',))},
++                 "installed dependency worktree not clean in packages.log: ['batteries']"),
++                ({'packages.log': package_log(f.revisions, dirty=tuple(f.revisions)),
++                  'packages-final.log': package_log(f.revisions, dirty=tuple(f.revisions))},
++                 "installed dependency worktree not clean in packages.log: ['batteries', 'mathlib']")]
++            for files, message in cases:
++                with self.subTest(files=sorted(files), message=message):
++                    saved = {name: (out / name).read_bytes() for name in files}
++                    for name, content in files.items():
++                        (out / name).write_text(content)
++                    try:
++                        self.assertFails(f.run('finish', str(out)), message)
++                        self.assertFalse((out / 'receipt.json').exists(), 'receipt written despite refusal')
++                    finally:
++                        for name, raw in saved.items():
++                            (out / name).write_bytes(raw)
++            # An evidence set without the observation after the last Lean execution (a preflight-only record, or one whose
++            # runtime was captured only before the Lean runs) is refused, whichever part of it is absent.
++            for absent in (('toolchain-final.log',), ('packages-final.log',), ('packages-final.log', 'toolchain-final.log')):
++                with self.subTest(absent=absent):
++                    saved = {name: (out / name).read_bytes() for name in absent}
++                    for name in absent:
++                        (out / name).unlink()
++                    try:
++                        self.assertFails(f.run('finish', str(out)), 'evidence membership differs: missing %s, unexpected []' % list(absent))
++                        self.assertFalse((out / 'receipt.json').exists(), 'receipt written despite refusal')
++                    finally:
++                        for name, raw in saved.items():
++                            (out / name).write_bytes(raw)
++            # The intact set, both observations present, clean and equal, yields the receipt, which records both.
++            run = f.run('finish', str(out))
++            self.assertEqual(run.returncode, 0, run.stderr)
++            receipt = json.loads((out / 'receipt.json').read_text())
++            self.assertEqual((receipt['lean_version'], receipt['lean_version_final']), (LEAN_VERSION_LINE.strip(),) * 2)
++            self.assertEqual((receipt['dependency_revisions'], receipt['dependency_revisions_final']), (f.revisions, f.revisions))
++            self.assertEqual(receipt['dependency_worktrees'], {'before_first_lean': 'clean', 'after_last_lean': 'clean'})
++            for name in ('toolchain-final.log', 'packages-final.log'):
++                self.assertEqual(receipt['log_sha256'][name], hashlib.sha256((out / name).read_bytes()).hexdigest(), name)
++
+     def test_every_weakening_withholds_the_receipt(self):
+         with tempfile.TemporaryDirectory() as tmp:
+             f = Fixture(self.c, tmp)
+@@ -1803,7 +1943,7 @@ class FinishFixture(FixtureCase):
+                 ('leanchecker.cmd', 'leanchecker --fresh TorusTopology\n', 'unrecognized leanchecker invocation'),
+                 ('leanchecker.log', 'uncaught exception: failed to read module data\n', 'leanchecker reported diagnostics'),
+                 ('toolchain.log', LEAN_VERSION_LINE.replace('4.34.1', '4.34.0'), 'unexpected running Lean version'),
+-                ('packages.log', 'mathlib %s\n' % ('d1' * 20), 'installed dependency HEADs differ'),
++                ('packages.log', 'mathlib %s clean\n' % ('d1' * 20), 'installed dependency HEADs differ'),
+                 ('axioms.log', axioms.replace('[propext, Classical.choice, Quot.sound]', '[propext, sorryAx]', 1),
+                  'forbidden transitive axiom'),
+                 ('axioms.log', axioms.replace("'%s' depends on axioms: [propext, Classical.choice, Quot.sound]\n" % first, ''),
+@@ -1879,7 +2019,7 @@ class FinishFixture(FixtureCase):
+                         self.assertFalse((out / 'receipt.json').exists(), 'receipt written despite refusal')
+                     finally:
+                         (out / name).write_text(saved)
+-            # C262 G3: every one of the 72 required evidence members is required; removing any one withholds the receipt.
++            # C262 G3: every one of the 74 required evidence members is required; removing any one withholds the receipt.
+             self.assertEqual({p.name for p in out.iterdir()}, set(self.c.EVIDENCE_FILES))
+             for name in sorted(self.c.EVIDENCE_FILES):
+                 with self.subTest(removed=name):

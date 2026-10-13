@@ -1,0 +1,17 @@
+LOCAL git used only by the re-run rows d2square-git255 and d2atom-git255p (Math-#455 stage-2 runtime rows).
+Not a repository change, not a hosted-runner change, not a package-pin change.
+
+Why: the container's system git is git version 2.43.0 (/usr/bin/git, Ubuntu package 1:2.43.0-1ubuntu7.3).
+It rejects the top-level option --no-lazy-fetch ("unknown option: --no-lazy-fetch"), which tools/proof_slice_check.py
+(line 831) and tools/retrofit_record_check.py (line 107) pass on every git call. The replays of companions/d2_square_schur_20261006
+and companions/d2_atom_integral_20261006 run the full tests/ suite, so 169 tests (20 test_proof_slice_check, 149
+test_retrofit_record_check) failed there before any Lean run. Hosted runners print git version 2.55.0.
+
+Source: https://github.com/git/git, tag v2.55.0 (tag object 5ce91c059e41090e7d2cffad39c04af8acf98dc1 per git ls-remote),
+peeled commit e9019fcafe0040228b8631c30f97ae1adb61bcdc (committer date 2026-06-29T07:58:39-07:00), shallow clone depth 1.
+Build: make -j3 prefix=<SCRATCH>/gitbuild/install NO_CURL=1 NO_EXPAT=1 NO_GETTEXT=1 NO_TCLTK=1 NO_PERL=1 NO_PYTHON=1 NO_OPENSSL=1
+       then make ... install (same flags); 72 s; gcc 13.3.0, zlib from the system.
+Executable: <SCRATCH>/gitbuild/install/bin/git, 19761728 bytes, sha256 fc6ff15882c6e285c1319869a09e4bc5d6e72a1eeaba3099ef4907a5efad74c6
+Reports: git version 2.55.0; "git --no-lazy-fetch -C <repo> cat-file -t HEAD" prints "commit".
+Use: PATH=<SCRATCH>/gitbuild/install/bin:$PATH for those two rows only; each row header records "git version 2.55.0 at <path>".
+The first (failed) rows d2square and d2atom used /usr/bin/git 2.43.0; their logs are kept unchanged.
