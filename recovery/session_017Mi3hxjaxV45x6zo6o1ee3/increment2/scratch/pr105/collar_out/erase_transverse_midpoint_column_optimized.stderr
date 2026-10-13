@@ -1,0 +1,23 @@
+test_cardinal_values_and_derivatives (test_collar_algebra.CollarControls.test_cardinal_values_and_derivatives) ... ok
+test_collar_pin_disk_cover (test_collar_algebra.CollarControls.test_collar_pin_disk_cover) ... ok
+test_covariance_floor_and_relative_remainder_orders (test_collar_algebra.CollarControls.test_covariance_floor_and_relative_remainder_orders) ... ok
+test_crossover_overlap (test_collar_algebra.CollarControls.test_crossover_overlap) ... ok
+test_degree_four_obstruction_on_collinear_triple (test_collar_algebra.CollarControls.test_degree_four_obstruction_on_collinear_triple) ... ok
+test_full_nine_row_rank_including_midpoint_and_axis (test_collar_algebra.CollarControls.test_full_nine_row_rank_including_midpoint_and_axis) ... ok
+test_ninth_value_not_conditioned (test_collar_algebra.CollarControls.test_ninth_value_not_conditioned) ... ok
+test_pin_collision_is_excluded (test_collar_algebra.CollarControls.test_pin_collision_is_excluded) ... ok
+test_power_ledger (test_collar_algebra.CollarControls.test_power_ledger) ... ok
+test_transverse_gram_identity (test_collar_algebra.CollarControls.test_transverse_gram_identity) ... FAIL
+
+======================================================================
+FAIL: test_transverse_gram_identity (test_collar_algebra.CollarControls.test_transverse_gram_identity)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/pr105/collar_out/mutants/optimized/erase_transverse_midpoint_column/test_collar_algebra.py", line 38, in test_transverse_gram_identity
+    self.assertEqual(g[0][0]*g[1][1]-g[0][1]*g[1][0],u*u*v**4+v**6/4)
+AssertionError: Fraction(1, 250000000000) != Fraction(16000001, 4000000000000000000)
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.071s
+
+FAILED (failures=1)

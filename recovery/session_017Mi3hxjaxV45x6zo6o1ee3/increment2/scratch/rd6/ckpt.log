@@ -1,0 +1,33 @@
+baseline rc 0 0 identical 314 s
+{"CLOSED_FORM_D6": true, "D1_EXACT": true, "D2_EXACT": true, "D3_EXACT": true, "D4_CERTIFIED_PATH": true, "D4_EXACT": true, "FLOAT_INSIDE": true, "IMAGE_BOUND": true, "JK_EXACT": true, "LAYER_EXACT": true, "LIBRARY_EXACT": true, "MEHTA_Z5": true, "MONOTONE": true, "PINNED": true, "ROUTE_CONSISTENT": true, "SIDE24_CONSISTENT": true, "STRUCTURE": true, "TRANSFER_BOUND": true, "TRUNCATION_NESTING": true, "WIDTHS": true}
+  mutant vandermonde ['-B', '-S'] rc 1 314 s
+  mutant vandermonde ['-B', '-O', '-S'] rc 1 314 s
+  mutant shift-variance ['-B', '-O', '-S'] rc 1 472 s
+  mutant erfc-branch ['-B', '-O', '-S'] rc 1 473 s
+  mutant shift-variance ['-B', '-S'] rc 1 473 s
+  mutant erfc-branch ['-B', '-S'] rc 1 474 s
+  mutant jacobian ['-B', '-S'] rc 1 629 s
+  mutant jacobian ['-B', '-O', '-S'] rc 1 630 s
+  mutant mehta ['-B', '-O', '-S'] rc 1 632 s
+  mutant mehta ['-B', '-S'] rc 1 633 s
+  mutant recurrence ['-B', '-S'] rc 1 786 s
+  mutant recurrence ['-B', '-O', '-S'] rc 1 787 s
+  mutant layer-init ['-B', '-S'] rc 1 789 s
+  mutant layer-init ['-B', '-O', '-S'] rc 1 791 s
+  mutant two-erf ['-B', '-S'] rc 1 944 s
+  mutant two-erf ['-B', '-O', '-S'] rc 1 945 s
+  mutant cumulative-half ['-B', '-S'] rc 1 947 s
+  mutant cumulative-half ['-B', '-O', '-S'] rc 1 950 s
+  mutant remainder-dropped ['-B', '-S'] rc 1 1075 s
+  mutant remainder-dropped ['-B', '-O', '-S'] rc 1 1076 s
+  mutant erf-inside ['-B', '-S'] rc 1 1105 s
+  mutant erf-inside ['-B', '-O', '-S'] rc 1 1109 s
+  mutant tail-dropped ['-B', '-S'] rc 1 1236 s
+  mutant tail-dropped ['-B', '-O', '-S'] rc 1 1236 s
+  mutant image-shells ['-B', '-S'] rc 1 1261 s
+  mutant image-shells ['-B', '-O', '-S'] rc 1 1268 s
+  mutant sandwich-exponent ['-B', '-S'] rc 1 1390 s
+  mutant sandwich-exponent ['-B', '-O', '-S'] rc 1 1391 s
+mutants 14 all rejected
+manifest written
+replay rc 0 {"scientific_effect": "NONE", "mathematical_acceptance": false, "certified_enclosures": true, "side24_v1": "unchanged"}  2885 s

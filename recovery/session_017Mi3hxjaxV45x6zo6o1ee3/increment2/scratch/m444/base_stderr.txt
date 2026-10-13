@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "<SCRATCH>/mathf/reviews/c6_residual_closure_20260930/residual_check.py", line 660, in <module>
+    sys.exit(main())
+             ^^^^^^
+  File "<SCRATCH>/mathf/reviews/c6_residual_closure_20260930/residual_check.py", line 640, in main
+    live, live_state = check_live(root, spec)
+                       ^^^^^^^^^^^^^^^^^^^^^^
+  File "<SCRATCH>/mathf/reviews/c6_residual_closure_20260930/residual_check.py", line 279, in check_live
+    graph, sel = load_live(root)
+                 ^^^^^^^^^^^^^^^
+  File "<SCRATCH>/mathf/reviews/c6_residual_closure_20260930/residual_check.py", line 206, in load_live
+    graph = json.loads((root / GRAPH).read_text(encoding="utf-8"))
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/pathlib.py", line 1058, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/pathlib.py", line 1044, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '<SCRATCH>/mathf/frontiers/downstream_gate_20260925/GRAPH.json'

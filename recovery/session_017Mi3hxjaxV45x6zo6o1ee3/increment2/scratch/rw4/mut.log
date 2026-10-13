@@ -1,0 +1,33 @@
+None -B -S 0 []
+None -B -O -S 0 []
+image-shells -B -S 1 ['IMAGE_BOUND']
+image-shells -B -O -S 1 ['IMAGE_BOUND']
+d3-floor -B -S 1 ['LAMBDA_FLOOR', 'TILTED_EXACT']
+d3-floor -B -O -S 1 ['LAMBDA_FLOOR', 'TILTED_EXACT']
+sandwich-swap -B -S 1 ['SANDWICH_EXACT_SCALING', 'SANDWICH_ORDERED']
+sandwich-swap -B -O -S 1 ['SANDWICH_EXACT_SCALING', 'SANDWICH_ORDERED']
+window-scale -B -S 1 ['SANDWICH_EXACT_SCALING', 'SANDWICH_ORDERED']
+window-scale -B -O -S 1 ['SANDWICH_EXACT_SCALING', 'SANDWICH_ORDERED']
+trace-slope -B -S 1 ['M2_CROSSCHECK', 'FLOAT_CONTROL', 'TILTED_EXACT', 'PINNED']
+trace-slope -B -O -S 1 ['M2_CROSSCHECK', 'FLOAT_CONTROL', 'TILTED_EXACT', 'PINNED']
+moment-recurrence -B -S 1 ['LAYERS_FLOAT', 'D3_EXACT', 'QUAD_COARSE', 'FLOAT_CONTROL', 'TILTED_EXACT', 'FACTORIZATION', 'C4_CONSISTENT', 'WIDTHS', 'SANDWICH_ORDERED', 'PINNED']
+moment-recurrence -B -O -S 1 ['LAYERS_FLOAT', 'D3_EXACT', 'QUAD_COARSE', 'FLOAT_CONTROL', 'TILTED_EXACT', 'FACTORIZATION', 'C4_CONSISTENT', 'WIDTHS', 'SANDWICH_ORDERED', 'PINNED']
+remainder-dropped -B -S 1 ['QUAD_COARSE']
+remainder-dropped -B -O -S 1 ['QUAD_COARSE']
+schur-sign -B -S 1 crash:                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SCRATCH>/wtw4/frontiers/c8_window_coefficient_d4_20261001/window_coefficient_d4.py", line 1007, in sandwich
+    raise ValueError("eps must be below 1")
+ValueError: eps must be below 1
+
+schur-sign -B -O -S 1 crash:                    ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SCRATCH>/wtw4/frontiers/c8_window_coefficient_d4_20261001/window_coefficient_d4.py", line 1007, in sandwich
+    raise ValueError("eps must be below 1")
+ValueError: eps must be below 1
+
+tau-cross -B -S 1 ['REFERENCE_EXACT', 'FACTORIZATION', 'C4_CONSISTENT', 'NESTING']
+tau-cross -B -O -S 1 ['REFERENCE_EXACT', 'FACTORIZATION', 'C4_CONSISTENT', 'NESTING']
+sphere -B -S 1 ['FACTORIZATION', 'C4_CONSISTENT', 'NESTING']
+sphere -B -O -S 1 ['FACTORIZATION', 'C4_CONSISTENT', 'NESTING']
+tilt-gamma -B -S 1 ['TILTED_EXACT']
+tilt-gamma -B -O -S 1 ['TILTED_EXACT']
+baseline identical True

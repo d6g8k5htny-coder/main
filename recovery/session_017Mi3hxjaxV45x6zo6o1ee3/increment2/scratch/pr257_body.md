@@ -1,0 +1,78 @@
+**Object:** `CAP-FIRST-EXIT-LEAN-20261002` v1.7. **Stacked on Math-#255** (v1.6, head `1cbbbf9`), which is stacked on Math-#253 (v1.5); the base branch is #255's head branch.
+- **Author:** Anthropic / Claude, session `017Mi3hx…`.
+- **Scientific effect NONE.** No register, catalog, STATUS, PROOF_INDEX, GRAPH or `formal/` change.
+- Same GitHub account as every lane, so organizational-independence credit is 0.
+- **The author will not merge.** Merge order: #253, then #255, then this PR. Each retargets as its base lands.
+
+## What changes
+
+Through v1.6, the ridge `h` was an input: `h x` was assumed to be a critical point in the ball, and `h` was assumed differentiable. SP's L7 derives both, with the implicit function theorem doing the regularity. v1.7 proves them (7 declarations):
+
+| Declaration | Statement | SP |
+|---|---|---|
+| `slice_critical_unique` | a `δ`-strongly concave slice, `δ > 0`, has at most one critical point in `K` | L7 (uniqueness) |
+| `slice_critical_exists` | if the slice is strongly concave and differentiable on `B̄(0, R)` and `‖Dφ(0)‖ < δR`, a critical point exists in the open ball (the maximum over the compact ball cannot be on the sphere, because there the radial derivative is `≤ w(p) − δR² < 0`) | L7 (interior maximum) |
+| `isInvertible_of_negDef` | in finite dimension, `A v v ≤ −δ‖v‖²` makes `A : E →L E →L ℝ` invertible | L7 (`D_y² f` invertible) |
+| `ridge_hasStrictFDerivAt` | Mathlib's `implicitFunctionOfProdDomain` for `G = ∂_y f = 0` gives a critical point near `h x0`, which equals `h` by uniqueness. So `HasStrictFDerivAt h (−(DG∘inr)⁻¹ ∘ (DG∘inl)) x0`. No continuity of `h` is assumed | L7 (IFT), L9's formula for `h'` |
+| `ridge_differentiable` | `h` is strictly differentiable on `[−2r, 2r]`, given the slice data on an open `U ⊇ [−2r, 2r]` (SP: `f ∈ C⁴` near `D`). This supplies `hh'` of `ridge_inputs_of_joint` | L7 (`h ∈ C¹`) |
+| `ridge_exists` | a ridge map `h` exists on `U`, by choice; it is unique by `slice_critical_unique` | L7 ("call it `h(x)`") |
+| `h1Toy_ridge_differentiable` | every hypothesis of `ridge_differentiable` at `h1ToyF` (`h = 0`, `G = −40y`, `δ = 40`, `U = (−3, 3)`), stated as conjuncts of its proposition, with the conclusion derived from them | non-vacuity |
+
+**I3 after v1.7.** The interface narrows to:
+- L6 and L9–L12, the quantitative `w'`, `‖h'‖` and `F''` bounds that give `hconv`;
+- the derivative data these consume: third-derivative bounds `m`, and the strict differentiability of `∂_y f` along the ridge;
+- **the full-domain ridge premises.** The L7 lemmas take the slice data on an open `U ⊇ [−2r, 2r]`, but `slices_strongConcave` and `ridge_capHyp_H1` cover only `x ∈ [−2r, r/2]`. No declaration proves the extension, or composes `ridge_exists` and `ridge_differentiable` with `ridge_inputs_of_joint` and `ridge_capHyp_H1`. A stacked follow-up will add both.
+
+**Unchanged.**
+- The 81 v1.6 declarations are byte-identical. Outside the new section, only the header comment changed in `CapFirstExit.lean`.
+- The toolchain, pins and workflow are unchanged.
+
+## Revision `192be0d` (Codex review 5402798407)
+
+Both P2 findings are fixed, replied to and resolved:
+- [4174905557](https://github.com/d6g8k5htny-coder/Math-/pull/257#discussion_r4174905557): the toy now states the hypotheses it certifies;
+- [4174905561](https://github.com/d6g8k5htny-coder/Math-/pull/257#discussion_r4174905561): the full-domain ridge premises are listed as unformalized in README, ALIGNMENT and the header.
+
+The target list is unchanged (88).
+
+## Validation (local, at `192be0d`)
+
+- `gate.py` (source mode): PASS, 88 targets. `MANIFEST.json` SHA-256 `976f8362a07cbd25e1f8fd8e22c1111fff812cd8bfdb5167ed2ab13149d5cb8f`.
+- Unit tests: OK in `-B -S` and in `-B -O -S`.
+- `gate.py --execute`: PASS.
+  - Fresh build and `leanchecker` replay.
+  - Exact axiom audit of all 88 declarations: each uses only `propext`, `Classical.choice` and `Quot.sound`.
+  - The three negative controls are REJECTED.
+- The hosted checks are green on `192be0d` (4/4: `kernel-evidence`, `formal / formal-evidence`, `downstream-replay`, `math-downstream-gates`), and the branch is clean.
+
+## Alignment read (2026-10-03)
+
+- **K1** (Grok Bot agent 6, non-Claude): AMEND, docs only, [5974574796](https://github.com/d6g8k5htny-coder/Math-/pull/257#issuecomment-5974574796), at `192be0d`. All seven Lean statements ALIGNED.
+- Applied verbatim at `3d1d7fd`: I3 lists `hG` and `hneg`; the `ridge_differentiable` row names `hG`, `hGs`, `hneg` on `[−2r, 2r]`; README lists the same inputs.
+- At `3d1d7fd`: `gate.py` (source mode) PASS, 88 targets; `MANIFEST.json` SHA-256 `4f43c9aba3865c6b8f1e94f0ac407da1f92f6845c19ec8384d826e9d1fa591ee`; unit tests OK in `-B -S` and `-B -O -S`. `CapFirstExit.lean` is byte-identical to `192be0d`, so the `--execute` evidence above still applies.
+- A readback of the changed lines is requested from the reviewer.
+
+## Review requested
+
+A nonauthor, non-Claude delta alignment read under ALIGNMENT §5, covering:
+- the six v1.7 rows of §2 (`slice_critical_unique` to `ridge_exists`);
+- the `h1Toy_ridge_differentiable` sentence of §3;
+- the revised I3 and the SP, `slices_strongConcave` and `ridge_differentiable` rows, which now list the full-domain premises.
+
+Points worth checking:
+- the open-set hypothesis `U ⊇ [−2r, 2r]` against SP's "near `D`";
+- the strict hypothesis `‖Dφ(0)‖ < δR` against SP's `‖w‖ · 2r < δ · 4r²`;
+- that the IFT derivative formula matches L9.
+
+This does not close Math-#193.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+https://claude.ai/code/session_017Mi3hxjaxV45x6zo6o1ee3
+
+---
+_Generated by [Claude Code](https://claude.ai/code/session_017Mi3hxjaxV45x6zo6o1ee3)_
+
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_

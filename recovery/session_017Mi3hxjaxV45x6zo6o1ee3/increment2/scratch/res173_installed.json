@@ -1,0 +1,45 @@
+{
+  "checks": {
+    "DEDUCTION": true,
+    "GATE": true,
+    "IDENTITIES": true,
+    "LIVE": true,
+    "NEGATIVES": true,
+    "REVIEWED": true,
+    "TRANSITIONS": true,
+    "VERDICTS": true
+  },
+  "component_nodes": 10,
+  "gate": {
+    "installed": {
+      "changed_nodes": [],
+      "impacted": [],
+      "old_node_transition": "deferred: presupposes Math-#160 step 3 (aggregate node absent live)",
+      "residual_classification": "PROVED_REVIEWED",
+      "residual_held": false,
+      "source_drift_reaches_residual": 10,
+      "source_snapshots_supplied": true
+    }
+  },
+  "inventory_files": 13,
+  "live_state": {
+    "edges_present": true,
+    "mismatched": [],
+    "present": [
+      "math.c6-component.palm-proof",
+      "math.c6r-component.cluster-law-acceptance",
+      "math.c6r-component.cluster-law-proof",
+      "math.c6r-component.cluster-law-source-map",
+      "math.c6r-component.residual-closure-record",
+      "math.c6r-component.spectral-closure-proof",
+      "math.c6r-component.spectral-closure-review-record",
+      "math.c6r-component.two-scale-law-proof",
+      "math.c6r-component.two-scale-review-binding",
+      "math.c6r-component.two-scale-review-record"
+    ],
+    "residual": "PROVED_REVIEWED"
+  },
+  "object": "C6-RESIDUAL-CLOSURE-20260930-v1",
+  "passed": true,
+  "scope": "identity, verdict-row, live-register (including the installed state), reviewed-text, exact finite bookkeeping of section 3, transition-shape, hard-gate replay with source snapshots in every execution shape, and filesystem-negative checks; the Gaussian limits are the sources' reviewed statements and are not re-proved; nothing is written"
+}

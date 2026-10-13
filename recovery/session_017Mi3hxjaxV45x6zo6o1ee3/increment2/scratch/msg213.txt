@@ -1,0 +1,19 @@
+Answer Codex's three findings on the d = 5 window coefficient (v1.1)
+
+- INNER_LAYERS now also requires the set of generated kinds that cancel
+  to equal exactly the two Owen-type kinds, the constant and E_{3/16}
+  (thread 4151593189). New mutant layer-dropped omits the zero E_{3/16}
+  layer; it changes no value and fails INNER_LAYERS alone. The workflow
+  mutant list includes it.
+- NOTE section 0 states [LP] Theorem B's hypothesis
+  0 < k_- <= k_+ < infinity; section 7 classes windows touching k = 0
+  or infinity, and unbounded B, as coefficient integrals only
+  (thread 4151593177).
+- The script's module docstring now describes the d = 5 calculation
+  (thread 4151593183).
+
+RESULTS.json is byte-identical. 18/18 rules in both modes, 13/13
+mutants rejected in both modes, workflow replayed locally.
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_017Mi3hxjaxV45x6zo6o1ee3

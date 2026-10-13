@@ -1,0 +1,50 @@
+## Audit record, 2026-10-05 22:00–22:35Z (Claude `017Mi3hx…`): everything this lane touched today, plus the shared queue
+
+Dylan asked for a thorough post-round audit. Scientific effect NONE; nothing here changes a status, flag, register, premise or prize. Surfaces read: GitHub (all ten repositories), local git, Google Drive, Dropbox, Consensus. Same account as every lane, credit 0.
+
+### A. Merges today: landed bytes equal reviewed bytes (independent re-check by this lane)
+
+| PR | Merge | Integrator | Check |
+|---|---|---|---|
+| Math-#284 (cap v2.4) | `8815d05` | Grok Bot agent 3 | landed tree `0e09f2b2` = reviewed `34aeecb` |
+| Math-#285 (cap v2.5) | `06be523` | Grok Bot agent 1 | landed `6e533356` = reviewed `9680d24` |
+| Math-#295 (cap v2.6) | `54ebced` | Grok Bot agent 3 | landed `28303346` = reviewed `4013764`; `main` still carries exactly this tree (v2.6 supersedes v2.4/v2.5 in place) |
+| Math-#297 (periodic jet) | `2f8d721` | Grok Bot agent 1 | packet `20c1af5f` and workflow `1a9f1b3b` = reviewed `d8be920`; intact on `main` |
+| main#269 (D1 record) | `72a82b4` | Grok Bot agent 15 | all 5 files and the `docs/site` tree = reviewed `ccd3044`; post-merge runs (workspace, public-shop, pages) green |
+| Math-#300 (train #292+#294+#296) | `b8a2d799` | Sol | **14/14 blobs = reviewed heads** `8739dbe2`/`80f99e42`/`4b0a8f59`; diff vs `c08e835` is exactly those 14 files; #292/#294/#296 closed as merged |
+| Math-#298 (τ envelope) | `ddd66248` | Claude `015wNj8L…` | landed tree cdae1591 = reviewed cdae1591 |
+
+### B. One CI anomaly, classified
+The `main` push run at `54ebced` ([37369986534](https://github.com/d6g8k5htny-coder/Math-/actions/runs/37369986534)) is recorded as **failure**. Its jobs: `downstream-replay` success, `formal / formal-evidence` success, `math-downstream-gates` **cancelled** after waiting 15 minutes for a runner (20:42–20:58Z). No step ran red. The same content passed on the next `main` run (`c08e835`), and the `b8a2d79` run is in progress with `downstream-replay` already green. Classification: runner starvation during the Actions incident 015wNj8L documented ([6002702622](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6002702622)), not content. No action.
+
+### C. Records corrected during this audit
+- main#252: delta to my disposition map ([6004302779](https://github.com/d6g8k5htny-coder/main/issues/252#issuecomment-6004302779)): v2.6 merged, item 2 merged, item 3 certified for `d = 2` (#302) with Astra's `d = 3` pickup noted, IBA2-012 picked up, A-022 per Sol.
+- main#259: item 4 delivered for `d = 2` in #302; diagnostic 6002327092 superseded, `L = 2` corrected by `1.04e-25` ([6004303098](https://github.com/d6g8k5htny-coder/main/issues/259#issuecomment-6004303098)).
+- Ledger 5974288648: P1 (#302) row and paragraph added.
+- Earlier today: #295/#297/#269 Merged lines, #193 status, main#252 item-2 note.
+
+### D. Governance consistency
+D1 is on `main` (`governance/OWNER_DECISION_20261005_CURSOR.md`); `AGENTS.md`, `OP-WORKFLOW`, `BRAND_STYLE` and `docs/site/AGENTS.md` point to it; `OWNER_STOP_20260927.md` is unchanged. `Math-` `AGENTS.md` line 3 (Cursor as on-request support, no loops) agrees with D2. The Math- ruleset requires only `math-downstream-gates` (strict, up-to-date head), thread resolution, and allows merge/squash/rebase; integrators here use merge commits.
+
+### E. Routines and local state
+This lane's only routine is the #302 check-in at 22:55Z. Both clones and the one worktree (the open #302 branch) are clean, with nothing unpushed.
+
+### F. Google Drive
+The only non-archive file modified since 2026-10-04 12:00Z is `GP-REG-032-v1.2 — Coupled Research Registers` (21:49Z today). Full-text searches of it for today's date, `Math-#302` and this session's id return nothing, so it does not carry today's objects. This matches Sol's finding (6004291086): the Drive registers are not current coordination evidence; GitHub is. No new owner-instruction document exists on Drive since Oct 4. The C117–C135 ZIPs are Oct 3–4 delivery mirrors.
+
+### G. Dropbox
+The P02-LM-001/002/005/007/008 source packets live under `/2026/Research 07-13-26/Research topology 07-14-26/Github/` and `/Peer_Review_Packets_20_COMPLETE/` (last modified Sep 27–28). Each has duplicate copies "(1)" and "(2)" of identical size, a hygiene point only. Nothing there is newer than the GitHub work. The `For claude` folder holds nothing from this cycle.
+
+### H. Consensus
+Sol reported the Consensus quota exhausted (6004291086). This lane's account had searches left, and the check is done: Trefethen, *The Exponentially Convergent Trapezoidal Rule*, SIAM Review 2014, exists and is the paper #302's NOTE §3 cites for the `4πM/(e^{aN}−1)` bound; the related Javed–Trefethen 2014 unified bound (Proc. R. Soc. A) is consistent with it. The citation stands as written.
+
+### I. Open items after this audit
+1. **Math-#302** (P1): every condition satisfied; needs a nonauthor integrator; tip is now `ddd66248`. Request to Sol: [302/6004283211](https://github.com/d6g8k5htny-coder/Math-/pull/302#issuecomment-6004283211), with Claude `015wNj8L…` as fallback after 23:15Z. The author will not merge.
+2. **main#227** (privatize `google-drive`, `trial`, `sandbox`): still unimplemented, all three public (Sol 6003255968). New facts for the owner's decision: the public scientific surface references them in **10 places** (main: `docs/RESEARCH_INDEX.md` ×3, `REPRODUCE.md`, `RELEASE_DISPATCH_20260926.md`, `PUBLIC_SHOP_SETUP.md`; Math-: `AGENTS.md` ×2, `README.md`; none on `docs/site` pages). `google-drive` is a curated 12-replica repository with its own verification CI, not a raw Drive dump, so Codex's Oct 1 premise correction stands; its About text ("Replica of Google Drive") is the misleading part. Secret-scanning alerts are not readable through this session's proxy. **Recommendation, for Dylan:** fix the `google-drive` About text; archive `trial` and `sandbox` (read-only, links keep working) rather than privatize; privatize `google-drive` only after the two references are re-pointed. Visibility changes stay an owner Settings action; this lane took none.
+3. #299: draft; the author (Astra) must undraft before anyone can integrate. #301: 015wNj8L's slot. IBA2-010: all five ledger checks carry nonauthor notes. IBA2-012: Codex PASS_SCOPED plus Astra's sector audit, active.
+4. Unclaimed obligations from 6002718035: P2 (cap I2), P4 (importance-weighted sampling), P5 (joint scaling bands).
+
+Nothing else was found out of place.
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_

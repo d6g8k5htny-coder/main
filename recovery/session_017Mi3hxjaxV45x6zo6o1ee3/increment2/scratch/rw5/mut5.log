@@ -1,0 +1,35 @@
+None -B -S 0 []
+None -B -O -S 0 []
+image-shells -B -S 1 ['IMAGE_BOUND']
+image-shells -B -O -S 1 ['IMAGE_BOUND']
+d4-floor -B -S 1 ['LAMBDA_FLOOR', 'TILTED_EXACT']
+d4-floor -B -O -S 1 ['LAMBDA_FLOOR', 'TILTED_EXACT']
+sandwich-swap -B -S 1 ['SANDWICH_EXACT_SCALING', 'SANDWICH_ORDERED']
+sandwich-swap -B -O -S 1 ['SANDWICH_EXACT_SCALING', 'SANDWICH_ORDERED']
+window-scale -B -S 1 ['SANDWICH_EXACT_SCALING', 'SANDWICH_ORDERED']
+window-scale -B -O -S 1 ['SANDWICH_EXACT_SCALING', 'SANDWICH_ORDERED']
+trace-slope -B -S 1 ['CROSSCHECK_M2_M3', 'FLOAT_CONTROL', 'PINNED']
+trace-slope -B -O -S 1 ['CROSSCHECK_M2_M3', 'FLOAT_CONTROL', 'PINNED']
+moment-recurrence -B -S 1 crash: ^
+  File "<SCRATCH>/wtw5/frontiers/c8_window_coefficient_d5_20261001/window_coefficient_d5.py", line 704, in F_float
+    raise ValueError("unexpected kind " + str(key))
+ValueError: unexpected kind ('K', Fraction(1, 48), Fraction(1, 24))
+
+moment-recurrence -B -O -S 1 crash: ^
+  File "<SCRATCH>/wtw5/frontiers/c8_window_coefficient_d5_20261001/window_coefficient_d5.py", line 704, in F_float
+    raise ValueError("unexpected kind " + str(key))
+ValueError: unexpected kind ('K', Fraction(1, 48), Fraction(1, 24))
+
+remainder-dropped -B -S 1 ['QUAD_COARSE']
+remainder-dropped -B -O -S 1 ['QUAD_COARSE']
+parts-sign -B -S 1 ['INNER_LAYERS', 'D4_EXACT', 'QUAD_COARSE', 'FLOAT_CONTROL', 'TILTED_EXACT', 'FACTORIZATION', 'C5_CONSISTENT', 'PINNED']
+parts-sign -B -O -S 1 ['INNER_LAYERS', 'D4_EXACT', 'QUAD_COARSE', 'FLOAT_CONTROL', 'TILTED_EXACT', 'FACTORIZATION', 'C5_CONSISTENT', 'PINNED']
+schur-sign -B -S 1 ['REFERENCE_EXACT', 'LAMBDA_FLOOR', 'TILTED_EXACT']
+schur-sign -B -O -S 1 ['REFERENCE_EXACT', 'LAMBDA_FLOOR', 'TILTED_EXACT']
+tau-cross -B -S 1 ['REFERENCE_EXACT', 'FACTORIZATION', 'C5_CONSISTENT', 'NESTING']
+tau-cross -B -O -S 1 ['REFERENCE_EXACT', 'FACTORIZATION', 'C5_CONSISTENT', 'NESTING']
+sphere -B -S 1 ['FACTORIZATION', 'C5_CONSISTENT', 'NESTING']
+sphere -B -O -S 1 ['FACTORIZATION', 'C5_CONSISTENT', 'NESTING']
+tilt-gamma -B -S 1 ['TILTED_EXACT']
+tilt-gamma -B -O -S 1 ['TILTED_EXACT']
+baseline identical True

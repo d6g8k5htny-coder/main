@@ -1,0 +1,13 @@
+import Mathlib
+open Set
+#check @convexOn_of_hasDerivWithinAt2_nonneg
+#check @concaveOn_of_hasDerivWithinAt2_nonpos
+#check @Convex.norm_image_sub_le_of_norm_hasDerivWithin_le
+#check @UniqueDiffWithinAt.eq_deriv
+#check @HasDerivWithinAt.congr_of_mem
+#check @uniqueDiffOn_Icc
+#check @HasDerivAt.clm_apply
+#check @Filter.Eventually.exists
+#check @ContinuousAt.eventually_lt
+#check @eventually_lt_nhds
+#check @interior_Icc

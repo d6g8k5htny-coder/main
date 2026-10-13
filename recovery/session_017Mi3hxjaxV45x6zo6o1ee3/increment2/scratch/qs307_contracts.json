@@ -1,0 +1,821 @@
+[
+ {
+  "tag": "A3",
+  "name": "a3d_exact.py",
+  "script": "A3/author_controls.py",
+  "baseline": {
+   "args": [],
+   "code": 0,
+   "elapsed": 0.8,
+   "stdout": "{\"all_pass\": true, \"counts\": {\"Z1\": 2400, \"Z2\": 3600, \"Z3\": 6800, \"Z4\": 1200}, \"failures\": [], \"mutant\": null, \"object\": \"A3 d>=3 hard-fibre reduction (author-side exact controls)\", \"scientific_effect\": \"NONE\"}\n",
+   "stderr": "",
+   "stdout_sha": "d5773800b4959eb4",
+   "matches_published": true
+  },
+  "mutants": [
+   {
+    "args": [
+     "--mutant",
+     "Z2"
+    ],
+    "code": 1,
+    "elapsed": 0.7,
+    "stdout": "{\"all_pass\": false, \"counts\": {\"Z1\": 2400, \"Z2\": 3600, \"Z3\": 6800, \"Z4\": 1200}, \"failures\": [\"('Z2-gain', 0)\", \"('Z2-gain', 1)\", \"('Z2-gain', 2)\", \"('Z2-gain', 3)\", \"('Z2-gain', 4)\", \"('Z2-gain', 5)\", \"('Z2-gain', 6)\", \"('Z2-gain', 8)\"], \"mutant\": \"Z2\", \"object\": \"A3 d>=3 hard-fibre reduction (author-side exact controls)\", \"scientific_effect\": \"NONE\"}\n",
+    "stderr": "",
+    "stdout_sha": "e04b2610f0b94857"
+   },
+   {
+    "args": [
+     "--mutant",
+     "Z3"
+    ],
+    "code": 1,
+    "elapsed": 0.7,
+    "stdout": "{\"all_pass\": false, \"counts\": {\"Z1\": 2400, \"Z2\": 3600, \"Z3\": 6246, \"Z4\": 1200}, \"failures\": [\"('Z3-drop', 0)\", \"('Z3-drop', 3)\", \"('Z3-drop', 6)\", \"('Z3-drop', 9)\", \"('Z3-drop', 12)\", \"('Z3-drop', 15)\", \"('Z3-drop', 18)\", \"('Z3-drop', 21)\"], \"mutant\": \"Z3\", \"object\": \"A3 d>=3 hard-fibre reduction (author-side exact controls)\", \"scientific_effect\": \"NONE\"}\n",
+    "stderr": "",
+    "stdout_sha": "15364c942daeecd4"
+   },
+   {
+    "args": [
+     "--mutant",
+     "Z4"
+    ],
+    "code": 1,
+    "elapsed": 0.7,
+    "stdout": "{\"all_pass\": false, \"counts\": {\"Z1\": 2400, \"Z2\": 3600, \"Z3\": 6800, \"Z4\": 1200}, \"failures\": [\"('Z4', 0)\", \"('Z4', 1)\", \"('Z4', 2)\", \"('Z4', 3)\", \"('Z4', 4)\", \"('Z4', 5)\", \"('Z4', 6)\", \"('Z4', 8)\"], \"mutant\": \"Z4\", \"object\": \"A3 d>=3 hard-fibre reduction (author-side exact controls)\", \"scientific_effect\": \"NONE\"}\n",
+    "stderr": "",
+    "stdout_sha": "5425d23fdf3ae54a"
+   }
+  ],
+  "invalid": [
+   {
+    "args": [
+     "--bogus"
+    ],
+    "code": 2,
+    "elapsed": 0.0,
+    "stdout": "{\"error\": \"unknown arguments\"}\n",
+    "stderr": "",
+    "stdout_sha": "034489f97f641cc1"
+   }
+  ]
+ },
+ {
+  "tag": "A3.1",
+  "name": "a31_exact.py",
+  "script": "A3_1/author_controls.py",
+  "baseline": {
+   "args": [],
+   "code": 0,
+   "elapsed": 0.7,
+   "stdout": "{\"all_pass\": true, \"counts\": {\"C1\": 800, \"F1\": 6001, \"H1\": 1671, \"N1\": 1200, \"R1\": 1600}, \"failures\": [], \"mutant\": null, \"object\": \"QS addendum A3.1 author-side exact controls\", \"scientific_effect\": \"NONE\"}\n",
+   "stderr": "",
+   "stdout_sha": "a826b2659853edfa",
+   "matches_published": true
+  },
+  "mutants": [
+   {
+    "args": [
+     "--mutant",
+     "N1"
+    ],
+    "code": 1,
+    "elapsed": 0.5,
+    "stdout": "{\"all_pass\": false, \"counts\": {\"C1\": 800, \"F1\": 6001, \"H1\": 1648, \"N1\": 1200, \"R1\": 1600}, \"failures\": [\"('N1', 'S', 0, (0, 0, 2), (0, 1, 2))\", \"('N1', 'S', 5, (0, 0, 2), (0, 2, 2))\", \"('N1', 'S', 10, (0, 0, 2), (0, 1, 2))\", \"('N1', 'S', 15, (0, 0, 2), (0, 2, 2))\", \"('N1', 'S', 20, (0, 0, 2), (0, 1, 2))\", \"('N1', 'S', 25, (0, 0, 2), (0, 2, 2))\", \"('N1', 'S', 30, (0, 0, 2), (0, 1, 2))\", \"('N1', 'S', 35, (0, 0, 2), (0, 2, 2))\"], \"mutant\": \"N1\", \"object\": \"QS addendum A3.1 author-side exact controls\", \"scientific_effect\": \"NONE\"}\n",
+    "stderr": "",
+    "stdout_sha": "bdae332b611455aa"
+   },
+   {
+    "args": [
+     "--mutant",
+     "F1"
+    ],
+    "code": 1,
+    "elapsed": 0.7,
+    "stdout": "{\"all_pass\": false, \"counts\": {\"C1\": 800, \"F1\": 4201, \"H1\": 1671, \"N1\": 1200, \"R1\": 1600}, \"failures\": [\"('F1-linear', 0, (0, 0), 1)\", \"('F1-linear', 1, (0, 0), 1)\", \"('F1-linear', 2, (0, 0), 1)\", \"('F1-linear', 3, (0, 0), 1)\", \"('F1-linear', 4, (0, 0), 1)\", \"('F1-linear', 5, (0, 0), 1)\", \"('F1-linear', 6, (0, 0), 1)\", \"('F1-linear', 7, (0, 0), 1)\"], \"mutant\": \"F1\", \"object\": \"QS addendum A3.1 author-side exact controls\", \"scientific_effect\": \"NONE\"}\n",
+    "stderr": "",
+    "stdout_sha": "8f637a031d7176b4"
+   },
+   {
+    "args": [
+     "--mutant",
+     "R1"
+    ],
+    "code": 1,
+    "elapsed": 0.7,
+    "stdout": "{\"all_pass\": false, \"counts\": {\"C1\": 800, \"F1\": 6001, \"H1\": 1671, \"N1\": 1200, \"R1\": 1600}, \"failures\": [\"('R1', 4, '-5/2')\", \"('R1', 12, '-5/2')\", \"('R1', 19, '-5/2')\", \"('R1', 22, '-5/2')\", \"('R1', 25, '-5/2')\", \"('R1', 31, '-5/2')\", \"('R1', 52, '-5/2')\", \"('R1', 54, '-5/2')\"], \"mutant\": \"R1\", \"object\": \"QS addendum A3.1 author-side exact controls\", \"scientific_effect\": \"NONE\"}\n",
+    "stderr": "",
+    "stdout_sha": "94f45519c4c9b5ed"
+   },
+   {
+    "args": [
+     "--mutant",
+     "C1"
+    ],
+    "code": 1,
+    "elapsed": 0.7,
+    "stdout": "{\"all_pass\": false, \"counts\": {\"C1\": 800, \"F1\": 6001, \"H1\": 1671, \"N1\": 1200, \"R1\": 1600}, \"failures\": [\"('C1', 0)\", \"('C1', 1)\", \"('C1', 2)\", \"('C1', 3)\", \"('C1', 4)\", \"('C1', 5)\", \"('C1', 6)\", \"('C1', 7)\"], \"mutant\": \"C1\", \"object\": \"QS addendum A3.1 author-side exact controls\", \"scientific_effect\": \"NONE\"}\n",
+    "stderr": "",
+    "stdout_sha": "ab8c4393467bd87b"
+   },
+   {
+    "args": [
+     "--mutant",
+     "H1"
+    ],
+    "code": 1,
+    "elapsed": 0.7,
+    "stdout": "{\"all_pass\": false, \"counts\": {\"C1\": 800, \"F1\": 6001, \"H1\": 1671, \"N1\": 1200, \"R1\": 1600}, \"failures\": [\"('H1', 2, 0, 6, 45, 40)\", \"('H1', 2, 0, 26, 40, 45)\", \"('H1', 2, 0, 31, 35, 37)\", \"('H1', 2, 0, 38, 49, 35)\", \"('H1', 2, 0, 42, 37, None)\", \"('H1', 2, 0, 52, 62, 49)\", \"('H1-global', 2, 0, 54)\", \"('H1', 2, 0, 66, 33, 50)\"], \"mutant\": \"H1\", \"object\": \"QS addendum A3.1 author-side exact controls\", \"scientific_effect\": \"NONE\"}\n",
+    "stderr": "",
+    "stdout_sha": "15d71c1992177a1f"
+   }
+  ],
+  "invalid": [
+   {
+    "args": [
+     "--bogus"
+    ],
+    "code": 2,
+    "elapsed": 0.0,
+    "stdout": "{\"error\": \"unknown arguments\"}\n",
+    "stderr": "",
+    "stdout_sha": "034489f97f641cc1"
+   }
+  ]
+ },
+ {
+  "tag": "A3.2",
+  "name": "a32_exact.py",
+  "script": "A3_2/author_controls.py",
+  "baseline": {
+   "args": [],
+   "code": 0,
+   "elapsed": 0.5,
+   "stdout": "{\"all_pass\": true, \"counts\": {\"W1-det\": 300, \"W1-inertia\": 300, \"W2-det\": 400, \"W2-inertia\": 400, \"W3-SC\": 500, \"W3-kappa\": 500, \"W3-psi-c\": 500, \"W4-attained\": 1198, \"W4-extreme\": 2396, \"W4-hard\": 599, \"W4-reduced\": 1198}, \"failures\": [], \"mutant\": null, \"object\": \"QS addendum A3.2 author-side exact controls (Lemma WF)\", \"scientific_effect\": \"NONE\"}\n",
+   "stderr": "",
+   "stdout_sha": "f2f5d0aecd9980e6",
+   "matches_published": true
+  },
+  "mutants": [
+   {
+    "args": [
+     "--mutant",
+     "W1"
+    ],
+    "code": 1,
+    "elapsed": 0.5,
+    "stdout": "{\"all_pass\": false, \"counts\": {\"W1-det\": 300, \"W1-inertia\": 300, \"W2-det\": 400, \"W2-inertia\": 400, \"W3-SC\": 500, \"W3-kappa\": 500, \"W3-psi-c\": 500, \"W4-attained\": 1198, \"W4-extreme\": 2396, \"W4-hard\": 599, \"W4-reduced\": 1198}, \"failures\": [\"('W1-det', (3, 0))\", \"('W1-det', (4, 1))\", \"('W1-det', (3, 2))\", \"('W1-det', (4, 3))\", \"('W1-det', (3, 4))\", \"('W1-det', (4, 5))\"], \"mutant\": \"W1\", \"object\": \"QS addendum A3.2 author-side exact controls (Lemma WF)\", \"scientific_effect\": \"NONE\"}\n",
+    "stderr": "",
+    "stdout_sha": "62a9beb4f697c0f2"
+   },
+   {
+    "args": [
+     "--mutant",
+     "W3"
+    ],
+    "code": 1,
+    "elapsed": 0.5,
+    "stdout": "{\"all_pass\": false, \"counts\": {\"W1-det\": 300, \"W1-inertia\": 300, \"W2-det\": 400, \"W2-inertia\": 400, \"W3-SC\": 500, \"W3-kappa\": 500, \"W3-psi-c\": 500, \"W4-attained\": 1198, \"W4-extreme\": 2396, \"W4-hard\": 599, \"W4-reduced\": 1198}, \"failures\": [\"('W3-psi-c', None)\", \"('W3-psi-c', None)\", \"('W3-psi-c', None)\", \"('W3-psi-c', None)\", \"('W3-psi-c', None)\", \"('W3-psi-c', None)\"], \"mutant\": \"W3\", \"object\": \"QS addendum A3.2 author-side exact controls (Lemma WF)\", \"scientific_effect\": \"NONE\"}\n",
+    "stderr": "",
+    "stdout_sha": "fbea0daa327d6d93"
+   },
+   {
+    "args": [
+     "--mutant",
+     "W4"
+    ],
+    "code": 1,
+    "elapsed": 0.5,
+    "stdout": "{\"all_pass\": false, \"counts\": {\"W1-det\": 300, \"W1-inertia\": 300, \"W2-det\": 400, \"W2-inertia\": 400, \"W3-SC\": 500, \"W3-kappa\": 500, \"W3-psi-c\": 500, \"W4-attained\": 1198, \"W4-extreme\": 2396, \"W4-hard\": 599, \"W4-reduced\": 1198}, \"failures\": [\"('W4-hard', (0, 1))\", \"('W4-hard', (6, 1))\", \"('W4-hard', (8, 1))\", \"('W4-hard', (10, 1))\", \"('W4-hard', (12, 1))\", \"('W4-hard', (14, 1))\"], \"mutant\": \"W4\", \"object\": \"QS addendum A3.2 author-side exact controls (Lemma WF)\", \"scientific_effect\": \"NONE\"}\n",
+    "stderr": "",
+    "stdout_sha": "5dd21eff08c0b14b"
+   },
+   {
+    "args": [
+     "--mutant",
+     "W4r"
+    ],
+    "code": 1,
+    "elapsed": 0.6,
+    "stdout": "{\"all_pass\": false, \"counts\": {\"W1-det\": 300, \"W1-inertia\": 300, \"W2-det\": 400, \"W2-inertia\": 400, \"W3-SC\": 500, \"W3-kappa\": 500, \"W3-psi-c\": 500, \"W4-attained\": 1198, \"W4-extreme\": 2396, \"W4-hard\": 599, \"W4-reduced\": 1198}, \"failures\": [\"('W4-extreme', None)\", \"('W4-extreme', None)\", \"('W4-extreme', None)\", \"('W4-extreme', None)\", \"('W4-extreme', None)\", \"('W4-extreme', None)\"], \"mutant\": \"W4r\", \"object\": \"QS addendum A3.2 author-side exact controls (Lemma WF)\", \"scientific_effect\": \"NONE\"}\n",
+    "stderr": "",
+    "stdout_sha": "3d62fdc97b4db41e"
+   }
+  ],
+  "invalid": [
+   {
+    "args": [
+     "--bogus"
+    ],
+    "code": 2,
+    "elapsed": 0.0,
+    "stdout": "{\"error\": \"unknown arguments\"}\n",
+    "stderr": "",
+    "stdout_sha": "034489f97f641cc1"
+   }
+  ]
+ },
+ {
+  "tag": "A3.3",
+  "name": "a33_exact.py",
+  "script": "A3_3/author_controls.py",
+  "baseline": {
+   "args": [],
+   "code": 0,
+   "elapsed": 26.0,
+   "stdout": "{\"K1\": {\"checks\": 7200, \"explicit_instance_ratio\": \"13225/6664\", \"explicit_instance_ratio_float\": 1.984544, \"max_ratio_random\": \"1\", \"ratio_above_1_in_random\": false}, \"K2\": {\"checks\": 7200, \"equality_attained_in_random_cases\": true, \"matrices\": 1800}, \"K3\": {\"checks\": 7200}, \"K4\": {\"pins_checked\": 80}, \"K5\": {\"C0\": \"2\", \"cases\": 576, \"grid_cases_lam2_le_0\": 216, \"identity_3_5\": \"exact at k = 1, 3/2\", \"max_ratio\": \"223757/487170\", \"negative_branch_W_over_r4\": \"1/57600000016\"}, \"all_pass\": true, \"object\": \"CL-QS-A3-3-WEIGHT-TRANSFER-20261004-v1\", \"scientific_effect\": \"NONE\"}\n",
+   "stderr": "",
+   "stdout_sha": "67f90e8b0594b5e6",
+   "matches_published": true
+  },
+  "mutants": [
+   {
+    "args": [
+     "--mutant",
+     "M1"
+    ],
+    "code": 1,
+    "elapsed": 12.0,
+    "stdout": "",
+    "stderr": "{\"failed\": \"K1 BD(a) violated on the explicit instance (ratio 13225/6664)\"}\n",
+    "stdout_sha": "e3b0c44298fc1c14"
+   },
+   {
+    "args": [
+     "--mutant",
+     "M2"
+    ],
+    "code": 1,
+    "elapsed": 11.8,
+    "stdout": "",
+    "stderr": "{\"failed\": \"K2 BD(b) violated: n1=1 j=2 lhs=1 |c|=1\"}\n",
+    "stdout_sha": "e3b0c44298fc1c14"
+   },
+   {
+    "args": [
+     "--mutant",
+     "M3"
+    ],
+    "code": 1,
+    "elapsed": 23.0,
+    "stdout": "",
+    "stderr": "{\"failed\": \"K4 s^1 part is not the mixed block at entry (0,2)\"}\n",
+    "stdout_sha": "e3b0c44298fc1c14"
+   },
+   {
+    "args": [
+     "--mutant",
+     "M4"
+    ],
+    "code": 1,
+    "elapsed": 23.0,
+    "stdout": "",
+    "stderr": "{\"failed\": \"K5 W3 bound violated: r=1/100 lam2=1 ratio=1380122500/60162641\"}\n",
+    "stdout_sha": "e3b0c44298fc1c14"
+   },
+   {
+    "args": [
+     "--mutant",
+     "M5"
+    ],
+    "code": 1,
+    "elapsed": 18.4,
+    "stdout": "",
+    "stderr": "{\"failed\": \"K3 index additivity fails: (2,1) j=1\"}\n",
+    "stdout_sha": "e3b0c44298fc1c14"
+   }
+  ],
+  "invalid": [
+   {
+    "args": [
+     "--bogus"
+    ],
+    "code": 2,
+    "elapsed": 0.0,
+    "stdout": "",
+    "stderr": "usage: a33_exact.py [--mutant M1|M2|M3|M4|M5]\n",
+    "stdout_sha": "e3b0c44298fc1c14"
+   }
+  ]
+ },
+ {
+  "tag": "A3.3",
+  "name": "a33_k5o.py (addendum control; imports the frozen a33_exact.py)",
+  "script": "A3_3/addendum_control_k5o.py",
+  "baseline": {
+   "args": [
+    "author_controls.py"
+   ],
+   "code": 0,
+   "elapsed": 25.7,
+   "stdout": "{\"O1\": {\"explicit_example\": {\"lambda1\": \"1/10000\", \"lambda2\": \"-1/1440000\", \"ordered\": false}, \"grid_cases\": 576, \"ordered\": 297, \"ordered_lam2_le_0\": 0, \"unordered_lam2_gt_0\": 63, \"unordered_lam2_le_0\": 216}, \"O2\": {\"Nf\": \"25\", \"cases\": 24, \"max_ratio_C0_form\": \"1/294423972500\", \"min_W_over_r4\": \"9/1000000000000000000000000\"}, \"object\": \"A3.3 control addendum for A33-S2-C1\", \"passed\": true, \"scientific_effect\": \"NONE\"}\n",
+   "stderr": "",
+   "stdout_sha": "dc48d12592014be9",
+   "matches_published": true
+  },
+  "mutants": [
+   {
+    "args": [
+     "author_controls.py",
+     "--mutant",
+     "W1"
+    ],
+    "code": 1,
+    "elapsed": 25.2,
+    "stdout": "{\"O1\": {\"explicit_example\": {\"lambda1\": \"1/10000\", \"lambda2\": \"-1/1440000\", \"ordered\": false}, \"grid_cases\": 576, \"ordered\": 297, \"ordered_lam2_le_0\": 0, \"unordered_lam2_gt_0\": 63, \"unordered_lam2_le_0\": 216}, \"O2\": {\"Nf\": \"25\", \"cases\": 24, \"max_ratio_C0_form\": \"0\", \"min_W_over_r4\": \"0\"}, \"object\": \"A3.3 control addendum for A33-S2-C1\", \"passed\": false, \"scientific_effect\": \"NONE\"}\n",
+    "stderr": "FAILED:\nO2: pin Hessians\nO2: W_r/r^4\nO2: pin Hessians\nO2: W_r/r^4\nO2: pin Hessians\nO2: W_r/r^4\nO2: pin Hessians\nO2: W_r/r^4\nO2: pin Hessians\nO2: W_r/r^4\nO2: pin Hessians\nO2: W_r/r^4\nO2: pin Hessians\nO2: W_r/r^4\nO2: pin Hessians\nO2: W_r/r^4\nO2: pin Hessians\nO2: W_r/r^4\nO2: pin Hessians\nO2: W_r/r^4\n",
+    "stdout_sha": "0f36d669163dbaf1"
+   },
+   {
+    "args": [
+     "author_controls.py",
+     "--mutant",
+     "W2"
+    ],
+    "code": 1,
+    "elapsed": 25.4,
+    "stdout": "{\"O1\": {\"explicit_example\": {\"lambda1\": \"1/10000\", \"lambda2\": \"-1/1440000\", \"ordered\": false}, \"grid_cases\": 576, \"ordered\": 297, \"ordered_lam2_le_0\": 0, \"unordered_lam2_gt_0\": 63, \"unordered_lam2_le_0\": 216}, \"O2\": {\"Nf\": \"25\", \"cases\": 24, \"max_ratio_C0_form\": \"0\", \"min_W_over_r4\": \"0\"}, \"object\": \"A3.3 control addendum for A33-S2-C1\", \"passed\": false, \"scientific_effect\": \"NONE\"}\n",
+    "stderr": "FAILED:\nO2: not ordered with lambda2 < 0 (r=1/100 k=1/2)\nO2: pin Hessians\nO2: W_r/r^4\nO2: not ordered with lambda2 < 0 (r=1/100 k=1/2)\nO2: pin Hessians\nO2: W_r/r^4\nO2: not ordered with lambda2 < 0 (r=1/100 k=1)\nO2: pin Hessians\nO2: W_r/r^4\nO2: not ordered with lambda2 < 0 (r=1/100 k=1)\nO2: pin Hessians\nO2: W_r/r^4\nO2: not ordered with lambda2 < 0 (r=1/100 k=3/2)\nO2: pin Hessians\nO2: W_r/r^4\nO2: not ordered with lambda2 < 0 (r=1/100 k=3/2)\nO2: pin Hessians\nO2: W_r/r^4\nO2: not ordered with lambda2 < 0 (r=1/100 k=2)\nO2: pin Hessians\n",
+    "stdout_sha": "0f36d669163dbaf1"
+   }
+  ],
+  "invalid": [
+   {
+    "args": [
+     "author_controls.py",
+     "--mutant",
+     "W3"
+    ],
+    "code": 2,
+    "elapsed": 0.0,
+    "stdout": "",
+    "stderr": "usage: a33_k5o.py PATH/a33_exact.py [--mutant W1|W2]\n",
+    "stdout_sha": "e3b0c44298fc1c14"
+   },
+   {
+    "args": [],
+    "code": 2,
+    "elapsed": 0.0,
+    "stdout": "",
+    "stderr": "usage: a33_k5o.py PATH/a33_exact.py [--mutant W1|W2]\n",
+    "stdout_sha": "e3b0c44298fc1c14"
+   }
+  ]
+ },
+ {
+  "tag": "A3.4",
+  "name": "a34_exact.py",
+  "script": "A3_4/author_controls.py",
+  "baseline": {
+   "args": [],
+   "code": 0,
+   "elapsed": 0.3,
+   "stdout": "{\"S1\": {\"checks\": 800}, \"S2\": {\"det_nonzero\": true, \"functionals\": 20, \"lattice_points\": 20}, \"S3\": {\"checks\": 300}, \"S4\": {\"checks\": 2000}, \"S5\": {\"checks\": 36, \"max_ratio_over_Lam2\": \"402631339/134217728\", \"min_ratio_over_Lam2\": \"257/96\"}, \"all_pass\": true, \"object\": \"CL-QS-A3-4-SOFT-LAYER-LAW-20261005-v1\", \"scientific_effect\": \"NONE\"}\n",
+   "stderr": "",
+   "stdout_sha": "12ea6cb892734760",
+   "matches_published": true
+  },
+  "mutants": [
+   {
+    "args": [
+     "--mutant",
+     "N1"
+    ],
+    "code": 1,
+    "elapsed": 0.0,
+    "stdout": "",
+    "stderr": "{\"failed\": \"S1 spectral Jacobian fails: mu1=0 mu2=14/11 tau=-2/13\"}\n",
+    "stdout_sha": "e3b0c44298fc1c14"
+   },
+   {
+    "args": [
+     "--mutant",
+     "N2"
+    ],
+    "code": 1,
+    "elapsed": 0.1,
+    "stdout": "",
+    "stderr": "{\"failed\": \"S2 the monomial matrix at the lattice points is singular\"}\n",
+    "stdout_sha": "e3b0c44298fc1c14"
+   },
+   {
+    "args": [
+     "--mutant",
+     "N3"
+    ],
+    "code": 1,
+    "elapsed": 0.1,
+    "stdout": "",
+    "stderr": "{\"failed\": \"S3 eigenframe jet formulas fail\"}\n",
+    "stdout_sha": "e3b0c44298fc1c14"
+   },
+   {
+    "args": [
+     "--mutant",
+     "N4"
+    ],
+    "code": 1,
+    "elapsed": 0.2,
+    "stdout": "",
+    "stderr": "{\"failed\": \"S4 a_M + a_S != 12 lt\"}\n",
+    "stdout_sha": "e3b0c44298fc1c14"
+   },
+   {
+    "args": [
+     "--mutant",
+     "N5"
+    ],
+    "code": 1,
+    "elapsed": 0.3,
+    "stdout": "",
+    "stderr": "{\"failed\": \"S5 the strip integral is not of order delta^2: Lam=1/2 delta=1/2 ratio=397/144\"}\n",
+    "stdout_sha": "e3b0c44298fc1c14"
+   },
+   {
+    "args": [
+     "--mutant",
+     "N6"
+    ],
+    "code": 1,
+    "elapsed": 0.1,
+    "stdout": "",
+    "stderr": "{\"failed\": \"S2 the 20 contact functionals are not the distinct multi-indices of order <= 3\"}\n",
+    "stdout_sha": "e3b0c44298fc1c14"
+   }
+  ],
+  "invalid": [
+   {
+    "args": [
+     "--bogus"
+    ],
+    "code": 2,
+    "elapsed": 0.0,
+    "stdout": "",
+    "stderr": "usage: a34_exact.py [--mutant N1|N2|N3|N4|N5|N6]\n",
+    "stdout_sha": "e3b0c44298fc1c14"
+   },
+   {
+    "args": [
+     "--mutant",
+     "N7"
+    ],
+    "code": 2,
+    "elapsed": 0.0,
+    "stdout": "",
+    "stderr": "usage: a34_exact.py [--mutant N1|N2|N3|N4|N5|N6]\n",
+    "stdout_sha": "e3b0c44298fc1c14"
+   },
+   {
+    "args": [
+     "--mutant"
+    ],
+    "code": 2,
+    "elapsed": 0.0,
+    "stdout": "",
+    "stderr": "usage: a34_exact.py [--mutant N1|N2|N3|N4|N5|N6]\n",
+    "stdout_sha": "e3b0c44298fc1c14"
+   }
+  ]
+ },
+ {
+  "tag": "A3.5",
+  "name": "a35_exact.py",
+  "script": "A3_5/author_controls.py",
+  "baseline": {
+   "args": [],
+   "code": 0,
+   "elapsed": 32.5,
+   "stdout": "{\"cases_D1\": 4000, \"constants_k1\": {\"A1\": \"67/48\", \"A2\": \"3\", \"A3\": \"217/24\", \"A4\": \"3\", \"CB\": \"16\", \"Ce\": \"28561/2304\", \"Ch\": \"134377/288\", \"Dh\": \"259/24\", \"K0\": \"167/192\", \"K0_3\": \"923/192\", \"K1_3\": \"945/128\", \"K2\": \"115/48\", \"K2_3\": \"127/16\", \"c0\": \"17/8\", \"c1\": \"4\", \"c2\": \"2\", \"c3\": \"361/24\"}, \"counts\": {\"D1_prop_D3\": 4000, \"F0_pins_exact\": 42, \"F1_cube_j0\": 42, \"F1_cube_j1\": 42, \"F1_cube_j2\": 42, \"F2_FW0_j0\": 42, \"F2_FW0_j1\": 42, \"F2_FW0_j2\": 42, \"F2_FW1\": 42, \"F2_FW2\": 42, \"F2_FW3\": 42, \"F2_FW4\": 42, \"F3_D2a2\": 42, \"F3_Da2\": 42, \"F3_a2\": 42, \"G1a_closed_form\": 40, \"G1a_inner_bound\": 1500, \"G1a_sharp\": 1, \"G1b_gap\": 40, \"G2_dominant\": 15, \"G2_exponents\": 64, \"T1_chain_rule\": 300, \"T1_frobenius\": 475, \"T1_pin_hessians\": 300, \"T1_qs_identity\": 300}, \"fields_F\": 42, \"largest_ratios\": {\"F1_cube_j0\": \"91380/301919\", \"F1_cube_j1\": \"288128/734877\", \"F1_cube_j2\": \"244111/463781\", \"F2_FW0_j0\": \"224500/243243\", \"F2_FW0_j1\": \"498925/521203\", \"F2_FW0_j2\": \"57600/59059\", \"F2_FW1\": \"920931/935618\", \"F2_FW2\": \"1000/1001\", \"F2_FW3\": \"639437/700617\", \"F2_FW4\": \"512000/551551\", \"F3_D2a2\": \"218700/321733\", \"F3_Da2\": \"153090/321733\", \"F3_a2\": \"273485/763036\"}, \"passed\": true}\n",
+   "stderr": "",
+   "stdout_sha": "b30bc8ebe18f5a3d",
+   "matches_published": true
+  },
+  "mutants": [
+   {
+    "args": [
+     "--mutant",
+     "M1"
+    ],
+    "code": 1,
+    "elapsed": 31.8,
+    "stdout": "{\"cases_D1\": 4000, \"constants_k1\": {\"A1\": \"67/48\", \"A2\": \"3\", \"A3\": \"217/24\", \"A4\": \"3\", \"CB\": \"16\", \"Ce\": \"28561/2304\", \"Ch\": \"134377/288\", \"Dh\": \"259/24\", \"K0\": \"167/192\", \"K0_3\": \"923/192\", \"K1_3\": \"945/128\", \"K2\": \"115/48\", \"K2_3\": \"127/16\", \"c0\": \"17/8\", \"c1\": \"4\", \"c2\": \"2\", \"c3\": \"361/24\"}, \"counts\": {\"D1_prop_D3\": 4000, \"F0_pins_exact\": 42, \"F1_cube_j0\": 42, \"F1_cube_j1\": 42, \"F1_cube_j2\": 42, \"F2_FW0_j0\": 42, \"F2_FW0_j1\": 42, \"F2_FW0_j2\": 42, \"F2_FW1\": 42, \"F2_FW2\": 42, \"F2_FW3\": 42, \"F2_FW4\": 42, \"F3_D2a2\": 42, \"F3_Da2\": 42, \"F3_a2\": 42, \"G1a_closed_form\": 40, \"G1a_inner_bound\": 1500, \"G1a_sharp\": 1, \"G1b_gap\": 40, \"G2_dominant\": 15, \"G2_exponents\": 64, \"T1_chain_rule\": 300, \"T1_frobenius\": 475, \"T1_pin_hessians\": 300, \"T1_qs_identity\": 300}, \"fields_F\": 42, \"largest_ratios\": {\"F1_cube_j0\": \"91380/301919\", \"F1_cube_j1\": \"288128/734877\", \"F1_cube_j2\": \"244111/463781\", \"F2_FW0_j0\": \"224500/243243\", \"F2_FW0_j1\": \"498925/521203\", \"F2_FW0_j2\": \"57600/59059\", \"F2_FW1\": \"920931/935618\", \"F2_FW2\": \"3000/1001\", \"F2_FW3\": \"639437/700617\", \"F2_FW4\": \"512000/551551\", \"F3_D2a2\": \"218700/321733\", \"F3_Da2\": \"153090/321733\", \"F3_a2\": \"273485/763036\"}, \"passed\": false}\n",
+    "stderr": "FAILED:\nF2_FW2: ratio 1.0294585676520152\nF2_FW2: ratio 2.9702970297029703\nF2_FW2: ratio 2.9702970297029703\nF2_FW2: ratio 2.9702970297029703\nF2_FW2: ratio 2.997002997002997\nF2_FW2: ratio 2.997002997002997\nF2_FW2: ratio 2.997002997002997\n",
+    "stdout_sha": "2c6ab7d931ca3a04"
+   },
+   {
+    "args": [
+     "--mutant",
+     "M2"
+    ],
+    "code": 1,
+    "elapsed": 32.3,
+    "stdout": "{\"cases_D1\": 4000, \"constants_k1\": {\"A1\": \"67/48\", \"A2\": \"3\", \"A3\": \"217/24\", \"A4\": \"3\", \"CB\": \"16\", \"Ce\": \"28561/2304\", \"Ch\": \"134377/288\", \"Dh\": \"259/24\", \"K0\": \"167/192\", \"K0_3\": \"923/192\", \"K1_3\": \"945/128\", \"K2\": \"115/48\", \"K2_3\": \"127/16\", \"c0\": \"17/8\", \"c1\": \"4\", \"c2\": \"2\", \"c3\": \"361/24\"}, \"counts\": {\"D1_prop_D3\": 4000, \"F0_pins_exact\": 42, \"F1_cube_j0\": 42, \"F1_cube_j1\": 42, \"F1_cube_j2\": 42, \"F2_FW0_j0\": 42, \"F2_FW0_j1\": 42, \"F2_FW0_j2\": 42, \"F2_FW1\": 42, \"F2_FW2\": 42, \"F2_FW3\": 42, \"F2_FW4\": 42, \"F3_D2a2\": 42, \"F3_Da2\": 42, \"F3_a2\": 42, \"G1a_closed_form\": 40, \"G1a_inner_bound\": 1500, \"G1a_sharp\": 1, \"G1b_gap\": 40, \"G2_dominant\": 15, \"G2_exponents\": 64, \"T1_chain_rule\": 300, \"T1_frobenius\": 475, \"T1_pin_hessians\": 300, \"T1_qs_identity\": 300}, \"fields_F\": 42, \"largest_ratios\": {\"F1_cube_j0\": \"91380/301919\", \"F1_cube_j1\": \"288128/734877\", \"F1_cube_j2\": \"244111/463781\", \"F2_FW0_j0\": \"224500/243243\", \"F2_FW0_j1\": \"498925/521203\", \"F2_FW0_j2\": \"57600/59059\", \"F2_FW1\": \"9810138/996659\", \"F2_FW2\": \"1000/1001\", \"F2_FW3\": \"639437/700617\", \"F2_FW4\": \"512000/551551\", \"F3_D2a2\": \"218700/321733\", \"F3_Da2\": \"153090/321733\", \"F3_a2\": \"273485/763036\"}, \"passed\": false}\n",
+    "stderr": "FAILED:\nF2_FW1: ratio 1.720192801162958\nF2_FW1: ratio 1.1520761398866908\nF2_FW1: ratio 1.5327886134281432\nF2_FW1: ratio 8.837550421708837\nF2_FW1: ratio 8.837550421708837\nF2_FW1: ratio 9.424823079322858\nF2_FW1: ratio 9.424823079322858\nF2_FW1: ratio 9.755313430886467\nF2_FW1: ratio 9.755313430886467\nF2_FW1: ratio 8.917008917008918\nF2_FW1: ratio 8.917008917008918\nF2_FW1: ratio 9.509561748367718\nF2_FW1: ratio 9.509561748367718\nF2_FW1: ratio 9.843023541653679\nF2_FW1: ratio 9.843023541653679\n",
+    "stdout_sha": "44e0e82e0d69a2d4"
+   },
+   {
+    "args": [
+     "--mutant",
+     "M3"
+    ],
+    "code": 1,
+    "elapsed": 32.5,
+    "stdout": "{\"cases_D1\": 4000, \"constants_k1\": {\"A1\": \"67/48\", \"A2\": \"3\", \"A3\": \"217/24\", \"A4\": \"3\", \"CB\": \"16\", \"Ce\": \"289/64\", \"Ch\": \"134377/288\", \"Dh\": \"259/24\", \"K0\": \"167/192\", \"K0_3\": \"923/192\", \"K1_3\": \"945/128\", \"K2\": \"115/48\", \"K2_3\": \"127/16\", \"c0\": \"17/8\", \"c1\": \"4\", \"c2\": \"2\", \"c3\": \"361/24\"}, \"counts\": {\"D1_prop_D3\": 4000, \"F0_pins_exact\": 42, \"F1_cube_j0\": 42, \"F1_cube_j1\": 42, \"F1_cube_j2\": 42, \"F2_FW0_j0\": 42, \"F2_FW0_j1\": 42, \"F2_FW0_j2\": 42, \"F2_FW1\": 42, \"F2_FW2\": 42, \"F2_FW3\": 42, \"F2_FW4\": 42, \"F3_D2a2\": 42, \"F3_Da2\": 42, \"F3_a2\": 42, \"G1a_closed_form\": 40, \"G1a_inner_bound\": 1500, \"G1a_sharp\": 1, \"G1b_gap\": 40, \"G2_dominant\": 15, \"G2_exponents\": 64, \"T1_chain_rule\": 300, \"T1_frobenius\": 475, \"T1_pin_hessians\": 300, \"T1_qs_identity\": 300}, \"fields_F\": 42, \"largest_ratios\": {\"F1_cube_j0\": \"91380/301919\", \"F1_cube_j1\": \"288128/734877\", \"F1_cube_j2\": \"244111/463781\", \"F2_FW0_j0\": \"224500/243243\", \"F2_FW0_j1\": \"498925/521203\", \"F2_FW0_j2\": \"57600/59059\", \"F2_FW1\": \"920931/935618\", \"F2_FW2\": \"1000/1001\", \"F2_FW3\": \"639437/700617\", \"F2_FW4\": \"512000/551551\", \"F3_D2a2\": \"218700/321733\", \"F3_Da2\": \"153090/321733\", \"F3_a2\": \"273485/763036\"}, \"passed\": false}\n",
+    "stderr": "3 k=21/8 s=1 w=1 N=2\nD1_prop_D3: km=1/4 kp=3/8 k=9/32 s=1 w=1 N=7/2\nD1_prop_D3: km=1/4 kp=1/2 k=3/8 s=1 w=1 N=11/2\nD1_prop_D3: km=1/4 kp=1/2 k=1/4 s=1 w=1 N=2\nD1_prop_D3: km=1/2 kp=3/4 k=1/2 s=1 w=1 N=9/2\nD1_prop_D3: km=1/2 kp=3/4 k=1/2 s=1 w=1 N=3\nD1_prop_D3: km=1 kp=2 k=3/2 s=1 w=1 N=3/2\nD1_prop_D3: km=3/2 kp=3/2 k=3/2 s=1 w=1 N=6\nD1_prop_D3: km=1 kp=3/2 k=11/8 s=1 w=1 N=11/2\nD1_prop_D3: km=3/2 kp=3/2 k=3/2 s=1 w=1 N=9\nD1_prop_D3: km=1/4 kp=1/2 k=3/8 s=1 w=1 N=6\nD1_prop_D3: km=1/4 kp=1/2 k=1/4 s=1 w=1 N=9/2\nD1_prop_D3: km=1 kp=1 k=1 s=1 w=1 N=9/2\nD1_prop_D3: km=1 kp=2 k=3/2 s=1/2 w=2 N=13/2\n",
+    "stdout_sha": "925de071af2eeb04"
+   },
+   {
+    "args": [
+     "--mutant",
+     "M4"
+    ],
+    "code": 1,
+    "elapsed": 32.5,
+    "stdout": "{\"cases_D1\": 4000, \"constants_k1\": {\"A1\": \"67/48\", \"A2\": \"3\", \"A3\": \"217/24\", \"A4\": \"3\", \"CB\": \"16\", \"Ce\": \"28561/2304\", \"Ch\": \"134377/288\", \"Dh\": \"259/24\", \"K0\": \"167/192\", \"K0_3\": \"923/192\", \"K1_3\": \"945/128\", \"K2\": \"115/48\", \"K2_3\": \"127/16\", \"c0\": \"17/8\", \"c1\": \"4\", \"c2\": \"2\", \"c3\": \"361/24\"}, \"counts\": {\"D1_prop_D3\": 4000, \"F0_pins_exact\": 42, \"F1_cube_j0\": 42, \"F1_cube_j1\": 42, \"F1_cube_j2\": 42, \"F2_FW0_j0\": 42, \"F2_FW0_j1\": 42, \"F2_FW0_j2\": 42, \"F2_FW1\": 42, \"F2_FW2\": 42, \"F2_FW3\": 42, \"F2_FW4\": 42, \"F3_D2a2\": 42, \"F3_Da2\": 42, \"F3_a2\": 42, \"G1a_closed_form\": 40, \"G1a_inner_bound\": 1500, \"G1a_sharp\": 1, \"G1b_gap\": 40, \"G2_dominant\": 15, \"G2_exponents\": 64, \"T1_chain_rule\": 300, \"T1_frobenius\": 475, \"T1_pin_hessians\": 300, \"T1_qs_identity\": 300}, \"fields_F\": 42, \"largest_ratios\": {\"F1_cube_j0\": \"91380/301919\", \"F1_cube_j1\": \"288128/734877\", \"F1_cube_j2\": \"244111/463781\", \"F2_FW0_j0\": \"224500/243243\", \"F2_FW0_j1\": \"498925/521203\", \"F2_FW0_j2\": \"57600/59059\", \"F2_FW1\": \"920931/935618\", \"F2_FW2\": \"1000/1001\", \"F2_FW3\": \"639437/700617\", \"F2_FW4\": \"512000/551551\", \"F3_D2a2\": \"218700/321733\", \"F3_Da2\": \"153090/321733\", \"F3_a2\": \"273485/763036\"}, \"passed\": false}\n",
+    "stderr": "FAILED:\nT1_frobenius: frobenius\nT1_frobenius: frobenius\nT1_frobenius: frobenius\nT1_frobenius: frobenius\nT1_frobenius: frobenius\nT1_frobenius: frobenius\nT1_frobenius: frobenius\nT1_frobenius: frobenius\nT1_frobenius: frobenius\nT1_frobenius: frobenius\nT1_frobenius: frobenius\nT1_frobenius: frobenius\nT1_frobenius: frobenius\nT1_frobenius: frobenius\nT1_frobenius: frobenius\nT1_frobenius: frobenius\nT1_frobenius: frobenius\nT1_frobenius: frobenius\nT1_frobenius: frobenius\nT1_frobenius: frobenius\n",
+    "stdout_sha": "1a7ca14805737057"
+   },
+   {
+    "args": [
+     "--mutant",
+     "M5"
+    ],
+    "code": 1,
+    "elapsed": 32.0,
+    "stdout": "{\"cases_D1\": 4000, \"constants_k1\": {\"A1\": \"67/48\", \"A2\": \"3\", \"A3\": \"217/24\", \"A4\": \"3\", \"CB\": \"16\", \"Ce\": \"28561/2304\", \"Ch\": \"134377/288\", \"Dh\": \"259/24\", \"K0\": \"167/192\", \"K0_3\": \"923/192\", \"K1_3\": \"945/128\", \"K2\": \"115/48\", \"K2_3\": \"127/16\", \"c0\": \"17/8\", \"c1\": \"4\", \"c2\": \"2\", \"c3\": \"361/24\"}, \"counts\": {\"D1_prop_D3\": 4000, \"F0_pins_exact\": 42, \"F1_cube_j0\": 42, \"F1_cube_j1\": 42, \"F1_cube_j2\": 42, \"F2_FW0_j0\": 42, \"F2_FW0_j1\": 42, \"F2_FW0_j2\": 42, \"F2_FW1\": 42, \"F2_FW2\": 42, \"F2_FW3\": 42, \"F2_FW4\": 42, \"F3_D2a2\": 42, \"F3_Da2\": 42, \"F3_a2\": 42, \"G1a_closed_form\": 40, \"G1a_inner_bound\": 1500, \"G1a_sharp\": 1, \"G1b_gap\": 40, \"G2_dominant\": 15, \"G2_exponents\": 64, \"T1_chain_rule\": 300, \"T1_frobenius\": 475, \"T1_pin_hessians\": 300, \"T1_qs_identity\": 300}, \"fields_F\": 42, \"largest_ratios\": {\"F1_cube_j0\": \"91380/301919\", \"F1_cube_j1\": \"288128/734877\", \"F1_cube_j2\": \"244111/463781\", \"F2_FW0_j0\": \"224500/243243\", \"F2_FW0_j1\": \"498925/521203\", \"F2_FW0_j2\": \"57600/59059\", \"F2_FW1\": \"920931/935618\", \"F2_FW2\": \"1000/1001\", \"F2_FW3\": \"639437/700617\", \"F2_FW4\": \"512000/551551\", \"F3_D2a2\": \"218700/321733\", \"F3_Da2\": \"153090/321733\", \"F3_a2\": \"273485/763036\"}, \"passed\": false}\n",
+    "stderr": "FAILED:\nG1a_inner_bound: inner\nG1a_inner_bound: inner\nG1a_inner_bound: inner\nG1a_inner_bound: inner\nG1a_inner_bound: inner\nG1a_inner_bound: inner\nG1a_inner_bound: inner\nG1a_inner_bound: inner\nG1a_inner_bound: inner\nG1a_inner_bound: inner\nG1a_inner_bound: inner\nG1a_inner_bound: inner\nG1a_inner_bound: inner\nG1a_inner_bound: inner\nG1a_inner_bound: inner\nG1a_inner_bound: inner\nG1a_inner_bound: inner\nG1a_inner_bound: inner\nG1a_inner_bound: inner\nG1a_inner_bound: inner\n",
+    "stdout_sha": "1a7ca14805737057"
+   },
+   {
+    "args": [
+     "--mutant",
+     "M6"
+    ],
+    "code": 1,
+    "elapsed": 32.8,
+    "stdout": "{\"cases_D1\": 4000, \"constants_k1\": {\"A1\": \"67/48\", \"A2\": \"3\", \"A3\": \"217/24\", \"A4\": \"3\", \"CB\": \"16\", \"Ce\": \"28561/2304\", \"Ch\": \"134377/288\", \"Dh\": \"259/24\", \"K0\": \"167/192\", \"K0_3\": \"923/192\", \"K1_3\": \"945/128\", \"K2\": \"115/48\", \"K2_3\": \"127/16\", \"c0\": \"17/8\", \"c1\": \"4\", \"c2\": \"2\", \"c3\": \"361/24\"}, \"counts\": {\"D1_prop_D3\": 4000, \"F0_pins_exact\": 42, \"F1_cube_j0\": 42, \"F1_cube_j1\": 42, \"F1_cube_j2\": 42, \"F2_FW0_j0\": 42, \"F2_FW0_j1\": 42, \"F2_FW0_j2\": 42, \"F2_FW1\": 42, \"F2_FW2\": 42, \"F2_FW3\": 42, \"F2_FW4\": 42, \"F3_D2a2\": 42, \"F3_Da2\": 42, \"F3_a2\": 42, \"G1a_closed_form\": 40, \"G1a_inner_bound\": 1500, \"G1a_sharp\": 1, \"G1b_gap\": 40, \"G2_dominant\": 15, \"G2_exponents\": 64, \"T1_chain_rule\": 300, \"T1_frobenius\": 475, \"T1_pin_hessians\": 300, \"T1_qs_identity\": 300}, \"fields_F\": 42, \"largest_ratios\": {\"F1_cube_j0\": \"91380/301919\", \"F1_cube_j1\": \"288128/734877\", \"F1_cube_j2\": \"244111/463781\", \"F2_FW0_j0\": \"224500/243243\", \"F2_FW0_j1\": \"498925/521203\", \"F2_FW0_j2\": \"57600/59059\", \"F2_FW1\": \"920931/935618\", \"F2_FW2\": \"1000/1001\", \"F2_FW3\": \"639437/700617\", \"F2_FW4\": \"512000/551551\", \"F3_D2a2\": \"218700/321733\", \"F3_Da2\": \"153090/321733\", \"F3_a2\": \"273485/763036\"}, \"passed\": false}\n",
+    "stderr": "FAILED:\nG2_exponents: beta=49/256\nG2_exponents: beta=25/128\nG2_exponents: beta=51/256\nG2_exponents: beta=13/64\nG2_exponents: beta=53/256\nG2_exponents: beta=27/128\nG2_exponents: beta=55/256\nG2_exponents: beta=7/32\nG2_exponents: beta=57/256\nG2_exponents: beta=29/128\nG2_exponents: beta=59/256\nG2_exponents: beta=15/64\nG2_exponents: beta=61/256\nG2_exponents: beta=31/128\nG2_exponents: beta=63/256\n",
+    "stdout_sha": "1a7ca14805737057"
+   },
+   {
+    "args": [
+     "--mutant",
+     "M7"
+    ],
+    "code": 1,
+    "elapsed": 32.1,
+    "stdout": "{\"cases_D1\": 4000, \"constants_k1\": {\"A1\": \"67/48\", \"A2\": \"3\", \"A3\": \"217/24\", \"A4\": \"3\", \"CB\": \"16\", \"Ce\": \"28561/2304\", \"Ch\": \"134377/288\", \"Dh\": \"259/24\", \"K0\": \"167/192\", \"K0_3\": \"923/192\", \"K1_3\": \"945/128\", \"K2\": \"115/48\", \"K2_3\": \"127/16\", \"c0\": \"17/8\", \"c1\": \"4\", \"c2\": \"2\", \"c3\": \"361/24\"}, \"counts\": {\"D1_prop_D3\": 4000, \"F0_pins_exact\": 42, \"F1_cube_j0\": 42, \"F1_cube_j1\": 42, \"F1_cube_j2\": 42, \"F2_FW0_j0\": 42, \"F2_FW0_j1\": 42, \"F2_FW0_j2\": 42, \"F2_FW1\": 42, \"F2_FW2\": 42, \"F2_FW3\": 42, \"F2_FW4\": 42, \"F3_D2a2\": 42, \"F3_Da2\": 42, \"F3_a2\": 42, \"G1a_closed_form\": 40, \"G1a_inner_bound\": 1500, \"G1a_sharp\": 1, \"G1b_gap\": 40, \"G2_dominant\": 15, \"G2_exponents\": 64, \"T1_chain_rule\": 300, \"T1_frobenius\": 475, \"T1_pin_hessians\": 300, \"T1_qs_identity\": 300}, \"fields_F\": 42, \"largest_ratios\": {\"F1_cube_j0\": \"91380/301919\", \"F1_cube_j1\": \"288128/734877\", \"F1_cube_j2\": \"244111/463781\", \"F2_FW0_j0\": \"224500/243243\", \"F2_FW0_j1\": \"498925/521203\", \"F2_FW0_j2\": \"57600/59059\", \"F2_FW1\": \"920931/935618\", \"F2_FW2\": \"1000/1001\", \"F2_FW3\": \"639437/700617\", \"F2_FW4\": \"512000/551551\", \"F3_D2a2\": \"218700/321733\", \"F3_Da2\": \"153090/321733\", \"F3_a2\": \"273485/763036\"}, \"passed\": false}\n",
+    "stderr": "prop_D3: km=1 kp=1 k=1 s=1/16 w=3 N=4\nD1_prop_D3: km=1/2 kp=1/2 k=1/2 s=1/53 w=27 N=12\nD1_prop_D3: km=3/2 kp=3/2 k=3/2 s=1/25 w=9 N=2\nD1_prop_D3: km=1/2 kp=3/4 k=5/8 s=1 w=1 N=7\nD1_prop_D3: km=1/4 kp=3/8 k=11/32 s=1/5 w=4 N=10\nD1_prop_D3: km=1/2 kp=1/2 k=1/2 s=1/44 w=13 N=9\nD1_prop_D3: km=3/2 kp=3/2 k=3/2 s=1/2 w=2 N=5\nD1_prop_D3: km=3/2 kp=3 k=9/4 s=1/37 w=29 N=11\nD1_prop_D3: km=1/4 kp=1/4 k=1/4 s=1 w=1 N=13\nD1_prop_D3: km=1 kp=3/2 k=11/8 s=1/36 w=22 N=9\nD1_prop_D3: km=3/2 kp=3/2 k=3/2 s=1/47 w=7 N=10\nD1_prop_D3: km=1/2 kp=1 k=1/2 s=1/3 w=2 N=6\nD1_prop_D3: km=1 kp=3/2 k=11/8 s=1/22 w=9 N=3/2\n",
+    "stdout_sha": "1a7ca14805737057"
+   },
+   {
+    "args": [
+     "--mutant",
+     "M8"
+    ],
+    "code": 1,
+    "elapsed": 32.4,
+    "stdout": "{\"cases_D1\": 4000, \"constants_k1\": {\"A1\": \"67/96\", \"A2\": \"3\", \"A3\": \"217/24\", \"A4\": \"3\", \"CB\": \"16\", \"Ce\": \"73441/9216\", \"Ch\": \"133573/288\", \"Dh\": \"259/24\", \"K0\": \"167/192\", \"K0_3\": \"923/192\", \"K1_3\": \"945/128\", \"K2\": \"115/48\", \"K2_3\": \"127/16\", \"c0\": \"17/8\", \"c1\": \"4\", \"c2\": \"2\", \"c3\": \"361/24\"}, \"counts\": {\"D1_prop_D3\": 4000, \"F0_pins_exact\": 42, \"F1_cube_j0\": 42, \"F1_cube_j1\": 42, \"F1_cube_j2\": 42, \"F2_FW0_j0\": 42, \"F2_FW0_j1\": 42, \"F2_FW0_j2\": 42, \"F2_FW1\": 42, \"F2_FW2\": 42, \"F2_FW3\": 42, \"F2_FW4\": 42, \"F3_D2a2\": 42, \"F3_Da2\": 42, \"F3_a2\": 42, \"G1a_closed_form\": 40, \"G1a_inner_bound\": 1500, \"G1a_sharp\": 1, \"G1b_gap\": 40, \"G2_dominant\": 15, \"G2_exponents\": 64, \"T1_chain_rule\": 300, \"T1_frobenius\": 475, \"T1_pin_hessians\": 300, \"T1_qs_identity\": 300}, \"fields_F\": 42, \"largest_ratios\": {\"F1_cube_j0\": \"91380/301919\", \"F1_cube_j1\": \"288128/734877\", \"F1_cube_j2\": \"244111/463781\", \"F2_FW0_j0\": \"224500/243243\", \"F2_FW0_j1\": \"498925/521203\", \"F2_FW0_j2\": \"57600/59059\", \"F2_FW1\": \"920931/467809\", \"F2_FW2\": \"1000/1001\", \"F2_FW3\": \"639437/700617\", \"F2_FW4\": \"512000/551551\", \"F3_D2a2\": \"218700/321733\", \"F3_Da2\": \"153090/321733\", \"F3_a2\": \"273485/763036\"}, \"passed\": false}\n",
+    "stderr": "FAILED:\nF2_FW1: ratio 1.7675100843417675\nF2_FW1: ratio 1.7675100843417675\nF2_FW1: ratio 1.8849646158645714\nF2_FW1: ratio 1.8849646158645714\nF2_FW1: ratio 1.9510626861772935\nF2_FW1: ratio 1.9510626861772935\nF2_FW1: ratio 1.7834017834017835\nF2_FW1: ratio 1.7834017834017835\nF2_FW1: ratio 1.9019123496735437\nF2_FW1: ratio 1.9019123496735437\nF2_FW1: ratio 1.9686047083307356\nF2_FW1: ratio 1.9686047083307356\n",
+    "stdout_sha": "c54b30aef280a5ee"
+   },
+   {
+    "args": [
+     "--mutant",
+     "M9"
+    ],
+    "code": 1,
+    "elapsed": 33.3,
+    "stdout": "{\"cases_D1\": 4000, \"constants_k1\": {\"A1\": \"67/48\", \"A2\": \"3/2\", \"A3\": \"217/24\", \"A4\": \"3\", \"CB\": \"16\", \"Ce\": \"28561/2304\", \"Ch\": \"134377/288\", \"Dh\": \"259/24\", \"K0\": \"167/192\", \"K0_3\": \"923/192\", \"K1_3\": \"945/128\", \"K2\": \"115/48\", \"K2_3\": \"127/16\", \"c0\": \"17/8\", \"c1\": \"4\", \"c2\": \"2\", \"c3\": \"361/24\"}, \"counts\": {\"D1_prop_D3\": 4000, \"F0_pins_exact\": 42, \"F1_cube_j0\": 42, \"F1_cube_j1\": 42, \"F1_cube_j2\": 42, \"F2_FW0_j0\": 42, \"F2_FW0_j1\": 42, \"F2_FW0_j2\": 42, \"F2_FW1\": 42, \"F2_FW2\": 42, \"F2_FW3\": 42, \"F2_FW4\": 42, \"F3_D2a2\": 42, \"F3_Da2\": 42, \"F3_a2\": 42, \"G1a_closed_form\": 40, \"G1a_inner_bound\": 1500, \"G1a_sharp\": 1, \"G1b_gap\": 40, \"G2_dominant\": 15, \"G2_exponents\": 64, \"T1_chain_rule\": 300, \"T1_frobenius\": 475, \"T1_pin_hessians\": 300, \"T1_qs_identity\": 300}, \"fields_F\": 42, \"largest_ratios\": {\"F1_cube_j0\": \"91380/301919\", \"F1_cube_j1\": \"288128/734877\", \"F1_cube_j2\": \"244111/463781\", \"F2_FW0_j0\": \"224500/243243\", \"F2_FW0_j1\": \"498925/521203\", \"F2_FW0_j2\": \"57600/59059\", \"F2_FW1\": \"920931/935618\", \"F2_FW2\": \"2000/1001\", \"F2_FW3\": \"639437/700617\", \"F2_FW4\": \"512000/551551\", \"F3_D2a2\": \"218700/321733\", \"F3_Da2\": \"153090/321733\", \"F3_a2\": \"273485/763036\"}, \"passed\": false}\n",
+    "stderr": "FAILED:\nF2_FW2: ratio 1.9801980198019802\nF2_FW2: ratio 1.9801980198019802\nF2_FW2: ratio 1.9801980198019802\nF2_FW2: ratio 1.998001998001998\nF2_FW2: ratio 1.998001998001998\nF2_FW2: ratio 1.998001998001998\n",
+    "stdout_sha": "132abd915b426b33"
+   },
+   {
+    "args": [
+     "--mutant",
+     "M10"
+    ],
+    "code": 1,
+    "elapsed": 32.3,
+    "stdout": "{\"cases_D1\": 4000, \"constants_k1\": {\"A1\": \"67/48\", \"A2\": \"3\", \"A3\": \"217/24\", \"A4\": \"0\", \"CB\": \"16\", \"Ce\": \"28561/2304\", \"Ch\": \"134377/288\", \"Dh\": \"115/24\", \"K0\": \"167/192\", \"K0_3\": \"923/192\", \"K1_3\": \"945/128\", \"K2\": \"115/48\", \"K2_3\": \"127/16\", \"c0\": \"17/8\", \"c1\": \"4\", \"c2\": \"2\", \"c3\": \"361/24\"}, \"counts\": {\"D1_prop_D3\": 4000, \"F0_pins_exact\": 42, \"F1_cube_j0\": 42, \"F1_cube_j1\": 42, \"F1_cube_j2\": 42, \"F2_FW0_j0\": 42, \"F2_FW0_j1\": 42, \"F2_FW0_j2\": 42, \"F2_FW1\": 42, \"F2_FW2\": 42, \"F2_FW3\": 42, \"F2_FW4\": 42, \"F3_D2a2\": 42, \"F3_Da2\": 42, \"F3_a2\": 42, \"G1a_closed_form\": 40, \"G1a_inner_bound\": 1500, \"G1a_sharp\": 1, \"G1b_gap\": 40, \"G2_dominant\": 15, \"G2_exponents\": 64, \"T1_chain_rule\": 300, \"T1_frobenius\": 475, \"T1_pin_hessians\": 300, \"T1_qs_identity\": 300}, \"fields_F\": 42, \"largest_ratios\": {\"F1_cube_j0\": \"91380/301919\", \"F1_cube_j1\": \"288128/734877\", \"F1_cube_j2\": \"244111/463781\", \"F2_FW0_j0\": \"224500/243243\", \"F2_FW0_j1\": \"498925/521203\", \"F2_FW0_j2\": \"57600/59059\", \"F2_FW1\": \"920931/935618\", \"F2_FW2\": \"1000/1001\", \"F2_FW3\": \"639437/700617\", \"F2_FW4\": \"168500/81081\", \"F3_D2a2\": \"218700/321733\", \"F3_Da2\": \"153090/321733\", \"F3_a2\": \"273485/763036\"}, \"passed\": false}\n",
+    "stderr": "FAILED:\nF2_FW4: ratio 2.059650409485393\nF2_FW4: ratio 1.8596642272922945\nF2_FW4: ratio 1.718409129048498\nF2_FW4: ratio 2.0781687448354114\nF2_FW4: ratio 1.8763844850801372\nF2_FW4: ratio 1.733859360978005\n",
+    "stdout_sha": "9f82daa09adda5d2"
+   }
+  ],
+  "invalid": [
+   {
+    "args": [
+     "--bogus"
+    ],
+    "code": 2,
+    "elapsed": 0.0,
+    "stdout": "",
+    "stderr": "usage: a35_exact.py [--mutant M1|...|M10]\n",
+    "stdout_sha": "e3b0c44298fc1c14"
+   },
+   {
+    "args": [
+     "--mutant",
+     "M11"
+    ],
+    "code": 2,
+    "elapsed": 0.0,
+    "stdout": "",
+    "stderr": "usage: a35_exact.py [--mutant M1|...|M10]\n",
+    "stdout_sha": "e3b0c44298fc1c14"
+   }
+  ]
+ },
+ {
+  "tag": "A3.6",
+  "name": "a36_exact.py",
+  "script": "A3_6/author_controls.py",
+  "baseline": {
+   "args": [],
+   "code": 0,
+   "elapsed": 1.3,
+   "stdout": "{\"groups\": {\"X10_splits\": [1000, 1000], \"X11_ledgers\": [5, 5], \"X12_witness\": [72, 72], \"X13_chord\": [4443, 4443], \"X14_coverage\": [896, 896], \"X15_G3minus\": [726, 726], \"X16_endpoint_chain\": [1600, 1600], \"X17_inclusions\": [3702, 3702], \"X1_chart\": [2000, 2000], \"X2_jacobian\": [300, 300], \"X3_poles\": [300, 300], \"X4_tau_raw\": [1104, 1104], \"X5_elder_floor\": [4707, 4707], \"X6_endpoint_floor\": [3280, 3280], \"X7_radius\": [2300, 2300], \"X8_levelband\": [1100, 1100], \"X9_hardgap\": [1500, 1500]}, \"object\": \"CL-QS-A3-6-CONTROLS-20261005-v2\", \"passed\": true, \"total\": 29035}\n",
+   "stderr": "",
+   "stdout_sha": "82bb5a5e9d4f6a38",
+   "matches_published": true
+  },
+  "mutants": [
+   {
+    "args": [
+     "--mutant",
+     "M1"
+    ],
+    "code": 1,
+    "elapsed": 1.3,
+    "stdout": "",
+    "stderr": "FAILED: X1_chart, X12_witness, X16_endpoint_chain\nmutant M1: J with 576k C3 in place of 576k^2 C3 (chart identity)\n",
+    "stdout_sha": "e3b0c44298fc1c14"
+   },
+   {
+    "args": [
+     "--mutant",
+     "M2"
+    ],
+    "code": 1,
+    "elapsed": 1.2,
+    "stdout": "",
+    "stderr": "FAILED: X2_jacobian\nmutant M2: Jacobian gamma^6/96 in place of gamma^6/384\n",
+    "stdout_sha": "e3b0c44298fc1c14"
+   },
+   {
+    "args": [
+     "--mutant",
+     "M3"
+    ],
+    "code": 1,
+    "elapsed": 1.3,
+    "stdout": "",
+    "stderr": "FAILED: X5_elder_floor\nmutant M3: c_* = 3/(250 Lambda^2): A_* replaced by Lambda\n",
+    "stdout_sha": "e3b0c44298fc1c14"
+   },
+   {
+    "args": [
+     "--mutant",
+     "M4"
+    ],
+    "code": 1,
+    "elapsed": 1.3,
+    "stdout": "",
+    "stderr": "FAILED: X7_radius\nmutant M4: radius constant 25/24 in place of 25/96\n",
+    "stdout_sha": "e3b0c44298fc1c14"
+   },
+   {
+    "args": [
+     "--mutant",
+     "M5"
+    ],
+    "code": 1,
+    "elapsed": 1.2,
+    "stdout": "",
+    "stderr": "FAILED: X9_hardgap\nmutant M5: hard-gap integral (1/4) y delta^4 in place of (5/4) y delta^4\n",
+    "stdout_sha": "e3b0c44298fc1c14"
+   },
+   {
+    "args": [
+     "--mutant",
+     "M6"
+    ],
+    "code": 1,
+    "elapsed": 1.3,
+    "stdout": "",
+    "stderr": "FAILED: X8_levelband\nmutant M6: C82 exact value J_delta(0,R) = delta R^2/12 in place of /24\n",
+    "stdout_sha": "e3b0c44298fc1c14"
+   },
+   {
+    "args": [
+     "--mutant",
+     "M7"
+    ],
+    "code": 1,
+    "elapsed": 1.3,
+    "stdout": "",
+    "stderr": "FAILED: X11_ledgers\nmutant M7: elder ledger with w = r^(-1/8)\n",
+    "stdout_sha": "e3b0c44298fc1c14"
+   },
+   {
+    "args": [
+     "--mutant",
+     "M8"
+    ],
+    "code": 1,
+    "elapsed": 1.3,
+    "stdout": "",
+    "stderr": "FAILED: X13_chord\nmutant M8: chord height h/2 in place of h\n",
+    "stdout_sha": "e3b0c44298fc1c14"
+   },
+   {
+    "args": [
+     "--mutant",
+     "M9"
+    ],
+    "code": 1,
+    "elapsed": 1.2,
+    "stdout": "",
+    "stderr": "FAILED: X6_endpoint_floor\nmutant M9: C_tau with (8 + 288k) in place of (8 + 288k + 1152k^2)\n",
+    "stdout_sha": "e3b0c44298fc1c14"
+   },
+   {
+    "args": [
+     "--mutant",
+     "M10"
+    ],
+    "code": 1,
+    "elapsed": 1.3,
+    "stdout": "",
+    "stderr": "FAILED: X14_coverage\nmutant M10: neutral-surface constant 8 in place of 16\n",
+    "stdout_sha": "e3b0c44298fc1c14"
+   },
+   {
+    "args": [
+     "--mutant",
+     "M11"
+    ],
+    "code": 1,
+    "elapsed": 1.2,
+    "stdout": "",
+    "stderr": "FAILED: X15_G3minus\nmutant M11: G3-minus threshold beta > 1/6 in place of beta > 1/8\n",
+    "stdout_sha": "e3b0c44298fc1c14"
+   },
+   {
+    "args": [
+     "--mutant",
+     "M12"
+    ],
+    "code": 1,
+    "elapsed": 1.2,
+    "stdout": "",
+    "stderr": "FAILED: X17_inclusions\nmutant M12: eps_V = 2 K0 e/c_* in place of 4 K0 e/c_* (step 5 inclusion)\n",
+    "stdout_sha": "e3b0c44298fc1c14"
+   },
+   {
+    "args": [
+     "--mutant",
+     "M13"
+    ],
+    "code": 1,
+    "elapsed": 1.2,
+    "stdout": "",
+    "stderr": "FAILED: X13_chord\nmutant M13: far end of the chord bounded by u >= -3/2 in place of -5/2 (W_R)\n",
+    "stdout_sha": "e3b0c44298fc1c14"
+   }
+  ],
+  "invalid": [
+   {
+    "args": [
+     "--bogus"
+    ],
+    "code": 2,
+    "elapsed": 0.0,
+    "stdout": "",
+    "stderr": "usage: a36_exact.py [--mutant M1..M13]\n",
+    "stdout_sha": "e3b0c44298fc1c14"
+   },
+   {
+    "args": [
+     "--mutant",
+     "M14"
+    ],
+    "code": 2,
+    "elapsed": 0.0,
+    "stdout": "",
+    "stderr": "usage: a36_exact.py [--mutant M1..M13]\n",
+    "stdout_sha": "e3b0c44298fc1c14"
+   },
+   {
+    "args": [
+     "--mutant"
+    ],
+    "code": 2,
+    "elapsed": 0.0,
+    "stdout": "",
+    "stderr": "usage: a36_exact.py [--mutant M1..M13]\n",
+    "stdout_sha": "e3b0c44298fc1c14"
+   }
+  ]
+ }
+]

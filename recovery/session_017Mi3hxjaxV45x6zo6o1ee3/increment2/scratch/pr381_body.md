@@ -1,0 +1,70 @@
+## What this adds
+
+A **read-only** dependency-tree and evidence-profile view over `frontiers/downstream_gate_20260925/GRAPH.json`. It is the derived view **proposed** in item 1 of the [main#275](https://github.com/d6g8k5htny-coder/main/issues/275) decision record v1.1, whose rows stay PROPOSED until explicit responses and their own PRs land. Its protocol is in [main#276](https://github.com/d6g8k5htny-coder/main/pull/276), which is also unmerged. Scientific effect **NONE**. It writes nothing, promotes nothing and is not a status record.
+
+```sh
+python3 -B -S tools/evidence_profile.py                 # every math.* root as a tree
+python3 -B -S tools/evidence_profile.py --node math.rn-region.witness-collision
+python3 -B -S tools/evidence_profile.py --json          # profiles; status_authority false
+```
+
+For each node, the view shows:
+- its recorded classification;
+- the author and reviewer providers exactly as the record names them;
+- whether a recorded reviewer's provider family differs from the author's (`yes`, `no` or `not recorded`, never inferred);
+- the transitive required dependencies that do not satisfy the hard gate.
+
+The graph is loaded and validated with the gate's **own** strict loader and dependency rule: an edge is required unless it says otherwise, and only `PROVED_REVIEWED` satisfies a required premise. Axes the graph does not record (blind reconstruction, adversarial attack, formal evidence, numerical reproduction, novelty, human reading) are listed as outside the graph, not reported as passing or failing.
+
+What it already shows on today's graph: `math.lifetime-remainder` (D2) and `math.side24-coefficient` (D3) are ACCEPT-scoped in STATUS but still `AUTHOR_SIDE_CANDIDATE` in GRAPH. `math.rn-fixed-annulus-window` and `math.rn-mesoscopic-reduction` are held only by `math.rn-count-interface`. `math.d1-component.reconciliation-record` has a same-provider review only (`provider-distinct no`). Executing Math-#167 → #160 → #173 changes exactly these rows; the view itself changes none.
+
+## Current disposition
+
+- **Head:** `07127f27471ffcc52b1c4fad8f969f23751985ca`. Three commits over main `08f8686c`:
+  - `cda3e5d8`: the original tool;
+  - `6aada4bb`: applies AMEND review [5430026100](https://github.com/d6g8k5htny-coder/Math-/pull/381#pullrequestreview-5430026100);
+  - `07127f27`: the positive identity grammar for the EP381-02 residual in delta read [6018757501](https://github.com/d6g8k5htny-coder/Math-/pull/381#issuecomment-6018757501).
+
+  Files: `tools/evidence_profile.py` blob `a970f207`, 9612 B; `tests/test_evidence_profile.py` blob `5e49e273`, 14519 B.
+- **Author:** Anthropic Claude, session `017Mi3hx` (Dylan Roy — delegated AI work). The author will not self-merge.
+- **Reviews:** primary reader OpenAI / GPT-6 Astra Pro canonical-r7.
+  - AMEND [5430026100](https://github.com/d6g8k5htny-coder/Math-/pull/381#pullrequestreview-5430026100) at `cda3e5d8`.
+  - Delta residual [6018757501](https://github.com/d6g8k5htny-coder/Math-/pull/381#issuecomment-6018757501) at `6aada4bb`.
+  - **PASS_ENGINEERING_SCOPED_DELTA** [5430251830](https://github.com/d6g8k5htny-coder/Math-/pull/381#pullrequestreview-5430251830) at `07127f27`. This resolves EP381-01 and EP381-02, and the reviewer ran 12/12 plus their own 7/7 and 4/4 regressions in both modes.
+
+  The earlier AMEND and residual are kept as history. Credit is 0, and there is no scientific acceptance. Corroborating observations: 6018400003, 6018473703, 6018503552, 6018562577, 6018572392.
+- **Open findings:** none. Optional future items noted by the reviewer: an input-snapshot hash and selected-node gate eligibility.
+- **CI at `07127f27`:** all six workflows (eight jobs) green on the synthetic merge `ad292f57`.
+- **Integration preflight:** delivered and released by OpenAI / GPT-6 Astra Pro in [6019291665](https://github.com/d6g8k5htny-coder/Math-/pull/381#issuecomment-6019291665). It found tested and authored trees identical (`3c9069ae`), zero inline threads and no source amendment. There is no ordering dependency on #382 or #383 ([6019077791](https://github.com/d6g8k5htny-coder/Math-/pull/381#issuecomment-6019077791)).
+- **Base drift:** the preflight and CI above bind test merge `ad292f57` over `08f86862`. Main has since advanced to `34618d0d`: Math-#382, #386 and #383 landed. Those touch only the witness checker, readiness files and the new retrofit contract files, all disjoint from this PR's two files, so this branch is now 11 commits behind. Under the strict required check, the integrator must bring it up to date with a merge commit and reconcile CI on the new base. The reviewed source bytes do not change; the old CI results do not carry over to the new base.
+- **Next:** queue placement by the coordinator, then a separate eligible integrator, who must reread head, base, diff, reviews and checks before an ordinary expected-head merge. The author will not self-merge.
+
+## Verification (run locally at the head)
+
+- `python3 -B -S -m unittest discover -s tests -p test_evidence_profile.py -v`: 13/13 OK at `07127f27`, and 13/13 in `-O` mode. At `cda3e5d8` it was 7/7. Against the original tool, the 5 new methods fail by assertion only (19 subcases).
+- Full root suite `python3 -B -S -m unittest discover -s tests -p 'test_*.py'`: 243 tests OK at `07127f27` (230 existing plus 13 new), rerun locally at 15:20Z. The hosted D5 job `112331000475` ran the same 243 in each mode. The earlier count of 237 was the seven-method checkpoint.
+- Sensitivity: 7 single-line mutants of the tool, run on disposable copies, are each rejected by an assertion failure in both modes. No mutant produced an import or setup error. The mutants were:
+  - every edge treated as required;
+  - classification ignored when collecting unsatisfied dependencies;
+  - provider-distinct hard-wired to `yes`;
+  - no revisit guard in the tree;
+  - non-`math.*` roots included;
+  - `status_authority` flipped to true;
+  - an ambiguous provider string resolved to one family.
+- The live-graph test hashes GRAPH.json before and after the run to confirm nothing is written. Its assertions are structural, so the test stays valid after the register is executed.
+- No workflow, packet, manifest, GRAPH, SELECTOR_REGION, STATUS, PROOF_INDEX or catalog file is touched. The pinned downstream-gate counts (71 gate tests, five regression folders) are unaffected.
+
+## Limits
+
+Provider family is read from free-form record strings by a **positive identity grammar**, not by token search (EP381-02). One trailing parenthetical is ignored. The first token must be a known family alias: OpenAI/ChatGPT/Codex/GPT, Anthropic/Claude, xAI/Grok or Google/Gemini. Every later token must be one of three things: an alias of the same family, a listed decoration (`via`, `cursor`, `pro`, `code`, `session`, `agent`, `cloud`, `bot`, `model`, `astra`, `sol`, `deepmind`, `high`, `fast`), or a version token. Anything else reads `not recorded` and is listed verbatim under `unresolved_reviewer_providers`. Parsing a provider string does not authenticate a reviewer or their exposure. An axis with no record is not a theorem failure. "Provider-distinct" is not organizational independence, which stays 0 under shared accounts. The view reports only what GRAPH records; a node's full evidence lives in its review records.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+https://claude.ai/code/session_017Mi3hxjaxV45x6zo6o1ee3
+
+---
+_Generated by [Claude Code](https://claude.ai/code/session_017Mi3hxjaxV45x6zo6o1ee3)_
+
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_

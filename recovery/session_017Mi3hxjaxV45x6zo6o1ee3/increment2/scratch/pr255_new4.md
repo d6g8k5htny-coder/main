@@ -1,0 +1,75 @@
+**Object:** `CAP-FIRST-EXIT-LEAN-20261002` v1.6. **Stacked on Math-#253** (v1.5, frozen at `a932946`); the base branch is #253's head branch.
+- **Author:** Anthropic / Claude, session `017Mi3hx…`.
+- **Scientific effect NONE.** No register, catalog, STATUS, PROOF_INDEX, GRAPH or `formal/` change.
+- Same GitHub account as every lane, so organizational-independence credit is 0.
+- **The author will not merge.** Merge #253 first; this PR then retargets to `main`.
+
+## What changes
+
+v1.5's `ridge_capHyp_normalized` still takes the slice strong concavity (`hconc`) and `δ > rm(8m − 5)` as inputs. SP derives both in L3–L4 from its hypothesis (H1) on the transverse Hessian at `M`. v1.6 proves that derivation (7 declarations):
+
+| Declaration | Statement | SP |
+|---|---|---|
+| `strongConcaveOn_of_hessian` | on a convex `K`, `HasFDerivAt φ (Dφ y) y`, `HasFDerivAt Dφ (H y) y` and `H y v v ≤ −δ‖v‖²` give `StrongConcaveOn K δ φ` | L7's first sentence (`δ`-strong concavity from `D_y² f ≤ −δI`) |
+| `hessian_increment` | derivative bounds `m` on `x ↦ H(x, 0)` (`∂_x D_y² f`) and on `s ↦ H(x, s • y)` (`D_y³ f` along rays, `≤ m‖y‖`) give `‖H(p) − H(M)‖ ≤ m(|Δx| + ‖Δy‖)`. Proved by the mean value inequality, moving first in `x`, then in `y`. Added in `1cbbbf9` (Codex 4174695678) | L3 |
+| `transverse_hessian_le` | `H(M) v v ≤ −λ‖v‖²` and those increments on the cap give `H(p) v v ≤ −(λ − 5rm)‖v‖²` | L4 (`D_y² f(p) ≤ D_y² f(M) + 5rm · I`) |
+| `slices_strongConcave` | each slice `y ↦ f(x, y)` is `(λ − 5rm)`-strongly concave on `B̄(0, 2r)`, for `x ∈ [−2r, r/2]` | L4 (`δ = λ − 5rm`) |
+| `ridge_capHyp_H1` | (C1)–(C3) and (C2⁺), with `hconc` and `hδ` replaced by the slice derivatives and Hessians on the cap, the third-derivative bounds of `hessian_increment`, `H(M) ≤ −λ` and (H1) `8rm² < λ` | §2 (H1), L1–L5, L7, L8, L11, L12, L16–L20 |
+| `h1ToyF`, `h1Toy_capHyp` | `x³/3 − x/4 − 20y²` (constant Hessian `−40`, `λ = 40 > 32`, gap `r³/6`) meets every hypothesis | non-vacuity |
+
+**I3 after v1.6.** The interface narrows to:
+- L6, the `w'` bound;
+- the existence and implicit-function regularity of the transverse maximizer `h`;
+- L9–L12, the `‖h'‖` and `F''` bounds;
+- the third-derivative bounds `m` that L1, L3 and L5 consume (L3's increment step itself is proved).
+
+SP's (H2) `rn ≤ 1/20` feeds only L4's `f_xxx ≥ 7/4` and L12, so `ridge_capHyp_H1` does not need it.
+
+**Unchanged.**
+- The 74 v1.5 declarations are byte-identical; only the header comment changed in `CapFirstExit.lean`.
+- The toolchain, Mathlib pin, pins on main and the workflow are all unchanged.
+
+## Validation (local, at `1cbbbf9`)
+
+- `gate.py` (source mode): PASS, 81 targets. `MANIFEST.json` SHA-256 `1fab65a044a68ff89f343670b27870a3e6489a267fe02d9372e5a8b62666bfb3`.
+- Unit tests: OK in `-B -S` and in `-B -O -S`.
+- `gate.py --execute`: PASS.
+  - Exact Lean `v4.34.1`, fresh build and `leanchecker` replay.
+  - Exact axiom audit of all 81 declarations: each uses only `propext`, `Classical.choice` and `Quot.sound`.
+  - The three negative controls are REJECTED.
+- Hosted checks: 4/4 green at `eee0017`, and 4/4 green again at `1cbbbf9`. The PR is mergeable. Codex P2 4174695678 (L3 scope) is fixed by `hessian_increment`, and the thread is resolved.
+
+## Completed review
+
+- **Delta alignment: ALIGNED_SCOPED / PASS_TECHNICAL, no alignment defect.** Review [5402682255](https://github.com/d6g8k5htny-coder/Math-/pull/255#pullrequestreview-5402682255) at `1cbbbf9`, OpenAI / Codex C120, nonauthor and non-Claude (pickup 5973237299).
+  - **Scope:** the five v1.6 §2 rows, the `h1ToyF` paragraph and the revised I3.
+  - **Reproduced at the exact head:** the source gate (81 targets), 18/18 unit tests in both Python modes, and the manifest SHA-256 `1fab65a0…`.
+- **Integration: HOLD for branch reconciliation, as the review requests.**
+  - #253's branch was restacked onto main at `f60dba4`.
+  - After #253 is integrated, the author will merge current main into this branch with a merge commit and no history rewrite. The reviewed declarations and alignment prose stay byte-identical, and the checks rerun.
+  - The review carries forward only on that byte-identity, which the author will verify and state.
+
+## Review requested (now delivered)
+
+A nonauthor, non-Claude delta alignment read under ALIGNMENT §5, covering:
+- the five v1.6 rows of §2 (`strongConcaveOn_of_hessian` to `ridge_capHyp_H1`);
+- the `h1ToyF` paragraph of §3;
+- the revised I3.
+
+It is best done after, or together with, the v1.5 read on #253.
+
+Points worth checking:
+- `hessian_increment` states the `y`-derivative bound along rays (`‖D_y³ f[y]‖ ≤ m‖y‖`). The pinned Mathlib does not synthesize the norm on the triple-nested operator space. Check this form against L3's `sup‖D_y u‖ ‖Δy‖`.
+- (H1) gives `δ = λ − 5rm > rm(8m − 5)`.
+
+This does not close Math-#193.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+https://claude.ai/code/session_017Mi3hxjaxV45x6zo6o1ee3
+
+---
+_Generated by [Claude Code](https://claude.ai/code/session_017Mi3hxjaxV45x6zo6o1ee3)_
+
+
+

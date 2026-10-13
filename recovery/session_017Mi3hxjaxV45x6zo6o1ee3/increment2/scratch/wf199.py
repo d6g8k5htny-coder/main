@@ -1,0 +1,56 @@
+import concurrent.futures, hashlib, json, pathlib, subprocess, sys
+root = pathlib.Path('coefficients/side24_d4_20260930').resolve()
+manifest_doc = json.loads((root / 'SOURCE_FILES.json').read_text())
+manifest = manifest_doc['files']
+present = sorted(p.name for p in root.iterdir())
+expected_names = sorted([e['path'] for e in manifest] + ['SOURCE_FILES.json'])
+if present != expected_names:
+    raise ValueError('packet tree differs from manifest: ' + repr(present))
+for entry in manifest:
+    path = root / entry['path']
+    if pathlib.PurePosixPath(entry['path']).name != entry['path'] or path.is_symlink():
+        raise ValueError('flat regular source required: ' + entry['path'])
+    data = path.read_bytes()
+    if len(data) != entry['bytes'] or hashlib.sha256(data).hexdigest() != entry['sha256']:
+        raise ValueError('source identity mismatch: ' + entry['path'])
+for pin in manifest_doc['pins_on_main']:
+    if not pin.get('workflow_checked'):
+        continue
+    p = pathlib.Path(pin['path'])
+    if p.is_symlink() or not p.is_file():
+        raise ValueError('pinned source missing: ' + pin['path'])
+    data = p.read_bytes()
+    blob = hashlib.sha1(b'blob %d\0' % len(data) + data).hexdigest()
+    if blob != pin['git_blob']:
+        raise ValueError('pinned source drifted: ' + pin['path'] + ' ' + blob)
+# the SIDE24 d = 2, 3 enclosures quoted inside the script must be the ones on main
+enc = json.loads(pathlib.Path('coefficients/side24_v1/ENCLOSURE.json').read_text())['dimensions']
+src = (root / 'cone_moment_d4.py').read_text()
+for d in ('2', '3'):
+    if ('"%s", "%s"' % (enc[d]['lower'], enc[d]['upper'])) not in src:
+        raise ValueError('SIDE24 d = ' + d + ' enclosure quoted in the script differs from ENCLOSURE.json')
+script = str(root / 'cone_moment_d4.py')
+expected = (root / 'RESULTS.json').read_bytes()
+mutants = ['shift-variance', 'vandermonde', 'erfc-branch', 'remainder-dropped', 'mehta', 'sphere-area', 'image-shells', 'sandwich-exponent', 'recurrence']
+def mutant_rc(args):
+    flags, m = args
+    r = subprocess.run([sys.executable, *flags, script, '--mutant', m],
+                       capture_output=True, timeout=1500)
+    try:
+        ok = r.returncode == 1 and json.loads(r.stdout)['passed'] is False
+    except (ValueError, KeyError, TypeError):
+        ok = False
+    return m, flags, ok
+for flags in (['-B', '-S'], ['-B', '-O', '-S']):
+    out = subprocess.run([sys.executable, *flags, script],
+                         check=True, capture_output=True, timeout=1500).stdout
+    if out != expected:
+        raise RuntimeError('output differs from RESULTS.json under ' + ' '.join(flags))
+    doc = json.loads(out)
+    if not (doc['passed'] and len(doc['checks']) == 13 and all(doc['checks'].values())):
+        raise RuntimeError('certification did not pass under ' + ' '.join(flags))
+    with concurrent.futures.ThreadPoolExecutor(max_workers=4) as pool:
+        for m, fl, ok in pool.map(mutant_rc, [(flags, m) for m in mutants]):
+            if not ok:
+                raise RuntimeError('mutant ' + m + ' not rejected by its rules under ' + ' '.join(fl))
+print(json.dumps({'scientific_effect': 'NONE', 'mathematical_acceptance': False, 'certified_enclosures': True, 'side24_v1': 'unchanged'}))

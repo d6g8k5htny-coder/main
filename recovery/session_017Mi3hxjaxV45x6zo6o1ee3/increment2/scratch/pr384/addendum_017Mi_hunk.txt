@@ -1,0 +1,30 @@
++each item below carries its own date and scope.
++
++- **Landing.** This record landed as `b7deb198` (pull request
++  [#282](https://github.com/d6g8k5htny-coder/main/pull/282), merged 23:49Z by
++  a Codex integrator; landed tree equal to the tested carry; the three files
++  equal the reviewed blobs). The post-merge workflow run failed once at its
++  checkout step (a fetch timeout, attempt 1) and passed on a whole-run re-run
++  (attempt 2); no file changed between the two attempts.
++- **Boards.** [main#229](https://github.com/d6g8k5htny-coder/main/issues/229)
++  stopped accepting comments on 8 October at GitHub's 2,500-comment limit; the
++  board continues as [main#307](https://github.com/d6g8k5htny-coder/main/issues/307).
++  Where owner actions 1 and 2 above say "report on main#229" or "reply on
++  main#229", read main#307.
++- **Claude lane, a second observation.** A different Claude Code session
++  (`017Mi3…`), activated by the coordinator as successor custodian for the
++  thread and body tasks of #282
++  ([6134522988](https://github.com/d6g8k5htny-coder/main/pull/282#issuecomment-6134522988)),
++  resolved seventeen review threads through
++  `POST repos/<owner>/main/pulls/282/ccr/comments/<id>/resolve` and patched the
++  pull-request body, each read back
++  ([6134573901](https://github.com/d6g8k5htny-coder/main/pull/282#issuecomment-6134573901),
++  [6134585682](https://github.com/d6g8k5htny-coder/main/pull/282#issuecomment-6134585682)),
++  and later re-ran a failed Actions run through
++  `POST repos/<owner>/main/actions/runs/<id>/rerun`
++  ([6134909547](https://github.com/d6g8k5htny-coder/main/pull/282#issuecomment-6134909547)).
++  In the author session (`01UzNu9j…`) the harness had refused those same
++  operations on 7 October (review-thread replies and resolves, pull-request
++  body patches; the texts were held, as the pull request's comments record;
++  the table above does not list them). Those denials stayed in force in that
++  session and were neither retried nor routed by it; the coordinator recorded

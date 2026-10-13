@@ -1,0 +1,92 @@
+{
+  "execution_sources": {
+    ".github/workflows/d3-l4-anisotropic.yml": {
+      "git_blob": "8e208add49dec18285672cde46d0f7dc496607fa",
+      "sha256": "25889967451c91848e73638f3464cb8dfeb4243db79bfc5a3ca8786662f7f3d1"
+    },
+    "tests/test_d3_l4_replay.py": {
+      "git_blob": "47c538b16c6fb7e6b2eae87e88231d90fa925a1a",
+      "sha256": "8d81fb3f213f36895d6051047dbfea9dea2142d629adacc84110373fee189855"
+    },
+    "tools/d3_l4_replay.py": {
+      "git_blob": "aed704e7f841d895eba1709866a3c324304128a8",
+      "sha256": "218bc1e56a7d28f7aaa9b5bf029f8e37a6f7471e8e6bba56f366dbb554dcf6bb"
+    }
+  },
+  "github_event": null,
+  "github_run_attempt": null,
+  "github_run_id": null,
+  "independent_review": false,
+  "manifest_sha256": "bba2ab2e351b644bbd3eec3b468ab88a2969242db9345f619294d4a8770a2f34",
+  "mode": "optimized",
+  "object": "D3-L4-ANISOTROPIC-20261005-v1",
+  "repository": "d6g8k5htny-coder/Math-",
+  "scientific_acceptance": false,
+  "source_commit": "2f8d721e300850e36ab17464dc541c977b3ffcbf",
+  "status": "PASS",
+  "steps": {
+    "coefficient": {
+      "command": [
+        "/usr/local/bin/python3",
+        "-B",
+        "-O",
+        "-S",
+        "certificate.py",
+        "--n",
+        "128"
+      ],
+      "elapsed_seconds": 34.873143,
+      "returncode": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "e2d8a78ce4f075a75fc4d53b998f5329f6ecc319d3a7badc473f80bbfe83acfd"
+    },
+    "crosschecks": {
+      "command": [
+        "/usr/local/bin/python3",
+        "-B",
+        "-O",
+        "-S",
+        "source_crosscheck.py",
+        "--source",
+        "<SCRATCH>/wt305/reviews/iba1_periodic_jet_claude_20261005/periodic_jet_check.py"
+      ],
+      "elapsed_seconds": 0.338237,
+      "returncode": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "29557f1d5900c8cbc0d0bee4304d47f445cd0b2fc35a8fc74a765c6972e508cc"
+    },
+    "reference": {
+      "command": [
+        "/usr/local/bin/python3",
+        "-B",
+        "-O",
+        "-S",
+        "certificate.py",
+        "--reference",
+        "--n",
+        "4"
+      ],
+      "elapsed_seconds": 0.096015,
+      "returncode": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stdout_sha256": "a396d62776db7e0b111015d9bca56d7a411009a85a96d4a3aa4990ba6b3f045c"
+    },
+    "tests": {
+      "command": [
+        "/usr/local/bin/python3",
+        "-B",
+        "-O",
+        "-S",
+        "-m",
+        "unittest",
+        "test_certificate",
+        "-v"
+      ],
+      "elapsed_seconds": 0.2015,
+      "returncode": 0,
+      "stderr_sha256": "7764b673c88a770ef23240cfb622164e37c64fd9b63815cfc8d31c205335ab24",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "tested_commit": "1056aa4b362e522cbd8b95c1d815b109840326c9"
+}

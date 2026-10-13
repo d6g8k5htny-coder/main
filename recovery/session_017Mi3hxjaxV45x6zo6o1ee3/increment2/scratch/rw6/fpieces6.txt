@@ -1,0 +1,89 @@
+def F_pieces_build(m, mehta=False):
+    """The inner integrals in closed form, for every m = 2, ..., 5 by one generic layer recursion (NOTE section 2).  On the ordered
+    eigenvalue sector mu_m = -a, mu_{m-1} = -a - p_1, ..., mu_1 = -a - p_1 - ... - p_{m-1} put x_0 = T = m a + (m-1) p_1 + ... + p_{m-1}
+    (minus the trace) and x_k = (m-k) p_k + ... + p_{m-1}, k = 1, ..., m-1 (Jacobian 1/m!, region T > x_1 > ... > x_{m-1} > 0); the
+    integrand is P(x) e^{-sum_k x_k^2 c_k} with c_{m-1} = 1/8 and c_{m-2}, c_{m-3}, c_{m-4} = 1/24, 1/48, 1/80 (eight times the
+    triangular numbers), P = prod mu_i^2 times the Vandermonde (mehta: the Vandermonde alone).  The q = x_{m-1} layer is exact
+    (Math-#201 L1); every further layer integrates y^j e^{-c y^2} times a kind ('1', ('e', g), ('E', g), ('eE', al, g)) from 0 to
+    the next variable by moment_dict and L_dict.  An Owen-type kind ('K', al, g) entering a further layer is refused (ValueError).
+    Returns ({kind: polynomial in T, list by power}, outer gamma 3/(4 m (m+3)), [(c, generated kinds that came out zero) per layer])."""
+    nv = m
+    xs = [pvar(i, nv) for i in range(nv)]
+
+    def lin(i, j, den):
+        co = [Fr(0)] * nv
+        co[i] += Fr(1, den)
+        if j is not None:
+            co[j] -= Fr(1, den)
+        return plin(co)
+    a = lin(0, 1, m)
+    ps = [lin(k, k + 1 if k + 1 < m else None, m - k) for k in range(1, m)]
+    mus, run = [pscale(a, Fr(-1))], a
+    for p in ps:
+        run = padd(run, p)
+        mus.append(pscale(run, Fr(-1)))
+    P = {(0,) * nv: Fr(1)}
+    if not mehta:
+        for mu in mus:
+            P = pmul(P, pmul(mu, mu))
+    for i in range(m):
+        for j in range(i + 1, m):
+            P = pmul(P, padd(mus[i], pscale(mus[j], Fr(-1))))                 # mus[i] > mus[j]
+    U, V = {}, {}
+    for mono, c in P.items():
+        Bk, Ck = Jk_closed(mono[-1])                                           # raises on an even power of q
+        base = mono[:-1]
+        U[base] = U.get(base, Fr(0)) + c * Bk
+        for n, x in enumerate(Ck):
+            if x:
+                mm = list(base)
+                mm[-1] += n
+                mm = tuple(mm)
+                V[mm] = V.get(mm, Fr(0)) + c * x
+    pieces = {("1",): {k: v for k, v in U.items() if v}, ("e", Fr(1, 8)): {k: v for k, v in V.items() if v}}
+    stages, nvc = [], nv - 1
+    for c in (Fr(1, 24), Fr(1, 48), Fr(1, 80))[:m - 2]:
+        pieces = layer(pieces, nvc, c)
+        nvc -= 1
+        if MUT == "layer-dropped" and c == Fr(1, 48):
+            pieces.pop(("E", Fr(3, 16)), None)                                # a cancelled layer silently not derived
+        stages.append((c, sorted(("%s" % (k,)) for k, p in pieces.items() if not p)))
+    out = {}
+    for kind, poly in pieces.items():
+        lst = []
+        for mono, v in poly.items():
+            n = mono[0]
+            lst += [Fr(0)] * (n + 1 - len(lst))
+            lst[n] += v
+        out[kind] = lst
+    return out, Fr(3, 4 * m * (m + 3)), stages
+
+
+def layer(pieces, nv, c):
+    """Integrate the last variable y of nv variables (T, x_1, ..., y) over (0, x_{nv-2}) against e^{-c y^2}, kind by kind."""
+    out = {}
+    for kind, poly in pieces.items():
+        for mono, coef in poly.items():
+            j = mono[-1]
+            if kind[0] == "1":
+                lay = moment_dict(c, j)
+            elif kind[0] == "e":
+                lay = moment_dict(c + kind[1], j)
+            elif kind[0] == "E":
+                lay = L_dict(c, kind[1], j)
+            elif kind[0] == "eE":
+                lay = L_dict(c + kind[1], kind[2], j)
+            else:
+                raise ValueError("an Owen-type kind %r survived an inner layer" % (kind,))
+            base = mono[:-1]
+            for k2, pl in lay.items():
+                acc = out.setdefault(k2, {})
+                for n, x in enumerate(pl):
+                    if x:
+                        mm = list(base)
+                        mm[-1] += n
+                        mm = tuple(mm)
+                        acc[mm] = acc.get(mm, Fr(0)) + coef * x
+    return {k: {mm: v for mm, v in p.items() if v} for k, p in out.items()}
+
+

@@ -1,0 +1,18 @@
+Traceback (most recent call last):
+  File "<SCRATCH>/rw3/window_coefficient_d3.py", line 881, in <module>
+    main()
+  File "<SCRATCH>/rw3/window_coefficient_d3.py", line 821, in main
+    "c3_torus_L_ge_10": S10.coefficient(B, K).pair(), "c3_torus_L_24": S24.coefficient(B, K).pair()}
+                        ^^^^^^^^^^^^^^^^^^^^^
+  File "<SCRATCH>/rw3/window_coefficient_d3.py", line 580, in coefficient
+    return 144 * sphere * self.pG * self.pV * self.b_integral(B) * self.k_integral(K)
+                                                                   ^^^^^^^^^^^^^^^^^^
+  File "<SCRATCH>/rw3/window_coefficient_d3.py", line 573, in k_integral
+    return self.tau43 * C72 * (gamma_lower(s(hi), a) - gamma_lower(s(lo), a)) / (2 * SQRT2PI)
+                               ^^^^^^^^^^^^^^^^^^^^^
+  File "<SCRATCH>/rw3/window_coefficient_d3.py", line 315, in gamma_lower
+    return Iv(gamma_lower_point(x.lo, a, coarse).lo, gamma_lower_point(x.hi, a, coarse).hi)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SCRATCH>/rw3/window_coefficient_d3.py", line 68, in __init__
+    raise ValueError("empty interval")
+ValueError: empty interval

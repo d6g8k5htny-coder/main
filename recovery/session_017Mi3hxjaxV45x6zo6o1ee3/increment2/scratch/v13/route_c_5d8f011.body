@@ -1,0 +1,16 @@
+**Route C (pair-count corollary; Math-#160 comment 5901994240, checked in 5902616692).** With `A`, `B`, `C` the window
+counts in `|X| <= R r`, `R r < |X| < rho`, `|X| >= rho` (from `o`; `N = A + B + C`), pathwise
+
+    0 <= (N)_2 - (A)_2 <= N^2 [ 1{B > 0} + 1{A > 0, C > 0} + 1{C >= 2} ],                                       (D2)
+
+exact: the right side vanishes only when `B = 0` and either `C = 0` or `A = 0, C <= 1`, and then the left side
+`2A(B + C) + (B + C)(B + C - 1)` vanishes too (checked in `DEDUCTION`). Cauchy–Schwarz with `E N^4 <= C r^3` ([PALM]
+Theorem Q through Stirling) and [CL] (5.1) (`E B <= C r^3 (R^-2 + rho^2)`, [DL] Theorem I_d, constant uniform in `R >= 4`,
+`rho <= s_0`), the left inequality of [CL] (5.4) (`Q{A >= 1, C >= 1} <= C(A, rho) r^(9/2)`) and [RC] Corollary D
+(`Q{C >= 2} <= E (C)_2 / 2 = O_rho(r^5)`) give
+
+    r^-3 E[(N)_2 - (A)_2] <= C (R^-2 + rho^2)^(1/2) + C_(R,rho) r^(3/4) + C_rho r ;
+
+`r -> 0` first, then `rho -> 0`, then `R -> oo` gives (Res). This route uses no count-law limit: only the shell bound,
+the cross-term bound, the far second factorial moment and Theorem Q (exponent ledgers `3/2 + 9/4 - 3 = 3/4` and
+`3/2 + 5/2 - 3 = 1`, checked exactly).

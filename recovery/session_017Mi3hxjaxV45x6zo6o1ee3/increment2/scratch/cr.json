@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "projection_kind": "conditional-proof-route",
+  "claim_id": "cumulative-transfer-correction",
+  "scientific_status_authority": false,
+  "scientific_effect": "NONE",
+  "application_evaluation": "NOT_EVALUATED",
+  "source_sha256": "83f653393dc6245980f6848e2bfc65ac9ad4c7d8304b028b88764356fd3825b6",
+  "nodes": [
+    {
+      "id": "setup",
+      "role": "hypothesis",
+      "quote": "Let (Z,lambda) be sigma-finite, alpha>-1, m>0, beta=(alpha+1)/m, and r0>0. Let all integrands be jointly measurable. Assume, for lambda-almost every z:"
+    },
+    {
+      "id": "H1",
+      "role": "hypothesis",
+      "quote": "1. kappa(z)>0; 0<=B(r,z)<=G(z); B(r,z)->B0(z) as r->0."
+    },
+    {
+      "id": "H2",
+      "role": "hypothesis",
+      "quote": "2. The weighted negative moment integral G(z)*kappa(z)^(-beta) dlambda is finite."
+    },
+    {
+      "id": "H3",
+      "role": "hypothesis",
+      "quote": "3. h(r,z) is continuous and strictly increasing for 0<r<r0, with h(0+,z)=0 and\n\n       h(r,z)/(kappa(z)*r^m) -> 1."
+    },
+    {
+      "id": "H4",
+      "role": "hypothesis",
+      "quote": "4. Uniformly in r,z, h(r,z)>=c0*kappa(z)*r^m for a fixed c0>0."
+    },
+    {
+      "id": "definition",
+      "role": "definition",
+      "quote": "N(ell)=integral_Z integral_0^r0 r^alpha B(r,z) 1{h(r,z)<=ell} dr dlambda."
+    },
+    {
+      "id": "conclusion",
+      "role": "conditional-conclusion",
+      "quote": "lim_(ell->0) N(ell)/ell^beta\n       = 1/(alpha+1) * integral_Z B0(z)*kappa(z)^(-beta) dlambda."
+    }
+  ],
+  "routes": [
+    {
+      "id": "cumulative-limit",
+      "logic": "ALL",
+      "requires": [
+        "setup",
+        "H1",
+        "H2",
+        "H3",
+        "H4",
+        "definition"
+      ],
+      "concludes": "conclusion"
+    }
+  ],
+  "case_split": "If the displayed coefficient is positive, this limit is a positive asymptotic equivalence. If it is zero, only the corresponding o(ell^beta) conclusion is asserted.",
+  "boundary": "This corrects an underspecified theorem statement; it is not an excuse to infer a density asymptotic from a cumulative asymptotic. D1 still requires its separate derivative controls. The Gaussian contact, thin-belt, whole-annulus, and global persistence statuses are untouched.",
+  "source": {
+    "repository": "d6g8k5htny-coder/Math-",
+    "path": "reviews/collision_mechanism_20260925/CUMULATIVE_TRANSFER_CORRECTION.md",
+    "commit": "d6628da09384728992dcbe6e921cc28ba85aebb0",
+    "blob": "044ac5fdaf403a38e33983e31f0ad69f8e76d6d5",
+    "bytes": 3272,
+    "sha256": "83f653393dc6245980f6848e2bfc65ac9ad4c7d8304b028b88764356fd3825b6",
+    "url": "https://raw.githubusercontent.com/d6g8k5htny-coder/Math-/d6628da09384728992dcbe6e921cc28ba85aebb0/reviews/collision_mechanism_20260925/CUMULATIVE_TRANSFER_CORRECTION.md",
+    "html_url": "https://github.com/d6g8k5htny-coder/Math-/blob/d6628da09384728992dcbe6e921cc28ba85aebb0/reviews/collision_mechanism_20260925/CUMULATIVE_TRANSFER_CORRECTION.md"
+  }
+}

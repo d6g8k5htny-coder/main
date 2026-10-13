@@ -1,0 +1,221 @@
+TAP version 13
+# Subtest: relative links resolve from the quoting source directory and commit, not the proof or live branch
+ok 1 - relative links resolve from the quoting source directory and commit, not the proof or live branch
+  ---
+  duration_ms: 1.949076
+  type: 'test'
+  ...
+# Subtest: quoted exact review comments and intentionally mutable source pointers keep their identities
+ok 2 - quoted exact review comments and intentionally mutable source pointers keep their identities
+  ---
+  duration_ms: 0.841263
+  type: 'test'
+  ...
+# Subtest: unrecognized schemes, foreign destinations, encoded traversal and malformed identities stay literal
+ok 3 - unrecognized schemes, foreign destinations, encoded traversal and malformed identities stay literal
+  ---
+  duration_ms: 2.017147
+  type: 'test'
+  ...
+# Subtest: source HTML is always text and unsupported Markdown retains its literal spelling
+ok 4 - source HTML is always text and unsupported Markdown retains its literal spelling
+  ---
+  duration_ms: 1.768434
+  type: 'test'
+  ...
+# Subtest: every committed quote retains all wording and its original source independently of formatting
+ok 5 - every committed quote retains all wording and its original source independently of formatting
+  ---
+  duration_ms: 5.692988
+  type: 'test'
+  ...
+# Subtest: unsupported parenthesized destinations and Markdown link titles stay wholly literal
+ok 6 - unsupported parenthesized destinations and Markdown link titles stay wholly literal
+  ---
+  duration_ms: 0.865686
+  type: 'test'
+  ...
+# Subtest: museum exposes source-bound rendering rather than silently omitting the page
+ok 7 - museum exposes source-bound rendering rather than silently omitting the page
+  ---
+  duration_ms: 0.307375
+  type: 'test'
+  ...
+# Subtest: a delayed initial museum bookmark still reaches its verified claim when untouched
+ok 8 - a delayed initial museum bookmark still reaches its verified claim when untouched
+  ---
+  duration_ms: 62.442733
+  type: 'test'
+  ...
+# Subtest: museum wheel while verifying sources cancels delayed focus and scroll
+ok 9 - museum wheel while verifying sources cancels delayed focus and scroll
+  ---
+  duration_ms: 7.051694
+  type: 'test'
+  ...
+# Subtest: museum keydown while verifying sources cancels delayed focus and scroll
+ok 10 - museum keydown while verifying sources cancels delayed focus and scroll
+  ---
+  duration_ms: 5.7516
+  type: 'test'
+  ...
+# Subtest: museum pointerdown while verifying sources cancels delayed focus and scroll
+ok 11 - museum pointerdown while verifying sources cancels delayed focus and scroll
+  ---
+  duration_ms: 3.917307
+  type: 'test'
+  ...
+# Subtest: museum focusin while verifying sources cancels delayed focus and scroll
+ok 12 - museum focusin while verifying sources cancels delayed focus and scroll
+  ---
+  duration_ms: 5.18564
+  type: 'test'
+  ...
+# Subtest: museum hashchange while verifying sources cancels delayed focus and scroll
+ok 13 - museum hashchange while verifying sources cancels delayed focus and scroll
+  ---
+  duration_ms: 5.921912
+  type: 'test'
+  ...
+# Subtest: museum popstate while verifying sources cancels delayed focus and scroll
+ok 14 - museum popstate while verifying sources cancels delayed focus and scroll
+  ---
+  duration_ms: 3.674369
+  type: 'test'
+  ...
+# Subtest: museum pagehide while verifying sources cancels delayed focus and scroll
+ok 15 - museum pagehide while verifying sources cancels delayed focus and scroll
+  ---
+  duration_ms: 6.955244
+  type: 'test'
+  ...
+# Subtest: full reviewed bullets, the reconciled D1 row and both AMEND rows retain their classes and source wording
+ok 16 - full reviewed bullets, the reconciled D1 row and both AMEND rows retain their classes and source wording
+  ---
+  duration_ms: 1.160847
+  type: 'test'
+  ...
+# Subtest: source display cannot promote a counterexample or an AMEND row
+ok 17 - source display cannot promote a counterexample or an AMEND row
+  ---
+  duration_ms: 0.978523
+  type: 'test'
+  ...
+# Subtest: a genuine source elsewhere in the index cannot replace this claim proof or scope
+ok 18 - a genuine source elsewhere in the index cannot replace this claim proof or scope
+  ---
+  duration_ms: 0.472704
+  type: 'test'
+  ...
+# Subtest: replay command must occur exactly in the verified replay source
+ok 19 - replay command must occur exactly in the verified replay source
+  ---
+  duration_ms: 1.911104
+  type: 'test'
+  ...
+# Subtest: lifetime source identity must match D2 and packets must use the pinned main snapshot
+ok 20 - lifetime source identity must match D2 and packets must use the pinned main snapshot
+  ---
+  duration_ms: 0.862945
+  type: 'test'
+  ...
+# Subtest: malformed, mutable and falsely displayed source identities are refused before fetch
+ok 21 - malformed, mutable and falsely displayed source identities are refused before fetch
+  ---
+  duration_ms: 0.541748
+  type: 'test'
+  ...
+# Subtest: verified source bytes are required before a claim can be presented
+ok 22 - verified source bytes are required before a claim can be presented
+  ---
+  duration_ms: 1.132302
+  type: 'test'
+  ...
+# Subtest: streamed responses stop at the byte cap and cancel the reader
+ok 23 - streamed responses stop at the byte cap and cancel the reader
+  ---
+  duration_ms: 1.025552
+  type: 'test'
+  ...
+# Subtest: a stalled response body is aborted within its request deadline
+ok 24 - a stalled response body is aborted within its request deadline
+  ---
+  duration_ms: 15.188814
+  type: 'test'
+  ...
+# Subtest: review comment pointers cannot masquerade as byte-frozen comment content
+ok 25 - review comment pointers cannot masquerade as byte-frozen comment content
+  ---
+  duration_ms: 0.491216
+  type: 'test'
+  ...
+# Subtest: the accepted D1 row binds its STATUS quote, index-pinned proof and byte-bound review
+ok 26 - the accepted D1 row binds its STATUS quote, index-pinned proof and byte-bound review
+  ---
+  duration_ms: 1.090013
+  type: 'test'
+  ...
+# Subtest: packet index refuses a foreign packet, changed scientific effect and mismatched result path
+ok 27 - packet index refuses a foreign packet, changed scientific effect and mismatched result path
+  ---
+  duration_ms: 1.381079
+  type: 'test'
+  ...
+# Subtest: new landed chart packet requires its exact separate main commit and remains engineering-only
+ok 28 - new landed chart packet requires its exact separate main commit and remains engineering-only
+  ---
+  duration_ms: 1.254792
+  type: 'test'
+  ...
+# Subtest: rendered claims use declared HTML containers, complete identities and literal disclaimer
+ok 29 - rendered claims use declared HTML containers, complete identities and literal disclaimer
+  ---
+  duration_ms: 9.44717
+  type: 'test'
+  ...
+# Subtest: museum manifest must match the config byte count and SHA-256 before source projection
+ok 30 - museum manifest must match the config byte count and SHA-256 before source projection
+  ---
+  duration_ms: 3.980543
+  type: 'test'
+  ...
+# Subtest: a coherent old browser cache cannot hide the newly pinned packet
+ok 31 - a coherent old browser cache cannot hide the newly pinned packet
+  ---
+  duration_ms: 12.129955
+  type: 'test'
+  ...
+# Subtest: a mixed new config and stale museum manifest fails closed
+ok 32 - a mixed new config and stale museum manifest fails closed
+  ---
+  duration_ms: 1.844574
+  type: 'test'
+  ...
+# Subtest: actual pinned museum renders all cards and rejects cross-claim source, scope and replay substitutions
+ok 33 - actual pinned museum renders all cards and rejects cross-claim source, scope and replay substitutions
+  ---
+  duration_ms: 17.265587
+  type: 'test'
+  ...
+# Subtest: verified claim quotes expose readable source and exact review citations
+ok 34 - verified claim quotes expose readable source and exact review citations
+  ---
+  duration_ms: 4.256787
+  type: 'test'
+  ...
+# Subtest: readable presentation retains the exact original source quote in a disclosure
+ok 35 - readable presentation retains the exact original source quote in a disclosure
+  ---
+  duration_ms: 3.737705
+  type: 'test'
+  ...
+1..35
+# tests 35
+# suites 0
+# pass 35
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 303.319596
+Museum source export and actual display integration verified. Scientific effect NONE.

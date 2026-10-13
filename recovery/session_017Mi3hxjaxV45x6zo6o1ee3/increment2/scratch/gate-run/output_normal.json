@@ -1,0 +1,179 @@
+{
+  "closure": {
+    "blocked_absent": [
+      "hist.CL_ANTHROPIC_BUNDLE_2026-09-17_v5.zip",
+      "hist.allcell_fdz_enclosures.json",
+      "hist.rnu_env.py"
+    ],
+    "illegal_controlling_count": 0,
+    "open_or_author_side_count": 20
+  },
+  "d0_ci_unblock": {
+    "ci_error": "PROBLEM packet: unexpected files ['DOWNSTREAM_CROSSWALK_20260925.md']",
+    "cursor_main_push": "DENIED_403",
+    "patch_bytes": 3096,
+    "patch_sha256": "84b7ad724e4da1c5b4b396c90ae03d4ddedc37771a6e45e1082a45fd80d7ff4a",
+    "ready": true
+  },
+  "d4_region_complement": {
+    "covered_by_fixed_remote_candidate": [
+      {
+        "classification": "COVERED_BY_CANDIDATE",
+        "coverage_source": "math.rn-fixed-remote-window",
+        "fingerprint": "dist>=rho and between-pin height",
+        "id": "math.rn-region.fixed-remote",
+        "notes": "Covered by rn-fixed-remote-window candidate only"
+      }
+    ],
+    "covered_by_other_scoped_candidates": [
+      {
+        "classification": "COVERED_BY_CANDIDATE",
+        "coverage_source": "math.rn-fixed-annulus-window",
+        "fingerprint": "fixed-d2-annulus-between-pin-window-reviewed",
+        "id": "math.rn-region.fixed-annulus-window",
+        "notes": "Covered by math.rn-fixed-annulus-window only at its exact declared scope."
+      }
+    ],
+    "legacy_24jet_discharged": false,
+    "meaning": "region inventory for #76/#86 D4-D5; each covered region retains its source scope",
+    "no_event_to_expectation_reversal": true,
+    "open_complement": [
+      {
+        "classification": "OPEN_ACTIVE",
+        "coverage_source": null,
+        "fingerprint": "r<<|x|<<rho",
+        "id": "math.rn-region.intermediate-r-to-rho",
+        "notes": "Transition region; not discharged by fixed-remote or PR7 reduction"
+      },
+      {
+        "classification": "OPEN_ACTIVE",
+        "coverage_source": null,
+        "fingerprint": "x=r y with A<=|y|<=B away from pins",
+        "id": "math.rn-region.mesoscopic-scaled-annulus",
+        "notes": "Owned by Math- PR7 reduction; exact J0 ledger still open"
+      },
+      {
+        "classification": "OPEN_ACTIVE",
+        "coverage_source": null,
+        "fingerprint": "near +-e1/2 scaled pin sites",
+        "id": "math.rn-region.pin-collision",
+        "notes": "Complement of fixed-remote and fixed scaled annulus"
+      },
+      {
+        "classification": "OPEN_ACTIVE",
+        "coverage_source": null,
+        "fingerprint": "eta->0 mutual witness separation",
+        "id": "math.rn-region.witness-collision",
+        "notes": "Fixed-eta factorial moments do not cover shrinking separation"
+      }
+    ]
+  },
+  "gate_ok": true,
+  "illegal_attempts": {
+    "promote_fixed_remote": {
+      "allowed": false,
+      "evidence_tokens": [
+        "GREEN_CI",
+        "HASH_MATCH",
+        "SAME_AUTHOR_REVIEW"
+      ],
+      "node": "math.rn-fixed-remote-window",
+      "reasons": [
+        "node classification is not eligible for positive CONTROLLING status: AUTHOR_SIDE_CANDIDATE",
+        "required transitive dependency is not satisfied",
+        "evidence consists only of non-discharge tokens"
+      ],
+      "refused": true
+    },
+    "promote_historical_env_rescov": {
+      "allowed": false,
+      "blocked_absent": [
+        "hist.rnu_env.py"
+      ],
+      "meaning": "integrity decision only; not theorem acceptance",
+      "missing_terminal": [],
+      "node": "hist.ENV-RESCOV",
+      "reasons": [
+        "node classification is not eligible for positive CONTROLLING status: OPEN_HISTORICAL",
+        "required BLOCKED_ABSENT dependency forces HOLD"
+      ],
+      "refuted_required": [],
+      "required_dependencies": [
+        "hist.rnu_env.py"
+      ],
+      "would_be_controlling": false
+    },
+    "promote_lifetime_remainder": {
+      "allowed": false,
+      "blocked_absent": [],
+      "meaning": "integrity decision only; not theorem acceptance",
+      "missing_terminal": [],
+      "node": "math.lifetime-remainder",
+      "reasons": [
+        "node classification is not eligible for positive CONTROLLING status: AUTHOR_SIDE_CANDIDATE"
+      ],
+      "refuted_required": [],
+      "required_dependencies": [
+        "math.uniform-matrix-cap-lifetime"
+      ],
+      "would_be_controlling": false
+    },
+    "promote_pr87_before_allowlist": {
+      "allowed": false,
+      "blocked_absent": [],
+      "meaning": "integrity decision only; not theorem acceptance",
+      "missing_terminal": [
+        {
+          "classification": "AUTHOR_SIDE_CANDIDATE",
+          "id": "eng.d0-packet-allowlist-fix"
+        }
+      ],
+      "node": "eng.main-pr87-crosswalk",
+      "reasons": [
+        "node classification is not eligible for positive CONTROLLING status: HOLD",
+        "required transitive dependency is not satisfied"
+      ],
+      "refuted_required": [],
+      "required_dependencies": [
+        "eng.d0-packet-allowlist-fix"
+      ],
+      "would_be_controlling": false
+    },
+    "promote_side24": {
+      "allowed": false,
+      "blocked_absent": [],
+      "meaning": "integrity decision only; not theorem acceptance",
+      "missing_terminal": [],
+      "node": "math.side24-coefficient",
+      "reasons": [
+        "node classification is not eligible for positive CONTROLLING status: AUTHOR_SIDE_CANDIDATE"
+      ],
+      "refuted_required": [],
+      "required_dependencies": [
+        "math.uniform-matrix-cap-lifetime"
+      ],
+      "would_be_controlling": false
+    }
+  },
+  "illegal_promotion_refused": true,
+  "lemma_closed": false,
+  "meaning": "same-author integrity controls for main #90/#86; not analytic review or theorem acceptance",
+  "object": "DOWNSTREAM-HARD-GATE-20260925-v1",
+  "reverse_impact_demo": {
+    "changed_node": "math.uniform-matrix-cap-lifetime",
+    "dependency_changed": true,
+    "impacted": [
+      "math.uniform-matrix-cap-lifetime",
+      "math.lifetime-remainder",
+      "math.side24-coefficient"
+    ]
+  },
+  "schema_version": 1,
+  "scientific_effect": "NONE",
+  "selector_region": {
+    "covered_bypassed_or_na_cell_count": 6,
+    "legacy_24jet_discharged": false,
+    "no_event_to_expectation_reversal": true,
+    "open_or_partial_cell_count": 24
+  }
+}

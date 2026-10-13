@@ -1,0 +1,98 @@
+{
+  "checks": {
+    "EXACT_CONSTANTS": true,
+    "HYPOTHESIS_LOAD_BEARING": true,
+    "MAXIMIN_D2": true,
+    "MAXIMIN_D3": true,
+    "RIDGE_IDENTITY_M3": false
+  },
+  "detail": {
+    "EXACT_CONSTANTS": {
+      "F_second_derivative_lower_bound": "2184415/7086244",
+      "adverse": "2554128/1771561",
+      "excess_over_gap": "11/96",
+      "exterior_integral": "0.28125",
+      "forced_average_f_xxx": "2",
+      "k_min": "11",
+      "kappa_scaled_at_kappa_1_over_7": {
+        "F_second_derivative": "3/14",
+        "excess": "11/112",
+        "longitudinal_drop": "27/112",
+        "transverse_drop": "2400/77"
+      },
+      "kernel_mass": "1/6",
+      "m_u": "48/121",
+      "transverse_drop": "400/11",
+      "u": "24/121"
+    },
+    "HYPOTHESIS_LOAD_BEARING": {
+      "activated_before_merge": 24860,
+      "analytic_rim_pass_level": "1.199999375",
+      "cells": 25921,
+      "f_at_M": "1.2",
+      "f_at_S": "1.19999866667",
+      "gap_kappa_r3": "1.33333e-06",
+      "grid_maximin_level": "1.19999938667",
+      "hypotheses_hold": false,
+      "hypothesis_data": {
+        "M3": "96000",
+        "M4": "2400000",
+        "depth_rhs_8rM3sq": "1474560000",
+        "lambda": "1",
+        "rM4": "48000"
+      },
+      "merge_cell_offset_from_S_in_steps": 42,
+      "rim_inside_D": true,
+      "rim_pass_above_s": true,
+      "s": "1.19999866667"
+    },
+    "MAXIMIN_D2": {
+      "activated_before_merge": 243,
+      "cells": 6561,
+      "f_at_M": "1.2",
+      "f_at_S": "1.19999866667",
+      "grid_maximin_level": "1.19999866667",
+      "hypotheses_hold": true,
+      "hypothesis_data": {
+        "M3": "2",
+        "M4": "0",
+        "depth_rhs_8rM3sq": "16/25",
+        "lambda": "1",
+        "rM4": "0"
+      },
+      "kind": "good",
+      "merge_cell_offset_from_S_in_steps": 0,
+      "s": "1.19999866667",
+      "tolerance": "1.33e-09"
+    },
+    "MAXIMIN_D3": {
+      "activated_before_merge": 260,
+      "cells": 117649,
+      "f_at_M": "1.2",
+      "f_at_S": "1.19999866667",
+      "grid_maximin_level": "1.19999866667",
+      "hypotheses_hold": true,
+      "hypothesis_data": {
+        "M3": "2",
+        "M4": "0",
+        "depth_rhs_8rM3sq": "16/25",
+        "lambda": "1",
+        "rM4": "0"
+      },
+      "kind": "good",
+      "merge_cell_offset_from_S_in_steps": 0,
+      "s": "1.19999866667",
+      "tolerance": "1.33e-09"
+    },
+    "RIDGE_IDENTITY_M3": {
+      "correction_terms_live": true,
+      "g_equals_p": true,
+      "identity_holds": false,
+      "lhs_degree": 1,
+      "ridge_gradient_vanishes": true
+    }
+  },
+  "object": "D1-CAP-ELDER-PARTNER-SECOND-PASS-20260930-v1",
+  "passed": false,
+  "scope": "finite controls for the deterministic cap theorem and identity (11); the theorem itself is the written derivation in REVIEW.md; not a proof about random fields; scientific effect NONE"
+}

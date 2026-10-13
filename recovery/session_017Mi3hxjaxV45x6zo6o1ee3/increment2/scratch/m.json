@@ -1,0 +1,50 @@
+{
+  "checks": {
+    "BASELINE": false,
+    "GATE": true,
+    "IDENTITIES": true,
+    "INTERFACE": true,
+    "NEGATIVES": true,
+    "TRANSITIONS": true,
+    "VERDICTS": true
+  },
+  "gate": {
+    "changed_nodes": [
+      "math.lifetime-remainder",
+      "math.p15-full-price",
+      "math.rn-count-interface",
+      "math.rn-fixed-annulus-window",
+      "math.rn-fixed-remote-window",
+      "math.rn-region.fixed-annulus-window",
+      "math.rn-region.fixed-remote",
+      "math.side24-coefficient"
+    ],
+    "impacted": [
+      "math.lifetime-remainder",
+      "math.p15-full-price",
+      "math.rn-count-interface",
+      "math.rn-fixed-annulus-window",
+      "math.rn-fixed-remote-window",
+      "math.rn-mesoscopic-reduction",
+      "math.rn-region.fixed-annulus-window",
+      "math.rn-region.fixed-remote",
+      "math.rn-selector-region-crosswalk",
+      "math.side24-coefficient"
+    ],
+    "reverse_impact_keys": [
+      "changed_nodes",
+      "context_changed",
+      "graph",
+      "impacted",
+      "meaning",
+      "promotion_permission",
+      "source_snapshots_supplied",
+      "traversal_edges"
+    ]
+  },
+  "inventory_files": 10,
+  "object": "REGISTER-ALIGNMENT-20260930-v1",
+  "passed": false,
+  "scope": "identity, verdict-row, live-baseline, transition-shape, hard-gate replay, interface arithmetic and filesystem-negative checks; no mathematics is re-proved; nothing is written",
+  "transitions": 8
+}

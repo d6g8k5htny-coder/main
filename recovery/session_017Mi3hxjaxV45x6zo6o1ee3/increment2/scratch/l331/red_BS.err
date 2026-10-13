@@ -1,0 +1,223 @@
+FFFFF.FFF.FFFFFFFFFFFFFFF
+======================================================================
+FAIL: test_all_write_failures_do_not_replace_primary_timeout (__main__.RawEvidenceTests.test_all_write_failures_do_not_replace_primary_timeout)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/wt331p/tests/test_qs_d3_replay_evidence.py", line 171, in test_all_write_failures_do_not_replace_primary_timeout
+    self.assertTrue(hasattr(exc, 'evidence_record'), 'retain failure metadata in memory')
+AssertionError: False is not true : retain failure metadata in memory
+
+======================================================================
+FAIL: test_completed_child_with_failed_evidence_cannot_report_success (__main__.RawEvidenceTests.test_completed_child_with_failed_evidence_cannot_report_success)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/wt331p/tests/test_qs_d3_replay_evidence.py", line 178, in test_completed_child_with_failed_evidence_cannot_report_success
+    with self.assertRaises(RuntimeError) as caught:
+AssertionError: RuntimeError not raised
+
+======================================================================
+FAIL: test_each_write_failure_still_attempts_other_evidence (__main__.RawEvidenceTests.test_each_write_failure_still_attempts_other_evidence) (failed='stdout.bin')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/wt331p/tests/test_qs_d3_replay_evidence.py", line 156, in test_each_write_failure_still_attempts_other_evidence
+    self.assertEqual(attempted, ['stdout.bin', 'stderr.bin', 'process.json'])
+AssertionError: Lists differ: [] != ['stdout.bin', 'stderr.bin', 'process.json']
+
+Second list contains 3 additional elements.
+First extra element 0:
+'stdout.bin'
+
+- []
++ ['stdout.bin', 'stderr.bin', 'process.json']
+
+======================================================================
+FAIL: test_each_write_failure_still_attempts_other_evidence (__main__.RawEvidenceTests.test_each_write_failure_still_attempts_other_evidence) (failed='stderr.bin')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/wt331p/tests/test_qs_d3_replay_evidence.py", line 156, in test_each_write_failure_still_attempts_other_evidence
+    self.assertEqual(attempted, ['stdout.bin', 'stderr.bin', 'process.json'])
+AssertionError: Lists differ: [] != ['stdout.bin', 'stderr.bin', 'process.json']
+
+Second list contains 3 additional elements.
+First extra element 0:
+'stdout.bin'
+
+- []
++ ['stdout.bin', 'stderr.bin', 'process.json']
+
+======================================================================
+FAIL: test_each_write_failure_still_attempts_other_evidence (__main__.RawEvidenceTests.test_each_write_failure_still_attempts_other_evidence) (failed='process.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/wt331p/tests/test_qs_d3_replay_evidence.py", line 156, in test_each_write_failure_still_attempts_other_evidence
+    self.assertEqual(attempted, ['stdout.bin', 'stderr.bin', 'process.json'])
+AssertionError: Lists differ: [] != ['stdout.bin', 'stderr.bin', 'process.json']
+
+Second list contains 3 additional elements.
+First extra element 0:
+'stdout.bin'
+
+- []
++ ['stdout.bin', 'stderr.bin', 'process.json']
+
+======================================================================
+FAIL: test_invalid_destination_stops_before_child (__main__.RawEvidenceTests.test_invalid_destination_stops_before_child) (target=PosixPath('<SCRATCH>/wt331p/frontiers/qs_d3_soft_layer_chain_20261005/forbidden-evidence'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/wt331p/tests/test_qs_d3_replay_evidence.py", line 186, in test_invalid_destination_stops_before_child
+    with self.assertRaises(ValueError):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_invalid_destination_stops_before_child (__main__.RawEvidenceTests.test_invalid_destination_stops_before_child) (target=PosixPath('/tmp/tmpbxjpp8ep/scripts/forbidden-evidence'))
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/wt331p/tests/test_qs_d3_replay_evidence.py", line 186, in test_invalid_destination_stops_before_child
+    with self.assertRaises(ValueError):
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_invalid_destination_stops_before_child (__main__.RawEvidenceTests.test_invalid_destination_stops_before_child)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/wt331p/tests/test_qs_d3_replay_evidence.py", line 192, in test_invalid_destination_stops_before_child
+    with self.assertRaises(OSError):
+AssertionError: OSError not raised
+
+======================================================================
+FAIL: test_real_crash_retains_full_binary_streams_and_invocation (__main__.RawEvidenceTests.test_real_crash_retains_full_binary_streams_and_invocation)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/wt331p/tests/test_qs_d3_replay_evidence.py", line 62, in test_real_crash_retains_full_binary_streams_and_invocation
+    folder, rec = self.record()
+                  ^^^^^^^^^^^^^
+  File "<SCRATCH>/wt331p/tests/test_qs_d3_replay_evidence.py", line 40, in record
+    self.assertEqual(len(records), 1, 'one independently retained child process record required')
+AssertionError: 0 != 1 : one independently retained child process record required
+
+======================================================================
+FAIL: test_real_spawn_error_retains_unknown_output_and_original_error (__main__.RawEvidenceTests.test_real_spawn_error_retains_unknown_output_and_original_error)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/wt331p/tests/test_qs_d3_replay_evidence.py", line 132, in test_real_spawn_error_retains_unknown_output_and_original_error
+    folder, rec = self.record()
+                  ^^^^^^^^^^^^^
+  File "<SCRATCH>/wt331p/tests/test_qs_d3_replay_evidence.py", line 40, in record
+    self.assertEqual(len(records), 1, 'one independently retained child process record required')
+AssertionError: 0 != 1 : one independently retained child process record required
+
+======================================================================
+FAIL: test_real_timeout_keeps_partial_bytes_and_timeout_exception (__main__.RawEvidenceTests.test_real_timeout_keeps_partial_bytes_and_timeout_exception)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/wt331p/tests/test_qs_d3_replay_evidence.py", line 94, in test_real_timeout_keeps_partial_bytes_and_timeout_exception
+    self.assertTrue(hasattr(self.m, 'PROCESS_TIMEOUT_SECONDS'), 'explicit unchanged production timeout required')
+AssertionError: False is not true : explicit unchanged production timeout required
+
+======================================================================
+FAIL: test_repeated_invocations_never_overwrite (__main__.RawEvidenceTests.test_repeated_invocations_never_overwrite)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/wt331p/tests/test_qs_d3_replay_evidence.py", line 87, in test_repeated_invocations_never_overwrite
+    self.assertEqual(len(before), 3)
+AssertionError: 0 != 3
+
+======================================================================
+FAIL: test_success_and_intended_failure_outputs_are_not_reinterpreted (__main__.RawEvidenceTests.test_success_and_intended_failure_outputs_are_not_reinterpreted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/wt331p/tests/test_qs_d3_replay_evidence.py", line 80, in test_success_and_intended_failure_outputs_are_not_reinterpreted
+    self.assertEqual(sorted(r['returncode'] for r in records), [0, 1, 2])
+AssertionError: Lists differ: [] != [0, 1, 2]
+
+Second list contains 3 additional elements.
+First extra element 0:
+0
+
+- []
++ [0, 1, 2]
+
+======================================================================
+FAIL: test_unavailable_empty_and_binary_timeout_capture_are_distinct (__main__.RawEvidenceTests.test_unavailable_empty_and_binary_timeout_capture_are_distinct) (out=None, err=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/wt331p/tests/test_qs_d3_replay_evidence.py", line 120, in test_unavailable_empty_and_binary_timeout_capture_are_distinct
+    self.assertEqual(len(paths), 1)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_unavailable_empty_and_binary_timeout_capture_are_distinct (__main__.RawEvidenceTests.test_unavailable_empty_and_binary_timeout_capture_are_distinct) (out=None, err=b'')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/wt331p/tests/test_qs_d3_replay_evidence.py", line 120, in test_unavailable_empty_and_binary_timeout_capture_are_distinct
+    self.assertEqual(len(paths), 1)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_unavailable_empty_and_binary_timeout_capture_are_distinct (__main__.RawEvidenceTests.test_unavailable_empty_and_binary_timeout_capture_are_distinct) (out=None, err=b'\x80err')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/wt331p/tests/test_qs_d3_replay_evidence.py", line 120, in test_unavailable_empty_and_binary_timeout_capture_are_distinct
+    self.assertEqual(len(paths), 1)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_unavailable_empty_and_binary_timeout_capture_are_distinct (__main__.RawEvidenceTests.test_unavailable_empty_and_binary_timeout_capture_are_distinct) (out=b'', err=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/wt331p/tests/test_qs_d3_replay_evidence.py", line 120, in test_unavailable_empty_and_binary_timeout_capture_are_distinct
+    self.assertEqual(len(paths), 1)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_unavailable_empty_and_binary_timeout_capture_are_distinct (__main__.RawEvidenceTests.test_unavailable_empty_and_binary_timeout_capture_are_distinct) (out=b'', err=b'')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/wt331p/tests/test_qs_d3_replay_evidence.py", line 120, in test_unavailable_empty_and_binary_timeout_capture_are_distinct
+    self.assertEqual(len(paths), 1)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_unavailable_empty_and_binary_timeout_capture_are_distinct (__main__.RawEvidenceTests.test_unavailable_empty_and_binary_timeout_capture_are_distinct) (out=b'', err=b'\x80err')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/wt331p/tests/test_qs_d3_replay_evidence.py", line 120, in test_unavailable_empty_and_binary_timeout_capture_are_distinct
+    self.assertEqual(len(paths), 1)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_unavailable_empty_and_binary_timeout_capture_are_distinct (__main__.RawEvidenceTests.test_unavailable_empty_and_binary_timeout_capture_are_distinct) (out=b'\xff\x00', err=None)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/wt331p/tests/test_qs_d3_replay_evidence.py", line 120, in test_unavailable_empty_and_binary_timeout_capture_are_distinct
+    self.assertEqual(len(paths), 1)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_unavailable_empty_and_binary_timeout_capture_are_distinct (__main__.RawEvidenceTests.test_unavailable_empty_and_binary_timeout_capture_are_distinct) (out=b'\xff\x00', err=b'')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/wt331p/tests/test_qs_d3_replay_evidence.py", line 120, in test_unavailable_empty_and_binary_timeout_capture_are_distinct
+    self.assertEqual(len(paths), 1)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_unavailable_empty_and_binary_timeout_capture_are_distinct (__main__.RawEvidenceTests.test_unavailable_empty_and_binary_timeout_capture_are_distinct) (out=b'\xff\x00', err=b'\x80err')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/wt331p/tests/test_qs_d3_replay_evidence.py", line 120, in test_unavailable_empty_and_binary_timeout_capture_are_distinct
+    self.assertEqual(len(paths), 1)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_workflow_wires_tests_and_capture_outside_source_tree (__main__.RawEvidenceTests.test_workflow_wires_tests_and_capture_outside_source_tree)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/wt331p/tests/test_qs_d3_replay_evidence.py", line 204, in test_workflow_wires_tests_and_capture_outside_source_tree
+    self.assertIn("'tests/test_qs_d3_replay_evidence.py'", text)
+AssertionError: "'tests/test_qs_d3_replay_evidence.py'" not found in 'name: QS d = 3 soft-layer chain (A3-A3.6) replay\n\n\'on\':\n  pull_request:\n    paths:\n      - \'frontiers/qs_d3_soft_layer_chain_20261005/**\'\n      - \'tests/test_qs_d3_replay_protocol.py\'\n      - \'.github/workflows/qs-d3-soft-layer-chain.yml\'\n  workflow_dispatch:\n\npermissions:\n  contents: read\n\njobs:\n  replay:\n    runs-on: ubuntu-latest\n    timeout-minutes: 45\n    strategy:\n      fail-fast: false\n      matrix:\n        mode: [\'-B -S\', \'-B -O -S\']\n    name: replay (python ${{ matrix.mode }})\n    steps:\n      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1\n        with:\n          persist-credentials: false\n      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97\n        with:\n          python-version: \'3.11.16\'\n      - name: Verify protocol, stored identities, extractions and all published controls\n        env:\n          PYTHONDONTWRITEBYTECODE: \'1\'\n        shell: bash\n        run: |\n          set -euo pipefail\n          out="$RUNNER_TEMP/qs-replay-evidence"\n          mkdir -p "$out/logs"\n          python ${{ matrix.mode }} -m unittest discover -s tests -p test_qs_d3_replay_protocol.py -v 2>&1 | tee "$out/logs/protocol.txt"\n          python ${{ matrix.mode }} frontiers/qs_d3_soft_layer_chain_20261005/replay.py 2>&1 | tee "$out/logs/replay.txt"\n          git diff --exit-code\n          test -z "$(git status --porcelain)"\n      - name: Preserve exact public sources and available execution logs\n        if: always()\n        shell: bash\n        run: |\n          set -euo pipefail\n          out="$RUNNER_TEMP/qs-replay-evidence"\n          mkdir -p "$out"\n          cp -a frontiers/qs_d3_soft_layer_chain_20261005 "$out/packet"\n          cp tests/test_qs_d3_replay_protocol.py "$out/"\n          cp .github/workflows/qs-d3-soft-layer-chain.yml "$out/"\n          git rev-parse HEAD > "$out/tested_commit.txt"\n          printf \'%s\\n\' \'${{ matrix.mode }}\' > "$out/mode.txt"\n          printf \'%s\\n\' "$GITHUB_RUN_ID/$GITHUB_RUN_ATTEMPT" > "$out/run.txt"\n      - name: Retain evidence on success or failure\n        if: always()\n        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02\n        with:\n          name: qs-replay-${{ strategy.job-index }}-${{ github.run_id }}-${{ github.run_attempt }}\n          path: ${{ runner.temp }}/qs-replay-evidence/\n          if-no-files-found: error\n'
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.194s
+
+FAILED (failures=23)

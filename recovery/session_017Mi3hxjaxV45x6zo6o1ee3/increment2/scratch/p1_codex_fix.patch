@@ -1,0 +1,371 @@
+diff --git a/reviews/side24_d2_certified_small_L_claude_20261005/NOTE.md b/reviews/side24_d2_certified_small_L_claude_20261005/NOTE.md
+index 49d1124..852f740 100644
+--- a/reviews/side24_d2_certified_small_L_claude_20261005/NOTE.md
++++ b/reviews/side24_d2_certified_small_L_claude_20261005/NOTE.md
+@@ -60,22 +60,22 @@ The Gaussian reference (`k2 = 1`, `k4 = k6 = 0`) gives `det V = 3`, `Σ_{A|V} =
+ 
+ ## 4. Results
+ 
+-From `RESULTS.json`, rounded outward to 30 decimals:
++From `RESULTS.json`. Enclosures are rounded outward to 30 decimals. Every auxiliary number there is also rounded outward: upper bounds (`M`, the quadrature bound) up, lower bounds (directional minima, Gram margins) down, and ratios as two-sided intervals.
+ 
+-| `L` | `c_{2,L}` enclosure | `c_{2,L}/c_2` | `a`, `N` | min τ² over directions |
++| `L` | `c_{2,L}` enclosure | `c_{2,L}/c_2` | `a`, `N` | lower bound of min τ² over directions |
+ |---|---|---|---|---|
+ | ref | `0.073406919306034271030135962957 … 958` | 1 | 1, 128 | 6 |
+-| 24 | `0.073406919306034271030135962957 … 958` | `1 ± 1e-25` | 1, 128 | 6.0000000 |
+-| 8 | `0.073406919277779905473535403534 … 535` | `0.99999999961509942354605845` | 1, 128 | 6.0000000 |
++| 24 | `0.073406919306034271030135962957 … 958` | `1 ± 1e-25` | 1, 128 | 5.9999999 |
++| 8 | `0.073406919277779905473535403534 … 535` | `0.99999999961509942354605845` | 1, 128 | 5.9999999 |
+ | 2π | `0.073405684662965293708694735170 … 171` | `0.99998318083525845730400135` | 1, 128 | 5.9997420 |
+ | 4 | `0.067568657600538789457649064979 … 980` | `0.92046714722959966550359775` | 1, 128 | 4.5857514 |
+-| 3 | `0.049879432666614182044489927839 … 840` | `0.67949224866209501388496905` | 1/4, 512 | 0.76518610 |
++| 3 | `0.049879432666614182044489927839 … 840` | `0.67949224866209501388496905` | 1/4, 512 | 0.76518609 |
+ | 2 | `0.012617593130692105902277303954 … 955` | `0.17188561037535465056755305` | 1/64, 8192 | 1.8255735e-4 |
+ 
+ - **The `L = 24` enclosure lies inside `side24_v1`'s published interval** `[…427103, …427104]` (check C2). It equals the reference to far below that width, consistent with the measured anisotropy of about `4e-118` (#297).
+ - **The `L ∈ {8, 2π, 4, 3}` enclosures contain #297's diagnostic values** to within half a unit in their last printed digit (check C6).
+ - **`L = 2`.** The certified value differs from the 4096-direction diagnostic trapezoid by `1.04e-25`. The branch point of `(τ²)^{2/3}` at `Im φ ≈ 0.0412` predicts that residual for that grid: successive differences there shrink by `e^{0.0412·N_φ}`.
+-- **Positivity.** τ², `det V` and `Σ_{A|V}` have certified positive minima at every `L`. At `L = 2` the minimum of τ² is `Δ = 1.8256e-4`, attained on the axes.
++- **Positivity.** τ², `det V` and `Σ_{A|V}` have certified positive minima at every `L`. At `L = 2` the minimum of τ² is `Δ ≈ 1.8256e-4`, attained on the axes.
+ - **Gram floors** (Astra, main#229 6002455230): `V2 ≥ 9h⁴p₁p₂` and `Δ ≥ 36h⁸p₁p₂/m2` hold at every `L` (check C7). At `L = 2` the `Δ` floor is nearly attained, with a margin of `5.6e-14`.
+ 
+ ## 5. Checks and falsification controls
+diff --git a/reviews/side24_d2_certified_small_L_claude_20261005/RESULTS.json b/reviews/side24_d2_certified_small_L_claude_20261005/RESULTS.json
+index 24309d7..30c5467 100644
+--- a/reviews/side24_d2_certified_small_L_claude_20261005/RESULTS.json
++++ b/reviews/side24_d2_certified_small_L_claude_20261005/RESULTS.json
+@@ -6,7 +6,7 @@
+     "upper": "0.012617593130692105902277303955"
+    },
+    "coarse_rule_nodes": 2048,
+-   "gram_floor_margin": {
++   "gram_floor_margin_lower": {
+     "Delta": "5.61995e-14",
+     "V2": "1.36166e+00"
+    },
+@@ -14,15 +14,21 @@
+     "lower": "0.1399492996474460544657794",
+     "upper": "0.1399492996474460544657795"
+    },
+-   "k4_over_k2sq": "6.7523029e+01",
+-   "k6_over_k2cu": "3.9457187e+03",
+-   "min_over_directions": {
+-    "S": "3.6972339e-02",
+-    "detV": "2.7052903e-02",
++   "k4_over_k2sq": {
++    "lower": "6.7523028e+01",
++    "upper": "6.7523029e+01"
++   },
++   "k6_over_k2cu": {
++    "lower": "3.9457187e+03",
++    "upper": "3.9457188e+03"
++   },
++   "min_over_directions_lower": {
++    "S": "3.6972338e-02",
++    "detV": "2.7052902e-02",
+     "tau2": "1.8255735e-04"
+    },
+-   "modulus_bound_M": "1.300e-01",
+-   "quadrature_error_bound": "4.20e-56",
++   "modulus_bound_M_upper": "1.301e-01",
++   "quadrature_error_bound_upper": "4.21e-56",
+    "ratio_to_reference": {
+     "lower": "0.1718856103753546505675530",
+     "upper": "0.1718856103753546505675531"
+@@ -36,23 +42,29 @@
+     "upper": "0.073406919306034271030135962958"
+    },
+    "coarse_rule_nodes": 32,
+-   "gram_floor_margin": {
++   "gram_floor_margin_lower": {
+     "Delta": "5.99997e+00",
+-    "V2": "1.99845e+00"
++    "V2": "1.99844e+00"
+    },
+    "k2": {
+     "lower": "0.9999999999999999999999999",
+     "upper": "1.0000000000000000000000001"
+    },
+-   "k4_over_k2sq": "3.3177150e-75",
+-   "k6_over_k2cu": "-1.9110295e-72",
+-   "min_over_directions": {
+-    "S": "2.6666667e+00",
+-    "detV": "3.0000000e+00",
+-    "tau2": "6.0000000e+00"
++   "k4_over_k2sq": {
++    "lower": "-7.8275779e-69",
++    "upper": "7.8275846e-69"
++   },
++   "k6_over_k2cu": {
++    "lower": "-1.6927520e-67",
++    "upper": "1.6927138e-67"
+    },
+-   "modulus_bound_M": "8.048e-02",
+-   "quadrature_error_bound": "2.60e-56",
++   "min_over_directions_lower": {
++    "S": "2.6666666e+00",
++    "detV": "2.9999999e+00",
++    "tau2": "5.9999999e+00"
++   },
++   "modulus_bound_M_upper": "8.049e-02",
++   "quadrature_error_bound_upper": "2.61e-56",
+    "ratio_to_reference": {
+     "lower": "0.9999999999999999999999999",
+     "upper": "1.0000000000000000000000001"
+@@ -66,23 +78,29 @@
+     "upper": "0.073405684662965293708694735171"
+    },
+    "coarse_rule_nodes": 32,
+-   "gram_floor_margin": {
++   "gram_floor_margin_lower": {
+     "Delta": "4.11849e+00",
+-    "V2": "1.52970e+00"
++    "V2": "1.52969e+00"
+    },
+    "k2": {
+     "lower": "0.9999997887677280831117230",
+     "upper": "0.9999997887677280831117231"
+    },
+-   "k4_over_k2sq": "8.3391192e-06",
+-   "k6_over_k2cu": "-3.2921528e-04",
+-   "min_over_directions": {
+-    "S": "2.6666674e+00",
++   "k4_over_k2sq": {
++    "lower": "8.3391192e-06",
++    "upper": "8.3391193e-06"
++   },
++   "k6_over_k2cu": {
++    "lower": "-3.2921528e-04",
++    "upper": "-3.2921527e-04"
++   },
++   "min_over_directions_lower": {
++    "S": "2.6666673e+00",
+     "detV": "3.0000058e+00",
+     "tau2": "5.9997420e+00"
+    },
+-   "modulus_bound_M": "8.048e-02",
+-   "quadrature_error_bound": "2.60e-56",
++   "modulus_bound_M_upper": "8.049e-02",
++   "quadrature_error_bound_upper": "2.61e-56",
+    "ratio_to_reference": {
+     "lower": "0.9999831808352584573040013",
+     "upper": "0.9999831808352584573040014"
+@@ -96,23 +114,29 @@
+     "upper": "0.049879432666614182044489927840"
+    },
+    "coarse_rule_nodes": 128,
+-   "gram_floor_margin": {
+-    "Delta": "2.11903e-04",
++   "gram_floor_margin_lower": {
++    "Delta": "2.11902e-04",
+     "V2": "2.93185e+00"
+    },
+    "k2": {
+     "lower": "0.8043831847582616279147440",
+     "upper": "0.8043831847582616279147441"
+    },
+-   "k4_over_k2sq": "2.5435863e+00",
+-   "k6_over_k2cu": "-2.0952239e+01",
+-   "min_over_directions": {
+-    "S": "1.9620041e+00",
+-    "detV": "2.3208269e+00",
+-    "tau2": "7.6518610e-01"
++   "k4_over_k2sq": {
++    "lower": "2.5435862e+00",
++    "upper": "2.5435863e+00"
+    },
+-   "modulus_bound_M": "8.670e-02",
+-   "quadrature_error_bound": "2.80e-56",
++   "k6_over_k2cu": {
++    "lower": "-2.0952240e+01",
++    "upper": "-2.0952239e+01"
++   },
++   "min_over_directions_lower": {
++    "S": "1.9620040e+00",
++    "detV": "2.3208268e+00",
++    "tau2": "7.6518609e-01"
++   },
++   "modulus_bound_M_upper": "8.671e-02",
++   "quadrature_error_bound_upper": "2.81e-56",
+    "ratio_to_reference": {
+     "lower": "0.6794922486620950138849690",
+     "upper": "0.6794922486620950138849691"
+@@ -126,23 +150,29 @@
+     "upper": "0.067568657600538789457649064980"
+    },
+    "coarse_rule_nodes": 32,
+-   "gram_floor_margin": {
+-    "Delta": "1.54400e-01",
+-    "V2": "1.94860e+00"
++   "gram_floor_margin_lower": {
++    "Delta": "1.54399e-01",
++    "V2": "1.94859e+00"
+    },
+    "k2": {
+     "lower": "0.9892723933277496349347860",
+     "upper": "0.9892723933277496349347861"
+    },
+-   "k4_over_k2sq": "1.7503166e-01",
+-   "k6_over_k2cu": "-2.8080911e+00",
+-   "min_over_directions": {
++   "k4_over_k2sq": {
++    "lower": "1.7503166e-01",
++    "upper": "1.7503167e-01"
++   },
++   "k6_over_k2cu": {
++    "lower": "-2.8080911e+00",
++    "upper": "-2.8080910e+00"
++   },
++   "min_over_directions_lower": {
+     "S": "2.6462438e+00",
+-    "detV": "3.0409664e+00",
++    "detV": "3.0409663e+00",
+     "tau2": "4.5857514e+00"
+    },
+-   "modulus_bound_M": "8.137e-02",
+-   "quadrature_error_bound": "2.63e-56",
++   "modulus_bound_M_upper": "8.138e-02",
++   "quadrature_error_bound_upper": "2.64e-56",
+    "ratio_to_reference": {
+     "lower": "0.9204671472295996655035977",
+     "upper": "0.9204671472295996655035978"
+@@ -156,23 +186,29 @@
+     "upper": "0.073406919277779905473535403535"
+    },
+    "coarse_rule_nodes": 32,
+-   "gram_floor_margin": {
++   "gram_floor_margin_lower": {
+     "Delta": "5.56213e+00",
+-    "V2": "1.71231e+00"
++    "V2": "1.71230e+00"
+    },
+    "k2": {
+     "lower": "0.9999999999983789868097159",
+     "upper": "0.9999999999983789868097160"
+    },
+-   "k4_over_k2sq": "1.0374484e-10",
+-   "k6_over_k2cu": "-6.6396700e-09",
+-   "min_over_directions": {
+-    "S": "2.6666667e+00",
++   "k4_over_k2sq": {
++    "lower": "1.0374484e-10",
++    "upper": "1.0374485e-10"
++   },
++   "k6_over_k2cu": {
++    "lower": "-6.6396701e-09",
++    "upper": "-6.6396700e-09"
++   },
++   "min_over_directions_lower": {
++    "S": "2.6666666e+00",
+     "detV": "3.0000000e+00",
+-    "tau2": "6.0000000e+00"
++    "tau2": "5.9999999e+00"
+    },
+-   "modulus_bound_M": "8.048e-02",
+-   "quadrature_error_bound": "2.60e-56",
++   "modulus_bound_M_upper": "8.049e-02",
++   "quadrature_error_bound_upper": "2.61e-56",
+    "ratio_to_reference": {
+     "lower": "0.9999999996150994235460584",
+     "upper": "0.9999999996150994235460585"
+diff --git a/reviews/side24_d2_certified_small_L_claude_20261005/SOURCE_FILES.json b/reviews/side24_d2_certified_small_L_claude_20261005/SOURCE_FILES.json
+index 1131ca0..b00307c 100644
+--- a/reviews/side24_d2_certified_small_L_claude_20261005/SOURCE_FILES.json
++++ b/reviews/side24_d2_certified_small_L_claude_20261005/SOURCE_FILES.json
+@@ -2,22 +2,22 @@
+  "base": "main 54ebced",
+  "files": [
+   {
+-   "bytes": 9944,
+-   "git_blob": "49d1124d108344edad81cb5ab43ad8dea430025c",
++   "bytes": 10164,
++   "git_blob": "852f7403a8a06a1ef061e363df9502ae16f7a341",
+    "path": "NOTE.md",
+-   "sha256": "b0a9dee7458d265d1c6dc15e88879079ce41c3b16a36fdb9b20f05633168fb96"
++   "sha256": "407828facb8dde26a036a08a5b3978eb74d6d8a508c68e2758c291e16e911588"
+   },
+   {
+-   "bytes": 6875,
+-   "git_blob": "24309d7c2fcc9c893b01f20419375d5bffbec3ff",
++   "bytes": 7624,
++   "git_blob": "30c5467e42d32f455b64c01331abec67a18e3ac7",
+    "path": "RESULTS.json",
+-   "sha256": "7c360198dc76ed5e79d39f1f4c5c78ef0030f1ccda0bea0bbd33affd658fb3e8"
++   "sha256": "bb3b272d398f77f36ab5cefeb0b394b82032adba65e6355129546c9c282f7d70"
+   },
+   {
+-   "bytes": 18015,
+-   "git_blob": "3995d256285a51488afb1fa874cfe9c952f88800",
++   "bytes": 18917,
++   "git_blob": "6fd5b751cc4157136ae92225838c12d33dc997f3",
+    "path": "certified_d2.py",
+-   "sha256": "aec34b04a2bfe602c5d2aec20de11a1f799d603c4466e8d8a2df299607f29020"
++   "sha256": "92c7fc0939495f287d36fb21db976d1800e6d78dc9e63ae9b5b8533931960e01"
+   }
+  ],
+  "object": "CL-SIDE24-D2-CERTIFIED-SMALL-L-20261005-v1",
+diff --git a/reviews/side24_d2_certified_small_L_claude_20261005/certified_d2.py b/reviews/side24_d2_certified_small_L_claude_20261005/certified_d2.py
+index 3995d25..6fd5b75 100644
+--- a/reviews/side24_d2_certified_small_L_claude_20261005/certified_d2.py
++++ b/reviews/side24_d2_certified_small_L_claude_20261005/certified_d2.py
+@@ -377,9 +377,37 @@ def dec(x, digits=30):
+     return S24.decimals(x, digits)
+ 
+ 
+-def sci(x, digits=4):
+-    v = x if isinstance(x, Q) else (x.lo + x.hi) / 2
+-    return format(float(v), '.%de' % (digits - 1))
++def sci(q, digits, up):
++    """Exact rational q in scientific notation, rounded toward +infinity (up) or -infinity (down)."""
++    q = Q(q)
++    if q == 0:
++        return '0'
++    a = abs(q)
++    e = 0
++    while a >= Q(10) ** (e + 1):
++        e += 1
++    while a < Q(10) ** e:
++        e -= 1
++    scaled = q / Q(10) ** (e - digits + 1)
++    m = -((-scaled.numerator) // scaled.denominator) if up else scaled.numerator // scaled.denominator
++    if abs(m) >= 10 ** digits:            # rounding carried into a new decade
++        m = -((-m) // 10) if up else m // 10
++        e += 1
++    sign = '-' if m < 0 else ''
++    t = str(abs(m)).rjust(digits, '0')
++    return '%s%s.%se%s%02d' % (sign, t[0], t[1:], '-' if e < 0 else '+', abs(e))
++
++
++def sci_upper(q, digits=4):
++    return sci(q, digits, True)
++
++
++def sci_lower(q, digits=4):
++    return sci(q, digits, False)
++
++
++def sci_interval(x, digits=8):
++    return {'lower': sci_lower(x.lo, digits), 'upper': sci_upper(x.hi, digits)}
+ 
+ 
+ def overlap(a, b):
+@@ -465,13 +493,13 @@ def main():
+             check('C2_L24_inside_side24_interval', lo <= c2.lo and c2.hi <= hi)
+         out['cases'][name] = {
+             'c_2L': dec(c2), 'ratio_to_reference': dec(c2 / cref, 25),
+-            'k2': dec(k[0], 25), 'k4_over_k2sq': sci(k[1] / (k[0] * k[0]), 8),
+-            'k6_over_k2cu': sci(k[2] / (k[0] * k[0] * k[0]), 8),
++            'k2': dec(k[0], 25), 'k4_over_k2sq': sci_interval(k[1] / (k[0] * k[0])),
++            'k6_over_k2cu': sci_interval(k[2] / (k[0] * k[0] * k[0])),
+             'strip_half_width_a': str(info['a']), 'trapezoid_nodes_N': info['N'],
+-            'modulus_bound_M': sci(info['M']), 'quadrature_error_bound': sci(info['error_bound'], 3),
++            'modulus_bound_M_upper': sci_upper(info['M']), 'quadrature_error_bound_upper': sci_upper(info['error_bound'], 3),
+             'coarse_rule_nodes': coarse_N,
+-            'min_over_directions': {key: sci(val, 8) for key, val in sorted(pos.items())},
+-            'gram_floor_margin': {'V2': sci(V2.lo - fV.hi, 6), 'Delta': sci(Dl.lo - fD.hi, 6)}}
++            'min_over_directions_lower': {key: sci_lower(val, 8) for key, val in sorted(pos.items())},
++            'gram_floor_margin_lower': {'V2': sci_lower(V2.lo - fV.hi, 6), 'Delta': sci_lower(Dl.lo - fD.hi, 6)}}
+     out['checks'] = {key: val for key, val in sorted(checks.items())}
+     out['passed'] = all(checks.values())
+     print(json.dumps(out, indent=1, sort_keys=True))

@@ -1,0 +1,79 @@
+diff --git a/claims/LANDING_CLAIMS.json b/claims/LANDING_CLAIMS.json
+index a55e5cf..ab9d943 100644
+--- a/claims/LANDING_CLAIMS.json
++++ b/claims/LANDING_CLAIMS.json
+@@ -8,7 +8,7 @@
+     "repo": "d6g8k5htny-coder/main",
+     "issue": 86,
+     "url": "https://github.com/d6g8k5htny-coder/main/issues/86",
+-    "required_state": "open"
++    "required_state": "closed"
+   },
+   "allowed_dispositions": [
+     "HOLD_WITH_DOMAIN",
+diff --git a/tests/test_landing_claims_check.py b/tests/test_landing_claims_check.py
+index 8ade377..df095da 100644
+--- a/tests/test_landing_claims_check.py
++++ b/tests/test_landing_claims_check.py
+@@ -99,6 +99,20 @@ class LandingClaimsCheckTests(unittest.TestCase):
+         with self.assertRaisesRegex(check.ClaimManifestError, "Work queue"):
+             check.validate_manifest(self.manifest(), (self.root / "README.md").read_text())
+ 
++    def test_closed_queue_record_requires_matching_label(self):
++        manifest = self.manifest()
++        manifest["live_queue"]["required_state"] = "closed"
++        with self.assertRaisesRegex(check.ClaimManifestError, "closed-record label"):
++            check.validate_manifest(manifest, (self.root / "README.md").read_text())
++        landing = (self.root / "README.md").read_text().replace(
++            f"[Work queue]({self.queue_url})",
++            f"[Work queue]({self.queue_url}) {check.CLOSED_QUEUE_LABEL}",
++        )
++        report = check.validate_manifest(manifest, landing)
++        self.assertEqual(report["live_queue"]["required_state"], "closed")
++        with self.assertRaisesRegex(check.ClaimManifestError, "closed-record label"):
++            check.validate_manifest(self.manifest(), landing)
++
+     def test_unmanifested_landing_claim_is_rejected(self):
+         (self.root / "frontiers" / "b").mkdir()
+         (self.root / "frontiers" / "b" / "PROOF.md").write_text("# B\n")
+diff --git a/tools/landing_claims_check.py b/tools/landing_claims_check.py
+index 5accfba..c66fde7 100644
+--- a/tools/landing_claims_check.py
++++ b/tools/landing_claims_check.py
+@@ -112,6 +112,9 @@ def landing_result_paths(text: str) -> set[str]:
+     }
+ 
+ 
++CLOSED_QUEUE_LABEL = "*(closed downstream record; not a live queue)*"
++
++
+ def landing_work_queue(text: str) -> str:
+     match = re.search(r"\[Work queue\]\(([^)]+)\)", text)
+     if not match:
+@@ -119,6 +122,11 @@ def landing_work_queue(text: str) -> str:
+     return match.group(1)
+ 
+ 
++def landing_queue_marked_closed(text: str) -> bool:
++    match = re.search(r"\[Work queue\]\([^)]+\)[ \t]*(\S.*)?$", text, re.MULTILINE)
++    return bool(match and match.group(1) and match.group(1).startswith(CLOSED_QUEUE_LABEL))
++
++
+ def _validate_review(review: dict) -> None:
+     if not isinstance(review, dict) or review.get("kind") not in {"github_issue", "local_file"}:
+         raise ClaimManifestError("review must be github_issue or local_file")
+@@ -230,10 +238,12 @@ def validate_manifest(manifest: dict, landing_text: str) -> dict:
+     queue = manifest.get("live_queue")
+     if not isinstance(queue, dict):
+         raise ClaimManifestError("live_queue object required")
+-    if type(queue.get("issue")) is not int or queue.get("required_state") != "open":
+-        raise ClaimManifestError("live_queue requires integer issue and required_state=open")
++    if type(queue.get("issue")) is not int or queue.get("required_state") not in {"open", "closed"}:
++        raise ClaimManifestError("live_queue requires integer issue and required_state open or closed")
+     if landing_work_queue(landing_text) != queue.get("url"):
+         raise ClaimManifestError("README Work queue does not match manifest live_queue")
++    if (queue["required_state"] == "closed") != landing_queue_marked_closed(landing_text):
++        raise ClaimManifestError("README Work queue closed-record label does not match required_state")
+     if unresolved_positive:
+         raise ClaimManifestError(
+             "positive disposition depends on unresolved external source: "

@@ -1,0 +1,66 @@
+## Nonauthor incorporation review of Math-#256 at exact head `5217c22`: PASS (custody and reproducibility scope)
+
+Dylan Roy — delegated AI review. Actual performer: Anthropic Claude in Claude Code, session `017Mi3hx…`. This completes pickup [5973538572](https://github.com/d6g8k5htny-coder/Math-/pull/256#issuecomment-5973538572).
+
+**Exposure and independence.**
+- I am a nonauthor of A4 and of this incorporation.
+- I am **the same provider** (Anthropic) as A4's author and incorporator (session `01NMeKE…`), on the same account.
+- So provider-distinct credit is **0** and organizational-independence credit is **0**.
+- This is a custody and reproducibility read. It is not a science review, and it adds nothing to C117's verdict.
+- Scientific effect: NONE. I do not merge.
+
+### Verified
+
+1. **Scope of the diff.** Base `b55b8f3` to `5217c22`: 14 files, all additions (+1740 lines).
+   - It adds the packet under `frontiers/planar_rejected_endpoint_margin_20261003/` and the workflow `planar-rejected-endpoint-margin.yml`.
+   - It touches no STATUS, `PROOF_INDEX.md`, register, GRAPH or other packet.
+2. **Identities against the native comments.** I compared every stored record with the native comment body on main#229, read live, and with its `SOURCES.json` pin (bytes and SHA-256). All are equal, and each native comment was never edited. The records checked:
+   - `PROOF.md` (16,544 bytes, A4 [5972396791](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5972396791));
+   - `CLAIM.md` (1,816);
+   - `AUTHOR_CONTROLS_COMMENT.md` (19,342);
+   - `REVIEW_PICKUP.md` (1,398);
+   - `REVIEW_EXPOSURE_CORRECTION.md` (1,209);
+   - `REVIEW.md` (18,420);
+   - `REVIEW_COMPLETION.md` (2,354);
+   - `AUTHOR_ACK.md` (2,453).
+
+   The tree holds exactly the pinned files plus `README.md`, `replay.py` and `SOURCES.json`. Nothing is missing, and there is no symlink.
+3. **Extraction.** Using my own fence parser on the stored controls comment, independent of `replay.py`'s regex:
+   - the `python` block equals `A4/author_controls.py` byte for byte (17,262 bytes, `f880ffb0…2b95`);
+   - the `text` block equals `A4/author_controls_stdout.txt` byte for byte (502 bytes, `022ff38c…c28e`).
+
+   Both match the identities the comment itself states.
+4. **Replay.** `replay.py` passes in `-B -S` and in `-B -O -S`: identities, extraction, checker stdout, 6 mutants, the invalid label and 2 negative controls. Afterwards `git status` is clean. The four hosted checks on `5217c22` are green, `a4-replay` among them.
+5. **Mutants fail by detection, not by a crash.** I ran each of the six labels directly. Each exits 1 with empty stderr, and its last line is a named failed check:
+
+   | label | failing check |
+   |---|---|
+   | `G_QUARTER` | L0 pin gradient |
+   | `LOCAL_36` | L1 LE margin |
+   | `NO_PIN_GRAD` | L2 Taylor identity |
+   | `OLD_ENDPOINT`, `P_TWO`, `OMEGA_HALF` | L5 ledger at `β = 1997/3000` |
+
+   `BOGUS` exits 2.
+6. **README against the records.** Each paraphrase bullet matches PROOF.md:
+   - **Lemma LE:** (i), (ii), the attained constant `a_M = γ² + 72`, and Corollary LE's conditions on `a_M` against `η_LE`;
+   - **Theorems R′ and E′:** `O(r^{11/3−ε})`;
+   - **Theorem QFE′:** every `β < 2/3`, `1 − p_r = r³(α₁ + α₂) + O_β(r^{3+β})`, and the Example's `O(r^{18/5})` at `β = 3/5`;
+   - **the setting:** `k = 1`, C97 §0 and C101 §0;
+   - **the non-claims:** identical to §5.
+
+   The consumed list C91–C97 and C101 matches the PROOF's table, and all eight are present in `frontiers/planar_soft_layer_chain_20261003/`. The attribution lines match the records:
+   - **C117's verdict:** `REVIEW.md` line 3;
+   - **the scope:** `AUTHOR_ACK.md` and `REVIEW_COMPLETION.md`;
+   - **the reviewer program's identity:** `REVIEW_COMPLETION.md`.
+
+   The claim [5973297507](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5973297507) and the C119 notice [5972971500](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5972971500) both exist and say what the README cites them for.
+
+### Optional notes (not blocking; no change required for this PR)
+
+- **N1, hardening.** `replay.py` accepts any exit code 1 from a mutant, and an uncaught exception also exits 1. At this head every mutant fails by detection (item 5), so nothing is masked. A future revision could also require empty stderr and a `failures: N` line with `N > 0`.
+- **N2, wording.** The README's comparison "improves the `O(r^{7/2})`" comes from `A4/CLAIM.md` item 2, not from PROOF.md, while the heading says "see `A4/PROOF.md`". Its first Lemma LE sentence compresses §1(i), "the error vanishes to second order at `raw M` along `K_raw`", which it evaluates at the doubled endpoint. Both are accurate in substance.
+
+**Verdict.** The incorporation is faithful and reproducible at `5217c22`, at custody scope. The weight of this read is limited by the same-provider exposure above. Merging stays with a non-Claude integrator.
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_

@@ -1,0 +1,260 @@
+{
+  "checkers": {
+    "Math-#160": {
+      "-B -O -S": {
+        "checks": {
+          "IDENTITIES": true,
+          "MONOTONE": true,
+          "NEGATIVES": true,
+          "OBLIGATION": true,
+          "OPEN_RESIDUAL": true,
+          "SELECTOR": true,
+          "TRANSITIONS": true,
+          "VERDICTS": true
+        },
+        "passed": true,
+        "rc": 0,
+        "register_state": "installed"
+      },
+      "-B -S": {
+        "checks": {
+          "IDENTITIES": true,
+          "MONOTONE": true,
+          "NEGATIVES": true,
+          "OBLIGATION": true,
+          "OPEN_RESIDUAL": true,
+          "SELECTOR": true,
+          "TRANSITIONS": true,
+          "VERDICTS": true
+        },
+        "passed": true,
+        "rc": 0,
+        "register_state": "installed"
+      },
+      "RESULTS_INSTALLED_sha256": "f5e4aec2fe13bcfb8e87abf8795ed38931a33ea49a938916c0dd94b14cc9070f",
+      "matches_RESULTS_INSTALLED": true,
+      "modes_identical": true,
+      "written": "reviews/c6_witness_collision_reconciliation_20260929/RESULTS_INSTALLED.json"
+    },
+    "Math-#167": {
+      "-B -O -S": {
+        "checks": {
+          "BASELINE": true,
+          "D4_DUPLICATE": true,
+          "GATE": true,
+          "IDENTITIES": true,
+          "INTERFACE": true,
+          "NEGATIVES": true,
+          "PROPAGATION": true,
+          "TRANSITIONS": true,
+          "VERDICTS": true
+        },
+        "passed": true,
+        "rc": 0,
+        "register_state": "installed"
+      },
+      "-B -S": {
+        "checks": {
+          "BASELINE": true,
+          "D4_DUPLICATE": true,
+          "GATE": true,
+          "IDENTITIES": true,
+          "INTERFACE": true,
+          "NEGATIVES": true,
+          "PROPAGATION": true,
+          "TRANSITIONS": true,
+          "VERDICTS": true
+        },
+        "passed": true,
+        "rc": 0,
+        "register_state": "installed"
+      },
+      "RESULTS_INSTALLED_sha256": "d0af4624139b9babdeced2ac0c6d2979dd0a72c154898c0c1bcf14eaeaca6bfe",
+      "matches_RESULTS_INSTALLED": true,
+      "modes_identical": true,
+      "written": "reviews/register_alignment_20260930/RESULTS_INSTALLED.json"
+    },
+    "Math-#173": {
+      "-B -O -S": {
+        "checks": {
+          "DEDUCTION": true,
+          "GATE": true,
+          "IDENTITIES": true,
+          "LIVE": true,
+          "NEGATIVES": true,
+          "REVIEWED": true,
+          "TRANSITIONS": true,
+          "VERDICTS": true
+        },
+        "passed": true,
+        "rc": 0,
+        "register_state": "installed"
+      },
+      "-B -S": {
+        "checks": {
+          "DEDUCTION": true,
+          "GATE": true,
+          "IDENTITIES": true,
+          "LIVE": true,
+          "NEGATIVES": true,
+          "REVIEWED": true,
+          "TRANSITIONS": true,
+          "VERDICTS": true
+        },
+        "passed": true,
+        "rc": 0,
+        "register_state": "installed"
+      },
+      "RESULTS_INSTALLED_sha256": "12da1df50961caec14f5c381b5e29e575285383ad32a651ea3c24c46b39ecd48",
+      "matches_RESULTS_INSTALLED": true,
+      "modes_identical": true,
+      "written": "reviews/c6_residual_closure_20260930/RESULTS_INSTALLED.json"
+    }
+  },
+  "composition": {
+    "executed": {
+      "classifications": {
+        "math.c6-witness-collision-factorial-moment": "PROVED_REVIEWED",
+        "math.lifetime-remainder": "PROVED_REVIEWED",
+        "math.p15-full-price": "PROVED_REVIEWED",
+        "math.rn-count-interface": "PROVED_REVIEWED",
+        "math.rn-fixed-annulus-window": "PROVED_REVIEWED",
+        "math.rn-fixed-remote-window": "PROVED_REVIEWED",
+        "math.rn-mesoscopic-reduction": "AUTHOR_SIDE_REDUCTION",
+        "math.rn-region.fixed-annulus-window": "PROVED_REVIEWED",
+        "math.rn-region.fixed-remote": "PROVED_REVIEWED",
+        "math.rn-region.witness-collision": "PROVED_REVIEWED",
+        "math.rn-region.witness-collision.leading-mass-localization": "PROVED_REVIEWED",
+        "math.side24-coefficient": "PROVED_REVIEWED",
+        "regional.shrinking-regions.analytic-route": "SUPERSEDED_NONBLOCKING"
+      },
+      "d4_region_complement": {
+        "covered_by_fixed_remote_candidate": [],
+        "covered_by_other_scoped_candidates": [],
+        "legacy_24jet_discharged": false,
+        "meaning": "region inventory for #76/#86 D4-D5; each covered region retains its source scope",
+        "no_event_to_expectation_reversal": true,
+        "open_complement": [],
+        "proved_reviewed_regions": [
+          {
+            "classification": "PROVED_REVIEWED",
+            "coverage_source": "math.rn-fixed-annulus-window",
+            "fingerprint": "fixed-d2-annulus-between-pin-window-reviewed",
+            "id": "math.rn-region.fixed-annulus-window",
+            "notes": "PROVED_REVIEWED region: covered by math.rn-fixed-annulus-window (required covered_by edge; coverage_source retained). Register alignment v1.3."
+          },
+          {
+            "classification": "PROVED_REVIEWED",
+            "coverage_source": "math.rn-fixed-remote-window",
+            "fingerprint": "dist>=rho and between-pin height",
+            "id": "math.rn-region.fixed-remote",
+            "notes": "PROVED_REVIEWED region: covered by math.rn-fixed-remote-window (required covered_by edge; coverage_source retained). Register alignment v1.3."
+          },
+          {
+            "classification": "PROVED_REVIEWED",
+            "coverage_source": null,
+            "fingerprint": "r<<|x|<<rho",
+            "id": "math.rn-region.intermediate-r-to-rho",
+            "notes": "Reviewed only at D5-e (I3/I4, window I_r); see the complete D5 reconciliation reading rule. No d>2, numerical, elder-selection, JETMOD, or witness-collision closure."
+          },
+          {
+            "classification": "PROVED_REVIEWED",
+            "coverage_source": null,
+            "fingerprint": "x=r y with A<=|y|<=B away from pins",
+            "id": "math.rn-region.mesoscopic-scaled-annulus",
+            "notes": "Reviewed only at D5-d with R >= B (covers the reviewed fixed annulus); see the complete D5 reconciliation reading rule. No d>2, numerical, elder-selection, JETMOD, or witness-collision closure."
+          },
+          {
+            "classification": "PROVED_REVIEWED",
+            "coverage_source": null,
+            "fingerprint": "near +-e1/2 scaled pin sites",
+            "id": "math.rn-region.pin-collision",
+            "notes": "Reviewed only at D5-a, D5-b, D5-d; see the complete D5 reconciliation reading rule. No d>2, numerical, elder-selection, JETMOD, or witness-collision closure."
+          },
+          {
+            "classification": "PROVED_REVIEWED",
+            "coverage_source": null,
+            "fingerprint": "eta->0 mutual witness separation",
+            "id": "math.rn-region.witness-collision",
+            "notes": "Deferred: executes only after Math-#160 step 3 (aggregate node math.c6-witness-collision-factorial-moment) and this record's residual node exist."
+          },
+          {
+            "classification": "PROVED_REVIEWED",
+            "coverage_source": null,
+            "fingerprint": "leading-order r^3 mass of E N(N-1): scale-r localization; open piece = mixed local/remote pairs M(R, s_0)",
+            "id": "math.rn-region.witness-collision.leading-mass-localization",
+            "notes": "Leading-mass localization of E N(N-1) at scale r, in the iterated limit; corollary of Math-#162 (26)/(18)/(20) with PALM Theorem Q, and of Math-#159 Corollary Lambda / Proposition 4.4; direct statement Math-#166 Theorem L (L1)/(L2), bound; Route C pair-count corollary. Two evidence paths: the direct statement (Theorem L) and the reviewed corollary (section 3, read by OpenAI 5360645884). C6 residual closure v1.3."
+          }
+        ]
+      },
+      "edges": 131,
+      "gate_ok": true,
+      "held": [],
+      "holds_cleared": [
+        "math.rn-fixed-annulus-window",
+        "math.rn-fixed-remote-window",
+        "math.rn-mesoscopic-reduction"
+      ],
+      "holds_new": {},
+      "illegal_controlling": [],
+      "nodes": 88,
+      "reverse_impact": {
+        "changed_nodes": 49,
+        "impacted": 51,
+        "source_snapshots_supplied": true
+      },
+      "validate_graph_fail_closed": "OK"
+    },
+    "live": {
+      "edges": 55,
+      "gate_ok": true,
+      "holds": [
+        "eng.main-pr87-crosswalk",
+        "hist.ALLCELL-FDZ-Q4",
+        "hist.ENV-RESCOV",
+        "math.rn-fixed-annulus-window",
+        "math.rn-fixed-remote-window",
+        "math.rn-mesoscopic-reduction"
+      ],
+      "nodes": 49
+    },
+    "step_160": {
+      "edges_added": 49,
+      "edges_after_steps_1_3": 101,
+      "nodes": 79,
+      "nodes_already_live": [],
+      "selector": "cells and region ids per selector_region_proposal",
+      "step_4": "witness node PROVED_REVIEWED with Math-#173's deferred-transition fields; its evidence edges added"
+    },
+    "step_167": {
+      "edges": 71,
+      "flipped": [
+        "math.lifetime-remainder",
+        "math.p15-full-price",
+        "math.rn-count-interface",
+        "math.rn-fixed-annulus-window",
+        "math.rn-fixed-remote-window",
+        "math.rn-region.fixed-annulus-window",
+        "math.rn-region.fixed-remote",
+        "math.side24-coefficient"
+      ],
+      "nodes": 57
+    },
+    "step_173": {
+      "deferred_edges_applied": 1,
+      "edges": 131,
+      "nodes": 88,
+      "residual": "PROVED_REVIEWED"
+    }
+  },
+  "meaning": "composition of three declarative proposals on a scratch copy; validation by the hard gate; the records' own checkers in their installed state; not an execution, not acceptance",
+  "mutants_run": false,
+  "object": "REGISTER-EXECUTION-DRYRUN-20260930-v1",
+  "passed": true,
+  "repository_written": true,
+  "scenario": {
+    "old_node_move": true,
+    "selector": "cells"
+  },
+  "scientific_effect": "NONE"
+}

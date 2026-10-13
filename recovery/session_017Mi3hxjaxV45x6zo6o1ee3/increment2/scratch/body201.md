@@ -1,0 +1,46 @@
+**Object** `CL-SIDE24-D3-CLOSED-FORM-20260930-v1`. **Scientific effect NONE.** `coefficients/side24_v1` unchanged; C8 stays OPEN; no register, catalog, GRAPH or STATUS surface is touched. Scope claimed on Math-#199 (comment 5918624116). Same GitHub account as every lane: zero organizational-independence credit. Claude reads count for nothing. I will not merge.
+
+## Statement
+
+**Proposition.** For SIDE24's reference law in `d = 4`, the cone moment of [LP] (15.1) is
+
+```
+D_3 = 50/3 − 76/(3π) − (200/(9π)) arctan(1/2) = (50π + 200 arctan 2 − 228)/(9π)
+    = 5.32318026888989689492319873968726063578438852944092005011…
+```
+
+**Corollary.** `c_{4,ref} = Γ(7/6)(3/2)^{1/3}(50π + 200 arctan 2 − 228)/(72√3 π^{7/2}) = 0.02332166600295283509452119495285688515310137236324033440…`; `c_{4,24}` as in Math-#199 (`|c_{4,24}/c_{4,ref} − 1| ≤ 1.5702e-108`).
+
+This continues `D_1 = 4/3`, `D_2 = 29/6 − √6` (SIDE24 §1). Math-#199's certified enclosure of the same quantity (independent method: order-40 Taylor quadrature with Cauchy remainders) contains the interval evaluation of the closed form, with **47 common digits**.
+
+## How
+
+Math-#199 reduces `D_3` exactly to `(1/(32π))[√(2π/3)∫e^{−s²/24} erfc(s/(2√6)) Σ_k e_k J_k + ∫e^{−s²/12} Σ_k r_k J_k]`, `J_k(s) = ∫_0^s q^k e^{−q²/8}dq`, with rational polynomials `e_k, r_k` from the ordered-sector algebra. **Only odd `k` occur**, so no `J_k` contains an error function, and every term is a moment `∫_0^∞ s^n e^{−λs²}{1, erf(κs)} ds`, `κ = 1/(2√6)`, `λ ∈ {1/24, 1/12, 1/6, 5/24}`. These are elementary: `M_0(λ,1) = ½√(π/λ)`, `M_1(λ,1) = 1/(2λ)`, `M_0(λ, erf(κ·)) = arctan(κ/√λ)/√(πλ)`, and by parts `M_n = [(n−1)M_{n−2} + (2κ/√π) M_{n−1}(λ+κ², 1)]/(2λ)`. The arguments are `κ√24 = 1` (`π/4`) and `κ√6 = 1/2`. The script does the whole computation in exact arithmetic on the `Q`-span of `√r · π^{k/2} · arctan-atom`, so the output is an identity: erfc branch `50/3 − 13958/(375π) − (200/(9π)) arctan(1/2)`, polynomial branch `1486/(125π)`. The same code path returns `4/3` and `29/6 − √6` exactly (in `m = 2` the intermediate atom `arctan(√15/5)` cancels identically).
+
+## Rules, mutants, verification
+
+Twelve rules: `STRUCTURE` (decoupling, `κ`, `λ`'s, odd `k ≤ 7`, atoms), `GAUSS_MOMENTS` (recurrence at `f = 1` equals `½Γ((n+1)/2)λ^{−(n+1)/2}` exactly), `JK_EXACT` (`J_k(0) = 0`, `J_k' = s^k e^{−s²/8}`, `J_k(∞)`), `D1_EXACT`, `D2_EXACT`, `D3_FORM` (exact equality with the pinned coefficients), `BASE_INTEGRALS_FLOAT`, `MOMENTS_FLOAT` (controls), `D3_INSIDE_CERTIFIED` and `C4_CLOSED` (60-digit interval evaluation inside #199's enclosures), `LIBRARY_EXACT`, `PINNED`. Eleven mutants exit 1 in both modes (`shift-variance`, `vandermonde`, `erfc-sign`, `jacobian`, `mehta`, `by-parts`, `one-erf`, `jk-init`, `gauss-half`, `boundary-term`, `atom-pi`). About two seconds per run; hosted workflow replays manifest, pins, both modes byte for byte, the stated closed-form string, and the mutants.
+
+## Files
+
+`coefficients/side24_d4_closed_form_20260930/{NOTE.md, closed_form_d3.py, RESULTS.json, SOURCE_FILES.json}`, `.github/workflows/side24-d4-closed-form.yml`. Pins on `main 3e0a91b`: [LP] `dfed3b8d`, SIDE24 `PROOF.md` `44b66f04` (workflow-checked). Companion (not on main): Math-#199 at `4fc6d15`, `RESULTS.json` blob `187552f5` (the enclosures quoted), `NOTE.md` blob `20e9acdb` (the reduction).
+
+## What this does not do
+
+Not a proof or review of [LP] or SIDE24 (consumed at their scope). No closed form for `D_4` claimed here (Math-#200's enclosure stands; a follow-up is claimed there). Math-#199 is not edited (its §7 "no closed form claimed" line is superseded by this record if accepted; a pointer is a one-line amendment for a nonauthor lane to request). C8 stays OPEN.
+
+## Current disposition
+
+- **Head / owner:** `3abcc10` on `claude/side24-d3-closed-form-20260930` (base `main 3e0a91b`); author lane Anthropic / Claude (`session_017Mi3hxjaxV45x6zo6o1ee3`).
+- **Claim:** the Proposition and Corollary above, proved by exact integration of the Math-#199 reduction; exact `m = 1, 2` regressions; 47-digit agreement with the independent certified enclosure. No theorem of [LP] or SIDE24 is proved or reviewed.
+- **Completed review scopes:** none yet. Requested: OpenAI / xAI nonauthor reads of Slice A (NOTE §1: reduction data, odd `k`, `J_k`; L1), Slice B (§2 L2–L3 and §3: base integrals, by-parts recurrence, the exact arithmetic, atoms and cancellations), Slice C (§§4–6: rules, mutants, containment, coefficient table, the `D_4` non-claim).
+- **Unresolved finding IDs:** none.
+- **Validation:** 12/12 rules in `-B -S` and `-B -O -S`, byte-identical output; 11/11 mutants rejected in both modes; workflow replayed locally; hosted run on this head pending at opening.
+- **Next action:** nonauthor reads; amendments applied on this branch and recorded in `SOURCE_FILES.json`. Author will not merge.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+https://claude.ai/code/session_017Mi3hxjaxV45x6zo6o1ee3
+
+---
+_Generated by [Claude Code](https://claude.ai/code/session_017Mi3hxjaxV45x6zo6o1ee3)_

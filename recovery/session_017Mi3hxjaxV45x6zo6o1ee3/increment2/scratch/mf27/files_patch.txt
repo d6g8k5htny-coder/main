@@ -1,0 +1,154 @@
+added tests/test_hex_field_types.py + 93 - 0 blob e553dd722aa963bc22c975a6cd6ceb99c19ca1b1
+@@ -0,0 +1,93 @@
++"""Hex identity types must be checked before format, never converted to strings.
++
++Issue #15 reader-defect regression.  A decimal integer with forty or sixty-four
++digits can satisfy the former str(value) + regex path even though every declared
++identity is a JSON string.  Scientific effect: none.
++"""
++from __future__ import annotations
++
++import copy
++import json
++import unittest
++from pathlib import Path
++
++from tools.contract_validation import (
++    ContractError,
++    validate_source_manifest,
++    validate_source_ref,
++    validate_workspace_snapshot,
++)
++
++EXAMPLES = Path(__file__).resolve().parents[1] / "examples"
++
++# Seven separately enforced hash fields across both source-ref variants, the
++# source-manifest root and entries, and nested workspace-snapshot repositories.
++CASES = (
++    ("source_ref.git.json", validate_source_ref, ("commit",), 40, "exact commit required"),
++    ("source_ref.git.json", validate_source_ref, ("git_blob_sha1",), 40, "exact blob required"),
++    ("source_ref.git.json", validate_source_ref, ("sha256",), 64, "exact sha256 required"),
++    ("source_ref.drive.json", validate_source_ref, ("sha256",), 64, "exact sha256 required"),
++    ("source_manifest.json", validate_source_manifest, ("commit",), 40, "exact commit required"),
++    ("source_manifest.json", validate_source_manifest, ("files", 0, "sha256"), 64, "exact sha256 required"),
++    ("workspace_snapshot.json", validate_workspace_snapshot, ("repositories", 0, "commit"), 40, "exact commit required"),
++)
++
++
++def sample(name):
++    return json.loads((EXAMPLES / name).read_text(encoding="utf-8"))
++
++
++def set_field(document, path, value):
++    target = document
++    for component in path[:-1]:
++        target = target[component]
++    target[path[-1]] = value
++
++
++class ExactHexFieldTypes(unittest.TestCase):
++    def test_integer_digit_lookalikes_refused_in_every_field(self):
++        # A 40- or 64-digit integer is an actual JSON-compatible numeric value.
++        # All seven were previously accepted after implicit str(...) coercion.
++        self.assertEqual(len(CASES), 7)
++        for name, validator, path, width, message in CASES:
++            with self.subTest(example=name, field=path):
++                document = sample(name)
++                set_field(document, path, int("1" * width))
++                original = copy.deepcopy(document)
++                with self.assertRaises(ContractError) as raised:
++                    validator(document)
++                self.assertEqual(str(raised.exception), message)
++                self.assertEqual(document, original)
++
++    def test_string_digit_lookalikes_still_valid(self):
++        for name, validator, path, width, _ in CASES:
++            with self.subTest(example=name, field=path):
++                document = sample(name)
++                set_field(document, path, "1" * width)
++                original = copy.deepcopy(document)
++                result = validator(document)
++                self.assertIsNot(result, document)
++                self.assertEqual(result, original)
++                self.assertEqual(document, original)
++
++    def test_invalid_hex_strings_still_refused_with_same_diagnostic(self):
++        for name, validator, path, width, message in CASES:
++            with self.subTest(example=name, field=path):
++                document = sample(name)
++                set_field(document, path, "g" * width)
++                with self.assertRaises(ContractError) as raised:
++                    validator(document)
++                self.assertEqual(str(raised.exception), message)
++
++    def test_documented_minor_version_allowances_still_accepted(self):
++        examples = {name: validator for name, validator, _, _, _ in CASES}
++        for name, validator in examples.items():
++            for version in ("1.0", "1.1", "01.0", "1.10", "1.00"):
++                with self.subTest(example=name, version=version):
++                    document = sample(name)
++                    document["schema_version"] = version
++                    self.assertEqual(validator(document), document)
++
++
++if __name__ == "__main__":
++    unittest.main()
+-----
+modified tools/contract_validation.py + 11 - 7 blob 3b25c687c49861944f68425cf5fafe178d54636c
+@@ -14,6 +14,10 @@ class ContractError(ValueError):
+ FULL_REPOS=frozenset('d6g8k5htny-coder/'+name for name in REPO_NAMES)
+ PUBLIC_FULL_REPOS=frozenset('d6g8k5htny-coder/'+name for name in PUBLIC_REPO_NAMES)
+ 
++def _is_exact_hex(value: Any, pattern: re.Pattern[str]) -> bool:
++    """An identity must already be a string; never stringify JSON numbers."""
++    return isinstance(value, str) and pattern.fullmatch(value) is not None
++
+ def parse_major(version: str) -> int:
+     if not isinstance(version,str): raise ContractError('schema_version must be a string')
+     m=VER.fullmatch(version)
+@@ -59,14 +63,14 @@ def validate_source_ref(data: dict, *, public: bool=True) -> dict:
+     if public and vis!='public': raise ContractError('public contract requires public visibility')
+     if kind=='git':
+         _full_repo(row.get('repository'),public=public)
+-        if not HEX40.fullmatch(str(row.get('commit',''))): raise ContractError('exact commit required')
++        if not _is_exact_hex(row.get('commit'), HEX40): raise ContractError('exact commit required')
+         _safe_path(row.get('path'))
+-        if not HEX40.fullmatch(str(row.get('git_blob_sha1',''))): raise ContractError('exact blob required')
+-        if not HEX64.fullmatch(str(row.get('sha256',''))): raise ContractError('exact sha256 required')
++        if not _is_exact_hex(row.get('git_blob_sha1'), HEX40): raise ContractError('exact blob required')
++        if not _is_exact_hex(row.get('sha256'), HEX64): raise ContractError('exact sha256 required')
+         _size(row.get('size_bytes'))
+     elif kind=='external':
+         _nonempty(row.get('provider'),'provider');_nonempty(row.get('source_id'),'source_id')
+-        if not HEX64.fullmatch(str(row.get('sha256',''))): raise ContractError('exact sha256 required')
++        if not _is_exact_hex(row.get('sha256'), HEX64): raise ContractError('exact sha256 required')
+         _size(row.get('size_bytes'))
+         if not isinstance(row.get('monitorability'),str) or row.get('monitorability') not in {'external-frozen','external-live'}: raise ContractError('invalid monitorability')
+     else: raise ContractError('unknown source kind')
+@@ -85,7 +89,7 @@ def validate_repository_role(data: dict) -> dict:
+ 
+ def validate_source_manifest(data: dict) -> dict:
+     row=_copy(data);parse_major(row.get('schema_version'));_nonempty(row.get('distribution'),'distribution');_nonempty(row.get('version'),'version');_full_repo(row.get('repository'),public=True)
+-    if not HEX40.fullmatch(str(row.get('commit',''))): raise ContractError('exact commit required')
++    if not _is_exact_hex(row.get('commit'), HEX40): raise ContractError('exact commit required')
+     if row.get('scientific_status_authority') is not False: raise ContractError('source manifest cannot be scientific-status authority')
+     files=row.get('files')
+     if not isinstance(files,list): raise ContractError('files list required')
+@@ -95,7 +99,7 @@ def validate_source_manifest(data: dict) -> dict:
+         path=_safe_path(item.get('path'))
+         if path in seen: raise ContractError('duplicate manifest path')
+         seen.add(path)
+-        if not HEX64.fullmatch(str(item.get('sha256',''))): raise ContractError('exact sha256 required')
++        if not _is_exact_hex(item.get('sha256'), HEX64): raise ContractError('exact sha256 required')
+         value=item.get('bytes')
+         if type(value) is not int or value<0: raise ContractError('invalid bytes')
+     return row
+@@ -112,6 +116,6 @@ def validate_workspace_snapshot(data: dict) -> dict:
+         repo=_full_repo(item.get('repository'),public=False)
+         if repo in seen: raise ContractError('duplicate repository')
+         seen.add(repo)
+-        if not HEX40.fullmatch(str(item.get('commit',''))): raise ContractError('exact commit required')
++        if not _is_exact_hex(item.get('commit'), HEX40): raise ContractError('exact commit required')
+     if seen!=FULL_REPOS: raise ContractError('workspace snapshot repository set mismatch')
+     return row
+-----

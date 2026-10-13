@@ -1,0 +1,2300 @@
+ResearchFormalCoreR1.ec005_fold_gap (s : Real) :
+  @Eq Real
+    (@HSub.hSub Real Real Real (@instHSub Real Real.instSub) (ResearchFormalCoreR1.foldPotential s s)
+      (ResearchFormalCoreR1.foldPotential s (@Neg.neg Real Real.instNeg s)))
+    (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+      (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid)))
+        (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+          (@OfNat.ofNat Real (nat_lit 2) (@instOfNatAtLeastTwo Real (nat_lit 2) Real.instNatCast ⋯)) s)
+        (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3))))
+      (@OfNat.ofNat Real (nat_lit 6) (@instOfNatAtLeastTwo Real (nat_lit 6) Real.instNatCast ⋯)))
+ResearchFormalCoreR1.ec008_factor_expansion (c s : Real) :
+  @Eq Real
+    (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+        (@OfNat.ofNat Real (nat_lit 2) (@instOfNatAtLeastTwo Real (nat_lit 2) Real.instNatCast ⋯))
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) s
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+      (@HSub.hSub Real Real Real (@instHSub Real Real.instSub)
+        (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+          (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+            (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+              (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) s
+                (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+              (@HAdd.hAdd Real Real Real (@instHAdd Real Real.instAdd)
+                (@HAdd.hAdd Real Real Real (@instHAdd Real Real.instAdd)
+                  (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+                    (@OfNat.ofNat Real (nat_lit 3) (@instOfNatAtLeastTwo Real (nat_lit 3) Real.instNatCast ⋯))
+                    (@HPow.hPow Real Nat Real
+                      (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) c
+                      (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4)))))
+                  (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+                    (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+                      (@OfNat.ofNat Real (nat_lit 3) (@instOfNatAtLeastTwo Real (nat_lit 3) Real.instNatCast ⋯))
+                      (@HPow.hPow Real Nat Real
+                        (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) c
+                        (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+                    (@HPow.hPow Real Nat Real
+                      (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) s
+                      (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))))
+                (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid)))
+                  s (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))))
+            (@OfNat.ofNat Real (nat_lit 24) (@instOfNatAtLeastTwo Real (nat_lit 24) Real.instNatCast ⋯)))
+          (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+            (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+              (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) s
+                (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+              (@HAdd.hAdd Real Real Real (@instHAdd Real Real.instAdd)
+                (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+                  (@OfNat.ofNat Real (nat_lit 4) (@instOfNatAtLeastTwo Real (nat_lit 4) Real.instNatCast ⋯))
+                  (@HPow.hPow Real Nat Real
+                    (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) c
+                    (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+                (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid)))
+                  s (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))))
+            (@OfNat.ofNat Real (nat_lit 2) (@instOfNatAtLeastTwo Real (nat_lit 2) Real.instNatCast ⋯))))
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid)))
+          (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+            (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+              (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) (@Neg.neg Real Real.instNeg c)
+                (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid)))
+                  s (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+              (@HAdd.hAdd Real Real Real (@instHAdd Real Real.instAdd)
+                (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+                  (@OfNat.ofNat Real (nat_lit 2) (@instOfNatAtLeastTwo Real (nat_lit 2) Real.instNatCast ⋯))
+                  (@HPow.hPow Real Nat Real
+                    (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) c
+                    (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+                (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid)))
+                  s (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))))
+            (@OfNat.ofNat Real (nat_lit 4) (@instOfNatAtLeastTwo Real (nat_lit 4) Real.instNatCast ⋯)))
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))))
+    (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+        (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+          (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) s
+            (@OfNat.ofNat Nat (nat_lit 8) (instOfNatNat (nat_lit 8))))
+          (@HAdd.hAdd Real Real Real (@instHAdd Real Real.instAdd)
+            (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) c
+              (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+            (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) s
+              (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))))
+        (@HAdd.hAdd Real Real Real (@instHAdd Real Real.instAdd)
+          (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+            (@OfNat.ofNat Real (nat_lit 3) (@instOfNatAtLeastTwo Real (nat_lit 3) Real.instNatCast ⋯))
+            (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) c
+              (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+          (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) s
+            (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))))
+      (@OfNat.ofNat Real (nat_lit 24) (@instOfNatAtLeastTwo Real (nat_lit 24) Real.instNatCast ⋯)))
+ResearchFormalCoreR1.ec010_generic (α K c η : Real) :
+  @Eq Real
+    (@HAdd.hAdd Real Real Real (@instHAdd Real Real.instAdd)
+      (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid)))
+        (@HAdd.hAdd Real Real Real (@instHAdd Real Real.instAdd) K
+          (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+            (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+              (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+                (@OfNat.ofNat Real (nat_lit 8) (@instOfNatAtLeastTwo Real (nat_lit 8) Real.instNatCast ⋯)) α)
+              c)
+            η))
+        (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+        (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+          (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+            (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+              (@OfNat.ofNat Real (nat_lit 64) (@instOfNatAtLeastTwo Real (nat_lit 64) Real.instNatCast ⋯)) α)
+            (@HSub.hSub Real Real Real (@instHSub Real Real.instSub)
+              (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne)) α))
+          (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) c
+            (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) η
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))))
+    (@HAdd.hAdd Real Real Real (@instHAdd Real Real.instAdd)
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+        (@HSub.hSub Real Real Real (@instHSub Real Real.instSub)
+          (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne)) α)
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) K
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) α
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid)))
+          (@HAdd.hAdd Real Real Real (@instHAdd Real Real.instAdd) K
+            (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+              (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+                (@OfNat.ofNat Real (nat_lit 8) (@instOfNatAtLeastTwo Real (nat_lit 8) Real.instNatCast ⋯)) c)
+              η))
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))))
+ResearchFormalCoreR1.ec010_transverse (α a η : Real) :
+  @Eq Real
+    (@HAdd.hAdd Real Real Real (@instHAdd Real Real.instAdd)
+      (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid)))
+        (@HAdd.hAdd Real Real Real (@instHAdd Real Real.instAdd) a
+          (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+            (@HSub.hSub Real Real Real (@instHSub Real Real.instSub)
+              (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+              (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+                (@OfNat.ofNat Real (nat_lit 2) (@instOfNatAtLeastTwo Real (nat_lit 2) Real.instNatCast ⋯)) α))
+            η))
+        (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+        (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+          (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+            (@OfNat.ofNat Real (nat_lit 4) (@instOfNatAtLeastTwo Real (nat_lit 4) Real.instNatCast ⋯)) α)
+          (@HSub.hSub Real Real Real (@instHSub Real Real.instSub)
+            (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne)) α))
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) η
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))))
+    (@HAdd.hAdd Real Real Real (@instHAdd Real Real.instAdd)
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+        (@HSub.hSub Real Real Real (@instHSub Real Real.instSub)
+          (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne)) α)
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid)))
+          (@HAdd.hAdd Real Real Real (@instHAdd Real Real.instAdd) a η)
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) α
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid)))
+          (@HSub.hSub Real Real Real (@instHSub Real Real.instSub) a η)
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))))
+ResearchFormalCoreR1.ec011_scalar_cancellation (h w g : Real) :
+  @Eq Real
+    (@HAdd.hAdd Real Real Real (@instHAdd Real Real.instAdd)
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+        (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) (@Neg.neg Real Real.instNeg h) w) g)
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) w
+        (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) h g)))
+    (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero))
+ResearchFormalCoreR1.ec014_contact_power (r : Real)
+  (hr : @Ne Real r (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero))) :
+  @Eq Real
+    (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+        (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+          (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+            (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3))))
+          (@OfNat.ofNat Real (nat_lit 6) (@instOfNatAtLeastTwo Real (nat_lit 6) Real.instNatCast ⋯)))
+        (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+          (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+          (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+            (@OfNat.ofNat Nat (nat_lit 5) (instOfNatNat (nat_lit 5))))))
+      (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+        (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+    (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+      (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+      (@OfNat.ofNat Real (nat_lit 6) (@instOfNatAtLeastTwo Real (nat_lit 6) Real.instNatCast ⋯)))
+ResearchFormalCoreR1.p02_lm008_r2_cancel (r cW cZ q : Real)
+  (hr : @Ne Real r (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)))
+  (hcZ : @Ne Real cZ (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero))) :
+  @Eq Real
+    (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+        (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) cW.sqrt
+          (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+            (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+        q.sqrt)
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) cZ
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))))
+    (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+      (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid)) cW.sqrt cZ) q.sqrt)
+ResearchFormalCoreR1.p02_lm008_cross_multiplied (n z r cW cZ q : Real)
+  (hr : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) r)
+  (hcW : @LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) cW)
+  (hcZ : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) cZ)
+  (hq : @LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) q)
+  (hz :
+    @LE.le Real Real.instLE
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) cZ
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+      z)
+  (hn :
+    @LE.le Real Real.instLE n
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+        (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) cW.sqrt
+          (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+            (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+        q.sqrt)) :
+  @LE.le Real Real.instLE
+    (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) n
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) cZ
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))))
+    (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+        (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) cW.sqrt
+          (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+            (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+        q.sqrt)
+      z)
+ResearchFormalCoreR1.p02_lm008_quotient_bound (n z r cW cZ q : Real)
+  (hr : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) r)
+  (hcW : @LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) cW)
+  (hcZ : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) cZ)
+  (hq : @LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) q)
+  (hzpos : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) z)
+  (hz :
+    @LE.le Real Real.instLE
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) cZ
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+      z)
+  (hn :
+    @LE.le Real Real.instLE n
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+        (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) cW.sqrt
+          (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+            (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+        q.sqrt)) :
+  @LE.le Real Real.instLE
+    (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid)) n z)
+    (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+      (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid)) cW.sqrt cZ) q.sqrt)
+ResearchFormalCoreR1.p02_lm009_bad_event_threshold (r R ε : Real)
+  (hr : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) r)
+  (hbad :
+    @LT.lt Real Real.instLT ε
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) r
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) R
+          (@OfNat.ofNat Nat (nat_lit 5) (instOfNatNat (nat_lit 5)))))) :
+  @LT.lt Real Real.instLT
+    (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid)) ε r)
+    (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) R
+      (@OfNat.ofNat Nat (nat_lit 5) (instOfNatNat (nat_lit 5))))
+ResearchFormalCoreR1.p02_lm009_power40_identity (R : Real) :
+  @Eq Real
+    (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid)))
+      (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) R
+        (@OfNat.ofNat Nat (nat_lit 5) (instOfNatNat (nat_lit 5))))
+      (@OfNat.ofNat Nat (nat_lit 8) (instOfNatNat (nat_lit 8))))
+    (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) R
+      (@OfNat.ofNat Nat (nat_lit 40) (instOfNatNat (nat_lit 40))))
+ResearchFormalCoreR1.p02_lm009_r4_le_r3 (r : Real)
+  (hr0 : @LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) r)
+  (hr1 : @LE.le Real Real.instLE r (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))) :
+  @LE.le Real Real.instLE
+    (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+      (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))
+    (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+      (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3))))
+ResearchFormalCoreR1.p02_lm009_palm_r4_to_r3 (p C r : Real)
+  (hC : @LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) C)
+  (hr0 : @LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) r)
+  (hr1 : @LE.le Real Real.instLE r (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne)))
+  (hp :
+    @LE.le Real Real.instLE p
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) C
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+          (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4)))))) :
+  @LE.le Real Real.instLE p
+    (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) C
+      (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+        (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3)))))
+ResearchFormalCoreR1.p02_lm008_integral_cs.{u_1} {Ω : Type u_1} [MeasurableSpace Ω] (μ : @MeasureTheory.Measure Ω inst✝)
+  (f g : Ω → Real)
+  (hf :
+    @MeasureTheory.MemLp Ω Real inst✝
+      (@ContinuousENorm.toENorm Real
+        (@UniformSpace.toTopologicalSpace Real
+          (@PseudoMetricSpace.toUniformSpace Real
+            (@SeminormedAddGroup.toPseudoMetricSpace Real
+              (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+                (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                  (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                    (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                      (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))))
+        (@SeminormedAddGroup.toContinuousENorm Real
+          (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+            (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+              (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                  (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing)))))))
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace)) f
+      (@OfNat.ofNat ENNReal (nat_lit 2)
+        (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+          (@AddMonoidWithOne.toNatCast ENNReal
+            (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+          ⋯))
+      μ)
+  (hg :
+    @MeasureTheory.MemLp Ω Real inst✝
+      (@ContinuousENorm.toENorm Real
+        (@UniformSpace.toTopologicalSpace Real
+          (@PseudoMetricSpace.toUniformSpace Real
+            (@SeminormedAddGroup.toPseudoMetricSpace Real
+              (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+                (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                  (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                    (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                      (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))))
+        (@SeminormedAddGroup.toContinuousENorm Real
+          (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+            (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+              (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                  (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing)))))))
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace)) g
+      (@OfNat.ofNat ENNReal (nat_lit 2)
+        (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+          (@AddMonoidWithOne.toNatCast ENNReal
+            (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+          ⋯))
+      μ)
+  (hf0 :
+    @Filter.EventuallyLE Ω Real Real.instLE
+      (@MeasureTheory.ae Ω (@MeasureTheory.Measure Ω inst✝) (@MeasureTheory.Measure.instFunLike Ω inst✝) ⋯ μ)
+      (@OfNat.ofNat (Ω → Real) (nat_lit 0)
+        (@Zero.toOfNat0 (Ω → Real) (@Pi.instZero Ω (fun a => Real) fun i => Real.instZero)))
+      f)
+  (hg0 :
+    @Filter.EventuallyLE Ω Real Real.instLE
+      (@MeasureTheory.ae Ω (@MeasureTheory.Measure Ω inst✝) (@MeasureTheory.Measure.instFunLike Ω inst✝) ⋯ μ)
+      (@OfNat.ofNat (Ω → Real) (nat_lit 0)
+        (@Zero.toOfNat0 (Ω → Real) (@Pi.instZero Ω (fun a => Real) fun i => Real.instZero)))
+      g) :
+  @LE.le Real Real.instLE
+    (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+      (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+        (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+        (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+      inst✝ μ fun x => @HMul.hMul Real Real Real (@instHMul Real Real.instMul) (f x) (g x))
+    (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+          (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+            (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+            (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+          inst✝ μ fun x =>
+          @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (f x)
+            (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))).sqrt
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+          (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+            (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+            (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+          inst✝ μ fun x =>
+          @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (g x)
+            (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))).sqrt)
+ResearchFormalCoreR1.p02_lm008_event_cs.{u_1} {Ω : Type u_1} [MeasurableSpace Ω] (μ : @MeasureTheory.Measure Ω inst✝)
+  [@MeasureTheory.IsProbabilityMeasure Ω inst✝ μ] (W : Ω → Real) (A : Set Ω)
+  (hW :
+    @MeasureTheory.MemLp Ω Real inst✝
+      (@ContinuousENorm.toENorm Real
+        (@UniformSpace.toTopologicalSpace Real
+          (@PseudoMetricSpace.toUniformSpace Real
+            (@SeminormedAddGroup.toPseudoMetricSpace Real
+              (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+                (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                  (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                    (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                      (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))))
+        (@SeminormedAddGroup.toContinuousENorm Real
+          (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+            (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+              (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                  (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing)))))))
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace)) W
+      (@OfNat.ofNat ENNReal (nat_lit 2)
+        (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+          (@AddMonoidWithOne.toNatCast ENNReal
+            (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+          ⋯))
+      μ)
+  (hW0 :
+    @Filter.EventuallyLE Ω Real Real.instLE
+      (@MeasureTheory.ae Ω (@MeasureTheory.Measure Ω inst✝) (@MeasureTheory.Measure.instFunLike Ω inst✝) ⋯ μ)
+      (@OfNat.ofNat (Ω → Real) (nat_lit 0)
+        (@Zero.toOfNat0 (Ω → Real) (@Pi.instZero Ω (fun a => Real) fun i => Real.instZero)))
+      W)
+  (hA : @MeasurableSet Ω inst✝ A) :
+  @LE.le Real Real.instLE
+    (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+      (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+        (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+        (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+      inst✝ (@MeasureTheory.Measure.restrict Ω inst✝ μ A) fun x => W x)
+    (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+          (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+            (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+            (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+          inst✝ μ fun x =>
+          @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (W x)
+            (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))).sqrt
+      (@DFunLike.coe (@MeasureTheory.Measure Ω inst✝) (Set Ω) (fun x => ENNReal)
+            (@MeasureTheory.Measure.instFunLike Ω inst✝) μ A).toReal.sqrt)
+ResearchFormalCoreR1.p02_lm008_event_numerator.{u_1} {Ω : Type u_1} [MeasurableSpace Ω]
+  (μ : @MeasureTheory.Measure Ω inst✝) [@MeasureTheory.IsProbabilityMeasure Ω inst✝ μ] (W : Ω → Real) (A : Set Ω)
+  (hW :
+    @MeasureTheory.MemLp Ω Real inst✝
+      (@ContinuousENorm.toENorm Real
+        (@UniformSpace.toTopologicalSpace Real
+          (@PseudoMetricSpace.toUniformSpace Real
+            (@SeminormedAddGroup.toPseudoMetricSpace Real
+              (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+                (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                  (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                    (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                      (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))))
+        (@SeminormedAddGroup.toContinuousENorm Real
+          (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+            (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+              (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                  (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing)))))))
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace)) W
+      (@OfNat.ofNat ENNReal (nat_lit 2)
+        (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+          (@AddMonoidWithOne.toNatCast ENNReal
+            (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+          ⋯))
+      μ)
+  (hW0 :
+    @Filter.EventuallyLE Ω Real Real.instLE
+      (@MeasureTheory.ae Ω (@MeasureTheory.Measure Ω inst✝) (@MeasureTheory.Measure.instFunLike Ω inst✝) ⋯ μ)
+      (@OfNat.ofNat (Ω → Real) (nat_lit 0)
+        (@Zero.toOfNat0 (Ω → Real) (@Pi.instZero Ω (fun a => Real) fun i => Real.instZero)))
+      W)
+  (hA : @MeasurableSet Ω inst✝ A) (r cW : Real)
+  (hcW : @LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) cW)
+  (hsecond :
+    @LE.le Real Real.instLE
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ μ fun x =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (W x)
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) cW
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+          (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4)))))) :
+  @LE.le Real Real.instLE
+    (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+      (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+        (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+        (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+      inst✝ (@MeasureTheory.Measure.restrict Ω inst✝ μ A) fun x => W x)
+    (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) cW.sqrt
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+      (@DFunLike.coe (@MeasureTheory.Measure Ω inst✝) (Set Ω) (fun x => ENNReal)
+            (@MeasureTheory.Measure.instFunLike Ω inst✝) μ A).toReal.sqrt)
+ResearchFormalCoreR1.p02_lm008_measure_transfer.{u_1} {Ω : Type u_1} [MeasurableSpace Ω]
+  (μ : @MeasureTheory.Measure Ω inst✝) [@MeasureTheory.IsProbabilityMeasure Ω inst✝ μ] (W : Ω → Real) (A : Set Ω)
+  (hW :
+    @MeasureTheory.MemLp Ω Real inst✝
+      (@ContinuousENorm.toENorm Real
+        (@UniformSpace.toTopologicalSpace Real
+          (@PseudoMetricSpace.toUniformSpace Real
+            (@SeminormedAddGroup.toPseudoMetricSpace Real
+              (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+                (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                  (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                    (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                      (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))))
+        (@SeminormedAddGroup.toContinuousENorm Real
+          (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+            (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+              (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                  (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing)))))))
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace)) W
+      (@OfNat.ofNat ENNReal (nat_lit 2)
+        (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+          (@AddMonoidWithOne.toNatCast ENNReal
+            (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+          ⋯))
+      μ)
+  (hW0 :
+    @Filter.EventuallyLE Ω Real Real.instLE
+      (@MeasureTheory.ae Ω (@MeasureTheory.Measure Ω inst✝) (@MeasureTheory.Measure.instFunLike Ω inst✝) ⋯ μ)
+      (@OfNat.ofNat (Ω → Real) (nat_lit 0)
+        (@Zero.toOfNat0 (Ω → Real) (@Pi.instZero Ω (fun a => Real) fun i => Real.instZero)))
+      W)
+  (hA : @MeasurableSet Ω inst✝ A) (r cW cZ : Real)
+  (hr : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) r)
+  (hcW : @LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) cW)
+  (hcZ : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) cZ)
+  (hsecond :
+    @LE.le Real Real.instLE
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ μ fun x =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (W x)
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) cW
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+          (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))))
+  (hlower :
+    @LE.le Real Real.instLE
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) cZ
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ μ fun x => W x)) :
+  @LE.le Real Real.instLE
+    (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ (@MeasureTheory.Measure.restrict Ω inst✝ μ A) fun x => W x)
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ μ fun x => W x))
+    (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+      (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid)) cW.sqrt cZ)
+      (@DFunLike.coe (@MeasureTheory.Measure Ω inst✝) (Set Ω) (fun x => ENNReal)
+            (@MeasureTheory.Measure.instFunLike Ω inst✝) μ A).toReal.sqrt)
+ResearchFormalCoreR1.p02_lm009_measure_transfer_r8_to_r3.{u_1} {Ω : Type u_1} [MeasurableSpace Ω]
+  (μ : @MeasureTheory.Measure Ω inst✝) [@MeasureTheory.IsProbabilityMeasure Ω inst✝ μ] (W : Ω → Real) (A : Set Ω)
+  (hW :
+    @MeasureTheory.MemLp Ω Real inst✝
+      (@ContinuousENorm.toENorm Real
+        (@UniformSpace.toTopologicalSpace Real
+          (@PseudoMetricSpace.toUniformSpace Real
+            (@SeminormedAddGroup.toPseudoMetricSpace Real
+              (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+                (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                  (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                    (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                      (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))))
+        (@SeminormedAddGroup.toContinuousENorm Real
+          (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+            (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+              (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                  (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing)))))))
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace)) W
+      (@OfNat.ofNat ENNReal (nat_lit 2)
+        (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+          (@AddMonoidWithOne.toNatCast ENNReal
+            (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+          ⋯))
+      μ)
+  (hW0 :
+    @Filter.EventuallyLE Ω Real Real.instLE
+      (@MeasureTheory.ae Ω (@MeasureTheory.Measure Ω inst✝) (@MeasureTheory.Measure.instFunLike Ω inst✝) ⋯ μ)
+      (@OfNat.ofNat (Ω → Real) (nat_lit 0)
+        (@Zero.toOfNat0 (Ω → Real) (@Pi.instZero Ω (fun a => Real) fun i => Real.instZero)))
+      W)
+  (hA : @MeasurableSet Ω inst✝ A) (r cW cZ K : Real)
+  (hr : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) r)
+  (hr1 : @LE.le Real Real.instLE r (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne)))
+  (hcW : @LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) cW)
+  (hcZ : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) cZ)
+  (hK : @LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) K)
+  (hsecond :
+    @LE.le Real Real.instLE
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ μ fun x =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (W x)
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) cW
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+          (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))))
+  (hlower :
+    @LE.le Real Real.instLE
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) cZ
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ μ fun x => W x))
+  (htail :
+    @LE.le Real Real.instLE
+      (@DFunLike.coe (@MeasureTheory.Measure Ω inst✝) (Set Ω) (fun x => ENNReal)
+          (@MeasureTheory.Measure.instFunLike Ω inst✝) μ A).toReal
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) K
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+          (@OfNat.ofNat Nat (nat_lit 8) (instOfNatNat (nat_lit 8)))))) :
+  @LE.le Real Real.instLE
+    (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ (@MeasureTheory.Measure.restrict Ω inst✝ μ A) fun x => W x)
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ μ fun x => W x))
+    (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+        (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid)) cW.sqrt cZ) K.sqrt)
+      (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+        (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3)))))
+ResearchFormalCoreR1.p02_lm008_sqrt_counterexample :
+  And
+    (@Eq Real (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+        (Real.sqrt (@OfNat.ofNat Real (nat_lit 4) (@instOfNatAtLeastTwo Real (nat_lit 4) Real.instNatCast ⋯)))
+        (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+            (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+            (@OfNat.ofNat Real (nat_lit 4) (@instOfNatAtLeastTwo Real (nat_lit 4) Real.instNatCast ⋯))).sqrt))
+    (Not
+      (@LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+        (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+          (Real.sqrt (@OfNat.ofNat Real (nat_lit 4) (@instOfNatAtLeastTwo Real (nat_lit 4) Real.instNatCast ⋯)))
+          (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+            (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+            (@OfNat.ofNat Real (nat_lit 4) (@instOfNatAtLeastTwo Real (nat_lit 4) Real.instNatCast ⋯))))))
+ResearchFormalCoreR1.p02_lm008_upper_normalizer_counterexample :
+  And
+    (@LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+        (@OfNat.ofNat Real (nat_lit 2) (@instOfNatAtLeastTwo Real (nat_lit 2) Real.instNatCast ⋯))
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid)))
+          (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))))
+    (@GT.gt Real Real.instLT
+      (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+        (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+        (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne)))
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+        (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+          (Real.sqrt (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne)))
+          (@OfNat.ofNat Real (nat_lit 2) (@instOfNatAtLeastTwo Real (nat_lit 2) Real.instNatCast ⋯)))
+        (Real.sqrt (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne)))))
+ResearchFormalCoreR1.weightedLaw_apply.{u_1} {Ω : Type u_1} [MeasurableSpace Ω] (μ : @MeasureTheory.Measure Ω inst✝)
+  (W : Ω → Real) (A : Set Ω)
+  (hW :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝ W μ)
+  (hW0 :
+    @Filter.EventuallyLE Ω Real Real.instLE
+      (@MeasureTheory.ae Ω (@MeasureTheory.Measure Ω inst✝) (@MeasureTheory.Measure.instFunLike Ω inst✝) ⋯ μ)
+      (@OfNat.ofNat (Ω → Real) (nat_lit 0)
+        (@Zero.toOfNat0 (Ω → Real) (@Pi.instZero Ω (fun a => Real) fun i => Real.instZero)))
+      W)
+  (hA : @MeasurableSet Ω inst✝ A) :
+  @Eq ENNReal
+    (@DFunLike.coe (@MeasureTheory.Measure Ω inst✝) (Set Ω) (fun x => ENNReal)
+      (@MeasureTheory.Measure.instFunLike Ω inst✝) (@ResearchFormalCoreR1.weightedLaw Ω inst✝ μ W) A)
+    (@HMul.hMul ENNReal ENNReal ENNReal
+      (@instHMul ENNReal
+        (@Distrib.toMul ENNReal
+          (@instDistribOfSemiring ENNReal (@CommSemiring.toSemiring ENNReal ENNReal.instCommSemiring))))
+      (@Inv.inv ENNReal ENNReal.instInv
+        (ENNReal.ofReal
+          (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+            (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+              (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+              (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+            inst✝ μ fun x => W x)))
+      (ENNReal.ofReal
+        (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+          (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+            (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+            (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+          inst✝ (@MeasureTheory.Measure.restrict Ω inst✝ μ A) fun x => W x)))
+ResearchFormalCoreR1.weightedLaw_isProbabilityMeasure.{u_1} {Ω : Type u_1} [MeasurableSpace Ω]
+  (μ : @MeasureTheory.Measure Ω inst✝) (W : Ω → Real)
+  (hW :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝ W μ)
+  (hW0 :
+    @Filter.EventuallyLE Ω Real Real.instLE
+      (@MeasureTheory.ae Ω (@MeasureTheory.Measure Ω inst✝) (@MeasureTheory.Measure.instFunLike Ω inst✝) ⋯ μ)
+      (@OfNat.ofNat (Ω → Real) (nat_lit 0)
+        (@Zero.toOfNat0 (Ω → Real) (@Pi.instZero Ω (fun a => Real) fun i => Real.instZero)))
+      W)
+  (hz :
+    @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero))
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ μ fun x => W x)) :
+  @MeasureTheory.IsProbabilityMeasure Ω inst✝ (@ResearchFormalCoreR1.weightedLaw Ω inst✝ μ W)
+ResearchFormalCoreR1.weightedLaw_event_real.{u_1} {Ω : Type u_1} [MeasurableSpace Ω]
+  (μ : @MeasureTheory.Measure Ω inst✝) (W : Ω → Real) (A : Set Ω)
+  (hW :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝ W μ)
+  (hW0 :
+    @Filter.EventuallyLE Ω Real Real.instLE
+      (@MeasureTheory.ae Ω (@MeasureTheory.Measure Ω inst✝) (@MeasureTheory.Measure.instFunLike Ω inst✝) ⋯ μ)
+      (@OfNat.ofNat (Ω → Real) (nat_lit 0)
+        (@Zero.toOfNat0 (Ω → Real) (@Pi.instZero Ω (fun a => Real) fun i => Real.instZero)))
+      W)
+  (hA : @MeasurableSet Ω inst✝ A)
+  (hz :
+    @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero))
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ μ fun x => W x)) :
+  @Eq Real
+    (@DFunLike.coe (@MeasureTheory.Measure Ω inst✝) (Set Ω) (fun x => ENNReal)
+        (@MeasureTheory.Measure.instFunLike Ω inst✝) (@ResearchFormalCoreR1.weightedLaw Ω inst✝ μ W) A).toReal
+    (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ (@MeasureTheory.Measure.restrict Ω inst✝ μ A) fun x => W x)
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ μ fun x => W x))
+ResearchFormalCoreR1.weightedLaw_absolutelyContinuous.{u_1} {Ω : Type u_1} [MeasurableSpace Ω]
+  (μ : @MeasureTheory.Measure Ω inst✝) (W : Ω → Real) :
+  @MeasureTheory.Measure.AbsolutelyContinuous Ω inst✝ (@ResearchFormalCoreR1.weightedLaw Ω inst✝ μ W) μ
+ResearchFormalCoreR1.weightedLaw_congr_ae.{u_1} {Ω : Type u_1} [MeasurableSpace Ω] (μ : @MeasureTheory.Measure Ω inst✝)
+  (W V : Ω → Real)
+  (h :
+    @Filter.EventuallyEq Ω Real
+      (@MeasureTheory.ae Ω (@MeasureTheory.Measure Ω inst✝) (@MeasureTheory.Measure.instFunLike Ω inst✝) ⋯ μ) W V) :
+  @Eq (@MeasureTheory.Measure Ω inst✝) (@ResearchFormalCoreR1.weightedLaw Ω inst✝ μ W)
+    (@ResearchFormalCoreR1.weightedLaw Ω inst✝ μ V)
+ResearchFormalCoreR1.weightedLaw_zero.{u_1} {Ω : Type u_1} [MeasurableSpace Ω] (μ : @MeasureTheory.Measure Ω inst✝) :
+  @Eq (@MeasureTheory.Measure Ω inst✝)
+    (@ResearchFormalCoreR1.weightedLaw Ω inst✝ μ fun x =>
+      @OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero))
+    (@OfNat.ofNat (@MeasureTheory.Measure Ω inst✝) (nat_lit 0)
+      (@Zero.toOfNat0 (@MeasureTheory.Measure Ω inst✝) (@MeasureTheory.Measure.instZero Ω inst✝)))
+ResearchFormalCoreR1.weightedLaw_one.{u_1} {Ω : Type u_1} [MeasurableSpace Ω] (μ : @MeasureTheory.Measure Ω inst✝)
+  [@MeasureTheory.IsProbabilityMeasure Ω inst✝ μ] :
+  @Eq (@MeasureTheory.Measure Ω inst✝)
+    (@ResearchFormalCoreR1.weightedLaw Ω inst✝ μ fun x =>
+      @OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+    μ
+ResearchFormalCoreR1.p02_lm008_probability_transfer.{u_1} {Ω : Type u_1} [MeasurableSpace Ω]
+  (μ : @MeasureTheory.Measure Ω inst✝) [@MeasureTheory.IsProbabilityMeasure Ω inst✝ μ] (W : Ω → Real) (A : Set Ω)
+  (hW :
+    @MeasureTheory.MemLp Ω Real inst✝
+      (@ContinuousENorm.toENorm Real
+        (@UniformSpace.toTopologicalSpace Real
+          (@PseudoMetricSpace.toUniformSpace Real
+            (@SeminormedAddGroup.toPseudoMetricSpace Real
+              (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+                (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                  (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                    (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                      (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))))
+        (@SeminormedAddGroup.toContinuousENorm Real
+          (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+            (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+              (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                  (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing)))))))
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace)) W
+      (@OfNat.ofNat ENNReal (nat_lit 2)
+        (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+          (@AddMonoidWithOne.toNatCast ENNReal
+            (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+          ⋯))
+      μ)
+  (hW0 :
+    @Filter.EventuallyLE Ω Real Real.instLE
+      (@MeasureTheory.ae Ω (@MeasureTheory.Measure Ω inst✝) (@MeasureTheory.Measure.instFunLike Ω inst✝) ⋯ μ)
+      (@OfNat.ofNat (Ω → Real) (nat_lit 0)
+        (@Zero.toOfNat0 (Ω → Real) (@Pi.instZero Ω (fun a => Real) fun i => Real.instZero)))
+      W)
+  (hA : @MeasurableSet Ω inst✝ A) (r cW cZ : Real)
+  (hr : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) r)
+  (hcW : @LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) cW)
+  (hcZ : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) cZ)
+  (hsecond :
+    @LE.le Real Real.instLE
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ μ fun x =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (W x)
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) cW
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+          (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))))
+  (hlower :
+    @LE.le Real Real.instLE
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) cZ
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ μ fun x => W x)) :
+  And (@MeasureTheory.IsProbabilityMeasure Ω inst✝ (@ResearchFormalCoreR1.weightedLaw Ω inst✝ μ W))
+    (@LE.le Real Real.instLE
+      (@DFunLike.coe (@MeasureTheory.Measure Ω inst✝) (Set Ω) (fun x => ENNReal)
+          (@MeasureTheory.Measure.instFunLike Ω inst✝) (@ResearchFormalCoreR1.weightedLaw Ω inst✝ μ W) A).toReal
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+        (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid)) cW.sqrt cZ)
+        (@DFunLike.coe (@MeasureTheory.Measure Ω inst✝) (Set Ω) (fun x => ENNReal)
+              (@MeasureTheory.Measure.instFunLike Ω inst✝) μ A).toReal.sqrt))
+ResearchFormalCoreR1.p02_lm009_probability_transfer_r8_to_r3.{u_1} {Ω : Type u_1} [MeasurableSpace Ω]
+  (μ : @MeasureTheory.Measure Ω inst✝) [@MeasureTheory.IsProbabilityMeasure Ω inst✝ μ] (W : Ω → Real) (A : Set Ω)
+  (hW :
+    @MeasureTheory.MemLp Ω Real inst✝
+      (@ContinuousENorm.toENorm Real
+        (@UniformSpace.toTopologicalSpace Real
+          (@PseudoMetricSpace.toUniformSpace Real
+            (@SeminormedAddGroup.toPseudoMetricSpace Real
+              (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+                (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                  (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                    (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                      (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))))
+        (@SeminormedAddGroup.toContinuousENorm Real
+          (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+            (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+              (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                  (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing)))))))
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace)) W
+      (@OfNat.ofNat ENNReal (nat_lit 2)
+        (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+          (@AddMonoidWithOne.toNatCast ENNReal
+            (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+          ⋯))
+      μ)
+  (hW0 :
+    @Filter.EventuallyLE Ω Real Real.instLE
+      (@MeasureTheory.ae Ω (@MeasureTheory.Measure Ω inst✝) (@MeasureTheory.Measure.instFunLike Ω inst✝) ⋯ μ)
+      (@OfNat.ofNat (Ω → Real) (nat_lit 0)
+        (@Zero.toOfNat0 (Ω → Real) (@Pi.instZero Ω (fun a => Real) fun i => Real.instZero)))
+      W)
+  (hA : @MeasurableSet Ω inst✝ A) (r cW cZ K : Real)
+  (hr : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) r)
+  (hr1 : @LE.le Real Real.instLE r (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne)))
+  (hcW : @LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) cW)
+  (hcZ : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) cZ)
+  (hK : @LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) K)
+  (hsecond :
+    @LE.le Real Real.instLE
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ μ fun x =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (W x)
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) cW
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+          (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))))
+  (hlower :
+    @LE.le Real Real.instLE
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) cZ
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ μ fun x => W x))
+  (htail :
+    @LE.le Real Real.instLE
+      (@DFunLike.coe (@MeasureTheory.Measure Ω inst✝) (Set Ω) (fun x => ENNReal)
+          (@MeasureTheory.Measure.instFunLike Ω inst✝) μ A).toReal
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) K
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+          (@OfNat.ofNat Nat (nat_lit 8) (instOfNatNat (nat_lit 8)))))) :
+  And (@MeasureTheory.IsProbabilityMeasure Ω inst✝ (@ResearchFormalCoreR1.weightedLaw Ω inst✝ μ W))
+    (@LE.le Real Real.instLE
+      (@DFunLike.coe (@MeasureTheory.Measure Ω inst✝) (Set Ω) (fun x => ENNReal)
+          (@MeasureTheory.Measure.instFunLike Ω inst✝) (@ResearchFormalCoreR1.weightedLaw Ω inst✝ μ W) A).toReal
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+        (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+          (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid)) cW.sqrt cZ)
+          K.sqrt)
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+          (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3))))))
+ResearchFormalCoreR1.p02_lm009_markov_event.{u_1} {Ω : Type u_1} [MeasurableSpace Ω]
+  (μ : @MeasureTheory.Measure Ω inst✝) [@MeasureTheory.IsFiniteMeasure Ω inst✝ μ] (Y : Ω → Real) (A : Set Ω)
+  (hY :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝ Y μ)
+  (hY0 :
+    @Filter.EventuallyLE Ω Real Real.instLE
+      (@MeasureTheory.ae Ω (@MeasureTheory.Measure Ω inst✝) (@MeasureTheory.Measure.instFunLike Ω inst✝) ⋯ μ)
+      (@OfNat.ofNat (Ω → Real) (nat_lit 0)
+        (@Zero.toOfNat0 (Ω → Real) (@Pi.instZero Ω (fun a => Real) fun i => Real.instZero)))
+      Y)
+  (a : Real) (ha : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) a)
+  (hsub : @LE.le (Set Ω) (@Set.instLE Ω) A (@Set.ofPred Ω fun x => @LE.le Real Real.instLE a (Y x))) :
+  @LE.le Real Real.instLE
+    (@DFunLike.coe (@MeasureTheory.Measure Ω inst✝) (Set Ω) (fun x => ENNReal)
+        (@MeasureTheory.Measure.instFunLike Ω inst✝) μ A).toReal
+    (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ μ fun x => Y x)
+      a)
+ResearchFormalCoreR1.p02_lm009_badJet_measurable.{u_1} {Ω : Type u_1} [MeasurableSpace Ω] (R : Ω → Real)
+  (hR : @Measurable Ω Real inst✝ Real.measurableSpace R) (r ε : Real) :
+  @MeasurableSet Ω inst✝ (@ResearchFormalCoreR1.badJetEvent Ω R r ε)
+ResearchFormalCoreR1.p02_lm009_badJet_subset.{u_1} {Ω : Type u_1} [MeasurableSpace Ω] (R : Ω → Real) (r ε : Real)
+  (hr : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) r)
+  (hε : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) ε) :
+  @LE.le (Set Ω) (@Set.instLE Ω) (@ResearchFormalCoreR1.badJetEvent Ω R r ε)
+    (@Set.ofPred Ω fun x =>
+      @LE.le Real Real.instLE
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid)))
+          (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid)) ε r)
+          (@OfNat.ofNat Nat (nat_lit 8) (instOfNatNat (nat_lit 8))))
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (R x)
+          (@OfNat.ofNat Nat (nat_lit 40) (instOfNatNat (nat_lit 40)))))
+ResearchFormalCoreR1.p02_lm009_moment40_tail.{u_1} {Ω : Type u_1} [MeasurableSpace Ω]
+  (μ : @MeasureTheory.Measure Ω inst✝) [@MeasureTheory.IsProbabilityMeasure Ω inst✝ μ] (R : Ω → Real) (r ε M : Real)
+  (hr : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) r)
+  (hε : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) ε)
+  (hRi :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝
+      (fun x =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (R x)
+          (@OfNat.ofNat Nat (nat_lit 40) (instOfNatNat (nat_lit 40))))
+      μ)
+  (hMbound :
+    @LE.le Real Real.instLE
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ μ fun x =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (R x)
+          (@OfNat.ofNat Nat (nat_lit 40) (instOfNatNat (nat_lit 40))))
+      M) :
+  @LE.le Real Real.instLE
+    (@DFunLike.coe (@MeasureTheory.Measure Ω inst✝) (Set Ω) (fun x => ENNReal)
+        (@MeasureTheory.Measure.instFunLike Ω inst✝) μ (@ResearchFormalCoreR1.badJetEvent Ω R r ε)).toReal
+    (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+      (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid)) M
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) ε
+          (@OfNat.ofNat Nat (nat_lit 8) (instOfNatNat (nat_lit 8)))))
+      (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+        (@OfNat.ofNat Nat (nat_lit 8) (instOfNatNat (nat_lit 8)))))
+ResearchFormalCoreR1.p02_lm009_moment40_weighted_r4.{u_1} {Ω : Type u_1} [MeasurableSpace Ω]
+  (μ : @MeasureTheory.Measure Ω inst✝) [@MeasureTheory.IsProbabilityMeasure Ω inst✝ μ] (W R : Ω → Real)
+  (hW :
+    @MeasureTheory.MemLp Ω Real inst✝
+      (@ContinuousENorm.toENorm Real
+        (@UniformSpace.toTopologicalSpace Real
+          (@PseudoMetricSpace.toUniformSpace Real
+            (@SeminormedAddGroup.toPseudoMetricSpace Real
+              (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+                (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                  (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                    (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                      (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))))
+        (@SeminormedAddGroup.toContinuousENorm Real
+          (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+            (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+              (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                  (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing)))))))
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace)) W
+      (@OfNat.ofNat ENNReal (nat_lit 2)
+        (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+          (@AddMonoidWithOne.toNatCast ENNReal
+            (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+          ⋯))
+      μ)
+  (hW0 :
+    @Filter.EventuallyLE Ω Real Real.instLE
+      (@MeasureTheory.ae Ω (@MeasureTheory.Measure Ω inst✝) (@MeasureTheory.Measure.instFunLike Ω inst✝) ⋯ μ)
+      (@OfNat.ofNat (Ω → Real) (nat_lit 0)
+        (@Zero.toOfNat0 (Ω → Real) (@Pi.instZero Ω (fun a => Real) fun i => Real.instZero)))
+      W)
+  (hR : @Measurable Ω Real inst✝ Real.measurableSpace R) (r ε M cW cZ : Real)
+  (hr : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) r)
+  (hε : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) ε)
+  (hM : @LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) M)
+  (hcW : @LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) cW)
+  (hcZ : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) cZ)
+  (hRi :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝
+      (fun x =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (R x)
+          (@OfNat.ofNat Nat (nat_lit 40) (instOfNatNat (nat_lit 40))))
+      μ)
+  (hMbound :
+    @LE.le Real Real.instLE
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ μ fun x =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (R x)
+          (@OfNat.ofNat Nat (nat_lit 40) (instOfNatNat (nat_lit 40))))
+      M)
+  (hsecond :
+    @LE.le Real Real.instLE
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ μ fun x =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (W x)
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) cW
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+          (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))))
+  (hlower :
+    @LE.le Real Real.instLE
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) cZ
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ μ fun x => W x)) :
+  And (@MeasureTheory.IsProbabilityMeasure Ω inst✝ (@ResearchFormalCoreR1.weightedLaw Ω inst✝ μ W))
+    (@LE.le Real Real.instLE
+      (@DFunLike.coe (@MeasureTheory.Measure Ω inst✝) (Set Ω) (fun x => ENNReal)
+          (@MeasureTheory.Measure.instFunLike Ω inst✝) (@ResearchFormalCoreR1.weightedLaw Ω inst✝ μ W)
+          (@ResearchFormalCoreR1.badJetEvent Ω R r ε)).toReal
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+        (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+          (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid)) cW.sqrt cZ)
+          (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid)) M
+              (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) ε
+                (@OfNat.ofNat Nat (nat_lit 8) (instOfNatNat (nat_lit 8))))).sqrt)
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+          (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))))
+ResearchFormalCoreR1.p02_lm009_moment40_weighted_r3.{u_1} {Ω : Type u_1} [MeasurableSpace Ω]
+  (μ : @MeasureTheory.Measure Ω inst✝) [@MeasureTheory.IsProbabilityMeasure Ω inst✝ μ] (W R : Ω → Real)
+  (hW :
+    @MeasureTheory.MemLp Ω Real inst✝
+      (@ContinuousENorm.toENorm Real
+        (@UniformSpace.toTopologicalSpace Real
+          (@PseudoMetricSpace.toUniformSpace Real
+            (@SeminormedAddGroup.toPseudoMetricSpace Real
+              (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+                (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                  (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                    (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                      (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))))
+        (@SeminormedAddGroup.toContinuousENorm Real
+          (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+            (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+              (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                  (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing)))))))
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace)) W
+      (@OfNat.ofNat ENNReal (nat_lit 2)
+        (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+          (@AddMonoidWithOne.toNatCast ENNReal
+            (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+          ⋯))
+      μ)
+  (hW0 :
+    @Filter.EventuallyLE Ω Real Real.instLE
+      (@MeasureTheory.ae Ω (@MeasureTheory.Measure Ω inst✝) (@MeasureTheory.Measure.instFunLike Ω inst✝) ⋯ μ)
+      (@OfNat.ofNat (Ω → Real) (nat_lit 0)
+        (@Zero.toOfNat0 (Ω → Real) (@Pi.instZero Ω (fun a => Real) fun i => Real.instZero)))
+      W)
+  (hR : @Measurable Ω Real inst✝ Real.measurableSpace R) (r ε M cW cZ : Real)
+  (hr : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) r)
+  (hr1 : @LE.le Real Real.instLE r (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne)))
+  (hε : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) ε)
+  (hM : @LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) M)
+  (hcW : @LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) cW)
+  (hcZ : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) cZ)
+  (hRi :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝
+      (fun x =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (R x)
+          (@OfNat.ofNat Nat (nat_lit 40) (instOfNatNat (nat_lit 40))))
+      μ)
+  (hMbound :
+    @LE.le Real Real.instLE
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ μ fun x =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (R x)
+          (@OfNat.ofNat Nat (nat_lit 40) (instOfNatNat (nat_lit 40))))
+      M)
+  (hsecond :
+    @LE.le Real Real.instLE
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ μ fun x =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (W x)
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) cW
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+          (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))))
+  (hlower :
+    @LE.le Real Real.instLE
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) cZ
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ μ fun x => W x)) :
+  And (@MeasureTheory.IsProbabilityMeasure Ω inst✝ (@ResearchFormalCoreR1.weightedLaw Ω inst✝ μ W))
+    (@LE.le Real Real.instLE
+      (@DFunLike.coe (@MeasureTheory.Measure Ω inst✝) (Set Ω) (fun x => ENNReal)
+          (@MeasureTheory.Measure.instFunLike Ω inst✝) (@ResearchFormalCoreR1.weightedLaw Ω inst✝ μ W)
+          (@ResearchFormalCoreR1.badJetEvent Ω R r ε)).toReal
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+        (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+          (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid)) cW.sqrt cZ)
+          (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid)) M
+              (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) ε
+                (@OfNat.ofNat Nat (nat_lit 8) (instOfNatNat (nat_lit 8))))).sqrt)
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+          (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3))))))
+ResearchFormalCoreR1.p02_lm009_moment40_family_r3.{u_1} {Ω : Type u_1} [MeasurableSpace Ω]
+  (μ : Real → @MeasureTheory.Measure Ω inst✝) [∀ (r : Real), @MeasureTheory.IsProbabilityMeasure Ω inst✝ (μ r)]
+  (W R : Real → Ω → Real) (r0 ε M cW cZ : Real)
+  (hr0 :
+    And (@LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) r0)
+      (@LE.le Real Real.instLE r0 (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))))
+  (hε : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) ε)
+  (hM : @LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) M)
+  (hcW : @LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) cW)
+  (hcZ : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) cZ)
+  (hdata :
+    ∀ (r : Real),
+      @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) r →
+        @LE.le Real Real.instLE r r0 →
+          And
+            (@MeasureTheory.MemLp Ω Real inst✝
+              (@ContinuousENorm.toENorm Real
+                (@UniformSpace.toTopologicalSpace Real
+                  (@PseudoMetricSpace.toUniformSpace Real
+                    (@SeminormedAddGroup.toPseudoMetricSpace Real
+                      (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+                        (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                          (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                            (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                              (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))))
+                (@SeminormedAddGroup.toContinuousENorm Real
+                  (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+                    (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                      (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                        (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                          (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing)))))))
+              (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+              (W r)
+              (@OfNat.ofNat ENNReal (nat_lit 2)
+                (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                  (@AddMonoidWithOne.toNatCast ENNReal
+                    (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                  ⋯))
+              (μ r))
+            (And
+              (@Filter.EventuallyLE Ω Real Real.instLE
+                (@MeasureTheory.ae Ω (@MeasureTheory.Measure Ω inst✝) (@MeasureTheory.Measure.instFunLike Ω inst✝) ⋯
+                  (μ r))
+                (@OfNat.ofNat (Ω → Real) (nat_lit 0)
+                  (@Zero.toOfNat0 (Ω → Real) (@Pi.instZero Ω (fun a => Real) fun i => Real.instZero)))
+                (W r))
+              (And (@Measurable Ω Real inst✝ Real.measurableSpace (R r))
+                (And
+                  (@MeasureTheory.Integrable Real
+                    (@UniformSpace.toTopologicalSpace Real
+                      (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+                    (@SeminormedAddGroup.toContinuousENorm Real
+                      (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+                        (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                          (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                            (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                              (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+                    Ω inst✝
+                    (fun x =>
+                      @HPow.hPow Real Nat Real
+                        (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (R r x)
+                        (@OfNat.ofNat Nat (nat_lit 40) (instOfNatNat (nat_lit 40))))
+                    (μ r))
+                  (And
+                    (@LE.le Real Real.instLE
+                      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+                        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+                          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+                          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+                        inst✝ (μ r) fun x =>
+                        @HPow.hPow Real Nat Real
+                          (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (R r x)
+                          (@OfNat.ofNat Nat (nat_lit 40) (instOfNatNat (nat_lit 40))))
+                      M)
+                    (And
+                      (@LE.le Real Real.instLE
+                        (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+                          (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+                            (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+                            (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+                          inst✝ (μ r) fun x =>
+                          @HPow.hPow Real Nat Real
+                            (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (W r x)
+                            (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+                        (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) cW
+                          (@HPow.hPow Real Nat Real
+                            (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+                            (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))))
+                      (@LE.le Real Real.instLE
+                        (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) cZ
+                          (@HPow.hPow Real Nat Real
+                            (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+                            (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+                        (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+                          (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+                            (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+                            (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+                          inst✝ (μ r) fun x => W r x)))))))) :
+  ∃ C,
+    And (@LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) C)
+      (∀ (r : Real),
+        @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) r →
+          @LE.le Real Real.instLE r r0 →
+            And (@MeasureTheory.IsProbabilityMeasure Ω inst✝ (@ResearchFormalCoreR1.weightedLaw Ω inst✝ (μ r) (W r)))
+              (@LE.le Real Real.instLE
+                (@DFunLike.coe (@MeasureTheory.Measure Ω inst✝) (Set Ω) (fun x => ENNReal)
+                    (@MeasureTheory.Measure.instFunLike Ω inst✝) (@ResearchFormalCoreR1.weightedLaw Ω inst✝ (μ r) (W r))
+                    (@ResearchFormalCoreR1.badJetEvent Ω (R r) r ε)).toReal
+                (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) C
+                  (@HPow.hPow Real Nat Real
+                    (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+                    (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3)))))))
+ResearchFormalCoreR1.p02_lm009_moment40_tail_finite.{u_1} {Ω : Type u_1} [MeasurableSpace Ω]
+  (μ : @MeasureTheory.Measure Ω inst✝) [@MeasureTheory.IsFiniteMeasure Ω inst✝ μ] (R : Ω → Real) (r ε M : Real)
+  (hr : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) r)
+  (hε : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) ε)
+  (hRi :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝
+      (fun x =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (R x)
+          (@OfNat.ofNat Nat (nat_lit 40) (instOfNatNat (nat_lit 40))))
+      μ)
+  (hMbound :
+    @LE.le Real Real.instLE
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ μ fun x =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (R x)
+          (@OfNat.ofNat Nat (nat_lit 40) (instOfNatNat (nat_lit 40))))
+      M) :
+  @LE.le Real Real.instLE
+    (@DFunLike.coe (@MeasureTheory.Measure Ω inst✝) (Set Ω) (fun x => ENNReal)
+        (@MeasureTheory.Measure.instFunLike Ω inst✝) μ (@ResearchFormalCoreR1.badJetEvent Ω R r ε)).toReal
+    (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+      (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid)) M
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) ε
+          (@OfNat.ofNat Nat (nat_lit 8) (instOfNatNat (nat_lit 8)))))
+      (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+        (@OfNat.ofNat Nat (nat_lit 8) (instOfNatNat (nat_lit 8)))))
+ResearchFormalCoreR1.p02_lm009_moment40_tail_of_finite.{u_1} {Ω : Type u_1} [MeasurableSpace Ω]
+  (μ : @MeasureTheory.Measure Ω inst✝) [@MeasureTheory.IsProbabilityMeasure Ω inst✝ μ] (R : Ω → Real) (r ε M : Real)
+  (hr : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) r)
+  (hε : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) ε)
+  (hRi :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝
+      (fun x =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (R x)
+          (@OfNat.ofNat Nat (nat_lit 40) (instOfNatNat (nat_lit 40))))
+      μ)
+  (hMbound :
+    @LE.le Real Real.instLE
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ μ fun x =>
+        @HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (R x)
+          (@OfNat.ofNat Nat (nat_lit 40) (instOfNatNat (nat_lit 40))))
+      M) :
+  @LE.le Real Real.instLE
+    (@DFunLike.coe (@MeasureTheory.Measure Ω inst✝) (Set Ω) (fun x => ENNReal)
+        (@MeasureTheory.Measure.instFunLike Ω inst✝) μ (@ResearchFormalCoreR1.badJetEvent Ω R r ε)).toReal
+    (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+      (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid)) M
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) ε
+          (@OfNat.ofNat Nat (nat_lit 8) (instOfNatNat (nat_lit 8)))))
+      (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+        (@OfNat.ofNat Nat (nat_lit 8) (instOfNatNat (nat_lit 8)))))
+ResearchFormalCoreR1.p02_lm009_moment40_family_r3_interval.{u_1} {Ω : Type u_1} [MeasurableSpace Ω]
+  (μ : Real → @MeasureTheory.Measure Ω inst✝) (W R : Real → Ω → Real) (r0 ε M cW cZ : Real)
+  (hr0 :
+    And (@LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) r0)
+      (@LE.le Real Real.instLE r0 (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))))
+  (hε : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) ε)
+  (hM : @LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) M)
+  (hcW : @LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) cW)
+  (hcZ : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) cZ)
+  (hdata :
+    ∀ (r : Real),
+      @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) r →
+        @LE.le Real Real.instLE r r0 →
+          And (@MeasureTheory.IsProbabilityMeasure Ω inst✝ (μ r))
+            (And
+              (@MeasureTheory.MemLp Ω Real inst✝
+                (@ContinuousENorm.toENorm Real
+                  (@UniformSpace.toTopologicalSpace Real
+                    (@PseudoMetricSpace.toUniformSpace Real
+                      (@SeminormedAddGroup.toPseudoMetricSpace Real
+                        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+                          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))))
+                  (@SeminormedAddGroup.toContinuousENorm Real
+                    (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+                      (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                        (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                          (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                            (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing)))))))
+                (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+                (W r)
+                (@OfNat.ofNat ENNReal (nat_lit 2)
+                  (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                    (@AddMonoidWithOne.toNatCast ENNReal
+                      (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                    ⋯))
+                (μ r))
+              (And
+                (@Filter.EventuallyLE Ω Real Real.instLE
+                  (@MeasureTheory.ae Ω (@MeasureTheory.Measure Ω inst✝) (@MeasureTheory.Measure.instFunLike Ω inst✝) ⋯
+                    (μ r))
+                  (@OfNat.ofNat (Ω → Real) (nat_lit 0)
+                    (@Zero.toOfNat0 (Ω → Real) (@Pi.instZero Ω (fun a => Real) fun i => Real.instZero)))
+                  (W r))
+                (And (@Measurable Ω Real inst✝ Real.measurableSpace (R r))
+                  (And
+                    (@MeasureTheory.Integrable Real
+                      (@UniformSpace.toTopologicalSpace Real
+                        (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+                      (@SeminormedAddGroup.toContinuousENorm Real
+                        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+                          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+                      Ω inst✝
+                      (fun x =>
+                        @HPow.hPow Real Nat Real
+                          (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (R r x)
+                          (@OfNat.ofNat Nat (nat_lit 40) (instOfNatNat (nat_lit 40))))
+                      (μ r))
+                    (And
+                      (@LE.le Real Real.instLE
+                        (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+                          (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+                            (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+                            (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+                          inst✝ (μ r) fun x =>
+                          @HPow.hPow Real Nat Real
+                            (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (R r x)
+                            (@OfNat.ofNat Nat (nat_lit 40) (instOfNatNat (nat_lit 40))))
+                        M)
+                      (And
+                        (@LE.le Real Real.instLE
+                          (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+                            (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+                              (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+                              (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+                            inst✝ (μ r) fun x =>
+                            @HPow.hPow Real Nat Real
+                              (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (W r x)
+                              (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+                          (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) cW
+                            (@HPow.hPow Real Nat Real
+                              (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+                              (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))))
+                        (@LE.le Real Real.instLE
+                          (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) cZ
+                            (@HPow.hPow Real Nat Real
+                              (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+                              (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+                          (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+                            (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+                              (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+                              (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+                            inst✝ (μ r) fun x => W r x))))))))) :
+  ∃ C,
+    And (@LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) C)
+      (∀ (r : Real),
+        @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) r →
+          @LE.le Real Real.instLE r r0 →
+            And (@MeasureTheory.IsProbabilityMeasure Ω inst✝ (@ResearchFormalCoreR1.weightedLaw Ω inst✝ (μ r) (W r)))
+              (@LE.le Real Real.instLE
+                (@DFunLike.coe (@MeasureTheory.Measure Ω inst✝) (Set Ω) (fun x => ENNReal)
+                    (@MeasureTheory.Measure.instFunLike Ω inst✝) (@ResearchFormalCoreR1.weightedLaw Ω inst✝ (μ r) (W r))
+                    (@ResearchFormalCoreR1.badJetEvent Ω (R r) r ε)).toReal
+                (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) C
+                  (@HPow.hPow Real Nat Real
+                    (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+                    (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3)))))))
+ResearchFormalCoreR1.p02_lm009_moment40_family_r3_of_interval.{u_1} {Ω : Type u_1} [MeasurableSpace Ω]
+  (μ : Real → @MeasureTheory.Measure Ω inst✝) [∀ (r : Real), @MeasureTheory.IsProbabilityMeasure Ω inst✝ (μ r)]
+  (W R : Real → Ω → Real) (r0 ε M cW cZ : Real)
+  (hr0 :
+    And (@LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) r0)
+      (@LE.le Real Real.instLE r0 (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))))
+  (hε : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) ε)
+  (hM : @LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) M)
+  (hcW : @LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) cW)
+  (hcZ : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) cZ)
+  (hdata :
+    ∀ (r : Real),
+      @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) r →
+        @LE.le Real Real.instLE r r0 →
+          And
+            (@MeasureTheory.MemLp Ω Real inst✝
+              (@ContinuousENorm.toENorm Real
+                (@UniformSpace.toTopologicalSpace Real
+                  (@PseudoMetricSpace.toUniformSpace Real
+                    (@SeminormedAddGroup.toPseudoMetricSpace Real
+                      (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+                        (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                          (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                            (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                              (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))))
+                (@SeminormedAddGroup.toContinuousENorm Real
+                  (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+                    (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                      (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                        (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                          (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing)))))))
+              (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+              (W r)
+              (@OfNat.ofNat ENNReal (nat_lit 2)
+                (@instOfNatAtLeastTwo ENNReal (nat_lit 2)
+                  (@AddMonoidWithOne.toNatCast ENNReal
+                    (@AddCommMonoidWithOne.toAddMonoidWithOne ENNReal ENNReal.instAddCommMonoidWithOne))
+                  ⋯))
+              (μ r))
+            (And
+              (@Filter.EventuallyLE Ω Real Real.instLE
+                (@MeasureTheory.ae Ω (@MeasureTheory.Measure Ω inst✝) (@MeasureTheory.Measure.instFunLike Ω inst✝) ⋯
+                  (μ r))
+                (@OfNat.ofNat (Ω → Real) (nat_lit 0)
+                  (@Zero.toOfNat0 (Ω → Real) (@Pi.instZero Ω (fun a => Real) fun i => Real.instZero)))
+                (W r))
+              (And (@Measurable Ω Real inst✝ Real.measurableSpace (R r))
+                (And
+                  (@MeasureTheory.Integrable Real
+                    (@UniformSpace.toTopologicalSpace Real
+                      (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+                    (@SeminormedAddGroup.toContinuousENorm Real
+                      (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+                        (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+                          (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+                            (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                              (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+                    Ω inst✝
+                    (fun x =>
+                      @HPow.hPow Real Nat Real
+                        (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (R r x)
+                        (@OfNat.ofNat Nat (nat_lit 40) (instOfNatNat (nat_lit 40))))
+                    (μ r))
+                  (And
+                    (@LE.le Real Real.instLE
+                      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+                        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+                          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+                          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+                        inst✝ (μ r) fun x =>
+                        @HPow.hPow Real Nat Real
+                          (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (R r x)
+                          (@OfNat.ofNat Nat (nat_lit 40) (instOfNatNat (nat_lit 40))))
+                      M)
+                    (And
+                      (@LE.le Real Real.instLE
+                        (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+                          (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+                            (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+                            (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+                          inst✝ (μ r) fun x =>
+                          @HPow.hPow Real Nat Real
+                            (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) (W r x)
+                            (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+                        (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) cW
+                          (@HPow.hPow Real Nat Real
+                            (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+                            (@OfNat.ofNat Nat (nat_lit 4) (instOfNatNat (nat_lit 4))))))
+                      (@LE.le Real Real.instLE
+                        (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) cZ
+                          (@HPow.hPow Real Nat Real
+                            (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+                            (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+                        (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+                          (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+                            (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+                            (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+                          inst✝ (μ r) fun x => W r x)))))))) :
+  ∃ C,
+    And (@LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) C)
+      (∀ (r : Real),
+        @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) r →
+          @LE.le Real Real.instLE r r0 →
+            And (@MeasureTheory.IsProbabilityMeasure Ω inst✝ (@ResearchFormalCoreR1.weightedLaw Ω inst✝ (μ r) (W r)))
+              (@LE.le Real Real.instLE
+                (@DFunLike.coe (@MeasureTheory.Measure Ω inst✝) (Set Ω) (fun x => ENNReal)
+                    (@MeasureTheory.Measure.instFunLike Ω inst✝) (@ResearchFormalCoreR1.weightedLaw Ω inst✝ (μ r) (W r))
+                    (@ResearchFormalCoreR1.badJetEvent Ω (R r) r ε)).toReal
+                (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) C
+                  (@HPow.hPow Real Nat Real
+                    (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+                    (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3)))))))
+ResearchFormalCoreR1.weightPerturbation_integral.{u_1} {Ω : Type u_1} [MeasurableSpace Ω]
+  (μ : @MeasureTheory.Measure Ω inst✝) (W V : Ω → Real)
+  (hW :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝ W μ)
+  (hV :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝ V μ) :
+  @LE.le Real Real.instLE
+    (@abs Real Real.lattice Real.instAddGroup
+      (@HSub.hSub Real Real Real (@instHSub Real Real.instSub)
+        (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+          (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+            (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+            (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+          inst✝ μ fun x => W x)
+        (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+          (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+            (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+            (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+          inst✝ μ fun x => V x)))
+    (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+      (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+        (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+        (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+      inst✝ μ fun x =>
+      @abs Real Real.lattice Real.instAddGroup (@HSub.hSub Real Real Real (@instHSub Real Real.instSub) (W x) (V x)))
+ResearchFormalCoreR1.weightPerturbation_setIntegral.{u_1} {Ω : Type u_1} [MeasurableSpace Ω]
+  (μ : @MeasureTheory.Measure Ω inst✝) (W V : Ω → Real) (A : Set Ω)
+  (hW :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝ W μ)
+  (hV :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝ V μ) :
+  @LE.le Real Real.instLE
+    (@abs Real Real.lattice Real.instAddGroup
+      (@HSub.hSub Real Real Real (@instHSub Real Real.instSub)
+        (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+          (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+            (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+            (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+          inst✝ (@MeasureTheory.Measure.restrict Ω inst✝ μ A) fun x => W x)
+        (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+          (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+            (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+            (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+          inst✝ (@MeasureTheory.Measure.restrict Ω inst✝ μ A) fun x => V x)))
+    (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+      (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+        (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+        (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+      inst✝ μ fun x =>
+      @abs Real Real.lattice Real.instAddGroup (@HSub.hSub Real Real Real (@instHSub Real Real.instSub) (W x) (V x)))
+ResearchFormalCoreR1.weightPerturbation_normalizer_lower.{u_1} {Ω : Type u_1} [MeasurableSpace Ω]
+  (μ : @MeasureTheory.Measure Ω inst✝) (W V : Ω → Real)
+  (hW :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝ W μ)
+  (hV :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝ V μ)
+  (c δ : Real)
+  (hreference :
+    @LE.le Real Real.instLE c
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ μ fun x => V x))
+  (herror :
+    @LE.le Real Real.instLE
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ μ fun x =>
+        @abs Real Real.lattice Real.instAddGroup (@HSub.hSub Real Real Real (@instHSub Real Real.instSub) (W x) (V x)))
+      δ) :
+  @LE.le Real Real.instLE (@HSub.hSub Real Real Real (@instHSub Real Real.instSub) c δ)
+    (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+      (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+        (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+        (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+      inst✝ μ fun x => W x)
+ResearchFormalCoreR1.weightPerturbation_event_integral_bounds.{u_1} {Ω : Type u_1} [MeasurableSpace Ω]
+  (μ : @MeasureTheory.Measure Ω inst✝) (W : Ω → Real) (A : Set Ω)
+  (hW :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝ W μ)
+  (hW0 :
+    @Filter.EventuallyLE Ω Real Real.instLE
+      (@MeasureTheory.ae Ω (@MeasureTheory.Measure Ω inst✝) (@MeasureTheory.Measure.instFunLike Ω inst✝) ⋯ μ)
+      (@OfNat.ofNat (Ω → Real) (nat_lit 0)
+        (@Zero.toOfNat0 (Ω → Real) (@Pi.instZero Ω (fun a => Real) fun i => Real.instZero)))
+      W) :
+  And
+    (@LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero))
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ (@MeasureTheory.Measure.restrict Ω inst✝ μ A) fun x => W x))
+    (@LE.le Real Real.instLE
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ (@MeasureTheory.Measure.restrict Ω inst✝ μ A) fun x => W x)
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ μ fun x => W x))
+ResearchFormalCoreR1.weightPerturbation_quotient_bound (a b z t δ : Real)
+  (hz : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) z)
+  (ht : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) t)
+  (ha : @LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) a)
+  (haz : @LE.le Real Real.instLE a z)
+  (hab :
+    @LE.le Real Real.instLE
+      (@abs Real Real.lattice Real.instAddGroup (@HSub.hSub Real Real Real (@instHSub Real Real.instSub) a b)) δ)
+  (hzt :
+    @LE.le Real Real.instLE
+      (@abs Real Real.lattice Real.instAddGroup (@HSub.hSub Real Real Real (@instHSub Real Real.instSub) z t)) δ) :
+  @LE.le Real Real.instLE
+    (@abs Real Real.lattice Real.instAddGroup
+      (@HSub.hSub Real Real Real (@instHSub Real Real.instSub)
+        (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid)) a z)
+        (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid)) b t)))
+    (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+        (@OfNat.ofNat Real (nat_lit 2) (@instOfNatAtLeastTwo Real (nat_lit 2) Real.instNatCast ⋯)) δ)
+      t)
+ResearchFormalCoreR1.weightedLaw_event_perturbation.{u_1} {Ω : Type u_1} [MeasurableSpace Ω]
+  (μ : @MeasureTheory.Measure Ω inst✝) (W V : Ω → Real)
+  (hW :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝ W μ)
+  (hV :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝ V μ)
+  (hW0 :
+    @Filter.EventuallyLE Ω Real Real.instLE
+      (@MeasureTheory.ae Ω (@MeasureTheory.Measure Ω inst✝) (@MeasureTheory.Measure.instFunLike Ω inst✝) ⋯ μ)
+      (@OfNat.ofNat (Ω → Real) (nat_lit 0)
+        (@Zero.toOfNat0 (Ω → Real) (@Pi.instZero Ω (fun a => Real) fun i => Real.instZero)))
+      W)
+  (hV0 :
+    @Filter.EventuallyLE Ω Real Real.instLE
+      (@MeasureTheory.ae Ω (@MeasureTheory.Measure Ω inst✝) (@MeasureTheory.Measure.instFunLike Ω inst✝) ⋯ μ)
+      (@OfNat.ofNat (Ω → Real) (nat_lit 0)
+        (@Zero.toOfNat0 (Ω → Real) (@Pi.instZero Ω (fun a => Real) fun i => Real.instZero)))
+      V)
+  (c δ : Real) (hc : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) c)
+  (hreference :
+    @LE.le Real Real.instLE c
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ μ fun x => V x))
+  (herror :
+    @LE.le Real Real.instLE
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ μ fun x =>
+        @abs Real Real.lattice Real.instAddGroup (@HSub.hSub Real Real Real (@instHSub Real Real.instSub) (W x) (V x)))
+      δ)
+  (hsmall :
+    @LE.le Real Real.instLE δ
+      (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid)) c
+        (@OfNat.ofNat Real (nat_lit 2) (@instOfNatAtLeastTwo Real (nat_lit 2) Real.instNatCast ⋯)))) :
+  And
+    (@LE.le Real Real.instLE
+      (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid)) c
+        (@OfNat.ofNat Real (nat_lit 2) (@instOfNatAtLeastTwo Real (nat_lit 2) Real.instNatCast ⋯)))
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ μ fun x => W x))
+    (And (@MeasureTheory.IsProbabilityMeasure Ω inst✝ (@ResearchFormalCoreR1.weightedLaw Ω inst✝ μ W))
+      (And (@MeasureTheory.IsProbabilityMeasure Ω inst✝ (@ResearchFormalCoreR1.weightedLaw Ω inst✝ μ V))
+        (∀ (A : Set Ω),
+          @MeasurableSet Ω inst✝ A →
+            @LE.le Real Real.instLE
+              (@abs Real Real.lattice Real.instAddGroup
+                (@HSub.hSub Real Real Real (@instHSub Real Real.instSub)
+                  (@DFunLike.coe (@MeasureTheory.Measure Ω inst✝) (Set Ω) (fun x => ENNReal)
+                      (@MeasureTheory.Measure.instFunLike Ω inst✝) (@ResearchFormalCoreR1.weightedLaw Ω inst✝ μ W)
+                      A).toReal
+                  (@DFunLike.coe (@MeasureTheory.Measure Ω inst✝) (Set Ω) (fun x => ENNReal)
+                      (@MeasureTheory.Measure.instFunLike Ω inst✝) (@ResearchFormalCoreR1.weightedLaw Ω inst✝ μ V)
+                      A).toReal))
+              (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+                (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+                  (@OfNat.ofNat Real (nat_lit 2) (@instOfNatAtLeastTwo Real (nat_lit 2) Real.instNatCast ⋯)) δ)
+                c))))
+ResearchFormalCoreR1.weightedLaw_event_perturbation_r2.{u_1} {Ω : Type u_1} [MeasurableSpace Ω]
+  (μ : @MeasureTheory.Measure Ω inst✝) (W V : Ω → Real)
+  (hW :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝ W μ)
+  (hV :
+    @MeasureTheory.Integrable Real
+      (@UniformSpace.toTopologicalSpace Real (@PseudoMetricSpace.toUniformSpace Real Real.pseudoMetricSpace))
+      (@SeminormedAddGroup.toContinuousENorm Real
+        (@SeminormedAddCommGroup.toSeminormedAddGroup Real
+          (@NonUnitalSeminormedRing.toSeminormedAddCommGroup Real
+            (@NonUnitalSeminormedCommRing.toNonUnitalSeminormedRing Real
+              (@SeminormedCommRing.toNonUnitalSeminormedCommRing Real
+                (@NormedCommRing.toSeminormedCommRing Real Real.normedCommRing))))))
+      Ω inst✝ V μ)
+  (hW0 :
+    @Filter.EventuallyLE Ω Real Real.instLE
+      (@MeasureTheory.ae Ω (@MeasureTheory.Measure Ω inst✝) (@MeasureTheory.Measure.instFunLike Ω inst✝) ⋯ μ)
+      (@OfNat.ofNat (Ω → Real) (nat_lit 0)
+        (@Zero.toOfNat0 (Ω → Real) (@Pi.instZero Ω (fun a => Real) fun i => Real.instZero)))
+      W)
+  (hV0 :
+    @Filter.EventuallyLE Ω Real Real.instLE
+      (@MeasureTheory.ae Ω (@MeasureTheory.Measure Ω inst✝) (@MeasureTheory.Measure.instFunLike Ω inst✝) ⋯ μ)
+      (@OfNat.ofNat (Ω → Real) (nat_lit 0)
+        (@Zero.toOfNat0 (Ω → Real) (@Pi.instZero Ω (fun a => Real) fun i => Real.instZero)))
+      V)
+  (r c η : Real) (hr : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) r)
+  (hc : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) c)
+  (hreference :
+    @LE.le Real Real.instLE
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) c
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ μ fun x => V x))
+  (herror :
+    @LE.le Real Real.instLE
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ μ fun x =>
+        @abs Real Real.lattice Real.instAddGroup (@HSub.hSub Real Real Real (@instHSub Real Real.instSub) (W x) (V x)))
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) η
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))))
+  (hsmall :
+    @LE.le Real Real.instLE η
+      (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid)) c
+        (@OfNat.ofNat Real (nat_lit 2) (@instOfNatAtLeastTwo Real (nat_lit 2) Real.instNatCast ⋯)))) :
+  And
+    (@LE.le Real Real.instLE
+      (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+        (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) c
+          (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) r
+            (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+        (@OfNat.ofNat Real (nat_lit 2) (@instOfNatAtLeastTwo Real (nat_lit 2) Real.instNatCast ⋯)))
+      (@MeasureTheory.integral Ω Real Real.normedAddCommGroup
+        (@InnerProductSpace.toNormedSpace Real Real Real.instRCLike
+          (@NormedAddCommGroup.toSeminormedAddCommGroup Real Real.normedAddCommGroup)
+          (@RCLike.toInnerProductSpaceReal Real Real.instRCLike))
+        inst✝ μ fun x => W x))
+    (And (@MeasureTheory.IsProbabilityMeasure Ω inst✝ (@ResearchFormalCoreR1.weightedLaw Ω inst✝ μ W))
+      (And (@MeasureTheory.IsProbabilityMeasure Ω inst✝ (@ResearchFormalCoreR1.weightedLaw Ω inst✝ μ V))
+        (∀ (A : Set Ω),
+          @MeasurableSet Ω inst✝ A →
+            @LE.le Real Real.instLE
+              (@abs Real Real.lattice Real.instAddGroup
+                (@HSub.hSub Real Real Real (@instHSub Real Real.instSub)
+                  (@DFunLike.coe (@MeasureTheory.Measure Ω inst✝) (Set Ω) (fun x => ENNReal)
+                      (@MeasureTheory.Measure.instFunLike Ω inst✝) (@ResearchFormalCoreR1.weightedLaw Ω inst✝ μ W)
+                      A).toReal
+                  (@DFunLike.coe (@MeasureTheory.Measure Ω inst✝) (Set Ω) (fun x => ENNReal)
+                      (@MeasureTheory.Measure.instFunLike Ω inst✝) (@ResearchFormalCoreR1.weightedLaw Ω inst✝ μ V)
+                      A).toReal))
+              (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+                (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+                  (@OfNat.ofNat Real (nat_lit 2) (@instOfNatAtLeastTwo Real (nat_lit 2) Real.instNatCast ⋯)) η)
+                c))))
+ResearchFormalCoreR1.d2_schur_numerator (m2 m4 q : Real) :
+  @Eq Real
+    (@HSub.hSub Real Real Real (@instHSub Real Real.instSub)
+      (@HSub.hSub Real Real Real (@instHSub Real Real.instSub)
+        (@HMul.hMul Real Real Real (@instHMul Real Real.instMul) (ResearchFormalCoreR1.d2Alpha m2 m4 q)
+          (ResearchFormalCoreR1.d2DetV m2 m4 q))
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid)))
+          (ResearchFormalCoreR1.d2Gamma m2 m4 q) (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3)))))
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+        (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+          (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+            (@HAdd.hAdd Real Real Real (@instHAdd Real Real.instAdd)
+              (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+                (@OfNat.ofNat Real (nat_lit 2) (@instOfNatAtLeastTwo Real (nat_lit 2) Real.instNatCast ⋯))
+                (ResearchFormalCoreR1.d2Gamma m2 m4 q))
+              (ResearchFormalCoreR1.d2Alpha m2 m4 q))
+            (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid)))
+              (@HSub.hSub Real Real Real (@instHSub Real Real.instSub) m4
+                (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+                  (@OfNat.ofNat Real (nat_lit 3) (@instOfNatAtLeastTwo Real (nat_lit 3) Real.instNatCast ⋯))
+                  (@HPow.hPow Real Nat Real
+                    (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) m2
+                    (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))))
+              (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+          q)
+        (@HSub.hSub Real Real Real (@instHSub Real Real.instSub)
+          (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+          (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+            (@OfNat.ofNat Real (nat_lit 4) (@instOfNatAtLeastTwo Real (nat_lit 4) Real.instNatCast ⋯)) q))))
+    (ResearchFormalCoreR1.d2Numerator m2 m4)
+ResearchFormalCoreR1.d2_det_axis (m2 m4 : Real) :
+  @Eq Real (ResearchFormalCoreR1.d2DetV m2 m4 (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)))
+    (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+      (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) m2
+        (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      m4)
+ResearchFormalCoreR1.d2_det_diagonal (m2 m4 : Real) :
+  @Eq Real
+    (ResearchFormalCoreR1.d2DetV m2 m4
+      (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+        (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+        (@OfNat.ofNat Real (nat_lit 4) (@instOfNatAtLeastTwo Real (nat_lit 4) Real.instNatCast ⋯))))
+    (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+        (@HSub.hSub Real Real Real (@instHSub Real Real.instSub) m4
+          (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) m2
+            (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+        (@HAdd.hAdd Real Real Real (@instHAdd Real Real.instAdd) m4
+          (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+            (@OfNat.ofNat Real (nat_lit 3) (@instOfNatAtLeastTwo Real (nat_lit 3) Real.instNatCast ⋯))
+            (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) m2
+              (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))))
+      (@OfNat.ofNat Real (nat_lit 4) (@instOfNatAtLeastTwo Real (nat_lit 4) Real.instNatCast ⋯)))
+ResearchFormalCoreR1.d2_det_interpolation (m2 m4 q : Real) :
+  @Eq Real (ResearchFormalCoreR1.d2DetV m2 m4 q)
+    (@HAdd.hAdd Real Real Real (@instHAdd Real Real.instAdd)
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+        (@HSub.hSub Real Real Real (@instHSub Real Real.instSub)
+          (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+          (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+            (@OfNat.ofNat Real (nat_lit 4) (@instOfNatAtLeastTwo Real (nat_lit 4) Real.instNatCast ⋯)) q))
+        (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+          (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) m2
+            (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+          m4))
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+        (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+          (@OfNat.ofNat Real (nat_lit 4) (@instOfNatAtLeastTwo Real (nat_lit 4) Real.instNatCast ⋯)) q)
+        (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+          (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+            (@HSub.hSub Real Real Real (@instHSub Real Real.instSub) m4
+              (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) m2
+                (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+            (@HAdd.hAdd Real Real Real (@instHAdd Real Real.instAdd) m4
+              (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+                (@OfNat.ofNat Real (nat_lit 3) (@instOfNatAtLeastTwo Real (nat_lit 3) Real.instNatCast ⋯))
+                (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid)))
+                  m2 (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))))
+          (@OfNat.ofNat Real (nat_lit 4) (@instOfNatAtLeastTwo Real (nat_lit 4) Real.instNatCast ⋯)))))
+ResearchFormalCoreR1.d2_schur_ratio (m2 m4 q : Real)
+  (hD :
+    @Ne Real (ResearchFormalCoreR1.d2DetV m2 m4 q)
+      (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero))) :
+  @Eq Real (ResearchFormalCoreR1.d2Schur m2 m4 q)
+    (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+      (ResearchFormalCoreR1.d2Numerator m2 m4) (ResearchFormalCoreR1.d2DetV m2 m4 q))
+ResearchFormalCoreR1.d2_numerator_pos (m2 m4 : Real)
+  (hm2 : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) m2)
+  (hm4 :
+    @LT.lt Real Real.instLT
+      (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) m2
+        (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      m4) :
+  @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero))
+    (ResearchFormalCoreR1.d2Numerator m2 m4)
+ResearchFormalCoreR1.d2_det_pos (m2 m4 q : Real)
+  (hm2 : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) m2)
+  (hm4 :
+    @LT.lt Real Real.instLT
+      (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) m2
+        (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      m4)
+  (hq0 : @LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) q)
+  (hq1 :
+    @LE.le Real Real.instLE q
+      (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+        (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+        (@OfNat.ofNat Real (nat_lit 4) (@instOfNatAtLeastTwo Real (nat_lit 4) Real.instNatCast ⋯)))) :
+  @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero))
+    (ResearchFormalCoreR1.d2DetV m2 m4 q)
+ResearchFormalCoreR1.d2_schur_pos (m2 m4 q : Real)
+  (hm2 : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) m2)
+  (hm4 :
+    @LT.lt Real Real.instLT
+      (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) m2
+        (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      m4)
+  (hq0 : @LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) q)
+  (hq1 :
+    @LE.le Real Real.instLE q
+      (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+        (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+        (@OfNat.ofNat Real (nat_lit 4) (@instOfNatAtLeastTwo Real (nat_lit 4) Real.instNatCast ⋯)))) :
+  @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero))
+    (ResearchFormalCoreR1.d2Schur m2 m4 q)
+ResearchFormalCoreR1.d2_det_le_endpoint_max (m2 m4 q : Real)
+  (hq0 : @LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) q)
+  (hq1 :
+    @LE.le Real Real.instLE q
+      (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+        (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+        (@OfNat.ofNat Real (nat_lit 4) (@instOfNatAtLeastTwo Real (nat_lit 4) Real.instNatCast ⋯)))) :
+  @LE.le Real Real.instLE (ResearchFormalCoreR1.d2DetV m2 m4 q)
+    (@max Real Real.instMax
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+        (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) m2
+          (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+        m4)
+      (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+        (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+          (@HSub.hSub Real Real Real (@instHSub Real Real.instSub) m4
+            (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) m2
+              (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+          (@HAdd.hAdd Real Real Real (@instHAdd Real Real.instAdd) m4
+            (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+              (@OfNat.ofNat Real (nat_lit 3) (@instOfNatAtLeastTwo Real (nat_lit 3) Real.instNatCast ⋯))
+              (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) m2
+                (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))))
+        (@OfNat.ofNat Real (nat_lit 4) (@instOfNatAtLeastTwo Real (nat_lit 4) Real.instNatCast ⋯))))
+ResearchFormalCoreR1.d2_schur_endpoint_lower (m2 m4 q : Real)
+  (hm2 : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) m2)
+  (hm4 :
+    @LT.lt Real Real.instLT
+      (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) m2
+        (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      m4)
+  (hq0 : @LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) q)
+  (hq1 :
+    @LE.le Real Real.instLE q
+      (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+        (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+        (@OfNat.ofNat Real (nat_lit 4) (@instOfNatAtLeastTwo Real (nat_lit 4) Real.instNatCast ⋯)))) :
+  @LE.le Real Real.instLE
+    (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+      (ResearchFormalCoreR1.d2Numerator m2 m4)
+      (@max Real Real.instMax
+        (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+          (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) m2
+            (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+          m4)
+        (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+          (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+            (@HSub.hSub Real Real Real (@instHSub Real Real.instSub) m4
+              (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) m2
+                (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))
+            (@HAdd.hAdd Real Real Real (@instHAdd Real Real.instAdd) m4
+              (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+                (@OfNat.ofNat Real (nat_lit 3) (@instOfNatAtLeastTwo Real (nat_lit 3) Real.instNatCast ⋯))
+                (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid)))
+                  m2 (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))))
+          (@OfNat.ofNat Real (nat_lit 4) (@instOfNatAtLeastTwo Real (nat_lit 4) Real.instNatCast ⋯)))))
+    (ResearchFormalCoreR1.d2Schur m2 m4 q)
+ResearchFormalCoreR1.d2_tau_cumulant_eq (m2 m4 m6 q : Real)
+  (hm2 : @Ne Real m2 (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero))) :
+  @Eq Real
+    (@HAdd.hAdd Real Real Real (@instHAdd Real Real.instAdd)
+      (@HAdd.hAdd Real Real Real (@instHAdd Real Real.instAdd)
+        (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+          (@OfNat.ofNat Real (nat_lit 6) (@instOfNatAtLeastTwo Real (nat_lit 6) Real.instNatCast ⋯))
+          (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) m2
+            (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3)))))
+        (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+          (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+            (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+              (@OfNat.ofNat Real (nat_lit 9) (@instOfNatAtLeastTwo Real (nat_lit 9) Real.instNatCast ⋯)) m2)
+            (@HSub.hSub Real Real Real (@instHSub Real Real.instSub) m4
+              (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+                (@OfNat.ofNat Real (nat_lit 3) (@instOfNatAtLeastTwo Real (nat_lit 3) Real.instNatCast ⋯))
+                (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid)))
+                  m2 (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))))
+          (@HSub.hSub Real Real Real (@instHSub Real Real.instSub)
+            (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+            (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+              (@OfNat.ofNat Real (nat_lit 2) (@instOfNatAtLeastTwo Real (nat_lit 2) Real.instNatCast ⋯)) q))))
+      (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+        (@HSub.hSub Real Real Real (@instHSub Real Real.instSub)
+          (@HAdd.hAdd Real Real Real (@instHAdd Real Real.instAdd)
+            (@HSub.hSub Real Real Real (@instHSub Real Real.instSub) m6
+              (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+                (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+                  (@OfNat.ofNat Real (nat_lit 15) (@instOfNatAtLeastTwo Real (nat_lit 15) Real.instNatCast ⋯)) m4)
+                m2))
+            (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+              (@OfNat.ofNat Real (nat_lit 30) (@instOfNatAtLeastTwo Real (nat_lit 30) Real.instNatCast ⋯))
+              (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) m2
+                (@OfNat.ofNat Nat (nat_lit 3) (instOfNatNat (nat_lit 3))))))
+          (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+            (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid)))
+              (@HSub.hSub Real Real Real (@instHSub Real Real.instSub) m4
+                (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+                  (@OfNat.ofNat Real (nat_lit 3) (@instOfNatAtLeastTwo Real (nat_lit 3) Real.instNatCast ⋯))
+                  (@HPow.hPow Real Nat Real
+                    (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) m2
+                    (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))))
+              (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+            m2))
+        (@HSub.hSub Real Real Real (@instHSub Real Real.instSub)
+          (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+          (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+            (@OfNat.ofNat Real (nat_lit 3) (@instOfNatAtLeastTwo Real (nat_lit 3) Real.instNatCast ⋯)) q))))
+    (ResearchFormalCoreR1.d2Tau m2 m4 m6 q)
+ResearchFormalCoreR1.d2_tau_axis (m2 m4 m6 : Real) :
+  @Eq Real (ResearchFormalCoreR1.d2Tau m2 m4 m6 (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)))
+    (ResearchFormalCoreR1.d2Delta m2 m4 m6)
+ResearchFormalCoreR1.d2_tau_diagonal (m2 m4 m6 : Real) :
+  @Eq Real
+    (ResearchFormalCoreR1.d2Tau m2 m4 m6
+      (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+        (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+        (@OfNat.ofNat Real (nat_lit 4) (@instOfNatAtLeastTwo Real (nat_lit 4) Real.instNatCast ⋯))))
+    (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+      (@HAdd.hAdd Real Real Real (@instHAdd Real Real.instAdd) (ResearchFormalCoreR1.d2Delta m2 m4 m6)
+        (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+          (@HMul.hMul Real Real Real (@instHMul Real Real.instMul)
+            (@OfNat.ofNat Real (nat_lit 9) (@instOfNatAtLeastTwo Real (nat_lit 9) Real.instNatCast ⋯)) m2)
+          (@HSub.hSub Real Real Real (@instHSub Real Real.instSub) m4
+            (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) m2
+              (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2)))))))
+      (@OfNat.ofNat Real (nat_lit 4) (@instOfNatAtLeastTwo Real (nat_lit 4) Real.instNatCast ⋯)))
+ResearchFormalCoreR1.d2_tau_pos (m2 m4 m6 q : Real)
+  (hm2 : @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) m2)
+  (hm4 :
+    @LT.lt Real Real.instLT
+      (@HPow.hPow Real Nat Real (@instHPow Real Nat (@NPow.toPow Real (@Monoid.toNPow Real Real.instMonoid))) m2
+        (@OfNat.ofNat Nat (nat_lit 2) (instOfNatNat (nat_lit 2))))
+      m4)
+  (hDelta :
+    @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero))
+      (ResearchFormalCoreR1.d2Delta m2 m4 m6))
+  (hq0 : @LE.le Real Real.instLE (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)) q)
+  (hq1 :
+    @LE.le Real Real.instLE q
+      (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+        (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+        (@OfNat.ofNat Real (nat_lit 4) (@instOfNatAtLeastTwo Real (nat_lit 4) Real.instNatCast ⋯)))) :
+  @LT.lt Real Real.instLT (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero))
+    (ResearchFormalCoreR1.d2Tau m2 m4 m6 q)
+ResearchFormalCoreR1.d2_gaussian_control (q : Real) :
+  And
+    (@Eq Real
+      (ResearchFormalCoreR1.d2DetV (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+        (@OfNat.ofNat Real (nat_lit 3) (@instOfNatAtLeastTwo Real (nat_lit 3) Real.instNatCast ⋯)) q)
+      (@OfNat.ofNat Real (nat_lit 3) (@instOfNatAtLeastTwo Real (nat_lit 3) Real.instNatCast ⋯)))
+    (And
+      (@Eq Real
+        (ResearchFormalCoreR1.d2Schur (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+          (@OfNat.ofNat Real (nat_lit 3) (@instOfNatAtLeastTwo Real (nat_lit 3) Real.instNatCast ⋯)) q)
+        (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+          (@OfNat.ofNat Real (nat_lit 8) (@instOfNatAtLeastTwo Real (nat_lit 8) Real.instNatCast ⋯))
+          (@OfNat.ofNat Real (nat_lit 3) (@instOfNatAtLeastTwo Real (nat_lit 3) Real.instNatCast ⋯))))
+      (@Eq Real
+        (ResearchFormalCoreR1.d2Tau (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+          (@OfNat.ofNat Real (nat_lit 3) (@instOfNatAtLeastTwo Real (nat_lit 3) Real.instNatCast ⋯))
+          (@OfNat.ofNat Real (nat_lit 15) (@instOfNatAtLeastTwo Real (nat_lit 15) Real.instNatCast ⋯)) q)
+        (@OfNat.ofNat Real (nat_lit 6) (@instOfNatAtLeastTwo Real (nat_lit 6) Real.instNatCast ⋯))))
+ResearchFormalCoreR1.d2_degenerate_control :
+  And
+    (@Eq Real
+      (ResearchFormalCoreR1.d2DetV (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+        (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+        (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+          (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+          (@OfNat.ofNat Real (nat_lit 4) (@instOfNatAtLeastTwo Real (nat_lit 4) Real.instNatCast ⋯))))
+      (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)))
+    (And
+      (@Eq Real
+        (ResearchFormalCoreR1.d2Schur (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+          (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+          (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+            (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+            (@OfNat.ofNat Real (nat_lit 4) (@instOfNatAtLeastTwo Real (nat_lit 4) Real.instNatCast ⋯))))
+        (@OfNat.ofNat Real (nat_lit 2) (@instOfNatAtLeastTwo Real (nat_lit 2) Real.instNatCast ⋯)))
+      (And
+        (@Eq Real
+          (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+            (ResearchFormalCoreR1.d2Numerator (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+              (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne)))
+            (ResearchFormalCoreR1.d2DetV (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+              (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+              (@HDiv.hDiv Real Real Real (@instHDiv Real (@DivInvMonoid.toDiv Real Real.instDivInvMonoid))
+                (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+                (@OfNat.ofNat Real (nat_lit 4) (@instOfNatAtLeastTwo Real (nat_lit 4) Real.instNatCast ⋯)))))
+          (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)))
+        (@Eq Real
+          (ResearchFormalCoreR1.d2Tau (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+            (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+            (@OfNat.ofNat Real (nat_lit 1) (@One.toOfNat1 Real Real.instOne))
+            (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)))
+          (@OfNat.ofNat Real (nat_lit 0) (@Zero.toOfNat0 Real Real.instZero)))))

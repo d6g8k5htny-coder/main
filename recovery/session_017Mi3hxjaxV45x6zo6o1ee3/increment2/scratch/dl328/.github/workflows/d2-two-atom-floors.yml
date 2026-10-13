@@ -1,0 +1,72 @@
+name: D2 two-atom quantitative floors
+'on':
+  pull_request:
+    paths:
+      - 'reviews/d2_two_atom_floors_20261006/**'
+      - 'tests/test_d2_two_atom_floors.py'
+      - 'formal/ResearchFormalCoreR1/D2Schur.lean'
+      - '.github/workflows/d2-two-atom-floors.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'reviews/d2_two_atom_floors_20261006/**'
+      - 'tests/test_d2_two_atom_floors.py'
+      - 'formal/ResearchFormalCoreR1/D2Schur.lean'
+      - '.github/workflows/d2-two-atom-floors.yml'
+permissions:
+  contents: read
+defaults:
+  run:
+    shell: bash
+jobs:
+  quantitative:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11'
+      - name: Execute exact rational baseline and named mutations
+        run: |
+          set -euo pipefail
+          OUT="$RUNNER_TEMP/d2-atom-evidence"
+          test ! -e "$OUT"
+          mkdir -p "$OUT"
+          export OUT
+          python -B -S - <<'PY'
+          import hashlib,json,os,pathlib,subprocess,sys
+          out=pathlib.Path(os.environ['OUT'])
+          head=subprocess.check_output(['git','rev-parse','HEAD'],text=True).strip()
+          if head!=os.environ['GITHUB_SHA']:
+              raise RuntimeError('checked source mismatch')
+          results=[]
+          for mode,flags in [('normal',[]),('optimized',['-O'])]:
+              cmd=[sys.executable,'-B','-S',*flags,'tests/test_d2_two_atom_floors.py']
+              r=subprocess.run(cmd,capture_output=True,timeout=180)
+              (out/(mode+'.stdout')).write_bytes(r.stdout)
+              (out/(mode+'.stderr')).write_bytes(r.stderr)
+              record={'mode':mode,'command':cmd,'returncode':r.returncode,
+                      'stdout_sha256':hashlib.sha256(r.stdout).hexdigest(),
+                      'stderr_sha256':hashlib.sha256(r.stderr).hexdigest()}
+              results.append(record)
+              (out/'context.json').write_text(json.dumps({
+                  'checked_commit':head,'repository':os.environ['GITHUB_REPOSITORY'],
+                  'run_id':os.environ['GITHUB_RUN_ID'],'attempt':os.environ['GITHUB_RUN_ATTEMPT'],
+                  'python':sys.version,'results':results,'scientific_effect':'NONE',
+                  'meaning':'finite rational/source controls; not Lean or scientific acceptance'
+              },indent=2)+'\n')
+              print(r.stderr.decode(),end='')
+              if r.returncode or b'Ran 6 tests' not in r.stderr or not r.stderr.rstrip().endswith(b'OK'):
+                  raise RuntimeError('quantitative suite did not pass: '+mode)
+          PY
+      - name: Retain available original evidence
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        with:
+          name: d2-atom-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/d2-atom-evidence
+          if-no-files-found: error
+          retention-days: 30

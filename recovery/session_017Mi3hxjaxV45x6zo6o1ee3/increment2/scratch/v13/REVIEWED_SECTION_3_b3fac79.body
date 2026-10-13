@@ -1,0 +1,34 @@
+## 3. The corollary: (Res) from the reviewed statements
+
+Write `N_R` for the window count in the Euclidean ball of radius `R r` about `o` ([SC]'s `N_R`; [CL]'s `N^A` with
+`A = R`), `N_out = N - N_R`, and `(n)_2 = n(n - 1)`. The quantity in (Res) is exactly
+
+    M_R := E_{Q_r^W} #{ordered pairs of distinct window points not both within R r of o} = E[(N)_2] - E[(N_R)_2],   (D1)
+
+since for every configuration `(N)_2 - (N_R)_2 = 2 N_R N_out + (N_out)_2 >= 2 N_R N_out >= 0` (exact identity, checked
+in `DEDUCTION`). So (Res) says `lim_R limsup_r r^-3 (E[(N)_2] - E[(N_R)_2]) = 0`, and the mixed count of Math-#160 §5 is
+`M(R, s_0) <= E[N_R N_out] <= M_R / 2`.
+
+**Route A ([SC], Math-#162).**
+1. *Full second factorial moment.* [SC] (26): `E (N)_2 / r^3 -> 2 nu2 = 2 a_2`, a stated consequence of Theorem (3)
+   with `q = 2` (§8, Slice C).
+2. *Near second factorial moment.* [SC] (18): `r^-3 Q_W(N_R = j) -> a_j^R` for `j = 1, 2` and `r^-3 Q_W(N_R >= 3) -> 0`
+   (§5, Slice B). Tail: `(N_R)_2 <= (N)_2`, and for integers `n > M >= 3`, `n(n-1) <= n(n-1)(n-2)/(M-1)` (exact, `DEDUCTION`),
+   so `E[(N_R)_2; N_R > M] <= E[(N)_3]/(M-1) <= C_3 r^3/(M-1)` by [PALM] Theorem Q with `q = 3`. Hence
+   `limsup_r | r^-3 E[(N_R)_2] - 2 a_2^R | <= C_3/(M-1)` for every `M`, i.e. `r^-3 E[(N_R)_2] -> 2 a_2^R` (the finite sum
+   over `n <= M` converges by (18), its `n >= 3` terms to zero). This is the same tail argument [SC] §8 uses for (3).
+3. *Exhaustion.* [SC] (20): `a_2^R -> a_2` as `R -> oo` (dominated convergence with the integrable majorant (19), §6,
+   Slice B).
+
+Therefore `limsup_r r^-3 M_R = 2 a_2 - 2 a_2^R` (a full limit, by 1 and 2), which tends to `0` as `R -> oo` by 3. That is
+(Res). ∎
+
+**Route B ([CL], Math-#159).** Corollary Λ (1.6): `r^-3 E[(N)_2] -> Λ_2 = 2 nu(2) = 2 nu_near(2)`; Proposition 4.4:
+`r^-3 Q{N^A = n} -> nu_near^A(n)` for `n = 1, 2`, `r^-3 Q{N^A >= 3} -> 0`, and `nu_near^A(n) -> nu_near(n)` as `A -> oo`;
+the tail of step 2 is the one [CL] §6.3 uses ([PALM] Theorem Q). The same three lines give (Res). Directly, without the
+factorial-moment limit: Lemma 5.2 (5.4), `E[N^A 1{N_far^rho >= 1}] <= C(A, rho) r^(9/2)`, together with
+`E[N^A (N_far^rho - 1)_+] <= (E (N^A)^2)^(1/2) (E N_far^4)^(1/4) Q{N_far^rho >= 2}^(1/4) <= C r^(3/2) r^(3/4) r^(5/4) = C r^(7/2)`
+([PALM] Theorem Q for the second and fourth moments through Stirling's identity `n^4 = (n)_4 + 6(n)_3 + 7(n)_2 + (n)_1`,
+[RC] Corollary D for `Q{N_far^rho >= 2} <= E (N_far^rho)_2 / 2 = O(r^5)`), gives `E[N^A N_far^rho] = O(r^(7/2)) = o(r^3)`
+at fixed `(A, rho)`, which is the mixed count of Math-#160 §5 with `s_0 = rho` (the far region `D_rho` is measured from
+`o`; a point at distance `>= s_0` from both pins lies in `D_{s_0/2}` for `r < s_0`). Exponent ledgers checked exactly.

@@ -1,0 +1,51 @@
+test_contact_kernel_minors (test_algebra.IntermediateTests.test_contact_kernel_minors) ... ok
+test_contact_rank_survives_confluence (test_algebra.IntermediateTests.test_contact_rank_survives_confluence) ... ok
+test_crossover_relative_error (test_algebra.IntermediateTests.test_crossover_relative_error) ... ok
+test_cubic_height_fixture_needs_r_squared_over_s (test_algebra.IntermediateTests.test_cubic_height_fixture_needs_r_squared_over_s) ... ok
+test_degree_four_collinear_contact_loses_rank (test_algebra.IntermediateTests.test_degree_four_collinear_contact_loses_rank) ... ok
+test_euler_identity_cancels_cubic (test_algebra.IntermediateTests.test_euler_identity_cancels_cubic) ... ok
+test_hermite_exact_target (test_algebra.IntermediateTests.test_hermite_exact_target) ... ok
+test_normalized_value_gradient_of_pinned_cubic (test_algebra.IntermediateTests.test_normalized_value_gradient_of_pinned_cubic) ... ok
+test_one_normalizer_joint_density_and_height_ledger (test_algebra.IntermediateTests.test_one_normalizer_joint_density_and_height_ledger) ... FAIL
+test_physical_jacobian_includes_height (test_algebra.IntermediateTests.test_physical_jacobian_includes_height) ... ok
+test_quartic_height_fixture_needs_s_squared_curvature (test_algebra.IntermediateTests.test_quartic_height_fixture_needs_s_squared_curvature) ... ok
+test_scaled_frame_matches_polynomial (test_algebra.IntermediateTests.test_scaled_frame_matches_polynomial) ... ok
+test_shell_gain_and_dyadic_sum (test_algebra.IntermediateTests.test_shell_gain_and_dyadic_sum) ... ok
+test_transverse_three_column_minor (test_algebra.IntermediateTests.test_transverse_three_column_minor) ... ok
+test_without_height_window_suppression_fails (test_algebra.IntermediateTests.test_without_height_window_suppression_fails) ... ok
+
+======================================================================
+FAIL: test_one_normalizer_joint_density_and_height_ledger (test_algebra.IntermediateTests.test_one_normalizer_joint_density_and_height_ledger)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<SCRATCH>/iw_out/mutants/normal/drop_original_normalizer/test_algebra.py", line 176, in test_one_normalizer_joint_density_and_height_ledger
+    self.assertEqual(a.ledger(),{'actual_observations':9,'height_length_r_power':3,
+AssertionError: {'act[98 chars]er': 0, 'raw_density_s_power': -15, 'raw_momen[202 chars]s^2'} != {'act[98 chars]er': -2, 'raw_density_s_power': -15, 'raw_mome[203 chars]s^2'}
+  {'actual_observations': 9,
+   'endpoint_product_r_power': 2,
+   'far_density_s_power': -6,
+   'far_product_s_power': 2,
+   'far_total_v_power': -60,
+   'height_length_r_power': 3,
+   'near_absorption_s_power': 75,
+   'near_final_s_power': 0,
+-  'normalizer_r_power': 0,
+?                        ^
+
++  'normalizer_r_power': -2,
+?                        ^^
+
+   'raw_density_s_power': -15,
+   'raw_moment_s_power': -60,
+   'shell_gain': '(r/s)^2+s^2',
+-  'shell_height_r_power': 5}
+?                          ^
+
++  'shell_height_r_power': 3}
+?                          ^
+
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.114s
+
+FAILED (failures=1)

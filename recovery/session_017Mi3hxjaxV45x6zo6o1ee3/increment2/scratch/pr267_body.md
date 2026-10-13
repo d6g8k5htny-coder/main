@@ -1,0 +1,41 @@
+**Owner request.** Dylan Roy asked this session directly at about 02:56Z to add these skills. Claim: main#229 [5975964415](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5975964415). Actual author: Anthropic Claude, session `017Mi3hx…`. **Scientific effect NONE.** The author will not merge.
+
+## What this adds
+
+Two new files and nothing else:
+- **`.claude/skills/steward/SKILL.md`.** Repo conventions that Claude Code agents read before acting on CI, review or merge-state events on a Math- PR they opened or drive. It summarizes, and links as normative, the rules that already bind this repository: [`AGENTS.md`](../blob/main/AGENTS.md), `main`'s [`AGENTS.md`](https://github.com/d6g8k5htny-coder/main/blob/main/AGENTS.md), [OP-WORKFLOW-20260930](https://github.com/d6g8k5htny-coder/main/blob/main/governance/OP-WORKFLOW-20260930.md), [OP-PRIVACY-20260927](https://github.com/d6g8k5htny-coder/main/blob/main/governance/OP-PRIVACY-20260927.md) and [`docs/FORMAL_REQUIRED_CHECKS.md`](../blob/main/docs/FORMAL_REQUIRED_CHECKS.md). Sections:
+  1. identity, roles and independence credit, including the owner statement "Grok bots can count as a review" as recorded, with its scope and conditions, in main#229 5974405061;
+  2. the PR body as the one current disposition;
+  3. reads, verdicts and AMENDs: frozen heads while a read is open, AMENDs only after the verdict, byte-diff readbacks, optional points never starting a push;
+  4. checks: `math-downstream-gates`, packet checkers in `-B -S` and `-B -O -S`, strict mutant rejection, `pins_on_main`, the Lean `gate.py` source and `--execute` modes;
+  5. branches: merge commits only, no change to another owner's branch without a handoff, stacked-base reconciliation;
+  6. integration (for the integrator, never the author);
+  7. the never-list (status surfaces, flags, privacy);
+  8. comments and claims.
+- **`.claude/skills/babysit/SKILL.md`.** The short watching posture: never punt, address every thread, a failing test is never assumed to be a flake, and a red head never waits. It defers to steward, which the agent harness prefers when both exist.
+
+It adds no rule beyond those sources; on conflict they win. It installs no workflow, scheduler or register.
+
+## Current disposition
+
+- **Head:** `aa67388` on `claude/nice-maxwell-7i7ok0`. The branch was restarted from `main` `f9f59c2`; its earlier PRs were all merged.
+- **Commits:**
+  - `32b3aa9`: the two skill files.
+  - `96b43b8`: answers the seven Codex findings; all threads are resolved.
+  - `49ca8fb`: applies AMEND A1–A9 verbatim, from Grok Bot agent 14's verdict [5976137533](https://github.com/d6g8k5htny-coder/Math-/pull/267#issuecomment-5976137533).
+  - `aa67388`: applies INT-267-01 verbatim (one line, steward §4 source-record contracts), from OpenAI/Codex's readback [5976220298](https://github.com/d6g8k5htny-coder/Math-/pull/267#issuecomment-5976220298).
+- **Review:** Grok Bot agent 14 (non-Claude engineering/workflow read) picked up at `32b3aa9` and re-pointed to `96b43b8` after the author's early push ([notice 5976064593](https://github.com/d6g8k5htny-coder/Math-/pull/267#issuecomment-5976064593)). **AMEND A1–A9** ([5976137533](https://github.com/d6g8k5htny-coder/Math-/pull/267#issuecomment-5976137533)) was applied at `49ca8fb`. OpenAI/Codex (`/root/merge_queue_20261004`) read back `96b43b8..49ca8fb`: **A1–A9 PASS**, with one inherited wording AMEND, **INT-267-01** ([5976220298](https://github.com/d6g8k5htny-coder/Math-/pull/267#issuecomment-5976220298)). INT-267-01 was applied at `aa67388` ([5976225760](https://github.com/d6g8k5htny-coder/Math-/pull/267#issuecomment-5976225760)). Codex's exact-diff readback of `49ca8fb..aa67388` is **PASS** ([5976244082](https://github.com/d6g8k5htny-coder/Math-/pull/267#issuecomment-5976244082)).
+- **Unresolved finding IDs:** none. A1–A9 and INT-267-01 are resolved on readback.
+- **Validation:** each path and check name was checked against the repository. `math-downstream-gates` needs `downstream-replay` and `formal / formal-evidence`; the `formal/` commands come from `formal/README.md` and `formal-lean.yml`; no check polices `.claude/`.
+- **Next action:** integration at expected head `aa67388` is claimed by OpenAI/Codex (`/root/merge_queue_20261004`, [5976271536](https://github.com/d6g8k5htny-coder/Math-/pull/267#issuecomment-5976271536)). It will run after its active batch (#268, then #180), with a fresh base reconciliation and required checks. The author does not merge or edit the branch. Grok Bot agent 14's confirming A1–A9 readback at `aa67388` is also **PASS** ([5976286337](https://github.com/d6g8k5htny-coder/Math-/pull/267#issuecomment-5976286337)). Its only note is that `c6-hard-direction-factorization.yml` (cited by INT-267-01) enters this branch's tree on refresh; no change is needed.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+https://claude.ai/code/session_017Mi3hxjaxV45x6zo6o1ee3
+
+---
+_Generated by [Claude Code](https://claude.ai/code/session_017Mi3hxjaxV45x6zo6o1ee3)_
+
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_
