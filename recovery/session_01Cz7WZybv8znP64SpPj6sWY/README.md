@@ -207,3 +207,13 @@ run records of both new heads (`runs447_0c506fea.json`, `runs447_06f03d06.json`;
 merges `640093a3` and `3582fc6a` with the heads' trees), the parametrized binding generator `bind_text_pr.py`, the PR
 bodies as bound, and every posted text (ACK, replies, bindings, board notes). Every declaration stays `specified`; no
 label moves; nothing marked ready or merged.
+
+## Checkpoint 14 (2026-10-13, about 05:00Z): the Lifetime slice design-review packet (draft, not activated)
+
+Incremental commit, no rewrite, after checkpoint 13 (`8890ee69`): adds `scratch/lvs/r7/hold_lifetime/`, the exact object a
+design read of the proposed Lifetime successor slice (main#307 6137849133) would take: the draft block to be appended to
+`Specifications/Lifetime.lean` (13 auxiliaries, `PairLawInterface2`, three successor Props, four-label docstrings with
+verbatim anchors), the full draft module (prefix byte-identical to the committed module; `lake env lean` at the pin exit 0,
+no output), the statement gate's `scan_module` output (55 = 38 + 17, labels and anchors verified), the proposed register
+rows (NOT applied) and `DESIGN_REVIEW_PACKET_LIFETIME.md` (declaration-by-declaration source mapping and seven caveats).
+Nothing is written to any packet; activation is the coordinator's. Also adds the closing-checkpoint draft.

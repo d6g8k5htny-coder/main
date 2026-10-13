@@ -1,0 +1,76 @@
+{
+  "status": "PROPOSED, NOT APPLIED: design input for the Lifetime slice (main#307 6137849133); nothing is written to any packet before routing/activation.",
+  "claim_rows": {
+    "math.uniform-matrix-cap-lifetime": {
+      "insert_after_declaration": "UniversalLaw.Spec.Lifetime.ParentUniformSelectionA",
+      "rows": [
+        {
+          "package": "specifications/lean_statements_20261010",
+          "module": "Specifications/Lifetime.lean",
+          "declaration": "UniversalLaw.Spec.Lifetime.PairLawInterface2",
+          "kind": "structure",
+          "formal_progress": "specified",
+          "anchor": "Z_r = E_Q W_r,       dQ^W = (W_r/Z_r)dQ.",
+          "does_not_claim": "existence of an object satisfying this interface; that `Q` is the regression law of any field or that `Q^W` is the source's typed law (no field is constructed); the normalizer floor `Z_r >= z_* r^2` (only positivity is a field); anything about the predecessor interface, which is unchanged."
+        },
+        {
+          "package": "specifications/lean_statements_20261010",
+          "module": "Specifications/Lifetime.lean",
+          "declaration": "UniversalLaw.Spec.Lifetime.ParentUniformSelectionA2",
+          "kind": "def_prop",
+          "formal_progress": "specified",
+          "anchor": "0 <= 1-p_r(b,k,R) <= C r^3.                         (1.1)",
+          "does_not_claim": "the result (statement only); existence of an inhabitant; that the formal objects are the source's; anything about `ParentUniformSelectionA`, which is unchanged; the parent's proof (normalizer floor, boundary layer); nonauthor review or acceptance."
+        }
+      ]
+    },
+    "D1-THM-A": {
+      "insert_after_declaration": "UniversalLaw.Spec.Lifetime.ParentUniformSelectionA",
+      "rows": [
+        {
+          "package": "specifications/lean_statements_20261010",
+          "module": "Specifications/Lifetime.lean",
+          "declaration": "UniversalLaw.Spec.Lifetime.PairLawInterface2",
+          "kind": "structure",
+          "formal_progress": "specified",
+          "anchor": "Z_r = E_Q W_r,       dQ^W = (W_r/Z_r)dQ.",
+          "does_not_claim": "existence of an object satisfying this interface; that `Q` is the regression law of any field or that `Q^W` is the source's typed law (no field is constructed); the normalizer floor `Z_r >= z_* r^2` (only positivity is a field); anything about the predecessor interface, which is unchanged."
+        },
+        {
+          "package": "specifications/lean_statements_20261010",
+          "module": "Specifications/Lifetime.lean",
+          "declaration": "UniversalLaw.Spec.Lifetime.ParentUniformSelectionA2",
+          "kind": "def_prop",
+          "formal_progress": "specified",
+          "anchor": "0 <= 1-p_r(b,k,R) <= C r^3.                         (1.1)",
+          "does_not_claim": "the result (statement only); existence of an inhabitant; that the formal objects are the source's; anything about `ParentUniformSelectionA`, which is unchanged; the parent's proof (normalizer floor, boundary layer); nonauthor review or acceptance."
+        }
+      ]
+    },
+    "OA-ELDER-LOWER-DENSITY-GAP-20260928-v1": {
+      "insert_after_declaration": "UniversalLaw.Spec.Lifetime.PlanarTwoSidedRateE4",
+      "rows": [
+        {
+          "package": "specifications/lean_statements_20261010",
+          "module": "Specifications/Lifetime.lean",
+          "declaration": "UniversalLaw.Spec.Lifetime.PlanarElderLowerE2B",
+          "kind": "def_prop",
+          "formal_progress": "specified",
+          "anchor": "1-p_r(b,k,R) >= c r^3, 0<r<=r_*.                      (E2)",
+          "does_not_claim": "the result (statement only); existence of an inhabitant; anything about `PlanarElderLowerE2`, which is unchanged; the source's proof (polygonal path, tilted jet-box probability); nonauthor review or acceptance."
+        },
+        {
+          "package": "specifications/lean_statements_20261010",
+          "module": "Specifications/Lifetime.lean",
+          "declaration": "UniversalLaw.Spec.Lifetime.PlanarTwoSidedRateE4B",
+          "kind": "def_prop",
+          "formal_progress": "specified",
+          "anchor": "c r^3 <= 1-p_r(b,k,R) <= C r^3.                       (E4)",
+          "does_not_claim": "the result (statement only); the upper half independently of the parent (1.1); existence of an inhabitant; anything about `PlanarTwoSidedRateE4`, which is unchanged; nonauthor review or acceptance."
+        }
+      ]
+    }
+  },
+  "claim_row_text_edits_proposed": "each affected row's not_established gains one sentence naming the successor interface, the fields that are the source's theorems assumed (pinObsCov_posDef, Z_pos), the point-evaluation-only scope of Q_regression, and that no inhabitant is constructed; next_step names the successor Props as the row's targets (weeks; Mathlib-blocked on Gaussian regression and Kac-Rice for (1.1); the planar argument for E2/E4).",
+  "scientific_effect": "NONE"
+}
