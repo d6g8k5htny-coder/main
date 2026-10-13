@@ -70,6 +70,107 @@ def main():
                 tree=page.locator('#atlas-inspector').aria_snapshot();require('Kernel metadata not recorded' in tree and 'source' in tree.lower(),'Structured reading alternative omitted source/evidence');path=args.output/'inspector-accessibility-tree.txt';path.write_text(tree);case['accessibility_tree']={'path':path.name,'sha256':sha256(path.read_bytes()).hexdigest()};case['limitation']='Chromium accessibility tree and keyboard reading observed; spoken assistive-technology session not observed.';case['passed']=True
             except Exception:case['error']=traceback.format_exc()
             finally:context.close()
+            case={'case':'share-after-browser-back-and-forward','passed':False,'checkpoints':[],'page_errors':[]};report['cases'].append(case);context=browser.new_context(reduced_motion='reduce');page=context.new_page();page.set_default_timeout(15000);page.on('pageerror',lambda e:case['page_errors'].append(str(e)))
+            try:
+                from urllib.parse import urlsplit,parse_qs,urljoin
+                pins={'snapshot':[data['graph']['identity']['commit']],'main-snapshot':[next(r['commit'] for r in data['repositories'] if r['repository'].endswith('/main'))]}
+                first_equation=data['equations'][0]
+                next_equation=next(e for e in data['equations'] if e['id']!=first_equation['id'] and 'ell' in e['text'].lower())
+                def settled_selection(tab,label,node,view,graph_query,source_query,equation_query,equation,expected_url=None):
+                    # Wait on restored visible controls and exact excerpt before taking
+                    # a fresh Share locator reading after two browser paint frames.
+                    expect(tab.locator('#atlas-inspector h3')).to_have_text(node)
+                    expect(tab.locator('#atlas-view')).to_have_value(view)
+                    expect(tab.locator('#atlas-search')).to_have_value(graph_query)
+                    expect(tab.locator('.current-search')).to_have_value(source_query)
+                    expect(tab.locator('#equation-search')).to_have_value(equation_query)
+                    expect(tab.locator('#equation-select')).to_have_value(equation['id'])
+                    expect(tab.locator('#equation-content pre')).to_have_text(equation['text'])
+                    expect(tab.locator('#atlas-inspector')).to_contain_text(pins['snapshot'][0])
+                    expect(tab.locator('#equation-content')).to_contain_text(equation['commit'])
+                    tab.evaluate('new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))')
+                    address=tab.url;shared=urljoin(address,tab.locator('#atlas-share').get_attribute('href'))
+                    actual=parse_qs(urlsplit(address).query);share_state=parse_qs(urlsplit(shared).query)
+                    checkpoint={'step':label,'inspector_node':tab.locator('#atlas-inspector h3').inner_text(),'address_url':address,'share_url':shared,'address_state':actual,'share_state':share_state,'source_payload_sha256':report['source_payload_sha256']};case['checkpoints'].append(checkpoint)
+                    expected={'atlas-node':[node],'atlas-view':[view],'atlas-q':[graph_query],'source-q':[source_query],'equation-q':[equation_query],'equation':[equation['id']],**pins}
+                    for key,value in expected.items():require(actual.get(key)==value,f'{label}: address {key} differs from settled reading: {actual.get(key)!r} != {value!r}')
+                    if expected_url is not None:require(actual==parse_qs(urlsplit(expected_url).query),f'{label}: browser history did not restore the complete saved address state')
+                    require(urlsplit(shared)._replace(query='')==urlsplit(address)._replace(query=''),f'{label}: Share changed the current page or fragment')
+                    require(share_state==actual,f'{label}: fresh Share state disagrees with settled inspector/address: {share_state!r} != {actual!r}')
+                    require(tab.locator('#current-research').get_attribute('data-current-digest')==report['source_payload_sha256'],f'{label}: current source identity changed')
+                    return address,shared
+                page.goto(origin+'dependencies.html?atlas-node=math.uniform-matrix-cap-lifetime&atlas-view=list');expect(page.locator('#atlas-inspector h3')).to_have_text('math.uniform-matrix-cap-lifetime')
+                page.locator('#current-research summary').click();page.locator('.current-search').fill('universality')
+                page.locator('#equation-search').fill(first_equation['path']);page.locator('#equation-select').select_option(first_equation['id'])
+                page.locator('#atlas-search').fill('CH-LIFT');expect(page.locator('#atlas-list button').filter(has_text=re.compile(r'^hist\.CH-LIFT'))).to_have_count(1)
+                before,initial_share=settled_selection(page,'before-select','math.uniform-matrix-cap-lifetime','list','CH-LIFT','universality',first_equation['path'],first_equation)
+                # Actual node activation creates the second browser history entry.
+                page.locator('#atlas-list button').filter(has_text=re.compile(r'^hist\.CH-LIFT')).click();expect(page.locator('#atlas-inspector h3')).to_have_text('hist.CH-LIFT')
+                page.locator('#atlas-view').select_option('graph');page.locator('#atlas-search').fill('witness-collision');page.locator('.current-search').fill('frontiers')
+                page.locator('#equation-search').fill('ell');page.locator('#equation-select').select_option(next_equation['id'])
+                after,selected_share=settled_selection(page,'after-select','hist.CH-LIFT','graph','witness-collision','frontiers','ell',next_equation)
+                page.locator('#atlas-back').click()
+                restored,back_share=settled_selection(page,'after-back','math.uniform-matrix-cap-lifetime','list','CH-LIFT','universality',first_equation['path'],first_equation,before)
+                page.locator('#atlas-forward').click()
+                restored,forward_share=settled_selection(page,'after-forward','hist.CH-LIFT','graph','witness-collision','frontiers','ell',next_equation,after)
+                for label,shared,node,view,graph_query,source_query,equation_query,equation in [
+                    ('reopened-back-share',back_share,'math.uniform-matrix-cap-lifetime','list','CH-LIFT','universality',first_equation['path'],first_equation),
+                    ('reopened-forward-share',forward_share,'hist.CH-LIFT','graph','witness-collision','frontiers','ell',next_equation)]:
+                    reopened=context.new_page();reopened.on('pageerror',lambda e:case['page_errors'].append(str(e)))
+                    try:
+                        with reopened.expect_response(lambda response:urlsplit(response.url).path.endswith('/current.json')) as acquired:reopened.goto(shared)
+                        acquired_raw=acquired.value.body();require(sha256(acquired_raw).hexdigest()==report['source_payload_sha256'],f'{label}: reopening substituted another source payload');require(json.loads(acquired_raw)['repositories']==data['repositories'],f'{label}: reopening changed exact repository pins')
+                        settled_selection(reopened,label,node,view,graph_query,source_query,equation_query,equation,shared)
+                    finally:reopened.close()
+                require(not case['page_errors'],f'Page errors: {case["page_errors"]}');case['passed']=True
+            except Exception:case['error']=traceback.format_exc()
+            finally:context.close()
+            case={'case':'share-history-refusal-and-legacy-guards','passed':False,'guards':[],'page_errors':[]};report['cases'].append(case)
+            try:
+                from urllib.parse import urlsplit,parse_qs,urljoin,urlencode
+                current_node='math.uniform-matrix-cap-lifetime';equation=data['equations'][0]
+                pins={'snapshot':[data['graph']['identity']['commit']],'main-snapshot':[next(r['commit'] for r in data['repositories'] if r['repository'].endswith('/main'))]}
+                def history_checkpoint(tab,label):
+                    tab.evaluate('new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))')
+                    address=tab.url;shared=urljoin(address,tab.locator('#atlas-share').get_attribute('href'))
+                    return {'step':label,'address_url':address,'share_url':shared,'address_state':parse_qs(urlsplit(address).query),'share_state':parse_qs(urlsplit(shared).query),'history_length':tab.evaluate('history.length')}
+                def valid_share(checkpoint,node):
+                    for key,value in {'atlas-node':[node],**pins}.items():require(checkpoint['share_state'].get(key)==value,f'{checkpoint["step"]}: Share changed restored {key}')
+                # A legacy address is an ordinary initial navigation; selecting a
+                # visible recorded neighbor supplies the only new history entry.
+                guard={'bookmark':'legacy-filters-and-fragment','passed':False,'checkpoints':[]};case['guards'].append(guard);context=browser.new_context(reduced_motion='reduce');page=context.new_page();page.set_default_timeout(15000);page.on('pageerror',lambda e:case['page_errors'].append(str(e)))
+                try:
+                    legacy=origin+'dependencies.html?q=math&classification=PROVED_REVIEWED#search-heading';page.goto(legacy);expect(page.locator('#atlas-inspector h3')).to_have_text(current_node)
+                    initial_length=page.evaluate('history.length');neighbor=next(e['to'] for e in data['graph']['data']['edges'] if e['from']==current_node)
+                    page.locator('#atlas-inspector button').filter(has_text=re.compile('^'+re.escape(neighbor))).first.click();expect(page.locator('#atlas-inspector h3')).to_have_text(neighbor)
+                    selected=history_checkpoint(page,'legacy-selected-neighbor');guard['checkpoints'].append(selected);valid_share(selected,neighbor);require(selected['history_length']==initial_length+1,'Legacy neighbor selection did not create exactly one history entry')
+                    page.locator('#atlas-back').click();expect(page.locator('#atlas-inspector h3')).to_have_text(current_node)
+                    restored=history_checkpoint(page,'legacy-after-back');guard['checkpoints'].append(restored);require(restored['address_url']==legacy,'Back changed exact historical address or fragment');require(restored['address_state']=={'q':['math'],'classification':['PROVED_REVIEWED']},'Back changed historical filter semantics');valid_share(restored,current_node)
+                    require(restored['share_state'].get('q')==['math'] and restored['share_state'].get('classification')==['PROVED_REVIEWED'],'Share dropped restored historical filters');require(urlsplit(restored['share_url']).fragment=='current-atlas','Legacy Share omitted its valid atlas selection');require(restored['history_length']==selected['history_length'],'Legacy Back restoration added a history entry')
+                    page.locator('#atlas-forward').click();expect(page.locator('#atlas-inspector h3')).to_have_text(neighbor);forward=history_checkpoint(page,'legacy-after-forward');guard['checkpoints'].append(forward);require(forward['address_url']==selected['address_url'],'Legacy Forward did not restore the explicit neighbor entry');valid_share(forward,neighbor);require(forward['history_length']==selected['history_length'],'Legacy Forward restoration added a history entry');guard['passed']=True
+                finally:context.close()
+                failures=[]
+                for label,query,error_text in [
+                    ('wrong-main-snapshot',{'atlas-node':current_node,'main-snapshot':'c'*40},'another snapshot'),
+                    ('unknown-node',{'atlas-node':'missing.bookmark'},'Unknown node'),
+                    ('prototype-constructor',{'atlas-node':'constructor'},'Unknown node'),
+                    ('prototype-__proto__',{'atlas-node':'__proto__'},'Unknown node')]:
+                    guard={'bookmark':label,'passed':False,'checkpoints':[]};case['guards'].append(guard);context=browser.new_context(reduced_motion='reduce');page=context.new_page();page.set_default_timeout(15000);page.on('pageerror',lambda e:case['page_errors'].append(str(e)))
+                    try:
+                        refused=origin+'dependencies.html?'+urlencode({**query,'atlas-view':'list','equation':equation['id']})+'#current-atlas';page.goto(refused);expect(page.locator('#atlas-error')).to_contain_text(error_text);expect(page.locator('#atlas-canvas .atlas-node')).to_have_count(0);expect(page.locator('#equation-content pre')).to_have_count(0)
+                        diagnostic=page.locator('details').filter(has=page.locator('#atlas-diagnostics'));diagnostic.locator('summary').click();diagnostic.locator('button').filter(has_text=re.compile('^'+re.escape(current_node)+':')).click();expect(page.locator('#atlas-inspector h3')).to_have_text(current_node)
+                        # Explicitly choosing this current excerpt is also user
+                        # action; the refused bookmark must not supply it silently.
+                        page.locator('#equation-select').select_option(equation['id']);expect(page.locator('#equation-content pre')).to_have_text(equation['text']);selected=history_checkpoint(page,label+'-explicit-current');guard['checkpoints'].append(selected);valid_share(selected,current_node)
+                        page.locator('#atlas-back').click();expect(page.locator('#atlas-error')).to_contain_text(error_text);expect(page.locator('#atlas-inspector h3')).to_have_count(0);expect(page.locator('#atlas-canvas .atlas-node')).to_have_count(0);expect(page.locator('#atlas-list button')).to_have_count(0);expect(page.locator('#equation-content pre')).to_have_count(0);expect(page.locator('#equation-content')).to_contain_text('Source-bound bookmark refused')
+                        restored=history_checkpoint(page,label+'-after-back');guard['checkpoints'].append(restored);require(restored['address_url']==refused,f'{label}: Back changed the exact refused identity');require(restored['history_length']==selected['history_length'],f'{label}: Back added a history entry')
+                        guard['refused_share_matches']=restored['share_url']==refused
+                        if not guard['refused_share_matches']:failures.append(f'{label}: fresh Share after Back substituted the explicit current selection for the exact refused URL')
+                        page.locator('#atlas-forward').click();expect(page.locator('#atlas-error')).to_be_hidden();expect(page.locator('#atlas-inspector h3')).to_have_text(current_node);expect(page.locator('#equation-content pre')).to_have_text(equation['text']);forward=history_checkpoint(page,label+'-after-forward');guard['checkpoints'].append(forward);require(forward['address_url']==selected['address_url'],f'{label}: Forward did not restore the explicitly selected current entry');valid_share(forward,current_node);require(forward['share_state'].get('equation')==[equation['id']],f'{label}: Forward Share omitted the explicit current excerpt');require(forward['history_length']==selected['history_length'],f'{label}: Forward added a history entry');guard['passed']=guard['refused_share_matches']
+                    except Exception:guard['error']=traceback.format_exc();failures.append(label+': browser guard failed')
+                    finally:context.close()
+                case['guard_failures']=failures;require(not case['page_errors'],f'Page errors: {case["page_errors"]}');require(not failures,'; '.join(failures));case['passed']=True
+            except Exception:case['error']=traceback.format_exc()
             case={'case':'enlarged-text-and-monochrome','passed':False};report['cases'].append(case)
             try:
                 for width in [320,1200]:
