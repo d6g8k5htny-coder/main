@@ -66,3 +66,27 @@ auxiliaries on top of #447; frontier 66 → 69 with three open-target rows and t
 successors). Serial after #447 (or stacked on it, with the same rebuild rule). No gate, import, toolchain or proof-packet
 change. What it does not establish: nothing mathematical; the three successor Props stay `specified` and Mathlib-blocked
 (Gaussian regression, Kac-Rice; the planar argument), weeks each.
+
+## Bound candidate against landed Math- main `7f5f1c82` (2026-10-13, about 06:45Z; local only, nothing pushed)
+
+After #447 landed, the slice was bound by `lvs/r7/bind_lifetime.py` (fail-closed: asserts the worktree at `7f5f1c82` clean,
+reproduces the elaborated draft from the landed module plus the append block, makes the block's heading final, inserts the six
+register rows and the three rows' sentences, runs the gate's `check_register` in memory, reproduces the committed README/SCOPE
+byte-for-byte from the committed register before rendering, applies the frontier edits with every string asserted unique) into
+a scratch worktree. The resulting four files, as `git diff` against `7f5f1c82`: `candidate_on_7f5f1c82.patch`
+(sha256 `54993c7f4a71b118816e8fd7d05f6cda6b6d8f692ac8158bd35fcca13d498c2d`), 4 files, 366 register statement entries (360 + 6), 157 registered declarations
+(146 Props, 11 structures, 145 auxiliaries), frontier 66 -> 69 (open targets 2 -> 5).
+
+| file | bytes | sha256 |
+|---|---|---|
+| `Specifications/Lifetime.lean` | 70447 | `75943ed33570150ea58b6c12b9192eeeb04cf3241648298d5869da555cfa6211` |
+| `REGISTER.json` | 634186 | `391e86bb05750bfb6357aceae1212cbbf551be46f8b1b3ec93171d8193539172` |
+| `README.md` | 108130 | `668b4ca0c4a99b0c97c0327afb50326c097d24534f0a044d3d301559dcbc36ca` |
+| `SCOPE.md` | 295192 | `1fd40520b60424fd03460de4ea19869d0794bc908f0dce5b8cfe2fc9222a6cae` |
+
+Verification on the bound worktree (author, local, not a receipt): `check.py source --allow-dirty` exit 0 (366 statements, 11
+structures, 157 registered local statements, 23 sources verified in git history; worktree UNVERIFIED by construction);
+`test_check.py` OK in both interpreter modes; `lake env lean` of the bound `Lifetime.lean` at Lean 4.34.1 `5045d005` / Mathlib
+`d13f23b7` exit 0, no output (`elab_bound.log`, real 1m17s). Not run: `--execute`, hosted workflows (they run on the PR).
+On activation the publish is: apply the patch to a branch off `7f5f1c82` (or re-run the binder), commit, push, open the draft PR,
+bind the hosted runs. Nothing here moves a label; every new declaration enters `specified`.

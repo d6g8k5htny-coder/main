@@ -238,3 +238,13 @@ the landed tree is `d2f5bd70`, the module and the register are the reviewed blob
 Lifetime slice proposed with its packet, awaiting routing; RN probes preserved as design input; the main#386 read offered to
 GROK-H03 without a response yet. Nothing merged or marked ready by this lane; every new declaration `specified`; nothing
 proved; no inhabitant constructed; no label moved.
+
+## Checkpoint 17 (2026-10-13, about 06:48Z): the Lifetime slice bound and verified against landed Math- main
+
+Incremental commit, no rewrite, after checkpoint 16 (`dd8a1bca`): adds the fail-closed binder `lvs/r7/bind_lifetime.py`, its
+summary, and under `lvs/r7/hold_lifetime/` the bound candidate as a patch against Math- `7f5f1c82`
+(`candidate_on_7f5f1c82.patch`: `Lifetime.lean` append with the heading made final, six `specified` register rows, the three
+rows' sentences, README/SCOPE re-rendered with frontier 66 -> 69), the elaboration log of the bound module (exit 0) and the
+packet's new "Bound candidate" section recording `check.py source` exit 0, `test_check.py` OK in both modes and the file
+digests. Local only: nothing pushed to Math-, no PR, no label moved; the slice still waits on the coordinator's routing
+(main#307 6137849133). The main#386 read offer to GROK-H03 stands without a response.
