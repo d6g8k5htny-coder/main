@@ -1,6 +1,6 @@
 # Recovery reading copy: session `session_01Cz7WZybv8znP64SpPj6sWY` scratch work (2026-10-13)
 
-Published under `sandbox/` (zero authority, wipeable, never to be linked from a permanent record) in answer to the
+Published under `recovery/` (a recovery input with explicit retention, see below; zero scientific authority) in answer to the
 owner's recovery request on main#307 ([6136156988](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6136156988),
 expanded in [6136210973](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6136210973); implementation decision
 [6136231457](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6136231457)): preserve the still-local project
@@ -55,7 +55,14 @@ their `update_summary<n>.json`, the check and test logs (`*_check.log`, `*_tests
 fix rounds, the `.v1/.v2` candidates. The round-4 triage probes elaborate against the statement packet at the round-4 head
 (each probe file names it). The museum probe directories each have a `run_all.sh` or equivalent and an aggregate output.
 
-## Retention
+## Retention (explicit, per main#307 6136476552)
 
-This branch is a recovery input; it should be kept until the owner says the material is indexed elsewhere or discarded.
-Incremental checkpoints, if any, will be further commits on this branch with the manifest regenerated, never rewrites.
+This branch and this commit are a **recovery input**, not a disposable scratch copy: retain the payload branch and
+commit while any required work relies on them, until a verified durable replacement contains the actual bytes and
+the index packet (`incoming/claude-01cz-recovery-index-20261013`, draft main#386) is updated to point at it. An
+index alone is not a replacement backup; a locator or report is not the payload. No deletion is requested or
+authorised by this README. Incremental checkpoints, if any, are further commits on this branch with the manifest
+regenerated, never rewrites of history. The directory was moved here from `sandbox/recovery_01cz_20261013/`
+(commit `037436b4`, whose README carried the sandbox wording "wipeable, never to be linked from a permanent record");
+that wording is withdrawn for this material and this move is the reconciliation. The payload bytes and `MANIFEST.json`
+are unchanged by the move; only this README differs from `037436b4`.
