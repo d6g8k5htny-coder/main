@@ -1,0 +1,27 @@
+diff --git a/experiments/universality/two_parameter_cusp_population/test_population_certificate.py b/experiments/universality/two_parameter_cusp_population/test_population_certificate.py
+index 8341ca60..d781ec98 100644
+--- a/experiments/universality/two_parameter_cusp_population/test_population_certificate.py
++++ b/experiments/universality/two_parameter_cusp_population/test_population_certificate.py
+@@ -573,11 +573,21 @@ class MassControlRouteTests(unittest.TestCase):
+ 
+     def test_real_campaign_withholds_acceptance_after_mass_control_fault(self):
+         with self.halved_cdf_normalization():
+-            certificate = runner._campaign(pc, 0, time.monotonic() + 900)
++            controls = pc.negative_controls()
++        # Reuse the explicitly synthetic, otherwise accepting route fixture.
++        # Only the controls come from the real route-normalization fault above;
++        # this tests the soundness gate rather than a zero-budget short circuit.
++        fixture = stub_pc()
++        fixture.negative_controls = lambda: controls
++        certificate = runner._campaign(fixture, 80000, time.monotonic() + 900)
+         self.assertEqual(certificate['negative_controls']['status'], 'FAIL_IMPLEMENTATION')
+         self.assertEqual(certificate['status'], 'FAIL_IMPLEMENTATION')
+         self.assertEqual(certificate['scope_statuses']['exact_non_gaussian_population'],
+                          'FAIL_IMPLEMENTATION')
++        self.assertTrue(all(row['direct']['status'] == 'CERTIFIED'
++                            for row in certificate['rows']))
++        self.assertEqual([row['status'] for row in certificate['rows']],
++                         ['FAIL_IMPLEMENTATION'] * 8)
+         self.assertTrue(all(row['coefficient_status'] == 'NOT_RUN'
+                             for row in certificate['rows']))
+ 

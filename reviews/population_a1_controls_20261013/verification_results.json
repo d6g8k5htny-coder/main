@@ -1,0 +1,163 @@
+{
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "results": [
+    {
+      "label": "population_normal",
+      "command": [
+        "python3",
+        "-B",
+        "-E",
+        "-S",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "experiments/universality/two_parameter_cusp_population",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "seconds": 5.64042329788208
+    },
+    {
+      "label": "population_optimized",
+      "command": [
+        "python3",
+        "-B",
+        "-E",
+        "-O",
+        "-S",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "experiments/universality/two_parameter_cusp_population",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "seconds": 5.906890869140625
+    },
+    {
+      "label": "universality_normal",
+      "command": [
+        "python3",
+        "-B",
+        "-E",
+        "-S",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "experiments/universality",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "seconds": 12.77368688583374
+    },
+    {
+      "label": "universality_optimized",
+      "command": [
+        "python3",
+        "-B",
+        "-E",
+        "-O",
+        "-S",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "experiments/universality",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "seconds": 12.75981068611145
+    },
+    {
+      "label": "repository_normal",
+      "command": [
+        "python3",
+        "-B",
+        "-E",
+        "-S",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "seconds": 41.95947527885437
+    },
+    {
+      "label": "repository_optimized",
+      "command": [
+        "python3",
+        "-B",
+        "-E",
+        "-O",
+        "-S",
+        "-m",
+        "unittest",
+        "discover",
+        "-s",
+        "tests",
+        "-p",
+        "test_*.py",
+        "-v"
+      ],
+      "exit_code": 0,
+      "seconds": 126.42802572250366
+    },
+    {
+      "label": "pilot",
+      "command": [
+        "python3",
+        "-B",
+        "-E",
+        "-S",
+        "experiments/universality/run_pilot.py",
+        "--output",
+        "reviews/population_a1_controls_20261013/exploratory_pilot"
+      ],
+      "exit_code": 0,
+      "seconds": 0.447176456451416
+    },
+    {
+      "label": "pilot_verify",
+      "command": [
+        "python3",
+        "-B",
+        "-E",
+        "-S",
+        "experiments/universality/run_pilot.py",
+        "--verify",
+        "reviews/population_a1_controls_20261013/exploratory_pilot/observations.json"
+      ],
+      "exit_code": 0,
+      "seconds": 0.11377954483032227
+    },
+    {
+      "label": "published_verify",
+      "command": [
+        "python3",
+        "-B",
+        "-E",
+        "-S",
+        "experiments/universality/verify_published.py",
+        "experiments/universality/results/exploratory50"
+      ],
+      "exit_code": 0,
+      "seconds": 0.1180410385131836
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+test_conditioned_control_is_derived_from_the_computed_route (test_population_certificate.MassControlRouteTests.test_conditioned_control_is_derived_from_the_computed_route) ... FAIL
+test_missing_sign_control_is_derived_from_the_computed_route (test_population_certificate.MassControlRouteTests.test_missing_sign_control_is_derived_from_the_computed_route) ... FAIL
+test_real_campaign_withholds_acceptance_after_mass_control_fault (test_population_certificate.MassControlRouteTests.test_real_campaign_withholds_acceptance_after_mass_control_fault) ... FAIL
+test_rectangle_control_accepts_enclosure_and_rejects_disjoint_mass (test_population_certificate.MassControlRouteTests.test_rectangle_control_accepts_enclosure_and_rejects_disjoint_mass) ... ok
+test_saturation_at_and_above_support_uses_the_computed_route (test_population_certificate.MassControlRouteTests.test_saturation_at_and_above_support_uses_the_computed_route) ... FAIL
+test_unmutated_mass_controls_preserve_expected_probabilities (test_population_certificate.MassControlRouteTests.test_unmutated_mass_controls_preserve_expected_probabilities) ... ok
+test_whole_rectangle_control_fails_for_missing_route_normalization (test_population_certificate.MassControlRouteTests.test_whole_rectangle_control_fails_for_missing_route_normalization) ... FAIL
+
+======================================================================
+FAIL: test_conditioned_control_is_derived_from_the_computed_route (test_population_certificate.MassControlRouteTests.test_conditioned_control_is_derived_from_the_computed_route)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "./experiments/universality/two_parameter_cusp_population/test_population_certificate.py", line 571, in test_conditioned_control_is_derived_from_the_computed_route
+    self.assertEqual(controls['conditioned_mass'], (Q(1, 2), Q(1, 2)))
+AssertionError: Tuples differ: (Fraction(1, 1), Fraction(1, 1)) != (Fraction(1, 2), Fraction(1, 2))
+
+First differing element 0:
+Fraction(1, 1)
+Fraction(1, 2)
+
+- (Fraction(1, 1), Fraction(1, 1))
+?              ^               ^
+
++ (Fraction(1, 2), Fraction(1, 2))
+?              ^               ^
+
+
+======================================================================
+FAIL: test_missing_sign_control_is_derived_from_the_computed_route (test_population_certificate.MassControlRouteTests.test_missing_sign_control_is_derived_from_the_computed_route)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "./experiments/universality/two_parameter_cusp_population/test_population_certificate.py", line 565, in test_missing_sign_control_is_derived_from_the_computed_route
+    self.assertEqual(controls['missing_sign_mass'], (Q(1, 20), Q(1, 20)))
+AssertionError: Tuples differ: (Fraction(1, 10), Fraction(1, 10)) != (Fraction(1, 20), Fraction(1, 20))
+
+First differing element 0:
+Fraction(1, 10)
+Fraction(1, 20)
+
+- (Fraction(1, 10), Fraction(1, 10))
+?              ^                ^
+
++ (Fraction(1, 20), Fraction(1, 20))
+?              ^                ^
+
+
+======================================================================
+FAIL: test_real_campaign_withholds_acceptance_after_mass_control_fault (test_population_certificate.MassControlRouteTests.test_real_campaign_withholds_acceptance_after_mass_control_fault)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "./experiments/universality/two_parameter_cusp_population/test_population_certificate.py", line 577, in test_real_campaign_withholds_acceptance_after_mass_control_fault
+    self.assertEqual(certificate['negative_controls']['status'], 'FAIL_IMPLEMENTATION')
+AssertionError: 'PASS' != 'FAIL_IMPLEMENTATION'
+- PASS
++ FAIL_IMPLEMENTATION
+
+
+======================================================================
+FAIL: test_saturation_at_and_above_support_uses_the_computed_route (test_population_certificate.MassControlRouteTests.test_saturation_at_and_above_support_uses_the_computed_route)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "./experiments/universality/two_parameter_cusp_population/test_population_certificate.py", line 554, in test_saturation_at_and_above_support_uses_the_computed_route
+    self.assertEqual(pc.cdf_mass(tau), (Q(1, 10), Q(1, 10)))
+AssertionError: Tuples differ: (Fraction(1, 5), Fraction(1, 5)) != (Fraction(1, 10), Fraction(1, 10))
+
+First differing element 0:
+Fraction(1, 5)
+Fraction(1, 10)
+
+- (Fraction(1, 5), Fraction(1, 5))
+?              ^               ^
+
++ (Fraction(1, 10), Fraction(1, 10))
+?              ^^               ^^
+
+
+======================================================================
+FAIL: test_whole_rectangle_control_fails_for_missing_route_normalization (test_population_certificate.MassControlRouteTests.test_whole_rectangle_control_fails_for_missing_route_normalization)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "./experiments/universality/two_parameter_cusp_population/test_population_certificate.py", line 559, in test_whole_rectangle_control_fails_for_missing_route_normalization
+    self.assertFalse(controls['gates']['whole_rectangle_mass'])
+AssertionError: True is not false
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.018s
+
+FAILED (failures=5)

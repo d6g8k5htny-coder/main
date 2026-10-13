@@ -1,0 +1,34 @@
+test_conditioned_control_is_derived_from_the_computed_route (test_population_certificate.MassControlRouteTests.test_conditioned_control_is_derived_from_the_computed_route) ... ok
+test_missing_sign_control_is_derived_from_the_computed_route (test_population_certificate.MassControlRouteTests.test_missing_sign_control_is_derived_from_the_computed_route) ... ok
+test_real_campaign_withholds_acceptance_after_mass_control_fault (test_population_certificate.MassControlRouteTests.test_real_campaign_withholds_acceptance_after_mass_control_fault) ... FAIL
+test_rectangle_control_accepts_enclosure_and_rejects_disjoint_mass (test_population_certificate.MassControlRouteTests.test_rectangle_control_accepts_enclosure_and_rejects_disjoint_mass) ... ok
+test_saturation_at_and_above_support_uses_the_computed_route (test_population_certificate.MassControlRouteTests.test_saturation_at_and_above_support_uses_the_computed_route) ... ok
+test_unmutated_mass_controls_preserve_expected_probabilities (test_population_certificate.MassControlRouteTests.test_unmutated_mass_controls_preserve_expected_probabilities) ... ok
+test_whole_rectangle_control_fails_for_missing_route_normalization (test_population_certificate.MassControlRouteTests.test_whole_rectangle_control_fails_for_missing_route_normalization) ... FAIL
+
+======================================================================
+FAIL: test_real_campaign_withholds_acceptance_after_mass_control_fault (test_population_certificate.MassControlRouteTests.test_real_campaign_withholds_acceptance_after_mass_control_fault)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "./experiments/universality/two_parameter_cusp_population/test_population_certificate.py", line 577, in test_real_campaign_withholds_acceptance_after_mass_control_fault
+    self.assertEqual(certificate['negative_controls']['status'], 'FAIL_IMPLEMENTATION')
+AssertionError: 'PASS' != 'FAIL_IMPLEMENTATION'
+- PASS
++ FAIL_IMPLEMENTATION
+
+
+======================================================================
+FAIL: test_whole_rectangle_control_fails_for_missing_route_normalization (test_population_certificate.MassControlRouteTests.test_whole_rectangle_control_fails_for_missing_route_normalization)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "./experiments/universality/two_parameter_cusp_population/test_population_certificate.py", line 560, in test_whole_rectangle_control_fails_for_missing_route_normalization
+    self.assertEqual(controls['status'], 'FAIL_IMPLEMENTATION')
+AssertionError: 'PASS' != 'FAIL_IMPLEMENTATION'
+- PASS
++ FAIL_IMPLEMENTATION
+
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.022s
+
+FAILED (failures=2)

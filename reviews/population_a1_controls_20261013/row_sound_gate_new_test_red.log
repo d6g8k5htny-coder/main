@@ -1,0 +1,29 @@
+test_real_campaign_withholds_acceptance_after_mass_control_fault (test_population_certificate.MassControlRouteTests.test_real_campaign_withholds_acceptance_after_mass_control_fault) ... FAIL
+
+======================================================================
+FAIL: test_real_campaign_withholds_acceptance_after_mass_control_fault (test_population_certificate.MassControlRouteTests.test_real_campaign_withholds_acceptance_after_mass_control_fault)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "./experiments/universality/two_parameter_cusp_population/test_population_certificate.py", line 589, in test_real_campaign_withholds_acceptance_after_mass_control_fault
+    self.assertEqual([row['status'] for row in certificate['rows']],
+AssertionError: Lists differ: ['PASS', 'PASS', 'PASS', 'PASS', 'PASS', 'P[16 chars]ASS'] != ['FAIL_IMPLEMENTATION', 'FAIL_IMPLEMENTATIO[136 chars]ION']
+
+First differing element 0:
+'PASS'
+'FAIL_IMPLEMENTATION'
+
+- ['PASS', 'PASS', 'PASS', 'PASS', 'PASS', 'PASS', 'PASS', 'PASS']
++ ['FAIL_IMPLEMENTATION',
++  'FAIL_IMPLEMENTATION',
++  'FAIL_IMPLEMENTATION',
++  'FAIL_IMPLEMENTATION',
++  'FAIL_IMPLEMENTATION',
++  'FAIL_IMPLEMENTATION',
++  'FAIL_IMPLEMENTATION',
++  'FAIL_IMPLEMENTATION']
+
+----------------------------------------------------------------------
+Ran 1 test in 0.099s
+
+FAILED (failures=1)
+{"tests_run": 1, "failures": ["test_population_certificate.MassControlRouteTests.test_real_campaign_withholds_acceptance_after_mass_control_fault"], "errors": [], "skipped": 0}
