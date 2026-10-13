@@ -23,7 +23,7 @@ Dylan Roy — delegated AI work. Actual performer: Anthropic Claude, Claude Code
 ## Author decisions as drafted (defaults)
 
 1. **Theorem 2.1 strength.** Theorem 2.1 = E10's two-provider form `c ℓ^{-1/3}(1+O(ℓ^{1/3}))`, proved in §3; the merged three-term law (E18/E19/E43) = Theorem 2.3; the later refinements (E60–E77) = Remark 2.4. Switches: put Theorem 2.3 into Theorem 2.1, or move it to the Discussion.
-2. **Human review.** A disclosure (§7): "No independent human specialist has reviewed this work. The author has reviewed it throughout." (owner statement main#229 5973603003).
+2. **Human review.** A disclosure (§7): "No independent human specialist has reviewed this work." (owner statement main#229 5973603003). The draft says nothing about the author's own reading; the pre-delivery check removed a sentence that did (MAJOR 1 below).
 3. **Planar material.** Discussion only (§5.5).
 
 ## Placement of the V2 amendments
@@ -108,7 +108,7 @@ A fresh read-only checker that had not seen the drafting compared every display,
   - the [R18], [R20] and [R21] locators are added;
   - the bibliography is corrected (Rice, Cartwright–Longuet-Higgins doi, Lindgren 2019 pp. 100–128, Lindgren–Rychlik doi, Klein's first name).
 
-## Revision r1 (13 October, about 18:40Z)
+## Revision r1 (13 October, about 18:20Z)
 
 r0 is the PDF delivered first: 533,836 B, SHA-256 `8270e498e142f3cb94f1d1d45b9302b2518912593af2de4bf5478894d59d916e`. Git keeps it at commit `6deb0899` of main#389, and the author's archive keeps it too. r1 is this PDF, 19 pages.
 
@@ -133,6 +133,25 @@ r0 is the PDF delivered first: 533,836 B, SHA-256 `8270e498e142f3cb94f1d1d45b930
 **Pages of r1 whose text changed:** 1, 2, 5, 8, 10, 12, 13, 14, 16 and 17. Every other page differs only by reflow.
 
 **Correction to the edit pack.** E8 item 3 called `coefficients/side24_v1` "the 10⁻¹⁰⁶ enclosure of `c_{3,∞}`". The record gives a twenty-digit enclosure of `c_{3,24}` and the bound `|c_{d,24}/c_{d,ref} − 1| < 10⁻¹⁰⁶`. This is recorded as E80.
+
+## Revision r2 (13 October, about 19:40Z)
+
+r1 is commit `56b680cd`: 19 pages, 536,244 B, SHA-256 `aa8667258dbf92d066d23e4ee22b76709f3a4246f4fa2da3a9033f9988c30077`. Cursor's byte-diff readback of `6deb0899..56b680cd` passed (main#389 6152358620). r2 is this PDF: 19 pages, 536,835 B, SHA-256 `b00c323ca827672c2072ffd257d957f33210fa04f4446fc6f620da66f215163b`.
+
+**Commit 1 (`f94ab1d6`): the Slice B AMEND of Cursor (Grok), main#389 6153161213, applied exactly.** In §5.4, "A simulation over 8.4·10⁷ correlation lengths" replaces 8·10⁷. The Theorem 1D record gives a total length of 8.4·10⁷ (Math- `frontiers/d1_third_order_law_20261001/PROOF.md`, line 442).
+
+**Commit 2 (`ece84b95`): the Slice C AMEND of Cursor (Grok), main#389 6153388424, applied exactly.**
+1. [R3] reads "main issue 67". It read "main PR 67", but the xAI R1–R6 acceptances are comments on issue 67.
+2. §0, the status row of Theorem 2.3:
+   - the links in [R11], and `c₁` and the closed form of `c₂`, each have an OpenAI/Codex review and a Grok Bot read;
+   - the torus transfer of `c₂` has an OpenAI `ACCEPT_SCOPED` of slices A–C and an Anthropic acceptance of slices A and C, and no Grok Bot read.
+3. §7 makes the same two points. It also says that Theorems U, K, P and Z in Remark 2.5 rest on records with one or two providers' reviews, and that `B_{3,24} ≈ 10.2` is exploration only.
+
+**Commit 3: author corrections to this change list.** No draft text changes.
+- The r1 heading said "about 18:40Z", but r1 was pushed at 18:20Z.
+- The description of decision 2 still quoted the sentence that the pre-delivery check removed ("The author has reviewed it throughout"). It now describes the draft's actual wording.
+
+**Where r2's text changed:** §0's status table (page 2), §5.4, §7 and [R3]. The longer status row moves the page breaks, so every later page differs only by reflow.
 
 ## "Do not print" compliance (checked item by item)
 
