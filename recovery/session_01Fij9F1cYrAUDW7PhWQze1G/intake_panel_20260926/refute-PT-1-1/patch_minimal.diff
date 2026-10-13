@@ -1,0 +1,25 @@
+--- /tmp/claude-0/-home-user-main/cc02047b-3b89-56eb-8fc2-7afcd95034d5/scratchpad/intake_review/refute-PT-1-1/orig/tools/public_intake_check.py	2026-09-26 17:18:07.580244339 +0000
++++ /tmp/claude-0/-home-user-main/cc02047b-3b89-56eb-8fc2-7afcd95034d5/scratchpad/intake_review/refute-PT-1-1/patched/tools/public_intake_check.py	2026-09-26 17:18:34.980183291 +0000
+@@ -26,6 +26,9 @@
+ HEX64 = re.compile(r'[0-9a-f]{64}\Z')
+ REPOSITORY = re.compile(r'[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+\Z')
+ SAFE_PATH = re.compile(r'[A-Za-z0-9_][A-Za-z0-9_. /-]*\Z')
++NAME_MAX = 255  # ext4/APFS/NTFS component limit; a longer name cannot be checked out.
++PATH_MAX = 4000  # Below PATH_MAX (4096) with checkout-prefix headroom.
++WINDOWS_RESERVED = {'CON', 'PRN', 'AUX', 'NUL'} | {p + d for p in ('COM', 'LPT') for d in '123456789'}
+ CREDENTIALS = [
+     re.compile(rb'-----BEGIN (?:RSA |EC |OPENSSH |DSA )?PRIVATE KEY-----'),
+     re.compile(rb'\bgh[pousr]_[A-Za-z0-9]{36,}\b'),
+@@ -57,8 +60,12 @@
+ 
+ def safe_path(path):
+     require(isinstance(path, str) and SAFE_PATH.fullmatch(path), 'unsafe path')
++    require(len(path) <= PATH_MAX, 'path too long')
+     parts = path.split('/')
+     require(all(p not in ('', '.', '..') and not p.startswith('.') for p in parts), 'unsafe path')
++    # Names that cannot be checked out on common filesystems, or that read as CLI options.
++    require(all(len(p) <= NAME_MAX and p[0] not in ' -' and p[-1] not in ' .'
++                and p.split('.')[0].upper() not in WINDOWS_RESERVED for p in parts), 'unportable path component')
+     require(str(PurePosixPath(path)) == path, 'noncanonical path')
+     return parts
+ 
