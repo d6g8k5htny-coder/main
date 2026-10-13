@@ -1734,15 +1734,21 @@ class UniversalitySourcesReading(unittest.TestCase):
         self.assertNotIn('universality',prose.lower());self.assertNotIn('universality',rows.lower())
         # the proposals are named only in the cut's scope paragraph: not in its status-words rows, the hero or the entry rows above it
         above=self.page().split('<section class="hero">',1)[1].split(f'<section id="{self.CUT_ID}"',1)[0]
-        # The generated block has separate source/capacity checks; decimal metadata is not proposal prose.
+        # Only known numeric metadata is exempt; generated prose and links still obey proposal placement.
         start,end='<!-- CURRENT-SITE:START -->','<!-- CURRENT-SITE:END -->'
         self.assertEqual(above.count(start),above.count(end))
         self.assertLessEqual(above.count(start),1)
         if start in above:
             self.assertLess(above.index(start),above.index(end))
             before,generated=above.split(start,1)
-            _,after=generated.split(end,1)
-            above=before+after
+            generated,after=generated.split(end,1)
+            generated=re.sub(
+                r'(<section id="current-research" class="current-research" data-current-digest="[0-9a-f]{64}" data-current-bytes=")\d+(">)',
+                r'\1BYTES\2',generated)
+            generated=re.sub(
+                r'(<p class="current-capacity">History capacity: )\d+( of )\d+( mathematical archives; )\d+( of )\d+( conservative retained bytes)',
+                r'\1ARCHIVES\2ARCHIVE_LIMIT\3BYTES\4BYTE_LIMIT\5',generated)
+            above=before+generated+after
         # Source pins and digests can contain these digits; proposal numbers are separate tokens.
         proposal_number=re.compile(r'\b(?:330|331)\b')
         above_numbers=proposal_number.findall(above)
@@ -1941,11 +1947,36 @@ class ProposalNumberGuardRegression(unittest.TestCase):
         self.assertTrue(result.wasSuccessful(), 'a hex digest was read as a proposal number')
 
     def test_generated_metadata_numbers_do_not_name_proposals(self):
-        fragment = (f'<p data-current-digest="{self.DIGEST_WITH_BOTH}">History capacity: 331 of 512 mathematical archives; '
-                    'payload: 1033100 bytes</p>')
-        page = self.baseline().replace('<!-- CURRENT-SITE:END -->', fragment + '<!-- CURRENT-SITE:END -->', 1)
-        result = self.guard_result(page)
-        self.assertTrue(result.wasSuccessful(), 'generated capacity metadata was read as a proposal')
+        for archives in (330, 331):
+            with self.subTest(archives=archives):
+                fragment = (f'<section id="current-research" class="current-research" data-current-digest="{self.DIGEST_WITH_BOTH}" data-current-bytes="331">'
+                            f'<p class="current-capacity">History capacity: {archives} of 512 mathematical archives; '
+                            '1033100 of 805306368 conservative retained bytes. No history is pruned.</p></section>')
+                page = self.baseline().replace('<!-- CURRENT-SITE:END -->', fragment + '<!-- CURRENT-SITE:END -->', 1)
+                self.assertTrue(self.guard_result(page).wasSuccessful(), 'numeric metadata was read as a proposal')
+
+    def test_generated_prose_and_proposal_links_still_fail(self):
+        for fragment in ('<p>proposal 331</p>', '<p>Main #330</p>', '<p>331</p>',
+                         '<a href="https://github.com/d6g8k5htny-coder/main/pull/331">#331 landed</a>',
+                         '<a href="https://github.com/d6g8k5htny-coder/main/pull/330">Proposal</a>'):
+            with self.subTest(generated=fragment):
+                page = self.baseline().replace('<!-- CURRENT-SITE:END -->', fragment + '<!-- CURRENT-SITE:END -->', 1)
+                self.assertFalse(self.guard_result(page).wasSuccessful(), 'generated proposal content escaped the guard')
+
+    def test_capacity_prose_and_links_after_numeric_fields_still_fail(self):
+        for fragment in ('proposal 331', '<a href="https://github.com/d6g8k5htny-coder/main/pull/331">#331 landed</a>'):
+            with self.subTest(capacity=fragment):
+                capacity = ('<p class="current-capacity">History capacity: 331 of 512 mathematical archives; '
+                            f'1033100 of 805306368 conservative retained bytes. {fragment}</p>')
+                page = self.baseline().replace('<!-- CURRENT-SITE:END -->', capacity + '<!-- CURRENT-SITE:END -->', 1)
+                self.assertFalse(self.guard_result(page).wasSuccessful(), 'capacity text after metadata escaped the guard')
+
+    def test_metadata_looking_generated_prose_still_fails(self):
+        for fragment in ('<p>data-current-bytes="331"</p>',
+                         '<p>History capacity: 331 of 512 mathematical archives; 1033100 of 805306368 conservative retained bytes</p>'):
+            with self.subTest(prose=fragment):
+                page = self.baseline().replace('<!-- CURRENT-SITE:END -->', fragment + '<!-- CURRENT-SITE:END -->', 1)
+                self.assertFalse(self.guard_result(page).wasSuccessful(), 'metadata-looking prose escaped the guard')
 
     def test_hex_pins_in_reader_text_do_not_add_proposal_mentions(self):
         # Fixture text exercises this count; the separate immutable-cut check is unchanged.
