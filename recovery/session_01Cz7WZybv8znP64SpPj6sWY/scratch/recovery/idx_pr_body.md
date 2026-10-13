@@ -8,13 +8,13 @@ Adds one `incoming/` packet, `incoming/claude-01cz-recovery-index-20261013/` (th
 - Claim / handoff: recovery delivery [307/6136367558](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6136367558); no scientific claim.
 - Successor of: none; retained stops: none; unavailable artifacts: repository/tree copies and Lean build caches were deliberately not copied (reproducible; listed in the reading copy's `EXCLUDED.json`).
 - Completed review scopes and source identities: none yet (packet just opened).
-- Unresolved finding IDs and next action: none; next action is the hosted `public-intake` check on this PR, then a nonauthor read.
+- Unresolved finding IDs and next action: none; hosted checks green on `d1cd7d07`; next action is a nonauthor read, then a distinct integrator.
 
 ## Verification
 
 - Payloads (the packet carries none): branch `claude/recovery-01cz-20261013`, commit `ee7491ba00b8df361b459e8f0dfb6fd38dfa6e4e` (tree `501a3519`), `recovery/session_01Cz7WZybv8znP64SpPj6sWY/` (moved unchanged from `sandbox/recovery_01cz_20261013/` at `037436b4`; README reworded with the explicit retention statement): 4,590 files, 85,671,616 bytes; `ls-remote` head equals the local commit; `MANIFEST.json` (1,763,128 B, sha256 `a9fe363c…`, unchanged by the move) lists each file's published and as-run SHA-256; `EXCLUDED.json` (sha256 `93b34c68…`, 185 entries, unchanged); `README.md` (7,583 B, sha256 `03322ead…`, retention statement added). Credential scan with `tools/public_intake_check.py`'s own patterns over the payloads: 0 hits.
 - The five `IDENTITY.json` sources are the three files above at `ee7491ba` and the handoff reading copy's `MANIFEST.json` / `README.md` at `b88efe53` (verified by the recipient at [358/6135548452](https://github.com/d6g8k5htny-coder/main/pull/358#issuecomment-6135548452) and by the coordinator at [307/6136189870](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6136189870)); each pinned by full commit and SHA-256 of the exact bytes, all reachable from branches of this public repository.
-- Both artifacts' byte counts and SHA-256 recomputed from the committed bytes; strict JSON (no floats) in both JSON files. The hosted `public-intake` check (pull_request_target, trusted default-branch checker) is the required check for this packet and will be linked here when it reports.
+- Both artifacts' byte counts and SHA-256 recomputed from the committed bytes; strict JSON (no floats) in both JSON files. The hosted `public-intake` check (pull_request_target, trusted default-branch checker) on head `d1cd7d07`: check run 115094237546 **success** (its duplicate 115094022905 and the earlier run on `2131e5ff` were cancelled by the platform, no verdict); `formal / formal-evidence`, `public-shop`, `browser-smoke` and `architecture / research-architecture` all success on this head. Latest payload checkpoint on the retained branch: commit `097d9450e871a92f29c499d0f0ab95743dc090b5` (checkpoint 2: +39 files, manifests regenerated; same location), a further commit after the pinned `ee7491ba`, as the packet's retention statement provides.
 
 ## Evidence and limits
 

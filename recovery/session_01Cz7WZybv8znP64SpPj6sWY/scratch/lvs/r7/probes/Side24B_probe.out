@@ -1,0 +1,21 @@
+condHessianCov : (d : ℕ) → (E d → ℝ) → E d → (Fin d → E d) → Matrix (TransIndex d) (TransIndex d) ℝ
+coneMomentOf : (d : ℕ) → (E d → ℝ) → E d → (Fin d → E d) → ℝ
+PeriodicCoefficientInterface2.coneMoment_def : ∀ (self : PeriodicCoefficientInterface2) (d : ℕ),
+  d = 2 ∨ d = 3 →
+    ∀ (hd : 0 < d) (R : Fin d → E d),
+      Orthonormal ℝ R → self.coneMoment d (R ⟨0, hd⟩) = coneMomentOf d (K24 d) (R ⟨0, hd⟩) R
+CoefficientEnclosure2 : PeriodicCoefficientInterface2 → Prop
+ReferenceComparison2 : PeriodicCoefficientInterface2 → Prop
+@ProbabilityTheory.multivariateGaussian : {ι : Type u_1} →
+  [Fintype ι] → [DecidableEq ι] → EuclideanSpace ℝ ι → Matrix ι ι ℝ → Measure (EuclideanSpace ℝ ι)
+@ProbabilityTheory.multivariateGaussian_of_not_posSemidef : ∀ {ι : Type u_1} [inst : Fintype ι] [inst_1 : DecidableEq ι]
+  (μ : EuclideanSpace ℝ ι) {S : Matrix ι ι ℝ},
+  ¬S.PosSemidef → ProbabilityTheory.multivariateGaussian μ S = Measure.dirac μ
+@ProbabilityTheory.isGaussian_multivariateGaussian : ∀ {ι : Type u_1} [inst : Fintype ι] [inst_1 : DecidableEq ι]
+  {μ : EuclideanSpace ℝ ι} {S : Matrix ι ι ℝ}, ProbabilityTheory.IsGaussian (ProbabilityTheory.multivariateGaussian μ S)
+@ProbabilityTheory.covarianceBilin_multivariateGaussian : ∀ {ι : Type u_1} [inst : Fintype ι] [inst_1 : DecidableEq ι]
+  {μ : EuclideanSpace ℝ ι} {S : Matrix ι ι ℝ},
+  S.PosSemidef →
+    ∀ (x y : EuclideanSpace ℝ ι),
+      ((ProbabilityTheory.covarianceBilin (ProbabilityTheory.multivariateGaussian μ S)) x) y = x.ofLp ⬝ᵥ S.mulVec y.ofLp
+exit=0

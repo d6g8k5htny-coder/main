@@ -75,3 +75,10 @@ profile, the posted delivery texts and the index-packet drafts); `scratch/lvs/r7
 notice, checkpoint and PR texts. `MANIFEST.json` and `EXCLUDED.json` are regenerated over the whole copy (same scheme,
 published and as-run digests per file; the scrub now also replaces the owner's relay local part by a placeholder). Changed
 files are files this session kept editing after the first copy; their earlier bytes remain in `037436b4` / `ee7491ba`.
+
+## Checkpoint 3 (2026-10-13, about 02:30Z)
+
+Incremental commit, no rewrite: 8 files added and 2 changed since `097d9450` (none removed); now 4,637 files,
+86,192,343 bytes. Adds the round-7 feasibility probe `scratch/lvs/r7/probes/Side24B_probe.lean` (4,724 B, sha256
+`f630a7d1…`, no theorem, no `sorry`) with its elaboration output (exit 0 at Lean 4.34.1 / Mathlib `d13f23b7`), the
+round-7 first-slice proposal and its addendum as posted on main#307, and the recovery texts of checkpoint 2.
