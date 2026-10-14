@@ -1,0 +1,32 @@
+start 2026-10-14T20:57:48Z
+d5de08a0d982032a3a409615fb3842b5a985c16b
+derived formal/README.md: manifest 54436dfd808547d9 file 54436dfd808547d9 -> MATCH
+  base manifest 4e6302e9174b7b6b base file 4e6302e9174b7b6b
+derived formal/REVIEW_LANE.md: manifest 887f56209471fc01 file 887f56209471fc01 -> MATCH
+  base manifest 84aba7776af4beff base file 84aba7776af4beff
+top-level fields differing from base: ['files']
+files entries differing from base: ['formal/README.md', 'formal/REVIEW_LANE.md']
+P1 source-only gate at head: rc=0 {"alignment_status": "PENDING_INDEPENDENT_REVIEW", "formalization_status": "proved", "package": "side24-arithm
+P2 --refresh-hashes: rc=0 updated 0 file hashes in formal/manifest.json; manifest bytes UNCHANGED
+T0 head -B -S: rc=0 Ran 43 tests in 7.820s; OK (7.9s)
+T0 head -B -O -S: rc=0 Ran 43 tests in 8.286s; OK (8.4s)
+TM wrong hash for formal/README.md [-B -S]: rc=1 CAUGHT | Ran 43 tests in 0.189s; FAILED (failures=1, errors=3) (0.3s)
+TM wrong hash for formal/README.md [-B -O -S]: rc=1 CAUGHT | Ran 43 tests in 0.194s; FAILED (failures=1, errors=3) (0.3s)
+TM base (stale) hash for formal/README.md [-B -S]: rc=1 CAUGHT | Ran 43 tests in 0.197s; FAILED (failures=1, errors=3) (0.3s)
+TM base (stale) hash for formal/README.md [-B -O -S]: rc=1 CAUGHT | Ran 43 tests in 0.216s; FAILED (failures=1, errors=3) (0.3s)
+TM one byte appended to formal/README.md, hash not updated [-B -S]: rc=1 CAUGHT | Ran 43 tests in 0.236s; FAILED (failures=1, errors=3) (0.3s)
+TM one byte appended to formal/README.md, hash not updated [-B -O -S]: rc=1 CAUGHT | Ran 43 tests in 0.179s; FAILED (failures=1, errors=3) (0.2s)
+TM wrong hash for formal/REVIEW_LANE.md [-B -S]: rc=1 CAUGHT | Ran 43 tests in 0.194s; FAILED (failures=1, errors=3) (0.3s)
+TM wrong hash for formal/REVIEW_LANE.md [-B -O -S]: rc=1 CAUGHT | Ran 43 tests in 0.174s; FAILED (failures=1, errors=3) (0.2s)
+TM base (stale) hash for formal/REVIEW_LANE.md [-B -S]: rc=1 CAUGHT | Ran 43 tests in 0.168s; FAILED (failures=1, errors=3) (0.2s)
+TM base (stale) hash for formal/REVIEW_LANE.md [-B -O -S]: rc=1 CAUGHT | Ran 43 tests in 0.162s; FAILED (failures=1, errors=3) (0.2s)
+TM one byte appended to formal/REVIEW_LANE.md, hash not updated [-B -S]: rc=1 CAUGHT | Ran 43 tests in 0.179s; FAILED (failures=1, errors=3) (0.2s)
+TM one byte appended to formal/REVIEW_LANE.md, hash not updated [-B -O -S]: rc=1 CAUGHT | Ran 43 tests in 0.152s; FAILED (failures=1, errors=3) (0.2s)
+TM README entry removed from files [-B -S]: rc=1 CAUGHT | Ran 43 tests in 0.155s; FAILED (failures=1, errors=3) (0.2s)
+TM README entry removed from files [-B -O -S]: rc=1 CAUGHT | Ran 43 tests in 0.156s; FAILED (failures=1, errors=3) (0.2s)
+TM malformed manifest (truncated JSON) [-B -S]: rc=1 CAUGHT | Ran 43 tests in 0.160s; FAILED (failures=1, errors=3) (0.2s)
+TM malformed manifest (truncated JSON) [-B -O -S]: rc=1 CAUGHT | Ran 43 tests in 0.156s; FAILED (failures=1, errors=3) (0.3s)
+TM duplicate key in manifest [-B -S]: rc=1 CAUGHT | Ran 43 tests in 0.167s; FAILED (failures=1, errors=3) (0.2s)
+TM duplicate key in manifest [-B -O -S]: rc=1 CAUGHT | Ran 43 tests in 0.177s; FAILED (failures=1, errors=3) (0.2s)
+restored: OK; git status: clean
+end 2026-10-14T20:58:09Z

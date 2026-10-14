@@ -1,0 +1,63 @@
+start 2026-10-14T20:53:14Z
+head d5de08a0d982032a3a409615fb3842b5a985c16b (expected d5de08a0d982032a3a409615fb3842b5a985c16b) tree 2a2cfbf973da7b34344f0563a0ee3dae59e67a7d
+main f16b947fec8bcada0fed1cbe0d9600a590ee19d7 (expected f16b947fec8bcada0fed1cbe0d9600a590ee19d7)
+parents of head: f16b947fec8bcada0fed1cbe0d9600a590ee19d7
+merge 2e3f3fbd6cac1a0599ad16c2a0312395384d6d3d parents f16b947fec8bcada0fed1cbe0d9600a590ee19d7 d5de08a0d982032a3a409615fb3842b5a985c16b tree 2a2cfbf973da7b34344f0563a0ee3dae59e67a7d
+== changed paths vs base
+ formal/README.md      | 14 ++++++++++----
+ formal/REVIEW_LANE.md |  7 +++++--
+ formal/manifest.json  |  4 ++--
+ 3 files changed, 17 insertions(+), 8 deletions(-)
+  formal/README.md base f762662e head a3dd293c
+  formal/REVIEW_LANE.md base ff64b1c4 head a4796b06
+  formal/manifest.json base 72b2644b head 9ce8934c
+== dependency slice (head blob == base blob?)
+  tools/formal_gate_check.py b057225d same
+  tests/test_formal_gate.py 0b36e513 same
+  tools/required_formal_check.py b08c7c7f same
+  tests/test_required_formal_check.py 6b6b94e5 same
+  tests/test_required_formal_binding_control.py c2badd7c same
+  tests/test_architecture_evidence_adapter.py 92727462 same
+  tools/navigation_check.py f2dec4c5 same
+  tools/workspace_landing_check.py 07ccd323 same
+  docs/FORMAL_VERIFICATION.md acae67cc same
+  formal/SCOPE.md dea7de28 same
+  formal/GLOSSARY.md c5736cd8 same
+  formal/ALIGNMENT.md d1c3de1b same
+  docs/NAVIGATION.json 1767cfb6 same
+== controls
+derived formal/README.md: manifest 54436dfd808547d9 file 54436dfd808547d9 -> MATCH
+  base manifest 4e6302e9174b7b6b base file 4e6302e9174b7b6b
+derived formal/REVIEW_LANE.md: manifest 887f56209471fc01 file 887f56209471fc01 -> MATCH
+  base manifest 84aba7776af4beff base file 84aba7776af4beff
+top-level fields differing from base: ['files']
+files entries differing from base: ['formal/README.md', 'formal/REVIEW_LANE.md']
+P1 source-only gate at head: rc=0 {"alignment_status": "PENDING_INDEPENDENT_REVIEW", "formalization_status": "proved", "package": "side24-arithm
+P2 --refresh-hashes: rc=0 updated 0 file hashes in formal/manifest.json; manifest bytes UNCHANGED
+M wrong hash for formal/README.md: rc=1 CAUGHT | FORMAL_GATE_FAIL: source hash mismatch: formal/README.md
+M base (stale) hash for formal/README.md: rc=1 CAUGHT | FORMAL_GATE_FAIL: source hash mismatch: formal/README.md
+M one byte appended to formal/README.md, hash not updated: rc=1 CAUGHT | FORMAL_GATE_FAIL: source hash mismatch: formal/README.md
+M wrong hash for formal/REVIEW_LANE.md: rc=1 CAUGHT | FORMAL_GATE_FAIL: source hash mismatch: formal/REVIEW_LANE.md
+M base (stale) hash for formal/REVIEW_LANE.md: rc=1 CAUGHT | FORMAL_GATE_FAIL: source hash mismatch: formal/REVIEW_LANE.md
+M one byte appended to formal/REVIEW_LANE.md, hash not updated: rc=1 CAUGHT | FORMAL_GATE_FAIL: source hash mismatch: formal/REVIEW_LANE.md
+M README entry removed from files: rc=1 CAUGHT | FORMAL_GATE_FAIL: unbound control or scope file: ['formal/README.md']
+M malformed manifest (truncated JSON): rc=1 CAUGHT | FORMAL_GATE_FAIL: Unterminated string starting at: line 362 column 7 (char 17355)
+M duplicate key in manifest: rc=1 CAUGHT | FORMAL_GATE_FAIL: duplicate JSON key: schema_version
+restored: OK; git status: clean
+== PY [-B -S] formal-related suites
+Ran 172 tests in 57.359s
+
+OK
+== PY [-B -O -S] formal-related suites
+Ran 172 tests in 60.145s
+
+OK
+== navigation_check (offline)
+  "fragment_links": 23,
+  "local_links": 229,
+  "pages": 29,
+  "problems": [],
+== workspace_landing_check
+{"historical_files": 2, "local_links": 185, "pages": 16, "problems": [], "scope": "LANDING_LINKS_AND_HISTORICAL_IDENTITY_ONLY"}
+== git status
+end 2026-10-14T20:55:14Z
