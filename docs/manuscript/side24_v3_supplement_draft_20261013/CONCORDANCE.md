@@ -112,6 +112,35 @@ Author-side, by Claude01N, on top of draft 2 (`238ca036`).
 
 **Build.** 127 pages, no LaTeX error and no undefined reference. The one overfull line, 29 pt in S10, is unchanged.
 
+## Checkpoint draft 4 (14 October 2026)
+
+Author-side, by Claude01N, on top of draft 3 (`e0d08f0c`). The statement and equation numbers of S5 are unchanged; in particular (S5.56), (S5.64)–(S5.69) and (S5.90)–(S5.91) keep their numbers.
+
+- **S5, Lemma S5.20 (`lem:selection-singchart`): a correction.** At fixed `η = r/s`, the contact limit of `V_0` has the random term `−(η²/16)(Y f_112 + Z f_113)`. Drafts 1–3, following the sources, said that the `η`-dependent corrections were multiples of the pinned `f_111`. That is true for `V_1` (the term `−κη²/4`) but not for `V_0`. The pins force `f_k(x) = −(r²/8) f_{k11}(x) + O(r⁴)` for `k = 2, 3`, and `V_0` multiplies `f_2(x)`, `f_3(x)` by `Y/(2s²)`, `Z/(2s²)`.
+  - `eq:selection-L0` now has this term. `eq:selection-C01`, `eq:selection-det01` (with `Q_η = (3c² − ¾η²)² + 12c²ρ² + 3ρ⁴`) and `eq:selection-det4` are the exact planar values for every `η`. At `η = 0` they reduce to the old displays, and `eq:selection-det4sphere` is now stated at `η = 0`.
+  - The axis suppression `eq:selection-pcorr` is now `exp(−c_*/ρ²)`. It comes from the `V_1` mismatch alone: the penalty is at least the squared `V_1` mismatch over `C_11 ≤ 2ρ²`. The old `exp(−c_*/ρ⁴)` came from the near-null direction of the `η = 0` covariance. With the correct `V_0` residual and the window term, that direction's mismatch can vanish for some `η < 1`, so the stronger factor is not claimed.
+  - **Effect.** None on the conclusions. `exp(−c_*/ρ²)` still beats every power of `ρ`, so `eq:selection-singdens` and the count are unchanged, and `Q_η > 0` keeps the `ρ^10` lower bound used by the envelope's conditional moments.
+- **S5, Lemmas S5.18 and S5.21 (`lem:selection-collarfactor`, `lem:selection-singfactor`): the kernel transfer is proved.** Drafts 1–3 obtained `A_col ≥ 1 − 10^-70` and `A_sing ≥ 1/24 − 10^-70` on the jet ball from a derivative bound `‖dA‖ ≤ 10^40`, which Remark S5.12 attributed to S4. S4 contains no such bound (issue 13 in section (d) "Issues" of the S5 concordance). Draft 4 replaces this argument.
+  - **Collar.** In the frame `(t, v, w)` the contact limit of the scaled gradient is `(½(X² − ¼) f_ttt + ρ(X U_1 + ρ U_2), ρ f_vv, ρ f_vw)` for every kernel, with `U_1 = f_ttv`, `U_2 = ½ f_tvv`. So `det C_col = ρ⁶ D` exactly, with `D = det Cov(X U_1 + ρ U_2, f_vv, f_vw | P)` a quadratic form in `(X, ρ)`.
+  - **Singular-near.** `(L_0, L_1) = (−(ρ/12) A_1 (U_1, U_2, W), ρ A_2 (U_1, U_2, W))`, where `A_1`, `A_2` are the two rows of `A`. Every 2×2 minor of `A` is divisible by `ρ` (Cauchy–Binet), and odd and even blocks are conditionally independent for an even kernel. So `det C_sing = ρ^10 Q_η(𝒦) det Cov(f_vv, f_vw | P)/144` exactly.
+  - **Positivity.** All symbols involved are distinct monomials, so by Theorem S1.3 (`thm:setting-gram`; for `K_0`, the positive spectral density) the conditional covariances are positive definite. With `Q_η ≥ λ_min(Σ)²|m̃|²` and compactness, this gives `A_col ≥ a_col(𝒦) > 0` and `A_sing ≥ a_sing(𝒦) > 0`. The constants are existential and depend on the kernel; the main text (3.14)–(3.15) asserts only positivity.
+  - **Means.** For an even kernel, odd random parts regress only on the odd pins, and the only odd pin with a nonzero target is `f_ttt`. So the mean changes are `O(ρκ)`, and the suppression statements persist for small `ρ`. This replaces "the perturbation of its regression coefficient is below 10^-70".
+  - **Other changes.** The jet ball now enters only through Lemma S5.14 (`lem:selection-pinstab`). The statements "uniform for every kernel in the jet ball" in S5.19, S5.22 and S5.23 now read "for every kernel satisfying Hypothesis S5.11, with constants depending on the kernel".
+- **S5, Remark S5.12 (`rem:selection-side24`).** The jet bound `‖J_6(K_24) − J_0‖_max < 10^-113` is now cited to Lemma S4.29 (see the next item) instead of "Section S4". The `10^40` envelope is removed.
+- **S4, Lemma S4.29 (`lem:correction-deep`): the bounds (3.29) of the main text.** S4 proved `|J_24 − J_0| < E ≈ 2.12·10^-112` (Lemma S4.16, `lem:correction-jet`), which is weaker than the `10^-113` that the main text (3.29) and Remark S5.12 state. The lemma now also states `|(J^(1)_24)_k| ≤ 6B_0q`, `|(J_24 − J_0)_k| < 6B_0q + 9289B_0q² < 10^-113` and `|(R_jet)_k| < 10^-230`. Both follow from Lemma S4.27 (`lem:correction-normalization`) and the bound on `γ_1` already shown in the proof. No statement is added, so S4's numbering is unchanged.
+- **S5, Lemma S5.28 (`lem:selection-strip`): item 12.** The adverse level terms at `X = 5/4` are now displayed with their bounds: `21/(32K)`, `1/K²`, `3ε_0`, and the exact-field transfer `≤ η_R ≤ 1/8192` (ledger `3/8192`).
+- **S6, after Proposition S6.1: S7 issue I2.** An unnumbered paragraph identifies the kernels: `G^all_r(t, b, κ) = 𝒜_r(b, κ/6, t)` and `G^sel_r = p_r 𝒜_r = 𝒜^eld_r`, through `p_Π(z_r) = 12 r^-6 π_r(v_r)` and `Z_r = E_Q[W_r]`. The near-density version and the near-pair formulas of S7–S10 are then visibly the same function.
+- **New check.** `checks/s5_factor_check.py` (SymPy, exact) tests:
+  - the contact limits of `V_0` and `V_1` from a degree-5 polynomial field under the exact finite-`r` pins;
+  - all planar displays of S5.16, S5.18, S5.20 and S5.21;
+  - the factorizations for two random anisotropic even kernels (discrete spectral measures), with positivity at sample points;
+  - the numbers of Lemma S4.29.
+
+  Its output `checks/s5_factor_check.out.txt` ends `ALL PASS`.
+- **Status section.** Updated to draft 4. The open item "two provenance displays" is closed: the level terms are written, and the `dA` bound is no longer needed.
+
+**Build.** 129 pages, no LaTeX error and no undefined reference. The one overfull line, 29 pt in S10, is unchanged.
+
 ---
 
 # Concordance — supplement sections S1 and S2

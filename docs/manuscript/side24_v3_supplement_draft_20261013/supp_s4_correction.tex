@@ -544,12 +544,17 @@ Consequently, for every frame $\mathfrak f$ the matrix $R_{\mathfrak f}=C(R_{\rm
 \begin{equation}\label{eq:correction-rho}
 \bigl\|C_0^{-1/2}R_{\mathfrak f}C_0^{-1/2}\bigr\|<60\cdot9289\,B_0\cdot10^{-250}=:\rho_0 .
 \end{equation}
+Moreover $|(J^{(1)}_{24})_k(v_1,\dots,v_k)|\le6B_0q$, so that
+\[
+\bigl|(J_{24}-J_0)_k(v_1,\dots,v_k)\bigr|<6B_0q+9289B_0q^2<10^{-113},\qquad\bigl|(R_{\rm jet})_k(v_1,\dots,v_k)\bigr|<10^{-230}.
+\]
+For $d=3$, with the max norm on coordinate entries, these are the bounds (3.29) of the main text.
 \end{lemma}
 
 \begin{proof}
 Let $d=3$. The shell $|n|_\infty=1$ consists of $26$ points: the $6$ with $|n|=1$, and $20$ with $|n|^2\in\{2,3\}$, each with $|n|^6\le27$; their contribution to $T_6$ is at most $540q^2$. The shells $j=|n|_\infty\ge2$ contribute at most $729\sum_{j\ge2}j^9q^{j^2}$, as in the proof of Lemma~\ref{lem:correction-lattice}; for $j\ge2$ the ratio of consecutive terms is at most $(\frac32)^9q^5<\frac12$, so this is at most $729\cdot2\cdot2^9q^4=746496q^4<q^2$. Hence $T_6<541q^2$. For $d=2$, the terms of $T_6$ form a subset of those for $d=3$ under $n\mapsto(n,0)$, so the same bound holds.
 
-In Lemma~\ref{lem:correction-normalization}, $|\alpha_2|\le76\cdot24^6\,T_6$ by Lemma~\ref{lem:correction-hermite}, and $|\beta_2\alpha_0|\le15\beta_2\le15T_6$, so $|\alpha_2-\beta_2\alpha_0|\le B_0T_6<541B_0q^2$. Also $|\gamma_1|\le|\alpha_1|+\beta_1|\alpha_0|\le2d(76\cdot24^6+15)q\le6B_0q$, and $\beta_1+\beta_2=Z_{24}-1\le1458q$ by Lemma~\ref{lem:correction-lattice}. The denominator in \eqref{eq:correction-normid} is at least $1$. Hence the left side of \eqref{eq:correction-deepjet} is less than $541B_0q^2+6B_0q\cdot1458q=9289B_0q^2$.
+In Lemma~\ref{lem:correction-normalization}, $|\alpha_2|\le76\cdot24^6\,T_6$ by Lemma~\ref{lem:correction-hermite}, and $|\beta_2\alpha_0|\le15\beta_2\le15T_6$, so $|\alpha_2-\beta_2\alpha_0|\le B_0T_6<541B_0q^2$. Also $|\gamma_1|\le|\alpha_1|+\beta_1|\alpha_0|\le2d(76\cdot24^6+15)q\le6B_0q$, and $\beta_1+\beta_2=Z_{24}-1\le1458q$ by Lemma~\ref{lem:correction-lattice}. The denominator in \eqref{eq:correction-normid} is at least $1$. Hence the left side of \eqref{eq:correction-deepjet} is less than $541B_0q^2+6B_0q\cdot1458q=9289B_0q^2$. By Lemma~\ref{lem:correction-normalization}, $(J^{(1)}_{24})_k=\gamma_1$ and $(J_{24}-J_0)_k=\gamma_1+(R_{\rm jet})_k$, which gives the two final bounds, since $6B_0=87142957146<8.72\cdot10^{10}$, $9289B_0<1.35\cdot10^{14}$ and $q<10^{-125}$.
 
 Every entry of $R_{\mathfrak f}$ is $c_\alpha c_\beta$ times $\pm$ a contraction as in \eqref{eq:correction-deepjet}, hence less than $2\cdot9289B_0q^2$ in absolute value; with $N\le10$ and $C_0\succcurlyeq\frac13I$ (Lemma~\ref{lem:correction-cov}), $\|C_0^{-1/2}R_{\mathfrak f}C_0^{-1/2}\|<3\cdot10\cdot2\cdot9289B_0q^2$, and $q^2<10^{-250}$.
 \end{proof}

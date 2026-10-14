@@ -181,7 +181,7 @@ Write $H=\mu(a)+G$, where $G$ is a centred Gaussian vector, possibly degenerate,
 
 \subsection{Regional witness counts}\label{ssec:selection-witness}
 
-The collar and singular-near charts are first computed at the planar Bargmann--Fock jet and then transferred to the side-$24$ field through structural factorizations that hold on an explicit jet ball; the fixed-distance count is proved directly for the side-$24$ field.
+The collar and singular-near charts are first computed at the planar Bargmann--Fock jet and then transferred to the side-$24$ field through exact factorizations of the conditional determinants. These factorizations hold for every kernel satisfying the standing hypotheses below, and their remaining coefficients are positive by the derivative nondegeneracy of Section~\ref{sec:setting}. The fixed-distance count is proved directly for the side-$24$ field.
 
 \subsubsection{Standing hypotheses and the contact-limit pair law}
 
@@ -198,11 +198,7 @@ B=\bigl\{J:\ \|J-J_0\|_{\max}\le10^{-110}\bigr\}.
 \end{hypothesis}
 
 \begin{remark}\label{rem:selection-side24}
-The normalized side-$24$ kernel $K_{24}$ satisfies Hypothesis~\ref{hyp:selection-jet}: it has full positive Fourier support (Section~\ref{sec:setting}), and $\|J_6(K_{24})-J_0\|_{\max}<10^{-113}$ (Section~\ref{sec:correction}). Under Hypothesis~\ref{hyp:selection-jet}, the derivative envelope used below for the structural coefficients $A_{\rm col}$ and $A_{\rm sing}$ is the coarse coefficient-map bound
-\[
-\|dA_{\rm col}\|,\ \|dA_{\rm sing}\|\le10^{40}
-\]
-of Section~\ref{sec:correction}, applied to the analytic dependence of the conditional covariances on $J_6$.
+The normalized side-$24$ kernel $K_{24}$ satisfies Hypothesis~\ref{hyp:selection-jet}. It has full positive Fourier support (Section~\ref{sec:setting}), so Theorem~\ref{thm:setting-gram} gives the derivative nondegeneracy, and $\|J_6(K_{24})-J_0\|_{\max}<10^{-113}$ by Lemma~\ref{lem:correction-deep}. The planar kernel $K_0$ has an everywhere positive spectral density, so a family of derivative evaluations at one point is nondegenerate for $K_0$ as soon as its polynomial symbols are linearly independent. The structural coefficients $A_{\rm col}$ and $A_{\rm sing}$ of Lemmas~\ref{lem:selection-collarfactor} and~\ref{lem:selection-singfactor} are bounded below by exact factorizations and this nondegeneracy; no derivative bound for them on the jet ball is used. The jet ball enters through Lemma~\ref{lem:selection-pinstab}.
 \end{remark}
 
 \begin{lemma}[contact-limit pair pin law at the planar jet]\label{lem:selection-pairlaw}
@@ -344,14 +340,28 @@ where $A_{\rm col}$ extends continuously to $\rho=0$ and to $(X,\rho)=(0,0)$ aft
 \begin{equation}\label{eq:selection-Acol0}
 A_{\rm col}(K_0)=\frac{4X^2+\rho^2}{X^2+\rho^2},
 \end{equation}
-whose radial-blow-up minimum is one, and on the jet ball
+whose radial-blow-up minimum is one. For every $\mathcal K$ satisfying Hypothesis~\ref{hyp:selection-jet} there is $a_{\rm col}(\mathcal K)>0$ such that
 \begin{equation}\label{eq:selection-Acol}
-A_{\rm col}(\mathcal K)\ge1-10^{-70}>0.99 .
+A_{\rm col}(\mathcal K;t,X,\rho,v)\ge a_{\rm col}(\mathcal K)\qquad\text{for all }t,\ v\text{ and }(X,\rho)\ne(0,0).
 \end{equation}
 \end{lemma}
 
 \begin{proof}
-The two transverse gradient residuals vanish linearly with the transverse displacement $\rho v$. Their $2\times2$ conditional covariance is therefore $\rho^2$ times a continuous matrix, and its determinant carries $\rho^4$ exactly. The axial residual has no constant or linear term after the pair station pins. Its random part is linear in $(X,\rho)$ at the scaled level, so its Schur variance is a quadratic form in $(X,\rho)$, contributing the factor $X^2+\rho^2$. These statements follow from Taylor identities and stationarity before any covariance is inserted; therefore the factors are unchanged by the kernel perturbation, and conditional regression only changes the continuous coefficient $A_{\rm col}$. At the planar jet, \eqref{eq:selection-coldet} gives \eqref{eq:selection-Acol0}. By Remark~\ref{rem:selection-side24}, the coefficient map $A_{\rm col}$ has the deliberately loose first-jet derivative bound $10^{40}$ on $B$, uniformly over the compact chart. Hence $A_{\rm col}(\mathcal K)\ge A_{\rm col}(K_0)-10^{40}\cdot10^{-110}\ge1-10^{-70}$, which is \eqref{eq:selection-Acol}.
+Take derivatives in the orthonormal frame $(t,v,w)$, so that $y=x+r(Xt+\rho v)$; in this frame the pins are the eight evaluations of \eqref{eq:setting-list}, up to an invertible linear map that does not depend on the kernel. Put
+\[
+U_1=f_{ttv},\qquad U_2=\tfrac12f_{tvv},\qquad W=f_{vvv},
+\]
+all at $x$. By \eqref{eq:selection-L1}--\eqref{eq:selection-Lperp}, read in this frame, the contact limit of the scaled gradient \eqref{eq:selection-colgrad} is
+\[
+\Bigl(\tfrac12\bigl(X^2-\tfrac14\bigr)f_{ttt}+\rho\,(XU_1+\rho U_2),\ \ \rho f_{vv},\ \ \rho f_{vw}\Bigr).
+\]
+This is an identity between Taylor coefficients, so it holds for every kernel. The term $f_{ttt}$ is a pin. Taking out the factor $\rho$ of each of the three entries gives
+\[
+\det C_{\rm col}=\rho^6D,\qquad D=\det\Cov\bigl(XU_1+\rho U_2,\ f_{vv},\ f_{vw}\bigm|P\bigr).
+\]
+Since $XU_1+\rho U_2$ is linear in $(X,\rho)$, $D$ is a quadratic form in $(X,\rho)$, and its coefficients are continuous in $(t,v)$ and analytic in $J_6(\mathcal K)$. Put $A_{\rm col}=D/(X^2+\rho^2)$. It is homogeneous of degree zero in $(X,\rho)$, so it is a continuous function of $(t,v)$ and of the direction of $(X,\rho)$; this is the radial blow-up, and \eqref{eq:selection-colfactor} holds.
+
+For $(X,\rho)\ne(0,0)$ the polynomial symbols of the eleven variables $P$, $XU_1+\rho U_2$, $f_{vv}$, $f_{vw}$ are linearly independent, up to constant factors. The pins have the eight distinct monomials of \eqref{eq:setting-list}. The variable $XU_1+\rho U_2$ has the nonzero symbol $X\xi_t^2\xi_v+\frac\rho2\xi_t\xi_v^2$. The last two have the monomials $\xi_v^2$ and $\xi_v\xi_w$. None of these monomials occurs twice. By Hypothesis~\ref{hyp:selection-jet}(2) (for $K_{24}$, Theorem~\ref{thm:setting-gram}; for $K_0$, Remark~\ref{rem:selection-side24}), the joint covariance of these variables is positive definite. Hence so is its Schur complement given $P$, and $D>0$. Thus $A_{\rm col}$ is continuous and positive on a compact set: $t\in S^2$, $v$ a unit vector orthogonal to $t$, and the direction of $(X,\rho)$ with $\rho\ge0$. Its minimum $a_{\rm col}(\mathcal K)$ is therefore positive, which is \eqref{eq:selection-Acol}. At the planar jet, \eqref{eq:selection-coldet} gives \eqref{eq:selection-Acol0}: there $\Var(U_1\mid P)=2$, $\Var(U_2\mid P)=\frac12$, $\Cov(U_1,U_2\mid P)=0$, and $f_{vv}$, $f_{vw}$ are conditionally independent of $U_1,U_2$ with $\det\Cov(f_{vv},f_{vw}\mid P)=2$, so $D=4X^2+\rho^2$. The symbolic check \path{checks/s5_factor_check.py} verifies these identities.
 \end{proof}
 
 Equation \eqref{eq:selection-colfactor} is (3.14) of the main text.
@@ -370,7 +380,7 @@ In a collar configuration with three critical points $M,S,y$, the points span a 
 \end{equation}
 where $U$ collects the random jet coefficients and $\hat D$ has uniformly bounded Gaussian polynomial moments. Near collision with $M$ or $S$, Lemma~\ref{lem:selection-collision} supplies an additional normalized squared-distance factor. This cancels the $\rho^{-3}$ density singularity in \eqref{eq:selection-coldens}: after integrating $X$ over the collision cone and using the transverse volume $\rho\,d\rho$, the local radial power is at least $\rho$. Away from collisions, the exponential axis suppression of Lemma~\ref{lem:selection-collarchart} is integrable. Collecting powers, $r^{-4}$ from the third-gradient density \eqref{eq:selection-colscale}, $r^6$ from \eqref{eq:selection-colprod}, $r^{-2}$ from the pair Palm normalizer \eqref{eq:selection-normalizer} and $r^3$ from the physical collar volume multiply to $r^3$. This proves \eqref{eq:selection-colcount} at the planar jet.
 
-For the side-$24$ field, the Hessian collision zero, the two-dimensional plane elimination and the hard-complement Schur estimates are deterministic Taylor statements; they do not require the exact planar covariance. Under Hypothesis~\ref{hyp:selection-jet}, which $K_{24}$ satisfies by Remark~\ref{rem:selection-side24}, their random polynomial coefficients have uniformly bounded Gaussian moments, so the collar product bound $r^6$ times a Gaussian polynomial holds with changed constants only. By Lemmas~\ref{lem:selection-pinstab} and~\ref{lem:selection-collarfactor}, the collar zero-density estimate, the collision-cone integration and the $O(r^3)$ count remain uniform for every kernel in the jet ball.
+For the side-$24$ field, the Hessian collision zero, the two-dimensional plane elimination and the hard-complement Schur estimates are deterministic Taylor statements; they do not require the exact planar covariance. Under Hypothesis~\ref{hyp:selection-jet}, which $K_{24}$ satisfies by Remark~\ref{rem:selection-side24}, their random polynomial coefficients have uniformly bounded Gaussian moments, so the collar product bound $r^6$ times a Gaussian polynomial holds with changed constants only. By Lemmas~\ref{lem:selection-pinstab} and~\ref{lem:selection-collarfactor}, the collar zero-density estimate, the collision-cone integration and the $O(r^3)$ count hold for every kernel satisfying Hypothesis~\ref{hyp:selection-jet}, with constants depending on the kernel; in particular they hold for $K_{24}$. For such a kernel the axial and transverse blocks are again conditionally independent, because odd and even derivatives are uncorrelated for an even kernel. In the notation of the proof of Lemma~\ref{lem:selection-collarfactor}, the conditional axial mean differs from $\kappa(X^2-\frac14)$ by $\rho\,(X\,\E[U_1\mid P]+\rho\,\E[U_2\mid P])$. This is $O(\rho\kappa(|X|+\rho))$ on compact positive mark sets, since $U_1$ and $U_2$ are odd and the only odd pin with a nonzero target is $f_{ttt}$. Hence the suppression statements of Lemma~\ref{lem:selection-collarchart} persist for small $\rho$, with changed constants.
 \end{proof}
 
 \subsubsection{The singular-near count}
@@ -389,27 +399,27 @@ and use the corrected variables
 V_0=s^{-3}\Bigl[f(y)-f(x)-\frac s2\bigl(Yf_2(y)+Zf_3(y)\bigr)-\frac{sc}3f_1(y)\Bigr],\label{eq:selection-V0}\\
 V_1=s^{-2}f_1(y),\qquad V_2=s^{-1}f_2(y),\qquad V_3=s^{-1}f_3(y).\label{eq:selection-V123}
 \end{gather}
-The transformation from $(f(y),\nabla f(y))$ to $(V_0,V_1,V_2,V_3)$ has determinant of magnitude $s^{-7}$. At contact the random residual limits are
+The transformation from $(f(y),\nabla f(y))$ to $(V_0,V_1,V_2,V_3)$ has determinant of magnitude $s^{-7}$. At contact, with $\eta$ fixed, the random residual limits are
 \begin{gather}
-L_0=-\tfrac1{12}\bigl[Y\,f_{2ij}\omega_i\omega_j+Z\,f_{3ij}\omega_i\omega_j\bigr],\label{eq:selection-L0}\\
+L_0=-\tfrac1{12}\bigl[Y\,f_{2ij}\omega_i\omega_j+Z\,f_{3ij}\omega_i\omega_j\bigr]-\tfrac{\eta^2}{16}\bigl[Yf_{112}+Zf_{113}\bigr],\label{eq:selection-L0}\\
 L_1=\tfrac12f_{1ij}\omega_i\omega_j,\label{eq:selection-L1s}\\
 (L_2,L_3)=Q(Y,Z)^{\top},\label{eq:selection-L23}
 \end{gather}
-with summation over repeated indices. The $\eta$-dependent corrections in $V_1$ and the target of $V_0$ are multiples of the already pinned $f_{111}$, and therefore do not change the residual covariance. The exact conditional covariance of $(L_0,L_1)$ is
+with summation over repeated indices, and with the pinned term $\frac12c^2f_{111}$ removed from $L_1$. The other $\eta$-dependent terms are deterministic: $-\kappa\eta^2/4$ in $V_1$ and $-c\kappa\eta^2/6$ in $V_0$. The last term of $L_0$ is random. It arises because the pins force $f_k(x)=-\frac{r^2}8f_{k11}(x)+O(r^4)$ for $k=2,3$, and $V_0$ multiplies $f_2(x)$ and $f_3(x)$ by $Y/(2s^2)$ and $Z/(2s^2)$. The exact conditional covariance of $(L_0,L_1)$ is
 \begin{equation}\label{eq:selection-C01}
-C_{00}=\frac{\rho^2(c^2+\rho^2)(c^2+3\rho^2)}{72},\qquad C_{01}=-\frac{c\rho^2(c^2+\rho^2)}6,\qquad C_{11}=\frac{\rho^2(4c^2+\rho^2)}2,
+C_{00}=\frac{\rho^2\bigl[(c^2+\frac34\eta^2)^2+4c^2\rho^2+3\rho^4\bigr]}{72},\qquad C_{01}=-\frac{c\rho^2(c^2+\rho^2+\frac34\eta^2)}6,\qquad C_{11}=\frac{\rho^2(4c^2+\rho^2)}2,
 \end{equation}
 so that
 \begin{equation}\label{eq:selection-det01}
-\det C_{(L_0,L_1)}=\frac{\rho^6(c^2+\rho^2)(3c^2+\rho^2)}{48}.
+\det C_{(L_0,L_1)}=\frac{\rho^6Q_\eta}{144},\qquad Q_\eta=\bigl(3c^2-\tfrac34\eta^2\bigr)^2+12c^2\rho^2+3\rho^4 .
 \end{equation}
 Combining this with $\det C_\perp=2\rho^4$ gives
 \begin{equation}\label{eq:selection-det4}
-\det\Cov(L_0,L_1,L_2,L_3\mid P)=\frac{\rho^{10}(c^2+\rho^2)(3c^2+\rho^2)}{24},
+\det\Cov(L_0,L_1,L_2,L_3\mid P)=\frac{\rho^{10}Q_\eta}{72}.
 \end{equation}
-which on the unit sphere is
+At $\eta=0$, $Q_0=3(c^2+\rho^2)(3c^2+\rho^2)$, so on the unit sphere
 \begin{equation}\label{eq:selection-det4sphere}
-\det\Cov(L_0,L_1,L_2,L_3\mid P)=\frac{\rho^{10}(3c^2+\rho^2)}{24}.
+\det\Cov(L_0,L_1,L_2,L_3\mid P)\big|_{\eta=0}=\frac{\rho^{10}(3c^2+\rho^2)}{24}.
 \end{equation}
 The conditional mean mismatch in $V_1$ is
 \begin{equation}\label{eq:selection-mismatch}
@@ -417,7 +427,7 @@ The conditional mean mismatch in $V_1$ is
 \end{equation}
 Consequently the angular density satisfies, near the axis,
 \begin{equation}\label{eq:selection-pcorr}
-p_{\rm corr}\le C\rho^{-5}\exp(-c_*/\rho^4)
+p_{\rm corr}\le C\rho^{-5}\exp(-c_*/\rho^2)
 \end{equation}
 for a constant $c_*>0$, and, for every fixed $m\ge0$,
 \begin{equation}\label{eq:selection-singdens}
@@ -426,7 +436,7 @@ for a constant $c_*>0$, and, for every fixed $m\ge0$,
 \end{lemma}
 
 \begin{proof}
-The transformation \eqref{eq:selection-V0}--\eqref{eq:selection-V123} is triangular with diagonal scalings $s^{-3},s^{-2},s^{-1},s^{-1}$, whence the determinant $s^{-7}$. The covariances \eqref{eq:selection-C01}--\eqref{eq:selection-det4} are exact Gaussian regressions computed from $\Cov(\partial^\alpha f,\partial^\beta f)=(-1)^{|\beta|}\partial^{\alpha+\beta}K_0(0)$, and \eqref{eq:selection-det4sphere} uses $c^2+\rho^2=1$. Near the pair axis, $|c|$ tends to one and $\eta\le\eta_0<1$, so \eqref{eq:selection-mismatch} is bounded away from zero. Inverting \eqref{eq:selection-C01} gives a Mahalanobis penalty at least $c_0\kappa^2/\rho^4$; therefore the angular density has the uniform form \eqref{eq:selection-pcorr} near the axis, which is integrable against the $S^2$ area element $\rho\,d\rho\,d\phi$. Away from the axis, \eqref{eq:selection-det4sphere} has a positive compact eigenfloor. Thus the exact finite-$r$ corrected covariance extends continuously and, with the Jacobian $s^{-7}$, supplies \eqref{eq:selection-singdens}; the weight $\rho^{-m}$ is integrable against \eqref{eq:selection-pcorr} near the axis, because $\exp(-c_*/\rho^4)$ decays faster than any power of $\rho$.
+The transformation \eqref{eq:selection-V0}--\eqref{eq:selection-V123} is triangular with diagonal scalings $s^{-3},s^{-2},s^{-1},s^{-1}$, whence the determinant $s^{-7}$. The residual limits follow from Taylor's formula at $x$ and the pins, with $s=r/\eta$; \path{checks/s5_factor_check.py} verifies them, including the last term of $L_0$, for a polynomial field. The covariances \eqref{eq:selection-C01}--\eqref{eq:selection-det4} are exact Gaussian regressions computed from $\Cov(\partial^\alpha f,\partial^\beta f)=(-1)^{|\beta|}\partial^{\alpha+\beta}K_0(0)$, and \eqref{eq:selection-det4sphere} uses $c^2+\rho^2=1$. Near the pair axis, $|c|$ tends to one and $\eta\le\eta_0<1$, so \eqref{eq:selection-mismatch} is bounded away from zero. For any positive definite covariance, the Mahalanobis penalty is at least the squared mismatch of one coordinate divided by its variance. With the $V_1$ coordinate and $C_{11}\le2\rho^2$ on the unit sphere, the penalty is at least $c_0\kappa^2/\rho^2$. Also $Q_\eta\ge(3c^2-\frac34\eta^2)^2\ge(\frac94-3\rho^2)^2$ for $\rho^2<\frac34$, so the angular density has the uniform form \eqref{eq:selection-pcorr} near the axis, which is integrable against the $S^2$ area element $\rho\,d\rho\,d\phi$. Away from the axis, $Q_\eta\ge3\rho^4$ gives a positive compact eigenfloor, uniformly in $\eta\in[0,\eta_0]$. Thus the exact finite-$r$ corrected covariance extends continuously and, with the Jacobian $s^{-7}$, supplies \eqref{eq:selection-singdens}; the weight $\rho^{-m}$ is integrable against \eqref{eq:selection-pcorr} near the axis, because $\exp(-c_*/\rho^2)$ decays faster than any power of $\rho$.
 \end{proof}
 
 The bound \eqref{eq:selection-singdens} is the density half of the singular-near witness bound; the determinant half is Lemma~\ref{lem:selection-envelope}.
@@ -434,25 +444,41 @@ The bound \eqref{eq:selection-singdens} is the density half of the singular-near
 \begin{lemma}[kernel-independent extra $\rho^2$ cancellation]\label{lem:selection-singfactor}
 Write $y=x+s\omega$ with $\omega=(c,\rho v)$, $c^2+\rho^2=1$ and $\eta=r/s\in[0,\eta_0]$, $\eta_0<1$. Use the corrected variables $V_0,\dots,V_3$ of Lemma~\ref{lem:selection-singchart}, and let $C_{\rm sing}$ denote their contact-limit conditional covariance. For every $\mathcal K$ satisfying Hypothesis~\ref{hyp:selection-jet},
 \begin{equation}\label{eq:selection-singfactor}
-\det C_{\rm sing}=\rho^{10}(3c^2+\rho^2)\,A_{\rm sing}(\mathcal K;t,c,\rho,v),
+\det C_{\rm sing}=\rho^{10}(3c^2+\rho^2)\,A_{\rm sing}(\mathcal K;t,c,\rho,v,\eta),
 \end{equation}
 where $A_{\rm sing}$ extends continuously to $\rho=0$ and is analytic in $J_6(\mathcal K)$. At the planar jet,
 \begin{equation}\label{eq:selection-Asing0}
-A_{\rm sing}(K_0)=\frac1{24},
+A_{\rm sing}(K_0)=\frac{Q_\eta}{72(3c^2+\rho^2)},\qquad\text{which is }\frac1{24}\text{ at }\eta=0,
 \end{equation}
-and on the jet ball
+with $Q_\eta$ as in \eqref{eq:selection-det01}. For every $\mathcal K$ satisfying Hypothesis~\ref{hyp:selection-jet} there is $a_{\rm sing}(\mathcal K)>0$ such that
 \begin{equation}\label{eq:selection-Asing}
-A_{\rm sing}(\mathcal K)\ge\frac1{24}-10^{-70}>\frac1{25}.
+A_{\rm sing}(\mathcal K;t,c,\rho,v,\eta)\ge a_{\rm sing}(\mathcal K)\qquad\text{for all }t,\ v,\ c^2+\rho^2=1\text{ and }\eta\in[0,\eta_0].
 \end{equation}
-Thus the $\rho^{-5}$ density factor and the $\exp(-c_*/\rho^4)$ axis suppression persist with changed constants. The mean mismatch $\kappa(c^2-\eta^2/4)$ is uniformly separated from zero in the axis chart because $\eta_0<1$, and the perturbation of its regression coefficient is below $10^{-70}$ on compact positive $\kappa$ sets.
+Thus the $\rho^{-5}$ density factor and the $\exp(-c_*/\rho^2)$ axis suppression persist for small $\rho$, with changed constants. The conditional mean mismatch in $V_1$ is $\kappa(c^2-\eta^2/4)+O(\rho\kappa)$, which is separated from zero in the axis chart because $\eta_0<1$.
 \end{lemma}
 
 \begin{proof}
-The transverse block $(L_2,L_3)$ again contributes $\rho^4$ exactly. The nontrivial point is the corrected $(L_0,L_1)$ block. Independently of $\mathcal K$, Taylor expansion and the pair station pins give, as $\rho\to0$,
+Take derivatives in the frame $(t,v,w)$, so that $\omega=ct+\rho v$, and let $U_1$, $U_2$ and $W$ be as in the proof of Lemma~\ref{lem:selection-collarfactor}. By \eqref{eq:selection-L0}--\eqref{eq:selection-L23}, read in this frame, the random residuals are, for every kernel,
 \begin{equation}\label{eq:selection-singlead}
-L_0=-\tfrac1{12}\bigl[Yf_{112}+Zf_{113}\bigr]+O(\rho^2),\qquad L_1^{\rm random}=c\bigl[Yf_{112}+Zf_{113}\bigr]+O(\rho^2).
+L_0=-\tfrac{\rho}{12}\bigl((c^2+\tfrac34\eta^2)U_1+4c\rho\,U_2+\rho^2W\bigr),\qquad L_1=\rho\,(cU_1+\rho U_2),\qquad (L_2,L_3)=\rho\,(f_{vv},f_{vw}).
 \end{equation}
-The leading random variables are proportional before any covariance is taken. Consequently the nominal $\rho^4$ term in the $2\times2$ determinant cancels identically for every stationary even kernel, leaving $\rho^6$. The remaining normalized coefficient is continuous in the jet and angular variables. Multiplication by the transverse determinant $\rho^4$ gives $\rho^{10}$. The positive quadratic angular factor may be normalized by $3c^2+\rho^2$, which is bounded away from zero on the unit sphere. At the planar jet, \eqref{eq:selection-det4sphere} gives \eqref{eq:selection-Asing0}. The derivative envelope $10^{40}$ of Remark~\ref{rem:selection-side24} and the jet ball \eqref{eq:selection-jetball} give \eqref{eq:selection-Asing}.
+Thus $(L_0,L_1)=(-\frac\rho{12}\tilde L_0,\ \rho\tilde L_1)$ with $(\tilde L_0,\tilde L_1)^{\top}=A\,(U_1,U_2,W)^{\top}$ and
+\[
+A=\begin{pmatrix}c^2+\frac34\eta^2&4c\rho&\rho^2\\ c&\rho&0\end{pmatrix}.
+\]
+Every $2\times2$ minor of $A$ is divisible by $\rho$: the minors are $\rho\,\tilde m$ with $\tilde m=(\frac34\eta^2-3c^2,\,-c\rho,\,-\rho^2)$. Let $\Sigma=\Cov(U_1,U_2,W\mid P)$. By the Cauchy--Binet formula,
+\[
+\det\Cov(\tilde L_0,\tilde L_1\mid P)=\det(A\Sigma A^{\top})=\rho^2Q_\eta(\mathcal K),\qquad Q_\eta(\mathcal K)=\sum_{S,T}\tilde m_S\,\tilde m_T\det\Sigma_{S,T},
+\]
+the sum running over pairs of two-element column sets. For an even kernel, odd and even derivatives are uncorrelated, so $(L_0,L_1)$ and $(L_2,L_3)$ are conditionally independent given $P$. Hence
+\[
+\det C_{\rm sing}=\frac{\rho^{10}}{144}\,Q_\eta(\mathcal K)\,\det\Cov(f_{vv},f_{vw}\mid P).
+\]
+The nominal power $\rho^8$ is thus $\rho^{10}$; this is the cancellation, and it holds for every even kernel. Put $A_{\rm sing}=Q_\eta(\mathcal K)\det\Cov(f_{vv},f_{vw}\mid P)/\bigl(144(3c^2+\rho^2)\bigr)$. It is continuous in $(t,v,c,\rho,\eta)$ and analytic in $J_6(\mathcal K)$, and \eqref{eq:selection-singfactor} holds.
+
+The symbols of $P$, $U_1$, $U_2$, $W$, $f_{vv}$ and $f_{vw}$ are distinct monomials. As in the proof of Lemma~\ref{lem:selection-collarfactor}, $\Sigma$ and $\Cov(f_{vv},f_{vw}\mid P)$ are therefore positive definite. Since $A\Sigma A^{\top}\succcurlyeq\lambda_{\min}(\Sigma)AA^{\top}$ and $\det(AA^{\top})=\rho^2|\tilde m|^2$, we get $Q_\eta(\mathcal K)\ge\lambda_{\min}(\Sigma)^2|\tilde m|^2$. Moreover $\tilde m\ne0$: if $\rho=0$ then $c^2=1$, and $\frac34\eta^2-3\ne0$ because $\eta<1$. So $A_{\rm sing}$ is continuous and positive on the compact set given by $t\in S^2$, $v$ a unit vector orthogonal to $t$, $c^2+\rho^2=1$, $\rho\ge0$ and $\eta\in[0,\eta_0]$. Its minimum $a_{\rm sing}(\mathcal K)$ is positive, which is \eqref{eq:selection-Asing}. At the planar jet $\Sigma=\operatorname{diag}(2,\frac12,6)$ and $\det\Cov(f_{vv},f_{vw}\mid P)=2$, so $Q_\eta(K_0)$ is the $Q_\eta$ of \eqref{eq:selection-det01}, and \eqref{eq:selection-det4} gives \eqref{eq:selection-Asing0}. The check \path{checks/s5_factor_check.py} verifies these identities.
+
+The means. The random parts in \eqref{eq:selection-singlead} are odd, and the only odd pin with a nonzero target is $f_{ttt}$. So the conditional mean of $V_1$ differs from its planar value $\kappa(c^2-\eta^2/4)$ by the difference of two regressions of $\rho(cU_1+\rho U_2)$ on the pins, which is $O(\rho\kappa)$ on compact positive mark sets. For $\rho\le\rho_0(\mathcal K)$ the mismatch is therefore separated from zero. As in the proof of Lemma~\ref{lem:selection-singchart}, the Mahalanobis penalty is at least the squared $V_1$ mismatch over $C_{11}=\Var(L_1\mid P)\le C\rho^2$, hence at least $c_*\kappa^2/\rho^2$.
 \end{proof}
 
 Equation \eqref{eq:selection-singfactor} is (3.15) of the main text.
@@ -467,7 +493,7 @@ where $C$ depends only on $C_1$. Consequently
 \begin{equation}\label{eq:selection-envelope}
 \E\bigl[W_r|\det H_y|\bigm|\text{pins},\ f(y)=u,\ \nabla f(y)=0\bigr]\le C\rho^{-6}\,\bar\Psi(\rho)\,[r(r+s^2)]^2(r^2+s^3),
 \end{equation}
-where $\bar\Psi(\rho)$, the conditional moment of $\Psi^3$, is at most $C(1+\rho^{-m_0})$ for a fixed $m_0$, uniformly on compact marks and over the window. The same bounds hold for every kernel in the jet ball, in particular for $K_{24}$, with changed constants only.
+where $\bar\Psi(\rho)$, the conditional moment of $\Psi^3$, is at most $C(1+\rho^{-m_0})$ for a fixed $m_0$, uniformly on compact marks and over the window. The same bounds hold for every kernel satisfying Hypothesis~\ref{hyp:selection-jet}, in particular for $K_{24}$, with constants depending on the kernel.
 \end{lemma}
 
 \begin{proof}
@@ -505,7 +531,7 @@ so $A[t,t]A[\omega,\omega]-A[\omega,t]^2=O(r^2+s^3)$. The entries $A[t,e_h]$ and
 
 \emph{Conditional moments.} Under the conditioning on the pins and on $(f(y),\nabla f(y))=(u,0)$, every derivative field of $f$ is Gaussian, with mean given by regression on the corrected variables of Lemmas~\ref{lem:selection-pairlaw}--\ref{lem:selection-singchart} and covariance dominated by the unconditional one. The corrected pair frame has a uniform eigenfloor, and by \eqref{eq:selection-det4} and Lemma~\ref{lem:selection-singfactor} the corrected third-point block has determinant at least a constant times $\rho^{10}$. So the regression coefficients, and with them the conditional means, are at most $C(1+\rho^{-m})$ on compact marks and over the window, for a fixed $m$. By the Borell--TIS inequality \cite{AdlerTaylor}, every conditional moment of $\Psi$ is at most a constant times a power of $1+\rho^{-1}$. Multiplying the three envelopes, with $W_r\le|\det H_M|\,|\det H_S|$, gives \eqref{eq:selection-envelope}.
 
-The argument uses only Taylor's formula and Gaussian moments, so it holds throughout the jet ball with changed constants.
+The argument uses only Taylor's formula, Gaussian moments and the lower bound $\rho^{10}$ for the third-point block, which Lemma~\ref{lem:selection-singfactor} gives for every kernel satisfying Hypothesis~\ref{hyp:selection-jet}. So it holds for every such kernel, with constants depending on the kernel.
 \end{proof}
 
 The envelope \eqref{eq:selection-envelope} is (3.16) of the main text; the factor $\rho^{-6}\bar\Psi(\rho)$ is absorbed by the angular integral \eqref{eq:selection-singdens}. The symbolic check \path{checks/s5_envelope_check.py} confirms the cancellations behind \eqref{eq:selection-endenv} and \eqref{eq:selection-thirdenv} for polynomial fields of degree seven: in each of the four determinants (the in-plane part and the hard-direction part, at an endpoint and at the third point), every monomial in $r$ and $s$ is within the stated envelope.
@@ -526,7 +552,7 @@ Expanding the polynomial produces the six terms
 \begin{equation}\label{eq:selection-sixterms}
 r^7s^{-5},\qquad r^6s^{-3},\qquad r^5s^{-2},\qquad r^5s^{-1},\qquad r^4,\qquad r^3s^2,
 \end{equation}
-up to fixed numerical factors. Integration from $C_1r$ to $\delta$ bounds them respectively by $O(r^3)$, $O(r^4)$, $O(r^4)$, $O(r^5\log(1/r))$, $O(r^4)$ and $O(r^3)$. This proves \eqref{eq:selection-singcount} at the planar jet. For the side-$24$ field, Lemma~\ref{lem:selection-singfactor} shows that the $\rho^{-5}$ density factor, the $\exp(-c_*/\rho^4)$ axis suppression and the separated mean mismatch persist, so \eqref{eq:selection-singdens} holds with changed constants; with Lemma~\ref{lem:selection-envelope} the same power count applies.
+up to fixed numerical factors. Integration from $C_1r$ to $\delta$ bounds them respectively by $O(r^3)$, $O(r^4)$, $O(r^4)$, $O(r^5\log(1/r))$, $O(r^4)$ and $O(r^3)$. This proves \eqref{eq:selection-singcount} at the planar jet. For the side-$24$ field, Lemma~\ref{lem:selection-singfactor} shows that the $\rho^{-5}$ density factor, the $\exp(-c_*/\rho^2)$ axis suppression and the separated mean mismatch persist, so \eqref{eq:selection-singdens} holds with changed constants; with Lemma~\ref{lem:selection-envelope} the same power count applies.
 \end{proof}
 
 \subsubsection{The fixed-distance count}
@@ -671,7 +697,12 @@ At $\xi=\delta_R$, $E\le4(R^2/\tau)\delta_R^2=\frac{4\delta_R^2}{9/16}E_*<E_*$, 
 \[
 \tfrac12Y^{\top}TY\le\tfrac12E_*=\frac{9R^2}{32\tau}\le\frac9{64KR^3}<\frac1{4K};
 \]
-this is the point of the energy adaptation: no bound on $\lambda_{\max}(T)$ is needed, because $E_*$ itself is $O(R^2/\tau)$. The remaining adverse level terms total $\frac{21}{32K}+\frac1{K^2}+3\varepsilon_0+\frac3{8192}$, and the complete bracket is
+this is the point of the energy adaptation: no bound on $\lambda_{\max}(T)$ is needed, because $E_*$ itself is $O(R^2/\tau)$. The remaining adverse level terms are bounded as follows. On the strip $|Y|\le\sqrt{E_*/\tau}=3R/(4\tau)\le3/(8KR^4)$, by \eqref{eq:selection-assume}. So at $X=\frac54$
+\[
+\Bigl|\tfrac12\bigl(X^2-\tfrac14\bigr)a\cdot Y\Bigr|\le\tfrac{21}{32}R|Y|\le\frac{21}{32K},\qquad
+\Bigl|\tfrac12X\,Y^{\top}WY\Bigr|+\Bigl|\tfrac16C[Y,Y,Y]\Bigr|\le\tfrac58R|Y|^2+\tfrac R6|Y|^3\le\frac1{K^2},
+\]
+and $|rQ(\frac54,Y)|\le\frac12rR\cdot\dist((\frac54,Y),S)^2\le\frac12rR\le3\varepsilon_0$, since $Q(S)=0$, $\nabla Q(S)=0$ and $\|Q\|_{C^2}\le R$. Passing to the exact field changes the level by less than $\eta_R\le\frac1{8192}$. The two fields agree at $S$ by the pins, the $C^1$ distance between their gradient fields on the convex chart $D^+$ is at most $\eta_R$ (Lemma~\ref{lem:selection-robust}), and the segment from $S$ to $(\frac54,Y)$ has length less than $1$. The ledger reserves $\frac3{8192}$ for this term. The remaining terms total $\frac{21}{32K}+\frac1{K^2}+3\varepsilon_0+\frac3{8192}$, and the complete bracket is
 \[
 \frac{21}{32K}+\frac1{K^2}+3\varepsilon_0+\frac3{8192}+\frac1{4K}=\frac{9869}{16777216}<\frac1{768}
 \]
