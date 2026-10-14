@@ -186,10 +186,68 @@ r3 applies the author's dispositions in main#389 6155958479: items 1, 2, 3 and 5
 
 The other pages differ only by reflow. The build has one overfull line of 2 pt, as before.
 
+## Revision r4 (14 October, about 21:10Z)
+
+r3 is commit `7aff36d0`: 19 pages, 542,201 B, SHA-256 `7549678738ee73b913943c0f652bb9e2ec9c70cd723d6b29ec83a002078fcf75`. Cursor's readback of `13c1868d..7aff36d0` passed (main#389 6176065794). r4 is this PDF: 21 pages, 555,513 B, SHA-256 `3fb9a94e1e919681481ba0c71781c1fc77ffa45fb4f7183797152d21f987d5e8`.
+
+r4 runs under claim `R4-389-01N-20261014` (main#307 6178533667), on the owner's goal of 14 October. It has three parts.
+
+**Part 1: the Supplement replaces the 1 August numbering.** [R1] is now the V3 supplement, checkpoint draft 4: branch `claude/side24-v3-supplement-draft-20261013` at `c6aa790d`. Its nonauthor read of §S5, Lemma S4.29 and Proposition S8.13 is main#389 6178514413 (Cursor, PASS, no AMEND). Every citation of the 1 August numbering now points to a Supplement statement:
+- Definition 3.1 → S5.1–S5.2; Lemma 3.2 → S5.3 and S5.4; Z_r > 0 → S2.9(i); nondegeneracy → S1.5.
+- Proposition 3.3 → S6.1; Lemma 3.4 → S5.7 (with S5.6); Theorem 3.6 → S5.31 (r_mat: (S5.94); Q_⊥: (S5.95)).
+- Theorem 3.9 → S6.3, with its hypotheses and 0 < c < ∞ from S6.4; Proposition 3.10 → S6.2; the far rate O(ℓ^{2/3}) → S8.13.
+- The contact limits → S2.8 and (S3.27); D_t → S3.16; (2.10) → S4.4; J^(1)_near → S4.22; (3.29) → S4.29; the first variation → S4.24, S4.25 and S4.26.
+- Remark 3.8 → S5.15; §7's elimination → S5.15; the status table → "Supplement Part I".
+- Two citations keep the 1 August numbering on purpose, as history: the far bound O(ℓ) of the 1 August amendment ("its Proposition A.3.2"), and the display (B.1) of 1 August in Remark 3.8.
+
+**Part 2: §3.4 is aligned with the Supplement.** The witness route is now "written out in full in Supplement §S5 (Theorem S5.36)". The two gaps that r3 stated are closed there:
+- Lemma S5.22 proves the envelope (3.16) for every angle. Lemmas S5.19 and S5.23 give the collar and singular-near counts.
+- §S5.5 contains the five local repairs to the proof of Theorem 3.6.
+
+The proof of Corollary 3.5 still cites Theorem A of [R2]; the witness route remains a second argument. Lemma 3.4's explanatory sentence now covers a half-branch that ends at any critical point, not only at a maximum (Lemma S5.7, Case 0).
+
+**Part 3: findings of a same-provider referee read of r3.** A read-only subagent of the author's session read r3 as a referee would and listed 20 findings, F1–F20. It found no arithmetic, power-counting, sign or exponent error in §3. It earns no independence credit. Each finding was checked before it was applied:
+- **F1 (major): relation to [R2].** It is now owner decision 4 (§0). The default is a new §6 paragraph, "Relation to the parent record". It states which results are cases of [R2] (Theorem C, (15.2), Theorem A, (14.1)) and which are specific to the side-24 field. It also says that the Supplement imports some statements from [R2], in its Sections S7, S8 and S10.
+- **F2: Definition 3.1** now defines the elder mark through the maximin level, e = 1{d_f(M) = f(S)}, as Supplement S5.2. The unused 𝔪_g and 𝔟_g are removed. Lemma 3.2 states the equivalence with the elder-pair condition.
+- **F3: definitions and missing steps.**
+  - K^all_r = p_Π(z_r) Z_r is defined in Lemma 3.2, and G^all_r = r⁴K^all_r in Proposition 3.3.
+  - The limit G^all_0 is displayed as (3.19a), with the contact limits r⁻¹det H_M → −κ det Q_t and r⁻¹det H_S → κ det Q_t. This explains κ^{4/3} = κ^{−2/3}·κ² in (3.21).
+  - (3.19) holds for all 0 < r < ϱ, and (3.12a) integrates r over (0, ϱ) (also F10).
+  - 0 < c_{3,24} < ∞ is cited to S6.4.
+- **F4: (3.28).** J^(1)_near includes the images' share 6e^{−288} of the normalizer (Supplement S4.22). Without that share, the first variation would be off by 2e^{−288}. The variations δa, δm₄, δχ are now stated per unit e^{−L²/2}. Rechecked: DF(J₀)[J₀] = −1/3, since F(aJ₀) = a^{−1/3}.
+- **F5: §3.8 "self-contained" is withdrawn.** (2.10) cites Supplement Theorem S4.4. (3.26)–(3.33) are "a shorter route": (3.29) is Supplement Lemma S4.29, while (3.27) is quoted from the technical appendix and not reproved. R_quad is defined. The undefined F(C_u) representation is reworded.
+- **F6: §3.4.** Done in Part 2.
+- **F7: s2:69.** "Proved" now applies to Theorem 2.3 only. Remarks 2.4–2.5 are reported "at the review status and scope stated with each".
+- **F8: §5.4.** The amplitude law is identified as the one-dimensional candidate law. Its second- and third-order terms nearly cancel: relative coefficients −1.36 and +2.09, net below 0.5% on [10⁻⁴, 10⁻²]. Those of the lifetime density (−2.07, +2.09) cancel only in part: net −0.5%, −1.6% and −4.4% at 10⁻⁴, 10⁻³ and 10⁻². Recomputed in floating point.
+- **F9: §5.2.** The aggregate agreement over [10⁻⁴, 10⁻²] is separated from the bin-by-bin χ² over [10⁻⁴, 3·10⁻²]. The simulated sides (16 and 64, not 24) are named, with the size of the periodization effect.
+- **F11: s1.** "Uniformly in x ≠ y" becomes "uniformly on that set" (dist ≥ δ).
+- **F12: Remark 2.5.** It points to Corollary 3.5's compact-mark restriction. Candidate pairs are "ordered typed pairs at every separation".
+- **F13: Remark 3.8.** It uses Lemma S5.15's variables (ρ is the sine, not s), and "the κ-free term of N_y" replaces "det H_P". The variables of (3.14)–(3.16) are defined.
+- **F14: symbols.**
+  - The two-point kernel of Theorem 2.3 is 𝒜_r, distinct from the adjacency event A_r, with 𝒜_r(b, κ/6, t) = G^all_r(t, b, κ) (Supplement S6), and k = κ/6 is stated.
+  - Other renamings: §5.1's gap h becomes ℓ; the test function φ becomes ψ; §3.7's difference coordinate D becomes Δ.
+  - Defined: Q_⊥, r_mat, R_quad, λ, β (§5.3) and the inverse-moment threshold (Remark 2.5).
+  - F keeps its two local meanings, (3.19a)–(3.20) and (3.25), as in Supplement S3 and S4.
+- **F15: (3.24).** The GOE normalization is stated.
+- **F16: cross-references.** §3.7 is cited for (2.11), and Convention 2.2 points to Proposition 1.2 and §§3.1–3.3.
+- **F17: §4.** The statement names the two places that go beyond d = 3, L = 24: L ≥ 24 in Theorem 2.3(iii), and P_d(L) in §3.8.
+- **F18: proof of Corollary 3.5.** "joined, within {f > f(S)}, to a component with an older birth maximum".
+- **F19: Theorem 2.3(iii).** The enclosures are unconditional. Theorem CU (S9.16–S9.17) and the two interfaces (S11.10–S11.11) are needed only to identify them with the coefficients of (2.12).
+- **F20: Remark 2.5** now names Theorems U, K (with Corollary T), Z and P, as §0 and §7 do.
+
+**Literature (§6).** A new paragraph, "Universality of persistence ratios", cites three works:
+- Bobrowski–Skraba, Sci. Rep. 13 (2023) 12274 (arXiv:2207.03926), the conjecture;
+- Bobrowski–Skraba, arXiv:2406.05553, the weak form;
+- Heo, arXiv:2610.08257 (6 October 2026), the failure of the strong form.
+
+The paragraph says that these concern point clouds, positive degree and a multiplicative statistic. Source: RLOOP's handoff (main#275 6177725462) and TASKWATCH's source-fidelity check (main#275 6177892575). The titles and authors were checked on arXiv, and the Sci. Rep. data on an institutional listing of the article.
+
+**Where r4's text changed:** §0, Theorem 2.3 and Remark 2.5 (§2), §§3.1–3.8 (almost every subsection), §4, §§5.1–5.4, §6, §7 and Appendix A ([R1]). The build has one overfull line of 2 pt, as before.
+
 ## "Do not print" compliance (checked item by item)
 
 No numerical ε₂₄ (E1). No `O(ℓ)` for the far density, and the far rejected density is not called vanishing (E4). No numerical selection-loss constant (E2, E9). No "first" or "absent from the literature", and Pérez is not said to call the smooth law open (E5). No "1% at ℓ ≈ 2.3·10⁻⁵" (E15). The simulation is an illustration, and its residuals are not called an ℓ^{1/2} term (E17, E43). `B_{3,24}` and `I^{cand}` are not certified digits (E19). No sharpness of 3/4, and no d ≥ 2 edge statement (E20). Proposition 2′ of #242 is not stated about the field (E22). No planar result is called d = 3, and the planar chain is not called independently reviewed (E23). The d = 3 rate carries its conditionality (E49–E58). No C104 quotient line (E25). "Certified" carries #219's and #223/#232's scope (E43). [K]'s normalized cap bound is not stated (E50). PD_U is not cited (E59). δ is not called sharp, and the elder ℓ^{2/3} statement stays o(ℓ^{2/3}) (E76).
 
 ## Build
 
-`pdflatex main && bibtex main && pdflatex main && pdflatex main` with TeX Live 2023 (amsart, natbib-free amsplain). The sources are `main.tex`, `s0_status.tex` … `s7_disclosure.tex`, `appA_records.tex` and `refs.bib`. The output is 19 pages, with one 2 pt overfull line. Section "Status of this draft" is for the author and is to be removed before submission.
+`pdflatex main && bibtex main && pdflatex main && pdflatex main` with TeX Live 2023 (amsart, natbib-free amsplain). The sources are `main.tex`, `s0_status.tex` … `s7_disclosure.tex`, `appA_records.tex` and `refs.bib`. The output is 21 pages (r4), with one 2 pt overfull line. Section "Status of this draft" is for the author and is to be removed before submission.
