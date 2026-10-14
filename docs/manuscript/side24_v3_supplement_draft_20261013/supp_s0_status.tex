@@ -2,23 +2,26 @@
 \section*{Status of this draft (for the author; remove before submission)}
 
 \begin{itemize}[leftmargin=1.5em,itemsep=2pt]
-\item \emph{What this is.} Checkpoint draft~1 of 13 October 2026, an author-side assembly of the proofs that the V3 main text cites, written as numbered statements with proofs.
+\item \emph{What this is.} Checkpoint draft~2 of 14 October 2026, an author-side assembly of the proofs that the V3 main text cites, written as numbered statements with proofs. Draft~1 (13 October) was the first assembly; draft~2 applies the repairs listed below.
   \begin{itemize}[leftmargin=1.2em,itemsep=1pt]
   \item Every statement and display is mapped to its source in the separate file \path{CONCORDANCE.md}.
-  \item That file also lists each correction applied, each step added, and each issue found during assembly.
+  \item That file also lists each correction applied, each step added, each issue found during assembly, and, in its section ``Checkpoint draft~2'', the disposition of each issue.
   \item The draft has not yet been read as a whole, by the author or by anyone else.
   \end{itemize}
 \item \emph{Part I} (\S\S\ref{sec:setting}--\ref{sec:rate}) follows the main text's proof of Theorem~2.1 and of the correction (2.10). \emph{Part II} (\S\S\ref{sec:remainder}--\ref{sec:ctwo}) states the results behind Theorem~2.3. Its proofs are given in full or condensed, as \path{CONCORDANCE.md} marks for each.
 \item \emph{Author correction.} The elder mark is defined through the maximin connection level (Definition~\ref{def:selection-mark}). The two-sector formula of the 1~August supplement required $\mathfrak m_f(u_+,u_-)<h$, but the segment through $S$ gives $\mathfrak m_f(u_+,u_-)\ge h$, so that mark was identically zero as written.
-\item \emph{Open issues found during assembly}, with details in \path{CONCORDANCE.md}. In the selection chain of \S\ref{sec:selection}:
+\item \emph{Repairs in draft~2, \S\ref{sec:selection}.} The selection bound $1-p_r\le Cr^3$ on compact marks is Theorem~A of \cite{parentP} for every $d\ge2$ and $L>0$, and the main text cites it. \S\ref{sec:selection} now gives a complete second proof in $d=3$ (Theorem~\ref{thm:selection-main}):
   \begin{itemize}[leftmargin=1.2em,itemsep=1pt]
-  \item the three witness regions should be measured from one centre;
-  \item same-component and same-maximum self-attachment differ;
-  \item the Gaussian factor of the fixed-distance count (main text (3.17)) is shown only for compact marks;
-  \item the singular-near envelope needs the value-window constraint and a separate argument near $c=0$;
-  \item there are gaps of detail in the capture--escape lemmas.
+  \item the three witness regions are measured from the pair midpoint;
+  \item self-attachment is same-maximum self-attachment, and the remaining cases are witnesses by Lemma~\ref{lem:selection-merge};
+  \item the fixed-distance count (main text (3.17)) is stated and proved on compact marks, with the conditional pin density;
+  \item the singular-near envelope (main text (3.16)) is proved by Taylor's formula with the value window, for every angle (Lemma~\ref{lem:selection-envelope}; the symbolic check is \path{checks/s5_envelope_check.py}). The elimination (B.1), whose denominators vanish at $c=0$, is no longer used there;
+  \item the collar count uses (B.1) only where $|c|$ is bounded below, and Hessian collision zeros near $c=0$;
+  \item the capture--escape lemmas contain the five local repairs (\S\ref{ssec:selection-escape});
+  \item the Morse event under the Palm law is addressed in Remark~\ref{rem:selection-morse}.
   \end{itemize}
-  The selection bound itself, $1-p_r\le Cr^3$ on compact marks, is also proved for every $d\ge2$ and $L>0$ by Theorem~A of \cite{parentP}. The main text can cite that proof.
+\item \emph{Other repairs in draft~2.} Convention~\ref{conv:setting-density} on pointwise representatives, and the $\beta$-normalization of $D_n$ in \S\ref{sec:coefficient}, which matters only when $\beta\ne1$.
+\item \emph{Open items}, with details in \path{CONCORDANCE.md}. The issues of \S\S\ref{sec:rate}--\ref{sec:ctwo} are recorded but not yet worked. So are the provenance displays suggested for \S\ref{sec:selection} (the level terms of Lemma~\ref{lem:selection-strip} and an explicit bound on $dA_{\rm col}$, $dA_{\rm sing}$), and the main-text items (citing Lemma~S2.9(i) for $Z_r>0$, and the supplement's numbering).
 \item \emph{Review status} is not stated in this supplement. It is given result by result in \S7 of the main text.
 \item \emph{References from the main text} still use the numbering of the 1~August supplement. They are updated when this supplement is adopted.
 \end{itemize}

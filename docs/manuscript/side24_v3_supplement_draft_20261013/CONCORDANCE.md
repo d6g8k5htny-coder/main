@@ -33,6 +33,65 @@ Each section's concordance below maps every statement and numbered display to it
 4. **TA Module K's general-d formula.** It is wrong by a factor `beta^n` when `beta != 1`. The Bargmann–Fock case (`beta = 1`) is unaffected (W2, issue I5).
 5. **Notation.** `kappa` is the cubic coefficient in main (3.5) and the cusp variable in §5 (W7, W8, W9).
 
+## Checkpoint draft 2 (14 October 2026)
+
+Author-side, by Claude01N (session `session_01NMeKEismAyeqgdB4sy2NJU`). It applies the repairs listed below to checkpoint draft 1 (`4f9e6180`). The main text's findings 1, 2, 3 and 5 above were applied in main#389 revision r3 (`13c1868d`, with the read AMEND applied in `7aff36d0` and the readback PASS 6176065794). Finding 4 is repaired here, in S3.
+
+**Numbering.** In S5 the new Lemma S5.6 (merge level) moves every later statement up by one. Old S5.6–S5.35 are now S5.7–S5.36, and two remarks are added, S5.37 (the parent theorem) and S5.38 (the Morse event under the Palm law). Equation numbers change from Lemma S5.22 on: new displays are added in Lemmas S5.22 and S5.29, and the display `‖L_r‖² ≥ ½(b² + κ²)` of draft 1 is removed. The tables below keep the draft-1 numbers; the text cites labels where a number could mislead.
+
+### S5, issue by issue (the CONC_s5 list below)
+
+- **1–3 (GF A.1.2: the mark, the birth level, the sector offset).** Already resolved at integration, because the mark is the maximin connection level (Definition S5.2, Lemma S5.3). No sector offset or two-sector formula remains.
+- **4 (`L_same`).** Repaired.
+  - `L_same,r` is now same-maximum self-attachment (both unstable half-branches converge to `M`), in Definition S5.5(c).
+  - The trichotomy proof (Lemma S5.7) has a new Case 0, in which the two sectors lie in one component. If the other half-branch ends at a critical point `z ≠ M`, then either `f(z) < f(M)`, and `z` is a window witness, or the component contains a maximum higher than `M`. In the second case the new Lemma S5.6 (merge level: mountain-pass level, deformation argument) gives a critical point with value in `(h, f(M))`.
+  - Case 1 uses the same lemma, in place of the merge-tree sentence.
+- **5 (regions).** Repaired: all three regions are measured from `x`, with `C_1 > 1` and `r ≤ δ/C_1`. Region (iii) is `dist(y, x) > δ`, so `dist(y, {M, S}) ≥ δ/2`.
+- **6 (fixed-distance count).** Repaired. Lemma S5.24 (old S5.23) states the conditional density of `(f(y), ∇f(y))` given the pins, `p_A(a_r)/p_{P^corr}(L_r)`, bounded on compact marks. Lemma S5.25 (old S5.24) states `E^MS N_far ≤ C r^3` on compact marks, with no Gaussian factor. The `‖L_r‖² ≥ ½(b² + κ²)` claim (issue 16) is no longer used and is removed.
+- **7 (singular-near envelope).** Repaired by a new proof, which also closes the `c = 0` case.
+  - Lemma S5.22 now proves `eq:selection-endenv` and `eq:selection-thirdenv` ((S5.61)–(S5.62) in draft 2) from Taylor's formula with derivatives to order five and the value window, for every angle, with an explicit factor `ρ^-2` per determinant. The bounds are `|det H_M|, |det H_S| ≤ Cρ^-2 r(r + s²)Ψ` and `|det H_y| ≤ Cρ^-2 (r² + s³)Ψ`.
+  - At the endpoint the key identity is `A[w,w] = 6F_M(w) + Θ[w,w,w,w]/12 + O(s⁵)` with `F_M(w) = f(y) − f(M)`.
+  - At the third point, the pins give `T[ω,ω,t] = (2/3)sΘ[ω,ω,ω,t] + O(r²/s² + s²)` and the window gives `T[ω,ω,ω] = (1/2)sΘ[ω,ω,ω,ω] + O(r²/s² + s²)`. With these, the in-plane minor is `O(r² + s³)`.
+  - The elimination (B.1) is not used there.
+  - The conditional moments of `Ψ` grow at most polynomially in `1/ρ`. They are absorbed by the weighted angular bound `eq:selection-singdens` ((S5.56) in draft 2), which now holds for every weight `ρ^-m` because of the `exp(−c_*/ρ⁴)` axis suppression.
+  - The symbolic check `checks/s5_envelope_check.py` (SymPy; output `checks/s5_envelope_check.out.txt`, `ALL PASS`) confirms the cancellations for exact polynomials of degree seven. It checks every monomial in `(r, s)` of the in-plane and hard-direction parts at an endpoint and at the third point. The denominators are powers of `ρ` and `s` only, with no factor of `c`, and the solved cubic coefficients are bounded for `r ≤ s`.
+  - The collar count (Lemma S5.19, old S5.18) now uses (B.1) only where `|c| ≥ c_0`. For `|c| < c_0` it uses Hessian collision zeros at each vertex of the triangle `M, S, y`: every angle has sine at least `c′ρ`, so each determinant is at most `Cρ^-1 r²Ψ`. The factor `ρ^-3` is absorbed by the `exp(−c/ρ⁴)` suppression near `X = 0`.
+- **8 (GF B.1(b) display slips).** As in draft 1. The displays are the transcript forms, which agree with main Remark 3.8.
+- **9 (`(2π)^-3`).** Repaired to `(2π)^-3/2` in `eq:selection-coldens`, (S5.33) in draft 2.
+- **10 (GF A.4.2, `|rQ_X|`).** Repaired in Lemma S5.27 (old S5.26): `|Q_X| ≤ R(ξ + |Y|) ≤ R(1 + 1/K)ξ`, so `|rQ_X| ≤ 2rRξ ≤ ξ/16`.
+- **11 (GF A.4.4).** All four parts are repaired in Lemma S5.29 (old S5.28):
+  - (a) The inward half-branch is tangent to `−v`, with `v` the positive eigenvector; its slope is at most `√(8/3)R/τ < m`.
+  - (b) `eq:selection-Qtube` ((S5.90) in draft 2): `|∇Q| ≤ R(2 + m)(¼ − X²)` on the tube, from `∇Q(M) = ∇Q(S) = 0`. The lateral flux and `F_X < 0` (`eq:selection-FXtube`, (S5.91) in draft 2) then hold on the whole tube, near `S` included, and the `δ_0` restriction is gone. The ledger `eq:selection-tubeledger`, (S5.93) in draft 2, is unchanged, because `3rR ≤ 3ε_0 < 1/8192`.
+  - (c) The capture section is at `X = −½ + 2δ_0`.
+  - (d) The Lyapunov remainder is split. Its quadratic part is at most `3R|z − M|²`, and its `rQ` part `r[∇Q(z) − D²Q(M)(z − M)]` is at most `2rR|z − M|`. So `V̇ ≤ −¾V + 6RV^{3/2} + 4rRV ≤ (−3/8 + 4ε_0)V` on `∂B_{ρ_B}(M)`.
+
+  The paragraph after Theorem S5.31 lists the five repairs, matching main §3.4.
+- **12, 13 (provenance displays).** Open. The level terms of Lemma S5.28 and an explicit bound for `dA_col`, `dA_sing` are not yet displayed.
+- **14 (Morse event under the Palm law).** Repaired by Remark S5.38. For almost every `(b, κ)` it follows by disintegration. For every `(b, κ)` it follows from nondegenerate conditional laws of `H_M`, `H_S` and a Bulinskaya-type lemma away from `{M, S}`, for degenerate critical points and for equal critical values.
+- **15 (joint continuity of GF's functional).** Moot: that functional is not used.
+- **16 (`‖L_r‖²` normalization).** Moot: see 6.
+- **17 (collision strata).** Repaired in Lemma S5.15 (old S5.14): the denominators vanish only at `c = 0`, `ρ = 0` (and `η = 0` for `det H_y`). On `2c = ±η` the `κ²` coefficient vanishes.
+- **18 (labels).** Unchanged.
+
+With these, S5 gives a complete second proof of (3.13) in `d = 3` (Theorem S5.36). Remark S5.37 records Theorem A of `[R2]`, which the main text cites.
+
+### Other sections
+
+- **S1–S2.**
+  - I2 is repaired in Convention S1.6: a pointwise asymptotic is a property of the Kac–Rice representative, and the convention refers to the asymptotics of Theorem 2.1.
+  - I3, I5, I6 and I7 were already handled in draft 1; their fixes are suggestions for the sources.
+  - I8 is a main-text item: cite Lemma S2.9(i) for `Z_r > 0` in main Definition 3.1. It waits for a later main#389 head.
+  - I1, I9 and I10 are not errors.
+- **S3.**
+  - I5 is repaired. `D_n` is the moment of `M_n = β^{-1/2}Q_n`; without the normalization the formulas are off by `β^n` when `β ≠ 1`. Bargmann–Fock has `β = 1`. This is main finding 4.
+  - I2 and I3 were already handled in draft 1.
+  - I1 (the scope `L = 24`), I4, I6, I7, I8 and I9 are unchanged and recorded below.
+- **S4.** Issues 1 and 2 are main-text items. Item 1 was applied in r3; item 2 waits for the supplement's adoption.
+- **S6.** Items 1–5 are covered by the added steps listed there; item 6 is notation and item 7 is for the integrator. No change.
+- **S7–S11.** Not worked in draft 2; their issue lists below stand.
+
+**Build.** `build.sh` (TeX Live 2023): 126 pages, no LaTeX error and no undefined reference. There is one overfull line, 29 pt, in S10 at lines 439–440, unchanged from draft 1.
+
 ---
 
 # Concordance — supplement sections S1 and S2
