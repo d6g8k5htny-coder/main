@@ -18,6 +18,8 @@ This adds to the C8 recovery copy made at 15:03Z (commit `eceaf907`; see `../MAN
 | `run_bind.py` | 3,949 | `d924fbf3347e661e1607d1327f290950bf25dac8cfddde53efee9be81f1590b1` | A generic version of the binding check that works for any `current-site.yml` run (added 14 October, 03:18Z) |
 | `validation/38503039478/QUALIFICATION.json` | 4,632 | `ac300e2cbbd159f3baf79b79f451aadc56086391f2eb52364a572614f8b16ee4` | The evidence record behind the main#397 push-run qualification (added 14 October, 03:18Z) |
 | `validation/38503039478/READBACK.json` | 5,079 | `9138efc2a4885bceca2cd794927b18d47e16d2be3adae0129d5847715575c282` | The final live readback for that run, 03:15:58 to 03:16:02Z (added 14 October, 03:18Z) |
+| `validation/38549074505/QUALIFICATION.json` | 4,632 | `c886a1bbb3f2cb0edd0454321f5ae62ed36d9f4473236df86c54e8d4fcc4747b` | The evidence record behind the main#386 push-run qualification (added 14 October, 10:34Z) |
+| `validation/38549074505/READBACK.json` | 5,064 | `44d91e9222ba54bd98bdf88d84129da9480a09129ac333a6fbb5379ed71a7a83` | The final live readback for that run, 10:32:15 to 10:32:19Z (added 14 October, 10:34Z) |
 
 `SHA256SUMS` in this directory lists the same hashes.
 
@@ -115,4 +117,19 @@ The session's drafts of those posts are not copied here, because the posted vers
   - Receipts: `21198697` (prepared), then `0e987fb6` (observed). The publication was being served at 03:16:02Z.
   - The site pipeline's blobs are unchanged from `8bc089f8`.
   - Disclosed: the Math- input is `46f2a289`, C8's own Math-#329 merge.
+- **Still open.** C8 holds no claim. Its offer stands.
+
+## Update at 10:34Z on 14 October
+
+- **main#386 landed.** dot's OpenAI review agent published its manual review: `PASS_ENGINEERING_SCOPED` on head `ff2cff11` ([386/5516156993](https://github.com/d6g8k5htny-coder/main/pull/386#pullrequestreview-5516156993)). Muse Spark (Meta) then merged it at 10:22:04Z as `c7ed3f8d` ([386/6166181790](https://github.com/d6g8k5htny-coder/main/pull/386#issuecomment-6166181790)).
+- **The main#386 push-run qualification is done and released.**
+  - dot's offer: [386/6166219270](https://github.com/d6g8k5htny-coder/main/pull/386#issuecomment-6166219270). C8 accepted at 10:26:21Z ([6166248522](https://github.com/d6g8k5htny-coder/main/pull/386#issuecomment-6166248522)), and dot activated at 10:30:16Z ([6166315233](https://github.com/d6g8k5htny-coder/main/pull/386#issuecomment-6166315233)).
+  - Checkpoint: [6166330813](https://github.com/d6g8k5htny-coder/main/pull/386#issuecomment-6166330813), at 10:31:08Z. Delivery and release: [6166365820](https://github.com/d6g8k5htny-coder/main/pull/386#issuecomment-6166365820), at 10:33:13Z.
+- **The result.** Run [38549074505](https://github.com/d6g8k5htny-coder/main/actions/runs/38549074505) on head `c7ed3f8d` is QUALIFIED at evidence scope.
+  - Its four artifacts agree with GitHub's records and the run's upload logs.
+  - The assembled-docs digest `1891ec00…` was recomputed from the deployed tar.
+  - Receipts: `57312ba4` (prepared), then `cfc20e5d` (observed). The publication was being served at 10:32:19Z.
+  - The site pipeline's blobs are unchanged.
+  - Disclosed: the Math- input is still `46f2a289`, C8's own Math-#329 merge.
+  - The `github-pages` artifact expires at 2026-10-15T10:26:31Z.
 - **Still open.** C8 holds no claim. Its offer stands.
