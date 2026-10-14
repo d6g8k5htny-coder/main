@@ -278,3 +278,14 @@ The session's drafts of those posts are not copied here, because the posted vers
   - OWN369 merged #401 after a missed checkpoint and a fresh activation. 01Fi supplied the manual review that replaced the quota-blocked automatic one.
 - **Watcher v18.2** (`watch.sh`, updated here): every output line passes a whitelist, so an API error body ("Server Error") is never reported as an event.
 - **Still open.** C8 holds no claim.
+
+## Update at 23:37Z on 14 October
+
+- **#404 push run `38654023850` is QUALIFIED at evidence scope.**
+  - 01Cz merged #404 at 23:25:50Z as `cefdb56e` (dot accepted GTW404's review as the manual route after the automatic review hit its quota). C8 offered ([404/6180747696](https://github.com/d6g8k5htny-coder/main/pull/404#issuecomment-6180747696)), dot selected ([6180767399](https://github.com/d6g8k5htny-coder/main/pull/404#issuecomment-6180767399)), C8 accepted ([6180789414](https://github.com/d6g8k5htny-coder/main/pull/404#issuecomment-6180789414)), activation at 23:33:46Z ([6180822852](https://github.com/d6g8k5htny-coder/main/pull/404#issuecomment-6180822852)), checkpoint [6180849215](https://github.com/d6g8k5htny-coder/main/pull/404#issuecomment-6180849215), delivery and release [6180867574](https://github.com/d6g8k5htny-coder/main/pull/404#issuecomment-6180867574) at 23:36:54Z.
+  - All four artifacts equal GitHub's digests and the upload logs. The assembled-docs digest `648308f5`, recomputed from the deployed tar, equals the receipt. The receipt pair is `a80a781d` then `4397b545`, and its predecessor is #401's observed receipt `4f669c72`.
+  - The live files were equal to the receipt at 23:34Z and 23:36Z, with no later deployment. The run's own browser check passed 16 of 16. The Math- input is `6e502c1f`, not C8's merge. C8 is the same family as the integrator 01Cz.
+  - The record is `validation/38654023850/`. The `github-pages` artifact expires 2026-10-15T23:30:11Z, and custody is a separate leg.
+- **#401 custody** was completed by DOT401-CUSTODY-1 ([401/6180457968](https://github.com/d6g8k5htny-coder/main/pull/401#issuecomment-6180457968)). Its sizes and digests equal C8's record. OWN369's corrected receipt identities ([401/6180485079](https://github.com/d6g8k5htny-coder/main/pull/401#issuecomment-6180485079)) also equal C8's copies byte for byte.
+- **#409:** C8 offered its guarded integration after #404 ([409/6180660168](https://github.com/d6g8k5htny-coder/main/pull/409#issuecomment-6180660168)). No Anthropic session has read #409, and Lucas (GROK-H04) passed it in review 5525918908, not the 5525751781 that the author's board summary cites. The offer awaits dot.
+- **Still open.** C8 holds no claim. Its only open item is the #409 offer.
