@@ -15,6 +15,7 @@ import os
 from pathlib import Path, PurePosixPath
 import re
 import struct
+import urllib.error
 import urllib.request
 import zlib
 
@@ -202,7 +203,16 @@ def tree(api, repo, ref):
 def ancestor_of_branch(api, repo, branch, commit):
     if not (isinstance(branch, str) and BRANCH.fullmatch(branch) and '..' not in branch):
         return False  # a name this route cannot carry safely never vouches for a source
-    data = api.get(f'/repos/{repo}/compare/{branch}...{commit}?per_page=1')
+    try:
+        data = api.get(f'/repos/{repo}/compare/{branch}...{commit}?per_page=1')
+    except urllib.error.HTTPError as error:
+        # GitHub answers 404 "No common ancestor" for a branch with unrelated history
+        # (an orphan branch), and 404 for a branch deleted between listing and compare.
+        # Either way that branch does not vouch; keep scanning. Any other status is
+        # not evidence either way and still rejects.
+        if error.code == 404:
+            return False
+        raise
     if not (isinstance(data, dict) and isinstance(data.get('merge_base_commit'), dict)):
         return False  # any other shape is not evidence of reachability
     return (type(data.get('ahead_by')) is int and data['ahead_by'] == 0 and data.get('status') in ('behind', 'identical')
@@ -330,6 +340,11 @@ def verify_package(api, repo, head, base, rows):
     sources = identity['sources']
     require(isinstance(sources, list) and 1 <= len(sources) <= 8, 'one to eight pinned sources required')
     seen_sources = set()
+    # Several sources may pin the same commit. Its reachability scan (up to one compare per
+    # listed branch) and its recursive tree are the same for each of them, so each is fetched
+    # once per (repository, commit) within this run. The key includes the commit, so one
+    # commit's answer is never reused for another.
+    reachability, source_trees = {}, {}
     for row in sources:
         require(isinstance(row, dict) and set(row) == {'repository', 'path', 'commit', 'sha256'}, 'invalid source record')
         source_repo = row['repository']
@@ -345,11 +360,14 @@ def verify_package(api, repo, head, base, rows):
         require(isinstance(metadata, dict) and metadata.get('private') is False and metadata.get('full_name') == source_repo, 'source is not verified public')
         commit_record = api.get(f'/repos/{source_repo}/git/commits/{commit}')
         require(isinstance(commit_record, dict) and commit_record.get('sha') == commit, 'source is not an exact commit')
-        require(reachable(api, source_repo, commit, metadata.get('default_branch')),
-                'source commit is not reachable from any branch of the public repository')
+        if (source_repo, commit) not in reachability:
+            reachability[(source_repo, commit)] = reachable(api, source_repo, commit, metadata.get('default_branch'))
+        require(reachability[(source_repo, commit)], 'source commit is not reachable from any branch of the public repository')
         # The contents endpoint follows in-repository symlinks. Resolve the
         # exact path from the commit tree instead, then read that exact blob.
-        source_tree = tree(api, source_repo, commit)
+        if (source_repo, commit) not in source_trees:
+            source_trees[(source_repo, commit)] = tree(api, source_repo, commit)
+        source_tree = source_trees[(source_repo, commit)]
         source_entry = source_tree.get(path)
         require(isinstance(source_entry, dict) and source_entry.get('type') == 'blob'
                 and source_entry.get('mode') == '100644', 'source must be a regular non-executable public file')
