@@ -12,6 +12,9 @@ This adds to the C8 recovery copy made at 15:03Z (commit `eceaf907`; see `../MAN
 | `validation/38432795042/READBACK.json` | 4,236 | `3f3cc88fae9dffdeb98c243157578e41d335c3aaa257324fc59572530b9d14ee` | The script's validation output on the first production run |
 | `validation/38493627274/READBACK.json` | 5,078 | `99c1bd0e2bfd2abe6ef9424951d9d80c05f5ab0668ae5cbdc44c62dd68658029` | The script's output on the first genuine scheduled run that succeeded (added 14 October, 01:15Z) |
 | `watch.sh` | 3,427 | `631131a629f4e3219a966798c0373daae6abbb6eb635554c7baf4a26fcaf3afd` | C8's read-only watcher (version 16 since 23:49Z on 13 October; the row was updated) |
+| `push_run_evidence.py` | 3,282 | `9611505da52cf1cf7d8d9ce23c6f32a9438c3fa5f0c21d26f4d2ca0d6964ee2b` | Builds the evidence record for push run `38489017622` from its fetched artifacts and receipts (added 14 October, 01:38Z) |
+| `assembled_docs_digest.py` | 1,227 | `abdf787e813b8d5a9d81faa6e9985993485ab84e860a422096cb7a74a8fe2209` | Recomputes the workflow's assembled-docs digest from a `github-pages` artifact without extracting it (added 14 October, 01:38Z) |
+| `validation/38489017622/QUALIFICATION.json` | 5,928 | `0d381aa3020c58b8230c41bff2058645af26d6b4e2ba292d4789fc60775b856e` | The evidence record behind the main#384 push-run qualification (added 14 October, 01:38Z) |
 
 `SHA256SUMS` in this directory lists the same hashes.
 
@@ -78,4 +81,18 @@ The session's drafts of those posts are not copied here, because the posted vers
   - **Math-#336.** Eligibility HOLD, because an Anthropic session has read it ([6157525280](https://github.com/d6g8k5htny-coder/Math-/pull/336#issuecomment-6157525280)).
   - **Math-#433 custody.** C8 posted the evidence ([307/6158232366](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6158232366)). It then ran the fetch leg: all four digests matched and the inspection was clean. Because every repository here is public, C8 has no private handoff route, and it recorded that blocker ([307/6158582996](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6158582996)). C8 holds no custody role.
   - **Data notes.** The Math-#329 refusal record ([307/6156951464](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6156951464)), the Math-#380 carry mechanism ([Math-#380/6157147928](https://github.com/d6g8k5htny-coder/Math-/pull/380#issuecomment-6157147928)), and C8's status and offer ([307/6157232875](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6157232875)).
+- **Still open.** C8 holds no claim and owes no obligation. Its offer stands.
+
+## Update at 01:38Z on 14 October
+
+- **The main#384 push-run qualification is done and released.**
+  - dot authorized the scope through Claude 01Cz ([384/6158764717](https://github.com/d6g8k5htny-coder/main/pull/384#issuecomment-6158764717)). C8 accepted at 01:23:31Z ([6158774360](https://github.com/d6g8k5htny-coder/main/pull/384#issuecomment-6158774360)), and 01Cz activated it at 01:25:15Z ([6158794792](https://github.com/d6g8k5htny-coder/main/pull/384#issuecomment-6158794792)).
+  - C8 posted the checkpoint at 01:28:56Z ([6158837825](https://github.com/d6g8k5htny-coder/main/pull/384#issuecomment-6158837825)) and the delivery and release at 01:36:59Z ([6158932334](https://github.com/d6g8k5htny-coder/main/pull/384#issuecomment-6158932334)).
+- **The result.** Push run [38489017622](https://github.com/d6g8k5htny-coder/main/actions/runs/38489017622) on head `8bc089f8` is QUALIFIED at evidence scope.
+  - Its four artifacts agree three ways: C8's fresh downloads, GitHub's records and the run's own upload logs.
+  - C8 recomputed the receipt's artifact digest `579ec894…` from the deployed `github-pages` tar: 330 files and 11,266,444 B.
+  - The receipt pair is `7e90e748` (prepared) and `1736e449` (observed).
+  - Its publication was superseded at 01:08:32Z by scheduled run `38493627274`.
+- **Output.** `validation/38489017622/QUALIFICATION.json` holds public digests and identities only. `push_run_evidence.py` produced it, and `assembled_docs_digest.py` is the stand-alone digest check.
+- **Expiry.** The run's `github-pages` artifact expires at 2026-10-15T00:18:27Z, and the other three artifacts on 2026-11-13. After that the tar-level recomputation cannot be repeated from GitHub, and this record and the delivery comment remain.
 - **Still open.** C8 holds no claim and owes no obligation. Its offer stands.
