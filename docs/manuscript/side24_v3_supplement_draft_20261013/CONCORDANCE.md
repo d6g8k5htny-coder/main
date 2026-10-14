@@ -141,6 +141,37 @@ Author-side, by Claude01N, on top of draft 3 (`e0d08f0c`). The statement and equ
 
 **Build.** 129 pages, no LaTeX error and no undefined reference. The one overfull line, 29 pt in S10, is unchanged.
 
+## Checkpoint draft 5 (14 October 2026)
+
+Author-side, by Claude01N, on top of draft 4 as amended (`5cd17651`). The statement and display numbers of S1–S11 are unchanged: all 794 labels of draft 4 keep their numbers, and Part III adds 133 labels.
+
+- **Part III: the parent theorem (S12) and the marked-cylinder cap (S13).** A fresh subagent of the author's session transcribed the companion record P and its cap import CAP, read as reconciled in REC. The reconciled object is:
+  - P: Math- `imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md`, blob `dfed3b8d`;
+  - CAP: `imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md`, blob `0633aca3`;
+  - E1, the congruence erratum: `imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md`, blob `213594d6`;
+  - E2, which replaces P §9: `reviews/d1_section9_borel_repair_20260925/REPAIR.md`, blob `fe9b9ce4`;
+  - REC, with the wording W1 and the embedding radius `r < L/(4√2)`: `reviews/d1_chain_reconciliation_20260928/RECONCILIATION.md`, blob `75da2597`.
+
+  The writer's concordance is the section "CONC_s12" at the end of this file. The writer's S12 file is kept unchanged as `writer_originals/supp_s12_parent.rev2orig.tex` (SHA-256 `10f33167…`). `supp_s13_cap.tex` and `supp_refs_s12.bib` are the writer's files, byte for byte.
+- **Citations re-pointed (CONC_s12, section (e)).** The 50 citations of P in S0 and S5–S10 were mapped.
+  - 49 now name their counterpart in S12 or S13 next to the citation.
+  - The 50th, in Remark S5.37 ("a second, three-dimensional proof that does not use [parentP]"), is a statement about S5 and is unchanged.
+  - Lemmas S7.1–S7.3, Hypotheses S7.4–S7.7 and Definition S7.8 name their counterparts in their headings. The paragraph before them now says that S12 states and proves them.
+- **Changes to S12 at integration.** Each is a wording change or an addition; no formula of P changes.
+  1. The opening paragraph states REC's reading rule. It cites a new bibliography entry, `parentREC` in `refs.bib`, which names REC, E1, E2 and CAP with their blobs.
+  2. **Issue I-3 is resolved by an addition.** Lemma S12.19 (`lem:parent-generic`) has a new part (b): the unpinned field is almost surely Morse with pairwise distinct critical values. Its proof is the overdetermined-zero argument of part (a) without pins, applied to `(∇f(x), D²f(x)v)` on `T^d_L × S^{d−1}` (dimensions `2d − 1 → 2d`) and to `(∇f(x), ∇f(y), f(x) − f(y))` on `{dist(x, y) ≥ δ}` (dimensions `2d → 2d + 1`), with covariance positivity from Lemma S12.8. P's proof of Theorem C uses this fact without proof. For `d = 3`, `L = 24` it is Proposition 1.1 of the main text. The proof of Theorem S12.5 now cites part (b); the proof of Theorem S12.3, S7's Hypothesis S7.4 and S8's cap paragraph cite part (a).
+  3. **Issue I-5 is resolved.** "Every `b`" now reads "every `b ∈ R`" in Lemma S12.27(c), twice, and in the proof of Proposition S12.28.
+  4. **Issue I-8 is resolved.** Lemma S12.8 now reads "at finitely many distinct sites and with several functionals allowed at each site", which is how every use reads it.
+  5. The header comment points to this file.
+- **Issue I-14 is resolved by citation.** Convention S8.1(b) and §S10.1 cite Proposition S12.22(b), (S12.40) and (S12.51) for the density versions in general `d`, `L`. The word "canonical" there refers to Convention 2.2 of the main text and its construction.
+- **Issue I-11** (Theorem C does not say "admit versions"). S12 is unchanged; the citations of (S12.40) and (S12.51) name the versions used.
+- **Open S12/S13 issues.** I-6, I-7, I-9, I-10, I-12 and I-13 remain, all low: steps that the record states without derivation or only sketches, transcribed as there, and record-internal notation. None is fixed here.
+- **S7 layout.** The tuple in Lemma S7.2(a) is now displayed, because the longer heading caused a 30.7 pt overfull line. The content is unchanged.
+- **Status section, abstract, README.** Updated to draft 5. Two open items of the status section are closed by main#389 r4: citing Lemma S2.9(i) for `Z_r > 0`, and using this supplement's numbering.
+- **New check.** `checks/s12_parent_check.py` is the writer's `verify_s12.py`; only the "Run:" comment line differs. Its output `checks/s12_parent_check.out.txt` is byte-identical to the writer's `verify_s12.out.txt` and ends `ALL PASS (59/59)`.
+
+**Build.** 149 pages, no LaTeX error and no undefined reference. The one overfull line, 29 pt in S10, is unchanged.
+
 ---
 
 # Concordance — supplement sections S1 and S2
@@ -2158,3 +2189,440 @@ Not used (read for context only): `frontiers/c2_torus_transfer_20261001` (a sepa
 ## Compile check
 
 `chk_s11/test_s11.tex` = preamble of `supp_main.tex` + `\input{../supp_s11_ctwo}`; `pdflatex` run twice (no bibliography needed: S11 has no `\cite`). Result: 11 pages (10.4 pages of text), no LaTeX errors, **no overfull boxes**, no undefined labels of S11; the only undefined references are the other sections' labels `sec:remainder`, `sec:cusp`, `sec:third` (expected in the standalone check).
+
+---
+
+> **Integration note (draft 5).** The concordance below is the S12/S13 writer's file `CONC_s12.md`, revision 2, appended unchanged. Its file names and hashes are those of the writer's outputs: `supp_s12_parent.tex` there is `writer_originals/supp_s12_parent.rev2orig.tex` here, and `chk_s12/verify_s12.py` is `checks/s12_parent_check.py`. The changes made at integration are listed in "Checkpoint draft 5" above.
+
+# CONC_s12: concordance for `supp_s12_parent.tex` (`\label{sec:parent}`) and `supp_s13_cap.tex` (`\label{sec:cap}`)
+
+Dylan Roy — delegated AI work. Writer: a subagent of the author's session (Anthropic Claude), 14 October 2026. Author-side drafting; no push, commit or comment. Scientific effect NONE: this is a transcription, and it accepts nothing.
+
+The two files make the supplement self-contained for the statements that S0, S5–S10 import from the companion parent record by `\cite{parentP}`. S12 transcribes the parent record; S13 transcribes the deterministic separating-cylinder ("marked-cylinder cap") theorem on which the parent relies. Statement and equation numbers below are those printed in the compile check `chk_s12/`, where 11 stub sections carry the labels `sec:setting` … `sec:ctwo`, so S12 and S13 receive their final numbers if they are appended after S11.
+
+**Revision 2 (14 October 2026, on the author's instruction relayed by the coordinator).** The transcription now follows the *reconciled object* of REC §1: P read with E1, with P §9 replaced by E2, with P l. 165 read with W1, and with P §1's "sufficiently small r" including the embedding bound `r < L/(4√2)`. These are corrections C1–C4 in (b). Four steps that REC §5 supplies where P only sketches are added (A11–A14 in (c)). Issues I-1, I-2 and I-4 of revision 1 are resolved by C2, C3 and C4. **No statement or equation number changed**: the 133 labels of S12/S13 print the same numbers as in revision 1 (checked by diffing the `.aux` label lists).
+
+## Sources
+
+| Key | Source | Path (Math- `origin/main`) | Git blob | SHA-256 (first 16) | Role |
+|---|---|---|---|---|---|
+| P | Parent record "Uniform matrix-cap selection and unrestricted short-lifetime asymptotics" (UNIFORM-MATRIX-CAP-LIFETIME-20260924-v1), 494 lines, §§1–16 | `imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md` | `dfed3b8d` | `9350ad6eaba6626b` | transcribed in S12 |
+| CAP | Marked-cylinder cap (MARKED-CYLINDER-CAP-20260924-v1), 230 lines | `imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md` | `0633aca3` | `0bf922b9203c2908` | §§1–5 transcribed in S13 |
+| CPI | Cap pairing identities (GROK-HEAVY-CAP-PAIRING-20260926-v1) | `imports/lifetime_parent_20260925/CAP_PAIRING_IDENTITIES.md` | `96407c95` | `69ff3a12d847b9ee` | details of CAP (7), (11); P (7.3) |
+| E1 | Congruence erratum (UNIFORM-MATRIX-CAP-LIFETIME-20260924-v1-ERRATUM-1), merged | `imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md` | `213594d6` | `bad7ef609c4ad8c4` | correction C1 |
+| E2 | §9 replacement v1.1 (D1-SECTION9-BOREL-REPAIR-20260925-v1.1), 147 lines | `reviews/d1_section9_borel_repair_20260925/REPAIR.md` | `fe9b9ce4` | `845abf9f9c99d672` | replaces P §9: correction C2 |
+| REC | Chain reconciliation (D1-CHAIN-RECONCILIATION-20260928-v1), 309 lines | `reviews/d1_chain_reconciliation_20260928/RECONCILIATION.md` | `75da2597` | `451b9d7ffee072a7` | §1 reading rule (l. 25–32); §5: W1 (C3), embedding radius (C4), discharges (A11–A14) |
+| EP | Erratum pointer | `imports/lifetime_parent_20260925/ERRATUM_POINTER.md` | `0ba9acc4` | `e29e7733e9f34289` | provenance only |
+| RM | Folder README | `imports/lifetime_parent_20260925/README.md` | `2d7a60b4` | `0cbc77d96d1b4f56` | provenance only |
+
+The scratchpad copies (`s12/PARENT_dfed3b8d.md`, …, `s12/E2_REPAIR_fe9b9ce4.md`, `s12/RECONCILIATION_75da2597.md`) were hashed before use (`git hash-object`, `sha256sum`): all eight match the blobs above; P and CAP match the SHA-256 values in RM, and P, CAP, E1 and E2 match the full SHA-256 values in REC's identity table (REC l. 17–22). "P l. n", "CAP l. n", "E2 l. n" and "REC l. n" are line numbers of these files.
+
+**Reading rule (REC §1, l. 25–32), applied in revision 2.** Read P §5 with E1 (congruence factor `diag(r^{-1/2}, I)`); read P §9 as replaced by E2; read P l. 165 with W1 (REC §5 l. 153–161); read P §1's "sufficiently small r" as including `r < L/(4√2)` (REC §5 l. 163–166). "No formula of P changes" (REC l. 32). The supplement sections were read at `/home/claude/wt-supp/docs/manuscript/side24_v3_supplement_draft_20261013/` (draft 4).
+
+## (a) Statements and numbered displays
+
+### S12 `supp_s12_parent.tex`
+
+| Label | Printed | Content | Source |
+|---|---|---|---|
+| `sec:parent` (intro) | S12 | purpose, scope (all `d≥2`, `L>0`), plan, existential constants | assignment; P l. 1–7 (purpose), l. 45 and l. 52 (no numerical constants); P §16 l. 484 |
+| `ssec:parent-setting` | §S12.1 | — | P §1 |
+| `def:parent-model` | Def. S12.1 | field, covariance, windows, constants convention; side-24 instance | P l. 11–16 |
+| `eq:parent-KL` | (S12.1) | `K_L` | P l. 13–14 |
+| `def:parent-pinned` | Def. S12.2 | frame, coordinates, `0<r<L/(4√2)` and the embedding of the cylinder, pins, `P^0`, index, `W_r`, `Z_r`, `P^MS_r`, `p_r` | P l. 18–29; radius and its one-line proof REC §5 l. 163–166 (C4) |
+| `eq:parent-pins` | (S12.2) | pins | P l. 20–22 |
+| `eq:parent-W` | (S12.3) | `W_r`, `Z_r`, `dP^MS_r` | P l. 26–27 |
+| `thm:parent-A` | Thm. S12.3 | Theorem A, with `r_* < L/(4√2)` | P l. 31–33; `r_*` below the radius: REC l. 165–166 (C4) |
+| `eq:parent-A` | (S12.4) | (1.1) | P (1.1) l. 33 |
+| `thm:parent-B` | Thm. S12.4 | Theorem B | P l. 37–43 |
+| `eq:parent-B` | (S12.5) | (1.2) | P (1.2) l. 39–41 |
+| `thm:parent-C` | Thm. S12.5 | Theorem C | P l. 47–52 |
+| `eq:parent-C` | (S12.6) | (1.3) | P (1.3) l. 49–50 |
+| `rem:parent-scopeABC` | Rem. S12.6 | scope of A–C | P l. 35, l. 45 (first three sentences), l. 52 |
+| `ssec:parent-spectrum` | §S12.2 | — | P §2 |
+| `lem:parent-spectrum` | Lem. S12.7 | Poisson summation, `a_n>0`, summability, smooth version, moments | P l. 56–61 |
+| `eq:parent-an` | (S12.7) | `a_n` | P l. 58–59 |
+| `lem:parent-jetrank` | Lem. S12.8 | finite-jet rank (distinct sites; rotated frame at one site); "distinct"; Hessian entries | P l. 63–65 |
+| paragraph after S12.8 | — | pins at distinct points; residual jet lists; finite modes would not suffice | P l. 67 |
+| `ssec:parent-frame` | §S12.3 | — | P §3 |
+| `def:parent-rows` | Def. S12.9 | `O_r`, rows `U^(0..3)`, `V_j^(0,1)` | P l. 71–86 |
+| `eq:parent-rows` | (S12.8) | (3.1) | P (3.1) l. 76–81 |
+| `lem:parent-frame` | Lem. S12.10 | invertible `T_r`, `|det T_r|`, exact target | P l. 88–94 |
+| `eq:parent-detT` | (S12.9) | (3.2) | P (3.2) l. 88–90 |
+| `eq:parent-target` | (S12.10) | (3.3) | P (3.3) l. 92–94 |
+| sentence after S12.10 | — | exact transformation; factor 12 kept | P l. 96 |
+| `lem:parent-contact` | Lem. S12.11 | (a) contact jet, covariance convergence, `v_r→v_0`; (b) uniform positive definiteness of `Σ_r`; (c) enlarged covariance with `A_M`, density bound | (a) P l. 98–103; (b) P l. 105–107; (c) P l. 109–113; the uniform Gramian gap in the proof of (b), (c): REC §5 l. 144 (A12) |
+| `eq:parent-U0` | (S12.11) | (3.4) | P (3.4) l. 98–101 |
+| `eq:parent-Adens` | (S12.12) | (3.5) | P (3.5) l. 111 |
+| `ssec:parent-residual` | §S12.4 | `r_1 ∈ (0, L/(4√2))` | P §4; `r_1` added step A3; its bound by `L/(4√2)`: C4 |
+| `lem:parent-moments` | Lem. S12.12 | uniform conditional moments | P l. 117–119 |
+| `eq:parent-41` | (S12.13) | (4.1) | P (4.1) l. 119 |
+| `lem:parent-residual` | Lem. S12.13 | independent residual, `J_r`, norm bounds | P l. 121–134 |
+| `eq:parent-42` | (S12.14) | (4.2) | P (4.2) l. 123 |
+| `eq:parent-43` | (S12.15) | (4.3) | P (4.3) l. 131–134 |
+| sentences after S12.13 | — | no inverse Hessian moment | P l. 136 |
+| `ssec:parent-normalizer` | §S12.5 | — | P §5 |
+| `lem:parent-endpoint` | Lem. S12.14 | `α_i`, `β_i`, `A_i`, `H_i`; (5.1)–(5.3) (deterministic) | P l. 140–161 |
+| `eq:parent-51` | (S12.16) | (5.1) | P (5.1) l. 146–149; proof sketch l. 151 |
+| `eq:parent-52` | (S12.17) | (5.2) | P (5.2) l. 153–156; height identity = CAP l. 55–58 |
+| `eq:parent-53` | (S12.18) | (5.3) | P (5.3) l. 158–161 |
+| `prop:parent-normalizer` | Prop. S12.15 | (a) moments, `sup E^0(W_r/r^2)^2 < ∞`; (b) `Z_r/r^2 → z_0` (convergence in law, Slutsky); (c) floor | (a) P l. 163, UI step REC §5 l. 140 (A11); (b) P l. 165–176 read with E1 (C1) and W1 = REC §5 l. 153–161 (C3), difference entries A14; (c) P l. 178–182 |
+| `eq:parent-54` | (S12.19) | (5.4) | P (5.4) l. 171–174 |
+| `eq:parent-55` | (S12.20) | (5.5) | P (5.5) l. 180 |
+| `eq:parent-congr` | (S12.21) | corrected congruence and `det = det H_i / r` | **E1** l. 19–31 (replaces P l. 169, first sentence; correction C1) |
+| `ssec:parent-soft` | §S12.6 | — | P §6 |
+| `lem:parent-soft` | Lem. S12.16 | Schur complement, (6.1), saddle bound, (6.2) | P l. 186–208; `det H_M = rα_M det B'`, `0 ≺ −B' ⪯ B`: REC §5 l. 145 (A13) |
+| `eq:parent-61` | (S12.22) | (6.1) | P (6.1) l. 194–196 |
+| `eq:parent-HS` | (S12.23) | `|det H_S|` bound | P l. 200–203 (unnumbered display) |
+| `eq:parent-62` | (S12.24) | (6.2) | P (6.2) l. 205–208 |
+| paragraph after S12.16 | — | mixed-square term; no entry independence | P l. 210 |
+| `ssec:parent-layer` | §S12.7 | cap event, role of the cap theorem | P l. 214–219 |
+| `eq:parent-G` | (S12.25) | `G_r` | P l. 216–217; CAP (1) l. 23–26 |
+| `lem:parent-eigen` | Lem. S12.17 | eigenvalue coordinates; (7.2) | P l. 227–232 |
+| `eq:parent-72` | (S12.26) | (7.2) | P (7.2) l. 229–232 |
+| `prop:parent-layer` | Prop. S12.18 | `P^MS_r(G_r^c) ≤ Cr^3` with full proof | P l. 221–274 |
+| `eq:parent-78` | (S12.27) | (7.8) | P (7.8) l. 272–274 |
+| `eq:parent-71` | (S12.28) | (7.1) | P (7.1) l. 221–223 |
+| `eq:parent-73` | (S12.29) | (7.3) | P (7.3) l. 234–238; CPI l. 36–43 |
+| `eq:parent-74` | (S12.30) | (7.4) | P (7.4) l. 240–247 |
+| `eq:parent-75` | (S12.31) | (7.5) | P (7.5) l. 249–256 |
+| `eq:parent-76` | (S12.32) | (7.6) | P (7.6) l. 258–263 |
+| `eq:parent-77` | (S12.33) | (7.7) | P (7.7) l. 265–270 |
+| `ssec:parent-generic` | §S12.8 | — | P §8 |
+| `lem:parent-generic` | Lem. S12.19 | pinned genericity | P l. 278–288 |
+| `lem:parent-mark` | Lem. S12.20 | (a) Borel elder event; (b) Morse-locus meaning; (c) finite bars = pairs with `e=1` | (a), (b) P l. 290–294; (c) P §14 l. 445; background P l. 494 (Curry) |
+| `eq:parent-df` | (S12.34) | maximin level `d_f(M)` | P l. 292 |
+| `lem:parent-capimpl` | Lem. S12.21 | on `G_r` (Morse locus) the elder partner is `S`; one branch | P l. 214, l. 296; CPI l. 47–49 (hypotheses: embedded chart, Morse/distinct values) |
+| proof of Thm. S12.3 | — | Theorem A | P l. 296 ("(7.8) and the full-probability locus prove Theorem A") |
+| `ssec:parent-KR` | §S12.9 | weighted pair Kac–Rice for the global mark; finite-measure route; no local cap event substituted | E2 l. 25 (title), l. 35 (last sentence), l. 102 (C2; replaces P l. 300) |
+| `prop:parent-KR` | Prop. S12.22 | (a) regular conditional law `𝒫_{x,y,z}` of the whole `C^2` field, continuity on cylinder functionals, marked Kac–Rice identity for bounded Borel `h`, both sides finite measures; (b) Borel elder/type marks, disintegration, `W_r`, intensities with `E^0[W_r]` and `p_r`, no second determinant factor; (c) exhaustion | **E2 §2** (C2): statement from l. 27–35, §9.1 l. 39–55, §9.2 l. 59–74, §9.4 l. 96–110; proof: setting l. 27–35, §9.1 l. 37–55, §9.2 l. 57–74, §9.3 l. 76–92, §9.4 l. 94–110 |
+| `eq:parent-KR` | (S12.35) | the identity `∫h dμ_1 = ∫h dμ_2`, written out | E2 (9.1) l. 72–74 with `μ`, `ν` of l. 59–70 (in revision 1 this display was added step A2) |
+| `ssec:parent-ledger` | §S12.10 | — | P §10 |
+| `prop:parent-ledger` | Prop. S12.23 | (a) pin density; (b) intensity, power count; (c) transverse invariance; (d) contact limit | P l. 312–335 |
+| `eq:parent-101` | (S12.36) | (10.1) | P (10.1) l. 312–315 |
+| `eq:parent-102` | (S12.37) | (10.2) | P (10.2) l. 319–322; powers l. 324–327 |
+| `eq:parent-103` | (S12.38) | (10.3) | P (10.3) l. 329–331 |
+| sentence after S12.23 | — | selected intensity gives the domination | P l. 335 |
+| `ssec:parent-B` | §S12.11 | — | P §11 |
+| `prop:parent-push` | Prop. S12.24 | (11.1), (11.2) | P l. 339–347 |
+| `eq:parent-111` | (S12.39) | (11.1) | P (11.1) l. 339–341 |
+| `eq:parent-112` | (S12.40) | (11.2) | P (11.2) l. 343–347 |
+| proof of Thm. S12.4 | — | Theorem B | P l. 349–363 |
+| `eq:parent-113` | (S12.41) | (11.3) | P (11.3) l. 351–353 |
+| `eq:parent-diff` | (S12.42) | difference bound | P l. 357–361 (unnumbered display) |
+| paragraph after the proof | — | identified integral; no rate for `A_r→A_0` | P l. 355, l. 363 |
+| `ssec:parent-moments` | §S12.12 | — | P §12 |
+| `cor:parent-moments` | Cor. S12.25 | (12.1)–(12.3), `q ≤ −2/3`, unrestricted forms | P l. 367–384 |
+| `eq:parent-121` | (S12.43) | (12.1) | P (12.1) l. 369–370 |
+| `eq:parent-122` | (S12.44) | (12.2) | P (12.2) l. 374–375 |
+| `eq:parent-123` | (S12.45) | (12.3) | P (12.3) l. 379–380 |
+| paragraph after S12.25 | — | counting measure; threshold `p<2/3`; compact rates not unrestricted | P l. 382, l. 384 |
+| `ssec:parent-majorant` | §S12.13 | choice of `r_0` (below the injectivity scale, below `L/(4√2)`, below one); no global floor | P l. 388; `r_0 < L/(4√2)`: REC l. 30 with §5 l. 163–166 (C4) |
+| `lem:parent-growth` | Lem. S12.26 | (13.1)–(13.3) | P l. 390–403 |
+| `eq:parent-131` | (S12.46) | (13.1) | P (13.1) l. 392–393 |
+| `eq:parent-132` | (S12.47) | (13.2) | P (13.2) l. 397 |
+| `eq:parent-133` | (S12.48) | (13.3) | P (13.3) l. 401 |
+| `lem:parent-majorant` | Lem. S12.27 | (a) determinant bounds; (b) (13.4); (c) `Z_r>0`, `p_r→1` | P l. 405–415 |
+| `eq:parent-detbound` | (S12.49) | `|det H_i|/r`, `W_r/r^2` bounds | P l. 407–408 (unnumbered display) |
+| `eq:parent-134` | (S12.50) | (13.4), majorant `Ψ` (P's `H`) | P (13.4) l. 412–413 |
+| `prop:parent-near` | Prop. S12.28 | (13.5), domination, (13.6), monotone `c_{B,K} ↑ c_{d,L}` | P l. 417–433 |
+| `eq:parent-135` | (S12.51) | (13.5) | P (13.5) l. 419–422 |
+| `eq:parent-136` | (S12.52) | (13.6) | P (13.6) l. 428–431 |
+| `ssec:parent-far` | §S12.14 | — | P §14 |
+| `lem:parent-far` | Lem. S12.29 | far covariance, target density, moments, Jacobian one, (14.1); near ∪ far | P l. 437–445 |
+| `eq:parent-141` | (S12.53) | (14.1) | P (14.1) l. 441 |
+| proof of Thm. S12.5 | — | Theorem C | P l. 445 |
+| `ssec:parent-coef` | §S12.15 | parity, not isotropy | P l. 449 |
+| `lem:parent-parity` | Lem. S12.30 | odd/even independence, (15.1), factorization | P l. 449–461 |
+| `eq:parent-151` | (S12.54) | (15.1) | P (15.1) l. 453–454 |
+| `eq:parent-factor` | (S12.55) | `π_0 = p_{(f,V)} p_G φ_τ(12k)`, `z_0` | P l. 460–461 (unnumbered display) |
+| `prop:parent-coef` | Prop. S12.31 | (15.2) | P l. 463–478 |
+| `eq:parent-15a` | (S12.56) | `c_{d,L}` with the `k`-integral | P l. 465–467 (unnumbered) |
+| `eq:parent-15b` | (S12.57) | gamma integral | P l. 471–472 (unnumbered) |
+| `eq:parent-152` | (S12.58) | (15.2) | P (15.2) l. 476–478 |
+| paragraph after S12.31 | — | finiteness, positivity; factor 24 ≠ `L`; amplitude `a^{−2/3}` | P l. 480 |
+| `ssec:parent-scope` | §S12.16 | — | P §16 |
+| `rem:parent-scope` | Rem. S12.32 | what is not proved (mathematical items) | P l. 486 (first five items) |
+| `rem:parent-sources` | Rem. S12.33 | background: AAL §§2, 7; Curry §3; cap = S13 | P l. 494 |
+
+### S13 `supp_s13_cap.tex`
+
+| Label | Printed | Content | Source |
+|---|---|---|---|
+| `sec:cap` (intro) | S13 | role; deterministic; all `d`, births, gaps, frames | CAP l. 7–11, l. 47 (first sentence); P l. 7, l. 214 |
+| `def:cap-norms` | Def. S13.1 | cylinder, partial-block norms, `d=2` case | CAP l. 11–19 |
+| `eq:cap-D` | (S13.1) | `D_r` | CAP l. 13 |
+| `eq:cap-Mj` | (S13.2) | `M_j` (written in S7's index form, see conversions) | CAP l. 17 |
+| `thm:cap-main` | Thm. S13.2 | separating cylinder: (a) ridge and types, (b) cap, (c) elder pairing, (d) branches | CAP l. 15, l. 21–28; (a) l. 89–91, l. 129; (b) l. 131–155; (c) l. 159–161, l. 167; (d) l. 163 |
+| `eq:cap-cond` | (S13.3) | conditions (1) | CAP (1) l. 23–26 |
+| `ssec:cap-normalized` | §S13.1 | normalization `k=1/6` | CAP l. 51 |
+| `eq:cap-cond6` | (S13.4) | (4) | CAP (4) l. 53 |
+| `lem:cap-forced` | Lem. S13.3 | Hermite identity, weighted mean 2, `M_3≥2`, `x_0`, (5) | CAP l. 55–68 |
+| `eq:cap-hermite` | (S13.5) | Hermite identity | CAP l. 57–58 |
+| `eq:cap-5` | (S13.6) | (5) | CAP (5) l. 64–66 |
+| `lem:cap-ridge` | Lem. S13.4 | (6)–(10), the ridge `h` | CAP l. 72–106; CPI l. 7–19 |
+| `eq:cap-6` | (S13.7) | (6) | CAP (6) l. 74; CPI l. 19 |
+| `eq:cap-7` | (S13.8) | (7) | CAP (7) l. 80–81; CPI l. 11–17 (sharpness at `x=2r`) |
+| `eq:cap-8` | (S13.9) | (8) | CAP (8) l. 91 |
+| `eq:cap-9` | (S13.10) | (9) | CAP l. 95, (9) l. 99–100 |
+| `eq:cap-10` | (S13.11) | (10) | CAP (10) l. 104 |
+| `lem:cap-third` | Lem. S13.5 | (11), (12), zeros of `F`, critical points, types | CAP l. 110–129; CPI l. 21–34 |
+| `eq:cap-11` | (S13.12) | (11) | CAP (11) l. 112–113; CPI l. 30–31 |
+| `eq:cap-12` | (S13.13) | (12) | CAP l. 117–125 (adverse part l. 117–120, (12) l. 122–125) |
+| `lem:cap-boundary` | Lem. S13.6 | cap boundary: (13), (14), faces, ridge segment | CAP l. 131–155 |
+| `eq:cap-13` | (S13.14) | (13) | CAP (13) l. 137–138 |
+| `eq:cap-14` | (S13.15) | (14), stated for `−2r ≤ x ≤ r/2` | CAP (14) l. 144–145 (range: issue I-9) |
+| `ssec:cap-proof` | §S13.2 | proof of Thm. S13.2 incl. scaling | CAP §5 l. 159–165 |
+| `rem:cap-margins` | Rem. S13.7 | margins for general `k`; frames; embedding on the torus for `r < L/(4√2)`; no invariance claim for a random field | CAP l. 165 (constants), l. 167; torus embedding: REC §5 l. 163–166 (C4, pointer to Def. S12.2) |
+
+Every numbered display has a label and appears above.
+
+## Notation conversions (source → S12/S13)
+
+| Source | Here | Reason |
+|---|---|---|
+| `u` (axial unit vector, P) | `t`; frame `R=(t,…)`, `t=Re_1` | S7's conversion (main-text direction); `u` is also CAP's `2/k+2/k^2` |
+| `X = R^d/(LZ^d)` | `T^d_L` | S7 |
+| `Q = Q_{r,b,k,R}`, `E_Q`, "Q-law" | `P^0 = P^0_{r,b,k,R}`, `E^0`, "`P^0`-law" | S7 (`E^0`); `P^0` added for probabilities |
+| `Q^W` | `P^MS_r`, `E^MS_r` | S7 |
+| windows `B=[b_-,b_+]`, `K=[k_-,k_+]`; `c_{B,K}`, `C_{B,K}` | `\mathcal B`, `\mathcal K`; `c_{\mathcal B,\mathcal K}`, `C_{\mathcal B,\mathcal K}` | P uses `B` also for `−A_M` (§6) and `K` for a constant (§7); S7 keeps `B=−A_M` |
+| `A_r = D_y^2 f(M)` (P §§3–4) | `A_M` | P's own §5 name for the same matrix; `A_r` clashes with the intensity |
+| intensities `A_r(b,k,u)`, `A_0`, `A^*` (P §§10–15) | `\mathcal A_r`, `\mathcal A_0`, `\mathcal A^*` | S7; P uses `A_0` also for the contact Hessian |
+| `A_0` (contact transverse Hessian) | `A_0` | S7 |
+| `H(b,k)` (majorant (13.4)) | `Ψ(b,k)` | S7 (Hessians `H_M`, `H_S`, `H_i`) |
+| `h = M3` (P §§6–7) | `M_3` | S7 |
+| `M3`, `M4` | `M_3`, `M_4` | S7 |
+| `K` (absorbing `√m`, P §7) | `K_*` | S7 |
+| `D = 4K^2/(3k_-)` | `D_* = 4K_*^2/(3k_-)` | S7 style |
+| `E` (undefined, P (7.3)) | `E_* = (3/2)K_*` | added step A6; S7 did the same |
+| `U = J_r + Λ` | `Υ` | S7 (`U_r` is the observation vector) |
+| `G_r` | `\mathcal G_r` | S7 |
+| `D_r = diag(r^{-1/2}, I)` (E1) | `Δ_r^{-1}` with `Δ_r = diag(√r, I_m)` | S7 notation; same matrix |
+| `a=-r/2`, `c=r/2` (points on the axis, P §3) | `M`, `S` (`x=∓r/2`) | `c` is a generic constant in S12 (CAP's `a`, `c` are kept in S13) |
+| rows `U0,U1,U2,U3`, `Vj0,Vj1`; jet `U0*` | `U^(0)…U^(3)`, `V_j^(0)`, `V_j^(1)`; jet `U_0` | P's `U0` (row) clashes with S7's `U_0` (jet) |
+| `Σ_r(R)`, `π_r(R;v)`, `z_0(b,k,R)`, `p_r(b,k,R)` | kept | no clash |
+| "density_Q(A)" (3.5) | `ρ_r(A)` | S7 |
+| `μ_r`, `B_r(z)`, `g_r`, `J_r`, `K_0`, `C_0`, `c_0`, `T_r`, `O_r` | kept | no clash in S12 |
+| directed separation `h = r u` (P §10) | `S − M = rt` | `h` was `M_3` |
+| path parameter `t` in `min_t f(γ(t))` (P §8) | `s'` | `t` is the direction, `s=f(S)` |
+| cutoff `t` in (12.1)–(12.3) | `ε` | S7 |
+| `t_u = ∂_u^3 f`, `V_u`, `A_u`, `τ_u`, `D_u`, `p_{V_u}` (P §15) | `∂_t^3 f(0)`, `V_t`, `A_t`, `τ_t`, `D_t`, `p_{V_t}` | direction `t`; as S7 (S7.23) |
+| substitution `t = 12k` (P §15) | `w = 12k` | `t` is the direction |
+| `ν_cand`, `ν_eld` (Thm B); `ν_cand^all`, `ν_eld^all` (Thm C) | kept (`\nu_\cand`, `\nu^{\rm all}_\cand`, …) | S7's `ν_cand` is S12's `ν^all_cand` |
+| CAP gap mark `κ` | `k` | main-text `κ = 6k` (S7); CAP's `κ` is P's `k` |
+| CAP `m = M_3`, `n = M_4` | `M_3`, `M_4` | `m = d−1` throughout the supplement |
+| CAP `k = 8m−5` | `q = 8M_3 − 5` | clash with the gap mark |
+| CAP `u = 2/k + 2/k^2` | `ω = 2/q + 2/q^2` | clash with the direction `u` of S8–S10 |
+| CAP cylinder `D` | `\mathcal D_r` | S7 |
+| CAP cap `C` | `\mathcal C` | generic constants `C` |
+| CAP exponents `a+c=j` in `M_j` | `j−i`, `i` | S7 (S7.9); `a`, `c` are the pin abscissas |
+| CAP integration variable `t` in (7) | `x'` | readability |
+| E2 pair domain `D`, points `t = (x,y) ∈ D` | `Ω`, `(x,y) ∈ Ω` | `D` is used for derivatives and cylinders; `t` is the direction |
+| E2 `G(x,y) = (grad f(x), grad f(y))` | `𝖦(x,y)` (sans-serif) | `G = ∇f(0)` in §S12.15 and the cap event `\mathcal G_r` |
+| E2 `E = C^2(X)` | `C^2(T^d_L)` written out | `E` is the expectation |
+| E2 `Delta(x,y) = |det H_x det H_y|` | written out | `Δ_r = diag(√r, I_m)` (S7) |
+| E2 conditional mean `m_(t,z)`, residual `R_t` | `\bar f_{x,y,z}`, `𝖱_{x,y}` | `m = d−1`; `R` is the frame |
+| E2 kernel `K(t,z,A)` | `𝒫_{x,y,z}(A)` | `K_L`, `K_0`, `K_*`, `\mathcal K` |
+| E2 measures `mu`, `nu` | `μ_1`, `μ_2` | `μ_r` (regression mean, §S12.4) and the densities `ν` |
+| E2 class `H` of functions; dense set `Q` | `\mathcal H`; `\mathcal Q` | Hessians `H_x`; the law `Q` |
+| E2 `Q`, `E_Q W_r`, `Q^W` | `P^0`, `E^0[W_r]`, `P^MS_r` | as for P |
+| REC `D_r = diag(r^{-1/2}, I)` (reading rule, W1) | `Δ_r^{-1}` | S7 |
+| REC cap cylinder `D` (embedding radius) | `\mathcal D_r` | S7 |
+| REC `U_r ⊕ vec A_r`, measures `μ_r → δ_0`, range `[0, r_0] × O(d)` (A2 discharge) | `(U_r, A_M)`, `η_r → δ_0`, `[0, \bar r] × O(d)` | `A_r` is `A_M` here; `μ_r` is the regression mean; `r_0` is fixed in §S12.13 |
+| REC `B' = A − (r/α)ββ^T` (A5 discharge) | `B' = A_M − (r/α_M)β_Mβ_M^T` | indices made explicit |
+
+## (b) Corrections applied
+
+| No. | Correction | Basis | Where |
+|---|---|---|---|
+| C1 | P l. 169, "Here the congruence uses diag(sqrt(r),I), so its off-diagonal entries are sqrt(r) beta_i", is replaced by E1: the congruence is `D_r H_i D_r` with `D_r = diag(r^{-1/2}, I)` (= `Δ_r^{-1}`, `Δ_r = diag(√r, I_m)`), giving the matrix `[[α_i, √r β_i^T],[√r β_i, A_i]]` with determinant `det(H_i)/r`. E1's limits `diag(∓6k, A_0)` (E1 l. 35–38) are read in law, as C3 requires. E1: no formula (5.3)–(5.5) changes. | Assignment (revision 1); REC reading rule l. 27. `verify_s12.py` checks the corrected congruence exactly for `m = 1, 2, 3` and that the displayed factor does not give this matrix. | proof of Prop. S12.15(b), (S12.21) |
+| C2 | P §9 (l. 298–308) is replaced in full by E2 §2 (l. 23–110): the regular conditional law of the whole `C^2` field (§9.1), the two finite measures and the identity on continuous cylinder weights by AAL Thm. 7.1, with finiteness from AAL Thm. 2.2 (§9.2), generation of the Borel σ-algebra and the functional monotone-class closure (§9.3), the Borel elder and type marks, the disintegration and the exhaustion (§9.4). The statement of Prop. S12.22 is changed accordingly: (a) now asserts the kernel `𝒫_{x,y,z}`, its continuity on cylinder functionals and the finiteness of both sides; (b) follows E2 §9.4 ("no second determinant factor"); P's sentence on the canonical density version (l. 306) is not in E2 and is dropped (issue I-14). The subsection's opening paragraph is E2 l. 35 and l. 102 in place of P l. 300. | REC reading rule l. 28 ("Read P §9 as replaced by E2"); coordinator's instruction. | §S12.9: opening paragraph, Prop. S12.22 statement and proof; (S12.35) keeps its number |
+| C3 | P l. 165–167 ("the congruence-scaled endpoint Hessians converge, in probability uniformly over parameters, to diag(−6k, A_0) … diag(6k, A_0)") is read with W1: the differences `Δ_r^{-1}H_MΔ_r^{-1} − diag(−6k, A_M)` and `Δ_r^{-1}H_SΔ_r^{-1} − diag(6k, A_M)` tend to 0 in probability, by (5.1), (5.2) and `‖A_S − A_M‖ ≤ rM_3`; `A_M → A_0` in law; Slutsky gives joint convergence in law; continuous mapping applies off the null set `{det A_0 = 0}`. The type indicator therefore converges in law, and P's subsequence argument (l. 176) is stated as an argument in law, as REC notes it already is. | REC reading rule l. 29; REC §5 l. 141 and l. 153–161. | proof of Prop. S12.15(b) |
+| C4 | P l. 18 ("For sufficiently small r>0, use the embedded local cylinder") is read as including `r < L/(4√2)`, with REC's proof: `\mathcal D_r ⊂ B̄(0, 2√2 r)`, the exponential chart of `R^d/(LZ^d)` is injective on open balls of radius `L/2`, and `2√2 r < L/2`. Theorem A's `r_*` "may be, and is, taken below this" (REC l. 165–166). Where used: Def. S12.2 (radius and proof); Theorem S12.3 (`r_* ∈ (0, L/(4√2))`); §S12.4 (`r_1 ∈ (0, L/(4√2))`, since the band `0 < r ≤ r_1` uses the pinned law of Def. S12.2); §S12.13 (`r_0` reduced below `L/(4√2)`, so that Def. S12.2 applies for `r ≤ r_0`); Remark S13.7 (pointer: on the torus the product chart is embedded for `r < L/(4√2)`). | REC reading rule l. 30; REC §5 l. 147–148 and l. 163–166. | Def. S12.2, Thm. S12.3, §§S12.4 and S12.13, Rem. S13.7 |
+
+No other correction is made. C1–C4 are exactly REC's reading rule (REC l. 25–32), which the author instructed should govern the transcription ("transcribe the reconciled object"). `verify_s12.py` checks the finite algebra behind C3 (the difference matrices) and C4 (`|corner| = 2√2 r`; `2√2 r = L/2` at `r = L/(4√2)`).
+
+## (c) Added steps (formatting level)
+
+- A1. Names for objects P uses without a symbol: the probability `P^0` (P's `Q`), `E^MS_r`; the elder mark `e(f;M,S) = 1{d_f(M)=f(S)}` (P: "the Borel elder mark"); `ρ_r` for the density of `A_M`; `Ψ` (P's `H`).
+- A2. (Revision 1 only; superseded by C2.) P §9 referred to "the identity" without displaying it, and (S12.35) displayed it. In revision 2, (S12.35) is E2's displayed identity (9.1), `∫h dμ = ∫h dν`, written out with E2's definitions of `μ` and `ν` (E2 l. 59–74), so it is no longer an added step.
+- A3. `r_1` in §S12.4: P's `sup_{r,b,k,R}` (4.1) leaves the range of `r` implicit ("small r"); `r_1` names it.
+- A4. `μ_r = E^0 f` and "`B_r(z)` the regression coefficient of `f(z)` on the entries of `A_M`" (P (4.2) uses both without definition; `μ_r = E^0 f` is forced because `g_r` is centred).
+- A5. Lemma S12.14 and Lemma S12.16 are stated for every `C^4` function satisfying the pins (P derives (5.1)–(5.3), (6.1)–(6.2) pathwise from the pins: "The two gradient pins imply…"; S7's Lemma S7.3 uses the same deterministic form).
+- A6. In the proof of Prop. S12.18: `‖A_M‖_F ≤ √m Λ` (behind P's "absorb sqrt(m) into K"); `E_* = (3/2)K_*` (P's undefined `E`, from (6.2) and `M_3 ≤ K_*Υ`); the inclusion `{rM_4 > 3k/10} ⊂ {rM_4 > 3k_-/10}` (P bounds the larger event without saying so).
+- A7. Proof pointers only, no new mathematics: "direct computations" for (S12.9)–(S12.10); `|α_M| ≤ M_3/2` from (5.1) in the proof of (6.1); "with (a) and Proposition S12.22" in the power count; Theorem A (for `p_r→1`) and `r^3 = ℓ/k` in the proof of Theorem B; `4·(6k)^2k^{−2/3} = 144k^{4/3}` in Prop. S12.31; the factorization (S12.55) "follows from this independence and the target"; the unpacking of P's "(7.8) and the full-probability locus prove Theorem A" into `1 − p_r ≤ P^MS_r(G_r^c)`.
+- A8. Lemma S12.21 states the hypotheses of the cap implication (`C^4`, pins, Morse with distinct critical values, inequalities of `G_r`, embedded cylinder); P l. 296 and CPI l. 47–49 ("conditional on parent §1 embedded 2r chart and parent §8 Morse / distinct values").
+- A9. Statement environments for P's prose: Lemma S12.17 (P §7 prose), Prop. S12.24 (P §11), Cor. S12.25 (P §12), Lemma S12.20(c) (P §14 l. 445), Lemma S12.29 (P §14). P's §§ map one-to-one to §§S12.1–S12.16.
+- A10. S13: the Hermite identity is stated "for every `C^3` function with critical points `M` and `S`" (CAP states it inside the normalized proof; it does not involve `k`; S12 uses it for general `k` in (5.2)); "by the signs of `F = g'`" for `g ≤ b` on `\mathcal C` (see issue I-10); the monotonicity of `g` along the ridge for "its minimum is exactly `s`"; "`D^2 f(M)` is negative definite" in Theorem S13.2(a) (CAP: "M is a maximum", proved through the Schur complement `F'(a) < 0`); the drop/rise in Remark S13.7 written as `b − g(−2r)` and `g(2r) − s`.
+
+**Added in revision 2 from REC §5 (steps that REC supplies where P only sketches; nothing beyond REC's text):**
+- A11. Proof of Prop. S12.15(a): `sup E^0(W_r/r^2)^2 < ∞`, by (5.3), (5.1), `‖A_S‖ ≤ ‖A_M‖ + rM_3` and §S12.4; this is the uniform integrability used in (b). Source: REC §5 l. 140 ("C1 A3 item 4 … and A4").
+- A12. Proof of Lemma S12.11(b),(c): each coordinate of `U_r`, and of `U_r` extended by the entries of `A_M`, is an integral `∫∂^α f(s't) η_r(ds')` of a derivative of `f` along the axis against a measure `η_r → δ_0`; so the covariance is jointly continuous on `[0, \bar r] × O(d)`, positive definite at `r = 0` by Lemma S12.8, and compactness gives a positive lower bound for its least eigenvalue (existential). Source: REC §5 l. 144 (the "uniform Gramian gap").
+- A13. Proof of Lemma S12.16: `det H_M = rα_M det B'` with `B' = A_M − (r/α_M)β_Mβ_M^T`, and `0 ≺ −B' ⪯ B` on the typed support, before "determinant monotonicity … gives (6.1)". Source: REC §5 l. 145 ("A5 for m ≥ 2"). Checked symbolically for `m = 1, 2, 3` in `verify_s12.py`.
+- A14. Proof of Prop. S12.15(b): the entries of the two difference matrices of W1 are named (`α_M + 6k`, `α_S − 6k`, `√r β_i`, `A_S − A_M`), read off (S12.21); this makes explicit why W1's "by (5.1), (5.2) and `‖A_S − A_M‖ ≤ rM_3`" suffices. Formatting level; checked symbolically in `verify_s12.py`.
+
+**The other REC §5 discharges, checked against the transcription (no text change):**
+
+| REC §5 item (line) | Where in S12 | Result |
+|---|---|---|
+| congruence factor (l. 139) | (S12.21) | C1 |
+| UI of `W_r/r^2` (l. 140) | Prop. S12.15(a),(b) | A11 |
+| type-indicator convergence under `D_r` (l. 141) | Prop. S12.15(b) | C3 |
+| `z_* > 0` (l. 142): nondegenerate `A_0` charges the open cone `{A ≺ 0}`; continuity and compactness give (5.5) | Prop. S12.15(c) | already P l. 178–180, transcribed; no change |
+| `A_M → A_0` uniformly (l. 143) | Prop. S12.15(b), first sentences | P's sentence kept; REC points to A1–A2, i.e. Lemmas S12.8 and S12.11 with A12; no further text |
+| uniform Gramian gap (l. 144) | Lemma S12.11 | A12 |
+| A5 for `m ≥ 2` (l. 145) | Lemma S12.16 | A13 |
+| A7: `r^5` integrals and far branch (l. 146) | Prop. S12.18 | P (7.5) already says depth failure "is contained in the union" and keeps the far branch in the upper bound, which is REC's point; REC writes the far threshold as `λ ≥ 1/(Dr)` in its reviewer's notation, while P (7.5) has `λ > 1/(4Dr)`; S12 keeps P's; no change |
+| cap pairing: embedded chart and Morse/§8 (l. 147) | Lemma S12.21, Thm. S13.2(c) | C4 and the existing hypotheses (A8) |
+| embedding radius (l. 148) | Def. S12.2 etc. | C4 |
+| §9 write-up gap (l. 149) | Prop. S12.22 | C2 |
+| §§11–12 never reviewed (l. 150) | §§S12.11–S12.12 | REC §6 re-derives (11.1)–(11.3), the difference bound and (12.1)–(12.3); it uses Theorem A for `p_r → 1` uniformly and `r^3 = ℓ/k`, the two pointers already added as A7; no change |
+| second non-Claude review request (l. 151) | — | review status; not transcribed |
+
+## Proofs: full or as condensed in the source
+
+- Full (every step of the source): Lemma S12.8, Lemma S12.16 (with A13), Prop. S12.18, Lemma S12.19, Lemma S12.21, proof of Thm. S12.3, Prop. S12.22 (every step of E2 §2), Prop. S12.23, Prop. S12.24 and the proof of Thm. S12.4, Lemma S12.26, Prop. S12.28, Lemma S12.29 and the proof of Thm. S12.5, Prop. S12.31; S13 throughout (Lemmas S13.3–S13.6, proof of Thm. S13.2).
+- As condensed in the source (transcribed as sketched; see issue I-7): Lemma S12.7 (one line); Lemma S12.10 (no computation in P; verified in `verify_s12.py`); Lemma S12.11(a) ("Taylor formulas with integral remainders"; (b)–(c) now with REC's Gramian-gap argument, A12); Lemma S12.13 (bounds on `B_r`, `g_r`); Lemma S12.14 ((5.1)–(5.2) by one averaging sentence each; `‖A_S−A_M‖ ≤ rM_3` not derived); Prop. S12.15(b) (W1's in-law route and the subsequence argument, at REC's level of detail); Lemma S12.20 ((a) sketched, I-6; (b)–(c) asserted as the elder rule); within Prop. S12.22, E2 §9.1's continuity of the regression subtraction "in every finite `C^q` mean norm needed here" is asserted (I-7); Lemma S12.27(c); Lemma S12.30; Corollary S12.25; Lemma S13.3 (Hermite identity stated, not derived; verified on a generic quintic in `verify_s12.py`); Thm. S13.2(c) (maximin level = elder death level asserted).
+
+## Not transcribed (by design)
+
+COMMON rule 3 (the supplement writers' rules, `scratchpad/supp/COMMON.md`: no provenance labels, status words or historical comparisons in the LaTeX) and the assignment's scope:
+
+- P l. 3–7 (object, author, disposition, continuation of CAP, campaign #61), except the mathematical content ("non-numerically-evaluated constants" → "All constants are existential").
+- P l. 31 ff.: the word "candidate" in the theorem titles (status word; the counting term "candidate pairs" is kept).
+- P l. 45: "and no claim that r_*=1/20. The new asymptotic normalizer proof does not replace or re-certify the historical H3 finite-band floor."
+- P l. 182: "not the historical numerical floor 17/10" (the rest of the sentence is kept).
+- P l. 382: "This is unrelated to the inverse-Hessian/Schur thresholds in issue #56."
+- P l. 443: "It is not the old shrinking-annulus RN enclosure and does not discharge that numerical obligation."
+- P l. 484 (list of interfaces supplied); l. 486, the non-mathematical items (H3/LPW replay, shrinking-annulus RN certificate, 24-jet displacement enclosure, formal verification, nonauthor acceptance, P15 prize closure, "No historical scientific status is changed"); l. 488 (exact-arithmetic program and mutations); l. 490 (review priorities); l. 494, Beliaev–Cammarota–Wigman (neighbouring work, "not a source of our elder-selection conclusion") and "No priority or novelty claim follows from this bounded reconnaissance."
+- Capitalized emphasis (FULL, NOT, ALL, …) rendered as ordinary prose.
+- CAP l. 3–5 (header); l. 19 "used by #57"; CAP l. 30–45 and §§6–8 (l. 169–230): the fixed-axis two-dimensional probabilistic corollary (2)–(3), its imported numerical premises, the exceptional layer (15)–(18), the comparison with the predecessor's constants and the remaining-work list (CPI l. 49: "Cap 2D numerical corollary is out of scope"); l. 127 "The bound is weaker than #58's F''>1 … second source of the improved depth condition"; l. 161 "This is the same separating-cap criterion established in #58 …".
+- CPI l. 1–5 and l. 44–45 (status notes on the r^5 skeleton, which duplicates P (7.3)).
+- EP, RM: provenance only.
+- Revision 2. P §9 (l. 298–308) as a whole, replaced by E2 under C2; in particular P l. 300 ("a formula for local Hessian index alone would not suffice"), the last sentence of l. 306 ("The continuous Gaussian regression kernel defines the canonical density version; the underlying measure identity is unaffected by height-null-set choices", see I-14) and the last sentence of l. 308 ("No finite-grid approximation of the continuum field is substituted") have no counterpart in E2.
+- E2 l. 1–7 (header, author lane, disposition); §1 l. 9–21 (the review finding and the theorem-number discussion; its mathematical content, AAL Theorem 2.2 for the unweighted formula and finiteness and Theorem 7.1 for continuous weights, is used in Prop. S12.22); l. 92 "This is the missing closure."; l. 110 "and does not re-prove or accept them here" (status; the dependency on §§S12.3, S12.5, S12.10 is kept); §§3–5 l. 112–147 (what the repair closes, review request, source-integrity note).
+- REC l. 1–8 (header), §1 l. 34–41 (machine binding, name collision), §§2–4 and §§6–10 (reconciled statements at existential scope, components, interface ledger with review verdicts, review of §§11–12, consumption contract, independence, register transitions, checks), and the "Raised in" and status content of the §5 table. Their mathematical content is either already P's (and transcribed from P) or is applied as C1–C4 and A11–A14.
+
+## (d) Issues, most severe first
+
+Issues I-1, I-2 and I-4 are **resolved** by C2, C3 and C4 (revision 2). The others are not fixed in the LaTeX. "Suggested fix" is for the author.
+
+- **I-1 — resolved by C2.** (Was medium-high.) P §9 l. 304 → Prop. S12.22(a): the passage from continuous cylinder weights to bounded Borel marks named the monotone-class theorem without constructing the regular conditional law of the whole field on `C^2(T^d_L)`, without the closure hypotheses of the functional monotone-class theorem, and without the unweighted Kac–Rice theorem behind the finiteness of the two measures. Prop. S12.22 now transcribes E2 §§9.1–9.4, which supplies all three; its statement (a) is now the same as S7's Hypothesis S7.6(a).
+- **I-2 — resolved by C3.** (Was medium.) P l. 165–167 → proof of Prop. S12.15(b): "converge, in probability … to diag(∓6k, A_0)", where `A_0` lives under a different law. The proof now follows W1: differences to `diag(∓6k, A_M)` tend to 0 in probability, `A_M → A_0` in law, Slutsky, continuous mapping off `{det A_0 = 0}`.
+- **I-3 (low–medium; unproved step used in Theorem C).** P §14 l. 445 → proof of Thm. S12.5 and Lemma S12.20(c). The identification of the selected pairs with the finite bars needs the unconditioned field `f` to be almost surely Morse with distinct critical values; P §8 (Lemma S12.19) proves genericity only under each pinned law `P^0_{r,b,k,R}`. Suggested fix: add the unpinned case to Lemma S12.19 (the same overdetermined-zero argument without pins), or cite a standard Bulinskaya-type statement.
+- **I-4 — resolved by C4.** (Was low.) P l. 18 gave no explicit embedding radius. Def. S12.2 now requires `0 < r < L/(4√2)` with REC's one-line proof, Theorem S12.3 takes `r_* < L/(4√2)`, and §S12.13 takes `r_0 < L/(4√2)`; this matches S7's `r_0 < L/(4√2)`.
+- **I-5 (low; wording).** P l. 415 "For every fixed positive r and every b,k>0, Z_r is positive and finite" and "For every fixed b,k>0, Theorem A … implies p_r->1", and P l. 426 "For each fixed b,k>0,u" → Lemma S12.27(c), proof of Prop. S12.28. Read literally `b > 0`; P's argument does not use the sign of `b`, and (13.5)–(13.6) integrate over `b ∈ R`, where both facts are needed. Transcribed as "every `b` and every `k>0`" (the source's comma list, read as its own use requires; no formula changes). S7 issue I1 is the same. Suggested fix: "for every `b ∈ R` and `k > 0`".
+- **I-6 (low; sketch).** P l. 290–294 → Lemma S12.20(a). Borel measurability of `{d_f(M) > h}` in `(M, f)` is sketched ("strict clearances allow approximation by such paths"; "an initial segment depending continuously on `M`"). Suggested fix: expand, or use the lower-semicontinuity proof of S5's Lemma S5.3.
+- **I-7 (low; steps stated without derivation, transcribed as stated).** P (3.2)–(3.3) (computation not shown; verified, `verify_s12.py`); P l. 103 (mean-square and covariance convergence of `U_r`); P l. 125 (bounds on `B_r`, `g_r`); P l. 151 and l. 153–154 ((5.1)–(5.2) by one averaging sentence; `‖A_S − A_M‖ ≤ rM_3` not derived; the averaging identities `f_xx(a) = −(1/r)∫_a^c (c−x) f_xxx`, `f_xx(c) = (1/r)∫_a^c (x−a) f_xxx` are verified on a generic quintic); P l. 176 (uniformity by a subsequence argument); P l. 458–461 (the factorization); CAP l. 55–57 (Hermite identity; verified); CAP l. 161 (maximin level = elder death level, the elder rule; P cites Curry §3 as background); revision 2: E2 l. 47 (continuity of the regression subtraction in `(x, y, z)` "in every finite C^q mean norm needed here", asserted from uniform nonsingularity and the smooth covariance). Suggested fix: write out the two averaging identities and the (3.2) block determinants; cite a reference for the elder rule.
+- **I-8 (low; wording).** P l. 63 → Lemma S12.8: "Any finite list of distinct derivative evaluation functionals at distinct sites". The uses (the contact jet (3.4), the enlarged list `(U_r, A_M)`, two-site lists with Hessians, S10's `(J', U_r)`) have several functionals at each of finitely many sites, in one orthonormal frame; the proof (distributional argument; test functions with prescribed jets) covers that. Suggested fix: "at finitely many sites, several functionals per site allowed, in one orthonormal frame" (as S7's Lemma S7.1(b) reads it).
+- **I-9 (low; range of a display, S13).** CAP (14) l. 142–147 → (S13.15). The bound `f(x,y) < b − (4400/121) r^3` on `‖y‖ = 2r` is derived from `f ≤ g ≤ b`, which holds for `x ∈ [−2r, r/2]` (the cap `\mathcal C`). For `x ∈ (r/2, 2r]`, `g` rises above `b` (`g(2r) ≥ b + (11/96) r^3`) and the displayed bound does not follow from the given argument. CAP's sentence "This covers the entire curved side of the cylinder, including its intersections with the end faces" is read as the curved side of `\mathcal C` (whose end faces `x = −2r`, `x = r/2` are the faces treated next), which is all the proof uses. Transcribed with `−2r ≤ x ≤ r/2`. Suggested fix: "the entire curved side of C".
+- **I-10 (very low; attribution).** CAP l. 133 "Strong concavity gives f(x,y)<=g(x) and g(x)<=b on C": the second inequality follows from the signs of `F = g'` (CAP l. 129), not from strong concavity. The LaTeX points to Lemma S13.5 (added step A10).
+- **I-11 (low; statement form).** P Theorem C l. 47–52 → Thm. S12.5. Unlike Theorem B, Theorem C does not say that the densities "admit versions" with (1.3), although its proof works with the density versions (13.5) and the Kac–Rice far versions, and S7, S8, S10 cite it for "canonical marked Kac–Rice density versions". Suggested fix: "These densities admit versions with (1.3)", naming the versions (S12.40) and (S12.51), defined through the regression-law intensities of Prop. S12.22(b) (see also I-14).
+- **I-12 (low; undefined constant).** P (7.3) l. 236–238 uses `E` without definition; defined here as `E_* = (3/2)K_*` (A6). S7 issue I4 is the same.
+- **I-13 (low; record-internal notation clashes).** P uses `A_r` for `D_y^2 f(M)` and for the intensity, `A_0` for the contact Hessian and the limit intensity, `B` for the birth window and `−A_M`, `h` for `M_3`, the separation vector and a level, `U0` for a row and `U0*` for the jet, `t` for the cutoff, in `t_u` and in `t = 12k`; CAP uses `κ` for the gap, `k = 8m−5`, `m = M_3`, `u = 2/k + 2/k^2`. Resolved by the conversions above; no mathematical effect. Suggested fix: rename in the sources.
+- **I-14 (low; revision 2, a sentence lost with P §9).** E2 replaces P §9 in full, and E2 has no counterpart of P l. 306's last sentence, "The continuous Gaussian regression kernel defines the canonical density version; the underlying measure identity is unaffected by height-null-set choices." S8 l. 12 (`\cite[\S9]{parentP}`) and S10 l. 9 cite exactly this for "canonical marked Kac–Rice density versions". In the reconciled S12 the versions are still specified: Prop. S12.22(b) expresses the intensities through `E^0[W_r]` and `p_r`, where `E^0` is the continuous regression law of Def. S12.2 at the prescribed heights; (S12.40) is stated as "a version" of the compact-window density, and (S12.51) gives the near densities by an explicit formula. But the word "canonical" and the null-set sentence are gone. Suggested fix: S8 and S10 cite (S12.40), (S12.51) and Prop. S12.22(b); or E2 restores the sentence. Not added here (it is not in the reconciled object).
+
+Beyond the items resolved by C2–C4, no mathematical error was found; I-3 is the only open item above low severity. Spot checks by the writer: all finite identities in `verify_s12.py` (59/59 PASS); by hand, (5.1)–(5.2), (6.1)–(6.2), (7.1)–(7.7), (13.1)–(13.4), (14.1), (15.1)–(15.2), CAP (5)–(14), the scaling to general `k`, and REC's embedding and A5 algebra.
+
+## (e) Import map
+
+All 50 occurrences of `\cite{parentP}` / `\cite[…]{parentP}` in `supp_s0_status.tex`, `supp_s1`–`supp_s11` (none in S1–S4 and S11; one textual "parent formula" in S3 l. 560 is not a citation). "Covered" means the cited statement is now stated, with proof, at the S12/S13 label given. Numbers are those of the compile check.
+
+| # | Place | Citation | What is used there | Now stated in | Status |
+|---|---|---|---|---|---|
+| 1 | S0 l. 13 | `\cite{parentP}` | Theorem A: `1−p_r ≤ Cr^3` on compact marks, all `d`, `L` | `thm:parent-A` (Thm. S12.3) | covered |
+| 2 | S5 l. 4 | `\cite{parentP}` | Theorem A for (3.13) | `thm:parent-A` | covered |
+| 3 | S5 l. 902 | `\cite{parentP}` | Theorem A at `d=3`, `L=24`, uniform over compact windows and frames; `p_r` = probability that the global elder partner is `S` | `thm:parent-A`, `def:parent-pinned` (Def. S12.2) | covered |
+| 4 | S5 l. 902 | `\cite{parentP}` | "a second … proof that does not use [parentP]" | — | n/a (statement of non-use) |
+| 5 | S6 l. 125 | `\cite{parentP}` | (14.1): far bound for elder and all typed far pairs, `0<ℓ≤1` | `eq:parent-141` in `lem:parent-far` (Lemma S12.29) | covered |
+| 6 | S7 l. 4 | `\cite{parentP}` | the statements collected in Lemmas S7.1–S7.3, Hyp. S7.4–S7.7, Def. S7.8 | `sec:parent` (rows 9–19 below) | covered |
+| 7 | S7 l. 46 | `\cite[\S10]{parentP}` | `\mathcal A_r` invariant under transverse rotations | `prop:parent-ledger`(c) (Prop. S12.23) | covered |
+| 8 | S7 l. 65 | `\cite{parentP}` | "the following statements" | `sec:parent` | covered |
+| 9 | S7 l. 67 | `\cite[\S2]{parentP}` | Lemma S7.1: (a) Fourier expansion, `a_n>0`, summability, smooth version, moments; (b) finite-jet rank, one or several points, any frame | (a) `lem:parent-spectrum` (Lemma S12.7); (b) `lem:parent-jetrank` (Lemma S12.8) | covered (several functionals per site: by the proof; wording I-8) |
+| 10 | S7 l. 77 | `\cite[\S3, (13.1) and (13.2)]{parentP}` | Lemma S7.2: (a) `|det| = 12r^{−(d+3)}`; (b) eigenvalues of `Σ_r` and of the covariance of `(U_r, A_M)` in a compact subinterval of `(0,∞)`, `0≤r≤r_1`; (c) (13.1)–(13.2) | (a) `lem:parent-frame` (Lemma S12.10); (b) `lem:parent-contact`(b),(c) (Lemma S12.11) with the `r_0` paragraph of §S12.13; (c) `lem:parent-growth` (Lemma S12.26) | covered; the upper eigenvalue bound of the enlarged covariance is implicit in S12 (its entries are bounded derivatives of `K_L`) |
+| 11 | S7 l. 91 | `\cite[(5.1)--(5.3), (6.1), (6.2) and \S13]{parentP}` | Lemma S7.3: deterministic (5.1)–(5.3), envelope (6.2)/r², `W_r/r^2 ≤ C(1+‖φ‖_{C^3})^{2d}` | `lem:parent-endpoint` (Lemma S12.14), `lem:parent-soft` (Lemma S12.16, (S12.24)), `lem:parent-majorant`(a) (Lemma S12.27, (S12.49)) | covered |
+| 12 | S7 l. 109 | `\cite[\S\S8 and 14]{parentP}` | Hyp. S7.4: (a) pinned genericity under `E^0`, `E^MS_r`; (b) `d_φ`, Borel mark, Morse-locus meaning, essential class, finite bars ↔ `e=1` | (a) `lem:parent-generic` (Lemma S12.19); (b) `lem:parent-mark` (Lemma S12.20) | covered (for (b)'s finite-bar part see I-3) |
+| 13 | S7 l. 119 | `\cite[\S\S7 and 8]{parentP}` | Hyp. S7.5: on `G_r`, Morse with distinct values, `S` is the elder partner | `lem:parent-capimpl` (Lemma S12.21) + `thm:cap-main`(c) (Thm. S13.2) | covered; the radius `r < L/(4√2)` is now in Def. S12.2 (C4), matching S7's `r_0 < L/(4√2)` |
+| 14 | S7 l. 125 | `\cite[\S\S9--11 and (13.5)]{parentP}` | Hyp. S7.6: (a) marked Kac–Rice for bounded Borel `h` (E2's form); (b) `0<Z_r<∞` for `b∈R`, `k>0`; intensity `r\mathcal A_r`, selected `r\mathcal A_r p_r`, `σ` unnormalized, no 1/2; (c) near density versions | (a) `prop:parent-KR`(a) (Prop. S12.22); (b) `lem:parent-majorant`(c), `prop:parent-ledger`(b), `prop:parent-KR`(b),(c); (c) `prop:parent-near` (Prop. S12.28, (S12.51)) | covered; (a) is now in E2's form, as S7 states it (C2); (b) `b∈R` wording (I-5) |
+| 15 | S7 l. 147 | `\cite{parentP}` | how (b), (c) follow from (a): disintegration, `12r^{−(d+3)}π_r`, polar factor, height Jacobian, exhaustion, power count, `ℓ = kr^3` | `prop:parent-KR`(b),(c), `prop:parent-ledger`(a),(b), `prop:parent-push` (S12.39), `prop:parent-near` | covered |
+| 16 | S7 l. 149 | `\cite[\S14 and (14.1)]{parentP}` | Hyp. S7.7: far densities bounded, versions with original pins, Jacobian one | `lem:parent-far` (Lemma S12.29) | covered |
+| 17 | S7 l. 156 | `\cite[\S14]{parentP}` | near ∪ far = all pairs; boundary null | `lem:parent-far` (last sentence) | covered |
+| 18 | S7 l. 158 | `\cite[(13.6), \S15 and (15.2)]{parentP}` | Def. S7.8: `c_{d,L} = ∫\mathcal A_0/(3k^{2/3}) = 4∫k^{−2/3}π_0z_0`; (S7.23) | (S12.52) in `prop:parent-near` with `\mathcal A_0 = 12π_0z_0` (S12.38); `lem:parent-parity` (S12.54); `prop:parent-coef` (S12.58) | covered |
+| 19 | S7 l. 166 | `\cite[(13.6) and \S15]{parentP}` | `0<c_{d,L}<∞` and (15.2) | `prop:parent-near`, `prop:parent-coef` (Prop. S12.31) | covered |
+| 20 | S7 l. 191 | `\cite[Theorem~B]{parentP}` | `O(ℓ^{2/3})` difference only on compact windows | `thm:parent-B` (Thm. S12.4) | covered |
+| 21 | S7 l. 411 | `\cite[\S4]{parentP}` | regression of the field on `(U_r, A_M)`, residual independent of the whole vector | `lem:parent-residual` (Lemma S12.13) | covered (method; S7's growing-target moment bounds are S7's own added step S10) |
+| 22 | S7 l. 419 | `\cite[\S7]{parentP}` | eigenvalue coordinates, Vandermonde factor, not GOE | `lem:parent-eigen` (Lemma S12.17) | covered |
+| 23 | S7 l. 478 | `\cite[\S13]{parentP}` | dominated convergence gives the limit only | `prop:parent-near` | covered |
+| 24 | S7 l. 534 | `\cite[(15.2)]{parentP}` | `c_{3,24}` = (15.2) at `d=3`, `L=24` | `prop:parent-coef` (S12.58) | covered |
+| 25 | S7 l. 534 | `\cite[Theorem~C]{parentP}` | leading law, instance `d=3`, `L=24` | `thm:parent-C` (Thm. S12.5) | covered |
+| 26 | S7 l. 534 | `\cite[(15.2)]{parentP}` | coefficient of Theorem C | `prop:parent-coef` | covered |
+| 27 | S8 l. 12 | `\cite[\S9]{parentP}` | canonical marked Kac–Rice density versions for general `d`, `L` | `prop:parent-KR`(b) with (S12.40), (S12.51) | covered, except the word "canonical", which went with P §9 (I-14; also I-11) |
+| 28 | S8 l. 12 | `\cite[(15.2)]{parentP}` | `c_{d,L}` | `prop:parent-coef` | covered |
+| 29 | S8 l. 12 | `\cite[Theorem~C]{parentP}` | `ν_cand ∼ ν_eld ∼ c_{d,L}ℓ^{−1/3}` (unrestricted) | `thm:parent-C` | covered |
+| 30 | S8 l. 23 | `\cite[\S8]{parentP}` | the mark `e` is Borel | `lem:parent-mark`(a) | covered (sketch, I-6) |
+| 31 | S8 l. 40 | `\cite[\S\S9--10, (10.2)]{parentP}` | intensity `r\mathcal A_r dr db dk dσ`, elder/rejected analogues | `prop:parent-KR`, `prop:parent-ledger` (S12.37) | covered |
+| 32 | S8 l. 44 | `\cite[(13.6)]{parentP}` | `c_{d,L} = ∫∫∫ \mathcal A_0 (3k^{2/3})^{−1}` | (S12.52) | covered |
+| 33 | S8 l. 86 | `\cite[\S\S4,7]{parentP}` | `M_3`, `M_4` local seminorms on the cap cylinder; `G_r` | `def:cap-norms` (Def. S13.1, display (S13.2)), `eq:parent-G` (S12.25), `eq:parent-43` (S12.15) | covered |
+| 34 | S8 l. 94 | `\cite[\S\S7--8]{parentP}` | deterministic cap theorem: on `G_r` and the typed support, `S` is the global elder partner | `lem:parent-capimpl`, `thm:cap-main` | covered |
+| 35 | S8 l. 94 | `\cite[\S8]{parentP}` | `Q` a.s. Morse with distinct critical values | `lem:parent-generic` | covered |
+| 36 | S8 l. 107 | `\cite[\S14, (14.1)]{parentP}` | Prop. S8.4(iii): `Ψ^cand_ℓ(b,y) ≤ C_ρ(1+|b|)^{2d}e^{−c_ρb^2}` for `dist ≥ ρ`, every `ρ ∈ (0, L/2]`, `0<ℓ≤1` | `lem:parent-far`: target density `≤ Ce^{−cb^2}` and moments `≤ C(1+|b|)^{2d}` on `dist ≥ r_0` | covered: for `ρ ≥ r_0` by inclusion; for `ρ < r_0` take `r_0 ≤ ρ`, since the conditions fixing `r_0` in §S12.13 survive when `r_0` is decreased (S8's added step A8 reads P the same way) |
+| 37 | S8 l. 292 | `\cite[\S2]{parentP}` | finite-jet nondegeneracy at distinct sites | `lem:parent-jetrank` | covered |
+| 38 | S8 l. 292 | `\cite[\S14]{parentP}` | `λ_min(Cov O_y) ≥ c_0` on `dist ≥ r_0`, used for every fixed `r_0 ∈ (0, L/2]` | `lem:parent-far` (first sentence) | covered, with the `r_0` remark of row 36 |
+| 39 | S8 l. 311 | `\cite[\S2]{parentP}` | `(O_y, H_0, H_y)` positive definite | `lem:parent-jetrank` | covered |
+| 40 | S9 l. 30 | `\cite[\S15]{parentP}` | odd and even jets independent | `lem:parent-parity` (Lemma S12.30) | covered |
+| 41 | S9 l. 236 | `\cite[\S15]{parentP}` | `π_0(u; v_0(b,0)) = p_{(f,V_u)}(b,0)p_G(0)(2π)^{−1/2}τ_u^{−1}` and integration over `b` | (S12.55) at `k=0` (`φ_τ(0) = (2π)^{−1/2}τ^{−1}`); `b`-integration in the proof of Prop. S12.31 | covered |
+| 42 | S10 l. 9 | `\cite{parentP}` | canonical marked Kac–Rice density versions | `prop:parent-KR`(b) with (S12.40), (S12.51) | covered, except the word "canonical" (I-14; also I-11) |
+| 43 | S10 l. 9 | `\cite[(15.2)]{parentP}` | `c_{d,L}` | `prop:parent-coef` | covered |
+| 44 | S10 l. 19 | `\cite[(3.1)]{parentP}` | pin rows, Jacobian `12r^{−(d+3)}`, target `v_r` | `def:parent-rows` (S12.8), `lem:parent-frame` (S12.9)–(S12.10) | covered |
+| 45 | S10 l. 21 | `\cite{parentP}` | elder mark Borel; on the Morse locus it is the elder pairing | `lem:parent-mark` | covered |
+| 46 | S10 l. 122 | `\cite{parentP}` | jet independence (distinct sites; one site, rotated frame); odd/even independence | `lem:parent-jetrank`, `lem:parent-parity` | covered |
+| 47 | S10 l. 254 | `\cite{parentP}` | `(J', U_r)` at the sites `0, ±(r/2)u`; `(J', U_0)` at one point | `lem:parent-jetrank` | covered (several functionals per site, I-8) |
+| 48 | S10 l. 315 | `\cite{parentP}` | parity: even/odd jets independent at contact | `lem:parent-parity` | covered (S10 derives the target-shift consequences itself) |
+| 49 | S10 l. 540 | `\cite{parentP}` | `(\mathcal G_r(F), U_r)` = distinct functionals at `M ≠ S` | `lem:parent-jetrank` | covered |
+| 50 | S10 l. 540 | `\cite{parentP}` | `(\mathcal G_0(F), U_0)` = distinct jets at one point in a frame | `lem:parent-jetrank` | covered |
+
+**Summary.** 50 citations: 49 covered by S12/S13 labels, 1 not applicable (S5 l. 902, a statement that the S5 proof does not use the parent). None is "not covered". Caveats on coverage (revision 2): rows 14 and 27/42 now rest on Prop. S12.22 in E2's form (C2), the same form as S7's Hypothesis S7.6(a); rows 27/42 lose only the word "canonical" (I-14); row 14(b) carries the wording issue I-5; row 13's radius is now in S12 (C4); rows 36 and 38 use the far bound at every `ρ`, covered by choosing `r_0 ≤ ρ`; rows 9, 47 rely on the reading I-8; row 12(b) depends on I-3.
+
+**For the integrator.** To make the supplement self-contained, each citation above can be replaced by a reference to the label in the "Now stated in" column; S7's Lemmas S7.1–S7.3, Hypotheses S7.4–S7.7 and Definition S7.8 then become restatements with pointers to S12/S13.
+
+## Bibliography
+
+New file `supp_refs_s12.bib` (COMMON rule: a new reference goes in `supp_refs_<section>.bib`), two entries cited in S12:
+- `AAL`: D. Armentano, J.-M. Azaïs, J. R. León, *On a general Kac–Rice formula for the measure of a level set*, arXiv:2304.07424v3 (2023); P l. 494 (§§2 and 7) and, after C2, E2 l. 13–21, l. 35, l. 63, l. 72 (Theorem 2.2 for the unweighted formula and finiteness, Theorem 7.1 for continuous weights). E2 l. 21 gives the v3 date as 5 December 2023.
+- `Curry`: J. Curry, *The fiber of the persistence map for functions on the interval*, arXiv:1706.06059v2 (2017); P l. 494 (§3, elder-rule background).
+Only arXiv data is given (no journal data). `parentP` is in `refs.bib`.
+
+## Integration (not done here)
+
+`supp_main.tex` would need `\input{supp_s12_parent}` and `\input{supp_s13_cap}` after `supp_s11_ctwo` (a `\part*` heading is the integrator's choice) and `\bibliography{refs,supp_refs_s8s9,supp_refs_s12}`. The status section S0 and the README/SHA256SUMS of the draft folder are not touched.
+
+## Cross-references used (labels defined elsewhere)
+
+`sec:selection` and `sec:third` (opening paragraph of S12 only). S12 and S13 reference each other (`sec:cap`, `def:cap-norms`, `eq:cap-Mj`, `eq:cap-hermite`, `thm:cap-main`; `sec:parent`, `lem:parent-capimpl`).
+
+## Compile check (`chk_s12/`)
+
+`chk_s12/test_s12.tex` = the preamble of `supp_main.tex` (everything before `\begin{document}`, copied verbatim) + 11 stub sections carrying `sec:setting` … `sec:ctwo` + `\input{../supp_s12_parent}` + `\input{../supp_s13_cap}` + `\bibliographystyle{amsplain}\bibliography{refs,supp_refs_s12}`; `refs.bib` (copy of the supplement's) and `supp_refs_s12.bib` copied in. `pdflatex` ×3 with `bibtex` (TeX Live 2023), from a clean directory:
+- LaTeX errors: 0.
+- Undefined references or citations: 0 (the only external labels, `sec:selection` and `sec:third`, are stubbed); no "Rerun" warning; bibtex: no warnings (3 entries: `parentP`, `AAL`, `Curry`).
+- Overfull / underfull boxes: 0. Revision 1's first build had three overfull boxes (22.4 pt in the proof of Lemma S12.16, 15.0 pt in Definition S13.1, 4.4 pt in Proposition S12.22(b)); revision 2's first build had one (59.5 pt, the regression subtraction in the new proof of Prop. S12.22). All were fixed by displaying the long formula or rewording.
+- Pages: 20 in the test document (revision 1: 19) = 1 page of title and stubs + S12 on pp. 2–17 (about 15 pages) + S13 on pp. 17–20 (about 3 pages, with the bibliography on p. 20). The new proof of Prop. S12.22 accounts for the extra page.
+- Numbering: the label lists of revision 1 and revision 2 (`chk_s12/labels_before.txt`, `chk_s12/labels_after.txt`, 133 labels each) are identical, so no statement, display or subsection number shifted.
+
+`chk_s12/verify_s12.py` (SymPy, exact; output `chk_s12/verify_s12.out.txt`): 59 finite checks, ALL PASS — `|det T_r|` for `d = 2…6`, the target `v_r`, the Hermite identity and the two averaging identities on a generic quintic with critical pins, `α_{M,S} = ∓6k` for `f_xxx ≡ 12k`, the block identity (5.3) and the corrected congruence for `m = 1, 2, 3` (and that the uncorrected factor fails), (7.3), the (7.5) split, (13.1), (11.1), the exponents of (11.3) and the difference bound, (12.1), the gamma factor of (15.2), the amplitude exponent, every CAP constant (`24/121`, `48/121`, `2554128/1771561`, `2184415/7086244`, `2r^2`, `15/8`, `9/32`, `11/96`, `4400/121`, the scaling to `27/16`, `11/16`, `26400/121`, `3/2`, and the scaling of (4) to (1)), and, in revision 2, C4's embedding geometry (`|corner| = 2√2 r`, `2√2 r = L/2` at `r = L/(4√2)`), REC's A5 factorization and `B − (−B') = (r/(−α))ββ^T` for `m = 1, 2, 3`, and the entries of W1's difference matrices for `m = 1, 2, 3`. These are finite algebra checks, not checks of any analytic estimate.
+
+### File hashes (revision 2)
+
+SHA-256 of the output files, computed after the final build (this file's own hash is reported separately, since it cannot contain itself):
+
+| File | Bytes | SHA-256 |
+|---|---:|---|
+| `supp_s12_parent.tex` | 63,987 | `10f33167b43e78c58151897eb68ed2c6d80c3da1e73267aa9c87672eda8c35f8` |
+| `supp_s13_cap.tex` | 14,975 | `601c85fa71aa90cea608743e946016d55c4acb1321a6ad4181c85c4ad9c6f892` |
+| `supp_refs_s12.bib` | 399 | `4ac5436d450d5857a147b42fd2a9a694b59d06ecbb0c147703a65beb48575c36` |
+| `chk_s12/test_s12.tex` | 2,362 | `7f1e904c6abf13b6ecbe2666ca3251ad9ad740ec69bdefef43ac46157467111e` |
+| `chk_s12/test_s12.pdf` | 493,594 | `36965aeea91cbcf67d0c733d40dfa576718721cd03cc94dccb6eb833289cdcfa` |
+| `chk_s12/verify_s12.py` | 10,655 | `067557f852a530f9ed0f6d442d315f507a21189ffd1a510818e4f540ab31cfab` |
+| `chk_s12/verify_s12.out.txt` | 2,478 | `cabbd30d5f3d5a588b0ca7ca3b241276c6e5e45f2d8573b70a4c1e9466156dc4` |
+| `chk_s12/labels_before.txt` | 2,869 | `aebfe144dd9ee187bbaed48b8d63196970c12ee5afc60e04759cdceadd1dbec3` |
+| `chk_s12/labels_after.txt` | 2,869 | `aebfe144dd9ee187bbaed48b8d63196970c12ee5afc60e04759cdceadd1dbec3` |

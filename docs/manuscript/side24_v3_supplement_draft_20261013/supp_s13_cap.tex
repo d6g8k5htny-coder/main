@@ -1,0 +1,139 @@
+% Supplement section S13: the marked-cylinder cap (the deterministic separating-cylinder theorem).
+% Sources, notation conversions and issues: CONC_s12.md.
+\section{The marked-cylinder cap}\label{sec:cap}
+
+This section proves the deterministic separating-cylinder theorem that Section~\ref{sec:parent} uses for elder selection (Lemma~\ref{lem:parent-capimpl}); it is the cap theorem on which \cite{parentP} relies. Nothing in it is probabilistic. The theorem covers every dimension $d\ge2$, every birth, every positive gap mark and every coordinate frame, with the partial-block norms of Definition~\ref{def:cap-norms}. As in Section~\ref{sec:parent}, $m=d-1$, and the gap mark is $k$, so that $f(S)=f(M)-kr^3$.
+
+\begin{definition}[cylinder and partial-block norms]\label{def:cap-norms}
+Let $d\ge2$ and $r>0$, and use coordinates $(x,y)\in\R\times\R^m$. The cylinder is
+\begin{equation}\label{eq:cap-D}
+\mathcal D_r=[-2r,2r]\times\bar B(0,2r).
+\end{equation}
+For a $C^4$ function $f$ on a neighbourhood of $\mathcal D_r$ and $j=3,4$ put
+\begin{equation}\label{eq:cap-Mj}
+M_j=\max_{0\le i\le j}\ \sup_{\mathcal D_r}\bigl\|\partial_x^{\,j-i}D_y^{\,i}f\bigr\|_{\rm op},
+\end{equation}
+where the norm is the absolute value for $i=0$, and for $i\ge1$
+\[
+\bigl\|\partial_x^{\,j-i}D_y^{\,i}f\bigr\|_{\rm op}=\sup_{w_1,\dots,w_i}\bigl|\partial_x^{\,j-i}D_y^{\,i}f\,[w_1,\dots,w_i]\bigr|,
+\]
+the supremum being over transverse unit vectors $w_1,\dots,w_i$ chosen independently of each other. In dimension two, $M_j$ is the maximum of the absolute values of the coordinate partial derivatives of order $j$, not the larger full-tensor operator norm.
+\end{definition}
+
+\begin{theorem}[separating cylinder]\label{thm:cap-main}
+Let $f$ be $C^4$ on a neighbourhood of $\mathcal D_r$, with critical points $M=(-r/2,0)$ and $S=(r/2,0)$, $f(M)=b$ and $f(S)=s:=b-kr^3$, where $b\in\R$ and $k>0$. Put $\lambda=\lambda_{\min}\bigl(-D_y^2f(M)\bigr)$ and suppose that
+\begin{equation}\label{eq:cap-cond}
+\lambda>\frac4{3k}\,r\,M_3^2,\qquad rM_4\le\frac{3k}{10}.
+\end{equation}
+\begin{enumerate}[(a),leftmargin=2em]
+\item \emph{Ridge.} For every $x\in[-2r,2r]$ the function $f(x,\cdot)$ has a unique maximizer $h(x)$ on $\bar B(0,2r)$; $h$ is $C^3$, $\nabla_yf(x,h(x))=0$ and $h(\pm r/2)=0$. The only critical points of $f$ in $\mathcal D_r$ are $M$ and $S$; $D^2f(M)$ is negative definite, so $M$ is a maximum, and $D^2f(S)$ has exactly one positive eigenvalue.
+\item \emph{Cap.} On $\mathcal C=[-2r,r/2]\times\bar B(0,2r)$ one has $f\le b$, and every boundary point of $\mathcal C$ has value at most $s$, with equality only at $S$. The ridge path $x\mapsto(x,h(x))$, $-r/2\le x\le2r$, starts at $M$, passes through $S$ and ends at $z=(2r,h(2r))$, where $f(z)>b$; its minimum is exactly $s$.
+\item \emph{Elder pairing.} Suppose that $\mathcal D_r$ is embedded, through an orthonormal product chart, in a compact manifold, and that $f$ extends to a Morse function on it with pairwise distinct critical values. Then every path from $M$ to a point with value greater than $b$ has minimum at most $s$, the maximin connection level of $M$ to an older point is $s$, and the ordinary superlevel elder death partner of $M$ is $S$.
+\item \emph{Branches.} In the situation of \textup{(c)}, for the gradient of a smooth Riemannian metric, exactly one ascending unstable half-branch of $S$ ends at $M$.
+\end{enumerate}
+No Morse--Smale assumption and no identification of the ridge with a flow trajectory are used.
+\end{theorem}
+
+\subsection{The normalized gap mark}\label{ssec:cap-normalized}
+
+We first prove Theorem~\ref{thm:cap-main} for $k=1/6$. Then \eqref{eq:cap-cond} reads
+\begin{equation}\label{eq:cap-cond6}
+\lambda>8\,r\,M_3^2,\qquad rM_4\le\frac1{20},
+\end{equation}
+and $s=b-r^3/6$. In Lemmas~\ref{lem:cap-forced}--\ref{lem:cap-boundary}, $f$ satisfies the hypotheses of Theorem~\ref{thm:cap-main} with $k=1/6$, and $a=-r/2$, $c=r/2$ are the axial coordinates of the pins.
+
+\begin{lemma}[the forced third derivative]\label{lem:cap-forced}
+For every $C^3$ function with critical points $M$ and $S$, the critical pins give the Hermite identity
+\begin{equation}\label{eq:cap-hermite}
+f(S)-f(M)=-\frac12\int_{-r/2}^{r/2}\Bigl(x+\frac r2\Bigr)\Bigl(\frac r2-x\Bigr)f_{xxx}(x,0)\,dx .
+\end{equation}
+Under \eqref{eq:cap-cond6} the weighted average of $f_{xxx}$ in \eqref{eq:cap-hermite} is $2$. In particular $M_3\ge2$, and some $x_0$ in the pin interval satisfies $f_{xxx}(x_0,0)=2$. Throughout $\mathcal D_r$, in the quadratic-form order,
+\begin{equation}\label{eq:cap-5}
+f_{xxx}\ge2-5rM_4\ge\frac74,\qquad D_y^2f\preceq-(\lambda-5rM_3)\,I=-\delta I,\qquad \delta>rM_3(8M_3-5),\qquad 8M_3-5\ge11 ,
+\end{equation}
+where $\delta:=\lambda-5rM_3$.
+\end{lemma}
+
+\begin{proof}
+The positive kernel in \eqref{eq:cap-hermite} has integral $r^3/6$, and $f(S)-f(M)=-r^3/6$, so the weighted average of $f_{xxx}$ is $2$. This forced lower bound on $M_3$ is useful; replacing $M_3$ by the larger $1+M_3$ is unnecessary. The partial-block norms control increments by $|\Delta x|+\|\Delta y\|$, with no factor depending on the dimension. Every point of $\mathcal D_r$ is within this product distance less than $5r$ of $(x_0,0)$, and likewise less than $5r$ from $M$. Thus \eqref{eq:cap-5} holds, with $8M_3-5\ge11$ because $M_3\ge2$. The Hessian inequality holds in the quadratic-form order throughout $\mathcal D_r$; a scalar lower bound on a diagonal entry cannot replace this matrix inequality when $d>2$.
+\end{proof}
+
+\begin{lemma}[the vector ridge]\label{lem:cap-ridge}
+Put $w(x)=\nabla_yf(x,0)$ and $q=8M_3-5\ge11$. For $|x|\le2r$,
+\begin{gather}
+\|w(x)\|\le\frac{M_3}2\,\Bigl|x^2-\frac{r^2}4\Bigr|\le\frac{15}8\,M_3r^2<2M_3r^2,\label{eq:cap-6}\\
+\|w'(x)\|\le\frac{M_3}r\int_{-r/2}^{r/2}|x-x'|\,dx'\le2M_3r .\label{eq:cap-7}
+\end{gather}
+For every $x\in[-2r,2r]$, the function $f(x,\cdot)$ is $\delta$-strongly concave on $\bar B(0,2r)$, and its maximum there is attained at a unique interior point $h(x)$, which solves $\nabla_yf(x,h(x))=0$. Moreover $h(\pm r/2)=0$, $h$ is $C^3$, and
+\begin{gather}
+\|h(x)\|\le\frac{\|w(x)\|}\delta<\frac{2r}q,\label{eq:cap-8}\\
+h'=-\bigl(D_y^2f\bigr)^{-1}\partial_x\nabla_yf,\qquad \|h'\|<\frac{2rM_3+M_3\|h\|}\delta<\frac2q+\frac2{q^2}=:\omega,\qquad \omega\le\frac{24}{121},\label{eq:cap-9}\\
+M_3\,\omega=\frac14\Bigl(1+\frac6q+\frac5{q^2}\Bigr)\le\frac{48}{121}.\label{eq:cap-10}
+\end{gather}
+\end{lemma}
+
+\begin{proof}
+The function $w$ vanishes at the two pins, and $\|w''\|\le M_3$. Applying the scalar two-node interpolation remainder to every unit-vector projection of $w$ gives \eqref{eq:cap-6}, including outside the pin interval: there the bound follows from the interpolation remainder on the convex hull of the three points, not from an estimate valid only inside. Also $\int_{-r/2}^{r/2}w'(x')\,dx'=0$. Subtract this average from $w'(x)$, use the Lipschitz constant $M_3$ and integrate $|x-x'|$; this gives the first inequality of \eqref{eq:cap-7}. At the end of the cylinder,
+\[
+\int_{-r/2}^{r/2}|2r-x'|\,dx'=2r^2,
+\]
+so $\|w'(x)\|\le2M_3r$ on $|x|\le2r$, and the bound is sharp. This vector average argument does not posit a common point at which every component of $w'$ vanishes.
+
+For fixed $x$, $f(x,\cdot)$ is $\delta$-strongly concave on the transverse ball by \eqref{eq:cap-5}. On its boundary $\|y\|=2r$,
+\[
+\nabla_yf(x,y)\cdot y\le\|w(x)\|\,\|y\|-\delta\|y\|^2<0 .
+\]
+The maximum on the compact ball is therefore interior (moving inward increases the value at a boundary point), and strict concavity makes it unique. The maximizer $h(x)$ solves $\nabla_yf(x,h(x))=0$, has $h(\pm r/2)=0$ and is $C^3$ by the implicit function theorem. Strong monotonicity gives \eqref{eq:cap-8}. The derivative of $h$ is given in \eqref{eq:cap-9}, and \eqref{eq:cap-7}, \eqref{eq:cap-8} and the bound on the mixed derivative give the bound for $\|h'\|$ in \eqref{eq:cap-9}. Since $M_3=(q+5)/8$, \eqref{eq:cap-10} follows. All these inequalities use transverse operator norms; there is no hidden coordinate sum depending on the dimension.
+\end{proof}
+
+\begin{lemma}[the ridge derivative]\label{lem:cap-third}
+Put $g(x)=f(x,h(x))$ and $F=g'=f_x(x,h(x))$ on $[-2r,2r]$, and $v=(1,h')$. Then, with the derivatives of $f$ evaluated at $(x,h(x))$,
+\begin{equation}\label{eq:cap-11}
+F''=f_{xxx}+3f_{xxy}[h']+3f_{xyy}[h',h']+f_{yyy}[h',h',h'],
+\end{equation}
+and
+\begin{equation}\label{eq:cap-12}
+F''>\frac74-\frac{2554128}{1771561}=\frac{2184415}{7086244}>\frac14 .
+\end{equation}
+The function $F$ vanishes exactly at $a$ and $c$; it is negative between them and positive outside. The only critical points of $f$ in $\mathcal D_r$ are $M$ and $S$. The Schur complement of $D_y^2f$ in $D^2f$ is $F'(a)<0$ at $M$ and $F'(c)>0$ at $S$, so $M$ is a maximum and $D^2f(S)$ has exactly one positive eigenvalue.
+\end{lemma}
+
+\begin{proof}
+Differentiating the transverse critical equation $\nabla_yf(x,h(x))=0$ gives $(D^2f\,v)_y=0$. The vector $v'=(0,h'')$ is purely transverse, so $D^2f[v,v']=(D^2f\,v)\cdot v'=0$, and every term of the third derivative of $g$ that involves $h''$ is zero. Hence $F''=D^3f[v,v,v]$, which is the exact identity \eqref{eq:cap-11}. It is valid for a vector $h$, and it does not assert that the ridge is an integral curve of the gradient. By \eqref{eq:cap-9} and \eqref{eq:cap-10}, the adverse part of \eqref{eq:cap-11} is at most
+\[
+\frac{48}{121}\Bigl[3+3\cdot\frac{24}{121}+\Bigl(\frac{24}{121}\Bigr)^2\Bigr]=\frac{2554128}{1771561},
+\]
+and \eqref{eq:cap-5} gives \eqref{eq:cap-12}. The function $F$ has the prescribed zeros $a$ and $c$, and strict convexity makes them its only zeros, with $F$ negative between them and positive outside. Every critical point in $\mathcal D_r$ lies on the ridge, hence $\mathcal D_r$ contains precisely the critical points $M$ and $S$. The Schur complement of $D_y^2f$ at these points is $F'(a)<0$, respectively $F'(c)>0$, which proves that $M$ is a maximum and that $S$ has exactly one positive Hessian direction.
+\end{proof}
+
+\begin{lemma}[the cap boundary]\label{lem:cap-boundary}
+Let $\mathcal C=[-2r,r/2]\times\bar B(0,2r)$ and $s=b-r^3/6$. Then $f(x,y)\le g(x)\le b$ on $\mathcal C$,
+\begin{equation}\label{eq:cap-13}
+g(-2r)\le b-\frac9{32}\,r^3=s-\frac{11}{96}\,r^3,\qquad g(2r)\ge s+\frac9{32}\,r^3=b+\frac{11}{96}\,r^3,
+\end{equation}
+and, for $-2r\le x\le r/2$ and $\|y\|=2r$,
+\begin{equation}\label{eq:cap-14}
+f(x,y)\le g(x)-\frac\delta2\,\|y-h(x)\|^2<b-\frac{4400}{121}\,r^3<s .
+\end{equation}
+On the face $x=c$ of $\mathcal C$, $f(c,y)\le s-\frac\delta2\|y\|^2$, with equality only at $S$. Thus every boundary point of $\mathcal C$ has value at most $s$, with equality only at $S$. The ridge segment $a\le x\le2r$ starts at $M$, passes through $S$ and ends at $z=(2r,h(2r))$, where $f(z)>b$ by \eqref{eq:cap-13}; its minimum is exactly $s$.
+\end{lemma}
+
+\begin{proof}
+Strong concavity gives $f(x,y)\le g(x)$, and $g(x)\le b$ on $\mathcal C$ by the signs of $F=g'$ in Lemma~\ref{lem:cap-third}. To control the longitudinal faces, subtract $(x-a)(x-c)/8$ from $F$. By \eqref{eq:cap-12} the difference is convex, and it vanishes at $a$ and $c$; hence it is nonnegative outside $[a,c]$. Integrating on either exterior interval gives \eqref{eq:cap-13}. These are lower and upper inequalities at the actual ridge endpoints, not Taylor fits. For a transverse boundary point $\|y\|=2r$ of $\mathcal C$, \eqref{eq:cap-5} and \eqref{eq:cap-8} imply \eqref{eq:cap-14}; indeed $\delta>rM_3(8M_3-5)\ge22r$ and $\|y-h(x)\|>20r/11$. This covers the entire curved side of $\mathcal C$, including its intersections with the end faces; in dimension two it covers both horizontal edges and their corners. On the right face $x=c$, $h(c)=0$, which gives the stated bound there. On the left face use $f\le g$ and \eqref{eq:cap-13}. Thus every boundary exit from $\mathcal C$ has value at most $s$. Finally, along the ridge segment $g$ decreases from $b$ to $s$ on $[a,c]$ and increases from $s$ to $g(2r)>b$ on $[c,2r]$, so its minimum is exactly $s$. A path through $S$ at level $s$ is not a preemption path staying strictly above $s$.
+\end{proof}
+
+\subsection{Proof of the theorem}\label{ssec:cap-proof}
+
+\begin{proof}[Proof of Theorem~\ref{thm:cap-main}]
+\emph{The case $k=1/6$.} Parts (a) and (b) are Lemmas~\ref{lem:cap-ridge}, \ref{lem:cap-third} and~\ref{lem:cap-boundary}.
+
+(c) Every point with value greater than $b$ lies outside $\mathcal C$. Every continuous path from $M$ to such a point must first meet the boundary of $\mathcal C$, so its minimum is at most $s$, regardless of later remote excursions or re-entry. The ridge path of (b) has minimum exactly $s$ and an endpoint with value greater than $b$. Hence the maximin connection level of $M$ to an older point is $s$. For a compact Morse function with distinct critical values, ordinary superlevel-component persistence identifies this maximin value with the elder death level of $M$; the older endpoint excludes the case of the essential, global maximum. The unique critical value $s$ identifies $S$.
+
+(d) At $S$ the Hessian is negative definite on the transverse hyperplane. The unstable eigenvector for gradient ascent has a nonzero $x$-component: its Hessian quadratic form is positive, whereas that hyperplane is strictly negative. This argument also holds for a smooth positive definite Riemannian metric. One half-branch enters the cap $\mathcal C$ at height greater than $s$; the other enters the outside. The first cannot exit, because its height increases and every boundary value is at most $s$. Its $\omega$-limit is a critical point in the compact cap; gradient monotonicity and the finiteness of the critical set make this limit a single point. It cannot be $S$, so it is $M$. The other branch can neither enter $\mathcal C$ nor tend to its interior point $M$. Exactly one branch ends at $M$.
+
+\emph{General $k>0$.} Apply the case $k=1/6$ to $f/(6k)$. Its pins have gap $r^3/6$ and the arbitrary birth $b/(6k)$. Its derivative norms and its transverse curvature are those of $f$ divided by $6k$, so \eqref{eq:cap-cond6} for $f/(6k)$ is exactly \eqref{eq:cap-cond} for $f$. The geometric ridge is unchanged.
+\end{proof}
+
+\begin{remark}[margins for general $k$]\label{rem:cap-margins}
+For general $k>0$ the scaling in the proof gives the following margins: the third derivative $F''$ of the ridge exceeds $3k/2$; the longitudinal drop $b-g(-2r)$ and rise $g(2r)-s$ are at least $\frac{27}{16}\,kr^3$, which exceeds the specified gap $kr^3$ by $\frac{11}{16}\,kr^3$; and the radial drop on the curved side of $\mathcal C$ exceeds $\frac{26400}{121}\,kr^3$. An arbitrary orthonormal frame can be used in this pathwise argument as long as its product chart is embedded; on the torus $\T^d_L$ this holds whenever $r<L/(4\sqrt2)$ (Definition~\ref{def:parent-pinned}). Scaling or rotating the function here is not a proof that the conditional covariance, the pin energy or the normalizer of a random field is invariant under that operation.
+\end{remark}

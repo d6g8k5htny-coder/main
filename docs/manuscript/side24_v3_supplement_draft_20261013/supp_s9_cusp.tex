@@ -27,7 +27,7 @@ For every $d\ge2$ and $L>0$, and for the canonical marked Kac--Rice density vers
 \begin{equation}\label{eq:cusp-c1}
 c_1=-\frac{192}7\,2^{1/4}\int_{S^{d-1}}\int_\R\pi_0\bigl(u;v_0(b,0)\bigr)\,\E_0\Bigl[|Y|^{7/4}|\Delta|^{1/4}\ind\{A\prec0\}\Bigm|b\Bigr]\,db\,d\sigma(u),
 \end{equation}
-and $c_1\in(-\infty,0)$. Equivalently, with $G:=\nabla f(0)$, $V_u:=(\partial_u^2f,\nabla_\Theta\partial_uf)(0)$, $t_u:=\partial_u^3f(0)$ and $\tau_u^2:=\Var(t_u\mid G=0)$ (odd and even jets are independent \cite[\S15]{parentP}),
+and $c_1\in(-\infty,0)$. Equivalently, with $G:=\nabla f(0)$, $V_u:=(\partial_u^2f,\nabla_\Theta\partial_uf)(0)$, $t_u:=\partial_u^3f(0)$ and $\tau_u^2:=\Var(t_u\mid G=0)$ (odd and even jets are independent \cite[\S15]{parentP}; Lemma~\ref{lem:parent-parity}),
 \begin{multline}\label{eq:cusp-c1parity}
 c_1=-\frac{192}7\,2^{1/4}\int_{S^{d-1}}p_G(0)\,p_{V_u}(0)\,(2\pi)^{-1/2}\tau_u^{-1}\\
 \times\E\Bigl[|Y|^{7/4}|\Delta|^{1/4}\ind\{A\prec0\}\Bigm|V_u=0,\ G=0,\ t_u=0\Bigr]\,d\sigma(u).
@@ -233,7 +233,7 @@ I_1=\ell^{1/4}\Bigl[\int_{S^{d-1}}\int_\R\int_0^{s_*}(\mathcal C^{\eld}-\mathcal
 \begin{equation}\label{eq:cusp-loss}
 \int_0^\infty\mathrm{loss}(s)\,ds=Y^2s_1+\frac{36}7\Delta^2s_1^{-7}=\frac{16}7\,Y^2s_1=\frac{16}7\,2^{1/4}|Y|^{7/4}|\Delta|^{1/4}.
 \end{equation}
-By Tonelli's theorem the $s$-integral over $(0,\infty)$ converges absolutely; letting $s_*\to\infty$ gives \eqref{eq:cusp-CU1} with $c_1=-12\int\!\int\pi_0\E_0[\frac{16}72^{1/4}|Y|^{7/4}|\Delta|^{1/4}\ind\{A\prec0\}\mid b]\,db\,d\sigma$, which is \eqref{eq:cusp-c1}. The expectation is finite (Gaussian moments; $\pi_0$ has Gaussian decay in $b$) and strictly positive, because $Y\ne0$ almost surely and $\{A\prec0\}$ has positive probability under the nondegenerate contact law; so $c_1<0$. The form \eqref{eq:cusp-c1parity} follows from the factorization $\pi_0(u;v_0(b,0))=p_{(f,V_u)}(b,0)\,p_G(0)\,(2\pi)^{-1/2}\tau_u^{-1}$ (the last factor is the density of $t_u$ given $G=0$, at $0$) and integration over $b$ \cite[\S15]{parentP}. \qed
+By Tonelli's theorem the $s$-integral over $(0,\infty)$ converges absolutely; letting $s_*\to\infty$ gives \eqref{eq:cusp-CU1} with $c_1=-12\int\!\int\pi_0\E_0[\frac{16}72^{1/4}|Y|^{7/4}|\Delta|^{1/4}\ind\{A\prec0\}\mid b]\,db\,d\sigma$, which is \eqref{eq:cusp-c1}. The expectation is finite (Gaussian moments; $\pi_0$ has Gaussian decay in $b$) and strictly positive, because $Y\ne0$ almost surely and $\{A\prec0\}$ has positive probability under the nondegenerate contact law; so $c_1<0$. The form \eqref{eq:cusp-c1parity} follows from the factorization $\pi_0(u;v_0(b,0))=p_{(f,V_u)}(b,0)\,p_G(0)\,(2\pi)^{-1/2}\tau_u^{-1}$ (the last factor is the density of $t_u$ given $G=0$, at $0$) and integration over $b$ \cite[\S15]{parentP} (Proposition~\ref{prop:parent-coef}). \qed
 
 \subsection{The candidate and rejected densities}\label{ssec:cusp-cand}
 

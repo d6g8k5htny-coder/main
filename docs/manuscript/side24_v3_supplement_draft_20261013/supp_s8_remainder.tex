@@ -9,7 +9,7 @@ This section and the next prove the first links of Theorem~2.3 of the main text.
 \begin{convention}[notation for Part~II]\label{conv:remainder-notation}
 \begin{enumerate}[(a),leftmargin=2em,itemsep=2pt]
 \item \emph{Field and constants.} Fix $d\ge2$ and $L>0$, and let $f$ be the centred stationary Gaussian field of variance one on the torus $\T^d_L=\R^d/(L\Z^d)$ with covariance $K_L(z)=\sum_{n\in\Z^d}e^{-|z+Ln|^2/2}\big/\sum_{n\in\Z^d}e^{-|Ln|^2/2}$; for $d=3$, $L=24$ this is (1.1) of the main text. Put $m:=d-1$. Unless stated otherwise, $C,c,N$ are positive constants depending on $d$ and $L$ only; they may change from line to line. The index of a symmetric matrix is its number of negative eigenvalues.
-\item \emph{Densities.} $\nu_{\cand}(\ell)$ is the $\ell$-density, per unit volume, of the expected number of ordered pairs $(M,S)$ of a local maximum $M$ and a critical point $S$ of index $d-1$ with $f(M)-f(S)=\ell>0$, all births, gaps and separations included; $\nu_{\eld}(\ell)$ is the same density for the pairs that are finite ordinary superlevel $H_0$ bars (the essential class excluded); $\rho_{\rej}:=\nu_{\cand}-\nu_{\eld}$. All three are taken in their canonical marked Kac--Rice density versions (Convention~2.2 of the main text and \S\ref{sec:setting}; for general $d,L$ the same construction, \cite[\S9]{parentP}). At $d=3$, $L=24$, $\nu_{\eld}=\nu_{3,24}$. A superscript $\mathrm{near},\rho$, $\mathrm{far},\rho$ or $[\rho,\rho')$ restricts to pairs with $\dist(M,S)<\rho$, $\ge\rho$ or in $[\rho,\rho')$. The constant $c_{d,L}>0$ is the leading coefficient of \cite[(15.2)]{parentP}, so that $\nu_{\cand}(\ell)\sim\nu_{\eld}(\ell)\sim c_{d,L}\ell^{-1/3}$ \cite[Theorem~C]{parentP}; at $d=3$, $L=24$ it equals $c_{3,24}$ of (2.9) of the main text, both being the leading coefficient of $\nu_{3,24}$.
+\item \emph{Densities.} $\nu_{\cand}(\ell)$ is the $\ell$-density, per unit volume, of the expected number of ordered pairs $(M,S)$ of a local maximum $M$ and a critical point $S$ of index $d-1$ with $f(M)-f(S)=\ell>0$, all births, gaps and separations included; $\nu_{\eld}(\ell)$ is the same density for the pairs that are finite ordinary superlevel $H_0$ bars (the essential class excluded); $\rho_{\rej}:=\nu_{\cand}-\nu_{\eld}$. All three are taken in their canonical marked Kac--Rice density versions (Convention~2.2 of the main text and \S\ref{sec:setting}; for general $d,L$ the same construction, \cite[\S9]{parentP}; Proposition~\ref{prop:parent-KR}(b), \eqref{eq:parent-112} and \eqref{eq:parent-135}). At $d=3$, $L=24$, $\nu_{\eld}=\nu_{3,24}$. A superscript $\mathrm{near},\rho$, $\mathrm{far},\rho$ or $[\rho,\rho')$ restricts to pairs with $\dist(M,S)<\rho$, $\ge\rho$ or in $[\rho,\rho')$. The constant $c_{d,L}>0$ is the leading coefficient of \cite[(15.2)]{parentP} (Proposition~\ref{prop:parent-coef}), so that $\nu_{\cand}(\ell)\sim\nu_{\eld}(\ell)\sim c_{d,L}\ell^{-1/3}$ \cite[Theorem~C]{parentP} (Theorem~\ref{thm:parent-C}); at $d=3$, $L=24$ it equals $c_{3,24}$ of (2.9) of the main text, both being the leading coefficient of $\nu_{3,24}$.
 \item \emph{Pinned pairs.} By stationarity the midpoint of the pair is the origin. For a direction $u\in S^{d-1}$ (the $t$ of (3.4) of the main text; we write $u$, as in (2.13) of the main text), an orthonormal frame $\Theta$ of $u^\perp$, and coordinates $(x,y)\in\R\times\R^m$ along $u$ and $\Theta$, the pins are
 \[
 M=-\tfrac r2u,\quad S=\tfrac r2u,\qquad f(M)=b,\quad f(S)=b-kr^3,\qquad \nabla f(M)=\nabla f(S)=0,
@@ -20,7 +20,7 @@ with $b\in\R$ and gap mark $k>0$; in the notation of (3.5) of the main text $k=\
 K_i:=D_r^{-1}H_iD_r^{-1}=\begin{pmatrix}\alpha_i&\sqrt r\,\beta_i^{\top}\\ \sqrt r\,\beta_i&A_i\end{pmatrix},\qquad \alpha_i=\frac{\partial_x^2f(i)}r,\quad \beta_i=\frac{\nabla_y\partial_xf(i)}r,\quad A_i=D_y^2f(i),
 \]
 with $D_r=\operatorname{diag}(\sqrt r,I_m)$; thus $|\det H_i|=r|\det K_i|$, $K_i$ is congruent to $H_i$, and $W_r/r^2=F_d(K_M)F_{d-1}(K_S)$.
-\item \emph{Elder mark.} For $M\in\T^d_L$, $d_f(M):=\sup\{\min_{s\in[0,1]}f(\gamma(s)):\gamma\in C([0,1];\T^d_L),\ \gamma(0)=M,\ f(\gamma(1))>f(M)\}$ (with $\sup\emptyset=-\infty$) is the maximin connection level, and $e:=\ind\{d_f(M)=f(S)\}$. The mark $e$ is Borel \cite[\S8]{parentP} (cf.\ \S\ref{sec:selection}); on the Morse locus with distinct critical values, $e=1$ exactly when $S$ is the elder death saddle of $M$.
+\item \emph{Elder mark.} For $M\in\T^d_L$, $d_f(M):=\sup\{\min_{s\in[0,1]}f(\gamma(s)):\gamma\in C([0,1];\T^d_L),\ \gamma(0)=M,\ f(\gamma(1))>f(M)\}$ (with $\sup\emptyset=-\infty$) is the maximin connection level, and $e:=\ind\{d_f(M)=f(S)\}$. The mark $e$ is Borel \cite[\S8]{parentP} (Lemma~\ref{lem:parent-mark}; cf.\ \S\ref{sec:selection}); on the Morse locus with distinct critical values, $e=1$ exactly when $S$ is the elder death saddle of $M$.
 \item \emph{Kernels.} $\mathcal A_r(b,k,u):=12\pi_r(v_r)\E_Q[W_r/r^2]$, $\mathcal A^{\eld}_r:=12\pi_r(v_r)\E_Q[(W_r/r^2)e]$ and $\mathcal A^{\rej}_r:=\mathcal A_r-\mathcal A^{\eld}_r=12\pi_r(v_r)\E_Q[(W_r/r^2)(1-e)]$. At contact, $A_0$ denotes the transverse Hessian $D_y^2f(0)$ under the contact law, $z_0(b,k,u):=\E[(6k)^2(\det A_0)^2\ind\{A_0\prec0\}]$ and $\mathcal A_0(b,k,u):=12\pi_0(v_0)z_0$. Finally $H(b,k):=CP^Ne^{-c(b^2+k^2)}$, with $N$ enlarged when necessary.
 \item \emph{Two-site kernels.} For $y\in\T^d_L\setminus\{0\}$ let $O_y=(f(0),\nabla f(0),f(y),\nabla f(y))$, $v_{b,\ell}=(b,0,b-\ell,0)$, $p_y$ the density of $O_y$, $Q_{y,b,\ell}$ the regression law given $O_y=v_{b,\ell}$, $W=|\det H_0\det H_y|\,\ind\{H_0\prec0,\ \Ind H_y=d-1\}$ and $e_y=\ind\{d_f(0)=f(y)\}$. The unmarked candidate kernel, the equal-height kernel and the equal-height mass are
 \[
@@ -37,11 +37,11 @@ for the coupling $(F_r,F_0)$ of Proposition~\ref{prop:remainder-R}.
 \end{enumerate}
 \end{convention}
 
-The marked Kac--Rice disintegration (\S\ref{sec:contact}; \cite[\S\S9--10, (10.2)]{parentP}) gives the candidate intensity $r\mathcal A_r\,dr\,db\,dk\,d\sigma(u)$ per unit volume, with $\sigma$ the surface measure, and the elder and rejected intensities with $\mathcal A^{\eld}_r$, $\mathcal A^{\rej}_r$ in place of $\mathcal A_r$. Pushing forward at fixed $r$ with $dk=d\ell/r^3$ gives, for $0\le\rho<\rho'\le r_R$, $\ell>0$ and $\bullet\in\{\cand,\eld,\rej\}$ (with $\mathcal A^{\cand}_r:=\mathcal A_r$),
+The marked Kac--Rice disintegration (\S\ref{sec:contact}; \cite[\S\S9--10, (10.2)]{parentP}; Propositions~\ref{prop:parent-KR} and~\ref{prop:parent-ledger}) gives the candidate intensity $r\mathcal A_r\,dr\,db\,dk\,d\sigma(u)$ per unit volume, with $\sigma$ the surface measure, and the elder and rejected intensities with $\mathcal A^{\eld}_r$, $\mathcal A^{\rej}_r$ in place of $\mathcal A_r$. Pushing forward at fixed $r$ with $dk=d\ell/r^3$ gives, for $0\le\rho<\rho'\le r_R$, $\ell>0$ and $\bullet\in\{\cand,\eld,\rej\}$ (with $\mathcal A^{\cand}_r:=\mathcal A_r$),
 \begin{equation}\label{eq:remainder-sep}
 \nu_\bullet^{[\rho,\rho')}(\ell)=\int_\rho^{\rho'}\!\!\int_\R\int_{S^{d-1}}r^{-2}\mathcal A^\bullet_r(b,\ell/r^3,u)\,d\sigma(u)\,db\,dr .
 \end{equation}
-The leading coefficient is $c_{d,L}=\int_{S^{d-1}}\int_\R\int_0^\infty\mathcal A_0(b,k,u)\,(3k^{2/3})^{-1}\,dk\,db\,d\sigma(u)$ (\S\ref{sec:rate}; \cite[(13.6)]{parentP}); the substitution $k=\ell/r^3$, $dk=3\ell r^{-4}dr$, turns it into
+The leading coefficient is $c_{d,L}=\int_{S^{d-1}}\int_\R\int_0^\infty\mathcal A_0(b,k,u)\,(3k^{2/3})^{-1}\,dk\,db\,d\sigma(u)$ (\S\ref{sec:rate}; \cite[(13.6)]{parentP}; Proposition~\ref{prop:parent-near}); the substitution $k=\ell/r^3$, $dk=3\ell r^{-4}dr$, turns it into
 \begin{equation}\label{eq:remainder-lead}
 c_{d,L}\,\ell^{-1/3}=\int_0^\infty\!\!\int_\R\int_{S^{d-1}}r^{-2}\mathcal A_0(b,\ell/r^3,u)\,d\sigma(u)\,db\,dr .
 \end{equation}
@@ -83,7 +83,7 @@ These are the coupling, the pin-density estimates, the block-determinant lemma a
 \end{proof}
 
 \begin{proposition}[gap-mark-explicit weight bounds]\label{prop:remainder-K}
-Let $G_r:=\{\lambda_{\min}(-A_M)>4rM_3^2/(3k)\}\cap\{rM_4\le3k/10\}$ be the cap region, where $M_3,M_4$ are the local $C^3$ and $C^4$ seminorms of the field on the cap cylinder \cite[\S\S4,7]{parentP}. There are $r_K>0$, $C$ and $N$ such that, for every $b\in\R$, $k>0$, every frame and $0<r\le r_K$,
+Let $G_r:=\{\lambda_{\min}(-A_M)>4rM_3^2/(3k)\}\cap\{rM_4\le3k/10\}$ be the cap region, where $M_3,M_4$ are the local $C^3$ and $C^4$ seminorms of the field on the cap cylinder \cite[\S\S4,7]{parentP} (Definition~\ref{def:cap-norms}). There are $r_K>0$, $C$ and $N$ such that, for every $b\in\R$, $k>0$, every frame and $0<r\le r_K$,
 \begin{equation}\label{eq:remainder-K}
 \E_Q[W_r/r^2]\le C(k+r)^2P^N,\qquad \E_Q\bigl[(W_r/r^2)\ind_{G_r^c}\bigr]\le C\,\frac{r^3}k\,P^N\quad\text{whenever }r\le\min\{k,r_K\}.
 \end{equation}
@@ -91,7 +91,7 @@ Moreover $1-e\le\ind_{G_r^c}$ $Q$-almost surely on $\{W_r>0\}$.
 \end{proposition}
 
 \begin{proof}
-The two bounds are Theorem~K of record [R7] of the main text. The last statement is the deterministic cap theorem \cite[\S\S7--8]{parentP}: on $G_r$ and on the typed support, the global elder partner of $M$ is $S$, and $Q$ is almost surely Morse with distinct critical values \cite[\S8]{parentP}.
+The two bounds are Theorem~K of record [R7] of the main text. The last statement is the deterministic cap theorem \cite[\S\S7--8]{parentP} (Lemma~\ref{lem:parent-capimpl} and Theorem~\ref{thm:cap-main}): on $G_r$ and on the typed support, the global elder partner of $M$ is $S$, and $Q$ is almost surely Morse with distinct critical values \cite[\S8]{parentP} (Lemma~\ref{lem:parent-generic}(a)).
 \end{proof}
 
 \begin{proposition}[the equal-height kernel]\label{prop:remainder-Z}
@@ -104,7 +104,7 @@ The following hold.
 \end{proposition}
 
 \begin{proof}
-Items (i) and (ii) are Theorem~Z of record [R7] of the main text and its regression coupling at fixed separation; the convergence in (ii) follows from the coupling, the almost-sure nonsingularity and a polynomial majorant of the determinant product. Item (iii) is the nondegenerate far bound \cite[\S14, (14.1)]{parentP}, the input of the far estimate in Theorem~Z.
+Items (i) and (ii) are Theorem~Z of record [R7] of the main text and its regression coupling at fixed separation; the convergence in (ii) follows from the coupling, the almost-sure nonsingularity and a polynomial majorant of the determinant product. Item (iii) is the nondegenerate far bound \cite[\S14, (14.1)]{parentP} (Lemma~\ref{lem:parent-far}), the input of the far estimate in Theorem~Z.
 \end{proof}
 
 \subsection{The even contact expansion}\label{ssec:remainder-even}
@@ -289,7 +289,7 @@ For every fixed $r_0\in(0,L/2]$ there is $C=C(d,L,r_0)$ with
 \end{lemma}
 
 \begin{proof}
-Let $D_{r_0}=\{y:\dist(0,y)\ge r_0\}$ (compact) and use the far identity \eqref{eq:remainder-far}. The covariance $\Gamma_y=\Cov(O_y)$ is positive definite for every $y\ne0$ (finite-jet nondegeneracy at distinct sites, \S\ref{sec:setting}; \cite[\S2]{parentP}) and continuous in $y$, so $\lambda_{\min}(\Gamma_y)\ge c_0>0$ on $D_{r_0}$ \cite[\S14]{parentP}. Consequently:
+Let $D_{r_0}=\{y:\dist(0,y)\ge r_0\}$ (compact) and use the far identity \eqref{eq:remainder-far}. The covariance $\Gamma_y=\Cov(O_y)$ is positive definite for every $y\ne0$ (finite-jet nondegeneracy at distinct sites, \S\ref{sec:setting}; \cite[\S2]{parentP}; Lemma~\ref{lem:parent-jetrank}) and continuous in $y$, so $\lambda_{\min}(\Gamma_y)\ge c_0>0$ on $D_{r_0}$ \cite[\S14]{parentP} (Lemma~\ref{lem:parent-far}). Consequently:
 (a) $p_y(v)\le(2\pi c_0)^{-(d+1)}\exp(-|v|^2/(2\tr\Gamma_y))\le Ce^{-cb^2}$ at $v=v_{b,\ell}$ ($|v_{b,\ell}|^2\ge b^2$, $\tr\Gamma_y\le C$);
 (b) with $\psi^y:=\Gamma_y^{-1}\Cov(O_y,f(\cdot))$, $2d+2$ smooth functions with $\|\psi^y_j\|_{C^3}\le C$ uniformly on $D_{r_0}$, the field decomposes as $f=\sum_jO_y^j\psi^y_j+g_y$ with $g_y$ a centred Gaussian field independent of $O_y$, and under $Q_{y,b,\ell}$ the field has the law of $\sum_jv_{b,\ell}^j\psi^y_j+g_y$. Since $\|g_y\|_{C^3}\le\|f\|_{C^3}+C|O_y|$ and all moments of $\|f\|_{C^3}$ and $|O_y|$ are finite, $\E\|g_y\|_{C^3}^p\le C_p$ uniformly on $D_{r_0}$. For $0<\ell\le1$ ($|v_{b,\ell}|\le2|b|+1$) this gives $K\le C(1+|b|+\|g_y\|_{C^3})$ and
 \begin{equation}\label{eq:remainder-Kmom}
@@ -308,7 +308,7 @@ For every fixed $\rho\in(0,L/2]$ there is $C=C(d,L,\rho)$ with
 \end{proposition}
 
 \begin{proof}
-Let $D_\rho=\{y:\dist(0,y)\ge\rho\}$ and use the far identity \eqref{eq:remainder-far}. Append to $O_y$ the independent entries of $H_0$ and $H_y$: $V_y=(O_y,H_0,H_y)$, with $2(d+1)+d(d+1)$ coordinates. These are distinct derivative evaluations at two distinct sites, so the covariance of $V_y$ is positive definite (\S\ref{sec:setting}; \cite[\S2]{parentP}). It is continuous in $y$, so its eigenvalues lie in a fixed compact subinterval of $(0,\infty)$ on the compact set $D_\rho$. Two consequences follow.
+Let $D_\rho=\{y:\dist(0,y)\ge\rho\}$ and use the far identity \eqref{eq:remainder-far}. Append to $O_y$ the independent entries of $H_0$ and $H_y$: $V_y=(O_y,H_0,H_y)$, with $2(d+1)+d(d+1)$ coordinates. These are distinct derivative evaluations at two distinct sites, so the covariance of $V_y$ is positive definite (\S\ref{sec:setting}; \cite[\S2]{parentP}; Lemma~\ref{lem:parent-jetrank}). It is continuous in $y$, so its eigenvalues lie in a fixed compact subinterval of $(0,\infty)$ on the compact set $D_\rho$. Two consequences follow.
 
 (a) Since $|v_{b,\ell}|^2\ge b^2$, uniformly for $y\in D_\rho$, $b\in\R$ and $\ell>0$,
 \begin{equation}\label{eq:remainder-farrate-dens}

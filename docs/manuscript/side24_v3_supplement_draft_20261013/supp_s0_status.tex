@@ -2,15 +2,15 @@
 \section*{Status of this draft (for the author; remove before submission)}
 
 \begin{itemize}[leftmargin=1.5em,itemsep=2pt]
-\item \emph{What this is.} Checkpoint draft~4 of 14 October 2026, an author-side assembly of the proofs that the V3 main text cites, written as numbered statements with proofs. Draft~1 (13 October) was the first assembly. Draft~2 applies the repairs listed below. Draft~3 adds a proof of the far elder rate (Proposition~\ref{prop:remainder-farrate}), which Part~II previously cited to a repository record. Draft~4 makes the repairs to \S\ref{sec:selection} listed below and adds the jet bounds (3.29) of the main text to Lemma~\ref{lem:correction-deep}.
+\item \emph{What this is.} Checkpoint draft~5 of 14 October 2026, an author-side assembly of the proofs that the V3 main text cites, written as numbered statements with proofs. Draft~1 (13 October) was the first assembly. Draft~2 applies the repairs listed below. Draft~3 adds a proof of the far elder rate (Proposition~\ref{prop:remainder-farrate}), which Part~II previously cited to a repository record. Draft~4 makes the repairs to \S\ref{sec:selection} listed below and adds the jet bounds (3.29) of the main text to Lemma~\ref{lem:correction-deep}. Draft~5 adds Part~III (\S\S\ref{sec:parent}--\ref{sec:cap}), described below.
   \begin{itemize}[leftmargin=1.2em,itemsep=1pt]
   \item Every statement and display is mapped to its source in the separate file \path{CONCORDANCE.md}.
-  \item That file also lists each correction applied, each step added and each issue found during assembly. Its sections ``Checkpoint draft~2'', ``Checkpoint draft~3'' and ``Checkpoint draft~4'' give the disposition of each issue.
-  \item The draft has not yet been read as a whole, by the author or by anyone else.
+  \item That file also lists each correction applied, each step added and each issue found during assembly. Its sections ``Checkpoint draft~2'' to ``Checkpoint draft~5'' give the disposition of each issue.
+  \item The draft has not been read as a whole, by the author or by anyone else. Bounded slices of drafts~4 and~5 are being read by nonauthor AI agents; the pull request of the main text records which.
   \end{itemize}
 \item \emph{Part I} (\S\S\ref{sec:setting}--\ref{sec:rate}) follows the main text's proof of Theorem~2.1 and of the correction (2.10). \emph{Part II} (\S\S\ref{sec:remainder}--\ref{sec:ctwo}) states the results behind Theorem~2.3. Its proofs are given in full or condensed, as \path{CONCORDANCE.md} marks for each.
 \item \emph{Author correction.} The elder mark is defined through the maximin connection level (Definition~\ref{def:selection-mark}). The two-sector formula of the 1~August supplement required $\mathfrak m_f(u_+,u_-)<h$, but the segment through $S$ gives $\mathfrak m_f(u_+,u_-)\ge h$, so that mark was identically zero as written.
-\item \emph{Repairs in draft~2, \S\ref{sec:selection}.} The selection bound $1-p_r\le Cr^3$ on compact marks is Theorem~A of \cite{parentP} for every $d\ge2$ and $L>0$, and the main text cites it. \S\ref{sec:selection} now gives a complete second proof in $d=3$ (Theorem~\ref{thm:selection-main}):
+\item \emph{Repairs in draft~2, \S\ref{sec:selection}.} The selection bound $1-p_r\le Cr^3$ on compact marks is Theorem~A of \cite{parentP} (Theorem~\ref{thm:parent-A}) for every $d\ge2$ and $L>0$, and the main text cites it. \S\ref{sec:selection} now gives a complete second proof in $d=3$ (Theorem~\ref{thm:selection-main}):
   \begin{itemize}[leftmargin=1.2em,itemsep=1pt]
   \item the three witness regions are measured from the pair midpoint;
   \item self-attachment is same-maximum self-attachment, and the remaining cases are witnesses by Lemma~\ref{lem:selection-merge};
@@ -26,12 +26,18 @@
   \item The positivity of $A_{\rm col}$ and $A_{\rm sing}$ on the side-$24$ field is proved by exact factorizations and the derivative nondegeneracy of \S\ref{sec:setting} (Lemmas~\ref{lem:selection-collarfactor} and~\ref{lem:selection-singfactor}). Drafts~1--3 cited a derivative bound $10^{40}$ to \S\ref{sec:correction}, which does not contain it.
   \item The level terms of Lemma~\ref{lem:selection-strip} are displayed. The symbolic check is \path{checks/s5_factor_check.py}.
   \end{itemize}
+\item \emph{Part~III, added in draft~5.} \S\ref{sec:parent} transcribes the companion record \cite{parentP}, read as reconciled in \cite{parentREC}, in every dimension $d\ge2$ and for every side $L>0$; \S\ref{sec:cap} proves the deterministic separating-cylinder theorem on which its elder selection rests. Every citation of \cite{parentP} in \S\S\ref{sec:selection}--\ref{sec:third} now names its counterpart there, so Part~I and Part~II no longer depend on the record for any statement they use.
+  \begin{itemize}[leftmargin=1.2em,itemsep=1pt]
+  \item Lemma~\ref{lem:parent-generic}(b), the genericity of the unpinned field, is added: the record's proof of Theorem~C uses it without proof.
+  \item Two statements are worded precisely: in Lemma~\ref{lem:parent-majorant}(c) the births range over $\R$, and Lemma~\ref{lem:parent-jetrank} allows several functionals at each site.
+  \item The finite algebra of \S\S\ref{sec:parent}--\ref{sec:cap} is checked by \path{checks/s12_parent_check.py}. Where the record only sketches a step, the step is given as sketched there; \path{CONCORDANCE.md} lists these places.
+  \end{itemize}
 \item \emph{Other repairs in draft~2.} Convention~\ref{conv:setting-density} on pointwise representatives, and the $\beta$-normalization of $D_n$ in \S\ref{sec:coefficient}, which matters only when $\beta\ne1$.
 \item \emph{Open items}, with details in \path{CONCORDANCE.md}.
   \begin{itemize}[leftmargin=1.2em,itemsep=1pt]
   \item The remaining issues of \S\S\ref{sec:rate}--\ref{sec:ctwo} are notational or concern the sources; draft~3 resolves the far elder rate, the pointer of Hypothesis~\ref{hyp:ctwo-ident}(a) and the DLMF citation.
-  \item Two items belong to the main text: citing Lemma~S2.9(i) for $Z_r>0$, and the supplement's numbering.
+  \item Steps of \S\ref{sec:parent} that the record states without derivation are listed in \path{CONCORDANCE.md} (section ``CONC\_s12'', issues I-6 to I-13). None is above low severity.
   \end{itemize}
 \item \emph{Review status} is not stated in this supplement. It is given result by result in \S7 of the main text.
-\item \emph{References from the main text} still use the numbering of the 1~August supplement. They are updated when this supplement is adopted.
+\item \emph{References from the main text} use this supplement's numbering, as of draft~4. Draft~5 changes no statement or display number of \S\S\ref{sec:setting}--\ref{sec:ctwo}.
 \end{itemize}

@@ -1,7 +1,7 @@
 % Supplement section S7: the bounded remainder of the leading short-lifetime law.
 \section{A bounded remainder}\label{sec:rate}
 
-This section proves that the remainder in the leading short-lifetime law is bounded, in every fixed dimension $d\ge2$ and for every fixed side $L>0$ (Theorem~\ref{thm:rate-bounded}). At $d=3$ and $L=24$ this is Proposition~3.12 of the main text, and it gives the rate $O(\ell^{1/3})$ in (2.1) of the main text (Remark~\ref{rem:rate-side24}). The proof combines statements of the companion paper~\cite{parentP}, collected in Lemmas~\ref{lem:rate-spectrum}--\ref{lem:rate-endpoint}, Hypotheses~\ref{hyp:rate-generic}--\ref{hyp:rate-far} and Definition~\ref{def:rate-coef}, with three estimates proved here: a second-order coupling of the pinned laws at separation $r$ and at contact (Lemmas~\ref{lem:rate-second}--\ref{lem:rate-density}), a quadratic determinant cancellation for the $\sqrt r$ off-diagonal block of the rescaled endpoint Hessians (Lemma~\ref{lem:rate-offdiag}), and an unnormalized bound for the loss of elder pairing with explicit dependence on the gap mark (Lemma~\ref{lem:rate-caploss}).
+This section proves that the remainder in the leading short-lifetime law is bounded, in every fixed dimension $d\ge2$ and for every fixed side $L>0$ (Theorem~\ref{thm:rate-bounded}). At $d=3$ and $L=24$ this is Proposition~3.12 of the main text, and it gives the rate $O(\ell^{1/3})$ in (2.1) of the main text (Remark~\ref{rem:rate-side24}). The proof combines statements of the companion paper~\cite{parentP}, which Section~\ref{sec:parent} states and proves, collected in Lemmas~\ref{lem:rate-spectrum}--\ref{lem:rate-endpoint}, Hypotheses~\ref{hyp:rate-generic}--\ref{hyp:rate-far} and Definition~\ref{def:rate-coef}, with three estimates proved here: a second-order coupling of the pinned laws at separation $r$ and at contact (Lemmas~\ref{lem:rate-second}--\ref{lem:rate-density}), a quadratic determinant cancellation for the $\sqrt r$ off-diagonal block of the rescaled endpoint Hessians (Lemma~\ref{lem:rate-offdiag}), and an unnormalized bound for the loss of elder pairing with explicit dependence on the gap mark (Lemma~\ref{lem:rate-caploss}).
 
 \subsection*{Setting and notation}
 
@@ -43,7 +43,7 @@ $Z_r$ is the full normalizer; it carries no further pin density, Jacobian or adj
 z_0(b,k,t)=(6k)^2\,\E^0_{0,b,k,R}\Bigl[\bigl(\det D_y^2f(0)\bigr)^2\,\ind_{\{D_y^2f(0)\prec0\}}\Bigr],\label{eq:rate-z0}\\
 \mathcal A_r(b,k,t)=12\,\pi_r(v_r)\,\frac{Z_r}{r^2}\quad(r>0),\qquad \mathcal A_0(b,k,t)=12\,\pi_0(v_0)\,z_0(b,k,t).\label{eq:rate-A}
 \end{gather}
-These quantities are invariant under rotations of the transverse frame, so they are functions of $t$: for $\mathcal A_r$ this is \cite[\S10]{parentP}, and for $\pi_0(v_0)$ and $z_0$ it holds because the contact pins $U_0=v_0$ and the integrand in \eqref{eq:rate-z0} are invariant under such rotations.
+These quantities are invariant under rotations of the transverse frame, so they are functions of $t$: for $\mathcal A_r$ this is \cite[\S10]{parentP} (Proposition~\ref{prop:parent-ledger}), and for $\pi_0(v_0)$ and $z_0$ it holds because the contact pins $U_0=v_0$ and the integrand in \eqref{eq:rate-z0} are invariant under such rotations.
 
 \emph{Partial-block norms and the cap event.} For $r>0$ let $\mathcal D_r=[-2r,2r]\times\bar B(0,2r)$ in the frame coordinates $(x,y)\in\R\times\R^m$. For $j=3,4$ put
 \begin{equation}\label{eq:rate-Mj}
@@ -62,9 +62,9 @@ the supremum being over transverse unit vectors $w_1,\dots,w_i$ chosen independe
 
 \subsection*{Statements used from the companion paper}
 
-The proof uses the following statements of \cite{parentP}, exactly as they are stated and proved there. Lemmas~\ref{lem:rate-spectrum}--\ref{lem:rate-endpoint} are analytic facts about the field and about functions satisfying the pins; Hypotheses~\ref{hyp:rate-generic}--\ref{hyp:rate-far} are the genericity, elder-pairing and Kac--Rice statements; Definition~\ref{def:rate-coef} defines the coefficient.
+The proof uses the following statements of \cite{parentP}, exactly as they are stated and proved there. Section~\ref{sec:parent} states and proves them in this supplement, and each statement below names its counterpart there. Lemmas~\ref{lem:rate-spectrum}--\ref{lem:rate-endpoint} are analytic facts about the field and about functions satisfying the pins; Hypotheses~\ref{hyp:rate-generic}--\ref{hyp:rate-far} are the genericity, elder-pairing and Kac--Rice statements; Definition~\ref{def:rate-coef} defines the coefficient.
 
-\begin{lemma}[{\cite[\S2]{parentP}}]\label{lem:rate-spectrum}
+\begin{lemma}[{\cite[\S2]{parentP}}; Lemmas~\ref{lem:parent-spectrum} and~\ref{lem:parent-jetrank}]\label{lem:rate-spectrum}
 \textup{(a)} $K_L(z)=\sum_{n\in\Z^d}a_n\,e^{2\pi i\,n\cdot z/L}$ with
 \begin{equation}\label{eq:rate-an}
 a_n=\frac{\exp(-2\pi^2|n|^2/L^2)}{\sum_{j\in\Z^d}\exp(-2\pi^2|j|^2/L^2)}>0,\qquad \sum_{n\in\Z^d}\sqrt{a_n}\,(1+|n|)^q<\infty\quad\text{for every }q\ge0 .
@@ -74,8 +74,12 @@ Consequently the real Fourier series of $f$ converges in every $C^q$ norm in eve
 \textup{(b)} Every finite list of distinct derivative-evaluation functionals $\varphi\mapsto\partial^{\mathbf j}\varphi(z)$, at one or several points $z$ and in any orthonormal frame, is linearly independent: its covariance matrix under $f$ is positive definite. Here a Hessian is represented by its independent symmetric entries.
 \end{lemma}
 
-\begin{lemma}[contact frame; {\cite[\S3, (13.1) and (13.2)]{parentP}}]\label{lem:rate-frame}
-\textup{(a)} For $r>0$, $U_r$ is an invertible linear image of $\bigl(f(M),f_x(M),f(S),f_x(S),f_{y_1}(M),f_{y_1}(S),\dots,f_{y_m}(M),f_{y_m}(S)\bigr)$, and the transformation has absolute determinant $12\,r^{-(d+3)}$.
+\begin{lemma}[contact frame; {\cite[\S3, (13.1) and (13.2)]{parentP}}; Lemmas~\ref{lem:parent-frame}, \ref{lem:parent-contact} and~\ref{lem:parent-growth}]\label{lem:rate-frame}
+\textup{(a)} For $r>0$, $U_r$ is an invertible linear image of
+\[
+\bigl(f(M),f_x(M),f(S),f_x(S),f_{y_1}(M),f_{y_1}(S),\dots,f_{y_m}(M),f_{y_m}(S)\bigr),
+\]
+and the transformation has absolute determinant $12\,r^{-(d+3)}$.
 
 \textup{(b)} There is $r_1>0$ such that, for $0\le r\le r_1$ and every frame, the eigenvalues of $\Sigma_r$, and those of the covariance matrix of $U_r$ extended by the $m(m+1)/2$ independent entries of $D_y^2f(M)$ \textup{(}of $D_y^2f(0)$ when $r=0$\textup{)}, lie in a fixed compact subinterval of $(0,\infty)$.
 
@@ -88,7 +92,7 @@ Fix
 \end{equation}
 The cylinder $\mathcal D_r$ lies in the closed ball of radius $2\sqrt2\,r$ about the midpoint, and the exponential chart of $\T^d_L$ is injective on open balls of radius $L/2$; hence $\mathcal D_r$ is embedded in $\T^d_L$ for $0<r\le r_0$. In particular $r_0$ is smaller than the injectivity radius $L/2$, and a pair at torus distance $r\le r_0$ has a unique displacement $S-M=rt$.
 
-\begin{lemma}[endpoint identities and typed-weight envelope; {\cite[(5.1)--(5.3), (6.1), (6.2) and \S13]{parentP}}]\label{lem:rate-endpoint}
+\begin{lemma}[endpoint identities and typed-weight envelope; {\cite[(5.1)--(5.3), (6.1), (6.2) and \S13]{parentP}}; Lemmas~\ref{lem:parent-endpoint}, \ref{lem:parent-soft} and~\ref{lem:parent-majorant}]\label{lem:rate-endpoint}
 Let $0<r\le r_0$ and let $\varphi$ be a $C^4$ function on $\T^d_L$ satisfying the pins \eqref{eq:rate-pins}, with norms $M_3,M_4$ as in \eqref{eq:rate-Mj}. For $i\in\{M,S\}$ put
 \[
 \alpha_i=\frac{\varphi_{xx}(i)}r,\qquad \beta_i=\frac{\nabla_y\varphi_x(i)}r,\qquad A_i=D_y^2\varphi(i),\qquad\text{so that}\quad D^2\varphi(i)=\begin{pmatrix}r\alpha_i&r\beta_i^{\top}\\ r\beta_i&A_i\end{pmatrix}.
@@ -106,7 +110,7 @@ the last identity holding also when $\alpha_i$ or $A_i$ vanishes. If $D^2\varphi
 with the empty product equal to one when $m=1$. Finally, $W_r/r^2\le C(1+\|\varphi\|_{C^3})^{2d}$.
 \end{lemma}
 
-\begin{hypothesis}[pinned genericity and the elder mark; {\cite[\S\S8 and 14]{parentP}}]\label{hyp:rate-generic}
+\begin{hypothesis}[pinned genericity and the elder mark; {\cite[\S\S8 and 14]{parentP}}; Lemmas~\ref{lem:parent-generic}(a) and~\ref{lem:parent-mark}]\label{hyp:rate-generic}
 \textup{(a)} For $0<r\le r_0$, $b\in\R$, $k>0$ and every frame, $f$ is $\E^0$-almost surely a Morse function with pairwise distinct critical values; when $0<Z_r<\infty$ the same holds $\E^{MS}_r$-almost surely.
 
 \textup{(b)} For $\varphi\in C^2(\T^d_L)$ and $z\in\T^d_L$ let
@@ -116,13 +120,13 @@ d_\varphi(z)=\sup_\gamma\ \min_{s\in[0,1]}\varphi(\gamma(s)),
 the supremum over continuous paths $\gamma$ with $\gamma(0)=z$ and $\varphi(\gamma(1))>\varphi(z)$, with $\sup\varnothing=-\infty$. The elder mark $e(\varphi;M,S)=\ind_{\{d_\varphi(M)=\varphi(S)\}}$ is a Borel function of $(M,S,\varphi)$. If $\varphi$ is a Morse function with pairwise distinct critical values and $M$ is a local maximum of $\varphi$, then $e(\varphi;M,S)=1$ if and only if $S$ is the ordinary superlevel elder death partner of $M$; for the global maximum $d_\varphi=-\infty$, so its essential class is never selected. For such $\varphi$ each finite superlevel $H_0$ bar has exactly one birth, at a local maximum, and one death, at a critical point of index $d-1$, so the finite bars correspond one to one to the candidate pairs with $e=1$.
 \end{hypothesis}
 
-\begin{hypothesis}[separating cylinder; {\cite[\S\S7 and 8]{parentP}}]\label{hyp:rate-cap}
+\begin{hypothesis}[separating cylinder; {\cite[\S\S7 and 8]{parentP}}; Lemma~\ref{lem:parent-capimpl} and Theorem~\ref{thm:cap-main}]\label{hyp:rate-cap}
 Let $0<r\le r_0$, $b\in\R$ and $k>0$, and fix a frame. Let $\varphi\in C^4(\T^d_L)$ be a Morse function with pairwise distinct critical values that satisfies the pins \eqref{eq:rate-pins}, and suppose that its norms \eqref{eq:rate-Mj} satisfy the two inequalities defining $\mathcal G_r$ in \eqref{eq:rate-G}. Then $S$ is the ordinary superlevel elder death partner of $M$; that is, $e(\varphi;M,S)=1$.
 \end{hypothesis}
 
 Hypothesis~\ref{hyp:rate-cap} is used only for $r\le r_0<L/(4\sqrt2)$, where the cylinder $\mathcal D_r$ is embedded.
 
-\begin{hypothesis}[marked Kac--Rice identity; {\cite[\S\S9--11 and (13.5)]{parentP}}]\label{hyp:rate-KR}
+\begin{hypothesis}[marked Kac--Rice identity; {\cite[\S\S9--11 and (13.5)]{parentP}}; Propositions~\ref{prop:parent-KR}, \ref{prop:parent-ledger} and~\ref{prop:parent-near}]\label{hyp:rate-KR}
 \textup{(a)} Let $\Omega\subset\T^d_L\times\T^d_L$ be a compact set of ordered pairs at positive distance from the diagonal, and let $h$ be a bounded Borel function on $\Omega\times C^2(\T^d_L)$. Then
 \begin{multline}\label{eq:rate-KR}
 \E\sum_{(x,y)\in\Omega:\ \nabla f(x)=\nabla f(y)=0}h\bigl((x,y),f\bigr)\\
@@ -144,18 +148,18 @@ where $\sigma$ is the surface measure on $S^{d-1}$, not normalized to total mass
 with integrals over $\R\times(0,\infty)\times S^{d-1}$ and integrands equal to zero where the indicator vanishes.
 \end{hypothesis}
 
-In \cite{parentP}, part~(b) is obtained from part~(a), applied with the bounded Borel weight given by the elder mark and the type indicators, by disintegrating the two heights, by the change of variables to $U_r$ (Lemma~\ref{lem:rate-frame}(a), which turns the pin density into $12\,r^{-(d+3)}\pi_r(v_r)$), by polar coordinates $r^{d-1}dr\,d\sigma(t)$ and the height Jacobian $r^3\,db\,dk$ at fixed $r$, and by exhausting the pair domain towards the diagonal; the powers of $r$ add up to $(d-1)+3-(d+3)+2=1$. Part~(c) follows from part~(b) by the change of variables $\ell=kr^3$ at fixed $k$, for which $r\,dr=\tfrac13k^{-2/3}\ell^{-1/3}\,d\ell$, and the restriction $r\le r_0$ is exactly $k\ge\ell/r_0^3$.
+In \cite{parentP} (Propositions~\ref{prop:parent-KR}, \ref{prop:parent-ledger}, \ref{prop:parent-push} and~\ref{prop:parent-near}), part~(b) is obtained from part~(a), applied with the bounded Borel weight given by the elder mark and the type indicators, by disintegrating the two heights, by the change of variables to $U_r$ (Lemma~\ref{lem:rate-frame}(a), which turns the pin density into $12\,r^{-(d+3)}\pi_r(v_r)$), by polar coordinates $r^{d-1}dr\,d\sigma(t)$ and the height Jacobian $r^3\,db\,dk$ at fixed $r$, and by exhausting the pair domain towards the diagonal; the powers of $r$ add up to $(d-1)+3-(d+3)+2=1$. Part~(c) follows from part~(b) by the change of variables $\ell=kr^3$ at fixed $k$, for which $r\,dr=\tfrac13k^{-2/3}\ell^{-1/3}\,d\ell$, and the restriction $r\le r_0$ is exactly $k\ge\ell/r_0^3$.
 
-\begin{hypothesis}[far pairs; {\cite[\S14 and (14.1)]{parentP}}]\label{hyp:rate-far}
+\begin{hypothesis}[far pairs; {\cite[\S14 and (14.1)]{parentP}}; Lemma~\ref{lem:parent-far}]\label{hyp:rate-far}
 Let $\nu^{\rm far}_{\cand}$ and $\nu^{\rm far}_{\eld}$ be the densities of the candidate pairs, respectively of the finite bars, whose two critical points are at torus distance larger than $r_0$, in the versions given by \eqref{eq:rate-KR} with the original pins $(f(M),f(S))=(b,b-\ell)$, whose height Jacobian is one. There is $C$ such that
 \begin{equation}\label{eq:rate-far}
 0\le\nu^{\rm far}_{\eld}(\ell)\le\nu^{\rm far}_{\cand}(\ell)\le C,\qquad 0<\ell\le1 .
 \end{equation}
 \end{hypothesis}
 
-The near and far populations together contain every candidate pair, and the separation $r_0$ itself is a null set \cite[\S14]{parentP}.
+The near and far populations together contain every candidate pair, and the separation $r_0$ itself is a null set \cite[\S14]{parentP} (Lemma~\ref{lem:parent-far}).
 
-\begin{definition}[the coefficient; {\cite[(13.6), \S15 and (15.2)]{parentP}}]\label{def:rate-coef}
+\begin{definition}[the coefficient; {\cite[(13.6), \S15 and (15.2)]{parentP}}; Propositions~\ref{prop:parent-near} and~\ref{prop:parent-coef}]\label{def:rate-coef}
 Put
 \begin{equation}\label{eq:rate-c}
 \begin{aligned}
@@ -163,7 +167,7 @@ c_{d,L}&=\int_{\R\times(0,\infty)\times S^{d-1}}\frac{\mathcal A_0(b,k,t)}{3k^{2
 &=4\int_{\R\times(0,\infty)\times S^{d-1}}k^{-2/3}\,\pi_0(v_0)\,z_0(b,k,t)\,db\,dk\,d\sigma(t).
 \end{aligned}
 \end{equation}
-By \cite[(13.6) and \S15]{parentP}, $0<c_{d,L}<\infty$ and
+By \cite[(13.6) and \S15]{parentP} (Propositions~\ref{prop:parent-near} and~\ref{prop:parent-coef}), $0<c_{d,L}<\infty$ and
 \begin{equation}\label{eq:rate-152}
 c_{d,L}=\frac{\Gamma(7/6)}{24^{1/3}\sqrt\pi}\int_{S^{d-1}}p_G(0)\,p_{V_t}(0)\,\tau_t^{4/3}\,D_t\,d\sigma(t),
 \end{equation}
@@ -188,7 +192,7 @@ be the versions, given by Hypotheses~\ref{hyp:rate-KR} and~\ref{hyp:rate-far}, o
 \end{theorem}
 
 \begin{remark}[scope of Theorem~\ref{thm:rate-bounded}]\label{rem:rate-scope}
-Since $c_{d,L}>0$, \eqref{eq:rate-R1} gives relative errors $O(\ell^{1/3})$: $\nu_{\eld}(\ell)=c_{d,L}\,\ell^{-1/3}\bigl(1+O(\ell^{1/3})\bigr)$, and likewise for $\nu_{\cand}$. The theorem does not assert that the bounded remainder $\nu_{\eld}(\ell)-c_{d,L}\ell^{-1/3}$ converges as $\ell\downarrow0$; it identifies no second coefficient and gives no numerical value of $C$ or $\ell_*$. The difference $\nu_{\cand}-\nu_{\eld}$ is shown to be bounded, not to be $O(\ell^{2/3})$; the latter rate is proved in \cite[Theorem~B]{parentP} only on compact windows of births and gaps, and a bounded far contribution need not vanish. The proof needs neither a lower bound for $Z_r/r^2$ uniform over all $b$ and $k$ nor a constant in an estimate $1-p_r\le Cr^3$ uniform over all $b$ and $k$. Its two main ingredients are the quadratic cancellation of Lemma~\ref{lem:rate-offdiag} for the $\sqrt r$ off-diagonal block of the rescaled Hessians, and the bound \eqref{eq:rate-R12}, which is unnormalized and keeps the dependence on $k$ explicit.
+Since $c_{d,L}>0$, \eqref{eq:rate-R1} gives relative errors $O(\ell^{1/3})$: $\nu_{\eld}(\ell)=c_{d,L}\,\ell^{-1/3}\bigl(1+O(\ell^{1/3})\bigr)$, and likewise for $\nu_{\cand}$. The theorem does not assert that the bounded remainder $\nu_{\eld}(\ell)-c_{d,L}\ell^{-1/3}$ converges as $\ell\downarrow0$; it identifies no second coefficient and gives no numerical value of $C$ or $\ell_*$. The difference $\nu_{\cand}-\nu_{\eld}$ is shown to be bounded, not to be $O(\ell^{2/3})$; the latter rate is proved in \cite[Theorem~B]{parentP} (Theorem~\ref{thm:parent-B}) only on compact windows of births and gaps, and a bounded far contribution need not vanish. The proof needs neither a lower bound for $Z_r/r^2$ uniform over all $b$ and $k$ nor a constant in an estimate $1-p_r\le Cr^3$ uniform over all $b$ and $k$. Its two main ingredients are the quadratic cancellation of Lemma~\ref{lem:rate-offdiag} for the $\sqrt r$ off-diagonal block of the rescaled Hessians, and the bound \eqref{eq:rate-R12}, which is unnormalized and keeps the dependence on $k$ explicit.
 \end{remark}
 
 \subsection*{Symmetric contact observations and a second-order coupling}
@@ -408,7 +412,7 @@ The bound \eqref{eq:rate-R12} is unnormalized: it does not give a bound on $1-p_
 \end{equation}
 where $\rho_r$ is the density of $A_M$ under $\E^0$ in the Lebesgue coordinates of symmetric matrices (their independent entries) and $\|\cdot\|_F$ is the Frobenius norm. The bound is uniform in the eigenvectors of $A$.
 
-\emph{Residual.} Regress the whole field on the appended vector $(U_r,A_M)$, as in \cite[\S4]{parentP}. The centered residual $g$ is independent of that entire vector, and its $C^4$ norm has moments of every finite order, bounded uniformly in $0<r\le r_0$ and in the frame, by Lemma~\ref{lem:rate-spectrum}(a), the uniform bounds of Lemma~\ref{lem:rate-frame}(b) on the inverse joint covariance, and the uniform bounds on the cross-covariances of $f$ and its derivatives with $(U_r,A_M)$ (Lemma~\ref{lem:rate-second}(b) and the smoothness of $K_L$). Given $U_r=v_r$ and $A_M=A$, the regression mean has $C^4$ norm at most $C(|v_r|+\|A\|)\le C(P+\|A\|)$, where $P=1+|b|+k$. Put $J=1+\|g\|_{C^4}$ and $T=P+J$. On $\{A_M\prec0\}$ write $B=-A_M$, with eigenvalues $0<\lambda_1\le\dots\le\lambda_m=\Lambda$. Since $\|A_M\|_F\le\sqrt m\,\Lambda$ there, $M_3$ and $M_4$ are at most $K_*(T+\Lambda)$ for a constant $K_*$ (absorbing $\sqrt m$). The variable $J$ is independent of $B$, although the eigenvalues of $B$ are not independent of each other.
+\emph{Residual.} Regress the whole field on the appended vector $(U_r,A_M)$, as in \cite[\S4]{parentP} (Lemma~\ref{lem:parent-residual}). The centered residual $g$ is independent of that entire vector, and its $C^4$ norm has moments of every finite order, bounded uniformly in $0<r\le r_0$ and in the frame, by Lemma~\ref{lem:rate-spectrum}(a), the uniform bounds of Lemma~\ref{lem:rate-frame}(b) on the inverse joint covariance, and the uniform bounds on the cross-covariances of $f$ and its derivatives with $(U_r,A_M)$ (Lemma~\ref{lem:rate-second}(b) and the smoothness of $K_L$). Given $U_r=v_r$ and $A_M=A$, the regression mean has $C^4$ norm at most $C(|v_r|+\|A\|)\le C(P+\|A\|)$, where $P=1+|b|+k$. Put $J=1+\|g\|_{C^4}$ and $T=P+J$. On $\{A_M\prec0\}$ write $B=-A_M$, with eigenvalues $0<\lambda_1\le\dots\le\lambda_m=\Lambda$. Since $\|A_M\|_F\le\sqrt m\,\Lambda$ there, $M_3$ and $M_4$ are at most $K_*(T+\Lambda)$ for a constant $K_*$ (absorbing $\sqrt m$). The variable $J$ is independent of $B$, although the eigenvalues of $B$ are not independent of each other.
 
 On the typed support, $\mathcal G_r^c$ is the union of the \emph{depth failure} $\{\lambda_1\le\frac4{3k}rM_3^2\}$ and the \emph{fourth-derivative exception} $\{rM_4>3k/10\}$.
 
@@ -416,7 +420,7 @@ On the typed support, $\mathcal G_r^c$ is the union of the \emph{depth failure} 
 \[
 0<\lambda_1\le D_*\,\delta\,(T+\Lambda)^2,\qquad D_*=\tfrac43K_*^2 .
 \]
-Put $\Upsilon=T+\Lambda$. In the envelope \eqref{eq:rate-envelope}, for $r\le1$, $M_3^2/4\le K_*^2\Upsilon^2/4$, $\tfrac32rM_3\le E_*\,r\Upsilon$ with $E_*=\tfrac32K_*$, and $\lambda_j(\lambda_j+rM_3)\le(1+K_*)\Upsilon^2$ for $j\ge2$. Thus all factors other than the two soft factors $\lambda_1$ and $\lambda_1+\frac32rM_3$ are at most $C\Upsilon^{2m}$, and $W_r/r^2\le C\Upsilon^{2m}\lambda_1(\lambda_1+E_*r\Upsilon)$. In the eigenvalue coordinates of symmetric matrices, Lebesgue measure is a constant multiple of $\prod_{i<j}|\lambda_j-\lambda_i|\,d\lambda_1\cdots d\lambda_m$ times a finite measure on the eigenvectors \cite[\S7]{parentP}; this is a change of variables for Lebesgue measure, not a claim that $A_M$ is a GOE matrix. On the ordered positive domain the Vandermonde factor is at most $\Lambda^{m(m-1)/2}$, and \eqref{eq:rate-R13} gives a Gaussian bound in all eigenvalues, uniformly in the eigenvectors. Condition on $J$. Since $\Upsilon$ does not involve $\lambda_1$ when $m\ge2$, we may extend the $\lambda_1$-integration to $[0,D_*\delta\Upsilon^2]$ and drop the Gaussian factor in $\lambda_1$; then
+Put $\Upsilon=T+\Lambda$. In the envelope \eqref{eq:rate-envelope}, for $r\le1$, $M_3^2/4\le K_*^2\Upsilon^2/4$, $\tfrac32rM_3\le E_*\,r\Upsilon$ with $E_*=\tfrac32K_*$, and $\lambda_j(\lambda_j+rM_3)\le(1+K_*)\Upsilon^2$ for $j\ge2$. Thus all factors other than the two soft factors $\lambda_1$ and $\lambda_1+\frac32rM_3$ are at most $C\Upsilon^{2m}$, and $W_r/r^2\le C\Upsilon^{2m}\lambda_1(\lambda_1+E_*r\Upsilon)$. In the eigenvalue coordinates of symmetric matrices, Lebesgue measure is a constant multiple of $\prod_{i<j}|\lambda_j-\lambda_i|\,d\lambda_1\cdots d\lambda_m$ times a finite measure on the eigenvectors \cite[\S7]{parentP} (Lemma~\ref{lem:parent-eigen}); this is a change of variables for Lebesgue measure, not a claim that $A_M$ is a GOE matrix. On the ordered positive domain the Vandermonde factor is at most $\Lambda^{m(m-1)/2}$, and \eqref{eq:rate-R13} gives a Gaussian bound in all eigenvalues, uniformly in the eigenvectors. Condition on $J$. Since $\Upsilon$ does not involve $\lambda_1$ when $m\ge2$, we may extend the $\lambda_1$-integration to $[0,D_*\delta\Upsilon^2]$ and drop the Gaussian factor in $\lambda_1$; then
 \[
 \int_0^{D_*\delta\Upsilon^2}\lambda\,(\lambda+E_*r\Upsilon)\,d\lambda=\frac{D_*^3}3\,\delta^3\,\Upsilon^6+\frac{E_*D_*^2}2\,r\,\delta^2\,\Upsilon^5,
 \]
@@ -475,7 +479,7 @@ By \eqref{eq:rate-near-cand} and \eqref{eq:rate-c},
 By \eqref{eq:rate-R11} and \eqref{eq:rate-Psibar}, the missing contact mass is at most $\sigma(S^{d-1})\,\bar\Psi\int_0^ak^{4/3}\,dk/3\le Ca^{7/3}$. In the first integral, \eqref{eq:rate-R11} bounds the integrand by $r(k+r)\Psi/(3k^{2/3})$, whose two monomials are given by \eqref{eq:rate-monomials}. The monomial $\ell^{1/3}$ contributes at most $C\ell^{1/3}$ by \eqref{eq:rate-Psibar}. For the monomial $\ell^{2/3}k^{-4/3}$, the integral over $a\le k\le1$ is at most $3a^{-1/3}\sigma(S^{d-1})\bar\Psi$ and the integral over $k\ge1$ is finite; it contributes at most $C\ell^{2/3}a^{-1/3}+C\ell^{2/3}=Cr_0\ell^{1/3}+C\ell^{2/3}$. Finally $a^{7/3}=r_0^{-7}\ell^{7/3}\le C\ell^{1/3}$ for $\ell\le1$. This proves \eqref{eq:rate-R16}.
 \end{proof}
 
-The rate in \eqref{eq:rate-R16} is proved from the quantitative bounds \eqref{eq:rate-R11}; it is not a rate for the dominated-convergence argument of \cite[\S13]{parentP}, which gives the limit only. The lower cutoff $a=\ell/r_0^3$ must be kept: replacing it by zero in the term $\ell^{2/3}k^{-4/3}$ would produce a divergent integral.
+The rate in \eqref{eq:rate-R16} is proved from the quantitative bounds \eqref{eq:rate-R11}; it is not a rate for the dominated-convergence argument of \cite[\S13]{parentP} (Proposition~\ref{prop:parent-near}), which gives the limit only. The lower cutoff $a=\ell/r_0^3$ must be kept: replacing it by zero in the term $\ell^{2/3}k^{-4/3}$ would produce a divergent integral.
 
 \begin{lemma}[near pairing loss]\label{lem:rate-loss}
 Let $\ell_1\in(0,1)$ satisfy $\ell_1^{5/6}<r_0^3$. For $0<\ell\le\ell_1$,
@@ -531,7 +535,7 @@ The last statement of Corollary~\ref{cor:rate-counts} concerns the counting meas
 \subsection*{The side-24 field}
 
 \begin{remark}[$d=3$, $L=24$]\label{rem:rate-side24}
-Let $d=3$ and $L=24$. Then \eqref{eq:rate-KL} is the covariance (1.1) of the main text (its denominator is $Z_{24}=\sum_ne^{-288|n|^2}$), $f$ is the field $f_{24}$, $k=\kappa/6$ and $\ell=kr^3=\kappa r^3/6$, and $\nu_{\eld}$ is the lifetime density $\nu_{3,24}$ of the finite nonessential superlevel $H_0$ bars per unit volume (Convention~2.2 of the main text). The constant $c_{3,24}$ of Definition~\ref{def:rate-coef}, that is, the constant of \cite[(15.2)]{parentP} at $d=3$ and $L=24$, is the constant $c_{3,24}$ of (2.9) of the main text. Theorem~\ref{thm:rate-bounded} is the statement of Theorem~R (\texttt{frontiers/three\_fronts\_20260924/LIFETIME\_REMAINDER.md}, blob \texttt{247b3ecf}) at every fixed $d\ge 2$ and $L>0$. The proof of Proposition~3.12 of the main text identifies that proposition with Theorem~R at $d=3$ and $L=24$, and it states that its leading law is the instance $d=3$, $L=24$ of \cite[Theorem~C]{parentP}, whose coefficient is \cite[(15.2)]{parentP} (\S5.1 of the main text). The two formulas also agree term by term: in the notation of (2.2)--(2.8) of the main text, $p_G(0)=(2\pi)^{-3/2}\det\Sigma_g(t)^{-1/2}$, $p_{V_t}(0)=(2\pi)^{-3/2}\det\Sigma_h(t)^{-1/2}$, $\tau_t^2=144\,\sigma_t^2$ because $u_t=-\partial_t^3f_{24}/12$, and $D_t$ in \eqref{eq:rate-152} is $D_t$ of (2.8); since
+Let $d=3$ and $L=24$. Then \eqref{eq:rate-KL} is the covariance (1.1) of the main text (its denominator is $Z_{24}=\sum_ne^{-288|n|^2}$), $f$ is the field $f_{24}$, $k=\kappa/6$ and $\ell=kr^3=\kappa r^3/6$, and $\nu_{\eld}$ is the lifetime density $\nu_{3,24}$ of the finite nonessential superlevel $H_0$ bars per unit volume (Convention~2.2 of the main text). The constant $c_{3,24}$ of Definition~\ref{def:rate-coef}, that is, the constant of \cite[(15.2)]{parentP} (Proposition~\ref{prop:parent-coef}) at $d=3$ and $L=24$, is the constant $c_{3,24}$ of (2.9) of the main text. Theorem~\ref{thm:rate-bounded} is the statement of Theorem~R (\texttt{frontiers/three\_fronts\_20260924/LIFETIME\_REMAINDER.md}, blob \texttt{247b3ecf}) at every fixed $d\ge 2$ and $L>0$. The proof of Proposition~3.12 of the main text identifies that proposition with Theorem~R at $d=3$ and $L=24$, and it states that its leading law is the instance $d=3$, $L=24$ of \cite[Theorem~C]{parentP} (Theorem~\ref{thm:parent-C}), whose coefficient is \cite[(15.2)]{parentP} (Proposition~\ref{prop:parent-coef}; \S5.1 of the main text). The two formulas also agree term by term: in the notation of (2.2)--(2.8) of the main text, $p_G(0)=(2\pi)^{-3/2}\det\Sigma_g(t)^{-1/2}$, $p_{V_t}(0)=(2\pi)^{-3/2}\det\Sigma_h(t)^{-1/2}$, $\tau_t^2=144\,\sigma_t^2$ because $u_t=-\partial_t^3f_{24}/12$, and $D_t$ in \eqref{eq:rate-152} is $D_t$ of (2.8); since
 \[
 (2\pi)^{-3}\cdot144^{2/3}\cdot\frac{\Gamma(7/6)}{24^{1/3}\sqrt\pi}=\frac{3\,\Gamma(7/6)}{2^{4/3}\pi^{7/2}}=B_3,
 \]
