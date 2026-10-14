@@ -182,6 +182,84 @@ def main():
                 synthetic=json.loads(json.dumps(data));nodes={'fixture.root':{'kind':'candidate','classification':'OPEN_ACTIVE','layer':'D1'}};nodes.update({f'fixture.node{i:04d}':{'kind':'candidate','classification':'OPEN_ACTIVE','layer':'D1'} for i in range(1000)});synthetic['graph']['data']['nodes']=nodes;synthetic['graph']['data']['edges']=[{'from':'fixture.root','to':node,'required':True,'relation':'synthetic_required_fixture'} for node in nodes if node!='fixture.root'];fixture_raw=json.dumps(synthetic,ensure_ascii=False).encode();fixture_sha=sha256(fixture_raw).hexdigest();html=(ROOT/'docs/site/dependencies.html').read_text().replace(report['source_payload_sha256'],fixture_sha).replace(f'data-current-bytes="{len(raw)}"',f'data-current-bytes="{len(fixture_raw)}"');page.route('**/dependencies.html?*',lambda route:route.fulfill(status=200,content_type='text/html',body=html));page.route('**/current.json',lambda route:route.fulfill(status=200,content_type='application/json',body=fixture_raw));started=time.perf_counter();page.goto(origin+'dependencies.html?atlas-node=fixture.root&atlas-view=list');expect(page.locator('#atlas-list button')).to_have_count(150);expect(page.locator('#atlas-count')).to_contain_text('1001 nodes in the loaded neighborhood');expect(page.locator('#atlas-count')).to_contain_text('851 outside this page');first=page.locator('#atlas-list button').evaluate_all('(nodes)=>nodes.map(n=>n.firstChild.textContent)');page.locator('#atlas-next').click();expect(page.locator('#atlas-count')).to_contain_text('851 outside this page');second=page.locator('#atlas-list button').evaluate_all('(nodes)=>nodes.map(n=>n.firstChild.textContent)');require(not set(first)&set(second),'Paged large fixture duplicated the first window');page.locator('#atlas-previous').click();require(first==page.locator('#atlas-list button').evaluate_all('(nodes)=>nodes.map(n=>n.firstChild.textContent)'),'Previous window is not deterministic');case['load_and_page_seconds']=round(time.perf_counter()-started,3);session=context.new_cdp_session(page);session.send('Performance.enable');case['js_heap_bytes']=next((m['value'] for m in session.send('Performance.getMetrics')['metrics'] if m['name']=='JSHeapUsedSize'),None);case['fixture_bytes']=len(fixture_raw);case['fixture_sha256']=fixture_sha;case['indexed_nodes']=len(nodes);case['rendered_nodes']=150;case['passed']=True
             except Exception:case['error']=traceback.format_exc()
             finally:context.close()
+            # NEW successor controls: synthetic current payloads enter through
+            # the existing byte/digest admission, never through DOM fixtures.
+            def synthetic_reader(nodes,edges,case):
+                synthetic=json.loads(json.dumps(data));synthetic['graph']['data']={'nodes':nodes,'edges':edges}
+                fixture_raw=json.dumps(synthetic,ensure_ascii=False).encode();fixture_sha=sha256(fixture_raw).hexdigest()
+                html=(ROOT/'docs/site/dependencies.html').read_text().replace(report['source_payload_sha256'],fixture_sha).replace(f'data-current-bytes="{len(raw)}"',f'data-current-bytes="{len(fixture_raw)}"')
+                context=browser.new_context(reduced_motion='reduce');page=context.new_page();page.set_default_timeout(20000)
+                case['page_errors']=[];page.on('pageerror',lambda e:case['page_errors'].append(str(e)))
+                page.route('**/dependencies.html?*',lambda route:route.fulfill(status=200,content_type='text/html',body=html))
+                page.route('**/current.json',lambda route:route.fulfill(status=200,content_type='application/json',body=fixture_raw))
+                case.update(fixture_sha256=fixture_sha,fixture_bytes=len(fixture_raw),indexed_nodes=len(nodes),indexed_edges=len(edges),scope='Synthetic display fixture only; not research-corpus evidence.')
+                return context,page
+            def measured_heap(context,page):
+                session=context.new_cdp_session(page);session.send('Performance.enable')
+                value=next((m['value'] for m in session.send('Performance.getMetrics')['metrics'] if m['name']=='JSHeapUsedSize'),None);session.detach();require(value is not None,'Browser heap measurement missing');return value
+            case={'case':'current-metadata-filter-roundtrips','passed':False};report['cases'].append(case)
+            nodes={
+                'filter.root':{'kind':'candidate','classification':'OPEN_ACTIVE','layer':'D1'},
+                'filter.keep':{'kind':'candidate','classification':'OPEN_ACTIVE','layer':'D1'},
+                'filter.other-class':{'kind':'candidate','classification':'HOLD','layer':'D1'},
+                'filter.other-kind':{'kind':'axiom','classification':'OPEN_ACTIVE','layer':'D1'},
+                'filter.other-layer':{'kind':'candidate','classification':'OPEN_ACTIVE','layer':'D2'}}
+            edges=[{'from':'filter.root','to':node,'required':True,'relation':'filter_fixture'} for node in nodes if node!='filter.root']
+            context,page=synthetic_reader(nodes,edges,case)
+            try:
+                from urllib.parse import urlencode,urlsplit,parse_qs
+                filters={'atlas-classification':'OPEN_ACTIVE','atlas-kind':'candidate','atlas-layer':'D1'}
+                address=origin+'dependencies.html?'+urlencode({'atlas-node':'filter.root','atlas-view':'list',**filters,'q':'historical','classification':'HOLD','equation':data['equations'][0]['id']})+'#search-heading'
+                page.goto(address);expect(page.locator('#atlas-list button')).to_have_count(2);require(page.url==address,'Initial current filters rewrote saved legacy URL')
+                expect(page.locator('#atlas-count')).to_contain_text('classification=OPEN_ACTIVE');expect(page.locator('#atlas-count')).to_contain_text('kind=candidate');expect(page.locator('#atlas-count')).to_contain_text('layer=D1')
+                first=page.locator('#atlas-list button').evaluate_all('(nodes)=>nodes.map(n=>n.firstChild.textContent)');require(first==['filter.root','filter.keep'],'Neighborhood filters were not conjunctive')
+                require(first==page.locator('#atlas-canvas .atlas-node').evaluate_all('(nodes)=>nodes.map(n=>n.firstChild.textContent)'),'Filtered graph/list differ')
+                page.locator('#atlas-search').fill('filter.');expect(page.locator('#atlas-list button')).to_have_count(2);expect(page.locator('#atlas-count')).to_contain_text('matching source nodes')
+                shared=page.locator('#atlas-share').get_attribute('href');params=parse_qs(urlsplit(shared).query)
+                for key,value in filters.items():require(params.get(key)==[value],f'Share dropped {key}')
+                require(params.get('classification')==['HOLD'] and params.get('q')==['historical'],'Current filters changed historical namespace')
+                page.goto(shared);expect(page.locator('#atlas-list button')).to_have_count(2);expect(page.locator('#atlas-search')).to_have_value('filter.')
+                before=page.url;page.locator('#atlas-list button').filter(has_text=re.compile(r'^filter\.keep')).click();expect(page.locator('#atlas-inspector h3')).to_have_text('filter.keep');after=page.url
+                page.go_back();expect(page.locator('#atlas-inspector h3')).to_have_text('filter.root');require(page.url==before,'Filter Back rewrote saved address');page.go_forward();expect(page.locator('#atlas-inspector h3')).to_have_text('filter.keep');require(page.url==after,'Filter Forward rewrote saved address')
+                page.locator('#atlas-collapse').click();expect(page.locator('#atlas-search')).to_have_value('');require(all(parse_qs(urlsplit(page.url).query).get(k)==[v] for k,v in filters.items()),'Collapse cleared metadata filters')
+                page.locator('#atlas-reset').click();expect(page.locator('#atlas-inspector h3')).to_have_text('filter.keep');params=parse_qs(urlsplit(page.url).query);require(all(k not in params for k in filters),'Reset retained current filters');require(params.get('classification')==['HOLD'] and params.get('q')==['historical'],'Reset changed historical namespace');expect(page.locator('#equation-content pre')).to_have_text(data['equations'][0]['text'])
+                page.goto(address.replace('atlas-kind=candidate','atlas-kind=UNKNOWN'));expect(page.locator('#atlas-list button')).to_have_count(0);expect(page.locator('#atlas-count')).to_contain_text('kind=UNKNOWN');expect(page.locator('#atlas-count')).to_contain_text('No nodes match');expect(page.locator('#atlas-inspector h3')).to_have_text('filter.root');expect(page.locator('#equation-content pre')).to_have_text(data['equations'][0]['text'])
+                require(not case['page_errors'],f'Page errors: {case["page_errors"]}');case['passed']=True
+            except Exception:case['error']=traceback.format_exc()
+            finally:context.close()
+            for shape in ['chain','fanout-shared']:
+                case={'case':'synthetic-admitted-'+shape,'passed':False,'measurements':[]};report['cases'].append(case)
+                ids=[f'bound.{i:05d}' for i in range(10000)];nodes={id:{'kind':'candidate','classification':'OPEN_ACTIVE','layer':'D1'} for id in ids}
+                if shape=='chain':edges=[{'from':ids[i-1],'to':ids[i],'required':True,'relation':'chain','ordinal':i} for i in range(1,10000)]
+                else:
+                    edges=[{'from':ids[0],'to':id,'required':True,'relation':'fanout','ordinal':i} for i,id in enumerate(ids[1:],1)]
+                    for i in range(40001):edges.append({'from':ids[i%9998+1],'to':ids[-1],'required':i%2==0,'relation':'shared.'+str(i),'ordinal':i+9999})
+                context,page=synthetic_reader(nodes,edges,case)
+                try:
+                    started=time.perf_counter();page.goto(origin+'dependencies.html?atlas-node='+ids[0]+'&atlas-view=list');expect(page.locator('#atlas-route-count')).to_contain_text('9999 unresolved targets')
+                    total=50004999 if shape=='chain' else 19998;pages=(total+149)//150;expect(page.locator('#atlas-route-count')).to_contain_text(str(total)+' route-node occurrences');baseline_reach=page.locator('#atlas-reach').inner_text()
+                    page.locator('#atlas-routes > summary').click()
+                    def route_checkpoint(label,expected_page):
+                        expect(page.locator('#atlas-route-page')).to_have_value(str(expected_page));require(page.locator('#atlas-routes').evaluate('(e)=>e.open'),'Paging closed route disclosure')
+                        count=page.locator('#atlas-route-list button').count();require(0<count<=150,'Route node-occurrence budget exceeded');require(page.locator('#atlas-route-list [data-route-edge]').count()<=150,'Route edge budget exceeded')
+                        require(page.locator('#atlas-reach').inner_text()==baseline_reach,'Route paging changed complete selected-node reach');require(page.locator('#atlas-consumes-list > li[data-relation-row]').count()<=150,'Consumes row budget exceeded');require(page.locator('#atlas-consumed-by-list > li[data-relation-row]').count()<=150,'Consumed-by row budget exceeded')
+                        case['measurements'].append({'step':label,'page':expected_page,'rendered_route_nodes':count,'heap_bytes':measured_heap(context,page),'elapsed_seconds':round(time.perf_counter()-started,3),'route_count_text':page.locator('#atlas-route-count').inner_text()})
+                    route_checkpoint('first',1)
+                    middle=pages//2;page.locator('#atlas-route-page').fill(str(middle));page.locator('#atlas-route-page').press('Enter');route_checkpoint('middle',middle)
+                    require(page.evaluate('document.activeElement.id')=='atlas-route-page','Direct route paging lost keyboard focus')
+                    if shape=='chain':expect(page.locator('#atlas-route-list')).to_contain_text('Continuation');require((middle-1)*150>100000,'Chain case did not exceed graph offset ceiling')
+                    page.locator('#atlas-route-last').focus();page.keyboard.press('Enter');route_checkpoint('last',pages)
+                    page.locator('#atlas-route-previous').click();route_checkpoint('previous',pages-1);page.locator('#atlas-route-next').click();route_checkpoint('last-again',pages)
+                    shared=page.locator('#atlas-share').get_attribute('href');require(parse_qs(urlsplit(shared).query).get('atlas-route-page')==[str(pages)],'Share dropped route page');page.reload();expect(page.locator('#atlas-route-page')).to_have_value(str(pages));page.locator('#atlas-routes > summary').click();route_checkpoint('reloaded-last',pages)
+                    if shape=='chain':
+                        require(page.locator('#atlas-route-list button').last.evaluate('(e)=>e.firstChild.textContent')==ids[-1],'Last route segment omitted final target')
+                        expect(page.locator('#atlas-route-list [data-route-edge]').last).to_contain_text(ids[-2]+' → '+ids[-1])
+                    else:
+                        expect(page.locator('#atlas-consumes-count')).to_contain_text('9999 relations');page.locator('#atlas-consumes-last').click();require(page.locator('#atlas-consumes-list > li[data-relation-row]').count()==99,'Last outgoing relation page is incomplete');page.locator('#atlas-consumes-first').click();require(page.locator('#atlas-consumes-list > li[data-relation-row]').count()==150,'First outgoing relation page changed')
+                        page.goto(origin+'dependencies.html?atlas-node='+ids[-1]+'&atlas-view=list');expect(page.locator('#atlas-consumed-by-count')).to_contain_text('40002 relations');expect(page.locator('#atlas-reach')).to_contain_text('all edges: 9999');expect(page.locator('#atlas-reach')).to_contain_text('required edges: 5000');page.locator('#atlas-consumed-by-last').click();require(page.locator('#atlas-consumed-by-list > li[data-relation-row]').count()==102,'Last incoming relation page is incomplete')
+                    require(not case['page_errors'],f'Page errors: {case["page_errors"]}');case['passed']=True
+                except Exception:case['error']=traceback.format_exc()
+                finally:context.close()
             case={'case':'no-javascript-static-parity','passed':False};report['cases'].append(case);context=browser.new_context(java_script_enabled=False);page=context.new_page()
             try:
                 page.goto(origin+'nodes/index.html');links=page.locator('main a[href]').all();require(len(links)>=len(data['graph']['data']['nodes']),'Static index omitted nodes');node='math.uniform-matrix-cap-lifetime';page.locator('main a[href="'+node+'.html"]').click();expect(page.locator('main')).to_contain_text('kernel');expect(page.locator('main')).to_contain_text('not_recorded');edge=next(e for e in data['graph']['data']['edges'] if e['from']==node);expect(page.locator('main')).to_contain_text(edge['relation']);page.locator('main a[href="'+edge['to']+'.html"]').first.click();require(page.url==origin+'nodes/'+edge['to']+'.html','Current static neighbor left the selected current observation');expect(page.locator('main h1')).to_have_text(edge['to']);tree=page.locator('main').aria_snapshot();require('Typed neighbors' in tree and 'not_recorded' in tree,'Static accessible reading omitted typed relationships or evidence');path=args.output/'static-accessibility-tree.txt';path.write_text(tree);case['accessibility_tree']={'path':path.name,'sha256':sha256(path.read_bytes()).hexdigest()};case['passed']=True
