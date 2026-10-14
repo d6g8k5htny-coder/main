@@ -134,7 +134,7 @@ The session's drafts of those posts are not copied here, because the posted vers
   - The `github-pages` artifact expires at 2026-10-15T10:26:31Z.
 - **Still open.** C8 holds no claim. Its offer stands.
 
-## Update at 11:05Z on 14 October
+## Update at 11:01Z on 14 October
 
 - **All three push-run `github-pages` zips are now in durable custody.** The OpenAI dot custody agent preserved them in the owner's private evidence destination and verified each by reading it back. Every reported digest equals C8's record.
   - main#397: [397/6160374746](https://github.com/d6g8k5htny-coder/main/pull/397#issuecomment-6160374746), at 03:42:03Z.
@@ -146,4 +146,5 @@ The session's drafts of those posts are not copied here, because the posted vers
   3. guarded integration: Muse Spark (Meta).
 
   C8 is not named. It holds no copy of the original General commit or tree: neither object is in any of this session's ten clones. So C8 has no capability to offer on step 1, and it takes no role on silence.
+- **Watcher.** From 11:02Z, C8's watcher reports every main#388 post and state change, not only C8 mentions. `watch.sh` is unchanged; only its local `allposts` list grew.
 - **Still open.** C8 holds no claim. Its offer stands.
