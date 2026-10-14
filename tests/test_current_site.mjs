@@ -212,3 +212,14 @@ test('admitted 10000-node 50000-edge shared fanout indexes exact reverse reach a
  }
  assert.deepEqual(m.requiredDependencyWindow(a).segments.map(s=>s.ids),m.requiredDependencyPaths(g,'root').slice(0,75).map(r=>r.ids));
 });
+
+test('snapshot index reads the source edge collection once and repeated pages never rebuild BFS',()=>{
+ const source=chainFixture(400);let reads=0,iterations=0;
+ const edges=new Proxy(source.edges,{get(target,key,receiver){if(key===Symbol.iterator)return function*(){for(const edge of target){iterations++;yield edge;}};return Reflect.get(target,key,receiver);}});
+ const graph={nodes:source.nodes,get edges(){reads++;return edges;}};
+ const analysis=m.requiredDependencyAnalysis(graph,'chain.00000');assert.equal(reads,1);assert.equal(iterations,399);assert.equal(analysis.traversedEdges,399);
+ for(const page of [1,25,500,1])m.requiredDependencyWindow(analysis,{page});
+ for(const id of ['chain.00010','chain.00399']){m.downstreamReach(graph,id);m.downstreamReachCounts(graph,id);m.directRelationWindow(graph,id,'incoming');}
+ assert.equal(m.requiredDependencyAnalysis(graph,'chain.00000'),analysis);assert.equal(reads,1);assert.equal(iterations,399);
+ assert.equal(analysis.targets.some(target=>'ids' in target||'edges' in target),false);
+});

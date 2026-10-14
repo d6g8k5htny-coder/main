@@ -1,4 +1,4 @@
-import {OPEN_CLASSIFICATIONS, NON_RESEARCH_KINDS} from './dependency-model.mjs?site-release=4764cf2cfa0123b97aca3ec6ff8a1aba79e9ad1b5506d8616775b59c20e65ebc';
+import {OPEN_CLASSIFICATIONS, NON_RESEARCH_KINDS} from './dependency-model.mjs?site-release=81664321ae3536ab28eeb2dd5e8b18e82157243b8a9d89b25c23588d21008c0c';
 
 const REPOSITORIES = new Set(['d6g8k5htny-coder/main','d6g8k5htny-coder/Math-']);
 const SHA = /^[0-9a-f]{40}$/;
@@ -78,41 +78,93 @@ function graphWindow(graph,candidates,selected) {
   const {values,...counts}=page;
   return {ids:values,edges:graph.edges.filter(e=>known.has(e.from)&&known.has(e.to)),total:Object.keys(graph.nodes).length,...counts};
 }
-// Reverse traversal counts distinct dependents in the full graph, independent
-// of the rendered window. Context edges count only in the all-edge lane.
-export function downstreamReach(graph,id) {
-  const known=hasNode(graph,id);
+// An admitted snapshot is immutable. Build its adjacency once, retaining source
+// edge identity/order for relation inspection and a separately sorted BFS lane.
+const snapshotIndexes=new WeakMap();
+function graphIndex(graph) {
+  let index=snapshotIndexes.get(graph);if(index)return index;
+  const outgoing=new Map(),incoming=new Map(),required=new Map();
+  for(const id of Object.keys(graph.nodes)){outgoing.set(id,[]);incoming.set(id,[]);required.set(id,[]);}
+  for(const edge of graph.edges){
+    if(!hasNode(graph,edge.from)||!hasNode(graph,edge.to))continue;
+    outgoing.get(edge.from).push(edge);incoming.get(edge.to).push(edge);
+    if(edge.required===true)required.get(edge.from).push(edge);
+  }
+  for(const edges of required.values())edges.sort((a,b)=>a.to.localeCompare(b.to)||a.relation.localeCompare(b.relation));
+  index={outgoing,incoming,required,analysis:null};snapshotIndexes.set(graph,index);return index;
+}
+// Complete indexed reverse traversal. Count-only callers retain no reachable-ID
+// arrays; the public full API keeps its exact sorted-ID contract.
+function reverseReach(graph,id,includeIds) {
+  const known=hasNode(graph,id),index=graphIndex(graph);
   const walk=requiredOnly=>{
-    if(!known)return [];
+    if(!known)return new Set();
     const visited=new Set([id]),queue=[id];
-    for(let cursor=0;cursor<queue.length;cursor++)for(const edge of graph.edges) {
-      if(edge.to!==queue[cursor] || (requiredOnly && edge.required!==true) || !hasNode(graph,edge.from) || visited.has(edge.from))continue;
+    for(let cursor=0;cursor<queue.length;cursor++)for(const edge of index.incoming.get(queue[cursor])){
+      if((requiredOnly&&edge.required!==true)||visited.has(edge.from))continue;
       visited.add(edge.from);queue.push(edge.from);
     }
-    visited.delete(id);return [...visited].sort((a,b)=>a.localeCompare(b));
+    visited.delete(id);return visited;
   };
-  const allEdgeIds=walk(false),requiredOnlyIds=walk(true);
-  return {known,allEdge:allEdgeIds.length,requiredOnly:requiredOnlyIds.length,allEdgeIds,requiredOnlyIds,labels:REACH_LABELS};
+  const all=walk(false),required=walk(true),result={known,allEdge:all.size,requiredOnly:required.size,labels:REACH_LABELS};
+  if(includeIds){result.allEdgeIds=[...all].sort((a,b)=>a.localeCompare(b));result.requiredOnlyIds=[...required].sort((a,b)=>a.localeCompare(b));}
+  return result;
 }
+export function downstreamReach(graph,id){return reverseReach(graph,id,true);}
+export function downstreamReachCounts(graph,id){return reverseReach(graph,id,false);}
 export function unresolvedTargets(graph) {
   return Object.entries(graph.nodes).filter(([,node])=>unresolved(node)).map(([id,node])=>({id,node,...downstreamReach(graph,id)})).sort((a,b)=>b.allEdge-a.allEdge || a.id.localeCompare(b.id));
 }
-// Breadth-first search follows source edges forward (dependency direction),
-// keeping one shortest route per target with original relation metadata.
-export function requiredDependencyPaths(graph,id) {
-  if(!hasNode(graph,id))return [];
-  const queue=[{ids:[id],edges:[]}],visited=new Set([id]),routes=[];
-  for(let cursor=0;cursor<queue.length;cursor++) {
-    const path=queue[cursor],current=path.ids.at(-1);
-    if(current!==id && unresolved(graph.nodes[current]))routes.push(path);
-    const dependencies=graph.edges.filter(edge=>edge.from===current && edge.required===true && hasNode(graph,edge.to)).sort((a,b)=>a.to.localeCompare(b.to) || a.relation.localeCompare(b.relation));
-    for(const edge of dependencies) {
-      if(visited.has(edge.to))continue;
-      visited.add(edge.to);queue.push({ids:[...path.ids,edge.to],edges:[...path.edges,edge]});
+// Complete deterministic BFS stores one predecessor/depth per reached node.
+// Only the selected root's compact analysis is cached, never all roots' paths.
+export function requiredDependencyAnalysis(graph,id) {
+  const index=graphIndex(graph);if(index.analysis?.root===id)return index.analysis;
+  const known=hasNode(graph,id),predecessors=new Map(),depths=new Map(),targets=[],queue=known?[id]:[];let traversedEdges=0;
+  if(known)depths.set(id,0);
+  for(let cursor=0;cursor<queue.length;cursor++){
+    const current=queue[cursor],depth=depths.get(current);
+    if(current!==id&&unresolved(graph.nodes[current]))targets.push({id:current,length:depth+1});
+    for(const edge of index.required.get(current)){
+      traversedEdges++;if(depths.has(edge.to))continue;
+      predecessors.set(edge.to,edge);depths.set(edge.to,depth+1);queue.push(edge.to);
     }
   }
-  return routes.sort((a,b)=>a.ids.length-b.ids.length || a.ids.at(-1).localeCompare(b.ids.at(-1)));
+  targets.sort((a,b)=>a.length-b.length||a.id.localeCompare(b.id));
+  const prefixSums=[0];for(const target of targets)prefixSums.push(prefixSums.at(-1)+target.length);
+  const analysis={root:id,known,predecessors,depths,targets,prefixSums,targetCount:targets.length,totalOccurrences:prefixSums.at(-1),traversedEdges};
+  index.analysis=analysis;return analysis;
 }
+function reconstructRoute(analysis,target){
+  const ids=new Array(target.length),edges=new Array(target.length-1);let current=target.id;
+  for(let i=target.length-1;i>=0;i--){ids[i]=current;if(i){const edge=analysis.predecessors.get(current);edges[i-1]=edge;current=edge.from;}}
+  return {ids,edges};
+}
+function pageWindow(total,selected={}){
+  const limit=Number.isInteger(selected.limit)&&selected.limit>0?Math.min(selected.limit,MAX_WINDOW_NODES):MAX_WINDOW_NODES;
+  const pages=Math.max(1,Math.ceil(total/limit)),requested=Number.isSafeInteger(selected.page)&&selected.page>0?selected.page:1,page=Math.min(requested,pages);
+  return {page,pages,limit,offset:(page-1)*limit};
+}
+export function requiredDependencyWindow(analysis,selected={}){
+  const paging=pageWindow(analysis.totalOccurrences,selected),{offset,limit}=paging,end=Math.min(offset+limit,analysis.totalOccurrences),segments=[];let reconstructedNodes=0;
+  // Binary search the first intersecting route; direct last-page access never
+  // materializes preceding routes. At most two boundary routes can be partial.
+  let lo=0,hi=analysis.targetCount;
+  while(lo<hi){const mid=Math.floor((lo+hi)/2);if(analysis.prefixSums[mid+1]<=offset)lo=mid+1;else hi=mid;}
+  for(let i=lo;i<analysis.targetCount&&analysis.prefixSums[i]<end;i++){
+    const target=analysis.targets[i],start=Math.max(0,offset-analysis.prefixSums[i]),stop=Math.min(target.length,end-analysis.prefixSums[i]);
+    const route=reconstructRoute(analysis,target);reconstructedNodes+=route.ids.length;
+    const ids=route.ids.slice(start,stop),incomingEdges=ids.map((_,j)=>start+j?route.edges[start+j-1]:null);
+    segments.push({target:target.id,routeIndex:i,start,end:stop,length:target.length,complete:start===0&&stop===target.length,ids,incomingEdges});
+  }
+  return {...paging,segments,occurrences:end-offset,targetCount:analysis.targetCount,totalOccurrences:analysis.totalOccurrences,omitted:analysis.totalOccurrences-(end-offset),reconstructedNodes};
+}
+export function directRelationWindow(graph,id,direction,selected={}){
+  const index=graphIndex(graph),rows=(direction==='outgoing'?index.outgoing:index.incoming).get(id)||[],paging=pageWindow(rows.length,selected);
+  return {...paging,rows:rows.slice(paging.offset,paging.offset+paging.limit),total:rows.length,omitted:rows.length-Math.min(paging.limit,rows.length-paging.offset)};
+}
+// Compatibility API for callers explicitly requesting all output. The atlas
+// uses requiredDependencyWindow instead; this full output is inherently large.
+export function requiredDependencyPaths(graph,id){const analysis=requiredDependencyAnalysis(graph,id);return analysis.targets.map(target=>reconstructRoute(analysis,target));}
 export function neighborhood(graph,expanded,limit=MAX_WINDOW_NODES) {
   const ids=[],known=new Set();
   const add=id=>{if(hasNode(graph,id)&&!known.has(id)){known.add(id);ids.push(id);}};
@@ -128,7 +180,8 @@ export function readState(search,snapshot) {
   if(equation&&!snapshot.equations.some(e=>e.id===equation))error=`Unknown equation: ${equation}. No selection inferred.`;
   if((q.get('snapshot')&&q.get('snapshot')!==snapshot.graph.identity.commit)||(q.get('main-snapshot')&&q.get('main-snapshot')!==snapshot.repositories.find(r=>r.repository.endsWith('/main')).commit))error='This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.';
   const rawOffset=q.get('atlas-offset')||'0';
-  return {node,error,equation,view:q.get('atlas-view')==='list'?'list':'graph',sourceQuery:q.get('source-q')||'',query:q.get('atlas-q')||'',offset:/^\d+$/.test(rawOffset)?boundedOffset(Number(rawOffset)):0,equationQuery:q.get('equation-q')||'',classification:q.get('atlas-classification')||'',kind:q.get('atlas-kind')||'',layer:q.get('atlas-layer')||''};
+  const rawRoutePage=q.get('atlas-route-page')||'1',routePage=/^\d+$/.test(rawRoutePage)&&Number.isSafeInteger(Number(rawRoutePage))&&Number(rawRoutePage)>0?Number(rawRoutePage):1;
+  return {node,error,equation,view:q.get('atlas-view')==='list'?'list':'graph',sourceQuery:q.get('source-q')||'',query:q.get('atlas-q')||'',offset:/^\d+$/.test(rawOffset)?boundedOffset(Number(rawOffset)):0,routePage,equationQuery:q.get('equation-q')||'',classification:q.get('atlas-classification')||'',kind:q.get('atlas-kind')||'',layer:q.get('atlas-layer')||''};
 }
 
 export function searchGraph(graph,query,limit=MAX_WINDOW_NODES) {
