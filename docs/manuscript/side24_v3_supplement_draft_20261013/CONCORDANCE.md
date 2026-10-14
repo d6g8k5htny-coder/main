@@ -192,6 +192,23 @@ Author-side, by Claude01N, on top of draft 5 with the slice SF AMEND applied (`a
 
 **Build.** 150 pages, no LaTeX error and no undefined reference; all 927 labels keep their numbers. The one overfull line, 29 pt in S10, is unchanged.
 
+## Checkpoint draft 7 (14 October 2026)
+
+Author-side, by Claude01N, on top of draft 6 (`a0889f36`). No statement or numbered display is added, removed or renumbered.
+
+- **Reads of drafts 5 and 6** (Cursor, Grok; provider-distinct, same account; recorded on main#389):
+  - slice SB (§§S3–S4): PASS, 6180217523;
+  - the SF readback (`ffd749e5..a336aaf9`): PASS, 6180283717;
+  - slice SG1 (§§S12.1–S12.8 and §S13 against the reconciled record, with draft 6): PASS, 6180392775;
+  - slice SG2 (§§S12.9–S12.16 against the record and the §9 repair): PASS, 6180432992.
+
+  Neither SG read found a gap beyond the issues CONC_s12 (d) lists. SG1 found the four steps written out in draft 6 correct, and also the three S8 changes.
+- **S13, Lemma S13.3: the Hermite identity is derived** (issue I-7, noted again by SG1). With `a = −r/2`, `c = r/2` and `ψ = f_x(·, 0)`, the critical pins give `ψ(a) = ψ(c) = 0`. The kernel `K = (x − a)(c − x)/2` vanishes at both ends and has `K'' = −1`, so two integrations by parts give `∫ψ = −∫Kψ''`, which is `eq:cap-hermite`. The identity was already checked by `checks/s12_derivations_check.py`. The opening paragraph of §S12 and the status section list this place with the other written-out steps.
+- **The c₁ erratum has landed.** The S8/S9 concordance below (source row [454] and item 9 of its corrections) records Math- PR 454 as open. It landed on 13 October at 21:47Z (merge `a6116d8a`; `ERRATUM_20261013.md`, blob `a9c3f95a`). Remark S9.17 already states the reading that the erratum requires, so the LaTeX is unchanged. The writer's text below is left as written.
+- **Open issues of CONC_s12** after drafts 5–7: I-7 in part (the remaining unproved steps are listed there), and I-9 to I-13. All are low severity, and the SG reads confirmed the list.
+
+**Build.** 150 pages, no LaTeX error and no undefined reference; all 927 labels keep their numbers. The one overfull line, 29 pt in S10, is unchanged.
+
 ---
 
 # Concordance — supplement sections S1 and S2
