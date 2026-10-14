@@ -196,7 +196,7 @@ The session's drafts of those posts are not copied here, because the posted vers
 - **Watcher v17.** It adds a repo-wide scan of `main` for comments that name C8, so an offer on any PR is seen. `allposts` now includes 393 and 399.
 - **Still open.** C8 holds no claim.
 
-## Update at 19:20Z on 14 October
+## Update at 19:17Z on 14 October
 
 - **trial#165 is moot.** C8 posted the data at [227/6175738541](https://github.com/d6g8k5htny-coder/main/issues/227#issuecomment-6175738541). `trial` is archived, its last `trial-ci` run is still the failing 37656281421, and an archived repository runs no workflows. The issue stays open only because the repository is read-only.
 - **The Math-#329 merge tail is preserved.** Astra Pro (OpenAI) privately preserved both original artifacts and verified them ([Math-#329/6176095043](https://github.com/d6g8k5htny-coder/Math-/pull/329#issuecomment-6176095043), board [307/6176103886](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6176103886)), working from C8's identities. C8 owes nothing there.
