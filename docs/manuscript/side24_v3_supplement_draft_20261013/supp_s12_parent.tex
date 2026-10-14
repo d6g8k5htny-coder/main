@@ -2,7 +2,7 @@
 % Sources, notation conversions, the corrections C1--C4, added steps and issues: CONCORDANCE.md, section "CONC_s12"; draft-5 changes: "Checkpoint draft 5".
 \section{The parent theorem}\label{sec:parent}
 
-This section transcribes the companion record \cite{parentP}, so that the statements which Sections~\ref{sec:selection}--\ref{sec:third} quote from it are stated and proved in this supplement. The record is read as reconciled in \cite{parentREC}: with its congruence erratum and the reconciled wording of the Hessian limit in the proof of Proposition~\ref{prop:parent-normalizer}, with its Section~9 replaced by the repaired Kac--Rice section in Proposition~\ref{prop:parent-KR}, and with the explicit embedding radius of Definition~\ref{def:parent-pinned}. Lemma~\ref{lem:parent-generic}(b) is added here: \cite{parentP} uses it without proof. It holds in every fixed dimension $d\ge2$ and for every fixed side $L>0$. Subsection~\ref{ssec:parent-setting} fixes the setting and states the three theorems of \cite{parentP}: uniform elder selection of contact pairs on compact birth and gap windows (Theorem~\ref{thm:parent-A}), the lifetime densities of these pairs (Theorem~\ref{thm:parent-B}), and the leading law of the unrestricted densities (Theorem~\ref{thm:parent-C}). Subsections~\ref{ssec:parent-spectrum}--\ref{ssec:parent-coef} give the lemmas, identities and estimates of their proofs in the order of \cite{parentP}, and Subsection~\ref{ssec:parent-scope} records what is not proved. The deterministic separating-cylinder theorem used for selection is proved in Section~\ref{sec:cap}. Where \cite{parentP} only sketches a step, the step is given here as sketched there. All constants are existential.
+This section transcribes the companion record \cite{parentP}, so that the statements which Sections~\ref{sec:selection}--\ref{sec:third} quote from it are stated and proved in this supplement. The record is read as reconciled in \cite{parentREC}: with its congruence erratum and the reconciled wording of the Hessian limit in the proof of Proposition~\ref{prop:parent-normalizer}, with its Section~9 replaced by the repaired Kac--Rice section in Proposition~\ref{prop:parent-KR}, and with the explicit embedding radius of Definition~\ref{def:parent-pinned}. Lemma~\ref{lem:parent-generic}(b) is added here: \cite{parentP} uses it without proof. It holds in every fixed dimension $d\ge2$ and for every fixed side $L>0$. Subsection~\ref{ssec:parent-setting} fixes the setting and states the three theorems of \cite{parentP}: uniform elder selection of contact pairs on compact birth and gap windows (Theorem~\ref{thm:parent-A}), the lifetime densities of these pairs (Theorem~\ref{thm:parent-B}), and the leading law of the unrestricted densities (Theorem~\ref{thm:parent-C}). Subsections~\ref{ssec:parent-spectrum}--\ref{ssec:parent-coef} give the lemmas, identities and estimates of their proofs in the order of \cite{parentP}, and Subsection~\ref{ssec:parent-scope} records what is not proved. The deterministic separating-cylinder theorem used for selection is proved in Section~\ref{sec:cap}. Where \cite{parentP} only sketches a step, the step is given here as sketched there; the proofs of Lemmas~\ref{lem:parent-frame} and~\ref{lem:parent-endpoint}, the averaging formulas in the proof of Lemma~\ref{lem:parent-contact}(a), and the measurability in Lemma~\ref{lem:parent-mark}(a) are written out in full. All constants are existential.
 
 \subsection{Setting and the three theorems}\label{ssec:parent-setting}
 
@@ -117,7 +117,11 @@ v_r=\bigl(b-kr^3/2,\ -kr^2,\ 0,\ 12k,\ 0,\dots,0\bigr).
 \end{lemma}
 
 \begin{proof}
-Both statements are direct computations from Definition~\ref{def:parent-rows} and \eqref{eq:parent-pins}.
+In the order $(f(M),f(S),f_x(M),f_x(S))$ the four axial rows of Definition~\ref{def:parent-rows} have the matrix
+\[
+\begin{pmatrix}\tfrac12&\tfrac12&0&0\\[2pt] -\tfrac1r&\tfrac1r&0&0\\[2pt] 0&0&-\tfrac1r&\tfrac1r\\[2pt] \tfrac{12}{r^3}&-\tfrac{12}{r^3}&\tfrac6{r^2}&\tfrac6{r^2}\end{pmatrix}.
+\]
+It is block lower triangular, with diagonal blocks of determinants $1/r$ and $-12/r^3$, so its determinant is $-12r^{-4}$. Each transverse pair $(V^{(0)}_j,V^{(1)}_j)$ has determinant $1/r$ in $(f_{y_j}(M),f_{y_j}(S))$. Reordering the observations changes only the sign of the determinant, and the frame is orthonormal, so $|\det T_r|=12r^{-4}r^{-m}$. At the pins \eqref{eq:parent-pins}, $U^{(0)}=b-kr^3/2$, $U^{(1)}=-kr^2$, $U^{(2)}=0$ and $U^{(3)}=\frac6{r^2}\cdot\frac{2kr^3}r=12k$, and the transverse rows vanish.
 \end{proof}
 
 The transformation is exact, not approximate, and the factor $12$ in \eqref{eq:parent-detT} is retained in the lifetime ledger (Proposition~\ref{prop:parent-ledger}).
@@ -139,7 +143,11 @@ for fixed $C_0,c_0>0$. This bound remains valid after any change of eigenvector 
 \end{lemma}
 
 \begin{proof}
-(a) Taylor formulas with integral remainders give the mean-square convergence, uniformly over frames. The potentially dangerous cancellation in $U^{(3)}$ is an averaged third derivative, not a subtraction of uncontrolled random values. Uniform convergence of its covariances, and of its cross-covariances with any fixed finite derivative order, follows either from those integral formulas or from the rapidly summable Fourier series of Lemma~\ref{lem:parent-spectrum}.
+(a) Taylor formulas with integral remainders give the mean-square convergence, uniformly over frames. Explicitly, with $\varphi(s)=f(st)$ along the axis, $U^{(1)}$ and $U^{(2)}$ are the averages of $\varphi'$ and $\varphi''$ over the pin interval $[-r/2,r/2]$, $V^{(1)}_j$ is the average of $f_{xy_j}$ along the axis, $U^{(0)}$ and $V^{(0)}_j$ are means of the two endpoint values, and
+\[
+U^{(3)}=\int_{-r/2}^{r/2}\frac6{r^3}\Bigl(\frac{r^2}4-s^2\Bigr)\varphi'''(s)\,ds,
+\]
+an average of $\varphi'''$ against a probability density on the pin interval. So the potentially dangerous cancellation in $U^{(3)}$ is an averaged third derivative, not a subtraction of uncontrolled random values. Uniform convergence of its covariances, and of its cross-covariances with any fixed finite derivative order, follows either from those integral formulas or from the rapidly summable Fourier series of Lemma~\ref{lem:parent-spectrum}.
 
 (b) The functionals in \eqref{eq:parent-U0} are distinct. Hence $\Sigma_0(R)$ is positive definite by Lemma~\ref{lem:parent-jetrank}. Its entries are continuous in $R$, and the orthogonal group is compact, so its least eigenvalue has a positive uniform minimum. Consequently $\Sigma_r(R)$ remains uniformly positive definite for all sufficiently small $r$, and $\Sigma_r$, $\Sigma_r^{-1}$ converge uniformly. In detail, each coordinate of $U_r$, and of $U_r$ extended by the entries of $A_M$ as in (c), is an integral $\int\partial^\alpha f(s't)\,\eta_r(ds')$ of a derivative of $f$ along the axis against a measure $\eta_r$ with $\eta_r\to\delta_0$ as $r\to0$; so the covariance is jointly continuous on $[0,\bar r]\times O(d)$ for a fixed $\bar r>0$, it is positive definite at $r=0$ by Lemma~\ref{lem:parent-jetrank}, and compactness gives a positive lower bound for its least eigenvalue. This compactness argument establishes existence, not an evaluated interval enclosure. It never equates $\Sigma_r$ at different orientations; full rotational invariance of the torus is neither assumed nor true in general.
 
@@ -198,7 +206,17 @@ and the block identity \eqref{eq:parent-53} is valid also when $\alpha_i$ or $A_
 \end{lemma}
 
 \begin{proof}
-The two gradient pins imply the vector and scalar average bounds \eqref{eq:parent-51}. For example, $\int_{-r/2}^{r/2}f_{xx}(x,0)\,dx=0$; subtract this average at an endpoint and integrate the bound given by the Lipschitz constant $M_3$. For $\beta_i$ use the average of $\nabla_yf_x$ and its vector derivative. This does not invoke a simultaneous vector Rolle zero. The exact height identity \eqref{eq:cap-hermite} gives a weighted mean of $f_{xxx}$ equal to $12k$ on the pin interval, and the variation of $f_{xxx}$ over that interval is at most $rM_4$. The same average calculation yields \eqref{eq:parent-52}.
+Write $a=-r/2$ and $c=r/2$ for the axial coordinates of $M$ and $S$. The gradient pins give $f_x(a,0)=f_x(c,0)=0$, so integration by parts yields
+\[
+f_{xx}(a,0)=-\frac1r\int_a^c(c-x)f_{xxx}(x,0)\,dx,\qquad f_{xx}(c,0)=\frac1r\int_a^c(x-a)f_{xxx}(x,0)\,dx,
+\]
+and $\int_a^cf_{xx}(x,0)\,dx=0$. By the last identity $f_{xx}(\cdot,0)$ has mean zero on the pin interval, so at an endpoint $e\in\{a,c\}$
+\[
+|f_{xx}(e,0)|\le\frac1r\int_a^c|f_{xx}(e,0)-f_{xx}(x,0)|\,dx\le\frac{M_3}r\int_a^c|x-e|\,dx=\frac{rM_3}2 ,
+\]
+which is the bound on $\alpha_i$. The vector $\nabla_yf_x(\cdot,0)$ also has mean zero on the pin interval, since its integral is $\nabla_yf(S)-\nabla_yf(M)=0$; the same argument, with $\|\partial_x\nabla_yf_x\|\le M_3$, bounds $\|\beta_i\|$. It uses no simultaneous vector Rolle zero. Finally $A_S-A_M=\int_a^c\partial_xD_y^2f(x,0)\,dx$, so $\|A_S-A_M\|_{\rm op}\le rM_3$. This proves \eqref{eq:parent-51}.
+
+For \eqref{eq:parent-52}, the Hermite identity \eqref{eq:cap-hermite} and $f(S)-f(M)=-kr^3$ say that the average of $f_{xxx}(\cdot,0)$ against the weight $(x-a)(c-x)$, whose mass is $r^3/6$, equals $12k$. Hence $f_{xxx}(x_0,0)=12k$ for some $x_0\in[a,c]$, and $|f_{xxx}(x,0)-12k|\le rM_4$ on $[a,c]$. Inserting this in the two identities displayed first, with $\int_a^c(c-x)\,dx=\int_a^c(x-a)\,dx=r^2/2$, gives $|\alpha_M+6k|\le rM_4/2$ and $|\alpha_S-6k|\le rM_4/2$. The block identity \eqref{eq:parent-53} is the expansion of $\det H_i$ along its first row and column, written with the adjugate so that it holds also for singular $A_i$.
 \end{proof}
 
 \begin{proposition}[the full normalizer]\label{prop:parent-normalizer}
@@ -357,7 +375,7 @@ with $\sup\varnothing=-\infty$, and the elder mark $e(f;M,S)=\ind_{\{d_f(M)=f(S)
 \end{lemma}
 
 \begin{proof}
-(a) For fixed pins, the event $\{d_f(M)>h\}$ can be represented by a countable union of polygonal-path tests, with rational interior vertices and endpoints, all staying strictly above $h$ and with endpoint value above $f(M)$; strict clearances allow approximation by such paths. For variable $M$, use countably many coordinate charts and an initial segment depending continuously on $M$. These are Borel tests in $(M,f)$. (b) and (c) are the elder rule of ordinary superlevel $H_0$ persistence for Morse functions with distinct critical values; see \cite[\S3]{Curry} for background.
+(a) For fixed pins, the event $\{d_f(M)>h\}$ can be represented by a countable union of polygonal-path tests, with rational interior vertices and endpoints, all staying strictly above $h$ and with endpoint value above $f(M)$; strict clearances allow approximation by such paths. For variable $M$, use countably many coordinate charts and an initial segment depending continuously on $M$. These are Borel tests in $(M,f)$. A complete argument is the measurability part of the proof of Lemma~\ref{lem:selection-mark}, which uses neither $d=3$ nor $L=24$: for a fixed path $\gamma$ from $0$, the functional equal to $\min_sg(\gamma(s))$ on the open set $\{g(\gamma(1))>g(0)\}$ and to $-\infty$ elsewhere is lower semicontinuous on $C(\T^d_L)$; $d_g(0)$ is the supremum of these functionals; and $d_g(x)=d_{g(\cdot+x)}(0)$. Hence $(g,x)\mapsto d_g(x)$ is lower semicontinuous on $C(\T^d_L)\times\T^d_L$. The inclusion $C^2(\T^d_L)\subset C(\T^d_L)$ is continuous, so $\{d_f(M)>h\}$ is open in $(f,M)$, and $\{d_f(M)=f(S)\}$ is Borel in $(f,M,S)$. (b) and (c) are the elder rule of ordinary superlevel $H_0$ persistence for Morse functions with distinct critical values; see \cite[\S3]{Curry} for background.
 \end{proof}
 
 \begin{lemma}[the cap implication]\label{lem:parent-capimpl}

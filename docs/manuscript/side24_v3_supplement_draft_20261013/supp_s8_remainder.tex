@@ -41,7 +41,7 @@ The marked Kac--Rice disintegration (\S\ref{sec:contact}; \cite[\S\S9--10, (10.2
 \begin{equation}\label{eq:remainder-sep}
 \nu_\bullet^{[\rho,\rho')}(\ell)=\int_\rho^{\rho'}\!\!\int_\R\int_{S^{d-1}}r^{-2}\mathcal A^\bullet_r(b,\ell/r^3,u)\,d\sigma(u)\,db\,dr .
 \end{equation}
-The leading coefficient is $c_{d,L}=\int_{S^{d-1}}\int_\R\int_0^\infty\mathcal A_0(b,k,u)\,(3k^{2/3})^{-1}\,dk\,db\,d\sigma(u)$ (\S\ref{sec:rate}; \cite[(13.6)]{parentP}; Proposition~\ref{prop:parent-near}); the substitution $k=\ell/r^3$, $dk=3\ell r^{-4}dr$, turns it into
+The leading coefficient is $c_{d,L}=\int_{S^{d-1}}\int_\R\int_0^\infty\mathcal A_0(b,k,u)\,(3k^{2/3})^{-1}\,dk\,db\,d\sigma(u)$ (\S\ref{sec:rate}; \cite[(13.6)]{parentP}; Proposition~\ref{prop:parent-near}); the substitution $k=\ell/r^3$, with $|dk/dr|=3\ell r^{-4}$ and the order of the endpoints reversed, turns it into
 \begin{equation}\label{eq:remainder-lead}
 c_{d,L}\,\ell^{-1/3}=\int_0^\infty\!\!\int_\R\int_{S^{d-1}}r^{-2}\mathcal A_0(b,\ell/r^3,u)\,d\sigma(u)\,db\,dr .
 \end{equation}
@@ -49,7 +49,7 @@ Translating the pins to $0$ and $y=ru$, the polar factor $r^{d-1}$, the pin dens
 \begin{equation}\label{eq:remainder-polar}
 r^{-2}\mathcal A_r(b,\ell/r^3,u)=r^{d-1}\Psi^{\cand}_\ell(b,ru),\qquad r^{-2}\mathcal A_r(b,0,u)=r^{d-1}\Psi_0(b,ru),
 \end{equation}
-where $\mathcal A_r(b,0,u)$ is defined with the pinned law at $k=0$. On $\{\dist(0,y)\ge\rho\}$ the height map $(b,\ell)\mapsto(b,b-\ell)$ has Jacobian one, and
+where $\mathcal A_r(b,0,u)$ is defined with the pinned law at $k=0$. On $\{\dist(0,y)\ge\rho\}$ the height map $(b,\ell)\mapsto(b,b-\ell)$ has absolute Jacobian one, and
 \begin{equation}\label{eq:remainder-far}
 \nu_{\cand}^{\mathrm{far},\rho}(\ell)=\int_{\dist(0,y)\ge\rho}\int_\R\Psi^{\cand}_\ell(b,y)\,db\,dy,\qquad
 \nu_{\eld}^{\mathrm{far},\rho}(\ell)=\int_{\dist(0,y)\ge\rho}\int_\R p_y(v_{b,\ell})\,\E_{Q_{y,b,\ell}}[We_y]\,db\,dy .
@@ -368,7 +368,7 @@ and on the support of $W_r$
 \begin{equation}\label{eq:remainder-window}
 W_r/r^2=|\det K_M\det K_S|\le\bigl(12k|\Delta|+2Cr^2(1+k)T^{N_1}\bigr)^2\le C\bigl(k^2\Delta^2+r^4(1+k)^2T^{2N_1}\bigr).
 \end{equation}
-Off the support $W_r=0$. Since $|\Delta|\le\|A_0\|^m\le T^m$, $\E\Delta^2\le CP^{2m}$ and $\E T^{2N_1}\le CP^{2N_1}$; $W_r$ is a functional of $F_r$, whose law is $Q$, so the pathwise bound on the coupling space bounds $\E_Q$. This is \eqref{eq:remainder-W1}.
+Completing the square gives the same bound more directly: $\det K_M\det K_S=\bigl(w+\tfrac12(R_M+R_S)\bigr)^2-\bigl(6k\Delta+\tfrac12(R_S-R_M)\bigr)^2$, so on the support of $W_r$ we have $W_r/r^2\le\bigl(6k|\Delta|+\tfrac12(|R_M|+|R_S|)\bigr)^2$. Off the support $W_r=0$. Since $|\Delta|\le\|A_0\|^m\le T^m$, $\E\Delta^2\le CP^{2m}$ and $\E T^{2N_1}\le CP^{2N_1}$; $W_r$ is a functional of $F_r$, whose law is $Q$, so the pathwise bound on the coupling space bounds $\E_Q$. This is \eqref{eq:remainder-W1}.
 
 \emph{Proof of \eqref{eq:remainder-W2}.} Put $r_1:=\ell^{1/4}$, so that $r\le r_1$ if and only if $k=\ell/r^3\ge r$, and use \eqref{eq:remainder-diff} with $r_0=\rho$. On $0<r<\min(r_1,\rho)$, Lemma~\ref{lem:remainder-even} gives $|r^{-2}(\mathcal A_r-\mathcal A_0)|\le H(b,k)\le Ce^{-cb^2}$, contributing at most $C\min(r_1,\rho)$. On $r_1\le r<\rho$ (empty if $\rho\le r_1$), $|\mathcal A_r-\mathcal A_0|\le\mathcal A_r+\mathcal A_0$ with $\mathcal A_r\le C(k^2+r^4(1+k)^2)P^Ne^{-c(b^2+k^2)}$ by \eqref{eq:remainder-W1} and Proposition~\ref{prop:remainder-R}(ii), and $\mathcal A_0\le k^2H$; so $r^{-2}|\mathcal A_r-\mathcal A_0|\le C(\ell^2r^{-8}+r^2)(1+|b|)^Ne^{-cb^2}$, which integrates to at most $C(\ell^2r_1^{-7}/7+\rho^3/3)=C(\ell^{1/4}/7+\rho^3/3)$. The tail term is at most $C\ell^2\rho^{-7}$ as in the proof of Theorem~\ref{thm:remainder-vanish}.
 

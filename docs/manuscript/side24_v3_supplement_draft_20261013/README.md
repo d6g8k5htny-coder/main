@@ -1,10 +1,10 @@
-# SIDE24 V3 supplement: checkpoint draft 5 (14 October 2026)
+# SIDE24 V3 supplement: checkpoint draft 6 (14 October 2026)
 
 Dylan Roy — delegated AI work. Actual performer: Anthropic Claude, session `session_01NMeKEismAyeqgdB4sy2NJU` (Claude01N), the author of the V3 draft (main#389). This is an **author-side checkpoint** of the supplementary material for the V3 manuscript draft. It is pushed so that the work is durable. No pull request is open for it. Bounded slices are read by nonauthor agents in the thread of the main text's pull request, main#389, which records each verdict. Scientific effect NONE: no register, status or proof file changes.
 
 ## Contents
 
-- `SIDE24_V3_SUPPLEMENT_DRAFT_20261013.pdf`: the compiled draft, 149 pages; its size and SHA-256 are in `SHA256SUMS`. Its first section, "Status of this draft", is for the author. Earlier drafts: draft 1 (`4f9e6180`) 123 pages, draft 2 (`238ca036`) 126, draft 3 (`e0d08f0c`) 127, draft 4 (`c6aa790d`, amended in `5cd17651`) 129.
+- `SIDE24_V3_SUPPLEMENT_DRAFT_20261013.pdf`: the compiled draft, 150 pages; its size and SHA-256 are in `SHA256SUMS`. Its first section, "Status of this draft", is for the author. Earlier drafts: draft 1 (`4f9e6180`) 123 pages, draft 2 (`238ca036`) 126, draft 3 (`e0d08f0c`) 127, draft 4 (`c6aa790d`, amended in `5cd17651`) 129, draft 5 (`ffd749e5`, amended in `a336aaf9`) 149.
   - Part I (S1–S7): the setting, the contact measure, the finite-side coefficient, the side-24 correction with |eps_24| < 10^-216, elder selection, the limit, and the bounded remainder.
   - Part II (S8–S11): the remainder's vanishing and rate, the cusp term, the third-order terms, and the constant c_2.
   - Part III (S12–S13), new in draft 5: the parent theorem (Theorems A, B and C of the companion record, in every dimension d ≥ 2 and for every side L > 0) and the deterministic marked-cylinder cap on which its elder selection rests.
@@ -15,10 +15,12 @@ Dylan Roy — delegated AI work. Actual performer: Anthropic Claude, session `se
   - in "Checkpoint draft 2", the disposition of every issue of S1–S6, and the repairs that make S5 a complete second proof of the selection bound (3.13);
   - in "Checkpoint draft 3", the far elder rate (Proposition S8.13) and two pointer and citation fixes in S10–S11;
   - in "Checkpoint draft 4", a correction to the singular-near chart of S5 (a random `η²` term in the residual of `V_0`), the proof of the kernel transfer in S5 by exact factorizations, and the jet bounds (3.29) of the main text in Lemma S4.29;
-  - in "Checkpoint draft 5", Part III, the re-pointing of every citation of the companion record to its counterpart in S12–S13, and the changes made to S12 at integration.
+  - in "Checkpoint draft 5", Part III, the re-pointing of every citation of the companion record to its counterpart in S12–S13, the changes made to S12 at integration, and the slice SF AMEND;
+  - in "Checkpoint draft 6", the steps of S12 that the record states without derivation and that are now written out.
 - `checks/s5_envelope_check.py` and its output `checks/s5_envelope_check.out.txt`: a SymPy check of the cancellations behind the singular-near envelope of Lemma S5.22.
 - `checks/s5_factor_check.py` and its output `checks/s5_factor_check.out.txt`: an exact SymPy check of the singular-near residual limits, the planar covariances of Lemmas S5.16–S5.21, the factorizations behind Lemmas S5.18 and S5.21 for random anisotropic even kernels, and the numbers of Lemma S4.29.
 - `checks/s12_parent_check.py` and its output `checks/s12_parent_check.out.txt`: 59 exact SymPy checks of the finite algebra of S12–S13 (determinants, congruences, the cap constants, the embedding radius). They do not check any analytic estimate.
+- `checks/s12_derivations_check.py` and its output `checks/s12_derivations_check.out.txt`: 22 exact SymPy checks of the identities written out in draft 6.
 - `writer_originals/`: the S5 writer's faithful transcription, before the elder-mark correction, and the S12 writer's file, before the changes listed in "Checkpoint draft 5".
 - `SHA256SUMS`: hashes of every file above except this README.
 
@@ -44,3 +46,5 @@ Draft 4 makes four repairs, none of which changes a conclusion.
 - It displays the level terms of Lemma S5.28 and identifies the near kernels of S6 and Part II.
 
 Draft 5 adds Part III. A tenth subagent transcribed the companion record (Math- `imports/lifetime_parent_20260925/`, blobs `dfed3b8d` and `0633aca3`), read as reconciled in `reviews/d1_chain_reconciliation_20260928/RECONCILIATION.md` (blob `75da2597`): with the congruence erratum, with the record's §9 replaced by the repaired Kac–Rice section, and with the explicit embedding radius. Every statement that Parts I and II quote from the record now names its counterpart in S12 or S13. At integration the author added the genericity of the unpinned field (Lemma S12.19(b)), which the record's proof of Theorem C uses without proof, and made two wordings precise. No statement or display number of S1–S11 changes.
+
+Draft 6 writes out four steps that the record states without derivation: the determinant of the contact transformation (Lemma S12.10), the averaging kernels of the contact rows (Lemma S12.11(a)), the endpoint bounds (Lemma S12.14) and the measurability of the elder mark (Lemma S12.20(a)). In S8 it makes the absolute-Jacobian convention explicit in two sentences and adds a completing-square proof of the sign-window bound. No number changes.

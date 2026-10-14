@@ -172,6 +172,26 @@ Author-side, by Claude01N, on top of draft 4 as amended (`5cd17651`). The statem
 
 **Build.** 149 pages, no LaTeX error and no undefined reference. The one overfull line, 29 pt in S10, is unchanged.
 
+**Slice SF AMEND (main#389 6180073112), applied exactly in `a336aaf9`.** Hypothesis S7.6's heading adds Lemma S12.27(c), which is where `0 < Z_r < ∞` for every `b ∈ ℝ` and `k > 0` is stated; §S10.1's pin rows cite Definition S12.9 and Lemma S12.10 (the Jacobian and the target); and the status sentence on re-pointing covers the citations that use a statement of the record, with Remark S5.37's non-use sentence unchanged. Slice SB (§§S3–S4) is PASS (main#389 6180217523).
+
+## Checkpoint draft 6 (14 October 2026)
+
+Author-side, by Claude01N, on top of draft 5 with the slice SF AMEND applied (`a336aaf9`). No statement or numbered display is added, removed or renumbered: every display added below is unnumbered.
+
+- **S12: steps that the record states without derivation are written out (issues I-6 and I-7 of CONC_s12).**
+  - **Lemma S12.10.** The proof displays the axial block of `T_r`. In the order `(f(M), f(S), f_x(M), f_x(S))` it is block lower triangular with diagonal determinants `1/r` and `−12/r³`; each transverse pair has determinant `1/r`; so `|det T_r| = 12 r^{−4} r^{−m}`. It evaluates the four axial rows at the pins.
+  - **Lemma S12.11(a).** The proof gives the averaging kernels of the rows. In particular `U^(3) = ∫_{−r/2}^{r/2} (6/r³)(r²/4 − s²) φ'''(s) ds`, an average of the third axial derivative against a probability density on the pin interval.
+  - **Lemma S12.14.** The proof derives the bounds `eq:parent-51` and `eq:parent-52` (the record's (5.1)–(5.2)). From the gradient pins, `f_xx(a) = −(1/r)∫_a^c (c − x) f_xxx` and `f_xx(c) = (1/r)∫_a^c (x − a) f_xxx`, and `f_xx` and `∇_y f_x` have mean zero on the pin interval. The Hermite identity makes `12k` the `(x − a)(c − x)`-weighted mean of `f_xxx`, so `|f_xxx − 12k| ≤ rM_4` on the interval. `A_S − A_M = ∫ ∂_x D_y² f` gives `‖A_S − A_M‖ ≤ rM_3`.
+  - **Lemma S12.20(a).** A complete measurability argument is added: the lower-semicontinuity proof of Lemma S5.3, which uses neither `d = 3` nor `L = 24`. The record's polygonal-path sketch is kept.
+  - The opening paragraph of §S12 names these places.
+- **S8 (optional points from two support notes by OpenAI RLOOP, both found the checked algebra correct).**
+  - From the normalization note (main#389 6180051224): before `eq:remainder-lead` the substitution `k = ℓ/r³` is stated with `|dk/dr| = 3ℓ r^{−4}` and the order of the endpoints reversed, and before `eq:remainder-far` the height map has "absolute Jacobian one".
+  - From the sign-window note (main#389 6180226921): after `eq:remainder-window`, one sentence gives the completing-square identity `det K_M det K_S = (w + (R_M + R_S)/2)² − (6kΔ + (R_S − R_M)/2)²`. On the support of `W_r` it bounds `W_r/r²` by `(6k|Δ| + (|R_M| + |R_S|)/2)²`, which gives the same order as the root-window argument with a smaller constant.
+  - No numbered formula changes.
+- **New check.** `checks/s12_derivations_check.py` (SymPy, exact) verifies every identity added to S12 above: the axial and transverse determinants for `d = 2, …, 6`, the target, the averaging kernels for a generic degree-7 polynomial, the endpoint identities and the Hermite identity under the gradient pins, and the cubic case `α_M = −6k`, `α_S = 6k`. It also checks the completing-square identity of S8. Its output `checks/s12_derivations_check.out.txt` ends `ALL PASS (22/22)`.
+
+**Build.** 150 pages, no LaTeX error and no undefined reference; all 927 labels keep their numbers. The one overfull line, 29 pt in S10, is unchanged.
+
 ---
 
 # Concordance — supplement sections S1 and S2

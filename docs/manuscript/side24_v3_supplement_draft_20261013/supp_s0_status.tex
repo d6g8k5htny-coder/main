@@ -2,10 +2,10 @@
 \section*{Status of this draft (for the author; remove before submission)}
 
 \begin{itemize}[leftmargin=1.5em,itemsep=2pt]
-\item \emph{What this is.} Checkpoint draft~5 of 14 October 2026, an author-side assembly of the proofs that the V3 main text cites, written as numbered statements with proofs. Draft~1 (13 October) was the first assembly. Draft~2 applies the repairs listed below. Draft~3 adds a proof of the far elder rate (Proposition~\ref{prop:remainder-farrate}), which Part~II previously cited to a repository record. Draft~4 makes the repairs to \S\ref{sec:selection} listed below and adds the jet bounds (3.29) of the main text to Lemma~\ref{lem:correction-deep}. Draft~5 adds Part~III (\S\S\ref{sec:parent}--\ref{sec:cap}), described below.
+\item \emph{What this is.} Checkpoint draft~6 of 14 October 2026, an author-side assembly of the proofs that the V3 main text cites, written as numbered statements with proofs. Draft~1 (13 October) was the first assembly. Draft~2 applies the repairs listed below. Draft~3 adds a proof of the far elder rate (Proposition~\ref{prop:remainder-farrate}), which Part~II previously cited to a repository record. Draft~4 makes the repairs to \S\ref{sec:selection} listed below and adds the jet bounds (3.29) of the main text to Lemma~\ref{lem:correction-deep}. Draft~5 adds Part~III (\S\S\ref{sec:parent}--\ref{sec:cap}), described below, and draft~6 writes out steps of \S\ref{sec:parent} that the record states without derivation.
   \begin{itemize}[leftmargin=1.2em,itemsep=1pt]
   \item Every statement and display is mapped to its source in the separate file \path{CONCORDANCE.md}.
-  \item That file also lists each correction applied, each step added and each issue found during assembly. Its sections ``Checkpoint draft~2'' to ``Checkpoint draft~5'' give the disposition of each issue.
+  \item That file also lists each correction applied, each step added and each issue found during assembly. Its sections ``Checkpoint draft~2'' to ``Checkpoint draft~6'' give the disposition of each issue.
   \item The draft has not been read as a whole, by the author or by anyone else. Bounded slices of drafts~4 and~5 are being read by nonauthor AI agents; the pull request of the main text records which.
   \end{itemize}
 \item \emph{Part I} (\S\S\ref{sec:setting}--\ref{sec:rate}) follows the main text's proof of Theorem~2.1 and of the correction (2.10). \emph{Part II} (\S\S\ref{sec:remainder}--\ref{sec:ctwo}) states the results behind Theorem~2.3. Its proofs are given in full or condensed, as \path{CONCORDANCE.md} marks for each.
@@ -31,12 +31,13 @@
   \item Lemma~\ref{lem:parent-generic}(b), the genericity of the unpinned field, is added: the record's proof of Theorem~C uses it without proof.
   \item Two statements are worded precisely: in Lemma~\ref{lem:parent-majorant}(c) the births range over $\R$, and Lemma~\ref{lem:parent-jetrank} allows several functionals at each site.
   \item The finite algebra of \S\S\ref{sec:parent}--\ref{sec:cap} is checked by \path{checks/s12_parent_check.py}. Where the record only sketches a step, the step is given as sketched there; \path{CONCORDANCE.md} lists these places.
+  \item Draft~6 writes out the proofs of Lemmas~\ref{lem:parent-frame} and~\ref{lem:parent-endpoint}, the averaging formulas in the proof of Lemma~\ref{lem:parent-contact}(a) and the measurability in Lemma~\ref{lem:parent-mark}(a). The identities are checked by \path{checks/s12_derivations_check.py}.
   \end{itemize}
 \item \emph{Other repairs in draft~2.} Convention~\ref{conv:setting-density} on pointwise representatives, and the $\beta$-normalization of $D_n$ in \S\ref{sec:coefficient}, which matters only when $\beta\ne1$.
 \item \emph{Open items}, with details in \path{CONCORDANCE.md}.
   \begin{itemize}[leftmargin=1.2em,itemsep=1pt]
   \item The remaining issues of \S\S\ref{sec:rate}--\ref{sec:ctwo} are notational or concern the sources; draft~3 resolves the far elder rate, the pointer of Hypothesis~\ref{hyp:ctwo-ident}(a) and the DLMF citation.
-  \item Steps of \S\ref{sec:parent} that the record states without derivation are listed in \path{CONCORDANCE.md} (section ``CONC\_s12'', issues I-6 to I-13). None is above low severity.
+  \item \path{CONCORDANCE.md} (section ``CONC\_s12'', issues I-7 to I-13, with the dispositions of ``Checkpoint draft~6'') lists the remaining steps of \S\ref{sec:parent} that the record states without derivation. None is above low severity.
   \end{itemize}
 \item \emph{Review status} is not stated in this supplement. It is given result by result in \S7 of the main text.
 \item \emph{References from the main text} use this supplement's numbering, as of draft~4. Draft~5 changes no statement or display number of \S\S\ref{sec:setting}--\ref{sec:ctwo}.
