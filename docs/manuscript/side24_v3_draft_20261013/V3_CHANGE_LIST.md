@@ -153,10 +153,43 @@ r1 is commit `56b680cd`: 19 pages, 536,244 B, SHA-256 `aa8667258dbf92d066d23e4ee
 
 **Where r2's text changed:** §0's status table (page 2), §5.4, §7 and [R3]. The longer status row moves the page breaks. The text changes are on page 2, in §5.4 (page 15), in §7 (page 16) and in [R3] (page 17); the other pages differ only by reflow.
 
+## Revision r3 (14 October, about 18:30Z)
+
+r2 is commit `ff73d996`: 19 pages, 536,835 B, SHA-256 `b00c323ca827672c2072ffd257d957f33210fa04f4446fc6f620da66f215163b`. Cursor's byte-diff readback of `e4aca581..ff73d996` passed (main#389 6154948011). r3 is this PDF: 19 pages, 542,201 B, SHA-256 `7549678738ee73b913943c0f652bb9e2ec9c70cd723d6b29ec83a002078fcf75`.
+
+r3 applies the author's dispositions in main#389 6155958479: items 1, 2, 3 and 5. It runs under claim `R3-389-01N-20261014` (main#307 6175707479), on the owner's 18:42Z goal "Continue to advance the project. Resolve any issues. Help any and all agents in whatever ways possible." The request to the coordinator is main#307 6175251175. Item 4 needs no main-text change. The three owner decisions keep their drafted defaults. Item 1 changes the proof route of (3.13), so r3 needs a substantive nonauthor read of the changed passages.
+
+**Item 1, §3.4 (selection).**
+- **The proof of Corollary 3.5** cites Theorem A of [R2] for (3.13), with that theorem's own scope: every fixed d ≥ 2 and L > 0, uniform over compact birth and gap windows and over all frames, with existential constants (Math- `reviews/d1_chain_reconciliation_20260928/RECONCILIATION.md`, §2). The statement of the corollary does not change.
+- **The witness argument** is now described as a second, three-dimensional route that the proof does not use. Its two gaps are stated: the singular-near envelope near c = 0, and five local repairs in the proof of Theorem 3.6.
+- **Lemma 3.4** names same-maximum self-attachment. A second half-branch ending at a different maximum in the same component of {f > h} gives a merge saddle with value in (h, b), so that case lies in B_r. The three regions are measured from the midpoint x.
+- **(3.17)** is stated uniformly on compact positive mark sets, without the Gaussian factor.
+- **§0 and §7** record that (3.13) is Theorem A of [R2].
+
+**Item 2, §3.8.** Two sentences say that the bound 10⁻²¹⁶ in (2.10) is proved in [R4], and that (3.26)–(3.33) give a self-contained argument for the weaker bound 10⁻¹⁸⁰. No display changes.
+
+**Item 3, Theorem 2.3.**
+- (ii) gives the definition of c₂ from [R11] (Theorem T, (0.1)): the Hadamard finite part at k = 0 of (1/3)∫A₂k^{−4/3}.
+- (iii) adds c₂/c_{3,24} ∈ [3.859496174547456, 3.859496174548331]. I rechecked it in exact rational arithmetic: the c₂ enclosure, widened by the 10⁻⁶⁰ transfer error, divided by the twenty-digit enclosure of c_{3,24}.
+
+**Item 5, §5.1.** The cusp variable ℓ/r⁴ is now ϑ, with ϑ = κ/(6r). The records write it κ. κ keeps its §3 meaning.
+
+**Author correction to this change list.** The Build section said 18 pages. r1, r2 and r3 are 19 pages.
+
+**Where r3's text changed:**
+- the §0 status table (page 2);
+- Theorem 2.3 (pages 5–6);
+- §3.4 (pages 8–10);
+- §3.8 (page 12);
+- §5.1 (page 14);
+- §7 (page 17).
+
+The other pages differ only by reflow. The build has one overfull line of 2 pt, as before.
+
 ## "Do not print" compliance (checked item by item)
 
 No numerical ε₂₄ (E1). No `O(ℓ)` for the far density, and the far rejected density is not called vanishing (E4). No numerical selection-loss constant (E2, E9). No "first" or "absent from the literature", and Pérez is not said to call the smooth law open (E5). No "1% at ℓ ≈ 2.3·10⁻⁵" (E15). The simulation is an illustration, and its residuals are not called an ℓ^{1/2} term (E17, E43). `B_{3,24}` and `I^{cand}` are not certified digits (E19). No sharpness of 3/4, and no d ≥ 2 edge statement (E20). Proposition 2′ of #242 is not stated about the field (E22). No planar result is called d = 3, and the planar chain is not called independently reviewed (E23). The d = 3 rate carries its conditionality (E49–E58). No C104 quotient line (E25). "Certified" carries #219's and #223/#232's scope (E43). [K]'s normalized cap bound is not stated (E50). PD_U is not cited (E59). δ is not called sharp, and the elder ℓ^{2/3} statement stays o(ℓ^{2/3}) (E76).
 
 ## Build
 
-`pdflatex main && bibtex main && pdflatex main && pdflatex main` with TeX Live 2023 (amsart, natbib-free amsplain). The sources are `main.tex`, `s0_status.tex` … `s7_disclosure.tex`, `appA_records.tex` and `refs.bib`. The output is 18 pages, with one 2 pt overfull line. Section "Status of this draft" is for the author and is to be removed before submission.
+`pdflatex main && bibtex main && pdflatex main && pdflatex main` with TeX Live 2023 (amsart, natbib-free amsplain). The sources are `main.tex`, `s0_status.tex` … `s7_disclosure.tex`, `appA_records.tex` and `refs.bib`. The output is 19 pages, with one 2 pt overfull line. Section "Status of this draft" is for the author and is to be removed before submission.

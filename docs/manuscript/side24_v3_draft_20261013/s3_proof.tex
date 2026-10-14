@@ -101,12 +101,12 @@ and therefore, with $r_\ell(\kappa)=(6\ell/\kappa)^{1/3}$,
 
 Let $p_r(t,b,\kappa)$ be the Palm probability (Lemma~\ref{lem:measurable}) that the typed maximum--index-two-saddle contact pair in \eqref{eq:pins} is the actual elder persistence pair.
 
-\begin{lemma}[trichotomy; Supplement Lemma A.2.1]\label{lem:trichotomy}
-On the Morse event, for an ordered typed pair $(M,S)$ at distance $r$,
+\begin{lemma}[trichotomy; cf.\ Supplement Lemma A.2.1]\label{lem:trichotomy}
+On the Morse event, for an ordered typed pair $(M,S)$ at distance $r$ with midpoint $x$,
 \[
 A_r\cap E_r^c\subset B_r\cup L_{\mathrm{same},r},
 \]
-where $A_r$ is gradient adjacency, $E_r=\{e=1\}$, $L_{\mathrm{same},r}$ is same-component self-attachment, and $B_r$ is the existence of a third critical point with value in the pair window $[h,b]$ in one of three spatial regions: the collar, the singular-near region, or at fixed distance. When $M$ is the older birth maximum but $e=0$, the witness is the younger component's own birth maximum $M_2$, with $h<f(M_2)<f(M)$.
+where $A_r$ is gradient adjacency, $E_r=\{e=1\}$, $L_{\mathrm{same},r}$ is same-maximum self-attachment (both ascending half-branches of $S$ end at $M$), and $B_r$ is the existence of a third critical point with value in the pair window $[h,b]$ in one of three spatial regions measured from $x$: the collar $\{|y-x|\le C_1r\}$, the singular-near region $\{C_1r<|y-x|\le\delta\}$, or at fixed distance $\{|y-x|>\delta\}$. If the second half-branch ends at a maximum $M'\ne M$ in the same component of $\{f>h\}$, the merge saddle of $M$ and $M'$ has value in $(h,b)$, so that case lies in $B_r$. When $M$ is the older birth maximum but $e=0$, the witness is the younger component's own birth maximum $M_2$, with $h<f(M_2)<f(M)$.
 \end{lemma}
 
 \begin{corollary}[the selection loss has exact order $r^3$]\label{cor:selection}
@@ -120,7 +120,7 @@ and, for constants $c,r_*>0$ depending on the compact mark set,
 \end{equation}
 \end{corollary}
 
-Corollary~\ref{cor:selection} is proved after Theorem~\ref{thm:escape}.
+Corollary~\ref{cor:selection} is proved after Theorem~\ref{thm:escape}; its upper bound \eqref{eq:selection} is Theorem~A of \rec{parent}. The rest of this subsection describes a second, three-dimensional route to \eqref{eq:selection} through explicit witnesses. The proof of the corollary does not use it, and two of its steps are not complete, as stated below.
 
 The three witness families are controlled as follows.
 
@@ -136,12 +136,13 @@ Together with the anisotropic triple-determinant envelope
 \begin{equation}\tag{3.16}
 [r(r+s^2)]^2(r^2+s^3),
 \end{equation}
-these give Palm expectations $O(r^3)$ for collar and singular-near witnesses. (The envelope is the load-bearing estimate of the exact triple-contact elimination displayed in Supplement~B.1, with the signs of its second line and of the $\kappa$-free term of $\det H_P$ corrected as in Remark~\ref{rem:B1}.)
+these give Palm expectations $O(r^3)$ for collar witnesses, and for singular-near witnesses on charts where $c$ is bounded away from $0$, once the value-window constraint is imposed on the chart parameters. Near $c=0$ a separate argument, using the boundedness of the third derivatives, is needed and is not written here. (The envelope is the load-bearing estimate of the exact triple-contact elimination displayed in Supplement~B.1, with the signs of its second line and of the $\kappa$-free term of $\det H_P$ corrected as in Remark~\ref{rem:B1}.)
 
-Second, complete positive Fourier support of \eqref{eq:K24} implies strict covariance positivity for every linearly independent finite family of derivative-evaluation distributions. Compactness then gives uniform eigenvalue floors for the corrected pair pins joined to a fixed-distance remote value-gradient block. The endpoint determinant factor $r^2$, the remote value window of width $\kappa r^3/6$ and the Palm normalizer $Z_r\asymp r^2$ give
+Second, complete positive Fourier support of \eqref{eq:K24} implies strict covariance positivity for every linearly independent finite family of derivative-evaluation distributions. Compactness then gives uniform eigenvalue floors for the corrected pair pins joined to a fixed-distance remote value-gradient block. The endpoint determinant factor $r^2$, the remote value window of width $\kappa r^3/6$ and the Palm normalizer $Z_r\asymp r^2$ give, uniformly for $t\in S^2$ and compact $b,\kappa>0$,
 \begin{equation}\tag{3.17}
-\E_r^{MS}N_{\rm far}\le Cr^3\bigl[1+(|b|+\kappa)^{10}\bigr]e^{-c(b^2+\kappa^2)} .
+\E_r^{MS}N_{\rm far}\le Cr^3 .
 \end{equation}
+The count is conditional on the pins, so the argument needs the pin density to be bounded below; it gives no Gaussian factor in $(b,\kappa)$.
 
 Third, the local unstable-manifold comparison is performed in the correctly scaled transverse matrix
 \begin{equation}\tag{3.18}\label{eq:Tr}
@@ -163,10 +164,12 @@ with $p_0(X)=X^3/3-X/4-1/12$, $T\succ0$ and $W$ symmetric, $C$ a symmetric cubic
 No bound on $\lambda_{\max}(T)$ is assumed or used. The four numerical margins of the proof are verified in exact rational arithmetic.
 \end{theorem}
 
+The proof of Theorem~\ref{thm:escape} in Supplement~A.4 needs five local repairs of detail, none of which changes the statement: the bound on $r\,Q_X$ in Lemma~A.4.2, and, in Lemma~A.4.4, the sign of the tangent eigenvector, containment near $S$, the position of the capture section, and the $rQ$ part of the energy remainder.
+
 
 
 \begin{proof}[Proof of Corollary~\ref{cor:selection}]
-By Lemma~\ref{lem:trichotomy}, selection failure produces a collar witness, a singular-near witness, a fixed-distance witness or a same-maximum self-attachment, and by the three estimates above and Theorem~\ref{thm:escape} each event has Palm probability $O(r^3)$. This proves \eqref{eq:selection} (Supplement Corollary A.2.2). For \eqref{eq:selection-lower}: on an event of Palm probability at least $cr^3$ --- the planar polygonal-path obstruction, embedded in the soft eigenplane of the pair with the remaining transverse directions hard --- the component born at $M$ is already connected to an older component at level $f(S)$, so the elder rule rejects the pair \rec{lower}.
+The bound \eqref{eq:selection} is Theorem~A of \rec{parent} at $d=3$ and $L=24$. That theorem is proved for every fixed $d\ge2$ and $L>0$, uniformly over compact birth and gap windows and over all orthonormal frames, with existential constants. Its selection probability is the probability that the global superlevel elder partner of $M$ is $S$, which is $p_r$. The witness route above gives a second, three-dimensional argument, with the two gaps stated there: by Lemma~\ref{lem:trichotomy}, selection failure produces a collar witness, a singular-near witness, a fixed-distance witness or a same-maximum self-attachment, and by the three estimates above and Theorem~\ref{thm:escape} each of these events has Palm probability $O(r^3)$. For \eqref{eq:selection-lower}: on an event of Palm probability at least $cr^3$ --- the planar polygonal-path obstruction, embedded in the soft eigenplane of the pair with the remaining transverse directions hard --- the component born at $M$ is already connected to an older component at level $f(S)$, so the elder rule rejects the pair \rec{lower}.
 \end{proof}
 
 By \eqref{eq:rdr}, the elder-selected lifetime density on any compact mark window therefore differs from the all-typed one by exactly $\Theta(\ell^{2/3})$. The leading constant $c_{3,24}$ is unaffected. The constants in \eqref{eq:selection}--\eqref{eq:selection-lower} are existential.
@@ -245,7 +248,7 @@ Let $J_0$ be the even covariance jet of $e^{-|z|^2/2}$ through order six, $J_{24
 \begin{equation}\tag{3.25}
 F(J)=\frac{\Phi(J)}{\Phi(J_0)},
 \end{equation}
-where $\Phi$ is the coefficient functional in \eqref{eq:c}. On the explicit jet ball
+where $\Phi$ is the coefficient functional in \eqref{eq:c}. The bound $|\varepsilon_{24}|<10^{-216}$ in \eqref{eq:correction} is proved in \rec{eps}, as described after (3.33). Displays (3.26)--(3.33) give a shorter, self-contained argument for the weaker bound $10^{-180}$. On the explicit jet ball
 \begin{equation}\tag{3.26}
 \|J-J_0\|_{\max}\le10^{-110},
 \end{equation}
@@ -274,7 +277,7 @@ The first variation (3.30) is derived from first principles in Supplement~B.2. I
 \begin{equation}\tag{3.32}
 \bigl|DF(J_0)[R_{\rm jet}]\bigr|<10^{-210},\qquad |R_{\rm quad}|<5\cdot10^{-185},
 \end{equation}
-and therefore
+and therefore, as a self-contained bound weaker than \eqref{eq:correction},
 \begin{equation}\tag{3.33}
 F(J_{24})-1=P_3(24)\,e^{-288}+\varepsilon_{24},\qquad |\varepsilon_{24}|<10^{-180}.
 \end{equation}
