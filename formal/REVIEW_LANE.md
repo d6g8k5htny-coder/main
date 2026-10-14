@@ -11,19 +11,27 @@ boundary") and is restated for this package in
 ## Who may review
 
 Anyone whose provider, family **and** agent all differ from the author's
-(`Anthropic` / `Claude` / Cursor cloud agent, 2026-09-27). The validator refuses
-a record where any of the three coincides, case-insensitively. Same-provider
+(`Anthropic` / `Claude` / the `author.agent` string of `manifest.json`: a
+Cursor cloud agent on 2026-09-27 for the Side24 modules and Claude Code session
+`session_01Cz7WZybv8znP64SpPj6sWY` on 2026-10-10 for the P15 modules). The validator refuses
+a record where any of the three coincides, case-insensitively. The `agent` check
+is an exact (trimmed, case-folded) string comparison against the single
+`author.agent` string, which names both agents; a reviewer's `agent` must be
+neither of the two agents named in it, not merely different from the combined
+string, and the validator cannot see that distinction on its own — the
+integrator checks it by hand and should re-check it when main #315 lands.
+Same-provider
 reviewers earn zero organizational-independence credit whatever they write;
 this is the repository's existing rule and it applies to Lean text as to prose.
 
 ## What the reviewer does
 
 Read the exact current head first; a changed source, scope, toolchain or
-manifest stales any earlier record. Then, for each of the 31 targets in
+manifest stales any earlier record. Then, for each of the 59 targets in
 `manifest.json`:
 
 1. Locate the `informal_anchor` in the pinned local source copy under
-   `sources/side24_v1/` and read its context.
+   `sources/side24_v1/` or `sources/p15_v1/` and read its context.
 2. Read the Lean **statement** (not the proof) and its docstring. Decide
    whether it is the informal statement at the scope stated in `SCOPE.md`:
    same constants, same quantifiers, same direction of inequality, same
@@ -56,7 +64,7 @@ Two files under `reviews/`, named `<date>_<reviewer-slug>.md` and `.json`:
   the intended outcome. `manifest_sha256` is the SHA-256 of
   `formal/manifest.json` at the reviewed commit; `scope_sha256` is the hash of
   `formal/SCOPE.md` recorded in the manifest's `files`. `targets` is exactly
-  the 31 manifest target names. `evidence` points to the committed Markdown
+  the 59 manifest target names. `evidence` points to the committed Markdown
   record by repository, 40-character commit, path and SHA-256.
 
 Validate: `python3 tools/formal_gate_check.py --alignment formal/reviews/<file>.json`.
@@ -81,8 +89,10 @@ hash, new `--run-lean` receipt) or fix the anchor, then re-review.
 
 ## Current state
 
-All 31 targets: authored by Anthropic / Claude via a Cursor cloud agent on
-2026-09-27; `proved` at source; `kernel-checked` only in the receipt of a
+All 59 targets: authored by Anthropic / Claude (31 Side24 targets via a Cursor
+cloud agent on 2026-09-27; 28 P15 targets via Claude Code session
+`session_01Cz7WZybv8znP64SpPj6sWY` on 2026-10-10, organizational-independence
+credit 0); `proved` at source; `kernel-checked` only in the receipt of a
 trusted run; alignment `PENDING_INDEPENDENT_REVIEW`. No record other than the
 template exists. Record actual pickup in
 [work item #95](https://github.com/d6g8k5htny-coder/main/issues/95) so two

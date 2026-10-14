@@ -13,12 +13,12 @@
     "work_item": "https://github.com/d6g8k5htny-coder/main/issues/95",
     "math_pilot": "https://github.com/d6g8k5htny-coder/Math-/tree/cc2989c1280f4f227d0c6aa30c8841d6ba01e46e/formal",
     "rollout_record": "docs/FORMAL_VERIFICATION_ROLLOUT_20260927.md",
-    "work_offer_addressed": "Numerical formalizer, first step only: the exact arithmetic skeleton of the SIDE24 note. The coefficient definition and the proof-producing enclosure pipeline are NOT supplied."
+    "work_offer_addressed": "Numerical formalizer, first step only: the exact arithmetic skeleton of the SIDE24 note (31 targets, 2026-09-27) and of the four P15 price/cover notes (28 targets, 2026-10-10). The coefficient definition, the proof-producing enclosure pipeline, the rho_star enclosure, the log inequalities and Theorems F / T1 / P2 are NOT supplied."
   },
   "author": {
     "provider": "Anthropic",
     "family": "Claude",
-    "agent": "Cursor cloud agent, 2026-09-27"
+    "agent": "Cursor cloud agent, 2026-09-27 (Side24 modules); Claude Code session_01Cz7WZybv8znP64SpPj6sWY, 2026-10-10 (P15 modules)"
   },
   "lean_toolchain": "leanprover/lean4:v4.34.1",
   "dependency_revisions": {},
@@ -31,20 +31,27 @@
     "formal/lean-toolchain": "d5edba4e4b8faad9c1baeadb265716d20d03be4d1a2647dc5e35b0c0325bea7b",
     "formal/lakefile.toml": "58f0fa6864cc03e9bcbef2d8c0404e9f3385a30a6124000454319367906cbe4a",
     "formal/lake-manifest.json": "562d38ad95598486b2b592e6d072d5d3212735bfeb1cb6d8eb8ec04492522ba2",
-    "formal/UniversalLaw.lean": "cb94ad3490a00bc35b420a53a42ff65b6fc66a46b8a26ef1b87035d7bb15587e",
+    "formal/UniversalLaw.lean": "503f8ce5e3123f820e378a68961bca04c16e427dba2d48d8afdc372559f9fb32",
     "formal/UniversalLaw/Side24/Ledger.lean": "ae4a14f3db8cf26668e55e2d2f80e0dcecb0703826b40396d91fb6e0d266d3f7",
     "formal/UniversalLaw/Side24/ConeMoments.lean": "2bcd4a83683188856bce010c3dcdec6904e45a6d73b50b9f3891e632ff58985c",
     "formal/UniversalLaw/Side24/Endpoints.lean": "095102245297707316cfd7e244d5509f9b102fe5aa638b7acdbbcf9d3c9d52bd",
+    "formal/UniversalLaw/P15/PriceBoundary.lean": "d11f32fbbf6ffe726dff0ac889bfaf04d61c9f5818d3c447abf7132fbe96bd6e",
+    "formal/UniversalLaw/P15/RealizedCovers.lean": "1b60dd00925789ae86f081463fd97117561223568532b5f5a886fdc8247051b3",
+    "formal/UniversalLaw/P15/FullPrice.lean": "9fb2aad19ac132f52c6e6b89c1040890922e1f905e88fac29992b62cbc890569",
     "formal/sources/side24_v1/PROOF.md": "c06daccc4ba4b9168522b9888b76a7d599934fc3b91bd753ee5d492262917769",
     "formal/sources/side24_v1/ENCLOSURE.json": "72b6cd92d31394cdaf5da8919a5d548e902228af1f095cc184158a71d8287811",
-    "formal/SCOPE.md": "fd06700628b1fbc81c5cfe3786aaa455032375bcb879914f068a66b726802a17",
+    "formal/sources/p15_v1/three_fronts_20260924_P15_PRICE_BOUNDARY.md": "498af650ef7139c39d2630561dbfd0822c495ce6308a6cac8b767aefe0c2a40b",
+    "formal/sources/p15_v1/three_fronts_20260924_P15_REALIZED_COVERS.md": "c0dbb821fb57b685a20cc321e4074456f39a9697f3104afd1f728e4732179bb9",
+    "formal/sources/p15_v1/full_price_20260924_PROOF.md": "87521901ca8e5405b4d1e47f1deb1cd0326affbd6f5967b53c4178590da993f9",
+    "formal/sources/p15_v1/price_budget_20260924_PROOF.md": "3b79d2de60d77df9dd0d81cea60935d3dbceeb26fcf2d38d62667a425180a535",
+    "formal/SCOPE.md": "1793f0a86f3f5d5678373b73b766a24d2492b0feec21e46c507e92715afdd8d4",
     "formal/GLOSSARY.md": "342d4efb374fea31c39e51f8f6bcdbc50d7fb5fea1fd393eda21afff92c62fb8",
-    "formal/README.md": "1398c3c6d15476afe9d4ef01fc98fb199976907123b438ae1743f4e87e31e007",
-    "formal/REVIEW_LANE.md": "6a0dcdd93f1aec16ede829820b913116a5c60c2bbbd78630690599dbc5d8be41",
-    "formal/reviews/TEMPLATE_alignment_review.json": "e722e928ca43c16981e063d8eb1c91e9bf8c683241d9dcf156400a419e72feb3",
+    "formal/README.md": "1011d50bbeeb3f71e08e4bf6236c9a1ebda8edfa76beadfa3d1727b35da9e49b",
+    "formal/REVIEW_LANE.md": "651fb4e18b2691f215b52e8fcdc875d85a6c92b495dbff5532b863ecfaf13960",
+    "formal/reviews/TEMPLATE_alignment_review.json": "2f1302611aa84652490bd89f04d2bba833e95d762c06b1230ae832086ccdeef5",
     "formal/reviews/README.md": "333ca71e7c676cee89e5d01cd61999c21bb0584e41d6bdacb18afa410109f95d",
     "tools/formal_gate_check.py": "21c355e02ac6e01337d10465a3105b34b93f832586ee60aa2430f662a90cd8b7",
-    "tests/test_formal_gate.py": "4286136d8b24eca9b26d1e7b12933bed5b0961809b362a60c3af7bf46e6ed4b6"
+    "tests/test_formal_gate.py": "1a9e32ad54378874eb007db8d94ce45b340fc4ba16c48a680cc7c506c8bbd805"
   },
   "unbound_files": [
     "formal/manifest.json",
@@ -68,12 +75,51 @@
       "bytes": 1090,
       "sha256": "72b6cd92d31394cdaf5da8919a5d548e902228af1f095cc184158a71d8287811",
       "local_copy": "formal/sources/side24_v1/ENCLOSURE.json"
+    },
+    {
+      "id": "p15-price-boundary",
+      "repository": "d6g8k5htny-coder/Math-",
+      "commit": "760340e921ac4ceda296b8118da936f1133e956e",
+      "path": "frontiers/three_fronts_20260924/P15_PRICE_BOUNDARY.md",
+      "bytes": 2266,
+      "sha256": "498af650ef7139c39d2630561dbfd0822c495ce6308a6cac8b767aefe0c2a40b",
+      "local_copy": "formal/sources/p15_v1/three_fronts_20260924_P15_PRICE_BOUNDARY.md"
+    },
+    {
+      "id": "p15-realized-covers",
+      "repository": "d6g8k5htny-coder/Math-",
+      "commit": "760340e921ac4ceda296b8118da936f1133e956e",
+      "path": "frontiers/three_fronts_20260924/P15_REALIZED_COVERS.md",
+      "bytes": 11467,
+      "sha256": "c0dbb821fb57b685a20cc321e4074456f39a9697f3104afd1f728e4732179bb9",
+      "local_copy": "formal/sources/p15_v1/three_fronts_20260924_P15_REALIZED_COVERS.md"
+    },
+    {
+      "id": "p15-full-price",
+      "repository": "d6g8k5htny-coder/Math-",
+      "commit": "760340e921ac4ceda296b8118da936f1133e956e",
+      "path": "frontiers/full_price_20260924/PROOF.md",
+      "bytes": 11352,
+      "sha256": "87521901ca8e5405b4d1e47f1deb1cd0326affbd6f5967b53c4178590da993f9",
+      "local_copy": "formal/sources/p15_v1/full_price_20260924_PROOF.md"
+    },
+    {
+      "id": "p15-price-budget",
+      "repository": "d6g8k5htny-coder/Math-",
+      "commit": "760340e921ac4ceda296b8118da936f1133e956e",
+      "path": "frontiers/price_budget_20260924/PROOF.md",
+      "bytes": 7935,
+      "sha256": "3b79d2de60d77df9dd0d81cea60935d3dbceeb26fcf2d38d62667a425180a535",
+      "local_copy": "formal/sources/p15_v1/price_budget_20260924_PROOF.md"
     }
   ],
   "source_modules": [
     "UniversalLaw/Side24/Ledger.lean",
     "UniversalLaw/Side24/ConeMoments.lean",
-    "UniversalLaw/Side24/Endpoints.lean"
+    "UniversalLaw/Side24/Endpoints.lean",
+    "UniversalLaw/P15/PriceBoundary.lean",
+    "UniversalLaw/P15/RealizedCovers.lean",
+    "UniversalLaw/P15/FullPrice.lean"
   ],
   "targets": [
     {
@@ -323,6 +369,230 @@
       "source": "side24-enclosure",
       "informal_anchor": "\"relative_periodization_bound\": \"1e-106\"",
       "does_not_claim": "anything about the true coefficients"
+    },
+    {
+      "name": "UniversalLaw.P15.smallest_member_block_size",
+      "module": "UniversalLaw/P15/PriceBoundary.lean",
+      "title": "Smallest one-block member has block size 1·1+1 = 2",
+      "source": "p15-price-boundary",
+      "informal_anchor": "one-block member: a_1=d_1=1, X={x,y}",
+      "does_not_claim": "the realized-cover theorem or its family; the probability or price semantics; the two log inequalities; Theorem F; prize status"
+    },
+    {
+      "name": "UniversalLaw.P15.demand_one_good_sets",
+      "module": "UniversalLaw/P15/PriceBoundary.lean",
+      "title": "Good sets of the demand-one block are ∅, {x}, {y} (finite enumeration)",
+      "source": "p15-price-boundary",
+      "informal_anchor": "Its good sets are the empty\nset and singletons",
+      "does_not_claim": "the downset D beyond the four enumerated subsets; the log inequalities phi(1/2)=log 2>2/3 and log(4/3)<1/3; Theorem F; prize status"
+    },
+    {
+      "name": "UniversalLaw.P15.demand_one_obstruction",
+      "module": "UniversalLaw/P15/PriceBoundary.lean",
+      "title": "One-piece obstruction O_1(D) is exactly {X} (finite enumeration)",
+      "source": "p15-price-boundary",
+      "informal_anchor": "its one-piece obstruction\nis exactly {X}",
+      "does_not_claim": "the identity I_1(D)=D in general; cover semantics; the log inequalities; Theorem F; prize status"
+    },
+    {
+      "name": "UniversalLaw.P15.good_measure_three_quarters",
+      "module": "UniversalLaw/P15/PriceBoundary.lean",
+      "title": "mu_p(D) = 3/4 at p = 1/2 as 3 of 4 quarter-weights (total 4 = 2^2)",
+      "source": "p15-price-boundary",
+      "informal_anchor": "Nevertheless mu_p(D)=3/4",
+      "does_not_claim": "the product-measure semantics of mu_p; the identity min(1,-log mu_p(D))=log(4/3); the inequality log(4/3)<1/3; Theorem F; prize status"
+    },
+    {
+      "name": "UniversalLaw.P15.generator_prices_ninths",
+      "module": "UniversalLaw/P15/PriceBoundary.lean",
+      "title": "Generator costs 1, 2/3, 2/3, 4/9 over denominator 9: 9, 6, 6, 4",
+      "source": "p15-price-boundary",
+      "informal_anchor": "The possible generator costs are1,2/3,2/3,4/9",
+      "does_not_claim": "admissibility of c=2/3 as a transformed price (phi(1/2)=log 2>2/3 is a log inequality); that extra generators cannot lower the minimum; Theorem F; prize status"
+    },
+    {
+      "name": "UniversalLaw.P15.minimum_generator_price_exceeds_third",
+      "module": "UniversalLaw/P15/PriceBoundary.lean",
+      "title": "Minimum displayed generator cost 4/9, and 4/9 > 1/3 (1·9 < 4·3)",
+      "source": "p15-price-boundary",
+      "informal_anchor": "covercost_c(O_1(D))=4/9 > 1/3 > log(4/3)",
+      "does_not_claim": "that the minimum over the four subsets is the exact optimal cover price (every cover of {X} containing a generator inside X, and extra nonnegative-price generators not lowering it, are set-theoretic steps of the source); the inequality 1/3 > log(4/3); that the same-palette extension to c<=phi(p) is false in general; Theorem F; prize status"
+    },
+    {
+      "name": "UniversalLaw.P15.benchmark_block_and_ground_sizes",
+      "module": "UniversalLaw/P15/RealizedCovers.lean",
+      "title": "Benchmark sizes: 1·408+1 = 409 per block, 6·409 = 2454 vertices",
+      "source": "p15-realized-covers",
+      "informal_anchor": "EACH original block has409 vertices and the original ground set has2454 vertices",
+      "does_not_claim": "the construction (P1)–(P2), Proposition P1, probability semantics; Theorem P2; prize status"
+    },
+    {
+      "name": "UniversalLaw.P15.four_block_supports_fifteen",
+      "module": "UniversalLaw/P15/RealizedCovers.lean",
+      "title": "C(6,4) = 15 four-block supports",
+      "source": "p15-realized-covers",
+      "informal_anchor": "H consists of all15 four-block subsets",
+      "does_not_claim": "the clutter structure of H or Proposition P1; Theorem P2; prize status"
+    },
+    {
+      "name": "UniversalLaw.P15.minimal_forbidder_counts",
+      "module": "UniversalLaw/P15/RealizedCovers.lean",
+      "title": "(P10) 6·C(409,2) = 500616 and 15·409^4 = 419743994415",
+      "source": "p15-realized-covers",
+      "informal_anchor": "6*binom(409,2)=500616 internal pairs,\n    15*409^4=419743994415 crossing transversal quadruples.",
+      "does_not_claim": "that these numbers count the minimal forbidders (Proposition P1); Theorem P2; prize status"
+    },
+    {
+      "name": "UniversalLaw.P15.palette_816_from_two_label_classes",
+      "module": "UniversalLaw/P15/RealizedCovers.lean",
+      "title": "K_H(408,…,408) = 816 as 408 + 408",
+      "source": "p15-realized-covers",
+      "informal_anchor": "K_H(408,...,408)=816",
+      "does_not_claim": "that the two label classes satisfy (P6) or that no smaller palette does (the palette optimum); Theorem P2; prize status"
+    },
+    {
+      "name": "UniversalLaw.P15.palette_815_fails_by_counting",
+      "module": "UniversalLaw/P15/RealizedCovers.lean",
+      "title": "2454−6 = 2448, 815·3 < 2448, 6·408 = 2448",
+      "source": "p15-realized-covers",
+      "informal_anchor": "omitting one vertex from each block leaves2448 vertices, each color holds at most3, and815*3<2448",
+      "does_not_claim": "that each colour class holds at most three vertices (the combinatorial step); Theorem P2; prize status"
+    },
+    {
+      "name": "UniversalLaw.P15.whole_ground_chromatic_818",
+      "module": "UniversalLaw/P15/RealizedCovers.lean",
+      "title": "2454/3 = 818 exactly (818·3 = 2454)",
+      "source": "p15-realized-covers",
+      "informal_anchor": "needs818 colors, since2454/3=818",
+      "does_not_claim": "the chromatic number of the ground set (K_H(d+1)) or the palette argument; Theorem P2; prize status"
+    },
+    {
+      "name": "UniversalLaw.P15.elementary_palette_formula_instances",
+      "module": "UniversalLaw/P15/RealizedCovers.lean",
+      "title": "(P9) right-hand side at the benchmark: max(408,⌈2448/3⌉) = 816, max(409,⌈2454/3⌉) = 818; 3+1 = 4",
+      "source": "p15-realized-covers",
+      "informal_anchor": "K_H(d)=max(max_i d_i, ceil(sum_i d_i/s))",
+      "does_not_claim": "the formula (P9) itself (cyclic-word construction and lower bounds); that K_H of the section-6 benchmark equals the (P9) value; Theorem P2; prize status"
+    },
+    {
+      "name": "UniversalLaw.P15.macro_triangle_three_colors",
+      "module": "UniversalLaw/P15/RealizedCovers.lean",
+      "title": "(P9) right-hand side for the macro triangle at unit demands: max(1,⌈3/1⌉) = 3",
+      "source": "p15-realized-covers",
+      "informal_anchor": "The macro triangle at unit demands needs3 colors",
+      "does_not_claim": "that the triangle needs 3 colours (the formula (P9) and its applicability); the comparison with a size-two edge-load formula; Theorem P2; prize status"
+    },
+    {
+      "name": "UniversalLaw.P15.ceil_block_over_capacity_instances",
+      "module": "UniversalLaw/P15/RealizedCovers.lean",
+      "title": "⌈(a·d+1)/a⌉ = d+1 at five (a,d) instances including (1,408)",
+      "source": "p15-realized-covers",
+      "informal_anchor": "ceil(n_i/a_i)=d_i+1",
+      "does_not_claim": "the identity for all a_i >= 1; that the whole-ground chromatic number is K_H(d+1); Theorem P2; prize status"
+    },
+    {
+      "name": "UniversalLaw.P15.block_occupancy_one_percent",
+      "module": "UniversalLaw/P15/RealizedCovers.lean",
+      "title": "409·100 = 40900 behind 409p = 1/100 at p = 1/40900",
+      "source": "p15-realized-covers",
+      "informal_anchor": "each block's occupancy probability is at most409p=1/100",
+      "does_not_claim": "the union bound giving occupancy probability at most 409p; probability semantics; Theorem P2; prize status"
+    },
+    {
+      "name": "UniversalLaw.P15.low_failure_union_bound_arithmetic",
+      "module": "UniversalLaw/P15/RealizedCovers.lean",
+      "title": "(P11) 500616/40900^2 + 15/100^4 = 2449227/8180000000 < 3/10000, cross-multiplied; 10000−3 = 9997",
+      "source": "p15-realized-covers",
+      "informal_anchor": "=2449227/8180000000 < 3/10000",
+      "does_not_claim": "the union bound Q <= ..., the independence of block occupancies, that Q = 1 - mu_p(D) is the global bad probability, probability semantics, display (P8); Theorem P2; prize status"
+    },
+    {
+      "name": "UniversalLaw.P15.cover_price_numerator_and_denominator_positive",
+      "module": "UniversalLaw/P15/RealizedCovers.lean",
+      "title": "6/(40900^409) > 0 as 0 < 6 and 0 < 40900^409 (core Nat.pow_pos)",
+      "source": "p15-realized-covers",
+      "informal_anchor": "6/(40900^409)>0",
+      "does_not_claim": "the price identity 6/(40900^409) for the six-generator cover (the kernel does not evaluate the power, only its positivity); probability semantics; Theorem P2; prize status"
+    },
+    {
+      "name": "UniversalLaw.P15.rho_star_endpoints_adjacent",
+      "module": "UniversalLaw/P15/FullPrice.lean",
+      "title": "Published rho_star endpoints are adjacent 20-digit decimals",
+      "source": "p15-full-price",
+      "informal_anchor": "0.84547981724898672067 < rho_star",
+      "does_not_claim": "that rho_star = 1/(3 - log(3e - 2)) lies between them (needs Real.exp/Real.log; Mathlib lane); Theorem F; prize status"
+    },
+    {
+      "name": "UniversalLaw.P15.rho_star_upper_endpoint_below_six_sevenths",
+      "module": "UniversalLaw/P15/FullPrice.lean",
+      "title": "Upper endpoint below 6/7: …68·7 < 6·10^20",
+      "source": "p15-full-price",
+      "informal_anchor": "< 0.84547981724898672068 < 6/7",
+      "does_not_claim": "rho_star < 6/7 as a statement about the real number; h_star > 7/6; Theorem F; prize status"
+    },
+    {
+      "name": "UniversalLaw.P15.sixteen_twentysevenths_below_six_sevenths",
+      "module": "UniversalLaw/P15/FullPrice.lean",
+      "title": "16/27 < 6/7 (16·7 < 6·27) and 16/27 below the published lower endpoint",
+      "source": "p15-full-price",
+      "informal_anchor": "gives the stronger factor16/27 on its smaller domain",
+      "does_not_claim": "Theorem (T1) or its domain p_v <= 1/4; that 16/27 < rho_star as a real-number statement; Theorem F; prize status"
+    },
+    {
+      "name": "UniversalLaw.P15.minimal_block_size_instances",
+      "module": "UniversalLaw/P15/FullPrice.lean",
+      "title": "1·2+1 = 3 and 2a+1 <= ad+1 at five (a,d) instances with d >= 2",
+      "source": "p15-full-price",
+      "informal_anchor": "Our n=ad+1 and d>=2 imply n>=2a+1.",
+      "does_not_claim": "the implication for all a >= 1, d >= 2; the binomial tail comparison (F9)–(F11); the sharpness argument of section 5; Theorem F; prize status"
+    },
+    {
+      "name": "UniversalLaw.P15.e_rational_bounds_ordering",
+      "module": "UniversalLaw/P15/FullPrice.lean",
+      "title": "31967/11760 < 87/32 and 87/32 − 31967/11760 = 11/23520, cross-multiplied",
+      "source": "p15-full-price",
+      "informal_anchor": "e < 31967/11760 < 87/32,\n    87/32-31967/11760=11/23520.",
+      "does_not_claim": "e < 31967/11760 (exponential series plus geometric tail); any statement about e; Theorem F; prize status"
+    },
+    {
+      "name": "UniversalLaw.P15.exp_eleven_sixths_taylor_certificate",
+      "module": "UniversalLaw/P15/FullPrice.lean",
+      "title": "Degree-5 Taylor partial sum of exp(11/6) minus 197/32 equals 26081/933120 > 0",
+      "source": "p15-full-price",
+      "informal_anchor": "sum_(j=0)^5 (11/6)^j/j! -197/32=26081/933120>0",
+      "does_not_claim": "that the partial sum is below exp(11/6) (positivity of the omitted terms is analysis); 197/32 < exp(11/6); Theorem F; prize status"
+    },
+    {
+      "name": "UniversalLaw.P15.h_star_rational_certificate_constants",
+      "module": "UniversalLaw/P15/FullPrice.lean",
+      "title": "3·87 − 2·32 = 197 and 3·6 − 11 = 7 behind 3e−2 < 197/32 and h_star > 7/6",
+      "source": "p15-full-price",
+      "informal_anchor": "Therefore 3e-2<197/32<exp(11/6), giving h_star>7/6 and rho_star<6/7.",
+      "does_not_claim": "e < 87/32, 197/32 < exp(11/6), monotonicity of log, h_star > 7/6 and rho_star < 6/7 as real-number statements; Theorem F; prize status"
+    },
+    {
+      "name": "UniversalLaw.P15.t3_ratio_at_minimal_block",
+      "module": "UniversalLaw/P15/FullPrice.lean",
+      "title": "(T3) at a = 1, n = 3: 4^3 = 4^1·4^2, 4^2 = 16, 3^3 = 27, (4/3)(4/9)^1 = 16/27",
+      "source": "p15-price-budget",
+      "informal_anchor": "= (4^(a+1))/(3^n)\n       <= (4/3)*(4/9)^a <=16/27.",
+      "does_not_claim": "the ratio chain (T3) (which uses (T2), p_v <= 1/4 and independence); Theorem (T1); the demand-one counterexample's applicability at a = d = 1; prize status"
+    },
+    {
+      "name": "UniversalLaw.P15.t3_bound_finite_instances",
+      "module": "UniversalLaw/P15/FullPrice.lean",
+      "title": "(T3) final inequalities at seven (a,n) pairs with n >= 2a+1 and at a = 1..6",
+      "source": "p15-price-budget",
+      "informal_anchor": "<= (4/3)*(4/9)^a <=16/27",
+      "does_not_claim": "the inequalities for all a >= 1, n >= 2a+1; (T2); Theorem (T1); prize status"
+    },
+    {
+      "name": "UniversalLaw.P15.explicit_rational_price_above_p",
+      "module": "UniversalLaw/P15/FullPrice.lean",
+      "title": "c = p + p^2/2 = 81801/3345620000 at p = 1/40900, and c > p",
+      "source": "p15-price-budget",
+      "informal_anchor": "c=p+p^2/2=81801/3345620000",
+      "does_not_claim": "admissibility c <= phi(p) (the integral inequality); the price bound (T7); that the 816-label cover is valid at these prices; prize status"
     }
   ],
   "negative_controls": {
@@ -360,6 +630,46 @@
       "module": "UniversalLaw/Side24/Endpoints.lean",
       "replace": "d2Upper = d2Lower + 1",
       "with": "d2Upper = d2Lower + 2"
+    },
+    "false_price_boundary_third": {
+      "module": "UniversalLaw/P15/PriceBoundary.lean",
+      "replace": "1 * 9 < 4 * 3",
+      "with": "1 * 9 < 2 * 3"
+    },
+    "wrong_generator_prices": {
+      "module": "UniversalLaw/P15/PriceBoundary.lean",
+      "replace": "= [9, 6, 6, 4]",
+      "with": "= [9, 6, 6, 5]"
+    },
+    "false_palette_815_count": {
+      "module": "UniversalLaw/P15/RealizedCovers.lean",
+      "replace": "815 * 3 < 2448",
+      "with": "816 * 3 < 2448"
+    },
+    "wrong_transversal_count": {
+      "module": "UniversalLaw/P15/RealizedCovers.lean",
+      "replace": "= 419743994415",
+      "with": "= 419743994416"
+    },
+    "false_union_bound_three_tenthousandths": {
+      "module": "UniversalLaw/P15/RealizedCovers.lean",
+      "replace": "2449227 * 10000 < 3 * 8180000000",
+      "with": "2449227 * 10000 < 2 * 8180000000"
+    },
+    "false_rho_endpoint_adjacency": {
+      "module": "UniversalLaw/P15/FullPrice.lean",
+      "replace": "rhoUpper = rhoLower + 1",
+      "with": "rhoUpper = rhoLower + 2"
+    },
+    "false_rho_upper_six_sevenths": {
+      "module": "UniversalLaw/P15/FullPrice.lean",
+      "replace": "rhoUpper * 7 < 6 * 10 ^ 20",
+      "with": "rhoUpper * 7 < 5 * 10 ^ 20"
+    },
+    "wrong_taylor_certificate": {
+      "module": "UniversalLaw/P15/FullPrice.lean",
+      "replace": "= 197 * 29160 + 26081",
+      "with": "= 197 * 29160 + 26080"
     }
   }
 }

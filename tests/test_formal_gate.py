@@ -328,7 +328,7 @@ class RepositoryControls(unittest.TestCase):
         self.assertEqual(m["formalization_status"], "proved")
         self.assertEqual(m["alignment_status"], "PENDING_INDEPENDENT_REVIEW")
         self.assertIs(m["scientific_status_authority"], False)
-        self.assertEqual(len(m["targets"]), 31)
+        self.assertEqual(len(m["targets"]), 59)
         self.assertEqual(m["dependency_revisions"], {})
         self.assertEqual((ROOT / "formal/ALIGNMENT.md").read_text(), gate.render_alignment(m))
 
