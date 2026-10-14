@@ -298,7 +298,40 @@ Let $D_{r_0}=\{y:\dist(0,y)\ge r_0\}$ (compact) and use the far identity \eqref{
 On $\{W>0\}\cap\{e_y=1\}$ the point $0$ is a nondegenerate maximum with $f(0)=b$ and $d_f(0)=f(y)=b-\ell$, so Lemma~\ref{lem:remainder-barrier} gives $|\det H_0|\le c_L^{-1/3}\ell^{1/3}K^{d-1/3}$, while $|\det H_y|\le K^d$. So $We_y\le C\ell^{1/3}K^{2d-1/3}$ and, by \eqref{eq:remainder-Kmom}, $\E_{Q_{y,b,\ell}}[We_y]\le C\ell^{1/3}(1+|b|)^{2d}$. With (a) in \eqref{eq:remainder-far}, $\nu_{\eld}^{\mathrm{far},r_0}(\ell)\le C\ell^{1/3}\operatorname{vol}(D_{r_0})\int_\R(1+|b|)^{2d}e^{-cb^2}db\le C\ell^{1/3}$.
 \end{proof}
 
-A sharper far bound, $O(\ell^{2/3})$, keeps the determinant weight through a spectral integration (record [R9] of the main text); \eqref{eq:remainder-F} needs no Hessian density and suffices here, because the far term is not the bottleneck of the estimate below.
+Lemma~\ref{lem:remainder-far} needs no Hessian density and suffices for this section, because the far term is not the bottleneck of the estimate below. Keeping the determinant weight through a spectral integration gives the sharper rate $\ell^{2/3}$, which Section~\ref{sec:third} uses.
+
+\begin{proposition}[far elder density, rate $\ell^{2/3}$]\label{prop:remainder-farrate}
+For every fixed $\rho\in(0,L/2]$ there is $C=C(d,L,\rho)$ with
+\begin{equation}\label{eq:remainder-farrate}
+\nu_{\eld}^{\mathrm{far},\rho}(\ell)\le C\ell^{2/3},\qquad0<\ell\le1 .
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Let $D_\rho=\{y:\dist(0,y)\ge\rho\}$ and use the far identity \eqref{eq:remainder-far}. Append to $O_y$ the independent entries of $H_0$ and $H_y$: $V_y=(O_y,H_0,H_y)$, with $2(d+1)+d(d+1)$ coordinates. These are distinct derivative evaluations at two distinct sites, so the covariance of $V_y$ is positive definite (\S\ref{sec:setting}; \cite[\S2]{parentP}). It is continuous in $y$, so its eigenvalues lie in a fixed compact subinterval of $(0,\infty)$ on the compact set $D_\rho$. Two consequences follow.
+
+(a) Since $|v_{b,\ell}|^2\ge b^2$, uniformly for $y\in D_\rho$, $b\in\R$ and $\ell>0$,
+\begin{equation}\label{eq:remainder-farrate-dens}
+p_y(v_{b,\ell})\,p_{(H_0,H_y)\mid O_y=v_{b,\ell}}(H_0,H_y)\le Ce^{-c(b^2+|H_0|^2+|H_y|^2)} .
+\end{equation}
+
+(b) Regressing the field on $V_y$, as in (b) of the proof of Lemma~\ref{lem:remainder-far}, gives $f=m+g$ with $g$ independent of $V_y$, $\E\|g\|_{C^3}^q\le C_q$ and $\|m\|_{C^3}\le C(1+|b|+|H_0|+|H_y|)$ for $0<\ell\le1$. So, with $K$ as in Lemma~\ref{lem:remainder-barrier}, for every $q\ge1$
+\begin{equation}\label{eq:remainder-farrate-K}
+\E\bigl[K^q\bigm|V_y=(v_{b,\ell},H_0,H_y)\bigr]\le C_q(1+|b|+|H_0|+|H_y|)^q .
+\end{equation}
+
+Fix $y\in D_\rho$, $b\in\R$ and $0<\ell\le1$. On $\{W>0\}\cap\{e_y=1\}$ the point $0$ is a nondegenerate maximum with $f(0)=b$ and $d_f(0)=f(y)=b-\ell$. So Lemma~\ref{lem:remainder-barrier}, with $\lambda=\lambda_{\min}(-H_0)$, gives $K\ge(c_L\lambda^3/\ell)^{1/2}$, and pathwise $We_y\le W\,\ind\{K\ge(c_L\lambda^3/\ell)^{1/2}\}$. The weight $W$ and $\lambda$ are functions of $(H_0,H_y)$. Conditioning on $V_y$ and applying Markov's inequality with \eqref{eq:remainder-farrate-K} bounds the conditional probability of the last event by $\min\{1,C_q(1+|b|+|H_0|+|H_y|)^q(\ell/(c_L\lambda^3))^{q/2}\}$. Multiply by the density \eqref{eq:remainder-farrate-dens} and bound $(1+|b|+|H_0|+|H_y|)^q\le(1+|b|)^q(1+|H_0|)^q(1+|H_y|)^q$. Take the two Hessian factors outside the minimum, since $\min\{1,uv\}\le v\min\{1,u\}$ for $v\ge1$, and integrate $H_y$ against $|\det H_y|(1+|H_y|)^qe^{-c|H_y|^2}$, a constant. For $H_0$ use the ordered spectral coordinates $-H_0=O\,\mathrm{diag}(\lambda_1\le\dots\le\lambda_d)\,O^{\top}$ on the cone $\{H_0\prec0\}$, whose Lebesgue Jacobian is a constant times $\prod_{i<j}(\lambda_j-\lambda_i)$, with finite angular volume. With $|\det H_0|=\prod_j\lambda_j$, bound the Vandermonde factor and $\prod_{j\ge2}\lambda_j$ by a polynomial in $|\lambda|$, extend $\lambda_2,\dots,\lambda_d$ to $(0,\infty)$ and integrate them out. This gives
+\begin{equation}\label{eq:remainder-farrate-int}
+p_y(v_{b,\ell})\,\E_{Q_{y,b,\ell}}[We_y]\le Ce^{-cb^2}\int_0^\infty\lambda_1\min\Bigl\{1,A\Bigl(\frac{\ell}{\lambda_1^3}\Bigr)^{q/2}\Bigr\}(1+\lambda_1)^Ne^{-c\lambda_1^2}\,d\lambda_1,\qquad A=C(1+|b|)^q .
+\end{equation}
+Take $q=2$, and let $u=(A\ell)^{1/3}$ be the point where the two arguments of the minimum agree. If $u\ge1$, bound the minimum by $1$: the integral is at most $C\le Cu^2$. If $u<1$, split at $u$. On $[0,u]$ the integral is at most $2^{N-1}u^2$. On $[u,\infty)$ it is at most
+\[
+A\ell\int_u^\infty\lambda_1^{-2}(1+\lambda_1)^Ne^{-c\lambda_1^2}\,d\lambda_1\le CA\ell\,(u^{-1}+1)=Cu^3(u^{-1}+1)\le2Cu^2 .
+\]
+In every case the integral in \eqref{eq:remainder-farrate-int} is at most $Cu^2=CA^{2/3}\ell^{2/3}=C(1+|b|)^{4/3}\ell^{2/3}$. Integrating over $b\in\R$ and $y\in D_\rho$ in \eqref{eq:remainder-far} proves \eqref{eq:remainder-farrate}.
+\end{proof}
+
+The factor $\lambda_1$ in \eqref{eq:remainder-farrate-int} is the soft eigenvalue of $|\det H_0|$. It turns the barrier constraint $\lambda_1\lesssim\ell^{1/3}$ into the mass $\ell^{2/3}$; without the determinant weight the same argument would give only $\ell^{1/3}$, as in Lemma~\ref{lem:remainder-far}. At $d=3$, $L=24$ and $\rho<12$, Proposition~\ref{prop:remainder-farrate} sharpens the bound of Proposition~\ref{prop:limit-far}.
 
 \begin{lemma}[sign-window majorant for the near-pair weight]\label{lem:remainder-W}
 For $0<r\le r_R$, $b\in\R$ and $k\ge0$ (the pinned family at $k=0$ included),

@@ -92,6 +92,26 @@ With these, S5 gives a complete second proof of (3.13) in `d = 3` (Theorem S5.36
 
 **Build.** `build.sh` (TeX Live 2023): 126 pages, no LaTeX error and no undefined reference. There is one overfull line, 29 pt, in S10 at lines 439–440, unchanged from draft 1.
 
+## Checkpoint draft 3 (14 October 2026)
+
+Author-side, by Claude01N, on top of draft 2 (`238ca036`).
+
+- **S8: the far elder rate is now proved in the supplement.** This resolves S10 issue I3, "The far elder rate has no home in the supplement". New Proposition S8.13 (`prop:remainder-farrate`) states `ν_eld^{far,ρ}(ℓ) ≤ C(d, L, ρ) ℓ^{2/3}` for `0 < ℓ ≤ 1` and every `ρ ∈ (0, L/2]`.
+  - **Source.** Math- `frontiers/far_elder_rate_20260930/PROOF.md`, blob `07260114`, Theorem F and §§2–3; merged in PR 187, record [R9] of the main text. Its erratum `ERRATUM_20261004.md` (blob `93afac3b`) is provenance only. The second-provider read (Grok Bot agent 6, main#229 5975813301) found the mathematics PASS.
+  - **Notation.** The transcription uses Part II's notation, Convention S8.1(f). The barrier step is the existing Lemma S8.10 (`lem:remainder-barrier`), which is the record's Lemma 1.
+  - **Proof structure.** As in the record:
+    - uniform eigenvalue bounds for `V_y = (O_y, H_0, H_y)` on `D_ρ`;
+    - the joint density bound, regression and conditional `K`-moments;
+    - the pathwise barrier bound, Markov's inequality and the spectral integration over `H_0`;
+    - the split at `u = (Aℓ)^{1/3}` with `q = 2`.
+  - **Not transcribed.** The record's §0 context (the 30 July manuscript and the audit finding), as its erratum asks.
+  - **What uses it.** Lemma S8.12, the crude `ℓ^{1/3}` bound, stays. Its closing remark now points to S8.13, and S10's `eq:third-farrate` cites S8.13 instead of "record [R9] of the main text".
+- **S11 issue 7.** Hypothesis S11.11(a) now points to the precise place of the typed-kernel/fixed-cone comparison: Step 2 of the proof of Lemma S10.12 (`lem:third-fold`), display `eq:third-F3`.
+- **S11 issue 8.** A DLMF entry is added to `refs.bib`. It is cited for Euler's integral and `Γ(11/6) = (5/6)Γ(5/6)` (§§5.2, 5.5), and for the Stirling remainder bound in Step 8 (§5.11(ii)).
+- **Status section.** Updated to draft 3.
+
+**Build.** 127 pages, no LaTeX error and no undefined reference. The one overfull line, 29 pt in S10, is unchanged.
+
 ---
 
 # Concordance — supplement sections S1 and S2
