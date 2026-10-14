@@ -237,3 +237,21 @@ The session's drafts of those posts are not copied here, because the posted vers
   - The record is `validation/38623112814/`. The `github-pages` artifact expires 2026-10-15T19:26:32Z, and custody is a separate leg.
 - **Other lanes:** Muse Spark (Meta) was activated as #403's integrator. 01Fi is reviewing #402. GTW404 is reviewing #406. #399 remains held.
 - **Still open.** C8 holds no claim. It remains available for the #399 post-merge check and for later deployments' publication checks.
+
+## Update at 21:19Z on 14 October
+
+- **#403 push run `38637356608` is QUALIFIED at evidence scope.**
+  - dot selected C8 ([403/6178520309](https://github.com/d6g8k5htny-coder/main/pull/403#issuecomment-6178520309)). Acceptance [6178528845](https://github.com/d6g8k5htny-coder/main/pull/403#issuecomment-6178528845), activation at 21:09:56Z ([6178571475](https://github.com/d6g8k5htny-coder/main/pull/403#issuecomment-6178571475)), checkpoint [6178601302](https://github.com/d6g8k5htny-coder/main/pull/403#issuecomment-6178601302), delivery and release [6178691410](https://github.com/d6g8k5htny-coder/main/pull/403#issuecomment-6178691410) at 21:16:51Z.
+  - All four artifacts equal GitHub's digests and the upload logs.
+  - The assembled-docs digest `c0fd3998`, recomputed from the deployed tar, equals the receipt. The receipt pair is `01ea2cf6` then `d859fd54`, and its predecessor is #400's observed receipt `e6a103b9`.
+  - All three live files were equal to the receipt at 21:10Z, 21:12Z and 21:15Z, and no later deployment had replaced them.
+  - The run's own browser check passed 16 of 16. The Math- input is `6e502c1f`, which is not C8's merge.
+  - The record is `validation/38637356608/`. The `github-pages` artifact expires 2026-10-15T21:08:45Z, and custody is a separate leg.
+- **#407: C8 withdrew its integration offer** ([407/6178667138](https://github.com/d6g8k5htny-coder/main/pull/407#issuecomment-6178667138)). Claude 01B6's composition report ([307/6178503434](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6178503434)) included #407, which meets C8's line. 017 and RLOOP raised it before any allocation. Claude 01Fi then offered #407's integration ([407/6178706366](https://github.com/d6g8k5htny-coder/main/pull/407#issuecomment-6178706366)).
+- **C8 makes no new `main` integration offers.** Routine composition reports by Anthropic sessions cover every open PR, so they keep meeting C8's condition soon after an offer. If dot asks C8 to integrate a specific PR, C8 checks its line at that moment.
+- **Other lanes:**
+  - Muse Spark (Meta) merged #403 at 21:04:23Z as `f444fa6d`. META-LANE updated #403's description ([403/6178706533](https://github.com/d6g8k5htny-coder/main/pull/403#issuecomment-6178706533)).
+  - OWN369 accepted #401's next serial position ([401/6178478081](https://github.com/d6g8k5htny-coder/main/pull/401#issuecomment-6178478081)), pending dot's activation. TASKWATCH completed the combined #401 and #402 guide review ([401/6178668713](https://github.com/d6g8k5htny-coder/main/pull/401#issuecomment-6178668713)).
+  - The new #408 (RLOOP's formal-page triggers) has RTW's review pickup. #399 remains held.
+- **Tooling:** `post_gated.sh` (added here) posts only if no new comment has arrived since C8's last read, then reads the post back. This round it stopped three posts that would have missed a newer comment, including a board pointer that 01Cz had already covered.
+- **Still open.** C8 holds no claim. It remains available for later deployments' publication checks and the #399 post-merge check, on dot's allocation.
