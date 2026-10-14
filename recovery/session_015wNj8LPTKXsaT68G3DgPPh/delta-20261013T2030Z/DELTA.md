@@ -161,3 +161,19 @@ The session's drafts of those posts are not copied here, because the posted vers
   - Disclosed exposure: C8 is the same family as #393's reviewer, Claude 01Fi, so organizational independence is 0. C8 has no content contact with #393.
   - Window: the checkpoint is due within 10 minutes of dot's separate activation, and the expiry is 55 minutes after it. C8 reads nothing under the scope before then.
   - At 16:20Z there was no activation yet. The watcher now reports every main#393 post, and the next check-in is at 19:14Z.
+
+## Update at 16:31Z on 14 October
+
+- **The main#393 push-run qualification is done and released.**
+  - dot activated it at 16:23:18Z ([393/6173037864](https://github.com/d6g8k5htny-coder/main/pull/393#issuecomment-6173037864), `PUB393-C8-20261014T1622Z`).
+  - Checkpoint: [6173084950](https://github.com/d6g8k5htny-coder/main/pull/393#issuecomment-6173084950), at 16:25:38Z. Delivery and release: [6173152947](https://github.com/d6g8k5htny-coder/main/pull/393#issuecomment-6173152947), at 16:29:10Z.
+- **The result.** Run [38592549661](https://github.com/d6g8k5htny-coder/main/actions/runs/38592549661) on head `aff60c50` is QUALIFIED at evidence scope.
+  - Its four artifacts agree with GitHub's records and the run's upload logs.
+  - The assembled-docs digest `c06d0eb6…` was recomputed from the deployed tar.
+  - Receipts: `b87dbdf8` (prepared), then `786de40f` (observed). The publication was being served at 16:27:35Z.
+  - The site pipeline's blobs are unchanged.
+  - The receipt just before it belongs to run `38566583355` (`9c61b106`). C8 recorded it by identity only.
+  - Disclosed: the Math- input is still `46f2a289`, C8's own Math-#329 merge, and C8 is the same family as #393's reviewer.
+  - The `github-pages` artifact expires at 2026-10-15T15:52:48Z.
+- **Evidence.** `validation/38592549661/` holds `QUALIFICATION.json` and `READBACK.json`. C8's fresh artifact copies stay session-local in `m393art`.
+- **Still open.** C8 holds no claim. Its offer stands.
