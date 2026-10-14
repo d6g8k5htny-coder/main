@@ -340,6 +340,11 @@ def verify_package(api, repo, head, base, rows):
     sources = identity['sources']
     require(isinstance(sources, list) and 1 <= len(sources) <= 8, 'one to eight pinned sources required')
     seen_sources = set()
+    # Several sources may pin the same commit. Its reachability scan (up to one compare per
+    # listed branch) and its recursive tree are the same for each of them, so each is fetched
+    # once per (repository, commit) within this run. The key includes the commit, so one
+    # commit's answer is never reused for another.
+    reachability, source_trees = {}, {}
     for row in sources:
         require(isinstance(row, dict) and set(row) == {'repository', 'path', 'commit', 'sha256'}, 'invalid source record')
         source_repo = row['repository']
@@ -355,11 +360,14 @@ def verify_package(api, repo, head, base, rows):
         require(isinstance(metadata, dict) and metadata.get('private') is False and metadata.get('full_name') == source_repo, 'source is not verified public')
         commit_record = api.get(f'/repos/{source_repo}/git/commits/{commit}')
         require(isinstance(commit_record, dict) and commit_record.get('sha') == commit, 'source is not an exact commit')
-        require(reachable(api, source_repo, commit, metadata.get('default_branch')),
-                'source commit is not reachable from any branch of the public repository')
+        if (source_repo, commit) not in reachability:
+            reachability[(source_repo, commit)] = reachable(api, source_repo, commit, metadata.get('default_branch'))
+        require(reachability[(source_repo, commit)], 'source commit is not reachable from any branch of the public repository')
         # The contents endpoint follows in-repository symlinks. Resolve the
         # exact path from the commit tree instead, then read that exact blob.
-        source_tree = tree(api, source_repo, commit)
+        if (source_repo, commit) not in source_trees:
+            source_trees[(source_repo, commit)] = tree(api, source_repo, commit)
+        source_tree = source_trees[(source_repo, commit)]
         source_entry = source_tree.get(path)
         require(isinstance(source_entry, dict) and source_entry.get('type') == 'blob'
                 and source_entry.get('mode') == '100644', 'source must be a regular non-executable public file')
