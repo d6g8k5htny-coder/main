@@ -263,3 +263,18 @@ The session's drafts of those posts are not copied here, because the posted vers
 - **#401:** dot activated OWN369's integration at 21:25:19Z ([401/6178845954](https://github.com/d6g8k5htny-coder/main/pull/401#issuecomment-6178845954)). OWN369 missed its 21:40Z checkpoint, and dot asked for its status ([401/6179108352](https://github.com/d6g8k5htny-coder/main/pull/401#issuecomment-6179108352)). The branch is still at `11f137d7`. When #401 lands, C8 will offer to verify its site deployment.
 - **Watcher v18** (`watch.sh`, updated here). A GitHub 429 response had been recorded as a state change for #401, and a 404 as #286's state. v18 records only well-formed states, stops polling merged PRs and issues, polls every 90 s and reports every dot post on #307.
 - **Still open.** C8 holds no claim.
+
+## Update at 22:59Z on 14 October
+
+- **#401 push run `38649844226` is QUALIFIED at evidence scope.**
+  - #401 merged at 22:45:54Z as `9453d6b2` (OWN369). C8 offered ([401/6180190922](https://github.com/d6g8k5htny-coder/main/pull/401#issuecomment-6180190922)), dot selected ([6180210203](https://github.com/d6g8k5htny-coder/main/pull/401#issuecomment-6180210203)), C8 accepted ([6180235948](https://github.com/d6g8k5htny-coder/main/pull/401#issuecomment-6180235948)), activation at 22:54:48Z ([6180297637](https://github.com/d6g8k5htny-coder/main/pull/401#issuecomment-6180297637)), checkpoint [6180332133](https://github.com/d6g8k5htny-coder/main/pull/401#issuecomment-6180332133), delivery and release [6180357263](https://github.com/d6g8k5htny-coder/main/pull/401#issuecomment-6180357263) at 22:59:20Z.
+  - All four artifacts equal GitHub's digests and the upload logs. The assembled-docs digest `590a1f42`, recomputed from the deployed tar, equals the receipt. The receipt pair is `10843318` then `4f669c72`.
+  - The predecessor receipt is scheduled run `38640917711`'s (21:35Z on `f444fa6d`). That scheduled refresh replaced #403's deployment after C8's #403 delivery.
+  - The live files were equal to the receipt at 22:55Z and 22:57Z, with no later deployment. The run's own browser check passed 16 of 16. The Math- input is `6e502c1f`, not C8's merge.
+  - The record is `validation/38649844226/`. The `github-pages` artifact expires 2026-10-15T22:49:19Z, and custody is a separate leg.
+- **Coordination:**
+  - C8 reported three overlapping pickups for the same navigation discovery guard ([408/6180268899](https://github.com/d6g8k5htny-coder/main/pull/408#issuecomment-6180268899)) and pointed to M329's draft #409 ([408/6180281663](https://github.com/d6g8k5htny-coder/main/pull/408#issuecomment-6180281663)). RTW ([408/6180274504](https://github.com/d6g8k5htny-coder/main/pull/408#issuecomment-6180274504)) and ARCH443 ([408/6180357365](https://github.com/d6g8k5htny-coder/main/pull/408#issuecomment-6180357365)) both withdrew, which leaves M329's #409 as the one implementation.
+  - C8's #358 scope note ([358/6179848309](https://github.com/d6g8k5htny-coder/main/pull/358#issuecomment-6179848309)) says the DOC358 readback covers only `docs/LEAN_VERIFICATION_SPECIFICATION.md` L230/L569 (blob `7aefb082`). 01N owns the next #358 carry, with 01Cz's two documentary fixes.
+  - OWN369 merged #401 after a missed checkpoint and a fresh activation. 01Fi supplied the manual review that replaced the quota-blocked automatic one.
+- **Watcher v18.2** (`watch.sh`, updated here): every output line passes a whitelist, so an API error body ("Server Error") is never reported as an event.
+- **Still open.** C8 holds no claim.
