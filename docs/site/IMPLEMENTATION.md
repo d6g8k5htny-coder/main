@@ -1,5 +1,7 @@
 # Verification museum implementation plan
 
+> Historical plan, 26 September 2026. Its checkboxes and counts describe that plan, not the current page. The museum was later re-pinned to the STATUS snapshot at main `f2e432e` (29 September 2026) and now shows the reconciled D1 row and two AMEND rows. It also shows two landed packets. Read [museum.html](museum.html) and `museum.json` for the current projection, and the current [STATUS.md](https://github.com/d6g8k5htny-coder/main/blob/main/STATUS.md) for later status.
+
 > For agentic workers: use the subagent-driven-development workflow for the independent projection, display, and geometry tasks; root owns integration and release.
 
 **Goal:** Expose pinned public mathematics, its exact scoped reviews and open limits, and landed intake packets without changing scientific status.

@@ -28,6 +28,13 @@ rewrite historical authorship, hypotheses or outcomes.
   [rollout record](docs/FORMAL_VERIFICATION_ROLLOUT_20260927.md) explains the two
   existing pilots; do not introduce another vocabulary or scientific register.
 
+For changes under `docs/site` or `docs/public-math`, use the
+[site verification guide](docs/site/README.md#verify-the-reader-experience).
+After editing, stage new or deleted files, run
+`python -B tools/site_asset_release.py` followed by
+`python -B tools/site_asset_release.py --check`, and include every rewritten file
+in the commit.
+
 Required hosted checks remain required at the current tested commit. Preserve
 source identities and unresolved findings. Mathematical review, kernel evidence,
 statement alignment and scientific acceptance are separate; a merge or green
@@ -36,6 +43,7 @@ reviewer lineage and exposure; shared accounts or same-provider reviews do not
 create organizational independence.
 
 Follow the [privacy rule](governance/OP-PRIVACY-20260927.md): keep personal or
-unrelated material off GitHub and private workspace material private. Dylan's
-name and Gmail address are allowed by that rule. Do not change visibility or
-sharing merely because a source is readable.
+unrelated material off GitHub and private workspace material private. Apply its
+[current publication clarification](governance/OP-PRIVACY-20260927.md#current-owner-authorized-publication-scope)
+rather than reopening already-authorized metadata-only holds. Do not change
+visibility or sharing merely because a source is readable.

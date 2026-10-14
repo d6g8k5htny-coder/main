@@ -97,7 +97,7 @@ function line(svg, x1, y1, x2, y2, attrs = {}) {
   svg.append(shape('line', { x1, y1, x2, y2, stroke: ink, 'stroke-width': 2, ...attrs }));
 }
 function visual(title, description, viewBox = '0 0 720 360') {
-  const figure = element('figure', undefined, { class: 'museum-visual illustration' });
+  const figure = element('figure', undefined, { class: 'museum-visual illustration', tabindex: '0', role: 'region', 'aria-label': `${title} diagram; scrolls sideways on narrow screens` });
   const svg = shape('svg', { viewBox, role: 'img', 'aria-label': `${title}. ${description}` });
   svg.append(shape('title', {}, title), shape('desc', {}, description));
   figure.append(svg, element('figcaption', description));
@@ -167,7 +167,7 @@ function drawRemote(host) {
 }
 
 function drawAnnulus(host) {
-  const { figure, svg } = visual('Fixed scaled annulus and open omitted regions', 'Dimension 2; physical points belong to rE for E ⊆ K_AB and fixed 1 < A < B < ∞. The shaded annulus permits all heights. Dashed regions remain OPEN; radii are symbolic.', '0 0 720 400');
+  const { figure, svg } = visual('Fixed scaled annulus and open omitted regions', 'Dimension 2; physical points belong to rE for E ⊆ K_AB and fixed 1 < A < B < ∞. The shaded annulus permits all heights. Dashed regions are outside this source and were OPEN at the pinned snapshot (Math d6628da, 26 September 2026); radii are symbolic.', '0 0 720 400');
   const hatch = openHatch(svg);
   svg.append(shape('path', { d: 'M0 0H460V400H0Z M260 62A140 140 0 1 0 260 342A140 140 0 1 0 260 62Z', 'fill-rule': 'evenodd', fill: hatch }));
   svg.append(shape('path', { d: 'M260 62A140 140 0 1 0 260 342A140 140 0 1 0 260 62Z M260 114A88 88 0 1 0 260 290A88 88 0 1 0 260 114Z', 'fill-rule': 'evenodd', fill: pale }));
@@ -191,7 +191,7 @@ function drawAnnulus(host) {
   label(svg, 590, 269, 'Witness–witness', { 'text-anchor': 'middle', 'font-size': 16 });
   label(svg, 590, 293, 'shrinking separation', { 'text-anchor': 'middle', 'font-size': 15 });
   host.append(figure);
-  boundary(host, 'FIXED ANNULUS CANDIDATE — d = 2, fixed 1 < A < B < ∞, physical rE, all heights. Dashed pin neighborhoods, intermediate scales and witness–witness collisions remain OPEN. This is not a solved full plane or all-scales RN statement.');
+  boundary(host, 'FIXED ANNULUS CANDIDATE — d = 2, fixed 1 < A < B < ∞, physical rE, all heights. Dashed pin neighborhoods, intermediate scales and witness–witness collisions are outside this source and were OPEN at the pinned snapshot (Math d6628da, 26 September 2026). Later scoped planar first-moment results (all heights for pin disks and collars; the between-pin height window only for intermediate shells) are recorded in the current STATUS.md, not in this exhibit. This is not a solved full plane or all-scales RN statement.');
 }
 
 function drawP15(host) {
@@ -378,14 +378,18 @@ async function mountEC014(host) {
     const reset = element('button', 'Reset camera', { type: 'button' });
     reset.addEventListener('click', () => { yaw = -0.12; elevation = 0.82; render(); });
     const toggle = element('button', 'Show 2D diagram', { type: 'button' });
+    const status3D = '3D coordinate plane: drag with mouse or touch, or focus the canvas and use arrow keys. Orbit is a camera control only.';
     toggle.addEventListener('click', () => {
       stage.hidden = !stage.hidden; fallback.hidden = !stage.hidden;
       toggle.textContent = stage.hidden ? 'Show 3D view' : 'Show 2D diagram';
+      status.textContent = stage.hidden
+        ? '2D coordinate diagram. All pin coordinates and six data labels remain visible.'
+        : status3D;
       if (!stage.hidden) resize();
     });
     controls.append(reset, toggle);
     stage.hidden = false; fallback.hidden = true;
-    status.textContent = '3D coordinate plane: drag with mouse or touch, or focus the canvas and use arrow keys. Orbit is a camera control only.';
+    status.textContent = status3D;
     activeSceneCleanup = cleanup;
     if (globalThis.ResizeObserver) { observer = new ResizeObserver(resize); observer.observe(stage); }
     resize();

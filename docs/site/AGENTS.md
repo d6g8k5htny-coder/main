@@ -13,7 +13,7 @@ labels/border patterns. Educational models may be interactive when their scope
 is explicit. Presentation changes do not change scientific acceptance; never
 regenerate historical proof evidence as a cosmetic operation.
 
-Run `node --test tests/test_public_shop_frontend.mjs` from the repository root (includes the brand controls). Check mobile/desktop light/dark layouts and keyboard focus separately. A local screenshot is not a live deployed-source replay or a full accessibility certification.
+After any change under `docs/site` or `docs/public-math` (HTML, CSS, modules, JSON or Markdown, including this file), stage new or deleted files, then run `python3 -B tools/site_asset_release.py` and `python3 -B tools/site_asset_release.py --check` from the repository root, and commit every rewritten file. Then run the required public-shop steps in [the site guide](README.md#verify-the-reader-experience); `node --test tests/test_public_shop_frontend.mjs` includes the brand controls. Check mobile/desktop light/dark layouts and keyboard focus separately. A local screenshot is not a live deployed-source replay or a full accessibility certification.
 
 The owner's current request authorizes these presentation and workflow changes.
 Keep the historical stop record unchanged; the stop itself is no longer in effect

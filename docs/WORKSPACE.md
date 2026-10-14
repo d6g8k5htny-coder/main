@@ -9,11 +9,23 @@ ownership, review reuse, testing and delivery.
 
 ## Current working locations
 
-The [hardening research branch](https://github.com/d6g8k5htny-coder/main/tree/chatgpt/drive-github-hardening-20260919)
-contains the active mathematical software and evidence. The
+As of 12 October 2026, new work lands through pull requests to this repository's
+`main` and to [Math-](https://github.com/d6g8k5htny-coder/Math-). The
+`experiments/` directory on `main` holds
+[`experiments/periodic_h0/`](../experiments/periodic_h0/README.md),
+[`experiments/universality/`](../experiments/universality/README.md) and
+[`experiments/zeta_fold_exploration/`](../experiments/zeta_fold_exploration/README.md),
+the last an exploratory packet whose scientific effect is NONE, which makes no
+claim of progress toward the Riemann Hypothesis and whose independent numerical
+reproduction (review slice C) is open. None of the three reports a held-out
+confirmation run; each README states its own scope. Two older branches remain
+readable context. The [hardening research branch](https://github.com/d6g8k5htny-coder/main/tree/chatgpt/drive-github-hardening-20260919)
+holds the earlier research software and evidence; its last merge was on
+27 September 2026 (`a01c72f1`). The
 [Claude migration branch](https://github.com/d6g8k5htny-coder/main/tree/claude/drive-audit-github-migration-rrglpp)
-holds additional work and proposed repairs. Inspect actual differences and current
-heads before combining them: a small advertised change can otherwise bring along
+holds additional proposed repairs, including main#237 and main#238; its last merge
+was on 2 October 2026 (`b6ccb5e2`). Inspect actual differences and current heads
+before combining them: a small advertised change can otherwise bring along
 unrelated ancestry. No branch name makes work correct or permanently unmergeable.
 
 Mathematical candidates and their reviews also live in
@@ -24,7 +36,11 @@ not an instruction to repeat a completed review.
 Use [pull requests](https://github.com/d6g8k5htny-coder/main/pulls) and
 [Actions](https://github.com/d6g8k5htny-coder/main/actions) for live collaboration and
 execution results. The [research execution guide](https://github.com/d6g8k5htny-coder/main/blob/chatgpt/drive-github-hardening-20260919/docs/RESEARCH_EXECUTION.md)
-describes the research-side commands; read it in the checkout actually being used.
+describes the research-side commands; read it in the checkout actually being used;
+it describes the hardening branch. The experiments on `main` are described in
+[experiments/periodic_h0/README.md](../experiments/periodic_h0/README.md),
+[experiments/universality/README.md](../experiments/universality/README.md) and
+[experiments/zeta_fold_exploration/README.md](../experiments/zeta_fold_exploration/README.md).
 
 The [Drive Research Home](https://docs.google.com/document/d/180yfvocozAaFRxf7tY8CDrobnpi17Sv-UkQGBBWCiD8)
 and [coupled research registers](https://docs.google.com/spreadsheets/d/1O6x8ivmaVUxYqKmCOXmToIHpMXqDI362ibqBl8HY8no)
@@ -33,6 +49,21 @@ the object's PR rather than maintaining a second independent ownership record.
 These links require the relevant Drive
 access; a public GitHub page does not make linked Drive files public. Historical
 permission wording in an older mirror does not revive revoked owner restrictions.
+
+## Where coordination happens
+
+New general questions, obstacles and handoffs go on the
+[Agent Message Board, main #307](https://github.com/d6g8k5htny-coder/main/issues/307).
+[main #229](https://github.com/d6g8k5htny-coder/main/issues/229) is the historical
+board; start with its
+[working guidance](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6038554880).
+GitHub stopped accepting comments on #229 at 2,500. Deduplicated tasks, current
+claims and handoffs stay on
+[main #275](https://github.com/d6g8k5htny-coder/main/issues/275) and in the relevant
+issue or pull request. Most proof review happens in
+[Math- pull requests](https://github.com/d6g8k5htny-coder/Math-/pulls). Dated queue
+lists in these threads are starting pointers, not live ownership counts; neither
+thread is a scientific-status register, a permanent ownership register or a lock.
 
 ## Dylan's review desk
 
@@ -68,13 +99,16 @@ which proposal items were already present, adopted or declined.
 All participating models have Dylan's permission to download, install, create, and
 use useful tools. Choose the actual runtime for the task rather than assuming the
 2025 package described real installed software. For example, a clean checkout of
-the current research branch starts with:
+the default branch, where current main-side research software lands, starts with:
 
 ```sh
-git clone --filter=blob:none --single-branch --branch chatgpt/drive-github-hardening-20260919 https://github.com/d6g8k5htny-coder/main.git research-workspace
+git clone --filter=blob:none https://github.com/d6g8k5htny-coder/main.git research-workspace
 cd research-workspace
 git rev-parse HEAD
 ```
+
+To inspect the older hardening software (last merge 27 September 2026), add
+`--single-branch --branch chatgpt/drive-github-hardening-20260919`.
 
 Read the checkout's environment files and workflows before installing dependencies.
 This session prefers project-local environments, identifiable upstream sources, and
@@ -85,10 +119,25 @@ installation or routing routine permission back to Dylan.
 
 ## Local navigation check
 
-The landing workflow's `landing-checks` job checks declared local documentation
-links, exact custody of the two relocated historical files, and its own test
-cases. Its required `verify` aggregate also requires current-commit formal
-execution under [the required-check contract](FORMAL_REQUIRED_CHECKS.md).
+The landing workflow's `landing-checks` job first requires that the same run's
+`architecture` job (the reusable `research-architecture.yml` workflow) succeeded
+and reported the current commit, repository, run ID, run attempt and an archive
+name bound to that run and attempt (added by main#320, 8 October 2026); that
+binding step checks those identity strings and the format of the reported archive
+ID and digests, not the archive bytes or receipt contents. The job then checks the
+required-check integration controls, the delivery-archive controls (added to
+this job by main#274, 7 October 2026), its own test cases, declared local
+documentation links, exact custody of the two relocated historical files, and the
+W8b formal and intake controls (added to this job by main#304, 8 October 2026),
+which test formal-receipt binding in `tools/required_formal_check.py` and
+artifact byte-count and SHA-256 identity in `tools/public_intake_check.py`. The
+required-check, delivery-archive and W8b controls each run in normal and
+optimized (`-O`) Python; the landing checker's own tests run once, in normal
+mode. Last, the job confirms that the checked-out commit is the tested commit.
+Its step summary records that research branches and mathematical claims were
+not verified by this job. Its required `verify` aggregate also requires
+current-commit formal execution under
+[the required-check contract](FORMAL_REQUIRED_CHECKS.md).
 The local navigation commands use Python's standard library:
 
 ```sh
@@ -101,7 +150,10 @@ The landing checker covers its declared pages and historical bytes. The navigati
 checker additionally checks declared Markdown anchors; neither command above
 crawls remote links or executes another branch's research. Read actual workflow
 definitions for the checks applicable to a change. A local navigation pass does
-not replace required hosted CI or substantive review.
+not replace required hosted CI or substantive review. Changes under `docs/site` or
+`docs/public-math` also need `python3 -B tools/site_asset_release.py` followed by
+`--check`, and the required `public-shop` steps listed in
+[the site guide](site/README.md#verify-the-reader-experience).
 
 ## Formal layer check
 

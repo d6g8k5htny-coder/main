@@ -1,5 +1,6 @@
 """Stdlib contract checks for the optional browser-QA runner, not browser evidence."""
 import ast
+import re
 from pathlib import Path
 import unittest
 
@@ -43,10 +44,17 @@ class BrowserCheckContract(unittest.TestCase):
     def test_browser_dependencies_are_separate_and_version_pinned(self):
         path=ROOT/'tests/browser-requirements.txt'
         self.assertTrue(path.is_file(),'Optional browser dependencies are missing')
-        requirements=[line for line in path.read_text().splitlines() if line and not line.startswith('#')]
+        text=path.read_text().replace('\\\n',' ')
+        requirements=[line.strip() for line in text.splitlines() if line.strip() and not line.startswith('#')]
         self.assertEqual(len(requirements),4)
-        self.assertTrue(all('==' in line and '://' not in line for line in requirements))
-        self.assertIn('playwright==1.62.0',requirements)
+        self.assertEqual({line.split()[0] for line in requirements},
+                         {'playwright==1.62.0','pyee==13.0.1','greenlet==3.5.5','typing_extensions==4.16.0'})
+        for line in requirements:
+            self.assertTrue(all(re.fullmatch(r'--hash=sha256:[0-9a-f]{64}',part)
+                                for part in line.split()[1:]))
+            self.assertGreater(len(line.split()),1,'Every optional package needs a local distribution hash')
+        workflow=(ROOT/'.github/workflows/public-shop.yml').read_text()
+        self.assertIn('--require-hashes --only-binary=:all:',workflow)
 
 class ReaderSourceBrowserContract(unittest.TestCase):
     def test_clipboard_denial_fixture_reinitializes_after_same_document_history(self):
@@ -133,7 +141,7 @@ class ReaderSourceBrowserContract(unittest.TestCase):
                 calls=[node for node in ast.walk(functions[parent]) if isinstance(node,ast.Call)
                        and isinstance(node.func,ast.Name) and node.func.id==helper]
                 self.assertEqual(len(calls),1,'The helper must be reached by the existing four-case flow')
-        self.assertIn('len(report["cases"])==16',source)
+        self.assertIn('len(report["cases"])==18',source)
 
     def test_bibtex_browser_checks_compare_real_clipboard_and_keep_failure_paths(self):
         source=(ROOT/'tools/public_shop_browser_check.py').read_text()
@@ -150,7 +158,7 @@ class ReaderSourceBrowserContract(unittest.TestCase):
 
     def test_existing_runner_covers_source_quote_and_keyboard_disclosure(self):
         source=(ROOT/'tools/public_shop_browser_check.py').read_text()
-        for token in ['check_source_card_flow','source-quote-readable','source-quote-original','Exact source quote','issuecomment-5841270276','len(report["cases"])==16']:
+        for token in ['check_source_card_flow','source-quote-readable','source-quote-original','Exact source quote','issuecomment-5841270276','len(report["cases"])==18']:
             self.assertIn(token,source)
 
     def test_reader_tools_have_desktop_and_mobile_browser_evidence(self):
@@ -168,8 +176,24 @@ class ReaderSourceBrowserContract(unittest.TestCase):
             'dated claim-dependency snapshot', 'page.keyboard.press("Tab")',
             'page.keyboard.press("Enter")',
             'documentElement.scrollWidth',
-            'len(report["cases"])==16',
+            'len(report["cases"])==18',
         ]:
             self.assertIn(token,source)
+
+    def test_rendered_layout_cases_read_what_the_browser_drew(self):
+        # Stylesheet parsing misses compound selectors, nesting, !important and longhands; these cases read computed and rendered outcomes.
+        source=(ROOT/'tools/public_shop_browser_check.py').read_text()
+        module=ast.parse(source)
+        functions={node.name:node for node in module.body if isinstance(node,ast.FunctionDef)}
+        main=ast.get_source_segment(source,functions['main'])
+        for name in ('check_rendered_focus_rings','check_rendered_text_layout'):
+            self.assertIn(name,functions)
+            self.assertIn(name,main)
+        for token in [":focus-visible","getBoundingClientRect","getClientRects","overflowX","overflowY","#conditional-route","figure.museum-visual",
+                      "ec014","remote","annulus","p15","blockquote","text-spacing-override.css","line-height:1.5","letter-spacing:.12em",
+                      "word-spacing:.16em","margin-bottom:2em",".evidence-table th, .evidence-table td:nth-child(2)","hist.CH-LIFT",
+                      "math.d5-component.punctured-pin-proof","scrollWidth","clientWidth"]:
+            self.assertIn(token,source)
+        self.assertIn('len(report["cases"])==18',source)
 
 if __name__=='__main__':unittest.main()

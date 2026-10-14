@@ -1,10 +1,12 @@
-import {verifiedJSON, verifiedBytes, validateStatus, validateCoefficient, safeSourceURL, hex40, hex64} from './core.mjs?site-release=4ec25edbe710c46618bf3d41c98095262202d484bcad5b9e956627b23843ed36';
-import {connectCatalogQuery} from './catalog-query.mjs?site-release=4ec25edbe710c46618bf3d41c98095262202d484bcad5b9e956627b23843ed36';
-import {prepareWorkspaceFragment} from './workspace-fragment.mjs?site-release=4ec25edbe710c46618bf3d41c98095262202d484bcad5b9e956627b23843ed36';
+import {verifiedJSON, verifiedBytes, validateStatus, validateCoefficient, safeSourceURL, hex40, hex64} from './core.mjs?site-release=4764cf2cfa0123b97aca3ec6ff8a1aba79e9ad1b5506d8616775b59c20e65ebc';
+import {connectCatalogQuery} from './catalog-query.mjs?site-release=4764cf2cfa0123b97aca3ec6ff8a1aba79e9ad1b5506d8616775b59c20e65ebc';
+import {prepareWorkspaceFragment} from './workspace-fragment.mjs?site-release=4764cf2cfa0123b97aca3ec6ff8a1aba79e9ad1b5506d8616775b59c20e65ebc';
 const finishFragment=prepareWorkspaceFragment();
 const el=id=>document.getElementById(id);
 const node=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
-const error=(id,e)=>{el(id).textContent=`Unavailable: ${e.message}. No result inferred.`;el(id).className='error';};
+const error=(id,e,pin)=>{const target=el(id);target.textContent=`Unavailable: ${e.message}. No result inferred.`;target.className='error';
+  if(pin&&/^d6g8k5htny-coder\/(main|Math-|query-)$/.test(pin.repository)&&hex40.test(pin.commit)&&typeof pin.path==='string'&&!pin.path.split('/').some(p=>!p||p==='.'||p==='..'))
+    target.append(' ',link('Read the pinned source on GitHub ↗',`https://github.com/${pin.repository}/blob/${pin.commit}/${pin.path.split('/').map(encodeURIComponent).join('/')}`));};
 const link=(text,url)=>{const a=node('a',text);a.href=url;return a;};
 const disclaimer='This canvas explains the pinned source. It is not a proof and does not change status.';
 // Small safe renderer: links to this public GitHub owner; no HTML execution.
@@ -36,12 +38,16 @@ async function board(config) {
   const s=validateStatus(await verifiedJSON(config.status_json));
   await verifiedBytes(s.source);
   const base=`https://github.com/d6g8k5htny-coder/main/blob/${s.source.commit}/`;
-  el('status-note').textContent=`Snapshot ${s.snapshot_date}. Counts cover the selected rows below, not every theorem or artifact. ${s.meaning}`;
+  const notice=typeof s.snapshot_context?.notice==='string'?` ${s.snapshot_context.notice}`:'';
+  el('status-note').textContent=`Snapshot ${s.snapshot_date}: STATUS.md at main ${s.source.commit.slice(0,7)}.${notice} Counts cover the selected rows below, not every theorem or artifact. ${s.meaning}`;
   const labels={accept:'ACCEPT — scoped',amend:'AMEND / open',engineering:'Engineering only'};
   const classes={accept:'ACCEPT-scoped',amend:'AMEND/open',engineering:'engineering-only'};
   for(const section of s.sections) {
-    const card=node('article',undefined,section.key);card.append(node('span',String(section.count),'count'),node('h3',labels[section.key]),node('p','Selected source rows; read the scope below.'));
-    sourceHeader(card,'status-count-'+section.key,'engineering-only',s.source);el('counts').append(card);
+    const anchors={accept:'accept--scoped',amend:'amend--open',engineering:'engineering-only'};
+    const card=node('article',undefined,section.key);const scope=node('p',`Selected rows of STATUS.md at main ${s.source.commit.slice(0,7)} (snapshot ${s.snapshot_date}); later revisions are not shown. `);
+    scope.append(link('Read the rows and their scope at that commit ↗',`${base}STATUS.md#${anchors[section.key]}`));
+    card.append(node('span',String(section.count),'count'),node('h3',labels[section.key]),scope);
+    sourceHeader(card,'status-count-'+section.key,'engineering-only (this count display, not the rows it counts)',s.source);el('counts').append(card);
     const details=node('details',undefined,'status-group');details.append(node('summary',`${labels[section.key]} · ${section.count}`));
     for(const row of section.rows) {
       const article=node('article',undefined,'status-object');const title=node('h4');cell(title,row[0],base);article.append(title);
@@ -100,7 +106,7 @@ async function custody(config) {
   if(manifest.scientific_effect!=='NONE'||manifest.byte_copies.length!==config.imports.count||manifest.byte_copies.some(row=>row.kind!=='BYTE_COPY'||row.source_label_adopted!==false))throw new Error('Import custody mismatch');
   const observed=config.observations;
   el('custody-note').textContent=`${config.imports.count} byte-copy imports landed at Math ${config.imports.commit}; source labels were not adopted. ${observed.open_math_prs} Math PRs were open when observed ${observed.observed_at}. An open PR is not landed math.`;
-  el('custody-note').append(' ',link('Import identities ↗',config.imports.manifest_url));
+  el('custody-note').append(' ',link('Import identities ↗',config.imports.manifest_url),' · ',link('Current open Math PRs (live list) ↗','https://github.com/d6g8k5htny-coder/Math-/pulls'));
 }
 async function queryIdentity(config) {
   const q=config.query;const bundle=await verifiedJSON(q);if(bundle.math_tip!==q.math_pin||bundle.scientific_status_authority!==false)throw new Error('Query source mismatch');
@@ -111,7 +117,7 @@ async function queryIdentity(config) {
 }
 try {
   const response=await fetch('config.json',{credentials:'omit',cache:'no-store'});if(!response.ok)throw new Error('Shop config unavailable');const config=await response.json();
-  const jobs=[['status-note',()=>board(config)],['coefficient-state',()=>coefficients(config)],['inventory-state',()=>inventory(config)],['custody-note',()=>custody(config)],['query-note',()=>queryIdentity(config)]];
-  await Promise.allSettled(jobs.map(async([id,job])=>{try{await job();}catch(e){error(id,e);}}));
+  const jobs=[['status-note',()=>board(config),config.status],['coefficient-state',()=>coefficients(config),config.coefficient],['inventory-state',()=>inventory(config),config.inventory],['custody-note',()=>custody(config),config.imports],['query-note',()=>queryIdentity(config),config.query]];
+  await Promise.allSettled(jobs.map(async([id,job,pin])=>{try{await job();}catch(e){error(id,e,pin);if(id==='inventory-state')el('catalog-query-note').textContent='Search links are unavailable because the catalog could not be verified.';}}));
 } catch(e) {['status-note','coefficient-state','inventory-state','custody-note','query-note'].forEach(id=>error(id,e));}
 finally {finishFragment();}
