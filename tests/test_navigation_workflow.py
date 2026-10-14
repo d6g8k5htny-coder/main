@@ -1,14 +1,17 @@
-"""Static contract for the navigation workflow's top-level test path filter.
+"""Static contract for the navigation workflow's page and test path filters.
 
 This reads the workflow's existing single-line, quoted flow-list syntax. It
 is not a general YAML parser, a GitHub event replay, or a whole-workflow audit.
 The basename matcher is limited to direct children of tests/: unlike a raw
 fnmatch over the whole path, its '*' cannot consume a directory separator.
+Declared-page coverage recognizes literal paths and the existing docs/**
+pattern only; it deliberately does not implement general GitHub glob matching.
 """
 from __future__ import annotations
 
 import ast
 import fnmatch
+import json
 from pathlib import Path
 import re
 import unittest
@@ -52,10 +55,28 @@ class NavigationWorkflowTests(unittest.TestCase):
         self.assertEqual(self.paths, [
             'README.md',
             'docs/**',
+            'formal/README.md',
+            'formal/GLOSSARY.md',
+            'formal/REVIEW_LANE.md',
             'tools/navigation_check.py',
             'tests/test_navigation*.py',
             '.github/workflows/navigation.yml',
         ])
+
+    def test_every_declared_navigation_page_has_a_trigger(self):
+        manifest = json.loads((ROOT / 'docs' / 'NAVIGATION.json').read_text(
+            encoding='utf-8'))
+        pages = manifest['pages']
+        self.assertIsInstance(pages, list)
+        self.assertTrue(pages, 'declared-page coverage must not be empty')
+        for page in pages:
+            with self.subTest(page=page):
+                self.assertIsInstance(page, str)
+                self.assertTrue(
+                    page in self.paths
+                    or ('docs/**' in self.paths and page.startswith('docs/')),
+                    f'declared navigation page lacks a trigger: {page}',
+                )
 
     def test_original_navigation_test_is_selected(self):
         self.assertTrue(selected_test_path('tests/test_navigation.py', self.paths))
