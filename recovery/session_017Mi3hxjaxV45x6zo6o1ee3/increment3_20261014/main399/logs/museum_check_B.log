@@ -1,0 +1,281 @@
+TAP version 13
+# Subtest: relative links resolve from the quoting source directory and commit, not the proof or live branch
+ok 1 - relative links resolve from the quoting source directory and commit, not the proof or live branch
+  ---
+  duration_ms: 3.039155
+  type: 'test'
+  ...
+# Subtest: quoted exact review comments and intentionally mutable source pointers keep their identities
+ok 2 - quoted exact review comments and intentionally mutable source pointers keep their identities
+  ---
+  duration_ms: 0.691958
+  type: 'test'
+  ...
+# Subtest: unrecognized schemes, foreign destinations, encoded traversal and malformed identities stay literal
+ok 3 - unrecognized schemes, foreign destinations, encoded traversal and malformed identities stay literal
+  ---
+  duration_ms: 2.104385
+  type: 'test'
+  ...
+# Subtest: source HTML is always text and unsupported Markdown retains its literal spelling
+ok 4 - source HTML is always text and unsupported Markdown retains its literal spelling
+  ---
+  duration_ms: 2.040901
+  type: 'test'
+  ...
+# Subtest: every committed quote retains all wording and its original source independently of formatting
+ok 5 - every committed quote retains all wording and its original source independently of formatting
+  ---
+  duration_ms: 5.719767
+  type: 'test'
+  ...
+# Subtest: unsupported parenthesized destinations and Markdown link titles stay wholly literal
+ok 6 - unsupported parenthesized destinations and Markdown link titles stay wholly literal
+  ---
+  duration_ms: 0.92095
+  type: 'test'
+  ...
+# Subtest: museum exposes source-bound rendering rather than silently omitting the page
+ok 7 - museum exposes source-bound rendering rather than silently omitting the page
+  ---
+  duration_ms: 0.215918
+  type: 'test'
+  ...
+# Subtest: a delayed initial museum bookmark still reaches its verified claim when untouched
+ok 8 - a delayed initial museum bookmark still reaches its verified claim when untouched
+  ---
+  duration_ms: 71.10139
+  type: 'test'
+  ...
+# Subtest: museum wheel while verifying sources cancels delayed focus and scroll
+ok 9 - museum wheel while verifying sources cancels delayed focus and scroll
+  ---
+  duration_ms: 8.655536
+  type: 'test'
+  ...
+# Subtest: museum keydown while verifying sources cancels delayed focus and scroll
+ok 10 - museum keydown while verifying sources cancels delayed focus and scroll
+  ---
+  duration_ms: 7.899909
+  type: 'test'
+  ...
+# Subtest: museum pointerdown while verifying sources cancels delayed focus and scroll
+ok 11 - museum pointerdown while verifying sources cancels delayed focus and scroll
+  ---
+  duration_ms: 11.910396
+  type: 'test'
+  ...
+# Subtest: museum focusin while verifying sources cancels delayed focus and scroll
+ok 12 - museum focusin while verifying sources cancels delayed focus and scroll
+  ---
+  duration_ms: 9.130359
+  type: 'test'
+  ...
+# Subtest: museum hashchange while verifying sources cancels delayed focus and scroll
+ok 13 - museum hashchange while verifying sources cancels delayed focus and scroll
+  ---
+  duration_ms: 3.608407
+  type: 'test'
+  ...
+# Subtest: museum popstate while verifying sources cancels delayed focus and scroll
+ok 14 - museum popstate while verifying sources cancels delayed focus and scroll
+  ---
+  duration_ms: 5.852961
+  type: 'test'
+  ...
+# Subtest: museum pagehide while verifying sources cancels delayed focus and scroll
+ok 15 - museum pagehide while verifying sources cancels delayed focus and scroll
+  ---
+  duration_ms: 4.401138
+  type: 'test'
+  ...
+# Subtest: full reviewed bullets, the reconciled D1 row and both AMEND rows retain their classes and source wording
+ok 16 - full reviewed bullets, the reconciled D1 row and both AMEND rows retain their classes and source wording
+  ---
+  duration_ms: 1.63183
+  type: 'test'
+  ...
+# Subtest: source display cannot promote a counterexample or an AMEND row
+ok 17 - source display cannot promote a counterexample or an AMEND row
+  ---
+  duration_ms: 1.084126
+  type: 'test'
+  ...
+# Subtest: a genuine source elsewhere in the index cannot replace this claim proof or scope
+ok 18 - a genuine source elsewhere in the index cannot replace this claim proof or scope
+  ---
+  duration_ms: 0.579505
+  type: 'test'
+  ...
+# Subtest: replay command must occur exactly in the verified replay source
+ok 19 - replay command must occur exactly in the verified replay source
+  ---
+  duration_ms: 1.851264
+  type: 'test'
+  ...
+# Subtest: lifetime source identity must match D2 and packets must use the pinned main snapshot
+ok 20 - lifetime source identity must match D2 and packets must use the pinned main snapshot
+  ---
+  duration_ms: 0.897963
+  type: 'test'
+  ...
+# Subtest: malformed, mutable and falsely displayed source identities are refused before fetch
+ok 21 - malformed, mutable and falsely displayed source identities are refused before fetch
+  ---
+  duration_ms: 0.461385
+  type: 'test'
+  ...
+# Subtest: verified source bytes are required before a claim can be presented
+ok 22 - verified source bytes are required before a claim can be presented
+  ---
+  duration_ms: 1.160745
+  type: 'test'
+  ...
+# Subtest: streamed responses stop at the byte cap and cancel the reader
+ok 23 - streamed responses stop at the byte cap and cancel the reader
+  ---
+  duration_ms: 1.325634
+  type: 'test'
+  ...
+# Subtest: a stalled response body is aborted within its request deadline
+ok 24 - a stalled response body is aborted within its request deadline
+  ---
+  duration_ms: 15.303083
+  type: 'test'
+  ...
+# Subtest: review comment pointers cannot masquerade as byte-frozen comment content
+ok 25 - review comment pointers cannot masquerade as byte-frozen comment content
+  ---
+  duration_ms: 0.588901
+  type: 'test'
+  ...
+# Subtest: the accepted D1 row binds its STATUS quote, index-pinned proof and byte-bound review
+ok 26 - the accepted D1 row binds its STATUS quote, index-pinned proof and byte-bound review
+  ---
+  duration_ms: 1.196898
+  type: 'test'
+  ...
+# Subtest: packet index refuses a foreign packet, changed scientific effect and mismatched result path
+ok 27 - packet index refuses a foreign packet, changed scientific effect and mismatched result path
+  ---
+  duration_ms: 1.615539
+  type: 'test'
+  ...
+# Subtest: new landed chart packet requires its exact separate main commit and remains engineering-only
+ok 28 - new landed chart packet requires its exact separate main commit and remains engineering-only
+  ---
+  duration_ms: 3.216872
+  type: 'test'
+  ...
+# Subtest: rendered claims use declared HTML containers, complete identities and literal disclaimer
+ok 29 - rendered claims use declared HTML containers, complete identities and literal disclaimer
+  ---
+  duration_ms: 14.953985
+  type: 'test'
+  ...
+# Subtest: museum manifest must match the config byte count and SHA-256 before source projection
+ok 30 - museum manifest must match the config byte count and SHA-256 before source projection
+  ---
+  duration_ms: 3.725451
+  type: 'test'
+  ...
+# Subtest: museum.html keeps its two evidence live regions and a separate current observation region
+ok 31 - museum.html keeps its two evidence live regions and a separate current observation region
+  ---
+  duration_ms: 0.834804
+  type: 'test'
+  ...
+# Subtest: brand.css keeps the route status line visible and in the error colour when it refuses
+ok 32 - brand.css keeps the route status line visible and in the error colour when it refuses
+  ---
+  duration_ms: 1.525103
+  type: 'test'
+  ...
+# Subtest: refused cards carry no role and are not live; the museum status line counts every one of them
+ok 33 - refused cards carry no role and are not live; the museum status line counts every one of them
+  ---
+  duration_ms: 3.741676
+  type: 'test'
+  ...
+# Subtest: an unknown exhibit is counted in the museum status line like any other unavailable view
+ok 34 - an unknown exhibit is counted in the museum status line like any other unavailable view
+  ---
+  duration_ms: 4.072592
+  type: 'test'
+  ...
+# Subtest: a declared exhibit that cannot be shown is counted in the museum status line
+ok 35 - a declared exhibit that cannot be shown is counted in the museum status line
+  ---
+  duration_ms: 4.912206
+  type: 'test'
+  ...
+# Subtest: the dependency-record join map binds each card to its graph node by exact path and SHA-256, never by title
+ok 36 - the dependency-record join map binds each card to its graph node by exact path and SHA-256, never by title
+  ---
+  duration_ms: 2.40048
+  type: 'test'
+  ...
+# Subtest: a coherent old browser cache cannot hide the newly pinned packet
+ok 37 - a coherent old browser cache cannot hide the newly pinned packet
+  ---
+  duration_ms: 15.875212
+  type: 'test'
+  ...
+# Subtest: a mixed new config and stale museum manifest fails closed
+ok 38 - a mixed new config and stale museum manifest fails closed
+  ---
+  duration_ms: 2.514017
+  type: 'test'
+  ...
+# Subtest: actual pinned museum renders all cards and rejects cross-claim source, scope and replay substitutions
+ok 39 - actual pinned museum renders all cards and rejects cross-claim source, scope and replay substitutions
+  ---
+  duration_ms: 18.181794
+  type: 'test'
+  ...
+# Subtest: verified claim quotes expose readable source and exact review citations
+ok 40 - verified claim quotes expose readable source and exact review citations
+  ---
+  duration_ms: 4.018665
+  type: 'test'
+  ...
+# Subtest: readable presentation retains the exact original source quote in a disclosure
+ok 41 - readable presentation retains the exact original source quote in a disclosure
+  ---
+  duration_ms: 3.405102
+  type: 'test'
+  ...
+# Subtest: packet cards render in manifest order when the first packet arrives last
+ok 42 - packet cards render in manifest order when the first packet arrives last
+  ---
+  duration_ms: 9.269149
+  type: 'test'
+  ...
+# Subtest: a refused packet keeps its manifest slot when the other packet arrives later
+ok 43 - a refused packet keeps its manifest slot when the other packet arrives later
+  ---
+  duration_ms: 8.843407
+  type: 'test'
+  ...
+# Subtest: every refused packet is counted in the museum status line
+ok 44 - every refused packet is counted in the museum status line
+  ---
+  duration_ms: 8.292175
+  type: 'test'
+  ...
+# Subtest: a rendered packet replaces its Verifying placeholder
+ok 45 - a rendered packet replaces its Verifying placeholder
+  ---
+  duration_ms: 8.037414
+  type: 'test'
+  ...
+1..45
+# tests 45
+# suites 0
+# pass 45
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 398.495289
+Museum source export and actual display integration verified. Scientific effect NONE.

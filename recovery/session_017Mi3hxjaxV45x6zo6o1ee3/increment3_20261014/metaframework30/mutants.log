@@ -1,0 +1,11 @@
+original blob 74cc75a086a1cf989c2eae4037574315558b83c0
+N1 fix removed (base behaviour): CAUGHT rc=1 Ran 12 tests in 0.005s FAILED (failures=6) | test_git_source_ref_rejects_nul_at_each_position, test_source_manifest_rejects_nul_at_each_position
+N2 only trailing NUL refused: CAUGHT rc=1 Ran 12 tests in 0.004s FAILED (failures=4) | test_git_source_ref_rejects_nul_at_each_position, test_source_manifest_rejects_nul_at_each_position
+N3 only leading NUL refused: CAUGHT rc=1 Ran 12 tests in 0.003s FAILED (failures=4) | test_git_source_ref_rejects_nul_at_each_position, test_source_manifest_rejects_nul_at_each_position
+N4 NUL refused with a different message: CAUGHT rc=1 Ran 12 tests in 0.003s FAILED (failures=6) | test_git_source_ref_rejects_nul_at_each_position, test_source_manifest_rejects_nul_at_each_position
+N5 NUL silently stripped instead of refused: CAUGHT rc=1 Ran 12 tests in 0.003s FAILED (failures=6) | test_git_source_ref_rejects_nul_at_each_position, test_source_manifest_rejects_nul_at_each_position
+N6 refusal limited to source refs (manifest path unguarded): CAUGHT rc=1 Ran 12 tests in 0.004s FAILED (failures=3) | test_source_manifest_rejects_nul_at_each_position
+N7 validate_source_ref returns the caller object: CAUGHT rc=1 Ran 12 tests in 0.003s FAILED (failures=3) | test_source_paths_preserve_ordinary_names_and_inputs
+N8 validate_source_manifest mutates its input: CAUGHT rc=1 Ran 12 tests in 0.007s FAILED (failures=6) | test_source_manifest_rejects_nul_at_each_position, test_source_paths_preserve_ordinary_names_and_inputs
+N9 NUL refused as a ValueError, not a ContractError: CAUGHT rc=1 Ran 12 tests in 0.004s FAILED (errors=6) | test_git_source_ref_rejects_nul_at_each_position, test_source_manifest_rejects_nul_at_each_position
+restored blob 74cc75a086a1cf989c2eae4037574315558b83c0 OK

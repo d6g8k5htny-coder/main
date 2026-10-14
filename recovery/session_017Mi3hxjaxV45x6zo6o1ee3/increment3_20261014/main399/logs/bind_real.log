@@ -1,0 +1,40 @@
+head=7c610fe5c1b82ba6541f660a8607ddf94f5b8216 merge=023e103d4b82b6cc7338772be4cd7bb226785724 main=f16b947fec8bcada0fed1cbe0d9600a590ee19d7
+== parents of head: 7c610fe5c1b82ba6541f660a8607ddf94f5b8216 e80f370e28a32eda18c7364cd92c36919db21e4a f16b947fec8bcada0fed1cbe0d9600a590ee19d7
+== tree head bf2088f706aae46e853b4c54fbfa0484bf206174 merge bf2088f706aae46e853b4c54fbfa0484bf206174
+== semantic blobs (reviewed: 191f5a8f e8944c9a a687aa44 1b60543c; contract 84ac641d)
+  docs/site/atlas.mjs 191f5a8f
+  docs/site/current-model.mjs e8944c9a
+  tests/test_current_site.mjs a687aa44
+  tools/current_site_browser_check.py 1b60543c
+  tests/test_current_site_browser_contract.py 84ac641d
+== reviewed head -> new head paths: 3
+ formal/REVIEW_LANE.md |  8 +++++---
+ formal/manifest.json  |  4 ++--
+ 3 files changed, 16 insertions(+), 11 deletions(-)
+== relcheck vs new base
+base f16b947fec8bcada0fed1cbe0d9600a590ee19d7 head 7c610fe5c1b82ba6541f660a8607ddf94f5b8216
+changed paths: 177; semantic: 4; other: 173 {'.js': 1, '.css': 1, '.html': 160, '.mjs': 11}
+  semantic M docs/site/atlas.mjs
+  semantic M docs/site/current-model.mjs
+  semantic M tests/test_current_site.mjs
+  semantic M tools/current_site_browser_check.py
+release keys base: ['4764cf2cfa01'] head: ['81664321ae35']
+violations: none
+== --check
+rc=0
+81664321ae3536ab28eeb2dd5e8b18e82157243b8a9d89b25c23588d21008c0c
+== node test_current_site.mjs
+# tests 29
+# pass 29
+# fail 0
+# skipped 0
+== PY [-B -S] current-site suites
+Ran 85 tests in 88.333s
+
+OK
+== PY [-B -O -S] current-site suites
+Ran 85 tests in 89.380s
+
+OK
+== git status
+end 19:57:55Z

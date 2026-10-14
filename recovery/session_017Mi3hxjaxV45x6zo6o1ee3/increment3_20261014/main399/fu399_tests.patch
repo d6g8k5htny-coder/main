@@ -1,0 +1,35 @@
+diff --git a/tests/test_current_site.mjs b/tests/test_current_site.mjs
+index a687aa44..9e628fcd 100644
+--- a/tests/test_current_site.mjs
++++ b/tests/test_current_site.mjs
+@@ -223,3 +223,30 @@ test('snapshot index reads the source edge collection once and repeated pages ne
+  assert.equal(m.requiredDependencyAnalysis(graph,'chain.00000'),analysis);assert.equal(reads,1);assert.equal(iterations,399);
+  assert.equal(analysis.targets.some(target=>'ids' in target||'edges' in target),false);
+ });
++
++test('required routes order targets by length then ID and break parallel-edge ties by relation',()=>{
++ const open={kind:'candidate',classification:'OPEN_ACTIVE'},late={from:'R',to:'b',required:true,relation:'zeta'},early={from:'R',to:'b',required:true,relation:'alpha'};
++ const g={nodes:{R:{...open},a:{...open},b:{...open}},edges:[late,early,{from:'b',to:'a',required:true,relation:'deeper'}]};
++ const routes=m.requiredDependencyPaths(g,'R');
++ assert.deepEqual(routes.map(r=>r.ids),[['R','b'],['R','b','a']],'A shorter route precedes a longer route whose target ID sorts first');
++ assert.equal(routes[0].edges[0],early,'Parallel required edges resolve by relation, not source order');assert.equal(routes[1].edges[0],early);
++ const segments=m.requiredDependencyWindow(m.requiredDependencyAnalysis(g,'R')).segments;
++ assert.deepEqual(segments.map(s=>s.target),['b','a']);assert.equal(segments[0].incomingEdges[1],early);
++});
++
++test('route windows never emit empty boundary segments and clamp explicit limits to the render ceiling',()=>{
++ const nodes={R:{kind:'candidate',classification:'OPEN_ACTIVE'}},edges=[];
++ for(let i=0;i<200;i++){const id='t'+String(i).padStart(3,'0');nodes[id]={kind:'candidate',classification:'OPEN_ACTIVE'};edges.push({from:'R',to:id,required:true,relation:'star'});}
++ const g={nodes,edges},a=m.requiredDependencyAnalysis(g,'R');assert.equal(a.totalOccurrences,400);
++ for(let page=1;page<=200;page++){const w=m.requiredDependencyWindow(a,{page,limit:2});assert.equal(w.segments.length,1);assert.ok(w.segments.every(s=>s.ids.length>0),'Page '+page+' starts on a route boundary yet emitted an empty segment');}
++ const wide=m.requiredDependencyWindow(a,{limit:1000});assert.equal(wide.limit,150);assert.equal(wide.occurrences,150);assert.equal(wide.pages,3);
++ const rows=m.directRelationWindow(g,'R','outgoing',{limit:1000});assert.equal(rows.limit,150);assert.equal(rows.rows.length,150);assert.equal(rows.omitted,50);
++});
++
++test('unvalidated edges with unknown endpoints never enter the snapshot index',()=>{
++ const open={kind:'candidate',classification:'OPEN_ACTIVE'},known={from:'R',to:'t',required:true,relation:'r'};
++ const g={nodes:{R:{...open},t:{...open}},edges:[{from:'R',to:'missing',required:true,relation:'r'},{from:'missing',to:'t',required:true,relation:'r'},known]};
++ assert.deepEqual(m.requiredDependencyPaths(g,'R').map(r=>r.ids),[['R','t']]);
++ assert.deepEqual(m.downstreamReach(g,'t').allEdgeIds,['R']);assert.equal(m.downstreamReachCounts(g,'t').allEdge,1);
++ assert.deepEqual(m.directRelationWindow(g,'R','outgoing').rows,[known]);assert.deepEqual(m.directRelationWindow(g,'t','incoming').rows,[known]);
++});
