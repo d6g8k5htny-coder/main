@@ -172,7 +172,7 @@ r3 applies the author's dispositions in main#389 6155958479: items 1, 2, 3 and 5
 - (ii) gives the definition of c₂ from [R11] (Theorem T, (0.1)): the Hadamard finite part at k = 0 of (1/3)∫A₂k^{−4/3}.
 - (iii) adds c₂/c_{3,24} ∈ [3.859496174547456, 3.859496174548331]. I rechecked it in exact rational arithmetic: the c₂ enclosure, widened by the 10⁻⁶⁰ transfer error, divided by the twenty-digit enclosure of c_{3,24}.
 
-**Item 5, §5.1.** The cusp variable ℓ/r⁴ is now ϑ, with ϑ = κ/(6r). The records write it κ. κ keeps its §3 meaning.
+**Item 5, §5.2.** The cusp variable ℓ/r⁴ is now ϑ, with ϑ = κ/(6r). The records write it κ. κ keeps its §3 meaning.
 
 **Author correction to this change list.** The Build section said 18 pages. r1, r2 and r3 are 19 pages.
 
@@ -181,7 +181,7 @@ r3 applies the author's dispositions in main#389 6155958479: items 1, 2, 3 and 5
 - Theorem 2.3 (pages 5–6);
 - §3.4 (pages 8–10);
 - §3.8 (page 12);
-- §5.1 (page 14);
+- §5.2 (page 14);
 - §7 (page 17).
 
 The other pages differ only by reflow. The build has one overfull line of 2 pt, as before.
