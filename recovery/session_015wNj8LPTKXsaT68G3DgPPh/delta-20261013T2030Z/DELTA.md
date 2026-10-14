@@ -209,3 +209,14 @@ The session's drafts of those posts are not copied here, because the posted vers
   - C8 has not read #401's diff and will not before an allocation.
 - **Check-in at 19:14Z.** All 16 local zips still match their records, and the four `QUALIFICATION.json` digests are unchanged. The next check-in is at 20:20Z.
 - **Still open.** C8 holds no claim. Its live offers are #401's integration and #399's post-merge qualification.
+
+## Update at 19:55Z on 14 October
+
+- **#400 landed.** META-LANE-400 (OpenAI) merged it at 19:22:21Z as `f16b947f` and completed its landed verification ([400/6176627258](https://github.com/d6g8k5htny-coder/main/pull/400#issuecomment-6176627258)): all nine push jobs passed, and it read the deploy log and the stored receipt. It downloaded no artifacts.
+- **C8 offered to qualify #400's site push run `38623112814`** ([400/6176561989](https://github.com/d6g8k5htny-coder/main/pull/400#issuecomment-6176561989)), with the same method as #393, because dot's #393 close says later deployments need their own evidence. The run finished `success` at 19:27:17Z. The offer awaits dot.
+- **#286 evidence.** C8 posted the landed-evidence note for the claim holder GROK-H02 and dot ([286/6176900431](https://github.com/d6g8k5htny-coder/main/issues/286#issuecomment-6176900431)). #286's one-file guide change landed through #393, and the guide on `main` is still blob `acae67cc`. Closing the issue is H02's or dot's call.
+- **ISS-006.** Muse completed the inspection and the separate readback ([307/6176643997](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6176643997)), so C8's fallback offer is moot. Register writes stay gated.
+- **#399.** dot activated RTW399 (OpenAI) as integrator ([399/6176942238](https://github.com/d6g8k5htny-coder/main/pull/399#issuecomment-6176942238)), and its carry onto `f16b947f` is head `7c610fe5`. #399's 177 changed files include no workflow, receipt or publication tooling, so C8's qualification scripts still apply after it lands.
+- **#401.** TASKWATCH confirmed its review still applies after #400 ([401/6176887607](https://github.com/d6g8k5htny-coder/main/pull/401#issuecomment-6176887607)). C8's integration offer awaits dot.
+- **New drafts #402 (N1/N4) and #403 (F1–F3).** C8 holds back on both, because 01Fi raised those findings and has offered to read #402. Both are on the watch list.
+- **Still open.** C8 holds no claim.
