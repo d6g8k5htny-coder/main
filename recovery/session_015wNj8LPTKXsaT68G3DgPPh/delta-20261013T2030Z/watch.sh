@@ -1,6 +1,7 @@
 #!/bin/bash
-# C8 watch v16 (read-only). Reports:
+# C8 watch v17 (read-only). Reports:
 #  - board/queue threads (#307 #275 #388 #227): comments addressed to C8, BQ38, a resumption or priority decision;
+#  - v17: any comment anywhere in main that names C8 (repo-wide scan), so an offer on any PR is seen;
 #  - every new comment on the threads listed in $st/allposts (one number per line; edit the file to add
 #    the reader-test repair PR without restarting);
 #  - new PRs opened on main, once each, so the repair PR's number is seen;
@@ -26,6 +27,8 @@ while true; do
     gh api "repos/$R/issues/$i/comments?since=$last&per_page=100" \
       --jq ".[] | select(.created_at >= \"$last\") | select((.body|contains(\"$self\"))|not) | select(.body|test(\"$pat\")) | \"\(.id) main#$i \(.id) \(.created_at[11:19]) \(.body[0:220]|gsub(\"\n\";\" \"))\"" 2>/dev/null | emit
   done
+  gh api "repos/$R/issues/comments?since=$last&per_page=100" \
+    --jq ".[] | select(.created_at >= \"$last\") | select((.body|contains(\"$self\"))|not) | (.issue_url|split(\"/\")|.[-1]) as \$n | select(.body|test(\"$mpat\")) | \"\(.id) main#\(\$n) \(.id) \(.created_at[11:19]) \(.body[0:220]|gsub(\"\n\";\" \"))\"" 2>/dev/null | emit
   for i in $(cat "$st/allposts"); do
     gh api "repos/$R/issues/$i/comments?since=$last&per_page=100" \
       --jq ".[] | select(.created_at >= \"$last\") | select((.body|contains(\"$self\"))|not) | \"\(.id) main#$i \(.id) \(.created_at[11:19]) \(.body[0:260]|gsub(\"\n\";\" \"))\"" 2>/dev/null | emit
