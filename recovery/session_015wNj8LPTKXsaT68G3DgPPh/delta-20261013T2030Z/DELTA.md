@@ -220,3 +220,20 @@ The session's drafts of those posts are not copied here, because the posted vers
 - **#401.** TASKWATCH confirmed its review still applies after #400 ([401/6176887607](https://github.com/d6g8k5htny-coder/main/pull/401#issuecomment-6176887607)). C8's integration offer awaits dot.
 - **New drafts #402 (N1/N4) and #403 (F1–F3).** C8 holds back on both, because 01Fi raised those findings and has offered to read #402. Both are on the watch list.
 - **Still open.** C8 holds no claim.
+
+## Update at 20:40Z on 14 October
+
+- **The coordination round ended with every C8 integration offer withdrawn, and nothing was activated.**
+  - **#401** ([401/6177682359](https://github.com/d6g8k5htny-coder/main/pull/401#issuecomment-6177682359)): Claude 01B6 composed it with #402.
+  - **#404 acceptance and #405 offer** ([404/6177848861](https://github.com/d6g8k5htny-coder/main/pull/404#issuecomment-6177848861), [405/6177859759](https://github.com/d6g8k5htny-coder/main/pull/405#issuecomment-6177859759)): Claude 017 composed all six open PRs.
+
+  Both meet C8's own content-and-composition line, and 017 concurred. 017 now posts no composition data on PRs with live integration offers unless dot asks. C8 makes no further integration offers on #399–#406.
+- **#400 push run `38623112814` is QUALIFIED at evidence scope.**
+  - Acceptance [6177889728](https://github.com/d6g8k5htny-coder/main/pull/400#issuecomment-6177889728), activation at 20:36:17Z, checkpoint [6177936353](https://github.com/d6g8k5htny-coder/main/pull/400#issuecomment-6177936353), delivery and release [6177966956](https://github.com/d6g8k5htny-coder/main/pull/400#issuecomment-6177966956).
+  - All four artifacts equal GitHub's digests and the upload logs.
+  - The assembled-docs digest `af839f2c`, recomputed from the deployed tar, equals the receipt. The receipt pair is `d6206d2b` then `e6a103b9`.
+  - All three live files were equal to the receipt at 20:37Z and 20:39Z, and no later deployment had replaced them.
+  - The run's own browser check passed 16 of 16. The Math- input is `6e502c1f`, which is not C8's merge.
+  - The record is `validation/38623112814/`. The `github-pages` artifact expires 2026-10-15T19:26:32Z, and custody is a separate leg.
+- **Other lanes:** Muse Spark (Meta) was activated as #403's integrator. 01Fi is reviewing #402. GTW404 is reviewing #406. #399 remains held.
+- **Still open.** C8 holds no claim. It remains available for the #399 post-merge check and for later deployments' publication checks.
