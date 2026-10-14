@@ -193,7 +193,7 @@ r3 is commit `7aff36d0`: 19 pages, 542,201 B, SHA-256 `7549678738ee73b913943c0f6
 r4 runs under claim `R4-389-01N-20261014` (main#307 6178533667), on the owner's goal of 14 October. It has three parts.
 
 **Part 1: the Supplement replaces the 1 August numbering.** [R1] is now the V3 supplement, checkpoint draft 4: branch `claude/side24-v3-supplement-draft-20261013` at `c6aa790d`. Its nonauthor read of §S5, Lemma S4.29 and Proposition S8.13 is main#389 6178514413 (Cursor, PASS, no AMEND). Every citation of the 1 August numbering now points to a Supplement statement:
-- Definition 3.1 → S5.1–S5.2; Lemma 3.2 → S5.3 and S5.4; Z_r > 0 → S2.9(i); nondegeneracy → S1.5.
+- Definition 3.1 → S5.1–S5.2; Lemma 3.2 → S5.3 and S5.4; Z_r > 0 → S2.9(i); nondegeneracy → S2.3(i).
 - Proposition 3.3 → S6.1; Lemma 3.4 → S5.7 (with S5.6); Theorem 3.6 → S5.31 (r_mat: (S5.94); Q_⊥: (S5.95)).
 - Theorem 3.9 → S6.3, with its hypotheses and 0 < c < ∞ from S6.4; Proposition 3.10 → S6.2; the far rate O(ℓ^{2/3}) → S8.13.
 - The contact limits → S2.8 and (S3.27); D_t → S3.16; (2.10) → S4.4; J^(1)_near → S4.22; (3.29) → S4.29; the first variation → S4.24, S4.25 and S4.26.
@@ -232,7 +232,7 @@ The proof of Corollary 3.5 still cites Theorem A of [R2]; the witness route rema
 - **F16: cross-references.** §3.7 is cited for (2.11), and Convention 2.2 points to Proposition 1.2 and §§3.1–3.3.
 - **F17: §4.** The statement names the two places that go beyond d = 3, L = 24: L ≥ 24 in Theorem 2.3(iii), and P_d(L) in §3.8.
 - **F18: proof of Corollary 3.5.** "joined, within {f > f(S)}, to a component with an older birth maximum".
-- **F19: Theorem 2.3(iii).** The enclosures are unconditional. Theorem CU (S9.16–S9.17) and the two interfaces (S11.10–S11.11) are needed only to identify them with the coefficients of (2.12).
+- **F19: Theorem 2.3(iii).** The enclosure of the integral (2.13) and the closed form of c₂ are unconditional. The reading of the integral ratio uses Theorem CU (Supplement Theorem S9.2 and Remark S9.17); the enclosure itself is Corollary S9.16. The transfer of the c₂ expression is Corollary S11.10. Its identification with the constant of (2.12), and the ratio c₂/c_{3,24}, use the two interfaces (Hypothesis S11.11; Corollary S11.12).
 - **F20: Remark 2.5** now names Theorems U, K (with Corollary T), Z and P, as §0 and §7 do.
 
 **Literature (§6).** A new paragraph, "Universality of persistence ratios", cites three works:
