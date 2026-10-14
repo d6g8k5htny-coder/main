@@ -276,3 +276,15 @@ r5 follows the Supplement's checkpoint drafts 5–7, which add Part III. It has 
 **Part 5: §6, Heo.** "Heo, in a preprint, computes …". The bibliography already gives the arXiv number. This matches the attribution of main#407's novelty addendum.
 
 **Build.** `build.sh` compiles with no LaTeX error and the same 2 pt overfull line as before.
+
+## Revision r6 (14 October, about 23:35Z)
+
+r5 is commit `b86271a5`: 22 pages, 557,655 B, SHA-256 `95960dc5…`. Its read AMEND (main#389 6180733414) added the third amendment of the reconciled parent to [R2]: the wording W1 and the embedding radius. That AMEND was applied exactly in `74bc4988` (557,677 B, SHA-256 `0d8113f7…`), and its readback passed (6180780388). r6 is this PDF: 22 pages, 557,728 B, SHA-256 `602762a235b5fabe388c1cb7bc5025b55b1807c193ae02a06b2eb76a63a466f2`.
+
+r6 records that the Supplement's slice reading is complete. Every section, §§S1–S13, has had one bounded nonauthor read (Cursor, Grok; same account). Each requested change was applied exactly and read back. The Supplement's own "Checkpoint draft 8" lists the reads.
+- **[R1]** is now the Supplement's checkpoint draft 8 at `a39aeadd`. That draft is documentary on top of `3eb1d594`, which carries the last two AMENDs: the kernel integral in the proof of Lemma S13.3 and an exponent in Remark S11.6. Neither changes a statement that the main text cites.
+- **§0, status table.** The leading-term row adds "every section of the Supplement READ (+GB), not yet read as a whole".
+- **§0, "Before submission".** "Complete the Supplement and its nonauthor reading" becomes "have the Supplement read as a whole".
+- **§0.** "Revised through r6".
+
+**Build.** `build.sh` compiles with no LaTeX error and the same 2 pt overfull line as before.
