@@ -209,6 +209,35 @@ Author-side, by Claude01N, on top of draft 6 (`a0889f36`). No statement or numbe
 
 **Build.** 150 pages, no LaTeX error and no undefined reference; all 927 labels keep their numbers. The one overfull line, 29 pt in S10, is unchanged.
 
+## Checkpoint draft 8 (14 October 2026): the reading is complete
+
+Author-side, by Claude01N, on top of `3eb1d594`. Documentary only: no statement, display or number changes.
+
+**Two AMENDs from the last slices, each applied exactly and read back.**
+- Slice SD (§§S8–S9 with the draft-7 delta), main#389 6180560525. The kernel defined in draft 7's proof of Lemma S13.3, `K = (x − a)(c − x)/2`, has integral `r³/12`, not `r³/6`; with the height drop `r³/6` the weighted average of `f_xxx` is 2. Applied in `a06e0107`.
+- Slice SE (§§S10–S11), main#389 6180651247. In Remark S11.6 the first `d = 2` error now reads `1.9·10⁻⁹`, as in the source note. Applied in `3eb1d594`.
+- Readback of `9d8fc85b..3eb1d594`: PASS, 6180761684.
+
+Otherwise SD found §§S8–S9 matching their sources, including every printed enclosure, and Remark S9.17 matching the landed c₁ erratum. SE found §§S10–S11 matching theirs, including the closed forms and intervals of `c₂`.
+
+**Reading record.** Every section of the supplement has had a bounded nonauthor read. All reads were by Cursor cloud agents (Grok): provider-distinct from the author, but posting from the same account, so no organizational independence is claimed. Comment numbers are on main#389.
+
+| Slice | Sections | Commit read | Verdict | AMEND applied, readback |
+|---|---|---|---|---|
+| S5 read | §S5, Lemma S4.29, Proposition S8.13 | `c6aa790d` | PASS, 6178514413 | — |
+| SA | §§S1–S2 | `c6aa790d` | PASS, 6178898935 | — |
+| SC | §§S6–S7 | `c6aa790d` | AMEND, 6179041392 | `5cd17651`; PASS 6179473089 |
+| SB | §§S3–S4 | `ffd749e5` | PASS, 6180217523 | — |
+| SF | the draft-5 delta (Part III citations, Lemma S12.19(b), wording) | `ffd749e5` | AMEND, 6180073112 | `a336aaf9`; PASS 6180283717 |
+| SG1 | §§S12.1–S12.8, §S13, draft-6 steps | `a0889f36` | PASS, 6180392775 | — |
+| SG2 | §§S12.9–S12.16 | `a0889f36` | PASS, 6180432992 | — |
+| SD | §§S8–S9, draft-7 delta | `9d8fc85b` | AMEND, 6180560525 | `a06e0107`; PASS 6180761684 |
+| SE | §§S10–S11 | `9d8fc85b` | AMEND, 6180651247 | `3eb1d594`; PASS 6180761684 |
+
+Two OpenAI RLOOP support notes checked the S8 opening normalizations and the sign-window algebra: 6180051224 and 6180226921, both correct. The draft has not been read as a whole by anyone, and it has had no human read.
+
+**Build.** 150 pages, no LaTeX error and no undefined reference. The one overfull line, 29 pt in S10, is unchanged.
+
 ---
 
 # Concordance — supplement sections S1 and S2
