@@ -1,47 +1,49 @@
 #!/bin/bash
-# C8 watch v12 (header below is from v5): board/queue/site threads for anything addressed to C8, a resumption
-# decision or Math-#371; Math- comments naming C8 or on #371/#454; and the check
-# runs of C8's two PR heads (#371 e7524e60, #454 e8b08e63). No scheduled-run
-# discovery (coordinator 6151507231 names 01a11d37 the one run-list observer).
+# C8 watch v16 (read-only). Reports:
+#  - board/queue threads (#307 #275 #388 #227): comments addressed to C8, BQ38, a resumption or priority decision;
+#  - every new comment on the threads listed in $st/allposts (one number per line; edit the file to add
+#    the reader-test repair PR without restarting);
+#  - new PRs opened on main, once each, so the repair PR's number is seen;
+#  - a state change (closed/merged) of any open PR listed in $st/allposts, once each;
+#  - Math- comments on #371/#454/#380/#329/#336 (v16: #329 preflight 6157624313, #336 HOLD 6157525280) or naming C8.
+# No scheduled-run discovery (coordinator 6151507231 names 01a11d37 the one run-list observer).
 # Patterns are passed into jq string literals, so a regex \b is written \\b here.
+# Usage: watch.sh [START_ISO]   (START_ISO defaults to now; overlapping windows are de-duplicated by comment id)
 st=/tmp/claude-0/-home-user/469e2708-1be1-5731-8b45-31b653d1d9d3/scratchpad/C13/watch_state
 mkdir -p "$st"
-last=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+[ -s "$st/allposts" ] || printf '%s\n' 387 390 358 396 > "$st/allposts"
+last=${1:-$(date -u +%Y-%m-%dT%H:%M:%SZ)}
+start=$last
 pat='(?<![0-9A-Za-z])C8\\b|015wNj8L|6150458427|6150630672|6150875061|6151730158|#366|#329|371|BQ50|BQ38|Math-?#?219|XA-219|#454|(?i:resum|priority|successor|board cap)'
 mpat='(?<![0-9A-Za-z])C8\\b|015wNj8L|XA-219'
 self='Anthropic Claude, session `session_015wNj8L'
-heads=""  # v12: #454 checks on 3bd0d6cf are done (5/5); a head move or merge is reported by the state check below
+R=d6g8k5htny-coder/main
+once() { [ -e "$st/$1" ] && return 1; : > "$st/$1"; return 0; }
+emit() { while read -r id rest; do [ -n "$id" ] && once "c.$id" && echo "$rest"; done; }
 while true; do
   now=$(date -u +%Y-%m-%dT%H:%M:%SZ)
   for i in 307 275 388 227; do
-    gh api "repos/d6g8k5htny-coder/main/issues/$i/comments?since=$last&per_page=100" \
-      --jq ".[] | select(.created_at >= \"$last\") | select((.body|contains(\"$self\"))|not) | select(.body|test(\"$pat\")) | \"main#$i \(.id) \(.created_at[11:19]) \(.body[0:220]|gsub(\"\n\";\" \"))\"" 2>/dev/null || true
+    gh api "repos/$R/issues/$i/comments?since=$last&per_page=100" \
+      --jq ".[] | select(.created_at >= \"$last\") | select((.body|contains(\"$self\"))|not) | select(.body|test(\"$pat\")) | \"\(.id) main#$i \(.id) \(.created_at[11:19]) \(.body[0:220]|gsub(\"\n\";\" \"))\"" 2>/dev/null | emit
   done
-  # main#387 (the site PR): every new comment, so the operator's genuine-run announcement is seen.
-  # main#358 (v9): every new comment while C8's DOC358 pickup 6153049449 is open.
-  # main#390 (v11): the merged Share fix, where the integrator reports its push publication.
-  for i in 387 390 358; do
-    gh api "repos/d6g8k5htny-coder/main/issues/$i/comments?since=$last&per_page=100" \
-      --jq ".[] | select(.created_at >= \"$last\") | select((.body|contains(\"$self\"))|not) | \"main#$i \(.id) \(.created_at[11:19]) \(.body[0:260]|gsub(\"\n\";\" \"))\"" 2>/dev/null || true
+  for i in $(cat "$st/allposts"); do
+    gh api "repos/$R/issues/$i/comments?since=$last&per_page=100" \
+      --jq ".[] | select(.created_at >= \"$last\") | select((.body|contains(\"$self\"))|not) | \"\(.id) main#$i \(.id) \(.created_at[11:19]) \(.body[0:260]|gsub(\"\n\";\" \"))\"" 2>/dev/null | emit
+    s=$(gh api "repos/$R/pulls/$i" --jq '"\(.state)_\(.merged)_\(.head.sha[0:8])"' 2>/dev/null || true)
+    if [ -n "$s" ]; then
+      if [ -e "$st/pr.$i" ]; then
+        old=$(cat "$st/pr.$i")
+        [ "$old" != "$s" ] && { echo "STATE main#$i: $old -> $s"; printf '%s' "$s" > "$st/pr.$i"; }
+      else
+        printf '%s' "$s" > "$st/pr.$i"
+      fi
+    fi
   done
-  # Math-#454 state (v10): report a head move (integrator refresh) or the merge, once each.
-  s454=$(gh api repos/d6g8k5htny-coder/Math-/pulls/454 --jq '"\(.head.sha) \(.state) \(.merged)"' 2>/dev/null || true)
-  if [ -n "$s454" ] && [ "$s454" != "3bd0d6cfd0975d734f2c275bc38f73409ac6eac2 open false" ]; then
-    k=$(printf '%s' "$s454" | tr ' ' '_')
-    [ -e "$st/s454.$k" ] || { : > "$st/s454.$k"; echo "STATE Math-#454 now: $s454"; }
-  fi
+  gh api "repos/$R/pulls?state=all&sort=created&direction=desc&per_page=5" \
+    --jq ".[] | select(.created_at >= \"$start\") | \"\(.number) NEWPR main#\(.number) \(.created_at[11:19]) \(.head.ref) | \(.title[0:120])\"" 2>/dev/null \
+    | while read -r n rest; do [ -n "$n" ] && once "newpr.$n" && echo "$rest"; done
   gh api "repos/d6g8k5htny-coder/Math-/issues/comments?since=$last&per_page=100" \
-    --jq ".[] | select(.created_at >= \"$last\") | select((.body|contains(\"$self\"))|not) | (.issue_url|split(\"/\")|.[-1]) as \$n | select((\$n == \"371\") or (\$n == \"454\") or (.body|test(\"$mpat\"))) | \"Math-#\(\$n) \(.id) \(.created_at[11:19]) \(.body[0:200]|gsub(\"\n\";\" \"))\"" 2>/dev/null || true
-  for pair in $heads; do
-    pr=${pair%%:*}; sha=${pair#*:}
-    gh api "repos/d6g8k5htny-coder/Math-/commits/$sha/check-runs?per_page=100" \
-      --jq '.check_runs[] | "\(.id) \(.status) \(.conclusion) \(.name)"' 2>/dev/null | while read -r id status concl name; do
-        if [ "$status" = "completed" ] && [ ! -e "$st/run.$id" ]; then
-          : > "$st/run.$id"
-          echo "CHECK Math-#$pr ${sha:0:8} $name: $status/$concl"
-        fi
-      done
-  done
+    --jq ".[] | select(.created_at >= \"$last\") | select((.body|contains(\"$self\"))|not) | (.issue_url|split(\"/\")|.[-1]) as \$n | select((\$n == \"371\") or (\$n == \"454\") or (\$n == \"380\") or (\$n == \"329\") or (\$n == \"336\") or (.body|test(\"$mpat\"))) | \"\(.id) Math-#\(\$n) \(.id) \(.created_at[11:19]) \(.body[0:200]|gsub(\"\n\";\" \"))\"" 2>/dev/null | emit
   last=$now
   sleep 60
 done
