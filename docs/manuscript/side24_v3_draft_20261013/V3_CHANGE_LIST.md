@@ -251,3 +251,28 @@ No numerical ε₂₄ (E1). No `O(ℓ)` for the far density, and the far rejecte
 ## Build
 
 `pdflatex main && bibtex main && pdflatex main && pdflatex main` with TeX Live 2023 (amsart, natbib-free amsplain). The sources are `main.tex`, `s0_status.tex` … `s7_disclosure.tex`, `appA_records.tex` and `refs.bib`. The output is 21 pages (r4), with one 2 pt overfull line. Section "Status of this draft" is for the author and is to be removed before submission.
+
+## Revision r5 (14 October, about 23:10Z)
+
+r4 is commit `d4740a50` (21 pages, 555,513 B, SHA-256 `3fb9a94e…`), with its read AMEND applied in `7bab515f` (21 pages, 555,544 B, SHA-256 `a22db882acf787ade47a17b3c3b0c4efb2e4fc351091dc5aa89dfbb9e473de18`). Cursor's readback of `d4740a50..7bab515f` passed (main#389 6179449309). r5 is this PDF: 22 pages, 557,655 B, SHA-256 `95960dc58f0ed258b41935a3700ac9f67adb71430a386b3d7fc32d7adc919e6b`.
+
+r5 follows the Supplement's checkpoint drafts 5–7, which add Part III. It has five parts.
+
+**Part 1: [R1] and [R2].**
+- [R1] is now checkpoint draft 7 at `9d8fc85b`. Its Part III (§§S12–S13) transcribes the parent record in its reconciled reading. §§S1–S7 and §§S12–S13 have had nonauthor slice reads, and §§S8–S11 are being read; the PR body of main#389 lists the verdicts.
+- [R2] now names the whole reconciled identity set, as the reconciliation record asks of every consumer: the parent `UNIFORM_MATRIX_CAP_AND_LIFETIME.md` (`dfed3b8d`) with its cap proof `MARKED_CYLINDER_CAP_PROOF.md` (`0633aca3`), read as reconciled in `reviews/d1_chain_reconciliation_20260928/RECONCILIATION.md` (`75da2597`): with the congruence erratum `ERRATUM_CONGRUENCE.md` (`213594d6`), and with §9 replaced by `reviews/d1_section9_borel_repair_20260925/REPAIR.md` (`fe9b9ce4`). All four blobs were checked at Math- `b68d88b3`, the commit the appendix names.
+
+**Part 2: decision 4 and §6.**
+- §6, "Relation to the parent record": the Supplement no longer imports statements from the record. Part III states them with their proofs, in the reconciled reading; where the record only sketches a step, the step is given as sketched there or written out in full. For the leading term, Supplement Theorem S5.36 and Proposition S6.2 prove (3.13) and Proposition 3.10 without the record.
+- §0, decision 4: the default now includes Part III. The alternatives are restated:
+  - cite Supplement Theorem S5.36 and Proposition S6.2 in the proofs of Corollary 3.5 and Proposition 3.10, so that the leading term rests on the Supplement alone; or
+  - publish the parent record as a companion preprint and cite it in place of Part III.
+- §0, status table: the leading-term row adds "transcribed in Supplement Part III".
+
+**Part 3: Theorem 2.3(ii).** "c₂ is the fold-scale finite part of the two-point contact kernel" now reads "… of the r²-coefficient of the two-point kernel". The contact kernel is 𝒜₀, and c₂ comes from 𝒜₂ (S11 concordance, issue 1).
+
+**Part 4: the c₁ erratum.** The records entry for the certified constants now names the erratum of the c₁ packet, `ERRATUM_20261013.md` (blob `a9c3f95a`; Math- PR 454, `a6116d8a`, landed after `b68d88b3`). It says that the enclosure is of the ratio of the integral (2.13) to c_{3,24}, and that its reading as a coefficient ratio is conditional. Theorem 2.3(iii) already says so.
+
+**Part 5: §6, Heo.** "Heo, in a preprint, computes …". The bibliography already gives the arXiv number. This matches the attribution of main#407's novelty addendum.
+
+**Build.** `build.sh` compiles with no LaTeX error and the same 2 pt overfull line as before.
