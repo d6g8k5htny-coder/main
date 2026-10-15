@@ -1470,7 +1470,7 @@ def _live_v2_static_page(data, meta, title, body):
             '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
             '<meta http-equiv="Content-Security-Policy" content="default-src \'none\'; style-src \'self\'; img-src \'self\'; script-src \'none\'; base-uri \'none\'; form-action \'none\'">\n'
             f'<title>{_v1_escape(title)} · Current research dependency atlas</title>\n'
-            '<link rel="stylesheet" href="../brand.css"><link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="../current.css">\n'
+            '<link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="../brand.css"><link rel="stylesheet" href="../current.css">\n'
             '</head><body><main class="node-static">\n'
             '<nav aria-label="Research site"><a href="../index.html">Home</a> · <a href="../explore.html">Explore</a> · <a href="../research.html">Research</a> · <a href="../workspace.html#inventory">Library</a> · <a href="../dependencies.html#current-atlas">Current dependencies</a> · <a href="index.html">Current static graph index</a></nav>\n'
             + _live_v2_current_section(data, meta)
