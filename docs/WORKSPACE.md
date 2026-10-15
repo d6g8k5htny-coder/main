@@ -19,7 +19,7 @@ the last an exploratory packet whose scientific effect is NONE, which makes no
 claim of progress toward the Riemann Hypothesis and whose independent numerical
 reproduction (review slice C) is open. None of the three reports a held-out
 confirmation run; each README states its own scope. Two older branches remain
-readable context. The [hardening research branch](https://github.com/d6g8k5htny-coder/main/tree/chatgpt/drive-github-hardening-20260919)
+readable context. The legacy [hardening research branch](https://github.com/d6g8k5htny-coder/main/tree/a01c72f1937875b94bfd78e183a6dbbdb2b04da4) (`chatgpt/drive-github-hardening-20260919`, frozen; pinned tip `a01c72f1`)
 holds the earlier research software and evidence; its last merge was on
 27 September 2026 (`a01c72f1`). The
 [Claude migration branch](https://github.com/d6g8k5htny-coder/main/tree/claude/drive-audit-github-migration-rrglpp)
@@ -35,7 +35,7 @@ not an instruction to repeat a completed review.
 
 Use [pull requests](https://github.com/d6g8k5htny-coder/main/pulls) and
 [Actions](https://github.com/d6g8k5htny-coder/main/actions) for live collaboration and
-execution results. The [research execution guide](https://github.com/d6g8k5htny-coder/main/blob/chatgpt/drive-github-hardening-20260919/docs/RESEARCH_EXECUTION.md)
+execution results. The legacy [research execution guide](https://github.com/d6g8k5htny-coder/main/blob/a01c72f1937875b94bfd78e183a6dbbdb2b04da4/docs/RESEARCH_EXECUTION.md) (pinned at `a01c72f1`)
 describes the research-side commands; read it in the checkout actually being used;
 it describes the hardening branch. The experiments on `main` are described in
 [experiments/periodic_h0/README.md](../experiments/periodic_h0/README.md),
@@ -108,7 +108,7 @@ git rev-parse HEAD
 ```
 
 To inspect the older hardening software (last merge 27 September 2026), add
-`--single-branch --branch chatgpt/drive-github-hardening-20260919`.
+`--single-branch --branch chatgpt/drive-github-hardening-20260919`, then `git checkout a01c72f1937875b94bfd78e183a6dbbdb2b04da4` to read the pinned legacy tip. Current numerical work on `main` is in `experiments/periodic_h0/`, `experiments/universality/`, and `experiments/zeta_fold_exploration/`.
 
 Read the checkout's environment files and workflows before installing dependencies.
 This session prefers project-local environments, identifiable upstream sources, and

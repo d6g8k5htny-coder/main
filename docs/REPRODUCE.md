@@ -78,10 +78,12 @@ From the common parent directory, choose new destination directories:
 
 ```sh
 git clone --single-branch --branch main https://github.com/d6g8k5htny-coder/Math-.git Math-
+# legacy hardening tree (frozen); pin to its last merge
 git clone --single-branch --branch chatgpt/drive-github-hardening-20260919 https://github.com/d6g8k5htny-coder/main.git research
+git -C research checkout a01c72f1937875b94bfd78e183a6dbbdb2b04da4
 ```
 
-The named branch tracks its current tip. To inspect one work item using that
+The checkout is pinned to the frozen tip `a01c72f1`. To inspect one work item using that
 checkout's existing dispatcher:
 
 ```sh
@@ -268,7 +270,7 @@ This bounded readback does not crawl every external URL, inspect private sandbox
 
 ## Legacy numerical work
 
-Use the [legacy execution guide](https://github.com/d6g8k5htny-coder/main/blob/chatgpt/drive-github-hardening-20260919/docs/RESEARCH_EXECUTION.md) in the hardening checkout. Its RN/24-jet sources, commands and predicates remain separate. Do not apply a main-cut patch onto that different tree or present navigation CI as full research CI.
+Use the [legacy execution guide](https://github.com/d6g8k5htny-coder/main/blob/a01c72f1937875b94bfd78e183a6dbbdb2b04da4/docs/RESEARCH_EXECUTION.md) (pinned at `a01c72f1`) in the hardening checkout. Its RN/24-jet sources, commands and predicates remain separate. Do not apply a main-cut patch onto that different tree or present navigation CI as full research CI.
 
 ## Interpret the evidence
 
