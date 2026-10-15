@@ -8,7 +8,7 @@ This dated note is contributor routing only. It does not change formal source, t
 
 New formal work is claimed in the relevant current formal pull request or work discussion, not on closed [main#95](https://github.com/d6g8k5htny-coder/main/issues/95). Work without a pull request uses the relevant work discussion. Use [main#275](https://github.com/d6g8k5htny-coder/main/issues/275) for tasks and claims and [main#307](https://github.com/d6g8k5htny-coder/main/issues/307) for coordination. Read the [current workflow](../governance/OP-WORKFLOW-20260930.md) before writing, and reconcile exact-path ownership with any open documentation lane.
 
-Later formal companions, kept distinct from the September scalar pilot:
+Examples of later formal companions, kept distinct from the September scalar pilot:
 
 - Landed cap companion: [Math- `frontiers/cap_first_exit_lean_20261002/README.md` at `7d2f62500ad6effba2bbdf6f3b89b0826408dc4a`](https://github.com/d6g8k5htny-coder/Math-/blob/7d2f62500ad6effba2bbdf6f3b89b0826408dc4a/frontiers/cap_first_exit_lean_20261002/README.md) (README blob `4f5e1bf09f3ae7acf8dc60289697f40baecba56c`, as cited by main#286). This is a conditional deterministic formal companion, not kernel evidence for the full probability or persistence-module theorem.
 - Retained formal interfaces: [Math-#193](https://github.com/d6g8k5htny-coder/Math-/issues/193).

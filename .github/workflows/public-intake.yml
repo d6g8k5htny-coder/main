@@ -11,6 +11,11 @@ permissions:
 jobs:
   public-intake:
     name: public-intake
+    permissions:
+      contents: read
+      pull-requests: read
+      # Only for the neutral "not evaluated" check run. Submitted code is never executed.
+      checks: write
     # Skip metadata edits only for terminal merged PRs. Reopenable PRs must
     # still pass the live checker, including closure and head-drift checks.
     if: ${{ !(github.event.pull_request.state == 'closed' && toJSON(github.event.pull_request.merged) == 'true') }}
@@ -28,4 +33,20 @@ jobs:
       - name: Verify intake from API bytes without checking out the PR
         env:
           GH_TOKEN: ${{ github.token }}
-        run: python3 -B -I tools/public_intake_check.py
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: |
+          set +e
+          python3 -B -I tools/public_intake_check.py
+          code=$?
+          set -e
+          # Actions cannot mark this job neutral. Skipping the job can count as a
+          # passing required check, and a zero status would make public-intake
+          # green without package verification. Record a separate neutral check,
+          # then exit 78 so this job is failure, not success. A failed post
+          # still reaches that same nonzero status.
+          if [ "$code" -eq 78 ]; then
+            echo "not evaluated: merged before check"
+            python3 -B -I tools/public_intake_check.py --publish-not-evaluated-check || true
+            exit 78
+          fi
+          exit "$code"
