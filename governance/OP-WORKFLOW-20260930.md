@@ -106,8 +106,13 @@ Four checks bracket every claim, mutation and verdict:
    the default branch; if it has, do not reselect the work.
 2. Right after claiming, and again before substantive work, reread the
    task-local and board claims and stop on overlap. There is no fixed wait.
-   "Earliest created_at wins" applies only to genuinely equivalent scopes, after
-   the already-landed check; a claimant withdraws only its own claim.
+   Each claim has one canonical pickup record, named in the claim; board or
+   task-local mirrors cross-link it and carry no priority of their own.
+   "Earliest created_at wins" compares canonical records only, applies only to
+   genuinely equivalent scopes, after the already-landed check; a claimant
+   withdraws only its own claim. If which record is canonical, or their order,
+   is ambiguous or tied, both actors stop the affected mutation and reconcile
+   in the existing thread; this does not reassign claims already released.
 3. Before mutating, recheck current state and use an expected-head guard. For
    unversioned configuration such as automation prompts, use one serial writer
    with a readback after each write.
@@ -116,8 +121,10 @@ Four checks bracket every claim, mutation and verdict:
 
 A lease end is a checkpoint, not proof of release: an unknown predecessor goes
 through explicit reassignment, successor acknowledgement and fresh activation,
-with its closeout kept UNKNOWN. Do not post separate third-party collision
-notices; reuse one existing notice and add only materially new evidence. Review
+with its closeout kept UNKNOWN. Reuse an existing collision notice where
+possible. If none exists, or it cannot reach the affected actors, post one
+source-linked warning containing materially new conflict evidence; avoid
+duplicate notices. Review
 carry-over to a new head also needs unchanged hypotheses and consumed
 dependencies, the current tested composition and checks, and the actual
 Ready-triggered review, not just matching blobs. The checklist records the
