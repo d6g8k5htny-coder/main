@@ -37,6 +37,25 @@ release, or confirmed lease expiry followed by current-state reconciliation.
 Review work can proceed without taking over the writer's branch. Release a
 finished claim. An offered task becomes active only when an actual pickup occurs.
 
+
+For already-authorized, low-impact work with no live owner, an eligible worker
+may begin the smallest disjoint stage after reading current claims and publishing
+an actual task-local pickup naming the source, scope, exclusions, checks and a
+finite checkpoint. Availability notes, offers and shared agent labels are not
+pickups; such routine work needs no extra coordinator acknowledgement unless a
+specific task or existing rule requires one. This does not authorize an occupied
+role, private-access expansion, security-sensitive change, protected integration
+or an action stopped by a denial or unresolved finding.
+
+A coordinator may prospectively authorize a named receiver's exact bounded
+stage in the existing task discussion. Only when that record expressly permits
+pickup to activate that ordinary stage may the receiver personally accept and
+pick it up after fresh source and contention checks without another routine ACK.
+An offer or the prospective record alone permits no mutation. Unresolved prior
+custody or transfer of an occupied reservation still requires separate receiver
+acknowledgement, fresh coordinator reconciliation and explicit activation as
+described below; silence, expiry and shared identities never supply release.
+
 For an unresolved integration reservation, consult the case-specific prospective
 reassignment implemented in [#276’s amendment](https://github.com/d6g8k5htny-coder/main/pull/276#issuecomment-6038812718)
 and [activation](https://github.com/d6g8k5htny-coder/main/pull/276#issuecomment-6038906820).
