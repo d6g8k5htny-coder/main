@@ -905,7 +905,7 @@ NEWER_WORK = re.compile(r'(<aside id="newer-work" class="latest-upstream" tabind
 
 class NewerWorkRoutes(unittest.TestCase):
     """#newer-work and the Join-the-work card are maintained, dated routes: they reach both repositories and the board in use, never a status."""
-    ACTIVE_BOARD = 307   # the board CONTRIBUTING.md and docs/WORKSPACE.md name; change with them when it moves again
+    ACTIVE_BOARD = 419   # the board CONTRIBUTING.md and docs/WORKSPACE.md name; change with them when it moves again
     HISTORICAL_BOARD = 229
     QUEUE = 275
     ISSUES = SOURCE_ROOT+'main/issues/'
@@ -925,7 +925,8 @@ class NewerWorkRoutes(unittest.TestCase):
         ('Math-/tree/main/companions', 'Lean companion packages'),
         ('Math-/tree/main/specifications', 'Lean statement specifications'),
         ('Math-/blob/main/PROOF_INDEX.md', 'selected proof index'),
-        ('main/issues/307', 'active coordination board, main #307'),
+        ('main/issues/419', 'active coordination board, main #419'),
+        ('main/issues/307', 'main #307'),
         ('main/issues/275', 'task and claim queue, main #275'),
         ('main/issues/229', 'historical board, main #229'),
         ('main/blob/main/CONTRIBUTING.md', 'contribution guide'),
@@ -1034,7 +1035,7 @@ class NewerWorkRoutes(unittest.TestCase):
         self.assertIn(f'<a href="{self.ISSUES}{self.ACTIVE_BOARD}">Active coordination board ↗</a>',card)
         self.assertIn(f'<a href="{self.ISSUES}{self.QUEUE}">Current tasks and claims ↗</a>',card)
         self.assertIn(f'<a href="{self.ISSUES}{self.HISTORICAL_BOARD}#issuecomment-6038554880">historical #229 working guidance</a>',card)
-        # Declarations stay where CONTRIBUTING.md puts them (#275 or the task's issue/PR); #307 takes general coordination.
+        # Declarations stay where CONTRIBUTING.md puts them (#275 or the task's issue/PR); #419 takes general coordination.
         self.assertIn("Comment <code>/claim</code> on the task's issue or PR",card)
 
     def test_entry_wording_names_cuts_and_the_index_as_selections(self):
