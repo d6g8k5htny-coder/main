@@ -1,0 +1,36 @@
+name: reactor-v0-controls
+
+on:
+  pull_request:
+    paths:
+      - 'experiments/reactor_v0/**'
+      - '.github/workflows/reactor-v0-controls.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'experiments/reactor_v0/**'
+      - '.github/workflows/reactor-v0-controls.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  finite-control:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Normal tests and control
+        run: |
+          python3 -B -m unittest discover -s experiments/reactor_v0 -p 'test_*.py' -v
+          python3 -B experiments/reactor_v0/mutation_harness.py
+          python3 -B experiments/reactor_v0/run_control.py
+      - name: Optimized tests and control
+        run: |
+          python3 -B -O -m unittest discover -s experiments/reactor_v0 -p 'test_*.py' -v
+          python3 -B -O experiments/reactor_v0/mutation_harness.py
+          python3 -B -O experiments/reactor_v0/run_control.py
+      - name: Frozen run stage is read-only
+        run: git diff --exit-code -- experiments/reactor_v0 .github/workflows/reactor-v0-controls.yml
