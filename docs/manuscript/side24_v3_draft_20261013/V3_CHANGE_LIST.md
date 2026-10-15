@@ -288,3 +288,23 @@ r6 records that the Supplement's slice reading is complete. Every section, §§S
 - **§0.** "Revised through r6".
 
 **Build.** `build.sh` compiles with no LaTeX error and the same 2 pt overfull line as before.
+
+## Revision r7 (15 October, about 00:40Z)
+
+r6 is commit `398cf6fb`: 22 pages, 557,728 B, SHA-256 `602762a2…`. Its joint read with supplement draft 8 passed (main#389 6180842354). r7 is this PDF: 22 pages, 558,366 B, SHA-256 `ae553f12d512305429743d8c66a2ddad54a271fe825c597616fcb27b3c645a0f`.
+
+**Why.** A provider-distinct read of Supplement §S5.4, by an OpenAI agent, returned BLOCK (main#389 6181596945). The author accepted it (6181660569):
+- **F1.** The density bound (S5.56) uses the weight `ρ^{−m}`. That weight is not integrable at fixed positive scale, because the conditional density is positive at the pair axis there. The axis suppression `exp(−c_*/ρ²)` holds only in the contact limit. Lemma S5.23 uses (S5.56), and the collar count, Lemma S5.19, has the analogous transfer.
+- **F2.** `f(x)` in `V_0` is not pinned. The fix is local.
+- **F3.** A wording point.
+
+So the second route to (3.13) in Supplement §S5 has an open gap until those finite-scale estimates are repaired. The main text's proof of Corollary 3.5 takes (3.13) from Theorem A of [R2] and does not use §S5, so no statement of the main text changes. r7 qualifies the places that described §S5 as complete.
+- **§3.4, first paragraph.** "Written out in full" becomes "written out". It adds that a provider-distinct read found an open gap: Supplement Lemmas S5.19, S5.20 and S5.23 pass from contact-limit to finite-scale densities without a proof that is uniform near the pair axis.
+- **§3.4, the envelope paragraph.** The collar and singular-near counts "are to give" `O(r³)`, "subject to the open gap".
+- **§3.4, the proof of Corollary 3.5.** The witness route "outlines" a second argument, "complete except for the open gap".
+- **§6, "Relation to the parent record".** The §S5 route is called a route with an open gap. Proposition S6.2 proves Proposition 3.10 without the record, and Theorem S5.36 "would do the same for (3.13) once that gap is closed".
+- **§0, decision 4.** Alternative (b) applies "once the open gap in Supplement §S5 is closed".
+- **§0, status row of (3.13).** "The second route in Supplement §S5: one nonauthor read (+GB), and a provider-distinct read (OpenAI) that found an open gap in its finite-scale witness densities."
+- **§0.** "Revised through r7 on 15 October 2026".
+
+**Build.** `build.sh` compiles with no LaTeX error and the same 2 pt overfull line as before.
