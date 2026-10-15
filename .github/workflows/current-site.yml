@@ -55,6 +55,7 @@ jobs:
         with:
           ref: ${{ github.sha }}
           persist-credentials: false
+          fetch-depth: 0
       - name: Restore and admit all previously published public history
         env:
           GITHUB_TOKEN: ${{ github.token }}
