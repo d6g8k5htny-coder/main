@@ -108,7 +108,7 @@ git rev-parse HEAD
 ```
 
 To inspect the older hardening software (last merge 27 September 2026), add
-`--single-branch --branch chatgpt/drive-github-hardening-20260919`, then `git checkout a01c72f1937875b94bfd78e183a6dbbdb2b04da4` to read the pinned legacy tip. Current numerical work on `main` is in `experiments/periodic_h0/` and `experiments/universality/`.
+`--single-branch --branch chatgpt/drive-github-hardening-20260919`, then `git checkout a01c72f1937875b94bfd78e183a6dbbdb2b04da4` to read the pinned legacy tip. Current numerical work on `main` is in `experiments/periodic_h0/`, `experiments/universality/`, and `experiments/zeta_fold_exploration/`.
 
 Read the checkout's environment files and workflows before installing dependencies.
 This session prefers project-local environments, identifiable upstream sources, and

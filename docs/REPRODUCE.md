@@ -83,7 +83,7 @@ git clone --single-branch --branch chatgpt/drive-github-hardening-20260919 https
 git -C research checkout a01c72f1937875b94bfd78e183a6dbbdb2b04da4
 ```
 
-The named branch tracks its current tip. To inspect one work item using that
+The checkout is pinned to the frozen tip `a01c72f1`. To inspect one work item using that
 checkout's existing dispatcher:
 
 ```sh
