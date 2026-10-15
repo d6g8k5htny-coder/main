@@ -86,6 +86,9 @@ All 31 targets: authored by Anthropic / Claude via a Cursor cloud agent on
 trusted run; alignment `PENDING_INDEPENDENT_REVIEW`. No record other than the
 template exists. Record actual pickup in the relevant current pull request or work
 discussion under the [current workflow](../governance/OP-WORKFLOW-20260930.md) so two
-reviewers do not duplicate the work. Closed
+reviewers do not duplicate the work. Find current tasks in
+[main #275](https://github.com/d6g8k5htny-coder/main/issues/275) and coordinate with other contributors on
+[main #307](https://github.com/d6g8k5htny-coder/main/issues/307).
+Closed
 [work item #95](https://github.com/d6g8k5htny-coder/main/issues/95) remains the
-historical rollout record.
+historical formal-ladder work item.
