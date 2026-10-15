@@ -1,10 +1,10 @@
-# SIDE24 V3 supplement: checkpoint draft 8 (14 October 2026)
+# SIDE24 V3 supplement: checkpoint draft 9 (15 October 2026)
 
-Dylan Roy — delegated AI work. Actual performer: Anthropic Claude, session `session_01NMeKEismAyeqgdB4sy2NJU` (Claude01N), the author of the V3 draft (main#389). This is an **author-side checkpoint** of the supplementary material for the V3 manuscript draft. It is pushed so that the work is durable. No pull request is open for it. Every section has had a bounded nonauthor read, in slices, in the thread of the main text's pull request, main#389, which records each verdict; "Checkpoint draft 8" in `CONCORDANCE.md` tabulates them. Scientific effect NONE: no register, status or proof file changes.
+Dylan Roy — delegated AI work. Actual performer: Anthropic Claude, session `session_01NMeKEismAyeqgdB4sy2NJU` (Claude01N), the author of the V3 draft (main#389). This is an **author-side checkpoint** of the supplementary material for the V3 manuscript draft. It is pushed so that the work is durable. No pull request is open for it. Every section has had a bounded nonauthor read, in slices, in the thread of the main text's pull request, main#389, which records each verdict; "Checkpoint draft 8" in `CONCORDANCE.md` tabulates them. A second provider-distinct read of §S5.4 (OpenAI, on draft 8) found that its finite-scale witness densities near the pair axis were not proved. Draft 9 repairs them; the repair has not yet been read. Scientific effect NONE: no register, status or proof file changes.
 
 ## Contents
 
-- `SIDE24_V3_SUPPLEMENT_DRAFT_20261013.pdf`: the compiled draft, 150 pages; its size and SHA-256 are in `SHA256SUMS`. Its first section, "Status of this draft", is for the author. Earlier drafts: draft 1 (`4f9e6180`) 123 pages, draft 2 (`238ca036`) 126, draft 3 (`e0d08f0c`) 127, draft 4 (`c6aa790d`, amended in `5cd17651`) 129, draft 5 (`ffd749e5`, amended in `a336aaf9`) 149, draft 6 (`a0889f36`) 150, draft 7 (`9d8fc85b`, amended in `a06e0107` and `3eb1d594`) 150.
+- `SIDE24_V3_SUPPLEMENT_DRAFT_20261013.pdf`: the compiled draft, 156 pages; its size and SHA-256 are in `SHA256SUMS`. Its first section, "Status of this draft", is for the author. Earlier drafts: draft 1 (`4f9e6180`) 123 pages, draft 2 (`238ca036`) 126, draft 3 (`e0d08f0c`) 127, draft 4 (`c6aa790d`, amended in `5cd17651`) 129, draft 5 (`ffd749e5`, amended in `a336aaf9`) 149, draft 6 (`a0889f36`) 150, draft 7 (`9d8fc85b`, amended in `a06e0107` and `3eb1d594`) 150, draft 8 (`a39aeadd`) 150.
   - Part I (S1–S7): the setting, the contact measure, the finite-side coefficient, the side-24 correction with |eps_24| < 10^-216, elder selection, the limit, and the bounded remainder.
   - Part II (S8–S11): the remainder's vanishing and rate, the cusp term, the third-order terms, and the constant c_2.
   - Part III (S12–S13), new in draft 5: the parent theorem (Theorems A, B and C of the companion record, in every dimension d ≥ 2 and for every side L > 0) and the deterministic marked-cylinder cap on which its elder selection rests.
@@ -18,11 +18,13 @@ Dylan Roy — delegated AI work. Actual performer: Anthropic Claude, session `se
   - in "Checkpoint draft 5", Part III, the re-pointing of every citation of the companion record to its counterpart in S12–S13, the changes made to S12 at integration, and the slice SF AMEND;
   - in "Checkpoint draft 6", the steps of S12 that the record states without derivation and that are now written out;
   - in "Checkpoint draft 7", the reads of drafts 5 and 6, the derivation of the Hermite identity in S13, and the landing of the c₁ erratum;
-  - in "Checkpoint draft 8", the last two AMENDs and a table of every slice read.
+  - in "Checkpoint draft 8", the last two AMENDs and a table of every slice read;
+  - in "Checkpoint draft 9", the findings of the OpenAI read of §S5.4 (O2-F1 to F3) and their repair.
 - `checks/s5_envelope_check.py` and its output `checks/s5_envelope_check.out.txt`: a SymPy check of the cancellations behind the singular-near envelope of Lemma S5.22.
 - `checks/s5_factor_check.py` and its output `checks/s5_factor_check.out.txt`: an exact SymPy check of the singular-near residual limits, the planar covariances of Lemmas S5.16–S5.21, the factorizations behind Lemmas S5.18 and S5.21 for random anisotropic even kernels, and the numbers of Lemma S4.29.
 - `checks/s12_parent_check.py` and its output `checks/s12_parent_check.out.txt`: 59 exact SymPy checks of the finite algebra of S12–S13 (determinants, congruences, the cap constants, the embedding radius). They do not check any analytic estimate.
 - `checks/s12_derivations_check.py` and its output `checks/s12_derivations_check.out.txt`: 22 exact SymPy checks of the identities written out in draft 6.
+- `checks/s5_finite_scale_check.py` and its output `checks/s5_finite_scale_check.out.txt`: 60 checks of draft 9. Exact SymPy checks of the blow-up expansions of §S5.8 for a polynomial field under the exact pins, of the corrected value of `V_0` and of the degree statement of Lemma S5.15; and a 60-digit numerical comparison, for the planar kernel, of the finite-scale determinant with its blow-up limit.
 - `writer_originals/`: the S5 writer's faithful transcription, before the elder-mark correction, and the S12 writer's file, before the changes listed in "Checkpoint draft 5".
 - `SHA256SUMS`: hashes of every file above except this README.
 
@@ -54,3 +56,5 @@ Draft 6 writes out four steps that the record states without derivation: the det
 Draft 7 derives the Hermite identity of Lemma S13.3 and records the reads of drafts 5 and 6: slices SB, SG1 and SG2 passed, and the SF AMEND was applied and read back. No number changes.
 
 Draft 8 is documentary. It records the last two AMENDs, from slices SD and SE: the integral of the kernel in the proof of Lemma S13.3, and an exponent in Remark S11.6. Both were applied exactly and read back. It also tabulates every slice read: each section of the supplement has now had one nonauthor read.
+
+Draft 9 repairs §S5.4 after a provider-distinct read by an OpenAI agent (main#389 6181596945, BLOCK on draft 8, accepted). Draft 8 asserted in (S5.56) a bound on the singular-near density that is false at a fixed positive scale, because the density is positive on the pair axis; the collar count made the same passage from contact limits to finite scale. The new subsection §S5.8 proves the finite-scale densities near the axis by a radial blow-up of the parameters, with explicit limit functionals and a Gaussian-conditioning lemma, and Lemmas S5.19, S5.20, S5.22 and S5.23 now use it. `V_0` now subtracts `(f(M) + f(S))/2`, which the pins fix, in place of `f(x)`, and a degree statement in Lemma S5.15 is corrected. No number of draft 8 changes.

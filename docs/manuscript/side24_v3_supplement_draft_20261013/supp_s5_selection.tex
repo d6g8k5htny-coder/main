@@ -1,7 +1,7 @@
 % Supplement section S5: elder selection.
 \section{Elder selection}\label{sec:selection}
 
-This section concerns the selection bound (3.13) of the main text: under the determinant-weighted Palm law of a typed maximum--index-two-saddle contact pair at separation $r$, the probability that the pair is not the elder persistence pair is at most $C_{\rm sel}r^3$, uniformly on compact positive marks. The main text takes (3.13) from Theorem~A of \cite{parentP} (Theorem~\ref{thm:parent-A} of this supplement), which proves it for every $d\ge2$ and $L>0$ (Remark~\ref{rem:selection-parent}). This section proves the statements that the main text quotes for the Palm law and the elder mark (Definitions~\ref{def:selection-palm}, \ref{def:selection-mark} and~\ref{def:selection-prob}, Lemma~\ref{lem:selection-mark}) and the trichotomy (Lemma~\ref{lem:selection-trichotomy}). It then gives a second, three-dimensional proof of (3.13) through explicit witnesses (Theorem~\ref{thm:selection-main}): the regional witness counts behind (3.14)--(3.17) of the main text (\S\ref{ssec:selection-witness}) and the capture--escape theorem (Theorem~\ref{thm:selection-escape}).
+This section concerns the selection bound (3.13) of the main text: under the determinant-weighted Palm law of a typed maximum--index-two-saddle contact pair at separation $r$, the probability that the pair is not the elder persistence pair is at most $C_{\rm sel}r^3$, uniformly on compact positive marks. The main text takes (3.13) from Theorem~A of \cite{parentP} (Theorem~\ref{thm:parent-A} of this supplement), which proves it for every $d\ge2$ and $L>0$ (Remark~\ref{rem:selection-parent}). This section proves the statements that the main text quotes for the Palm law and the elder mark (Definitions~\ref{def:selection-palm}, \ref{def:selection-mark} and~\ref{def:selection-prob}, Lemma~\ref{lem:selection-mark}) and the trichotomy (Lemma~\ref{lem:selection-trichotomy}). It then gives a second, three-dimensional proof of (3.13) through explicit witnesses (Theorem~\ref{thm:selection-main}): the regional witness counts behind (3.14)--(3.17) of the main text (\S\ref{ssec:selection-witness}), with the finite-scale densities near the pair axis of \S\ref{ssec:selection-finite}, and the capture--escape theorem (Theorem~\ref{thm:selection-escape}).
 
 Throughout, $f=f_{24}$ is the normalized side-$24$ periodized Bargmann--Fock field on $\T^3_{24}$, $0<r<12$, $t\in S^2$, $b\in\R$ and $\kappa>0$; the pair is $M=x-\frac r2t$, $S=x+\frac r2t$, with midpoint $x$, and $h=f(S)$. We use an orthonormal frame $(e_1,e_2,e_3)=(t,v,w)$ whose first vector is $t$, and write $f_{ij\cdots}$ for partial derivatives in this frame. Constants $C,c$ depend only on the compact mark set and on the fixed charts, and may change from line to line.
 
@@ -181,7 +181,7 @@ Write $H=\mu(a)+G$, where $G$ is a centred Gaussian vector, possibly degenerate,
 
 \subsection{Regional witness counts}\label{ssec:selection-witness}
 
-The collar and singular-near charts are first computed at the planar Bargmann--Fock jet and then transferred to the side-$24$ field through exact factorizations of the conditional determinants. These factorizations hold for every kernel satisfying the standing hypotheses below, and their remaining coefficients are positive by the derivative nondegeneracy of Section~\ref{sec:setting}. The fixed-distance count is proved directly for the side-$24$ field.
+The collar and singular-near charts are first computed at the planar Bargmann--Fock jet and then transferred to the side-$24$ field through exact factorizations of the conditional determinants. These factorizations hold for every kernel satisfying the standing hypotheses below, and their remaining coefficients are positive by the derivative nondegeneracy of Section~\ref{sec:setting}. They are contact limits. The passage to densities at a fixed positive scale is not uniform near the pair axis; it is made in \S\ref{ssec:selection-finite}, for every such kernel. The fixed-distance count is proved directly for the side-$24$ field.
 
 \subsubsection{Standing hypotheses and the contact-limit pair law}
 
@@ -255,14 +255,14 @@ where
 N_y=\eta\kappa^2(4c^2-\eta^2)^2+4\kappa\rho^2(4c^2+\eta^2)\bigl[\eta(q_M-q_S)-2c(q_M+q_S)\bigr]\\
 -16c\rho^4(q_M^2-q_S^2)+4\eta\rho^4(q_M-q_S)^2 .
 \end{multline}
-In particular, the endpoint determinants are exactly quadratic in $(\kappa,q_M,q_S)$, with the common $\kappa^2$ coefficient $(4c^2-\eta^2)^2/(64c^2\rho^2)$ and the common $\kappa$-free term $4\rho^4(q_M-q_S)^2/(64c^2\rho^2)$; the product $\det H_M\det H_S\det H_y$ has exact degree six in $\kappa$; the denominators vanish only on the strata $c=0$ and $\rho=0$ (and $\eta=0$ for $\det H_y$); and on the collision strata $2c=\pm\eta$ the $\kappa^2$ coefficient $(4c^2-\eta^2)^2$ vanishes.
+In particular, the endpoint determinants are exactly quadratic in $(\kappa,q_M,q_S)$, with the common $\kappa^2$ coefficient $(4c^2-\eta^2)^2/(64c^2\rho^2)$ and the common $\kappa$-free term $4\rho^4(q_M-q_S)^2/(64c^2\rho^2)$; the product $\det H_M\det H_S\det H_y$ has degree at most six in $\kappa$, with $\kappa^6$ coefficient $(4c^2-\eta^2)^6/(64c^2\rho^2)^3$, so its degree is exactly six off the collision strata $2c=\pm\eta$, on which it can vanish identically (for $c=\frac12$, $\rho=\frac{\sqrt3}2$, $\eta=1$ and $q_M=q_S=0$ the cubic is $\kappa(X-1)(2X+1)^2/12$, and all three determinants vanish); the denominators vanish only on the strata $c=0$ and $\rho=0$ (and $\eta=0$ for $\det H_y$); and on the collision strata $2c=\pm\eta$ the $\kappa^2$ coefficient $(4c^2-\eta^2)^2$ vanishes.
 \end{lemma}
 
 \begin{proof}
 The ten conditions (six station equations, two value equations and two curvature prescriptions) are linear in the ten coefficients of $p$. The determinant of this linear system is $-24c\rho^3/\eta^4\ne0$, so the solution is unique. Substituting it into the Hessians at $M$, $S$ and $y$ gives \eqref{eq:selection-B1}--\eqref{eq:selection-Ny} by direct exact computation, and the stated structure is read off from these formulas.
 \end{proof}
 
-In the witness charts below, the plane is spanned by the pair axis and the direction of the third point, the chart is centred at the pair midpoint, lengths are measured in units of $r$ and values in units of $r^3$ (so that the pair sits at $(\mp\frac12,0)$ and the value gap is $\kappa/6$), $\eta=r/\dist(y,x)$, and $q_M,q_S$ are the in-plane transverse curvatures at the endpoints; in the application they are the $O(1)$ contact-law blocks. Physical two-dimensional Hessian determinants are therefore $r^2$ times the chart determinants \eqref{eq:selection-B1}--\eqref{eq:selection-B1y}. In the chart the endpoint determinants are generically of order $\kappa^2$ as $\eta\to0$. The collar count below uses these expressions only where $|c|$ is bounded below. The singular-near envelope (Lemma~\ref{lem:selection-envelope}) is proved directly from Taylor's formula and does not use them.
+In the witness charts below, the plane is spanned by the pair axis and the direction of the third point, the chart is centred at the pair midpoint, lengths are measured in units of $r$ and values in units of $r^3$ (so that the pair sits at $(\mp\frac12,0)$ and the value gap is $\kappa/6$), $\eta=r/\dist(y,x)$, and $q_M,q_S$ are the in-plane transverse curvatures at the endpoints; in the application they are the $O(1)$ contact-law blocks. Physical two-dimensional Hessian determinants are therefore $r^2$ times the chart determinants \eqref{eq:selection-B1}--\eqref{eq:selection-B1y}. In the chart the endpoint determinants are generically of order $\kappa^2$ as $\eta\to0$. Neither the collar count (Lemma~\ref{lem:selection-collar}) nor the singular-near envelope (Lemma~\ref{lem:selection-envelope}) uses these expressions; both are proved from Taylor's formula.
 
 \subsubsection{The collar count}
 
@@ -304,7 +304,7 @@ and consequently
 \begin{equation}\label{eq:selection-colscale}
 p_{\nabla f(y)\mid\text{pair pins}}(0)=r^{-4}\bigl[\hat p_{\rm col}+o(1)\bigr]
 \end{equation}
-uniformly on compact subcharts away from the removable collision and axis strata. If $X$ stays away from the pair endpoints, the mean mismatch supplies exponential suppression at least $\exp(-c/\rho^2)$, and at $X=0$ it supplies $\exp(-c/\rho^4)$. Near $X=\pm\frac12$, lack of mean suppression occurs only inside a collision cone $|X\mp\frac12|=O(\rho)$.
+uniformly on compact subcharts away from the removable collision and axis strata. Near those strata the limit is not uniform, and the collar count uses the finite-scale bounds of Lemma~\ref{lem:selection-fincol}. For the contact-limit density $\hat p_{\rm col}$: if $X$ stays away from the pair endpoints, the mean mismatch supplies exponential suppression at least $\exp(-c/\rho^2)$, and at $X=0$ it supplies $\exp(-c/\rho^4)$; near $X=\pm\frac12$, lack of mean suppression occurs only inside a collision cone $|X\mp\frac12|=O(\rho)$.
 \end{lemma}
 
 \begin{proof}
@@ -374,13 +374,29 @@ For the side-$24$ field, uniformly for $t\in S^2$ and on compact positive mark s
 \end{lemma}
 
 \begin{proof}
-In a collar configuration with three critical points $M,S,y$, the points span a two-dimensional plane unless $\rho=0$. In the hard transverse direction orthogonal to that plane the Hessian block remains $O(1)$. The three station equations make the mixed hard/plane derivatives $O(r)$ after a fixed-chart divided-difference transformation. The Schur complement therefore reduces every full three-dimensional Hessian determinant to an $O(1)$ hard factor times the two-dimensional rank-two critical-contact determinant. Let $c$ be the cosine of the angle between $t$ and $y-x$, and fix $c_0\in(0,\frac14]$. Where $|c|\ge c_0$, the exact elimination of Lemma~\ref{lem:selection-elimination}, read in physical units, makes each two-dimensional determinant $r^2$ times the chart expression \eqref{eq:selection-B1}, \eqref{eq:selection-B1S} or \eqref{eq:selection-B1y}. Where $|c|<c_0$ those expressions are not used, since their denominators vanish at $c=0$. There $|X|\le\rho/2$, with $\rho$ the transverse coordinate of \eqref{eq:selection-collarpt}, and the sine of each angle of the triangle with vertices $M$, $S$ and $y$ is at least $c'\rho$, with $c'>0$ depending only on $C_1$. At each vertex $p$, Lemma~\ref{lem:selection-collision}, applied toward the other two vertices, gives unit vectors $u_1,u_2$ with $\sin\angle(u_1,u_2)\ge c'\rho$ and $\|H_pu_i\|\le Cr$. Since $|\det H|\le\|Hu_1\|\,\|Hu_2\|\,\|H\|/\sin\angle(u_1,u_2)$ for a $3\times3$ matrix $H$, this gives $|\det H_p|\le C\rho^{-1}r^2\Psi$ for $p\in\{M,S,y\}$, where $\Psi$ bounds the derivatives of orders two and three. The factor $\rho^{-3}$ is absorbed by the density: for small $\rho$ these points have $X$ near $0$, where Lemma~\ref{lem:selection-collarchart} gives the factor $\exp(-c/\rho^4)$. Either way, this gives a factor $r^2$ in each of $\det H_M$, $\det H_S$ and $\det H_y$, and therefore
-\begin{equation}\label{eq:selection-colprod}
-|\det H_M\det H_S\det H_y|\le Cr^6\,\hat D(X,Y,Z,U),
-\end{equation}
-where $U$ collects the random jet coefficients and $\hat D$ has uniformly bounded Gaussian polynomial moments. Near collision with $M$ or $S$, Lemma~\ref{lem:selection-collision} supplies an additional normalized squared-distance factor. This cancels the $\rho^{-3}$ density singularity in \eqref{eq:selection-coldens}: after integrating $X$ over the collision cone and using the transverse volume $\rho\,d\rho$, the local radial power is at least $\rho$. Away from collisions, the exponential axis suppression of Lemma~\ref{lem:selection-collarchart} is integrable. Collecting powers, $r^{-4}$ from the third-gradient density \eqref{eq:selection-colscale}, $r^6$ from \eqref{eq:selection-colprod}, $r^{-2}$ from the pair Palm normalizer \eqref{eq:selection-normalizer} and $r^3$ from the physical collar volume multiply to $r^3$. This proves \eqref{eq:selection-colcount} at the planar jet.
+By the Kac--Rice formula, $\E^0[W_rN_{\rm col}]=\int J(y)\,dy$ over the collar with $M$ and $S$ removed, where
+\[
+J(y)=\E^0\bigl[W_r|\det H_y|\bigm|\nabla f(y)=0\bigr]\,p_{\nabla f(y)\mid\text{pins}}(0).
+\]
+Let $\Psi\ge1$ be a fixed polynomial in $\kappa$ and in the suprema over $B_{3\delta}(x)$ of the norms of the derivatives of $f$ of orders two and three.
 
-For the side-$24$ field, the Hessian collision zero, the two-dimensional plane elimination and the hard-complement Schur estimates are deterministic Taylor statements; they do not require the exact planar covariance. Under Hypothesis~\ref{hyp:selection-jet}, which $K_{24}$ satisfies by Remark~\ref{rem:selection-side24}, their random polynomial coefficients have uniformly bounded Gaussian moments, so the collar product bound $r^6$ times a Gaussian polynomial holds with changed constants only. By Lemmas~\ref{lem:selection-pinstab} and~\ref{lem:selection-collarfactor}, the collar zero-density estimate, the collision-cone integration and the $O(r^3)$ count hold for every kernel satisfying Hypothesis~\ref{hyp:selection-jet}, with constants depending on the kernel; in particular they hold for $K_{24}$. For such a kernel the axial and transverse blocks are again conditionally independent, because odd and even derivatives are uncorrelated for an even kernel. In the notation of the proof of Lemma~\ref{lem:selection-collarfactor}, the conditional axial mean differs from $\kappa(X^2-\frac14)$ by $\rho\,(X\,\E[U_1\mid P]+\rho\,\E[U_2\mid P])$. This is $O(\rho\kappa(|X|+\rho))$ on compact positive mark sets, since $U_1$ and $U_2$ are odd and the only odd pin with a nonzero target is $f_{ttt}$. Hence the suppression statements of Lemma~\ref{lem:selection-collarchart} persist for small $\rho$, with changed constants.
+\emph{Deterministic envelopes.} Since $M$, $S$ and $y$ are critical points, Lemma~\ref{lem:selection-collision} gives $\|H_pu\|\le C|p'-p|\Psi$ for each vertex $p$ of the triangle $MSy$, each other vertex $p'$ and $u=(p'-p)/|p'-p|$. For a $3\times3$ matrix $H$ and unit vectors $u_1,u_2$,
+\[
+|\det H|\le\|Hu_1\|\,\|H\|^2,\qquad|\det H|\le\|Hu_1\|\,\|Hu_2\|\,\|H\|/\sin\angle(u_1,u_2).
+\]
+With $W_r\le|\det H_M|\,|\det H_S|$ and Lemma~\ref{lem:selection-gauss}(b), $J(y)\le C\,E(y)\,(1+\mathcal M)^q\,p_{\nabla f(y)\mid\text{pins}}(0)$. Here $E(y)$ is the deterministic bound for $|\det H_M\det H_S\det H_y|/\Psi^9$ given below, $\mathcal M$ is the Mahalanobis norm of $\nabla f(y)$ at $0$ given the pins, $q$ is fixed, and the pin term $\mathcal M_\Pi$ is bounded on compact marks (\S\ref{ssec:selection-finite}). Fix $\rho_1\in(0,\frac18]$ and $\gamma_1\in(0,1)$, and then $r_0$, with $\rho_1^2+r_0^2\le\varepsilon_1^2$ and $\gamma_1^2+r_0^2\le\varepsilon_1^2$, where $\varepsilon_1$ is that of Lemmas~\ref{lem:selection-finsing} and~\ref{lem:selection-fincol}, and with $r_0$ at most the $r_0$ of Lemma~\ref{lem:selection-fincol}(a) for $\rho_1$ and of Lemma~\ref{lem:selection-fincol}(c) for $\gamma_1$. In the frame adapted to $y-x$ write $y=x+r(Xt+\rho v)$, and split the collar into three parts.
+
+\emph{(i) $\rho\ge\rho_1$, $|y-M|\ge r/4$ and $|y-S|\ge r/4$.} The sines of the three angles of the triangle are at least $\rho/(C_1+1)^2$, so $|\det H_p|\le Cr^2\Psi^3/\rho_1$ at each vertex, and $E\le Cr^6$. By Lemma~\ref{lem:selection-fincol}(a) and \eqref{eq:selection-gaussjoint}, $(1+\mathcal M)^qp_{\nabla f(y)\mid\text{pins}}(0)=r^{-4}(1+\mathcal M)^qp_{G\mid\text{pins}}(0)\le Cr^{-4}$. Hence $J\le Cr^2$, and this part, of volume at most $Cr^3$, contributes at most $Cr^5$.
+
+\emph{(ii) $\rho<\rho_1$, $|y-M|\ge r/4$ and $|y-S|\ge r/4$.} The same angle bound, and one row of each Hessian, give
+\begin{equation}\label{eq:selection-colprod}
+|\det H_M\det H_S\det H_y|\le C\min\{r^3,\ r^6\rho^{-3}\}\,\Psi^9 .
+\end{equation}
+By Lemma~\ref{lem:selection-fincol}(b), $r^4(1+\mathcal M)^qp_{\nabla f(y)\mid\text{pins}}(0)\le C\varepsilon^{-2}e^{-c_*/\varepsilon^2}$, with $\varepsilon^2=\rho^2+r^2$. Where $\rho\ge r$, $\varepsilon^2\le2\rho^2$ and $J\le Cr^2\rho^{-5}e^{-c_*/(2\rho^2)}$; with $dy=r^3\,dX\,\rho\,d\rho\,d\phi$ over a bounded range of $X$, this contributes at most $Cr^5\int_0^{\rho_1}\rho^{-4}e^{-c_*/(2\rho^2)}d\rho\le Cr^5$. Where $\rho<r$, $\varepsilon^2\le2r^2$ and $J\le Cr^{-3}e^{-c_*/(2r^2)}$ on a set of volume at most $Cr^5$, which contributes at most $Cr^2e^{-c_*/(2r^2)}\le Cr^5$.
+
+\emph{(iii) $|y-p|<r/4$ for $p=M$ or $p=S$.} Take $p=M$; the case $p=S$ is the same. Write $y=M+r\tau\hat y$ with $\hat y=\cos\alpha\,t+\sin\alpha\,v$ and $0<\tau<\frac14$, so that $dy=r^3\tau^2\,d\tau\,\sin\alpha\,d\alpha\,d\phi$ and $p_{\nabla f(y)\mid\text{pins}}(0)=r^{-4}\tau^{-3}p_{\tilde G\mid\text{pins}}(0)$. Two soft directions at each vertex give the refined bound: at $M$, $t$ and $\hat y$, with $\|H_Mt\|\le Cr\Psi$ and $\|H_M\hat y\|\le Cr\tau\Psi$; at $S$, $t$ and $\hat y$, with $\|H_S\hat y\|\le\|H_M\hat y\|+Cr\Psi\le Cr\Psi$; at $y$, $\hat y$ and $u=(S-y)/|S-y|$, with $\|H_y\hat y\|\le Cr\tau\Psi$, $\|H_yu\|\le Cr\Psi$ and $\sin\angle(\hat y,u)\ge\sin\alpha/(1+\tau)$. One soft row at each vertex gives the crude bound. Hence $E\le C\min\{r^3\tau^2,\ r^6\tau^2\sin^{-3}\alpha\}$. By Lemma~\ref{lem:selection-fincol}(c), $(1+\mathcal M)^qp_{\tilde G\mid\text{pins}}(0)$ is at most $C$ where $\sin\alpha\ge\gamma_1$, and at most $C\varepsilon'^{-2}e^{-c_*/\varepsilon'^2}$ where $\sin\alpha<\gamma_1$, with $\varepsilon'^2=\sin^2\alpha+r^2$. Where $\sin\alpha\ge\gamma_1$, $J\le Cr^2\tau^{-1}$, which contributes at most $Cr^5\int_0^{1/4}\tau\,d\tau$. Where $r\le\sin\alpha<\gamma_1$, $J\le Cr^2\tau^{-1}\sin^{-5}\alpha\,e^{-c_*/(2\sin^2\alpha)}$, which contributes at most $Cr^5\int_0^\pi\sin^{-4}\alpha\,e^{-c_*/(2\sin^2\alpha)}d\alpha\le Cr^5$. Where $\sin\alpha<r$, $J\le Cr^{-3}\tau^{-1}e^{-c_*/(2r^2)}$, which contributes at most $Cr^2e^{-c_*/(2r^2)}$.
+
+Summing, $\E^0[W_rN_{\rm col}]\le Cr^5$, and dividing by $Z_r\ge c_Zr^2$ from \eqref{eq:selection-normalizer} gives \eqref{eq:selection-colcount}. Every step uses only Taylor's formula and Lemmas~\ref{lem:selection-collarfactor}, \ref{lem:selection-gauss} and~\ref{lem:selection-fincol}, so the bound holds for every kernel satisfying Hypothesis~\ref{hyp:selection-jet}, with constants depending on the kernel; in particular for $K_{24}$ (Remark~\ref{rem:selection-side24}). The exact elimination of Lemma~\ref{lem:selection-elimination} is not used.
 \end{proof}
 
 \subsubsection{The singular-near count}
@@ -396,10 +412,10 @@ f(y)=b-\alpha\kappa r^3/6,\qquad\alpha\in[0,1],
 \end{equation}
 and use the corrected variables
 \begin{gather}
-V_0=s^{-3}\Bigl[f(y)-f(x)-\frac s2\bigl(Yf_2(y)+Zf_3(y)\bigr)-\frac{sc}3f_1(y)\Bigr],\label{eq:selection-V0}\\
+V_0=s^{-3}\Bigl[f(y)-U^{(0)}-\frac s2\bigl(Yf_2(y)+Zf_3(y)\bigr)-\frac{sc}3f_1(y)\Bigr],\label{eq:selection-V0}\\
 V_1=s^{-2}f_1(y),\qquad V_2=s^{-1}f_2(y),\qquad V_3=s^{-1}f_3(y).\label{eq:selection-V123}
 \end{gather}
-The transformation from $(f(y),\nabla f(y))$ to $(V_0,V_1,V_2,V_3)$ has determinant of magnitude $s^{-7}$. At contact, with $\eta$ fixed, the random residual limits are
+where $U^{(0)}=\frac12\bigl(f(M)+f(S)\bigr)$ is a combination of the pins, equal to $b-\kappa r^3/12$ under them. Given the pins, the transformation from $(f(y),\nabla f(y))$ to $(V_0,V_1,V_2,V_3)$ is affine, with determinant of magnitude $s^{-7}$. At contact, with $\eta$ fixed, the random residual limits are
 \begin{gather}
 L_0=-\tfrac1{12}\bigl[Y\,f_{2ij}\omega_i\omega_j+Z\,f_{3ij}\omega_i\omega_j\bigr]-\tfrac{\eta^2}{16}\bigl[Yf_{112}+Zf_{113}\bigr],\label{eq:selection-L0}\\
 L_1=\tfrac12f_{1ij}\omega_i\omega_j,\label{eq:selection-L1s}\\
@@ -425,18 +441,18 @@ The conditional mean mismatch in $V_1$ is
 \begin{equation}\label{eq:selection-mismatch}
 \kappa\bigl(c^2-\eta^2/4\bigr).
 \end{equation}
-Consequently the angular density satisfies, near the axis,
+Consequently, in the contact limit, the density $p_{\rm corr}$ of $V$ at $(v_0,0,0,0)$, with $v_0$ the value that the window \eqref{eq:selection-window} gives to $V_0$, satisfies near the axis
 \begin{equation}\label{eq:selection-pcorr}
 p_{\rm corr}\le C\rho^{-5}\exp(-c_*/\rho^2)
 \end{equation}
-for a constant $c_*>0$, and, for every fixed $m\ge0$,
+for a constant $c_*>0$. This limit is not uniform near the axis at a fixed positive scale. At a fixed positive scale, for every kernel satisfying Hypothesis~\ref{hyp:selection-jet}, with $\varepsilon^2=\rho^2+s^2$, the Mahalanobis norm $\mathcal M(u)$ of Lemma~\ref{lem:selection-finsing}, every $q\ge0$, and $\rho_0,s_0\in(0,\frac12]$ with $\rho_0^2+s_0^2\le\varepsilon_1^2$ (Lemma~\ref{lem:selection-finsing}; proved in \S\ref{ssec:selection-finite}),
 \begin{equation}\label{eq:selection-singdens}
-\int_{S^2}\rho^{-m}\,p_{(f(y),\nabla f(y))\mid\text{pair pins}}(u,0)\,d\omega\le C_m\,s^{-7}.
+\bigl(1+\mathcal M(u)\bigr)^q\,p_{(f(y),\nabla f(y))\mid\text{pair pins}}(u,0)\le C_q\,s^{-7}\times\begin{cases}\varepsilon^{-5}\exp(-c_*/\varepsilon^2),&\rho<\rho_0\text{ and }s<s_0,\\ 1,&\text{otherwise}.\end{cases}
 \end{equation}
 \end{lemma}
 
 \begin{proof}
-The transformation \eqref{eq:selection-V0}--\eqref{eq:selection-V123} is triangular with diagonal scalings $s^{-3},s^{-2},s^{-1},s^{-1}$, whence the determinant $s^{-7}$. The residual limits follow from Taylor's formula at $x$ and the pins, with $s=r/\eta$; \path{checks/s5_factor_check.py} verifies them, including the last term of $L_0$, for a polynomial field. The covariances \eqref{eq:selection-C01}--\eqref{eq:selection-det4} are exact Gaussian regressions computed from $\Cov(\partial^\alpha f,\partial^\beta f)=(-1)^{|\beta|}\partial^{\alpha+\beta}K_0(0)$, and \eqref{eq:selection-det4sphere} uses $c^2+\rho^2=1$. Near the pair axis, $|c|$ tends to one and $\eta\le\eta_0<1$, so \eqref{eq:selection-mismatch} is bounded away from zero. For any positive definite covariance, the Mahalanobis penalty is at least the squared mismatch of one coordinate divided by its variance. With the $V_1$ coordinate and $C_{11}\le2\rho^2$ on the unit sphere, the penalty is at least $c_0\kappa^2/\rho^2$. Also $Q_\eta\ge(3c^2-\frac34\eta^2)^2\ge(\frac94-3\rho^2)^2$ for $\rho^2<\frac34$, so the angular density has the uniform form \eqref{eq:selection-pcorr} near the axis, which is integrable against the $S^2$ area element $\rho\,d\rho\,d\phi$. Away from the axis, $Q_\eta\ge3\rho^4$ gives a positive compact eigenfloor, uniformly in $\eta\in[0,\eta_0]$. Thus the exact finite-$r$ corrected covariance extends continuously and, with the Jacobian $s^{-7}$, supplies \eqref{eq:selection-singdens}; the weight $\rho^{-m}$ is integrable against \eqref{eq:selection-pcorr} near the axis, because $\exp(-c_*/\rho^2)$ decays faster than any power of $\rho$.
+Given the pins, $U^{(0)}$ is fixed, so the transformation \eqref{eq:selection-V0}--\eqref{eq:selection-V123} is affine and triangular, with diagonal scalings $s^{-3},s^{-2},s^{-1},s^{-1}$, whence the determinant $s^{-7}$. The residual limits follow from Taylor's formula at $x$ and the pins, with $s=r/\eta$; \path{checks/s5_factor_check.py} verifies them, including the last term of $L_0$, for a polynomial field. That script subtracts $f(x)$, as drafts~1--8 did, but the pins do not fix $f(x)$. Under the pins $f(x)-U^{(0)}=\frac{r^4}{384}f_{tttt}(x)+O(r^6)$ (\path{checks/s5_finite_scale_check.py}), which changes $V_0$ by $O(\eta^3r)$, so the limits are the same. The covariances \eqref{eq:selection-C01}--\eqref{eq:selection-det4} are exact Gaussian regressions computed from $\Cov(\partial^\alpha f,\partial^\beta f)=(-1)^{|\beta|}\partial^{\alpha+\beta}K_0(0)$, and \eqref{eq:selection-det4sphere} uses $c^2+\rho^2=1$. Near the pair axis, $|c|$ tends to one and $\eta\le\eta_0<1$, so \eqref{eq:selection-mismatch} is bounded away from zero. For any positive definite covariance, the Mahalanobis penalty is at least the squared mismatch of one coordinate divided by its variance (Lemma~\ref{lem:selection-gauss}(a)). With the $V_1$ coordinate and $C_{11}\le2\rho^2$ on the unit sphere, the penalty is at least $c_0\kappa^2/\rho^2$. Also $Q_\eta\ge(3c^2-\frac34\eta^2)^2\ge(\frac94-3\rho^2)^2$ for $\rho^2<\frac34$, which gives \eqref{eq:selection-pcorr}. Away from the axis, $Q_\eta\ge3\rho^4$ gives a positive compact eigenfloor, uniformly in $\eta\in[0,\eta_0]$. These are statements about the contact limit. The finite-scale bound \eqref{eq:selection-singdens} is Lemma~\ref{lem:selection-finsing}(d),(e). Drafts~1--8 stated in its place an integral of $\rho^{-m}$ times the density over $S^2$, bounded by $C_ms^{-7}$; at a fixed positive scale that integral diverges for $m\ge2$, because the density is positive on the axis.
 \end{proof}
 
 The bound \eqref{eq:selection-singdens} is the density half of the singular-near witness bound; the determinant half is Lemma~\ref{lem:selection-envelope}.
@@ -454,7 +470,7 @@ with $Q_\eta$ as in \eqref{eq:selection-det01}. For every $\mathcal K$ satisfyin
 \begin{equation}\label{eq:selection-Asing}
 A_{\rm sing}(\mathcal K;t,c,\rho,v,\eta)\ge a_{\rm sing}(\mathcal K)\qquad\text{for all }t,\ v,\ c^2+\rho^2=1\text{ and }\eta\in[0,\eta_0].
 \end{equation}
-Thus the $\rho^{-5}$ density factor and the $\exp(-c_*/\rho^2)$ axis suppression persist for small $\rho$, with changed constants. The conditional mean mismatch in $V_1$ is $\kappa(c^2-\eta^2/4)+O(\rho\kappa)$, which is separated from zero in the axis chart because $\eta_0<1$.
+Thus, in the contact limit, the $\rho^{-5}$ density factor and the $\exp(-c_*/\rho^2)$ axis suppression persist for small $\rho$, with changed constants; at a fixed positive scale near the axis, Lemma~\ref{lem:selection-finsing} replaces them. The conditional mean mismatch in $V_1$ is $\kappa(c^2-\eta^2/4)+O(\rho\kappa)$, which is separated from zero in the axis chart because $\eta_0<1$.
 \end{lemma}
 
 \begin{proof}
@@ -489,11 +505,11 @@ Let $y=x+s\omega$ be a critical point of $f$ in the singular-near region, $C_1r<
 |\det H_M|+|\det H_S|\le C\rho^{-2}\,r(r+s^2)\,\Psi,\label{eq:selection-endenv}\\
 |\det H_y|\le C\rho^{-2}\,(r^2+s^3)\,\Psi,\label{eq:selection-thirdenv}
 \end{gather}
-where $C$ depends only on $C_1$. Consequently
+where $C$ depends only on $C_1$. Without the factor $\rho^{-2}$, $|\det H_M|+|\det H_S|\le Cr\Psi$ and $|\det H_y|\le Cs\Psi$, and these crude bounds hold also for $\rho=0$. Consequently, with $\mathcal M(u)$ the Mahalanobis norm of Lemma~\ref{lem:selection-finsing}, a fixed $q$, and the second entry of the minimum read as $+\infty$ when $\rho=0$,
 \begin{equation}\label{eq:selection-envelope}
-\E\bigl[W_r|\det H_y|\bigm|\text{pins},\ f(y)=u,\ \nabla f(y)=0\bigr]\le C\rho^{-6}\,\bar\Psi(\rho)\,[r(r+s^2)]^2(r^2+s^3),
+\E\bigl[W_r|\det H_y|\bigm|\text{pins},\ f(y)=u,\ \nabla f(y)=0\bigr]\le C\bigl(1+\mathcal M(u)\bigr)^q\min\bigl\{r^2s,\ \rho^{-6}[r(r+s^2)]^2(r^2+s^3)\bigr\},
 \end{equation}
-where $\bar\Psi(\rho)$, the conditional moment of $\Psi^3$, is at most $C(1+\rho^{-m_0})$ for a fixed $m_0$, uniformly on compact marks and over the window. The same bounds hold for every kernel satisfying Hypothesis~\ref{hyp:selection-jet}, in particular for $K_{24}$, with constants depending on the kernel.
+uniformly on compact marks and over the window. The same bounds hold for every kernel satisfying Hypothesis~\ref{hyp:selection-jet}, in particular for $K_{24}$, with constants depending on the kernel.
 \end{lemma}
 
 \begin{proof}
@@ -527,14 +543,14 @@ in \eqref{eq:selection-Twww}, \eqref{eq:selection-Twwt} cancels the term $\frac1
 A[t,t]=O(s),\qquad A[\omega,t]=\tfrac16s^2\Theta[\omega,\omega,\omega,t]+O(r^2s^{-1}+s^3),\\
 A[\omega,\omega]=\tfrac1{12}s^2\Theta[\omega,\omega,\omega,\omega]+O(r^2s^{-1}+s^3),
 \end{gather*}
-so $A[t,t]A[\omega,\omega]-A[\omega,t]^2=O(r^2+s^3)$. The entries $A[t,e_h]$ and $A[\omega,e_h]$ are $O(s)$ by \eqref{eq:selection-At}--\eqref{eq:selection-Aw}, and $A[e_h,e_h]=O(1)$. Expanding the $3\times3$ determinant in the basis $(t,\omega,e_h)$ along the last row, every term is $O(r^2+s^3)$. The Gram determinant of this basis is $\rho^2$, which gives \eqref{eq:selection-thirdenv}.
+so $A[t,t]A[\omega,\omega]-A[\omega,t]^2=O(r^2+s^3)$; by \eqref{eq:selection-At} alone, $At=O(s)$, which gives the crude bound $|\det H_y|\le Cs\Psi$, and at $M$ and $S$ the rows along $t$ are $O(r)$, which gives $|\det H_M|+|\det H_S|\le Cr\Psi$. The entries $A[t,e_h]$ and $A[\omega,e_h]$ are $O(s)$ by \eqref{eq:selection-At}--\eqref{eq:selection-Aw}, and $A[e_h,e_h]=O(1)$. Expanding the $3\times3$ determinant in the basis $(t,\omega,e_h)$ along the last row, every term is $O(r^2+s^3)$. The Gram determinant of this basis is $\rho^2$, which gives \eqref{eq:selection-thirdenv}.
 
-\emph{Conditional moments.} Under the conditioning on the pins and on $(f(y),\nabla f(y))=(u,0)$, every derivative field of $f$ is Gaussian, with mean given by regression on the corrected variables of Lemmas~\ref{lem:selection-pairlaw}--\ref{lem:selection-singchart} and covariance dominated by the unconditional one. The corrected pair frame has a uniform eigenfloor, and by \eqref{eq:selection-det4} and Lemma~\ref{lem:selection-singfactor} the corrected third-point block has determinant at least a constant times $\rho^{10}$. So the regression coefficients, and with them the conditional means, are at most $C(1+\rho^{-m})$ on compact marks and over the window, for a fixed $m$. By the Borell--TIS inequality \cite{AdlerTaylor}, every conditional moment of $\Psi$ is at most a constant times a power of $1+\rho^{-1}$. Multiplying the three envelopes, with $W_r\le|\det H_M|\,|\det H_S|$, gives \eqref{eq:selection-envelope}.
+\emph{Conditional moments.} Under the conditioning on the pins and on $(f(y),\nabla f(y))=(u,0)$, equivalently on $V=v^*(u)$, Lemma~\ref{lem:selection-gauss}(b) bounds every conditional moment of a power of $\Psi$ by $C(1+\mathcal M_\Pi+\mathcal M(u))^q$, and $\mathcal M_\Pi$ is bounded on compact marks (\S\ref{ssec:selection-finite}). Multiplying the three envelopes, with $W_r\le|\det H_M|\,|\det H_S|$, gives \eqref{eq:selection-envelope}. Drafts~1--8 bounded these moments by a power of $1+\rho^{-1}$, through a lower bound $\rho^{10}$ for the third-point block that holds only in the contact limit.
 
-The argument uses only Taylor's formula, Gaussian moments and the lower bound $\rho^{10}$ for the third-point block, which Lemma~\ref{lem:selection-singfactor} gives for every kernel satisfying Hypothesis~\ref{hyp:selection-jet}. So it holds for every such kernel, with constants depending on the kernel.
+The argument uses only Taylor's formula and Lemma~\ref{lem:selection-gauss}(b). So it holds for every kernel satisfying Hypothesis~\ref{hyp:selection-jet}, with constants depending on the kernel.
 \end{proof}
 
-The envelope \eqref{eq:selection-envelope} is (3.16) of the main text; the factor $\rho^{-6}\bar\Psi(\rho)$ is absorbed by the angular integral \eqref{eq:selection-singdens}. The symbolic check \path{checks/s5_envelope_check.py} confirms the cancellations behind \eqref{eq:selection-endenv} and \eqref{eq:selection-thirdenv} for polynomial fields of degree seven: in each of the four determinants (the in-plane part and the hard-direction part, at an endpoint and at the third point), every monomial in $r$ and $s$ is within the stated envelope.
+The envelopes \eqref{eq:selection-endenv}--\eqref{eq:selection-thirdenv} give (3.16) of the main text. In the proof of Lemma~\ref{lem:selection-sing}, the factor $(1+\mathcal M(u))^q$ in \eqref{eq:selection-envelope} is absorbed by the density (Lemma~\ref{lem:selection-finsing}(d),(e)). The factor $\rho^{-6}$ is at most $\rho_0^{-6}$ where $\rho\ge\rho_0$, it is absorbed by the axis suppression of Lemma~\ref{lem:selection-finsing}(d) where $s\le\rho<\rho_0$, and the crude bounds are used where $\rho<s$. The symbolic check \path{checks/s5_envelope_check.py} confirms the cancellations behind \eqref{eq:selection-endenv} and \eqref{eq:selection-thirdenv} for polynomial fields of degree seven: in each of the four determinants (the in-plane part and the hard-direction part, at an endpoint and at the third point), every monomial in $r$ and $s$ is within the stated envelope.
 
 \begin{lemma}[singular-near count]\label{lem:selection-sing}
 For the side-$24$ field, uniformly for $t\in S^2$ and on compact positive mark sets,
@@ -544,15 +560,26 @@ For the side-$24$ field, uniformly for $t\in S^2$ and on compact positive mark s
 \end{lemma}
 
 \begin{proof}
-By the Kac--Rice formula, $\E^0[W_rN_{\rm sing}]$ is the integral over $y$ in region~(ii) and over $u$ in the window of the conditional expectation in \eqref{eq:selection-envelope} times the conditional density of $(f(y),\nabla f(y))$ at $(u,0)$. Combine the envelope \eqref{eq:selection-envelope} with the density bound \eqref{eq:selection-singdens} for $m=6+m_0$, the pair normalizer $Z_r\ge c_Zr^2$ of \eqref{eq:selection-normalizer}, the value-window width $O(r^3)$ of \eqref{eq:selection-window} and the polar volume $s^2\,ds$. This gives
+By the Kac--Rice formula, $\E^0[W_rN_{\rm sing}]$ is the integral over $y=x+s\omega$ in region~(ii) and over $u$ in the window of
+\[
+J(y,u)=\E^0\bigl[W_r|\det H_y|\bigm|f(y)=u,\ \nabla f(y)=0\bigr]\,p_{(f(y),\nabla f(y))\mid\text{pins}}(u,0).
+\]
+By \eqref{eq:selection-envelope} and \eqref{eq:selection-singdens}, $J\le C\,E(s,\rho)\,s^{-7}D$, where $E(s,\rho)=\min\{r^2s,\ \rho^{-6}[r(r+s^2)]^2(r^2+s^3)\}$, $D=\varepsilon^{-5}e^{-c_*/\varepsilon^2}$ if $\rho<\rho_0$ and $s<s_0$, and $D=1$ otherwise; here $\varepsilon^2=\rho^2+s^2$, $\rho_0,s_0\le\frac12$ are chosen with $\rho_0^2+s_0^2\le\varepsilon_1^2$, and $r$ is at most the $r_0$ of Lemma~\ref{lem:selection-finsing}(e) for these $\rho_0,s_0$. The window has width $\kappa r^3/6$, the volume element is $s^2\,ds\,d\omega$, and near the axis $d\omega\le2\rho\,d\rho\,d\phi$. We bound the parts of region~(ii) in turn.
+
+\emph{$s\ge s_0$.} Here $J\le Cr^2s\cdot s^{-7}\le C(s_0)r^2$, so this part contributes at most $Cr^5$ to $\E^0[W_rN_{\rm sing}]$.
+
+\emph{$s<s_0$, and $\rho\ge\rho_0$ or $s\le\rho<\rho_0$.} If $\rho\ge\rho_0$, then $J\le C\rho_0^{-6}s^{-7}[r(r+s^2)]^2(r^2+s^3)$. If $s\le\rho<\rho_0$, then $\varepsilon^2\le2\rho^2$, $J\le C\rho^{-11}e^{-c_*/(2\rho^2)}s^{-7}[r(r+s^2)]^2(r^2+s^3)$, and $\int_{\rho<\rho_0}\rho^{-11}e^{-c_*/(2\rho^2)}\,d\omega\le C$. Integrating over $\omega$ and over the window, and dividing by $Z_r\ge c_Zr^2$ from \eqref{eq:selection-normalizer}, these parts contribute to $\E^{MS}_rN_{\rm sing}$ at most
 \begin{equation}\label{eq:selection-singint}
-\E^{MS}_rN_{\rm sing}\le C\,r\int_{C_1r}^{\delta}s^{-5}\,[r(r+s^2)]^2(r^2+s^3)\,ds .
+C\,r\int_{C_1r}^{\delta}s^{-5}\,[r(r+s^2)]^2(r^2+s^3)\,ds .
 \end{equation}
-Expanding the polynomial produces the six terms
+
+\emph{$s<s_0$ and $\rho<\min(s,\rho_0)$, the boundary layer at the axis.} Here $s\le\varepsilon\le\sqrt2\,s$, and the crude part of \eqref{eq:selection-envelope} gives $J\le Cr^2s\cdot s^{-7}\cdot s^{-5}e^{-c_*/(2s^2)}$, on a set of directions of measure at most $Cs^2$. This part contributes at most $Cr^5\int_0^{s_0}s^{-7}e^{-c_*/(2s^2)}\,ds\le Cr^5$ to $\E^0[W_rN_{\rm sing}]$.
+
+Expanding the polynomial in \eqref{eq:selection-singint} produces the six terms
 \begin{equation}\label{eq:selection-sixterms}
 r^7s^{-5},\qquad r^6s^{-3},\qquad r^5s^{-2},\qquad r^5s^{-1},\qquad r^4,\qquad r^3s^2,
 \end{equation}
-up to fixed numerical factors. Integration from $C_1r$ to $\delta$ bounds them respectively by $O(r^3)$, $O(r^4)$, $O(r^4)$, $O(r^5\log(1/r))$, $O(r^4)$ and $O(r^3)$. This proves \eqref{eq:selection-singcount} at the planar jet. For the side-$24$ field, Lemma~\ref{lem:selection-singfactor} shows that the $\rho^{-5}$ density factor, the $\exp(-c_*/\rho^2)$ axis suppression and the separated mean mismatch persist, so \eqref{eq:selection-singdens} holds with changed constants; with Lemma~\ref{lem:selection-envelope} the same power count applies.
+up to fixed numerical factors. Integration from $C_1r$ to $\delta$ bounds them respectively by $O(r^3)$, $O(r^4)$, $O(r^4)$, $O(r^5\log(1/r))$, $O(r^4)$ and $O(r^3)$. The other two parts contribute $O(r^5)/Z_r=O(r^3)$. This proves \eqref{eq:selection-singcount}. Every step holds for every kernel satisfying Hypothesis~\ref{hyp:selection-jet} (Lemmas~\ref{lem:selection-envelope} and~\ref{lem:selection-finsing}), with constants depending on the kernel, in particular for $K_{24}$.
 \end{proof}
 
 \subsubsection{The fixed-distance count}
@@ -905,3 +932,139 @@ The bound \eqref{eq:selection-main} is also Theorem~A of \cite{parentP} (Theorem
 \begin{remark}[the Morse event under the Palm law]\label{rem:selection-morse}
 Lemma~\ref{lem:selection-trichotomy} is applied under $\Prob^{MS}_r$, so it needs $\Prob^{MS}_r(\Omega_{\rm Mo})=1$. Since $\Prob(\Omega_{\rm Mo})=1$, disintegration over the pin values gives this for almost every $(b,\kappa)$, which suffices for every integrated intensity. It holds for every $(b,\kappa)$ as well. Under the pins, $H_M$ and $H_S$ have nondegenerate Gaussian laws, so $M$ and $S$ are nondegenerate critical points almost surely. On each compact set of points at distance at least $1/n$ from $\{M,S\}$, the conditional density of $\nabla f(z)$ is bounded, by derivative-distribution independence (Section~\ref{sec:setting}), and a Bulinskaya-type lemma (see \cite{AdlerTaylor}, Chapter~11) excludes degenerate critical points there; the union over $n$ excludes them everywhere. Equal critical values are excluded in the same way. On pairs of points at distance at least $1/n$ from each other and from $\{M,S\}$, the field $(z,z')\mapsto(\nabla f(z),\nabla f(z'),f(z)-f(z'))$ has seven components in six variables and a bounded conditional density. For a critical point $z\notin\{M,S\}$ with $f(z)\in\{f(M),f(S)\}$, the map $z\mapsto(\nabla f(z),f(z))$ has four components in three variables.
 \end{remark}
+
+\subsection{Finite-scale witness densities near the pair axis}\label{ssec:selection-finite}
+
+The charts of \S\ref{ssec:selection-witness} are computed in the contact limit, $r\to0$ at a fixed chart position. Near the pair axis this limit is not uniform. At a fixed positive scale the conditional density of $(f(y),\nabla f(y))$, or of $\nabla f(y)$, given the pins is positive at points $y\notin\{M,S\}$ of the axis itself, where the contact-limit densities vanish to infinite order. So a bound by $\rho^{-m}$ times a function of the scale alone cannot be integrated over the directions, and drafts~1--8 of this supplement asserted such a bound in \eqref{eq:selection-singdens} (\path{CONCORDANCE.md}, ``Checkpoint draft~9''). This subsection proves the finite-scale estimates that the collar and singular-near counts use instead. They rest on elementary Gaussian conditioning (Lemma~\ref{lem:selection-gauss}), on first-order expansions of the scaled third-point variables in a radial blow-up of the parameters at the axis (Lemmas~\ref{lem:selection-finsing} and~\ref{lem:selection-fincol}), and on Hypothesis~\ref{hyp:selection-jet}(2). They hold for every kernel satisfying Hypothesis~\ref{hyp:selection-jet}, with constants depending on the kernel; the exact planar covariances are not used.
+
+Let $\mathcal H\subset L^2(\Omega)$ be the closed linear span of the values $f(z)$. It contains every derivative $\partial^\alpha f(z)$, and $\|X\|^2=\Var X$ for $X\in\mathcal H$. For $X,X'\in\mathcal H$ write $X\equiv X'$ if $X-X'$ lies in the span of the pin evaluations $\Pi_{r,x,t}$; covariances given the pins depend only on these classes. For a centred Gaussian vector $(\Pi,Z)$ in $\mathcal H$ with $\Cov(\Pi)$ and $\Sigma_Z=\Cov(Z\mid\Pi)$ nonsingular, and values $\pi$ and $z$, put $\mu_Z(\pi)=\E[Z\mid\Pi=\pi]$,
+\[
+\mathcal M_\Pi(\pi)^2=\pi^{\top}\Cov(\Pi)^{-1}\pi,\qquad\mathcal M_Z(z;\pi)^2=\bigl(z-\mu_Z(\pi)\bigr)^{\top}\Sigma_Z^{-1}\bigl(z-\mu_Z(\pi)\bigr),
+\]
+the Mahalanobis norms of the conditioning values. For the pair pins at their target, $\mathcal M_\Pi(z_r(b,\kappa))$ is bounded uniformly in $r$, $t$ and the compact mark set. It is unchanged by the invertible passage to the corrected pins, whose covariance has a uniform eigenfloor (Lemma~\ref{lem:selection-pinstab}) and whose target is bounded.
+
+\begin{lemma}[Gaussian conditioning]\label{lem:selection-gauss}
+Let $(\Pi,Z)$, with $\Pi\in\mathcal H^m$ and $Z\in\mathcal H^k$, be as above, and let $\pi\in\R^m$ and $z\in\R^k$.
+\begin{enumerate}[(a)]
+\item For each $i$, $\mathcal M_Z(z;\pi)^2\ge\bigl(z_i-\mu_{Z,i}(\pi)\bigr)^2/(\Sigma_Z)_{ii}$.
+\item Given $(\Pi,Z)=(\pi,z)$, the field is $f=\bar f+g$. Here $\bar f$ is deterministic, and
+\[
+|\partial^\alpha\bar f(w)|\le\|\partial^\alpha f(w)\|\bigl(\mathcal M_\Pi(\pi)^2+\mathcal M_Z(z;\pi)^2\bigr)^{1/2}
+\]
+for every point $w$ and multi-index $\alpha$. The field $g$ is centred Gaussian, its law does not depend on $(\pi,z)$, and $\E\sup_B|\partial^\alpha g|^p$ is bounded by a constant that depends only on the bounded set $B$, on $p\ge1$, on $\alpha$ and on $m+k$. Consequently, for every polynomial $\Psi$ in $\kappa$ and in the suprema over $B$ of the norms of finitely many derivatives of $f$, there are $C$ and $q$, depending only on $\Psi$, $B$, $m+k$ and the compact mark set, such that
+\[
+\E\bigl[|\Psi|\bigm|\Pi=\pi,\ Z=z\bigr]\le C\bigl(1+\mathcal M_\Pi(\pi)+\mathcal M_Z(z;\pi)\bigr)^q .
+\]
+\item For every $q\ge0$,
+\begin{equation}\label{eq:selection-gaussjoint}
+\bigl(1+\mathcal M_Z(z;\pi)\bigr)^q\,p_{Z\mid\Pi=\pi}(z)\le C_q\,(\det\Sigma_Z)^{-1/2}\exp\bigl(-\tfrac14\mathcal M_Z(z;\pi)^2\bigr).
+\end{equation}
+\item Split $Z=(Z_1,Z')$ with $\Sigma_{Z'}=\Cov(Z'\mid\Pi)$ nonsingular. Put $\sigma_1^2=\Var(Z_1\mid\Pi)$ and $\tilde m=\E[Z_1\mid\Pi=\pi,\ Z'=z']-z_1$. Then $|\tilde m-(\mu_{Z,1}(\pi)-z_1)|\le\sigma_1\mathcal M_{Z'}(z';\pi)$, and if $\tilde m\ne0$, then for every $q\ge0$
+\begin{equation}\label{eq:selection-gaussone}
+\bigl(1+\mathcal M_Z(z;\pi)\bigr)^q\,p_{Z\mid\Pi=\pi}(z)\le\frac{C_q\bigl(1+\mathcal M_{Z'}(z';\pi)\bigr)^q}{(\det\Sigma_{Z'})^{1/2}\,|\tilde m|}\exp\Bigl(-\frac{\tilde m^2}{8\sigma_1^2}\Bigr).
+\end{equation}
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+(a) For positive definite $\Sigma$ and a vector $w$, $w^{\top}\Sigma^{-1}w=\sup_{a\ne0}(a^{\top}w)^2/(a^{\top}\Sigma a)$; take $a$ the $i$-th unit vector.
+
+(b) Let $e_1,\dots,e_{m+k}$ be an orthonormal basis of the span of the coordinates of $(\Pi,Z)$ in $\mathcal H$. They are independent standard Gaussian variables, and $(\Pi,Z)=Ae$ with $A$ invertible. Conditioning on $(\Pi,Z)=(\pi,z)$ is conditioning on $e=e^*=A^{-1}(\pi,z)$, and $|e^*|^2=(\pi,z)^{\top}\Cov(\Pi,Z)^{-1}(\pi,z)=\mathcal M_\Pi(\pi)^2+\mathcal M_Z(z;\pi)^2$ by block inversion of $\Cov(\Pi,Z)$. Write $f(w)=\sum_j\langle f(w),e_j\rangle e_j+g(w)$. Then $g$ is orthogonal to $e$, hence independent of it, so its conditional law is its law; and $\bar f(w)=\sum_j\langle f(w),e_j\rangle e^*_j$. Since $\partial^\alpha\bar f(w)=\sum_j\langle\partial^\alpha f(w),e_j\rangle e^*_j$, the Cauchy--Schwarz inequality gives the bound on $\partial^\alpha\bar f$. Moreover $\partial^\alpha g=\partial^\alpha f-\sum_j\langle\partial^\alpha f,e_j\rangle e_j$, so $\sup_B|\partial^\alpha g|\le\sup_B|\partial^\alpha f|+\sigma_\alpha\sum_j|e_j|$, where $\sigma_\alpha=\|\partial^\alpha f(w)\|$ does not depend on $w$. The supremum of a derivative of the smooth stationary field has Gaussian moments of every order by the Borell--TIS inequality \cite{AdlerTaylor}. The bound for $\Psi$ follows by expanding the polynomial, with $\kappa$ bounded on the compact mark set.
+
+(c) The conditional density is $(2\pi)^{-k/2}(\det\Sigma_Z)^{-1/2}\exp(-\frac12\mathcal M_Z^2)$, and $\sup_{u\ge0}(1+u)^qe^{-u^2/4}<\infty$.
+
+(d) Gaussian regression gives $\tilde m-(\mu_{Z,1}(\pi)-z_1)=\Cov(Z_1,Z'\mid\Pi)\,\Sigma_{Z'}^{-1}\bigl(z'-\mu_{Z'}(\pi)\bigr)$, and the Cauchy--Schwarz inequality for the conditional covariance gives the first claim. Factor $p_{Z\mid\Pi=\pi}(z)=p_{Z'\mid\Pi=\pi}(z')\,p_{Z_1\mid\Pi=\pi,Z'=z'}(z_1)$. The second factor is the normal density with mean $z_1+\tilde m$ and variance $\tilde\sigma^2\le\sigma_1^2$, evaluated at $z_1$, and $\mathcal M_Z^2=\mathcal M_{Z'}^2+\tilde m^2/\tilde\sigma^2$. Hence $(1+\mathcal M_Z)^q\le2^q(1+\mathcal M_{Z'})^q(1+|\tilde m|/\tilde\sigma)^q$, and
+\[
+\Bigl(1+\frac{|\tilde m|}{\tilde\sigma}\Bigr)^q\frac{e^{-\tilde m^2/(2\tilde\sigma^2)}}{\sqrt{2\pi}\,\tilde\sigma}\le C_q\,\frac{e^{-\tilde m^2/(8\tilde\sigma^2)}}{\tilde\sigma}\,e^{-\tilde m^2/(8\tilde\sigma^2)}\le C_q\sup_{u>0}\frac{e^{-\tilde m^2/(8u^2)}}u\cdot e^{-\tilde m^2/(8\sigma_1^2)},
+\]
+and the supremum is $2e^{-1/2}/|\tilde m|$.
+With $p_{Z'\mid\Pi=\pi}(z')\le(2\pi)^{-(k-1)/2}(\det\Sigma_{Z'})^{-1/2}$ this is \eqref{eq:selection-gaussone}.
+\end{proof}
+
+The point of (d) is that no lower bound on the conditional variance of the mismatched coordinate $Z_1$ is needed: a Gaussian density at distance $|\tilde m|$ from its mean is at most $C/|\tilde m|$ times $\exp(-\tilde m^2/(8\sigma_1^2))$, however small the variance.
+
+\begin{lemma}[finite-scale singular-near frame]\label{lem:selection-finsing}
+Assume Hypothesis~\ref{hyp:selection-jet}, and use the notation of Lemma~\ref{lem:selection-singchart} in the frame $(t,v,w)$ adapted to $\omega$: $\omega=ct+\rho v$ with $\rho\ge0$ (any unit $v\perp t$ if $\rho=0$), so that $(Y,Z)=(\rho,0)$, $V_2=s^{-1}\partial_vf(y)$ and $V_3=s^{-1}\partial_wf(y)$. Put
+\[
+\varepsilon=(\rho^2+s^2)^{1/2},\qquad(\rho,s)=\varepsilon(\cos\theta,\sin\theta),\qquad\lambda=1-\eta^2/4,\qquad\varsigma=\operatorname{sign}c,
+\]
+and
+\begin{equation}\label{eq:selection-Wdef}
+\tilde V_0=\varepsilon^{-2}\Bigl(V_0+\varsigma\,\frac{4+3\eta^2}{48}\,V_1\Bigr),\qquad\tilde V_i=\varepsilon^{-1}V_i\quad(i=1,2,3).
+\end{equation}
+For $u$ in the window \eqref{eq:selection-window}, let $\mathcal M(u)=\mathcal M_V(v^*(u);z_r)$ be the Mahalanobis norm, under the conditional law given the pins, of the value $v^*(u)=\bigl(s^{-3}(u-b+\kappa r^3/12),0,0,0\bigr)$ that $V$ takes when $f(y)=u$ and $\nabla f(y)=0$. There are $\varepsilon_1>0$, $c_*>0$, $c_V>0$ and $C$, depending only on the kernel, on $\eta_0$ and on the compact mark set, such that the following hold uniformly in $t$, $v$, $\theta\in[0,\pi/2]$, $\eta\in[0,\eta_0]$ and both signs of $c$.
+\begin{enumerate}[(a)]
+\item For $\varepsilon\le\varepsilon_1$, $\tilde V_i\equiv\tilde V_i^{(0)}+R_i$ with $\|R_i\|\le C\varepsilon$, where, with all derivatives at $x$,
+\begin{equation}\label{eq:selection-Wlim}
+\begin{aligned}
+\tilde V^{(0)}_0&=-\varsigma\,\frac\lambda8\Bigl[\cos^2\theta\,f_{tvv}+\frac\lambda3\sin\theta\cos\theta\,f_{tttv}+\frac{\lambda^2}{60}\sin^2\theta\,f_{ttttt}\Bigr],&\tilde V^{(0)}_1&=\varsigma\Bigl[\cos\theta\,f_{ttv}+\frac\lambda6\sin\theta\,f_{tttt}\Bigr],\\
+\tilde V^{(0)}_2&=\cos\theta\,f_{vv}+\frac\lambda2\sin\theta\,f_{ttv},&\tilde V^{(0)}_3&=\cos\theta\,f_{vw}+\frac\lambda2\sin\theta\,f_{ttw}.
+\end{aligned}
+\end{equation}
+\item For $\varepsilon\le\varepsilon_1$, $\det\Cov(V\mid\text{pins})\ge c_V\,\varepsilon^{10}$.
+\item For $\varepsilon\le\varepsilon_1$, $\Var(V_1\mid\text{pins})\le C\varepsilon^2$ and $\bigl|\E[V_1\mid\text{pins}=z_r(b,\kappa)]-\kappa\lambda\bigr|\le C\varepsilon$; after decreasing $\varepsilon_1$, this mean is at least $\kappa/2$, since $\lambda\ge\frac34$.
+\item For every $q\ge0$ and $\varepsilon\le\varepsilon_1$,
+\[
+\bigl(1+\mathcal M(u)\bigr)^q\,p_{(f(y),\nabla f(y))\mid\text{pins}}(u,0)\le C_q\,s^{-7}\varepsilon^{-5}\exp(-c_*/\varepsilon^2).
+\]
+\item For every $\rho_0>0$ and $s_0>0$ there are $c'_V>0$ and $r_0>0$ with the following property. If $C_1r<s\le\delta$ and $r\le r_0$, and if $\rho\ge\rho_0$ or $s\ge s_0$, then $\det\Cov(V\mid\text{pins})\ge c'_V$, and so $(1+\mathcal M(u))^q\,p_{(f(y),\nabla f(y))\mid\text{pins}}(u,0)\le C_q\,s^{-7}$.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+\emph{Expansion.} Fix $N=10$. Taylor's formula at $x$ with integral remainder writes each of $f(y)$, $\nabla f(y)$, $f(M)$, $f(S)$, $\nabla f(M)$ and $\nabla f(S)$ as a combination of the derivatives $\partial^\alpha f(x)$ with $|\alpha|\le N$, whose coefficients are polynomials in $r$, $s$ and $\omega$, plus a remainder of norm at most $Cs^{N+1}$ for $f(y)$, $Cs^N$ for $\nabla f(y)$, $Cr^{N+1}$ for the pin values and $Cr^N$ for the pin gradients. The eight pin equations determine the contact coordinates $P$ of \eqref{eq:selection-P}: solving them expresses each coordinate of $P$ as a combination of the pins, with coefficients at most $Cr^{-3}$, plus a combination of the other derivatives $\partial^\alpha f(x)$ with $|\alpha|\le N$, with coefficients polynomial in $r$, plus a remainder of norm at most $Cr^{N-3}$. Substituting into $V$ and \eqref{eq:selection-Wdef} gives
+\[
+\tilde V_i\equiv\sum_\alpha w_{i\alpha}\,\partial^\alpha f(x)+R'_i,\qquad\|R'_i\|\le C\varepsilon^{-2}s^{N-6}\le C\varepsilon^{N-8},
+\]
+where $\alpha$ runs over the multi-indices with $|\alpha|\le N$ outside $P$. The coefficients of $V$ have no negative power of $s$. Indeed
+\[
+s^3V_0=f(y)-U^{(0)}-\tfrac12(y-x)\cdot\nabla f(y)+\tfrac{sc}6\,\partial_tf(y),
+\]
+where $U^{(0)}\equiv0$. In $f(y)-\frac12(y-x)\cdot\nabla f(y)$ the Taylor term of degree $j$ carries the factor $1-j/2$, so the terms of degree two cancel; the terms of degree at most one, and those of $\frac{sc}6\partial_tf(y)$ of degree at most one in $y-x$, involve only coordinates of $P$. Modulo the pins, $f(x)$ and $f_t(x)$ are $O(r^4)$ and the other coordinates of $P$ are $O(r^2)$, with coefficients polynomial in $r$. In $V$, $f(x)$ carries the factor $s^{-3}$, and the other coordinates of $P$ carry factors at most $s^{-2}$. Since $r=\eta s$, every coefficient of $V_0,\dots,V_3$ is a polynomial in $s$, $\rho$, $c$ and $\eta$, where $c=\varsigma(1-\rho^2)^{1/2}$. Modulo the pins, the random part of each $V_i$ vanishes at $s=\rho=0$, and the linear terms in $(s,\rho)$ of $V_0$ and of $-\varsigma\frac{4+3\eta^2}{48}V_1$ coincide. Hence the $w_{i\alpha}$ are real-analytic functions of $(\varepsilon,\theta,\eta)$ on a neighbourhood of $[0,\varepsilon_1]\times[0,\pi/2]\times[0,\eta_0]$. Their values $w_{i\alpha}(0)$ at $\varepsilon=0$ are the coefficients displayed in \eqref{eq:selection-Wlim}. They vanish for $|\alpha|\ge6$, since a derivative of order $j$ enters $V_0$ and $V_1$ with a coefficient $O(s^{j-3})$, and $V_2$ and $V_3$ with $O(s^{j-2})$. The script \path{checks/s5_finite_scale_check.py} computes the coefficients exactly for a polynomial field of degree six and both signs of $c$. It verifies that those of $V$ have no negative power of $s$, and it verifies the other statements of this paragraph. Hence $R_i=\sum_\alpha(w_{i\alpha}-w_{i\alpha}(0))\partial^\alpha f(x)+R'_i$ has norm at most $C\varepsilon$, which is (a).
+
+\emph{Determinant.} The symbols of the derivatives in \eqref{eq:selection-Wlim} are $\xi_t\xi_v^2$, $\xi_t^3\xi_v$ and $\xi_t^5$ in $\tilde V^{(0)}_0$; $\xi_t^2\xi_v$ and $\xi_t^4$ in $\tilde V^{(0)}_1$; $\xi_v^2$ and $\xi_t^2\xi_v$ in $\tilde V^{(0)}_2$; and $\xi_v\xi_w$ and $\xi_t^2\xi_w$ in $\tilde V^{(0)}_3$. None of them is a symbol of $P$. The monomials of $\tilde V^{(0)}_0$ occur in no other $\tilde V^{(0)}_i$. Its coefficient vector is nonzero: the coefficient of $f_{tvv}$ is $-\varsigma\lambda\cos^2\theta/8$ and that of $f_{ttttt}$ is $-\varsigma\lambda^3\sin^2\theta/480$. If $\cos\theta\ne0$, the second-order monomials $\xi_v^2$ and $\xi_v\xi_w$ occur only in $\tilde V^{(0)}_2$ and $\tilde V^{(0)}_3$ respectively, and $\tilde V^{(0)}_1\ne0$ involves no second-order derivative. If $\cos\theta=0$, then $\tilde V^{(0)}_1$, $\tilde V^{(0)}_2$ and $\tilde V^{(0)}_3$ are nonzero multiples of $f_{tttt}$, $f_{ttv}$ and $f_{ttw}$. In each case the symbols of $P,\tilde V^{(0)}_0,\dots,\tilde V^{(0)}_3$ are linearly independent. By Hypothesis~\ref{hyp:selection-jet}(2) (Theorem~\ref{thm:setting-gram} for $K_{24}$, Remark~\ref{rem:selection-side24} for $K_0$) their joint covariance is positive definite, and so is the Schur complement $\Sigma^{(0)}=\Cov(\tilde V^{(0)}\mid P)$. It is continuous in $(t,v,\theta,\eta)$ on a compact set, so $\det\Sigma^{(0)}\ge2c_0>0$. The corrected pins span the same subspace of $\mathcal H$ as the pins, differ from $P$ by $O(r)$ (Lemma~\ref{lem:selection-pairlaw}) and have a uniform eigenfloor (Lemma~\ref{lem:selection-pinstab}). So the orthogonal projections onto the two spans differ by at most $Cr\le C\varepsilon$ in operator norm, and with (a), $\Cov(\tilde V\mid\text{pins})=\Sigma^{(0)}+O(\varepsilon)$. Hence $\det\Cov(\tilde V\mid\text{pins})\ge c_0$ for $\varepsilon\le\varepsilon_1$. The map $V\mapsto\tilde V$ is triangular with determinant $\varepsilon^{-5}$, which gives (b) with $c_V=c_0$.
+
+\emph{The coordinate $V_1$.} By (a), $V_1=\ell_1(\Pi)+\varepsilon\hat V_1$, where $\ell_1(\Pi)$ is a combination of the pins and $\|\hat V_1\|\le C$. Hence $\Var(V_1\mid\text{pins})\le C\varepsilon^2$, and $\E[V_1\mid\text{pins}=z_r]=\ell_1(z_r)+\varepsilon\,\E[\hat V_1\mid\text{pins}=z_r]$, where the last mean is at most $\|\hat V_1\|\,\mathcal M_\Pi(z_r)\le C$ by Lemma~\ref{lem:selection-gauss}(b). The value $\ell_1(z_r)$ is that of $V_1$ for the polynomial field of degree $N$ that satisfies the pins and has all derivatives at $x$ outside $P$ equal to zero. It equals $\kappa\lambda+O(\varepsilon^2)$, in agreement with the deterministic terms of Lemma~\ref{lem:selection-singchart}, and the check script verifies it. This gives (c).
+
+\emph{The density.} Given the pins, $V$ is an affine function of $(f(y),\nabla f(y))$ with Jacobian $s^{-7}$ (Lemma~\ref{lem:selection-singchart}), and $f(y)=u$, $\nabla f(y)=0$ correspond to $V=v^*(u)$. Since $v^*_1=0$, (c) and Lemma~\ref{lem:selection-gauss}(a) give $\mathcal M(u)^2\ge(\kappa/2)^2/(C\varepsilon^2)=4c_*/\varepsilon^2$. With (b), Lemma~\ref{lem:selection-gauss}(c) gives (d).
+
+\emph{Away from the axis.} For $\rho\ge\rho_0$, the expansion above with the normalization of $V$ itself shows $V\equiv L+O(s)$ uniformly, where $L=(L_0,\dots,L_3)$ are the random residual limits of Lemma~\ref{lem:selection-singchart}; their covariance given $P$ has determinant $\rho^{10}(3c^2+\rho^2)A_{\rm sing}\ge\rho_0^{10}a_{\rm sing}$ by Lemma~\ref{lem:selection-singfactor}, since $3c^2+\rho^2=3-2\rho^2\ge1$. So there is $\bar s=\bar s(\rho_0)>0$ with $\det\Cov(V\mid\text{pins})\ge\frac12\rho_0^{10}a_{\rm sing}$ for $s\le\bar s$ and $\rho\ge\rho_0$. Put $s_1=\min(s_0,\bar s)$ and take $r_0<s_1/C_1$. For $s\in[s_1,\delta]$, the covariance $\Cov(V\mid\text{pins})$ is continuous in $(r,s,\omega)\in[0,r_0]\times[s_1,\delta]\times S^2$, with the corrected pins at $r=0$. It is positive definite at each point by Theorem~\ref{thm:setting-gram}: for $r>0$ the evaluations sit at the three distinct points $M$, $S$ and $y$, and for $r=0$ at $x$ and $y$. Compactness gives a positive lower bound for its determinant. A point with $\rho\ge\rho_0$ or $s\ge s_0$ has $s\ge s_1$, or $\rho\ge\rho_0$ and $s<s_1\le\bar s$, so one of the two bounds applies. The density bound follows from Lemma~\ref{lem:selection-gauss}(c) and the Jacobian $s^{-7}$.
+\end{proof}
+
+\begin{lemma}[finite-scale collar frames]\label{lem:selection-fincol}
+Assume Hypothesis~\ref{hyp:selection-jet}. Let $y\notin\{M,S\}$ be a point of the collar, $|y-x|\le C_1r$, and use the frame $(t,v,w)$ adapted to $y-x$, so that $y=x+r(Xt+\rho v)$ with $\rho\ge0$. Put $G=\bigl(r^{-2}\partial_tf(y),\ r^{-1}\partial_vf(y),\ r^{-1}\partial_wf(y)\bigr)$. All constants below depend only on the kernel, on $C_1$ and on the compact mark set.
+\begin{enumerate}[(a)]
+\item (Away from the axis.) For every $\rho_1>0$ there are $r_0,c>0$ such that $\det\Cov(G\mid\text{pins})\ge c$ for $r\le r_0$ and $\rho\ge\rho_1$.
+\item (Near the axis, away from the endpoints.) Suppose that $|y-M|\ge r/4$ and $|y-S|\ge r/4$. Put $\varepsilon=(\rho^2+r^2)^{1/2}$ and $(\rho,r)=\varepsilon(\cos\theta,\sin\theta)$. Then $G_1\equiv\varepsilon R_1$ and $(G_2,G_3)\equiv\varepsilon\bigl(G^{(0)}_2+R_2,\ G^{(0)}_3+R_3\bigr)$, with $\|R_1\|\le C$, $\|R_2\|+\|R_3\|\le C\varepsilon$ and
+\begin{equation}\label{eq:selection-Glim}
+G^{(0)}_2=\cos\theta\,f_{vv}+\tfrac12\bigl(X^2-\tfrac14\bigr)\sin\theta\,f_{ttv},\qquad G^{(0)}_3=\cos\theta\,f_{vw}+\tfrac12\bigl(X^2-\tfrac14\bigr)\sin\theta\,f_{ttw}.
+\end{equation}
+The conditional means satisfy $\bigl|\E[G_1\mid\text{pins}=z_r]-\kappa(X^2-\frac14)\bigr|\le C\varepsilon$ and $\bigl|\E[(G_2,G_3)\mid\text{pins}=z_r]\bigr|\le C\varepsilon$. There are $\varepsilon_1\in(0,\frac18]$ and $c_*>0$ such that, for $\varepsilon\le\varepsilon_1$, the smallest eigenvalue of $\Cov(G_2,G_3\mid\text{pins})$ is at least $c\varepsilon^2$ and, with $\mathcal M$ the Mahalanobis norm of $G$ at $0$ given the pins,
+\[
+(1+\mathcal M)^q\,p_{G\mid\text{pins}}(0)\le C_q\,\varepsilon^{-2}\exp(-c_*/\varepsilon^2)\qquad(q\ge0).
+\]
+\item (Near an endpoint.) Let $p\in\{M,S\}$, with $\chi=-1$ for $p=M$ and $\chi=1$ for $p=S$. Write $y=p+r\tau(\cos\alpha\,t+\sin\alpha\,v)$ with $0<\tau<\frac14$ and $0\le\alpha\le\pi$, in the frame adapted to $y-p$, and put
+\[
+\tilde G=\bigl((r^2\tau)^{-1}\partial_tf(y),\ (r\tau)^{-1}\partial_vf(y),\ (r\tau)^{-1}\partial_wf(y)\bigr).
+\]
+For every $\gamma_1>0$ there are $r_0,c>0$ with $\det\Cov(\tilde G\mid\text{pins})\ge c$ for $r\le r_0$ and $\sin\alpha\ge\gamma_1$. Where $\sin\alpha<1$, put $\varsigma=\operatorname{sign}\cos\alpha$, $\varepsilon'=(\sin^2\alpha+r^2)^{1/2}$ and $(\sin\alpha,r)=\varepsilon'(\cos\theta',\sin\theta')$. Then $\tilde G_1\equiv\varepsilon'R_1$ and $(\tilde G_2,\tilde G_3)\equiv\varepsilon'(\tilde G^{(0)}_2+R_2,\ \tilde G^{(0)}_3+R_3)$, with $\|R_1\|\le C$, $\|R_2\|+\|R_3\|\le C\varepsilon'$ and
+\begin{equation}\label{eq:selection-Nlim}
+\tilde G^{(0)}_2=\cos\theta'\,f_{vv}+\tfrac12(\tau+\chi\varsigma)\sin\theta'\,f_{ttv},\qquad\tilde G^{(0)}_3=\cos\theta'\,f_{vw}+\tfrac12(\tau+\chi\varsigma)\sin\theta'\,f_{ttw}.
+\end{equation}
+Moreover $\bigl|\E[\tilde G_1\mid\text{pins}=z_r]-\kappa(\tau+\chi\varsigma)\bigr|\le C\varepsilon'$ and $\bigl|\E[(\tilde G_2,\tilde G_3)\mid\text{pins}=z_r]\bigr|\le C\varepsilon'$, and for $\varepsilon'\le\varepsilon_1$ the smallest eigenvalue of $\Cov(\tilde G_2,\tilde G_3\mid\text{pins})$ is at least $c\,\varepsilon'^2$ and
+\[
+(1+\mathcal M)^q\,p_{\tilde G\mid\text{pins}}(0)\le C_q\,\varepsilon'^{-2}\exp(-c_*/\varepsilon'^2)\qquad(q\ge0),
+\]
+with $\mathcal M$ the Mahalanobis norm of $\tilde G$ at $0$ given the pins.
+\end{enumerate}
+\end{lemma}
+
+\begin{proof}
+The expansions in (b) and (c) are obtained exactly as in the proof of Lemma~\ref{lem:selection-finsing}(a): Taylor's formula at $x$, or at $p$, eliminate the contact coordinates through the pins, and expand in $\varepsilon$, or $\varepsilon'$. The coefficients have no negative power of $r$ or $\tau$. The random parts vanish at $\varepsilon=0$, and the terms of order $\varepsilon$ of $G_2$ and $G_3$ are \eqref{eq:selection-Glim}; the terms of order $\varepsilon'$ of $\tilde G_2$ and $\tilde G_3$ are \eqref{eq:selection-Nlim}, uniformly in $\tau\in[0,\frac14]$. The pin parts of $G_1$ and $\tilde G_1$ are $\kappa(X^2-\frac14)+O(\varepsilon^2)$ and $\kappa(\tau+\chi\varsigma)+O(\varepsilon'^2)$. Those of $G_2$, $G_3$, $\tilde G_2$ and $\tilde G_3$ vanish: these components involve only derivatives with at least one transverse index, the coordinates of $P$ among them are determined by the transverse gradient pins, and those pins have target zero. The script \path{checks/s5_finite_scale_check.py} verifies these expansions for a polynomial field of degree six. The bounds on the means follow as in the proof of Lemma~\ref{lem:selection-finsing}(c).
+
+\emph{The transverse pairs.} In \eqref{eq:selection-Glim}, if $\cos\theta\ne0$ the second-order derivatives $f_{vv}$ and $f_{vw}$ occur one in each component; if $\cos\theta=0$ the components are nonzero multiples of $f_{ttv}$ and $f_{ttw}$, because $|X^2-\frac14|=|X-\frac12|\,|X+\frac12|\ge\frac{\sqrt3}{16}$ when $\rho<\frac18$ and both distances to the endpoints are at least $r/4$. The same holds in \eqref{eq:selection-Nlim}, since $|\tau+\chi\varsigma|\ge\frac34$. So, as in the proof of Lemma~\ref{lem:selection-finsing}(b), the limits have a covariance given $P$ whose smallest eigenvalue is bounded below on the compact parameter sets, and the smallest eigenvalue of $\Cov(G_2,G_3\mid\text{pins})$, respectively $\Cov(\tilde G_2,\tilde G_3\mid\text{pins})$, is at least $c\varepsilon^2$, respectively $c\varepsilon'^2$.
+
+\emph{The densities.} Apply Lemma~\ref{lem:selection-gauss}(d) with $Z_1=G_1$, $Z'=(G_2,G_3)$ and $z=0$. The mean of $Z'$ is $O(\varepsilon)$ and its covariance has smallest eigenvalue at least $c\varepsilon^2$, so $\mathcal M_{Z'}\le C$, and $\det\Sigma_{Z'}\ge c\varepsilon^4$. Also $\sigma_1\le C\varepsilon$, so $|\tilde m-\kappa(X^2-\frac14)|\le C\varepsilon$, and $|\tilde m|\ge\frac{\sqrt3}{32}\kappa$ for $\varepsilon\le\varepsilon_1$. Then \eqref{eq:selection-gaussone} gives (b). Part (c) is the same, with $\tilde G$ in place of $G$ and $|\tau+\chi\varsigma|\ge\frac34$. We may take $\varepsilon_1$ and $c_*$ common to (b), (c) and Lemma~\ref{lem:selection-finsing}.
+
+\emph{Away from the axis.} In (a), $G\equiv L+O(r)$, where $L=(L_1,L_\perp)$ are the contact limits of Lemma~\ref{lem:selection-collarchart}, whose covariance given $P$ has determinant $\rho^6(X^2+\rho^2)A_{\rm col}\ge\rho_1^8a_{\rm col}$ by Lemma~\ref{lem:selection-collarfactor}. In (c), expand at $p$ instead of $x$: since $\nabla f(p)\equiv0$, the random part of $\tilde G$ is a combination of derivatives at $p$ whose coefficients are polynomials in $r$, $\tau$, $\cos\alpha$ and $\sin\alpha$, plus a remainder $O(r)$ uniformly in $\tau\in[0,\frac14]$; and derivatives at $p$ converge in $\mathcal H$ to those at $x$ as $r\to0$. So $\Cov(\tilde G\mid\text{pins})$ is jointly continuous in $(r,\tau)\in[0,r_0]\times[0,\frac14]$, for $\sin\alpha\ge\gamma_1$. At $r=0$ the random part of $\tilde G$ is $\sin\alpha\bigl((\tau\cos\alpha+\frac\chi2)f_{ttv}+\frac\tau2\sin\alpha\,f_{tvv},\ f_{vv},\ f_{vw}\bigr)$, which is $\tau^{-1}$ times that of the contact limit of $G$ at $X=\frac\chi2+\tau\cos\alpha$, $\rho=\tau\sin\alpha$; here $f_{vv}$ and $f_{vw}$ occur once each, and the first component is a nonzero third-order combination, since $|\tau\cos\alpha+\frac\chi2|\ge\frac14$. At $\tau=0$ it is $(r^{-1}H_p[\hat y,t],\,H_p[\hat y,v],\,H_p[\hat y,w])$, with $\hat y=\cos\alpha\,t+\sin\alpha\,v$: three second derivatives at $p$ whose symbols $(\hat y\cdot\xi)\xi_t$, $(\hat y\cdot\xi)\xi_v$, $(\hat y\cdot\xi)\xi_w$ are independent of each other and of those of the pins. At $r,\tau>0$ the evaluations sit at the three distinct points $M$, $S$ and $y$. In each case Theorem~\ref{thm:setting-gram} gives positive definiteness. The family is continuous on a compact parameter set, which gives (a) and the first claim of (c).
+\end{proof}
