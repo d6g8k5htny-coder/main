@@ -8,11 +8,14 @@ on:
 permissions:
   contents: read
   pull-requests: read
-  # Only for the neutral "not evaluated" check run. Submitted code is never executed.
-  checks: write
 jobs:
   public-intake:
     name: public-intake
+    permissions:
+      contents: read
+      pull-requests: read
+      # Only for the neutral "not evaluated" check run. Submitted code is never executed.
+      checks: write
     # Skip metadata edits only for terminal merged PRs. Reopenable PRs must
     # still pass the live checker, including closure and head-drift checks.
     if: ${{ !(github.event.pull_request.state == 'closed' && toJSON(github.event.pull_request.merged) == 'true') }}
