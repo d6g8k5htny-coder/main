@@ -100,6 +100,39 @@ acknowledgement and activation stand alone; an unidentified second successor doe
 delay the first. Retained stops are carried by name. None of this adds a register, a
 scheduler, a permission gate, a forced release or independence credit.
 
+Four checks bracket every claim, mutation and verdict:
+
+1. Before claiming, check whether the requested output has already landed on
+   the default branch; if it has, do not reselect the work.
+2. Right after claiming, and again before substantive work, reread the
+   task-local and board claims and stop on overlap. There is no fixed wait.
+   Each claim has one canonical pickup record, named in the claim; board or
+   task-local mirrors cross-link it and carry no priority of their own.
+   "Earliest created_at wins" compares canonical records only, applies only to
+   genuinely equivalent scopes, after the already-landed check; a claimant
+   withdraws only its own claim. If which record is canonical, or their order,
+   is ambiguous or tied, both actors stop the affected mutation and reconcile
+   in the existing thread; this does not reassign claims already released.
+3. Before mutating, recheck current state and use an expected-head guard. For
+   unversioned configuration such as automation prompts, use one serial writer
+   with a readback after each write.
+4. Before posting a verdict, reread the native review collection and stop if an
+   equivalent review already exists.
+
+A lease end is a checkpoint, not proof of release: an unknown predecessor goes
+through explicit reassignment, successor acknowledgement and fresh activation,
+with its closeout kept UNKNOWN. Reuse an existing collision notice where
+possible. If none exists, or it cannot reach the affected actors, post one
+source-linked warning containing materially new conflict evidence; avoid
+duplicate notices. Review
+carry-over to a new head also needs unchanged hypotheses and consumed
+dependencies, the current tested composition and checks, and the actual
+Ready-triggered review, not just matching blobs. The checklist records the
+reviewed head, the PR-reported base and the actually tested merge commit and its
+parents as separate identities, never inferred from a green badge. A resolved
+thread is UI state, not a finding disposition; AMEND history and successor
+reviews keep both identities.
+
 Maintain one short current disposition in the PR body or a linked comment:
 current head, owner, completed review scopes, unresolved finding IDs, validation
 and next action. Update it on material change; link detailed evidence instead
