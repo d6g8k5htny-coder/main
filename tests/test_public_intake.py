@@ -480,6 +480,23 @@ class IntakeTests(unittest.TestCase):
         self.assertNotIn('test-only-secret', output.getvalue())
         self.assertNotIn('success', output.getvalue())
 
+    def test_required_intake_job_cannot_skip_merged_event_payload(self):
+        workflow = (Path(__file__).resolve().parents[1] / '.github/workflows/public-intake.yml').read_text()
+        self.assertEqual(workflow.count('\n  public-intake:\n'), 1)
+        job = workflow.split('\n  public-intake:\n', 1)[1]
+        self.assertIn('\n    steps:\n', job)
+        header = job.split('\n    steps:\n', 1)[0]
+        self.assertIn('    name: public-intake\n', header)
+        self.assertNotRegex(job, r'(?m)^    if\s*:')
+        self.assertIn('    runs-on: ubuntu-24.04\n', header)
+        self.assertIn('exit 78', job)
+        self.assertIn('--publish-not-evaluated-check', job)
+        after_steps_mutant = job.rstrip() + (
+            "\n    if: ${{ github.event.pull_request.state != 'closed' }}\n"
+        )
+        with self.assertRaises(AssertionError):
+            self.assertNotRegex(after_steps_mutant, r'(?m)^    if\s*:')
+
     def test_workflow_maps_exit_78_to_neutral_and_never_success(self):
         workflow = (Path(__file__).resolve().parents[1] / '.github/workflows/public-intake.yml').read_text()
         self.assertIn('checks: write', workflow)
