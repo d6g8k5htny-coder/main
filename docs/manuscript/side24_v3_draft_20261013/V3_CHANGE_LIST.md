@@ -309,3 +309,34 @@ So the second route to (3.13) in Supplement §S5 has an open gap until those fin
 - **§7.** The AI-review sentence now calls the Supplement §S5 argument a route with that open gap. It keeps the one nonauthor read of the route, together with Lemma S4.29 and Proposition S8.13 (added by the r7 read AMEND, main#389 6181730647).
 
 **Build.** `build.sh` compiles with no LaTeX error and the same 2 pt overfull line as before.
+
+## Revision r8 (15 October, about 08:30Z)
+
+r7 is commit `5543bd20`: 22 pages, 558,417 B, SHA-256 `af944708…`. Its read AMEND and readback passed (main#389 6181730647, 6181766356). r8 is this PDF: 22 pages, 559,682 B, SHA-256 `633cff2a5351def94045994a893eef89bd19848128268c0eed90919a6d85dd50`.
+
+**Why.** Two reasons.
+1. Supplement draft 9 (`4db2c57a`, branch `claude/side24-v3-supplement-draft9-20261015`) repairs the gap that the OpenAI read of draft 8 found in Supplement §S5.4 (findings F1–F3 of main#389 6181596945). It adds §S5.8 (Lemmas S5.39–S5.41), the finite-scale densities near the pair axis by a radial blow-up, and proves Lemmas S5.19 and S5.23 again from it. No number of draft 8 changes. At this revision, the repair has one nonauthor read so far, by a Grok Bot support agent (PASS, main#389 6182910843), while an OpenAI re-read awaits publication of its verdict and an xAI read is open.
+2. A same-provider audit of Supplement §§S2–S4, S6, S7 and S12–S13 against the main text found no mathematical error, and five citation and wording points in the main text. It earns no independence credit.
+
+**Changes for the repair (no statement changes).**
+- **Appendix A, [R1].** The Supplement is cited at draft 9: commit `4db2c57a` of the branch `claude/side24-v3-supplement-draft9-20261015`. Every Supplement number the main text cites is the same in draft 9.
+- **§3.4, first paragraph.** The read of the eighth draft "found a gap"; "Supplement draft 9 repairs it in §S5.8 (Lemmas S5.39–S5.41), by a radial blow-up of the parameters at the axis with explicit limit functionals, and proves the two counts again from it (§7 records the reads of this repair)."
+- **§3.4, the envelope paragraph.** The collar and singular-near counts "give" `O(r³)`, "with the finite-scale densities of Supplement §S5.8".
+- **§3.4, the proof of Corollary 3.5.** The witness route outlines a second argument "with the repair noted at the start of this subsection".
+- **§6, "Relation to the parent record".** The §S5 route is the one "whose finite-scale witness densities Supplement §S5.8 supplies". Theorem S5.36 "does the same for (3.13)".
+- **§0, decision 4.** The alternatives no longer wait for the gap to close, and they add Supplement Theorem S12.3 (Theorem A of [R2], with its proof in Part III) with Proposition S6.2.
+- **§0, status row of (3.13).** The OpenAI read "found a gap in its finite-scale witness densities, which Supplement draft 9 repairs (§S5.8)", followed by the read status above.
+- **§7.** The AI-review parenthesis records the gap, the repair and the read status.
+- **§0.** "Revised through r8 on 15 October 2026".
+
+**Changes from the audit (wording and citation only).**
+- **Convention 2.2, and the end of §1.** The canonical versions are now described exactly: the marked two-point formula in the pair coordinates of §3.1 for separations below a fixed `ϱ ∈ (0,12)`, and in the coordinates `(M,S)` beyond (Supplement (S6.7) and (S6.10); the same formulas without the elder mark for the candidate density). The substitution `κ = 6ℓ/r³` shows that the sum does not depend on `ϱ`. The pair coordinates exist only for separations below 12, so r7's "the representatives obtained from the pair coordinates" did not cover the far pairs. The sentence after the proof of Proposition 1.2 now points to Convention 2.2 instead of repeating r7's description.
+- **§3.2, after (3.9).** "Uniformly bounded conditional Gaussian moments" becomes: moments "bounded by a polynomial in `|b|+κ`, uniformly in `t` and in `r` below any fixed `ϱ<12`, and hence uniformly bounded on compact mark sets (Supplement Lemma S2.9 and the proof of Proposition S6.4)". The conditional means are linear in the pin target, so the moments are not bounded uniformly in the marks.
+- **§3.5, proof of Proposition 3.10, and §6.** (14.1) of [R2] is stated there for pairs at distance at least a small radius `r₀`. The proof now adds that its proof, a nonsingular two-site covariance on a compact set of pairs, applies at every separation `ϱ` (Supplement Lemma S12.29 and Proposition S6.2). §6 says the same in one clause. The proof still cites [R2], as decision 4's default requires.
+- **§3.8, the first-variation paragraph.** The jet coordinates `a, m₄, χ, Ω` and the variations are cited to Supplement Lemma S4.20 and Corollary S4.25. Remark S4.26, which r7 cited there, is the scale check, and is now cited at "the scale check".
+- **§3.9, proof of Proposition 3.12.** Theorem R is "proved in Supplement Theorem S7.9; Supplement Remark S7.22 identifies its density and its constant with those of Theorem 2.1."
+- **README.** Revision r8; the earlier-revisions list adds r7; decision 4 as in §0; the supplement line cites draft 9 and its read status; "Requested: a read of r8".
+
+**Not changed.** No theorem, display, constant or proof step. The other audit points concern the Supplement only, and wait for a later supplement draft.
+
+**Build.** `build.sh` compiles with no LaTeX error and the same 2 pt overfull line as before.
