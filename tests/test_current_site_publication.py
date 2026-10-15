@@ -276,6 +276,8 @@ class PublicationTests(unittest.TestCase):
         self.assertNotIn("pip install", deploy)
         self.assertLess(deploy.index(" prepare "), deploy.index("actions/deploy-pages@"))
         self.assertGreater(deploy.index(" observe "), deploy.index("actions/deploy-pages@"))
+        build_checkout = raw.split("  build:\n", 1)[1].split("  deploy:\n", 1)[0].split("      - name:", 1)[0]
+        self.assertIn("fetch-depth: 0", build_checkout)
 
     def test_http_clients_bound_responses_and_keep_credentials_in_fixed_api_headers(self):
         class Response(io.BytesIO):
