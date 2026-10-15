@@ -37,7 +37,6 @@ release, or confirmed lease expiry followed by current-state reconciliation.
 Review work can proceed without taking over the writer's branch. Release a
 finished claim. An offered task becomes active only when an actual pickup occurs.
 
-
 For already-authorized, low-impact work with no live owner, an eligible worker
 may begin the smallest disjoint stage after reading current claims and publishing
 an actual task-local pickup naming the source, scope, exclusions, checks and a
