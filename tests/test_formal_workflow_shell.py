@@ -1,11 +1,14 @@
 """Regression controls for the actual formal workflow shell and failure summary."""
 import os
+import shutil
+import sys
 from pathlib import Path
 import re
 import subprocess
 import tempfile
 import textwrap
 import unittest
+from unittest import mock
 
 WORKFLOW = Path(__file__).resolve().parents[1] / '.github/workflows/formal-verification.yml'
 PROBE_NAME = 'Verify actual shell rejects a failing producer'
@@ -44,8 +47,14 @@ class FormalWorkflowShellTests(unittest.TestCase):
             if pipefail:
                 cmd += ['-o', 'pipefail']
             cmd.append(str(script))
-            return subprocess.run(cmd, env={**os.environ, 'RUNNER_TEMP': tmp},
-                                  capture_output=True, text=True, timeout=20)
+            # Hosted Python setup provides `python`; minimal external runners
+            # may expose only `python3`. Test the unchanged shell with the same
+            # running interpreter rather than changing its exit-code contract.
+            (Path(tmp) / 'python').symlink_to(Path(sys.executable).resolve())
+            env = {**os.environ, 'RUNNER_TEMP': tmp,
+                   'PATH': tmp + os.pathsep + os.environ.get('PATH', '')}
+            return subprocess.run(cmd, env=env, capture_output=True,
+                                  text=True, timeout=20)
 
     def test_actual_probe_accepts_fail_closed_shell(self):
         result = self.run_probe(True)
@@ -56,6 +65,23 @@ class FormalWorkflowShellTests(unittest.TestCase):
         result = self.run_probe(False)
         self.assertNotEqual(result.returncode, 0, result.stdout+result.stderr)
         self.assertIn('PIPELINE_FAILURE_PROPAGATION_FAIL', result.stdout)
+
+    def test_probe_when_parent_path_has_no_python_alias(self):
+        # The shell still needs Bash and tee, but not a preinstalled `python`.
+        with tempfile.TemporaryDirectory() as tool_dir:
+            for command in ('bash', 'tee'):
+                source = shutil.which(command)
+                self.assertIsNotNone(source, f'{command} unavailable')
+                (Path(tool_dir) / command).symlink_to(source)
+            with mock.patch.dict(os.environ, {'PATH': tool_dir}):
+                fail_closed = self.run_probe(True)
+                fail_open = self.run_probe(False)
+        self.assertEqual(fail_closed.returncode, 0,
+                         fail_closed.stdout + fail_closed.stderr)
+        self.assertIn('PIPELINE_FAILURE_PROPAGATION_PASS', fail_closed.stdout)
+        self.assertNotEqual(fail_open.returncode, 0,
+                            fail_open.stdout + fail_open.stderr)
+        self.assertIn('PIPELINE_FAILURE_PROPAGATION_FAIL', fail_open.stdout)
 
     def test_summary_does_not_claim_success_unconditionally(self):
         self.assertIn('if [ "${{ job.status }}" = "success" ] && [ -s formal/.lake/formal-evidence/receipt.json ]; then', self.text)
