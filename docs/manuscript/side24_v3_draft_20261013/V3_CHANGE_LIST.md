@@ -306,5 +306,6 @@ So the second route to (3.13) in Supplement §S5 has an open gap until those fin
 - **§0, decision 4.** Alternative (b) applies "once the open gap in Supplement §S5 is closed".
 - **§0, status row of (3.13).** "The second route in Supplement §S5: one nonauthor read (+GB), and a provider-distinct read (OpenAI) that found an open gap in its finite-scale witness densities."
 - **§0.** "Revised through r7 on 15 October 2026".
+- **§7.** The AI-review sentence now calls the Supplement §S5 argument a route with that open gap. It keeps the one nonauthor read of the route, together with Lemma S4.29 and Proposition S8.13 (added by the r7 read AMEND, main#389 6181730647).
 
 **Build.** `build.sh` compiles with no LaTeX error and the same 2 pt overfull line as before.
