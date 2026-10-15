@@ -360,6 +360,27 @@ class IntakeTests(unittest.TestCase):
         self.pr['base']['ref'] = 'other'
         self.reject('targets main')
 
+    def test_event_queued_before_merge_is_not_a_rejection(self):
+        # Observed on main (runs 37139813163, 37843755359): an event for the open PR
+        # ran seconds after the merge and failed with 'PR is not open'.
+        self.pr['state'] = 'closed'
+        self.pr['merged'] = True
+        result = self.run_check()
+        self.assertEqual(result['result'], 'SKIPPED_MERGED_BEFORE_CHECK')
+        self.assertEqual(result['lane'], 'not-evaluated')
+        self.assertEqual(self.api.calls, [f'/repos/{REPO}/pulls/7'])
+
+    def test_merged_pr_with_different_head_or_unmerged_close_still_refused(self):
+        self.pr['state'] = 'closed'
+        self.pr['merged'] = False
+        self.reject('not open')
+        self.pr['merged'] = True
+        self.pr['head']['sha'] = 'e' * 40
+        self.reject('not open')
+        self.pr['head']['sha'] = HEAD
+        self.pr['merged'] = 'true'  # only the JSON boolean counts
+        self.reject('not open')
+
     def test_cli_pass_and_failure_are_distinct_without_network(self):
         with tempfile.TemporaryDirectory() as folder:
             event_file = Path(folder) / 'event.json'

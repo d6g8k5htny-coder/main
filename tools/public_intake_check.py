@@ -385,6 +385,17 @@ def check(event, api, repository):
     number = integer(event.get('number'), 1, 10000000, 'invalid PR number')
     pr = api.get(f'/repos/{repository}/pulls/{number}')
     require(pr.get('number') == number, 'PR number mismatch')
+    event_pr = event.get('pull_request')
+    if (isinstance(pr, dict) and pr.get('state') == 'closed' and pr.get('merged') is True
+            and isinstance(event_pr, dict) and isinstance(event_pr.get('head'), dict)
+            and isinstance(pr.get('head'), dict) and event_pr['head'].get('sha') == pr['head'].get('sha')
+            and isinstance(event_pr['head'].get('sha'), str) and HEX40.fullmatch(event_pr['head']['sha'])):
+        # An event that was queued before the merge but ran after it: the merged head was
+        # already gated by its own earlier run, and nothing here can block a landed merge.
+        # Report that nothing was evaluated rather than a spurious rejection. A closed but
+        # unmerged (reopenable) PR, or a head that differs from the event, still rejects.
+        return {'head': pr['head']['sha'], 'scientific_effect': 'NONE', 'lane': 'not-evaluated',
+                'result': 'SKIPPED_MERGED_BEFORE_CHECK'}
     original = snapshot(pr, repository)
     head, base, head_repo, labels, count = original
     event_pr = event.get('pull_request')
