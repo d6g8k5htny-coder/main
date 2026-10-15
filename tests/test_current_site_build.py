@@ -80,7 +80,7 @@ class CurrentSiteBuildTests(unittest.TestCase):
     def prepare(self, root, data=None):
         site = root / "site"
         site.mkdir()
-        for name in ("index.html", "research.html", "dependencies.html"):
+        for name in ("index.html", "research.html", "formal.html", "dependencies.html"):
             prefix = '<!doctype html><meta charset="utf-8">'
             if name == "research.html":
                 prefix += '<meta http-equiv="Content-Security-Policy" content="script-src \'none\'">'
@@ -116,7 +116,7 @@ class CurrentSiteBuildTests(unittest.TestCase):
             self.assertEqual(first.stdout, second.stdout)
             self.assertEqual(built["current.json"], payload.read_bytes())
             self.assertEqual(built["historic.json"], before["historic.json"])
-            for name in ("index.html", "research.html", "dependencies.html"):
+            for name in ("index.html", "research.html", "formal.html", "dependencies.html"):
                 old_prefix, old_suffix = before[name].split(START.encode())[0], before[name].split(END.encode())[1]
                 self.assertTrue(built[name].startswith(old_prefix + START.encode()))
                 self.assertTrue(built[name].endswith(END.encode() + old_suffix))
@@ -176,6 +176,51 @@ class CurrentSiteBuildTests(unittest.TestCase):
                 self.assertIn("Source unavailable", " ".join(page.text))
                 self.assertFalse(any("javascript:" in href or "secret" in href or "missing/PROOF" in href
                                      for href in page.links))
+
+    def test_current_population_is_explicit_even_on_script_free_pages_and_live_nodes(self):
+        with TemporaryDirectory() as tmp:
+            site, payload = self.prepare(Path(tmp))
+            result = self.run_build(site, payload)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            for name in ("index.html", "research.html", "formal.html"):
+                with self.subTest(page=name):
+                    page = Page((site / name).read_text())
+                    paragraphs = [attrs for tag, attrs in page.tags
+                                  if tag == "p" and attrs.get("class") == "current-population"]
+                    self.assertEqual(len(paragraphs), 1)
+                    visible = " ".join(page.text)
+                    self.assertIn("2 indexed public source files", visible)
+                    self.assertIn("not a build or deployment timestamp", visible)
+                    if name in ("research.html", "formal.html"):
+                        self.assertFalse(any(tag == "script" for tag, _ in page.tags))
+                        self.assertFalse(any(attrs.get("class") == "current-search"
+                                             for _, attrs in page.tags))
+            index = Page((site / "nodes/index.html").read_text())
+            self.assertEqual(sum(tag == "p" and attrs.get("class") == "current-population"
+                                 for tag, attrs in index.tags), 1)
+            self.assertIn("2 indexed public source files", " ".join(index.text))
+
+    def test_updated_current_population_does_not_rewrite_retained_mathematical_archive(self):
+        with TemporaryDirectory() as tmp:
+            site, payload = self.prepare(Path(tmp))
+            first = self.run_build(site, payload)
+            self.assertEqual(first.returncode, 0, first.stderr)
+            old_meta = json.loads((site / "current-meta.json").read_bytes())
+            archive = site / "snapshots" / old_meta["archive"]
+            old_archive_bytes = (archive / "nodes/index.html").read_bytes()
+            newer = fixture()
+            newer["observed_at"] = "2026-10-13T13:00:00Z"
+            newer["sources"].append(identity(MAIN, "new/public.md"))
+            payload.write_text(json.dumps(newer, ensure_ascii=False) + "\n")
+            second = self.run_build(site, payload)
+            self.assertEqual(second.returncode, 0, second.stderr)
+            meta = json.loads((site / "current-meta.json").read_bytes())
+            self.assertNotEqual(meta["sha256"], old_meta["sha256"])
+            self.assertEqual(meta["archive"], old_meta["archive"])
+            self.assertEqual((archive / "nodes/index.html").read_bytes(), old_archive_bytes)
+            visible = " ".join(Page((site / "formal.html").read_text()).text)
+            self.assertIn("3 indexed public source files", visible)
+            self.assertIn("2026-10-13T13:00:00Z", visible)
 
     def test_hostile_metadata_is_inert_and_research_keeps_its_script_free_contract(self):
         # Inserting raw labels into markup rather than escaped text would add a script tag.
