@@ -1,5 +1,10 @@
 # Agent entry
 
+Current and future agents: read the
+[complete owner mandate of 15 October](governance/OWNER_MANDATE_20261015.md)
+alongside the [standing delegation](governance/OP-AUTONOMY-20260923-v2.1.md).
+Carry both links into task handoffs and new-agent onboarding.
+
 Use the [current workflow](governance/OP-WORKFLOW-20260930.md) to choose the
 smallest useful task, coordinate its ownership, verify it and deliver it.
 Dylan's current explicit instruction resumes the requested reader experience
