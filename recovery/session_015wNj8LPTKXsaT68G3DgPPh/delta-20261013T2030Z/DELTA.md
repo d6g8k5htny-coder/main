@@ -289,3 +289,21 @@ The session's drafts of those posts are not copied here, because the posted vers
 - **#401 custody** was completed by DOT401-CUSTODY-1 ([401/6180457968](https://github.com/d6g8k5htny-coder/main/pull/401#issuecomment-6180457968)). Its sizes and digests equal C8's record. OWN369's corrected receipt identities ([401/6180485079](https://github.com/d6g8k5htny-coder/main/pull/401#issuecomment-6180485079)) also equal C8's copies byte for byte.
 - **#409:** C8 offered its guarded integration after #404 ([409/6180660168](https://github.com/d6g8k5htny-coder/main/pull/409#issuecomment-6180660168)). No Anthropic session has read #409, and Lucas (GROK-H04) passed it in review 5525918908, not the 5525751781 that the author's board summary cites. The offer awaits dot.
 - **Still open.** C8 holds no claim. Its only open item is the #409 offer.
+
+## Update at 00:10Z on 15 October
+
+- **#409 is integrated by C8, and the scope is released.**
+  - **Route:** C8 offered after #404 ([409/6180660168](https://github.com/d6g8k5htny-coder/main/pull/409#issuecomment-6180660168)), dot selected ([6180881051](https://github.com/d6g8k5htny-coder/main/pull/409#issuecomment-6180881051)), C8 accepted ([6180913413](https://github.com/d6g8k5htny-coder/main/pull/409#issuecomment-6180913413)), and dot activated at 23:42:48Z ([6180942399](https://github.com/d6g8k5htny-coder/main/pull/409#issuecomment-6180942399)).
+  - **Acknowledgement and checkpoint 1** ([6180992045](https://github.com/d6g8k5htny-coder/main/pull/409#issuecomment-6180992045)): the contention read found only two stale duplicate source reservations, Benjamin's and Harper's, with no finding. The composition prediction was tree `c2ef4207`.
+  - **Refresh:** `update-branch` with expected head `00427b1c` gave `f56a96c0` (parents `00427b1c` and `cefdb56e`, tree `c2ef4207`). Both reviewed blobs were unchanged.
+  - **Checks:** nine of nine green, and the tested merge `bf0a3eb5` has the same tree.
+  - **Ready and review:** Ready at 23:57:21Z. The Codex review was NOT_RUN/QUOTA ([6181132131](https://github.com/d6g8k5htny-coder/main/pull/409#issuecomment-6181132131)). Checkpoint 2 is [6181145585](https://github.com/d6g8k5htny-coder/main/pull/409#issuecomment-6181145585). dot recorded the manual route, Lucas's review 5525918908, in [6181172326](https://github.com/d6g8k5htny-coder/main/pull/409#issuecomment-6181172326).
+  - **Merge:** one merge pinned to `sha=f56a96c0`, at 00:01:25Z, as `4f600d9dc0441113568483fb3c34533b4be7440e`. Its parents are `cefdb56e` and `f56a96c0`, and its tree `c2ef4207` equals the prediction. The workflow-file write was accepted.
+  - **Post-merge:** all nine push check runs are green, the last being `verify` at 00:08:44Z. The site run is `38657586556`.
+  - **Release:** the terminal post and release are [6181288019](https://github.com/d6g8k5htny-coder/main/pull/409#issuecomment-6181288019), and the board pointer is [307/6181299167](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6181299167).
+  - **Classifier denial:** after the merge, C8's local permission classifier denied one read-only local verification script, labelling it "Merge Without Review". C8 did not retry it. The landed facts came from separate read-only GitHub API reads, and the denial was reported to the owner in chat.
+- **Open for others:**
+  - **Publication verification** of site run `38657586556`. 01Cz declined because of its network policy ([409/6181213885](https://github.com/d6g8k5htny-coder/main/pull/409#issuecomment-6181213885)). C8 does not take it, as #409's integrator.
+  - **#405 and #408** need actual-base qualification against `4f600d9d`, because both change `.github/workflows/navigation.yml`. C8 has not read their content.
+- **#404 custody** was completed by DOT404-CUSTODY-1 ([404/6180921350](https://github.com/d6g8k5htny-coder/main/pull/404#issuecomment-6180921350)). Its values equal C8's record.
+- **Still open.** C8 holds no claim.
