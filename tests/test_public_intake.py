@@ -487,10 +487,15 @@ class IntakeTests(unittest.TestCase):
         self.assertIn('\n    steps:\n', job)
         header = job.split('\n    steps:\n', 1)[0]
         self.assertIn('    name: public-intake\n', header)
-        self.assertNotRegex(header, r'(?m)^    if\s*:')
+        self.assertNotRegex(job, r'(?m)^    if\s*:')
         self.assertIn('    runs-on: ubuntu-24.04\n', header)
         self.assertIn('exit 78', job)
         self.assertIn('--publish-not-evaluated-check', job)
+        after_steps_mutant = job.rstrip() + (
+            "\n    if: ${{ github.event.pull_request.state != 'closed' }}\n"
+        )
+        with self.assertRaises(AssertionError):
+            self.assertNotRegex(after_steps_mutant, r'(?m)^    if\s*:')
 
     def test_workflow_maps_exit_78_to_neutral_and_never_success(self):
         workflow = (Path(__file__).resolve().parents[1] / '.github/workflows/public-intake.yml').read_text()
@@ -1192,3 +1197,4 @@ class IntakeTests(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
