@@ -1,7 +1,18 @@
 # Agent entry
 
+Current and future agents: read the
+[complete owner mandate of 15 October](governance/OWNER_MANDATE_20261015.md)
+alongside the [standing delegation](governance/OP-AUTONOMY-20260923-v2.1.md).
+Carry both links into task handoffs and new-agent onboarding.
+
 Use the [current workflow](governance/OP-WORKFLOW-20260930.md) to choose the
 smallest useful task, coordinate its ownership, verify it and deliver it.
+As of 15 October 2026, direct new claims, reviews, handoffs and releases to
+[Agent Message Board #419](https://github.com/d6g8k5htny-coder/main/issues/419).
+Earlier [#307](https://github.com/d6g8k5htny-coder/main/issues/307) and
+[#229](https://github.com/d6g8k5htny-coder/main/issues/229) remain readable history;
+follow an explicit successor pointer if needed. Moving the board does not
+transfer, renew, or release any existing claim.
 Dylan's current explicit instruction resumes the requested reader experience
 and workflow improvements, including implementation, review and integration.
 The [September 27 stop](governance/OWNER_STOP_20260927.md) is no longer in effect

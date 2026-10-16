@@ -8,7 +8,9 @@ import contextlib
 import io
 import os
 import struct
+import subprocess
 import tempfile
+import textwrap
 from unittest import mock
 from pathlib import Path
 import unicodedata
@@ -359,6 +361,192 @@ class IntakeTests(unittest.TestCase):
         self.pr['state'] = 'open'
         self.pr['base']['ref'] = 'other'
         self.reject('targets main')
+
+    def test_event_queued_before_merge_is_not_a_rejection(self):
+        # Observed on main (runs 37139813163, 37843755359): an event for the open PR
+        # ran seconds after the merge and failed with 'PR is not open'.
+        self.pr['state'] = 'closed'
+        self.pr['merged'] = True
+        result = self.run_check()
+        self.assertEqual(result['result'], 'SKIPPED_MERGED_BEFORE_CHECK')
+        self.assertEqual(result['lane'], 'not-evaluated')
+        self.assertEqual(self.api.calls, [f'/repos/{REPO}/pulls/7'])
+
+    def test_merged_pr_with_different_head_or_unmerged_close_still_refused(self):
+        self.pr['state'] = 'closed'
+        self.pr['merged'] = False
+        self.reject('not open')
+        self.pr['merged'] = True
+        self.pr['head']['sha'] = 'e' * 40
+        self.reject('not open')
+        self.pr['head']['sha'] = HEAD
+        self.pr['merged'] = 'true'  # only the JSON boolean counts
+        self.reject('not open')
+
+    def test_merged_before_check_exits_78_and_is_not_success(self):
+        self.pr['state'] = 'closed'
+        self.pr['merged'] = True
+        with tempfile.TemporaryDirectory() as folder:
+            event_file = Path(folder) / 'event.json'
+            event_file.write_text(json.dumps(self.event))
+            env = {'GITHUB_EVENT_NAME': 'pull_request_target', 'GITHUB_REPOSITORY': REPO, 'GH_TOKEN': 'test-only'}
+            with mock.patch.dict(os.environ, env), mock.patch.object(intake, 'API', return_value=self.api), \
+                    mock.patch.object(intake, 'publish_not_evaluated_check') as publish, \
+                    contextlib.redirect_stdout(io.StringIO()) as output:
+                code = intake.main(['--event', str(event_file)])
+        publish.assert_not_called()
+        self.assertEqual(code, 78)
+        self.assertEqual(code, intake.EXIT_NOT_EVALUATED)
+        self.assertNotEqual(code, 0)
+        payload = json.loads(output.getvalue())
+        self.assertEqual(payload['result'], 'SKIPPED_MERGED_BEFORE_CHECK')
+        self.assertEqual(payload['lane'], 'not-evaluated')
+        self.assertNotIn('success', output.getvalue())
+
+    def test_closed_unmerged_still_exits_1(self):
+        self.pr['state'] = 'closed'
+        self.pr['merged'] = False
+        with tempfile.TemporaryDirectory() as folder:
+            event_file = Path(folder) / 'event.json'
+            event_file.write_text(json.dumps(self.event))
+            env = {'GITHUB_EVENT_NAME': 'pull_request_target', 'GITHUB_REPOSITORY': REPO, 'GH_TOKEN': 'test-only'}
+            with mock.patch.dict(os.environ, env), mock.patch.object(intake, 'API', return_value=self.api), \
+                    contextlib.redirect_stdout(io.StringIO()) as output:
+                code = intake.main(['--event', str(event_file)])
+        self.assertEqual(code, 1)
+        self.assertEqual(json.loads(output.getvalue())['reason'], 'PR is not open')
+
+    def test_not_evaluated_check_is_neutral_and_never_success(self):
+        class Response:
+            def __init__(self, payload):
+                self.payload = payload
+
+            def read(self, limit):
+                return self.payload[:limit]
+
+            def __enter__(self):
+                return self
+
+            def __exit__(self, *args):
+                return False
+
+        class Opener:
+            def __init__(self, payload):
+                self.payload = payload
+                self.requests = []
+
+            def open(self, request, timeout=30):
+                self.requests.append(request)
+                return Response(self.payload)
+
+        body = intake.not_evaluated_check_body(HEAD)
+        self.assertEqual(body['conclusion'], 'neutral')
+        self.assertNotEqual(body['conclusion'], 'success')
+        self.assertEqual(body['name'], 'public-intake (not evaluated: merged before check)')
+        self.assertNotEqual(body['name'], 'public-intake')
+        self.assertEqual(body['output']['title'], 'not evaluated: merged before check')
+        neutral = json.dumps({'conclusion': 'neutral', 'name': intake.NOT_EVALUATED_CHECK_NAME}).encode()
+        opener = Opener(neutral)
+        recorded = intake.publish_not_evaluated_check(REPO, HEAD, 'test-only', opener)
+        self.assertEqual(recorded['conclusion'], 'neutral')
+        self.assertNotEqual(recorded['conclusion'], 'success')
+        request = opener.requests[0]
+        self.assertEqual(request.full_url, 'https://api.github.com/repos/d6g8k5htny-coder/main/check-runs')
+        self.assertEqual(request.get_method(), 'POST')
+        self.assertEqual(request.get_header('Authorization'), 'Bearer test-only')
+        sent = json.loads(request.data.decode())
+        self.assertEqual(sent['conclusion'], 'neutral')
+        self.assertNotEqual(sent['conclusion'], 'success')
+        self.assertNotEqual(sent['name'], 'public-intake')
+        self.assertNotIn('test-only', request.data.decode())
+        refused = Opener(json.dumps({'conclusion': 'success', 'name': intake.NOT_EVALUATED_CHECK_NAME}).encode())
+        with self.assertRaisesRegex(ValueError, 'did not record neutral'):
+            intake.publish_not_evaluated_check(REPO, HEAD, 'test-only', refused)
+        self.assertEqual(json.loads(refused.requests[0].data.decode())['conclusion'], 'neutral')
+        untouched = Opener(neutral)
+        with self.assertRaisesRegex(ValueError, 'invalid head sha'):
+            intake.publish_not_evaluated_check(REPO, 'not-a-sha', 'test-only', untouched)
+        with self.assertRaisesRegex(ValueError, 'wrong repository'):
+            intake.publish_not_evaluated_check('other/repo', HEAD, 'test-only', untouched)
+        self.assertEqual(untouched.requests, [])
+
+    def test_publish_flag_failure_is_not_a_successful_intake(self):
+        env = {'GITHUB_REPOSITORY': REPO, 'PR_HEAD_SHA': 'not-a-sha', 'GH_TOKEN': 'test-only-secret'}
+        with mock.patch.dict(os.environ, env), contextlib.redirect_stdout(io.StringIO()) as output:
+            code = intake.main(['--publish-not-evaluated-check'])
+        self.assertEqual(code, 1)
+        self.assertNotEqual(code, 0)
+        self.assertIn('NOT_EVALUATED_CHECK_UNPUBLISHED', output.getvalue())
+        self.assertNotIn('test-only-secret', output.getvalue())
+        self.assertNotIn('success', output.getvalue())
+
+    def test_required_intake_job_cannot_skip_merged_event_payload(self):
+        workflow = (Path(__file__).resolve().parents[1] / '.github/workflows/public-intake.yml').read_text()
+        self.assertEqual(workflow.count('\n  public-intake:\n'), 1)
+        job = workflow.split('\n  public-intake:\n', 1)[1]
+        self.assertIn('\n    steps:\n', job)
+        header = job.split('\n    steps:\n', 1)[0]
+        self.assertIn('    name: public-intake\n', header)
+        self.assertNotRegex(job, r'(?m)^    if\s*:')
+        self.assertIn('    runs-on: ubuntu-24.04\n', header)
+        self.assertIn('exit 78', job)
+        self.assertIn('--publish-not-evaluated-check', job)
+        after_steps_mutant = job.rstrip() + (
+            "\n    if: ${{ github.event.pull_request.state != 'closed' }}\n"
+        )
+        with self.assertRaises(AssertionError):
+            self.assertNotRegex(after_steps_mutant, r'(?m)^    if\s*:')
+
+    def test_workflow_maps_exit_78_to_neutral_and_never_success(self):
+        workflow = (Path(__file__).resolve().parents[1] / '.github/workflows/public-intake.yml').read_text()
+        self.assertIn('checks: write', workflow)
+        self.assertIn('\n    name: public-intake\n', workflow)
+        self.assertNotIn('continue-on-error', workflow)
+        self.assertNotIn('exit 0', workflow)
+        lines = []
+        capture = False
+        for line in workflow.splitlines():
+            if line.strip() == 'set +e':
+                capture = True
+            if capture:
+                lines.append(line)
+            if capture and line.strip() == 'exit "$code"':
+                break
+        script = textwrap.dedent('\n'.join(lines) + '\n')
+        self.assertIn('exit 78', script)
+        self.assertNotIn('exit 0', script)
+        publish_at = script.index('--publish-not-evaluated-check')
+        exit_78 = script.index('\n  exit 78\n')
+        self.assertLess(script.index('if [ "$code" -eq 78 ]; then'), publish_at)
+        self.assertLess(publish_at, exit_78)
+        self.assertLess(exit_78, script.index('exit "$code"'))
+        with tempfile.TemporaryDirectory() as folder:
+            bin_dir = Path(folder) / 'bin'
+            bin_dir.mkdir()
+            log = Path(folder) / 'calls'
+            stub = bin_dir / 'python3'
+            stub.write_text('#!/bin/sh\nprintf "%s\\n" "$*" >> "$STUB_LOG"\n'
+                            'if [ "$4" = "--publish-not-evaluated-check" ]; then exit 0; fi\n'
+                            'exit "$STUB_CODE"\n')
+            stub.chmod(0o755)
+            env = dict(os.environ)
+            env['PATH'] = str(bin_dir) + os.pathsep + env.get('PATH', '')
+            env['STUB_LOG'] = str(log)
+            for stub_code, expected in ((0, 0), (1, 1), (78, 78), (2, 2)):
+                with self.subTest(stub_code=stub_code):
+                    log.write_text('')
+                    result = subprocess.run(['bash', '-c', script], env={**env, 'STUB_CODE': str(stub_code)},
+                                            capture_output=True, text=True)
+                    self.assertEqual(result.returncode, expected)
+                    calls = log.read_text().splitlines()
+                    if stub_code == 78:
+                        self.assertNotEqual(result.returncode, 0)
+                        self.assertIn('not evaluated: merged before check', result.stdout)
+                        self.assertEqual(calls, ['-B -I tools/public_intake_check.py',
+                                                 '-B -I tools/public_intake_check.py --publish-not-evaluated-check'])
+                    else:
+                        self.assertEqual(calls, ['-B -I tools/public_intake_check.py'])
+                        self.assertNotIn('--publish-not-evaluated-check', log.read_text())
 
     def test_cli_pass_and_failure_are_distinct_without_network(self):
         with tempfile.TemporaryDirectory() as folder:
