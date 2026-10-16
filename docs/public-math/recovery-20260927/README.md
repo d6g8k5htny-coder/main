@@ -46,3 +46,11 @@ Of the **286 remaining R2 hashes**, **242 have metadata locators awaiting byte c
 The [existing owner-delegation record](../../../governance/OP-AUTONOMY-20260923-v2.1.md) now includes Dylan's September 27 reaffirmation: act autonomously in line with project intent, coordinate conflicting rules, and implement justified corrections. This does not change credentials or platform controls. A rejected direct-main write changed nothing; this change follows the required PR route.
 
 Work was coordinated in [main issue86](https://github.com/d6g8k5htny-coder/main/issues/86#issuecomment-5858217205), with the [bounded reciprocal scope update](https://github.com/d6g8k5htny-coder/main/issues/86#issuecomment-5858478286). Requests to other agents are not recorded as completed reviews. No proof body, acceptance record, premise, prize, or `lemma_closed` value changed.
+
+## Companion records
+
+The following source-recovery companions are dated custody and navigation records, not mathematical acceptance or a replacement for the public catalog.
+
+- [Systematic source census — 27 September 2026](SYSTEMATIC_PASS.md)
+- [Exact-version follow-up — 27 September 2026](EXACT_VERSION_FOLLOWUP.md)
+- [Library publication and original-intake follow-through](LIBRARY_PUBLICATION_AND_ORIGIN_AUDIT.md)
