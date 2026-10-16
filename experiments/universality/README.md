@@ -113,9 +113,21 @@ the exact source and the remaining coalescing-contact factorial scope.
 Independent copies do not establish a same-field spatial expanding-domain
 process or retire the existing regional additional-witness lane.
 
+The [spectral Gaussian admission theorem](spectral_gaussian_admission/PROOF.md)
+extends the actual H0 intensity and iid-copy process to stationary Gaussian
+spectra with a positive K5 block and fourth-order square-root summability.
+It independently proves the C4 interfaces, permits arbitrary outside support
+holes and supplies optional zero-mode removal and general finite carriers.
+A dyadic argument admits polynomial tails beyond that summability test.
+The coefficient remains the actual jet functional of each law; explicit
+spectral degeneracy examples exclude automatic family uniformity. Its
+[review](spectral_gaussian_admission/REVIEW.md) binds the original and current
+source verdicts and finite-regularity classical imports. This admits no
+covariance-matched non-Gaussian sampler or numerical approximation by itself.
+
 These conventional analytic results discharge selected-bar counting and the
-leading near/far intensity composition for the stated ideal finite laws and the
-specific exact periodized Gaussian law. Further
+leading near/far intensity composition for the stated ideal finite laws and
+admitted stationary Gaussian spectral/carrier laws. Further
 conditional ranks, literal critical formal alignment, certified sampler and
 numerical/count coupling, genuinely blind law-by-law admission, higher homology
 and spatial expanding-domain process convergence remain separate obligations. The sampler
