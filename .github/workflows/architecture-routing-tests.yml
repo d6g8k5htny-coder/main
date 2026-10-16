@@ -1,0 +1,1343 @@
+# Root custody correction: checked7f3e805/37981448013 retained29 payloads but
+# refused all766 worker records; no behavior RED credit, originals NOT_RETAINED.
+# Frozen447a9232 remains historical. Privileged anchored read preserves source
+# modes; only RUNNER_TEMP is preserved, new public evidence uses explicit022.
+name: Architecture routing TEST ledger controls
+# Source-prepared dedicated hosted control. Runtime NOT_RUN at source freeze.
+# The frozen tests' single transient ENOSPC padding file needs a 64 MiB FSIZE
+# allowance. Original stream admissions remain 4 MiB; retained-output and
+# collector budgets are separate from each physical filesystem's capacity.
+# Retained source-only REQUEST_CHANGES: lease_abi_review reviewed 1269L/85120B
+# SHA256 16970fb34599d4bb49087791f9ede9a68478c3b122826de4053cd65f4f48abbc.
+# Its P2 finding was that a missing/unreadable captured test source could abort
+# collection before available native originals were copied. Runtime NOT_RUN.
+'on':
+  pull_request:
+    paths:
+      - .github/workflows/architecture-routing-tests.yml
+      - docs/plans/2026-10-08-tiered-routing-broker-contract.md
+      - tests/test_architecture_routing_broker.py
+      - architecture/routing_broker.py
+      - tools/architecture_routing_broker.py
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: architecture-routing-tests-${{ github.run_id }}-${{ github.run_attempt }}
+  cancel-in-progress: false
+jobs:
+  routing:
+    name: architecture-routing-tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      IMAGE: python:3.11.14-slim-bookworm@sha256:83f339c1be6340ae1096010fdccf6552ac932d8f410d45d206014916bdf37e48
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Establish native identity and bounded fixture filesystems
+        run: |
+          set -euo pipefail
+          base="$RUNNER_TEMP/routing-tests"
+          mkdir -m 0700 "$base"
+          printf '%s\n' "$GITHUB_REPOSITORY" > "$base/repository.txt"
+          printf '%s\n' "$GITHUB_SHA" > "$base/checked-commit.txt"
+          printf '%s\n' "$GITHUB_RUN_ID" > "$base/run-id.txt"
+          printf '%s\n' "$GITHUB_RUN_ATTEMPT" > "$base/run-attempt.txt"
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          git show -s --format='%T%n%P' HEAD > "$base/checked-tree-and-parents.txt"
+          ruby -rpsych -e 'Psych.safe_load(File.read(ARGV.fetch(0)), aliases: false)' .github/workflows/architecture-routing-tests.yml
+          for label in inputs fixtures work publish; do
+            mkdir "$base/$label"
+            truncate -s 64M "$base/$label.img"
+            mkfs.ext4 -F "$base/$label.img" > "$base/$label-filesystem.log" 2>&1
+            sudo mount -o loop,nodev,nosuid,noexec "$base/$label.img" "$base/$label"
+            sudo mkdir "$base/$label/payload"
+            sudo chown "$(id -u):$(id -g)" "$base/$label/payload"
+            chmod 0700 "$base/$label/payload"
+          done
+          mkdir "$base/inputs/payload/source" "$base/inputs/payload/control"
+          sudo chown 65532:65532 "$base/work/payload"
+          sudo chmod 0700 "$base/work/payload"
+          sudo chown 0:0 "$base/fixtures/payload"
+          sudo chmod 01777 "$base/fixtures/payload"
+          python3 -I -B -S - <<'PY'
+          import hashlib, json, os, pathlib, stat
+          base = pathlib.Path(os.environ['RUNNER_TEMP']) / 'routing-tests'
+          source = base / 'inputs/payload/source'
+          def require(value, message):
+              if not value:
+                  raise ValueError(message)
+          def original(root, relative, limit, optional=False):
+              parts = relative.split('/')
+              root_fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+              descriptor = None
+              try:
+                  for part in parts[:-1]:
+                      try:
+                          next_fd = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=root_fd)
+                      except FileNotFoundError:
+                          if optional:
+                              return None
+                          raise
+                      os.close(root_fd)
+                      root_fd = next_fd
+                  try:
+                      descriptor = os.open(parts[-1], os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=root_fd)
+                  except FileNotFoundError:
+                      if optional:
+                          return None
+                      raise
+                  before = os.fstat(descriptor)
+                  require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1
+                          and (0 if optional else 1) <= before.st_size <= limit,
+                          'checked source regular-file or size refusal')
+                  pieces, count = [], 0
+                  while True:
+                      chunk = os.read(descriptor, min(65536, limit + 1 - count))
+                      if not chunk:
+                          break
+                      pieces.append(chunk)
+                      count += len(chunk)
+                      require(count <= limit, 'checked source growth limit')
+                  after = os.fstat(descriptor)
+                  require(stat.S_ISREG(after.st_mode) and after.st_nlink == 1
+                          and (before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns, before.st_ctime_ns)
+                          == (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns)
+                          and count == before.st_size, 'checked source changed while read')
+                  return b''.join(pieces)
+              finally:
+                  if descriptor is not None:
+                      os.close(descriptor)
+                  os.close(root_fd)
+          pins = {
+              'docs/plans/2026-10-08-tiered-routing-broker-contract.md': (92541, '4c309d8ff17d9a98d479f5b80b4615e686c7f0cdaa888dd21a6e104e90182948'),
+              'tests/test_architecture_routing_broker.py': (122068, '78e055ce7735a817a01f7e965f42ed0acbe6a95fc308cea095d17843b91f0978'),
+          }
+          bindings = []
+          for path in [*pins, 'architecture/routing_broker.py', 'tools/architecture_routing_broker.py']:
+              raw = original(os.environ['GITHUB_WORKSPACE'], path, 2**20, optional=path not in pins)
+              record = {'path': path, 'presence': 'ABSENT' if raw is None else 'PRESENT',
+                        'bytes': None if raw is None else len(raw),
+                        'sha256': None if raw is None else hashlib.sha256(raw).hexdigest()}
+              if path in pins:
+                  require((record['bytes'], record['sha256']) == pins[path], 'external routing freeze mismatch')
+              if raw is not None:
+                  output = source / path
+                  output.parent.mkdir(parents=True, exist_ok=True)
+                  with output.open('xb') as stream:
+                      stream.write(raw)
+                  output.chmod(0o444)
+              bindings.append(record)
+          workflow = original(os.environ['GITHUB_WORKSPACE'], '.github/workflows/architecture-routing-tests.yml', 262144)
+          with (base / 'publish/payload/checked-workflow.yml').open('xb') as stream:
+              stream.write(workflow)
+          context = {key: os.environ[variable] for key, variable in (
+              ('repository', 'GITHUB_REPOSITORY'), ('checked_commit', 'GITHUB_SHA'),
+              ('run_id', 'GITHUB_RUN_ID'), ('run_attempt', 'GITHUB_RUN_ATTEMPT'))}
+          context['workflow_sha256'] = hashlib.sha256(workflow).hexdigest()
+          context['sources'] = bindings
+          with (base / 'inputs/payload/control/source-bindings.json').open('x') as stream:
+              stream.write(json.dumps(context, sort_keys=True, indent=2) + '\n')
+          filesystems = {}
+          for label in ('inputs', 'fixtures', 'work', 'publish'):
+              mount = base / label
+              require(os.path.ismount(mount), 'fixture filesystem mount not observed')
+              info, capacity = os.stat(mount, follow_symlinks=False), os.statvfs(mount)
+              size = capacity.f_frsize * capacity.f_blocks
+              require(stat.S_ISDIR(info.st_mode) and 0 < size <= 64 * 2**20, 'actual fixture filesystem capacity refusal')
+              filesystems[label] = {'host_device': info.st_dev, 'reported_total_bytes': size,
+                                    'configured_capacity_bytes': 64 * 2**20, 'mount_observed': True}
+          require(len({item['host_device'] for item in filesystems.values()}) == 4,
+                  'source, routing fixtures, output and publication must have distinct devices')
+          with (base / 'fixture-filesystems.json').open('x') as stream:
+              stream.write(json.dumps(filesystems, sort_keys=True, indent=2) + '\n')
+          PY
+      - name: Prepare fixed Python controllers with passive child-log retention
+        run: |
+          set -euo pipefail
+          control="$RUNNER_TEMP/routing-tests/inputs/payload/control"
+          cat > "$control/run.py" <<'PY'
+          import _sqlite3, hashlib, json, os, pathlib, platform, re, resource
+          import selectors, signal, sqlite3, stat, subprocess, sys, time
+
+          OUTPUT = pathlib.Path('/output')
+          PYTHON = '/usr/local/bin/python'
+          MIB = 2**20
+          STREAM_LIMIT = 4 * MIB
+          OUTPUT_LIMIT = 32 * MIB
+          METHOD_TIMEOUT = 75
+          INVENTORY_TIMEOUT = 3300
+          METHODS = sorted([
+              'test_reserve_claim_complete', 'test_integer_cost_ceiling', 'test_concurrent_budget_boundary',
+              'test_concurrent_duplicate_reservation', 'test_single_dispatch_winner', 'test_identical_replay',
+              'test_input_hash_collision', 'test_changed_controls_same_input', 'test_restart_accounting',
+              'test_crash_before_claim', 'test_crash_after_claim', 'test_crash_after_fake_acceptance',
+              'test_confirmed_nondispatch_release', 'test_release_after_attempt_refused',
+              'test_unknown_delivery_after_expiry', 'test_completed_unknown_billing', 'test_known_zero_charge',
+              'test_over_reservation_charge', 'test_invalid_usage_types', 'test_unknown_admission_records',
+              'test_route_model_substitution', 'test_disclosure_without_hash_admission',
+              'test_expired_revoked_admission', 'test_unbounded_billable_components',
+              'test_invalid_integer_budget', 'test_unavailable_database', 'test_storage_commit_failure',
+              'test_unsafe_ledger_namespace', 'test_strict_input_and_cli', 'test_private_result_retention',
+              'test_zero_external_activity', 'test_replay_context_and_optimization',
+              'test_trusted_input_token_counts', 'test_untrusted_or_mismatched_token_admission',
+              'test_cache_write_rate_upper_bound', 'test_completion_replay_and_conflict',
+              'test_concurrent_settlement_once', 'test_settlement_restart_replay_and_conflict',
+              'test_completed_unknown_to_known_billing', 'test_unknown_delivery_billing_hold',
+              'test_settlement_evidence_binding', 'test_settlement_integer_and_charge_bounds',
+          ])
+          MODES = [('normal', 0), ('optimized', 1)]
+          def require(value, reason):
+              if not value:
+                  raise ValueError(reason)
+          def regular(path, limit, empty=True):
+              fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+              try:
+                  before = os.fstat(fd)
+                  require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1
+                          and (0 if empty else 1) <= before.st_size <= limit, 'original regular byte admission')
+                  pieces, count = [], 0
+                  while True:
+                      piece = os.read(fd, min(65536, limit + 1 - count))
+                      if not piece:
+                          break
+                      pieces.append(piece)
+                      count += len(piece)
+                      require(count <= limit, 'original growth admission')
+                  after = os.fstat(fd)
+                  require(stat.S_ISREG(after.st_mode) and after.st_nlink == 1
+                          and (before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns, before.st_ctime_ns)
+                          == (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns)
+                          and count == before.st_size, 'original changed while observed')
+                  return b''.join(pieces)
+              finally:
+                  os.close(fd)
+          def retained_total(directory=OUTPUT):
+              total = 0
+              for entry in os.scandir(directory):
+                  info = entry.stat(follow_symlinks=False)
+                  if stat.S_ISDIR(info.st_mode):
+                      total += retained_total(pathlib.Path(entry.path))
+                  else:
+                      require(stat.S_ISREG(info.st_mode) and info.st_nlink == 1,
+                              'retained-output type refusal')
+                      total += info.st_size
+                  require(total <= OUTPUT_LIMIT, 'whole retained-output capacity admission')
+              return total
+          def write(name, value):
+              raw = value if type(value) is bytes else (
+                  json.dumps(value, sort_keys=True, indent=2, allow_nan=False) + '\n').encode('ascii')
+              require(len(raw) <= STREAM_LIMIT and retained_total() + len(raw) <= OUTPUT_LIMIT,
+                      'retained-output byte admission')
+              target = OUTPUT / name
+              target.parent.mkdir(parents=True, exist_ok=True)
+              fd = os.open(target, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o644)
+              with os.fdopen(fd, 'wb') as stream:
+                  stream.write(raw)
+          def identity(path):
+              actual = pathlib.Path(path).resolve(strict=True)
+              raw = regular(actual, 256 * MIB, False)
+              return {'requested_path': str(path), 'path': str(actual), 'bytes': len(raw),
+                      'sha256': hashlib.sha256(raw).hexdigest()}
+          bindings = json.loads(regular('/control/source-bindings.json', 65536, False))
+          def sources():
+              for record in bindings['sources']:
+                  path = pathlib.Path('/source') / record['path']
+                  if record['presence'] == 'ABSENT':
+                      require(not os.path.lexists(path), 'absent candidate introduced')
+                  else:
+                      raw = regular(path, MIB)
+                      require(len(raw) == record['bytes'] and hashlib.sha256(raw).hexdigest() == record['sha256'],
+                              'read-only checked source changed')
+              return bindings['sources']
+          def runtime():
+              require(tuple(sys.version_info[:3]) == (3, 11, 14) and sys.platform == 'linux'
+                      and platform.machine() == 'x86_64' and sys.executable == PYTHON
+                      and pathlib.Path(PYTHON).resolve(strict=True) == pathlib.Path('/usr/local/bin/python3.11')
+                      and os.getuid() == os.getgid() == 65532
+                      and sys.flags.isolated == 1 and sys.flags.no_site == 1 and sys.dont_write_bytecode
+                      and sys.flags.optimize == 0, 'actual bundled runtime admission')
+              libraries = {'sqlite': set(), 'python': set()}
+              for line in pathlib.Path('/proc/self/maps').read_text().splitlines():
+                  fields = line.split(None, 5)
+                  if len(fields) != 6 or not fields[5].startswith('/'):
+                      continue
+                  if '/libsqlite3.so' in fields[5]:
+                      libraries['sqlite'].add(fields[5])
+                  if '/libpython3.11.so' in fields[5]:
+                      libraries['python'].add(fields[5])
+              require(all(len(value) == 1 for value in libraries.values()), 'actual loaded library identity absent')
+              probe = pathlib.Path('/routing-fixtures/runtime-preflight.sqlite3')
+              require(not os.path.lexists(probe), 'runtime probe already exists')
+              connection = sqlite3.connect(probe, timeout=1, isolation_level=None)
+              try:
+                  settings = {'journal_mode': 'delete', 'synchronous': 3, 'foreign_keys': 1,
+                              'trusted_schema': 0, 'read_uncommitted': 0, 'busy_timeout': 1000}
+                  for sql in ('PRAGMA journal_mode=DELETE', 'PRAGMA synchronous=EXTRA',
+                              'PRAGMA foreign_keys=ON', 'PRAGMA trusted_schema=OFF',
+                              'PRAGMA read_uncommitted=OFF', 'PRAGMA busy_timeout=1000'):
+                      connection.execute(sql).fetchone()
+                  observed = {key: connection.execute('PRAGMA ' + key).fetchone()[0] for key in settings}
+                  require(observed == settings, 'actual required SQLite PRAGMA mismatch')
+                  connection.execute('CREATE TABLE runtime_check (id INTEGER PRIMARY KEY) STRICT')
+                  connection.execute('BEGIN IMMEDIATE')
+                  connection.execute('INSERT INTO runtime_check VALUES (1)')
+                  connection.rollback()
+                  require(connection.execute('SELECT count(*) FROM runtime_check').fetchone() == (0,)
+                          and connection.execute('SELECT sqlite_version()').fetchone() == (sqlite3.sqlite_version,),
+                          'actual SQLite feature or rollback mismatch')
+                  options = sorted(row[0] for row in connection.execute('PRAGMA compile_options'))
+                  require(0 < len(options) <= 512 and len(set(options)) == len(options), 'SQLite compile-option inventory')
+              finally:
+                  connection.close()
+                  probe.unlink()
+              return {'python': sys.version, 'python_version': list(sys.version_info[:3]),
+                      'sqlite_module_version': sqlite3.version, 'sqlite_library_version': sqlite3.sqlite_version,
+                      'sqlite_library_version_info': list(sqlite3.sqlite_version_info), 'compile_options': options,
+                      'python_executable': identity(sys.executable), 'sqlite_python_module': identity(sqlite3.__file__),
+                      'sqlite_extension': identity(_sqlite3.__file__),
+                      'loaded_sqlite_library': identity(next(iter(libraries['sqlite']))),
+                      'loaded_python_library': identity(next(iter(libraries['python']))),
+                      'connection_settings': observed, 'uid': os.getuid(), 'gid': os.getgid(),
+                      'platform': sys.platform, 'machine': platform.machine(),
+                      'runtime_origin': 'PINNED_IMAGE_BUNDLED_BINARY'}
+          def environment():
+              status = dict(line.split(':', 1) for line in pathlib.Path('/proc/self/status').read_text().splitlines()
+                            if line.startswith(('CapEff:', 'NoNewPrivs:')))
+              status = {key: value.strip() for key, value in status.items()}
+              require(status == {'CapEff': '0000000000000000', 'NoNewPrivs': '1'}, 'runtime privilege mismatch')
+              cgroup = {name: pathlib.Path('/sys/fs/cgroup', name).read_text().strip()
+                        for name in ('memory.max', 'pids.max', 'cpu.max')}
+              quota, period = map(int, cgroup['cpu.max'].split())
+              require(cgroup['memory.max'] == '1073741824' and cgroup['pids.max'] == '128'
+                      and quota == 2 * period and period > 0, 'runtime cgroup mismatch')
+              mounts = {}
+              for line in pathlib.Path('/proc/self/mountinfo').read_text().splitlines():
+                  left, right = line.split(' - ', 1)
+                  fields, backing = left.split(), right.split()
+                  if fields[4] in ('/', '/source', '/control', '/output', '/routing-fixtures', '/tmp'):
+                      require(fields[4] not in mounts, 'duplicate runtime mount')
+                      mounts[fields[4]] = {'options': fields[5].split(','), 'filesystem': backing[0],
+                                          'source': backing[1], 'super_options': backing[2].split(',')}
+              require(set(mounts) == {'/', '/source', '/control', '/output', '/routing-fixtures', '/tmp'}
+                      and all('ro' in mounts[path]['options'] for path in ('/', '/source', '/control')),
+                      'runtime read-only mount inventory mismatch')
+              for path in ('/output', '/routing-fixtures', '/tmp'):
+                  require({'rw', 'nodev', 'nosuid', 'noexec'}.issubset(mounts[path]['options']),
+                          'runtime writable mount restriction mismatch')
+              sizes = {path: os.statvfs(path).f_blocks * os.statvfs(path).f_frsize
+                       for path in ('/source', '/output', '/routing-fixtures', '/tmp')}
+              require(all(0 < value <= 64 * MIB for value in sizes.values())
+                      and sizes['/routing-fixtures'] >= 32 * MIB
+                      and len({os.stat(path).st_dev for path in ('/source', '/output', '/routing-fixtures')}) == 3,
+                      'runtime physical fixture/output/source capacity mismatch')
+              require(mounts['/tmp']['filesystem'] == 'tmpfs'
+                      and sorted(os.listdir('/sys/class/net')) == ['lo']
+                      and len(pathlib.Path('/proc/net/route').read_text().splitlines()) == 1
+                      and not any(key.startswith(('GITHUB_', 'GH_', 'AWS_', 'AZURE_', 'OPENAI_', 'ANTHROPIC_'))
+                                  for key in os.environ), 'runtime network or service environment mismatch')
+              require(resource.getrlimit(resource.RLIMIT_FSIZE) == (64 * MIB, 64 * MIB)
+                      and resource.getrlimit(resource.RLIMIT_NOFILE) == (256, 256), 'runtime process limit mismatch')
+              fixture_parent = os.stat('/routing-fixtures', follow_symlinks=False)
+              parent_identity = {'uid': fixture_parent.st_uid, 'gid': fixture_parent.st_gid,
+                                 'mode': stat.S_IMODE(fixture_parent.st_mode)}
+              require(parent_identity == {'uid': 0, 'gid': 0, 'mode': 0o1777},
+                      'actual root-owned sticky fixture parent mismatch')
+              return {'proc_status': status, 'cgroup': cgroup, 'mounts': mounts, 'filesystem_bytes': sizes,
+                      'fixture_parent': parent_identity,
+                      'network_interfaces': ['lo'], 'network_routes': 0,
+                      'rlimit_fsize': list(resource.getrlimit(resource.RLIMIT_FSIZE)),
+                      'rlimit_nofile': list(resource.getrlimit(resource.RLIMIT_NOFILE))}
+          def execute(mode, optimize, method):
+              name = mode + '/' + method
+              command = [PYTHON, '-I', '-B', '-S', *(['-O'] if optimize else []),
+                         '/control/method.py', mode, method]
+              started = time.monotonic_ns()
+              buffers = {'stdout': bytearray(), 'stderr': bytearray()}
+              error, timed_out, complete = None, False, True
+              process, selected = None, selectors.DefaultSelector()
+              code = None
+              try:
+                  process = subprocess.Popen(command, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
+                      stderr=subprocess.PIPE, start_new_session=True, cwd='/source',
+                      env={'PATH': '/usr/local/bin:/usr/bin:/bin', 'LANG': 'C.UTF-8', 'TZ': 'UTC',
+                           'PYTHONDONTWRITEBYTECODE': '1'})
+                  for stream, label in ((process.stdout, 'stdout'), (process.stderr, 'stderr')):
+                      os.set_blocking(stream.fileno(), False)
+                      selected.register(stream, selectors.EVENT_READ, label)
+                  deadline = time.monotonic() + METHOD_TIMEOUT
+                  while selected.get_map():
+                      remaining = deadline - time.monotonic()
+                      if remaining <= 0:
+                          timed_out = True
+                          raise TimeoutError('outer method exceeded declared 75-second cap')
+                      for key, _ in selected.select(min(remaining, 0.2)):
+                          part = os.read(key.fileobj.fileno(), 65536)
+                          if not part:
+                              selected.unregister(key.fileobj)
+                              key.fileobj.close()
+                              continue
+                          room = STREAM_LIMIT - len(buffers[key.data])
+                          buffers[key.data].extend(part[:room])
+                          if len(part) > room:
+                              raise ValueError('outer original stream exceeded its 4 MiB admission')
+                  code = process.wait(timeout=max(0.01, deadline - time.monotonic()))
+              except BaseException as failure:
+                  error, complete = type(failure).__name__ + ': ' + str(failure)[:2048], False
+              finally:
+                  if process is not None and process.poll() is None:
+                      os.killpg(process.pid, signal.SIGKILL)
+                      process.wait(timeout=2)
+                  if process is not None:
+                      code = process.returncode
+                      for stream in (process.stdout, process.stderr):
+                          if stream is not None and not stream.closed:
+                              stream.close()
+                  selected.close()
+              for label in buffers:
+                  write(name + '/outer.' + label, bytes(buffers[label]))
+              record = {'mode': mode, 'optimize': optimize, 'method': method,
+                        'id': 'test_architecture_routing_broker.ArchitectureRoutingBrokerContract.' + method,
+                        'argv': command, 'attempts': 1, 'code': code, 'timed_out': timed_out, 'error': error,
+                        'streams_complete': complete, 'duration_ns': str(time.monotonic_ns() - started),
+                        'stdout': name + '/outer.stdout', 'stderr': name + '/outer.stderr',
+                        'method_record': name + '/method.json'}
+              for label in buffers:
+                  record[label + '_bytes'] = len(buffers[label])
+                  record[label + '_sha256'] = hashlib.sha256(buffers[label]).hexdigest()
+              return record
+          report = {'schema_version': 1, 'context': bindings, 'declared_methods': METHODS,
+                    'declared_outer_modes': MODES, 'source_declared_outer_controls': 84,
+                    'source_declared_active_child_attempts': 252, 'status': 'RUNTIME_SETUP_BLOCKED',
+                    'actual_outer_attempts': [], 'scientific_effect': 'NONE',
+                    'scientific_status_authority': False, 'organizational_independence': 0,
+                    'custody_authentication': 'UNKNOWN', 'provider_calls': 'NOT_ADMITTED',
+                    'genuine_behavioral_red': 'NOT_DECLARED_BY_WORKFLOW'}
+          exit_code = 1
+          try:
+              require(len(METHODS) == len(set(METHODS)) == 42, 'closed method declaration mismatch')
+              write('runtime-before.json', runtime())
+              write('environment-before.json', environment())
+              write('source-before.json', sources())
+              write('control-source.json', {name: hashlib.sha256(regular('/control/' + name, 262144, False)).hexdigest()
+                    for name in ('run.py', 'method.py')})
+              all_pass = True
+              for mode, optimize in MODES:
+                  deadline = time.monotonic() + INVENTORY_TIMEOUT
+                  for method in METHODS:
+                      require(time.monotonic() < deadline, 'whole inventory exceeded declared 3300-second cap')
+                      attempt = execute(mode, optimize, method)
+                      report['actual_outer_attempts'].append(attempt)
+                      try:
+                          result = json.loads(regular(OUTPUT / attempt['method_record'], STREAM_LIMIT, False))
+                          require(result['context'] == bindings and result['id'] == attempt['id']
+                                  and result['mode'] == mode and result['optimize'] == optimize
+                                  and result['actual_method_inventory'] == METHODS,
+                                  'method terminal/source identity mismatch')
+                          all_pass = all_pass and result['status'] == 'PASS'
+                      except (OSError, ValueError, KeyError, TypeError):
+                          all_pass = False
+                      all_pass = all_pass and attempt['code'] == 0 and attempt['streams_complete']
+                      require(time.monotonic() <= deadline, 'whole inventory exceeded declared 3300-second cap')
+              write('attempts.json', report['actual_outer_attempts'])
+              write('source-after.json', sources())
+              write('runtime-after.json', runtime())
+              write('environment-after.json', environment())
+              require(json.loads(regular(OUTPUT / 'runtime-before.json', MIB))
+                      == json.loads(regular(OUTPUT / 'runtime-after.json', MIB)),
+                      'actual bundled runtime changed')
+              report['status'] = 'SCOPED_GREEN' if all_pass else 'TEST_FAILURE_OR_INCOMPLETE'
+              exit_code = 0 if all_pass else 1
+          except BaseException as error:
+              report['status'] = 'RUNTIME_SOURCE_OR_CAPTURE_CONTROL_FAILED'
+              report['control_error'] = type(error).__name__ + ': ' + str(error)[:2048]
+          report['control_exit_code'] = exit_code
+          write('results.json', report)
+          write('control-exit-status.txt', (str(exit_code) + '\n').encode('ascii'))
+          print(json.dumps({'status': report['status'], 'actual_outer_attempts': len(report['actual_outer_attempts']),
+                            'control_exit_code': exit_code}, sort_keys=True), flush=True)
+          raise SystemExit(exit_code)
+          PY
+          cat > "$control/method.py" <<'PY'
+          import hashlib, importlib.util, json, os, pathlib, stat, sys, time, unittest
+          OUTPUT = pathlib.Path('/output')
+          LIMIT, TOTAL_LIMIT = 4 * 2**20, 32 * 2**20
+          def require(value, message):
+              if not value:
+                  raise ValueError(message)
+          def retained_total(root=OUTPUT):
+              total = 0
+              for entry in os.scandir(root):
+                  info = entry.stat(follow_symlinks=False)
+                  if stat.S_ISDIR(info.st_mode):
+                      total += retained_total(pathlib.Path(entry.path))
+                  else:
+                      require(stat.S_ISREG(info.st_mode) and info.st_nlink == 1, 'output type admission')
+                      total += info.st_size
+                  require(total <= TOTAL_LIMIT, 'output total admission')
+              return total
+          mode, method = sys.argv[1:3]
+          optimize = {'normal': 0, 'optimized': 1}[mode]
+          require(sys.flags.optimize == optimize and sys.flags.isolated == sys.flags.no_site == 1
+                  and sys.dont_write_bytecode and os.getuid() == os.getgid() == 65532,
+                  'actual outer interpreter identity mismatch')
+          target = OUTPUT / mode / method
+          target.mkdir(parents=True, exist_ok=True)
+          def write(relative, raw):
+              require(type(raw) is bytes and len(raw) <= LIMIT and retained_total() + len(raw) <= TOTAL_LIMIT,
+                      'original child-log retention bound')
+              path = target / relative
+              path.parent.mkdir(parents=True, exist_ok=True)
+              descriptor = os.open(path, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o644)
+              with os.fdopen(descriptor, 'wb') as stream:
+                  stream.write(raw)
+              return {'path': str(path.relative_to(OUTPUT)), 'bytes': len(raw),
+                      'sha256': hashlib.sha256(raw).hexdigest()}
+          source = '/source/tests/test_architecture_routing_broker.py'
+          spec = importlib.util.spec_from_file_location('test_architecture_routing_broker', source)
+          module = importlib.util.module_from_spec(spec)
+          sys.modules[spec.name] = module
+          spec.loader.exec_module(module)
+          actual_methods = sorted(unittest.TestLoader().getTestCaseNames(module.ArchitectureRoutingBrokerContract))
+          require(method in actual_methods and len(actual_methods) == len(set(actual_methods)) == 42,
+                  'actual external method discovery mismatch')
+          original = module.bounded_process
+          children = []
+          # This observer forwards the original helper's exact arguments and
+          # return object. It records only outer controller calls, never product
+          # authority/clock/transport callbacks, fake attempts or fixture state.
+          # A helper exception supplies no returned stream; declare that absence
+          # instead of fabricating an empty original or granting GREEN.
+          def retained_process(command, payload=b'', *, pass_fds=(), new_session=False):
+              if not new_session:
+                  return original(command, payload, pass_fds=pass_fds, new_session=new_session)
+              started = time.monotonic_ns()
+              item = {'sequence': len(children), 'argv': list(command), 'attempts': 1,
+                      'payload_bytes': len(payload), 'payload_sha256': hashlib.sha256(payload).hexdigest(),
+                      'pass_fds': list(pass_fds), 'new_session': new_session,
+                      'returned': False, 'code': None, 'stdout': None, 'stderr': None}
+              children.append(item)
+              try:
+                  result = original(command, payload, pass_fds=pass_fds, new_session=new_session)
+              except BaseException as error:
+                  item['exception'] = {'type': type(error).__name__, 'message': str(error)[:2048]}
+                  item['stream_observation'] = 'NOT_RETURNED_BY_FROZEN_HELPER'
+                  raise
+              else:
+                  code, stdout, stderr = result
+                  item.update({'returned': True, 'code': code, 'stream_observation': 'FULL_RETURNED_ORIGINALS'})
+                  try:
+                      item['stdout'] = write('children/%03d.stdout' % item['sequence'], stdout)
+                      item['stderr'] = write('children/%03d.stderr' % item['sequence'], stderr)
+                  except BaseException as error:
+                      item['retention_error'] = {'type': type(error).__name__, 'message': str(error)[:2048]}
+                      item['stream_observation'] = 'RETURNED_ORIGINAL_RETENTION_INCOMPLETE'
+                  return result
+              finally:
+                  item['duration_ns'] = str(time.monotonic_ns() - started)
+          module.bounded_process = retained_process
+          events = []
+          class ObservedResult(unittest.TextTestResult):
+              def startTest(self, test):
+                  events.append({'kind': 'START', 'id': test.id()})
+                  return super().startTest(test)
+              def stopTest(self, test):
+                  events.append({'kind': 'STOP', 'id': test.id()})
+                  return super().stopTest(test)
+              def addSuccess(self, test):
+                  events.append({'kind': 'PASS', 'id': test.id()})
+                  return super().addSuccess(test)
+              def addFailure(self, test, error):
+                  events.append({'kind': 'FAIL', 'id': test.id(), 'exception': error[0].__name__})
+                  return super().addFailure(test, error)
+              def addError(self, test, error):
+                  events.append({'kind': 'ERROR', 'id': test.id(), 'exception': error[0].__name__})
+                  return super().addError(test, error)
+              def addSkip(self, test, reason):
+                  events.append({'kind': 'SKIP', 'id': test.id(), 'reason': str(reason)[:2048]})
+                  return super().addSkip(test, reason)
+              def addExpectedFailure(self, test, error):
+                  events.append({'kind': 'EXPECTED_FAILURE', 'id': test.id()})
+                  return super().addExpectedFailure(test, error)
+              def addUnexpectedSuccess(self, test):
+                  events.append({'kind': 'UNEXPECTED_SUCCESS', 'id': test.id()})
+                  return super().addUnexpectedSuccess(test)
+              def addSubTest(self, test, subtest, error):
+                  events.append({'kind': 'SUBTEST_PASS' if error is None else
+                                 'SUBTEST_FAIL' if issubclass(error[0], test.failureException) else 'SUBTEST_ERROR',
+                                 'id': test.id(), 'subtest_id': subtest.id(),
+                                 'exception': None if error is None else error[0].__name__})
+                  return super().addSubTest(test, subtest, error)
+          suite = unittest.TestSuite([module.ArchitectureRoutingBrokerContract(method)])
+          result = unittest.TextTestRunner(stream=sys.stderr, verbosity=2, resultclass=ObservedResult).run(suite)
+          ident = 'test_architecture_routing_broker.ArchitectureRoutingBrokerContract.' + method
+          pass_events = [event for event in events if event['kind'] == 'PASS']
+          child_complete = len(children) == 3 and all(
+              item['returned'] and item['code'] == 0 and item['stdout'] is not None and item['stderr'] is not None
+              for item in children)
+          test_passed = (result.testsRun == 1 and result.wasSuccessful() and not result.skipped
+                         and not result.expectedFailures and not result.unexpectedSuccesses
+                         and len(pass_events) == 1 and pass_events[0]['id'] == ident)
+          passed = test_passed and child_complete
+          record = {'schema_version': 1, 'context': json.loads(pathlib.Path('/control/source-bindings.json').read_bytes()),
+                    'mode': mode, 'optimize': sys.flags.optimize, 'id': ident, 'method': method,
+                    'actual_method_inventory': actual_methods, 'events': events, 'tests_run': result.testsRun,
+                    'failures': len(result.failures), 'errors': len(result.errors), 'skipped': len(result.skipped),
+                    'expected_failures': len(result.expectedFailures), 'unexpected_successes': len(result.unexpectedSuccesses),
+                    'test_outcome': 'PASS' if test_passed else 'FAIL_OR_INCOMPLETE',
+                    'status': 'PASS' if passed else 'TEST_FAILURE_OR_INCOMPLETE', 'children': children,
+                    'child_stream_observer': 'TRANSPARENT_FROZEN_HELPER_RETURN_OBSERVER',
+                    'observer_is_source_and_test_exposed': True, 'organizational_independence': 0,
+                    'scientific_effect': 'NONE', 'scientific_status_authority': False}
+          write('method.json', (json.dumps(record, sort_keys=True, indent=2, allow_nan=False) + '\n').encode('ascii'))
+          raise SystemExit(0 if passed else 1)
+          PY
+          chmod -R a-w "$RUNNER_TEMP/routing-tests/inputs/payload"
+          find "$RUNNER_TEMP/routing-tests/inputs/payload" -type d -exec chmod 0555 {} +
+          chmod 0444 "$control/run.py" "$control/method.py" "$control/source-bindings.json"
+      - name: Pull the immutable bundled runtime
+        run: |
+          set -euo pipefail
+          base="$RUNNER_TEMP/routing-tests"
+          (ulimit -f 4096; timeout --signal=TERM --kill-after=10s 180s docker pull --platform linux/amd64 "$IMAGE") > "$base/image-pull.log" 2>&1
+          docker image inspect "$IMAGE" > "$base/runtime-image.json"
+      - name: Run both complete routing inventories once in the isolated container
+        run: |
+          set -euo pipefail
+          base="$RUNNER_TEMP/routing-tests"
+          container="routing-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          printf '%s\n' "$container" > "$base/container-name.txt"
+          docker create --name "$container" --platform linux/amd64 --network none --user 65532:65532 \
+            --ipc private --cgroupns private \
+            --read-only --cap-drop ALL --security-opt no-new-privileges --log-driver none \
+            --cpus 2 --memory 1g --memory-swap 1g --pids-limit 128 \
+            --ulimit fsize=67108864:67108864 --ulimit nofile=256:256 \
+            --tmpfs /tmp:rw,noexec,nosuid,nodev,size=64m,mode=1777 \
+            --mount type=bind,src="$base/inputs/payload/source",dst=/source,readonly \
+            --mount type=bind,src="$base/inputs/payload/control",dst=/control,readonly \
+            --mount type=bind,src="$base/work/payload",dst=/output \
+            --mount type=bind,src="$base/fixtures/payload",dst=/routing-fixtures \
+            --workdir /source --env LANG=C.UTF-8 --env TZ=UTC --env PYTHONDONTWRITEBYTECODE=1 \
+            --entrypoint /usr/local/bin/python "$IMAGE" -I -B -S /control/run.py > "$base/container-id.txt"
+          docker inspect "$container" > "$base/container-before.json"
+          set +e
+          (ulimit -f 4096; timeout --signal=TERM --kill-after=10s 6700s docker start --attach "$container") > "$base/container-console.log" 2>&1
+          attach=$?
+          set -e
+          printf '%s\n' "$attach" > "$base/attach-exit-status.txt"
+          docker inspect "$container" > "$base/container-after.json"
+          test "$attach" = 0 || test "$attach" = 1
+      - name: Confirm strict container disposal
+        if: always()
+        run: |
+          set -euo pipefail
+          base="$RUNNER_TEMP/routing-tests"
+          mkdir -p "$base"
+          container="routing-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          present="$(docker ps -a --filter "name=^/$container$" --format '{{.Names}}')"
+          if test -n "$present"; then
+            test "$present" = "$container"
+            docker rm -f "$container" > "$base/disposal.log" 2>&1
+          else
+            printf '%s\n' 'No named container remained to remove.' > "$base/disposal.log"
+          fi
+          remaining="$(docker ps -a --filter "name=^/$container$" --format '{{.Names}}')"
+          test -z "$remaining"
+          printf '%s\n' 'CONFIRMED_ABSENT' > "$base/disposal-status.txt"
+      - name: Collect bounded original records only after confirmed disposal
+        if: always()
+        run: |
+          set -euo pipefail
+          sudo --preserve-env=RUNNER_TEMP -- python3 -I -B -S - <<'PY'
+          import hashlib, json, os, pathlib, re, stat
+          # Read worker-owned 0700 originals without changing their permissions.
+          # New public fixture evidence remains readable by the host uploader.
+          os.umask(0o022)
+          base = pathlib.Path(os.environ['RUNNER_TEMP']) / 'routing-tests'
+          publish_root = base / 'publish'
+          destination = publish_root / 'payload'
+          destination.mkdir(parents=True, exist_ok=True)
+          def require(condition, message):
+              if not condition:
+                  raise ValueError(message)
+          def original(root, relative, limit, allow_empty=True):
+              parts = relative.split('/')
+              current = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+              descriptor = None
+              try:
+                  for part in parts[:-1]:
+                      nxt = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=current)
+                      os.close(current)
+                      current = nxt
+                  descriptor = os.open(parts[-1], os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=current)
+                  before = os.fstat(descriptor)
+                  require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1
+                          and (0 if allow_empty else 1) <= before.st_size <= limit, 'original regular byte admission')
+                  chunks, count = [], 0
+                  while True:
+                      part = os.read(descriptor, min(65536, limit + 1 - count))
+                      if not part:
+                          break
+                      chunks.append(part)
+                      count += len(part)
+                      require(count <= limit, 'original growth limit')
+                  after = os.fstat(descriptor)
+                  require(stat.S_ISREG(after.st_mode) and after.st_nlink == 1
+                          and (before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns, before.st_ctime_ns)
+                          == (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns)
+                          and count == before.st_size, 'original changed while read')
+                  return b''.join(chunks)
+              finally:
+                  if descriptor is not None:
+                      os.close(descriptor)
+                  os.close(current)
+          require(original(base, 'disposal-status.txt', 64, False) == b'CONFIRMED_ABSENT\n',
+                  'collection precedes confirmed disposal')
+          missing, refused, refusal_details, copied, total = [], [], [], [], 0
+          specifications = [(base, name, name, limit) for name, limit in (
+              ('repository.txt', 512), ('checked-commit.txt', 128), ('run-id.txt', 128), ('run-attempt.txt', 128),
+              ('checked-tree-and-parents.txt', 512), ('inputs-filesystem.log', 65536),
+              ('fixtures-filesystem.log', 65536), ('work-filesystem.log', 65536),
+              ('publish-filesystem.log', 65536), ('image-pull.log', 4 * 2**20),
+              ('runtime-image.json', 2**20), ('fixture-filesystems.json', 65536), ('container-name.txt', 256), ('container-id.txt', 128),
+              ('container-before.json', 2**20), ('container-after.json', 2**20), ('container-console.log', 4 * 2**20),
+              ('attach-exit-status.txt', 64), ('disposal.log', 65536), ('disposal-status.txt', 64))]
+          specifications += [(base / 'inputs/payload/control', name, name, 262144)
+                             for name in ('run.py', 'method.py', 'source-bindings.json')]
+          specifications += [(base / 'work/payload', name, name, 4 * 2**20) for name in
+                             ('runtime-before.json', 'runtime-after.json', 'environment-before.json',
+                              'environment-after.json', 'source-before.json', 'source-after.json',
+                              'control-source.json', 'attempts.json', 'results.json', 'control-exit-status.txt')]
+          # This closed inventory declares expected retention paths even when
+          # preparation never captured test source. It is not runtime discovery.
+          expected_methods = sorted([
+              'test_reserve_claim_complete', 'test_integer_cost_ceiling', 'test_concurrent_budget_boundary',
+              'test_concurrent_duplicate_reservation', 'test_single_dispatch_winner', 'test_identical_replay',
+              'test_input_hash_collision', 'test_changed_controls_same_input', 'test_restart_accounting',
+              'test_crash_before_claim', 'test_crash_after_claim', 'test_crash_after_fake_acceptance',
+              'test_confirmed_nondispatch_release', 'test_release_after_attempt_refused',
+              'test_unknown_delivery_after_expiry', 'test_completed_unknown_billing', 'test_known_zero_charge',
+              'test_over_reservation_charge', 'test_invalid_usage_types', 'test_unknown_admission_records',
+              'test_route_model_substitution', 'test_disclosure_without_hash_admission',
+              'test_expired_revoked_admission', 'test_unbounded_billable_components',
+              'test_invalid_integer_budget', 'test_unavailable_database', 'test_storage_commit_failure',
+              'test_unsafe_ledger_namespace', 'test_strict_input_and_cli', 'test_private_result_retention',
+              'test_zero_external_activity', 'test_replay_context_and_optimization',
+              'test_trusted_input_token_counts', 'test_untrusted_or_mismatched_token_admission',
+              'test_cache_write_rate_upper_bound', 'test_completion_replay_and_conflict',
+              'test_concurrent_settlement_once', 'test_settlement_restart_replay_and_conflict',
+              'test_completed_unknown_to_known_billing', 'test_unknown_delivery_billing_hold',
+              'test_settlement_evidence_binding', 'test_settlement_integer_and_charge_bounds',
+          ])
+          for mode in ('normal', 'optimized'):
+              for method in expected_methods:
+                  prefix = mode + '/' + method + '/'
+                  names = ['outer.stdout', 'outer.stderr', 'method.json']
+                  names += ['children/%03d.%s' % (index, stream) for index in range(3)
+                            for stream in ('stdout', 'stderr')]
+                  specifications += [(base / 'work/payload', prefix + name, prefix + name, 4 * 2**20)
+                                     for name in names]
+          source_names = [
+              'docs/plans/2026-10-08-tiered-routing-broker-contract.md',
+              'tests/test_architecture_routing_broker.py',
+              'architecture/routing_broker.py', 'tools/architecture_routing_broker.py']
+          expected_absent = set()
+          try:
+              bindings = json.loads(original(base / 'inputs/payload/control', 'source-bindings.json', 262144, False))
+              expected_absent = {record['path'] for record in bindings['sources'] if record['presence'] == 'ABSENT'}
+          except (OSError, ValueError, KeyError, TypeError):
+              pass
+          specifications += [(base / 'inputs/payload/source', name, 'checked-sources/' + name, 2**20)
+                             for name in source_names if name not in expected_absent]
+          for root, name, output, limit in specifications:
+              try:
+                  raw = original(root, name, limit)
+                  total += len(raw)
+                  require(total <= 48 * 2**20, 'collector attempted-copy subtotal limit')
+                  target = destination / output
+                  target.parent.mkdir(parents=True, exist_ok=True)
+                  with target.open('xb') as stream:
+                      stream.write(raw)
+                  copied.append({'path': output, 'bytes': len(raw), 'sha256': hashlib.sha256(raw).hexdigest()})
+              except FileNotFoundError:
+                  missing.append(output)
+              except (OSError, ValueError) as error:
+                  refused.append(output)
+                  refusal_details.append({'path': output, 'exception_type': type(error).__name__,
+                                          'errno': getattr(error, 'errno', None)})
+          # Source validation follows bounded retention. A source/control fault
+          # records its actual refusal and cannot prevent those copies or admit
+          # runtime/source completeness. Native and mount facts remain observed.
+          source_inventory = {'status': 'NOT_OBSERVED', 'expected_methods': expected_methods,
+                              'inventory_origin': 'FIXED_WORKFLOW_SOURCE_DECLARATION_NOT_RUNTIME_DISCOVERY',
+                              'observed_methods': None, 'source_bytes': None, 'source_sha256': None,
+                              'refusal_type': None}
+          try:
+              test_raw = original(base / 'inputs/payload/source',
+                                  'tests/test_architecture_routing_broker.py', 2**20, False)
+              source_inventory['source_bytes'] = len(test_raw)
+              source_inventory['source_sha256'] = hashlib.sha256(test_raw).hexdigest()
+              source_inventory['observed_methods'] = sorted(re.findall(
+                  r'^    def (test_[a-z_]+)\(self\):', test_raw.decode('utf-8'), re.MULTILINE))
+              require(source_inventory['source_bytes'] == 122068
+                      and source_inventory['source_sha256'] == '78e055ce7735a817a01f7e965f42ed0acbe6a95fc308cea095d17843b91f0978'
+                      and source_inventory['observed_methods'] == expected_methods
+                      and len(expected_methods) == len(set(expected_methods)) == 42,
+                      'captured frozen source inventory mismatch')
+              source_inventory['status'] = 'MATCH'
+          except (OSError, ValueError) as error:
+              source_inventory['status'] = 'MISSING' if isinstance(error, FileNotFoundError) else 'REFUSED'
+              source_inventory['refusal_type'] = type(error).__name__
+          mounted = os.path.ismount(publish_root)
+          actual = None
+          if mounted:
+              info, capacity = os.stat(publish_root, follow_symlinks=False), os.statvfs(publish_root)
+              require(stat.S_ISDIR(info.st_mode), 'publication root type refusal')
+              actual = {'host_device': info.st_dev, 'reported_total_bytes': capacity.f_frsize * capacity.f_blocks}
+          record = {'schema_version': 1, 'missing': sorted(missing), 'refused': sorted(refused), 'copied': copied,
+                    'refusal_details': refusal_details, 'collector_effective_uid': os.geteuid(),
+                    'new_public_artifact_creation_umask': '022',
+                    'source_inventory_observation': source_inventory,
+                    'expected_absent_candidate_paths': sorted(expected_absent), 'collector_counted_copy_input_bytes': total,
+                    'collector_copy_limit_bytes': 48 * 2**20, 'collector_counter_may_include_refused_copy_attempts': True,
+                    'collector_subtotal_excludes_prior_originals_and_its_metadata': True,
+                    'configured_publication_filesystem_capacity_bytes': 64 * 2**20,
+                    'configured_physical_filesystem_count': 4,
+                    'configured_physical_filesystem_capacity_subtotal_bytes': 256 * 2**20,
+                    'configured_additional_tmpfs_capacity_bytes': 64 * 2**20,
+                    'retained_container_output_admission_bytes': 32 * 2**20,
+                    'stream_admission_bytes': 4 * 2**20,
+                    'publication_mount_observed': mounted, 'actual_publication_filesystem': actual,
+                    'image_layers': 'NOT_ARCHIVED', 'bundled_python_binary_and_libraries': 'HASHED_NOT_ARCHIVED',
+                    'private_inputs': 'NOT_USED', 'scientific_effect': 'NONE', 'scientific_status_authority': False}
+          with (destination / 'collection.json').open('x') as stream:
+              stream.write(json.dumps(record, sort_keys=True, indent=2) + '\n')
+          PY
+      - name: Bind original terminal results to native runtime and source identity
+        if: always()
+        run: |
+          set -euo pipefail
+          python3 -I -B -S - <<'PY'
+          import ast, datetime, hashlib, json, os, pathlib, re, stat
+          base = pathlib.Path(os.environ['RUNNER_TEMP']) / 'routing-tests'
+          root = base / 'publish/payload'
+          def require(value, message):
+              if not value:
+                  raise ValueError(message)
+          def raw(name, limit=2**20):
+              current = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+              descriptor = None
+              try:
+                  parts = name.split('/')
+                  for part in parts[:-1]:
+                      nxt = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=current)
+                      os.close(current)
+                      current = nxt
+                  descriptor = os.open(parts[-1], os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=current)
+                  before = os.fstat(descriptor)
+                  require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1 and before.st_size <= limit,
+                          'retained original regular byte admission')
+                  chunks, count = [], 0
+                  while True:
+                      part = os.read(descriptor, min(65536, limit + 1 - count))
+                      if not part:
+                          break
+                      count += len(part)
+                      require(count <= limit, 'retained original growth admission')
+                      chunks.append(part)
+                  after = os.fstat(descriptor)
+                  require(stat.S_ISREG(after.st_mode) and after.st_nlink == 1
+                          and (before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns, before.st_ctime_ns)
+                          == (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns)
+                          and count == before.st_size, 'retained original changed while read')
+                  return b''.join(chunks)
+              finally:
+                  if descriptor is not None:
+                      os.close(descriptor)
+                  os.close(current)
+          load = lambda name: json.loads(raw(name))
+          collection = load('collection.json')
+          require(collection['missing'] == [] and collection['refused'] == [], 'original observation incomplete')
+          require(collection['source_inventory_observation']['status'] == 'MATCH',
+                  'captured source inventory is incomplete or refused')
+          actual_fs = collection['actual_publication_filesystem']
+          require(collection['publication_mount_observed'] is True
+                  and collection['configured_publication_filesystem_capacity_bytes'] == 64 * 2**20
+                  and type(actual_fs) is dict and type(actual_fs['host_device']) is int
+                  and type(actual_fs['reported_total_bytes']) is int
+                  and 0 < actual_fs['reported_total_bytes'] <= 64 * 2**20, 'publication physical capacity unobserved')
+          bindings = load('source-bindings.json')
+          for key, variable, name in (
+              ('repository', 'GITHUB_REPOSITORY', 'repository.txt'), ('checked_commit', 'GITHUB_SHA', 'checked-commit.txt'),
+              ('run_id', 'GITHUB_RUN_ID', 'run-id.txt'), ('run_attempt', 'GITHUB_RUN_ATTEMPT', 'run-attempt.txt')):
+              require(bindings[key] == os.environ[variable] and raw(name) == (os.environ[variable] + '\n').encode(),
+                      'native execution context mismatch')
+          require(hashlib.sha256(raw('checked-workflow.yml', 262144)).hexdigest() == bindings['workflow_sha256'],
+                  'checked workflow source mismatch')
+          for source in bindings['sources']:
+              if source['presence'] == 'ABSENT':
+                  require(source['path'] in collection['expected_absent_candidate_paths'], 'absent candidate mismatch')
+              else:
+                  value = raw('checked-sources/' + source['path'])
+                  require(len(value) == source['bytes'] and hashlib.sha256(value).hexdigest() == source['sha256'],
+                          'retained original source mismatch')
+          require(load('source-before.json') == bindings['sources'] == load('source-after.json'),
+                  'actual runtime source observation mismatch')
+          require(load('control-source.json') == {name: hashlib.sha256(raw(name, 262144)).hexdigest()
+                  for name in ('run.py', 'method.py')}, 'actual control source mismatch')
+          tree_lines = raw('checked-tree-and-parents.txt', 512).decode('ascii').splitlines()
+          require(len(tree_lines) == 2 and re.fullmatch('[0-9a-f]{40}', tree_lines[0])
+                  and 1 <= len(tree_lines[1].split()) <= 2
+                  and all(re.fullmatch('[0-9a-f]{40}', item) for item in tree_lines[1].split()),
+                  'native full-depth checked tree or parent inventory missing')
+          runtime_before, runtime_after = load('runtime-before.json'), load('runtime-after.json')
+          settings = {'journal_mode': 'delete', 'synchronous': 3, 'foreign_keys': 1,
+                      'trusted_schema': 0, 'read_uncommitted': 0, 'busy_timeout': 1000}
+          require(runtime_before == runtime_after and runtime_before['python_version'] == [3, 11, 14]
+                  and runtime_before['sqlite_library_version'] == '3.40.1'
+                  and runtime_before['sqlite_library_version_info'] == [3, 40, 1]
+                  and runtime_before['connection_settings'] == settings
+                  and runtime_before['platform'] == 'linux' and runtime_before['machine'] == 'x86_64'
+                  and runtime_before['uid'] == runtime_before['gid'] == 65532
+                  and runtime_before['runtime_origin'] == 'PINNED_IMAGE_BUNDLED_BINARY',
+                  'actual bundled Python/SQLite runtime mismatch')
+          for key in ('python_executable', 'sqlite_python_module', 'sqlite_extension',
+                      'loaded_sqlite_library', 'loaded_python_library'):
+              item = runtime_before[key]
+              require(type(item['bytes']) is int and item['bytes'] > 0
+                      and re.fullmatch('[0-9a-f]{64}', item['sha256']) is not None
+                      and item['path'].startswith('/'), 'actual bundled binary/library hash absent')
+          require(runtime_before['python_executable']['requested_path'] == '/usr/local/bin/python'
+                  and runtime_before['python_executable']['path'] == '/usr/local/bin/python3.11',
+                  'actual Python executable identity mismatch')
+          environments = [load('environment-before.json'), load('environment-after.json')]
+          require(environments[0] == environments[1], 'actual containment observation changed')
+          environment = environments[0]
+          fixture_parent = os.stat(base / 'fixtures/payload', follow_symlinks=False)
+          require(environment['fixture_parent'] == {
+                      'uid': fixture_parent.st_uid, 'gid': fixture_parent.st_gid,
+                      'mode': stat.S_IMODE(fixture_parent.st_mode)}
+                  == {'uid': 0, 'gid': 0, 'mode': 0o1777},
+                  'inside/outside root-owned sticky fixture parent mismatch')
+          require(environment['proc_status'] == {'CapEff': '0000000000000000', 'NoNewPrivs': '1'}
+                  and environment['cgroup']['memory.max'] == '1073741824'
+                  and environment['cgroup']['pids.max'] == '128'
+                  and environment['rlimit_fsize'] == [64 * 2**20, 64 * 2**20]
+                  and environment['rlimit_nofile'] == [256, 256]
+                  and environment['network_interfaces'] == ['lo'] and environment['network_routes'] == 0,
+                  'actual runtime containment mismatch')
+          images, before, after = load('runtime-image.json'), load('container-before.json'), load('container-after.json')
+          require(len(images) == len(before) == len(after) == 1, 'native record cardinality refusal')
+          image, first, last = images[0], before[0], after[0]
+          expected_image = os.environ['IMAGE']
+          require('python@sha256:83f339c1be6340ae1096010fdccf6552ac932d8f410d45d206014916bdf37e48' in image['RepoDigests']
+                  and image['Os'] == 'linux' and image['Architecture'] == 'amd64',
+                  'actual immutable runtime image mismatch')
+          require(first['Id'] == last['Id'] == raw('container-id.txt').decode().strip()
+                  and first['Image'] == last['Image'] == image['Id']
+                  and first['Config'] == last['Config'] and first['Config']['Image'] == expected_image,
+                  'native container/image/config identity mismatch')
+          config, host = first['Config'], first['HostConfig']
+          require(config['Entrypoint'] == ['/usr/local/bin/python']
+                  and config['Cmd'] == ['-I', '-B', '-S', '/control/run.py']
+                  and config['User'] == '65532:65532' and config['WorkingDir'] == '/source'
+                  and config.get('ExposedPorts') in (None, {}) and config.get('Volumes') is None,
+                  'fixed native command mismatch')
+          expected_environment = list(image['Config']['Env'])
+          for value in ('LANG=C.UTF-8', 'TZ=UTC', 'PYTHONDONTWRITEBYTECODE=1'):
+              key = value.split('=', 1)[0] + '='
+              expected_environment = [entry for entry in expected_environment if not entry.startswith(key)]
+              expected_environment.append(value)
+          require(sorted(config['Env']) == sorted(expected_environment), 'native container environment mismatch')
+          later_host = dict(last['HostConfig'])
+          earlier_host = dict(host)
+          for record in (earlier_host, later_host):
+              require('OomKillDisable' in record and (record['OomKillDisable'] is False or record['OomKillDisable'] is None),
+                      'unexpected native OOM-disable value')
+              del record['OomKillDisable']
+          require(earlier_host == later_host, 'native host configuration changed')
+          require(host['ReadonlyRootfs'] is True and host['NetworkMode'] == 'none'
+                  and host['NanoCpus'] == 2000000000 and host['Memory'] == host['MemorySwap'] == 1073741824
+                  and host['PidsLimit'] == 128 and host['CapDrop'] == ['ALL'] and host['CapAdd'] is None
+                  and host['SecurityOpt'] == ['no-new-privileges'] and host['Privileged'] is False
+                  and host['LogConfig'] == {'Type': 'none', 'Config': {}}
+                  and host['PortBindings'] == {} and host['PublishAllPorts'] is False
+                  and host['Devices'] == [] and host['DeviceRequests'] is None and host['VolumesFrom'] is None
+                  and host['PidMode'] == '' and host['IpcMode'] == 'private' and host['CgroupnsMode'] == 'private'
+                  and host['Tmpfs'] == {'/tmp': 'rw,noexec,nosuid,nodev,size=64m,mode=1777'},
+                  'native containment limits mismatch')
+          require(sorted(host['Ulimits'], key=lambda item: item['Name']) == [
+              {'Name': 'fsize', 'Hard': 67108864, 'Soft': 67108864},
+              {'Name': 'nofile', 'Hard': 256, 'Soft': 256}], 'native process limits mismatch')
+          expected_mounts = sorted([
+              ('/source', str(base / 'inputs/payload/source'), False),
+              ('/control', str(base / 'inputs/payload/control'), False),
+              ('/output', str(base / 'work/payload'), True),
+              ('/routing-fixtures', str(base / 'fixtures/payload'), True)])
+          for record in (first, last):
+              mounts = record['Mounts']
+              require(len(mounts) == 4 and all(item['Type'] == 'bind' and item['Propagation'] == 'rprivate' for item in mounts)
+                      and sorted((item['Destination'], item['Source'], item['RW']) for item in mounts) == expected_mounts,
+                      'actual container mount tuple mismatch')
+              require(record['NetworkSettings']['Networks'] == {'none': record['NetworkSettings']['Networks']['none']},
+                      'unexpected native network attachment')
+          filesystems = load('fixture-filesystems.json')
+          require(set(filesystems) == {'inputs', 'fixtures', 'work', 'publish'}, 'fixture filesystem inventory mismatch')
+          for label, observed in filesystems.items():
+              mount = base / label
+              require(os.path.ismount(mount) and observed['mount_observed'] is True
+                      and observed['configured_capacity_bytes'] == 64 * 2**20
+                      and type(observed['host_device']) is int and type(observed['reported_total_bytes']) is int
+                      and 0 < observed['reported_total_bytes'] <= 64 * 2**20
+                      and os.stat(mount, follow_symlinks=False).st_dev == observed['host_device']
+                      and os.statvfs(mount).f_frsize * os.statvfs(mount).f_blocks == observed['reported_total_bytes'],
+                      'actual fixture filesystem identity or capacity changed')
+          require(len({item['host_device'] for item in filesystems.values()}) == 4
+                  and collection['configured_physical_filesystem_count'] == 4
+                  and collection['configured_physical_filesystem_capacity_subtotal_bytes'] == 256 * 2**20
+                  and collection['configured_additional_tmpfs_capacity_bytes'] == 64 * 2**20,
+                  'physical filesystem capacities or separation mismatch')
+          for path, label in (('/source', 'inputs'), ('/routing-fixtures', 'fixtures'), ('/output', 'work')):
+              require(environment['filesystem_bytes'][path] == filesystems[label]['reported_total_bytes'],
+                      'inside/outside physical filesystem observation join mismatch')
+          require(actual_fs == {key: filesystems['publish'][key] for key in ('host_device', 'reported_total_bytes')},
+                  'actual publication filesystem observation join mismatch')
+          require(first['State']['Status'] == 'created' and last['State']['Status'] == 'exited'
+                  and last['State']['Running'] is False and last['State']['OOMKilled'] is False
+                  and last['State']['Error'] == '' and last['State']['FinishedAt'] != '0001-01-01T00:00:00Z',
+                  'actual terminal native execution missing')
+          started = datetime.datetime.fromisoformat(last['State']['StartedAt'].replace('Z', '+00:00'))
+          finished = datetime.datetime.fromisoformat(last['State']['FinishedAt'].replace('Z', '+00:00'))
+          duration = (finished - started).total_seconds()
+          require(0 < duration <= 6710, 'actual terminal container wall bound refusal')
+          require(raw('disposal-status.txt') == b'CONFIRMED_ABSENT\n', 'actual disposal missing')
+          results = load('results.json')
+          require(results['context'] == bindings and results['control_exit_code'] in (0, 1)
+                  and raw('control-exit-status.txt') == (str(results['control_exit_code']) + '\n').encode()
+                  and last['State']['ExitCode'] == results['control_exit_code']
+                  and raw('attach-exit-status.txt') == (str(results['control_exit_code']) + '\n').encode(),
+                  'actual controller/native terminal mismatch')
+          frozen_test = ast.parse(raw('checked-sources/tests/test_architecture_routing_broker.py').decode('utf-8'))
+          classes = [item for item in frozen_test.body if isinstance(item, ast.ClassDef)
+                     and item.name == 'ArchitectureRoutingBrokerContract']
+          require(len(classes) == 1, 'frozen external class inventory mismatch')
+          methods = sorted(item.name for item in classes[0].body if isinstance(item, ast.FunctionDef)
+                           and item.name.startswith('test_'))
+          assignments = [item for item in frozen_test.body if isinstance(item, ast.Assign)
+                         and any(isinstance(target, ast.Name) and target.id == 'CHILD_LAUNCHER'
+                                 for target in item.targets)]
+          require(len(assignments) == 1, 'frozen child launcher inventory mismatch')
+          child_launcher = ast.literal_eval(assignments[0].value)
+          require(type(child_launcher) is str and len(methods) == len(set(methods)) == 42
+                  and results['declared_methods'] == methods
+                  and results['declared_outer_modes'] == [['normal', 0], ['optimized', 1]]
+                  and results['source_declared_outer_controls'] == 84
+                  and results['source_declared_active_child_attempts'] == 252,
+                  'source/controller closed declaration mismatch')
+          require(collection['source_inventory_observation']['expected_methods']
+                  == collection['source_inventory_observation']['observed_methods'] == methods,
+                  'retained source inventory observation mismatch')
+          attempts = load('attempts.json')
+          require(attempts == results['actual_outer_attempts'] and len(attempts) == 84,
+                  'explicit actual outer attempt inventory incomplete')
+          expected_order = [(mode, optimize, method) for mode, optimize in (('normal', 0), ('optimized', 1))
+                            for method in methods]
+          controls, children, bases = [], [], set()
+          counts = {}
+          def original_stream(record, label):
+              data = raw(record[label], 4 * 2**20)
+              require(len(data) == record[label + '_bytes']
+                      and hashlib.sha256(data).hexdigest() == record[label + '_sha256'],
+                      'original outer stream join mismatch')
+              return data
+          def returned_stream(record):
+              data = raw(record['path'], 4 * 2**20)
+              require(len(data) == record['bytes'] and hashlib.sha256(data).hexdigest() == record['sha256'],
+                      'original returned child stream join mismatch')
+              return data
+          def unittest_original(data, method, namespace, passing):
+              text = data.decode('utf-8')
+              require(text.encode('utf-8') == data, 'unittest original UTF-8 refusal')
+              lines = text.splitlines()
+              # An outer assertion includes full failed inner stderr, including
+              # that child's summary. Bind the final runner suffix without
+              # confusing those retained nested diagnostics with outer results.
+              nonempty = [line for line in lines if line]
+              require(len(nonempty) >= 3 and nonempty[-3] == '-' * 70
+                      and re.fullmatch(r'Ran 1 test in [0-9]+(?:\.[0-9]+)?s', nonempty[-2]),
+                      'original unittest final terminal framing mismatch')
+              terminal = nonempty[-1]
+              require(terminal == 'OK' or terminal.startswith(('FAILED (', 'OK (')),
+                      'original unittest final terminal status mismatch')
+              if passing:
+                  expected = method + ' (' + namespace + '.ArchitectureRoutingBrokerContract.' + method + ') ... ok'
+                  require(lines.count(expected) == 1 and terminal == 'OK',
+                          'skipped, altered, extra or incomplete unittest original cannot produce GREEN')
+              else:
+                  require(terminal.startswith('FAILED ('), 'failed unittest terminal mismatch')
+          for attempt, (mode, optimize, method) in zip(attempts, expected_order):
+              ident = 'test_architecture_routing_broker.ArchitectureRoutingBrokerContract.' + method
+              prefix = mode + '/' + method + '/'
+              require((attempt['mode'], attempt['optimize'], attempt['method'], attempt['id'])
+                      == (mode, optimize, method, ident) and attempt['attempts'] == 1
+                      and attempt['argv'] == ['/usr/local/bin/python', '-I', '-B', '-S',
+                                             *(['-O'] if optimize else []), '/control/method.py', mode, method]
+                      and attempt['stdout'] == prefix + 'outer.stdout'
+                      and attempt['stderr'] == prefix + 'outer.stderr'
+                      and attempt['method_record'] == prefix + 'method.json'
+                      and attempt['code'] in (0, 1) and attempt['timed_out'] is False
+                      and attempt['error'] is None and attempt['streams_complete'] is True
+                      and type(attempt['duration_ns']) is str and attempt['duration_ns'].isdigit()
+                      and 0 < int(attempt['duration_ns']) <= 85 * 10**9,
+                      'actual outer terminal, command, mode or wall observation mismatch')
+              stdout, stderr = original_stream(attempt, 'stdout'), original_stream(attempt, 'stderr')
+              require(stdout == b'', 'unexpected outer stdout')
+              method_record = json.loads(raw(attempt['method_record'], 4 * 2**20))
+              require(method_record['context'] == bindings and method_record['actual_method_inventory'] == methods
+                      and (method_record['mode'], method_record['optimize'], method_record['method'], method_record['id'])
+                      == (mode, optimize, method, ident) and method_record['tests_run'] == 1
+                      and method_record['child_stream_observer'] == 'TRANSPARENT_FROZEN_HELPER_RETURN_OBSERVER'
+                      and method_record['observer_is_source_and_test_exposed'] is True,
+                      'actual external method record/source identity mismatch')
+              events = method_record['events']
+              require([item['id'] for item in events if item['kind'] == 'START'] == [ident]
+                      and [item['id'] for item in events if item['kind'] == 'STOP'] == [ident]
+                      and all(item['id'] == ident for item in events), 'actual unique method discovery mismatch')
+              passed = method_record['status'] == 'PASS'
+              if passed:
+                  require(method_record['failures'] == method_record['errors'] == method_record['skipped']
+                          == method_record['expected_failures'] == method_record['unexpected_successes'] == 0
+                          and len([item for item in events if item['kind'] == 'PASS']) == 1
+                          and all(item['kind'] in ('START', 'STOP', 'PASS', 'SUBTEST_PASS') for item in events)
+                          and attempt['code'] == 0, 'method skip/error/failure cannot produce GREEN')
+              else:
+                  require(method_record['status'] == 'TEST_FAILURE_OR_INCOMPLETE' and attempt['code'] == 1,
+                          'actual failing method terminal mismatch')
+              require(method_record['test_outcome'] in ('PASS', 'FAIL_OR_INCOMPLETE'),
+                      'actual test outcome dimension missing')
+              unittest_original(stderr, method, 'test_architecture_routing_broker',
+                                method_record['test_outcome'] == 'PASS')
+              actual_children = method_record['children']
+              require(len(actual_children) == 3, 'active 0/-O/-OO original child inventory incomplete')
+              for child_optimize, child in enumerate(actual_children):
+                  argv = child['argv']
+                  expected_prefix = ['/usr/local/bin/python', '-I', '-B', '-S',
+                                     *(['-' + 'O' * child_optimize] if child_optimize else []),
+                                     '-c', child_launcher, '/source/tests/test_architecture_routing_broker.py', method]
+                  require(len(argv) == len(expected_prefix) + 1 and argv[:-1] == expected_prefix
+                          and re.fullmatch('/routing-fixtures/routing-controller-[A-Za-z0-9_-]+', argv[-1])
+                          and argv[-1] not in bases
+                          and child['sequence'] == child_optimize and child['attempts'] == 1
+                          and child['payload_bytes'] == 0 and child['payload_sha256'] == hashlib.sha256(b'').hexdigest()
+                          and child['pass_fds'] == [] and child['new_session'] is True
+                          and child['returned'] is True and child['code'] in (0, 1)
+                          and child['stream_observation'] == 'FULL_RETURNED_ORIGINALS'
+                          and type(child['duration_ns']) is str and child['duration_ns'].isdigit()
+                          and 0 < int(child['duration_ns']) <= 75 * 10**9,
+                          'active child original command/optimization/terminal mismatch')
+                  bases.add(argv[-1])
+                  require(child['stdout']['path'] == prefix + 'children/%03d.stdout' % child_optimize
+                          and child['stderr']['path'] == prefix + 'children/%03d.stderr' % child_optimize,
+                          'active child original path mismatch')
+                  child_stdout, child_stderr = returned_stream(child['stdout']), returned_stream(child['stderr'])
+                  require(child_stdout == b'', 'unexpected active child stdout')
+                  unittest_original(child_stderr, method, 'routing_external_TEST', child['code'] == 0)
+                  if passed:
+                      require(child['code'] == 0, 'active child failure cannot produce GREEN')
+                  children.append({'outer_mode': mode, 'method': method, 'optimize': child_optimize, **child})
+              controls.append({'mode': mode, 'id': ident, 'status': method_record['status'],
+                               'duration_ns': attempt['duration_ns'], 'method_original': attempt['method_record'],
+                               'stderr_sha256': attempt['stderr_sha256'], 'children': len(actual_children)})
+              counts[method_record['status']] = counts.get(method_record['status'], 0) + 1
+          require(len(controls) == 84 and len(children) == len(bases) == 252
+                  and len({(item['mode'], item['id']) for item in controls}) == 84,
+                  'actual unique source/optimization inventory mismatch')
+          green = counts == {'PASS': 84}
+          require(results['status'] == ('SCOPED_GREEN' if green else 'TEST_FAILURE_OR_INCOMPLETE')
+                  and results['control_exit_code'] == (0 if green else 1), 'actual whole-control status mismatch')
+          receipt = {'schema_version': 1, 'status': results['status'], 'context': bindings,
+                     'checked_tree': tree_lines[0], 'checked_parents': tree_lines[1].split(),
+                     'source_declared_outer_controls': 84, 'source_declared_active_child_attempts': 252,
+                     'actual_discovered_outer_controls': len(controls), 'actual_active_child_attempts': len(children),
+                     'actual_status_counts': counts, 'actual_control_records': controls, 'active_children': children,
+                     'runtime': runtime_before, 'runtime_environment': environment,
+                     'image_id': image['Id'], 'image_reference': expected_image, 'fixture_filesystems': filesystems,
+                     'container_id': first['Id'], 'terminal_exit_code': last['State']['ExitCode'],
+                     'container_started_at': last['State']['StartedAt'], 'container_finished_at': last['State']['FinishedAt'],
+                     'actual_container_wall_seconds': duration, 'configured_container_timeout_seconds': 6700,
+                     'configured_container_kill_grace_seconds': 10, 'configured_outer_method_timeout_seconds': 75,
+                     'configured_outer_method_disposal_grace_seconds': 2, 'configured_inventory_timeout_seconds': 3300,
+                     'configured_frozen_child_timeout_seconds': 20, 'configured_frozen_child_disposal_grace_seconds': 2,
+                     'defensive_time_bounds_are_not_predicted_or_measured_durations': True,
+                     'active_child_duration_scope': 'FROZEN_HELPER_AND_PASSIVE_RETURN_RETENTION',
+                     'declared_fsize_bytes': 64 * 2**20, 'fsize_scope': 'PER_FILE_INCLUDING_TRANSIENT_ENOSPC_PADDING',
+                     'stream_admission_bytes': 4 * 2**20, 'retained_output_admission_bytes': 32 * 2**20,
+                     'collector_copy_limit_bytes': 48 * 2**20, 'collector_subtotal_is_not_whole_publication_bytes': True,
+                     'actual_publication_filesystem': actual_fs,
+                     'configured_physical_filesystem_capacity_subtotal_bytes': 256 * 2**20,
+                     'configured_additional_tmpfs_capacity_bytes': 64 * 2**20,
+                     'disposal': 'CONFIRMED_ABSENT_BEFORE_COLLECTION',
+                     'original_native_job_and_archive_readback': 'REQUIRED_AFTER_JOB_COMPLETION',
+                     'genuine_behavioral_red': 'NOT_DECLARED_BY_WORKFLOW',
+                     'provider_calls': 'NOT_ADMITTED', 'production_routing': 'NOT_RUN',
+                     'scientific_effect': 'NONE', 'scientific_status_authority': False,
+                     'organizational_independence': 0, 'custody_authentication': 'UNKNOWN'}
+          with (root / 'receipt.json').open('x') as stream:
+              stream.write(json.dumps(receipt, sort_keys=True, indent=2, allow_nan=False) + '\n')
+          PY
+      - name: Require every external routing method and active child to pass
+        if: always()
+        run: |
+          set -euo pipefail
+          python3 -I -B -S - <<'PY'
+          import json, os, pathlib, stat
+          root = pathlib.Path(os.environ['RUNNER_TEMP']) / 'routing-tests/publish/payload'
+          root_fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+          fd = None
+          try:
+              fd = os.open('receipt.json', os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=root_fd)
+              before = os.fstat(fd)
+              if not stat.S_ISREG(before.st_mode) or before.st_nlink != 1 or not 0 < before.st_size <= 2**20:
+                  raise ValueError('final receipt admission refusal')
+              with os.fdopen(fd, 'rb', closefd=False) as stream:
+                  raw = stream.read(2**20 + 1)
+              after = os.fstat(fd)
+              if (before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns, before.st_ctime_ns) != (
+                  after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns) or after.st_nlink != 1:
+                  raise ValueError('final receipt changed')
+              receipt = json.loads(raw)
+              if (receipt['status'] != 'SCOPED_GREEN' or receipt['actual_status_counts'] != {'PASS': 84}
+                      or receipt['actual_discovered_outer_controls'] != 84
+                      or receipt['actual_active_child_attempts'] != 252):
+                  raise ValueError('Routing runtime, discovery, capture or behavior controls did not all pass')
+          finally:
+              if fd is not None:
+                  os.close(fd)
+              os.close(root_fd)
+          PY
+      - name: Hash the bounded original artifact inventory
+        if: always()
+        run: |
+          set -euo pipefail
+          python3 -I -B -S - <<'PY'
+          import hashlib, os, pathlib, stat
+          root = pathlib.Path(os.environ['RUNNER_TEMP']) / 'routing-tests/publish/payload'
+          root.mkdir(parents=True, exist_ok=True)
+          root_fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+          rows, count, total = [], 0, 0
+          def visit(directory, prefix=''):
+              global count, total
+              for name in sorted(os.listdir(directory)):
+                  info = os.stat(name, dir_fd=directory, follow_symlinks=False)
+                  relative = prefix + name
+                  if stat.S_ISDIR(info.st_mode):
+                      child = os.open(name, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=directory)
+                      try:
+                          visit(child, relative + '/')
+                      finally:
+                          os.close(child)
+                      continue
+                  if relative == 'ARTIFACT_SHA256SUMS':
+                      raise ValueError('pre-existing artifact manifest')
+                  if not stat.S_ISREG(info.st_mode) or info.st_nlink != 1 or info.st_size > 4 * 2**20:
+                      raise ValueError('artifact member admission refusal')
+                  descriptor = os.open(name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=directory)
+                  try:
+                      before = os.fstat(descriptor)
+                      if (before.st_dev, before.st_ino) != (info.st_dev, info.st_ino) or before.st_nlink != 1:
+                          raise ValueError('artifact member identity changed')
+                      digest, read_count = hashlib.sha256(), 0
+                      while True:
+                          chunk = os.read(descriptor, 65536)
+                          if not chunk:
+                              break
+                          read_count += len(chunk)
+                          if read_count > 4 * 2**20:
+                              raise ValueError('artifact growth limit')
+                          digest.update(chunk)
+                      after = os.fstat(descriptor)
+                      if not stat.S_ISREG(after.st_mode) or after.st_nlink != 1 or read_count != before.st_size or (
+                          before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns, before.st_ctime_ns) != (
+                          after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns):
+                          raise ValueError('artifact member changed during hashing')
+                  finally:
+                      os.close(descriptor)
+                  count += 1
+                  total += read_count
+                  if count > 1024 or total > 64 * 2**20:
+                      raise ValueError('artifact inventory bound')
+                  rows.append(digest.hexdigest() + '  ' + relative + '\n')
+          try:
+              visit(root_fd)
+              fd = os.open('ARTIFACT_SHA256SUMS', os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600, dir_fd=root_fd)
+              with os.fdopen(fd, 'wb') as stream:
+                  stream.write(''.join(rows).encode())
+          finally:
+              os.close(root_fd)
+          PY
+      - name: Retain originals on every conclusion
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: routing-originals-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/routing-tests/publish/payload/
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+      - name: Strictly unmount every disposable fixture filesystem
+        if: always()
+        run: |
+          set -euo pipefail
+          base="$RUNNER_TEMP/routing-tests"
+          failed=0
+          for label in publish work fixtures inputs; do
+            mount="$base/$label"
+            set +e
+            python3 -I -B -S - "$mount" <<'PY'
+          import os, stat, sys
+          try:
+              info = os.lstat(sys.argv[1])
+          except FileNotFoundError:
+              sys.exit(32)
+          if not stat.S_ISDIR(info.st_mode):
+              raise ValueError('fixture mount path is not an original directory')
+          PY
+            presence=$?
+            set -e
+            if test "$presence" = 32; then
+              continue
+            elif test "$presence" != 0; then
+              failed=1
+              continue
+            fi
+            # util-linux mountpoint: 0 is mounted; 32 is an ordinary nonmount;
+            # invocation, permission and other probe errors must fail cleanup.
+            set +e
+            mountpoint -q "$mount"
+            probe=$?
+            set -e
+            if test "$probe" = 0; then
+              if ! sudo umount "$mount"; then
+                failed=1
+                continue
+              fi
+              set +e
+              mountpoint -q "$mount"
+              after=$?
+              set -e
+              if test "$after" != 32; then
+                failed=1
+              fi
+            elif test "$probe" != 32; then
+              failed=1
+            fi
+          done
+          test "$failed" = 0
+
+
