@@ -201,7 +201,7 @@ def classify_void(observed, target):
 
 def rectangle_mass_control(observed):
     observed = interval(observed, unit=True)
-    return observed == (Q(1, 5), Q(1, 5))
+    return observed[0] <= Q(1, 5) <= observed[1]
 
 
 def root_bracket(tau):
@@ -226,9 +226,11 @@ def cdf_mass(tau):
     rational(tau, nonnegative=True)
     if tau == 0:
         return Q(0), Q(0)
-    if tau >= Q(9, 4):
-        return Q(1, 5), Q(1, 5)
-    s = root_bracket(tau)
+    # At the support endpoint the declared split identity has exact root s=1.
+    # Evaluate the same CDF primitive and normalization as the interior route;
+    # a literal mass here would hide a missing-sign/normalization fault.
+    tau = min(tau, Q(9, 4))
+    s = root_bracket(tau) if tau < Q(9, 4) else (Q(1), Q(1))
     require(s[0] > 0, 'Split root positivity failed')
     square = s[0] ** 2, s[1] ** 2
     base = _add((Q(1), Q(1)), _scale(square, Q(1, 3)))
@@ -240,7 +242,11 @@ def cdf_mass(tau):
     second = _subtract(_scale(_subtract(inverse_seventh, (Q(1), Q(1))), Q(36, 7)),
                        _scale(_subtract((Q(1), Q(1)), quarter), Q(4)))
     coefficient = _scale(quarter_power_bounds(tau / 4), tau / 4)
-    result = _outward(_scale(_add(first, _multiply(coefficient, second)), Q(1, 15)))
+    result = _scale(_add(first, _multiply(coefficient, second)), Q(1, 15))
+    # At s=1 both uncertain terms vanish exactly. Keep that exact Fraction
+    # result; outward dyadic rounding is needed only for the interior route.
+    if tau < Q(9, 4):
+        result = _outward(result)
     require(0 <= result[0] <= result[1] <= Q(1, 5), 'CDF probability enclosure failed')
     return result
 
@@ -449,14 +455,21 @@ def negative_controls():
                        for c in positive)
     adversarial = [c for c in controls if c['h'] == 2 * a]
     saturation = cdf_mass(Q(9, 4))
+    missing_sign = _scale(saturation, Q(1, 2))
+    # The contract's finite-bar mass is 1/5. Conditioning divides the computed
+    # route mass by that analytic normalizer; the expected mass 1 is an oracle,
+    # not the value supplied to the control.
+    conditioned = _scale(saturation, Q(5))
     gates = {'all_stationary_and_inside_rectangle': all(c['stationary'] and c['rectangle'] for c in controls),
              'chart_gaps': gaps, 'outer_height_identity': elder_heights,
              'actual_theta2_gap': all(c['lifetime'] == 3 * a ** 4 / 4 for c in adversarial),
              'reject_fixed_left': all(c['lifetime'] != 32 * a ** 4 for c in adversarial),
              'boundary_exclusion': all(c['count'] == 0 for c in controls if c['h'] / a in (0, 1, 3)),
              'whole_rectangle_mass': rectangle_mass_control(saturation),
-             'missing_sign_detected': not rectangle_mass_control((Q(1, 10), Q(1, 10))),
-             'conditioning_detected': not rectangle_mass_control((Q(1), Q(1)))}
+             'missing_sign_detected': missing_sign[0] <= Q(1, 10) <= missing_sign[1]
+             and not rectangle_mass_control(missing_sign),
+             'conditioning_detected': conditioned[0] <= Q(1) <= conditioned[1]
+             and not rectangle_mass_control(conditioned)}
     return {'status': 'PASS' if all(gates.values()) else 'FAIL_IMPLEMENTATION',
             'controls': controls, 'gates': gates, 'whole_rectangle_mass': saturation,
-            'missing_sign_mass': (Q(1, 10), Q(1, 10)), 'conditioned_mass': (Q(1), Q(1))}
+            'missing_sign_mass': missing_sign, 'conditioned_mass': conditioned}

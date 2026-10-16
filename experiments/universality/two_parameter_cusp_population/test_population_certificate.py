@@ -6,9 +6,13 @@ No full eight-row integration campaign is performed by this test file.
 from fractions import Fraction as Q
 from pathlib import Path
 import importlib.util
+import subprocess
+import sys
 import tempfile
 import time
+import types
 import unittest
+from unittest import mock
 
 import population_certificate as pc
 import run_population_certificate as runner
@@ -280,6 +284,436 @@ class RunnerCustodyTests(unittest.TestCase):
                 path.write_text(raw)
                 with self.assertRaises(ValueError):
                     runner.load_json(path)
+
+
+def stub_pc(b_shift=Q(0), cdf_shift=Q(0), override=None, void=None):
+    """Module stand-in for the campaign wiring. The direct route replays
+    n * cdf_mass(tau) widened by 2^-20 per side as CERTIFIED; optional literal
+    overrides for a row (both routes), a coefficient shift, a CDF shift or a
+    fixed void interval inject the fault under test. No scientific execution is
+    represented by any certificate built from it."""
+    override = override or {}
+    stub = types.SimpleNamespace(**{k: getattr(pc, k) for k in dir(pc) if not k.startswith('__')})
+
+    def cdf_mass(tau):
+        for j, (lo, hi) in override.items():
+            t, n = pc._schedule(j)
+            if tau == t:
+                return lo / n, hi / n
+        return tuple(x + cdf_shift for x in pc.cdf_mass(tau))
+
+    def direct_mass(j, max_evaluations=80000, deadline=None):
+        tau, n = pc._schedule(j)
+        if j in override:
+            lo, hi = override[j]
+        else:
+            m = pc.cdf_mass(tau)
+            lo, hi = n * m[0] - Q(1, 1 << 20), n * m[1] + Q(1, 1 << 20)
+        return {'j': j, 'tau': tau, 'n': n, 'status': 'CERTIFIED', 'evaluations': 1,
+                'normalized_interval': (lo, hi), 'interval': (lo / n, hi / n)}
+
+    base_b = pc.coefficient_interval()
+    stub.cdf_mass, stub.direct_mass = cdf_mass, direct_mass
+    stub.coefficient_interval = lambda: (base_b[0] + b_shift, base_b[1] + b_shift)
+    stub.poisson_target = lambda b=None: pc.poisson_target(stub.coefficient_interval() if b is None else b)
+    if void is not None:
+        stub.void_interval = lambda mass, n: void
+    return stub
+
+
+def campaign(**kw):
+    return runner._campaign(stub_pc(**kw), 80000, time.monotonic() + 900)
+
+
+class EnclosureTests(unittest.TestCase):
+    # A4: enclosure soundness (sqrt lower endpoint, root sliver, tail trapezoid
+    # upper bound, CERTIFIED only when every direct gate holds).
+    def test_power_enclosures_bracket_irrational_radicands(self):
+        """Kills M02 (sqrt lower endpoint rounded up). Exact radicands (8, 16) cannot see polarity."""
+        for v in (Q(2), Q(3), Q(1, 3), Q(5, 7)):
+            lo, hi = pc._sqrt((v, v))
+            self.assertTrue(lo < hi and lo * lo <= v <= hi * hi, (v, lo, hi))
+            lo, hi = pc.quarter_power_bounds(v)
+            self.assertTrue(lo < hi and lo ** 4 <= v <= hi ** 4, (v, lo, hi))
+            lo, hi = pc.cube_root_bounds(v)
+            self.assertTrue(lo < hi and lo ** 3 <= v <= hi ** 3, (v, lo, hi))
+
+    def test_direct_row_replays_its_component_composition(self):
+        """Kills M04 (root sliver dropped) and M06 (tail trapezoid replaced by midpoint sum)."""
+        row = pc.direct_mass(1)
+        core, tail = row['core_interval'], row['tail_interval']
+        self.assertEqual(row['normalized_interval'],
+                         (core[0] + tail[0], core[1] + tail[1] + row['sliver_width']))
+        self.assertGreater(row['sliver_width'], 0)
+        self.assertGreater(row['discretization_components']['core'], 0)
+        self.assertGreater(row['discretization_components']['tail'], 0)
+        self.assertEqual(row['interval'], tuple(x / row['n'] for x in row['normalized_interval']))
+        self.assertEqual((row['tau'], row['n']), (Q(1, 8), 4))
+
+    def test_failed_direct_gate_is_not_certified(self):
+        """Kills M16 (status CERTIFIED regardless of gates)."""
+        with mock.patch.object(pc, 'CORE_PANELS', 64):
+            row = pc.direct_mass(1)
+        self.assertFalse(row['gates']['normalized_width'])
+        self.assertEqual(row['status'], 'INCONCLUSIVE_PRECISION')
+        self.assertGreaterEqual(row['normalized_width'], Q(1, 1 << 17))
+
+    def test_saturation_is_reached_by_the_closed_form_not_only_the_literal(self):
+        """The literal branch cdf_mass(9/4) == 1/5 cannot fail; this checks the computed route."""
+        lo, hi = pc.cdf_mass(Q(9, 4) - Q(1, 1 << 40))
+        self.assertLess(Q(1, 5) - lo, Q(1, 1 << 80))
+        self.assertLessEqual(hi, Q(1, 5))
+
+    def test_void_interval_replays_its_outward_log_exp_composition(self):
+        """Kills M03a (void endpoints taken inward); containment of (1-m)^n alone cannot see it."""
+        def exponent(m, n):
+            lo, hi = pc.log_bounds(1 - m, bits=pc.BITS)
+            return pc._outward((-n * hi, -n * lo))
+        # Normalized mass n*m in (1/7, 1/5) at n = 4 and at the row-8 count, plus a point mass.
+        for mass, n in (((Q(1, 7), Q(1, 5)), 4), ((Q(1, 7 * 4 ** 8), Q(1, 5 * 4 ** 8)), 4 ** 8),
+                        ((Q(1, 3), Q(1, 3)), 4)):
+            lo, hi = pc.void_interval(mass, n)
+            self.assertEqual((lo, hi), (pc.exp_neg_bounds(exponent(mass[1], n)[1])[0],
+                                        pc.exp_neg_bounds(exponent(mass[0], n)[0])[1]))
+            self.assertTrue(lo < (1 - mass[1]) ** n <= (1 - mass[0]) ** n < hi, (mass, n))
+
+    def test_poisson_target_replays_its_outward_exp_composition(self):
+        """Kills M03b (Poisson target endpoints taken inward); exp(-B) is contained either way."""
+        for b in (pc.coefficient_interval(), (Q(1, 3), Q(1, 2))):
+            lo, hi = pc.poisson_target(b)
+            self.assertEqual((lo, hi), (pc.exp_neg_bounds(b[1])[0], pc.exp_neg_bounds(b[0])[1]))
+            self.assertLess(lo, hi)
+        self.assertEqual(pc.poisson_target(), pc.poisson_target(pc.coefficient_interval()))
+
+    def test_tail_upper_endpoint_dominates_a_finer_midpoint_lower_bound(self):
+        """Kills M06_CEILING_ONLY (C270-A4): the trapezoid ceiling at population_certificate.py
+        line 392 replaced by an outward-rounded midpoint sum while tail_upper_floor and the
+        positive tail diagnostic stay intact, which the component replay above cannot see.
+
+        Oracle: the tail integrand C*(9*t^(-11/4) - rhi^2*t^(-3/4)) is convex on [1, 1/rhi]
+        (CONTROLLED_FALSIFICATION.md, direct tail: "It is convex; f'' <= 99/32*t^(-19/4)";
+        gates tail_convexity and tail_second_derivative), so on every octave each trapezoid
+        sum bounds the integral from above, each midpoint sum from below, and midpoint sums
+        increase under dyadic refinement. With outward rounding the declared 512-panel tail
+        upper endpoint therefore dominates the 1024-panel tail lower endpoint. The damaged
+        ceiling is itself a 512-panel midpoint sum and falls below that finer lower bound by
+        about 7.5e-8 at j=1; the pristine ceiling exceeds it by about 2.2e-7. The core is cut
+        to 64 panels because the tail sums read only rhi, the tail coefficient and
+        TAIL_PANELS, never the core; the row is then INCONCLUSIVE_PRECISION but still reports
+        its tail interval. The finer sum is an oracle only; the campaign keeps 512 panels.
+        """
+        def tail_row(panels):
+            with mock.patch.object(pc, 'CORE_PANELS', 64), mock.patch.object(pc, 'TAIL_PANELS', panels):
+                row = pc.direct_mass(1)
+            self.assertEqual(row['status'], 'INCONCLUSIVE_PRECISION')
+            self.assertTrue(row['gates']['tail_convexity'] and row['gates']['tail_second_derivative'])
+            # 65 core nodes; two tail octaves of 2*panels+1 nodes sharing the node t=2.
+            self.assertEqual(row['evaluations'], 65 + 2 * (2 * panels + 1) - 1)
+            return row
+        self.assertEqual(pc.TAIL_PANELS, 512)
+        coarse, finer = tail_row(pc.TAIL_PANELS), tail_row(2 * pc.TAIL_PANELS)
+        self.assertLessEqual(finer['tail_interval'][0], finer['tail_interval'][1])
+        # Refinement raises the midpoint sum; the finer floor loses at most its own arithmetic width.
+        self.assertLessEqual(coarse['tail_interval'][0],
+                             finer['tail_interval'][0] + finer['arithmetic_components']['tail_lower'])
+        self.assertGreaterEqual(coarse['tail_interval'][1], finer['tail_interval'][0])
+
+
+class PredicateFixtureTests(unittest.TestCase):
+    # A5: predicate fixtures strictly between the outer and inner envelopes,
+    # the void width gate at its declared limit, and the declared overall priority.
+    def test_coefficient_inconclusive_strictly_between_outer_and_inner(self):
+        """Kills M08/M08b (FALSIFIED threshold moved from the outer to the inner envelope)."""
+        b, e = (Q(1, 5), Q(3, 10)), (Q(1, 10), Q(1, 10))   # inner=[1/5,3/10], outer=[1/10,2/5]
+        self.assertEqual(pc.classify_coefficient((Q(12, 100), Q(15, 100)), b, e), 'INCONCLUSIVE_PRECISION')
+        self.assertEqual(pc.classify_coefficient((Q(35, 100), Q(38, 100)), b, e), 'INCONCLUSIVE_PRECISION')
+        self.assertEqual(pc.classify_coefficient((Q(9, 100), Q(99, 1000)), b, e), 'FALSIFIED')
+
+    def test_void_width_gate_at_its_declared_limit(self):
+        """Kills M15 (WIDTH_LIMIT relaxed 256x); the existing (0,1/4) fixture is 16384x over the limit."""
+        target = (Q(1, 2), Q(1, 2))
+        self.assertEqual(pc.classify_void((Q(1, 2), Q(1, 2) + Q(1, 1 << 16)), target), 'PASS')
+        self.assertEqual(pc.classify_void((Q(1, 2), Q(1, 2) + Q(1, 1 << 16) + Q(1, 1 << 40)), target),
+                         'INCONCLUSIVE_PRECISION')
+
+    def test_overall_priority_is_the_declared_one(self):
+        """Kills M20 (FALSIFIED dropped from the priority list)."""
+        self.assertEqual(runner._overall(['PASS'] * 8), 'PASS')
+        self.assertEqual(runner._overall(['PASS'] * 7 + ['FALSIFIED']), 'FALSIFIED')
+        self.assertEqual(runner._overall(['FALSIFIED', 'INCONCLUSIVE_PRECISION']), 'INCONCLUSIVE_PRECISION')
+        self.assertEqual(runner._overall(['FALSIFIED', 'FAIL_IMPLEMENTATION']), 'FAIL_IMPLEMENTATION')
+        self.assertEqual(runner._overall([]), 'INCONCLUSIVE_PRECISION')
+
+    def test_overall_requires_every_status_to_pass(self):
+        """Kills M21 (PASS if any status passes): an undeclared status beside PASS is no pass."""
+        self.assertEqual(runner._overall(['PASS', 'NOT_A_DECLARED_STATUS']), 'INCONCLUSIVE_PRECISION')
+        self.assertEqual(runner._overall(['NOT_RUN', 'PASS', 'PASS']), 'INCONCLUSIVE_PRECISION')
+        self.assertEqual(runner._overall(['PASS', 'PASS']), 'PASS')
+        self.assertEqual(runner._overall([]), 'INCONCLUSIVE_PRECISION')
+
+
+class NegativeControlTests(unittest.TestCase):
+    # A1: the mass negative controls must be able to fail; an injected fixed-left
+    # selector has to trip the declared gates instead of comparing literals.
+    DECLARED = {'all_stationary_and_inside_rectangle', 'chart_gaps', 'outer_height_identity',
+                'actual_theta2_gap', 'reject_fixed_left', 'boundary_exclusion',
+                'whole_rectangle_mass', 'missing_sign_detected', 'conditioning_detected'}
+
+    def test_negative_controls_evaluate_every_declared_gate(self):
+        """Kills M10 (a gate silently deleted)."""
+        result = pc.negative_controls()
+        self.assertEqual(set(result['gates']), self.DECLARED)
+        self.assertTrue(all(result['gates'].values()))
+        self.assertEqual(result['status'], 'PASS')
+        self.assertEqual(len(result['controls']), 14)
+
+    def test_negative_controls_fail_when_the_selector_is_fixed_left(self):
+        """Kills M11 (status PASS regardless of gates): an injected fixed-left lifetime must fail."""
+        real = pc.critical_fixture
+
+        def fixed_left(a, h, sign=1):
+            row = real(a, h, sign)
+            if h == 2 * a:
+                row['lifetime'] = 32 * a ** 4
+            return row
+        with mock.patch.object(pc, 'critical_fixture', fixed_left):
+            result = pc.negative_controls()
+        self.assertFalse(result['gates']['actual_theta2_gap'])
+        self.assertFalse(result['gates']['reject_fixed_left'])
+        self.assertEqual(result['status'], 'FAIL_IMPLEMENTATION')
+
+
+class CampaignWiringTests(unittest.TestCase):
+    # A2: the acceptance wiring of runner._campaign (route intersection, coefficient
+    # and void verdicts, row-8 gates, exit code, full-campaign receipt) is executed
+    # on literal stubs. A3: the end-of-run source-drift check is exercised.
+    def test_consistent_routes_and_correct_coefficient_pass(self):
+        """Executes runner lines 193-235 on a known-good stub; kills M24 (runner schedule diverging from pc)."""
+        cert = campaign()
+        self.assertEqual(cert['status'], 'PASS')
+        self.assertEqual([r['status'] for r in cert['rows']], ['PASS'] * 8)
+        self.assertEqual(cert['rows'][7]['finite_void']['status'], 'PASS')
+        for r in cert['rows']:
+            self.assertEqual(r['intersection_normalized'],
+                             (max(r['direct']['normalized_interval'][0], r['cdf_normalized'][0]),
+                              min(r['direct']['normalized_interval'][1], r['cdf_normalized'][1])))
+
+    def test_wrong_coefficient_is_falsified_at_row_eight_only(self):
+        """Kills M19 (row status PASS regardless) and M20; B shifted by 1.2e-4 > E(tau_8) = 7.8e-5."""
+        cert = campaign(b_shift=Q(3, 25000))
+        row8 = cert['rows'][7]
+        self.assertEqual(row8['coefficient_status'], 'FALSIFIED')
+        self.assertEqual(row8['status'], 'FALSIFIED')
+        self.assertEqual(row8['finite_void']['status'], 'PASS')
+        self.assertEqual(cert['status'], 'FALSIFIED')
+        self.assertEqual([r['status'] for r in cert['rows'][:7]], ['PASS'] * 7)
+
+    def test_disjoint_routes_are_route_consistency_failures(self):
+        """Kills M17 (overlap predicate disabled) and M18 (CDF route ignored in the intersection)."""
+        cert = campaign(cdf_shift=Q(1, 100))
+        self.assertEqual([r['status'] for r in cert['rows']], ['FAIL_ROUTE_CONSISTENCY'] * 8)
+        self.assertEqual(cert['status'], 'FAIL_ROUTE_CONSISTENCY')
+        self.assertTrue(all(r['coefficient_status'] == 'NOT_RUN' for r in cert['rows']))
+
+    def test_row_eight_mass_gate_withholds_the_void_test(self):
+        """Kills M25 (mass gate trivially true)."""
+        cert = campaign(override={8: (Q(34, 100), Q(34, 100) + Q(1, 1 << 20))})
+        row8 = cert['rows'][7]
+        self.assertFalse(row8['finite_void']['gates']['mass_gate'])
+        self.assertEqual(row8['finite_void']['status'], 'INCONCLUSIVE_PRECISION')
+        self.assertEqual(row8['status'], 'INCONCLUSIVE_PRECISION')
+
+    def test_wide_void_interval_is_inconclusive_even_with_a_passing_coefficient(self):
+        """Kills M28 (void/target width gates ignored)."""
+        cert = campaign(void=(Q(0), Q(1, 4)))
+        row1 = cert['rows'][0]
+        self.assertEqual(row1['coefficient_status'], 'PASS')
+        self.assertFalse(row1['void_width_gate'])
+        self.assertEqual(row1['status'], 'INCONCLUSIVE_PRECISION')
+        self.assertEqual(cert['status'], 'INCONCLUSIVE_PRECISION')
+
+    def test_falsified_attempt_exits_one_and_is_no_full_campaign_under_reduced_budget(self):
+        """Kills M26 (exit 0 on FALSIFIED) and M27 (full campaign receipt ignores budget arguments)."""
+        falsified = campaign(b_shift=Q(3, 25000))
+        with tempfile.TemporaryDirectory() as tmp, mock.patch.object(runner, '_campaign', lambda *a: falsified):
+            rec = runner.run(output_dir=Path(tmp) / 'attempt', max_evaluations=80000, time_budget=900)
+        self.assertEqual(rec['status'], 'FALSIFIED')
+        self.assertEqual(rec['exit_code'], 1)
+        certified = {'rows': [{'direct': {'status': 'CERTIFIED'}} for _ in range(8)]}
+        self.assertTrue(runner.full_declared_campaign(certified, 80000, 900, []))
+        self.assertFalse(runner.full_declared_campaign(certified, 79999, 900, []))
+        self.assertFalse(runner.full_declared_campaign(certified, 80000, 899, []))
+
+    def test_source_edited_during_evaluation_is_source_drift(self):
+        """Kills M22 (post-run hash comparison dropped). Contract: 'check them again at the end'."""
+        # Same copied nine-file source cut as the pre-run drift test above.
+        population = runner.POPULATION.relative_to(runner.REPOSITORY)
+        with tempfile.TemporaryDirectory() as temporary:
+            base = Path(temporary)
+            for source in runner.SOURCE_PATHS:
+                target = base / source.relative_to(runner.REPOSITORY)
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(source.read_bytes())
+            copy_path = base / population / 'run_population_certificate.py'
+            spec = importlib.util.spec_from_file_location('copied_runner_drift', copy_path)
+            copied = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(copied)
+            proof = base / population / 'PROOF.md'
+
+            def campaign_that_edits_a_source(pc_module, max_evaluations, deadline):
+                proof.write_bytes(proof.read_bytes() + b'\n')
+                return {'schema_version': 1, 'status': 'PASS', 'rows': [], 'scope_statuses':
+                        {'exact_non_gaussian_population': 'PASS'}}
+            copied._campaign = campaign_that_edits_a_source
+            rec = copied.run(output_dir=base / 'attempt', max_evaluations=80000, time_budget=900)
+            self.assertEqual(rec['status'], 'INCONCLUSIVE_SOURCE_DRIFT')
+            self.assertEqual(rec['exit_code'], 2)
+            self.assertEqual(rec['source_drift'], [str(population / 'PROOF.md')])
+            self.assertFalse(rec['full_declared_campaign'])
+
+
+class MassControlRouteTests(unittest.TestCase):
+    # A1: alter the normalization inside the real CDF route, not the reported
+    # controls. All three controls must depend on that computed probability.
+    def halved_cdf_normalization(self):
+        scale = pc._scale
+
+        def missing_sign(value, weight):
+            return scale(value, weight / 2 if weight == Q(1, 15) else weight)
+
+        return mock.patch.object(pc, '_scale', side_effect=missing_sign)
+
+    def test_saturation_at_and_above_support_uses_the_computed_route(self):
+        with self.halved_cdf_normalization():
+            for tau in (Q(9, 4), Q(3)):
+                self.assertEqual(pc.cdf_mass(tau), (Q(1, 10), Q(1, 10)))
+
+    def test_whole_rectangle_control_fails_for_missing_route_normalization(self):
+        with self.halved_cdf_normalization():
+            controls = pc.negative_controls()
+        self.assertFalse(controls['gates']['whole_rectangle_mass'])
+        self.assertEqual(controls['status'], 'FAIL_IMPLEMENTATION')
+
+    def test_missing_sign_control_is_derived_from_the_computed_route(self):
+        with self.halved_cdf_normalization():
+            controls = pc.negative_controls()
+        self.assertEqual(controls['missing_sign_mass'], (Q(1, 20), Q(1, 20)))
+        self.assertFalse(controls['gates']['missing_sign_detected'])
+
+    def test_conditioned_control_is_derived_from_the_computed_route(self):
+        with self.halved_cdf_normalization():
+            controls = pc.negative_controls()
+        self.assertEqual(controls['conditioned_mass'], (Q(1, 2), Q(1, 2)))
+        self.assertFalse(controls['gates']['conditioning_detected'])
+
+    def test_real_campaign_withholds_acceptance_after_mass_control_fault(self):
+        with self.halved_cdf_normalization():
+            controls = pc.negative_controls()
+        # Reuse the explicitly synthetic, otherwise accepting route fixture.
+        # Only the controls come from the real route-normalization fault above;
+        # this tests the soundness gate rather than a zero-budget short circuit.
+        fixture = stub_pc()
+        fixture.negative_controls = lambda: controls
+        certificate = runner._campaign(fixture, 80000, time.monotonic() + 900)
+        self.assertEqual(certificate['negative_controls']['status'], 'FAIL_IMPLEMENTATION')
+        self.assertEqual(certificate['status'], 'FAIL_IMPLEMENTATION')
+        self.assertEqual(certificate['scope_statuses']['exact_non_gaussian_population'],
+                         'FAIL_IMPLEMENTATION')
+        self.assertTrue(all(row['direct']['status'] == 'CERTIFIED'
+                            for row in certificate['rows']))
+        self.assertEqual([row['status'] for row in certificate['rows']],
+                         ['FAIL_IMPLEMENTATION'] * 8)
+        self.assertTrue(all(row['coefficient_status'] == 'NOT_RUN'
+                            for row in certificate['rows']))
+
+    def test_unmutated_mass_controls_preserve_expected_probabilities(self):
+        controls = pc.negative_controls()
+        self.assertEqual(controls['whole_rectangle_mass'], (Q(1, 5), Q(1, 5)))
+        self.assertEqual(controls['missing_sign_mass'], (Q(1, 10), Q(1, 10)))
+        self.assertEqual(controls['conditioned_mass'], (Q(1), Q(1)))
+        self.assertEqual(controls['status'], 'PASS')
+
+    def test_rectangle_control_accepts_enclosure_and_rejects_disjoint_mass(self):
+        self.assertTrue(pc.rectangle_mass_control((Q(199, 1000), Q(201, 1000))))
+        self.assertFalse(pc.rectangle_mass_control((Q(99, 1000), Q(101, 1000))))
+        self.assertFalse(pc.rectangle_mass_control((Q(999, 1000), Q(1))))
+
+
+class RunnerAttributionTests(unittest.TestCase):
+    # Disclosure strings below are test fixtures, not executor attestations.
+    # Actual test execution and its source-exposed performer belong in the log.
+    def test_omitted_disclosures_do_not_claim_a_provider(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary) / 'attempt'
+            runner.run(output_dir=output, max_evaluations=0)
+            record = runner.load_json(output / 'RUN.json')
+            self.assertEqual(record['performer'], 'UNSPECIFIED')
+            self.assertEqual(record['exposure'], 'UNSPECIFIED')
+            self.assertEqual(record['organizational_independence_credit'], 0)
+
+    def test_caller_disclosures_reach_the_retained_receipt(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            output = Path(temporary) / 'attempt'
+            runner.run(output_dir=output, max_evaluations=0,
+                       performer='Anthropic/Claude fixture; session fixture-451',
+                       exposure='Source-exposed fixture; shared principal')
+            record = runner.load_json(output / 'RUN.json')
+            self.assertEqual(record['performer'],
+                             'Anthropic/Claude fixture; session fixture-451')
+            self.assertEqual(record['exposure'],
+                             'Source-exposed fixture; shared principal')
+            self.assertEqual(record['organizational_independence_credit'], 0)
+            self.assertFalse(record['full_declared_campaign'])
+            self.assertEqual(record['actual_route_evaluations'], 0)
+
+    def test_invalid_disclosure_is_refused_before_creating_an_attempt(self):
+        for field in ('performer', 'exposure'):
+            for value in ('', ' \t\n', None, 42, False):
+                with self.subTest(field=field, value=value), tempfile.TemporaryDirectory() as temporary:
+                    output = Path(temporary) / 'attempt'
+                    with self.assertRaises(ValueError):
+                        runner.run(output_dir=output, max_evaluations=0,
+                                   **{field: value})
+                    self.assertFalse(output.exists())
+
+    def test_disclosures_do_not_change_certificate_or_report_bytes(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            base = Path(temporary)
+            runner.run(output_dir=base / 'undisclosed', max_evaluations=0)
+            runner.run(output_dir=base / 'disclosed', max_evaluations=0,
+                       performer='Non-OpenAI fixture', exposure='Source-exposed fixture')
+            for name in ('CERTIFICATE.json', 'RESULTS.md'):
+                self.assertEqual((base / 'undisclosed' / name).read_bytes(),
+                                 (base / 'disclosed' / name).read_bytes())
+
+    def test_cli_disclosures_and_defaults_reach_a_source_refusal_receipt(self):
+        cases = [([], 'UNSPECIFIED', 'UNSPECIFIED'),
+                 (['--performer', 'Anthropic/Claude CLI fixture',
+                   '--exposure', 'Source-exposed CLI fixture'],
+                  'Anthropic/Claude CLI fixture', 'Source-exposed CLI fixture')]
+        for arguments, performer, exposure in cases:
+            with self.subTest(arguments=arguments), tempfile.TemporaryDirectory() as temporary:
+                base = Path(temporary)
+                for source in runner.SOURCE_PATHS:
+                    target = base / source.relative_to(runner.REPOSITORY)
+                    target.parent.mkdir(parents=True, exist_ok=True)
+                    target.write_bytes(source.read_bytes())
+                # Refuse this real copied source before numerical evaluation.
+                # The CLI still has to retain the supplied attribution correctly.
+                contract = base / 'experiments/universality/two_parameter_cusp_population/CONTROLLED_FALSIFICATION.md'
+                contract.write_bytes(contract.read_bytes() + b'\n')
+                script = base / runner.POPULATION.relative_to(runner.REPOSITORY) / 'run_population_certificate.py'
+                mode = ['-O'] if sys.flags.optimize else []
+                completed = subprocess.run([sys.executable, '-B', '-E', '-S'] + mode
+                                           + [str(script)] + arguments,
+                                           capture_output=True, text=True, timeout=10)
+                self.assertEqual(completed.returncode, 2, completed.stderr)
+                record = runner.load_json(base / 'experiments/universality/results/exact_population_1/RUN.json')
+                self.assertEqual(record['status'], 'INCONCLUSIVE_SOURCE_DRIFT')
+                self.assertEqual(record['performer'], performer)
+                self.assertEqual(record['exposure'], exposure)
+                self.assertEqual(record['organizational_independence_credit'], 0)
+                self.assertEqual(record['actual_route_evaluations'], 0)
 
 
 if __name__ == '__main__':
