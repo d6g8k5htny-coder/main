@@ -328,6 +328,57 @@ class ClosureAndWorkflowTests(unittest.TestCase):
             check=False,
         )
 
+    def test_documented_complete_run_verifies_sources_and_fails_closed_when_missing(self):
+        readme = (HERE / "README.md").read_text(encoding="utf-8")
+        complete = readme.split("```sh", 1)[1].split("```", 1)[0]
+        first_command = complete.index("python3 ")
+        fetch = "git fetch --no-tags --depth=1 origin"
+        selector = "export REACTOR_VERIFY_SOURCES=1"
+        self.assertIn(fetch, complete)
+        self.assertIn("88ff9223e57bf38c7fc33cb3559a88793a7b5087", complete)
+        self.assertIn("6bd133d591e43e75a9292463bb4bfde7a34984dc", complete)
+        self.assertIn(selector, complete)
+        self.assertLess(complete.index(fetch), first_command)
+        self.assertLess(complete.index(selector), first_command)
+
+        with tempfile.TemporaryDirectory(prefix="reactor-missing-sources-") as temporary:
+            root = Path(temporary)
+            package = self._copy_frozen_tree(root)
+            subprocess.run(["git", "init", "-q"], cwd=root, check=True)
+            subprocess.run(
+                ["git", "config", "user.name", "Reactor Test"], cwd=root, check=True
+            )
+            subprocess.run(
+                ["git", "config", "user.email", "reactor@example.invalid"],
+                cwd=root,
+                check=True,
+            )
+            subprocess.run(["git", "add", "."], cwd=root, check=True)
+            subprocess.run(["git", "commit", "-qm", "frozen candidate"], cwd=root, check=True)
+            environment = os.environ.copy()
+            environment.pop("REACTOR_VERIFY_SOURCES", None)
+            name, value = selector.removeprefix("export ").split("=", 1)
+            environment[name] = value
+            for optimized in (False, True):
+                command = [sys.executable, "-B"]
+                if optimized:
+                    command.append("-O")
+                command.append(str(package / "run_control.py"))
+                completed = subprocess.run(
+                    command,
+                    cwd=root,
+                    env=environment,
+                    text=True,
+                    capture_output=True,
+                    check=False,
+                )
+                with self.subTest(optimized=optimized):
+                    self.assertNotEqual(completed.returncode, 0, completed.stdout)
+                    self.assertIn(
+                        "git source-object verification failed", completed.stderr
+                    )
+                    self.assertNotIn('"validated": true', completed.stdout)
+
     def test_tampered_closure_byte_is_rejected_directly_and_by_loader(self):
         from validator import load_and_validate, verify_closure
 

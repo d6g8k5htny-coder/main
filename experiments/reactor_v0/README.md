@@ -29,13 +29,24 @@ and path-scoped workflow by raw SHA-256; it intentionally cannot hash itself.
 Run the complete frozen controls from the repository root:
 
 ```sh
-python3 -B -m unittest discover -s experiments/reactor_v0 -p 'test_*.py' -v
-python3 -B -O -m unittest discover -s experiments/reactor_v0 -p 'test_*.py' -v
+git fetch --no-tags --depth=1 origin \
+  88ff9223e57bf38c7fc33cb3559a88793a7b5087 \
+  6bd133d591e43e75a9292463bb4bfde7a34984dc
+export REACTOR_VERIFY_SOURCES=1
+
+python3 -I -B -m unittest discover -s experiments/reactor_v0 -p 'test_*.py' -v
+python3 -I -B -O -m unittest discover -s experiments/reactor_v0 -p 'test_*.py' -v
 python3 -B experiments/reactor_v0/mutation_harness.py
 python3 -B -O experiments/reactor_v0/mutation_harness.py
 python3 -B experiments/reactor_v0/run_control.py
 python3 -B -O experiments/reactor_v0/run_control.py
 ```
+
+The two fetched commits are exact, open parent-source identities. A missing
+object, unavailable origin, or source length, raw SHA-256, or Git-blob mismatch
+must stop this complete sequence; do not unset the selector to continue. Runs
+without `REACTOR_VERIFY_SOURCES=1` are metadata/control utility runs, not the
+complete source-verified control.
 
 The workflow has read-only repository permissions, is triggered only by this
 directory or its own workflow file, and ends with a clean-worktree check so the
