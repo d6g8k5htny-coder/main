@@ -141,6 +141,15 @@ this shape. Closed [main #95](https://github.com/d6g8k5htny-coder/main/issues/95
 is formal-rollout history; current work stays in its relevant PR. Neither issue
 closure nor an outdated review thread resolves an outstanding obligation.
 
+At source pickup, run a complete by-path contender check of the paths you will
+touch against open pull requests; shared generated files and consumed
+dependencies count as overlap. Before any mutation, revalidate changed or new
+pull request heads. An exact-head, complete, paginated inventory may be reused,
+refreshing only changed entries and pull requests merged since the candidate
+base; a full repository recrawl is not required before every small docs edit.
+Link a compact overlap record from the pull request instead of copying a long
+list. Unresolved ownership still stops the affected write.
+
 This is cooperative coordination. It does not install a distributed lock or
 claim that every agent has acknowledged a notice. A competing mutation stops
 the affected update and requires reconciliation, not a second competing write.
@@ -222,6 +231,15 @@ Marking a pull request ready can start an automatic review. Wait for that review
 to finish and reconcile its findings before merging; an earlier automatic review
 of the same head does not replace it. If it cannot finish, say so on the pull
 request and settle the next step there instead of merging past it.
+
+Where `public-intake` is required, verify its actual trusted workflow and event
+identity and its current head, as CONTRIBUTING requires, as well as its
+success. A check name and head alone cannot establish the Ready-event binding.
+On an ordinary pending-required-check 405, re-read current refs, ownership, and
+protection and check state. One retry at the same expected head is appropriate
+only after the missing requirement has actually succeeded and no other stop
+applies. This does not waive the separate Ready-triggered review, approve
+security changes, or authorize retrying platform denials.
 
 Follow [the required formal checks](../docs/FORMAL_REQUIRED_CHECKS.md) and
 [release operations](../docs/RELEASE_OPERATIONS.md). A base change can change
