@@ -139,3 +139,87 @@ test('node identifiers and recorded source paths require own literal string fiel
  assert.equal(m.sourceForNode(f,{source:['proof/PROOF.md']}),null);
  assert.equal(m.nodePage({toString:()=> 'a'}),null);
 });
+
+test('all current metadata filters are conjunctive in both branches and independent of historical state',()=>{
+ const f=fixture(),g=f.graph.data,before=structuredClone(g);
+ const state=m.readState('?q=legacy&classification=HOLD&atlas-q=candidate&atlas-classification=OPEN_ACTIVE&atlas-kind=candidate&atlas-layer=D1',f);
+ for(const query of [()=>m.searchGraph(g,'',state),()=>m.neighborhood(g,['a'],state)])assert.deepEqual(query().ids,['a']);
+ for(const field of ['classification','kind','layer'])for(const query of [opts=>m.searchGraph(g,'',opts),opts=>m.neighborhood(g,['a'],opts)]){
+  assert.equal(query({...state,[field]:'unknown'}).matches,0);
+  assert.equal(query({...state,[field]:state[field].toLowerCase()}).matches,field==='kind'?1:0);
+ }
+ assert.equal(m.searchGraph(g,'',{classification:'',kind:'',layer:''}).matches,3);
+ assert.deepEqual(g,before);
+});
+
+test('route page bookmark is a safe positive integer independent of the graph offset ceiling',()=>{
+ for(const [raw,expected] of [['1',1],['333367',333367],['0',1],['-1',1],['1.5',1],['Infinity',1],['9007199254740992',1],['',1]])
+  assert.equal(m.readState('?atlas-route-page='+raw,fixture()).routePage,expected);
+});
+
+test('compact route windows concatenate to exact complete routes including incoming boundary edges',()=>{
+ assert.equal(typeof m.requiredDependencyAnalysis,'function');assert.equal(typeof m.requiredDependencyWindow,'function');
+ const g=diamond();g.nodes.E={kind:'candidate',classification:'OPEN_ACTIVE'};g.edges.push({from:'D',to:'E',required:true,relation:'continuation',extra:'literal'});
+ const full=m.requiredDependencyPaths(g,'A'),analysis=m.requiredDependencyAnalysis(g,'A');
+ assert.equal(analysis.targetCount,full.length);assert.equal(analysis.totalOccurrences,full.reduce((n,r)=>n+r.ids.length,0));
+ const actual=[];
+ for(let page=1;page<=Math.ceil(analysis.totalOccurrences/2);page++){
+  const result=m.requiredDependencyWindow(analysis,{page,limit:2});assert.ok(result.occurrences<=2);
+  for(const segment of result.segments)for(let i=0;i<segment.ids.length;i++)actual.push({target:segment.target,position:segment.start+i,id:segment.ids[i],edge:segment.incomingEdges[i]});
+ }
+ const expected=full.flatMap(route=>route.ids.map((id,position)=>({target:route.ids.at(-1),position,id,edge:position?route.edges[position-1]:null})));
+ assert.deepEqual(actual,expected);for(let i=0;i<actual.length;i++)assert.equal(actual[i].edge,expected[i].edge);
+ assert.equal(m.requiredDependencyWindow(analysis,{page:999,limit:2}).page,Math.ceil(analysis.totalOccurrences/2));
+ for(const id of ['missing','constructor','__proto__']){const a=m.requiredDependencyAnalysis(g,id);assert.equal(a.targetCount,0);assert.equal(m.requiredDependencyWindow(a).occurrences,0);}
+});
+
+function chainFixture(size){
+ const nodes={},edges=[];for(let i=0;i<size;i++){const id='chain.'+String(i).padStart(5,'0');nodes[id]={kind:'candidate',classification:'OPEN_ACTIVE'};if(i)edges.push({from:'chain.'+String(i-1).padStart(5,'0'),to:id,required:true,relation:'chain',ordinal:i});}
+ return {nodes,edges};
+}
+test('admitted 10000-node chain stores linear predecessors and materializes bounded exact first middle last windows',()=>{
+ assert.equal(typeof m.requiredDependencyAnalysis,'function');const g=chainFixture(10000),analysis=m.requiredDependencyAnalysis(g,'chain.00000');
+ assert.equal(analysis.targetCount,9999);assert.equal(analysis.totalOccurrences,50004999);
+ assert.equal(analysis.predecessors.size,9999);assert.equal(analysis.depths.size,10000);assert.equal(analysis.targets.length,9999);assert.equal(analysis.prefixSums.length,10000);
+ assert.equal(analysis.traversedEdges,9999);
+ const pages=Math.ceil(analysis.totalOccurrences/150);
+ for(const page of [1,Math.floor(pages/2),pages]){
+  const result=m.requiredDependencyWindow(analysis,{page});assert.ok(result.occurrences<=150);assert.equal(result.offset,(page-1)*150);
+  assert.equal(result.totalOccurrences,50004999);assert.equal(result.omitted,50004999-result.occurrences);
+  assert.ok(result.reconstructedNodes<=2*10000+150,'Only two boundary routes may need long reconstruction');
+  assert.equal(result.segments.reduce((n,s)=>n+s.ids.length,0),result.occurrences);
+  for(const s of result.segments)for(let i=0;i<s.ids.length;i++){
+   const position=s.start+i;assert.equal(s.ids[i],'chain.'+String(position).padStart(5,'0'));
+   assert.equal(s.incomingEdges[i],position?g.edges[position-1]:null);
+  }
+ }
+ assert.ok(m.requiredDependencyWindow(analysis,{page:100001}).offset>100000);
+ assert.equal(m.requiredDependencyAnalysis(g,'chain.00000'),analysis,'Selected-root compact analysis is reused');
+});
+
+test('admitted 10000-node 50000-edge shared fanout indexes exact reverse reach and relation pages',()=>{
+ assert.equal(typeof m.downstreamReachCounts,'function');assert.equal(typeof m.directRelationWindow,'function');
+ const nodes={root:{kind:'candidate',classification:'OPEN_ACTIVE'}},edges=[];
+ for(let i=1;i<10000;i++){const id='fan.'+String(i).padStart(5,'0');nodes[id]={kind:'candidate',classification:'OPEN_ACTIVE'};edges.push({from:'root',to:id,required:true,relation:'fan',ordinal:edges.length});}
+ for(let i=0;edges.length<50000;i++)edges.push({from:'fan.'+String(i%9998+1).padStart(5,'0'),to:'fan.09999',required:i%2===0,relation:'shared.'+i,ordinal:edges.length});
+ const g={nodes,edges},a=m.requiredDependencyAnalysis(g,'root');assert.equal(a.targetCount,9999);assert.equal(a.totalOccurrences,19998);assert.equal(a.traversedEdges,edges.filter(e=>e.required).length);
+ const complete=m.downstreamReach(g,'fan.09999'),scalar=m.downstreamReachCounts(g,'fan.09999');
+ assert.equal(scalar.allEdge,9999);assert.equal(scalar.requiredOnly,5000);assert.deepEqual(scalar,{known:true,allEdge:complete.allEdge,requiredOnly:complete.requiredOnly,labels:complete.labels});assert.equal('allEdgeIds' in scalar,false);
+ for(const [id,direction] of [['root','outgoing'],['fan.09999','incoming']]){
+  const expected=edges.filter(e=>e[direction==='outgoing'?'from':'to']===id),actual=[];
+  for(let page=1;page<=Math.ceil(expected.length/150);page++){const w=m.directRelationWindow(g,id,direction,{page});assert.ok(w.rows.length<=150);assert.equal(w.total,expected.length);actual.push(...w.rows);}
+  assert.deepEqual(actual,expected);actual.forEach((edge,i)=>assert.equal(edge,expected[i]));
+ }
+ assert.deepEqual(m.requiredDependencyWindow(a).segments.map(s=>s.ids),m.requiredDependencyPaths(g,'root').slice(0,75).map(r=>r.ids));
+});
+
+test('snapshot index reads the source edge collection once and repeated pages never rebuild BFS',()=>{
+ const source=chainFixture(400);let reads=0,iterations=0;
+ const edges=new Proxy(source.edges,{get(target,key,receiver){if(key===Symbol.iterator)return function*(){for(const edge of target){iterations++;yield edge;}};return Reflect.get(target,key,receiver);}});
+ const graph={nodes:source.nodes,get edges(){reads++;return edges;}};
+ const analysis=m.requiredDependencyAnalysis(graph,'chain.00000');assert.equal(reads,1);assert.equal(iterations,399);assert.equal(analysis.traversedEdges,399);
+ for(const page of [1,25,500,1])m.requiredDependencyWindow(analysis,{page});
+ for(const id of ['chain.00010','chain.00399']){m.downstreamReach(graph,id);m.downstreamReachCounts(graph,id);m.directRelationWindow(graph,id,'incoming');}
+ assert.equal(m.requiredDependencyAnalysis(graph,'chain.00000'),analysis);assert.equal(reads,1);assert.equal(iterations,399);
+ assert.equal(analysis.targets.some(target=>'ids' in target||'edges' in target),false);
+});
