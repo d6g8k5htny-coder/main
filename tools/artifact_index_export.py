@@ -7,8 +7,8 @@ import sys
 
 # Keep the CLI's own imports read-only even if a caller omits Python's -B flag.
 sys.dont_write_bytecode = True
-# Resolve only the trusted source location lexically, never a caller path.
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+# Anchor imports to the actual script target, including symlink invocation.
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.realpath(__file__))))
 
 from architecture.artifact_index import (
     ArtifactIndexRefused, SHA256, STDIN_LIMIT, canonical_json, parse_packet,
@@ -48,7 +48,17 @@ def main():
     except Exception:
         sys.stderr.buffer.write(b"ARTIFACT_INDEX_REFUSED\n")
         return 1
-    sys.stdout.buffer.write(output)
+    try:
+        written = sys.stdout.buffer.write(output)
+        if written != len(output):
+            raise OSError
+        sys.stdout.buffer.flush()
+    except OSError:
+        # This terminal output failure must not retry buffered stdout at exit.
+        try:
+            os.write(2, b"ARTIFACT_INDEX_REFUSED\n")
+        finally:
+            os._exit(1)
     return 0
 
 

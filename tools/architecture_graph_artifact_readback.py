@@ -9,7 +9,7 @@ import stat
 import sys
 
 sys.dont_write_bytecode = True
-ROOT = Path(__file__).parent.parent
+ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 from architecture.graph_artifact_readback import (  # noqa: E402
     RAW_LIMIT, _encoded, read_graph_archive, validate_expected,
@@ -93,8 +93,11 @@ def main(argv: list[str] | None = None) -> int:
             raise OSError(REFUSAL)
         sys.stdout.buffer.flush()
     except OSError:
-        sys.stderr.write(REFUSAL)
-        return 1
+        # This terminal output failure must not retry buffered stdout at exit.
+        try:
+            os.write(2, REFUSAL.encode("ascii"))
+        finally:
+            os._exit(1)
     return 0
 
 
