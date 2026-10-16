@@ -1,0 +1,60 @@
+name: Full optimized navigation timing diagnostic
+'on':
+  push:
+    branches: [codex/navigation-timing-20261016]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: navigation-timing-${{ github.run_id }}-${{ github.run_attempt }}
+  cancel-in-progress: false
+jobs:
+  optimized-profile:
+    if: github.repository == 'd6g8k5htny-coder/main' && github.ref == 'refs/heads/codex/navigation-timing-20261016'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 23
+    steps:
+      - name: Checkout exact diagnostic commit
+        timeout-minutes: 1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 1
+          persist-credentials: false
+      - name: Select original observed interpreter
+        timeout-minutes: 2
+        uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11.17'
+      - name: Syntax and exact native source admission
+        timeout-minutes: 1
+        run: |
+          set -euo pipefail
+          umask 077
+          task_output="$RUNNER_TEMP/navigation-timing-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -m 700 "$task_output"
+          python -I -B -S -c "from pathlib import Path; p=Path('tools/navigation_timing_diagnostic.py'); compile(p.read_bytes(), str(p), 'exec')" > "$task_output/syntax.stdout" 2> "$task_output/syntax.stderr"
+          python -I -B -S tools/navigation_timing_diagnostic.py prepare "$task_output"
+      - name: One complete optimized discovery with per-test timings
+        id: profile
+        timeout-minutes: 16
+        run: |
+          set -euo pipefail
+          python -I -B -S tools/navigation_timing_diagnostic.py run "$RUNNER_TEMP/navigation-timing-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+      - name: Seal actual available diagnostics after disposal
+        id: seal
+        if: always()
+        timeout-minutes: 1
+        run: |
+          set -euo pipefail
+          python -I -B -S tools/navigation_timing_diagnostic.py seal "$RUNNER_TEMP/navigation-timing-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+      - name: Retain original evidence including failed or incomplete runs
+        if: always() && (steps.profile.outcome == 'skipped' || steps.seal.outputs.safe_to_upload == 'true')
+        timeout-minutes: 1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: navigation-timing-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/navigation-timing-${{ github.run_id }}-${{ github.run_attempt }}
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 6
