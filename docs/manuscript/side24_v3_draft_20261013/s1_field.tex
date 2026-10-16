@@ -1,0 +1,78 @@
+\section{Field, filtration, and lifetime intensity}\label{sec:field}
+
+Write $\T_{24}^3=(\R/24\Z)^3$. The normalized periodized Bargmann--Fock covariance is
+\begin{equation}\tag{1.1}\label{eq:K24}
+K_{24}(z)=Z_{24}^{-1}\sum_{n\in\Z^3}\exp\Bigl(-\frac{|z+24n|^2}{2}\Bigr),\qquad Z_{24}=\sum_{n\in\Z^3}e^{-288|n|^2}.
+\end{equation}
+Let $f_{24}$ be a centered stationary Gaussian field with covariance $K_{24}$.
+
+\begin{proposition}[genericity of the side-24 field]\label{prop:generic}
+The field $f_{24}$ has real-analytic sample paths and, with probability one, is Morse and has pairwise distinct critical values.
+\end{proposition}
+
+\begin{proof}
+In the Fourier basis $e_m(z)=\exp(2\pi i\,m\cdot z/24)$, Poisson summation gives
+\begin{equation}\tag{1.2}\label{eq:Khat}
+\widehat K_{24}(m)=\frac{(2\pi)^{3/2}}{24^3Z_{24}}\exp\Bigl(-\frac{2\pi^2|m|^2}{24^2}\Bigr)>0,\qquad m\in\Z^3.
+\end{equation}
+Write the sample series using standard Gaussian Fourier coefficients with amplitudes $\widehat K_{24}(m)^{1/2}$. For every $R>0$,
+\[
+\sum_{m\in\Z^3}\E|\xi_m|\,\widehat K_{24}(m)^{1/2}\exp(2\pi R|m|/24)<\infty .
+\]
+Fubini therefore gives almost-sure absolute and locally uniform convergence on every complex strip $\{z\in\C^3:|\operatorname{Im}z|\le R\}$. The sample series has an entire periodic extension, so its restriction to the real torus is real analytic.
+
+If $T$ is a finite linear combination of derivative evaluations, then
+\begin{equation}\tag{1.3}\label{eq:VarT}
+\Var(Tf_{24})=\sum_{m\in\Z^3}\widehat K_{24}(m)\,|\widehat T(m)|^2 .
+\end{equation}
+Because every $\widehat K_{24}(m)$ is positive and Fourier coefficients determine distributions on the torus, this variance vanishes only when the corresponding finite derivative distribution is zero. At one point, the derivatives of the Dirac distribution indexed by distinct multi-indices are linearly independent. Hence the gradient and symmetric-Hessian coordinate vector is nondegenerate at every point. The smoothness, density and modulus conditions of \cite[Theorem~11.3.4]{AdlerTaylor} follow from the analytic covariance, this nondegeneracy and compactness, and that theorem implies that $f_{24}$ is Morse almost surely.
+
+For distinct critical values, fix $\delta>0$ and consider the compact six-dimensional configuration set
+\begin{equation}\tag{1.4}
+\mathcal T_\delta=\{(x,y)\in(\T_{24}^3)^2:\ \dist(x,y)\ge\delta\}.
+\end{equation}
+Define the seven-dimensional Gaussian field
+\begin{equation}\tag{1.5}\label{eq:H}
+\mathcal H(x,y)=\bigl(\nabla f_{24}(x),\nabla f_{24}(y),f_{24}(x)-f_{24}(y)\bigr).
+\end{equation}
+For $x\ne y$, the derivative distributions in \eqref{eq:H} are linearly independent: distributions supported at distinct points have disjoint supports, and the coefficient of $\delta_x-\delta_y$ must vanish separately from all derivative coefficients. Equation \eqref{eq:VarT} therefore makes the covariance of $\mathcal H(x,y)$ positive definite. On $\mathcal T_\delta$, compactness gives a uniform covariance eigenfloor and hence uniformly bounded one-point densities. Apply \cite[Lemma~11.2.10]{AdlerTaylor} in each member of a finite coordinate cover of $\mathcal T_\delta$. Since $\mathcal H$ is a $C^1$ field from a six-dimensional compact set to $\R^7$,
+\begin{equation}\tag{1.6}
+\Prob\{\mathcal H^{-1}(0)\cap\mathcal T_\delta\ne\varnothing\}=0 .
+\end{equation}
+Taking the countable union over $\delta=1/n$ shows that no two distinct critical points have the same value.
+\end{proof}
+
+For the superlevel filtration
+\begin{equation}\tag{1.7}
+X_a=\{x\in\T_{24}^3:\ f_{24}(x)\ge a\},
+\end{equation}
+each non-global local maximum creates an $H_0$ class and each finite class dies at a unique index-two merging saddle. If $M$ is the creating maximum and $S$ its death saddle, its lifetime is
+\begin{equation}\tag{1.8}\label{eq:lifetime}
+\ell=f_{24}(M)-f_{24}(S)>0 .
+\end{equation}
+
+\begin{proposition}[existence of the first-moment lifetime density]\label{prop:density}
+Let $M_*$ be the global maximum and let $D_f(M)$ be the elder-rule death saddle of a non-global maximum $M$. The finite measure
+\begin{equation}\tag{1.9}\label{eq:Lambda}
+\Lambda_{3,24}(A)=24^{-3}\,\E\sum_{M\ne M_*}\ind_{\{f_{24}(M)-f_{24}(D_f(M))\in A\}},\qquad A\subset(0,\infty),
+\end{equation}
+is absolutely continuous with respect to Lebesgue measure.
+\end{proposition}
+
+\begin{proof}
+Proposition~\ref{prop:generic} makes the elder pairing unambiguous almost surely. A Morse function on the compact torus has finitely many critical points, and the one-point Kac--Rice formula gives a finite expected critical-point count. Hence \eqref{eq:Lambda} is a finite measure.
+
+For $\delta>0$, restrict the ordered maximum--index-two-saddle pair process to $\dist(M,S)\ge\delta$. The elder-pair indicator is a bounded measurable mark of the finite Morse filtration (Lemma~\ref{lem:measurable}). On that compact configuration set, complete positive Fourier support makes
+\[
+\bigl(f_{24}(x),f_{24}(y),\nabla f_{24}(x),\nabla f_{24}(y)\bigr)
+\]
+nondegenerate, uniformly on that set. The two-point Kac--Rice formula, with the bounded measurable mark that the ordered pair is the elder pair, therefore expresses the expected birth--death measure as an integral against $db\,dh$. Thus the restricted measure is absolutely continuous on $\{(b,h):b>h\}$.
+
+Every distinct critical pair belongs to one of the sets $\{\dist(M,S)\ge1/n\}$. Monotone convergence over this countable cover shows that the full expected birth--death measure is absolutely continuous. Finally, if $A\subset\R$ has one-dimensional Lebesgue measure zero, then
+\begin{equation}\tag{1.10}
+\{(b,h):\ b-h\in A\}
+\end{equation}
+has two-dimensional Lebesgue measure zero by Fubini after the linear change of variables $(b,h)\mapsto(b,b-h)$. The lifetime pushforward is therefore absolutely continuous.
+\end{proof}
+
+Let $\nu_{3,24}(\ell)\,d\ell=d\Lambda_{3,24}(\ell)$. In the proof below, $\nu_{3,24}$ denotes the pointwise Kac--Rice representative of Convention~\ref{conv:density}.
