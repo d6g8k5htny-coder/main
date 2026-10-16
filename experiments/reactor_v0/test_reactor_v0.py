@@ -4,10 +4,12 @@ import json
 import os
 from fractions import Fraction
 from pathlib import Path
+import shlex
 import shutil
 import subprocess
 import sys
 import tempfile
+import textwrap
 import unittest
 
 
@@ -294,6 +296,38 @@ class ClosureAndWorkflowTests(unittest.TestCase):
         shutil.copy2(HERE / "closure.json", closure)
         return closure.parent
 
+    def _workflow_guard(self):
+        workflow = (ROOT / ".github/workflows/reactor-v0-controls.yml").read_text(
+            encoding="utf-8"
+        )
+        lines = workflow.splitlines()
+        start = next(
+            index for index, line in enumerate(lines)
+            if line.strip().startswith("python3 ") and "<<'PY'" in line
+        )
+        end = next(
+            index for index in range(start + 1, len(lines))
+            if lines[index].strip() == "PY"
+        )
+        command = shlex.split(lines[start].strip().split("<<", 1)[0])
+        command[0] = sys.executable
+        script = textwrap.dedent("\n".join(lines[start + 1:end])) + "\n"
+        return workflow, command, script
+
+    def _run_workflow_guard(self, root, base):
+        _, command, script = self._workflow_guard()
+        environment = os.environ.copy()
+        environment["BASE_SHA"] = base
+        return subprocess.run(
+            command,
+            cwd=root,
+            env=environment,
+            input=script,
+            text=True,
+            capture_output=True,
+            check=False,
+        )
+
     def test_tampered_closure_byte_is_rejected_directly_and_by_loader(self):
         from validator import load_and_validate, verify_closure
 
@@ -370,6 +404,77 @@ class ClosureAndWorkflowTests(unittest.TestCase):
             workflow.index("is_symlink()"),
             workflow.index("Base has no Reactor A freeze"),
         )
+
+    def test_workflow_guard_and_unittests_use_isolated_python(self):
+        workflow, command, _ = self._workflow_guard()
+        with tempfile.TemporaryDirectory(prefix="reactor-root-shadow-") as temporary:
+            root = Path(temporary)
+            package = self._copy_frozen_tree(root)
+            subprocess.run(["git", "init", "-q"], cwd=root, check=True)
+            subprocess.run(
+                ["git", "config", "user.name", "Reactor Test"], cwd=root, check=True
+            )
+            subprocess.run(
+                ["git", "config", "user.email", "reactor@example.invalid"],
+                cwd=root,
+                check=True,
+            )
+            subprocess.run(["git", "add", "."], cwd=root, check=True)
+            subprocess.run(["git", "commit", "-qm", "frozen base"], cwd=root, check=True)
+            base = subprocess.check_output(
+                ["git", "rev-parse", "HEAD"], cwd=root, text=True
+            ).strip()
+
+            evaluator = package / "evaluator.py"
+            evaluator.write_bytes(evaluator.read_bytes() + b"# repinned edit\n")
+            closure_file = package / "closure.json"
+            closure = json.loads(closure_file.read_text(encoding="utf-8"))
+            closure["experiments/reactor_v0/evaluator.py"] = hashlib.sha256(
+                evaluator.read_bytes()
+            ).hexdigest()
+            closure_file.write_text(
+                json.dumps(closure, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+            )
+            (root / "subprocess.py").write_text(
+                "PIPE = -1\n"
+                "DEVNULL = -3\n"
+                "class Result:\n"
+                "    returncode = 128\n"
+                "    stdout = b''\n"
+                "def run(*args, **kwargs):\n"
+                "    return Result()\n",
+                encoding="utf-8",
+            )
+            completed = self._run_workflow_guard(root, base)
+            self.assertNotEqual(
+                completed.returncode,
+                0,
+                completed.stdout + completed.stderr,
+            )
+        self.assertIn("-I", command)
+        self.assertIn(
+            "python3 -I -B -m unittest discover -s experiments/reactor_v0",
+            workflow,
+        )
+        self.assertIn(
+            "python3 -I -B -O -m unittest discover -s experiments/reactor_v0",
+            workflow,
+        )
+
+    def test_workflow_guard_fails_closed_for_invalid_base(self):
+        workflow, _, _ = self._workflow_guard()
+        with tempfile.TemporaryDirectory(prefix="reactor-invalid-base-") as temporary:
+            root = Path(temporary)
+            self._copy_frozen_tree(root)
+            subprocess.run(["git", "init", "-q"], cwd=root, check=True)
+            completed = self._run_workflow_guard(root, "0" * 40)
+            self.assertNotEqual(
+                completed.returncode,
+                0,
+                completed.stdout + completed.stderr,
+            )
+        self.assertIn('["git", "cat-file", "-e", base + "^{commit}"]', workflow)
+        self.assertIn('["git", "ls-tree", "-z", base, "--", closure_path]', workflow)
 
 
 if __name__ == "__main__":
