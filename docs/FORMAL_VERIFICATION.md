@@ -53,7 +53,7 @@ The controls include false fold and power inequalities, a `sorry` proof, an indi
 
 ## Historical standing instructions (September 2026 pilot)
 
-The following offer table is retained as the September pilot record. It is not the current claim route. Current claim route: the relevant current formal pull request or work discussion, with tasks and claims on main#275 and coordination on main#307. Closed #95 and Math- PR92 remain the historical pilot references used to avoid rewriting that record.
+The following offer table is retained as the September pilot record. It is not the current claim route. Current claim route: the relevant current formal pull request or work discussion, with tasks and claims on main#275 and coordination on main#419 (successor to main#307). Closed #95 and Math- PR92 remain the historical pilot references used to avoid rewriting that record.
 
 Use #95 and PR92 to claim work and avoid duplicate writers. The OpenAI implementation author does not supply independent review credit. Read the exact head before reviewing; changed source, scope or dependencies invalidate the prior alignment record.
 
