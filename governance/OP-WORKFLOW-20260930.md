@@ -37,6 +37,102 @@ release, or confirmed lease expiry followed by current-state reconciliation.
 Review work can proceed without taking over the writer's branch. Release a
 finished claim. An offered task becomes active only when an actual pickup occurs.
 
+For already-authorized, low-impact work with no live owner, an eligible worker
+may begin the smallest disjoint stage after reading current claims and publishing
+an actual task-local pickup naming the source, scope, exclusions, checks and a
+finite checkpoint. Availability notes, offers and shared agent labels are not
+pickups; such routine work needs no extra coordinator acknowledgement unless a
+specific task or existing rule requires one. This does not authorize an occupied
+role, private-access expansion, security-sensitive change, protected integration
+or an action stopped by a denial or unresolved finding.
+
+A coordinator may prospectively authorize a named receiver's exact bounded
+stage in the existing task discussion. Only when that record expressly permits
+pickup to activate that ordinary stage may the receiver personally accept and
+pick it up after fresh source and contention checks without another routine ACK.
+An offer or the prospective record alone permits no mutation. Unresolved prior
+custody or transfer of an occupied reservation still requires separate receiver
+acknowledgement, fresh coordinator reconciliation and explicit activation as
+described below; silence, expiry and shared identities never supply release.
+
+For an unresolved integration reservation, consult the case-specific prospective
+reassignment implemented in [#276’s amendment](https://github.com/d6g8k5htny-coder/main/pull/276#issuecomment-6038812718)
+and [activation](https://github.com/d6g8k5htny-coder/main/pull/276#issuecomment-6038906820).
+That precedent records the authority and exact future scope affected in the existing
+PR, identifies an eligible actual receiver and finite checkpoint, and activates only
+after the receiver’s personal acknowledgement and a fresh coordinator confirmation
+following reconciliation of current refs, claims, findings and reported in-flight
+work. The proposal alone permits no mutation. Preserve the predecessor’s actual
+work, attribution and own release as UNKNOWN wherever unresolved; age, silence or
+a shared alias proves neither expiry nor release. Crossed work, competing claims,
+explicit denials or unresolved findings stop the affected action for reconciliation.
+This pointer supplies no blanket reassignment, unseen-claim override, security or
+check waiver, or scientific acceptance; the existing source-preservation and
+protected-integration requirements still apply.
+
+The same steps apply whenever a session stops with any role unfinished (author
+custody, a review pickup, a planning phase or an integration reservation), including
+an owner-directed account or model switch. The successor claim reuses the existing
+task and claim identifiers, names the actual successor session or invocation, and
+is cross-linked to the predecessor's claim with the predecessor's closeout kept
+UNKNOWN until its own release is found. A successor's checkpoint keeps the handoff's
+artifact list and identities and records, per artifact, what the successor can
+actually reach: published with its identity; recoverable as verified bytes through an
+authorized route (those bytes are reused, matched by identity, not regenerated);
+unavailable to the successor (not presumed destroyed; its existence stays UNKNOWN
+until found); or unknown. Reconstruction happens only where it is necessary and
+authorized, and a reconstructed artifact or execution is a new candidate under the
+successor's provenance, never the predecessor's. Capability is observed, never
+inferred from the account or model family: an existing read-only observation or the
+least consequential relevant check comes first, an already-authorized necessary write
+establishes its own outcome, no write is made only to demonstrate capability, and a
+successful read is not evidence of write capability; the observation is restated when
+it changes. Three situations are kept apart: a technically unavailable tool or
+platform (labeled as such; retry only when restored, and say so), an explicit denial
+(stop the affected action; an owner-imposed stop is resolved only by the owner's
+recorded decision, a permission or security denial only by a supported platform
+clearance or the required handoff to the user, and an owner decision does not stand
+in for that clearance; the denied step is never routed to another executor, a new
+session is not clearance, and neither a restored tool nor an already-permitted
+alternative route is leave to evade the denial), and a lane whose usage is exhausted
+(the coordinator reassigns; closeout UNKNOWN). Each successor's personal
+acknowledgement and activation stand alone; an unidentified second successor does not
+delay the first. Retained stops are carried by name. None of this adds a register, a
+scheduler, a permission gate, a forced release or independence credit.
+
+Four checks bracket every claim, mutation and verdict:
+
+1. Before claiming, check whether the requested output has already landed on
+   the default branch; if it has, do not reselect the work.
+2. Right after claiming, and again before substantive work, reread the
+   task-local and board claims and stop on overlap. There is no fixed wait.
+   Each claim has one canonical pickup record, named in the claim; board or
+   task-local mirrors cross-link it and carry no priority of their own.
+   "Earliest created_at wins" compares canonical records only, applies only to
+   genuinely equivalent scopes, after the already-landed check; a claimant
+   withdraws only its own claim. If which record is canonical, or their order,
+   is ambiguous or tied, both actors stop the affected mutation and reconcile
+   in the existing thread; this does not reassign claims already released.
+3. Before mutating, recheck current state and use an expected-head guard. For
+   unversioned configuration such as automation prompts, use one serial writer
+   with a readback after each write.
+4. Before posting a verdict, reread the native review collection and stop if an
+   equivalent review already exists.
+
+A lease end is a checkpoint, not proof of release: an unknown predecessor goes
+through explicit reassignment, successor acknowledgement and fresh activation,
+with its closeout kept UNKNOWN. Reuse an existing collision notice where
+possible. If none exists, or it cannot reach the affected actors, post one
+source-linked warning containing materially new conflict evidence; avoid
+duplicate notices. Review
+carry-over to a new head also needs unchanged hypotheses and consumed
+dependencies, the current tested composition and checks, and the actual
+Ready-triggered review, not just matching blobs. The checklist records the
+reviewed head, the PR-reported base and the actually tested merge commit and its
+parents as separate identities, never inferred from a green badge. A resolved
+thread is UI state, not a finding disposition; AMEND history and successor
+reviews keep both identities.
+
 Maintain one short current disposition in the PR body or a linked comment:
 current head, owner, completed review scopes, unresolved finding IDs, validation
 and next action. Update it on material change; link detailed evidence instead
@@ -146,6 +242,14 @@ one completion receipt. Derived summaries link these identities. Reference
 predecessor deliveries by immutable ID/hash; copy their payloads only when needed
 for a self-contained reproducibility package. Preserve exact source bytes,
 historical failures, review scope and required original execution receipts.
+
+Before publishing or registering a delivery, apply the
+[destination-audience preflight](../docs/RELEASE_OPERATIONS.md#destination-audience-preflight).
+Verify each receiving destination separately, including the register or message
+that receives metadata. A private archive does not establish a private register.
+Check outgoing fields against that destination's current audience and existing
+authorization. An unknown or unverifiable audience pauses only the affected
+write; continue unrelated work.
 
 Freeze the inventory after inputs stabilize and verify membership and bytes.
 Use [the reusable delivery builder](../tools/research_delivery.py) with an explicit

@@ -9,7 +9,7 @@ permissions:
   contents: read
 jobs:
   public-shop:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
@@ -22,6 +22,10 @@ jobs:
         run: |
           python3 -B tools/site_asset_release.py --check
           python3 -B -m unittest tests.test_site_asset_release
+      - name: Current source and publication controls
+        run: |
+          python3 -B -S -m unittest tests.test_current_site_data tests.test_current_site_build
+          node --test tests/test_current_site.mjs
       - name: Browser data-validation controls
         run: node --test tests/test_public_shop_frontend.mjs tests/test_explore_models.mjs tests/test_curvature_export.mjs tests/test_teaching_export.mjs tests/test_pin_export.mjs tests/test_palette_export.mjs tests/test_reader_navigation.mjs tests/test_source_reference.mjs tests/test_measurement_model.mjs tests/test_dependency_viewer.mjs tests/test_museum_frontend.mjs tests/test_workspace_navigation.mjs
       - name: Reader navigation and local asset routes
@@ -55,14 +59,16 @@ jobs:
           python-version: '3.12'
       - name: Install pinned optional browser tooling
         run: |
-          python -m pip install -r tests/browser-requirements.txt
+          python -m pip install --require-hashes --only-binary=:all: -r tests/browser-requirements.txt
       - name: Check Library in headless Chromium
         env:
           BROWSER_PR_HEAD: ${{ github.event.pull_request.head.sha }}
         run: python -B tools/public_shop_browser_check.py --output browser-evidence
+      - name: Current mathematical atlas and static reading parity
+        run: python -B tools/current_site_browser_check.py --output browser-evidence/current-atlas
       - name: Preserve browser results including failures
         if: always()
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
         with:
           name: public-shop-browser-${{ github.run_id }}
           path: browser-evidence

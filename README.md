@@ -20,13 +20,14 @@ The interactive models teach defined examples. Results retain the hypotheses and
 
 ## Read more deeply
 
-- [Research status snapshot](STATUS.md) (29 September 2026) — precise claims, open questions, and recorded reviews.
-- [Full mathematics](docs/PUBLIC_MATHEMATICS.md) and [research guide](docs/RESEARCH_INDEX.md) — topic-by-topic reading.
-- [Proof index in Math-](https://github.com/d6g8k5htny-coder/Math-/blob/main/PROOF_INDEX.md) — a selected, dated index of published proof texts and scoped reviews; later work is in [merged Math- pull requests](https://github.com/d6g8k5htny-coder/Math-/pulls?q=is%3Apr+is%3Amerged).
+- [Research guide](docs/RESEARCH_INDEX.md) — start with the topic-by-topic route to sources, review records, successor results and remaining work.
+- [Full mathematics](docs/PUBLIC_MATHEMATICS.md) — public proof texts, repaired reading contracts and exact-source provenance.
+- [Research status snapshot](STATUS.md) — claims and reviews recorded on 29 September 2026; its source date is preserved, so use the guide for the current reading route.
+- [Proof index in Math-](https://github.com/d6g8k5htny-coder/Math-/blob/main/PROOF_INDEX.md) — selected 26–29 September coverage with scoped later reading guidance. The [October reachability supplement](https://github.com/d6g8k5htny-coder/Math-/blob/79cb314d5b9f6b8b410bfd0df200414314f6b8c7/docs/integration/2026-10-02-proof-reachability.md) records availability through its 3 October cut, not current acceptance; the guide links later work by source and scope.
 - [Source records and historical exhibits](https://d6g8k5htny-coder.github.io/main/site/museum.html) — fixed snapshots with traceable evidence.
 - [Formal verification](docs/FORMAL_VERIFICATION.md) — what the Lean checks establish and what remains outside them.
 
-The public display and the current proof repository may use different source dates. Each technical view names its snapshot; historical labels are not silently updated into new acceptance. The [public source inventory](docs/public-math/sources.json) preserves 2,138 frozen file identities, not a theorem count.
+The public display and the current proof repository may use different source dates. Each technical view names its snapshot; source dates and review labels retain their stated scope, and newer reading routes do not transfer acceptance. The [public source inventory](docs/public-math/sources.json) preserves 2,138 frozen file identities, not a theorem count.
 
 <details>
 <summary><strong>For researchers and contributors</strong></summary>
@@ -40,7 +41,7 @@ The [research workspace](https://d6g8k5htny-coder.github.io/main/site/workspace.
 | [query-](https://github.com/d6g8k5htny-coder/query-) | Read-only exact-source lookup |
 | [Universal-Law-Workspace](https://github.com/d6g8k5htny-coder/Universal-Law-Workspace) | Repository map |
 
-[Reproduction guide](docs/REPRODUCE.md) · [Agent entry](AGENTS.md) · [Current workflow](governance/OP-WORKFLOW-20260930.md) · [Active coordination board, main #307](https://github.com/d6g8k5htny-coder/main/issues/307) · [Historical #229 working guidance](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6038554880) · [Tasks and claims, main #275](https://github.com/d6g8k5htny-coder/main/issues/275)
+[Reproduction guide](docs/REPRODUCE.md) · [Agent entry](AGENTS.md) · [Current workflow](governance/OP-WORKFLOW-20260930.md) · [Active coordination board, main #419](https://github.com/d6g8k5htny-coder/main/issues/419) · [Prior board #307 (history)](https://github.com/d6g8k5htny-coder/main/issues/307) · [Historical #229 working guidance](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6038554880) · [Tasks and claims, main #275](https://github.com/d6g8k5htny-coder/main/issues/275)
 
 </details>
 

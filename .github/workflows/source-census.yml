@@ -23,5 +23,8 @@ jobs:
         env:
           PYTHONDONTWRITEBYTECODE: '1'
         run: |
-          python -B -S -m unittest discover -s tools/source_census_20260927 -p 'test_*.py' -v
-          python -B -O -S -m unittest discover -s tools/source_census_20260927 -p 'test_*.py' -v
+          set -euo pipefail
+          python -B -S -m unittest discover -s tools/source_census_20260927 -p 'test_*.py' -v 2>&1 | tee "$RUNNER_TEMP/source-census-normal.log"
+          grep -Eq '^Ran [1-9][0-9]* tests? in ' "$RUNNER_TEMP/source-census-normal.log" || { echo "::error::source-census normal discovery collected 0 tests or returned no count"; exit 1; }
+          python -B -O -S -m unittest discover -s tools/source_census_20260927 -p 'test_*.py' -v 2>&1 | tee "$RUNNER_TEMP/source-census-optimized.log"
+          grep -Eq '^Ran [1-9][0-9]* tests? in ' "$RUNNER_TEMP/source-census-optimized.log" || { echo "::error::source-census optimized discovery collected 0 tests or returned no count"; exit 1; }

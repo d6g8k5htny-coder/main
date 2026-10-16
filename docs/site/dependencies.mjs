@@ -12,7 +12,7 @@ import {
   recordedContextRows,
   recordedReviewText,
   unresolvedTargets,
-} from './dependency-model.mjs?site-release=350a06d94c011d71db39930e9df63991077101c561c921594d51c0d45f437174';
+} from './dependency-model.mjs?site-release=4764cf2cfa0123b97aca3ec6ff8a1aba79e9ad1b5506d8616775b59c20e65ebc';
 
 const byId = id => document.getElementById(id);
 
@@ -268,7 +268,9 @@ function run({ index, provenance }) {
     button.type = 'button';
     button.addEventListener('click', () => choose(target.id));
     content.append(button, element('small', { text: `${target.classification} · ${target.layer} · ${target.kind} · ${recordedReviewText(target)}` }));
-    const impact = element('span', { className: 'impact', text: `${target.impact} downstream` });
+    const impact = element('span', { className: 'impact' });
+    // A no-break space keeps each count beside its label when the badge wraps.
+    impact.append(element('span', { text: `All-edge reach (includes context)\u00a0${target.impact}` }), ' · ', element('span', { text: `Required-dependency reach\u00a0${target.requiredImpact}` }));
     item.append(content, impact);
     targetRoot.append(item);
   }

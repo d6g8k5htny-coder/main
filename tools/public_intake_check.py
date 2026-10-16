@@ -3,6 +3,7 @@
 No submitted file is checked out, imported, rendered, or executed. The limited
 credential-pattern scan is not a guarantee that a submission contains no secret.
 A pass means packaging checks passed; scientific effect remains NONE.
+A merged-before-check run did not verify the package: it exits 78, not 0.
 """
 from __future__ import annotations
 
@@ -15,6 +16,7 @@ import os
 from pathlib import Path, PurePosixPath
 import re
 import struct
+import urllib.error
 import urllib.request
 import zlib
 
@@ -29,6 +31,9 @@ PNG_SIGNATURE = b'\x89PNG\r\n\x1a\n'
 MAX_PNG_SIDE = 16384
 MAX_PNG_PIXELS = 1 << 24
 HEX40 = re.compile(r'[0-9a-f]{40}\Z')
+# Distinct from rejection (1). Nonzero so the required public-intake job cannot succeed.
+EXIT_NOT_EVALUATED = 78
+NOT_EVALUATED_CHECK_NAME = 'public-intake (not evaluated: merged before check)'
 HEX64 = re.compile(r'[0-9a-f]{64}\Z')
 REPOSITORY = re.compile(r'[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+\Z')
 SAFE_PATH = re.compile(r'[A-Za-z0-9_][A-Za-z0-9_. /-]*\Z')
@@ -202,7 +207,16 @@ def tree(api, repo, ref):
 def ancestor_of_branch(api, repo, branch, commit):
     if not (isinstance(branch, str) and BRANCH.fullmatch(branch) and '..' not in branch):
         return False  # a name this route cannot carry safely never vouches for a source
-    data = api.get(f'/repos/{repo}/compare/{branch}...{commit}?per_page=1')
+    try:
+        data = api.get(f'/repos/{repo}/compare/{branch}...{commit}?per_page=1')
+    except urllib.error.HTTPError as error:
+        # GitHub answers 404 "No common ancestor" for a branch with unrelated history
+        # (an orphan branch), and 404 for a branch deleted between listing and compare.
+        # Either way that branch does not vouch; keep scanning. Any other status is
+        # not evidence either way and still rejects.
+        if error.code == 404:
+            return False
+        raise
     if not (isinstance(data, dict) and isinstance(data.get('merge_base_commit'), dict)):
         return False  # any other shape is not evidence of reachability
     return (type(data.get('ahead_by')) is int and data['ahead_by'] == 0 and data.get('status') in ('behind', 'identical')
@@ -330,6 +344,11 @@ def verify_package(api, repo, head, base, rows):
     sources = identity['sources']
     require(isinstance(sources, list) and 1 <= len(sources) <= 8, 'one to eight pinned sources required')
     seen_sources = set()
+    # Several sources may pin the same commit. Its reachability scan (up to one compare per
+    # listed branch) and its recursive tree are the same for each of them, so each is fetched
+    # once per (repository, commit) within this run. The key includes the commit, so one
+    # commit's answer is never reused for another.
+    reachability, source_trees = {}, {}
     for row in sources:
         require(isinstance(row, dict) and set(row) == {'repository', 'path', 'commit', 'sha256'}, 'invalid source record')
         source_repo = row['repository']
@@ -345,11 +364,14 @@ def verify_package(api, repo, head, base, rows):
         require(isinstance(metadata, dict) and metadata.get('private') is False and metadata.get('full_name') == source_repo, 'source is not verified public')
         commit_record = api.get(f'/repos/{source_repo}/git/commits/{commit}')
         require(isinstance(commit_record, dict) and commit_record.get('sha') == commit, 'source is not an exact commit')
-        require(reachable(api, source_repo, commit, metadata.get('default_branch')),
-                'source commit is not reachable from any branch of the public repository')
+        if (source_repo, commit) not in reachability:
+            reachability[(source_repo, commit)] = reachable(api, source_repo, commit, metadata.get('default_branch'))
+        require(reachability[(source_repo, commit)], 'source commit is not reachable from any branch of the public repository')
         # The contents endpoint follows in-repository symlinks. Resolve the
         # exact path from the commit tree instead, then read that exact blob.
-        source_tree = tree(api, source_repo, commit)
+        if (source_repo, commit) not in source_trees:
+            source_trees[(source_repo, commit)] = tree(api, source_repo, commit)
+        source_tree = source_trees[(source_repo, commit)]
         source_entry = source_tree.get(path)
         require(isinstance(source_entry, dict) and source_entry.get('type') == 'blob'
                 and source_entry.get('mode') == '100644', 'source must be a regular non-executable public file')
@@ -367,6 +389,18 @@ def check(event, api, repository):
     number = integer(event.get('number'), 1, 10000000, 'invalid PR number')
     pr = api.get(f'/repos/{repository}/pulls/{number}')
     require(pr.get('number') == number, 'PR number mismatch')
+    event_pr = event.get('pull_request')
+    if (isinstance(pr, dict) and pr.get('state') == 'closed' and pr.get('merged') is True
+            and isinstance(event_pr, dict) and isinstance(event_pr.get('head'), dict)
+            and isinstance(pr.get('head'), dict) and event_pr['head'].get('sha') == pr['head'].get('sha')
+            and isinstance(event_pr['head'].get('sha'), str) and HEX40.fullmatch(event_pr['head']['sha'])):
+        # Queued while the PR was open, executed after the merge. Package verification
+        # did not run. This does not prove an earlier successful intake of this head.
+        # main() returns EXIT_NOT_EVALUATED so the required job cannot record success.
+        # A closed but unmerged (reopenable) PR, or a head that differs from the event,
+        # still rejects.
+        return {'head': pr['head']['sha'], 'scientific_effect': 'NONE', 'lane': 'not-evaluated',
+                'result': 'SKIPPED_MERGED_BEFORE_CHECK'}
     original = snapshot(pr, repository)
     head, base, head_repo, labels, count = original
     event_pr = event.get('pull_request')
@@ -383,15 +417,71 @@ def check(event, api, repository):
     return result
 
 
+def not_evaluated_check_body(head_sha):
+    """Neutral Checks API body. Not a successful public-intake result."""
+    sha40(head_sha, 'invalid head sha')
+    require(NOT_EVALUATED_CHECK_NAME != 'public-intake', 'neutral check must not reuse the required check name')
+    body = {
+        'name': NOT_EVALUATED_CHECK_NAME,
+        'head_sha': head_sha,
+        'status': 'completed',
+        'conclusion': 'neutral',
+        'output': {
+            'title': 'not evaluated: merged before check',
+            'summary': 'The pull request merged before public-intake verified the package. '
+                       'Nothing was evaluated. This is not a successful intake result.',
+        },
+    }
+    require(body['conclusion'] == 'neutral', 'not-evaluated check must stay neutral')
+    return body
+
+
+def publish_not_evaluated_check(repository, head_sha, token, opener=None):
+    """POST one neutral check run. Refuses any recorded conclusion other than neutral."""
+    require(repository == 'd6g8k5htny-coder/main', 'wrong repository')
+    require(isinstance(token, str) and token, 'read-only GitHub token missing')
+    body = not_evaluated_check_body(head_sha)
+    request = urllib.request.Request(
+        'https://api.github.com/repos/' + repository + '/check-runs',
+        data=json.dumps(body).encode(), method='POST', headers={
+            'Authorization': 'Bearer ' + token, 'Accept': 'application/vnd.github+json',
+            'Content-Type': 'application/json', 'X-GitHub-Api-Version': '2022-11-28',
+            'User-Agent': 'public-intake-not-evaluated'})
+    if opener is None:
+        opener = urllib.request.build_opener(NoRedirect())
+    with opener.open(request, timeout=30) as response:
+        raw = response.read(MAX_RESPONSE_BYTES + 1)
+    require(len(raw) <= MAX_RESPONSE_BYTES, 'API response exceeds safe limit')
+    recorded = strict_json(raw)
+    require(isinstance(recorded, dict) and recorded.get('conclusion') == 'neutral', 'API did not record neutral')
+    require(recorded.get('name') == NOT_EVALUATED_CHECK_NAME, 'API check name mismatch')
+    return recorded
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--event', type=Path, default=Path(os.environ.get('GITHUB_EVENT_PATH', '/nonexistent-event')))
+    parser.add_argument('--publish-not-evaluated-check', action='store_true')
     args = parser.parse_args(argv)
+    if args.publish_not_evaluated_check:
+        # Exit 0 here means only that the neutral check was recorded. The workflow
+        # still exits EXIT_NOT_EVALUATED, so the required job does not succeed.
+        try:
+            recorded = publish_not_evaluated_check(
+                os.environ.get('GITHUB_REPOSITORY', ''), os.environ.get('PR_HEAD_SHA', ''), os.environ.get('GH_TOKEN', ''))
+            print(json.dumps({'conclusion': recorded.get('conclusion'), 'name': recorded.get('name'),
+                              'result': 'NOT_EVALUATED_RECORDED'}, sort_keys=True))
+            return 0
+        except (ValueError, OSError, TypeError, KeyError, UnicodeError, RecursionError) as error:
+            print(json.dumps({'reason': str(error), 'result': 'NOT_EVALUATED_CHECK_UNPUBLISHED', 'scientific_effect': 'NONE'}))
+            return 1
     try:
         require(os.environ.get('GITHUB_EVENT_NAME') == 'pull_request_target', 'CI requires trusted pull_request_target context')
         event = strict_json(args.event.read_bytes())
         result = check(event, API(os.environ.get('GH_TOKEN', '')), os.environ.get('GITHUB_REPOSITORY', ''))
         print(json.dumps(result, sort_keys=True))
+        if result.get('result') == 'SKIPPED_MERGED_BEFORE_CHECK':
+            return EXIT_NOT_EVALUATED
         return 0
     except (ValueError, OSError, TypeError, KeyError, UnicodeError, RecursionError) as error:
         # Never print response bodies, submitted file contents, or credentials.

@@ -84,6 +84,11 @@ hash, new `--run-lean` receipt) or fix the anchor, then re-review.
 All 31 targets: authored by Anthropic / Claude via a Cursor cloud agent on
 2026-09-27; `proved` at source; `kernel-checked` only in the receipt of a
 trusted run; alignment `PENDING_INDEPENDENT_REVIEW`. No record other than the
-template exists. Record actual pickup in
-[work item #95](https://github.com/d6g8k5htny-coder/main/issues/95) so two
-reviewers do not duplicate the work.
+template exists. Record actual pickup in the relevant current pull request or work
+discussion under the [current workflow](../governance/OP-WORKFLOW-20260930.md) so two
+reviewers do not duplicate the work. Find current tasks in
+[main #275](https://github.com/d6g8k5htny-coder/main/issues/275) and coordinate with other contributors on
+[main #307](https://github.com/d6g8k5htny-coder/main/issues/307).
+Closed
+[work item #95](https://github.com/d6g8k5htny-coder/main/issues/95) remains the
+historical formal-ladder work item.

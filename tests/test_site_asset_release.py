@@ -175,7 +175,9 @@ class AssetRelease(unittest.TestCase):
 
     def test_inventory_has_explicit_posix_order_and_two_root_order(self):
         with TemporaryDirectory() as tmp:
-            root = Path(tmp); site = self.fixture(root)
+            # Inventory returns the Git toplevel after resolve(); macOS temp
+            # aliases such as /var -> /private/var must not be compared raw.
+            root = Path(tmp).resolve(); site = self.fixture(root)
             (site/'a_dir').mkdir(); (site/'a_dir'/'z.json').write_text('{}')
             (site/'a_file.json').write_text('{}')
             catalog = root/'public-math'; catalog.mkdir()
@@ -185,6 +187,57 @@ class AssetRelease(unittest.TestCase):
             wanted = sorted([p for p in names if p.startswith('site/')])
             wanted += ['public-math/catalog.json']
             self.assertEqual(names, wanted)
+
+    def test_alias_root_inventory_compares_against_canonical_paths(self):
+        """A symlink temp alias must not be treated as the inventory root.
+
+        This is the macOS /var versus /private/var failure mode: Git and
+        inventory return the canonical toplevel, so membership and relative
+        ordering are checked against that path. The unresolved alias remains
+        the negative control and must still raise.
+        """
+        with TemporaryDirectory() as tmp:
+            base = Path(tmp).resolve()
+            canonical = base / 'canonical'
+            canonical.mkdir()
+            alias = base / 'alias'
+            alias.symlink_to(canonical, target_is_directory=True)
+            site = self.fixture(alias)
+            (site / 'a_dir').mkdir()
+            (site / 'a_dir' / 'z.json').write_text('{}')
+            (site / 'a_file.json').write_text('{}')
+            catalog = alias / 'public-math'
+            catalog.mkdir()
+            (catalog / 'catalog.json').write_text('{}')
+            self.stage(alias)
+            inventory = asset_release.inventory(site)
+            self.assertTrue(alias.is_symlink())
+            self.assertNotEqual(alias, canonical)
+            with self.assertRaises(ValueError):
+                inventory[0].relative_to(alias)
+            self.assertNotIn(alias / 'public-math' / 'catalog.json', inventory)
+            names = [path.relative_to(canonical).as_posix() for path in inventory]
+            wanted = sorted(path for path in names if path.startswith('site/'))
+            wanted += ['public-math/catalog.json']
+            self.assertEqual(names, wanted)
+            self.assertIn(canonical / 'public-math' / 'catalog.json', inventory)
+            self.assertTrue(all(path.is_relative_to(canonical / 'site') or path == canonical / 'public-math' / 'catalog.json' for path in inventory))
+            result = self.run_tool(site)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            self.assertEqual(self.run_tool(site, '--check').returncode, 0)
+            # Canonical root, same comparisons, must also pass.
+            with TemporaryDirectory() as direct:
+                direct_root = Path(direct).resolve()
+                direct_site = self.fixture(direct_root)
+                direct_catalog = direct_root / 'public-math'
+                direct_catalog.mkdir()
+                (direct_catalog / 'catalog.json').write_text('{}')
+                self.stage(direct_root)
+                direct_inventory = asset_release.inventory(direct_site)
+                self.assertIn(direct_catalog / 'catalog.json', direct_inventory)
+                self.assertEqual(
+                    direct_inventory[0].relative_to(direct_root).as_posix().split('/', 1)[0],
+                    'site')
 
     def catalog_fixture(self, root):
         site = self.fixture(root)
@@ -231,7 +284,7 @@ class AssetRelease(unittest.TestCase):
 
     def test_staged_catalog_removal_is_valid_and_changes_release(self):
         with TemporaryDirectory() as tmp:
-            root = Path(tmp); site, catalog = self.catalog_fixture(root)
+            root = Path(tmp).resolve(); site, catalog = self.catalog_fixture(root)
             first = self.run_tool(site)
             self.assertEqual(first.returncode, 0, first.stderr)
             self.assertIn(catalog/'catalog.json', asset_release.inventory(site))

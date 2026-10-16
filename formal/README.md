@@ -2,9 +2,11 @@
 
 Scientific effect: **NONE**. This directory is the second package in the
 repository's formal-verification lane. The lane's contract is the
-[formal-verification guide](../docs/FORMAL_VERIFICATION.md); the lane is
-coordinated in [work item #95](https://github.com/d6g8k5htny-coder/main/issues/95);
-the first package is the
+[formal-verification guide](../docs/FORMAL_VERIFICATION.md); new work is claimed in
+the relevant current pull request or work discussion under the
+[current workflow](../governance/OP-WORKFLOW-20260930.md).
+Closed [work item #95](https://github.com/d6g8k5htny-coder/main/issues/95) is the
+historical formal-ladder work item; the first package is the
 [Math- pilot](https://github.com/d6g8k5htny-coder/Math-/tree/cc2989c1280f4f227d0c6aa30c8841d6ba01e46e/formal)
 (13 GP-FOR-192 scalar companions, Lean 4 + Mathlib). This package follows the same
 manifest, status, gate and alignment contract and adds nothing to the
@@ -18,7 +20,7 @@ cover is listed target by target in [SCOPE.md](SCOPE.md): not the coefficient
 bound `0.07340691930603427103 < c_{2,24} < 0.07340691930603427104`, not the
 definition of the coefficient, not any Gaussian, Kac–Rice, cone-integral,
 Stirling or interval-arithmetic step, not `coefficient.py`. Relative to the
-guide's work-offer table this is the **first step only** of the "Numerical
+guide's historical work-offer table this is the **first step only** of the "Numerical
 formalizer" offer; the exact coefficient definition and the proof-producing
 enclosure pipeline are not supplied.
 
@@ -115,14 +117,21 @@ tree. See the rollout record for the coordination items.
 
 ## Coordination
 
+Find current tasks in [main #275](https://github.com/d6g8k5htny-coder/main/issues/275) and coordinate with
+other contributors on [main #307](https://github.com/d6g8k5htny-coder/main/issues/307).
+The pickup itself belongs in the relevant current pull request or work discussion.
+
 - [docs/FORMAL_VERIFICATION.md](../docs/FORMAL_VERIFICATION.md) — lane contract
-  and work offers.
+  and the historical work-offer table, not current assignments.
 - [docs/FORMAL_VERIFICATION_ROLLOUT_20260927.md](../docs/FORMAL_VERIFICATION_ROLLOUT_20260927.md)
   — what this package adds, how it converged onto the Math- contract, what is
   asked of other repositories and agents, and this session's capability limits.
-- [Work item #95](https://github.com/d6g8k5htny-coder/main/issues/95) — record
-  actual pickup of alignment review or of the remaining "Numerical formalizer"
-  steps there.
+  This dated record preserves the original rollout; its pickup routing is
+  superseded by the current workflow linked below.
+- [Work item #95](https://github.com/d6g8k5htny-coder/main/issues/95) — historical
+  formal-ladder work item. Record actual pickup of alignment review or of the remaining
+  "Numerical formalizer" steps in the relevant current pull request or work
+  discussion under the [current workflow](../governance/OP-WORKFLOW-20260930.md).
 
 ## What this package does not do
 

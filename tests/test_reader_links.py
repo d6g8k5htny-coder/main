@@ -1,5 +1,6 @@
 """Actual public HTML route checks, including deep links after the home split."""
 from html.parser import HTMLParser
+import html
 import json
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
@@ -50,7 +51,7 @@ class PublicRoutes(unittest.TestCase):
         self.assertEqual(href,f"https://github.com/{config['proof']['repository']}/blob/{config['proof']['commit']}/{config['proof']['path']}")
         for pinned in ('blob/f2e432ea5c86742e480c66624775bc9103343314/STATUS.md','blob/9d7b6802424fb4715b31999066aafca8ee2f3cca/coefficients/side24_v1/ENCLOSURE.json','tree/f2e432ea5c86742e480c66624775bc9103343314/docs/public-math'):
             self.assertIn(pinned,page.split('<noscript>',1)[1] if pinned.startswith('blob/f2e') else page)
-        self.assertEqual(page.count('<noscript>'),3)
+        self.assertEqual(page.count('<noscript>'),4)
 
     def test_remaining_teaching_exports_keep_readable_static_limits_and_disabled_actions(self):
         text=(SITE/'explore.html').read_text()
@@ -93,7 +94,7 @@ class PublicRoutes(unittest.TestCase):
         self.assertIn('9d7b6802424fb4715b31999066aafca8ee2f3cca/coefficients/side24_v1/PROOF.md#1-a-nonperiodic-reference-coefficient-with-exact-cone-moments',text)
 
     def test_all_local_html_links_assets_and_fragments_resolve(self):
-        pages={path:Page(path.read_text()) for path in SITE.glob('*.html')}
+        pages={path:Page(path.read_text()) for path in SITE.rglob('*.html')}
         # These exact claim IDs are rendered only after museum source verification.
         # The actual rendering and deferred fragment navigation are tested separately.
         dynamic={SITE/'museum.html': [c['id'] for c in json.loads((SITE/'museum.json').read_text())['claims']]}
@@ -110,7 +111,7 @@ class PublicRoutes(unittest.TestCase):
                     if u.fragment and target.suffix=='.html':
                         self.assertIn(unquote(u.fragment),pages[target].ids + dynamic.get(target, []),f'{path.name}: {link}')
     def test_consistent_navigation_and_accessible_entry(self):
-        expected=['index.html','explore.html','research.html','workspace.html#inventory']
+        expected=['index.html','explore.html','research.html','workspace.html#inventory','dependencies.html#current-atlas']
         for name in ('index','explore','research','museum','formal','workspace','reproduce','cite','measure','dependencies'):
             text=(SITE/f'{name}.html').read_text(); page=Page(text)
             # Workspace's local inventory anchor is the same destination.
@@ -450,6 +451,19 @@ class FormalCoverage(unittest.TestCase):
         self.assertIn('Scientific effect: NONE',text)
         self.assertNotIn('<script',text)
 
+    def test_since_section_dates_specifications_read_and_keeps_its_boundary(self):
+        text = (SITE/'formal.html').read_text()
+        sec = text.split('<section id="formal-since"',1)[1].split('</section>',1)[0]
+        pin = 'b45512e95179f83284f40d3cd081d28968c3e01a'
+        self.assertIn('As read on 12 October 2026 at Math- <code>b45512e</code>',sec)
+        for path in ('lean_statements_20261010','lean_statement_proofs_20261011'):
+            self.assertIn(f'/Math-/blob/{pin}/specifications/{path}/README.md',sec)
+        self.assertIn('whose inventoried theorems are each typed as one of the registered statements',sec)
+        self.assertIn('evidence about its Lean statement only',sec)
+        self.assertIn('does not establish the parent theorems and carries zero organizational-independence credit',sec)
+        self.assertIn('alignment of each statement to its mathematical source is pending independent review',sec)
+        self.assertIn('https://github.com/d6g8k5htny-coder/Math-/tree/main/specifications',sec)
+
 class ReproductionGuide(unittest.TestCase):
     def test_technical_guide_keeps_exact_pins_and_rejects_substitution(self):
         sys.path.insert(0,str(ROOT/'tools'))
@@ -476,12 +490,12 @@ class LatestPublicWork(unittest.TestCase):
         return text.split('id="latest-work"',1)[1].split('<section id="lifetimes"',1)[0]
 
     def test_latest_work_is_reachable_without_javascript(self):
-        for name,fragment in (('index','reading-cut-20261007'),('workspace','reading-cut-20261007'),('formal','cap-on-torus')):
+        for name,fragment in (('index','reading-cut-20261010'),('workspace','reading-cut-20261010'),('formal','cap-on-torus')):
             page=(SITE/f'{name}.html').read_text()
             self.assertIn(f'href="research.html#{fragment}"',page)
             if name in ('index','workspace'):
                 # the dated sibling beside the entry link must name the newest cut's timestamp
-                self.assertIn('datetime="2026-10-07T18:37:14Z"',page)
+                self.assertIn('datetime="2026-10-10T20:24:00Z"',page)
         section=self.section()
         self.assertIn('Latest public work',section)
         self.assertIn('datetime="2026-10-03T18:00:00Z"',section)
@@ -632,10 +646,41 @@ OCT7_PINS = {
     MATH_PREFIX+'blob/34618d0d032f4361c1ec163f3b4cfd6ad01ab814/reviews/retrofit_20261006/CONTRACT.md': '7a1d03fcc1f87342e848126c02c674f78e4342bd827e974203195078ee248cba',
 }
 EXPECTED_READING_URLS += list(OCT7_PINS)
+# 9 October cut: every link is pinned at main 0be54aa2 (main #329), where the cut was checked.
+# The program, PROOF.md and REVIEW.md have the same bytes there as at 2c84170712c5 (main #326,
+# where the proof landed); the suite guide changed in #329 and is pinned at its 0be54aa2 bytes.
+OCTNEW_REF = '0be54aa227d7015b0abda00feb5e847a3fbdbcdb'
+OCTNEW_PREFIX = MAIN_PREFIX+'blob/'+OCTNEW_REF+'/'
+OCTNEW_FACE_PINS = [OCTNEW_PREFIX+'experiments/universality/finite_h0_lifetime/PROOF.md']
+OCTNEW_PINS = {
+    OCTNEW_PREFIX+'docs/PERSISTENCE_UNIVERSALITY_PROGRAM.md': '18fb926d3474e9c02a7b5d957278514558fabedd45685f5d2027996744a08ef9',
+    OCTNEW_PREFIX+'experiments/universality/README.md': 'd592cba372a731266ebe030f9b7daa526d5cdde8fab4420870b82d7941416e5d',
+    OCTNEW_PREFIX+'experiments/universality/finite_h0_lifetime/PROOF.md': '5ea91111fa5f3d78d7c4188ebe84b3bc2c452b05dfdfc62c74b03123cb2696d1',
+    OCTNEW_PREFIX+'experiments/universality/finite_h0_lifetime/REVIEW.md': '81f0067dd3bd768c3db2c3c6e1a35d60b07a2ffe98fa6cafe6e48b5dc6021c75',
+}
+EXPECTED_READING_URLS += OCTNEW_FACE_PINS + list(OCTNEW_PINS)
+# 10 October cut: every link is pinned at main 0be54aa2 (main #329), where the three sources landed; they have the
+# same bytes at 6e11abfb1dc4e424e5b17d0c957157ee7389cf8a, where the cut was checked. The suite guide repeats the
+# 9 October pin (same URL and digest), so it is counted twice; each PROOF.md is counted on its card face and in the disclosure.
+OCT10_REF = OCTNEW_REF
+OCT10_PREFIX = MAIN_PREFIX+'blob/'+OCT10_REF+'/experiments/universality/'
+OCT10_FACE_PINS = [OCT10_PREFIX+d+'/PROOF.md' for d in ('fold_structural_universality','periodized_gaussian_h0','iid_short_bar_process')]
+OCT10_PINS = {
+    OCT10_PREFIX+'fold_structural_universality/PROOF.md': '3d952a906553d578876456539a8f0dcd64aedd45099e8394cbe9db99866ec531',
+    OCT10_PREFIX+'fold_structural_universality/REVIEW.md': '81f4908c7f904079f416e7bc38f8ef936079ab6049e6b65cbbfcfc3104ae4e4b',
+    OCT10_PREFIX+'periodized_gaussian_h0/PROOF.md': 'c8bd489ca3fbb3760f7b2d53e7385131ac5336c51ba983e00e4d540fe2f00aaa',
+    OCT10_PREFIX+'periodized_gaussian_h0/REVIEW.md': 'e3bb8751fbdaf0db075342a31dd208c1300c6e93a1c3c8a7c3b255860442551b',
+    OCT10_PREFIX+'iid_short_bar_process/PROOF.md': '320bc988c468bea4938bb777a2d05952c6ab8e0a384f33725b50de847aeec1eb',
+    OCT10_PREFIX+'iid_short_bar_process/REVIEW.md': 'b7ce509af57b1bdc999813927ee39a4fe12d52fe2c9669e249dddfa30ea3144f',
+    OCT10_PREFIX+'README.md': 'd592cba372a731266ebe030f9b7daa526d5cdde8fab4420870b82d7941416e5d',
+}
+EXPECTED_READING_URLS += OCT10_FACE_PINS + list(OCT10_PINS)
 EXPECTED_HASH_BINDINGS=[(MATH_PREFIX+'tree/'+MATH_REF+'/frontiers/'+name+'_20261002',digest) for name,digest in PROOF_IDENTITIES.items()]
 EXPECTED_HASH_BINDINGS += [(C124_PREFIX+path,digest) for path,digest in C124_SOURCE_IDENTITIES.items()]
 EXPECTED_HASH_BINDINGS += list(SHRINKING_BIN_PINS.items())
 EXPECTED_HASH_BINDINGS += list(OCT7_PINS.items())
+EXPECTED_HASH_BINDINGS += list(OCTNEW_PINS.items())
+EXPECTED_HASH_BINDINGS += list(OCT10_PINS.items())
 
 def validate_reading_pins(text):
     parsed=PinnedReadingLinks(text)
@@ -656,7 +701,7 @@ def validate_reading_pins(text):
 
 class LatestSourceControls(unittest.TestCase):
     def test_pinned_citations_are_exact_and_hashes_retain_the_checked_identity(self):
-        self.assertEqual(len(validate_reading_pins((SITE/'research.html').read_text())),40)
+        self.assertEqual(len(validate_reading_pins((SITE/'research.html').read_text())),45+len(OCT10_FACE_PINS)+len(OCT10_PINS))
 
     def test_sampling_sources_reject_mutable_paths_duplicates_and_unbound_hashes(self):
         original=(SITE/'research.html').read_text()
@@ -732,7 +777,7 @@ class ShrinkingBinReading(unittest.TestCase):
 
     def test_static_entry_and_disclosure_keep_exact_sample_and_spectral_scopes_separate(self):
         text=(SITE/'research.html').read_text();section=self.section()
-        self.assertIn('href="#reading-cut-20261007">Latest public work',text)
+        self.assertIn('href="#reading-cut-20261010">Latest public work',text)
         self.assertIn('href="#shrinking-bin-sampling">06:20 UTC grid-sampling reading cut below',text)
         self.assertIn('tabindex="-1" aria-labelledby="sampling-heading"',section)
         self.assertIn('datetime="2026-10-04T06:20:32Z"',section)
@@ -768,16 +813,31 @@ class ShrinkingBinReading(unittest.TestCase):
 
     def test_preceding_reading_cuts_remain_byte_identical(self):
         text=(SITE/'research.html').read_text()
+        # The 9 October cut stopped being newest on 10 October; it is pinned whole.
+        oct9=text[text.index('<section id="reading-cut-20261009"'):text.index('<section id="reading-cut-20261007"')]
+        self.assertEqual(sha256(oct9.encode()).hexdigest(),
+                         '173b2d3a95777fff4830c6d2fa9b75f6676ffc5d93550f92e1183c54940ab7ed')
+        # The 7 October cut stopped being newest on 9 October; it is pinned whole, its cut-pointer included.
+        october=text[text.index('<section id="reading-cut-20261007"'):text.index('<section id="shrinking-bin-sampling"')]
+        self.assertEqual(sha256(october.encode()).hexdigest(),
+                         'ba7094b93c93598321958dc72ea5967c360b5e03a2d273f0b23f4db684668eb8')
         sampling=text[text.index('<section id="shrinking-bin-sampling"'):text.index('<section id="pair-endpoint-rate"')]
         self.assertEqual(sha256(sampling.encode()).hexdigest(),
                          '6787bf96f0bbb12c5d465d05e4829bf3dbc628629cedd0d3dcb82fdd37ea47c0')
         cuts=text[text.index('<section id="pair-endpoint-rate"'):text.index('<section id="lifetimes"')]
-        # Only labeled lineage notes (two U1 reviewer notes, two source-identity notes) are additive inside the dated cuts; every original byte stays pinned.
+        # Only labeled lineage notes (two U1 reviewer notes, two source-identity notes) are additive inside the dated cuts; every original cut byte stays pinned.
         notes=LINEAGE_NOTE.findall(cuts)
         self.assertEqual(len(notes),4)
-        self.assertEqual(sha256(LINEAGE_NOTE.sub('',cuts).encode()).hexdigest(),
-                         'ab38d6b603d5ae22009cc13e1975aad61eabb36d29c63511091547afd8b67af2')
-        # The reading paths carry no lineage notes and are pinned whole; only the Further-reading landmark and the footer (navigation chrome) are outside both pins.
+        # The #newer-work aside is declared mutable navigation, not cut text (research.html hero); NewerWorkRoutes guards its contents.
+        # Its contents are cut out of this digest; its opening tag and its place as the last child of #latest-work stay pinned.
+        # Re-pinned once from ab38d6b6…af2: computed on the unchanged page, so the only change is excluding the aside's contents.
+        self.assertEqual(len(NEWER_WORK.findall(cuts)),1)
+        frozen=NEWER_WORK.sub(r'\1\2',LINEAGE_NOTE.sub('',cuts))
+        self.assertTrue(frozen.endswith('</div>\n<aside id="newer-work" class="latest-upstream" tabindex="-1"></aside>\n</section>\n'))
+        self.assertEqual(sha256(frozen.encode()).hexdigest(),
+                         'c8ee665e0f33922f1c14a78197fb233fbbb6c85def64c9c065cdba721c314da6')
+        # The reading paths carry no lineage notes and are pinned whole. Outside both pins: the contents of the #newer-work aside
+        # (maintained routes, guarded by NewerWorkRoutes), the Further-reading landmark and the footer (navigation chrome).
         paths=text[text.index('<section id="lifetimes"'):text.index('<section id="further-reading"')]
         self.assertEqual(LINEAGE_NOTE.findall(paths),[])
         self.assertEqual(sha256(paths.encode()).hexdigest(),
@@ -818,7 +878,7 @@ class ShrinkingBinReading(unittest.TestCase):
                     self.rows.append((self.current[0],''.join(self.current[1])));self.current=None
                 if tag=='section':self.sections.pop()
         rows=Boundaries((SITE/'research.html').read_text()).rows
-        self.assertEqual(len(rows),3,'The 7 October scope, the sampling scope and the original boundary must remain visible')
+        self.assertEqual(len(rows),5,'The 10 October scope, the 9 October scope, the 7 October scope, the sampling scope and the original boundary must remain visible')
         class ActualBoundaryPage:
             def locator(self,selector):
                 region=selector.split(' ',1)[0][1:] if selector.startswith('#') else None
@@ -839,6 +899,158 @@ class ShrinkingBinReading(unittest.TestCase):
              {'page':ActualBoundaryPage(),'expect':StrictSingleExpectation})
 
 LINEAGE_NOTE = re.compile(r'<p class="lineage-note">.*?</p>', re.S)
+# The declared-mutable route list: group 1 is the pinned opening tag, group 2 the end tag; the contents between are maintained.
+NEWER_WORK = re.compile(r'(<aside id="newer-work" class="latest-upstream" tabindex="-1">).*?(</aside>)', re.S)
+
+
+class NewerWorkRoutes(unittest.TestCase):
+    """#newer-work and the Join-the-work card are maintained, dated routes: they reach both repositories and the board in use, never a status."""
+    ACTIVE_BOARD = 307   # the board CONTRIBUTING.md and docs/WORKSPACE.md name; change with them when it moves again
+    HISTORICAL_BOARD = 229
+    QUEUE = 275
+    ISSUES = SOURCE_ROOT+'main/issues/'
+    AS_READ = r'as read \d{1,2} (?:January|February|March|April|May|June|July|August|September|October|November|December) 20\d\d'
+    # The aside's routes in reading order, each with its exact name; a renamed or reordered route is a deliberate edit here.
+    ROUTES = (
+        ('main/pulls', 'open main proposals'),
+        ('main/tree/main/experiments/universality', 'universality suite (main branch)'),
+        ('main/blob/main/docs/PERSISTENCE_UNIVERSALITY_PROGRAM.md', 'universality program (main branch)'),
+        ('main/tree/main/experiments/zeta_fold_exploration', 'zeta fold exploration packet (main branch)'),
+        ('main/blob/main/docs/RESEARCH_INDEX.md', 'research guide (main branch)'),
+        ('Math-/pulls', 'open Math proposals'),
+        ('Math-/tree/main', 'full Math source tree'),
+        ('Math-/tree/main/frontiers', 'proof packets'),
+        ('Math-/tree/main/reviews', 'reviews'),
+        ('Math-/tree/main/coefficients', 'coefficients'),
+        ('Math-/tree/main/companions', 'Lean companion packages'),
+        ('Math-/tree/main/specifications', 'Lean statement specifications'),
+        ('Math-/blob/main/PROOF_INDEX.md', 'selected proof index'),
+        ('main/issues/307', 'active coordination board, main #307'),
+        ('main/issues/275', 'task and claim queue, main #275'),
+        ('main/issues/229', 'historical board, main #229'),
+        ('main/blob/main/CONTRIBUTING.md', 'contribution guide'),
+        ('meta-framework/blob/main/registry.json', 'current curated catalog'),
+        ('query-', 'current query tool'),
+    )
+    # The two maintained sentences that name #229 as a route; everywhere else #229 is cited, never called the board in use.
+    ASIDE_229 = ('<a href="'+SOURCE_ROOT+'main/issues/229">historical board, main #229</a> (GitHub stopped accepting comments there '
+                 'at 2,500 on 8 October 2026; links to its earlier comments stay valid)')
+    CARD_229 = ('Start with the <a href="'+SOURCE_ROOT+'main/issues/229#issuecomment-6038554880">historical #229 working guidance</a>, then read',
+                'GitHub stopped accepting comments on main #229 at 2,500 on 8 October 2026, and it stays readable as the earlier record)')
+    STATUS_WORDS = ('accepted','proved','proven','verified','validated','confirmed','established','reviewed','pass','amend','latest','newest')
+
+    def aside(self):
+        matches=list(NEWER_WORK.finditer((SITE/'research.html').read_text()))
+        self.assertEqual(len(matches),1)
+        return matches[0].group(0)
+
+    def contribute_card(self):
+        return (SITE/'workspace.html').read_text().split('<section id="contribute"',1)[1].split('</article>',1)[0]
+
+    def anchors(self, text):
+        class Anchors(HTMLParser):
+            def __init__(self):
+                super().__init__(convert_charrefs=True);self.found=[];self.open=None
+            def handle_starttag(self,tag,attrs):
+                if tag=='a':self.open=[dict(attrs).get('href',''),'']
+            def handle_data(self,data):
+                if self.open is not None:self.open[1]+=data
+            def handle_endtag(self,tag):
+                if tag=='a' and self.open is not None:self.found.append(tuple(self.open));self.open=None
+        parser=Anchors();parser.feed(text);return parser.found
+
+    def is_historical_board(self, href):
+        u=urlsplit(href)
+        return u.netloc=='github.com' and u.path.rstrip('/')=='/d6g8k5htny-coder/main/issues/'+str(self.HISTORICAL_BOARD)
+
+    def test_routes_reach_both_repositories_and_the_board_in_use(self):
+        aside=self.aside()
+        self.assertEqual(self.anchors(aside),[(SOURCE_ROOT+href,name) for href,name in self.ROUTES])
+        for n in (self.ACTIVE_BOARD,self.QUEUE,self.HISTORICAL_BOARD):
+            with self.subTest(issue=n):self.assertIn(f'main/issues/{n}',[href for href,_ in self.ROUTES])
+        self.assertTrue(aside.startswith('<aside id="newer-work" class="latest-upstream" tabindex="-1"><h3>Check newer work</h3>'
+                                         '<p><strong>Mutable upstream navigation.</strong>'))
+        self.assertRegex(aside,'Routes '+self.AS_READ+r'\.')
+        self.assertRegex(aside,re.escape('">contribution guide</a> (')+self.AS_READ+re.escape(', it names the same board and queue)'))
+        self.assertIn(self.ASIDE_229,aside)
+        # #latest-work keeps one <time> (the 18:00 cut's); the browser check's '#latest-work time' locator is strict.
+        self.assertNotIn('<time',aside)
+        # mutable routes are never counted as pinned reading sources, and pinned cut content never moves in here
+        for token in ('data-source-kind','lineage-note','<article','<details','sha256','SHA-256'):
+            with self.subTest(token=token):self.assertNotIn(token,aside)
+        # the aside's boundaries now live here, since the cuts digest no longer covers its contents
+        for phrase in ('These links deliberately follow current branches, open proposals and coordination discussions.',
+                       'Their contents may be newer than every dated reading cut above, and no cut selects everything that landed;',
+                       'inspect each source’s date, assumptions and review before using it.',
+                       'Availability does not imply review, and review of one scope does not accept a larger theorem.',
+                       'No private workspace contents are included in this page.'):
+            with self.subTest(phrase=phrase):self.assertIn(phrase,aside)
+
+    def test_every_route_is_a_branch_listing_or_discussion_never_a_commit(self):
+        for href,name in self.anchors(self.aside()):
+            with self.subTest(href=href):
+                u=urlsplit(href)
+                self.assertEqual((u.scheme,u.netloc,u.query,u.fragment),('https','github.com','',''))
+                parts=u.path.split('/')[1:]
+                self.assertEqual(parts[0],'d6g8k5htny-coder')
+                self.assertTrue(len(parts)==2 or parts[2] in ('pulls','issues') or parts[2:4] in (['tree','main'],['blob','main']),href)
+
+    def test_historical_board_is_never_called_active_on_any_page(self):
+        aside=self.aside();card=self.contribute_card()
+        # Where #229 is offered as a route (the aside, the Join-the-work card), its sentence says it is history.
+        self.assertIn(self.ASIDE_229,aside)
+        for clause in self.CARD_229:
+            with self.subTest(clause=clause):self.assertIn(clause,card)
+        routes=[(href,name) for text in (aside,card) for href,name in self.anchors(text) if self.is_historical_board(href)]
+        self.assertEqual(len(routes),2)
+        for href,name in routes:
+            with self.subTest(route=name):self.assertIn('historical',name)
+        # Everywhere else, source citations to #229 comments stay as cited, and neither a link nor a sentence names
+        # #229 the active, current or live board.
+        for path in sorted(SITE.glob('*.html')):
+            text=path.read_text()
+            if path.name=='research.html':text=text.replace(aside,'')
+            if path.name=='workspace.html':text=text.replace(card,'')
+            for href,name in self.anchors(text):
+                if not self.is_historical_board(href):continue
+                with self.subTest(page=path.name,name=name):
+                    self.assertIsNone(re.search(r'(?i)\b(active|current|live)\b|agent message board|research discussion',name))
+            plain=html.unescape(re.sub(r'<[^>]+>',' ',text))
+            for segment in re.split(r'[.;·\n]',plain):
+                if f'#{self.HISTORICAL_BOARD}' not in segment:continue
+                with self.subTest(page=path.name,segment=segment.strip()[:80]):
+                    self.assertIsNone(re.search(r'(?i)\b(active|current|live)\b',segment))
+
+    def test_aside_names_routes_without_status_words(self):
+        plain=re.sub(r'<[^>]+>',' ',self.aside()).lower()
+        for word in self.STATUS_WORDS:
+            with self.subTest(word=word):self.assertIsNone(re.search(rf'\b{word}\b',plain))
+
+    def test_workspace_contribute_routes_match_the_aside(self):
+        card=self.contribute_card()
+        self.assertIn(f'<a href="{self.ISSUES}{self.ACTIVE_BOARD}">active coordination board, main #{self.ACTIVE_BOARD}</a> ('+'as read',card)
+        self.assertRegex(card,re.escape(f'main #{self.ACTIVE_BOARD}</a> (')+self.AS_READ+';')
+        self.assertRegex(card,re.escape(f'main #{self.QUEUE}</a> (')+self.AS_READ+':')
+        self.assertIn(f'<a href="{self.ISSUES}{self.ACTIVE_BOARD}">Active coordination board ↗</a>',card)
+        self.assertIn(f'<a href="{self.ISSUES}{self.QUEUE}">Current tasks and claims ↗</a>',card)
+        self.assertIn(f'<a href="{self.ISSUES}{self.HISTORICAL_BOARD}#issuecomment-6038554880">historical #229 working guidance</a>',card)
+        # Declarations stay where CONTRIBUTING.md puts them (#275 or the task's issue/PR); #307 takes general coordination.
+        self.assertIn("Comment <code>/claim</code> on the task's issue or PR",card)
+
+    def test_entry_wording_names_cuts_and_the_index_as_selections(self):
+        workspace=(SITE/'workspace.html').read_text();research=(SITE/'research.html').read_text();cite=(SITE/'cite.html').read_text()
+        self.assertRegex(workspace,r'For a curated selection of public work up to the [^<]+ reading cut \(not every landed packet\), use <a href="research\.html#reading-cut-\d{8}">Latest public work</a>')
+        self.assertNotIn('For packets landed up to',workspace)
+        self.assertIn('for current source routes, including work no cut selects, use <a href="research.html#newer-work">Check newer work</a>',workspace)
+        self.assertIn('start with the <a href="research.html#newer-work">current source routes</a>',workspace)
+        self.assertIn('the <a href="https://github.com/d6g8k5htny-coder/Math-/blob/main/PROOF_INDEX.md">selected proof index</a>',workspace)
+        hero=research.split('<nav class="cut-list"',1)[0]
+        self.assertIn('selected later results are in the dated cuts.',hero)
+        self.assertIn('only the “Check newer work” route list that closes it is maintained, with its own as-read date.',hero)
+        self.assertIn('Math-’s selected, dated proof index</a>',cite)
+        for route in ('<a href="research.html#cut-list-heading">dated reading cuts</a>','<a href="research.html#newer-work">current source routes</a>'):
+            with self.subTest(route=route):self.assertIn(route,cite)
+        self.assertNotIn('current proof index',cite)
 
 
 class October7Reading(unittest.TestCase):
@@ -887,6 +1099,952 @@ class October7Reading(unittest.TestCase):
         for number in (384,387,388,392,393):
             card=section.split(f'pull/{number}"',1)[0].rsplit('<p>',1)[1]
             self.assertIn('Still candidates',card)
+
+
+class FiniteH0LifetimeReading(unittest.TestCase):
+    """The 9 October cut: one landed finite Gaussian H0 lifetime source, quoted, never promoted."""
+    CUT_ID = 'reading-cut-20261009'
+    CUT_ISO = '2026-10-09T00:05:00Z'
+    LANDED_REF = '2c84170712c59d9de580c172815bd30bac5d93cd'
+    LANDED_README = ('c44553c00c86fad5045ac8c9e6c90f70b1e347173d2bad6f59804b35c888e5a7', 10559)
+    ALLOWED_CLASSES = {'latest-work','section-heading','eyebrow','section-intro','latest-grid','latest-card',
+                       'card-kicker','display-formula','card-status','latest-boundary','latest-identities'}
+    FORBIDDEN = (
+        # status or acceptance words this cut never uses
+        'ACCEPT','AMEND','PENDING','NOT_VERIFIED','PROVED_REVIEWED','AUTHOR_SIDE_CANDIDATE',
+        'universality class','universal law','proves universality','accepted','established','independently',
+        'peer-review','independent review','independent read','independent check','validated','confirmed','admitted','kernel-checked','Lean-verified','machine-checked',
+        'almost sure','held-out test','ℓ^(1/3)','side24','SIDE24','continuous density','exponent 1/3',
+        # stale counts and ordering from before main #329
+        'seven proof sources','all seven','five merges','last of those proofs','latest proof','newest proof',
+        'The four files have the same bytes','last changed in main #326',
+        # main #329 mathematics, scope or files, which this cut does not restate or link
+        'Poisson','independent of dimension','any dimension','every dimension','higher dimension',
+        'five interfaces','all five','image-sum','infinite image','d>=2','d≥2','iid','independent copies',
+        'expanding-domain','cluster avoidance','counterexample','r dr',
+        'fold_structural_universality','periodized_gaussian_h0','iid_short_bar_process',
+        'Regular cubic folds and the structural H0 lifetime exponent',
+        'Actual H0 lifetime intensity for the exact periodized Gaussian law',
+        'Marked iid-copy Poisson limit for actual short H0 bars',
+        'blob/main','tree/main',
+    )
+    QUOTES = {
+        'program': ('a reusable theorem connecting a local singularity, the probability law transverse to its discriminant, and the intensity of actual persistence bars',
+                    'a research design and execution route, not a new scientific-status register or an acceptance vote',
+                    'a precisely stated transfer target','does not verify those five hypotheses for any new field',
+                    'Keep the full objective open until its explicit proof, computation, publication and uptake requirements have their actual evidence.'),
+        'readme': ('constructs a Borel selector and counts every actual finite superlevel H0 bar exactly once',
+                   'The selected density is not asserted continuous',
+                   'The sampler and catalogue admissibility labels retain their original meaning.',
+                   'generates explicitly exploratory fields',
+                   'does not estimate a slope or compare against reference coefficient digits',
+                   'No held-out seeds have been consumed by this suite.',
+                   'regular-fold structural theorem','exact periodized Gaussian H0 adapter','marked short-bar process theorem'),
+        'proof': ('No human, blind or provider-distinct acceptance, formal Lean proof, sampler execution, seed consumption or scientific promotion is claimed.',
+                  'the particular finite Borel representative constructed in Section 5',
+                  'no O(1) near-term remainder is claimed',
+                  'No finite-word or quantized sampler is identified with the continuous ideal Gaussian coefficient law.',
+                  'conventional analytic source'),
+        'review': ('a conventional analytic theorem with explicit imports',
+                   'All contributors/readers are source and route exposed OpenAI/Codex.',
+                   'No human, blind reconstruction or provider-distinct acceptance is claimed.',
+                   'Fresh full exact-file nonauthor reviews of the incorporated proof: PASS.',
+                   'H0 consumes C/CG/ET/FG',
+                   'Both actual-source mathematical verdicts and proof bytes are unchanged.',
+                   'The coefficient is positive and field-dependent',
+                   'Finite-family uniformity is not twenty empirical confirmations.',
+                   'Positivity-boundary spectra, K1, non-Gaussian coefficients, infinite-field laws, numerical coupling, quantitative usable windows, higher homology, factorial moments, process limits, formal source alignment, blind fifty-law validation and external uptake remain outside the result.'),
+    }
+    SOURCE_PATHS = {'program':'docs/PERSISTENCE_UNIVERSALITY_PROGRAM.md','readme':'experiments/universality/README.md',
+                    'proof':'experiments/universality/finite_h0_lifetime/PROOF.md','review':'experiments/universality/finite_h0_lifetime/REVIEW.md'}
+    EARLIER_NOTE_DIGESTS = ('b49f2ea5975dc05270f51fea4a3574093f726258cdab94888742507c2caa275f',
+                            '55eb6c33105190da4194e63d90ceeb40f3434b14b92803700ab840df67e9295e',
+                            '3f1d0e1f1af51a20aa49681d0255d09d728e5d62c5f00cbca90e0671798265ed',
+                            '652e66f8645eb1a34c28a85900b05405d424bb0e282b86a7d5597f10b8f9c8e3',
+                            '52dc91e3bc68b8f023f11e9ec37b1423853d721dc9188046246e96b4131e205f',
+                            'a6fb3d0397e622d8a1061ff6e83d05f66e99d53fbc2dd35c1b8ee82d076a4458')
+    PROSE_NUMBERS = ('8 314 326 8 0 326 0 329 23:58 0 0 7 318 324 326 0 0 0 1/3 2/3 5 1 1 526 0 326 8 2026 22:42 314 319 321 323 326 '
+                     '27,064 329 8 23:58 0 326 8 22:42 314 329 10,559 256 326 256 256 256 0 256 0 321 323 326 319 321 323 329 3 18:00 '
+                     '107 3 20:01 8 2026 256 99 99 103 103 4 00:18 8 2026 256 7 18:37 8 2026 00:58 193 18:45 7 18:46 4 7 18:37')
+    # Each quote keeps the source the page names for it.
+    ATTRIBUTIONS = ('In the suite guide’s words, the proof “constructs a Borel selector',
+                    'The review record says “The coefficient is positive and field-dependent”',
+                    'The proof says its pointwise law concerns “the particular finite Borel representative',
+                    'and “no O(1) near-term remainder is claimed”',
+                    'In the suite guide’s words, “The selected density is not asserted continuous”',
+                    'The review record says “Finite-family uniformity is not twenty empirical confirmations.”',
+                    'The proof says “No finite-word or quantized sampler',
+                    'In the review record’s words, “Positivity-boundary spectra',
+                    'the record says “All contributors/readers are source and route exposed OpenAI/Codex.”',
+                    'The proof’s own declaration: “No human, blind or provider-distinct acceptance',
+                    'The review record calls the proof “a conventional analytic theorem with explicit imports”',
+                    'The program says to “Keep the full objective open',
+                    'In the suite guide’s words, “The sampler and catalogue admissibility labels',
+                    'Its record states “H0 consumes C/CG/ET/FG”',
+                    'After the first correction the record says “Both actual-source mathematical verdicts',
+                    'In the suite guide’s words, its exploratory runner “generates explicitly exploratory fields”',
+                    'The program describes itself as “a research design and execution route',
+                    'which counts actual finite H0 bars for fixed ideal finite Gaussian laws; it is not a universality theorem.')
+    OTHER_PAGES_ROW = ('<dt>Words used on other pages</dt><dd>ACCEPT and AMEND / open are the proof index’s and STATUS.md’s wording at their pinned snapshots, shown on <a href="museum.html#claims">Source records</a> and the <a href="workspace.html#board">Library board</a>. PROVED_REVIEWED, AUTHOR_SIDE_CANDIDATE and the other gate classifications are the downstream gate’s states, shown on the <a href="dependencies.html">dated claim-dependency snapshot</a>. Each page quotes its own source; none of ACCEPT, AMEND, PROVED_REVIEWED or AUTHOR_SIDE_CANDIDATE appears in this page’s cuts.</dd>')
+
+    class Tree(HTMLParser):
+        """Elements of one section with class, attributes, direct text and inner text."""
+        VOID = {'br','img','meta','link','hr','input'}
+        def __init__(self, text):
+            super().__init__();self.elements=[];self.stack=[];self.feed(text)
+        def handle_starttag(self, tag, attrs):
+            node={'tag':tag,'attrs':dict(attrs),'classes':set((dict(attrs).get('class') or '').split()),'text':[],'parents':[n['tag'] for n in self.stack],'parent_classes':set().union(*[n['classes'] for n in self.stack]) if self.stack else set()}
+            self.elements.append(node)
+            if tag not in self.VOID: self.stack.append(node)
+        def handle_endtag(self, tag):
+            while self.stack:
+                node=self.stack.pop()
+                if node['tag']==tag: break
+        def handle_data(self, data):
+            for node in self.stack: node['text'].append(data)
+        def find(self, tag=None, cls=None):
+            return [n for n in self.elements if (tag is None or n['tag']==tag) and (cls is None or cls in n['classes'])]
+
+    @staticmethod
+    def text_of(node): return ''.join(node['text'])
+
+    def page(self): return (SITE/'research.html').read_text()
+
+    def section(self):
+        text=self.page()
+        start=text.index(f'<section id="{self.CUT_ID}"');end=text.index('<section id="reading-cut-20261007"')
+        return text[start:end]
+
+    def card(self):
+        section=self.section()
+        return section[section.index('<article class="latest-card" id="finite-h0-lifetimes"'):section.index('</article>')+len('</article>')]
+
+    def source_bytes(self, ref, path):
+        # Pinned sources are read from git objects (CI checks out with full history); a tree without them cannot check identities.
+        import subprocess
+        try:
+            return subprocess.run(['git','cat-file','blob',f'{ref}:{path}'],cwd=ROOT,check=True,capture_output=True).stdout
+        except (OSError,subprocess.CalledProcessError):
+            self.skipTest(f'git object {ref[:8]}:{path} unavailable in this checkout')
+
+    def test_cut_sits_below_the_10_october_cut_and_links_to_the_7_october_cut_and_upstream(self):
+        text=self.page();section=self.section()
+        self.assertTrue(section.endswith('</section>\n'),'the new cut sits immediately above the 7 October cut')
+        self.assertLess(text.index('id="status-words"'),text.index(f'<section id="{self.CUT_ID}"'))
+        # Since 10 October this is the second dated cut, directly below the 10 October cut; UniversalitySourcesReading checks the hero entries.
+        self.assertEqual(text.index(f'<section id="{self.CUT_ID}"'),text.index('</section>\n',text.index('<section id="reading-cut-20261010"'))+len('</section>\n'),'second dated cut on the page')
+        self.assertIn(f'<section id="{self.CUT_ID}" class="latest-work" tabindex="-1" aria-labelledby="octnew-heading">',section)
+        self.assertIn('<h2 id="octnew-heading">How common are short-lived bars in a fixed finite Gaussian field?</h2>',section)
+        self.assertEqual(re.findall(r'<time datetime="([^"]+)">',section),[self.CUT_ISO])
+        self.assertIn(f'<time datetime="{self.CUT_ISO}">9 October 2026 · 00:05 UTC</time>',section)
+        self.assertIn('<a href="#reading-cut-20261007">7 October 18:37 UTC reading cut below</a>',section)
+        self.assertIn('<a href="#newer-work">current branches and discussions</a>',section)
+        second_row=text.split('<nav class="cut-list"',1)[1].split('<li>',3)[2]
+        self.assertEqual(second_row,f'<a href="#{self.CUT_ID}">Reading cut · 9 October 2026, 00:05 UTC</a> — How common are short-lived bars in a fixed finite Gaussian field? <span class="muted">Full sources: open “Exact sources, review record and the program”.</span></li>\n')
+        self.assertIn(f'<details class="latest-identities" id="{self.CUT_ID}-details"><summary>Exact sources, review record and the program</summary>',section)
+        names=[name for name in re.findall(r'<a [^>]*>(.*?)</a>',text,re.S)]
+        for name in ('7 October 18:37 UTC reading cut below','current branches and discussions','Read the finite H0 lifetime proof',
+                     'Proof bytes checked for this cut','Read the persistence universality program',
+                     'Read the suite guide, which links all ten proof sources and their reviews',
+                     'Read the H0 lifetime review record, with both verdicts and the exclusions'):
+            with self.subTest(name=name):self.assertEqual(names.count(name),1)
+
+    def test_quoted_phrases_are_verbatim_in_their_pinned_sources(self):
+        # The PASS line is quoted in the #status-words row that names this cut; every other quote sits in the cut.
+        words=self.page().split('<details id="status-words"',1)[1].split('</details>',1)[0]
+        section=self.section()+words
+        for key,quotes in self.QUOTES.items():
+            source=self.source_bytes(OCTNEW_REF,self.SOURCE_PATHS[key]).decode()
+            flat=' '.join(source.replace('`','').replace('**','').split())
+            for quote in quotes:
+                with self.subTest(source=key,quote=quote):
+                    self.assertIn(quote,section)
+                    self.assertIn(quote,flat)
+        for attribution in self.ATTRIBUTIONS:
+            with self.subTest(attribution=attribution):self.assertEqual(section.count(attribution),1)
+        self.assertNotIn(', and the record says “Both actual-source',section)
+
+    def test_forbidden_words_and_later_source_details_are_absent(self):
+        section=self.section()
+        for word in self.FORBIDDEN:
+            with self.subTest(word=word):
+                self.assertNotIn(word,section)
+                # lower-case phrases are also refused at a sentence start or in any other case
+                if word==word.lower():self.assertNotIn(word,section.lower())
+        self.assertEqual(section.count('periodized'),1)
+        self.assertEqual(section.count('exact periodized Gaussian H0 adapter'),1)
+        for phrase in ('not a universality theorem.','not a universality theorem for a wider class of fields'):
+            self.assertIn(phrase,section)
+        self.assertNotIn('universality',section.split('<h2',1)[1].split('</h2>',1)[0])
+        for link,name in re.findall(r'<a [^>]*href="([^"]+)"[^>]*>(.*?)</a>',section):
+            if 'universality' in name: self.assertEqual(name,'Read the persistence universality program')
+        lead=section.split('</div>',1)[1].split('<div class="latest-grid">',1)[0]
+        self.assertEqual(section.count('#324'),1);self.assertIn('#324',lead)
+        card=self.card()
+        # The card, its status rows included, does not name main #329 or its sources; the lead and the disclosure do.
+        self.assertEqual(card.count('#329'),0)
+        for token in ('#324','regular-fold','short-bar process','periodized','structural theorem','adapter'):
+            with self.subTest(card=token):self.assertNotIn(token,card)
+        eyebrow=section.split('<p class="eyebrow">',1)[1].split('</p>',1)[0]
+        self.assertEqual(eyebrow,'Landed 8 October · main #314–#326 · fixed finite Gaussian scope')
+        # The hero up to the 10 October cut, that cut's own entry row and #status-words rows included, names none of #329's sources in any case.
+        hero=self.page().split('<section class="hero">',1)[1].split('<section id="reading-cut-20261010"',1)[0]
+        for token in ('#329','#324','regular-fold','short-bar','periodized','universality'):
+            with self.subTest(hero=token):self.assertNotIn(token,hero.lower())
+
+    def test_two_estimands_keep_their_exponents_and_no_coefficient_value(self):
+        section=self.section();card=self.card()
+        self.assertIn('The first is for a specified density <code>ν_bar</code> of the expected bar-lifetime measure per unit area.',card)
+        self.assertIn('The second is for the expected number <code>E N_bar((0, t])</code> of finite bars with lifetime at most <code>t</code>, per unit area',card)
+        formulas=re.findall(r'<p class="display-formula"><code>(.*?)</code></p>',section)
+        self.assertEqual(formulas,['ν_bar(ℓ) ~ C_loc ℓ^(−1/3), as ℓ decreases to zero',
+                                   'E N_bar((0, t]) / V ~ (3/2) C_loc t^(2/3), as t decreases to zero'])
+        self.assertIn('The density exponent is −1/3; the cumulative exponent is 2/3.',card)
+        self.assertNotIn('t^(−1/3)',section);self.assertNotIn('ℓ^(2/3)',section)
+        # no second statement of either exponent anywhere in the cut, in either minus sign
+        self.assertEqual((section.count('exponent'),section.count('cumulative'),section.count('−1/3'),section.count('2/3')),(2,1,3,2))
+        self.assertNotIn('-1/3',section)
+        plain=re.sub(r'<[^>]+>','',card)
+        self.assertIsNone(re.search(r'\d[.,]\d{1,2}(?!\d)|\d\.\d',plain),'no coefficient digits on the card')
+        self.assertIsNone(re.search(r'C_loc\s*(?:[=≈≃<>]|\(?\d)',plain))
+        self.assertIn('this page gives no value',card)
+        # the promise is page-wide: no decimal anywhere in the cut's prose, and no digit in any sentence naming C_loc
+        prose=re.sub(r'<[^>]+>','',re.sub(r'<p class="display-formula">.*?</p>','',section))
+        self.assertIsNone(re.search(r'\d[.,]\d{1,2}(?!\d)|\d\.\d',prose))
+        for sentence in re.split(r'(?<=[.;:])\s+',prose):
+            if 'C_loc' in sentence:
+                with self.subTest(sentence=sentence[:60]):self.assertNotRegex(sentence,r'\d')
+        self.assertIn('the same local coefficient as in this line’s candidate-lifetime theorem.',card)
+        self.assertNotIn('candidate-pair',section)
+        # The cut does not change once it lands: its prose numbers (outside code, display formulas and the time) are pinned in order.
+        numbers=re.sub(r'<time[^>]*>.*?</time>','',re.sub(r'<code>.*?</code>','',re.sub(r'<p class="display-formula">.*?</p>','',section)))
+        self.assertEqual(' '.join(re.findall(r'\d[\d,.:–−/]*\d|\d',re.sub(r'<[^>]+>','',numbers))),self.PROSE_NUMBERS)
+        # The #status-words rows that name this cut give no coefficient value either.
+        words=self.page().split('<details id="status-words"',1)[1].split('</details>',1)[0]
+        for row in re.findall(r'<dd>(.*?)</dd>',words,re.S):
+            if '9 October 2026 cut' not in row: continue
+            with self.subTest(row=row[:60]):
+                self.assertNotIn('C_loc',row);self.assertIsNone(re.search(r'\d[.,]\d|[=≈≃]',re.sub(r'<[^>]+>','',row)))
+
+    def test_one_card_one_face_pin_three_status_rows_and_neutral_classes(self):
+        section=self.section();tree=self.Tree(section)
+        cards=tree.find(cls='latest-card')
+        self.assertEqual([c['attrs'].get('id') for c in cards],['finite-h0-lifetimes'])
+        self.assertEqual(len(tree.find('p','display-formula')),2)
+        self.assertEqual(len(tree.find('p','latest-boundary')),1)
+        statuses=tree.find('dl','card-status');self.assertEqual(len(statuses),1)
+        self.assertEqual([self.text_of(n) for n in tree.find('dt')],['Landed?','Read by','Scientific effect'])
+        self.assertEqual(len(tree.find('dd')),3)
+        self.assertTrue(all('card-status' in n['parent_classes'] and 'latest-card' in n['parent_classes'] for n in tree.find('dt')+tree.find('dd')))
+        rows=dict(zip([self.text_of(n) for n in tree.find('dt')],[self.text_of(n) for n in tree.find('dd')]))
+        self.assertTrue(rows['Landed?'].startswith('Landed at main 2c841707 (main #326, merged 8 October 2026, 22:42 UTC).'))
+        self.assertEqual(rows['Read by'],'OpenAI/Codex · “PASS”, quoted from the linked review record · the landed proof’s exact 27,064 bytes; organizational-independence credit zero.')
+        self.assertEqual(rows['Scientific effect'],'The proof’s own declaration: “No human, blind or provider-distinct acceptance, formal Lean proof, sampler execution, seed consumption or scientific promotion is claimed.”')
+        used=set().union(*[n['classes'] for n in tree.elements])
+        self.assertLessEqual(used,self.ALLOWED_CLASSES,used-self.ALLOWED_CLASSES)
+        for bad in ('accept','amend','gold','latest-chain','lineage-note','cut-pointer'):
+            self.assertNotIn(bad,used)
+        card=PinnedReadingLinks('<section '+self.card())
+        self.assertEqual(card.links,OCTNEW_FACE_PINS)
+        self.assertIn('<strong>Who read it:</strong>',self.card())
+
+    def test_pinned_items_carry_only_their_digest_and_the_digests_match_the_pinned_bytes(self):
+        section=self.section()
+        parsed=PinnedReadingLinks('<section '+section)
+        self.assertEqual(parsed.links,OCTNEW_FACE_PINS+list(OCTNEW_PINS))
+        self.assertEqual(parsed.hash_bindings,list(OCTNEW_PINS.items()))
+        for item in re.findall(r'<li>(.*?)</li>',section,re.S):
+            if 'data-source-kind="pinned"' not in item: continue
+            codes=re.findall(r'<code>(.*?)</code>',item)
+            with self.subTest(item=item[:80]):
+                self.assertEqual(len(codes),1);self.assertRegex(codes[0],r'\A[0-9a-f]{64}\Z')
+        for href in re.findall(r'href="(https://[^"]+)"',section):
+            with self.subTest(href=href):
+                self.assertTrue(href.startswith(OCTNEW_PREFIX));self.assertEqual(urlsplit(href).query+urlsplit(href).fragment,'')
+        self.assertNotIn(self.LANDED_REF+'/',section)
+        self.assertEqual(section.count(self.LANDED_REF),1)
+        for url,digest in OCTNEW_PINS.items():
+            data=self.source_bytes(OCTNEW_REF,url[len(OCTNEW_PREFIX):])
+            with self.subTest(url=url):self.assertEqual(sha256(data).hexdigest(),digest)
+            if not url.endswith('/README.md'):
+                self.assertEqual(sha256(self.source_bytes(self.LANDED_REF,url[len(OCTNEW_PREFIX):])).hexdigest(),digest,'same bytes where the proof landed')
+        proof=self.source_bytes(OCTNEW_REF,'experiments/universality/finite_h0_lifetime/PROOF.md')
+        self.assertEqual((len(proof),proof.count(b'\n')),(27064,526))
+        self.assertIn('27,064 bytes',section);self.assertIn('all 526 lines',section)
+        landed_readme=self.source_bytes(self.LANDED_REF,'experiments/universality/README.md')
+        self.assertEqual((sha256(landed_readme).hexdigest(),len(landed_readme)),self.LANDED_README)
+        self.assertIn(f'earlier 10,559-byte suite guide its readers read (SHA-256 <code>{self.LANDED_README[0]}</code>)',section)
+
+    def test_earlier_notes_are_restated_with_their_qualifiers_and_without_links(self):
+        text=self.page();section=self.section()
+        notes=section.split('<p>Notes added after earlier cuts',1)[1].split('<p>The source identities above were checked',1)[0]
+        self.assertNotIn('<a ',notes);self.assertNotIn('lineage-note',notes)
+        for digest in self.EARLIER_NOTE_DIGESTS:
+            with self.subTest(digest=digest):self.assertIn(digest,notes)
+        for card in ('actual-bars','strict-bar-coefficient'):
+            original=LINEAGE_NOTE.findall(text.split(f'id="{card}"',1)[1].split('</article>',1)[0])[0]
+            body=original.split('</strong> ',1)[1][:-len('</p>')].replace('“nonauthor” here','“nonauthor” there')
+            with self.subTest(card=card):self.assertIn(body,notes)
+        self.assertIn('<code>PASS_TECHNICAL</code>',notes)
+        self.assertIn('The first comment after the reopening, at 18:46 UTC, is headed “Tracking correction verified — issue reopened; scientific records unchanged”.',notes)
+        for paragraph in re.findall(r'<(?:p|dd)\b[^>]*>(.*?)</(?:p|dd)>',section,re.S):
+            if 'nonauthor' in paragraph:
+                with self.subTest(paragraph=paragraph[:60]):self.assertIn('does not mean independent',paragraph)
+        self.assertEqual(section.count('does not mean independent'),3)
+        self.assertIn('Organizational-independence credit is zero',self.card())
+
+    def test_status_words_quote_pass_and_the_source_label_without_rewording_other_rows(self):
+        text=self.page()
+        words=text.split('<details id="status-words" class="reading-glossary">',1)[1].split('</details>',1)[0]
+        self.assertIn('<summary>Status words on this page and where each is quoted from (as read 10 October 2026)</summary>',words)
+        terms=re.findall(r'<dt>(.*?)</dt>',words)
+        self.assertEqual(terms[2:5],['aligned · kernel-checked · read · slice read · readback','PASS','conventional analytic source'])
+        self.assertEqual(terms[5],'NOT READY')
+        self.assertIn('linked in the 9 October 2026 cut (“Fresh full exact-file nonauthor reviews of the incorporated proof: PASS.”)',words)
+        self.assertIn('It is that record’s own word, not PASS_TECHNICAL.',words)
+        self.assertIn('In that record “nonauthor” does not mean independent: organizational-independence credit is zero.',words)
+        self.assertIn('Its review record calls it “a conventional analytic theorem with explicit imports”.',words)
+        self.assertIn(self.OTHER_PAGES_ROW,words)
+        for section in re.findall(r'<section id="[^"]+" class="latest-work".*?</section>',text,re.S):
+            for token in ('ACCEPT','AMEND','PROVED_REVIEWED','AUTHOR_SIDE_CANDIDATE'):
+                with self.subTest(section=section[:40],token=token):self.assertNotIn(token,section)
+
+    def test_card_status_rows_use_the_glossary_type_not_monospace(self):
+        css=(SITE/'home.css').read_text()
+        self.assertIn('.reading-glossary dt, .latest-card .card-status dt { font-weight: 650; margin-top: 12px; }',css)
+        rule=re.search(r'\.reading-glossary dd, \.latest-card \.card-status dd \{([^}]*)\}',css)
+        self.assertIsNotNone(rule);self.assertIn('font-family: inherit',rule.group(1));self.assertIn('font-size: 15px',rule.group(1))
+        self.assertIn('.latest-card .card-status dd { max-width: 78ch; }',css)
+        self.assertIn('@media print { .latest-card:has(> .card-status) { break-inside: auto; } .latest-card .card-status, p.display-formula { break-inside: avoid; } }',css)
+        self.assertIn('.latest-identities code, .latest-card code { overflow-wrap: anywhere; }',css)
+        # agent paths in the card are breakable code, so they cannot push past the card at 320 px with WCAG 1.4.12 spacing
+        for name in ('/root/universality_review','/root/benchmark_formal_audit','/root/final_contract_review'):
+            with self.subTest(name=name):self.assertIn(f'<code>{name}</code>',self.card())
+        for sheet in ('home.css','brand.css'):
+            for selector,body in re.findall(r'([^{}]*card-status[^{}]*)\{([^}]*)\}',(SITE/sheet).read_text()):
+                with self.subTest(sheet=sheet,selector=selector.strip()):self.assertNotIn('monospace',body)
+
+    def test_browser_flows_cover_the_new_cut(self):
+        harness=(ROOT/'tools/public_shop_browser_check.py').read_text()
+        for token in (f'#{self.CUT_ID}',f'#{self.CUT_ID}-details',self.CUT_ISO,'7 October 18:37 UTC reading cut below',
+                      '#finite-h0-lifetimes .card-status dd','Organizational-independence credit is zero'):
+            with self.subTest(token=token):self.assertIn(token,harness)
+
+
+
+class UniversalitySourcesReading(unittest.TestCase):
+    """The 10 October cut: the three sources main #329 landed, read as conditional and fixed-law statements, quoted, never promoted."""
+    CUT_ID = 'reading-cut-20261010'
+    CUT_ISO = '2026-10-10T20:24:00Z'
+    CHECKED_REF = '6e11abfb1dc4e424e5b17d0c957157ee7389cf8a'   # main where the cut was checked; the pinned bytes are unchanged there
+    SOURCE_COMMIT = '4ee141e6033567ccdce96019007b491cee251d00'  # the one commit that added the three proofs and their review records
+    # Card id, source directory, face-link name, (bytes, lines) of the landed PROOF.md.
+    CARDS = (('fold-exponent','fold_structural_universality','Read the regular-fold structural proof',(43927,804)),
+             ('periodized-h0','periodized_gaussian_h0','Read the exact periodized Gaussian H0 proof',(34629,637)),
+             ('pooled-short-bars','iid_short_bar_process','Read the marked iid-copy process proof',(30935,618)))
+    # The 183-line suite guide the structural/periodized reviewer read; it is not in git history, so only its mention is checked.
+    REVIEWED_README = '89909ae804b0d79b100fc49d707527a5b68c881eb86ed5a25e0a47b6fbce8be7'
+    ALLOWED_CLASSES = FiniteH0LifetimeReading.ALLOWED_CLASSES
+    HERO_ROW = ('<a href="#reading-cut-20261010">Reading cut · 10 October 2026, 20:24 UTC</a> — Why −1/3, and for which fields is it proved? '
+                '<span class="muted">Full sources: open “Exact sources, review records and what each review covers”.</span></li>\n')
+    # The cut as checked on 10 October 2026, from its <section> tag up to the 9 October cut. A reading cut is a dated,
+    # unchanging selection, so its bytes are pinned when it is added, not only once a newer cut supersedes it.
+    CUT_BYTES = 23110
+    CUT_SHA256 = 'a5c9a7d3dd9c5db837d94bb3d051ec5355817c06886ad76bb10cb5ea011d2357'
+    # Each card's kicker and question heading.
+    HEADINGS = {'fold-exponent':('Landed conditional structural source · main #329','Where does −1/3 come from?'),
+                'periodized-h0':('Landed adapter source · main #329 · fixed d and L','Does the law hold with no frequency cutoff?'),
+                'pooled-short-bars':('Landed independent-copies source · main #329 · fixed d and L','Do the shortest bars form a Poisson process?')}
+    # The two #status-words rows this cut adds, exactly, directly after NOT READY and before 'Words used on other pages'.
+    STATUS_WORDS_ROWS = (
+        '<dt>FULL actual-file mathematical PASS · scoped mathematical PASS</dt><dd>Quoted from the three review records linked in the 10 October 2026 cut, '
+        'beside each reader’s name: the completed section shared by two of them (“a separate fresh FULL actual-file mathematical PASS on the current '
+        'PROOF.md identity above”) and both verdicts in the third (“scoped mathematical PASS, no must-fix”). Each record opens with a construction '
+        'snapshot written while its review was still pending; these verdicts come from the later completed sections. The records also keep earlier '
+        'PASS verdicts on predecessor files, which the cut names as such and which do not cover the landed bytes. These are the records’ own words, '
+        'not PASS_TECHNICAL or PASS_TECHNICAL_SCOPED, and organizational-independence credit is zero in all three. This site records no definition '
+        'of these tokens; each record states its own scope, imports and exclusions.</dd>\n',
+        '<dt>ACTIVE</dt><dd>Quoted from the three review records linked in the 10 October 2026 cut (“Full landmark goal ACTIVE.”). It is those '
+        'records’ own wording, not a status this site assigns, and this site records no definition of it.</dd>\n')
+    FORMULAS = {'fold-exponent':['(d−1) + 3 − (d+3) + 2 = 1','ν_bar(ℓ) ~ C ℓ^(−1/3), as ℓ decreases to zero',
+                                 'E N_bar((0, t]) / V_X ~ (3/2) C t^(2/3), as t decreases to zero'],
+                'periodized-h0':['ν_bar(ℓ) ~ c_(d,L) ℓ^(−1/3)'],
+                'pooled-short-bars':['n t_n^(2/3) → λ, with 0 &lt; λ &lt; ∞','λ L^d c_(d,L) a^(−1/3) da']}
+    STATUS = {
+        'fold-exponent':('Landed at main 0be54aa2 (main #329, merged 8 October 2026, 23:58 UTC); bytes unchanged at main 6e11abfb.',
+                         'OpenAI/Codex · “FULL actual-file mathematical PASS”, quoted from the linked review record · one reader of the landed proof’s exact 43,927 bytes; organizational-independence credit zero.',
+                         'The proof’s own declaration: “Source incorporation and technical review do not constitute scientific promotion.”'),
+        'periodized-h0':('Landed at main 0be54aa2 (main #329, merged 8 October 2026, 23:58 UTC); bytes unchanged at main 6e11abfb.',
+                         'OpenAI/Codex · “FULL actual-file mathematical PASS”, quoted from the linked review record · one reader of the landed proof’s exact 34,629 bytes, in the same review as the structural proof; organizational-independence credit zero.',
+                         'The proof’s own declaration: “No scientific status changes here.”'),
+        'pooled-short-bars':('Landed at main 0be54aa2 (main #329, merged 8 October 2026, 23:58 UTC); bytes unchanged at main 6e11abfb.',
+                             'OpenAI/Codex · “scoped mathematical PASS, no must-fix”, quoted from the linked review record · two readers: one of the landed proof’s exact 30,935 bytes, the other of its 31,220-byte original; organizational-independence credit zero.',
+                             'The proof’s own declaration: “It supplies no spatial expanding-domain law, regional witness closure, global second-factorial bound, numerical window, sampler certificate, Lean proof or scientific promotion.”'),
+    }
+    FORBIDDEN = (
+        # status or acceptance words this cut never uses; lower-case entries are refused in any case
+        'ACCEPT','AMEND','PENDING','NOT_RUN','NONE','NOT_VERIFIED','PROVED_REVIEWED','AUTHOR_SIDE_CANDIDATE','PASS_TECHNICAL',
+        'proved theorem','theorem accepted','universality established','universality is established','universality class',
+        'universal law','proves universality','accepted','established','independently','peer-review','independent review',
+        'independent read','independent check','validated','confirmed','admitted','kernel-checked','Lean-verified','machine-checked',
+        'held-out','human review','owner review','blind review',
+        # the records' squashed tokens are never reproduced
+        'promotion:NONE','organizational0','independence0','NOT_RUN',
+        # exponent spellings this cut does not use
+        'ℓ^(1/3)','t^(−1/3)','ℓ^(2/3)','-1/3','exponent 1/3',
+        # mutable routes and proposals presented as landed
+        'blob/main','tree/main','#330 landed','#331 landed','merged #330','merged #331',
+    )
+    # Verdict quotes come only from each record's completed '## Fresh' section, never from its pending construction snapshot.
+    SOURCE_PATHS = {
+        'fold':'experiments/universality/fold_structural_universality/PROOF.md',
+        'fold-record':'experiments/universality/fold_structural_universality/REVIEW.md',
+        'fold-record#completed':'experiments/universality/fold_structural_universality/REVIEW.md',
+        'periodized':'experiments/universality/periodized_gaussian_h0/PROOF.md',
+        'periodized-record':'experiments/universality/periodized_gaussian_h0/REVIEW.md',
+        'periodized-record#completed':'experiments/universality/periodized_gaussian_h0/REVIEW.md',
+        'process':'experiments/universality/iid_short_bar_process/PROOF.md',
+        'process-record':'experiments/universality/iid_short_bar_process/REVIEW.md',
+        'process-record#completed':'experiments/universality/iid_short_bar_process/REVIEW.md',
+        'guide':'experiments/universality/README.md',
+    }
+    SHARED_COMPLETED = ('remains historical','Fresh incorporated-source review completed',
+                        'a separate fresh FULL actual-file mathematical PASS on the current PROOF.md identity above',
+                        'FULL actual-file mathematical PASS',
+                        'No mathematical must-fix, dependency/read-extent overclaim or broken inspected link was found.',
+                        'the conditional structural theorem and actual fixed-d,L periodized Gaussian adapter, under explicit named imports',
+                        'These are fresh hashes/block comparisons with prior full dependency reads, not fresh whole reads of every dependency.',
+                        'The later process addition changes README and has its own metadata review; this verdict does not cover those later bytes.')
+    SHARED_RECORD = ('No human, provider-distinct or blind acceptance is inferred.','Full landmark goal ACTIVE.','nonauthor',
+                     'No separate fold-chart source is claimed as a consumed dependency of these proofs.',
+                     'This predecessor verdict is source-bound and does not certify the present wrapper/source-rebind bytes.')
+    QUOTES = {
+        'fold': ('A cubic height gap alone does not determine a lifetime density exponent.',
+                 'a conditional structural theorem with explicit field-admission interfaces',
+                 'It is not an unconditional dimension-independent admission result. The coefficient depends on the field law and local geometry.',
+                 'remains a substantive admission task',
+                 'This already falsifies the inference from covariance/rank alone.',
+                 'Same-provider source and route exposure is substantial; organizational independence is zero.',
+                 'Source incorporation and technical review do not constitute scientific promotion.',
+                 'General dimensions, manifolds and non-Gaussian fields still require the actual five interfaces and positive cone coefficient.',
+                 'one specific completed analytic adapter, not an automatic admission rule for arbitrary laws',
+                 'Higher homology, spatial expanding-domain processes, numerical windows, certified computational coupling, blind-field validation, publication uptake and critical Lean discharge remain separate.',
+                 'its intermediate half-Gaussian moment error','were already correct','those verdicts are not silently rebound to it',
+                 'an algebraic pushforward lemma under its stated analytic domination, not a higher-order field theorem.'),
+        'periodized': ('Removing a sample mean, changing width, empirical variance normalization, a minimum-image kernel, or a finite spectral cutoff defines a different law.',
+                       'There is no limiting-cutoff admission in this proof.',
+                       'Adapter theorem, subject to the named classical imports.',
+                       'gives no selected-density continuity, quantitative pairing rate, O(1) full near remainder, usable lifetime window or numerical digits',
+                       'No joint unbounded-d, variable-L, cutoff or model-family uniformity is asserted.',
+                       "the coordinator's theta-polynomial rank contribution",
+                       'No scientific status changes here.',
+                       'is not a new verification of S24 arithmetic, endpoint intervals, review acceptance or compiled formal semantics.',
+                       'No actual random coordinates are drawn.'),
+        'process': ('tends to the empty process, not a nondegenerate Poisson process.',
+                    'No independence of b,k,u is asserted',
+                    'a narrower independent-copies theorem. It is not a spatial expanding-domain or mixing theorem',
+                    'Coalescing-center/global factorial and spatial/regional collision questions remain unproved here.',
+                    'All named performers are AI agents with substantial source and route exposure; organizational independence is zero.',
+                    'It supplies no spatial expanding-domain law, regional witness closure, global second-factorial bound, numerical window, sampler certificate, Lean proof or scientific promotion.',
+                    'not a counterexample to the actual Gaussian law',
+                    'A uniform birth location is a property of this fixed-torus iid superposition, not a statement of spatial independence within one field.',
+                    'history/scope inputs',
+                    'was bounded and prefile; it did not review that saved source.'),
+        'fold-record': SHARED_RECORD,
+        'fold-record#completed': SHARED_COMPLETED,
+        'periodized-record': SHARED_RECORD,
+        'periodized-record#completed': SHARED_COMPLETED,
+        'process-record': ('No human, provider-distinct or blind acceptance is inferred.','Full landmark goal ACTIVE.',
+                           'challenged the new Borel count and endpoint-exhaustion argument'),
+        'process-record#completed': ('remains historical','Fresh original and incorporated-source reviews completed',
+                                     'scoped mathematical PASS, no must-fix',
+                                     'not as new reads of every dependency during the process pass.',
+                                     'the stated marked Poisson limit across independent whole copies at fixed d,L'),
+        # named, not quoted: the suite guide's own titles for the three sources
+        'guide': ('regular-fold structural theorem','exact periodized Gaussian H0 adapter','marked short-bar process theorem'),
+    }
+    # Each quote keeps the source the page names for it.
+    ATTRIBUTIONS = ('But the proof warns that “A cubic height gap',
+                    'The proof calls itself “a conditional structural theorem',
+                    'The proof adds “It is not an unconditional',
+                    'the proof says “Same-provider source and route exposure',
+                    'The proof’s own declaration: “Source incorporation',
+                    'The proof says “Removing a sample mean',
+                    'The proof calls this an “Adapter theorem',
+                    'in the proof’s words, “the coordinator',
+                    'The proof’s own declaration: “No scientific status changes here.”',
+                    'in the proof’s words its short-bar process “tends to the empty process',
+                    'In the proof’s words this is “a narrower independent-copies theorem.',
+                    'the proof says “All named performers are AI agents',
+                    'each returned “scoped mathematical PASS, no must-fix”',
+                    'The proof’s own declaration: “It supplies no spatial',
+                    'The structural proof says “General dimensions',
+                    'It calls the periodized proof “one specific completed analytic adapter',
+                    'each review record says “No human, provider-distinct or blind acceptance is inferred.” and “Full landmark goal ACTIVE.”',
+                    '<code>final_contract_review</code> records “a separate fresh FULL actual-file mathematical PASS',
+                    'the record says “The later process addition changes README',
+                    'The regular-fold proof says its original preparation remains frozen with “its intermediate half-Gaussian moment error”',
+                    'the record says “This predecessor verdict is source-bound',
+                    'The process record adds that <code>root</code> “challenged the new Borel count',
+                    'the proof says it is “not a counterexample to the actual Gaussian law”',
+                    'the periodized proof says “No actual random coordinates are drawn.”',
+                    'the process proof says, “was bounded and prefile',
+                    'The suite guide calls them the regular-fold structural theorem, the exact periodized Gaussian H0 adapter and the marked short-bar process theorem.')
+
+    def page(self): return (SITE/'research.html').read_text()
+
+    def section(self):
+        text=self.page()
+        return text[text.index(f'<section id="{self.CUT_ID}"'):text.index('<section id="reading-cut-20261009"')]
+
+    def card(self, identity):
+        section=self.section();start=section.index(f'<article class="latest-card" id="{identity}"')
+        return section[start:section.index('</article>',start)+len('</article>')]
+
+    def status_rows(self):
+        # Everything between the NOT READY row and 'Words used on other pages': the rows this cut added, and nothing else.
+        words=self.page().split('<details id="status-words" class="reading-glossary">',1)[1].split('</details>',1)[0]
+        return words.split('<dt>NOT READY</dt>',1)[1].split('</dd>\n',1)[1].split('<dt>Words used on other pages</dt>',1)[0]
+
+    def git(self, *args):
+        import subprocess
+        try:
+            return subprocess.run(['git',*args],cwd=ROOT,check=True,capture_output=True).stdout
+        except (OSError,subprocess.CalledProcessError):
+            self.skipTest(f'git {" ".join(args)} unavailable in this checkout')
+
+    def source_bytes(self, ref, path): return self.git('cat-file','blob',f'{ref}:{path}')
+
+    def flat_source(self, key):
+        path=self.SOURCE_PATHS[key];text=self.source_bytes(OCT10_REF,path).decode()
+        if key.endswith('#completed'):
+            head,marker,tail=text.partition('\n## Fresh')
+            self.assertTrue(marker and 'PENDING' in head and 'PENDING' not in tail,f'{path}: pending snapshot, then a completed section')
+            text=marker+tail
+        return ' '.join(text.replace('`','').replace('**','').split())
+
+    def test_cut_bytes_are_the_bytes_checked_for_this_cut(self):
+        section=self.section().encode()
+        self.assertEqual((len(section),sha256(section).hexdigest()),(self.CUT_BYTES,self.CUT_SHA256),
+                         'the 10 October cut is a dated, unchanging selection; earlier cuts are append-only')
+
+    def test_process_marks_and_open_gaps_follow_the_records(self):
+        # Eq. (14) factors the rescaled lifetime and the location out; only birth height, the gap variable k (k = ell/r^3) and the
+        # direction stay joint. The card names k by card 1's relation, not as 'gap' (which card 1 uses for the lifetime itself).
+        proof=self.flat_source('process')
+        for phrase in ('k=ell/r^3>0','physical gap variable k','Stationarity implies uniform x and its independence from the other marks in this limiting measure.',
+                       'The lifetime factor also separates after rescaling. No independence of b,k,u is asserted'):
+            with self.subTest(source_phrase=phrase):self.assertIn(phrase,proof)
+        self.assertIn('In the limit, birth location is uniform and independent of the other marks, and the rescaled lifetime <code>a</code> also '
+                      'separates; for birth height <code>b</code>, the gap coefficient <code>k</code> in <code>ℓ = k r³</code> and direction '
+                      '<code>u</code>, “No independence of b,k,u is asserted”.',self.card('pooled-short-bars'))
+        self.assertIn('write the lifetime <code>ℓ</code>, their height gap, as <code>ℓ = k r³</code>.',self.card('fold-exponent'))
+        self.assertNotIn('birth height, gap and direction',self.section())
+        # the process record's open gaps, with coalescing-center/global-factorial kept as the record writes it
+        self.assertIn('The coalescing-center/global-factorial, same-field spatial, expanding-domain, regionalwitness and Hk gaps remain open.',
+                      self.flat_source('process-record#completed'))
+        self.assertIn('it names the coalescing-center/global-factorial, same-field spatial, expanding-domain, regional-witness and '
+                      'higher-homology gaps as open.',self.section())
+        # the process proof's further limit and the reviewer's earlier, bounded exposure, as the records state them
+        self.assertIn('It is not a spatial expanding-domain or mixing theorem, nor a joint L->infinity/lifetime limit.',proof)
+        self.assertIn('mixing theorem”; it takes no joint limit in which the torus side <code>L</code> grows as the lifetimes shrink; and “Coalescing-center',
+                      self.card('pooled-short-bars'))
+        self.assertIn('distinct from its earlier bounded prefile route attack.',self.flat_source('process-record'))
+        self.assertIn('The earlier benchmark route attack was bounded and prefile; it did not review that saved source.',proof)
+        self.assertIn('<code>benchmark_formal_audit</code> wrote the contact-genericity and elder-transfer proofs and implemented the catalogue; before '
+                      'its fresh read, it made an earlier route attack on the process argument which, the process proof says, “was bounded and '
+                      'prefile; it did not review that saved source.”',self.section())
+
+    def test_scope_sentences_that_are_not_quotations(self):
+        # Paraphrase that bounds what a verdict or a pin covers; the whole-cut digest alone would accept a re-pinned weakening.
+        section=self.section()
+        for sentence in ('Only the first verdict is on the landed bytes.',
+                         'it is navigation, and none of the verdicts below covers its bytes.',
+                         'but the law is different, so <code>c_(d,L)</code> is not that cut’s <code>C_loc</code>.',
+                         '<strong>Scope:</strong> this cut presents landed sources only.',
+                         'It gives no numerical value for <code>C</code>',
+                         'So “nonauthor” here does not mean independent, and none is an owner reading.',
+                         'were open at this cut; this page does not present them as landed.',
+                         'This page does not fetch, execute or verify those sources in your browser.'):
+            with self.subTest(sentence=sentence):self.assertIn(sentence,section)
+        self.assertEqual(section.count('So “nonauthor” here does not mean independent, and none is an owner reading.'),2)
+
+    def test_cut_is_newest_entry_and_links_to_the_9_october_cut_and_upstream(self):
+        text=self.page();section=self.section()
+        self.assertTrue(section.endswith('</section>\n'),'the new cut sits immediately above the 9 October cut')
+        self.assertLess(text.index('id="status-words"'),text.index(f'<section id="{self.CUT_ID}"'))
+        self.assertEqual(text.index('class="latest-work"'),text.index(f'<section id="{self.CUT_ID}"')+len(f'<section id="{self.CUT_ID}" '),'first dated cut on the page')
+        self.assertIn(f'<section id="{self.CUT_ID}" class="latest-work" tabindex="-1" aria-labelledby="oct10-heading">',section)
+        self.assertIn('<h2 id="oct10-heading">Why −1/3, and for which fields is it proved?</h2>',section)
+        self.assertEqual(section.split('<p class="eyebrow">',1)[1].split('</p>',1)[0],'Landed 8 October · main #329 · conditional and fixed-law scope')
+        self.assertEqual(re.findall(r'<time datetime="([^"]+)">',section),[self.CUT_ISO])
+        self.assertIn(f'<p class="section-intro">Reading cut<br><time datetime="{self.CUT_ISO}">10 October 2026 · 20:24 UTC</time></p>',section)
+        self.assertIn(f'<a class="button secondary" href="#{self.CUT_ID}">Latest public work</a>',text)
+        self.assertIn(f'Newest reading cut: <time datetime="{self.CUT_ISO}">10 October 2026, 20:24 UTC</time>.',text)
+        self.assertEqual(text.split('<nav class="cut-list"',1)[1].split('<li>',2)[1],self.HERO_ROW)
+        self.assertIn(f'<details class="latest-identities" id="{self.CUT_ID}-details"><summary>Exact sources, review records and what each review covers</summary>',section)
+        self.assertIn('<p>Continue to the <a href="#reading-cut-20261009">9 October 00:05 UTC reading cut below</a>, which explains the finite H0 lifetime proof, or follow <a href="#newer-work">newer branches and open proposals</a> through the mutable upstream routes.</p>\n</section>\n',section)
+        names=re.findall(r'<a [^>]*>(.*?)</a>',text,re.S)
+        for name in ('9 October 00:05 UTC reading cut below','newer branches and open proposals',*(card[2] for card in self.CARDS),
+                     'Regular-fold proof bytes checked for this cut','Read the regular-fold review record, with its snapshot and completed verdict',
+                     'Periodized adapter proof bytes checked for this cut','Read the periodized adapter’s review record',
+                     'Process proof bytes checked for this cut','Read the process review record, with both verdicts',
+                     'Read the suite guide, as navigation only','#330','#331'):
+            with self.subTest(name=name):self.assertEqual(names.count(name),1)
+        # Home and the Library name this cut beside its timestamp.
+        self.assertIn('<a href="research.html#reading-cut-20261010">Read the latest public work →</a> <span class="muted cut-note">reading cut of <time datetime="2026-10-10T20:24:00Z">10 October 2026, 20:24 UTC</time></span>',(SITE/'index.html').read_text())
+        workspace=(SITE/'workspace.html').read_text()
+        self.assertIn('<a href="research.html#reading-cut-20261010">Latest public work&nbsp;→</a> <span class="muted">(reading cut of <time datetime="2026-10-10T20:24:00Z">10 October 2026, 20:24 UTC</time>)</span>',workspace)
+        self.assertIn('up to the 10 October 2026, 20:24 UTC reading cut (not every landed packet), use <a href="research.html#reading-cut-20261010">Latest public work</a>',workspace)
+
+    def test_quoted_phrases_are_verbatim_in_their_pinned_sources(self):
+        section=self.section()+self.status_rows()
+        quoted=set()
+        for key,quotes in self.QUOTES.items():
+            flat=self.flat_source(key)
+            for quote in quotes:
+                quoted.add(quote)
+                with self.subTest(source=key,quote=quote):
+                    self.assertIn(quote,section)
+                    self.assertIn(quote,flat)
+        # every quotation on the cut and in its status-words rows is one of the checked quotes
+        for quote in re.findall(r'“(.*?)”',section,re.S):
+            with self.subTest(unchecked=quote[:60]):self.assertIn(quote,quoted)
+        for attribution in self.ATTRIBUTIONS:
+            with self.subTest(attribution=attribution):self.assertEqual(self.section().count(attribution),1)
+        # the verdicts are never quoted from a pending snapshot; the snapshots are named as such
+        for key in ('fold-record','periodized-record','process-record'):
+            snapshot=' '.join(self.source_bytes(OCT10_REF,self.SOURCE_PATHS[key]).decode().split('\n## Fresh',1)[0].split())
+            for verdict in ('FULL actual-file mathematical PASS','scoped mathematical PASS'):
+                with self.subTest(snapshot=key,verdict=verdict):self.assertNotIn(verdict,snapshot)
+        self.assertIn('Each of the three records opens with a construction snapshot dated 8 October, written while its review was still pending.',section)
+        self.assertIn('The verdicts quoted on the cards come from the completed sections.',section)
+
+    def test_forbidden_words_proposals_and_independence_qualifiers(self):
+        section=self.section();rows=self.status_rows()
+        # the cut and the #status-words rows it adds; those rows name PASS_TECHNICAL only to say these verdicts are not it
+        for region,text in (('cut',section),('status-words rows',rows)):
+            for word in self.FORBIDDEN:
+                if region!='cut' and word=='PASS_TECHNICAL':continue
+                with self.subTest(region=region,word=word):
+                    self.assertNotIn(word,text)
+                    if word==word.lower():self.assertNotIn(word,text.lower())
+        # 'universality' occurs only in pinned paths and agent names, never in the cut's prose or its status-words rows
+        prose=re.sub(r'href="[^"]*"','',re.sub(r'<code>.*?</code>','',section))
+        self.assertNotIn('universality',prose.lower());self.assertNotIn('universality',rows.lower())
+        # the proposals are named only in the cut's scope paragraph: not in its status-words rows, the hero or the entry rows above it
+        page=self.page()
+        above=page.split('<section class="hero">',1)[1].split(f'<section id="{self.CUT_ID}"',1)[0]
+        # Only known numeric metadata is exempt; generated prose and links still obey proposal placement.
+        start,end='<!-- CURRENT-SITE:START -->','<!-- CURRENT-SITE:END -->'
+        self.assertEqual(page.count(start),1)
+        self.assertEqual(page.count(end),1)
+        self.assertLess(page.index(start),page.index(end))
+        self.assertEqual(above.count(start),above.count(end))
+        self.assertLessEqual(above.count(start),1)
+        if start in above:
+            self.assertLess(above.index(start),above.index(end))
+            before,generated=above.split(start,1)
+            generated,after=generated.split(end,1)
+            generated=re.sub(
+                r'(<section id="current-research" class="current-research" data-current-digest="[0-9a-f]{64}" data-current-bytes=")\d+(">)',
+                r'\1BYTES\2',generated)
+            generated=re.sub(
+                r'(<p class="current-capacity">History capacity: )\d+( of )\d+( mathematical archives; )\d+( of )\d+( conservative retained bytes)',
+                r'\1ARCHIVES\2ARCHIVE_LIMIT\3BYTES\4BYTE_LIMIT\5',generated)
+            above=before+generated+after
+        # Source pins and digests can contain these digits; proposal numbers are separate tokens.
+        proposal_number=re.compile(r'(?:\b|(?:PR|proposal)[ \t]*#?)(330|331)\b',re.I)
+        above_numbers=proposal_number.findall(above)
+        for number in ('330','331'):
+            with self.subTest(above=number):self.assertNotIn(number,above_numbers)
+        # on the reader's text, each proposal number occurs once, in one fixed sentence that says it was open and is not presented as landed
+        plain=re.sub(r'<[^>]+>','',re.sub(r'<code>.*?</code>','',section))
+        plain_numbers=proposal_number.findall(plain)
+        self.assertEqual((plain_numbers.count('330'),plain_numbers.count('331')),(1,1))
+        self.assertIn('“Full landmark goal ACTIVE.” Main #330 and the draft #331, proposals in this line whose titles concern spectral Gaussian laws '
+                      'and other homology degrees, were open at this cut; this page does not present them as landed. A merge, a passing check',plain)
+        # independence is never credited to a reader, review or provider, and every reader named is an OpenAI/Codex agent
+        for pattern in (r'\bindependent(?:ly)?,? (?:OpenAI|Codex|nonauthor|agents?|readers?|reviews?|reviewers?|reads?|checks?|providers?|human)',
+                        r'\b(?:other|another|different|distinct|second) (?:AI )?providers?\b',r'\bAnthropic\b',r'\bClaude\b',r'\bGemini\b',r'\bxAI\b',
+                        r'\bhumans? (?:reader|review)',r'\bthe owner\b',r'\bowners? (?:also )?(?:read|reads|reviewed|reviews?)\b'):
+            with self.subTest(pattern=pattern):self.assertIsNone(re.search(pattern,plain))
+        credit=re.findall(r'[Oo]rganizational[- ]independence(?: credit)?(?: is)? (\w+)',plain)
+        self.assertEqual((len(credit),set(credit)),(6,{'zero'}))
+        self.assertEqual(plain.count('Every author and reader named is an OpenAI/Codex agent'),1)
+        # agent names are breakable code, so they cannot overflow a 320 px card
+        for name in ('final_contract_review','benchmark_formal_audit','universality_review'):
+            with self.subTest(name=name):
+                self.assertIn(f'<code>{name}</code>',section);self.assertNotIn(name,prose)
+        self.assertIsNone(re.search(r'\broot\b',re.sub(r'<code>root</code>','',prose)))
+        # #330 and #331 appear once each, as open proposals in the scope paragraph, never as landed
+        boundary=re.findall(r'<p class="latest-boundary">(.*?)</p>',section,re.S)
+        self.assertEqual(len(boundary),1)
+        for number in ('330','331'):
+            with self.subTest(number=number):
+                self.assertEqual(section.count('#'+number),1)
+                self.assertIn(f'<a href="https://github.com/d6g8k5htny-coder/main/pull/{number}">#{number}</a>',boundary[0])
+        self.assertIn('were open at this cut; this page does not present them as landed.',boundary[0])
+        self.assertIn('A merge, a passing check or a named review is not scientific acceptance, and no status, register, graph, catalogue or acceptance record changes here.',boundary[0])
+        # every paragraph that uses the records' word "nonauthor" says what it does not mean, and names no owner reading
+        paragraphs=re.findall(r'<(?:p|dd)\b[^>]*>(.*?)</(?:p|dd)>',section,re.S)
+        for paragraph in paragraphs:
+            if 'nonauthor' in paragraph:
+                with self.subTest(paragraph=paragraph[:60]):
+                    self.assertIn('does not mean independent',paragraph);self.assertIn('none is an owner reading',paragraph)
+        self.assertEqual((section.count('nonauthor'),section.count('does not mean independent'),section.count('none is an owner reading')),(3,3,3))
+        # no coefficient value: no decimal in the prose and no number attached to C or c_(d,L)
+        text=re.sub(r'<[^>]+>','',re.sub(r'<p class="display-formula">.*?</p>','',section))
+        self.assertIsNone(re.search(r'\d[.,]\d{1,2}(?!\d)|\d\.\d',text))
+        self.assertIsNone(re.search(r'(?:\bC\b|C_loc|c_\(d,L\))\s*(?:[=≈≃<>]|\(?\d)',text))
+        self.assertIn('It gives no numerical value for <code>C</code>',section)
+        self.assertIn('so <code>c_(d,L)</code> is not that cut’s <code>C_loc</code>.',section)
+
+    def test_three_cards_one_face_pin_each_three_status_rows_and_neutral_classes(self):
+        section=self.section();tree=FiniteH0LifetimeReading.Tree(section);text_of=FiniteH0LifetimeReading.text_of
+        self.assertEqual([c['attrs'].get('id') for c in tree.find(cls='latest-card')],[card[0] for card in self.CARDS])
+        self.assertEqual(len(tree.find('p','latest-boundary')),1)
+        self.assertTrue(all(n['parents'][-1]=='section' for n in tree.find('p','latest-boundary')),'the scope paragraph is a direct child of the cut')
+        self.assertEqual(len(tree.find('dl','card-status')),3)
+        used=set().union(*[n['classes'] for n in tree.elements])
+        self.assertLessEqual(used,self.ALLOWED_CLASSES,used-self.ALLOWED_CLASSES)
+        self.assertNotIn('<script',self.page())
+        all_formulas=[]
+        for (identity,directory,name,_),face in zip(self.CARDS,OCT10_FACE_PINS):
+            card=self.card(identity);card_tree=FiniteH0LifetimeReading.Tree(card)
+            with self.subTest(card=identity):
+                self.assertTrue(face.endswith(f'/{directory}/PROOF.md'))
+                kicker,heading=self.HEADINGS[identity]
+                self.assertTrue(card.startswith(f'<article class="latest-card" id="{identity}" aria-labelledby="{identity}-title">\n'
+                                                f'<p class="card-kicker">{kicker}</p><h3 id="{identity}-title">{heading}</h3>\n'))
+                self.assertEqual(PinnedReadingLinks('<section '+card).links,[face])
+                self.assertIn(f'<p><a data-source-kind="pinned" href="{face}">{name}</a></p>',card)
+                self.assertRegex(card,r'</h3>\n<p>','an ordinary paragraph follows the heading (the browser check measures it)')
+                self.assertIn('<strong>Who read it:</strong>',card)
+                self.assertEqual([text_of(n) for n in card_tree.find('dt')],['Landed?','Read by','Scientific effect'])
+                self.assertEqual(tuple(text_of(n) for n in card_tree.find('dd')),self.STATUS[identity])
+                self.assertTrue(card.endswith('</dl>\n</article>'),'each card ends with its status rows')
+                formulas=re.findall(r'<p class="display-formula"><code>(.*?)</code></p>',card)
+                self.assertEqual(formulas,self.FORMULAS[identity])
+                all_formulas+=formulas
+        self.assertEqual(re.findall(r'<p class="display-formula"><code>(.*?)</code></p>',section),all_formulas)
+        self.assertTrue(all('card-status' in n['parent_classes'] and 'latest-card' in n['parent_classes'] for n in tree.find('dt')+tree.find('dd')))
+
+    def test_pinned_items_carry_only_their_digest_and_the_digests_match_the_pinned_bytes(self):
+        section=self.section()
+        parsed=PinnedReadingLinks('<section '+section)
+        self.assertEqual(parsed.links,OCT10_FACE_PINS+list(OCT10_PINS))
+        self.assertEqual(parsed.hash_bindings,list(OCT10_PINS.items()))
+        for item in re.findall(r'<li>(.*?)</li>',section,re.S):
+            codes=re.findall(r'<code>(.*?)</code>',item)
+            with self.subTest(item=item[:80]):
+                self.assertIn('data-source-kind="pinned"',item)
+                self.assertEqual(len(codes),1);self.assertRegex(codes[0],r'\A[0-9a-f]{64}\Z')
+        proposals={f'https://github.com/d6g8k5htny-coder/main/pull/{number}' for number in ('330','331')}
+        for href in re.findall(r'href="(https://[^"]+)"',section):
+            with self.subTest(href=href):
+                self.assertTrue(href.startswith(OCT10_PREFIX) or href in proposals)
+                self.assertEqual(urlsplit(href).query+urlsplit(href).fragment,'')
+        # the suite guide is the 9 October cut's own pin
+        self.assertIn((OCT10_PREFIX+'README.md',OCT10_PINS[OCT10_PREFIX+'README.md']),OCTNEW_PINS.items())
+        for url,digest in OCT10_PINS.items():
+            path='experiments/universality/'+url[len(OCT10_PREFIX):]
+            with self.subTest(url=url):
+                self.assertEqual(sha256(self.source_bytes(OCT10_REF,path)).hexdigest(),digest)
+                self.assertEqual(sha256(self.source_bytes(self.CHECKED_REF,path)).hexdigest(),digest,'same bytes where the cut was checked')
+                if not path.endswith('/universality/README.md'):
+                    self.assertEqual(sha256(self.source_bytes(self.SOURCE_COMMIT,path)).hexdigest(),digest,'added with these bytes in the one source commit')
+        # the six files are new in that commit, which is the only one between its parent and main #329's merge to touch them
+        parent=self.git('rev-parse',self.SOURCE_COMMIT+'^').decode().strip()
+        for directory in (card[1] for card in self.CARDS):
+            with self.subTest(directory=directory):
+                self.assertEqual(self.git('ls-tree',parent,f'experiments/universality/{directory}/'),b'')
+                log=self.git('log','--format=%H',parent+'..'+OCT10_REF,'--',f'experiments/universality/{directory}').decode().split()
+                self.assertEqual(log,[self.SOURCE_COMMIT])
+        self.assertIn(f'one source commit, <code>{self.SOURCE_COMMIT}</code>',section)
+        self.assertIn(f'same bytes at main <code>{self.CHECKED_REF}</code>, where this cut was checked',section)
+        merged=self.git('show','-s','--format=%ct %s',OCT10_REF).decode()
+        from datetime import datetime, timezone
+        self.assertEqual(datetime.fromtimestamp(int(merged.split()[0]),timezone.utc).strftime('%d %B %Y %H:%M'),'08 October 2026 23:58')
+        self.assertIn('Merge pull request #329 ',merged)
+        for (identity,directory,_,(size,lines)) in self.CARDS:
+            proof=self.source_bytes(OCT10_REF,f'experiments/universality/{directory}/PROOF.md')
+            with self.subTest(directory=directory):
+                self.assertEqual((len(proof),proof.count(b'\n')),(size,lines))
+                self.assertIn(f'{size:,} bytes, {lines} lines · SHA-256',section)
+                self.assertIn(f'all {lines} lines',self.card(identity))
+        guide=self.source_bytes(OCT10_REF,'experiments/universality/README.md')
+        self.assertEqual(guide.count(b'\n'),195);self.assertIn('not the 195-line version pinned here',section)
+        record=self.source_bytes(OCT10_REF,'experiments/universality/fold_structural_universality/REVIEW.md').decode()
+        self.assertIn('then183-line README',record);self.assertIn(self.REVIEWED_README,record)
+        self.assertIn(f'a 183-line suite guide (SHA-256 <code>{self.REVIEWED_README}</code>)',section)
+        # the two shared completed sections differ only in their snapshot identity
+        fold,periodized=(self.source_bytes(OCT10_REF,self.SOURCE_PATHS[key]).decode().split('\n## Fresh',1)[1] for key in ('fold-record','periodized-record'))
+        self.assertEqual([a for a,b in zip(fold.splitlines(),periodized.splitlines()) if a!=b],[fold.splitlines()[2],fold.splitlines()[3]])
+
+    def test_status_words_quote_the_records_after_not_ready(self):
+        words=self.page().split('<details id="status-words" class="reading-glossary">',1)[1].split('</details>',1)[0]
+        terms=re.findall(r'<dt>(.*?)</dt>',words)
+        self.assertEqual(terms[5:9],['NOT READY','FULL actual-file mathematical PASS · scoped mathematical PASS','ACTIVE','Words used on other pages'])
+        # the two added rows exactly: no extra sentence, row or claim between NOT READY and 'Words used on other pages'
+        self.assertEqual(self.status_rows(),''.join(self.STATUS_WORDS_ROWS))
+        self.assertEqual(words.count('10 October 2026'),3,'the as-read date and the two added rows')
+        self.assertIn(FiniteH0LifetimeReading.OTHER_PAGES_ROW,words)
+
+    def test_browser_flows_cover_the_new_cut(self):
+        harness=(ROOT/'tools/public_shop_browser_check.py').read_text()
+        for token in (f'#{self.CUT_ID}',f'#{self.CUT_ID}-details',self.CUT_ISO,'9 October 00:05 UTC reading cut below',
+                      f'"#{self.CUT_ID} .card-status dt")).to_have_count(9)',
+                      f'to_have_count({len(OCT10_PINS)})',*(f'"{card[0]}"' for card in self.CARDS),
+                      'newest_cut_screenshot','newest_cut_sources_screenshot',
+                      'expect(page.locator("#reading-cut-20261010")).to_be_focused()',
+                      '"#reading-cut-20261010 .latest-card")).to_have_count(3)',
+                      '"#reading-cut-20261010 .latest-card a[data-source-kind=pinned]")).to_have_count(3)',
+                      '"10 October cut entry overflow"','"10 October detail must start collapsed"','"10 October detail did not close"'):
+            with self.subTest(token=token):self.assertIn(token,harness)
+
+class ProposalNumberGuardRegression(unittest.TestCase):
+    """Exercise the complete reading guard, including its rejection controls."""
+    FAILED_MATH_SHA = 'a6116d8a2173c7b450791bd89331d1565922bd55'
+    PRIOR_MATH_SHA = '9844f785910d097b7b4591dcbd9e377bd7b38280'
+    # Synthetic hex fixtures expose both predicates without changing source pins.
+    SHA_WITH_330 = 'e' * 16 + '330' + 'a' * 21
+    DIGEST_WITH_BOTH = 'd' * 17 + '331' + 'e' * 20 + '330' + 'f' * 21
+
+    @staticmethod
+    def baseline():
+        return UniversalitySourcesReading('test_forbidden_words_proposals_and_independence_qualifiers').page()
+
+    def guard_result(self, page):
+        case = UniversalitySourcesReading('test_forbidden_words_proposals_and_independence_qualifiers')
+        result = unittest.TestResult()
+        with patch.object(case, 'page', return_value=page):
+            case.run(result)
+        self.assertEqual(result.testsRun, 1)
+        self.assertEqual(result.errors, [])
+        self.assertEqual(result.skipped, [])
+        return result
+
+    @staticmethod
+    def above_cut(page, fragment):
+        return page.replace('<section class="hero">', '<section class="hero">' + fragment, 1)
+
+    @staticmethod
+    def in_cut(page, fragment):
+        marker = f'<section id="{UniversalitySourcesReading.CUT_ID}"'
+        start = page.index('>', page.index(marker)) + 1
+        return page[:start] + fragment + page[start:]
+
+    def test_source_commit_links_and_display_do_not_name_proposals(self):
+        for name, commit in (('actual failed Math pin', self.FAILED_MATH_SHA),
+                             ('synthetic 330 pin', self.SHA_WITH_330),
+                             ('prior published Math pin', self.PRIOR_MATH_SHA)):
+            with self.subTest(pin=name):
+                fragment = (f'<p>Math <a href="https://github.com/d6g8k5htny-coder/Math-/tree/{commit}">{commit}</a> '
+                            f'<a href="https://github.com/d6g8k5htny-coder/Math-/blob/{commit}/PROOF_INDEX.md">Proof index</a></p>')
+                result = self.guard_result(self.above_cut(self.baseline(), fragment))
+                self.assertTrue(result.wasSuccessful(), f'{name} rejected by the reading guard')
+
+    def test_digest_attribute_does_not_name_proposals(self):
+        fragment = f'<p data-current-digest="{self.DIGEST_WITH_BOTH}">Current source</p>'
+        result = self.guard_result(self.above_cut(self.baseline(), fragment))
+        self.assertTrue(result.wasSuccessful(), 'a hex digest was read as a proposal number')
+
+    def test_generated_metadata_numbers_do_not_name_proposals(self):
+        for archives in (330, 331):
+            with self.subTest(archives=archives):
+                fragment = (f'<section id="current-research" class="current-research" data-current-digest="{self.DIGEST_WITH_BOTH}" data-current-bytes="331">'
+                            f'<p class="current-capacity">History capacity: {archives} of 512 mathematical archives; '
+                            '1033100 of 805306368 conservative retained bytes. No history is pruned.</p></section>')
+                page = self.baseline().replace('<!-- CURRENT-SITE:END -->', fragment + '<!-- CURRENT-SITE:END -->', 1)
+                self.assertTrue(self.guard_result(page).wasSuccessful(), 'numeric metadata was read as a proposal')
+
+    def test_generated_prose_and_proposal_links_still_fail(self):
+        for fragment in ('<p>proposal 331</p>', '<p>Main #330</p>', '<p>331</p>',
+                         '<a href="https://github.com/d6g8k5htny-coder/main/pull/331">#331 landed</a>',
+                         '<a href="https://github.com/d6g8k5htny-coder/main/pull/330">Proposal</a>'):
+            with self.subTest(generated=fragment):
+                page = self.baseline().replace('<!-- CURRENT-SITE:END -->', fragment + '<!-- CURRENT-SITE:END -->', 1)
+                self.assertFalse(self.guard_result(page).wasSuccessful(), 'generated proposal content escaped the guard')
+
+    def test_capacity_prose_and_links_after_numeric_fields_still_fail(self):
+        for fragment in ('proposal 331', '<a href="https://github.com/d6g8k5htny-coder/main/pull/331">#331 landed</a>'):
+            with self.subTest(capacity=fragment):
+                capacity = ('<p class="current-capacity">History capacity: 331 of 512 mathematical archives; '
+                            f'1033100 of 805306368 conservative retained bytes. {fragment}</p>')
+                page = self.baseline().replace('<!-- CURRENT-SITE:END -->', capacity + '<!-- CURRENT-SITE:END -->', 1)
+                self.assertFalse(self.guard_result(page).wasSuccessful(), 'capacity text after metadata escaped the guard')
+
+    def test_metadata_looking_generated_prose_still_fails(self):
+        for fragment in ('<p>data-current-bytes="331"</p>',
+                         '<p>History capacity: 331 of 512 mathematical archives; 1033100 of 805306368 conservative retained bytes</p>'):
+            with self.subTest(prose=fragment):
+                page = self.baseline().replace('<!-- CURRENT-SITE:END -->', fragment + '<!-- CURRENT-SITE:END -->', 1)
+                self.assertFalse(self.guard_result(page).wasSuccessful(), 'metadata-looking prose escaped the guard')
+
+    def test_compact_proposal_references_in_static_generated_and_cut_text_still_fail(self):
+        for proposal in ('PR331 landed', 'proposal331', 'pr330', 'MainPR331', 'proposal330'):
+            for region in ('static', 'generated', 'cut'):
+                with self.subTest(proposal=proposal, region=region):
+                    fragment = f'<p>{proposal}</p>'
+                    page = self.baseline()
+                    if region == 'static':
+                        page = self.above_cut(page, fragment)
+                    elif region == 'generated':
+                        page = page.replace('<!-- CURRENT-SITE:END -->', fragment + '<!-- CURRENT-SITE:END -->', 1)
+                    else:
+                        page = self.in_cut(page, fragment)
+                    self.assertFalse(self.guard_result(page).wasSuccessful(), 'compact proposal notation escaped the guard')
+
+    def test_zero_or_extra_marker_pairs_on_complete_page_still_fail(self):
+        page = self.baseline()
+        start, end = '<!-- CURRENT-SITE:START -->', '<!-- CURRENT-SITE:END -->'
+        for variant in (page.replace(start, '').replace(end, ''), page + start + end,
+                        page + start, page + end):
+            with self.subTest(markers=variant[-120:]):
+                self.assertFalse(self.guard_result(variant).wasSuccessful(), 'full-page marker invariant escaped the guard')
+
+    def test_hex_pins_in_reader_text_do_not_add_proposal_mentions(self):
+        # Fixture text exercises this count; the separate immutable-cut check is unchanged.
+        for commit in (self.FAILED_MATH_SHA, self.SHA_WITH_330, self.PRIOR_MATH_SHA):
+            with self.subTest(pin=commit):
+                result = self.guard_result(self.in_cut(self.baseline(), f'<p>Source identifier {commit}</p>'))
+                self.assertTrue(result.wasSuccessful(), 'a source pin was counted as an extra proposal')
+
+    def test_bare_and_prefixed_proposals_above_cut_still_fail(self):
+        for proposal in ('330', '331', '#330', '#331'):
+            with self.subTest(proposal=proposal):
+                result = self.guard_result(self.above_cut(self.baseline(), f'<p>{proposal}</p>'))
+                self.assertFalse(result.wasSuccessful(), 'a proposal escaped the placement guard')
+        for fragment in ('<a href="https://github.com/d6g8k5htny-coder/main/pull/331">#331</a>',
+                         '<a href="https://github.com/d6g8k5htny-coder/main/pull/330">Proposal</a>'):
+            with self.subTest(link=fragment):
+                self.assertFalse(self.guard_result(self.above_cut(self.baseline(), fragment)).wasSuccessful(),
+                                 'a proposal link escaped the placement guard')
+        page = self.baseline().replace('<!-- CURRENT-SITE:END -->', '<!-- CURRENT-SITE:END --><p>331</p>', 1)
+        self.assertFalse(self.guard_result(page).wasSuccessful(), 'static text after the block escaped the placement guard')
+
+    def test_malformed_generated_block_boundaries_still_fail(self):
+        page = self.baseline()
+        start, end = '<!-- CURRENT-SITE:START -->', '<!-- CURRENT-SITE:END -->'
+        variants = (page.replace(start, '', 1), page.replace(end, '', 1),
+                    page.replace(start, start + start, 1), page.replace(start, start + end + start, 1),
+                    page.replace(start, 'REVERSED-MARKER', 1).replace(end, start, 1).replace('REVERSED-MARKER', end, 1))
+        for index, variant in enumerate(variants):
+            with self.subTest(boundary=index):
+                self.assertFalse(self.guard_result(variant).wasSuccessful(), 'malformed markers hid static text')
+
+    def test_extra_proposal_in_cut_text_still_fails(self):
+        for proposal in ('330', '331'):
+            with self.subTest(proposal=proposal):
+                result = self.guard_result(self.in_cut(self.baseline(), f'<p>{proposal}</p>'))
+                self.assertFalse(result.wasSuccessful(), 'an extra proposal escaped the count guard')
+
+    def test_forbidden_claims_and_independence_content_still_fail(self):
+        for content in ('proved theorem', 'validated', 'universality established', '#331 landed', 'independent review', 'another AI provider'):
+            with self.subTest(content=content):
+                result = self.guard_result(self.in_cut(self.baseline(), f'<p>{content}</p>'))
+                self.assertFalse(result.wasSuccessful(), 'prohibited content escaped the reading guard')
 
 
 if __name__=='__main__': unittest.main()
