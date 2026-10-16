@@ -1,8 +1,10 @@
 """External synthetic Task1 contract; execute only in the hosted isolated lane.
 
 Author: OpenAI/Codex architecture_memory_regression_inventory, source exposed.
-No actual RED/GREEN has run when this tests-only packet is authored. Every
-source/fact/oracle is synthetic. No project helper is imported by these tests.
+Original Task1 RED/GREEN remains historical at its exact source. This successor
+adds Ready-review controls; its outcomes are NOT_RUN. Every source/fact/oracle
+is synthetic. No project helper is imported by these tests. Same provider and
+shared principal, organizational-independence credit0, scientific effect NONE.
 """
 from __future__ import annotations
 
@@ -12,6 +14,7 @@ import json
 import os
 from pathlib import Path
 import shutil
+import stat
 import subprocess
 import sys
 import tempfile
@@ -28,6 +31,52 @@ SOURCE_KEYS = {"source_id", "revision_id", "source_sha256", "extraction_sha256",
                "supersession_state"}
 REQUEST_KEYS = {"query", "exact_source_id", "exact_ref", "task_scope", "profile"}
 SENTINEL = "EVALUATOR_ONLY_6205877540_NEVER_INDEX_OR_PROMPT"
+
+# Literal frozen expectations copied from original manifest SHA256 fc4fb7dd...
+# before these findings; never derived from the product or mutated copy.
+FROZEN_GENERATION_CASE_IDS = ["P01","P02","P03","P04","D01","D02","D03","D04","V01","V02","V03","V04","X01","X02","X03","X04","N01","N02","N03","N04"]
+FROZEN_QUERY_ORDER = [
+    {"arms":["S","L","E"],"case_id":"P01","profiles":["W","C"]},
+    {"arms":["L","E","S"],"case_id":"P05","profiles":["C","W"]},
+    {"arms":["S","E","L"],"case_id":"N03","profiles":["W","C"]},
+    {"arms":["S","E","L"],"case_id":"X07","profiles":["C","W"]},
+    {"arms":["L","S","E"],"case_id":"X02","profiles":["W","C"]},
+    {"arms":["E","L","S"],"case_id":"X05","profiles":["C","W"]},
+    {"arms":["S","L","E"],"case_id":"V03","profiles":["W","C"]},
+    {"arms":["L","E","S"],"case_id":"V08","profiles":["C","W"]},
+    {"arms":["S","L","E"],"case_id":"X03","profiles":["W","C"]},
+    {"arms":["L","S","E"],"case_id":"V04","profiles":["C","W"]},
+    {"arms":["L","S","E"],"case_id":"D05","profiles":["W","C"]},
+    {"arms":["E","L","S"],"case_id":"N01","profiles":["C","W"]},
+    {"arms":["L","S","E"],"case_id":"D02","profiles":["W","C"]},
+    {"arms":["L","E","S"],"case_id":"V07","profiles":["C","W"]},
+    {"arms":["S","E","L"],"case_id":"V06","profiles":["W","C"]},
+    {"arms":["S","L","E"],"case_id":"X06","profiles":["C","W"]},
+    {"arms":["L","S","E"],"case_id":"X04","profiles":["W","C"]},
+    {"arms":["E","L","S"],"case_id":"V01","profiles":["C","W"]},
+    {"arms":["S","E","L"],"case_id":"D08","profiles":["W","C"]},
+    {"arms":["E","S","L"],"case_id":"N04","profiles":["C","W"]},
+    {"arms":["S","E","L"],"case_id":"N05","profiles":["W","C"]},
+    {"arms":["E","L","S"],"case_id":"D01","profiles":["C","W"]},
+    {"arms":["L","S","E"],"case_id":"N07","profiles":["W","C"]},
+    {"arms":["L","E","S"],"case_id":"P08","profiles":["C","W"]},
+    {"arms":["E","S","L"],"case_id":"X08","profiles":["W","C"]},
+    {"arms":["S","E","L"],"case_id":"D04","profiles":["C","W"]},
+    {"arms":["L","S","E"],"case_id":"X01","profiles":["W","C"]},
+    {"arms":["L","E","S"],"case_id":"D07","profiles":["C","W"]},
+    {"arms":["S","E","L"],"case_id":"P07","profiles":["W","C"]},
+    {"arms":["E","S","L"],"case_id":"P06","profiles":["C","W"]},
+    {"arms":["L","E","S"],"case_id":"V02","profiles":["W","C"]},
+    {"arms":["E","L","S"],"case_id":"P04","profiles":["C","W"]},
+    {"arms":["S","L","E"],"case_id":"N06","profiles":["W","C"]},
+    {"arms":["S","E","L"],"case_id":"D06","profiles":["C","W"]},
+    {"arms":["E","L","S"],"case_id":"P02","profiles":["W","C"]},
+    {"arms":["L","S","E"],"case_id":"N02","profiles":["C","W"]},
+    {"arms":["S","L","E"],"case_id":"N08","profiles":["W","C"]},
+    {"arms":["L","S","E"],"case_id":"V05","profiles":["C","W"]},
+    {"arms":["S","E","L"],"case_id":"D03","profiles":["W","C"]},
+    {"arms":["E","S","L"],"case_id":"P03","profiles":["C","W"]}
+]
 
 # Independent literal expected source slices, never obtained from product/oracle.
 EXPECTED = {
@@ -69,16 +118,92 @@ EXPECTED = {
     "X08": b"Exact-reference note R08: current revision r2 retains marker NOW_08.\r\n",
 }
 
-# Trusted test launcher, same interpreter as the real CLI. The optional receipt
-# destination is supplied by the hosted harness, consumed here, then removed.
-# Neither source metadata nor product code gains an environment-driven writer.
+# Trusted test launcher, same interpreter as the real CLI. Both optional
+# diagnostic destinations come only from the hosted harness and are removed
+# before runpy invokes product code; product gains no environment writer.
+
+def import_context(kind, entry_source):
+    library = (Path(sys.base_prefix) / "lib").resolve(strict=True)
+    if library.is_relative_to("/source") or library.is_relative_to("/tmp"):
+        raise RuntimeError("stdlib image prefix is unsafe")
+    version = "python" + str(sys.version_info.major) + "." + str(sys.version_info.minor)
+    origins = {}
+    for name, module, relative in (("copy", copy, Path("copy.py")),
+                                   ("json", json, Path("json/__init__.py"))):
+        origin = Path(module.__file__).resolve(strict=True)
+        expected = (library / version / relative).resolve(strict=True)
+        if origin != expected or not origin.is_relative_to(library):
+            raise RuntimeError("stdlib origin is outside the pinned image library")
+        origins[name] = {"path": str(origin), "sha256": hashlib.sha256(origin.read_bytes()).hexdigest()}
+    if not all(type(item) is str for item in sys.path):
+        raise RuntimeError("non-text interpreter import path")
+    return {"schema_version": 1, "kind": kind, "optimize": sys.flags.optimize,
+            "isolated": sys.flags.isolated,
+            "ignore_environment": sys.flags.ignore_environment,
+            "safe_path": sys.flags.safe_path, "sys_path": list(sys.path),
+            "stdlib_origins": origins,
+            "entry_source": str(Path(entry_source).resolve(strict=True))}
+
+
+def write_import_context(destination, kind, entry_source):
+    record = import_context(kind, entry_source)
+    fd = os.open(destination, os.O_WRONLY | os.O_CREAT | os.O_APPEND
+                 | os.O_NOFOLLOW | os.O_NONBLOCK, 0o600)
+    with os.fdopen(fd, "ab") as stream:
+        original = os.fstat(stream.fileno())
+        if not stat.S_ISREG(original.st_mode) or original.st_nlink != 1:
+            raise RuntimeError("import-context output is not a regular trusted file")
+        stream.write((json.dumps(record, sort_keys=True, ensure_ascii=True,
+                                 allow_nan=False) + "\n").encode("ascii"))
+
+
 LAUNCHER = r"""
-import json, os, runpy, sys
+import copy, hashlib, json, os, runpy, stat, sys
+from pathlib import Path
+
+def import_context(kind, entry_source):
+    library = (Path(sys.base_prefix) / "lib").resolve(strict=True)
+    if library.is_relative_to("/source") or library.is_relative_to("/tmp"):
+        raise RuntimeError("stdlib image prefix is unsafe")
+    version = "python" + str(sys.version_info.major) + "." + str(sys.version_info.minor)
+    origins = {}
+    for name, module, relative in (("copy", copy, Path("copy.py")),
+                                   ("json", json, Path("json/__init__.py"))):
+        origin = Path(module.__file__).resolve(strict=True)
+        expected = (library / version / relative).resolve(strict=True)
+        if origin != expected or not origin.is_relative_to(library):
+            raise RuntimeError("stdlib origin is outside the pinned image library")
+        origins[name] = {"path": str(origin), "sha256": hashlib.sha256(origin.read_bytes()).hexdigest()}
+    if not all(type(item) is str for item in sys.path):
+        raise RuntimeError("non-text interpreter import path")
+    return {"schema_version": 1, "kind": kind, "optimize": sys.flags.optimize,
+            "isolated": sys.flags.isolated,
+            "ignore_environment": sys.flags.ignore_environment,
+            "safe_path": sys.flags.safe_path, "sys_path": list(sys.path),
+            "stdlib_origins": origins,
+            "entry_source": str(Path(entry_source).resolve(strict=True))}
+
+
+def write_import_context(destination, kind, entry_source):
+    record = import_context(kind, entry_source)
+    fd = os.open(destination, os.O_WRONLY | os.O_CREAT | os.O_APPEND
+                 | os.O_NOFOLLOW | os.O_NONBLOCK, 0o600)
+    with os.fdopen(fd, "ab") as stream:
+        original = os.fstat(stream.fileno())
+        if not stat.S_ISREG(original.st_mode) or original.st_nlink != 1:
+            raise RuntimeError("import-context output is not a regular trusted file")
+        stream.write((json.dumps(record, sort_keys=True, ensure_ascii=True,
+                                 allow_nan=False) + "\n").encode("ascii"))
+
+
 destination = os.environ.pop('SEMANTIC_MEMORY_CHILD_MODE_LOG', None)
+import_destination = os.environ.pop('SEMANTIC_MEMORY_IMPORT_CONTEXT', None)
 if destination:
     fd = os.open(destination, os.O_WRONLY | os.O_CREAT | os.O_APPEND | os.O_NOFOLLOW, 0o600)
     with os.fdopen(fd, 'a', encoding='ascii') as stream:
         stream.write(json.dumps({'schema_version': 1, 'optimize': sys.flags.optimize}, sort_keys=True) + '\n')
+if import_destination:
+    write_import_context(import_destination, 'CLI_PROCESS_IMPORT_CONTEXT', sys.argv[1])
 sys.argv = sys.argv[1:]
 runpy.run_path(sys.argv[0], run_name='__main__')
 """
@@ -99,6 +224,9 @@ class SemanticMemoryFixtureContract(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.deadline = time.monotonic() + 120
+        cls.import_context_destination = os.environ.pop("SEMANTIC_MEMORY_IMPORT_CONTEXT", None)
+        if cls.import_context_destination:
+            write_import_context(cls.import_context_destination, "TEST_PROCESS_IMPORT_CONTEXT", __file__)
 
     def setUp(self):
         self.assertTrue(CLI.is_file(), "required Task1 fixture validator CLI tools/semantic_memory_experiment.py is absent")
@@ -161,11 +289,14 @@ class SemanticMemoryFixtureContract(unittest.TestCase):
     def invoke(self, path, mode="prepare-report", report=None, timeout=20):
         remaining = self.deadline - time.monotonic()
         self.assertGreater(remaining, 0, "finite120s per-mode test budget exhausted")
-        args = [sys.executable, "-B"] + (["-O"] if sys.flags.optimize else []) + ["-S", "-c", LAUNCHER, str(CLI), mode, "--fixtures", str(path)]
+        args = [sys.executable, "-I", "-B"] + (["-O"] if sys.flags.optimize else []) + ["-S", "-c", LAUNCHER, str(CLI), mode, "--fixtures", str(path)]
         if report is not None:
             args += ["--report", str(report)]
+        environment = os.environ.copy()
+        if self.import_context_destination:
+            environment["SEMANTIC_MEMORY_IMPORT_CONTEXT"] = self.import_context_destination
         try:
-            return subprocess.run(args, cwd=self.home, capture_output=True,
+            return subprocess.run(args, cwd=self.home, env=environment, capture_output=True,
                                   timeout=min(timeout, remaining), check=False)
         except subprocess.TimeoutExpired:
             self.fail("real CLI blocked or exceeded finite child/mode deadline")
@@ -222,6 +353,9 @@ class SemanticMemoryFixtureContract(unittest.TestCase):
         for row in m["query_order"]:
             self.assertEqual(sorted(row["arms"]), ["E", "L", "S"])
             self.assertEqual(sorted(row["profiles"]), ["C", "W"])
+        self.assertEqual(m["generation_case_ids"], FROZEN_GENERATION_CASE_IDS)
+        self.assertEqual(m["query_order"], FROZEN_QUERY_ORDER)
+        self.assertEqual(report["query_order"], FROZEN_QUERY_ORDER)
         self.assertEqual(len(m["generation_case_ids"]), 20)
         self.assertEqual({prefix: sum(x.startswith(prefix) for x in m["generation_case_ids"])
                           for prefix in "PDVXN"}, {p: 4 for p in "PDVXN"})
@@ -257,6 +391,18 @@ class SemanticMemoryFixtureContract(unittest.TestCase):
         self.mutation("semantic_arm_relabelled_lexical", lambda p: self.manifest(p, lambda m: m["baseline_definitions"].update(S="literal_only")))
         self.mutation("schedule_duplicate", lambda p: self.manifest(p, lambda m: m["query_order"].__setitem__(1, copy.deepcopy(m["query_order"][0]))))
         self.mutation("schedule_arm_duplicate", lambda p: self.manifest(p, lambda m: m["query_order"][0].update(arms=["E", "E", "S"])))
+
+        # Ready review P1s: valid alternative selections/permutations must refuse.
+        self.mutation("generation_case_ids_substitute_05_08", lambda p: self.manifest(p, lambda m: m.update(
+            generation_case_ids=[prefix + format(number, "02d") for prefix in "PDVXN" for number in range(5, 9)])))
+        self.mutation("generation_case_ids_reordered", lambda p: self.manifest(p, lambda m: m["generation_case_ids"].reverse()))
+        self.mutation("query_order_reversed", lambda p: self.manifest(p, lambda m: m["query_order"].reverse()))
+        self.mutation("query_order_adjacent_swap", lambda p: self.manifest(p, lambda m: m["query_order"].__setitem__(
+            slice(0, 2), [m["query_order"][1], m["query_order"][0]])))
+        self.mutation("query_order_first_arms_reverse", lambda p: self.manifest(p, lambda m: m["query_order"][0]["arms"].reverse()))
+        self.mutation("query_order_last_arms_reverse", lambda p: self.manifest(p, lambda m: m["query_order"][-1]["arms"].reverse()))
+        self.mutation("query_order_first_profiles_swap", lambda p: self.manifest(p, lambda m: m["query_order"][0]["profiles"].reverse()))
+        self.mutation("query_order_last_profiles_swap", lambda p: self.manifest(p, lambda m: m["query_order"][-1]["profiles"].reverse()))
         self.mutation("generation_19", lambda p: self.manifest(p, lambda m: m["generation_case_ids"].pop()))
         self.mutation("heldout_duplicate", lambda p: self.casefile(p, "heldout-cases.json", lambda v: v["cases"].__setitem__(1, copy.deepcopy(v["cases"][0]))))
         self.mutation("development_exact_shortcircuit", lambda p: self.casefile(p, "development-cases.json", lambda v: v["cases"][0].update(exact_source_id="SYN.P01", exact_ref="r1")))
@@ -340,6 +486,7 @@ class SemanticMemoryFixtureContract(unittest.TestCase):
                 if case["case_id"].startswith("N") or case["case_id"] in {"DEV05", "DEV06", "DEV07", "DEV08"}:
                     for cue in ("absent", "no-answer", "unanswerable", case["case_id"].casefold()):
                         self.assertNotIn(cue, actual["query"].casefold())
+        self.assertEqual(self.load(path, "heldout-oracle.json")["oracle_only_sentinel"], SENTINEL)
         projection = json.dumps([report["corpus_projection"], report["request_projections"]], ensure_ascii=False)
         self.assertNotIn(SENTINEL, projection)
         self.assertIn("claim ACCEPTED", projection)  # Legitimate source data is retained.
@@ -350,6 +497,58 @@ class SemanticMemoryFixtureContract(unittest.TestCase):
         self.mutation("case_oracle_field", lambda p: self.casefile(p, "heldout-cases.json", lambda v: v["cases"][0].update(expected_answer=SENTINEL)))
         self.mutation("source_oracle_field", lambda p: self.manifest(p, lambda m: m["sources"][0].update(oracle=SENTINEL)))
         self.mutation("manifest_oracle_field", lambda p: self.manifest(p, lambda m: m.update(expected_answer=SENTINEL)))
+
+        # Coherent canary leaks: closed projections can still copy evaluator data.
+        # Keep ordinary answer facts/source instructions and oracle-only changes valid.
+        def append_source_marker(p, marker, revision):
+            raw = (p / "corpus/P01.txt").read_bytes() + ("\n" + marker + "\n").encode("utf-8")
+            self.rebind_text(p, "corpus/P01.txt", raw, revision)
+
+        def append_query_marker(p, name, identifier, marker):
+            def change(value):
+                case = next(c for c in value["cases"] if c["case_id"] == identifier)
+                case["query"] += " " + marker
+            self.casefile(p, name, change)
+
+        self.mutation("sentinel_in_coherent_corpus", lambda p: append_source_marker(p, SENTINEL, "r2-sentinel"))
+        self.mutation("sentinel_in_answerable_heldout_query", lambda p: append_query_marker(
+            p, "heldout-cases.json", "P01", SENTINEL))
+        self.mutation("sentinel_in_answerable_development_query", lambda p: append_query_marker(
+            p, "development-cases.json", "DEV01", SENTINEL))
+
+        def dynamic_corpus_marker(p):
+            marker = "EVALUATOR_ONLY_READY_DYNAMIC_CORPUS_20261016"
+            self.casefile(p, "heldout-oracle.json", lambda value: value.update(oracle_only_sentinel=marker))
+            self.accepted(p)  # Changed oracle alone remains valid before the leak.
+            append_source_marker(p, marker, "r2-dynamic-sentinel")
+        self.mutation("changed_sentinel_in_coherent_corpus", dynamic_corpus_marker)
+
+        def dynamic_heldout_marker(p):
+            marker = "EVALUATOR_ONLY_READY_DYNAMIC_HELDOUT_20261016"
+            self.casefile(p, "heldout-oracle.json", lambda value: value.update(oracle_only_sentinel=marker))
+            self.accepted(p)
+            append_query_marker(p, "heldout-cases.json", "P01", marker)
+        self.mutation("changed_sentinel_in_answerable_heldout_query", dynamic_heldout_marker)
+
+        def dynamic_development_marker(p):
+            marker = "EVALUATOR_ONLY_READY_DYNAMIC_DEVELOPMENT_20261016"
+            self.casefile(p, "heldout-oracle.json", lambda value: value.update(oracle_only_sentinel=marker))
+            self.accepted(p)
+            append_query_marker(p, "development-cases.json", "DEV01", marker)
+        self.mutation("changed_sentinel_in_answerable_development_query", dynamic_development_marker)
+
+        def escaped_unicode_marker(p):
+            marker = "EVALUATOR_ONLY_READY_\u00e9_\u03bb_20261016"
+            self.casefile(p, "heldout-oracle.json", lambda value: value.update(oracle_only_sentinel=marker))
+            self.accepted(p)
+            append_query_marker(p, "heldout-cases.json", "P01", marker)
+            name = "heldout-cases.json"
+            raw = (json.dumps(self.load(p, name), sort_keys=True, ensure_ascii=True,
+                              indent=2, allow_nan=False) + "\n").encode("ascii")
+            self.assertIn(b"\\u00e9", raw)
+            (p / name).write_bytes(raw)
+            self.manifest(p, lambda m: m["case_files"].update({name: {"bytes": len(raw), "sha256": digest(raw)}}))
+        self.mutation("changed_unicode_sentinel_escaped_query", escaped_unicode_marker)
         safe = self.fresh(); canary = self.home / "UNTRUSTED_CODE_EXECUTED"
         raw = (safe / "corpus/P01.txt").read_bytes() + ("\n__import__('pathlib').Path(" + repr(str(canary)) + ").write_text('executed')\n").encode()
         self.rebind_text(safe, "corpus/P01.txt", raw, "r2-inert")

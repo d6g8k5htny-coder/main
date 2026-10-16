@@ -117,6 +117,18 @@ jobs:
           write(publish / 'source-inventory.json', document({
               'schema_version': 1, 'native_context': native, 'files': records, 'total_bytes': total,
               'product_cli_present': 'tools/semantic_memory_experiment.py' in names}))
+          # Only the already captured/inventoried Git blobs enter the test mount.
+          # Directory access is explicit for the unprivileged container; files remain0444.
+          captured = publish / 'source'
+          for directory in [captured, *captured.rglob('*')]:
+              if directory.is_dir():
+                  directory.chmod(0o555)
+          write(publish / 'source-mount.json', document({
+              'schema_version': 1, 'kind': 'DECLARED_CAPTURED_SOURCE_MOUNT',
+              'native_context': native, 'container_destination': '/source',
+              'whole_workspace_mounted': False, 'files': records,
+              'runtime_mount_inspection': 'NOT_SEPARATELY_RETAINED',
+              'scope': 'Declared mount of exact captured source; actual interpreter contexts retained separately'}))
           PY
           ruby -rpsych -e 'Psych.safe_load(File.read(ARGV.fetch(0)), aliases: false)' .github/workflows/semantic-memory-experiment.yml
       - name: Extract whole-pinned qualified preparation sources
@@ -390,15 +402,17 @@ jobs:
             --network none --read-only --user 65532:65532 --cpus 2 --memory 1g --pids-limit 128 \
             --cap-drop ALL --security-opt no-new-privileges \
             --tmpfs /tmp:rw,noexec,nosuid,size=128m \
-            --mount type=bind,source="$GITHUB_WORKSPACE",target=/source,readonly \
+            --mount type=bind,source="$task1_root/publish/source",target=/source,readonly \
             --mount type=bind,source="$task1_root/output/container",target=/output \
             --workdir /source "$IMAGE" sh -c '
               SEMANTIC_MEMORY_CHILD_MODE_LOG=/output/child-modes-normal.jsonl \
-                python -B -S -m unittest discover -s tests -p test_semantic_memory_benchmark.py -v > /output/tests-normal.log 2>&1
+              SEMANTIC_MEMORY_IMPORT_CONTEXT=/output/import-context-normal.jsonl \
+                python -I -B -S -m unittest discover -s /source/tests -p test_semantic_memory_benchmark.py -v > /output/tests-normal.log 2>&1
               normal=$?
               printf "%s\n" "$normal" > /output/mode-exit-normal.txt
               SEMANTIC_MEMORY_CHILD_MODE_LOG=/output/child-modes-optimized.jsonl \
-                python -B -O -S -m unittest discover -s tests -p test_semantic_memory_benchmark.py -v > /output/tests-optimized.log 2>&1
+              SEMANTIC_MEMORY_IMPORT_CONTEXT=/output/import-context-optimized.jsonl \
+                python -I -B -O -S -m unittest discover -s /source/tests -p test_semantic_memory_benchmark.py -v > /output/tests-optimized.log 2>&1
               optimized=$?
               printf "%s\n" "$optimized" > /output/mode-exit-optimized.txt
               if [ "$normal" -ne 0 ] || [ "$optimized" -ne 0 ]; then exit 1; fi
@@ -433,7 +447,8 @@ jobs:
           copied, missing, refused = [], [], []
           limits = {'tests-normal.log': 8 * 2**20, 'tests-optimized.log': 8 * 2**20,
                     'mode-exit-normal.txt': 64, 'mode-exit-optimized.txt': 64,
-                    'child-modes-normal.jsonl': 2**20, 'child-modes-optimized.jsonl': 2**20}
+                    'child-modes-normal.jsonl': 2**20, 'child-modes-optimized.jsonl': 2**20,
+                    'import-context-normal.jsonl': 2**21, 'import-context-optimized.jsonl': 2**21}
           def copy_file(directory, name, limit):
               try:
                   fd = os.open(name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=directory)
@@ -523,11 +538,33 @@ jobs:
                       raise ValueError('source bytes changed')
               finally:
                   os.close(fd)
+          # Re-read the actual read-only captured tree, not just the workspace preimage.
+          captured = publish / 'source'
+          expected_captured = {record['path']: record for record in source['files']}
+          seen_captured = set()
+          for path in captured.rglob('*'):
+              info = path.lstat()
+              if stat.S_ISDIR(info.st_mode):
+                  if stat.S_IMODE(info.st_mode) != 0o555:
+                      raise ValueError('captured directory access changed')
+                  continue
+              name = path.relative_to(captured).as_posix()
+              record = expected_captured.get(name)
+              if (record is None or not stat.S_ISREG(info.st_mode) or info.st_nlink != 1
+                      or stat.S_IMODE(info.st_mode) != 0o444 or info.st_size != record['bytes']):
+                  raise ValueError('captured source closure changed')
+              raw = path.read_bytes()
+              if len(raw) != record['bytes'] or hashlib.sha256(raw).hexdigest() != record['sha256']:
+                  raise ValueError('captured source bytes changed')
+              seen_captured.add(name)
+          if seen_captured != set(expected_captured):
+              raise ValueError('captured source inventory incomplete')
           collection = json.loads((publish / 'collection.json').read_bytes()) if (publish / 'collection.json').is_file() else None
           if collection is None or collection['refused']:
               issues.append('original collection unavailable or refused')
           elif set(collection['missing']) & {'tests-normal.log', 'tests-optimized.log', 'mode-exit-normal.txt',
-                                             'mode-exit-optimized.txt', 'console.log'}:
+                                             'mode-exit-optimized.txt', 'console.log',
+                                             'import-context-normal.jsonl', 'import-context-optimized.jsonl'}:
               issues.append('required original output missing')
           for mode, optimize in (('normal', 0), ('optimized', 1)):
               path = publish / ('tests-' + mode + '.log')
@@ -590,6 +627,66 @@ jobs:
                       issues.append(mode + ': invalid child diagnostic ' + type(error).__name__)
               elif source['product_cli_present']:
                   issues.append(mode + ': required child diagnostic missing while CLI was present')
+              contexts_path = publish / ('import-context-' + mode + '.jsonl')
+              result['import_context_diagnostic'] = 'NOT_PRESENT'
+              try:
+                  raw = contexts_path.read_bytes()
+                  if not raw or not raw.endswith(b'\n') or b'\r' in raw:
+                      raise ValueError('import context framing')
+                  def context_unique(pairs):
+                      obj = {}
+                      for key, value in pairs:
+                          if key in obj:
+                              raise ValueError('duplicate import context key')
+                          obj[key] = value
+                      return obj
+                  contexts = [json.loads(line, object_pairs_hook=context_unique) for line in raw.splitlines()]
+                  fields = {'schema_version', 'kind', 'optimize', 'isolated', 'ignore_environment',
+                            'safe_path', 'sys_path', 'stdlib_origins', 'entry_source'}
+                  image_paths = {'/usr/local/lib/python311.zip', '/usr/local/lib/python3.11',
+                                 '/usr/local/lib/python3.11/lib-dynload'}
+                  kinds = {'TEST_PROCESS_IMPORT_CONTEXT': 0, 'CLI_PROCESS_IMPORT_CONTEXT': 0}
+                  for context in contexts:
+                      if (type(context) is not dict or set(context) != fields
+                              or type(context['schema_version']) is not int or context['schema_version'] != 1
+                              or context['kind'] not in kinds
+                              or type(context['optimize']) is not int or context['optimize'] != optimize
+                              or type(context['isolated']) is not int or context['isolated'] != 1
+                              or type(context['ignore_environment']) is not int or context['ignore_environment'] != 1
+                              or context['safe_path'] is not True):
+                          raise ValueError('isolated import context closed schema/flags')
+                      is_test = context['kind'] == 'TEST_PROCESS_IMPORT_CONTEXT'
+                      expected_entry = ('/source/tests/test_semantic_memory_benchmark.py' if is_test
+                                        else '/source/tools/semantic_memory_experiment.py')
+                      allowed_paths = image_paths | ({'/source/tests'} if is_test else set())
+                      if (context['entry_source'] != expected_entry
+                              or type(context['sys_path']) is not list
+                              or not context['sys_path']
+                              or not all(type(path) is str and path in allowed_paths
+                                         for path in context['sys_path'])):
+                          raise ValueError('unsafe import search path/entry')
+                      origins = context['stdlib_origins']
+                      if type(origins) is not dict or set(origins) != {'copy', 'json'}:
+                          raise ValueError('stdlib origin inventory')
+                      for module, filename in (('copy', 'copy.py'), ('json', 'json/__init__.py')):
+                          origin = origins[module]
+                          if (type(origin) is not dict or set(origin) != {'path', 'sha256'}
+                                  or origin['path'] != '/usr/local/lib/python3.11/' + filename
+                                  or type(origin['sha256']) is not str
+                                  or re.fullmatch(r'[0-9a-f]{64}', origin['sha256']) is None):
+                              raise ValueError('stdlib origin identity')
+                      kinds[context['kind']] += 1
+                  children = result['child_mode_diagnostic']
+                  if (not isinstance(children, dict)
+                          or kinds['TEST_PROCESS_IMPORT_CONTEXT'] != 1
+                          or kinds['CLI_PROCESS_IMPORT_CONTEXT'] != children['records']):
+                      raise ValueError('parent/child import context count join')
+                  result['import_context_diagnostic'] = {
+                      'records': len(contexts), 'kinds': kinds, 'isolated': 1,
+                      'safe_path': True, 'stdlib_origins': 'RETAINED_TEST_PROCESS_OBSERVATIONS',
+                      'search_path': 'PINNED_IMAGE_PLUS_EXACT_CAPTURED_TEST_DIRECTORY'}
+              except (OSError, UnicodeError, ValueError, TypeError, KeyError) as error:
+                  issues.append(mode + ': missing/invalid import context ' + type(error).__name__)
               modes[mode] = result
               if not result['complete_three_pass']:
                   issues.append(mode + ': complete expected three-method PASS not observed')
@@ -670,4 +767,5 @@ jobs:
           PY
           )"
           if [ "$mounted" = mounted ]; then sudo umount "$task1_root/output"; fi
+
 
