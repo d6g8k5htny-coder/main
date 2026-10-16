@@ -14,9 +14,11 @@ sum_i min((t / (a * lifetime_i))**alpha, 1) = 1/4 + 1/16 = 5/16.
 ```
 
 Only rational powers whose required rational roots are exact are supported;
-other inputs raise `ValueError`. Positive finite-bar selection uses the
-inclusive rule `birth - death <= t` in the grid's input units. Expected answers
-are exposed regression controls, not blind discoveries.
+other inputs raise `ValueError`. The counted event is
+`A * (birth - death) <= t` (inclusive), so every positive finite bar contributes
+`min((t / (a * lifetime))**alpha, 1)`; the inclusive selector
+`short_bar_lifetimes` applies to a fixed realised barcode. Expected answers are
+exposed regression controls, not blind discoveries.
 
 `source_manifest.json` allowlists the two open parent proof commits and records
 raw-byte SHA-256 separately from Git blob membership. Both entries explicitly
