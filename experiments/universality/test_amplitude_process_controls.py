@@ -59,6 +59,11 @@ class AmplitudeProcessControls(unittest.TestCase):
         for coupling in ('shared', 'independent'):
             self.assertEqual(self.m.count_distribution((Q(2, 3), Q(1, 3), Q(1, 3)), coupling=coupling),
                              self.m.count_distribution((Q(1, 3), Q(1, 3), Q(2, 3)), coupling=coupling))
+        # Per-bar probabilities keep input order and tied bars.
+        probabilities = self.m.short_bar_probabilities([Q(8), Q(1), Q(1)], Q(1, 4))
+        self.assertEqual(probabilities, (Q(1, 16), Q(1, 4), Q(1, 4)))
+        self.assertEqual(self.m.count_distribution(probabilities, coupling='shared'),
+                         (Q(3, 4), Q(0), Q(3, 16), Q(1, 16)))
 
     def test_zero_empty_and_support_clipping_precede_exact_root_evaluation(self):
         self.assertEqual(self.m.short_bar_probabilities([], Q(1, 4)), ())
@@ -69,6 +74,9 @@ class AmplitudeProcessControls(unittest.TestCase):
         self.assertEqual(self.m.short_bar_probabilities([Q(1)], Q(3)), (Q(1),))
         # ratio=8/27 has cube root 2/3; numerator roots must not be dropped.
         self.assertEqual(self.m.short_bar_probabilities([Q(27, 16)], Q(1)), (Q(4, 9),))
+        # Rational roots just inside the support edge pin saturation at threshold 2*length.
+        self.assertEqual(self.m.short_bar_probabilities([Q(1)], Q(2000, 1331)), (Q(100, 121),))
+        self.assertEqual(self.m.short_bar_probabilities([Q(1)], Q(970299, 500000)), (Q(9801, 10000),))
 
     def test_nonrational_root_refuses_the_complete_request(self):
         for lifetimes in ([Q(1)], [Q(1, 2), Q(1)]):
@@ -117,6 +125,12 @@ class AmplitudeProcessControls(unittest.TestCase):
         self.assertEqual(report['scientific_effect'], 'NONE')
         self.assertEqual(report['shared']['pgf_at_half'], '55/64')
         self.assertEqual(report['independent']['pgf_at_half'], '217/256')
+        self.assertEqual((report['lifetimes'], report['threshold'], report['marginal_short_probabilities']),
+                         (['1', '8'], '1/4', ['1/4', '1/16']))
+        self.assertEqual(report['shared'], {'count_probabilities': ['3/4', '3/16', '1/16'],
+                                            'mean': '5/16', 'pgf_at_half': '55/64'})
+        self.assertEqual(report['independent'], {'count_probabilities': ['45/64', '9/32', '1/64'],
+                                                 'mean': '5/16', 'pgf_at_half': '217/256'})
 
 
 if __name__ == '__main__':
