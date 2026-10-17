@@ -1,0 +1,221 @@
+{
+  "caller": {
+    "event": "workflow_dispatch",
+    "path": ".github/workflows/canvas-reader-native-admission.yml",
+    "ref": "refs/heads/main"
+  },
+  "candidate": {
+    "commit": "c5e64bb61a5c0f49d08e0255a6a07a22a2326e17",
+    "ordered_parents": [
+      "9e7bacb8f04a1abba1fef0a77a7e0e666b064c76"
+    ],
+    "tree": "2ca4d7fb0986b72a8b8dd2661b0d5e873dcf537f"
+  },
+  "closure": {
+    "additional_project_helpers": false,
+    "eval_function_child_worker_bootstrap_in_payload": false,
+    "method": "EXACT_SIX_REVIEWED_SOURCE_BYTES_NO_DISCOVERY",
+    "model_imports": [],
+    "node_permission_sandbox_claimed": false,
+    "review_sha256": "729b7112d21d2e5fcdc4d06fbd6d79b0309fa8aefdd302d7700ccca866a20fde",
+    "runtime_builtins_remain_available": true,
+    "state_imports": [
+      "./cubic-model.mjs",
+      "./elder-model.mjs"
+    ],
+    "test_builtin_imports": [
+      "node:test",
+      "node:assert/strict",
+      "node:fs/promises",
+      "node:crypto"
+    ],
+    "test_dynamic_module_source_reads": [
+      "../src/scripts/cubic-model.mjs",
+      "../src/scripts/elder-model.mjs",
+      "../src/scripts/canvas-reader-state.mjs",
+      "../src/scripts/canvas-reader-view.mjs"
+    ],
+    "test_dynamic_targets": [
+      "../src/scripts/cubic-model.mjs",
+      "../src/scripts/elder-model.mjs",
+      "../src/scripts/canvas-reader-state.mjs",
+      "../src/scripts/canvas-reader-view.mjs"
+    ],
+    "test_source_reads": [
+      "interface/src/scripts/cubic-model.mjs",
+      "interface/src/scripts/elder-model.mjs",
+      "docs/plans/2026-10-09-canvas-model-contract.md"
+    ],
+    "view_imports": []
+  },
+  "controls": [
+    {
+      "classification": "SETUP",
+      "name": "D00 setup source pins and exports"
+    },
+    {
+      "classification": "CHECKER",
+      "name": "O01 independent partial-edge oracle literal calibration"
+    },
+    {
+      "classification": "BEHAVIOR",
+      "name": "D01 signed zero and complete cubic outputs"
+    },
+    {
+      "classification": "BEHAVIOR",
+      "name": "D02 unbounded native BigInt exact intervals"
+    },
+    {
+      "classification": "BEHAVIOR",
+      "name": "D03 owned immutable input result and selection"
+    },
+    {
+      "classification": "BEHAVIOR",
+      "name": "D04 native admission without coercion or replacement"
+    },
+    {
+      "classification": "BEHAVIOR",
+      "name": "D05 insertion prefixes and complete tied level"
+    },
+    {
+      "classification": "BEHAVIOR",
+      "name": "D06 independent periodic BFS selected state"
+    },
+    {
+      "classification": "BEHAVIOR",
+      "name": "D07 strict navigation and whole-sweep preservation"
+    },
+    {
+      "classification": "BEHAVIOR",
+      "name": "D08 staged atomic commit and stale tickets"
+    },
+    {
+      "classification": "BEHAVIOR",
+      "name": "D09 complete escaped static HTML text"
+    },
+    {
+      "classification": "BEHAVIOR",
+      "name": "D10 declared native provenance without false joins"
+    }
+  ],
+  "payload": [
+    {
+      "bytes": 13354,
+      "git_blob": "ab5315ab47014bc5ce2f89f432239ebff30998d5",
+      "mode": "100644",
+      "path": "docs/plans/2026-10-09-canvas-model-contract.md",
+      "sha256": "3473a664be9126b67006527f5257a7eeb4c2082c836d7ff1b38e21f0d40eecbc"
+    },
+    {
+      "bytes": 1897,
+      "git_blob": "0cfd5acf6c031cfaf54320d292c4f2a8a07eca08",
+      "mode": "100644",
+      "path": "interface/src/scripts/cubic-model.mjs",
+      "sha256": "fbff097a93429652ce5077056c400343b1472375a9cb1cbc388894c7e7bf2051"
+    },
+    {
+      "bytes": 5335,
+      "git_blob": "aab4a06a5ef0fdde609192d37169b578fcbcef19",
+      "mode": "100644",
+      "path": "interface/src/scripts/elder-model.mjs",
+      "sha256": "d92b8f6139d42360a35e933b40a287414b95811f14f0dc19c520d1d2558ec767"
+    },
+    {
+      "bytes": 13360,
+      "git_blob": "666917f42be515cf23aa26f00490db7a4fd642b7",
+      "mode": "100644",
+      "path": "interface/src/scripts/canvas-reader-state.mjs",
+      "sha256": "f001e8aa7ec8073d3a8293196de2adb71eb6c617cfa4b662868278a03ee6fd6d"
+    },
+    {
+      "bytes": 30228,
+      "git_blob": "3b4becd4c4b25619258fc4758f8ad85f046e663c",
+      "mode": "100644",
+      "path": "interface/src/scripts/canvas-reader-view.mjs",
+      "sha256": "1e8cdcb69cff40dd7539abbf53e8f32ba6c0f6e9bfec9956ce685a555cc518a7"
+    },
+    {
+      "bytes": 36177,
+      "git_blob": "6c8c481ff8e8248667223330166fc5479cfb1d68",
+      "mode": "100644",
+      "path": "interface/tests/canvas-reader.test.mjs",
+      "sha256": "f614ba8abf7a59a3ab5090b60b9e6e08f0a9d674e35e6849362ea02a5553c031"
+    }
+  ],
+  "profile": "READER_NATIVE_FIXED12_V1",
+  "repository": "d6g8k5htny-coder/main",
+  "root_admission": {
+    "purpose": "EXECUTE_READER_NATIVE_FIXED12",
+    "scope": "EXACT_C_P_A_AND_LITERAL_CALLER_REVIEW_REQUIRED",
+    "url": "https://github.com/d6g8k5htny-coder/main/pull/345#issuecomment-6241755097"
+  },
+  "runner": {
+    "commit": "c5e64bb61a5c0f49d08e0255a6a07a22a2326e17",
+    "controller_bytes": 15338,
+    "controller_sha256": "dac87ad8a6b52f8bced2440bd96d2728f7a3ed281eef909a1d46973b17caf30f",
+    "workflow_bytes": 86049,
+    "workflow_path": ".github/workflows/architecture-canvas-tests.yml",
+    "workflow_sha256": "13caf93491a67b5544122d092d2580adf23eed35a9261fcdd3eb8c735bb00e90"
+  },
+  "runtime": {
+    "argv": [
+      "--test",
+      "--test-reporter=tap",
+      "--test-concurrency=1",
+      "/source/interface/tests/canvas-reader.test.mjs"
+    ],
+    "cap_drop": [
+      "ALL"
+    ],
+    "cgroupns": "private",
+    "child_count": 1,
+    "child_grace_seconds": 5,
+    "child_seconds": 60,
+    "collector_attempted_bytes": 33554432,
+    "container_grace_seconds": 10,
+    "container_seconds": 180,
+    "cpu_nano": 2000000000,
+    "cwd": "/source",
+    "environment": {
+      "LANG": "C.UTF-8",
+      "NODE_DISABLE_COLORS": "1",
+      "NODE_OPTIONS": "",
+      "PATH": "/usr/local/bin:/usr/bin:/bin",
+      "TZ": "UTC"
+    },
+    "fixture_filesystems": {
+      "inputs": 67108864,
+      "publish": 67108864,
+      "work": 67108864
+    },
+    "fixture_mount_flags": [
+      "loop",
+      "nodev",
+      "nosuid",
+      "noexec"
+    ],
+    "fsize_bytes": 4194304,
+    "image": "node:24.21.0-bookworm-slim@sha256:51b1100cc2a83d370c6a60952e3f2989c8a43159d0e38586e090f3b3326efefd",
+    "ipc": "private",
+    "job_minutes": 20,
+    "log_driver": "none",
+    "memory_bytes": 1073741824,
+    "memory_swap_bytes": 1073741824,
+    "network": "none",
+    "node": "/usr/local/bin/node",
+    "nofile": 256,
+    "pids": 128,
+    "platform": "linux/amd64",
+    "pull_grace_seconds": 10,
+    "pull_seconds": 180,
+    "read_only_root": true,
+    "security_opt": [
+      "no-new-privileges"
+    ],
+    "stream_bytes": 4194304,
+    "tmpfs": "/tmp:rw,noexec,nosuid,nodev,size=64m,mode=1777",
+    "user": "65532:65532",
+    "version": "24.21.0"
+  },
+  "schema_version": 1
+}
