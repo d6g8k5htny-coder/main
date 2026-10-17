@@ -287,7 +287,7 @@ def static_page(data, meta, title, body, *, archived=False, node_id=None):
             '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
             '<meta http-equiv="Content-Security-Policy" content="default-src \'none\'; style-src \'self\'; img-src \'self\'; script-src \'none\'; base-uri \'none\'; form-action \'none\'">\n'
             f'<title>{escape(title)} · Research dependency atlas</title>\n'
-            f'<link rel="stylesheet" href="{site_prefix}brand.css"><link rel="stylesheet" href="{site_prefix}style.css"><link rel="stylesheet" href="{site_prefix}current.css">\n'
+            f'<link rel="stylesheet" href="{site_prefix}style.css"><link rel="stylesheet" href="{site_prefix}brand.css"><link rel="stylesheet" href="{site_prefix}current.css">\n'
             '</head><body><main class="node-static">\n'
             f'<nav aria-label="Research site"><a href="{site_prefix}index.html">Home</a> · <a href="{site_prefix}explore.html">Explore</a> · <a href="{site_prefix}research.html">Research</a> · <a href="{site_prefix}workspace.html#inventory">Library</a> · <a href="{site_prefix}dependencies.html#current-atlas">Current dependencies</a> · <a href="index.html">Static graph index</a></nav>\n'
             + current_section(data, meta, prefix=site_prefix, search=False,
