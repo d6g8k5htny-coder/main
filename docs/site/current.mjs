@@ -1,4 +1,4 @@
-import {parseVerifiedSnapshot,freshness,filterSources,sourceURL} from './current-model.mjs?site-release=4764cf2cfa0123b97aca3ec6ff8a1aba79e9ad1b5506d8616775b59c20e65ebc';
+import {parseVerifiedSnapshot,freshness,filterSources,sourceURL} from './current-model.mjs?site-release=1eaa1838e81f69522e55d5ba561d675c57271e8fbd3bec9c152123e1de25cbe5';
 export function element(tag,text,className) {
   const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(className)e.className=className;return e;
 }
