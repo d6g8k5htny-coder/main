@@ -2,8 +2,12 @@
 
 Author: OpenAI/Codex architecture_memory_regression_inventory, source exposed.
 Original Task1 RED/GREEN remains historical at its exact source. This successor
-adds Ready-review controls; its outcomes are NOT_RUN. Every source/fact/oracle
-is synthetic. No project helper is imported by these tests. Same provider and
+adds Ready-review controls; its outcomes are NOT_RUN.
+Frozen-identity successor author: OpenAI/Codex rag_frozen_identity_control_author_1017.
+This successor probes the real existing admitted_corpus API through the captured
+CLI loader; new controls are source-only and behavioral outcomes remain NOT_RUN. Every source/fact/oracle
+is synthetic. Only the captured CLI loader and benchmark subject are loaded as
+project code; no additional project helper is loaded. Same provider and
 shared principal, organizational-independence credit0, scientific effect NONE.
 """
 from __future__ import annotations
@@ -12,6 +16,7 @@ import copy
 import hashlib
 import json
 import os
+import runpy
 from pathlib import Path
 import shutil
 import stat
@@ -324,6 +329,53 @@ class SemanticMemoryFixtureContract(unittest.TestCase):
             change(path)
             self.refused(path, timeout)
 
+    def admission_corpus(self, path):
+        """Call the actual existing API in this hosted parent process only."""
+        self.assertGreater(self.deadline - time.monotonic(), 0,
+                           "finite120s per-mode test budget exhausted")
+        # Diagnostic paths belong to the trusted harness, never product API data.
+        # Restore both exact existence and value even on loader/API exceptions.
+        missing = object()
+        names = ("SEMANTIC_MEMORY_CHILD_MODE_LOG", "SEMANTIC_MEMORY_IMPORT_CONTEXT")
+        saved = {name: os.environ.pop(name, missing) for name in names}
+        try:
+            namespace = runpy.run_path(str(CLI), run_name="_semantic_memory_admission_probe")
+            product = namespace["_product"]()
+            return product.admitted_corpus(path)
+        finally:
+            for name, value in saved.items():
+                if value is missing:
+                    os.environ.pop(name, None)
+                else:
+                    os.environ[name] = value
+
+    def original_admission(self, path):
+        # Expectations come from the independent input fixture, never a report,
+        # product helper, API projection, or coherently mutated copy.
+        sources = self.load(FIXTURES, "corpus-manifest.json")["sources"]
+        self.assertEqual(len(sources), 32)
+        actual = self.admission_corpus(path)
+        self.assertIs(type(actual), list)
+        self.assertEqual(len(actual), 32)
+        for row, source in zip(actual, sources):
+            self.assertIs(type(row), dict)
+            self.assertEqual(set(row), SOURCE_KEYS | {"text"})
+            expected = dict(source, text=(FIXTURES / source["content_ref"]).read_bytes().decode("utf-8"))
+            self.assertEqual(row, expected)
+        self.assertGreater(self.deadline - time.monotonic(), 0,
+                           "finite120s per-mode test budget exhausted")
+
+    def frozen_admission_mutation(self, name, change):
+        with self.subTest(frozen_admission=name):
+            path = self.fresh()
+            self.original_admission(path)  # Real API positive before each mutation.
+            change(path)
+            self.accepted(path)  # Real existing CLI proves structural validity.
+            # Missing API/loader/setup errors cannot satisfy this rejection.
+            # The predecessor returns normally, giving ValueError-not-raised FAIL.
+            with self.assertRaises(ValueError, msg="frozen benchmark identity must refuse " + name):
+                self.admission_corpus(path)
+
     def test_frozen_case_inventory_and_hashes(self):
         # Catches omitted identity, schema, cardinality, budget or nofollow checks.
         path = self.fresh()
@@ -468,6 +520,87 @@ class SemanticMemoryFixtureContract(unittest.TestCase):
         def fifo(p):
             source = p / "corpus/P01.txt"; source.unlink(); os.mkfifo(source)
         self.mutation("fifo_no_block", fifo, timeout=2)
+
+        # Frozen-admission controls: structural reporting remains permissive.
+        # These are in-process API subtests, not new CLI negative controls.
+        # Keep the original 67 CLI mutations and exactly three test methods.
+        def change_query(p, filename, identifier, query):
+            self.casefile(p, filename, lambda v: next(c for c in v["cases"]
+                if c["case_id"] == identifier).update(query=query))
+
+        def change_answer(p, collection, identifier, answer):
+            self.casefile(p, "heldout-oracle.json", lambda v: next(r for r in v[collection]
+                if r["case_id"] == identifier).update(expected_answer=answer))
+
+        def retarget_support(p, collection, receiver, donor):
+            # Support is copied from immutable external input, never product output.
+            document = self.load(FIXTURES, "heldout-oracle.json")
+            support = copy.deepcopy(next(r for r in document[collection]
+                if r["case_id"] == donor)["spans"])
+            self.assertEqual(len(support), 1)
+            span = support[0]
+            source = next(s for s in self.load(FIXTURES, "corpus-manifest.json")["sources"]
+                if (s["source_id"], s["revision_id"]) == (span["source_id"], span["revision_id"]))
+            source_bytes = (FIXTURES / source["content_ref"]).read_bytes()
+            self.assertEqual(source_bytes[span["start_byte"]:span["end_byte"]], EXPECTED[donor])
+            self.assertEqual(span["sha256"], digest(EXPECTED[donor]))
+            self.casefile(p, "heldout-oracle.json", lambda v: next(r for r in v[collection]
+                if r["case_id"] == receiver).update(spans=support))
+
+        self.frozen_admission_mutation("P01_query_answer_leak", lambda p: change_query(
+            p, "heldout-cases.json", "P01", "For fixture P01, the coefficient is 7/11. Which coefficient is recorded?"))
+        self.frozen_admission_mutation("N01_query_copied_P01_fact", lambda p: change_query(
+            p, "heldout-cases.json", "N01", "For fixture P01, radius r lies in [0, 1/8] and the coefficient is 7/11."))
+        self.frozen_admission_mutation("DEV01_query_meaning_changed", lambda p: change_query(
+            p, "development-cases.json", "DEV01", "Which calibration color is recorded for P02?"))
+        self.frozen_admission_mutation("P01_expected_answer_changed", lambda p: change_answer(
+            p, "records", "P01", "8/12"))
+        self.frozen_admission_mutation("DEV01_expected_answer_changed", lambda p: change_answer(
+            p, "development_records", "DEV01", "teal_02"))
+        self.frozen_admission_mutation("corpus_source_order_reversed", lambda p: self.manifest(
+            p, lambda m: m["sources"].reverse()))
+        self.frozen_admission_mutation("corpus_source_order_adjacent_swap", lambda p: self.manifest(
+            p, lambda m: m["sources"].__setitem__(slice(0, 2), [m["sources"][1], m["sources"][0]])))
+        self.frozen_admission_mutation("P01_support_retargeted_P02", lambda p: retarget_support(
+            p, "records", "P01", "P02"))
+        self.frozen_admission_mutation("D01_support_retargeted_D02", lambda p: retarget_support(
+            p, "records", "D01", "D02"))
+        self.frozen_admission_mutation("V01_support_retargeted_V02", lambda p: retarget_support(
+            p, "records", "V01", "V02"))
+
+        def paired_exact_retarget(p):
+            retarget_support(p, "records", "X01", "X02")
+            self.casefile(p, "heldout-cases.json", lambda v: next(c for c in v["cases"]
+                if c["case_id"] == "X01").update(exact_source_id="SYN.R02", exact_ref="r2"))
+        self.frozen_admission_mutation("X01_support_and_selector_retargeted_X02", paired_exact_retarget)
+
+        def duplicate_exact_occurrence(p):
+            filename = "corpus/R01-current.txt"
+            original = (p / filename).read_bytes()
+            piece = EXPECTED["X01"]
+            first = original.index(piece)
+            self.assertEqual(original.count(piece), 1)
+            duplicate_start = len(original) + 2
+            raw = original + b"\r\n" + piece
+            self.rebind_text(p, filename, raw)  # Rebind every affected source/case/span hash.
+            self.assertNotEqual(first, duplicate_start)
+            self.assertEqual(raw[duplicate_start:duplicate_start + len(piece)], piece)
+            self.casefile(p, "heldout-oracle.json", lambda v: next(r for r in v["records"]
+                if r["case_id"] == "X01")["spans"][0].update(
+                    start_byte=duplicate_start, end_byte=duplicate_start + len(piece), sha256=digest(piece)))
+        self.frozen_admission_mutation("X01_exact_span_duplicate_occurrence", duplicate_exact_occurrence)
+
+        def coherent_filler_extension(p):
+            filename = "corpus/P01.txt"
+            self.rebind_text(p, filename, (p / filename).read_bytes()
+                + b"\nFrozen identity control: neutral filler extension.\n")
+        self.frozen_admission_mutation("corpus_coherent_filler_extension", coherent_filler_extension)
+        self.frozen_admission_mutation("N02_query_meaning_changed_without_cue", lambda p: change_query(
+            p, "heldout-cases.json", "N02", "For revision family R02, which marker identifies the current revision?"))
+        self.frozen_admission_mutation("DEV01_support_retargeted_DEV02", lambda p: retarget_support(
+            p, "development_records", "DEV01", "DEV02"))
+        self.frozen_admission_mutation("X01_expected_answer_changed", lambda p: change_answer(
+            p, "records", "X01", "NOW_02"))
 
     def test_gold_never_enters_index_or_prompt(self):
         # Catches copying evaluator annotations into indexed/request data or eval.

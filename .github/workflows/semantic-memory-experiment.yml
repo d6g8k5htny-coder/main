@@ -518,6 +518,200 @@ jobs:
         timeout-minutes: 1
         run: |
           set -euo pipefail
+          set +e
+          python3 -I -B -S - "$RUNNER_TEMP/semantic-memory-task1-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/publish" "$GITHUB_WORKSPACE" <<'COUNT_CONTROL'
+          """Hosted verifier regression on private derivatives; never native originals."""
+          import ast
+          import hashlib
+          import json
+          import os
+          from pathlib import Path
+          import shutil
+          import stat
+          import subprocess
+          import sys
+          import tempfile
+          import time
+
+          publish, workspace = map(Path, sys.argv[1:])
+          started = time.monotonic()
+          deadline = started + 35
+          expected_children = 164  # Frozen successor: original148 +16 structural CLI probes.
+          expected_contexts = 165
+          receipt = {"schema_version": 1, "kind": "OBSERVER_COUNT_CONTROLS",
+                     "scope": "SYNTHETIC_MUTATIONS_OF_CURRENT_ORIGINALS",
+                     "native_originals_modified": False, "expected_children_per_mode": expected_children,
+                     "expected_contexts_per_mode": expected_contexts,
+                     "controls_complete": False, "results": [], "scientific_effect": "NONE"}
+          exit_status = 2
+          scratch = None
+
+
+          def require(condition, reason):
+              if not condition:
+                  raise ValueError(reason)
+
+
+          def stable_read(path, limit):
+              fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+              try:
+                  before = os.fstat(fd)
+                  require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1
+                          and 0 <= before.st_size <= limit, "regular bounded single-link input")
+                  data = bytearray()
+                  while len(data) <= limit:
+                      block = os.read(fd, min(65536, limit + 1 - len(data)))
+                      if not block:
+                          break
+                      data.extend(block)
+                  after = os.fstat(fd)
+                  fields = ("st_dev", "st_ino", "st_mode", "st_nlink", "st_size", "st_mtime_ns", "st_ctime_ns")
+                  require(len(data) == before.st_size
+                          and all(getattr(before, name) == getattr(after, name) for name in fields),
+                          "stable input")
+                  return bytes(data)
+              finally:
+                  os.close(fd)
+
+
+          try:
+              inventory_raw = stable_read(publish / "source-inventory.json", 4 * 2**20)
+              inventory = json.loads(inventory_raw)
+              receipt["native_context_lineage"] = inventory["native_context"]
+              receipt["source_inventory_sha256"] = hashlib.sha256(inventory_raw).hexdigest()
+              workflow_path = ".github/workflows/semantic-memory-experiment.yml"
+              source_row = next(row for row in inventory["files"] if row["path"] == workflow_path)
+              workflow = stable_read(publish / "source" / workflow_path, 2**20)
+              require(len(workflow) == source_row["bytes"]
+                      and hashlib.sha256(workflow).hexdigest() == source_row["sha256"], "inventoried workflow")
+              text = workflow.decode("utf-8")
+              command = "          python3 -I -B -S - \"$RUNNER_TEMP/semantic-memory-task1-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/publish\" \"$GITHUB_WORKSPACE\" <<'PY'\n"
+              # Construct the marker without reproducing it literally in this embedded driver.
+              marker = "      - name: " + "Observe exact fixture inventories without inventing product acceptance\n"
+              require(text.count(marker) == 1 and text.count(command) == 1, "unique observer boundary")
+              step = text.split(marker, 1)[1].split("\n      - name:", 1)[0]
+              require(step.count(command) == 1, "observer belongs to fixed named stage")
+              body = step.split(command, 1)[1].split("\n          PY\n", 1)[0]
+              require(all(not line or line.startswith("          ") for line in body.splitlines()), "observer indentation")
+              observer = "\n".join(line[10:] if line else "" for line in body.splitlines()) + "\n"
+              ast.parse(observer)
+              receipt["observer"] = {"bytes": len(observer.encode()), "sha256": hashlib.sha256(observer.encode()).hexdigest()}
+              scratch = Path(tempfile.mkdtemp(prefix="semantic-observer-count-", dir=publish.parent))
+              clone = scratch / "inputs"
+              clone.mkdir(mode=0o700)
+              consumed = ["source-inventory.json", "collection.json", "container-exit-status.txt"]
+              for mode in ("normal", "optimized"):
+                  consumed.extend(("tests-" + mode + ".log", "mode-exit-" + mode + ".txt",
+                                   "child-modes-" + mode + ".jsonl", "import-context-" + mode + ".jsonl"))
+              consumed.extend("source/" + row["path"] for row in inventory["files"])
+              copied = 0
+              for name in consumed:
+                  parts = name.split("/")
+                  require(not name.startswith("/") and all(part not in ("", ".", "..") for part in parts), "closed relative clone path")
+                  source = publish
+                  for part in parts[:-1]:
+                      source /= part
+                      require(stat.S_ISDIR(source.lstat().st_mode), "no linked clone parent")
+                  raw = stable_read(publish / name, 32 * 2**20 - copied)
+                  copied += len(raw)
+                  target = clone / name
+                  target.parent.mkdir(parents=True, exist_ok=True)
+                  with target.open("xb") as stream:
+                      stream.write(raw)
+                  if name.startswith("source/"):
+                      target.chmod(0o444)
+                  require(time.monotonic() < deadline, "control deadline")
+              for directory in sorted((clone / "source").rglob("*"), reverse=True):
+                  if directory.is_dir():
+                      directory.chmod(0o555)
+              (clone / "source").chmod(0o555)
+              receipt["copied_consumed_bytes"] = copied
+
+              def run_observer(label):
+                  output = clone / "fixture-control-observation.json"
+                  if output.exists():
+                      output.unlink()
+                  remaining = min(8, deadline - time.monotonic())
+                  require(remaining > 0, "control deadline")
+                  with tempfile.TemporaryFile() as stdout, tempfile.TemporaryFile() as stderr:
+                      result = subprocess.run([sys.executable, "-I", "-B", "-S", "-c", observer,
+                                               str(clone), str(workspace)], stdout=stdout, stderr=stderr,
+                                              timeout=remaining, check=False)
+                      streams = {}
+                      for key, stream in (("stdout", stdout), ("stderr", stderr)):
+                          stream.seek(0, os.SEEK_END)
+                          size = stream.tell()
+                          require(size <= 65536, "bounded observer stream")
+                          stream.seek(0)
+                          raw = stream.read()
+                          streams[key] = {"bytes": size, "sha256": hashlib.sha256(raw).hexdigest()}
+                  observation_raw = stable_read(output, 2**20)
+                  observed = json.loads(observation_raw)
+                  item = {"label": label, "exit": result.returncode, "streams": streams,
+                          "observation_sha256": hashlib.sha256(observation_raw).hexdigest(),
+                          "complete": observed["complete_fixture_controls_passed"],
+                          "issues": observed["issues"], "modes": observed["modes"]}
+                  receipt["results"].append(item)
+                  return item
+
+              positive = run_observer("UNMODIFIED_CURRENT_INPUT_COPY")
+              if positive["exit"] != 0 or positive["complete"] is not True:
+                  receipt["outcome"] = "NOT_RUN_POSITIVE_OBSERVER_REFUSED"
+                  exit_status = 3  # Canonical observation still runs and must independently fail.
+              else:
+                  all_refused = True
+                  for mode in ("normal", "optimized"):
+                      child_path = clone / ("child-modes-" + mode + ".jsonl")
+                      context_path = clone / ("import-context-" + mode + ".jsonl")
+                      child_original, context_original = child_path.read_bytes(), context_path.read_bytes()
+                      children, contexts = child_original.splitlines(keepends=True), context_original.splitlines(keepends=True)
+                      require(len(children) == expected_children and len(contexts) == expected_contexts
+                              and all(line.endswith(b"\n") for line in children + contexts), "complete original diagnostic framing/count")
+                      removed_context = next(index for index, line in enumerate(contexts)
+                                             if json.loads(line)["kind"] == "CLI_PROCESS_IMPORT_CONTEXT")
+                      child_path.write_bytes(b"".join(children[:-1]))
+                      context_path.write_bytes(b"".join(contexts[:removed_context] + contexts[removed_context + 1:]))
+                      try:
+                          result = run_observer("BALANCED_ONE_CLI_OMISSION_" + mode.upper())
+                          result["only_changed_inputs"] = [child_path.name, context_path.name]
+                          result["original_input_sha256"] = {child_path.name: hashlib.sha256(child_original).hexdigest(),
+                                                             context_path.name: hashlib.sha256(context_original).hexdigest()}
+                          result["mutated_input_sha256"] = {child_path.name: hashlib.sha256(child_path.read_bytes()).hexdigest(),
+                                                            context_path.name: hashlib.sha256(context_path.read_bytes()).hexdigest()}
+                          require(all(row["complete_three_pass"] for row in result["modes"].values()), "unchanged complete PASS logs")
+                          actual = result["modes"][mode]
+                          require(actual["child_mode_diagnostic"]["records"] == expected_children - 1
+                                  and actual["import_context_diagnostic"]["records"] == expected_contexts - 1,
+                                  "balanced omission observed")
+                          refused = result["exit"] != 0 and result["complete"] is False and bool(result["issues"])
+                          result["required_refusal_observed"] = refused
+                          all_refused = all_refused and refused
+                      finally:
+                          child_path.write_bytes(child_original)
+                          context_path.write_bytes(context_original)
+                  receipt["controls_complete"] = all_refused
+                  receipt["outcome"] = "PASS" if all_refused else "FAIL_OBSERVER_ACCEPTED_BALANCED_OMISSION"
+                  exit_status = 0 if all_refused else 1
+          except Exception as error:
+              receipt["outcome"] = "SETUP_OR_CONTROL_ERROR"
+              receipt["error_type"] = type(error).__name__
+              receipt["error"] = str(error)[:256]
+              exit_status = 2
+          finally:
+              if scratch is not None:
+                  # Captured directories are private copies; restore access only for their disposal.
+                  for directory in scratch.rglob("*"):
+                      if directory.is_dir():
+                          directory.chmod(0o700)
+                  shutil.rmtree(scratch)
+              receipt["scratch_disposed"] = scratch is None or not scratch.exists()
+              receipt["duration_seconds"] = time.monotonic() - started
+              with (publish / "observer-count-controls.json").open("x", encoding="ascii") as stream:
+                  json.dump(receipt, stream, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
+                  stream.write("\n")
+          sys.exit(exit_status)
+          COUNT_CONTROL
+          observer_count_status=$?
           python3 -I -B -S - "$RUNNER_TEMP/semantic-memory-task1-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/publish" "$GITHUB_WORKSPACE" <<'PY'
           import hashlib, json, os, pathlib, re, stat, sys
           publish, workspace = map(pathlib.Path, sys.argv[1:])
@@ -708,6 +902,14 @@ jobs:
           if issues:
               raise ValueError('fixture controls failed or incomplete; inspect retained originals')
           PY
+          canonical_observer_status=$?
+          set -e
+          if [ "$canonical_observer_status" -ne 0 ]; then
+            exit "$canonical_observer_status"
+          fi
+          if [ "$observer_count_status" -ne 0 ]; then
+            exit "$observer_count_status"
+          fi
       - name: Seal every available original on success or failure
         id: task1_seal
         if: ${{ always() && steps.task1_native.outcome != 'skipped' }}
