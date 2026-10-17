@@ -1,0 +1,1290 @@
+name: Architecture native reader fixed twelve controls
+# SOURCE-ONLY successor of historical77d35fef; no runtime authority from this file.
+# Called only by Root's separately reviewed literal immutable M/P/C/A composition.
+# P=C is the closed initial profile; roles remain separately observed.
+# Historical mountpoint correction is preserved. All new runtime evidence NOT_RUN.
+'on':
+  workflow_call:
+    inputs:
+      candidate_commit:
+        required: true
+        type: string
+      runner_commit:
+        required: true
+        type: string
+      admission_commit:
+        required: true
+        type: string
+      admission_sha256:
+        required: true
+        type: string
+permissions:
+  contents: read
+concurrency:
+  group: architecture-canvas-tests-${{ github.run_id }}-${{ github.run_attempt }}
+  cancel-in-progress: false
+jobs:
+  canvas:
+    name: architecture-canvas-tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      IMAGE: node:24.21.0-bookworm-slim@sha256:51b1100cc2a83d370c6a60952e3f2989c8a43159d0e38586e090f3b3326efefd
+      CANDIDATE_COMMIT: ${{ inputs.candidate_commit }}
+      RUNNER_COMMIT: ${{ inputs.runner_commit }}
+      ADMISSION_COMMIT: ${{ inputs.admission_commit }}
+      ADMISSION_SHA256: ${{ inputs.admission_sha256 }}
+      CALLER_WORKFLOW_REF: ${{ github.workflow_ref }}
+      CALLER_WORKFLOW_SHA: ${{ github.workflow_sha }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: Capture caller M without executing checkout content
+        timeout-minutes: 1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          path: caller
+          persist-credentials: false
+          submodules: false
+          lfs: false
+          fetch-depth: 1
+      - name: Capture candidate C and runner P initial P equals C profile
+        timeout-minutes: 1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ inputs.candidate_commit }}
+          path: candidate
+          persist-credentials: false
+          submodules: false
+          lfs: false
+          fetch-depth: 1
+      - name: Capture separate external admission A as data
+        timeout-minutes: 1
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ inputs.admission_commit }}
+          path: admission
+          persist-credentials: false
+          submodules: false
+          lfs: false
+          fetch-depth: 1
+      - name: Establish native identity and bounded fixture filesystems
+        timeout-minutes: 1
+        run: |
+          set -euo pipefail
+          base="$RUNNER_TEMP/canvas-tests"
+          mkdir -m 0700 "$base"
+          printf '%s\n' "$GITHUB_REPOSITORY" > "$base/repository.txt"
+          printf '%s\n' "$CANDIDATE_COMMIT" > "$base/checked-commit.txt"
+          printf '%s\n' "$GITHUB_SHA" > "$base/caller-commit.txt"
+          printf '%s\n' "$RUNNER_COMMIT" > "$base/runner-commit.txt"
+          printf '%s\n' "$ADMISSION_COMMIT" > "$base/admission-commit.txt"
+          printf '%s\n' "$GITHUB_RUN_ID" > "$base/run-id.txt"
+          printf '%s\n' "$GITHUB_RUN_ATTEMPT" > "$base/run-attempt.txt"
+          # No project source execution before closed external admission below.
+          for label in inputs work publish; do
+            mkdir "$base/$label"
+            truncate -s 64M "$base/$label.img"
+            mkfs.ext4 -F "$base/$label.img" > "$base/$label-filesystem.log" 2>&1
+            sudo mount -o loop,nodev,nosuid,noexec "$base/$label.img" "$base/$label"
+            sudo mkdir "$base/$label/payload"
+            sudo chown "$(id -u):$(id -g)" "$base/$label/payload"
+            chmod 0700 "$base/$label/payload"
+          done
+          mkdir "$base/inputs/payload/source" "$base/inputs/payload/control"
+          sudo chown 65532:65532 "$base/work/payload"
+          sudo chmod 0755 "$base/work/payload"
+          python3 -I -B -S - <<'PY'
+          """Fixed host verifier embedded verbatim in the immutable workflow; stdlib only.
+
+          This is authored source. It has not been executed against a project checkout.
+          The separately reviewed caller M supplies authority through literal P/C/A pins.
+          An observed current source hash or this data record alone supplies no authority.
+          """
+          import hashlib
+          import json
+          import os
+          import pathlib
+          import re
+          import signal
+          import stat
+          import subprocess
+
+          REPOSITORY = 'd6g8k5htny-coder/main'
+          WORKFLOW = '.github/workflows/architecture-canvas-tests.yml'
+          CALLER = '.github/workflows/canvas-reader-native-admission.yml'
+          ADMISSION = '.github/admissions/canvas-reader-native-v1.json'
+          IMAGE = 'node:24.21.0-bookworm-slim@sha256:51b1100cc2a83d370c6a60952e3f2989c8a43159d0e38586e090f3b3326efefd'
+          NAMES = [
+              'D00 setup source pins and exports',
+              'O01 independent partial-edge oracle literal calibration',
+              'D01 signed zero and complete cubic outputs',
+              'D02 unbounded native BigInt exact intervals',
+              'D03 owned immutable input result and selection',
+              'D04 native admission without coercion or replacement',
+              'D05 insertion prefixes and complete tied level',
+              'D06 independent periodic BFS selected state',
+              'D07 strict navigation and whole-sweep preservation',
+              'D08 staged atomic commit and stale tickets',
+              'D09 complete escaped static HTML text',
+              'D10 declared native provenance without false joins',
+          ]
+          PINS = [
+              ('docs/plans/2026-10-09-canvas-model-contract.md', 13354, 'ab5315ab47014bc5ce2f89f432239ebff30998d5', '3473a664be9126b67006527f5257a7eeb4c2082c836d7ff1b38e21f0d40eecbc'),
+              ('interface/src/scripts/cubic-model.mjs', 1897, '0cfd5acf6c031cfaf54320d292c4f2a8a07eca08', 'fbff097a93429652ce5077056c400343b1472375a9cb1cbc388894c7e7bf2051'),
+              ('interface/src/scripts/elder-model.mjs', 5335, 'aab4a06a5ef0fdde609192d37169b578fcbcef19', 'd92b8f6139d42360a35e933b40a287414b95811f14f0dc19c520d1d2558ec767'),
+              ('interface/src/scripts/canvas-reader-state.mjs', 13360, '666917f42be515cf23aa26f00490db7a4fd642b7', 'f001e8aa7ec8073d3a8293196de2adb71eb6c617cfa4b662868278a03ee6fd6d'),
+              ('interface/src/scripts/canvas-reader-view.mjs', 30228, '3b4becd4c4b25619258fc4758f8ad85f046e663c', '1e8cdcb69cff40dd7539abbf53e8f32ba6c0f6e9bfec9956ce685a555cc518a7'),
+              ('interface/tests/canvas-reader.test.mjs', 36177, '6c8c481ff8e8248667223330166fc5479cfb1d68', 'f614ba8abf7a59a3ab5090b60b9e6e08f0a9d674e35e6849362ea02a5553c031'),
+          ]
+          PAYLOAD = [dict(path=p, mode='100644', bytes=n, git_blob=b, sha256=s) for p, n, b, s in PINS]
+          CONTROLS = [dict(name=n, classification='SETUP' if i == 0 else 'CHECKER' if i == 1 else 'BEHAVIOR') for i, n in enumerate(NAMES)]
+          RUNTIME = {
+              'image': IMAGE, 'platform': 'linux/amd64', 'node': '/usr/local/bin/node',
+              'version': '24.21.0', 'user': '65532:65532', 'cwd': '/source',
+              'argv': ['--test', '--test-reporter=tap', '--test-concurrency=1', '/source/interface/tests/canvas-reader.test.mjs'],
+              'environment': {'PATH': '/usr/local/bin:/usr/bin:/bin', 'LANG': 'C.UTF-8', 'TZ': 'UTC', 'NODE_DISABLE_COLORS': '1', 'NODE_OPTIONS': ''},
+              'child_count': 1, 'child_seconds': 60, 'child_grace_seconds': 5,
+              'pull_seconds': 180, 'pull_grace_seconds': 10, 'container_seconds': 180, 'container_grace_seconds': 10,
+              'network': 'none', 'read_only_root': True, 'cap_drop': ['ALL'], 'security_opt': ['no-new-privileges'],
+              'ipc': 'private', 'cgroupns': 'private', 'cpu_nano': 2000000000, 'memory_bytes': 1073741824,
+              'memory_swap_bytes': 1073741824, 'pids': 128, 'fsize_bytes': 4194304, 'nofile': 256,
+              'tmpfs': '/tmp:rw,noexec,nosuid,nodev,size=64m,mode=1777', 'log_driver': 'none',
+              'fixture_filesystems': {'inputs': 67108864, 'work': 67108864, 'publish': 67108864},
+              'fixture_mount_flags': ['loop', 'nodev', 'nosuid', 'noexec'], 'stream_bytes': 4194304,
+              'collector_attempted_bytes': 33554432, 'job_minutes': 20,
+          }
+          CLOSURE = {
+              'method': 'EXACT_SIX_REVIEWED_SOURCE_BYTES_NO_DISCOVERY',
+              'review_sha256': '729b7112d21d2e5fcdc4d06fbd6d79b0309fa8aefdd302d7700ccca866a20fde',
+              'state_imports': ['./cubic-model.mjs', './elder-model.mjs'], 'view_imports': [], 'model_imports': [],
+              'test_builtin_imports': ['node:test', 'node:assert/strict', 'node:fs/promises', 'node:crypto'],
+              'test_dynamic_targets': ['../src/scripts/cubic-model.mjs', '../src/scripts/elder-model.mjs', '../src/scripts/canvas-reader-state.mjs', '../src/scripts/canvas-reader-view.mjs'],
+              'test_dynamic_module_source_reads': ['../src/scripts/cubic-model.mjs', '../src/scripts/elder-model.mjs', '../src/scripts/canvas-reader-state.mjs', '../src/scripts/canvas-reader-view.mjs'],
+              'test_source_reads': ['interface/src/scripts/cubic-model.mjs', 'interface/src/scripts/elder-model.mjs', 'docs/plans/2026-10-09-canvas-model-contract.md'],
+              'additional_project_helpers': False, 'eval_function_child_worker_bootstrap_in_payload': False,
+              'runtime_builtins_remain_available': True, 'node_permission_sandbox_claimed': False,
+          }
+
+          def require(condition, message):
+              if not condition:
+                  raise ValueError(message)
+
+          def sha(raw):
+              return hashlib.sha256(raw).hexdigest()
+
+          def git_identity(kind, raw):
+              return hashlib.sha1(kind.encode() + b' ' + str(len(raw)).encode() + b'\0' + raw).hexdigest()
+
+          def hex_value(value, length):
+              return type(value) is str and re.fullmatch('[0-9a-f]{' + str(length) + '}', value) is not None
+
+          def keys(value, expected):
+              require(type(value) is dict and set(value) == set(expected), 'unknown or missing admission keys')
+
+          def same(actual, expected):
+              # Python equality alone treats JSON true as equal to 1. Preserve JSON types.
+              return json.dumps(actual, sort_keys=True, separators=(',', ':')) == json.dumps(expected, sort_keys=True, separators=(',', ':'))
+
+          def unique(pairs):
+              value = {}
+              for key, item in pairs:
+                  require(key not in value, 'duplicate JSON key')
+                  value[key] = item
+              return value
+
+          def json_data(raw):
+              return json.loads(raw.decode('utf-8'), object_pairs_hook=unique,
+                                parse_constant=lambda unused: (_ for _ in ()).throw(ValueError('nonfinite JSON')))
+
+          def original(root, relative, limit, allow_empty=False):
+              parts = relative.split('/')
+              require(parts and all(part not in ('', '.', '..') for part in parts), 'unsafe original path')
+              current = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+              descriptor = None
+              try:
+                  for part in parts[:-1]:
+                      nxt = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=current)
+                      os.close(current)
+                      current = nxt
+                  descriptor = os.open(parts[-1], os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=current)
+                  before = os.fstat(descriptor)
+                  require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1
+                          and (0 if allow_empty else 1) <= before.st_size <= limit, 'original regular byte refusal')
+                  chunks, count = [], 0
+                  while True:
+                      chunk = os.read(descriptor, min(65536, limit + 1 - count))
+                      if not chunk:
+                          break
+                      count += len(chunk)
+                      require(count <= limit, 'original growth refusal')
+                      chunks.append(chunk)
+                  after = os.fstat(descriptor)
+                  require(stat.S_ISREG(after.st_mode) and after.st_nlink == 1 and count == before.st_size
+                          and tuple(getattr(before, k) for k in ('st_dev', 'st_ino', 'st_size', 'st_mtime_ns', 'st_ctime_ns'))
+                          == tuple(getattr(after, k) for k in ('st_dev', 'st_ino', 'st_size', 'st_mtime_ns', 'st_ctime_ns')),
+                          'original changed during read')
+                  return b''.join(chunks)
+              finally:
+                  if descriptor is not None:
+                      os.close(descriptor)
+                  os.close(current)
+
+          def git(root, *args, limit=2**20):
+              # Only fixed read-only Git plumbing; no candidate script/import is executed.
+              def expired(unused_signal, unused_frame):
+                  raise TimeoutError('Git read timeout')
+              previous = signal.signal(signal.SIGALRM, expired)
+              process = subprocess.Popen(['git', '-C', str(root), *args], stdin=subprocess.DEVNULL,
+                                         stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+              try:
+                  signal.alarm(10)
+                  raw = process.stdout.read(limit + 1)
+                  require(len(raw) <= limit, 'Git output bound')
+                  require(process.wait(timeout=2) == 0, 'Git read failed')
+                  return raw
+              finally:
+                  signal.alarm(0)
+                  signal.signal(signal.SIGALRM, previous)
+                  if process.poll() is None:
+                      process.kill()
+                      process.wait(timeout=2)
+                  process.stdout.close()
+
+          def commit(root, expected):
+              require(git(root, 'rev-parse', 'HEAD').decode().strip() == expected, 'checkout commit mismatch')
+              raw = git(root, 'cat-file', 'commit', expected)
+              require(git_identity('commit', raw) == expected, 'raw commit identity mismatch')
+              header = raw.split(b'\n\n', 1)[0].split(b'\n')
+              trees = [line[5:].decode('ascii') for line in header if line.startswith(b'tree ')]
+              parents = [line[7:].decode('ascii') for line in header if line.startswith(b'parent ')]
+              require(len(trees) == 1 and hex_value(trees[0], 40) and len(parents) <= 16
+                      and all(hex_value(p, 40) for p in parents), 'commit tree/parents refusal')
+              return raw, dict(commit=expected, tree=trees[0], ordered_parents=parents)
+
+          def tree_entry(root, revision, path, raw):
+              line = git(root, 'ls-tree', '-z', revision, '--', path, limit=1024)
+              expected = ('100644 blob ' + git_identity('blob', raw) + '\t' + path + '\0').encode()
+              require(line == expected, 'Git tree mode/blob/path mismatch')
+
+          def controller(workflow):
+              start = b'          cat > "$control/run.mjs" <<\'JS\'\n'
+              end = b'          JS\n'
+              require(workflow.count(start) == 1, 'controller start cardinality')
+              tail = workflow.split(start, 1)[1]
+              require(tail.count(end) == 1, 'controller end cardinality')
+              lines = tail.split(end, 1)[0].splitlines(keepends=True)
+              require(lines and all(line.startswith(b'          ') for line in lines), 'controller literal indentation')
+              return b''.join(line[10:] for line in lines)
+
+          def caller_bytes(candidate, runner, admission_commit, admission_sha256):
+              return ("name: Admit fixed native reader controls\n'on':\n  workflow_dispatch:\npermissions:\n  contents: read\njobs:\n  reader:\n    uses: " + REPOSITORY + '/' + WORKFLOW + '@' + runner + '\n    with:\n'
+                      + '      candidate_commit: ' + candidate + '\n      runner_commit: ' + runner
+                      + '\n      admission_commit: ' + admission_commit + '\n      admission_sha256: ' + admission_sha256 + '\n').encode()
+
+          def main():
+              workspace = pathlib.Path(os.environ['GITHUB_WORKSPACE'])
+              base = pathlib.Path(os.environ['RUNNER_TEMP']) / 'canvas-tests'
+              source = base / 'inputs/payload/source'
+              retained = base / 'identity-originals'
+              retained.mkdir()
+              candidate, runner, external = (os.environ[k] for k in ('CANDIDATE_COMMIT', 'RUNNER_COMMIT', 'ADMISSION_COMMIT'))
+              admission_sha256, caller = os.environ['ADMISSION_SHA256'], os.environ['GITHUB_SHA']
+              require(all(hex_value(v, 40) for v in (candidate, runner, external, caller))
+                      and hex_value(admission_sha256, 64), 'immutable input identity refusal')
+              # Deliberately closed initial profile. P and C remain distinct identity roles.
+              require(runner == candidate, 'initial fixed profile requires P=C')
+              require(os.environ['GITHUB_REPOSITORY'] == REPOSITORY
+                      and os.environ['GITHUB_EVENT_NAME'] == 'workflow_dispatch'
+                      and os.environ['GITHUB_REF'] == 'refs/heads/main'
+                      and os.environ['CALLER_WORKFLOW_REF'] == REPOSITORY + '/' + CALLER + '@refs/heads/main'
+                      and os.environ['CALLER_WORKFLOW_SHA'] == caller, 'native caller context refusal')
+              roots = {name: workspace / name for name in ('caller', 'candidate', 'admission')}
+              commits = {}
+              for role, revision in (('caller', caller), ('candidate', candidate), ('admission', external)):
+                  raw, identity = commit(roots[role], revision)
+                  commits[role] = identity
+                  (retained / (role + '-commit.raw')).write_bytes(raw)
+              commits['runner'] = dict(commits['candidate'])
+              # R01: derive the witness from the already rehashed raw C identity, not
+              # shallow pretty-format history. Retain true ordered parents and the join.
+              candidate_identity = commits['candidate']
+              candidate_witness = (candidate_identity['tree'] + '\n'
+                                   + ' '.join(candidate_identity['ordered_parents']) + '\n').encode('ascii')
+              require(42 <= len(candidate_witness) <= 1024, 'candidate tree/parents witness byte refusal')
+              with (base / 'checked-tree-and-parents.txt').open('xb') as stream:
+                  stream.write(candidate_witness)
+              (retained / 'runner-commit.raw').write_bytes((retained / 'candidate-commit.raw').read_bytes())
+              admission_raw = original(roots['admission'], ADMISSION, 262144)
+              require(sha(admission_raw) == admission_sha256, 'external admission raw SHA mismatch')
+              tree_entry(roots['admission'], external, ADMISSION, admission_raw)
+              admission = json_data(admission_raw)
+              keys(admission, ['schema_version', 'profile', 'repository', 'candidate', 'runner', 'payload', 'controls',
+                               'runtime', 'closure', 'caller', 'root_admission'])
+              require(type(admission['schema_version']) is int and admission['schema_version'] == 1
+                      and admission['profile'] == 'READER_NATIVE_FIXED12_V1' and admission['repository'] == REPOSITORY,
+                      'admission version/profile/repository refusal')
+              require(same(admission['candidate'], commits['candidate']), 'admitted candidate tree/ordered parents mismatch')
+              keys(admission['runner'], ['commit', 'workflow_path', 'workflow_bytes', 'workflow_sha256', 'controller_bytes', 'controller_sha256'])
+              runner_data = admission['runner']
+              require(runner_data['commit'] == runner and runner_data['workflow_path'] == WORKFLOW
+                      and type(runner_data['workflow_bytes']) is int and 0 < runner_data['workflow_bytes'] <= 262144
+                      and type(runner_data['controller_bytes']) is int and 0 < runner_data['controller_bytes'] <= 262144
+                      and hex_value(runner_data['workflow_sha256'], 64) and hex_value(runner_data['controller_sha256'], 64),
+                      'runner source data refusal')
+              require(same(admission['payload'], PAYLOAD) and same(admission['controls'], CONTROLS)
+                      and same(admission['runtime'], RUNTIME) and same(admission['closure'], CLOSURE),
+                      'closed payload/control/runtime/closure admission mismatch')
+              require(admission['caller'] == dict(path=CALLER, event='workflow_dispatch', ref='refs/heads/main'),
+                      'admitted caller route mismatch')
+              keys(admission['root_admission'], ['url', 'purpose', 'scope'])
+              authority = admission['root_admission']
+              require(type(authority['url']) is str and len(authority['url']) <= 256
+                      and re.fullmatch(r'https://github\.com/d6g8k5htny-coder/main/pull/345#issuecomment-[1-9][0-9]*', authority['url'])
+                      and authority['purpose'] == 'EXECUTE_READER_NATIVE_FIXED12'
+                      and authority['scope'] == 'EXACT_C_P_A_AND_LITERAL_CALLER_REVIEW_REQUIRED', 'Root admission data refusal')
+              workflow = original(roots['candidate'], WORKFLOW, 262144)
+              tree_entry(roots['candidate'], runner, WORKFLOW, workflow)
+              control = controller(workflow)
+              require((len(workflow), sha(workflow)) == (runner_data['workflow_bytes'], runner_data['workflow_sha256'])
+                      and (len(control), sha(control)) == (runner_data['controller_bytes'], runner_data['controller_sha256']),
+                      'external runner/controller pin mismatch')
+              caller_raw = original(roots['caller'], CALLER, 16384)
+              require(caller_raw == caller_bytes(candidate, runner, external, admission_sha256),
+                      'caller is not exact closed literal reusable-workflow source')
+              tree_entry(roots['caller'], caller, CALLER, caller_raw)
+              event_path = pathlib.Path(os.environ['GITHUB_EVENT_PATH'])
+              event = original(event_path.parent, event_path.name, 2**20)
+              event_data = json_data(event)
+              require(type(event_data) is dict and event_data.get('ref') == 'refs/heads/main'
+                      and event_data.get('inputs') in (None, {})
+                      and type(event_data.get('repository')) is dict
+                      and event_data['repository'].get('full_name') == REPOSITORY, 'native dispatch event refusal')
+              bindings = []
+              for expected in PAYLOAD:
+                  path = expected['path']
+                  raw = original(roots['candidate'], path, 2**20)
+                  tree_entry(roots['candidate'], candidate, path, raw)
+                  require((len(raw), git_identity('blob', raw), sha(raw))
+                          == (expected['bytes'], expected['git_blob'], expected['sha256']), 'closed source admission refusal')
+                  output = source / path
+                  output.parent.mkdir(parents=True, exist_ok=True)
+                  with output.open('xb') as stream:
+                      stream.write(raw)
+                  output.chmod(0o444)
+                  bindings.append(dict(expected, presence='PRESENT'))
+              expected_leaves = {record['path'] for record in PAYLOAD}
+              expected_directories = {str(pathlib.PurePosixPath(p).parent) for p in expected_leaves}
+              expected_directories |= {'docs', 'interface', 'interface/src'}
+              observed_leaves, observed_directories = set(), set()
+              for directory, subdirectories, files in os.walk(source, followlinks=False):
+                  for name in subdirectories + files:
+                      path = pathlib.Path(directory) / name
+                      info = os.lstat(path)
+                      relative = path.relative_to(source).as_posix()
+                      if stat.S_ISDIR(info.st_mode):
+                          observed_directories.add(relative)
+                      else:
+                          require(stat.S_ISREG(info.st_mode) and info.st_nlink == 1 and stat.S_IMODE(info.st_mode) == 0o444,
+                                  'capture leaf type/link/mode refusal')
+                          observed_leaves.add(relative)
+              require(observed_leaves == expected_leaves and observed_directories == expected_directories,
+                      'capture inventory is not exact closed six-file source')
+              for name, raw in [('caller-workflow.yml', caller_raw), ('runner-workflow.yml', workflow),
+                                ('external-admission.json', admission_raw), ('native-event.json', event)]:
+                  with (retained / name).open('xb') as stream:
+                      stream.write(raw)
+              identities = dict(commits=commits, caller_workflow_ref=os.environ['CALLER_WORKFLOW_REF'],
+                                caller_workflow_sha=os.environ['CALLER_WORKFLOW_SHA'], runner_reference=REPOSITORY + '/' + WORKFLOW + '@' + runner,
+                                runner_execution_reference='LITERAL_CALLER_REFERENCE_NATIVE_RUN_READBACK_REQUIRED',
+                                admission_path=ADMISSION, admission_sha256=admission_sha256,
+                                admission_git_blob=git_identity('blob', admission_raw), caller_workflow_sha256=sha(caller_raw),
+                                native_event_sha256=sha(event), root_admission=authority,
+                                authority='ROOT_REVIEWED_LITERAL_CALLER_EXTERNAL_RECORD_NOT_SELF_AUTHENTICATING')
+              with (retained / 'identity-observations.json').open('x') as stream:
+                  stream.write(json.dumps(identities, sort_keys=True, indent=2) + '\n')
+              with (base / 'publish/payload/checked-workflow.yml').open('xb') as stream:
+                  stream.write(workflow)
+              context = dict(repository=REPOSITORY, caller_commit=caller, checked_commit=candidate, runner_commit=runner,
+                             admission_commit=external, run_id=os.environ['GITHUB_RUN_ID'], run_attempt=os.environ['GITHUB_RUN_ATTEMPT'],
+                             workflow_sha256=sha(workflow), controller_sha256=sha(control), identities=identities, sources=bindings)
+              with (base / 'inputs/payload/control/source-bindings.json').open('x') as stream:
+                  stream.write(json.dumps(context, sort_keys=True, indent=2) + '\n')
+              filesystems = {}
+              for label in ('inputs', 'work', 'publish'):
+                  mount = base / label
+                  require(os.path.ismount(mount), 'fixture filesystem mount not observed')
+                  info, capacity = os.stat(mount, follow_symlinks=False), os.statvfs(mount)
+                  size = capacity.f_frsize * capacity.f_blocks
+                  require(stat.S_ISDIR(info.st_mode) and 0 < size <= 64 * 2**20, 'actual fixture capacity refusal')
+                  filesystems[label] = dict(host_device=info.st_dev, reported_total_bytes=size,
+                                            configured_capacity_bytes=64 * 2**20, mount_observed=True)
+              with (base / 'fixture-filesystems.json').open('x') as stream:
+                  stream.write(json.dumps(filesystems, sort_keys=True, indent=2) + '\n')
+
+          if __name__ == '__main__':
+              main()
+          PY
+      - name: Prepare the fixed bundled-Node execution control
+        timeout-minutes: 1
+        run: |
+          set -euo pipefail
+          control="$RUNNER_TEMP/canvas-tests/inputs/payload/control"
+          cat > "$control/run.mjs" <<'JS'
+          import fs from 'node:fs';
+          import crypto from 'node:crypto';
+          import assert from 'node:assert/strict';
+          import { spawn } from 'node:child_process';
+          const node = '/usr/local/bin/node';
+          const output = '/output/';
+          const digest = raw => crypto.createHash('sha256').update(raw).digest('hex');
+          const write = (name, value) => fs.writeFileSync(output + name,
+            typeof value === 'string' ? value : JSON.stringify(value, null, 2) + '\n',
+            { flag: 'wx', mode: 0o644 });
+          const regular = (path, limit, allowEmpty = false, hashOnly = false) => {
+            const fd = fs.openSync(path, fs.constants.O_RDONLY | fs.constants.O_NOFOLLOW | fs.constants.O_NONBLOCK);
+            try {
+              const before = fs.fstatSync(fd);
+              assert.ok(before.isFile() && before.nlink === 1 && before.size >= (allowEmpty ? 0 : 1)
+                && before.size <= limit, 'regular byte admission');
+              const pieces = [];
+              const hasher = hashOnly ? crypto.createHash('sha256') : null;
+              let count = 0;
+              for (;;) {
+                const part = Buffer.allocUnsafe(Math.min(65536, limit + 1 - count));
+                const got = fs.readSync(fd, part, 0, part.length, null);
+                if (got === 0) break;
+                if (hashOnly) hasher.update(part.subarray(0, got));
+                else pieces.push(part.subarray(0, got));
+                count += got;
+                assert.ok(count <= limit, 'regular file growth admission');
+              }
+              const after = fs.fstatSync(fd);
+              assert.ok(after.isFile() && after.nlink === 1);
+              for (const key of ['dev', 'ino', 'size', 'mtimeMs', 'ctimeMs']) assert.equal(after[key], before[key]);
+              assert.equal(count, before.size);
+              return hashOnly ? { bytes: count, sha256: hasher.digest('hex') } : Buffer.concat(pieces);
+            } finally { fs.closeSync(fd); }
+          };
+          const bindings = JSON.parse(regular('/control/source-bindings.json', 65536));
+          const sourceObservation = () => {
+            const expectedFiles = bindings.sources.map(record => record.path).sort();
+            const expectedDirectories = ['docs', 'docs/plans', 'interface', 'interface/src',
+              'interface/src/scripts', 'interface/tests'].sort();
+            const actualFiles = [], actualDirectories = [];
+            const visit = (relative = '') => {
+              const directory = '/source' + (relative ? '/' + relative : '');
+              const info = fs.lstatSync(directory);
+              assert.ok(info.isDirectory() && !info.isSymbolicLink());
+              assert.equal(info.mode & 0o777, 0o555, 'source directory mode');
+              for (const name of fs.readdirSync(directory).sort()) {
+                assert.ok(name !== '.' && name !== '..' && !name.includes('/'));
+                const child = relative ? relative + '/' + name : name;
+                const leaf = fs.lstatSync('/source/' + child);
+                if (leaf.isDirectory()) { actualDirectories.push(child); visit(child); }
+                else {
+                  assert.ok(leaf.isFile() && !leaf.isSymbolicLink() && leaf.nlink === 1);
+                  assert.equal(leaf.mode & 0o777, 0o444, 'source leaf mode');
+                  actualFiles.push(child);
+                }
+              }
+            };
+            visit();
+            assert.deepEqual(actualFiles.sort(), expectedFiles);
+            assert.deepEqual(actualDirectories.sort(), expectedDirectories);
+            assert.deepEqual(fs.readdirSync('/control').sort(), ['run.mjs', 'source-bindings.json']);
+            return bindings.sources.map(record => {
+            const path = '/source/' + record.path;
+            const raw = regular(path, 2**20, true);
+            assert.equal(raw.length, record.bytes);
+            assert.equal(digest(raw), record.sha256);
+            assert.equal(record.presence, 'PRESENT');
+            return { ...record };
+            });
+          };
+          const runtime = () => {
+            assert.equal(process.version, 'v24.21.0');
+            assert.equal(process.versions.node, '24.21.0');
+            assert.equal(process.platform, 'linux');
+            assert.equal(process.arch, 'x64');
+            assert.equal(process.execPath, node);
+            assert.equal(fs.realpathSync(node), node);
+            assert.equal(process.getuid(), 65532);
+            assert.equal(process.getgid(), 65532);
+            assert.deepEqual(process.argv, [node, '/control/run.mjs']);
+            assert.deepEqual(process.execArgv, []);
+            assert.equal(process.env.NODE_OPTIONS, '');
+            const binary = regular(node, 256 * 2**20, false, true);
+            return { version: process.version, versions: process.versions, platform: process.platform,
+              arch: process.arch, uid: process.getuid(), gid: process.getgid(),
+              executable: process.execPath, executable_bytes: binary.bytes,
+              controller_argv: process.argv, controller_exec_argv: process.execArgv, node_options: process.env.NODE_OPTIONS,
+              executable_sha256: binary.sha256, runtime_origin: 'PINNED_IMAGE_BUNDLED_BINARY',
+              earlier_extracted_binary_credit: 'NOT_REUSED' };
+          };
+          const inventory = [
+            ['canvas-reader', [
+              "D00 setup source pins and exports",
+              "O01 independent partial-edge oracle literal calibration",
+              "D01 signed zero and complete cubic outputs",
+              "D02 unbounded native BigInt exact intervals",
+              "D03 owned immutable input result and selection",
+              "D04 native admission without coercion or replacement",
+              "D05 insertion prefixes and complete tied level",
+              "D06 independent periodic BFS selected state",
+              "D07 strict navigation and whole-sweep preservation",
+              "D08 staged atomic commit and stale tickets",
+              "D09 complete escaped static HTML text",
+              "D10 declared native provenance without false joins",
+            ]],
+          ];
+          const execute = (name) => new Promise(resolve => {
+            assert.equal(name, 'canvas-reader');
+            const argv = ['--test', '--test-reporter=tap', '--test-concurrency=1',
+              '/source/interface/tests/canvas-reader.test.mjs'];
+            const stdout = fs.openSync(output + name + '.tap', 'wx', 0o644);
+            const stderr = fs.openSync(output + name + '.stderr', 'wx', 0o644);
+            const started = process.hrtime.bigint();
+            let timedOut = false, error = null, killer = null;
+            const child = spawn(node, argv, { cwd: '/source', stdio: ['ignore', stdout, stderr],
+              env: { PATH: '/usr/local/bin:/usr/bin:/bin', LANG: 'C.UTF-8', TZ: 'UTC',
+                NODE_DISABLE_COLORS: '1', NODE_OPTIONS: '' } });
+            const timer = setTimeout(() => {
+              timedOut = true;
+              child.kill('SIGTERM');
+              killer = setTimeout(() => child.kill('SIGKILL'), 5000);
+            }, 60000);
+            child.on('error', value => { error = String(value.message).slice(0, 2048); });
+            child.on('close', (code, signal) => {
+              clearTimeout(timer);
+              if (killer !== null) clearTimeout(killer);
+              fs.closeSync(stdout);
+              fs.closeSync(stderr);
+              resolve({ file: name, executable: node, argv, attempts: 1, code, signal, error,
+                spawnfile: child.spawnfile, spawnargs: child.spawnargs, cwd: '/source',
+                environment: { PATH: '/usr/local/bin:/usr/bin:/bin', LANG: 'C.UTF-8', TZ: 'UTC', NODE_DISABLE_COLORS: '1', NODE_OPTIONS: '' },
+                child_internal_exec_argv: 'NOT_OBSERVED_SEPARATELY_FROM_FIXED_SPAWN_ARGV',
+                timed_out: timedOut, duration_ns: String(process.hrtime.bigint() - started),
+                stdout: name + '.tap', stderr: name + '.stderr' });
+            });
+          });
+          const parse = (attempt, names) => {
+            const raw = regular(output + attempt.stdout, 4 * 2**20);
+            const text = raw.toString('utf8');
+            assert.equal(Buffer.from(text).compare(raw), 0, 'TAP UTF-8 refusal');
+            const lines = text.split('\n');
+            const records = [];
+            const starts = [];
+            for (let index = 0; index < lines.length; index++) {
+              const match = /^(not ok|ok) ([1-9][0-9]*) - (.*?)(?: # (SKIP|TODO)(?: (.*))?)?$/.exec(lines[index]);
+              if (!match) {
+                assert.ok(!/^(?:not ok|ok)(?:\s|$)|^Bail out!/.test(lines[index]), 'malformed result or TAP bailout');
+                continue;
+              }
+              assert.ok(starts.length < names.length, 'extra TAP result');
+              starts.push({ line: index, match });
+            }
+            for (let index = 0; index < starts.length; index++) {
+              const { line, match } = starts[index];
+              const end = index + 1 < starts.length ? starts[index + 1].line : lines.length;
+              const diagnostic = lines.slice(line + 1, end).join('\n');
+              const cancelled = /failureType: ['"]cancelledByParent['"]/.test(diagnostic);
+              records.push({ local_id: Number(match[2]), id: match[3],
+                classification: index === 0 ? 'SETUP' : index === 1 ? 'CHECKER' : 'BEHAVIOR',
+                status: cancelled ? 'CANCELLED' :
+                match[4] || (match[1] === 'ok' ? 'PASS' : 'FAIL'), reason: match[5] || null,
+                assertion_diagnostic: match[1] === 'not ok' && /code: ['"]ERR_ASSERTION['"]/.test(diagnostic),
+                diagnostic_sha256: digest(Buffer.from(diagnostic)) });
+            }
+            const one = pattern => {
+              const matches = lines.map(line => pattern.exec(line)).filter(Boolean);
+              assert.equal(matches.length, 1, 'missing or duplicate TAP summary');
+              return Number(matches[0][1]);
+            };
+            const summary = Object.fromEntries(['tests', 'suites', 'pass', 'fail', 'cancelled', 'skipped', 'todo']
+              .map(key => [key, one(new RegExp('^# ' + key + ' ([0-9]+)$'))]));
+            assert.equal(lines[0], 'TAP version 13');
+            assert.equal(lines.filter(line => line === 'TAP version 13').length, 1);
+            assert.deepEqual(lines.filter(line => line.startsWith('# Subtest: ')).map(line => line.slice(11)), names);
+            const planIndex = lines.findIndex(line => /^1\.\.[0-9]+$/.test(line));
+            assert.ok(planIndex > starts.at(-1).line, 'TAP plan/footer order');
+            const footer = lines.slice(planIndex).filter(line => line !== '');
+            assert.equal(footer.length, 9, 'one full TAP footer required');
+            assert.equal(footer[0], '1..' + names.length);
+            for (const [index, key] of ['tests', 'suites', 'pass', 'fail', 'cancelled', 'skipped', 'todo'].entries())
+              assert.equal(footer[index + 1], '# ' + key + ' ' + summary[key]);
+            assert.match(footer[8], /^# duration_ms (?:0|[1-9][0-9]*)(?:\.[0-9]+)?$/);
+            assert.equal(lines.filter(line => line.startsWith('# duration_ms ')).length, 1);
+            assert.equal(one(/^1\.\.([0-9]+)$/), names.length);
+            assert.equal(records.length, names.length);
+            assert.equal(summary.tests, names.length);
+            assert.equal(summary.suites, 0);
+            for (let index = 0; index < names.length; index++) {
+              assert.equal(records[index].local_id, index + 1);
+              assert.equal(records[index].id, names[index], 'unexpected or duplicate TAP identity');
+            }
+            const counts = { PASS: 0, FAIL: 0, CANCELLED: 0, SKIP: 0, TODO: 0 };
+            for (const record of records) counts[record.status]++;
+            assert.equal(summary.pass, counts.PASS);
+            assert.equal(summary.fail, counts.FAIL);
+            assert.equal(summary.cancelled, counts.CANCELLED);
+            assert.equal(summary.skipped, counts.SKIP);
+            assert.equal(summary.todo, counts.TODO);
+            assert.ok(attempt.code === 0 || attempt.code === 1, 'test runner terminal refusal');
+            assert.equal(attempt.signal, null);
+            assert.equal(attempt.error, null);
+            assert.equal(attempt.timed_out, false);
+            const preflight = records[0];
+            const behavior = records.filter(record => names.slice(2).includes(record.id));
+            const oracle = [records[1]];
+            assert.equal(preflight.id, names[0]);
+            assert.equal(oracle[0].id, names[1]);
+            assert.equal(behavior.length, 10);
+            const setupBlocked = preflight.status === 'FAIL';
+            if (setupBlocked) assert.ok(behavior.every(record => record.status === 'SKIP'), 'blocked candidate executed behavior');
+            else assert.equal(preflight.status, 'PASS', 'preflight skip or cancellation refusal');
+            return { attempt, raw_sha256: digest(raw), raw_bytes: raw.length, summary, counts, records,
+              preflight: setupBlocked ? 'SETUP_BLOCKED' : 'IMPORTED_EXPECTED_FUNCTION',
+              setup_control: names[0], checker_control: names[1], behavior_controls: names.slice(2),
+              behavior_result: setupBlocked ? 'NOT_RUN' :
+                behavior.every(record => record.status === 'PASS') ? 'PASS' : 'FAIL_OR_INCOMPLETE',
+              oracle_result: oracle.length === 0 ? 'NOT_APPLICABLE' :
+                oracle.every(record => record.status === 'PASS') ? 'PASS' : 'CHECKER_FAILURE' };
+          };
+          const report = { schema_version: 1, context: bindings, source_declared_controls: 12,
+            source_declared_preflight: 1, source_declared_behavior: 10, source_declared_oracle: 1,
+            status: 'RUNTIME_SETUP_BLOCKED', behavior_result: 'NOT_RUN', actual_controls: [], files: [],
+            scientific_effect: 'NONE', scientific_status_authority: false, organizational_independence: 0,
+            custody_authentication: 'UNKNOWN', genuine_behavioral_red: 'NOT_DECLARED_BY_WORKFLOW',
+            declared_control_inventory: inventory.flatMap(([file, names], fileIndex) => names.map((id, index) => ({ file,
+              local_id: index + 1, global_id: index + 1 + (fileIndex === 0 ? 0 : inventory[0][1].length),
+              id, classification: index === 0 ? 'SETUP' : index === 1 ? 'CHECKER' : 'BEHAVIOR',
+              declaration_status: 'SOURCE_DECLARED_RUNTIME_NOT_PREDICTED' }))) };
+          let finalExit = 1;
+          try {
+            write('runtime-before.json', runtime());
+            write('source-before.json', sourceObservation());
+            write('control-source.json', { path: '/control/run.mjs',
+              sha256: digest(regular('/control/run.mjs', 262144)) });
+            const attempts = [];
+            for (const [name] of inventory) attempts.push(await execute(name));
+            write('attempts.json', attempts);
+            report.status = 'DISCOVERY_FAILED';
+            for (let index = 0; index < inventory.length; index++) {
+              const [name, names] = inventory[index];
+              try { report.files.push(parse(attempts[index], names)); }
+              catch (error) { report.files.push({ file: name, status: 'DISCOVERY_FAILED',
+                error: String(error.message).slice(0, 2048), attempt: attempts[index] }); }
+            }
+            report.actual_controls = report.files.flatMap((file, index) => (file.records || []).map(record => ({ ...record,
+              file: inventory[index][0], global_id: record.local_id + (index === 0 ? 0 : inventory[0][1].length) })));
+            const complete = report.files.every(file => file.records !== undefined);
+            if (complete) {
+              const blocked = report.files.some(file => file.preflight === 'SETUP_BLOCKED');
+              const checkerFailed = report.files.some(file => file.oracle_result === 'CHECKER_FAILURE');
+              const allPass = report.actual_controls.every(record => record.status === 'PASS')
+                && report.files.every(file => file.attempt.code === 0);
+              report.status = blocked ? 'SETUP_BLOCKED' : checkerFailed ? 'CHECKER_FAILURE' :
+                allPass ? 'SCOPED_GREEN' : 'BEHAVIOR_FAILURE_OR_INCOMPLETE';
+              report.behavior_result = blocked ? 'NOT_RUN' : checkerFailed ? 'CHECKER_FAILURE_NOT_BEHAVIORAL_RED' :
+                allPass ? 'PASS' : 'SEE_ACTUAL_CONTROL_STATUS';
+              report.behavior_assertion_failures = report.actual_controls.filter(record =>
+                inventory[0][1].slice(2).includes(record.id) && record.status === 'FAIL' && record.assertion_diagnostic).map(record => record.id);
+              report.red_candidate_requires_source_and_native_custody_review = !blocked && !checkerFailed
+                && report.behavior_assertion_failures.length > 0;
+              if (allPass && !blocked && !checkerFailed) finalExit = 0;
+            }
+            write('source-after.json', sourceObservation());
+            const after = runtime();
+            const before = JSON.parse(regular(output + 'runtime-before.json', 65536));
+            assert.equal(after.executable_sha256, before.executable_sha256);
+            assert.equal(after.executable_bytes, before.executable_bytes);
+            write('runtime-after.json', after);
+          } catch (error) {
+            report.status = 'RUNTIME_OR_SOURCE_CONTROL_FAILED';
+            report.control_error = String(error.message).slice(0, 2048);
+            finalExit = 1;
+          }
+          report.control_exit_code = finalExit;
+          write('results.json', report);
+          write('control-exit-status.txt', String(finalExit) + '\n');
+          console.log(JSON.stringify({ status: report.status, actual_discovered: report.actual_controls.length,
+            counts: report.actual_controls.reduce((counts, item) => ({ ...counts,
+              [item.status]: (counts[item.status] || 0) + 1 }), {}), control_exit_code: finalExit }));
+          process.exitCode = finalExit;
+          JS
+          chmod -R a-w "$RUNNER_TEMP/canvas-tests/inputs/payload"
+          find "$RUNNER_TEMP/canvas-tests/inputs/payload" -type d -exec chmod 0555 {} +
+          chmod 0444 "$control/run.mjs" "$control/source-bindings.json"
+          python3 -I -B -S - <<'PY'
+          import hashlib, json, os, pathlib
+          control = pathlib.Path(os.environ['RUNNER_TEMP']) / 'canvas-tests/inputs/payload/control'
+          bindings = json.loads((control / 'source-bindings.json').read_bytes())
+          if hashlib.sha256((control / 'run.mjs').read_bytes()).hexdigest() != bindings['controller_sha256']:
+              raise ValueError('prepared controller does not match external admission')
+          PY
+      - name: Pull the immutable bundled runtime
+        timeout-minutes: 4
+        run: |
+          set -euo pipefail
+          base="$RUNNER_TEMP/canvas-tests"
+          (ulimit -f 4096; timeout --signal=TERM --kill-after=10s 180s docker pull --platform linux/amd64 "$IMAGE") > "$base/image-pull.log" 2>&1
+          docker image inspect "$IMAGE" > "$base/runtime-image.json"
+      - name: Run the one fixed external reader test once in the isolated container
+        timeout-minutes: 4
+        run: |
+          set -euo pipefail
+          base="$RUNNER_TEMP/canvas-tests"
+          container="canvas-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          printf '%s\n' "$container" > "$base/container-name.txt"
+          docker create --name "$container" --platform linux/amd64 --network none --user 65532:65532 \
+            --ipc private --cgroupns private \
+            --read-only --cap-drop ALL --security-opt no-new-privileges --log-driver none \
+            --cpus 2 --memory 1g --memory-swap 1g --pids-limit 128 \
+            --ulimit fsize=4194304:4194304 --ulimit nofile=256:256 \
+            --tmpfs /tmp:rw,noexec,nosuid,nodev,size=64m,mode=1777 \
+            --mount type=bind,src="$base/inputs/payload/source",dst=/source,readonly \
+            --mount type=bind,src="$base/inputs/payload/control",dst=/control,readonly \
+            --mount type=bind,src="$base/work/payload",dst=/output \
+            --workdir /source --env LANG=C.UTF-8 --env TZ=UTC --env NODE_DISABLE_COLORS=1 --env NODE_OPTIONS= \
+            --entrypoint /usr/local/bin/node "$IMAGE" /control/run.mjs > "$base/container-id.txt"
+          docker inspect "$container" > "$base/container-before.json"
+          set +e
+          (ulimit -f 4096; timeout --signal=TERM --kill-after=10s 180s docker start --attach "$container") > "$base/container-console.log" 2>&1
+          attach=$?
+          set -e
+          printf '%s\n' "$attach" > "$base/attach-exit-status.txt"
+          docker inspect "$container" > "$base/container-after.json"
+          test "$attach" = 0 || test "$attach" = 1
+      - name: Confirm strict container disposal
+        timeout-minutes: 1
+        if: always()
+        run: |
+          set -euo pipefail
+          base="$RUNNER_TEMP/canvas-tests"
+          mkdir -p "$base"
+          container="canvas-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          present="$(docker ps -a --filter "name=^/$container$" --format '{{.Names}}')"
+          if test -n "$present"; then
+            test "$present" = "$container"
+            docker rm -f "$container" > "$base/disposal.log" 2>&1
+          else
+            printf '%s\n' 'No named container remained to remove.' > "$base/disposal.log"
+          fi
+          remaining="$(docker ps -a --filter "name=^/$container$" --format '{{.Names}}')"
+          test -z "$remaining"
+          printf '%s\n' 'CONFIRMED_ABSENT' > "$base/disposal-status.txt"
+      - name: Collect bounded original records only after confirmed disposal
+        timeout-minutes: 1
+        if: always()
+        run: |
+          set -euo pipefail
+          python3 -I -B -S - <<'PY'
+          import hashlib, json, os, pathlib, stat
+          base = pathlib.Path(os.environ['RUNNER_TEMP']) / 'canvas-tests'
+          publish_root = base / 'publish'
+          destination = publish_root / 'payload'
+          destination.mkdir(parents=True, exist_ok=True)
+          def require(condition, message):
+              if not condition:
+                  raise ValueError(message)
+          def original(root, relative, limit, allow_empty=True):
+              parts = relative.split('/')
+              current = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+              descriptor = None
+              try:
+                  for part in parts[:-1]:
+                      nxt = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=current)
+                      os.close(current)
+                      current = nxt
+                  descriptor = os.open(parts[-1], os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=current)
+                  before = os.fstat(descriptor)
+                  require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1
+                          and (0 if allow_empty else 1) <= before.st_size <= limit, 'original regular byte admission')
+                  chunks, count = [], 0
+                  while True:
+                      part = os.read(descriptor, min(65536, limit + 1 - count))
+                      if not part:
+                          break
+                      chunks.append(part)
+                      count += len(part)
+                      require(count <= limit, 'original growth limit')
+                  after = os.fstat(descriptor)
+                  require(stat.S_ISREG(after.st_mode) and after.st_nlink == 1
+                          and (before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns, before.st_ctime_ns)
+                          == (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns)
+                          and count == before.st_size, 'original changed while read')
+                  return b''.join(chunks)
+              finally:
+                  if descriptor is not None:
+                      os.close(descriptor)
+                  os.close(current)
+          require(original(base, 'disposal-status.txt', 64, False) == b'CONFIRMED_ABSENT\n',
+                  'collection precedes confirmed disposal')
+          missing, refused, copied, total = [], [], [], 0
+          specifications = [(base, name, name, limit) for name, limit in (
+              ('repository.txt', 512), ('checked-commit.txt', 128), ('caller-commit.txt', 128),
+              ('runner-commit.txt', 128), ('admission-commit.txt', 128), ('run-id.txt', 128), ('run-attempt.txt', 128),
+              ('checked-tree-and-parents.txt', 1024), ('inputs-filesystem.log', 65536),
+              ('work-filesystem.log', 65536), ('publish-filesystem.log', 65536), ('image-pull.log', 4 * 2**20),
+              ('runtime-image.json', 2**20), ('fixture-filesystems.json', 65536), ('container-name.txt', 256), ('container-id.txt', 128),
+              ('container-before.json', 2**20), ('container-after.json', 2**20), ('container-console.log', 4 * 2**20),
+              ('attach-exit-status.txt', 64), ('disposal.log', 65536), ('disposal-status.txt', 64))]
+          specifications += [(base / 'inputs/payload/control', name, name, 262144)
+                             for name in ('run.mjs', 'source-bindings.json')]
+          specifications += [(base / 'work/payload', name, name, 4 * 2**20)
+                             for name in ('canvas-reader.tap', 'canvas-reader.stderr')]
+          specifications += [(base / 'work/payload', name, name, 2**20) for name in
+                             ('runtime-before.json', 'runtime-after.json', 'source-before.json', 'source-after.json',
+                              'control-source.json', 'attempts.json', 'results.json', 'control-exit-status.txt')]
+          source_names = ['docs/plans/2026-10-09-canvas-model-contract.md', 'interface/src/scripts/cubic-model.mjs', 'interface/src/scripts/elder-model.mjs', 'interface/src/scripts/canvas-reader-state.mjs', 'interface/src/scripts/canvas-reader-view.mjs', 'interface/tests/canvas-reader.test.mjs']
+          expected_absent = set()
+          specifications += [(base / 'inputs/payload/source', name, 'checked-sources/' + name, 2**20)
+                             for name in source_names if name not in expected_absent]
+          specifications += [(base / 'identity-originals', name, 'identity-originals/' + name, limit) for name, limit in (
+              ('caller-commit.raw', 2**20), ('candidate-commit.raw', 2**20), ('runner-commit.raw', 2**20),
+              ('admission-commit.raw', 2**20), ('caller-workflow.yml', 16384), ('runner-workflow.yml', 262144),
+              ('external-admission.json', 262144), ('native-event.json', 2**20), ('identity-observations.json', 262144))]
+          for root, name, output, limit in specifications:
+              try:
+                  raw = original(root, name, limit)
+                  total += len(raw)
+                  require(total <= 32 * 2**20, 'collector attempted-copy subtotal limit')
+                  target = destination / output
+                  target.parent.mkdir(parents=True, exist_ok=True)
+                  with target.open('xb') as stream:
+                      stream.write(raw)
+                  copied.append({'path': output, 'bytes': len(raw), 'sha256': hashlib.sha256(raw).hexdigest()})
+              except FileNotFoundError:
+                  missing.append(output)
+              except (OSError, ValueError):
+                  refused.append(output)
+          mounted = os.path.ismount(publish_root)
+          actual = None
+          if mounted:
+              info, capacity = os.stat(publish_root, follow_symlinks=False), os.statvfs(publish_root)
+              require(stat.S_ISDIR(info.st_mode), 'publication root type refusal')
+              actual = {'host_device': info.st_dev, 'reported_total_bytes': capacity.f_frsize * capacity.f_blocks}
+          record = {'schema_version': 1, 'missing': sorted(missing), 'refused': sorted(refused), 'copied': copied,
+                    'expected_absent_candidate_paths': sorted(expected_absent), 'collector_counted_copy_input_bytes': total,
+                    'collector_copy_limit_bytes': 32 * 2**20, 'collector_counter_may_include_refused_copy_attempts': True,
+                    'collector_subtotal_excludes_prior_originals_and_its_metadata': True,
+                    'configured_publication_filesystem_capacity_bytes': 64 * 2**20,
+                    'publication_mount_observed': mounted, 'actual_publication_filesystem': actual,
+                    'image_layers': 'NOT_ARCHIVED', 'bundled_node_binary': 'NOT_ARCHIVED',
+                    'private_inputs': 'NOT_USED', 'scientific_effect': 'NONE', 'scientific_status_authority': False}
+          with (destination / 'collection.json').open('x') as stream:
+              stream.write(json.dumps(record, sort_keys=True, indent=2) + '\n')
+          PY
+      - name: Bind original terminal results to native runtime and source identity
+        timeout-minutes: 1
+        if: always()
+        run: |
+          set -euo pipefail
+          python3 -I -B -S - <<'PY'
+          import datetime, hashlib, json, os, pathlib, stat
+          base = pathlib.Path(os.environ['RUNNER_TEMP']) / 'canvas-tests'
+          root = base / 'publish/payload'
+          def require(value, message):
+              if not value:
+                  raise ValueError(message)
+          def raw(name, limit=2**20):
+              current = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+              descriptor = None
+              try:
+                  parts = name.split('/')
+                  for part in parts[:-1]:
+                      nxt = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=current)
+                      os.close(current)
+                      current = nxt
+                  descriptor = os.open(parts[-1], os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=current)
+                  before = os.fstat(descriptor)
+                  require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1 and before.st_size <= limit,
+                          'retained original regular byte admission')
+                  chunks, count = [], 0
+                  while True:
+                      part = os.read(descriptor, min(65536, limit + 1 - count))
+                      if not part:
+                          break
+                      count += len(part)
+                      require(count <= limit, 'retained original growth admission')
+                      chunks.append(part)
+                  after = os.fstat(descriptor)
+                  require(stat.S_ISREG(after.st_mode) and after.st_nlink == 1
+                          and (before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns, before.st_ctime_ns)
+                          == (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns)
+                          and count == before.st_size, 'retained original changed while read')
+                  return b''.join(chunks)
+              finally:
+                  if descriptor is not None:
+                      os.close(descriptor)
+                  os.close(current)
+          load = lambda name: json.loads(raw(name))
+          collection = load('collection.json')
+          require(collection['missing'] == [] and collection['refused'] == [], 'original observation incomplete')
+          actual_fs = collection['actual_publication_filesystem']
+          require(collection['publication_mount_observed'] is True
+                  and collection['configured_publication_filesystem_capacity_bytes'] == 64 * 2**20
+                  and type(actual_fs) is dict and type(actual_fs['host_device']) is int
+                  and type(actual_fs['reported_total_bytes']) is int
+                  and 0 < actual_fs['reported_total_bytes'] <= 64 * 2**20, 'publication physical capacity unobserved')
+          bindings = load('source-bindings.json')
+          for key, variable, name in (
+              ('repository', 'GITHUB_REPOSITORY', 'repository.txt'), ('checked_commit', 'CANDIDATE_COMMIT', 'checked-commit.txt'),
+              ('caller_commit', 'GITHUB_SHA', 'caller-commit.txt'), ('runner_commit', 'RUNNER_COMMIT', 'runner-commit.txt'),
+              ('admission_commit', 'ADMISSION_COMMIT', 'admission-commit.txt'),
+              ('run_id', 'GITHUB_RUN_ID', 'run-id.txt'), ('run_attempt', 'GITHUB_RUN_ATTEMPT', 'run-attempt.txt')):
+              require(bindings[key] == os.environ[variable] and raw(name) == (os.environ[variable] + '\n').encode(),
+                      'native execution context mismatch')
+          require(hashlib.sha256(raw('checked-workflow.yml', 262144)).hexdigest() == bindings['workflow_sha256'],
+                  'checked workflow source mismatch')
+          identities = load('identity-originals/identity-observations.json')
+          require(identities == bindings['identities'], 'identity originals context mismatch')
+          for role, expected in (('caller', bindings['caller_commit']), ('candidate', bindings['checked_commit']),
+                                 ('runner', bindings['runner_commit']), ('admission', bindings['admission_commit'])):
+              value = raw('identity-originals/' + role + '-commit.raw')
+              observed = hashlib.sha1(b'commit ' + str(len(value)).encode() + b'\0' + value).hexdigest()
+              require(observed == expected == identities['commits'][role]['commit'], 'retained raw commit mismatch')
+              header = value.split(b'\n\n', 1)[0].split(b'\n')
+              require([line[5:].decode() for line in header if line.startswith(b'tree ')] == [identities['commits'][role]['tree']]
+                      and [line[7:].decode() for line in header if line.startswith(b'parent ')] == identities['commits'][role]['ordered_parents'],
+                      'retained commit tree/ordered parents mismatch')
+          for name, expected in (('external-admission.json', os.environ['ADMISSION_SHA256']),
+                                 ('caller-workflow.yml', identities['caller_workflow_sha256']),
+                                 ('native-event.json', identities['native_event_sha256']),
+                                 ('runner-workflow.yml', bindings['workflow_sha256'])):
+              require(hashlib.sha256(raw('identity-originals/' + name, 2**20)).hexdigest() == expected,
+                      'retained identity original hash mismatch')
+          admission_raw = raw('identity-originals/external-admission.json', 262144)
+          require(hashlib.sha1(b'blob ' + str(len(admission_raw)).encode() + b'\0' + admission_raw).hexdigest()
+                  == identities['admission_git_blob'], 'retained external admission Git blob mismatch')
+          require(raw('checked-tree-and-parents.txt', 1024) == (identities['commits']['candidate']['tree'] + '\n'
+                  + ' '.join(identities['commits']['candidate']['ordered_parents']) + '\n').encode(), 'checked tree/parents text mismatch')
+          for source in bindings['sources']:
+              require(source['presence'] == 'PRESENT', 'closed source unexpectedly absent')
+              value = raw('checked-sources/' + source['path'])
+              require(len(value) == source['bytes'] and hashlib.sha256(value).hexdigest() == source['sha256']
+                      and hashlib.sha1(b'blob ' + str(len(value)).encode() + b'\0' + value).hexdigest() == source['git_blob']
+                      and source['mode'] == '100644', 'retained original source mismatch')
+          require(load('source-before.json') == bindings['sources'] == load('source-after.json'),
+                  'actual runtime source observation mismatch')
+          require(load('control-source.json')['sha256'] == bindings['controller_sha256']
+                  == hashlib.sha256(raw('run.mjs', 262144)).hexdigest(),
+                  'actual control source mismatch')
+          runtime_before, runtime_after = load('runtime-before.json'), load('runtime-after.json')
+          require(runtime_before == runtime_after and runtime_before['version'] == 'v24.21.0'
+                  and runtime_before['platform'] == 'linux' and runtime_before['arch'] == 'x64'
+                  and runtime_before['uid'] == runtime_before['gid'] == 65532
+                  and runtime_before['executable'] == '/usr/local/bin/node'
+                  and runtime_before['runtime_origin'] == 'PINNED_IMAGE_BUNDLED_BINARY'
+                  and runtime_before['controller_argv'] == ['/usr/local/bin/node', '/control/run.mjs']
+                  and runtime_before['controller_exec_argv'] == [] and runtime_before['node_options'] == ''
+                  and type(runtime_before['executable_bytes']) is int and runtime_before['executable_bytes'] > 0
+                  and len(runtime_before['executable_sha256']) == 64, 'actual bundled runtime preflight mismatch')
+          images, before, after = load('runtime-image.json'), load('container-before.json'), load('container-after.json')
+          require(len(images) == len(before) == len(after) == 1, 'native record cardinality refusal')
+          image, first, last = images[0], before[0], after[0]
+          expected_image = os.environ['IMAGE']
+          require('node@sha256:51b1100cc2a83d370c6a60952e3f2989c8a43159d0e38586e090f3b3326efefd' in image['RepoDigests']
+                  and image['Os'] == 'linux' and image['Architecture'] == 'amd64',
+                  'actual immutable runtime image mismatch')
+          require(first['Id'] == last['Id'] == raw('container-id.txt').decode().strip()
+                  and first['Image'] == last['Image'] == image['Id']
+                  and first['Config'] == last['Config'] and first['Config']['Image'] == expected_image,
+                  'native container/image/config identity mismatch')
+          config, host = first['Config'], first['HostConfig']
+          require(config['Entrypoint'] == ['/usr/local/bin/node'] and config['Cmd'] == ['/control/run.mjs']
+                  and config['User'] == '65532:65532' and config['WorkingDir'] == '/source'
+                  and config.get('ExposedPorts') in (None, {}) and config.get('Volumes') is None,
+                  'fixed native command mismatch')
+          expected_environment = list(image['Config']['Env'])
+          for value in ('LANG=C.UTF-8', 'TZ=UTC', 'NODE_DISABLE_COLORS=1', 'NODE_OPTIONS='):
+              key = value.split('=', 1)[0] + '='
+              expected_environment = [entry for entry in expected_environment if not entry.startswith(key)]
+              expected_environment.append(value)
+          require(sorted(config['Env']) == sorted(expected_environment), 'native container environment mismatch')
+          later_host = dict(last['HostConfig'])
+          earlier_host = dict(host)
+          for record in (earlier_host, later_host):
+              require('OomKillDisable' in record and (record['OomKillDisable'] is False or record['OomKillDisable'] is None),
+                      'unexpected native OOM-disable value')
+              del record['OomKillDisable']
+          require(earlier_host == later_host, 'native host configuration changed')
+          require(host['ReadonlyRootfs'] is True and host['NetworkMode'] == 'none'
+                  and host['NanoCpus'] == 2000000000 and host['Memory'] == host['MemorySwap'] == 1073741824
+                  and host['PidsLimit'] == 128 and host['CapDrop'] == ['ALL'] and host['CapAdd'] is None
+                  and host['SecurityOpt'] == ['no-new-privileges'] and host['Privileged'] is False
+                  and host['LogConfig'] == {'Type': 'none', 'Config': {}}
+                  and host['PortBindings'] == {} and host['PublishAllPorts'] is False
+                  and host['Devices'] == [] and host['DeviceRequests'] is None and host['VolumesFrom'] is None
+                  and host['PidMode'] == '' and host['IpcMode'] == 'private' and host['CgroupnsMode'] == 'private'
+                  and host['Tmpfs'] == {'/tmp': 'rw,noexec,nosuid,nodev,size=64m,mode=1777'},
+                  'native containment limits mismatch')
+          require(sorted(host['Ulimits'], key=lambda item: item['Name']) == [
+              {'Name': 'fsize', 'Hard': 4194304, 'Soft': 4194304},
+              {'Name': 'nofile', 'Hard': 256, 'Soft': 256}], 'native process limits mismatch')
+          expected_mounts = sorted([
+              ('/source', str(base / 'inputs/payload/source'), False),
+              ('/control', str(base / 'inputs/payload/control'), False),
+              ('/output', str(base / 'work/payload'), True)])
+          for record in (first, last):
+              mounts = record['Mounts']
+              require(len(mounts) == 3 and all(item['Type'] == 'bind' and item['Propagation'] == 'rprivate' for item in mounts)
+                      and sorted((item['Destination'], item['Source'], item['RW']) for item in mounts) == expected_mounts,
+                      'actual container mount tuple mismatch')
+              require(record['NetworkSettings']['Networks'] == {'none': record['NetworkSettings']['Networks']['none']},
+                      'unexpected native network attachment')
+          filesystems = load('fixture-filesystems.json')
+          require(set(filesystems) == {'inputs', 'work', 'publish'}, 'fixture filesystem inventory mismatch')
+          for label, observed in filesystems.items():
+              mount = base / label
+              require(os.path.ismount(mount) and observed['mount_observed'] is True
+                      and observed['configured_capacity_bytes'] == 64 * 2**20
+                      and type(observed['host_device']) is int and type(observed['reported_total_bytes']) is int
+                      and 0 < observed['reported_total_bytes'] <= 64 * 2**20
+                      and os.stat(mount, follow_symlinks=False).st_dev == observed['host_device']
+                      and os.statvfs(mount).f_frsize * os.statvfs(mount).f_blocks == observed['reported_total_bytes'],
+                      'actual fixture filesystem identity or capacity changed')
+          require(actual_fs == {key: filesystems['publish'][key] for key in ('host_device', 'reported_total_bytes')},
+                  'actual publication filesystem observation join mismatch')
+          require(first['State']['Status'] == 'created' and last['State']['Status'] == 'exited'
+                  and last['State']['Running'] is False and last['State']['OOMKilled'] is False
+                  and last['State']['Error'] == '' and last['State']['FinishedAt'] != '0001-01-01T00:00:00Z',
+                  'actual terminal native execution missing')
+          started = datetime.datetime.fromisoformat(last['State']['StartedAt'].replace('Z', '+00:00'))
+          finished = datetime.datetime.fromisoformat(last['State']['FinishedAt'].replace('Z', '+00:00'))
+          duration = (finished - started).total_seconds()
+          require(0 < duration <= 190, 'actual terminal container wall bound refusal')
+          require(raw('disposal-status.txt') == b'CONFIRMED_ABSENT\n', 'actual disposal missing')
+          results = load('results.json')
+          require(results['context'] == bindings and results['control_exit_code'] in (0, 1)
+                  and raw('control-exit-status.txt') == (str(results['control_exit_code']) + '\n').encode()
+                  and last['State']['ExitCode'] == results['control_exit_code']
+                  and raw('attach-exit-status.txt') == (str(results['control_exit_code']) + '\n').encode(),
+                  'actual control/native terminal mismatch')
+          attempts = load('attempts.json')
+          require(len(attempts) == 1 and [item['file'] for item in attempts] == ['canvas-reader']
+                  and all(item['attempts'] == 1 for item in attempts), 'explicit test-file attempt inventory mismatch')
+          for attempt in attempts:
+              require(attempt['executable'] == '/usr/local/bin/node'
+                      and attempt['argv'] == ['--test', '--test-reporter=tap', '--test-concurrency=1',
+                                             '/source/interface/tests/' + attempt['file'] + '.test.mjs'],
+                      'actual child command identity mismatch')
+              require(attempt['spawnfile'] == attempt['executable'] and attempt['spawnargs'] == [attempt['executable'], *attempt['argv']]
+                      and attempt['cwd'] == '/source' and attempt['environment'] == {'PATH': '/usr/local/bin:/usr/bin:/bin', 'LANG': 'C.UTF-8', 'TZ': 'UTC', 'NODE_DISABLE_COLORS': '1', 'NODE_OPTIONS': ''},
+                      'actual spawn/environment identity mismatch')
+              require(type(attempt['duration_ns']) is str and attempt['duration_ns'].isdigit()
+                      and 0 < int(attempt['duration_ns']) <= 65 * 10**9, 'actual child wall bound refusal')
+          for file in results['files']:
+              require(file['attempt'] == next(item for item in attempts if item['file'] == file['attempt']['file']),
+                      'actual result/child terminal mismatch')
+              if 'records' in file:
+                  tap = raw(file['attempt']['stdout'], 4 * 2**20)
+                  require(file['raw_sha256'] == hashlib.sha256(tap).hexdigest() and file['raw_bytes'] == len(tap),
+                          'original TAP result join mismatch')
+          expected_names = ['D00 setup source pins and exports', 'O01 independent partial-edge oracle literal calibration', 'D01 signed zero and complete cubic outputs', 'D02 unbounded native BigInt exact intervals', 'D03 owned immutable input result and selection', 'D04 native admission without coercion or replacement', 'D05 insertion prefixes and complete tied level', 'D06 independent periodic BFS selected state', 'D07 strict navigation and whole-sweep preservation', 'D08 staged atomic commit and stale tickets', 'D09 complete escaped static HTML text', 'D10 declared native provenance without false joins']
+          require(results['source_declared_controls'] == 12 and results['source_declared_preflight'] == 1
+                  and results['source_declared_oracle'] == 1 and results['source_declared_behavior'] == 10,
+                  'source-declared fixed inventory mismatch')
+          require(len(bindings['sources']) == 6 and collection['expected_absent_candidate_paths'] == [],
+                  'closed source presence inventory mismatch')
+          controls = results['actual_controls']
+          if results['status'] == 'SCOPED_GREEN':
+              require([item['id'] for item in controls] == expected_names
+                      and [item['local_id'] for item in controls] == list(range(1, 13))
+                      and [item['global_id'] for item in controls] == list(range(1, 13))
+                      and [item['classification'] for item in controls] == ['SETUP', 'CHECKER'] + ['BEHAVIOR'] * 10
+                      and all(item['file'] == 'canvas-reader' and item['status'] == 'PASS' for item in controls),
+                      'unique exact twelve-control GREEN identity mismatch')
+              require(len(results['files']) == 1 and results['files'][0]['summary'] == dict(
+                      **{'tests': 12, 'suites': 0, 'pass': 12, 'fail': 0, 'cancelled': 0, 'skipped': 0, 'todo': 0}),
+                      'complete TAP footer GREEN mismatch')
+          counts = {}
+          for control in controls:
+              counts[control['status']] = counts.get(control['status'], 0) + 1
+          if results['status'] == 'SCOPED_GREEN':
+              require(len(controls) == 12 and counts == {'PASS': 12} and results['control_exit_code'] == 0
+                      and len(results['files']) == 1 and all(file['attempt']['code'] == 0 for file in results['files']),
+                      'skipped or incomplete controls cannot produce GREEN')
+          receipt = {'schema_version': 1, 'status': results['status'], 'behavior_result': results['behavior_result'],
+                     'source_declared_controls': results['source_declared_controls'], 'actual_discovered_controls': len(controls),
+                     'actual_status_counts': counts, 'actual_control_records': controls, 'context': bindings,
+                     'runtime': runtime_before, 'image_id': image['Id'], 'image_reference': expected_image,
+                     'fixture_filesystems': filesystems, 'declared_control_inventory': results['declared_control_inventory'],
+                     'container_id': first['Id'], 'terminal_exit_code': last['State']['ExitCode'],
+                     'container_started_at': last['State']['StartedAt'], 'container_finished_at': last['State']['FinishedAt'],
+                     'actual_container_wall_seconds': duration, 'configured_container_timeout_seconds': 180,
+                     'configured_container_kill_grace_seconds': 10, 'configured_child_timeout_seconds': 60,
+                     'configured_child_kill_grace_seconds': 5, 'test_file_attempts': attempts,
+                     'disposal': 'CONFIRMED_ABSENT_BEFORE_COLLECTION',
+                     'actual_publication_filesystem': actual_fs, 'publication_mount_observed': True,
+                     'configured_publication_filesystem_capacity_bytes': 64 * 2**20,
+                     'collector_copy_limit_bytes': 32 * 2**20, 'collector_subtotal_is_not_whole_publication_bytes': True,
+                     'original_native_job_and_archive_readback': 'REQUIRED_AFTER_JOB_COMPLETION',
+                     'genuine_behavioral_red': 'NOT_DECLARED_BY_WORKFLOW', 'scientific_effect': 'NONE',
+                     'scientific_status_authority': False, 'organizational_independence': 0,
+                     'custody_authentication': 'UNKNOWN', 'canvas_browser_deployment': 'NOT_RUN',
+                     'continuum_mathematical_claims': 'NOT_PROMOTED'}
+          with (root / 'receipt.json').open('x') as stream:
+              stream.write(json.dumps(receipt, sort_keys=True, indent=2) + '\n')
+          PY
+      - name: Require every declared Canvas control to pass
+        timeout-minutes: 1
+        if: always()
+        run: |
+          set -euo pipefail
+          python3 -I -B -S - <<'PY'
+          import json, os, pathlib, stat
+          root = pathlib.Path(os.environ['RUNNER_TEMP']) / 'canvas-tests/publish/payload'
+          root_fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+          fd = None
+          try:
+              fd = os.open('receipt.json', os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=root_fd)
+              before = os.fstat(fd)
+              if not stat.S_ISREG(before.st_mode) or before.st_nlink != 1 or not 0 < before.st_size <= 2**20:
+                  raise ValueError('final receipt admission refusal')
+              with os.fdopen(fd, 'rb', closefd=False) as stream:
+                  raw = stream.read(2**20 + 1)
+              after = os.fstat(fd)
+              if (before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns, before.st_ctime_ns) != (
+                  after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns) or after.st_nlink != 1:
+                  raise ValueError('final receipt changed')
+              receipt = json.loads(raw)
+              if receipt['status'] != 'SCOPED_GREEN' or receipt['actual_status_counts'] != {'PASS': 12}:
+                  raise ValueError('Canvas setup, discovery, checker or behavior controls did not all pass')
+              expected_names = ['D00 setup source pins and exports', 'O01 independent partial-edge oracle literal calibration', 'D01 signed zero and complete cubic outputs', 'D02 unbounded native BigInt exact intervals', 'D03 owned immutable input result and selection', 'D04 native admission without coercion or replacement', 'D05 insertion prefixes and complete tied level', 'D06 independent periodic BFS selected state', 'D07 strict navigation and whole-sweep preservation', 'D08 staged atomic commit and stale tickets', 'D09 complete escaped static HTML text', 'D10 declared native provenance without false joins']
+              if (receipt['actual_discovered_controls'] != 12
+                      or [item['id'] for item in receipt['actual_control_records']] != expected_names
+                      or len(receipt['test_file_attempts']) != 1
+                      or receipt['test_file_attempts'][0]['code'] != 0
+                      or receipt['disposal'] != 'CONFIRMED_ABSENT_BEFORE_COLLECTION'):
+                  raise ValueError('final exact-control/attempt/disposal GREEN refusal')
+          finally:
+              if fd is not None:
+                  os.close(fd)
+              os.close(root_fd)
+          PY
+      - name: Hash the bounded original artifact inventory
+        timeout-minutes: 1
+        if: always()
+        run: |
+          set -euo pipefail
+          python3 -I -B -S - <<'PY'
+          import hashlib, os, pathlib, stat
+          root = pathlib.Path(os.environ['RUNNER_TEMP']) / 'canvas-tests/publish/payload'
+          root.mkdir(parents=True, exist_ok=True)
+          root_fd = os.open(root, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+          rows, count, total = [], 0, 0
+          def visit(directory, prefix=''):
+              global count, total
+              for name in sorted(os.listdir(directory)):
+                  info = os.stat(name, dir_fd=directory, follow_symlinks=False)
+                  relative = prefix + name
+                  if stat.S_ISDIR(info.st_mode):
+                      child = os.open(name, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=directory)
+                      try:
+                          visit(child, relative + '/')
+                      finally:
+                          os.close(child)
+                      continue
+                  if relative == 'ARTIFACT_SHA256SUMS':
+                      raise ValueError('pre-existing artifact manifest')
+                  if not stat.S_ISREG(info.st_mode) or info.st_nlink != 1 or info.st_size > 4 * 2**20:
+                      raise ValueError('artifact member admission refusal')
+                  descriptor = os.open(name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=directory)
+                  try:
+                      before = os.fstat(descriptor)
+                      if (before.st_dev, before.st_ino) != (info.st_dev, info.st_ino) or before.st_nlink != 1:
+                          raise ValueError('artifact member identity changed')
+                      digest, read_count = hashlib.sha256(), 0
+                      while True:
+                          chunk = os.read(descriptor, 65536)
+                          if not chunk:
+                              break
+                          read_count += len(chunk)
+                          if read_count > 4 * 2**20:
+                              raise ValueError('artifact growth limit')
+                          digest.update(chunk)
+                      after = os.fstat(descriptor)
+                      if not stat.S_ISREG(after.st_mode) or after.st_nlink != 1 or read_count != before.st_size or (
+                          before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns, before.st_ctime_ns) != (
+                          after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns):
+                          raise ValueError('artifact member changed during hashing')
+                  finally:
+                      os.close(descriptor)
+                  count += 1
+                  total += read_count
+                  if count > 64 or total > 64 * 2**20:
+                      raise ValueError('artifact inventory bound')
+                  rows.append(digest.hexdigest() + '  ' + relative + '\n')
+          try:
+              visit(root_fd)
+              fd = os.open('ARTIFACT_SHA256SUMS', os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600, dir_fd=root_fd)
+              with os.fdopen(fd, 'wb') as stream:
+                  stream.write(''.join(rows).encode())
+          finally:
+              os.close(root_fd)
+          PY
+      - name: Retain originals on every conclusion
+        timeout-minutes: 1
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: canvas-originals-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/canvas-tests/publish/payload/
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+      - name: Strictly unmount every disposable fixture filesystem
+        timeout-minutes: 1
+        if: always()
+        run: |
+          set -euo pipefail
+          base="$RUNNER_TEMP/canvas-tests"
+          failed=0
+          for label in publish work inputs; do
+            mount="$base/$label"
+            set +e
+            python3 -I -B -S - "$mount" <<'PY'
+          import os, stat, sys
+          try:
+              info = os.lstat(sys.argv[1])
+          except FileNotFoundError:
+              sys.exit(32)
+          if not stat.S_ISDIR(info.st_mode):
+              raise ValueError('fixture mount path is not an original directory')
+          PY
+            presence=$?
+            set -e
+            if test "$presence" = 32; then
+              continue
+            elif test "$presence" != 0; then
+              failed=1
+              continue
+            fi
+            # util-linux mountpoint: 0 is mounted; 32 is an ordinary nonmount;
+            # invocation, permission and other probe errors must fail cleanup.
+            set +e
+            mountpoint -q "$mount"
+            probe=$?
+            set -e
+            if test "$probe" = 0; then
+              if ! sudo umount "$mount"; then
+                failed=1
+                continue
+              fi
+              set +e
+              mountpoint -q "$mount"
+              after=$?
+              set -e
+              if test "$after" != 32; then
+                failed=1
+              fi
+            elif test "$probe" != 32; then
+              failed=1
+            fi
+          done
+          test "$failed" = 0
+
