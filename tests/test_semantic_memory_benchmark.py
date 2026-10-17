@@ -239,6 +239,9 @@ class SemanticMemoryFixtureContract(unittest.TestCase):
         self.serial += 1
         path = self.home / ("fixtures-" + str(self.serial))
         shutil.copytree(FIXTURES, path, copy_function=shutil.copyfile)
+        # copytree preserves read-only source directory modes; only this fresh copy is mutable.
+        for directory in (path, path / "corpus"):
+            directory.chmod(0o700)
         return path
 
     def load(self, path, name):

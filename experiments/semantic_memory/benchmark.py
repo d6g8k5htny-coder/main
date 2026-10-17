@@ -40,6 +40,9 @@ GATES = {"exact_ref_successes": 8, "exact_ref_cases": 8, "citation_fidelity": 1.
 OBLIGATIONS = ["tokenizer_parity", "final_chunk_count_le_128", "500_token_chunks",
     "semantic_retrieval", "quality_cost_fairness", "actual_W_C_integration"]
 SCHEDULE = "materialized-v1; authoring Python3 random.Random(20261008) shuffle; rows are authority"
+GENERATION_IDS = [prefix + "%02d" % i for prefix in ("P", "D", "V", "X", "N") for i in range(1, 5)]
+# Pin the frozen materialized rows, including each arm/profile order, not an RNG replay.
+SCHEDULE_ROWS_SHA256 = "a882446b1e5a3103e7db2592ea512a759042e372e761d59e8c2ef53a68079fbc"
 
 
 def _require(condition):
@@ -407,6 +410,7 @@ def validate_fixtures(fixture_dir: Path) -> dict:
                  and all(type(value) is str and value in HELD_IDS for value in generation)
                  and len(set(generation)) == 20)
         _require(all(sum(value.startswith(prefix) for value in generation) == 4 for prefix in STRATA))
+        _same(generation, GENERATION_IDS)
         order = manifest["query_order"]
         _require(type(order) is list and len(order) == 40)
         seen = set()
@@ -417,15 +421,27 @@ def validate_fixtures(fixture_dir: Path) -> dict:
             for name, expected in (("arms", {"E", "L", "S"}), ("profiles", {"W", "C"})):
                 _require(type(row[name]) is list and len(row[name]) == len(expected)
                          and all(type(value) is str for value in row[name]) and set(row[name]) == expected)
+        _require(_sha(canonical_report(order)) == SCHEDULE_ROWS_SHA256)
         oracle = documents["heldout-oracle.json"]
         _keys(oracle, ("schema_version", "oracle_only_sentinel", "records", "development_records", "representation_controls"))
         _integer(oracle["schema_version"], 1, 1)
-        _text(oracle["oracle_only_sentinel"])
+        sentinel = _text(oracle["oracle_only_sentinel"])
         _gold(oracle["records"], HELD_IDS, cases, sources, texts)
         _gold(oracle["development_records"], DEV_IDS, cases, sources, texts)
         _representation(oracle["representation_controls"])
         requests = {identifier: {profile: case_request(case, profile) for profile in ("W", "C")}
                     for identifier, case in cases.items()}
+        # Check decoded strings, so escaped Unicode and changed oracle markers cannot leak.
+        pending = [projection, requests]
+        while pending:
+            item = pending.pop()
+            if type(item) is str:
+                _require(sentinel not in item)
+            elif type(item) is dict:
+                pending.extend(item)
+                pending.extend(item.values())
+            elif type(item) is list:
+                pending.extend(item)
         return {"schema_version": 1, "scientific_effect": "NONE", "scientific_status_authority": False,
             "fixture_manifest_sha256": _sha(raw_manifest), "files": files,
             "counts": {"documents": 32, "text_bytes": total, "development": 8, "heldout": 40,
