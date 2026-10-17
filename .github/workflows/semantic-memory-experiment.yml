@@ -815,6 +815,8 @@ jobs:
                                  and type(row['optimize']) is int and row['optimize'] == optimize for row in rows):
                           raise ValueError('diagnostic closed schema or mode')
                       result['child_mode_diagnostic'] = {'records': len(rows), 'optimize': optimize}
+                      if len(rows) != 184:
+                          issues.append(mode + ': expected exactly 184 CLI-child diagnostic rows')
                       if not source['product_cli_present']:
                           issues.append(mode + ': child diagnostic exists while CLI was absent')
                   except (UnicodeError, ValueError) as error:
@@ -879,6 +881,8 @@ jobs:
                       'records': len(contexts), 'kinds': kinds, 'isolated': 1,
                       'safe_path': True, 'stdlib_origins': 'RETAINED_TEST_PROCESS_OBSERVATIONS',
                       'search_path': 'PINNED_IMAGE_PLUS_EXACT_CAPTURED_TEST_DIRECTORY'}
+                  if len(contexts) != 185:
+                      issues.append(mode + ': expected exactly 185 import-context rows')
               except (OSError, UnicodeError, ValueError, TypeError, KeyError) as error:
                   issues.append(mode + ': missing/invalid import context ' + type(error).__name__)
               modes[mode] = result
