@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Task1 deterministic fixture reports only. Execute in the hosted isolated lane."""
+"""Task1 structural reports and frozen admission. Execute in the hosted isolated lane."""
 from __future__ import annotations
 
 import argparse
@@ -54,13 +54,13 @@ def _product():
 def main(argv=None):
     try:
         parser = _Parser(description=__doc__, add_help=False, allow_abbrev=False)
-        parser.add_argument("mode", choices=("prepare-report", "verify-report"))
+        parser.add_argument("mode", choices=("prepare-report", "verify-report", "admit-benchmark"))
         parser.add_argument("--fixtures", required=True, action="append")
         parser.add_argument("--report", action="append")
         arguments = parser.parse_args(argv)
         if len(arguments.fixtures) != 1:
             raise ValueError("arguments")
-        if arguments.mode == "prepare-report":
+        if arguments.mode in ("prepare-report", "admit-benchmark"):
             if arguments.report is not None:
                 raise ValueError("arguments")
         elif arguments.report is None or len(arguments.report) != 1:
@@ -68,6 +68,8 @@ def main(argv=None):
         product = _product()
         if arguments.mode == "prepare-report":
             raw = product.canonical_report(product.validate_fixtures(arguments.fixtures[0]))
+        elif arguments.mode == "admit-benchmark":
+            raw = product.canonical_report(product.admit_benchmark(arguments.fixtures[0]))
         else:
             raw = product.verify_report(arguments.fixtures[0], arguments.report[0])
         # Direct descriptor writes leave no buffered success data to flush after

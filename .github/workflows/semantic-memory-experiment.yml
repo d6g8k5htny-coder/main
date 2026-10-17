@@ -536,8 +536,8 @@ jobs:
           publish, workspace = map(Path, sys.argv[1:])
           started = time.monotonic()
           deadline = started + 35
-          expected_children = 164  # Frozen successor: original148 +16 structural CLI probes.
-          expected_contexts = 165
+          expected_children = 184  # Source inventory:164 +16 strict refusals +3 strict positives +1 tampered report.
+          expected_contexts = 185
           receipt = {"schema_version": 1, "kind": "OBSERVER_COUNT_CONTROLS",
                      "scope": "SYNTHETIC_MUTATIONS_OF_CURRENT_ORIGINALS",
                      "native_originals_modified": False, "expected_children_per_mode": expected_children,

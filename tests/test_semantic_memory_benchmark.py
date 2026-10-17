@@ -5,7 +5,9 @@ Original Task1 RED/GREEN remains historical at its exact source. This successor
 adds Ready-review controls; its outcomes are NOT_RUN.
 Frozen-identity successor author: OpenAI/Codex rag_frozen_identity_control_author_1017.
 This successor probes the real existing admitted_corpus API through the captured
-CLI loader; new controls are source-only and behavioral outcomes remain NOT_RUN. Every source/fact/oracle
+CLI loader. Its original API RED is qualified at its pinned predecessor; this
+controls-first admission repair successor adds prospective strict CLI/report
+compatibility controls whose behavioral outcomes remain NOT_RUN. Every source/fact/oracle
 is synthetic. Only the captured CLI loader and benchmark subject are loaded as
 project code; no additional project helper is loaded. Same provider and
 shared principal, organizational-independence credit0, scientific effect NONE.
@@ -365,6 +367,39 @@ class SemanticMemoryFixtureContract(unittest.TestCase):
         self.assertGreater(self.deadline - time.monotonic(), 0,
                            "finite120s per-mode test budget exhausted")
 
+    def strict_accepted(self, path):
+        result = self.invoke(path, "admit-benchmark")
+        self.assertEqual(result.returncode, 0, result.stderr.decode("utf-8", "replace"))
+        self.assertEqual(result.stderr, b"")
+        report = json.loads(result.stdout)
+        self.assertEqual(result.stdout, encoded(report))
+        self.assertIs(type(report["schema_version"]), int)
+        self.assertEqual(report["schema_version"], 2)
+        self.assertEqual(report["benchmark_admission"], {
+            "admitted": True,
+            "benchmark_id": "semantic-memory-synthetic-20261008-v1",
+            "semantic_sha256": "8d28c546b7871916adac363f56dc58204785093686ba919f14f5a4c79cefd04f"})
+        self.assertIs(report["benchmark_admission"]["admitted"], True)
+        # Independently derive only the expected original corpus projection,
+        # never the expected admission digest or flag from candidate output.
+        sources = self.load(FIXTURES, "corpus-manifest.json")["sources"]
+        self.assertEqual(len(sources), 32)
+        actual = report["corpus_projection"]
+        self.assertIs(type(actual), list)
+        self.assertEqual(len(actual), 32)
+        for row, source in zip(actual, sources):
+            self.assertIs(type(row), dict)
+            self.assertEqual(set(row), SOURCE_KEYS | {"text"})
+            expected = dict(source, text=(FIXTURES / source["content_ref"]).read_bytes().decode("utf-8"))
+            self.assertEqual(row, expected)
+        return report
+
+    def strict_refused(self, path):
+        result = self.invoke(path, "admit-benchmark")
+        self.assertEqual(result.returncode, 1, result.stdout.decode("utf-8", "replace"))
+        self.assertEqual(result.stdout, b"")
+        self.assertEqual(result.stderr, b"semantic memory fixtures refused: invalid input or output\n")
+
     def frozen_admission_mutation(self, name, change):
         with self.subTest(frozen_admission=name):
             path = self.fresh()
@@ -375,6 +410,7 @@ class SemanticMemoryFixtureContract(unittest.TestCase):
             # The predecessor returns normally, giving ValueError-not-raised FAIL.
             with self.assertRaises(ValueError, msg="frozen benchmark identity must refuse " + name):
                 self.admission_corpus(path)
+            self.strict_refused(path)  # Same structurally valid mutant, real strict CLI.
 
     def test_frozen_case_inventory_and_hashes(self):
         # Catches omitted identity, schema, cardinality, budget or nofollow checks.
@@ -386,7 +422,11 @@ class SemanticMemoryFixtureContract(unittest.TestCase):
         self.assertEqual(report, second)
         self.assertEqual(set(report), {"schema_version", "scientific_effect", "scientific_status_authority",
             "fixture_manifest_sha256", "files", "counts", "seed", "query_order", "baseline_definitions",
-            "gates", "corpus_projection", "request_projections", "validation", "pending"})
+            "gates", "corpus_projection", "request_projections", "validation", "pending", "benchmark_admission"})
+        self.assertIs(type(report["schema_version"]), int)
+        self.assertEqual(report["schema_version"], 2)
+        self.assertEqual(report["benchmark_admission"], {"admitted": False, "reason": "STRUCTURAL_VALIDATION_ONLY"})
+        self.assertIs(report["benchmark_admission"]["admitted"], False)
         self.assertEqual(report["counts"], {"documents": 32, "text_bytes": 107886, "development": 8,
             "heldout": 40, "by_stratum": {s: 8 for s in STRATA}, "generation": 20})
         self.assertIs(report["scientific_status_authority"], False)
@@ -428,6 +468,63 @@ class SemanticMemoryFixtureContract(unittest.TestCase):
         self.assertEqual(invalid.returncode, 1)
         self.assertEqual(invalid.stdout, b"")
         self.assertTrue(invalid.stderr.startswith(b"semantic memory fixtures refused:"))
+
+        tampered_admission = copy.deepcopy(report)
+        tampered_admission["benchmark_admission"]["admitted"] = True
+        saved.write_bytes(encoded(tampered_admission))
+        invalid_admission = self.invoke(path, "verify-report", saved)
+        self.assertEqual(invalid_admission.returncode, 1)
+        self.assertEqual(invalid_admission.stdout, b"")
+        self.assertEqual(invalid_admission.stderr,
+                         b"semantic memory fixtures refused: invalid input or output\n")
+
+        # Strict admission positives: literal reference identity, not transport bytes.
+        strict_original = self.fresh()
+        self.strict_accepted(strict_original)
+
+        formatted = self.fresh()
+        for name in ("development-cases.json", "heldout-cases.json", "heldout-oracle.json"):
+            value = self.load(formatted, name)
+            # Reverse top-level key order and change whitespace in every case doc.
+            reordered = dict(reversed(list(value.items())))
+            raw = (json.dumps(reordered, sort_keys=False, ensure_ascii=False,
+                              indent=1, allow_nan=False) + "\n\n").encode("utf-8")
+            self.assertNotEqual(raw, (FIXTURES / name).read_bytes())
+            self.assertEqual(json.loads(raw), self.load(FIXTURES, name))
+            self.assertEqual(list(json.loads(raw)), list(reordered))
+            (formatted / name).write_bytes(raw)
+            self.manifest(formatted, lambda m: m["case_files"].update(
+                {name: {"bytes": len(raw), "sha256": digest(raw)}}))
+        manifest = self.load(formatted, "corpus-manifest.json")
+        original_manifest = self.load(FIXTURES, "corpus-manifest.json")
+        self.assertEqual({k: v for k, v in manifest.items() if k != "case_files"},
+                         {k: v for k, v in original_manifest.items() if k != "case_files"})
+        reordered = dict(reversed(list(manifest.items())))
+        raw = (json.dumps(reordered, sort_keys=False, ensure_ascii=False,
+                          indent=1, allow_nan=False) + "\n\n").encode("utf-8")
+        self.assertNotEqual(raw, (FIXTURES / "corpus-manifest.json").read_bytes())
+        self.assertEqual(json.loads(raw), manifest)
+        self.assertEqual(list(json.loads(raw)), list(reordered))
+        (formatted / "corpus-manifest.json").write_bytes(raw)
+        self.strict_accepted(formatted)
+        self.original_admission(formatted)
+
+        sentinel_only = self.fresh()
+        marker = "EVALUATOR_ONLY_ADMISSION_POSITIVE_20261017_428"
+        self.assertNotEqual(marker, SENTINEL)
+        independent_public = b"\n".join((FIXTURES / s["content_ref"]).read_bytes()
+            for s in original_manifest["sources"])
+        independent_public += (FIXTURES / "development-cases.json").read_bytes()
+        independent_public += (FIXTURES / "heldout-cases.json").read_bytes()
+        self.assertNotIn(marker.encode("utf-8"), independent_public)
+        self.casefile(sentinel_only, "heldout-oracle.json",
+                      lambda v: v.update(oracle_only_sentinel=marker))
+        changed_oracle = self.load(sentinel_only, "heldout-oracle.json")
+        original_oracle = self.load(FIXTURES, "heldout-oracle.json")
+        self.assertEqual({k: v for k, v in changed_oracle.items() if k != "oracle_only_sentinel"},
+                         {k: v for k, v in original_oracle.items() if k != "oracle_only_sentinel"})
+        self.strict_accepted(sentinel_only)
+        self.original_admission(sentinel_only)
 
         self.mutation("changed_bytes", lambda p: (p / "corpus/P01.txt").write_bytes(b"changed"))
         self.mutation("missing_file", lambda p: (p / "corpus/P01.txt").unlink())

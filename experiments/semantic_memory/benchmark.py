@@ -43,6 +43,9 @@ SCHEDULE = "materialized-v1; authoring Python3 random.Random(20261008) shuffle; 
 GENERATION_IDS = [prefix + "%02d" % i for prefix in ("P", "D", "V", "X", "N") for i in range(1, 5)]
 # Pin the frozen materialized rows, including each arm/profile order, not an RNG replay.
 SCHEDULE_ROWS_SHA256 = "a882446b1e5a3103e7db2592ea512a759042e372e761d59e8c2ef53a68079fbc"
+# Trusted semantic identity of the reviewed original benchmark, not candidate input.
+BENCHMARK_ID = "semantic-memory-synthetic-20261008-v1"
+BENCHMARK_SEMANTIC_SHA256 = "8d28c546b7871916adac363f56dc58204785093686ba919f14f5a4c79cefd04f"
 
 
 def _require(condition):
@@ -343,8 +346,8 @@ def _representation(controls):
     _require(_hash(value["text_sha256"]) == _sha(derived))
 
 
-def validate_fixtures(fixture_dir: Path) -> dict:
-    """Validate declared public fixture bytes; make no runtime or science claim."""
+def _validated_bundle(fixture_dir: Path) -> tuple[dict, str]:
+    """Validate once; fingerprint the same parsed documents and captured raw bytes."""
     root = _directory(fixture_dir)
     try:
         _inventory(root, {"corpus", "corpus-manifest.json", *CASE_FILES}, {"corpus"})
@@ -442,7 +445,19 @@ def validate_fixtures(fixture_dir: Path) -> dict:
                 pending.extend(item.values())
             elif type(item) is list:
                 pending.extend(item)
-        return {"schema_version": 1, "scientific_effect": "NONE", "scientific_status_authority": False,
+        # Transport JSON formatting and the private evaluator marker are not
+        # benchmark semantics. Their raw descriptors and leak checks above still apply.
+        semantic = {"schema_version": 1, "benchmark_id": BENCHMARK_ID,
+            "manifest": {key: value for key, value in manifest.items() if key != "case_files"},
+            "development_cases": documents["development-cases.json"],
+            "heldout_cases": documents["heldout-cases.json"],
+            "oracle": {key: value for key, value in oracle.items() if key != "oracle_only_sentinel"},
+            "corpus": [{"content_ref": row["content_ref"],
+                        "bytes": files[row["content_ref"]]["bytes"],
+                        "sha256": files[row["content_ref"]]["sha256"]}
+                       for row in manifest["sources"]]}
+        semantic_sha256 = _sha(canonical_report(semantic))
+        report = {"schema_version": 2, "scientific_effect": "NONE", "scientific_status_authority": False,
             "fixture_manifest_sha256": _sha(raw_manifest), "files": files,
             "counts": {"documents": 32, "text_bytes": total, "development": 8, "heldout": 40,
                        "by_stratum": {value: 8 for value in STRATA.values()}, "generation": 20},
@@ -451,14 +466,30 @@ def validate_fixtures(fixture_dir: Path) -> dict:
             "validation": {"inventory": "passed", "gold": "passed", "deep": "passed", "representation": "passed"},
             "pending": {"tokenizer_parity": "NOT_EVALUATED", "chunk_count": None,
                         "retrieval": "NOT_EVALUATED", "quality_cost_fairness": "NOT_EVALUATED",
-                        "installed_consumers": "NOT_EVALUATED"}}
+                        "installed_consumers": "NOT_EVALUATED"},
+            "benchmark_admission": {"admitted": False, "reason": "STRUCTURAL_VALIDATION_ONLY"}}
+        return report, semantic_sha256
     finally:
         os.close(root)
 
 
+def validate_fixtures(fixture_dir: Path) -> dict:
+    """Validate structure; do not admit a candidate as the original benchmark."""
+    return _validated_bundle(fixture_dir)[0]
+
+
+def admit_benchmark(fixture_dir: Path) -> dict:
+    """Admit only the trusted frozen semantic identity from one validated snapshot."""
+    report, semantic_sha256 = _validated_bundle(fixture_dir)
+    _require(semantic_sha256 == BENCHMARK_SEMANTIC_SHA256)
+    report["benchmark_admission"] = {"admitted": True, "benchmark_id": BENCHMARK_ID,
+                                      "semantic_sha256": semantic_sha256}
+    return report
+
+
 def admitted_corpus(fixture_dir: Path) -> list[dict]:
-    """Admit file identities only; old annotations remain, no live policy runs."""
-    return validate_fixtures(fixture_dir)["corpus_projection"]
+    """Return corpus rows only after the same strict benchmark-admission gate."""
+    return admit_benchmark(fixture_dir)["corpus_projection"]
 
 
 def verify_report(fixture_dir: Path, report_path: Path) -> bytes:
