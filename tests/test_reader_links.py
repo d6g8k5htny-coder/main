@@ -905,7 +905,8 @@ NEWER_WORK = re.compile(r'(<aside id="newer-work" class="latest-upstream" tabind
 
 class NewerWorkRoutes(unittest.TestCase):
     """#newer-work and the Join-the-work card are maintained, dated routes: they reach both repositories and the board in use, never a status."""
-    ACTIVE_BOARD = 419   # the board CONTRIBUTING.md and docs/WORKSPACE.md name; change with them when it moves again
+    ACTIVE_BOARD = 419   # current coordination successor; guide routing may await its own amendment
+    PREVIOUS_BOARD = 307
     HISTORICAL_BOARD = 229
     QUEUE = 275
     ISSUES = SOURCE_ROOT+'main/issues/'
@@ -972,7 +973,9 @@ class NewerWorkRoutes(unittest.TestCase):
         self.assertTrue(aside.startswith('<aside id="newer-work" class="latest-upstream" tabindex="-1"><h3>Check newer work</h3>'
                                          '<p><strong>Mutable upstream navigation.</strong>'))
         self.assertRegex(aside,'Routes '+self.AS_READ+r'\.')
-        self.assertRegex(aside,re.escape('">contribution guide</a> (')+self.AS_READ+re.escape(', it names the same board and queue)'))
+        self.assertIn('Routes as read 15 October 2026.',aside)
+        self.assertIn('">contribution guide</a> for submission instructions',aside)
+        self.assertNotIn('it names the same board and queue',aside)
         self.assertIn(self.ASIDE_229,aside)
         # #latest-work keeps one <time> (the 18:00 cut's); the browser check's '#latest-work time' locator is strict.
         self.assertNotIn('<time',aside)
@@ -1035,6 +1038,7 @@ class NewerWorkRoutes(unittest.TestCase):
         self.assertIn(f'<a href="{self.ISSUES}{self.ACTIVE_BOARD}">Active coordination board ↗</a>',card)
         self.assertIn(f'<a href="{self.ISSUES}{self.QUEUE}">Current tasks and claims ↗</a>',card)
         self.assertIn(f'<a href="{self.ISSUES}{self.HISTORICAL_BOARD}#issuecomment-6038554880">historical #229 working guidance</a>',card)
+        self.assertIn(f'successor to <a href="{self.ISSUES}{self.PREVIOUS_BOARD}">main #{self.PREVIOUS_BOARD}</a>, which stays readable as history;',card)
         # Declarations stay where CONTRIBUTING.md puts them (#275 or the task's issue/PR); #419 takes general coordination.
         self.assertIn("Comment <code>/claim</code> on the task's issue or PR",card)
 
