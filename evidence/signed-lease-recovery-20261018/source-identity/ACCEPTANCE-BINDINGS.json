@@ -1,0 +1,28 @@
+{
+  "S01_private_report_sha256": "f61ac5e5cd43ba522d37f6a1edb6e133e38c04073a4c2274a2382df4a4b9e115",
+  "S01_rendered_full_report_bytes": 16699,
+  "S01_rendered_full_report_exact_after_two_declared_path_substitutions": true,
+  "S01_rendered_full_report_sha256": "b015790b87c69a6c227a6d1d8006804a8748a4216c92a553cb8e072a7e1abf71",
+  "accepted_F03_peer_embedded_full_report_LF": 42,
+  "accepted_F03_peer_embedded_full_report_bytes": 9317,
+  "accepted_F03_peer_embedded_full_report_sha256": "754c370ad6ade2e36cec99e1e46d9a4cc1c324bee1b34a7332d5de6233ba1581",
+  "correction": "Use raw-byte marker suffix and remove only boundary LF before the complete title. Full rendered report now literally equals native embedded source; no ignored internal or terminal byte.",
+  "created_utc": "2026-10-18T00:39:57.774894+00:00",
+  "native_custody_authentication": "UNKNOWN",
+  "own_inert_reader_negatives": [
+    {
+      "cause": "Initial BEGIN-section extraction split on first double LF, thereby removed title plus LF from embedded S01 report.",
+      "failure": "AssertionError",
+      "order": 1,
+      "scope": "Own documentary parser only; no source/publication/runtime finding."
+    },
+    {
+      "cause": "Own diagnostic assumed double-LF immediately after BEGIN marker; actual S01 marker has one LF.",
+      "failure": "IndexError: list index out of range",
+      "order": 2,
+      "scope": "Read-only diagnostic only; no original changed."
+    }
+  ],
+  "peer_audit_freshly_reaudited": false,
+  "schema": "retained-native-rendering-and-peer-identity/v1"
+}

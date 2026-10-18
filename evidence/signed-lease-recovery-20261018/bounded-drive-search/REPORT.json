@@ -1,0 +1,126 @@
+{
+  "schema_version": "signed-lease-accepted-s01-drive-recovery-v1",
+  "created_utc": "2026-10-18T00:30:15.421581+00:00",
+  "scope": "Finite independent read-only connected-Drive search for two accepted S01 original byte sequences. No project execution.",
+  "disposition": "HOLD_ACCEPTED_S01_ORIGINAL_BYTES_NOT_RECOVERED",
+  "acceptance_reference": "351/6113424643",
+  "intake_pin": {
+    "bytes": 18490,
+    "sha256": "b336809d427b556bbc60a396983156dcd01b3f08bd1ccb521bbc04654403eacd",
+    "matches_expected": true
+  },
+  "targets": [
+    {
+      "label": "accepted-s01-controls",
+      "bytes": 179658,
+      "sha256": "5eaa431716e8b28f0df20fb6d3da9a6e875e60fb0c4c1d57ead1654270c810e5",
+      "recovered": false
+    },
+    {
+      "label": "accepted-s01-contract",
+      "bytes": 101664,
+      "lines": 268,
+      "sha256": "c7ce3f45bca751031d206566c229e5de870bc60c9392aa5e00462a0114be0f9f",
+      "recovered": false
+    }
+  ],
+  "searches": [
+    {
+      "label": "search01_exact_test_sha",
+      "query": "5eaa431716e8b28f0df20fb6d3da9a6e875e60fb0c4c1d57ead1654270c810e5",
+      "topn": 50,
+      "count": 0,
+      "isError": false,
+      "returned_at_limit": false
+    },
+    {
+      "label": "search02_exact_contract_sha",
+      "query": "c7ce3f45bca751031d206566c229e5de870bc60c9392aa5e00462a0114be0f9f",
+      "topn": 50,
+      "count": 0,
+      "isError": false,
+      "returned_at_limit": false
+    },
+    {
+      "label": "search03_signed_lease",
+      "query": "signed lease",
+      "topn": 50,
+      "count": 50,
+      "isError": false,
+      "returned_at_limit": true
+    },
+    {
+      "label": "search04_s01",
+      "query": "S01",
+      "topn": 50,
+      "count": 24,
+      "isError": false,
+      "returned_at_limit": false
+    },
+    {
+      "label": "search05_lease_protocol",
+      "query": "lease protocol",
+      "topn": 50,
+      "count": 50,
+      "isError": false,
+      "returned_at_limit": true
+    },
+    {
+      "label": "search06_signed_lease_rfc",
+      "query": "lease RFC",
+      "topn": 50,
+      "count": 3,
+      "isError": false,
+      "returned_at_limit": false
+    }
+  ],
+  "observations": {
+    "deduplicated_metadata_candidates": 115,
+    "exact_target_sha_search_candidates": 0,
+    "target_size_matches": 0,
+    "target_filename_topic_matches": 0,
+    "s01_and_lease_search_set_overlap": 0,
+    "potential_current_metadata_candidates": [
+      "candidate06",
+      "candidate50",
+      "candidate99"
+    ],
+    "potential_current_metadata_exclusion": "Their observed titles indicate communications/readback/governing-index records; no target original filename or byte-size evidence. They were not treated as source originals.",
+    "s01_source_check_records": "All seven observed S01 source-check records were last updated 2026-09-17, before the accepted Oct09 source correction. No hydration was performed.",
+    "raw_fetches": 0,
+    "authenticated_materializations": 0,
+    "followup_candidate_reads": 0,
+    "source_hash_verification": "NOT_APPLICABLE_NO_ORIGINAL_CANDIDATE",
+    "published_contradictory_preimage_used": false,
+    "native_export_used_as_original": false
+  },
+  "limits": [
+    "Exact-hash search returned no indexed candidates; this is bounded negative search evidence, not proof of absence across Drive.",
+    "Two keyword searches reached topn=50; full Drive coverage and absence of undiscovered candidates are not established.",
+    "Search records are metadata-only best_effort_fetch=false. No candidate met a grounded original-source threshold for raw fetch.",
+    "Parent covers PLAN/budget/manifests and filename-specific discovery; sibling covers local recovery. Neither scope was repeated."
+  ],
+  "private_custody": {
+    "raw_responses": "raw/search*.json",
+    "source_locators": "PRIVATE-SOURCE-LOCATORS.json",
+    "manifest": "RAW-MANIFEST.json",
+    "public_safe_candidate_labels_only": true
+  },
+  "preserved_gates": {
+    "harness": "NOT_PREPARED",
+    "partition": "NOT_DESIGNED",
+    "schedule": "UNADMITTED",
+    "product": "LOCKED",
+    "org": 0,
+    "science": "NONE"
+  },
+  "actions": {
+    "Drive_mutations": 0,
+    "runtime_or_project_execution": 0,
+    "reconstruction": 0,
+    "other_actor_reservations": 0
+  },
+  "own_scope_status": "RELEASED_ONLY_THIS_FINITE_READ_ONLY_DRIVE_S01_RECOVERY",
+  "own_released_utc": "2026-10-18T00:31:26.725819+00:00",
+  "release_authority": "Parent expressly directed early close on sealed delivery; no future role reserved and no other actor release asserted"
+}

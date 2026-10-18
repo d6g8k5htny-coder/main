@@ -1,0 +1,77 @@
+# Recovered signed-lease prerequisite identity review
+
+Disposition: **ACCEPT_RECOVERED_SOURCE_IDENTITY_AND_CLOSED_PREREQUISITE_CARRIERS_ONLY**. The seven requested source objects are present with the exact accepted byte identities. The required complete predecessor and F03 successor, their retained review/correction carriers, and the nested complete S01 packet close independently. The earlier local-missing-packet obstacle is resolved for these objects. This is a fresh nonauthor review of recovered prerequisite identity and source/schema continuity. It supplies no new blanket design approval, current writer assignment, harness acceptance, dispatch admission, product unlock, or runtime result.
+
+Reviewer: lease_recovered_source_identity_review, a nonauthor of the recovered source and its historical reviews. Source and tests were exposed; same provider/principal; organizational independence 0; custody authentication UNKNOWN; scientific effect NONE; scientific-status authority false. Root retains the recovery unit and any subsequent publication or coordination. This reviewer claims and releases only this new documentary review.
+
+All operations were independently authored inert standard-library raw reads, no-follow metadata checks, SHA-256, strict JSON parsing, AST parsing/literal inspection, and text comparisons. No recovered Python/Perl/helper/controller/checker was imported or executed. No patch was applied or replayed, no project test/crypto/database/container/model/browser/dependency operation ran, and no network/native request, external write or new agent was used. Historical runtime evidence stays attributed to its original source.
+
+## Exact source and closure
+
+The following seven objects independently match the dispatch's exact SHA-256 values, rather than merely agreeing with the recovery registry. Every recovered target is a regular nonsymlink, single-link, mode 0444 file. LF counts are raw LF counts.
+
+| Object | Bytes / LF | SHA-256 |
+| --- | ---: | --- |
+| Historical corrected transport audit | 284340 / 7526 | f3cf37022a189db63e1bd37ea8bb99ee741f542e72d83ac9df5110136cb0b2b9 |
+| Required predecessor manifest | 17576 / 150 | 13d285a52c7d5b373601d6e1a1f6ab3798ae2b260fcfa545a6be4ed5815e74f4 |
+| Accepted S01 contract | 101664 / 268 | c7ce3f45bca751031d206566c229e5de870bc60c9392aa5e00462a0114be0f9f |
+| Accepted S01 tests | 179658 / 2769 | 5eaa431716e8b28f0df20fb6d3da9a6e875e60fb0c4c1d57ead1654270c810e5 |
+| Accepted F03 PLAN | 74178 / 299 | 315d703aadb51bc2b5bd7412c3a4fb91162132d9f439abb1fd199ab06344a143 |
+| Accepted F03 manifest | 3317 / 35 | 9272448f83347d950541748dabb733ce541dcc1a7635a793e74fe7dacd30f63f |
+| Accepted F03 budget | 6311 / 156 | 9db25a5e4d1c43e17d96fe92de4fa4f0ee33c8e0c13faae506dfe51090241d2c |
+
+Independent literal manifest parsing rejects duplicate or unsafe relative members. Full walks and whole raw hashes close P01 at 150 payloads/151 files/51 directories/7,691,429 bytes, and P02 at 35 payloads/36 files/16 directories/1,243,100 bytes. The manifest itself is the sole excluded self-entry. P04 closes at 4 payloads/5 files and P05 at 2 payloads/3 files. Every copied file is regular, single-link and 0444; every walked directory is 0700. Complete before/after file identity/size/time checks remained stable during reads. Per-member measured identities also match the recovery actor's recorded source modes and single-link records. Original source locations were not revisited by this reviewer; the original-mode provenance is that retained custody record, while copied-source metadata is independently observed here.
+
+P06 is the actual preexisting nested S01 subpacket at `PRIVATE-PACKET-P01/history/predecessor/history/S01`. Its manifest is exactly 2660 bytes/26 LF/SHA-256 28dcec337cc962c9880f3edd577ab8e50f269019ea0727029dbb03779c0e720c. It independently closes at 26 payloads/27 files/19 directories/1,361,893 bytes, with the same file and directory safety properties. The full 2272-byte forward tests patch has SHA-256 ef1694dbb4878c9b36a08eb3b98a6393b01057c5de373bc5b8ab008e9a0fabe7. This is retained literal source, not a synthesized replacement.
+
+The adjacent original author packet P03 remains **HOLD_ORIGINAL_ADJACENT_AUTHOR_PACKET_HASH_MISMATCH**. Its retained manifest declares that same patch hash, but the preserved observed member is zero bytes, SHA-256 e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855. Both zero-byte negative and literal manifest were read independently. No repair occurred. The valid nested carrier resolves access to accepted S01 bytes; it does not heal the damaged original, establish why it changed, or authenticate custody.
+
+## Acceptance and exact S01 continuity
+
+All nine retained PR351 Markdown comment bodies equal their complete native-tool raw body objects. The recorded source acceptances are therefore tied to actual retained bodies, rather than summary wording. This is a local retained-native join; no fresh remote authenticity or current ownership observation is claimed.
+
+Comment 6113424643 accepts only the exact S01 tests and appended contract above. The complete 16802-byte private review report is pinned by f61ac5e5cd43ba522d37f6a1edb6e133e38c04073a4c2274a2382df4a4b9e115. Its public embedded rendering equals the complete retained report after exactly the two declared local-path substitutions. The complete 3059-byte append-only attribution correction is literally embedded as well. The correct historical author of both the original PLAN and S01 is adapter_negative_log_tests; the separate browser workflow attribution stays separate. No historic file or verdict was rewritten.
+
+The nested S01 preimages literally equal the retained published tests bf88aef1174ef7cf073213bed5825a999ed692096a3165157184f10b90ce7634 and contract 852a5dcf27cf229cb425d535bf85af64c6231a21f0ffc1305a4f3d253726149e. The complete tests comparison finds precisely three changed lines: 155 whole-contract SHA, 173 TEST1 expected signature, and 179 TEST3 expected signature. All other source bytes are unchanged. The accepted contract is exactly all 98157 predecessor bytes followed by all 3507 appendix bytes/16 LF. The active tests constant equals the new whole-contract SHA.
+
+Independent AST/literal inspection confirms all 60 unique closed method IDs and their source order, identical method source, and first statement `missing_module_first(self)` for each. Whole-source three-line equality also preserves every API declaration, fixed endpoint, helper, control schema and behavioral body outside the explicitly corrected literals. This continuity does not award fresh approval to every unchanged algorithm.
+
+The retained RFC body ed63657ff389301282b169b0abde9b5dd2c7e4d524fdfa5da6ff3094fc93c4c3 supplies the four ordinary Ed25519 vector blocks. Independent raw hex-field extraction matches all 16 candidate seed/key/message/signature fields. Exactly the two old TEST1/TEST3 expected signatures disagree; TEST1's old value is 65 bytes and the corrected value 64. The SHA(abc) vector remains the 64-byte ordinary-Ed25519 message, not the separate three-byte Ed25519ph vector. No signing or verification ran.
+
+All four retained whole forward/inverse replay files literally equal the appropriate accepted/preimage source. Forward/inverse patch coordinates, literal context, and swapped added/removed bytes agree as witnesses. Neither patch was applied, so no new patch-execution result is claimed. Earlier independently recorded replay/review findings remain attributed to their original reviewers.
+
+## Recovered design and schema disposition
+
+The complete 299-line PLAN, full budget and both complete DDL texts were consumed. Complete JSON data were deserialized with duplicate-key, nonfinite-number and trailing-document rejection; 62 packet JSON files pass those checks. The current ABI, every LP case predicate, complete method-to-intent matrix and typed seed/table structure were examined in the source-identity scope. Detailed earlier semantic reviews are reused only where exact unchanged bytes join; this is not a new blanket algorithm audit.
+
+Comment 6146446930 records ACCEPT_SCOPED_DESIGN_DATA_F01_F02_F03_ONLY for this exact successor with its accessible literal predecessor. The complete 5336-byte author report is literally embedded. The complete distinct 9317-byte/42-LF successor review has SHA-256 754c370ad6ade2e36cec99e1e46d9a4cc1c324bee1b34a7332d5de6233ba1581. The embedded acceptance is distinct from the preserved earlier REQUEST_CHANGES on its own predecessor. This review does not recompute the absent successor peer audit as if personally performed.
+
+Independent typed budget comparison finds exactly job_minutes 11 to 44 and added controls_step_minutes 11; producer_s remains 600. Every other typed budget field stays equal. The whole PLAN equals the complete 287-line predecessor plus the 12-line F03 appendix. All seven other current design files literally equal their P01 predecessors. Complete retained successor preimage and inverse/forward witness sources equal the corresponding whole originals. F03 thus corrects an existing generic source-role label, with no workflow or lease capacity admission.
+
+F01's positively enrolled never-created target worker is exactly pid:null, alive:false, exitcode:null and original attempt_id. Bare null supplies no absence, never-created or quiescence credit. Existing children still need actual positive PID, exact alive discriminator and their actual parent's wait result. Broker death, original target admission, late delivery and target child status remain different joins.
+
+F02's helper anchor has exactly six keys and two five-field physical identity objects. It binds source/schema/key/type/mode/method and actual no-follow physical identity only. It has no active epoch witness and cannot detect an unchanged retired child after another reset. The current claims expressly retain that limit, while target-private epoch, held original kernel peer and original request/attempt remain independent mandatory gates. No extra trusted witness or endpoint is hidden in the recovered design.
+
+The fixed runtime descriptor retains 13 keys; transport retains 13 controller plus three target commands. Target-first private storage/PID setup, distinct UIDs, original SO_PEERPIDFD option77 binding, start-time/native peer facts, durable cancellation tombstone before later queued admission, separate actual dispatch/effect/terminal/readback counters, and actual parent waits remain requirements. Unsupported platform behavior is SETUP_BLOCKED; configuration, zero rows, EPERM, guessed exit, timeout or a new numeric PID cannot supply terminal proof. None has been observed here.
+
+The complete matrix closes at 60 source method IDs in the same preserved order and 397 intent recipes, including 128 L21 race entries and 200 L59 cycle entries. Source is a future whole-source symbol; the design does not silently bind helper-amended future source to the old S01 hash. Enrollment is fixed original fixture admission, with no dynamic product-request enrollment. L15 keeps a separately enrolled duplicate event/payload-B recipe rather than allowing a changed request to become an implicit original.
+
+All three seed families contain exactly the 12 declared public table sets, and every supplied row has exactly its declared column set. The fence family has 6 rows, revision family 12 rows, and audit family 10 rows. Integer cells use explicit decimal/I64 design types. Compact omitted history is labeled synthetic; G0 is not fabricated issuance history. Revision/audit event, outbox, signed continuity, current authority and bootstrap/current-authority distinctions remain explicit. Signatures, physical databases, integrity/FK results and product constructor admission are future observations. The portable ledger DDL defines 12 tables; private target DDL defines five. The intentionally absent terminal-to-attempt foreign key preserves never-dispatched cancellation without fabricating a target mutation row.
+
+There are 18 LP controls and 87 case descriptors: 49 ACTUAL_NATIVE, 33 CONTROL_DESCRIPTOR_REFUSAL, three DEFERRED_CONSUMER, one CONDITIONAL_NATIVE_BLOCK and one DEFERRED_ROOT_REVIEW. All current control statuses remain NOT_RUN. PREPARED_PATHS, CALIBRATION_MIRROR and actual CONSUMER_POST_GUARD stay separate; a mirror supplies no post-guard consumer result. The 171 dependency entries are source descriptors, not a fresh archive, native load or backend qualification.
+
+The seven original classes sum exactly to 60 MiB logical, with 4 MiB collector/manifest reserve against 64 MiB physical publication. Excluding only full-device filler does not waive its native evidence. Required originals from both modes and every reset epoch remain required; overflow means COLLECTION_INCOMPLETE. Actual storage fit, process/resource control, cleanup ownership and complete custody remain unobserved.
+
+## What is closed and what remains
+
+The recovered historical audit contains all 89 baseline IDs plus the complete 60 lease IDs: 149 unique prospective IDs with its historical native bindings. Its verdict is reusable transport SOURCE only, its actual discovery/guard outcomes are NOT_OBSERVED, and its F1 explicitly retains NOT_PREPARED before either RED or GREEN. It is now available as exact historical evidence; it cannot be substituted for current Main or for a runtime result.
+
+The accepted F03 source itself uses the dated 171+60=231 static projection. Its arithmetic is 231*60*2=27720 seconds, plus 1620 internal reserve and 1800 stage reserve, yielding hypothetical 31140 seconds/519 minutes. Lease producer/job ceilings stay null; schedule UNADMITTED and partition NOT_DESIGNED. The generic 44/11/600 source roles supply no lease capacity. Current Main inventory is being reviewed separately and is not duplicated or presumed by this report.
+
+No new source/schema identity blocker was found in the closed recovered prerequisite carriers. The intake's earlier claims that these specific private bytes and historical full ID packet were locally missing are historical observations now superseded for this recovered cut, without rewriting the intake. The damaged original P03 remains an explicit distinct negative.
+
+The next recorded finite unit is bounded schedule/partition DESIGN/DATA, preserving the complete newly bound inventory, both modes, 60-second deadlines, reserves and native source/peer/epoch/worker/receipt/custody obligations, with a separate whole review. The recovered old allocation is not a present owner transfer. Current actual writer remains UNKNOWN; no age-based release or global all-clear is inferred. Root must coordinate actual ownership and consume the separate fresh Main inventory before selecting dependent work.
+
+Current disposition remains: writer UNKNOWN; partition NOT_DESIGNED; schedule UNADMITTED; harness NOT_PREPARED; runtime NOT_RUN; CONTRACT_RED NOT_QUALIFIED; product implementation LOCKED. This review changes only the recovered-prerequisite identity/access obstacle. Its own two initial documentary boundary-parser failures are retained in ACCEPTANCE-BINDINGS.json; both precede output and affect no source, acceptance, runtime or scientific verdict.
+
+Mechanical measurements are in DATA.json, DATA-SUPPLEMENT.json and ACCEPTANCE-BINDINGS.json, individually pinned by SHA256SUMS. Only this review's new documentary unit is complete and released to Root; no foreign owner or future source role is released or reserved.
