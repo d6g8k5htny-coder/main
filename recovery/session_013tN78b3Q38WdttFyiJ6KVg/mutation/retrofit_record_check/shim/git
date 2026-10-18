@@ -1,0 +1,5 @@
+#!/bin/sh
+# Test-only shim for git 2.43: drop the --no-lazy-fetch global option (added in git 2.44) and run system git.
+# Valid only for complete local repositories, where no lazy fetch can occur. Partial-clone tests are excluded.
+for a; do shift; [ "$a" = "--no-lazy-fetch" ] || set -- "$@" "$a"; done
+exec /usr/bin/git "$@"

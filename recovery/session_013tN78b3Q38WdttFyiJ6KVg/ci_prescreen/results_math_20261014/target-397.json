@@ -1,0 +1,178 @@
+{
+ "pr": 397,
+ "head": "8177f47bbb66b7cc0dca430941832740a5480dee",
+ "changed_files": 6,
+ "commit": "4c6897912bc09bfef67c6b139911cd5ee299577f",
+ "selected": [
+  "c6-residual-closure.yml",
+  "downstream-gate.yml",
+  "landing-claims.yml",
+  "lifetime-parent-imports.yml",
+  "register-alignment.yml",
+  "register-execution-readiness.yml"
+ ],
+ "runs": [
+  {
+   "workflow": "c6-residual-closure.yml",
+   "job": "exact-and-probe",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Verify sources, replay both modes (baseline or installed register), reject mutants",
+     "exit": 0,
+     "seconds": 12.0,
+     "tail": "{\"scientific_effect\": \"NONE\", \"mathematical_acceptance\": false}\n",
+     "failed_tests": [],
+     "markers": []
+    }
+   ],
+   "status": "PASS"
+  },
+  {
+   "workflow": "downstream-gate.yml",
+   "job": "checks",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Required-check integration controls in both Python modes",
+     "exit": 0,
+     "seconds": 2.5,
+     "tail": "oof_edits (test_required_formal_check.WiringTests.test_synthetic_control_uses_no_proof_edits) ... ok\n\n----------------------------------------------------------------------\nRan 57 tests in 1.232s\n\nOK\n",
+     "failed_tests": [],
+     "markers": []
+    },
+    {
+     "name": "Validation timeout evidence controls in both Python modes",
+     "exit": 0,
+     "seconds": 5.5,
+     "tail": "alidation.ValidationTimeoutTests.test_timeout_metadata_has_exact_invocation_and_elapsed_time) ... ok\n\n----------------------------------------------------------------------\nRan 36 tests in 2.624s\n\nOK\n",
+     "failed_tests": [],
+     "markers": []
+    },
+    {
+     "name": "Verify exact sources, transition inputs and regressions",
+     "exit": 0,
+     "seconds": 347.2,
+     "tail": "8e7aa4c9d0747037acaa8633c37\"}}, \"sources_unchanged\": true}\n{\"check_passed\": true, \"changed_nodes\": [\"eng.hard-gate\"], \"controlling_impacted\": [], \"promotion_permission\": false}\nDOWNSTREAM_GATE_PASSED\n",
+     "failed_tests": [],
+     "markers": []
+    },
+    {
+     "name": "P-C paired A/B source-bound conformance",
+     "exit": 0,
+     "seconds": 25.3,
+     "tail": "P_C_FOCUSED_TESTS_PASSED: normal and optimized, 94 methods each, no skips\n",
+     "failed_tests": [],
+     "markers": []
+    },
+    {
+     "name": "Bind existing checks to tested commit",
+     "exit": 0,
+     "seconds": 0.0,
+     "tail": "",
+     "failed_tests": [],
+     "markers": []
+    }
+   ],
+   "status": "PASS"
+  },
+  {
+   "workflow": "downstream-gate.yml",
+   "job": "formal",
+   "matrix": {},
+   "steps": [],
+   "status": "PASS"
+  },
+  {
+   "workflow": "downstream-gate.yml",
+   "job": "required",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Require both checks and source-bound current-run formal success",
+     "exit": 1,
+     "seconds": 0.0,
+     "tail": "REQUIRED_FORMAL_CHECK_FAILED: invalid run ID\n",
+     "failed_tests": [],
+     "markers": [
+      "REQUIRED_FORMAL_CHECK_FAILED: invalid run ID"
+     ]
+    }
+   ],
+   "status": "FAIL"
+  },
+  {
+   "workflow": "landing-claims.yml",
+   "job": "fail-closed-landing",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Run landing-manifest negative controls",
+     "exit": 0,
+     "seconds": 3.6,
+     "tail": "st_passes (tests.test_landing_claims_check.LandingClaimsCheckTests.test_valid_manifest_passes) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 1.473s\n\nOK\n",
+     "failed_tests": [],
+     "markers": []
+    },
+    {
+     "name": "Validate all advertised claims and live queue",
+     "exit": 0,
+     "seconds": 0.9,
+     "tail": "ning\": \"identity/scope/navigation validation only; never theorem acceptance\",\n  \"object\": \"MATH-LANDING-CLAIMS-20260925-v1\",\n  \"scientific_effect\": \"NONE\",\n  \"unresolved_external_positive_count\": 0\n}\n",
+     "failed_tests": [],
+     "markers": []
+    }
+   ],
+   "status": "PASS"
+  },
+  {
+   "workflow": "lifetime-parent-imports.yml",
+   "job": "verify-imports",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Verify exact imported bytes",
+     "exit": 0,
+     "seconds": 0.0,
+     "tail": "YLINDER_CAP_PROOF.md\",\n      \"sha256\": \"0bf922b9203c29088b12388807aa0e2ecd020485eb0f6e919679841b5b2636fc\"\n    }\n  ],\n  \"object\": \"LIFETIME-PARENT-IMPORTS-20260925-v1\",\n  \"scientific_effect\": \"NONE\"\n}\n",
+     "failed_tests": [],
+     "markers": []
+    }
+   ],
+   "status": "PASS"
+  },
+  {
+   "workflow": "register-alignment.yml",
+   "job": "exact-and-probe",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Verify sources, replay both modes (baseline or installed register), reject mutants",
+     "exit": 0,
+     "seconds": 13.3,
+     "tail": "{\"scientific_effect\": \"NONE\", \"mathematical_acceptance\": false}\n",
+     "failed_tests": [],
+     "markers": []
+    }
+   ],
+   "status": "PASS"
+  },
+  {
+   "workflow": "register-execution-readiness.yml",
+   "job": "compose-and-check",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Compose the three proposals on a scratch copy; run the three checkers and their mutants in the installed state",
+     "exit": 0,
+     "seconds": 27.4,
+     "tail": "un_ahead_of_graph (test_witness_states.WitnessStates.test_selector_cannot_run_ahead_of_graph) ... ok\n\n----------------------------------------------------------------------\nRan 30 tests in 3.874s\n\nOK\n",
+     "failed_tests": [],
+     "markers": []
+    }
+   ],
+   "status": "PASS"
+  }
+ ],
+ "status": "FAIL"
+}

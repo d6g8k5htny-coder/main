@@ -1,0 +1,26 @@
+BASE	unmodified	SURVIVED	harness-ok	Ran 8 tests in 0.067s OK | -O Ran 8 tests in 0.072s OK | H 
+S1	status: accept anything but ACCEPTED	SURVIVED	harness-fail	Ran 8 tests in 0.064s OK | -O Ran 8 tests in 0.077s OK | H     raise RuntimeError(name + " mutation point is not unique") RuntimeError: allow_scientific_status_promotion mutation point is not unique
+S2	control schema_version: drop int type check	SURVIVED	harness-ok	Ran 8 tests in 0.077s OK | -O Ran 8 tests in 0.079s OK | H 
+S3	scope check disabled	SURVIVED	harness-ok	Ran 8 tests in 0.076s OK | -O Ran 8 tests in 0.060s OK | H 
+S4	campaign_status check disabled	SURVIVED	harness-ok	Ran 8 tests in 0.061s OK | -O Ran 8 tests in 0.080s OK | H 
+S5	local filename: allow slash	SURVIVED	harness-ok	Ran 8 tests in 0.065s OK | -O Ran 8 tests in 0.065s OK | H 
+S6	rational: allow zero denominator	SURVIVED	harness-ok	Ran 8 tests in 0.073s OK | -O Ran 8 tests in 0.070s OK | H 
+S7	rational: drop numerator int check	SURVIVED	harness-ok	Ran 8 tests in 0.065s OK | -O Ran 8 tests in 0.064s OK | H 
+S8	duplicate JSON keys allowed	SURVIVED	harness-ok	Ran 8 tests in 0.086s OK | -O Ran 8 tests in 0.090s OK | H 
+S9	strict keys: drop dict type check	KILLED	harness-ok	Ran 8 tests in 0.072s FAILED (errors=1) | -O Ran 8 tests in 0.081s FAILED (errors=1) | H 
+F1	fixture grid_side check disabled	SURVIVED	harness-ok	Ran 8 tests in 0.061s OK | -O Ran 8 tests in 0.076s OK | H 
+F2	fixture values int check disabled	SURVIVED	harness-ok	Ran 8 tests in 0.069s OK | -O Ran 8 tests in 0.073s OK | H 
+F3	fixture exclusions check disabled	SURVIVED	harness-ok	Ran 8 tests in 0.073s OK | -O Ran 8 tests in 0.072s OK | H 
+P1	source repository check disabled	SURVIVED	harness-ok	Ran 8 tests in 0.066s OK | -O Ran 8 tests in 0.064s OK | H 
+P2	source commit length check disabled	SURVIVED	harness-ok	Ran 8 tests in 0.073s OK | -O Ran 8 tests in 0.078s OK | H 
+P3	raw_sha256 length check disabled	SURVIVED	harness-ok	Ran 8 tests in 0.056s OK | -O Ran 8 tests in 0.089s OK | H 
+P4	git_blob_sha length check disabled	SURVIVED	harness-ok	Ran 8 tests in 0.062s OK | -O Ran 8 tests in 0.060s OK | H 
+P5	PR allowlist widened	SURVIVED	harness-ok	Ran 8 tests in 0.063s OK | -O Ran 8 tests in 0.083s OK | H 
+P6	theorem flag: any non-True accepted	SURVIVED	harness-fail	Ran 8 tests in 0.053s OK | -O Ran 8 tests in 0.065s OK | H     raise RuntimeError(name + " mutation point is not unique") RuntimeError: allow_theorem_consumption mutation point is not unique
+P7	source_status check disabled	SURVIVED	harness-ok	Ran 8 tests in 0.081s OK | -O Ran 8 tests in 0.058s OK | H 
+P8	source count widened	SURVIVED	harness-ok	Ran 8 tests in 0.099s OK | -O Ran 8 tests in 0.069s OK | H 
+C1	closure hash comparison disabled	SURVIVED	harness-ok	Ran 8 tests in 0.061s OK | -O Ran 8 tests in 0.062s OK | H 
+C2	closure digest length check disabled	SURVIVED	harness-ok	Ran 8 tests in 0.065s OK | -O Ran 8 tests in 0.063s OK | H 
+L1	load: closure never verified	SURVIVED	harness-ok	Ran 8 tests in 0.070s OK | -O Ran 8 tests in 0.072s OK | H 
+L2	load: sources never validated	SURVIVED	harness-ok	Ran 8 tests in 0.080s OK | -O Ran 8 tests in 0.081s OK | H 
+L3	load: fixture never validated	SURVIVED	harness-ok	Ran 8 tests in 0.065s OK | -O Ran 8 tests in 0.090s OK | H 

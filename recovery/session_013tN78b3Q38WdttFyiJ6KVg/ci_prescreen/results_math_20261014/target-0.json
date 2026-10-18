@@ -1,0 +1,526 @@
+{
+ "pr": 0,
+ "head": "46f2a289de2dbdb6d3cf3b03986eeb2f3f681975",
+ "commit": "46f2a289de2dbdb6d3cf3b03986eeb2f3f681975",
+ "selected": [
+  "c6-cluster-coefficients-numerics.yml",
+  "c6-cluster-law.yml",
+  "c6-residual-closure.yml",
+  "c7-total-bounded.yml",
+  "cap-first-exit-lean.yml",
+  "d2-atom-integral.yml",
+  "d2-moment-bridge.yml",
+  "d2-square-schur.yml",
+  "d3-l4-anisotropic.yml",
+  "downstream-gate.yml",
+  "far-elder-rate.yml",
+  "full-regression-suite.yml",
+  "landing-claims.yml",
+  "lean-specification-proofs.yml",
+  "lean-specifications.yml",
+  "lifetime-parent-imports.yml",
+  "local-pairing.yml",
+  "navigation-links.yml",
+  "register-alignment.yml",
+  "register-execution-readiness.yml",
+  "remainder-rate.yml",
+  "soft-fold-limit.yml",
+  "third-order-rate.yml",
+  "torus-filtration.yml"
+ ],
+ "runs": [
+  {
+   "workflow": "c6-cluster-coefficients-numerics.yml",
+   "job": "exact-controls-and-replay",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Check direct-helper import trigger coverage",
+     "exit": 0,
+     "seconds": 1.9,
+     "tail": "---------------------------------------------------------------------\nRan 6 tests in 0.802s\n\nOK\n......\n----------------------------------------------------------------------\nRan 6 tests in 0.867s\n\nOK\n",
+     "failed_tests": [],
+     "markers": []
+    },
+    {
+     "name": "Verify full-shell output contracts in both Python modes",
+     "exit": 0,
+     "seconds": 65.7,
+     "tail": "(test_c6_coefficient_numerics_workflow.WorkflowContractTests.test_wrong_reports_and_reasons) ... ok\n\n----------------------------------------------------------------------\nRan 12 tests in 31.855s\n\nOK\n",
+     "failed_tests": [],
+     "markers": []
+    },
+    {
+     "name": "Verify manifest and main-resident pins, replay exact controls and GH40, reject mutants",
+     "exit": 0,
+     "seconds": 56.6,
+     "tail": "b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stdout_sha256\": \"b0271f45b76f6b28702624c2e6efce69bbd54e1d2246fdca3d09aa553d9095b0\"}\n{\"scientific_effect\": \"NONE\", \"certified\": false}\n",
+     "failed_tests": [],
+     "markers": []
+    }
+   ],
+   "status": "PASS"
+  },
+  {
+   "workflow": "c6-cluster-law.yml",
+   "job": "exact-and-probe",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Verify sources, replay both modes, reject mutants",
+     "exit": 0,
+     "seconds": 85.5,
+     "tail": "{\"scientific_effect\": \"NONE\", \"mathematical_acceptance\": false}\n",
+     "failed_tests": [],
+     "markers": []
+    }
+   ],
+   "status": "PASS"
+  },
+  {
+   "workflow": "c6-residual-closure.yml",
+   "job": "exact-and-probe",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Verify sources, replay both modes (baseline or installed register), reject mutants",
+     "exit": 0,
+     "seconds": 12.2,
+     "tail": "{\"scientific_effect\": \"NONE\", \"mathematical_acceptance\": false}\n",
+     "failed_tests": [],
+     "markers": []
+    }
+   ],
+   "status": "PASS"
+  },
+  {
+   "workflow": "c7-total-bounded.yml",
+   "job": "exact-and-probe",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Verify sources, replay both modes, reject mutants",
+     "exit": 0,
+     "seconds": 0.3,
+     "tail": "{\"scientific_effect\": \"NONE\", \"scientific_acceptance\": false}\n",
+     "failed_tests": [],
+     "markers": []
+    }
+   ],
+   "status": "PASS"
+  },
+  {
+   "workflow": "cap-first-exit-lean.yml",
+   "job": "kernel-evidence",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Source gate and unit tests in both Python modes (no Lean)",
+     "exit": 0,
+     "seconds": 1.6,
+     "tail": "nested_comment) ... ok\ntest_unterminated_comment (test_gate.Tokens.test_unterminated_comment) ... ok\n\n----------------------------------------------------------------------\nRan 18 tests in 0.523s\n\nOK\n",
+     "failed_tests": [],
+     "markers": []
+    }
+   ],
+   "status": "UNSUPPORTED",
+   "reason": "action leanprover/lean-action@f061402b660e0c34644504b324e830f2991d4865"
+  },
+  {
+   "workflow": "d2-atom-integral.yml",
+   "job": "d2-atom-integral",
+   "matrix": {},
+   "steps": [],
+   "status": "UNSUPPORTED",
+   "reason": "action leanprover/lean-action@f061402b660e0c34644504b324e830f2991d4865"
+  },
+  {
+   "workflow": "d2-moment-bridge.yml",
+   "job": "d2-moment-bridge",
+   "matrix": {},
+   "steps": [],
+   "status": "UNSUPPORTED",
+   "reason": "action leanprover/lean-action@f061402b660e0c34644504b324e830f2991d4865"
+  },
+  {
+   "workflow": "d2-square-schur.yml",
+   "job": "d2-square-schur",
+   "matrix": {},
+   "steps": [],
+   "status": "UNSUPPORTED",
+   "reason": "action leanprover/lean-action@f061402b660e0c34644504b324e830f2991d4865"
+  },
+  {
+   "workflow": "d3-l4-anisotropic.yml",
+   "job": "d3-l4-replay",
+   "matrix": {
+    "mode": "normal"
+   },
+   "steps": [
+    {
+     "name": "Test replay protocol and execute exact pinned numerical packet",
+     "exit": 1,
+     "seconds": 301.2,
+     "tail": "mize=False, caller='0')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"$SCRATCH/ci-pre/full/wt-0/tests/test_retrofit_record_check.py\", line 629, in promisor_cases\n    self.assertEqual(object_present(), missing is None)\nAssertionError: True != False\n\n======================================================================\nFAIL: test_missing_promisor_objects_refused_without_caller_opt_in (test_retrofit_record_check.RawGitIdentity.test_missing_promisor_objects_refused_without_caller_opt_in) (missing='blob', route='subject', optimize=True, caller='0')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"$SCRATCH/ci-pre/full/wt-0/tests/test_retrofit_record_check.py\", line 629, in promisor_cases\n    self.assertEqual(object_present(), missing is None)\nAssertionError: True != False\n\n======================================================================\nFAIL: test_missing_promisor_objects_refused_without_caller_opt_in (test_retrofit_record_check.RawGitIdentity.test_missing_promisor_objects_refused_without_caller_opt_in) (missing='blob', route='evidence', optimize=False, caller='0')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"$SCRATCH/ci-pre/full/wt-0/tests/test_retrofit_record_check.py\", line 629, in promisor_cases\n    self.assertEqual(object_present(), missing is None)\nAssertionError: True != False\n\n======================================================================\nFAIL: test_missing_promisor_objects_refused_without_caller_opt_in (test_retrofit_record_check.RawGitIdentity.test_missing_promisor_objects_refused_without_caller_opt_in) (missing='blob', route='evidence', optimize=True, caller='0')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"$SCRATCH/ci-pre/full/wt-0/tests/test_retrofit_record_check.py\", line 629, in promisor_cases\n    self.assertEqual(object_present(), missing is None)\nAssertionError: True != False\n\n----------------------------------------------------------------------\nRan 834 tests in 300.844s\n\nFAILED (failures=16)\n",
+     "failed_tests": [
+      "test_missing_promisor_blob_does_not_fetch test_retrofit_record_check.RawGitIdentity.test_missing_promisor_blob_does_not_fetch",
+      "test_missing_promisor_commit_does_not_fetch test_retrofit_record_check.RawGitIdentity.test_missing_promisor_commit_does_not_fetch",
+      "test_missing_promisor_objects_refused_without_caller_opt_in test_retrofit_record_check.RawGitIdentity.test_missing_promisor_objects_refused_without_caller_opt_in"
+     ],
+     "markers": []
+    }
+   ],
+   "status": "FAIL"
+  },
+  {
+   "workflow": "d3-l4-anisotropic.yml",
+   "job": "d3-l4-replay",
+   "matrix": {
+    "mode": "optimized"
+   },
+   "steps": [
+    {
+     "name": "Test replay protocol and execute exact pinned numerical packet",
+     "exit": 1,
+     "seconds": 320.7,
+     "tail": "mize=False, caller='0')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"$SCRATCH/ci-pre/full/wt-0/tests/test_retrofit_record_check.py\", line 629, in promisor_cases\n    self.assertEqual(object_present(), missing is None)\nAssertionError: True != False\n\n======================================================================\nFAIL: test_missing_promisor_objects_refused_without_caller_opt_in (test_retrofit_record_check.RawGitIdentity.test_missing_promisor_objects_refused_without_caller_opt_in) (missing='blob', route='subject', optimize=True, caller='0')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"$SCRATCH/ci-pre/full/wt-0/tests/test_retrofit_record_check.py\", line 629, in promisor_cases\n    self.assertEqual(object_present(), missing is None)\nAssertionError: True != False\n\n======================================================================\nFAIL: test_missing_promisor_objects_refused_without_caller_opt_in (test_retrofit_record_check.RawGitIdentity.test_missing_promisor_objects_refused_without_caller_opt_in) (missing='blob', route='evidence', optimize=False, caller='0')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"$SCRATCH/ci-pre/full/wt-0/tests/test_retrofit_record_check.py\", line 629, in promisor_cases\n    self.assertEqual(object_present(), missing is None)\nAssertionError: True != False\n\n======================================================================\nFAIL: test_missing_promisor_objects_refused_without_caller_opt_in (test_retrofit_record_check.RawGitIdentity.test_missing_promisor_objects_refused_without_caller_opt_in) (missing='blob', route='evidence', optimize=True, caller='0')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"$SCRATCH/ci-pre/full/wt-0/tests/test_retrofit_record_check.py\", line 629, in promisor_cases\n    self.assertEqual(object_present(), missing is None)\nAssertionError: True != False\n\n----------------------------------------------------------------------\nRan 834 tests in 320.006s\n\nFAILED (failures=16)\n",
+     "failed_tests": [
+      "test_missing_promisor_blob_does_not_fetch test_retrofit_record_check.RawGitIdentity.test_missing_promisor_blob_does_not_fetch",
+      "test_missing_promisor_commit_does_not_fetch test_retrofit_record_check.RawGitIdentity.test_missing_promisor_commit_does_not_fetch",
+      "test_missing_promisor_objects_refused_without_caller_opt_in test_retrofit_record_check.RawGitIdentity.test_missing_promisor_objects_refused_without_caller_opt_in"
+     ],
+     "markers": []
+    }
+   ],
+   "status": "FAIL"
+  },
+  {
+   "workflow": "downstream-gate.yml",
+   "job": "checks",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Required-check integration controls in both Python modes",
+     "exit": 0,
+     "seconds": 2.7,
+     "tail": "oof_edits (test_required_formal_check.WiringTests.test_synthetic_control_uses_no_proof_edits) ... ok\n\n----------------------------------------------------------------------\nRan 57 tests in 1.298s\n\nOK\n",
+     "failed_tests": [],
+     "markers": []
+    },
+    {
+     "name": "Validation timeout evidence controls in both Python modes",
+     "exit": 0,
+     "seconds": 7.0,
+     "tail": "alidation.ValidationTimeoutTests.test_timeout_metadata_has_exact_invocation_and_elapsed_time) ... ok\n\n----------------------------------------------------------------------\nRan 36 tests in 3.265s\n\nOK\n",
+     "failed_tests": [],
+     "markers": []
+    },
+    {
+     "name": "Verify exact sources, transition inputs and regressions",
+     "exit": 0,
+     "seconds": 325.9,
+     "tail": "ecd1213e1c5b4b08e7aa4c9d0747037acaa8633c37\"}}, \"sources_unchanged\": true}\n{\"check_passed\": true, \"changed_nodes\": [], \"controlling_impacted\": [], \"promotion_permission\": false}\nDOWNSTREAM_GATE_PASSED\n",
+     "failed_tests": [],
+     "markers": []
+    },
+    {
+     "name": "P-C paired A/B source-bound conformance",
+     "exit": 0,
+     "seconds": 25.0,
+     "tail": "P_C_FOCUSED_TESTS_PASSED: normal and optimized, 94 methods each, no skips\n",
+     "failed_tests": [],
+     "markers": []
+    },
+    {
+     "name": "Bind existing checks to tested commit",
+     "exit": 0,
+     "seconds": 0.0,
+     "tail": "",
+     "failed_tests": [],
+     "markers": []
+    }
+   ],
+   "status": "PASS"
+  },
+  {
+   "workflow": "downstream-gate.yml",
+   "job": "formal",
+   "matrix": {},
+   "steps": [],
+   "status": "PASS"
+  },
+  {
+   "workflow": "downstream-gate.yml",
+   "job": "required",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Require both checks and source-bound current-run formal success",
+     "exit": 1,
+     "seconds": 0.1,
+     "tail": "REQUIRED_FORMAL_CHECK_FAILED: invalid run ID\n",
+     "failed_tests": [],
+     "markers": [
+      "REQUIRED_FORMAL_CHECK_FAILED: invalid run ID"
+     ]
+    }
+   ],
+   "status": "FAIL"
+  },
+  {
+   "workflow": "far-elder-rate.yml",
+   "job": "exact-controls",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Verify sources, replay both modes, reject mutants",
+     "exit": 0,
+     "seconds": 1.0,
+     "tail": "{\"scientific_effect\": \"NONE\", \"mathematical_acceptance\": false}\n",
+     "failed_tests": [],
+     "markers": []
+    }
+   ],
+   "status": "PASS"
+  },
+  {
+   "workflow": "full-regression-suite.yml",
+   "job": "full-suite",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Bind tested commit",
+     "exit": 0,
+     "seconds": 0.0,
+     "tail": "tested-commit sha=46f2a289de2dbdb6d3cf3b03986eeb2f3f681975 tree=d0a1c4f4541531cb337576a41cdfcb61ba0c85d0 pr_head=46f2a289de2dbdb6d3cf3b03986eeb2f3f681975 event=pull_request run=0/1\n",
+     "failed_tests": [],
+     "markers": []
+    },
+    {
+     "name": "Full repository regression suite in both Python modes",
+     "exit": 1,
+     "seconds": 314.9,
+     "tail": "mize=False, caller='0')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"$SCRATCH/ci-pre/full/wt-0/tests/test_retrofit_record_check.py\", line 629, in promisor_cases\n    self.assertEqual(object_present(), missing is None)\nAssertionError: True != False\n\n======================================================================\nFAIL: test_missing_promisor_objects_refused_without_caller_opt_in (test_retrofit_record_check.RawGitIdentity.test_missing_promisor_objects_refused_without_caller_opt_in) (missing='blob', route='subject', optimize=True, caller='0')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"$SCRATCH/ci-pre/full/wt-0/tests/test_retrofit_record_check.py\", line 629, in promisor_cases\n    self.assertEqual(object_present(), missing is None)\nAssertionError: True != False\n\n======================================================================\nFAIL: test_missing_promisor_objects_refused_without_caller_opt_in (test_retrofit_record_check.RawGitIdentity.test_missing_promisor_objects_refused_without_caller_opt_in) (missing='blob', route='evidence', optimize=False, caller='0')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"$SCRATCH/ci-pre/full/wt-0/tests/test_retrofit_record_check.py\", line 629, in promisor_cases\n    self.assertEqual(object_present(), missing is None)\nAssertionError: True != False\n\n======================================================================\nFAIL: test_missing_promisor_objects_refused_without_caller_opt_in (test_retrofit_record_check.RawGitIdentity.test_missing_promisor_objects_refused_without_caller_opt_in) (missing='blob', route='evidence', optimize=True, caller='0')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"$SCRATCH/ci-pre/full/wt-0/tests/test_retrofit_record_check.py\", line 629, in promisor_cases\n    self.assertEqual(object_present(), missing is None)\nAssertionError: True != False\n\n----------------------------------------------------------------------\nRan 834 tests in 314.536s\n\nFAILED (failures=16)\n",
+     "failed_tests": [
+      "test_missing_promisor_blob_does_not_fetch test_retrofit_record_check.RawGitIdentity.test_missing_promisor_blob_does_not_fetch",
+      "test_missing_promisor_commit_does_not_fetch test_retrofit_record_check.RawGitIdentity.test_missing_promisor_commit_does_not_fetch",
+      "test_missing_promisor_objects_refused_without_caller_opt_in test_retrofit_record_check.RawGitIdentity.test_missing_promisor_objects_refused_without_caller_opt_in"
+     ],
+     "markers": []
+    }
+   ],
+   "status": "FAIL"
+  },
+  {
+   "workflow": "landing-claims.yml",
+   "job": "fail-closed-landing",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Run landing-manifest negative controls",
+     "exit": 0,
+     "seconds": 3.4,
+     "tail": "st_passes (tests.test_landing_claims_check.LandingClaimsCheckTests.test_valid_manifest_passes) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 1.518s\n\nOK\n",
+     "failed_tests": [],
+     "markers": []
+    },
+    {
+     "name": "Validate all advertised claims and live queue",
+     "exit": 0,
+     "seconds": 0.8,
+     "tail": "ning\": \"identity/scope/navigation validation only; never theorem acceptance\",\n  \"object\": \"MATH-LANDING-CLAIMS-20260925-v1\",\n  \"scientific_effect\": \"NONE\",\n  \"unresolved_external_positive_count\": 0\n}\n",
+     "failed_tests": [],
+     "markers": []
+    }
+   ],
+   "status": "PASS"
+  },
+  {
+   "workflow": "lean-specification-proofs.yml",
+   "job": "proof-evidence",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Unit tests in both Python modes and the source check (no Lean)",
+     "exit": 0,
+     "seconds": 9.2,
+     "tail": ") ... ok\ntest_signatures_and_version (__main__.Units.test_signatures_and_version) ... ok\n\n----------------------------------------------------------------------\nRan 70 tests in 4.298s\n\nOK (skipped=3)\n",
+     "failed_tests": [],
+     "markers": []
+    }
+   ],
+   "status": "UNSUPPORTED",
+   "reason": "action leanprover/lean-action@f061402b660e0c34644504b324e830f2991d4865"
+  },
+  {
+   "workflow": "lean-specifications.yml",
+   "job": "statement-evidence",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Unit tests in both Python modes and the source check (no Lean)",
+     "exit": 0,
+     "seconds": 10.5,
+     "tail": "evel_vocabulary) ... ok\ntest_unknown_keys (__main__.Vocabulary.test_unknown_keys) ... ok\n\n----------------------------------------------------------------------\nRan 97 tests in 4.224s\n\nOK (skipped=3)\n",
+     "failed_tests": [],
+     "markers": []
+    }
+   ],
+   "status": "UNSUPPORTED",
+   "reason": "action leanprover/lean-action@f061402b660e0c34644504b324e830f2991d4865"
+  },
+  {
+   "workflow": "lifetime-parent-imports.yml",
+   "job": "verify-imports",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Verify exact imported bytes",
+     "exit": 0,
+     "seconds": 0.0,
+     "tail": "YLINDER_CAP_PROOF.md\",\n      \"sha256\": \"0bf922b9203c29088b12388807aa0e2ecd020485eb0f6e919679841b5b2636fc\"\n    }\n  ],\n  \"object\": \"LIFETIME-PARENT-IMPORTS-20260925-v1\",\n  \"scientific_effect\": \"NONE\"\n}\n",
+     "failed_tests": [],
+     "markers": []
+    }
+   ],
+   "status": "PASS"
+  },
+  {
+   "workflow": "local-pairing.yml",
+   "job": "exact-controls",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Verify sources, replay both modes, reject mutants",
+     "exit": 0,
+     "seconds": 6.6,
+     "tail": "{\"scientific_effect\": \"NONE\", \"mathematical_acceptance\": false}\n",
+     "failed_tests": [],
+     "markers": []
+    }
+   ],
+   "status": "PASS"
+  },
+  {
+   "workflow": "navigation-links.yml",
+   "job": "document-relative-links",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Resolve every link from the containing document and check every file-sourced quotation, in both interpreter modes",
+     "exit": 0,
+     "seconds": 0.9,
+     "tail": "t_is_accepted (tests.test_navigation_quotes.QuoteSemantics.test_verbatim_excerpt_is_accepted) ... ok\n\n----------------------------------------------------------------------\nRan 25 tests in 0.131s\n\nOK\n",
+     "failed_tests": [],
+     "markers": []
+    }
+   ],
+   "status": "PASS"
+  },
+  {
+   "workflow": "register-alignment.yml",
+   "job": "exact-and-probe",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Verify sources, replay both modes (baseline or installed register), reject mutants",
+     "exit": 0,
+     "seconds": 13.8,
+     "tail": "{\"scientific_effect\": \"NONE\", \"mathematical_acceptance\": false}\n",
+     "failed_tests": [],
+     "markers": []
+    }
+   ],
+   "status": "PASS"
+  },
+  {
+   "workflow": "register-execution-readiness.yml",
+   "job": "compose-and-check",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Compose the three proposals on a scratch copy; run the three checkers and their mutants in the installed state",
+     "exit": 0,
+     "seconds": 25.3,
+     "tail": "un_ahead_of_graph (test_witness_states.WitnessStates.test_selector_cannot_run_ahead_of_graph) ... ok\n\n----------------------------------------------------------------------\nRan 30 tests in 2.995s\n\nOK\n",
+     "failed_tests": [],
+     "markers": []
+    }
+   ],
+   "status": "PASS"
+  },
+  {
+   "workflow": "remainder-rate.yml",
+   "job": "exact-controls",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Check direct-helper import trigger coverage",
+     "exit": 0,
+     "seconds": 1.6,
+     "tail": "---------------------------------------------------------------------\nRan 6 tests in 0.733s\n\nOK\n......\n----------------------------------------------------------------------\nRan 6 tests in 0.699s\n\nOK\n",
+     "failed_tests": [],
+     "markers": []
+    },
+    {
+     "name": "Exercise full-shell rejection contracts in both modes",
+     "exit": 0,
+     "seconds": 94.5,
+     "tail": "ll_inventory (test_remainder_rate_workflow.RemainderWorkflowTests.test_valid_full_inventory) ... ok\n\n----------------------------------------------------------------------\nRan 14 tests in 49.171s\n\nOK\n",
+     "failed_tests": [],
+     "markers": []
+    },
+    {
+     "name": "Verify sources, replay both modes, reject mutants",
+     "exit": 0,
+     "seconds": 6.1,
+     "tail": "970fe7c5eaabcbe7205b7d68dc9b2789e547920ecb676f1a\", \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\"}\n{\"scientific_effect\": \"NONE\", \"mathematical_acceptance\": false}\n",
+     "failed_tests": [],
+     "markers": []
+    }
+   ],
+   "status": "PASS"
+  },
+  {
+   "workflow": "soft-fold-limit.yml",
+   "job": "exact-controls",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Verify sources, replay both modes, reject mutants",
+     "exit": 1,
+     "seconds": 0.5,
+     "tail": "Traceback (most recent call last):\n  File \"<stdin>\", line 89, in <module>\n  File \"<stdin>\", line 70, in current\n  File \"<stdin>\", line 52, in get_json\n  File \"/usr/lib/python3.11/urllib/request.py\", line 216, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.11/urllib/request.py\", line 525, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.11/urllib/request.py\", line 634, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.11/urllib/request.py\", line 563, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.11/urllib/request.py\", line 496, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/lib/python3.11/urllib/request.py\", line 643, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 403: Forbidden\n",
+     "failed_tests": [],
+     "markers": []
+    }
+   ],
+   "status": "FAIL"
+  },
+  {
+   "workflow": "third-order-rate.yml",
+   "job": "exact-controls",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Verify sources, replay both modes, reject mutants",
+     "exit": 1,
+     "seconds": 0.4,
+     "tail": "Traceback (most recent call last):\n  File \"<stdin>\", line 95, in <module>\n  File \"<stdin>\", line 70, in current\n  File \"<stdin>\", line 52, in get_json\n  File \"/usr/lib/python3.11/urllib/request.py\", line 216, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.11/urllib/request.py\", line 525, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.11/urllib/request.py\", line 634, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.11/urllib/request.py\", line 563, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.11/urllib/request.py\", line 496, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/lib/python3.11/urllib/request.py\", line 643, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 403: Forbidden\n",
+     "failed_tests": [],
+     "markers": []
+    }
+   ],
+   "status": "FAIL"
+  },
+  {
+   "workflow": "torus-filtration.yml",
+   "job": "torus-filtration",
+   "matrix": {},
+   "steps": [],
+   "status": "UNSUPPORTED",
+   "reason": "action leanprover/lean-action@f061402b660e0c34644504b324e830f2991d4865"
+  }
+ ],
+ "status": "FAIL"
+}

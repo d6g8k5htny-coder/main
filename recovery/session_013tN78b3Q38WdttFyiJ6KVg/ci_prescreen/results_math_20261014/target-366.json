@@ -1,0 +1,221 @@
+{
+ "pr": 366,
+ "head": "bdf818f4905b6a0b59734710f62055119ba76297",
+ "changed_files": 3,
+ "commit": "696bd372bedd66af816d9596f392973b3a9eb275",
+ "selected": [
+  "c6-cluster-coefficients-numerics.yml",
+  "downstream-gate.yml",
+  "full-regression-suite.yml",
+  "lm006-sign-coefficient.yml",
+  "remainder-rate.yml"
+ ],
+ "runs": [
+  {
+   "workflow": "c6-cluster-coefficients-numerics.yml",
+   "job": "exact-controls-and-replay",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Check direct-helper import trigger coverage",
+     "exit": 0,
+     "seconds": 1.9,
+     "tail": "---------------------------------------------------------------------\nRan 6 tests in 0.778s\n\nOK\n......\n----------------------------------------------------------------------\nRan 6 tests in 0.858s\n\nOK\n",
+     "failed_tests": [],
+     "markers": []
+    },
+    {
+     "name": "Verify full-shell output contracts in both Python modes",
+     "exit": 0,
+     "seconds": 67.1,
+     "tail": "(test_c6_coefficient_numerics_workflow.WorkflowContractTests.test_wrong_reports_and_reasons) ... ok\n\n----------------------------------------------------------------------\nRan 12 tests in 33.458s\n\nOK\n",
+     "failed_tests": [],
+     "markers": []
+    },
+    {
+     "name": "Verify manifest and main-resident pins, replay exact controls and GH40, reject mutants",
+     "exit": 0,
+     "seconds": 59.2,
+     "tail": "b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\", \"stdout_sha256\": \"b0271f45b76f6b28702624c2e6efce69bbd54e1d2246fdca3d09aa553d9095b0\"}\n{\"scientific_effect\": \"NONE\", \"certified\": false}\n",
+     "failed_tests": [],
+     "markers": []
+    }
+   ],
+   "status": "PASS"
+  },
+  {
+   "workflow": "downstream-gate.yml",
+   "job": "checks",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Required-check integration controls in both Python modes",
+     "exit": 0,
+     "seconds": 2.4,
+     "tail": "oof_edits (test_required_formal_check.WiringTests.test_synthetic_control_uses_no_proof_edits) ... ok\n\n----------------------------------------------------------------------\nRan 57 tests in 1.260s\n\nOK\n",
+     "failed_tests": [],
+     "markers": []
+    },
+    {
+     "name": "Validation timeout evidence controls in both Python modes",
+     "exit": 0,
+     "seconds": 6.5,
+     "tail": "alidation.ValidationTimeoutTests.test_timeout_metadata_has_exact_invocation_and_elapsed_time) ... ok\n\n----------------------------------------------------------------------\nRan 36 tests in 3.055s\n\nOK\n",
+     "failed_tests": [],
+     "markers": []
+    },
+    {
+     "name": "Verify exact sources, transition inputs and regressions",
+     "exit": 0,
+     "seconds": 313.6,
+     "tail": "ecd1213e1c5b4b08e7aa4c9d0747037acaa8633c37\"}}, \"sources_unchanged\": true}\n{\"check_passed\": true, \"changed_nodes\": [], \"controlling_impacted\": [], \"promotion_permission\": false}\nDOWNSTREAM_GATE_PASSED\n",
+     "failed_tests": [],
+     "markers": []
+    },
+    {
+     "name": "P-C paired A/B source-bound conformance",
+     "exit": 0,
+     "seconds": 23.0,
+     "tail": "P_C_FOCUSED_TESTS_PASSED: normal and optimized, 94 methods each, no skips\n",
+     "failed_tests": [],
+     "markers": []
+    },
+    {
+     "name": "Bind existing checks to tested commit",
+     "exit": 0,
+     "seconds": 0.0,
+     "tail": "",
+     "failed_tests": [],
+     "markers": []
+    }
+   ],
+   "status": "PASS"
+  },
+  {
+   "workflow": "downstream-gate.yml",
+   "job": "formal",
+   "matrix": {},
+   "steps": [],
+   "status": "PASS"
+  },
+  {
+   "workflow": "downstream-gate.yml",
+   "job": "required",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Require both checks and source-bound current-run formal success",
+     "exit": 1,
+     "seconds": 0.0,
+     "tail": "REQUIRED_FORMAL_CHECK_FAILED: invalid run ID\n",
+     "failed_tests": [],
+     "markers": [
+      "REQUIRED_FORMAL_CHECK_FAILED: invalid run ID"
+     ]
+    }
+   ],
+   "status": "FAIL"
+  },
+  {
+   "workflow": "full-regression-suite.yml",
+   "job": "full-suite",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Bind tested commit",
+     "exit": 0,
+     "seconds": 0.0,
+     "tail": "tested-commit sha=696bd372bedd66af816d9596f392973b3a9eb275 tree=0b1cdad4f83cdae7e989602379c5d5a516025368 pr_head=bdf818f4905b6a0b59734710f62055119ba76297 event=pull_request run=0/1\n",
+     "failed_tests": [],
+     "markers": []
+    },
+    {
+     "name": "Full repository regression suite in both Python modes",
+     "exit": 1,
+     "seconds": 311.4,
+     "tail": "se, caller='0')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"$SCRATCH/ci-pre/full/wt-366/tests/test_retrofit_record_check.py\", line 629, in promisor_cases\n    self.assertEqual(object_present(), missing is None)\nAssertionError: True != False\n\n======================================================================\nFAIL: test_missing_promisor_objects_refused_without_caller_opt_in (test_retrofit_record_check.RawGitIdentity.test_missing_promisor_objects_refused_without_caller_opt_in) (missing='blob', route='subject', optimize=True, caller='0')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"$SCRATCH/ci-pre/full/wt-366/tests/test_retrofit_record_check.py\", line 629, in promisor_cases\n    self.assertEqual(object_present(), missing is None)\nAssertionError: True != False\n\n======================================================================\nFAIL: test_missing_promisor_objects_refused_without_caller_opt_in (test_retrofit_record_check.RawGitIdentity.test_missing_promisor_objects_refused_without_caller_opt_in) (missing='blob', route='evidence', optimize=False, caller='0')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"$SCRATCH/ci-pre/full/wt-366/tests/test_retrofit_record_check.py\", line 629, in promisor_cases\n    self.assertEqual(object_present(), missing is None)\nAssertionError: True != False\n\n======================================================================\nFAIL: test_missing_promisor_objects_refused_without_caller_opt_in (test_retrofit_record_check.RawGitIdentity.test_missing_promisor_objects_refused_without_caller_opt_in) (missing='blob', route='evidence', optimize=True, caller='0')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"$SCRATCH/ci-pre/full/wt-366/tests/test_retrofit_record_check.py\", line 629, in promisor_cases\n    self.assertEqual(object_present(), missing is None)\nAssertionError: True != False\n\n----------------------------------------------------------------------\nRan 857 tests in 311.073s\n\nFAILED (failures=16)\n",
+     "failed_tests": [
+      "test_missing_promisor_blob_does_not_fetch test_retrofit_record_check.RawGitIdentity.test_missing_promisor_blob_does_not_fetch",
+      "test_missing_promisor_commit_does_not_fetch test_retrofit_record_check.RawGitIdentity.test_missing_promisor_commit_does_not_fetch",
+      "test_missing_promisor_objects_refused_without_caller_opt_in test_retrofit_record_check.RawGitIdentity.test_missing_promisor_objects_refused_without_caller_opt_in"
+     ],
+     "markers": []
+    }
+   ],
+   "status": "FAIL"
+  },
+  {
+   "workflow": "lm006-sign-coefficient.yml",
+   "job": "numerical-replay",
+   "matrix": {
+    "mode": "normal"
+   },
+   "steps": [
+    {
+     "name": "Replay protocol controls and the actual frozen numerical certificate",
+     "exit": 1,
+     "seconds": 3.2,
+     "tail": "layTests.test_failed_test_stops_before_coefficient) ... ok\ntest_host_identity_and_strict_run_identifiers (test_lm006_sign_coefficient_replay.ReplayTests.test_host_identity_and_strict_run_identifiers) ... ok\ntest_oversized_stream_is_retained_and_rejected (test_lm006_sign_coefficient_replay.ReplayTests.test_oversized_stream_is_retained_and_rejected) ... ok\ntest_path_validation (test_lm006_sign_coefficient_replay.ReplayTests.test_path_validation) ... ok\ntest_preflight_failure_writes_failed_receipt (test_lm006_sign_coefficient_replay.ReplayTests.test_preflight_failure_writes_failed_receipt) ... ok\ntest_rejects_existing_or_internal_evidence_directory (test_lm006_sign_coefficient_replay.ReplayTests.test_rejects_existing_or_internal_evidence_directory) ... ok\ntest_source_identity_and_exact_membership (test_lm006_sign_coefficient_replay.ReplayTests.test_source_identity_and_exact_membership) ... ok\ntest_spawn_failure_has_record (test_lm006_sign_coefficient_replay.ReplayTests.test_spawn_failure_has_record) ... ok\ntest_success_process_evidence (test_lm006_sign_coefficient_replay.ReplayTests.test_success_process_evidence) ... ok\ntest_symlink_leaf_and_parent_rejected (test_lm006_sign_coefficient_replay.ReplayTests.test_symlink_leaf_and_parent_rejected) ... ok\ntest_timeout_preserves_both_streams_and_process_record (test_lm006_sign_coefficient_replay.ReplayTests.test_timeout_preserves_both_streams_and_process_record) ... ok\ntest_timeout_stops_child_process_group (test_lm006_sign_coefficient_replay.ReplayTests.test_timeout_stops_child_process_group) ... ok\ntest_unittest_contract_requires_all_named_passes (test_lm006_sign_coefficient_replay.ReplayTests.test_unittest_contract_requires_all_named_passes) ... ok\ntest_valid_output_followed_by_packet_edit_is_rejected (test_lm006_sign_coefficient_replay.ReplayTests.test_valid_output_followed_by_packet_edit_is_rejected) ... ok\ntest_workflow_triggers_and_preserves_failure_artifacts (test_lm006_sign_coefficient_replay.ReplayTests.test_workflow_triggers_and_preserves_failure_artifacts) ... ok\ntest_wrong_coefficient_cannot_produce_success_receipt (test_lm006_sign_coefficient_replay.ReplayTests.test_wrong_coefficient_cannot_produce_success_receipt) ... ok\ntest_wrong_exit_silent_garbage_and_stderr (test_lm006_sign_coefficient_replay.ReplayTests.test_wrong_exit_silent_garbage_and_stderr) ... ok\n\n----------------------------------------------------------------------\nRan 23 tests in 3.063s\n\nOK\nLM006_REPLAY_FAIL: ReplayError: host_identity\n",
+     "failed_tests": [],
+     "markers": [
+      "LM006_REPLAY_FAIL: ReplayError: host_identity"
+     ]
+    }
+   ],
+   "status": "FAIL"
+  },
+  {
+   "workflow": "lm006-sign-coefficient.yml",
+   "job": "numerical-replay",
+   "matrix": {
+    "mode": "optimized"
+   },
+   "steps": [
+    {
+     "name": "Replay protocol controls and the actual frozen numerical certificate",
+     "exit": 1,
+     "seconds": 3.4,
+     "tail": "layTests.test_failed_test_stops_before_coefficient) ... ok\ntest_host_identity_and_strict_run_identifiers (test_lm006_sign_coefficient_replay.ReplayTests.test_host_identity_and_strict_run_identifiers) ... ok\ntest_oversized_stream_is_retained_and_rejected (test_lm006_sign_coefficient_replay.ReplayTests.test_oversized_stream_is_retained_and_rejected) ... ok\ntest_path_validation (test_lm006_sign_coefficient_replay.ReplayTests.test_path_validation) ... ok\ntest_preflight_failure_writes_failed_receipt (test_lm006_sign_coefficient_replay.ReplayTests.test_preflight_failure_writes_failed_receipt) ... ok\ntest_rejects_existing_or_internal_evidence_directory (test_lm006_sign_coefficient_replay.ReplayTests.test_rejects_existing_or_internal_evidence_directory) ... ok\ntest_source_identity_and_exact_membership (test_lm006_sign_coefficient_replay.ReplayTests.test_source_identity_and_exact_membership) ... ok\ntest_spawn_failure_has_record (test_lm006_sign_coefficient_replay.ReplayTests.test_spawn_failure_has_record) ... ok\ntest_success_process_evidence (test_lm006_sign_coefficient_replay.ReplayTests.test_success_process_evidence) ... ok\ntest_symlink_leaf_and_parent_rejected (test_lm006_sign_coefficient_replay.ReplayTests.test_symlink_leaf_and_parent_rejected) ... ok\ntest_timeout_preserves_both_streams_and_process_record (test_lm006_sign_coefficient_replay.ReplayTests.test_timeout_preserves_both_streams_and_process_record) ... ok\ntest_timeout_stops_child_process_group (test_lm006_sign_coefficient_replay.ReplayTests.test_timeout_stops_child_process_group) ... ok\ntest_unittest_contract_requires_all_named_passes (test_lm006_sign_coefficient_replay.ReplayTests.test_unittest_contract_requires_all_named_passes) ... ok\ntest_valid_output_followed_by_packet_edit_is_rejected (test_lm006_sign_coefficient_replay.ReplayTests.test_valid_output_followed_by_packet_edit_is_rejected) ... ok\ntest_workflow_triggers_and_preserves_failure_artifacts (test_lm006_sign_coefficient_replay.ReplayTests.test_workflow_triggers_and_preserves_failure_artifacts) ... ok\ntest_wrong_coefficient_cannot_produce_success_receipt (test_lm006_sign_coefficient_replay.ReplayTests.test_wrong_coefficient_cannot_produce_success_receipt) ... ok\ntest_wrong_exit_silent_garbage_and_stderr (test_lm006_sign_coefficient_replay.ReplayTests.test_wrong_exit_silent_garbage_and_stderr) ... ok\n\n----------------------------------------------------------------------\nRan 23 tests in 3.163s\n\nOK\nLM006_REPLAY_FAIL: ReplayError: host_identity\n",
+     "failed_tests": [],
+     "markers": [
+      "LM006_REPLAY_FAIL: ReplayError: host_identity"
+     ]
+    }
+   ],
+   "status": "FAIL"
+  },
+  {
+   "workflow": "remainder-rate.yml",
+   "job": "exact-controls",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Check direct-helper import trigger coverage",
+     "exit": 0,
+     "seconds": 1.8,
+     "tail": "---------------------------------------------------------------------\nRan 6 tests in 0.778s\n\nOK\n......\n----------------------------------------------------------------------\nRan 6 tests in 0.814s\n\nOK\n",
+     "failed_tests": [],
+     "markers": []
+    },
+    {
+     "name": "Exercise full-shell rejection contracts in both modes",
+     "exit": 0,
+     "seconds": 91.6,
+     "tail": "ll_inventory (test_remainder_rate_workflow.RemainderWorkflowTests.test_valid_full_inventory) ... ok\n\n----------------------------------------------------------------------\nRan 14 tests in 48.117s\n\nOK\n",
+     "failed_tests": [],
+     "markers": []
+    },
+    {
+     "name": "Verify sources, replay both modes, reject mutants",
+     "exit": 0,
+     "seconds": 6.1,
+     "tail": "970fe7c5eaabcbe7205b7d68dc9b2789e547920ecb676f1a\", \"stdout_sha256\": \"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855\"}\n{\"scientific_effect\": \"NONE\", \"mathematical_acceptance\": false}\n",
+     "failed_tests": [],
+     "markers": []
+    }
+   ],
+   "status": "PASS"
+  }
+ ],
+ "status": "FAIL"
+}

@@ -1,0 +1,119 @@
+{
+ "pr": 415,
+ "head": "bb3c92e3226827c9aa1d8746226efaf758e06e2c",
+ "changed_files": 75,
+ "commit": "f2973be0e86080f7ee88ea4e1699456f4a3aae71",
+ "selected": [
+  "compact-cutoff-baseline.yml",
+  "compact-cutoff-proof.yml",
+  "downstream-gate.yml"
+ ],
+ "runs": [
+  {
+   "workflow": "compact-cutoff-baseline.yml",
+   "job": "baseline-diagnostic",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Record runner context before checkout",
+     "exit": 0,
+     "seconds": 0.0,
+     "tail": "",
+     "failed_tests": [],
+     "markers": []
+    },
+    {
+     "name": "Record fresh checkout and validate sources before setup",
+     "exit": 1,
+     "seconds": 0.0,
+     "tail": "",
+     "failed_tests": [],
+     "markers": []
+    }
+   ],
+   "status": "FAIL"
+  },
+  {
+   "workflow": "compact-cutoff-proof.yml",
+   "job": "first-leaf",
+   "matrix": {},
+   "steps": [],
+   "status": "UNSUPPORTED",
+   "reason": "step env expression github.event.action"
+  },
+  {
+   "workflow": "downstream-gate.yml",
+   "job": "checks",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Required-check integration controls in both Python modes",
+     "exit": 0,
+     "seconds": 2.5,
+     "tail": "oof_edits (test_required_formal_check.WiringTests.test_synthetic_control_uses_no_proof_edits) ... ok\n\n----------------------------------------------------------------------\nRan 57 tests in 1.192s\n\nOK\n",
+     "failed_tests": [],
+     "markers": []
+    },
+    {
+     "name": "Validation timeout evidence controls in both Python modes",
+     "exit": 0,
+     "seconds": 6.2,
+     "tail": "alidation.ValidationTimeoutTests.test_timeout_metadata_has_exact_invocation_and_elapsed_time) ... ok\n\n----------------------------------------------------------------------\nRan 36 tests in 3.060s\n\nOK\n",
+     "failed_tests": [],
+     "markers": []
+    },
+    {
+     "name": "Verify exact sources, transition inputs and regressions",
+     "exit": 0,
+     "seconds": 334.7,
+     "tail": "ecd1213e1c5b4b08e7aa4c9d0747037acaa8633c37\"}}, \"sources_unchanged\": true}\n{\"check_passed\": true, \"changed_nodes\": [], \"controlling_impacted\": [], \"promotion_permission\": false}\nDOWNSTREAM_GATE_PASSED\n",
+     "failed_tests": [],
+     "markers": []
+    },
+    {
+     "name": "P-C paired A/B source-bound conformance",
+     "exit": 0,
+     "seconds": 24.9,
+     "tail": "P_C_FOCUSED_TESTS_PASSED: normal and optimized, 94 methods each, no skips\n",
+     "failed_tests": [],
+     "markers": []
+    },
+    {
+     "name": "Bind existing checks to tested commit",
+     "exit": 0,
+     "seconds": 0.0,
+     "tail": "",
+     "failed_tests": [],
+     "markers": []
+    }
+   ],
+   "status": "PASS"
+  },
+  {
+   "workflow": "downstream-gate.yml",
+   "job": "formal",
+   "matrix": {},
+   "steps": [],
+   "status": "PASS"
+  },
+  {
+   "workflow": "downstream-gate.yml",
+   "job": "required",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Require both checks and source-bound current-run formal success",
+     "exit": 1,
+     "seconds": 0.1,
+     "tail": "REQUIRED_FORMAL_CHECK_FAILED: invalid run ID\n",
+     "failed_tests": [],
+     "markers": [
+      "REQUIRED_FORMAL_CHECK_FAILED: invalid run ID"
+     ]
+    }
+   ],
+   "status": "FAIL"
+  }
+ ],
+ "status": "FAIL"
+}
