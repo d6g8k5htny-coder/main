@@ -1,0 +1,18 @@
+--- a/experiments/h3_band_v2/h3_band_v2.py
++++ b/experiments/h3_band_v2/h3_band_v2.py (R1 branch counter)
+@@ -739,6 +739,7 @@
+                 return self._t[1]
+             qt = self.q * t
+             ck(qt.b < 1, 'CB4 majorant series converges (q t < 1)')
++            print('MAJ_GUARD_RAN N=%d' % self.N, file=sys.stderr)
+             T = [None] * (self.N + 2)
+             T[self.N + 1] = self.C * qt ** (self.N + 1) / (1 - qt)
+             for j in range(self.N, -1, -1):
+@@ -751,6 +752,7 @@
+             if m <= self.N + 1:
+                 return self.tails(t)[m]
+             qt = self.q * t
++            print('MAJ_UNGUARDED_BRANCH m=%d N=%d' % (m, self.N), file=sys.stderr)
+             return self.C * qt ** m / (1 - qt)
+ 
+         def full(self, t):

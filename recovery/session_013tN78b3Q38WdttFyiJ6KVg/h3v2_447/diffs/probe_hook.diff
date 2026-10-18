@@ -1,0 +1,19 @@
+--- a/experiments/h3_band_v2/h3_band_v2.py
++++ b/experiments/h3_band_v2/h3_band_v2.py (probe copy)
+@@ -60,6 +60,7 @@
+ }
+ MUT = ''
+ OUT = []
++PROBE_HOOK = None
+ 
+ 
+ def emit(s):
+@@ -1248,6 +1249,8 @@
+     emit('CB7 PASS: Neumann (mu, Sigma) at r=1/20 contain the independent direct point law (cross-check, not load-bearing); '
+          'observed deviation mu %s Sigma %s against corrections %s %s' % (mp.nstr(dev_mu, 3), mp.nstr(dev_S, 3), mp.nstr(TmN, 3), mp.nstr(TsN, 3)))
+ 
++    if PROBE_HOOK is not None:
++        PROBE_HOOK(locals())
+     if mc:
+         monte_carlo(neumann_law, results, mode)
+     note('total runtime %.1fs' % (time.time() - t_start))
