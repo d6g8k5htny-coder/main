@@ -1005,6 +1005,30 @@ def remote_metadata(reader, *, missing_allowed=False):
     return meta
 
 
+def _alias_descriptor(alias):
+    return {k: alias[k] for k in ("path", "bytes", "sha256")}
+
+
+def _restore_v2_historical_pages(data, meta, aliases):
+    """Re-render v2 removed-node convenience pages for an exact published match.
+
+    New routes emit style.css before brand.css. A predecessor publication of the
+    same route emitted brand.css before style.css. Keep the predecessor bytes
+    only when their descriptor equals the published alias. Any other difference
+    stays in the new rendering so the caller's exact descriptor check still fails.
+    """
+    pages = render_static_v2(data, meta, archived=False)
+    pending = [alias for alias in aliases if descriptor(alias["path"], pages.get(alias["path"], b"")) != _alias_descriptor(alias)]
+    if not pending:
+        return pages
+    legacy = render_static_v2(data, meta, archived=False, style_first=False)
+    for alias in pending:
+        content = legacy.get(alias["path"])
+        if content is not None and descriptor(alias["path"], content) == _alias_descriptor(alias):
+            pages[alias["path"]] = content
+    return pages
+
+
 def restore_history(site, reader=None, expected_manifest_sha=None):
     site = Path(site).resolve()
     if expected_manifest_sha is not None:
@@ -1079,6 +1103,10 @@ def restore_history(site, reader=None, expected_manifest_sha=None):
         ensure_render_budget(data, remote)
         live = render_live_current_v2(data, remote)
         if [descriptor(k, v) for k, v in sorted(live.items())] != manifest["current_observation"]["files"]:
+            # Restore the exact predecessor publication only as a complete map.
+            # New builds/publications keep the style-first renderer default.
+            live = render_live_current_v2(data, remote, style_first=False)
+        if [descriptor(k, v) for k, v in sorted(live.items())] != manifest["current_observation"]["files"]:
             raise ValueError("live static reading does not match the exact observation")
         historical = {}
         for entry in manifest["archives"]:
@@ -1086,7 +1114,10 @@ def restore_history(site, reader=None, expected_manifest_sha=None):
             members = members_by_id[snapshot]
             archived_meta = parse_json(members["current-meta.json"])
             historical[snapshot] = ({n[len("aliases/"):]: b for n, b in members.items() if n.startswith("aliases/")}
-                                    if entry.get("archive_version", 1) == 1 else render_static_v2(data_by_id[snapshot], archived_meta, archived=False))
+                                    if entry.get("archive_version", 1) == 1 else
+                                    _restore_v2_historical_pages(data_by_id[snapshot], archived_meta,
+                                                                 [alias for alias in manifest["aliases"]
+                                                                  if alias["snapshot"] == snapshot and alias["binding"] == "archive"]))
         for alias in manifest["aliases"]:
             content = live.get(alias["path"]) if alias["binding"] == "current_observation" else historical[alias["snapshot"]].get(alias["path"])
             if content is None or descriptor(alias["path"], content) != {k: alias[k] for k in ("path", "bytes", "sha256")}:
@@ -1367,8 +1398,14 @@ def _v2_node_sources(projection, node):
     return "\n".join(lines)
 
 
-def _v2_static_page(projection, meta, title, body, *, archived, node_id=None):
+def _v2_static_page(projection, meta, title, body, *, archived, node_id=None, style_first=None):
     site_prefix = "../../../" if archived else "../"
+    # Immutable snapshot pages stay brand-first. Live removed-node routes are
+    # style-first unless a predecessor publication is being matched exactly.
+    if archived:
+        style_first = False
+    elif style_first is None:
+        style_first = True
     archive_id = meta["mathematical_sha256"]
     snapshot_prefix = "../" if archived else f"../snapshots/{archive_id}/"
     record = f"{node_id}.html" if node_id is not None else "index.html"
@@ -1381,8 +1418,10 @@ def _v2_static_page(projection, meta, title, body, *, archived, node_id=None):
             '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
             '<meta http-equiv="Content-Security-Policy" content="default-src \'none\'; style-src \'self\'; img-src \'self\'; script-src \'none\'; base-uri \'none\'; form-action \'none\'">\n'
             f'<title>{_v1_escape(title)} · Historical mathematical dependency atlas</title>\n'
-            f'<link rel="stylesheet" href="{site_prefix}brand.css"><link rel="stylesheet" href="{site_prefix}style.css"><link rel="stylesheet" href="{site_prefix}current.css">\n'
-            '</head><body><main class="node-static">\n'
+            + (f'<link rel="stylesheet" href="{site_prefix}style.css"><link rel="stylesheet" href="{site_prefix}brand.css"><link rel="stylesheet" href="{site_prefix}current.css">\n'
+               if style_first else
+               f'<link rel="stylesheet" href="{site_prefix}brand.css"><link rel="stylesheet" href="{site_prefix}style.css"><link rel="stylesheet" href="{site_prefix}current.css">\n')
+            + '</head><body><main class="node-static">\n'
             f'<nav aria-label="Research site"><a href="{site_prefix}index.html">Home</a> · <a href="{site_prefix}explore.html">Explore</a> · <a href="{site_prefix}research.html">Research</a> · <a href="{site_prefix}workspace.html#inventory">Library</a> · <a href="{site_prefix}dependencies.html#current-atlas">Current dependencies</a> · <a href="{_v1_escape(graph_index)}">Historical static graph index</a></nav>\n'
             + _v2_material_section(projection, meta, site_prefix=site_prefix, snapshot_prefix=snapshot_prefix)
             + '\n' + disclosure
@@ -1410,7 +1449,7 @@ def _v2_equation_collection(projection):
     return "\n".join(parts)
 
 
-def render_static_v2(projection, meta, *, archived=True):
+def render_static_v2(projection, meta, *, archived=True, style_first=None):
     """Render frozen research-static-v2 compact mathematical-material pages.
 
     The archived form is retained in v2 bundles. The convenience form is used
@@ -1430,7 +1469,7 @@ def render_static_v2(projection, meta, *, archived=True):
                 + '\n<h2>Original node metadata</h2><pre>'
                 + _v1_escape(json.dumps(node, ensure_ascii=False, indent=2, sort_keys=True)) + '</pre>\n'
                 + _v1_neighbors(projection, node_id, prefix=node_prefix))
-        pages[f"nodes/{node_id}.html"] = _v2_static_page(projection, meta, node_id, body, archived=archived, node_id=node_id)
+        pages[f"nodes/{node_id}.html"] = _v2_static_page(projection, meta, node_id, body, archived=archived, node_id=node_id, style_first=style_first)
     items = "\n".join(f'<li><a href="{_v1_escape(node_prefix)}{_v1_escape(node_id)}.html">{_v1_escape(node_id)}</a> · {_v1_escape(node.get("kind", "not_recorded"))} · <code>{_v1_escape(node.get("classification", "not_recorded"))}</code></li>'
                       for node_id, node in graph["nodes"].items())
     required = sum(edge["required"] for edge in graph["edges"])
@@ -1441,7 +1480,7 @@ def render_static_v2(projection, meta, *, archived=True):
             f'<p>{len(projection["sources"])} selected graph, node source/review and equation source files are retained in this mathematical-material-only projection.</p>\n<ul>\n'
             + _v1_source_list(projection["sources"]) + '\n</ul>\n'
             + _v2_equation_collection(projection))
-    pages["nodes/index.html"] = _v2_static_page(projection, meta, "Historical graph, equation excerpts and selected sources", body, archived=archived)
+    pages["nodes/index.html"] = _v2_static_page(projection, meta, "Historical graph, equation excerpts and selected sources", body, archived=archived, style_first=style_first)
     return pages
 
 
@@ -1465,19 +1504,21 @@ def _live_v2_current_section(data, meta):
             '</section>')
 
 
-def _live_v2_static_page(data, meta, title, body):
+def _live_v2_static_page(data, meta, title, body, *, style_first=True):
     return (f'<!doctype html>\n{_V1_GENERATED}\n<html lang="en"><head><meta charset="utf-8">\n'
             '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
             '<meta http-equiv="Content-Security-Policy" content="default-src \'none\'; style-src \'self\'; img-src \'self\'; script-src \'none\'; base-uri \'none\'; form-action \'none\'">\n'
             f'<title>{_v1_escape(title)} · Current research dependency atlas</title>\n'
-            '<link rel="stylesheet" href="../brand.css"><link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="../current.css">\n'
-            '</head><body><main class="node-static">\n'
+            + ('<link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="../brand.css"><link rel="stylesheet" href="../current.css">\n'
+               if style_first else
+               '<link rel="stylesheet" href="../brand.css"><link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="../current.css">\n')
+            + '</head><body><main class="node-static">\n'
             '<nav aria-label="Research site"><a href="../index.html">Home</a> · <a href="../explore.html">Explore</a> · <a href="../research.html">Research</a> · <a href="../workspace.html#inventory">Library</a> · <a href="../dependencies.html#current-atlas">Current dependencies</a> · <a href="index.html">Current static graph index</a></nav>\n'
             + _live_v2_current_section(data, meta)
             + '\n' + body + '\n</main></body></html>\n').encode("utf-8")
 
 
-def render_live_current_v2(data, meta):
+def render_live_current_v2(data, meta, *, style_first=True):
     """Render current static routes from the full fresh schema-1 observation."""
     graph = data["graph"]["data"]
     pages = {}
@@ -1490,7 +1531,7 @@ def render_live_current_v2(data, meta):
                 + '\n<h2>Original node metadata</h2><pre>'
                 + _v1_escape(json.dumps(node, ensure_ascii=False, indent=2, sort_keys=True)) + '</pre>\n'
                 + _v1_neighbors(data, node_id))
-        pages[f"nodes/{node_id}.html"] = _live_v2_static_page(data, meta, node_id, body)
+        pages[f"nodes/{node_id}.html"] = _live_v2_static_page(data, meta, node_id, body, style_first=style_first)
     items = "\n".join(f'<li><a href="{_v1_escape(node_id)}.html">{_v1_escape(node_id)}</a> · {_v1_escape(node.get("kind", "not_recorded"))} · <code>{_v1_escape(node.get("classification", "not_recorded"))}</code></li>'
                       for node_id, node in graph["nodes"].items())
     required = sum(edge["required"] for edge in graph["edges"])
@@ -1502,7 +1543,7 @@ def render_live_current_v2(data, meta):
             f'<p>{len(data["sources"])} indexed files at the pinned repository commits. Legacy, quarantine, recovery, scratch and operational paths are excluded from this discovery population.</p>\n<ul>\n'
             + _v1_source_list(data["sources"]) + '\n</ul>\n'
             + _v2_equation_collection(data))
-    pages["nodes/index.html"] = _live_v2_static_page(data, meta, "Current static graph, equation excerpts and source index", body)
+    pages["nodes/index.html"] = _live_v2_static_page(data, meta, "Current static graph, equation excerpts and source index", body, style_first=style_first)
     return pages
 
 
