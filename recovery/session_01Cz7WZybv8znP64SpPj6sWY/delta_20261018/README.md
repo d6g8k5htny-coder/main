@@ -26,6 +26,7 @@ Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`. This is a retentio
 | `m193_gad_input/` | `M193-GAD-XFAM-INPUT-01CZ-20261017`: cross-family input on the finite-L/GAD coefficient proof | Math-#193: pickup 6243336796, checkpoint 6243464440, GAD locations 6243549330, result 6243882168 | input posted (CONCUR_WITH_NOTES, input only), released |
 | `kernel_input/` | `M193-KERNEL-XFAM-INPUT-01CZ-20261018`: cross-family input on the frozen NUM moment kernel (freeze `d4b80304…`) | Math-#193: pickup 6243946917, checkpoint 6244299900, result 6244357886 | input posted (CONCUR_WITH_NOTES, input only), released |
 | `qual429/` | `QUAL429-CURMAIN-01CZ-R2-20261018` (and the earlier `QUAL429-CURMAIN-01CZ-20261017`): current-main qualification of the main#429 packet | main#429: pickup 6243631686, checkpoint 6243818458, HOLD and release 6244417399 | qualification attempt held; nothing pushed; released |
+| `protocol_input/` | `M193-PROTOCOL-XFAM-INPUT-01CZ-20261018`: cross-family input on the prospective corrective protocol (`ed21f7f3…`, Addendum V2 `f1c88f06…`) | Math-#193: pickup 6244625750, checkpoint 6244950676, late release 6245707002, plain input 6246944026 | claim released late (container restart); verified input posted |
 | `workflows/` | the scripts of the multi-agent check and verification runs used for the units above | — | method record |
 
 ## Reproducing
@@ -47,6 +48,10 @@ Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`. This is a retentio
   - conditioning: `cancel.py`, `cumulants.py`, `thresholds.py`, `kcf.py`, `lens_b/chk.py`.
 
   Commands that only displayed a file are left out. `INDEX.json` lists each capture with its time and scripts. Long outputs may be truncated as the harness recorded them.
+- **protocol_input.**
+  - `work_*/` holds the lens and verification scripts and their outputs.
+  - `final_results.json` holds every lens finding together with its adversarial verification verdict. The posted input 6246944026 uses only the corrected statements.
+  - `SOURCES.json` lists by SHA-256 the protocol's own files and the copies of public comments and sources that are not included. It also lists my algebra re-runs, whose output is byte-identical to the published log.
 - **qual429.**
   - `qual429/publish.sh` with `DRY=1` runs the pre-signing checks and pushes nothing.
   - Its `S=<SCRATCH>/q429` line and its `/home/user/main` paths must be substituted before use; unsubstituted, the script fails at that line.
