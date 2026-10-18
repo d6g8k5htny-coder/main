@@ -1,0 +1,41 @@
+H3 BAND V2 CEIL (successor of the frozen h3_band_ceil.py)
+mode dps=100 MUTATION=none
+CB2s PASS: exact Laurent structure: pins regular, soft poles z^-1 only, Y^(-1) = E V^(0), E zV = 0
+CB0 PASS: H2 library cov_exact.py sha256 f08c1c5f653f2ffd... matches the pinned digest
+CB1 PASS: moments a_{2m}, m<=40, exact finite torus with certified image tails (1-a2 = 9.65e-123)
+CB5 PASS: certified Phi; Gaussian tail helpers dominate independent enclosures
+CB2 PASS: Gram series to order 62; numeric pole pattern agrees with the exact lemma CB2s
+CB3 G0 inverse enclosure, residual 8.26e-98
+CB3 series division done: mu, Sigma to order 60; product polynomials to order 186
+CB3 poles of mu (z^-1) and Sigma (z^-2, z^-1): exact zeros by CB2s; enclosures agree
+CB3 PASS: limit identities mu(0), Sigma(0) match the independent blow-up analysis
+CB4 Gram block maxima on |z|=0.11: GP 2.9579e+6 GY 343.659 GYV 19473.5
+CB4 majorant growth R = 2622.3492 (rho R = 288.5, theta = 0.4944)
+CB4 PASS: first cell (0, 1/16384]: R t = 0.1601, Sigma tail 1.84e-38, mu tail 1.04e-44
+CB6 (0,1/16384]        law R-majorant: correction mu 1.04e-44 Sigma 1.84e-38
+CC6 (0,1/16384]        hi.b = 3.6571868324009834682  (p-win 2.664381206 0.004911289092 0.5617865876; fails 1.43e-27979210 0.045889 0.0245108 0.355708 1.16e-174863653)
+CERT cell=(0,1/16384] method=R-majorant E[G_r] <= 3.65718683240099
+CB6 (1/16384,1/400]    law Neumann: correction mu 7.53e-90 Sigma 5.13e-84
+CC6 (1/16384,1/400]    hi.b = 3.6627169196945473051  (p-win 2.667733813 0.004936980369 0.5623366192; fails 3.01e-16679 0.046512 0.0246265 0.356571 3.48e-104075)
+CERT cell=(1/16384,1/400] method=Neumann E[G_r] <= 3.66271691969455
+CB6 (1/400,1/200]      law Neumann: correction mu 1.73e-72 Sigma 2.87e-68
+CC6 (1/400,1/200]      hi.b = 3.6643502804630231072  (p-win 2.667821993 0.004938557765 0.5623482234; fails 1.67e-4185 0.0474018 0.0247446 0.357095 3.11e-25980)
+CERT cell=(1/400,1/200] method=Neumann E[G_r] <= 3.66435028046303
+CB6 (1/200,1/100]      law Neumann: correction mu 8.47e-54 Sigma 7.04e-50
+CC6 (1/200,1/100]      hi.b = 3.6736059520241903406  (p-win 2.671373259 0.00496961038 0.5629204601; fails 1.29e-1050 0.05083 0.0249874 0.358525 6.45e-6476)
+CERT cell=(1/200,1/100] method=Neumann E[G_r] <= 3.67360595202420
+CB6 (1/100,1/50]       law Neumann: correction mu 4.46e-35 Sigma 1.85e-31
+CC6 (1/100,1/50]       hi.b = 3.6980585664473056353  (p-win 2.678550597 0.005041167502 0.5640544962; fails 7.99e-265 0.0634664 0.0254915 0.361454 1.7e-1609)
+CERT cell=(1/100,1/50] method=Neumann E[G_r] <= 3.69805856644731
+CB6 (1/50,3/100]       law Neumann: correction mu 3.12e-24 Sigma 6.46e-21
+CC6 (1/50,3/100]       hi.b = 3.7113826668576457924  (p-win 2.678123654 0.005045062003 0.5639102188; fails 1.54e-119 0.0747478 0.0260148 0.363541 3.63e-711)
+CERT cell=(1/50,3/100] method=Neumann E[G_r] <= 3.71138266685765
+CB6 (3/100,1/25]       law Neumann: correction mu 1.76e-16 Sigma 2.44e-13
+CC6 (3/100,1/25]       hi.b = 3.7241474701308878906  (p-win 2.677231616 0.005037734936 0.56366194; fails 2.87e-68 0.0860769 0.0265615 0.365578 1.05e-397)
+CERT cell=(3/100,1/25] method=Neumann E[G_r] <= 3.72414747013089
+CB6 (1/25,1/20]        law Neumann: correction mu 1.97e-10 Sigma 2.04e-7
+CC6 (1/25,1/20]        hi.b = 3.7366172353003289263  (p-win 2.675882529 0.005019452959 0.5633121066; fails 2.56e-44 0.0977019 0.0271328 0.367568 6.39e-253)
+CERT cell=(1/25,1/20] method=Neumann E[G_r] <= 3.73661723530033
+CERT uniform=(0,1/20] E[G_r] <= 3.73661723530033
+CB7 PASS: Neumann (mu, Sigma) at r=1/20 contain the independent direct point law (cross-check, not load-bearing); observed deviation mu 1.37e-91 Sigma 2.06e-91 against corrections 1.49e-10 1.23e-7
+ALL_CHECKS_PASS

@@ -1,0 +1,206 @@
+"""Controls for the H3 band certificate successor v2.
+
+Every check goes through the program's command line, so a test exercises the same code path
+as a replay. Structure and record checks need only the standard library; the replays and the
+mutation controls need mpmath and are skipped without it.
+"""
+import importlib.util
+import json
+import subprocess
+import sys
+import tempfile
+import unittest
+from fractions import Fraction
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+PROG = HERE / 'h3_band_v2.py'
+RESULTS = HERE / 'results'
+
+try:
+    import mpmath  # noqa: F401
+    HAVE_MPMATH = True
+except ImportError:
+    HAVE_MPMATH = False
+
+
+def run(*args):
+    return subprocess.run([sys.executable, '-I', '-B', str(PROG), *map(str, args)],
+                          capture_output=True, text=True, timeout=1800)
+
+
+def load_program():
+    spec = importlib.util.spec_from_file_location('h3_band_v2_under_test', PROG)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def summary(result):
+    lines = [ln for ln in result.stdout.splitlines() if ln.startswith('H3_BAND_V2')]
+    return lines[-1] if lines else ''
+
+
+class StructureLemma(unittest.TestCase):
+    def test_lemma_holds_for_the_functionals_of_record(self):
+        r = run('structure')
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        self.assertIn('STRUCTURE PASS', summary(r))
+
+    def test_a_pin_with_a_pole_is_caught(self):
+        r = run('structure', '--mutation', 'structure_pin_pole')
+        self.assertEqual(r.returncode, 1, r.stdout)
+        self.assertIn('CB2s pin V5 has a z^-2 term', summary(r))
+
+    def test_a_window_that_leaves_a_mu_pole_is_caught(self):
+        r = run('structure', '--mutation', 'structure_window')
+        self.assertEqual(r.returncode, 1, r.stdout)
+        self.assertIn('CB2s E zV = 0', summary(r))
+
+
+class OutwardDecimals(unittest.TestCase):
+    def test_rounding_directions(self):
+        m = load_program()
+        x = Fraction('3.657186832400983468')
+        self.assertEqual(m.decimal_outward(x, 'up'), '3.65718683240099')
+        self.assertEqual(m.decimal_outward(x, 'down'), '3.65718683240098')
+        self.assertEqual(m.decimal_outward(Fraction('-2.5'), 'up', 3), '-2.50')
+        self.assertEqual(m.decimal_outward(Fraction(1, 3), 'down'), '0.333333333333333')
+        self.assertEqual(m.decimal_outward(Fraction(1, 3), 'up'), '0.333333333333334')
+        self.assertEqual(m.decimal_outward(Fraction(123456), 'up', 3), '124000')
+
+    def test_rounded_value_brackets_the_input(self):
+        m = load_program()
+        for x in (Fraction(2, 7), Fraction('3.73661723530032999'), Fraction(-5, 3), Fraction(10 ** 20 + 1, 3)):
+            self.assertGreaterEqual(Fraction(m.decimal_outward(x, 'up')), x)
+            self.assertLessEqual(Fraction(m.decimal_outward(x, 'down')), x)
+
+
+class ReviewedRecords(unittest.TestCase):
+    """verify-record compares a transcript with a reviewed record without recomputing."""
+
+    def check(self, transcript, record):
+        return run('verify-record', '--transcript', transcript, '--results', record)
+
+    def test_committed_records_match_committed_transcripts(self):
+        for mode in ('ceil', 'floor'):
+            r = self.check(RESULTS / ('%s.transcript.txt' % mode), RESULTS / ('%s.json' % mode))
+            self.assertEqual(r.returncode, 0, r.stdout)
+            self.assertIn('VERIFY PASS', summary(r))
+
+    def test_records_carry_review_status_and_no_scientific_effect(self):
+        for mode in ('ceil', 'floor'):
+            rec = json.loads((RESULTS / ('%s.json' % mode)).read_text())
+            self.assertEqual(rec['scientific_effect'], 'NONE')
+            self.assertEqual(rec['review_status'], 'REVIEW_REQUIRED')
+            self.assertEqual(len(rec['cells']), 8)
+
+    def test_floor_lies_below_ceiling_on_every_cell(self):
+        ceil = json.loads((RESULTS / 'ceil.json').read_text())['cells']
+        floor = json.loads((RESULTS / 'floor.json').read_text())['cells']
+        self.assertEqual([c['cell'] for c in ceil], [c['cell'] for c in floor])
+        for c, f in zip(ceil, floor):
+            self.assertEqual((c['relation'], f['relation']), ('<=', '>='))
+            self.assertLess(Fraction(f['bound']), Fraction(c['bound']), c['cell'])
+
+    def test_a_lowered_ceiling_in_the_transcript_is_rejected(self):
+        text = (RESULTS / 'ceil.transcript.txt').read_text()
+        line = next(ln for ln in text.splitlines() if ln.startswith('CERT cell=(0,1/16384]'))
+        doctored = line[:-1] + str((int(line[-1]) + 9) % 10)
+        with tempfile.TemporaryDirectory() as d:
+            t = Path(d) / 't.txt'
+            t.write_text(text.replace(line, doctored))
+            r = self.check(t, RESULTS / 'ceil.json')
+        self.assertEqual(r.returncode, 1, r.stdout)
+        self.assertIn('VERIFY_FAIL', summary(r))
+
+    def test_a_doctored_record_is_rejected(self):
+        rec = json.loads((RESULTS / 'floor.json').read_text())
+        rec['cells'][-1]['bound'] = '2.30659559567154'
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d) / 'r.json'
+            p.write_text(json.dumps(rec))
+            r = self.check(RESULTS / 'floor.transcript.txt', p)
+        self.assertEqual(r.returncode, 1, r.stdout)
+        self.assertIn('cells', summary(r))
+
+    def test_a_record_for_other_program_bytes_is_rejected(self):
+        rec = json.loads((RESULTS / 'ceil.json').read_text())
+        rec['program_sha256'] = '0' * 64
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d) / 'r.json'
+            p.write_text(json.dumps(rec))
+            r = self.check(RESULTS / 'ceil.transcript.txt', p)
+        self.assertEqual(r.returncode, 1, r.stdout)
+        self.assertIn('program_sha256', summary(r))
+
+
+@unittest.skipUnless(HAVE_MPMATH, 'mpmath is required for the certificate replays')
+class Replays(unittest.TestCase):
+    def test_ceiling_replay_matches_the_reviewed_record(self):
+        r = run('ceil', '--verify', RESULTS / 'ceil.json')
+        self.assertEqual(r.returncode, 0, r.stdout[-2000:] + r.stderr[-2000:])
+        self.assertIn('matches the reviewed record', summary(r))
+
+    def test_floor_replay_matches_the_reviewed_record(self):
+        r = run('floor', '--verify', RESULTS / 'floor.json')
+        self.assertEqual(r.returncode, 0, r.stdout[-2000:] + r.stderr[-2000:])
+        self.assertIn('matches the reviewed record', summary(r))
+
+    def test_replay_rejects_a_self_consistent_doctored_record(self):
+        # transcript and record doctored together, so verify-record alone would accept them;
+        # only recomputation exposes the change
+        text = (RESULTS / 'ceil.transcript.txt').read_text().replace(
+            'E[G_r] <= 3.73661723530033', 'E[G_r] <= 3.23510806397398')
+        m = load_program()
+        rec = json.loads((RESULTS / 'ceil.json').read_text())
+        fresh = m.make_record('ceil', text)
+        rec.update({k: fresh[k] for k in ('transcript_sha256', 'cells', 'uniform')})
+        with tempfile.TemporaryDirectory() as d:
+            t = Path(d) / 't.txt'
+            p = Path(d) / 'r.json'
+            t.write_text(text)
+            p.write_text(json.dumps(rec))
+            self.assertEqual(run('verify-record', '--transcript', t, '--results', p).returncode, 0)
+            r = run('ceil', '--verify', p)
+        self.assertEqual(r.returncode, 1, r.stdout[-2000:])
+        self.assertIn('VERIFY_FAIL', summary(r))
+
+
+@unittest.skipUnless(HAVE_MPMATH, 'mpmath is required for the mutation controls')
+class Mutations(unittest.TestCase):
+    # mutation -> (envelope, the check that must fail)
+    CAUGHT_IN_RUN = {
+        'structure_pin_pole': ('ceil', 'CB2s pin V5 has a z^-2 term'),
+        'structure_window': ('floor', 'CB2s E zV = 0'),
+        'planar_moments': ('ceil', 'CB1a exact-torus'),
+        'wrong_window': ('ceil', 'CB3 mu_aM(0) = -1'),
+        'signed_maxima': ('ceil', 'CB4 majorants dominate every |entry| (B1)'),
+        'wide_first_cell': ('ceil', 'CB4 R-majorant converges on the first cell (0, 1/400]'),
+        'one_tail': ('floor', 'CB5 two-sided tail self-test'),
+        'no_preconditioner': ('ceil', 'CB6 Neumann contraction'),
+        'cap_raised': ('ceil', 'CC6 consumption cap'),
+    }
+    CAUGHT_BY_REPLAY = ('drop_fail_piece', 'old_remainder')
+
+    def test_every_mutation_has_a_control(self):
+        self.assertEqual(set(load_program().MUTATIONS), set(self.CAUGHT_IN_RUN) | set(self.CAUGHT_BY_REPLAY))
+
+    def test_mutations_are_caught_inside_the_run(self):
+        for mutation, (mode, message) in self.CAUGHT_IN_RUN.items():
+            with self.subTest(mutation=mutation):
+                r = run(mode, '--mutation', mutation)
+                self.assertEqual(r.returncode, 1, r.stdout[-2000:])
+                self.assertIn('H3_BAND_V2 FAIL', summary(r))
+                self.assertIn(message, summary(r))
+
+    def test_mutations_are_caught_by_the_replay(self):
+        for mutation in self.CAUGHT_BY_REPLAY:
+            with self.subTest(mutation=mutation):
+                r = run('ceil', '--mutation', mutation, '--verify', RESULTS / 'ceil.json')
+                self.assertEqual(r.returncode, 1, r.stdout[-2000:])
+                self.assertIn('VERIFY_FAIL', summary(r))
+
+
+if __name__ == '__main__':
+    unittest.main()

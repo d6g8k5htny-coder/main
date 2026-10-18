@@ -1,0 +1,40 @@
+name: h3-band-v2
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'experiments/h3_band_v2/**'
+      - '.github/workflows/h3-band-v2.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'experiments/h3_band_v2/**'
+      - '.github/workflows/h3-band-v2.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: h3-band-v2-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  replay:
+    name: h3-band-v2
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.11'
+      - name: Install the pinned mpmath the reviewed transcripts were made with
+        run: python -m pip install --require-hashes --only-binary=:all: -r experiments/h3_band_v2/requirements.txt
+      - name: Structure lemma, records, replays and every mutation control
+        run: python -B -m unittest discover -s experiments/h3_band_v2 -p 'test_*.py' -v
+      - name: Replay both envelopes under -O against the reviewed records
+        run: |
+          python -B -O experiments/h3_band_v2/h3_band_v2.py ceil --verify experiments/h3_band_v2/results/ceil.json
+          python -B -O experiments/h3_band_v2/h3_band_v2.py floor --verify experiments/h3_band_v2/results/floor.json
+      - name: State scientific scope
+        run: echo 'Replayed a draft H3 band certificate successor that is under review. A green run is a run, not a review, and it changes no claim status. Scientific effect NONE.' >> "$GITHUB_STEP_SUMMARY"
