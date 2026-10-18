@@ -36,6 +36,13 @@ class PairwiseFieldControls(unittest.TestCase):
                          (Q(1, 8), Q(1, 8), Q(1, 4)))
         self.assertEqual(self.c.dependent_peaks(Q(3, 4), Q(3, 4)),
                          (Q(3, 4), Q(3, 4), Q(1, 2)))
+        # Off-diagonal order, the inclusive lower boundary and the exact wrap.
+        self.assertEqual(self.c.dependent_peaks(Q(1, 3), Q(1, 5)),
+                         (Q(1, 3), Q(1, 5), Q(8, 15)))
+        self.assertEqual(self.c.dependent_peaks(Q(0), Q(1, 2)),
+                         (Q(0), Q(1, 2), Q(1, 2)))
+        self.assertEqual(self.c.dependent_peaks(Q(1, 2), Q(1, 2)),
+                         (Q(1, 2), Q(1, 2), Q(0)))
 
     def test_independent_triangle_and_binomial_oracles(self):
         for t in map(Q, (0, 1)):
@@ -110,6 +117,9 @@ class PairwiseFieldControls(unittest.TestCase):
                     values, scale = self.c.build_field(peaks, shift=(sx, sy))
                     self.assertTrue(type(scale) is int and scale > 0)
                     self.assertTrue(all(type(n) is int for n in values))
+                    # Pin the exact rescaling independently of the implementation's own scale.
+                    self.assertEqual(sorted(Q(n, scale) for n in values),
+                                     sorted([Q(0)]*12 + [Q(27), *peaks]))
                     barcode = self.c.exact_h0.compute(values, 4)
                     self.assertTrue(self.c.exact_h0.verify_by_connectivity(values, 4, barcode))
                     expected = sorted([[int(p*scale), 0] for p in peaks if p > 0])
@@ -123,11 +133,14 @@ class PairwiseFieldControls(unittest.TestCase):
             for name in ('dependent_cells', 'population_law'):
                 with self.assertRaises(ValueError):
                     getattr(self.c, name)(t)
+            with self.assertRaises(ValueError):
+                self.c.population_law(t, world='iid')
         for world in (None, True, 'independent', 'gaussian', 0):
             with self.assertRaises(ValueError):
                 self.c.population_law(Q(1, 4), world=world)
         for peaks in ((Q(1, 2),)*2, [0, Q(1, 2), Q(1)],
-                      (Q(-1), Q(1, 2), Q(1)), (Q(2), Q(1, 2), Q(1)), None):
+                      (Q(-1), Q(1, 2), Q(1)), (Q(2), Q(1, 2), Q(1)), None,
+                      (Q(1, 2), Q(-1), Q(1)), (Q(1, 2), 0, Q(1)), (Q(1, 2), Q(1, 2), Q(2))):
             with self.assertRaises(ValueError):
                 self.c.build_field(peaks)
         for shift in ((True, 0), (0, 4), (-1, 0), (0,), [0, 0], None):
@@ -136,11 +149,17 @@ class PairwiseFieldControls(unittest.TestCase):
         for u in (0, True, Q(-1), Q(1)):
             with self.assertRaises(ValueError):
                 self.c.dependent_peaks(u, Q(1, 2))
+            with self.assertRaises(ValueError):
+                self.c.dependent_peaks(Q(1, 2), u)
         with self.assertRaises(ValueError):
             self.c.polygon_area(((0, Q(0)), (Q(1), Q(0)), (Q(0), Q(1))))
 
     def test_report_preserves_population_and_scientific_scope(self):
         report = self.c.report()
+        self.assertEqual(len(report), 12)
+        self.assertEqual(report['model'], 'stationary discrete 4x4 periodic vertex-cubical fields')
+        self.assertEqual(report['field_pair_law_identity'],
+                         'analytic Haar shear and conditional translation')
         self.assertEqual(report['dependent_quarter'], ['13/32', '15/32', '3/32', '1/32'])
         self.assertEqual(report['iid_quarter'], ['27/64', '27/64', '9/64', '1/64'])
         self.assertEqual(report['mean_count_quarter'], '3/4')
