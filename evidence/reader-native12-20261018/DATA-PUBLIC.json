@@ -1,0 +1,1523 @@
+{
+  "schema": "native12-public-provenance-derivative-v1",
+  "source_file": "DATA.json",
+  "source_bytes": 43456,
+  "source_sha256": "c0880f8ad0c273bba019caf01a6bf6aaa11f0ea3df030c0fdf2de2a068d1fd80",
+  "derivative_notice": "Explicit public derivative; only private absolute local path strings replaced. These bytes are NOT the exact original. Original hashes/modes remain historical source evidence, not hashes/modes of this derivative. All control, source, result, admission and scope fields otherwise preserved.",
+  "redactions": [
+    {
+      "json_location": "$.external_inputs[0].path",
+      "category": "private absolute local evidence path",
+      "replacement_basename": "RUNTIME-ADMISSION.json"
+    },
+    {
+      "json_location": "$.external_inputs[1].path",
+      "category": "private absolute local evidence path",
+      "replacement_basename": "ORIGINAL-ACQUISITION-RECEIPT.json"
+    },
+    {
+      "json_location": "$.external_inputs[2].path",
+      "category": "private absolute local evidence path",
+      "replacement_basename": "originals-39081305382-1.zip"
+    },
+    {
+      "json_location": "$.external_inputs[3].path",
+      "category": "private absolute local evidence path",
+      "replacement_basename": "ACTUAL-RUN-FIRST-NATIVE-RAW.json"
+    },
+    {
+      "json_location": "$.external_inputs[4].path",
+      "category": "private absolute local evidence path",
+      "replacement_basename": "PLAN.md"
+    },
+    {
+      "json_location": "$.retained_reviews[0].pin.path",
+      "category": "private absolute local evidence path",
+      "replacement_basename": "READER-NATIVE-RUNNER-R01-SUCCESSOR-REVIEW-20261017.json"
+    },
+    {
+      "json_location": "$.retained_reviews[1].pin.path",
+      "category": "private absolute local evidence path",
+      "replacement_basename": "READER-LITERAL-CALLER-SOURCE-REVIEW-20261017.json"
+    }
+  ],
+  "payload": {
+    "actual_native_actor": "d6g8k5htny-coder",
+    "actual_native_run_projection": {
+      "conclusion": "success",
+      "created_at": "2026-10-18T00:02:50Z",
+      "event": "workflow_dispatch",
+      "head_branch": "main",
+      "head_sha": "46835abc657ef90deeaf9d83a47f912274b3ccfd",
+      "id": 39081305382,
+      "path": ".github/workflows/canvas-reader-native-admission.yml",
+      "referenced_workflows": [
+        {
+          "path": "d6g8k5htny-coder/main/.github/workflows/architecture-canvas-tests.yml@c5e64bb61a5c0f49d08e0255a6a07a22a2326e17",
+          "sha": "c5e64bb61a5c0f49d08e0255a6a07a22a2326e17"
+        }
+      ],
+      "run_attempt": 1,
+      "run_started_at": "2026-10-18T00:02:50Z",
+      "status": "completed",
+      "updated_at": "2026-10-18T00:03:11Z"
+    },
+    "admitted_source_payload": [
+      {
+        "bytes": 13354,
+        "git_blob": "ab5315ab47014bc5ce2f89f432239ebff30998d5",
+        "mode": "100644",
+        "path": "docs/plans/2026-10-09-canvas-model-contract.md",
+        "sha256": "3473a664be9126b67006527f5257a7eeb4c2082c836d7ff1b38e21f0d40eecbc"
+      },
+      {
+        "bytes": 1897,
+        "git_blob": "0cfd5acf6c031cfaf54320d292c4f2a8a07eca08",
+        "mode": "100644",
+        "path": "interface/src/scripts/cubic-model.mjs",
+        "sha256": "fbff097a93429652ce5077056c400343b1472375a9cb1cbc388894c7e7bf2051"
+      },
+      {
+        "bytes": 5335,
+        "git_blob": "aab4a06a5ef0fdde609192d37169b578fcbcef19",
+        "mode": "100644",
+        "path": "interface/src/scripts/elder-model.mjs",
+        "sha256": "d92b8f6139d42360a35e933b40a287414b95811f14f0dc19c520d1d2558ec767"
+      },
+      {
+        "bytes": 13360,
+        "git_blob": "666917f42be515cf23aa26f00490db7a4fd642b7",
+        "mode": "100644",
+        "path": "interface/src/scripts/canvas-reader-state.mjs",
+        "sha256": "f001e8aa7ec8073d3a8293196de2adb71eb6c617cfa4b662868278a03ee6fd6d"
+      },
+      {
+        "bytes": 30228,
+        "git_blob": "3b4becd4c4b25619258fc4758f8ad85f046e663c",
+        "mode": "100644",
+        "path": "interface/src/scripts/canvas-reader-view.mjs",
+        "sha256": "1e8cdcb69cff40dd7539abbf53e8f32ba6c0f6e9bfec9956ce685a555cc518a7"
+      },
+      {
+        "bytes": 36177,
+        "git_blob": "6c8c481ff8e8248667223330166fc5479cfb1d68",
+        "mode": "100644",
+        "path": "interface/tests/canvas-reader.test.mjs",
+        "sha256": "f614ba8abf7a59a3ab5090b60b9e6e08f0a9d674e35e6849362ea02a5553c031"
+      }
+    ],
+    "checks": [
+      {
+        "check": "runtime admission exact pin",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "acquisition receipt exact pin",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "original ZIP exact length and SHA256",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "ZIP CRC all members",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "ZIP unique 53 regular safe names",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "ZIP uncompressed lengths",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "acquisition inventory equals actual complete inventory",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "manifest exact 52 non-self-member coverage",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "manifest all52 hashes",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "all original JSON strict duplicate/nonfinite-refusing parse",
+        "detail": {
+          "count": 17,
+          "members": [
+            "attempts.json",
+            "collection.json",
+            "container-after.json",
+            "container-before.json",
+            "control-source.json",
+            "fixture-filesystems.json",
+            "identity-originals/external-admission.json",
+            "identity-originals/identity-observations.json",
+            "identity-originals/native-event.json",
+            "receipt.json",
+            "results.json",
+            "runtime-after.json",
+            "runtime-before.json",
+            "runtime-image.json",
+            "source-before.json",
+            "source-after.json",
+            "source-bindings.json"
+          ]
+        },
+        "pass": true
+      },
+      {
+        "check": "caller raw Git serialization identity/tree/ordered parents",
+        "detail": {
+          "bytes": 1249,
+          "commit": "46835abc657ef90deeaf9d83a47f912274b3ccfd",
+          "ordered_parents": [
+            "cf6dbc64f1aceab7a5f122488116a2f40f61f6bb",
+            "82377fd20432bca521062d4769eaf97cc2f6607e"
+          ],
+          "sha256": "d8f3cc66e1e17d16b923b522f6957f0592278e9409154df4c303df755aa9116c",
+          "tree": "0e7ad62c5d4e47b494089d8b572ba5de252591a4"
+        },
+        "pass": true
+      },
+      {
+        "check": "candidate raw Git serialization identity/tree/ordered parents",
+        "detail": {
+          "bytes": 427,
+          "commit": "c5e64bb61a5c0f49d08e0255a6a07a22a2326e17",
+          "ordered_parents": [
+            "9e7bacb8f04a1abba1fef0a77a7e0e666b064c76"
+          ],
+          "sha256": "b78bcaa98a2bbb4c1abd972bacf8cf123369df216e5e9e6c73a8fc2c75d2b7c9",
+          "tree": "2ca4d7fb0986b72a8b8dd2661b0d5e873dcf537f"
+        },
+        "pass": true
+      },
+      {
+        "check": "runner raw Git serialization identity/tree/ordered parents",
+        "detail": {
+          "bytes": 427,
+          "commit": "c5e64bb61a5c0f49d08e0255a6a07a22a2326e17",
+          "ordered_parents": [
+            "9e7bacb8f04a1abba1fef0a77a7e0e666b064c76"
+          ],
+          "sha256": "b78bcaa98a2bbb4c1abd972bacf8cf123369df216e5e9e6c73a8fc2c75d2b7c9",
+          "tree": "2ca4d7fb0986b72a8b8dd2661b0d5e873dcf537f"
+        },
+        "pass": true
+      },
+      {
+        "check": "admission raw Git serialization identity/tree/ordered parents",
+        "detail": {
+          "bytes": 418,
+          "commit": "73d00f71634712e91c951f14e490b816e84bf657",
+          "ordered_parents": [
+            "c5e64bb61a5c0f49d08e0255a6a07a22a2326e17"
+          ],
+          "sha256": "0876c31b33d24350b9cb1b46f043281ab114559728369405f1cc82bbf33366d1",
+          "tree": "3c5d39eaa2af976adbf5ac1d1b9336b59fe90019"
+        },
+        "pass": true
+      },
+      {
+        "check": "C and P raw bytes exact equality",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "raw identities join original identity observations",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "raw identities join source bindings",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "tree-and-parents witness exact raw-derived ordered bytes and <=1024",
+        "detail": {
+          "bytes": 82
+        },
+        "pass": true
+      },
+      {
+        "check": "repository.txt exact literal",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "caller-commit.txt exact literal",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "checked-commit.txt exact literal",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "runner-commit.txt exact literal",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "admission-commit.txt exact literal",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "run-id.txt exact literal",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "run-attempt.txt exact literal",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "identity-originals/caller-workflow.yml exact bytes/SHA256/Git blob",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "checked-workflow.yml exact bytes/SHA256/Git blob",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "run.mjs exact bytes/SHA256/Git blob",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "identity-originals/external-admission.json exact bytes/SHA256/Git blob",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "both runner workflow originals equal",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "external admission profile/payload/controls/closure/runtime exact admitted fields",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "external admission C/P and caller route",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "six source before/after/bindings exact ordered tuples",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "payload docs/plans/2026-10-09-canvas-model-contract.md byte/blob/SHA",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "payload interface/src/scripts/cubic-model.mjs byte/blob/SHA",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "payload interface/src/scripts/elder-model.mjs byte/blob/SHA",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "payload interface/src/scripts/canvas-reader-state.mjs byte/blob/SHA",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "payload interface/src/scripts/canvas-reader-view.mjs byte/blob/SHA",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "payload interface/tests/canvas-reader.test.mjs byte/blob/SHA",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "results and receipt exact full source/run context equality",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "context exact M/C/P/A/run/attempt/repository/controller/workflow",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "native event trusted main workflow/repository/default branch/no inputs",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "native event bytes identity join",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "first native original exact supplied pin",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "native independent actual run/event/headM/attempt1/referencedC",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "native completed success observed separately from control evidence",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "TAP one header and exact ordered subtests",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "TAP exact12 numbered PASS no SKIP TODO",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "TAP single footer tests",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "TAP single footer suites",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "TAP single footer pass",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "TAP single footer fail",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "TAP single footer cancelled",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "TAP single footer skipped",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "TAP single footer todo",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "TAP footer exact counts",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "TAP complete one footer ordered after last result",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "all12 independent TAP records and diagnostic hashes equal results/receipt",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "results file detail equals independently parsed TAP records/summary/hash/attempt",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "one recorded native child attempt exact argv/cwd/env/no errors",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "child attempt joins receipt",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "recorded child time below60s",
+        "detail": "229469267",
+        "pass": true
+      },
+      {
+        "check": "zero control/attach exits and empty stderr",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "results receipt count/status/behavior joins",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "no RED or science/org credit invented",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "runtime before and after byte equality",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "runtime receipt equality",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "observed runtime Node binary/version/platform/nonroot/argv",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "controller source observed identity",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container/image inspect single objects",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container id/name/image identity joins",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "image digest/platform/reference observations",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container before observed NetworkMode",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container before observed CapDrop",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container before observed CgroupnsMode",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container before observed IpcMode",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container before observed Privileged",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container before observed ReadonlyRootfs",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container before observed SecurityOpt",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container before observed Tmpfs",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container before observed Memory",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container before observed NanoCpus",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container before observed MemorySwap",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container before observed PidsLimit",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container before observed LogConfig",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container before observed RestartPolicy",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container before observed Ulimits",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container before exact entrypoint/user/cwd/controller/image",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container before exact3 source/control RO output RW mounts",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container before no extra network attachment",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container after observed NetworkMode",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container after observed CapDrop",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container after observed CgroupnsMode",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container after observed IpcMode",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container after observed Privileged",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container after observed ReadonlyRootfs",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container after observed SecurityOpt",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container after observed Tmpfs",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container after observed Memory",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container after observed NanoCpus",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container after observed MemorySwap",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container after observed PidsLimit",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container after observed LogConfig",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container after observed RestartPolicy",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container after observed Ulimits",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container after exact entrypoint/user/cwd/controller/image",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container after exact3 source/control RO output RW mounts",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container after no extra network attachment",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "container transition created to exited exit0 noOOM/restarts",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "receipt container times/wall below180s",
+        "detail": 0.658983,
+        "pass": true
+      },
+      {
+        "check": "original disposal absence joins",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "three fixture filesystems exact capacity mounted distinct devices",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "receipt fixture and publication joins",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "collector exact copied49 complete byte/hash joins",
+        "detail": {
+          "actual_copied_count": 49
+        },
+        "pass": true
+      },
+      {
+        "check": "collector attempted subtotal and32MiB bound",
+        "detail": {
+          "subtotal": 281246
+        },
+        "pass": true
+      },
+      {
+        "check": "collector exact coverage excludes only independently generated4 metadata",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "collector no missing refused or extra candidate absent paths",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "publication total under64MiB and declared exact bound",
+        "detail": {
+          "limit": 67108864,
+          "whole_original_bytes": 397391
+        },
+        "pass": true
+      },
+      {
+        "check": "receipt actual child/container configured timeouts",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "exact retained nonauthor source review READER-NATIVE-RUNNER-R01-SUCCESSOR-REVIEW-20261017.json",
+        "detail": null,
+        "pass": true
+      },
+      {
+        "check": "exact retained nonauthor source review READER-LITERAL-CALLER-SOURCE-REVIEW-20261017.json",
+        "detail": null,
+        "pass": true
+      }
+    ],
+    "collector_copied_count": 49,
+    "collector_counted_input_bytes": 281246,
+    "evidence_limits": [
+      "Original receipts contain reported observations; no whole-host or kernel proof.",
+      "Container controller inherits pinned image PATH/NODE_VERSION/YARN_VERSION; test child records exact five-entry closed environment.",
+      "Raw commit identity verifies tree pointer and ordered parents, not all tree objects; reviewed source/native conservation is reused.",
+      "One recorded child/attempt and native attempt1 do not prove absence of all service-wide unrelated executions.",
+      "Fixture mount flags are source-configured; original capacity/device/mounted observations do not independently display live mount option strings.",
+      "Collector attempted32MiB and runtime timeout enforcement are configured; exhaustion/kill branches were not exercised.",
+      "Node executable/image layers are not archived; digest/version/platform/inspect observations are qualified joins."
+    ],
+    "external_inputs": [
+      {
+        "bytes": 11641,
+        "mode": "0o444",
+        "nlink": 1,
+        "path": "[withheld private local path]/RUNTIME-ADMISSION.json",
+        "regular": true,
+        "sha256": "1ecf63e936384098b5fa2e60951c0b95ed9ea7a55df9ef7d628afe6c6738f24f"
+      },
+      {
+        "bytes": 8910,
+        "mode": "0o444",
+        "nlink": 1,
+        "path": "[withheld private local path]/ORIGINAL-ACQUISITION-RECEIPT.json",
+        "regular": true,
+        "sha256": "41b24c2446d2a9425c0c879adaa698bafcc73a2a6ef9ffbd81777ee15785a8a1"
+      },
+      {
+        "bytes": 123895,
+        "mode": "0o444",
+        "nlink": 1,
+        "path": "[withheld private local path]/originals-39081305382-1.zip",
+        "regular": true,
+        "sha256": "22b772b19ec370f4ec35e9e79c40aba9e321273ea10b955e70e0d52fd9bb41b1"
+      },
+      {
+        "bytes": 28300,
+        "mode": "0o444",
+        "nlink": 1,
+        "path": "[withheld private local path]/ACTUAL-RUN-FIRST-NATIVE-RAW.json",
+        "regular": true,
+        "sha256": "fb4db605ee7890517d2894481d3eb1d8141fbeab8a8ed5748b23aa4e3cef345b"
+      },
+      {
+        "bytes": 3630,
+        "mode": "0o644",
+        "nlink": 1,
+        "path": "[withheld private local path]/PLAN.md",
+        "regular": true,
+        "sha256": "81541d9f865f8a5513de75ab377860c8bb705b5e9d232ec6550abf974a457004"
+      }
+    ],
+    "failed_checks": [],
+    "forbidden_operations_performed": false,
+    "kind": "INDEPENDENT_INERT_ORIGINAL_BYTE_QUALIFICATION_DATA",
+    "manifest_count": 52,
+    "observed_container_environment": [
+      "NODE_DISABLE_COLORS=1",
+      "NODE_OPTIONS=",
+      "LANG=C.UTF-8",
+      "TZ=UTC",
+      "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+      "NODE_VERSION=24.21.0",
+      "YARN_VERSION=1.22.22"
+    ],
+    "observed_utc": "2026-10-18T00:06:32.381021+00:00",
+    "original_inventory": [
+      {
+        "CRC32": "d0cbf54e",
+        "bytes": 4832,
+        "compressed_bytes": 2114,
+        "external_mode": "0o100600",
+        "path": "ARTIFACT_SHA256SUMS",
+        "sha256": "ad71a35cbcea2080731092bbb2ac6232a1b366f5f433d12c6807e37bf252a854",
+        "zip_size": 4832
+      },
+      {
+        "CRC32": "7e4acd12",
+        "bytes": 2,
+        "compressed_bytes": 4,
+        "external_mode": "0o100644",
+        "path": "attach-exit-status.txt",
+        "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "zip_size": 2
+      },
+      {
+        "CRC32": "4b946223",
+        "bytes": 41,
+        "compressed_bytes": 41,
+        "external_mode": "0o100644",
+        "path": "admission-commit.txt",
+        "sha256": "b6ac67b50ac76cda62df4e3a7e92d07b83c5b2f6c786e8024acb1337a96696ad",
+        "zip_size": 41
+      },
+      {
+        "CRC32": "24882a9d",
+        "bytes": 939,
+        "compressed_bytes": 410,
+        "external_mode": "0o100644",
+        "path": "attempts.json",
+        "sha256": "6188d72f97d9928a10c90ec47e7b38c92b249d2f81e7773696ed6afcbb72c2f0",
+        "zip_size": 939
+      },
+      {
+        "CRC32": "ba23ec71",
+        "bytes": 41,
+        "compressed_bytes": 40,
+        "external_mode": "0o100644",
+        "path": "caller-commit.txt",
+        "sha256": "5d80b41613fd8305ffa9bb84ac9800369d631204d59cb72ca6ed8a4dca32fc5f",
+        "zip_size": 41
+      },
+      {
+        "CRC32": "00000000",
+        "bytes": 0,
+        "compressed_bytes": 2,
+        "external_mode": "0o100644",
+        "path": "canvas-reader.stderr",
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "zip_size": 0
+      },
+      {
+        "CRC32": "44b05cee",
+        "bytes": 3736,
+        "compressed_bytes": 1176,
+        "external_mode": "0o100644",
+        "path": "canvas-reader.tap",
+        "sha256": "b1172c7378cf1528ecc9801e2d93e69507f53e4c2f23b6ccf4c5dd5a9eb5acea",
+        "zip_size": 3736
+      },
+      {
+        "CRC32": "815db76b",
+        "bytes": 41,
+        "compressed_bytes": 42,
+        "external_mode": "0o100644",
+        "path": "checked-commit.txt",
+        "sha256": "a6ab11cd79faf7c60300e51372a88bff55ada58be3bbdda42845857632a47ac4",
+        "zip_size": 41
+      },
+      {
+        "CRC32": "589e6671",
+        "bytes": 13354,
+        "compressed_bytes": 6415,
+        "external_mode": "0o100644",
+        "path": "checked-sources/docs/plans/2026-10-09-canvas-model-contract.md",
+        "sha256": "3473a664be9126b67006527f5257a7eeb4c2082c836d7ff1b38e21f0d40eecbc",
+        "zip_size": 13354
+      },
+      {
+        "CRC32": "0819cd60",
+        "bytes": 13360,
+        "compressed_bytes": 4192,
+        "external_mode": "0o100644",
+        "path": "checked-sources/interface/src/scripts/canvas-reader-state.mjs",
+        "sha256": "f001e8aa7ec8073d3a8293196de2adb71eb6c617cfa4b662868278a03ee6fd6d",
+        "zip_size": 13360
+      },
+      {
+        "CRC32": "fb3f354a",
+        "bytes": 30228,
+        "compressed_bytes": 9449,
+        "external_mode": "0o100644",
+        "path": "checked-sources/interface/src/scripts/canvas-reader-view.mjs",
+        "sha256": "1e8cdcb69cff40dd7539abbf53e8f32ba6c0f6e9bfec9956ce685a555cc518a7",
+        "zip_size": 30228
+      },
+      {
+        "CRC32": "edcea078",
+        "bytes": 1897,
+        "compressed_bytes": 993,
+        "external_mode": "0o100644",
+        "path": "checked-sources/interface/src/scripts/cubic-model.mjs",
+        "sha256": "fbff097a93429652ce5077056c400343b1472375a9cb1cbc388894c7e7bf2051",
+        "zip_size": 1897
+      },
+      {
+        "CRC32": "eec3f120",
+        "bytes": 36177,
+        "compressed_bytes": 10337,
+        "external_mode": "0o100644",
+        "path": "checked-sources/interface/tests/canvas-reader.test.mjs",
+        "sha256": "f614ba8abf7a59a3ab5090b60b9e6e08f0a9d674e35e6849362ea02a5553c031",
+        "zip_size": 36177
+      },
+      {
+        "CRC32": "165965ae",
+        "bytes": 5335,
+        "compressed_bytes": 2067,
+        "external_mode": "0o100644",
+        "path": "checked-sources/interface/src/scripts/elder-model.mjs",
+        "sha256": "d92b8f6139d42360a35e933b40a287414b95811f14f0dc19c520d1d2558ec767",
+        "zip_size": 5335
+      },
+      {
+        "CRC32": "0ea8f832",
+        "bytes": 82,
+        "compressed_bytes": 63,
+        "external_mode": "0o100644",
+        "path": "checked-tree-and-parents.txt",
+        "sha256": "481081a28c2b8672ce0ed11ed8e20b2e60641027e66f5bb8491b25d0f9dfd48d",
+        "zip_size": 82
+      },
+      {
+        "CRC32": "a822b8eb",
+        "bytes": 86049,
+        "compressed_bytes": 21893,
+        "external_mode": "0o100644",
+        "path": "checked-workflow.yml",
+        "sha256": "13caf93491a67b5544122d092d2580adf23eed35a9261fcdd3eb8c735bb00e90",
+        "zip_size": 86049
+      },
+      {
+        "CRC32": "4b73417e",
+        "bytes": 8605,
+        "compressed_bytes": 2705,
+        "external_mode": "0o100644",
+        "path": "collection.json",
+        "sha256": "486fa2d05e521d7ed0a5d0654bd5a84f365188724c18f5c5c06a2c0a427240f5",
+        "zip_size": 8605
+      },
+      {
+        "CRC32": "32810aa8",
+        "bytes": 9935,
+        "compressed_bytes": 2524,
+        "external_mode": "0o100644",
+        "path": "container-after.json",
+        "sha256": "99ca7d596a306feac978e62933c469d891d1b2c9e8b1ed3edc04c5fcc677440c",
+        "zip_size": 9935
+      },
+      {
+        "CRC32": "f76b73e5",
+        "bytes": 9539,
+        "compressed_bytes": 2428,
+        "external_mode": "0o100644",
+        "path": "container-before.json",
+        "sha256": "39c1297a3258e80cf0ef1c8367c10bd10b843500cb377480a5587e274783417d",
+        "zip_size": 9539
+      },
+      {
+        "CRC32": "1205fa2a",
+        "bytes": 92,
+        "compressed_bytes": 89,
+        "external_mode": "0o100644",
+        "path": "container-console.log",
+        "sha256": "5ddf764cad7baa2962022e43231e1d5904058594cbaf2583a53ffebd5eb5bbf4",
+        "zip_size": 92
+      },
+      {
+        "CRC32": "c4c8a480",
+        "bytes": 65,
+        "compressed_bytes": 54,
+        "external_mode": "0o100644",
+        "path": "container-id.txt",
+        "sha256": "c3cdc7a734c2a79c1cfa55bffff83920267f6cb53625284728f933a6c03d9fb2",
+        "zip_size": 65
+      },
+      {
+        "CRC32": "3cd3cc54",
+        "bytes": 21,
+        "compressed_bytes": 23,
+        "external_mode": "0o100644",
+        "path": "container-name.txt",
+        "sha256": "c3303b5b04395f3bceafcd0eb429e406be5182c5e3a1213410fca182a8951287",
+        "zip_size": 21
+      },
+      {
+        "CRC32": "7e4acd12",
+        "bytes": 2,
+        "compressed_bytes": 4,
+        "external_mode": "0o100644",
+        "path": "control-exit-status.txt",
+        "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+        "zip_size": 2
+      },
+      {
+        "CRC32": "ac984225",
+        "bytes": 113,
+        "compressed_bytes": 102,
+        "external_mode": "0o100644",
+        "path": "control-source.json",
+        "sha256": "862459aad1f7d962ec8bdc534e08ccd26f1dd82ae66db1d68459e9d005de9463",
+        "zip_size": 113
+      },
+      {
+        "CRC32": "4ea8ecc5",
+        "bytes": 17,
+        "compressed_bytes": 19,
+        "external_mode": "0o100644",
+        "path": "disposal-status.txt",
+        "sha256": "cca9b74bd6b5198904f968583725274850a907d42ba8a196ab51ce27b1c0613c",
+        "zip_size": 17
+      },
+      {
+        "CRC32": "63ea33c7",
+        "bytes": 458,
+        "compressed_bytes": 145,
+        "external_mode": "0o100644",
+        "path": "fixture-filesystems.json",
+        "sha256": "c3223b5084779a431b773594189352a051eec14abc0cca37167afed40b0e8ea3",
+        "zip_size": 458
+      },
+      {
+        "CRC32": "3cd3cc54",
+        "bytes": 21,
+        "compressed_bytes": 23,
+        "external_mode": "0o100644",
+        "path": "disposal.log",
+        "sha256": "c3303b5b04395f3bceafcd0eb429e406be5182c5e3a1213410fca182a8951287",
+        "zip_size": 21
+      },
+      {
+        "CRC32": "3df26ce9",
+        "bytes": 418,
+        "compressed_bytes": 256,
+        "external_mode": "0o100644",
+        "path": "identity-originals/admission-commit.raw",
+        "sha256": "0876c31b33d24350b9cb1b46f043281ab114559728369405f1cc82bbf33366d1",
+        "zip_size": 418
+      },
+      {
+        "CRC32": "fc5faa66",
+        "bytes": 1249,
+        "compressed_bytes": 933,
+        "external_mode": "0o100644",
+        "path": "identity-originals/caller-commit.raw",
+        "sha256": "d8f3cc66e1e17d16b923b522f6957f0592278e9409154df4c303df755aa9116c",
+        "zip_size": 1249
+      },
+      {
+        "CRC32": "f00ecc6b",
+        "bytes": 427,
+        "compressed_bytes": 261,
+        "external_mode": "0o100644",
+        "path": "identity-originals/candidate-commit.raw",
+        "sha256": "b78bcaa98a2bbb4c1abd972bacf8cf123369df216e5e9e6c73a8fc2c75d2b7c9",
+        "zip_size": 427
+      },
+      {
+        "CRC32": "f4f27d9b",
+        "bytes": 526,
+        "compressed_bytes": 295,
+        "external_mode": "0o100644",
+        "path": "identity-originals/caller-workflow.yml",
+        "sha256": "69044e14596bd26c870559543eb8960a8b71defaf3691d2fe209916f7cce8f9b",
+        "zip_size": 526
+      },
+      {
+        "CRC32": "a5f5b8ed",
+        "bytes": 6824,
+        "compressed_bytes": 2550,
+        "external_mode": "0o100644",
+        "path": "identity-originals/external-admission.json",
+        "sha256": "c9e332696b81754121c5605b1f679159b738916a20798ee7009a7bc220c3ede4",
+        "zip_size": 6824
+      },
+      {
+        "CRC32": "7e28a0c5",
+        "bytes": 2131,
+        "compressed_bytes": 926,
+        "external_mode": "0o100644",
+        "path": "identity-originals/identity-observations.json",
+        "sha256": "f933fa295fabf3df82ea96a0b4df946b335ab53e3f0085f7ab558873503da9a3",
+        "zip_size": 2131
+      },
+      {
+        "CRC32": "09e66a37",
+        "bytes": 7566,
+        "compressed_bytes": 1517,
+        "external_mode": "0o100644",
+        "path": "identity-originals/native-event.json",
+        "sha256": "25ba357ab22898e095d2447e303b0d9aaef496d9ee0a5e73719a7cc1ab3bb005",
+        "zip_size": 7566
+      },
+      {
+        "CRC32": "f00ecc6b",
+        "bytes": 427,
+        "compressed_bytes": 261,
+        "external_mode": "0o100644",
+        "path": "identity-originals/runner-commit.raw",
+        "sha256": "b78bcaa98a2bbb4c1abd972bacf8cf123369df216e5e9e6c73a8fc2c75d2b7c9",
+        "zip_size": 427
+      },
+      {
+        "CRC32": "a822b8eb",
+        "bytes": 86049,
+        "compressed_bytes": 21893,
+        "external_mode": "0o100644",
+        "path": "identity-originals/runner-workflow.yml",
+        "sha256": "13caf93491a67b5544122d092d2580adf23eed35a9261fcdd3eb8c735bb00e90",
+        "zip_size": 86049
+      },
+      {
+        "CRC32": "c2e616de",
+        "bytes": 1062,
+        "compressed_bytes": 306,
+        "external_mode": "0o100644",
+        "path": "image-pull.log",
+        "sha256": "505ec7098e0e09236aed74fbb74c6f989afb5786152ddb8dced9149378075165",
+        "zip_size": 1062
+      },
+      {
+        "CRC32": "688e0de3",
+        "bytes": 440,
+        "compressed_bytes": 196,
+        "external_mode": "0o100644",
+        "path": "publish-filesystem.log",
+        "sha256": "7f50a0622949f7dc007d840a9a883b175c7e5449202795dd99c8fea1d7aad808",
+        "zip_size": 440
+      },
+      {
+        "CRC32": "68364506",
+        "bytes": 16659,
+        "compressed_bytes": 4565,
+        "external_mode": "0o100644",
+        "path": "receipt.json",
+        "sha256": "92d4c8357565c79cf5f923b7a151a04ff4f27be0c93c3562d78be2ec913607bb",
+        "zip_size": 16659
+      },
+      {
+        "CRC32": "c0225bb2",
+        "bytes": 22,
+        "compressed_bytes": 24,
+        "external_mode": "0o100644",
+        "path": "repository.txt",
+        "sha256": "d803cf6a2d47dfe727dffe88955d74cde2e8eeab1bc442d9c299aa1fae87512a",
+        "zip_size": 22
+      },
+      {
+        "CRC32": "688e0de3",
+        "bytes": 440,
+        "compressed_bytes": 196,
+        "external_mode": "0o100644",
+        "path": "inputs-filesystem.log",
+        "sha256": "7f50a0622949f7dc007d840a9a883b175c7e5449202795dd99c8fea1d7aad808",
+        "zip_size": 440
+      },
+      {
+        "CRC32": "a21067d7",
+        "bytes": 19290,
+        "compressed_bytes": 4008,
+        "external_mode": "0o100644",
+        "path": "results.json",
+        "sha256": "f318c48b443a03af9bde57f5de3c7cc657936e01d115265c63c3bc3ea57504c8",
+        "zip_size": 19290
+      },
+      {
+        "CRC32": "6751fc53",
+        "bytes": 2,
+        "compressed_bytes": 4,
+        "external_mode": "0o100644",
+        "path": "run-attempt.txt",
+        "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865",
+        "zip_size": 2
+      },
+      {
+        "CRC32": "ce4b358f",
+        "bytes": 12,
+        "compressed_bytes": 14,
+        "external_mode": "0o100644",
+        "path": "run-id.txt",
+        "sha256": "50f5460bdf03f2065e6e160ead669f54e7be62c0e43fc968c1359fba3b2e370e",
+        "zip_size": 12
+      },
+      {
+        "CRC32": "ffd7c6ba",
+        "bytes": 15338,
+        "compressed_bytes": 5295,
+        "external_mode": "0o100644",
+        "path": "run.mjs",
+        "sha256": "dac87ad8a6b52f8bced2440bd96d2728f7a3ed281eef909a1d46973b17caf30f",
+        "zip_size": 15338
+      },
+      {
+        "CRC32": "815db76b",
+        "bytes": 41,
+        "compressed_bytes": 42,
+        "external_mode": "0o100644",
+        "path": "runner-commit.txt",
+        "sha256": "a6ab11cd79faf7c60300e51372a88bff55ada58be3bbdda42845857632a47ac4",
+        "zip_size": 41
+      },
+      {
+        "CRC32": "fdade620",
+        "bytes": 1181,
+        "compressed_bytes": 575,
+        "external_mode": "0o100644",
+        "path": "runtime-after.json",
+        "sha256": "5d12070aaf320af8d387f771156e98cea17b8e65e81d6aa805c3a6a6504d5837",
+        "zip_size": 1181
+      },
+      {
+        "CRC32": "fdade620",
+        "bytes": 1181,
+        "compressed_bytes": 575,
+        "external_mode": "0o100644",
+        "path": "runtime-before.json",
+        "sha256": "5d12070aaf320af8d387f771156e98cea17b8e65e81d6aa805c3a6a6504d5837",
+        "zip_size": 1181
+      },
+      {
+        "CRC32": "b07b3df8",
+        "bytes": 2827,
+        "compressed_bytes": 1102,
+        "external_mode": "0o100644",
+        "path": "runtime-image.json",
+        "sha256": "eb648f2df9800563aa08b8b788296b45dd57efa0d8b55ca0e850affbcc111d35",
+        "zip_size": 2827
+      },
+      {
+        "CRC32": "365ee950",
+        "bytes": 1658,
+        "compressed_bytes": 621,
+        "external_mode": "0o100644",
+        "path": "source-before.json",
+        "sha256": "ddf55abaed9aa327d59e73f8c512ee325e6fc0eb616f694174e831548b0a9b54",
+        "zip_size": 1658
+      },
+      {
+        "CRC32": "365ee950",
+        "bytes": 1658,
+        "compressed_bytes": 621,
+        "external_mode": "0o100644",
+        "path": "source-after.json",
+        "sha256": "ddf55abaed9aa327d59e73f8c512ee325e6fc0eb616f694174e831548b0a9b54",
+        "zip_size": 1658
+      },
+      {
+        "CRC32": "124bd9d5",
+        "bytes": 4541,
+        "compressed_bytes": 1677,
+        "external_mode": "0o100644",
+        "path": "source-bindings.json",
+        "sha256": "181030fce11b22ceb72d85ba0a05dc1acb68d372c766543ffcfc9e9cb8a2c2cb",
+        "zip_size": 4541
+      },
+      {
+        "CRC32": "688e0de3",
+        "bytes": 440,
+        "compressed_bytes": 196,
+        "external_mode": "0o100644",
+        "path": "work-filesystem.log",
+        "sha256": "7f50a0622949f7dc007d840a9a883b175c7e5449202795dd99c8fea1d7aad808",
+        "zip_size": 440
+      }
+    ],
+    "original_total_bytes": 397391,
+    "own_corrected_diagnostics": [
+      "An early combined tool display was truncated; affected semantic fields were re-read in bounded projections. Original files were not changed."
+    ],
+    "raw_git_objects": {
+      "admission": {
+        "bytes": 418,
+        "commit": "73d00f71634712e91c951f14e490b816e84bf657",
+        "ordered_parents": [
+          "c5e64bb61a5c0f49d08e0255a6a07a22a2326e17"
+        ],
+        "sha256": "0876c31b33d24350b9cb1b46f043281ab114559728369405f1cc82bbf33366d1",
+        "tree": "3c5d39eaa2af976adbf5ac1d1b9336b59fe90019"
+      },
+      "caller": {
+        "bytes": 1249,
+        "commit": "46835abc657ef90deeaf9d83a47f912274b3ccfd",
+        "ordered_parents": [
+          "cf6dbc64f1aceab7a5f122488116a2f40f61f6bb",
+          "82377fd20432bca521062d4769eaf97cc2f6607e"
+        ],
+        "sha256": "d8f3cc66e1e17d16b923b522f6957f0592278e9409154df4c303df755aa9116c",
+        "tree": "0e7ad62c5d4e47b494089d8b572ba5de252591a4"
+      },
+      "candidate": {
+        "bytes": 427,
+        "commit": "c5e64bb61a5c0f49d08e0255a6a07a22a2326e17",
+        "ordered_parents": [
+          "9e7bacb8f04a1abba1fef0a77a7e0e666b064c76"
+        ],
+        "sha256": "b78bcaa98a2bbb4c1abd972bacf8cf123369df216e5e9e6c73a8fc2c75d2b7c9",
+        "tree": "2ca4d7fb0986b72a8b8dd2661b0d5e873dcf537f"
+      },
+      "runner": {
+        "bytes": 427,
+        "commit": "c5e64bb61a5c0f49d08e0255a6a07a22a2326e17",
+        "ordered_parents": [
+          "9e7bacb8f04a1abba1fef0a77a7e0e666b064c76"
+        ],
+        "sha256": "b78bcaa98a2bbb4c1abd972bacf8cf123369df216e5e9e6c73a8fc2c75d2b7c9",
+        "tree": "2ca4d7fb0986b72a8b8dd2661b0d5e873dcf537f"
+      }
+    },
+    "recorded_child_environment": {
+      "LANG": "C.UTF-8",
+      "NODE_DISABLE_COLORS": "1",
+      "NODE_OPTIONS": "",
+      "PATH": "/usr/local/bin:/usr/bin:/bin",
+      "TZ": "UTC"
+    },
+    "retained_reviews": [
+      {
+        "pin": {
+          "bytes": 22929,
+          "mode": "0o444",
+          "nlink": 1,
+          "path": "[withheld private local path]/READER-NATIVE-RUNNER-R01-SUCCESSOR-REVIEW-20261017.json",
+          "regular": true,
+          "sha256": "23c33a651047e57d1540a2229102dc69c734805d05256fd6ff2cab4ebe2f5904"
+        },
+        "scope_note": "Source-only historical disposition; actual runtime authorization is current Root unit.",
+        "verdict": "ACCEPT_SCOPED_SUCCESSOR_SOURCE"
+      },
+      {
+        "pin": {
+          "bytes": 23700,
+          "mode": "0o444",
+          "nlink": 1,
+          "path": "[withheld private local path]/READER-LITERAL-CALLER-SOURCE-REVIEW-20261017.json",
+          "regular": true,
+          "sha256": "686f8da6e89da78f8385f736dbc5f57e0a585a8822601e3399f0be761fd60160"
+        },
+        "scope_note": "Source-only historical disposition; actual runtime authorization is current Root unit.",
+        "verdict": "ACCEPT_SCOPED_LITERAL_CALLER_BINDING_SOURCE; HOLD_PROSPECTIVE_PUBLICATION_UNADMITTED_AUTOMATIC_CI"
+      }
+    ],
+    "reviewer": "OpenAI/Codex /root/native12_original_outcome_qualifier",
+    "schema_version": 1,
+    "tap_footer": {
+      "cancelled": 0,
+      "fail": 0,
+      "pass": 12,
+      "skipped": 0,
+      "suites": 0,
+      "tests": 12,
+      "todo": 0
+    },
+    "tap_records": [
+      {
+        "assertion_diagnostic": false,
+        "classification": "SETUP",
+        "diagnostic_sha256": "b89ef43ac8c0189e4daec3a39348249257ebbf2eab13e9d25bfa4eb80ae42578",
+        "id": "D00 setup source pins and exports",
+        "local_id": 1,
+        "reason": null,
+        "status": "PASS"
+      },
+      {
+        "assertion_diagnostic": false,
+        "classification": "CHECKER",
+        "diagnostic_sha256": "0fe90f8ffcfbaf36472e2cb12de556e384e1e26465e73ceebb379a84219c19aa",
+        "id": "O01 independent partial-edge oracle literal calibration",
+        "local_id": 2,
+        "reason": null,
+        "status": "PASS"
+      },
+      {
+        "assertion_diagnostic": false,
+        "classification": "BEHAVIOR",
+        "diagnostic_sha256": "1efb214d90cded176dbcbe624af9fb834bb73f7dbf53fb6f0e08882ba67d1aff",
+        "id": "D01 signed zero and complete cubic outputs",
+        "local_id": 3,
+        "reason": null,
+        "status": "PASS"
+      },
+      {
+        "assertion_diagnostic": false,
+        "classification": "BEHAVIOR",
+        "diagnostic_sha256": "d2f99cff8524da63f3408dcf57382acbb5c553f031dcf2b02b9dd9565c166e84",
+        "id": "D02 unbounded native BigInt exact intervals",
+        "local_id": 4,
+        "reason": null,
+        "status": "PASS"
+      },
+      {
+        "assertion_diagnostic": false,
+        "classification": "BEHAVIOR",
+        "diagnostic_sha256": "85dec0ad7e736546b07b32f49e1812bc7495059c03b053439cfe113125de136b",
+        "id": "D03 owned immutable input result and selection",
+        "local_id": 5,
+        "reason": null,
+        "status": "PASS"
+      },
+      {
+        "assertion_diagnostic": false,
+        "classification": "BEHAVIOR",
+        "diagnostic_sha256": "912f4287affcdc321bf6be57b0394708cf451a55ceef4a6082354497c23a3f4e",
+        "id": "D04 native admission without coercion or replacement",
+        "local_id": 6,
+        "reason": null,
+        "status": "PASS"
+      },
+      {
+        "assertion_diagnostic": false,
+        "classification": "BEHAVIOR",
+        "diagnostic_sha256": "3a8e0aafd5e3748daaca46af07d4881fb52d4d02acfe4f65dd4977c7a638d2a9",
+        "id": "D05 insertion prefixes and complete tied level",
+        "local_id": 7,
+        "reason": null,
+        "status": "PASS"
+      },
+      {
+        "assertion_diagnostic": false,
+        "classification": "BEHAVIOR",
+        "diagnostic_sha256": "1e9be61c07c1c6e8636fa2cede47b210a9b6a41f62740ad44940703063f91bcc",
+        "id": "D06 independent periodic BFS selected state",
+        "local_id": 8,
+        "reason": null,
+        "status": "PASS"
+      },
+      {
+        "assertion_diagnostic": false,
+        "classification": "BEHAVIOR",
+        "diagnostic_sha256": "b74ba56a6f572190ef84d20e3ddac1c71cd0fa5066059324c46ba9214460623f",
+        "id": "D07 strict navigation and whole-sweep preservation",
+        "local_id": 9,
+        "reason": null,
+        "status": "PASS"
+      },
+      {
+        "assertion_diagnostic": false,
+        "classification": "BEHAVIOR",
+        "diagnostic_sha256": "cf4136d3709578d05873752ec74e8bc0bd37a44bbad4320fd92cac061dbd39e6",
+        "id": "D08 staged atomic commit and stale tickets",
+        "local_id": 10,
+        "reason": null,
+        "status": "PASS"
+      },
+      {
+        "assertion_diagnostic": false,
+        "classification": "BEHAVIOR",
+        "diagnostic_sha256": "7d9adb92deb2c65faac0dfde33e466ac2f62359a14341f29e8d52af6fd83984d",
+        "id": "D09 complete escaped static HTML text",
+        "local_id": 11,
+        "reason": null,
+        "status": "PASS"
+      },
+      {
+        "assertion_diagnostic": false,
+        "classification": "BEHAVIOR",
+        "diagnostic_sha256": "bb26814d0302e031cfafe8ecd742ec9c06e12add5a6faa5a902dadc277839b1b",
+        "id": "D10 declared native provenance without false joins",
+        "local_id": 12,
+        "reason": null,
+        "status": "PASS"
+      }
+    ]
+  }
+}
