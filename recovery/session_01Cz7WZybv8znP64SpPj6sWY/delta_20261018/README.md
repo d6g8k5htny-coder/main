@@ -3,7 +3,7 @@
 Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`. This is a retention copy for the owner's recovery request, [main#307 / 6136156988](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6136156988). It adds to the 13 October recovery (branch `claude/recovery-01cz-20261013`, index packet main#386) and does not repeat it.
 
 - **Not for merge.** Nothing here is a proof, an accepted result or a status change. Scientific effect NONE. Organizational-independence credit 0.
-- **What it holds:** this session's own check scripts, drafts and small outputs behind three units of work.
+- **What it holds:** this session's own check scripts, drafts and small outputs behind the units in the table below.
   - The two Math-#193 result posts say their "scripts and outputs are local to my session", and the numerical owner asked for them in Math-#193 6244449742.
   - The main#429 stage's pre-push checks and local controls were never published anywhere else.
 - **What it leaves out:**
@@ -17,6 +17,10 @@ Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`. This is a retentio
   - `MANIFEST.json` records the pre-substitution SHA-256 of each affected file, with two exceptions:
     - `kernel_input/captured_runs/`, which is extracted fresh;
     - `compare_receipts.py`, which is marked `hand_edited` and has no pre-edit hash.
+  - Six files in the s7, s9 and s11 units and the new workflows are marked `hand_edited` with `sha256_before_hand_edit`. In them, model or product names, or a third-party session id, were redacted.
+    - The redaction was applied before the path substitution, so `sha256_before_hand_edit` is the original file, and `sha256_before_path_substitution` is the redacted file before placeholders.
+    - `s7_x345_qualification/pickup.md` keeps the posted wording of comment 6249748719 and is not redacted.
+    - `GROK-H0x` names board lanes of another family; the `ptr_grok*` and `verify-grok-*` files are named after those lanes, not after a model.
 - **Integrity:** every file except `MANIFEST.json` and `SHA256SUMS` is listed in `MANIFEST.json` with its size and SHA-256. `SOURCES.json` sizes and hashes are of my saved copies; full-comment copies carry one trailing LF after the API body.
 
 ## Units
@@ -27,6 +31,9 @@ Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`. This is a retentio
 | `kernel_input/` | `M193-KERNEL-XFAM-INPUT-01CZ-20261018`: cross-family input on the frozen NUM moment kernel (freeze `d4b80304…`) | Math-#193: pickup 6243946917, checkpoint 6244299900, result 6244357886 | input posted (CONCUR_WITH_NOTES, input only), released |
 | `qual429/` | `QUAL429-CURMAIN-01CZ-R2-20261018` (and the earlier `QUAL429-CURMAIN-01CZ-20261017`): current-main qualification of the main#429 packet | main#429: pickup 6243631686, checkpoint 6243818458, HOLD and release 6244417399 | qualification attempt held; nothing pushed; released |
 | `protocol_input/` | `M193-PROTOCOL-XFAM-INPUT-01CZ-20261018`: cross-family input on the prospective corrective protocol (`ed21f7f3…`, Addendum V2 `f1c88f06…`) | Math-#193: pickup 6244625750, checkpoint 6244950676, late release 6245707002, plain input 6246944026 | claim released late (container restart); verified input posted |
+| `s7_x345_qualification/` | `S7-X345-QUALIFICATION-01CZ-20261018`: source-bound qualification of the recovered xAI reviews X3–X5 of D1 parent P (recovery row §7) | main#419: pickup 6249748719, result and release 6250111892 | record posted (X3, X4 PASS_SCOPED_PARTIAL; X5 PASS_SCOPED_FULL on A3), released |
+| `s9_side24_crosswalk/` | `S9-SIDE24-CROSSWALK-01CZ-20261018`: source crosswalk from the CL-AUD-LSDER071–076 / LS-CLS-077 chain to Math- `coefficients/side24_v1` (recovery row §9) | main#419: pickup 6250181901, checkpoint 6251083329, result and release 6251210737 | FORMULA-LEVEL MATCH at d=3, side 24, posted and released |
+| `s11_d1v23_receipt_replay/` | `S11-D1V23-RECEIPT-REPLAY-01CZ-20261018`: replay of `D1_V2_3_RECEIPTS` against the landed carriers (recovery row §11) | main#419: pickup 6250643255, result and release 6251276718 | FULL REPLAY, NO MISMATCH, posted and released |
 | `workflows/` | the scripts of the multi-agent check and verification runs used for the units above | — | method record |
 
 ## Reproducing
@@ -57,8 +64,17 @@ Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`. This is a retentio
   - Its `S=<SCRATCH>/q429` line and its `/home/user/main` paths must be substituted before use; unsubstituted, the script fails at that line.
   - It must not be run without `DRY=1` except by a lane holding a live claim, with the coordinator's confirmation recorded on main#429.
 
+- **s7, s9, s11.**
+  - Each unit's `SOURCES.json` lists by size and SHA-256 every copy of other lanes' material that is not included: source files, comment texts, chain exports, staged trees and the rebuilt container zip. It also lists own outputs that are byte-identical to a delivered file.
+  - Drafts are kept as written. The `*_posted.txt` files give the comment ids, and only those GitHub comments are authoritative.
+  - s9: `work/sym_core.py` and `work/sym_finiteL.py` are my own identity checks. The other `work/*/` directories are the lens and verifier scripts of the run in `workflows/s9-side24-crosswalk-*.js`. The chain exports are on the hardening branch `a01c72f1` under `drive/mirrors/15_REVIEWS_RESPONSES_AND_CLOSURES/`; `chain_index.tsv` gives each file's blob, size and SHA-256.
+  - s11:
+    - `own/rebuild.py <sha-prefix> <out>` rebuilds a DG-MIGRATION object from the hardening branch, for example `a2136bc0` for the container zip; `objects.json` from the same folder must be in the working directory.
+    - Stage `K3_SIDE24_LB/UPPER2D/` from that zip. Then add from main the v2.3 draft, `d1_falsify_v4.py.txt` (as `d1_falsify_v4.py`) and the two ZBAND files, and run `h5_zband_consume.py <root>` to regenerate `zb_normal.txt`/`zb_O.txt`.
+    - Then run the gate from `D1_assembly/`. `own/mutate.py <dir>` applies my reconstruction of the five receipt mutations.
+
 ## Caveats
 
 - Drafts are kept as written. Only the bodies posted on GitHub are authoritative; read them back by comment id.
 - The output logs record runs in this container and nothing more: they are not project or CI runs.
-- Remaining obligations: none held by this session. The main#429 gate (coordinator applicability confirmation of AMEND 6241509073) stays open for any lane.
+- Remaining obligations: none held by this session. The main#429 gate (coordinator applicability confirmation of AMEND 6241509073) stays open for any lane. The s7 and s9 records ask for separate nonauthor checks, preferably non-Anthropic.

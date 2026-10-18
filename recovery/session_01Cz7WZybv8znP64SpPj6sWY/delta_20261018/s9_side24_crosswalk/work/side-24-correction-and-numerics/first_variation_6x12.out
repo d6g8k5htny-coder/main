@@ -1,0 +1,22 @@
+g0(w) = w**2 - 4*w + 8 - 8*exp(-w/2)
+g1(w) = 2*(-4*w + (w**2 - 8*w + 24)*exp(w/2) - 24)*exp(-w/2)
+D0  = 29/6 - sqrt(6)  equals 29/6-sqrt6: True
+E0[h s^2] = 445/18 - 5*sqrt(6)/8
+E0[h x^2] = 19/2 - 53*sqrt(6)/16
+homogeneity check  Ess/(5/3)+2Exx-7D0 = 0
+D_direct(Gamma0) - (29/6-sqrt6) = 9.8812e-27
+dD finite-diff (direct quadrature) = 0.987894879888771   linear-response formula = 0.987894879855582
+reference tau^2 = 6.0  Gamma_sxy diag = ['1.66666666667', '1.0', '1.0']  offdiag max = 2.33e-61  detSVV = 3.0
+direct S^2-averaged d log c / d m2  (nz=6,nth=12) = 0.557142857142857142857142857143  identify: None
+direct S^2-averaged d log c / d m4  (nz=6,nth=12) = -0.0142857142857142857142857142857  identify: None
+direct S^2-averaged d log c / d m6  (nz=6,nth=12) = -0.047619047619047619047619047619  identify: -(((42-sqrt(0))/882))
+chain-law predicted d log c/d m_j: {2: 39/70, 4: -1/70, 6: -1/21}
+  m2: direct - predicted = -5.9178e-41
+  m4: direct - predicted = 1.1889e-41
+  m6: direct - predicted = -1.0773e-42
+dm per unit q: {2: 2*L**2, 4: 2*L**4 - 12*L**2, 6: 2*L**6 - 30*L**4 + 90*L**2}
+chain-law polynomial = -2*L**6/21 + 7*L**4/5 - 3*L**2  equals LS-DER-055 (27): True
+direct polynomial (rationalized) = -2*L**6/21 + 7*L**4/5 - 3*L**2  equals P_3(L): True
+direct first variation at L=24 per unit q = -17737525.02857142857142857  vs -620813376/35 = -17737525.02857142857142857
+direct first-order relative correction at L=24 = -1.4862170290658276072e-118
+sample direction parts (m6): dlogpG,dlogpV,dlogtau2,dlogD = ['0.0', '0.0', '-0.04609189547', '0.0']

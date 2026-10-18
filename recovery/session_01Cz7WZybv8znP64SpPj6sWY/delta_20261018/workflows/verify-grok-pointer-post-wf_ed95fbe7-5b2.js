@@ -1,0 +1,15 @@
+export const meta = {
+  name: 'verify-grok-pointer-post',
+  description: 'Pre-post adversarial verification of the 01Cz pointer offering non-Anthropic checks to GROK-H02/H04',
+  phases: [{ title: 'Verify' }],
+}
+const S = '<SCRATCH>'
+const BASE = `A GitHub comment draft is at ${S}/s9/ptr_grok.md. It will be posted on d6g8k5htny-coder/main issue #419 by an Anthropic Claude session (01Cz). Do NOT post or edit anything on GitHub; read-only. You may use 'gh api' GET requests to read comments by id (repos/d6g8k5htny-coder/main/issues/comments/<id>), and local files: P = ${S}/s7/src/P.md; RECONCILIATION = ${S}/s7/src/RECONCILIATION.md; LEDGER = ${S}/s7/src/LEDGER.json; the 01Cz §7 result draft as posted = ${S}/s7/result.md (posted as comment 6250111892); the Theorem B map = ${S}/s9/c6242589723.md (comment 6242589723 on #275); 01B6 status note = ${S}/s9/sweep.md (comment 6244043691). The hardening branch a01c72f1 is fetched in the git repo at /home/user/main (use git ls-tree / git show).`
+const SCHEMA = { type: 'object', properties: {
+  problems: { type: 'array', items: { type: 'object', properties: { quote: { type: 'string' }, issue: { type: 'string' }, fix: { type: 'string' }, severity: { type: 'string' } }, required: ['quote', 'issue', 'fix', 'severity'] } },
+  ok_to_post: { type: 'boolean' }, notes: { type: 'string' } }, required: ['problems', 'ok_to_post', 'notes'] }
+const res = await parallel([
+  () => agent(`${BASE}\n\nCheck EVERY factual claim in the draft against the cited sources: line numbers in P (A4 115–137, l.125, l.129, A2 l.109, §12 365–385), CAP sha prefix and l.15–19 if you can locate CAP (Math- clone at ${S}/mathc, path imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md on origin/main), the RECONCILIATION §8 invitation priority order, what the §7 result says about X4 and X3 (PARTIAL, the exact gaps), the Theorem B residual list and the DQ-023 provider restriction, existence of LS-DER-026/032/038 on the hardening branch path, the linked comment ids and what they are (GROK-H04 6250383728, GROK-H02 6250386154, 01Fi 6249373995, 01Cz 6250181901). Also check for any claim of unclaimed status that the board contradicts (search main and Math- issue comments since 2026-10-17T18:00Z for pickups of these items). Report each problem with exact quote and fix.`, { label: 'verify:facts', phase: 'Verify', schema: SCHEMA }),
+  () => agent(`${BASE}\n\nCheck protocol and tone: it must be facts and offers, not assignments; no closing verb (close/closes/fix/fixes/resolve/resolves) directly before a #N reference; no model identifiers or model names; no Drive ids/URLs; no overclaim (e.g., claiming X4 is near-full depth, claiming any status change, claiming the coordinator allocated anything); no instruction that would make another lane review its own work; it should not suggest that lane merge register changes; clarity and concision for a busy reader; any ambiguous phrasing. Report each problem with exact quote and fix.`, { label: 'verify:protocol', phase: 'Verify', schema: SCHEMA }),
+])
+return res

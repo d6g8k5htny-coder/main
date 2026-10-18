@@ -1,0 +1,3305 @@
+{
+ "note": "Each excluded file is listed by path or, where its bytes equal a listed row, covered by that row's hash; some identical copies are also listed under their own path.",
+ "references": [
+  {
+   "local_copy": "b4loc_falsifier.out",
+   "bytes": 885,
+   "sha256": "1629de83bda724f5a0d971ddd895771ea3db1a2ec7ca462181030c0a952f1a2c",
+   "what": "own re-run output, byte-identical to B4LOC tf_normal.txt / tf_opt.txt (FREEZE.txt l.13-14; bytes inside the container zip a2136bc0)"
+  },
+  {
+   "local_copy": "b4loc_t_normal.out",
+   "bytes": 2735,
+   "sha256": "11baaccc25da202be951731ea4bc91c76795b614a9925a3baf7c59f8b0112b53",
+   "what": "own re-run output, byte-identical to B4LOC t_normal.txt / t_opt pin (main incoming/claude-bundle-v3-native-copies-20260928/K3_SIDE24_LB/UPPER2D/B4LOC_damline/t_normal.txt)"
+  },
+  {
+   "local_copy": "b4loc_t_opt.out",
+   "bytes": 2735,
+   "sha256": "11baaccc25da202be951731ea4bc91c76795b614a9925a3baf7c59f8b0112b53",
+   "what": "own re-run output, byte-identical to B4LOC t_normal.txt / t_opt pin (main incoming/claude-bundle-v3-native-copies-20260928/K3_SIDE24_LB/UPPER2D/B4LOC_damline/t_normal.txt)"
+  },
+  {
+   "local_copy": "claudeS_ckpt.md",
+   "bytes": 2392,
+   "sha256": "67be10386a292af65676cc595c6af1eefe791b3f536702d64eaef3d61b9f7c18",
+   "what": "copy of Math-#193 comment 6250787636"
+  },
+  {
+   "local_copy": "clmirror.txt",
+   "bytes": 8073,
+   "sha256": "fac2303faf2e5a24493f27a35f9252db03c81e4af8c7712aca87189ef6599d38",
+   "what": "copy of main CL-MIRROR-001_MANIFEST.sha256.txt"
+  },
+  {
+   "local_copy": "gate_v4.py",
+   "bytes": 20558,
+   "sha256": "1bfb5dbc88b842893b5b0365680ccaa9b4893b6c028a950c194d2c1c739e62a6",
+   "what": "copy of main d1_falsify_v4.py.txt (blob 3f6aad8d)"
+  },
+  {
+   "local_copy": "gd_tree.json",
+   "bytes": 13965,
+   "sha256": "f52d98b63129b3d1334ee65bf027b43e1f6a55434c08b7f6ee2623f9339e85e5",
+   "what": "GitHub tree listing of google-drive HEAD"
+  },
+  {
+   "local_copy": "kimi_intake_tree.txt",
+   "bytes": 9574,
+   "sha256": "f2f8c6fd231eedaae36a3cfd13c992c07993b28f1c575c490d9b527114f21225",
+   "what": "path listing of a hardening drive/mirrors folder"
+  },
+  {
+   "local_copy": "pd_normal.out",
+   "bytes": 9762,
+   "sha256": "7547476c1ded7f69c63d65a5f3be97ce0568cbfd7746b5dacdd24dc462f17ff7",
+   "what": "own re-run output, byte-identical to PERC-DECAY pd_normal/pd_opt pin (FREEZE_PERC_DECAY.txt; bytes inside the container zip a2136bc0)"
+  },
+  {
+   "local_copy": "pd_opt.out",
+   "bytes": 9762,
+   "sha256": "7547476c1ded7f69c63d65a5f3be97ce0568cbfd7746b5dacdd24dc462f17ff7",
+   "what": "own re-run output, byte-identical to PERC-DECAY pd_normal/pd_opt pin (FREEZE_PERC_DECAY.txt; bytes inside the container zip a2136bc0)"
+  },
+  {
+   "local_copy": "pickup_readback.md",
+   "bytes": 3251,
+   "sha256": "0134ddff2ca55188dc483aea4f4376b2f9420af477d83c39272ccf92ec787f5d",
+   "what": "API readback of an own post; not included"
+  },
+  {
+   "local_copy": "ptr275_readback.md",
+   "bytes": 864,
+   "sha256": "fea9c867b382b3082db3d508059d101ca76a51e75cfd077caf11e0ac49fec5b3",
+   "what": "API readback of an own post; not included"
+  },
+  {
+   "local_copy": "ptr275_result_readback.md",
+   "bytes": 1235,
+   "sha256": "fbf04f96265333c768b384633bd684994602ce6a67dfbfe464bd17376d03f3d4",
+   "what": "API readback of an own post; not included"
+  },
+  {
+   "local_copy": "result_readback.md",
+   "bytes": 9107,
+   "sha256": "e838203b322bf1c501347876849f128895f38d8bd86b626e1791c73ca13098f4",
+   "what": "API readback of an own post; not included"
+  },
+  {
+   "local_copy": "own/gate_v3_normal.out",
+   "bytes": 3041,
+   "sha256": "f207abc32bb9abf3e2fbd130d3493c6e95daa0519e3170714c783c2cacc62f98",
+   "what": "own re-run output, byte-identical to the zip's frozen K3_SIDE24_LB/UPPER2D/D1_assembly/v3_t_normal.txt (container a2136bc0)"
+  },
+  {
+   "local_copy": "own/gate_v4_opt.out",
+   "bytes": 5559,
+   "sha256": "9db82530c39f5abbed2b0e804b916b952a1acf7493685d9b2fc983c52545e631",
+   "what": "duplicate of kept file s11_d1v23_receipt_replay/own/gate_v4_normal.out"
+  },
+  {
+   "local_copy": "own/objects.json",
+   "bytes": 1520155,
+   "sha256": "f9f41b2955bfc9ab7a0a11bf199ae5b382ab621605d0f6183d80cd0aeb66fc4b",
+   "what": "copy of hardening a01c72f1 drive/deltas/2026-09-19/DG-MIGRATION-20260919/objects.json; not included"
+  },
+  {
+   "local_copy": "own/okcomputer.zip",
+   "bytes": 30148285,
+   "sha256": "a2136bc033f349382f9896896347da7a6dabde3334103276ad04db9205aa2b5b",
+   "what": "archive; for okcomputer.zip: the container a2136bc0 rebuilt from hardening a01c72f1 drive/deltas/2026-09-19/DG-MIGRATION-20260919/ by own/rebuild.py"
+  },
+  {
+   "local_copy": "verify/reexec/t_normal.err",
+   "bytes": 0,
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "what": "empty file (0 B), not included"
+  },
+  {
+   "local_copy": "verify/reexec/t_normal.out",
+   "bytes": 2735,
+   "sha256": "11baaccc25da202be951731ea4bc91c76795b614a9925a3baf7c59f8b0112b53",
+   "what": "own re-run output, byte-identical to B4LOC t_normal.txt / t_opt pin (main incoming/claude-bundle-v3-native-copies-20260928/K3_SIDE24_LB/UPPER2D/B4LOC_damline/t_normal.txt)"
+  },
+  {
+   "local_copy": "verify/reexec/t_opt.out",
+   "bytes": 2735,
+   "sha256": "11baaccc25da202be951731ea4bc91c76795b614a9925a3baf7c59f8b0112b53",
+   "what": "own re-run output, byte-identical to B4LOC t_normal.txt / t_opt pin (main incoming/claude-bundle-v3-native-copies-20260928/K3_SIDE24_LB/UPPER2D/B4LOC_damline/t_normal.txt)"
+  },
+  {
+   "local_copy": "verify/reexec/tf_normal.out",
+   "bytes": 885,
+   "sha256": "1629de83bda724f5a0d971ddd895771ea3db1a2ec7ca462181030c0a952f1a2c",
+   "what": "own re-run output, byte-identical to B4LOC tf_normal.txt / tf_opt.txt (FREEZE.txt l.13-14; bytes inside the container zip a2136bc0)"
+  },
+  {
+   "local_copy": "verify/bytespins/cands.json",
+   "bytes": 117542,
+   "sha256": "f0b9cb809aa31e0bb1c6df7b943a8235b9ad6fe05af1c8434f7ea3e752e6c17d",
+   "what": "own search output (contains a Drive id and short excerpts of other lanes' files); not included; regenerate with verify/bytespins/cands.py"
+  },
+  {
+   "local_copy": "verify/bytespins/clm_manifest.txt",
+   "bytes": 8073,
+   "sha256": "fac2303faf2e5a24493f27a35f9252db03c81e4af8c7712aca87189ef6599d38",
+   "what": "copy of main CL-MIRROR-001_MANIFEST.sha256.txt"
+  },
+  {
+   "local_copy": "verify/bytespins/gate_normal.err",
+   "bytes": 0,
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "what": "empty file (0 B), not included"
+  },
+  {
+   "local_copy": "verify/bytespins/gate_normal.out",
+   "bytes": 5559,
+   "sha256": "9db82530c39f5abbed2b0e804b916b952a1acf7493685d9b2fc983c52545e631",
+   "what": "duplicate of kept file s11_d1v23_receipt_replay/own/gate_v4_normal.out"
+  },
+  {
+   "local_copy": "verify/bytespins/gate_opt.err",
+   "bytes": 0,
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "what": "empty file (0 B), not included"
+  },
+  {
+   "local_copy": "verify/bytespins/gate_opt.out",
+   "bytes": 5559,
+   "sha256": "9db82530c39f5abbed2b0e804b916b952a1acf7493685d9b2fc983c52545e631",
+   "what": "duplicate of kept file s11_d1v23_receipt_replay/own/gate_v4_normal.out"
+  },
+  {
+   "local_copy": "verify/bytespins/gd_head_paths.txt",
+   "bytes": 1433,
+   "sha256": "830f89b7aa723280eb4419b21697ad4e722788b16923ae862073d6099bfdb5a9",
+   "what": "own metadata listing or superseded own output; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/gd_refs.txt",
+   "bytes": 8,
+   "sha256": "0b48225ca042c2ab651e4164e7ae9360625e8f0d081996cc52e0371307dc4612",
+   "what": "own metadata listing or superseded own output; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/hunt2.json",
+   "bytes": 1001800,
+   "sha256": "5cb953303182f7e433bc7484f008d4b20309ece1f41b920d2a3921d549f9d293",
+   "what": "own scan output (pin status and archive-member paths of other lanes' material, containing Drive ids); not included; regenerate with verify/bytespins/hunt2.py"
+  },
+  {
+   "local_copy": "verify/bytespins/hunt_main.json",
+   "bytes": 361770,
+   "sha256": "cd0c782c73cc9c3b646e5670d26a290a9235f5f201e4c371d0a93078462b3bc1",
+   "what": "own metadata listing or superseded own output; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/main_allrefs.txt",
+   "bytes": 21647,
+   "sha256": "a8e78469c43e03b82bf649ff6fab24f2f8e4095ad8ee0529bebb611beb5bfd50",
+   "what": "own metadata listing or superseded own output; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/main_open_prs.err",
+   "bytes": 0,
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "what": "own metadata listing or superseded own output; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/main_open_prs.tsv",
+   "bytes": 3626,
+   "sha256": "2211a6289563ab5d0539ee8c3a170326e3b2c12be7c424336fc101f0c7ccce41",
+   "what": "own metadata listing or superseded own output; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/main_refs.txt",
+   "bytes": 2159,
+   "sha256": "4fbf6bff09130afbea7bab855479818e0ee2c7e6c2e8afdc91b2c11b94663c05",
+   "what": "own metadata listing or superseded own output; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/math_blobs.txt",
+   "bytes": 130011,
+   "sha256": "8d492f2fc5d4076aab8836c3044110664a2c9d1b7207c183ca3cfa912db42356",
+   "what": "own metadata listing or superseded own output; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/math_open_prs.err",
+   "bytes": 0,
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "what": "own metadata listing or superseded own output; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/math_open_prs.tsv",
+   "bytes": 2646,
+   "sha256": "9ab0963a60373602d07333eb0bd7593309a6450dcce51e0598e5d9443830f83c",
+   "what": "own metadata listing or superseded own output; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/math_refs.txt",
+   "bytes": 1529,
+   "sha256": "3266f9ef3032bce4f82360a527f89e74f58191ef91f6d2aa4afec6bcf2cee596",
+   "what": "own metadata listing or superseded own output; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/v3_normal.out",
+   "bytes": 3041,
+   "sha256": "f207abc32bb9abf3e2fbd130d3493c6e95daa0519e3170714c783c2cacc62f98",
+   "what": "own re-run output, byte-identical to the zip's frozen K3_SIDE24_LB/UPPER2D/D1_assembly/v3_t_normal.txt (container a2136bc0)"
+  },
+  {
+   "local_copy": "verify/bytespins/v3_opt.out",
+   "bytes": 3041,
+   "sha256": "f207abc32bb9abf3e2fbd130d3493c6e95daa0519e3170714c783c2cacc62f98",
+   "what": "own re-run output, byte-identical to the zip's frozen K3_SIDE24_LB/UPPER2D/D1_assembly/v3_t_normal.txt (container a2136bc0)"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/B1_taxonomy/FREEZE.txt",
+   "bytes": 893,
+   "sha256": "8ed50aefefb666df587fb3eb440d8427d39d45416b82d9a42d2c292dbfafb49e",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/B1_taxonomy/__pycache__/b1_falsifier.cpython-312.pyc",
+   "bytes": 18132,
+   "sha256": "4cbe2f1e33ed39e3c37a02898eeb6116095f28f1a3de58b3b58a17cf8501d486",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/B2a_outside_cover/B2A_REPORT.md",
+   "bytes": 7871,
+   "sha256": "878d5a7ded4a3900eed327480774aa76688b0dd273d6e1171d5c68e034891d4d",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/B2a_outside_cover/b2a_attacks.py",
+   "bytes": 17043,
+   "sha256": "95ccfdc8846ae855259676982000069e614cb5539d55a883693ac173ca09e8c7",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/B2a_outside_cover/t_opt.txt",
+   "bytes": 1328,
+   "sha256": "1af0f07dd34aa3bcf0aa1ea3d6a26a994731f3328c1f6a1d037809d953fffda7",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/B2b_boundary/B2B_BOUNDARY.md",
+   "bytes": 12894,
+   "sha256": "4466136526eefbe5acb45e8da789ba011a12890e10687bbceaa104b0ee6f4d82",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/B2b_boundary/b2b_boundary_probe.py",
+   "bytes": 13333,
+   "sha256": "12a4f585ce3f51547cde7799ad974c3fa00e7cb43e4890176a1f65f86f11818e",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/B2b_boundary/t_opt.txt",
+   "bytes": 3716,
+   "sha256": "853cf25ff1c0737360a3255bac5bb5cce404a12dd33dd0aaee5e186051f9ad9b",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/B2c_ties/B2C_TIES.md",
+   "bytes": 19274,
+   "sha256": "e50441c33cfa4830d7e5c6a034c97aa9d809e68885ab201f8d36a2e97d6f99cb",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/B2c_ties/b2c_ties.py",
+   "bytes": 24567,
+   "sha256": "9b636443ae57b6ee58236801843135a0ac034fa371f1b53c66d1b72f9e828430",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/B2c_ties/t_opt.txt",
+   "bytes": 1457,
+   "sha256": "c7b493fedfb7dc42e9f75b406c56db0dc7330ddfb3e7a431c067f89302049700",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/B2d_torus/B2D_TORUS_REPORT.md",
+   "bytes": 9219,
+   "sha256": "cce90968c642982f8aa18f76082da269c58b4730697b9cced0fb0eacda857b40",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/B2d_torus/b2d_torus_attack.py",
+   "bytes": 38121,
+   "sha256": "acd5043d7419c5af1e4f5230a3d8ac932548dbd1bf67451e3458f369c5ecc9df",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/B2d_torus/t2_opt.txt",
+   "bytes": 1399,
+   "sha256": "050fd18fe7929de48d8a9a26a91f8d34a5dfd275822747fa7ad46ac354b9d959",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/B4LOC_damline/FREEZE.txt",
+   "bytes": 1213,
+   "sha256": "5235f98a59e5119444b8fda2ea16d2dd3333e0d46f0b52af6362a2b2a0ecd163",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/B4LOC_damline/tf_opt.txt",
+   "bytes": 885,
+   "sha256": "1629de83bda724f5a0d971ddd895771ea3db1a2ec7ca462181030c0a952f1a2c",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/BRANCH_dir/BRANCH_DIR_RECEIPTS_ERRATA_2026-09-15.md",
+   "bytes": 6063,
+   "sha256": "7547e76a813d1a0c582139e2d31d9ec6a6480e1eaf670d3eed05173bffead3df",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/BRANCH_dir/FREEZE.txt",
+   "bytes": 604,
+   "sha256": "23bc4696c7ec411bd09b601efc34aa08af8e06a5b10bda14987493b351d192ab",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/BRANCH_dir/FREEZE_ERRATA_2026-09-15.txt",
+   "bytes": 1943,
+   "sha256": "6c60e6fa143ac089b7fa58d3a42b4bc2b9ddafb2613a68da6141216e752371df",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/BRANCH_dir/__pycache__/br_mc.cpython-312.opt-1.pyc",
+   "bytes": 22056,
+   "sha256": "426793ba116ae62939b34bb8345391f3116271a8f16946a5f9faebbc2a0802fd",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/BRANCH_dir/__pycache__/br_mc.cpython-312.pyc",
+   "bytes": 22290,
+   "sha256": "345bfedfc2fe46e6eceba09ec84d3b15d3bb28cf385d0cb033b0ffe75bac6df1",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/BRANCH_dir/__pycache__/br_probes.cpython-312.pyc",
+   "bytes": 11716,
+   "sha256": "87d61d719282637f69dfbe2791b0682ebaf6cd0c41950a459440098c4b6d4711",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/BRANCH_dir/br_certificate.py",
+   "bytes": 9846,
+   "sha256": "0b7d2a7dbf4a3a03e7fc4e9509d69f7fbfe8a57d8a9b6653198caf4e8594beee",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/BRANCH_dir/br_falsifier.py",
+   "bytes": 4660,
+   "sha256": "326d10a8bd752ded24ba2ac045b9129420a45b4704925ae13c81b3d704c8f32d",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/BRANCH_dir/br_mc.py",
+   "bytes": 12404,
+   "sha256": "45650983a6603242967902e43e7270ada8ab43ba5234181d0592562c1b6f3af6",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/BRANCH_dir/br_probes.py",
+   "bytes": 6227,
+   "sha256": "d97e7ac40f8beb7ee6d09040eeaf6c8991e497394f9ecc68df371b85c2e0feec",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/BRANCH_dir/cert_O.stdout",
+   "bytes": 2764,
+   "sha256": "7c7e7602bbb2f42ead0ce58ae8f42748387fe92fd73f1cf3f7f4798277e9444c",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/BRANCH_dir/falsify_O.elapsed",
+   "bytes": 24,
+   "sha256": "32d43db14b660279ab372ca1a2a7c5f634a6964c389f76a419a3cffdf0c55fc0",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/BRANCH_dir/falsify_O.stdout",
+   "bytes": 941,
+   "sha256": "9ba66ac5d53dd98d35f629133c5f7ded47f3e85fc1eec2d23b40e6aa62bbf62f",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/BRANCH_dir/falsify_normal.elapsed",
+   "bytes": 24,
+   "sha256": "f645fba0641e41d771ad2b81270b09de0eb4dde02b6e382d97b39fbeb7a56baa",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/BRANCH_dir/keeper_rung025.receipt",
+   "bytes": 237,
+   "sha256": "4180107b12839692577bfd02031b43e38112c3ba76d86a3314a13ca5eb4d29d5",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/BRANCH_dir/keeper_rung025.sh",
+   "bytes": 855,
+   "sha256": "b3384534bbbe2d636cce15073b96380d98e834891652ef548b9cc80e15ded0ef",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/BRANCH_dir/receipt_O.elapsed",
+   "bytes": 24,
+   "sha256": "3bc7cdcd8ed70b72f1c43142a21c2002821625feda4b2d39eda4af7f595da01c",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/BRANCH_dir/receipt_O.json",
+   "bytes": 838,
+   "sha256": "1ef623c73ea9befb3391e80385b25bb526b8d2d01f6ece532fceb05e9951328b",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/BRANCH_dir/receipt_normal.elapsed",
+   "bytes": 24,
+   "sha256": "460eaf39cb265f603a7ffc00da898e54244d11ae20417a054f9f567d67e764e1",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/BRANCH_dir/receipt_normal.json",
+   "bytes": 843,
+   "sha256": "63bfebe6fcb7e45019f7b3aa2ea0ffc19dcc737bd7b05060fafdda4335ca5efa",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/BRANCH_dir/rung025.log",
+   "bytes": 278,
+   "sha256": "64127fffa338ea7b42b200453426aae3101adbd5a5f82a8306a91573dcc947ee",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/BRANCH_dir/rung05.log",
+   "bytes": 241,
+   "sha256": "7f4bba5b1d8d93ad6fd65db4f39813c5b60f118363df95dd80a83c781f57b538",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/BRANCH_dir/rung25.elapsed",
+   "bytes": 25,
+   "sha256": "f36246277b5ce9dd5070b15b3ea7f2c42717559ffedf137150f205ae7e078987",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/C1_alpha_intensity/C1_RECEIPTS.txt",
+   "bytes": 938,
+   "sha256": "7e8009f7263a5075f5a036a94e2274b9adb8b1cf5cdb5285186d615ef1522dfc",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/C1_alpha_intensity/__pycache__/c1_grid.cpython-312.pyc",
+   "bytes": 22239,
+   "sha256": "cc57ddfa3ae3f7aff5f6f230923cfc2805c260332a1f53671be189faf6679ea9",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/C1_alpha_intensity/c1_grid.py",
+   "bytes": 11624,
+   "sha256": "2ebe6eb47ee3554b3257342b726d9990009793a66994c9e53fffdc13f70705e0",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/C1_alpha_intensity/c1_intensity.py",
+   "bytes": 36814,
+   "sha256": "f9bb98636b95ad85e835940dc93c301e4f8ea0f458ef5cfdcd2cdcca5820ed04",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/C1_alpha_intensity/falsify.py",
+   "bytes": 4470,
+   "sha256": "5da7ee93e4e821fb4e9073524fdd00b0bed94ed41dddef689544447fa2aba012",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/C2_B_classes/FREEZE.txt",
+   "bytes": 2283,
+   "sha256": "caafc2ed3b3120c43deffb3a0c5fddc0d9b884881e81cb5339ca6e3e980f93f2",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/C2_B_classes/__pycache__/c2_falsifier.cpython-312.pyc",
+   "bytes": 19177,
+   "sha256": "c41f61e9a6e2d0a0f6f1f948e8ee71267b28bf246c3d61724aaed9e49979b1a5",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/C2_B_classes/c2_falsifier.py",
+   "bytes": 15293,
+   "sha256": "2441b630170f51d17d0795dd7983ac37ff0609e594aa843dab45a3351d480452",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/C2_B_classes/c2_probes.py",
+   "bytes": 38709,
+   "sha256": "ae7d2e5cc81fa155f159e2190cf1ac3362c59c88dd1d40857994dc77d78134d9",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/C2_B_classes/t_opt.txt",
+   "bytes": 12188,
+   "sha256": "469fac9e87b97855a8d179a3cbbc13eb3535249c5a9cd98ff16662115dd5ce24",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/D1_assembly/D1_V2_1_RECEIPTS.txt",
+   "bytes": 5857,
+   "sha256": "c33be462999fbb307a2b42eaf64607987be67f7310c9d778740ce39f2c9999d7",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/D1_assembly/D1_V2_2_RECEIPTS.txt",
+   "bytes": 7954,
+   "sha256": "58edc293a1127407d49040856ad9546d2577578381a4ff62c1c60a3c9911ac1d",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/D1_assembly/D1_V2_RECEIPTS.txt",
+   "bytes": 3040,
+   "sha256": "afe239bda0f682992ca3b2ac368ca8450605f168a69392167c2f97e56c5c47fc",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/D1_assembly/d1_falsify_v2.py",
+   "bytes": 9444,
+   "sha256": "7c41dde8ed48068e5c81b17bbc645523f715ba88cde0d746736b8c4e2ce925ba",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/D1_assembly/v2_t_normal.txt",
+   "bytes": 2379,
+   "sha256": "4707b255c07d84013f1d47d7082157d398b9b30d99a07ac02ec2b57a9c0e0617",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/D1_assembly/v3_t_normal.txt",
+   "bytes": 3041,
+   "sha256": "f207abc32bb9abf3e2fbd130d3493c6e95daa0519e3170714c783c2cacc62f98",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/D2_branch_control/FREEZE.txt",
+   "bytes": 3829,
+   "sha256": "f0c401a3411f8b5aea28c3b9b3785b6d2db22fbda8dcd8839837c19d4e55e344",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/D2_branch_control/__pycache__/d2_falsifier.cpython-312.opt-1.pyc",
+   "bytes": 17644,
+   "sha256": "a4fe0bf6e48523b599d988e5fc3009a792cb5977d02fcdb86ce5b297910496ba",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/D2_branch_control/__pycache__/d2_probes.cpython-312.pyc",
+   "bytes": 60250,
+   "sha256": "7bfc3fed55cebb16f2891cf2155b2bdbcc0cc53d7acd03ff0299488ea2e49e9d",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/D2_branch_control/d2_falsifier.py",
+   "bytes": 14348,
+   "sha256": "824284be876ce685f63e600a642ee84ad601e6fb2424a852dafe8c21178122d8",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/D2_branch_control/d2_probes.py",
+   "bytes": 38643,
+   "sha256": "62e15f5a3b9ee39b14c5abd5a9cfea7f1cf8b0e65b3306c862fad54c6258453f",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/D2_branch_control/t_opt.txt",
+   "bytes": 16610,
+   "sha256": "848ab8c3d16a9d738b165730a2ba0b3adbdc475cc78486e90bacdadc2b65b5cc",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/D3_percolation/FREEZE.txt",
+   "bytes": 2983,
+   "sha256": "b1f12ba8aeb085cc4a3b34a71f06eea9e5dbcb55329f94b1d9f87d8ce01e3306",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/D3_percolation/FREEZE_AMENDMENT.txt",
+   "bytes": 2945,
+   "sha256": "5eed16743485ae964da3e360d6830c95036a6d264af6b7447d5fdb4bddf95b3f",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/D3_percolation/FREEZE_AMENDMENT_v2.txt",
+   "bytes": 3588,
+   "sha256": "2edb070c29d6ed7e986b659c3019b62898ba9dbcaea8146a116f4aafd800d122",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/D3_percolation/__pycache__/d3_amend.cpython-312.pyc",
+   "bytes": 34835,
+   "sha256": "420eef1534926c9b455ea569e025f24268ec9b9140ed1c192b82da0830126f34",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/D3_percolation/__pycache__/d3_perc.cpython-312.pyc",
+   "bytes": 64378,
+   "sha256": "eb65dad9ec6558777d03feab0ed20e042213cc5c433a37c4ccacf8b4a7423551",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/D3_percolation/d3_amend.py",
+   "bytes": 21619,
+   "sha256": "12175217869a9bd7b3f623fdb34a6c0c699419722bfe534e3b5226352504b5b6",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/D3_percolation/d3_amend_v2.py",
+   "bytes": 14846,
+   "sha256": "6399a0e31b089a94c4dfec7960682ef400f7f0f99a788e3668557d0a75cf7528",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/D3_percolation/d3_perc.py",
+   "bytes": 40337,
+   "sha256": "5bc092412943e1c2185a8cf86cee23ae9cd9a2aad9bd9ef0b02807e9ff58dfa4",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/D3_percolation/d3_rn_unif.py",
+   "bytes": 103166,
+   "sha256": "85d7725fab42eeb0e823226f44d17f142a5c57e5d89084b2b6edffe4a8f0c930",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/D3_percolation/d3_rn_unif_dbg.py",
+   "bytes": 103523,
+   "sha256": "ab825c29b186986ff4b01278c6776be4c53b5ea56be01b5a6e5898c15cfdf870",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/D3_percolation/t_opt.txt",
+   "bytes": 10311,
+   "sha256": "3e840bfdceaaca76e8cae9b3e11dbcc5602e6c035b3e839577ec79639fb85787",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/D3_percolation/ta2_opt.txt",
+   "bytes": 3552,
+   "sha256": "7bfb65ba86118f2ff3714310f4a719d8bcda50a682a1edf3ca9a83cdeab2bde8",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/D3_percolation/ta_normal.txt",
+   "bytes": 5172,
+   "sha256": "fae8579f8c35f5a8c8033271e11fc1d1684da49d861b049e5c48a6e0c8553a29",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/D3_percolation/tf_opt.txt",
+   "bytes": 1833,
+   "sha256": "b5e97e6004bbc4d8a2305e94bc5b38b8b43e3fc5cb8f17629563d4beea988049",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H1_v2_hardening/CHANGED_INTERFACES_REVIEW.md",
+   "bytes": 5436,
+   "sha256": "5c0e566d5f924a14c2e0940628e915ca28302ae2bb26182f24749cb61038ec37",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H1_v2_hardening/H1_V2_HARDENING_RECEIPT.json",
+   "bytes": 1757,
+   "sha256": "49e23661da379e5cf0822a41296974669c56e208e56fd43e81479ff5b103a94a",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H1_v2_hardening/H1_V2_HARDENING_REPORT.md",
+   "bytes": 10545,
+   "sha256": "b6922aac117c533c36a71bbbe23dea282e0e63f34c010ec9420e04b0318dc5ab",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H1_v2_hardening/MANIFEST.sha256",
+   "bytes": 3005,
+   "sha256": "6892d7fb851ba4447dc7c4e0c183ddd16a6099ee04e9c70d294297a16400aeab",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H1_v2_hardening/exit_O.txt",
+   "bytes": 16,
+   "sha256": "e0e51d172c104e883ffb373d9a816c2244e4c1a0d05503cfd02d1d7f1d413971",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H1_v2_hardening/exit_normal.txt",
+   "bytes": 20,
+   "sha256": "eb95f18c4898a0170901e14dcb506de631804789644c3128ae1deedf3cc24ea3",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H1_v2_hardening/lpw_constant_v3.py",
+   "bytes": 36213,
+   "sha256": "1f6a25c4f13c5dfb52b69f12b75882749130a0fa81921d9b3032f0e4b709fe86",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H1_v2_hardening/mut_amplitude_double_O.txt",
+   "bytes": 2797,
+   "sha256": "f6d47de905b6dc41e70fa0e07d92411152379ed42abff07b6a7b6a7e5c706171",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H1_v2_hardening/mut_box_width_O.txt",
+   "bytes": 13311,
+   "sha256": "bbd4edac237584ca4dcdc21ac7016f522f1c6df9dc3c10efa664437c72e6b53a",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H1_v2_hardening/mut_decimal_above_exact_O.txt",
+   "bytes": 9161,
+   "sha256": "f100785ac53f382aa0ddd88b1c5d3d89a0f93af4eb22a1f10d104600a18d6597",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H1_v2_hardening/mut_decimal_change_O.txt",
+   "bytes": 9061,
+   "sha256": "bd7ef5e510f222ff97bdc0061227d165ca3829b2da5c1e6fb59030e576b8a458",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H1_v2_hardening/mut_denominator_change_normal.txt",
+   "bytes": 9319,
+   "sha256": "72c4f66e17ef883e4fbc33a18bad006e4b263dcbceddc1f2627d1b7d2276b6ab",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H1_v2_hardening/mut_eigenfloor_up_O.txt",
+   "bytes": 13242,
+   "sha256": "2824e0994ed83771e55c1361c53a9ba0febf2c5d5d1f712c69d6a6e3a89a75e3",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H1_v2_hardening/mut_exits.txt",
+   "bytes": 337,
+   "sha256": "c138aab02e1647da58b880c549bea9ff1b455e9c99da2010fdd82347be76dac7",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H1_v2_hardening/mut_false_identity_restore_normal.txt",
+   "bytes": 7170,
+   "sha256": "9a387297c6c9b4a8627c109ffac894255ce6684687cb668518ef12d2faae2e4c",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H1_v2_hardening/mut_hessian_power_normal.txt",
+   "bytes": 13275,
+   "sha256": "601058357bc9676fa6c99a2ce55cf2be0db5edc6f6b9f298002a995261f1096b",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H1_v2_hardening/mut_planar_moments_O.txt",
+   "bytes": 13448,
+   "sha256": "d7181d936c6e0f02d8c502a7acd2976f9b0473aae243cb24f8f81b4476d79869",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H1_v2_hardening/mut_rung_floor_normal.txt",
+   "bytes": 8017,
+   "sha256": "76f46b331eed6652c6a54150b96c4b700449ffd2af15ab067671a0f814d682b5",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H1_v2_hardening/mut_sine_drop_normal.txt",
+   "bytes": 2790,
+   "sha256": "6fdd7873632f04e909ae251072a8151ba93e00d84a50d87a55173147beec3103",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H1_v2_hardening/mut_wrong_moment_O.txt",
+   "bytes": 5899,
+   "sha256": "3861b433b05bdf042d393a2ca61cd2608b3f2645c2f327c6dbd6b00964305d75",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H1_v2_hardening/t_O.txt",
+   "bytes": 13883,
+   "sha256": "8057f9b0f72c508edbf94c9114ec31b93567a7a010be86ca7e841a7efd962425",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H2_foundations/README.md",
+   "bytes": 15197,
+   "sha256": "cc2d012c7eb0b3f67e3dba64e578cd3f6f71f570e6d67667734e1847111d831f",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H2_foundations/RECEIPT_cov_exact.json",
+   "bytes": 1629,
+   "sha256": "8a51c89bcfe9c8e7ec96badc40be92f64ded3fa5ae633e43dd653bd8bd6691a4",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H2_foundations/RECEIPT_pin_transform.json",
+   "bytes": 1613,
+   "sha256": "e8db146b604e163fbdf36665cce8d3ddf93d193468975d8975d55ad8a90f6f91",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H2_foundations/RECEIPT_reg_lemmas.json",
+   "bytes": 1965,
+   "sha256": "48c6494f9311fe910898ef349b3f3ac7f609e0e6d3696431ff6dd6c49bf1f91e",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H2_foundations/__pycache__/cov_exact.cpython-312.pyc",
+   "bytes": 28215,
+   "sha256": "b4b610640e102ed1f913671ccf564691afb10c5973607261b9a9219c1ca322d7",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H2_foundations/__pycache__/pin_transform.cpython-312.opt-1.pyc",
+   "bytes": 27836,
+   "sha256": "69e54d2c988f2ecf8221d7d5011f7fa4aa6e156af2df07e3b2d24db2d72f7345",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H2_foundations/__pycache__/pin_transform.cpython-312.pyc",
+   "bytes": 27814,
+   "sha256": "cdb1adaa10a4983c9ad6a3e67b4c467ec4be85518c7ba2875c2bef7ef753a650",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H2_foundations/__pycache__/reg_lemmas.cpython-312.pyc",
+   "bytes": 17144,
+   "sha256": "aa2c411c3e05af1dcc06a4882c97903ce5d19b789778c188fbabd739f0683450",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H2_foundations/make_receipts.py",
+   "bytes": 6050,
+   "sha256": "cb6c0f2fb4350f2e5707ebf730b4ab74f7c5d733208a74649bc3cb7aab6ac27e",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H2_foundations/reg_lemmas.py",
+   "bytes": 10582,
+   "sha256": "e7005a5af73d80bc1e129ac17ed19ae3d5df5d6667b076efa311f24247043450",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H2_foundations/selftest_cov_exact.py",
+   "bytes": 17967,
+   "sha256": "e1b331dec6e0f82e6a084a30d9df9d8f402f42057861e6875504b04ea4a32068",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H2_foundations/selftest_pin_transform.py",
+   "bytes": 14492,
+   "sha256": "90e88ff8f5248332219902caf6ea4df5bb5b89ffa72b95b519fd4472860403a6",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H2_foundations/selftest_reg_lemmas.py",
+   "bytes": 15350,
+   "sha256": "27505d0196e39a0c47989c443f402aa2ad23bdf235771ea1bbdee1030efad65b",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H3_closure/MANIFEST.sha256",
+   "bytes": 2741,
+   "sha256": "092d886ceb279ba09d473f2308e3e0495593d70c4ca614fd0deed2ccde281e55",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H3_closure/RECEIPT_h3.json",
+   "bytes": 6254,
+   "sha256": "ee58ef8054109a24ea0dadd5f0147b883966374e539ff462f8500af932765264",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H3_closure/band_err1.txt",
+   "bytes": 47,
+   "sha256": "58690aafdb705878fa2651570a9fee58ac4caaafe2edda50581b7ba89f90f93b",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H3_closure/band_err2.txt",
+   "bytes": 47,
+   "sha256": "3add7fd41f5d73c2e7ed4f7d858058dd015d5806c2ec5dcd5e7c82fa16ea8552",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H3_closure/band_mut_planar.txt",
+   "bytes": 305,
+   "sha256": "4fc8105d1050dc2a284750ada417f959725711b8e19865ced682192da59e4774",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H3_closure/band_mut_window.txt",
+   "bytes": 833,
+   "sha256": "ff1765d4ace7fb5c61402e227c5896017bd1995cad0e2f8475761a3850a01c51",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H3_closure/band_out.txt",
+   "bytes": 2743,
+   "sha256": "617b2d07fcaef23313427e68020182d0b27cad78032b399336a1b925db489f54",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H3_closure/ceil_err1.txt",
+   "bytes": 47,
+   "sha256": "4284bb0d463e2fd1f859140416307c702fe62d0a24b96e31933b7ff2a3e3cae2",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H3_closure/ceil_err2.txt",
+   "bytes": 47,
+   "sha256": "ed9c50d43440231434896d598dd15262730b739d965caa4f9ba8f24cf63505b9",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H3_closure/ceil_mut_cap.txt",
+   "bytes": 1245,
+   "sha256": "7116a7d124389b1d23fd1e48d33d4a4e182a66b1f04fe408db5e1f14201bb897",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H3_closure/ceil_mut_planar.txt",
+   "bytes": 318,
+   "sha256": "96d4cc4220e540223321150598a84e358c6794c1ae3d502efa779692de317bcb",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H3_closure/ceil_mut_window.txt",
+   "bytes": 846,
+   "sha256": "ff6ce33ce53b45e55dc257e3dc8cbea5ce33ee6032df77eb2323c554819522b3",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H3_closure/ceil_out.txt",
+   "bytes": 2606,
+   "sha256": "1642236cf8e0a8346c17d00b345a9690733e64b941af741354aa9316c59eda5a",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H3_closure/h3_c0_certificate.py",
+   "bytes": 14052,
+   "sha256": "56076fa852e3787e683921496adc796b04132ea817be924ed84ef68d68abc84c",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H3_closure/h3_falsifier.py",
+   "bytes": 10584,
+   "sha256": "645b6d9d24721674b419e8d026183722a90a1a27ee4e7b0053c53faced73cd47",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H3_closure/h3_rung_floor.py",
+   "bytes": 16960,
+   "sha256": "094d382451ff37e8d3123e7203c743f359cb0af1c2c12cf336adf74fc0b25d8f",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H3_closure/rung_045.txt",
+   "bytes": 4110,
+   "sha256": "427aeae3242cfabb2bc598e29b9f46a6d1b290b393fb35a8f263007bd8e5ae7b",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H3_closure/rung_055.txt",
+   "bytes": 4114,
+   "sha256": "d439d37ff53c505ce220f673e8bfe55126f74832795167e5e4abb351e0064119",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H3_closure/rung_mut_planar.txt",
+   "bytes": 485,
+   "sha256": "2b17c664be8c927aa516c8987acb3f7fdf86eebfd597c14fe0176850ff170c90",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H3_closure/rung_mut_window.txt",
+   "bytes": 2447,
+   "sha256": "f0fee83e36affc06c004855fee67d6f7320b4279f4bdeb68ad883abd3f343dde",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H3_closure/rung_normal.txt",
+   "bytes": 4109,
+   "sha256": "ad09ec8fe5b0feb95b3c2d89fba28c6dac7e6d1bd4f2539d47f30a323f13e013",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H4_JC_repair/FREEZE.txt",
+   "bytes": 4510,
+   "sha256": "ed6010764ff4291a3d3964c3a56247b79841330b510ca72146748de08f88fb26",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H4_JC_repair/h4jc_falsifier.py",
+   "bytes": 2535,
+   "sha256": "298fd31ee9b33a117e0f60f1ddf4dcece72ff5bd189510552aff84307c7851f0",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H4_JC_repair/h4jc_mirror.py",
+   "bytes": 18112,
+   "sha256": "e593735a333b43061c3e440fadeed473bc991b5669915b1874bf65deb4f67a60",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H4_JC_repair/t_opt.txt",
+   "bytes": 2087,
+   "sha256": "68e124dd5bbfdd15365f50dafcfff2f9acadb0eaf17998dbc60fa43dc21fa1b5",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H4_JC_repair/tf_opt.txt",
+   "bytes": 478,
+   "sha256": "10e9964394645d2ec042c92036cd298e3abbfb88c4496ab537675fb7b4826025",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H4_closure/FREEZE.txt",
+   "bytes": 2092,
+   "sha256": "9cb6e39a14fc95fc5d7f0e64eff013c2013f7801037ff37b248cc066ec00cfeb",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H4_closure/RECEIPT_h4.json",
+   "bytes": 1728,
+   "sha256": "2663138c68e1e1b1b3649be0f8fadb312abb4cb47bc4b9e2dbbf404e4b99049d",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H4_closure/__pycache__/h4_probes.cpython-312.pyc",
+   "bytes": 80985,
+   "sha256": "05ef980c1371579e0aa27310e5a8ee35d02e16260745483eadd371551b7e7de4",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H4_closure/h4_certificate.py",
+   "bytes": 17474,
+   "sha256": "ddf6e9636c9d8f4858996f350f0f402f96c2c492a361e5aa6118291c708c9f92",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H4_closure/h4_falsifier.py",
+   "bytes": 16467,
+   "sha256": "9f268595806fba2b2008e668c470b2c5f64e007f353277a676c0707dd144b1f3",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H4_closure/h4_probes.py",
+   "bytes": 53168,
+   "sha256": "d02d5887d9e897cd3f7c296729af78c80870b466855c86de21a4c818d82036fd",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H4_closure/t_opt.txt",
+   "bytes": 11601,
+   "sha256": "8559485475891fffc2f00771b709fd5930ef76487fdc1955a76557f85e7de75d",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/.live",
+   "bytes": 31,
+   "sha256": "b7fe22bfdc99d69b470c923f203fd284a20d45b8f5f86333bc52c13d87173a2c",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/.queue_0p0125_cheap.done",
+   "bytes": 11,
+   "sha256": "b5c151def1f9156668f58648c9fda4bc13acf99fa186e410d8164ff0a75e340d",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/.queue_0p0177_cheap.done",
+   "bytes": 11,
+   "sha256": "46b09911e52d148e5dede1344111baa14be9a777117a18a35bfb5ca4bda4eb7b",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/.queue_runner.live",
+   "bytes": 11,
+   "sha256": "ce1e08a4d0bbb04e742cfe557e66713fd858632753cc1b7f5f2eef00e71913f5",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/.superv_0p0125_cells.live",
+   "bytes": 11,
+   "sha256": "e6c0b230ada0f381d86d193ed6c2dba075e18b05abe4be22eb783bf43077cc5c",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/.superv_0p0177_cells.live",
+   "bytes": 11,
+   "sha256": "291c145d45b4d421aabdf3f454359bf8f3703263c177f534e6e27eb5629f851f",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/.superv_0p025.live",
+   "bytes": 11,
+   "sha256": "b4deed7092471b6fa71cafe53923f21f530ae6e8a5475da3f3f8752718061038",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/.superv_0p025_cells.done",
+   "bytes": 11,
+   "sha256": "51c1a502cb366e3d4b2b307ca40c776086948eaa732296b1fcb7e39280e36990",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/.superv_0p025_cells.live",
+   "bytes": 11,
+   "sha256": "df0ab12da80edc71094763fa1115cae66b9b5e613ed560f0682ed7beeddd7f96",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/.superv_0p025_stitch.live",
+   "bytes": 11,
+   "sha256": "58e2a69626234805198c5d286b94d3de040900a0470d2294aa816e1a0321c8e0",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/.superv_0p025_stitch_s0.done",
+   "bytes": 11,
+   "sha256": "4fb89343e698fd238c6f30b60523860f75c854286a5012d8e27b8a3badcb7773",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/.superv_0p025_stitch_s1.done",
+   "bytes": 11,
+   "sha256": "63d723f58135eafb09eac40937aa7cad66ae72ad60e1037e3cd9ac6872b31b7a",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/.superv_0p035355.live",
+   "bytes": 11,
+   "sha256": "160fda87a9ea939d4f9caf226a34fded833e768f64b74f70d262a06508cfbbb8",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/.superv_0p035355_cells.done",
+   "bytes": 11,
+   "sha256": "cdb4eed3bd35a2c858358ac3a81ee09fc54e172cfb4c254241c24afb217910fe",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/.superv_0p035355_cells.live",
+   "bytes": 11,
+   "sha256": "adb4c0c092624592b5cab902efeea5e465eef5abccdcc3c715db5a588280e0c6",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/.superv_0p035355_stitch_s0.done",
+   "bytes": 11,
+   "sha256": "e07c72402998efec37986b321a49a247e74fe78d5153e4213671a52d9e19b0ef",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/.superv_0p035355_stitch_s1.done",
+   "bytes": 11,
+   "sha256": "ca890cc716b8beeb1908b2443622efa4c6fdf58cc44d21972ade92153ad86673",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/BODY_HASH.txt",
+   "bytes": 65,
+   "sha256": "9641b81119a48d18a9ed276fb393275ec0b3201ee3fdecc53a55b533588217a1",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/BODY_HASH_PROMOTE.txt",
+   "bytes": 65,
+   "sha256": "bc88a555f374ec58393762f2793a12367b5392e530e2053463e95f48441a1a73",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/CODE_HASHES.txt",
+   "bytes": 2065,
+   "sha256": "00e625dc4ec8d320d10f243763187bf2ac813bc8d4dddc77c6722b27e448d5e5",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/H5_PROMOTE.md",
+   "bytes": 6936,
+   "sha256": "7258c84a7720704e577f341252aa809888735d9f8ace1674429e004da6c6172a",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/H5_PROMOTE_UPDATE_2026-09-15.md",
+   "bytes": 5234,
+   "sha256": "bbb74e6ed684b2a570e9988dbe0fcc6ead1e3b3e86dc0cea747e2a391b04c1fc",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/H5_RECEIPTS.txt",
+   "bytes": 2271,
+   "sha256": "78a8c3341601bd3c224a46b2d6c4309c69c4a1529e5367e8745df43cd88015b7",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/H5_STATE.md",
+   "bytes": 1583,
+   "sha256": "42899319071f0e4db77c20c0d52e2f46e56b8aaa99dedddfa2d626543fc96d27",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/__pycache__/h5_kernel.cpython-312.pyc",
+   "bytes": 121732,
+   "sha256": "b4f086f7ad5de55093e6c0cb1d14d870fcae394b19a0ee2701702c96729ca2df",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/__pycache__/h5_merge.cpython-312.pyc",
+   "bytes": 19141,
+   "sha256": "518bed6c442f24ffd16fe1b4dd97e578ed3605835937618b0e18958b8eda8119",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/__pycache__/h5_run.cpython-312.pyc",
+   "bytes": 34172,
+   "sha256": "90e677da1bce0d1396e2651368226b7cec57ab63d30a2e5dc57aa27a837a965b",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/__pycache__/h5_run_r0p0125.cpython-312.pyc",
+   "bytes": 37116,
+   "sha256": "db18328372df9b128b17269d17974c1fdddc6540217e9b413f8123f29850f8af",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/__pycache__/h5_run_r0p0177.cpython-312.pyc",
+   "bytes": 37228,
+   "sha256": "fed08069f8cb49e6490662c4553c5345dcafb9a7a6ffc877bfd62a54e5f0d156",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/__pycache__/h5_run_r0p025.cpython-312.pyc",
+   "bytes": 37228,
+   "sha256": "9048d12fd95411915b99034c9351edbad68d7c2b9ca8f716a38b9e3013f0a6fe",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/__pycache__/h5_run_r0p035355.cpython-312.pyc",
+   "bytes": 37253,
+   "sha256": "662e48aba555d9a817174105b0a13142f68819cbfbcc0fdc20307c91cd0baed2",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/archive/h5_results_r0.05_s0p24.jsonl",
+   "bytes": 145,
+   "sha256": "87ab72cdd1eaebeb4f653141df01920280a7523f784096e53120c0db2f9273b1",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/archive/old_gradeA_probe_ladder.jsonl",
+   "bytes": 3773,
+   "sha256": "d565cfa5484054540c25979dea5402476b763678da05bfa730729532c497e778",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/cells2_s0.log",
+   "bytes": 568,
+   "sha256": "96894af8a482bad6eb890c9bbee997a7b8988b73e2ed662fff0935e407ee179e",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/cells2_s1.log",
+   "bytes": 566,
+   "sha256": "0dd7778307a1c91836a8861edbf0cf428cebbf8ac440860c1d3cfdbc578d2a6b",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/cells_s0.log",
+   "bytes": 15070,
+   "sha256": "62222a77504b0cc8ca23cbeffd6308dd7ebf332e14ad5d1235eb9458cc251459",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/cells_s1.log",
+   "bytes": 8248,
+   "sha256": "588f03fdca7c53054276dcdbf7f2a2f10ea9d3277babc960aa25e5884cbd7696",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/falsify_promote.sh",
+   "bytes": 887,
+   "sha256": "bd764d5c6fb7fca5eb72b123161e9f56ac5951b97aedaa6b07ff10f717670a39",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_live_r0.0125_s0p1_patches.live",
+   "bytes": 35,
+   "sha256": "6ad5da4be6933c91dcbfd99c2189ccf3e8c6eea56a6445fa941ac0c77a493a68",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_live_r0.0125_s0p1_rimprobes.live",
+   "bytes": 37,
+   "sha256": "70b875f6f95aa73caa3f21df5328e2bbbc045752332c39f2b91239eed1789ad4",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_live_r0.0125_s0p1_stitch.live",
+   "bytes": 34,
+   "sha256": "d056675e6245a74345fa369209b82c37afd53d20b307854f237cfbeae98fd2d2",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_live_r0.0125_s0p2_cells.live",
+   "bytes": 33,
+   "sha256": "22e723e538e8b0a77f511fa2f413a5e9c4dc52d5a3520a09ae0a60152a947057",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_live_r0.0125_s0p2_probes.live",
+   "bytes": 34,
+   "sha256": "6050db79ae77e9192da9e424d15313c3c41ebf997e2adedbbbb703f6acfcaa70",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_live_r0.0125_s1p2_cells.live",
+   "bytes": 33,
+   "sha256": "74cea20c0ac1d3621b77d90d9816cea8a295fd4057b9c7aa694bfcf021f993c4",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_live_r0.0125_s1p2_probes.live",
+   "bytes": 34,
+   "sha256": "3eece81391951a34f47953e73a27cdecc312bdae86e10af9e53cec6ce5abae64",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_live_r0.0177_s0p1_patches.live",
+   "bytes": 35,
+   "sha256": "a6bee071fb828654d759b37400cd0f075d94f86e2099767908109075ad23c4a7",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_live_r0.0177_s0p1_rimprobes.live",
+   "bytes": 37,
+   "sha256": "536284e1b2fab800301b47bfd68cb5086300ed9d80d67441cfc9d5160daba3bd",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_live_r0.0177_s0p1_stitch.live",
+   "bytes": 34,
+   "sha256": "384e999e85011fb706a43a6c300c838f1d33babdd6468478e15b3fed37e426cb",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_live_r0.0177_s0p2_cells.live",
+   "bytes": 33,
+   "sha256": "6a843b020b38906843b48d2a1b3a8f4cc5cd9e1d0ac572f908b9318b9ecf8305",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_live_r0.0177_s0p2_probes.live",
+   "bytes": 34,
+   "sha256": "e81d6c875f8977fda94071747979ebfabd06ded5999eea49be1541fbc7407046",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_live_r0.0177_s1p2_cells.live",
+   "bytes": 33,
+   "sha256": "87c93c266de6f910c14a657aa1bd552d656348f9df968e013880339365014b56",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_live_r0.0177_s1p2_probes.live",
+   "bytes": 34,
+   "sha256": "625e128528e009e2a8c0161acb9d4ffa4ce5e1e9714b10d579c13563ba46e8dc",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_live_r0.025_s0p1_stitch.live",
+   "bytes": 33,
+   "sha256": "f5e1d8a4f0e76b76471c9d4aac82bd35bc48fe6b6c61c0dbc648ad9b11093a21",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_live_r0.025_s0p2_cells.live",
+   "bytes": 32,
+   "sha256": "7cb3a3b1ace1279ee9546a4574650707526e6f89bbd75b3993a0e5ad6eb68f54",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_live_r0.025_s0p2_stitch.live",
+   "bytes": 33,
+   "sha256": "f227f8ee39262263382590a24d03b78935aeb8054e48bc165169a6fd6f3ab688",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_live_r0.025_s1p2_cells.live",
+   "bytes": 32,
+   "sha256": "891be731b818af3209097aee5e0e0e405b23e1f46b0a838fd9d89d2248efa898",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_live_r0.025_s1p2_stitch.live",
+   "bytes": 33,
+   "sha256": "d8db929fbe4391265e6cf1d6369efe0e2e1828aacb3659403b60a0494b089c2d",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_live_r0.025_stitchfix.live",
+   "bytes": 31,
+   "sha256": "e73011c6d2f1271750425c6e8d35a1d15b347cf2349e5aca89f0e8ece24f90fa",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_live_r0.035355_s0p1_stitch.live",
+   "bytes": 36,
+   "sha256": "b62f39cded920967654f881d440dcf623cb8d96d48fe8a7d9456457ebc9fb58a",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_live_r0.035355_s0p2_cells.live",
+   "bytes": 35,
+   "sha256": "f022564567d02fb658c41d4e32a8da4ac82ea23186507c5e76c1914292e396a7",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_live_r0.035355_s0p2_stitch.live",
+   "bytes": 36,
+   "sha256": "989eb93b9c953cf56c161fb93d230fbc525b77ee5ef8018dfbe8a0b54ff537e2",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_live_r0.035355_s1p2_cells.live",
+   "bytes": 35,
+   "sha256": "a8ff48841751e753a592f360bdcac222fb76ca42b7d5c0135c8ec9958159ec1d",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_live_r0.035355_s1p2_stitch.live",
+   "bytes": 36,
+   "sha256": "cc345f12622a9a3bd2c5c3503d350fca70812cae7f345dd14a2cf3511e311e55",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_live_r0.035355_stitchfix.live",
+   "bytes": 34,
+   "sha256": "6c2140fb55426ed39261c70137e3e0dd4c8c10bfda17fdadc5c660620b350e30",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_merge.py",
+   "bytes": 13506,
+   "sha256": "f14eba68577de55a61760b05ca2daf00c094f500eb729cb9b6a018643d370e0a",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_promote.py",
+   "bytes": 10178,
+   "sha256": "b0da452e606983d9072ec7cdcea5aaccd83db21a583758d661f0cfb9999e19e8",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_quarantine_r0.025_badstitch.jsonl",
+   "bytes": 979,
+   "sha256": "b72f6fb7e2ab628dd2638eadb82a9e2dbc9072c682ce96357757a6ca9efee38d",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_quarantine_r0.035355_badstitch.jsonl",
+   "bytes": 977,
+   "sha256": "d5ca1d1262dc4223bfe6ab1fd5bb29cdbdb8b2bc017bd5e9387ef6d7edfb3d5c",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_quarantine_r0.035355_totals_v4_badstitch.json",
+   "bytes": 2400,
+   "sha256": "ee1e1612221f22f532b1cb1581abe5f9b5742d74492899fe5e82ea86719c0ff7",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_results_r0.0125_s0p1_patches.jsonl",
+   "bytes": 2464,
+   "sha256": "d79b1d84efe2c5b5351036ebd30d97e39107fe1a1d848fa216fe957dc871dc85",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_results_r0.0125_s0p1_rimprobes.jsonl",
+   "bytes": 3434,
+   "sha256": "3b233b5ca042a39e49c347def9772a81bed2bb236861e6f3b873acb05d9eeacc",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_results_r0.0125_s0p1_stitch.jsonl",
+   "bytes": 130,
+   "sha256": "3a84639f313e70bbc40fd337324b36bd796bc35c212c123ce8c039cc664248ba",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_results_r0.0125_s0p2_cells.jsonl",
+   "bytes": 2577,
+   "sha256": "a0bd1eb8c7f5064cd7a7a4e400d6d8e2eb191ab933a1fc781a620ec5547c156b",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_results_r0.0125_s0p2_probes.jsonl",
+   "bytes": 814,
+   "sha256": "9ecbdc87de4caa013ac9a0cdbefb6dbcf48799e39810bedd5d17e95185dd3ced",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_results_r0.0125_s1p2_cells.jsonl",
+   "bytes": 1446,
+   "sha256": "389687b702b993de25f6779260023bfe6adc9c79baeb7847138112baab4017ca",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_results_r0.0125_s1p2_probes.jsonl",
+   "bytes": 579,
+   "sha256": "70317da164d24d2acaf57800249af4a1bf5ca433155a5d35e74c0586ef0a9948",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_results_r0.0177_s0p1_patches.jsonl",
+   "bytes": 2460,
+   "sha256": "845d5aece14e33cdaa64307aa73b526ff85bc16d766517170eb0e943929f6725",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_results_r0.0177_s0p1_rimprobes.jsonl",
+   "bytes": 3465,
+   "sha256": "67f782a1fbc6ecbaa9635e3dde365da34d30f3edc0d6f23a1f8e407b091e3c8e",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_results_r0.0177_s0p1_stitch.jsonl",
+   "bytes": 475,
+   "sha256": "d642bf5e660bf36413f06c5ed6f45951655ebf72cfa26a904983c69fc9e108e6",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_results_r0.0177_s0p2_cells.jsonl",
+   "bytes": 6210,
+   "sha256": "3cc73ef07f018fa3eeaa178ff89878195eba58d0bf4a614460c6015f80b46a1c",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_results_r0.0177_s0p2_probes.jsonl",
+   "bytes": 814,
+   "sha256": "1cb47d2d0acae86a735621e6d999b60fdd1189daf865b17ccc52b08a2e01107e",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_results_r0.0177_s1p2_cells.jsonl",
+   "bytes": 3501,
+   "sha256": "bb2bcde84907687275911c0269a8cf7c4ae2a075ee4b335906e5cd4e9a243298",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_results_r0.0177_s1p2_probes.jsonl",
+   "bytes": 579,
+   "sha256": "0b173dd0e808573548d32ff27a60cbbe0c88e7f2503a220fa8d603183d0ddc5a",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_results_r0.025_s0p1_patches.jsonl",
+   "bytes": 2997,
+   "sha256": "a9bbeff5e87868f65383de781f260219368f784d983c0fdfbf8221052c8fc230",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_results_r0.025_s0p1_rimprobes.jsonl",
+   "bytes": 3412,
+   "sha256": "b3dc261fd6130daaa845b3ad8eaeb394fd9a9bf2297de8da5aa716ce83ab99df",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_results_r0.025_s0p1_stitch.jsonl",
+   "bytes": 1609,
+   "sha256": "8eb5e7dd4d1087a5ac86e3c9226ac78c268696acd2ef9b845893b91fc77052f0",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_results_r0.025_s0p2_cells.jsonl",
+   "bytes": 6520,
+   "sha256": "6cad065a112784bdd374eb867dfa085fdadeeec809de40aae62d1ce0040ffe09",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_results_r0.025_s0p2_probes.jsonl",
+   "bytes": 800,
+   "sha256": "2afe46873bd1ea2acbc8eb781d0bb8a2c97eeed4148357303133f1300cf7c0a7",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_results_r0.025_s0p2_stitch.jsonl",
+   "bytes": 747,
+   "sha256": "6b70f1d7dc24fad53533d18e525734ededde508e1c1d026a9e28b818833fd8cd",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_results_r0.025_s1p2_cells.jsonl",
+   "bytes": 3728,
+   "sha256": "69377df2bf72d94ce359cae55fbd0a6de516f77b6e7f149a802739c39b327e39",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_results_r0.025_s1p2_probes.jsonl",
+   "bytes": 577,
+   "sha256": "da15dd524bd971852081a6852f81af2a12f932172daeb84a32cad762ac80c012",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_results_r0.025_s1p2_stitch.jsonl",
+   "bytes": 817,
+   "sha256": "4d277bc81fbb59e739cc54f8fe025952633c3f7224cabf04f13d09afd3e0fa52",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_results_r0.025_stitchfix.jsonl",
+   "bytes": 85,
+   "sha256": "a06e26fb90a8e2b1e29c8421e2ddc4f3f84c9d6db2013f644a005b3e1695f4d5",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_results_r0.035355_s0p1_patches.jsonl",
+   "bytes": 4452,
+   "sha256": "6af274943595e476567fdee10e1c9a89f8baf5bb4c38415afbe9721ae211410b",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_results_r0.035355_s0p1_rimprobes.jsonl",
+   "bytes": 3483,
+   "sha256": "5a8daa268184966dca767589fc81edf01933d2663b1c0c60aff78544f0ed5a6e",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_results_r0.035355_s0p1_stitch.jsonl",
+   "bytes": 2083,
+   "sha256": "dc26702bf5d23d575dac47e72dc855f8da7ce7e271319aa383ff76511818a4f1",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_results_r0.035355_s0p2_cells.jsonl",
+   "bytes": 4485,
+   "sha256": "cd7db5519c9f295bd822fb6b72990d602af9d29afb98fe28f5c0ebe1af62d7fb",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_results_r0.035355_s0p2_probes.jsonl",
+   "bytes": 809,
+   "sha256": "3a31f8a578870de9239a7dfe750d0252a058c26125b40ffc20bbc5ca9dfe0c06",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_results_r0.035355_s0p2_stitch.jsonl",
+   "bytes": 816,
+   "sha256": "e1805f2dffa3eeb9e0a45434799f0a95bf0a68d0beef2c05c0cfabb3b271280f",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_results_r0.035355_s1p2_cells.jsonl",
+   "bytes": 3514,
+   "sha256": "fed9ba346dfad00e376da88467fb483bc761615b13dbb119f7eef7f814b1a857",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_results_r0.035355_s1p2_probes.jsonl",
+   "bytes": 576,
+   "sha256": "6527cc83516ee48c459e70b6eeaf97fb93cd08abac7b12c6a0bc5ef1041fd572",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_results_r0.035355_s1p2_stitch.jsonl",
+   "bytes": 966,
+   "sha256": "ff102ca32e90f181d81190f8e1cb4ce6fdb6a4ed137fbe2f82bfbd8cacb71342",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_results_r0.035355_stitchfix.jsonl",
+   "bytes": 85,
+   "sha256": "5a00572f5db739f600a81e8b11838bfa38afff224b92a2a955b5518cf851c3f6",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_run.py",
+   "bytes": 26420,
+   "sha256": "19504b978c8793006f03624b18410f9dc79ee3181566f4ec4a0a550711cc7d6c",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_run_r0p0125.py",
+   "bytes": 28694,
+   "sha256": "7db37586e00290622ab95b9283775496bafb753010bcd22f3829fc671c86a3f6",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_run_r0p0177.py",
+   "bytes": 28707,
+   "sha256": "19a7fc46b48293190f6ee6fd64673fd08398b269946c5f4389f4c6959472241e",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_run_r0p025.py",
+   "bytes": 28688,
+   "sha256": "f981576c1d4cd3a156ef3a24a9ed9c09174cf685d4c49cb03adebc108d2165f7",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_run_r0p035355.py",
+   "bytes": 28713,
+   "sha256": "f3ce9052c93f8fc00697101925b4820e98fd8c8d734881d9ef341e9b7fcd9fe2",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_transcript_r0.0125_s0p1_patches.txt",
+   "bytes": 1107,
+   "sha256": "80328ed7a492f43f85bc8dfc32ca2b248474ac4db26883e97ed19e11bfaee387",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_transcript_r0.0125_s0p1_rimprobes.txt",
+   "bytes": 2147,
+   "sha256": "bb52fa7df3d6139a881a26e56c8719838fd7d166bca31c73eb770b9098c44e5d",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_transcript_r0.0125_s0p1_stitch.txt",
+   "bytes": 334,
+   "sha256": "4c25b1f6f362419bd97fc0d7df09f52c13f32645bb8be1bfb999055cdb76d51d",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_transcript_r0.0125_s1p2_cells.txt",
+   "bytes": 1024,
+   "sha256": "f881c73c927fbe19c7bd4022e441364d06edb0ecc38f31ff4b1a900778c07fe3",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_transcript_r0.0177_s0p1_patches.txt",
+   "bytes": 1125,
+   "sha256": "2d49abdf78229e82f269554b06ceb8013de7e0f27be382721f17c527dd0d88c1",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_transcript_r0.0177_s0p1_rimprobes.txt",
+   "bytes": 2180,
+   "sha256": "c59ff5f89dc4b68dcceac033588c33158f24a837a9224f5f46ef78fc1edec68d",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_transcript_r0.0177_s0p2_cells.txt",
+   "bytes": 1945,
+   "sha256": "77bab365619d88b6ade0c6414d14410b64e9bcf2c193739453b4acf2a14b31f9",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_transcript_r0.0177_s1p2_cells.txt",
+   "bytes": 2280,
+   "sha256": "2d6e09011f3b18c28e8796f84cf98b5161031aa8a17444b951ece1a2d743e520",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_transcript_r0.025_s0p1_patches.txt",
+   "bytes": 1104,
+   "sha256": "a2dbd99662f1412151de6c94b5c49b8e759cfe4121f1aa76e43eae20057987a8",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_transcript_r0.025_s0p1_stitch.txt",
+   "bytes": 2016,
+   "sha256": "de3cd1244764d5414924c74fdaf68e01c23cdc49ac3b6d110ceb482cc05e9e9d",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_transcript_r0.025_s0p2_cells.txt",
+   "bytes": 1854,
+   "sha256": "fbdda6bf3cef8f3ce5b49d3ae2778791673dcabe2b6ea111db2cccf5eb589872",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_transcript_r0.025_s0p2_stitch.txt",
+   "bytes": 819,
+   "sha256": "44d02bbe142364e6ca3436eddec134ab2ff4e4e29ca96951ff3d010caa24f401",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_transcript_r0.025_s1p2_cells.txt",
+   "bytes": 78,
+   "sha256": "3b624a12c4ea16c1ceda006cefe8d89ded42f6a5b230857686a25c86d502d176",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_transcript_r0.025_s1p2_stitch.txt",
+   "bytes": 874,
+   "sha256": "698ba71437a29f2701c983d52beb807690787c2f47cb736e351ec67f3f91726d",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_transcript_r0.035355_s0p1_rimprobes.txt",
+   "bytes": 2201,
+   "sha256": "4c51a2a7ae14c2f8bdf2d39f9a1899123149943d531476809feb48faf6fdf132",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_transcript_r0.035355_s0p1_stitch.txt",
+   "bytes": 2097,
+   "sha256": "46b6631fb6a2fd9542d6dd933c4a8596b946e1ecae1738b272aebcb77fa1d774",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_transcript_r0.035355_s0p2_cells.txt",
+   "bytes": 1967,
+   "sha256": "b843b3c460a09aeb397e35f3fdc0fe7ce7009305158ba99a0f29e0c5d04f5e68",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_transcript_r0.035355_s0p2_stitch.txt",
+   "bytes": 842,
+   "sha256": "8ca62f1b0e913f9e5bd1779fda87119eba41292672ced91c4e42e9b2faa3d3d1",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_transcript_r0.035355_s1p2_cells.txt",
+   "bytes": 384,
+   "sha256": "6578f1ac8a592d6309ee24de0039f8f88f7ee5352504d8739337c8382b302101",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_transcript_r0.035355_s1p2_stitch.txt",
+   "bytes": 901,
+   "sha256": "996fec2e415829f6746890105b75f6bbc63e119119ae8b1fe78fbc117833280f",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_transcript_r0.05_s0p1.txt",
+   "bytes": 5160,
+   "sha256": "fb67bb40b9840ef625a6638516c3d7ee388182594d68c6b4b6d3019ed73cc11d",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_transcript_r0.05_s0p1_rimprobes.txt",
+   "bytes": 2090,
+   "sha256": "a4304e48a150eae8424d0600ba80fe0cdc43f87fc4ceeb10cf54819b34f36946",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_transcript_r0.05_s0p1_stitch.txt",
+   "bytes": 288,
+   "sha256": "e3ca020ad83ea9566b3bb0d1452d651eb1a49f1823485739c13786e4190f2e4d",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_transcript_r0.05_s0p2.txt",
+   "bytes": 664,
+   "sha256": "4a4f122ca01af3821a6c3785b490d7c06b1f4b03216653752b3240c62384ca70",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_transcript_r0.05_s0p24.txt",
+   "bytes": 343,
+   "sha256": "d8c80b7b7cfe90dfbdea24bdce71df3d208ab8e66712c10b0b8091c155834379",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_transcript_r0.05_s0p2_cells.txt",
+   "bytes": 1888,
+   "sha256": "f146b2187dae2a8cbb968dea932677e5db25dab06af0741867ff5c4fce30ddf6",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_transcript_r0.05_s1p2.txt",
+   "bytes": 523,
+   "sha256": "405ea682d98a27e334c86dc415e8a0af1f58077e364630e86f7a45699e808812",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/h5_transcript_r0.05_s1p2_cells.txt",
+   "bytes": 2268,
+   "sha256": "2e2072e2078862575537661941af6c3c6273c532b80d39a914d8b8846ce3b801",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/keeper.sh",
+   "bytes": 1084,
+   "sha256": "17ec88a6f695da0f332677be3f1d8a3c1dc52cabd3ae220122a5413747b3d47e",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/keeper_A.log",
+   "bytes": 94736,
+   "sha256": "b9be5838b3c5e137a2196ee4e2c8ef29837cdc6b6a3db963f09cae8f8b8a0850",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/keeper_B.log",
+   "bytes": 133424,
+   "sha256": "fc4a6224a7012b8032c98b02d1fcec6ae6a85048f0e5b5ed821641bc2c930641",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/keeper_promote.sh",
+   "bytes": 1339,
+   "sha256": "69d53be9ae390197e58151228a99c86ef03665f60bc9db21566fa158a831a1fa",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/keeperp_A.log",
+   "bytes": 41850,
+   "sha256": "5b8b618b1419f7c1c9ffa353790978e27f8a99c1680f5566f3efb399361e1e30",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/keeperp_B.log",
+   "bytes": 126873,
+   "sha256": "778f97cb10bd16f4bdedc34cdb717f57d8dda34a8c4970797e36f0976cd21b15",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/patches.log",
+   "bytes": 1101,
+   "sha256": "0065f392550b2a218b147fa87e2acf705038d6658fb2cdf9930812cf65a1d33a",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/promote_0125_cells_s0.log",
+   "bytes": 1820,
+   "sha256": "2de2683959a51fa9e49725a5c904c8b8352d59489185ed452e0da53784f47665",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/promote_0177_cells_s0.log",
+   "bytes": 105070,
+   "sha256": "503c74f9ec34b51ca96f001c936d5cbd25a8a30dffc9dc58c55c3a00366909a1",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/promote_0177_stitch.log",
+   "bytes": 515,
+   "sha256": "65e5a3c5d22495b1681619c03bb9a7aad5695ca3647199dd5fb732d53c6f52a1",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/promote_025_cells_s0.log",
+   "bytes": 97491,
+   "sha256": "9d07932bc3844edc555ae9eb5bdab2dbc45a823ad2c68ea4c74a3e024c92dd88",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/promote_025_cells_s1.log",
+   "bytes": 6370,
+   "sha256": "72c84e88ff0b12972e1dbf88204b641537a53b37852ec8a0134a1d2f1ef969eb",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/promote_025_rimprobes.log",
+   "bytes": 2132,
+   "sha256": "707cc3393bc8f7022341dd41da328c5d0ba67afcfb5891d320ca83fb1a364269",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/promote_025_stitch.log",
+   "bytes": 9282,
+   "sha256": "bcae31fee58827558f549466ac89180f42213384c7dbfbfca786f085c8bf855f",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/promote_035_cells_s0.log",
+   "bytes": 44379,
+   "sha256": "fbf976789109ee4df5f119397ffad69a3bafd222367cee96931afe251b7876eb",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/promote_035_cells_s1.log",
+   "bytes": 7128,
+   "sha256": "d756780c9acbaf75f6bee67fc59966b03cf7ac69e3ad2a6829b64cd23f9fe155",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/promote_035_patches.log",
+   "bytes": 1137,
+   "sha256": "11b8d897d905bef1e1c9d4a312701e21f08bd9df8f4d5323acb9e31fbbf77edc",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/promote_035_probes1.log",
+   "bytes": 297,
+   "sha256": "7ab509e368b9b4601bbdc80e09fbc6e9ca433c3212959a74afd1ef0ca94105a7",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/promote_035_stitch.log",
+   "bytes": 38726,
+   "sha256": "82fca3b13c19bbfb0814af21741ef79600e6ca7e5610808bf892726c54698b41",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/promote_0p0125_cells_s0.log",
+   "bytes": 6285,
+   "sha256": "286f96db827138718d42576fc49512c79a0d4f1e5c831d6d1dcc738ce2854f5e",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/promote_0p0125_cells_s1.log",
+   "bytes": 5511,
+   "sha256": "b16be06b2f3a9ee3da3c96eeb499fe2bf72568c1471c5f610f423ce79002537c",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/promote_0p0125_probes0.log",
+   "bytes": 347,
+   "sha256": "7acaac5384d19c1a14f5ae43a584160484b1c1d1baabbf003f10ed563d24cceb",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/promote_0p0125_probes1.log",
+   "bytes": 295,
+   "sha256": "a517c9b78111185f416f15e58a06c425f526a9d20c1ae4653b3d8bacced65727",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/promote_0p0177_cells_s0.log",
+   "bytes": 17156,
+   "sha256": "9351dc057de631bb1a1b3f0b09977c2984c5305de0771af5644015a39a32821c",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/promote_0p0177_cells_s1.log",
+   "bytes": 17140,
+   "sha256": "e06a362a93dd6f2c61ace278cf55a6ec2ee281f5963eee93334c5f9bf9e21997",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/promote_0p0177_probes0.log",
+   "bytes": 347,
+   "sha256": "d9a4f6185dbac01a2ff43f5b517d7a6a17b613df053d6c4933a6e4076f58209a",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/promote_0p0177_probes1.log",
+   "bytes": 295,
+   "sha256": "f314266fc5b64be063fa11c1c0e25472fd9920ede4335944b8ca9e289b3e5712",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/promote_0p025_cells_s0.log",
+   "bytes": 30821,
+   "sha256": "9db3d4882b6a8ba9f8717e47842a52bf6cd15ba3c901781e2fe7da696163833e",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/promote_0p025_cells_s1.log",
+   "bytes": 25900,
+   "sha256": "fcf82b53a3f77b4b74fb3ccb1f0ed743690bd0de69edcc6735f3560a37f49255",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/promote_0p025_stitch.log",
+   "bytes": 1601,
+   "sha256": "5ac2a893543bb34640f7c286ece0fa5634eba02b69d03d172da9ae35ba035c12",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/promote_0p025_stitch_s0.log",
+   "bytes": 12356,
+   "sha256": "e6bda16f6c3cd38a4a219c94849bfa5afb90b26d5318c3917fa6075a3ff18530",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/promote_0p025_stitch_s1.log",
+   "bytes": 13349,
+   "sha256": "3834692527f4686d0876144384c545e3b7c064e56280e7b7e40bfb68eec310f6",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/promote_0p035355_cells_s0.log",
+   "bytes": 32353,
+   "sha256": "a98826f330143bdad39fba1994677250e4eb2766c9d943a0e8ae0fd3c52a54d1",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/promote_0p035355_cells_s1.log",
+   "bytes": 28820,
+   "sha256": "1b69cb536818451fdf965f5e5e0b550925cc11029e1bd5ff3b2404c6cf6e256e",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/promote_0p035355_stitch.log",
+   "bytes": 822,
+   "sha256": "4411aa5502344e3b397e8a4f457057938cd034e5be6dead18c5ae44aec7b8f2b",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/promote_0p035355_stitch_s0.log",
+   "bytes": 13075,
+   "sha256": "addcabd7317035818df1d303cb1fccbbb61b9adc4b6bd36cc958589275430b7b",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/promote_0p035355_stitch_s1.log",
+   "bytes": 14462,
+   "sha256": "2fa751ec449b940adfcfd4c81b9d8ee90f0a00fcf1c70f37a5f51b2ff1824307",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/promote_modeB.txt",
+   "bytes": 7160,
+   "sha256": "45ad255910c40db0cc18cb5827914e074c48fe7c168675b1e7ea9466ab30eeae",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/promote_probes.py",
+   "bytes": 2529,
+   "sha256": "29df21b5143ccecbb63ef1fed8e4a8bffc6d4e8cb76e7fdbdc58b8cb509e8a5e",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/promote_run.py",
+   "bytes": 4675,
+   "sha256": "6bed931a9a4d514e06c9968b32f6bb08002888eb2c405bec7c9f7acc3d521ae3",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/promote_stitchfix.py",
+   "bytes": 2328,
+   "sha256": "30eb3c3db1714346839bda79d007936fb09627dc5a75ab8a486902e7c55326e6",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/queue_runner.sh",
+   "bytes": 1138,
+   "sha256": "cf75d329aa690b1c042a56590f7e1910fa5b456a31078fdaa59640f41b444be8",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/recompute.log",
+   "bytes": 58,
+   "sha256": "a671975cb7a444ea42e7e5a28c0c9e9e600bd8d46b57098fc7c607ae6bec6f48",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/recompute_cell.py",
+   "bytes": 974,
+   "sha256": "6bad39b5260d359b0327c896dc6df1029f8ef5b4e095a6a57e42c63a7ddcb2d9",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/rimprobes_v2.log",
+   "bytes": 2847,
+   "sha256": "449d257f78df907b74374622336cc069b08747f0198690c57062b6b37230a2ba",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/sdisk.log",
+   "bytes": 240,
+   "sha256": "d6eada75c094150aea19e3747f940044e0f5d95a9ccdf43b77000eb31d0226e1",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/sdisk_probes.py",
+   "bytes": 1408,
+   "sha256": "429470923d4cbe7856af6bc0e4ade192e62ea5419be979f12c64f70bfbe884b5",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/sring0.log",
+   "bytes": 177,
+   "sha256": "378dea62213b5924cc3c4e5b3aa241a1fe7540811086d780471b12a388779b63",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/sring1.log",
+   "bytes": 179,
+   "sha256": "81c35c242c28ae72d2a1640d088f1d22dc74811338185adaec09ca896e8bea91",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/sring_probes.py",
+   "bytes": 1462,
+   "sha256": "00b1f29d1dbe548d2dc7193c565cb7060290b39c08b8b89f019fd81556d67638",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/stitch.log",
+   "bytes": 839,
+   "sha256": "56dd8d2eedfa3e7face6a642f3737d415a19586f36fa0a01d80dd70cef9cdc19",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/stitch2.log",
+   "bytes": 332,
+   "sha256": "dc83039930860e3a6ffa32d09d29024f5ca3eeb659ff76fa95ecaf22a682a975",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/stitch_outer.py",
+   "bytes": 1100,
+   "sha256": "8467fd4847318a46d0958f594c0b5f1e66e6c8615898f4de2e1349b436183df3",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/stitch_refine.py",
+   "bytes": 1556,
+   "sha256": "1a243f78126bc656333691a7d18a72f9124d149828ed7a24aaa7d28b85c47ecc",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/stitch_refine2.py",
+   "bytes": 1167,
+   "sha256": "bb3afeadbf381c84ab74ad5840398e12c69811c496023f1f6032761ec576310a",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/stitch_refine3.py",
+   "bytes": 2060,
+   "sha256": "75d71a5516b392f2c9a0fbee92b3de210870f4cab527bf9022a1b6c775446e38",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/stitchfix_025_sec6.log",
+   "bytes": 63,
+   "sha256": "520ff1d1b00c420d36e799d07e3a460639bab3469622faf27645601da527d675",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/stitchfix_035_sec6.log",
+   "bytes": 63,
+   "sha256": "a3f73733fb420ed6805ac23839a34a6580727c1463096272db25ff1cf509dee4",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/stitchout0.log",
+   "bytes": 647,
+   "sha256": "f4d07d413e88ac245b13e1662c880ba068d27fc10166f4a08c7dd37e7b7d028a",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/stitchout1.log",
+   "bytes": 558,
+   "sha256": "2158462ce00574a4660ba0da6056ecefbde43b2e176d3817670699943f7caa45",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/stitchref.log",
+   "bytes": 374,
+   "sha256": "b1de29de6dbaac33af44dffa3533c93e6610ec837f355c36ceca2bce4c20dd3f",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/stitchref2a.log",
+   "bytes": 57,
+   "sha256": "ac5124c938809a9174cb29f9bb0f088ce8cbc3ff11be61ce358106f6703ca449",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/stitchref2b.log",
+   "bytes": 58,
+   "sha256": "917e6fe64e571422cf78e3a318df093c4a8790db3920497dda479dbbfd1f82f0",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/stitchref3a.log",
+   "bytes": 36,
+   "sha256": "66778e0d33c5ef073603eda313d67ae04c1bbe776bbfcc271c4b8fb0d847bf55",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/supervisor.sh",
+   "bytes": 1971,
+   "sha256": "af3b0f2e39b26c6245422a3b77f5726b72f0a5460e1bc1f195eb5ba02265c0fe",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/supervisor_part.sh",
+   "bytes": 1451,
+   "sha256": "47c19ed2764334df7bd7964da0ec7b13597613168279b56e3e936d5a89b1c8c1",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/supervisor_rung.sh",
+   "bytes": 1415,
+   "sha256": "6665a32e78c44d89733073a517429d7e72cc6965e4111159d74426e3a4d697e8",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/test_cell.py",
+   "bytes": 548,
+   "sha256": "60daf7ae6291bb6056a281b9fb2f001f5ff0209efd87de86b7ea410ee10166c6",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/testcell.log",
+   "bytes": 50,
+   "sha256": "de8d2c69f81f17d1158635a6d39aa9649338f483ed483c9d03e3087c319ca36b",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/watch.log",
+   "bytes": 56606,
+   "sha256": "0cdafd7d5be1b55ab294baa848b395818c08dbd630deec814759943f64a39f96",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/H5_closure/watchdog.sh",
+   "bytes": 559,
+   "sha256": "5f66b45887cd15d20a5ad57557102499650813d83d22d796d63e8286c506678f",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/LEAD_INTENSITY_DERIVATION.md",
+   "bytes": 7296,
+   "sha256": "2a75ad7e47386878b899ffb70e4f7cc9ef34a552dfa7a6cd0e9739d7f0a739b3",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/B1_rerun_normal.txt",
+   "bytes": 323,
+   "sha256": "1a2deef233840e0b15b31bc4b50d85be5a60b7b07193ca493bf4f9040def0c19",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/C1_falsifier_rerun.log",
+   "bytes": 1086,
+   "sha256": "c9f8241f290f837d74db2ae944edca4605edd157daaae804e740bdbb67ecb2e8",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/C2_B_classes_rerun_opt.txt",
+   "bytes": 1008,
+   "sha256": "2cdea45c7374d13f96fb1c68806c8a28667d6d21dce78d57c86c4e5026c87380",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/D2_rerun_normal.txt",
+   "bytes": 1157,
+   "sha256": "66b5513fe34c4df1f3230ebb97e34f2313c3713fc7e764b8a5825f5fa7e90cf2",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/D3_fals_normal.txt",
+   "bytes": 415,
+   "sha256": "03ce5cfc8d9db1cb105bc5c5d5e900ec0a429b8245c1461e50ef220d5c89e4ae",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/D3_percolation_rerun_normal.txt",
+   "bytes": 0,
+   "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/H2_cov_exact_opt.txt",
+   "bytes": 26746,
+   "sha256": "9c7838d1d4a9b181afb6e7ae94f46c588894232835236abba49abb69af35d30d",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/H2_pin_transform_normal.txt",
+   "bytes": 6305,
+   "sha256": "7eeb845e063579444103097f5f8a9b7f5cecedafcfd68c3f4355e0a981c3acc2",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/H2_reg_lemmas_opt.txt",
+   "bytes": 9750,
+   "sha256": "9d852eebddecc2ee5054ef87b61cb7149ab28cfe7dd7bf501f14c038771a2e18",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/H3_cert_normal.txt",
+   "bytes": 4439,
+   "sha256": "a27178a871b54e4aee516c980b3941c086e0636e7a8854ae446a45898e87ec78",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/H3_fals_opt.txt",
+   "bytes": 1293,
+   "sha256": "5be02ea219198b744096d235e250c48bab4be1f5e24600d458fc813ab500d65f",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/H3_mut_planar_rerun.txt",
+   "bytes": 669,
+   "sha256": "a5d661d89abe05c62d95c6be48f6c2264b7f782f97f90b0c5dd4ae47525c2843",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/H3_mut_window_rerun.txt",
+   "bytes": 2220,
+   "sha256": "68e302276df9a84e6be3f11309deaf1910e70747ade4d4f560742c8225a95a8e",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/H4_cert_opt.txt",
+   "bytes": 3824,
+   "sha256": "0da502cca9a67a67e8670601fc98c92d3efedc2814f8d9825029ed13221f0391",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/H4_fals_opt.txt",
+   "bytes": 1660,
+   "sha256": "055374ea783ed459397b16b55c227f55e9d563c357e7eacacfd4c99e80dc6019",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/H5_falsify_A_rerun.txt",
+   "bytes": 180,
+   "sha256": "3e5529d452e043996c92fd27d816ca161e96598efd414573ed6c69294aa6bfb7",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/H5_falsify_B_rerun.txt",
+   "bytes": 180,
+   "sha256": "ff8fa24b945f4f2f9f14fc7d61d56787ae79b058c326b543199d799627b0844c",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/REVIEW_numerics.md",
+   "bytes": 18049,
+   "sha256": "fb139a5bb36f6ffbe9b843bf30d8e9ae2a9ca88ba0b9057ac22e65113eb3d46d",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/REVIEW_proof.md",
+   "bytes": 21222,
+   "sha256": "d5595f32c85986964a6f8c069f0be1de8606c4340964cb636d822ca9ab23d8b4",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/REVIEW_provenance.md",
+   "bytes": 23758,
+   "sha256": "108999ad1f07495c7aee4351a414f87260c0059457bb4d9a36ecd8605769aaff",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/REVIEW_scope.md",
+   "bytes": 20773,
+   "sha256": "dc0ae10c148f228cbc95f5f51bc02dfd14a04bd577725aa8b4b6390051a0cab1",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/REVIEW_topology.md",
+   "bytes": 24168,
+   "sha256": "8327bb5efddec69360d8144eb3fd709bbe6c158eb1404634c99ddae09d579420",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/attack_h4jc.py",
+   "bytes": 14770,
+   "sha256": "4ae404d70659333d50d3dfee6c11df6b082b9797d893db1eef8a575128d64f5e",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/c1_grid_transcript.txt",
+   "bytes": 8849,
+   "sha256": "f349ff8c4edd6f434bc76a49510f868cca7b495fb87225faa715ba084df873de",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/c1_intensity_transcript.txt",
+   "bytes": 49766,
+   "sha256": "85afff0d64c16973bd57c629f2fe7fbffaff4e4c1c96f4640ce9ab7325e99e03",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/certify_axis_break.py",
+   "bytes": 8120,
+   "sha256": "f9e0efefe442bc474201f7cf1951a526b09b344657ef3b1cbd300e7a143aeda8",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/d1_rerun_opt.txt",
+   "bytes": 1375,
+   "sha256": "11b711d320c36e6b87fcc9b552d1761392be45237358d7e564d7969c3a631299",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/h5snap/h5_kernel.py",
+   "bytes": 66310,
+   "sha256": "b2e6014c2fd6eb9e72b2104cc828a764e280f76b8396a02edd37654b6ad83ad7",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/h5snap/h5_merge.py",
+   "bytes": 11748,
+   "sha256": "125976721841089318f30bd54b676c7fe087c20b7b23fb6eaf92391f7986c0df",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/h5snap/h5_results_r0.05_refine.jsonl",
+   "bytes": 325,
+   "sha256": "51178f7cf95f9c20aa3c3fb17a31fcd172275c6bc3b6e33ea8a51cb1dd95942b",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/h5snap/h5_results_r0.05_s0p1_patches.jsonl",
+   "bytes": 2381,
+   "sha256": "ab79490029fd6825bcbb74eb92bde769a9a0deb331c7ed02d788a24c739f1409",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/h5snap/h5_results_r0.05_s0p1_rimprobes.jsonl",
+   "bytes": 6061,
+   "sha256": "22c7107e93ba9c02bea1f6f34085044ab535f29c067ce79c0cd7d8b1911ecc63",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/h5snap/h5_results_r0.05_s0p1_stitch.jsonl",
+   "bytes": 1333,
+   "sha256": "9f5316bb9f271e62cff91b9258edcc6ab8e0629101d68befb57b87d17a741d94",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/h5snap/h5_results_r0.05_s0p2.jsonl",
+   "bytes": 824,
+   "sha256": "a3a9e2a73b4b01b744dc6e151ef16804285890d626fa0e71de61e8c30b05ddb6",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/h5snap/h5_results_r0.05_s0p2_cells.jsonl",
+   "bytes": 5057,
+   "sha256": "6fce1de4b24f6f9ea551ea51df896c3c900f9cd33c6fdf7b51f30dc6ba7a87b4",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/h5snap/h5_results_r0.05_s0p2_cells2.jsonl",
+   "bytes": 666,
+   "sha256": "1a1df8551ac7ea5da387de863876b6cd2f740f380b7d294c300e24b519a21f70",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/h5snap/h5_results_r0.05_s1p2.jsonl",
+   "bytes": 660,
+   "sha256": "d798d5f8dc5d7d7f0cc088dac4b740d0dcc3fbf4d3d7b8ddda0a0cb657b39b31",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/h5snap/h5_results_r0.05_s1p2_cells.jsonl",
+   "bytes": 5175,
+   "sha256": "46b92f8fe8f7e129c1110edc0ed9b6c20bce30d65e516b430a46aa3d662396a5",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/h5snap/h5_results_r0.05_s1p2_cells2.jsonl",
+   "bytes": 664,
+   "sha256": "a1b2352e932d78d60e7e5113fe1202c551bca32e19542d541e6e973ab20e81f5",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/h5snap/h5_results_r0.05_sdisk.jsonl",
+   "bytes": 452,
+   "sha256": "b73b5ef504d9d4d1c5db8a41e68e95c67acfb8f947925c3a323f82e61581b907",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/h5snap/h5_results_r0.05_sring.jsonl",
+   "bytes": 637,
+   "sha256": "7dfd3085f3d26571615bd0297d64ec30ad508402fc6a073da1b90fd7ce30ebe4",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/h5snap/h5_results_r0.05_stitchref.jsonl",
+   "bytes": 2814,
+   "sha256": "303b23c1c65f1fe87be4cc6f88321bf66cbcf3d0ecdfbdca8023691a420c2eb3",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/h5snap/h5_results_r0.05_stitchref3.jsonl",
+   "bytes": 215,
+   "sha256": "687456447e0e2937cb2b3712b247bd1e0a91a419bc8d8b7ef6c71c10ecbc45fc",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/h5snap/totals_at_snapshot.json",
+   "bytes": 2364,
+   "sha256": "8b4410d8d601f0605606824a70255683e62aa2725752341dfd3c8c93298f18a9",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/hunt_rim.py",
+   "bytes": 2777,
+   "sha256": "de73e5fed00782c3709d2f9a8b1cddca23926606a8ef5ffc4cf0de8aefb66f90",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/hunt_wedges.py",
+   "bytes": 5435,
+   "sha256": "f03507da809d91eb6b358c4bf51298ba9d26bb6ab733e801cb5784394b96d48e",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/isserlis_break.py",
+   "bytes": 10248,
+   "sha256": "098adfe093f5bcd9a0ea463b77a6c3b4d1b234df028439174c9e82de9772e8d7",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/mut_D1/D1_assembly/d1_falsify.py",
+   "bytes": 6928,
+   "sha256": "1ebd2c6ade067bcfa2732b89ef83266fdaecd24260c05cf6d810b0bd2db044b7",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/mut_D1/H5_closure/falsify.py",
+   "bytes": 3262,
+   "sha256": "5bc9dbccb384fc49366a32c9c19d431a68dea1ccae74233d1fbc458e5bfeee0c",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/mut_D1/H5_closure/falsify_modeB.txt",
+   "bytes": 65,
+   "sha256": "3ef903bbe2609374b10dae984a2bcb521db6f800b6e481a6cf27bb7260d53920",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/mut_H5/__pycache__/h5_kernel.cpython-312.pyc",
+   "bytes": 121736,
+   "sha256": "bcd8869a5f3631a661bf4efca71b374e05f786a70734ae4d6ec06104c66f0af1",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/mut_H5/__pycache__/h5_merge.cpython-312.pyc",
+   "bytes": 17083,
+   "sha256": "5cc67d37aee7aeae5c04c64667a4c0ea3ebbcda1f46ef23d2575c2f21244805a",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/mut_H5/merge_rerun.txt",
+   "bytes": 2240,
+   "sha256": "0b8dfbc885d6cebcfe182ecb779b71d11a933509242704c13d707c9a6b130f2c",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/STAGE_E/t_attack_normal.txt",
+   "bytes": 1025,
+   "sha256": "bc9bcca0297cf03169f28d251c42a0211b8c50685b36824aaef2cd52defe1dd6",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "own/v3copy/K3_SIDE24_LB/UPPER2D/plan.md",
+   "bytes": 3425,
+   "sha256": "4b0480d9e69ddecd93cdf0337f43c5d0fe4c9c5e5ee4c9ca7e621af00f04acde",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "stage/UPPER2D/B1_taxonomy/__pycache__/b1_falsifier.cpython-311.pyc",
+   "bytes": 22487,
+   "sha256": "d5802cb8ff2b731739b5e7c9b89b5e7f381c3006594440da72e021aba7d98667",
+   "what": "staged copy of a landed program or carrier (main, hardening engine/rn_engine/frozen, or Math- imports/upper2d_stage_e_20260926); not included"
+  },
+  {
+   "local_copy": "stage/UPPER2D/D3_percolation/__pycache__/d3_perc.cpython-311.pyc",
+   "bytes": 74276,
+   "sha256": "7c855021477ebb5d1cfde78f4c8c3cda1d2078a7e406f522ec61a93c1e16d71b",
+   "what": "staged copy of a landed program or carrier (main, hardening engine/rn_engine/frozen, or Math- imports/upper2d_stage_e_20260926); not included"
+  },
+  {
+   "local_copy": "stage/UPPER2D/H2_foundations/__pycache__/cov_exact.cpython-311.opt-1.pyc",
+   "bytes": 31078,
+   "sha256": "8b55180f7f0330d3bff69cb2ac08e1a294bf2457b094e8fe828d53fc7df9c2b5",
+   "what": "staged copy of a landed program or carrier (main, hardening engine/rn_engine/frozen, or Math- imports/upper2d_stage_e_20260926); not included"
+  },
+  {
+   "local_copy": "verify/bytespins/dg/coverage.jsonl",
+   "bytes": 3213990,
+   "sha256": "518ec28c88aedb7e0d77ffcfb15c3e5d99bd22aff539a8ad2b0a57aa9e3fe9cc",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/dg/frozen_objects.json",
+   "bytes": 7987,
+   "sha256": "a956fa8e81c3e098f39530594f2a8ce4737320cef3853a414f952d0b557a1c8e",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/dg/inventory.jsonl",
+   "bytes": 2807455,
+   "sha256": "48766f1807efaba61e9ecc2a54d358d779393d06cce39d0d7b2bd1f2f2636b66",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/dg/objects.json",
+   "bytes": 1520155,
+   "sha256": "f9f41b2955bfc9ab7a0a11bf199ae5b382ab621605d0f6183d80cd0aeb66fc4b",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/gd_full/config",
+   "bytes": 144,
+   "sha256": "13902114f929dd1694b74468abdab23dc786882c879ddf6fba3e214e99ea07cf",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/gd_full/objects/pack/pack-181ab1cd05adb15fa50085119fca7690d745e456.idx",
+   "bytes": 2668,
+   "sha256": "f722887f7964c6ef7879f0b54176a622f0d12942f1f102c2507dc06ed8187d4a",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/gd_full/objects/pack/pack-181ab1cd05adb15fa50085119fca7690d745e456.pack",
+   "bytes": 103887,
+   "sha256": "31a180e3f323e1a6865408bd3ffbf4414d5c55daec80dd23264ee79c6695788c",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/gd_full/objects/pack/pack-181ab1cd05adb15fa50085119fca7690d745e456.rev",
+   "bytes": 280,
+   "sha256": "6c8d46fc26daf44370d5f1a3fd97685c48bf55318fcf4a4840dd483d1bb21a8e",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/gd_full/packed-refs",
+   "bytes": 103,
+   "sha256": "302b407ece9c58212cda15fb32fb9d590076b9e0bda3afd0e1ceabc04b6650be",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/gd_full/shallow",
+   "bytes": 41,
+   "sha256": "ad7dd2fb546d5a885a0a2d3da1fa5bd3f11d2245fd981c5a2f8cf9a3f73037d5",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/math_full/FETCH_HEAD",
+   "bytes": 3132,
+   "sha256": "36d5de5d8205fd3d2d209611c604ed7426b48f367e294cda79d46c925629d4bc",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/math_full/HEAD",
+   "bytes": 21,
+   "sha256": "28d25bf82af4c0e2b72f50959b2beb859e3e60b9630a5e8c603dad4ddb2b6e80",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/math_full/config",
+   "bytes": 137,
+   "sha256": "d8bc302f97b948f8d0e13c19487cd9b46ce7e463544aca932449111866ae04e2",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/math_full/description",
+   "bytes": 73,
+   "sha256": "85ab6c163d43a17ea9cf7788308bca1466f1b0a8d1cc92e26e9bf63da4062aee",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/math_full/hooks/applypatch-msg.sample",
+   "bytes": 478,
+   "sha256": "0223497a0b8b033aa58a3a521b8629869386cf7ab0e2f101963d328aa62193f7",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/math_full/hooks/commit-msg.sample",
+   "bytes": 896,
+   "sha256": "1f74d5e9292979b573ebd59741d46cb93ff391acdd083d340b94370753d92437",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/math_full/hooks/fsmonitor-watchman.sample",
+   "bytes": 4726,
+   "sha256": "e0549964e93897b519bd8e333c037e51fff0f88ba13e086a331592bf801fa1d0",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/math_full/hooks/post-update.sample",
+   "bytes": 189,
+   "sha256": "81765af2daef323061dcbc5e61fc16481cb74b3bac9ad8a174b186523586f6c5",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/math_full/hooks/pre-applypatch.sample",
+   "bytes": 424,
+   "sha256": "e15c5b469ea3e0a695bea6f2c82bcf8e62821074939ddd85b77e0007ff165475",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/math_full/hooks/pre-commit.sample",
+   "bytes": 1643,
+   "sha256": "f9af7d95eb1231ecf2eba9770fedfa8d4797a12b02d7240e98d568201251244a",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/math_full/hooks/pre-merge-commit.sample",
+   "bytes": 416,
+   "sha256": "d3825a70337940ebbd0a5c072984e13245920cdf8898bd225c8d27a6dfc9cb53",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/math_full/hooks/pre-push.sample",
+   "bytes": 1374,
+   "sha256": "ecce9c7e04d3f5dd9d8ada81753dd1d549a9634b26770042b58dda00217d086a",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/math_full/hooks/pre-rebase.sample",
+   "bytes": 4898,
+   "sha256": "4febce867790052338076f4e66cc47efb14879d18097d1d61c8261859eaaa7b3",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/math_full/hooks/pre-receive.sample",
+   "bytes": 544,
+   "sha256": "a4c3d2b9c7bb3fd8d1441c31bd4ee71a595d66b44fcf49ddb310252320169989",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/math_full/hooks/prepare-commit-msg.sample",
+   "bytes": 1492,
+   "sha256": "e9ddcaa4189fddd25ed97fc8c789eca7b6ca16390b2392ae3276f0c8e1aa4619",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/math_full/hooks/push-to-checkout.sample",
+   "bytes": 2783,
+   "sha256": "a53d0741798b287c6dd7afa64aee473f305e65d3f49463bb9d7408ec3b12bf5f",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/math_full/hooks/sendemail-validate.sample",
+   "bytes": 2308,
+   "sha256": "44ebfc923dc5466bc009602f0ecf067b9c65459abfe8868ddc49b78e6ced7a92",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/math_full/hooks/update.sample",
+   "bytes": 3650,
+   "sha256": "8d5f2fa83e103cf08b57eaa67521df9194f45cbdbcb37da52ad586097a14d106",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/math_full/info/exclude",
+   "bytes": 240,
+   "sha256": "6671fe83b7a07c8932ee89164d1f2793b2318058eb8b98dc5c06ee0a5a3b0ec1",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/math_full/objects/pack/pack-08e8e703c8ed38f21769e860e42808c8adcc39a0.idx",
+   "bytes": 85884,
+   "sha256": "5015c0e2e492b0286f69ce0e169b36200c57da04d05b7d27e48609251c25c692",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/math_full/objects/pack/pack-08e8e703c8ed38f21769e860e42808c8adcc39a0.pack",
+   "bytes": 11792240,
+   "sha256": "0eeb0ce8dffd0e34a40dcbf86df0d446f17519d7a76f889c36ae28362adc0b84",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/math_full/objects/pack/pack-08e8e703c8ed38f21769e860e42808c8adcc39a0.rev",
+   "bytes": 12168,
+   "sha256": "66d7416fc3cd0a2a1c836ea9b78f003b8aa17d58beabc6021d9c2d5b56dc89e3",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/math_full/objects/pack/pack-81014d472c97ebc1491487225e0154b5a75d8f8e.idx",
+   "bytes": 30864,
+   "sha256": "91fa0dfd1e4713cc40e096bbf8bb86a448d13b01c6bc249ff972e7d28f7be077",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/math_full/objects/pack/pack-81014d472c97ebc1491487225e0154b5a75d8f8e.pack",
+   "bytes": 1555526,
+   "sha256": "c2d116227015f121d1501439e77cf0fa65efbf6387397a890748c57bbcc37626",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/math_full/objects/pack/pack-81014d472c97ebc1491487225e0154b5a75d8f8e.rev",
+   "bytes": 4308,
+   "sha256": "c64a7d9cdd80cc94fcae54ce66a9b7d87f16ac621da3c5c11b03c3e34b92da48",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/math_full/packed-refs",
+   "bytes": 103,
+   "sha256": "f1ec5b781c8f1a4bd66a5c1d439a012e12d3aae38ef6d18a56808777730cb025",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/math_full/shallow",
+   "bytes": 1230,
+   "sha256": "386915f5c6df8410e5533968d5f57db457d9199f67eeef11f9acdb3496da5ba8",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/mutstage/M1_slipped_bracket/UPPER2D/D1_assembly/d1_falsify_v4.py",
+   "bytes": 20557,
+   "sha256": "3d36b917c95a973b5118f3361ecf6d552b9fd9583936c2b18b3ce25c2a74cf6d",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/mutstage/M2_retired_premise_reinserted/UPPER2D/D1_assembly/D1_ASSEMBLY_v2_3_DRAFT.md",
+   "bytes": 16171,
+   "sha256": "6e6799b9dc9b9224a587d99e0e7131fcf81bcc9a15d05752b73f448e5bb5cbe6",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/mutstage/M3_retracted_LPW_token/UPPER2D/D1_assembly/D1_ASSEMBLY_v2_3_DRAFT.md",
+   "bytes": 16169,
+   "sha256": "f8b63c6cf300a5ce1f8e5ee1fc552389d0e7f546f0f1ce0e63786c6194cec8eb",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/mutstage/M4_B4LOC_body_tampered/UPPER2D/B4LOC_damline/B4LOC_DAMLINE.md",
+   "bytes": 15164,
+   "sha256": "f7a71906322ae456ea157c4bf49965b411503f96a8e8fcd0d44650efcfa46662",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/mutstage/M5_identification_reasserted/UPPER2D/D1_assembly/D1_ASSEMBLY_v2_3_DRAFT.md",
+   "bytes": 16192,
+   "sha256": "618dd9b24b0b276bbadc7a653071098878aa5ecc5352e0e7f9415b97d665ba61",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/v3stage/UPPER2D/B1_taxonomy/B1_TAXONOMY.md",
+   "bytes": 31599,
+   "sha256": "73f888a105d53866ca28fb77405dd320688987039ddfcf311730278049cf6ea5",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/v3stage/UPPER2D/B4LOC_damline/B4LOC_DAMLINE.md",
+   "bytes": 15164,
+   "sha256": "ae4c9c82784aecfbd85056c316f792a331bccb774d952887fc5fe8ea7da615b4",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/v3stage/UPPER2D/B4LOC_damline/t_opt.txt",
+   "bytes": 2735,
+   "sha256": "11baaccc25da202be951731ea4bc91c76795b614a9925a3baf7c59f8b0112b53",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/v3stage/UPPER2D/BRANCH_dir/BRANCH_DIR.md",
+   "bytes": 6069,
+   "sha256": "8821c8facc7e36635c4b84967ba55037ff5a33fff09359f817032eecaab24286",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/v3stage/UPPER2D/C1_alpha_intensity/C1_ALPHA_INTENSITY.md",
+   "bytes": 27794,
+   "sha256": "ca2c02b81a05e4cbc955b1aeab1f4120e9b8d4fda328aa191da08a49db72853f",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/v3stage/UPPER2D/C2_B_classes/C2_B_CLASSES.md",
+   "bytes": 26326,
+   "sha256": "4de92ff1e1cb0b7041470ddf831e97be5160a1f2f8fded31767358f8b2db1125",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/v3stage/UPPER2D/D1_assembly/D1_ASSEMBLY.md",
+   "bytes": 36000,
+   "sha256": "3ea459656702e7d7c28dec7ff352b547648df1382e036a28a6ff4369f2891e72",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/v3stage/UPPER2D/D1_assembly/D1_ASSEMBLY_v1_1_ADDENDUM.md",
+   "bytes": 8526,
+   "sha256": "ef3724d71a9696b0c24d8358f65899577cac98d0d86f1d032a05a6a1de0bb4d4",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/v3stage/UPPER2D/D1_assembly/D1_ASSEMBLY_v1_2_ADDENDUM.md",
+   "bytes": 14249,
+   "sha256": "a41b84c807bbce2aa858ec22da3dc7c4b6794829b23ab1369004a2cb9623b57d",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/v3stage/UPPER2D/D1_assembly/D1_ASSEMBLY_v2_0.md",
+   "bytes": 19386,
+   "sha256": "8c37b7fef519fa91ae8b6f0fe42bfd9e866e4c63d59a904c258471e437d5c911",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/v3stage/UPPER2D/D1_assembly/D1_ASSEMBLY_v2_1.md",
+   "bytes": 22052,
+   "sha256": "e04925d2d11442bf69f25f98f1a80dea66c22ec4857b8a1feaa5b11dc9ae90e4",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/v3stage/UPPER2D/D1_assembly/D1_ASSEMBLY_v2_2.md",
+   "bytes": 20078,
+   "sha256": "7ca114f0b38680d8bb987c097de10f3faf884ae3b05c3ca47215af5df081c174",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/v3stage/UPPER2D/D1_assembly/D1_ASSEMBLY_v2_2_REGISTER_NOTE.md",
+   "bytes": 11880,
+   "sha256": "3ebc3c5ad911b2116fd18767e45260a421438d81df0b72c799c081d5886a97d3",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/v3stage/UPPER2D/D1_assembly/D1_ASSEMBLY_v2_3_DRAFT.md",
+   "bytes": 16141,
+   "sha256": "15053f8bf3ad103d87c4f3bed82c0d5897d86533dbbe2cb365b24bdc0cce7d69",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/v3stage/UPPER2D/D1_assembly/d1_falsify_v3.py",
+   "bytes": 11552,
+   "sha256": "5805e53d69541f00229e5e49e14d655afd1f471a2584a2117fedf0bb5298ddb0",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/v3stage/UPPER2D/D1_assembly/d1_falsify_v4.py",
+   "bytes": 20558,
+   "sha256": "1bfb5dbc88b842893b5b0365680ccaa9b4893b6c028a950c194d2c1c739e62a6",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/v3stage/UPPER2D/D2_branch_control/D2_BRANCH_CONTROL.md",
+   "bytes": 29448,
+   "sha256": "aa35cad756856d0413ffc9dc6717e137e6e5bd7af6a983f28c26bf46b5b15fc7",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/v3stage/UPPER2D/D3_percolation/D3_REMOTE_AMENDMENT_v2.md",
+   "bytes": 5701,
+   "sha256": "2527ab5a1b5ee208a30a672e2457de04708228f3c154185d95c236bd4f4f5e6f",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/v3stage/UPPER2D/D3_percolation/PERC_DECAY.md",
+   "bytes": 8041,
+   "sha256": "f971b81a54dd2b78924c77e412e0c19b798e5356795057fcdadec3235e960745",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/v3stage/UPPER2D/D3_percolation/d3_perc_decay.py",
+   "bytes": 19063,
+   "sha256": "ee68ac7510241947c64445cc6aa17f91ccc4f2e5f0dacc2b0de801ef72d8ab64",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/v3stage/UPPER2D/H3_closure/H3_BAND_CEIL.md",
+   "bytes": 8311,
+   "sha256": "18e109bc2e7a186c307f689f940ad476d69fc543e828081e0e706de2c578800d",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/v3stage/UPPER2D/H3_closure/H3_BAND_FLOOR.md",
+   "bytes": 11133,
+   "sha256": "7a40e2675232244bc63fcab2304b4b9cd3cd59a5c4965a3be5e65db7436fcfc2",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/v3stage/UPPER2D/H3_closure/H3_CLOSURE.md",
+   "bytes": 16857,
+   "sha256": "387e4bae4881a036486f17f317ae5e26b7d94bd5e1e829cc76946d090fb81637",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/v3stage/UPPER2D/H3_closure/H3_RUNG_FLOOR.md",
+   "bytes": 7003,
+   "sha256": "6347275d86c56842b719b36180e535bc1793d6995ddb68464db2960820440dfa",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/v3stage/UPPER2D/H4_JC_repair/H4_JC_EVENT_LEVEL.md",
+   "bytes": 16888,
+   "sha256": "e26eb04f6704dcfef67001604293dc21a65b1c6e7a26c0309793aca4fb6e955e",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/v3stage/UPPER2D/H4_closure/H4_CLOSURE.md",
+   "bytes": 18527,
+   "sha256": "859696e254b3fac2d50437135963d9f3dfe00a33573e309a01ce8df326ac652c",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/v3stage/UPPER2D/H5_closure/H5_CLOSURE_TIGHTENING_2026-09-15.md",
+   "bytes": 7540,
+   "sha256": "125352325b09062fdc1f49402222402f388240f44b0f60b1e2636f19888c0615",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/v3stage/UPPER2D/H5_closure/H5_RUNG2_2026-09-15.md",
+   "bytes": 5311,
+   "sha256": "5f40b65287fbf2279e58d1f2c16e3f595af369fdad67e71e10ec274a036d2c28",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/v3stage/UPPER2D/H5_closure/H5_RUNG3_2026-09-15.md",
+   "bytes": 3157,
+   "sha256": "9cfa79bbb8202e7e41e291f4ab7f73339abce33d766f83f5e12279ac9d19d4f2",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/v3stage/UPPER2D/H5_closure/H5_TOTALS_ERRATA_2026-09-15.md",
+   "bytes": 2217,
+   "sha256": "a7ce5299bdaab5a1a79da50af7b8e32f1b7d193d175d4dff46a224a0b12eb4f2",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/v3stage/UPPER2D/H5_closure/H5_TOTALS_FREEZE_2026-09-15.md",
+   "bytes": 1804,
+   "sha256": "5f1ee690aef4b95ceec76eaea8fd02dac2e23d2d1fc233fb31ee1e07193a59da",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/v3stage/UPPER2D/H5_closure/h5_totals.json",
+   "bytes": 2364,
+   "sha256": "f3e672a3cb4d4016a117624493a8ce766c5bf21e1a7697b840da82e896f98ecf",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/v3stage/UPPER2D/H5_closure/h5_totals_r0.025_v2.json",
+   "bytes": 2385,
+   "sha256": "f7697bcfa0fe32b5c87c8ef8adef5d4384ab1bda7cd4a7c4782fef8c99103fcb",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/v3stage/UPPER2D/H5_closure/h5_totals_r0.035355_v2.json",
+   "bytes": 2399,
+   "sha256": "808d6901e3254a73181aa696904ed04567d401b6e58300454d489046c36f4f64",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/v3stage/UPPER2D/H5_closure/h5_totals_v3.json",
+   "bytes": 2364,
+   "sha256": "8d7028e4d0d49d54d3a7c4589a898289ec29eee6c2de9c774e99df0da46596bb",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/v3stage/UPPER2D/H5_closure/zband/H5_ZBAND_CONSUMPTION_2026-09-15.md",
+   "bytes": 3463,
+   "sha256": "9445bdd3beba72c7533152aed08b115cccb20a107f6f0bb57c65b97eda6827a9",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/zbstage/prog/h5_zband_consume.py",
+   "bytes": 6488,
+   "sha256": "f5965c43f3fb907fc60f95ba289d2940e9c854c7efcc93f6d3c2943521066d74",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/zbstage/root/UPPER2D/H3_closure/band_normal.txt",
+   "bytes": 2835,
+   "sha256": "dcb3c8e6152876021c8b116903c9a7c1ac6be7417a9b4042b89c00b911fe565d",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/zbstage/root/UPPER2D/H3_closure/ceil_O.txt",
+   "bytes": 2698,
+   "sha256": "26d08534979083275fe14ce789d9cfc4f59ab9250a6cfc830e9acca80a14ae00",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/zbstage/root/UPPER2D/H3_closure/h3_band_ceil.py",
+   "bytes": 37950,
+   "sha256": "b97c5428a20e5dd33f3e53653d20447f1e27515dcc7dc7a7c2004ebe30029452",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/zbstage/root/UPPER2D/H3_closure/h3_band_floor.py",
+   "bytes": 37315,
+   "sha256": "a907eeedd767b0b97461df8e237cdca130a607b5dede50ad5ba4b05c957d22a5",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/zbstage/zb_O.txt",
+   "bytes": 2380,
+   "sha256": "a570dadee599def5f03ad40f6029280520f4a14f9a5c17040649ec78132bc4bf",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/zips/close_b9c2.zip",
+   "bytes": 1190232,
+   "sha256": "eb5fc2c2279787df628ac763c5f48df6cddf9cd8763b103074dc4f6cae0d3a6b",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/zips/okcomputer_gap_closure.zip",
+   "bytes": 30148285,
+   "sha256": "a2136bc033f349382f9896896347da7a6dabde3334103276ad04db9205aa2b5b",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/zx/D3_PERCOLATION.md",
+   "bytes": 18808,
+   "sha256": "45f58a76749025aa21bfce53daa1c1f06092e677a67a9765fb9cd1d90434c12d",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/zx/D3_REMOTE_AMENDMENT.md",
+   "bytes": 8019,
+   "sha256": "fbe7583fde05e9ed212504e3d07e4a8e75e092c1d6a920ef09fdb4d65c8f24f9",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/zx/FREEZE_PERC_DECAY.txt",
+   "bytes": 3966,
+   "sha256": "6bbe6e27a91c777b7245294fc5740462af06e7f20b0f92ff4eae15cd2f05edef",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/zx/H5_CLOSURE.md",
+   "bytes": 15246,
+   "sha256": "211ee1839db8d92bfe7d5d82ace3ed55b4ec3267b7b7db2a2f7ee98a0a1d5cef",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/zx/MANIFEST.sha256",
+   "bytes": 1513,
+   "sha256": "d0edfadb0966144d0d2c36a3444f8031d3c2f421d89410aca61dd9258a01a19f",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/zx/d3_falsifier.py",
+   "bytes": 32264,
+   "sha256": "abbb40d279606660a0c16af253d9bc15038f7221702fb7aaa6f74b4b893df032",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/bytespins/zx/pd_normal.txt",
+   "bytes": 9762,
+   "sha256": "7547476c1ded7f69c63d65a5f3be97ce0568cbfd7746b5dacdd24dc462f17ff7",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/reexec/stage/UPPER2D/B1_taxonomy/__pycache__/b1_falsifier.cpython-311.pyc",
+   "bytes": 22501,
+   "sha256": "ad95f30699c644114553971aef709e11851f2ca8be51cc61e9a51c4f7f3e8c1e",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/reexec/stage/UPPER2D/B1_taxonomy/b1_falsifier.py",
+   "bytes": 14734,
+   "sha256": "818df7985412071259345455c9ff6b68cad0c0fa9d636009cf8849b550154185",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/reexec/stage/UPPER2D/B4LOC_damline/b4loc_driver.py",
+   "bytes": 26271,
+   "sha256": "bf3b022580a7eea1b4797658fe77a74a92850d59478212f39bca2bb231f20f02",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/reexec/stage/UPPER2D/B4LOC_damline/b4loc_falsifier.py",
+   "bytes": 3360,
+   "sha256": "d59ad79088dbf152b6e196bbd48ee0a79ef304d60611148eabaa575e7fd8b10f",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/reexec/stage/UPPER2D/H2_foundations/__pycache__/cov_exact.cpython-311.opt-1.pyc",
+   "bytes": 31092,
+   "sha256": "3e87fe1c26494c5bda434b7039e4f7167499a361719692297d3854b3491ca351",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/reexec/stage/UPPER2D/H2_foundations/cov_exact.py",
+   "bytes": 21961,
+   "sha256": "f08c1c5f653f2ffd2e85d39e1112f80d15db04d15f932e5ee42db2ca3553e783",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  },
+  {
+   "local_copy": "verify/reexec/stage/UPPER2D/H2_foundations/pin_transform.py",
+   "bytes": 17623,
+   "sha256": "c6988ac7fcfa32dcc03c1374e13fb4c26af1c12c25cb824a315e6dce8991fd41",
+   "what": "staged copy of a container-zip a2136bc0 member or of a landed main file, or a regenerated transcript; not included"
+  }
+ ]
+}
