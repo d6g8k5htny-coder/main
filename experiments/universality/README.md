@@ -113,12 +113,41 @@ the exact source and the remaining coalescing-contact factorial scope.
 Independent copies do not establish a same-field spatial expanding-domain
 process or retire the existing regional additional-witness lane.
 
+The [spectral Gaussian admission theorem](spectral_gaussian_admission/PROOF.md)
+extends the actual H0 intensity and iid-copy process to stationary Gaussian
+spectra with a positive K5 block and fourth-order square-root summability.
+It independently proves the C4 interfaces, permits arbitrary outside support
+holes and supplies optional zero-mode removal and general finite carriers.
+A dyadic argument admits polynomial tails beyond that summability test.
+The coefficient remains the actual jet functional of each law; explicit
+spectral degeneracy examples exclude automatic family uniformity. Its
+[review](spectral_gaussian_admission/REVIEW.md) binds the original and current
+source verdicts and finite-regularity classical imports. This admits no
+covariance-matched non-Gaussian sampler or numerical approximation by itself.
+
+The [higher-homology fold theorem](higher_homology_fold/PROOF.md) now proves,
+under its stated same-field C4 continuation and complete critical-list
+hypotheses, that an isolated regular cubic fold creates an actual ordinary
+Hp interval with p=d-j-1, where j is the transverse Hessian index. Exact transverse
+splitting gives one adapted-flow connection; a fixed-annulus height cost
+excludes other connecting orbits, making the relative handle incidence a
+unit. Aligned regular-level isotopy transfers smooth handle incidence to
+the actual C4 filtration. Under the admitted SG contracts, every degree
+p=0,...,d-1 has lifetime density asymptotic to c_(q,p)*ell^(-1/3)
+as ell tends to zero, with law-specific inertia-cone coefficient and symmetry
+c_(q,p)=c_(q,d-1-p). The all-degree weighted
+cluster estimate yields a degree-marked iid-copy Poisson limit. Its
+[review](higher_homology_fold/REVIEW.md) binds the exact topological proof,
+classical imports and source exposure. This does not admit a numerical
+Hp algorithm, arbitrary coefficient laws/geometries or spatial process.
+
 These conventional analytic results discharge selected-bar counting and the
-leading near/far intensity composition for the stated ideal finite laws and the
-specific exact periodized Gaussian law. Further
+leading near/far intensity composition for the stated ideal finite laws and
+admitted stationary Gaussian spectral/carrier laws. Further
 conditional ranks, literal critical formal alignment, certified sampler and
-numerical/count coupling, genuinely blind law-by-law admission, higher homology
-and spatial expanding-domain process convergence remain separate obligations. The sampler
+numerical/count coupling, genuinely blind law-by-law admission, further field laws
+and geometries, and spatial expanding-domain process convergence remain separate
+obligations. The sampler
 and catalogue admissibility labels retain their original meaning.
 
 `models.py` defines the implemented finite-cutoff normalized sampler. Only
@@ -190,6 +219,6 @@ python3 -B -S experiments/universality/verify_published.py experiments/universal
 No held-out seeds have been consumed by this suite. Before a blind experiment,
 supply each model's actual law admission, coefficient/remainder/window,
 implementation coupling, numerical/count transfer, field-level precision and
-independent holdout custody described in the protocol. Further field laws,
-higher homology and geometry changes need their own actual analytic adapters
-and computational contracts; spatial expanding-domain process limits remain separate.
+independent holdout custody described in the protocol. Further field laws and geometry changes need their own actual analytic adapters;
+all admitted degrees still need their actual computational/count contracts.
+Spatial expanding-domain process limits remain separate.
