@@ -1,0 +1,16 @@
+# command run at 2026-10-18T01:29:57.717Z (result at 2026-10-18T01:29:57.807Z) by a check agent of this session, run wf_201645cc-fe8
+# --- command ---
+cd <SCRATCH>/kern/work_cancellation; python3 -I -c "
+import json
+for r in json.load(open('out/cancel_rows.json')):
+  print(r['L'],r['setting'],'A_lo+',r['A_lo_positive'],'beta_sub_lo+',r['beta_sub_lo_pos'],'beta_cf_lo+',r['beta_cf_lo_pos'],'nu_sub_lo+',r['nu_sub_lo_pos'],'nu_cf_lo+',r['nu_cf_lo_pos'])
+"; grep -n "0.60\|0.48\|threshold" scripts/thresholds.py | head
+# --- captured tool output (verbatim) ---
+1 default A_lo+ True beta_sub_lo+ True beta_cf_lo+ True nu_sub_lo+ False nu_cf_lo+ False
+1 max A_lo+ True beta_sub_lo+ True beta_cf_lo+ True nu_sub_lo+ True nu_cf_lo+ True
+1/2 default A_lo+ False beta_sub_lo+ False beta_cf_lo+ False nu_sub_lo+ False nu_cf_lo+ False
+1/2 max A_lo+ True beta_sub_lo+ True beta_cf_lo+ True nu_sub_lo+ False nu_cf_lo+ False
+2 default A_lo+ True beta_sub_lo+ True beta_cf_lo+ True nu_sub_lo+ True nu_cf_lo+ True
+2 max A_lo+ True beta_sub_lo+ True beta_cf_lo+ True nu_sub_lo+ True nu_cf_lo+ True
+3 default A_lo+ True beta_sub_lo+ True beta_cf_lo+ True nu_sub_lo+ True nu_cf_lo+ True
+3 max A_lo+ True beta_sub_lo+ True beta_cf_lo+ True nu_sub_lo+ True nu_cf_lo+ True

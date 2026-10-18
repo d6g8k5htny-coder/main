@@ -1,0 +1,59 @@
+# command run at 2026-10-18T01:40:48.375Z (result at 2026-10-18T01:40:54.197Z) by a check agent of this session, run wf_f54f5976-5e0
+# --- command ---
+mkdir -p <SCRATCH>/kern/lens_b && cat > <SCRATCH>/kern/lens_b/chk.py <<'EOF'
+import mpmath as mp
+mp.mp.dps = 600
+def mom(L):
+    L = mp.mpf(L)
+    h = 2*mp.pi/L; al = h*h/2
+    cut = 2*mp.log(10)*mp.mp.dps + 50
+    K = int(mp.sqrt(cut/al)) + 2
+    ms = list(range(-K, K+1))
+    w = {m: mp.exp(-al*m*m) for m in ms}
+    z = mp.fsum(w.values())
+    p = {m: w[m]/z for m in ms}
+    q2 = {m: (h*m)**2 for m in ms}
+    a = mp.fsum(p[m]*q2[m] for m in ms)
+    b = mp.fsum(p[m]*q2[m]**2 for m in ms)
+    c = mp.fsum(p[m]*q2[m]**3 for m in ms)
+    return dict(L=L,h=h,al=al,z=z,p=p,q2=q2,a=a,b=b,c=c,ms=ms,K=K)
+lg = lambda x: mp.log10(abs(x))
+print("L  K  log10[(b+a^2)/beta]  log10[(b+2a^2)/beta]  log10[(c+b^2/a)/nu3]  log10[(c+3b^2/a)/nu3]  nu3/(72h^6e^-4a/z)  z")
+for L in ["0.3","0.5","1","2","3","4","6","8","12"]:
+    r = mom(mp.mpf(L)); a,b,c,z,h,al = r['a'],r['b'],r['c'],r['z'],r['h'],r['al']
+    beta = b - a*a; nu3 = c - b*b/a
+    lead = 72*h**6*mp.exp(-4*al)/z
+    print(L, r['K'], mp.nstr(lg((b+a*a)/beta),5), mp.nstr(lg((b+2*a*a)/beta),5),
+          mp.nstr(lg((c+b*b/a)/nu3),6), mp.nstr(lg((c+3*b*b/a)/nu3),6),
+          mp.nstr(nu3/lead, 12), mp.nstr(z, 8), "beta=", mp.nstr(beta,6), "nu3=", mp.nstr(nu3,6))
+# identity checks
+print("identities")
+for L in ["0.5","1","2","3","6","12"]:
+    r = mom(mp.mpf(L)); a,b,c = r['a'],r['b'],r['c']; p,q2,ms = r['p'],r['q2'],r['ms']
+    B = mp.fsum(p[k]*p[l]*(q2[k]-q2[l])**2 for k in ms for l in ms)/2
+    D = mp.fsum(p[k]*p[l]*q2[k]*q2[l]*(q2[k]-q2[l])**2 for k in ms for l in ms)/2
+    print(L, "relerr beta", mp.nstr(abs(B-(b-a*a))/abs(B),5), "relerr ac-b2", mp.nstr(abs(D-(a*c-b*b))/abs(D),5))
+EOF
+time <SCRATCH>/venv/bin/python -I <SCRATCH>/kern/lens_b/chk.py
+# --- captured tool output (verbatim) ---
+L  K  log10[(b+a^2)/beta]  log10[(b+2a^2)/beta]  log10[(c+b^2/a)/nu3]  log10[(c+3b^2/a)/nu3]  nu3/(72h^6e^-4a/z)  z
+0.3 5 9.7366e-96 1.4605e-95 284.499 284.8 1.0 1.0 beta= 2.15688e-90 nu3= 5.99695e-372
+0.5 7 8.8987e-35 1.3348e-34 101.616 101.917 1.0 1.0 beta= 2.55477e-30 nu3= 1.95218e-129
+1 13 4.6475e-9 6.9712e-9 24.4626 24.7636 1.0 1.0 beta= 8.33912e-6 nu3= 2.26931e-28
+2 25 0.012317 0.018347 5.17421 5.47524 0.999998512362 1.0143838 beta= 1.36166 nu3= 0.000182557
+3 37 0.15842 0.22018 1.6315 1.92743 0.994753065638 1.223418 beta= 2.93985 nu3= 0.765186
+4 49 0.28319 0.37645 0.720705 0.978327 0.941407072056 1.5968398 beta= 2.12862 nu3= 4.58575
+6 73 0.30103 0.39793 0.602126 0.845174 1.35563937611 2.3936538 beta= 2.00004 nu3= 5.99891
+8 97 0.30103 0.39794 0.60206 0.845098 3.89106834791 3.1915382 beta= 2.0 nu3= 6.0
+12 145 0.30103 0.39794 0.60206 0.845098 33.5001636095 4.7873074 beta= 2.0 nu3= 6.0
+identities
+0.5 relerr beta 0.0 relerr ac-b2 9.5416e-500
+1 relerr beta 0.0 relerr ac-b2 1.7034e-577
+2 relerr beta 2.0469e-601 relerr ac-b2 2.16e-596
+3 relerr beta 0.0 relerr ac-b2 2.4905e-600
+6 relerr beta 2.7871e-601 relerr ac-b2 3.7169e-601
+12 relerr beta 2.7871e-601 relerr ac-b2 5.5743e-601
+
+real	0m5.779s
+user	0m5.670s
+sys	0m0.051s

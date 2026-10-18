@@ -1,0 +1,35 @@
+..............
+----------------------------------------------------------------------
+Ran 14 tests in 0.053s
+
+OK
+Traceback (most recent call last):
+  File "<SCRATCH>/q429/wt_1/tools/museum_check.py", line 67, in <module>
+    main()
+  File "<SCRATCH>/q429/wt_1/tools/museum_check.py", line 45, in main
+    inputs = list(pool.map(
+             ^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/concurrent/futures/_base.py", line 619, in result_iterator
+    yield _result_or_cancel(fs.pop())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/concurrent/futures/_base.py", line 317, in _result_or_cancel
+    return fut.result(timeout)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/concurrent/futures/_base.py", line 449, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/usr/lib/python3.11/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SCRATCH>/q429/wt_1/tools/museum_check.py", line 46, in <lambda>
+    lambda source: museum_data.read_source(source, ROOT, args.math_root), sources))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SCRATCH>/q429/wt_1/tools/museum_data.py", line 526, in read_source
+    return verify_bytes(raw, identity)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SCRATCH>/q429/wt_1/tools/museum_data.py", line 382, in verify_bytes
+    raise ValueError("source identity mismatch: " + expected["path"])
+ValueError: source identity mismatch: STATUS.md
+RC=1 SECONDS=1.749818112

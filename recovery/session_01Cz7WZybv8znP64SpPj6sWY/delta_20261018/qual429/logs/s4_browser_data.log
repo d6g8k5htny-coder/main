@@ -1,0 +1,1758 @@
+TAP version 13
+# Subtest: export records bounded current parameters, eigenvalues and zero boundary meaning
+ok 1 - export records bounded current parameters, eigenvalues and zero boundary meaning
+  ---
+  duration_ms: 7.791812
+  type: 'test'
+  ...
+# Subtest: negative decimal grid eigenvalues stay canonical across figure model, metadata, citation and footer
+ok 2 - negative decimal grid eigenvalues stay canonical across figure model, metadata, citation and footer
+  ---
+  duration_ms: 7.818012
+  type: 'test'
+  ...
+# Subtest: accepted floating-point step tolerance normalizes before classifying and replaying the figure
+ok 3 - accepted floating-point step tolerance normalizes before classifying and replaying the figure
+  ---
+  duration_ms: 3.894951
+  type: 'test'
+  ...
+# Subtest: invalid, out-of-range or off-step parameters and false timestamps are refused
+ok 4 - invalid, out-of-range or off-step parameters and false timestamps are refused
+  ---
+  duration_ms: 0.595473
+  type: 'test'
+  ...
+# Subtest: citation keeps only the canonical figure permalink and pinned teaching source
+ok 5 - citation keeps only the canonical figure permalink and pinned teaching source
+  ---
+  duration_ms: 0.345894
+  type: 'test'
+  ...
+# Subtest: SVG retains actual geometry, concrete theme, aria names and visible teaching footer
+ok 6 - SVG retains actual geometry, concrete theme, aria names and visible teaching footer
+  ---
+  duration_ms: 1.57869
+  type: 'test'
+  ...
+# Subtest: DOM capture accepts actual plain labels with empty class and omits exported classes
+ok 7 - DOM capture accepts actual plain labels with empty class and omits exported classes
+  ---
+  duration_ms: 3.722342
+  type: 'test'
+  ...
+# Subtest: light theme colors are exported from the captured record
+ok 8 - light theme colors are exported from the captured record
+  ---
+  duration_ms: 0.70042
+  type: 'test'
+  ...
+# Subtest: inherited native system font stacks remain self-contained without remote font syntax
+ok 9 - inherited native system font stacks remain self-contained without remote font syntax
+  ---
+  duration_ms: 4.887962
+  type: 'test'
+  ...
+# Subtest: all diagram text and attribute values are XML escaped
+ok 10 - all diagram text and attribute values are XML escaped
+  ---
+  duration_ms: 1.615049
+  type: 'test'
+  ...
+# Subtest: XML-forbidden BMP noncharacters are refused in every displayed text kind
+ok 11 - XML-forbidden BMP noncharacters are refused in every displayed text kind
+  ---
+  duration_ms: 2.978902
+  type: 'test'
+  ...
+# Subtest: blank, stale or unsupported diagram content is refused instead of exported
+ok 12 - blank, stale or unsupported diagram content is refused instead of exported
+  ---
+  duration_ms: 8.688983
+  type: 'test'
+  ...
+# Subtest: clipboard absence exposes manual citation and never permits copy
+ok 13 - clipboard absence exposes manual citation and never permits copy
+  ---
+  duration_ms: 0.514611
+  type: 'test'
+  ...
+# Subtest: clipboard denial preserves the current manual text and reports failure
+ok 14 - clipboard denial preserves the current manual text and reports failure
+  ---
+  duration_ms: 0.252
+  type: 'test'
+  ...
+# Subtest: pending clipboard writes are serialized and cannot report stale settings as copied
+ok 15 - pending clipboard writes are serialized and cannot report stale settings as copied
+  ---
+  duration_ms: 0.249209
+  type: 'test'
+  ...
+# Subtest: capture refusal clears the current citation text and blocks a later copy
+ok 16 - capture refusal clears the current citation text and blocks a later copy
+  ---
+  duration_ms: 2.465977
+  type: 'test'
+  ...
+# Subtest: capture refusal during a pending copy clears text and cannot claim stale success or fallback
+ok 17 - capture refusal during a pending copy clears text and cannot claim stale success or fallback
+  ---
+  duration_ms: 1.169755
+  type: 'test'
+  ...
+# Subtest: a successful current write reports success, while unavailable figures block later writes
+ok 18 - a successful current write reports success, while unavailable figures block later writes
+  ---
+  duration_ms: 0.449846
+  type: 'test'
+  ...
+# Subtest: evidence shows recorded links without promoting missing review or formal evidence
+ok 19 - evidence shows recorded links without promoting missing review or formal evidence
+  ---
+  duration_ms: 5.227253
+  type: 'test'
+  ...
+# Subtest: evidence retains unsafe paths as metadata and never turns a reference into verification
+ok 20 - evidence retains unsafe paths as metadata and never turns a reference into verification
+  ---
+  duration_ms: 0.556841
+  type: 'test'
+  ...
+# Subtest: all-records and exact classification filters intersect text without relabeling nodes
+ok 21 - all-records and exact classification filters intersect text without relabeling nodes
+  ---
+  duration_ms: 32.851942
+  type: 'test'
+  ...
+# Subtest: saved filters restore exact state and visibly reject unknown classifications
+ok 22 - saved filters restore exact state and visibly reject unknown classifications
+  ---
+  duration_ms: 2.551491
+  type: 'test'
+  ...
+# Subtest: recorded context keeps reading-rule order and resolves only recorded same-graph references
+ok 23 - recorded context keeps reading-rule order and resolves only recorded same-graph references
+  ---
+  duration_ms: 2.825193
+  type: 'test'
+  ...
+# Subtest: absent context is visibly not recorded and is never inferred from dependencies
+ok 24 - absent context is visibly not recorded and is never inferred from dependencies
+  ---
+  duration_ms: 5.940579
+  type: 'test'
+  ...
+# Subtest: unresolved and unsafe context references stay literal without executable destinations
+ok 25 - unresolved and unsafe context references stay literal without executable destinations
+  ---
+  duration_ms: 2.752337
+  type: 'test'
+  ...
+# Subtest: malformed context preserves complete recorded values instead of inventing references
+ok 26 - malformed context preserves complete recorded values instead of inventing references
+  ---
+  duration_ms: 8.722464
+  type: 'test'
+  ...
+# Subtest: context presentation does not change graph edges, impact ranking, classifications or existing search
+ok 27 - context presentation does not change graph edges, impact ranking, classifications or existing search
+  ---
+  duration_ms: 8.508849
+  type: 'test'
+  ...
+# Subtest: dependency startup preserves complete source metadata and search after 0 ms digest delay
+ok 28 - dependency startup preserves complete source metadata and search after 0 ms digest delay
+  ---
+  duration_ms: 96.985911
+  type: 'test'
+  ...
+# Subtest: dependency startup preserves complete source metadata and search after 150 ms digest delay
+ok 29 - dependency startup preserves complete source metadata and search after 150 ms digest delay
+  ---
+  duration_ms: 173.48661
+  type: 'test'
+  ...
+# Subtest: dependency startup preserves complete source metadata and \#object-evidence after 0 ms digest delay
+ok 30 - dependency startup preserves complete source metadata and \#object-evidence after 0 ms digest delay
+  ---
+  duration_ms: 21.897911
+  type: 'test'
+  ...
+# Subtest: dependency startup preserves complete source metadata and \#object-evidence after 150 ms digest delay
+ok 31 - dependency startup preserves complete source metadata and \#object-evidence after 150 ms digest delay
+  ---
+  duration_ms: 187.873455
+  type: 'test'
+  ...
+# Subtest: dependency startup preserves complete source metadata and \#object-audit after 0 ms digest delay
+ok 32 - dependency startup preserves complete source metadata and \#object-audit after 0 ms digest delay
+  ---
+  duration_ms: 62.110166
+  type: 'test'
+  ...
+# Subtest: dependency startup preserves complete source metadata and \#object-audit after 150 ms digest delay
+ok 33 - dependency startup preserves complete source metadata and \#object-audit after 150 ms digest delay
+  ---
+  duration_ms: 195.444931
+  type: 'test'
+  ...
+# Subtest: dependency startup preserves complete source metadata and \#object-reading-context after 0 ms digest delay
+ok 34 - dependency startup preserves complete source metadata and \#object-reading-context after 0 ms digest delay
+  ---
+  duration_ms: 35.741919
+  type: 'test'
+  ...
+# Subtest: dependency startup preserves complete source metadata and \#object-reading-context after 150 ms digest delay
+ok 35 - dependency startup preserves complete source metadata and \#object-reading-context after 150 ms digest delay
+  ---
+  duration_ms: 202.678733
+  type: 'test'
+  ...
+# Subtest: the pinned graph is complete and structurally valid
+ok 36 - the pinned graph is complete and structurally valid
+  ---
+  duration_ms: 4.832018
+  type: 'test'
+  ...
+# Subtest: unresolved targets include open leaves with no recorded dependents
+ok 37 - unresolved targets include open leaves with no recorded dependents
+  ---
+  duration_ms: 7.201244
+  type: 'test'
+  ...
+# Subtest: unresolved targets rank by transitive impact without hiding zero-impact leaves
+ok 38 - unresolved targets rank by transitive impact without hiding zero-impact leaves
+  ---
+  duration_ms: 8.934431
+  type: 'test'
+  ...
+# Subtest: downstream counts keep all-edge reach separate from required-only reach
+ok 39 - downstream counts keep all-edge reach separate from required-only reach
+  ---
+  duration_ms: 3.062785
+  type: 'test'
+  ...
+# Subtest: the pinned snapshot keeps its recorded counterexample and 19 differing counts
+ok 40 - the pinned snapshot keeps its recorded counterexample and 19 differing counts
+  ---
+  duration_ms: 9.409119
+  type: 'test'
+  ...
+# Subtest: reach labels state their edge scope and do not describe reach as blocking
+ok 41 - reach labels state their edge scope and do not describe reach as blocking
+  ---
+  duration_ms: 4.452312
+  type: 'test'
+  ...
+# Subtest: search covers ids, notes, source paths, classifications and edge relations
+ok 42 - search covers ids, notes, source paths, classifications and edge relations
+  ---
+  duration_ms: 12.629101
+  type: 'test'
+  ...
+# Subtest: the app verifies graph bytes against a compiled source identity before parsing
+ok 43 - the app verifies graph bytes against a compiled source identity before parsing
+  ---
+  duration_ms: 16.892522
+  type: 'test'
+  ...
+# Subtest: classification styling and metadata preserve source review lineage
+ok 44 - classification styling and metadata preserve source review lineage
+  ---
+  duration_ms: 6.55179
+  type: 'test'
+  ...
+# Subtest: classification CSS identifiers use locale-neutral ASCII case folding
+ok 45 - classification CSS identifiers use locale-neutral ASCII case folding
+  ---
+  duration_ms: 0.429164
+  type: 'test'
+  ...
+# Subtest: dependency paths use required source edges and retain relation metadata
+ok 46 - dependency paths use required source edges and retain relation metadata
+  ---
+  duration_ms: 11.671496
+  type: 'test'
+  ...
+# Subtest: saved node links fail visibly instead of selecting an unrelated node
+ok 47 - saved node links fail visibly instead of selecting an unrelated node
+  ---
+  duration_ms: 3.494562
+  type: 'test'
+  ...
+# Subtest: provenance pins the exact Math source bytes and labels the snapshot boundary
+ok 48 - provenance pins the exact Math source bytes and labels the snapshot boundary
+  ---
+  duration_ms: 7.272917
+  type: 'test'
+  ...
+# Subtest: the viewer page exposes its source boundary and accessible interaction contract
+ok 49 - the viewer page exposes its source boundary and accessible interaction contract
+  ---
+  duration_ms: 3.642955
+  type: 'test'
+  ...
+# Subtest: the evidence table keeps automatic layout and breaks words only in Source detail
+ok 50 - the evidence table keeps automatic layout and breaks words only in Source detail
+  ---
+  duration_ms: 11.792582
+  type: 'test'
+  ...
+# Subtest: the three schema-absent evidence lanes read identically for different nodes and never claim a failure
+ok 51 - the three schema-absent evidence lanes read identically for different nodes and never claim a failure
+  ---
+  duration_ms: 3.081643
+  type: 'test'
+  ...
+# Subtest: recorded review text quotes the disposition and provider(s), names review fields recorded without one, and reports absence only when no review field exists
+ok 52 - recorded review text quotes the disposition and provider(s), names review fields recorded without one, and reports absence only when no review field exists
+  ---
+  duration_ms: 4.563874
+  type: 'test'
+  ...
+# Subtest: the static classification options and token list equal the pinned graph and stay disabled until verified
+ok 53 - the static classification options and token list equal the pinned graph and stay disabled until verified
+  ---
+  duration_ms: 4.106176
+  type: 'test'
+  ...
+# Subtest: the static vocabulary quotes exactly the classifications, layers, kinds and non-discharge tokens of the pinned graph
+ok 54 - the static vocabulary quotes exactly the classifications, layers, kinds and non-discharge tokens of the pinned graph
+  ---
+  duration_ms: 2.770117
+  type: 'test'
+  ...
+# Subtest: the unresolved-target sentence names exactly the viewer list rule
+ok 55 - the unresolved-target sentence names exactly the viewer list rule
+  ---
+  duration_ms: 6.070862
+  type: 'test'
+  ...
+# Subtest: the page states the rendered bytes as PROVENANCE pins them and dates its currency read
+ok 56 - the page states the rendered bytes as PROVENANCE pins them and dates its currency read
+  ---
+  duration_ms: 22.869239
+  type: 'test'
+  ...
+# Subtest: the cone classifies signs, retaining both zero-eigenvalue boundaries
+ok 57 - the cone classifies signs, retaining both zero-eigenvalue boundaries
+  ---
+  duration_ms: 2.31198
+  type: 'test'
+  ...
+# Subtest: cone weight is determinant squared only on the negative-definite side
+ok 58 - cone weight is determinant squared only on the negative-definite side
+  ---
+  duration_ms: 0.675942
+  type: 'test'
+  ...
+# Subtest: halving pin distance divides cubic gap by eight and annulus radii by two
+ok 59 - halving pin distance divides cubic gap by eight and annulus radii by two
+  ---
+  duration_ms: 0.508789
+  type: 'test'
+  ...
+# Subtest: remote membership uses fixed distance and an open height window
+ok 60 - remote membership uses fixed distance and an open height window
+  ---
+  duration_ms: 0.394279
+  type: 'test'
+  ...
+# Subtest: all eight three-object subsets receive the correct capacity-one partition
+ok 61 - all eight three-object subsets receive the correct capacity-one partition
+  ---
+  duration_ms: 0.481491
+  type: 'test'
+  ...
+# Subtest: models reject invalid or unrepresentable teaching parameters
+ok 62 - models reject invalid or unrepresentable teaching parameters
+  ---
+  duration_ms: 0.835451
+  type: 'test'
+  ...
+# Subtest: shared parameters restore all three experiments, including empty selection
+ok 63 - shared parameters restore all three experiments, including empty selection
+  ---
+  duration_ms: 5.009904
+  type: 'test'
+  ...
+# Subtest: invalid numeric links are reported and defaulted without clamping or partial coercion
+ok 64 - invalid numeric links are reported and defaulted without clamping or partial coercion
+  ---
+  duration_ms: 0.342875
+  type: 'test'
+  ...
+# Subtest: invalid choices cannot invent regions or objects
+ok 65 - invalid choices cannot invent regions or objects
+  ---
+  duration_ms: 0.563439
+  type: 'test'
+  ...
+# Subtest: sharing serializes current controls and preserves section and unrelated query fields
+ok 66 - sharing serializes current controls and preserves section and unrelated query fields
+  ---
+  duration_ms: 1.173056
+  type: 'test'
+  ...
+# Subtest: curvature presets draw and commit the selected controls with matching share and export state
+ok 67 - curvature presets draw and commit the selected controls with matching share and export state
+  ---
+  duration_ms: 1.789111
+  type: 'test'
+  ...
+# Subtest: unknown curvature presets leave controls and current figure untouched
+ok 68 - unknown curvature presets leave controls and current figure untouched
+  ---
+  duration_ms: 0.237414
+  type: 'test'
+  ...
+# Subtest: aggregate count uses area, all realizations, and bin width exactly once
+ok 69 - aggregate count uses area, all realizations, and bin width exactly once
+  ---
+  duration_ms: 3.998956
+  type: 'test'
+  ...
+# Subtest: twice the count gives twice the mass and density
+ok 70 - twice the count gives twice the mass and density
+  ---
+  duration_ms: 0.450731
+  type: 'test'
+  ...
+# Subtest: adding zero-count realizations still increases the denominator
+ok 71 - adding zero-count realizations still increases the denominator
+  ---
+  duration_ms: 0.42763
+  type: 'test'
+  ...
+# Subtest: a wider synthetic bin preserves mass and divides density by its width
+ok 72 - a wider synthetic bin preserves mass and divides density by its width
+  ---
+  duration_ms: 0.415728
+  type: 'test'
+  ...
+# Subtest: zero counts produce valid zero estimates without a fabricated positive floor
+ok 73 - zero counts produce valid zero estimates without a fabricated positive floor
+  ---
+  duration_ms: 0.403921
+  type: 'test'
+  ...
+# Subtest: counts and realization totals reject fractions, unsafe integers, and nonnumbers
+ok 74 - counts and realization totals reject fractions, unsafe integers, and nonnumbers
+  ---
+  duration_ms: 1.149741
+  type: 'test'
+  ...
+# Subtest: only positive ordered finite bin edges are accepted
+ok 75 - only positive ordered finite bin edges are accepted
+  ---
+  duration_ms: 0.595543
+  type: 'test'
+  ...
+# Subtest: normalization refuses unsafe exposure and overflow or underflow in positive density
+ok 76 - normalization refuses unsafe exposure and overflow or underflow in positive density
+  ---
+  duration_ms: 0.447836
+  type: 'test'
+  ...
+# Subtest: input parsing rejects blanks instead of turning them into zero counts
+ok 77 - input parsing rejects blanks instead of turning them into zero counts
+  ---
+  duration_ms: 1.426013
+  type: 'test'
+  ...
+# Subtest: decimal input, including scientific notation, reaches the same normalization
+ok 78 - decimal input, including scientific notation, reaches the same normalization
+  ---
+  duration_ms: 2.235995
+  type: 'test'
+  ...
+# Subtest: decimal conversion cannot round a fractional count to an integer or a nonzero input to zero
+ok 79 - decimal conversion cannot round a fractional count to an integer or a nonzero input to zero
+  ---
+  duration_ms: 2.327299
+  type: 'test'
+  ...
+# Subtest: relative links resolve from the quoting source directory and commit, not the proof or live branch
+ok 80 - relative links resolve from the quoting source directory and commit, not the proof or live branch
+  ---
+  duration_ms: 3.08754
+  type: 'test'
+  ...
+# Subtest: quoted exact review comments and intentionally mutable source pointers keep their identities
+ok 81 - quoted exact review comments and intentionally mutable source pointers keep their identities
+  ---
+  duration_ms: 0.514552
+  type: 'test'
+  ...
+# Subtest: unrecognized schemes, foreign destinations, encoded traversal and malformed identities stay literal
+ok 82 - unrecognized schemes, foreign destinations, encoded traversal and malformed identities stay literal
+  ---
+  duration_ms: 1.72688
+  type: 'test'
+  ...
+# Subtest: source HTML is always text and unsupported Markdown retains its literal spelling
+ok 83 - source HTML is always text and unsupported Markdown retains its literal spelling
+  ---
+  duration_ms: 4.294468
+  type: 'test'
+  ...
+# Subtest: every committed quote retains all wording and its original source independently of formatting
+ok 84 - every committed quote retains all wording and its original source independently of formatting
+  ---
+  duration_ms: 5.36291
+  type: 'test'
+  ...
+# Subtest: unsupported parenthesized destinations and Markdown link titles stay wholly literal
+ok 85 - unsupported parenthesized destinations and Markdown link titles stay wholly literal
+  ---
+  duration_ms: 0.740623
+  type: 'test'
+  ...
+# Subtest: museum exposes source-bound rendering rather than silently omitting the page
+ok 86 - museum exposes source-bound rendering rather than silently omitting the page
+  ---
+  duration_ms: 0.229891
+  type: 'test'
+  ...
+# Subtest: a delayed initial museum bookmark still reaches its verified claim when untouched
+ok 87 - a delayed initial museum bookmark still reaches its verified claim when untouched
+  ---
+  duration_ms: 83.556872
+  type: 'test'
+  ...
+# Subtest: museum wheel while verifying sources cancels delayed focus and scroll
+ok 88 - museum wheel while verifying sources cancels delayed focus and scroll
+  ---
+  duration_ms: 7.950795
+  type: 'test'
+  ...
+# Subtest: museum keydown while verifying sources cancels delayed focus and scroll
+ok 89 - museum keydown while verifying sources cancels delayed focus and scroll
+  ---
+  duration_ms: 15.720416
+  type: 'test'
+  ...
+# Subtest: museum pointerdown while verifying sources cancels delayed focus and scroll
+ok 90 - museum pointerdown while verifying sources cancels delayed focus and scroll
+  ---
+  duration_ms: 12.847023
+  type: 'test'
+  ...
+# Subtest: museum focusin while verifying sources cancels delayed focus and scroll
+ok 91 - museum focusin while verifying sources cancels delayed focus and scroll
+  ---
+  duration_ms: 12.13534
+  type: 'test'
+  ...
+# Subtest: museum hashchange while verifying sources cancels delayed focus and scroll
+ok 92 - museum hashchange while verifying sources cancels delayed focus and scroll
+  ---
+  duration_ms: 7.872428
+  type: 'test'
+  ...
+# Subtest: museum popstate while verifying sources cancels delayed focus and scroll
+ok 93 - museum popstate while verifying sources cancels delayed focus and scroll
+  ---
+  duration_ms: 26.46169
+  type: 'test'
+  ...
+# Subtest: museum pagehide while verifying sources cancels delayed focus and scroll
+ok 94 - museum pagehide while verifying sources cancels delayed focus and scroll
+  ---
+  duration_ms: 7.279635
+  type: 'test'
+  ...
+# Subtest: full reviewed bullets, the reconciled D1 row and both AMEND rows retain their classes and source wording
+ok 95 - full reviewed bullets, the reconciled D1 row and both AMEND rows retain their classes and source wording
+  ---
+  duration_ms: 1.549977
+  type: 'test'
+  ...
+# Subtest: source display cannot promote a counterexample or an AMEND row
+ok 96 - source display cannot promote a counterexample or an AMEND row
+  ---
+  duration_ms: 1.295739
+  type: 'test'
+  ...
+# Subtest: a genuine source elsewhere in the index cannot replace this claim proof or scope
+ok 97 - a genuine source elsewhere in the index cannot replace this claim proof or scope
+  ---
+  duration_ms: 1.215291
+  type: 'test'
+  ...
+# Subtest: replay command must occur exactly in the verified replay source
+ok 98 - replay command must occur exactly in the verified replay source
+  ---
+  duration_ms: 2.713173
+  type: 'test'
+  ...
+# Subtest: lifetime source identity must match D2 and packets must use the pinned main snapshot
+ok 99 - lifetime source identity must match D2 and packets must use the pinned main snapshot
+  ---
+  duration_ms: 1.168546
+  type: 'test'
+  ...
+# Subtest: malformed, mutable and falsely displayed source identities are refused before fetch
+ok 100 - malformed, mutable and falsely displayed source identities are refused before fetch
+  ---
+  duration_ms: 0.439911
+  type: 'test'
+  ...
+# Subtest: verified source bytes are required before a claim can be presented
+ok 101 - verified source bytes are required before a claim can be presented
+  ---
+  duration_ms: 2.165235
+  type: 'test'
+  ...
+# Subtest: streamed responses stop at the byte cap and cancel the reader
+ok 102 - streamed responses stop at the byte cap and cancel the reader
+  ---
+  duration_ms: 1.357841
+  type: 'test'
+  ...
+# Subtest: a stalled response body is aborted within its request deadline
+ok 103 - a stalled response body is aborted within its request deadline
+  ---
+  duration_ms: 16.223193
+  type: 'test'
+  ...
+# Subtest: review comment pointers cannot masquerade as byte-frozen comment content
+ok 104 - review comment pointers cannot masquerade as byte-frozen comment content
+  ---
+  duration_ms: 0.718716
+  type: 'test'
+  ...
+# Subtest: the accepted D1 row binds its STATUS quote, index-pinned proof and byte-bound review
+ok 105 - the accepted D1 row binds its STATUS quote, index-pinned proof and byte-bound review
+  ---
+  duration_ms: 1.536452
+  type: 'test'
+  ...
+# Subtest: packet index refuses a foreign packet, changed scientific effect and mismatched result path
+ok 106 - packet index refuses a foreign packet, changed scientific effect and mismatched result path
+  ---
+  duration_ms: 2.089635
+  type: 'test'
+  ...
+# Subtest: new landed chart packet requires its exact separate main commit and remains engineering-only
+ok 107 - new landed chart packet requires its exact separate main commit and remains engineering-only
+  ---
+  duration_ms: 5.529542
+  type: 'test'
+  ...
+# Subtest: rendered claims use declared HTML containers, complete identities and literal disclaimer
+ok 108 - rendered claims use declared HTML containers, complete identities and literal disclaimer
+  ---
+  duration_ms: 23.726755
+  type: 'test'
+  ...
+# Subtest: museum manifest must match the config byte count and SHA-256 before source projection
+ok 109 - museum manifest must match the config byte count and SHA-256 before source projection
+  ---
+  duration_ms: 4.512199
+  type: 'test'
+  ...
+# Subtest: museum.html keeps its two evidence live regions and a separate current observation region
+ok 110 - museum.html keeps its two evidence live regions and a separate current observation region
+  ---
+  duration_ms: 1.09316
+  type: 'test'
+  ...
+# Subtest: brand.css keeps the route status line visible and in the error colour when it refuses
+ok 111 - brand.css keeps the route status line visible and in the error colour when it refuses
+  ---
+  duration_ms: 1.311059
+  type: 'test'
+  ...
+# Subtest: refused cards carry no role and are not live; the museum status line counts every one of them
+ok 112 - refused cards carry no role and are not live; the museum status line counts every one of them
+  ---
+  duration_ms: 5.53662
+  type: 'test'
+  ...
+# Subtest: an unknown exhibit is counted in the museum status line like any other unavailable view
+ok 113 - an unknown exhibit is counted in the museum status line like any other unavailable view
+  ---
+  duration_ms: 7.161273
+  type: 'test'
+  ...
+# Subtest: a declared exhibit that cannot be shown is counted in the museum status line
+ok 114 - a declared exhibit that cannot be shown is counted in the museum status line
+  ---
+  duration_ms: 7.942988
+  type: 'test'
+  ...
+# Subtest: the dependency-record join map binds each card to its graph node by exact path and SHA-256, never by title
+ok 115 - the dependency-record join map binds each card to its graph node by exact path and SHA-256, never by title
+  ---
+  duration_ms: 1.670684
+  type: 'test'
+  ...
+# Subtest: a coherent old browser cache cannot hide the newly pinned packet
+ok 116 - a coherent old browser cache cannot hide the newly pinned packet # SKIP
+  ---
+  duration_ms: 0.073142
+  type: 'test'
+  ...
+# Subtest: a mixed new config and stale museum manifest fails closed
+ok 117 - a mixed new config and stale museum manifest fails closed
+  ---
+  duration_ms: 3.038997
+  type: 'test'
+  ...
+# Subtest: actual pinned museum renders all cards and rejects cross-claim source, scope and replay substitutions
+ok 118 - actual pinned museum renders all cards and rejects cross-claim source, scope and replay substitutions # SKIP
+  ---
+  duration_ms: 0.296521
+  type: 'test'
+  ...
+# Subtest: verified claim quotes expose readable source and exact review citations
+ok 119 - verified claim quotes expose readable source and exact review citations
+  ---
+  duration_ms: 9.799376
+  type: 'test'
+  ...
+# Subtest: readable presentation retains the exact original source quote in a disclosure
+ok 120 - readable presentation retains the exact original source quote in a disclosure
+  ---
+  duration_ms: 5.049341
+  type: 'test'
+  ...
+# Subtest: packet cards render in manifest order when the first packet arrives last
+ok 121 - packet cards render in manifest order when the first packet arrives last
+  ---
+  duration_ms: 10.020012
+  type: 'test'
+  ...
+# Subtest: a refused packet keeps its manifest slot when the other packet arrives later
+ok 122 - a refused packet keeps its manifest slot when the other packet arrives later
+  ---
+  duration_ms: 9.000129
+  type: 'test'
+  ...
+# Subtest: every refused packet is counted in the museum status line
+ok 123 - every refused packet is counted in the museum status line
+  ---
+  duration_ms: 11.20124
+  type: 'test'
+  ...
+# Subtest: a rendered packet replaces its Verifying placeholder
+ok 124 - a rendered packet replaces its Verifying placeholder
+  ---
+  duration_ms: 16.185666
+  type: 'test'
+  ...
+# Subtest: all eight selections export the displayed capacity-one assignments with 1-based IDs
+ok 125 - all eight selections export the displayed capacity-one assignments with 1-based IDs
+  ---
+  duration_ms: 5.303972
+  type: 'test'
+  ...
+# Subtest: the failed triple explicitly records an attempted placement rather than a valid partition
+ok 126 - the failed triple explicitly records an attempted placement rather than a valid partition
+  ---
+  duration_ms: 0.901517
+  type: 'test'
+  ...
+# Subtest: normalization sorts without mutating input and excludes unrelated state from the permalink
+ok 127 - normalization sorts without mutating input and excludes unrelated state from the permalink
+  ---
+  duration_ms: 0.480957
+  type: 'test'
+  ...
+# Subtest: malformed selections and noncanonical or false ISO timestamps are refused
+ok 128 - malformed selections and noncanonical or false ISO timestamps are refused
+  ---
+  duration_ms: 2.087569
+  type: 'test'
+  ...
+# Subtest: metadata carries the exact pinned finite source and non-certifying scope
+ok 129 - metadata carries the exact pinned finite source and non-certifying scope
+  ---
+  duration_ms: 0.809005
+  type: 'test'
+  ...
+# Subtest: plaintext citations identify selected objects, actual empty groups and failed placement
+ok 130 - plaintext citations identify selected objects, actual empty groups and failed placement
+  ---
+  duration_ms: 0.878736
+  type: 'test'
+  ...
+# Subtest: expected nodes match every current drawPalette selection including empty labels and failed connectors
+ok 131 - expected nodes match every current drawPalette selection including empty labels and failed connectors
+  ---
+  duration_ms: 2.712223
+  type: 'test'
+  ...
+# Subtest: SVG preserves displayed geometry and both concrete themes with source metadata and a readable scope footer
+ok 132 - SVG preserves displayed geometry and both concrete themes with source metadata and a readable scope footer
+  ---
+  duration_ms: 31.179712
+  type: 'test'
+  ...
+# Subtest: stale selection, labels, connectors, arbitrary roots and missing content are refused
+ok 133 - stale selection, labels, connectors, arbitrary roots and missing content are refused
+  ---
+  duration_ms: 3.200868
+  type: 'test'
+  ...
+# Subtest: the visible footer records the same ISO generation timestamp as export metadata
+ok 134 - the visible footer records the same ISO generation timestamp as export metadata
+  ---
+  duration_ms: 2.271988
+  type: 'test'
+  ...
+# Subtest: inherited native font stacks on actual non-text primitives remain self-contained
+ok 135 - inherited native font stacks on actual non-text primitives remain self-contained
+  ---
+  duration_ms: 7.415313
+  type: 'test'
+  ...
+# Subtest: unsupported active, resource, nested or hidden content cannot pass a matching geometry export
+ok 136 - unsupported active, resource, nested or hidden content cannot pass a matching geometry export
+  ---
+  duration_ms: 6.122078
+  type: 'test'
+  ...
+# Subtest: pin metadata records current bounded controls, teaching choices, scale geometry and full pinned source identities
+ok 137 - pin metadata records current bounded controls, teaching choices, scale geometry and full pinned source identities
+  ---
+  duration_ms: 2.785432
+  type: 'test'
+  ...
+# Subtest: only displayed hundredth-tick controls and canonical ISO times are accepted
+ok 138 - only displayed hundredth-tick controls and canonical ISO times are accepted
+  ---
+  duration_ms: 1.02649
+  type: 'test'
+  ...
+# Subtest: citation includes selected highlight, full sources, qualitative limits and a feature-only permalink
+ok 139 - citation includes selected highlight, full sources, qualitative limits and a feature-only permalink
+  ---
+  duration_ms: 0.477157
+  type: 'test'
+  ...
+# Subtest: expected geometry matches the actual independent annulus and remote records at both comparison settings
+ok 140 - expected geometry matches the actual independent annulus and remote records at both comparison settings
+  ---
+  duration_ms: 16.354914
+  type: 'test'
+  ...
+# Subtest: pin export refuses stale pins, ring width, height window, remote path, labels and extra resources
+ok 141 - pin export refuses stale pins, ring width, height window, remote path, labels and extra resources
+  ---
+  duration_ms: 3.353186
+  type: 'test'
+  ...
+# Subtest: the visible pin footer records the same ISO generation timestamp as metadata
+ok 142 - the visible pin footer records the same ISO generation timestamp as metadata
+  ---
+  duration_ms: 3.848897
+  type: 'test'
+  ...
+# Subtest: brand assets exist and declare no scientific authority
+ok 143 - brand assets exist and declare no scientific authority
+  ---
+  duration_ms: 8.257557
+  type: 'test'
+  ...
+# Subtest: dark and light text, links and state labels meet 4.5:1 contrast
+ok 144 - dark and light text, links and state labels meet 4.5:1 contrast
+  ---
+  duration_ms: 1.503948
+  type: 'test'
+  ...
+# Subtest: buttons and focus ring have explicit contrast
+ok 145 - buttons and focus ring have explicit contrast
+  ---
+  duration_ms: 0.47361
+  type: 'test'
+  ...
+# Subtest: palette tokens are actually applied, not decorative metadata
+ok 146 - palette tokens are actually applied, not decorative metadata
+  ---
+  duration_ms: 17.122481
+  type: 'test'
+  ...
+# Subtest: all public pages load local branding after legacy styles with no CSP relaxation
+ok 147 - all public pages load local branding after legacy styles with no CSP relaxation
+  ---
+  duration_ms: 7.389196
+  type: 'test'
+  ...
+# Subtest: light, reduced-motion, forced-color and print modes are supplied
+ok 148 - light, reduced-motion, forced-color and print modes are supplied
+  ---
+  duration_ms: 0.594845
+  type: 'test'
+  ...
+# Subtest: status classes retain redundant patterns and non-brand acceptance color
+ok 149 - status classes retain redundant patterns and non-brand acceptance color
+  ---
+  duration_ms: 2.803856
+  type: 'test'
+  ...
+# Subtest: decorative SVGs are self-contained, named and contain no scripts or external embeds
+ok 150 - decorative SVGs are self-contained, named and contain no scripts or external embeds
+  ---
+  duration_ms: 0.91153
+  type: 'test'
+  ...
+# Subtest: body links remain underlined and keyboard focus is not removed
+ok 151 - body links remain underlined and keyboard focus is not removed
+  ---
+  duration_ms: 5.328457
+  type: 'test'
+  ...
+# Subtest: navigation and grids can reflow on small screens
+ok 152 - navigation and grids can reflow on small screens
+  ---
+  duration_ms: 0.870363
+  type: 'test'
+  ...
+# Subtest: styles do not hide evidence, scope disclaimers or refusal states
+ok 153 - styles do not hide evidence, scope disclaimers or refusal states
+  ---
+  duration_ms: 0.862381
+  type: 'test'
+  ...
+# Subtest: low-contrast adversarial palette fails the same numerical threshold
+ok 154 - low-contrast adversarial palette fails the same numerical threshold
+  ---
+  duration_ms: 0.222119
+  type: 'test'
+  ...
+# Subtest: the museum figure focus ring keeps its 3px width, 4px offset and the clip room drawn for it
+ok 155 - the museum figure focus ring keeps its 3px width, 4px offset and the clip room drawn for it
+  ---
+  duration_ms: 29.925909
+  type: 'test'
+  ...
+# Subtest: the conditional-route card leaves room inside its clip for the focus ring of its summaries and links
+ok 156 - the conditional-route card leaves room inside its clip for the focus ring of its summaries and links
+  ---
+  duration_ms: 13.085502
+  type: 'test'
+  ...
+# Subtest: valid source preserves exact strings
+ok 157 - valid source preserves exact strings
+  ---
+  duration_ms: 57.652142
+  type: 'test'
+  ...
+# Subtest: local pinned data bypasses an older response while still verifying current bytes
+ok 158 - local pinned data bypasses an older response while still verifying current bytes
+  ---
+  duration_ms: 3.756795
+  type: 'test'
+  ...
+# Subtest: digest mismatch refuses data
+ok 159 - digest mismatch refuses data
+  ---
+  duration_ms: 1.96065
+  type: 'test'
+  ...
+# Subtest: byte count mismatch refuses data
+ok 160 - byte count mismatch refuses data
+  ---
+  duration_ms: 0.766516
+  type: 'test'
+  ...
+# Subtest: mutable branch URL refused before request
+ok 161 - mutable branch URL refused before request
+  ---
+  duration_ms: 0.329273
+  type: 'test'
+  ...
+# Subtest: HTTP failure gives no data
+ok 162 - HTTP failure gives no data
+  ---
+  duration_ms: 0.363205
+  type: 'test'
+  ...
+# Subtest: status snapshot counts are selected rows
+ok 163 - status snapshot counts are selected rows
+  ---
+  duration_ms: 2.317765
+  type: 'test'
+  ...
+# Subtest: unknown category refused
+ok 164 - unknown category refused
+  ---
+  duration_ms: 0.294128
+  type: 'test'
+  ...
+# Subtest: changed count refused
+ok 165 - changed count refused
+  ---
+  duration_ms: 0.122835
+  type: 'test'
+  ...
+# Subtest: promotion authority refused
+ok 166 - promotion authority refused
+  ---
+  duration_ms: 0.07585
+  type: 'test'
+  ...
+# Subtest: coefficient endpoints remain distinct exactly
+ok 167 - coefficient endpoints remain distinct exactly
+  ---
+  duration_ms: 0.199581
+  type: 'test'
+  ...
+# Subtest: float endpoints refused
+ok 168 - float endpoints refused
+  ---
+  duration_ms: 0.106558
+  type: 'test'
+  ...
+# Subtest: coefficient acceptance flag cannot be flipped
+ok 169 - coefficient acceptance flag cannot be flipped
+  ---
+  duration_ms: 0.11808
+  type: 'test'
+  ...
+# Subtest: catalog points at immutable public paths
+ok 170 - catalog points at immutable public paths
+  ---
+  duration_ms: 0.188507
+  type: 'test'
+  ...
+# Subtest: catalog rejects private repo and traversal
+ok 171 - catalog rejects private repo and traversal
+  ---
+  duration_ms: 0.121734
+  type: 'test'
+  ...
+# Subtest: correct bytes cannot be attributed to a different commit
+ok 172 - correct bytes cannot be attributed to a different commit
+  ---
+  duration_ms: 0.190723
+  type: 'test'
+  ...
+# Subtest: correct bytes cannot be attributed to a different path
+ok 173 - correct bytes cannot be attributed to a different path
+  ---
+  duration_ms: 0.140784
+  type: 'test'
+  ...
+# Subtest: workspace refreshes configuration before validating current source pins
+ok 174 - workspace refreshes configuration before validating current source pins
+  ---
+  duration_ms: 212.786014
+  type: 'test'
+  ...
+# Subtest: initial Library navigation is restored only after delayed layout and failed sources settle
+ok 175 - initial Library navigation is restored only after delayed layout and failed sources settle
+  ---
+  duration_ms: 72.97483
+  type: 'test'
+  ...
+# Subtest: existing section bookmarks all receive keyboard focus after rendering
+ok 176 - existing section bookmarks all receive keyboard focus after rendering
+  ---
+  duration_ms: 195.555274
+  type: 'test'
+  ...
+# Subtest: empty, unknown and malformed fragments never trigger a correction
+ok 177 - empty, unknown and malformed fragments never trigger a correction
+  ---
+  duration_ms: 378.620464
+  type: 'test'
+  ...
+# Subtest: reader wheel during loading prevents delayed scrolling and focus stealing
+ok 178 - reader wheel during loading prevents delayed scrolling and focus stealing
+  ---
+  duration_ms: 44.977711
+  type: 'test'
+  ...
+# Subtest: reader touchstart during loading prevents delayed scrolling and focus stealing
+ok 179 - reader touchstart during loading prevents delayed scrolling and focus stealing
+  ---
+  duration_ms: 39.599734
+  type: 'test'
+  ...
+# Subtest: reader touchmove during loading prevents delayed scrolling and focus stealing
+ok 180 - reader touchmove during loading prevents delayed scrolling and focus stealing
+  ---
+  duration_ms: 41.199291
+  type: 'test'
+  ...
+# Subtest: reader keydown during loading prevents delayed scrolling and focus stealing
+ok 181 - reader keydown during loading prevents delayed scrolling and focus stealing
+  ---
+  duration_ms: 31.481889
+  type: 'test'
+  ...
+# Subtest: reader pointerdown during loading prevents delayed scrolling and focus stealing
+ok 182 - reader pointerdown during loading prevents delayed scrolling and focus stealing
+  ---
+  duration_ms: 38.934128
+  type: 'test'
+  ...
+# Subtest: reader pointermove during loading prevents delayed scrolling and focus stealing
+ok 183 - reader pointermove during loading prevents delayed scrolling and focus stealing
+  ---
+  duration_ms: 43.152455
+  type: 'test'
+  ...
+# Subtest: reader focusin during loading prevents delayed scrolling and focus stealing
+ok 184 - reader focusin during loading prevents delayed scrolling and focus stealing
+  ---
+  duration_ms: 32.140073
+  type: 'test'
+  ...
+# Subtest: reader hashchange during loading prevents delayed scrolling and focus stealing
+ok 185 - reader hashchange during loading prevents delayed scrolling and focus stealing
+  ---
+  duration_ms: 46.464811
+  type: 'test'
+  ...
+# Subtest: reader popstate during loading prevents delayed scrolling and focus stealing
+ok 186 - reader popstate during loading prevents delayed scrolling and focus stealing
+  ---
+  duration_ms: 76.123993
+  type: 'test'
+  ...
+# Subtest: reader pagehide during loading prevents delayed scrolling and focus stealing
+ok 187 - reader pagehide during loading prevents delayed scrolling and focus stealing
+  ---
+  duration_ms: 27.145855
+  type: 'test'
+  ...
+# Subtest: unpressed pointer movement while sources load does not cancel Library navigation
+ok 188 - unpressed pointer movement while sources load does not cancel Library navigation
+  ---
+  duration_ms: 44.687852
+  type: 'test'
+  ...
+# Subtest: a changed fragment is not restored even without a hashchange event
+ok 189 - a changed fragment is not restored even without a hashchange event
+  ---
+  duration_ms: 58.272314
+  type: 'test'
+  ...
+# Subtest: changing a fragment and returning to it leaves the pending correction cancelled
+ok 190 - changing a fragment and returning to it leaves the pending correction cancelled
+  ---
+  duration_ms: 30.861547
+  type: 'test'
+  ...
+# Subtest: browser fragment scrolling and layout shifts do not count as reader intent
+ok 191 - browser fragment scrolling and layout shifts do not count as reader intent
+  ---
+  duration_ms: 46.897805
+  type: 'test'
+  ...
+# Subtest: a refused configuration still reveals the requested unavailable section
+ok 192 - a refused configuration still reveals the requested unavailable section
+  ---
+  duration_ms: 2.682463
+  type: 'test'
+  ...
+# Subtest: a missing target is harmless after loading and removes temporary observers
+ok 193 - a missing target is harmless after loading and removes temporary observers
+  ---
+  duration_ms: 55.143868
+  type: 'test'
+  ...
+# Subtest: reader movement between source settlement and final rendering prevents correction
+ok 194 - reader movement between source settlement and final rendering prevents correction
+  ---
+  duration_ms: 31.229551
+  type: 'test'
+  ...
+# Subtest: an import refusal does not leave the separate query source loading forever
+ok 195 - an import refusal does not leave the separate query source loading forever
+  ---
+  duration_ms: 42.886055
+  type: 'test'
+  ...
+# Subtest: a config refusal settles every pending source note
+ok 196 - a config refusal settles every pending source note
+  ---
+  duration_ms: 2.589295
+  type: 'test'
+  ...
+# Subtest: a query refusal preserves verified import custody information
+ok 197 - a query refusal preserves verified import custody information
+  ---
+  duration_ms: 40.617922
+  type: 'test'
+  ...
+# Subtest: a successful query remains usable when the unrelated import source fails
+ok 198 - a successful query remains usable when the unrelated import source fails
+  ---
+  duration_ms: 59.004939
+  type: 'test'
+  ...
+# Subtest: the static proof link names the pinned proof that the script also assigns
+ok 199 - the static proof link names the pinned proof that the script also assigns
+  ---
+  duration_ms: 0.319608
+  type: 'test'
+  ...
+# Subtest: a refused pinned source names the pinned GitHub route beside the refusal
+ok 200 - a refused pinned source names the pinned GitHub route beside the refusal
+  ---
+  duration_ms: 27.349547
+  type: 'test'
+  ...
+# Subtest: a fetch that throws is reported as an unreachable pinned source, and other errors pass through
+ok 201 - a fetch that throws is reported as an unreachable pinned source, and other errors pass through
+  ---
+  duration_ms: 1.949091
+  type: 'test'
+  ...
+# Subtest: a bookmarked combined search restores the one exact proof and source link
+ok 202 - a bookmarked combined search restores the one exact proof and source link
+  ---
+  duration_ms: 46.87333
+  type: 'test'
+  ...
+# Subtest: typing preserves unrelated parameters, fragment and history state; share link only includes filters
+ok 203 - typing preserves unrelated parameters, fragment and history state; share link only includes filters
+  ---
+  duration_ms: 55.020296
+  type: 'test'
+  ...
+# Subtest: popstate restores filters and pagination without rewriting history or stealing focus
+ok 204 - popstate restores filters and pagination without rewriting history or stealing focus
+  ---
+  duration_ms: 35.036044
+  type: 'test'
+  ...
+# Subtest: clear filters recovers from no matches and resets pagination with search focus
+ok 205 - clear filters recovers from no matches and resets pagination with search focus
+  ---
+  duration_ms: 38.839469
+  type: 'test'
+  ...
+# Subtest: unknown repository and duplicate parameters use documented first-value rules
+ok 206 - unknown repository and duplicate parameters use documented first-value rules
+  ---
+  duration_ms: 25.13976
+  type: 'test'
+  ...
+# Subtest: encoded punctuation stays inert search text
+ok 207 - encoded punctuation stays inert search text
+  ---
+  duration_ms: 45.133559
+  type: 'test'
+  ...
+# Subtest: catalog readiness uses the latest location while sources are still loading
+ok 208 - catalog readiness uses the latest location while sources are still loading
+  ---
+  duration_ms: 31.627424
+  type: 'test'
+  ...
+# Subtest: an unavailable inventory keeps new controls unavailable and infers no results
+ok 209 - an unavailable inventory keeps new controls unavailable and infers no results
+  ---
+  duration_ms: 16.217527
+  type: 'test'
+  ...
+# Subtest: a refused history update leaves filtering and the explicit search link usable
+ok 210 - a refused history update leaves filtering and the explicit search link usable
+  ---
+  duration_ms: 27.879792
+  type: 'test'
+  ...
+# Subtest: restored empty filters preserve the ordinary initial 50-row catalog
+ok 211 - restored empty filters preserve the ordinary initial 50-row catalog
+  ---
+  duration_ms: 36.025988
+  type: 'test'
+  ...
+# Subtest: malformed UTF-8 query escapes remain inert and are canonically encoded in the link
+ok 212 - malformed UTF-8 query escapes remain inert and are canonically encoded in the link
+  ---
+  duration_ms: 51.611499
+  type: 'test'
+  ...
+# Subtest: every former landing section routes to its preserved workspace section
+ok 213 - every former landing section routes to its preserved workspace section
+  ---
+  duration_ms: 0.559221
+  type: 'test'
+  ...
+# Subtest: new home fragments and untrusted fragments never become redirect destinations
+ok 214 - new home fragments and untrusted fragments never become redirect destinations
+  ---
+  duration_ms: 0.207455
+  type: 'test'
+  ...
+# Subtest: browser entry follows a bookmarked section and future hash changes
+ok 215 - browser entry follows a bookmarked section and future hash changes
+  ---
+  duration_ms: 0.91654
+  type: 'test'
+  ...
+# Subtest: the reader home does not preload the technical inventory or source viewer
+ok 216 - the reader home does not preload the technical inventory or source viewer
+  ---
+  duration_ms: 0.280449
+  type: 'test'
+  ...
+# Subtest: verified source cards become reachable after asynchronous rendering
+ok 217 - verified source cards become reachable after asynchronous rendering
+  ---
+  duration_ms: 2.555099
+  type: 'test'
+  ...
+# Subtest: builds an immutable repository or file reference without attributing authorship
+ok 218 - builds an immutable repository or file reference without attributing authorship
+  ---
+  duration_ms: 4.450203
+  type: 'test'
+  ...
+# Subtest: rejects mutable refs, unsupported repositories and ambiguous or unsafe paths
+ok 219 - rejects mutable refs, unsupported repositories and ambiguous or unsafe paths
+  ---
+  duration_ms: 1.50345
+  type: 'test'
+  ...
+# Subtest: allows unicode file names and unambiguous encoded URL delimiters
+ok 220 - allows unicode file names and unambiguous encoded URL delimiters
+  ---
+  duration_ms: 0.412401
+  type: 'test'
+  ...
+# Subtest: real form wiring clears stale output and announces a corrected reference
+ok 221 - real form wiring clears stale output and announces a corrected reference
+  ---
+  duration_ms: 1.771469
+  type: 'test'
+  ...
+# Subtest: coefficient exports preserve exact narrow decimal enclosures and pinned identity
+ok 222 - coefficient exports preserve exact narrow decimal enclosures and pinned identity
+  ---
+  duration_ms: 2.217513
+  type: 'test'
+  ...
+# Subtest: coefficient exports retain strict SIDE24 bounds and paste-ready display math
+ok 223 - coefficient exports retain strict SIDE24 bounds and paste-ready display math
+  ---
+  duration_ms: 0.52759
+  type: 'test'
+  ...
+# Subtest: coefficient exports refuse rounded numbers, reversed enclosures and mutable sources
+ok 224 - coefficient exports refuse rounded numbers, reversed enclosures and mutable sources
+  ---
+  duration_ms: 0.335216
+  type: 'test'
+  ...
+# Subtest: interval copying locks all formats until the actual write finishes and handles denial
+ok 225 - interval copying locks all formats until the actual write finishes and handles denial
+  ---
+  duration_ms: 1.983646
+  type: 'test'
+  ...
+# Subtest: copy sends exactly the displayed pinned commands and never executes them
+ok 226 - copy sends exactly the displayed pinned commands and never executes them
+  ---
+  duration_ms: 2.4474
+  type: 'test'
+  ...
+# Subtest: clipboard refusal provides manual fallback without success
+ok 227 - clipboard refusal provides manual fallback without success
+  ---
+  duration_ms: 0.809419
+  type: 'test'
+  ...
+# Subtest: unsupported clipboard leaves the command block readable and gives fallback
+ok 228 - unsupported clipboard leaves the command block readable and gives fallback
+  ---
+  duration_ms: 0.351927
+  type: 'test'
+  ...
+# Subtest: reproduction controls have static fallback and an explicit live announcement
+ok 229 - reproduction controls have static fallback and an explicit live announcement
+  ---
+  duration_ms: 18.264623
+  type: 'test'
+  ...
+# Subtest: optional file digest is preserved as supplied metadata with explicit unverified JSON
+ok 230 - optional file digest is preserved as supplied metadata with explicit unverified JSON
+  ---
+  duration_ms: 0.515237
+  type: 'test'
+  ...
+# Subtest: rejects misleading or malformed digest identities
+ok 231 - rejects misleading or malformed digest identities
+  ---
+  duration_ms: 0.692024
+  type: 'test'
+  ...
+# Subtest: reference links roundtrip exact unicode identity and preserve unrelated URL fields
+ok 232 - reference links roundtrip exact unicode identity and preserve unrelated URL fields
+  ---
+  duration_ms: 1.229854
+  type: 'test'
+  ...
+# Subtest: malformed shared references are refused without partial source identity
+ok 233 - malformed shared references are refused without partial source identity
+  ---
+  duration_ms: 0.546715
+  type: 'test'
+  ...
+# Subtest: reference workflow copies selected representations and invalidates stale outputs
+ok 234 - reference workflow copies selected representations and invalidates stale outputs
+  ---
+  duration_ms: 0.885639
+  type: 'test'
+  ...
+# Subtest: shared reference restoration and Back reject invalid state without publishing old output
+ok 235 - shared reference restoration and Back reject invalid state without publishing old output
+  ---
+  duration_ms: 0.832367
+  type: 'test'
+  ...
+# Subtest: clipboard rejection and delayed completion do not claim a stale copy succeeded
+ok 236 - clipboard rejection and delayed completion do not claim a stale copy succeeded
+  ---
+  duration_ms: 0.773129
+  type: 'test'
+  ...
+# Subtest: rejects malformed percent and UTF-8 links rather than substituting source path bytes
+ok 237 - rejects malformed percent and UTF-8 links rather than substituting source path bytes
+  ---
+  duration_ms: 0.392295
+  type: 'test'
+  ...
+# Subtest: a pending clipboard operation prevents a newer reference from overtaking it
+ok 238 - a pending clipboard operation prevents a newer reference from overtaking it
+  ---
+  duration_ms: 0.525136
+  type: 'test'
+  ...
+# Subtest: BibTeX is an honest source template with exact immutable identity and optional supplied digest
+ok 239 - BibTeX is an honest source template with exact immutable identity and optional supplied digest
+  ---
+  duration_ms: 0.406624
+  type: 'test'
+  ...
+# Subtest: BibTeX escapes accepted path specials as literal text without changing Unicode or JSON identity
+ok 240 - BibTeX escapes accepted path specials as literal text without changing Unicode or JSON identity
+  ---
+  duration_ms: 0.383703
+  type: 'test'
+  ...
+# Subtest: BibTeX renders, copies, clears on edits and restores with Back/Forward source identity
+ok 241 - BibTeX renders, copies, clears on edits and restores with Back/Forward source identity
+  ---
+  duration_ms: 1.019217
+  type: 'test'
+  ...
+# Subtest: BibTeX shares the copy lock with every format and stale completion cannot announce success
+ok 242 - BibTeX shares the copy lock with every format and stale completion cannot announce success
+  ---
+  duration_ms: 0.674715
+  type: 'test'
+  ...
+# Subtest: denied and unavailable clipboard preserve selectable BibTeX and explain manual fallback
+ok 243 - denied and unavailable clipboard preserve selectable BibTeX and explain manual fallback
+  ---
+  duration_ms: 0.613141
+  type: 'test'
+  ...
+# Subtest: legal unmatched and nested path braces produce parser-safe literal text
+ok 244 - legal unmatched and nested path braces produce parser-safe literal text
+  ---
+  duration_ms: 37.660111
+  type: 'test'
+  ...
+# BibTeX binary unavailable; literal/identity assertions ran, real-parser integration omitted.
+# Subtest: sanitized export keeps current labels, concrete styles, opaque background and safely escaped metadata
+ok 245 - sanitized export keeps current labels, concrete styles, opaque background and safely escaped metadata
+  ---
+  duration_ms: 19.038704
+  type: 'test'
+  ...
+# Subtest: exact expected nodes reject missing geometry, stale coordinates, labels, classes and root state
+ok 246 - exact expected nodes reject missing geometry, stale coordinates, labels, classes and root state
+  ---
+  duration_ms: 3.413863
+  type: 'test'
+  ...
+# Subtest: unsupported resources and unbounded or invisible styles refuse serialization
+ok 247 - unsupported resources and unbounded or invisible styles refuse serialization
+  ---
+  duration_ms: 9.39026
+  type: 'test'
+  ...
+# Subtest: capture reads displayed primitives and their concrete computed styles
+ok 248 - capture reads displayed primitives and their concrete computed styles
+  ---
+  duration_ms: 5.142264
+  type: 'test'
+  ...
+# Subtest: capture refuses hidden root or primitives, nested content, effects and non-SVG children
+ok 249 - capture refuses hidden root or primitives, nested content, effects and non-SVG children
+  ---
+  duration_ms: 1.904514
+  type: 'test'
+  ...
+# Subtest: capture refuses CSS numeric geometry that overrides current circle and rectangle attributes
+ok 250 - capture refuses CSS numeric geometry that overrides current circle and rectangle attributes
+  ---
+  duration_ms: 4.284405
+  type: 'test'
+  ...
+# Subtest: rounded rectangle height requires a matching native used-height witness
+ok 251 - rounded rectangle height requires a matching native used-height witness
+  ---
+  duration_ms: 1.93653
+  type: 'test'
+  ...
+# Subtest: captured Chromium attribute parsing need not equal JavaScript Float32 conversion
+ok 252 - captured Chromium attribute parsing need not equal JavaScript Float32 conversion
+  ---
+  duration_ms: 0.714932
+  type: 'test'
+  ...
+# Subtest: native height equality cannot admit real CSS overrides sharing a rounded string
+ok 253 - native height equality cannot admit real CSS overrides sharing a rounded string
+  ---
+  duration_ms: 4.764583
+  type: 'test'
+  ...
+# Subtest: rectangle height witness is finite, bounded and fail-closed
+ok 254 - rectangle height witness is finite, bounded and fail-closed
+  ---
+  duration_ms: 21.295592
+  type: 'test'
+  ...
+# Subtest: native representation check is bounded to positive rectangle height roundoff
+ok 255 - native representation check is bounded to positive rectangle height roundoff
+  ---
+  duration_ms: 12.058
+  type: 'test'
+  ...
+# Subtest: capture refuses auto rectangle dimensions that suppress otherwise current native geometry
+ok 256 - capture refuses auto rectangle dimensions that suppress otherwise current native geometry
+  ---
+  duration_ms: 1.510384
+  type: 'test'
+  ...
+# Subtest: capture compares effective auto corner radii and preserves native rounded and square rectangles
+ok 257 - capture compares effective auto corner radii and preserves native rounded and square rectangles
+  ---
+  duration_ms: 0.954128
+  type: 'test'
+  ...
+# Subtest: capture refuses root opacity that would be lost from the opaque standalone export
+ok 258 - capture refuses root opacity that would be lost from the opaque standalone export
+  ---
+  duration_ms: 1.105011
+  type: 'test'
+  ...
+# Subtest: capture token-compares computed path geometry and refuses hidden or overridden paths
+ok 259 - capture token-compares computed path geometry and refuses hidden or overridden paths
+  ---
+  duration_ms: 4.488664
+  type: 'test'
+  ...
+# Subtest: manual fallback exposes complete current text and blocks unavailable clipboard writes
+ok 260 - manual fallback exposes complete current text and blocks unavailable clipboard writes
+  ---
+  duration_ms: 4.177108
+  type: 'test'
+  ...
+# Subtest: pending copies serialize writes and never claim success after control changes
+ok 261 - pending copies serialize writes and never claim success after control changes
+  ---
+  duration_ms: 0.339304
+  type: 'test'
+  ...
+# Subtest: refusal and failed citation builds invalidate pending writes without reviving cleared fallback text
+ok 262 - refusal and failed citation builds invalidate pending writes without reviving cleared fallback text
+  ---
+  duration_ms: 0.431111
+  type: 'test'
+  ...
+# Subtest: current clipboard success and denial report only the current figure state
+ok 263 - current clipboard success and denial report only the current figure state
+  ---
+  duration_ms: 0.283689
+  type: 'test'
+  ...
+# Subtest: workspace refreshes configuration before validating current source pins
+ok 264 - workspace refreshes configuration before validating current source pins
+  ---
+  duration_ms: 118.329983
+  type: 'test'
+  ...
+# Subtest: initial Library navigation is restored only after delayed layout and failed sources settle
+ok 265 - initial Library navigation is restored only after delayed layout and failed sources settle
+  ---
+  duration_ms: 49.116927
+  type: 'test'
+  ...
+# Subtest: existing section bookmarks all receive keyboard focus after rendering
+ok 266 - existing section bookmarks all receive keyboard focus after rendering
+  ---
+  duration_ms: 174.488315
+  type: 'test'
+  ...
+# Subtest: empty, unknown and malformed fragments never trigger a correction
+ok 267 - empty, unknown and malformed fragments never trigger a correction
+  ---
+  duration_ms: 392.00153
+  type: 'test'
+  ...
+# Subtest: reader wheel during loading prevents delayed scrolling and focus stealing
+ok 268 - reader wheel during loading prevents delayed scrolling and focus stealing
+  ---
+  duration_ms: 41.83014
+  type: 'test'
+  ...
+# Subtest: reader touchstart during loading prevents delayed scrolling and focus stealing
+ok 269 - reader touchstart during loading prevents delayed scrolling and focus stealing
+  ---
+  duration_ms: 25.57814
+  type: 'test'
+  ...
+# Subtest: reader touchmove during loading prevents delayed scrolling and focus stealing
+ok 270 - reader touchmove during loading prevents delayed scrolling and focus stealing
+  ---
+  duration_ms: 29.376888
+  type: 'test'
+  ...
+# Subtest: reader keydown during loading prevents delayed scrolling and focus stealing
+ok 271 - reader keydown during loading prevents delayed scrolling and focus stealing
+  ---
+  duration_ms: 58.215603
+  type: 'test'
+  ...
+# Subtest: reader pointerdown during loading prevents delayed scrolling and focus stealing
+ok 272 - reader pointerdown during loading prevents delayed scrolling and focus stealing
+  ---
+  duration_ms: 44.706204
+  type: 'test'
+  ...
+# Subtest: reader pointermove during loading prevents delayed scrolling and focus stealing
+ok 273 - reader pointermove during loading prevents delayed scrolling and focus stealing
+  ---
+  duration_ms: 47.908222
+  type: 'test'
+  ...
+# Subtest: reader focusin during loading prevents delayed scrolling and focus stealing
+ok 274 - reader focusin during loading prevents delayed scrolling and focus stealing
+  ---
+  duration_ms: 54.837645
+  type: 'test'
+  ...
+# Subtest: reader hashchange during loading prevents delayed scrolling and focus stealing
+ok 275 - reader hashchange during loading prevents delayed scrolling and focus stealing
+  ---
+  duration_ms: 24.968828
+  type: 'test'
+  ...
+# Subtest: reader popstate during loading prevents delayed scrolling and focus stealing
+ok 276 - reader popstate during loading prevents delayed scrolling and focus stealing
+  ---
+  duration_ms: 37.033843
+  type: 'test'
+  ...
+# Subtest: reader pagehide during loading prevents delayed scrolling and focus stealing
+ok 277 - reader pagehide during loading prevents delayed scrolling and focus stealing
+  ---
+  duration_ms: 53.35854
+  type: 'test'
+  ...
+# Subtest: unpressed pointer movement while sources load does not cancel Library navigation
+ok 278 - unpressed pointer movement while sources load does not cancel Library navigation
+  ---
+  duration_ms: 38.031929
+  type: 'test'
+  ...
+# Subtest: a changed fragment is not restored even without a hashchange event
+ok 279 - a changed fragment is not restored even without a hashchange event
+  ---
+  duration_ms: 54.079034
+  type: 'test'
+  ...
+# Subtest: changing a fragment and returning to it leaves the pending correction cancelled
+ok 280 - changing a fragment and returning to it leaves the pending correction cancelled
+  ---
+  duration_ms: 61.348127
+  type: 'test'
+  ...
+# Subtest: browser fragment scrolling and layout shifts do not count as reader intent
+ok 281 - browser fragment scrolling and layout shifts do not count as reader intent
+  ---
+  duration_ms: 32.872915
+  type: 'test'
+  ...
+# Subtest: a refused configuration still reveals the requested unavailable section
+ok 282 - a refused configuration still reveals the requested unavailable section
+  ---
+  duration_ms: 5.642562
+  type: 'test'
+  ...
+# Subtest: a missing target is harmless after loading and removes temporary observers
+ok 283 - a missing target is harmless after loading and removes temporary observers
+  ---
+  duration_ms: 39.85762
+  type: 'test'
+  ...
+# Subtest: reader movement between source settlement and final rendering prevents correction
+ok 284 - reader movement between source settlement and final rendering prevents correction
+  ---
+  duration_ms: 37.792342
+  type: 'test'
+  ...
+# Subtest: an import refusal does not leave the separate query source loading forever
+ok 285 - an import refusal does not leave the separate query source loading forever
+  ---
+  duration_ms: 35.933983
+  type: 'test'
+  ...
+# Subtest: a config refusal settles every pending source note
+ok 286 - a config refusal settles every pending source note
+  ---
+  duration_ms: 18.456808
+  type: 'test'
+  ...
+# Subtest: a query refusal preserves verified import custody information
+ok 287 - a query refusal preserves verified import custody information
+  ---
+  duration_ms: 29.666443
+  type: 'test'
+  ...
+# Subtest: a successful query remains usable when the unrelated import source fails
+ok 288 - a successful query remains usable when the unrelated import source fails
+  ---
+  duration_ms: 32.959733
+  type: 'test'
+  ...
+# Subtest: the static proof link names the pinned proof that the script also assigns
+ok 289 - the static proof link names the pinned proof that the script also assigns
+  ---
+  duration_ms: 0.310465
+  type: 'test'
+  ...
+# Subtest: a refused pinned source names the pinned GitHub route beside the refusal
+ok 290 - a refused pinned source names the pinned GitHub route beside the refusal
+  ---
+  duration_ms: 31.520275
+  type: 'test'
+  ...
+# Subtest: a fetch that throws is reported as an unreachable pinned source, and other errors pass through
+ok 291 - a fetch that throws is reported as an unreachable pinned source, and other errors pass through
+  ---
+  duration_ms: 2.218438
+  type: 'test'
+  ...
+1..291
+# tests 291
+# suites 0
+# pass 289
+# fail 0
+# cancelled 0
+# skipped 2
+# todo 0
+# duration_ms 3017.330907
+RC=0 SECONDS=3.089771922

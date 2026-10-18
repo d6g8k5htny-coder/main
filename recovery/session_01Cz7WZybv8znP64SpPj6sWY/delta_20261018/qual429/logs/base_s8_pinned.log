@@ -1,0 +1,24 @@
+Traceback (most recent call last):
+  File "<SCRATCH>/q429/wt_1_base/tools/public_shop_data.py", line 380, in <module>
+    raise SystemExit(main())
+                     ^^^^^^
+  File "<SCRATCH>/q429/wt_1_base/tools/public_shop_data.py", line 349, in main
+    status, config = build(read_main, read_math, observations)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SCRATCH>/q429/wt_1_base/tools/public_shop_data.py", line 286, in build
+    status = parse_status(read_main(STATUS["path"]))
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<SCRATCH>/q429/wt_1_base/tools/public_shop_data.py", line 182, in parse_status
+    verify_bytes(raw, identity)
+  File "<SCRATCH>/q429/wt_1_base/tools/public_shop_data.py", line 170, in verify_bytes
+    raise ValueError("source identity mismatch: " + expected["path"])
+ValueError: source identity mismatch: STATUS.md
+Traceback (most recent call last):
+  File "<SCRATCH>/q429/wt_1_base/tools/public_shop_check.py", line 40, in <module>
+    main()
+  File "<SCRATCH>/q429/wt_1_base/tools/public_shop_check.py", line 31, in main
+    subprocess.run(['python3', '-B', 'tools/public_shop_data.py', '--math-root', str(fixtures/'math'), '--check'], cwd=ROOT, check=True)
+  File "/usr/lib/python3.11/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+subprocess.CalledProcessError: Command '['python3', '-B', 'tools/public_shop_data.py', '--math-root', '/tmp/public-shop-7l82zmwk/math', '--check']' returned non-zero exit status 1.
+RC=1 SECONDS=.731833880

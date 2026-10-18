@@ -1,0 +1,1 @@
+echo 'This job concerns exact toy pushforward controls and exploratory quantized-grid H0 for fifty finite Fourier laws only; inspect job outcome and retained rows for actual success or failure. No blind experiment, continuum confirmation, formal theorem or scientific acceptance.' >> "$GITHUB_STEP_SUMMARY"

@@ -1,0 +1,21 @@
+# command run at 2026-10-18T01:26:29.392Z (result at 2026-10-18T01:26:29.496Z) by a check agent of this session, run wf_201645cc-fe8
+# --- command ---
+cd <SCRATCH>/kern/work_cancellation; python3 -I -c "
+import json
+rows=json.load(open('out/cancel_rows.json'))
+for r in rows: print(r['L'],r['setting'],r['M'],r['bits'],'kb=%.3f kn=%.2f'%(r['log10_kappa_beta'],r['log10_kappa_nu3']),'beta/b',r['beta_over_b'],'nu3/c',r['nu3_over_c'], 'A_lo_pos',r['A_lo_positive'], 'nu_sub',r.get('nu_sub_lo'),r.get('nu_sub_hi'), 'nu_cf',r.get('nu_cf_lo'),r.get('nu_cf_hi'))
+print([k for k in rows[0]])
+"; grep -n -i -E 'ident|resid|1e-|rel' scripts/cancel.py | head -20
+# --- captured tool output (verbatim) ---
+1 default 2 80 kb=0.000 kn=24.76 beta/b 1.0 nu3/c 6.89309e-25 A_lo_pos True nu_sub -3.6665e-18 7.3302e-18 nu_cf 0.0 3.8681e-18
+1 max 3 128 kb=0.000 kn=24.76 beta/b 1.0 nu3/c 6.89309e-25 A_lo_pos True nu_sub 2.2685e-28 2.2721e-28 nu_cf 2.2692e-28 2.2714e-28
+1/2 default 1 80 kb=0.000 kn=101.92 beta/b 1.0 nu3/c 4.83893e-102 A_lo_pos False nu_sub None 1.3029e-17 nu_cf 0.0 None
+1/2 max 2 128 kb=0.000 kn=101.92 beta/b 1.0 nu3/c 4.83893e-102 A_lo_pos True nu_sub -8.3375e-31 1.6665e-30 nu_cf 0.0 8.7965e-31
+2 default 4 80 kb=0.018 kn=5.48 beta/b 0.98582 nu3/c 1.33912e-5 A_lo_pos True nu_sub 0.00018256 0.00018256 nu_cf 0.00018256 0.00018256
+2 max 5 128 kb=0.018 kn=5.48 beta/b 0.98582 nu3/c 1.33912e-5 A_lo_pos True nu_sub 0.00018256 0.00018256 nu_cf 0.00018256 0.00018256
+3 default 5 80 kb=0.220 kn=1.93 beta/b 0.819611 nu3/c 0.0456564 A_lo_pos True nu_sub 0.76519 0.76519 nu_cf 0.76519 0.76519
+3 max 8 128 kb=0.220 kn=1.93 beta/b 0.819611 nu3/c 0.0456564 A_lo_pos True nu_sub 0.76519 0.76519 nu_cf 0.76519 0.76519
+['L', 'setting', 'M', 'bits', 'alpha', 'a', 'b', 'c', 'beta', 'nu3', 'D', 'nu3_over_c', 'beta_over_b', 'log10_kappa_beta', 'log10_kappa_nu3', 'log10_kappa_D', 'digits_a', 'digits_b', 'digits_c', 'digits_in', 'A_lo_positive', 'beta_sub_digits', 'beta_sub_lo_pos', 'nu_sub_digits', 'nu_sub_lo_pos', 'nu_sub_lo', 'nu_sub_hi', 'D_sub_digits', 'D_sub_lo_pos', 'D_sub_lo', 'D_sub_hi', 'beta_cf_digits', 'beta_cf_lo_pos', 'D_cf_digits', 'D_cf_lo_pos', 'nu_cf_digits', 'nu_cf_lo_pos', 'nu_cf_lo', 'nu_cf_hi']
+14:    K = int(mp.sqrt(mp.mpf(1700) / al)) + 3   # exp(-al K^2) < 1e-738
+75:    """relative digits retained: -log10(width/|true|); None if unbounded."""
+125:print("relative digits retained (-log10(width/true)); lo>0 = certified positivity")

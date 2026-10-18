@@ -1,0 +1,29 @@
+PASS 2^(2/3)/(2*12^(1/3)) == 24^(-1/3) (cube of ratio == 1 exactly)
+PASS E|N(0,V)|^(4/3) == 2^(2/3) Gamma(7/6) V^(2/3)/sqrt(pi)  [eq. 19]
+PASS one-sided moment E[(T)_+^(4/3)] == half of (19)
+PASS d=2: |det d(P,D_r,W)/d(D_M,D_S,Delta)| == 12 r^-(d+3)
+PASS d=3: |det d(P,D_r,W)/d(D_M,D_S,Delta)| == 12 r^-(d+3)
+PASS d=4: |det d(P,D_r,W)/d(D_M,D_S,Delta)| == 12 r^-(d+3)
+PASS d=2: W - T_e = O(r^2)
+PASS d=2: D_r - He = O(r^2) and P - D = O(r^2)
+PASS d=2: det H_M = -(r/2) T_e det A + O(r^2), det H_S = +(r/2) T_e det A + O(r^2)
+PASS d=3: W - T_e = O(r^2)
+PASS d=3: D_r - He = O(r^2) and P - D = O(r^2)
+PASS d=3: det H_M = -(r/2) T_e det A + O(r^2), det H_S = +(r/2) T_e det A + O(r^2)
+PASS d=2: int_0^inf r^(d-1) 12 r^-(d+3) (r^2/4) w^2 phi_V(w) dr == 12^(-1/3) ell^(-1/3) E[T_+^(4/3)]
+PASS d=3: int_0^inf r^(d-1) 12 r^-(d+3) (r^2/4) w^2 phi_V(w) dr == 12^(-1/3) ell^(-1/3) E[T_+^(4/3)]
+PASS d=5: int_0^inf r^(d-1) 12 r^-(d+3) (r^2/4) w^2 phi_V(w) dr == 12^(-1/3) ell^(-1/3) E[T_+^(4/3)]
+PASS d=2: first-principles integrand == (17) integrand (per unit x-volume)
+PASS d=2: (17) integrand == (1) integrand exactly
+PASS d=3: first-principles integrand == (17) integrand (per unit x-volume)
+PASS d=3: (17) integrand == (1) integrand exactly
+PASS d=4: first-principles integrand == (17) integrand (per unit x-volume)
+PASS d=4: (17) integrand == (1) integrand exactly
+     |S^1| (area measure total) = 2*pi  -> a normalized measure would change C by this factor
+     |S^2| (area measure total) = 4*pi  -> a normalized measure would change C by this factor
+     |S^3| (area measure total) = 2*pi**2  -> a normalized measure would change C by this factor
+PASS d=2: C_alg scales as lam^-d sig^(-2/3) (units [length^-d][ell]^(-2/3))
+PASS d=3: C_alg scales as lam^-d sig^(-2/3) (units [length^-d][ell]^(-2/3))
+PASS d=4: C_alg scales as lam^-d sig^(-2/3) (units [length^-d][ell]^(-2/3))
+PASS int_0^t ell^(-1/3) d ell == (3/2) t^(2/3)
+ALL PASS

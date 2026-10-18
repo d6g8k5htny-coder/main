@@ -1,0 +1,10 @@
+# command run at 2026-10-18T01:16:46.547Z (result at 2026-10-18T01:17:00.434Z) by a check agent of this session, run wf_966f8d9a-712
+# --- command ---
+cd <SCRATCH>/kern/work_containment && ls mut/*/ | grep -c json; time <SCRATCH>/m193/venv/bin/python -I ../scripts_containment/contain_files.py $(ls mut/*/*.json | grep -v mutations.json | grep -v "^mut/359/") | grep -E "FAIL|TOTAL"
+# --- captured tool output (verbatim) ---
+294
+TOTAL samples 4163 fails 0
+
+real	0m13.834s
+user	0m13.659s
+sys	0m0.048s

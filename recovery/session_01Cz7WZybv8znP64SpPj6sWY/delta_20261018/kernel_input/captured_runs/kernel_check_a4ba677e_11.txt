@@ -1,0 +1,29 @@
+# command run at 2026-10-18T01:17:06.234Z (result at 2026-10-18T01:17:07.074Z) by a check agent of this session, run wf_966f8d9a-712
+# --- command ---
+cd <SCRATCH>/kern/work_containment && <SCRATCH>/m193/venv/bin/python -I ../scripts_containment/contain_files.py $(ls mut/359/*.json | grep -v mutations.json) | grep -E "FAIL|TOTAL"; python3 -I -c "
+import json,glob
+from collections import defaultdict
+agg=defaultdict(lambda:[0,0]); names=defaultdict(set)
+for f in glob.glob('mut/*/mutations.json'):
+    for tag,kind,name,r,fn in json.load(open(f)):
+        agg[kind][0 if r=='ACCEPT' else 1]+=1
+        if r=='ACCEPT':
+            import re
+            names[kind].add(re.sub(r'\.\d+\.','.N.',re.sub(r'levels\.\d+','levels.K',name)))
+for k,(a,r) in sorted(agg.items()): print(k,'accepted',a,'rejected',r, sorted(names[k]))
+print('total', sum(a+r for a,r in agg.values()))
+"
+# --- captured tool output (verbatim) ---
+TOTAL samples 835 fails 0
+a_narrow_1ulp accepted 234 rejected 3354 ['endpoint_spread.alpha_Lhi side0', 'endpoint_spread.alpha_Llo side1', 'modes.N.contribution.2 side0', 'modes.N.contribution.2 side1', 'modes.N.contribution.4 side0', 'modes.N.contribution.4 side1', 'modes.N.contribution.6 side0', 'modes.N.contribution.6 side1']
+b_swap accepted 0 rejected 1794 []
+c_alter_L accepted 52 rejected 138 ['hi+1/1000', 'hi+2^-100', 'lo-2^-100', 'narrow_inside', 'point_hi', 'point_hi+spread_fixed', 'point_lo', 'point_lo+spread_fixed', 'point_mid', 'point_mid+spread_fixed', 'shift-2^-100']
+d_drop_mode accepted 0 rejected 31 []
+d_tail_exp_zeroed accepted 0 rejected 13 []
+d_tail_minus_1ulp accepted 0 rejected 104 []
+d_tail_understate_propagated accepted 0 rejected 156 []
+d_tail_zeroed accepted 0 rejected 13 []
+e_source accepted 0 rejected 130 []
+x_outcome accepted 0 rejected 39 []
+x_spread_plus_1ulp accepted 0 rejected 13 []
+total 6071

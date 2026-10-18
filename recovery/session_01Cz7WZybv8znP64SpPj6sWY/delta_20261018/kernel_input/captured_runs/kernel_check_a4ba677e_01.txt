@@ -1,0 +1,84 @@
+# command run at 2026-10-18T00:58:12.051Z (result at 2026-10-18T00:58:12.579Z) by a check agent of this session, run wf_966f8d9a-712
+# --- command ---
+mkdir -p <SCRATCH>/kern/scripts_containment && cat > <SCRATCH>/kern/scripts_containment/ref.py <<'EOF'
+"""Independent mpmath reference for the original-law spectral sums.
+S_k(L) = sum_{m in Z} (h m)^{2k} exp(-alpha m^2), h = 2 pi/L, alpha = h^2/2.
+z = S_0; mu_{2k} = S_k / S_0.  Two independent evaluations:
+ (A) direct lattice summation with an explicit rigorous integral tail bound;
+ (B) Poisson-dual (Hermite) series S_k = L/sqrt(2pi) sum_n (-1)^k He_{2k}(nL) exp(-(nL)^2/2).
+"""
+import mpmath as mp
+from fractions import Fraction
+
+def direct(L, dps=110):
+    with mp.workdps(dps + 20):
+        L = mp.mpf(L.numerator) / L.denominator if isinstance(L, Fraction) else mp.mpf(L)
+        h = 2 * mp.pi / L
+        a = h * h / 2
+        target = (dps + 30) * mp.log(10)
+        N = int(mp.ceil(mp.sqrt((target + 60) / a))) + 5
+        N = max(N, int(mp.ceil(mp.sqrt(3 / a))) + 1)
+        S = [mp.mpf(1), mp.mpf(0), mp.mpf(0), mp.mpf(0)]
+        for m in range(1, N + 1):
+            e = 2 * mp.exp(-a * m * m)
+            hm2 = (h * m) ** 2
+            p = mp.mpf(1)
+            for k in range(4):
+                S[k] += p * e
+                p *= hm2
+        # rigorous tail bound (same elementary integral lemma, evaluated in mpmath with big margin)
+        E = mp.exp(-a * N * N)
+        I = [E / (2 * a * N)]
+        for k in range(1, 4):
+            I.append((mp.mpf(N) ** (2 * k - 1) * E + (2 * k - 1) * I[-1]) / (2 * a))
+        tails = [2 * h ** (2 * k) * I[k] for k in range(4)]
+        return {"S": S, "tails": tails, "N": N,
+                "z": S[0], "mu2": S[1] / S[0], "mu4": S[2] / S[0], "mu6": S[3] / S[0]}
+
+def He(n, x):
+    if n == 0: return mp.mpf(1)
+    if n == 2: return x**2 - 1
+    if n == 4: return x**4 - 6*x**2 + 3
+    if n == 6: return x**6 - 15*x**4 + 45*x**2 - 15
+    raise ValueError
+
+def dual(L, dps=400):
+    with mp.workdps(dps):
+        L = mp.mpf(L.numerator) / L.denominator if isinstance(L, Fraction) else mp.mpf(L)
+        pref = L / mp.sqrt(2 * mp.pi)
+        target = dps * mp.log(10) + 60
+        N = int(mp.ceil(mp.sqrt(2 * target) / L)) + 5
+        S = []
+        for k in range(4):
+            s = (-1) ** k * He(2 * k, mp.mpf(0))
+            for n in range(1, N + 1):
+                x = n * L
+                s += 2 * (-1) ** k * He(2 * k, x) * mp.exp(-x * x / 2)
+            S.append(pref * s)
+        return {"S": S, "z": S[0], "mu2": S[1] / S[0], "mu4": S[2] / S[0], "mu6": S[3] / S[0]}
+EOF
+cd <SCRATCH>/kern/scripts_containment && <SCRATCH>/m193/venv/bin/python -I -c "
+import sys; sys.path.insert(0,'.')
+import ref, mpmath as mp
+from fractions import Fraction as F
+mp.mp.dps=110
+worst=0
+for L in [F(3,10),F(1,2),F(1),F(3,2),F(2),F(3),F(5),F(10),F(20),F(30),F(100)]:
+    d=ref.direct(L); u=ref.dual(L)
+    rel=max(abs(d[k]-u[k])/abs(d[k]) for k in ('z','mu2','mu4','mu6'))
+    relt=max(d['tails'][k]/d['S'][k] for k in range(1,4))
+    print(L, mp.nstr(d['z'],20), mp.nstr(d['mu2'],20), mp.nstr(d['mu4'],20), mp.nstr(d['mu6'],20), 'direct-vs-dual rel', mp.nstr(rel,3), 'tailrel', mp.nstr(relt,3), 'N', d['N'])
+"
+
+# --- captured tool output (verbatim) ---
+3/10 1.0 4.9170970409852024736e-93 2.1568801153907118538e-90 9.4611348797699081665e-88 direct-vs-dual rel 1.26e-129 tailrel 3.27e-4571 N 7
+1/2 1.0 1.6178262732714327137e-32 2.5547688491004364321e-30 4.0343292602956260667e-28 direct-vs-dual rel 9.87e-130 tailrel 1.03e-2158 N 8
+1 1.0000000053505759821 2.1123227191688827695e-7 8.339115842252098674e-6 0.00032921509767154122679 direct-vs-dual rel 2.33e-130 tailrel 5.17e-846 N 10
+3/2 1.0003097222873377864 0.0054326932853799814778 0.095321837442745712124 1.6725134693556590131 direct-vs-dual rel 9.01e-131 tailrel 2.06e-541 N 12
+2 1.0143837720622287135 0.13994929964744605447 1.3812503893813958106 13.632638332213275399 direct-vs-dual rel 6.8e-131 tailrel 6.63e-414 N 14
+3 1.223417968131223182 0.80438318475826162791 3.5868794092926460138 16.75968243015139533 direct-vs-dual rel 3.58e-131 tailrel 6.47e-338 N 19
+5 1.9947262692023107327 0.99981366873018010188 3.0035402941265780673 14.945032275403129735 direct-vs-dual rel 1.05e-131 tailrel 4.2e-263 N 28
+10 3.9894228040143267794 0.99999999999999999996 3.0000000000000000036 14.99999999999999967 direct-vs-dual rel 5.89e-131 tailrel 7.91e-209 N 50
+20 7.9788456080286535588 1.0 3.0 15.0 direct-vs-dual rel 6.07e-131 tailrel 5.13e-184 N 94
+30 11.968268412042980338 1.0 3.0 15.0 direct-vs-dual rel 1.08e-130 tailrel 4.33e-176 N 138
+100 39.894228040143267794 1.0 3.0 15.0 direct-vs-dual rel 1.2e-130 tailrel 2.77e-165 N 446

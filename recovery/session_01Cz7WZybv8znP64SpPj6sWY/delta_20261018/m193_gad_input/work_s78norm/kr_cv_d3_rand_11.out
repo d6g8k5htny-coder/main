@@ -1,0 +1,14 @@
+d=3 measure rand: values ['29/20', '173/100', '249/100'] weights ['30', '29', '33', '38'] (sum 230)
+support size 343, half-set 171, 2*sum_H w + w0 = 1.0000000000000000 (must be 1)
+coordinate moments a=3.43775652173913 b=16.387457957913 c=88.7923513074357  (continuum limit 1,3,15)
+sphere rule: 128 nodes, total weight 12.566370614359176 (area |S^2| = 12.566370614359172)
+a (from coefficient covariance of grad) = 3.43775652173913
+C_alg (formula (1), area measure)          = 0.07636134841  +- 0.00019 (MC in F for d=3)
+C_first_principles (12^-1/3 pD pHe F E T+^(4/3), moment by quadrature) = 0.07636134841 ; ratio to C_alg = 1.000000000000
+max rel. diff of proof closed forms (10),(11) vs direct coefficient computation: 6.99e-15
+ell=1e-06 plain MC         nu(ell) ell^(1/3) = 0.0774100209 +- 0.0036 ; ratio to C_alg = 1.013733 +- 0.046857
+ell=1e-06 control-variate  nu(ell) ell^(1/3) = 0.0763245908 +- 1.2e-06 ; ratio to C_alg = 0.999519 +- 0.000016
+ell=1e-06  [control-variate mean alone] ratio to C_alg = 1.000208
+ell=1e-09 plain MC         nu(ell) ell^(1/3) = 0.0774321946 +- 0.0036 ; ratio to C_alg = 1.014023 +- 0.046721
+ell=1e-09 control-variate  nu(ell) ell^(1/3) = 0.0763607109 +- 2.4e-08 ; ratio to C_alg = 0.999992 +- 0.000000
+ell=1e-09  [control-variate mean alone] ratio to C_alg = 1.000005

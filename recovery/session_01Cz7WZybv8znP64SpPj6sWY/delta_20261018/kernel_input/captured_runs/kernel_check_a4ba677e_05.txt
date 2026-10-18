@@ -1,0 +1,40 @@
+# command run at 2026-10-18T01:00:52.403Z (result at 2026-10-18T01:01:00.553Z) by a check agent of this session, run wf_966f8d9a-712
+# --- command ---
+cd <SCRATCH>/kern && cat > scripts_containment/margins.py <<'EOF'
+import sys, json, os
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import contain, ref, mpmath as mp
+from fractions import Fraction as F
+mp.mp.dps = 130
+summ = json.load(open(sys.argv[1]))
+rows = []
+for s in summ:
+    if s["status"] != "ENCLOSED": continue
+    c = json.load(open(s["path"]))
+    lo, hi = F(c["request"]["L_lo"]), F(c["request"]["L_hi"])
+    for L in contain.samples(lo, hi, 24):
+        d = ref.direct(L)
+        for k in ("mu2", "mu4", "mu6"):
+            bl, bh = map(F, c["bounds"][k])
+            v = d[k]
+            ml, mh = v - contain.mpf(bl), contain.mpf(bh) - v
+            rows.append((min(ml, mh) / v, s["tag"], k, str(L), mp.nstr(v, 8), mp.nstr(ml, 4), mp.nstr(mh, 4)))
+rows.sort(key=lambda r: r[0])
+print("min relative margins (margin/value):")
+for r in rows[:10]: print(mp.nstr(r[0], 4), r[1:])
+print("negatives:", sum(1 for r in rows if r[0] < 0))
+EOF
+<SCRATCH>/m193/venv/bin/python -I scripts_containment/margins.py work_containment/out_sweep/summary.json
+# --- captured tool output (verbatim) ---
+min relative margins (margin/value):
+1.048e-36 ('pt L=12/1 M=64 b=128 p=24', 'mu2', '12', '1.0', '1.048e-36', '2.939e-35')
+1.084e-36 ('pt L=30/1 M=64 b=128 p=24', 'mu2', '30', '1.0', '1.258e-36', '1.084e-36')
+1.107e-36 ('pt L=10/1 M=64 b=128 p=24', 'mu2', '10', '1.0', '1.107e-36', '5.126e-35')
+1.137e-36 ('pt L=20/1 M=64 b=128 p=24', 'mu2', '20', '1.0', '1.137e-36', '5.663e-36')
+1.181e-36 ('pt L=6/1 M=64 b=128 p=24', 'mu2', '6', '0.9999989', '1.181e-36', '2.401e-34')
+1.225e-36 ('pt L=15/1 M=64 b=128 p=24', 'mu2', '15', '1.0', '1.225e-36', '1.447e-35')
+1.242e-36 ('pt L=355/113 M=64 b=128 p=24', 'mu2', '355/113', '0.86005079', '1.068e-36', '1.654e-33')
+1.248e-36 ('pt L=7/1 M=64 b=128 p=24', 'mu2', '7', '1.0', '1.248e-36', '1.509e-34')
+1.287e-36 ('pt L=25/1 M=64 b=128 p=24', 'mu2', '25', '1.0', '1.287e-36', '2.386e-36')
+1.342e-36 ('pt L=8/1 M=64 b=128 p=24', 'mu2', '8', '1.0', '1.342e-36', '1.006e-34')
+negatives: 0

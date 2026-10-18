@@ -1,0 +1,44 @@
+# command run at 2026-10-18T01:18:40.552Z (result at 2026-10-18T01:18:44.000Z) by a check agent of this session, run wf_966f8d9a-712
+# --- command ---
+cat > <SCRATCH>/kern/work_cancellation/scripts/thresholds.py <<'EOF'
+"""Scan TEST_ONLY point L to locate where (i) mu2 lower bound > 0, (ii) nu3=c-b^2/a by interval subtraction has
+positive lower bound, (iii) cancellation-free nu3 from the same certificate has positive lower bound."""
+import sys, os, json, math
+from fractions import Fraction as F
+sys.path.insert(0, sys.argv[1]); sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from moment_kernel import certify, KernelHold
+import importlib.util
+spec = importlib.util.spec_from_file_location("cancel_helpers", os.path.join(os.path.dirname(os.path.abspath(__file__)), "cancel_helpers.py"))
+def cf_nu_lo_pos(c):
+    hlo = F(c["h"][0]); zhi = F(c["bounds"]["z"][1]); A = [F(x) for x in c["bounds"]["mu2"]]
+    modes = [(0, F(1))] + [(md["m"], F(md["weight"][0])) for md in c["modes"]]
+    dlo = F(0)
+    for i in range(len(modes)):
+        for j in range(i + 1, len(modes)):
+            (mi, wi), (mj, wj) = modes[i], modes[j]
+            mult = (1 if mi == 0 else 2) * (1 if mj == 0 else 2)
+            dlo += mult * wi * wj * (mi * mi * mj * mj) * (mi * mi - mj * mj) ** 2 * hlo ** 8
+    return dlo > 0 and A[1] > 0
+for name, s in (("default", dict(bits=80, pi_terms=20, exp_pairs=16)), ("max", dict(bits=128, pi_terms=32, exp_pairs=24))):
+    first = {}
+    for k in range(40, 161):
+        L = F(k, 100)
+        alpha = 2 * math.pi ** 2 / float(L) ** 2
+        M = max(math.ceil(math.sqrt(3 / alpha)) + 1, math.ceil(math.sqrt((s["bits"] * math.log(2) + 20) / alpha)))
+        try:
+            c = certify(dict(L_lo=str(L.numerator) + "/" + str(L.denominator), L_hi=str(L.numerator) + "/" + str(L.denominator), cutoff=M, input_role="TEST_ONLY", **s))
+        except KernelHold as e:
+            print(name, L, "HOLD", e.reason); continue
+        A, B, C = [[F(x) for x in c["bounds"][q]] for q in ("mu2", "mu4", "mu6")]
+        mu2pos = A[0] > 0
+        nusub = A[0] > 0 and C[0] - B[1] ** 2 / A[0] > 0
+        nucf = cf_nu_lo_pos(c)
+        for key, v in (("mu2_lo>0", mu2pos), ("nu3_sub_lo>0", nusub), ("nu3_cf_lo>0", nucf)):
+            if v and key not in first: first[key] = (str(L), M)
+            if not v and key in first: print("NONMONOTONE", name, key, L)
+    print(name, "first L (step 0.01) where positivity is certified:", first)
+EOF
+cd <SCRATCH>/kern/work_cancellation && timeout 900 python3 -I -B scripts/thresholds.py "$PWD/files"
+# --- captured tool output (verbatim) ---
+default first L (step 0.01) where positivity is certified: {'mu2_lo>0': ('3/5', 2), 'nu3_cf_lo>0': ('6/5', 3), 'nu3_sub_lo>0': ('61/50', 3)}
+max first L (step 0.01) where positivity is certified: {'mu2_lo>0': ('12/25', 2), 'nu3_cf_lo>0': ('19/20', 3), 'nu3_sub_lo>0': ('24/25', 3)}
