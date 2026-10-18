@@ -1,4 +1,4 @@
-import {OPEN_CLASSIFICATIONS, NON_RESEARCH_KINDS} from './dependency-model.mjs?site-release=89345c3c666c10e7247e5c1effbb49ef17b4f65bab75eb811abbd929079a1a53';
+import {OPEN_CLASSIFICATIONS, NON_RESEARCH_KINDS} from './dependency-model.mjs?site-release=edba1b0463dbcc320babb9a5845fb859602619b3d91bb4983f7b86c0ebcab353';
 
 const REPOSITORIES = new Set(['d6g8k5htny-coder/main','d6g8k5htny-coder/Math-']);
 const SHA = /^[0-9a-f]{40}$/;
