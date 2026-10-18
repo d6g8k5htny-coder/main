@@ -59,8 +59,8 @@ The law pipeline, CB0–CB6, is kept stage by stage, and the two envelopes share
   - ‖G(t)⁻¹‖ is bounded on each cell by a midpoint-preconditioned Neumann contraction.
 
   The frozen formula is kept only as the `old_remainder` control.
-- **B3.** The floor bounds the two-sided event {|δ| > η} with two Gaussian tails. A tail helper is self-tested against independent enclosures at start-up.
-- **B4. Negative controls.** There are eleven mutations, each invoked by `--mutation NAME` and each caught; see below.
+- **B3.** The floor bounds the two-sided event {|δ| > η} with two Gaussian tails. Every Gaussian tail in either envelope goes through one function, `event_prob_upper`, and the number of tails follows from the event kind. At start-up that function and the tail helper are self-tested on exact point laws, for N(0, 1) and N(1/2, 1), against Gordon's lower bound φ(t) t / (t² + 1). That bound does not use `iv_Phi`.
+- **B4. Negative controls.** There are fifteen mutations, each invoked by `--mutation NAME` and each caught; see below. A mutated run never reports a pass: when it is not caught inside the run, it ends `H3_BAND_V2 MUTATED RUN …, NOT A CERTIFICATE` and exits 3. `--record` is refused under a mutation, and `--record` cannot be combined with `--verify`.
 - **O2.** The Gordon–Mills branch of `iv_Phi` keeps its endpoints as mpf, not float.
 - **CB2s, a new exact lemma, in `fractions.Fraction` only.** It covers the exact Laurent expansions of the pin and soft functionals:
   - (a) the pins have no negative powers;
@@ -68,16 +68,17 @@ The law pipeline, CB0–CB6, is kept stage by stage, and the two envelopes share
   - (c) Y⁽⁻¹⁾ = E V⁽⁰⁾ for an exact 0/1 matrix E;
   - (d) E zV = 0.
 
-  Hence Ỹ = Y − EV/z is regular. That makes μ = E[Ỹ | V = zV] and Σ = Cov(Ỹ | V) analytic wherever G is invertible: the pole coefficients of μ and Σ vanish exactly. The frozen programs dropped those coefficients after a numeric |c| < 1e−55 check. The numeric checks stay, as consistency checks, and A₋₁ = E G₀ is checked at the Gram level. The interval series are generated from the same exact tables the lemma reads.
+  Hence Ỹ = Y − EV/z is regular. That makes μ = E[Ỹ | V = zV] and Σ = Cov(Ỹ | V) analytic wherever G is invertible: the pole coefficients of μ and Σ vanish exactly. The frozen programs dropped those coefficients after a numeric |c| < 1e−55 check. The numeric checks stay, as consistency checks, and A₋₁ = E G₀ is checked at the Gram level. The lemma and the interval series are built from the same table objects, so a change to a table reaches both, and each of the four branches has its own control.
 - **Kernel window.** The series now uses `range(0, J+9−n)`; the frozen one used `J+8−n`. Every Gram block is complete through order J+2, and the Cauchy tails start at J+3. The soft-pin block is kept through J+2 as well.
-- **Moments.** The Poisson sums over |n| ≤ 3 now carry a certified tail for |n| ≥ 4, built from |He_k(x)| ≤ (|x| + √k)^k. The kernel sup A_n(ρ) carries a certified lattice tail, and it uses |k| upper endpoints.
+- **Moments.** The Poisson sums over |n| ≤ 3 now carry a certified tail for |n| ≥ 4, built from |He_k(x)| ≤ (|x| + √k)^k. New check CB1d: every consumed a₂ₘ, m ≤ 40, must meet an independent spectral enclosure (1/Z) Σ e^{−k²/2} k^{2m}, which carries a certified lattice tail. The kernel sup A_n(ρ) carries a certified lattice tail too, and it uses |k| upper endpoints.
 - **Rounding.** The load-bearing upper endpoints come from intervals. That covers:
-  - CB4 (θ(R), C_W, C_H and every tail sum, which are now sums of nonnegative terms rather than differences);
+  - CB4 (θ(R), C_W, C_H, the Cauchy ratio 1/ρ, which is rounded upward, and every tail sum, which is now a sum of nonnegative terms rather than a difference). A sanity check requires every computed Laurent coefficient to obey its Cauchy bound |c_j| ≤ M ρ^{−j};
   - the Neumann bounds;
   - the Chernoff t₀ lower bounds and the Cauchy–Schwarz pieces;
   - the type and cover margins, checked exactly in `Fraction` from the mpf box constants.
 
   Cell endpoints are enclosed outward, so no gap opens between cells.
+- **H2 library.** CB0 executes exactly the bytes whose digest it checked; no import machinery or bytecode cache is involved.
 - **Output.** Certified decimals are rounded outward, exactly. The transcript has no timings: they go to stderr. The H2 path is a CLI argument; the frozen programs hard-coded `/mnt/agents/...`. Monte Carlo is opt-in (`--mc`), NON-CERTIFYING, and goes to stderr. numpy is needed only for it.
 - **Removed.** The frozen ceiling checked nesting against one global floor value. That check is now a per-cell test across the two records.
 
@@ -87,7 +88,10 @@ The law pipeline, CB0–CB6, is kept stage by stage, and the two envelopes share
 - **The envelope decomposition.** The algebra (type event, covers, p̄ ≥ |p|, the box `B_cert`) is unchanged and was checked in O7. So far it has had only an Anthropic reading.
 - **Two mutations are invisible inside a run.** `drop_fail_piece` and `old_remainder` give plausible numbers. They are caught only because a replay must reproduce the reviewed record exactly: the program digest, the transcript digest, and every certified decimal.
 - **The upstream reduction.** This package does not re-derive the definition of G_r or the reduction to it. It does not re-pin LPW v4, H5_ZBAND or D1.
-- **Non-certifying parts.** CB7, the direct point law at r = 1/20 in mp arithmetic, is a cross-check and not load-bearing. So is the Monte Carlo.
+- **The B2 remainder has no numeric test.** CB7, the direct point law at r = 1/20 in mp arithmetic, checks the heavy polynomial, not the remainder. The true truncation error is about 2e−91, against the rigorous corrections 1.5e−10 and 1.2e−7, so CB7 could not see the remainder shrink by up to about 80 orders of magnitude. The remainder rests on the written derivation in `neumann_law`. A same-family check, with zero independence credit, compared every cell enclosure against a dps-200 direct law at 32 points, and every enclosure contained it.
+- **The B3 control covers the shared event bound.** It does not cover a future call site that bypasses `event_prob_upper`.
+- **Planar moments.** For m ≤ 4, the torus and planar moments differ by about 1e−122, which is below dps 100. CB1d separates them from m = 16 up.
+- **Non-certifying parts.** CB7 is a cross-check and not load-bearing. So is the Monte Carlo.
 
 ## Run
 
@@ -101,7 +105,10 @@ python3 -B -m unittest discover -s experiments/h3_band_v2 -p 'test_*.py' -v
 
 - **Runtime:** each envelope takes about 20 s on CPython 3.11 with mpmath 1.4.1.
 - **Byte-exactness:** the reviewed transcripts are byte-exact under that mpmath, and the same under `-O`.
-- **Output:** a run prints one summary line, `H3_BAND_V2 PASS …`, and exits 0. It exits 1 on any failed check (`H3_BAND_V2 FAIL: …`) or any record mismatch (`H3_BAND_V2 VERIFY_FAIL: …`).
+- **Output:** a run prints one summary line, `H3_BAND_V2 PASS …`, and exits 0. It exits:
+  - 1 on any failed check (`H3_BAND_V2 FAIL: …`) or any record mismatch (`H3_BAND_V2 VERIFY_FAIL: …`);
+  - 2 on a refused combination of options;
+  - 3 for a mutated run that completed, which is never a certificate.
 - **Comparing a stored transcript:** `verify-record --transcript F --results R` checks a transcript against a record without recomputing.
 
 ## Negative controls
@@ -110,26 +117,30 @@ python3 -B -m unittest discover -s experiments/h3_band_v2 -p 'test_*.py' -v
 
 | mutation | caught by |
 |---|---|
-| `structure_pin_pole` | CB2s: pin V5 has a z⁻² term |
-| `structure_window` | CB2s: E zV ≠ 0 |
-| `planar_moments` | CB1a: torus identity 0 < 1 − a₂ |
+| `structure_pin_pole` | CB2s (a): pin V5 has a z⁻² term |
+| `structure_soft_pole2` | CB2s (b): soft Y2 has a z⁻² pole |
+| `structure_soft_span` | CB2s (c): the pole part of Y0 is outside the span of V⁽⁰⁾ |
+| `structure_window` | CB2s (d): E zV ≠ 0 |
+| `planar_moments` (planar values in the consumed table A2) | CB1d: spectral cross-check |
 | `wrong_window` | CB3: limit identity μ_aM(0) = −1 |
 | `signed_maxima` (B1 regression) | CB4: majorant dominance guard |
 | `wide_first_cell` (frozen first cell) | CB4: R-majorant convergence on (0, 1/400] |
-| `one_tail` (B3 regression) | CB5: two-sided tail self-test |
+| `one_tail` (B3 regression in the shared event bound) | CB5: event-bound self-test, P(|X| > t) |
+| `tail_helper_one_side` | CB5: tail-helper self-test |
 | `no_preconditioner` | CB6: Neumann contraction |
 | `cap_raised` | CC6: consumption cap U ≤ 4 |
-| `drop_fail_piece` | replay against the reviewed record |
-| `old_remainder` (B2 regression) | replay against the reviewed record |
+| `drop_fail_piece` | replay against the reviewed record; the certified decimals change |
+| `old_remainder` (B2 regression) | replay against the reviewed record; the certified decimals change |
 
 The record checks are tested too. Each of the following is rejected:
 - a lowered bound in a transcript;
 - a doctored record;
 - a record bound to other program bytes;
+- a mutated transcript, or one without `ALL_CHECKS_PASS`, even with a record made consistent with it;
 - a transcript and record doctored consistently with each other. `verify-record` alone accepts that pair; only a recomputing replay exposes it.
 
 ## Provenance
 
 - **`h2/cov_exact.py`:** 21,961 bytes, sha256 `f08c1c5f653f2ffd2e85d39e1112f80d15db04d15f932e5ee42db2ca3553e783`. It is byte-identical to the H2 library in the frozen archive `a2136bc0…` (DG-MIGRATION custody). Its digest is the one at line 404 of main's `incoming/claude-bundle-v3-native-copies-20260928/K3_SIDE24_LB/RETURN_06/TREE_MANIFEST.sha256.txt`. The program refuses any other bytes.
-- **Records:** `results/*.json` bind the program digest, the cov_exact digest, the mpmath version, the transcript digest and every certified decimal. `results/*.transcript.txt` are the matching transcripts.
+- **Records:** `results/*.json` bind the program digest, the cov_exact digest, the mpmath version, the transcript digest and every certified decimal. They also require an unmutated run that passed every check. `results/*.transcript.txt` are the matching transcripts.
 - **Re-recording:** any edit to `h3_band_v2.py` requires regenerating the records with `--record`, and that regeneration is itself a change for review.

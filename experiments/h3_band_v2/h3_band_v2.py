@@ -24,11 +24,11 @@ and exits nonzero on failure.
 """
 import argparse
 import hashlib
-import importlib.util
 import json
 import platform
 import sys
 import time
+import types
 from collections import defaultdict
 from fractions import Fraction
 from functools import lru_cache
@@ -46,18 +46,40 @@ COV_EXACT_SHA256 = 'f08c1c5f653f2ffd2e85d39e1112f80d15db04d15f932e5ee42db2ca3553
 PROGRAM = 'experiments/h3_band_v2/h3_band_v2.py'
 
 MUTATIONS = {
-    'structure_pin_pole': 'drop the -1/2 weight of S(1,0) in pin V5; CB2s must find a pole',
-    'structure_window': 'conditioning vector with zV[3] = 1; CB2s must find a mu pole',
-    'planar_moments': 'planar moments in place of the exact torus moments; CB1 must fail',
+    'structure_pin_pole': 'double the -1/2 weight of S(1,0) in pin V5 to -1; CB2s (a) must find a z^-2 term',
+    'structure_soft_pole2': 'soft Y2 = M(2,0) z^-2; CB2s (b) must find a pole of order 2',
+    'structure_soft_span': 'soft Y0 = M(0,2) z^-1, whose pole part f_yy is not in the span of V^(0); CB2s (c) must fail',
+    'structure_window': 'conditioning vector with zV[3] = 1; CB2s (d) must find a mu pole',
+    'planar_moments': 'planar (2m-1)!! in the consumed moment table A2; the CB1d spectral cross-check must fail',
     'wrong_window': 'zV[5] = -1/12; the CB3 limit identities must fail',
     'signed_maxima': 'B1 regression (signed upper endpoints as majorants); the CB4 dominance guard must fail',
     'wide_first_cell': 'R-majorant first cell (0, 0.0025] as in the frozen programs; the CB4 convergence guard must fail',
-    'one_tail': 'B3 regression (one Gaussian tail for a two-sided event); the CB5 tail self-test must fail',
+    'one_tail': 'B3 regression (one Gaussian tail for a two-sided event) in the event bound every call site uses; the CB5 event self-test must fail',
+    'tail_helper_one_side': 'the tail helper ignores its number of sides; the CB5 Gordon self-test must fail',
     'no_preconditioner': 'identity in place of the midpoint inverse; the CB6 contraction guard must fail',
     'cap_raised': 'p and pbar doubled; the ceiling consumption cap must fail',
-    'drop_fail_piece': 'ceiling without its type-fail pieces; not detectable inside the run, --verify must fail',
-    'old_remainder': 'B2 regression (the frozen dGinv law correction); --verify must fail',
+    'drop_fail_piece': 'ceiling without its type-fail pieces; not detectable inside the run, --verify must fail on the cells',
+    'old_remainder': 'B2 regression (the frozen dGinv law correction); --verify must fail on the cells',
 }
+
+
+def mutated_tables():
+    """The exact functional tables and conditioning vector, with any structure mutation applied.
+    Both the lemma CB2s and the interval pipeline are built from what this returns."""
+    pins = [list(f) for f in PINS_EXACT]
+    soft = [list(f) for f in SOFT_EXACT]
+    zv = list(ZV_EXACT)
+    if MUT == 'structure_pin_pole':
+        pins[5] = [pins[5][0], pins[5][1], ('S', (1, 0), F(-1), -2), pins[5][3]]
+    if MUT == 'structure_soft_pole2':
+        soft[2] = [('M', (2, 0), F(1), -2)]
+    if MUT == 'structure_soft_span':
+        soft[0] = [('M', (0, 2), F(1), -1)]
+    if MUT == 'structure_window':
+        zv[3] = F(1)
+    if MUT == 'wrong_window':
+        zv[5] = F(-1, 12)
+    return pins, soft, zv
 MUT = ''
 OUT = []
 
@@ -200,18 +222,18 @@ def structure_lemma(pins, soft, zv):
     se = [laurent_expand(f, 1) for f in soft]
     for k, e in enumerate(pe):
         for p, row in e.items():
-            ck(not (p < 0 and row), 'CB2s pin V%d has a z^%d term' % (k, p))
+            ck(not (p < 0 and row), 'CB2s (a) pin V%d must have no z^%d term' % (k, p))
     for a, e in enumerate(se):
         for p, row in e.items():
-            ck(not (p < -1 and row), 'CB2s soft Y%d has a z^%d term' % (a, p))
+            ck(not (p < -1 and row), 'CB2s (b) soft Y%d must have no z^%d term' % (a, p))
     v0 = [e.get(0, {}) for e in pe]
     E = []
     for a, e in enumerate(se):
         x = solve_in_span(v0, e.get(-1, {}))
-        ck(x is not None, 'CB2s soft Y%d pole part lies in the span of V^(0)' % a)
+        ck(x is not None, 'CB2s (c) soft Y%d pole part must lie in the span of V^(0)' % a)
         E.append(x)
     for a in range(len(soft)):
-        ck(sum(E[a][k] * zv[k] for k in range(len(zv))) == 0, 'CB2s E zV = 0, row %d' % a)
+        ck(sum(E[a][k] * zv[k] for k in range(len(zv))) == 0, 'CB2s (d) E zV = 0 required, row %d' % a)
     return E
 
 
@@ -240,28 +262,27 @@ def run_certificate(mode, h2_dir, mc=False):
     emit('mode dps=100 MUTATION=' + (MUT if MUT else 'none'))
 
     # ----------------------------------------------------------- CB2s: exact structure
-    pins_exact = [list(f) for f in PINS_EXACT]
-    zv_exact = list(ZV_EXACT)
-    if MUT == 'structure_pin_pole':
-        pins_exact[5] = [pins_exact[5][0], pins_exact[5][1], ('S', (1, 0), F(-1), -2), pins_exact[5][3]]
-    if MUT == 'structure_window':
-        zv_exact[3] = F(1)
-    E_sel = structure_lemma(pins_exact, SOFT_EXACT, zv_exact)
+    pins_exact, soft_exact, zv_exact = mutated_tables()
+    if MUT == 'wrong_window':
+        emit('CB3 MUTATION wrong_window applied (must be caught)')
+    E_sel = structure_lemma(pins_exact, soft_exact, zv_exact)
     emit('CB2s PASS: exact Laurent structure: pins regular, soft poles z^-1 only, Y^(-1) = E V^(0), E zV = 0')
 
     mp.dps = 100
     iv.dps = 100
     # ------------------------------------------------------------------ CB0: hashes
     h2 = Path(h2_dir)
-    digest = hashlib.sha256((h2 / 'cov_exact.py').read_bytes()).hexdigest()
+    src = (h2 / 'cov_exact.py').read_bytes()
+    digest = hashlib.sha256(src).hexdigest()
     manifest = {}
     for ln in (h2 / 'MANIFEST.sha256').read_text().splitlines():
         hh, fn = ln.split()
         manifest[fn] = hh
     ck(digest == COV_EXACT_SHA256 and manifest.get('cov_exact.py') == COV_EXACT_SHA256, 'CB0 cov_exact hash')
-    spec = importlib.util.spec_from_file_location('cov_exact', h2 / 'cov_exact.py')
-    ce = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(ce)   # sets mp.dps = iv.dps = 100 and certifies its own tails
+    # execute exactly the verified bytes: no import machinery, so no bytecode cache can stand in
+    ce = types.ModuleType('cov_exact')
+    ce.__file__ = str(h2 / 'cov_exact.py')
+    exec(compile(src, ce.__file__, 'exec'), ce.__dict__)   # sets mp.dps = iv.dps = 100, certifies its tails
     ck(mp.dps == 100 and iv.dps == 100, 'CB0 precision dps=100')
     emit('CB0 PASS: H2 library cov_exact.py sha256 %s... matches the pinned digest' % COV_EXACT_SHA256[:16])
 
@@ -312,13 +333,29 @@ def run_certificate(mode, h2_dir, mc=False):
     DEV4 = (num4 + iv.mpf((0, up(t4)))) / (den4 + iv.mpf((0, up(4 * first))))
     if MUT == 'planar_moments':
         A2 = [iv.mpf(factorial(2 * m)) / iv.mpf(factorial(m) * 2 ** m) for m in range(MMAX + 1)]
-        DEV2 = iv.mpf(0)
-        DEV4 = iv.mpf(0)
-        emit('CB1 MUTATION planar_moments applied (must be caught)')
+        emit('CB1 MUTATION planar_moments applied to the consumed table A2 (must be caught)')
     ck(DEV2.a > 0 and DEV2.b < mpf('1e-100'), 'CB1a exact-torus 0 < 1-a2 < 1e-100')
     ck(DEV4.a > 0 and DEV4.b < mpf('1e-100'), 'CB1b exact-torus 0 < a4-3 < 1e-100')
     ck(all(ub(A2[m] - ce.moment_a_poisson(m, mode='iv')) < mpf('1e-90') for m in range(5)),
        'CB1c Poisson moments agree with cov_exact for 2m <= 8')
+    # CB1d: the consumed table against an independent spectral enclosure, every m <= MMAX:
+    # a_{2m} = (1/Z) sum_{k in (pi/12)Z} e^{-k^2/2} k^{2m}; the lattice holds |j| <= Jl, and beyond it
+    # consecutive terms shrink by at most q = e^{-(2 Jl + 3) h^2 / 2} (1 + 1/(Jl+1))^{2m} < 1.
+    hstep_s, Jl_s, ks_s, ws_s, Z1_s = ce._LATT_IV
+
+    def moment_spectral(m):
+        n = 2 * m
+        tot = sum((ww * kk ** n for kk, ww in zip(ks_s, ws_s)), iv.mpf(0))
+        j0 = Jl_s + 1
+        k0 = j0 * hstep_s
+        q = iv.exp(-(2 * j0 + 1) * hstep_s * hstep_s / 2) * (1 + iv.mpf(1) / j0) ** n
+        ck(q.b < 1, 'CB1d spectral tail ratio < 1, m=%d' % m)
+        tail = 2 * iv.exp(-k0 * k0 / 2) * k0 ** n / (1 - q)
+        return (tot + iv.mpf((0, up(tail)))) / Z1_s
+
+    for m in range(MMAX + 1):
+        sp = moment_spectral(m)
+        ck(A2[m].a <= sp.b and sp.a <= A2[m].b, 'CB1d consumed a_{2m} meets the spectral enclosure, m=%d' % m)
     emit('CB1 PASS: moments a_{2m}, m<=%d, exact finite torus with certified image tails (1-a2 = %s)' % (MMAX, mp.nstr(up(DEV2), 3)))
 
     # ------------------------------------------------------------ CB5 (early): Phi and tails
@@ -360,17 +397,58 @@ def run_certificate(mode, h2_dir, mc=False):
     def gauss_tail_upper(t0_lo, sides):
         """Upper bound on P(Z > t0) (sides=1) or P(|Z| > t0) (sides=2), Z ~ N(0,1), t0 >= t0_lo."""
         p = up(iv_Phi(iv.mpf(-t0_lo)))
-        if MUT == 'one_tail':
+        if MUT == 'tail_helper_one_side':
             return p
         return p * sides
 
+    # self-test against an enclosure that does not use iv_Phi: Gordon's inequality
+    # 1 - Phi(t) >= phi(t) t / (t^2 + 1) for t > 0
     for t in ('2.5', '4', '6.5', '9'):
         tt = iv.mpf(t)
-        two = 1 - iv_Phi(tt) + iv_Phi(-tt)
-        one = 1 - iv_Phi(tt)
-        ck(gauss_tail_upper(mpf(t), 2) >= mpf(two.a), 'CB5 two-sided tail self-test at %s' % t)
-        ck(gauss_tail_upper(mpf(t), 1) >= mpf(one.a), 'CB5 one-sided tail self-test at %s' % t)
-    emit('CB5 PASS: certified Phi; Gaussian tail helpers dominate independent enclosures')
+        gordon = mpf((iv_phi(tt) * tt / (tt * tt + 1)).a)
+        ck(gauss_tail_upper(mpf(t), 1) >= gordon, 'CB5 one-sided tail helper dominates the Gordon lower bound at %s' % t)
+        ck(gauss_tail_upper(mpf(t), 2) >= 2 * gordon, 'CB5 two-sided tail helper dominates twice the Gordon lower bound at %s' % t)
+    emit('CB5 PASS: certified Phi; Gaussian tail helpers dominate the Gordon lower bounds')
+
+    def t0_lower(num_iv, var_iv):
+        return mpf((num_iv / iv.sqrt(iv.mpf(up(var_iv)))).a)
+
+    def event_prob_upper(mu_x, var_x, kind, edge, margin, what):
+        """Upper bound on P(X > edge) ('gt'), P(X < edge) ('lt') or P(|X| > edge) ('abs'), for
+        X ~ N(m, v) and every m in mu_x, v in var_x, the edge beyond the mean by the margin in units
+        of the standard deviation. Every Gaussian tail of the certificate goes through here, and the
+        number of tails follows from the event kind (B3: two for 'abs')."""
+        e = iv.mpf(edge)
+        if kind == 'gt':
+            t0 = t0_lower(e - iv.mpf(up(mu_x)), var_x)
+            sides = 1
+        elif kind == 'lt':
+            t0 = t0_lower(iv.mpf(mpf(mu_x.a)) - e, var_x)
+            sides = 1
+        else:
+            t0 = t0_lower(e - iv.mpf(ub(mu_x)), var_x)
+            sides = 2 if MUT != 'one_tail' else 1
+        ck(t0 > margin, what + ' margin')
+        return gauss_tail_upper(t0, sides)
+
+    # self-test of the event bounds on exact point laws, against Gordon lower bounds that do not use
+    # iv_Phi: P(X > t) and P(X < -t) >= g(t) for N(0, 1); P(|X| > t) >= 2 g(t); and for N(1/2, 1),
+    # P(|X| > t) >= g(t - 1/2) + g(t + 1/2), where g(t) = phi(t) t / (t^2 + 1)
+    def gordon(t):
+        return mpf((iv_phi(t) * t / (t * t + 1)).a)
+
+    half = iv.mpf(1) / 2
+    for t in ('2.5', '4', '6.5', '9'):
+        tt = iv.mpf(t)
+        z0 = iv.mpf(0)
+        one = iv.mpf(1)
+        g = gordon(tt)
+        ck(event_prob_upper(z0, one, 'gt', tt, 2, 'CB5 self-test') >= g, 'CB5 event bound P(X > t) self-test at %s' % t)
+        ck(event_prob_upper(z0, one, 'lt', -tt, 2, 'CB5 self-test') >= g, 'CB5 event bound P(X < -t) self-test at %s' % t)
+        ck(event_prob_upper(z0, one, 'abs', tt, 2, 'CB5 self-test') >= 2 * g, 'CB5 event bound P(|X| > t) self-test at %s' % t)
+        ck(event_prob_upper(half, one, 'abs', tt, 1, 'CB5 self-test') >= gordon(tt - half) + gordon(tt + half),
+           'CB5 event bound P(|X| > t), mean 1/2, self-test at %s' % t)
+    emit('CB5 PASS: Gaussian event bounds dominate the Gordon lower bounds on exact point laws')
 
     # ------------------------------------------------------------- CB2: series machinery
     J = 60          # Taylor order kept for mu, Sigma
@@ -457,8 +535,8 @@ def run_certificate(mode, h2_dir, mc=False):
     def to_iv_func(func):
         return [(st, al, ser_monom(iv_frac(w), k)) for st, al, w, k in func]
 
-    PinsV = [to_iv_func(f) for f in PINS_EXACT]
-    SoftY = [to_iv_func(f) for f in SOFT_EXACT]
+    PinsV = [to_iv_func(f) for f in pins_exact]
+    SoftY = [to_iv_func(f) for f in soft_exact]
     DISP = {('M', 'M'): 0, ('S', 'S'): 0, ('S', 'M'): 1, ('M', 'S'): -1}
 
     def gram_entry_ser(FA, FB):
@@ -527,10 +605,7 @@ def run_certificate(mode, h2_dir, mc=False):
         return [[iv.mpf(1) if i == j else iv.mpf(0) for j in range(6)] for i in range(6)]
 
     G0 = mat_coeff(GP_ser, 0)
-    zV = [iv_frac(q) for q in ZV_EXACT]
-    if MUT == 'wrong_window':
-        zV[5] = iv.mpf(-1) / 12
-        emit('CB3 MUTATION wrong_window applied (must be caught)')
+    zV = [iv_frac(q) for q in zv_exact]
     cols = [iv_solve6(G0, [iv.mpf(1) if l == k else iv.mpf(0) for l in range(6)]) for k in range(6)]
     Ginv0 = [[cols[k][i] for k in range(6)] for i in range(6)]
     res = max(ub(sum((G0[i][k] * Ginv0[k][j] for k in range(6)), iv.mpf(0)) - (1 if i == j else 0))
@@ -691,6 +766,13 @@ def run_certificate(mode, h2_dir, mc=False):
     ck(dom, 'CB4 majorants dominate every |entry| (B1)')
 
     RHOi = iv.mpf(RHO)
+    QRHO = up(1 / RHOi)          # upper bound on 1/rho: the Cauchy ratio of every Gram-block majorant
+    # sanity check on the Cauchy constants: every computed Laurent coefficient obeys |c_j| <= M rho^-j
+    cauchy = all(G_m[j] <= up(iv.mpf(M_GP) * RHOi ** (-j)) and GY_m[j] <= up(iv.mpf(M_GY) * RHOi ** (-j))
+                 and A_m[j] <= up(iv.mpf(M_GYV) * RHOi ** (-j)) for j in range(NK + 1))
+    cauchy = cauchy and A1_m <= up(iv.mpf(M_GYV) * RHOi) and matmax(GY_m1) <= up(iv.mpf(M_GY) * RHOi) \
+        and matmax(GY_m2) <= up(iv.mpf(M_GY) * RHOi ** 2)
+    ck(cauchy, 'CB4 computed Laurent coefficients obey the Cauchy bounds |c_j| <= M rho^-j')
 
     def theta(R):
         # 36 ||Ginv0|| sum_{i>=1} g_i R^-i, with g_i = G_m[i] (i <= J) and the Cauchy bound beyond
@@ -768,8 +850,8 @@ def run_certificate(mode, h2_dir, mc=False):
 
     majW = Maj(W_m, C_W, R)
     majH = Maj(H_m, C_H, R)
-    majA = Maj(A_m, M_GYV, 1 / RHO)
-    majGY = Maj(GY_m, M_GY, 1 / RHO)
+    majA = Maj(A_m, M_GYV, QRHO)
+    majGY = Maj(GY_m, M_GY, QRHO)
     R_STAR = F(1, 16384) if MUT != 'wide_first_cell' else F(1, 400)
     ck(up(Ri * iv_frac(R_STAR)) < mpf('0.2'), 'CB4 R-majorant converges on the first cell (0, %s]' % frac_label(R_STAR))
     tS = iv.mpf(up(iv_frac(R_STAR)))
@@ -1059,9 +1141,6 @@ def run_certificate(mode, h2_dir, mc=False):
         PBAR2 = p_mul(ubar(aaM, aqM, abM), ubar(aaS, aqS2, abS))
         return P, PBAR, PBAR2
 
-    def t0_lower(num_iv, var_iv):
-        return mpf((num_iv / iv.sqrt(iv.mpf(up(var_iv)))).a)
-
     def ceil_hi(mu, Sig, r_iv, label):
         # UPPER envelope (direction analysis in README.md, unchanged from the frozen program):
         #   E[G_r] = E[p 1_type] <= E[p 1_{q_M<0}] + E[pbar 1_{q_M<0, D_M<=0}] + E[pbar 1_{D_S>=0}],
@@ -1087,34 +1166,22 @@ def run_certificate(mode, h2_dir, mc=False):
         def cs_piece(second, prob):
             return iv.mpf((0, up(iv.sqrt(iv.mpf(second) * iv.mpf(prob)))))
 
-        def chern_gt(cond, edge):
-            # E[pbar 1_{X > edge}] <= sqrt(E[pbar^2] P(X > edge)), edge above the mean
-            t0 = t0_lower(iv.mpf(edge) - iv.mpf(up(mu[cond])), Sig[cond][cond])
-            ck(t0 > 2, 'CC6 Chernoff margin ' + label)
-            return cs_piece(Epbar2, gauss_tail_upper(t0, 1))
-
-        def chern_lt(cond, edge):
-            t0 = t0_lower(iv.mpf(mpf(mu[cond].a)) - iv.mpf(edge), Sig[cond][cond])
-            ck(t0 > 2, 'CC6 Chernoff margin ' + label)
-            return cs_piece(Epbar2, gauss_tail_upper(t0, 1))
+        def chern(cond, kind, edge):
+            # E[pbar 1_{event}] <= sqrt(E[pbar^2] P(event)), the edge beyond the mean
+            return cs_piece(Epbar2, event_prob_upper(mu[cond], Sig[cond][cond], kind, edge, 2, 'CC6 Chernoff ' + label))
 
         Wp1 = trunc_expect(P, 0, I_LO, I_HI)
         Wp2 = trunc_expect(P, 0, I_HI, mpf(0))
         Wp3 = trunc_expect(P, 0, mpf(-100), I_LO)
-        t0l = t0_lower(iv.mpf(100) + iv.mpf(mpf(mu[0].a)), Sig[0][0])
-        ck(t0l > 20, 'CC6 left residue margin ' + label)
-        RESp = cs_piece(Ep2, gauss_tail_upper(t0l, 1))
-        BaM = chern_gt(2, EDGE_AM)                                       # E[pbar 1_{a_M > -0.6}]
+        RESp = cs_piece(Ep2, event_prob_upper(mu[0], Sig[0][0], 'lt', mpf(-100), 20, 'CC6 left residue ' + label))
+        BaM = chern(2, 'gt', EDGE_AM)                                    # E[pbar 1_{a_M > -0.6}]
         BbM = trunc_expect(PBAR, 4, mpf('-100'), -BB) + trunc_expect(PBAR, 4, BB, mpf('100'))
-        t0b = t0_lower(iv.mpf(100) - iv.mpf(ub(mu[4])), Sig[4][4])
-        ck(t0b > 20, 'CC6 beta far-tail margin ' + label)
-        BbM = BbM + cs_piece(Epbar2, gauss_tail_upper(t0b, 2))          # |b_M| > 100: two tails
+        BbM = BbM + cs_piece(Epbar2, event_prob_upper(mu[4], Sig[4][4], 'abs', mpf(100), 20,
+                                                      'CC6 beta far tail ' + label))      # |b_M| > 100
         BqM = trunc_expect(PBAR, 0, I_HI, mpf(0))                        # q_M in (-0.4, 0)
         BqS = trunc_expect(PBAR, 1, mpf(0), mpf('100'))                  # q_S >= 0
-        t0q = t0_lower(iv.mpf(100) - iv.mpf(up(mu[1])), Sig[1][1])
-        ck(t0q > 20, 'CC6 q_S far-tail margin ' + label)
-        BqS = BqS + cs_piece(Epbar2, gauss_tail_upper(t0q, 1))
-        BaS = chern_lt(3, mpf('0'))                                      # E[pbar 1_{a_S <= 0}]
+        BqS = BqS + cs_piece(Epbar2, event_prob_upper(mu[1], Sig[1][1], 'gt', mpf(100), 20, 'CC6 q_S far tail ' + label))
+        BaS = chern(3, 'lt', mpf('0'))                                   # E[pbar 1_{a_S <= 0}]
         if MUT == 'drop_fail_piece':
             hi = Wp1 + Wp2 + Wp3 + RESp
         else:
@@ -1156,18 +1223,11 @@ def run_certificate(mode, h2_dir, mc=False):
                 cp = cond_expect_poly_iv(PP, cw)
                 tm = trunc_mom_iv(muX[cond], s00, iv.mpf(a), iv.mpf(b), len(cp) - 1)
                 return Etot - sum((c * t for c, t in zip(cp, tm)), iv.mpf(0))
-            # exact Gaussian tail (certified Phi) and Cauchy-Schwarz
-            if oneside == 'gt':     # P(X > b), b above the mean
-                t0 = t0_lower(iv.mpf(b) - iv.mpf(up(muX[cond])), s00)
-                sides = 1
-            elif oneside == 'lt':   # P(X < a), a below the mean
-                t0 = t0_lower(iv.mpf(mpf(muX[cond].a)) - iv.mpf(a), s00)
-                sides = 1
-            else:                   # P(|X| > b) with a = -b: two tails (B3)
-                t0 = t0_lower(iv.mpf(b) - iv.mpf(ub(muX[cond])), s00)
-                sides = 2
-            ck(t0 > 2, 'CB6 Chernoff tail margin ' + label)
-            return iv.mpf((0, up(iv.sqrt(iv.mpf(Epbar2) * iv.mpf(gauss_tail_upper(t0, sides))))))
+            # exact Gaussian tail (certified Phi) and Cauchy-Schwarz:
+            # P(X > b) with b above the mean, P(X < a) with a below it, or P(|X| > b) with a = -b
+            kind, edge = {'gt': ('gt', b), 'lt': ('lt', a)}.get(oneside, ('abs', b))
+            prob = event_prob_upper(muX[cond], s00, kind, edge, 2, 'CB6 Chernoff tail ' + label)
+            return iv.mpf((0, up(iv.sqrt(iv.mpf(Epbar2) * iv.mpf(prob)))))
 
         Edelta = piece_outside(PBAR2, mu2, Sig2, 1, -ETA, ETA, Ebar2, force_chern=True)
         Ebeta = piece_outside(PBAR, mu, Sig, 4, -BB, BB, Ebar)
@@ -1296,9 +1356,20 @@ def file_sha256(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
+def transcript_mutation(body):
+    """The mutation a transcript declares in its header, or None if the header is missing."""
+    for ln in body.splitlines():
+        if ln.startswith('mode dps=100 MUTATION='):
+            return ln[len('mode dps=100 MUTATION='):]
+    return None
+
+
 def make_record(mode, body):
     cells, uniform = parse_certified(body)
+    lines = body.splitlines()
     return {
+        'mutation': transcript_mutation(body),
+        'all_checks_pass': bool(lines) and lines[-1] == 'ALL_CHECKS_PASS',
         'schema': 1,
         'program': PROGRAM,
         'program_sha256': file_sha256(__file__),
@@ -1316,10 +1387,15 @@ def make_record(mode, body):
 def compare_record(record, expected):
     """Return a list of mismatches between a fresh record and the reviewed one."""
     bad = []
-    for key in ('schema', 'program', 'program_sha256', 'cov_exact_sha256', 'mode', 'transcript_sha256', 'cells', 'uniform',
-                'scientific_effect', 'review_status'):
+    for key in ('schema', 'program', 'program_sha256', 'cov_exact_sha256', 'mode', 'mutation', 'all_checks_pass',
+                'transcript_sha256', 'cells', 'uniform', 'scientific_effect', 'review_status'):
         if record.get(key) != expected.get(key):
             bad.append(key)
+    # a reviewed record is only ever one of an unmutated run that passed every check
+    if record.get('mutation') != 'none' or expected.get('mutation') != 'none':
+        bad.append('mutation is not none')
+    if record.get('all_checks_pass') is not True or expected.get('all_checks_pass') is not True:
+        bad.append('ALL_CHECKS_PASS missing')
     if record['environment'].get('mpmath') != expected.get('environment', {}).get('mpmath'):
         bad.append('environment.mpmath')
     if not expected.get('cells') or not expected.get('uniform'):
@@ -1334,21 +1410,17 @@ def main(argv=None):
     ap.add_argument('--h2-dir', default=str(HERE / 'h2'))
     ap.add_argument('--mutation', default='', choices=[''] + sorted(MUTATIONS))
     ap.add_argument('--transcript', help='write the transcript here (ceil, floor) or read it (verify-record)')
-    ap.add_argument('--record', help='write the replay record (JSON) here')
-    ap.add_argument('--verify', help='compare the run with this reviewed record; exit 1 on any difference')
+    rv = ap.add_mutually_exclusive_group()
+    rv.add_argument('--record', help='write the replay record (JSON) here; refused under --mutation')
+    rv.add_argument('--verify', help='compare the run with this reviewed record; exit 1 on any difference')
     ap.add_argument('--results', help='the reviewed record (verify-record)')
     ap.add_argument('--mc', action='store_true', help='NON-CERTIFYING Monte Carlo diagnostic to stderr (needs numpy)')
     args = ap.parse_args(argv)
     MUT = args.mutation
     if args.mode == 'structure':
-        pins = [list(f) for f in PINS_EXACT]
-        zv = list(ZV_EXACT)
-        if MUT == 'structure_pin_pole':
-            pins[5] = [pins[5][0], pins[5][1], ('S', (1, 0), F(-1), -2), pins[5][3]]
-        if MUT == 'structure_window':
-            zv[3] = F(1)
+        pins, soft, zv = mutated_tables()
         try:
-            E = structure_lemma(pins, SOFT_EXACT, zv)
+            E = structure_lemma(pins, soft, zv)
         except CheckFailed as e:
             print('H3_BAND_V2 STRUCTURE FAIL: %s' % e)
             return 1
@@ -1370,6 +1442,9 @@ def main(argv=None):
     if mpmath is None:
         print('H3_BAND_V2 ERROR: mpmath is required for the certificate')
         return 2
+    if MUT and args.record:
+        print('H3_BAND_V2 ERROR: --record is refused under --mutation; a mutated run is not a certificate')
+        return 2
     try:
         run_certificate(args.mode, args.h2_dir, mc=args.mc)
     except CheckFailed as e:
@@ -1389,6 +1464,10 @@ def main(argv=None):
             print('H3_BAND_V2 VERIFY_FAIL: record mismatch in %s' % ', '.join(bad))
             return 1
     u = record['uniform']
+    if MUT:
+        # a negative control that the run itself could not catch: never reported as a pass
+        print('H3_BAND_V2 MUTATED RUN (%s), NOT A CERTIFICATE: E[G_r] %s %s on (0, 1/20]' % (MUT, u['relation'], u['bound']))
+        return 3
     print('H3_BAND_V2 PASS %s: E[G_r] %s %s on (0, 1/20]%s' % (args.mode, u['relation'], u['bound'],
                                                              '; matches the reviewed record' if args.verify else ''))
     return 0

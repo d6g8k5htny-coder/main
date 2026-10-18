@@ -47,15 +47,16 @@ class StructureLemma(unittest.TestCase):
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
         self.assertIn('STRUCTURE PASS', summary(r))
 
-    def test_a_pin_with_a_pole_is_caught(self):
-        r = run('structure', '--mutation', 'structure_pin_pole')
-        self.assertEqual(r.returncode, 1, r.stdout)
-        self.assertIn('CB2s pin V5 has a z^-2 term', summary(r))
-
-    def test_a_window_that_leaves_a_mu_pole_is_caught(self):
-        r = run('structure', '--mutation', 'structure_window')
-        self.assertEqual(r.returncode, 1, r.stdout)
-        self.assertIn('CB2s E zV = 0', summary(r))
+    def test_each_branch_of_the_lemma_catches_its_violation(self):
+        for mutation, message in (('structure_pin_pole', 'CB2s (a) pin V5 must have no z^-2 term'),
+                                  ('structure_soft_pole2', 'CB2s (b) soft Y2 must have no z^-2 term'),
+                                  ('structure_soft_span', 'CB2s (c) soft Y0 pole part must lie in the span'),
+                                  ('structure_window', 'CB2s (d) E zV = 0 required')):
+            with self.subTest(mutation=mutation):
+                r = run('structure', '--mutation', mutation)
+                self.assertEqual(r.returncode, 1, r.stdout)
+                self.assertIn('STRUCTURE FAIL', summary(r))
+                self.assertIn(message, summary(r))
 
 
 class OutwardDecimals(unittest.TestCase):
@@ -124,6 +125,42 @@ class ReviewedRecords(unittest.TestCase):
         self.assertEqual(r.returncode, 1, r.stdout)
         self.assertIn('cells', summary(r))
 
+    def doctored_pair(self, mode, edit):
+        # a transcript edited by `edit` and a record made consistent with it from the same program
+        text = edit((RESULTS / ('%s.transcript.txt' % mode)).read_text())
+        rec = load_program().make_record(mode, text)
+        return text, rec
+
+    def test_a_mutated_transcript_with_a_matching_record_is_rejected(self):
+        text, rec = self.doctored_pair('ceil', lambda t: t.replace('MUTATION=none', 'MUTATION=drop_fail_piece'))
+        with tempfile.TemporaryDirectory() as d:
+            t = Path(d) / 't.txt'
+            p = Path(d) / 'r.json'
+            t.write_text(text)
+            p.write_text(json.dumps(rec))
+            r = self.check(t, p)
+        self.assertEqual(r.returncode, 1, r.stdout)
+        self.assertIn('mutation is not none', summary(r))
+
+    def test_a_transcript_without_all_checks_pass_is_rejected(self):
+        text, rec = self.doctored_pair('floor', lambda t: t.replace('ALL_CHECKS_PASS\n', ''))
+        with tempfile.TemporaryDirectory() as d:
+            t = Path(d) / 't.txt'
+            p = Path(d) / 'r.json'
+            t.write_text(text)
+            p.write_text(json.dumps(rec))
+            r = self.check(t, p)
+        self.assertEqual(r.returncode, 1, r.stdout)
+        self.assertIn('ALL_CHECKS_PASS missing', summary(r))
+
+    def test_record_and_verify_together_are_refused(self):
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d) / 'same.json'
+            r = run('ceil', '--record', p, '--verify', p)
+            self.assertFalse(p.exists())
+        self.assertEqual(r.returncode, 2, r.stdout + r.stderr)
+        self.assertIn('not allowed with argument', r.stderr)
+
     def test_a_record_for_other_program_bytes_is_rejected(self):
         rec = json.loads((RESULTS / 'ceil.json').read_text())
         rec['program_sha256'] = '0' * 64
@@ -171,13 +208,16 @@ class Replays(unittest.TestCase):
 class Mutations(unittest.TestCase):
     # mutation -> (envelope, the check that must fail)
     CAUGHT_IN_RUN = {
-        'structure_pin_pole': ('ceil', 'CB2s pin V5 has a z^-2 term'),
-        'structure_window': ('floor', 'CB2s E zV = 0'),
-        'planar_moments': ('ceil', 'CB1a exact-torus'),
+        'structure_pin_pole': ('ceil', 'CB2s (a) pin V5 must have no z^-2 term'),
+        'structure_soft_pole2': ('floor', 'CB2s (b) soft Y2 must have no z^-2 term'),
+        'structure_soft_span': ('ceil', 'CB2s (c) soft Y0 pole part must lie in the span'),
+        'structure_window': ('floor', 'CB2s (d) E zV = 0 required'),
+        'planar_moments': ('ceil', 'CB1d consumed a_{2m} meets the spectral enclosure'),
         'wrong_window': ('ceil', 'CB3 mu_aM(0) = -1'),
         'signed_maxima': ('ceil', 'CB4 majorants dominate every |entry| (B1)'),
         'wide_first_cell': ('ceil', 'CB4 R-majorant converges on the first cell (0, 1/400]'),
-        'one_tail': ('floor', 'CB5 two-sided tail self-test'),
+        'one_tail': ('floor', 'CB5 event bound P(|X| > t) self-test'),
+        'tail_helper_one_side': ('ceil', 'CB5 two-sided tail helper dominates twice the Gordon lower bound'),
         'no_preconditioner': ('ceil', 'CB6 Neumann contraction'),
         'cap_raised': ('ceil', 'CC6 consumption cap'),
     }
@@ -195,11 +235,32 @@ class Mutations(unittest.TestCase):
                 self.assertIn(message, summary(r))
 
     def test_mutations_are_caught_by_the_replay(self):
+        # the mutation header alone already changes the transcript digest, so require the
+        # certified decimals themselves to differ from the reviewed record
+        reviewed = json.loads((RESULTS / 'ceil.json').read_text())
         for mutation in self.CAUGHT_BY_REPLAY:
             with self.subTest(mutation=mutation):
                 r = run('ceil', '--mutation', mutation, '--verify', RESULTS / 'ceil.json')
                 self.assertEqual(r.returncode, 1, r.stdout[-2000:])
                 self.assertIn('VERIFY_FAIL', summary(r))
+                self.assertIn('cells', summary(r))
+                cells, _ = load_program().parse_certified(r.stdout)
+                self.assertEqual(len(cells), len(reviewed['cells']))
+                self.assertTrue(any(c['bound'] != e['bound'] for c, e in zip(cells, reviewed['cells'])), mutation)
+
+    def test_a_mutated_run_is_never_reported_as_a_pass(self):
+        r = run('ceil', '--mutation', 'drop_fail_piece')
+        self.assertEqual(r.returncode, 3, r.stdout[-2000:])
+        self.assertIn('NOT A CERTIFICATE', summary(r))
+        self.assertFalse(any(ln.startswith('H3_BAND_V2 PASS') for ln in r.stdout.splitlines()))
+
+    def test_record_is_refused_under_a_mutation(self):
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d) / 'r.json'
+            r = run('ceil', '--mutation', 'drop_fail_piece', '--record', p)
+            self.assertFalse(p.exists())
+        self.assertEqual(r.returncode, 2, r.stdout)
+        self.assertIn('--record is refused under --mutation', summary(r))
 
 
 if __name__ == '__main__':
