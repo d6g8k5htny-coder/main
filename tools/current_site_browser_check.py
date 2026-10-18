@@ -25,6 +25,137 @@ def serve():
     finally:server.shutdown();server.server_close();thread.join()
 def require(condition,message):
     if not condition:raise ValueError(message)
+
+# Measurements read activeElement before a later locator can auto-scroll it.
+FOCUS_MEASUREMENT = "()=>{const e=document.activeElement,s=getComputedStyle(e),r=e.getBoundingClientRect();let bg=[0,0,0,0];const rgba=x=>(x.match(/[\\d.]+/g)||[]).map(Number);for(let n=e.parentElement;n;n=n.parentElement){let c=rgba(getComputedStyle(n).backgroundColor);if(c.length===3)c.push(1);let a=bg[3]+c[3]*(1-bg[3]);bg=[...bg.slice(0,3).map((v,i)=>a?(v*bg[3]+c[i]*c[3]*(1-bg[3]))/a:0),a];if(a===1)break;}if(bg[3]<1)bg=[...bg.slice(0,3).map(v=>v*bg[3]+255*(1-bg[3])),1];const lum=c=>c.slice(0,3).map(v=>v/255).map(v=>v<=.04045?v/12.92:((v+.055)/1.055)**2.4).reduce((v,c,i)=>v+c*[.2126,.7152,.0722][i],0),fg=rgba(s.outlineColor),opaque=fg.slice(0,3).map((v,i)=>v*(fg[3]??1)+bg[i]*(1-(fg[3]??1))),a=lum(opaque),b=lum(bg);return {id:e.id,selected:e.getAttribute('aria-selected'),outline_color:s.outlineColor,outline_style:s.outlineStyle,outline_width:s.outlineWidth,outline_offset:s.outlineOffset,focus_visible:e.matches(':focus-visible'),background:bg,contrast:(Math.max(a,b)+.05)/(Math.min(a,b)+.05),rect:{x:r.x,y:r.y,top:r.top,bottom:r.bottom,left:r.left,right:r.right,width:r.width,height:r.height},viewport:{width:innerWidth,height:innerHeight},scroll:{x:scrollX,y:scrollY},in_viewport:r.width>0&&r.height>0&&r.top>=0&&r.left>=0&&r.bottom<=innerHeight&&r.right<=innerWidth,url:location.href,history_length:history.length,writes:{...(window.__shellHistoryWrites||{})}};}"
+def focused_geometry(page):
+    return page.evaluate(FOCUS_MEASUREMENT)
+def require_browse_focus(page):
+    row=focused_geometry(page)
+    require(row['id']=='atlas-open-reader' and row['in_viewport'],f'Browse focus outside viewport: {row}')
+    return row
+def exercise_focus_ring(page):
+    rows=[]
+    for forced in ['none','active']:
+        page.emulate_media(forced_colors=forced)
+        page.locator('#atlas-tab-evidence').focus();page.keyboard.press('Tab');page.keyboard.press('Shift+Tab')
+        for action in [None,'ArrowRight','Enter']:
+            if action:page.keyboard.press(action)
+            row=focused_geometry(page);row['forced_colors']=forced;rows.append(row)
+            require(row['focus_visible'] and row['outline_style']!='none' and float(row['outline_width'].removesuffix('px'))>=2 and row['contrast']>=3,f'Tab focus ring lacks 3:1 contrast: {row}')
+            if forced=='active':
+                highlight=page.evaluate("(()=>{const x=document.createElement('span');x.style.color='Highlight';document.body.append(x);const c=getComputedStyle(x).color;x.remove();return c;})()")
+                require(row['outline_color']==highlight,f'Tab focus ring overrides system Highlight: {row}')
+        page.keyboard.press('Home');page.keyboard.press('Enter')
+    page.emulate_media(forced_colors='none')
+    return rows
+
+def exercise_atlas_shell(browser,origin,output,report,data,expect):
+    """Declared shell acceptance; results exist only when this runner executes."""
+    from urllib.parse import urlsplit,parse_qs,urlencode
+    def address(tab):return tab.evaluate('({url:location.href,length:history.length,writes:{...window.__shellHistoryWrites}})')
+    watch_history="""window.__shellHistoryWrites={push:0,replace:0};for(const [method,key] of [['pushState','push'],['replaceState','replace']]){const original=history[method].bind(history);history[method]=(...args)=>{window.__shellHistoryWrites[key]++;return original(...args);};}"""
+    for width in [320,720,721,1200]:
+        case={'case':'atlas-shell-tabs-reading-and-history','width':width,'passed':False,'checkpoints':[],'page_errors':[]};report['cases'].append(case)
+        context=browser.new_context(viewport={'width':width,'height':900},reduced_motion='reduce');context.add_init_script(watch_history);page=context.new_page();page.set_default_timeout(15000);page.on('pageerror',lambda e:case['page_errors'].append(str(e)))
+        try:
+            legacy=origin+'dependencies.html?q=math&classification=PROVED_REVIEWED#search-heading';page.goto(legacy);expect(page.locator('#atlas-reader')).to_have_count(1);expect(page.locator('#atlas-inspector h3')).to_have_count(1)
+            initial=address(page);case['checkpoints'].append(initial);require(initial['url']==legacy,'Shell startup rewrote historical filters or fragment');require(initial['writes']=={'push':0,'replace':0},'Shell startup wrote history');require(page.locator('#atlas-view').input_value()==('list' if width<=720 else 'graph'),'Viewport default view is wrong')
+            # Explicit Graph must survive entering and leaving narrow reading.
+            page.locator('#atlas-view').select_option('graph')
+            if width<=720:
+                expect(page.locator('#atlas-reader')).to_be_hidden();page.locator('#atlas-open-reader').click();expect(page.locator('#atlas-reader')).to_be_visible();require(page.evaluate('document.activeElement.id')=='atlas-inspector','Narrow reading entry did not focus actual Evidence')
+            evidence=page.locator('#atlas-tab-evidence');diagnostics=page.locator('#atlas-tab-diagnostics');evidence.focus();before=address(page);page.keyboard.press('ArrowRight')
+            require(page.evaluate('document.activeElement.id')=='atlas-tab-diagnostics','Right arrow did not focus Diagnostics');expect(evidence).to_have_attribute('aria-selected','true');expect(diagnostics).to_have_attribute('aria-selected','false');require(address(page)==before,'Arrow focus wrote state')
+            page.keyboard.press('Enter');expect(diagnostics).to_have_attribute('aria-selected','true');expect(page.locator('#atlas-panel-evidence')).to_be_hidden();expect(page.locator('#atlas-panel-diagnostics')).to_be_visible();after=address(page);require(after['length']==before['length']+1 and after['writes']['push']==before['writes']['push']+1,'Tab activation did not create one ordinary entry')
+            page.keyboard.press('Home');require(page.evaluate('document.activeElement.id')=='atlas-tab-evidence','Home did not focus Evidence');page.keyboard.press('Space');expect(evidence).to_have_attribute('aria-selected','true');page.keyboard.press('Tab');require(page.evaluate('document.activeElement.id')=='atlas-panel-evidence','Tab did not enter the active panel')
+            diagnostics.click();detail=page.locator('#atlas-panel-diagnostics details');detail.locator('summary').click();before_node=address(page);detail.locator('button').first.click();expect(page.locator('#atlas-inspector h3')).to_have_text(next(iter(data['graph']['data']['nodes'])));expect(evidence).to_have_attribute('aria-selected','true');require(page.evaluate('document.activeElement.id')=='atlas-inspector','Diagnostic selection focused a hidden/detached inspector');expect(page.locator('#atlas-inspector .atlas-axes dt')).to_have_count(5)
+            selected=address(page);case['checkpoints'].extend([before_node,selected]);require(selected['length']==before_node['length']+1,'Node selection created more than one entry')
+            page.go_back();expect(diagnostics).to_have_attribute('aria-selected','true');restored=address(page);require(restored['url']==before_node['url'] and restored['writes']==selected['writes'],'Back changed the saved address or wrote history')
+            page.go_forward();expect(evidence).to_have_attribute('aria-selected','true');forward=address(page);require(forward['url']==selected['url'] and forward['writes']==selected['writes'],'Forward changed selection or wrote history')
+            if width<=720:
+                metrics=page.locator('#atlas-reader').evaluate('(e)=>({height:e.getBoundingClientRect().height,viewport:innerHeight,position:getComputedStyle(e).position,width:document.documentElement.scrollWidth,viewportWidth:innerWidth})');require(metrics['height']>=metrics['viewport'] and metrics['position'] not in ['fixed','absolute'],'Reader is not full-height normal-flow content');require(metrics['width']<=metrics['viewportWidth'],'Reader overflows narrow document');case['reader_metrics']=metrics
+                for selector in ['#atlas-search','#atlas-view','#atlas-stage','#atlas-next']:expect(page.locator(selector)).to_be_hidden()
+                # Long source metadata remains page-scrollable and the source
+                # identity/refusal/status elements stay in the document.
+                expect(page.locator('#atlas-status')).to_contain_text('Source snapshot');expect(page.locator('#atlas-share')).to_be_visible();require(page.locator('#atlas-reader').evaluate('(e)=>getComputedStyle(e).overflowY') not in ['hidden','clip'],'Reader clips long content')
+                target=page.locator('#atlas-browse-link').get_attribute('href');page.locator('#atlas-browse-link').click();expect(page.locator('#atlas-reader')).to_be_hidden();require(page.url==target,'Browse link changed fields beyond layout');require(page.evaluate('document.activeElement.id')=='atlas-open-reader','Browse exit left focus in hidden content');case['browse_focus_geometry']=require_browse_focus(page);expect(page.locator('#atlas-stage')).to_be_visible();require(page.locator('#atlas-view').input_value()=='graph','Reading lost the explicit Graph choice')
+                heights=page.locator('#atlas-canvas .atlas-node').evaluate_all('(nodes)=>nodes.map(n=>n.getBoundingClientRect().height)');require(heights and min(heights)>=124,'Graph geometry was not measured after unhide');require(len(heights)<=150,'Shell bypassed the render boundary')
+                deep=context.new_page();deep.goto(selected['url']);expect(deep.locator('#atlas-reader')).to_be_visible();require(address(deep)['writes']=={'push':0,'replace':0},'Direct reader URL wrote history');deep.locator('#atlas-browse-link').click();expect(deep.locator('#atlas-open-reader')).to_be_visible();require('atlas-panel' not in parse_qs(urlsplit(deep.url).query),'Direct reader link has no browse exit');deep.close()
+            # Resize an admitted reader, including focus on controls which hide
+            # at desktop width, and on a source child replaced by render().
+            page.goto(selected['url']);expect(page.locator('#atlas-reader')).to_be_visible();page.set_viewport_size({'width':320,'height':900});expect(page.locator('#atlas-search')).to_be_hidden();page.locator('#atlas-reader-back').focus();before_resize=address(page);page.set_viewport_size({'width':1200,'height':900});expect(page.locator('#atlas-stage')).to_be_visible();expect(page.locator('#atlas-tab-evidence')).to_be_focused();require(address(page)==before_resize,'Resize wrote presentation history');require(page.locator('#atlas-canvas .atlas-node').count()<=150,'Resize bypassed render boundary')
+            page.locator('#atlas-inspector a').first.focus();page.set_viewport_size({'width':320,'height':900});expect(page.locator('#atlas-inspector')).to_be_focused();require(page.evaluate('document.activeElement.isConnected'),'Resize left focus detached')
+            page.evaluate("(()=>{const entries=[document.documentElement,document.body,...document.querySelectorAll('body *')].map(e=>[e,parseFloat(getComputedStyle(e).fontSize)]);for(const [e,n]of entries)e.style.setProperty('font-size',n*2+'px','important');})()");enlarged=page.evaluate('({width:innerWidth,document:document.documentElement.scrollWidth})');require(enlarged['document']<=enlarged['width'],'Enlarged reader overflows document');expect(page.locator('#atlas-browse-link')).to_be_visible();expect(page.locator('#atlas-tab-diagnostics')).to_be_visible()
+            page.emulate_media(media='print');require(page.locator('#atlas-reader').evaluate('(e)=>getComputedStyle(e).minHeight')=='0px','Print retained narrow full-height spacer');expect(page.locator('#atlas-panel-evidence')).to_be_visible();expect(page.locator('#atlas-panel-diagnostics')).to_be_visible();page.emulate_media(media='screen')
+            shot=output/f'atlas-shell-{width}.png';page.locator('#current-atlas').screenshot(path=str(shot));case['screenshot']={'path':shot.name,'sha256':sha256(shot.read_bytes()).hexdigest()};require(not case['page_errors'],f'Shell page errors: {case["page_errors"]}');case['passed']=True
+        except Exception:case['error']=traceback.format_exc()
+        finally:context.close()
+    for width in [320,1200]:
+        case={'case':'atlas-shell-refused-layout-preservation','width':width,'passed':False};report['cases'].append(case);context=browser.new_context(viewport={'width':width,'height':900});context.add_init_script(watch_history);page=context.new_page();page.set_default_timeout(15000)
+        try:
+            refused=origin+'dependencies.html?'+urlencode({'atlas-node':'constructor','main-snapshot':'c'*40,'atlas-panel':'diagnostics','atlas-view':'graph','q':'old','source-q':'source','equation-q':'ell','equation':data['equations'][0]['id']})+'#search-heading';page.goto(refused);expect(page.locator('#atlas-error')).to_be_visible();expect(page.locator('#atlas-tab-diagnostics')).to_have_attribute('aria-selected','true');before=address(page);require(before['url']==refused and before['writes']=={'push':0,'replace':0},'Refused startup was rewritten')
+            page.locator('#atlas-tab-evidence').click();expect(page.locator('#atlas-error')).to_be_visible();actual=parse_qs(urlsplit(page.url).query);expected=parse_qs(urlsplit(refused).query);expected['atlas-panel']=['evidence'];require(actual==expected and urlsplit(page.url).fragment=='search-heading','Layout action replaced refused identity or filters');expect(page.locator('#atlas-canvas .atlas-node')).to_have_count(0);expect(page.locator('#equation-content pre')).to_have_count(0);require(page.locator('#atlas-share').get_attribute('href')==page.url,'Layout Share differs from refused source URL')
+            changed=address(page);page.go_back();expect(page.locator('#atlas-tab-diagnostics')).to_have_attribute('aria-selected','true');require(page.url==refused and address(page)['writes']==changed['writes'],'Refused Back wrote state or substituted current source');case['passed']=True
+        except Exception:case['error']=traceback.format_exc()
+        finally:context.close()
+    case={'case':'atlas-shell-responsive-view-preferences','passed':False,'scenarios':[],'page_errors':[]};report['cases'].append(case)
+    scenarios=[
+        ('wide-implicit',1200,'?q=math&classification=PROVED_REVIEWED#search-heading',None),
+        ('narrow-implicit',320,'?q=math#search-heading',None),
+        ('wide-implicit-stage-focus',1200,'?q=math#search-heading','stage-focus'),
+        ('wide-implicit-outside-focus',1200,'?q=math#search-heading','outside-focus'),
+        ('wide-unknown',1200,'?atlas-view=unknown&q=math#search-heading',None),
+        ('narrow-unknown',320,'?atlas-view=unknown&q=math#search-heading',None),
+        ('explicit-graph-url',320,'?atlas-view=graph&q=math#search-heading',None),
+        ('explicit-list-url',1200,'?atlas-view=list&q=math#search-heading',None),
+        ('explicit-graph-control',320,'?q=math#search-heading','graph'),
+        ('explicit-list-control',1200,'?q=math#search-heading','list'),
+        ('implicit-after-selection',1200,'?q=math#search-heading','select-node'),
+        ('implicit-after-search',1200,'?q=math#search-heading','search'),
+        ('refused-implicit',1200,'?atlas-node=constructor&main-snapshot='+('c'*40)+'&q=old#search-heading',None),
+        ('refused-explicit-graph',320,'?atlas-node=constructor&main-snapshot='+('c'*40)+'&atlas-view=graph&q=old#search-heading',None),
+    ]
+    for label,start_width,query,action in scenarios:
+        item={'scenario':label,'passed':False,'checkpoints':[]};case['scenarios'].append(item)
+        context=browser.new_context(viewport={'width':start_width,'height':900},reduced_motion='reduce');context.add_init_script(watch_history);page=context.new_page();page.set_default_timeout(15000);page.on('pageerror',lambda e:case['page_errors'].append(str(e)))
+        try:
+            page.goto(origin+'dependencies.html'+query);expect(page.locator('#atlas-reader')).to_have_count(1)
+            requested=parse_qs(urlsplit(page.url).query).get('atlas-view',[None])[0]
+            explicit=requested if requested in ('graph','list') else None
+            if action in ('graph','list'):
+                page.locator('#atlas-view').select_option(action);explicit=action
+            elif action=='select-node':
+                page.locator('#atlas-canvas .atlas-node').first.click()
+                require('atlas-view' not in parse_qs(urlsplit(page.url).query),'Implicit node selection became an explicit view preference')
+            elif action=='search':
+                page.locator('#atlas-search').fill('cap')
+                require('atlas-view' not in parse_qs(urlsplit(page.url).query),'Implicit search became an explicit view preference')
+            elif action=='stage-focus':page.locator('#atlas-stage').focus()
+            elif action=='outside-focus':page.locator('body > header a').first.focus()
+            outside_focus=page.evaluate('document.activeElement.outerHTML') if action=='outside-focus' else None
+            for width in [start_width,320 if start_width>720 else 1200,start_width]:
+                before=address(page);page.set_viewport_size({'width':width,'height':900})
+                # Native media-change delivery settles before reading the next
+                # effective view. No delay, DOM mutation or history write is used.
+                page.evaluate('new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))')
+                want=explicit or ('list' if width<=720 else 'graph')
+                expect(page.locator('#atlas-view')).to_have_value(want)
+                after=address(page);require(after==before,'Viewport-only adaptation changed URL, history length or writes')
+                if action in ('stage-focus','outside-focus'):
+                    focused=page.evaluate('({id:document.activeElement.id,connected:document.activeElement.isConnected,visible:!!document.activeElement.getClientRects().length,html:document.activeElement.outerHTML})')
+                    require(focused['connected'] and focused['visible'] and focused['id']!='','Resize left hidden or body focus') if action=='stage-focus' else require(focused['html']==outside_focus,'Resize stole outside focus')
+                    item['focus']=focused
+                    if focused['id']=='atlas-open-reader':item['focus_geometry']=require_browse_focus(page)
+                if label.startswith('refused'):
+                    expect(page.locator('#atlas-error')).to_be_visible();expect(page.locator('#atlas-canvas .atlas-node')).to_have_count(0);expect(page.locator('#equation-content pre')).to_have_count(0)
+                item['checkpoints'].append({'width':width,'view':want,'address':after})
+            item['passed']=True
+        except Exception:item['error']=traceback.format_exc()
+        finally:context.close()
+    failures=[item['scenario'] for item in case['scenarios'] if not item['passed']]
+    case['failures']=failures;case['passed']=not failures and not case['page_errors']
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--output',type=Path,required=True);args=parser.parse_args();args.output.mkdir(parents=True,exist_ok=True)
     report={'scientific_effect':'NONE','checked_commit':None,'source_payload_sha256':None,'source_repositories':[],'cases':[],'limitations':['Local rendered Chromium evidence; physical mobile and complete screen-reader certification not established.']}
@@ -35,6 +166,7 @@ def main():
         from playwright.sync_api import sync_playwright,expect
         with serve() as origin,sync_playwright() as p:
             browser=p.chromium.launch(channel='chrome',chromium_sandbox=True);report['browser']=browser.version
+            exercise_atlas_shell(browser,origin,args.output,report,data,expect)
             for width in [1200,320]:
                 for scheme in ['light','dark']:
                     case={'width':width,'color_scheme':scheme,'passed':False};report['cases'].append(case)
@@ -45,8 +177,9 @@ def main():
                         initial=page.locator('#atlas-canvas .atlas-node').count();page.locator('#atlas-expand').click();expanded=page.locator('#atlas-canvas .atlas-node').count();require(expanded>=initial,'Expansion lost nodes')
                         graph_ids=page.locator('#atlas-canvas .atlas-node').evaluate_all('(nodes)=>nodes.map(n=>n.firstChild.textContent)');page.locator('#atlas-view').select_option('list');list_ids=page.locator('#atlas-list button').evaluate_all('(nodes)=>nodes.map(n=>n.firstChild.textContent)');require(graph_ids==list_ids,'Graph/List mismatch')
                         page.locator('#atlas-list button').last.click();expect(page.locator('#atlas-inspector')).to_contain_text('Kernel metadata not recorded');expect(page.locator('#atlas-inspector')).to_contain_text('No explicit graph-to-artifact binding')
-                        node=page.locator('#atlas-inspector h3').inner_text();page.reload();expect(page.locator('#atlas-inspector h3')).to_have_text(node)
+                        node=page.locator('#atlas-inspector h3').inner_text();page.reload();expect(page.locator('#atlas-inspector h3')).to_have_text(node);case['focus_ring_measurements']=exercise_focus_ring(page)
                         eq=data['equations'][0];page.locator('#equation-select').select_option(eq['id']);expect(page.locator('#equation-content pre')).to_have_text(eq['text']);require('equation=' in page.url,'Equation URL state absent');page.reload();expect(page.locator('#equation-content pre')).to_have_text(eq['text'])
+                        if width<=720:page.locator('#atlas-browse-link').click()
                         page.locator('#atlas-search').fill('witness-collision');expect(page).to_have_url(re.compile(r'.*atlas-q=witness-collision.*'));page.reload();expect(page.locator('#atlas-search')).to_have_value('witness-collision');page.locator('#atlas-collapse').click();page.locator('#atlas-view').select_option('graph');page.locator('#atlas-zoom-in').focus();page.keyboard.press('Enter');require(page.locator('#atlas-canvas').evaluate('(e)=>e.style.width')!='','Keyboard zoom failed')
                         dimensions=page.evaluate('({width:innerWidth,document:document.documentElement.scrollWidth})');require(dimensions['document']<=dimensions['width'],f'Horizontal document overflow: {dimensions}')
                         shot=args.output/f'{width}-{scheme}.png';page.locator('#current-atlas').screenshot(path=str(shot));case['screenshot']={'path':shot.name,'sha256':sha256(shot.read_bytes()).hexdigest()};case['loaded_nodes']=expanded;case['page_errors']=errors;require(not errors,f'Page errors: {errors}');case['passed']=True
@@ -65,7 +198,7 @@ def main():
                 page.locator('#atlas-back').focus();page.keyboard.press('Enter');expect(page.locator('#atlas-inspector h3')).to_have_text('math.uniform-matrix-cap-lifetime');page.locator('#atlas-forward').focus();page.keyboard.press('Enter');expect(page.locator('#atlas-inspector h3')).to_have_text('hist.CH-LIFT')
                 page.locator('#atlas-reset').focus();page.keyboard.press('Enter');page.locator('#atlas-expand').focus();page.keyboard.press('Enter');page.locator('#atlas-collapse').focus();page.keyboard.press('Enter');page.locator('#atlas-toggle-view').focus();page.keyboard.press('Enter');require(page.locator('#atlas-view').input_value()=='graph','Keyboard Graph switch failed');page.keyboard.press('Enter');require(page.locator('#atlas-view').input_value()=='list','Keyboard List switch failed');page.locator('#atlas-focus').focus();page.keyboard.press('Enter');require(page.evaluate('document.activeElement.id')=='atlas-inspector','Return-to-focus did not focus inspector')
                 disclosure=page.locator('#atlas-inspector summary').last;disclosure.focus();page.keyboard.press('Enter');require(page.locator('#atlas-inspector details').last.evaluate('(e)=>e.open'),'Keyboard source disclosure failed');page.locator('#equation-search').focus();page.keyboard.type('ell');page.locator('#equation-next').focus();page.keyboard.press('Enter');expect(page.locator('#equation-content pre')).to_have_count(1)
-                diagnostic=page.locator('details').filter(has=page.locator('#atlas-diagnostics'));diagnostic.locator('summary').focus();page.keyboard.press('Enter');diagnostic.locator('button').first.focus();page.keyboard.press('Enter');expect(page.locator('#atlas-inspector h3')).to_have_text(next(iter(data['graph']['data']['nodes'])))
+                page.locator('#atlas-tab-diagnostics').click();diagnostic=page.locator('details').filter(has=page.locator('#atlas-diagnostics'));diagnostic.locator('summary').focus();page.keyboard.press('Enter');diagnostic.locator('button').first.focus();page.keyboard.press('Enter');expect(page.locator('#atlas-inspector h3')).to_have_text(next(iter(data['graph']['data']['nodes'])))
                 focus=page.locator('#atlas-focus');focus.focus();style=focus.evaluate('(e)=>({outline:getComputedStyle(e).outlineStyle,width:parseFloat(getComputedStyle(e).outlineWidth),height:e.getBoundingClientRect().height,background:getComputedStyle(e).backgroundColor,color:getComputedStyle(e).color})');require(style['outline']!='none' and style['width']>=2,'Keyboard focus is not visibly outlined');require(style['height']>=44,'Primary keyboard control is below touch target');case['focus_style']=style
                 tree=page.locator('#atlas-inspector').aria_snapshot();require('Kernel metadata not recorded' in tree and 'source' in tree.lower(),'Structured reading alternative omitted source/evidence');path=args.output/'inspector-accessibility-tree.txt';path.write_text(tree);case['accessibility_tree']={'path':path.name,'sha256':sha256(path.read_bytes()).hexdigest()};case['limitation']='Chromium accessibility tree and keyboard reading observed; spoken assistive-technology session not observed.';case['passed']=True
             except Exception:case['error']=traceback.format_exc()
@@ -157,7 +290,7 @@ def main():
                     ('prototype-__proto__',{'atlas-node':'__proto__'},'Unknown node')]:
                     guard={'bookmark':label,'passed':False,'checkpoints':[]};case['guards'].append(guard);context=browser.new_context(reduced_motion='reduce');page=context.new_page();page.set_default_timeout(15000);page.on('pageerror',lambda e:case['page_errors'].append(str(e)))
                     try:
-                        refused=origin+'dependencies.html?'+urlencode({**query,'atlas-view':'list','equation':equation['id']})+'#current-atlas';page.goto(refused);expect(page.locator('#atlas-error')).to_contain_text(error_text);expect(page.locator('#atlas-canvas .atlas-node')).to_have_count(0);expect(page.locator('#equation-content pre')).to_have_count(0)
+                        refused=origin+'dependencies.html?'+urlencode({**query,'atlas-panel':'diagnostics','atlas-view':'list','equation':equation['id']})+'#current-atlas';page.goto(refused);expect(page.locator('#atlas-error')).to_contain_text(error_text);expect(page.locator('#atlas-canvas .atlas-node')).to_have_count(0);expect(page.locator('#equation-content pre')).to_have_count(0)
                         diagnostic=page.locator('details').filter(has=page.locator('#atlas-diagnostics'));diagnostic.locator('summary').click();diagnostic.locator('button').filter(has_text=re.compile('^'+re.escape(current_node)+':')).click();expect(page.locator('#atlas-inspector h3')).to_have_text(current_node)
                         # Explicitly choosing this current excerpt is also user
                         # action; the refused bookmark must not supply it silently.
