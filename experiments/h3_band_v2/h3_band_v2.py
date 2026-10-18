@@ -833,6 +833,7 @@ def run_certificate(mode, h2_dir, mc=False):
             if m <= self.N + 1:
                 return self.tails(t)[m]
             qt = self.q * t
+            ck(qt.b < 1, 'CB4 majorant series converges (q t < 1)')
             return self.C * qt ** m / (1 - qt)
 
         def full(self, t):
