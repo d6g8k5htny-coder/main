@@ -1103,6 +1103,10 @@ def restore_history(site, reader=None, expected_manifest_sha=None):
         ensure_render_budget(data, remote)
         live = render_live_current_v2(data, remote)
         if [descriptor(k, v) for k, v in sorted(live.items())] != manifest["current_observation"]["files"]:
+            # Restore the exact predecessor publication only as a complete map.
+            # New builds/publications keep the style-first renderer default.
+            live = render_live_current_v2(data, remote, style_first=False)
+        if [descriptor(k, v) for k, v in sorted(live.items())] != manifest["current_observation"]["files"]:
             raise ValueError("live static reading does not match the exact observation")
         historical = {}
         for entry in manifest["archives"]:
@@ -1500,19 +1504,21 @@ def _live_v2_current_section(data, meta):
             '</section>')
 
 
-def _live_v2_static_page(data, meta, title, body):
+def _live_v2_static_page(data, meta, title, body, *, style_first=True):
     return (f'<!doctype html>\n{_V1_GENERATED}\n<html lang="en"><head><meta charset="utf-8">\n'
             '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
             '<meta http-equiv="Content-Security-Policy" content="default-src \'none\'; style-src \'self\'; img-src \'self\'; script-src \'none\'; base-uri \'none\'; form-action \'none\'">\n'
             f'<title>{_v1_escape(title)} · Current research dependency atlas</title>\n'
-            '<link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="../brand.css"><link rel="stylesheet" href="../current.css">\n'
-            '</head><body><main class="node-static">\n'
+            + ('<link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="../brand.css"><link rel="stylesheet" href="../current.css">\n'
+               if style_first else
+               '<link rel="stylesheet" href="../brand.css"><link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="../current.css">\n')
+            + '</head><body><main class="node-static">\n'
             '<nav aria-label="Research site"><a href="../index.html">Home</a> · <a href="../explore.html">Explore</a> · <a href="../research.html">Research</a> · <a href="../workspace.html#inventory">Library</a> · <a href="../dependencies.html#current-atlas">Current dependencies</a> · <a href="index.html">Current static graph index</a></nav>\n'
             + _live_v2_current_section(data, meta)
             + '\n' + body + '\n</main></body></html>\n').encode("utf-8")
 
 
-def render_live_current_v2(data, meta):
+def render_live_current_v2(data, meta, *, style_first=True):
     """Render current static routes from the full fresh schema-1 observation."""
     graph = data["graph"]["data"]
     pages = {}
@@ -1525,7 +1531,7 @@ def render_live_current_v2(data, meta):
                 + '\n<h2>Original node metadata</h2><pre>'
                 + _v1_escape(json.dumps(node, ensure_ascii=False, indent=2, sort_keys=True)) + '</pre>\n'
                 + _v1_neighbors(data, node_id))
-        pages[f"nodes/{node_id}.html"] = _live_v2_static_page(data, meta, node_id, body)
+        pages[f"nodes/{node_id}.html"] = _live_v2_static_page(data, meta, node_id, body, style_first=style_first)
     items = "\n".join(f'<li><a href="{_v1_escape(node_id)}.html">{_v1_escape(node_id)}</a> · {_v1_escape(node.get("kind", "not_recorded"))} · <code>{_v1_escape(node.get("classification", "not_recorded"))}</code></li>'
                       for node_id, node in graph["nodes"].items())
     required = sum(edge["required"] for edge in graph["edges"])
@@ -1537,7 +1543,7 @@ def render_live_current_v2(data, meta):
             f'<p>{len(data["sources"])} indexed files at the pinned repository commits. Legacy, quarantine, recovery, scratch and operational paths are excluded from this discovery population.</p>\n<ul>\n'
             + _v1_source_list(data["sources"]) + '\n</ul>\n'
             + _v2_equation_collection(data))
-    pages["nodes/index.html"] = _live_v2_static_page(data, meta, "Current static graph, equation excerpts and source index", body)
+    pages["nodes/index.html"] = _live_v2_static_page(data, meta, "Current static graph, equation excerpts and source index", body, style_first=style_first)
     return pages
 
 
