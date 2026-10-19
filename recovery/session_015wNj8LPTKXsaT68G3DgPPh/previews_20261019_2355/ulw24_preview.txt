@@ -1,0 +1,19 @@
+### ULW#24 composition preview 23:53:16Z
+main=e760c9fdc384969ad4cccd16a07cc10126d8efa6 head=01515b875112759314367df10554cf52bbb5ff5b
+head parents: 2e05d02584855c38a5e77e98eaf11a8dd7adc3ee; commits on old base fd6e6a12: 01515b8 2e05d02 
+reviewed delta (fd6e6a12..head):
+ tests/test_verify_pins_git_integrity.py | 176 ++++++++++++++++++++++++++++++++
+ tools/verify_pins.py                    |  16 ++-
+ 2 files changed, 191 insertions(+), 1 deletion(-)
+main's verify_pins.py == fd6e6a12's? yes
+trial merge rc=0 tree=f3757d067cd0631554d94b27d367831f3c7fa292
+composition delta from main:
+ tests/test_verify_pins_git_integrity.py | 176 ++++++++++++++++++++++++++++++++
+ tools/verify_pins.py                    |  16 ++-
+ 2 files changed, 191 insertions(+), 1 deletion(-)
+delta identical to reviewed delta? yes
+mode tools/verify_pins.py: 100755
+python3  -m unittest discover -s tests: Ran 66 tests in 8.900s OK 
+python3 -O -m unittest discover -s tests: Ran 66 tests in 8.161s OK 
+verify_pins offline exit=0
+verify_pins: OK (8 pin(s) agree with tree and .gitmodules; remotes checked)
