@@ -128,13 +128,23 @@ git merge-base --is-ancestor <sha> origin/main && echo "<sha> is in main"
 gh api repos/d6g8k5htny-coder/main/compare/<sha>...main --jq .merge_base_commit.sha
 ```
 
+Where `--unshallow` is refused, deepen in steps with
+`git fetch --deepen=500 origin main`. Until
+`git rev-parse --is-shallow-repository` prints `false`, a "yes" from
+`--is-ancestor` is reliable but a "no" is not.
+
 The commit is in `main` exactly when that merge base equals `<sha>` (status
-`ahead` or `identical`); a 404 "No common ancestor" means unrelated history.
+`ahead` or `identical`). A 404 alone proves nothing: GitHub also answers 404 for
+a mistyped SHA, a missing branch or a repository the caller cannot see. Treat an
+unexplained 404 as inconclusive. To establish unrelated history, use a complete
+clone in which both commits resolve (`git cat-file -e <sha>^{commit}`) and
+`git merge-base <sha> origin/main` prints nothing.
+
 Ancestry shows only that a commit landed. Work carried onto `main` in a new
 commit, such as a refresh, has a new SHA, so compare its blobs instead:
 
 ```sh
-git fetch origin <sha>
+git fetch origin <sha>   # if refused, fetch a ref that contains it: pull/<n>/head
 git rev-parse <sha>:<path> origin/main:<path>   # two equal lines: same bytes
 ```
 
