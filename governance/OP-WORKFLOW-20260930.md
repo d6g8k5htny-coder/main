@@ -232,6 +232,56 @@ to finish and reconcile its findings before merging; an earlier automatic review
 of the same head does not replace it. If it cannot finish, say so on the pull
 request and settle the next step there instead of merging past it.
 
+### Manual review route when the automatic review fails on its usage limit
+
+Dylan's standing decision of 19 October 2026
+([419/6276889147](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6276889147))
+permits a merge without the automatic Codex review for an engineering- or
+docs-only pull request whose Ready-triggered review failed solely because of the
+connector's usage limit. His words: "Approve this manual route for engineering-
+or docs-only PRs whenever the Codex review fails on usage limits, under the same
+three conditions. Proofs, registers and security changes are excluded." The
+three conditions are those of his #448 decision
+([448/6275896657](https://github.com/d6g8k5htny-coder/main/pull/448#issuecomment-6275896657)):
+(1) the existing reviews are confirmed to cover the current head and base;
+(2) all required checks pass on the current tested merge; (3) repository
+protections remain enforced. The route replaces an unavailable check; it is not
+a review and earns no independence credit.
+
+**Scope.** Covered: ordinary engineering, documentation and review-record
+changes, and custody/intake packages whose reviewed bytes are unchanged by any
+base refresh. Excluded: proofs and other mathematical statements; status
+registers and index surfaces (`STATUS.md`, `PROOF_INDEX`, `LANDING_CLAIMS`,
+`claims/`); security-sensitive changes (workflows, permissions, credentials,
+rulesets, protections); and changes to decision authority, including this guide.
+Excluded objects keep their owner or case-specific decision, as
+[450/6278845335](https://github.com/d6g8k5htny-coder/main/pull/450#issuecomment-6278845335)
+and
+[446/6279654050](https://github.com/d6g8k5htny-coder/main/pull/446#issuecomment-6279654050)
+did; those decisions adopt no rule beyond their own pull request. A doubtful
+case is excluded and goes back to the owner.
+
+**Reviewer eligibility.** The review that condition (1) relies on is a nonauthor
+review bound to the reviewed bytes, from a provider other than the author's. A
+base-only refresh of a custody/intake package needs, in addition, a nonauthor
+composition read of the exact current head from a provider other than the
+author's, confirming that the package bytes and the earlier review
+qualifications are intact. A same-provider read is recorded as such and earns
+no organizational-independence credit. The integrator is separately claimed and
+is neither the author nor a reviewer of record.
+
+**Safeguards.** The route applies only when the review state shows a
+usage-limit failure at the exact current head; the connector's failed-state
+flags are not findings, but a review that ran and reported findings needs their
+dispositions first. Before merging, the integrator records on the pull request
+the exact head, base and tested merge commit, the review-thread state, the
+applicable rulesets, and each of the three conditions with its evidence; it then
+merges once with the expected head SHA and no bypass, verifies the landed bytes
+and the post-merge checks, and posts a release record. The route cures neither
+an owner stop nor a platform or permission denial, is never a reason to route a
+denied step to another executor or session, and settles no scientific predicate:
+a merge under it changes no scientific status.
+
 Where `public-intake` is required, verify its actual trusted workflow and event
 identity and its current head, as CONTRIBUTING requires, as well as its
 success. A check name and head alone cannot establish the Ready-event binding.
