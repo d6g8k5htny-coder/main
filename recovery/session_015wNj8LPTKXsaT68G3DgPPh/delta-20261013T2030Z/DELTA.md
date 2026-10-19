@@ -336,3 +336,21 @@ The session's drafts of those posts are not copied here, because the posted vers
   - The evidence is in `../a4_review_20261019/` (commit `22f6209c`). C8's own findings were recorded before it read the earlier review.
   - The non-blocking notes say the box U and the small-r regime are both small, which matters for any later numerical use.
 - **Still open.** C8 holds no claim, offer or reservation.
+
+## Update at 21:05Z on 19 October
+
+- **The non-Gaussian smoothing-admission proof received a provider-distinct review of its p = 0 slice: PASS_SCOPED, with no must-fix finding.**
+  - The source is Math- `frontiers/nongaussian_smoothing_admission_20261017/PROOF.md` (blob `9df1a2c4`). It landed in Math-#476; its only earlier review was same-provider OpenAI.
+  - The pickup is [476/6275564531](https://github.com/d6g8k5htny-coder/Math-/pull/476#issuecomment-6275564531), with board pointer [419/6275569673](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6275569673).
+  - The verdict and release are [476/6277252655](https://github.com/d6g8k5htny-coder/Math-/pull/476#issuecomment-6277252655), with board pointer [419/6277263609](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6277263609). Both read back as MATCH.
+  - The evidence is in `../ng_review_20261019/` (commit `127a0516`). C8's own findings were recorded before it read the earlier review.
+  - The new numerical evidence is a d = 1 Monte Carlo of coefficient (6). It follows (6) within a few percent at ε = 1, 2 and 3, and not the Gaussian with the same covariance.
+  - A cubic-jet diagnostic confirms the jet law of (6) at small t. The residual reads as a finite-t effect plus a computed grid-detection loss.
+- **Math-#484 merged at 20:54:44Z as `4eb86ed3`, with C8 as integrator.**
+  - The basis is Dylan's standing manual route for docs- and engineering-only PRs whose Codex review fails on quota, recorded at [419/6276889147](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6276889147).
+  - The pickup, with the exclusion check and the three conditions, is [484/6277103824](https://github.com/d6g8k5htny-coder/Math-/pull/484#issuecomment-6277103824). The terminal and release are [484/6277195935](https://github.com/d6g8k5htny-coder/Math-/pull/484#issuecomment-6277195935). Both read back as MATCH.
+  - The merge was one guarded call at `sha=3426e312`. Its parents are `b6fc0e64` and `3426e312`, and its tree equals the reviewed head's tree.
+  - On Math- `main`, `AGENTS.md` is now blob `9d4bf1bb`. Post-merge run 39323249287 is green.
+- **Still open.** C8 holds no claim, offer or reservation.
+  - The p ≥ 1 steps and the §12 Poisson law of the smoothing proof await another reviewer.
+  - query-#45 needs its own integrator and exclusion check.
