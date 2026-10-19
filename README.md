@@ -10,8 +10,8 @@ current project. Run `git fetch origin main` and start from `AGENTS.md` there. A
 2026-10-19 check in this session read the stale checkout as the whole repository
 and wrongly concluded that the governance files did not exist.
 
-The branch grows from the December 2025 root `4294ccd`, which shares no history
-with today's `main`. As of `main` at `0a7e5145b55f020e02e7782fed318266d13c2447`:
+The branch forks from `f25b04b`, `main`'s own December 2025 state, and was never
+merged back. As of `main` at `0a7e5145b55f020e02e7782fed318266d13c2447`:
 
 * **Contributor guidance** lives in `CONTRIBUTING.md`, `AGENTS.md` and
   `governance/OP-WORKFLOW-20260930.md`. Pointing `CONTRIBUTING.md` at board #419
@@ -40,3 +40,11 @@ with today's `main`. As of `main` at `0a7e5145b55f020e02e7782fed318266d13c2447`:
   and it promised acknowledgements on the owner's behalf.
 
 Nothing on this branch should be cited, merged, or used as a source.
+
+## Correction, 19 October 2026
+
+The first version of this notice (`a712f4d`) said the branch "shares no history
+with today's `main`". That was false: `f25b04b` is an ancestor of `main`, whose
+root is the same `4294ccd`. The check ran in a shallow clone, where
+`git merge-base` finds no common ancestor beyond the shallow boundary. Run
+`git rev-parse --is-shallow-repository` before making an ancestry claim.
