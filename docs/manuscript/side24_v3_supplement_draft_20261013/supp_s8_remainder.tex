@@ -29,7 +29,7 @@ with $D_r=\operatorname{diag}(\sqrt r,I_m)$; thus $|\det H_i|=r|\det K_i|$, $K_i
 \[
 B_{d,L}=\int_{\T^d_L\setminus\{0\}}\int_\R\Psi_0(b,y)\,db\,dy .
 \]
-\item \emph{Radii.} $r_R\in(0,\frac12]$ is the radius of Proposition~\ref{prop:remainder-R}, $r_K$ that of Proposition~\ref{prop:remainder-K}, and $r_Z$ the radius up to which the near-diagonal analysis of Theorem~Z (record [R7] of the main text; Proposition~\ref{prop:remainder-Z}) is carried out. The \emph{admissible radius} is $r_0^*:=\min\{r_R,r_K,r_Z\}$, decreased if necessary so that $r_0^*<L/(4\sqrt2)$, the embedding radius of the cap cylinder (each of the three statements remains true for a smaller radius; for $L=24$ nothing changes, as $r_R\le1<24/(4\sqrt2)$). The dominating variable is
+\item \emph{Radii.} $r_R\in(0,\frac12]$ is the radius of Proposition~\ref{prop:remainder-R}, $r_K$ that of Proposition~\ref{prop:remainder-K}, and $r_Z:=r_K$ (drafts~1--11 took $r_Z$ to be the radius of the near-diagonal analysis of Theorem~Z of record [R7] of the main text, which the proof of Proposition~\ref{prop:remainder-Z} in \S\ref{ssec:remainder-Z} does not use). The \emph{admissible radius} is $r_0^*:=\min\{r_R,r_K,r_Z\}$, decreased if necessary so that $r_0^*<L/(4\sqrt2)$, the embedding radius of the cap cylinder (each of the two radius statements remains true for a smaller radius; for $L=24$ nothing changes, as $r_R\le1<24/(4\sqrt2)$). The dominating variable is
 \[
 T:=1+k+\|F_r\|_{C^7}+\|F_0\|_{C^7}+r^{-2}\|F_r-F_0\|_{C^2},
 \]
@@ -104,7 +104,7 @@ The following hold.
 \end{proposition}
 
 \begin{proof}
-Items (i) and (ii) are Theorem~Z of record [R7] of the main text and its regression coupling at fixed separation; the convergence in (ii) follows from the coupling, the almost-sure nonsingularity and a polynomial majorant of the determinant product. Item (iii) is the nondegenerate far bound \cite[\S14, (14.1)]{parentP} (Lemma~\ref{lem:parent-far}), the input of the far estimate in Theorem~Z.
+Item (iii) is the nondegenerate far bound \cite[\S14, (14.1)]{parentP} (Lemma~\ref{lem:parent-far}). Items (i) and (ii) are Theorem~Z of record [R7] of the main text, which drafts~1--11 cited for them; they are proved in \S\ref{ssec:remainder-Z}, item (ii) and the bounds $0<B_{d,L}<\infty$ directly, and the limit in (i) from \eqref{eq:remainder-Rp1} and Theorem~\ref{thm:remainder-rate}, whose proofs use this proposition only through (ii), (iii) and the finiteness of $B_{d,L}$ (the proof of \eqref{eq:remainder-Rp2} then uses the limit).
 \end{proof}
 
 \subsection{The even contact expansion}\label{ssec:remainder-even}
@@ -221,7 +221,7 @@ and the majorant gives the bound in \eqref{eq:remainder-Rp3}.
 
 \emph{The far candidate density.} On the compact set $\{\dist(0,y)\ge r_0\}$, Proposition~\ref{prop:remainder-Z}(iii) bounds $\Psi^{\cand}_\ell$ by an integrable function of $b$, uniformly in $y$ and in $0<\ell\le1$, and $\Psi^{\cand}_\ell\to\Psi_0$ pointwise by Proposition~\ref{prop:remainder-Z}(ii). By \eqref{eq:remainder-far} and dominated convergence, $\nu_{\cand}^{\mathrm{far},r_0}(\ell)\to\int_{\dist(0,y)\ge r_0}\int\Psi_0$. Adding the near limit, $\nu_{\cand}(\ell)-c_{d,L}\ell^{-1/3}\to B_{d,L}$, which is finite by Proposition~\ref{prop:remainder-Z}(i) (the cutoff boundary is spatially null). This is \eqref{eq:remainder-Rp1}.
 
-\emph{The elder density.} $\nu_{\eld}-c_{d,L}\ell^{-1/3}=(\nu_{\cand}-c_{d,L}\ell^{-1/3})-\rho_{\rej}\to B_{d,L}-B_{d,L}=0$ by \eqref{eq:remainder-Rp1} and Proposition~\ref{prop:remainder-Z}(i). This is \eqref{eq:remainder-Rp2}.
+\emph{The elder density.} $\nu_{\eld}-c_{d,L}\ell^{-1/3}=(\nu_{\cand}-c_{d,L}\ell^{-1/3})-\rho_{\rej}\to B_{d,L}-B_{d,L}=0$ by \eqref{eq:remainder-Rp1} and the limit in Proposition~\ref{prop:remainder-Z}(i), which \S\ref{ssec:remainder-Z} derives from \eqref{eq:remainder-Rp1} and Theorem~\ref{thm:remainder-rate}; equivalently, \eqref{eq:remainder-Rp2} is the case $o(1)$ of \eqref{eq:remainder-Rpp}. This is \eqref{eq:remainder-Rp2}.
 \end{proof}
 
 The proof shows that the constant $C$ in \eqref{eq:remainder-Rp3} depends on $d$ and $L$ only: it comes from the majorant $H(b,\ell/r^3)\le Ce^{-cb^2}$ on $r<r_0$ and from $\int_{r_0}^\infty r^{-2}(\ell/r^3)^2H\,dr\le C\ell^2r_0^{-7}$.
@@ -449,3 +449,25 @@ Adding the bounds for depth failure and for the exception proves \eqref{eq:remai
 \end{proof}
 
 With the axial bound \eqref{eq:rate-51} in place of \eqref{eq:rate-52}, the same argument gives only $C(r/k)^3P^N$, the analogue without the pin density of the bound \eqref{eq:rate-R12} of Lemma~\ref{lem:rate-caploss}; the factor $k^2$ kept here is the factor $(6k)^2$ of $z_0$ in \eqref{eq:rate-z0}, and it is what the uses of Proposition~\ref{prop:remainder-K} in Lemma~\ref{lem:remainder-W} (hence Theorem~\ref{thm:remainder-rate}), Section~\ref{sec:cusp} and \eqref{eq:third-K2} of Section~\ref{sec:third} need.
+
+\subsection{The equal-height kernel}\label{ssec:remainder-Z}
+
+This subsection proves items (i) and (ii) of Proposition~\ref{prop:remainder-Z}, which drafts~1--11 imported from Theorem~Z of record [R7] of the main text. Item (ii) and the bounds $0<B_{d,L}<\infty$ are direct. The limit $\rho_{\rej}(\ell)\to B_{d,L}$ follows from \eqref{eq:remainder-Rp1} and \eqref{eq:remainder-Rpp}; the proof of \eqref{eq:remainder-Rp1} uses Proposition~\ref{prop:remainder-Z} only through (ii), (iii) and the finiteness of $B_{d,L}$, and the proof of \eqref{eq:remainder-Rpp} does not use it at all (cf.\ Remark~\ref{rem:remainder-exponent}), so there is no circularity.
+
+\begin{proof}[Proof of Proposition~\ref{prop:remainder-Z}(ii)]
+Fix $y\ne0$ and $b$, and let $\Gamma_y=\Cov(O_y)$ and $\mathcal C_y(z)=\Cov(f(z),O_y)$. By Lemma~\ref{lem:parent-jetrank}, applied to the values and gradients at the two distinct sites $0$ and $y$, $\Gamma_y$ is positive definite. Let $F$ be a smooth copy of the unconditioned field and put $f_\ell:=F+\mathcal C_y\Gamma_y^{-1}(v_{b,\ell}-O_y(F))$. The field $F-\mathcal C_y\Gamma_y^{-1}O_y(F)$ is uncorrelated with, hence independent of, the Gaussian vector $O_y(F)$, so $f_\ell$ has the regression law $Q_{y,b,\ell}$, and its covariance, that of $F-\mathcal C_y\Gamma_y^{-1}O_y(F)$, does not depend on $\ell$. Since $v_{b,\ell}-v_{b,0}=-\ell\,\mathsf e$, where $\mathsf e$ is the unit vector of the coordinate $f(y)$ of $O_y$,
+\[
+f_\ell=f_0+\ell\,h_y,\qquad h_y:=-\mathcal C_y\Gamma_y^{-1}\mathsf e,
+\]
+a deterministic function, smooth because each component of $\mathcal C_y$ is a derivative of $K_L$; and $O_y(h_y)=-\Gamma_y\Gamma_y^{-1}\mathsf e=-\mathsf e$, that is, $h_y(0)=0$, $\nabla h_y(0)=0$, $h_y(y)=-1$ and $\nabla h_y(y)=0$. By Lemma~\ref{lem:parent-jetrank} again, applied to the list consisting of $O_y$ and the independent entries of $H_0=D^2f(0)$ and $H_y=D^2f(y)$, the covariance of that list is positive definite, so the conditional covariance of the Hessian entries given $O_y$, its Schur complement, is positive definite too; hence under $Q_{y,b,\ell}$ the pair $(H_0,H_y)$ has a Lebesgue density on $\mathrm{Sym}(d)^2$, and the algebraic set $\{\det H_0\det H_y=0\}$, which is proper, is null. Finally, $W(f_\ell)=F_d(H_0(f_\ell))\,F_{d-1}(H_y(f_\ell))$ with $H_i(f_\ell)=H_i(f_0)+\ell D^2h_y(i)$, and $F_d$ and $F_{d-1}$ are locally Lipschitz (Lemma~\ref{lem:rate-filtered}, where $F_j$ is written $\Phi_j$); so $W(f_\ell)\to W(f_0)$ pathwise as $\ell\downarrow0$, and $W(f_\ell)\le\bigl(\|f_0\|_{C^2}+\|h_y\|_{C^2}\bigr)^{2d}$ for $\ell\le1$, which has finite expectation by Lemma~\ref{lem:rate-spectrum}(a), as $\|f_0\|_{C^2}\le\|F\|_{C^2}+\|\mathcal C_y\Gamma_y^{-1}\|_{C^2}\bigl(|v_{b,0}|+|O_y(F)|\bigr)$ and $|O_y(F)|\le C\|F\|_{C^1}$. Dominated convergence gives $\E_{Q_{y,b,\ell}}[W]\to\E_{Q_{y,b,0}}[W]$, and $p_y(v_{b,\ell})\to p_y(v_{b,0})$ as $p_y$ is continuous. Hence $\Psi^{\cand}_\ell(b,y)\to\Psi_0(b,y)$.
+\end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{prop:remainder-Z}(i)]
+\emph{Finiteness.} Split $B_{d,L}$ at the torus distance $r_0^*$. By \eqref{eq:remainder-W4} at $\rho=r_0^*$, the part over $0<\dist(0,y)<r_0^*$ is at most $C(r_0^*)^3$; the proof of \eqref{eq:remainder-W4} uses only \eqref{eq:remainder-W1} at $k=0$, Proposition~\ref{prop:remainder-R}(ii) and \eqref{eq:remainder-polar}. On the compact set $\{\dist(0,y)\ge r_0^*\}$, item (ii) and item (iii) give $\Psi_0(b,y)=\lim_{\ell\downarrow0}\Psi^{\cand}_\ell(b,y)\le C(1+|b|)^{2d}e^{-cb^2}$, which is integrable in $b$; so that part is finite as well.
+
+\emph{Positivity.} Fix $y\ne0$ and $b$. The density $p_y$ is positive everywhere, as $\Gamma_y$ is positive definite. Under $Q_{y,b,0}$ the pair $(H_0,H_y)$ has a positive Lebesgue density on $\mathrm{Sym}(d)^2$ (the proof of (ii)), and the set $\{H_0\prec0,\ \Ind H_y=d-1,\ \det H_y\ne0\}$, the typed set less the null set $\{\det H_0\det H_y=0\}$, is open (an index changes only where an eigenvalue vanishes) and nonempty; on it $W>0$. Hence $\E_{Q_{y,b,0}}[W]>0$ and $\Psi_0(b,y)>0$ for every $y\ne0$ and $b\in\R$, so $B_{d,L}>0$.
+
+\emph{The limit.} By \eqref{eq:remainder-Rp1}, whose proof uses only (ii), (iii) and the finiteness of $B_{d,L}$ just proved, $\nu_{\cand}(\ell)-c_{d,L}\ell^{-1/3}\to B_{d,L}$; by \eqref{eq:remainder-Rpp}, $\nu_{\eld}(\ell)-c_{d,L}\ell^{-1/3}=O(\ell^{1/4})\to0$. Subtracting, $\rho_{\rej}(\ell)=\nu_{\cand}(\ell)-\nu_{\eld}(\ell)\to B_{d,L}$.
+\end{proof}
+
+With Lemma~\ref{lem:remainder-capK} and this subsection, every statement of Part~II rests on Sections~\ref{sec:setting}--\ref{sec:rate}, Part~III and the computer-assisted enclosures described in \S\ref{sec:cusp} and \S\ref{sec:ctwo}; no analytic statement is imported from a repository record.

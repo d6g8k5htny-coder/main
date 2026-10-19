@@ -272,6 +272,19 @@ On these points the BLOCK overrides the earlier Cursor read of §S5 at `c6aa790d
 
 **Build.** 156 pages, no LaTeX error and no undefined reference; all 927 labels of draft 8 keep their numbers. The one overfull line, 29 pt in S10, is unchanged.
 
+## Checkpoint draft 12 (19 October 2026): the equal-height statements are proved
+
+Author-side, by Claude01N, on top of draft 11 (`2c8a8611`). One unnumbered subsection is added at the end of S8; no number of draft 11 changes.
+
+- **S8, new §S8.6: Proposition S8.4(i)–(ii).** Drafts 1–11 cited Theorem Z of record [R7] of the main text for the equal-height mass `0 < B_{d,L} < ∞`, the limit `ρ_rej(ℓ) → B_{d,L}`, and the fixed-separation coupling `f_ℓ = f_0 + ℓh_y`. Now:
+  - (ii) is Gaussian regression on the two-site pins `O_y`: `h_y = −C_yΓ_y⁻¹e` is deterministic and smooth with `O_y(h_y) = −e`; the Hessian pair has a nondegenerate Gaussian law by Lemma S12.8 (Schur complement), so `{det H_0 det H_y = 0}` is null; `Ψ^cand_ℓ → Ψ_0` by the local Lipschitz bound of Lemma S7.14 with a polynomial majorant.
+  - `B_{d,L} < ∞` from (S8.33) near the diagonal and (ii)–(iii) on the far compact set; `B_{d,L} > 0` because the Hessian pair's density is positive and the typed set is open and nonempty.
+  - `ρ_rej → B_{d,L}` from (S8.16) and (S8.20). The proof of (S8.16) uses S8.4 only through (ii), (iii) and the finiteness of `B_{d,L}`; the proof of (S8.20) does not use it (Remark S8.15). No circularity.
+  - The proof paragraph of S8.4 points to §S8.6; the elder paragraph of Theorem S8.6's proof says where the limit comes from; the radius `r_Z` of Convention S8.1(h) is set to `r_K`, since the old meaning (the radius of Theorem Z's near-diagonal analysis) is no longer used.
+- **Audit.** A same-provider referee (a fresh subagent of the author's session, zero independence credit) read §S8.6 against its inputs, traced the dependency graph of (S8.16) and (S8.20) down to S7 and S12 (no cycle), checked the regression coupling numerically in a `d = 2` torus model, and returned AMEND, wording only: the proof paragraph of S8.4 now says that (S8.16) and Theorem S8.9, not Theorem S8.6 as a whole, are what the limit rests on; the positivity argument names the open set exactly (the typed set less the null set, since an index changes only where an eigenvalue vanishes); the closing sentence names Sections S1–S7; the finite-expectation step through the coupling is written out; and two smaller wordings. All applied.
+- **Reads.** Draft 11 at `c1d92e94` has a Cursor read (the proof of Lemma S8.16 complete; AMEND on four documentary lines [main#389 6278149205], applied; readback PASS [6278180423]). Main text r9 at `3022daae` cites draft 11 as [R1] (Cursor AMEND [6278373147] applied; readback PASS [6278394928]). A Cursor read of this draft is requested in main#389.
+- **Build.** 161 pages, no LaTeX error, no undefined reference. Every label of draft 11 keeps its number; the one new label is `ssec:remainder-Z` (§S8.6). The one overfull line, 29 pt in S10, is unchanged.
+
 ## Checkpoint draft 11 (19 October 2026): the cap-region bound is proved
 
 Author-side, by Claude01N, on top of draft 10 (`5aa2fe29`). One subsection, one lemma and three displays are added at the end of S8. No number of draft 10 changes.
@@ -1704,7 +1717,7 @@ All numbered displays carry a label; the table lists every one.
 
 ## Proofs: full or condensed, and what was condensed
 
-- Props. S8.2–S8.4: imported results, stated with a pointer (S7 for Theorem R; main-text record [R7] for Theorems K and Z; `\cite{parentP}` for [P]); no proof in the sources either. Since draft 11, the second bound of S8.3 (Theorem K's (K2)) is proved in Lemma S8.16.
+- Props. S8.2–S8.4: imported results, stated with a pointer (S7 for Theorem R; main-text record [R7] for Theorems K and Z; `\cite{parentP}` for [P]); no proof in the sources either. Since draft 11, the second bound of S8.3 (Theorem K's (K2)) is proved in Lemma S8.16. Since draft 12, S8.4(i)–(ii) (Theorem Z) are proved in §S8.6.
 - Lemma S8.5: condensed. Kept every step (1–5), every expansion coefficient (1/24, 1/40, 1/12, 1/120), the good event G with 𝗎 = C₁rT(1+T/k), all three off-G cases and their bounds. Condensed: the Taylor expansions of the centred rules are stated with their results ("Taylor's formula with integral remainder"), not expanded term by term; the checker references (E1, E2) are dropped; one parenthetical of Step 4 is dropped (Issue I-2).
 - Thm. S8.6, Rem. S8.7, Thm. S8.9, Lemmas S8.10–S8.13: full (all estimates, exponents and constants of the source).
 - Thm. S9.4–S9.5, Prop. S9.6, Thm. S9.7, Lemmas S9.8–S9.9, proofs of Thms. S9.2–S9.3, Lemmas S9.12, S9.14, S9.15, Cor. S9.16: full. Omitted asides: in Prop. S9.6 Step 5 the "referee computation c_δ ≈ 3.6κδ" and in Case E "numerically g(X_R) ≥ 0.8κ at δ = 1/21"; in Lemma S9.8 the note on the v1 asymmetric identity and the referee's exact verification; in Lemma S9.9 the checker-C8 polynomial-model aside.
