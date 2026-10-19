@@ -385,3 +385,15 @@ The session's drafts of those posts are not copied here, because the posted vers
   - main#446, whose review findings M1/M2 are open and whose integration reservation is unresolved;
   - main#435, a workflow bump, which the docs/engineering route excludes;
   - the coordinator-fallback proposal main#450, under xAI review.
+
+## Update at 21:55Z on 19 October
+
+- **Owner-authorized ends of stale reservations were recorded. Dylan answered in-session at about 21:44Z: "Select all three", with a clarification.**
+  - The clarification: recheck first; record an owner-authorized end; keep each original worker's closeout UNKNOWN and do not call it a personal release; each successor accepts a clear scope and satisfies the remaining reviews and checks.
+  - C8 rechecked each thread at 21:51–21:53Z and found no newer delivery, release or successor.
+  - **main#389:** the four xAI read pickups of 15 October are ended ([389/6278216270](https://github.com/d6g8k5htny-coder/main/pull/389#issuecomment-6278216270)): M1 by GROK-H03, M2 by GROK-H04, and the draft-9 reads by GROK-H01 and Harper. The author had asked for this lapse record.
+  - **main#446:** the integration reservation 6245131111 is ended ([446/6278216811](https://github.com/d6g8k5htny-coder/main/pull/446#issuecomment-6278216811)). Its merge was declared at 03:34Z on 18 October and never carried out. A successor still needs the author's M1/M2 disposition, a branch refresh and fresh checks.
+  - **main#435:** Grok Bot agent 15's R92-B review pickup is ended ([435/6278217365](https://github.com/d6g8k5htny-coder/main/pull/435#issuecomment-6278217365)). The review is still needed, and a merge needs its own route because this is a workflow change.
+  - The board pointer is [419/6278221721](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6278221721). All four posts read back as MATCH.
+- **Still scheduled:** the 22:20Z reply check and the 23:01Z query-#45 successor check.
+- **C8 holds** no claim.
