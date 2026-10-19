@@ -2,7 +2,7 @@
 % Sources and corrections: see CONC_s11.md.
 \section{The constant \texorpdfstring{$c_2$}{c2}}\label{sec:ctwo}
 
-This section concerns the constant $c_2$ of the three-term law (2.12) of the main text. In \S\ref{ssec:ctwo-def}, $c_2$ is defined as a finite part of the fold-scale coefficient of the two-point kernel, and the mechanism that makes this finite part the coefficient of $\ell^{1/3}$ is described; the expansions that prove it are those of Section~\ref{sec:third}. In \S\ref{ssec:ctwo-closed} the corresponding coefficient expression is evaluated in closed form, with a certified enclosure, for the Gaussian kernel on $\R^d$, $d\le3$. In \S\ref{ssec:ctwo-transfer} the expression is written through the derivatives of order at most eight of the covariance, and an explicit bound is proved for its change under a change of covariance; for the normalized periodization of side $L\ge24$ the change is below $10^{-60}$. In \S\ref{ssec:ctwo-side24} the two identifications on which the application to the side-24 field rests are stated as a hypothesis, and the resulting enclosures of $c_2$ and of $c_2/c_{3,24}$ are derived.
+This section concerns the constant $c_2$ of the three-term law (2.12) of the main text. In \S\ref{ssec:ctwo-def}, $c_2$ is defined as a finite part of the fold-scale coefficient of the two-point kernel, and the mechanism that makes this finite part the coefficient of $\ell^{1/3}$ is described; the expansions that prove it are those of Section~\ref{sec:third}. In \S\ref{ssec:ctwo-closed} the corresponding coefficient expression is evaluated in closed form, with a certified enclosure, for the Gaussian kernel on $\R^d$, $d\le3$. In \S\ref{ssec:ctwo-transfer} the expression is written through the derivatives of order at most eight of the covariance, and an explicit bound is proved for its change under a change of covariance; for the normalized periodization of side $L\ge24$ the change is below $10^{-60}$. In \S\ref{ssec:ctwo-side24} the two identifications on which the application to the side-24 field rests are derived from Section~\ref{sec:third} (Corollary~\ref{hyp:ctwo-ident}), and the resulting enclosures of $c_2$ and of $c_2/c_{3,24}$ follow.
 
 \subsection{Definition and the fold-scale mechanism}\label{ssec:ctwo-def}
 
@@ -42,13 +42,13 @@ $\mathcal A^{\eld}_r$ is $\mathcal A_r$ with $W_r$ replaced by $W_re$;
 \widetilde{\mathcal A}_r[K](b,k,u)&=\frac{12\,\pi_r(v_r)\,\E\bigl[-\det H_M\det H_S\,\ind_{\{A<0\}}\bigm|U_r=v_r\bigr]}{r^2},\label{eq:ctwo-surrogate}\\
 \bar{\mathcal A}_r[K](k,u)&=\int_\R\widetilde{\mathcal A}_r[K](b,k,u)\,db,\label{eq:ctwo-birthint}
 \end{align}
-with the indicator omitted for $d=1$; $\widetilde{\mathcal A}_2[K]$ and $\bar{\mathcal A}_2[K]$ denote their coefficients of $r^2$ at $r=0$.
+with the indicator omitted for $d=1$; $\widetilde{\mathcal A}_2[K]$ and $\bar{\mathcal A}_2[K]$ denote their coefficients of $r^2$ at $r=0$. The same formulas define them at $k=0$, where the pins are still nondegenerate. \eqref{eq:ctwo-J0} uses $\bar{\mathcal A}_2[K](0,u)$; under the hypothesis of Theorem~\ref{thm:ctwo-jet}, $\bar{\mathcal A}_2[K](\cdot,u)$ is continuous on $[0,\infty)$ by \eqref{eq:ctwo-J1}.
 \end{enumerate}
 \end{definition}
 
 On the typed event $|\det H_M|\,|\det H_S|=-\det H_M\det H_S$; the surrogate replaces the typed indicator by the fixed cone $\{A<0\}$ of the midpoint transverse Hessian, so its integrand is a signed polynomial in Gaussian jets and it is not a count.
 
-\emph{The fold expansion} (Section~\ref{sec:third}). Let $d\ge2$, $L>0$ and $K=K_L$. There are $r_*>0$ and $C,c,N$ such that, for $0<r\le r_*$, $b\in\R$, $k>0$ and $u\in S^{d-1}$,
+\emph{The fold expansion} (Section~\ref{sec:third}, Lemma~\ref{lem:third-fold}). Let $d\ge2$, $L>0$ and $K=K_L$. There are $r_*>0$ and $C,c,N$ such that, for $0<r\le r_*$, $b\in\R$, $k>0$ and $u\in S^{d-1}$,
 \begin{equation}\label{eq:ctwo-fold}
 \begin{gathered}
 \bigl|\mathcal A_r(b,k,u)-\mathcal A_0(b,k,u)-r^2\mathcal A_2(b,k,u)\bigr|\le Cr^3(1+k^{-1})P^Ne^{-c(b^2+k^2)},\\
@@ -157,7 +157,7 @@ The fixed cone is $\{f_{yy}(0)<0\}$ for $d=2$ and $\{D_y^2f(0)<0\}$ for $d=3$; f
 \]
 for functions $g$, $p$ invariant under conjugation by transverse rotations. By Isserlis' theorem $F:=\E[\det H_M\det H_S\mid A,\ U_r=v_r]$ is an exact polynomial in $(r,b,k,\lambda_1,\lambda_2)$, and $\widetilde{\mathcal A}_r(b,k)$ is $r^{-2}$ times a constant times the integral over the cone of $F$ against the Gaussian densities of the pins at $v_r$ and of $A$ given the pins. Writing the two quadratic forms in the exponent as their values at $r=0$ plus increments, the determinant ratio, the exponential of the increments and $F$ are expanded exactly in $r$. Since the covariances at $r=0$ are nondegenerate, $\widetilde{\mathcal A}_r$ is real analytic in $r$ near $0$, with a Gaussian domination uniform in small $r$; hence its Taylor coefficients are the cone integrals of the Taylor coefficients of the integrand. (Series are carried through $r^{10}$ and polynomials through $r^6$; repeating the whole derivation at orders $12$ and $8$ gives identical results.)
 
-\emph{Step 3 (exact structural facts).} The integrand vanishes to order $r^2$, and its coefficient of $r^3$ vanishes, so $\widetilde{\mathcal A}_r$ has no term of order $r$. The pin exponent at $r=0$ is $q_0=\frac32b^2+24k^2$, with no $bk$ term; the transverse exponent at $r=0$ does not contain $k$ (parity); and the coefficients of $r^0$ and $r^2$ contain only even powers of $k$. So these two coefficients of the integrand have the form $e^{-12k^2}\sum_{l\ \mathrm{even}}a_l\,k^l$, where $a_l$ is a polynomial in $b$ and the cone variables times a Gaussian factor in them.
+\emph{Step 3 (exact structural facts).} The integrand vanishes to order $r^2$, and its coefficient of $r^3$ vanishes, so $\widetilde{\mathcal A}_r$ has no term of order $r$. The pin quadratic form at $r=0$ is $q_0=\frac32b^2+24k^2$, with no $bk$ term, and the pin density is a constant times $e^{-q_0/2}$; the transverse exponent at $r=0$ does not contain $k$ (parity); and the coefficients of $r^0$ and $r^2$ contain only even powers of $k$. So these two coefficients of the integrand have the form $e^{-12k^2}\sum_{l\ \mathrm{even}}a_l\,k^l$, where $a_l$ is a polynomial in $b$ and the cone variables times a Gaussian factor in them.
 
 \emph{Step 4 (integration in $k$).} For even $l\ge0$,
 \begin{equation}\label{eq:ctwo-kint}
@@ -380,15 +380,27 @@ For $q\le8$ unit directional derivatives, the derivative of $K_{\mathrm{ref}}$ a
 
 \subsection{The side-24 constant}\label{ssec:ctwo-side24}
 
-The results of \S\S\ref{ssec:ctwo-closed}--\ref{ssec:ctwo-transfer} concern the coefficient expression $c_2[K]$. Their application to the constant \eqref{eq:ctwo-def} of the side-24 field, and to the law (2.12) of the main text, uses the following two identifications; neither is proved in this section.
+The results of \S\S\ref{ssec:ctwo-closed}--\ref{ssec:ctwo-transfer} concern the coefficient expression $c_2[K]$. Their application to the constant \eqref{eq:ctwo-def} of the side-24 field, and to the law (2.12) of the main text, uses the following two identifications. Drafts~1--9 stated them as a hypothesis; both follow from Section~\ref{sec:third}.
 
-\begin{hypothesis}[identification interfaces]\label{hyp:ctwo-ident}
-Let $d\in\{2,3\}$ and $L\ge24$.
+\begin{corollary}[identification of $c_2$]\label{hyp:ctwo-ident}
+Let $d\ge2$ and $L>0$.
 \begin{enumerate}[(a),leftmargin=2em]
-\item \emph{(Typed kernel and surrogate.)} For the covariance $K_L$, at every fixed $(b,k,u)$ with $k>0$, the two-point kernel and the signed fixed-cone surrogate have the same coefficient of $r^2$, $\mathcal A_2=\widetilde{\mathcal A}_2[K_L]$, and accordingly the constant $c_2$ of \eqref{eq:ctwo-def} equals the expression $c_2[K_L]$ of \eqref{eq:ctwo-J0}. This is the comparison of the typed kernel with its fixed-cone surrogate in Step~2 of the proof of Lemma~\ref{lem:third-fold}, display \eqref{eq:third-F3}: replacing the typed indicator by $\ind_{\{A<0\}}$ changes $\mathcal A_r$ by $O(r^3(1+k^{-1}))$ at fixed $(b,k,u)$, the boundary layer of the typed region near $\det A=0$.
-\item \emph{(Persistence identification.)} The constant $c_2$ of \eqref{eq:ctwo-def} is the coefficient of $\ell^{1/3}$ in the expansions of the elder and candidate densities of the side-$L$ field, as stated in Section~\ref{sec:third} under the hypotheses stated there (for the elder density, with the far elder bound used there).
+\item \emph{(Typed kernel and surrogate.)} There are $r_*>0$ and $C,c,N$ such that, for $0<r\le r_*$, $b\in\R$, $k>0$ and $u\in S^{d-1}$,
+\[
+\bigl|\widetilde{\mathcal A}_r[K_L](b,k,u)-\mathcal A_r(b,k,u)\bigr|\le Cr^3(1+k^{-1})P^Ne^{-c(b^2+k^2)} .
+\]
+Hence, at every $(b,k,u)$ with $k>0$, both kernels are $\mathcal A_0+r^2\mathcal A_2+O(r^3)$, so that $\widetilde{\mathcal A}_2[K_L]=\mathcal A_2$; moreover $\bar{\mathcal A}_2[K_L](k,u)=\int_\R\mathcal A_2(b,k,u)\,db$ for every $k\ge0$, and the constant $c_2$ of \eqref{eq:ctwo-def} equals the expression $c_2[K_L]$ of \eqref{eq:ctwo-J0}.
+\item \emph{(Persistence identification.)} The constant $c_2$ of \eqref{eq:ctwo-def} is the coefficient of $\ell^{1/3}$ in the expansions \eqref{eq:third-Tp} and \eqref{eq:third-E3p1} of the candidate and the elder densities of the side-$L$ field.
 \end{enumerate}
-\end{hypothesis}
+\end{corollary}
+
+\begin{proof}
+(a) Let $r_*=\min(r_0^*,\frac12)$, as in Lemma~\ref{lem:third-fold}. Let $Q=Q_{r,b,k}$ and $K_M,K_S$ be as in \S\ref{ssec:third-setting}, $F_r\sim Q$ and $A=D_y^2F_r(0)$, so that $\{A<0\}$ is the event $\{A\prec0\}$ of Section~\ref{sec:third}. Since $\det H_i=r\det K_i$ ($i=M,S$), \eqref{eq:ctwo-surrogate} reads $\widetilde{\mathcal A}_r[K_L]=12\pi_r(v_r)\,\E_Q[-\det K_M\det K_S\,\ind\{A\prec0\}]$, while $\mathcal A_r=12\pi_r(v_r)\,\E_Q[F_d(K_M)F_{d-1}(K_S)]$ by \eqref{eq:third-kernels}. By \eqref{eq:third-Omega} and the moment bound in \eqref{eq:third-T}, the first expectation is $\E_Q[\Omega(J';r,k)\ind\{A\prec0\}]+O(r^4P^N)$, and by \eqref{eq:third-F3} it therefore differs from the second by $O(r^3(1+k^{-1})P^N)$. Multiplying by $12\pi_r(v_r)$, which is at most $Ce^{-c(b^2+k^2)}$ by \eqref{eq:third-pindens}, gives the bound, and \eqref{eq:third-F1} then gives the common expansion. Both error bounds are integrable in $b$, so for $k>0$ the coefficient of $r^2$ of the birth integral \eqref{eq:ctwo-birthint} is $\int_\R\mathcal A_2(b,k,u)\,db$. Both sides are continuous in $k\ge0$: the left side by \eqref{eq:ctwo-J1}, as Theorem~\ref{thm:ctwo-jet} applies to $K_L$ by Lemma~\ref{lem:parent-jetrank}, and the right side by \eqref{eq:third-F2} and dominated convergence. So the identity also holds at $k=0$. Finally, by Remark~\ref{rem:ctwo-fp}(i), $|\mathcal A_2(b,k,u)-\mathcal A_2(b,0,u)|\,k^{-4/3}\le C\min(k,1)\,k^{-4/3}(1+|b|)^Ne^{-cb^2}$, which is integrable on $S^{d-1}\times\R\times(0,\infty)$; so, by Fubini's theorem, \eqref{eq:ctwo-J0} for $K=K_L$ equals \eqref{eq:ctwo-def}.
+
+(b) The definition \eqref{eq:ctwo-def} is \eqref{eq:third-c2}, with the same $\mathcal A_2$. Theorems~\ref{thm:third-Tplus} and~\ref{thm:third-E3plus} state \eqref{eq:third-Tp} and \eqref{eq:third-E3p1} with this constant; the elder expansion \eqref{eq:third-E3p1} uses the far elder rate \eqref{eq:third-farrate}, which is Proposition~\ref{prop:remainder-farrate}.
+\end{proof}
+
+At $k=0$ the values in \eqref{eq:ctwo-def} and \eqref{eq:ctwo-J0} are the continuous extensions from $k>0$. For the typed kernel this value is not its coefficient of $r^2$ at $k=0$: by Proposition~\ref{prop:third-window}, $\mathcal A_r(b,0,u)=O(r^5\log(1/r))$, while $\mathcal A_2(b,0,u)$, given in \eqref{eq:ctwo-fold}, is in general not zero (Remark~\ref{rem:ctwo-fp}(i)). For the surrogate the two agree: Steps~1 and~3 of the proof of Lemma~\ref{lem:third-fold} do not use $k>0$, and they give $\widetilde{\mathcal A}_r[K_L](b,0,u)=r^2\mathcal A_2(b,0,u)+O(r^3P^Ne^{-cb^2})$.
 
 \begin{corollary}[the constant $c_2$ at side $24$]\label{cor:ctwo-side24}
 Let $d=3$ and $L\ge24$, and let
@@ -397,18 +409,18 @@ c_2^{\mathrm{ref}}:=c_2[K_{\mathrm{ref}}]=\frac5{48}\bigl(33-7\sqrt6\bigr)\,12^{
 \]
 \begin{enumerate}[(i),leftmargin=2em]
 \item $|c_2[K_L]-c_2^{\mathrm{ref}}|<10^{-60}$ and $c_2[K_L]\in[0.1612340491269446,\ 0.1612340491269811]$.
-\item Under Hypothesis~\ref{hyp:ctwo-ident}(a), the same holds for the constant $c_2$ of \eqref{eq:ctwo-def}.
-\item Under Hypothesis~\ref{hyp:ctwo-ident}(a), for $L=24$,
+\item The same holds for the constant $c_2$ of \eqref{eq:ctwo-def}.
+\item For $L=24$,
 \begin{equation}\label{eq:ctwo-ratio24}
 \frac{c_2}{c_{3,24}}\in[3.859496174547456,\ 3.859496174548331];
 \end{equation}
 in particular $c_2/c_{3,24}=3.8595$ to four decimals, the value printed in (2.14) of the main text.
-\item Under Hypothesis~\ref{hyp:ctwo-ident}(a) and (b), $c_2$ is the constant of (2.12) and (2.14) of the main text; thus (i)--(iii) give, for that constant, the enclosure of Theorem~2.3(iii) of the main text transferred to $L=24$ with additive error below $10^{-60}$, and the value $c_2/c_{3,24}\approx3.8595$ of (2.14).
+\item $c_2$ is the constant of (2.12) and (2.14) of the main text; thus (i)--(iii) give, for that constant, the enclosure of Theorem~2.3(iii) of the main text transferred to $L=24$ with additive error below $10^{-60}$, and the value $c_2/c_{3,24}\approx3.8595$ of (2.14).
 \end{enumerate}
 \end{corollary}
 
 \begin{proof}
-(i) is Theorem~\ref{thm:ctwo-closed} for $d=3$ together with \eqref{eq:ctwo-J6} and the last display of Corollary~\ref{cor:ctwo-torus}. (ii) follows from (i) and Hypothesis~\ref{hyp:ctwo-ident}(a). For (iii), by (2.10) and (2.11) of the main text, $|c_{3,24}/c_{3,\infty}-1|<1.5\cdot10^{-118}$ and $c_{3,\infty}=0.0417759318405983433429\ldots$, so
+(i) is Theorem~\ref{thm:ctwo-closed} for $d=3$ together with \eqref{eq:ctwo-J6} and the last display of Corollary~\ref{cor:ctwo-torus}. (ii) follows from (i) and Corollary~\ref{hyp:ctwo-ident}(a). For (iii), by (2.10) and (2.11) of the main text, $|c_{3,24}/c_{3,\infty}-1|<1.5\cdot10^{-118}$ and $c_{3,\infty}=0.0417759318405983433429\ldots$, so
 \[
 0.04177593184059834334<c_{3,24}<0.04177593184059834335,
 \]
@@ -417,9 +429,9 @@ the enclosure quoted in Theorem~2.3(iii) of the main text. Dividing the positive
 \frac{c_2}{c_{3,24}}&\ge\frac{0.1612340491269446}{0.04177593184059834335}=3.85949617454745675\ldots,\\
 \frac{c_2}{c_{3,24}}&\le\frac{0.1612340491269811}{0.04177593184059834334}=3.85949617454833046\ldots,
 \end{align*}
-which gives \eqref{eq:ctwo-ratio24}. (iv) is (ii), (iii) and Hypothesis~\ref{hyp:ctwo-ident}(b).
+which gives \eqref{eq:ctwo-ratio24}. (iv) is (ii), (iii) and Corollary~\ref{hyp:ctwo-ident}(b).
 \end{proof}
 
 \begin{remark}[scope]\label{rem:ctwo-scope}
-The bound \eqref{eq:ctwo-J6} is an additive error for the coefficient expression only. It is not an estimate of $\nu_{3,24}(\ell)$ at a positive lifetime, and it gives no constant for the remainder $O(\ell^{3/7})$ of (2.12) of the main text, so the size of the omitted terms at a given $\ell$ is not quantified. Near $L=10$ the bound \eqref{eq:ctwo-J5} is very loose and is not an accurate approximation of the coefficient. The interval for $c_2[K_{\mathrm{ref}}]$ in Theorem~\ref{thm:ctwo-closed} encloses the closed form, which concerns the Gaussian kernel on $\R^3$; the side-24 constant is reached only through Corollary~\ref{cor:ctwo-torus} and Hypothesis~\ref{hyp:ctwo-ident}.
+The bound \eqref{eq:ctwo-J6} is an additive error for the coefficient expression only. It is not an estimate of $\nu_{3,24}(\ell)$ at a positive lifetime, and it gives no constant for the remainder $O(\ell^{3/7})$ of (2.12) of the main text, so the size of the omitted terms at a given $\ell$ is not quantified. Near $L=10$ the bound \eqref{eq:ctwo-J5} is very loose and is not an accurate approximation of the coefficient. The interval for $c_2[K_{\mathrm{ref}}]$ in Theorem~\ref{thm:ctwo-closed} encloses the closed form, which concerns the Gaussian kernel on $\R^3$; the side-24 constant is reached only through Corollaries~\ref{cor:ctwo-torus} and~\ref{hyp:ctwo-ident}.
 \end{remark}

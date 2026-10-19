@@ -336,6 +336,14 @@ Moreover $c_{2,\infty}\in[0.0734069193059,0.0734069193062]$, $c_{3,\infty}\in[0.
 \[
 c_1/c_{2,\infty}\in[-3.66993776909,\,-3.66993776907],\qquad c_1/c_{3,\infty}\in[-5.07106215,\,-5.07106213].
 \]
+The ratios are enclosed from the unrounded enclosures of the computation,
+\[
+\begin{gathered}
+c_1\in[-0.2693988256731888,\,-0.2693988256725268]\quad(d=2),\\
+c_1\in[-0.2118483463910089,\,-0.2118483460317414]\quad(d=3),
+\end{gathered}
+\]
+and from $c_{2,\infty}=0.07340691930603427103\ldots$ and $c_{3,\infty}=0.04177593184059834334\ldots$, the values of the closed form of $c[K_{\mathrm{ref}}]$ in Theorem~\ref{thm:ctwo-closed}; dividing the rounded entries of the table gives slightly wider intervals.
 For $d=1$, $c_1=-\frac{384}7\,2^{1/4}\,12^{-9/4}(2\pi)^{-2}\sqrt{4\pi/3}\;30^{7/8}\,2^{7/8}\,\Gamma(11/8)/\sqrt\pi$.
 \end{theorem}
 
@@ -351,7 +359,7 @@ On $[-1,1]$ the Chebyshev coefficients of $F$ satisfy $|a_k|\le2M_F\rho^{-k}$. T
 \end{proof}
 
 \begin{proof}[Proof of Theorem~\ref{thm:cusp-enclosure} (method)]
-The enclosures are computer-assisted; we describe the method.
+The enclosures are computer-assisted; we describe the method, which is that of the certificate in record [R12] of the main text.
 
 \emph{Reduction.} The kernel is isotropic, so the $u$-integral is $|S^{d-1}|$ times the value at $u=e_1$ ($|S^0|=2$, $|S^1|=2\pi$, $|S^2|=4\pi$), and Lemma~\ref{lem:cusp-gauss} makes the inner expectation an explicit Gaussian integral. The power is written as $|y|^p=K_p^{-1}\int_0^\infty(1-\cos\omega y)\,\omega^{-1-p}\,d\omega$ for $0<p<2$, $K_p=\pi/(2\Gamma(1+p)\sin(\pi p/2))$, at $p=7/4$; by Tonelli's theorem, applied to the nonnegative function $(1-\cos\omega Y)\omega^{-11/4}$ times the nonnegative determinant and cone weight, $\E|Y|^{7/4}=K_{7/4}^{-1}\int_0^\infty(1-\operatorname{Re}\E e^{i\omega Y})\,\omega^{-11/4}\,d\omega$, the bounded characteristic function being integrated against the finite Gaussian weight at each fixed $\omega$, and the two terms are never split into separately divergent integrals. Given $(A,b)$, $Y$ is a Gaussian linear term in $f_4$ plus a quadratic form in $\gamma$, so its characteristic function is explicit, and the $b$-integral is Gaussian. For $d=1$, averaging over $b$ makes $f_4$ a centred normal of variance $30$, and $\E|Z|^{7/4}=2^{7/8}\Gamma(11/8)/\sqrt\pi$ gives the closed form. For $d=2$ the integrals over $b$ and over $a=-A>0$ are done in closed form, which leaves an explicit constant times a one-dimensional integral with an analytic integrand. For $d=3$, write $A\prec0$ through its eigenvalues $-a_1\le-a_2<0$ (Lebesgue measure on $2\times2$ symmetric matrices is $|\lambda_1-\lambda_2|\,d\lambda_1d\lambda_2d\theta$, $\theta\in[0,\pi)$); the substitution $a_1=s^4$, $a_2=a_1v^4$, $\omega=t^4/a_1$ gives
 \[
@@ -362,7 +370,7 @@ T_3=64\int_0^\infty\!\!ds\int_0^1\!\!dv\int_0^\infty\!\!dt\;s^{20}v^4(1-v^4)\,e^
 \]
 with $E(v)=(2v^8-v^4+2)/10\ge3/16$ and $\Phi=(1-i\omega a_1)^{-1/2}(1-i\omega a_2)^{-1/2}\exp(-i\omega a_1a_2(a_1+a_2)/20-23\omega^2(a_1a_2)^2/240)$. The integrands are written in a cancellation-free form ($1-\operatorname{Re}\Phi=-(e^{\mathcal R}-1)+e^{\mathcal R}\,2\sin^2(\mathcal I/2)$ with $\mathcal R+i\mathcal I=\log\Phi$, expressed through the analytic functions $(e^x-1)/x$, $\log(1+x)/x$, $\arctan(x)/x$ and $\sin(x)/x$), so that no step divides by a small quantity.
 
-\emph{Quadrature with certified error.} Each one-dimensional integral is computed by Gauss--Legendre rules with the error bound of Lemma~\ref{lem:cusp-quad}. The bound $M_F$ is obtained by interval evaluation over complex boxes covering the closed Bernstein ellipse; a representation that evaluates without exception on a box is analytic on a neighbourhood of it and, by the identity theorem, is the analytic continuation of the integrand there, so bounds from different representations on different boxes may be combined. The nodes are certified in exact rational arithmetic and the weights are enclosed. For $d=3$ the region $s\le3$, $t\le15$ is cut into $247$ boxes adapted to the branch points at $|v|=1/t$: $76$ boxes, on which the nonnegative integrand is below $10^{-12}$ in total, are enclosed by $[0,\text{volume}\times\sup]$, and the other $171$ by tensor Gauss--Legendre rules, each to $10^{-11}$; the tails $t>15$ (through $|\Phi|\le t^{-2}$ on the real axis and $\int_0^\infty s^{20}e^{-s^8E}ds=\Gamma(21/8)/(8E^{21/8})$) and $s>3$ (below $10^{-280}$) are bounded explicitly. For $d=2$ fifteen panels are each computed to $5\cdot10^{-16}$, with an explicit tail.
+\emph{Quadrature with certified error.} Each one-dimensional integral is computed by Gauss--Legendre rules with the error bound of Lemma~\ref{lem:cusp-quad}. The bound $M_F$ is obtained by interval evaluation over complex boxes covering the closed Bernstein ellipse, with one representation of the integrand on all the boxes of an ellipse. If that representation evaluates without exception on every box, each principal branch being evaluated off its cut, it is analytic on a neighbourhood of the ellipse; since it agrees with the integrand on the real interval, it is the analytic continuation of the integrand there, by the identity theorem. On the real axis $\operatorname{Re}\Phi=\frac12(\Phi+\Phi^*)$ with $\Phi^*(z)=\overline{\Phi(\bar z)}$, and this form is the one continued. The nodes are certified in exact rational arithmetic and the weights are enclosed. For $d=3$ the region $s\le3$, $t\le15$ is cut into $247$ boxes adapted to the branch points at $|v|=1/t$: $76$ boxes, on which the nonnegative integrand is below $10^{-12}$ in total, are enclosed by $[0,\text{volume}\times\sup]$, and the other $171$ by tensor Gauss--Legendre rules, each to $10^{-11}$; the tails $t>15$ (through $|\Phi|\le t^{-2}$ on the real axis and $\int_0^\infty s^{20}e^{-s^8E}ds=\Gamma(21/8)/(8E^{21/8})$) and $s>3$ (below $10^{-280}$) are bounded explicitly. For $d=2$ fifteen panels are each computed to $5\cdot10^{-16}$, with an explicit tail. On a box of the $d=3$ cover, with $I_j$ the integral and $Q_j$ the rule in the $j$-th variable, $I_1I_2I_3-Q_1Q_2Q_3=(I_1-Q_1)I_2I_3+Q_1(I_2-Q_2)I_3+Q_1Q_2(I_3-Q_3)$, and each term is bounded by Lemma~\ref{lem:cusp-quad} in one variable, uniformly in the others, as the weights are positive.
 
 \emph{Arithmetic.} All operations are in binary64 interval arithmetic with one-ulp outward rounding; $\pi$, $\ln2$, $\exp$, $\log$, $\arctan$, $\sin$, $\cos$ and $\log\Gamma$ are computed from series with explicit remainder bounds, and no library transcendental function is trusted. The results are widened by $10^{-12}$ relative and rounded outward; the coefficients $c_{d,\infty}$ are enclosed from their closed forms. Floating-point recomputations by routes that avoid the Mellin identity give $-0.269398825672854$ ($d=2$) and $-0.211848346210999$ ($d=3$), inside the enclosures.
 \end{proof}
@@ -407,7 +415,7 @@ c_1^{(24)}/c_{2,24}\in[-3.66993776909,\,-3.66993776907].
 \end{corollary}
 
 \begin{proof}
-Theorem~\ref{thm:cusp-enclosure} and Lemma~\ref{lem:cusp-transfer}; in binary64 the factor $[1-\eta,1+\eta]$ is enclosed by the one-ulp interval around $1$, and the intervals are rounded outward.
+Theorem~\ref{thm:cusp-enclosure} and Lemma~\ref{lem:cusp-transfer}; in binary64 the factor $[1-\eta,1+\eta]$ is enclosed by the one-ulp interval around $1$, and the intervals are rounded outward. The ratios are formed, as in Theorem~\ref{thm:cusp-enclosure}, from the unrounded enclosures of $c_1$ stated there, the factor $[1-\eta,1+\eta]$ and the quoted enclosures of $c_{3,24}$ and $c_{2,24}$.
 \end{proof}
 
 \begin{remark}[how the enclosed ratio is read]\label{rem:cusp-reading}

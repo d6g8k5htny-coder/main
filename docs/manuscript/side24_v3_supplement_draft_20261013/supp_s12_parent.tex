@@ -45,7 +45,7 @@ as $\ell\downarrow0$. An exact finite-dimensional Gaussian integral for $c_{\mat
 \end{theorem}
 
 \begin{theorem}[Theorem C: unrestricted leading densities]\label{thm:parent-C}
-Let $\nu^{\rm all}_\cand(\ell)$ count all ordered pairs of a local maximum and a critical point of index $d-1$ with height difference $\ell>0$, and let $\nu^{\rm all}_\eld(\ell)$ count all finite ordinary superlevel $H_0$ persistence bars of lifetime $\ell$, both in expectation per unit volume. There is a constant $c_{d,L}$ with $0<c_{d,L}<\infty$ such that, as $\ell\downarrow0$,
+Let $\nu^{\rm all}_\cand(\ell)$ count all ordered pairs of a local maximum and a critical point of index $d-1$ with height difference $\ell>0$, and let $\nu^{\rm all}_\eld(\ell)$ count all finite ordinary superlevel $H_0$ persistence bars of lifetime $\ell$, both in expectation per unit volume. These densities admit versions, the sums of the near versions \eqref{eq:parent-135} and of the far Kac--Rice versions of Lemma~\ref{lem:parent-far}, for which there is a constant $c_{d,L}$ with $0<c_{d,L}<\infty$ such that, as $\ell\downarrow0$,
 \begin{equation}\label{eq:parent-C}
 \nu^{\rm all}_\cand(\ell)\sim c_{d,L}\,\ell^{-1/3},\qquad \nu^{\rm all}_\eld(\ell)\sim c_{d,L}\,\ell^{-1/3}.
 \end{equation}
@@ -379,7 +379,7 @@ with $\sup\varnothing=-\infty$, and the elder mark $e(f;M,S)=\ind_{\{d_f(M)=f(S)
 \end{proof}
 
 \begin{lemma}[the cap implication]\label{lem:parent-capimpl}
-Let $r$, $b$, $k>0$ and the frame be as in Definition~\ref{def:parent-pinned}, and let $f$ be a $C^4$ Morse function on $\T^d_L$ with pairwise distinct critical values that satisfies the pins \eqref{eq:parent-pins} and whose norms satisfy the two inequalities defining $\mathcal G_r$ in \eqref{eq:parent-G}. Then the global ordinary superlevel elder partner of $M$ is $S$, that is, $e(f;M,S)=1$, and exactly one actual ascending branch of $S$ ends at $M$.
+Let $r$, $b$, $k$ and the frame be as in Definition~\ref{def:parent-pinned} (so $0<r<L/(4\sqrt2)$, $b\in\R$ and $k>0$), and let $f$ be a $C^4$ Morse function on $\T^d_L$ with pairwise distinct critical values that satisfies the pins \eqref{eq:parent-pins} and whose norms satisfy the two inequalities defining $\mathcal G_r$ in \eqref{eq:parent-G}. Then the global ordinary superlevel elder partner of $M$ is $S$, that is, $e(f;M,S)=1$, and exactly one actual ascending branch of $S$ ends at $M$.
 \end{lemma}
 
 \begin{proof}
@@ -517,14 +517,14 @@ and the same leading expression holds for the candidates. For $q>-5/3$ the nonse
 \begin{equation}\label{eq:parent-123}
 \E\sum_{\text{candidate, not selected},\ \ell\le\varepsilon}\ell^q\le C_q\,\varepsilon^{q+5/3}.
 \end{equation}
-For $q\le-2/3$ the two individual expectations in \eqref{eq:parent-122} are infinite for every sufficiently small $\varepsilon>0$. The corresponding unrestricted cumulative and individual-moment statements hold for the populations of Theorem~\ref{thm:parent-C}, with $c_{d,L}$ in place of $c_{\mathcal B,\mathcal K}$.
+For $q\le-2/3$ the two individual expectations in \eqref{eq:parent-122} are infinite for every sufficiently small $\varepsilon>0$. For the populations of Theorem~\ref{thm:parent-C}, with $c_{d,L}$ in place of $c_{\mathcal B,\mathcal K}$, the first relation of \eqref{eq:parent-121}, the asymptotics \eqref{eq:parent-122} and the divergence for $q\le-2/3$ hold, for the selected and for the candidate pairs separately.
 \end{corollary}
 
 \begin{proof}
 Integrate the density versions of Theorem~\ref{thm:parent-B}. For $q\le-2/3$ the individual expectations are infinite because the densities have a positive leading term $\ell^{-1/3}$. The unrestricted statements follow from Theorem~\ref{thm:parent-C} by the same integrable-power argument.
 \end{proof}
 
-Equation \eqref{eq:parent-123} concerns the counting measure of the nonselected pairs directly, not a subtraction of two infinities. In particular, on compact windows the threshold for integrability of the inverse lifetime power $\ell^{-p}$ is $p<2/3$, with logarithmic divergence at $p=2/3$. The compact-window rates \eqref{eq:parent-121} and \eqref{eq:parent-123} for the nonselected difference are not automatically unrestricted rates.
+Equation \eqref{eq:parent-123} concerns the counting measure of the nonselected pairs directly, not a subtraction of two infinities. On compact windows the inverse lifetime power $\ell^{-p}$ is integrable over the selected, or the candidate, pairs exactly when $p<2/3$, by \eqref{eq:parent-122}, and over the nonselected pairs alone at least when $p<5/3$, by \eqref{eq:parent-123}. The compact-window bounds on the nonselected pairs, the second relation of \eqref{eq:parent-121} and \eqref{eq:parent-123}, fail for the unrestricted populations: there the nonselected density does not vanish as $\ell\downarrow0$, because far candidate pairs of small height difference do not vanish (Remark~2.5 of the main text).
 
 \subsection{Removing the birth and gap cutoffs by a direct intensity majorant}\label{ssec:parent-majorant}
 
@@ -594,6 +594,8 @@ The near and far populations cover all distinct pairs; a distance boundary may b
 \begin{proof}
 Every distinct-site jet list has full rank by Lemma~\ref{lem:parent-jetrank}, and compactness applies without a diagonal singularity; this gives the covariance statements. Integrating over $b$ and over the compact domain of relative positions gives \eqref{eq:parent-141}. No bound on remote critical counts conditional on a rare cap failure is inferred: \eqref{eq:parent-141} is an unconditional off-diagonal height-density bound, proved directly from a nonsingular covariance on a fixed compact set.
 \end{proof}
+
+The proof uses only the compactness of the set of pairs and the full rank of distinct-site jet lists, so \eqref{eq:parent-141} holds, with a constant depending on $\rho$, for the pairs at torus distance at least any fixed $\rho>0$. For $d=3$ and $L=24$ this is Proposition~\ref{prop:limit-far}.
 
 \begin{proof}[Proof of Theorem~\ref{thm:parent-C}]
 The near and far populations cover all distinct pairs (Lemma~\ref{lem:parent-far}), and stationarity converts the spatial integral into a density per unit volume. Combining \eqref{eq:parent-135}--\eqref{eq:parent-136} with $\ell^{1/3}$ times \eqref{eq:parent-141} proves \eqref{eq:parent-C}. On the almost-sure locus of Morse functions with distinct critical values (Lemma~\ref{lem:parent-generic}(b)), the selected full-pair count is precisely the count of finite bars, by Lemma~\ref{lem:parent-mark}(c), and the essential class of the global maximum is not counted.

@@ -29,7 +29,7 @@ with $D_r=\operatorname{diag}(\sqrt r,I_m)$; thus $|\det H_i|=r|\det K_i|$, $K_i
 \[
 B_{d,L}=\int_{\T^d_L\setminus\{0\}}\int_\R\Psi_0(b,y)\,db\,dy .
 \]
-\item \emph{Radii.} $r_R\in(0,1]$ is the radius of Proposition~\ref{prop:remainder-R}, $r_K$ that of Proposition~\ref{prop:remainder-K}, and $r_Z$ the radius up to which the near-diagonal analysis of Theorem~Z (record [R7] of the main text; Proposition~\ref{prop:remainder-Z}) is carried out. The \emph{admissible radius} is $r_0^*:=\min\{r_R,r_K,r_Z\}$, decreased if necessary so that $r_0^*<L/(4\sqrt2)$, the embedding radius of the cap cylinder (each of the three statements remains true for a smaller radius; for $L=24$ nothing changes, as $r_R\le1<24/(4\sqrt2)$). The dominating variable is
+\item \emph{Radii.} $r_R\in(0,\frac12]$ is the radius of Proposition~\ref{prop:remainder-R}, $r_K$ that of Proposition~\ref{prop:remainder-K}, and $r_Z$ the radius up to which the near-diagonal analysis of Theorem~Z (record [R7] of the main text; Proposition~\ref{prop:remainder-Z}) is carried out. The \emph{admissible radius} is $r_0^*:=\min\{r_R,r_K,r_Z\}$, decreased if necessary so that $r_0^*<L/(4\sqrt2)$, the embedding radius of the cap cylinder (each of the three statements remains true for a smaller radius; for $L=24$ nothing changes, as $r_R\le1<24/(4\sqrt2)$). The dominating variable is
 \[
 T:=1+k+\|F_r\|_{C^7}+\|F_0\|_{C^7}+r^{-2}\|F_r-F_0\|_{C^2},
 \]
@@ -59,7 +59,7 @@ Separation boundaries are Lebesgue-null in the pair variables, so the ranges in 
 We use three groups of results that are proved elsewhere.
 
 \begin{proposition}[the contact coupling and the bounds of Theorem~R]\label{prop:remainder-R}
-There is $r_R\in(0,1]$ such that, for $0<r\le r_R$, $b\in\R$ and every frame:
+There is $r_R\in(0,\frac12]$ such that, for $0<r\le r_R$, $b\in\R$ and every frame:
 \begin{enumerate}[(i),leftmargin=2em]
 \item Let $F$ be an unconditioned copy of the field, $\Sigma_r=\Cov(U_r)$ and $C_r(z)=\Cov(F(z),U_r)$. Then $F_r:=F+C_r\Sigma_r^{-1}(v_r-U_r(F))$ has law $Q$ and $F_0:=F+C_0\Sigma_0^{-1}(v_0-U_0(F))$ has the contact law. The matrices $\Sigma_r$ are uniformly positive definite and bounded, $\Sigma_r-\Sigma_0$, $\Sigma_r^{-1}-\Sigma_0^{-1}$ and $\|C_r-C_0\|_{C^q}$ are $O(r^2)$, and these covariance facts do not depend on the target, so (i) and (ii) hold for all $k\ge0$. For every finite $p\ge1$ and every derivative order $q$,
 \begin{equation}\label{eq:remainder-R4}
@@ -71,7 +71,7 @@ In particular $\|T\|_{L^p}\le C_pP$ for every $p$.
 \begin{equation}\label{eq:remainder-block}
 \det K_t=\alpha\det A-t\,\beta^{\top}\adj(A)\,\beta .
 \end{equation}
-\item For $k>0$, with $f=F_r$ and $A_0:=D_y^2F_0(0)$: $\|A_i-A_0\|\le rT$, $\|A_i\|+\|A_0\|+\|\beta_i\|\le CT$, $|\alpha_M+6k|+|\alpha_S-6k|\le CrT$, $F_d(K_M),F_{d-1}(K_S)\le C(k+r)T^d$, and
+\item For $k>0$, with $f=F_r$ and $A_0:=D_y^2F_0(0)$: $\|A_i-A_0\|\le(\frac r2+r^2)T\le rT$, $\|A_i\|+\|A_0\|+\|\beta_i\|\le CT$, $|\alpha_M+6k|+|\alpha_S-6k|\le CrT$, $F_d(K_M),F_{d-1}(K_S)\le C(k+r)T^d$, and
 \begin{equation}\label{eq:remainder-R11}
 \frac{Z_r}{r^2}\le C(k+r)^2P^N,\qquad 0\le\mathcal A_r\le(k+r)^2H,\qquad 0\le\mathcal A_0\le k^2H,\qquad |\mathcal A_r-\mathcal A_0|\le r(k+r)H .
 \end{equation}
@@ -79,7 +79,7 @@ In particular $\|T\|_{L^p}\le C_pP$ for every $p$.
 \end{proposition}
 
 \begin{proof}
-These are the coupling, the pin-density estimates, the block-determinant lemma and the weight bounds in the proof of Theorem~R (\S\ref{sec:rate}); Theorem~R and its proof hold for every fixed $d\ge2$ and $L>0$. The variable $T$ dominates the dominating variable used there (which is built from $C^4$ norms), so its bounds hold with $T$ after adjusting $C$.
+These are the coupling, the pin-density estimates, the block-determinant lemma and the weight bounds in the proof of Theorem~R (\S\ref{sec:rate}); Theorem~R and its proof hold for every fixed $d\ge2$ and $L>0$. The variable $T$ dominates the dominating variable used there (which is built from $C^4$ norms), so its bounds hold with $T$ after adjusting $C$. By Taylor's formula, $\|A_i-A_0\|\le\frac r2\|F_r\|_{C^3}+\|F_r-F_0\|_{C^2}\le(\frac r2+r^2)T$, and $\frac r2+r^2\le r$ as $r\le\frac12$; a smaller radius keeps every statement.
 \end{proof}
 
 \begin{proposition}[gap-mark-explicit weight bounds]\label{prop:remainder-K}
@@ -87,11 +87,11 @@ Let $G_r:=\{\lambda_{\min}(-A_M)>4rM_3^2/(3k)\}\cap\{rM_4\le3k/10\}$ be the cap 
 \begin{equation}\label{eq:remainder-K}
 \E_Q[W_r/r^2]\le C(k+r)^2P^N,\qquad \E_Q\bigl[(W_r/r^2)\ind_{G_r^c}\bigr]\le C\,\frac{r^3}k\,P^N\quad\text{whenever }r\le\min\{k,r_K\}.
 \end{equation}
-Moreover $1-e\le\ind_{G_r^c}$ $Q$-almost surely on $\{W_r>0\}$.
+Moreover, if also $r<L/(4\sqrt2)$, then $1-e\le\ind_{G_r^c}$ $Q$-almost surely on $\{W_r>0\}$.
 \end{proposition}
 
 \begin{proof}
-The two bounds are Theorem~K of record [R7] of the main text. The last statement is the deterministic cap theorem \cite[\S\S7--8]{parentP} (Lemma~\ref{lem:parent-capimpl} and Theorem~\ref{thm:cap-main}): on $G_r$ and on the typed support, the global elder partner of $M$ is $S$, and $Q$ is almost surely Morse with distinct critical values \cite[\S8]{parentP} (Lemma~\ref{lem:parent-generic}(a)).
+The two bounds are Theorem~K of record [R7] of the main text. The last statement is the deterministic cap theorem \cite[\S\S7--8]{parentP} (Lemma~\ref{lem:parent-capimpl} and Theorem~\ref{thm:cap-main}), which needs the cap cylinder to be embedded, that is, $r<L/(4\sqrt2)$ (Definition~\ref{def:parent-pinned}): on $G_r$ and on the typed support, the global elder partner of $M$ is $S$, and $Q$ is almost surely Morse with distinct critical values \cite[\S8]{parentP} (Lemma~\ref{lem:parent-generic}(a)).
 \end{proof}
 
 \begin{proposition}[the equal-height kernel]\label{prop:remainder-Z}
@@ -213,7 +213,7 @@ So the bounded remainder of Theorem~R has the constant term $B_{d,L}$ for the ca
 
 \emph{Domination.} By Lemma~\ref{lem:remainder-even}, $|r^{-2}(\mathcal A_r-\mathcal A_0)(b,\ell/r^3,u)|\le H(b,\ell/r^3)\le Ce^{-cb^2}$, an integrable majorant on $(0,r_0)\times\R\times S^{d-1}$ that does not depend on $\ell$. (With the first-order bound of \eqref{eq:remainder-R11} the integrand is only bounded by $(1+\ell/r^4)H$.) The second term of \eqref{eq:remainder-diff} is at most $\int_{r_0}^\infty r^{-2}(\ell/r^3)^2H\,dr\le C\ell^2r_0^{-7}$, because $\mathcal A_0\le k^2H$.
 
-\emph{Pointwise limit.} Fix $r,b,u$. As $\ell\downarrow0$, $k=\ell/r^3\downarrow0$ and $\mathcal A_r(b,k,u)\to\mathcal A_r(b,0,u)$: the pinned law is the regression law with target $v_r(b,k)$, affine in the target with a $k$-free covariance, so $F_r$ depends continuously on $k$ in $C^2$; the typed product is continuous off the type boundaries, which are Gaussian-null by nondegeneracy (Proposition~\ref{prop:remainder-Z}(ii)), and is dominated by a polynomial in the endpoint Hessians; and $\pi_r(v_r)$ is continuous in the target. Also $\mathcal A_0(b,k,u)\le k^2H\to0$. By \eqref{eq:remainder-polar}, dominated convergence in \eqref{eq:remainder-diff} gives
+\emph{Pointwise limit.} Fix $r,b,u$. As $\ell\downarrow0$, $k=\ell/r^3\downarrow0$ and $\mathcal A_r(b,k,u)\to\mathcal A_r(b,0,u)$: the pinned law is the regression law with target $v_r(b,k)$, affine in the target with a $k$-free covariance, so $F_r$ depends continuously on $k$ in $C^2$; the typed weight $W_r=F_d(H_M)F_{d-1}(H_S)$ is continuous in the endpoint Hessians, as $F_d$ and $F_{d-1}$ are locally Lipschitz (Lemma~\ref{lem:rate-filtered}, where $F_j$ is written $\Phi_j$), and is dominated by a polynomial in them; and $\pi_r(v_r)$ is continuous in the target. Also $\mathcal A_0(b,k,u)\le k^2H\to0$. By \eqref{eq:remainder-polar}, dominated convergence in \eqref{eq:remainder-diff} gives
 \[
 \nu_{\cand}^{\mathrm{near},r_0}(\ell)-c_{d,L}\ell^{-1/3}\to\int_0^{r_0}\!\!\int\!\!\int r^{d-1}\Psi_0(b,ru)\,d\sigma\,db\,dr=\int_{0<\dist(0,y)<r_0}\int_\R\Psi_0\,db\,dy,
 \]
@@ -372,7 +372,7 @@ Completing the square gives the same bound more directly: $\det K_M\det K_S=\big
 
 \emph{Proof of \eqref{eq:remainder-W2}.} Put $r_1:=\ell^{1/4}$, so that $r\le r_1$ if and only if $k=\ell/r^3\ge r$, and use \eqref{eq:remainder-diff} with $r_0=\rho$. On $0<r<\min(r_1,\rho)$, Lemma~\ref{lem:remainder-even} gives $|r^{-2}(\mathcal A_r-\mathcal A_0)|\le H(b,k)\le Ce^{-cb^2}$, contributing at most $C\min(r_1,\rho)$. On $r_1\le r<\rho$ (empty if $\rho\le r_1$), $|\mathcal A_r-\mathcal A_0|\le\mathcal A_r+\mathcal A_0$ with $\mathcal A_r\le C(k^2+r^4(1+k)^2)P^Ne^{-c(b^2+k^2)}$ by \eqref{eq:remainder-W1} and Proposition~\ref{prop:remainder-R}(ii), and $\mathcal A_0\le k^2H$; so $r^{-2}|\mathcal A_r-\mathcal A_0|\le C(\ell^2r^{-8}+r^2)(1+|b|)^Ne^{-cb^2}$, which integrates to at most $C(\ell^2r_1^{-7}/7+\rho^3/3)=C(\ell^{1/4}/7+\rho^3/3)$. The tail term is at most $C\ell^2\rho^{-7}$ as in the proof of Theorem~\ref{thm:remainder-vanish}.
 
-\emph{Proof of \eqref{eq:remainder-W3}.} By \eqref{eq:remainder-sep}, $\rho_{\rej}^{\mathrm{near},\rho}=\int_0^\rho\int\int r^{-2}\mathcal A^{\rej}_r$. On $0<r\le\min(r_1,\rho)$, Proposition~\ref{prop:remainder-K} (valid as $r\le k$ and $r\le\rho\le r_K$) gives $r^{-2}\mathcal A^{\rej}_r\le Cr^{-2}(r^3/k)P^Ne^{-c(b^2+k^2)}=C(r^4/\ell)P^Ne^{-c(b^2+k^2)}$, which integrates to at most $Cr_1^5/(5\ell)=C\ell^{1/4}/5$. On $r_1<r\le\rho$, $1-e\le1$ and \eqref{eq:remainder-W1}, as in the proof of \eqref{eq:remainder-W2}, give at most $C(\ell^{1/4}+\rho^3)$.
+\emph{Proof of \eqref{eq:remainder-W3}.} By \eqref{eq:remainder-sep}, $\rho_{\rej}^{\mathrm{near},\rho}=\int_0^\rho\int\int r^{-2}\mathcal A^{\rej}_r$. On $0<r\le\min(r_1,\rho)$, Proposition~\ref{prop:remainder-K} (valid as $r\le k$ and $r\le\rho\le r_0^*$) gives $r^{-2}\mathcal A^{\rej}_r\le Cr^{-2}(r^3/k)P^Ne^{-c(b^2+k^2)}=C(r^4/\ell)P^Ne^{-c(b^2+k^2)}$, which integrates to at most $Cr_1^5/(5\ell)=C\ell^{1/4}/5$. On $r_1<r\le\rho$, $1-e\le1$ and \eqref{eq:remainder-W1}, as in the proof of \eqref{eq:remainder-W2}, give at most $C(\ell^{1/4}+\rho^3)$.
 
 \emph{Proof of \eqref{eq:remainder-W4}.} By \eqref{eq:remainder-polar}, $r^{d-1}\Psi_0(b,ru)=r^{-2}\mathcal A_r(b,0,u)$, and \eqref{eq:remainder-W1} at $k=0$ with Proposition~\ref{prop:remainder-R}(ii) gives $\mathcal A_r(b,0,u)\le Cr^4(1+|b|)^Ne^{-cb^2}$. So $\int_{0<\dist<\rho}\int\Psi_0=\int_0^\rho\int\int r^{-2}\mathcal A_r(b,0,u)\le C\int_0^\rho r^2dr=C\rho^3/3$.
 \end{proof}

@@ -206,17 +206,17 @@ B_3=\frac{3\,\Gamma(7/6)}{2^{4/3}\pi^{7/2}},
 and the covariance objects are those of $K_L$. By Lemma~\ref{lem:coefficient-frame}, $0<c_{3,L}<\infty$. In particular $c_{3,\infty}$ is the value of (2.9) of the main text for the Bargmann--Fock field on $\R^3$, as in (2.11) there. In terms of the coefficient functional $\Phi$ of (3.25) of the main text, $c_{3,L}=\Phi(J_L)$ and $c_{3,\infty}=\Phi(J_0)$.
 \end{definition}
 
-\emph{The limiting contact density.} By the two-point Kac--Rice formula, the all-typed contact intensity $K^{\rm all}_r$ of (3.3b) of the main text is the raw pin density at the pins (3.5) there, times the normalizer $Z_r$ of (3.3a) there. The raw pin density is $r^{-6}$ times the corrected-pin density (the raw-to-corrected Jacobian of (3.7)--(3.8) of the main text), and by Lemma~\ref{lem:coefficient-parity}(ii) the corrected-pin density converges to the density $p_{Y_t}$ of $Y_t$ at the target \eqref{eq:coefficient-target}. On the pins, the endpoint determinants of (3.9) of the main text satisfy $r^{-1}\det H_M\to-\kappa\det Q_t(q_t)$ and $r^{-1}\det H_S\to\kappa\det Q_t(q_t)$, where $Q_t(q_t)$ is the common limit of the transverse blocks of $H_M$ and $H_S$, and the type indicators converge to $\ind_{\{Q_t(q_t)\prec0\}}$; thus $r^{-2}Z_r\to\kappa^2\,\E[F(q_t)\mid Y_t=(b,-\kappa/6,0,0)]$. Accordingly the rescaled all-typed contact density $G^{\rm all}_r=r^4K^{\rm all}_r$ has the pointwise limit
+\emph{The limiting contact density.} By the two-point Kac--Rice formula, the all-typed contact intensity $K^{\rm all}_r$ of (3.3b) of the main text is the raw pin density at the pins (3.5) there, times the normalizer $Z_r$ of (3.3a) there. The raw pin density is $r^{-6}$ times the corrected-pin density (the raw-to-corrected Jacobian of (3.7)--(3.8) of the main text), and by Lemma~\ref{lem:coefficient-parity}(ii) the corrected-pin density converges to the density $p_{Y_t}$ of $Y_t$ at the target \eqref{eq:coefficient-target}, since the corrected-pin covariance converges and has a uniform eigenvalue floor (Lemma~\ref{lem:contact-corrected}(iii)). On the pins, the endpoint determinants of (3.9) of the main text satisfy $r^{-1}\det H_M\to-\kappa\det Q_t(q_t)$ and $r^{-1}\det H_S\to\kappa\det Q_t(q_t)$, where $Q_t(q_t)$ is the common limit of the transverse blocks of $H_M$ and $H_S$, and the type indicators converge to $\ind_{\{Q_t(q_t)\prec0\}}$; thus $r^{-2}Z_r\to\kappa^2\,\E[F(q_t)\mid Y_t=(b,-\kappa/6,0,0)]$, by Proposition~\ref{prop:contact-soft-limits}, which applies by Lemma~\ref{lem:contact-normalizer}(ii) (see also \eqref{eq:limit-Gall} in the proof of Proposition~\ref{prop:limit-hypotheses}). Accordingly the rescaled all-typed contact density $G^{\rm all}_r=r^4K^{\rm all}_r$ has the pointwise limit
 \begin{equation}\label{eq:coefficient-G0}
 G^{\rm all}_0(t,b,\kappa)=p_{Y_t}(b,-\kappa/6,0,0)\,\kappa^2\,\E\bigl[F(q_t)\ \big|\ Y_t=(b,-\kappa/6,0,0)\bigr].
 \end{equation}
 
 \begin{theorem}[exact finite-side coefficient reduction]\label{thm:coefficient-main}
-Let $L\in(0,\infty)$ be a fixed side for which the contact limit and the compact elder selection hold, so that, as in Theorem~3.9 of the main text, the complete selected $H_0$ short-lifetime coefficient of the side-$L$ field is
+Let $L\in(0,\infty]$, and let $G^{\rm all}_0$ be given by \eqref{eq:coefficient-G0} for the covariance $K_L$. Then
 \begin{equation}\label{eq:coefficient-coefint}
-\frac{6^{2/3}}{18}\int_{S^2}\int_{\R}\int_0^\infty\kappa^{-2/3}\,G^{\rm all}_0(t,b,\kappa)\,d\kappa\,db\,d\sigma_2(t);
+\frac{6^{2/3}}{18}\int_{S^2}\int_{\R}\int_0^\infty\kappa^{-2/3}\,G^{\rm all}_0(t,b,\kappa)\,d\kappa\,db\,d\sigma_2(t)
 \end{equation}
-by Theorem~3.9 of the main text this is the case for $L=24$. Then this coefficient is exactly $c_{3,L}$ of \eqref{eq:coefficient-cL}--\eqref{eq:coefficient-B3}. In particular the coefficient $c_{3,24}$ of Theorem~2.1 of the main text is given by (2.9) there. Every input of \eqref{eq:coefficient-cL} is an explicit finite-dimensional covariance object derived from $K_L$ at the origin, and the formula is independent of the chosen transverse frame (Lemma~\ref{lem:coefficient-frame}).
+is exactly $c_{3,L}$ of \eqref{eq:coefficient-cL}--\eqref{eq:coefficient-B3}. When the contact limit and the compact elder selection hold for the side-$L$ field, \eqref{eq:coefficient-coefint} is its complete selected $H_0$ short-lifetime coefficient, as in Theorem~3.9 of the main text; for $L=24$ this is Proposition~\ref{prop:limit-hypotheses} and Corollary~\ref{cor:limit-coefficient}. In particular the coefficient $c_{3,24}$ of Theorem~2.1 of the main text is given by (2.9) there. Every input of \eqref{eq:coefficient-cL} is an explicit finite-dimensional covariance object derived from $K_L$ at the origin, and the formula is independent of the chosen transverse frame (Lemma~\ref{lem:coefficient-frame}).
 \end{theorem}
 
 \begin{proof}
@@ -502,7 +502,7 @@ A_d^{\rm jet}=\frac{|S^{d-1}|\,D_{d-1}\,\Gamma(1/6)}{2^{d+2}\,3^{(3d+5)/6}\,\pi^
 \end{proposition}
 
 \begin{proof}
-By \eqref{eq:coefficient-gamma76}, $3\Gamma(7/6)=\Gamma(1/6)/2$, and with $\beta=m_4/3$,
+Here $c_d^{\rm iso}$ denotes the $d$-dimensional analogue of \eqref{eq:coefficient-coefint}, that is, $c_d[K]$ of Definition~\ref{def:correction-coef}. By Lemma~\ref{lem:correction-iso}(b), $\Cov(g_t)=aI_d$, $\Cov(h_t)=\operatorname{diag}(m_4,\beta,\dots,\beta)$ and $\Var(\partial_t^3f\mid g_t)=\Omega/a$, so that $p_{g_t}(0)=(2\pi a)^{-d/2}$, $p_{h_t}(0)=(2\pi)^{-d/2}m_4^{-1/2}\beta^{-n/2}$, $\sigma_t^2=\Omega/(144a)$ and $D_t=\beta^nD_n$. The block $\mathcal B_d=(2\pi a)^{-n/2}\,p_{h_t}(0)\,D_t$ is the even factor of the proof of Theorem~\ref{thm:coefficient-main} together with the density of the $n$ transverse gradient components at zero, which is \eqref{eq:coefficient-Bd}; and $\mathcal K_d$ is $(2\pi a)^{-1/2}$, the density of the axial gradient component at zero, times $\Gamma(7/6)\,72^{7/6}(\sigma_t^2)^{2/3}/(2\sqrt{2\pi})$, the gap integral of Lemma~\ref{lem:coefficient-gap} divided by $p_{g_t}(0)$, which is \eqref{eq:coefficient-Kd}. By \eqref{eq:coefficient-gamma76}, $3\Gamma(7/6)=\Gamma(1/6)/2$, and with $\beta=m_4/3$,
 \[
 \mathcal K_d=\frac{\Gamma(1/6)\,\Omega^{2/3}}{2^{13/6}\,\pi\,a^{7/6}},\qquad
 \mathcal B_d=\frac{D_n\,m_4^{(n-1)/2}}{2^{n+1/2}\,\pi^{n+1/2}\,3^{n/2}\,a^{n/2}},\qquad
@@ -557,5 +557,5 @@ Expanding the covariance objects in \eqref{eq:coefficient-cL} around their plana
 \begin{equation}\label{eq:coefficient-first-image}
 \frac{c_{3,L}-c_{3,\infty}}{c_{3,\infty}}=-\frac{L^2(10L^4-147L^2+315)}{105}\,e^{-L^2/2}+O\bigl(L^{12}e^{-L^2}\bigr),\qquad L\to\infty .
 \end{equation}
-Thus \eqref{eq:coefficient-cL} is the exact finite-$L$ parent formula and \eqref{eq:coefficient-first-image} is its first-image asymptotic expansion. The polynomial factor is $P_3(L)$ of (3.31) of the main text, and $e^{-L^2/2}=e^{-288}$ at $L=24$. The side-24 statement, (2.10) of the main text, together with its remainder bound, is proved in Section~\ref{sec:correction}.
+Thus \eqref{eq:coefficient-cL} is the exact finite-$L$ parent formula and \eqref{eq:coefficient-first-image} is its first-image asymptotic expansion. The order of the remainder is stated for orientation and is not proved here for general $L$. The polynomial factor is $P_3(L)$ of (3.31) of the main text, and $e^{-L^2/2}=e^{-288}$ at $L=24$. The side-24 statement, (2.10) of the main text, together with its remainder bound, is proved in Section~\ref{sec:correction}.
 \end{remark}

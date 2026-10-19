@@ -15,7 +15,7 @@ and impose the exact critical-pair pins
 \begin{equation}\label{eq:contact-pins}
 f(M)=b,\qquad f(S)=b-\frac{\kappa r^3}6,\qquad\nabla f(M)=\nabla f(S)=0,\qquad\kappa>0 .
 \end{equation}
-The intended types are a maximum at $M$ and an index-$(d-1)$ superlevel merging saddle at $S$: the transverse Hessian is negative definite and the unique axial eigenvalue changes from negative to positive. The raw pin vector and its target are
+The intended types are a maximum at $M$ and a critical point of index $d-1$ at $S$: the transverse Hessian is negative definite and the unique axial eigenvalue changes from negative to positive. Such a point merges two superlevel components or creates a loop (Proposition~\ref{prop:setting-multiplicity}); the weights below test only the index, and only the elder mark of \S\ref{sec:selection} selects the merging pairs. The raw pin vector and its target are
 \begin{equation}\label{eq:contact-raw}
 \Pi_r=\Pi_{r,x,t}=\bigl(f(M),f(S),\nabla f(M),\nabla f(S)\bigr)\in\R^{2d+2},\qquad z_r(b,\kappa)=\Bigl(b,\,b-\frac{\kappa r^3}6,\,0,\,0\Bigr).
 \end{equation}
@@ -218,7 +218,7 @@ c_Z\,r^2\le Z_r(t,b,\kappa)\le C_Z\,r^2,\qquad\E^0\bigl[W_r^2\bigr]\le C_W\,r^4 
 With \eqref{eq:contact-Wr}, $Z_r=r^2\zeta_r\le C_Zr^2$ and $\E^0[W_r^2]\le r^4\,\E^0[(D_MD_S)^2]\le C_Wr^4$.
 \end{proof}
 
-The factor $r^2$ in \eqref{eq:contact-normalizer} is the same endpoint soft-mode factor as in \eqref{eq:contact-Wr}. For $d=3$, \eqref{eq:contact-detrD} and Lemma~\ref{lem:contact-normalizer} are (3.9) of the main text and the statement following it: conditionally on the pins, $\det H_M=rD_M$ and $\det H_S=rD_S$ with uniformly bounded conditional Gaussian moments, so that the two endpoint determinant weights contribute $r^2$.
+The factor $r^2$ in \eqref{eq:contact-normalizer} is the same endpoint soft-mode factor as in \eqref{eq:contact-Wr}. For $d=3$, \eqref{eq:contact-detrD} and Lemma~\ref{lem:contact-normalizer} are (3.9) of the main text and the statement following it: conditionally on the pins, $\det H_M=rD_M$ and $\det H_S=rD_S$, with conditional Gaussian moments bounded by a polynomial in $|b|+\kappa$, uniformly in $t$ and in $r$ below any fixed $\varrho<12$ (the proof of Proposition~\ref{prop:limit-hypotheses}), and hence uniformly bounded on compact mark sets, so that the two endpoint determinant weights contribute $r^2$.
 
 \subsection{The cubic-gap Jacobian}\label{ssec:contact-gap}
 
@@ -254,7 +254,7 @@ After multiplication by the polar displacement measure $r^{d-1}dr$, the universa
 \begin{theorem}[generic-fold dimension cancellation]\label{thm:contact-cancellation}
 Let $d\ge1$. Assume Hypothesis~\ref{hyp:contact-regular} for every compact $\mathcal K\subset\R\times(0,\infty)$, and that the two-point Kac--Rice formula holds for the ordered typed pair process. Then:
 \begin{enumerate}[(i)]
-\item The Kac--Rice density of the all-typed maximum-to-merging-saddle pair measure with respect to $dx\,r^{d-1}dr\,d\sigma_{d-1}(t)\,db\,d\kappa$ is
+\item The Kac--Rice density of the all-typed pair measure of maxima and index-$(d-1)$ critical points with respect to $dx\,r^{d-1}dr\,d\sigma_{d-1}(t)\,db\,d\kappa$ is
 \begin{equation}\label{eq:contact-KR}
 \frac{r^3}6\,K^{\rm all}_r=\frac{r^3}6\,p_\Pi\,Z_r ,
 \end{equation}
@@ -276,7 +276,7 @@ J_0(t,b,\kappa)=\frac16\,p^{\rm corr}_0(t,b,\kappa)\,\kappa^2\,\E\bigl[(\det Q)^
 \frac{r^3}6\,K^{\rm all}_r\,r^{d-1}dr=J_r\,r\,dr .
 \end{equation}
 \end{enumerate}
-Consequently, the all-typed maximum-to-merging-saddle contact measure has the universal effective radial form $J_0(t,b,\kappa)\,r\,dr\,d\sigma_{d-1}(t)\,db\,d\kappa$ at leading order, for every ambient dimension $d\ge1$. The ambient dimension changes the coefficient law through $p^{\rm corr}_0$, $Q$ and the sphere $S^{d-1}$, but not the surviving power of $r$.
+Consequently, the all-typed contact measure of maxima and index-$(d-1)$ critical points has the universal effective radial form $J_0(t,b,\kappa)\,r\,dr\,d\sigma_{d-1}(t)\,db\,d\kappa$ at leading order, for every ambient dimension $d\ge1$. The ambient dimension changes the coefficient law through $p^{\rm corr}_0$, $Q$ and the sphere $S^{d-1}$, but not the surviving power of $r$.
 \end{theorem}
 
 \begin{proof}
@@ -293,7 +293,7 @@ with $p_\Pi(b,h,0,0)$ the density of $\Pi_r$ at $(b,h,0,0)$. Change variables by
 (iv) $\frac{r^3}6K^{\rm all}_r\,r^{d-1}=r^{d-2}\frac{r^3}6K^{\rm all}_r\cdot r=J_r\,r$.
 \end{proof}
 
-For a stationary field, $K^{\rm all}_r$ does not depend on $x$; per unit volume (for $f_{24}$, $24^{-3}\int_{\T^3_{24}}dx=1$) the $x$-integration drops out. For $f_{24}$ the hypotheses of Theorem~\ref{thm:contact-cancellation} hold: Hypothesis~\ref{hyp:contact-regular} by Lemma~\ref{lem:contact-normalizer}(ii), and the two-point Kac--Rice formula on each set $\{\delta\le r<\rho\}$, $\rho<12$, by the uniform nondegeneracy of Lemma~\ref{lem:contact-corrected}(i),(iii) and the analyticity of the sample paths, as in the proof of Proposition~1.2 of the main text, hence on $\{0<r<\rho\}$ by monotone convergence as $\delta\downarrow0$.
+For a stationary field, $K^{\rm all}_r$ does not depend on $x$; per unit volume (for $f_{24}$, $24^{-3}\int_{\T^3_{24}}dx=1$) the $x$-integration drops out. For $f_{24}$ the hypotheses of Theorem~\ref{thm:contact-cancellation} hold: Hypothesis~\ref{hyp:contact-regular} by Lemma~\ref{lem:contact-normalizer}(ii), and the two-point Kac--Rice formula on each set $\{\delta\le r<\rho\}$, $\rho<12$, by the uniform nondegeneracy of Lemma~\ref{lem:contact-corrected}(i),(iii) and the analyticity of the sample paths, as in the proof of Proposition~1.2 of the main text, hence on $\{0<r<\rho\}$ by monotone convergence as $\delta\downarrow0$. With a bounded Borel mark of the whole field, such as the elder mark, the formula is Proposition~\ref{prop:parent-KR}.
 
 \begin{corollary}[the three-dimensional power count]\label{cor:contact-powercount}
 For $d=3$ the complete local power count is: gap Jacobian $r^3/6$ (Lemma~\ref{lem:contact-gap}), corrected pins $r^{-6}$ (Lemma~\ref{lem:contact-pin-jacobian}), endpoint weights $r^2$ (Lemma~\ref{lem:contact-normalizer}) and pair polar measure $r^2\,dr\,d\sigma_2$ (Corollary~\ref{cor:setting-d3}), whose radial product is
