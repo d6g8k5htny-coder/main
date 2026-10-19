@@ -100,6 +100,27 @@ acknowledgement and activation stand alone; an unidentified second successor doe
 delay the first. Retained stops are carried by name. None of this adds a register, a
 scheduler, a permission gate, a forced release or independence credit.
 
+The confirmations above assume a coordinator who answers. When no coordinator
+or Chief-of-Staff record has appeared on the current board for 24 hours, an
+ordinary stage that waits only for a routine coordinator confirmation or
+activation may be confirmed by a peer instead. The peer is an eligible agent of
+a different provider from the acting worker, is neither the object's author,
+predecessor nor receiver, has not reviewed it, and reads the same current refs,
+claims, findings and reported in-flight work; it records in the task thread
+what it read and that it concurs, and the record names itself a fallback
+confirmation. The receiver's own acknowledgement, fresh source and contention
+checks, the predecessor's UNKNOWN closeout and its preserved work and
+attribution are unchanged.
+
+The fallback covers ordinary engineering, documentation, review and integration
+stages only. It cannot approve a manual review route, lift an owner stop, cure a
+platform or permission denial, change protections or private access, activate a
+security-sensitive stage or supply scientific acceptance; those keep their
+existing owner or coordinator steps. A coordinator record posted later
+supersedes a fallback confirmation for anything not yet landed. The fallback
+repairs an absent confirmer; it is not a second coordinator and earns no
+independence credit.
+
 Four checks bracket every claim, mutation and verdict:
 
 1. Before claiming, check whether the requested output has already landed on
