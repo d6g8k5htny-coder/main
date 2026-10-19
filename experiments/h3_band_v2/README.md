@@ -60,7 +60,7 @@ The law pipeline, CB0–CB6, is kept stage by stage, and the two envelopes share
 
   The frozen formula is kept only as the `old_remainder` control.
 - **B3.** The floor bounds the two-sided event {|δ| > η} with two Gaussian tails. Every Gaussian tail in either envelope goes through one function, `event_prob_upper`, and the number of tails follows from the event kind. At start-up that function and the tail helper are self-tested on exact point laws, for N(0, 1) and N(1/2, 1), against Gordon's lower bound φ(t) t / (t² + 1). That bound does not use `iv_Phi`.
-- **B4. Negative controls.** There are fifteen mutations, each invoked by `--mutation NAME` and each caught; see below. A mutated run never reports a pass: when it is not caught inside the run, it ends `H3_BAND_V2 MUTATED RUN …, NOT A CERTIFICATE` and exits 3. `--record` is refused under a mutation, and `--record` cannot be combined with `--verify`.
+- **B4. Negative controls.** There are fourteen mutations, each invoked by `--mutation NAME` and each caught: twelve inside the run and two by the replay; see below. A mutated run never reports a pass: when it is not caught inside the run, it ends `H3_BAND_V2 MUTATED RUN …, NOT A CERTIFICATE` and exits 3. `--record` is refused under a mutation, and `--record` cannot be combined with `--verify`.
 - **O2.** The Gordon–Mills branch of `iv_Phi` keeps its endpoints as mpf, not float.
 - **CB2s, a new exact lemma, in `fractions.Fraction` only.** It covers the exact Laurent expansions of the pin and soft functionals:
   - (a) the pins have no negative powers;
@@ -104,7 +104,7 @@ python3 -B -m unittest discover -s experiments/h3_band_v2 -p 'test_*.py' -v
 ```
 
 - **Runtime:** each envelope takes about 20 s on CPython 3.11 with mpmath 1.4.1.
-- **Byte-exactness:** the reviewed transcripts are byte-exact under that mpmath, and the same under `-O`.
+- **Byte-exactness:** the reviewed transcripts are byte-exact under that mpmath, and the same under `-O`. CI runs the whole suite, negative controls included, in both modes; under `-O` every subprocess the tests start runs with `-O` too.
 - **Output:** a run prints one summary line, `H3_BAND_V2 PASS …`, and exits 0. It exits:
   - 1 on any failed check (`H3_BAND_V2 FAIL: …`) or any record mismatch (`H3_BAND_V2 VERIFY_FAIL: …`);
   - 2 on a refused combination of options;

@@ -25,7 +25,9 @@ except ImportError:
 
 
 def run(*args):
-    return subprocess.run([sys.executable, '-I', '-B', str(PROG), *map(str, args)],
+    # under python -O the program runs with -O too, so both modes exercise every control
+    opt = ['-O'] if sys.flags.optimize else []
+    return subprocess.run([sys.executable, '-I', '-B', *opt, str(PROG), *map(str, args)],
                           capture_output=True, text=True, timeout=1800)
 
 
