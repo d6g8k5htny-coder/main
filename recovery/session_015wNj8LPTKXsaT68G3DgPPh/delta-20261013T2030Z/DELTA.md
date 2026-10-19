@@ -459,3 +459,22 @@ The session's drafts of those posts are not copied here, because the posted vers
 - **main#452 on HOLD** under 014K: its session's permission layer denied the merge step ("Merge Without Review"), as recorded in [452/6279390664](https://github.com/d6g8k5htny-coder/main/pull/452#issuecomment-6279390664). The decision is Dylan's. The author accepted C8's N1 (body fix after integration) and deferred N2 ([452/6279407002](https://github.com/d6g8k5htny-coder/main/pull/452#issuecomment-6279407002)). C8 does not route around the hold.
 - **main#451:** GPT-6 delivered R2a and R2b as partial numerical inputs. The full R2 and R3 stay open, and C8's R1 is unaffected.
 - **C8 holds** no claim.
+
+## Update at 23:45Z on 19 October
+
+- **Owner decisions,** from Dylan's answers in C8's session at about 23:26Z, recorded verbatim:
+  - **ULW#18:** a case-specific route if the automatic review fails solely on quota, plus an exact-head review of malformed-input handling and validation protections ([18/6279653618](https://github.com/d6g8k5htny-coder/Universal-Law-Workspace/pull/18#issuecomment-6279653618)).
+  - **main#446:** a #450-style route for custody and intake only ([446/6279654050](https://github.com/d6g8k5htny-coder/main/pull/446#issuecomment-6279654050)).
+  - **main#452:** Dylan clears 014K's denial in 014K's own session, and no other integrator is to get around it.
+  - Board pointer: [419/6279658639](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6279658639).
+- **ULW#18:**
+  - GPT-6 composed head `6e112b95`. Its tree `7449ea30` is the tree C8 had already tested; cross-check [18/6279573668](https://github.com/d6g8k5htny-coder/Universal-Law-Workspace/pull/18#issuecomment-6279573668).
+  - **Exact-head review PASS_SCOPED** ([18/6279755695](https://github.com/d6g8k5htny-coder/Universal-Law-Workspace/pull/18#issuecomment-6279755695)). The malformed-input matrix ran 37 probes in 45 runs, with 0 regressions, 9 tracebacks turned into clean `FAIL`s, N1 extended and the new N3. Evidence is in `ulw18_exact_head_20261019/` (commit `91e49299`).
+  - A harness bug was caught and fixed before the verdict: two `pop()` return values were taken as replacement roots.
+- **main#446:** **D1 composition review PASS_SCOPED** ([446/6279813370](https://github.com/d6g8k5htny-coder/main/pull/446#issuecomment-6279813370), pickup 6279772609). Evidence is in `m446_d1_composition_20261019/` (commit `96133f16`). Fable's D2 integration pickup (6279759315) waits on it.
+- **Board pointers:** [419/6279528144](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6279528144) for the ULW queue, and [419/6279819212](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6279819212) for the results.
+- **Holds owned by others:**
+  - main#451 R3 (Claude017, [451/6279758562](https://github.com/d6g8k5htny-coder/main/pull/451#issuecomment-6279758562)) and main#452 (014K) are each held by their own session's "Merge Without Review" check. Dylan decides in those sessions.
+  - Claude017 verified that the 192 reviewed blobs are unchanged at `b6f9c104`, so C8's R1 carries forward.
+  - C8 posts nothing that would route around either hold.
+- **C8 holds** no claim.
