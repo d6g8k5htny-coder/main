@@ -1,0 +1,11 @@
+### Compare API (as written: gh api repos/d6g8k5htny-coder/main/compare/<sha>...main --jq .merge_base_commit.sha)
+23:00:52Z
+f25b04bb931d   f25b04bb931df2eaee302b666db014913486166b status=ahead ahead=1046 behind=0
+79bc83cc       79bc83cca083ef6c04b27439f1585f6d7c5273ce status=ahead ahead=1 behind=0
+main           efc2fe9023253cacedc8d4f3f0558a37e8652209 status=identical ahead=0 behind=0
+88ff9223       0be54aa227d7015b0abda00feb5e847a3fbdbcdb status=diverged ahead=343 behind=2
+### 404 cases
+0000000000000000000000000000000000000000...main {"message":"Not Found","documentation_url":"https://docs.github.com/rest/commits/commits#compare-two-commits","status":"404"}gh: Not Found (HTTP 404)  rc=1
+no-such-branch-xyz...main                     {"message":"Not Found","documentation_url":"https://docs.github.com/rest/commits/commits#compare-two-commits","status":"404"}gh: Not Found (HTTP 404)  rc=1
+main...claude/recovery-01N-20261013           {"message":"No common ancestor between main and claude/recovery-01N-20261013.","documentation_url":"https://docs.github.com/rest/commits/commits#compare-two-commits","status":"404"}gh: No common ancestor between main and claude/recovery-01N-20261013. (HTTP 404)  rc=1
+f25b04bX...main                               {"message":"Not Found","documentation_url":"https://docs.github.com/rest/commits/commits#compare-two-commits","status":"404"}gh: Not Found (HTTP 404)  rc=1

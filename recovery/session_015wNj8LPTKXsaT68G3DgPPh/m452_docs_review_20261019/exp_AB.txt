@@ -1,0 +1,27 @@
+### Experiment A: fresh --depth 1 --single-branch clone of main, then --unshallow
+22:59:57Z
+efc2fe9023253cacedc8d4f3f0558a37e8652209
+true
+fatal: Not a valid object name f25b04b
+is-ancestor f25b04b rc=128
+fatal: Not a valid object name 79bc83cc
+is-ancestor 79bc83cc rc=128
+fatal: Not a valid object name 4294ccde
+is-ancestor 4294ccde rc=128
+From https://github.com/d6g8k5htny-coder/main
+ * branch            main       -> FETCH_HEAD
+unshallow rc=0 secs=2.7
+false
+38M
+1049
+f25b04b is in main
+rc=0
+79bc83cc is in main
+rc=0
+4294ccde is in main
+rc=0
+4294ccde2169333a2988dadf5f57acc10c81f390
+
+### Experiment B: fresh depth-1 clone, stepwise --deepen=500
+step 1: shallow=false commits=1049
+4294ccde is in main

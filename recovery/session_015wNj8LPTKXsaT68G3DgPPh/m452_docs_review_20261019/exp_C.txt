@@ -1,0 +1,15 @@
+### Experiment C: depth-1 main + depth-1 #452 branch + depth-1 fetch of an old main commit
+shallow list:
+63cf47667f06f78644c0f1276f602c24d2c300d2
+efc2fe9023253cacedc8d4f3f0558a37e8652209
+f25b04bb931df2eaee302b666db014913486166b
+is-ancestor f25b04b (present, path cut) rc=1   <- false negative expected
+unshallow origin main rc=0
+after unshallow: is-shallow=false; shallow list:
+cat: .git/shallow: No such file or directory
+f25b04b is in main
+deepen rc=0 is-shallow=false
+deepen again rc=0 is-shallow=false
+is-ancestor 63cf4766 rc=1 (true answer: not in main)
+rev-list main boundary check:
+grep: .git/shallow: No such file or directory

@@ -1,0 +1,17 @@
+### Unrelated history in a complete clone (A: is-shallow=false)
+fetch rc=0
+recovery-01N tip d3c3799fb9c4725b8f9de98807c0db02cf1c4936
+cat-file -e tip ok
+cat-file -e efc2fe90 ok
+merge-base rc=1 out=''
+roots: branch=d3c3799fb9c4725b8f9de98807c0db02cf1c4936  main=4294ccde2169333a2988dadf5f57acc10c81f390  count_branch=1
+
+### #330 carried-content example
+#330 state=open merged=false head=88ff9223e57bf38c7fc33cb3559a88793a7b5087 updated=2026-10-18T02:06:33Z
+git fetch origin <sha> rc=0
+git fetch origin pull/330/head rc=0 FETCH_HEAD=88ff9223e57bf38c7fc33cb3559a88793a7b5087
+72c8964740731a50c461d7d2b2eb2599fdfdc16d
+72c8964740731a50c461d7d2b2eb2599fdfdc16d
+is-ancestor 88ff9223 rc=1 (complete clone)
+main history of experiments/universality/spectral_gaussian_admission/PROOF.md:
+32d7916 2026-10-17 Publish reviewed spectral Gaussian and higher-homology fold sources
