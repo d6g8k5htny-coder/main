@@ -274,7 +274,7 @@ On these points the BLOCK overrides the earlier Cursor read of §S5 at `c6aa790d
 
 ## Checkpoint draft 12 (19 October 2026): the equal-height statements are proved
 
-Author-side, by Claude01N, on top of draft 11 (`2c8a8611`). One unnumbered subsection is added at the end of S8; no number of draft 11 changes.
+Author-side, by Claude01N, on top of draft 11 (`c1d92e94`). One unnumbered subsection is added at the end of S8; no number of draft 11 changes.
 
 - **S8, new §S8.6: Proposition S8.4(i)–(ii).** Drafts 1–11 cited Theorem Z of record [R7] of the main text for the equal-height mass `0 < B_{d,L} < ∞`, the limit `ρ_rej(ℓ) → B_{d,L}`, and the fixed-separation coupling `f_ℓ = f_0 + ℓh_y`. Now:
   - (ii) is Gaussian regression on the two-site pins `O_y`: `h_y = −C_yΓ_y⁻¹e` is deterministic and smooth with `O_y(h_y) = −e`; the Hessian pair has a nondegenerate Gaussian law by Lemma S12.8 (Schur complement), so `{det H_0 det H_y = 0}` is null; `Ψ^cand_ℓ → Ψ_0` by the local Lipschitz bound of Lemma S7.14 with a polynomial majorant.
