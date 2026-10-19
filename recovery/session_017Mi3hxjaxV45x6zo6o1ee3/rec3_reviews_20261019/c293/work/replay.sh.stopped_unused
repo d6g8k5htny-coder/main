@@ -1,0 +1,36 @@
+#!/bin/bash
+# Independent local replay of the five C293 modules at PR head 0ea97aff (exact PR bytes).
+set -u
+S=$SCRATCH
+W=$S/rec3/c293/replay
+PROJ=$S/mathf/formal
+TC=/root/.elan/toolchains/leanprover--lean4---v4.34.1
+export PATH=$TC/bin:$PATH
+LP=$W/out
+for p in plausible LeanSearchClient importGraph proofwidgets aesop Qq batteries mathlib; do LP=$LP:$PROJ/.lake/packages/$p/.lake/build/lib/lean; done
+export LEAN_PATH=$LP
+REF=refs/remotes/origin/pr482
+PFX=frontiers/morse_finite_critical_20261018/final-project
+cd $W/src
+for m in Lifetime TorusTopology MorseFiniteCritical MorseFiniteControls MorseFiniteAxiomAudit; do
+  git -C /home/user/Math- show $REF:$PFX/$m.lean > $m.lean
+done
+echo "SOURCES $(date -u +%FT%TZ)"; sha256sum *.lean
+echo "MATHLIB_REV $(git -C $PROJ/.lake/packages/mathlib rev-parse HEAD 2>/dev/null)"
+lean --version
+for m in Lifetime TorusTopology MorseFiniteCritical MorseFiniteControls MorseFiniteAxiomAudit; do
+  case $m in Lifetime|TorusTopology) W2="";; *) W2="-DwarningAsError=true";; esac
+  t0=$(date +%s)
+  lean -j2 -M4096 $W2 -o $W/out/$m.olean -i $W/out/$m.ilean $m.lean > $W/logs/build_$m.out 2> $W/logs/build_$m.err
+  rc=$?
+  echo "BUILD $m rc=$rc secs=$(( $(date +%s) - t0 )) flags='$W2' $(date -u +%FT%TZ) stdout_lines=$(wc -l < $W/logs/build_$m.out) stderr_bytes=$(wc -c < $W/logs/build_$m.err)"
+  [ $rc -ne 0 ] && { echo "STOP build failure"; exit 1; }
+done
+sha256sum $W/out/*.olean
+for m in MorseFiniteCritical MorseFiniteControls MorseFiniteAxiomAudit; do
+  t0=$(date +%s)
+  leanchecker -v $m > $W/logs/kernel_$m.out 2> $W/logs/kernel_$m.err
+  rc=$?
+  echo "KERNEL $m rc=$rc secs=$(( $(date +%s) - t0 )) $(date -u +%FT%TZ) out=$(tr '\n' ' ' < $W/logs/kernel_$m.out) err_bytes=$(wc -c < $W/logs/kernel_$m.err)"
+done
+echo "DONE $(date -u +%FT%TZ)"
