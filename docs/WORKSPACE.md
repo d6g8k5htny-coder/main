@@ -123,7 +123,7 @@ A session's preset checkout may be shallow. If
 GitHub, which needs no local history:
 
 ```sh
-git fetch --unshallow origin main   # about 3 s and 38 MB on 19 October 2026
+git fetch --unshallow origin main   # about 3 s here on 19 October 2026
 git merge-base --is-ancestor <sha> origin/main && echo "<sha> is in main"
 gh api repos/d6g8k5htny-coder/main/compare/<sha>...main --jq .merge_base_commit.sha
 ```
