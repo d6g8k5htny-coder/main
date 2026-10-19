@@ -91,7 +91,7 @@ Moreover, if also $r<L/(4\sqrt2)$, then $1-e\le\ind_{G_r^c}$ $Q$-almost surely o
 \end{proposition}
 
 \begin{proof}
-The two bounds are Theorem~K of record [R7] of the main text. The last statement is the deterministic cap theorem \cite[\S\S7--8]{parentP} (Lemma~\ref{lem:parent-capimpl} and Theorem~\ref{thm:cap-main}), which needs the cap cylinder to be embedded, that is, $r<L/(4\sqrt2)$ (Definition~\ref{def:parent-pinned}): on $G_r$ and on the typed support, the global elder partner of $M$ is $S$, and $Q$ is almost surely Morse with distinct critical values \cite[\S8]{parentP} (Lemma~\ref{lem:parent-generic}(a)).
+The first bound is that of \eqref{eq:remainder-R11}, as $Z_r=\E_QW_r$, and the second is Lemma~\ref{lem:remainder-capK}; take $r_K:=\min\{r_R,r_0\}$ with the radius $r_0$ of \eqref{eq:rate-r0}. Together the two bounds are Theorem~K of record [R7] of the main text, which drafts~1--10 cited for them. The last statement is the deterministic cap theorem \cite[\S\S7--8]{parentP} (Lemma~\ref{lem:parent-capimpl} and Theorem~\ref{thm:cap-main}), which needs the cap cylinder to be embedded, that is, $r<L/(4\sqrt2)$ (Definition~\ref{def:parent-pinned}): on $G_r$ and on the typed support, the global elder partner of $M$ is $S$, and $Q$ is almost surely Morse with distinct critical values \cite[\S8]{parentP} (Lemma~\ref{lem:parent-generic}(a)).
 \end{proof}
 
 \begin{proposition}[the equal-height kernel]\label{prop:remainder-Z}
@@ -399,3 +399,53 @@ which is \eqref{eq:remainder-Rpp}. Dividing by $c_{d,L}\ell^{-1/3}$ ($c_{d,L}>0$
 \begin{remark}[what fixes the exponent]\label{rem:remainder-exponent}
 In \eqref{eq:remainder-split} the leading $\rho$-dependence is $\rho^3$ (the candidate excess and the rejected mass at separations in $(\ell^{1/4},\rho)$, both $O(r^2)$ per unit separation by Lemma~\ref{lem:remainder-W}) against $\ell^{1/3}\rho^{-1}$ (Lemma~\ref{lem:remainder-B} above $\rho$); they balance at $\rho=\ell^{1/12}$, where both equal $\ell^{1/4}$. But $\ell^{1/4}$ also appears three times independently of $\rho$, all from the transition $r=k$ at separation $\ell^{1/4}$, below which the pinned pair is a cap pair: the excess $C\min(\ell^{1/4},\rho)$ from Lemma~\ref{lem:remainder-even}, the loss from Proposition~\ref{prop:remainder-K} at $r\le k$, and the tail $\int_{r>\ell^{1/4}}r^{-2}k^2\,dr$ of the leading law, $\mathcal A_0\asymp k^2$. The order $\ell^{1/4}$ is attained, with a negative coefficient, by Theorem~\ref{thm:cusp-CU}: at the cusp scale $r\asymp k\asymp\ell^{1/4}$ the contact law overcounts. Note also that \eqref{eq:remainder-Rpp} does not use Proposition~\ref{prop:remainder-Z}(i); together with \eqref{eq:remainder-Rp1} it re-derives $\rho_{\rej}(\ell)\to B_{d,L}$.
 \end{remark}
+
+\subsection{The cap-region bound}\label{ssec:remainder-capK}
+
+This subsection proves the second bound of Proposition~\ref{prop:remainder-K}, which drafts~1--10 imported from Theorem~K of record [R7] of the main text. The proof is that of Lemma~\ref{lem:rate-caploss}, with two changes: the axial entries of the endpoint Hessians are bounded by \eqref{eq:rate-52} instead of \eqref{eq:rate-51}, which keeps a factor $k^2$ in the weight, and the pin density is left out, so that the density of the transverse Hessian is a Gaussian with a shifted centre.
+
+\begin{lemma}[the cap-region bound]\label{lem:remainder-capK}
+Let $r_0$ be as in \eqref{eq:rate-r0}. There are $C$ and $N$ such that, for $0<r\le r_0$, $b\in\R$, $k\ge r$ and every frame,
+\begin{equation}\label{eq:remainder-capK}
+\E_Q\Bigl[\frac{W_r}{r^2}\,\ind_{G_r^c}\Bigr]\le C\,\frac{r^3}k\,P^N .
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Put $\delta=r/k\le1$. The law $Q$ is the law $\E^0$ of Section~\ref{sec:rate}, $G_r$ is the cap event \eqref{eq:rate-G}, and $\alpha_i,\beta_i,A_i$ are as in Lemma~\ref{lem:rate-endpoint}.
+
+\emph{The weight with the axial entries at their true size.} Put $a:=6k+rM_4/2$, so that $|\alpha_M|,|\alpha_S|\le a$ by \eqref{eq:rate-52}. By \eqref{eq:rate-53}, $|\det H_i|/r\le|\alpha_i|\,|\det A_i|+r\|\beta_i\|^2\|\adj(A_i)\|$, and \eqref{eq:rate-51} gives
+\begin{equation}\label{eq:remainder-capW}
+\frac{W_r}{r^2}\le\Bigl(a\,\|f\|_{C^2}^m+\frac r4\,M_3^2\,\|f\|_{C^2}^{m-1}\Bigr)^2\le C(k+r)^2\bigl(1+\|f\|_{C^4}\bigr)^{2d+2}.
+\end{equation}
+On the typed support $H_M\prec0$, so $\alpha_M<0$ and $B:=-A_M\succ0$; let $0<\lambda_1\le\dots\le\lambda_m=\Lambda$ be the eigenvalues of $B$. By \eqref{eq:rate-53}, $|\det H_M|=r\bigl(|\alpha_M|\det B-r\beta_M^{\top}\adj(B)\beta_M\bigr)\le ra\prod_j\lambda_j$, as $\adj(B)\succeq0$. By \eqref{eq:rate-51} and Weyl's inequality the eigenvalues of $-A_S$ lie within $rM_3$ of those of $B$, so $|\det A_S|\le\prod_j(\lambda_j+rM_3)$ and $\|\adj(A_S)\|\le\prod_{j\ge2}(\lambda_j+rM_3)$; with $\|\beta_S\|\le M_3/2$, \eqref{eq:rate-53} gives $|\det H_S|\le r\bigl[a(\lambda_1+rM_3)+\frac r4M_3^2\bigr]\prod_{j\ge2}(\lambda_j+rM_3)$. Hence
+\begin{equation}\label{eq:remainder-capenv}
+\frac{W_r}{r^2}\le a\,\lambda_1\Bigl[a\lambda_1+a\,rM_3+\frac r4\,M_3^2\Bigr]\prod_{j=2}^m\lambda_j\,(\lambda_j+rM_3);
+\end{equation}
+for $a=M_3/2$ this is \eqref{eq:rate-envelope}.
+
+\emph{Residual and the density of $A_M$.} As in the proof of Lemma~\ref{lem:rate-caploss}, Lemma~\ref{lem:parent-residual} writes $f$ under $Q$ as a regression mean, linear in $(v_r,A_M)$, plus a centred residual $g$ that is independent of $A_M$ and whose $C^4$ norm has moments of every order, bounded uniformly in $r$ and in the frame. With $J=1+\|g\|_{C^4}$ and $T=P+J$ (in this proof $T$ denotes $P+J$, as in the proof of Lemma~\ref{lem:rate-caploss}, not the variable of Convention~\ref{conv:remainder-notation}(h)), on the typed support $M_3,M_4\le K_*(T+\Lambda)$ for a constant $K_*$. Under $Q$ the independent entries of $A_M$ are Gaussian. Their covariance is the Schur complement of $\Sigma_r$ in the extended covariance of Lemma~\ref{lem:rate-frame}(b), so its eigenvalues lie in a fixed compact subinterval of $(0,\infty)$. Their mean $m_A$ is linear in $v_r$, so $\|m_A\|_F\le CP$ by Lemma~\ref{lem:rate-frame}(c). Hence their density is at most $C\exp(-c\|A-m_A\|_F^2)$. In the eigenvalue coordinates of Lemma~\ref{lem:parent-eigen}, with $-A=O\operatorname{diag}(\lambda)O^{\top}$ and $O$ fixed, $\|A-m_A\|_F^2\ge\sum_i(\lambda_i+q_i)^2$, where $q_i=(O^{\top}m_AO)_{ii}$ and $|q_i|\le CP$. Since $\int_0^\infty\lambda^pe^{-c(\lambda+q)^2}d\lambda\le C_p(1+|q|)^p$, a polynomial in $\lambda_2,\dots,\lambda_m$ integrated against the Gaussian bound in these variables is at most a polynomial in $P$, uniformly in $O$; the integral over $O$ is taken last. This replaces \eqref{eq:rate-R13}, which carries the pin density.
+
+\emph{Depth failure, $m\ge2$.} On the typed support, $G_r^c$ is the union of the depth failure $\{\lambda_1\le\frac4{3k}rM_3^2\}$ and the exception $\{rM_4>3k/10\}$. Put $\Upsilon=T+\Lambda\ge1$, which does not involve $\lambda_1$, and $D_*=\frac43K_*^2$. Depth failure gives $\lambda_1\le D_*\delta\Upsilon^2$, and as $r\le k$, $a\le\bar a:=6k+\frac12rK_*\Upsilon\le C_*k\Upsilon$; since $\bar a$ and $\Upsilon$ do not involve $\lambda_1$, we replace $a$ by $\bar a$ and $M_3$ by $K_*\Upsilon$ in \eqref{eq:remainder-capenv} before integrating in $\lambda_1$. In \eqref{eq:remainder-capenv} the product over $j\ge2$ is at most $C\Upsilon^{2m-2}$, the Vandermonde factor is at most $\Lambda^{m(m-1)/2}$, and the Gaussian factor in $\lambda_1$ is dropped. Then
+\[
+\bar a\int_0^{D_*\delta\Upsilon^2}\lambda\Bigl[\bar a\lambda+\bar arK_*\Upsilon+\frac r4K_*^2\Upsilon^2\Bigr]d\lambda=\frac{\bar a^2D_*^3}3\,\delta^3\Upsilon^6+\frac{\bar a^2rK_*D_*^2}2\,\delta^2\Upsilon^5+\frac{\bar arK_*^2D_*^2}8\,\delta^2\Upsilon^6 .
+\]
+By $\bar a\le C_*k\Upsilon$, $\delta=r/k$ and $r^3\le P\,r^3/k$, each term is at most $C(r^3/k)P\,\Upsilon^8$. The integration in $\lambda_2,\dots,\lambda_m$ and over $O$, and the moments of $J$, give
+\[
+\E_Q\Bigl[\frac{W_r}{r^2}\,\ind_{\{\lambda_1\le\frac4{3k}rM_3^2\}}\Bigr]\le C\,\frac{r^3}k\,P^N .
+\]
+
+\emph{Depth failure, $m=1$.} Now $\lambda_1=\Lambda=\lambda$, and by \eqref{eq:rate-R15} depth failure gives $\lambda\le4D_*\delta T^2$ or $\lambda>1/(4D_*\delta)$. On the first branch $M_3,M_4\le K_*(T+4D_*T^2)\le CT^2$ and $a\le CkT^2$, and integrating \eqref{eq:remainder-capenv} over $[0,4D_*\delta T^2]$ as above gives at most $C(r^3/k)P\,T^{10}$, hence $C(r^3/k)P^N$ after the moments of $J$. On the second branch $1\le(4D_*\delta\lambda)^4$, so by \eqref{eq:remainder-capW}, $\lambda\le\|f\|_{C^2}$ and \eqref{eq:rate-R4} (under $Q$ the field is $F_r$ of Lemma~\ref{lem:rate-coupling}, for every $0<r\le r_0$),
+\[
+\E_Q\Bigl[\frac{W_r}{r^2}\,\ind_{\{\lambda>1/(4D_*\delta)\}}\Bigr]\le(4D_*\delta)^4\,\E_Q\Bigl[\frac{W_r}{r^2}\,\lambda^4\Bigr]\le C\delta^4(k+r)^2P^N\le C\,\frac{r^3}k\,P^N,
+\]
+since $\delta^4(k+r)^2\le4\delta^4k^2=4\delta\,r^3/k$.
+
+\emph{Exception.} On $\{rM_4>3k/10\}$, $1\le(10\delta M_4/3)^4$, so by \eqref{eq:remainder-capW} and \eqref{eq:rate-R4},
+\[
+\E_Q\Bigl[\frac{W_r}{r^2}\,\ind_{\{rM_4>3k/10\}}\Bigr]\le\Bigl(\frac{10\delta}3\Bigr)^4\E_Q\Bigl[\frac{W_r}{r^2}\,M_4^4\Bigr]\le C\delta^4(k+r)^2P^N\le C\,\frac{r^3}k\,P^N .
+\]
+Adding the bounds for depth failure and for the exception proves \eqref{eq:remainder-capK}.
+\end{proof}
+
+With the axial bound \eqref{eq:rate-51} in place of \eqref{eq:rate-52}, the same argument gives only $C(r/k)^3P^N$, the analogue without the pin density of the bound \eqref{eq:rate-R12} of Lemma~\ref{lem:rate-caploss}; the factor $k^2$ kept here is the factor $(6k)^2$ of $z_0$ in \eqref{eq:rate-z0}, and it is what the uses of Proposition~\ref{prop:remainder-K} in Lemma~\ref{lem:remainder-W} (hence Theorem~\ref{thm:remainder-rate}), Section~\ref{sec:cusp} and \eqref{eq:third-K2} of Section~\ref{sec:third} need.
