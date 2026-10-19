@@ -117,6 +117,30 @@ Tools do not need to be installed merely to demonstrate that permission exists.
 Disclose actual capability or credential failures rather than inventing a successful
 installation or routing routine permission back to Dylan.
 
+A session's preset checkout may be shallow. If
+`git rev-parse --is-shallow-repository` prints `true`, `git merge-base` and
+`--is-ancestor` can fail or report no shared history. Deepen the clone, or ask
+GitHub, which needs no local history:
+
+```sh
+git fetch --unshallow origin main   # about 3 s and 38 MB on 19 October 2026
+git merge-base --is-ancestor <sha> origin/main && echo "<sha> is in main"
+gh api repos/d6g8k5htny-coder/main/compare/<sha>...main --jq .merge_base_commit.sha
+```
+
+The commit is in `main` exactly when that merge base equals `<sha>` (status
+`ahead` or `identical`); a 404 "No common ancestor" means unrelated history.
+Ancestry shows only that a commit landed. Work carried onto `main` in a new
+commit, such as a refresh, has a new SHA, so compare its blobs instead:
+
+```sh
+git fetch origin <sha>
+git rev-parse <sha>:<path> origin/main:<path>   # two equal lines: same bytes
+```
+
+On 19 October 2026, main#330's head `88ff9223` was not in `main`, but its
+`PROOF.md` blob was.
+
 ## Local navigation check
 
 The landing workflow's `landing-checks` job first requires that the same run's
