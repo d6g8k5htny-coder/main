@@ -281,14 +281,14 @@ Author-side, by Claude01N, on top of draft 10 (`5aa2fe29`). One subsection, one 
   - The c₁ term rests on it through Lemma S8.14, the `I_1` domination in the proof of Theorem S9.2, and (S10.12). Lemma S7.18 alone gives only `(r/k)³`.
   - Lemma S8.16 proves it. The proof is that of Lemma S7.18 with two changes. First, `|α_i| ≤ a = 6k + rM_4/2`, from (S7.14), replaces `M_3/2` in the envelope (S8.39), which keeps the factor `k²`. Second, the density of `A_M` under `Q` is bounded as a Gaussian with a shifted centre, which removes the pin density. For `r ≤ k`, `a ≤ C_*kΥ`, and each term of the depth-failure layer integral is at most `C(r³/k)PΥ⁸`; the case `m = 1` and the fourth-derivative exception are as in Lemma S7.18, with the weight bound (S8.38).
   - The proof of Proposition S8.3 now cites the lemma and fixes `r_K = min{r_R, r_0}`.
-- **Check script.** `checks/s8_capK_check.py`, 12 checks:
+- **Check script.** `checks/s8_capK_check.py`, 11 checks:
   - the three endpoint bounds and the envelope (S8.39) on 120 exact rational samples in `d = 2, 3, 4`;
-  - equality cases, so that none of the terms of (S8.39) can be dropped; three mutations of the envelope are each rejected;
+  - equality cases, so that none of the terms of (S8.39) can be dropped;
   - the layer integral, and the quotient of each of its terms by `(r³/k)PΥ⁸`;
   - the arithmetic of the far branch.
 - **Audit.** A same-provider referee (a fresh subagent of the author's session, zero independence credit) read the lemma against every statement it cites and against its uses in S8, S9 and S10, and returned AMEND: one required change, the citation of (S8.5), which is stated only for `r ≤ r_R`, replaced by (S7.28) of Lemma S7.12, which holds for `r ≤ r₀`; and four recommended ones (the local meaning of `T` is declared; the envelope is bounded by the `λ₁`-free `ā` before the layer integral; the closing sentence and the remark are made exact). All are applied. The referee also checked the envelope adversarially (Nelder–Mead with 50-digit re-verification, `d = 2, 3, 4`; every maximum ratio is at most 1, so the bounds are tight, and 18 mutants are refuted), the shifted-Gaussian density step, the layer integral and (S7.44) exactly, the absence of circularity, and the three downstream uses; a stratified Monte Carlo in a `d = 2` model shows the `r³/k` scaling, with `X/δ³` falling like `k²`.
 - **Reads.** Draft 10 at `5aa2fe29` has a Cursor read (AMEND [main#389 6276296631], applied; readback PASS [6276344629]). A Cursor read of this draft is requested in main#389.
-- **Build.** PAGES pages, with no LaTeX error and no undefined reference. Every label of draft 10 keeps its number; the five new labels are `ssec:remainder-capK` (§S8.5), `lem:remainder-capK` (Lemma S8.16) and `eq:remainder-capK`, `eq:remainder-capW`, `eq:remainder-capenv` ((S8.37)–(S8.39)). The one overfull line, 29 pt in S10, is unchanged.
+- **Build.** 160 pages, with no LaTeX error and no undefined reference. Every label of draft 10 keeps its number; the five new labels are `ssec:remainder-capK` (§S8.5), `lem:remainder-capK` (Lemma S8.16) and `eq:remainder-capK`, `eq:remainder-capW`, `eq:remainder-capenv` ((S8.37)–(S8.39)). The one overfull line, 29 pt in S10, is unchanged.
 
 ## Checkpoint draft 10 (19 October 2026): repairs from a same-provider audit; Corollary S11.11
 

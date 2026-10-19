@@ -4,7 +4,7 @@ Dylan Roy — delegated AI work. Actual performer: Anthropic Claude, session `se
 
 ## Contents
 
-- `SIDE24_V3_SUPPLEMENT_DRAFT_20261013.pdf`: the compiled draft, PAGES pages; its size and SHA-256 are in `SHA256SUMS`. Its first section, "Status of this draft", is for the author. Earlier drafts: draft 1 (`4f9e6180`) 123 pages, draft 2 (`238ca036`) 126, draft 3 (`e0d08f0c`) 127, draft 4 (`c6aa790d`, amended in `5cd17651`) 129, draft 5 (`ffd749e5`, amended in `a336aaf9`) 149, draft 6 (`a0889f36`) 150, draft 7 (`9d8fc85b`, amended in `a06e0107` and `3eb1d594`) 150, draft 8 (`a39aeadd`) 150, draft 9 (`4db2c57a`) 156, draft 10 (`5aa2fe29`) 158.
+- `SIDE24_V3_SUPPLEMENT_DRAFT_20261013.pdf`: the compiled draft, 160 pages; its size and SHA-256 are in `SHA256SUMS`. Its first section, "Status of this draft", is for the author. Earlier drafts: draft 1 (`4f9e6180`) 123 pages, draft 2 (`238ca036`) 126, draft 3 (`e0d08f0c`) 127, draft 4 (`c6aa790d`, amended in `5cd17651`) 129, draft 5 (`ffd749e5`, amended in `a336aaf9`) 149, draft 6 (`a0889f36`) 150, draft 7 (`9d8fc85b`, amended in `a06e0107` and `3eb1d594`) 150, draft 8 (`a39aeadd`) 150, draft 9 (`4db2c57a`) 156, draft 10 (`5aa2fe29`) 158.
   - Part I (S1–S7): the setting, the contact measure, the finite-side coefficient, the side-24 correction with |eps_24| < 10^-216, elder selection, the limit, and the bounded remainder.
   - Part II (S8–S11): the remainder's vanishing and rate, the cusp term, the third-order terms, and the constant c_2.
   - Part III (S12–S13), new in draft 5: the parent theorem (Theorems A, B and C of the companion record, in every dimension d ≥ 2 and for every side L > 0) and the deterministic marked-cylinder cap on which its elder selection rests.
@@ -30,7 +30,7 @@ Dylan Roy — delegated AI work. Actual performer: Anthropic Claude, session `se
 - `checks/s1s2_verify_check.py` and its output: 56 exact checks of the displays of S1 and S2 (the concordance's `chk_s1s2/verify_s1s2.py`, shipped in draft 10).
 - `checks/s6_limit_check.py` and its output: 19 checks of S6, including the separation-independence of the canonical density version (new in draft 10).
 - `checks/s10_s11_fold_check.py` and its output: 54 exact SymPy checks, for pinned polynomial fields in `d = 2, 3`, of the fold identities (S10.16) and (S10.41) of Lemma S10.12 and of the identity of its `r²` coefficient with `X₂` of Theorem S11.7 (S11.23) (new in draft 10).
-- `checks/s8_capK_check.py` and its output: 12 checks of Lemma S8.16 (new in draft 11): the envelope (S8.39) on exact rational samples in `d = 2, 3, 4`, with equality cases, the layer integral and the bound of each of its terms, and the arithmetic of the far branch.
+- `checks/s8_capK_check.py` and its output: 11 checks of Lemma S8.16 (new in draft 11): the envelope (S8.39) on exact rational samples in `d = 2, 3, 4`, with equality cases, the layer integral and the bound of each of its terms, and the arithmetic of the far branch.
 - `writer_originals/`: the S5 writer's faithful transcription, before the elder-mark correction, and the S12 writer's file, before the changes listed in "Checkpoint draft 5".
 - `SHA256SUMS`: hashes of every file above except this README.
 
