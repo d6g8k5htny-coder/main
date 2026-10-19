@@ -127,32 +127,52 @@ class RiemannZeta:
 
     def verify_rh_local(self, tolerance: float = 1e-10) -> Dict[str, Any]:
         """
-        Check the stored zeros numerically with mpmath.
+        Check numerically that the stored values are exactly the first N zeros.
 
-        Each stored γ must give |ζ(1/2 + iγ)| < tolerance, and mpmath.nzeros
-        must count exactly N - 1 zeros below the midpoint of the last two
-        stored zeros. Together these show that every zero below that height
-        is in the list and lies on the critical line, to numerical (not
-        interval-certified) accuracy.
+        The values must be strictly increasing, with |ζ(1/2 + iγ)| < tolerance
+        at each. mpmath.nzeros(b_k) must equal k at every bracket: b_0 below
+        the first value, the midpoints between neighbours, and b_N between the
+        last value and zero N + 1 (computed only to place that bracket). The
+        Riemann-Siegel Z function must change sign across each bracket. Then
+        each interval (b_(k-1), b_k) holds exactly one zero, on the critical
+        line, at the k-th value to the residual's accuracy.
+
+        Limits: floating-point mpmath throughout, the library that generated
+        the data file. Not interval-certified, and no independent
+        implementation or published table is consulted.
         """
         import mpmath
 
+        zeros = list(self.zeros)
+        n = len(zeros)
+        increasing = all(a < b for a, b in zip(zeros, zeros[1:]))
+        unique = len(set(zeros)) == n
         with mpmath.workdps(20):
-            max_abs = max(float(abs(mpmath.zeta(mpmath.mpc(0.5, g)))) for g in self.zeros)
-            check_height = (self.zeros[-2] + self.zeros[-1]) / 2
-            count = int(mpmath.nzeros(check_height))
+            max_abs = max(float(abs(mpmath.zeta(mpmath.mpc(0.5, g)))) for g in zeros)
+            upper = (zeros[-1] + float(mpmath.zetazero(n + 1).imag)) / 2
+            brackets = ([min(10.0, zeros[0] / 2)]
+                        + [(a + b) / 2 for a, b in zip(zeros, zeros[1:])]
+                        + [upper])
+            counts = [int(mpmath.nzeros(b)) for b in brackets]
+            signs = [mpmath.sign(mpmath.siegelz(b)) for b in brackets]
 
-        expected = len(self.zeros) - 1
+        mismatches = [k for k, c in enumerate(counts) if c != k]
+        sign_changes = all(s != 0 and s == -t for s, t in zip(signs, signs[1:]))
+        all_vanish = max_abs < tolerance
+        complete = increasing and unique and not mismatches and sign_changes and all_vanish
         return {
-            "zeros_checked": len(self.zeros),
+            "zeros_checked": n,
             "max_abs_zeta": max_abs,
-            "all_vanish": max_abs < tolerance,
-            "check_height": check_height,
-            "count_below_check_height": count,
-            "expected_count": expected,
-            "complete": count == expected,
-            "all_on_critical_line": max_abs < tolerance and count == expected,
-            "method": "mpmath zeta and nzeros (numerical, not interval-certified)",
+            "all_vanish": all_vanish,
+            "strictly_increasing": increasing,
+            "unique": unique,
+            "final_bracket": upper,
+            "bracket_count_mismatches": mismatches,
+            "z_sign_changes": sign_changes,
+            "complete_and_ordered": complete,
+            "all_on_critical_line": complete,
+            "method": "mpmath zeta, nzeros and siegelz (numerical, not interval-certified)",
+            "independent_comparison": "open: no other implementation or published table checked",
             "literature_verified_height": RH_VERIFIED_HEIGHT,
         }
 
@@ -297,7 +317,8 @@ if __name__ == "__main__":
     rz = RiemannZeta()
     check = rz.verify_rh_local()
     print(f"Stored zeros: {check['zeros_checked']}, max |ζ| = {check['max_abs_zeta']:.1e}, "
-          f"complete below t = {check['check_height']:.2f}: {check['complete']}")
+          f"complete and ordered through t = {check['final_bracket']:.2f}: "
+          f"{check['complete_and_ordered']} (numerical; independent check open)")
 
     rep = SpectralAnalysis().level_repulsion()
     print(f"Spacings below 1/2: {rep['fraction_below_half']:.3f} "

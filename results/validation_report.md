@@ -32,13 +32,29 @@ claimed value was either built into the model or is too loose for current data t
 
 Environment: Python 3.11.17, numpy 2.4.6, scipy 1.17.1, mpmath 1.4.1, pytest 9.1.1.
 
-- `pytest tests/test_all.py`: **91 passed**, also with `-W error::RuntimeWarning`.
+- `pytest tests/test_all.py`: **94 passed**, also with `-W error::RuntimeWarning`.
 - Original suite at `468da8d`, run for the first time on 2026-10-19: **4 failed, 62 passed**.
   The 2025-12-16 commit had been pushed without running it.
 - Each module's `python -m src.<module>` demo runs to completion.
-- Zeta zeros: the regenerated 100-zero file gives max |ζ(½ + iγ)| = 5.7e-14, and
-  `mpmath.nzeros` counts 99 zeros below the midpoint of the last two, as expected. The
-  `468da8d` file fails the same check (max |ζ| = 2.2e-6).
+- Zeta zeros (`data/riemann_zeros/first_100_zeros.json`, Git blob `16c7c489`, SHA-256
+  `5c54fc3358f696b345b2c2411707f0f628c8fc3aeb8f73dfd0d69f08816a70d1`), rechecked
+  2026-10-19 with mpmath 1.4.1:
+  - **Reproduction:** the file's recorded command (`mpmath.zetazero`, 30 significant
+    digits, printed to 20) reproduces all 100 digit strings exactly.
+  - **Ordering:** the values are strictly increasing and unique (smallest gap 0.716).
+  - **Bracketed counts:** `mpmath.nzeros(b_k) = k` for every k = 0..100. b₀ is below
+    the first entry, b_k are the midpoints between entries, and b₁₀₀ = 237.147 lies
+    between entry #100 and zero #101. Each entry lies inside its bracket, and the
+    Riemann–Siegel Z function changes sign across every bracket.
+  - **Residuals:** max |ζ(½ + iγ)| is 2.45e-17 at the stored 20-digit values and
+    5.66e-14 at their float64 roundings. The `468da8d` file fails the residual check
+    (max |ζ| = 2.2e-6).
+
+  Together these show, numerically, that the list is exactly the first 100 zeros, in
+  order. All of it uses mpmath, the library that generated the list, in floating point.
+  Nothing is interval-certified, and no independent implementation or published table
+  has been compared (see "Not checked"). `verify_rh_local` and its tests repeat these
+  checks, and reject a duplicated, swapped, missing or perturbed entry.
 - Citations added in this revision were checked by web search on 2026-10-19: Janot &
   Jadach (PLB 803, 135319: N_ν = 2.9963 ± 0.0074), Rodgers & Tao (Forum Math. Pi 8, e6),
   Platt & Trudgian (BLMS 53, 792–797, including Λ ≤ 0.2), Tristram et al. (PRD 105,
@@ -53,7 +69,7 @@ Environment: Python 3.11.17, numpy 2.4.6, scipy 1.17.1, mpmath 1.4.1, pytest 9.1
 | 1 | τ = 0.022 ± 0.008 and β_c = 0.5 were compared with identical hard-coded "measurements" attributed to McIntyre et al. 2025 and Parker Solar Probe, and reported as CONFIRMED. | Reported as `not_independent`; the values are kept as manuscript-reported, not measured. |
 | 2 | The report omitted the comparisons that failed: mass ratios off by 1.6× to 55×, and the code's CKM guesses off by 24σ to 163σ. | Mass ratios reported as `falsified`. The CKM guesses were not the manuscript's (see 8) and were removed. |
 | 3 | Invented data: PSP encounter β ranges and barrier-detection flags, GUE "fit R²" values (0.999, 0.998, 0.997) attributed to Odlyzko, a "GR deviation 0 ± 0.05 rad", "BBN N_eff = 2.85 ± 0.15", a placeholder author e-mail and repository URL. | Removed. PSP analysis now requires caller-supplied observations. |
-| 4 | 36 of the 100 stored zeta zeros (from #53 on) were wrong by up to 5.2e-7, yet the file said "All verified". `verify_rh_local` only read back hard-coded flags. | Zeros regenerated with `mpmath.zetazero`; `verify_rh_local` now evaluates ζ and counts zeros. |
+| 4 | 36 of the 100 stored zeta zeros (from #53 on) were wrong by up to 5.2e-7, yet the file said "All verified". `verify_rh_local` only read back hard-coded flags. | Zeros regenerated with `mpmath.zetazero`. `verify_rh_local` now evaluates ζ, checks strict ordering and uniqueness, and counts zeros at brackets through the last entry. |
 | 5 | The anomaly check added right-handed fields with the wrong sign, giving U(1)³ = -4/9 and SU(3)²U(1) = 2/3. The Standard Model is in fact anomaly-free. | Left-handed Weyl convention, exact rational arithmetic; all four anomalies are exactly 0. |
 | 6 | Zero spacings were normalised by log(t)/2π instead of log(t/2π)/2π, giving mean 1.88 instead of 1.00. The test's (0.5, 2.0) bounds hid this. | Formula fixed; test bound tightened to (0.9, 1.1). |
 | 7 | C_B was treated as cross-helicity σ_c; the manuscript defines it as magnetic compressibility. Standard errors of a₀ and a₁ were mis-copied (0.01 and 0.02 instead of 0.012 and 0.031). | Separate compressibility input; manuscript errors restored. |
@@ -106,6 +122,9 @@ reviewed, and they are not a scientific adjudication of the manuscript. Line num
 - Whether the cited heliophysics papers state the β_c and σ_c thresholds.
 - Manuscript chapters with no code here, such as the Born-rule and cosmology chapters.
 - Any review by a non-Claude or human reviewer.
+- An independent check of the 100 zeros, against another implementation or a published
+  table such as Odlyzko's. A download of Odlyzko's table on 2026-10-19 got no HTTP
+  response, so this stays open.
 
 ## Provenance and exposure
 

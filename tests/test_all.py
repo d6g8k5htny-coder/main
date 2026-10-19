@@ -453,20 +453,47 @@ class TestRiemannZeta:
     def test_verify_rh_local(self):
         result = RiemannZeta().verify_rh_local()
         assert result["all_vanish"] is True
-        assert result["count_below_check_height"] == 29
-        assert result["all_on_critical_line"] is True
+        assert result["strictly_increasing"] is True
+        assert result["unique"] is True
+        assert result["bracket_count_mismatches"] == []
+        assert result["z_sign_changes"] is True
+        assert FIRST_ZEROS[-1] < result["final_bracket"] < 103.7255
+        assert result["complete_and_ordered"] is True
+        assert result["independent_comparison"].startswith("open")
 
     def test_verify_rh_local_rejects_wrong_zero(self):
         perturbed = list(FIRST_ZEROS)
         perturbed[10] += 5e-7
-        assert RiemannZeta(perturbed).verify_rh_local()["all_vanish"] is False
+        result = RiemannZeta(perturbed).verify_rh_local()
+        assert result["all_vanish"] is False
+        assert result["complete_and_ordered"] is False
+
+    def test_verify_rh_local_rejects_duplicate(self):
+        duplicated = FIRST_ZEROS[:10] + [FIRST_ZEROS[9]] + FIRST_ZEROS[10:]
+        result = RiemannZeta(duplicated).verify_rh_local()
+        assert result["unique"] is False
+        assert result["complete_and_ordered"] is False
+
+    def test_verify_rh_local_rejects_swapped_pair(self):
+        swapped = list(FIRST_ZEROS)
+        swapped[4], swapped[5] = swapped[5], swapped[4]
+        result = RiemannZeta(swapped).verify_rh_local()
+        assert result["strictly_increasing"] is False
+        assert result["complete_and_ordered"] is False
+
+    def test_verify_rh_local_rejects_missing_zero(self):
+        missing = FIRST_ZEROS[:12] + FIRST_ZEROS[13:]
+        result = RiemannZeta(missing).verify_rh_local()
+        assert result["bracket_count_mismatches"] != []
+        assert result["complete_and_ordered"] is False
 
     def test_data_file_zeros(self, zeros_100):
         assert len(zeros_100) == 100
         assert np.allclose(zeros_100[:30], FIRST_ZEROS, atol=1e-12, rtol=0)
         result = RiemannZeta(zeros_100).verify_rh_local()
-        assert result["all_on_critical_line"] is True
-        assert result["count_below_check_height"] == 99
+        assert result["bracket_count_mismatches"] == []
+        assert zeros_100[-1] < result["final_bracket"] < 237.7699
+        assert result["complete_and_ordered"] is True
 
 
 class TestSpectralAnalysis:
