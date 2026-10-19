@@ -248,33 +248,41 @@ three conditions are those of his #448 decision
 protections remain enforced. The route replaces an unavailable check; it is not
 a review and earns no independence credit.
 
-**Scope.** Covered: ordinary engineering, documentation and review-record
-changes, and custody/intake packages whose reviewed bytes are unchanged by any
-base refresh. Excluded: proofs and other mathematical statements; status
-registers and index surfaces (`STATUS.md`, `PROOF_INDEX`, `LANDING_CLAIMS`,
-`claims/`); security-sensitive changes (workflows, permissions, credentials,
-rulesets, protections); and changes to decision authority, including this guide.
-Excluded objects keep their owner or case-specific decision, as
+**Scope.** Covered: ordinary engineering and documentation changes whose content
+changes no scientific statement, predicate, finding, review disposition or
+status evidence. Purely operational custody metadata is covered only where the
+pull request states its non-scientific scope explicitly. Excluded: proofs and
+other mathematical statements; scientific review records; custody or intake
+packages that carry proofs, mathematical statements, scientific findings or
+register or index effects; status registers and index surfaces (`STATUS.md`,
+`PROOF_INDEX`, `LANDING_CLAIMS`, `claims/`); security-sensitive changes
+(workflows, permissions, credentials, rulesets, protections); and changes to
+decision authority, including this guide. An excluded object proceeds only on a
+case-specific owner decision for that exact pull request, as
 [450/6278845335](https://github.com/d6g8k5htny-coder/main/pull/450#issuecomment-6278845335)
 and
 [446/6279654050](https://github.com/d6g8k5htny-coder/main/pull/446#issuecomment-6279654050)
-did; those decisions adopt no rule beyond their own pull request. A doubtful
-case is excluded and goes back to the owner.
+did; such a decision adopts no rule beyond its own pull request, and #446 is an
+example of one, not authority for a class. A doubtful case is excluded and goes
+back to the owner.
 
 **Reviewer eligibility.** The review that condition (1) relies on is a nonauthor
 review bound to the reviewed bytes, from a provider other than the author's. A
-base-only refresh of a custody/intake package needs, in addition, a nonauthor
+base-only refresh of a covered pull request needs, in addition, a nonauthor
 composition read of the exact current head from a provider other than the
-author's, confirming that the package bytes and the earlier review
+author's, confirming that the reviewed bytes and the earlier review
 qualifications are intact. A same-provider read is recorded as such and earns
 no organizational-independence credit. The integrator is separately claimed and
 is neither the author nor a reviewer of record.
 
-**Safeguards.** The route applies only when the review state shows a
-usage-limit failure at the exact current head; the connector's failed-state
-flags are not findings, but a review that ran and reported findings needs their
-dispositions first. Before merging, the integrator records on the pull request
-the exact head, base and tested merge commit, the review-thread state, the
+**Safeguards.** The route applies only when a usage-limit failure is established
+at the exact current head by corroborating evidence: the connector's explicit
+usage-limit notice together with the native review objects, review threads and
+issue comments at that head. The connector's failed-state flags alone establish
+neither a usage-limit failure nor the absence of findings; any actual finding,
+and any ambiguous or partial review, remains a blocker until it has a
+disposition. Before merging, the integrator records on the pull request the
+exact head, base and tested merge commit, the review-thread state, the
 applicable rulesets, and each of the three conditions with its evidence; it then
 merges once with the expected head SHA and no bypass, verifies the landed bytes
 and the post-merge checks, and posts a release record. The route cures neither
