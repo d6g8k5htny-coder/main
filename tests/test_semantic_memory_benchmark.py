@@ -571,6 +571,27 @@ class SemanticMemoryFixtureContract(unittest.TestCase):
             file = p / "corpus-manifest.json"
             file.write_bytes(file.read_bytes().replace(b'"seed": 20261008', b'"seed": NaN', 1))
         self.mutation("nonfinite_json", nonfinite)
+
+        # Retained mutation-audit negatives (main#428/6244680213).
+        # Rebind case-file transport bytes when testing JSON semantics; keep
+        # the original three-method runner contract and frozen fixtures intact.
+        def nonfinite_case_token(p):
+            name = "heldout-cases.json"
+            value = self.load(p, name)
+            case = next(c for c in value["cases"] if c["case_id"] == "P01")
+            self.assertIsNone(case["exact_source_id"])
+            case["exact_source_id"] = float("nan")
+            raw = (json.dumps(value, sort_keys=True, ensure_ascii=False,
+                              separators=(",", ":"), allow_nan=True) + "\n").encode("utf-8")
+            self.assertIn(b'"exact_source_id":NaN', raw)
+            (p / name).write_bytes(raw)
+            self.manifest(p, lambda m: m["case_files"].update(
+                {name: {"bytes": len(raw), "sha256": digest(raw)}}))
+        self.mutation("nonfinite_case_token_with_rebound_descriptor", nonfinite_case_token)
+        self.mutation("stale_case_file_descriptor", lambda p: self.manifest(
+            p, lambda m: m["case_files"]["heldout-cases.json"].update(sha256="0" * 64)))
+        self.mutation("whitespace_only_oracle_sentinel", lambda p: self.casefile(
+            p, "heldout-oracle.json", lambda v: v.update(oracle_only_sentinel=" ")))
         def invalid_json_utf8(p):
             file = p / "corpus-manifest.json"
             file.write_bytes(file.read_bytes() + b"\xff")
