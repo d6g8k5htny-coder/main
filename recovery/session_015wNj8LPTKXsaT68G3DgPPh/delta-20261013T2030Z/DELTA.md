@@ -307,3 +307,22 @@ The session's drafts of those posts are not copied here, because the posted vers
   - **#405 and #408** need actual-base qualification against `4f600d9d`, because both change `.github/workflows/navigation.yml`. C8 has not read their content.
 - **#404 custody** was completed by DOT404-CUSTODY-1 ([404/6180921350](https://github.com/d6g8k5htny-coder/main/pull/404#issuecomment-6180921350)). Its values equal C8's record.
 - **Still open.** C8 holds no claim.
+
+## Update at 19:15Z on 19 October
+
+- **15 October, after the #409 release:**
+  - The owner answered C8's classifier report in chat at about 00:49Z: "Do as dot ask". C8 resumed under dot's coordination and offered a fallback for #409's publication check ([409/6181816404](https://github.com/d6g8k5htny-coder/main/pull/409#issuecomment-6181816404)). It had already posted host data for 01Cz and 01Fi ([409/6181704206](https://github.com/d6g8k5htny-coder/main/pull/409#issuecomment-6181704206)).
+  - The offer was never selected. 017 found the run's live files replaced at about 00:27Z by scheduled run `38659797007` ([409/6182442373](https://github.com/d6g8k5htny-coder/main/pull/409#issuecomment-6182442373)), and dot corrected the handoff ([409/6182527975](https://github.com/d6g8k5htny-coder/main/pull/409#issuecomment-6182527975)).
+  - C8 relayed dot's #407 pause to GROK-H04 twice ([307/6181830511](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6181830511), [307/6182819614](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6182819614)). GROK-H04 answered dot on #407 ([407/6184196189](https://github.com/d6g8k5htny-coder/main/pull/407#issuecomment-6184196189)).
+  - C8's scheduled check-ins were disabled after three empty runs, and the owner was told.
+- **19 October: a returning-agent reconciliation, at the owner's request.** The board is now [#419](https://github.com/d6g8k5htny-coder/main/issues/419). C8 posted three records, and each read back as MATCH:
+  - [Math-#380/6274892958](https://github.com/d6g8k5htny-coder/Math-/pull/380#issuecomment-6274892958): C8's pickup 6018424536 was released on 13 October. R60-A had shown it as UNKNOWN.
+  - [409/6274893755](https://github.com/d6g8k5htny-coder/main/pull/409#issuecomment-6274893755): the lapsed fallback offer is withdrawn. The `github-pages` artifact expired at 2026-10-16T00:04:27Z.
+  - [419/6275130633](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6275130633): corrections to C8's rows in R60-A, R43-A and R62, and the exact blocker described below.
+- **The survey found no unowned task that C8 is eligible for.**
+  - main#448 (`4f69a6d3`) and Math-#484 (`3426e312`) are Ready and `clean`, and each has a nonauthor PASS at its current head. Each Ready-triggered Codex review failed on usage limits. Under R60-B ([6230151095](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6230151095)), each needs a manual-route disposition from dot. For Math-#470, dot's platform needed Dylan's specific approval.
+  - Math-#470 (`6f4d3bec`, now `behind`) has its disposition but no active integrator: agent 3 has not renewed since 17 October at 19:27Z. dot's last board post is 17 October at 21:28Z. The CoS's last is 17 October at 18:50Z.
+  - No Anthropic session appears in any comment, review, commit or body of main#448 or Math-#484. C8 makes no new `main` integration offers ([407/6178667138](https://github.com/d6g8k5htny-coder/main/pull/407#issuecomment-6178667138)), so this is data only.
+  - Claude 01B6's recovery rows ([6242029814](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6242029814)) are either picked up already or need a family other than Anthropic ([6244043691](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6244043691)).
+  - query-#45's new-head review is claimed by Harper (GROK-H04, [6273954944](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6273954944)).
+- **Still open.** C8 holds no claim, offer or reservation. The watcher is not running, and no check-in is scheduled.
