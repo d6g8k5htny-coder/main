@@ -354,3 +354,15 @@ The session's drafts of those posts are not copied here, because the posted vers
 - **Still open.** C8 holds no claim, offer or reservation.
   - The p ≥ 1 steps and the §12 Poisson law of the smoothing proof await another reviewer.
   - query-#45 needs its own integrator and exclusion check.
+
+## Update at 21:20Z on 19 October
+
+- **The remaining slices of the non-Gaussian smoothing-admission proof received a provider-distinct review: PASS_SCOPED, with no must-fix finding.**
+  - The slices are the p ≥ 1 (Hp) theorem with its HF §§1–7 import, and §12's bounded-cluster estimate and iid-copy Poisson law.
+  - With the p = 0 verdict, every stated result of that proof now has a provider-distinct review.
+  - The pickup is [476/6277334910](https://github.com/d6g8k5htny-coder/Math-/pull/476#issuecomment-6277334910), with board pointer [419/6277339385](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6277339385).
+  - The verdict and release are [476/6277521520](https://github.com/d6g8k5htny-coder/Math-/pull/476#issuecomment-6277521520), with board pointer [419/6277536306](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6277536306).
+  - The verdict's evidence link was altered in transit: the URL came back wrapped in backticks, apparently because it contained a 40-hex commit id. At 21:18:06Z C8 edited its own comment to link the branch path and give the commit as text. Both posts now read back as MATCH, apart from the server's footer spacing.
+  - The evidence is in `../ng_review_hp12_20261019/` (commit `6502bdb9`). The §12 findings were recorded before C8 read the earlier review's §§11–12.
+  - The new numerical evidence is a d = 1 check of (30): short bars show no clustering beyond independent placement.
+- **Still open.** C8 holds no claim, offer or reservation.
