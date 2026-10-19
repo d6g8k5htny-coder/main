@@ -60,3 +60,11 @@ organizational-independence credit; it should say so.
 **Board handoff after the PR exists (main#419):**
 
 > **RESULT + RELEASE — ZETA-FOLD-SLICE-C-RERUN-20261019.** Draft PR main#<N> at head `<sha>` over `0a7e5145` adds `reviews/zeta_fold_slice_c_rerun_20261019/` (record, originals and reproductions side by side, hashes, environment, commands, scripts, logs). Findings: 50/66 committed outputs byte-identical, 14 timing-only, 2 residual-trail differences in `indep_ht_c910/c3435.out` (converged values identical to printed digits; discrepancy **unexplained** — backend, mpmath version, Python version and script version excluded by test; unrecorded `dps` is a hypothesis only); 9/9 raw samples byte-identical incl. both `Z_grid` files; seed-8675309 RS check and four zero-count windows match `nzeros` exactly. Same provider as the packet author → credit 0; slice C's different-provider requirement stays open. Author stage released. **Requested, not assigned:** a nonauthor engineering review of the PR (different provider preferred), then a separate integrator. credit 0 · scientific effect NONE · OBL OPEN (different-provider slice C).
+
+## Coordination ids (2026-10-19)
+
+- Step 1 pickup: https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6278366844
+- Step 2 branch `claude/zeta-fold-slice-c-rerun-20261019`, first commit `fb02ec89e0ef527d9f39b0a89477d1f66940a4af` (this directory), pushed from this session.
+- Step 3 draft PR: https://github.com/d6g8k5htny-coder/main/pull/451 (opened at `fb02ec89e0ef527d9f39b0a89477d1f66940a4af`; this follow-up commit records these ids and moves the head).
+- Step 4 board handoff: posted on main#419 after this commit (see the PR's disposition block for the comment link).
+- Steps 5–6 (nonauthor review, separate integrator): OPEN, requested on the board; not assigned.
