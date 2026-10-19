@@ -1,0 +1,50 @@
+== B1 moments: V2 text path vs ORIGINAL text path
+L=1: max rel diff (z,a,b,c) = 0.0; a=2.11232271917e-7 k4=8.33912e-6 k6=0.000329215
+L=2: max rel diff (z,a,b,c) = 0.0; a=0.139949299647 k4=1.32249 k6=10.8153
+L=3: max rel diff (z,a,b,c) = 0.0; a=0.804383184758 k4=1.64578 k6=-10.9048
+L=24: max rel diff (z,a,b,c) = 2.45e-41; a=1.0 k4=-4.59177e-41 k6=3.67342e-40
+== B2 closed forms (M2/(6), M3/(8), (11)) vs literal product-lattice law
+d=2 L=1 e=['1.0', '0.0']: relerr B 1.1e-25, V 6.0e-17, Gamma 2.1e-41
+d=2 L=1 e=['0.7071', '0.7071']: relerr B 2.1e-41, V 1.7e-33, Gamma 9.8e-34
+d=2 L=1 e=['0.9553', '0.2955']: relerr B 3.9e-41, V 4.6e-33, Gamma 4.7e-34
+d=2 L=1 e=['0.809', '0.5878']: relerr B 7.7e-41, V 2.9e-34, Gamma 0.0
+d=2 L=2 e=['1.0', '0.0']: relerr B 6.7e-14, V 2.8e-36, Gamma 0.0
+d=2 L=2 e=['0.7071', '0.7071']: relerr B 1.8e-41, V 1.2e-40, Gamma 0.0
+d=2 L=2 e=['0.9553', '0.2955']: relerr B 5.5e-41, V 1.0e-39, Gamma 2.7e-40
+d=2 L=2 e=['0.809', '0.5878']: relerr B 9.6e-41, V 1.5e-40, Gamma 1.4e-40
+d=2 L=3 e=['1.0', '0.0']: relerr B 6.2e-13, V 5.0e-39, Gamma 9.3e-41
+d=2 L=3 e=['0.7071', '0.7071']: relerr B 8.7e-41, V 3.3e-41, Gamma 6.9e-41
+d=2 L=3 e=['0.9553', '0.2955']: relerr B 7.9e-41, V 4.8e-40, Gamma 8.2e-41
+d=2 L=3 e=['0.809', '0.5878']: relerr B 7.5e-41, V 0.0, Gamma 2.2e-41
+d=3 L=1 e=['1.0', '0.0', '0.0']: relerr B 1.0e-25, V 8.5e-17, Gamma 3.9e-26
+d=3 L=1 e=['0.7071', '0.7071', '0.0']: relerr B 2.0e-26, V 2.7e-33, Gamma 2.0e-26
+d=3 L=1 e=['0.5774', '0.5774', '0.5774']: relerr B 7.9e-41, V 9.7e-34, Gamma 9.6e-17
+d=3 L=1 e=['0.3006', '-0.501', '0.8116']: relerr B 7.5e-41, V 2.1e-33, Gamma 3.9e-26
+d=3 L=1 e=['-0.9787', '-0.1848', '-0.08973']: relerr B 8.1e-41, V 2.7e-32, Gamma 5.3e-28
+d=3 L=2 e=['1.0', '0.0', '0.0']: relerr B 5.0e-14, V 2.9e-35, Gamma 5.3e-14
+d=3 L=2 e=['0.7071', '0.7071', '0.0']: relerr B 2.5e-14, V 1.1e-39, Gamma 1.6e-14
+d=3 L=2 e=['0.5774', '0.5774', '0.5774']: relerr B 8.5e-41, V 3.0e-40, Gamma 1.2e-11
+d=3 L=2 e=['0.3006', '-0.501', '0.8116']: relerr B 1.2e-40, V 2.5e-39, Gamma 3.9e-39
+d=3 L=2 e=['-0.9787', '-0.1848', '-0.08973']: relerr B 1.4e-40, V 3.8e-38, Gamma 7.7e-40
+d=3 L=3 e=['1.0', '0.0', '0.0']: relerr B 2.0e-12, V 1.5e-38, Gamma 1.9e-12
+d=3 L=3 e=['0.7071', '0.7071', '0.0']: relerr B 2.7e-14, V 1.1e-39, Gamma 1.0e-12
+d=3 L=3 e=['0.5774', '0.5774', '0.5774']: relerr B 3.4e-40, V 6.0e-40, Gamma 3.0e-11
+d=3 L=3 e=['0.3006', '-0.501', '0.8116']: relerr B 1.7e-40, V 1.3e-40, Gamma 7.3e-39
+d=3 L=3 e=['-0.9787', '-0.1848', '-0.08973']: relerr B 2.6e-40, V 9.6e-40, Gamma 4.4e-40
+B2 worst relative error = 3.03e-11
+== B3 C_alg(2,L): V2 path (M1, F=Var/2 via (11)) vs ORIGINAL path ((1) with (12))
+L=1: C_alg(2,L) V2 path = 0.0000000235310511582669640774273170844; ORIGINAL path rel diff = 0.0; ratio to c_2,inf = 3.20556309687453e-7
+L=2: C_alg(2,L) V2 path = 0.0126175931306921059022773039542; ORIGINAL path rel diff = 0.0; ratio to c_2,inf = 0.171885610375355
+L=3: C_alg(2,L) V2 path = 0.0498794326666141820444899278393; ORIGINAL path rel diff = 0.0; ratio to c_2,inf = 0.679492248662095
+L=24: C_alg(2,L) V2 path = 0.0734069193060342710301359629578; ORIGINAL path rel diff = 0.0; ratio to c_2,inf = 1.0
+c_2,inf (ORIGINAL (32)) = 0.0734069193060342710301359629578
+== B4 d=3: F(e) by (11a) (2-D reduced quadrature), validated by Monte Carlo of (10)
+L=inf GOE_2+sqrt(2/3)ZI: F*_2 quad = 2.38384359055016; MC = 2.37768 +- 0.02470
+c_3,inf by ORIGINAL (31) with this F*_2 = 0.0417759318405983
+d=3 L=1 e=['0.5774', '0.5774', '0.5774']: F closed-(11) = 3.52258787604091e-26, F literal = 3.52258787604038e-26, rel diff 1.53e-13
+d=3 L=1 e=['0.3006', '-0.501', '0.8116']: F closed-(11) = 9.53174211137899e-26, F literal = 9.53174211137932e-26, rel diff 3.49e-14
+d=3 L=2 e=['0.5774', '0.5774', '0.5774']: F closed-(11) = 0.00281847206138762, F literal = 0.00281847206138762, rel diff 3.52e-21
+d=3 L=2 e=['0.3006', '-0.501', '0.8116']: F closed-(11) = 0.00589767702349706, F literal = 0.00589767702349706, rel diff 2.58e-20
+d=3 L=3 e=['0.5774', '0.5774', '0.5774']: F closed-(11) = 1.35524115996663, F literal = 1.35524115996663, rel diff 0.0; MC 1.35797 +- 0.01370
+d=3 L=3 e=['0.3006', '-0.501', '0.8116']: F closed-(11) = 1.71009783489114, F literal = 1.71009783489114, rel diff 1.98e-21; MC 1.71609 +- 0.01713
+elapsed 191.1s
