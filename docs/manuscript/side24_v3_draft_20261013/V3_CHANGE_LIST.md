@@ -340,3 +340,25 @@ r7 is commit `5543bd20`: 22 pages, 558,417 B, SHA-256 `af944708…`. Its read AM
 **Not changed.** No theorem, display, constant or proof step. The other audit points concern the Supplement only, and wait for a later supplement draft.
 
 **Build.** `build.sh` compiles with no LaTeX error and the same 2 pt overfull line as before.
+
+## Revision r9 (19 October, about 22:10Z)
+
+r8 is commit `2f176488`: 22 pages, 559,624 B, SHA-256 `9e051654…`. Its read AMEND and readback passed (main#389 6187682210, 6187755703). r9 is this PDF: 23 pages, 562,211 B, SHA-256 `2bea32be6684e19815875d4979e72ddb661bf18bd1a83a5e9df34db3e7eb8170`.
+
+**Why.** Three reasons.
+1. Supplement draft 10 (`5aa2fe29`, branch `claude/side24-v3-supplement-draft10-20261019`) turned Hypothesis S11.11, the identification of c₂, into Corollary S11.11, proved from the fold expansion of §S10. Its Cursor read checked the proof against everything it cites (AMEND on one word; readback PASS, main#389 6276344629). So Theorem 2.3(iii) no longer rests on two interfaces.
+2. Supplement draft 11 (`c1d92e94`, branch `claude/side24-v3-supplement-draft11-20261019`) proves the cap-region bound of Proposition S8.3 (Theorem K of [R7]), on which the c₁ term rests, as Lemma S8.16. Its Cursor read found the proof complete (AMEND on four documentary lines; readback PASS, 6278180423). r9 cites draft 11 as [R1]; every Supplement number the main text cites is the same in drafts 10 and 11.
+3. The same-provider audit of Supplement §§S10–S11 (zero credit) found two wording points in the main text, applied here.
+
+**Changes (no statement, display, constant or proof step changes except the removal of a conditionality).**
+- **Theorem 2.3(iii).** "Second" now names the fixed-cone coefficient expression c₂[K_ref] of the Gaussian kernel on ℝ³ (Supplement Definition S11.2; [R12]) and its closed form with the certified enclosure (Theorem S11.5); c₂[K₂₄] differs from it by less than 10⁻⁶⁰ (Corollary S11.10); and c₂ = c₂[K₂₄] is Corollary S11.11, "which derives from the fold expansion of Supplement §S10 the two identifications that [R12] states as interfaces". So c₂ ∈ [0.1612340491269446, 0.1612340491269811], and "Third" gives the ratio interval without "under the same interfaces", citing Corollary S11.12. The ratio, its digits and (2.14) are unchanged.
+- **§0, status row of Theorem 2.3.** Adds that the identification c₂ = c₂[K₂₄] is Supplement Corollary S11.11 (draft 11), with a Grok Bot read of its proof.
+- **§0, status row of (3.13), and §7.** The reads of the draft-9 repair: OpenAI (PASS_SCOPED, bound to the TeX source) and a Grok Bot support agent (PASS); the other slices of §S5 have xAI reads (PASS_SCOPED).
+- **§5.1.** "of order L⁶e^{−L²/2}" becomes "of order at most L⁸e^{−L²/2}, as in (2.10) and Supplement Corollary S11.10" (audit S10S11-4; for c₂ the transfer bound is of order L⁸e^{−L²/2}).
+- **Appendix A, [R1].** The Supplement is cited at draft 11, commit `c1d92e94` of the branch `claude/side24-v3-supplement-draft11-20261019`.
+- **Appendix A, [R7].** Adds that the Supplement proves the bound (K2) of Theorem K as its Lemma S8.16.
+- **Appendix A, [R12].** The reading of the c₁ enclosure as a coefficient ratio "uses Theorem CU" rather than "is conditional" (Theorem CU is Supplement Theorem S9.2, proved there).
+- **§0.** "Revised through r9 on 19 October 2026".
+- **README.** Revision r9; the earlier-revisions list adds r8; the reads line records M3 (PASS_SCOPED), the owner-authorized end of the M1 and M2 reservations (main#389 6278216270), and the supplement's state; "Requested: a read of r9".
+
+**Build.** `build.sh` compiles with no LaTeX error and the same 2 pt overfull line as before. The bibliography now starts a 23rd page.
