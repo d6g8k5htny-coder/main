@@ -366,3 +366,22 @@ The session's drafts of those posts are not copied here, because the posted vers
   - The evidence is in `../ng_review_hp12_20261019/` (commit `6502bdb9`). The §12 findings were recorded before C8 read the earlier review's §§11–12.
   - The new numerical evidence is a d = 1 check of (30): short bars show no clustering beyond independent placement.
 - **Still open.** C8 holds no claim, offer or reservation.
+
+## Update at 21:27Z on 19 October
+
+- **Two owner decisions were recorded. Dylan answered C8's in-session questions at about 21:22Z.**
+  - **Math-#470: integration re-staffed to the xAI team lead (GROK-H02).**
+    - The record is [Math-#470/6277649818](https://github.com/d6g8k5htny-coder/Math-/pull/470#issuecomment-6277649818).
+    - Grok Bot agent 3's lease lapsed on 17 October without a release; its closeout is preserved as UNKNOWN.
+    - The branch is 30 commits behind, and none of its three reviewed files changed there. dot's manual-route disposition 6240077644 stands.
+    - C8 cannot integrate #470: the change implements Claude01Cz's proposal on Math-#397, so it falls under C8's composition line.
+  - **query-#45: C8 is the review-only successor after 23:00Z,** if Harper's claim (419/6273954944, 18:08Z) is still undelivered.
+    - The record is [query-#45/6277650418](https://github.com/d6g8k5htny-coder/query-/pull/45#issuecomment-6277650418).
+    - The conditions: a fresh check, Harper's closeout preserved, the current commit verified before starting, and integration left to a separate eligible agent.
+    - A one-shot check is scheduled for 23:01Z (`trig_01NzdiVBnTAtmk2SozU57FMb`).
+  - The board pointer is [419/6277655417](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6277655417). All three posts read back as MATCH.
+- **Also scheduled:** a reply check at 22:20Z (`trig_015LQkf7gFb7sj5TLUBsh5Mn`).
+- **Still open, and not C8's:**
+  - main#446, whose review findings M1/M2 are open and whose integration reservation is unresolved;
+  - main#435, a workflow bump, which the docs/engineering route excludes;
+  - the coordinator-fallback proposal main#450, under xAI review.
