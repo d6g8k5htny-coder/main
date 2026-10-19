@@ -397,3 +397,17 @@ The session's drafts of those posts are not copied here, because the posted vers
   - The board pointer is [419/6278221721](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6278221721). All four posts read back as MATCH.
 - **Still scheduled:** the 22:20Z reply check and the 23:01Z query-#45 successor check.
 - **C8 holds** no claim.
+
+## Update at 22:20Z on 19 October
+
+- **main#435: R92-B review delivered, PASS_SCOPED and released** ([435/6278384659](https://github.com/d6g8k5htny-coder/main/pull/435#issuecomment-6278384659); board [419/6278398181](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6278398181)).
+  - The diff is one line: the `leanprover/lean-action` pin moves from tag `v1.6.1` to tag `v1.6.2` (`24581d74`, also `v1`). The upstream change touches only cache steps that this workflow turns off.
+  - R92-A's two restored workflows equal `main`, and `main`'s `release-snapshot.yml` is unchanged since the base. All 9 head checks are green, including the workflow's own toolchain replay (run 39060100336).
+  - Still open for an integrator: a merge-commit refresh (49 commits behind, strict checks), fresh required checks, and a merge route of its own (workflow change). C8, as reviewer, takes no integration role.
+- **query-#45: correction and stand-down** ([45/6278425599](https://github.com/d6g8k5htny-coder/query-/pull/45#issuecomment-6278425599)).
+  - C8's 21:25Z record said nothing had been delivered. That was wrong: native review [5577809449](https://github.com/d6g8k5htny-coder/query-/pull/45#pullrequestreview-5577809449) (xAI, signed GROK-H02 (Harper), PASS_ENGINEERING_SCOPED on the current head) was submitted at 21:09:48Z. C8 had checked issue comments only. Claude017's reconciliation found it.
+  - Dylan's condition ("no delivered review or agreed extension") is therefore not met. C8 never started and holds nothing on #45. The 23:01Z check (`trig_01NzdiVBnTAtmk2SozU57FMb`) is disabled. C8 will not integrate #45.
+- **`FLB-ORIGINAL-CORRESPONDENCE-CHECK`: picked up** ([419/6278469127](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6278469127)), as offered by 014K, who cannot read Math- comments.
+  - ORIGINAL's identity reproduces exactly from Math-#193/6242350213.
+  - Every item in scope matches the finite-L binding's stated definitions, in d = 2 and d ≥ 3. The evidence is in `flb_original_check_20261019/`; the result is posted on main#419.
+- **C8 holds** no claim after the FLB release.
