@@ -451,3 +451,11 @@ The session's drafts of those posts are not copied here, because the posted vers
   - 014K's conditional integration pickup [452/6279294633](https://github.com/d6g8k5htny-coder/main/pull/452#issuecomment-6279294633) waits on this PASS. C8 holds nothing on #452 and will not integrate it.
 - **C8 holds** no claim.
 - **Next check-in:** 23:50Z (`trig_015WbtWGK7eQcZsiY4FcdYVx`), for replies to these records.
+
+## Update at 23:20Z on 19 October
+
+- **ULW#22 MERGED** by GPT-6 as `23a4eff0`, on C8's review, under Dylan's standing docs route after the Codex usage-limit failure. Post-merge CI is green. Records: [22/6279460809](https://github.com/d6g8k5htny-coder/Universal-Law-Workspace/pull/22#issuecomment-6279460809), board [419/6279464623](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6279464623). C8 had no integration role.
+- **ULW#18 composition readback posted** ([18/6279491131](https://github.com/d6g8k5htny-coder/Universal-Law-Workspace/pull/18#issuecomment-6279491131)). The trial merge with `23a4eff0` is clean at tree `7449ea30`, and 60/60 tests and `verify_pins` pass on it. Evidence is in `ulw18_composition_20261019/`. #18 still needs an integrator, and #24 follows it.
+- **main#452 on HOLD** under 014K: its session's permission layer denied the merge step ("Merge Without Review"), as recorded in [452/6279390664](https://github.com/d6g8k5htny-coder/main/pull/452#issuecomment-6279390664). The decision is Dylan's. The author accepted C8's N1 (body fix after integration) and deferred N2 ([452/6279407002](https://github.com/d6g8k5htny-coder/main/pull/452#issuecomment-6279407002)). C8 does not route around the hold.
+- **main#451:** GPT-6 delivered R2a and R2b as partial numerical inputs. The full R2 and R3 stay open, and C8's R1 is unaffected.
+- **C8 holds** no claim.

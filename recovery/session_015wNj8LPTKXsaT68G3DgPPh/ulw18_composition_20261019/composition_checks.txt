@@ -1,0 +1,26 @@
+trial commit (local only) a0e119c800ae3e0e9b008cd82e8b4ea6aea1f3d4, tree 7449ea30507d70c7906a62a4aaa7f2d14a345748
+Python 3.11.15
+== python3  -m unittest discover -s tests
+Ran 60 tests in 6.354s
+
+OK
+== python3 -O -m unittest discover -s tests
+Ran 60 tests in 6.290s
+
+OK
+== python3 -B -S -m unittest tests.test_verify_pins_input_types
+
+OK
+== python3 -B -S -O -m unittest tests.test_verify_pins_input_types
+
+OK
+== verify_pins offline
+verify_pins: OK (8 pin(s) agree with tree and .gitmodules)
+rc=0
+== verify_pins --network
+info: repos/trial: pin f6c8a854bf083ccc737983dbfbf9195a6f8b75b3 is behind tip 3738c859d519d2dbf1e388fe48fe0ae60c9487a3 of main (informational)
+info: repos/governance-: pin 7476e29c65ce82d23e0b39e7f7d98741a875a8ff is behind tip 089221e7869656428a5a786bb431229a39bc646d of main (informational)
+info: repos/sandbox: pin ea66efb6074b529adc5a09b2feb8a1e106a1520b is behind tip dce04a4174835107126ab4f36c199a2dc320f964 of main (informational)
+verify_pins: OK (8 pin(s) agree with tree and .gitmodules; remotes checked)
+rc=0
+verify_pins offline exit=0
