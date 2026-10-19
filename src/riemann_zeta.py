@@ -2,35 +2,29 @@
 Riemann Zeta Function and Number Theory Analysis
 =================================================
 
-This module implements analysis related to the Riemann Hypothesis and
-its connection to the complexity framework through spectral rigidity.
+Numerical checks on low-lying zeros of ζ(s) and their spacing statistics.
 
-Key concepts:
-    - Riemann Hypothesis: all non-trivial zeros have Re(s) = 1/2
-    - Spectral rigidity: zeros exhibit GUE statistics
-    - Connection to physics: quantum chaos, random matrix theory
-    - Complexity interpretation: RH as complexity minimization
-
-Current status:
-    - 12.4 trillion zeros verified on critical line
-    - GUE statistics confirmed (Odlyzko 1987)
-    - de Bruijn-Newman constant: 0 ≤ Λ ≤ 0.22
-
-References:
-    - Platt & Trudgian (2021) Bull. London Math. Soc. 53, 792
-    - Odlyzko (1987) Math. Comp. 48, 273
-    - Montgomery (1973) Proc. Symp. Pure Math.
+Established results referred to here: the Riemann Hypothesis holds for all
+zeros up to height 3·10¹² (Platt & Trudgian 2021), about 1.24·10¹³ zeros; the
+de Bruijn-Newman constant satisfies 0 ≤ Λ ≤ 0.2 (Rodgers & Tao 2020; Platt &
+Trudgian 2021, improving Polymath15's 0.22); and Odlyzko's computations show
+zero spacings agreeing with
+GUE random-matrix statistics, as Montgomery's pair-correlation conjecture
+predicts. The 2025 manuscript's claim that complexity minimisation explains
+RH is a hypothesis; no argument for it is contained in this repository.
 """
 
-from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Tuple, Any, Callable
+import math
+from dataclasses import dataclass
+from typing import Any, Dict, List, Optional, Tuple
+
 import numpy as np
-from scipy.special import gamma as gamma_func
 from scipy.integrate import quad
+from scipy.special import gamma as gamma_func
 
 
-# First 30 non-trivial zeta zeros (imaginary parts)
-# All have real part = 1/2 (verified)
+# Imaginary parts of the first 30 non-trivial zeros; they agree with
+# mpmath.zetazero to 4e-14. data/riemann_zeros/first_100_zeros.json holds 100.
 FIRST_ZEROS = [
     14.134725141734693,
     21.022039638771555,
@@ -64,33 +58,24 @@ FIRST_ZEROS = [
     101.31785100573139,
 ]
 
-# Statistical properties from Odlyzko's computations
-ODLYZKO_STATISTICS = {
-    "zeros_computed": 12_400_000_000_000,  # 12.4 trillion
-    "all_on_critical_line": True,
-    "gue_correlation_r2": 0.999,  # GUE pair correlation fit
-    "nearest_neighbor_fit": 0.998,
-    "number_variance_fit": 0.997,
-}
+RH_VERIFIED_HEIGHT = 3e12  # Platt & Trudgian (2021)
+
+
+def zero_count(T: float) -> float:
+    """Riemann-von Mangoldt main term N(T) ≈ (T/2π) log(T/2π) - T/2π + 7/8."""
+    x = T / (2 * np.pi)
+    return x * np.log(x) - x + 7 / 8
 
 
 @dataclass
 class ZetaZero:
-    """
-    A non-trivial zero of the Riemann zeta function.
-
-    By the Riemann Hypothesis (unproven but verified for 12.4T zeros):
-        ζ(1/2 + it) = 0
-
-    So zeros are parameterized by t (the imaginary part).
-    """
+    """A non-trivial zero stored by its imaginary part, assumed on Re(s) = 1/2."""
     imaginary_part: float
-    index: int = 0  # n-th zero
-    verified: bool = True
+    index: int = 0
 
     @property
     def real_part(self) -> float:
-        """Real part (should be 1/2 if RH true)."""
+        """Real part assumed by the storage format (checked by verify_rh_local)."""
         return 0.5
 
     @property
@@ -99,216 +84,97 @@ class ZetaZero:
         return complex(self.real_part, self.imaginary_part)
 
     def normalized_spacing(self, next_zero: "ZetaZero") -> float:
-        """
-        Compute normalized spacing to next zero.
-
-        Normalized by average density: δ_n = (t_{n+1} - t_n) × log(t_n) / 2π
-        """
+        """Spacing to next zero in units of the mean spacing 2π / log(t/2π)."""
         t1 = self.imaginary_part
-        t2 = next_zero.imaginary_part
-        avg_density = np.log(t1) / (2 * np.pi)
-        return (t2 - t1) * avg_density
+        return (next_zero.imaginary_part - t1) * np.log(t1 / (2 * np.pi)) / (2 * np.pi)
 
 
 class RiemannZeta:
-    """
-    Riemann zeta function analysis.
-
-    The zeta function is defined for Re(s) > 1 as:
-        ζ(s) = Σ_{n=1}^∞ n^{-s}
-
-    And by analytic continuation elsewhere (except pole at s=1).
-
-    Connection to complexity framework:
-        - Zeros encode arithmetic structure
-        - GUE statistics suggest quantum chaos connection
-        - RH equivalent to specific complexity bounds
-    """
+    """Evaluation of ζ(s) and checks on a list of stored zeros."""
 
     def __init__(self, zeros: Optional[List[float]] = None):
-        """
-        Initialize zeta analysis.
-
-        Parameters
-        ----------
-        zeros : list, optional
-            Known zero imaginary parts (default: first 30)
-        """
         self.zeros = zeros if zeros is not None else FIRST_ZEROS
-        self.zero_objects = [
-            ZetaZero(t, i+1) for i, t in enumerate(self.zeros)
-        ]
+        self.zero_objects = [ZetaZero(t, i + 1) for i, t in enumerate(self.zeros)]
 
     def zeta(self, s: complex, terms: int = 1000) -> complex:
         """
-        Compute ζ(s) using direct summation.
-
-        Only accurate for Re(s) > 1. Use functional equation
-        or more sophisticated methods for other regions.
-
-        Parameters
-        ----------
-        s : complex
-            Point to evaluate
-        terms : int
-            Number of terms in sum
-
-        Returns
-        -------
-        complex
-            Approximate ζ(s)
+        Approximate ζ(s) by truncated series: the Dirichlet series for
+        Re(s) > 1, the alternating (eta) series for 0 < Re(s) ≤ 1, and the
+        functional equation for Re(s) < 0. Accuracy is limited by `terms`.
         """
         if s.real <= 1:
-            # Use reflection formula for Re(s) < 0
-            # ζ(s) = 2^s π^(s-1) sin(πs/2) Γ(1-s) ζ(1-s)
             if s.real < 0:
-                s_conj = 1 - s
                 return (
-                    2**s * np.pi**(s-1) *
+                    2**s * np.pi**(s - 1) *
                     np.sin(np.pi * s / 2) *
                     gamma_func(1 - s) *
-                    self.zeta(s_conj, terms)
+                    self.zeta(1 - s, terms)
                 )
-            # For 0 < Re(s) ≤ 1, use alternating series (Dirichlet eta)
-            eta = sum((-1)**(n-1) * n**(-s) for n in range(1, terms+1))
-            return eta / (1 - 2**(1-s))
+            eta = sum((-1)**(n - 1) * n**(-s) for n in range(1, terms + 1))
+            return eta / (1 - 2**(1 - s))
 
-        # Direct sum for Re(s) > 1
-        return sum(n**(-s) for n in range(1, terms+1))
+        return sum(n**(-s) for n in range(1, terms + 1))
 
     def zero_density(self, T: float) -> float:
-        """
-        Compute asymptotic density of zeros up to height T.
-
-        N(T) ~ (T/2π) log(T/2π) - T/2π
-
-        Parameters
-        ----------
-        T : float
-            Height on critical line
-
-        Returns
-        -------
-        float
-            Approximate number of zeros with 0 < t < T
-        """
+        """Approximate number of zeros with 0 < t < T (0 below T = 10)."""
         if T < 10:
             return 0.0
-        return (T / (2*np.pi)) * np.log(T / (2*np.pi)) - T / (2*np.pi)
+        return zero_count(T)
 
     def local_density(self, t: float) -> float:
+        """Local zero density dN/dt = log(t/2π) / 2π."""
+        return np.log(t / (2 * np.pi)) / (2 * np.pi)
+
+    def verify_rh_local(self, tolerance: float = 1e-10) -> Dict[str, Any]:
         """
-        Local density of zeros near height t.
+        Check the stored zeros numerically with mpmath.
 
-        ρ(t) ~ log(t) / 2π
-
-        Parameters
-        ----------
-        t : float
-            Height on critical line
-
-        Returns
-        -------
-        float
-            Local zero density
+        Each stored γ must give |ζ(1/2 + iγ)| < tolerance, and mpmath.nzeros
+        must count exactly N - 1 zeros below the midpoint of the last two
+        stored zeros. Together these show that every zero below that height
+        is in the list and lies on the critical line, to numerical (not
+        interval-certified) accuracy.
         """
-        return np.log(t) / (2 * np.pi)
+        import mpmath
 
-    def verify_rh_local(self, precision: float = 1e-10) -> Dict[str, Any]:
-        """
-        Verify zeros in database are on critical line.
+        with mpmath.workdps(20):
+            max_abs = max(float(abs(mpmath.zeta(mpmath.mpc(0.5, g)))) for g in self.zeros)
+            check_height = (self.zeros[-2] + self.zeros[-1]) / 2
+            count = int(mpmath.nzeros(check_height))
 
-        Returns
-        -------
-        dict
-            Verification results
-        """
-        all_verified = all(z.verified for z in self.zero_objects)
-
+        expected = len(self.zeros) - 1
         return {
-            "zeros_checked": len(self.zero_objects),
-            "all_on_critical_line": all_verified,
-            "real_parts": [z.real_part for z in self.zero_objects],
-            "precision": precision,
-            "global_verification": {
-                "total_verified": ODLYZKO_STATISTICS["zeros_computed"],
-                "all_on_line": ODLYZKO_STATISTICS["all_on_critical_line"]
-            }
+            "zeros_checked": len(self.zeros),
+            "max_abs_zeta": max_abs,
+            "all_vanish": max_abs < tolerance,
+            "check_height": check_height,
+            "count_below_check_height": count,
+            "expected_count": expected,
+            "complete": count == expected,
+            "all_on_critical_line": max_abs < tolerance and count == expected,
+            "method": "mpmath zeta and nzeros (numerical, not interval-certified)",
+            "literature_verified_height": RH_VERIFIED_HEIGHT,
         }
 
 
 class SpectralAnalysis:
-    """
-    Spectral statistics of zeta zeros.
-
-    The zeros exhibit statistics identical to eigenvalues of
-    random unitary matrices (GUE ensemble). This connects to:
-        - Quantum chaos (Berry-Tabor conjecture)
-        - Random matrix theory
-        - Complexity bounds
-
-    Montgomery's pair correlation conjecture:
-        R_2(x) = 1 - (sin(πx)/(πx))²
-
-    This matches GUE eigenvalue pair correlation exactly.
-    """
+    """Spacing statistics of zeta zeros compared with GUE and Poisson."""
 
     def __init__(self, zeros: Optional[List[float]] = None):
-        """
-        Initialize spectral analysis.
-
-        Parameters
-        ----------
-        zeros : list, optional
-            Zero imaginary parts for analysis
-        """
         self.zeros = zeros if zeros is not None else FIRST_ZEROS
         self.rz = RiemannZeta(self.zeros)
 
     def normalized_spacings(self) -> np.ndarray:
-        """
-        Compute normalized spacings between consecutive zeros.
+        """Consecutive spacings scaled by the local density at their midpoint."""
+        t = np.asarray(self.zeros)
+        return np.diff(t) * self.rz.local_density((t[:-1] + t[1:]) / 2)
 
-        Returns
-        -------
-        array
-            Normalized spacings δ_n
-        """
-        spacings = []
-        for i in range(len(self.zeros) - 1):
-            t1 = self.zeros[i]
-            t2 = self.zeros[i + 1]
-            # Normalize by local density
-            density = self.rz.local_density((t1 + t2) / 2)
-            normalized = (t2 - t1) * density
-            spacings.append(normalized)
-        return np.array(spacings)
-
-    def nearest_neighbor_distribution(
-        self,
-        bins: int = 50
-    ) -> Dict[str, np.ndarray]:
-        """
-        Compute nearest neighbor spacing distribution P(s).
-
-        For GUE: P(s) = (32/π²) s² exp(-4s²/π)
-
-        Returns
-        -------
-        dict
-            Histogram and GUE comparison
-        """
+    def nearest_neighbor_distribution(self, bins: int = 50) -> Dict[str, np.ndarray]:
+        """Spacing histogram with the GUE Wigner surmise (32/π²) s² exp(-4s²/π)."""
         spacings = self.normalized_spacings()
-
-        # Histogram
         hist, bin_edges = np.histogram(spacings, bins=bins, density=True)
         bin_centers = (bin_edges[:-1] + bin_edges[1:]) / 2
-
-        # GUE prediction (Wigner surmise)
-        def gue_p(s):
-            return (32 / np.pi**2) * s**2 * np.exp(-4 * s**2 / np.pi)
-
-        gue_prediction = gue_p(bin_centers)
+        gue_prediction = (32 / np.pi**2) * bin_centers**2 * np.exp(-4 * bin_centers**2 / np.pi)
 
         return {
             "spacings": spacings,
@@ -324,41 +190,20 @@ class SpectralAnalysis:
         x_range: Tuple[float, float] = (0.0, 3.0),
         n_points: int = 100
     ) -> Dict[str, np.ndarray]:
-        """
-        Compute pair correlation function R₂(x).
-
-        Montgomery conjecture: R₂(x) = 1 - (sin(πx)/(πx))²
-
-        Returns
-        -------
-        dict
-            Pair correlation analysis
-        """
+        """Montgomery's R₂(x) = 1 - (sin πx / πx)² and sums of up to 9 consecutive spacings."""
         x = np.linspace(x_range[0], x_range[1], n_points)
+        gue_prediction = 1 - np.sinc(x)**2
 
-        # Montgomery conjecture (GUE prediction)
-        def gue_r2(x):
-            result = np.ones_like(x)
-            nonzero = x != 0
-            result[nonzero] = 1 - (np.sin(np.pi * x[nonzero]) / (np.pi * x[nonzero]))**2
-            return result
-
-        gue_prediction = gue_r2(x)
-
-        # Empirical pair correlation (simplified)
         spacings = self.normalized_spacings()
-        all_spacings = []
-        for i in range(len(spacings)):
-            for j in range(i + 1, min(i + 10, len(spacings))):
-                # Sum of spacings from i to j
-                total = sum(spacings[i:j])
-                all_spacings.append(total)
-
+        sums = [
+            spacings[i:j].sum()
+            for i in range(len(spacings))
+            for j in range(i + 1, min(i + 10, len(spacings)))
+        ]
         return {
             "x": x,
             "gue_prediction": gue_prediction,
-            "empirical_spacings": np.array(all_spacings),
-            "montgomery_verified": ODLYZKO_STATISTICS["gue_correlation_r2"] > 0.99
+            "empirical_spacings": np.array(sums),
         }
 
     def number_variance(
@@ -366,239 +211,99 @@ class SpectralAnalysis:
         L_range: Tuple[float, float] = (0.1, 10.0),
         n_points: int = 50
     ) -> Dict[str, np.ndarray]:
-        """
-        Compute number variance Σ²(L).
-
-        For interval of length L, count zeros N(L).
-        Variance Σ²(L) = ⟨(N - ⟨N⟩)²⟩
-
-        GUE: Σ²(L) ~ (2/π²) log(L) for large L
-
-        Returns
-        -------
-        dict
-            Number variance analysis
-        """
+        """Large-L GUE number variance Σ²(L) ≈ (log(2πL) + γ + 1) / π²."""
         L = np.linspace(L_range[0], L_range[1], n_points)
-
-        # GUE prediction
-        def gue_sigma2(L):
-            return (2 / np.pi**2) * (np.log(2 * np.pi * L) + 1 + np.euler_gamma)
-
-        gue_prediction = gue_sigma2(L)
-
         return {
             "L": L,
-            "gue_prediction": gue_prediction,
-            "fit_quality": ODLYZKO_STATISTICS["number_variance_fit"]
+            "gue_prediction": (np.log(2 * np.pi * L) + np.euler_gamma + 1) / np.pi**2,
         }
 
-    def spectral_rigidity(self) -> Dict[str, Any]:
-        """
-        Analyze spectral rigidity (characterizes level repulsion).
-
-        Rigidity Δ₃(L) measures deviation from uniform distribution.
-
-        For GUE: Δ₃(L) ~ (1/π²) log(L) for large L
-
-        Returns
-        -------
-        dict
-            Rigidity analysis
-        """
-        # The key result is that zeta zeros show GUE rigidity,
-        # not Poisson (which would indicate random/uncorrelated zeros)
-
+    def level_repulsion(self) -> Dict[str, Any]:
+        """Fraction of normalised spacings below 1/2, versus GUE and Poisson."""
+        s = self.normalized_spacings()
+        gue = quad(lambda u: (32 / np.pi**2) * u**2 * np.exp(-4 * u**2 / np.pi), 0, 0.5)[0]
         return {
-            "statistics_type": "GUE",
-            "not_poisson": True,
-            "interpretation": (
-                "Zeros show strong correlations (level repulsion) "
-                "characteristic of quantum chaotic systems"
-            ),
-            "complexity_connection": (
-                "GUE statistics emerge from complexity minimization "
-                "in arithmetic Hilbert space"
-            ),
-            "verified_zeros": ODLYZKO_STATISTICS["zeros_computed"]
+            "n_spacings": len(s),
+            "fraction_below_half": float(np.mean(s < 0.5)),
+            "gue_wigner_surmise": gue,
+            "poisson": 1 - math.exp(-0.5),
         }
 
 
 class RHComplexityConnection:
-    """
-    Connection between Riemann Hypothesis and complexity framework.
-
-    The framework provides explanatory support for RH through:
-        1. Arithmetic Hilbert space: H_arith with inner product from primes
-        2. Complexity measure: C[H] with minimum at σ = 1/2
-        3. Spectral interpretation: zeros as eigenvalues of Hermitian operator
-
-    Conjecture: RH ⟺ C[H_arith] minimized ⟺ σ = 1/2 for all zeros
-    """
+    """The 2025 manuscript's proposed link between RH and complexity."""
 
     def __init__(self):
         self.spectral = SpectralAnalysis()
 
     def complexity_argument(self) -> Dict[str, str]:
-        """
-        Outline complexity-theoretic argument for RH.
-
-        Returns
-        -------
-        dict
-            Argument summary
-        """
+        """Outline of the manuscript's argument, with its status."""
         return {
-            "premise_1": (
-                "Arithmetic structure emerges from complexity minimization"
+            "premise_1": "Arithmetic structure emerges from complexity minimization",
+            "premise_2": "Zeta zeros encode prime distribution information",
+            "premise_3": "GUE statistics indicate Hermitian operator spectrum",
+            "premise_4": "Hermitian operator ⟹ real eigenvalues ⟹ Re(s) = 1/2",
+            "conclusion": "RH follows from complexity minimization in arithmetic space",
+            "status": (
+                "Hypothesis from the retired 2025 manuscript. Premise 4 is the "
+                "Hilbert-Pólya idea, which presupposes an operator nobody has "
+                "constructed; premises 1 and 3 are unproved. No proof or evidence "
+                "for the conclusion is in this repository."
             ),
-            "premise_2": (
-                "Zeta zeros encode prime distribution information"
-            ),
-            "premise_3": (
-                "GUE statistics indicate Hermitian operator spectrum"
-            ),
-            "premise_4": (
-                "Hermitian operator ⟹ real eigenvalues ⟹ Re(s) = 1/2"
-            ),
-            "conclusion": (
-                "RH follows from complexity minimization in arithmetic space"
-            ),
-            "status": "Explanatory support, not rigorous proof"
         }
 
-    def de_bruijn_newman(self) -> Dict[str, float]:
-        """
-        De Bruijn-Newman constant analysis.
-
-        The constant Λ satisfies:
-            - Λ ≤ 0 ⟺ RH is true
-            - Current bounds: 0 ≤ Λ ≤ 0.22
-
-        Returns
-        -------
-        dict
-            Current knowledge about Λ
-        """
+    def de_bruijn_newman(self) -> Dict[str, Any]:
+        """Known bounds on the de Bruijn-Newman constant Λ (RH ⟺ Λ ≤ 0)."""
         return {
-            "lower_bound": 0.0,  # Rodgers & Tao (2018)
-            "upper_bound": 0.22,
-            "rh_equivalent": "Λ ≤ 0",
-            "current_status": "RH neither proved nor disproved",
-            "polymath_result": "Λ ≥ 0 proved in 2018"
+            "lower_bound": 0.0,
+            "lower_bound_source": "Rodgers & Tao, Forum Math. Pi 8 (2020) e6",
+            "upper_bound": 0.2,
+            "upper_bound_source": (
+                "Platt & Trudgian, Bull. London Math. Soc. 53 (2021), improving the "
+                "Polymath15 bound 0.22 (arXiv:1904.12438)"
+            ),
+            "rh_equivalent": "Λ ≤ 0, i.e. Λ = 0 given the lower bound",
         }
 
-    def explicit_formula_test(
-        self,
-        x: float,
-        n_zeros: int = 30
-    ) -> Dict[str, float]:
+    def explicit_formula_test(self, x: float, zeros: Optional[List[float]] = None) -> Dict[str, float]:
         """
-        Test Riemann explicit formula for π(x).
-
-        π(x) = li(x) - Σ_ρ li(x^ρ) - log(2) + ∫_x^∞ dt/(t(t²-1)log(t))
-
-        Parameters
-        ----------
-        x : float
-            Argument for prime counting function
-        n_zeros : int
-            Number of zeros to include
-
-        Returns
-        -------
-        dict
-            Comparison with actual π(x)
+        Compare Chebyshev ψ(x) with the explicit formula truncated at the given zeros:
+        ψ₀(x) = x - Σ_ρ x^ρ/ρ - log 2π - ½ log(1 - x⁻²), pairing each ρ with its conjugate.
         """
-        # Logarithmic integral
-        def li(x):
-            if x <= 1:
-                return 0.0
-            result, _ = quad(lambda t: 1/np.log(t), 2, x)
-            return result
+        gammas = FIRST_ZEROS if zeros is None else zeros
+        zero_sum = sum(2 * (x ** complex(0.5, g) / complex(0.5, g)).real for g in gammas)
+        explicit = x - zero_sum - math.log(2 * math.pi) - 0.5 * math.log(1 - x ** -2)
 
-        # Main term
-        main_term = li(x)
-
-        # Zero contributions (simplified - should sum over zeros)
-        # Each zero ρ = 1/2 + iγ contributes oscillating term
-        zero_correction = 0.0
-        for gamma in FIRST_ZEROS[:n_zeros]:
-            # Simplified contribution (actual formula more complex)
-            zero_correction += 2 * np.cos(gamma * np.log(x)) / np.sqrt(x)
-
-        # Approximate π(x)
-        approx_pi_x = main_term - zero_correction
-
-        # Actual prime counting (for small x)
-        def prime_count(n):
-            if n < 2:
-                return 0
-            sieve = [True] * (n + 1)
-            sieve[0] = sieve[1] = False
-            for i in range(2, int(n**0.5) + 1):
-                if sieve[i]:
-                    for j in range(i*i, n + 1, i):
-                        sieve[j] = False
-            return sum(sieve)
-
-        actual_pi_x = prime_count(int(x)) if x < 10000 else None
+        n = int(x)
+        sieve = np.ones(n + 1, dtype=bool)
+        sieve[:2] = False
+        for i in range(2, int(n ** 0.5) + 1):
+            if sieve[i]:
+                sieve[i * i::i] = False
+        exact = 0.0
+        for p in np.flatnonzero(sieve):
+            exact += math.log(p) * int(math.log(x) / math.log(p) + 1e-12)
 
         return {
             "x": x,
-            "li_x": main_term,
-            "zero_correction": zero_correction,
-            "approximate_pi_x": approx_pi_x,
-            "actual_pi_x": actual_pi_x,
-            "n_zeros_used": n_zeros
+            "psi_exact": exact,
+            "psi_explicit": explicit,
+            "relative_error": abs(explicit - exact) / exact,
+            "n_zeros_used": len(gammas),
         }
 
 
 if __name__ == "__main__":
-    print("Riemann Zeta Module")
-    print("=" * 50)
-
-    # Create analysis objects
     rz = RiemannZeta()
-    spectral = SpectralAnalysis()
-    connection = RHComplexityConnection()
+    check = rz.verify_rh_local()
+    print(f"Stored zeros: {check['zeros_checked']}, max |ζ| = {check['max_abs_zeta']:.1e}, "
+          f"complete below t = {check['check_height']:.2f}: {check['complete']}")
 
-    print("\nFirst 10 Zeta Zeros (imaginary parts):")
-    for i, t in enumerate(FIRST_ZEROS[:10], 1):
-        print(f"  ζ(1/2 + {t:.6f}i) = 0  (zero #{i})")
+    rep = SpectralAnalysis().level_repulsion()
+    print(f"Spacings below 1/2: {rep['fraction_below_half']:.3f} "
+          f"(GUE {rep['gue_wigner_surmise']:.3f}, Poisson {rep['poisson']:.3f})")
 
-    # Verification status
-    print("\nGlobal Verification Status:")
-    print(f"  Total zeros verified: {ODLYZKO_STATISTICS['zeros_computed']:,}")
-    print(f"  All on critical line: {ODLYZKO_STATISTICS['all_on_critical_line']}")
-
-    # Spectral statistics
-    print("\nSpectral Statistics (GUE):")
-    nn_dist = spectral.nearest_neighbor_distribution()
-    print(f"  Mean spacing: {nn_dist['mean_spacing']:.4f}")
-    print(f"  Std spacing: {nn_dist['std_spacing']:.4f}")
-    print(f"  GUE correlation: {ODLYZKO_STATISTICS['gue_correlation_r2']:.3f}")
-
-    # Spectral rigidity
-    rigidity = spectral.spectral_rigidity()
-    print(f"\nSpectral Rigidity:")
-    print(f"  Statistics type: {rigidity['statistics_type']}")
-    print(f"  Not Poisson: {rigidity['not_poisson']}")
-
-    # De Bruijn-Newman
-    dbn = connection.de_bruijn_newman()
-    print(f"\nDe Bruijn-Newman Constant:")
-    print(f"  Current bounds: {dbn['lower_bound']} ≤ Λ ≤ {dbn['upper_bound']}")
-    print(f"  RH equivalent: {dbn['rh_equivalent']}")
-
-    # Complexity connection
-    print("\nComplexity Framework Connection:")
-    arg = connection.complexity_argument()
-    print(f"  Status: {arg['status']}")
-
-    # Test explicit formula
-    print("\nExplicit Formula Test (x = 1000):")
-    test = connection.explicit_formula_test(1000)
-    print(f"  li(1000) = {test['li_x']:.2f}")
-    print(f"  Actual π(1000) = {test['actual_pi_x']}")
-    print(f"  Approximate = {test['approximate_pi_x']:.2f}")
+    ef = RHComplexityConnection().explicit_formula_test(100.5)
+    print(f"ψ(100.5) = {ef['psi_exact']:.3f}; explicit formula with 30 zeros "
+          f"{ef['psi_explicit']:.3f}")
+    print(f"Zeros up to height {RH_VERIFIED_HEIGHT:.0e}: about {zero_count(RH_VERIFIED_HEIGHT):.3e}")

@@ -12,6 +12,10 @@ Components:
 
 The framework unifies spacetime geometry, quantum mechanics, and gauge structure
 as emergent from complexity minimization.
+
+Status: exploratory code for the retired 2025 framework. Running it checks
+arithmetic, not physics; see results/validation_report.md for what is and is
+not established.
 """
 
 from abc import ABC, abstractmethod
@@ -29,7 +33,7 @@ class ComplexityParameters:
     # Retrodiction complexity weights
     alpha: float = 1.0  # Einstein-Hilbert weight
     gamma_1: float = 1.0  # R^2 coefficient
-    gamma_2: float = -2.0  # R_μν R^μν coefficient (Stelle ratio: γ₁/γ₂ = -1/2)
+    gamma_2: float = -2.0  # R_μν R^μν coefficient; default encodes the manuscript's claimed γ₁/γ₂ = -1/2
 
     # Representation complexity weights
     lambda_gauge: float = 1.0  # Gauge structure constant weight
@@ -172,18 +176,24 @@ class RetrodictionComplexity(ComplexityFunctional):
 
         return einstein
 
-    def stelle_prediction(self) -> Dict[str, float]:
+    def stelle_prediction(self) -> Dict[str, Any]:
         """
-        Return predictions for Stelle gravity parameters.
+        Compare the configured quadratic terms with the claimed Stelle ratio.
 
-        The framework predicts γ₁/γ₂ = -1/2 from complexity minimization.
+        Modulo the Gauss-Bonnet density, γ₁R² + γ₂R_μνR^μν equals
+        (γ₂/2)C² + (γ₁ + γ₂/3)R², with C the Weyl tensor. Stelle's massive
+        spin-2 ghost is absent only when the C² coefficient vanishes, so no
+        finite γ₁/γ₂ (including the claimed -1/2) removes it in this basis.
         """
+        weyl_squared = self.params.gamma_2 / 2
         return {
             "gamma_1": self.params.gamma_1,
             "gamma_2": self.params.gamma_2,
             "stelle_ratio": self.params.stelle_ratio(),
-            "predicted_ratio": -0.5,
-            "consistent": abs(self.params.stelle_ratio() - (-0.5)) < 0.01
+            "claimed_ratio": -0.5,
+            "weyl_squared_coefficient": weyl_squared,
+            "ricci_scalar_squared_coefficient": self.params.gamma_1 + self.params.gamma_2 / 3,
+            "spin2_ghost_free": weyl_squared == 0,
         }
 
 
@@ -201,12 +211,13 @@ class BarrierComplexity(ComplexityFunctional):
 
     The helicity barrier constitutive law:
         |Δζ₄| = 0.1843 - 0.2051 C_B + τ C_B²
+    where C_B is magnetic compressibility (manuscript §12.4).
     """
 
     def __init__(self, params: Optional[ComplexityParameters] = None):
         self.params = params or ComplexityParameters()
 
-        # Helicity barrier fit parameters from solar wind data
+        # Regression coefficients quoted from the 2025 manuscript; not reproduced here
         self.helicity_a0 = 0.1843
         self.helicity_a1 = -0.2051
         self.helicity_a2 = 0.022  # τ coefficient
@@ -216,7 +227,8 @@ class BarrierComplexity(ComplexityFunctional):
         n_generations: int = 3,
         cross_helicity: float = 0.0,
         plasma_beta: float = 1.0,
-        anomaly_coefficient: float = 0.0
+        anomaly_coefficient: float = 0.0,
+        magnetic_compressibility: float = 0.0
     ) -> float:
         """
         Compute total barrier complexity.
@@ -226,9 +238,11 @@ class BarrierComplexity(ComplexityFunctional):
         n_generations : int
             Number of fermion generations
         cross_helicity : float
-            Normalized cross-helicity σ_c
+            Normalized cross-helicity σ_c (barrier activation)
         plasma_beta : float
-            Plasma β parameter
+            Plasma β parameter (barrier activation)
+        magnetic_compressibility : float
+            C_B in the constitutive law
         anomaly_coefficient : float
             Gauge anomaly coefficient (should be 0)
 
@@ -241,28 +255,26 @@ class BarrierComplexity(ComplexityFunctional):
         B_gen = np.exp(self.params.alpha_gen * (n_generations - 3)**2)
 
         # Helicity barrier: active when β < β_c ≈ 0.5
-        B_helicity = self._helicity_barrier(cross_helicity, plasma_beta)
+        B_helicity = self._helicity_barrier(cross_helicity, plasma_beta, magnetic_compressibility)
 
         # Anomaly barrier: infinite if anomaly ≠ 0
         B_anomaly = 0.0 if abs(anomaly_coefficient) < 1e-10 else float('inf')
 
         return B_gen + B_helicity + B_anomaly
 
-    def _helicity_barrier(self, sigma_c: float, beta: float) -> float:
+    def _helicity_barrier(self, sigma_c: float, beta: float, C_B: float) -> float:
         """
         Compute helicity barrier contribution.
 
-        The barrier activates when plasma β ≲ 0.5 and σ_c ≳ 0.4.
+        Activation thresholds β ≲ 0.5 and σ_c ≳ 0.4 are as stated in the 2025
+        README; they are not derived or measured in this repository.
         """
-        # Critical parameters
         beta_c = 0.5
         sigma_c_threshold = 0.4
 
         if beta > beta_c or abs(sigma_c) < sigma_c_threshold:
             return 0.0
 
-        # Barrier strength from constitutive law
-        C_B = abs(sigma_c)  # Cross-helicity as barrier coordinate
         delta_zeta4 = abs(
             self.helicity_a0 +
             self.helicity_a1 * C_B +
@@ -287,28 +299,25 @@ class BarrierComplexity(ComplexityFunctional):
             np.exp(self.params.alpha_gen * (n - 3)**2)
         )
 
-    def generation_minimum(self) -> Dict[str, Any]:
+    def generation_minimum(self, K_1gen: float = 1.0) -> Dict[str, Any]:
         """
-        Demonstrate that n=3 minimizes the generation barrier.
+        Locate the minimum of C(n) = n · K_{1-gen} + exp(α(n-3)²) over n = 1..6.
 
-        C(n) = n · K_{1-gen} + exp(α(n-3)²)
-
-        Returns analysis showing minimum at n=3 for all α > 0.
+        n = 3 is the unique minimum only when α > ln(1 + K_{1-gen}). The
+        penalty is centred on 3 by construction, so this is not a derivation.
         """
-        K_1gen = 1.0  # Single generation complexity (normalized)
-
-        results = {}
-        for n in range(1, 7):
-            C_n = n * K_1gen + np.exp(self.params.alpha_gen * (n - 3)**2)
-            results[n] = C_n
-
+        results = {
+            n: n * K_1gen + np.exp(self.params.alpha_gen * (n - 3)**2)
+            for n in range(1, 7)
+        }
         min_n = min(results, key=results.get)
 
         return {
             "complexity_by_generation": results,
             "minimum_at": min_n,
             "minimum_value": results[min_n],
-            "prediction_correct": min_n == 3
+            "alpha_threshold": float(np.log1p(K_1gen)),
+            "minimum_at_3": min_n == 3,
         }
 
     def helicity_barrier_law(self, C_B: np.ndarray) -> np.ndarray:
@@ -320,7 +329,8 @@ class BarrierComplexity(ComplexityFunctional):
         Parameters
         ----------
         C_B : array_like
-            Cross-helicity values
+            Magnetic compressibility values (the fitted range is C_B ≲ 1;
+            the polynomial is negative for 1.007 < C_B < 8.32)
 
         Returns
         -------
@@ -372,6 +382,7 @@ class TotalComplexity(ComplexityFunctional):
         n_generations: int = 3,
         cross_helicity: float = 0.0,
         plasma_beta: float = 1.0,
+        magnetic_compressibility: float = 0.0,
         **kwargs
     ) -> Dict[str, float]:
         """
@@ -410,7 +421,8 @@ class TotalComplexity(ComplexityFunctional):
         B = self.barrier.compute(
             n_generations=n_generations,
             cross_helicity=cross_helicity,
-            plasma_beta=plasma_beta
+            plasma_beta=plasma_beta,
+            magnetic_compressibility=magnetic_compressibility
         )
 
         return {
@@ -484,41 +496,37 @@ class TotalComplexity(ComplexityFunctional):
 
     def validate_predictions(self) -> Dict[str, Any]:
         """
-        Run validation checks for key predictions.
+        Report how the built-in claims behave in this implementation.
 
-        Returns
-        -------
-        dict
-            Validation results for each prediction
+        None of these is an empirical test: n = 3 and the Stelle ratio are
+        inputs of the functional, and K(G) is an ad hoc definition.
         """
-        results = {}
+        from .gauge_theory import compare_gauge_groups
 
-        # 1. Three generations
         gen_result = self.barrier.generation_minimum()
-        results["three_generations"] = {
-            "prediction": 3,
-            "minimum_at": gen_result["minimum_at"],
-            "validated": gen_result["prediction_correct"]
-        }
+        stelle = self.retrodiction.stelle_prediction()
+        gauge_K = compare_gauge_groups()
+        sm_K = gauge_K["SU3xSU2xU1"]
 
-        # 2. Stelle ratio
-        stelle_result = self.retrodiction.stelle_prediction()
-        results["stelle_ratio"] = {
-            "prediction": -0.5,
-            "computed": stelle_result["stelle_ratio"],
-            "validated": stelle_result["consistent"]
+        return {
+            "three_generations": {
+                "alpha": self.params.alpha_gen,
+                "alpha_threshold": gen_result["alpha_threshold"],
+                "minimum_at": gen_result["minimum_at"],
+                "minimum_at_3": gen_result["minimum_at_3"],
+            },
+            "stelle_ratio": {
+                "claimed": -0.5,
+                "configured": stelle["stelle_ratio"],
+                "spin2_ghost_free": stelle["spin2_ghost_free"],
+            },
+            "gauge_group": {
+                "K_rep_SM": self.representation.compute("SU3xSU2xU1", 3),
+                "K_rep_SU5": self.representation.compute("SU5", 3),
+                "K_gauge_by_group": gauge_K,
+                "gauge_groups_below_SM": sorted(g for g, k in gauge_K.items() if k < sm_K),
+            },
         }
-
-        # 3. SM gauge group optimality
-        sm_complexity = self.representation.compute("SU3xSU2xU1", 3)
-        su5_complexity = self.representation.compute("SU5", 3)
-        results["gauge_group"] = {
-            "SM_complexity": sm_complexity,
-            "SU5_complexity": su5_complexity,
-            "SM_preferred": sm_complexity < su5_complexity
-        }
-
-        return results
 
 
 # Convenience functions for quick calculations
@@ -551,35 +559,29 @@ def compute_generation_complexity(
 
 def demonstrate_three_generations(
     alpha_range: Tuple[float, float] = (0.1, 10.0),
-    n_points: int = 100
-) -> Dict[str, np.ndarray]:
+    n_points: int = 100,
+    K_1gen: float = 1.0
+) -> Dict[str, Any]:
     """
-    Demonstrate n=3 minimum holds for all α > 0.
+    Tabulate the minimising n of C(n) across α.
 
-    Parameters
-    ----------
-    alpha_range : tuple
-        Range of α values to test
-    n_points : int
-        Number of α values
-
-    Returns
-    -------
-    dict
-        Arrays of α values and minimum n for each
+    The README claims n = 3 for all α > 0. In fact n = 3 is the minimum
+    exactly when α > ln(1 + K_{1-gen}) (≈ 0.693 for K_{1-gen} = 1); smaller
+    α moves the minimum to n = 2 or n = 1.
     """
     alphas = np.linspace(alpha_range[0], alpha_range[1], n_points)
-    min_generations = []
-
-    for alpha in alphas:
-        complexities = [compute_generation_complexity(n, alpha) for n in range(1, 7)]
-        min_n = np.argmin(complexities) + 1
-        min_generations.append(min_n)
+    min_n = np.array([
+        1 + int(np.argmin([compute_generation_complexity(n, a, K_1gen) for n in range(1, 7)]))
+        for a in alphas
+    ])
+    threshold = float(np.log1p(K_1gen))
 
     return {
         "alpha": alphas,
-        "minimum_n": np.array(min_generations),
-        "all_equal_3": np.all(np.array(min_generations) == 3)
+        "minimum_n": min_n,
+        "alpha_threshold": threshold,
+        "all_equal_3": bool(np.all(min_n == 3)),
+        "matches_threshold_rule": bool(np.all((min_n == 3) == (alphas > threshold))),
     }
 
 
@@ -603,13 +605,12 @@ if __name__ == "__main__":
     print(f"  C (total): {result['C']:.4f}")
 
     # Demonstrate three-generation theorem
-    print("\nThree-Generation Theorem:")
+    print("\nGeneration penalty:")
     gen_demo = demonstrate_three_generations()
     print(f"  Minimum at n=3 for all α ∈ [0.1, 10]: {gen_demo['all_equal_3']}")
+    print(f"  n=3 exactly when α > ln 2 = {gen_demo['alpha_threshold']:.4f}: "
+          f"{gen_demo['matches_threshold_rule']}")
 
-    # Validate predictions
-    print("\nPrediction Validation:")
-    validation = C.validate_predictions()
-    for pred, result in validation.items():
-        status = "✓" if result.get("validated", result.get("SM_preferred", False)) else "✗"
-        print(f"  {status} {pred}")
+    print("\nBuilt-in claims (not empirical tests):")
+    for name, result in C.validate_predictions().items():
+        print(f"  {name}: {result}")

@@ -2,37 +2,40 @@
 Empirical Validation Tools
 ==========================
 
-This module provides comprehensive validation of framework predictions
-against experimental and observational data.
+Compares claims of the retired 2025 framework with measurements, and says so
+plainly when no real comparison exists.
 
-Data sources:
-    - PDG 2024: Standard Model parameters
-    - Planck 2018: Cosmological parameters
-    - LIGO/Virgo GWTC-3: Gravitational wave observations
-    - Parker Solar Probe: Solar wind helicity barrier
-    - Odlyzko: Riemann zeta zero verification
+Statuses:
+    CONSISTENT       a measurement agrees with the claim
+    TESTABLE         no measurement exists yet
+    NOT_INDEPENDENT  the only available number comes from the claim's own source
+    UNSUPPORTED      the cited derivation does not hold as written
+    TENSION          a measurement disagrees moderately
+    FALSIFIED        measurements exclude the claim as implemented
+    CONFIRMED        an independent test agrees; nothing here qualifies
 
-Key predictions validated:
-    1. Three fermion generations (LEP: N_ν = 2.984 ± 0.008)
-    2. Stelle ratio γ₁/γ₂ = -1/2 (testable via GW ringdown)
-    3. Helicity barrier τ = 0.022 ± 0.008 (ACE, PSP data)
-    4. Critical beta β_c ≈ 0.5 (PSP encounters)
-    5. Primordial f_NL < O(1) (Planck: -0.9 ± 5.1)
+Measured values were transcribed from memory by the 2025-12-16 session and
+are not re-verified; sources below say which edition they appear to match.
 """
 
-from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Tuple, Any
+from dataclasses import dataclass
 from enum import Enum
+from typing import Any, Dict, List, Optional
+
 import numpy as np
+
+from .fermion_sector import Cl6MassHierarchy
 
 
 class ValidationStatus(Enum):
     """Status of a validation test."""
-    CONFIRMED = "confirmed"  # Prediction matches observation
-    CONSISTENT = "consistent"  # Prediction within errors
-    TESTABLE = "testable"  # Not yet tested but testable
-    TENSION = "tension"  # Some disagreement
-    FALSIFIED = "falsified"  # Prediction ruled out
+    CONFIRMED = "confirmed"
+    CONSISTENT = "consistent"
+    TESTABLE = "testable"
+    NOT_INDEPENDENT = "not_independent"
+    UNSUPPORTED = "unsupported"
+    TENSION = "tension"
+    FALSIFIED = "falsified"
 
 
 @dataclass
@@ -58,7 +61,7 @@ class Measurement:
 
 @dataclass
 class Prediction:
-    """A framework prediction."""
+    """A framework claim."""
     name: str
     value: float
     uncertainty: float = 0.0
@@ -68,421 +71,210 @@ class Prediction:
 
 @dataclass
 class ValidationResult:
-    """Result of validating a prediction against data."""
+    """Result of comparing a claim with data; sigma is None when nothing was compared."""
     prediction: Prediction
-    measurement: Measurement
+    measurement: Optional[Measurement]
     status: ValidationStatus
-    sigma_deviation: float
+    sigma_deviation: Optional[float]
     notes: str = ""
 
 
 class EmpiricalData:
-    """
-    Database of empirical measurements for validation.
-
-    Sources:
-        - Particle Data Group 2024
-        - Planck 2018 cosmological parameters
-        - LIGO/Virgo GWTC-3
-        - NASA Parker Solar Probe
-        - ACE solar wind data
-    """
+    """Measurements used for comparison, plus values the manuscript reports about itself."""
 
     def __init__(self):
         self._load_pdg_data()
         self._load_planck_data()
         self._load_gw_data()
-        self._load_helio_data()
+        self._load_manuscript_reported()
         self._load_rh_data()
 
     def _load_pdg_data(self):
-        """Load Particle Data Group 2024 data."""
+        pdg = "PDG (values appear to match RPP 2022; transcribed from memory, not re-verified)"
         self.pdg = {
-            # Neutrino counting from Z width
-            "N_nu": Measurement(
-                "N_nu", 2.984, 0.008, "",
-                "LEP Z-width measurement", 2024
+            "N_nu": Measurement("N_nu", 2.984, 0.008, "", "LEP/SLD Z-pole combination", 2006),
+            "N_nu_reanalysis": Measurement(
+                "N_nu", 2.9963, 0.0074, "", "Janot & Jadach, Phys. Lett. B 803 (2020) 135319", 2020
             ),
-
-            # Fermion masses (GeV)
-            "m_electron": Measurement(
-                "m_e", 0.51099895e-3, 0.00000015e-3, "GeV",
-                "PDG 2024", 2024
-            ),
-            "m_muon": Measurement(
-                "m_mu", 0.1056583755, 0.0000000023, "GeV",
-                "PDG 2024", 2024
-            ),
-            "m_tau": Measurement(
-                "m_tau", 1.77686, 0.00012, "GeV",
-                "PDG 2024", 2024
-            ),
-            "m_up": Measurement(
-                "m_u", 2.16e-3, 0.49e-3, "GeV",
-                "PDG 2024 (MS-bar at 2 GeV)", 2024
-            ),
-            "m_down": Measurement(
-                "m_d", 4.67e-3, 0.48e-3, "GeV",
-                "PDG 2024 (MS-bar at 2 GeV)", 2024
-            ),
-            "m_strange": Measurement(
-                "m_s", 93.4e-3, 8.6e-3, "GeV",
-                "PDG 2024 (MS-bar at 2 GeV)", 2024
-            ),
-            "m_charm": Measurement(
-                "m_c", 1.27, 0.02, "GeV",
-                "PDG 2024 (MS-bar at m_c)", 2024
-            ),
-            "m_bottom": Measurement(
-                "m_b", 4.18, 0.03, "GeV",
-                "PDG 2024 (MS-bar at m_b)", 2024
-            ),
-            "m_top": Measurement(
-                "m_t", 172.69, 0.30, "GeV",
-                "PDG 2024 (pole mass)", 2024
-            ),
-
-            # Gauge couplings
-            "alpha_s": Measurement(
-                "alpha_s(M_Z)", 0.1179, 0.0009, "",
-                "PDG 2024", 2024
-            ),
-            "sin2_theta_W": Measurement(
-                "sin^2(theta_W)", 0.23121, 0.00004, "",
-                "PDG 2024", 2024
-            ),
-
-            # CKM matrix elements
-            "V_us": Measurement(
-                "|V_us|", 0.2243, 0.0008, "",
-                "PDG 2024", 2024
-            ),
-            "V_cb": Measurement(
-                "|V_cb|", 0.0408, 0.0014, "",
-                "PDG 2024", 2024
-            ),
-            "V_ub": Measurement(
-                "|V_ub|", 0.00382, 0.00020, "",
-                "PDG 2024", 2024
-            ),
-
-            # 4th generation limits
+            "m_electron": Measurement("m_e", 0.51099895e-3, 0.00000015e-3, "GeV", pdg, 2022),
+            "m_muon": Measurement("m_mu", 0.1056583755, 0.0000000023, "GeV", pdg, 2022),
+            "m_tau": Measurement("m_tau", 1.77686, 0.00012, "GeV", pdg, 2022),
+            "m_up": Measurement("m_u", 2.16e-3, 0.49e-3, "GeV", pdg + "; MS-bar at 2 GeV", 2022),
+            "m_down": Measurement("m_d", 4.67e-3, 0.48e-3, "GeV", pdg + "; MS-bar at 2 GeV", 2022),
+            "m_strange": Measurement("m_s", 93.4e-3, 8.6e-3, "GeV", pdg + "; MS-bar at 2 GeV", 2022),
+            "m_charm": Measurement("m_c", 1.27, 0.02, "GeV", pdg + "; MS-bar at m_c", 2022),
+            "m_bottom": Measurement("m_b", 4.18, 0.03, "GeV", pdg + "; MS-bar at m_b", 2022),
+            "m_top": Measurement("m_t", 172.69, 0.30, "GeV", pdg + "; pole mass", 2022),
+            "alpha_s": Measurement("alpha_s(M_Z)", 0.1179, 0.0009, "", pdg, 2022),
+            "sin2_theta_W": Measurement("sin^2(theta_W)", 0.23121, 0.00004, "", pdg + "; MS-bar", 2022),
+            "V_us": Measurement("|V_us|", 0.2243, 0.0008, "", pdg, 2022),
+            "V_cb": Measurement("|V_cb|", 0.0408, 0.0014, "", pdg, 2022),
+            "V_ub": Measurement("|V_ub|", 0.00382, 0.00020, "", pdg, 2022),
             "m_tprime_limit": Measurement(
-                "m_t'", 656, 0, "GeV",
-                "LHC limit (95% CL)", 2024
+                "m_t'", 656, 0, "GeV", "Lower limit as stated in the 2025 README; not re-verified", 2025
             ),
         }
 
     def _load_planck_data(self):
-        """Load Planck 2018 cosmological parameters."""
         self.planck = {
-            "n_s": Measurement(
-                "n_s", 0.9649, 0.0042, "",
-                "Planck 2018", 2020
-            ),
+            "n_s": Measurement("n_s", 0.9649, 0.0042, "", "Planck 2018 VI", 2020),
             "r": Measurement(
-                "r", 0.0, 0.016, "",  # Upper limit, using error as half-width
-                "Planck 2018 (95% CL upper limit: 0.032)", 2020
+                "r", 0.0, 0.016, "",
+                "Upper limit r < 0.032 (95% CL), BICEP/Keck + Planck (Tristram et al. 2022), "
+                "stored as 0 ± half the limit", 2022
             ),
-            "f_NL_local": Measurement(
-                "f_NL^local", -0.9, 5.1, "",
-                "Planck 2018", 2020
-            ),
-            "N_eff": Measurement(
-                "N_eff", 2.99, 0.17, "",
-                "Planck 2018 + BAO", 2020
-            ),
-            "H_0": Measurement(
-                "H_0", 67.36, 0.54, "km/s/Mpc",
-                "Planck 2018", 2020
-            ),
-            "Omega_m": Measurement(
-                "Omega_m", 0.3153, 0.0073, "",
-                "Planck 2018", 2020
-            ),
+            "f_NL_local": Measurement("f_NL^local", -0.9, 5.1, "", "Planck 2018 IX", 2020),
+            "N_eff": Measurement("N_eff", 2.99, 0.17, "", "Planck 2018 VI + BAO", 2020),
+            "H_0": Measurement("H_0", 67.36, 0.54, "km/s/Mpc", "Planck 2018 VI", 2020),
+            "Omega_m": Measurement("Omega_m", 0.3153, 0.0073, "", "Planck 2018 VI", 2020),
         }
 
     def _load_gw_data(self):
-        """Load gravitational wave observations."""
         self.gw = {
             "graviton_mass": Measurement(
                 "m_g", 0.0, 1.27e-23, "eV",
-                "LIGO/Virgo (90% CL upper limit)", 2021
+                "GWTC-3 tests of GR; 90% CL upper limit stored as the error", 2021
             ),
-            "gw_events_gwtc3": Measurement(
-                "N_events", 90, 0, "",
-                "GWTC-3 catalog", 2021
-            ),
-            "gr_deviation": Measurement(
-                "delta_phi", 0.0, 0.05, "rad",
-                "GWTC-3 GR tests", 2021
-            ),
+            "gw_events_gwtc3": Measurement("N_events", 90, 0, "", "GWTC-3, approximate count", 2021),
         }
 
-    def _load_helio_data(self):
-        """Load heliophysics data."""
-        self.helio = {
-            "beta_critical": Measurement(
-                "beta_c", 0.5, 0.1, "",
-                "PSP encounters 10-22", 2025
-            ),
+    def _load_manuscript_reported(self):
+        """The framework's own numbers. They are not measurements of anything independent."""
+        self.manuscript_reported = {
             "tau_helicity": Measurement(
                 "tau", 0.022, 0.008, "",
-                "McIntyre et al. 2025", 2025
+                "2025 manuscript §12.4 regression on ACE 1998-2011 data; not reproduced", 2025
+            ),
+            "beta_critical": Measurement(
+                "beta_c", 0.5, 0.0, "", "2025 README and manuscript Table 12.3; no analysis here", 2025
             ),
             "sigma_c_threshold": Measurement(
-                "sigma_c", 0.4, 0.05, "",
-                "Squire et al. 2022", 2022
+                "sigma_c", 0.4, 0.0, "", "2025 README and manuscript Table 12.3; no analysis here", 2025
             ),
         }
 
     def _load_rh_data(self):
-        """Load Riemann hypothesis verification data."""
         self.rh = {
             "zeros_verified": Measurement(
-                "N_zeros", 12.4e12, 0, "",
-                "Platt & Trudgian 2021", 2021
-            ),
-            "all_on_line": Measurement(
-                "all_sigma=0.5", 1.0, 0, "",
-                "Verified to 12.4T", 2021
+                "N_zeros", 1.236e13, 0, "",
+                "Platt & Trudgian 2021: RH holds to height 3e12 (zero count from N(T))", 2021
             ),
             "de_bruijn_newman_upper": Measurement(
-                "Lambda_upper", 0.22, 0, "",
-                "Polymath project", 2019
+                "Lambda_upper", 0.2, 0, "",
+                "Platt & Trudgian 2021, improving Polymath15's 0.22 (arXiv:1904.12438)", 2021
             ),
         }
 
 
 class ValidationSuite:
-    """
-    Complete validation suite for framework predictions.
-
-    Validates all major predictions against empirical data.
-    """
+    """Runs every comparison and records what each one actually establishes."""
 
     def __init__(self, data: Optional[EmpiricalData] = None):
-        """
-        Initialize validation suite.
-
-        Parameters
-        ----------
-        data : EmpiricalData, optional
-            Empirical data database
-        """
         self.data = data or EmpiricalData()
         self.results: List[ValidationResult] = []
 
-    def _create_predictions(self) -> Dict[str, Prediction]:
-        """Create dictionary of framework predictions."""
-        return {
-            # Fermion generations
-            "three_generations": Prediction(
-                "Three Generations",
-                3.0, 0.0,
-                "Exactly 3 fermion generations from complexity minimum",
-                testable=True
-            ),
-
-            # Stelle ratio
-            "stelle_ratio": Prediction(
-                "Stelle Ratio",
-                -0.5, 0.0,
-                "gamma_1/gamma_2 = -1/2 from complexity minimization",
-                testable=True
-            ),
-
-            # Helicity barrier
-            "tau_helicity": Prediction(
-                "Helicity Barrier tau",
-                0.022, 0.008,
-                "Curvature coefficient in helicity barrier law",
-                testable=True
-            ),
-
-            # Critical beta
-            "beta_critical": Prediction(
-                "Critical Beta",
-                0.5, 0.1,
-                "Threshold for helicity barrier activation",
-                testable=True
-            ),
-
-            # Non-Gaussianity
-            "f_NL": Prediction(
-                "Primordial f_NL",
-                0.0, 1.0,  # Prediction: < O(1)
-                "Suppressed primordial non-Gaussianity",
-                testable=True
-            ),
-
-            # Effective neutrinos
-            "N_eff": Prediction(
-                "Effective Neutrinos",
-                3.0, 0.05,  # SM prediction with small corrections
-                "N_eff ≈ 3 from three generations",
-                testable=True
-            ),
-
-            # GR validity
-            "gr_valid": Prediction(
-                "GR at Low Energy",
-                0.0, 0.0,  # No deviation
-                "Einstein gravity recovered at low energy",
-                testable=True
-            ),
-        }
+    def _record(self, result: ValidationResult) -> ValidationResult:
+        self.results.append(result)
+        return result
 
     def validate_three_generations(self) -> ValidationResult:
-        """Validate three-generation prediction."""
-        prediction = Prediction(
-            "Three Generations", 3.0, 0.0,
-            "Exactly 3 generations from complexity minimum"
-        )
         measurement = self.data.pdg["N_nu"]
-
-        # N_nu = 2.984 ± 0.008 is consistent with 3
-        sigma = measurement.sigma_deviation(3.0)
-        consistent = sigma < 3.0
-
-        status = ValidationStatus.CONFIRMED if consistent else ValidationStatus.TENSION
-
-        result = ValidationResult(
-            prediction=prediction,
+        reanalysis = self.data.pdg["N_nu_reanalysis"]
+        return self._record(ValidationResult(
+            prediction=Prediction("Three Generations", 3.0, 0.0, "Minimum of the generation penalty"),
             measurement=measurement,
-            status=status,
-            sigma_deviation=sigma,
-            notes=f"LEP measurement: {measurement.value} ± {measurement.error}"
-        )
-        self.results.append(result)
-        return result
+            status=ValidationStatus.CONSISTENT,
+            sigma_deviation=measurement.sigma_deviation(3.0),
+            notes=(
+                f"N_ν = {measurement.value} ± {measurement.error}; re-analysis "
+                f"{reanalysis.value} ± {reanalysis.error} ({reanalysis.sigma_deviation(3.0):.1f}σ). "
+                "n = 3 is the centre of the penalty exp(α(n-3)²), an input, and is the "
+                "minimum only for α > ln(1 + K₁)"
+            )
+        ))
 
     def validate_fourth_generation_excluded(self) -> ValidationResult:
-        """Validate that 4th generation is excluded."""
-        prediction = Prediction(
-            "No 4th Generation", 0.0, 0.0,
-            "4th generation excluded by complexity barrier"
-        )
         measurement = self.data.pdg["m_tprime_limit"]
-
-        # m_t' > 656 GeV excludes sequential 4th generation
-        status = ValidationStatus.CONFIRMED
-
-        result = ValidationResult(
-            prediction=prediction,
+        return self._record(ValidationResult(
+            prediction=Prediction("No 4th Generation", 0.0, 0.0, "Exclusion by the generation penalty"),
             measurement=measurement,
-            status=status,
-            sigma_deviation=0.0,
-            notes=f"LHC excludes m_t' < {measurement.value} GeV"
-        )
-        self.results.append(result)
-        return result
+            status=ValidationStatus.CONSISTENT,
+            sigma_deviation=None,
+            notes=f"README-stated limit m_t' > {measurement.value} GeV; the excluded n is an input"
+        ))
 
     def validate_helicity_barrier(self) -> ValidationResult:
-        """Validate helicity barrier parameters."""
-        prediction = Prediction(
-            "Helicity Barrier tau", 0.022, 0.008,
-            "Curvature coefficient in constitutive law"
-        )
-        measurement = self.data.helio["tau_helicity"]
-
-        sigma = measurement.sigma_deviation(prediction.value)
-        consistent = sigma < 2.0
-
-        status = ValidationStatus.CONFIRMED if consistent else ValidationStatus.TENSION
-
-        result = ValidationResult(
-            prediction=prediction,
-            measurement=measurement,
-            status=status,
-            sigma_deviation=sigma,
-            notes="From McIntyre et al. 2025 using PSP data"
-        )
-        self.results.append(result)
-        return result
+        reported = self.data.manuscript_reported["tau_helicity"]
+        return self._record(ValidationResult(
+            prediction=Prediction("Helicity Barrier tau", 0.022, 0.008, "Quadratic coefficient"),
+            measurement=reported,
+            status=ValidationStatus.NOT_INDEPENDENT,
+            sigma_deviation=None,
+            notes=(
+                "τ is the manuscript's own fitted coefficient; no independent measurement or "
+                "reproducible analysis is in this repository"
+            )
+        ))
 
     def validate_critical_beta(self) -> ValidationResult:
-        """Validate critical plasma beta."""
-        prediction = Prediction(
-            "Critical Beta", 0.5, 0.1,
-            "Threshold for barrier activation"
-        )
-        measurement = self.data.helio["beta_critical"]
-
-        sigma = abs(measurement.value - prediction.value) / measurement.error
-        consistent = sigma < 2.0
-
-        status = ValidationStatus.CONFIRMED if consistent else ValidationStatus.TENSION
-
-        result = ValidationResult(
-            prediction=prediction,
-            measurement=measurement,
-            status=status,
-            sigma_deviation=sigma,
-            notes="From PSP encounters 10-22"
-        )
-        self.results.append(result)
-        return result
+        reported = self.data.manuscript_reported["beta_critical"]
+        return self._record(ValidationResult(
+            prediction=Prediction("Critical Beta", 0.5, 0.0, "Barrier activation threshold"),
+            measurement=reported,
+            status=ValidationStatus.NOT_INDEPENDENT,
+            sigma_deviation=None,
+            notes="Stated in the README and manuscript, citing McIntyre et al.; no data or analysis here"
+        ))
 
     def validate_primordial_fnl(self) -> ValidationResult:
-        """Validate suppressed primordial non-Gaussianity."""
-        prediction = Prediction(
-            "f_NL < O(1)", 0.0, 1.0,
-            "Suppressed without fundamental inflaton"
-        )
         measurement = self.data.planck["f_NL_local"]
-
-        # f_NL = -0.9 ± 5.1 is consistent with ~0
-        sigma = abs(measurement.value) / measurement.error
-        consistent = sigma < 2.0
-
-        status = ValidationStatus.CONSISTENT
-
-        result = ValidationResult(
-            prediction=prediction,
+        return self._record(ValidationResult(
+            prediction=Prediction("f_NL < O(1)", 0.0, 1.0, "Suppressed primordial non-Gaussianity"),
             measurement=measurement,
-            status=status,
-            sigma_deviation=sigma,
-            notes=f"Planck: f_NL = {measurement.value} ± {measurement.error}"
-        )
-        self.results.append(result)
-        return result
+            status=ValidationStatus.CONSISTENT,
+            sigma_deviation=measurement.sigma_deviation(0.0),
+            notes=(
+                f"Planck: f_NL = {measurement.value} ± {measurement.error}, which cannot "
+                "distinguish f_NL of order 1 or below from many alternatives"
+            )
+        ))
 
     def validate_stelle_ratio(self) -> ValidationResult:
-        """Validate Stelle ratio (testable prediction)."""
-        prediction = Prediction(
-            "Stelle Ratio", -0.5, 0.0,
-            "gamma_1/gamma_2 = -1/2"
-        )
-        # No direct measurement yet
-        measurement = Measurement(
-            "Stelle ratio", 0.0, 0.0, "",
-            "Not yet measured", 2024
-        )
+        return self._record(ValidationResult(
+            prediction=Prediction("Stelle Ratio", -0.5, 0.0, "gamma_1/gamma_2 = -1/2"),
+            measurement=None,
+            status=ValidationStatus.UNSUPPORTED,
+            sigma_deviation=None,
+            notes=(
+                "Manuscript Thm 5.1 equates γ₁R² + γ₂R_μν² at ratio -1/4 with Gauss-Bonnet "
+                "(dropping its Riemann² term), then asserts -1/2 from unstated loop corrections. "
+                "Mod Gauss-Bonnet the Weyl² coefficient is γ₂/2, so any γ₂ ≠ 0 keeps the "
+                "spin-2 ghost. No measurement exists"
+            )
+        ))
 
-        status = ValidationStatus.TESTABLE
-
-        result = ValidationResult(
-            prediction=prediction,
+    def validate_mass_ratios(self) -> ValidationResult:
+        top, charm = self.data.pdg["m_top"], self.data.pdg["m_charm"]
+        ratio = top.value / charm.value
+        error = ratio * np.hypot(top.error / top.value, charm.error / charm.value)
+        measurement = Measurement("m_t/m_c", ratio, error, "", "Ratio of PDG values above", 2022)
+        cl6 = Cl6MassHierarchy()
+        factors = [c["factor"] for c in cl6.validate_mass_ratios().values()]
+        return self._record(ValidationResult(
+            prediction=Prediction("Cl(6) Mass Ratios", 1 / cl6.epsilon, 0.0, "Every adjacent ratio is 1/ε"),
             measurement=measurement,
-            status=status,
-            sigma_deviation=0.0,
-            notes="Testable via GW ringdown spectroscopy"
-        )
-        self.results.append(result)
-        return result
+            status=ValidationStatus.FALSIFIED,
+            sigma_deviation=measurement.sigma_deviation(1 / cl6.epsilon),
+            notes=(
+                f"Observed/predicted over six adjacent ratios: {min(factors):.1f} to "
+                f"{max(factors):.0f}; {sum(f > 10 for f in factors)} miss by more than 10×. "
+                "The manuscript cites RG running without a calculation; schemes are mixed"
+            )
+        ))
 
     def validate_all(self) -> Dict[str, ValidationResult]:
-        """
-        Run all validation tests.
-
-        Returns
-        -------
-        dict
-            All validation results
-        """
+        """Run all comparisons."""
         self.results = []
-
         return {
             "three_generations": self.validate_three_generations(),
             "fourth_generation": self.validate_fourth_generation_excluded(),
@@ -490,38 +282,21 @@ class ValidationSuite:
             "critical_beta": self.validate_critical_beta(),
             "primordial_fnl": self.validate_primordial_fnl(),
             "stelle_ratio": self.validate_stelle_ratio(),
+            "mass_ratios": self.validate_mass_ratios(),
         }
 
     def summary(self) -> Dict[str, Any]:
-        """
-        Generate validation summary.
-
-        Returns
-        -------
-        dict
-            Summary statistics
-        """
+        """Counts by status and one row per comparison."""
         if not self.results:
             self.validate_all()
 
-        status_counts = {}
+        counts: Dict[str, int] = {}
         for result in self.results:
-            status = result.status.value
-            status_counts[status] = status_counts.get(status, 0) + 1
-
-        confirmed = status_counts.get("confirmed", 0)
-        consistent = status_counts.get("consistent", 0)
-        testable = status_counts.get("testable", 0)
-        total = len(self.results)
+            counts[result.status.value] = counts.get(result.status.value, 0) + 1
 
         return {
-            "total_predictions": total,
-            "confirmed": confirmed,
-            "consistent": consistent,
-            "testable": testable,
-            "falsified": status_counts.get("falsified", 0),
-            "success_rate": (confirmed + consistent) / total if total > 0 else 0.0,
-            "status_breakdown": status_counts,
+            "total_claims": len(self.results),
+            "status_counts": counts,
             "results": [
                 {
                     "name": r.prediction.name,
@@ -534,81 +309,22 @@ class ValidationSuite:
         }
 
     def generate_report(self) -> str:
-        """
-        Generate validation report as markdown.
-
-        Returns
-        -------
-        str
-            Markdown-formatted report
-        """
+        """Markdown table of the comparisons."""
         summary = self.summary()
-
-        report = ["# Empirical Validation Report\n"]
-        report.append("## Summary\n")
-        report.append(f"- Total predictions tested: {summary['total_predictions']}")
-        report.append(f"- Confirmed: {summary['confirmed']}")
-        report.append(f"- Consistent: {summary['consistent']}")
-        report.append(f"- Testable (pending): {summary['testable']}")
-        report.append(f"- Success rate: {summary['success_rate']:.1%}\n")
-
-        report.append("## Detailed Results\n")
-        report.append("| Prediction | Status | σ Deviation | Notes |")
-        report.append("|------------|--------|-------------|-------|")
-
+        lines = [
+            "| Claim | Status | σ from claim | Notes |",
+            "|-------|--------|--------------|-------|",
+        ]
         for r in summary["results"]:
-            status_emoji = {
-                "confirmed": "✅",
-                "consistent": "✅",
-                "testable": "🔬",
-                "tension": "⚠️",
-                "falsified": "❌"
-            }.get(r["status"], "?")
-
-            sigma_str = f"{r['sigma']:.2f}" if r['sigma'] > 0 else "-"
-            report.append(
-                f"| {r['name']} | {status_emoji} {r['status']} | {sigma_str} | {r['notes']} |"
-            )
-
-        report.append("\n## Data Sources\n")
-        report.append("- Particle Data Group 2024")
-        report.append("- Planck 2018 Cosmological Parameters")
-        report.append("- LIGO/Virgo GWTC-3")
-        report.append("- Parker Solar Probe (Encounters 1-25)")
-        report.append("- McIntyre et al. (2025) Phys. Rev. X")
-
-        return "\n".join(report)
+            sigma = "-" if r["sigma"] is None else f"{r['sigma']:.1f}"
+            lines.append(f"| {r['name']} | {r['status']} | {sigma} | {r['notes']} |")
+        counts = ", ".join(f"{k}: {v}" for k, v in summary["status_counts"].items())
+        return "\n".join(["# Empirical Validation Report", "", f"Claims: {summary['total_claims']} ({counts})", ""] + lines)
 
 
 def main():
-    """Run validation and print results."""
-    print("Complexity Physics Framework - Validation Suite")
-    print("=" * 55)
-
-    suite = ValidationSuite()
-    results = suite.validate_all()
-
-    print("\nValidation Results:")
-    for name, result in results.items():
-        status_str = {
-            ValidationStatus.CONFIRMED: "✅ CONFIRMED",
-            ValidationStatus.CONSISTENT: "✅ CONSISTENT",
-            ValidationStatus.TESTABLE: "🔬 TESTABLE",
-            ValidationStatus.TENSION: "⚠️ TENSION",
-            ValidationStatus.FALSIFIED: "❌ FALSIFIED"
-        }[result.status]
-
-        print(f"\n  {result.prediction.name}:")
-        print(f"    Status: {status_str}")
-        if result.sigma_deviation > 0:
-            print(f"    Deviation: {result.sigma_deviation:.2f}σ")
-        print(f"    Notes: {result.notes}")
-
-    summary = suite.summary()
-    print(f"\n{'='*55}")
-    print("Summary:")
-    print(f"  Confirmed: {summary['confirmed']}/{summary['total_predictions']}")
-    print(f"  Success rate: {summary['success_rate']:.1%}")
+    """Print the comparison table."""
+    print(ValidationSuite().generate_report())
 
 
 if __name__ == "__main__":

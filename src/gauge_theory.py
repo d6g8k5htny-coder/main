@@ -10,15 +10,18 @@ Key concepts:
 
 Where:
     r(G) = rank of gauge group
-    ||f||² = structure constant norm
+    ||f||² = adjoint quadratic Casimir h^∨ (f^acd f^bcd = h^∨ δ^ab, long roots
+             of length² 2); the total Σ f_abc² = h^∨·dim G gives the same ordering
     d(Rᵢ) = dimension of representation
     C₂(Rᵢ) = quadratic Casimir
 
-The Standard Model gauge group SU(3)×SU(2)×U(1) emerges as the
-complexity minimum among anomaly-free gauge theories.
+The 2025 manuscript claims SU(3)×SU(2)×U(1) is the complexity minimum among
+anomaly-free gauge theories. Under this K(G) its own subgroups U(1), SU(2) and
+SU(3) score lower, so K(G) alone does not select it.
 """
 
 from dataclasses import dataclass, field
+from fractions import Fraction
 from typing import Dict, List, Optional, Tuple, Any
 import numpy as np
 from enum import Enum
@@ -303,8 +306,12 @@ class RepresentationComplexity:
 
         elif gauge_group == "SO10":
             # SO(10) GUT: each generation in 16
-            spinor_16 = Representation("16", dimension=16, quadratic_casimir=15/2)
+            # C₂(16) = N(N-1)/16 for SO(N) with C₂(adjoint) = N - 2 = h^∨
+            spinor_16 = Representation("16", dimension=16, quadratic_casimir=45/8)
             K_matter = n_generations * spinor_16.complexity_contribution
+
+        else:
+            raise ValueError(f"No matter content defined for {gauge_group}")
 
         return self.mu_weight * (K_gauge + K_matter)
 
@@ -314,60 +321,37 @@ class RepresentationComplexity:
         n_generations: int = 3
     ) -> float:
         """
-        Compute gauge anomaly coefficient.
+        Return the largest absolute gauge anomaly of the supported matter content.
 
         Anomaly cancellation requires this to vanish.
-
-        Returns
-        -------
-        float
-            Anomaly coefficient (0 if anomaly-free)
         """
         if gauge_group in ["SU3xSU2xU1", "SM"]:
-            # SM is anomaly-free with complete generations
-            # Key condition: Tr[Y³] = Tr[Y T_a²] = 0 per generation
-            # This is satisfied by the SM hypercharge assignments
+            check = StandardModelAnalysis().fermion_representation_check()
+            return n_generations * max(abs(check[k]) for k in (
+                "anomaly_U1_cubed", "anomaly_SU2_U1", "anomaly_SU3_U1", "anomaly_gravitational"
+            ))
+
+        if gauge_group == "SU5":
+            # SU(5)³ anomaly coefficients A(5̄) = -1 and A(10) = +1 cancel per generation
+            return abs(n_generations * (-1 + 1))
+
+        if gauge_group == "SO10":
+            # SO(N) with N ≥ 3, N ≠ 6 has no cubic Casimir, so no representation is anomalous
             return 0.0
 
-        elif gauge_group == "SU5":
-            # SU(5) is anomaly-free with 5̄ + 10 per generation
-            return 0.0
-
-        elif gauge_group == "SO10":
-            # SO(10) is automatically anomaly-free (real representations)
-            return 0.0
-
-        # Default: compute from representation content
-        return 0.0
+        raise ValueError(f"No matter content defined for {gauge_group}")
 
     def compare_gut_models(self, n_generations: int = 3) -> Dict[str, float]:
-        """
-        Compare complexity across GUT models.
-
-        Returns
-        -------
-        dict
-            Complexity values for different gauge groups
-        """
-        models = ["SU3xSU2xU1", "SU5", "SO10", "E6"]
-        results = {}
-
-        for model in models:
-            try:
-                K = self.compute(model, n_generations)
-                results[model] = K
-            except Exception:
-                results[model] = float('inf')
-
-        return results
+        """Compare complexity across the models whose matter content is defined."""
+        return {
+            model: self.compute(model, n_generations)
+            for model in ["SU3xSU2xU1", "SU5", "SO10"]
+        }
 
 
 class StandardModelAnalysis:
     """
     Detailed analysis of Standard Model gauge structure.
-
-    The SM gauge group SU(3)×SU(2)×U(1) emerges from complexity
-    minimization among anomaly-free theories.
     """
 
     def __init__(self):
@@ -377,7 +361,7 @@ class StandardModelAnalysis:
     def gauge_coupling_unification(
         self,
         alpha_s: float = 0.1179,  # Strong coupling at M_Z
-        alpha_em: float = 1/137.036,  # Fine structure constant
+        alpha_em: float = 1/127.951,  # MS-bar α̂(M_Z), same scheme and scale as sin²θ_W
         sin2_theta_w: float = 0.23121  # Weak mixing angle at M_Z
     ) -> Dict[str, float]:
         """
@@ -398,7 +382,8 @@ class StandardModelAnalysis:
             Coupling analysis results
         """
         # SM gauge couplings at M_Z
-        alpha_1 = alpha_em / (1 - sin2_theta_w)  # U(1)_Y coupling
+        # GUT-normalised U(1)_Y coupling, matching b1 = 41/10 below
+        alpha_1 = (5 / 3) * alpha_em / (1 - sin2_theta_w)
         alpha_2 = alpha_em / sin2_theta_w  # SU(2)_L coupling
         alpha_3 = alpha_s  # SU(3)_c coupling
 
@@ -466,67 +451,44 @@ class StandardModelAnalysis:
         """
         Verify SM fermion representations satisfy anomaly cancellation.
 
-        Returns
-        -------
-        dict
-            Anomaly analysis results
+        Fields are counted as left-handed Weyl fermions: right-handed fields
+        enter with the opposite sign (equivalently, as their conjugates).
+        Exact rational arithmetic makes cancellation exact.
         """
-        # Per generation hypercharges
-        Y_QL = 1/6  # Left quark doublet
-        Y_uR = 2/3  # Right up
-        Y_dR = -1/3  # Right down
-        Y_LL = -1/2  # Left lepton doublet
-        Y_eR = -1  # Right electron
+        Y_QL = Fraction(1, 6)
+        Y_uR = Fraction(2, 3)
+        Y_dR = Fraction(-1, 3)
+        Y_LL = Fraction(-1, 2)
+        Y_eR = Fraction(-1)
 
         # Multiplicities (color × weak)
-        n_QL = 3 * 2  # Color triplet, weak doublet
-        n_uR = 3 * 1  # Color triplet, weak singlet
-        n_dR = 3 * 1
-        n_LL = 1 * 2  # Color singlet, weak doublet
-        n_eR = 1 * 1
+        n_QL, n_uR, n_dR, n_LL, n_eR = 6, 3, 3, 2, 1
 
-        # Anomaly checks
-        # 1. [U(1)]³ anomaly: Σ Y³ = 0
-        Y3_sum = (
-            n_QL * Y_QL**3 +
-            n_uR * Y_uR**3 +
-            n_dR * Y_dR**3 +
-            n_LL * Y_LL**3 +
-            n_eR * Y_eR**3
-        )
+        def chiral_sum(power: int) -> Fraction:
+            left = n_QL * Y_QL**power + n_LL * Y_LL**power
+            right = n_uR * Y_uR**power + n_dR * Y_dR**power + n_eR * Y_eR**power
+            return left - right
 
-        # 2. [SU(2)]² U(1) anomaly: Σ_doublets Y = 0
-        Y_doublets = n_QL/2 * Y_QL + n_LL/2 * Y_LL  # Divide by 2 for weak doublet count
+        Y3_sum = chiral_sum(3)
+        Y_sum = chiral_sum(1)
+        # [SU(2)]²U(1): left-handed doublets, weighted by colour
+        Y_doublets = 3 * Y_QL + Y_LL
+        # [SU(3)]²U(1): colour triplets, weighted by weak multiplicity
+        Y_triplets = 2 * Y_QL - Y_uR - Y_dR
 
-        # 3. [SU(3)]² U(1) anomaly: Σ_triplets Y = 0
-        Y_triplets = 2 * Y_QL + Y_uR + Y_dR  # Factor of 2 for doublet
-
-        # 4. Gravitational anomaly: Σ Y = 0
-        Y_sum = (
-            n_QL * Y_QL +
-            n_uR * Y_uR +
-            n_dR * Y_dR +
-            n_LL * Y_LL +
-            n_eR * Y_eR
-        )
-
+        anomalies = (Y3_sum, Y_doublets, Y_triplets, Y_sum)
         return {
-            "anomaly_U1_cubed": Y3_sum,
-            "anomaly_SU2_U1": Y_doublets,
-            "anomaly_SU3_U1": Y_triplets,
-            "anomaly_gravitational": Y_sum,
-            "all_anomalies_cancel": all([
-                abs(Y3_sum) < 1e-10,
-                abs(Y_doublets) < 1e-10,
-                abs(Y_triplets) < 1e-10,
-                abs(Y_sum) < 1e-10
-            ]),
+            "anomaly_U1_cubed": float(Y3_sum),
+            "anomaly_SU2_U1": float(Y_doublets),
+            "anomaly_SU3_U1": float(Y_triplets),
+            "anomaly_gravitational": float(Y_sum),
+            "all_anomalies_cancel": all(a == 0 for a in anomalies),
             "hypercharge_assignments": {
-                "Q_L": Y_QL,
-                "u_R": Y_uR,
-                "d_R": Y_dR,
-                "L_L": Y_LL,
-                "e_R": Y_eR
+                "Q_L": float(Y_QL),
+                "u_R": float(Y_uR),
+                "d_R": float(Y_dR),
+                "L_L": float(Y_LL),
+                "e_R": float(Y_eR)
             }
         }
 

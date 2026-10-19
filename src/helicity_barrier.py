@@ -1,117 +1,77 @@
 """
 Helicity Barrier and Solar Wind Turbulence Model
-=================================================
+================================================
 
-This module implements the helicity barrier model for solar wind turbulence,
-which provides empirical validation for the complexity barrier mechanism.
+Code for the helicity-barrier material of the retired 2025 manuscript (body
+§12 and Appendix C). The manuscript reports a regression of the intermittency
+deviation Δζ₄ = ζ₄ - 2ζ₂ on magnetic compressibility C_B, fitted to ACE
+magnetic-field data (1998-2011):
 
-Key concepts:
-    - Helicity barrier: prevents turbulent cascade at low plasma β
-    - Critical parameters: β_c ≈ 0.5, σ_c ≳ 0.4
-    - Constitutive law: |Δζ₄| = 0.1843 - 0.2051 C_B + 0.022 C_B²
-    - Curvature coefficient: τ = 0.022 ± 0.008
+    |Δζ₄| = a₀ + a₁ C_B + τ C_B²,   τ = 0.022 ± 0.008
 
-Data sources:
-    - Parker Solar Probe encounters 1-25 (2018-2025)
-    - ACE solar wind data (1998-present)
-    - McIntyre et al. (2025) Phys. Rev. X
+Neither those data nor that analysis are in this repository, so the
+coefficients are quoted, not reproduced. The activation thresholds β_c ≈ 0.5
+and σ_c ≳ 0.4 are as stated in the 2025 README. This module contains no ACE or
+Parker Solar Probe measurements.
 
-References:
-    - Squire et al. (2022) Nature Astronomy 6, 715-723
-    - McIntyre et al. (2025) Phys. Rev. X 15, 031008
+The helicity barrier itself is the mechanism of Squire, Meyrand & Schekochihin
+(2022, Nature Astronomy 6, 715); the README also cites McIntyre et al. (2025,
+Phys. Rev. X 15, 031008). Neither paper was checked here as a source for the
+numbers above.
 """
 
-from dataclasses import dataclass, field
-from typing import Dict, List, Optional, Tuple, Any
+from dataclasses import dataclass
+from typing import Any, Dict, List, Optional, Tuple
+
 import numpy as np
 from scipy.optimize import curve_fit
-from scipy.stats import linregress
 
 
-# Physical constants
 PROTON_MASS = 1.6726219e-27  # kg
-ELECTRON_MASS = 9.1093837e-31  # kg
 BOLTZMANN = 1.380649e-23  # J/K
-MU_0 = 4 * np.pi * 1e-7  # H/m (vacuum permeability)
+MU_0 = 4 * np.pi * 1e-7  # H/m
 SOLAR_RADIUS = 6.96e8  # m
 
 
 @dataclass
 class SolarWindParameters:
-    """
-    Solar wind plasma parameters.
-
-    Typical values at 1 AU:
-        n ≈ 5 cm⁻³
-        T ≈ 10⁵ K
-        B ≈ 5 nT
-        v ≈ 400 km/s
-    """
-    density: float  # cm⁻³
-    temperature: float  # K
-    magnetic_field: float  # nT
-    velocity: float  # km/s
+    """Bulk plasma parameters (n in cm⁻³, T in K, B in nT, v in km/s)."""
+    density: float
+    temperature: float
+    magnetic_field: float
+    velocity: float
     distance_AU: float = 1.0
 
     @property
     def plasma_beta(self) -> float:
-        """
-        Compute plasma β = 8πnkT / B².
-
-        β is the ratio of thermal to magnetic pressure.
-        """
-        n_si = self.density * 1e6  # Convert to m⁻³
-        B_si = self.magnetic_field * 1e-9  # Convert to T
-
-        thermal_pressure = n_si * BOLTZMANN * self.temperature
-        magnetic_pressure = B_si**2 / (2 * MU_0)
-
-        return thermal_pressure / magnetic_pressure
+        """Proton β = n k T / (B² / 2μ₀)."""
+        n_si = self.density * 1e6
+        B_si = self.magnetic_field * 1e-9
+        return (n_si * BOLTZMANN * self.temperature) / (B_si**2 / (2 * MU_0))
 
     @property
     def alfven_speed(self) -> float:
-        """
-        Compute Alfvén speed v_A = B / √(μ₀ρ).
-
-        Returns speed in km/s.
-        """
-        n_si = self.density * 1e6  # m⁻³
-        B_si = self.magnetic_field * 1e-9  # T
-        rho = n_si * PROTON_MASS  # kg/m³
-
-        v_A = B_si / np.sqrt(MU_0 * rho)
-        return v_A / 1000  # Convert to km/s
-
-    @property
-    def normalized_cross_helicity(self) -> float:
-        """
-        Estimate normalized cross-helicity σ_c = 2⟨v·b⟩ / (⟨v²⟩ + ⟨b²⟩).
-
-        For solar wind, typically |σ_c| ≈ 0.3-0.8 depending on conditions.
-        This is an estimate; actual values require velocity/field fluctuations.
-        """
-        # Estimate based on typical fast/slow wind
-        if self.velocity > 500:  # Fast wind
-            return 0.6
-        else:  # Slow wind
-            return 0.3
+        """Alfvén speed B / √(μ₀ρ) in km/s."""
+        rho = self.density * 1e6 * PROTON_MASS
+        return self.magnetic_field * 1e-9 / np.sqrt(MU_0 * rho) / 1000
 
 
 @dataclass
 class HelicityBarrierFit:
     """
-    Fitted parameters for helicity barrier constitutive law.
+    Coefficients of |Δζ₄| = a₀ + a₁ C_B + a₂ C_B².
 
-    |Δζ₄| = a₀ + a₁ C_B + a₂ C_B²
-
-    Where C_B is the cross-helicity dependent barrier coordinate.
+    Defaults are the manuscript's regression (Table 12.4 / C.4), including its
+    standard errors. The manuscript's reported R² = 0.82, F = 247.3 and
+    df = 156 are mutually inconsistent for a two-regressor fit (they imply
+    F ≈ 355), and the polynomial is negative for 1.007 < C_B < 8.32.
     """
-    a0: float = 0.1843  # Intercept
-    a1: float = -0.2051  # Linear coefficient
-    a2: float = 0.022  # Quadratic coefficient (τ)
-    a0_error: float = 0.01
-    a1_error: float = 0.02
-    a2_error: float = 0.008  # τ uncertainty
+    a0: float = 0.1843
+    a1: float = -0.2051
+    a2: float = 0.022
+    a0_error: float = 0.012
+    a1_error: float = 0.031
+    a2_error: float = 0.008
 
     @property
     def tau(self) -> float:
@@ -126,189 +86,97 @@ class HelicityBarrierFit:
 
 class HelicityBarrier:
     """
-    Helicity barrier model for MHD turbulence.
+    Threshold activation plus the manuscript's constitutive law.
 
-    The helicity barrier prevents the forward cascade of energy
-    at scales where β ≲ β_c ≈ 0.5 and |σ_c| ≳ 0.4.
-
-    Physical mechanism:
-        - At low β, magnetic fluctuations dominate
-        - High cross-helicity implies imbalanced turbulence
-        - Ion-cyclotron waves cannot efficiently transfer energy
-        - Creates "barrier" that diverts energy to ion heating
-
-    Mathematical description:
-        |Δζ₄| = 0.1843 - 0.2051 C_B + 0.022 C_B²
-
-    Where:
-        Δζ₄ = deviation of 4th-order structure function
-        C_B = |σ_c| (normalized cross-helicity)
+    Active when β < β_c and |σ_c| > threshold; the law relates |Δζ₄| to the
+    magnetic compressibility C_B (not to σ_c).
     """
 
-    def __init__(
-        self,
-        fit_params: Optional[HelicityBarrierFit] = None
-    ):
-        """
-        Initialize helicity barrier model.
-
-        Parameters
-        ----------
-        fit_params : HelicityBarrierFit, optional
-            Fitted constitutive law parameters
-        """
+    def __init__(self, fit_params: Optional[HelicityBarrierFit] = None):
         self.fit = fit_params or HelicityBarrierFit()
-
-        # Critical thresholds
+        self.fitted_here = False
         self.beta_critical = 0.5
         self.sigma_c_threshold = 0.4
 
-    def is_active(
-        self,
-        plasma_beta: float,
-        cross_helicity: float
-    ) -> bool:
-        """
-        Check if helicity barrier is active.
-
-        Parameters
-        ----------
-        plasma_beta : float
-            Plasma β = P_thermal / P_magnetic
-        cross_helicity : float
-            Normalized cross-helicity |σ_c|
-
-        Returns
-        -------
-        bool
-            True if barrier is active
-        """
+    def is_active(self, plasma_beta: float, cross_helicity: float) -> bool:
+        """Check whether the stated activation thresholds are met."""
         return (
             plasma_beta < self.beta_critical and
             abs(cross_helicity) > self.sigma_c_threshold
         )
 
-    def delta_zeta4(self, cross_helicity: float) -> float:
-        """
-        Compute structure function deviation |Δζ₄|.
+    def delta_zeta4(self, compressibility: float) -> float:
+        """Evaluate |a₀ + a₁ C_B + a₂ C_B²|."""
+        return float(self.delta_zeta4_array(np.asarray(compressibility)))
 
-        |Δζ₄| = a₀ + a₁ C_B + a₂ C_B²
-
-        Parameters
-        ----------
-        cross_helicity : float
-            Normalized cross-helicity C_B = |σ_c|
-
-        Returns
-        -------
-        float
-            Fourth-order structure function deviation
-        """
-        C_B = abs(cross_helicity)
-        return abs(
-            self.fit.a0 +
-            self.fit.a1 * C_B +
-            self.fit.a2 * C_B**2
-        )
-
-    def delta_zeta4_array(self, cross_helicity: np.ndarray) -> np.ndarray:
+    def delta_zeta4_array(self, compressibility: np.ndarray) -> np.ndarray:
         """Vectorized version of delta_zeta4."""
-        C_B = np.abs(cross_helicity)
-        return np.abs(
-            self.fit.a0 +
-            self.fit.a1 * C_B +
-            self.fit.a2 * C_B**2
-        )
+        C_B = np.abs(compressibility)
+        return np.abs(self.fit.a0 + self.fit.a1 * C_B + self.fit.a2 * C_B**2)
 
     def barrier_strength(
         self,
         plasma_beta: float,
-        cross_helicity: float
+        cross_helicity: float,
+        compressibility: float
     ) -> float:
-        """
-        Compute effective barrier strength.
-
-        Returns 0 if barrier inactive, otherwise δζ₄.
-        """
+        """Return |Δζ₄| when the barrier is active, otherwise 0."""
         if not self.is_active(plasma_beta, cross_helicity):
             return 0.0
-        return self.delta_zeta4(cross_helicity)
+        return self.delta_zeta4(compressibility)
 
     def fit_to_data(
         self,
-        cross_helicity: np.ndarray,
+        compressibility: np.ndarray,
         delta_zeta4_obs: np.ndarray,
         weights: Optional[np.ndarray] = None
     ) -> HelicityBarrierFit:
-        """
-        Fit constitutive law to observed data.
-
-        Parameters
-        ----------
-        cross_helicity : array
-            Observed cross-helicity values
-        delta_zeta4_obs : array
-            Observed |Δζ₄| values
-        weights : array, optional
-            Measurement weights
-
-        Returns
-        -------
-        HelicityBarrierFit
-            Fitted parameters
-        """
+        """Least-squares fit of the quadratic law to user-supplied data."""
         def model(C_B, a0, a1, a2):
             return a0 + a1 * C_B + a2 * C_B**2
 
-        C_B = np.abs(cross_helicity)
-
         popt, pcov = curve_fit(
-            model, C_B, delta_zeta4_obs,
+            model, np.abs(compressibility), delta_zeta4_obs,
             p0=[0.18, -0.2, 0.02],
             sigma=weights,
-            absolute_sigma=True if weights is not None else False
+            absolute_sigma=weights is not None
         )
-
         errors = np.sqrt(np.diag(pcov))
-
         self.fit = HelicityBarrierFit(
             a0=popt[0], a1=popt[1], a2=popt[2],
             a0_error=errors[0], a1_error=errors[1], a2_error=errors[2]
         )
-
+        self.fitted_here = True
         return self.fit
 
     def validate_prediction(self) -> Dict[str, Any]:
         """
-        Validate τ = 0.022 ± 0.008 prediction.
+        Compare the current τ with the manuscript's τ = 0.022 ± 0.008.
 
-        Returns
-        -------
-        dict
-            Validation results
+        Before fit_to_data runs, the current τ is the manuscript value itself,
+        so no comparison is reported. Whether supplied data are independent of
+        the manuscript's is for the caller to establish.
         """
-        predicted_tau = 0.022
-        predicted_error = 0.008
-
-        return {
-            "predicted_tau": predicted_tau,
-            "predicted_error": predicted_error,
+        reference_tau, reference_error = 0.022, 0.008
+        result = {
+            "reference_tau": reference_tau,
+            "reference_error": reference_error,
             "fitted_tau": self.fit.tau,
             "fitted_error": self.fit.tau_error,
-            "consistent": abs(self.fit.tau - predicted_tau) < 2 * predicted_error,
-            "sigma_deviation": abs(self.fit.tau - predicted_tau) / predicted_error
+            "fitted_here": self.fitted_here,
+            "consistent": None,
+            "sigma_deviation": None,
         }
+        if self.fitted_here:
+            deviation = abs(self.fit.tau - reference_tau) / np.hypot(reference_error, self.fit.tau_error)
+            result.update(consistent=bool(deviation < 2), sigma_deviation=float(deviation))
+        return result
 
 
 class TurbulenceModel:
     """
-    MHD turbulence model with helicity barrier.
-
-    Implements the cascade model where:
-        - Energy injected at large scales
-        - Forward cascade transfers energy to small scales
-        - Helicity barrier can block/divert cascade
-        - Remaining energy heats ions at cyclotron scales
+    Illustrative toy cascade, written for this code base rather than taken
+    from the manuscript. Parameters are not calibrated to any data.
     """
 
     def __init__(self):
@@ -317,51 +185,21 @@ class TurbulenceModel:
     def cascade_spectrum(
         self,
         wavenumber: np.ndarray,
-        injection_scale: float = 1e6,  # m (correlation scale)
-        injection_rate: float = 1.0,  # W/m³
+        injection_rate: float = 1.0,
         plasma_beta: float = 1.0,
-        cross_helicity: float = 0.0
+        cross_helicity: float = 0.0,
+        compressibility: float = 0.0,
+        ion_scale: float = 1e5  # m, roughly the ion inertial length at 1 AU
     ) -> Dict[str, np.ndarray]:
-        """
-        Compute turbulence power spectrum.
-
-        Parameters
-        ----------
-        wavenumber : array
-            Wavenumbers k in m⁻¹
-        injection_scale : float
-            Correlation/injection scale L_c
-        injection_rate : float
-            Energy injection rate ε
-        plasma_beta : float
-            Plasma β
-        cross_helicity : float
-            Normalized cross-helicity
-
-        Returns
-        -------
-        dict
-            Power spectra for various quantities
-        """
+        """Kolmogorov k^(-5/3) spectrum with an exponential cut beyond the ion scale."""
         k = wavenumber
-        k_inj = 2 * np.pi / injection_scale
-
-        # Kolmogorov spectrum: E(k) ~ k^(-5/3)
         E_kolmogorov = injection_rate**(2/3) * k**(-5/3)
 
-        # Barrier modification
-        if self.barrier.is_active(plasma_beta, cross_helicity):
-            # Barrier suppresses cascade at sub-ion scales
-            rho_i = 1e4  # Ion inertial length estimate (m)
-            k_ion = 2 * np.pi / rho_i
-
-            # Steeper spectrum beyond barrier
-            barrier_factor = np.where(
-                k > k_ion,
-                np.exp(-self.barrier.barrier_strength(plasma_beta, cross_helicity) * (k - k_ion) / k_ion),
-                1.0
-            )
-            E_cascade = E_kolmogorov * barrier_factor
+        active = self.barrier.is_active(plasma_beta, cross_helicity)
+        if active:
+            k_ion = 2 * np.pi / ion_scale
+            strength = self.barrier.barrier_strength(plasma_beta, cross_helicity, compressibility)
+            E_cascade = E_kolmogorov * np.where(k > k_ion, np.exp(-strength * (k - k_ion) / k_ion), 1.0)
         else:
             E_cascade = E_kolmogorov
 
@@ -369,74 +207,49 @@ class TurbulenceModel:
             "wavenumber": k,
             "E_kolmogorov": E_kolmogorov,
             "E_with_barrier": E_cascade,
-            "barrier_active": self.barrier.is_active(plasma_beta, cross_helicity)
+            "barrier_active": active
         }
 
     def heating_rate(
         self,
         plasma_params: SolarWindParameters,
-        cross_helicity: float
+        cross_helicity: float,
+        compressibility: float = 0.0,
+        delta_v: float = 30.0,  # km/s, assumed fluctuation amplitude
+        correlation_length: float = 1e9  # m, assumed
     ) -> Dict[str, float]:
-        """
-        Estimate ion heating rate from barrier.
-
-        When barrier is active, energy diverted to ion heating
-        instead of continuing cascade.
-
-        Returns
-        -------
-        dict
-            Heating rates and diagnostics
-        """
+        """Toy estimate: cascade rate δv³/L, times |Δζ₄| as the diverted fraction."""
         beta = plasma_params.plasma_beta
-        v_A = plasma_params.alfven_speed
-
-        # Estimate turbulent energy density
-        # δv ~ 30 km/s typical
-        delta_v = 30.0  # km/s
         energy_density = 0.5 * plasma_params.density * 1e6 * PROTON_MASS * (delta_v * 1e3)**2
+        cascade_rate = energy_density / (correlation_length / (delta_v * 1e3))
 
-        # Cascade time ~ L/δv
-        L = 1e9  # Correlation length ~ 10⁶ km
-        cascade_time = L / (delta_v * 1e3)
-
-        # Base cascade rate
-        cascade_rate = energy_density / cascade_time
-
-        # Barrier modification
-        if self.barrier.is_active(beta, cross_helicity):
-            barrier_strength = self.barrier.barrier_strength(beta, cross_helicity)
-            # Fraction diverted to heating
-            heating_fraction = barrier_strength
-            ion_heating = cascade_rate * heating_fraction
-        else:
-            ion_heating = 0.0
-            heating_fraction = 0.0
+        active = self.barrier.is_active(beta, cross_helicity)
+        heating_fraction = self.barrier.barrier_strength(beta, cross_helicity, compressibility) if active else 0.0
 
         return {
             "plasma_beta": beta,
-            "barrier_active": self.barrier.is_active(beta, cross_helicity),
+            "barrier_active": active,
             "energy_density_J_m3": energy_density,
             "cascade_rate_W_m3": cascade_rate,
             "heating_fraction": heating_fraction,
-            "ion_heating_rate_W_m3": ion_heating
+            "ion_heating_rate_W_m3": cascade_rate * heating_fraction
         }
 
 
 @dataclass
 class PSPEncounter:
     """
-    Parker Solar Probe encounter data.
+    Observations from one Parker Solar Probe encounter, supplied by the caller.
 
-    PSP orbits bring it progressively closer to the Sun,
-    sampling different β regimes.
+    The repository ships no encounter data; the 2025-12-16 version contained
+    invented β ranges and detection flags, which were removed.
     """
     encounter_number: int
-    perihelion_Rs: float  # Solar radii
+    perihelion_Rs: float
     date: str
     plasma_beta_range: Tuple[float, float]
     sigma_c_range: Tuple[float, float]
-    barrier_observed: bool = False
+    barrier_observed: bool
 
     @property
     def perihelion_AU(self) -> float:
@@ -444,195 +257,71 @@ class PSPEncounter:
         return self.perihelion_Rs * SOLAR_RADIUS / 1.496e11
 
 
-# PSP encounter data (representative sample)
-PSP_ENCOUNTERS = [
-    PSPEncounter(1, 35.7, "2018-11-05", (0.5, 2.0), (0.2, 0.6), False),
-    PSPEncounter(4, 27.8, "2020-01-29", (0.3, 1.5), (0.3, 0.7), False),
-    PSPEncounter(6, 20.4, "2020-09-27", (0.2, 1.0), (0.3, 0.7), True),
-    PSPEncounter(10, 13.3, "2021-11-21", (0.1, 0.8), (0.4, 0.8), True),
-    PSPEncounter(12, 13.3, "2022-06-01", (0.1, 0.8), (0.4, 0.8), True),
-    PSPEncounter(16, 13.3, "2023-06-22", (0.1, 0.7), (0.4, 0.9), True),
-    PSPEncounter(17, 11.4, "2023-09-27", (0.08, 0.6), (0.5, 0.9), True),
-    PSPEncounter(22, 9.86, "2024-12-24", (0.05, 0.5), (0.5, 0.95), True),
-]
-
-
 class PSPDataAnalysis:
-    """
-    Analysis of Parker Solar Probe data for helicity barrier validation.
-    """
+    """Threshold checks over caller-supplied encounter observations."""
 
-    def __init__(self, encounters: Optional[List[PSPEncounter]] = None):
-        self.encounters = encounters or PSP_ENCOUNTERS
-        self.barrier = HelicityBarrier()
+    def __init__(self, encounters: List[PSPEncounter]):
+        if not encounters:
+            raise ValueError("Supply encounter observations; none are bundled")
+        self.encounters = encounters
 
     def barrier_detection_summary(self) -> Dict[str, Any]:
-        """
-        Summarize barrier detection across encounters.
-
-        Returns
-        -------
-        dict
-            Detection statistics
-        """
-        detections = sum(1 for e in self.encounters if e.barrier_observed)
-        total = len(self.encounters)
-
-        # Find β threshold
-        detected_betas = [
-            e.plasma_beta_range for e in self.encounters if e.barrier_observed
-        ]
-        not_detected_betas = [
-            e.plasma_beta_range for e in self.encounters if not e.barrier_observed
-        ]
-
+        """Count encounters with and without a reported barrier."""
+        detected = [e for e in self.encounters if e.barrier_observed]
         return {
-            "total_encounters": total,
-            "barrier_detected": detections,
-            "detection_rate": detections / total,
-            "detected_beta_ranges": detected_betas,
-            "not_detected_beta_ranges": not_detected_betas,
-            "inferred_beta_critical": 0.5  # From analysis
+            "total_encounters": len(self.encounters),
+            "barrier_detected": len(detected),
+            "detection_rate": len(detected) / len(self.encounters),
+            "detected_beta_ranges": [e.plasma_beta_range for e in detected],
+            "not_detected_beta_ranges": [
+                e.plasma_beta_range for e in self.encounters if not e.barrier_observed
+            ],
         }
 
-    def validate_beta_critical(self) -> Dict[str, Any]:
-        """
-        Validate β_c ≈ 0.5 prediction.
-
-        Returns
-        -------
-        dict
-            Validation results
-        """
-        predicted_beta_c = 0.5
-
-        # Check if barrier detection correlates with β < 0.5
-        correct_predictions = 0
-        for encounter in self.encounters:
-            min_beta = encounter.plasma_beta_range[0]
-            max_beta = encounter.plasma_beta_range[1]
-
-            # Barrier should be observed when min_beta < β_c
-            barrier_expected = min_beta < predicted_beta_c
-            if barrier_expected == encounter.barrier_observed:
-                correct_predictions += 1
-
-        accuracy = correct_predictions / len(self.encounters)
-
+    def validate_beta_critical(self, beta_c: float = 0.5) -> Dict[str, Any]:
+        """Accuracy of the rule 'barrier observed iff min β < β_c'."""
+        correct = sum(
+            (e.plasma_beta_range[0] < beta_c) == e.barrier_observed
+            for e in self.encounters
+        )
         return {
-            "predicted_beta_c": predicted_beta_c,
-            "prediction_accuracy": accuracy,
-            "validated": accuracy > 0.8,
+            "predicted_beta_c": beta_c,
+            "prediction_accuracy": correct / len(self.encounters),
             "encounters_analyzed": len(self.encounters)
         }
 
-    def sigma_c_threshold_analysis(self) -> Dict[str, Any]:
-        """
-        Analyze cross-helicity threshold σ_c ≳ 0.4.
-
-        Returns
-        -------
-        dict
-            Threshold analysis
-        """
-        predicted_threshold = 0.4
-
-        detected_sigma_c = []
-        not_detected_sigma_c = []
-
-        for encounter in self.encounters:
-            if encounter.barrier_observed:
-                detected_sigma_c.extend(encounter.sigma_c_range)
-            else:
-                not_detected_sigma_c.extend(encounter.sigma_c_range)
-
+    def sigma_c_threshold_analysis(self, threshold: float = 0.4) -> Dict[str, Any]:
+        """Mean σ_c range endpoints for encounters with and without a barrier."""
+        detected = [v for e in self.encounters if e.barrier_observed for v in e.sigma_c_range]
+        missing = [v for e in self.encounters if not e.barrier_observed for v in e.sigma_c_range]
         return {
-            "predicted_threshold": predicted_threshold,
-            "detected_sigma_c_mean": np.mean(detected_sigma_c) if detected_sigma_c else None,
-            "not_detected_sigma_c_mean": np.mean(not_detected_sigma_c) if not_detected_sigma_c else None,
-            "threshold_consistent": (
-                np.mean(detected_sigma_c) > predicted_threshold if detected_sigma_c else False
-            )
+            "threshold": threshold,
+            "detected_sigma_c_mean": float(np.mean(detected)) if detected else None,
+            "not_detected_sigma_c_mean": float(np.mean(missing)) if missing else None,
         }
 
 
 def generate_synthetic_data(
     n_points: int = 100,
-    noise_level: float = 0.01
+    noise_level: float = 0.01,
+    seed: Optional[int] = None
 ) -> Tuple[np.ndarray, np.ndarray]:
     """
-    Generate synthetic data for helicity barrier testing.
+    Synthetic (C_B, |Δζ₄|) pairs drawn from the manuscript's own coefficients.
 
-    Parameters
-    ----------
-    n_points : int
-        Number of data points
-    noise_level : float
-        Gaussian noise standard deviation
-
-    Returns
-    -------
-    tuple
-        (cross_helicity, delta_zeta4) arrays
+    Fitting these recovers the coefficients; that tests the fitter, not the law.
     """
-    # Cross-helicity from 0 to 1
-    sigma_c = np.linspace(0.0, 1.0, n_points)
-
-    # True constitutive law
+    rng = np.random.default_rng(seed)
+    compressibility = np.linspace(0.0, 1.0, n_points)
     fit = HelicityBarrierFit()
-    delta_zeta4_true = np.abs(
-        fit.a0 + fit.a1 * sigma_c + fit.a2 * sigma_c**2
-    )
-
-    # Add noise
-    noise = np.random.normal(0, noise_level, n_points)
-    delta_zeta4_obs = delta_zeta4_true + noise
-
-    return sigma_c, delta_zeta4_obs
+    truth = np.abs(fit.a0 + fit.a1 * compressibility + fit.a2 * compressibility**2)
+    return compressibility, truth + rng.normal(0, noise_level, n_points)
 
 
 if __name__ == "__main__":
-    print("Helicity Barrier Module")
-    print("=" * 50)
-
-    # Create barrier model
     barrier = HelicityBarrier()
-
-    print("\nConstitutive Law Parameters:")
-    print(f"  a₀ = {barrier.fit.a0:.4f} ± {barrier.fit.a0_error:.4f}")
-    print(f"  a₁ = {barrier.fit.a1:.4f} ± {barrier.fit.a1_error:.4f}")
-    print(f"  a₂ (τ) = {barrier.fit.a2:.4f} ± {barrier.fit.a2_error:.4f}")
-
-    print("\nCritical Thresholds:")
-    print(f"  β_c = {barrier.beta_critical}")
-    print(f"  σ_c threshold = {barrier.sigma_c_threshold}")
-
-    # Test barrier activation
-    print("\nBarrier Activation Tests:")
-    test_cases = [
-        (0.3, 0.5, "Low β, high σ_c"),
-        (0.7, 0.5, "High β, high σ_c"),
-        (0.3, 0.2, "Low β, low σ_c"),
-    ]
-    for beta, sigma_c, desc in test_cases:
-        active = barrier.is_active(beta, sigma_c)
-        status = "ACTIVE" if active else "inactive"
-        print(f"  {desc}: {status}")
-
-    # PSP data analysis
-    print("\nParker Solar Probe Analysis:")
-    psp_analysis = PSPDataAnalysis()
-    summary = psp_analysis.barrier_detection_summary()
-    print(f"  Encounters analyzed: {summary['total_encounters']}")
-    print(f"  Barrier detected: {summary['barrier_detected']}")
-    print(f"  Detection rate: {summary['detection_rate']:.1%}")
-
-    # Validate predictions
-    print("\nValidation:")
-    beta_val = psp_analysis.validate_beta_critical()
-    print(f"  β_c = 0.5 prediction accuracy: {beta_val['prediction_accuracy']:.1%}")
-
-    tau_val = barrier.validate_prediction()
-    print(f"  τ prediction: {tau_val['predicted_tau']} ± {tau_val['predicted_error']}")
-    print(f"  τ fitted: {tau_val['fitted_tau']:.4f} ± {tau_val['fitted_error']:.4f}")
-    print(f"  Consistent: {tau_val['consistent']}")
+    print("Quoted constitutive-law coefficients (2025 manuscript, not reproduced):")
+    print(f"  a₀ = {barrier.fit.a0:.4f} ± {barrier.fit.a0_error:.3f}")
+    print(f"  a₁ = {barrier.fit.a1:.4f} ± {barrier.fit.a1_error:.3f}")
+    print(f"  τ  = {barrier.fit.a2:.4f} ± {barrier.fit.a2_error:.3f}")
+    print(f"Comparison available without new data: {barrier.validate_prediction()['consistent']}")

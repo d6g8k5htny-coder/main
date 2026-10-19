@@ -21,11 +21,9 @@ setup(
     name="complexity-physics-framework",
     version="0.1.0",
     author="Dylan Roy",
-    author_email="dylanroy@example.com",
     description="Physics from Multiscale Retrodiction Complexity and Gauge Representation Minimization",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/dylanroy/complexity-physics-framework",
     packages=find_packages(),
     classifiers=[
         "Development Status :: 3 - Alpha",

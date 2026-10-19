@@ -1,3 +1,11 @@
+> **Retired 2025 material: not validated research.** The text below is the December 2025
+> README, which the owner has retired; see
+> [`history/2025/README.md` on `main`](https://github.com/d6g8k5htny-coder/main/blob/0a7e5145b55f020e02e7782fed318266d13c2447/history/2025/README.md).
+> Its "Confirmed" and "Validated" statuses, installation commands and arXiv badge are not
+> supported by anything in this repository. The Python code here is an exploratory
+> implementation; [results/validation_report.md](results/validation_report.md) records what
+> it actually checks, including claims that fail.
+
 # A Reconstruction of Physics from Multiscale Retrodiction Complexity and Gauge Representation Minimization
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
