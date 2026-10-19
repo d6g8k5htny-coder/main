@@ -1,0 +1,16 @@
+=== exact head 6e112b9, Python 3.11.15
+-- python3  -m unittest discover -s tests
+
+OK
+-- python3 -O -m unittest discover -s tests
+
+OK
+-- python3 -B -S -m unittest tests.test_verify_pins_input_types
+OK
+-- python3 -B -S -O -m unittest tests.test_verify_pins_input_types
+OK
+-- negative control: verifier reverted to base blob 18dafd3b
+FAILED (failures=20)
+restored: 99f52051
+python3  -m unittest discover -s tests: Ran 60 tests in 7.844s OK 
+python3 -O -m unittest discover -s tests: Ran 60 tests in 9.397s OK 
