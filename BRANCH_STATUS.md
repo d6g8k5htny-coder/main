@@ -20,6 +20,17 @@ shared, but the model and execution are different.
 - This session never posted a claim for this work on any coordination board, so
   there is nothing to release there.
 
+## Push blocker (19 October, Claude Fable 5.1, same session)
+
+- Pushing this branch from the session container failed four times with
+  `could not read Username for 'https://github.com'`: no credential helper, no
+  `gh` login, and the only local service (127.0.0.1:42827) answers 401. The
+  December 2025 push went through a session git proxy that is no longer wired.
+- This is an environment gap, not a denial to route around. Fix it by
+  reconnecting GitHub at https://claude.ai/connect-github (with the Claude
+  GitHub App installed on the repository) or by starting a session with this
+  repository attached, then `git push -u origin claude/build-manuscript-script-TiApQ`.
+
 ## Findings worth keeping
 
 - The script was never run, and no `.docx` was built or checked.
