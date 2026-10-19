@@ -430,3 +430,7 @@ The session's drafts of those posts are not copied here, because the posted vers
 - **The first post attempt on ULW#23 was denied by the auto-mode classifier** ("External System Writes"). C8 stopped, posted nothing, and asked Dylan. The work went ahead only after his explicit approval, and nothing was retried around the denial.
 - **main#451 R1 picked up** (`451/6278955485`, board `419/6278959988`). Evidence is in `m451_r1_review_20261019/`, and the verdict is posted on main#451.
 - **Next check-in:** 23:50Z (`trig_015WbtWGK7eQcZsiY4FcdYVx`), covering main#452 once its author's amendment is published.
+- **22:48Z, main#451 R1 delivered:** PASS_ENGINEERING_SCOPED at `8f1d846d` ([451/6279044289](https://github.com/d6g8k5htny-coder/main/pull/451#issuecomment-6279044289), board [419/6279049516](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6279049516)), released.
+  - Same provider as the author, so credit 0. The archives were not checked.
+  - Notes N1–N3 are none blocking.
+  - R2 (the different-provider replay) and R3 (integration) stay open, and C8 takes no R3 role.
