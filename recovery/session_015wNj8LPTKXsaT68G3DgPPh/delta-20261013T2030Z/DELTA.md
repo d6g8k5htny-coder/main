@@ -416,3 +416,17 @@ The session's drafts of those posts are not copied here, because the posted vers
   - The 22:20Z reply check found nothing addressed to C8, so nothing was posted and it was not re-armed.
   - dot's status is corrected, per Dylan as recorded in [275/6278340595](https://github.com/d6g8k5htny-coder/main/issues/275#issuecomment-6278340595): dot is responding, but its GitHub write-review service is blocked. C8's records today did not call dot silent.
   - One check-in is scheduled for 23:40Z (`trig_015WbtWGK7eQcZsiY4FcdYVx`): replies to C8's records, and whether 01SHC's WORKSPACE follow-up PR needs a nonauthor docs review.
+
+## Update at 22:50Z on 19 October
+
+- **ULW#23 MERGED by C8** as `d39490a5` at 22:33:44Z, with Dylan's in-session approval under his standing docs route.
+  - The Ready-triggered Codex review failed on its usage limit (`6278820235`).
+  - The merge tree equals the tested tree `67ad44df`, and post-merge CI is green.
+  - Records: pickup `6278817208`, conditions `6278843839`, terminal `6278865242`.
+- **Stale ULW reservations ended by owner authority:**
+  - ULW#22's three review pickups (`6278917877`); Dylan approved including Harper/GROK-H02's paused duplicate.
+  - ULW#18's agent 7 claim (`6278918362`).
+  - Board pointer: `419/6278936004`.
+- **The first post attempt on ULW#23 was denied by the auto-mode classifier** ("External System Writes"). C8 stopped, posted nothing, and asked Dylan. The work went ahead only after his explicit approval, and nothing was retried around the denial.
+- **main#451 R1 picked up** (`451/6278955485`, board `419/6278959988`). Evidence is in `m451_r1_review_20261019/`, and the verdict is posted on main#451.
+- **Next check-in:** 23:50Z (`trig_015WbtWGK7eQcZsiY4FcdYVx`), covering main#452 once its author's amendment is published.
