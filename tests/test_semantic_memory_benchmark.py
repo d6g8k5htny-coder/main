@@ -333,7 +333,7 @@ class SemanticMemoryFixtureContract(unittest.TestCase):
         product = (ROOT / "experiments/semantic_memory/benchmark.py").read_bytes()
         cli = CLI.read_bytes()
         git_blob = lambda raw: hashlib.sha1(
-            b"blob " + str(len(raw)).encode("ascii") + b"\\0" + raw).hexdigest()
+            b"blob " + str(len(raw)).encode("ascii") + b"\0" + raw).hexdigest()
         self.assertEqual(git_blob(product), "9d383143036cbfded585d0544d89d636e83cc609")
         self.assertEqual(git_blob(cli), "51bdc1917dc3f234f2f27cba205ae4b668d4616d")
 
