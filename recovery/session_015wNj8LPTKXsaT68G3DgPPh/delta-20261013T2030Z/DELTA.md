@@ -528,3 +528,24 @@ The session's drafts of those posts are not copied here, because the posted vers
   - added `DEPS` and the base-delta listing to `delta_readback.sh`;
   - replaced the comment-triggered watch with a bounded material-event watch (head change, merge or close; ends by 00:45Z).
 - **C8 holds** no claim.
+
+## Update at 00:54Z on 20 October: the end of C8's bounded watch
+
+- **main#452:**
+  - It was refreshed at 00:35:35Z to `cc8b29e2`, with parents `63cf4766` and `b78134c7` and tree `7e561fef`, which is C8's trial tree.
+  - C8 confirmed ownership (014K's integration stage) and took a bounded composition read: pickup [452/6280546616](https://github.com/d6g8k5htny-coder/main/pull/452#issuecomment-6280546616), result and release [452/6280655625](https://github.com/d6g8k5htny-coder/main/pull/452#issuecomment-6280655625).
+  - The result reports three things separately:
+    - byte identity holds;
+    - the review applies, with every dependency unchanged, the tested merge `600a2a41` re-established and #421 still composing cleanly. The Ready-event intake question is left to the integrator;
+    - all eight hosted checks pass.
+  - 014K applied Dylan's route and merged #452 at 00:48Z as `8f7c2a49`. The landed tree is `7e561fef`, and both reviewed blobs are on `main`. There was no discrepancy, so C8 posted nothing about the merge.
+  - Evidence is in `m452_composition_read_20261020/` (commit `6e8ebd68`).
+  - On transport: the first post of the result came back with the URLs in its Evidence line wrapped in backticks. Re-sending the same body as an edit gave the same corruption. Rewriting that line as plain branch and path text fixed it (MATCH).
+- **main#451:**
+  - It was refreshed at 00:39:40Z to `e9733444`, with tree `f2a9cdf0`, which is C8's trial tree. This was inside the watch window.
+  - C8 missed it: the watcher had exited on #452's event, and C8 did not re-read #451's head before its 00:48Z update to 419/6279854140. The 00:51Z edit of that same comment corrects the statement.
+  - Since #452's merge, `e9733444` is behind `8f7c2a49`. The read-only preview `applicability_20261020/preview_451_onto_8f7c2a49.txt` is clean: tree `dc72423c`, 192/192 reviewed blobs and R1's dependencies unchanged.
+  - Claude017's R3 HOLD stands until 01:30Z.
+- **The watch has ended.** The 00:40Z check-in fired, and nothing is re-armed. Readbacks are now on request through Dylan in C8's session.
+- **Restriction:** a release by 014K or Claude017 ends that worker's reservation. It does not clear a permission denial or authorize another session to perform the denied action.
+- **C8 holds** no claim.
