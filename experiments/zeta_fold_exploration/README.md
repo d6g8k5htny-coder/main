@@ -14,8 +14,9 @@ de Bruijn–Newman constant Λ beyond known results. None should be read into it
   review: **NOT_RUN** (quota). Slice C (independent numerical reproduction): different-provider
   replay of the packet's 59 commands **PERFORMED; record PASS (scoped)**. Additional fresh-seed
   evidence is **REPORTED; record applicability PASS (scoped)**, not independently verified.
-  The coefficients agree with Siegel 1932 as translated (**PASS (scoped)**), but the Edwards
-  coefficient/normalization comparison remains **OPEN**, and slice C is not fully closed (§9). Dylan's personal reading: **PENDING**.
+  The Riemann–Siegel coefficients are cited to Siegel 1932 and agree with it as translated
+  (**PASS (scoped)**); by owner decision Edwards 1974 is no longer relied on for them. Slice C
+  is not fully closed (§9). Dylan's personal reading: **PENDING**.
 - Object: `ZETA-FOLD-EXPLORATION-20261012`, draft v2 as read back at `0969b327` and landed at
   `3e589ae0` (README blob `b367aecd`; v1 carried the same-provider passes, v2 adds the slice A,
   B and D amendments, §10), plus post-integration edits that neither readback covers: the §6.2
@@ -268,8 +269,9 @@ Let Θ(u) = Σ_{n∈ℤ} e^{−π u n²}.
 - *From memory, unchecked:* de la Vallée Poussin 1896, Sturm's zero-number property for the heat
   equation, Mumford, Cerf 1970 (exact passage not located), Gonek 1989, Hejhal 1989, Selberg's
   original, and the CUE log|Z_U| variance of order ½ log N (§6.1). Edwards 1974 is identified
-  bibliographically only; its Riemann–Siegel coefficients and our implementation are left to
-  slice C (they were validated numerically against `mpmath.siegelz`).
+  bibliographically only and is no longer relied on: by owner decision the Riemann–Siegel
+  coefficients are cited to Siegel 1932, checked in English translation (§9), and they were
+  validated numerically against `mpmath.siegelz`.
 
 Only the items a reviewer reports as checked carry the stronger terms; every other item stays
 unverified (§9).
@@ -1232,9 +1234,8 @@ A nonauthor read from a non-Anthropic provider was requested, in four slices:
   by the applicability reader; its reported hash and results were not independently
   verified there, and custody elsewhere remains unknown. This evidence has organizational-
   independence credit 0 and supplies no uniform error bound, interval certificate,
-  zero-completeness proof or scientific acceptance. The **Edwards 1974 coefficient and
-  normalization comparison remains OPEN**: reimplementing the quoted formula does not
-  verify it against Edwards.
+  zero-completeness proof or scientific acceptance. Reimplementing the quoted formula does
+  not verify it against a printed source; that comparison follows.
 
   **Coefficients compared with Siegel 1932: PASS (scoped).** A nonauthor
   [xAI Grok 4.7 read](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6294430745)
@@ -1244,10 +1245,17 @@ A nonauthor read from a non-Anthropic provider was requested, in four slices:
   (arXiv:1810.05198, p. 17; *Gesammelte Abhandlungen* I p. 290). It found them in agreement
   after the change of variables δ = √(2π)(p − ½), with an independent 80-digit check. It
   read neither Edwards's pages nor Siegel's German original. The translators state that
-  their German is limited. This does not check the Edwards entry in `CLAIMS.md`, so the
-  Edwards comparison stays open as stated above. The replay's two residual-trail discrepancies and 13
-  unretained timing-only output streams also remain unresolved; neither record closes all
-  of slice C.
+  their German is limited.
+
+  **Edwards 1974 item: closed by re-citation, not by a reading of Edwards.** By Dylan Roy's
+  [decision of 20 October 2026](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6295674043),
+  the packet cites Siegel 1932 as the source of record for these coefficients. Edwards 1974
+  stays in `CLAIMS.md` as an unverified secondary presentation that the packet does not rely
+  on; its pages were not read. The docstring of `stats/rs_zeta.py` still names Edwards. That
+  file is left byte-unchanged so that the replay and R2a records stay bound to its blob
+  `8b97a1f6`. The replay's two residual-trail discrepancies and 13 unretained timing-only
+  output streams remain unresolved, and R2a is not independently verified; no record closes
+  all of slice C.
 - **D.** A wording audit of the non-claims. **Read: AMEND** (the same review, §10.1). **Delta
   readback: PASS (scoped)** (review 5487707101, with slice A).
 

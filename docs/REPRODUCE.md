@@ -71,10 +71,11 @@ makes no claim of progress toward the Riemann Hypothesis, and its §9 records
 independent numerical reproduction (review slice C) as only partly done: a
 different-provider replay of its 59 commands is performed (record PASS, scoped).
 Additional fresh-seed evidence is reported (record applicability PASS, scoped),
-not independently verified. Independent verification of that evidence and the
-Edwards coefficient/normalization comparison remain open; neither record closes
-all of slice C. The packet's §9 links the source reports, reviewer lineage and
-remaining limits.
+not independently verified; independent verification of that evidence remains
+open. The Riemann–Siegel coefficients are cited to Siegel 1932 and agree with it
+as translated (PASS, scoped); by owner decision Edwards 1974 is no longer relied
+on. No record closes all of slice C. The packet's §9 links the source reports,
+reviewer lineage and remaining limits.
 
 ### Math- packages and the hardening branch
 
