@@ -12,8 +12,10 @@ de Bruijn–Newman constant Λ beyond known results. None should be read into it
   slice B **PASS (scoped)** (review 5487692150). Integrated into main as `3e589ae0` on
   12 October 2026 by a third OpenAI lane, distinct from both reviewers (§9). Automatic Codex
   review: **NOT_RUN** (quota). Slice C (independent numerical reproduction): different-provider
-  replay of the packet's 59 commands **PERFORMED; record PASS (scoped)**; the different-seed or
-  independent Riemann–Siegel check is **still open** (§9). Dylan's personal reading: **PENDING**.
+  replay of the packet's 59 commands **PERFORMED; record PASS (scoped)**. Additional fresh-seed
+  evidence is **REPORTED; record applicability PASS (scoped)**, not independently verified;
+  the Edwards coefficient/normalization comparison remains **OPEN**, and slice C is not
+  fully closed (§9). Dylan's personal reading: **PENDING**.
 - Object: `ZETA-FOLD-EXPLORATION-20261012`, draft v2 as read back at `0969b327` and landed at
   `3e589ae0` (README blob `b367aecd`; v1 carried the same-provider passes, v2 adds the slice A,
   B and D amendments, §10), plus post-integration edits that neither readback covers: the §6.2
@@ -1219,7 +1221,10 @@ A nonauthor read from a non-Anthropic provider was requested, in four slices:
   Separately, [OpenAI GPT-6's R2a report](https://github.com/d6g8k5htny-coder/main/pull/451#issuecomment-6279371506)
   records a separate summation implementation with seed **31415927**, 192 points against
   `mpmath.siegelz`, and four fresh zero-count windows at coarse and half-step grids agreeing
-  with `mpmath.nzeros`. The nonauthor [record-applicability assessment](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6289356717)
+  with `mpmath.nzeros`. The nonauthor [record-applicability assessment](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6289356717),
+  performed by OpenAI Codex `/root`, Capability Frontier observer (CAPFRONT), was source-exposed,
+  not blind: the reviewer was not the packet author or R2a executor, but shared R2a's OpenAI
+  provider and the project's GitHub principal. That assessment
   accepts this as reported additional different-seed evidence for this component, not a
   new execution or independent verification of those numerical outputs. R2a used
   Python 3.13.5 / numpy 2.3.5 / mpmath 1.3.0, not the pinned environment, and did not execute
