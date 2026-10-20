@@ -143,8 +143,8 @@ The commit is in `main` exactly when that merge base equals the full
 returns the full SHA, so compare it with `git rev-parse <sha>`: an abbreviated
 `<sha>` never matches and would read as a false "not in `main`". A 404 alone
 proves nothing: GitHub also answers 404 for a mistyped SHA, a missing branch or
-a repository the caller cannot see. Treat an unexplained 404 as inconclusive. To establish unrelated history, use a complete
-clone in which both commits resolve (`git cat-file -e <sha>^{commit}`) and
+a repository the caller cannot see. Treat an unexplained 404 as inconclusive. To
+establish unrelated history, use a complete clone in which both commits resolve (`git cat-file -e <sha>^{commit}`) and
 `git merge-base <sha> origin/main` prints nothing.
 
 Ancestry shows only that a commit landed. Work carried onto `main` in a new
