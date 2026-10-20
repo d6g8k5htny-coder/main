@@ -11,8 +11,9 @@ de Bruijn–Newman constant Λ beyond known results. None should be read into it
   here (§10). Delta readbacks at `0969b327`: slices A/D **PASS (scoped)** (review 5487707101);
   slice B **PASS (scoped)** (review 5487692150). Integrated into main as `3e589ae0` on
   12 October 2026 by a third OpenAI lane, distinct from both reviewers (§9). Automatic Codex
-  review: **NOT_RUN** (quota). Slice C (different-provider numerical replay): **PERFORMED;
-  record PASS (scoped)** (§9). Dylan's personal reading: **PENDING**.
+  review: **NOT_RUN** (quota). Slice C (independent numerical reproduction): different-provider
+  replay of the packet's 59 commands **PERFORMED; record PASS (scoped)**; the different-seed or
+  independent Riemann–Siegel check is **still open** (§9). Dylan's personal reading: **PENDING**.
 - Object: `ZETA-FOLD-EXPLORATION-20261012`, draft v2 as read back at `0969b327` and landed at
   `3e589ae0` (README blob `b367aecd`; v1 carried the same-provider passes, v2 adds the slice A,
   B and D amendments, §10), plus post-integration edits that neither readback covers: the §6.2
@@ -1208,8 +1209,11 @@ A nonauthor read from a non-Anthropic provider was requested, in four slices:
   PERFORMED; record PASS (scoped).** Cursor/xAI Grok 4.7 replayed all 59 commands from the
   source-bound packet at `5cab7663`; all exited 0, 50 committed outputs were byte-identical,
   14 were timing-only, two residual trails differed, and all nine raw-sample hashes matched.
-  Its independent `mpmath.siegelz`/`zetazero`/`nzeros` checks satisfy the stated alternative;
-  see the [replay delivery](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6282286422)
+  The replay re-executed the packet's own `mpmath.siegelz`/`zetazero`/`nzeros` comparisons with
+  the same fixed validation seed. It added neither a different seed nor an independent
+  Riemann–Siegel check beyond the packet's existing validation, so that part of slice C,
+  including the Edwards coefficients left to it above, remains open. See the
+  [replay delivery](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6282286422)
   and exact-head nonauthor [PASS_RECORD_SCOPED review](https://github.com/d6g8k5htny-coder/main/pull/458#pullrequestreview-5581698876).
 - **D.** A wording audit of the non-claims. **Read: AMEND** (the same review, §10.1). **Delta
   readback: PASS (scoped)** (review 5487707101, with slice A).
