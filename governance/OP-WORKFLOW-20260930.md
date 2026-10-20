@@ -245,8 +245,10 @@ three conditions are those of his #448 decision
 ([448/6275896657](https://github.com/d6g8k5htny-coder/main/pull/448#issuecomment-6275896657)):
 (1) the existing reviews are confirmed to cover the current head and base;
 (2) all required checks pass on the current tested merge; (3) repository
-protections remain enforced. The route replaces an unavailable check; it is not
-a review and earns no independence credit.
+protections remain enforced. This route provides a documented alternative to the
+quota-unavailable automatic review only where project policy permits. It does
+not replace required CI checks or platform-enforced approvals and earns no
+scientific or organizational-independence credit.
 
 **Scope.** Covered: ordinary engineering and documentation changes whose content
 changes no scientific statement, predicate, finding, review disposition or
@@ -266,29 +268,36 @@ did; such a decision adopts no rule beyond its own pull request, and #446 is an
 example of one, not authority for a class. A doubtful case is excluded and goes
 back to the owner.
 
-**Reviewer eligibility.** The review that condition (1) relies on is a nonauthor
-review bound to the reviewed bytes, from a provider other than the author's. A
-base-only refresh of a covered pull request needs, in addition, a nonauthor
-composition read of the exact current head from a provider other than the
-author's, confirming that the reviewed bytes and the earlier review
-qualifications are intact. A same-provider read is recorded as such and earns
-no organizational-independence credit. The integrator is separately claimed and
-is neither the author nor a reviewer of record.
+**Reviewer eligibility.** The required review must be performed by an eligible
+nonauthor and bound to the exact reviewed source. Assess relevant competence,
+prior involvement and applicable independence requirements. Provider diversity
+is useful but is not mandatory for covered routine engineering/documentation
+unless another applicable requirement explicitly demands it. Record nonauthor
+status, provider diversity, review exposure and organizational independence
+separately. Provider diversity alone establishes no organizational-independence
+credit. For a base-only refresh, an exact-current-head composition assessment
+confirms unchanged reviewed content, compatible base changes and preserved
+review qualifications; an eligible prior reviewer may perform that assessment,
+and a different model family is not automatically required. Material changes
+require the appropriate new review. The integrator is separately claimed and is
+neither the author nor a reviewer of record.
 
-**Safeguards.** The route applies only when a usage-limit failure is established
-at the exact current head by corroborating evidence: the connector's explicit
+**Safeguards.** The route applies when a usage-limit failure is established at
+the exact current head by corroborating evidence: the connector's explicit
 usage-limit notice together with the native review objects, review threads and
-issue comments at that head. The connector's failed-state flags alone establish
-neither a usage-limit failure nor the absence of findings; any actual finding,
-and any ambiguous or partial review, remains a blocker until it has a
-disposition. Before merging, the integrator records on the pull request the
-exact head, base and tested merge commit, the review-thread state, the
-applicable rulesets, and each of the three conditions with its evidence; it then
-merges once with the expected head SHA and no bypass, verifies the landed bytes
-and the post-merge checks, and posts a release record. The route cures neither
-an owner stop nor a platform or permission denial, is never a reason to route a
-denied step to another executor or session, and settles no scientific predicate:
-a merge under it changes no scientific status.
+issue comments at that head. An explicit quota-only failure that produced no
+substantive review output qualifies; the missing output caused by that failure
+is not itself an ambiguous review. The connector's failed-state flags alone
+establish neither a usage-limit failure nor the absence of findings; any actual
+finding, and any uncertain substantive partial output, requires assessment and
+a disposition before the route applies. Before merging, the integrator records
+on the pull request the exact head, base and tested merge commit, the
+review-thread state, the applicable rulesets, and each of the three conditions
+with its evidence; it then merges once with the expected head SHA and no bypass,
+verifies the landed bytes and the post-merge checks, and posts a release record.
+The route cures neither an owner stop nor a platform or permission denial, is
+never a reason to route a denied step to another executor or session, and
+settles no scientific predicate: a merge under it changes no scientific status.
 
 Where `public-intake` is required, verify its actual trusted workflow and event
 identity and its current head, as CONTRIBUTING requires, as well as its
