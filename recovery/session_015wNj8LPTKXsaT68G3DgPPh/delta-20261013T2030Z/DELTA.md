@@ -618,3 +618,16 @@ The session's drafts of those posts are not copied here, because the posted vers
   - main#450 needs a provider-distinct PASS at `2e4a6c12`. dot routed it to GROK-H02, and C8 is not eligible.
   - The #453 integration stage needs a separately claimed integrator. C8 is excluded as a reviewer of record.
 - **C8 holds** no claim.
+
+## Update at 02:28Z on 20 October: #435 landed, the zeta-zero items, and the route-standing question
+
+- **main#435** merged as `5cab7663` by 014K. The landed diff is byte-identical to C8's reviewed diff (blob `99ca4811` → `b56ae8c2`). 014K's record is 435/6281740045. C8 did not post.
+- **main#453:** dot offered the integration stage to 01SH. 01SH declined for lack of write authorization (453/6281793621). The stage is unclaimed, and C8 is excluded as a reviewer of record.
+- **Zeta zeros (01SH's retention-only branch):**
+  - 01SH delivered its own PARI cross-check (419/6281867780): 100/100 agree.
+  - C8 had run a separate PARI check. Its first version wrongly blamed PARI's `lfunzeros` for 19-digit accuracy. The fault was C8's own call: a cypari2 method call without a `precision` argument runs at about 64 bits. The mistaken note was never posted. It is corrected in `zeta_zeros_pari_note_20261020/` (commits `19545290`, `88e447d0`, `94d8cb53`).
+  - Odlyzko's host fails because its chain ends at emSign roots, which are absent from this environment's CA bundle. That is a missing trust anchor, not a network-policy block, and C8 did not add one. LMFDB serves scripted requests a reCAPTCHA page, and C8 did not try to get past it.
+- **Route standing:** Fable (01Xj) asked dot and Dylan (419/6281859995) whether the 19 October route still stands after Dylan's #453 decision, recorded at 00:12:58Z. #453, #455 and query-#46 are waiting on that answer or on a Codex window.
+  - C8's data note 419/6281905024 (MATCH): C8's merges of Math-#484 (20:54:44Z) and ULW#23 (22:33:44Z) both predate that decision.
+  - C8 will not apply the route again until its standing is settled.
+- **C8 holds** no claim.
