@@ -1,0 +1,617 @@
+{
+ "workflow_run": "wf_3efb3b1b-4b4",
+ "note": "three lens reports (receipt, o7, certs) and their adversarial verifications; agent scratch not included",
+ "results": [
+  {
+   "agent": "a994a7c5f2a084b99",
+   "label": "lens:o7",
+   "result": {
+    "summary": "Lens o7, read-only, checked 2026-10-20 04:57Z against main bb1a8654, #447 head 2e2df3ac and #419 comments 2026-10-18 to 04:53Z (508 comments, 6 pages).\n\n1. O7 (comment 6245249123) says what the text attributes to it, but it never names RECEIPT_h3.json. Its subjects are the programs h3_band_ceil.py and h3_band_floor.py and \"the published uniform ceiling and floor\". The receipt (unchanged since 3edacfe5) holds exactly those numbers, and the person who applies O7 to the receipt is 01Fi in M1 of review 5562719255. The text should say O7 is a review of the programs.\n\n2. Nothing withdraws O7's AMEND, BLOCKING. The only change is 01Fi's own correction to finding B3, which makes the floor problem larger, not smaller. Every later record that cites O7 is from an Anthropic session; I found no non-Anthropic review of O7 itself.\n\n3. #447 is open, a draft and unmerged, with head 2e2df3ac, and it is 'behind' main. It has one formal review: OpenAI's PASS_ENGINEERING_DELTA_SCOPED at the older head c5cf036c, which is engineering only. The other reads are an OpenAI execution audit, which says it is not a mathematical review, a same-family Anthropic read, and a <product> bot attempt that failed. No non-Anthropic mathematical review has passed it. GROK-H02's review reservation is still undelivered and unreleased, and its closeout is UNKNOWN. So \"under review\" overstates where #447 is, and \"replacement\" should be \"numbered successor\".\n\n4. There is no accepted replacement certificate on main or in Math-.",
+    "findings": [
+     {
+      "id": "O7-1",
+      "claim": "O7's verdict line says that, as written, neither h3_band_ceil.py nor h3_band_floor.py certifies cell 1, and that the published uniform ceiling and floor are not certified at their stated digits.",
+      "evidence": "gh api repos/d6g8k5htny-coder/main/issues/comments/6245249123: posted 2026-10-18T03:35:57Z and never edited (updated_at equals created_at). Verdict, line 1: \"O7 VERDICT + RELEASE, Claude 01Fi: review of the H3 band certificate pipeline (rows G19 and G31). AMEND, BLOCKING. As written, neither `h3_band_ceil.py` nor `h3_band_floor.py` certifies cell 1, (0, 0.0025], and the published uniform ceiling and floor are not certified at their stated digits. So this carrier does not discharge LPW v4's normalizer lever, and v4's HOLD stands. A repair path appears to exist.\" The same line also says: \"Families: author Kimi; reader Anthropic. Credit 0. Scientific effect NONE: none of this shows a true value is wrong.\"",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "O7-2",
+      "claim": "O7's cell-1 finding: with true absolute maxima, the program's own CB4 guard fails, both programs exit 1, and the cell-1 ceiling and floor are not certified as written. The published uniform values are likewise not certified as written.",
+      "evidence": "Body line 20, B1(a): \"Cell 1 fails its own guard. I replaced both functions with true absolute maxima. The majorant growth then becomes R = 2622.35, where the shipped run had 30.4545. The program's own guard `CB4 majorant converges on first sub-interval` (R·0.005 < 0.2) then fails, and both programs exit 1, with or without the O2 `iv_Phi` patch. ... So the cell-1 ceiling 3.66282864761194, which LPW v4 consumes, and the cell-1 floor 2.58288222715895 are not certified by these programs as written.\" Line 30, B1(b): \"So the published uniform ceiling 3.74767948915996 and uniform floor 2.30659559567154 are not certified as written. The indicative corrected values, rounded outward, are ceiling ≤ 3.7477200706919 and floor ≥ 2.3065407141781. These still depend on B2.\" Location check: on main the files are h3_band_ceil.py.txt (blob 1892e90b, sha256 b97c5428…, 37,950 B) and h3_band_floor.py.txt (blob 2cb63589, sha256 a907eeed…, 37,315 B). In the ceiling file, matmax and vecmax sit at lines 352–355, as O7 cites (git show origin/main:…/h3_band_ceil.py.txt | sed -n 350,356p).",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "O7-3",
+      "claim": "O7 itself names RECEIPT_h3.json.",
+      "evidence": "The O7 body contains RECEIPT 0 times (grep -c RECEIPT). O7 names the two programs, \"the published uniform ceiling and floor\", and H3_BAND_FLOOR.md §1 (line 53). Its pickup 6244169234 lists as sources only h3_band_ceil.py, H3_BAND_CEIL.md (18e109bc…), h3_band_floor.py and H3_BAND_FLOOR.md (7a40e267…). On main, the published uniform values also appear in H3_BAND_CEIL.md line 26 and H3_BAND_FLOOR.md lines 14 and 18.",
+      "status": "NEGATIVE"
+     },
+     {
+      "id": "O7-4",
+      "claim": "The public RECEIPT_h3.json holds exactly the band values O7 names, so O7's finding reaches the receipt through identical numbers and through its own author's later review (M1). The tie is not made in O7's text.",
+      "evidence": "git ls-tree: blob 96e95d17 at both 3edacfe5 and origin/main bb1a8654 (sha256 ee58ef80…, 6,254 B; the same digest is at H3_closure/MANIFEST.sha256.txt line 33). Receipt line 11, band_ceil.result: \"CERTIFIED UNIFORM UPPER: E[G_r] <= 3.74767948915996 for ALL r in (0, 0.05]; on the v4 domain (0, 0.0025]: E[G_r] <= 3.66282864761194 (v4 lever discharged)\". Line 31, band_floor.result: \"CERTIFIED UNIFORM: E[G_r] >= 2.30659559567154 > c_Z = … for ALL r in (0, 0.05]\". Subinterval values are at lines 13–19 and 33–39. What ties O7 to the receipt: (i) 01Fi's own review of #446, 5562719255 (COMMENTED at 4a50f000), M1: \"It records `band_ceil` and `band_floor` as \\\"CERTIFIED UNIFORM\\\": E[G_r] ≤ 3.74767948915996 and ≥ 2.30659559567154 on (0, 0.05]. That is an explicit radius. O7 found those values not certified as written.\" (ii) 01Fi's Route A text, #446 comment 6249772063: \"It also records the H3 band ceiling and floor as certified. Review O7 (…6245249123) found those band values not certified as written\". (iii) Indirectly: O7 uses O2's environment, and the O2 pickup 6243657728 lists RECEIPT_h3.json as a source to \"compare the results with the receipt's 15-digit constants\"; 01B6's inventory 6243792389 lists RECEIPT_h3.json among the files that quote the values.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "O7-5",
+      "claim": "Nothing on record withdraws or reverses O7's AMEND, BLOCKING. The only detail amendment is 01Fi's own correction to B3, which makes the floor change larger.",
+      "evidence": "O7 has never been edited. 01Fi's O8 checkpoint 6246862504 line 8 and the #447 body (\"A correction to my own O7 verdict\") say B3 is not negligible: \"In (1/25, 1/20], the two-tail δ piece is 0.121\", and this is the main reason the floor drops. O6's dated addendum (6244150121, edited 03:36Z) says \"O7 … supersedes part of this verdict\". 01B6's addendum 6245774604 extends O7's consumer list. Claude01N (6274942512): \"the O7 repair has no SIDE24 V3 consumer\". The #447 body still says the frozen programs \"do not certify cell 1, (0, 0.0025], or the published uniform constants\". All records on #419 since 2026-10-18 that mention O7 are from Anthropic sessions; I found no non-Anthropic review of O7.",
+      "status": "NEGATIVE"
+     },
+     {
+      "id": "P447-1",
+      "claim": "#447's current state: open, draft, unmerged, head 2e2df3ac, behind main.",
+      "evidence": "gh api pulls/447: state open, draft true, merged false; head claude/h3-band-v2-20261018 at 2e2df3ac3944cfe57bc2a94d1238dd5cb9857cbb (git ls-remote agrees); base b78134c7; mergeable_state behind (main is bb1a8654); 9 commits; 12 files, +3457/−0, all new paths under experiments/h3_band_v2/ plus its workflow; updated 2026-10-20T01:53:54Z. The body calls it a \"numbered successor of the frozen H3 band certificate programs\" whose \"frozen files are untouched\", gives \"review status REVIEW_REQUIRED\", and says \"Completed review scopes: none that earns credit\".",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "P447-2",
+      "claim": "No non-Anthropic mathematical review has passed #447.",
+      "evidence": "Reviews: exactly one, 5579118173 (COMMENTED, at c5cf036c, 2026-10-19T23:49:54Z, OpenAI <product> GTW), PASS_ENGINEERING_DELTA_SCOPED. It says: \"It does not review or accept the B2 remainder, CB2s/CB4/envelope mathematics, certified bounds…\". Inline review comments: 0. Issue comments: RTW405, OpenAI <model>, execution audit 6252393314 at 393145bb (\"This is not an independent mathematical review\"); Claude 54, Anthropic, 6246359073 at 6651242a (\"Same-provider data, not a review verdict\"); @codex review request 6249755779 at 393145bb, whose bot summary 6249758252 shows status \"failed\" and 6249758665 shows the usage limit. The PR body says the program changed after both OpenAI audits, in 2dd3cf22.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "P447-3",
+      "claim": "GROK-H02's review reservation on #447 has had no delivery and no release. The question to the xAI lead was still unanswered at 04:53Z on 20 October.",
+      "evidence": "6248600576 (2026-10-18T10:09:51Z, xAI <model>, Benjamin) claims a non-author source review at head 6651242a: \"Silence does not release.\" 01Fi's collision notice 6279784443 (created 23:40:57Z on 19 Oct, edited 01:42:51Z on 20 Oct): \"has no delivery or release after 37 hours\" and \"the pickup's closeout stays UNKNOWN\". dot, 6280950075 (01:10Z): \"Current xAI lead: also reconcile the existing #447 review-custody question … The engineering delta review does not fill the mathematical review.\" dot, #275 comment 6281287486 (01:37Z): \"#447 remains its own custody question.\" 01Fi, 6282898156 (03:48Z): dot's question \"has not been answered\". No #419 comment between 03:48Z and 04:53Z answers it.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "P447-4",
+      "claim": "01B6's checkpoint row 10 records O7 as AMEND BLOCKING, and the non-Anthropic mathematical review of #447 as still open and blocked by GROK-H02's reservation. Nothing has changed since.",
+      "evidence": "6280182897 (00:11Z on 20 Oct), row 10: \"O2 replay; DCL scoped pass on the endpoint conversion; O7 AMEND BLOCKING; successor draft main#447 (01Fi, head `c5cf036c`, 3 behind main) has an OpenAI engineering-delta review (5579118173) | the non-Anthropic mathematical review of #447 (B2, CB2s, CB4, envelope); then the consumer re-pins (LPW v4, H5_ZBAND, D1) | GROK-H02's reservation 6248600576 (18 Oct, old head) is undelivered and unreleased, closeout UNKNOWN. 01Fi asked for reconciliation (6279784443)\". Row 11 adds: \"The gate also pins the H3 band that O7 found uncertified\". 01B6's update 6283492275 (04:37Z): \"Nothing else in the checkpoint's unblock list has changed.\" The head named in row 10 is out of date: it is now 2e2df3ac.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "P447-5",
+      "claim": "There is an accepted replacement H3 band certificate on main.",
+      "evidence": "git ls-tree -r origin/main: no experiments/h3_band_v2 and no h3_band_v2 path. git grep on origin/main for 6245249123, pull/447, main#447 and h3_band_v2: no hits. The frozen H3_closure files are unchanged, including RECEIPT_h3.json (blob 96e95d17 at both 3edacfe5 and bb1a8654). Math- HEAD 4eb86ed3 has no h3_band or #447 reference.",
+      "status": "NEGATIVE"
+     },
+     {
+      "id": "TXT-1",
+      "claim": "The text's sentence \"Its claims that H3 band ceilings and floors are uniformly certified on (0, 0.05] were found not certified as written by O7's audit\" is true in substance but imprecise in attribution.",
+      "evidence": "The receipt's uniform ceiling and floor (lines 11 and 31) are exactly the values O7 found not certified as written (O7-2), and O7 found cell 1 not certified by either program (O7-2). But O7 is a review (AMEND, BLOCKING; Anthropic reader, Kimi author, credit 0) of the two programs and their published values, not of RECEIPT_h3.json (O7-3). The link to the receipt is made by 01Fi's M1 (O7-4).",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "TXT-2",
+      "claim": "The text's sentence \"PR #447 proposes a separate replacement under review; it is not an accepted certificate here\" is accurate on non-acceptance, but \"replacement\" and \"under review\" overstate.",
+      "evidence": "Not accepted: VERIFIED (P447-1, P447-5). #447 calls itself a \"numbered successor\" in a new package and leaves the frozen files and the receipt untouched, so it replaces nothing. On \"under review\": it is a draft with REVIEW_REQUIRED, but its only non-Anthropic records are engineering and execution audits at older heads (P447-2). The only mathematical-review pickup has no delivery and an UNKNOWN closeout, and 01Fi says the review \"has no live performer and cannot start\" (6279784443). Whether a mathematical review is actually in progress is therefore UNVERIFIED.",
+      "status": "UNVERIFIED"
+     },
+     {
+      "id": "TXT-3",
+      "claim": "Location statements: §7 of the payload names RECEIPT_h3.json; the public copy is at the stated path at 3edacfe5 and unchanged at current main; it differs from the indexed historical receipt.",
+      "evidence": "H3_CLOSURE.md on main (blob 49d8fab8): heading \"## 7. Reproduction and receipts\" at line 242, and RECEIPT_h3.json named at line 261. The receipt's path exists at 3edacfe5 and bb1a8654 with the same blob, 96e95d17. RETURN_06/TREE_MANIFEST.sha256.txt line 426 lists RECEIPT_h3.json at 7545a8c6…, 2,717 B, while the public copy is ee58ef80…, 6,254 B. The digest and size difference is verified. That the public copy is a 'superset' of the indexed one was not checked in this lens: the 2,717-B bytes were not examined.",
+      "status": "VERIFIED"
+     }
+    ],
+    "wording": [
+     "Sentence 1, to replace \"The historical payload's §7 references RECEIPT_h3.json, but the public receipt at the frozen main base (… at 3edacfe5) is a later superset, not solely the closure receipt\": The historical payload's §7 (H3_CLOSURE.md line 261) lists `RECEIPT_h3.json` among its receipts. The only public copy, main `incoming/claude-bundle-v3-native-copies-20260928/K3_SIDE24_LB/UPPER2D/H3_closure/RECEIPT_h3.json` (6,254 B, sha256 `ee58ef80…`, identical at `3edacfe5` and at current main `bb1a8654`), is not the 2,717-byte receipt (`7545a8c6…`) indexed at `RETURN_06/TREE_MANIFEST.sha256.txt` line 426. It is not solely the closure receipt: it also carries H3 band records.",
+     "Sentence 2, to replace \"Its claims that H3 band ceilings and floors are uniformly certified on (0, 0.05] were found not certified as written by O7's audit (main#419 comment 6245249123)\": That receipt records as \"CERTIFIED UNIFORM\" E[G_r] ≤ 3.74767948915996 and E[G_r] ≥ 2.30659559567154 for all r in (0, 0.05], with cell-1 values 3.66282864761194 and 2.58288222715895 on (0, 0.0025]. Review O7 of the band programs `h3_band_ceil.py` and `h3_band_floor.py` (Anthropic Claude 01Fi, main#419 comment 6245249123, AMEND, BLOCKING; Kimi-authored programs; credit 0) found that, as written, neither program certifies cell 1, (0, 0.0025], and that the published uniform ceiling and floor are not certified at their stated digits. O7 names the programs and their published values, not `RECEIPT_h3.json`; the receipt carries the same values. No record withdraws O7.",
+     "Sentence 3, to replace \"PR #447 proposes a separate replacement under review; it is not an accepted certificate here\": Draft PR #447 (open and unmerged; head `2e2df3ac` as of 20 October 2026) proposes a numbered successor of those programs as a new package, `experiments/h3_band_v2/`, and leaves the frozen programs and the receipt unchanged. So far it has had only OpenAI engineering and execution audits (review 5579118173, PASS_ENGINEERING_DELTA_SCOPED at `c5cf036c`; comment 6252393314 at `393145bb`) and same-family Anthropic reads, and no non-Anthropic mathematical review. The one mathematical-review pickup (GROK-H02, main#419 comment 6248600576) has no delivery or release. #447 is not an accepted certificate, on main or in this package.",
+     "Sentence 4 (\"These radius-specific band assertions are not supplied by this package and do not establish a numerical r_* …\"): no change from this lens. The landed RESULT.md and H3_CLOSURE.md contain no band program reference, and H3_CLOSURE.md mentions the receipt only at line 261."
+    ]
+   }
+  },
+  {
+   "agent": "aef400f527324a23c",
+   "label": "lens:receipt",
+   "result": {
+    "summary": "Receipt lens (read-only; scratch <SCRATCH>/h3n/work/receipt/). The public RECEIPT_h3.json is incoming/claude-bundle-v3-native-copies-20260928/K3_SIDE24_LB/UPPER2D/H3_closure/RECEIPT_h3.json: 6,254 B, sha256 ee58ef8054109a24ea0dadd5f0147b883966374e539ff462f8500af932765264, blob 96e95d171044d9d9274ec59bb6b42a8dc390b5b9. It is identical at 25cb6778 (main#200, the only commit that touches the path), 3edacfe5, efc2fe90, ab5c00b0, b78134c7 and bb1a8654. The text's main factual claims hold at current main.\n\n(a) The receipt is a later superset, not only the closure receipt. Cutting sections out of the current file rebuilds, byte for byte, the two earlier receipts that RETURN_06 records: 2,717 B 7545a8c6… and 4,482 B ff788042…. The band_floor and band_ceil sections were added on 2026-09-15. Even the earliest recorded version already carried a rung-floor record that H3_CLOSURE.md never mentions. No closure-only version is publicly recorded.\n\n(b) O7 found the receipt's exact uniform band numbers, and the cell (0, 0.0025] values, not certified as written.\n\n(c) PR #447 is an open, unmerged draft.\n\n(d) H3_CLOSURE.md claims only an existential r_0. Nothing in the landed package gives a numerical r_*, and RESULT.md:38 already says so.\n\n(e) Of the receipt's 32 digests, 23 match no file anywhere on main, including every closure program and transcript.\n\nWording fixes needed:\n- \"frozen main base 3edacfe5\" is out of date. The comment was written against main 3edacfe5, but #446 merged on top of efc2fe90. Cite current main or the receipt's unchanged blob instead.\n- M1 leaves out the receipt's rung-floor record, a separate claim at r=0.05 that O7 did not audit.\n- The receipt's \"r0 = 1/2278031360\" is LPW v4's radius, not H3's r_0, and should not be read as an r_*.\n- \"Not supplied here\" is literally true. But a public cov_exact.py exists in Math- with a digest matching the 2026-09-15 tree snapshot, and it cannot be tied to the version h3_c0_certificate.py pins, because that program is absent.\n- RESULT.md already covers the r_* part of M1 but nothing else in M1/M2. IDENTITY.json says nothing equivalent.",
+    "findings": [
+     {
+      "id": "R1",
+      "claim": "Location, size, sha256 and git blob of RECEIPT_h3.json; unchanged between 3edacfe5 and bb1a8654",
+      "evidence": "git ls-tree -l origin/main and 3edacfe5 for incoming/claude-bundle-v3-native-copies-20260928/K3_SIDE24_LB/UPPER2D/H3_closure/ give blob 96e95d171044d9d9274ec59bb6b42a8dc390b5b9, 6254 B in both. `git show <ref>:<path> | sha256sum` gives ee58ef8054109a24ea0dadd5f0147b883966374e539ff462f8500af932765264 at both refs. The same blob is at efc2fe90 (the actual #446 base at merge; merge b78134c7 has parents efc2fe90/ab5c00b0), ab5c00b0 (#446 head) and b78134c7. gh api contents?ref=25cb6778 and ?ref=3edacfe5 return sha 96e95d17…, size 6254. gh api commits?path=… lists only 25cb6778 (main#200, 2026-09-28). The whole H3_closure folder has the same blob list at 3edacfe5 and bb1a8654. gh api compare 3edacfe5...bb1a8654 is ahead 36 / behind 0 and touches only the three incoming/h3-closure-restoration-20261018 files among H3-related paths. The same digest is pinned in H3_closure/MANIFEST.sha256.txt:33, the bundle IDENTITY.json:196-198, SOURCE_MAP.json:304-309, CL-MIRROR-001_MANIFEST.sha256.txt:23 and LPW_CONSTANT/v4/RECEIPT.json:58 (h3_ceil_rcpt). The file is not at that path on the hardening branch a01c72f1.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "R2",
+      "claim": "Top-level structure of the receipt and its band claims of uniform certification on (0, 0.05]",
+      "evidence": "Top-level keys: band_ceil, band_floor, c0_certified_lower, c0_certified_upper, c_Z, mutations_caught, record, result, rung_floor, sha256 (32 entries), two_mode_byte_identical. Quotes from the RECEIPT_h3.json lines at bb1a8654: L3 band_ceil.discharges \"LPW_CONSTANT v4 Palm denominator on (0, 0.0025] (r0 = 1/2278031360 in cell 1)\". L10 record \"H3-BAND-CEIL-2026-09-15\". L11 \"CERTIFIED UNIFORM UPPER: E[G_r] <= 3.74767948915996 for ALL r in (0, 0.05]; on the v4 domain (0, 0.0025]: E[G_r] <= 3.66282864761194 (v4 lever discharged)\". L13-19 cell ceilings run from 3.66282864761194 on (0,0.0025] to 3.74767948915996 on (0.04,0.05]. L24 band_floor.discharges \"normalizer side of OBL-D1-PROMOTE on the rung band (0, 0.05]\". L30 record \"H3-BAND-FLOOR-2026-09-15\". L31 \"CERTIFIED UNIFORM: E[G_r] >= 2.30659559567154 > c_Z = 1.615489267643502474048123284509081575382 for ALL r in (0, 0.05]; Z_r >= c_Z r^2, worst margin +42.78% (cell (0.04,0.05])\". L33-39 cell floors run from 2.58288222715895 (+59.88%) to 2.30659559567154 (+42.78%). Also at a single radius: L57-58 rung_floor record \"H3-RUNG-FLOOR-R2-2026-09-13\", \"CERTIFIED: Z_0.05 in [7.7592917375327855e-3, 1.1468646473404396e-2], lo > c_Z r^2 = 4.0387231691087558e-3, margin +92.12%\", with stretch rungs 9/200 (lo 6.2865611483300006e-3) and 11/200 (lo 9.3860471051561076e-3) at L59-61.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "R3",
+      "claim": "The public receipt is 'a later superset, not solely the closure receipt'",
+      "evidence": "Script <SCRATCH>/h3n/work/receipt/recon.py re-serializes the receipt with json.dumps(indent=2, sort_keys=True) and no trailing newline; this reproduces ee58ef80… exactly. Dropping band_ceil and its ceil_*/h3_band_ceil/H3_BAND_CEIL digests gives 4482 B ff788042c6bce3bb89bccee17ee88478b81b72426b5b474929a009b0fe8ee209, the receipt recorded in RETURN_06/ADDENDUM_2026-09-15_H3_BAND_FLOOR.md:17 and SOURCE_CAPSULE.sha256.txt:206,229. Also dropping band_floor and its band_* digests gives 2717 B 7545a8c61c20bd0352a72ebc98cc833598b5939e37552c3a528953062db44175, recorded in RETURN_06/TREE_MANIFEST.sha256.txt:426 (snapshot 2026-09-15T00:05:36Z). The lane manifest of that snapshot (1466 B 1979c4b3…, TREE_MANIFEST:425) is rebuilt exactly as current MANIFEST.sha256.txt lines 1-2, plus a receipt line with 7545a8c6…, plus lines 3-17. The band documents say so themselves: H3_BAND_FLOOR.md:171 \"MANIFEST.sha256 / RECEIPT_h3.json — regenerated to include the above; frozen entries unchanged\", H3_BAND_CEIL.md:121 \"regenerated; frozen entries unchanged\", both programs \"executed 2026-09-15\". CL-AUD-001 (05_ANTHROPIC_AUDIT_STATE_REGEN) calls a superseded row \"RECEIPT_h3.json pre-ceiling\". H3_CLOSURE.md is dated 2026-09-13 (line 3). The public receipt is therefore the third recorded regeneration and postdates the closure.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "R4",
+      "claim": "Which receipt entries go beyond the closure; and whether any closure-only receipt is publicly recorded",
+      "evidence": "Entries that match the closure: record H3-CLOSURE-U2D-UPPER-2026-09-13 (L50) matches the closure date. The c0 interval at L43-44 is identical to H3_CLOSURE.md:159-160. c_Z (L45) \"c_0/2 >= 1.6154… (r <= r_0, r_0>0 existential)\". result (L51) \"CLOSED theorem-grade with one named amendment … and existential r_0\". mutations_caught CK2/CK6 (L46-48) match §7 lines 250-251. two_mode certificate/falsifier (L99-102) match §7 lines 246-249. Digests of H3_CLOSURE.md (387e4bae…, equal to the landed bytes), cert_*, fals_*, mut_*, h3_c0_certificate.py and h3_falsifier.py also belong to the closure. Entries beyond the closure: band_ceil (L2-22), band_floor (L23-42), rung_floor (L52-64), and the digests for H3_BAND_CEIL/FLOOR.md, H3_RUNG_FLOOR.md, band_*, ceil_*, h3_band_*.py, h3_rung_floor.py and rung_* (L66-67, 69-80, 85-86, 89, 92-97). In MANIFEST.sha256.txt, lines 1-17 cover the closure and rung entries, 18-24 band floor, 25-32 band ceiling, and 33 the receipt. Even the earliest recorded receipt (2717 B) already has rung_floor. H3_CLOSURE.md contains no 'rung' or 'band' text (grep). A closure-only reconstruction (1539 B, f632159e056829f98b09466f9277e671d1e0a50311af038186f22fb78a0795d5) matches no recorded digest on main. The closure-time receipt bytes are not publicly recorded.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "R5",
+      "claim": "H3_CLOSURE.md §7 references RECEIPT_h3.json (and what it says it contains)",
+      "evidence": "incoming/h3-closure-restoration-20261018/H3_CLOSURE.md (16857 B, sha256 387e4bae…, blob 49d8fab8…). Lines 259-261: \"Receipts are separate files: `cert_normal.txt`, `cert_O.txt`, `fals_normal.txt`, `fals_O.txt`, `mut_planar.txt`, `mut_window.txt`, `RECEIPT_h3.json`, `MANIFEST.sha256`.\" §7 names the receipt only. It gives no digest and does not describe its contents, so contents cannot be compared, only consistency with the commands at lines 244-252. The public lane manifest is named MANIFEST.sha256.txt, a renamed native copy of the 'MANIFEST.sha256' named in §7.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "R6",
+      "claim": "O7's audit (main#419 comment 6245249123) found the receipt's uniform band ceiling/floor claims not certified as written",
+      "evidence": "gh api issues/comments/6245249123 (2026-10-18T03:35:57Z) says: \"the published uniform ceiling and floor are not certified at their stated digits\". On cell 1: \"the cell-1 ceiling 3.66282864761194 … and the cell-1 floor 2.58288222715895 are not certified by these programs as written\". On the uniform values: \"the published uniform ceiling 3.74767948915996 and uniform floor 2.30659559567154 are not certified as written\". These are exactly the numbers at receipt L11, 13, 19, 31, 33 and 39. Two qualifications. O7 audited the programs h3_band_ceil.py (b97c5428…) and h3_band_floor.py (a907eeed…), whose results the receipt records, not the receipt file itself, and did not audit the rung_floor record. O7 also states that the floor's margin over c_Z \"stays large\" and that \"none of this shows a true value is wrong\".",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "R7",
+      "claim": "PR #447 proposes a separate replacement under review and is not accepted",
+      "evidence": "gh api pulls/447: state open, merged false, draft true, head 2e2df3ac, title \"H3 band certificate successor v2: repaired ceiling and floor for review\". Its files are under experiments/h3_band_v2/ and .github/workflows/h3-band-v2.yml, none of them on main.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "R8",
+      "claim": "Label 'the frozen main base … at 3edacfe5'",
+      "evidence": "Comment 6255513948 (2026-10-18T21:43:54Z) says #446 was then \"against main 3edacfe5\". The #446 merge b78134c7 actually has first parent efc2fe90 (main#449 merge, 2026-10-19), and pulls/446 base.sha is efc2fe90. The receipt blob is the same at all of these refs, so nothing substantive changes. But at current main, '3edacfe5' is neither #446's merge base nor current main, so the label is out of date.",
+      "status": "UNVERIFIED"
+     },
+     {
+      "id": "R9",
+      "claim": "H3_CLOSURE.md claims only an existential r_0; no text in the landed package gives a numerical r_*",
+      "evidence": "H3_CLOSURE.md:64-67 \"for `0 < r ≤ r_max`, with `c_Z = c_0/2` explicit and `r_0 > 0` (the small-r range) existential\" (r_max is never given a value). Lines 218-223: \"(b) `r_0` is existential in the record of record (the convergence S7 has no certified modulus). … certifying a modulus for the *expectation* is an unexecuted extension — **not claimed**. The NUMERIC evidence is consistent with `c_Z = c_0/2` already holding at `r ≤ 0.1`.\" Lines 232-234 \"there exists `r_0 > 0` such that Z_r ≥ c_Z r², 0 < r ≤ r_0\". The only numerical radii are [0, 1e-5] for the pin-Gram floor (lines 95-97, 220-221; a different quantity) and NUMERIC Monte Carlo at r=0.1…0.0125 (lines 176, 186), labelled \"never load-bearing\" at lines 210-211. RESULT.md:38: \"existential `r_0`, absent expectation modulus/numerical `r_*`\". IDENTITY.json has no radius. The receipt itself also keeps r_0 existential at top level (L45, L51). However, its band_floor.result (L31) literally asserts \"Z_r >= c_Z r^2\" for ALL r in (0, 0.05], and SOURCE_CAPSULE.sha256.txt ADDENDUM says \"DISCHARGED with uniform modulus (certified Z_r >= c_Z*r^2 for EVERY r in (0, 0.05])\". These are historical numerical-radius assertions that sit outside the package. The \"r0 = 1/2278031360\" at receipt L3 is LPW_CONSTANT v4's r0 (LPW v4 RECEIPT.json:9), not H3's r_0.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "R10",
+      "claim": "The landed RESULT.md / IDENTITY.json already say something equivalent to M1",
+      "evidence": "RESULT.md (3293 B, sha256 00148a0d40b4df43d0a1f08215132ae51aea713b494926fe9e90797505b277fe, which matches IDENTITY.json:20-22). Line 38 covers only the r_* part of M1: \"The payload retains its two-dimensional index amendment, existential `r_0`, absent expectation modulus/numerical `r_*`, and non-load-bearing numerical corroboration. It supplies no new theorem verdict, numerical constant, gate promotion, proof-register change, or scientific acceptance.\" Line 42 touches M2 only in that it records no execution: \"copied the authenticated public Git blob without executing or interpreting it\". grep of RESULT.md and IDENTITY.json for RECEIPT, band, rung, 0.05, O7, #419, #447, transcript and replay finds nothing. Neither file mentions RECEIPT_h3.json, the band or rung records, O7, PR #447, or the missing replay inputs. IDENTITY.json holds only schema, scientific_effect NONE, review_status REVIEW_REQUIRED, the source row and the artifact rows. Apart from the r_* clause, M1 has no equivalent in the landed files.",
+      "status": "NEGATIVE"
+     },
+     {
+      "id": "R11",
+      "claim": "The public receipt and manifests record digests without supplying all replay inputs; the closure's cited programs and transcripts are not public on main",
+      "evidence": "Hashed all 1396 blobs on origin/main (paths containing 99_DO_NOT_OPEN skipped; list at <SCRATCH>/h3n/work/receipt/main_sha256.txt). Of the receipt's 32 digests, 9 resolve to bytes on main: H3_CLOSURE.md (only through the successor package); H3_BAND_CEIL.md and H3_BAND_FLOOR.md under the body-excl-hash-line rule (whole file minus the final 'Body hash of this document' line, recomputed to cfe8a3a4… and 281477c3…); band_normal/band_O as band_normal.txt; ceil_normal/ceil_O as ceil_normal.txt; h3_band_ceil.py and h3_band_floor.py as .py.txt copies. The other 23 match nothing: H3_RUNG_FLOOR.md, band_mut_planar, band_mut_window, band_out, ceil_mut_cap, ceil_mut_planar, ceil_mut_window, ceil_out, cert_O, cert_normal, fals_O, fals_normal, h3_c0_certificate.py, h3_falsifier.py, h3_rung_floor.py, mut_planar, mut_window, rung_045, rung_055, rung_O, rung_mut_planar, rung_mut_window, rung_normal. No file named h3_c0_certificate, h3_falsifier, cov_exact, cert_normal or fals_normal exists on main, and no such name appears in any Math- commit.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "R12",
+      "claim": "cov_exact.py (interval path) referenced version is not publicly supplied",
+      "evidence": "The receipt does not pin cov_exact.py, and it is absent from main. H3_CLOSURE.md:256-257 says H2 MANIFEST sha256 pins are checked in-program (CK0), i.e. inside h3_c0_certificate.py, which is absent. Public Math- main does have imports/upper2d_stage_e_20260926/raw/H2_foundations/cov_exact.py (21961 B, sha256 f08c1c5f653f2ffd2e85d39e1112f80d15db04d15f932e5ee42db2ca3553e783, commit a2c3657c, 2026-09-26). That digest equals RETURN_06/TREE_MANIFEST.sha256.txt:404 (UPPER2D/H2_foundations/cov_exact.py, 2026-09-15 snapshot) and the pins in main's B4LOC and D3 copies. The H2 MANIFEST.sha256 (d0edfadb…, TREE_MANIFEST:399) is on neither main nor Math-. PR #447 also adds experiments/h3_band_v2/h2/cov_exact.py, which is not on main. So 'not supplied here' is literally true for the package, but a public cov_exact.py likely matching the 2026-09-15 tree exists, and it cannot be tied to the H3 closure's pinned version. This is outside the receipt lens, so it should be cross-checked by the program lens.",
+      "status": "UNVERIFIED"
+     }
+    ],
+    "wording": [
+     "Sentence 1 (replace): \"The historical payload's §7 names `RECEIPT_h3.json` among its receipts, by name only, without a digest or a description of its contents. The only public copy, `incoming/claude-bundle-v3-native-copies-20260928/K3_SIDE24_LB/UPPER2D/H3_closure/RECEIPT_h3.json` (6,254 bytes, SHA-256 `ee58ef80…2765264`, blob `96e95d17…`, unchanged from main#200 `25cb6778` through current main `bb1a8654`), is a later regenerated superset, not solely the closure receipt. Besides the closure's record (`H3-CLOSURE-U2D-UPPER-2026-09-13`) it carries a rung-floor record (`H3-RUNG-FLOOR-R2-2026-09-13`) and band-floor and band-ceiling records added on 2026-09-15 (earlier recorded versions: 2,717 B `7545a8c6…`, 4,482 B `ff788042…`). No closure-only version of the receipt is publicly recorded.\"",
+     "Sentence 2 (tighten): \"Its `band_ceil` and `band_floor` records claim uniform certification on `(0, 0.05]` (E[G_r] ≤ 3.74767948915996 and E[G_r] ≥ 2.30659559567154, i.e. Z_r ≥ c_Z r², with cell values from (0, 0.0025] upward). O7's audit of the generating programs (main#419 comment 6245249123) found the (0, 0.0025] cell values and the published uniform ceiling and floor not certified as written.\"",
+     "Sentence 3 (minor): \"PR #447 (open draft, unmerged at main `bb1a8654`) proposes a separate replacement under review; it is not an accepted certificate here.\"",
+     "Sentence 4 (complete it): \"These radius-specific assertions (the band floor and ceiling on `(0, 0.05]`, and the receipt's rung-floor values at r = 0.05, 9/200 and 11/200, which O7 did not audit) are not supplied by this package and do not establish a numerical `r_*` for the copied H3 closure's existential `r_0` claim. The receipt's own top-level `c_Z` entry still records `r_0>0 existential`. The `r0 = 1/2278031360` in its `band_ceil.discharges` is LPW_CONSTANT v4's radius, not H3's `r_0`.\"",
+     "M2 sentence 2 (sharpen): \"Their referenced versions are not supplied in this package as runnable program or transcript bytes, and none of `h3_c0_certificate.py`, `h3_falsifier.py`, `cert_*`, `fals_*` or `mut_*` matches any file on current main. Of the 32 digests in the public receipt, 23 match no public file on main. The receipt does not pin `cov_exact.py`. A public `cov_exact.py` exists elsewhere (Math- `imports/upper2d_stage_e_20260926/raw/H2_foundations/cov_exact.py`, SHA-256 `f08c1c5f…`), but it cannot be confirmed as the version the absent `h3_c0_certificate.py` pins. Historical manifests and the public receipt record digests without supplying all replay inputs.\"",
+     "M2 sentence 3: accurate as written; no change needed."
+    ]
+   }
+  },
+  {
+   "agent": "a1a06bac776b4741a",
+   "label": "verify:o7",
+   "result": {
+    "verdicts": [
+     {
+      "id": "O7-1",
+      "verdict": "CONFIRMED",
+      "correction": "",
+      "evidence": "gh api repos/d6g8k5htny-coder/main/issues/comments/6245249123: created_at = updated_at = 2026-10-18T03:35:57Z, on issue 419. Body line 1 matches the lens quote word for word apart from the bold markup: \"O7 VERDICT + RELEASE, Claude 01Fi: review of the H3 band certificate pipeline (rows G19 and G31). AMEND, BLOCKING. As written, neither `h3_band_ceil.py` nor `h3_band_floor.py` certifies cell 1, (0, 0.0025], and the published uniform ceiling and floor are not certified at their stated digits. ...\" The same line carries \"Families: author Kimi; reader Anthropic. Credit 0. Scientific effect NONE: none of this shows a true value is wrong.\""
+     },
+     {
+      "id": "O7-2",
+      "verdict": "CONFIRMED",
+      "correction": "",
+      "evidence": "The B1(a) quote is at O7 body line 20 and the B1(b) quote at line 30; both match. Also from B1(b), line 26: the (0.03,0.04] cell moves by about 4e-11. Bytes re-checked: git ls-tree -l origin/main gives h3_band_ceil.py.txt blob 1892e90b at 37,950 B and h3_band_floor.py.txt blob 2cb63589 at 37,315 B. Recomputed sha256: b97c5428a20e5dd3... and a907eeedd767b0b9..., which match O7's b97c5428… and a907eeed…. In git show origin/main:.../h3_band_ceil.py.txt | sed -n 350,356p, matmax sits at lines 352-353 and vecmax at 354-355, and each returns max(mpf(x.b)), as O7 says."
+     },
+     {
+      "id": "O7-3",
+      "verdict": "CORRECTED",
+      "correction": "The NEGATIVE stands. One location detail is wrong: H3_BAND_FLOOR.md line 18 holds the uniform statement \"Z_r = r²·E[G_r] ≥ c_Z·r² uniformly on (0, 0.05]\", not the decimal. The decimal 2.30659559567154 is at H3_BAND_FLOOR.md lines 14, 33 and 133. In H3_BAND_CEIL.md the uniform statement is at line 26, and 3.74767948915996 also appears at line 24.",
+      "evidence": "In O7's body, grep -c RECEIPT returns 0 and grep -i receipt finds nothing. The O7 pickup 6244169234 (lines 6-10) lists as sources only h3_band_ceil.py b97c5428…, H3_BAND_CEIL.md 18e109bc…, h3_band_floor.py a907eeed… and H3_BAND_FLOOR.md 7a40e267…. I recomputed the two .md sha256 on main: 18e109bc2e7a186c... and 7a40e2675232244b..., both matching. O7 line 53 cites H3_BAND_FLOOR.md §1."
+     },
+     {
+      "id": "O7-4",
+      "verdict": "CONFIRMED",
+      "correction": "One addition: main documents the receipt's version chain. The TREE_MANIFEST snapshot of 2026-09-15T00:05:36Z lists 7545a8c6… at 2,717 B. RETURN_06/ADDENDUM_2026-09-15_H3_BAND_FLOOR.md line 17 records RECEIPT_h3.json ff788042c6bce3bb… at 4,482 B with \"MATCH; records all of the above\", meaning the band floor. The current file is ee58ef80… at 6,254 B and adds band_ceil. LPW_CONSTANT/v4/RECEIPT.json line 58 pins it as h3_ceil_rcpt, and LPW_CONSTANT_V4_REPORT.md line 61 calls it the \"ceiling receipt ee58ef80…\".",
+      "evidence": "git ls-tree gives blob 96e95d17 at both 3edacfe5 and origin/main. The file is 6,254 B with sha256 ee58ef8054109a24..., and H3_closure/MANIFEST.sha256.txt line 33 carries the same digest. gh api commits?path=.../RECEIPT_h3.json returns a single commit, 25cb6778 (#200, 2026-09-28), so the file is unchanged since it was added. Receipt line 11 is the band_ceil result, line 31 the band_floor result, lines 13-19 and 33-39 the subintervals. The M1 quote matches review 5562719255 (COMMENTED, 4a50f000) line 37. The Route A quote matches #446 comment 6249772063 line 7. The O2 pickup 6243657728, lines 8 and 14, lists RECEIPT_h3.json and \"compare the results with the receipt's 15-digit constants\". 01B6's inventory 6243792389, line 49, lists RECEIPT_h3.json with 7 values; the uniform floor 2.30659559567154 is not among them, and addendum 6245774604 adds it."
+     },
+     {
+      "id": "O7-5",
+      "verdict": "CONFIRMED",
+      "correction": "The finding holds as scoped to #419. Point 2 of the lens summary, \"Every later record that cites O7 is from an Anthropic session\", overreaches: the OpenAI/<model> proposal #446/6255513948, which is the text under verification, cites O7. It is not a review of O7, so \"no non-Anthropic review of O7\" still stands. Also missed: O7's own data addendum 6245276952. It is a NON-CERTIFYING repair probe with first cell (0, 1/16384], and it amends nothing.",
+      "evidence": "I checked every #419 comment since 2026-10-18 that names O7 or 6245249123: 6244150121, 6245184886, 6245249123, 6245276952, 6245774604, 6245816006, 6246862504, 6246872121, 6274942512, 6280182897 and 6283686275. All are Anthropic sessions. The O6 addendum, 6244150121 line 54, says \"O7 ... supersedes part of this verdict\" (edited 03:36:14Z). The B3 self-correction is in 6246862504 line 8 and in #447 body line 38. The lens's literal quote \"In (1/25, 1/20], the two-tail δ piece is 0.121\" is the #447 body wording; the checkpoint says \"With two tails, the δ piece on (1/25, 1/20] is 0.121\". The Claude01N quote is 6274942512 line 17. I found no withdrawal."
+     },
+     {
+      "id": "P447-1",
+      "verdict": "CONFIRMED",
+      "correction": "",
+      "evidence": "gh api pulls/447: open, draft true, merged false. head claude/h3-band-v2-20261018 = 2e2df3ac3944cfe57bc2a94d1238dd5cb9857cbb, and git ls-remote agrees for both the branch and refs/pull/447/head. Base b78134c7, mergeable_state behind, 9 commits, 12 files, +3457/-0, updated 2026-10-20T01:53:54Z. Body line 3 says \"numbered successor\" and \"No existing path changes\". Line 44 says \"The frozen files are untouched\". Line 45 gives \"Completed review scopes: none that earns credit\" and line 99 \"review status REVIEW_REQUIRED\". Commit chain: ... c5cf036c, 2d2f0388, 2dd3cf22, 2e2df3ac."
+     },
+     {
+      "id": "P447-2",
+      "verdict": "CONFIRMED",
+      "correction": "The lens omits a few comments, none of which changes the conclusion: the RTW405 pickup 6252348633 (\"NOT a mathematical review\"), a second <product> usage-limit bot reply 6252394633, and the GTW pickup and delivery 6279885440 and 6279903220.",
+      "evidence": "pulls/447/reviews returns exactly one review: 5579118173, COMMENTED, at c5cf036c, 2026-10-19T23:49:54Z. Its line 27 reads: \"does **not** review or accept the B2 remainder, CB2s/CB4/envelope mathematics, certified bounds ... does not clear GROK-H02's unresolved mathematical-review reservation\". pulls/447/comments is empty (length 0). RTW405 6252393314 at 393145bb, line 3: \"This is **not** an independent mathematical review\". Claude 54's 6246359073 at 6651242a: \"Same-provider data, not a review verdict\". The <product> bot comment 6249758252 has status \"failed\" at 393145bb, and 6249758665 reports the usage limit."
+     },
+     {
+      "id": "P447-3",
+      "verdict": "CONFIRMED",
+      "correction": "Further context: GROK-H02 records on 18 October described #447 as under review. 6250386154 says \"Benjamin ... is resuming non-author review of main#447\", and 6254563800 says \"#447 already under review by another GROK session per board\". No delivery followed.",
+      "evidence": "6248600576 (2026-10-18T10:09:51Z) claims head 6651242a and says \"Silence does not release.\" 6279784443 (created 23:40:57Z, edited 01:42:51Z) has \"has no delivery or release after 37 hours\", \"the pickup's closeout stays UNKNOWN\" and \"has no live performer and cannot start\". dot's 6280950075, line 24, matches the lens quote, as does #275/6281287486 line 11 (\"#447 remains its own custody question\"). 6282898156 says \"has not been answered\". The latest #419 comment is 6283686275 at 04:53:43Z, checked at 05:04Z, and nothing after 03:48Z answers dot's question."
+     },
+     {
+      "id": "P447-4",
+      "verdict": "CONFIRMED",
+      "correction": "",
+      "evidence": "6280182897 line 18 is row 10 and matches the lens quote, including head c5cf036c, which is now stale (the head is 2e2df3ac). Line 19, row 11, reads \"The gate also pins the H3 band that O7 found uncertified\". Line 22, row 14, reads \"waits on #447\". 6283492275 line 17 reads \"Nothing else in the checkpoint's unblock list has changed.\""
+     },
+     {
+      "id": "P447-5",
+      "verdict": "CONFIRMED",
+      "correction": "",
+      "evidence": "git ls-tree -r origin/main finds no h3_band_v2 or h3-band-v2 path. git grep on origin/main for 6245249123, pull/447, main#447, h3_band_v2 and #447 finds nothing. In Math- HEAD 4eb86ed3 the only hit is a false positive, a fraction numerator in frontiers/c8_normalizer_floor_planar_20260930/RESULTS.json. #447 is the only H3-band PR among main PRs from #440 onward."
+     },
+     {
+      "id": "TXT-1",
+      "verdict": "CONFIRMED",
+      "correction": "Two nuances. First, O7 calls itself a \"review\", not an \"audit\". Second, besides cell 1 and the uniform (0.04,0.05] values, O7 B1(b) moves the (0.03,0.04] cell by about 4e-11 (line 26). That reaches the receipt's 15-digit subinterval values 3.72414748332433 and 2.41792545239159. The other cells pass their checks once the cell-1 guard is bypassed, still subject to B2.",
+      "evidence": "Receipt lines 11, 31 and 13-19/33-39 against O7 lines 1, 20, 25-30. O7 has zero RECEIPT mentions. The tie to the receipt comes from 01Fi's M1 (5562719255) and from Route A (6249772063)."
+     },
+     {
+      "id": "TXT-2",
+      "verdict": "CORRECTED",
+      "correction": "Non-acceptance is confirmed. Calling \"replacement\" an overstatement is a judgment the lens does not establish. #447's title is \"H3 band certificate successor v2: repaired ceiling and floor for review\", and it does propose substitute values, 3.73661723530033 and 2.28610115562878, in a separate package. 01Fi's own M1 and Route A texts use \"candidate successor ... under review\". The precise fix is \"a candidate successor, awaiting non-Anthropic mathematical review\". Whether a mathematical review is under way remains UNVERIFIABLE: xAI said so on 18 October (6254563800), 01Fi says it cannot start, and nothing has been delivered.",
+      "evidence": "#447 title and body lines 3, 15, 99. 5562719255 line 38. 6249772063 line 7. 6254563800 line 13. 6279784443. 5579118173 line 27."
+     },
+     {
+      "id": "TXT-3",
+      "verdict": "CONFIRMED",
+      "correction": "The \"superset\" relation is still unverified byte for byte, but main supports that band records were appended after the 2,717-B snapshot (see the addition under O7-4). The text's phrase \"frozen main base (... at 3edacfe5)\" is accurate only as #446's review base. #446 merged at head ab5c00b0, base efc2fe90, into merge commit b78134c7. The blob is the same at 3edacfe5 and at current main.",
+      "evidence": "The landed H3_CLOSURE.md is blob 49d8fab8, 16,857 B, sha256 387e4bae4881a036.... Line 242 is \"## 7. Reproduction and receipts\" and line 261 names `RECEIPT_h3.json`. TREE_MANIFEST line 426 lists 7545a8c6… at 2717 B. gh api pulls/446 gives merge_commit b78134c7 and head ab5c00b0. compare 4a50f000...ab5c00b0 changes only non-package files."
+     },
+     {
+      "id": "summary-2",
+      "verdict": "CORRECTED",
+      "correction": "Read \"Every later record on #419 that cites O7 is from an Anthropic session; the OpenAI proposal #446/6255513948 cites O7 as a source; no non-Anthropic review of O7 exists.\"",
+      "evidence": "6255513948 line 9 links O7 (6245249123), and its header names the performer as OpenAI/<model>."
+     },
+     {
+      "id": "wording-1",
+      "verdict": "CORRECTED",
+      "correction": "In the lens's proposed sentence 1, replace \"The only public copy\" with \"The public copy on main\". \"Only\" comes from 01Fi's M1 and was not verified. 01B6 (6245774604) reports rebuilding the frozen archive a2136bc0… (30,148,285 B) from 29 chunks in 8 DG-MIGRATION packs on the hardening branch a01c72f1. O7 says the band programs are byte-identical to that archive. I could not check whether the archive contains a RECEIPT_h3.json, because my reconstruction attempt was denied by the permission classifier. The rest of the proposed wording is accurate.",
+      "evidence": "6245774604 rung-floor paragraph. O7 line 4. On the hardening branch, coverage.jsonl has an entry with sha256 a2136bc0..., 30148285 B, status EXACT_SOURCE_BYTES, application/zip. No RECEIPT_h3.json path exists in that tree."
+     }
+    ],
+    "missed": [
+     "The receipt's documented version chain on main: 7545a8c6… at 2,717 B (TREE_MANIFEST line 426, snapshot 2026-09-15T00:05:36Z), then ff788042… at 4,482 B (RETURN_06/ADDENDUM_2026-09-15_H3_BAND_FLOOR.md line 17, \"records all of the above\", i.e. band floor), then ee58ef80… at 6,254 B (adds band_ceil; pinned as h3_ceil_rcpt in LPW_CONSTANT/v4/RECEIPT.json line 58). This supports 'later' and 'band records appended'. A byte-level superset is still unverified.",
+     "RECEIPT_h3.json also carries a radius-specific rung_floor record (H3-RUNG-FLOOR-R2-2026-09-13, line 58: \"CERTIFIED: Z_0.05 in [7.7592917375327855e-3, 1.1468646473404396e-2]\"). O7 does not address it, and 01B6 (6245774604) says the rung floor does not share the B1 pattern. The text's sentence 4 ('These radius-specific band assertions') covers only the band records; a consumer note may want to say the receipt's rung-floor assertion is also outside this package.",
+     "The proposed text was written as a Route A insertion into RESULT.md. #446 landed under Route B with RESULT.md unchanged (3,293 B). Integration hold 6279541413 says \"M1/M2: Route B (land exact reviewed bytes; consumer notes in a later separately reviewed note)\", and landing record 6279861098 says \"OBL OPEN (M1/M2 consumer note, separately claimable)\". So the text's 'here' and 'this package' must be reworded for a downstream note: the package does not itself carry these qualifications.",
+     "Supports the text's M2 sentences, though outside lens o7: H3_closure/MANIFEST.sha256.txt on main lists digests for h3_c0_certificate.py, h3_falsifier.py, cert_*, fals_* and mut_*, but the H3_closure directory on main holds only 8 files, none of them those. git ls-tree -r origin/main has no cov_exact.py, h3_c0_certificate or h3_falsifier path. #447's unmerged branch adds experiments/h3_band_v2/h2/cov_exact.py; it is not on main and has not been shown to be the referenced version.",
+     "Possible further public bytes: 01B6 (6245774604) rebuilt the frozen archive a2136bc0… from hardening-branch packs, and O7's pickup says the H2 library came from it. If it contains RECEIPT_h3.json or the c0 certificate programs and transcripts, 'only public copy' and 'not supplied as publicly runnable bytes' must be scoped to main and this package. UNVERIFIED: my reconstruction attempt was denied by the permission classifier.",
+     "Comments on #447 that the lens did not list: RTW405 pickup 6252348633, a second <product> usage-limit reply 6252394633, GTW pickup and delivery 6279885440 and 6279903220, and 01Fi's disposition 6247466572 with Claude 54's acceptance 6249012620. None of them is a non-Anthropic mathematical review.",
+     "01B6 checkpoint 6280182897 row 14 (O6/LPW) also 'waits on #447', and line 29 makes #447's non-Anthropic mathematical review the first unblock item.",
+     "Process note: at the start this verifier ran one 'git fetch origin' in /home/user/main. It updated remote-tracking refs only; origin/main is unchanged at bb1a8654 and no working-tree file was touched."
+    ],
+    "privacy_leaks": []
+   }
+  },
+  {
+   "agent": "ad610397eacb6b6cb",
+   "label": "lens:certs",
+   "result": {
+    "summary": "Certs lens, read-only. Nothing was run, posted or edited.\n\nWhat H3_CLOSURE.md gives: on origin/main bb1a8654 it is blob 49d8fab8, 16857 B, sha256 387e4bae. It names its certificates, scripts and transcripts but gives no hash or version for any of them. The digests come only from the lane manifest, the receipt and the RETURN_06 manifests.\n\nh3_c0_certificate.py, h3_falsifier.py and the six transcripts (cert_normal/cert_O, fals_normal/fals_O, mut_planar, mut_window) fall in one category: digest recorded, bytes absent. They appear in no public Git ref, searched by basename and by sha256, across:\n- every blob on main and the hardening branch;\n- all 511 distinct Math- ref tips;\n- every member of 177 zip archives in those trees, plus their nested zips.\n\nThe hardening branch's Drive source map lists them, with the same digests and sizes, as members of the Drive gap-closure zip a2136bc0…. I did not access Drive.\n\nThe H2 libraries are a different case. The cov_exact.py version pinned by the lane records (f08c1c5f, 21961 B) and pin_transform.py (c6988ac7) are public byte-for-byte on Math- HEAD 4eb86ed3 and on the hardening branch, though not on main. The H2 MANIFEST and selftests exist byte-exact only inside a zip on the hardening branch.\n\nVerdict on the proposed text: it holds at current main. Two points need tightening:\n1. \"Later superset\": \"later\" is verified. \"Superset\" is supported only by text, because the earlier receipt bytes are not public. The same applies to MANIFEST.sha256.\n2. \"Their referenced versions are not supplied here\" is literally true for the package. Read broadly, though, it hides that the pinned cov_exact.py and pin_transform.py are public elsewhere. It also does not list the other cited checks.\n\nReplay cannot be assembled from public bytes because the certificate and falsifier programs are missing. Their exact inputs cannot be confirmed for the same reason.",
+    "findings": [
+     {
+      "id": "C1",
+      "claim": "The package file H3_CLOSURE.md on current main is the claimed bytes, and the text itself pins no version or hash for any script it cites.",
+      "evidence": "git ls-tree -r -l origin/main(bb1a8654) incoming/h3-closure-restoration-20261018/: H3_CLOSURE.md blob 49d8fab874ef 16857 B; git show ... | sha256sum = 387e4bae4881a036…1637. The same blob is in merge b78134c7. This digest matches lane MANIFEST.sha256.txt:1, RECEIPT_h3.json:68, IDENTITY.json and RESULT.md. Running grep -nE '[0-9a-f]{12,}|sha|version' on H3_CLOSURE.md finds only numeric constants (L29-30, 159-162, 236), no file digests. L257 says only that 'H2 MANIFEST sha256 pins checked in-program (CK0)', and L201 that the 'dependency hashes of the consumed H2 libraries' were checked; neither gives a value.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "C2",
+      "claim": "Every machine certificate, script, transcript and referenced record that H3_CLOSURE.md cites, with its lines.",
+      "evidence": "Lines below are in H3_CLOSURE.md on bb1a8654.\n- h3_c0_certificate.py: L246-247 (normal and -O runs, ALL_CHECKS_PASS); L250-251 (MUTATION=planar_moments caught at CK2, wrong_window caught at CK6).\n- h3_falsifier.py: L248-249.\n- cov_exact.py: L155 ('iv path of cov_exact.py').\n- Transcripts: cert_normal.txt and cert_O.txt (L246-247, L259); fals_normal.txt and fals_O.txt (L248-249, L260); mut_planar.txt and mut_window.txt (L260; the commands at L250-251 have no redirect).\n- RECEIPT_h3.json and MANIFEST.sha256: L261.\n- SIDE24_gap_fill/scripts/verify_palm_soft_factors.py: L79, L255.\n- verify_a44_a46_flow_v1.py: L136, L256.\n- H2 selftest_cov_exact.py: L256. selftest_pin_transform.py: L257. H2 pin_transform.py selftest P5: L72. H2 MANIFEST pins (CK0): L257.\n- LPW_CONSTANT package falsifier F2: L94-95; also L171-172 and L221.\n- Check labels CK0, CK2-CK8c and falsifier labels F1 and F3 refer to the absent transcripts.\n- The Monte Carlo 'two engines' (L173-177, L186-188) have no filenames.\n- Documents: SIDE24_GAP_FILL_SUPPLEMENT.md (L5-6, lines 1534-1567, 1446-1532, 1632-1653); manuscript_v2_2026-09-13.md (L15); REVIEW_LPW/RA_R1_R6.md (L58, L73); RD_R4_R5 (L106).\nNo hash or version is given for any of these.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "C3",
+      "claim": "Historical manifests and the public receipt record digests for the certificate, the falsifier and the six transcripts. They do not record cov_exact.py, which is pinned only in other records.",
+      "evidence": "The lane manifest incoming/claude-bundle-v3-native-copies-20260928/K3_SIDE24_LB/UPPER2D/H3_closure/MANIFEST.sha256.txt (blob 9b11fb6f, 2741 B, sha256 092d886c) records, at lines 3-8 and 10-11:\n- cert_O/cert_normal a27178a8…\n- fals_O/fals_normal 5be02ea2…\n- h3_c0_certificate.py 56076fa8…\n- h3_falsifier.py 645b6d9d…\n- mut_planar a5d661d8…\n- mut_window 68e30227…\nRECEIPT_h3.json:81-91 records the same values. RETURN_06/TREE_MANIFEST.sha256.txt:428-437 records them with sizes 4439, 1293, 14052, 10584, 669 and 2220 B. SOURCE_CAPSULE.sha256.txt section B records both programs as 'custody hash only'.\ncov_exact.py f08c1c5f… (21961 B) is pinned in TREE_MANIFEST.sha256.txt:404, DEPENDENCY_DAG.md:12 ('@EXACT library -> … H3'), D3 FREEZE_PERC_DECAY.txt:33, b4loc_driver.py.txt:46, and line 5 of H2 MANIFEST.sha256. It is not in the lane MANIFEST or the RECEIPT.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "C4",
+      "claim": "No public Git ref holds the bytes of h3_c0_certificate.py, h3_falsifier.py, cert_normal.txt, cert_O.txt, fals_normal.txt, fals_O.txt, mut_planar.txt or mut_window.txt (category: digest recorded, bytes absent).",
+      "evidence": "Searched by case-insensitive basename and by sha256 of every blob:\n- main bb1a8654: 1396 entries.\n- Hardening a01c72f1: 4396 entries; 5298 unique blobs hashed across main and hardening.\n- Math-: 511 distinct tips of its 612 refs; 4039 unique blobs hashed.\n- 177 zip blobs in those trees: 6333 members hashed, plus 282 members of nested zips.\nResult: 0 hits for each recorded digest and each basename. The only hits on the program names are records: lane MANIFEST, RECEIPT, TREE_MANIFEST and SOURCE_CAPSULE on main; on hardening, drive/source_map/Archive_Members.csv and Payloads.csv plus two REVIEW_numerics.md texts.\nOn main, gh api commits?path=…/H3_closure shows one commit only, 25cb6778 (#200). Archive_Members.csv lists all eight files (same digests and sizes) as members of the Drive carrier zip a2136bc033f3…b5b (30,148,285 B), which is the drive_source in native-copies SOURCE_MAP.json. Their bytes are therefore on Drive only. I did not access Drive.",
+      "status": "NEGATIVE"
+     },
+     {
+      "id": "C5",
+      "claim": "The cov_exact.py and pin_transform.py versions that the lane records pin are public byte-for-byte in other repos and branches. They are not on main or in the package. Which version h3_c0_certificate.py actually loaded cannot be confirmed from public bytes.",
+      "evidence": "cov_exact.py, sha256 f08c1c5f…, 21961 B, blob a160edb4:\n- Math- main 4eb86ed3: imports/upper2d_stage_e_20260926/raw/H2_foundations/cov_exact.py.\n- Hardening a01c72f1: engine/rn_engine/frozen/K3_SIDE24_LB/UPPER2D/H2_foundations/cov_exact.py.\n- Members of the hardening zips CLOSE-20260917-b9c2 (blob c4065c67) and RN5_REPAIR_AND_ERRATUM_BUNDLE.zip (blob 0002d3a7).\npin_transform.py, sha256 c6988ac7…, 17623 B, blob 54830e50: at the same Math- and hardening directories.\nBoth match H2 MANIFEST lines 5 and 7, TREE_MANIFEST:404/406 and DEPENDENCY_DAG:12-13.\nThe consumed version would appear in the CK0 output inside cert_normal.txt, which is absent, so the version actually loaded is not established.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "C6",
+      "claim": "The H2 MANIFEST.sha256, selftest_cov_exact.py, selftest_pin_transform.py and their transcripts and receipts exist publicly only as members of a zip on the hardening branch.",
+      "evidence": "Zip: hardening a01c72f1 'drive/mirrors/2026-09-16 — HOLD_NOT_FOR_SUBMISSION/CLOSE-20260917-b9c2 proofs-code-verification .zip', blob c4065c67, 1,190,232 B, folder intake/rn_source/K3_SIDE24_LB/UPPER2D/H2_foundations/. Members, hashed with unzip -p | sha256sum:\n- MANIFEST.sha256 d0edfadb… (1513 B)\n- selftest_cov_exact.py e1b331de… (17967 B)\n- selftest_pin_transform.py 90e88ff8… (14492 B)\n- selftest_cov_exact_normal/_O 9c7838d1…\n- selftest_pin_transform_normal/_O 7eeb845e…\n- RECEIPT_cov_exact.json 8a51c89b…\n- RECEIPT_pin_transform.json e8db146b…\nAll match TREE_MANIFEST.sha256.txt:399-413 and SOURCE_CAPSULE section B. None exists as a plain blob in any ref.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "C7",
+      "claim": "The cited dependency verify_palm_soft_factors.py exists publicly only inside a nested zip, and its version is not pinned by H3_CLOSURE.md.",
+      "evidence": "H3_CLOSURE.md gives no hash. Hardening Archive_Members.csv lists SIDE24_gap_fill/scripts/verify_palm_soft_factors.py as 425d1046…, 10338 B, in carrier a2136bc0 and three other gap-closure carriers. Those bytes are present only as a nested member: hardening research/side24/source_recovery/custody/SIDE24_V3_4_AUDIT_REPLAY_FULL_ARCHIVE.zip (blob b2901c1d) -> …/evidence/v5_forward_branch/…_119ffbfa.zip (6,062,706 B) -> SIDE24_gap_fill/scripts/verify_palm_soft_factors.py. The .out.txt member is there too (92216cc2…, 1491 B). Whether this is the version the closure re-ran is unverified.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "C8",
+      "claim": "The cited dependency verify_a44_a46_flow_v1.py has no public bytes.",
+      "evidence": "Hardening Archive_Members.csv records d0a9b667…, 6850 B (.out.txt 940ad340…, 1027 B), in the Drive gap-closure carriers. Neither digest nor the basename appears in any blob, archive member or nested-zip member on main, hardening or any Math- ref. H3_CLOSURE.md gives no hash.",
+      "status": "NEGATIVE"
+     },
+     {
+      "id": "C9",
+      "claim": "The LPW_CONSTANT falsifier ('F2') and lpw_constant.py exist publicly on the hardening branch, not on main. H3_CLOSURE.md pins no version for them.",
+      "evidence": "falsify.py 435b40ce…, 14789 B, blob 38d9246e, at hardening 'drive/mirrors/02_RESEARCH_CARRY_FORWARD_CANON/LPW — RAW ARCHIVE INTAKE R05/raw_reports/falsify.py'; also inside the LPW_Return_05 zip (blob cec6f3bd) and its nested constant package. lpw_constant.py e258322c…, 25380 B, blob dae3cd0b, at engine/carriers/blobs/e258322cfbb71dbb__lpw_constant.py and in raw_reports/. Both match SOURCE_CAPSULE section B and TREE_MANIFEST:173. RA_R1_R6.md (3b7cda65…, 33438 B) and RD_R4_R5.md (09aaac1d…, 12656 B) exist only inside the hardening zips KIMI_LPW_REVIEW_BUNDLE_2026-09-13.zip (blob 0cfc8bcf) and LPW_Return_05 (blob cec6f3bd).",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "C10",
+      "claim": "The public RECEIPT_h3.json at 3edacfe5 is a later, regenerated receipt that also carries the rung, band-floor and band-ceiling records. Whether it is a strict superset of the receipt H3_CLOSURE §7 meant cannot be checked byte-for-byte. The same applies to MANIFEST.sha256.",
+      "evidence": "The receipt is the same blob 96e95d17 (6254 B, sha256 ee58ef80…) at 3edacfe5, b78134c7 and bb1a8654. That digest matches lane MANIFEST:33, CL-MIRROR-001_MANIFEST line 23 and LPW v4 CHANGED_INTERFACES_REVIEW.md:20. It holds the closure record H3-CLOSURE-U2D-UPPER-2026-09-13 (L43-51, L81-91), rung_floor (L52-64), band_floor (L23-42) and band_ceil H3-BAND-CEIL-2026-09-15 (L2-22).\nEarlier recorded versions, neither public:\n- 2717 B, 7545a8c6…: TREE_MANIFEST.sha256.txt:426, snapshot 2026-09-15T00:05:36Z.\n- 4482 B, ff788042…: SOURCE_CAPSULE addendum; ADDENDUM_2026-09-15_H3_BAND_FLOOR.md:17.\nH3_BAND_CEIL.md:121 and H3_BAND_FLOOR.md:171 say the receipt was 'regenerated; frozen entries unchanged'. That is text-only support for 'superset'.\nH3_CLOSURE L261 cites MANIFEST.sha256. The public file is MANIFEST.sha256.txt, a renamed copy per the native-copies RESULT.md and SOURCE_MAP original_path, at 2741 B. TREE_MANIFEST:425 records an earlier 1466 B version (1979c4b3…), which is not public.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "C11",
+      "claim": "Of the 33 entries in the lane MANIFEST, only the band and ceil files, H3_RUNG_FLOOR.md, H3_CLOSURE.md and RECEIPT_h3.json have public bytes. None of the band/ceil files is cited by H3_CLOSURE.md.",
+      "evidence": "Present and matching:\n- h3_band_floor.py.txt blob 2cb63589 (a907eeed…)\n- h3_band_ceil.py.txt blob 1892e90b (b97c5428…)\n- band_normal.txt blob fa3d4e59 (dcb3c8e6…, equal to band_O)\n- ceil_normal.txt blob e2d0cfac (26d08534…, equal to ceil_O)\n- H3_BAND_FLOOR.md body-excl-hash-line 281477c3…\n- H3_BAND_CEIL.md body-excl-hash-line cfe8a3a4…\n- H3_RUNG_FLOOR.md 6347275d… (hardening engine/rn_engine/frozen, blob c2f44fba)\n- H3_CLOSURE.md and RECEIPT_h3.json\nAbsent: cert, fals, mut, h3_c0_certificate.py, h3_falsifier.py, h3_rung_floor.py, rung_*, band_out/band_mut_*, ceil_out/ceil_mut_*.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "C12",
+      "claim": "Replay inputs: §7 names no data or parameter files. The likely inputs that do exist are public (two only inside a zip), but the certificate and falsifier programs are not. A public replay cannot be assembled, and the exact inputs cannot be confirmed.",
+      "evidence": "§7 (L244-252) runs the programs with only the env var MUTATION. CK0 reads the H2 MANIFEST (L257).\nThe sibling lane scripts on main are the only code evidence. h3_band_floor.py.txt:26-27 sets sys.path to the absolute /mnt/agents/output/K3_SIDE24_LB/UPPER2D/H2_foundations and imports cov_exact. Lines 56-65 hash cov_exact.py and pin_transform.py against H2D/MANIFEST.sha256. h3_band_ceil.py.txt:28 and 57-64 do the same.\nIf h3_c0_certificate.py follows that pattern, its inputs would be cov_exact.py and pin_transform.py (public, C5), H2 MANIFEST.sha256 (zip only, C6) and mpmath. Python and mpmath versions are recorded nowhere in H3_CLOSURE.md. Because the program bytes are absent (C4), the real input list, its paths and its versions cannot be established. Nothing was executed.",
+      "status": "UNVERIFIED"
+     },
+     {
+      "id": "C13",
+      "claim": "The public copy of the cited supplement differs from the one H3_CLOSURE line-cites, and the version that matches the H3 Drive carrier is not public. The cited manuscript_v2_2026-09-13.md has no public bytes.",
+      "evidence": "Hardening research/side24/source_recovery/SIDE24_GAP_FILL_SUPPLEMENT.md: blob bdf5f060, 105980 B, sha256 05967f14…, 1790 lines; also nested in the hardening custody zip. Its G.1 heading is at L1446 (cited 1446). Its 'Theorem G.3.1' is at L1532 (cited 1534-1567) and its G.7 heading at L1628 (cited 1632-1653).\nArchive_Members.csv lists a different version, 33609b70…, 115104 B, in carrier a2136bc0. That digest is not found in any public blob or archive member.\nmanuscript_v2_2026-09-13.md is listed INCLUDED in the hardening PKG-03 09_PACKAGE_MANIFEST.csv:4, but it is absent from that mirror folder and from all refs.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "C14",
+      "claim": "RETURN_06 PACKAGE_VERIFICATION.md on main calls the H3 cert and fals transcripts 'PRESENT'. That is a historical statement about the original /mnt tree; on public main those files are absent.",
+      "evidence": "incoming/claude-bundle-v3-native-copies-20260928/K3_SIDE24_LB/RETURN_06/PACKAGE_VERIFICATION.md:16 (row 6 'PRESENT … H3: cert_normal ≡ cert_O (a27178a8…), fals pair (5be02ea2…) …, RECEIPT_h3.json ff788042…') and :17 (row 7, mutation receipts). Compare C4. A consumer should not read this row as public availability.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "C15",
+      "claim": "Light check of the cross-references in the text (other readers own these in depth): O7 comment 6245249123 exists and says the band ceiling and floor are not certified as written; PR #447 is open and unmerged; the text matches comment 6255513948.",
+      "evidence": "gh api issues/comments/6245249123: main#419, 2026-10-18T03:35:57Z. It says neither h3_band_ceil.py nor h3_band_floor.py certifies cell 1 (0, 0.0025] and that the published uniform ceiling and floor are not certified at their stated digits. gh api pulls/447: state open, merged false, head 2e2df3ac. gh api issues/comments/6255513948 (main#446): the quoted paragraphs appear verbatim at body lines 9 and 11. Repositories main and Math- are both visibility public. Current tips: main bb1a8654, hardening a01c72f1, Math- 4eb86ed3.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "C16",
+      "claim": "Sentence-level verdict on paragraph 2 of the proposed text.",
+      "evidence": "S1: correct (C2), but not exhaustive. It omits verify_palm_soft_factors.py, verify_a44_a46_flow_v1.py, the H2 selftests and pins, and the LPW F2 falsifier.\nS2a, 'not supplied here as publicly runnable program/transcript bytes': true for this package. True across all public Git refs for h3_c0_certificate.py, h3_falsifier.py and the six transcripts (C4). Misleading for cov_exact.py if read broadly: its pinned version is public on Math- HEAD and the hardening branch (C5). Note also that H3_CLOSURE itself names no versions.\nS2b, 'historical manifests and the public receipt record digest identities without supplying all replay inputs': correct (C3, C12). cov_exact.py's digest comes from TREE_MANIFEST and the H2 MANIFEST, not from the receipt.\nS3: consistent with what can be established (C4, C12).",
+      "status": "VERIFIED"
+     }
+    ],
+    "wording": [
+     "Replace paragraph 1, sentence 1 with: \"The historical payload's §7 references `RECEIPT_h3.json` and `MANIFEST.sha256`. The public copies at the frozen main base, `incoming/claude-bundle-v3-native-copies-20260928/K3_SIDE24_LB/UPPER2D/H3_closure/RECEIPT_h3.json` (6,254 B, sha256 ee58ef80…) and `MANIFEST.sha256.txt` (2,741 B) at 3edacfe5, are unchanged at current main. They are later, regenerated files: besides the closure record H3-CLOSURE-U2D-UPPER-2026-09-13 they also carry the rung-floor, band-floor and band-ceiling records. The earlier recorded versions (receipt 2,717 B / 7545a8c6… and 4,482 B / ff788042…; manifest 1,466 B / 1979c4b3…) are not public, so the receipt the payload meant cannot be compared byte-for-byte.\"",
+     "Replace paragraph 2, sentence 1 with: \"The historical source also cites machine certificates and checks. These are `h3_c0_certificate.py`, `h3_falsifier.py`, the interval path of `cov_exact.py`, the H2 selftests and MANIFEST pins, `verify_palm_soft_factors.py`, `verify_a44_a46_flow_v1.py`, and the transcripts `cert_normal.txt`, `cert_O.txt`, `fals_normal.txt`, `fals_O.txt`, `mut_planar.txt` and `mut_window.txt`. The source pins no version or digest for any of them.\"",
+     "Replace paragraph 2, sentence 2 with: \"This package supplies none of them. The certificate and falsifier programs and all six transcripts are absent from every public Git ref (main, the hardening branch, and Math-, including archive members). Historical manifests and the public receipt record only their digests; the hardening branch's Drive source map lists them inside a Drive archive this package does not publish. The H2 library versions those records pin (`cov_exact.py` f08c1c5f…, `pin_transform.py` c6988ac7…) are public byte-for-byte outside this package, but without the certificate program they are not a complete set of replay inputs.\"",
+     "Keep paragraph 2, sentence 3 unchanged: \"Accordingly, this package preserves source identity and the cited historical certificate claims, not an independently reproducible public execution or a fresh mathematical certification.\""
+    ]
+   }
+  },
+  {
+   "agent": "a4cb025e5034ce48b",
+   "label": "verify:receipt",
+   "result": {
+    "verdicts": [
+     {
+      "id": "R1",
+      "verdict": "CONFIRMED",
+      "correction": "None needed. One more pin the lens left out: LPW_CONSTANT/v4/lpw_constant_v4.py.txt:123 also pins ee58ef80.",
+      "evidence": "`git ls-tree -l` at origin/main (bb1a8654), 3edacfe5, efc2fe90, b78134c7 and ab5c00b0 all give blob 96e95d171044d9d9274ec59bb6b42a8dc390b5b9, 6254 B. `git show <ref>:<path> | sha256sum` gives ee58ef8054109a24ea0dadd5f0147b883966374e539ff462f8500af932765264 at each ref. `gh api commits?path=` lists only 25cb6778 (#200, 2026-09-28T07:07:06Z). `gh api contents?ref=25cb6778` and `?ref=3edacfe5` both return sha 96e95d17, size 6254. The H3_closure folder listing at 3edacfe5 and origin/main is identical (diff empty). `compare 3edacfe5...bb1a8654` is ahead 36 / behind 0, 207 files, and the only H3 paths in it are the three incoming/h3-closure-restoration-20261018 files. `git grep ee58ef80` finds the digest at MANIFEST.sha256.txt:33, bundle IDENTITY.json:198 (entry 195-199), SOURCE_MAP.json:309, CL-MIRROR-001_MANIFEST.sha256.txt:23, LPW v4 RECEIPT.json:58 and lpw_constant_v4.py.txt:123. On the hardening branch a01c72f1 the receipt is not at that path."
+     },
+     {
+      "id": "R2",
+      "verdict": "CONFIRMED",
+      "correction": "None. All quotes, line numbers and numbers are exact.",
+      "evidence": "Printed the receipt with `cat -n` at origin/main. The top-level keys are exactly the 11 listed. Each quote checked: L3 discharges; L10/L11 band_ceil record and result (3.74767948915996 on (0,0.05], 3.66282864761194 on (0,0.0025]); L13-19 cells; L24 band_floor discharges; L30/L31 record and result (2.30659559567154 > c_Z, worst margin +42.78%); L33-39 cells from 2.58288222715895 (+59.88%) to 2.30659559567154 (+42.78%); L57-58 rung_floor record and result with margin +92.12%; L59-61 stretch rungs 11/200 and 9/200."
+     },
+     {
+      "id": "R3",
+      "verdict": "CONFIRMED",
+      "correction": "Strengthen it with the public H3_RUNG_FLOOR.md on the hardening branch, described in the evidence. 'Third recorded regeneration' should read 'third recorded version': three versions are recorded, 2717 B, 4482 B and 6254 B.",
+      "evidence": "Independent rebuild in <SCRATCH>/h3n/work/verify-receipt/rebuild.py. `json.dumps(indent=2, sort_keys=True)` with no trailing newline reproduces ee58ef80 at 6254 B. Dropping band_ceil and its ceil_*/h3_band_ceil/H3_BAND_CEIL keys gives 4482 B ff788042c6bc…. Also dropping band_floor and its band_*/h3_band_floor/H3_BAND_FLOOR keys gives 2717 B 7545a8c61c20…. The 1466 B manifest rebuilt as current MANIFEST lines 1-2, then the 7545a8c6 receipt line, then lines 3-17 gives 1979c4b3d666…. All three digests sit on main at TREE_MANIFEST:425-426, ADDENDUM_2026-09-15_H3_BAND_FLOOR.md:17 and SOURCE_CAPSULE:206,229. H3_BAND_FLOOR.md:6,171 and H3_BAND_CEIL.md:6,121 are quoted correctly. CL-AUD-001...md:36 reads 'RECEIPT_h3.json pre-ceiling'. Missed: engine/rn_engine/frozen/K3_SIDE24_LB/UPPER2D/H3_closure/H3_RUNG_FLOOR.md on a01c72f1 (7003 B, sha256 6347275d…, equal to the receipt pin) says at lines 3-5 'Companion to the frozen H3_CLOSURE.md (untouched; this file adds the rung-level certificate…)' and at line 127 'summary receipt RECEIPT_h3.json (regenerated)'. So even the earliest recorded receipt was itself a regeneration made after the closure."
+     },
+     {
+      "id": "R4",
+      "verdict": "CONFIRMED",
+      "correction": "Small nuance. The rung_floor record is dated 2026-09-13, the same day as the closure, so it 'goes beyond' the closure rather than 'postdates' it by date. Only the band sections (2026-09-15) are later by date. H3_RUNG_FLOOR.md:127 does show the receipt was regenerated for it. No closure-only receipt bytes are recorded on main, on the hardening branch, or in Math-. The private-archive source map (hardening drive/source_map/Archive_Members.csv) lists only the 6254 B ee58ef80 version.",
+      "evidence": "The c0_certified_lower/upper strings and c_Z 1.615489267643502474048123284509081575382 occur verbatim in the landed H3_CLOSURE.md (python substring test True/True/True). `grep -i rung|band` on H3_CLOSURE.md finds no hits apart from line numbers 176/186 for 0.05. The closure-only rebuild is 1539 B f632159e056829f98b09466f9277e671d1e0a50311af038186f22fb78a0795d5. `git grep f632159e` on origin/main and on a01c72f1 finds nothing, and no Math- blob matches. MANIFEST.sha256.txt grouping checked: lines 1-17 closure+rung, 18-24 floor, 25-32 ceiling, 33 receipt."
+     },
+     {
+      "id": "R5",
+      "verdict": "CONFIRMED",
+      "correction": "None.",
+      "evidence": "incoming/h3-closure-restoration-20261018/H3_CLOSURE.md is 16857 B, sha256 387e4bae…, blob 49d8fab8…. Lines 259-261 name RECEIPT_h3.json and MANIFEST.sha256 by name only, with no digest and no description of contents. The §7 commands at lines 244-252 point to /mnt/agents/output/... The package blobs at #446's reviewed head 4a50f000 (gh api contents) equal the landed blobs 49d8fab8/a391c42a/3abe1675."
+     },
+     {
+      "id": "R6",
+      "verdict": "CONFIRMED",
+      "correction": "Keep the lens's qualification. O7's comment never mentions RECEIPT_h3.json or the rung floor (grep counts 0 and 0). It audits the programs h3_band_ceil.py b97c5428 and h3_band_floor.py a907eeed, whose published values the receipt records. So 'Its claims … were found not certified' is accurate only through those identical numbers. Wording should say O7 audited the generating programs and the published values.",
+      "evidence": "`gh api issues/comments/6245249123`: created 2026-10-18T03:35:57Z on issue #419. Line 1 says 'the published uniform ceiling and floor are not certified at their stated digits'. B1(a) covers the cell-1 ceiling 3.66282864761194 and floor 2.58288222715895, 'not certified by these programs as written'. B1(b) says 'published uniform ceiling 3.74767948915996 and uniform floor 2.30659559567154 are not certified as written … The floor's margin over c_Z = 1.6155 stays large'. Line 1 also says 'none of this shows a true value is wrong'. B1(c) gives LPW v4 r0 = 4.39e-10, which equals 1/2278031360 (= 4.3898e-10)."
+     },
+     {
+      "id": "R7",
+      "verdict": "CONFIRMED",
+      "correction": "Optional detail: #447 carries one review, 5579118173 (COMMENTED, an engineering-delta scoped pass at an earlier head c5cf036c, not the current head 2e2df3ac). It remains an open, unmerged draft, so 'not an accepted certificate here' holds.",
+      "evidence": "`gh api pulls/447`: state open, merged false, draft true, head 2e2df3ac3944…, base main, updated 2026-10-20T01:53:54Z. Its 12 files are all under experiments/h3_band_v2/ plus .github/workflows/h3-band-v2.yml. `pulls/447/reviews` lists only 5579118173."
+     },
+     {
+      "id": "R8",
+      "verdict": "CORRECTED",
+      "correction": "The facts can be checked, so the status should be VERIFIED, not UNVERIFIED. Comment 6255513948 says '#446 remains OPEN/Ready/unmerged at 4a50f000… against main 3edacfe5', and review 5562719255 also states base 3edacfe5, so the label was accurate when written. At merge, pulls/446 base.sha was efc2fe90, and merge b78134c7 has parents efc2fe90 and ab5c00b0. The receipt blob is identical at every ref, so nothing substantive changes. The note should cite current main bb1a8654 (or the blob/sha256) rather than 'the frozen main base 3edacfe5'.",
+      "evidence": "`gh api issues/comments/6255513948` (2026-10-18T21:43:54Z) contains the quoted phrase and links blob/3edacfe5/…/RECEIPT_h3.json. `git log -1 --format=%P b78134c7` gives efc2fe90 ab5c00b0. `gh api pulls/446` gives base.sha efc2fe90, merge_commit_sha b78134c7, merged_at 2026-10-19T23:46:00Z. `compare 4a50f000...ab5c00b0` is ahead 10, and the package blobs are unchanged between them."
+     },
+     {
+      "id": "R9",
+      "verdict": "CORRECTED",
+      "correction": "The conclusion holds: only an existential r_0, and no numerical r_* anywhere in the package. But 'the only numerical radii are [0,1e-5] and the MC at lines 176/186' is incomplete. The payload also has NUMERIC radii at line 101 (r ∈ {0.1,…,0.005}, CK8a) and line 112 (r=0.005). Lines 222-223 add 'The NUMERIC evidence is consistent with c_Z = c_0/2 already holding at r ≤ 0.1', labelled numeric and expressly not a claim ('not claimed', line 222). None of these is an r_*. The other parts check out: receipt L45/L51 keep r_0 existential, the L31 band_floor asserts Z_r ≥ c_Z r^2 for all r in (0,0.05], the SOURCE_CAPSULE:203 quote is exact, and receipt L3 r0 = 1/2278031360 equals LPW v4 RECEIPT.json:9 'r0'.",
+      "evidence": "`grep -n 'r_0'` on H3_CLOSURE.md hits lines 66, 218, 232, 234, 240. There is no 'r_*' or 'r*' anywhere (regex test). RESULT.md:38 is quoted exactly. IDENTITY.json (733 B, sha256 aaae53e5…) has no radius field. LPW_CONSTANT/v4/RECEIPT.json lines 1-15 show \"r0\": \"1/2278031360\" in the headline. SOURCE_CAPSULE.sha256.txt:203 reads 'DISCHARGED with uniform modulus (certified Z_r >= c_Z*r^2 for EVERY r in (0, 0.05])'."
+     },
+     {
+      "id": "R10",
+      "verdict": "CONFIRMED",
+      "correction": "None. The NEGATIVE status is correct. Only RESULT.md:38 (existential r_0, no numerical r_*) overlaps M1, and line 42 (copied 'without executing') touches M2 only loosely.",
+      "evidence": "`grep -i -E 'RECEIPT|band|rung|0\\.05|O7|419|447|transcript|replay|cov_exact|cert_|fals_|mut_'` finds nothing in RESULT.md or IDENTITY.json. RESULT.md is 3293 B, sha256 00148a0d…, which matches IDENTITY.json:20-22. The landed RESULT.md is the original (Route A text not applied)."
+     },
+     {
+      "id": "R11",
+      "verdict": "CORRECTED",
+      "correction": "The core claim holds: none of h3_c0_certificate.py, h3_falsifier.py, cert_*, fals_* or mut_* is on main. Four corrections. (1) The receipt has 32 digest entries but only 27 distinct values; 9 entries resolve on main (7 raw plus the 2 body-excl-hash-line documents); the 23 unresolved entries are 20 distinct digests. (2) Two of the 23, band_out.txt (617b2d07, 2743 B) and ceil_out.txt (1642236c, 2606 B), can be rebuilt byte for byte from public files: they are band_normal.txt and ceil_normal.txt truncated before their final 'sha256(transcript-above)' line. (3) H3_RUNG_FLOOR.md (6347275d) is public on the hardening branch a01c72f1 at engine/rn_engine/frozen/K3_SIDE24_LB/UPPER2D/H3_closure/H3_RUNG_FLOOR.md (blob c2f44fba, 7003 B), though not on main. (4) 'No such name appears in any Math- commit' is false for cov_exact: Math- history has imports/upper2d_stage_e_20260926/raw/H2_foundations/cov_exact.py and reviews/pin_micro_covariance_nonauthor_20260928/cov_exact_check.py. The names h3_c0_certificate, h3_falsifier, cert_normal and fals_normal really are absent from Math- history, and their digests match no Math- blob (6809 blobs hashed).",
+      "evidence": "Hashed all 1396 origin/main blobs (0 paths contain 99_DO_NOT_OPEN) with `hashall.py`: 7 raw HITs, and H3_BAND_CEIL/FLOOR body-excl-hash-line recompute to cfe8a3a4/281477c3. Hashed all 4396 a01c72f1 blobs: the only hits are H3_RUNG_FLOOR.md 6347275d and cov_exact.py f08c1c5f. Hashed all 6809 Math- blobs: the only hit is cov_exact.py f08c1c5f (blob a160edb4). `git log --all --name-only` in Math- finds only the two cov_exact paths. Truncation test: band_normal.txt[:2743] gives 617b2d07…, ceil_normal.txt[:2606] gives 1642236c…."
+     },
+     {
+      "id": "R12",
+      "verdict": "CORRECTED",
+      "correction": "The facts check out and the status can be VERIFIED, with three changes. (a) The same cov_exact.py bytes (f08c1c5f, 21961 B, blob a160edb4) are also in this repository's hardening branch a01c72f1 at engine/rn_engine/frozen/K3_SIDE24_LB/UPPER2D/H2_foundations/cov_exact.py, and in PR #447 head 2e2df3ac at experiments/h3_band_v2/h2/cov_exact.py. (b) 'Cannot be tied' is too strong. RETURN_06/DEPENDENCY_DAG.md:12 on main records 'H2_foundations/cov_exact.py f08c1c5f… ──@EXACT library──▶ … H3 …', a historical assertion that H3 consumed f08c1c5f. What cannot be checked from public bytes is the in-program CK0 pin. h3_c0_certificate.py is absent. The H2 MANIFEST.sha256 that the H3 programs check against (d0edfadb, 1513 B) is on neither main nor Math-; its identity is recorded only in the hardening drive/source_map rows, which point to private Drive carriers. PR #447's h2/MANIFEST.sha256 is a different file (79 B, 84f04952…). (c) The receipt indeed does not pin cov_exact.py.",
+      "evidence": "`git grep f08c1c5f origin/main` hits CL-OBL-001…:68, DEPENDENCY_DAG.md:12, TREE_MANIFEST:404, B4LOC_DAMLINE.md:16, b4loc_driver.py.txt:46, FREEZE_PERC_DECAY.txt:33 and d3_perc_decay.py.txt:67. Math- a2c3657c (2026-09-26) is the only commit touching its copy, and the file is on Math- origin/main. The PR #447 files fetched by gh api contents?ref=2e2df3ac gave cov_exact.py f08c1c5f and MANIFEST 84f04952. The band programs (h3_band_*.py.txt:56-65) check cov_exact against /mnt/agents/…/H2_foundations/MANIFEST.sha256 (CB0), and both band transcripts print only 'CB0 PASS: H2 library hashes match MANIFEST' (line 3)."
+     }
+    ],
+    "missed": [
+     "H3_RUNG_FLOOR.md (sha256 6347275d…, 7003 B) is public on the hardening branch a01c72f1 at engine/rn_engine/frozen/K3_SIDE24_LB/UPPER2D/H3_closure/H3_RUNG_FLOOR.md. Lines 3-5 call it a 'Companion to the frozen H3_CLOSURE.md (untouched…)'. Line 127 says 'summary receipt RECEIPT_h3.json (regenerated)'. Lines 105-111 say the rung results 'do NOT certify the continuum (0, 0.05]'. This is direct documentary support for 'later superset, not solely the closure receipt', even for the earliest recorded receipt.",
+     "On the hardening branch, drive/source_map/Archive_Members.csv records h3_c0_certificate.py (56076fa8…, 14052 B), h3_falsifier.py (645b6d9d…, 10584 B), the H2 MANIFEST.sha256 (d0edfadb…, 1513 B) and RECEIPT_h3.json (ee58ef80…, 6254 B) as members of the private frozen archive with carrier SHA-256 a2136bc0… (the archive O7 cites), via Drive links (<drive-id>). So the replay inputs are custody-recorded only in non-public Drive carriers. That supports M2's 'not supplied … as publicly runnable'. The archive's receipt is also the 6254 B superset, not a closure-only receipt.",
+     "band_out.txt and ceil_out.txt (2 of the 23 'unmatched' receipt entries) are byte-recoverable from public main files: they are band_normal.txt and ceil_normal.txt truncated before their final self-hash line. The receipt has 27 distinct digest values in 32 entries.",
+     "Public copies of both H2 libraries matching the 2026-09-15 TREE_MANIFEST digests exist outside main: cov_exact.py f08c1c5f and pin_transform.py c6988ac7 on hardening a01c72f1 (engine/rn_engine/frozen/…/H2_foundations/) and in Math- imports/upper2d_stage_e_20260926/raw/H2_foundations/. cov_exact.py f08c1c5f is also in PR #447 head. RETURN_06/DEPENDENCY_DAG.md:12 on main historically ties cov_exact.py f08c1c5f to H3 as an @EXACT library. Only the CK0/CB0 pin target (H2 MANIFEST.sha256 d0edfadb) and the H3 programs themselves are non-public.",
+     "§7 (H3_CLOSURE.md:254-257) also cites dependency scripts it says were 're-verified live': verify_palm_soft_factors.py, verify_a44_a46_flow_v1.py, selftest_cov_exact.py and selftest_pin_transform.py. None is on main or the hardening branch by name. The M2 list in the proposed text is not exhaustive. Optional addition: 'and the dependency scripts §7 lists'.",
+     "The §7 reproduction commands run from /mnt/agents/output/K3_SIDE24_LB/UPPER2D/H3_closure (H3_CLOSURE.md:245), a private path. Review 5562719255 M2 cites this, and the proposed text does not.",
+     "The landed package bytes equal the bytes reviewed by 5562719255 at head 4a50f000 (blobs 49d8fab8/a391c42a/3abe1675 at both refs). Route A was not applied: the landed RESULT.md is the original 3293 B 00148a0d, not the 4881 B 9c7cd7f9 version, so a board-only consumer note (Route B) is the applicable vehicle.",
+     "H3_CLOSURE.md:222-223 contains a NUMERIC-only remark: 'The NUMERIC evidence is consistent with c_Z = c_0/2 already holding at r ≤ 0.1'. It is not an r_*, and the payload says 'not claimed' at line 222. A consumer note claiming there is no numerical r_* should not be read as denying that this numeric remark exists.",
+     "Proposed corrected wording, sentence 1: \"The historical payload's §7 names `RECEIPT_h3.json` among its receipts (by name only, without a digest). The only public copy, incoming/claude-bundle-v3-native-copies-20260928/K3_SIDE24_LB/UPPER2D/H3_closure/RECEIPT_h3.json (6,254 B, SHA-256 ee58ef80…, blob 96e95d17…; unchanged from main#200 25cb6778 through current main bb1a8654), is a later regenerated superset, not solely the closure receipt. Besides the closure record it carries a rung-floor record and the 2026-09-15 band-floor and band-ceiling records.\"",
+     "Proposed corrected wording, sentence 2: \"Its band_ceil and band_floor records state uniform certification on (0, 0.05] (E[G_r] ≤ 3.74767948915996 and ≥ 2.30659559567154). O7's audit of the generating programs h3_band_ceil.py and h3_band_floor.py (main#419 comment 6245249123) found those published uniform values, and the (0, 0.0025] cell values, not certified as written. O7 did not review the receipt's rung-floor record.\" Sentence 3: add '(open draft, unmerged at bb1a8654)' after PR #447. Sentence 4: unchanged apart from optionally naming the rung-floor values at r = 0.05, 9/200 and 11/200 as also outside the package.",
+     "Proposed corrected wording, M2 sentence 2: \"Their referenced versions are not supplied here as publicly runnable program or transcript bytes. None of h3_c0_certificate.py, h3_falsifier.py, cert_*, fals_* or mut_* is on current main, and main and the public receipt record only their digests. The H2 MANIFEST.sha256 against which the programs check cov_exact.py is not public. Copies of cov_exact.py matching the historical digest exist outside this package, but the program's in-code pin cannot be checked from public bytes.\" M2 sentence 1 can keep 'cov_exact.py (interval path)', which paraphrases the payload's 'iv path' at line 155. M2 sentence 3 is accurate as written."
+    ],
+    "privacy_leaks": []
+   }
+  },
+  {
+   "agent": "a414d4c0108fa62d4",
+   "label": "verify:certs",
+   "result": {
+    "verdicts": [
+     {
+      "id": "C1",
+      "verdict": "CONFIRMED",
+      "correction": "",
+      "evidence": "git ls-tree -r -l origin/main(bb1a8654) incoming/h3-closure-restoration-20261018/: H3_CLOSURE.md blob 49d8fab874ef, 16857 B; IDENTITY.json 733 B; RESULT.md 3293 B. git show ...H3_CLOSURE.md | sha256sum = 387e4bae4881a036…1637. The same digest appears at lane MANIFEST.sha256.txt:1, RECEIPT_h3.json:68, IDENTITY.json and RESULT.md:17. RESULT.md sha256 is 00148a0d… (unamended). I re-grepped H3_CLOSURE.md for .py/.txt/.json/sha/MANIFEST/version: it has no file digest or version for any cited program. L201 and L257 name the H2 hash checks but give no values."
+     },
+     {
+      "id": "C2",
+      "verdict": "CORRECTED",
+      "correction": "The citation list and its line numbers are accurate. Three corrections: (1) The CK labels H3_CLOSURE actually cites are CK0, CK2, CK3, CK4, CK5b, CK5d/e, CK6, CK6d, CK8, CK8a and CK8c; it cites no CK1 or CK7. (2) The 'falsifier F2' at L95 is the LPW_CONSTANT package's falsifier, not h3_falsifier.py; L169 also names the library mpmath.ncdf. (3) The closing phrase 'refer to the absent transcripts' is wrong. The transcripts are public byte-exact on the hardening branch, inside a chunked archive (see C4).",
+      "evidence": "I re-read H3_CLOSURE.md on bb1a8654 and confirm: L5-6 (supplement, lines 1534-1567, 1446-1532, 1632-1653), L15 (manuscript), L58 and L73 (RA_R1_R6), L72 (pin_transform P5), L79 and L255 (verify_palm_soft_factors.py), L94-95 (LPW F2), L106 (RD_R4_R5), L136 and L256 (verify_a44_a46_flow_v1.py), L155 (cov_exact.py iv path), L246-251 (certificate, falsifier and mutation commands; L250-251 have no redirect), L256-257 (H2 selftests, CK0), L259-261 (receipts list)."
+     },
+     {
+      "id": "C3",
+      "verdict": "CONFIRMED",
+      "correction": "",
+      "evidence": "Lane MANIFEST.sha256.txt (blob 9b11fb6f, 2741 B, sha256 092d886c) holds cert, fals, program and mut digests at lines 3-8 and 10-11. RECEIPT_h3.json lines 81-91 hold the same values. TREE_MANIFEST.sha256.txt:428-437 records sizes 4439/1293/14052/10584/669/2220. SOURCE_CAPSULE.sha256.txt:160-161 marks both programs 'custody hash only'. cov_exact.py f08c1c5f… appears at TREE_MANIFEST:404, DEPENDENCY_DAG.md:12, FREEZE_PERC_DECAY.txt:33, b4loc_driver.py.txt:46 and H2 MANIFEST line 5. grep -c cov_exact returns 0 on both the lane MANIFEST and the RECEIPT."
+     },
+     {
+      "id": "C4",
+      "verdict": "REFUTED",
+      "correction": "The bytes are public, byte-exact, on the hardening branch (a01c72f1; the same store is on 77 other branches of the main repository, but not on main). They are not plain blobs or zip members. They are members of the gap-closure carrier zip a2136bc0… (30,148,285 B), which is stored there as 29 chunks of 1 MiB under drive/deltas/2026-09-19/DG-MIGRATION-20260919/. That folder's README says 'Standard ZIP tools plus the JSON index suffice to reconstruct bytes'. The correct category is 'present byte-exact (digest matches) in chunked-archive form on hardening; absent on main and in the package'. The claim that 'their bytes are therefore on Drive only' is false. No Drive access is needed.",
+      "evidence": "objects.json (hardening blob 851b4b14, 1,520,155 B) lists object a2136bc0 with 29 chunks across 8 packs: 16e9b89b, 1de9fae7, 31a58bba, 6fd8194c, 9613784b, 9b95502b, 9dd57098, d73bdacf…zip. coverage.jsonl gives this object the status EXACT_SOURCE_BYTES. I reassembled it with my own scratch script (not a repository tool): 30148285 B, sha256 a2136bc033f3…aa2b5b, exact match. The members are under K3_SIDE24_LB/UPPER2D/H3_closure/: h3_c0_certificate.py 14052 B 56076fa8…; h3_falsifier.py 10584 B 645b6d9d…; cert_normal.txt and cert_O.txt 4439 B a27178a8…; fals_normal.txt and fals_O.txt 1293 B 5be02ea2…; mut_planar.txt 669 B a5d661d8…; mut_window.txt 2220 B 68e30227…. All equal lane MANIFEST:3-8 and 10-11. The lens's plain search was itself right: I hashed every blob in the main clone (24,379 blobs, all 234 local refs, 185 zips, 33,718 members, nested depth up to 4), all 475 distinct branch and PR-head tips of the main repo, and Math- (6,809 blobs). None of these digests appears as a plain blob or ordinary zip member. The 87 'unreadable zips' are 1 MiB chunk members. main bb1a8654 has no chunk store."
+     },
+     {
+      "id": "C5",
+      "verdict": "CORRECTED",
+      "correction": "The listed locations are confirmed. Two corrections: (1) cov_exact.py f08c1c5f (blob a160edb4) is also in the main repository on the open PR #447 head, claude/h3-band-v2-20261018 at 2e2df3ac, as experiments/h3_band_v2/h2/cov_exact.py. Its h2/MANIFEST.sha256 pins f08c1c5f, and README L145 calls it byte-identical to the H2 library in archive a2136bc0… ('DG-MIGRATION custody'). Both copies are also members of the reconstructible carrier, as is pin_transform.py. (2) 'Version actually loaded is not established' is overstated. cert_normal.txt (public, see C4) has CK0 lines 1-3: '[ok] CK0 sha256(cov_exact.py) matches H2 MANIFEST of record (f08c1c5f653f2ffd...)' and the same for pin_transform.py (c6988ac7fcfa32dc...). The loaded version is therefore recorded as a transcript claim (16-hex prefix). It has not been re-executed.",
+      "evidence": "Math- 4eb86ed3 ls-tree: imports/upper2d_stage_e_20260926/raw/H2_foundations/cov_exact.py (a160edb4, 21961 B) and pin_transform.py (54830e50, 17623 B). Hardening engine/rn_engine/frozen/K3_SIDE24_LB/UPPER2D/H2_foundations/ holds the same blobs. gh api pulls/447: open, merged false, head 2e2df3ac, ref claude/h3-band-v2-20261018. pin_transform.py c6988ac7 also appears as jet_definition/sources/pin_transform.py.txt inside hardening research/campaigns/q0_twelve_20260920_v1.zip (blob 9b015fbd)."
+     },
+     {
+      "id": "C6",
+      "verdict": "CORRECTED",
+      "correction": "The zip path is misquoted. The actual file is `CLOSE-20260917-b9c2` followed by `_PROOFS_CODE_AND_VERIFICATION.zip` in hardening 'drive/mirrors/2026-09-16 — HOLD_NOT_FOR_SUBMISSION/' (blob c4065c67, 1,190,232 B). 'Only as members of a zip' undercounts. The same H2 MANIFEST, selftests and transcripts are also (a) in the nested zip MATH-20260917-b9c2 (sha256 3b16c371…) inside hardening DG-MIGRATION pack 3d4032e6…zip (blob 54ae88dc), and (b) members of the reconstructible carrier a2136bc0 (K3_SIDE24_LB/UPPER2D/H2_foundations/). 'No plain blob in any ref' holds.",
+      "evidence": "From c4065c67, unzip -p intake/rn_source/K3_SIDE24_LB/UPPER2D/H2_foundations/<file> | sha256sum gives: MANIFEST.sha256 d0edfadb (lines 5 and 7 pin f08c1c5f and c6988ac7); RECEIPT_cov_exact.json 8a51c89b; RECEIPT_pin_transform.json e8db146b; selftest_cov_exact.py e1b331de; selftest_pin_transform.py 90e88ff8; selftest_cov_exact_normal 9c7838d1; selftest_pin_transform_O 7eeb845e. The blob scan found no plain-blob hit for these digests."
+     },
+     {
+      "id": "C7",
+      "verdict": "CORRECTED",
+      "correction": "The nested path and size are confirmed. Add that verify_palm_soft_factors.py 425d1046… (10338 B) and its .out.txt 92216cc2… (1491 B) are also members of the H3 carrier a2136bc0, which is reconstructible on hardening. So the copy that sits with the H3 closure is public byte-exact. H3_CLOSURE itself still pins no hash. Archive_Members lists the file top-level in a2136bc0, 07b44ac2, 01b3f61c and 50bef1fc, and nested in 5393ec94, ba2a296b and 4040d654; all of these are objects in DG-MIGRATION objects.json.",
+      "evidence": "git cat-file -p b2901c1d (12,465,983 B), then unzip -l: nested …/evidence/v5_forward_branch/…_119ffbfa.zip is 6,062,706 B. Scan hit: 425d1046 and 92216cc2 in that nested zip. Reassembled carrier: SIDE24_gap_fill/scripts/verify_palm_soft_factors.py 10338 B 425d1046…"
+     },
+     {
+      "id": "C8",
+      "verdict": "REFUTED",
+      "correction": "verify_a44_a46_flow_v1.py (d0a9b667…, 6850 B) and verify_a44_a46_flow_v1.out.txt / .O.out.txt (940ad340…, 1027 B) are public byte-exact as members SIDE24_gap_fill/scripts/… of the reconstructible carrier a2136bc0 on hardening. They are absent as plain blobs or ordinary zip members everywhere, and absent from main.",
+      "evidence": "Hashes of the reassembled carrier members match the hardening drive/source_map/Archive_Members.csv rows. Archive_Members also lists them in carriers 07b44ac2, 01b3f61c and 50bef1fc, all present as objects in DG-MIGRATION objects.json."
+     },
+     {
+      "id": "C9",
+      "verdict": "CORRECTED",
+      "correction": "Small line correction: TREE_MANIFEST:173 is falsify.py. lpw_constant.py is at TREE_MANIFEST:176. SOURCE_CAPSULE section B lines 126-127 record both. Everything else is confirmed. falsify.py is also inside the standalone hardening zip KIMI_LPW_CONSTANT_PACKAGE.zip (blob 5312ef0e).",
+      "evidence": "TREE_MANIFEST.sha256.txt:173 435b40ce… 14789 LPW_CONSTANT/falsify.py; :176 e258322c… 25380 LPW_CONSTANT/lpw_constant.py. Blob hits: 38d9246e (raw_reports/falsify.py), dae3cd0b (raw_reports/lpw_constant.py and engine/carriers/blobs/e258322cfbb71dbb__lpw_constant.py). RA_R1_R6.md (3b7cda65…, 33438 B) and RD_R4_R5.md (09aaac1d…, 12656 B) are found only in zips 0cfc8bcf and cec6f3bd."
+     },
+     {
+      "id": "C10",
+      "verdict": "CONFIRMED",
+      "correction": "Strengthening: the carrier a2136bc0 holds RECEIPT_h3.json ee58ef80 (6254 B) and H3_closure/MANIFEST.sha256 092d886c (2741 B). Both are byte-identical to the public files. No public archive found holds the earlier versions (receipt 2717 B 7545a8c6 and 4482 B ff788042; manifest 1466 B 1979c4b3). Archive_Members lists H3_closure RECEIPT and MANIFEST members only in a2136bc0. 'Superset' therefore remains text-supported only.",
+      "evidence": "Receipt blob 96e95d17 is the same at 3edacfe5, b78134c7 and bb1a8654. Its sections: band_ceil L2-22, band_floor L23-42, closure record L43-51 and L65-102, rung_floor L52-64. TREE_MANIFEST:425-426 gives 1979c4b3/1466 and 7545a8c6/2717, snapshot 2026-09-15T00:05:36Z. SOURCE_CAPSULE:206 and :229 and ADDENDUM:17 give ff788042/4482. H3_BAND_CEIL.md:121 and H3_BAND_FLOOR.md:171 say 'regenerated; frozen entries unchanged'. CL-MIRROR-001_MANIFEST:23 and CHANGED_INTERFACES_REVIEW.md:20 cite ee58ef80. SOURCE_MAP files[34] maps original_path MANIFEST.sha256 to path MANIFEST.sha256.txt. gh api commits?path=…/H3_closure returns only 25cb6778 (#200)."
+     },
+     {
+      "id": "C11",
+      "verdict": "CORRECTED",
+      "correction": "The statement holds only for main plus plain hardening blobs. Counting the hardening chunk store, every one of the 33 lane-MANIFEST entries has public byte-exact bytes in carrier a2136bc0. That includes h3_rung_floor.py 094d3824, the rung_*, band_out, band_mut_*, ceil_out and ceil_mut_* files, cert/fals/mut, and both programs. On main itself only the eight lane files plus H3_CLOSURE.md (restoration package) exist. H3_RUNG_FLOOR.md is not on main; it is on hardening at engine/rn_engine/frozen (c2f44fba).",
+      "evidence": "Reassembled carrier listing of K3_SIDE24_LB/UPPER2D/H3_closure/ shows 39 files. Hashes match the lane MANIFEST lines 1-33, for example h3_rung_floor.py 16960 B 094d3824, rung_mut_window 2447 B f0fee83e, ceil_mut_cap 1245 B 7116a7d1. The public main band files match the carrier copies: H3_BAND_CEIL.md 18e109bc, H3_BAND_FLOOR.md 7a40e267 (body-excl-hash-line 281477c3), h3_band_floor.py.txt a907eeed, h3_band_ceil.py.txt b97c5428."
+     },
+     {
+      "id": "C12",
+      "verdict": "CORRECTED",
+      "correction": "The premise 'program bytes absent' is false (see C4). I read both programs as text and ran nothing. h3_c0_certificate.py: L44-45 hard-codes H2='/mnt/agents/output/K3_SIDE24_LB/UPPER2D/H2_foundations' on sys.path; L47 imports mpmath; L53 reads the MUTATION env var; L66-78 (CK0) reads H2/MANIFEST.sha256 and hashes cov_exact.py and pin_transform.py; L80 imports cov_exact; L232 imports numpy for CK8; L266 sets seed 20260913. h3_falsifier.py: L44 mpmath; L162-164 the same absolute H2 path, numpy and cov_exact; L192 seed 77777777; L234-240 (F4) re-invokes h3_c0_certificate.py with -O under each MUTATION through subprocess. cov_exact.py imports only mpmath. The named file inputs are therefore all public byte-exact: the programs and transcripts in the hardening chunk store; cov_exact and pin_transform as plain blobs on Math-, hardening and PR #447; the H2 MANIFEST in zips and the chunk store. Not recorded anywhere: Python, mpmath and numpy versions (the transcripts carry none; the cpython-312 __pycache__ entries at TREE_MANIFEST:417-422 only hint at Python 3.12). A replay must also recreate the absolute /mnt path. Whether the outputs reproduce is UNVERIFIED because nothing was run.",
+      "evidence": "grep -nE 'import|sys.path|/mnt|MANIFEST|environ|seed' on the extracted members (h3_c0_certificate.py 14052 B 56076fa8; h3_falsifier.py 10584 B 645b6d9d). Transcript tails match the §7 claims: mut_planar ends 'CHECK FAILED: CK2c…'; mut_window ends 'CHECK FAILED: CK6a…'; cert_normal ends ALL_CHECKS_PASS; fals_normal says 'both certificate mutations caught fail-closed'."
+     },
+     {
+      "id": "C13",
+      "verdict": "CORRECTED",
+      "correction": "'The version that matches the H3 Drive carrier is not public' is false. The 115104 B supplement (33609b70…, 1944 lines) is the carrier member SIDE24_gap_fill/SIDE24_GAP_FILL_SUPPLEMENT.md and is reconstructible on hardening. Its line numbers match H3_CLOSURE exactly: G.1 heading L1446; G.3 L1534; Theorem G.3.1 L1536; end mark ■ at L1567; G.7 L1632; ■ at L1653; weight display L1539; line 9 T^3_24; line 11 ind(H_S)=2. The confirmed parts: the 105980 B hardening copy (bdf5f060, 05967f14, G.1 at L1446, Theorem at L1532, G.7 at L1628) and the absence of manuscript_v2. PKG-03 09_PACKAGE_MANIFEST.csv:4 lists '02_manuscript_v2_2026-09-13.md' INCLUDED with sha 'local upload', but the folder lacks it.",
+      "evidence": "Extracted the carrier member and ran grep -n for headings, then sed for lines 9, 11, 1539, 1567 and 1653. The hardening copy: git show a01c72f1:research/side24/source_recovery/SIDE24_GAP_FILL_SUPPLEMENT.md | wc gives 1790 lines, 105980 B. The PKG-03 folder holds 00_START_HERE*, 01_ERRATA…, 03_GOVERNING…, 09_PACKAGE_MANIFEST.csv and _MANIFEST.jsonl."
+     },
+     {
+      "id": "C14",
+      "verdict": "CONFIRMED",
+      "correction": "Scope note: the rows are a historical /mnt-tree statement. The files are absent on main but present, chunked, on the hardening branch.",
+      "evidence": "PACKAGE_VERIFICATION.md:16 row 6 reads 'PRESENT … H3: cert_normal ≡ cert_O (a27178a8…), fals pair (5be02ea2…) … RECEIPT_h3.json ff788042…'; row 7 is at :17. The receipt it cites (ff788042, 4482 B) is not the public receipt (ee58ef80, 6254 B)."
+     },
+     {
+      "id": "C15",
+      "verdict": "CONFIRMED",
+      "correction": "",
+      "evidence": "gh api issues/comments/6245249123: issue 419, 2026-10-18T03:35:57Z. Body L1 says neither h3_band_ceil.py nor h3_band_floor.py certifies cell 1 (0, 0.0025]; L30 says the published ceiling and floor are not certified as written. issues/comments/6255513948: issue 446, 2026-10-18T21:43:54Z, with the quoted paragraphs at body lines 9 and 11. pulls/447: open, merged false, head 2e2df3ac. Tips bb1a8654, a01c72f1 and 4eb86ed3 confirmed."
+     },
+     {
+      "id": "C16",
+      "verdict": "CORRECTED",
+      "correction": "S1: the omissions are correctly noted. S2a: 'not supplied here' is literally true for the package. The lens's added judgment, 'true across all public Git refs for the programs and six transcripts', is false (see C4). S2b: correct. S3: still defensible in that no public re-execution was performed or recorded, but 'not an independently reproducible public execution' can be misread as 'inputs unavailable'. The inputs are public on hardening; only the environment versions are unrecorded. The lens's proposed replacement for paragraph 2 sentence 2 ('absent from every public Git ref…; …inside a Drive archive this package does not publish') is inaccurate and must not be adopted.",
+      "evidence": "See C4, C5, C8 and C12. The reassembled carrier sha256 equals a2136bc0…, the drive_source sha256 in native-copies SOURCE_MAP.json (bytes 30148285)."
+     }
+    ],
+    "missed": [
+     "DG-MIGRATION chunk store, which decides several findings. Hardening a01c72f1 (and 77 other main-repo branches, but not main bb1a8654) carries drive/deltas/2026-09-19/DG-MIGRATION-20260919/ with objects.json (blob 851b4b14), coverage.jsonl (blob 285225bf) and 134 packs. Object a2136bc0… (30,148,285 B, coverage status EXACT_SOURCE_BYTES) reassembles exactly from 29 chunks in 8 packs. It contains every file in the 33-entry H3 lane MANIFEST, the H2 foundations (MANIFEST.sha256, selftests and transcripts, cov_exact.py, pin_transform.py), verify_palm_soft_factors.py, verify_a44_a46_flow_v1.py, and the 115,104 B supplement whose line numbers match H3_CLOSURE. The consumer note should not say these bytes are Drive-only or absent from every public ref.",
+     "PR #447's own head (claude/h3-band-v2-20261018 at 2e2df3ac) ships cov_exact.py f08c1c5f (blob a160edb4) at experiments/h3_band_v2/h2/cov_exact.py. Its README L145 states the file is byte-identical to the H2 library in archive a2136bc0… under 'DG-MIGRATION custody'. A text that cites PR #447 should not contradict that.",
+     "The cert_normal.txt CK0 lines (public via the chunk store) record the loaded H2 library prefixes, f08c1c5f653f2ffd and c6988ac7fcfa32dc, matching H2 MANIFEST lines 5 and 7. They partly answer which version was consumed, as a transcript claim only.",
+     "Search scope. The lens searched only main bb1a8654 and hardening within the main repository. I covered all 222 branches and 412 PR heads (475 distinct tips, 17,574 unique blobs; the 63 blobs missing from the local clone were fetched and hashed) plus Math- (511 tips). No plain-blob or ordinary zip-member copy of the programs, transcripts or verify_a44_a46 exists anywhere; the chunk store is the only route. The lens's '177 zips' search could not see inside chunked objects: in the main clone, 87 'unreadable zip' members are 1 MiB chunk files.",
+     "More archive copies the lens did not list: the H2 MANIFEST, selftests and transcripts in the nested zip MATH-20260917-b9c2 (3b16c371…) inside hardening pack 3d4032e6…zip (blob 54ae88dc); pin_transform.py as jet_definition/sources/pin_transform.py.txt in hardening research/campaigns/q0_twelve_20260920_v1.zip (blob 9b015fbd); and the 105,980 B supplement as a digest-named member of pack e82e8cc0…zip (blob 6211ebff).",
+     "Replay specifics, read as text and not run: both programs hard-code /mnt/agents/output/K3_SIDE24_LB/UPPER2D/H2_foundations; both need mpmath and numpy; the falsifier's F4 re-invokes h3_c0_certificate.py from its own directory through subprocess; the fixed seeds are 20260913 and 77777777. No Python, mpmath or numpy version is recorded in H3_CLOSURE or the transcripts; only the cpython-312 .pyc names at TREE_MANIFEST:417-422 hint at Python 3.12.",
+     "Context, owned by other lenses: IDENTITY.json's source commit 6d18e539 is not in main's history. It is on codex/h3-closure-mirror-20261018 / refs/pull/445/head, where the lane folder held H3_CLOSURE.md (blob 49d8fab8). On current main the lane H3_closure folder has no H3_CLOSURE.md; the restoration package is its only copy.",
+     "Corrected wording proposal for paragraph 2, sentences 2 and 3: \"This package supplies none of these bytes, and current main does not carry them. Byte-exact copies of h3_c0_certificate.py (56076fa8…, 14,052 B), h3_falsifier.py (645b6d9d…, 10,584 B), the six transcripts, verify_palm_soft_factors.py, verify_a44_a46_flow_v1.py, the H2 MANIFEST and selftests, and the 115,104 B supplement are public only on the unmerged hardening branch (a01c72f1). There they are members of the gap-closure archive a2136bc0… (30,148,285 B), stored as 1 MiB chunks under drive/deltas/2026-09-19/DG-MIGRATION-20260919 and reconstructible from its objects.json. The pinned H2 libraries cov_exact.py (f08c1c5f…) and pin_transform.py (c6988ac7…) are also plain public files on Math- and the hardening branch; cov_exact.py is also on the PR #447 head. The historical manifests and the public receipt record digests only. The programs hard-code /mnt/agents/output paths, and no Python, mpmath or numpy version is recorded. Accordingly, this package preserves source identity and the cited historical certificate claims. No public re-execution has been performed or recorded here, and this is not a fresh mathematical certification.\" For paragraph 2, sentence 1, use the lens's version, adding that F2 at L95 is the LPW_CONSTANT falsifier. Paragraph 1, sentence 1: the lens's version is acceptable, with 'are not public' replaced by 'were not found in any public ref or archive'."
+    ],
+    "privacy_leaks": []
+   }
+  }
+ ]
+}

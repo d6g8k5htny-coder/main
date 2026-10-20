@@ -1,4 +1,4 @@
-# Recovery delta, 18–20 October 2026: session 01Cz, recovery rows §12, §5 and §18
+# Recovery delta, 18–20 October 2026: session 01Cz, recovery rows §12, §5 and §18, and the main#446 consumer note
 
 Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`. This is a retention copy for the owner's recovery request, [main#307 / 6136156988](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6136156988).
 - It continues the 17–18 October delta, `recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/` (branch `claude/recovery-01cz-delta-20261018`, draft main#444), and does not repeat it.
@@ -23,7 +23,8 @@ Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`. This is a retentio
 | `s5_side24_v33_v34_binding/` | `S5-SIDE24-V33-V34-BINDING-01CZ-20261020`: custody binding record for the SIDE24 V3.3 checkpoint and V3.4 replay archives (recovery row §5) | main#419: pickup 6280913839, checkpoint 6281760247, result and release 6281985456; main#275 pointers 6280916731, 6281988200 | both archives bound byte-exact; no standalone V3.3-layer eigenfloor table; posted and released |
 | `s12_d5_ledger_comparison/cursor_check/` | the summoner's check of the xAI Cursor agent's PASS_SCOPED on §2(b) of the §12 record, with one numeric correction to that record | main#454: request 6282011803, verdict 6282139686 (xAI), pointer 6282637458; main#419: check and correction 6282634857; main#275 pointer 6282637162 | verdict confirmed on substance; "0.42 at t = 0.4" corrected to 0.479 ± 0.001 |
 | `s18_side24_custody_xlink/` | `S18-SIDE24-CUSTODY-XLINK-01CZ-20261020`: custody cross-link record for the SIDE24 custody items behind gap rows G142–G147 (recovery row §18) | main#419: pickup 6282065819, checkpoint 6282579128, result and release 6283335403; main#275 pointers 6282068463, 6283336911 | all objects byte-exact on the hardening branch; receipt replays from both identities; four of five status texts outdated or wrong as worded; posted and released |
-| `workflows/` | the scripts of the §12 comparison run, the four-lens check of that result post and its re-check, the §5 lens run, the §2(b) summoner check and its pre-post check, and the §18 lens run and its two pre-post checks | — | method record |
+| `h3n_m446_consumer_note/` | `M446-CONSUMER-NOTE-01CZ-20261020`: the Route B downstream consumer note (M1/M2) for the landed H3 closure package of main#446 | main#419: pickup 6283686275, checkpoint 6284218586, note and author-stage release 6284294166; pointers main#446 6284295602, main#275 6283688331 and 6284295984 | note posted; one nonauthor read requested |
+| `workflows/` | the scripts of the §12 comparison run, the four-lens check of that result post and its re-check, the §5 lens run, the §2(b) summoner check and its pre-post check, the §18 lens run and its two pre-post checks, and the consumer-note verification run and its pre-post check | — | method record |
 
 ## Reproducing
 
@@ -58,6 +59,11 @@ Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`. This is a retentio
   - `own/rechecks.txt` records the summoner's own re-checks: `main`'s tree, the 23 September merge and revert, the Math- branch and PR heads, the G146 commits, the two body hashes, and the run-log and V2-manifest lines.
   - `lens_results.json` holds the five lens reports and their adversarial verifications, including the re-runs after a container restart. `prepost_results.json` holds the two pre-post checks of the result. Model and product labels in them are redacted and marked `hand_edited`.
   - The agents' scratch is not included; `SOURCES.json` lists each scratch directory by file count, bytes and a listing hash.
+
+- **h3n.**
+  - `own/recon_receipt.py` re-serializes `main`'s `RECEIPT_h3.json` (blob `96e95d17`) and removes its band records. `own/recon_receipt_out.txt` shows the two earlier recorded versions (4,482 B `ff788042…`, 2,717 B `7545a8c6…`) reproduced byte for byte.
+  - `own/a2136bc0_members_check.txt` lists the certificate programs, transcripts and H2 libraries found in DG-MIGRATION object `a2136bc0`, rebuilt from the hardening branch with `s11_d1v23_receipt_replay/own/rebuild.py` from the 17–18 October delta. The archive is not included.
+  - `note.md` and the JSON results carry recorded redactions of product labels (`hand_edited`); the posted comments are authoritative.
 
 ## Caveats
 

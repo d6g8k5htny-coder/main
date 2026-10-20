@@ -1,0 +1,99 @@
+{
+ "workflow_run": "wf_ef64846f-6b4",
+ "note": "pre-post check of note.md (draft before its fixes)",
+ "results": [
+  {
+   "agent": "a20ac6051f720b471",
+   "label": "prepost:note",
+   "result": {
+    "verdict": "Two factual errors need fixing before this is posted. Everything else checks out against the lens/verifier journal, my own rebuild and recon outputs, and live reads of comments 6255513948, 6283686275 and 6284218586 and of PR 446. That covers the receipt path, size and hash, its unchanged history from main#200, the two byte-exact rebuilds of the earlier versions, the O7 quotes and values, #447's state, the archive (sha256 a2136bc0…aa2b5b, 30,148,285 B), the member digests, h3_c0_certificate.py lines 44–45, H3_CLOSURE.md lines 155/246–261/261, and the quote from the checkpoint. The rule checks pass: no Google links; no banned model names (<model> from 6255513948 is correctly left out); no Math-#N; no closing verbs; credit 0 and scientific effect NONE with no status change are stated; all five link targets are correct.\n\nThe two errors:\n(1) The M2 line \"The digests are in the lane manifest ... and in the receipt\" is wrong for cov_exact.py. Neither file pins it; its digest is in RETURN_06/TREE_MANIFEST and DEPENDENCY_DAG.\n(2) \"they give no numerical r_*\" contradicts the receipt record. Its band_floor entry literally asserts Z_r ≥ c_Z r² for all r in (0, 0.05]. The accurate claim is that this is not established, not that it is absent.\n\nThe remaining items are should/nit precision and clarity points for a cold reader.",
+    "problems": [
+     {
+      "sentence": "It pins no version or digest for any of them. The digests are in the lane manifest `MANIFEST.sha256.txt` and in the receipt on `main`.",
+      "problem": "This is wrong for cov_exact.py, which is one of 'them'. grep -c cov_exact returns 0 on both the lane MANIFEST.sha256.txt and RECEIPT_h3.json (certs lens C3, confirmed by the certs verifier). Its digest f08c1c5f… is recorded on main only in RETURN_06/TREE_MANIFEST.sha256.txt:404, RETURN_06/DEPENDENCY_DAG.md:12 and other consumers' pins. 'Lane manifest' also means nothing to a cold reader.",
+      "fix": "It pins no version or digest for any of them. The digests of the two programs and six transcripts are in the lane manifest `MANIFEST.sha256.txt` (beside the receipt, same folder) and in the receipt on `main`; `cov_exact.py`'s digest (`f08c1c5f…`) is in neither, and is recorded on `main` in `RETURN_06/TREE_MANIFEST.sha256.txt` (line 404) and `RETURN_06/DEPENDENCY_DAG.md` (line 12).",
+      "severity": "must"
+     },
+     {
+      "sentence": "The landed package supplies none of these radius-specific assertions, and they give no numerical r_* for `H3_CLOSURE.md`'s existential r_0.",
+      "problem": "This contradicts the evidence. The receipt's band_floor result (line 31) literally asserts 'Z_r >= c_Z r^2 ... for ALL r in (0, 0.05]', and SOURCE_CAPSULE calls it 'DISCHARGED with uniform modulus'. That purports to give a numerical radius, which the receipt lens (R9) calls 'historical numerical-radius assertions that sit outside the package'. What is true is that they do not establish one: O7 found that floor not certified as written, and the package does not carry it. The Route A source text (6255513948) correctly said 'do not establish'.",
+      "fix": "The landed package supplies none of these radius-specific assertions, and they do not establish a numerical r_* for `H3_CLOSURE.md`'s existential r_0: the band-floor record does assert Z_r ≥ c_Z r² for all r in (0, 0.05], but O7 found that floor not certified as written.",
+      "severity": "must"
+     },
+     {
+      "sentence": "Removing the band sections reproduces, byte for byte, the two earlier versions that `RETURN_06` records: 2,717 B (`7545a8c6…`) and 4,482 B (`ff788042…`).",
+      "problem": "Imprecise. As written, removing both band sections seems to yield both versions. In fact (own recon_out.txt, receipt verifier R3), removing band_ceil and its digest entries gives 4,482 B; removing band_floor as well gives 2,717 B. Both rebuilds re-serialize with sorted keys, indent 2 and no trailing newline, which reproduces the current file exactly.",
+      "fix": "Removing the band-ceiling record and its digest entries reproduces, byte for byte, the 4,482 B version (`ff788042…`) that `RETURN_06` records; removing the band-floor record as well reproduces the 2,717 B version (`7545a8c6…`).",
+      "severity": "should"
+     },
+     {
+      "sentence": "No closure-only version is recorded anywhere public.",
+      "problem": "'Anywhere public' goes beyond what was searched. The closure-only rebuild (1539 B, f632159e…) was checked against main, the hardening branch and Math- blobs (R4 verifier), and the archive holds only the 6,254 B version. Other branches and PR heads were not searched for that digest.",
+      "fix": "No closure-only version is recorded on `main`, the hardening branch or Math-.",
+      "severity": "should"
+     },
+     {
+      "sentence": "The receipt's rung-floor record, a certified interval for Z at r = 0.05, is a separate radius-specific claim.",
+      "problem": "In the note's own voice, 'a certified interval' states the certification as fact, and nobody has reviewed it. The record also carries stretch lower bounds at 9/200 and 11/200 (receipt lines 59–61).",
+      "fix": "The receipt's rung-floor record, which claims a certified interval for Z at r = 0.05 (with stretch bounds at 9/200 and 11/200), is a separate radius-specific claim.",
+      "severity": "should"
+     },
+     {
+      "sentence": "It found that, as written, neither certifies the cell (0, 0.0025], and that the published uniform ceiling and floor are not certified at their stated digits.",
+      "problem": "Accurate, but O7's same verdict line also says 'Scientific effect NONE: none of this shows a true value is wrong' and that the floor margin 'stays large'. A cold reader may take the values to be wrong. O7 also calls itself a review, not an audit (O7 verifier TXT-1).",
+      "fix": "Add after it: \"O7 adds that none of this shows a true value is wrong.\" Optionally change \"audited\" to \"reviewed\" in the preceding sentence.",
+      "severity": "should"
+     },
+     {
+      "sentence": "The pinned H2 libraries, `cov_exact.py` (`f08c1c5f…`) and `pin_transform.py`, are also public on Math- and on the hardening branch.",
+      "problem": "Clarity. 'Math-' reads like a typo to a cold reader (it is the repository's literal name), and 'the hardening branch' is first identified only in the closing 'Requested' paragraph. The chunk-store path is not given either, so a reader cannot reproduce the rebuild.",
+      "fix": "At first use in this bullet, write \"the hardening branch `a01c72f1` (unmerged; chunk store `drive/deltas/2026-09-19/DG-MIGRATION-20260919/`, index `objects.json`)\" and \"the public `Math-` repository (HEAD `4eb86ed3`)\".",
+      "severity": "should"
+     },
+     {
+      "sentence": "`H3_CLOSURE.md` cites `h3_c0_certificate.py`, `h3_falsifier.py`, the interval path of `cov_exact.py`, and the transcripts `cert_normal.txt`, `cert_O.txt`, `fals_normal.txt`, `fals_O.txt`, `mut_planar.txt` and `mut_window.txt` (lines 155 and 246–261).",
+      "problem": "The list is presented as if complete, but it is not. §7 also cites verify_palm_soft_factors.py, verify_a44_a46_flow_v1.py, the H2 selftests and the CK0 manifest pins (lines 254–257), plus the LPW F2 falsifier (lines 94–95). Both cert verifiers flagged this.",
+      "fix": "Append: \"; it also cites dependency checks (`verify_palm_soft_factors.py`, `verify_a44_a46_flow_v1.py`, the H2 selftests, lines 254–257), which this note does not trace.\"",
+      "severity": "should"
+     },
+     {
+      "sentence": "This is the downstream note of Route B ([446/6255513948](https://github.com/d6g8k5htny-coder/main/pull/446#issuecomment-6255513948)); the package bytes are unchanged.",
+      "problem": "Clarity. 'Route B' is undefined for a cold reader. 6255513948 recommended Route A and describes Route B only in its line 18. The note also adapts that comment's OpenAI-authored Route A wording without saying so, which matters for who counts as a nonauthor reader.",
+      "fix": "Under Route B (land the reviewed bytes unchanged and publish a separately reviewed downstream consumer notice, as described in [446/6255513948](...)), this is that notice; the package bytes are unchanged. It adapts the Route A wording proposed there.",
+      "severity": "should"
+     },
+     {
+      "sentence": "I and the package author (OpenAI/<product>) are excluded, and 01Fi, the source of M1/M2, is same-family.",
+      "problem": "This omits the OpenAI author of 446/6255513948, whose proposed consumer text this note adapts. A non-Anthropic reader from that lane would be partly reading their own wording.",
+      "fix": "I, the package author (OpenAI/<product>) and the author of the adapted wording in 446/6255513948 are excluded, and 01Fi, the source of M1/M2, is same-family.",
+      "severity": "should"
+     },
+     {
+      "sentence": "A replay would also need the H2 libraries at the fixed local path that `h3_c0_certificate.py` expects (its lines 44–45).",
+      "problem": "Correct (lines 44–45 hard-code /mnt/agents/output/.../H2_foundations, checked in the rebuilt member), but incomplete. CK0 also reads the H2 MANIFEST.sha256 (public only inside zips or the chunk store), and no Python, mpmath or numpy version is recorded anywhere (certs verifier C12).",
+      "fix": "A replay would also need the H2 libraries and their `MANIFEST.sha256` at the fixed local path that `h3_c0_certificate.py` expects (its lines 44–45), and no Python, mpmath or numpy version is recorded.",
+      "severity": "nit"
+     },
+     {
+      "sentence": "Three reader agents covered the receipt, O7 with main#447, and the certificate bytes. A separate adversarial verifier agent then checked each one.",
+      "problem": "Ambiguous: it can read as one verifier checking all three. The journal shows three verifiers (verify:o7, verify:receipt, verify:certs).",
+      "fix": "Three reader agents covered the receipt, O7 with main#447, and the certificate bytes; each was then checked by its own adversarial verifier agent.",
+      "severity": "nit"
+     },
+     {
+      "sentence": "Its only formal review is an engineering-delta read at an older head, and no non-Anthropic mathematical review has passed it.",
+      "problem": "Accurate as of the check, but undated. #447 can move, so a cold reader should know which head was checked.",
+      "fix": "Its only formal review is an engineering-delta review (5579118173) at an older head, `c5cf036c`; at head `2e2df3ac`, no non-Anthropic mathematical review has passed it.",
+      "severity": "nit"
+     },
+     {
+      "sentence": "Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`.",
+      "problem": "The token session_01Cz7WZybv8znP64SpPj6sWY (32 chars, mixed case, digits) is the only string in the note that matches the literal Drive-identifier pattern. It is a session id, not a Drive id, and the same token was already posted in pickup 6283686275 and checkpoint 6284218586, so this is a scanner false positive, not a rule break.",
+      "fix": "Keep it, consistent with the pickup and checkpoint, or shorten to \"session 01Cz\" if an automated scan will run.",
+      "severity": "nit"
+     }
+    ]
+   }
+  }
+ ]
+}
