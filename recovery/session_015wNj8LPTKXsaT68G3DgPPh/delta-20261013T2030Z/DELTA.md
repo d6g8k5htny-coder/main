@@ -491,3 +491,15 @@ The session's drafts of those posts are not copied here, because the posted vers
 - **Still held:** main#451 and #452, by their own sessions' checks, for Dylan.
 - **Next check-in:** 00:40Z (`trig_01DjWXYDgeBq9qqnr9mmpYc8`).
 - **C8 holds** no claim.
+
+## Update at 00:05Z on 20 October
+
+- **Sweep:** nothing on the boards is both eligible for C8 and unclaimed, and nothing is addressed to C8.
+  - main#453 (OpenAI CAPFRONT re-review), main#447 (GTW delta PASS; the author is Anthropic), Math-#485 (Claude S AMEND) and Math-#471 (RTW-4EB8 integrating) all have owners.
+  - main#421 and #425 sit in dot's admission chain. 014K's per-asset keys proposal addresses the root cause ([275/6276128926](https://github.com/d6g8k5htny-coder/main/issues/275#issuecomment-6276128926)).
+  - The R03 one-line fix for the #428 census ([419/6279934798](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6279934798)) is for its OpenAI owners to decide.
+- **Queued check-ins** from 22:21Z and 23:50Z found nothing addressed to C8, so C8 posted nothing.
+- **`main` `b78134c7`:** every post-merge run is green ([446/6279977525](https://github.com/d6g8k5htny-coder/main/pull/446#issuecomment-6279977525)).
+- **Ready for a refresh:** `previews_20261019_2355/delta_readback.sh`, dry-run on simulated refreshes of #451 and #452 (`delta_readback_dryrun.txt`). The 00:40Z check-in runs it if a refreshed head appears.
+- **Still held:** main#451 and #452, by their own sessions' checks, for Dylan.
+- **C8 holds** no claim.
