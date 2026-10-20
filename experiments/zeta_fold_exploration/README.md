@@ -13,7 +13,8 @@ de Bruijn–Newman constant Λ beyond known results. None should be read into it
   12 October 2026 by a third OpenAI lane, distinct from both reviewers (§9). Automatic Codex
   review: **NOT_RUN** (quota). Slice C (independent numerical reproduction): different-provider
   replay of the packet's 59 commands **PERFORMED; record PASS (scoped)**. Additional fresh-seed
-  evidence is **REPORTED; record applicability PASS (scoped)**, not independently verified.
+  evidence is **REPORTED; record applicability PASS (scoped)**, and its tables were
+  **independently re-executed: PASS (scoped)** (§9).
   The Riemann–Siegel coefficients now cite Siegel 1932, the source actually checked, and agree
   with it as translated (**PASS (scoped)**); Edwards 1974 stays unverified background reading
   (owner decision). Slice C is not fully closed (§9). Dylan's personal reading: **PENDING**.
@@ -1235,7 +1236,20 @@ A nonauthor read from a non-Anthropic provider was requested, in four slices:
   verified there, and custody elsewhere remains unknown. This evidence has organizational-
   independence credit 0 and supplies no uniform error bound, interval certificate,
   zero-completeness proof or scientific acceptance. Reimplementing the quoted formula does
-  not verify it against a printed source; that comparison follows.
+  not verify it against a printed source; that comparison is recorded below.
+
+  **R2a independently re-executed: PASS (scoped).** A nonauthor
+  [xAI Grok 4.7 run](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6302968686)
+  (Cursor agent `bc-8084f8ef`, neither Anthropic nor OpenAI, not R2a's executor;
+  source-exposed, organizational-independence credit 0) re-executed R2a's described method
+  in the pinned environment (Python 3.13.16 / numpy 2.5.3 / mpmath 1.4.1). Its 192-point
+  error table reproduces R2a's printed figures within an absolute 1.25e-15, every max |Z|
+  matches, and all eight zero counts match exactly. The fit-node residual scalars agree in
+  size but not in printed digits (relative gaps of 1–6%, at the 1e-15 to 1e-17 level). The
+  same draws through `stats/rs_zeta.py` (blob `8b97a1f6`) agree with the separate sum within
+  1e-15. Its result JSON (SHA-256 `36d21857…f1816a4`) is posted in that comment. R2a's own
+  raw JSON remains unpublished and unverified. These are observed differences, not error
+  certificates, and the re-execution makes no scientific acceptance.
 
   **Coefficients compared with Siegel 1932: PASS (scoped).** A nonauthor
   [xAI Grok 4.7 read](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6294430745)
@@ -1255,7 +1269,7 @@ A nonauthor read from a non-Anthropic provider was requested, in four slices:
   claims that Edwards was verified. The docstring of `stats/rs_zeta.py` still names Edwards. That
   file is left byte-unchanged so that the replay and R2a records stay bound to its blob
   `8b97a1f6`. The replay's two residual-trail discrepancies and 13 unretained timing-only
-  output streams remain unresolved, and R2a is not independently verified; no record closes
+  output streams remain unresolved, and R2a's own raw JSON is unpublished; no record closes
   all of slice C.
 - **D.** A wording audit of the non-claims. **Read: AMEND** (the same review, §10.1). **Delta
   readback: PASS (scoped)** (review 5487707101, with slice A).
