@@ -16,6 +16,9 @@ Amendment author: OpenAI/Codex `/root/main456_successor_integrator_1020`, under 
 separate source stage [6293498638](https://github.com/d6g8k5htny-coder/main/pull/456#issuecomment-6293498638),
 addressing five Ready-review findings on head `4c5ab1f7`. Original source authorship above
 is retained. This amendment is still a design record, not operating-rule adoption.
+Further documentary amendment by the same actual OpenAI/Codex invocation under new stage
+[6294231132](https://github.com/d6g8k5htny-coder/main/pull/456#issuecomment-6294231132)
+addresses four Ready-review findings on head `43b5337a`; the prior source stage is closed.
 
 ## 1. The problem, with its evidence
 
@@ -54,10 +57,10 @@ constraints from the disposition:
 3. A new invocation reconciles the unresolved earlier claims it could conflict with, but does
    not release them as its own. A lookback window is a convenience, not a cutoff.
 4. A claim binds an exact execution identity, a canonical task and scope, and a generation.
-   Recovery requires explicit applicable authority, the successor's personal acceptance and a
-   current-state reconciliation. An expected-head guard detects stale source; it does not by
-   itself prevent every stale write, and any fencing claim needs technical enforcement and a
-   test.
+   Recovery uses the ordered separate authority, personal acknowledgement and fresh
+   post-acknowledgement activation records in section 5 point 4. An expected-head guard
+   detects stale source; it does not by itself prevent every stale write, and any fencing
+   claim needs technical enforcement and a test.
 5. Immutable pinned-source reviews are preferred to freezing an author's whole branch. A
    review does not carry to new bytes without an exact-source or composition assessment. An
    existing explicit freeze stands until its owner or an authorized disposition resolves it.
@@ -140,14 +143,17 @@ delivery names the exact head it checked; a delivery for a superseded head is no
 and is not promoted either.
 
 **S4. A crash before release.** A stops without a delivery, checkpoint or release; nothing
-further ever appears. Records: the pickup only. Who acts: no one may release A (corrections
-1–2). The coordinator, or the owner, or after an unanswered 24-hour request the peer fallback
-of section 5 point 4, records a supersession after a reconciliation, which the successor
-accepts personally (correction 4); until then the scope is held. Prevented: a
-successor's stale push, if guarded. Design: a pickup carries a checkpoint time; a missed
-checkpoint is the trigger for the coordinator's reconciliation, not for release. The
-proposal's "release-on-exit" is admissible only where the platform reports termination, which
-the hourly invocations do not; for them the trigger is the missed checkpoint.
+further ever appears. Records initially: the pickup only. No one may invent A's own release
+(corrections 1–2). Applicable authority first offers a prospective supersession for a named
+actual receiver and exact future scope. The receiver subsequently posts its personal ACK;
+only AFTER that ACK does the coordinator freshly reconcile current refs, claims, findings
+and reported in-flight work and post a separate explicit activation. The three records
+cross-link in that order as specified in section 5 point 4; the limited peer fallback there
+does not omit the receiver's ACK or the fresh activation. Until actual activation, the
+successor does not mutate the held scope. A guarded push can reject a stale expected head,
+but cannot provide this custody handoff. A missed checkpoint triggers reconciliation, not
+release. "Release-on-exit" requires an observable trustworthy termination of the exact
+invocation; absent that evidence, A's own closeout remains UNKNOWN.
 
 **S5. Ambiguous claim order.** Two pickups, each citing a contender check that predates the
 other's post, with timestamps seconds apart or under clock skew. Records: the two posts with
@@ -180,21 +186,43 @@ old head, it makes it a review of old bytes (correction 5).
 3. **Reconciliation on start.** An invocation lists, before claiming, the open pickups under
    its label from any time, and says for each whether it is the same execution (continuing),
    has the work (returning, continuity unverified) or neither. It releases none of them.
-4. **Supersession record.** Authority, successor acceptance, and a current-state check, in
-   one record that preserves the predecessor's closeout as UNKNOWN. The successor's pickup
-   links it. The authority is the coordinator or the owner; or, exactly as the
-   [current workflow](../governance/OP-WORKFLOW-20260930.md) ("The confirmations above assume
-   a coordinator whose record reaches the board") provides, a peer, once the specific
-   confirmation has been requested in the task thread and has gone unanswered for 24 hours
-   from that request: an eligible agent of a different provider from the acting worker, who is
-   neither the object's author, predecessor nor receiver, has not reviewed it, reads the same
-   current refs, claims, findings and in-flight work, records what it read and that it concurs,
-   names the record a fallback confirmation, states which condition applied, and mirrors it on
-   the board. The fallback covers ordinary engineering, documentation, review and integration
-   stages only; it cannot lift an owner stop, cure a platform or permission denial, change
-   protections or supply scientific acceptance; a coordinator record posted later supersedes it
-   for anything not yet landed; and it earns no independence credit. Nothing here widens or
-   narrows that section.
+4. **Separate supersession records, in order.** For an unfinished role, applicable
+   authority first publishes a prospective recovery offer in the existing task, naming
+   the actual eligible receiver, exact affected future scope/source, finite checkpoint
+   and retained stops, with links to the predecessor's canonical claim. The proposal
+   permits no mutation. The named receiver subsequently reads that exact offer and
+   current state and posts its own personal acknowledgement, cross-linking the offer;
+   no coordinator-authored acceptance, alias, silence or earlier pickup substitutes.
+   AFTER that acknowledgement, the coordinator freshly reconciles current refs, claims,
+   findings and reported in-flight work and publishes a distinct explicit activation,
+   linking both the offer and actual receiver acknowledgement. Changed or crossed work
+   stops the affected action for reconciliation; an earlier state check is not the
+   post-acknowledgement confirmation. Only then may the receiver take its active pickup,
+   link those records and recheck source/contention before acting. Preserve the
+   predecessor's actual work/attribution and its own closeout as UNKNOWN where unresolved;
+   activation is prospective authority for the named scope, not a foreign release.
+   Keep these actual separate records and their ordering visible in the task and
+   cross-linked board mirrors; one summary may index them but cannot replace them.
+   Applicable authority is the coordinator or owner; the limited peer fallback below
+   replaces only its permitted unanswered coordinator confirmation and preserves the
+   receiver's personal acknowledgement, fresh checks and actual separate activation.
+   As the [current workflow](../governance/OP-WORKFLOW-20260930.md) ("The confirmations
+   above assume a coordinator whose record reaches the board") provides, a fallback applies
+   when the coordinator is unavailable, or is answering but a platform failure keeps its
+   record off GitHub, and only after the specific routine confirmation was requested in
+   the task thread and has gone unanswered for 24 hours measured from that request. The eligible peer
+   is a different provider from the acting worker, neither the object's author,
+   predecessor nor receiver, and has not reviewed it. It independently reads the same
+   current refs, claims, findings and reported in-flight work, records what it verified
+   and that it concurs, labels the fallback confirmation and known condition, and
+   cross-links it on the current board. It covers only the ordinary engineering,
+   documentation, review and integration stages permitted by that section. It cannot
+   approve a manual-review route, lift an owner stop, cure or relay a platform/permission
+   refusal, change protections/private access, activate a security-sensitive stage or
+   supply scientific acceptance. A later coordinator record supersedes it for anything
+   not yet landed; it earns no independence credit. No absent or blocked approval is
+   fabricated and no denied step is routed elsewhere. Nothing here widens or narrows
+   that governing fallback section.
 5. **Reviews bind pinned sources.** A read names the exact commit; the author's branch is not
    frozen by an open read. A later revision does not inherit the read; it gets a byte-diff
    readback against the read head, or a fresh read, as today. A freeze is explicit, owned and
@@ -223,17 +251,50 @@ All measures use the existing canonical board/PR pickups and native repository a
 with source IDs, server timestamps and actual observation bounds. Board mirrors are not new
 pickups. Before a comparison, declare the same eligibility and terminal-event definitions,
 cohort-entry windows, coordinating lanes, and a fixed follow-up duration H for both cohorts.
-No value of H or new operating rule is adopted here. Every enrolled pickup receives H of
-follow-up, unless a known terminal occurs earlier; a cohort not yet fully observed is marked
+No value of H or new operating rule is adopted here. Every eligible pickup/scope receives
+the full H of event observation from its predeclared entry timestamp, even when a duration
+terminal occurs earlier. A terminal stops ONLY that pickup's stalled-duration clock; it does
+not stop delivery, split, scope or duplicate-work acquisition. Predeclare the canonical
+scope-entry pickup and equivalence rule for the exact pinned source/scope so later equivalent
+deliveries do not restart H or become new denominator scopes. Keep observing all equivalent
+deliveries through the original scope-entry plus H; a later overlapping delivery after the
+first terminal still enters the duplicate endpoint. A cohort not yet fully observed is
 incomplete and receives no final before/after verdict. Do not remove its slow open pickups.
-Retain missing follow-up, incomplete terminal-event acquisition and uncertain event times in
-the eligible cohort inventory as UNKNOWN. Do not assign H or a completion state to an
-unobserved interval, exclude those pickups, or issue a final comparison with that missingness
-unresolved. These qualification limits apply before computing the rates below.
+Retain missing follow-up, incomplete event acquisition and uncertain event times in the
+eligible cohort inventory as UNKNOWN. Do not assign H or completion to an unobserved
+interval, exclude those pickups or issue a final comparison with that missingness unresolved.
+These observation limits apply to all endpoints below, including deliveries after an early
+duration terminal, owner interventions and scope splits.
+
+Before adoption or outcome inspection, prespecify stage/type strata (for example source
+authoring, documentation review, engineering review and mathematical review), relevant
+difficulty/dependency factors observable at entry, their classification rules, and a common
+target mix with fixed weights. Compare like strata over the same H and report their
+eligibility counts, exposures, missingness and outcomes separately before any aggregate.
+Do not choose strata, difficulty labels or weights from observed completion times or
+intervention outcomes. If the two cohorts lack comparable support in a required stratum,
+or entry difficulty is missing or not comparable, retain that limitation as UNKNOWN and
+withhold the target-mix aggregate; do not silently drop hard work, pool unlike stages or
+substitute the raw changing mix. Fixed common weights can prevent a changed measured mix
+from driving the aggregate, but do not remove unmeasured difficulty, selection, secular
+changes or other confounding. Even a fully observed balanced before/after comparison is
+an association, not identification of a causal protocol benefit.
+
+Predeclare an adoption boundary T and the cohort-entry windows before outcomes. For the
+untreated baseline, require each enrolled pickup/scope's entire scheduled H to end before T,
+including duplicate observation after any early duration terminal. Start the post-adoption
+entry window at or after T and wait for its full H. Keep pickups whose follow-up crosses T
+in an explicit crossover inventory, outside the untreated baseline, with actual exposure
+and outcome uncertainty recorded; do not relabel them untreated, silently discard them
+from the eligible inventory or select a convenient boundary after seeing results.
+This measurement classification never withholds or delays otherwise authorized recovery.
+If the prespecified isolated baseline cannot be obtained, report that the intended
+comparison is unavailable rather than claim an untreated baseline or a protocol effect.
 
 - **Stalled-stage duration with fixed follow-up:** a terminal is the first delivery,
-  supersession record, or the performer's own release/withdrawal (including S1/S5), with the
-  reason retained. For every eligible pickup record the waiting time capped at H: the elapsed
+  completed supersession activation (not its prospective offer or receiver ACK), or the
+  performer's own release/withdrawal (including S1/S5), with the reason retained. For every
+  eligible pickup record the waiting time capped at H: the elapsed
   interval from its pickup post to a known terminal within H, otherwise H and an explicit
   right-censored/open flag. Compare these capped waiting times over ALL eligible pickups
   together with the proportion reaching
@@ -245,8 +306,14 @@ unresolved. These qualification limits apply before computing the rates below.
   right-censored beyond 40 hours, not a comparative effectiveness estimate.
 - **Duplicate work:** report the raw number of additional equivalent deliveries for one
   pinned source/scope without a recorded split, its count of affected eligible pickup scopes,
-  and the total number of eligible pickup scopes. Compare affected-scope rates using that
-  declared denominator; differing raw task volumes alone are not an effect of the protocol.
+  and the total number of eligible pickup scopes. Continue delivery/scope observation to
+  that scope's original entry plus H even after the first delivery, withdrawal or
+  supersession ends a pickup's duration clock. Thus a first delivery followed by a later
+  overlapping delivery within H counts as duplicate work; it is not erased by the first
+  terminal. Compare affected-scope rates using the declared denominator and prespecified
+  comparable mix. Report any known later deliveries separately; zero observed within H
+  is not a claim of no future duplicates. Differing raw task volumes alone are not an
+  effect of the protocol.
 - **Owner interventions:** report the raw number of owner interventions and the number of
   eligible pickups affected, each against the total eligible-pickup denominator. One owner
   action covering four pickups is one action and four affected pickups, not four independent
@@ -290,9 +357,14 @@ unresolved. These qualification limits apply before computing the rates below.
   collect activities during the window, not only at its end. Report counts with their branch
   observation exposure; compare rates only under matched coverage or a declared denominator.
 
-The comparison uses two fully followed cohorts before and after any separately approved
-adoption, with these eligibility, exposure and uncertainty limits. No live lease-expiry
-experiment, measurement execution or operating-rule adoption is part of this design.
+The proposed comparison therefore needs two fully observed, prespecified comparable
+cohorts, an untreated baseline whose entire H precedes separately approved adoption, and
+these exposure/uncertainty limits. Its reported differences remain observational
+associations; balancing recorded factors alone does not establish a causal protocol effect.
+A causal claim would need its own justified identification design and substantive review.
+No adoption boundary, H, strata/weights or measured benefit is selected here. No live
+lease-expiry experiment, measurement execution or operating-rule adoption is part of this
+design.
 
 ## 7. Reproduce
 
