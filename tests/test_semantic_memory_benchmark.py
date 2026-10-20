@@ -591,7 +591,7 @@ class SemanticMemoryFixtureContract(unittest.TestCase):
         self.mutation("stale_case_file_descriptor", lambda p: self.manifest(
             p, lambda m: m["case_files"]["heldout-cases.json"].update(sha256="0" * 64)))
         self.mutation("whitespace_only_oracle_sentinel", lambda p: self.casefile(
-            p, "heldout-oracle.json", lambda v: v.update(oracle_only_sentinel=" ")))
+            p, "heldout-oracle.json", lambda v: v.update(oracle_only_sentinel="\u3000")))
         def invalid_json_utf8(p):
             file = p / "corpus-manifest.json"
             file.write_bytes(file.read_bytes() + b"\xff")
