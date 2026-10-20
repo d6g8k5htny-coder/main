@@ -523,6 +523,42 @@ class TestZeroCrossCheck:
         assert cross_check_zeros_arb.cross_check() == self.record()
 
 
+class TestZeroCrossCheckPari:
+    """The recorded PARI cross-check must describe the current data file and agree with FLINT."""
+
+    def record(self, name="zero_cross_check_pari.json"):
+        with open(os.path.join(ROOT, "results", name)) as fh:
+            return json.load(fh)
+
+    def test_record_matches_data_file(self):
+        record = self.record()
+        with open(os.path.join(ROOT, "data", "riemann_zeros", "first_100_zeros.json"), "rb") as fh:
+            assert record["data_sha256"] == hashlib.sha256(fh.read()).hexdigest()
+        summary = record["summary"]
+        assert summary["zeros_checked"] == 100
+        assert summary["all_within_half_unit"] is True
+        assert summary["counts_all_equal_n"] is True
+        assert summary["gap_exceeds_mesh_spacing"] is True
+
+    def test_pari_and_flint_records_agree_to_30_digits(self):
+        from decimal import Decimal, getcontext
+        getcontext().prec = 90
+        pari = self.record()["zeros"]
+        flint = self.record("zero_cross_check_arb.json")["zeros"]
+        assert len(pari) == len(flint) == 100
+        for p, f in zip(pari, flint):
+            digits_before_point = len(f["flint_imag"].split(".")[0])
+            half_unit = Decimal(10) ** (digits_before_point - 30) / 2
+            gap = abs(Decimal(p["pari_60"]) - Decimal(f["flint_imag"]))
+            assert gap <= half_unit + Decimal(repr(f["flint_radius"])), f["n"]
+
+    def test_record_reproduces(self):
+        pytest.importorskip("cypari2")
+        sys.path.insert(0, os.path.join(ROOT, "scripts"))
+        import cross_check_zeros_pari
+        assert cross_check_zeros_pari.cross_check() == self.record()
+
+
 class TestSpectralAnalysis:
 
     def test_normalized_spacings(self):

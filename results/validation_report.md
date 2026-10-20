@@ -33,9 +33,9 @@ claimed value was either built into the model or is too loose for current data t
 Environment: Python 3.11.17, numpy 2.4.6, scipy 1.17.1, mpmath 1.4.1, pytest 9.1.1.
 
 - `pytest tests/test_all.py`: **94 passed**, also with `-W error::RuntimeWarning`.
-  Rerun on 2026-10-20 after the FLINT cross-check was added: **96 passed**, with python-flint
-  0.9.0 (FLINT 3.6.0), mpmath 1.3.0 and sympy 1.14.0. Without python-flint, the rerun test
-  is skipped.
+  Rerun on 2026-10-20 after the FLINT and PARI cross-checks were added: **99 passed**, with
+  python-flint 0.9.0 (FLINT 3.6.0), cypari2 2.2.0 (PARI 2.15.4), mpmath 1.3.0 and sympy
+  1.14.0. Without those two packages, their rerun tests are skipped.
 - Original suite at `468da8d`, run for the first time on 2026-10-19: **4 failed, 62 passed**.
   The 2025-12-16 commit had been pushed without running it.
 - Each module's `python -m src.<module>` demo runs to completion.
@@ -63,6 +63,22 @@ Environment: Python 3.11.17, numpy 2.4.6, scipy 1.17.1, mpmath 1.4.1, pytest 9.1
 
     The output is `results/zero_cross_check_arb.json`. A test checks that it describes
     the current data file, and reruns it when python-flint is installed.
+  - **Independent implementation (2026-10-20):** `scripts/cross_check_zeros_pari.py`
+    compares the stored strings with PARI/GP 2.15.4 (cypari2 2.2.0), using
+    `lfunzeros(lfuncreate(1), 237.2)`.
+    - All 100 lie within half a unit in their 20th significant digit of PARI's zeros, at
+      both 40 and 60 significant digits.
+    - Four runs (40 and 60 digits, PARI's default search mesh and one twice as fine)
+      each find exactly 100 zeros below 237.2. The 40- and 60-digit zeros differ by at
+      most 4.9e-38.
+    - PARI documents this search as naive. It can miss zeros closer than its mesh
+      spacing, which is 0.211 at height 237.2, but the smallest gap between the stored
+      values is 0.716.
+    - PARI's 60-digit zeros also lie within half a unit of the 30th significant digit of
+      every FLINT value, which a test checks from the two records.
+
+    The output is `results/zero_cross_check_pari.json`. A test reruns it when cypari2 is
+    installed.
 
   Together these show, within the limits below, that the list is exactly the first 100
   zeros, in order, to 20 significant digits. The checks differ in kind:
@@ -70,9 +86,15 @@ Environment: Python 3.11.17, numpy 2.4.6, scipy 1.17.1, mpmath 1.4.1, pytest 9.1
   - The FLINT check is separate code in ball arithmetic, whose general contract is that a
     returned ball contains the exact value. Its zero functions make no rigor statement of
     their own, so this is not a formal certificate.
-  - It is also not an independent algorithm. FLINT's zero functions reuse the
+  - FLINT is also not an independent algorithm. Its zero functions reuse the
     Turing's-method design of mpmath's implementation (Arias de Reyna), and the two
     libraries share their principal author.
+  - PARI is a separate code base by different authors, the PARI Group.
+    - Its documented guarantee is an absolute error below 2^-B for `lfun` values.
+    - It is not interval arithmetic.
+    - Its zero search is a sign-change search that relies on the mesh condition above.
+    - The completeness of the count rests on FLINT's `zeta_nzeros` and mpmath's
+      `nzeros`, not on PARI.
 
   No published table has been compared (see "Not checked"). `verify_rh_local` and its
   tests repeat the mpmath checks, and reject a duplicated, swapped, missing or perturbed
@@ -144,9 +166,12 @@ reviewed, and they are not a scientific adjudication of the manuscript. Line num
 - Whether the cited heliophysics papers state the β_c and σ_c thresholds.
 - Manuscript chapters with no code here, such as the Born-rule and cosmology chapters.
 - Any review by a non-Claude or human reviewer.
-- A comparison of the 100 zeros with a published table such as Odlyzko's. Both download
-  attempts failed: on 2026-10-19 there was no HTTP response, and on 2026-10-20 TLS
-  verification failed through this session's proxy. So this stays open.
+- A comparison of the 100 zeros with a published table. All attempts failed, so this stays
+  open. The independent-implementation check above (PARI) does not replace it.
+  - Odlyzko's `zeros1`: on 2026-10-19 there was no HTTP response. On 2026-10-20 TLS
+    verification failed through this session's proxy, at both of its hosts.
+  - The LMFDB's zeros, from Platt's computation: on 2026-10-20 the site answered scripted
+    requests with a reCAPTCHA challenge, which this session does not try to get around.
 
 ## Provenance and exposure
 
