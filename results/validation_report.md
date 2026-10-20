@@ -33,6 +33,9 @@ claimed value was either built into the model or is too loose for current data t
 Environment: Python 3.11.17, numpy 2.4.6, scipy 1.17.1, mpmath 1.4.1, pytest 9.1.1.
 
 - `pytest tests/test_all.py`: **94 passed**, also with `-W error::RuntimeWarning`.
+  Rerun on 2026-10-20 after the FLINT cross-check was added: **96 passed**, with python-flint
+  0.9.0 (FLINT 3.6.0), mpmath 1.3.0 and sympy 1.14.0. Without python-flint, the rerun test
+  is skipped.
 - Original suite at `468da8d`, run for the first time on 2026-10-19: **4 failed, 62 passed**.
   The 2025-12-16 commit had been pushed without running it.
 - Each module's `python -m src.<module>` demo runs to completion.
@@ -49,12 +52,31 @@ Environment: Python 3.11.17, numpy 2.4.6, scipy 1.17.1, mpmath 1.4.1, pytest 9.1
   - **Residuals:** max |ζ(½ + iγ)| is 2.45e-17 at the stored 20-digit values and
     5.66e-14 at their float64 roundings. The `468da8d` file fails the residual check
     (max |ζ| = 2.2e-6).
+  - **Second implementation (2026-10-20):** `scripts/cross_check_zeros_arb.py` compares
+    the stored strings with FLINT 3.6.0 (python-flint 0.9.0), in ball arithmetic at
+    128 bits.
+    - All 100 lie within half a unit in their 20th significant digit of FLINT's
+      enclosure of the zero with the same index (max |difference| ≤ 4.9e-18).
+    - FLINT locates each zero on the critical line, as ½ + it.
+    - FLINT's `zeta_nzeros` counts every zero in the strip, and gives exactly k at every
+      bracket b_k, k = 0..100.
 
-  Together these show, numerically, that the list is exactly the first 100 zeros, in
-  order. All of it uses mpmath, the library that generated the list, in floating point.
-  Nothing is interval-certified, and no independent implementation or published table
-  has been compared (see "Not checked"). `verify_rh_local` and its tests repeat these
-  checks, and reject a duplicated, swapped, missing or perturbed entry.
+    The output is `results/zero_cross_check_arb.json`. A test checks that it describes
+    the current data file, and reruns it when python-flint is installed.
+
+  Together these show, within the limits below, that the list is exactly the first 100
+  zeros, in order, to 20 significant digits. The checks differ in kind:
+  - The mpmath checks are floating point, in the library that generated the list.
+  - The FLINT check is separate code in ball arithmetic, whose general contract is that a
+    returned ball contains the exact value. Its zero functions make no rigor statement of
+    their own, so this is not a formal certificate.
+  - It is also not an independent algorithm. FLINT's zero functions reuse the
+    Turing's-method design of mpmath's implementation (Arias de Reyna), and the two
+    libraries share their principal author.
+
+  No published table has been compared (see "Not checked"). `verify_rh_local` and its
+  tests repeat the mpmath checks, and reject a duplicated, swapped, missing or perturbed
+  entry.
 - Citations added in this revision were checked by web search on 2026-10-19: Janot &
   Jadach (PLB 803, 135319: N_ν = 2.9963 ± 0.0074), Rodgers & Tao (Forum Math. Pi 8, e6),
   Platt & Trudgian (BLMS 53, 792–797, including Λ ≤ 0.2), Tristram et al. (PRD 105,
@@ -122,9 +144,9 @@ reviewed, and they are not a scientific adjudication of the manuscript. Line num
 - Whether the cited heliophysics papers state the β_c and σ_c thresholds.
 - Manuscript chapters with no code here, such as the Born-rule and cosmology chapters.
 - Any review by a non-Claude or human reviewer.
-- An independent check of the 100 zeros, against another implementation or a published
-  table such as Odlyzko's. A download of Odlyzko's table on 2026-10-19 got no HTTP
-  response, so this stays open.
+- A comparison of the 100 zeros with a published table such as Odlyzko's. Both download
+  attempts failed: on 2026-10-19 there was no HTTP response, and on 2026-10-20 TLS
+  verification failed through this session's proxy. So this stays open.
 
 ## Provenance and exposure
 
@@ -132,8 +154,8 @@ reviewed, and they are not a scientific adjudication of the manuscript. Line num
   `f25b04bb931df2eaee302b666db014913486166b`. Its README and `body` match Git blobs
   `108b169941ba8986394f1227459047846e227267` and `03f0a2a5be8b8e6a65176f6b6b7bd36d6107759c`,
   which `main` archives under `history/2025/`.
-- The revision and this report are by Claude Opus 5.5 (`claude-opus-5-5`), in the same Claude
-  Code session that produced `468da8d`; that commit does not record which model wrote it.
+- The revision and this report are by Anthropic Claude, in the same Claude Code session
+  that produced `468da8d`; that commit does not record which model wrote it.
   This is an author-side correction by the same provider. It earns no
   organizational-independence credit.
 - The sibling branch `claude/setup-complexity-physics-8H96d` (`45f7dee`, PR #1) belongs to a

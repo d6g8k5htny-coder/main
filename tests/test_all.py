@@ -7,6 +7,7 @@ results/validation_report.md, so reintroducing a defect fails a test.
 Run with: pytest tests/test_all.py -v
 """
 
+import hashlib
 import json
 import math
 import os
@@ -459,7 +460,8 @@ class TestRiemannZeta:
         assert result["z_sign_changes"] is True
         assert FIRST_ZEROS[-1] < result["final_bracket"] < 103.7255
         assert result["complete_and_ordered"] is True
-        assert result["independent_comparison"].startswith("open")
+        assert result["independent_comparison"].startswith("not run here")
+        assert "published-table comparison open" in result["independent_comparison"]
 
     def test_verify_rh_local_rejects_wrong_zero(self):
         perturbed = list(FIRST_ZEROS)
@@ -494,6 +496,31 @@ class TestRiemannZeta:
         assert result["bracket_count_mismatches"] == []
         assert zeros_100[-1] < result["final_bracket"] < 237.7699
         assert result["complete_and_ordered"] is True
+
+
+class TestZeroCrossCheck:
+    """The recorded FLINT cross-check must describe the current data file."""
+
+    def record(self):
+        with open(os.path.join(ROOT, "results", "zero_cross_check_arb.json")) as fh:
+            return json.load(fh)
+
+    def test_record_matches_data_file(self):
+        record = self.record()
+        with open(os.path.join(ROOT, "data", "riemann_zeros", "first_100_zeros.json"), "rb") as fh:
+            assert record["data_sha256"] == hashlib.sha256(fh.read()).hexdigest()
+        summary = record["summary"]
+        assert summary["zeros_checked"] == 100
+        assert summary["all_within_half_unit"] is True
+        assert summary["all_real_parts_half"] is True
+        assert summary["bracket_count_mismatches"] == []
+        assert [b["nzeros"] for b in record["brackets"]] == list(range(101))
+
+    def test_record_reproduces(self):
+        pytest.importorskip("flint")
+        sys.path.insert(0, os.path.join(ROOT, "scripts"))
+        import cross_check_zeros_arb
+        assert cross_check_zeros_arb.cross_check() == self.record()
 
 
 class TestSpectralAnalysis:

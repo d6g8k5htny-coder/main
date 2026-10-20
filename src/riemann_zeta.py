@@ -140,6 +140,8 @@ class RiemannZeta:
         Limits: floating-point mpmath throughout, the library that generated
         the data file. Not interval-certified, and no independent
         implementation or published table is consulted.
+        scripts/cross_check_zeros_arb.py checks the data file separately
+        with FLINT's ball arithmetic.
         """
         import mpmath
 
@@ -172,7 +174,8 @@ class RiemannZeta:
             "complete_and_ordered": complete,
             "all_on_critical_line": complete,
             "method": "mpmath zeta, nzeros and siegelz (numerical, not interval-certified)",
-            "independent_comparison": "open: no other implementation or published table checked",
+            "independent_comparison": ("not run here; results/zero_cross_check_arb.json records a "
+                                       "FLINT check of the data file; published-table comparison open"),
             "literature_verified_height": RH_VERIFIED_HEIGHT,
         }
 
@@ -318,7 +321,8 @@ if __name__ == "__main__":
     check = rz.verify_rh_local()
     print(f"Stored zeros: {check['zeros_checked']}, max |ζ| = {check['max_abs_zeta']:.1e}, "
           f"complete and ordered through t = {check['final_bracket']:.2f}: "
-          f"{check['complete_and_ordered']} (numerical; independent check open)")
+          f"{check['complete_and_ordered']} (numerical; FLINT check of the data file in "
+          f"results/zero_cross_check_arb.json)")
 
     rep = SpectralAnalysis().level_repulsion()
     print(f"Spacings below 1/2: {rep['fraction_below_half']:.3f} "
