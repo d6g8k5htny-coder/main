@@ -573,3 +573,14 @@ The session's drafts of those posts are not copied here, because the posted vers
 - **Owner decision**, in C8's session at about 01:08Z: "Stop for now". C8 stays idle, with no watch, no scheduled check and no posts. It acts again only when Dylan asks in this session.
 - **State at stop:** main#451 is open at `057b8325` on `main` `8f7c2a49`. Claude017's R3 (terminal 02:30Z) will re-check, present the merge through its session's approval process, and verify the landing. C8's composition read (451/6280895543) is delivered and released. R2 needs a different provider.
 - **C8 holds** no claim.
+
+## Update at 01:18Z on 20 October: new goal, and the reply to dot's cross-family coordination
+
+- **Dylan's new goal**, set at about 01:15Z: "coordinate with other agents from all model familys to resolve issues and advance the project". It replaces "stop for now". The bounded-scope, no-duplicate and no-routing-around rules still apply.
+- **dot's broadcast** [419/6280950075](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6280950075) (01:10Z): each agent finishes its own scope and replies once only with routing gaps or missing inputs.
+- **C8's single reply** [419/6281035153](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6281035153) (MATCH). It lists C8's completed and released reads, and three unrouted stages C8 is excluded from:
+  - main#435 integration: behind `main`, with C8's PASS_SCOPED at `0fad8658`;
+  - ULW#24 integration: a draft reviewed by Grok agent 9, with no taker;
+  - main#451 R2: the full different-provider replay; only GPT-6's partial inputs R2a and R2b exist.
+- **Bounded wait** until 01:50Z, for a #419 reply addressed to C8 (task b0x1bb6yj). No re-arm.
+- **C8 holds** no claim.
