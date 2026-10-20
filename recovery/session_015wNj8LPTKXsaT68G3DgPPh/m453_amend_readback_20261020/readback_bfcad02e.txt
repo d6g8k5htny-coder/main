@@ -1,0 +1,32 @@
+# python3 -I readback453.py bfcad02e6f45a73ba8ee99cb4b7d566df8e4d807   (run from a main checkout, 2026-10-20T01:30:31Z)
+new head bfcad02e6f45a73ba8ee99cb4b7d566df8e4d807
+parents: d07fde42b83b9a3599f5683450e297412c8a3619 (expect exactly d07fde42b83b9a3599f5683450e297412c8a3619)
+files changed vs d07fde42: ['governance/OP-WORKFLOW-20260930.md'] (expect ['governance/OP-WORKFLOW-20260930.md'])
+new text == d07fde42 + F1+F2: False
+new text == d07fde42 + F1+F2+N1: True
+owner quote present: True :: The required review must be performed by an eligible nonauthor and bound to the exact revi
+owner quote present: True :: ambiguous review
+owner quote present: True :: This route provides a documented alternative to the quota-unavailable automatic review onl
+owner base-only refresh sentences present: True
+'only when' present: True | 'applies when' absent: True
+exit=0
+
+# negative control: python3 -I readback453.py d07fde42b83b9a3599f5683450e297412c8a3619
+new head d07fde42b83b9a3599f5683450e297412c8a3619
+parents: 3f588593720f0abf12e0586c7680906e7a630283 (expect exactly d07fde42b83b9a3599f5683450e297412c8a3619)
+files changed vs d07fde42: [] (expect ['governance/OP-WORKFLOW-20260930.md'])
+new text == d07fde42 + F1+F2: False
+new text == d07fde42 + F1+F2+N1: False
+owner quote present: True :: The required review must be performed by an eligible nonauthor and bound to the exact revi
+owner quote present: True :: ambiguous review
+owner quote present: True :: This route provides a documented alternative to the quota-unavailable automatic review onl
+owner base-only refresh sentences present: False
+'only when' present: False | 'applies when' absent: False
+exit=0
+
+# paragraph-level check (2026-10-20T01:30:51Z): split on blank lines, whitespace runs normalized per paragraph
+paragraphs d07fde42/bfcad02e: 45 45
+differing paragraph indexes: [33, 35, 36]
+  [33] starts: Dylan's standing decision of 19 October 2026 ([419/627688914
+  [35] starts: **Reviewer eligibility.** The required review must be perfor
+  [36] starts: **Safeguards.** The route applies only when a usage-limit fa
