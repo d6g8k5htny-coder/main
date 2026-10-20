@@ -1,0 +1,42 @@
+diff --git a/tests/test_source_release.py b/tests/test_source_release.py
+index 19e1a0a..eb15d4d 100644
+--- a/tests/test_source_release.py
++++ b/tests/test_source_release.py
+@@ -832,6 +832,8 @@ class ArchiveRefusalPins(unittest.TestCase):
+                 target = self.repo / 'SUPPORT.md' / inner
+                 target.parent.mkdir(parents=True)
+                 target.write_text('synthetic descendant\n')
++                # A user or system excludes file may ignore these names; add them explicitly.
++                self.git('add', '-f', '--', 'SUPPORT.md/' + inner)
+                 self.commit('descendant ' + inner)
+                 try:
+                     with self.assertRaisesRegex(ValueError, '^' + pattern):
+@@ -862,13 +864,19 @@ class ArchiveRefusalPins(unittest.TestCase):
+     def test_failed_git_command_is_reported(self):
+         plain = self.base / 'not-a-repository'
+         plain.mkdir()
+-        with self.assertRaisesRegex(ValueError, '^git command failed'):
+-            build_source_archive(plain, self.out, 1700000000)
++        # Stop repository discovery at the fixture root, so a temporary directory inside
++        # some other worktree cannot make this directory part of that repository.
++        with mock.patch.dict(os.environ, {'GIT_CEILING_DIRECTORIES': str(self.base)}):
++            with self.assertRaisesRegex(ValueError, '^git command failed'):
++                build_source_archive(plain, self.out, 1700000000)
+ 
+     def test_non_sha1_commit_is_refused(self):
+         repo = self.base / 'sha256-checkout'
+         repo.mkdir()
+-        subprocess.run(['git', 'init', '-q', '--object-format=sha256', str(repo)], check=True)
++        init = subprocess.run(['git', 'init', '-q', '--object-format=sha256', str(repo)],
++                              capture_output=True, text=True)
++        if init.returncode:
++            self.skipTest('this git cannot create a SHA-256 repository: ' + (init.stderr or init.stdout).strip())
+         for name in sorted(ARCHIVE_PAYLOADS):
+             path = repo / name
+             path.parent.mkdir(parents=True, exist_ok=True)
+@@ -885,5 +893,3 @@ class ArchiveRefusalPins(unittest.TestCase):
+         header = self.out.read_bytes()[:10]
+         self.assertEqual(header[:3], b'\x1f\x8b\x08')
+         self.assertEqual(int.from_bytes(header[4:8], 'little'), 1700000000)
+-
+-if __name__=='__main__':unittest.main()
