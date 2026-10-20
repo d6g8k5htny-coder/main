@@ -1,0 +1,36 @@
+# own re-checks, 2026-10-20T04:23:05Z; ids = 68da0f8c9f08c4429cfcf2664ed6f69aed141efc cf1434d6c04af2f2d269676d3cbe66a2668696c5 d72a3f9d5a9ce119192cd41c054132e78b4a4387 ca975de0507b2ab66e23f84c5687284ed8fe0ce3 6908cf6dd5e476ebb6394eb4803e8d09e558e628 2c7fdde766b126e41ba70dc035ae0f87786ec8d5 81444dd4c00003d2c611597b42ac3494b8b769bc 2884f63ade341b6fb3a9707ace015acdd64a5629 8016058832a2a693e8cb895eb5cc292cc8b731ed ec3e74aa60b8c0a479320cd7a21589fb7c7b2b2e b2901c1d09b906f30a8cecd0cf5a80f37a09ed3f 
+## main tree bb1a8654dcb365cf331c269293d04308988dc5b4: blobs present (count id)
+      1 6908cf6dd5e476ebb6394eb4803e8d09e558e628
+      1 ca975de0507b2ab66e23f84c5687284ed8fe0ce3
+## 23 Sep window
+f25b04bb 2025-12-15T20:51:50-06:00 parents=bcd42c65 path_hits=0 distinct=0
+b040bf0c 2026-09-23T16:27:14-05:00 parents=f25b04bb b1335def path_hits=11 distinct=8
+4fc1d7c1 2026-09-23T16:53:42-05:00 parents=b040bf0c f35eef1b path_hits=0 distinct=0
+## Math- 4eb86ed3b70b7f36b7bbf7a4b59d75189cf76d16: PR heads=466, commits(--all)=2264
+tip hits: 0
+find-object 68da0f8c9f08c4429cfcf2664ed6f69aed141efc: 0
+find-object cf1434d6c04af2f2d269676d3cbe66a2668696c5: 0
+find-object d72a3f9d5a9ce119192cd41c054132e78b4a4387: 0
+find-object ca975de0507b2ab66e23f84c5687284ed8fe0ce3: 0
+find-object 6908cf6dd5e476ebb6394eb4803e8d09e558e628: 0
+find-object 2c7fdde766b126e41ba70dc035ae0f87786ec8d5: 0
+find-object 81444dd4c00003d2c611597b42ac3494b8b769bc: 0
+find-object 2884f63ade341b6fb3a9707ace015acdd64a5629: 0
+find-object 8016058832a2a693e8cb895eb5cc292cc8b731ed: 0
+find-object ec3e74aa60b8c0a479320cd7a21589fb7c7b2b2e: 0
+find-object b2901c1d09b906f30a8cecd0cf5a80f37a09ed3f: 0
+## G146
+a1fbc5ac 2026-09-20T12:26:26+00:00 verifier_in_tree=0
+a596b719 2026-09-20T13:03:18+00:00 verifier_in_tree=1
+d403ccc4 2026-09-25T19:28:22-05:00 verifier_in_tree=1
+b9d80b1c 2026-09-25T19:36:04-05:00 verifier_in_tree=1
+a01c72f1 2026-09-27T20:29:36+00:00 verifier_in_tree=1
+## body hashes
+006 first 8200 B: 4b66f85e97e2338362e9086abd0f8c939a71248fbdea08e4a462d141756f5a38
+006b first 4495 B: 9e615e81d0d0569c57b66df94414085d1bf9ac5cc6e7d11e0c8ddfe160629d77
+## run log and V2 manifest (V3.4 members)
+- Python 3.12.3 · sympy 1.14.0 · mpmath 1.3.0 · numpy 2.4.4 · scipy 1.17.1
+| R3 | arithmetic_ledgers.py | ALL_ASSERTIONS_PASS | byte-identical |
+`sha256sum` against `09_PACKAGE_MANIFEST_V2.csv` (24 entries): **15 MATCH** — all `.md` sources except CHANGE_LOG.md, all six scripts, all six transcripts. **8 DIFF** — CHANGE_LOG.md (finding F1: manifest bytes 3500 vs actual 4628; entry predates the final-round Addendum) and the seven binary deliverables (mount serves re-encoded page-bundle ZIPs / base form → hashes not checkable here; LIMITATION, content audited instead). One manifest row is the manifest itself (excluded by convention).
+scripts/arithmetic_ledgers.py,40ad76a1973248d9d1a48ab093b9a2b6bcebf4a6cd8c36c0a09067ea64109f4c,3915,verification script
+scripts/arithmetic_ledgers.out.txt,630a8cad223ed52bae0fc3a06fe13acfc9b07059b925c96f00b2e5c8ec38e5b9,859,run transcript

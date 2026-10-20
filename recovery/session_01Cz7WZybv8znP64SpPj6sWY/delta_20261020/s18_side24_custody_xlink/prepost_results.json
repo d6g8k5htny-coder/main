@@ -1,0 +1,364 @@
+{
+ "note": "pre-post checks of the s18 result draft: rules/clarity (wf_28abafe9-daa) and accuracy (wf_0a45a399-d07), on drafts before their fixes",
+ "rules": [
+  {
+   "agent": "a8f312a000217c107",
+   "label": "prepost:rules",
+   "result": {
+    "problems": [
+     {
+      "sentence": "The two KIMI texts came back at `incoming/chatgpt-c022-q0-recovery-20260928/side24-reviews/` through PR #202 (`5b967dd7`, 28 September), and are still there.",
+      "problem": "Rule 2: the path contains 'chatgpt', a model name the rules list by name. post.sh only checks Drive ids, Math-#N and closing verbs, so it would not stop this.",
+      "fix": "The two KIMI texts came back in an `incoming/` import through PR #202 (`5b967dd7`, 28 September), and are still there.",
+      "severity": "must"
+     },
+     {
+      "sentence": "These eight blobs reached `main` with the PR #2 merge `b040bf0c` (23 September, 21:27Z).",
+      "problem": "The table marks only six rows '26 min on 23 Sep'. I checked the b040bf0c tree: the other two of the eight are the KIMI-AUD-006/006b blobs (ca975de0, 6908cf6d). Their `main` cells say only '`incoming/` since 28 Sep', so a reader counts six, not eight.",
+      "fix": "Change the KIMI-AUD-006 `main` cell to '26 min on 23 Sep; `incoming/` since 28 Sep' and keep 'same' for 006b. Or reword the sentence: 'These six blobs, and the two KIMI texts, reached `main` with ...'.",
+      "severity": "should"
+     },
+     {
+      "sentence": "G143's open item is real: no Kimi-side text binds the three diagnostics.",
+      "problem": "Rule 2, borderline: 'Kimi' is a model or product name (the provider is Moonshot). Document ids like KIMI-AUD-006 are allowed, but the bare name is not.",
+      "fix": "G143's open item is real: no KIMI-AUD text binds the three diagnostics.",
+      "severity": "should"
+     },
+     {
+      "sentence": "| KIMI-AUD-006, raw | `ca975de0` | 8,329 | `17c8eba9…` | `drive/mirrors/` (Kimi direct carriers) | `incoming/` since 28 Sep | never |",
+      "problem": "Rule 2, borderline: the cell uses the model name 'Kimi'. It also paraphrases a sub-folder name below drive/mirrors.",
+      "fix": "Change the cell to '`drive/mirrors/` (direct audit carriers)'.",
+      "severity": "should"
+     },
+     {
+      "sentence": "Status: \"pending (non-blocking)\" is still right for the row's own ask, delivery into the Kimi audit corpus. No Kimi-side text binds the three SHA-256 values, and KIMI-AUD-006b calls all three ABSENT.",
+      "problem": "Rule 2, borderline: 'Kimi' appears twice as a bare model name.",
+      "fix": "... delivery into the KIMI-AUD audit corpus. No KIMI-AUD text binds the three SHA-256 values, and KIMI-AUD-006b calls all three ABSENT.",
+      "severity": "should"
+     },
+     {
+      "sentence": "Target: a Kimi-authored binding of `0ba99085`, `bb4fdb73` and `abc5b8cd`, or an owner decision to restate the row as custody-satisfied.",
+      "problem": "Rule 2, borderline: 'Kimi-authored' uses the model name.",
+      "fix": "Target: a binding of `0ba99085`, `bb4fdb73` and `abc5b8cd` in the KIMI-AUD series, or an owner decision to restate the row as custody-satisfied.",
+      "severity": "should"
+     },
+     {
+      "sentence": "Remaining for others: the Math- bindings, the G143 Kimi-side binding or restatement, and the hardening README and register corrections, all owner-routed.",
+      "problem": "Rule 2, borderline: 'Kimi-side' uses the model name.",
+      "fix": "Replace 'the G143 Kimi-side binding or restatement' with 'the G143 KIMI-AUD binding or restatement'.",
+      "severity": "should"
+     },
+     {
+      "sentence": "**3. The gap rows.**",
+      "problem": "The record never says where the quoted status texts ('main: PRESENT_EXACT via PR126', 'frozen pending' and so on) come from. A new reader cannot find them. They are the `current_status` field of each row in 01B6's 13 October gap inventory `gaps.json`, which is at `ee078d1f` and not on current `main`.",
+      "fix": "**3. The gap rows.** Quoted statuses are each row's `current_status` in 01B6's gap inventory (`gaps.json` at `ee078d1f`).",
+      "severity": "should"
+     },
+     {
+      "sentence": "Four of the five gap rows' status texts are outdated or wrong as worded.",
+      "problem": "The header says G142–G147, which is six rows, so 'the five gap rows' is unclear. G145 is left out without saying so.",
+      "fix": "Of the five rows handled here (G145 is covered by my §5 record), four have status texts that are outdated or wrong as worded.",
+      "severity": "should"
+     },
+     {
+      "sentence": "Math- holds none of the objects, and never has.",
+      "problem": "This is stronger than the Limits section, which says 'Never on Math-' covers branch tips and history but not unmerged PR heads.",
+      "fix": "Math- holds none of the objects on any branch tip or in its history (unmerged PR heads not checked).",
+      "severity": "should"
+     },
+     {
+      "sentence": "Status: wrong on both halves.",
+      "problem": "Only the second half of G146's status is quoted, so the reader cannot tell what the 'both halves' are. The full status is 'not landed on hardening; main cites blob 2c7fdde7'.",
+      "fix": "Status: \"not landed on hardening; main cites blob 2c7fdde7\" is wrong on both halves.",
+      "severity": "should"
+     },
+     {
+      "sentence": "It was supplied by my §5 record ([6281985456](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6281985456)): both archives hold the intact findings (`e9df4b6f…`) and run log (`15714b97…`).",
+      "problem": "'Supplied' is ambiguous: the §5 record did not supply the corrupt zip. 'Both archives' is not defined in this record.",
+      "fix": "It is answered by my §5 record ([6281985456](...)): the V3.3 and V3.4 archives both hold the intact findings (`e9df4b6f…`) and run log (`15714b97…`).",
+      "severity": "should"
+     },
+     {
+      "sentence": "Its source, the V3.4 quartic note (`e344ccec`), calls `bb4fdb73` the facewise verifier script, one of the three files 006b lists as ABSENT.",
+      "problem": "Unclear reference: 'Its' could mean 006b, `bb4fdb73` or the 'check-results'.",
+      "fix": "006b's source, the V3.4 quartic note (`e344ccec`), calls `bb4fdb73` the facewise verifier script, one of the three files 006b lists as ABSENT.",
+      "severity": "should"
+     },
+     {
+      "sentence": "Its frozen-objects rows carry 8,329 B / `17c8eba9` and 4,624 B / `2a38f2d4`, and a reconciliation addendum records \"preservation gap: CLOSED\".",
+      "problem": "Unclear reference: 'Its' points back to 'the hardening branch', which has no rows. The register is not named.",
+      "fix": "The hardening frozen_objects register's rows carry 8,329 B / `17c8eba9` and 4,624 B / `2a38f2d4`, and a reconciliation addendum records \"preservation gap: CLOSED\".",
+      "severity": "should"
+     },
+     {
+      "sentence": "The replay outputs, the agents' results and the build scripts will be on main#454 in its next push.",
+      "problem": "This promises retention in the future, so a reader cannot check it from the record. The pickup said the retention would be 'referenced from the record'. main#454's title names row §12, so a new reader may think it is the wrong PR.",
+      "fix": "Push first, then write: 'The replay outputs, the agents' results and the build scripts are retained on the retention PR main#454 (head `<sha>`, folder `<path>`).'",
+      "severity": "should"
+     },
+     {
+      "sentence": "Every object row §18 names is a byte-exact git blob on the hardening branch `a01c72f1`.",
+      "problem": "A new reader does not know where 'row §18' is defined. `a01c72f1` is a commit, not a branch name.",
+      "fix": "Every object that row §18 ([01B6's routing](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6242029814)) names is a byte-exact git blob on the hardening branch at commit `a01c72f1`.",
+      "severity": "nit"
+     },
+     {
+      "sentence": "Status: \"frozen pending\" repeats the theorem package's §10, whose bytes are frozen by design.",
+      "problem": "'The theorem package' is not defined.",
+      "fix": "Status: \"frozen pending\" repeats §10 of the hardening SIDE24_THEOREM_PACKAGE, whose bytes are frozen by design.",
+      "severity": "nit"
+     },
+     {
+      "sentence": "So \"reconcile the 4b66f85e and 17c8eba9 identities\" is settled: they are the body hash and the whole-file hash of one text.",
+      "problem": "The quote's source is not given. It comes from G144's own statement.",
+      "fix": "So G144's ask to \"reconcile the 4b66f85e and 17c8eba9 identities\" is settled: they are the body hash and the whole-file hash of one text.",
+      "severity": "nit"
+     },
+     {
+      "sentence": "The 31 July independent-audit run log is a V3.4 member (4,705 B, `15714b97…`).",
+      "problem": "Rule 5, borderline: 'independent-audit' could be read as an independence claim. Elsewhere the record calls the same file 'the 31 July audit run log'.",
+      "fix": "The 31 July audit run log is a V3.4 member (4,705 B, `15714b97…`).",
+      "severity": "nit"
+     },
+     {
+      "sentence": "**RESULT + PERSONAL RELEASE, `S18-SIDE24-CUSTODY-XLINK-01CZ-20261020` (Claude 01Cz): recovery row §18, the custody cross-links for the SIDE24 items behind gap rows G142–G147.**",
+      "problem": "Rule 2, borderline: 'Claude', here and in 'Anthropic Claude, session ...', is a model-family name. The pickup, the checkpoint, the §5 result and 01B6's routing all use the same label, so this matches board practice.",
+      "fix": "No change needed for consistency with earlier posts. To be strict, write '(01Cz)' and 'Anthropic, session ...'.",
+      "severity": "nit"
+     },
+     {
+      "sentence": "Other carriers and hardening inventories also hold B next to the receipt.",
+      "problem": "'Carriers' is undefined jargon.",
+      "fix": "Other archived copies and hardening inventories also hold B next to the receipt.",
+      "severity": "nit"
+     },
+     {
+      "sentence": "Five first readers covered location, G142, G144, G143/G146 and G147. Each was followed by an adversarial verifier, all Anthropic.",
+      "problem": "'First readers' and 'adversarial verifier' are session jargon. The sentence does not say they were agents.",
+      "fix": "Five reader agents covered location, G142, G144, G143/G146 and G147, and a separate adversarial verifier agent checked each one; all were Anthropic.",
+      "severity": "nit"
+     },
+     {
+      "sentence": "  None is in V3.3.",
+      "problem": "A paragraph indented after a blank line inside the section 2 list makes the whole list 'loose' in GitHub markdown, which adds paragraph spacing to every item.",
+      "fix": "Make it a fourth sub-bullet ('  - None is in V3.3.') with no blank line before it, or fold it into the bold lead: '**The three diagnostics are V3.4 members, byte-exact; none is in V3.3.**'.",
+      "severity": "nit"
+     },
+     {
+      "sentence": "\"main cites blob 2c7fdde7\" holds only for two bot comments on main#117, about hardening-family tips; no file in `main`'s tree cites it.",
+      "problem": "'Hardening-family tips' is undefined jargon.",
+      "fix": "Replace 'about hardening-family tips' with 'about branch tips built on the hardening branch'.",
+      "severity": "nit"
+     },
+     {
+      "sentence": "| arithmetic_ledgers.py, identity B | `cf1434d6` | 4,191 | `ffbc6ccb…` | same folder | never | never |",
+      "problem": "Each identity sits in its own hash-named subfolder under `arithmetic_ledgers/`, so 'same folder' is not quite accurate.",
+      "fix": "Change 'same folder' to 'same parent folder'.",
+      "severity": "nit"
+     },
+     {
+      "sentence": "\"HISTORICAL_PROVENANCE_ONLY (Math-)\" quotes the Math- issue 40 comment 5842107257.",
+      "problem": "The style is allowed (no Math-#N shorthand), but there is no link. I confirmed the comment exists on Math- issue 40.",
+      "fix": "Optional: link it as [Math- issue 40 comment 5842107257](https://github.com/d6g8k5htny-coder/Math-/issues/40#issuecomment-5842107257).",
+      "severity": "nit"
+     }
+    ],
+    "verdict": "Not ready to post yet: one must-fix. The path `incoming/chatgpt-c022-q0-recovery-20260928/...` puts a listed model name ('chatgpt') into the comment, and the post.sh gate does not check model names. Also fix: the bare model name 'Kimi' in five places (use 'KIMI-AUD' or 'Moonshot'); 'eight blobs' when the table shows six (the two KIMI blobs were also in the PR #2 merge tree but their cells don't say so); quoted status texts with no stated source (01B6 gaps.json `current_status`); 'five gap rows' with no word on G145; 'never has' being stronger than Limits; unclear references in G143, G144, G145 and G146; and a future-tense retention line.\n\nRules that pass:\n(1) No Drive ids or Google links. The only matching token is the session id, which post.sh allows. drive/mirrors is given only as its top folder. The bracketed descriptions paraphrase sub-folder names but carry no ids.\n(3) No Math-#N shorthand. PR #2, #32 and #202 are main PRs merged into main. PR #120 and #126 are main PRs merged into the hardening branch. main#117 is a closed main issue. main#454 is an open main PR (the 01Cz retention PR, titled for row §12). The Math- issue 40 comment exists.\n(4) No closing verbs before #N.\n(5) Independence credit is 0, effect is NONE, 'No status change' is stated, and no mathematics is judged.\n(6) All three links resolve to issues/419 at the expected comment ids.\n(7) The pipe table has 7 columns on all 13 rows. No sentence is overlong.\n\nScratch files are in <SCRATCH>/s18/work/prepost-rules/."
+   }
+  }
+ ],
+ "accuracy": [
+  {
+   "agent": "af4bece473d0c5b22",
+   "label": "prepost-acc:sec12",
+   "result": {
+    "verdict": "The figures hold up, but there are three 'must' fixes: the first sentence misattributes where the objects are named, the Paths note is wrong, and \"anywhere\" claims more than was checked. Two smaller precision gaps are rated 'should'. I recomputed these from the evidence and they are correct:\n- Blobs: every blob id, byte count and SHA-256 prefix for the 11 table objects, plus AO48-AUD-043 (d1ceb50d, 4,818 B, b41b1e1f).\n- Table: every path folder in the hardening column, checked with git ls-tree of a01c72f1.\n- main column: bb1a8654 holds only ca975de0 and 6908cf6d, under incoming/. b040bf0c added exactly the eight objects marked \"26 min\" (plus d1ceb50d). 4fc1d7c1 removed them. PR #202 (5b967dd7, 28 Sep) re-added only the two KIMI texts. A full-history first-parent search of main finds only these three commits.\n- Timing: b040bf0c is 16:27:14-05:00 (21:27Z) and 4fc1d7c1 is 16:53:42-05:00, so the window is 26 min 28 s.\n- PR #126: merged into the hardening branch as cd66a655, with head 29928198.\n- Math-: exactly 466 refs/pull heads. git log --all --find-object over 2,264 commits finds none of the 12 blobs; a control blob was found.\n- Branch tips: d72a3f9d is on 84 of the 228 local remote-tracking tips, including d486dd1c.\n- Body hashes: the first 8,200 bytes of ca975de0 hash to 4b66f85e, and the first 4,495 bytes of 6908cf6d hash to 9e615e81, the value 006b prints.\n- Replay: both identities print the 859-B receipt under 3.11.17 and 3.12.3, with SymPy 1.14.0 and mpmath 1.3.0.\n- Run log: it records Python 3.12.3, R3 byte-identical, \"all six scripts\" MATCH, and no hashes.\n- Manifests: V2 and V3 pair A with the receipt, and V4 and V5 pair B.\n- Script text: 17 asserts changed, print lines identical, 1e-210 only inside the string.\n- Archives: the three diagnostics are top-level V3.4 members only, and none is in V3.3 even nested. Neither archive holds 2c7fdde7 or a 4b66f85e member.\n\nOutside the sections I was asked to check: the journal has no result line for verify:g143g146 or verify:g147. So the Method sentence \"A separate adversarial verifier agent then checked each one\" is not yet supported. Scratch files are in <SCRATCH>/s18/work/prepost-acc-facts/.",
+    "problems": [
+     {
+      "sentence": "Every object that row §18 of 01B6's routing ([6242029814](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6242029814)) names is a byte-exact git blob on the hardening branch at commit `a01c72f1`.",
+      "problem": "The linked routing comment names no objects in its §18 line. It says only \"custody cross-links and Math- bindings, for example the frozen_objects/FAIL_CLOSED rows\". The objects come from the Locator and sha256 lines of TOP_CANDIDATES.md §18 at ee078d1f. The claim itself holds for all of them: the 11 blobs, plus the audit findings e9df4b6f, which is hardening blob b06482ba.",
+      "fix": "Every object that recovery row §18 names (TOP_CANDIDATES.md §18 at `ee078d1f`, routed in 01B6's [6242029814](...)) is a byte-exact git blob on the hardening branch at commit `a01c72f1`.",
+      "severity": "must"
+     },
+     {
+      "sentence": "- **Paths.** Those under `drive/mirrors/` contain Drive ids, and are given here by their top folders only.",
+      "problem": "None of these paths contains a Drive id. The diagnostic and AUD-047 paths use plain names. The KIMI carriers are named KIMI-AUD-006….txt and KIMI-AUD-006b….txt, and the verifier is EIGENFLOOR_INDEPENDENT_ + verify_side24_eigenfloors_from_kernel.py. Some of these names only match the mixed-case Drive-id pattern.",
+      "fix": "Paths under `drive/mirrors/` are long, and some file names match the Drive-id pattern, so they are given here by their top folders only.",
+      "severity": "must"
+     },
+     {
+      "sentence": "No object anywhere has `4b66f85e` as its whole-file SHA-256.",
+      "problem": "Overclaim. The check (verify:g144) hashed every unique blob at a01c72f1, d43a7c63 and Math- 4eb86ed3, and every V3.3 and V3.4 member. It did not cover other branches, history or Drive.",
+      "fix": "No blob in the hardening, `main` or Math- tip trees, and no V3.3 or V3.4 member, has `4b66f85e` as its whole-file SHA-256.",
+      "severity": "must"
+     },
+     {
+      "sentence": "It is on the hardening branch and on the branch tips built on it, not on `main` or Math-.",
+      "problem": "d1ceb50d (AO48-AUD-043) was also on `main` from b040bf0c to 4fc1d7c1, like the eight table objects. The record's own wording separates \"never\" from \"26 min\", so \"not on `main`\" reads as never.",
+      "fix": "It is on the hardening branch and on the branch tips built on it. `main` held it only for the same 26 minutes on 23 September, and Math- never did.",
+      "severity": "should"
+     },
+     {
+      "sentence": "It is on 84 of 228 branch tips, including the PR #120 tip `d486dd1c`, though not on `main`.",
+      "problem": "84 is right, but 228 counts the local clone's remote-tracking refs, which are out of date. The remote now has 222 heads, and 9 of them are not in the local fetch. Stated without a qualifier, the count presents a stale total as current.",
+      "fix": "It is on 84 of the 228 branch tips in my fetch, including the PR #120 tip `d486dd1c`, though not on `main`.",
+      "severity": "should"
+     },
+     {
+      "sentence": "As row §18 says, it is a literal print over declared bounds, not a derivation of |ε_24| < 1e-180, and this replay must not be cited as one.",
+      "problem": "This caveat is in TOP_CANDIDATES.md §18 (\"Caveats\"), not in the routing comment's §18 line. TOP_CANDIDATES says the line must not be cited as a derivation. Extending that to \"this replay\" is the author's own addition.",
+      "fix": "As TOP_CANDIDATES §18 says, it is a literal print over declared bounds, not a derivation of |ε_24| < 1e-180; this replay must not be cited as one either.",
+      "severity": "should"
+     },
+     {
+      "sentence": "| KIMI-AUD-006, raw | `ca975de0` | 8,329 | `17c8eba9…` | `drive/mirrors/` (direct audit carriers) | 26 min on 23 Sep; `incoming/` since 28 Sep | never |",
+      "problem": "The folder is \"08 — DIRECT KIMI CARRIERS — 2026-08-02\", not \"direct audit carriers\".",
+      "fix": "Change the parenthetical to \"(direct KIMI carriers)\".",
+      "severity": "nit"
+     },
+     {
+      "sentence": "Eight blobs, including the two KIMI texts, reached `main` with the PR #2 merge `b040bf0c` (23 September, 21:27Z).",
+      "problem": "The merge added thousands of blobs, and AO48-AUD-043 (d1ceb50d) also came and went with these. \"Eight blobs\" means eight of the table's objects.",
+      "fix": "Eight of the eleven objects, including the two KIMI texts, reached `main` with the PR #2 merge `b040bf0c` (23 September, 21:27Z).",
+      "severity": "nit"
+     },
+     {
+      "sentence": "Other archived copies and hardening inventories also hold B next to the receipt.",
+      "problem": "This is one-sided. Archive_Members.csv also has carriers with only A next to the receipt (14 READ rows for A, 11 for B). MEMBER_HASH_LEDGER.json and kimi_inventory_full.tsv list the files rather than hold them.",
+      "fix": "Other archived copies hold A or B next to the receipt, and two hardening inventories list B next to it.",
+      "severity": "nit"
+     }
+    ]
+   }
+  },
+  {
+   "agent": "a06694e69df0d294c",
+   "label": "prepost-acc:sec3",
+   "result": {
+    "verdict": "I reviewed the version saved at 04:19Z. The file changed while I was checking it; the 04:07 version did not yet have the late verify:g143g146 and verify:g147 corrections. Section 3, Method, Limits, Retention and Release mostly match the five lens results, all five verifier results (all now in the journal) and the repository. The revision already includes most verifier corrections: the WO-046 and §7 split for G143, the G146 README change and the byte-annex manifest, and for G147 the mirror export, the T6 certificate, the sources-07 rows and CUSTODY_CANDIDATES. Two must-fixes remain. (1) G146 calls the status 'wrong on both halves'. The row's main-side source is N:#117, and verify:g143g146 says 'main cites blob 2c7fdde7' is literally true of the cursor[bot] comments on main#117 and false only of main's tree. (2) G147 says row §18's locator lacks ec3e74aa and 0e22fdde. The locator in TOP_CANDIDATES.md §18 at ee078d1f does list ec3e74aa; only 0e22fdde is missing. The should-level problems are these. G143 calls Kimi's corpus the 'KIMI-AUD audit corpus' and narrows its target in the same way. G144 says a cross-link is 'on main' when it is an issue comment. 'Only one freeze-time note' leaves out the frozen §6 text. Method lists own re-checks, but own/ holds only the two replay outputs and an empty runlog/ folder. Limits never says Drive was not consulted. Release leaves out the G147 certificate. In short (outside the assigned sections) still says 'G143's open item is real', which contradicts the revised G143. Nothing judges mathematics or implies a status change. The G143 'done under WO-046' line is conditional custody text, and G147 attributes 'executed and convergent' to AUD-047. Checks behind these points: gaps.json at ee078d1f has the same blob as at 4150ffbb, and all five quoted statuses match it. The comment authors and times come from the GitHub API. CUSTODY_CANDIDATES.md lines 192-193 are on the recovery branch. The two README versions d403ccc4 and b9d80b1c were confirmed. A file-name scan of all Math- history found no T6 certificate. Main#454 is the open draft retention PR.",
+    "problems": [
+     {
+      "sentence": "Status: \"not landed on hardening; main cites blob 2c7fdde7\" is wrong on both halves.",
+      "problem": "This overclaims the second half and contradicts the verify:g143g146 correction. The row's main-side source is 'N:#117 (artifact list)', and the verifier says 'main cites blob 2c7fdde7' is literally true of the cursor[bot] comments on main#117 and false only of main's tree. The draft's own next sentence admits those comments cite it. Only the first half, read at branch level, is wrong.",
+      "fix": "Status: \"not landed on hardening; main cites blob 2c7fdde7\" is half wrong. The first half is wrong: the blob is on the hardening branch. The second half holds only for main#117, the row's source: two bot comments there cite the blob, and no file in `main`'s tree does.",
+      "severity": "must"
+     },
+     {
+      "sentence": "Only the gap inventory's empty `cited_artifacts` and row §18's locator lack them.",
+      "problem": "Factual error. The locator in TOP_CANDIDATES.md §18 at ee078d1f lists ec3e74aa (the draft's own table counts it among the objects §18 names). Only 0e22fdde is missing from that locator.",
+      "fix": "Only the gap inventory's empty `cited_artifacts` lacks both; row §18's locator names `ec3e74aa` but not `0e22fdde`.",
+      "severity": "must"
+     },
+     {
+      "sentence": "The row's wording, delivery into the KIMI-AUD audit corpus, comes from §7 of the theorem package.",
+      "problem": "Misquote. The row says 'Kimi audit corpus' and §7 says 'delivery of these carriers into Kimi's corpus remains pending'. 'KIMI-AUD' is the audit-text series, not Kimi's received corpus. The evidence that follows also leaves out the most direct text: the direct-carrier freeze receipt §4 l.57 says the received Kimi ZIP does not contain the three scripts.",
+      "fix": "The row's wording, delivery into the Kimi audit corpus (§7: \"delivery of these carriers into Kimi's corpus remains pending\"), comes from §7 of the theorem package. In the next sentence, add that the direct-carrier freeze receipt (§4) says the received Kimi ZIP lacks them.",
+      "severity": "should"
+     },
+     {
+      "sentence": "Target: a binding of `0ba99085`, `bb4fdb73` and `abc5b8cd` in the KIMI-AUD series, or an owner decision to restate the row as custody-satisfied.",
+      "problem": "Narrower than the evidence. The lens target is 'a Kimi-authored inventory or audit receipt naming the three sha256', and verify:g143g146 names KIMI-RELAY-LEDGER-001 as the natural place for a Kimi-side binding. A KIMI-AUD text is only one option.",
+      "fix": "Target: a Kimi-side binding of `0ba99085`, `bb4fdb73` and `abc5b8cd` (a KIMI-AUD text, the KIMI relay ledger or a received-corpus inventory), or an owner decision to restate the row as custody-satisfied.",
+      "severity": "should"
+     },
+     {
+      "sentence": "Cross-link already on `main`: main#117 comment 5841187684 cites AO48-AUD-043 and both whole-file hashes.",
+      "problem": "Inconsistent with the draft's own distinction in G142 between `main`'s issue tracker and its tree. The cross-link is a cursor[bot] comment, a census of an earlier hardening tip (848aea2a), not anything in the `main` branch.",
+      "fix": "Cross-link already in `main`'s issue tracker, not its tree: main#117 comment 5841187684, a census of an earlier hardening tip, cites AO48-AUD-043 and both whole-file hashes.",
+      "severity": "should"
+     },
+     {
+      "sentence": "Only one freeze-time note (\"… raw texts pending\") was left unchanged.",
+      "problem": "Read alone, this says only one place still carries the 'pending' text. Theorem package §6, one of the row's three status sources, still says the raw texts 'have not yet been supplied', and so does line 32 of the package freeze receipt. Both are frozen by design. The verifier's 'only' referred to the register's FREEZE row note.",
+      "fix": "Apart from the frozen package bytes themselves (§6 and line 32 of its freeze receipt), only the register's package-freeze row note (\"… raw texts pending\") was left unchanged.",
+      "severity": "should"
+     },
+     {
+      "sentence": "I re-ran several checks myself: the receipt replay, the body-hash check, `main`'s current tree, the 23 September merge and revert, all 466 Math- PR heads, the G146 commits, and the run log's manifest reference.",
+      "problem": "The own re-check folder holds only the two replay runs (replay/68da0f8c and replay/cf1434d6, both 859 B, sha256 630a8cad…) and an empty runlog/ folder. Nothing records the other six re-checks, and the 466-PR-head check is the verifier's (verify:location). Retention promises the replay outputs, so these claims would have no retained evidence.",
+      "fix": "Save the outputs of the other re-checks into own/ before the retention push. Otherwise narrow the sentence: \"I re-ran the receipt replay myself (outputs retained) and spot-checked the body hash, main's current tree, the 23 September merge and revert, the G146 commits and the run log's manifest reference.\"",
+      "severity": "should"
+     },
+     {
+      "sentence": "Issue and PR bodies were not searched exhaustively.",
+      "problem": "Limits leaves out that Drive was never consulted, a limit every relevant lens and verifier states. Unverified as a result: the Drive-side 13/13 readback (G144), the Drive modified times used for G147 (taken from repository metadata), and whether Kimi received the diagnostics after 2 August (G143).",
+      "fix": "Add a Limits bullet: \"Drive was not consulted. Drive-side readbacks, Drive modified times (taken from repository metadata) and any delivery to Kimi after 2 August are unverified.\"",
+      "severity": "should"
+     },
+     {
+      "sentence": "Remaining for others, all owner-routed: the Math- bindings, the G143 KIMI-AUD binding or restatement, and the hardening README and register corrections.",
+      "problem": "It leaves out the carrier that section 3 lists as still missing for G147: the T6 certificate script and its outputs, which have no Git copy. 'KIMI-AUD binding' repeats the narrowed G143 target.",
+      "fix": "Remaining for others, all owner-routed: the Math- bindings, the G143 Kimi-side binding or restatement, the Git landing of the G147 T6 certificate and outputs, and the hardening README and register corrections.",
+      "severity": "should"
+     },
+     {
+      "sentence": "G143's open item is real: no KIMI-AUD text binds the three diagnostics.",
+      "problem": "This is in In short, outside the assigned sections. It contradicts the revised G143 and the verify:g143g146 correction: completion depends on which source governs, and under WO-046 the item is done.",
+      "fix": "G143 is open only under the theorem package's §7 wording (delivery into Kimi's corpus); under the work order WO-046 it is done.",
+      "severity": "should"
+     },
+     {
+      "sentence": "No Git copy exists on any branch tip or on Math-.",
+      "problem": "The verifier checked Math- only at HEAD (blobs of 6,634 B and 1,733 B). Elsewhere the draft says 'on Math-' only after full-history checks. My file-name scan of all Math- history found no match, but no byte check was done beyond HEAD.",
+      "fix": "No Git copy exists on any branch tip or at Math- HEAD, and no file of that name appears anywhere in Math- history.",
+      "severity": "nit"
+     },
+     {
+      "sentence": "Located: AO48-AUD-047 (`ec3e74aa`), created 2 August, on the hardening branch only.",
+      "problem": "82 of 228 branch tips carry the blob, all built on the hardening branch. G144 uses the more careful wording for AO48-AUD-043, which verify:g144 asked for.",
+      "fix": "Located: AO48-AUD-047 (`ec3e74aa`), created 2 August, on the hardening branch and the branch tips built on it, not on `main` or Math-.",
+      "severity": "nit"
+     },
+     {
+      "sentence": "Its two blind inputs are also on the hardening branch: KIMI-DER-006 (`0e22fdde`) and a blind note (`c339e6ab`), with that note's verifier (`49d879e1`) and output (`1ec4ad58`).",
+      "problem": "AUD-047 cites neither input by hash. Its Kimi route says only 'hash-bound in their report' (KIMI-DER-006's own embedded body hash 08b6d240…). The Kimi carrier is tied to AUD-047 only by later records, such as the D7 reconciliation.",
+      "fix": "Append: \"AUD-047 cites neither by hash; later records (the D7 reconciliation) bind the Kimi carrier to it.\"",
+      "severity": "nit"
+     },
+     {
+      "sentence": "Located: blob `2c7fdde7` has been in the hardening branch's tree since `a596b719` (20 September), under the Round 6+7 byte annex.",
+      "problem": "a596b719 is a side-lineage commit. The blob entered the hardening branch's first-parent line at dca27f77 on 21 September (location lens; verify:location: 'hardening has held blob 2c7fdde7 since 2026-09-21').",
+      "fix": "Located: blob `2c7fdde7` was added by `a596b719` (20 September) and has been on the hardening branch since `dca27f77` (21 September), under the Round 6+7 byte annex.",
+      "severity": "nit"
+     },
+     {
+      "sentence": "The citation exists only in two bot comments on main#117, about branch tips built on the hardening branch; no file in `main`'s tree cites it.",
+      "problem": "Comment 5841187684 is a census of the hardening branch itself, at earlier tip 848aea2a. Only 5841641409 concerns a branch built on it (the PR #120 tip 7ed8d1e2).",
+      "fix": "…in two bot comments on main#117, a census of an earlier hardening tip (`848aea2a`) and one of the PR #120 tip (`7ed8d1e2`); no file in `main`'s tree cites it. Merge this with the must-fix for the Status sentence.",
+      "severity": "nit"
+     },
+     {
+      "sentence": "Its first version (`d403ccc4`, 25 September) bound the verifier to blob `2c7fdde7`.",
+      "problem": "Both commits are dated 25 September at -05:00, which is 26 September 00:28Z and 00:36Z. The record gives times in UTC elsewhere ('21:27Z'). Also, 19c391c6 sits between them; b9d80b1c is the next commit that changes the README, not the next commit.",
+      "fix": "Its first version (`d403ccc4`, 26 September UTC) bound the verifier to blob `2c7fdde7`. In the following sentence, write \"The next commit to change it (`b9d80b1c`, eight minutes later)\".",
+      "severity": "nit"
+     },
+     {
+      "sentence": "Math- was read from a full clone at `4eb86ed3`.",
+      "problem": "The Math- clone is a blob:none partial clone with full history (612 refs, 466 of them PR heads), not a full clone. Verify:g147 notes that short ids do not resolve there.",
+      "fix": "Math- was read from a full-history, blob-less clone at `4eb86ed3`, covering every branch and PR head.",
+      "severity": "nit"
+     },
+     {
+      "sentence": "A container restart interrupted the verifiers, and they were resumed.",
+      "problem": "The journal shows new agents for verify:g142, verify:g144 and verify:location, so they were re-run, not resumed. verify:g142 finished twice.",
+      "fix": "A container restart interrupted the verifiers; three were re-run from the start, and G142 was verified twice.",
+      "severity": "nit"
+     },
+     {
+      "sentence": "006b's source, the V3.4 quartic note (`e344ccec`), calls `bb4fdb73` the facewise verifier script, one of the three files 006b lists as ABSENT.",
+      "problem": "e344ccec is a SHA-256 prefix, not a git blob. Elsewhere the draft uses bare backticked ids for blobs and adds an ellipsis for SHA-256 values.",
+      "fix": "Write it as `e344ccec…`, for example \"the V3.4 quartic note (SHA-256 `e344ccec…`)\".",
+      "severity": "nit"
+     },
+     {
+      "sentence": "It matches main#117 comment 5842108407, which is in `main`'s issue tracker, not its tree, and it means the hardening branch.",
+      "problem": "Comment 5842108407 marks PRESENT_EXACT in 'draft PR #126', the PR's branch. The text that ties the status to the hardening (research) branch is owner comment 5846580248: 'merged into the research branch at cd66a655'.",
+      "fix": "It matches main#117 comment 5842108407, which is in `main`'s issue tracker, not its tree, and refers to PR #126, which owner comment 5846580248 records as merged into the research (hardening) branch.",
+      "severity": "nit"
+     }
+    ]
+   }
+  }
+ ]
+}

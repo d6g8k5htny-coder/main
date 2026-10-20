@@ -1,0 +1,326 @@
+{
+ "workflow_run": "wf_bb483b69-13b",
+ "note": "the text, numeric and adversarial checks of the xAI verdict 454/6282139686",
+ "results": [
+  {
+   "agent": "a3b2a267031be279b",
+   "label": "check:text",
+   "result": {
+    "claims": [
+     {
+      "claim": "(1) Hashes: SHA-256 of LS-DER-024.docx = ce1eafee…724f, LS-DER-033.docx = e373caf4…c789, P2.md = f972e50b…f76a, and the git blob id of P2.md = d8acf0bcb9025b1562c03c077c8e0094ae282060 (as stated in verdict L7)",
+      "verdict": "ACCURATE",
+      "evidence": "sha256sum on src/: ce1eafee53c06bbe518c9bb22d29c3915e5e5ddb1350c969b6b187b90ba9724f (024.docx), e373caf4a1f9ca81394770b26bd1219c58f68d444a0b68236f5112fb11d4c789 (033.docx), f972e50bc07674ebce9d971d1a1bd4dba2f8036dde37ecb57d8a44a35650f76a (P2.md). git hash-object src/P2.md = d8acf0bcb9025b1562c03c077c8e0094ae282060. All four match."
+     },
+     {
+      "claim": "Verdict L9: '024 (4) is the typed intensity.'",
+      "verdict": "ACCURATE",
+      "evidence": "LS-DER-024.txt L160-168: lambda_crit^{MS}(y,u) = p_{(f(y),grad f(y))|pins}(u,0) E[W_{r,lambda}|det H_y| | pins, f(y)=u, grad f(y)=0]/Z (4), where W (L91-94) carries 1{H_M negative definite}1{H_S index one}. L168: it 'retains the exact endpoint type indicators and determinant weight'."
+     },
+     {
+      "claim": "Verdict L9: '(27) bounds its numerator by C r^6.'",
+      "verdict": "ACCURATE",
+      "evidence": "024.txt L351-355: 'the conditional determinant numerator in (4) is bounded by C_det r^6 (27) up to a uniformly integrable polynomial jet factor.' The numerator of (4) contains W, so (27) is a bound on the typed numerator."
+     },
+     {
+      "claim": "Verdict L9: '(28) and 033 (8.2) bound the angular integral by C r^4 t^-6.'",
+      "verdict": "ACCURATE",
+      "evidence": "024.txt L357-361: 'integral_{S^1} lambda_crit^{MS}(x+t omega,u;r,lambda)domega <= C_sing r^4 t^{-6}. (28)'. 033.txt L265-270: the same integral '<= C r^4 t^-6. (8.2)'. Both are per unit value u."
+     },
+     {
+      "claim": "Verdict L9: '033 (8.1) writes H = t D^2P + O(t^2) and then uses the pure factor t^6 eta^6 = r^6.'",
+      "verdict": "ACCURATE",
+      "evidence": "033.txt L249-257: 'each physical Hessian is H=t D^2P+O(t^2).' Then '|det H_M det H_S det H_y| <= C t^6 eta^6 P(J) = C r^6 P(J), (8.1)'. (8.1) carries no type indicators, so it is the untyped product bound. Note that the H line (L251) is printed just before the (8.1) label."
+     },
+     {
+      "claim": "Verdict L9: '024 §7.2 states the same transfer as \"Physical Hessians contribute t^2 per determinant,\" which is (26).'",
+      "verdict": "PARTLY",
+      "evidence": "024.txt L338 heading '7.2 Uniform triple-determinant factor'. L346: '... Physical Hessians contribute t^2 per determinant. Hence' and L348-349: 't^6 kappa^6 eta^6 = kappa^6 r^6, (26)'. The quoted sentence is the premise that introduces (26). (26) as printed is the algebraic identity, which is trivially true since eta = r/t. Its content is the transfer only when read with that premise. 'Which is (26)' is a shorthand (the record uses the same one), not a misquote."
+     },
+     {
+      "claim": "Q(2): Is (26) the transfer, an r^6 product bound, or both?",
+      "verdict": "ACCURATE",
+      "evidence": "Literally, (26) (024 L348-349) is the identity t^6κ^6η^6 = κ^6 r^6. It has no ≤ sign and no type indicators. In context (L346 'Physical Hessians contribute t^2 per determinant. Hence') it turns the chart identity (25) (L341-344, det·det·det = κ^6 η^6 R_κ) into a physical untyped triple-product scale κ^6 r^6 R_κ. So it is the transfer's output: both the transfer and an r^6 untyped product scale. The stated bound is (27), on the typed numerator. (29) at L363-370 integrates r^7 t^-5 from (√15/2)r to δ."
+     },
+     {
+      "claim": "Verdict L11: '024 §6 states that extension for distances at least δ.'",
+      "verdict": "ACCURATE",
+      "evidence": "024.txt L267: 'Fix a small delta>0 independent of r and consider points with distance at least delta from the collapsing pair'. L269: 'In the corrected six-pin divided-difference frame, the conditioned Gaussian family extends continuously to r=0.' L271: the floor is on '{y:dist(y,{M,S})>=delta}'. L273 adds that the endpoint numerator has 'the same r^2 degeneracy as Z' and that the quotient in (4) is bounded per unit value. The extension is stated only for distance ≥ δ, but δ is an arbitrary fixed small number."
+     },
+     {
+      "claim": "Verdict L11: 'The same continuity applies at every fixed t > 0, and any such t lies in [(√15/2)r, δ] for all small r.'",
+      "verdict": "PARTLY",
+      "evidence": "This holds only for fixed t in (0, δ]. A fixed t > δ is not in [(√15/2)r, δ]. The intent is clear and the argument needs only t ≤ δ. Minor imprecision in the verdict, with no effect on the record."
+     },
+     {
+      "claim": "Verdict L11: 'P2 (P3) has an r-independent target and limit jet E0.'",
+      "verdict": "ACCURATE",
+      "evidence": "P2.md L67-72 defines E_r (P3). L75: 'Its exact target under (P1) is e=(b,0,0,0,-12k,0), independent of r. Its contact limit is'. L78: 'E_0=(f,f_x,f_z,f_{xx},-f_{xxx},f_{xz})(M).' L81: E_r - E_0 = O_{L^s}(r)."
+     },
+     {
+      "claim": "Verdict L11: 'P2 (P13) gives det H_M / r = −6k S0 + O(r) and det H_S / r = 6k S0 + O(r).'",
+      "verdict": "ACCURATE",
+      "evidence": "P2.md L239-241: 'f_{xx}(M)/r=-6k+O_{L^s}(r), det H_M/r=-6kS_0+O_{L^s}(r), det H_S/r=6kS_0+O_{L^s}(r). (P13)'. L244 gives the S-side derivation."
+     },
+     {
+      "claim": "Verdict L11: 'With the carriers' κ = 6k, the endpoint weight is order r^2 on {S0 < 0}.'",
+      "verdict": "ACCURATE",
+      "evidence": "024.txt L86: f(S)=b-kappa r^3/6. P2.md L37: f(S)=b-kr^3. So κ = 6k. By (P13), f_xx(M)/r → -6k < 0. M is negative definite iff det H_M > 0 iff S_0 < 0, and S has index one iff det H_S < 0 iff S_0 < 0. On that event W ≈ κ^2 r^2 S_0^2."
+     },
+     {
+      "claim": "Verdict L11: '(P14) is the matching lower bound Z ≥ c r^2.'",
+      "verdict": "ACCURATE",
+      "evidence": "P2.md L236: 'We need the endpoint-only bound Z_r>=c_Z r^2.' L246-249: '... both absolute determinants are at least 5k_- r ... Therefore Z_r >= c_Z r^2 > 0. (P14)'. This is a lower bound only."
+     },
+     {
+      "claim": "Verdict L11: 'the upper order is the (P13) moment bound in P2 §7. So Z ≍ r^2.'",
+      "verdict": "PARTLY",
+      "evidence": "P2 never writes an upper bound on Z_r; grep shows Z_r only at L43, L236, L249, L322, L365, L384. The upper order follows at once from (P13) (L239-241) and bounded moments (L87-93; L246 'S_0 under Q_r has bounded mean and variance'): Z_r ≤ r^2 ||det H_M/r||_2 ||det H_S/r||_2 = O(r^2) by Cauchy-Schwarz. It is fair to call it a consequence of (P13), but it is not a bound P2 states. The conclusion Z ≍ r^2 is correct."
+     },
+     {
+      "claim": "Verdict L21 / Q(2): quote of 024 §13's bullet about eta^6",
+      "verdict": "ACCURATE",
+      "evidence": "024.txt L469 '13. FALSIFIERS AND REOPENING CONDITIONS'. L482: '- the triple determinant product lacks the eta^6 factor;'. The verdict and the record (result.md L76) both quote it exactly."
+     },
+     {
+      "claim": "Verdict L21: 'The chart identity (25) does carry η^6: at a generic jet the product's lowest power of η is 6, and the quotient R is finite and nonzero at η = 0.'",
+      "verdict": "ACCURATE",
+      "evidence": "024 L341-344: product = κ^6 η^6 R_κ. 033 L124-132 (3.4) gives product = -κ^6 η^6/(64^3 c^6 s^6) B_M B_S B_X, with K = 2Ws^2-4c^2-4cη-η^2. At η=0, B_M = B_S = -K^2 and B_X = K^2, so R = -K^6/(64^3 c^6 s^6). That is finite and nonzero for generic W and cs≠0."
+     },
+     {
+      "claim": "Verdict L21: 'At fixed t the physical product is order r^2 t^7, which is order η^2.'",
+      "verdict": "ACCURATE",
+      "evidence": "The r-order is supported by sing_check.log: at t=0.4, untyped/r^6 goes 125.8 → 2053 → 33070 as r halves (θ=π/2), and 530.8 → 8743 → 141000 (θ=π/4). That is a factor of about 16 per halving, so the untyped product ∝ r^2 = η^2 t^2 at fixed t. The t^7 factor is the verdict's quartic-model count, which this text check did not re-derive."
+     },
+     {
+      "claim": "Q(3): Verdict opening (L3) says '(27)–(28)' fail; the record (result.md L66) says '(26)–(28)'. Disagreement, narrower phrasing, or mislabel?",
+      "verdict": "ACCURATE",
+      "evidence": "This is a narrower phrasing, not a disagreement. The verdict lists only the printed inequalities ((27), (28), and 033's (8.1)-(8.2)). It names (26) as 'the failing step ... the transfer (26)' (L21), and the record says the same: 'the failing step is (26)'s \"t^2 per determinant\"' (result.md L76). The record's heading groups (26) under 'envelopes' although (26) is printed as an identity. Its sub-bullet at L73 makes the role precise: '(26)'s r^6 on which (27) rests' as the untyped product scale, with '(27) itself bounds the typed numerator of (4)'. So this is a loose label, not a factual error. The verdict's inclusion of (8.1) (an untyped inequality) alongside the exclusion of (26) (an untyped identity) is consistent with the literal text."
+     },
+     {
+      "claim": "Record result.md L73: '(26)'s r^6 on which (27) rests'",
+      "verdict": "ACCURATE",
+      "evidence": "024.txt L346-355 is a single sentence chain: 'Physical Hessians contribute t^2 per determinant. Hence t^6 kappa^6 eta^6 = kappa^6 r^6, (26) and the conditional determinant numerator in (4) is bounded by C_det r^6 (27)'. (27) is derived from (26)."
+     },
+     {
+      "claim": "Record result.md L68: faulty step quotes ('Physical Hessians contribute t^2 per determinant'; 033 (8.1) writes H = tD^2P + O(t^2) and drops the remainder), and the P2 §4 analogy",
+      "verdict": "ACCURATE",
+      "evidence": "024 L346 is verbatim. 033 L251 and L255-257: the bound C t^6 η^6 P(J) keeps only the leading term's η^2 per determinant. P2.md L118: 'An absolute O(r^4) error would not suffice after division by the vanishing spatial scale.' That warning is about the g' (gradient) remainder at scale r, as the record says."
+     },
+     {
+      "claim": "Record result.md L69: 'At fixed t the six-pin frame extends continuously to r = 0 (024 §6)'",
+      "verdict": "ACCURATE",
+      "evidence": "024 §6 (L267-273) states continuity for dist ≥ δ, with δ an arbitrary fixed small number. Applying it at a fixed t (taking δ' < t) is within its quantifier. The record itself adds at L80: 'LS-DER-024 §6 covers only distances of at least a fixed δ.' The verdict's refinement (L11) matches what the record says."
+     },
+     {
+      "claim": "Verdict L13: 'S0 ~ N(−6/5, 2) and E[S0^2; S0 < 0] = 3.230979, so Z/r^2 tends to that value' (planar BF, b=6/5, κ=1)",
+      "verdict": "ACCURATE",
+      "evidence": "bfcheck.py sets b=1.2 and kap=1 on the planar kernel. Conditioning f_zz on f=b and f_xx=0 (limit E_0) with the BF covariances Var f=1, Var f_xx=3, Cov(f,f_xx)=Cov(f,f_zz)=-1, Cov(f_xx,f_zz)=1, Var f_zz=3 gives mean -b = -1.2 and variance 3-1 = 2. Numerical integration gives E[S_0^2;S_0<0] = 3.2309785. bfcheck_A.log Z/r^2 = 3.2166, 3.2201, 3.2210 at r = 0.04, 0.02, 0.01, which approaches it."
+     },
+     {
+      "claim": "Verdict L13: 'The record's 0.22 and 0.42 are its 8-angle estimator in bfcheck_A.log; at t = 0.4 a finer angular integral is about 0.48' (48-angle: 0.221 at t=0.2, 0.475 at t=0.4)",
+      "verdict": "PARTLY",
+      "evidence": "bfcheck.py: angs = [π(j+0.5)/8 for j in range(8)] and Lam = 2π·acc/8, an 8-angle midpoint rule. bfcheck_A.log Lambda: t=0.2 gives 0.2010, 0.2153, 0.2199; t=0.4 gives 0.4088, 0.4141, 0.4153. The record's 0.22/0.42 (result.md L70) are a faithful report of that estimator. The verdict's 48-angle values 0.221 and 0.475 were not recomputed here, so that part is unverifiable in this text check. 0.221 agrees with the 8-angle 0.2199."
+     },
+     {
+      "claim": "Verdict L13: sing_check pointwise p t^6 = 0.244 at π/2 and 0.494 at π/4, t = 0.4; ratio to r^4 t^-6 grows by about 16 when r halves",
+      "verdict": "ACCURATE",
+      "evidence": "sing_check.log dens*t^6 at t=0.4: θ=1.571 gives 0.2443 (all r); θ=0.785 gives 0.4979, 0.4946, 0.4938. bfcheck_A.log Lambda/(r^4 t^-6) at t=0.4: 654.11 → 10601 → 170110 (factors 16.2 and 16.05). At t=0.2: 5.03 → 86.1 → 1407."
+     },
+     {
+      "claim": "Verdict L17/L19: the record labels the t ≲ r^(2/3) and r^2 t^4 lines a model power count and does not locate a typed failure between r^(2/3) and r^(1/2)",
+      "verdict": "ACCURATE",
+      "evidence": "result.md L72: 'an order-of-magnitude power count, from a model quartic layer and physical-coordinate checks, not a proof'. L73 gives the untyped bounds as holding for t ≲ r^(2/3), and (27), (28), (8.2) as failing only at fixed t and for t ≫ r^(1/2). L75: 'I did not locate where between r^(2/3) and r^(1/2) the typed envelope first fails.'"
+     },
+     {
+      "claim": "Record result.md L67: 'Uniformly on [(√15/2)r, δ], both state that the triple product is ≤ C r^6 and the angular intensity is ≤ C r^4 t^-6.'",
+      "verdict": "ACCURATE",
+      "evidence": "024 (24) L336 says 'uniformly in lambda, alpha, eta, and sufficiently small r'. (29) L367 integrates from (√15/2)r to δ. 033 (7.3) L245 says 'sufficiently small r and t', and (8.3) L274 integrates to δ. In 024, 'triple product ≤ C r^6' is (26) with (27), up to the jet factor. In 033 it is (8.1) 'C r^6 P(J)'. The paraphrase leaves out the polynomial jet factor, which is acceptable shorthand."
+     }
+    ],
+    "record_corrections_needed": [],
+    "notes": "CHECK text: no public correction to the record's §2(b) is needed. Scientific effect NONE.\n\nAll hashes and the P2 blob id match. Against the carrier texts, every quote and equation attribution in the verdict is right. 024 (4) is the typed intensity (024.txt L160-168). (27) bounds the typed numerator of (4) by C_det r^6 (L351-355). (28) and 033 (8.2) bound the angular integral by C r^4 t^-6 (024 L357-361; 033 L265-270). 033 writes H = tD^2P + O(t^2) (L251) and then (8.1) ≤ C t^6 η^6 P(J) = C r^6 P(J) (L255-257). 024 §6 states the r→0 extension only for dist ≥ δ, with δ an arbitrary fixed small number (L267-273). The §13 bullet reads 'the triple determinant product lacks the eta^6 factor;' (L482). In P2: (P3) has the target e=(b,0,0,0,-12k,0), 'independent of r', and contact limit E_0 (L67-81). (P13) is at L239-241. (P14) is the lower bound Z_r ≥ c_Z r^2 (L249).\n\nOn (26): as printed it is the identity t^6κ^6η^6 = κ^6r^6 (L348-349). The sentence 'Physical Hessians contribute t^2 per determinant. Hence' (L346) introduces it, and (27) follows in the same sentence. So in context it is the transfer's output: an untyped physical r^6 scale. It is not a printed inequality. The verdict's opening '(27)–(28)' therefore narrows the record's '(26)–(28)' to the printed inequalities; the two do not disagree. Both name (26)'s 't^2 per determinant' as the failing step. The record's phrase '(26)'s r^6 on which (27) rests' is accurate.\n\nMinor imprecisions in the verdict, none affecting the record:\n- (a) 'any such t lies in [(√15/2)r, δ]' needs t ≤ δ.\n- (b) The upper bound Z = O(r^2) is not stated in P2. It follows from (P13) plus bounded moments by Cauchy–Schwarz.\n- (c) 'which is (26)' is shorthand for the sentence that introduces (26).\n\nOptional precision for the record, not required:\n- (i) 0.22/0.42 (result.md L70) are 8-angle midpoint estimates (bfcheck.py angs/Lam lines; log at r=0.01: 0.2199, 0.4153). The verdict reports about 0.475 at t=0.4 from a 48-angle rule, which this check did not recompute. Positivity, stability in r and the r^-4 ratio growth are unaffected.\n- (ii) The heading's '(26)–(28) envelopes' could say that (26) is the transfer identity rather than an inequality.\n- (iii) (P14) could be cited for the lower half of Z ≍ r^2.\n\nIndependently confirmed: S_0 ~ N(-6/5, 2) under the planar BF limit law, and E[S_0^2;S_0<0] = 3.2309785. Log values: Z/r^2 3.2166 → 3.2210; sing_check p·t^6 0.2443 (π/2) and 0.4938-0.4979 (π/4) at t=0.4; ratio growth factor about 16 per halving of r.\n\nNothing was written to the scratch directory beyond creating <SCRATCH>/s12/cursor/text/. Read-only; no GitHub actions."
+   }
+  },
+  {
+   "agent": "a259f9bff58ca2965",
+   "label": "check:adv",
+   "result": {
+    "claims": [
+     {
+      "claim": "Fixed-t paragraph: 024 (4) is the typed intensity; (27) bounds its numerator by C r^6; (28) and 033 (8.2) bound the angular integral by C r^4 t^-6; 033 (8.1) writes H = tD^2P + O(t^2) and then uses t^6 eta^6 = r^6; 024 §7.2 'Physical Hessians contribute t^2 per determinant' is (26).",
+      "verdict": "ACCURATE",
+      "evidence": "src/LS-DER-024.txt:160-168 ((4) keeps W with both type indicators), :346-361 (the transfer sentence, (26), (27) C_det r^6, (28) C_sing r^4 t^-6); src/LS-DER-033.txt:249-257 (H=tD^2P+O(t^2), then C t^6 eta^6 P(J) = C r^6 P(J)), :267-270 ((8.2))."
+     },
+     {
+      "claim": "At fixed t>0 the six-pin frame extends to r=0. 024 §6 states this for distance >= delta, and P2 (P3) has an r-independent target and limit jet E_0. Any fixed t lies in [(sqrt15/2)r, delta] for small r.",
+      "verdict": "ACCURATE",
+      "evidence": "LS-DER-024.txt:267-273 (extends continuously to r=0; the endpoint numerator 'has the same r^2 degeneracy as Z'); P2.md:72-78 (target e=(b,0,0,0,-12k,0) 'independent of r', contact limit E_0). Trivial caveat: 'every fixed t>0' needs t <= delta to lie in the range."
+     },
+     {
+      "claim": "P2 (P13): det H_M/r = -6kS0+O(r) and det H_S/r = 6kS0+O(r). With kappa=6k the endpoint weight is order r^2 on {S0<0}. (P14) gives Z >= c r^2, the upper order comes from (P13), so Z is of order r^2.",
+      "verdict": "ACCURATE",
+      "evidence": "P2.md:236-249 ((P13) with O_{L^s}(r), (P14)). kappa=6k: P2 (P1) has f(S)=b-kr^3 and 024.txt:86 has b-kappa r^3/6. P2 states only the lower bound; the upper bound is the inference from (P13) with bounded moments that the verdict's wording describes, and P2 does not state it outright. Typing reduces to S0<0 because f_xx(M) is about -kappa r < 0."
+     },
+     {
+      "claim": "The jet limit has S0 ~ N(-6/5, 2) and E[S0^2; S0<0] = 3.230979, so Z/r^2 tends to that value.",
+      "verdict": "ACCURATE",
+      "evidence": "My independent limit (covariances by symbolic kernel differentiation): mean -1.2, var 2.0, Z/r^2 limit 3.230978535 (cursor/adv/int_t04.log:1). Finite-r Monte Carlo Z/r^2: 3.2166/3.2201/3.2210 (bfcheck_A.log) and 3.228-3.232 (cursor/adv/fr_*.log). Agrees with result.md:31."
+     },
+     {
+      "claim": "A 48-angle integral of the limiting typed intensity is 0.221 at t=0.2 and 0.475 at t=0.4; at t=0.4 a finer angular integral is about 0.48.",
+      "verdict": "ACCURATE",
+      "evidence": "No integral log exists in cursor/num (only profile_t04.log), so the 0.221 and 0.475 are unlogged. My recomputation, midpoints on (0,pi): t=0.2 gives 0.2215 (24), 0.2204 (48), 0.2205 (96). t=0.4 gives 0.4731 (24), 0.4794 (48), 0.4794 (96), with SE <= 0.0004 (cursor/adv/int_t02.log, int_t04.log). Finite r with 48 angles: 0.4787 (r=0.01) and 0.4791 (r=0.02) (fr_t04_*.log). '0.475' is about 1% under the converged 0.479, and '48-angle' is ambiguous (half circle or full circle). 'About 0.48' is right."
+     },
+     {
+      "claim": "The pointwise densities match the unit's sing_check log: p t^6 = 0.244 at pi/2 and 0.494 at pi/4, t=0.4.",
+      "verdict": "ACCURATE",
+      "evidence": "sing_check.log:3,6,9 give dens*t^6 = 0.2443. Lines 12,15,18 give 0.4979, 0.4946 and 0.4938 at r=0.04, 0.02, 0.01. profile_t04.log:12,15 gives 0.4935 and 0.2443 in the limit."
+     },
+     {
+      "claim": "The record's 0.22 and 0.42 are its 8-angle estimator in bfcheck_A.log.",
+      "verdict": "ACCURATE",
+      "evidence": "bfcheck.py:70 uses 8 midpoints on (0,pi). bfcheck_A.log:14-15 at r=0.01 gives 0.21989 and 0.41530. My 8-angle limit reproduces this: 0.4179 at t=0.4 and 0.2221 at t=0.2."
+     },
+     {
+      "claim": "The ratio of the stable angular integral to r^4 t^-6 grows as r^-4 (a factor of about 16 when r is halved).",
+      "verdict": "ACCURATE",
+      "evidence": "bfcheck_A.log:5,10,15 give 654.1, then 10601, then 170110 (x16.2, x16.0). My 48-angle finite-r run gives 1.2265e4 (r=0.02) and 1.9607e5 (r=0.01), x16.0."
+     },
+     {
+      "claim": "Bullet 1, describing the record: the record assigns the first threshold r^(2/3) to the untyped product and claims no located typed failure between r^(2/3) and r^(1/2). It labels the threshold a model power count.",
+      "verdict": "ACCURATE",
+      "evidence": "result.md:72 ('order-of-magnitude power count, from a model quartic layer ... not a proof'), :73 (untyped bounds hold for t <~ r^(2/3); typed (27),(28),(8.2) fail only at fixed t and, by power count, for t >> r^(1/2)), :75 ('I did not locate where between r^(2/3) and r^(1/2)'), :155."
+     },
+     {
+      "claim": "Bullet 1 model counts: third determinant = t^3 term + r^2 term, so the untyped product exceeds order r^6 past r^(2/3). Each endpoint determinant = r t^2 term + r^2 term, which exceeds r^2 only past r^(1/2).",
+      "verdict": "ACCURATE",
+      "evidence": "Rerun of the record's v5_euler (cursor/adv/v5_copy.log): det_y at t=0, eta=0 is 0 and d(det_y)/dt = (2c^2 kappa - s^2 w)P4h/(c s^2) != 0. So chart det_y ~ eta^2 B + t(...) and the physical t^2*chart is r^2 + t^3. The eta^1 coefficient of d(det_M)/dt is -2kappa P4h/s^2, giving physical r^2 + r t^2. Rerun of v2_physical (v2_copy.log) for |prod|/r^6 at t=r^beta: bounded at beta=2/3 (1.77e-4) and 3/4; growing at 3/5 (6.5e-5 to 0.025) and at 1/2 (0.004 to 20.45, like r^-1/2). This agrees with v3_counts' envelope r^-2 eta^2(eta+t)^2(eta^2+t)."
+     },
+     {
+      "claim": "Bullet 2: dQ/dt = 2P_4h/s^2 at the cubic face, so the forced transverse curvature is 2t^2 P_4h/s^2 and the endpoint weight is order r^2 t^4. That exceeds the cubic budget r^4 for t >> r^(1/2), and the typed sign is the sign of that curvature.",
+      "verdict": "ACCURATE",
+      "evidence": "v5_copy.log:1 prints True; the identity is at t=0 and eta=0, and the verdict leaves out eta=0. v2_copy.log at t=0.1, r=1e-8: S0 = f_yy(M) = 0.0010147902 against 2t^2P4h/s^2 = 0.0010147917; detM/r tends to -0.001015, which is -kappa S0. Typed iff S0<0 (P13). Agrees with result.md:74."
+     },
+     {
+      "claim": "Bullet 3: the §13 falsifier fires on a literal reading. (25) carries eta^6, the lowest eta power at a generic jet is 6, and R is finite and nonzero at eta=0. The failing step is (26) and the dropped O(t^2) in 033 (8.1), and the record says so.",
+      "verdict": "ACCURATE",
+      "evidence": "LS-DER-024.txt:482, :338-349. LS-DER-033.txt:122-132: at eta=0, B_M=-K^2, B_S=-K^2, B_X=K^2 with K=2Ws^2-4c^2, which is nonzero for generic W and c*s != 0. result.md:68, :76."
+     },
+     {
+      "claim": "At fixed t the physical product is order r^2 t^7, which is order eta^2.",
+      "verdict": "PARTLY",
+      "evidence": "The power of r is right. Order r^2 (proportional to eta^2 at fixed t) follows from (P13) with a nondegenerate third Hessian, and sing_check.log:3,6,9 shows typed num/r^2 = 2.76e-4, 3.07e-4, 3.10e-4 at t=0.4. The t^7 is only the small-t scaling of the quartic model: v3_counts gives t^6*eta^2*t^3 = eta^2 t^9 = r^2 t^7, and in v2 at t=0.1, |prod| = 4.29e-4*r^2 t^7. It is not a fixed-t result, and the bullet states it without the 'model' label that bullets 1-2 carry. The record (result.md:76) only says the product 'lacks' eta^6, so the two agree."
+     },
+     {
+      "claim": "Headline: the envelopes 024 (27)-(28) and 033 (8.1)-(8.2) fail as bounds uniform on [(sqrt15/2)r, delta]; the fixed-t argument holds.",
+      "verdict": "ACCURATE",
+      "evidence": "In substance this is confirmed: the angle-integrated typed intensity is about 0.479 at t=0.4, stable in r, against r^4 t^-6 tending to 0 (my runs above). However, the headline narrows the pickup's and record's '(26)-(28)' (pickup.md:9, result.md:66) to (27)-(28) without saying so. Elsewhere it treats (26) as the failing transfer (verdict.md:9, :21), which matches result.md:68, :73."
+     },
+     {
+      "claim": "Limits: §2(b) only, with no review of §2(a), §2(c), the final-power verdict, P2 as a proof, or D5; nothing here is a status change.",
+      "verdict": "ACCURATE",
+      "evidence": "pickup.md:11 (Exclusions) and board rule (no status change); verdict.md:23."
+     },
+     {
+      "claim": "Limits: 'the side-24 periodization is the carriers' local model and is not a torus-quantifier proof'.",
+      "verdict": "PARTLY",
+      "evidence": "The wording is wrong: the side-24 periodized Bargmann-Fock field is the carriers' declared exact object (LS-DER-024.txt:74), not their local model. The planar kernel is the local approximation used by both numerical checks (bfcheck.py:1, 'side-24 periodization corrections ~e^-288 ignored'; cursor/num/lim.py). The intended limit, that a planar-kernel check is not a torus proof, is correct."
+     },
+     {
+      "claim": "Performer/independence: xAI Grok via Cursor on the shared principal; organizational-independence credit 0; scientific effect NONE; provider-distinct from the Anthropic author; the shared account earns no independence credit; no source, branch, Ready or merge action.",
+      "verdict": "ACCURATE",
+      "evidence": "Identical to pickup.md:3 and consistent with the board rules (provider-distinct; shared account 0 credit). The exclusion list leaves out 'integration', which pickup.md:11 includes (trivial)."
+     },
+     {
+      "claim": "No prior exposure to D5, P2, these carriers, or this record.",
+      "verdict": "ACCURATE",
+      "evidence": "Matches pickup.md:5. This is an agent-level statement. At provider level, xAI wrote the Math- PR 141 continuum verdict on P2 that the record cites (result.md:148), and the verdict does not mention it. That is not a rule breach, since the rule requires distinctness from the Anthropic author's provider."
+     },
+     {
+      "claim": "Sources: docx SHA-256 ce1eafee... and e373caf4...; P2 blob d8acf0bc with SHA-256 f972e50b...; text layer is </w:p> -> newline, other tags removed, no unescape. The record is retained at recovery/session_01Cz.../s12_d5_ledger_comparison/result.md at head 3fd5dd2e.",
+      "verdict": "ACCURATE",
+      "evidence": "sha256sum of src/*.docx and P2.md matches in full, and git hash-object P2.md gives d8acf0bcb902...; the rebuilt text layer equals src/*.txt exactly (read with newline=''); git show 3fd5dd2e:<path> is byte-identical to the local result.md (sha256 cffe845d...). The rebuild provenance (hardening a01c72f1, rebuild.py) was not re-run; it matches the record's stated provenance."
+     }
+    ],
+    "record_corrections_needed": [
+     "result.md:70 (§2(b), under 'The rigorous basis is the fixed-t limit'): '0.42 at t = 0.4' is an 8-angle midpoint estimate (bfcheck.py:70). It undersamples the angular peak of the typed intensity near 20-35 and 145-160 degrees. The converged angle-integrated typed intensity at t=0.4 is about 0.48: 0.4794 in the r->0 limit at both 48 and 96 midpoints on (0,pi), and 0.4787 at r=0.01 and 0.4791 at r=0.02 with 48 midpoints. Suggested short correction: 'about 0.22 at t = 0.2 and 0.48 at t = 0.4 (an 8-angle quadrature gave 0.42), stable in r'. The 0.22 stands (converged 0.2205). Scientific effect NONE: the value is still positive, stable in r and comparable to t (about 1.07t, 1.10t and 1.20t at t = 0.1, 0.2, 0.4)."
+    ],
+    "notes": "The verdict is accurate on the substance. Every model power count it states agrees with the record and with reruns of the record's v2_physical.py and v5_euler.py: third determinant t^3 + r^2, endpoint determinant r t^2 + r^2, dQ/dt = 2P4h/s^2 giving an endpoint weight of order r^2 t^4, and r^2 t^7 at fixed t. Its three descriptions of what the record says (the r^(2/3) threshold, the r^2 t^4 count, the eta^6 falsifier) match result.md:72-76 and :155.\n\nPoints the summoner may want to flag publicly about the verdict (all minor):\n(i) The Limits sentence calls the side-24 periodization 'the carriers' local model'. It is the carriers' exact object (024 l.74); the planar kernel is the local approximation.\n(ii) 'At fixed t the physical product is order r^2 t^7' states a quartic-model exponent without the model label. Only order r^2 (proportional to eta^2) is established at fixed t.\n(iii) The 0.221/0.475 integrals have no log in cursor/num, and '48-angle' is ambiguous. They reproduce to within about 1% (my 0.4731 with 24 and 0.4794 with 48 midpoints on (0,pi)).\n(iv) The headline cites (27)-(28) where the pickup and record cite (26)-(28), and does not say why.\n(v) The verdict notes that the finer integral is about 0.48 but does not say the record's '0.42' needs correcting. Under strict reading it does; that is the one record correction listed.\n\nExtra check beyond the verdict: result.md:75 ('At t = r^(2/3) the typed Monte Carlo ratio is small and falls with r') rests on sing_check at only two angles, pi/2 and pi/4. Those values sit 30-400x below the angular peak near 150 degrees. My 48-angle finite-r integral of the typed ratio Lambda/(r^4 t^-6) at t = r^(2/3) is 0.0999, 0.0538 and 0.0272 at r = 0.04, 0.02 and 0.01. That is still small and falling roughly like r, so the statement holds and needs no correction. Saying 'pointwise at two angles' would be more precise.\n\nBoard rules are satisfied: provider-distinct (xAI against the Anthropic author), shared account with 0 independence credit, no status change. The performer and exposure lines match the pickup word for word.\n\nNo Drive identifiers are reproduced here, and nothing was posted or pushed.\n\nScratch scripts and logs:\n<SCRATCH>/s12/cursor/adv/limit_int.py\n<SCRATCH>/s12/cursor/adv/finite_r.py\n<SCRATCH>/s12/cursor/adv/int_t01.log\n<SCRATCH>/s12/cursor/adv/int_t02.log\n<SCRATCH>/s12/cursor/adv/int_t04.log\n<SCRATCH>/s12/cursor/adv/fr_r23_0.04.log\n<SCRATCH>/s12/cursor/adv/fr_r23_0.02.log\n<SCRATCH>/s12/cursor/adv/fr_r23_0.01.log\n<SCRATCH>/s12/cursor/adv/fr_t04_0.01.log\n<SCRATCH>/s12/cursor/adv/fr_t04_0.02.log\n<SCRATCH>/s12/cursor/adv/v2_copy.log\n<SCRATCH>/s12/cursor/adv/v5_copy.log\nnumpy was installed under <SCRATCH>/s12/cursor/adv/pylib."
+   }
+  },
+  {
+   "agent": "acf73c2db956a54ee",
+   "label": "check:num",
+   "result": {
+    "claims": [
+     {
+      "claim": "Verdict l.13: in the jet limit S0 ~ N(-6/5, 2) and E[S0^2; S0<0] = 3.230979, so Z/r^2 tends to that value (b = 6/5, kappa = 1, planar BF kernel).",
+      "verdict": "ACCURATE",
+      "evidence": "Closed form (mu^2+sigma^2)Phi(-mu/sigma) - mu*sigma*phi(-mu/sigma) with mu=-6/5 and VARIANCE 2 (sigma=sqrt2) gives 3.23097853529, and quadrature agrees (num/p1_moment.log). With SD 2 (variance 4) it would be 4.74780208638, which does not match. Variance 2 is the right parametrization. On the BF kernel, conditioning f_yy(0) on f(0)=b and f_xx(0)=0 gives mean -1.2 and variance 2.0 (f_xy and odd derivatives are uncorrelated with f_yy). The six pins in bfcheck.py l.53-57 (targets b, b - kappa r^3/6, zero gradients) reduce by Hermite divided differences to the jet f=b, grad f=0, f_xx=0, f_xy=0, f_xxx=2*kappa. That gives det H_M = -kappa r S0 + O(r^2) and det H_S = +kappa r S0 + O(r^2), so W/r^2 -> kappa^2 S0^2 1{S0<0}. The record's own logs approach this value: bfcheck_A.log Z/r^2 = 3.2166, 3.2201, 3.2210 at r = 0.04, 0.02, 0.01, and my finite-r rerun gives 3.2253 +- 0.0035 at r = 0.005. The record (result.md l.31) also writes N(-b, 2) and 3.2310."
+     },
+     {
+      "claim": "Verdict l.13: the record's 0.22 and 0.42 are its 8-angle estimator in bfcheck_A.log.",
+      "verdict": "ACCURATE",
+      "evidence": "bfcheck_A.log l.14 has r=0.010, t=0.2, Lambda=2.1989e-01; l.15 has r=0.010, t=0.4, Lambda=4.1530e-01. The estimator is bfcheck.py l.70-80: angs = pi(j+0.5)/8 for j=0..7, which is 8 midpoint nodes on (0,pi), and Lam = 2*pi*acc/8. The 'law symmetric under z->-z' doubling is valid because the pins lie on the x-axis. So it is an 8-node rule on the half circle, equal to 16 nodes on the full circle. My rerun of the same estimator with numpy MC and 4e5 samples per angle (num/finite_r.log) gives 0.2211 +- 0.0005 and 0.4187 +- 0.0010 at r = 0.01, matching the record's values within about 1%."
+     },
+     {
+      "claim": "Verdict l.13: the pointwise densities match sing_check.log, with p t^6 = 0.244 at angle pi/2 and 0.494 at pi/4 for t = 0.4.",
+      "verdict": "ACCURATE",
+      "evidence": "sing_check.log l.3/6/9 (th=1.571, t=0.4) give dens*t^6 = 2.443e-01 at every r. l.12/15/18 (th=0.785, t=0.4) give 4.979e-01, 4.946e-01 and 4.938e-01; the r=0.01 value is 0.494. My exact r->0 limit code gives p t^6 = 0.2443 at 90 deg and 0.4935 at 45 deg (num/profile_t04.log). The pointwise lambda also agrees: limit 5.835e-3 at 90 deg against 5.847e-3 in the log (r=0.01)."
+     },
+     {
+      "claim": "Verdict l.13: a 48-angle integral of the limiting typed intensity is 0.221 at t = 0.2.",
+      "verdict": "ACCURATE",
+      "evidence": "In my r->0 limit code, which reuses bfcheck.py's cov/condlaw/gdens on the jet frame with Rao-Blackwellized MC and 2e5 samples per angle, 24 nodes on (0,pi) (48 on the full circle) give 0.22097 +- 0.00044. 48 nodes on (0,pi) give 0.22048 +- 0.00030, 96 give 0.22005 +- 0.00021 and 192 give 0.22025 +- 0.00015 (num/int_t02.log, num/int_t02_192.log). Finite r with 192 nodes on (0,pi) and 4e5 samples gives 0.2176, 0.2185, 0.2199 and 0.2205 (each +- 0.0001 angle MC, +- 0.0002 from Z) at r = 0.04, 0.02, 0.01, 0.005. Converged value: 0.220 +- 0.001."
+     },
+     {
+      "claim": "Verdict l.13: a 48-angle integral is 0.475 at t = 0.4, and a finer angular integral is about 0.48.",
+      "verdict": "PARTLY",
+      "evidence": "In the limit code, 24 nodes on (0,pi) (48 full-circle) give 0.47222 +- 0.00090. 48 nodes on (0,pi) give 0.47962 +- 0.00063, 96 give 0.47841 +- 0.00044 and 192 give 0.47905 +- 0.00031 (num/int_t04.log, num/int_t04_192.log). Finite r with 192 nodes on (0,pi) gives 0.4825, 0.4805, 0.4802 and 0.4801 (+- 0.0002 angle MC, +- 0.0005 from MC Z) at r = 0.04, 0.02, 0.01, 0.005. Converged value: 0.479 +- 0.001. 'About 0.48' is accurate. The 48-angle figure 0.475 lies between my two possible readings of '48-angle' (0.472 and 0.480). It is within the quadrature error of a 48-node rule but is not the converged value."
+     },
+     {
+      "claim": "Verdict l.13: at t = 0.4 the record's 8-angle 0.42 underestimates the finer integral.",
+      "verdict": "ACCURATE",
+      "evidence": "The limiting integrand is exponentially small within about 15-18 deg of the pair axis on both sides (lambda = 3e-10 at 11.25 deg and 1.5e-4 at 165 deg for t=0.4). It peaks sharply near 25-35 deg and 145-155 deg (lambda = 0.334 at 22.5, 0.366 at 30, 0.050 at 45, 0.0058 at 90, 0.367 at 150, 0.257 at 157.5; num/profile_t04.log), and t=0.2 has the same shape. The 8 midpoint nodes (11.25, 33.75, ..., 146.25, 168.75 deg) put one node on each peak. The 8-node limit value is 0.4181 +- 0.0013, against a converged 0.479. At t=0.2 the 8-node rule agrees with the converged value only by chance of node placement: 8 nodes give 0.2019 at r=0.04 against a converged 0.2176, and 0.2211 at r=0.01 against 0.2199."
+     },
+     {
+      "claim": "Verdict l.13: both values are positive and of size comparable to t; 'roughly t' describes that size and is not a proved coefficient.",
+      "verdict": "ACCURATE",
+      "evidence": "The converged values are Lambda(0.2) = 0.220 = 1.10 t and Lambda(0.4) = 0.479 = 1.20 t. Both are positive and within about 20% of t. Only two t values were computed and nothing proves a coefficient."
+     },
+     {
+      "claim": "Verdict l.13: the ratio of the stable angular integral to r^4 t^-6 grows as r^-4, a factor of about 16 when r is halved (t = 0.4).",
+      "verdict": "ACCURATE",
+      "evidence": "bfcheck_A.log l.5/10/15 give Lambda/(r^4 t^-6) = 654.11, 10601 and 170110, ratios 16.21 and 16.05. My fine-grid finite-r values (num/finite_r.log, 192 nodes) give 772.0, 12302, 196670 and 3146200, ratios 15.94, 15.99 and 16.00. sing_check.log pointwise at t=0.4 gives ratios 17.8 and 16.2 at pi/2 and 16.4 and 16.1 at pi/4. This follows from Lambda being stable in r."
+     },
+     {
+      "claim": "Record result.md l.70: 'In Monte Carlo it is 0.22 at t = 0.2 and 0.42 at t = 0.4, stable in r.'",
+      "verdict": "PARTLY",
+      "evidence": "0.22 is right: converged 0.220 +- 0.001. 0.42 is an artifact of the 8-node angular quadrature: converged 0.479 +- 0.001, about 13% higher. 'Stable in r' holds for the converged values: t=0.4 gives 0.4825, 0.4805, 0.4802, 0.4801 and t=0.2 gives 0.2176, 0.2185, 0.2199, 0.2205 for r = 0.04 down to 0.005. The record's own 8-node t=0.2 values drift (0.201, 0.215, 0.220), and part of that drift is the quadrature artifact."
+     },
+     {
+      "claim": "Record result.md l.69: the fixed-t angle-integrated typed intensity tends to 'a positive limit, roughly t'.",
+      "verdict": "ACCURATE",
+      "evidence": "The limit is positive and finite (0.220 at t=0.2, 0.479 at t=0.4; about 1.1t to 1.2t). 'Roughly t' is a fair numerical description. A note that it is numerical, not a proved coefficient, would sharpen it, but nothing in it is false."
+     },
+     {
+      "claim": "Record result.md l.71: 'At t = 0.4 its ratio to r^4 t^-6 grows like r^-4.'",
+      "verdict": "ACCURATE",
+      "evidence": "See the factor-of-16 evidence above (bfcheck_A.log l.5/10/15; num/finite_r.log)."
+     },
+     {
+      "claim": "Record result.md l.31: Z/r^2 tends to E[S0^2; S0<0] with S0 ~ N(-b, 2), equal to 3.2310 at b = 6/5, matching the archived 3.230979.",
+      "verdict": "ACCURATE",
+      "evidence": "Closed form 3.23097853529 with variance 2 (num/p1_moment.log). Exact limit Zlim/r^2 = 3.230978535 from the jet conditioning in num/lim.py. It scales as kappa^2 because W/r^2 -> kappa^2 S0^2 1{S0<0}."
+     }
+    ],
+    "record_corrections_needed": [
+     "§2(b), result.md l.70: replace 'In Monte Carlo it is 0.22 at t = 0.2 and 0.42 at t = 0.4, stable in r' with: 'In Monte Carlo (planar BF kernel, b = 6/5, kappa = 1) it is 0.220 +- 0.001 at t = 0.2 and 0.479 +- 0.001 at t = 0.4, stable in r (r = 0.04 to 0.005).' Suggested note: the earlier 0.42 came from an 8-node angular quadrature (bfcheck.py l.70). The integrand vanishes near the pair axis and peaks sharply about 25-35 deg and 145-155 deg from it, so 8 nodes undersample it. With 96-192 nodes on (0,pi) the value is 0.479. No conclusion changes; scientific effect NONE.",
+     "Optional, same place, l.69: qualify 'roughly t' as a numerical size (about 1.1t at t = 0.2 and 1.2t at t = 0.4), not a proved coefficient. This only sharpens the wording; the current text is not false."
+    ],
+    "notes": "The record's statement '0.42 at t = 0.4' is wrong and needs a short correction. The right value is 0.479 +- 0.001, so 'about 0.48', as the verdict says. The 0.22 at t = 0.2, 'stable in r', the r^-4 growth and 3.2310 all hold. 'Roughly t' needs at most a note that it is numerical.\n\nThe qualitative §2(b) conclusion is unaffected: the fixed-t limit is positive while r^4 t^-6 -> 0. Scientific effect NONE.\n\nThe verdict's numerical statements are accurate with one small caveat. Its '48-angle 0.475' at t = 0.4 is within quadrature error of a 48-node rule but slightly below the converged 0.479, and the verdict itself says a finer integral is about 0.48. Its variance-2 reading of N(-6/5, 2) is the right one: standard deviation 2 would give 4.7478, which matches nothing, and the scripts' Z/r^2 converges to 3.231.\n\nHow I checked: the r->0 limit was done exactly, not by extrapolation. The six pins reduce by Hermite divided differences to the jet f=b, grad f=0, f_xx=f_xy=0, f_xxx=2*kappa. I reused bfcheck.py's cov/condlaw/gdens verbatim and used Rao-Blackwellized MC over H_y. I cross-checked against a finite-r copy of bfcheck.py mode A with n nodes, numpy MC and independent seeds per angle, at r = 0.04, 0.02, 0.01 and 0.005. The two approaches agree to about 0.001. Monte Carlo standard errors are 0.0002-0.0005 for the angular sum and about 0.0005 more in the finite-r runs from the Monte Carlo estimate of Z, all well below 0.01.\n\nThe sandbox's default python3 had neither numpy nor mpmath. I ran python3.13, which has numpy, with mpmath 1.4.1 installed only into the scratch folder num/pylib.\n\nEverything was read-only: nothing was posted or pushed, and no Drive identifiers are reproduced. All scratch is in <SCRATCH>/s12/cursor/num/:\n- scripts: lim.py, bf_fine.py, bfcheck_copy.py, p1_moment.py\n- logs: p1_moment.log, profile_t02.log, profile_t04.log, int_t02.log, int_t02_192.log, int_t04.log, int_t04_192.log, finite_r.log"
+   }
+  }
+ ]
+}

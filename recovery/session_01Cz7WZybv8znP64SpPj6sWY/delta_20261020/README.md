@@ -1,4 +1,4 @@
-# Recovery delta, 18–20 October 2026: session 01Cz, recovery rows §12 and §5
+# Recovery delta, 18–20 October 2026: session 01Cz, recovery rows §12, §5 and §18
 
 Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`. This is a retention copy for the owner's recovery request, [main#307 / 6136156988](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6136156988).
 - It continues the 17–18 October delta, `recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/` (branch `claude/recovery-01cz-delta-20261018`, draft main#444), and does not repeat it.
@@ -21,7 +21,9 @@ Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`. This is a retentio
 |---|---|---|---|
 | `s12_d5_ledger_comparison/` | `S12B-D5-LEDGER-COMPARISON-01CZ-20261019`, after the late-released `S12-D5-LEDGER-COMPARISON-01CZ-20261018`: ledger comparison of the July D5 historical carriers (C100, LS-DER-024, LS-DER-033, FlatSaddle) with the P2 punctured-pin proof (recovery row §12) | main#419: pickup 6251517975, late release 6279524549, fresh pickup 6279655509, result and release 6280394188; main#275 pointers 6251521112, 6279528124, 6279660527, 6280395619 | CONSISTENT AT THE FINAL POWERS, with intermediate-ledger defects recorded; posted and released |
 | `s5_side24_v33_v34_binding/` | `S5-SIDE24-V33-V34-BINDING-01CZ-20261020`: custody binding record for the SIDE24 V3.3 checkpoint and V3.4 replay archives (recovery row §5) | main#419: pickup 6280913839, checkpoint 6281760247, result and release 6281985456; main#275 pointers 6280916731, 6281988200 | both archives bound byte-exact; no standalone V3.3-layer eigenfloor table; posted and released |
-| `workflows/` | the scripts of the §12 comparison run, the four-lens check of that result post and its re-check, and the §5 lens run | — | method record |
+| `s12_d5_ledger_comparison/cursor_check/` | the summoner's check of the xAI Cursor agent's PASS_SCOPED on §2(b) of the §12 record, with one numeric correction to that record | main#454: request 6282011803, verdict 6282139686 (xAI), pointer 6282637458; main#419: check and correction 6282634857; main#275 pointer 6282637162 | verdict confirmed on substance; "0.42 at t = 0.4" corrected to 0.479 ± 0.001 |
+| `s18_side24_custody_xlink/` | `S18-SIDE24-CUSTODY-XLINK-01CZ-20261020`: custody cross-link record for the SIDE24 custody items behind gap rows G142–G147 (recovery row §18) | main#419: pickup 6282065819, checkpoint 6282579128, result and release 6283335403; main#275 pointers 6282068463, 6283336911 | all objects byte-exact on the hardening branch; receipt replays from both identities; four of five status texts outdated or wrong as worded; posted and released |
+| `workflows/` | the scripts of the §12 comparison run, the four-lens check of that result post and its re-check, the §5 lens run, the §2(b) summoner check and its pre-post check, and the §18 lens run and its two pre-post checks | — | method record |
 
 ## Reproducing
 
@@ -47,8 +49,18 @@ Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`. This is a retentio
   - `lens_results.json` holds the run's four lens reports and their adversarial verifications. One product label in it is redacted; it is marked `hand_edited` with `sha256_before_hand_edit`.
   - The agents' scratch is not included: some of it holds copies of other lanes' files and unredacted Drive-id tokens. `SOURCES.json` lists each scratch directory by file count, bytes and a listing hash.
 
+- **s12 `cursor_check/`.**
+  - `check_results.json` holds the text, numeric and adversarial checks of the xAI verdict; `prepost_results.json` holds the pre-post check of `check_corr.md`.
+  - `work/num/` and `work/adv/` are those checkers' scripts and logs. Some take the record's `bfcheck.py` (the unit's `work/lsder024/bfcheck.py`) as a command-line argument and reuse its definitions. They need numpy, which the agents installed locally and which is not included.
+  - The verdict and pickup texts are another lane's comments and are not copied; read them by comment id.
+- **s18.**
+  - `own/replay_<blob>_out.txt` and `_err.txt` are the outputs of running each arithmetic_ledgers.py identity (hardening blobs `68da0f8c`, `cf1434d6`) in isolation, with Python 3.11.17, SymPy 1.14.0 and mpmath 1.3.0. Each `out.txt` equals the receipt `d72a3f9d` byte for byte. The scripts themselves are repository blobs and are not copied.
+  - `own/rechecks.txt` records the summoner's own re-checks: `main`'s tree, the 23 September merge and revert, the Math- branch and PR heads, the G146 commits, the two body hashes, and the run-log and V2-manifest lines.
+  - `lens_results.json` holds the five lens reports and their adversarial verifications, including the re-runs after a container restart. `prepost_results.json` holds the two pre-post checks of the result. Model and product labels in them are redacted and marked `hand_edited`.
+  - The agents' scratch is not included; `SOURCES.json` lists each scratch directory by file count, bytes and a listing hash.
+
 ## Caveats
 
 - Drafts are kept as written. Only the bodies posted on GitHub are authoritative; read them back by comment id.
 - The output logs record runs in this container and nothing more: they are not project or CI runs.
-- Remaining obligations: none held by this session for row §12. The result notes that a non-Anthropic check of the comparison would add provider diversity, and the D5 `PROOF_INDEX` cross-links stay with the owner route.
+- Remaining obligations: none held by this session for rows §12, §5 or §18. For §12, an xAI check of §2(b) is now on record (PASS_SCOPED, with one correction), and the D5 `PROOF_INDEX` cross-links stay with the owner route. For §18, the Math- bindings, the G143 binding or restatement, a Git landing of the G147 T6 certificate, and the hardening README and register corrections are owner-routed.
