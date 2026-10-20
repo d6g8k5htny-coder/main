@@ -461,7 +461,7 @@ class TestRiemannZeta:
         assert FIRST_ZEROS[-1] < result["final_bracket"] < 103.7255
         assert result["complete_and_ordered"] is True
         assert result["independent_comparison"].startswith("not run here")
-        assert "full-precision published-table comparison is open" in result["independent_comparison"]
+        assert "Odlyzko's zeros6 table" in result["independent_comparison"]
 
     def test_verify_rh_local_rejects_wrong_zero(self):
         perturbed = list(FIRST_ZEROS)
@@ -581,6 +581,24 @@ class TestZeroCrossCheckOeis:
         checks = record["integer_checks"]
         assert checks["A013629"]["published_first_n"] == [int(v.to_integral_value(rounding=ROUND_FLOOR)) for v in values]
         assert checks["A002410"]["published_first_n"] == [int(v.to_integral_value(rounding=ROUND_HALF_UP)) for v in values]
+
+    def test_odlyzko_table_record_matches_data_file(self, zeros_100):
+        from decimal import Decimal, ROUND_HALF_EVEN
+        with open(os.path.join(ROOT, "results", "zero_cross_check_odlyzko.json")) as fh:
+            record = json.load(fh)
+        with open(os.path.join(ROOT, "data", "riemann_zeros", "first_100_zeros.json"), "rb") as fh:
+            assert record["data_sha256"] == hashlib.sha256(fh.read()).hexdigest()
+        assert record["source"]["tarball_sha256"] == (
+            "8919f01992718b9bf5c0602dbf16dd9d6f58b141b25f67f5cfd59f6cd0f9a0d4")
+        rows = record["zeros"]
+        assert [float(r["stored"]) for r in rows] == zeros_100
+        for r in rows:
+            rounded = Decimal(r["stored"]).quantize(Decimal("1e-9"), rounding=ROUND_HALF_EVEN)
+            assert rounded == Decimal(r["published"]), r["n"]
+        summary = record["summary"]
+        assert summary["all_within_tolerance"] is True
+        assert summary["published_strictly_increasing"] is True
+        assert summary["zero_after_last_above_final_bracket"] is True
 
     def test_published_digits_agree_to_20_significant_digits(self):
         from decimal import Decimal

@@ -33,9 +33,9 @@ claimed value was either built into the model or is too loose for current data t
 Environment: Python 3.11.17, numpy 2.4.6, scipy 1.17.1, mpmath 1.4.1, pytest 9.1.1.
 
 - `pytest tests/test_all.py`: **94 passed**, also with `-W error::RuntimeWarning`.
-  Rerun on 2026-10-20 after the FLINT, PARI and OEIS cross-checks were added: **101
-  passed**, with python-flint 0.9.0 (FLINT 3.6.0), cypari2 2.2.0 (PARI 2.15.4), mpmath 1.3.0
-  and sympy 1.14.0. Without those two packages, their two rerun tests are skipped.
+  Rerun on 2026-10-20 after the FLINT, PARI, OEIS and Odlyzko-table checks were added:
+  **102 passed**, with python-flint 0.9.0 (FLINT 3.6.0), cypari2 2.2.0 (PARI 2.15.4), mpmath
+  1.3.0 and sympy 1.14.0. Without those two packages, their two rerun tests are skipped.
 - Original suite at `468da8d`, run for the first time on 2026-10-19: **4 failed, 62 passed**.
   The 2025-12-16 commit had been pushed without running it.
 - Each module's `python -m src.<module>` demo runs to completion.
@@ -88,6 +88,19 @@ Environment: Python 3.11.17, numpy 2.4.6, scipy 1.17.1, mpmath 1.4.1, pytest 9.1
 
     The output is `results/zero_cross_check_oeis.json`. Its tests need no network. Data:
     OEIS Foundation Inc., <https://oeis.org> (CC BY-SA 4.0).
+  - **Odlyzko's table (2026-10-20):** `scripts/cross_check_zeros_odlyzko.py` reads Odlyzko's
+    `zeros6`, the first 2,001,052 zeros to 9 decimals, stated accurate to within 4×10⁻⁹.
+    - The copy comes from the Sage project's package
+      `database_odlyzko_zeta-20061209.tar.bz2`, fetched from the MIT Sage mirror. Its
+      SHA-256 `8919f019…a0d4` matches the value in Sage's
+      `build/pkgs/database_odlyzko_zeta/checksums.ini`.
+    - Every one of the 100 table entries equals the stored value rounded to 9 decimals.
+      The largest difference is 4.99×10⁻¹⁰, which is the table's own rounding.
+    - Entry 101, 237.769820481, lies above the final bracket, so the table has no other
+      zero among the first 100.
+
+    The output is `results/zero_cross_check_odlyzko.json`, and a test checks it against
+    the data file.
 
   Together these show, within the limits below, that the list is exactly the first 100
   zeros, in order, to 20 significant digits. The checks differ in kind:
@@ -105,8 +118,13 @@ Environment: Python 3.11.17, numpy 2.4.6, scipy 1.17.1, mpmath 1.4.1, pytest 9.1
     - The completeness of the count rests on FLINT's `zeta_nzeros` and mpmath's
       `nzeros`, not on PARI.
 
-  - The OEIS comparison is published data. Beyond zero 10 it reaches integer resolution
-    only, so for zeros 11–100 it catches gross errors only (see "Not checked").
+  - The OEIS and Odlyzko comparisons are published data.
+    - The OEIS gives 20 digits for zeros 1–10. How those OEIS entries were computed was
+      not traced here.
+    - Odlyzko's table is his own independent computation. It gives 9 decimals, about 11
+      significant digits, for all 100 zeros.
+    - Its copy is verified against Sage's recorded checksum, not against Odlyzko's own
+      host (see "Not checked").
 
   `verify_rh_local` and its tests repeat the mpmath checks, and reject a duplicated,
   swapped, missing or perturbed entry.
@@ -177,13 +195,14 @@ reviewed, and they are not a scientific adjudication of the manuscript. Line num
 - Whether the cited heliophysics papers state the β_c and σ_c thresholds.
 - Manuscript chapters with no code here, such as the Born-rule and cosmology chapters.
 - Any review by a non-Claude or human reviewer.
-- A full-precision comparison of zeros 11–100 with a published table. The OEIS check above
-  covers them at integer resolution only. Attempts to reach a full-precision table failed,
-  so this stays open:
-  - Odlyzko's `zeros1`: on 2026-10-19 there was no HTTP response. On 2026-10-20 TLS
-    verification failed through this session's proxy, at both of its hosts.
-  - The LMFDB's zeros, from Platt's computation: on 2026-10-20 the site answered scripted
-    requests with a reCAPTCHA challenge, which this session does not try to get around.
+- Odlyzko's table as served by his own host. The copy used above is Sage's
+  redistribution, verified by Sage's recorded checksum.
+  - Both of Odlyzko's hosts failed TLS verification through this session's proxy on
+    2026-10-20, and an Internet Archive capture could not be reached.
+  - The LMFDB's zeros, from Platt's computation, answered scripted requests with a
+    reCAPTCHA challenge, which this session does not try to get around.
+- Published comparison of zeros 11–100 beyond the table's 9 decimals. Their 20-digit
+  values rest on mpmath, FLINT and PARI.
 
 ## Provenance and exposure
 
