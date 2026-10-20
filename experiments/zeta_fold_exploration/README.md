@@ -1242,12 +1242,17 @@ A nonauthor read from a non-Anthropic provider was requested, in four slices:
   [xAI Grok 4.7 run](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6302968686)
   (Cursor agent `bc-8084f8ef`, neither Anthropic nor OpenAI, not R2a's executor;
   source-exposed, organizational-independence credit 0) re-executed R2a's described method
-  in the pinned environment (Python 3.13.16 / numpy 2.5.3 / mpmath 1.4.1). Its 192-point
-  error table reproduces R2a's printed figures within an absolute 1.25e-15, every max |Z|
-  matches, and all eight zero counts match exactly. The fit-node residual scalars agree in
-  size but not in printed digits (relative gaps of 1–6%, at the 1e-15 to 1e-17 level). The
-  same draws through `stats/rs_zeta.py` (blob `8b97a1f6`) agree with the separate sum within
-  1e-15. Its result JSON (SHA-256 `36d21857…f1816a4`) is posted in that comment. R2a's own
+  in the pinned environment (Python 3.13.16 / numpy 2.5.3 / mpmath 1.4.1). At R2a's printed
+  precision (`%.6e`), five of the nine maximum errors match. The other four — the three-term
+  entry in each of the three windows and the two-term entry at 900,000–980,000 — are lower by
+  7, 6, 1 and 1 units in the last printed digit. Against R2a's printed floats those four
+  differ by 6.66e-16, 6.31e-16, 6.29e-16 and 1.24e-15. The largest absolute gap among all nine
+  is 4.85e-12, on the one-term entry at 150,000–240,000, which still prints the same digits.
+  Every max |Z| matches R2a's three decimals, and all eight zero counts match exactly. The
+  fit-node residual scalars agree in size but not in printed digits (relative gaps 2.3%, 6.2%
+  and 1.2%, at the 1e-15 to 1e-17 level). On the same draws, `stats/rs_zeta.py` (blob
+  `8b97a1f6`) gives per-window maximum errors within 1.78e-15 of the separate sum's. Its
+  result JSON (SHA-256 `36d21857…f1816a4`) is posted in that comment. R2a's own
   raw JSON remains unpublished and unverified. These are observed differences, not error
   certificates, and the re-execution makes no scientific acceptance.
 
