@@ -1,6 +1,6 @@
-import {currentSnapshot,element,anchor} from './current.mjs?site-release=221190dfe9a7e6a13a5becc8078185060ea4edb58f041a1ddf27ae7dcb88b456';
-import {hasNode,readState,neighborhood,searchGraph,downstreamReach,requiredDependencyPaths,REQUIRED_ROUTE_SEMANTICS,evidenceAxes,sourceURL,sourceForNode,nodePage} from './current-model.mjs?site-release=221190dfe9a7e6a13a5becc8078185060ea4edb58f041a1ddf27ae7dcb88b456';
-import {createAtlasShell,viewForViewport} from './atlas-shell.mjs?site-release=221190dfe9a7e6a13a5becc8078185060ea4edb58f041a1ddf27ae7dcb88b456';
+import {currentSnapshot,element,anchor} from './current.mjs?site-release=d908ca5439b56b72d699ae03d619e4b432c77c662ef0a4acff52f320f053c49b';
+import {hasNode,readState,neighborhood,searchGraph,downstreamReach,requiredDependencyPaths,REQUIRED_ROUTE_SEMANTICS,evidenceAxes,sourceURL,sourceForNode,nodePage} from './current-model.mjs?site-release=d908ca5439b56b72d699ae03d619e4b432c77c662ef0a4acff52f320f053c49b';
+import {createAtlasShell,viewForViewport} from './atlas-shell.mjs?site-release=d908ca5439b56b72d699ae03d619e4b432c77c662ef0a4acff52f320f053c49b';
 const byId=id=>document.getElementById(id);
 const svgElement=(tag,attrs)=>{const n=document.createElementNS('http://www.w3.org/2000/svg',tag);for(const [k,v]of Object.entries(attrs))n.setAttribute(k,String(v));return n;};
 function linkRecord(label,value){const p=element('p');if(typeof value==='string'){try{const u=new URL(value);if(u.protocol==='https:'&&u.hostname==='github.com'&&!u.username&&!u.password&&!u.port){p.append(anchor(label,value));return p;}}catch{}}p.textContent=`${label}: ${value||'not recorded'}`;return p;}
