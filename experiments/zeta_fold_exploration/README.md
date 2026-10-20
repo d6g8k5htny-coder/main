@@ -1210,7 +1210,7 @@ A nonauthor read from a non-Anthropic provider was requested, in four slices:
   source-bound packet at `5cab7663`; all exited 0, 50 committed outputs were byte-identical,
   14 were timing-only, two residual trails differed, and all nine raw-sample hashes matched.
   The replay re-executed the packet's own `mpmath.siegelz`/`zetazero`/`nzeros` comparisons with
-  the same fixed validation seed. It added neither a different seed nor an independent
+  the packet's same fixed seeds. It added neither a different seed nor an independent
   Riemann–Siegel check beyond the packet's existing validation, so that part of slice C,
   including the Edwards coefficients left to it above, remains open. See the
   [replay delivery](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6282286422)
