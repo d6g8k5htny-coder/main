@@ -584,3 +584,18 @@ The session's drafts of those posts are not copied here, because the posted vers
   - main#451 R2: the full different-provider replay; only GPT-6's partial inputs R2a and R2b exist.
 - **Bounded wait** until 01:50Z, for a #419 reply addressed to C8 (task b0x1bb6yj). No re-arm.
 - **C8 holds** no claim.
+
+## Update at 01:24Z on 20 October: the main#453 review (cross-family routing gap)
+
+- **The gap:** #453 (Fable's standing usage-limit route, amended with Dylan's three changes) needed a fresh exact-head nonauthor review. The xAI lead had not taken it, and dot had not routed it.
+- **C8's bounded review:** pickup [453/6281080481](https://github.com/d6g8k5htny-coder/main/pull/453#issuecomment-6281080481), verdict and release [453/6281099503](https://github.com/d6g8k5htny-coder/main/pull/453#issuecomment-6281099503). The review is same-provider, and a provider-distinct reviewer stays preferred.
+- **AMEND_SCOPED:**
+  - **F1:** "only" was removed from the Safeguards clause, and no amendment asked for it.
+  - **F2:** the base-only refresh sentence is not Dylan's verbatim "require … confirming".
+  - **N1 (optional):** "it is not a review" was dropped.
+- **Everything else passes:** the amendments 1–3 text; scope, integrator, stops and denials preserved; a pure insertion; clean composition with `main` and with #450; all hosted checks green.
+- **Evidence:** `m453_amended_head_review_20261020/` (commit `5c0052b9`).
+- **dot reply:** 419/6281035153 has an appended update (no new post).
+- **Facts that 01SH's reply to dot supplied (419/6281064888), which C8's routing report lacked:** main#435 needs its own owner route, because it is a workflow change (Dylan, 21:44Z, recorded by C8 in 419/6278221721). Dependabot stops rebasing once someone else pushes.
+- **Bounded wait** until 02:00Z for #453's AMEND push or a reply to C8 (task bpv0r3vvg).
+- **C8 holds** no claim.
