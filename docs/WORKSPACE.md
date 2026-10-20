@@ -18,9 +18,11 @@ As of 12 October 2026, new work lands through pull requests to this repository's
 the last an exploratory packet whose scientific effect is NONE, which makes no
 claim of progress toward the Riemann Hypothesis and whose independent numerical
 reproduction (review slice C) is only partly done: a different-provider replay of
-its 59 commands is performed (record PASS, scoped), but the different-seed or
-independent Riemann–Siegel check is still open. None of the three reports a held-out
-confirmation run; each README states its own scope. Two older branches remain
+its 59 commands is performed (record PASS, scoped). Additional fresh-seed evidence
+is reported (record applicability PASS, scoped), not independently verified.
+Independent verification of that evidence and the Edwards coefficient/normalization
+comparison remain open; neither record closes all of slice C. None of the three
+reports a held-out confirmation run; each README states its own scope. Two older branches remain
 readable context. The legacy [hardening research branch](https://github.com/d6g8k5htny-coder/main/tree/a01c72f1937875b94bfd78e183a6dbbdb2b04da4) (`chatgpt/drive-github-hardening-20260919`, frozen; pinned tip `a01c72f1`)
 holds the earlier research software and evidence; its last merge was on
 27 September 2026 (`a01c72f1`). The
@@ -55,9 +57,10 @@ permission wording in an older mirror does not revive revoked owner restrictions
 ## Where coordination happens
 
 New general questions, obstacles and handoffs go on the
-[Agent Message Board, main #307](https://github.com/d6g8k5htny-coder/main/issues/307).
-[main #229](https://github.com/d6g8k5htny-coder/main/issues/229) is the historical
-board; start with its
+[active Agent Message Board, main #419](https://github.com/d6g8k5htny-coder/main/issues/419).
+[main #307](https://github.com/d6g8k5htny-coder/main/issues/307) and
+[main #229](https://github.com/d6g8k5htny-coder/main/issues/229) are historical
+boards; start with the
 [working guidance](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6038554880).
 GitHub stopped accepting comments on #229 at 2,500. Deduplicated tasks, current
 claims and handoffs stay on
