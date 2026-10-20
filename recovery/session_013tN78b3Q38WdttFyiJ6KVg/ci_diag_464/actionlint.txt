@@ -1,0 +1,9 @@
+# actionlint 1.7.7 (actionlint-py==1.7.7.23), flags: -shellcheck= -pyflakes=, cwd = git archive of main 8a672c2a
+## original file (sha256 3d059f4bf1c1c30a45d63cfef2c72a6b43b368352bf4cf2e9c0b4e9b4ff78bcd)
+.github/workflows/formal-regression-controls.yml:20:33: context "runner" is not allowed here. available contexts are "github", "inputs", "matrix", "needs", "secrets", "strategy", "vars". see https://docs.github.com/en/actions/learn-github-actions/contexts#context-availability for more details [expression]
+   |
+20 |       FORMAL_EVIDENCE_TEMP: ${{ runner.temp }}/formal-retained-volume-${{ github.run_id }}-${{ github.run_attempt }}/mount
+   |                                 ^~~~~~~~~~~
+rc=1
+## make_fix_a.py output (sha256 35ff0d7bfaefa1457083525921d86d63c0e199186ddbe890862b50f5259ffb5a)
+rc=0

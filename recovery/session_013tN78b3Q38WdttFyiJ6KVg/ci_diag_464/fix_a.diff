@@ -1,0 +1,119 @@
+diff --git a/.github/workflows/formal-regression-controls.yml b/.github/workflows/formal-regression-controls.yml
+index f8dc6ea..7702fea 100644
+--- a/.github/workflows/formal-regression-controls.yml
++++ b/.github/workflows/formal-regression-controls.yml
+@@ -16,8 +16,6 @@ jobs:
+     name: formal-regression-controls
+     runs-on: ubuntu-24.04
+     timeout-minutes: 49
+-    env:
+-      FORMAL_EVIDENCE_TEMP: ${{ runner.temp }}/formal-retained-volume-${{ github.run_id }}-${{ github.run_attempt }}/mount
+     defaults:
+       run:
+         shell: bash
+@@ -91,6 +89,8 @@ jobs:
+           with (mount/'storage-capacity.json').open('xb') as stream:stream.write((json.dumps({'schema_version':1,'native_context':native,'physical_capacity_bytes':total,'device_limit_bytes':63*2**20,'outside_bootstrap_fallback_limit_bytes':2**20,'combined_owned_transient_storage_limit_bytes':64*2**20,'emergency_reserved_bytes':7*2**20,'worker_output_device_separate':True,'actual_fit':'UNKNOWN'},sort_keys=True)+'\n').encode())
+           PY
+       - name: Reserve the single bounded retained-evidence budget before preparation
++        env:
++          FORMAL_EVIDENCE_TEMP: ${{ runner.temp }}/formal-retained-volume-${{ github.run_id }}-${{ github.run_attempt }}/mount
+         timeout-minutes: 1
+         run: |
+           set -euo pipefail
+@@ -113,6 +113,8 @@ jobs:
+           with os.fdopen(fd,'wb') as stream:stream.write(raw);stream.flush();os.fsync(stream.fileno())
+           PY
+       - name: Extract whole-pinned qualified preparation sources
++        env:
++          FORMAL_EVIDENCE_TEMP: ${{ runner.temp }}/formal-retained-volume-${{ github.run_id }}-${{ github.run_attempt }}/mount
+         timeout-minutes: 1
+         run: |
+           set -euo pipefail
+@@ -186,12 +188,16 @@ jobs:
+           PY
+           RUNNER_TEMP="$FORMAL_EVIDENCE_TEMP" bash "$FORMAL_EVIDENCE_TEMP/formal-regression-preparation-source-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/write-sources.sh"
+       - name: Qualify canonical acquisition and restore daemon before tests
++        env:
++          FORMAL_EVIDENCE_TEMP: ${{ runner.temp }}/formal-retained-volume-${{ github.run_id }}-${{ github.run_attempt }}/mount
+         id: preparation
+         timeout-minutes: 19
+         run: |
+           set -euo pipefail
+           RUNNER_TEMP="$FORMAL_EVIDENCE_TEMP" bash "$FORMAL_EVIDENCE_TEMP/formal-regression-preparation-source-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/run-preparation.sh"
+       - name: Seal separate preparation originals on every conclusion
++        env:
++          FORMAL_EVIDENCE_TEMP: ${{ runner.temp }}/formal-retained-volume-${{ github.run_id }}-${{ github.run_attempt }}/mount
+         id: preparation_seal
+         if: always()
+         timeout-minutes: 1
+@@ -199,6 +205,8 @@ jobs:
+           set -euo pipefail
+           RUNNER_TEMP="$FORMAL_EVIDENCE_TEMP" bash "$FORMAL_EVIDENCE_TEMP/formal-regression-preparation-source-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/seal.sh"
+       - name: Account every preparation member before its native upload
++        env:
++          FORMAL_EVIDENCE_TEMP: ${{ runner.temp }}/formal-retained-volume-${{ github.run_id }}-${{ github.run_attempt }}/mount
+         id: preparation_budget
+         if: always()
+         timeout-minutes: 1
+@@ -268,6 +276,8 @@ jobs:
+           retention-days: 90
+           compression-level: 6
+       - name: Remove only owned preparation and extraction files
++        env:
++          FORMAL_EVIDENCE_TEMP: ${{ runner.temp }}/formal-retained-volume-${{ github.run_id }}-${{ github.run_attempt }}/mount
+         id: preparation_cleanup
+         if: always()
+         timeout-minutes: 1
+@@ -295,6 +305,7 @@ jobs:
+       - name: Require complete current-run preparation before formal controls
+         timeout-minutes: 1
+         env:
++          FORMAL_EVIDENCE_TEMP: ${{ runner.temp }}/formal-retained-volume-${{ github.run_id }}-${{ github.run_attempt }}/mount
+           PREPARATION_ARTIFACT_ID: ${{ steps.preparation_retained.outputs.artifact-id }}
+           PREPARATION_ARTIFACT_DIGEST: ${{ steps.preparation_retained.outputs.artifact-digest }}
+         run: |
+@@ -448,6 +459,8 @@ jobs:
+                             'positive': 'PASS', 'negative_refusals': len(negative_ids)}))
+           PY
+       - name: Write fixed trusted driver and host controller
++        env:
++          FORMAL_EVIDENCE_TEMP: ${{ runner.temp }}/formal-retained-volume-${{ github.run_id }}-${{ github.run_attempt }}/mount
+         timeout-minutes: 1
+         run: |
+           set -euo pipefail
+@@ -1222,6 +1235,8 @@ jobs:
+           PY
+           chmod 0444 "$base/control/driver.py" "$base/control/controller.py"
+       - name: Observe both frozen modes and dispose before bounded collection
++        env:
++          FORMAL_EVIDENCE_TEMP: ${{ runner.temp }}/formal-retained-volume-${{ github.run_id }}-${{ github.run_attempt }}/mount
+         id: controls
+         timeout-minutes: 16
+         run: |
+@@ -1299,6 +1314,8 @@ jobs:
+           raise SystemExit(0 if record['complete'] and not record['process_unreaped'] and record['exit_code']==0 else 1)
+           PY
+       - name: Recover only owned workers and retain bounded partials
++        env:
++          FORMAL_EVIDENCE_TEMP: ${{ runner.temp }}/formal-retained-volume-${{ github.run_id }}-${{ github.run_attempt }}/mount
+         if: always()
+         timeout-minutes: 4
+         run: |
+@@ -1381,6 +1398,8 @@ jobs:
+           raise SystemExit(0 if record['complete'] and not record['process_unreaped'] and record['exit_code']==0 else 1)
+           PY
+       - name: Seal both launcher terminals and every bounded original after owned absence
++        env:
++          FORMAL_EVIDENCE_TEMP: ${{ runner.temp }}/formal-retained-volume-${{ github.run_id }}-${{ github.run_attempt }}/mount
+         id: final_seal
+         if: always()
+         timeout-minutes: 2
+@@ -1635,6 +1654,8 @@ jobs:
+           retention-days: 90
+           compression-level: 6
+       - name: Release only owned evidence storage after upload and terminal proof
++        env:
++          FORMAL_EVIDENCE_TEMP: ${{ runner.temp }}/formal-retained-volume-${{ github.run_id }}-${{ github.run_attempt }}/mount
+         if: always()
+         timeout-minutes: 2
+         run: |
