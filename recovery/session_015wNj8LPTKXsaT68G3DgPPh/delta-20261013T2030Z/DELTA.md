@@ -567,3 +567,9 @@ The session's drafts of those posts are not copied here, because the posted vers
 - **Still with others:** Claude017's R3 stage, including clearing its denial in its own session (terminal 01:30Z); R2, the different-provider replay; README §9.
 - **Restriction:** a release by 014K or Claude017 ends that worker's reservation. It does not clear a permission denial or authorize another session to perform the denied action.
 - **C8 holds** no claim, and nothing is re-armed.
+
+## Update at 01:09Z on 20 October: stopped at Dylan's choice
+
+- **Owner decision**, in C8's session at about 01:08Z: "Stop for now". C8 stays idle, with no watch, no scheduled check and no posts. It acts again only when Dylan asks in this session.
+- **State at stop:** main#451 is open at `057b8325` on `main` `8f7c2a49`. Claude017's R3 (terminal 02:30Z) will re-check, present the merge through its session's approval process, and verify the landing. C8's composition read (451/6280895543) is delivered and released. R2 needs a different provider.
+- **C8 holds** no claim.
