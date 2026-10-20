@@ -1,0 +1,755 @@
+{
+ "note": "Each excluded file is listed by its local path, size and SHA-256; some identical copies are listed under more than one path. Own posts on GitHub (main#419 and main#275): pickup.md = comment 6251517975, late_release.md = comment 6279524549, pickup2.md = comment 6279655509, result.md = comment 6280394188, ptr275.md = comment 6251521112, ptr275_late.md = comment 6279528124, ptr275_b.md = comment 6279660527, ptr275_result.md = comment 6280395619. ptr275.md, ptr275_late.md and ptr275_b.md are the full sent bodies including the attribution footer; the other posted texts omit it.",
+ "references": [
+  {
+   "local_copy": "all_results.json",
+   "bytes": 168499,
+   "sha256": "7b1185f92a09033105fb77bb31863ce167d457206e9961b968e7549532d97df3",
+   "what": "own: the nine comparison/verification results available before the restart; subset of journal_results.json; not included"
+  },
+  {
+   "local_copy": "claudeS_result.md",
+   "bytes": 12783,
+   "sha256": "4ebe225e7c3b335d84a34d6862034a4eaeb7334cecf4fa9d4f50f8bf9644b0cb",
+   "what": "copy of another lane's Math-#193 result comment 6251562000 (API body + LF), kept locally by mistake in this folder; not part of \u00a712; not included"
+  },
+  {
+   "local_copy": "contender_raw.tsv",
+   "bytes": 200728,
+   "sha256": "5148df4c786245a1b0c847d7739d27eff8d93cbe14a5c91a14a7377e2efaaf23",
+   "what": "GitHub API dump of main/Math- issue comments since 2026-10-19T23:31Z (mostly other lanes' texts), used for the contender check; not included"
+  },
+  {
+   "local_copy": "contender_raw2.tsv",
+   "bytes": 205433,
+   "sha256": "fc59e4cf29625540f949a88a75be2fa834fcbcc9506f48787e055bc83097c971",
+   "what": "GitHub API dump of main/Math- issue comments since 2026-10-19T23:31Z (mostly other lanes' texts), used for the contender check at 00:26Z; not included"
+  },
+  {
+   "local_copy": "late_release_full.md",
+   "bytes": 1716,
+   "sha256": "b35001e931d8fd764ac629b50d04b39d39e9aaebfb9d33956003ba5d455fdc2e",
+   "what": "own post body as sent: late_release.md plus the attribution footer; not included"
+  },
+  {
+   "local_copy": "late_release_readback.md",
+   "bytes": 1717,
+   "sha256": "085694422fd9307ec8f4b5cb8aeb8708379f9461b2595753f6e3197e21a34210",
+   "what": "API readback of an own post (body as posted, with the footer); not included"
+  },
+  {
+   "local_copy": "new3.json",
+   "bytes": 44475,
+   "sha256": "83f3f1ba7f008878ebd2a3f5791b34fdbe84348fdd6fb78b6b332075b352222e",
+   "what": "own: the three last verification results; subset of journal_results.json; not included"
+  },
+  {
+   "local_copy": "partial.json",
+   "bytes": 114087,
+   "sha256": "26e6d386bfb732cdf854928ce2fe746d1223b591669c30488732516605f5ec6d",
+   "what": "own: partial results captured before the 18 Oct outage; superseded by journal_results.json; not included"
+  },
+  {
+   "local_copy": "pickup2_full.md",
+   "bytes": 1735,
+   "sha256": "04469f35461651f488624780519c23db3b8a8184dc06e30e81ab91f11c238787",
+   "what": "own post body as sent: pickup2.md plus the attribution footer; not included"
+  },
+  {
+   "local_copy": "pickup2_readback.md",
+   "bytes": 1736,
+   "sha256": "af2f575166d9335a525801c6f07ed44608bde07918b9827f38eef5ee533aeee6",
+   "what": "API readback of an own post (body as posted, with the footer); not included"
+  },
+  {
+   "local_copy": "pickup_full.md",
+   "bytes": 3151,
+   "sha256": "8590556bed3f86dc1dc6a3ba862740442841299645159a581744499754b1bc04",
+   "what": "own post body as sent: pickup.md plus the attribution footer; not included"
+  },
+  {
+   "local_copy": "pickup_readback.md",
+   "bytes": 3152,
+   "sha256": "dc324ea102b9d87eacefc6a6d702246eb8c280c266f6b59b15dda1ad1ea60961",
+   "what": "API readback of an own post (body as posted, with the footer); not included"
+  },
+  {
+   "local_copy": "prepost_rest.txt",
+   "bytes": 29308,
+   "sha256": "c995a3d40fa38d60332a091495dc3895475172ef0b3928b31bb435e14f271593",
+   "what": "own: text dump of two pre-post check results (see prepost_check_results.json); not included"
+  },
+  {
+   "local_copy": "ptr275_b_readback.md",
+   "bytes": 498,
+   "sha256": "ed7d2c114f0f6722731a998159b76d1c3959f779d438183e1084c2aa4d74c810",
+   "what": "API readback of an own post (body as posted, with the footer); not included"
+  },
+  {
+   "local_copy": "ptr275_late_readback.md",
+   "bytes": 591,
+   "sha256": "a670a34f29d7e0f26efe2876d12f92de6346a4150d6c4d554ac29df89252fa30",
+   "what": "API readback of an own post (body as posted, with the footer); not included"
+  },
+  {
+   "local_copy": "ptr275_readback.md",
+   "bytes": 926,
+   "sha256": "ee1739b8af7b234de4e710deb99f4a1f5a8180494c81d6b891a130e2556ff858",
+   "what": "API readback of an own post (body as posted, with the footer); not included"
+  },
+  {
+   "local_copy": "ptr275_result_full.md",
+   "bytes": 1281,
+   "sha256": "2493c0beb8a1a297a5b322b7225584f308a8af10b79a5c02781cdc269544d5c2",
+   "what": "own post body as sent: ptr275_result.md plus the attribution footer; not included"
+  },
+  {
+   "local_copy": "ptr275_result_readback.md",
+   "bytes": 1282,
+   "sha256": "1c968de6e52f5436de4c3ffb140a267c88b20bdf24ace1318e819a52126ac688",
+   "what": "API readback of an own post (body as posted, with the footer); not included"
+  },
+  {
+   "local_copy": "result_full.md",
+   "bytes": 21560,
+   "sha256": "116a89df5ecb841b18ca89977b2e92af945e0973b392ac9c9c95f12ea68accd9",
+   "what": "own post body as sent: result.md plus the attribution footer; not included"
+  },
+  {
+   "local_copy": "result_pre_recheck.md",
+   "bytes": 19275,
+   "sha256": "7aebc5b70fa1e3262aa0f5eac3866b217ff709e4c595f4ea5944b2356f05f0cd",
+   "what": "own: draft of result.md before the focused re-check; superseded by result.md; not included"
+  },
+  {
+   "local_copy": "result_readback.md",
+   "bytes": 21561,
+   "sha256": "6c05494c506b4cdbc1ce0c28497df311c0f036857fae4200aab049508bd74548",
+   "what": "API readback of an own post (body as posted, with the footer); not included"
+  },
+  {
+   "local_copy": "verif_dump.txt",
+   "bytes": 41507,
+   "sha256": "0ea33af19855483348359af89048cd0d7c7c397aa23cdb0f7247074c2eaadcd3",
+   "what": "own: text dump of verification results in journal_results.json; not included"
+  },
+  {
+   "local_copy": "src/C100.bin",
+   "bytes": 5783,
+   "sha256": "24eb9d55bcda133513392478d8aecb593db74b188b3f1c68629240e856241ce6",
+   "what": "C100 Collar Cubic Closure, rebuilt from hardening a01c72f1 drive/deltas/2026-09-19/DG-MIGRATION-20260919/ (also main history blob 04d6e1c5); not included"
+  },
+  {
+   "local_copy": "src/D5_RECONCILIATION.md",
+   "bytes": 12536,
+   "sha256": "14342b7eb0ad47c1c99b06be58fb6c901f5c7c72fc70f73e81de3dde50c23432",
+   "what": "copy of Math- reviews/d5_reconciliation_20260929/RECONCILIATION.md (blob 4062d76b, Math- 79f9a735); not included"
+  },
+  {
+   "local_copy": "src/FlatSaddle.bin",
+   "bytes": 12837,
+   "sha256": "3875016ea8663d0f9117089d2918e456191b28f1fde909c25a149b7df6e4999d",
+   "what": "FlatSaddle Tail Lemma, rebuilt from hardening a01c72f1 DG-MIGRATION-20260919; not included"
+  },
+  {
+   "local_copy": "src/LS-DER-024.docx",
+   "bytes": 19745,
+   "sha256": "ce1eafee53c06bbe518c9bb22d29c3915e5e5ddb1350c969b6b187b90ba9724f",
+   "what": "LS-DER-024 docx, rebuilt from hardening a01c72f1 DG-MIGRATION-20260919 (contains Drive ids); not included"
+  },
+  {
+   "local_copy": "src/LS-DER-024.txt",
+   "bytes": 23012,
+   "sha256": "955f2bef34bbbdf40eb4c063f100c45bd7e06c19e23904766fe0c665e3a34703",
+   "what": "text layer extracted from the LS-DER-024 docx (contains Drive ids); not included"
+  },
+  {
+   "local_copy": "src/LS-DER-033.docx",
+   "bytes": 14369,
+   "sha256": "e373caf4a1f9ca81394770b26bd1219c58f68d444a0b68236f5112fb11d4c789",
+   "what": "LS-DER-033 docx, rebuilt from hardening a01c72f1 DG-MIGRATION-20260919 (contains Drive ids); not included"
+  },
+  {
+   "local_copy": "src/LS-DER-033.txt",
+   "bytes": 12827,
+   "sha256": "e16293e5af6c60c055129180bc356a89efffeccad9562bd2db5bf38766c6ab2c",
+   "what": "text layer extracted from the LS-DER-033 docx (contains Drive ids); not included"
+  },
+  {
+   "local_copy": "src/P2.md",
+   "bytes": 23771,
+   "sha256": "f972e50bc07674ebce9d971d1a1bd4dba2f8036dde37ecb57d8a44a35650f76a",
+   "what": "copy of Math- reviews/d5_local_collar_20260928/PUNCTURED_PIN_PROOF.md (blob d8acf0bc); not included"
+  },
+  {
+   "local_copy": "src/d5_punctured_pin_continuum_claude_20260929.REVIEW.md",
+   "bytes": 10501,
+   "sha256": "124c472cc064ba24021cb4bb8da1002836a4ce26c8df506228f5c20609f6575a",
+   "what": "copy of the committed Anthropic continuum record of P2 (Math- reviews/d5_punctured_pin_continuum_claude_20260929/); not included"
+  },
+  {
+   "local_copy": "src/d5_punctured_pin_nonauthor_20260928.REVIEW.md",
+   "bytes": 5534,
+   "sha256": "668d74825f156c929177bc1a3481cf421de4dd7874e7b25b2aece6c10aa7dc0e",
+   "what": "copy of the committed xAI nonauthor record of P2 (Math- reviews/d5_punctured_pin_nonauthor_20260928/); not included"
+  },
+  {
+   "local_copy": "work/lsder024/docx_extract.txt",
+   "bytes": 22908,
+   "sha256": "c74e77059ddad9fc584fd7b5064489c573bed3245b548235e4e0ba52743fc70f",
+   "what": "verbatim text extract of the LS-DER-024 docx (contains Drive ids); not included; regenerate with work/lsder024/extract.py"
+  },
+  {
+   "local_copy": "work/lsder024_srcfid/det033_copy.py",
+   "bytes": 1122,
+   "sha256": "f2eb5805009bd97a8856a97d5eca081ee5bcccc56b6f663f6bf797f28f09f479",
+   "what": "own file, byte-identical to kept work/lsder024/det033.py; not included"
+  },
+  {
+   "local_copy": "work/prepost_completeness/q0.md",
+   "bytes": 253067,
+   "sha256": "d1fea170ee04c93b075786ed636c3d9088fd80f2c0def51a6a2dbc0812e3e80a",
+   "what": "copy of main incoming/chatgpt-c022-q0-recovery-20260928/context/Q0_LEDGER.md; not included"
+  },
+  {
+   "local_copy": "work/prepost_math/r00.json",
+   "bytes": 22683,
+   "sha256": "067957cc3b07693375d4db4a821d81b4c0395542483fdd1340c6cf5c9c47b614",
+   "what": "copy of the `result` object of one entry of journal_results.json; not included"
+  },
+  {
+   "local_copy": "work/prepost_math/r01.json",
+   "bytes": 22145,
+   "sha256": "91b07ff16945cc5087569ba659d08606845931e30cbc291ad5da6b83168044dd",
+   "what": "copy of the `result` object of one entry of journal_results.json; not included"
+  },
+  {
+   "local_copy": "work/prepost_math/r02.json",
+   "bytes": 24206,
+   "sha256": "1415c740b4b697411bd03fc21d50193fff6a488c9fe8ab1c8b499f5ebaaddad8",
+   "what": "copy of the `result` object of one entry of journal_results.json; not included"
+  },
+  {
+   "local_copy": "work/prepost_math/r03.json",
+   "bytes": 30524,
+   "sha256": "81784e17b0f1b451a7d415150fcbf356e9719caadda858ee9a8bfac3792cef8f",
+   "what": "copy of the `result` object of one entry of journal_results.json; not included"
+  },
+  {
+   "local_copy": "work/prepost_math/r04.json",
+   "bytes": 13789,
+   "sha256": "c4c7f93fdb1171f1ad2170bd21c878cbe27cd85d50e64879b404787bfcf7525b",
+   "what": "copy of the `result` object of one entry of journal_results.json; not included"
+  },
+  {
+   "local_copy": "work/prepost_math/r05.json",
+   "bytes": 11002,
+   "sha256": "4c9bb886b964941f903fe82e5f2811907fd906d6f911e7ac3a3fc84b45b03cb3",
+   "what": "copy of the `result` object of one entry of journal_results.json; not included"
+  },
+  {
+   "local_copy": "work/prepost_math/r06.json",
+   "bytes": 14207,
+   "sha256": "91c1154bf0d267aee49349d904318fd87b97ef7d96d148a3234c183a13a9327f",
+   "what": "copy of the `result` object of one entry of journal_results.json; not included"
+  },
+  {
+   "local_copy": "work/prepost_math/r07.json",
+   "bytes": 15157,
+   "sha256": "8cf85dc8af9fa0d038edb1b60e4b491e7698e8995838efef28eccddd1fde0ee9",
+   "what": "copy of the `result` object of one entry of journal_results.json; not included"
+  },
+  {
+   "local_copy": "work/prepost_math/r0708.txt",
+   "bytes": 28497,
+   "sha256": "a861fa14a196cd71e8e8ce5079a67e45ea39ee08c714d4f72654e8ada2eec5dd",
+   "what": "own: text dump of two entries of journal_results.json; not included"
+  },
+  {
+   "local_copy": "work/prepost_math/r08.json",
+   "bytes": 13825,
+   "sha256": "3d417a460632fca1ea3e8d6c54eb8723b5e1492781cfa242b839aa95343ee079",
+   "what": "copy of the `result` object of one entry of journal_results.json; not included"
+  },
+  {
+   "local_copy": "work/prepost_math/r09.json",
+   "bytes": 14895,
+   "sha256": "0c3c6dcc33545add6afc3bf2b0fe939ee90b173081721d44937c54edb2b6685c",
+   "what": "copy of the `result` object of one entry of journal_results.json; not included"
+  },
+  {
+   "local_copy": "work/prepost_math/r091011.txt",
+   "bytes": 42183,
+   "sha256": "5e820ff3196fc02cc1c661f7ded996cdfb3c6e6efe7ac2749b8160ce81d5ba23",
+   "what": "own: text dump of three entries of journal_results.json; not included"
+  },
+  {
+   "local_copy": "work/prepost_math/r10.json",
+   "bytes": 14177,
+   "sha256": "e8bcce499e6345e40654b77afcd2f83dcb43ac473b552153d6c9650203c531d9",
+   "what": "copy of the `result` object of one entry of journal_results.json; not included"
+  },
+  {
+   "local_copy": "work/prepost_math/r11.json",
+   "bytes": 15748,
+   "sha256": "3fb45c00d82b68cab911f307e0a4e105f8d4a334aef59e8c263e21e1ce06a633",
+   "what": "copy of the `result` object of one entry of journal_results.json; not included"
+  },
+  {
+   "local_copy": "work/prepost_protocol/q0.md",
+   "bytes": 253067,
+   "sha256": "d1fea170ee04c93b075786ed636c3d9088fd80f2c0def51a6a2dbc0812e3e80a",
+   "what": "copy of main incoming/chatgpt-c022-q0-recovery-20260928/context/Q0_LEDGER.md; not included"
+  },
+  {
+   "local_copy": "work/prepost_protocol/r00.json",
+   "bytes": 22822,
+   "sha256": "e69507a47d5967fecdaaa2af5d258911a93974ceaa74921bdb6ba86eac5e50bf",
+   "what": "copy of one entry of journal_results.json; not included"
+  },
+  {
+   "local_copy": "work/prepost_protocol/r01.json",
+   "bytes": 22225,
+   "sha256": "0dcc014a93cd27115c625b492cb9e037c50df5952fc6f96ad14326c8ebb7993b",
+   "what": "copy of one entry of journal_results.json; not included"
+  },
+  {
+   "local_copy": "work/prepost_protocol/r02.json",
+   "bytes": 23476,
+   "sha256": "55b9b442819f75d4abf262d76e1d6889219dd5fb1fd9fa0ce34e49798b12e15a",
+   "what": "copy of one entry of journal_results.json; not included"
+  },
+  {
+   "local_copy": "work/prepost_protocol/r03.json",
+   "bytes": 28084,
+   "sha256": "a358bf79862ec2d667c39224e6a2b02b82d4b95f47132863b6b8e444c57dc24a",
+   "what": "copy of one entry of journal_results.json; not included"
+  },
+  {
+   "local_copy": "work/prepost_protocol/r04.json",
+   "bytes": 13849,
+   "sha256": "e2ba072fe9135007d9a2551e6fd24a1b7d8f307f95fe4a487527d15cf10716be",
+   "what": "copy of one entry of journal_results.json; not included"
+  },
+  {
+   "local_copy": "work/prepost_protocol/r05.json",
+   "bytes": 11148,
+   "sha256": "33e06a678ba6a0eed693528792a0098574141550e136e79e3f7f80a2eaf147bc",
+   "what": "copy of one entry of journal_results.json; not included"
+  },
+  {
+   "local_copy": "work/prepost_protocol/r06.json",
+   "bytes": 14248,
+   "sha256": "9a574f3bf2d8e588d06b8d7f6861a80d0c2bffbb3a707e346ed925d7351f178a",
+   "what": "copy of one entry of journal_results.json; not included"
+  },
+  {
+   "local_copy": "work/prepost_protocol/r07.json",
+   "bytes": 15286,
+   "sha256": "fc346a8b0a3f80c53dfcea6204904afec96282054d22031b1efcd1ae0e8eb472",
+   "what": "copy of one entry of journal_results.json; not included"
+  },
+  {
+   "local_copy": "work/prepost_protocol/r08.json",
+   "bytes": 13547,
+   "sha256": "30f3811c628c447edfaf53231265bb32003f5431c65512d48b1a52111de9f363",
+   "what": "copy of one entry of journal_results.json; not included"
+  },
+  {
+   "local_copy": "work/prepost_protocol/r09.json",
+   "bytes": 13911,
+   "sha256": "80f9dd98e6e5700bc8b557ca09bba442d8485f81861c4d59e871e2a540503b68",
+   "what": "copy of one entry of journal_results.json; not included"
+  },
+  {
+   "local_copy": "work/prepost_protocol/r10.json",
+   "bytes": 13851,
+   "sha256": "b160e10ff05b6ccd2dc0cd7d2fb25774bae50ee77c8ab2a97960a533e9605f69",
+   "what": "copy of one entry of journal_results.json; not included"
+  },
+  {
+   "local_copy": "work/prepost_protocol/r11.json",
+   "bytes": 14431,
+   "sha256": "9c0f56ee46b541c3991aae6fab2c77937446985a52c8533a31bec8ef5c81b250",
+   "what": "copy of one entry of journal_results.json; not included"
+  },
+  {
+   "local_copy": "work/prepost_protocol/v8_11.txt",
+   "bytes": 54600,
+   "sha256": "0e575a0a1cabed22e52600daf54edcfe6a343e34da4c35ffaec2fa114c791f97",
+   "what": "own: text dump of four entries of journal_results.json; not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/c5894512272.body",
+   "bytes": 1635,
+   "sha256": "fdd9ce6ecafc6e705ed21e0b7c540be608400c63c48829dbf9d3a5a2b1f49e24",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/c6251562000.body",
+   "bytes": 12783,
+   "sha256": "4ebe225e7c3b335d84a34d6862034a4eaeb7334cecf4fa9d4f50f8bf9644b0cb",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/cmp_posts.py",
+   "bytes": 1725,
+   "sha256": "45c7e0c4c8c5281aaaa7bd3e486bf89cad05c88dba924562e247c6d8d4b82005",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/driveids.txt",
+   "bytes": 1394,
+   "sha256": "6a582835c7e6f43d576cde3285730f50212f089fdc57a652bc57b02bc3160d22",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/extract_copy.py",
+   "bytes": 677,
+   "sha256": "3d9f56def2868e04bbe241826f27c95c4ed4f022f56b955dc0b80e282b2125a6",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/journal_check.py",
+   "bytes": 1503,
+   "sha256": "e785729a2c0fd410c0bd427ebdef452357524bfb001c1765a134b15f45f37820",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/m193.tsv",
+   "bytes": 4110,
+   "sha256": "b6ace691c78d38f04b64568c2534dc41f7800ae6339f9c378b7c3967ea875682",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/man_check.py",
+   "bytes": 1943,
+   "sha256": "4089057b47534b087ce27296c5d5ff2e01ce5b18096152d9c2d71c3ecc769567",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/new_files.txt",
+   "bytes": 25072,
+   "sha256": "597e4532c68496a4ccc100b85f6c07b8b5fc09d2b28ba801503843f462a10db1",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/old_MANIFEST.json",
+   "bytes": 86034,
+   "sha256": "ac0912ad043afd2b7d91c11b8207869ac9ba5cce193bae67c298de9b8795a400",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/old_README.md",
+   "bytes": 10110,
+   "sha256": "987e803856841fb6868503f2e53cd9b72f13c9a823594c6a0e119f1771b3537d",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/old_SHA256SUMS",
+   "bytes": 52712,
+   "sha256": "fdb43cf1096af84e05dde607b66def25e1df84986bd72036a9a9e40a3bcd5ec2",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/old_files.txt",
+   "bytes": 20595,
+   "sha256": "a396ef6af22b998884d034543049b9512508155eaa1054380a38c5b86f443e94",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/rebuild_copy.py",
+   "bytes": 1187,
+   "sha256": "c8d0d757c3b67de14f1c556165513c154fd1e97514642287680bd31bf3f242cc",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/regen.py",
+   "bytes": 1306,
+   "sha256": "c2226c19fd8576f4f9faa36e3b289cd57aa85a19fe4ff736b1e40c114e03e619",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/src_check.py",
+   "bytes": 1534,
+   "sha256": "b8b51d95d8bdf1e2806f77d06e224b66ba77b8ca2622aeaca28fa5b864590ae9",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/bodies/late_release.json",
+   "bytes": 5608,
+   "sha256": "0ea52c1e0bbca7f8c9a32be08c3d613925f2790218b57239d5e5d5f1317d627f",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/bodies/pickup.json",
+   "bytes": 7063,
+   "sha256": "65d26a4372a08fa3100080c16eec9bd7d13f46cda1494a525527eaf51d16e2e2",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/bodies/pickup2.json",
+   "bytes": 5624,
+   "sha256": "1d1e8d28aa7919292f87d9412df9161d4335e8bceddac85051035d9d9438dc07",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/bodies/ptr275.json",
+   "bytes": 4808,
+   "sha256": "858a80345a22782fdd90bbbd3c775442bf538e4fc4d9034f75fbadb4338e2461",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/bodies/ptr275_b.json",
+   "bytes": 4375,
+   "sha256": "7ca7d6729e31f7a234a90817669bfdb11cb3b7bb97b16a1b248a1d428b2c8267",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/bodies/ptr275_late.json",
+   "bytes": 4468,
+   "sha256": "57444179075192f8e56d79de84e654499bcb498436911b9c5aff2faeeb318ac0",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/bodies/ptr275_result.json",
+   "bytes": 5166,
+   "sha256": "3a72b4b298e7a7d0edea38a3667b575bbfe64bc852b0b81dd62fdd7f7250f6b0",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/bodies/result.json",
+   "bytes": 25651,
+   "sha256": "ff7f96bf7fa675b594f6f80bd919aa138b2a3f764ae70169e598fcaedb52391b",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/dx_LS-DER-024/[Content_Types].xml",
+   "bytes": 1172,
+   "sha256": "70100a2bc0a6ff5fcce135d1b8ab0d9f108c4cdd39ead3ce88eda6ca2b6d7581",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/dx_LS-DER-024/_rels/.rels",
+   "bytes": 298,
+   "sha256": "1cc87395d4a229f21c23af406724de12dd9454071925f983e4b648a7b2be8cc5",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/dx_LS-DER-024/word/document.xml",
+   "bytes": 167795,
+   "sha256": "83aa5c8469e4685cdc6ee87d442a286b8e018c6c19d03067f8f45796cec29a89",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/dx_LS-DER-024/word/fontTable.xml",
+   "bytes": 1719,
+   "sha256": "737a2c4505c65fcb20fe02f634fd01b6f57f2990fafa86fdb4b5d5cb5a87abe5",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/dx_LS-DER-024/word/numbering.xml",
+   "bytes": 1690,
+   "sha256": "d2a3e08465525eee874ea10d780540816951a37b115e90f1cd56aefdd76adc2e",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/dx_LS-DER-024/word/settings.xml",
+   "bytes": 2152,
+   "sha256": "26f2853fde05b88d4b0a9da0bb016d56a896901f60c9272dddf33c3f3fa61e4a",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/dx_LS-DER-024/word/styles.xml",
+   "bytes": 5421,
+   "sha256": "a87a72b0775935f9723642f7678c4e9d51dd74e2ff64f037f3c68911ce68066c",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/dx_LS-DER-024/word/_rels/document.xml.rels",
+   "bytes": 812,
+   "sha256": "2f88ba313d7d77c73d3737c12338686a29f13f029e69a783e026da83a7dd891c",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/dx_LS-DER-024/word/theme/theme1.xml",
+   "bytes": 7643,
+   "sha256": "b2295d3198893d2c03f5e584c749a15751b798aefdcd9bee2889f13903d68cb2",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/dx_LS-DER-033/[Content_Types].xml",
+   "bytes": 1172,
+   "sha256": "70100a2bc0a6ff5fcce135d1b8ab0d9f108c4cdd39ead3ce88eda6ca2b6d7581",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/dx_LS-DER-033/_rels/.rels",
+   "bytes": 298,
+   "sha256": "1cc87395d4a229f21c23af406724de12dd9454071925f983e4b648a7b2be8cc5",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/dx_LS-DER-033/word/document.xml",
+   "bytes": 111818,
+   "sha256": "20082a787b233a84bff179502491a9a1ad387ebebbe18b3895ecfb0563e55f5c",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/dx_LS-DER-033/word/fontTable.xml",
+   "bytes": 1719,
+   "sha256": "737a2c4505c65fcb20fe02f634fd01b6f57f2990fafa86fdb4b5d5cb5a87abe5",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/dx_LS-DER-033/word/numbering.xml",
+   "bytes": 1690,
+   "sha256": "d2a3e08465525eee874ea10d780540816951a37b115e90f1cd56aefdd76adc2e",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/dx_LS-DER-033/word/settings.xml",
+   "bytes": 2152,
+   "sha256": "26f2853fde05b88d4b0a9da0bb016d56a896901f60c9272dddf33c3f3fa61e4a",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/dx_LS-DER-033/word/styles.xml",
+   "bytes": 5421,
+   "sha256": "a87a72b0775935f9723642f7678c4e9d51dd74e2ff64f037f3c68911ce68066c",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/dx_LS-DER-033/word/_rels/document.xml.rels",
+   "bytes": 812,
+   "sha256": "2f88ba313d7d77c73d3737c12338686a29f13f029e69a783e026da83a7dd891c",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/dx_LS-DER-033/word/theme/theme1.xml",
+   "bytes": 7643,
+   "sha256": "b2295d3198893d2c03f5e584c749a15751b798aefdcd9bee2889f13903d68cb2",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/rebuild/C100.bin",
+   "bytes": 5783,
+   "sha256": "24eb9d55bcda133513392478d8aecb593db74b188b3f1c68629240e856241ce6",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/rebuild/FlatSaddle.bin",
+   "bytes": 12837,
+   "sha256": "3875016ea8663d0f9117089d2918e456191b28f1fde909c25a149b7df6e4999d",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/rebuild/LS-DER-024.docx",
+   "bytes": 19745,
+   "sha256": "ce1eafee53c06bbe518c9bb22d29c3915e5e5ddb1350c969b6b187b90ba9724f",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/rebuild/LS-DER-033.docx",
+   "bytes": 14369,
+   "sha256": "e373caf4a1f9ca81394770b26bd1219c58f68d444a0b68236f5112fb11d4c789",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/rebuild/objects.json",
+   "bytes": 1520155,
+   "sha256": "f9f41b2955bfc9ab7a0a11bf199ae5b382ab621605d0f6183d80cd0aeb66fc4b",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_integrity/regen_extract/docx_extract.txt",
+   "bytes": 22908,
+   "sha256": "c74e77059ddad9fc584fd7b5064489c573bed3245b548235e4e0ba52743fc70f",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_privacy/driveish.txt",
+   "bytes": 650,
+   "sha256": "97d7afcb92fac63b905b03adc533d1ed3fbab7e2f21023d7de797312766e769c",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_privacy/journal_pretty.txt",
+   "bytes": 205095,
+   "sha256": "b9acea114e51a7ec00a735a1c607650fda1066d798d476a8dd164f6ae270cfd8",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_privacy/prepost_check_results.json.txt",
+   "bytes": 77987,
+   "sha256": "3c3d8a91d2d428c7e1452450d00c7d0bdd1232ae9a5ead72a63d7e10066f876f",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/prepush_privacy/recheck_results.json.txt",
+   "bytes": 25127,
+   "sha256": "0d60c5630e029a6303a5a62f633df91859804b2b1451f596a570b406d0f1622e",
+   "what": "scratch of the pre-push check of this retention unit (may contain extracted Drive ids); not included"
+  },
+  {
+   "local_copy": "work/reverify_applied/Q0_LEDGER.md",
+   "bytes": 253067,
+   "sha256": "d1fea170ee04c93b075786ed636c3d9088fd80f2c0def51a6a2dbc0812e3e80a",
+   "what": "copy of main incoming/chatgpt-c022-q0-recovery-20260928/context/Q0_LEDGER.md; not included"
+  },
+  {
+   "local_copy": "work/reverify_applied/c5894512272.md",
+   "bytes": 1635,
+   "sha256": "fdd9ce6ecafc6e705ed21e0b7c540be608400c63c48829dbf9d3a5a2b1f49e24",
+   "what": "copy of Math-#141 comment 5894512272 (xAI planar P2 continuum verdict); not included"
+  },
+  {
+   "local_copy": "work/reverify_applied/crosswalk_RESULT.md",
+   "bytes": 5987,
+   "sha256": "3f7e78af61a0f2f8ad8608195013bf13eb70e8d77f696cdc4df9fe2ac6bc0d80",
+   "what": "copy of main incoming/chatgpt-q0-recovery-crosswalk-20260928/RESULT.md; not included"
+  },
+  {
+   "local_copy": "work/reverify_applied/hc024.py",
+   "bytes": 1207,
+   "sha256": "3da7ab6aceb4f554ca664638f13955f864e55c048fc4cc827c888cd2cf8f1f8e",
+   "what": "own file, byte-identical to kept work/lsder024_srcfid/hashcheck.py; not included"
+  },
+  {
+   "local_copy": "work/reverify_applied/hc033.py",
+   "bytes": 1385,
+   "sha256": "56b6d8e8389e2fd5803c24eebfdf580f302e79185cd03d9826d56533efd3eb2b",
+   "what": "own file, byte-identical to kept work/lsder033_srcfid/hash.py; not included"
+  },
+  {
+   "local_copy": "work/reverify_applied/typed_axis.py",
+   "bytes": 2084,
+   "sha256": "2e6b5dbe8e02603a91e0a5a6950173da715b4b6bd567ad36c39c9d4479a7bafa",
+   "what": "own file, byte-identical to kept work/prepost_math/typed_axis.py; not included"
+  },
+  {
+   "local_copy": "work/reverify_protocol/board_bodies.txt",
+   "bytes": 242355,
+   "sha256": "feadc01297b4430f1ccfdebf4d8135a4bc51a7f5491d77dcc0033a9caf0b60a9",
+   "what": "GitHub API dump of board comment bodies (other lanes' texts); not included"
+  },
+  {
+   "local_copy": "work/reverify_protocol/board_since15.tsv",
+   "bytes": 21413,
+   "sha256": "1a7043f582bb14bc5f59d57f9e48c51b56426e41b0509e9a60663c7ddd127013",
+   "what": "GitHub API dump of board comments (other lanes' texts); not included"
+  },
+  {
+   "local_copy": "work/reverify_protocol/c6251517975.json",
+   "bytes": 8814,
+   "sha256": "e4d9949a083ab0184e8e4af2b02d6144fe5c1a21135b9cbb9519c1f9e9406fec",
+   "what": "GitHub API object of own comment 6251517975 (rendered HTML check); not included"
+  },
+  {
+   "local_copy": "work/reverify_protocol/journal_dump.txt",
+   "bytes": 71637,
+   "sha256": "6225ee16bec6871a63cace27978673b4bf87b2dd65b8dbfc64ab3c9377e1ecf9",
+   "what": "text dump of the four-lens journal (see prepost_check_results.json); not included"
+  }
+ ]
+}
