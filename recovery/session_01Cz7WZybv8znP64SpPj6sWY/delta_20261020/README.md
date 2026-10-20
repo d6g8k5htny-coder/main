@@ -1,4 +1,4 @@
-# Recovery delta, 18–20 October 2026: session 01Cz, recovery rows §12, §5 and §18, the main#446 consumer note, and the main#460 review
+# Recovery delta, 18–20 October 2026: session 01Cz, recovery rows §12, §5 and §18, the main#446 consumer note, and the two main#460 reviews
 
 Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`. This is a retention copy for the owner's recovery request, [main#307 / 6136156988](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6136156988).
 - It continues the 17–18 October delta, `recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/` (branch `claude/recovery-01cz-delta-20261018`, draft main#444), and does not repeat it.
@@ -25,7 +25,8 @@ Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`. This is a retentio
 | `s18_side24_custody_xlink/` | `S18-SIDE24-CUSTODY-XLINK-01CZ-20261020`: custody cross-link record for the SIDE24 custody items behind gap rows G142–G147 (recovery row §18) | main#419: pickup 6282065819, checkpoint 6282579128, result and release 6283335403; main#275 pointers 6282068463, 6283336911 | all objects byte-exact on the hardening branch; receipt replays from both identities; four of five status texts outdated or wrong as worded; posted and released |
 | `h3n_m446_consumer_note/` | `M446-CONSUMER-NOTE-01CZ-20261020`: the Route B downstream consumer note (M1/M2) for the landed H3 closure package of main#446 | main#419: pickup 6283686275, checkpoint 6284218586, note and author-stage release 6284294166; pointers main#446 6284295602, main#275 6283688331 and 6284295984 | note posted; one nonauthor read requested |
 | `m460_nonauthor_review/` | `M460-NONAUTHOR-REVIEW-01CZ-20261020`: nonauthor engineering review of draft main#460 (test-only R03 pin) at exact head `65a7ab8d` | main#460: pickup 6285652622, verdict 6286384129 (edited once at 08:05Z), native COMMENT review 5582356017; main#419 pointers 6285653023, 6286402021 | PASS_SCOPED with limits; the integrator then held on R03's hosted-comparison predicate (460/6286492695) |
-| `workflows/` | the scripts of the §12 comparison run, the four-lens check of that result post and its re-check, the §5 lens run, the §2(b) summoner check and its pre-post check, the §18 lens run and its two pre-post checks, the consumer-note verification run and its pre-post check, and the main#460 review run | — | method record |
+| `m460_review2/` | `M460-REVIEW2-01CZ-20261020`: fresh nonauthor engineering review of draft main#460 at exact head `a68ce39c`, after the writer added hosted R03 controls | main#460: pickup 6286773707, verdict 6287637143, native COMMENT review 5583098843; main#419 pointers 6286776203, 6287643104 | PASS_SCOPED with one limit (L1: the hosted control asserts the R03 witnesses but does not record their observed outcomes), for R03's owner and the integrator |
+| `workflows/` | the scripts of the §12 comparison run, the four-lens check of that result post and its re-check, the §5 lens run, the §2(b) summoner check and its pre-post check, the §18 lens run and its two pre-post checks, the consumer-note verification run and its pre-post check, and the two main#460 review runs | — | method record |
 
 ## Reproducing
 
@@ -67,6 +68,8 @@ Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`. This is a retentio
   - `note.md` and the JSON results carry recorded redactions of product labels (`hand_edited`); the posted comments are authoritative.
 
 - **m460.** `lens_results.json` holds the three lens reports (diff, mutation, hosted) and their adversarial verifications. The agents' archive copies, mutant copies and run logs are not included; `SOURCES.json` lists them by listing hash. `verdict.md` is the comment as edited at 08:05Z; the first posting rendered a raw U+3000 inside one code span, and GitHub stripped it.
+
+- **m460_review2.** `lens_results.json` holds the three lens reports (code, replay, hosted) and their adversarial verifications. Two verifiers finished after the verdict was posted; `followup.txt` records why no follow-up note was needed. The agents' archive copies, variant copies, run logs and a container-image root filesystem are not included; `SOURCES.json` lists them by listing hash.
 
 ## Caveats
 

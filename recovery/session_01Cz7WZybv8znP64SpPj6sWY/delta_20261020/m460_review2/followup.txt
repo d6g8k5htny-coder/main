@@ -1,0 +1,8 @@
+Follow-up decision on verdict 460/6287637143 (posted 09:16Z before verify:code and verify:hosted finished).
+Read both results from journal wf_9bb36b3c-c05 after completion.
+verify:code: C1-C9, N1-N3, N5 CONFIRMED; N4 CORRECTED only on the cause of the red intermediate commits
+  (e3fdbabc fails the blob pin before the print; d1b84158 fails the observer's log shape). The posted N4 states no cause, so it stands.
+  Extra support: exact pinned image (3.11.14) simulation passes 190/191 both modes; verbatim observer accepts head, rejects R03.
+verify:hosted: H1,H3,H5-H9,H11,H12 CONFIRMED; H2,H4,H10 CORRECTED for main moving to 7e95ddcc, which the posted N5 already states.
+Missed items (coupling, observer blind to the control, masking arm alone not discriminating, criterion form) are already in L1, N2, N2b, N3.
+Decision: nothing material changes; no note posted, as the verdict's Method section said.
