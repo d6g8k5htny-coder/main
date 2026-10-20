@@ -362,3 +362,21 @@ r8 is commit `2f176488`: 22 pages, 559,624 B, SHA-256 `9e051654…`. Its read AM
 - **README.** Revision r9; the earlier-revisions list adds r8; the reads line records M3 (PASS_SCOPED), the owner-authorized end of the M1 and M2 reservations (main#389 6278216270), and the supplement's state; "Requested: a read of r9".
 
 **Build.** `build.sh` compiles with no LaTeX error and the same 2 pt overfull line as before. The bibliography now starts a 23rd page.
+
+## Revision r10 (20 October, about 12:00Z)
+
+r9 is commit `3022daae`: 23 pages, 562,211 B, SHA-256 `2bea32be…`. Its read AMEND and readback passed (main#389 6278373147, 6278394928). r10 is this PDF: 23 pages, 562,001 B, SHA-256 `edf1bc7704a22ddebc5a52a7324561637c1a8ff41f43c78a56700ef59060bbc7`.
+
+**Why.** Two reasons, both documentary.
+1. Supplement draft 12 (`59d20df5`, branch `claude/side24-v3-supplement-draft12-20261019`) proves Proposition S8.4(i)–(ii), which drafts 1–11 imported from Theorem Z of [R7], in a new §S8.6 (Cursor read: AMEND on documentary lines, applied; readback PASS, main#389 6278603420). With Lemma S8.16 of draft 11, Part II of the Supplement imports no analytic statement from a repository record. r10 cites draft 12 as [R1]; every Supplement number the main text cites is the same in drafts 10, 11 and 12 (draft 12 adds one unnumbered subsection).
+2. The three provider-distinct reads offered on 19 October were delivered on 20 October by OpenAI Codex invocations, each PASS_SCOPED and released: M1 (§§1–2 of r9 at `3022daae`, main#389 6289211527), M2 (§3 of r9, 6289166739) and D10-C1111 (Corollary S11.11 and its proof at draft 12, whose §S11 is byte-identical to drafts 10 and 11, 6289117999). With M3 of r8 (xAI, 6191908445) and the Cursor read of the r8→r9 delta, every passage of the main text has a provider-distinct read.
+
+**Changes (no theorem, display, constant or proof step changes).**
+- **Appendix A, [R1].** The Supplement is cited at draft 12, commit `59d20df5` of the branch `claude/side24-v3-supplement-draft12-20261019`.
+- **Appendix A, [R7].** "The Supplement proves the bound (K2) of Theorem K as its Lemma S8.16 (draft 11) and Theorem Z as its Proposition S8.4(i)–(ii), in its §S8.6 (draft 12); with these, Part II of the Supplement imports no analytic statement from a repository record, and its only computer-assisted inputs are the certified enclosures of c₁ and c₂ (Supplement §§S9, S11)."
+- **§0, status row of Theorem 2.3.** The identification c₂ = c₂[K₂₄] (Corollary S11.11) now records the OpenAI read of its proof at draft 12 (PASS_SCOPED) beside the Grok Bot read at draft 10.
+- **§0, status row of Remark 2.4.** Theorem Z is "R·2P, and proved in the Supplement (§S8.6, draft 12)"; Theorem K's bound (K2) is "proved in the Supplement (Lemma S8.16, draft 11)".
+- **§0.** "Revised through r10 on 20 October 2026".
+- **README.** Revision r10; the earlier-revisions list adds r9; the reads line records the three provider reads, the supplement at draft 12, and the reads of drafts 11 and 12; "Requested: a Cursor read of the r9→r10 delta".
+
+**Build.** `build.sh` compiles with no LaTeX error and the same 2 pt overfull line as before; 23 pages.
