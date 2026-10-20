@@ -1,0 +1,208 @@
+{
+  "cli": {
+    "argument_closure": "Exactly one fixtures value; exactly one report only for verify-report; no report for prepare-report/admit-benchmark; no abbreviations/help/arbitrary command/hash/ref/env authority.",
+    "commands": [
+      "prepare-report --fixtures ROOT",
+      "verify-report --fixtures ROOT --report REPORT",
+      "admit-benchmark --fixtures ROOT"
+    ],
+    "path": "tools/semantic_memory_experiment.py",
+    "refusal": "exit1; empty stdout; fixed opaque stderr without traceback",
+    "success": "exit0; canonical JSON+LF on stdout only; empty stderr"
+  },
+  "dated_source_record": "2026-10-17",
+  "evidence_limits": [
+    "Synthetic engineering benchmark only; no retrieval/vector storage/model/tokenization/quality/cost/fairness/installation or scientific promotion.",
+    "Existing dated contract/README/plan statuses remain historical; runtime and source review are distinct."
+  ],
+  "frozen_contract": {
+    "bytes": 20550,
+    "disposition": "PRESERVED_HISTORICAL_V1_SOURCE_CONTRACT; no original entry rewritten",
+    "path": "experiments/semantic_memory/TASK1-CONTRACT.json",
+    "sha256": "8a92308bbb54e1ab01c9cf3d6d9d5755fdd6fabc87e5f8214e350870ccf99f75"
+  },
+  "kind": "PROSPECTIVE_TASK1_REPORT_V2_BENCHMARK_ADMISSION_EXTENSION",
+  "prospective_scope": {
+    "all_fixture_schemas_and_raw_frozen_inputs": "UNCHANGED",
+    "replaces_only": [
+      "cli.commands",
+      "schemas.prepare-report",
+      "structural report recomputation in verify-report",
+      "admitted_corpus now requires strict frozen benchmark admission"
+    ],
+    "runtime_status": "Captured and mounted documentation under the current workflow; not read/executed by product/CLI admission logic, not admission authority and not a candidate bypass. Actual source-bound run outcomes remain separate records.",
+    "v1_reports": "The new CLI emits/recomputes report version2. Prior closed version1 reports are historical and fail exact verify-report recomputation; generate a fresh version2 structural report. This extension does not retroactively reinterpret old receipts."
+  },
+  "schema_version": 1,
+  "schemas": {
+    "admit-benchmark": {
+      "benchmark_admission": {
+        "admitted": true,
+        "benchmark_id": "semantic-memory-synthetic-20261008-v1",
+        "semantic_sha256": "8d28c546b7871916adac363f56dc58204785093686ba919f14f5a4c79cefd04f"
+      },
+      "closed_keys": [
+        "schema_version",
+        "scientific_effect",
+        "scientific_status_authority",
+        "fixture_manifest_sha256",
+        "files",
+        "counts",
+        "seed",
+        "query_order",
+        "baseline_definitions",
+        "gates",
+        "corpus_projection",
+        "request_projections",
+        "validation",
+        "pending",
+        "benchmark_admission"
+      ],
+      "corpus_projection_item_closed_keys": [
+        "source_id",
+        "revision_id",
+        "source_sha256",
+        "extraction_sha256",
+        "extractor_version",
+        "text_sha256",
+        "text_bytes",
+        "content_ref",
+        "observed_at",
+        "policy_epoch",
+        "access_state",
+        "exclusion_state",
+        "supersession_state",
+        "text"
+      ],
+      "counts_closed_keys": [
+        "documents",
+        "text_bytes",
+        "development",
+        "heldout",
+        "by_stratum",
+        "generation"
+      ],
+      "pending": {
+        "chunk_count": null,
+        "installed_consumers": "NOT_EVALUATED",
+        "quality_cost_fairness": "NOT_EVALUATED",
+        "retrieval": "NOT_EVALUATED",
+        "tokenizer_parity": "NOT_EVALUATED"
+      },
+      "request_profiles": [
+        "W",
+        "C"
+      ],
+      "request_projection_keys": [
+        "query",
+        "exact_source_id",
+        "exact_ref",
+        "task_scope",
+        "profile"
+      ],
+      "schema_version": 2,
+      "scientific_effect": "NONE",
+      "scientific_status_authority": false,
+      "validation": {
+        "deep": "passed",
+        "gold": "passed",
+        "inventory": "passed",
+        "representation": "passed"
+      }
+    },
+    "prepare-report": {
+      "benchmark_admission": {
+        "admitted": false,
+        "reason": "STRUCTURAL_VALIDATION_ONLY"
+      },
+      "closed_keys": [
+        "schema_version",
+        "scientific_effect",
+        "scientific_status_authority",
+        "fixture_manifest_sha256",
+        "files",
+        "counts",
+        "seed",
+        "query_order",
+        "baseline_definitions",
+        "gates",
+        "corpus_projection",
+        "request_projections",
+        "validation",
+        "pending",
+        "benchmark_admission"
+      ],
+      "corpus_projection_item_closed_keys": [
+        "source_id",
+        "revision_id",
+        "source_sha256",
+        "extraction_sha256",
+        "extractor_version",
+        "text_sha256",
+        "text_bytes",
+        "content_ref",
+        "observed_at",
+        "policy_epoch",
+        "access_state",
+        "exclusion_state",
+        "supersession_state",
+        "text"
+      ],
+      "counts_closed_keys": [
+        "documents",
+        "text_bytes",
+        "development",
+        "heldout",
+        "by_stratum",
+        "generation"
+      ],
+      "pending": {
+        "chunk_count": null,
+        "installed_consumers": "NOT_EVALUATED",
+        "quality_cost_fairness": "NOT_EVALUATED",
+        "retrieval": "NOT_EVALUATED",
+        "tokenizer_parity": "NOT_EVALUATED"
+      },
+      "request_profiles": [
+        "W",
+        "C"
+      ],
+      "request_projection_keys": [
+        "query",
+        "exact_source_id",
+        "exact_ref",
+        "task_scope",
+        "profile"
+      ],
+      "schema_version": 2,
+      "scientific_effect": "NONE",
+      "scientific_status_authority": false,
+      "validation": {
+        "deep": "passed",
+        "gold": "passed",
+        "inventory": "passed",
+        "representation": "passed"
+      }
+    }
+  },
+  "strict_reference": {
+    "API": "admitted_corpus calls the same admit_benchmark gate, returning corpus rows only on strict success.",
+    "authority": "Reviewed product literal, never a supplied report/manifest/hash/environment/path. Recompute from the same validated manifest/documents/raw byte snapshot used for the returned projection; no second fixture read.",
+    "benchmark_id": "semantic-memory-synthetic-20261008-v1",
+    "canonical_json": "UTF8 json.dumps(sort_keys=True,ensure_ascii=False,indent=2,allow_nan=False)+LF; arrays ordered; no Unicode/newline normalization",
+    "compatibility": "Formatting/key order of JSON and an inert sentinel-only change preserve semantic identity after raw transport descriptors are coherently rebound. Structural safety, duplicate-key/type/inventory/hash/span checks and decoded sentinel leak scan still precede fingerprinting. Coherent corpus/query/answer/order/span changes may remain structurally valid but cannot be admitted as this frozen original.",
+    "emitted_report_schema_version": 2,
+    "preimage": {
+      "benchmark_id": "trusted literal above",
+      "corpus": "manifest source order of content_ref, actual captured byte length and SHA256",
+      "development_cases": "complete parsed development-cases.json",
+      "heldout_cases": "complete parsed heldout-cases.json",
+      "manifest": "complete parsed manifest except case_files raw transport descriptors",
+      "oracle": "complete parsed heldout-oracle.json except oracle_only_sentinel",
+      "schema_version": 1
+    },
+    "reference_preimage_schema_version": 1,
+    "semantic_sha256": "8d28c546b7871916adac363f56dc58204785093686ba919f14f5a4c79cefd04f",
+    "verify_report": "Recomputes the complete canonical structural v2 report with admitted=false. Supplied admitted=true cannot confer strict admission."
+  }
+}
