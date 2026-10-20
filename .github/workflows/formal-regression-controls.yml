@@ -1,0 +1,1750 @@
+name: Formal regression frozen controls
+# R01 private source candidate; hosted behavior and admission remain NOT_RUN.
+# V1 is preserved. Shared retained-evidence limits and unresolved event custody are explicit.
+# Dedicated observation lane. Existing generic graph/export/required checks remain unchanged.
+'on':
+  pull_request:
+    branches: [main]
+    types: [opened, synchronize, reopened, ready_for_review]
+permissions:
+  contents: read
+concurrency:
+  group: formal-regression-controls-${{ github.run_id }}-${{ github.run_attempt }}
+  cancel-in-progress: false
+jobs:
+  controls:
+    name: formal-regression-controls
+    runs-on: ubuntu-24.04
+    timeout-minutes: 49
+    env:
+      FORMAL_EVIDENCE_TEMP: ${{ runner.temp }}/formal-retained-volume-${{ github.run_id }}-${{ github.run_attempt }}/mount
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        timeout-minutes: 1
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+      - name: Parse dedicated and canonical workflows without executing source
+        timeout-minutes: 1
+        run: |
+          set -euo pipefail
+          ruby -rpsych -e 'ARGV.each { |p| Psych.safe_load(File.read(p), aliases: false) }' .github/workflows/formal-regression-controls.yml .github/workflows/architecture-runtime-acquisition.yml
+      - name: Create only the owned bounded retained-evidence filesystem
+        timeout-minutes: 2
+        run: |
+          set -euo pipefail
+          python3 -I -B -S - <<'PY'
+          import hashlib,json,os,pathlib,re,selectors,signal,stat,subprocess,time
+          native={key:os.environ[name] for key,name in (('repository','GITHUB_REPOSITORY'),('checked_commit','GITHUB_SHA'),('run_id','GITHUB_RUN_ID'),('run_attempt','GITHUB_RUN_ATTEMPT'))}
+          root=pathlib.Path(os.environ['RUNNER_TEMP'])/('formal-retained-volume-'+native['run_id']+'-'+native['run_attempt']);root.mkdir(mode=0o700,exist_ok=False)
+          with (root/'storage-native-context.json').open('xb') as stream:stream.write((json.dumps({'schema_version':1,'native_context':native},sort_keys=True)+'\n').encode())
+          mount=root/'mount';mount.mkdir(mode=0o700,exist_ok=False)
+          records=[]
+          def command(argv):
+              proc=None;sel=selectors.DefaultSelector();buffers={'stdout':bytearray(),'stderr':bytearray()};record={'argv':argv,'complete':False,'exit_code':None,'process_unreaped':False,'error':None};end=time.monotonic()+30
+              try:
+                  proc=subprocess.Popen(argv,stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=subprocess.PIPE,start_new_session=True,
+                      env={'PATH':'/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin','LANG':'C.UTF-8','TZ':'UTC'})
+                  for stream,name in ((proc.stdout,'stdout'),(proc.stderr,'stderr')):os.set_blocking(stream.fileno(),False);sel.register(stream,selectors.EVENT_READ,name)
+                  while sel.get_map():
+                      if time.monotonic()>=end:raise TimeoutError('bounded owned storage operation')
+                      for key,_ in sel.select(min(0.2,max(0,end-time.monotonic()))):
+                          part=os.read(key.fileobj.fileno(),65536)
+                          if not part:sel.unregister(key.fileobj);key.fileobj.close();continue
+                          room=65536-len(buffers[key.data]);buffers[key.data].extend(part[:room])
+                          if len(part)>room:raise ValueError('owned storage original stream limit')
+                  record['exit_code']=proc.wait(timeout=max(0.01,end-time.monotonic()));record['complete']=True
+              except BaseException as exc:record['error']=type(exc).__name__
+              finally:
+                  if proc is not None and proc.poll() is None:
+                      for sig,grace in ((signal.SIGTERM,4),(signal.SIGKILL,1)):
+                          if proc.poll() is not None:break
+                          try:os.killpg(proc.pid,sig);proc.wait(timeout=grace)
+                          except (ProcessLookupError,subprocess.TimeoutExpired):pass
+                      record['process_unreaped']=proc.poll() is None
+                  if proc is not None:
+                      record['exit_code']=proc.returncode
+                      for stream in (proc.stdout,proc.stderr):
+                          if stream is not None and not stream.closed:stream.close()
+                  sel.close();record.update({k:bytes(v).decode('utf-8','backslashreplace') for k,v in buffers.items()});records.append(record)
+                  metadata=(json.dumps({'schema_version':1,'native_context':native,'records':records,'qualification':'HOST_OBSERVATIONS_ONLY; RETAIN_AND_REVIEW'},sort_keys=True)+'\n').encode()
+                  if len(metadata)>900000:raise ValueError('bootstrap metadata reserve exhausted')
+                  with (root/'storage-bootstrap.json').open('wb') as stream:stream.write(metadata)
+              if not record['complete'] or record['process_unreaped'] or record['exit_code']!=0:raise ValueError('owned bounded storage setup incomplete')
+              return bytes(buffers['stdout'])
+          image=root/'retained.img'
+          command(['truncate','-s','63M',str(image)]);command(['mkfs.ext4','-F',str(image)])
+          command(['sudo','-n','mount','-o','loop,nodev,nosuid,noexec',str(image),str(mount)])
+          command(['sudo','-n','chown',str(os.getuid())+':'+str(os.getgid()),str(mount)]);mount.chmod(0o700)
+          capacity=os.statvfs(mount);total=capacity.f_frsize*capacity.f_blocks
+          if not 0<total<=63*2**20:raise ValueError('actual bounded retained-evidence filesystem capacity')
+          # Allocated emergency space is storage, not an evidence member. Release only in the final sealer.
+          fd=os.open(mount/'final-seal-storage.reserve',os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o600)
+          try:os.posix_fallocate(fd,0,7*2**20);os.fsync(fd)
+          finally:os.close(fd)
+          raw=(root/'storage-bootstrap.json').read_bytes()
+          if len(raw)>2**20:raise ValueError('owned storage bootstrap metadata bound')
+          with (mount/'storage-bootstrap.json').open('xb') as stream:stream.write(raw)
+          with (mount/'storage-capacity.json').open('xb') as stream:stream.write((json.dumps({'schema_version':1,'native_context':native,'physical_capacity_bytes':total,'device_limit_bytes':63*2**20,'outside_bootstrap_fallback_limit_bytes':2**20,'combined_owned_transient_storage_limit_bytes':64*2**20,'emergency_reserved_bytes':7*2**20,'worker_output_device_separate':True,'actual_fit':'UNKNOWN'},sort_keys=True)+'\n').encode())
+          PY
+      - name: Reserve the single bounded retained-evidence budget before preparation
+        timeout-minutes: 1
+        run: |
+          set -euo pipefail
+          python3 -I -B -S - <<'PY'
+          import json,os,pathlib,re
+          native={key:os.environ[name] for key,name in (('repository','GITHUB_REPOSITORY'),('checked_commit','GITHUB_SHA'),('run_id','GITHUB_RUN_ID'),('run_attempt','GITHUB_RUN_ATTEMPT'))}
+          if not re.fullmatch('[0-9a-f]{40}',native['checked_commit']) or not all(re.fullmatch('[1-9][0-9]*',native[k]) for k in ('run_id','run_attempt')):
+              raise ValueError('native global-budget context unavailable')
+          root=pathlib.Path(os.environ['FORMAL_EVIDENCE_TEMP'])/('formal-regression-budget-'+native['run_id']+'-'+native['run_attempt'])
+          root.mkdir(mode=0o700,exist_ok=False)
+          policy={'schema_version':1,'native_context':native,'total_retained_decompressed_bytes':64*2**20,'total_members':1024,
+              'metadata_response_bytes':4*2**20,'transient_evidence_physical_bytes':64*2**20,'owned_retained_device_bytes':63*2**20,'outside_bootstrap_fallback_bytes':2**20,'raw_native_archives_reserved_bytes':4*2**20,'native_job_log_reserved_bytes':4*2**20,'native_transport_reserved_members':8,'preparation_reserved_bytes':36*2**20,'preparation_reserved_members':256,
+              'ordinary_control_ceiling_bytes':32*2**20,'recovery_reserved_bytes':2*2**20,'recovery_reserved_members':32,
+              'final_seal_reserved_bytes':7*2**20,'final_seal_reserved_members':32,'native_archive_overhead_reserved_bytes':2**20,'worker_output_device_bytes':64*2**20,
+              'unit':'SUM_OF_EACH_RETAINED_NATIVE_ARCHIVE_MEMBER_BYTES; EACH_DISTINCT_ARCHIVE_MEMBER_COPY_COUNTS; NO_CONTENT_DEDUPLICATION',
+              'same_member_staging_replicas':'One eventual member represented in OUT and publish is joined byte-exactly, not counted as two native-archive members; distinct names/copies always count',
+              'archive_raw_byte_fit':'UNKNOWN_REQUIRES_NATIVE_ARCHIVE_READBACK; NO_COMPLETENESS_OR_POSITIVE_FIT_CLAIM'}
+          raw=(json.dumps(policy,sort_keys=True)+'\n').encode()
+          fd=os.open(root/'policy.json',os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o400)
+          with os.fdopen(fd,'wb') as stream:stream.write(raw);stream.flush();os.fsync(stream.fileno())
+          PY
+      - name: Extract whole-pinned qualified preparation sources
+        timeout-minutes: 1
+        run: |
+          set -euo pipefail
+          python3 -I -B -S - "$FORMAL_EVIDENCE_TEMP" "$GITHUB_WORKSPACE" "$GITHUB_RUN_ID" "$GITHUB_RUN_ATTEMPT" <<'PY'
+          import hashlib, json, os, pathlib, stat, sys
+          def require(value, message):
+              if not value:
+                  raise ValueError(message)
+          def original(path, size, digest):
+              path = pathlib.Path(path)
+              require(path.is_absolute(), 'absolute admitted path required')
+              parent = os.open(path.anchor, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+              try:
+                  for part in path.parts[1:-1]:
+                      child = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=parent)
+                      os.close(parent)
+                      parent = child
+                  descriptor = os.open(path.name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=parent)
+              finally:
+                  os.close(parent)
+              try:
+                  before = os.fstat(descriptor)
+                  require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1 and before.st_size == size,
+                          'qualified whole-source size/type mismatch')
+                  raw = b''
+                  while len(raw) <= size:
+                      part = os.read(descriptor, min(65536, size + 1 - len(raw)))
+                      if not part:
+                          break
+                      raw += part
+                  after = os.fstat(descriptor)
+                  require((before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns, before.st_ctime_ns)
+                          == (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns)
+                          and len(raw) == size and hashlib.sha256(raw).hexdigest() == digest,
+                          'qualified whole-source changed or pin mismatch')
+                  return raw
+              finally:
+                  os.close(descriptor)
+          temporary, workspace = map(pathlib.Path, sys.argv[1:3])
+          run_id, attempt = sys.argv[3:5]
+          require(run_id.isdecimal() and attempt.isdecimal(), 'native preparation path context')
+          workflow = original(workspace / '.github/workflows/architecture-runtime-acquisition.yml', 95714,
+              '9b33eee757bae53966a151150bc62bc6aec13f9aa8226b4398dfa3362597de65')
+          original(workspace / 'docs/plans/2026-10-09-public-runtime-acquisition.md', 22516,
+              '72bdcf2b2374216f415fb6d86b84c2db25e7855caf0699bdfe2473336fb64bb7')
+          destination = temporary / ('formal-regression-preparation-source-' + run_id + '-' + attempt)
+          destination.mkdir(mode=0o700, exist_ok=False)
+          lines = workflow.decode('ascii').splitlines()
+          selection = (
+              ('write-sources.sh', 'Write fixed trusted preparation sources'),
+              ('run-preparation.sh', 'Parse the standalone source and run the preparation once'),
+              ('seal.sh', 'Seal available originals on every conclusion'),
+              ('cleanup.sh', 'Remove only owned preparation client and control files'))
+          for filename, name in selection:
+              starts = [index for index, line in enumerate(lines) if line == '      - name: ' + name]
+              require(len(starts) == 1, 'ambiguous qualified step marker')
+              start = starts[0]
+              end = next((index for index in range(start + 1, len(lines))
+                          if lines[index].startswith('      - ')), len(lines))
+              block = lines[start:end]
+              markers = [index for index, line in enumerate(block) if line == '        run: |']
+              require(len(markers) == 1, 'ambiguous qualified literal run source')
+              body = block[markers[0] + 1:]
+              require(body and all(line.startswith('          ') for line in body),
+                      'qualified literal script indentation')
+              raw = ('\n'.join(line[10:] for line in body) + '\n').encode('ascii')
+              descriptor = os.open(destination / filename, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o444)
+              with os.fdopen(descriptor, 'wb') as stream:
+                  stream.write(raw)
+          print(json.dumps({'qualified_sources': 'PIN_MATCH', 'literal_scripts': len(selection)}))
+          PY
+          RUNNER_TEMP="$FORMAL_EVIDENCE_TEMP" bash "$FORMAL_EVIDENCE_TEMP/formal-regression-preparation-source-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/write-sources.sh"
+      - name: Qualify canonical acquisition and restore daemon before tests
+        id: preparation
+        timeout-minutes: 19
+        run: |
+          set -euo pipefail
+          RUNNER_TEMP="$FORMAL_EVIDENCE_TEMP" bash "$FORMAL_EVIDENCE_TEMP/formal-regression-preparation-source-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/run-preparation.sh"
+      - name: Seal separate preparation originals on every conclusion
+        id: preparation_seal
+        if: always()
+        timeout-minutes: 1
+        run: |
+          set -euo pipefail
+          RUNNER_TEMP="$FORMAL_EVIDENCE_TEMP" bash "$FORMAL_EVIDENCE_TEMP/formal-regression-preparation-source-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/seal.sh"
+      - name: Account every preparation member before its native upload
+        id: preparation_budget
+        if: always()
+        timeout-minutes: 1
+        run: |
+          set -euo pipefail
+          python3 -I -B -S - <<'PY'
+          import hashlib,json,os,pathlib,re,stat
+          MIB=2**20
+          def require(value,message):
+              if not value:raise ValueError(message)
+          def read(path,limit):
+              path=pathlib.Path(path);parent=os.open(path.anchor,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW);leaf=None
+              try:
+                  for part in path.parts[1:-1]:
+                      child=os.open(part,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW,dir_fd=parent);os.close(parent);parent=child
+                  leaf=os.open(path.name,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK,dir_fd=parent);before=os.fstat(leaf)
+                  require(stat.S_ISREG(before.st_mode) and before.st_nlink==1 and before.st_size<=limit,'bounded preparation member')
+                  raw=b''
+                  while len(raw)<=limit:
+                      part=os.read(leaf,min(65536,limit+1-len(raw)))
+                      if not part:break
+                      raw+=part
+                  after=os.fstat(leaf);require((before.st_dev,before.st_ino,before.st_size,before.st_mtime_ns,before.st_ctime_ns)==(after.st_dev,after.st_ino,after.st_size,after.st_mtime_ns,after.st_ctime_ns) and len(raw)==before.st_size,'preparation member changed')
+                  return raw
+              finally:
+                  if leaf is not None:os.close(leaf)
+                  os.close(parent)
+          native={key:os.environ[name] for key,name in (('repository','GITHUB_REPOSITORY'),('checked_commit','GITHUB_SHA'),('run_id','GITHUB_RUN_ID'),('run_attempt','GITHUB_RUN_ATTEMPT'))}
+          temporary=pathlib.Path(os.environ['FORMAL_EVIDENCE_TEMP']);budget=temporary/('formal-regression-budget-'+native['run_id']+'-'+native['run_attempt'])
+          policy_raw=read(budget/'policy.json',65536);policy=json.loads(policy_raw)
+          require(policy['native_context']==native and policy['total_retained_decompressed_bytes']==64*MIB and policy['total_members']==1024,'one current-run global policy')
+          source=temporary/('public-runtime-'+native['run_id']+'-'+native['run_attempt'])/'publish'
+          fallback=budget/'preparation-fallback';fallback.mkdir(mode=0o700,exist_ok=False)
+          members=[];errors=[];total=0
+          try:
+              info=source.lstat();require(stat.S_ISDIR(info.st_mode) and info.st_uid==os.getuid() and stat.S_IMODE(info.st_mode)==0o700,'owned preparation directory')
+              entries=sorted(source.iterdir(),key=lambda p:p.name);require(len(entries)<=256,'preparation member reservation')
+              for path in entries:
+                  require(re.fullmatch(r'[A-Za-z0-9_.-]+',path.name),'closed preparation member name')
+                  # Each stream/source/receipt/manifest copy is counted, including equal bytes under different names.
+                  raw=read(path,4*MIB);total+=len(raw);require(total<=36*MIB,'preparation bytes exceed shared reservation')
+                  members.append({'path':path.name,'bytes':len(raw),'sha256':hashlib.sha256(raw).hexdigest()})
+              require(members,'preparation originals absent')
+          except BaseException as exc:errors.append({'type':type(exc).__name__,'reason':'PREPARATION_SHARED_BUDGET_OR_MEMBER_ADMISSION_FAILED'})
+          record={'schema_version':1,'native_context':native,'policy_sha256':hashlib.sha256(policy_raw).hexdigest(),'status':'BOUNDED_PREPARATION_MEMBERS' if not errors else 'HOLD','members':members,'original_bytes':total,'original_count':len(members),'errors':errors,
+              'preparation_complete_or_qualified':False,'raw_archive_fit':'UNKNOWN','actual_private_custody':'UNKNOWN'}
+          if errors:
+              raw=(json.dumps({'schema_version':1,'native_context':native,'status':'HOLD','reason':'PREPARATION_ORIGINALS_UNAVAILABLE_OR_OUTSIDE_SHARED_BOUNDS','originals_complete':False,'errors':errors},sort_keys=True)+'\n').encode()
+              with (fallback/'preparation-hold.json').open('xb') as stream:stream.write(raw)
+              record.update(members=[{'path':'preparation-hold.json','bytes':len(raw),'sha256':hashlib.sha256(raw).hexdigest()}],original_bytes=len(raw),original_count=1,artifact_path_kind='BOUNDED_HOLD_ONLY')
+              upload=fallback
+          else:upload=source;record['artifact_path_kind']='ORIGINAL_CANONICAL_PREPARATION'
+          raw=(json.dumps(record,sort_keys=True)+'\n').encode();require(len(raw)<=MIB,'preparation budget record bound')
+          fd=os.open(budget/'preparation-account.json',os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o400)
+          with os.fdopen(fd,'wb') as stream:stream.write(raw);stream.flush();os.fsync(stream.fileno())
+          with open(os.environ['GITHUB_OUTPUT'],'a') as stream:stream.write('upload_path='+str(upload)+'\n')
+          PY
+      - name: Retain separate bounded preparation originals
+        id: preparation_retained
+        if: always()
+        timeout-minutes: 1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: formal-regression-preparation-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ steps.preparation_budget.outputs.upload_path }}
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+      - name: Remove only owned preparation and extraction files
+        id: preparation_cleanup
+        if: always()
+        timeout-minutes: 1
+        run: |
+          set -euo pipefail
+          directory="$FORMAL_EVIDENCE_TEMP/formal-regression-preparation-source-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          RUNNER_TEMP="$FORMAL_EVIDENCE_TEMP" bash "$directory/cleanup.sh"
+          python3 -I -B -S - "$directory" <<'PY'
+          import os, pathlib, stat, sys
+          directory = pathlib.Path(sys.argv[1])
+          info = directory.lstat()
+          if not stat.S_ISDIR(info.st_mode) or info.st_uid != os.getuid() or stat.S_IMODE(info.st_mode) != 0o700:
+              raise ValueError('owned extraction directory identity')
+          names = {'write-sources.sh', 'run-preparation.sh', 'seal.sh', 'cleanup.sh'}
+          if {path.name for path in directory.iterdir()} != names:
+              raise ValueError('closed owned extraction inventory')
+          for name in sorted(names):
+              path = directory / name
+              info = path.lstat()
+              if not stat.S_ISREG(info.st_mode) or info.st_nlink != 1 or info.st_uid != os.getuid() or info.st_size > 1024 * 1024:
+                  raise ValueError('owned extraction file identity/bound')
+              path.unlink()
+          directory.rmdir()
+          PY
+      - name: Require complete current-run preparation before formal controls
+        timeout-minutes: 1
+        env:
+          PREPARATION_ARTIFACT_ID: ${{ steps.preparation_retained.outputs.artifact-id }}
+          PREPARATION_ARTIFACT_DIGEST: ${{ steps.preparation_retained.outputs.artifact-digest }}
+        run: |
+          set -euo pipefail
+          python3 -I -B -S - "$FORMAL_EVIDENCE_TEMP/public-runtime-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/publish" <<'PY'
+          import hashlib, json, math, os, pathlib, re, stat, sys
+          MIB = 2**20
+          def require(value, message):
+              if not value:
+                  raise ValueError(message)
+          def read(path, limit):
+              path = pathlib.Path(path)
+              require(path.is_absolute(), 'absolute admitted path required')
+              parent = os.open(path.anchor, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+              try:
+                  for part in path.parts[1:-1]:
+                      child = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=parent)
+                      os.close(parent)
+                      parent = child
+                  descriptor = os.open(path.name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=parent)
+              finally:
+                  os.close(parent)
+              try:
+                  before = os.fstat(descriptor)
+                  require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1 and before.st_size <= limit,
+                          'sealed preparation regular-file admission')
+                  raw = b''
+                  while len(raw) <= limit:
+                      part = os.read(descriptor, min(65536, limit + 1 - len(raw)))
+                      if not part:
+                          break
+                      raw += part
+                  after = os.fstat(descriptor)
+                  require((before.st_dev, before.st_ino, before.st_size, before.st_mtime_ns, before.st_ctime_ns)
+                          == (after.st_dev, after.st_ino, after.st_size, after.st_mtime_ns, after.st_ctime_ns)
+                          and len(raw) == before.st_size <= limit, 'sealed preparation changed during read')
+                  return raw
+              finally:
+                  os.close(descriptor)
+          def strict(raw):
+              def pairs(items):
+                  value = {}
+                  for key, item in items:
+                      require(key not in value, 'duplicate original JSON key')
+                      value[key] = item
+                  return value
+              def reject(value):
+                  raise ValueError('nonfinite original JSON value')
+              def finite(value):
+                  number=float(value)
+                  require(math.isfinite(number), 'nonfinite JSON number')
+                  return number
+              return json.loads(raw, object_pairs_hook=pairs, parse_constant=reject, parse_float=finite)
+          root = pathlib.Path(sys.argv[1])
+          info = root.lstat()
+          require(stat.S_ISDIR(info.st_mode) and info.st_uid == os.getuid()
+                  and stat.S_IMODE(info.st_mode) == 0o700, 'owned sealed preparation directory')
+          native = {key: os.environ[name] for key, name in (
+              ('repository', 'GITHUB_REPOSITORY'), ('checked_commit', 'GITHUB_SHA'),
+              ('run_id', 'GITHUB_RUN_ID'), ('run_attempt', 'GITHUB_RUN_ATTEMPT'))}
+          require(re.fullmatch(r'[1-9][0-9]*', os.environ['PREPARATION_ARTIFACT_ID'])
+                  and re.fullmatch(r'(?:sha256:)?[0-9a-f]{64}', os.environ['PREPARATION_ARTIFACT_DIGEST']),
+                  'native preparation upload identity unavailable')
+          manifest = {}
+          manifest_raw = read(root / 'ARTIFACT_SHA256SUMS', MIB)
+          for line in manifest_raw.decode('ascii').splitlines():
+              match = re.fullmatch(r'([0-9a-f]{64})  ([A-Za-z0-9_.-]+)', line)
+              require(match is not None and match[2] not in manifest, 'closed preparation hash manifest')
+              manifest[match[2]] = match[1]
+          require(0 < len(manifest) <= 256
+                  and {path.name for path in root.iterdir()} == set(manifest) | {'ARTIFACT_SHA256SUMS'},
+                  'exact sealed preparation inventory')
+          bodies, records, total = {}, {}, len(manifest_raw)
+          for name, digest in manifest.items():
+              limit = 4 * MIB if name in ('pull.stdout', 'pull.stderr') else MIB
+              raw = read(root / name, limit)
+              total += len(raw)
+              require(total <= 36 * MIB and hashlib.sha256(raw).hexdigest() == digest,
+                      'sealed preparation original hash/aggregate bound')
+              bodies[name] = raw
+              records[name] = {'bytes': len(raw), 'sha256': digest}
+          receipt = strict(bodies['receipt.json'])
+          collection = strict(bodies['collection.json'])
+          result = strict(bodies['preparation-result.json'])
+          observation = strict(bodies['preparation-observations.json'])
+          semantic = strict(bodies['semantic-controls.json'])
+          for record in (receipt, collection):
+              require(record['status'] == 'ACCEPTED_PREPARATION' and record['native_context'] == native,
+                      'current-run sealed preparation acceptance required')
+          require(result['status'] == 'ACCEPTED_PREPARATION' and result['context'] == native
+                  and observation['context'] == native and observation['head'] == native['checked_commit']
+                  and collection['missing'] == [] and collection['refused'] == []
+                  and result['preparation_error'] is None and result['recovery_error'] is None
+                  and result['refused_originals'] == [], 'complete current-run preparation required')
+          rows = receipt['originals']
+          joined = {row['path']: {'bytes': row['bytes'], 'sha256': row['sha256']} for row in rows}
+          require(len(joined) == len(rows) == receipt['original_count']
+                  and set(joined) == set(records) - {'receipt.json'}
+                  and all(records[name] == record for name, record in joined.items())
+                  and receipt['original_bytes'] == sum(record['bytes'] for record in joined.values()),
+                  'receipt original copies/subtotal join')
+          copied = collection['copied']
+          copies = {row['path']: {'bytes': row['bytes'], 'sha256': row['sha256']} for row in copied}
+          require(len(copies) == len(copied) and set(copies) == set(joined) - {'collection.json'}
+                  and all(records[name] == record for name, record in copies.items())
+                  and set(copies) == set(result['available_originals']) | {'preparation-result.json'}
+                  and all(copies[name] == record for name, record in result['available_originals'].items()),
+                  'collection/controller original copies join')
+          require(records['checked-workflow.yml'] == {'bytes': 95714, 'sha256':
+                  '9b33eee757bae53966a151150bc62bc6aec13f9aa8226b4398dfa3362597de65'}
+                  and records['contract.md'] == {'bytes': 22516, 'sha256':
+                  '72bdcf2b2374216f415fb6d86b84c2db25e7855caf0699bdfe2473336fb64bb7'}
+                  and observation['source_before'] == observation['source_after'],
+                  'qualified preparation whole sources stable')
+          negative_ids = (
+              'RP01_stale_run', 'RP01_changed_source', 'RP02_existing_container', 'RP02_cached_image',
+              'RP03_missing_actual_mirror', 'RP03_changed_preserved_setting', 'RP04_manifest_substitution',
+              'RP04_config_substitution', 'RP05_pull_nonzero', 'RP05_pull_incomplete',
+              'RP06_mirror_prefixed_digest', 'RP06_extra_digest', 'RP06_wrong_image_platform',
+              'RP07_native_root', 'RP07_missing_OO', 'RP08_wrong_sqlite_all_modes', 'RP08_wrong_OO_flag',
+              'RP08_empty_binary_all_modes', 'RP09_wrong_CPU_all_modes', 'RP10_disposal_unconfirmed',
+              'RP11_restored_mirror_wrong', 'RP11_restored_bytes_wrong', 'RP12_missing_original',
+              'RP03_nested_synthetic_credential', 'RP09_oversized_overlay_lowerdir')
+          expected = [{'id': 'RP_positive_actual_copy', 'status': 'PASS'}]
+          expected += [{'id': name, 'status': 'REFUSED'} for name in negative_ids]
+          require(result['controls'] == semantic['controls'] == expected
+                  and semantic['origin'] == 'TEST_SEMANTIC_MUTATIONS_OF_COPIED_ACTUAL_OBSERVATIONS',
+                  'all qualified actual-copy controls required')
+          require(observation['recovery_complete'] is True
+                  and observation['containers_recovery_empty'] is True
+                  and observation['containers_restored_empty'] is True
+                  and observation['restored_mirrors'] == observation['original_mirrors']
+                  and set(observation['probes']) == {'0', '1', '2'}
+                  and all(item['disposed'] is True for item in observation['probes'].values())
+                  and result['disposal_confirmed'] == {'0': True, '1': True, '2': True},
+                  'owned probe disposal and daemon recovery before formal controls')
+          binding = {'schema_version': 1, 'native_context': native,
+              'preparation_artifact_id': os.environ['PREPARATION_ARTIFACT_ID'],
+              'preparation_artifact_digest': os.environ['PREPARATION_ARTIFACT_DIGEST'],
+              'originals': records, 'whole_manifest_sha256': hashlib.sha256(manifest_raw).hexdigest(),
+              'image': observation['image'], 'docker_version': observation['docker_version'],
+              'probes': {mode: {'container_id': item['before']['Id'], 'disposed': item['disposed'],
+                    'binaries': item['probe']['binaries'], 'python_version': item['probe']['python_version'],
+                    'sqlite_version': item['probe']['sqlite_version']} for mode, item in observation['probes'].items()},
+              'daemon_recovery_complete': True, 'raw_archive_readback': 'REQUIRED_AFTER_JOB'}
+          target = pathlib.Path(os.environ['FORMAL_EVIDENCE_TEMP']) / ('formal-regression-preparation-binding-' + native['run_id'] + '-' + native['run_attempt'] + '.json')
+          descriptor = os.open(target, os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o400)
+          with os.fdopen(descriptor, 'wb') as stream:
+              stream.write((json.dumps(binding, sort_keys=True, allow_nan=False) + '\n').encode())
+          print(json.dumps({'status': 'ACCEPTED_PREPARATION', 'current_run': native['run_id'],
+                            'positive': 'PASS', 'negative_refusals': len(negative_ids)}))
+          PY
+      - name: Write fixed trusted driver and host controller
+        timeout-minutes: 1
+        run: |
+          set -euo pipefail
+          base="$FORMAL_EVIDENCE_TEMP/formal-regression-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          mkdir -m 0700 "$base" "$base/control" "$base/source" "$base/originals" "$base/publish" "$base/client" "$base/output"
+          cat > "$base/control/driver.py" <<'PY'
+          # Trusted recording driver; candidate imports occur only in the restricted worker.
+          import contextlib, hashlib, json, math, os, pathlib, resource, stat, sys, time, traceback, unittest
+          def require(value, message):
+              if not value:
+                  raise ValueError(message)
+          mode = int(sys.argv[1])
+          require(mode in (0, 1) and sys.flags.optimize == mode, 'actual interpreter mode')
+          require(sys.flags.isolated == 1 and sys.flags.no_site == 1 and sys.flags.dont_write_bytecode,
+                  'isolated fixed interpreter flags')
+          os.umask(0o077)
+          root, output = pathlib.Path('/source'), pathlib.Path('/output')
+          def strict(raw):
+              def pairs(items):
+                  result = {}
+                  for key, value in items:
+                      require(key not in result, 'duplicate input key')
+                      result[key] = value
+                  return result
+              def reject(value):
+                  raise ValueError('nonfinite input')
+              def finite(value):
+                  number=float(value)
+                  require(math.isfinite(number), 'nonfinite JSON number')
+                  return number
+              return json.loads(raw, object_pairs_hook=pairs, parse_constant=reject, parse_float=finite)
+          plan = strict((root / 'tests/fixtures/formal_regression/control-plan.json').read_bytes())
+          expected = plan['test_ids']
+          flags = {'isolated': sys.flags.isolated, 'no_site': sys.flags.no_site,
+                   'dont_write_bytecode': sys.flags.dont_write_bytecode, 'optimize': sys.flags.optimize}
+          kernel = {'uid': os.getuid(), 'gid': os.getgid(), 'groups': os.getgroups(),
+              'proc_status': {k: v.strip() for k, v in (line.split(':', 1) for line in
+                  pathlib.Path('/proc/self/status').read_text().splitlines() if line.startswith(('CapEff:', 'NoNewPrivs:')))},
+              'cgroup': {k: pathlib.Path('/sys/fs/cgroup', k).read_text().strip() for k in ('cpu.max', 'memory.max', 'pids.max')},
+              'network_interfaces': sorted(os.listdir('/sys/class/net')),
+              'network_routes': pathlib.Path('/proc/net/route').read_text().splitlines(),
+              'tmpfs_bytes': os.statvfs('/tmp').f_frsize * os.statvfs('/tmp').f_blocks,
+              'environment_names': sorted(os.environ), 'flags': flags, 'version': list(sys.version_info[:3]),
+              'mountinfo': pathlib.Path('/proc/self/mountinfo').read_text(),
+              'limits': {k: list(resource.getrlimit(v)) for k, v in (
+                  ('fsize', resource.RLIMIT_FSIZE), ('nofile', resource.RLIMIT_NOFILE), ('msgqueue', resource.RLIMIT_MSGQUEUE))}}
+          require(len(kernel['mountinfo'].encode()) <= 65536, 'worker mountinfo bound')
+          class BoundedText:
+              def __init__(self, path):
+                  self.stream = path.open('xb'); os.fchmod(self.stream.fileno(), 0o644); self.size = 0
+              def write(self, value):
+                  raw = value.encode('utf-8', 'backslashreplace')
+                  require(self.size + len(raw) <= 131072, 'per-method raw stream exceeded 128 KiB')
+                  self.stream.write(raw); self.size += len(raw)
+                  return len(value)
+              def flush(self): self.stream.flush()
+              def close(self): self.stream.close()
+          SUBTEST_AUDIT_CONTRACT = {'schema_version':1,'scope_order':'OUTER_TO_INNER','events':'UNMODIFIED_STDLIB_SUBTEST_CALLBACKS','event_bytes':8192,'method_events':256,'mode_events':2048,'mode_metadata_bytes':131072,'value_depth':8,'value_nodes':256,'scope_parameters':16,'scopes':8,'container_items':64,'key_bytes':128,'string_bytes':2048,'integer_characters':128}
+          # No generic repr/str fallback; unsupported metadata yields explicit incomplete evidence.
+          def audit_encode(value):
+              return (json.dumps(value,sort_keys=True,allow_nan=False)+'\n').encode()
+          def audit_value(value,depth,nodes):
+              nodes[0]+=1;require(depth<=8 and nodes[0]<=256,'nested value depth/node bound');kind=type(value)
+              if value is None:return {'type':'none'}
+              if kind is bool:return {'type':'bool','value':value}
+              if kind is int:
+                  text=str(value);require(len(text)<=128,'nested integer bound');return {'type':'int','value':text}
+              if kind is float:
+                  require(math.isfinite(value),'nested finite float');return {'type':'float','value':value.hex()}
+              if kind is str:
+                  require(len(value.encode('utf-8'))<=2048,'nested string bound');return {'type':'str','value':value}
+              if kind in (list,tuple):
+                  require(len(value)<=64,'nested sequence bound');return {'type':'list' if kind is list else 'tuple','items':[audit_value(v,depth+1,nodes) for v in value]}
+              if kind is dict:
+                  require(len(value)<=64 and all(type(k) is str and len(k.encode('utf-8'))<=128 for k in value),'nested mapping bound')
+                  return {'type':'dict','items':[[k,audit_value(value[k],depth+1,nodes)] for k in sorted(value)]}
+              raise ValueError('unsupported nested parameter type')
+          class RecordingResult(unittest.TextTestResult):
+              def __init__(self, *args, **kwargs):
+                  super().__init__(*args, **kwargs); self.records = []; self.active = None
+                  self.subtest_seen=0;self.subtest_retained=0;self.subtest_bytes=0;self.subtest_complete=True;self.subtest_refused=0;self.subtest_refusals=[]
+              def startTest(self, test):
+                  super().startTest(test)
+                  identity = test.id(); token = hashlib.sha256(identity.encode()).hexdigest()
+                  row = {'id': identity, 'status': None, 'started_ns': time.monotonic_ns(),
+                      'stdout': token + '.stdout', 'stderr': token + '.stderr', 'exceptions': [], 'subtests': [],
+                      'subtests_complete':True,'subtest_events_seen':0,'subtest_metadata_bytes':0,'subtest_refusals':[]}
+                  self.records.append(row); self.active = row
+                  self.saved_streams = sys.stdout, sys.stderr
+                  self.streams = BoundedText(output / row['stdout']), BoundedText(output / row['stderr'])
+                  sys.stdout, sys.stderr = self.streams
+              def stopTest(self, test):
+                  sys.stdout, sys.stderr = self.saved_streams
+                  for stream in self.streams: stream.close()
+                  self.active['duration_ns'] = time.monotonic_ns() - self.active.pop('started_ns')
+                  self.active['status'] = (self.active['status'] or 'INCOMPLETE') if self.active['subtests_complete'] else 'INCOMPLETE'
+                  self.active = None; super().stopTest(test)
+              def note(self, status, err=None):
+                  if self.active is not None:
+                      self.active['status'] = status
+                      if err:
+                          text = ''.join(traceback.format_exception(*err))
+                          require(len(text.encode()) <= 65536, 'per-method exception exceeded 64 KiB')
+                          self.active['exceptions'].append({'type': err[0].__name__, 'traceback': text})
+              def addSuccess(self, test):
+                  self.note('PASS'); super().addSuccess(test)
+              def addFailure(self, test, err):
+                  self.note('FAIL', err); super().addFailure(test, err)
+              def addError(self, test, err):
+                  self.note('ERROR', err); super().addError(test, err)
+              def addSkip(self, test, reason):
+                  if isinstance(test,unittest.case._SubTest):self.capture_subtest(test,'SKIP',skip_reason=reason)
+                  self.note('SKIP'); super().addSkip(test, reason)
+              def addExpectedFailure(self, test, err):
+                  self.note('XFAIL', err); super().addExpectedFailure(test, err)
+              def addUnexpectedSuccess(self, test):
+                  self.note('XPASS'); super().addUnexpectedSuccess(test)
+              def capture_subtest(self,subtest,status,exception_type=None,skip_reason=None):
+                  self.subtest_seen+=1;row=self.active
+                  if row is not None:row['subtest_events_seen']+=1
+                  try:
+                      require(row is not None and self.subtest_complete,'prior or unowned nested observation refused')
+                      require(self.subtest_seen<=2048 and row['subtest_events_seen']<=256,'nested callback count bound')
+                      maps=subtest.params.maps;require(type(maps) is list and 1<=len(maps)<=8,'nested parameter scope bound');nodes=[0];scopes=[]
+                      for mapping in reversed(maps):
+                          require(type(mapping) is dict and len(mapping)<=16 and all(type(k) is str and len(k.encode('utf-8'))<=128 for k in mapping),'closed nested scope')
+                          scopes.append([[k,audit_value(mapping[k],0,nodes)] for k in sorted(mapping)])
+                      message=subtest._message
+                      message={'kind':'DEFAULT'} if message is unittest.case._subtest_msg_sentinel else {'kind':'VALUE','value':audit_value(message,0,nodes)}
+                      require(exception_type is None or type(exception_type) is str and len(exception_type.encode('utf-8'))<=128,'nested exception type bound')
+                      require(skip_reason is None or type(skip_reason) is str and len(skip_reason.encode('utf-8'))<=2048,'nested skip reason bound')
+                      case={'parent_method_id':row['id'],'ordinal':row['subtest_events_seen'],'mode_ordinal':self.subtest_seen,'scopes':scopes,'message':message}
+                      event={'event_id':hashlib.sha256(audit_encode(case)).hexdigest(),'case':case,'status':status,'exception_type':exception_type,'skip_reason':skip_reason}
+                      wire=audit_encode(event);cost=len(wire)+1;require(len(wire)<=8192 and self.subtest_bytes+cost<=131072,'nested serialized metadata bound')
+                      row['subtests'].append(event);row['subtest_metadata_bytes']+=cost;self.subtest_retained+=1;self.subtest_bytes+=cost
+                  except BaseException:
+                      # Preserve the complete accepted prefix and explicit refusal; never silently truncate or alter an assertion.
+                      self.subtest_complete=False;self.subtest_refused+=1
+                      refusal={'mode_ordinal':self.subtest_seen,'method_id':row['id'] if row else None,'ordinal':row['subtest_events_seen'] if row else None,'reason':'NESTED_REPRESENTATION_OR_BOUND_REFUSED'}
+                      if len(self.subtest_refusals)<8:self.subtest_refusals.append(refusal)
+                      if row is not None:
+                          row['subtests_complete']=False
+                          if len(row['subtest_refusals'])<8:row['subtest_refusals'].append(refusal)
+              def addSubTest(self, test, subtest, err):
+                  status='PASS' if err is None else 'FAIL' if issubclass(err[0],test.failureException) else 'ERROR'
+                  self.capture_subtest(subtest,status,err[0].__name__ if err is not None else None)
+                  if err is not None:self.note(status,err)
+                  super().addSubTest(test, subtest, err)
+          def flatten(value):
+              if isinstance(value, unittest.TestSuite):
+                  return [item for child in value for item in flatten(child)]
+              return [value]
+          record = {'schema_version': 1, 'mode': mode, 'kernel': kernel, 'test_module': 'test_formal_regression',
+                    'expected_test_ids': expected, 'actual_test_ids': [], 'records': [], 'complete': False,
+                    'exit_code': 2, 'driver_error': None, 'qualification': 'REQUIRES_NONAUTHOR_NATIVE_ORIGINAL_REVIEW',
+                    'subtest_audit_contract':SUBTEST_AUDIT_CONTRACT,'subtests_complete':False,'subtest_events_seen':0,
+                    'subtest_events_retained':0,'subtest_metadata_bytes':0,'subtest_refused_total':0,'subtest_refusals':[]}
+          try:
+              # No site packages, no .git, no host credentials and no source-controlled host helper.
+              sys.path.insert(0, str(root))
+              suite = unittest.defaultTestLoader.discover(str(root / 'tests'), pattern='test_formal_regression.py',
+                                                         top_level_dir=str(root / 'tests'))
+              actual = sorted(test.id() for test in flatten(suite))
+              record['actual_test_ids'] = actual
+              require(actual == expected and len(actual) > 0 and len(set(actual)) == len(actual),
+                      'exact nonzero frozen discovery; import failure is HOLD')
+              result = unittest.TextTestRunner(verbosity=2, resultclass=RecordingResult, failfast=False).run(suite)
+              record['records'] = result.records
+              record.update(subtests_complete=result.subtest_complete,subtest_events_seen=result.subtest_seen,
+                  subtest_events_retained=result.subtest_retained,subtest_metadata_bytes=result.subtest_bytes,
+                  subtest_refused_total=result.subtest_refused,subtest_refusals=result.subtest_refusals)
+              ids = [row['id'] for row in result.records]
+              complete = sorted(ids) == expected and len(set(ids)) == len(expected) and result.testsRun == len(expected)
+              allowed = all(row['status'] in ('PASS', 'FAIL') for row in result.records)
+              record.update(complete=complete and allowed and result.subtest_complete
+                  and all(row['subtests_complete'] and row['subtest_events_seen']==len(row['subtests']) for row in result.records)
+                  and not result.errors and not result.skipped
+                  and not result.expectedFailures and not result.unexpectedSuccesses,
+                  tests_run=result.testsRun, failure_count=len(result.failures), error_count=len(result.errors),
+                  skipped_count=len(result.skipped), expected_failures=len(result.expectedFailures),
+                  unexpected_successes=len(result.unexpectedSuccesses))
+              record['exit_code'] = 0 if record['complete'] and result.wasSuccessful() else 1 if record['complete'] else 2
+          except BaseException as exc:
+              record['driver_error'] = {'type': type(exc).__name__, 'message': str(exc)[:2048]}
+          raw = (json.dumps(record, sort_keys=True, allow_nan=False) + '\n').encode()
+          if len(raw)>2**20:
+              # A hash is not the refused original. Preserve explicit bounded incomplete metadata instead.
+              refused={'bytes':len(raw),'sha256':hashlib.sha256(raw).hexdigest(),'retained':False}
+              record={'schema_version':1,'mode':mode,'test_module':'test_formal_regression','expected_test_ids':expected,'actual_test_ids':[],
+                  'records':[],'complete':False,'exit_code':2,'driver_error':{'type':'ResultMetadataOverflow','message':'Full mode metadata refused by existing1MiB cap; no complete method/subtest inventory is claimed'},
+                  'subtest_audit_contract':SUBTEST_AUDIT_CONTRACT,'subtests_complete':False,'refused_full_result':refused,
+                  'qualification':'HOLD_INCOMPLETE; RAW_METHOD_STREAMS_AND_NATIVE_TERMINALS_STILL_REQUIRE_COLLECTION'}
+              raw=audit_encode(record)
+          require(len(raw)<=2**20,'bounded explicit per-mode incomplete result')
+          with (output / 'result.json').open('xb') as stream:
+              os.fchmod(stream.fileno(), 0o644); stream.write(raw)
+          raise SystemExit(record['exit_code'])
+          PY
+          cat > "$base/control/controller.py" <<'PY'
+          # All host imports are stdlib. This literal controller requires whole-source review.
+          import datetime, hashlib, json, math, os, pathlib, re, selectors, signal, stat, subprocess, sys, time
+          MIB = 2**20
+          IMAGE = 'python:3.11.14-slim-bookworm@sha256:83f339c1be6340ae1096010fdccf6552ac932d8f410d45d206014916bdf37e48'
+          IMAGE_ID = 'sha256:44d8f4434bcb025b8cb5c3151be689a906223e47cc3146971feccda936d2e82b'
+          DRIVER_PIN = (13827, '4b7d4f02f333c47e8ad98e1123efd3fa32ff37b8d702cf2f6949a090c1900cc6')
+          PLAN_SHA = 'bbe508fcd9205145435c23559ae93bcb89b51ffc8fc9b48fb959226b22729213'
+          PLAN_PATH = 'tests/fixtures/formal_regression/control-plan.json'
+          CORE_PATH = 'architecture/formal_regression.py'
+          FROZEN_PATHS = {'tests/test_formal_regression.py', 'docs/architecture/formal-regression-contract.json',
+                          'tests/fixtures/formal_regression/inventory-conformance.json'}
+          SOURCE_PATHS = sorted(FROZEN_PATHS | {PLAN_PATH, CORE_PATH, '.github/workflows/formal-regression-controls.yml',
+              '.github/workflows/architecture-runtime-acquisition.yml', 'docs/plans/2026-10-09-public-runtime-acquisition.md',
+              'docs/superpowers/specs/2026-10-18-formal-regression-collector-design.md',
+              'docs/superpowers/plans/2026-10-18-formal-regression-collector-implementation.md'})
+          STAGED_PATHS = FROZEN_PATHS | {PLAN_PATH, CORE_PATH}
+          ROOT = pathlib.Path(sys.argv[1]); WORKSPACE = pathlib.Path(os.environ['GITHUB_WORKSPACE'])
+          OUT, CONTROL, SOURCE, PUBLISH = (ROOT / x for x in ('originals', 'control', 'source', 'publish'))
+          WORKER_IMAGE=pathlib.Path(os.environ['FORMAL_EVIDENCE_TEMP']).parent/'worker-output.img'
+          deadline = time.monotonic() + 720
+          commands, owned, disposed, mode_records = {}, {}, {}, {}
+          attempted = set()
+          saved, total, source_before, source_after = {}, 0, {}, {}
+          failure, cleanup_failure, filesystem_mounted = None, None, False
+          context = {key: os.environ.get(name,'') for key, name in (('repository','GITHUB_REPOSITORY'),
+              ('checked_commit','GITHUB_SHA'),('run_id','GITHUB_RUN_ID'),('run_attempt','GITHUB_RUN_ATTEMPT'),
+              ('event_name','GITHUB_EVENT_NAME'),('ref','GITHUB_REF'),('workflow_ref','GITHUB_WORKFLOW_REF'),
+              ('workflow_sha','GITHUB_WORKFLOW_SHA'),('job','GITHUB_JOB'))}
+          def require(value, message):
+              if not value: raise ValueError(message)
+          def sha(raw): return hashlib.sha256(raw).hexdigest()
+          def encode(value): return (json.dumps(value,sort_keys=True,allow_nan=False)+'\n').encode()
+          SUBTEST_AUDIT_CONTRACT = {'schema_version':1,'scope_order':'OUTER_TO_INNER','events':'UNMODIFIED_STDLIB_SUBTEST_CALLBACKS','event_bytes':8192,'method_events':256,'mode_events':2048,'mode_metadata_bytes':131072,'value_depth':8,'value_nodes':256,'scope_parameters':16,'scopes':8,'container_items':64,'key_bytes':128,'string_bytes':2048,'integer_characters':128}
+          def validate_subtest_inventory(record,rows):
+              contract=record['subtest_audit_contract']
+              require(type(contract) is dict and set(contract)==set(SUBTEST_AUDIT_CONTRACT)
+                  and all(type(contract[k]) is type(v) for k,v in SUBTEST_AUDIT_CONTRACT.items()),'exact nested audit contract field types')
+              require(contract==SUBTEST_AUDIT_CONTRACT and record['subtests_complete'] is True
+                  and type(record['subtest_refused_total']) is int and record['subtest_refused_total']==0 and record['subtest_refusals']==[],'complete bounded nested audit contract')
+              def value(v,depth,nodes):
+                  nodes[0]+=1;require(type(v) is dict and depth<=8 and nodes[0]<=256 and type(v.get('type')) is str,'closed nested typed value');t=v['type']
+                  if t=='none':require(set(v)=={'type'},'nested none fields')
+                  elif t=='bool':require(set(v)=={'type','value'} and type(v['value']) is bool,'nested bool fields')
+                  elif t=='int':
+                      require(set(v)=={'type','value'} and type(v['value']) is str and len(v['value'])<=128
+                          and re.fullmatch('-?(0|[1-9][0-9]*)',v['value']) and str(int(v['value']))==v['value'],'canonical nested int')
+                  elif t=='float':
+                      require(set(v)=={'type','value'} and type(v['value']) is str and len(v['value'])<=128,'nested float fields')
+                      f=float.fromhex(v['value']);require(math.isfinite(f) and f.hex()==v['value'],'canonical finite nested float')
+                  elif t=='str':require(set(v)=={'type','value'} and type(v['value']) is str and len(v['value'].encode('utf-8'))<=2048,'nested string fields')
+                  elif t in ('list','tuple','dict'):
+                      require(set(v)=={'type','items'} and type(v['items']) is list and len(v['items'])<=64,'nested sequence/map fields')
+                      if t=='dict':
+                          pairs=v['items'];require(all(type(p) is list and len(p)==2 and type(p[0]) is str and len(p[0].encode('utf-8'))<=128 for p in pairs),'nested map keys')
+                          keys=[p[0] for p in pairs];require(keys==sorted(set(keys)),'canonical unique nested map keys')
+                          for _,item in pairs:value(item,depth+1,nodes)
+                      else:
+                          for item in v['items']:value(item,depth+1,nodes)
+                  else:raise ValueError('unsupported nested typed value')
+              mode_ordinal=0;mode_bytes=0
+              for row in rows:
+                  events=row['subtests'];require(type(events) is list and len(events)<=256 and row['subtests_complete'] is True
+                      and type(row['subtest_events_seen']) is int and row['subtest_events_seen']==len(events) and row['subtest_refusals']==[],'complete nested containing-method inventory');method_bytes=0
+                  for ordinal,event in enumerate(events,1):
+                      mode_ordinal+=1;require(type(event) is dict and set(event)=={'event_id','case','status','exception_type','skip_reason'},'closed nested event fields')
+                      case=event['case'];require(type(case) is dict and set(case)=={'parent_method_id','ordinal','mode_ordinal','scopes','message'}
+                          and case['parent_method_id']==row['id'] and type(case['ordinal']) is int and case['ordinal']==ordinal
+                          and type(case['mode_ordinal']) is int and case['mode_ordinal']==mode_ordinal,'deterministic nested method/order identity')
+                      scopes=case['scopes'];require(type(scopes) is list and 1<=len(scopes)<=8,'nested scope inventory');nodes=[0]
+                      for scope in scopes:
+                          require(type(scope) is list and len(scope)<=16 and all(type(p) is list and len(p)==2 and type(p[0]) is str and len(p[0].encode('utf-8'))<=128 for p in scope),'closed nested parameter scope')
+                          keys=[p[0] for p in scope];require(keys==sorted(set(keys)),'canonical unique nested parameter names')
+                          for _,item in scope:value(item,0,nodes)
+                      message=case['message'];require(type(message) is dict and message.get('kind') in ('DEFAULT','VALUE'),'nested message kind')
+                      if message['kind']=='DEFAULT':require(set(message)=={'kind'},'default nested message fields')
+                      else:require(set(message)=={'kind','value'},'explicit nested message fields');value(message['value'],0,nodes)
+                      require(type(event['event_id']) is str and event['event_id']==sha(encode(case)),'full deterministic nested event identity')
+                      status=event['status'];exception=event['exception_type'];reason=event['skip_reason']
+                      require(status in ('PASS','FAIL','ERROR','SKIP') and (exception is None or type(exception) is str and 0<len(exception.encode('utf-8'))<=128)
+                          and (reason is None or type(reason) is str and len(reason.encode('utf-8'))<=2048),'closed nested outcome')
+                      require((status=='PASS' and exception is None and reason is None) or (status in ('FAIL','ERROR') and exception is not None and reason is None)
+                          or (status=='SKIP' and exception is None and type(reason) is str),'nested status/exception/skip semantics')
+                      wire=encode(event);require(len(wire)<=8192,'nested per-event bound');method_bytes+=len(wire)+1
+                  require(type(row['subtest_metadata_bytes']) is int and row['subtest_metadata_bytes']==method_bytes,'exact retained nested method metadata debit');mode_bytes+=method_bytes
+              require(mode_ordinal<=2048 and mode_bytes<=131072 and type(record['subtest_events_seen']) is int
+                  and type(record['subtest_events_retained']) is int and record['subtest_events_seen']==record['subtest_events_retained']==mode_ordinal
+                  and type(record['subtest_metadata_bytes']) is int and record['subtest_metadata_bytes']==mode_bytes,'exact full nested mode inventory and debit')
+          def strict(raw):
+              def pairs(items):
+                  value = {}
+                  for key,item in items:
+                      require(key not in value,'duplicate JSON key'); value[key]=item
+                  return value
+              def reject(value): raise ValueError('nonfinite JSON')
+              def finite(value):
+                  number=float(value)
+                  require(math.isfinite(number), 'nonfinite JSON number')
+                  return number
+              return json.loads(raw,object_pairs_hook=pairs,parse_constant=reject,parse_float=finite)
+          def read(path, limit=MIB):
+              path = pathlib.Path(path); require(path.is_absolute(),'absolute admitted path')
+              parent = os.open(path.anchor,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW); leaf=None
+              try:
+                  for part in path.parts[1:-1]:
+                      child=os.open(part,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW,dir_fd=parent)
+                      os.close(parent); parent=child
+                  leaf=os.open(path.name,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK,dir_fd=parent)
+                  before=os.fstat(leaf)
+                  require(stat.S_ISREG(before.st_mode) and before.st_nlink==1 and before.st_size<=limit,'regular bounded single-link original')
+                  raw=b''
+                  while len(raw)<=limit:
+                      part=os.read(leaf,min(65536,limit+1-len(raw)))
+                      if not part: break
+                      raw+=part
+                  after=os.fstat(leaf)
+                  require((before.st_dev,before.st_ino,before.st_size,before.st_mtime_ns,before.st_ctime_ns)==
+                      (after.st_dev,after.st_ino,after.st_size,after.st_mtime_ns,after.st_ctime_ns)
+                      and len(raw)==before.st_size<=limit and after.st_nlink==1,'original changed during bounded read')
+                  return raw
+              finally:
+                  if leaf is not None: os.close(leaf)
+                  os.close(parent)
+          BUDGET_ROOT=pathlib.Path(os.environ['FORMAL_EVIDENCE_TEMP'])/('formal-regression-budget-'+context['run_id']+'-'+context['run_attempt'])
+          RECOVERY_MODE=len(sys.argv)==3 and sys.argv[2]=='--recover-and-seal'
+          budget_policy_raw=read(BUDGET_ROOT/'policy.json',65536);budget_policy=strict(budget_policy_raw)
+          budget_account_raw=read(BUDGET_ROOT/'preparation-account.json',MIB);budget_account=strict(budget_account_raw)
+          require(budget_policy['native_context']==budget_account['native_context']=={k:context[k] for k in ('repository','checked_commit','run_id','run_attempt')}
+              and budget_policy['total_retained_decompressed_bytes']==64*MIB and budget_policy['total_members']==1024
+              and budget_policy['metadata_response_bytes']==4*MIB and budget_account['policy_sha256']==sha(budget_policy_raw),'shared source/context/budget identity')
+          prep_bytes=budget_account['original_bytes'];prep_members=budget_account['original_count']
+          require(type(prep_bytes) is int and 0<=prep_bytes<=36*MIB and type(prep_members) is int and 0<=prep_members<=256,'bounded preparation debit')
+          ordinary_byte_limit=min(32*MIB,64*MIB-prep_bytes-17*MIB)
+          ordinary_member_limit=1024-prep_members-72
+          def budget_measure():
+              count,size=0,0
+              for path in OUT.iterdir():
+                  require(re.fullmatch(r'[A-Za-z0-9_.-]+',path.name),'closed ordinary original name')
+                  info=path.lstat();require(stat.S_ISREG(info.st_mode) and info.st_nlink==1 and info.st_uid==os.getuid(),'ordinary original type/ownership')
+                  count+=1;size+=info.st_size
+              return count,size
+          def budget_admit(size,members=1,recovery=False):
+              count,current=budget_measure();extra=RECOVERY_MODE or recovery
+              require(type(size) is int and size>=0 and count+members<=ordinary_member_limit+(32 if extra else 0)
+                  and current+size<=ordinary_byte_limit+(2*MIB if extra else 0),'shared retained-original reservation exhausted')
+          def save(name, raw, limit=MIB, recovery=False):
+              global total
+              require(re.fullmatch(r'[A-Za-z0-9_.-]+',name) and name not in saved and len(raw)<=limit,'host original name/type/limit')
+              budget_admit(len(raw),recovery=recovery)
+              fd=os.open(OUT/name,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o600)
+              with os.fdopen(fd,'wb') as stream: stream.write(raw)
+              saved[name]={'bytes':len(raw),'sha256':sha(raw)}; total+=len(raw)
+          def command(name, argv, seconds=30, limit=MIB, allow_nonzero=False, recovery=False):
+              require(name not in commands,'one native command attempt')
+              if recovery:limit=min(limit,65536)
+              if not recovery:budget_admit(2*limit+65536,members=3)
+              timeout=min(seconds,max(0,deadline-time.monotonic())) if not recovery else seconds
+              require(timeout>0,'reserved phase budget exhausted')
+              record={'argv':argv,'attempts':1,'timeout_seconds':timeout,'complete':False,'code':None,'timed_out':False,
+                      'process_unreaped':False,'termination_errors':[],'stream_limit_bytes':limit}
+              buffers={'stdout':bytearray(),'stderr':bytearray()}; proc=None; selector=selectors.DefaultSelector()
+              started=time.monotonic_ns()
+              env={'PATH':'/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin','LANG':'C.UTF-8','TZ':'UTC',
+                  'DOCKER_CONFIG':str(ROOT/'client'),'GIT_CONFIG_NOSYSTEM':'1','GIT_CONFIG_GLOBAL':'/dev/null','GIT_TERMINAL_PROMPT':'0'}
+              active=ROOT/'active-command.json'
+              with active.open('xb') as stream: stream.write(encode({'name':name,'state':'SPAWNING','argv':argv}))
+              try:
+                  proc=subprocess.Popen(argv,stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=subprocess.PIPE,
+                      cwd=WORKSPACE,env=env,start_new_session=True)
+                  for stream,label in ((proc.stdout,'stdout'),(proc.stderr,'stderr')):
+                      os.set_blocking(stream.fileno(),False); selector.register(stream,selectors.EVENT_READ,label)
+                  end=time.monotonic()+timeout
+                  while selector.get_map():
+                      remaining=end-time.monotonic()
+                      if remaining<=0: raise TimeoutError('bounded native command timeout')
+                      for key,_ in selector.select(min(remaining,0.2)):
+                          part=os.read(key.fileobj.fileno(),65536)
+                          if not part: selector.unregister(key.fileobj);key.fileobj.close();continue
+                          room=limit-len(buffers[key.data]);buffers[key.data].extend(part[:room])
+                          require(len(part)<=room,'native raw stream exceeded bound')
+                  record['code']=proc.wait(timeout=max(0.01,end-time.monotonic()));record['complete']=True
+              except BaseException as exc:
+                  record['error_type']=type(exc).__name__;record['timed_out']=isinstance(exc,(TimeoutError,subprocess.TimeoutExpired))
+              finally:
+                  if proc is not None and proc.poll() is None:
+                      for sig,grace in ((signal.SIGTERM,4),(signal.SIGKILL,1)):
+                          if proc.poll() is not None: break
+                          try: os.killpg(proc.pid,sig);proc.wait(timeout=grace)
+                          except ProcessLookupError: pass
+                          except subprocess.TimeoutExpired: pass
+                          except BaseException as exc: record['termination_errors'].append(type(exc).__name__)
+                      record['process_unreaped']=proc.poll() is None
+                  if proc is not None:
+                      record['code']=proc.returncode
+                      for stream in (proc.stdout,proc.stderr):
+                          if stream is not None and not stream.closed: stream.close()
+                  selector.close();record['duration_ns']=time.monotonic_ns()-started
+                  if proc is not None and proc.poll() is not None and not record['termination_errors']:
+                      active.unlink()
+                  if record['process_unreaped'] or record['termination_errors']:record['complete']=False
+                  process_complete=record['complete'] and (allow_nonzero or record['code']==0)
+                  commands[name]=record
+                  for label,buffer in buffers.items():
+                      try: save(name+'.'+label,bytes(buffer),limit,recovery=recovery);record[label]=saved[name+'.'+label]
+                      except BaseException as exc:record['complete']=False;record[label+'_capture_error']=type(exc).__name__
+                  try:save(name+'.status.json',encode(record),65536,recovery=recovery)
+                  except BaseException as exc:record['complete']=False;record['status_capture_error']=type(exc).__name__
+              # Exhausted logging never licenses success, but cannot block already observed owned physical cleanup.
+              require(process_complete and (record['complete'] or recovery),'native command failed: '+name)
+              return bytes(buffers['stdout'])
+          def git(name,args,limit=MIB):
+              return command(name,['git','--no-pager','-c','core.hooksPath=/dev/null','-c','core.fsmonitor=false',*args],limit=limit)
+          def source_records(phase):
+              records={}
+              for index,path in enumerate(SOURCE_PATHS):
+                  raw=read(WORKSPACE/path)
+                  native=git(phase+'-source-'+str(index),['show',context['checked_commit']+':'+path])
+                  require(raw==native,'worktree/native source mismatch')
+                  native_row=git(phase+'-mode-'+str(index),['ls-tree','--format=%(objectmode) %(objecttype) %(objectname)',context['checked_commit'],'--',path]).decode().strip().split()
+                  require(len(native_row)==3 and native_row[0]=='100644' and native_row[1]=='blob'
+                      and re.fullmatch('[0-9a-f]{40}',native_row[2]),'native regular blob mode/identity')
+                  records[path]={'bytes':len(raw),'sha256':sha(raw),'git_blob':native_row[2],'git_mode':native_row[0]}
+                  if phase=='before':
+                      save('source-'+str(index)+'.original',raw)
+                      if path in STAGED_PATHS:
+                          target=SOURCE/path;target.parent.mkdir(mode=0o755,parents=True,exist_ok=True)
+                          fd=os.open(target,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o444)
+                          with os.fdopen(fd,'wb') as stream:stream.write(raw)
+              save('source-'+phase+'.json',encode(records));return records
+          def labels(mode):return {'org.formal-controls.run-id':context['run_id'],'org.formal-controls.attempt':context['run_attempt'],
+              'org.formal-controls.checked-commit':context['checked_commit'],'org.formal-controls.mode':str(mode)}
+          def inspect(mode,label,recovery=False):
+              rows=strict(command(label,['docker','inspect',owned[mode]],recovery=recovery))
+              require(type(rows) is list and len(rows)==1 and rows[0]['Id']==owned[mode]
+                  and rows[0]['Image']==IMAGE_ID and rows[0]['Config']['Labels']==labels(mode),'owned native identity')
+              return rows[0]
+          def dispose(mode):
+              require(not any(v['process_unreaped'] for v in commands.values()),'unreaped command prevents racing disposal')
+              item=inspect(mode,'dispose-before-'+str(mode),recovery=True)
+              if item['State']['Running']:command('stop-'+str(mode),['docker','stop','--time','2',owned[mode]],recovery=True)
+              command('rm-'+str(mode),['docker','rm',owned[mode]],recovery=True)
+              remaining=command('absent-'+str(mode),['docker','ps','--all','--no-trunc','--filter','id='+owned[mode],'--format','{{json .}}'],recovery=True)
+              require(remaining==b'','owned container disposal unconfirmed');disposed[mode]=True
+          def validate_native(item,mode):
+              c,h=item['Config'],item['HostConfig']
+              require(c['Image']==IMAGE and c['User']=='65532:65532' and c['Entrypoint']==['/usr/local/bin/python']
+                  and c['Cmd']==['-I','-B','-S',*(['-O'] if mode else []),'/control/driver.py',str(mode)]
+                  and c['WorkingDir']=='/' and c['Labels']==labels(mode),'fixed worker command')
+              require(h['ReadonlyRootfs'] is True and h['NetworkMode']=='none' and h['NanoCpus']==2000000000
+                  and h['Memory']==h['MemorySwap']==1073741824 and h['PidsLimit']==128 and h['CapDrop']==['ALL']
+                  and h['CapAdd'] is None and h['SecurityOpt']==['no-new-privileges'] and h['Privileged'] is False
+                  and h['LogConfig']=={'Type':'none','Config':{}} and h['ShmSize']==MIB
+                  and h['Tmpfs']=={'/tmp':'rw,noexec,nosuid,nodev,size=128m,mode=1777'}
+                  and h['Devices']==[] and h['DeviceRequests'] is None and h['VolumesFrom'] is None
+                  and h['PortBindings']=={} and h['PublishAllPorts'] is False and h['PidMode']==''
+                  and h['IpcMode']=='private' and h['CgroupnsMode']=='private','native kernel isolation/resource limits')
+              expected={('/source',str(SOURCE)):False,('/control/driver.py',str(CONTROL/'driver.py')):False,
+                  ('/output',str(ROOT/'output'/str(mode))):True}
+              mounts={(v['Destination'],v['Source']):v['RW'] for v in item['Mounts']}
+              require(len(item['Mounts'])==3 and mounts==expected and all(v['Type']=='bind' and v['Propagation']=='rprivate'
+                  for v in item['Mounts']),'exact read-only source/control and bounded output mounts')
+          if len(sys.argv) == 3 and sys.argv[2] == '--recover-and-seal':
+              with (PUBLISH/'recovery-started.json').open('xb') as stream:
+                  stream.write(encode({'status':'HOLD_RECOVERY_NOT_YET_CONFIRMED','context':context,'scientific_effect':'NONE'}))
+              early_total=0
+              for path in sorted(OUT.iterdir(),key=lambda p:p.name):
+                  try:
+                      require(re.fullmatch(r'[A-Za-z0-9_.-]+',path.name),'closed early original name')
+                      raw=read(path,4*MIB);early_total+=len(raw);require(early_total<=36*MIB,'early partial original bound')
+                      target=PUBLISH/path.name
+                      if not target.exists():
+                          with target.open('xb') as stream:stream.write(raw)
+                  except BaseException:pass
+              recovery_errors=[]; physical_clear=False; recovered_ids=[]
+              if (ROOT/'active-command.json').exists():
+                  try:save('outer-active-command.json',read(ROOT/'active-command.json',65536),65536)
+                  except BaseException:pass
+              try:
+                  require(not (ROOT/'active-command.json').exists(),
+                      'interrupted native command remains uncertain; no racing disposal or worker-output collection')
+                  for mode in (0,1):
+                      name='formal-regression-'+context['run_id']+'-'+context['run_attempt']+'-'+str(mode)
+                      raw=command('outer-discover-'+str(mode),['docker','ps','--all','--no-trunc','--filter','name=^/'+name+'$',
+                          '--format','{{json .}}'],recovery=True)
+                      rows=[strict(line) for line in raw.splitlines()]
+                      require(len(rows)<=1,'ambiguous owned container discovery')
+                      if rows:
+                          objects=strict(command('outer-inspect-'+str(mode),['docker','inspect',rows[0]['ID']],recovery=True))
+                          require(type(objects) is list and len(objects)==1 and objects[0]['Id']==rows[0]['ID']
+                              and objects[0]['Image']==IMAGE_ID and objects[0]['Config']['Image']==IMAGE
+                              and objects[0]['Config']['Labels']==labels(mode),'actual image/labels establish recovery ownership')
+                          identity=objects[0]['Id'];recovered_ids.append(identity)
+                          command('outer-remove-'+str(mode),['docker','rm','--force',identity],recovery=True)
+                          absent=command('outer-absent-'+str(mode),['docker','ps','--all','--no-trunc','--filter','id='+identity,
+                              '--format','{{json .}}'],recovery=True)
+                          require(absent==b'','owned disposal after interrupted controller unconfirmed')
+                  physical_clear=True
+              except BaseException as exc:recovery_errors.append({'type':type(exc).__name__,'message':str(exc)[:2048]})
+              # Only named worker originals are considered, and only after physical disposal is known.
+              if physical_clear:
+                  try:
+                      plan_raw=read(SOURCE/PLAN_PATH);require(sha(plan_raw)==PLAN_SHA,'recovery frozen plan pin')
+                      expected=strict(plan_raw)['test_ids']
+                      for mode in (0,1):
+                          names={'result.json'}|{sha(v.encode())+suffix for v in expected for suffix in ('.stdout','.stderr')}
+                          for name in sorted(names):
+                              try:
+                                  raw=read(ROOT/'output'/str(mode)/name,MIB if name=='result.json' else 131072)
+                                  target='worker-'+str(mode)+'-'+name
+                                  if (OUT/target).exists():require(read(OUT/target)==raw,'existing worker original changed')
+                                  else:save(target,raw,MIB if name=='result.json' else 131072)
+                              except FileNotFoundError:pass
+                  except BaseException as exc:recovery_errors.append({'type':type(exc).__name__,'message':str(exc)[:2048]})
+                  try:
+                      raw=command('outer-mount-state',['findmnt','--json','--mountpoint',str(ROOT/'output')],allow_nonzero=True,recovery=True)
+                      state=strict(raw) if raw.strip() else {'filesystems':[]}
+                      mounted=state.get('filesystems',[])
+                      require(len(mounted)<=1,'ambiguous output mount')
+                      if mounted:
+                          require(mounted[0]['target']==str(ROOT/'output') and mounted[0].get('fstype')=='ext4',
+                              'owned output mount native identity')
+                          loop=str(mounted[0]['source']).split('[')[0]
+                          backing=command('outer-loop-backing',['losetup','--noheadings','--output','BACK-FILE',loop],recovery=True).decode().strip()
+                          require(backing==str(WORKER_IMAGE),'owned loop backing identity')
+                          command('outer-unmount',['sudo','-n','umount',str(ROOT/'output')],recovery=True)
+                  except BaseException as exc:recovery_errors.append({'type':type(exc).__name__,'message':str(exc)[:2048]})
+              for name in ('control-process.stdout','control-process.stderr'):
+                  try:save('outer-'+name,read(ROOT/name,4*MIB),4*MIB)
+                  except FileNotFoundError:pass
+                  except BaseException as exc:recovery_errors.append({'type':type(exc).__name__,'message':name+':'+type(exc).__name__})
+              observation={'schema_version':1,'context':context,'always_run_recovery':True,'owned_workers_confirmed_absent':physical_clear,
+                  'recovered_container_ids':recovered_ids,'errors':recovery_errors,'qualification':'HOLD_UNLESS_MAIN_CONTROLLER_AND_NONAUTHOR_ORIGINAL_REVIEW_QUALIFY',
+                  'scientific_effect':'NONE','custody_authentication':'UNKNOWN'}
+              save('outer-recovery.json',encode(observation))
+              members=[];refused=[];count=0;subtotal=0
+              for path in sorted(OUT.iterdir(),key=lambda p:p.name):
+                  count+=1
+                  try:
+                      require(count<=1024 and re.fullmatch(r'[A-Za-z0-9_.-]+',path.name),'closed original name/count')
+                      raw=read(path,4*MIB);subtotal+=len(raw);require(prep_bytes+subtotal+15*MIB<=64*MIB,'shared partial original aggregate with final reserve')
+                      target=PUBLISH/path.name
+                      if target.exists():require(read(target,4*MIB)==raw,'original already staged copy differs')
+                      else:
+                          with target.open('xb') as stream:stream.write(raw)
+                      members.append({'path':path.name,'bytes':len(raw),'sha256':sha(raw)})
+                  except BaseException as exc:refused.append({'name_sha256':sha(path.name.encode()),'reason':type(exc).__name__})
+              summary={'schema_version':1,'context':context,'available_originals':members,'available_original_bytes':sum(v['bytes'] for v in members),
+                  'refused':refused,'recovery':observation,'full8':'ACTIVE_UNMET','scientific_effect':'NONE',
+                  'native_archive_raw_member_readback':'REQUIRED_AFTER_JOB','source_test_exposed':True,'organizational_independence':0}
+              raw=encode(summary);require(len(raw)<=MIB,'partial collection metadata bound')
+              with (PUBLISH/'post-control-collection.json').open('xb') as stream:stream.write(raw)
+              raise SystemExit(0 if physical_clear and not recovery_errors and not refused else 1)
+          try:
+              require(re.fullmatch('[0-9a-f]{40}',context['workflow_sha']) and context['workflow_ref'].startswith(
+                  context['repository']+'/.github/workflows/formal-regression-controls.yml@'), 'native workflow source identity missing')
+              require(context['event_name']=='pull_request' and context['repository']=='d6g8k5htny-coder/main'
+                  and re.fullmatch(r'refs/pull/[1-9][0-9]*/merge',context['ref'])
+                  and re.fullmatch('[0-9a-f]{40}',context['checked_commit'])
+                  and re.fullmatch('[1-9][0-9]*',context['run_id']) and re.fullmatch('[1-9][0-9]*',context['run_attempt']),
+                  'natural current PR merge event required')
+              event_raw=read(pathlib.Path(os.environ['GITHUB_EVENT_PATH']),4*MIB);event=strict(event_raw);pr=event['pull_request']
+              event_context={'number':event['number'],'action':event['action'],'head':pr['head']['sha'],'base':pr['base']['sha'],
+                  'head_repository':pr['head']['repo']['full_name'],'base_repository':pr['base']['repo']['full_name'],
+                  'base_ref':pr['base']['ref'],'merge_commit_sha':pr['merge_commit_sha'],'event_bytes':len(event_raw),'event_sha256':sha(event_raw)}
+              require(event_context['base_repository']==context['repository'] and event_context['base_ref']=='main'
+                  and event_context['merge_commit_sha']==context['checked_commit']
+                  and context['ref']=='refs/pull/'+str(event_context['number'])+'/merge','event/head/base/merge join')
+              require(event_context['action'] in ('opened','synchronize','reopened','ready_for_review')
+                  and type(event_context['number']) is int and event_context['number']>0
+                  and all(re.fullmatch('[0-9a-f]{40}',event_context[k]) for k in ('head','base','merge_commit_sha'))
+                  and re.fullmatch(r'[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+',event_context['head_repository']), 'closed native-event allowlist types')
+              event_custody={'schema_version':1,'interface':'formal-controls-native-event-custody/v1','native_context':context,
+                  'allowlisted_projection':event_context,'raw_event_pin':{'bytes':len(event_raw),'sha256':sha(event_raw)},
+                  'raw_event_original':None,'raw_event_source_join':'UNRESOLVED_NOT_RETAINED','native_acceptance':None,
+                  'projection_is_original':False,'source_join_qualified':False,
+                  'required_external_original':{'audience':'ACTUALLY_QUALIFIED_PRIVATE_OR_APPROVED_NATIVE_CARRIER','immutable_original_identity':None,
+                      'native_repository_run_attempt_job_and_workflow_source':None,'raw_bytes_pin_equality':None,'current_audience_readback':None},
+                  'external_original_closed_contract':{'type':'NativeEventOriginal/v1','actual':None,
+                      'closed_fields':['schema_version','repository','checked_commit','run_id','run_attempt','job_id','workflow_source_ref','carrier_native_id','carrier_version','member_id','bytes','sha256','audience_evidence_ref','native_source_observation_ref','raw_readback_observation_ref'],
+                      'types':{'schema_version':'exact int1 not bool','repository':'exact native repository','checked_commit':'lowercase40hex exact nativeK',
+                          'run_id':'positive ASCII decimal string','run_attempt':'positive ASCII decimal string','job_id':'positive ASCII decimal string',
+                          'workflow_source_ref':'closed six-field immutable GitRef, separately native-bound','carrier_native_id':'opaque actual immutable native identity, never URL',
+                          'carrier_version':'exact immutable observed version','member_id':'safe carrier-relative immutable member identity','bytes':'exact nonnegative int<=4MiB not bool',
+                          'sha256':'lowercase64hex equal raw_event_pin','audience_evidence_ref':'actual immutable qualified audience original identity',
+                          'native_source_observation_ref':'actual immutable native repository/run/attempt/job/source observation identity','raw_readback_observation_ref':'actual immutable raw-byte readback identity'},
+                      'admission':'External qualified nonauthor must rejoin every native field, exact raw pin/projection and audience before credit; no input boolean/status/hash supplies authentication'},
+                  'public_allowlist':['number','action','head','base','head_repository','base_repository','base_ref','merge_commit_sha','event_bytes','event_sha256'],
+                  'excluded':'PR bodies/titles/comments/actors/access URLs/credentials/private metadata; no raw event body is published',
+                  'qualification':'HOLD; hash/projection never replaces unavailable original or authenticated native custody'}
+              save('native-context.json',encode(context));save('event-context.json',encode(event_context));save('event-custody-interface.json',encode(event_custody))
+              save('shared-budget-policy.json',budget_policy_raw,65536);save('preparation-account.json',budget_account_raw)
+              require(git('actual-HEAD',['rev-parse','HEAD']).decode().strip()==context['checked_commit'], 'actual checked HEAD equality')
+              for role in ('head','base'):
+                  git('native-'+role+'-commit',['cat-file','-p',event_context[role]],limit=65536)
+              commit=git('checked-commit',['cat-file','-p',context['checked_commit']],limit=65536)
+              lines=commit.decode().splitlines();tree=[v[5:] for v in lines if v.startswith('tree ')]
+              parents=[v[7:] for v in lines if v.startswith('parent ')]
+              require(len(tree)==1 and parents==[event_context['base'],event_context['head']],'actual checked merge tree/parents')
+              save('checked-tree-parents.json',encode({'tree':tree[0],'parents':parents}))
+              prep=read(pathlib.Path(os.environ['FORMAL_EVIDENCE_TEMP'])/('formal-regression-preparation-binding-'+context['run_id']+'-'+context['run_attempt']+'.json'),2*MIB)
+              preparation=strict(prep);save('preparation-binding.json',prep,2*MIB)
+              require(preparation['native_context']=={k:context[k] for k in ('repository','checked_commit','run_id','run_attempt')}
+                  and preparation['daemon_recovery_complete'] is True,'same-attempt preparation binding')
+              source_before=source_records('before')
+              require(source_before[PLAN_PATH]['sha256']==PLAN_SHA,'independently frozen literal control-plan identity')
+              plan=strict(read(SOURCE/PLAN_PATH));require(set(plan)=={'organization_independence', 'request_key_oracle', 'test_module', 'expected_scaffold_summary', 'qualified_GREEN', 'runtime_status', 'frozen_at_utc', 'all8', 'qualified_RED', 'held_predicates', 'mode_inventory', 'scope_limits', 'kind', 'test_ids', 'control_plan_state', 'schema_version', 'commands', 'methods', 'synthetic_test_boundary_profile', 'mandatory_contract_coverage', 'remaining_Task1_requirements', 'scientific_effect', 'frozen_sources', 'minimal_core_preimage'},'closed control-plan fields')
+              require(type(plan['schema_version']) is int and plan['schema_version']==1 and plan['test_module']=='test_formal_regression'
+                  and type(plan['test_ids']) is list and 0<len(plan['test_ids'])<=512
+                  and all(type(v) is str and re.fullmatch(r'test_formal_regression\.[A-Za-z_][A-Za-z0-9_]*\.test_[A-Za-z0-9_]+',v) for v in plan['test_ids'])
+                  and plan['test_ids']==sorted(set(plan['test_ids'])),'frozen nonzero sorted method inventory')
+              frozen=plan['frozen_sources'];require(type(frozen) is list and len(frozen)==3 and {v['path'] for v in frozen}==FROZEN_PATHS,'exact three frozen sources')
+              for row in frozen:
+                  require(set(row)=={'path','bytes','sha256'} and type(row['bytes']) is int and 0<row['bytes']<=MIB
+                      and re.fullmatch('[0-9a-f]{64}',row['sha256'])
+                      and {k:source_before[row['path']][k] for k in ('bytes','sha256')}=={'bytes':row['bytes'],'sha256':row['sha256']},'frozen source exact identity')
+              historical=plan['minimal_core_preimage'];require(type(historical) is dict and set(historical)=={'path','bytes','sha256','role'}
+                  and historical['path']==CORE_PATH and type(historical['bytes']) is int and historical['bytes']>0
+                  and re.fullmatch('[0-9a-f]{64}',historical['sha256']) and type(historical['role']) is str and historical['role'],
+                  'separate historical minimal-scaffold descriptor; no workflow/self hash')
+              for name in ('controller.py','driver.py'):
+                  raw=read(CONTROL/name)
+                  if name=='driver.py':require((len(raw),sha(raw))==DRIVER_PIN,'fixed literal recording driver identity')
+                  save(name,raw)
+              # Root source directory traversable by UID65532; only the closed five staged files are mounted.
+              SOURCE.chmod(0o755)
+              for directory in SOURCE.rglob('*'):
+                  if directory.is_dir():directory.chmod(0o755)
+              command('output-truncate',['truncate','-s','64M',str(WORKER_IMAGE)])
+              command('output-format',['mkfs.ext4','-F',str(WORKER_IMAGE)])
+              command('output-mount',['sudo','-n','mount','-o','loop,nodev,nosuid,noexec',str(WORKER_IMAGE),str(ROOT/'output')]);filesystem_mounted=True
+              for mode in (0,1):
+                  target=ROOT/'output'/str(mode)
+                  command('output-directory-'+str(mode),['sudo','-n','mkdir','-m','0777',str(target)])
+              command('output-capacity',['df','-B1',str(ROOT/'output')])
+              client_info=(ROOT/'client').lstat()
+              require(stat.S_ISDIR(client_info.st_mode) and stat.S_IMODE(client_info.st_mode)==0o700
+                  and client_info.st_uid==os.getuid() and list((ROOT/'client').iterdir())==[], 'fresh empty private Docker client')
+              image=strict(command('runtime-image',['docker','image','inspect',IMAGE]))
+              require(type(image) is list and len(image)==1 and image[0]['Id']==IMAGE_ID
+                  and image[0]['RepoDigests']==['python@sha256:83f339c1be6340ae1096010fdccf6552ac932d8f410d45d206014916bdf37e48']
+                  and image[0]==preparation['image'],'same unmodified prepared native image')
+              image_env=image[0]['Config']['Env'];expected_env=[v for v in image_env if not v.startswith(('LANG=','TZ=','PYTHONDONTWRITEBYTECODE='))]+['LANG=C.UTF-8','TZ=UTC','PYTHONDONTWRITEBYTECODE=1']
+              for mode in (0,1):
+                  name='formal-regression-'+context['run_id']+'-'+context['run_attempt']+'-'+str(mode)
+                  argv=['docker','create','--pull=never','--name',name,'--platform','linux/amd64','--network','none',
+                      '--read-only','--user','65532:65532','--cpus','2','--memory','1g','--memory-swap','1g','--pids-limit','128',
+                      '--cap-drop','ALL','--security-opt','no-new-privileges','--log-driver','none','--ipc','private','--cgroupns','private',
+                      '--shm-size','1m','--ulimit','fsize=67108864:67108864','--ulimit','nofile=256:256','--ulimit','msgqueue=8192:8192',
+                      '--tmpfs','/tmp:rw,noexec,nosuid,nodev,size=128m,mode=1777','--mount','type=bind,src='+str(SOURCE)+',dst=/source,readonly',
+                      '--mount','type=bind,src='+str(CONTROL/'driver.py')+',dst=/control/driver.py,readonly',
+                      '--mount','type=bind,src='+str(ROOT/'output'/str(mode))+',dst=/output',
+                      '--workdir','/','--env','LANG=C.UTF-8','--env','TZ=UTC','--env','PYTHONDONTWRITEBYTECODE=1','--entrypoint','/usr/local/bin/python']
+                  for key,value in labels(mode).items():argv+=['--label',key+'='+value]
+                  argv += [IMAGE,'-I','-B','-S',*(['-O'] if mode else []),'/control/driver.py',str(mode)]
+                  attempted.add(mode)
+                  identity=command('create-'+str(mode),argv).decode().strip()
+                  require(re.fullmatch('[0-9a-f]{64}',identity),'native created container ID');owned[mode]=identity
+                  try:
+                      before=inspect(mode,'before-'+str(mode));validate_native(before,mode)
+                      require(sorted(before['Config']['Env'])==sorted(expected_env),'closed credential-free worker environment')
+                      command('attach-'+str(mode),['docker','start','--attach',identity],seconds=300,allow_nonzero=True)
+                      waited=command('wait-'+str(mode),['docker','wait',identity]).decode().strip()
+                      after=inspect(mode,'after-'+str(mode));validate_native(after,mode)
+                      require(before['Config']==after['Config'] and before['HostConfig']==after['HostConfig']
+                          and after['State']['Status']=='exited' and after['State']['Running'] is False
+                          and after['State']['OOMKilled'] is False and after['State']['Error']==''
+                          and waited==str(after['State']['ExitCode']),'native terminal state and exit join')
+                      mode_records[str(mode)]={'before':before,'after':after,'native_exit':after['State']['ExitCode']}
+                  finally:
+                      dispose(mode)
+              source_after=source_records('after');require(source_after==source_before,'all consumed source originals stable')
+          except BaseException as exc:
+              failure={'type':type(exc).__name__,'message':str(exc)[:2048]}
+          finally:
+              try:
+                  require(not any(v['process_unreaped'] for v in commands.values()), 'uncertain native command prevents recovery races')
+                  for mode in sorted(attempted - set(owned)):
+                      name='formal-regression-'+context['run_id']+'-'+context['run_attempt']+'-'+str(mode)
+                      raw=command('adopt-discover-'+str(mode),['docker','ps','--all','--no-trunc','--filter','name=^/'+name+'$',
+                          '--format','{{json .}}'],recovery=True)
+                      rows=[strict(line) for line in raw.splitlines()]
+                      require(len(rows)<=1,'ambiguous failed-creation ownership')
+                      if rows:
+                          native=strict(command('adopt-inspect-'+str(mode),['docker','inspect',rows[0]['ID']],recovery=True))
+                          require(type(native) is list and len(native)==1 and native[0]['Image']==IMAGE_ID
+                              and native[0]['Config']['Labels']==labels(mode) and native[0]['Id']==rows[0]['ID'],
+                              'native failed-creation image/label ownership')
+                          owned[mode]=native[0]['Id']
+                  for mode in owned:
+                      if not disposed.get(mode):dispose(mode)
+                  require(all(disposed.get(mode) is True for mode in owned),'owned physical disposal before collection')
+                  require(not any(v['process_unreaped'] for v in commands.values()),'unreaped native command; collection refused')
+              except BaseException as exc:cleanup_failure={'type':type(exc).__name__,'message':str(exc)[:2048]}
+          # Candidate outputs are untrusted observations, never proof or self-issued qualification.
+          copied,refused,missing=[],[],[]
+          if cleanup_failure is None and all(disposed.get(mode) is True for mode in owned):
+              try:
+                  expected=plan['test_ids'] if 'plan' in globals() else []
+                  for mode in (0,1):
+                      directory=ROOT/'output'/str(mode)
+                      names={'result.json'}|{hashlib.sha256(v.encode()).hexdigest()+suffix for v in expected for suffix in ('.stdout','.stderr')}
+                      if directory.exists():
+                          for path in directory.iterdir():
+                              if path.name not in names:refused.append({'mode':mode,'reason':'UNDECLARED_OUTPUT_NAME','name_sha256':sha(path.name.encode())})
+                      for name in sorted(names):
+                          try:
+                              raw=read(directory/name,MIB if name=='result.json' else 131072)
+                              save('worker-'+str(mode)+'-'+name,raw,MIB if name=='result.json' else 131072)
+                              copied.append('worker-'+str(mode)+'-'+name)
+                          except FileNotFoundError:missing.append('worker-'+str(mode)+'-'+name)
+                          except BaseException as exc:refused.append({'mode':mode,'name':name,'reason':type(exc).__name__})
+                  require(not missing and not refused and len(mode_records)==2,'complete bounded worker originals required')
+                  results={str(mode):strict(read(OUT/('worker-'+str(mode)+'-result.json'))) for mode in (0,1)}
+                  for mode in (0,1):
+                      r=results[str(mode)];rows=r['records'];ids=[v['id'] for v in rows]
+                      require(r['schema_version']==1 and r['mode']==mode and r['test_module']=='test_formal_regression'
+                          and r['expected_test_ids']==r['actual_test_ids']==expected and sorted(ids)==expected
+                          and len(set(ids))==len(expected)==r['tests_run'] and r['complete'] is True
+                          and r['error_count']==r['skipped_count']==r['expected_failures']==r['unexpected_successes']==0
+                          and all(v['status'] in ('PASS','FAIL') and v['stdout']==sha(v['id'].encode())+'.stdout'
+                              and v['stderr']==sha(v['id'].encode())+'.stderr' for v in rows) and r['driver_error'] is None
+                          and r['exit_code']==mode_records[str(mode)]['native_exit'] in (0,1),'exact full method/result/native exit completeness')
+                      validate_subtest_inventory(r,rows)
+                      k=r['kernel'];quota,period=map(int,k['cgroup']['cpu.max'].split())
+                      require(k['uid']==k['gid']==65532 and k['proc_status']=={'CapEff':'0000000000000000','NoNewPrivs':'1'}
+                          and k['cgroup']['memory.max']=='1073741824' and k['cgroup']['pids.max']=='128'
+                          and quota==2*period and period>0 and k['network_interfaces']==['lo'] and len(k['network_routes'])==1
+                          and 0<k['tmpfs_bytes']<=128*MIB and k['version']==[3,11,14]
+                          and k['flags']=={'isolated':1,'no_site':1,'dont_write_bytecode':True,'optimize':mode},'recorded worker kernel/interpreter observations')
+                  require({v['id']:(v['status'],v['subtests']) for v in results['0']['records']}==
+                      {v['id']:(v['status'],v['subtests']) for v in results['1']['records']},'normal/optimized containing-method status and complete ordered nested-event inventory agreement')
+                  classification='GREEN_OBSERVATION_REQUIRES_NONAUTHOR_REVIEW' if all(r['exit_code']==0 for r in results.values()) else 'ASSERTION_RED_CANDIDATE_REQUIRES_NONAUTHOR_REVIEW'
+                  if classification.startswith('ASSERTION_RED'):
+                      expected_red={row['id']: 'FAIL' if row['expected_scaffold']=='ASSERTION_FAILURE' else 'PASS' for row in plan['methods']}
+                      require(set(expected_red)==set(expected) and all({row['id']:row['status'] for row in r['records']}==expected_red
+                          for r in results.values()), 'exact frozen scaffold per-method failure/held-positive inventory')
+                      require({k:source_before[CORE_PATH][k] for k in ('bytes','sha256')}=={k:historical[k] for k in ('bytes','sha256')}
+                          and all(v['exceptions'] and all(e['type']=='AssertionError' for e in v['exceptions'])
+                              for r in results.values() for v in r['records'] if v['status']=='FAIL'),
+                          'historical scaffold and actual assertion failures required for RED candidate')
+              except BaseException as exc:
+                  failure=failure or {'type':type(exc).__name__,'message':str(exc)[:2048]}
+          else:failure=failure or {'type':'DisposalUnconfirmed','message':'No worker output collection permitted'}
+          if not source_after:
+              try:
+                  source_after=source_records('after-failure')
+                  require(not source_before or source_after==source_before,'source changed after failed execution')
+              except BaseException as exc:failure=failure or {'type':type(exc).__name__,'message':'source-after failure: '+str(exc)[:1024]}
+          if filesystem_mounted and cleanup_failure is None:
+              try:command('output-unmount',['sudo','-n','umount',str(ROOT/'output')],recovery=True)
+              except BaseException as exc:cleanup_failure={'type':type(exc).__name__,'message':str(exc)[:2048]}
+          result={'schema_version':1,'context':context,'status':'HOLD','observed_method_classification':globals().get('classification','NOT_OBSERVED'),
+              'unresolved_event_source_join':'RAW_EVENT_ORIGINAL_NOT_RETAINED; EXTERNAL_AUDIENCE_QUALIFIED_NATIVE_CUSTODY_REQUIRED',
+              'failure':failure,'cleanup_failure':cleanup_failure,'owned_container_ids':{str(k):v for k,v in owned.items()},
+              'disposal_confirmed':{str(k):disposed.get(k) is True for k in owned},'source_before':source_before,'source_after':source_after,
+              'frozen_control_plan_sha256':PLAN_SHA,'worker_output_copied':copied,'missing':missing,'refused':refused,
+              'normal_optimized_native_records':mode_records,'commands':commands,'available_originals':dict(saved),
+              'qualification':'NOT_SELF_QUALIFIED; COMPLETE_NATIVE_ARCHIVE_READBACK_AND_NONAUTHOR_REVIEW_REQUIRED',
+              'full8':'ACTIVE_UNMET','M1_M7':'UNQUALIFIED','scientific_effect':'NONE','organizational_independence':0}
+          save('host-observation.json',encode(result),4*MIB)
+          # Stage only bounded closed originals after all owned writers are absent.
+          admitted=[];subtotal=0
+          for name,pin in sorted(saved.items()):
+              raw=read(OUT/name,4*MIB);require({'bytes':len(raw),'sha256':sha(raw)}==pin,'closed original copy join')
+              subtotal+=len(raw);require(prep_bytes+subtotal+15*MIB<=64*MIB,'shared retained-original bound with final seal reserve')
+              with (PUBLISH/name).open('xb') as stream:stream.write(raw)
+              admitted.append({'path':name,**pin})
+          manifest=encode({'schema_version':1,'context':context,'status':result['status'],'originals':admitted,'original_bytes':subtotal,
+              'private_raw_archive_readback':'REQUIRED_AFTER_JOB','custody_authentication':'UNKNOWN','scientific_effect':'NONE'})
+          require(len(manifest)<=MIB and prep_bytes+subtotal+len(manifest)+14*MIB<=64*MIB,'one global manifest/upload reserve')
+          with (PUBLISH/'original-manifest.json').open('xb') as stream:stream.write(manifest)
+          print(json.dumps({'status':result['status'],'native_originals':len(admitted),'nonauthor_review':'REQUIRED'}))
+          raise SystemExit(0 if result['status'].startswith('GREEN_OBSERVATION') else 1)
+          PY
+          chmod 0444 "$base/control/driver.py" "$base/control/controller.py"
+      - name: Observe both frozen modes and dispose before bounded collection
+        id: controls
+        timeout-minutes: 16
+        run: |
+          set -euo pipefail
+          base="$FORMAL_EVIDENCE_TEMP/formal-regression-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          python3 -I -B -S - "$base" main <<'PY'
+          import hashlib,json,os,pathlib,selectors,signal,stat,subprocess,sys,time
+          base=pathlib.Path(sys.argv[1]);mode=sys.argv[2]
+          if mode not in ('main','recovery'):raise ValueError('closed launcher role')
+          native={key:os.environ[name] for key,name in (('repository','GITHUB_REPOSITORY'),('checked_commit','GITHUB_SHA'),('run_id','GITHUB_RUN_ID'),('run_attempt','GITHUB_RUN_ATTEMPT'))}
+          path=base/'control/controller.py';parent=os.open(path.anchor,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW)
+          try:
+              for part in path.parts[1:-1]:
+                  child=os.open(part,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW,dir_fd=parent);os.close(parent);parent=child
+              fd=os.open(path.name,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK,dir_fd=parent)
+          finally:os.close(parent)
+          try:
+              before=os.fstat(fd);raw=b''
+              while len(raw)<=1048576:
+                  part=os.read(fd,min(65536,1048577-len(raw)))
+                  if not part:break
+                  raw+=part
+              after=os.fstat(fd)
+              if not stat.S_ISREG(before.st_mode) or before.st_nlink!=1 or len(raw)!=48421 or hashlib.sha256(raw).hexdigest()!='be2584393aa236bb70cef9b9fec6e0f117e3725dc24a31d064871f3832799f75' or (before.st_dev,before.st_ino,before.st_size,before.st_mtime_ns,before.st_ctime_ns)!=(after.st_dev,after.st_ino,after.st_size,after.st_mtime_ns,after.st_ctime_ns):
+                  raise ValueError('fixed literal controller original pin/type/unchanged mismatch')
+          finally:os.close(fd)
+          prefix='control-process' if mode=='main' else 'recovery-process'
+          argv=[sys.executable,'-I','-B','-S',str(path),str(base),*(['--recover-and-seal'] if mode=='recovery' else [])]
+          streams={k:(base/(prefix+'.'+k)).open('xb') for k in ('stdout','stderr')};sizes={k:0 for k in streams};digests={k:hashlib.sha256() for k in streams}
+          record={'schema_version':1,'native_context':native,'role':mode,'controller_source':{'bytes':len(raw),'sha256':hashlib.sha256(raw).hexdigest()},'argv':argv,
+              'complete':False,'process_created':False,'exit_code':None,'timeout':False,'process_unreaped':False,'error':None,'termination_errors':[],
+              'stream_limit_bytes':1048576,'stream_truncated':{k:False for k in streams}}
+          active=base/('launcher-'+mode+'.active.json')
+          with active.open('xb') as stream:stream.write((json.dumps({'native_context':native,'role':mode,'argv':argv,'state':'SPAWNING'},sort_keys=True)+'\n').encode())
+          proc=None;selector=selectors.DefaultSelector();started=time.monotonic_ns();end=time.monotonic()+(900 if mode=='main' else 210)
+          try:
+              proc=subprocess.Popen(argv,stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=subprocess.PIPE,start_new_session=True);record['process_created']=True
+              for pipe,label in ((proc.stdout,'stdout'),(proc.stderr,'stderr')):
+                  os.set_blocking(pipe.fileno(),False);selector.register(pipe,selectors.EVENT_READ,label)
+              while selector.get_map():
+                  if time.monotonic()>=end:record['timeout']=True;raise TimeoutError('trusted controller time cap')
+                  for key,_ in selector.select(min(0.2,max(0,end-time.monotonic()))):
+                      part=os.read(key.fileobj.fileno(),65536)
+                      if not part:selector.unregister(key.fileobj);key.fileobj.close();continue
+                      room=1048576-sizes[key.data];kept=part[:room];streams[key.data].write(kept);digests[key.data].update(kept);sizes[key.data]+=len(kept)
+                      if len(part)>room:record['stream_truncated'][key.data]=True;raise ValueError('trusted controller stream exceeded one MiB')
+              record['exit_code']=proc.wait(timeout=max(0.01,end-time.monotonic()));record['complete']=True
+          except BaseException as exc:record['error']=type(exc).__name__
+          finally:
+              if proc is not None and proc.poll() is None:
+                  for sig,grace in ((signal.SIGTERM,4),(signal.SIGKILL,1)):
+                      if proc.poll() is not None:break
+                      try:os.killpg(proc.pid,sig);proc.wait(timeout=grace)
+                      except (ProcessLookupError,subprocess.TimeoutExpired):pass
+                      except BaseException as exc:record['termination_errors'].append(type(exc).__name__)
+                  record['process_unreaped']=proc.poll() is None
+              if proc is not None:
+                  record['exit_code']=proc.returncode
+                  for pipe in (proc.stdout,proc.stderr):
+                      try:
+                          if pipe is not None and not pipe.closed:pipe.close()
+                      except BaseException as exc:record['termination_errors'].append('PIPE:'+type(exc).__name__)
+              try:selector.close()
+              except BaseException as exc:record['termination_errors'].append('SELECTOR:'+type(exc).__name__)
+              for stream in streams.values():
+                  try:stream.flush();os.fsync(stream.fileno());stream.close()
+                  except BaseException as exc:record['termination_errors'].append('STREAM:'+type(exc).__name__)
+              if record['process_unreaped'] or record['termination_errors']:record['complete']=False
+              record['captured_stream_bytes']=sizes;record['duration_ns']=time.monotonic_ns()-started
+              record['streams']={k:{'path':prefix+'.'+k,'bytes':sizes[k],'sha256':digests[k].hexdigest(),'complete':record['complete'] and not record['stream_truncated'][k]} for k in streams}
+              status=(json.dumps(record,sort_keys=True)+'\n').encode()
+              if len(status)>65536:raise ValueError('launcher terminal metadata exceeded reserved64KiB')
+              with (base/(prefix+'.status.json')).open('xb') as stream:stream.write(status);stream.flush();os.fsync(stream.fileno())
+              if proc is not None and proc.poll() is not None and not record['termination_errors']:active.unlink()
+          raise SystemExit(0 if record['complete'] and not record['process_unreaped'] and record['exit_code']==0 else 1)
+          PY
+      - name: Recover only owned workers and retain bounded partials
+        if: always()
+        timeout-minutes: 4
+        run: |
+          set -euo pipefail
+          base="$FORMAL_EVIDENCE_TEMP/formal-regression-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
+          if [ ! -f "$base/control/controller.py" ]; then
+            mkdir -p -m 0700 "$base/publish"
+            printf '%s\n' '{"status":"HOLD","first_missing_predicate":"TRUSTED_CONTROLLER_SOURCE_NOT_CREATED","runtime":"NOT_RUN","scientific_effect":"NONE"}' > "$base/publish/setup-hold.json"
+            exit 1
+          fi
+          python3 -I -B -S - "$base" recovery <<'PY'
+          import hashlib,json,os,pathlib,selectors,signal,stat,subprocess,sys,time
+          base=pathlib.Path(sys.argv[1]);mode=sys.argv[2]
+          if mode not in ('main','recovery'):raise ValueError('closed launcher role')
+          native={key:os.environ[name] for key,name in (('repository','GITHUB_REPOSITORY'),('checked_commit','GITHUB_SHA'),('run_id','GITHUB_RUN_ID'),('run_attempt','GITHUB_RUN_ATTEMPT'))}
+          path=base/'control/controller.py';parent=os.open(path.anchor,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW)
+          try:
+              for part in path.parts[1:-1]:
+                  child=os.open(part,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW,dir_fd=parent);os.close(parent);parent=child
+              fd=os.open(path.name,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK,dir_fd=parent)
+          finally:os.close(parent)
+          try:
+              before=os.fstat(fd);raw=b''
+              while len(raw)<=1048576:
+                  part=os.read(fd,min(65536,1048577-len(raw)))
+                  if not part:break
+                  raw+=part
+              after=os.fstat(fd)
+              if not stat.S_ISREG(before.st_mode) or before.st_nlink!=1 or len(raw)!=48421 or hashlib.sha256(raw).hexdigest()!='be2584393aa236bb70cef9b9fec6e0f117e3725dc24a31d064871f3832799f75' or (before.st_dev,before.st_ino,before.st_size,before.st_mtime_ns,before.st_ctime_ns)!=(after.st_dev,after.st_ino,after.st_size,after.st_mtime_ns,after.st_ctime_ns):
+                  raise ValueError('fixed literal controller original pin/type/unchanged mismatch')
+          finally:os.close(fd)
+          prefix='control-process' if mode=='main' else 'recovery-process'
+          argv=[sys.executable,'-I','-B','-S',str(path),str(base),*(['--recover-and-seal'] if mode=='recovery' else [])]
+          streams={k:(base/(prefix+'.'+k)).open('xb') for k in ('stdout','stderr')};sizes={k:0 for k in streams};digests={k:hashlib.sha256() for k in streams}
+          record={'schema_version':1,'native_context':native,'role':mode,'controller_source':{'bytes':len(raw),'sha256':hashlib.sha256(raw).hexdigest()},'argv':argv,
+              'complete':False,'process_created':False,'exit_code':None,'timeout':False,'process_unreaped':False,'error':None,'termination_errors':[],
+              'stream_limit_bytes':1048576,'stream_truncated':{k:False for k in streams}}
+          active=base/('launcher-'+mode+'.active.json')
+          with active.open('xb') as stream:stream.write((json.dumps({'native_context':native,'role':mode,'argv':argv,'state':'SPAWNING'},sort_keys=True)+'\n').encode())
+          proc=None;selector=selectors.DefaultSelector();started=time.monotonic_ns();end=time.monotonic()+(900 if mode=='main' else 210)
+          try:
+              proc=subprocess.Popen(argv,stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=subprocess.PIPE,start_new_session=True);record['process_created']=True
+              for pipe,label in ((proc.stdout,'stdout'),(proc.stderr,'stderr')):
+                  os.set_blocking(pipe.fileno(),False);selector.register(pipe,selectors.EVENT_READ,label)
+              while selector.get_map():
+                  if time.monotonic()>=end:record['timeout']=True;raise TimeoutError('trusted controller time cap')
+                  for key,_ in selector.select(min(0.2,max(0,end-time.monotonic()))):
+                      part=os.read(key.fileobj.fileno(),65536)
+                      if not part:selector.unregister(key.fileobj);key.fileobj.close();continue
+                      room=1048576-sizes[key.data];kept=part[:room];streams[key.data].write(kept);digests[key.data].update(kept);sizes[key.data]+=len(kept)
+                      if len(part)>room:record['stream_truncated'][key.data]=True;raise ValueError('trusted controller stream exceeded one MiB')
+              record['exit_code']=proc.wait(timeout=max(0.01,end-time.monotonic()));record['complete']=True
+          except BaseException as exc:record['error']=type(exc).__name__
+          finally:
+              if proc is not None and proc.poll() is None:
+                  for sig,grace in ((signal.SIGTERM,4),(signal.SIGKILL,1)):
+                      if proc.poll() is not None:break
+                      try:os.killpg(proc.pid,sig);proc.wait(timeout=grace)
+                      except (ProcessLookupError,subprocess.TimeoutExpired):pass
+                      except BaseException as exc:record['termination_errors'].append(type(exc).__name__)
+                  record['process_unreaped']=proc.poll() is None
+              if proc is not None:
+                  record['exit_code']=proc.returncode
+                  for pipe in (proc.stdout,proc.stderr):
+                      try:
+                          if pipe is not None and not pipe.closed:pipe.close()
+                      except BaseException as exc:record['termination_errors'].append('PIPE:'+type(exc).__name__)
+              try:selector.close()
+              except BaseException as exc:record['termination_errors'].append('SELECTOR:'+type(exc).__name__)
+              for stream in streams.values():
+                  try:stream.flush();os.fsync(stream.fileno());stream.close()
+                  except BaseException as exc:record['termination_errors'].append('STREAM:'+type(exc).__name__)
+              if record['process_unreaped'] or record['termination_errors']:record['complete']=False
+              record['captured_stream_bytes']=sizes;record['duration_ns']=time.monotonic_ns()-started
+              record['streams']={k:{'path':prefix+'.'+k,'bytes':sizes[k],'sha256':digests[k].hexdigest(),'complete':record['complete'] and not record['stream_truncated'][k]} for k in streams}
+              status=(json.dumps(record,sort_keys=True)+'\n').encode()
+              if len(status)>65536:raise ValueError('launcher terminal metadata exceeded reserved64KiB')
+              with (base/(prefix+'.status.json')).open('xb') as stream:stream.write(status);stream.flush();os.fsync(stream.fileno())
+              if proc is not None and proc.poll() is not None and not record['termination_errors']:active.unlink()
+          raise SystemExit(0 if record['complete'] and not record['process_unreaped'] and record['exit_code']==0 else 1)
+          PY
+      - name: Seal both launcher terminals and every bounded original after owned absence
+        id: final_seal
+        if: always()
+        timeout-minutes: 2
+        run: |
+          set -euo pipefail
+          python3 -I -B -S - <<'PY'
+          import hashlib,json,math,os,pathlib,re,selectors,signal,stat,subprocess,time
+          MIB=2**20
+          native={key:os.environ[name] for key,name in (('repository','GITHUB_REPOSITORY'),('checked_commit','GITHUB_SHA'),('run_id','GITHUB_RUN_ID'),('run_attempt','GITHUB_RUN_ATTEMPT'))}
+          temporary=pathlib.Path(os.environ['FORMAL_EVIDENCE_TEMP']);volume=temporary.parent;base=temporary/('formal-regression-'+native['run_id']+'-'+native['run_attempt'])
+          final=base/'final-publish';errors=[];missing=[];partial=[];refused=[];rows=[];total=0;statuses={};writers_absent=False;prep_bytes=0;prep_count=0
+          budget_root=temporary/('formal-regression-budget-'+native['run_id']+'-'+native['run_attempt'])
+          def require(value,message):
+              if not value:raise ValueError(message)
+          def sha(raw):return hashlib.sha256(raw).hexdigest()
+          def encoded(value):return (json.dumps(value,sort_keys=True,allow_nan=False)+'\n').encode()
+          def strict(raw):
+              def pairs(items):
+                  value={}
+                  for k,v in items:
+                      require(k not in value,'duplicate final-seal JSON key');value[k]=v
+                  return value
+              def reject(v):raise ValueError('nonfinite final-seal JSON')
+              def finite(v):
+                  n=float(v);require(math.isfinite(n),'nonfinite final-seal number');return n
+              return json.loads(raw,object_pairs_hook=pairs,parse_constant=reject,parse_float=finite)
+          def read(path,limit=4*MIB):
+              path=pathlib.Path(path);require(path.is_absolute(),'absolute original path');parent=os.open(path.anchor,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW);leaf=None
+              try:
+                  for part in path.parts[1:-1]:
+                      child=os.open(part,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW,dir_fd=parent);os.close(parent);parent=child
+                  leaf=os.open(path.name,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK,dir_fd=parent);before=os.fstat(leaf)
+                  require(stat.S_ISREG(before.st_mode) and before.st_nlink==1 and before.st_uid==os.getuid() and before.st_size<=limit,'owned regular bounded original')
+                  raw=b''
+                  while len(raw)<=limit:
+                      part=os.read(leaf,min(65536,limit+1-len(raw)))
+                      if not part:break
+                      raw+=part
+                  after=os.fstat(leaf);require((before.st_dev,before.st_ino,before.st_size,before.st_mtime_ns,before.st_ctime_ns)==(after.st_dev,after.st_ino,after.st_size,after.st_mtime_ns,after.st_ctime_ns) and len(raw)==before.st_size,'original changed during final read')
+                  return raw
+              finally:
+                  if leaf is not None:os.close(leaf)
+                  os.close(parent)
+          def directory(path):
+              info=path.lstat();require(stat.S_ISDIR(info.st_mode) and info.st_uid==os.getuid() and stat.S_IMODE(info.st_mode)==0o700,'owned closed staging directory')
+          def reserve(size,count=1):
+              require(type(size) is int and size>=0 and prep_bytes+total+size+8*MIB<=64*MIB and prep_count+len(rows)+count+8<=1024,'single retained/decompressed/member budget including raw-ZIP reserve')
+          def write(name,raw,role,limit=MIB):
+              global total
+              require(re.fullmatch(r'[A-Za-z0-9_.-]+',name) and len(raw)<=limit and name not in {v['path'] for v in rows},'closed final member name/limit')
+              reserve(len(raw));fd=os.open(final/name,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o600)
+              with os.fdopen(fd,'wb') as stream:stream.write(raw);stream.flush();os.fsync(stream.fileno())
+              total+=len(raw);rows.append({'path':name,'bytes':len(raw),'sha256':sha(raw),'role':role})
+          def move_original(path,name,raw,role):
+              global total
+              require(name not in {v['path'] for v in rows},'duplicate final member');reserve(len(raw))
+              # Same-filesystem rename conserves the original bytes and bounds transient storage; no hard links or content regeneration.
+              os.rename(path,final/name);require(read(final/name)==raw,'renamed original byte join')
+              total+=len(raw);rows.append({'path':name,'bytes':len(raw),'sha256':sha(raw),'role':role,'conserved_from':path.parent.name+'/'+path.name})
+          def native_command(argv):
+              proc=None;sel=selectors.DefaultSelector();buffers={'stdout':bytearray(),'stderr':bytearray()};record={'argv':argv,'complete':False,'exit_code':None,'error':None,'process_unreaped':False,'termination_errors':[]};end=time.monotonic()+20
+              try:
+                  proc=subprocess.Popen(argv,stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=subprocess.PIPE,start_new_session=True,
+                      env={'PATH':'/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin','LANG':'C.UTF-8','TZ':'UTC','DOCKER_CONFIG':str(base/'client')})
+                  for stream,name in ((proc.stdout,'stdout'),(proc.stderr,'stderr')):os.set_blocking(stream.fileno(),False);sel.register(stream,selectors.EVENT_READ,name)
+                  while sel.get_map():
+                      if time.monotonic()>=end:raise TimeoutError('final native absence probe timeout')
+                      for key,_ in sel.select(min(0.2,max(0,end-time.monotonic()))):
+                          part=os.read(key.fileobj.fileno(),65536)
+                          if not part:sel.unregister(key.fileobj);key.fileobj.close();continue
+                          room=65536-len(buffers[key.data]);buffers[key.data].extend(part[:room]);require(len(part)<=room,'final native absence original exceeded64KiB')
+                  record['exit_code']=proc.wait(timeout=max(0.01,end-time.monotonic()));record['complete']=True
+              except BaseException as exc:record['error']=type(exc).__name__
+              finally:
+                  if proc is not None and proc.poll() is None:
+                      for sig,grace in ((signal.SIGTERM,4),(signal.SIGKILL,1)):
+                          if proc.poll() is not None:break
+                          try:os.killpg(proc.pid,sig);proc.wait(timeout=grace)
+                          except (ProcessLookupError,subprocess.TimeoutExpired):pass
+                          except BaseException as exc:record['termination_errors'].append(type(exc).__name__)
+                      record['process_unreaped']=proc.poll() is None
+                  if proc is not None:
+                      record['exit_code']=proc.returncode
+                      for stream in (proc.stdout,proc.stderr):
+                          if stream is not None and not stream.closed:stream.close()
+                  sel.close()
+              if record['process_unreaped'] or record['termination_errors']:record['complete']=False
+              return record,{k:bytes(v) for k,v in buffers.items()}
+          def fallback(reason):
+              global final
+              # Outside the63MiB volume only bootstrap/fallback originals are allowed, with a combined1MiB physical ceiling.
+              volume.mkdir(mode=0o700,exist_ok=True);directory(volume)
+              cookie=volume/'storage-native-context.json'
+              if cookie.exists():require(strict(read(cookie,65536))=={'schema_version':1,'native_context':native},'actual owned storage context')
+              else:
+                  require(not (volume/'retained.img').exists() and not os.path.ismount(temporary),'unbound existing storage cannot be adopted')
+                  with cookie.open('xb') as stream:stream.write(encoded({'schema_version':1,'native_context':native}))
+              target=volume/'fallback';target.mkdir(mode=0o700,exist_ok=True);final=target
+              prior=read(volume/'storage-bootstrap.json',900000) if (volume/'storage-bootstrap.json').exists() else b''
+              outside_context=read(cookie,65536)
+              payload=encoded({'schema_version':1,'native_context':native,'status':'HOLD','reason':reason,'errors':errors,'missing':missing[:64],'partial':partial[:64],'refused':refused[:64],
+                  'owned_writers_absent':False,'originals_complete':False,'runtime':'UNQUALIFIED','raw_native_archive_fit':'UNKNOWN','scientific_effect':'NONE'})
+              require(len(payload)<=65536 and len(prior)+len(payload)+len(outside_context)<=MIB,'outside bootstrap/fallback physical bound')
+              path=target/'terminal-hold.json';fd=os.open(path,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o600)
+              with os.fdopen(fd,'wb') as stream:stream.write(payload);stream.flush();os.fsync(stream.fileno())
+              index=encoded({'schema_version':1,'native_context':native,'status':'HOLD_INCOMPLETE','members':[{'path':'terminal-hold.json','bytes':len(payload),'sha256':sha(payload)}],
+                  'self_exclusion':'fallback-manifest.json only','other_originals':'UNAVAILABLE_OR_REFUSED; NO_COMPLETENESS_CLAIM'})
+              require(len(index)<=32768 and len(prior)+len(payload)+len(index)+len(outside_context)<=MIB,'outside fallback closed inventory capacity')
+              with (target/'fallback-manifest.json').open('xb') as stream:stream.write(index);stream.flush();os.fsync(stream.fileno())
+              require({p.name for p in target.iterdir()}=={'terminal-hold.json','fallback-manifest.json'},'closed fallback upload membership')
+          try:
+              directory(temporary);directory(base)
+              storage=strict(read(temporary/'storage-capacity.json',65536));policy_raw=read(budget_root/'policy.json',65536);policy=strict(policy_raw)
+              account_raw=read(budget_root/'preparation-account.json',MIB);account=strict(account_raw)
+              require(storage['native_context']==policy['native_context']==account['native_context']==native and policy['total_retained_decompressed_bytes']==64*MIB and policy['total_members']==1024
+                  and policy['metadata_response_bytes']==4*MIB and policy['raw_native_archives_reserved_bytes']==4*MIB and account['policy_sha256']==sha(policy_raw),'current shared policy/preparation identity')
+              capacity=os.statvfs(temporary);physical=capacity.f_frsize*capacity.f_blocks
+              require(os.path.ismount(temporary) and 0<physical<=63*MIB and storage['combined_owned_transient_storage_limit_bytes']==64*MIB,'actual owned63MiB storage plus1MiB bootstrap domain')
+              prep_bytes=account['original_bytes'];prep_count=account['original_count']
+              require(type(prep_bytes) is int and 0<=prep_bytes<=36*MIB and type(prep_count) is int and 0<=prep_count<=256,'preparation debit bounds')
+              prep_root=(budget_root/'preparation-fallback') if account['artifact_path_kind']=='BOUNDED_HOLD_ONLY' else temporary/('public-runtime-'+native['run_id']+'-'+native['run_attempt'])/'publish'
+              directory(prep_root);expected_prep={v['path']:v for v in account['members']};require(len(expected_prep)==prep_count and set(expected_prep)=={v.name for v in prep_root.iterdir()},'all preparation artifact members conserved')
+              for name,row in expected_prep.items():
+                  raw=read(prep_root/name);require({'bytes':len(raw),'sha256':sha(raw)}=={k:row[k] for k in ('bytes','sha256')},'preparation copy changed before final accounting')
+              require(sum(v['bytes'] for v in account['members'])==prep_bytes,'preparation total includes every member')
+              if account['status']!='BOUNDED_PREPARATION_MEMBERS':partial.append('PREPARATION_HOLD_ONLY_ORIGINALS_INCOMPLETE')
+              for role,prefix in (('main','control-process'),('recovery','recovery-process')):
+                  try:
+                      raw=read(base/(prefix+'.status.json'),65536);status=strict(raw);statuses[role]=status
+                      require(status['schema_version']==1 and status['native_context']==native and status['role']==role,'actual launcher current-run context')
+                      control_raw=read(base/'control/controller.py',MIB)
+                      require(status['controller_source']=={'bytes':len(control_raw),'sha256':sha(control_raw)}
+                          and status['argv'][1:4]==['-I','-B','-S'] and status['argv'][4:6]==[str(base/'control/controller.py'),str(base)]
+                          and status['argv'][6:]==(['--recover-and-seal'] if role=='recovery' else []),'actual launcher argv/source pin')
+                      require(status['process_created'] is True and status['process_unreaped'] is False and not status['termination_errors'] and type(status['exit_code']) is int,'actual controller child terminal/reaping required')
+                      if not status['complete'] or status['error'] or status['timeout'] or any(status['stream_truncated'].values()):partial.append(role+'_LAUNCHER_PARTIAL_OR_FAILED')
+                  except FileNotFoundError:missing.append(prefix+'.status.json')
+                  except BaseException as exc:refused.append({'member':prefix+'.status.json','reason':type(exc).__name__})
+              require(set(statuses)=={'main','recovery'} and not missing and not refused,'both actual launcher terminal records required before collection')
+              require(not any((base/name).exists() for name in ('active-command.json','launcher-main.active.json','launcher-recovery.active.json')),'uncertain native/launcher process prevents racing collection')
+              probe,streams=native_command(['docker','ps','--all','--no-trunc','--filter','label=org.formal-controls.run-id='+native['run_id'],
+                  '--filter','label=org.formal-controls.attempt='+native['run_attempt'],'--format','{{json .}}'])
+              require(probe['complete'] and probe['exit_code']==0 and not probe['process_unreaped'] and streams['stdout']==b'','actual owned writers must be absent before final collection')
+              writers_absent=True
+              reserve_path=temporary/'final-seal-storage.reserve';reserve_info=reserve_path.lstat()
+              require(stat.S_ISREG(reserve_info.st_mode) and reserve_info.st_nlink==1 and reserve_info.st_uid==os.getuid() and reserve_info.st_size==7*MIB,'owned emergency final-seal storage')
+              reserve_path.unlink();final.mkdir(mode=0o700,exist_ok=False)
+              # Both launcher roles have actually terminated and native owned-worker absence was observed above.
+              for role,prefix in (('main','control-process'),('recovery','recovery-process')):
+                  status=statuses[role]
+                  for label in ('stdout','stderr'):
+                      name=prefix+'.'+label
+                      try:
+                          raw=read(base/name,MIB);bound=status['streams'][label]
+                          require(bound['path']==name and bound['bytes']==len(raw) and bound['sha256']==sha(raw),'launcher actual stream/status byte join')
+                          move_original(base/name,name,raw,'ACTUAL_'+role.upper()+'_LAUNCHER_RAW_'+label.upper())
+                      except FileNotFoundError:missing.append(name)
+                      except BaseException as exc:refused.append({'member':name,'reason':type(exc).__name__})
+                  name=prefix+'.status.json';raw=read(base/name,65536);move_original(base/name,name,raw,'ACTUAL_'+role.upper()+'_LAUNCHER_TERMINAL')
+              # Every available OUT/PUBLISH original is closed and joined. Equal contents at different member names count separately.
+              candidates={}
+              for channel in ('originals','publish'):
+                  directory(base/channel)
+                  for path in sorted((base/channel).iterdir(),key=lambda v:v.name):
+                      require(re.fullmatch(r'[A-Za-z0-9_.-]+',path.name),'closed current original name')
+                      raw=read(path);prior=candidates.get(path.name)
+                      if prior is not None and prior[1]!=raw:
+                          # A failed copy is a distinct negative original, never silently selected or deduplicated.
+                          conflict='partial-'+channel+'-'+sha(path.name.encode())
+                          candidates[conflict]=(path,raw,channel)
+                          partial.append('STAGING_REPLICA_DISAGREEMENT:'+sha(path.name.encode()))
+                      elif prior is None:candidates[path.name]=(path,raw,channel)
+              for name,(path,raw,channel) in sorted(candidates.items()):
+                  try:move_original(path,name,raw,'CONTROL_ORIGINAL_'+channel.upper())
+                  except BaseException as exc:refused.append({'member':name,'reason':type(exc).__name__})
+              for path,name in ((temporary/'storage-bootstrap.json','storage-bootstrap.json'),(temporary/'storage-capacity.json','storage-capacity.json'),
+                                (budget_root/'policy.json','final-global-budget-policy.json'),(budget_root/'preparation-account.json','final-preparation-account.json')):
+                  raw=read(path,MIB);move_original(path,name,raw,'BOUNDED_STORAGE_OR_SHARED_BUDGET_ORIGINAL')
+              write('final-owned-absence.stdout',streams['stdout'],'NATIVE_OWNED_ABSENCE_RAW_STDOUT',65536)
+              write('final-owned-absence.stderr',streams['stderr'],'NATIVE_OWNED_ABSENCE_RAW_STDERR',65536)
+              write('final-owned-absence.status.json',encoded(probe),'NATIVE_OWNED_ABSENCE_ACTUAL_TERMINAL',65536)
+              # No native event original, private carrier or raw archive has been acquired by this workflow.
+              errors.append({'reason':'RAW_EVENT_ORIGINAL_AND_NATIVE_ARCHIVE_CUSTODY_UNRESOLVED'})
+              terminal={'schema_version':1,'native_context':native,'status':'HOLD','owned_writers_confirmed_absent':writers_absent,'launchers':statuses,
+                  'missing':missing,'partial':partial,'refused':refused,'errors':errors,'source_event_join':'UNRESOLVED_NOT_RETAINED; public allowlist/hash is not an original',
+                  'native_zip_readback_interface':{'schema_version':1,'native_artifacts':None,'actual_zip_original_total_bytes':None,'reserved_max_zip_bytes':4*MIB,'reserved_native_job_log_bytes':4*MIB,'reserved_transport_members':8,
+                      'required_join':['repository','run_id','run_attempt','job_id','artifact_id','original_zip_bytes','original_zip_sha256','every_member_bytes_sha256','qualified_audience_and_native_source'],
+                      'budget_rule':'SUM(actual original ZIP bytes)+SUM(actual native job-log originals)+SUM(all retained decompressed member bytes)<=64MiB; all members including reserved transport objects<=1024; no second original GET/retry/guessed attempt',
+                      'qualification':'UNKNOWN_HOLD_UNTIL_ACTUAL_NATIVE_ORIGINAL_READBACK'},'actual_positive_fit':'UNKNOWN','custody_authentication':'UNKNOWN','full8':'ACTIVE_UNMET','scientific_effect':'NONE','organizational_independence':0}
+              write('final-terminal.json',encoded(terminal),'HONEST_BOUNDED_TERMINAL_WITH_EXPLICIT_UNRESOLVED_GATES',MIB)
+              ledger={'schema_version':1,'native_context':native,'total_limit_bytes':64*MIB,'member_limit':1024,'metadata_response_limit_bytes':4*MIB,
+                  'preparation_artifact_members':account['members'],'preparation_bytes':prep_bytes,'preparation_members':prep_count,'control_bytes_before_ledger_manifest':total,
+                  'control_members_before_ledger_manifest':len(rows),'reserved_raw_native_zip_bytes':4*MIB,'reserved_native_job_log_bytes':4*MIB,'reserved_native_transport_members':8,'raw_zip_actual_bytes':None,'native_job_log_actual_bytes':None,
+                  'logical_accounting':'Every distinct archive/member occurrence counts, even equal bytes; conserved aliases for one eventual member join exactly',
+                  'physical_storage_domains':{'retained_loop_limit_bytes':63*MIB,'outside_bootstrap_fallback_limit_bytes':MIB,'combined_limit_bytes':64*MIB,'worker_output_loop_separate_bytes':64*MIB,
+                      'observed_retained_filesystem_capacity_bytes':physical,'peak_fit':'UNKNOWN; hard capacity and capture refusal are not a successful capacity probe'},
+                  'source_native_controller_driver_logs_metadata_all_included':True,'remaining_bytes_before_ledger_manifest_and_ZIP_readback':64*MIB-prep_bytes-total,
+                  'native_original_custody':'UNKNOWN_HOLD'}
+              write('final-global-budget-ledger.json',encoded(ledger),'ONE_PREPARATION_CONTROL_RAW_ZIP_DECOMPRESSION_AND_MEMBER_LEDGER',MIB)
+              manifest={'schema_version':1,'native_context':native,'status':'HOLD','members':rows,'control_member_bytes_before_manifest':total,'control_member_count_before_manifest':len(rows),
+                  'preparation_member_bytes':prep_bytes,'preparation_member_count':prep_count,'raw_native_zip_reserved_bytes':4*MIB,'native_job_log_reserved_bytes':4*MIB,'native_transport_reserved_members':8,
+                  'self_exclusion':'final-manifest.json only; native ZIP and raw archive readback are separate unresolved originals','missing':missing,'partial':partial,'refused':refused,
+                  'raw_event_source_join':'UNRESOLVED','native_original_custody':'UNKNOWN','scientific_effect':'NONE'}
+              raw=encoded(manifest);require(len(raw)<=MIB,'final closed manifest bound');reserve(len(raw))
+              fd=os.open(final/'final-manifest.json',os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o600)
+              with os.fdopen(fd,'wb') as stream:stream.write(raw);stream.flush();os.fsync(stream.fileno())
+              require({p.name for p in final.iterdir()}=={v['path'] for v in rows}|{'final-manifest.json'},'closed final native-artifact membership')
+              require(prep_bytes+total+len(raw)+8*MIB<=64*MIB and prep_count+len(rows)+1+8<=1024,'final global retained/decompressed/raw-ZIP reservation')
+          except BaseException as exc:
+              errors.append({'type':type(exc).__name__,'reason':'FINAL_COLLECTION_INCOMPLETE_OR_OWNED_WRITERS_UNRESOLVED'})
+              try:
+                  if final.exists() and final.parent==base:
+                      payload=encoded({'schema_version':1,'native_context':native,'status':'HOLD','errors':errors,'missing':missing[:64],'partial':partial[:64],'refused':refused[:64],
+                          'owned_writers_absent':writers_absent,'originals_complete':False,'raw_native_archive_fit':'UNKNOWN','scientific_effect':'NONE'})
+                      if len(payload)<=65536 and prep_bytes+total+len(payload)+8*MIB<=64*MIB and prep_count+len(rows)+1+8<=1024:
+                          with (final/'final-incomplete.json').open('xb') as stream:stream.write(payload)
+                  else:fallback('FINAL_SEAL_SOURCE_STORAGE_OR_TERMINATION_GATE_UNAVAILABLE')
+              except BaseException:
+                  # No fallback may invent completeness or grow beyond the fixed bootstrap1MiB domain.
+                  if not (volume/'fallback/terminal-hold.json').exists():fallback('FINAL_SEAL_STORAGE_EXHAUSTED_OR_UNCERTAIN')
+          finally:
+              # Close the actual upload inventory even after a fatal/partial final-seal path.
+              try:
+                  if final==base/'final-publish' and errors and (final/'final-incomplete.json').exists():
+                      if (final/'final-manifest.json').exists():os.rename(final/'final-manifest.json',final/'failed-final-manifest.json')
+                      observed=[];observed_total=0
+                      for path in sorted(final.iterdir(),key=lambda v:v.name):
+                          raw=read(path);observed_total+=len(raw);observed.append({'path':path.name,'bytes':len(raw),'sha256':sha(raw)})
+                      index=encoded({'schema_version':1,'native_context':native,'status':'HOLD_INCOMPLETE','members':observed,'self_exclusion':'final-manifest.json only',
+                          'missing':missing[:64],'partial':partial[:64],'refused':refused[:64],'errors':errors,'owned_writers_absent':writers_absent})
+                      require(len(index)<=MIB and prep_bytes+observed_total+len(index)+8*MIB<=64*MIB and prep_count+len(observed)+1+8<=1024,'failed-path closed global inventory')
+                      with (final/'final-manifest.json').open('xb') as stream:stream.write(index)
+                  elif final==volume/'fallback':
+                      payload=read(final/'terminal-hold.json',65536);index=strict(read(final/'fallback-manifest.json',32768))
+                      require(index['native_context']==native and index['members']==[{'path':'terminal-hold.json','bytes':len(payload),'sha256':sha(payload)}]
+                          and {p.name for p in final.iterdir()}=={'terminal-hold.json','fallback-manifest.json'},'actual closed fallback byte joins')
+              except BaseException:
+                  if final!=volume/'fallback':fallback('FINAL_CLOSED_INVENTORY_CANNOT_FIT_OR_BE_VERIFIED')
+              with open(os.environ['GITHUB_OUTPUT'],'a') as stream:stream.write('upload_path='+str(final)+'\n')
+          print(json.dumps({'status':'HOLD','owned_writers_confirmed_absent':writers_absent,'retained_control_members':len(rows),'original_custody':'UNKNOWN','scientific_effect':'NONE'}))
+          raise SystemExit(1)
+          PY
+      - name: Retain bounded control originals on every conclusion
+        id: retained
+        if: always()
+        timeout-minutes: 1
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: formal-regression-controls-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ steps.final_seal.outputs.upload_path }}
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6
+      - name: Release only owned evidence storage after upload and terminal proof
+        if: always()
+        timeout-minutes: 2
+        run: |
+          set -euo pipefail
+          python3 -I -B -S - <<'PY'
+          import base64,json,os,pathlib,selectors,signal,stat,subprocess,time
+          MIB=2**20;temporary=pathlib.Path(os.environ['FORMAL_EVIDENCE_TEMP']);volume=temporary.parent
+          native={key:os.environ[name] for key,name in (('repository','GITHUB_REPOSITORY'),('checked_commit','GITHUB_SHA'),('run_id','GITHUB_RUN_ID'),('run_attempt','GITHUB_RUN_ATTEMPT'))}
+          base=temporary/('formal-regression-'+native['run_id']+'-'+native['run_attempt']);records=[];errors=[];capture_complete=True
+          record_path=volume/'storage-cleanup.json'
+          def require(v,m):
+              if not v:raise ValueError(m)
+          def read(path,limit=MIB):
+              path=pathlib.Path(path);parent=os.open(path.anchor,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW);leaf=None
+              try:
+                  for part in path.parts[1:-1]:
+                      child=os.open(part,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW,dir_fd=parent);os.close(parent);parent=child
+                  leaf=os.open(path.name,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK,dir_fd=parent);before=os.fstat(leaf)
+                  require(stat.S_ISREG(before.st_mode) and before.st_nlink==1 and before.st_uid==os.getuid() and before.st_size<=limit,'owned cleanup original')
+                  raw=b''
+                  while len(raw)<=limit:
+                      part=os.read(leaf,min(65536,limit+1-len(raw)))
+                      if not part:break
+                      raw+=part
+                  after=os.fstat(leaf);require((before.st_dev,before.st_ino,before.st_size,before.st_mtime_ns,before.st_ctime_ns)==(after.st_dev,after.st_ino,after.st_size,after.st_mtime_ns,after.st_ctime_ns) and len(raw)==before.st_size,'cleanup original changed')
+                  return raw
+              finally:
+                  if leaf is not None:os.close(leaf)
+                  os.close(parent)
+          def preserve():
+              global capture_complete
+              raw=(json.dumps({'schema_version':1,'native_context':native,'records':records,'errors':errors,'captured_originals_complete':capture_complete,
+                  'original_channel':'ACTUAL_NATIVE_JOB_LOG_READBACK_REQUIRED_AFTER_JOB; THIS_POSTUPLOAD_RECORD_IS_NOT_IN_THE_EARLIER_ARTIFACT',
+                  'qualification':'OBSERVATION_ONLY; CUSTODY_UNKNOWN','scientific_effect':'NONE'},sort_keys=True)+'\n').encode()
+              used=len(read(volume/'storage-bootstrap.json',900000)) if (volume/'storage-bootstrap.json').exists() else 0
+              if (volume/'storage-native-context.json').exists():used+=len(read(volume/'storage-native-context.json',65536))
+              fallback=volume/'fallback'
+              if fallback.exists():
+                  for path in fallback.iterdir():used+=len(read(path,65536))
+              if len(raw)>256000 or used+len(raw)>MIB:
+                  capture_complete=False;return
+              flags=os.O_WRONLY|os.O_CREAT|os.O_NOFOLLOW
+              fd=os.open(record_path,flags,0o600)
+              info=os.fstat(fd);require(stat.S_ISREG(info.st_mode) and info.st_nlink==1 and info.st_uid==os.getuid(),'owned cleanup metadata writer')
+              os.ftruncate(fd,0)
+              with os.fdopen(fd,'wb') as stream:stream.write(raw);stream.flush();os.fsync(stream.fileno())
+          def command(argv,allow_absent=False):
+              proc=None;sel=selectors.DefaultSelector();buffers={'stdout':bytearray(),'stderr':bytearray()};r={'argv':argv,'complete':False,'exit_code':None,'process_unreaped':False,'error':None};end=time.monotonic()+20
+              try:
+                  proc=subprocess.Popen(argv,stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=subprocess.PIPE,start_new_session=True,
+                      env={'PATH':'/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin','LANG':'C.UTF-8','TZ':'UTC','DOCKER_CONFIG':str(base/'client')})
+                  for stream,name in ((proc.stdout,'stdout'),(proc.stderr,'stderr')):os.set_blocking(stream.fileno(),False);sel.register(stream,selectors.EVENT_READ,name)
+                  while sel.get_map():
+                      if time.monotonic()>=end:raise TimeoutError('owned storage cleanup native timeout')
+                      for key,_ in sel.select(min(0.2,max(0,end-time.monotonic()))):
+                          part=os.read(key.fileobj.fileno(),32768)
+                          if not part:sel.unregister(key.fileobj);key.fileobj.close();continue
+                          room=32768-len(buffers[key.data]);buffers[key.data].extend(part[:room]);require(len(part)<=room,'bounded storage cleanup raw stream')
+                  r['exit_code']=proc.wait(timeout=max(0.01,end-time.monotonic()));r['complete']=True
+              except BaseException as exc:r['error']=type(exc).__name__
+              finally:
+                  if proc is not None and proc.poll() is None:
+                      for sig,grace in ((signal.SIGTERM,4),(signal.SIGKILL,1)):
+                          if proc.poll() is not None:break
+                          try:os.killpg(proc.pid,sig);proc.wait(timeout=grace)
+                          except (ProcessLookupError,subprocess.TimeoutExpired):pass
+                      r['process_unreaped']=proc.poll() is None
+                  if proc is not None:
+                      r['exit_code']=proc.returncode
+                      for stream in (proc.stdout,proc.stderr):
+                          if stream is not None and not stream.closed:stream.close()
+                  sel.close();r['streams']={k:{'raw_base64':base64.b64encode(v).decode(),'bytes':len(v),'partial':not r['complete']} for k,v in buffers.items()};records.append(r);preserve()
+              require(r['complete'] and not r['process_unreaped'] and r['exit_code'] in ((0,1) if allow_absent else (0,)),'owned cleanup native result unavailable')
+              return bytes(buffers['stdout'])
+          try:
+              require(not any((base/n).exists() for n in ('active-command.json','launcher-main.active.json','launcher-recovery.active.json')),'unresolved owned writer prevents storage release')
+              for role,prefix in (('main','control-process'),('recovery','recovery-process')):
+                  choices=[base/'final-publish'/(prefix+'.status.json'),base/(prefix+'.status.json')];path=next((p for p in choices if p.exists()),None)
+                  require(path is not None,'actual launcher terminal required for storage release');status=json.loads(read(path,65536))
+                  require(status['native_context']==native and status['role']==role and status['process_created'] is True and status['process_unreaped'] is False and not status['termination_errors'],'actual launcher child reaped before storage release')
+              raw=command(['docker','ps','--all','--no-trunc','--filter','label=org.formal-controls.run-id='+native['run_id'],'--filter','label=org.formal-controls.attempt='+native['run_attempt'],'--format','{{json .}}'])
+              require(raw==b'','owned worker remains before storage release')
+              for target,backing,size in ((base/'output',volume/'worker-output.img',64*MIB),(temporary,volume/'retained.img',63*MIB)):
+                  raw=command(['findmnt','--json','--mountpoint',str(target)],allow_absent=True);data=json.loads(raw) if raw.strip() else {'filesystems':[]};mounts=data.get('filesystems',[])
+                  require(len(mounts)<=1,'ambiguous owned mount')
+                  if mounts:
+                      require(mounts[0]['target']==str(target) and mounts[0].get('fstype')=='ext4','owned mount native identity')
+                      loop=str(mounts[0]['source']).split('[')[0];actual=command(['losetup','--noheadings','--output','BACK-FILE',loop]).decode().strip()
+                      info=backing.lstat();require(actual==str(backing) and stat.S_ISREG(info.st_mode) and info.st_nlink==1 and info.st_uid==os.getuid() and info.st_size==size,'owned loop backing/type/size')
+                      command(['sudo','-n','umount',str(target)])
+              preserve()
+          except BaseException as exc:errors.append({'type':type(exc).__name__,'reason':'OWNED_STORAGE_RELEASE_UNCONFIRMED'});preserve()
+          summary={'schema_version':1,'native_context':native,'records':records,'errors':errors,'captured_originals_complete':capture_complete,
+              'native_job_log_original_readback':'REQUIRED; NO EARLIER_ARTIFACT_REBINDING','runtime_custody':'UNKNOWN','scientific_effect':'NONE'}
+          print(json.dumps(summary,sort_keys=True))
+          raise SystemExit(0 if not errors and capture_complete else 1)
+          PY
+      - name: Record native upload identity without claiming original readback
+        if: always()
+        timeout-minutes: 1
+        env:
+          ARTIFACT_ID: ${{ steps.retained.outputs.artifact-id }}
+          ARTIFACT_DIGEST: ${{ steps.retained.outputs.artifact-digest }}
+        run: |
+          python3 -I -B -S - <<'PY'
+          import json,os,re
+          identity=os.environ.get('ARTIFACT_ID','');digest=os.environ.get('ARTIFACT_DIGEST','')
+          if not re.fullmatch('[1-9][0-9]*',identity) or not re.fullmatch('(?:sha256:)?[0-9a-f]{64}',digest):
+              raise ValueError('native control artifact identity unavailable')
+          print(json.dumps({'artifact_id':identity,'artifact_digest':digest,'run_id':os.environ['GITHUB_RUN_ID'],
+              'run_attempt':os.environ['GITHUB_RUN_ATTEMPT'],'raw_archive_and_member_readback':'REQUIRED_AFTER_JOB',
+              'custody_authentication':'UNKNOWN','scientific_effect':'NONE'}))
+          PY

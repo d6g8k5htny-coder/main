@@ -1,0 +1,563 @@
+{
+  "assurance_labels": {
+    "all8": "ACTIVE_UNMET",
+    "authentic_real_collector": "NOT_IMPLEMENTED_OR_OBSERVED",
+    "enforcement": "NOT_ACTIVATED_OR_PROVEN",
+    "future_role": "NONE_RESERVED",
+    "mapping": "UNKNOWN_ABSENT",
+    "native_runtime": "NOT_RUN",
+    "organization": 0,
+    "scientific_effect": "NONE",
+    "scientific_status_authority": false,
+    "semantic_review": "NONE_PERFORMED",
+    "source": "R01_DRAFT_DESIGN_ONLY; prior whole review REQUEST_CHANGES/R1; fresh whole review PENDING"
+  },
+  "author": "/root/req8_inventory_contract_revision_0133",
+  "closed_types": {
+    "Acquisition": [
+      "acquisition_id",
+      "event_identity",
+      "request_key",
+      "started_at",
+      "finished_at",
+      "native_observations",
+      "evidence_revision",
+      "terminal_reason",
+      "producing_native_context",
+      "bundle_artifact_ref"
+    ],
+    "AuthorityAcceptance": [
+      "record_ref",
+      "native_acceptance_ref",
+      "accepted_bytes_sha256",
+      "accepted_request_key",
+      "actor_identity",
+      "accepted_lineage",
+      "scope",
+      "observed_version"
+    ],
+    "BindingManifest": [
+      "schema_version",
+      "domain_id",
+      "graph_selector",
+      "node_coverage",
+      "target_coverage",
+      "links"
+    ],
+    "Bundle": [
+      "schema_version",
+      "request_context",
+      "request_key",
+      "acquisition",
+      "control_policy_refs",
+      "member_index",
+      "native_observations",
+      "source_membership",
+      "mapping_and_acceptances",
+      "coverage",
+      "base_inventory",
+      "candidate_inventory",
+      "adapter_projections",
+      "semantic_impact",
+      "evidence_loss_impact",
+      "review_originals",
+      "revalidations_and_acceptances",
+      "graph_descriptor",
+      "preservation",
+      "issues"
+    ],
+    "CommitRef": [
+      "repository",
+      "commit",
+      "tree"
+    ],
+    "CoverageRow": [
+      "subject",
+      "state",
+      "link_ids",
+      "scope_evidence"
+    ],
+    "CoverageRow_states": [
+      "LINKED",
+      "OUTSIDE_ACCEPTED_DOMAIN",
+      "UNRESOLVED"
+    ],
+    "Decision": [
+      "schema_version",
+      "request_key",
+      "bundle_sha256",
+      "control_policy_refs",
+      "fresh_context_capture_refs",
+      "source_verdict",
+      "native_runtime_verdict",
+      "collector_custody_verdict",
+      "review_custody_verdict",
+      "preservation_verdict",
+      "enforcement_scope",
+      "decision",
+      "reasons",
+      "scientific_effect",
+      "scientific_status_authority"
+    ],
+    "Decision_values": [
+      "PASS",
+      "FAIL",
+      "UNRESOLVED",
+      "SUPERSEDED"
+    ],
+    "EvidenceLossFingerprint": [
+      "native_record_identity",
+      "source_availability",
+      "positive_execution_availability",
+      "attempt_custody",
+      "reasons"
+    ],
+    "GraphDescriptor": [
+      "carrier_graph_ref",
+      "upstream_provenance_ref",
+      "gate_sha256",
+      "exporter_source_refs",
+      "graph_artifact_ref",
+      "graph_sha256",
+      "regression_report_sha256"
+    ],
+    "GraphDescriptor_rule": "Same exact original validated graph export is handed to future SSG; derived hold-marked graph clones never replace original graph source. Current SSG consumption remains unfinished.",
+    "Link": [
+      "id",
+      "node",
+      "format",
+      "native_repository",
+      "package",
+      "target",
+      "module",
+      "informal_origin",
+      "informal_statement_slice",
+      "informal_proof_slice",
+      "formal_declaration_slice",
+      "formal_proof_slice",
+      "original_alignment_refs"
+    ],
+    "NativeContext_event_rule": "Requested checkedK and actual native event/control SHA are separate host observations. Do not inject environment strings to claim the unchanged current required binder authenticated a different checkout. Supervisor adaptation/source/runtime qualification is required.",
+    "NativeObservation": [
+      "id",
+      "primitive",
+      "request_identity",
+      "principal_scope_label",
+      "acquired_at",
+      "raw_response_member",
+      "response_bytes",
+      "response_sha256",
+      "completeness",
+      "source_membership",
+      "issues"
+    ],
+    "NativeProducerPolicy": [
+      "format",
+      "workflow_source_ref",
+      "supervisor_source_refs",
+      "runtime_identity",
+      "toolchain",
+      "dependency_policy",
+      "source_control_files",
+      "print_options",
+      "artifact_inventory_contract",
+      "attempt_custody_contract",
+      "sandbox_contract"
+    ],
+    "NodeSemanticFingerprint": [
+      "mapping_state",
+      "accepted_links",
+      "native_target_content",
+      "scope_contracts",
+      "source_slice_content"
+    ],
+    "OriginalGroup": [
+      "original_alignment_ref",
+      "all_surviving_uses",
+      "successor_coverage",
+      "unresolved_uses"
+    ],
+    "Policy": [
+      "schema_version",
+      "repositories",
+      "protected_domains",
+      "graph_sources",
+      "trusted_control_sources",
+      "gate_sha256",
+      "native_producer_policies",
+      "mapping_authorities",
+      "review_authorities",
+      "publisher",
+      "preservation",
+      "disclosure",
+      "limits",
+      "enforcement"
+    ],
+    "PublisherPolicy": [
+      "native_app_id",
+      "installation_id",
+      "check_name",
+      "status_subject",
+      "required_permissions",
+      "control_source_refs"
+    ],
+    "RawMember": [
+      "id",
+      "member_path",
+      "bytes",
+      "sha256",
+      "role",
+      "native_ref"
+    ],
+    "RequestContext": [
+      "schema_version",
+      "repository",
+      "pull_request",
+      "base_ref",
+      "base",
+      "head_ref",
+      "head",
+      "checked_merge",
+      "checked_merge_parents",
+      "merge_mode",
+      "control",
+      "policy_sha256"
+    ],
+    "RequestContext_types": {
+      "base": "CommitRefB",
+      "checked_merge": "CommitRefS in target repository",
+      "control": "CommitRefT, future independently admitted implementation revision",
+      "head": "CommitRefH, possibly fork repository",
+      "merge_mode": "service_merge only for blocking mode; native parent semantics qualified first"
+    },
+    "Revalidation": [
+      "schema_version",
+      "request_key",
+      "new_graph_ref",
+      "mapping_sha256",
+      "formal_inventory_sha256",
+      "candidate_manifest_scope_refs",
+      "original_groups",
+      "successor_review_refs",
+      "evidence_refs",
+      "disposition",
+      "lineage"
+    ],
+    "SnapshotSelector": [
+      "side",
+      "path",
+      "git_blob",
+      "sha256",
+      "bytes"
+    ],
+    "SnapshotSelector_side": "base resolves B;candidate resolves S; repository derives from those exact native CommitRefs. ExternalSourceSelector is {side:origin,ref:existing-six-field-GitRef}. No guessed commit.",
+    "TargetSemanticContent": [
+      "format",
+      "native_repository",
+      "package",
+      "target",
+      "module_content_identity",
+      "type_content_sha256",
+      "type_content_bytes",
+      "compiler_dependency_options_identity",
+      "accepted_formal_statement_selector",
+      "accepted_formal_proof_selector",
+      "manifest_contract_sha256",
+      "scope_content_identity",
+      "unresolved_fields"
+    ],
+    "TargetStatement": [
+      "format",
+      "target",
+      "manifest_ref",
+      "scope_ref",
+      "module_ref",
+      "origin_ref",
+      "checked_local_copy_ref",
+      "type_record",
+      "declaration_slice",
+      "proof_slice",
+      "compiler_context",
+      "native_context",
+      "availability",
+      "issues"
+    ],
+    "acquisition_provenance_rule": "Verifier authenticates bundle producer against admitted workflow/control/job/attempt and native artifact identity. A serialized principal/scope label, supplied archive or self-consistent inventory is insufficient. No qualifying capture provenance means UNRESOLVED.",
+    "authority_rule": "Acceptance is native-authenticated under independently admitted authority policy, not a self-asserted candidate field. GitHub actor does not cryptographically establish provider/family/agent. Preserve actual evidence/exposure/org0 and unresolved attribution.",
+    "compiler_context": [
+      "toolchain",
+      "compiler_identity",
+      "options",
+      "dependency_revisions",
+      "dependency_lock_ref",
+      "producer_source_refs",
+      "runtime_identity"
+    ],
+    "evidence_loss_rule": "Execution loss has separate derived node/native-axis impact and fails gate when required. It does not alone seed affected semantic review refs or stale accepted alignment. Source/statement/scope join loss can independently seed semantic revalidation.",
+    "inventory_digest": "formal_inventory_sha256 = lowercase_hex(SHA256(CanonicalASCII(InventoryCore))). CanonicalASCII is precisely lexical_rules.json: sorted object keys, compact separators, ensure_ascii=true, no nonfinite values, ASCII bytes and NO trailing newline. No prefix/suffix, extra digest wrapper or raw TargetStatement is hashed.",
+    "link_rules": "No added native manifest fields. Unknown origin/slices are null, not fabricated. Main/Math format-specific lookups unchanged. Authority acceptance is separate from candidate BindingManifest and binds fully resolved selectors/graph/scope/domain. Coverage exhausts actual admitted nodes/targets; many-to-many links explicit/unique.",
+    "native_context": [
+      "repository",
+      "checked_commit",
+      "run_head_sha",
+      "workflow_identity",
+      "workflow_source_ref",
+      "job_id",
+      "run_id",
+      "run_attempt",
+      "purpose",
+      "conclusion",
+      "supervisor_capture_ref"
+    ],
+    "request_key": "SHA256(canonical({domain:formal-regression-request/v1,context:RequestContext})); excludes acquisition/event IDs,timestamps,evidence revision. This prevents detached-review/recollection circularity.",
+    "revalidation_authority": "Native acceptance outside candidate content binds exact immutable detached record, context and declared lineage. Existing native whole-manifest alignment and6112554711 annotations still independently validate. No collector semantic review or organization-independence claim.",
+    "semantic_projection_rule": "Every actual graph node has one row; native targets/links sorted by exact canonical identity. Compare content/scoped selectors, preserve full raw GitRefs separately. Paired same-blob source commit advance normalizes only under adapter rule; external origin changes do not normalize. Unscoped module changes are explicit. Do not include volatile run IDs/timestamps as statement content.",
+    "source_membership": "Distinct native-service assertion of repo/commit/tree/path/mode/blob plus local byte/blob/tree reconstruction result. Raw signed commit hash reconstruction claimed only when actual raw serialization is available. No authentication Boolean supplied by candidate is trusted.",
+    "type_record": "{log_ref:existing RunRef,slice:existing Slice}; verified raw whole log retained. Lossless NAME-header/indented continuation record, exactly one per actual native target. Null/ambiguous/missing record cannot PASS."
+  },
+  "concrete_missing_inputs": [
+    {
+      "current": "ABSENT;31SIDE24targets/49node carrier do not supply typed links",
+      "id": "M1",
+      "input": "Accepted complete resolved mapping/coverage manifest",
+      "required_evidence": "Exact native authority acceptance of graph/target/source/slices/domain and immutable manifest refs."
+    },
+    {
+      "current": "UNKNOWN/NOT_SUPPLIED",
+      "id": "M2",
+      "input": "Real original review and revalidation authority",
+      "required_evidence": "Original GitRefs, authenticated immutable review/evidence plus accepted lineage and detached successor context."
+    },
+    {
+      "current": "NOT_IMPLEMENTED_OR_ADMITTED",
+      "id": "M3",
+      "input": "Effective trusted controller/producer/runtime release",
+      "required_evidence": "Reviewed exact T/P/workflow/dependency/runtime pins, hostile candidate boundary/source/execution/custody controls."
+    },
+    {
+      "current": "NOT_ESTABLISHED_BY_AGENT_GET_CAPABILITY",
+      "id": "M4",
+      "input": "CI-native authenticated/attempt-specific transport",
+      "required_evidence": "Actual immutable object/run/job/artifact/supervisor joins, current attempt disambiguation and one bounded original read."
+    },
+    {
+      "current": "NOT_ADMITTED_FOR_THIS_COLLECTOR",
+      "id": "M5",
+      "input": "Private preservation/governing custody route",
+      "required_evidence": "Carrier access/disclosure qualification, original archive/member readback and actual retention/transfer record."
+    },
+    {
+      "current": "NO_NEW_APP_OR_PERMISSION_OR_RULES_CONFIGURED",
+      "id": "M6",
+      "input": "Publisher installation and protected final-write enforcement",
+      "required_evidence": "Real installation/check identity, least permissions, fresh rule readback, wrong-app/missing/stale-base rejection and admitted write-boundary fresh consumption; unconstrained routes explicit."
+    },
+    {
+      "current": "NOT_SUPPLIED_OR_EXECUTED",
+      "id": "M7",
+      "input": "Held-out real transition and actual semantic revalidation",
+      "required_evidence": "Real B/S sources/types, authoritative link, original downstream review, real changed statement/premise and nonauthor accepted revalidation; calibrated proof/unscoped/deleted-edge cases; exact preserved protected result."
+    }
+  ],
+  "formal_inventory_hash_contract": {
+    "TargetSemanticContent_fields": {
+      "accepted_formal_proof_selector": "same closed SelectorEntry array rule for accepted proof slices",
+      "accepted_formal_statement_selector": "complete SelectorEntry array from native-authenticated accepted mapping links for this target, resolved against actual candidate module bytes",
+      "compiler_dependency_options_identity": "CompilerDependencyOptionsContent projected from actual qualified compiler_context and NativeProducerPolicy print/build/runtime records, never from policy expectations alone",
+      "format": "exact main-formal-gate/v1 or math-formal-gate/v1 from admitted original native format",
+      "manifest_contract_sha256": "SHA256 of exact original raw candidate native manifest bytes at TargetStatement.manifest_ref; no field omission/reformatting or replacement native format",
+      "module_content_identity": "SourceContent projected from qualified candidate TargetStatement.module_ref, after actual native target-to-module resolution",
+      "native_repository": "exact repository of native candidate source at S; not log/artifact repository inferred from its name",
+      "package": "SourcePackageIdentity projected from original native candidate manifest",
+      "scope_content_identity": "ScopeContent projected from actual candidate scope_ref and complete resolved scope/import membership records",
+      "target": "exact native target name, existing NAME grammar; no title substitution",
+      "type_content_bytes": "exact end_byte-start_byte of that whole target record",
+      "type_content_sha256": "SHA256 of the exact lossless whole target record bytes selected by TargetStatement.type_record.slice from its original elaborated-types.log, including header/indentation/line endings, no stripping/reformatting; log_ref, log offsets and other records are NOT hashed here",
+      "unresolved_fields": "sorted unique array of unresolved field NAMES from this exact TargetSemanticContent schema; no volatile error strings/IDs/timestamps. Identity fields cannot be unresolved inside a core."
+    },
+    "change_and_selector_rules": [
+      "Inventory digest is a byte/source-context binding, not the formal-impact predicate. Snapshot commit IDs alone are outside SourceContent only under the declared snapshot role; immutable origin commits and dependency revisions remain in content. Keep full refs/membership separately and retain current adapter paired-snapshot normalization exactly, not for origins.",
+      "Comparable changed type-record bytes classify formal_statement_changed. Actual compiler/options/print/dependency/runtime context change classifies comparison_unknown plus revalidation even with equal type bytes. Scope/import or raw manifest contract change also seeds revalidation. Source/selector content changes alter inventory digest; no semantic equivalence is inferred.",
+      "A module edit can be proof_body_changed only with actual accepted declaration AND proof selectors on both sides, equal declaration-slice bytes and target-type bytes/context, and equality of the two whole module byte strings after removing the complete accepted proof intervals (sort intervals by start; nonoverlap required). This is a conservative source classification, not proof validity or alignment acceptance. All other target declarations/uses and imported context must remain accounted for.",
+      "The exact changed proof bytes/module/slice identities still change this inventory digest. A required manifest refresh or scope/dependency delta adds its independent revalidation reason and is never suppressed by proof_body_changed. The current raw-manifest binding is deliberately conservative.",
+      "Selector-only change (including offset change, addition or known absence/loss) changes selector content/digest and classifies formal_selector_changed; it never alone asserts changed printed type or failed/stale kernel. An actual module edit with either accepted declaration/proof selector absent or unqualified remains formal_source_changed_unscoped, never guessed proof-only. Unknown acceptance/source join also preserves unresolved coverage.",
+      "Execution-only failure/loss is evidence_loss_impact, not a semantic type delta. A missing newly collected type yields an unresolved diagnostic inventory, not formal_statement_changed by null comparison. Source/type/scope join loss can separately require semantic revalidation under the existing conservative policy. Preserve all original groups and separate union impact rules."
+    ],
+    "closed_value_types": {
+      "ByteContent": {
+        "bytes": "exact nonnegative integer, not Boolean",
+        "sha256": "SHA256 of exactly those retained raw bytes; lowercase64hex"
+      },
+      "CompilerDependencyOptionsContent": {
+        "build_config": "SourceContent array of complete admitted build-control input set, not only changed files",
+        "compiler_identity": {
+          "executable": "ByteContent of actual compiler binary",
+          "version_output": "ByteContent of exact raw compiler-version output"
+        },
+        "dependencies": "DependencyContent array sorted by CanonicalASCII(name), unique names, exact equality to actual native manifest AND dependency lock",
+        "dependency_lock": "SourceContent for exact actual lock bytes",
+        "options": "ordered array of exact effective compiler semantic-option strings, as emitted by admitted producer/supervisor schema; never a guessed filter of raw argv",
+        "print_options": "ordered array of exact admitted and observed type-print option strings",
+        "producer_sources": "SourceContent array of all effective admitted producer/supervisor source inputs; retained fixed origins",
+        "runtime_identity": "RuntimeContent; runtime instance/host/time/run IDs excluded",
+        "toolchain": "exact native toolchain string"
+      },
+      "DependencyContent": {
+        "name": "exact native locked dependency name",
+        "revision": "exact native locked full lowercase40hex revision"
+      },
+      "NamedExecutableContent": {
+        "content": "ByteContent of the actual supervisor-observed executable",
+        "name": "exact nonempty admitted logical executable name"
+      },
+      "RuntimeContent": {
+        "executables": "nonempty NamedExecutableContent array sorted by CanonicalASCII(name); duplicate names refuse",
+        "image_manifest": "ByteContent of actual immutable image-manifest bytes, or null ONLY for an admitted non-image runtime",
+        "platform": "exact immutable admitted platform identifier"
+      },
+      "ScopeContent": {
+        "import_files": "SourceContent array of the complete resolved direct/transitive imported source inputs relevant to this target, excluding this target module itself; neither an empty guess nor a graph-title-derived import set",
+        "scope_files": "nonempty SourceContent array of exact scope_ref plus every additional scope-contract input required by admitted native policy"
+      },
+      "SelectorContent": {
+        "end_byte": "exact integer >start_byte and <=source bytes",
+        "sha256": "SHA256(raw_source_bytes[start_byte:end_byte])",
+        "source": "resolved SourceContent of the actual selected formal module",
+        "start_byte": "exact integer >=0"
+      },
+      "SelectorEntry": {
+        "link_id": "exact accepted Link.id for this native target",
+        "selector": "SelectorContent or null for explicitly absent formal selector on that accepted link"
+      },
+      "SelectorEntry_array_order": "Sort by CanonicalASCII(link_id), unique link IDs. Both selector arrays enumerate the identical complete accepted-link ID set for this native target. Empty ONLY for an actual zero-link set; unresolved mapping still fails separate coverage. Supplied nonnull selectors require native authority acceptance and actual slice verification; loss of acceptance cannot be encoded as harmless known absence.",
+      "SourceContent_array_order": "For build_config,producer_sources,scope_files,import_files sort by CanonicalASCII([repository,path]), where origin reads repository/path from ref. Unique repository/path within each array; duplicate or conflicting source identities refuse. Empty arrays only where actual complete admitted input enumeration is empty. Repeated identities across roles must agree exactly.",
+      "SourceContent_origin": {
+        "kind": "literal origin",
+        "ref": "existing closed six-field GitRef {repository,commit,path,git_blob,sha256,bytes}, full immutable external/control/dependency origin retained"
+      },
+      "SourceContent_rule": "Exactly one of these tagged forms. snapshot applies ONLY to a source proven native member of the selected side B/S snapshot in its target repository; project its existing six-field GitRef by removing commit and adding kind:snapshot. The exact omitted commit remains mandatory in source_membership/request_context/raw TargetStatement. Every external fixed origin, producer/control source at T, or dependency origin uses origin with ALL six fields, including commit. A caller cannot relabel origin as snapshot. No RunRef is a SourceContent.",
+      "SourceContent_snapshot": {
+        "bytes": "exact nonnegative integer",
+        "git_blob": "lowercase40hex Git blob identity verified with actual raw bytes",
+        "kind": "literal snapshot",
+        "path": "safe normalized repository-relative path",
+        "repository": "exact source repository",
+        "sha256": "lowercase64hex of raw bytes"
+      },
+      "SourcePackageIdentity": {
+        "declared_name": "exact native manifest package string; null ONLY when the admitted native format has no package-name field, never a guessed title",
+        "manifest_path": "actual normalized repository-relative native manifest path"
+      }
+    },
+    "conformance": "INVENTORY-CONFORMANCE.json contains explicitly synthetic, nonqualified byte preimages/hashes and expected classifications. They exercise this declared encoding only, not real source mapping, Lean execution, review authenticity or implementation correctness.",
+    "one_formula": "formal_inventory_sha256 = lowercase_hex(SHA256(CanonicalASCII(InventoryCore))). CanonicalASCII is precisely lexical_rules.json: sorted object keys, compact separators, ensure_ascii=true, no nonfinite values, ASCII bytes and NO trailing newline. No prefix/suffix, extra digest wrapper or raw TargetStatement is hashed.",
+    "projection_and_qualification": [
+      "Resolve candidate inventory only at S from complete authenticated native manifest/target/module/scope/source membership and actual qualified original target-type records. Base uses identical rules at B for comparison. No raw TargetStatement, native_context, type_record.log_ref, capture/run/artifact/member IDs, attempt, event, acquisition, timestamp, evidence_revision or terminal message is copied into InventoryCore.",
+      "Project each actual target once. Read exact native format/repository/manifest/package/name, not graph labels. Derive SourceContent, type slice content, compiler/build/dependency/runtime content, accepted selectors and scope inputs by the closed forms above. Preserve source/control/compiler/runtime provenance plus ALL complete raw records in separate custody fields.",
+      "A required content field that is unavailable/unauthenticated/unsupported is null and its exact field name appears in unresolved_fields; a paired type hash/byte size is both null and lists both field names. Identity enumeration failure means core absent. Explicit known-absent accepted formal selectors use selector:null, not fabricated offsets. Unknown mapping/acceptance remains a separate coverage failure even if a diagnostic content core can be serialized.",
+      "Diagnostic partial cores may be byte-hashed as diagnostic_inventory_sha256 only. formal_inventory_sha256 is null unless enumeration is complete, every required content field has its closed qualified value and all unresolved_fields arrays are empty. A content digest alone never satisfies mapping, native positive execution, request freshness, attempt/custody, alignment authority or preservation. Known null selectors are not proof-only evidence.",
+      "No custody acquisition detail participates in this hash; recollection with new run/attempt/log offsets but exactly the same source and target-record bytes produces identical InventoryCore. A later acquisition never rebinds old K to S. Existing independently qualified same-S records may remain preserved; a failed new attempt does not erase them or create a new positive execution claim.",
+      "Collector emits the core and digest; detached Revalidation.formal_inventory_sha256 is EXACTLY this candidate digest; offline verifier independently projects the core from authenticated raw records, compares canonical core bytes and recomputes the same one formula. Null/diagnostic digests cannot be accepted in Revalidation. Reject a supplied inconsistent core/hash rather than selecting one interpretation."
+    ],
+    "revision": "R01; mandatory closed digest contract for design formal-regression-inventory/v1",
+    "root": {
+      "closed_fields": [
+        "domain",
+        "domain_id",
+        "targets"
+      ],
+      "domain": "literal formal-regression-inventory/v1",
+      "domain_id": "exact nonempty string from independently admitted protected-domain policy, equal to the resolved BindingManifest.domain_id",
+      "targets": "nonempty array of exactly one TargetSemanticContent per actual native candidate target in this admitted domain, including unlinked targets. Do not subset to changed/mapped/positively executed targets."
+    },
+    "scope": "Source-bound candidate content inventory, not semantic equivalence, a native execution receipt, review authority or a replacement for independent coverage/custody predicates.",
+    "target_identity_and_order": "Identity is CanonicalASCII([format,native_repository,package,target]). Sort rows by unsigned lexicographic order of these ASCII bytes. Require unique identity before sorting, including identical duplicate rows. Unsupported, incomplete or ambiguous native target enumeration yields no accepted InventoryCore/digest, never an empty/subset replacement."
+  },
+  "interfaces": {
+    "admit": "At actual participating write boundary, re-consume request/report and fresh B/H/S/P/T/check identity; refusal on drift. Not an assertion of installed atomic enforcement.",
+    "collect": "collect(request_context, admitted_policy, native_reader) -> sealed_bundle or preserved_non_success. Only trusted process holds read credentials.",
+    "compare": "derive unchanged adapter reports plus separate semantic/evidence-loss impact from native-authenticated inventories; do not import candidate modules.",
+    "native_produce": "produce_native(requested_K, actual_native_event_context, admitted_TP, sandbox_contract) -> original native receipt/logs plus external supervisor evidence. Requested checkoutK never replaces native event/control SHA.",
+    "native_reader_required_primitives": [
+      "read_pr_current",
+      "read_commit_tree_blob",
+      "read_attempt_jobs",
+      "read_artifact_identity",
+      "read_original_archive_once",
+      "read_review_and_acceptance",
+      "preserve_and_read_back"
+    ],
+    "publish": "publish(sealed_PASS, final_native_context, admitted_installation) -> exact native check readback at status_subjectH; no source/ref/PR edit authority.",
+    "verify": "verify(bundle, admitted_policy, fresh_native_context) -> sealed decision; no writer credential."
+  },
+  "kind": "DRAFT_DECLARATIVE_CONTRACT_NOT_PRODUCT_SCHEMA_OR_CODE",
+  "lexical_rules": {
+    "identities": "Git SHA40 lowercase hex; SHA256 lowercase64hex; native IDs positive ASCII decimal strings. Paths normalized safe repository/bundle-relative, never supplied URLs. Exact nullable values preserved.",
+    "json": "Closed fields, duplicate/nonfinite/trailing/deep/oversized/type-coerced input refuses. Exact integer excludes Boolean. Canonical JSON is sort_keys=True,separators=(comma,colon),ensure_ascii=True,allow_nan=False, ASCII, no newline.",
+    "unknown": "Absent authoritative source/capability is explicit UNRESOLVED/null with reason, never inferred mapping, attempt, acceptance or PASS."
+  },
+  "predecessor_author": "/root/native_object_conservation_1017",
+  "proposed_paths": [
+    "architecture/formal_regression.py",
+    "tools/formal_regression_collect.py",
+    "tools/formal_regression_native.py",
+    "tools/formal_regression_verify.py",
+    "tools/formal_regression_publish.py",
+    ".github/workflows/formal-regression.yml",
+    ".github/workflows/formal-regression-native.yml",
+    "docs/architecture/formal-regression-policy.json",
+    "claims/formal-bindings.json",
+    "tests/test_formal_regression.py",
+    "tests/test_formal_regression_enforcement.py"
+  ],
+  "read_extent_notice": "All new product interfaces/types are proposed, not historical accepted ABI. Existing adapter v1 and native formats stay unchanged. Source/runtime/collector/review custody remain separate predicates.",
+  "regression_rules": [
+    "Historical-original adapter projection retains old formal records, exact old review refs and original bytes. Candidate projection retains candidate records. Single expected native context is explicitly labeled; old/cross-repository kernel states are not globally refreshed.",
+    "For multiple native contexts, any extra candidate projections retain all whole-group uses; never partition one immutable original alignment group to hide a held use. Native local kernel proof and graph-source join remain separate, including unknown Math bridge.",
+    "Semantic fingerprints cover exactly every graph node and include authoritative mapping, formal statement/type/options/dependency content, scope/manifest contract and appropriate source selectors. Unknown nodes have explicit unknown rows and coverage cannot PASS.",
+    "Invoke independently pinned reverse_impact_between on actual old/new graphs and semantic snapshots; union all old/new edges. Keep returned hold clone derived. Union its semantic impacts with existing adapter regression.",
+    "Comparable type-byte changes are formal_statement_changed, not semantic-equivalence judgement. Changed compiler/dependency/print context is comparison_unknown plus revalidation. Missing accepted formal selectors means module change is unscoped, never guessed proof-only.",
+    "Execution-only failed/skipped/missing/stale/negative/attempt-unknown native evidence lowers native axis and fails required positive predicate. Separate evidence-loss impact cannot alone fabricate changed statement, stale semantic alignment or affected original review refs.",
+    "Select original review refs from authenticated old explicit node-target links, union downstream all-edge impact, group by all six GitRef fields, retain deleted records and surviving whole-group uses. Missing mapping/ref remains unresolved; no fabricated ID.",
+    "Qualified detached successor review covers every affected original group in exact candidate context; retain original stale inventory and link replacements. Fresh kernel/source is not semantic revalidation."
+  ],
+  "required_consumer_activation": {
+    "blocking_PASS": "Only complete authoritative coverage/custody, exact supported native contexts, genuine positive checks, all affected original-group revalidation, preserved/read-back sealed report and exact final context. No neutral/skipped/missing output succeeds.",
+    "bundle_trust": "Only native-authenticated admitted acquisition-job artifact is accepted; publisher verifies job/control/attempt/artifact provenance and fresh context, never trusts a candidate archive or claimed principal.",
+    "credential_split": "Read-only native acquisition; tokenless candidate execution; offline verifier; isolated narrow checks publisher. No contents/ref/PR/settings write authority assumed.",
+    "freshness_limit": "Native check identity/app required binding is necessary but not universal/atomic. Actual participating final-write admission must consume fresh tuple. Any unconstrained direct/bypass/race route is disclosed coverage gap.",
+    "preactivation": "Diagnostic preservation only. Current mappings, publisher, trusted producer/attempt/private-custody transport and actual enforcement capability are not supplied. No existing scopes/required checks removed.",
+    "selected": "Distinct formal-regression condition alongside existing verify/public-intake/public-shop; current aggregate not silently repurposed.",
+    "source_tampering": "PR data may not change T/P/effective workflow/producer/gate authority. Default-source controller source and all executed dependencies must match admitted pins; any mismatch is non-success.",
+    "status_subject": "Native H; checked sourceS separately in sealed evidence. Native evaluated commit semantics require actual capability tests.",
+    "stop_conditions": "Any failure, malformed/unknown source or custody, ambiguous attempt, drift, denied capability, unsupported size/schema, preservation/cleanup failure returns FAIL/UNRESOLVED/SUPERSEDED. No retry/alternate auth/identity."
+  },
+  "resource_and_recovery": {
+    "acquisition_limits": "64MiB total original/decompressed retained evidence;1024members;4MiB each metadata response. Stop oversized transport; label any partial acquisition explicitly incomplete negative.",
+    "adapter_limits": "Unchanged16MiB packet,4MiB capture,depth64,256nodes,2048edges. No record-group splitting to evade bounds.",
+    "atomicity": "New source-external directory, no-follow bounded regular members; seal/fsync/index; atomic promotion after complete upload/native readback. Prior valid outputs retained on failure.",
+    "idempotency": "Same source/evidence duplicate event does not run again; new evidence/acquisition version preserves history and stable source key. Unknown delivery/refusal stops until separately scoped changed-input recovery.",
+    "privacy": "Public allowlist projection has distinct digest; no private absolute paths/access links/credentials/private original bodies. Actual private carrier capability is missing, never inferred from digest.",
+    "retention": "At least30days initial native preservation; actual existing-governing-custody readback before expiry for long-term acceptance. Expired originals are unavailable, not reconstructed."
+  },
+  "revision": {
+    "finding": "R1",
+    "id": "R01",
+    "root_scope": "PR325/6244260092",
+    "state": "REVISED_DRAFT_REQUIRES_FRESH_WHOLE_TECHNICAL_REVIEW",
+    "whole_review_sha256": "765e368ab137b26d15a6e740878d45ab43d7aaae370ab100f19c9c72eeb9e572"
+  },
+  "schema_version": 1,
+  "source_cut": {
+    "Main": "6fce9b8c1a9e723dd4983bfc0d2ebeede09c87f8",
+    "tree": "5b3447fa17a4f6596ad585da81cd249b3906404d"
+  },
+  "spec": {
+    "bytes": 23965,
+    "file": "proposal/docs/superpowers/specs/2026-10-18-formal-regression-collector-design.md",
+    "mode": "0444",
+    "nlink": 1,
+    "sha256": "d01556e9585f5825379e2dd6c44314102e4e23688d5a24c5316d81581f808660"
+  },
+  "technical_acceptance": "NOT_ACCEPTED; R1 amendment pending fresh distinct whole technical review"
+}
