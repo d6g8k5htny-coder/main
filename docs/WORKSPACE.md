@@ -117,6 +117,40 @@ Tools do not need to be installed merely to demonstrate that permission exists.
 Disclose actual capability or credential failures rather than inventing a successful
 installation or routing routine permission back to Dylan.
 
+A session's preset checkout may be shallow. If
+`git rev-parse --is-shallow-repository` prints `true`, `git merge-base` and
+`--is-ancestor` can fail or report no shared history. Deepen the clone, or ask
+GitHub, which needs no local history:
+
+```sh
+git fetch --unshallow origin main   # about 3 s here on 19 October 2026
+git merge-base --is-ancestor <sha> origin/main && echo "<sha> is in main"
+gh api repos/d6g8k5htny-coder/main/compare/<sha>...main --jq .merge_base_commit.sha
+```
+
+Where `--unshallow` is refused, deepen in steps with
+`git fetch --deepen=500 origin main`. Until
+`git rev-parse --is-shallow-repository` prints `false`, a "yes" from
+`--is-ancestor` is reliable but a "no" is not.
+
+The commit is in `main` exactly when that merge base equals `<sha>` (status
+`ahead` or `identical`). A 404 alone proves nothing: GitHub also answers 404 for
+a mistyped SHA, a missing branch or a repository the caller cannot see. Treat an
+unexplained 404 as inconclusive. To establish unrelated history, use a complete
+clone in which both commits resolve (`git cat-file -e <sha>^{commit}`) and
+`git merge-base <sha> origin/main` prints nothing.
+
+Ancestry shows only that a commit landed. Work carried onto `main` in a new
+commit, such as a refresh, has a new SHA, so compare its blobs instead:
+
+```sh
+git fetch origin <sha>   # if refused, fetch a ref that contains it: pull/<n>/head
+git rev-parse <sha>:<path> origin/main:<path>   # two equal lines: same bytes
+```
+
+On 19 October 2026, main#330's head `88ff9223` was not in `main`, but its
+`PROOF.md` blob was.
+
 ## Local navigation check
 
 The landing workflow's `landing-checks` job first requires that the same run's

@@ -30,7 +30,10 @@ repository state from a freshly fetched `origin/main`, not the checkout: the
 December 2025 branches have no `governance/` at all. When
 `git rev-parse --is-shallow-repository` prints `true`, `git merge-base` and
 `--is-ancestor` can miss shared history, so take ancestry, including for the
-already-landed check, from GitHub's compare API (`merge_base_commit`).
+already-landed check, from GitHub's compare API (`merge_base_commit`) or after
+`git fetch --unshallow`. Ancestry shows only that a commit landed: work carried
+onto `main` in a new commit needs a content comparison. The commands are in
+[Workspace and tools](docs/WORKSPACE.md).
 
 ## Choose the right entry
 
