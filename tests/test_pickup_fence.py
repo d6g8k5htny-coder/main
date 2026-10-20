@@ -101,10 +101,14 @@ class PickupFenceTest(unittest.TestCase):
         self.assertNotEqual(self.remote_head(), self.new_head)
 
     def test_implicit_lease_with_force_if_includes_is_prevented(self):
-        """``--force-if-includes`` closes the gap of the previous case."""
+        """``--force-if-includes`` closes the gap of the previous case. The option exists since git 2.30;
+        where it is unknown the push fails for that reason and the case is skipped, not passed."""
         git('fetch', '-q', 'origin', cwd=self.a)
         r = git('push', '--force-with-lease', '--force-if-includes', 'origin', 'work', cwd=self.a, check=False)
+        if 'unknown option' in r.stderr or 'force-if-includes' in r.stderr and 'usage:' in r.stderr:
+            self.skipTest('git lacks --force-if-includes: ' + r.stderr.strip().splitlines()[0])
         self.assertNotEqual(r.returncode, 0)
+        self.assertIn('[rejected]', r.stderr)
         self.assertEqual(self.remote_head(), self.new_head)
 
     def test_deliberate_rewrite_under_a_current_lease_is_not_prevented(self):

@@ -6,9 +6,10 @@ coordinator's disposition
 named for proposal
 [#275/6276723458](https://github.com/d6g8k5htny-coder/main/issues/275#issuecomment-6276723458).
 It changes no rule, activates nothing and releases nobody's claim. The
-[current workflow](../governance/OP-WORKFLOW-20260930.md) governs; the coordinator-fallback
-draft [main#450](https://github.com/d6g8k5htny-coder/main/pull/450) and the usage-limit route
-[main#453](https://github.com/d6g8k5htny-coder/main/pull/453) are adjacent and unchanged.
+[current workflow](../governance/OP-WORKFLOW-20260930.md) governs, including the
+coordinator-fallback section landed by
+[main#450](https://github.com/d6g8k5htny-coder/main/pull/450) and the usage-limit route landed
+by [main#453](https://github.com/d6g8k5htny-coder/main/pull/453); this note changes neither.
 Author: Anthropic Claude, session `session_01NMeKEismAyeqgdB4sy2NJU` (Claude01N), as delegated
 AI work for Dylan Roy. Scientific effect NONE.
 
@@ -131,8 +132,9 @@ and is not promoted either.
 
 **S4. A crash before release.** A stops without a delivery, checkpoint or release; nothing
 further ever appears. Records: the pickup only. Who acts: no one may release A (corrections
-1–2). The coordinator, or the owner, records a supersession after a reconciliation, which the
-successor accepts personally (correction 4); until then the scope is held. Prevented: a
+1–2). The coordinator, or the owner, or after an unanswered 24-hour request the peer fallback
+of section 5 point 4, records a supersession after a reconciliation, which the successor
+accepts personally (correction 4); until then the scope is held. Prevented: a
 successor's stale push, if guarded. Design: a pickup carries a checkpoint time; a missed
 checkpoint is the trigger for the coordinator's reconciliation, not for release. The
 proposal's "release-on-exit" is admissible only where the platform reports termination, which
@@ -165,13 +167,25 @@ old head, it makes it a review of old bytes (correction 5).
    under one label are two performers.
 2. **Checkpoint, not lease-expiry.** A pickup states a checkpoint time. A missed checkpoint is
    a trigger for the coordinator to reconcile; it is not a release, and no performer other
-   than the coordinator or the owner records the supersession.
+   than the coordinator, the owner or the peer fallback of point 4 records the supersession.
 3. **Reconciliation on start.** An invocation lists, before claiming, the open pickups under
    its label from any time, and says for each whether it is the same execution (continuing),
    has the work (returning, continuity unverified) or neither. It releases none of them.
-4. **Supersession record.** Authority (the coordinator or the owner), successor acceptance,
-   and a current-state check, in one record that preserves the predecessor's closeout as
-   UNKNOWN. The successor's pickup links it.
+4. **Supersession record.** Authority, successor acceptance, and a current-state check, in
+   one record that preserves the predecessor's closeout as UNKNOWN. The successor's pickup
+   links it. The authority is the coordinator or the owner; or, exactly as the
+   [current workflow](../governance/OP-WORKFLOW-20260930.md) ("The confirmations above assume
+   a coordinator whose record reaches the board") provides, a peer, once the specific
+   confirmation has been requested in the task thread and has gone unanswered for 24 hours
+   from that request: an eligible agent of a different provider from the acting worker, who is
+   neither the object's author, predecessor nor receiver, has not reviewed it, reads the same
+   current refs, claims, findings and in-flight work, records what it read and that it concurs,
+   names the record a fallback confirmation, states which condition applied, and mirrors it on
+   the board. The fallback covers ordinary engineering, documentation, review and integration
+   stages only; it cannot lift an owner stop, cure a platform or permission denial, change
+   protections or supply scientific acceptance; a coordinator record posted later supersedes it
+   for anything not yet landed; and it earns no independence credit. Nothing here widens or
+   narrows that section.
 5. **Reviews bind pinned sources.** A read names the exact commit; the author's branch is not
    frozen by an open read. A later revision does not inherit the read; it gets a byte-diff
    readback against the read head, or a fresh read, as today. A freeze is explicit, owned and
@@ -195,17 +209,27 @@ until the supersession, about four days.
 
 All measures come from board and PR records, which carry server timestamps.
 
-- **Stalled-stage duration:** for each pickup, the time from its post to its delivery or to
-  the supersession record; reported as a distribution and as the count above 24 hours. The
-  five cases above give 4 days, 4 days, 4 days, 4 days and more than 40 hours.
+- **Stalled-stage duration:** for each pickup, the time from its post to its terminal event,
+  which is the first of: its delivery; the supersession record; the performer's own release or
+  withdrawal (the S1 and S5 withdrawals included), with the reason recorded. A pickup with no
+  terminal event at the measurement time is right-censored there: it enters the count of open
+  pickups with its age, and not the distribution. Reported as a distribution over terminated
+  pickups, the count above 24 hours, and the open count with ages. The five cases above give
+  4 days, 4 days, 4 days, 4 days (terminal event: the owner-authorized end) and, for the fifth,
+  censored at more than 40 hours.
 - **Duplicate work:** the number of deliveries for one pinned source and scope by more than
   one performer without a recorded split.
 - **Owner interventions:** the number of supersessions or releases that needed the owner
   rather than the coordinator. The five cases needed one owner intervention for four of them.
 - **Safety requirement:** zero successful conflicting writes, counted as pushes that replaced
   a commit another performer had pushed to the same branch without a recorded handoff. With
-  branch protection against force pushes this count is enforced to zero on the protected
-  branches; with guarded pushes alone it is enforced against stale writers only (section 3).
+  branch protection against force pushes that applies to administrators and to every other
+  bypass actor (no force-push bypass list), this count is enforced to zero on the protected
+  branches; a protection that exempts administrators or a bypass role enforces it only for the
+  actors it binds, and the exempt actors' pushes are audited like any other. On this
+  repository every lane pushes through one shared principal, so the exemption question is
+  decided once, for that principal. With guarded pushes alone the count is enforced against
+  stale writers only (section 3).
   On every branch, protected or not, and on branches since deleted, it is audited from the
   host's repository activity record,
   `GET /repos/{owner}/{repo}/activity?activity_type=force_push`, which records each force push
