@@ -1,4 +1,4 @@
-# Recovery delta, 18–20 October 2026: session 01Cz, recovery row §12
+# Recovery delta, 18–20 October 2026: session 01Cz, recovery rows §12 and §5
 
 Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`. This is a retention copy for the owner's recovery request, [main#307 / 6136156988](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6136156988).
 - It continues the 17–18 October delta, `recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/` (branch `claude/recovery-01cz-delta-20261018`, draft main#444), and does not repeat it.
@@ -20,7 +20,8 @@ Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`. This is a retentio
 | directory | claim and subject | public record | outcome |
 |---|---|---|---|
 | `s12_d5_ledger_comparison/` | `S12B-D5-LEDGER-COMPARISON-01CZ-20261019`, after the late-released `S12-D5-LEDGER-COMPARISON-01CZ-20261018`: ledger comparison of the July D5 historical carriers (C100, LS-DER-024, LS-DER-033, FlatSaddle) with the P2 punctured-pin proof (recovery row §12) | main#419: pickup 6251517975, late release 6279524549, fresh pickup 6279655509, result and release 6280394188; main#275 pointers 6251521112, 6279528124, 6279660527, 6280395619 | CONSISTENT AT THE FINAL POWERS, with intermediate-ledger defects recorded; posted and released |
-| `workflows/` | the scripts of the comparison run, the four-lens check of the result post and its re-check | — | method record |
+| `s5_side24_v33_v34_binding/` | `S5-SIDE24-V33-V34-BINDING-01CZ-20261020`: custody binding record for the SIDE24 V3.3 checkpoint and V3.4 replay archives (recovery row §5) | main#419: pickup 6280913839, checkpoint 6281760247, result pending at this commit; main#275 pointer 6280916731 | custody verified; result pending at this commit |
+| `workflows/` | the scripts of the §12 comparison run, the four-lens check of that result post and its re-check, and the §5 lens run | — | method record |
 
 ## Reproducing
 
@@ -38,6 +39,13 @@ Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`. This is a retentio
   - The `*_posted.txt` files give the comment ids, and only those GitHub comments are authoritative.
   - `ptr275.md`, `ptr275_late.md` and `ptr275_b.md` include the attribution footer; the other posted texts omit it.
   - `post.sh` posts a comment and reads it back. It is kept as a method record and must not be run by anyone else.
+
+- **s5.**
+  - The two archives are not included. Rebuild them from the hardening branch `a01c72f1` DG-MIGRATION objects `4040d654` (V3.3) and `ba2a296b` (V3.4) with `s11_d1v23_receipt_replay/own/rebuild.py` from the 17–18 October delta; V3.4 also equals hardening blob `b2901c1d`.
+  - `own/ledger_check.py <V33.zip> <V34.zip> <out.json>` reads both archives as data and checks their internal ledgers. `manifest_V33_V34.json` is its output: every top-level member's path, size and SHA-256. `diff_V33_V34.tsv` lists each member as unchanged, changed or added between V3.3 and V3.4.
+  - One member name has the shape of a Drive id and is written `<drive-id>` in both files; it is the nested V5 export (6,062,706 B, `119ffbfa…`). Renaming it in the archives would break their own ledgers.
+  - `lens_results.json` holds the run's four lens reports and their adversarial verifications. One product label in it is redacted; it is marked `hand_edited` with `sha256_before_hand_edit`.
+  - The agents' scratch is not included: some of it holds copies of other lanes' files and unredacted Drive-id tokens. `SOURCES.json` lists each scratch directory by file count, bytes and a listing hash.
 
 ## Caveats
 
