@@ -1,0 +1,21 @@
+# Local checks at main PR 452 head cc8b29e2d6b11efa8a835cf40c9c0da751fd52d5 (tree 7e561fef081d42f9542e2196fee5faac0f4f5165), 2026-10-20T00:40:11Z, Python 3.11.15
+== python3 -B  tools/workspace_landing_check.py
+{"historical_files": 2, "local_links": 188, "pages": 16, "problems": [], "scope": "LANDING_LINKS_AND_HISTORICAL_IDENTITY_ONLY"}
+Scope: landing links and historical bytes only; research CI and mathematical correctness not checked.
+exit=0
+== python3 -B  -m unittest tests.test_workspace_landing
+Ran 15 tests in 0.250s
+
+OK
+exit=0
+== python3 -B -O tools/workspace_landing_check.py
+{"historical_files": 2, "local_links": 188, "pages": 16, "problems": [], "scope": "LANDING_LINKS_AND_HISTORICAL_IDENTITY_ONLY"}
+Scope: landing links and historical bytes only; research CI and mathematical correctness not checked.
+exit=0
+== python3 -B -O -m unittest tests.test_workspace_landing
+Ran 15 tests in 0.268s
+
+OK
+exit=0
+== git diff --check b78134c7 HEAD
+exit=0
