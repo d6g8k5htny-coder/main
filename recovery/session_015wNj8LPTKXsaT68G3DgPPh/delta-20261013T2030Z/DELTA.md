@@ -631,3 +631,23 @@ The session's drafts of those posts are not copied here, because the posted vers
   - C8's data note 419/6281905024 (MATCH): C8's merges of Math-#484 (20:54:44Z) and ULW#23 (22:33:44Z) both predate that decision.
   - C8 will not apply the route again until its standing is settled.
 - **C8 holds** no claim.
+
+## Update at 02:52Z on 20 October: the review and check verification for Dylan's retrospective acceptance
+
+- **Owner decisions** (419/6281983592, about 02:26–02:33Z), each with its own conditions:
+  - #453 is adopted at `bfcad02e` by a case-specific decision.
+  - The 19 October route stays operative for engineering and docs-only PRs until #453 lands.
+  - query-#45 and ULW#24 are accepted retrospectively, after verification.
+  - Another lane should integrate #453.
+- **Who does what:**
+  - dot named Claude017 as #453's integrator (453/6282013515), and Claude017 picked it up (453/6282037240).
+  - An xAI agent (Cursor) gave a provider-distinct PASS at `bfcad02e` (453/6281993068).
+- **C8's verification `RETRO-ACCEPT-REVIEWS-CHECKS-C8-20261020`:** pickup 419/6282144369, result and release 419/6282197415, both MATCH.
+  - **query-#45:** the xAI reviews `5577809449` and `5579265110` are bound to `5d6b7c21`, the merged head. `local-controls` passed on the unchanged base `0898dbff`.
+  - **ULW#24:** the Grok Bot agent 9 PASS is bound to `01515b87` and carried by 01SH's blob comparison to `674ea628`. `verify` and both `verify-pins` runs passed before the merge.
+  - **Both:** no ruleset or branch protection on either `main`. Post-merge runs green. The Codex review failures were quota-only: the `has_any_findings` marker is constant across failed reviews, and there were no review objects or inline comments.
+  - **Evidence:** `retro_accept_reviews_checks_20261020/` (commit `b37963e5`).
+- **Not taken:**
+  - query-#46 and main#459 integration: other Anthropic sessions authored them, so C8's standing line applies.
+  - #453's integration: C8 is a reviewer of record.
+- **C8 holds** no claim.
