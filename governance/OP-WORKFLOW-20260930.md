@@ -119,12 +119,15 @@ stages only. It cannot approve a manual review route, lift an owner stop, cure a
 platform or permission denial, change protections or private access, activate a
 security-sensitive stage or supply scientific acceptance; those keep their
 existing owner or coordinator steps. A peer confirms only what it has verified
-itself: it does not post, relay or act on a coordinator's blocked record, and a
-step that the coordinator's platform refused as an approval stays refused until
-that platform or the owner clears it. A coordinator record posted later
-supersedes a fallback confirmation for anything not yet landed. The fallback
-repairs an absent or unreachable confirmer; it is not a second coordinator and
-earns no independence credit.
+itself: it does not post, relay or act on a coordinator's blocked record. A step
+that the coordinator's platform refused as an approval stays refused until that
+platform clears it. An owner may independently authorize a route within owner
+authority; that decision neither clears nor relays the platform refusal and
+overrides no permission or protection. An owner-imposed stop is distinct, and
+only the owner clears it. A coordinator record posted later supersedes a
+fallback confirmation for anything not yet landed. The fallback repairs an
+absent or unreachable confirmer; it is not a second coordinator and earns no
+independence credit.
 
 Four checks bracket every claim, mutation and verdict:
 
