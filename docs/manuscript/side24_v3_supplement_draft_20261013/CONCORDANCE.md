@@ -272,6 +272,23 @@ On these points the BLOCK overrides the earlier Cursor read of §S5 at `c6aa790d
 
 **Build.** 156 pages, no LaTeX error and no undefined reference; all 927 labels of draft 8 keep their numbers. The one overfull line, 29 pt in S10, is unchanged.
 
+## Checkpoint draft 13 (20 October 2026): the proof-dependency graph, and three documentary repairs
+
+Author-side, by Claude01N, on top of draft 12 (`59d20df5`). No number of draft 12 changes; one proof environment is added (a proof carries no number).
+
+- **Method.** `checks/dep_graph_check.py` parses the TeX sources, attaches every proof to its statement (the next `proof` environment; joint proofs `Proof of Theorems X, Y and Corollary Z`; the subsection `Proof of Theorem S9.2`), maps every `\ref`/`\eqref` in a statement or its proof to the statement that owns the target, and computes the strongly connected components of the graph "A uses B". Numbering is recomputed from the sources (one shared counter per section) and agrees with the build's `.aux` for all 257 statements. 194 numbered statements, 190 proofs, 395 edges, 101 forward uses.
+- **Result.** Seven statement-level components, none a circularity:
+  - S12.22 ↔ S12.23: S12.23 uses S12.22(a),(b); S12.22(c) (the exhaustion to the diagonal) uses S12.23. **Repair (documentary):** both proofs now say so.
+  - S12.3, S12.4, S12.5, S12.19, S12.24, S12.28: closed by two pointers (S12.24 names the density of Theorem B; the proof of S12.19(b) remarks that the proof of Theorem C uses it).
+  - S5.26, S5.29, S5.30: S5.30 states margins for the inequalities of S5.26–S5.29 and is proved from them; the closing sentence of the proof of S5.26 points forward to S5.30 for the perturbed field.
+  - S5.16, S5.18, S5.20, S5.21, S5.40, S5.41: the finite-scale display (S5.56) of Lemma S5.20 is Lemma S5.40(d),(e), whose proof uses from S5.20 only the window, the chart with its Jacobian, the residual limits and, through S5.21, the covariances, and from S5.16–S5.18 the collar limits. **Repair (documentary):** the proof of S5.20 now says so.
+  - S3.19 ↔ S3.20: a pointer in the proof of S3.19 to the comparison made in S3.20.
+  - S4.24 ↔ S4.4: the statement of S4.24 uses the polynomial `P_d` defined in a display of the statement of S4.4.
+  - S8.4, S8.6, S8.9, S8.14: the item-level order stated in §S8.6 of draft 12 (S8.4(ii),(iii), `B < ∞` → S8.9 → the limit in S8.4(i) → the elder paragraph of S8.6); S8.14 reuses a decomposition display of the proof of S8.6.
+- **Statements without a proof of their own.** Lemmas S7.1–S7.3 restate Part III lemmas named in their headings. **Proposition S12.24** had none in drafts 1–12 (the record [R2] states it without one). **Repair:** a proof from Proposition S12.23(b) and `ℓ = k r³` at fixed `k`: `r dr/dℓ = (1/3) k^{-2/3} ℓ^{-1/3}`, so the pushforward of the intensity `r 𝒜_r dr db dk dσ` is (S12.40); `r < r_*` because `ℓ < k_- r_*³ ≤ k r_*³`.
+- **Reads.** Draft 12 at `59d20df5` has a Cursor read (AMEND on one majorant constant and two parent hashes [main#389 6278559198], applied; readback PASS [6278603420]) and an OpenAI read of Corollary S11.11 (PASS_SCOPED [6289117999]); five provider-distinct slice reads of draft 12 (SUPP-A to SUPP-E) are offered at main#419 6290107952 and bind the draft-12 bytes. Main text r10 at `d9f01444` cites draft 12 as [R1] (Cursor AMEND [6290059705] applied; readback PASS [6290117154]). A Cursor read of this draft's delta is requested in main#389.
+- **Build.** 162 pages (the status section grows by one item), no LaTeX error, no undefined reference. All 948 labels of draft 12 keep their numbers; no label is added. The one overfull line, 29 pt in S10, is unchanged.
+
 ## Checkpoint draft 12 (19 October 2026): the equal-height statements are proved
 
 Author-side, by Claude01N, on top of draft 11 (`c1d92e94`). One unnumbered subsection is added at the end of S8; no number of draft 11 changes.

@@ -437,7 +437,7 @@ Theorem~2.2 of \cite{AAL} makes $\mu_1$ finite. The total mass of $\mu_2$ equals
 
 \emph{The elder and type marks.} Lemma~\ref{lem:parent-mark}(a) represents the maximin connection event by countably many strict rational polygonal-path tests in finitely many torus charts. Hence $((x,y),\varphi)\mapsto\ind_{\{d_\varphi(x)=\varphi(y)\}}$ is Borel on the locus of Morse functions with pairwise distinct critical values, with the convention for the essential maximum preserved. The Hessian index indicators are Borel functions of the $2$-jet, and their product with the elder mark is therefore a bounded Borel weight on $\Omega\times C^2(\T^d_L)$, so (a) applies. Disintegrating the two endpoint heights with their nondegenerate joint Gaussian density conditional on $\mathsf G(x,y)=0$ gives (b).
 
-\emph{Exhaustion.} Finally, exhaust $\Omega$ towards the diagonal. The bound of Proposition~\ref{prop:parent-ledger} is locally $r\,dr$, hence integrable at zero, and nonnegative monotone convergence gives the near-diagonal formula (c). This step uses the estimates of Subsections~\ref{ssec:parent-frame}, \ref{ssec:parent-normalizer} and~\ref{ssec:parent-ledger}.
+\emph{Exhaustion.} Finally, exhaust $\Omega$ towards the diagonal. The bound of Proposition~\ref{prop:parent-ledger}, whose proof uses only parts~(a) and~(b) above, is locally $r\,dr$, hence integrable at zero, and nonnegative monotone convergence gives the near-diagonal formula (c). This step uses the estimates of Subsections~\ref{ssec:parent-frame}, \ref{ssec:parent-normalizer} and~\ref{ssec:parent-ledger}.
 \end{proof}
 
 \subsection{The exact radial ledger}\label{ssec:parent-ledger}
@@ -465,7 +465,7 @@ where $\sigma$ is the ordinary surface measure on $S^{d-1}$, not normalized to t
 \end{proposition}
 
 \begin{proof}
-(a) holds because $U_r=T_rO_r$, by \eqref{eq:parent-detT}. (b) The change from the ordered pair $(M,S)$ to $(z,rt)$ has absolute determinant one. Polar coordinates for the separation contribute $r^{d-1}\,dr\,d\sigma(t)$, and the height change $(f(M),f(S))=(b,b-kr^3)$ at fixed $r$ contributes $r^3\,db\,dk$. There is no factor $1/2$: maximum--saddle pairs are ordered by their different roles. With (a) and Proposition~\ref{prop:parent-KR}, the powers of $r$ are
+(a) holds because $U_r=T_rO_r$, by \eqref{eq:parent-detT}. (b) The change from the ordered pair $(M,S)$ to $(z,rt)$ has absolute determinant one. Polar coordinates for the separation contribute $r^{d-1}\,dr\,d\sigma(t)$, and the height change $(f(M),f(S))=(b,b-kr^3)$ at fixed $r$ contributes $r^3\,db\,dk$. There is no factor $1/2$: maximum--saddle pairs are ordered by their different roles. With (a) and Proposition~\ref{prop:parent-KR}(a),(b) (this proof does not use its part~(c), whose proof uses the present proposition), the powers of $r$ are
 \[
 \text{spatial }(d-1)+\text{height mark }3+\text{pin }\bigl(-(d+3)\bigr)+\text{determinant normalizer }2=1 .
 \]
@@ -487,6 +487,10 @@ Hence a version of the candidate density of Theorem~\ref{thm:parent-B} is
 \end{equation}
 and $\nu_\eld$ has the additional factor $p_{(\ell/k)^{1/3}}$ in the integrand.
 \end{proposition}
+
+\begin{proof}
+For $k\in\mathcal K$, $k\ge k_-$, so $\ell<k_-r_*^3$ gives $r^3=\ell/k<r_*^3$. At fixed $k$, $dr/d\ell=\frac13k^{-1/3}\ell^{-2/3}$, and multiplying by $r=k^{-1/3}\ell^{1/3}$ gives \eqref{eq:parent-111}. The candidate intensity \eqref{eq:parent-102} is $r\,\mathcal A_r\,dr\,db\,dk\,d\sigma(t)$ per unit midpoint volume; its pushforward under $\ell=kr^3$ at fixed $(b,k,t)$ replaces $r\,dr$ by $\frac13k^{-2/3}\ell^{-1/3}\,d\ell$, by \eqref{eq:parent-111}, and integrating over $\mathcal B\times\mathcal K\times S^{d-1}$ gives \eqref{eq:parent-112}. The selected intensity is $r\,\mathcal A_r\,p_r$ with the same measures (Proposition~\ref{prop:parent-ledger}(b)), whence the factor $p_{(\ell/k)^{1/3}}$.
+\end{proof}
 
 \begin{proof}[Proof of Theorem~\ref{thm:parent-B}]
 Uniform convergence \eqref{eq:parent-103}, the selection bound of Theorem~\ref{thm:parent-A} and compact domination give the common positive leading coefficient
