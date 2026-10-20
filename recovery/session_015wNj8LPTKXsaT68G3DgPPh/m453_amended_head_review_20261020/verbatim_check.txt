@@ -1,0 +1,12 @@
+# Verbatim check of PR 453 head d07fde42 against owner decision 6280206603 (whitespace-normalized)
+IN_HEAD | not_in_3f588593 :: The required review must be performed by an eligible nonauthor and bound to the exact reviewed source. Assess relevant competence, prior involvement and applicable independence requirements. Provider diversity is useful but is not mandatory for covered routine engineering/documentation unless another applicable requirement explicitly demands it. Record nonauthor status, provider diversity, review exposure and organizational independence separately. Provider diversity alone establishes no organizational-independence credit.
+IN_HEAD | not_in_3f588593 :: ambiguous review
+NOT_IN_HEAD | not_in_3f588593 :: the route replaces an unavailable check
+IN_HEAD | not_in_3f588593 :: This route provides a documented alternative to the quota-unavailable automatic review only where project policy permits. It does not replace required CI checks or platform-enforced approvals and earns no scientific or organizational-independence credit.
+NOT_IN_HEAD :: owner base-only refresh paragraph (unquoted in the decision)
+phrase in_3f588593=True in_head=False :: The route applies only when a usage-limit failure
+phrase in_3f588593=False in_head=True :: The route applies when a usage-limit failure
+phrase in_3f588593=True in_head=False :: it is not a review
+phrase in_3f588593=False in_head=True :: an exact-current-head composition assessment confirms
+phrase in_3f588593=True in_head=True :: The integrator is separately claimed and is neither the author nor a reviewer of record
+phrase in_3f588593=True in_head=True :: The route cures neither an owner stop nor a platform or permission denial, is never a reason to route a denied step to another executor or session
