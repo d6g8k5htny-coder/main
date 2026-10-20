@@ -38,3 +38,11 @@ body{overflow-wrap:anywhere}
   .atlas-reader pre{max-height:none;overflow:visible}
 }
 @media print{.atlas-reader-navigation,#atlas-inspector-tabs,#atlas-open-reader{display:none!important}.atlas[data-atlas-panel] .atlas-reader{display:block!important;min-height:0!important;padding:0!important;scroll-margin-top:0!important}.atlas-reader [role=tabpanel]{display:block!important}}
+
+/* Inventory acquisition labels share a visible legend; long identities wrap. */
+.acquisition-label{display:block;margin-block:.25rem;overflow-wrap:anywhere}
+.inventory-legend,.inventory-unavailable,.current-date-explanation{margin-block:1rem}
+.current-date-explanation dd{margin-block-end:.75rem;overflow-wrap:anywhere}
+.current-results li{margin-block:.65rem}
+
+.current-more[hidden]{display:none!important}
