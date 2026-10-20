@@ -9,5 +9,4 @@ Byte identity, review applicability and hosted checks are reported separately. T
 | `delta_readback_cc8b29e2.txt` | `delta_readback.sh` on the real refresh, with `DEPS` set. It reports the parents, the new tree against a fresh merge-tree and the trial tree, the raw-diff identity, the base delta, the dependency objects and the diffstat, plus the check runs at the time it ran. |
 | `local_checks.txt` | The landing check and its 15 tests under `-B` and `-B -O`, and `git diff --check`, at the real head. Every exit code is captured directly. |
 | `composition_facts.txt` | `refs/pull/452/merge`, the composition with PR 421's head, PR 421's last comment, and the trusted intake run's checkout and output. |
-
-The hosted-check results are added when the checks finish.
+| `hosted_checks.txt` | All eight check runs at the head, read at 00:46Z, each with its job, run, attempt, event and workflow. It also gives `verify`'s aggregate, which binds `checks` and `formal` to `checked_commit` `600a2a41`, the tested merge. |
