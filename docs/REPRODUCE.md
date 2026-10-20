@@ -67,9 +67,11 @@ Gaussian-process short-bar statistics. Those runs need the pinned
 `requirements.txt` (numpy and mpmath) and the script commands in
 [the packet's §8](../experiments/zeta_fold_exploration/README.md#8-reproduce);
 `test_numeric` (six numeric smoke tests) skips without those modules. The packet
-makes no claim of progress toward the Riemann Hypothesis, and its §9 lists
-independent numerical reproduction (review slice C) as open; the packet records
-no slice C result.
+makes no claim of progress toward the Riemann Hypothesis, and its §9 records
+independent numerical reproduction (review slice C) as only partly done: a
+different-provider replay of its 59 commands is performed (record PASS, scoped),
+but the different-seed or independent Riemann–Siegel check, including the Edwards
+coefficients, is still open.
 
 ### Math- packages and the hardening branch
 
