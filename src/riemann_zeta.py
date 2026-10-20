@@ -175,9 +175,11 @@ class RiemannZeta:
             "complete_and_ordered": complete,
             "all_on_critical_line": complete,
             "method": "mpmath zeta, nzeros and siegelz (numerical, not interval-certified)",
-            "independent_comparison": ("not run here; results/zero_cross_check_arb.json (FLINT) and "
-                                       "results/zero_cross_check_pari.json (PARI/GP) record checks of "
-                                       "the data file; published-table comparison open"),
+            "independent_comparison": ("not run here; results/zero_cross_check_arb.json (FLINT), "
+                                       "results/zero_cross_check_pari.json (PARI/GP) and "
+                                       "results/zero_cross_check_oeis.json (OEIS tables: 20 digits for "
+                                       "zeros 1-10, integer parts for all) record checks of the data "
+                                       "file; a full-precision published-table comparison is open"),
             "literature_verified_height": RH_VERIFIED_HEIGHT,
         }
 
@@ -323,8 +325,8 @@ if __name__ == "__main__":
     check = rz.verify_rh_local()
     print(f"Stored zeros: {check['zeros_checked']}, max |ζ| = {check['max_abs_zeta']:.1e}, "
           f"complete and ordered through t = {check['final_bracket']:.2f}: "
-          f"{check['complete_and_ordered']} (numerical; FLINT and PARI checks of the data file "
-          f"in results/)")
+          f"{check['complete_and_ordered']} (numerical; FLINT, PARI and OEIS checks of the data "
+          f"file in results/)")
 
     rep = SpectralAnalysis().level_repulsion()
     print(f"Spacings below 1/2: {rep['fraction_below_half']:.3f} "

@@ -461,7 +461,7 @@ class TestRiemannZeta:
         assert FIRST_ZEROS[-1] < result["final_bracket"] < 103.7255
         assert result["complete_and_ordered"] is True
         assert result["independent_comparison"].startswith("not run here")
-        assert "published-table comparison open" in result["independent_comparison"]
+        assert "full-precision published-table comparison is open" in result["independent_comparison"]
 
     def test_verify_rh_local_rejects_wrong_zero(self):
         perturbed = list(FIRST_ZEROS)
@@ -557,6 +557,36 @@ class TestZeroCrossCheckPari:
         sys.path.insert(0, os.path.join(ROOT, "scripts"))
         import cross_check_zeros_pari
         assert cross_check_zeros_pari.cross_check() == self.record()
+
+
+class TestZeroCrossCheckOeis:
+    """The recorded OEIS comparison must describe the current data file; no network needed."""
+
+    def record(self):
+        with open(os.path.join(ROOT, "results", "zero_cross_check_oeis.json")) as fh:
+            return json.load(fh)
+
+    def test_record_matches_data_file(self, zeros_100):
+        from decimal import Decimal, ROUND_FLOOR, ROUND_HALF_UP
+        record = self.record()
+        with open(os.path.join(ROOT, "data", "riemann_zeros", "first_100_zeros.json"), "rb") as fh:
+            raw = fh.read()
+        assert record["data_sha256"] == hashlib.sha256(raw).hexdigest()
+        summary = record["summary"]
+        assert summary["all_expansions_within_half_unit"] is True and summary["expansions_checked"] == 10
+        assert summary["floor_mismatches"] == [] and summary["nearest_integer_mismatches"] == []
+        stored = [Decimal(row["stored"]) for row in record["expansions"]]
+        assert [float(v) for v in stored] == zeros_100[:10]
+        values = [Decimal(repr(z)) for z in zeros_100]
+        checks = record["integer_checks"]
+        assert checks["A013629"]["published_first_n"] == [int(v.to_integral_value(rounding=ROUND_FLOOR)) for v in values]
+        assert checks["A002410"]["published_first_n"] == [int(v.to_integral_value(rounding=ROUND_HALF_UP)) for v in values]
+
+    def test_published_digits_agree_to_20_significant_digits(self):
+        from decimal import Decimal
+        for row in self.record()["expansions"]:
+            half_unit = Decimal(10) ** (len(row["stored"].split(".")[0]) - 20) / 2
+            assert abs(Decimal(row["published_first_25_significant_digits"]) - Decimal(row["stored"])) <= half_unit, row["n"]
 
 
 class TestSpectralAnalysis:

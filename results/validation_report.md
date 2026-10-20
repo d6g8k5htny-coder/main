@@ -33,9 +33,9 @@ claimed value was either built into the model or is too loose for current data t
 Environment: Python 3.11.17, numpy 2.4.6, scipy 1.17.1, mpmath 1.4.1, pytest 9.1.1.
 
 - `pytest tests/test_all.py`: **94 passed**, also with `-W error::RuntimeWarning`.
-  Rerun on 2026-10-20 after the FLINT and PARI cross-checks were added: **99 passed**, with
-  python-flint 0.9.0 (FLINT 3.6.0), cypari2 2.2.0 (PARI 2.15.4), mpmath 1.3.0 and sympy
-  1.14.0. Without those two packages, their rerun tests are skipped.
+  Rerun on 2026-10-20 after the FLINT, PARI and OEIS cross-checks were added: **101
+  passed**, with python-flint 0.9.0 (FLINT 3.6.0), cypari2 2.2.0 (PARI 2.15.4), mpmath 1.3.0
+  and sympy 1.14.0. Without those two packages, their two rerun tests are skipped.
 - Original suite at `468da8d`, run for the first time on 2026-10-19: **4 failed, 62 passed**.
   The 2025-12-16 commit had been pushed without running it.
 - Each module's `python -m src.<module>` demo runs to completion.
@@ -79,6 +79,15 @@ Environment: Python 3.11.17, numpy 2.4.6, scipy 1.17.1, mpmath 1.4.1, pytest 9.1
 
     The output is `results/zero_cross_check_pari.json`. A test reruns it when cypari2 is
     installed.
+  - **Published tables (OEIS, retrieved 2026-10-20):** `scripts/cross_check_zeros_oeis.py`
+    reads OEIS b-files downloaded with curl, and records each file's URL and SHA-256.
+    - Zeros 1–10 lie within half a unit in their 20th significant digit of the OEIS decimal
+      expansions A058303, A065434, A065452, A065453, A192492 and A305741–A305744, A306004.
+    - For all 100 zeros, the floor matches A013629 and the nearest integer matches
+      A002410.
+
+    The output is `results/zero_cross_check_oeis.json`. Its tests need no network. Data:
+    OEIS Foundation Inc., <https://oeis.org> (CC BY-SA 4.0).
 
   Together these show, within the limits below, that the list is exactly the first 100
   zeros, in order, to 20 significant digits. The checks differ in kind:
@@ -96,9 +105,11 @@ Environment: Python 3.11.17, numpy 2.4.6, scipy 1.17.1, mpmath 1.4.1, pytest 9.1
     - The completeness of the count rests on FLINT's `zeta_nzeros` and mpmath's
       `nzeros`, not on PARI.
 
-  No published table has been compared (see "Not checked"). `verify_rh_local` and its
-  tests repeat the mpmath checks, and reject a duplicated, swapped, missing or perturbed
-  entry.
+  - The OEIS comparison is published data. Beyond zero 10 it reaches integer resolution
+    only, so for zeros 11–100 it catches gross errors only (see "Not checked").
+
+  `verify_rh_local` and its tests repeat the mpmath checks, and reject a duplicated,
+  swapped, missing or perturbed entry.
 - Citations added in this revision were checked by web search on 2026-10-19: Janot &
   Jadach (PLB 803, 135319: N_ν = 2.9963 ± 0.0074), Rodgers & Tao (Forum Math. Pi 8, e6),
   Platt & Trudgian (BLMS 53, 792–797, including Λ ≤ 0.2), Tristram et al. (PRD 105,
@@ -166,8 +177,9 @@ reviewed, and they are not a scientific adjudication of the manuscript. Line num
 - Whether the cited heliophysics papers state the β_c and σ_c thresholds.
 - Manuscript chapters with no code here, such as the Born-rule and cosmology chapters.
 - Any review by a non-Claude or human reviewer.
-- A comparison of the 100 zeros with a published table. All attempts failed, so this stays
-  open. The independent-implementation check above (PARI) does not replace it.
+- A full-precision comparison of zeros 11–100 with a published table. The OEIS check above
+  covers them at integer resolution only. Attempts to reach a full-precision table failed,
+  so this stays open:
   - Odlyzko's `zeros1`: on 2026-10-19 there was no HTTP response. On 2026-10-20 TLS
     verification failed through this session's proxy, at both of its hosts.
   - The LMFDB's zeros, from Platt's computation: on 2026-10-20 the site answered scripted
