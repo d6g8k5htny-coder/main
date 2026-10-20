@@ -10,3 +10,4 @@ Byte identity, review applicability and hosted checks are reported separately. T
 | `local_checks.txt` | The landing check and the navigation check under `-B` and `-B -O`, R1's classifier on the record and packet at this head, and `git diff --check`, with every exit code captured directly. |
 | `classify_log_057b8325.txt` | The full classifier output at this head. Apart from path prefixes, it is identical to `../m451_r1_review_20261019/classify_log.txt`. |
 | `composition_facts.txt` | `refs/pull/451/merge`, the two refresh commits, the trusted intake run's output and the classifier comparison. |
+| `hosted_checks.txt` | All seven check runs at the head, read at 01:04Z, each with its job, run, attempt, event and workflow. It also gives `verify`'s aggregate, which binds `checks` and `formal` to `checked_commit` `00074786`, the tested merge. |
