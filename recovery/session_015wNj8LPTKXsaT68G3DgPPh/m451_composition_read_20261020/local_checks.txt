@@ -1,0 +1,24 @@
+# Local checks at main PR 451 head 057b832543f2d67667da028104642c5823fd5e50 (tree dc72423c2942d3e2e957089eb33d2d55ed590a0e), 2026-10-20T00:57:28Z, Python 3.11.15
+== python3 -B  tools/workspace_landing_check.py
+{"historical_files": 2, "local_links": 188, "pages": 16, "problems": [], "scope": "LANDING_LINKS_AND_HISTORICAL_IDENTITY_ONLY"}
+Scope: landing links and historical bytes only; research CI and mathematical correctness not checked.
+exit=0
+== python3 -B  tools/navigation_check.py
+exit=0
+{'pages': 30, 'problems': [], 'scope': 'declared inline links/ATX anchors and optional named public bytes only; not research acceptance'}
+== python3 -B -O tools/workspace_landing_check.py
+{"historical_files": 2, "local_links": 188, "pages": 16, "problems": [], "scope": "LANDING_LINKS_AND_HISTORICAL_IDENTITY_ONLY"}
+Scope: landing links and historical bytes only; research CI and mathematical correctness not checked.
+exit=0
+== python3 -B -O tools/navigation_check.py
+exit=0
+{'pages': 30, 'problems': [], 'scope': 'declared inline links/ATX anchors and optional named public bytes only; not research acceptance'}
+== R1 classifier (C8's classify.py from m451_r1_review_20261019) on the record and packet at this head
+exit=0
+DIFFERENT 2
+IDENTICAL 50
+TIMING-ONLY 14
+DIFFERENT: ['results/dbn/indep_ht_c3435.out', 'results/dbn/indep_ht_c910.out']
+problems: []
+== git diff --check 8f7c2a49 HEAD
+exit=0
