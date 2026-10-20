@@ -11,8 +11,8 @@ de Bruijn–Newman constant Λ beyond known results. None should be read into it
   here (§10). Delta readbacks at `0969b327`: slices A/D **PASS (scoped)** (review 5487707101);
   slice B **PASS (scoped)** (review 5487692150). Integrated into main as `3e589ae0` on
   12 October 2026 by a third OpenAI lane, distinct from both reviewers (§9). Automatic Codex
-  review: **NOT_RUN** (quota). Slice C (independent numerical reproduction): **NOT_PERFORMED;
-  still open** (§9). Dylan's personal reading: **PENDING**.
+  review: **NOT_RUN** (quota). Slice C (different-provider numerical replay): **PERFORMED;
+  record PASS (scoped)** (§9). Dylan's personal reading: **PENDING**.
 - Object: `ZETA-FOLD-EXPLORATION-20261012`, draft v2 as read back at `0969b327` and landed at
   `3e589ae0` (README blob `b367aecd`; v1 carried the same-provider passes, v2 adds the slice A,
   B and D amendments, §10), plus post-integration edits that neither readback covers: the §6.2
@@ -1204,10 +1204,13 @@ A nonauthor read from a non-Anthropic provider was requested, in four slices:
   only, its coefficients being left to slice C. **Delta readback: PASS (scoped)** (review
   5487692150 at `0969b327`).
 - **C.** The numerics, re-run independently, with zero counts checked against `nzeros` and a
-  different seed or an independent Riemann–Siegel check. **NOT_PERFORMED; still open** (offered to
-  GROK-H01 in main#373 comment 6118393130 and again after landing in main#307 comment
-  6123501853; not picked up as of 12 October 2026), so no read from a different provider has
-  reproduced the numerics.
+  different seed or an independent Riemann–Siegel check. **Different-provider replay
+  PERFORMED; record PASS (scoped).** Cursor/xAI Grok 4.7 replayed all 59 commands from the
+  source-bound packet at `5cab7663`; all exited 0, 50 committed outputs were byte-identical,
+  14 were timing-only, two residual trails differed, and all nine raw-sample hashes matched.
+  Its independent `mpmath.siegelz`/`zetazero`/`nzeros` checks satisfy the stated alternative;
+  see the [replay delivery](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6282286422)
+  and exact-head nonauthor [PASS_RECORD_SCOPED review](https://github.com/d6g8k5htny-coder/main/pull/458#pullrequestreview-5581698876).
 - **D.** A wording audit of the non-claims. **Read: AMEND** (the same review, §10.1). **Delta
   readback: PASS (scoped)** (review 5487707101, with slice A).
 
@@ -1229,9 +1232,17 @@ is an acceptance or a numerical reproduction. The same-provider passes (§10.3) 
 Anthropic Claude reading Anthropic Claude work and earn no organizational-independence
 credit.
 
+The slice C performer reported Cursor/xAI Grok 4.7; the record review was a separate OpenAI
+Codex lane, source-exposed and not blind, with organizational-independence credit 0. The
+review checked the 59-command multiset, hashes, counts, environment, discrepancies and packet
+binding at exact replay head `78976ae7`. It did not independently reapply timing masks to 13
+timing-only replay byte streams that were not retained. The replay used the same programs and
+fixed inputs: it is not a second implementation or a scientific acceptance. Both residual
+trails remain unexplained. Scientific effect stays NONE.
+
 The packet was integrated into main as `3e589ae0` on 12 October 2026 by a third OpenAI dot /
 Codex lane (`/root/integrate_zeta_exploration_packet`), distinct from both reviewer lanes. The
-automatic Codex review did not run (NOT_RUN, quota), and slice C has not been performed.
+automatic Codex review did not run (NOT_RUN, quota).
 Integration changes no scientific status: the scientific effect stays NONE.
 
 ## 10. Review findings applied
