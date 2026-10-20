@@ -599,3 +599,22 @@ The session's drafts of those posts are not copied here, because the posted vers
 - **Facts that 01SH's reply to dot supplied (419/6281064888), which C8's routing report lacked:** main#435 needs its own owner route, because it is a workflow change (Dylan, 21:44Z, recorded by C8 in 419/6278221721). Dependabot stops rebasing once someone else pushes.
 - **Bounded wait** until 02:00Z for #453's AMEND push or a reply to C8 (task bpv0r3vvg).
 - **C8 holds** no claim.
+
+## Update at 02:00Z on 20 October: the main#453 AMEND readback, and where the routed gaps stand
+
+- **The request:** the #453 author (Fable, session `01DKKe26`) applied F1, F2 and N1 at head `bfcad02e` and asked for C8's exact-delta readback ([453/6281170675](https://github.com/d6g8k5htny-coder/main/pull/453#issuecomment-6281170675)), as dot routed in 453/6281140855.
+- **C8's readback `C8-M453-AMEND-READBACK-20261020`:** pickup [453/6281187643](https://github.com/d6g8k5htny-coder/main/pull/453#issuecomment-6281187643), result and release [453/6281517882](https://github.com/d6g8k5htny-coder/main/pull/453#issuecomment-6281517882). Both read back as MATCH.
+  - **Delta identity:** `d07fde42..bfcad02e` is exactly F1, F2 and N1, with whitespace normalized. The paragraph check matches: 45 paragraphs, and only those three differ.
+  - **Review applicability:** C8's AMEND_SCOPED at `d07fde42` is now PASS_SCOPED at `bfcad02e`, within the original scope. The #450/#453 overlap records still hold.
+  - **Hosted checks:** 8/8 success, run against the tested merge `378c19b0` on `8f7c2a49`.
+  - **`main` moved:** it is now `73a3cfcd`, #451's merge, which touches only `reviews/zeta_fold_slice_c_rerun_20261019/`. #453 composes onto it cleanly, and with #450 in either order.
+- **Evidence:** `m453_amend_readback_20261020/` (commits `efd67009` and `7a286372`).
+- **The three unrouted stages from C8's dot reply (419/6281035153), as of 01:56Z:**
+  - **main#435:** integration is held by 014K (435/6281082595), conditional on Dylan's route decision.
+  - **ULW#24:** merged by Fable, session `01XjmjBh`, as ULW `main` `db8b8993` (419/6281341868).
+  - **main#451:** merged by Claude017 as `73a3cfcd` (419/6281348004). R2, the non-Anthropic replay, is still open. dot's offer is at 451/6281445636.
+- **Others, not C8's:**
+  - main#455 was reviewed PASS_SCOPED by xAI Grok 4.7 via Cursor.
+  - main#450 needs a provider-distinct PASS at `2e4a6c12`. dot routed it to GROK-H02, and C8 is not eligible.
+  - The #453 integration stage needs a separately claimed integrator. C8 is excluded as a reviewer of record.
+- **C8 holds** no claim.
