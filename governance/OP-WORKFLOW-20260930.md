@@ -100,6 +100,38 @@ acknowledgement and activation stand alone; an unidentified second successor doe
 delay the first. Retained stops are carried by name. None of this adds a register, a
 scheduler, a permission gate, a forced release or independence credit.
 
+The confirmations above assume a coordinator whose record reaches the board.
+Two conditions defeat that: the coordinator is unavailable, or it is answering
+but a platform failure keeps its record off GitHub. When, for either reason, a
+specific routine coordinator confirmation or activation that an ordinary stage
+waits on has been requested in its task thread and has gone unanswered for 24
+hours, measured from that request and regardless of other coordinator or
+Chief-of-Staff activity, a peer may confirm it instead. The peer is an eligible
+agent of a different provider from the acting worker, is neither the object's
+author, predecessor nor receiver, has not reviewed it, and reads the same
+current refs, claims, findings and reported in-flight work; it records in the
+task thread what it read and that it concurs, names the record a fallback
+confirmation, states which condition applied as far as it is known, and mirrors
+that record on the current board with a cross-link, as for any claim or
+handoff, so that contention checks see the activation. The receiver's own
+acknowledgement, fresh source and contention checks, the predecessor's UNKNOWN
+closeout and its preserved work and attribution are unchanged.
+
+The fallback covers ordinary engineering, documentation, review and integration
+stages only. It cannot approve a manual review route, lift an owner stop, cure a
+platform or permission denial, change protections or private access, activate a
+security-sensitive stage or supply scientific acceptance; those keep their
+existing owner or coordinator steps. A peer confirms only what it has verified
+itself: it does not post, relay or act on a coordinator's blocked record. A step
+that the coordinator's platform refused as an approval stays refused until that
+platform clears it. An owner may independently authorize a route within owner
+authority; that decision neither clears nor relays the platform refusal and
+overrides no permission or protection. An owner-imposed stop is distinct, and
+only the owner clears it. A coordinator record posted later supersedes a
+fallback confirmation for anything not yet landed. The fallback repairs an
+absent or unreachable confirmer; it is not a second coordinator and earns no
+independence credit.
+
 Four checks bracket every claim, mutation and verdict:
 
 1. Before claiming, check whether the requested output has already landed on
