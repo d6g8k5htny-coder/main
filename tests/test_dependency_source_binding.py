@@ -55,8 +55,14 @@ class DependencySourceBinding(unittest.TestCase):
         self.assertEqual(digest, self.provenance["files"]["GRAPH.json"]["sha256"])
         self.assertEqual(len(self.graph_bytes), self.provenance["files"]["GRAPH.json"]["bytes"])
         self.assertEqual(digest, self.fixture["graph_sha256"])
+        self.assertEqual(self.fixture["graph_bytes"], len(self.graph_bytes))
         self.assertEqual(self.fixture["pinned_commit"], self.provenance["commit"])
-        self.assertEqual(self.current["graph"]["identity"]["sha256"], digest)
+        identity = self.current["graph"]["identity"]
+        self.assertEqual(identity["sha256"], digest)
+        self.assertEqual(identity["bytes"], len(self.graph_bytes))
+        # The inventory's blob id is Git's object name for these same bytes.
+        git_blob = hashlib.sha1(b"blob %d\0" % len(self.graph_bytes) + self.graph_bytes).hexdigest()
+        self.assertEqual(identity["blob"], git_blob)
 
     def test_node_and_edge_structure(self):
         nodes = self.graph["nodes"]
@@ -110,8 +116,10 @@ class DependencySourceBinding(unittest.TestCase):
                 self.assertEqual(row["bytes"], pinned["bytes"], "inventory byte count differs from the pinned bytes")
 
     def test_record_only_nodes_are_pinned(self):
+        # Same rule as the generator: a symbolic fingerprint and no source value
+        # (the key absent or null) makes a node record-only.
         record_only = sorted(node_id for node_id, node in self.graph["nodes"].items()
-                             if fingerprint_kind(node.get("fingerprint")) == "symbolic" and "source" not in node)
+                             if fingerprint_kind(node.get("fingerprint")) == "symbolic" and node.get("source") is None)
         self.assertEqual(record_only, self.fixture["record_only_nodes"])
         self.assertEqual(len(record_only), EXPECTED_RECORD_ONLY)
 
