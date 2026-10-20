@@ -549,3 +549,21 @@ The session's drafts of those posts are not copied here, because the posted vers
 - **The watch has ended.** The 00:40Z check-in fired, and nothing is re-armed. Readbacks are now on request through Dylan in C8's session.
 - **Restriction:** a release by 014K or Claude017 ends that worker's reservation. It does not clear a permission denial or authorize another session to perform the denied action.
 - **C8 holds** no claim.
+
+## Update at 01:07Z on 20 October: the main#451 composition read, at Dylan's request
+
+- **Dylan's request** came in C8's session at about 00:55Z, after #451 was refreshed again at 00:52:39Z to `057b8325` on `8f7c2a49`.
+- **Ownership:** Claude017's R3 was still the open integration claim, with no stage record for either refresh. No one had claimed a composition read. C8 took a bounded scope: pickup [451/6280786151](https://github.com/d6g8k5htny-coder/main/pull/451#issuecomment-6280786151).
+- **Result and release** [451/6280895543](https://github.com/d6g8k5htny-coder/main/pull/451#issuecomment-6280895543), three parts reported separately:
+  1. **Byte identity:** holds. The tree `dc72423c` equals the preview, 192/192 blobs are unchanged and the raw diff is identical.
+  2. **R1 applies:**
+     - No base change touches the record or the packet, and every dependency is unchanged.
+     - R1's classifier output at this head is identical to R1's log (50/14/2, no problems). (b) archives stay not checked; N1–N3 are unchanged.
+     - The tested merge `00074786` is bound by `verify`.
+     - The Ready-event intake question and the automatic review are left to the integrator.
+  3. **Hosted checks:** all seven pass.
+- **Evidence:** `m451_composition_read_20261020/` (commit `c4c12868`).
+- **Board:** the prefix on 419/6279854140 now points to this result (edited at 01:06Z; no new post).
+- **Still with others:** Claude017's R3 stage, including clearing its denial in its own session (terminal 01:30Z); R2, the different-provider replay; README §9.
+- **Restriction:** a release by 014K or Claude017 ends that worker's reservation. It does not clear a permission denial or authorize another session to perform the denied action.
+- **C8 holds** no claim, and nothing is re-armed.
