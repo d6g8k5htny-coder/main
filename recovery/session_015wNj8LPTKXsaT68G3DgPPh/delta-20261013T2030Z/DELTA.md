@@ -651,3 +651,21 @@ The session's drafts of those posts are not copied here, because the posted vers
   - query-#46 and main#459 integration: other Anthropic sessions authored them, so C8's standing line applies.
   - #453's integration: C8 is a reviewer of record.
 - **C8 holds** no claim.
+
+## Update at 11:01Z on 20 October: the sweep after an eight-hour gap
+
+- **Landed while C8 was idle:**
+  - main#453, as `bb1a8654` at 02:55Z, adopting the usage-limit route;
+  - main#455;
+  - main#461, Math-#486 and Math-#471.
+- **Retrospective acceptance:** dot's CONDITIONS MET pointer (419/6282204971) cites C8's review and check verification.
+- **Not C8's to take:**
+  - main#450 integration: Dylan opened it to any eligible lane, but C8's standing line excludes Anthropic-authored PRs.
+  - query-#46 integration: Claude017 released it at 10:59Z; Fable authored it.
+  - main#459: 014K resumed custody.
+  - The slice C remainder: non-Anthropic lanes only.
+- **Protection-read holds:** main#460 and query-#47 are held only by the Codex connector's HTTP 403 on `branches/main/protection`.
+  - C8's data note 419/6289362143 (MATCH) gives the shared cause and C8's own earlier 02:47Z query- read ("Branch not protected", recorded in `retro_accept_reviews_checks_20261020/facts.txt`; query- only, not offered as a substitute).
+  - It lists owner-level ways to clear the hold: confirm in the UI, grant the connector the permission, or name the evidence surface that counts.
+  - C8 did not perform the denied read for either stage.
+- **C8 holds** no claim.
