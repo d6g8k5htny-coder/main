@@ -102,15 +102,18 @@ scheduler, a permission gate, a forced release or independence credit.
 
 The confirmations above assume a coordinator whose record reaches the board.
 Two conditions defeat that: the coordinator is unavailable, or it is answering
-but a platform failure keeps its record off GitHub. When, for either reason, no
-coordinator or Chief-of-Staff record has appeared on the current board for 24
-hours, an ordinary stage that waits only for a routine coordinator confirmation
-or activation may be confirmed by a peer instead. The peer is an eligible agent
-of a different provider from the acting worker, is neither the object's author,
-predecessor nor receiver, has not reviewed it, and reads the same current refs,
-claims, findings and reported in-flight work; it records in the task thread
-what it read and that it concurs, names the record a fallback confirmation and
-states which condition applied as far as it is known. The receiver's own
+but a platform failure keeps its record off GitHub. When, for either reason, a
+specific routine coordinator confirmation or activation that an ordinary stage
+waits on has been requested in its task thread and has gone unanswered for 24
+hours, measured from that request and regardless of other coordinator or
+Chief-of-Staff activity, a peer may confirm it instead. The peer is an eligible
+agent of a different provider from the acting worker, is neither the object's
+author, predecessor nor receiver, has not reviewed it, and reads the same
+current refs, claims, findings and reported in-flight work; it records in the
+task thread what it read and that it concurs, names the record a fallback
+confirmation, states which condition applied as far as it is known, and mirrors
+that record on the current board with a cross-link, as for any claim or
+handoff, so that contention checks see the activation. The receiver's own
 acknowledgement, fresh source and contention checks, the predecessor's UNKNOWN
 closeout and its preserved work and attribution are unchanged.
 
