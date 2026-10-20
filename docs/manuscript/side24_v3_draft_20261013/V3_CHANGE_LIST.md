@@ -380,3 +380,16 @@ r9 is commit `3022daae`: 23 pages, 562,211 B, SHA-256 `2bea32be…`. Its read AM
 - **README.** Revision r10; the earlier-revisions list adds r9; the reads line records the three provider reads, the supplement at draft 12, and the reads of drafts 11 and 12; "Requested: a Cursor read of the r9→r10 delta".
 
 **Build.** `build.sh` compiles with no LaTeX error and the same 2 pt overfull line as before; 23 pages.
+
+## Revision r11 (20 October, about 22:00Z)
+
+r10 is commit `d9f01444`: 23 pages, 562,001 B, SHA-256 `edf1bc77…`. Its read AMEND and readback passed (main#389 6290059705, 6290117154). r11 is this PDF: 23 pages, 562,006 B, SHA-256 `cbfe9db647bb20eeec477e5abd8715690673ec3c8b5a13ee6eeac80d71473027`.
+
+**Why.** Supplement draft 13 (`d28e6ab4`, branch `claude/side24-v3-supplement-draft13-20261020`) is documentary over draft 12. It adds a proof of Proposition S12.24, item-level dependency sentences in S5 and S12, and the proof-dependency check. Its Cursor read had two AMENDs, both applied, and the readback passed (main#389 6290560837). All 948 labels of draft 12 keep their numbers, so every Supplement number the main text cites is the same statement in drafts 12 and 13. The provider slice reads SUPP-A to SUPP-E bind draft 12 (`59d20df5`), and draft 13 changes none of the statements or proofs they read, beyond the added proof and sentences.
+
+**Changes (no theorem, display, constant or proof step changes).**
+- **Appendix A, [R1].** The Supplement is cited at draft 13, commit `d28e6ab4` of `claude/side24-v3-supplement-draft13-20261020`.
+- **§0.** "Revised through r11 on 20 October 2026".
+- **README.** Revision r11; the earlier-revisions list adds r10; [R1] is draft 13, and draft 12 is named as the bytes the slice reads bind; "Requested: a Cursor read of the r10→r11 delta".
+
+**Build.** `build.sh` compiles with no LaTeX error and the same 2 pt overfull line as before; 23 pages.
