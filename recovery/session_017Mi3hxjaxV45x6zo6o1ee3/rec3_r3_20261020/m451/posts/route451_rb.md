@@ -1,0 +1,53 @@
+**OWNER-APPROVED ROUTE APPLIED — `MAIN451-R3-INTEGRATION-017-20261019`: the Ready-triggered Codex review could not finish because of the usage limit. The exclusion check and all three conditions are confirmed, and one guarded merge follows.** Anthropic Claude, session `session_017Mi3hxjaxV45x6zo6o1ee3` (Claude017), via the shared principal `d6g8k5htny-coder`, under pickup [6279493098](https://github.com/d6g8k5htny-coder/main/pull/451#issuecomment-6279493098). Dylan Roy — delegated AI work. Credit 0. Scientific effect NONE.
+
+- **The automatic review could not finish.**
+  - I marked the PR Ready at 23:31:48Z, under a guard on head `b6f9c104`.
+  - That triggered the Codex code review ("Draft marked ready", commit `b6f9c10`). It failed at 23:31:50Z ([6279664725](https://github.com/d6g8k5htny-coder/main/pull/451#issuecomment-6279664725)), and the usage-limit notice followed at 23:31:57Z ([6279665313](https://github.com/d6g8k5htny-coder/main/pull/451#issuecomment-6279665313)).
+  - It posted no review, inline comment or finding. The PR has 0 reviews and 0 review threads.
+  - Its hidden state flags (`has_any_findings: true`, `status: failed`) are identical to those of #449's quota failure ([6276784690](https://github.com/d6g8k5htny-coder/main/pull/449#issuecomment-6276784690)). I read them as the failed run's defaults, not as findings.
+  - OP-WORKFLOW says a review that cannot finish is settled on the PR, not merged past. This record settles it.
+- **Basis.**
+  - Dylan's standing decision [419/6276889147](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6276889147) approves a manual route for engineering- or docs-only PRs whose Codex review fails on the usage limit. It applies the three conditions of his #448 decision and excludes proofs, registers and security changes.
+  - The case-specific #450 decision and the main#446 hold concern other PRs and do not decide this one.
+- **Exclusion check: #451 qualifies.**
+  - `main...b6f9c104` adds 192 files, all under `reviews/zeta_fold_slice_c_rerun_20261019/`, all mode `100644`. Nothing is modified or deleted.
+  - The files are:
+    - 120 job stdout and stderr logs, 22 `.out` files and 6 `.log` files;
+    - 23 JSON or JSONL files and 11 `.txt` files;
+    - 5 Python rerun scripts and 1 shell rerun script, none wired into CI;
+    - 3 Markdown files and 1 empty marker.
+  - No file is a proof or Lean file. No register or status surface (STATUS, PROOF_INDEX, GRAPH, catalog) is touched. No workflow, permission, credential, ruleset or protection changes.
+  - The PR states "Scope: engineering / review record. Scientific effect NONE". R1 reviewed it at engineering scope. The trusted intake output is `"lane": "maintainer-engineering", "scientific_effect": "NONE"`.
+  - My credential-pattern scan of all 192 files found no match. It is narrow, not a complete secret scanner. R1 inspected the content.
+- **(1) The existing review covers the current head and base.**
+  - R1 ([6279044289](https://github.com/d6g8k5htny-coder/main/pull/451#issuecomment-6279044289)) is PASS_ENGINEERING_SCOPED at `8f1d846d`, with PR base `efc2fe90`. It also found the packet directory unchanged between `0a7e5145` and `efc2fe90`.
+  - Head `b6f9c104cd4a657888daf754550a8c42b5ca6ec5` is my update-branch merge of `efc2fe90` into `8f1d846d`, made under an expected-head guard. Its parents are `8f1d846d` and `efc2fe90`.
+  - Its tree `ef17ac4d` equals the tree of the earlier tested merge `96444c60`. All 192 reviewed blobs are unchanged, and so is the record subtree `61382611`.
+  - The consumed packet `experiments/zeta_fold_exploration` is tree `bca06db8` at `0a7e5145`, `efc2fe90` and `b6f9c104`. Since the merge-base, `main` changed only three unrelated paths: a workflow, `AGENTS.md` and one test.
+  - This is custody verification under OP-WORKFLOW's base-only rule, not a new review. The base is still current `main` `efc2fe90`.
+- **(2) Required checks pass at this head and its tested merge.**
+  - **Tested merge:** `180ff56539f8e882f27c1f82451a32285ac20958` (parents `efc2fe90` and `b6f9c104`, tree `ef17ac4d`). `verify` reports it as `checked_commit`.
+  - **Required checks:**
+    - `verify` (job 118364431565): SUCCESS.
+    - `public-shop` (job 118361795035): SUCCESS.
+    - `public-intake` (Ready-event run 39342133507, job 118365976497): SUCCESS. It used workflow `.github/workflows/public-intake.yml`, event `pull_request_target`, a sparse checkout of the trusted base `efc2fe90`, and the exact head `b6f9c104`, as CONTRIBUTING requires.
+  - All three come from GitHub Actions (app 15368), as the ruleset requires. The strict policy is met.
+  - `landing-checks`, `architecture`, `formal` and `browser-smoke` also pass.
+  - For R3's own ask, I ran `tools/workspace_landing_check.py` and `tools/navigation_check.py` on tree `ef17ac4d`. Both report `problems: []`. These are local runs, not hosted receipts.
+- **(3) Protections remain enforced.**
+  - Ruleset 23798639 is active and unchanged since 28 September. It requires:
+    - the three checks, with strict status checks;
+    - review-thread resolution;
+    - 0 approvals, with stale reviews dismissed;
+    - extra approval for unattributed changes.
+  - This session cannot bypass it (`current_user_can_bypass: never`). There is no classic branch protection. `mergeable_state` is `clean`.
+  - I make no ruleset, protection or bypass change. The merge uses the ordinary merge API, with method `merge` and `sha` set to `b6f9c104…`. If anything refuses it, I stop and report.
+- **Not resolved by this integration.**
+  - R1's notes N1–N3 stay as written, including R1(b): the archives were NOT CHECKED.
+  - **R2, the full different-provider replay, stays open.** R2a and R2b are partial inputs.
+  - The packet README §9 stays NOT_PERFORMED.
+  - A merge changes no scientific status.
+
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_
