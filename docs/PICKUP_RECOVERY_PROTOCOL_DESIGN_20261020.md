@@ -59,26 +59,39 @@ constraints from the disposition:
 
 ## 3. What is technically prevented, and what is only discouraged
 
-`tests/test_pickup_fence.py` builds a bare repository, lets a second worker move a branch,
-and records what a worker with a stale view can push. Standard library and `git` only; it
-runs in about a second.
+`tests/test_pickup_fence.py` builds a bare repository, lets a second worker (B) move a
+branch, and records which pushes by the first worker (A) succeed, from a stale view and from
+a fresh one. The three lease cases of the nonauthor read
+[456/6281763561](https://github.com/d6g8k5htny-coder/main/pull/456#issuecomment-6281763561)
+are included. Standard library and `git` only; it runs in about a second.
 
-| Write by the stale worker | Result | Enforced by |
+| Write by A | Result | Enforced by |
 |---|---|---|
-| `git push origin work` after the branch moved | rejected (`[rejected] ... fetch first`) | the transport's fast-forward rule |
-| `git push --force-with-lease=refs/heads/work:<old>` after the branch moved | rejected (`stale info`) | the lease: the remote ref must equal the stated old value |
-| `git push --force-with-lease=refs/heads/work:<current>` with a fresh view | accepted | the lease matches |
-| `git push --force origin work` | **accepted**, the other worker's commit is overwritten | nothing |
-| a claim recorded beside the branch | prevents nothing | nothing |
+| stale view: `git push origin work` after the branch moved | rejected (`[rejected] ... fetch first`) | the transport's fast-forward rule |
+| stale view: `git push --force-with-lease=refs/heads/work:<old>` after the branch moved | rejected (`stale info`) | the explicit lease: the remote ref must equal the stated old value |
+| stale view: `git push --force-with-lease origin work`, no expected value, after a fetch that A never integrated | **accepted**, B's commit is overwritten | nothing: the implicit lease checks the remote-tracking ref, which the fetch already moved |
+| the same push with `--force-if-includes` | rejected | the implicit lease with `--force-if-includes`: A's view must contain the remote ref |
+| fresh view: `git push --force-with-lease=refs/heads/work:<current>`, a fast-forward | accepted | the lease matches; the push would also pass without it, being a fast-forward |
+| fresh view: the same explicit current lease, a deliberate non-fast-forward rewrite of B's commit | **accepted**, B's commit is replaced | nothing: the lease fences stale writers, not deliberate conflicting writes |
+| `git push --force origin work` | **accepted**, B's commit is overwritten | nothing |
+| B records a claim on the branch; A pushes anyway | prevents nothing | nothing |
 
 So a guarded push (the `ls-remote`, then `--force-with-lease=branch:old`, then `ls-remote`
 pattern already used on main#389) prevents a stale worker from overwriting a moved branch,
-provided every worker uses it. A bare `--force` and a claim comment prevent nothing; they are
-discouraged by the workflow only. On GitHub, branch protection can forbid force pushes
-altogether, which turns the last row but one from "discouraged" into "prevented" without any
-worker's cooperation; and the merge endpoint accepts a `sha` parameter (the expected head)
-that fails the merge when the head has moved. Neither GitHub guard is exercised by the test,
-which has no remote; they are stated from the documentation.
+provided every worker uses it, and uses the explicit form
+`--force-with-lease=<ref>:<verified old head>` or the implicit form together with
+`--force-if-includes`. The implicit form alone fences nothing once a fetch has moved the
+remote-tracking ref, which a background fetch does without the worker's knowledge. And the
+lease fences stale writers only: a worker with a fresh view who deliberately rewrites the
+other worker's commit, naming the current head in the lease, is not stopped. That is a
+conflicting write the lease does not prevent; on an unprotected branch it remains discouraged
+only, like a bare `--force`, and only blocking force pushes prevents it. A claim record
+prevents nothing. On GitHub, branch protection can forbid force pushes altogether, which turns
+the deliberate rewrite and the bare `--force` from "discouraged" into "prevented" without any
+worker's cooperation; the merge endpoint accepts a `sha` parameter (the expected head) that
+fails the merge when the head has moved; and the update-branch endpoint accepts
+`expected_head_sha` in the same way. None of the GitHub guards is exercised by the test, which
+has no remote; they are stated from the documentation.
 
 What no transport guard prevents: two performers reviewing the same pinned source (duplicate
 work, not a conflicting write), and a successor acting on a scope whose predecessor is not
@@ -127,14 +140,20 @@ the hourly invocations do not; for them the trigger is the missed checkpoint.
 
 **S5. Ambiguous claim order.** Two pickups, each citing a contender check that predates the
 other's post, with timestamps seconds apart or under clock skew. Records: the two posts with
-server timestamps. Who acts: the server timestamp orders them; the later poster withdraws.
-Design: as S1; the contender check is re-run immediately after posting, which closes the
-window in which both were posted.
+server timestamps, which have one-second resolution, so a tie is possible. Who acts: when
+the server timestamps order the posts, the later poster withdraws, as in S1; when which
+record is canonical, or their order, is ambiguous or tied, both actors stop the affected
+mutation and reconcile in the existing thread, and the reconciliation does not reassign
+claims already released (the [current workflow](../governance/OP-WORKFLOW-20260930.md),
+"Four checks bracket every claim", item 2). Design: as S1, with the tie rule; the contender check is re-run
+immediately after posting, which detects the overlap. It does not close the window in which
+both were posted, and nothing does; the tie rule is what handles it.
 
 **S6. Stale-head mutation.** B refreshes or amends a branch whose pickup names an earlier
 head; A, with a stale view, tries to push. Records: the pickup names the head; the branch
-moved. Prevented: A's push, if A uses a guarded push or if force pushes are forbidden on the
-branch (section 3). Discouraged only: A's bare `--force`. Design: guarded pushes for every
+moved. Prevented: A's push, if A uses a guarded push in the explicit lease form or if force
+pushes are forbidden on the branch (section 3). Discouraged only: A's bare `--force`, and a
+deliberate rewrite of B's refresh from a fresh view. Design: guarded pushes for every
 shared branch, and branch protection against force pushes where the host allows it; the
 pickup's head is what a review binds, so B's refresh does not invalidate A's review of the
 old head, it makes it a review of old bytes (correction 5).
@@ -157,13 +176,20 @@ old head, it makes it a review of old bytes (correction 5).
    frozen by an open read. A later revision does not inherit the read; it gets a byte-diff
    readback against the read head, or a fresh read, as today. A freeze is explicit, owned and
    lifted by its owner.
-6. **Guarded writes.** Every push to a shared branch uses `--force-with-lease` against the
-   verified old head, and force pushes are forbidden on protected branches. This is the only
-   part of the protocol that prevents, rather than discourages, a conflicting write.
+6. **Guarded writes.** Every push to a shared branch uses the explicit lease
+   `--force-with-lease=<ref>:<verified old head>`, or the implicit lease together with
+   `--force-if-includes`, and force pushes are forbidden on protected branches. The host's own
+   writes carry the same guard: on GitHub, the merge endpoint's `sha` and the update-branch
+   endpoint's `expected_head_sha` fail the write when the head has moved. The lease and the
+   API guards prevent a stale write; only the prohibition of force pushes prevents a
+   deliberate conflicting write from a fresh view (section 3). Everything else in the protocol
+   discourages.
 
-Point 5 is the one that would have shortened the main#389 case from four days to zero: the
-author's later revisions would have gone out as new pinned heads, each with its own read, and
-the open reads would have remained reads of the heads they named.
+Point 5 is the one that would have cut the head freeze of the main#389 case from four days to
+zero: the author's later revisions would have gone out as new pinned heads, each with its own
+read, and the open reads would have remained reads of the heads they named. It would not have
+shortened the stalled stage of section 6: the four reads would still have had no delivery
+until the supersession, about four days.
 
 ## 6. Measurement plan
 
@@ -178,9 +204,16 @@ All measures come from board and PR records, which carry server timestamps.
   rather than the coordinator. The five cases needed one owner intervention for four of them.
 - **Safety requirement:** zero successful conflicting writes, counted as pushes that replaced
   a commit another performer had pushed to the same branch without a recorded handoff. With
-  guarded pushes and branch protection this count is enforced to zero for the protected
-  branches; for others it is audited from reflogs, which the host keeps for protected
-  branches only, so the protection is also what makes the audit possible.
+  branch protection against force pushes this count is enforced to zero on the protected
+  branches; with guarded pushes alone it is enforced against stale writers only (section 3).
+  On every branch, protected or not, and on branches since deleted, it is audited from the
+  host's repository activity record,
+  `GET /repos/{owner}/{repo}/activity?activity_type=force_push`, which records each force push
+  with its before and after commits; the read
+  [456/6281763561](https://github.com/d6g8k5htny-coder/main/pull/456#issuecomment-6281763561)
+  found such records in this repository for an unprotected branch and for a deleted one. How
+  long the host retains them was not established, so the count is taken during each
+  measurement window, not only at its end.
 
 A comparison runs over two windows, before and after adoption, on the same set of
 coordinating lanes. No live lease-expiry experiment is part of this plan.
@@ -190,5 +223,5 @@ coordinating lanes. No live lease-expiry experiment is part of this plan.
     python3 -m unittest tests.test_pickup_fence -v
     python3 -O -m unittest tests.test_pickup_fence
 
-Both runs pass on a checkout with `git` on the path; the test writes only inside a temporary
-directory.
+Both runs pass (eight tests) on a checkout with `git` on the path; the test writes only inside
+a temporary directory.

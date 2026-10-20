@@ -3,8 +3,13 @@
 Standard library only. The test builds a bare repository in a temporary directory, clones it
 twice (worker A and worker B), lets B move the branch, and then records which of A's pushes
 succeed. It is a demonstration of what the transport actually prevents, as opposed to what a
-claim comment only discourages; it is not a model of GitHub's merge API, whose
-``expected_head_sha`` guard is documented separately.
+claim record only discourages; it is not a model of GitHub's guards, which are documented
+separately (the merge endpoint's ``sha`` parameter, the update-branch endpoint's
+``expected_head_sha``, and branch protection against force pushes).
+
+The three lease cases of the nonauthor read of main#456 (comment 6281763561) are included:
+the implicit lease after an unintegrated fetch, ``--force-if-includes``, and a deliberate
+rewrite under a current lease.
 
 Run from the repository root:  python3 -m unittest tests.test_pickup_fence
 """
@@ -77,6 +82,7 @@ class PickupFenceTest(unittest.TestCase):
         self.assertEqual(self.remote_head(), self.new_head)
 
     def test_force_with_lease_on_current_expected_head_is_allowed(self):
+        """A fresh view with a current lease pushes; this push is also a fast-forward."""
         git('fetch', '-q', 'origin', cwd=self.a)
         git('reset', '-q', '--hard', 'origin/work', cwd=self.a)
         with open(os.path.join(self.a, 'f.txt'), 'a') as f:
@@ -86,6 +92,33 @@ class PickupFenceTest(unittest.TestCase):
         git('push', '--force-with-lease=refs/heads/work:' + self.new_head, 'origin', 'work', cwd=self.a)
         self.assertEqual(self.remote_head(), mine)
 
+    def test_implicit_lease_after_unintegrated_fetch_is_not_prevented(self):
+        """``--force-with-lease`` with no expected value trusts the remote-tracking ref, which a fetch
+        that A never integrated has already moved: B's commit is overwritten."""
+        git('fetch', '-q', 'origin', cwd=self.a)
+        r = git('push', '--force-with-lease', 'origin', 'work', cwd=self.a, check=False)
+        self.assertEqual(r.returncode, 0)
+        self.assertNotEqual(self.remote_head(), self.new_head)
+
+    def test_implicit_lease_with_force_if_includes_is_prevented(self):
+        """``--force-if-includes`` closes the gap of the previous case."""
+        git('fetch', '-q', 'origin', cwd=self.a)
+        r = git('push', '--force-with-lease', '--force-if-includes', 'origin', 'work', cwd=self.a, check=False)
+        self.assertNotEqual(r.returncode, 0)
+        self.assertEqual(self.remote_head(), self.new_head)
+
+    def test_deliberate_rewrite_under_a_current_lease_is_not_prevented(self):
+        """A fresh view that rewrites B's commit, with the explicit current lease, pushes: the lease
+        fences stale writers, not deliberate conflicting writes."""
+        git('fetch', '-q', 'origin', cwd=self.a)
+        git('reset', '-q', '--hard', 'origin/work', cwd=self.a)
+        git('commit', '-q', '--amend', '-m', 'a rewrites b', cwd=self.a)
+        is_ff = git('merge-base', '--is-ancestor', self.new_head, 'HEAD', cwd=self.a, check=False).returncode == 0
+        self.assertFalse(is_ff)
+        r = git('push', '--force-with-lease=refs/heads/work:' + self.new_head, 'origin', 'work', cwd=self.a, check=False)
+        self.assertEqual(r.returncode, 0)
+        self.assertNotEqual(self.remote_head(), self.new_head)
+
     def test_plain_force_is_not_prevented(self):
         """A bare ``--force`` overwrites B's commit: this write is only discouraged by the workflow."""
         git('push', '--force', '-q', 'origin', 'work', cwd=self.a)
@@ -93,13 +126,18 @@ class PickupFenceTest(unittest.TestCase):
         self.assertNotEqual(self.remote_head(), self.new_head)
 
     def test_a_claim_record_prevents_nothing_by_itself(self):
-        """A claim written beside the branch (here, a note in the remote) does not stop a push."""
+        """B records a claim on the branch; A sees it and pushes anyway. Nothing stops the push."""
+        with open(os.path.join(self.b, 'CLAIM.txt'), 'w') as f:
+            f.write('claimed by B until 23:59Z\n')
+        git('add', 'CLAIM.txt', cwd=self.b)
+        git('commit', '-q', '-m', 'b records a claim', cwd=self.b)
+        git('push', '-q', 'origin', 'work', cwd=self.b)
         git('fetch', '-q', 'origin', cwd=self.a)
         git('reset', '-q', '--hard', 'origin/work', cwd=self.a)
-        with open(os.path.join(self.a, 'CLAIM.txt'), 'w') as f:
-            f.write('claimed by B until 23:59Z\n')
-        git('add', 'CLAIM.txt', cwd=self.a)
-        git('commit', '-q', '-m', 'a ignores the claim', cwd=self.a)
+        self.assertTrue(os.path.exists(os.path.join(self.a, 'CLAIM.txt')))
+        with open(os.path.join(self.a, 'f.txt'), 'a') as f:
+            f.write('a ignores the claim\n')
+        git('commit', '-q', '-am', 'a ignores the claim', cwd=self.a)
         git('push', '-q', 'origin', 'work', cwd=self.a)
         self.assertEqual(self.remote_head(), git('rev-parse', 'HEAD', cwd=self.a).stdout.strip())
 
