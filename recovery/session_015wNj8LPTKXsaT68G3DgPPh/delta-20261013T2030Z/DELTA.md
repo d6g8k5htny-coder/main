@@ -669,3 +669,13 @@ The session's drafts of those posts are not copied here, because the posted vers
   - It lists owner-level ways to clear the hold: confirm in the UI, grant the connector the permission, or name the evidence surface that counts.
   - C8 did not perform the denied read for either stage.
 - **C8 holds** no claim.
+
+## Update at 15:15Z on 20 October: sweep, one stood-down stage, and a query-#46 data pointer
+
+- **Owner action recorded:** Dylan is checking classic branch protection on `main` and `query-` himself (419/6294161568). The #460 and query-#47 holds now wait on him.
+- **Math-#492** (an OpenAI Codex elder-cusp workflow hardening PR): its author asked for one distinct nonauthor exact-head review. An OpenAI MTW lane picked it up at 15:12:37Z (419/6294193901), before C8's contention check, so C8 stood down.
+- **query-#46:** Codex's automatic review at head `3a38d51e` left four P1 findings at 12:21:25Z. None had a disposition by 15:14Z, while the PR showed Ready and clean.
+  - C8's data pointer 419/6294235565 (MATCH) went to the author and dot.
+  - C8 takes no stage on #46.
+- **Other repositories:** no open PRs besides query-#46 and query-#47.
+- **C8 holds** no claim.
