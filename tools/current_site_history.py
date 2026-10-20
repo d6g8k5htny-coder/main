@@ -22,6 +22,8 @@ import urllib.error
 import urllib.request
 from urllib.parse import urlsplit
 import zipfile
+from current_inventory_acquisition import (project_current_acquisitions, current_source_list,
+                                           inventory_legend, acquisition_notice, date_explanation)
 
 from current_site_data import parse_json
 from site_asset_release import transform, without_release
@@ -1101,12 +1103,13 @@ def restore_history(site, reader=None, expected_manifest_sha=None):
         if data["observed_at"] != remote["observed_at"] or mathematical_digest(data) != mathematical_digest(data_by_id[manifest["current"]]):
             raise ValueError("published current observation has different mathematical material")
         ensure_render_budget(data, remote)
-        live = render_live_current_v2(data, remote)
-        if [descriptor(k, v) for k, v in sorted(live.items())] != manifest["current_observation"]["files"]:
-            # Restore the exact predecessor publication only as a complete map.
-            # New builds/publications keep the style-first renderer default.
-            live = render_live_current_v2(data, remote, style_first=False)
-        if [descriptor(k, v) for k, v in sorted(live.items())] != manifest["current_observation"]["files"]:
+        # Only an exact complete map can select a predecessor presentation.
+        # Current builds keep annotations and style-first output by default.
+        for annotations, style_first in ((True, True), (True, False), (False, True), (False, False)):
+            live = render_live_current_v2(data, remote, annotations=annotations, style_first=style_first)
+            if [descriptor(k, v) for k, v in sorted(live.items())] == manifest["current_observation"]["files"]:
+                break
+        else:
             raise ValueError("live static reading does not match the exact observation")
         historical = {}
         for entry in manifest["archives"]:
@@ -1489,7 +1492,7 @@ def render_static_v2(projection, meta, *, archived=True, style_first=None):
 LIVE_RENDERER_V2 = "research-live-static-v2"
 
 
-def _live_v2_current_section(data, meta):
+def _live_v2_current_section(data, meta, *, annotations=True):
     pins = " · ".join(f'<a href="https://github.com/{_v1_escape(repo["repository"])}/tree/{repo["commit"]}">{_v1_escape(repo["repository"].split("/")[1])} <code>{repo["commit"]}</code></a>'
                       for repo in data["repositories"])
     refs = " · ".join(f'<a href="{_v1_escape(_v1_source_url(ref))}">{_v1_escape(ref.get("label", ref["path"]))}</a>'
@@ -1499,12 +1502,14 @@ def _live_v2_current_section(data, meta):
             '<h2>Current research sources</h2>\n'
             f'<p class="current-state" role="status">Pinned source observation: <time datetime="{_v1_escape(data["observed_at"])}">{_v1_escape(data["observed_at"])}</time>. Compare this timestamp with the present time; observation is not scientific revalidation.</p>\n'
             f'<p>{pins}</p>\n<p>{refs}</p>\n'
+            + (date_explanation(data, prefix='../', snapshot_prefix='../snapshots/' + archive + '/') if annotations else '')
+            +
             '<p><a href="../dependencies.html#current-atlas">Current mathematical atlas</a> · <a href="index.html">Current static graph and complete source inventory</a> · <a href="../current.json">Exact current source observation payload</a>. Scientific effect: NONE.</p>\n'
             f'<p><a href="../snapshots/{archive}/nodes/index.html">Historical mathematical material (original pins and observation)</a>.</p>\n'
             '</section>')
 
 
-def _live_v2_static_page(data, meta, title, body, *, style_first=True):
+def _live_v2_static_page(data, meta, title, body, *, style_first=True, annotations=True):
     return (f'<!doctype html>\n{_V1_GENERATED}\n<html lang="en"><head><meta charset="utf-8">\n'
             '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
             '<meta http-equiv="Content-Security-Policy" content="default-src \'none\'; style-src \'self\'; img-src \'self\'; script-src \'none\'; base-uri \'none\'; form-action \'none\'">\n'
@@ -1514,12 +1519,14 @@ def _live_v2_static_page(data, meta, title, body, *, style_first=True):
                '<link rel="stylesheet" href="../brand.css"><link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="../current.css">\n')
             + '</head><body><main class="node-static">\n'
             '<nav aria-label="Research site"><a href="../index.html">Home</a> · <a href="../explore.html">Explore</a> · <a href="../research.html">Research</a> · <a href="../workspace.html#inventory">Library</a> · <a href="../dependencies.html#current-atlas">Current dependencies</a> · <a href="index.html">Current static graph index</a></nav>\n'
-            + _live_v2_current_section(data, meta)
+            + _live_v2_current_section(data, meta, annotations=annotations)
             + '\n' + body + '\n</main></body></html>\n').encode("utf-8")
 
 
-def render_live_current_v2(data, meta, *, style_first=True):
+def render_live_current_v2(data, meta, *, style_first=True, annotations=True, acquisition=None):
     """Render current static routes from the full fresh schema-1 observation."""
+    if annotations and acquisition is None:
+        acquisition = project_current_acquisitions(data)
     graph = data["graph"]["data"]
     pages = {}
     for node_id, node in graph["nodes"].items():
@@ -1531,7 +1538,7 @@ def render_live_current_v2(data, meta, *, style_first=True):
                 + '\n<h2>Original node metadata</h2><pre>'
                 + _v1_escape(json.dumps(node, ensure_ascii=False, indent=2, sort_keys=True)) + '</pre>\n'
                 + _v1_neighbors(data, node_id))
-        pages[f"nodes/{node_id}.html"] = _live_v2_static_page(data, meta, node_id, body, style_first=style_first)
+        pages[f"nodes/{node_id}.html"] = _live_v2_static_page(data, meta, node_id, body, style_first=style_first, annotations=annotations)
     items = "\n".join(f'<li><a href="{_v1_escape(node_id)}.html">{_v1_escape(node_id)}</a> · {_v1_escape(node.get("kind", "not_recorded"))} · <code>{_v1_escape(node.get("classification", "not_recorded"))}</code></li>'
                       for node_id, node in graph["nodes"].items())
     required = sum(edge["required"] for edge in graph["edges"])
@@ -1540,10 +1547,11 @@ def render_live_current_v2(data, meta, *, style_first=True):
             f'<p>Graph source: <a href="{_v1_escape(_v1_source_url(graph_source))}">{_v1_escape(graph_source["path"])}</a> · SHA-256 <code>{_v1_escape(graph_source["sha256"])}</code>. The upstream graph may be unchanged while its repository advances.</p>\n'
             '<p>Every current node has static source/evidence reading and required/context neighbor navigation at the fresh observation pins. Graph-to-artifact binding is unresolved; artifact roles and custody are unknown. No classification is promoted here.</p>\n'
             '<ul>\n' + items + '\n</ul>\n<h2 id="sources">Complete current public source inventory</h2>\n'
-            f'<p>{len(data["sources"])} indexed files at the pinned repository commits. Legacy, quarantine, recovery, scratch and operational paths are excluded from this discovery population.</p>\n<ul>\n'
-            + _v1_source_list(data["sources"]) + '\n</ul>\n'
+            f'<p>{len(data["sources"])} indexed files at the pinned repository commits. Legacy, quarantine, recovery, scratch and operational paths are excluded from this discovery population.</p>\n'
+            + ('<ul>\n' if not annotations else '')
+            + (inventory_legend() + acquisition_notice(acquisition) + '<ul aria-describedby="current-inventory-legend">\n' + current_source_list(data["sources"], acquisition) if annotations else _v1_source_list(data["sources"])) + '\n</ul>\n'
             + _v2_equation_collection(data))
-    pages["nodes/index.html"] = _live_v2_static_page(data, meta, "Current static graph, equation excerpts and source index", body, style_first=style_first)
+    pages["nodes/index.html"] = _live_v2_static_page(data, meta, "Current static graph, equation excerpts and source index", body, style_first=style_first, annotations=annotations)
     return pages
 
 
