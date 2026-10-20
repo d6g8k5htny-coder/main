@@ -1,0 +1,132 @@
+{
+ "base": {
+  "new": {
+   "desc": "unmodified",
+   "normal": "Ran 3 tests in 13.638s OK",
+   "optimized": "Ran 3 tests in 21.483s OK",
+   "verdict": "SURVIVED"
+  },
+  "old": {
+   "desc": "unmodified",
+   "normal": "Ran 3 tests in 13.904s OK",
+   "optimized": "Ran 3 tests in 21.865s OK",
+   "verdict": "SURVIVED"
+  }
+ },
+ "killed_after": 25,
+ "killed_before": 23,
+ "mixed": [],
+ "mutants": 93,
+ "newly_killed": {
+  "NF": {
+   "class": "B",
+   "desc": "nonfinite JSON raise removed",
+   "normal": "Ran 3 tests in 13.673s FAILED (failures=1)",
+   "optimized": "Ran 3 tests in 21.304s FAILED (failures=1)"
+  },
+  "R70": {
+   "class": "B",
+   "desc": "_validated_bundle:398 _require(len(raw) == identity[\"bytes\"] and _sha(raw) == identity[\"sha256\"])",
+   "normal": "Ran 3 tests in 14.511s FAILED (failures=1)",
+   "optimized": "Ran 3 tests in 21.179s FAILED (failures=1)"
+  }
+ },
+ "newly_killed_by_class": {
+  "B": 2
+ },
+ "regressions": [],
+ "still_surviving_B": {
+  "C1": "CLI: more than one --fixtures accepted",
+  "C2": "CLI: --report accepted for prepare/admit",
+  "C4": "CLI: product-source type/size/nlink check disabled",
+  "C5": "CLI: product-source read-stability check disabled",
+  "R03": "_text:66 _require(type(value) is str and bool(value.strip()))",
+  "R18": "_directory:161 _require(type(raw) is str and 0 < len(raw.encode(\"utf-8\")) <= 4096 and \"\\0\" not in raw)",
+  "R19": "_directory:164 _require(all(piece not in (\"\", \".\", \"..\") for piece in pieces))",
+  "R20": "_read:191 _require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1 and before.st_size <= limit",
+  "R22": "_read:203 _require(all(getattr(before, field) == getattr(after, field) for field in fields))"
+ },
+ "still_surviving_by_class": {
+  "A": [
+   "R05",
+   "R27",
+   "R28",
+   "R29",
+   "R30",
+   "R31",
+   "R32",
+   "R33",
+   "R35",
+   "R37",
+   "R38",
+   "R39",
+   "R46",
+   "R47",
+   "R53",
+   "R54",
+   "R55",
+   "R56",
+   "R59",
+   "R60",
+   "R61",
+   "R62",
+   "R64",
+   "R65",
+   "R66",
+   "R68",
+   "R72"
+  ],
+  "B": [
+   "C1",
+   "C2",
+   "C4",
+   "C5",
+   "R03",
+   "R18",
+   "R19",
+   "R20",
+   "R22"
+  ],
+  "C": [
+   "R06",
+   "R08",
+   "R09",
+   "R10",
+   "R11",
+   "R13",
+   "R14",
+   "R15",
+   "R21",
+   "R41",
+   "R42",
+   "R43",
+   "R44",
+   "R45",
+   "R50",
+   "R58",
+   "R71",
+   "R73",
+   "R74",
+   "R75",
+   "R76",
+   "R77"
+  ],
+  "U": [
+   "C3",
+   "C6",
+   "R16",
+   "R17",
+   "R23",
+   "R24",
+   "R25",
+   "R26",
+   "R40",
+   "R81"
+  ]
+ },
+ "transitions": {
+  "KILLED->KILLED": 23,
+  "SURVIVED->KILLED": 2,
+  "SURVIVED->SURVIVED": 68
+ }
+}
