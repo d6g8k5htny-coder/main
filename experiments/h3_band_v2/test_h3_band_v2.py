@@ -60,6 +60,15 @@ class StructureLemma(unittest.TestCase):
                 self.assertIn('STRUCTURE FAIL', summary(r))
                 self.assertIn(message, summary(r))
 
+    def test_a_mutation_the_lemma_cannot_see_is_not_a_pass(self):
+        # wrong_window moves a soft functional the lemma accepts; planar_moments leaves the tables alone
+        for mutation in ('wrong_window', 'planar_moments'):
+            with self.subTest(mutation=mutation):
+                r = run('structure', '--mutation', mutation)
+                self.assertEqual(r.returncode, 3, r.stdout)
+                self.assertIn('NOT A CERTIFICATE', summary(r))
+                self.assertNotIn('STRUCTURE PASS', r.stdout)
+
 
 class OutwardDecimals(unittest.TestCase):
     def test_rounding_directions(self):

@@ -411,6 +411,7 @@ def run_certificate(mode, h2_dir, mc=False):
     emit('CB5 PASS: certified Phi; Gaussian tail helpers dominate the Gordon lower bounds')
 
     def t0_lower(num_iv, var_iv):
+        ck(up(var_iv) > 0, 'CB5 variance ceiling positive before its square root')
         return mpf((num_iv / iv.sqrt(iv.mpf(up(var_iv)))).a)
 
     def event_prob_upper(mu_x, var_x, kind, edge, margin, what):
@@ -880,11 +881,13 @@ def run_certificate(mode, h2_dir, mc=False):
 
     def gram_tail(M, r_up):
         x = iv.mpf(r_up) / RHOi
+        ck(x.b < 1, 'CB6 Gram tail needs r < rho')
         return up(iv.mpf(M) * x ** (NK + 1) / (1 - x))
 
     # ------------------------------------------------------ CB5: truncated moments and Wick
     def trunc_mom_iv(mu, var, a, b, kmax):
         # E[X^k 1_{a <= X <= b}], X ~ N(mu, var), every argument an interval
+        ck(var.a > 0, 'CB5 truncated-moment variance enclosure positive')
         s = iv.sqrt(var)
         al = (a - mu) / s
         be = (b - mu) / s
@@ -1143,7 +1146,9 @@ def run_certificate(mode, h2_dir, mc=False):
         return P, PBAR, PBAR2
 
     def ceil_hi(mu, Sig, r_iv, label):
-        # UPPER envelope (direction analysis in README.md, unchanged from the frozen program):
+        # UPPER envelope (direction analysis: section 3 of the frozen H3_BAND_CEIL.md; unchanged here).
+        # The 'Chernoff' pieces in the labels are Cauchy-Schwarz, E[pbar 1_A] <= sqrt(E[pbar^2] P(A)),
+        # with P(A) an exact Gaussian tail from iv_Phi; no exponential-moment bound is used.
         #   E[G_r] = E[p 1_type] <= E[p 1_{q_M<0}] + E[pbar 1_{q_M<0, D_M<=0}] + E[pbar 1_{D_S>=0}],
         #   {D_M<=0, q_M<0} in {a_M>-0.6} u {|b_M|>2} u {q_M in (-0.4,0)}, {D_S>=0} in {q_S>=0} u {a_S<=0}.
         q = mpf_to_fraction
@@ -1195,7 +1200,7 @@ def run_certificate(mode, h2_dir, mc=False):
     def band_lo(mu, Sig, Tm, Ts, t_iv, label):
         # LOWER envelope: B_cert = {q_M in [I_LO, I_HI]} {|delta| <= eta} {a_M <= -0.8} {a_S >= 0.8} {|b_M| <= 2}
         # lies inside the type event, p > 0 there, and pbar >= |p|, so
-        #   E[G_r] >= E[p 1_{q_M in I'}] - E[pbar 1_{|delta|>eta}] - E[pbar 1_{|b_M|>2}]
+        #   E[G_r] >= E[p 1_{q_M in [I_LO, I_HI]}] - E[pbar 1_{|delta|>eta}] - E[pbar 1_{|b_M|>2}]
         #             - E[pbar 1_{a_M>-0.8}] - E[pbar 1_{a_S<0.8}].
         mu2 = [ser_eval([mu2_ser[j][a] for j in range(J + 1)], t_iv, up(2 * iv.mpf(Tm))) for a in range(6)]
         Sig2 = [[ser_eval([Sig2_ser[j][a][b] for j in range(J + 1)], t_iv, up(4 * iv.mpf(Ts))) for b in range(6)] for a in range(6)]
@@ -1226,6 +1231,7 @@ def run_certificate(mode, h2_dir, mc=False):
                 return Etot - sum((c * t for c, t in zip(cp, tm)), iv.mpf(0))
             # exact Gaussian tail (certified Phi) and Cauchy-Schwarz:
             # P(X > b) with b above the mean, P(X < a) with a below it, or P(|X| > b) with a = -b
+            ck(oneside is not None or a == -b, 'CB6 two-sided tail needs a window symmetric about 0')
             kind, edge = {'gt': ('gt', b), 'lt': ('lt', a)}.get(oneside, ('abs', b))
             prob = event_prob_upper(muX[cond], s00, kind, edge, 2, 'CB6 Chernoff tail ' + label)
             return iv.mpf((0, up(iv.sqrt(iv.mpf(Epbar2) * iv.mpf(prob)))))
@@ -1425,6 +1431,10 @@ def main(argv=None):
         except CheckFailed as e:
             print('H3_BAND_V2 STRUCTURE FAIL: %s' % e)
             return 1
+        if MUT:
+            # a mutation the lemma cannot see is still never reported as a pass
+            print('H3_BAND_V2 MUTATED STRUCTURE RUN (%s): the lemma holds for these tables; NOT A CERTIFICATE' % MUT)
+            return 3
         rows = ['[' + ' '.join(frac_label(x) for x in row) + ']' for row in E]
         print('H3_BAND_V2 STRUCTURE PASS: pins regular; soft poles z^-1 only; Y^(-1) = E V^(0) with E = %s; E zV = 0' % ' '.join(rows))
         return 0

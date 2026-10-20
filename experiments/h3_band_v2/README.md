@@ -2,7 +2,7 @@
 
 **Status: a draft for review. Scientific effect NONE. Review status REVIEW_REQUIRED.**
 
-The author is Anthropic Claude (session `session_01Fij9F1cYrAUDW7PhWQze1G`). The package needs a reviewer from another model family. A reader from the same provider earns zero independence credit. Nothing here changes any claim, status, HOLD or consumer pin. Those decisions belong to the H3/SIDE24 owners and the consumers.
+The author is Anthropic Claude (session `session_01Fij9F1cYrAUDW7PhWQze1G`). The package needs a reviewer from another model family. A reader from the same provider earns zero independence credit. For that reviewer, [`REVIEW_GUIDE.md`](REVIEW_GUIDE.md) states and derives, with exact line references, the four claims that rest on a written derivation rather than on a run. Nothing here changes any claim, status, HOLD or consumer pin. Those decisions belong to the H3/SIDE24 owners and the consumers.
 
 This is the numbered successor of two frozen programs, both authored by Kimi:
 - `h3_band_ceil.py` (sha256 `b97c5428…`);
@@ -42,10 +42,10 @@ Whether any consumer re-pins to these values is the consumer's decision.
 
 ## Changes from the frozen programs
 
-The law pipeline, CB0–CB6, is kept stage by stage, and the two envelopes share it in one program. The upper-envelope algebra (`ceil_hi`) and the lower-envelope algebra (`band_lo`) are unchanged, except for the items below.
+The law pipeline, CB0–CB6, is kept stage by stage, and the two envelopes share it in one program. The upper-envelope algebra (`ceil_hi`) and the lower-envelope algebra (`band_lo`) are unchanged, except for the items below and two checks. `band_lo` no longer carries the frozen floor's check that Edelta and Ebeta exceed −1e−6, and both envelopes now require their second moments to be nonnegative before a square root is taken. Neither affects validity when the enclosures are valid.
 
-- **B1. Majorants.** `matmax` and `vecmax` now take max(|a|, |b|) of each interval. The frozen versions took the signed upper endpoint. A new guard checks that every majorant dominates every entry it majorizes.
-- **First cell.** True majorants give a majorant growth of R ≈ 2622. So the R-majorant cell is narrowed to (0, 1/16384], where R·r* ≈ 0.160 < 0.2, and the Neumann method covers the rest of (0, 0.0025]. The frozen first cell, (0, 0.0025], now fails the convergence guard; this is the `wide_first_cell` control.
+- **B1. Majorants.** `matmax` and `vecmax` now take max(|a|, |b|) of each interval. The frozen versions took the signed upper endpoint. A new guard checks that every majorant dominates every entry it majorizes. For the unmutated code it holds by construction: it is a regression guard, and it is what catches `signed_maxima`.
+- **First cell.** True majorants give a majorant growth of R ≈ 2622. So the R-majorant cell is narrowed to (0, 1/16384], where R·r* ≈ 0.160 < 0.2, and the Neumann method covers the rest of (0, 0.0025]. The 0.2 and the condition θ(R) ≤ 1/2 are margins kept from the frozen program: the induction itself needs θ(R) ≤ 1, and convergence needs R·r* < 1 and r*/ρ < 1, which the tail bounds check. The frozen first cell, (0, 0.0025], fails the guard and the majorant series genuinely diverges there (R/400 ≈ 6.6); this is the `wide_first_cell` control. On the first cell the pole coefficients of μ and Σ are dropped on CB2s alone, with no numeric fallback, because 1/t is unbounded there; their vanishing follows from CB2s (c) and (d) by direct algebra.
 - **B2. Neumann remainder.** The correction now comes from the exact identities
 
       G (w − W_P) = (zV − G_P W_P) − (G − G_P) W_P
@@ -60,19 +60,20 @@ The law pipeline, CB0–CB6, is kept stage by stage, and the two envelopes share
 
   The frozen formula is kept only as the `old_remainder` control.
 - **B3.** The floor bounds the two-sided event {|δ| > η} with two Gaussian tails. Every Gaussian tail in either envelope goes through one function, `event_prob_upper`, and the number of tails follows from the event kind. At start-up that function and the tail helper are self-tested on exact point laws, for N(0, 1) and N(1/2, 1), against Gordon's lower bound φ(t) t / (t² + 1). That bound does not use `iv_Phi`.
-- **B4. Negative controls.** There are fourteen mutations, each invoked by `--mutation NAME` and each caught: twelve inside the run and two by the replay; see below. A mutated run never reports a pass: when it is not caught inside the run, it ends `H3_BAND_V2 MUTATED RUN …, NOT A CERTIFICATE` and exits 3. `--record` is refused under a mutation, and `--record` cannot be combined with `--verify`.
+- **B4. Negative controls.** There are fourteen mutations, each invoked by `--mutation NAME` and each caught: twelve inside the run and two by the replay; see below. A mutated run never reports a pass: when it is not caught inside the run, it ends `H3_BAND_V2 MUTATED RUN …, NOT A CERTIFICATE` and exits 3. The same holds for `structure`: under a mutation the lemma cannot see, it ends `H3_BAND_V2 MUTATED STRUCTURE RUN …, NOT A CERTIFICATE` and exits 3. `--record` is refused under a mutation, and `--record` cannot be combined with `--verify`.
+- **Fail-closed guards.** Four conditions that no current cell reaches now stop the run at a named check rather than at an mpmath assertion or a traceback: r < ρ in the Gram tail (`gram_tail`), a positive variance before each square root (`t0_lower`, `trunc_mom_iv`), and a window symmetric about 0 for the two-sided tail in `band_lo`. None changes a certified decimal, and the reviewed transcripts are byte-identical.
 - **O2.** The Gordon–Mills branch of `iv_Phi` keeps its endpoints as mpf, not float.
 - **CB2s, a new exact lemma, in `fractions.Fraction` only.** It covers the exact Laurent expansions of the pin and soft functionals:
   - (a) the pins have no negative powers;
   - (b) the soft functionals have no power below z⁻¹;
-  - (c) Y⁽⁻¹⁾ = E V⁽⁰⁾ for an exact 0/1 matrix E;
+  - (c) Y⁽⁻¹⁾ = E V⁽⁰⁾ for an exact rational matrix E (for the tables of record E is 0/1);
   - (d) E zV = 0.
 
-  Hence Ỹ = Y − EV/z is regular. That makes μ = E[Ỹ | V = zV] and Σ = Cov(Ỹ | V) analytic wherever G is invertible: the pole coefficients of μ and Σ vanish exactly. The frozen programs dropped those coefficients after a numeric |c| < 1e−55 check. The numeric checks stay, as consistency checks, and A₋₁ = E G₀ is checked at the Gram level. The lemma and the interval series are built from the same table objects, so a change to a table reaches both, and each of the four branches has its own control.
+  Hence Ỹ = Y − EV/z is regular. That makes μ = E[Ỹ | V = zV] and Σ = Cov(Ỹ | V) analytic wherever G is invertible: the pole coefficients of μ and Σ vanish exactly. The frozen programs dropped those coefficients after a numeric |c| < 1e−55 check. The numeric checks stay, as consistency checks only: they see orders from −8 up, with a 1e−60 threshold, which could not by itself protect the remainder. Exact vanishing rests on CB2s. A₋₁ = E G₀ is checked at the Gram level. The lemma and the interval series are built from the same table objects, so a change to a table reaches both, and each of the four branches has its own control.
 - **Kernel window.** The series now uses `range(0, J+9−n)`; the frozen one used `J+8−n`. Every Gram block is complete through order J+2, and the Cauchy tails start at J+3. The soft-pin block is kept through J+2 as well.
 - **Moments.** The Poisson sums over |n| ≤ 3 now carry a certified tail for |n| ≥ 4, built from |He_k(x)| ≤ (|x| + √k)^k. New check CB1d: every consumed a₂ₘ, m ≤ 40, must meet an independent spectral enclosure (1/Z) Σ e^{−k²/2} k^{2m}, which carries a certified lattice tail. The kernel sup A_n(ρ) carries a certified lattice tail too, and it uses |k| upper endpoints.
 - **Rounding.** The load-bearing upper endpoints come from intervals. That covers:
-  - CB4 (θ(R), C_W, C_H, the Cauchy ratio 1/ρ, which is rounded upward, and every tail sum, which is now a sum of nonnegative terms rather than a difference). A sanity check requires every computed Laurent coefficient to obey its Cauchy bound |c_j| ≤ M ρ^{−j};
+  - CB4 (θ(R), C_W, C_H, the Cauchy ratio 1/ρ, which is rounded upward, and every tail sum, which is now a sum of nonnegative terms rather than a difference). A sanity check requires every computed Laurent coefficient, orders −2 to J+2, to obey its Cauchy bound |c_j| ≤ M ρ^{−j}. The Cauchy bounds the tails use, at higher orders, rest on the derivation;
   - the Neumann bounds;
   - the Chernoff t₀ lower bounds and the Cauchy–Schwarz pieces;
   - the type and cover margins, checked exactly in `Fraction` from the mpf box constants.
@@ -88,7 +89,7 @@ The law pipeline, CB0–CB6, is kept stage by stage, and the two envelopes share
 - **The envelope decomposition.** The algebra (type event, covers, p̄ ≥ |p|, the box `B_cert`) is unchanged and was checked in O7. So far it has had only an Anthropic reading.
 - **Two mutations are invisible inside a run.** `drop_fail_piece` and `old_remainder` give plausible numbers. They are caught only because a replay must reproduce the reviewed record exactly: the program digest, the transcript digest, and every certified decimal.
 - **The upstream reduction.** This package does not re-derive the definition of G_r or the reduction to it. It does not re-pin LPW v4, H5_ZBAND or D1.
-- **The B2 remainder has no numeric test.** CB7, the direct point law at r = 1/20 in mp arithmetic, checks the heavy polynomial, not the remainder. The true truncation error is about 2e−91, against the rigorous corrections 1.5e−10 and 1.2e−7, so CB7 could not see the remainder shrink by up to about 80 orders of magnitude. The remainder rests on the written derivation in `neumann_law`. A same-family check, with zero independence credit, compared every cell enclosure against a dps-200 direct law at 32 points, and every enclosure contained it.
+- **The B2 remainder has no numeric test.** CB7, the direct point law at r = 1/20 in mp arithmetic, checks the heavy polynomial, not the remainder. Its printed deviation, about 2e−91, is the rounding error of its own dps-100 reference law; against a dps-200 law the Neumann midpoint at r = 1/20 is within about 1e−100. Either figure is far below the rigorous corrections 1.5e−10 and 1.2e−7, so CB7 cannot tell whether the remainder is under-estimated. The remainder rests on the written derivation in `neumann_law`, set out in `REVIEW_GUIDE.md`. A same-family check, with zero independence credit, compared every cell enclosure against a dps-200 direct law at 32 points, and every enclosure contained it.
 - **The B3 control covers the shared event bound.** It does not cover a future call site that bypasses `event_prob_upper`.
 - **Planar moments.** For m ≤ 4, the torus and planar moments differ by about 1e−122, which is below dps 100. CB1d separates them from m = 16 up.
 - **Non-certifying parts.** CB7 is a cross-check and not load-bearing. So is the Monte Carlo.
