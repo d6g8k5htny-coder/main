@@ -10,6 +10,8 @@ separately (the merge endpoint's ``sha`` parameter, the update-branch endpoint's
 The three lease cases of the nonauthor read of main#456 (comment 6281763561) are included:
 the implicit lease after an unintegrated fetch, ``--force-if-includes``, and a deliberate
 rewrite under a current lease.
+A ninth case contrasts ordinary divergent-push rejection with deletion and unforced recreation;
+it does not exercise GitHub activity events or branch protections.
 
 Run from the repository root:  python3 -m unittest tests.test_pickup_fence
 """
@@ -121,6 +123,29 @@ class PickupFenceTest(unittest.TestCase):
         self.assertFalse(is_ff)
         r = git('push', '--force-with-lease=refs/heads/work:' + self.new_head, 'origin', 'work', cwd=self.a, check=False)
         self.assertEqual(r.returncode, 0)
+        self.assertNotEqual(self.remote_head(), self.new_head)
+
+    def test_deletion_and_ordinary_recreation_is_not_prevented(self):
+        """An ordinary divergent push rejects, but delete plus unforced recreation discards B.
+        This is local Git behavior, not a test of GitHub activity events or protections.
+        """
+        git('fetch', '-q', 'origin', cwd=self.a)
+        # Fetch makes B's object available without integrating it into A's candidate.
+        is_ff = git('merge-base', '--is-ancestor', self.new_head, 'HEAD', cwd=self.a, check=False)
+        self.assertEqual(is_ff.returncode, 1)  # non-ancestry, not an unknown-object error
+        mine = git('rev-parse', 'HEAD', cwd=self.a).stdout.strip()
+        self.assertNotEqual(mine, self.new_head)
+        rejected = git('push', 'origin', 'work', cwd=self.a, check=False)
+        self.assertNotEqual(rejected.returncode, 0)
+        self.assertIn('[rejected]', rejected.stderr + rejected.stdout)
+        self.assertEqual(self.remote_head(), self.new_head)
+
+        git('push', '-q', 'origin', '--delete', 'work', cwd=self.a)
+        missing = git('show-ref', '--verify', '--quiet', 'refs/heads/work', cwd=self.remote, check=False)
+        self.assertEqual(missing.returncode, 1)
+        # No force option: creation is a separate operation from a fast-forward update.
+        git('push', '-q', 'origin', 'HEAD:refs/heads/work', cwd=self.a)
+        self.assertEqual(self.remote_head(), mine)
         self.assertNotEqual(self.remote_head(), self.new_head)
 
     def test_plain_force_is_not_prevented(self):

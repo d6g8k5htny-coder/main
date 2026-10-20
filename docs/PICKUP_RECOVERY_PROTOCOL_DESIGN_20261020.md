@@ -12,6 +12,10 @@ coordinator-fallback section landed by
 by [main#453](https://github.com/d6g8k5htny-coder/main/pull/453); this note changes neither.
 Author: Anthropic Claude, session `session_01NMeKEismAyeqgdB4sy2NJU` (Claude01N), as delegated
 AI work for Dylan Roy. Scientific effect NONE.
+Amendment author: OpenAI/Codex `/root/main456_successor_integrator_1020`, under the
+separate source stage [6293498638](https://github.com/d6g8k5htny-coder/main/pull/456#issuecomment-6293498638),
+addressing five Ready-review findings on head `4c5ab1f7`. Original source authorship above
+is retained. This amendment is still a design record, not operating-rule adoption.
 
 ## 1. The problem, with its evidence
 
@@ -64,7 +68,10 @@ constraints from the disposition:
 branch, and records which pushes by the first worker (A) succeed, from a stale view and from
 a fresh one. The three lease cases of the nonauthor read
 [456/6281763561](https://github.com/d6g8k5htny-coder/main/pull/456#issuecomment-6281763561)
-are included. Standard library and `git` only; it runs in about a second.
+are included, along with a ninth deletion/recreation case. That case first verifies that an
+ordinary divergent push is rejected, then shows deletion plus ordinary recreation succeeds.
+It exercises local Git only, not GitHub's event stream or protection settings. Standard
+library and `git` only; the full focused test runs in a few seconds.
 
 | Write by A | Result | Enforced by |
 |---|---|---|
@@ -75,24 +82,26 @@ are included. Standard library and `git` only; it runs in about a second.
 | fresh view: `git push --force-with-lease=refs/heads/work:<current>`, a fast-forward | accepted | the lease matches; the push would also pass without it, being a fast-forward |
 | fresh view: the same explicit current lease, a deliberate non-fast-forward rewrite of B's commit | **accepted**, B's commit is replaced | nothing: the lease fences stale writers, not deliberate conflicting writes |
 | `git push --force origin work` | **accepted**, B's commit is overwritten | nothing |
+| A deletes the branch, then recreates it at its divergent candidate with an ordinary push | **accepted**, B's head is discarded | nothing in the unprotected bare-repository setup; deletion/creation are separate operations |
 | B records a claim on the branch; A pushes anyway | prevents nothing | nothing |
 
-So a guarded push (the `ls-remote`, then `--force-with-lease=branch:old`, then `ls-remote`
-pattern already used on main#389) prevents a stale worker from overwriting a moved branch,
-provided every worker uses it, and uses the explicit form
-`--force-with-lease=<ref>:<verified old head>` or the implicit form together with
-`--force-if-includes`. The implicit form alone fences nothing once a fetch has moved the
-remote-tracking ref, which a background fetch does without the worker's knowledge. And the
-lease fences stale writers only: a worker with a fresh view who deliberately rewrites the
-other worker's commit, naming the current head in the lease, is not stopped. That is a
-conflicting write the lease does not prevent; on an unprotected branch it remains discouraged
-only, like a bare `--force`, and only blocking force pushes prevents it. A claim record
-prevents nothing. On GitHub, branch protection can forbid force pushes altogether, which turns
-the deliberate rewrite and the bare `--force` from "discouraged" into "prevented" without any
-worker's cooperation; the merge endpoint accepts a `sha` parameter (the expected head) that
-fails the merge when the head has moved; and the update-branch endpoint accepts
-`expected_head_sha` in the same way. None of the GitHub guards is exercised by the test, which
-has no remote; they are stated from the documentation.
+The tests separate the normal fast-forward restriction from a lease's forcing behavior.
+Ordinary branch updates use a non-forcing `git push`; do not add `--force-with-lease` to
+normal pushes. Check the current remote head and preserve its ancestry in the candidate.
+For API updates, retain a supported expected-old-head guard together with `force=false`;
+the guard does not require permission to discard history. A separately authorized intentional
+history rewrite on an unprotected branch is a different action: an explicit
+`--force-with-lease=<ref>:<verified old head>` can reject a stale expectation, but a matching
+lease still permits a non-fast-forward rewrite, whether intended or accidental. It is not a
+custody handoff or a safe default. The implicit lease after an unintegrated fetch has the gap
+shown in the table; `--force-if-includes` addresses that gap without making a rewrite ordinary.
+These distinctions follow the [Git push documentation](https://git-scm.com/docs/git-push).
+
+A claim record prevents no push. On GitHub, protection that actually binds the acting user
+can reject force pushes; branch deletion and recreation are separate replacement paths and
+need the controls and audit coverage of section 6. The merge endpoint's `sha` and the
+update-branch endpoint's `expected_head_sha` reject a moved expected head. None of these
+GitHub guards is exercised by this local bare-repository test; they are documented separately.
 
 What no transport guard prevents: two performers reviewing the same pinned source (duplicate
 work, not a conflicting write), and a successor acting on a scope whose predecessor is not
@@ -190,14 +199,17 @@ old head, it makes it a review of old bytes (correction 5).
    frozen by an open read. A later revision does not inherit the read; it gets a byte-diff
    readback against the read head, or a fresh read, as today. A freeze is explicit, owned and
    lifted by its owner.
-6. **Guarded writes.** Every push to a shared branch uses the explicit lease
-   `--force-with-lease=<ref>:<verified old head>`, or the implicit lease together with
-   `--force-if-includes`, and force pushes are forbidden on protected branches. The host's own
-   writes carry the same guard: on GitHub, the merge endpoint's `sha` and the update-branch
-   endpoint's `expected_head_sha` fail the write when the head has moved. The lease and the
-   API guards prevent a stale write; only the prohibition of force pushes prevents a
-   deliberate conflicting write from a fresh view (section 3). Everything else in the protocol
-   discourages.
+6. **Guarded writes without forcing normal updates.** Ordinary pushes retain Git's
+   fast-forward restriction, and a candidate preserves the observed remote head's ancestry.
+   For a supported API branch update use the expected old head and `force=false` together;
+   merges use `sha`, and update-branch uses `expected_head_sha`. Reserve an explicit
+   `--force-with-lease=<ref>:<verified old head>` for a separately authorized, intentional
+   history rewrite on an unprotected branch; a matching lease permits history loss and is
+   not an ordinary-update safeguard by itself. No protection is weakened and no rewrite is
+   authorized by this design. Protect both non-fast-forward updates and deletion where
+   these controls bind every relevant actor, and audit the separate replacement paths in
+   section 6. The guards constrain their stated transport operations, not custody or
+   semantic correctness.
 
 Point 5 is the one that would have cut the head freeze of the main#389 case from four days to
 zero: the author's later revisions would have gone out as new pinned heads, each with its own
@@ -207,45 +219,85 @@ until the supersession, about four days.
 
 ## 6. Measurement plan
 
-All measures come from board and PR records, which carry server timestamps.
+All measures use the existing canonical board/PR pickups and native repository activity,
+with source IDs, server timestamps and actual observation bounds. Board mirrors are not new
+pickups. Before a comparison, declare the same eligibility and terminal-event definitions,
+cohort-entry windows, coordinating lanes, and a fixed follow-up duration H for both cohorts.
+No value of H or new operating rule is adopted here. Every enrolled pickup receives H of
+follow-up, unless a known terminal occurs earlier; a cohort not yet fully observed is marked
+incomplete and receives no final before/after verdict. Do not remove its slow open pickups.
+Retain missing follow-up, incomplete terminal-event acquisition and uncertain event times in
+the eligible cohort inventory as UNKNOWN. Do not assign H or a completion state to an
+unobserved interval, exclude those pickups, or issue a final comparison with that missingness
+unresolved. These qualification limits apply before computing the rates below.
 
-- **Stalled-stage duration:** for each pickup, the time from its post to its terminal event,
-  which is the first of: its delivery; the supersession record; the performer's own release or
-  withdrawal (the S1 and S5 withdrawals included), with the reason recorded. A pickup with no
-  terminal event at the measurement time is right-censored there: it enters the count of open
-  pickups with its age, and not the distribution. Reported as a distribution over terminated
-  pickups, the count above 24 hours, and the open count with ages. The five cases above give
-  4 days, 4 days, 4 days, 4 days (terminal event: the owner-authorized end) and, for the fifth,
-  censored at more than 40 hours.
-- **Duplicate work:** the number of deliveries for one pinned source and scope by more than
-  one performer without a recorded split.
-- **Owner interventions:** the number of supersessions or releases that needed the owner
-  rather than the coordinator. The five cases needed one owner intervention for four of them.
-- **Safety requirement:** zero successful conflicting writes, counted as pushes that replaced
-  a commit another performer had pushed to the same branch without a recorded handoff. With
-  branch protection against force pushes that applies to administrators and to every other
-  bypass actor (no force-push bypass list), this count is enforced to zero on the protected
-  branches; a protection that exempts administrators or a bypass role enforces it only for the
-  actors it binds, and the exempt actors' pushes are audited like any other. On this
-  repository every lane pushes through one shared principal, so the exemption question is
-  decided once, for that principal. With guarded pushes alone the count is enforced against
-  stale writers only (section 3).
-  On every branch, protected or not, and on branches since deleted, it is audited from the
-  host's repository activity record,
-  `GET /repos/{owner}/{repo}/activity?activity_type=force_push`, which records each force push
-  with its before and after commits; the read
+- **Stalled-stage duration with fixed follow-up:** a terminal is the first delivery,
+  supersession record, or the performer's own release/withdrawal (including S1/S5), with the
+  reason retained. For every eligible pickup record the waiting time capped at H: the elapsed
+  interval from its pickup post to a known terminal within H, otherwise H and an explicit
+  right-censored/open flag. Compare these capped waiting times over ALL eligible pickups
+  together with the proportion reaching
+  a terminal by H. Assigning H to a still-open pickup records its observed capped wait, not
+  a fictitious completion. It does not estimate the unbounded completion-time distribution.
+  A distribution over completed pickups alone is only conditional/descriptive and cannot
+  establish improvement. Report the open ages and the count beyond 24 hours as well. The
+  five historical cases above are descriptive: four terminal events at about 4 days and one
+  right-censored beyond 40 hours, not a comparative effectiveness estimate.
+- **Duplicate work:** report the raw number of additional equivalent deliveries for one
+  pinned source/scope without a recorded split, its count of affected eligible pickup scopes,
+  and the total number of eligible pickup scopes. Compare affected-scope rates using that
+  declared denominator; differing raw task volumes alone are not an effect of the protocol.
+- **Owner interventions:** report the raw number of owner interventions and the number of
+  eligible pickups affected, each against the total eligible-pickup denominator. One owner
+  action covering four pickups is one action and four affected pickups, not four independent
+  owner decisions. Use the same eligibility and follow-up H before and after; report cohort
+  sizes and exposure, not only raw counts. The five historical cases needed one intervention
+  for four of them; they do not establish a normalized before/after improvement.
+- **Safety objective and observable replacement audit:** the objective remains no destructive
+  cross-performer branch replacement without a recorded handoff. The directly observable
+  metric is the count and details of potentially destructive branch events, not an assumed
+  count of performer conflicts. Collect native `force_push`, `branch_deletion` and
+  `branch_creation` activities for every relevant branch, protected or not, including deleted
+  branches. Preserve event ID, repository/ref, server time, recorded principal and available
+  before/after commits; mark absent fields as unavailable. Correlate deletion followed by
+  creation of the SAME repository/ref and reconcile the old/new head identities, even when
+  the pair crosses a reporting boundary. An unrelated recreated head can remove another
+  head without a `force_push` event. Include unmatched deletions and unresolved correlations
+  explicitly; do not report them as safe or silently drop them. The
+  [repository activity documentation](https://docs.github.com/en/rest/repos/repos#list-repository-activities)
+  lists these separate event types. The earlier
   [456/6281763561](https://github.com/d6g8k5htny-coder/main/pull/456#issuecomment-6281763561)
-  found such records in this repository for an unprotected branch and for a deleted one. How
-  long the host retains them was not established, so the count is taken during each
-  measurement window, not only at its end.
+  verified force-push examples only; it did not establish complete replacement coverage.
 
-A comparison runs over two windows, before and after adoption, on the same set of
-coordinating lanes. No live lease-expiry experiment is part of this plan.
+  The shared GitHub principal does not identify an execution. An event's SHAs and account
+  alone cannot decide which performer acted, whether it was an own rewrite, or whether an
+  applicable handoff existed. Qualify those claims only from actual execution-specific
+  evidence matched to the existing canonical pickup/handoff and exact event/source identity;
+  retain the evidence and its limits. Otherwise label performer/handoff attribution UNKNOWN.
+  Report observable event counts, confirmed dispositions and unresolved/unknown cases
+  separately. Zero confirmed cross-performer conflicts with unknown cases is not evidence
+  of zero conflicts. This design installs no attribution service and invents no identity or
+  immutable correlation that the current records do not supply.
+
+  On protected branches the two history-discard paths are blocked only where BOTH
+  non-fast-forward updates and branch deletion are prohibited for every relevant actor,
+  including administrators and all bypass actors; exempt actors remain subject to audit,
+  not an enforced-zero claim. A force-push restriction alone does not block deletion and
+  recreation. These protections do not prevent semantic conflicts in fast-forward changes.
+  The design reads or changes no settings and attests to no current protection coverage.
+  Activity retention and missing boundary events must be qualified during each window;
+  incomplete coverage is UNKNOWN, not a zero. Record the initial/final ref observations and
+  collect activities during the window, not only at its end. Report counts with their branch
+  observation exposure; compare rates only under matched coverage or a declared denominator.
+
+The comparison uses two fully followed cohorts before and after any separately approved
+adoption, with these eligibility, exposure and uncertainty limits. No live lease-expiry
+experiment, measurement execution or operating-rule adoption is part of this design.
 
 ## 7. Reproduce
 
     python3 -m unittest tests.test_pickup_fence -v
     python3 -O -m unittest tests.test_pickup_fence
 
-Both runs pass (eight tests) on a checkout with `git` on the path; the test writes only inside
+Both runs exercise nine tests on a checkout with `git` on the path; the test writes only inside
 a temporary directory.
