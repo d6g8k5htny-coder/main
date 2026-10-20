@@ -34,5 +34,13 @@ echo "delta paths: $((same+diff)); unchanged vs reviewed head: $same; changed: $
 echo "--- main..new head delta == merge-base..reviewed delta (paths)?"
 MB=$(git -C "$R" merge-base "$MAIN" "$REVIEWED")
 cmp <(git -C "$R" diff --name-only "$MAIN" "$NEW" | sort) <(git -C "$R" diff --name-only "$MB" "$REVIEWED" | sort) && echo yes || echo NO
+echo "--- raw diff main..new head == raw diff merge-base..reviewed head (same paths, modes, before and after blobs, so identical patches)?"
+cmp <(git -C "$R" diff --raw --no-abbrev "$MAIN" "$NEW") <(git -C "$R" diff --raw --no-abbrev "$MB" "$REVIEWED") && echo yes || echo NO
+echo "--- delta paths changed on main between reviewed base $MB and $MAIN (expect none)"
+comm -12 <(git -C "$R" diff --name-only "$MB" "$MAIN" | sort) <(git -C "$R" diff --name-only "$MAIN" "$NEW" | sort) | sed 's/^/OVERLAP /'
+echo "(end of overlap list)"
+echo "--- diffstat main..new head"
+git -C "$R" diff --numstat "$MAIN" "$NEW" | awk '{a+=$1; d+=$2; n++} END {print n" files, +"a"/-"d}'
+[ "$(git -C "$R" diff --name-only "$MAIN" "$NEW" | wc -l)" -le 10 ] && git -C "$R" diff --numstat "$MAIN" "$NEW"
 echo "--- check runs at new head"
 gh api "repos/d6g8k5htny-coder/main/commits/$NEW/check-runs?per_page=100" --jq '.check_runs[] | "\(.name) \(.status) \(.conclusion) \(.completed_at)"' | sort

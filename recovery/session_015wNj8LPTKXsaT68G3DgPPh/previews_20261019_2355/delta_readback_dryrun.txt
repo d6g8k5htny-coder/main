@@ -1,10 +1,10 @@
 # Dry run of delta_readback.sh on simulated base-only refreshes (local commits only, never pushed)
-# 2026-10-20T00:03:34Z
+# 2026-10-20T00:08:25Z
 
-## PR#452 simulated head 0b99a6faff52768eb195d27d8db44c3cba88d67f (parents 63cf47667f06f78644c0f1276f602c24d2c300d2 + origin/main)
-### 00:03:36Z PR#452 main=b78134c75e733febc6bd2becac4459036ef8c0ad
+## PR#452 simulated head 22a22689d8bfa747eda59bf3d361103ca956a049 (parents 63cf47667f06f78644c0f1276f602c24d2c300d2 + origin/main)
+### 00:08:27Z PR#452 main=b78134c75e733febc6bd2becac4459036ef8c0ad
 api head/base/state/merged: 63cf47667f06f78644c0f1276f602c24d2c300d2 efc2fe9023253cacedc8d4f3f0558a37e8652209 behind false
-fetched head: 0b99a6faff52768eb195d27d8db44c3cba88d67f
+fetched head: 22a22689d8bfa747eda59bf3d361103ca956a049
 parents: 63cf47667f06f78644c0f1276f602c24d2c300d2 b78134c75e733febc6bd2becac4459036ef8c0ad
 new head tree:   7e561fef081d42f9542e2196fee5faac0f4f5165
 fresh merge-tree(main, prior head): 7e561fef081d42f9542e2196fee5faac0f4f5165
@@ -16,13 +16,21 @@ new tree == fresh merge-tree: yes
 delta paths: 2; unchanged vs reviewed head: 2; changed: 0
 --- main..new head delta == merge-base..reviewed delta (paths)?
 yes
+--- raw diff main..new head == raw diff merge-base..reviewed head (same paths, modes, before and after blobs, so identical patches)?
+yes
+--- delta paths changed on main between reviewed base efc2fe9023253cacedc8d4f3f0558a37e8652209 and b78134c75e733febc6bd2becac4459036ef8c0ad (expect none)
+(end of overlap list)
+--- diffstat main..new head
+2 files, +38/-1
+4	1	AGENTS.md
+34	0	docs/WORKSPACE.md
 --- check runs at new head
 (check runs: none, the simulated head is local only)
 
-## PR#451 simulated head 544637948311cc242710908ba2df2b43106aa305 (parents b6f9c104cd4a657888daf754550a8c42b5ca6ec5 + origin/main)
-### 00:03:38Z PR#451 main=b78134c75e733febc6bd2becac4459036ef8c0ad
+## PR#451 simulated head 03e04a949fcf71be5fcdc2056a6b0707de610c91 (parents b6f9c104cd4a657888daf754550a8c42b5ca6ec5 + origin/main)
+### 00:08:28Z PR#451 main=b78134c75e733febc6bd2becac4459036ef8c0ad
 api head/base/state/merged: b6f9c104cd4a657888daf754550a8c42b5ca6ec5 efc2fe9023253cacedc8d4f3f0558a37e8652209 behind false
-fetched head: 544637948311cc242710908ba2df2b43106aa305
+fetched head: 03e04a949fcf71be5fcdc2056a6b0707de610c91
 parents: b6f9c104cd4a657888daf754550a8c42b5ca6ec5 b78134c75e733febc6bd2becac4459036ef8c0ad
 new head tree:   f2a9cdf0434581916b45a609f51618c4e45532f4
 fresh merge-tree(main, prior head): f2a9cdf0434581916b45a609f51618c4e45532f4
@@ -34,5 +42,11 @@ new tree == fresh merge-tree: yes
 delta paths: 192; unchanged vs reviewed head: 192; changed: 0
 --- main..new head delta == merge-base..reviewed delta (paths)?
 yes
+--- raw diff main..new head == raw diff merge-base..reviewed head (same paths, modes, before and after blobs, so identical patches)?
+yes
+--- delta paths changed on main between reviewed base 0a7e5145b55f020e02e7782fed318266d13c2447 and b78134c75e733febc6bd2becac4459036ef8c0ad (expect none)
+(end of overlap list)
+--- diffstat main..new head
+192 files, +12972/-0
 --- check runs at new head
 (check runs: none, the simulated head is local only)

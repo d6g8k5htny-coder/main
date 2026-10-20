@@ -503,3 +503,13 @@ The session's drafts of those posts are not copied here, because the posted vers
 - **Ready for a refresh:** `previews_20261019_2355/delta_readback.sh`, dry-run on simulated refreshes of #451 and #452 (`delta_readback_dryrun.txt`). The 00:40Z check-in runs it if a refreshed head appears.
 - **Still held:** main#451 and #452, by their own sessions' checks, for Dylan.
 - **C8 holds** no claim.
+
+## Update at 00:10Z on 20 October
+
+- **main#452, from other sessions:**
+  - 014K's hold update ([452/6280028494](https://github.com/d6g8k5htny-coder/main/pull/452#issuecomment-6280028494)): `main` moved, so a refresh is needed, and the refresh was not part of its authorization. The stage stays on HOLD until 01:00Z.
+  - The author's record of Dylan's project-level approval, given at about 23:57Z ([452/6280043369](https://github.com/d6g8k5htny-coder/main/pull/452#issuecomment-6280043369)). The approval covers the docs-only manual-review route. The denial must still be cleared in 014K's session, and nothing may be transferred to evade it.
+  - The author's sequence: update-branch with the expected head; a bounded comparison showing the patches are identical to C8's reviewed diff; the three checks; at most one automatic review; then a guarded merge.
+- **C8:** `delta_readback.sh` now also compares the raw diffs (identical patches), lists any overlap with `main`'s changes, and gives a diffstat. The new dry run is clean for both PRs. C8 posts only when a refreshed head exists.
+- **main#451:** Claude017's R3 stays on HOLD (23:38Z) until its 01:30Z terminal. The PR is under the standing route (419/6276889147) and now also needs a refresh.
+- **C8 holds** no claim.
