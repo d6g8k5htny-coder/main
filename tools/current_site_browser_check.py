@@ -182,7 +182,7 @@ def exercise_hosted_amendments(browser,origin,output,report,data,expect):
                 # current.mjs owns this real search and its independent replaceState.
                 page.set_viewport_size({'width':320,'height':900})
                 ready(page,'?atlas-view=list&atlas-panel=evidence&q=math&classification=OPEN&source-q=old#search-heading')
-                page.locator('#current-research summary').click();page.locator('.current-search').fill('universality');expect(page.locator('.current-results')).to_contain_text('experiments/universality')
+                page.get_by_text('Search the current public source inventory', exact=True).click();page.locator('.current-search').fill('universality');expect(page.locator('.current-results')).to_contain_text('experiments/universality')
                 before=address(page);expected=parse_qs(urlsplit(before['url']).query);expected.pop('atlas-panel',None);require(expected.get('source-q')==['universality'],'Independent current.mjs search did not set the new source filter')
                 with context.expect_page() as popup_event:
                     if label.startswith('modified'):page.locator('#atlas-browse-link').click(modifiers=['Meta' if sys.platform=='darwin' else 'Control'])
@@ -217,6 +217,40 @@ def exercise_hosted_amendments(browser,origin,output,report,data,expect):
         finally:context.close()
 
 
+def exercise_observation_coherence(browser,origin,output,report,data,expect):
+    """Controlled old/new responses; no claim about the serving cache layer."""
+    raw=(ROOT/'docs/site/current.json').read_bytes()
+    previous=re.sub(rb'("observed_at"\s*:\s*)'+re.escape(json.dumps(data['observed_at']).encode()),lambda m:m.group(1)+b'"2000-01-01T00:00:00Z"',raw,count=1)
+    require(json.loads(previous)['observed_at']=='2000-01-01T00:00:00Z' and len(previous)==len(raw),'Mixed-observation fixture identity failed')
+    digest=sha256(raw).hexdigest()
+    for persistent in [False,True]:
+        case={'case':'observation-persistent-mismatch-refusal' if persistent else 'observation-integrity-recovery','passed':False,
+              'scope':'Controlled local old/new response fixture; no public cache-layer inference','requests':[],'page_errors':[],
+              'expected_payload':{'bytes':len(raw),'sha256':digest},'old_payload':{'bytes':len(previous),'sha256':sha256(previous).hexdigest()}}
+        report['cases'].append(case)
+        context=browser.new_context(viewport={'width':1200,'height':900},reduced_motion='reduce')
+        page=context.new_page();page.on('pageerror',lambda e:case['page_errors'].append(str(e)))
+        def respond(route):
+            url=route.request.url;case['requests'].append(url)
+            body=previous if persistent or url==origin+'current.json' else raw
+            route.fulfill(status=200,content_type='application/json',body=body)
+        try:
+            page.route('**/current.json*',respond);page.goto(origin+'dependencies.html')
+            if persistent:
+                expect(page.locator('.current-state')).to_contain_text('Unavailable')
+                expect(page.locator('#atlas-status')).to_contain_text('Unavailable')
+                require(page.locator('#atlas-inspector h3').count()==0 and page.locator('#atlas-canvas .atlas-node').count()==0 and page.locator('#equation-content pre').count()==0,'Persistent mismatch admitted current content')
+                require(1<=len(case['requests'])<=2,'Persistent mismatch exceeded the bounded request budget')
+            else:
+                expect(page.locator('#atlas-inspector h3')).to_have_count(1)
+                expect(page.locator('.current-state')).to_contain_text('Verified source observation: '+data['observed_at'])
+                require(case['requests']==[origin+'current.json',origin+'current.json?observation='+digest],'Recovery did not bind its only retry to the advertised digest')
+                require(page.locator('#atlas-canvas .atlas-node').count()>0,'Recovered observation did not render its actual graph')
+            require(not case['page_errors'],'Observation fixture emitted page errors')
+            case['passed']=True
+        except Exception:case['error']=traceback.format_exc()
+        finally:context.close()
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--output',type=Path,required=True);args=parser.parse_args();args.output.mkdir(parents=True,exist_ok=True)
     report={'scientific_effect':'NONE','checked_commit':None,'source_payload_sha256':None,'source_repositories':[],'cases':[],'limitations':['Local rendered Chromium evidence; physical mobile and complete screen-reader certification not established.']}
@@ -235,7 +269,7 @@ def main():
                     context=browser.new_context(viewport={'width':width,'height':900},color_scheme=scheme,reduced_motion='reduce');page=context.new_page();page.set_default_timeout(20000);errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
                     try:
                         page.goto(origin+'dependencies.html');expect(page.locator('#atlas-status')).to_contain_text('Source snapshot');expect(page.locator('.current-state')).to_contain_text('Verified source observation')
-                        page.locator('#current-research summary').click();page.locator('.current-search').fill('universality');expect(page.locator('.current-results')).to_contain_text('experiments/universality');require('source-q=universality' in page.url,'Source search state missing')
+                        page.get_by_text('Search the current public source inventory', exact=True).click();page.locator('.current-search').fill('universality');expect(page.locator('.current-results')).to_contain_text('experiments/universality');require('source-q=universality' in page.url,'Source search state missing');source_matches=sum('universality' in (s['repository']+' '+s['path']).lower() for s in data['sources']);expect(page.locator('.current-more')).to_be_hidden() if source_matches<=50 else expect(page.locator('.current-more')).to_be_visible()
                         initial=page.locator('#atlas-canvas .atlas-node').count();page.locator('#atlas-expand').click();expanded=page.locator('#atlas-canvas .atlas-node').count();require(expanded>=initial,'Expansion lost nodes')
                         graph_ids=page.locator('#atlas-canvas .atlas-node').evaluate_all('(nodes)=>nodes.map(n=>n.firstChild.textContent)');page.locator('#atlas-view').select_option('list');list_ids=page.locator('#atlas-list button').evaluate_all('(nodes)=>nodes.map(n=>n.firstChild.textContent)');require(graph_ids==list_ids,'Graph/List mismatch')
                         page.locator('#atlas-list button').last.click();expect(page.locator('#atlas-inspector')).to_contain_text('Kernel metadata not recorded');expect(page.locator('#atlas-inspector')).to_contain_text('No explicit graph-to-artifact binding')
@@ -295,7 +329,7 @@ def main():
                     require(tab.locator('#current-research').get_attribute('data-current-digest')==report['source_payload_sha256'],f'{label}: current source identity changed')
                     return address,shared
                 page.goto(origin+'dependencies.html?atlas-node=math.uniform-matrix-cap-lifetime&atlas-view=list');expect(page.locator('#atlas-inspector h3')).to_have_text('math.uniform-matrix-cap-lifetime')
-                page.locator('#current-research summary').click();page.locator('.current-search').fill('universality')
+                page.get_by_text('Search the current public source inventory', exact=True).click();page.locator('.current-search').fill('universality')
                 page.locator('#equation-search').fill(first_equation['path']);page.locator('#equation-select').select_option(first_equation['id'])
                 page.locator('#atlas-search').fill('CH-LIFT');expect(page.locator('#atlas-list button').filter(has_text=re.compile(r'^hist\.CH-LIFT'))).to_have_count(1)
                 before,initial_share=settled_selection(page,'before-select','math.uniform-matrix-cap-lifetime','list','CH-LIFT','universality',first_equation['path'],first_equation)
@@ -410,9 +444,11 @@ def main():
             finally:context.close()
             case={'case':'digest-refusal','passed':False};report['cases'].append(case);context=browser.new_context();page=context.new_page()
             try:
-                page.route('**/current.json',lambda route:route.fulfill(status=200,content_type='application/json',body='{}'));page.goto(origin+'dependencies.html');expect(page.locator('.current-state')).to_contain_text('Unavailable');expect(page.locator('#atlas-status')).to_contain_text('Unavailable');require(page.locator('#atlas-canvas .atlas-node').count()==0,'Refusal rendered graph');case['passed']=True
+                page.route('**/current.json*',lambda route:route.fulfill(status=200,content_type='application/json',body='{}'));page.goto(origin+'dependencies.html');expect(page.locator('.current-state')).to_contain_text('Unavailable');expect(page.locator('#atlas-status')).to_contain_text('Unavailable');require(page.locator('#atlas-canvas .atlas-node').count()==0,'Refusal rendered graph');case['passed']=True
             except Exception:case['error']=traceback.format_exc()
-            finally:context.close();browser.close()
+            finally:context.close()
+            try:exercise_observation_coherence(browser,origin,args.output,report,data,expect)
+            finally:browser.close()
     except Exception:report['error']=traceback.format_exc()
     (args.output/'report.json').write_text(json.dumps(report,indent=2)+'\n')
     passed=not report.get('error') and all(c['passed'] for c in report['cases']);print(f"Current-site browser: {'PASS' if passed else 'FAIL'} ({sum(c['passed'] for c in report['cases'])}/{len(report['cases'])} cases); scientific effect NONE.")

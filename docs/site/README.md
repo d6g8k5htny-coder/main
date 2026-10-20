@@ -32,7 +32,7 @@ Local current-view controls: `python3 -B -S -m unittest tests.test_current_site_
 
 ```sh
 # Stage any new or deleted file under docs/site or docs/public-math first (git add <path> / git rm <path>).
-python3 -B tools/site_asset_release.py          # rewrites ?site-release= keys after ANY change under docs/site or docs/public-math
+python3 -B tools/site_asset_release.py          # run after ANY change under docs/site or docs/public-math; re-keys ?site-release= URLs of changed assets and their importers
 python3 -B tools/site_asset_release.py --check  # must print the token and exit 0; commit every rewritten file
 python3 -B -m unittest discover -s tests -p test_public_shop_data.py
 python3 -B -m unittest tests.test_site_asset_release
@@ -243,7 +243,7 @@ The [SIDE24 notebook](../notebooks/SIDE24_PUBLIC_COEFFICIENTS.ipynb) exposes the
 
 ## Publication on main only
 
-GitHub Pages is configured as **Deploy from a branch → main → /docs**. The entry `docs/index.html` points to `site/`; `docs/.nojekyll` serves static files. GitHub Pages serves `docs/404.html` for any missing path under `/main/`: a static, script-free page with the brand header and the footer site map, linking `site/style.css` and `site/brand.css` by absolute path without a `?site-release=` key. The release tool computes that cache-busting key over `git ls-files` of `docs/site` and `docs/public-math` and rewrites it only inside the `.html`, `.css`, `.js` and `.mjs` files under `docs/site`; `docs/404.html`, like `docs/index.html`, lies outside that inventory, so neither page carries a key. The verified destination is [https://d6g8k5htny-coder.github.io/main/site/](https://d6g8k5htny-coder.github.io/main/site/). GitHub's branch publishing supports `/` or `/docs`, so `docs/site` is the app directory, not a selectable publishing root.
+GitHub Pages is configured as **Deploy from a branch → main → /docs**. The entry `docs/index.html` points to `site/`; `docs/.nojekyll` serves static files. GitHub Pages serves `docs/404.html` for any missing path under `/main/`: a static, script-free page with the brand header and the footer site map, linking `site/style.css` and `site/brand.css` by absolute path without a `?site-release=` key. The release tool keys each local asset URL separately: an asset's key hashes its key-stripped bytes and the keys of the assets it references (assets in a reference cycle share one key), so an edit re-keys only that asset and its importers, and a page-only or catalog-data edit changes no URL. It reads the `git ls-files` inventory of `docs/site` and `docs/public-math`, prints the whole-site identity over that inventory without writing it into URLs, and rewrites keys only inside the `.html`, `.css`, `.js` and `.mjs` files under `docs/site`; `docs/404.html`, like `docs/index.html`, lies outside that inventory, so neither page carries a key. The verified destination is [https://d6g8k5htny-coder.github.io/main/site/](https://d6g8k5htny-coder.github.io/main/site/). GitHub's branch publishing supports `/` or `/docs`, so `docs/site` is the app directory, not a selectable publishing root.
 
 See the [deployment and review settings record](../PUBLIC_SHOP_SETUP.md). Pages, the public Project, the four profile pins, and the main/Math- branch rules have installation receipts. A public site does not establish branch protection or mathematical acceptance.
 

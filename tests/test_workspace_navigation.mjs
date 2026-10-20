@@ -82,6 +82,23 @@ test('workspace refreshes configuration before validating current source pins',a
   assert.match(p.nodes.get('inventory-state').textContent,/2,138 matches/);
 });
 
+test('catalog hashes remain metadata-only through pagination and filtering',async()=>{
+  const p=page();await complete(p);
+  assert.match(p.nodes.get('catalog').textContent,/Acquisition evidence: Metadata only/);
+  assert.equal(p.nodes.get('catalog').children.length,50);
+  const saved=Object.getOwnPropertyDescriptor(globalThis,'document');
+  globalThis.document=p.document;
+  try{
+    p.nodes.get('more').dispatchEvent(new Event('click'));
+    assert.equal(p.nodes.get('catalog').children.length,100);
+    assert.ok(p.nodes.get('catalog').children.every(row=>row.textContent.includes('Acquisition evidence: Metadata only')));
+    p.nodes.get('path-filter').value='PROOF.md';
+    p.nodes.get('path-filter').dispatchEvent(new Event('input'));
+    assert.ok(p.nodes.get('catalog').children.length>0);
+    assert.ok(p.nodes.get('catalog').children.every(row=>row.textContent.includes('Acquisition evidence: Metadata only')));
+  }finally{if(saved)Object.defineProperty(globalThis,'document',saved);else delete globalThis.document;}
+});
+
 test('initial Library navigation is restored only after delayed layout and failed sources settle',async()=>{
   const p=page();
   await p.requested.promise;
