@@ -20,7 +20,7 @@ Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`. This is a retentio
 | directory | claim and subject | public record | outcome |
 |---|---|---|---|
 | `s12_d5_ledger_comparison/` | `S12B-D5-LEDGER-COMPARISON-01CZ-20261019`, after the late-released `S12-D5-LEDGER-COMPARISON-01CZ-20261018`: ledger comparison of the July D5 historical carriers (C100, LS-DER-024, LS-DER-033, FlatSaddle) with the P2 punctured-pin proof (recovery row §12) | main#419: pickup 6251517975, late release 6279524549, fresh pickup 6279655509, result and release 6280394188; main#275 pointers 6251521112, 6279528124, 6279660527, 6280395619 | CONSISTENT AT THE FINAL POWERS, with intermediate-ledger defects recorded; posted and released |
-| `s5_side24_v33_v34_binding/` | `S5-SIDE24-V33-V34-BINDING-01CZ-20261020`: custody binding record for the SIDE24 V3.3 checkpoint and V3.4 replay archives (recovery row §5) | main#419: pickup 6280913839, checkpoint 6281760247, result pending at this commit; main#275 pointer 6280916731 | custody verified; result pending at this commit |
+| `s5_side24_v33_v34_binding/` | `S5-SIDE24-V33-V34-BINDING-01CZ-20261020`: custody binding record for the SIDE24 V3.3 checkpoint and V3.4 replay archives (recovery row §5) | main#419: pickup 6280913839, checkpoint 6281760247, result and release 6281985456; main#275 pointers 6280916731, 6281988200 | both archives bound byte-exact; no standalone V3.3-layer eigenfloor table; posted and released |
 | `workflows/` | the scripts of the §12 comparison run, the four-lens check of that result post and its re-check, and the §5 lens run | — | method record |
 
 ## Reproducing
