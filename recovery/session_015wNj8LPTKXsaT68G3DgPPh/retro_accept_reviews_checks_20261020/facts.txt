@@ -1,0 +1,45 @@
+# Review binding and check facts for query-#45 and ULW#24, read from the GitHub API at 2026-10-20T02:49:42Z
+
+## query-#45
+PR: head=5d6b7c2164de3de00044949b661d84d5d9dabdb5 base=0898dbff908bb991f45b74060fa7d1de371243dc merged_at=2026-10-20T01:26:12Z merge_commit=81efa995dd6c3542d1acc1ea683a25055fd2a130
+Native reviews:
+  5565284003 2026-10-18T22:10:19Z state=COMMENTED commit_id=37e6beac80ae879ea179aa884057f039eb1b4970 | Dylan Roy — delegated AI engineering review. Actual performer OpenAI GPT-6, this foreground invocation, not th
+  5577809449 2026-10-19T21:09:48Z state=COMMENTED commit_id=5d6b7c2164de3de00044949b661d84d5d9dabdb5 | PASS_ENGINEERING_SCOPED — WORKER_ID GROK-H02 (Harper, xAI Grok 4.7)
+  5579265110 2026-10-20T00:11:19Z state=COMMENTED commit_id=5d6b7c2164de3de00044949b661d84d5d9dabdb5 | PASS_ENGINEERING_SCOPED — non-author engineering review by GROK-H02 (Benjamin, xAI Grok 4.7).
+Check runs at 5d6b7c21:
+  local-controls completed/success app=github-actions job=117808927568 2026-10-18T22:32:56Z -> 2026-10-18T22:33:22Z
+  run 39172708716 event=pull_request workflow=.github/workflows/query-ci.yml head=5d6b7c2164de3de00044949b661d84d5d9dabdb5 attempt=1
+Base stability: query- main push runs (head, created):
+  39353417227 head=81efa995 2026-10-20T01:26:15Z success
+  38824446377 head=0898dbff 2026-10-15T23:35:01Z success
+  38808910345 head=4acb79ed 2026-10-15T21:18:52Z success
+  0898dbff committed 2026-10-15T23:34:58Z (merge of query- PR 44)
+Codex comments:
+  6255862235 2026-10-18T22:19:57Z upd=2026-10-20T01:21:02Z <!-- codex-pull-request-review-summary --> {"code_review":{"commit_sha":"5d6b7c2164de3de00044949b661d84d5d9dabdb5","has_any_findings":true,"has_unresolved_findings":true,"status":"failed"},"security_review":{"commit_sha":null,"has_any_findings
+  6255862505 2026-10-18T22:19:59Z upd=2026-10-18T22:19:59Z You have reached your Codex usage limits for code reviews. Y 
+  6281086551 2026-10-20T01:21:04Z upd=2026-10-20T01:21:04Z You have reached your Codex usage limits for code reviews. Y 
+
+## ULW#24
+PR: head=674ea628f11641357628bb3434c9315e7811b95c base=e760c9fdc384969ad4cccd16a07cc10126d8efa6 merged_at=2026-10-20T01:41:21Z merge_commit=db8b89930fabdca4b09470f3799ff08ae3f8857e
+Native reviews: 0
+Review comment 6215680705 2026-10-16T12:38:57Z | ## VERDICT: PASS_SCOPED — narrow mode re-check of ULW#24 (Grok Bot agent 9; closes my AMEND [6215562724](https://github. | names head: true
+Carry 674ea628 parents: 01515b875112759314367df10554cf52bbb5ff5b e760c9fdc384969ad4cccd16a07cc10126d8efa6
+Check runs at 674ea628:
+  verify-pins completed/success job=118406439661 2026-10-20T01:39:11Z -> 2026-10-20T01:39:38Z run=39354616399
+  verify completed/success job=118406438785 2026-10-20T01:39:11Z -> 2026-10-20T01:39:25Z run=39354616186
+  verify-pins completed/success job=118406427822 2026-10-20T01:39:09Z -> 2026-10-20T01:39:25Z run=39354612656
+Post-merge push runs at db8b8993:
+  39354824231 event=push .github/workflows/pins.yml completed/success
+  39354824148 event=push .github/workflows/ci.yml completed/success
+Codex comments:
+  6281316973 2026-10-20T01:40:07Z <!-- codex-pull-request-review-summary --> {"code_review":{"commit_sha":"674ea628f11641357628bb3434c9315e7811b95c","has_any_findings":true,"has_unresolved_findings":true,"status":"failed"},"security_review":{"commit_sha":null,"has_any_findings
+  6281317341 2026-10-20T01:40:09Z You have reached your Codex usage limits for code reviews. Y 
+
+## Both repositories
+  query- main: rules=0 protection=none
+  Universal-Law-Workspace main: rules=0 protection=none
+Calibration, Codex state on other quota-failed PRs:
+  main#455 {"commit_sha":"94ff9719be4450a278f4774602c764d779e60b84","has_any_findings":true,"has_unresolved_findings":true,"status":"failed"}
+  main#451 {"commit_sha":"b6f9c104cd4a657888daf754550a8c42b5ca6ec5","has_any_findings":true,"has_unresolved_findings":true,"status":"failed"}
+  main#452 {"commit_sha":"cc8b29e2d6b11efa8a835cf40c9c0da751fd52d5","has_any_findings":true,"has_unresolved_findings":true,"status":"failed"}
+Inline review comments (any author, any commit): query-#45=0 ULW#24=0
