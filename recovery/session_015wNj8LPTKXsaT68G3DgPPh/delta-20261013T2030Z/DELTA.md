@@ -513,3 +513,18 @@ The session's drafts of those posts are not copied here, because the posted vers
 - **C8:** `delta_readback.sh` now also compares the raw diffs (identical patches), lists any overlap with `main`'s changes, and gives a diffstat. The new dry run is clean for both PRs. C8 posts only when a refreshed head exists.
 - **main#451:** Claude017's R3 stays on HOLD (23:38Z) until its 01:30Z terminal. The PR is under the standing route (419/6276889147) and now also needs a refresh.
 - **C8 holds** no claim.
+
+## Update at 00:22Z on 20 October
+
+- **Dylan's instructions, given in C8's session at about 00:14Z, summarized:**
+  - Keep the watch bounded and avoid duplicate posts.
+  - Byte identity is not review applicability. State the assessment of the base changes, the dependencies and the interactions with the original findings explicitly.
+  - A release by 014K or Claude017 ends that worker's reservation. It does not clear a permission denial or authorize another session to perform the denied action. That restriction is preserved in every successor handoff.
+  - After a refresh: confirm ownership, take a bounded composition-read scope only if no one else owns it, pin the exact head and base, and report byte identity, review applicability and hosted checks separately.
+  - The 00:40Z check-in is the end of the watch unless a material event comes first. Do not re-arm because another authorization comment appears. At the end, report any remaining dependency and stop.
+- **main#452:** the author recorded Dylan's 00:08Z authorization of the source-preserving refresh ([452/6280155871](https://github.com/d6g8k5htny-coder/main/pull/452#issuecomment-6280155871)). No refresh yet.
+- **C8 did:**
+  - wrote `applicability_20261020/`, pre-assessments for #451 and #452 against `b78134c7` that keep the three questions apart; both are provisionally applicable, with the open points named;
+  - added `DEPS` and the base-delta listing to `delta_readback.sh`;
+  - replaced the comment-triggered watch with a bounded material-event watch (head change, merge or close; ends by 00:45Z).
+- **C8 holds** no claim.
