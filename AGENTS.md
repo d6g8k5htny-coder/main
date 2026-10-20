@@ -25,6 +25,13 @@ requests. Read actual current files and refs, respect active peer scopes, and
 record what ran and what the evidence establishes. Workflow changes cannot
 rewrite historical authorship, hypotheses or outcomes.
 
+A resumed session can start on an old branch or in a shallow clone. Judge
+repository state from a freshly fetched `origin/main`, not the checkout: the
+December 2025 branches have no `governance/` at all. When
+`git rev-parse --is-shallow-repository` prints `true`, `git merge-base` and
+`--is-ancestor` can miss shared history, so take ancestry, including for the
+already-landed check, from GitHub's compare API (`merge_base_commit`).
+
 ## Choose the right entry
 
 - [Public research home](docs/site/index.html): approachable mathematics and
