@@ -13,9 +13,9 @@ de Bruijn–Newman constant Λ beyond known results. None should be read into it
   12 October 2026 by a third OpenAI lane, distinct from both reviewers (§9). Automatic Codex
   review: **NOT_RUN** (quota). Slice C (independent numerical reproduction): different-provider
   replay of the packet's 59 commands **PERFORMED; record PASS (scoped)**. Additional fresh-seed
-  evidence is **REPORTED; record applicability PASS (scoped)**, not independently verified;
-  the Edwards coefficient/normalization comparison remains **OPEN**, and slice C is not
-  fully closed (§9). Dylan's personal reading: **PENDING**.
+  evidence is **REPORTED; record applicability PASS (scoped)**, not independently verified.
+  The coefficients agree with Siegel 1932 as translated (**PASS (scoped)**), but the Edwards
+  coefficient/normalization comparison remains **OPEN**, and slice C is not fully closed (§9). Dylan's personal reading: **PENDING**.
 - Object: `ZETA-FOLD-EXPLORATION-20261012`, draft v2 as read back at `0969b327` and landed at
   `3e589ae0` (README blob `b367aecd`; v1 carried the same-provider passes, v2 adds the slice A,
   B and D amendments, §10), plus post-integration edits that neither readback covers: the §6.2
@@ -1234,7 +1234,18 @@ A nonauthor read from a non-Anthropic provider was requested, in four slices:
   independence credit 0 and supplies no uniform error bound, interval certificate,
   zero-completeness proof or scientific acceptance. The **Edwards 1974 coefficient and
   normalization comparison remains OPEN**: reimplementing the quoted formula does not
-  verify it against Edwards. The replay's two residual-trail discrepancies and 13
+  verify it against Edwards.
+
+  **Coefficients compared with Siegel 1932: PASS (scoped).** A nonauthor
+  [xAI Grok 4.7 read](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6294430745)
+  (Cursor agent `bc-8084f8ef`, source-exposed, organizational-independence credit 0)
+  compared `stats/rs_zeta.py`'s Ψ, C0–C2, expansion variable, prefactor and main sum with
+  Siegel's eqs. (44)–(45), as printed in the Barkan–Sklar English translation
+  (arXiv:1810.05198, p. 17; *Gesammelte Abhandlungen* I p. 290). It found them in agreement
+  after the change of variables δ = √(2π)(p − ½), with an independent 80-digit check. It
+  read neither Edwards's pages nor Siegel's German original. The translators state that
+  their German is limited. This does not check the Edwards entry in `CLAIMS.md`, so the
+  Edwards comparison stays open as stated above. The replay's two residual-trail discrepancies and 13
   unretained timing-only output streams also remain unresolved; neither record closes all
   of slice C.
 - **D.** A wording audit of the non-claims. **Read: AMEND** (the same review, §10.1). **Delta
