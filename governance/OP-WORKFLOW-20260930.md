@@ -248,7 +248,7 @@ three conditions are those of his #448 decision
 protections remain enforced. This route provides a documented alternative to the
 quota-unavailable automatic review only where project policy permits. It does
 not replace required CI checks or platform-enforced approvals and earns no
-scientific or organizational-independence credit.
+scientific or organizational-independence credit. It is not a review.
 
 **Scope.** Covered: ordinary engineering and documentation changes whose content
 changes no scientific statement, predicate, finding, review disposition or
@@ -275,15 +275,15 @@ is useful but is not mandatory for covered routine engineering/documentation
 unless another applicable requirement explicitly demands it. Record nonauthor
 status, provider diversity, review exposure and organizational independence
 separately. Provider diversity alone establishes no organizational-independence
-credit. For a base-only refresh, an exact-current-head composition assessment
-confirms unchanged reviewed content, compatible base changes and preserved
-review qualifications; an eligible prior reviewer may perform that assessment,
-and a different model family is not automatically required. Material changes
-require the appropriate new review. The integrator is separately claimed and is
-neither the author nor a reviewer of record.
+credit. For a base-only refresh, require an exact-current-head composition
+assessment confirming unchanged reviewed content, compatible base changes and
+preserved review qualifications. An eligible prior reviewer may perform that
+assessment; a different model family is not automatically required. Material
+changes require the appropriate new review. The integrator is separately claimed
+and is neither the author nor a reviewer of record.
 
-**Safeguards.** The route applies when a usage-limit failure is established at
-the exact current head by corroborating evidence: the connector's explicit
+**Safeguards.** The route applies only when a usage-limit failure is established
+at the exact current head by corroborating evidence: the connector's explicit
 usage-limit notice together with the native review objects, review threads and
 issue comments at that head. An explicit quota-only failure that produced no
 substantive review output qualifies; the missing output caused by that failure
