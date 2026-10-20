@@ -21,9 +21,9 @@ reproduction (review slice C) is only partly done: a different-provider replay o
 its 59 commands is performed (record PASS, scoped). Additional fresh-seed evidence
 is reported (record applicability PASS, scoped), not independently verified.
 Independent verification of that evidence remains open. The Riemann–Siegel
-coefficients are cited to Siegel 1932 and agree with it as translated (PASS,
-scoped); by owner decision Edwards 1974 is no longer relied on. No record closes
-all of slice C. None of the three
+coefficients now cite Siegel 1932, the source actually checked, and agree with it
+as translated (PASS, scoped); Edwards 1974 stays unverified background reading. No
+record closes all of slice C. None of the three
 reports a held-out confirmation run; each README states its own scope. Two older branches remain
 readable context. The legacy [hardening research branch](https://github.com/d6g8k5htny-coder/main/tree/a01c72f1937875b94bfd78e183a6dbbdb2b04da4) (`chatgpt/drive-github-hardening-20260919`, frozen; pinned tip `a01c72f1`)
 holds the earlier research software and evidence; its last merge was on

@@ -14,9 +14,9 @@ de Bruijn–Newman constant Λ beyond known results. None should be read into it
   review: **NOT_RUN** (quota). Slice C (independent numerical reproduction): different-provider
   replay of the packet's 59 commands **PERFORMED; record PASS (scoped)**. Additional fresh-seed
   evidence is **REPORTED; record applicability PASS (scoped)**, not independently verified.
-  The Riemann–Siegel coefficients are cited to Siegel 1932 and agree with it as translated
-  (**PASS (scoped)**); by owner decision Edwards 1974 is no longer relied on for them. Slice C
-  is not fully closed (§9). Dylan's personal reading: **PENDING**.
+  The Riemann–Siegel coefficients now cite Siegel 1932, the source actually checked, and agree
+  with it as translated (**PASS (scoped)**); Edwards 1974 stays unverified background reading
+  (owner decision). Slice C is not fully closed (§9). Dylan's personal reading: **PENDING**.
 - Object: `ZETA-FOLD-EXPLORATION-20261012`, draft v2 as read back at `0969b327` and landed at
   `3e589ae0` (README blob `b367aecd`; v1 carried the same-provider passes, v2 adds the slice A,
   B and D amendments, §10), plus post-integration edits that neither readback covers: the §6.2
@@ -269,9 +269,9 @@ Let Θ(u) = Σ_{n∈ℤ} e^{−π u n²}.
 - *From memory, unchecked:* de la Vallée Poussin 1896, Sturm's zero-number property for the heat
   equation, Mumford, Cerf 1970 (exact passage not located), Gonek 1989, Hejhal 1989, Selberg's
   original, and the CUE log|Z_U| variance of order ½ log N (§6.1). Edwards 1974 is identified
-  bibliographically only and is no longer relied on: by owner decision the Riemann–Siegel
-  coefficients are cited to Siegel 1932, checked in English translation (§9), and they were
-  validated numerically against `mpmath.siegelz`.
+  bibliographically only and stays unverified background reading: by owner decision the
+  Riemann–Siegel coefficients cite Siegel 1932, the source actually checked (in English
+  translation, §9); they were also validated numerically against `mpmath.siegelz`.
 
 Only the items a reviewer reports as checked carry the stronger terms; every other item stays
 unverified (§9).
@@ -1247,11 +1247,12 @@ A nonauthor read from a non-Anthropic provider was requested, in four slices:
   read neither Edwards's pages nor Siegel's German original. The translators state that
   their German is limited.
 
-  **Edwards 1974 item: closed by re-citation, not by a reading of Edwards.** By Dylan Roy's
-  [decision of 20 October 2026](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6295674043),
-  the packet cites Siegel 1932 as the source of record for these coefficients. Edwards 1974
-  stays in `CLAIMS.md` as an unverified secondary presentation that the packet does not rely
-  on; its pages were not read. The docstring of `stats/rs_zeta.py` still names Edwards. That
+  **Citation corrected: the packet cites the source actually checked.** By Dylan Roy's
+  [decision of 20 October 2026](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6295674043)
+  ([wording](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6295755538)), the
+  packet cites Siegel 1932 for these coefficients instead of Edwards 1974. Edwards stays in
+  `CLAIMS.md` as unverified background reading; its pages were not read, and nothing here
+  claims that Edwards was verified. The docstring of `stats/rs_zeta.py` still names Edwards. That
   file is left byte-unchanged so that the replay and R2a records stay bound to its blob
   `8b97a1f6`. The replay's two residual-trail discrepancies and 13 unretained timing-only
   output streams remain unresolved, and R2a is not independently verified; no record closes
