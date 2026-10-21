@@ -90,24 +90,34 @@ class InventoryPresentation(unittest.TestCase):
             pages = self.history.render_live_current_v2(self.data, self.meta, annotations=False, style_first=style)
             self.assertEqual({k: hashlib.sha256(v).hexdigest() for k, v in pages.items()}, expected[str(style).lower()])
 
+    def test_pre_resume_annotated_live_output_stays_byte_exact_for_both_style_orders(self):
+        # Hashes from main 1e16211d, the annotated presentation published before the Resume block.
+        expected = json.loads((ROOT / "tests/fixtures/current_live_pre_resume_hashes.json").read_text())
+        for style in (True, False):
+            pages = self.history.render_live_current_v2(self.data, self.meta, style_first=style, resume=False)
+            self.assertEqual({k: hashlib.sha256(v).hexdigest() for k, v in pages.items()}, expected[str(style).lower()])
+            current = self.history.render_live_current_v2(self.data, self.meta, style_first=style)
+            self.assertNotEqual(current["nodes/n.html"], pages["nodes/n.html"])
+            self.assertEqual(current["nodes/index.html"], pages["nodes/index.html"])
+
     def test_exact_predecessor_maps_restore_but_one_changed_descriptor_refuses_all_writes(self):
         import test_current_site_history as controls
         worker = controls.CurrentSiteHistoryTests()
         worker.setUp()
         original = self.history.render_live_current_v2
-        for annotations, style in ((True, True), (True, False), (False, True), (False, False)):
-            with self.subTest(annotations=annotations, style_first=style), TemporaryDirectory() as tmp:
+        for annotations, style, resume in self.history.LIVE_PRESENTATIONS:
+            with self.subTest(annotations=annotations, style_first=style, resume=resume), TemporaryDirectory() as tmp:
                 root = Path(tmp)
                 (root / "public").mkdir()
                 (root / "runner").mkdir()
                 public, payload = worker.prepare(root / "public")
                 data = json.loads(payload.read_bytes())
                 meta = json.loads((public / "current-meta.json").read_bytes())
-                predecessor = original(data, meta, annotations=annotations, style_first=style)
+                predecessor = original(data, meta, annotations=annotations, style_first=style, resume=resume)
                 for name, raw in predecessor.items():
                     (public / name).write_bytes(raw)
                 def legacy(*args, **kwargs):
-                    return original(*args, **{**kwargs, "annotations": annotations, "style_first": style})
+                    return original(*args, **{**kwargs, "annotations": annotations, "style_first": style, "resume": resume})
                 with patch.object(self.history, "render_live_current_v2", side_effect=legacy):
                     worker.publish(public)
                 files = worker.public_files(public)
@@ -126,8 +136,10 @@ class InventoryPresentation(unittest.TestCase):
                 # but a hybrid map must never be admitted one file at a time.
                 files = worker.public_files(public)
                 hybrid = copy.deepcopy(json.loads(files["snapshots/index.json"]))
-                alternate = original(data, meta, annotations=not annotations, style_first=style)
-                name = sorted(predecessor)[0]
+                # An annotated map is also refused when one file comes from the other Resume presentation.
+                alternate = (original(data, meta, annotations=True, style_first=style, resume=not resume) if annotations
+                             else original(data, meta, annotations=True, style_first=style))
+                name = next(n for n in sorted(predecessor) if predecessor[n] != alternate[n])
                 self.assertNotEqual(predecessor[name], alternate[name])
                 files[name] = alternate[name]
                 descriptor = self.history.descriptor(name, alternate[name])
