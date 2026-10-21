@@ -40,7 +40,7 @@ edit('refs.bib', [
 
 edit('s6_literature.tex', [
     (r"""that concerns rough paths and counts above a cutoff, a different regularity class.""",
-     r"""that concerns rough paths and counts above a cutoff, a different regularity class. Baryshnikov \cite{Baryshnikov2025} computes the intensity of the $H_0$ persistence diagram of Brownian motion with drift $m$ in closed form; near the diagonal it grows like $1/(m\Delta^3)$ in the lifetime $\Delta$. This is the one-dimensional, rough-path counterpart of the near-diagonal question studied here, and that paper leaves higher-dimensional Gaussian processes open."""),
+     r"""that concerns rough paths and counts above a cutoff, a different regularity class. Baryshnikov \cite{Baryshnikov2025} computes the intensity of the $H_0$ persistence diagram of Brownian motion with drift $m$ in closed form; near the diagonal it grows like $1/(m\Delta^3)$ in the lifetime $\Delta$. This is the one-dimensional, rough-path counterpart of the near-diagonal question studied here. That paper says generalizing to higher-dimensional domains seems difficult but not entirely out of reach, at least for some classes of Gaussian processes, and will be pursued elsewhere."""),
 ])
 
 edit('s7_disclosure.tex', [
