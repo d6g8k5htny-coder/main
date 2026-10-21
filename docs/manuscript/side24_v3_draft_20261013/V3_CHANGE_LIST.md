@@ -408,3 +408,17 @@ r11 is commit `b033a118`: 23 pages, 562,006 B, SHA-256 `cbfe9db6…`. Its Cursor
 - **README.** Revision r12. The earlier-revisions list adds r11. "Author decisions (decided)" replaces "Decisions still with the author". The r11 read is recorded, and a read of the r11→r12 delta is requested. The integration line reflects the decisions.
 
 **Build.** `build.sh` compiles with no LaTeX error and the same 2 pt overfull line as before; 23 pages. Built by `make_r12.py` (exact-match edits), then rebuilt.
+
+## Revision r13 (21 October, about 19:50Z)
+
+r12 is commit `d550d238`: 23 pages, 562,474 B, SHA-256 `72f6b056…`. Its Cursor read passed (main#389 6324514156). r13 is this PDF: 23 pages, 563185 B, SHA-256 `7f75cf526c022773096f5d1b0f8e33d670b41d0b34c5a526c7d43c6634b1b116`.
+
+**Why.** It closes items G5 and G7 of `SUBMISSION_READINESS.md`. Novelty pass 4 found Baryshnikov (2025), the closest prior work, which was not cited. Decision 4 (r12) settled the parent-record imports that §7 still listed as remaining.
+
+**Changes (documentary; no theorem, display, constant or proof step changes).**
+- **§6, "Limit theorems for topological functionals and short features".** One sentence after the Perez sentence. Baryshnikov [J. Appl. Comput. Topol. 9 (2025) 28] computes the $H_0$ intensity of Brownian motion with drift `m` in closed form. Near the diagonal it grows like `1/(mΔ³)`; this is the one-dimensional rough-path counterpart, and higher-dimensional Gaussian processes are left open there. `refs.bib` gains the entry `Baryshnikov2025` (DOI 10.1007/s41468-025-00224-w).
+- **§7, "Remaining before submission".** The Supplement's remaining work is now "a reading of it as a whole (each of its sections has had a nonauthor reading) and the removal of provenance labels". "The treatment of its imports from the parent record" is removed, because decision 4 settled it in r12.
+- **§0.** "Revised through r13 on 21 October 2026".
+- **README.** Revision r13. The earlier-revisions list adds r12. The r12 read is recorded, and a read of the r12→r13 delta is requested.
+
+**Build.** `build.sh` compiles with no LaTeX error and the same 2 pt overfull line as before; 23 pages. BibTeX reports four "missing pages" warnings (BobrowskiBorman, ChenavierHirsch, HLO, LadghamLR). They concern entries r13 does not touch and are left for the style pass. Built by `revision_scripts/make_r13.py`.
