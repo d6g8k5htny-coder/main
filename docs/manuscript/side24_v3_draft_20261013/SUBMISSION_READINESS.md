@@ -1,6 +1,6 @@
 # SIDE24 V3: submission readiness, novelty search and venue comparison
 
-Status as of 21 October 2026, about 19:50Z (r13 made). This is a living record. Update it when any item changes, and supersede lines rather than delete them.
+Status as of 21 October 2026, about 20:00Z (r13 read and passed). This is a living record. Update it when any item changes, and supersede lines rather than delete them.
 Author of this record: Anthropic Claude, session `session_01NMeKEismAyeqgdB4sy2NJU` (Claude01N), for Dylan Roy. Dylan Roy — delegated AI work. Credit 0. Scientific effect NONE.
 **Nothing here submits anything. Dylan has said not to submit yet.**
 
@@ -10,7 +10,7 @@ Marks: **[HUMAN]** needs Dylan or another person: judgement, identity, an accoun
 
 | Item | State | Record |
 |---|---|---|
-| Main text | r12, `d550d238`, 23 pages; the branch head adds `revision_scripts/` | Cursor PASS of r11→r12, main#389 6324514156 |
+| Main text | r13, `04a3ee03`, 23 pages (documentary over r12 `d550d238`) | r12: Cursor PASS 6324514156. r13: Cursor AMEND 6325193355 (wording), applied; readback AMEND 6325247357 (change-list identity), applied; readback PASS 6325266500 |
 | Script commits | AMEND applied, readback PASS (recorded separately from the r12 PASS) | main#389 6324563568, 6324618319 |
 | Author decisions 1–4 | **[DONE]** defaults kept for 1–3; Supplement-only form of 4 | main#389 6324313740 |
 | Supplement | draft 13, cited as [R1] at `d28e6ab4`, 162 pages | Cursor read with 2 AMENDs, readback PASS, main#389 6290560837 |
@@ -25,9 +25,9 @@ Marks: **[HUMAN]** needs Dylan or another person: judgement, identity, an accoun
 | G2 | **The Supplement (162 pages) has not been read as a whole.** It has slice reads only. | **[HUMAN]** (an AI whole read would add evidence but not close G1) | A whole read for consistency of notation, dependencies and numbering. The `checks/dep_graph_check.py` script already reports no unexplained proof cycle. |
 | G3 | **The MathSciNet search has not been run.** | **[SUBSCRIPTION]** | Search MR for "persistence diagram" or "barcode" with "Gaussian field" or "random function", and for close critical-point pairs. Follow the forward citations of Adler–Taylor, Azaïs–Wschebor, Chazal–Divol, Perez and Baryshnikov (2025). |
 | G4 | **The zbMATH Open search has not been run** from this session: the site returned an error to the fetch tool. It is free. | **[BROWSER]** | Run the same queries at zbmath.org. |
-| G5 | **Bibliography additions found in this pass** (§3). | **[AI] applied in r13**; awaiting its nonauthor read | Add Baryshnikov, *Brownian motions, persistent homology and chirality*, J. Appl. Comput. Topol. 9 (2025) 28. Mention it in §6 as the one-dimensional near-diagonal law (Brownian motion with drift). Its outlook names higher-dimensional Gaussian processes as future work. |
+| G5 | **Bibliography additions found in this pass** (§3). | **[DONE]** in r13 (Cursor AMEND 6325193355 applied; readbacks PASS 6325266500) | Add Baryshnikov, *Brownian motions, persistent homology and chirality*, J. Appl. Comput. Topol. 9 (2025) 28. Mention it in §6 as the one-dimensional near-diagonal law (Brownian motion with drift). Its outlook names higher-dimensional Gaussian processes as future work. |
 | G6 | **Publication status of three arXiv-only references is unverified:** Perez (arXiv:2012.09459), Pranav (arXiv:2109.08721), Hirsch–Lachièze-Rey (arXiv:2411.11429). | **[SUBSCRIPTION]** or **[BROWSER]** | Check each in MathSciNet or zbMATH, and add the journal reference where one exists. |
-| G7 | **The §7 "Remaining before submission" paragraph is partly stale.** "The treatment of its imports from the parent record" is settled by decision 4 in r12. | **[AI] applied in r13**; awaiting its nonauthor read | Rewrite that sentence to list only what remains: G2, G3/G4, provenance labels, and the journal style pass. |
+| G7 | **The §7 "Remaining before submission" paragraph is partly stale.** "The treatment of its imports from the parent record" is settled by decision 4 in r12. | **[DONE]** in r13 (same read) | Rewrite that sentence to list only what remains: G2, G3/G4, provenance labels, and the journal style pass. |
 | G8 | **The front matter is incomplete.** `main.tex` has `\author{Dylan Roy}` only, with no address, email, affiliation (or "independent researcher"), ORCID, MSC 2020 codes or keywords. | **[HUMAN]** for identity details; **[AI]** can propose MSC codes (60G60, 60G15, 55N31, 60D05) | Dylan supplies what he wants printed. |
 | G9 | **The repository records cited in Appendix A are paths and commits** in a GitHub repository. Referees need stable, citable access. | **[HUMAN]** (needs an account and a decision) | Archive a tagged snapshot with a DOI (for example Zenodo from GitHub) and cite the DOI in Appendix A, or make the Supplement self-contained and post it on arXiv as a companion. Decision 4 already makes the leading term rest on the Supplement alone. |
 | G10 | **How the Supplement is hosted.** At 162 pages it will not be a normal journal supplement everywhere. | **[HUMAN]**: choose the venue first | Options: an arXiv companion paper cited by the main text, or a journal-hosted supplementary file. See §4. |
@@ -88,4 +88,4 @@ Sources: the links in §3; [Springer AI editorial policy](https://www.springer.c
 |---|---|
 | Dylan **[HUMAN]** | G1 (human review route), the venue choice (§4), G8 (front-matter details), G9/G10 (archive and Supplement hosting), G13 (arXiv account). |
 | Dylan **[SUBSCRIPTION]/[BROWSER]** | G3, G4 and G6, with the queries in G3. |
-| Author agent **[AI]** | r13 (G5, G7) is made; its nonauthor read is requested on main#389. After the venue choice: G11, G12 and G14. |
+| Author agent **[AI]** | r13 (G5, G7) is done and read (main#389 6325193355, 6325266500). After the venue choice: G11, G12 and G14. |
