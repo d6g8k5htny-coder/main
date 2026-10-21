@@ -2,7 +2,7 @@
 
 The supplement writers' rule (COMMON rule 3, quoted in CONCORDANCE.md: no provenance labels, status words or
 historical comparisons in the LaTeX) and checklist item G11 of the main text's SUBMISSION_READINESS.md.
-Outside the status section S0, eleven clauses named earlier drafts ("drafts 1--8 ...") and one sentence named a
+Outside the status section S0, ten clauses named earlier drafts ("drafts 1--8 ...") and one sentence named a
 repository path. Each is removed or restated without the history; the mathematical content is kept; the history
 is recorded verbatim in CONCORDANCE.md, "Checkpoint draft 14". No statement, number or label changes.
 
@@ -66,7 +66,7 @@ edit('supp_s0_status.tex', [
     (r"""and draft~13 adds a proof of Proposition~\ref{prop:parent-push}, makes two item-level dependencies explicit, and ships a proof-dependency check (below).""",
      r"""draft~13 adds a proof of Proposition~\ref{prop:parent-push}, makes two item-level dependencies explicit, and ships a proof-dependency check, and draft~14 removes the remaining references to earlier drafts and to repository paths from Sections~\ref{sec:setting}--\ref{sec:cap} (below)."""),
     (r"""\item \emph{Draft~13}""",
-     r"""\item \emph{Draft~14} is documentary. Outside this section, eleven clauses that named earlier drafts and one sentence that named a repository path are removed or restated without the history; the mathematics they carried is kept. The concordance records the old wording. No statement, number or label changes.
+     r"""\item \emph{Draft~14} is documentary. Outside this section, ten clauses that named earlier drafts and one sentence that named a repository path are removed or restated without the history; the mathematics they carried is kept. The concordance records the old wording. No statement, number or label changes.
 \item \emph{Draft~13}"""),
     (r"""and draft~13 changes no number (a proof carries none).""",
      r"""draft~13 changes no number (a proof carries none), and neither does draft~14."""),
@@ -81,7 +81,7 @@ edit('README.md', [
 ])
 readme = open(d + '/README.md', encoding='utf-8').read()
 readme = readme.rstrip('\n') + (
-    "\n\nDraft 14 (" + date + ") is documentary. Outside the status section, eleven clauses that named earlier drafts "
+    "\n\nDraft 14 (" + date + ") is documentary. Outside the status section, ten clauses that named earlier drafts "
     "(\"drafts 1–8 …\") and one sentence that named a repository path are removed or restated without the history; "
     "the mathematics they carried is kept, and `CONCORDANCE.md`, \"Checkpoint draft 14\", records the old wording. "
     "No statement, number or label changes.\n")
@@ -95,7 +95,7 @@ for fn, lst in (('supp_s5_selection.tex', S5), ('supp_s7_rate.tex', S7),
 sec = ("## Checkpoint draft 14 (" + date + "): provenance wording removed from the mathematical sections\n\n"
        "Author-side, by Claude01N, on top of draft 13 (`d28e6ab4`). Documentary. The supplement writers' rule (COMMON rule 3, quoted further down this file: "
        "no provenance labels, status words or historical comparisons in the LaTeX) is applied to the clauses that later "
-       "drafts added. Outside §S0, eleven clauses named earlier drafts and one sentence named a repository path. "
+       "drafts added. Outside §S0, ten clauses named earlier drafts and one sentence named a repository path. "
        "Each is removed or restated without the history; any mathematical content is kept. No statement, number or label changes. "
        "`\\path{checks/...}` references to the scripts shipped with this supplement are kept: they are reproducibility pointers, not provenance. "
        "Citations of the companion record [R2] and of records [R3] and [R7] of the main text are kept.\n\n"

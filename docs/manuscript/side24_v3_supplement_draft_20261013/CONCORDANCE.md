@@ -274,7 +274,7 @@ On these points the BLOCK overrides the earlier Cursor read of §S5 at `c6aa790d
 
 ## Checkpoint draft 14 (21 October 2026): provenance wording removed from the mathematical sections
 
-Author-side, by Claude01N, on top of draft 13 (`d28e6ab4`). Documentary. The supplement writers' rule (COMMON rule 3, quoted further down this file: no provenance labels, status words or historical comparisons in the LaTeX) is applied to the clauses that later drafts added. Outside §S0, eleven clauses named earlier drafts and one sentence named a repository path. Each is removed or restated without the history; any mathematical content is kept. No statement, number or label changes. `\path{checks/...}` references to the scripts shipped with this supplement are kept: they are reproducibility pointers, not provenance. Citations of the companion record [R2] and of records [R3] and [R7] of the main text are kept.
+Author-side, by Claude01N, on top of draft 13 (`d28e6ab4`). Documentary. The supplement writers' rule (COMMON rule 3, quoted further down this file: no provenance labels, status words or historical comparisons in the LaTeX) is applied to the clauses that later drafts added. Outside §S0, ten clauses named earlier drafts and one sentence named a repository path. Each is removed or restated without the history; any mathematical content is kept. No statement, number or label changes. `\path{checks/...}` references to the scripts shipped with this supplement are kept: they are reproducibility pointers, not provenance. Citations of the companion record [R2] and of records [R3] and [R7] of the main text are kept.
 
 - **The changed wording (old → new):**
   - `supp_s5_selection.tex`
