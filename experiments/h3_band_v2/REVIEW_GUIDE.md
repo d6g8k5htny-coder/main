@@ -89,7 +89,7 @@ Every line reference below was remapped to the final file and re-read there. Whe
 - **(c)** Y_a^{(−1)} = Σ_k E_{ak} V_k^{(0)} in 𝓛, for an exact E ∈ ℚ^{6×6} (229-234).
   - `solve_in_span` (186-209) is exact Gauss–Jordan elimination. It returns None if and only if a row of the form 0 = c with c ≠ 0 is left (204-205). Otherwise it returns the solution with the free variables set to 0.
   - The returned E is not substituted back at run time, so its correctness rests on this short routine.
-  - Two things cover it. An independent substitution (pre-checks, scope 1) confirms E. The numeric check at 691-695 would also catch a wrong E: A_{−1} = E_true·G_0 with G_0 invertible, so a wrong E would give |A_{−1} − E·G0| of order 1, not the observed 8.9e−100.
+  - Two things cover it. An independent substitution (pre-checks, scope 1) confirms E. Exactness rests on that rational identity. The numeric check at 691-695 (observed |A_{−1} − E·G0| = 8.9e−100, threshold 1e−80) is corroboration only: it catches a grossly wrong E, but a perturbation of E below about 1e−80 that still satisfies E·zV = 0 would pass it (scope-1 review 5607220361).
 - **(d)** E·zV = 0 exactly, row by row (235-236).
 
 **Extra hypothesis (e): G_0 is invertible.** This is not part of CB2s; CB3 proves it at 612-614.
@@ -234,7 +234,7 @@ For every t ∈ (0, r*] and all indices a, b:
 1. **Kernel sup (706-726).** For complex w with |w| ≤ ρ, K1^{(n)}(w) = Z⁻¹ Σ e^{−k²/2} (ik)^n e^{ikw}, and |e^{ikw}| ≤ e^{|k||Im w|} ≤ e^{|k|ρ}. Hence |K1^{(n)}(w)| ≤ A_n(ρ) := Z⁻¹ Σ e^{−k²/2} |k|^n e^{|k|ρ}.
    - **Lattice part:** |j| ≤ Jl = 116, where Jl = ceil(30/(π/12)) + 1 (cov_exact.py:152). |k| is replaced by its upper endpoint, and k = 0 contributes 1 because iv 0**0 = 1 (716-717).
    - **Tail:** |j| ≥ j0 = Jl+1, where k0 = j0·h ≈ 30.63. For |k| ≥ 4ρ, −k²/2 + |k|ρ ≤ −k²/4. Put u_j = (jh)^n e^{−(jh)²/4}; then u_{j+1}/u_j = e^{−(2j+1)h²/4}(1+1/j)^n. This ratio decreases in j, so for j ≥ j0 it is at most q (721). The tail is therefore at most 2u_{j0}/(1−q) (723); the factor 2 covers both signs of k.
-   - **Normalization:** the program divides by Z1_iv, the truncated sum. Z1_iv ≤ Z, so this can only raise the bound (724).
+   - **Normalization:** the program divides by Z1_iv, an interval enclosing the truncated lattice sum. Its lower endpoint is at most the exact truncated sum, which is at most Z. So the upper endpoint of the interval quotient bounds the quotient by Z (724). Only up(A_rho[n]) is consumed downstream (scope-2 review 5607205948).
    - A_rho[0..8] is computed (726), but only n1, n2 ≤ 4 occur: n1 = 4 from soft (2,0)+(2,0), and n2 = 4 from soft (0,2)+(0,2).
 2. **Block sup and Cauchy bound (728-743).**
    - On |z| = ρ the triangle inequality gives |f(z)| ≤ Σ_pairs |w_a||w_b| ρ^{k_a+k_b} A_{n1}(ρ) A_{n2}(ρ). This uses |K1^{(n)}(0)| ≤ A_n(ρ), which also covers the d = 0 pairs.
@@ -301,7 +301,7 @@ The two items that carry the most weight are the Cauchy estimate beyond the comp
   - |k| ≥ 4ρ implies e^{−k²/2+|k|ρ} ≤ e^{−k²/4};
   - the term ratio is monotone in j, so it is bounded by q;
   - the tail is ≤ 2u_{j0}/(1−q).
-- Dividing by the truncated normalization Z1_iv ≤ Z gives an upper bound (724).
+- Dividing by Z1_iv gives an upper bound, because the lower endpoint of Z1_iv is at most the exact truncated sum, which is at most Z (724).
 - The triangle-inequality sup bound of each Gram entry on |z| = ρ, including |K1^{(n)}(0)| ≤ A_n(ρ) (728-737).
 - **Analyticity and Cauchy's estimate.** Every Gram entry is analytic on ℂ\{0}, so Cauchy's estimate |f_j| ≤ M ρ^{−j} holds for every j. This is load-bearing for j > NK in majA and majGY and for i > J inside θ. The run-time check at 772-776 covers only the computed orders.
 - **H1 (a), (b):** the Laurent ranges of G, A and GY. The program drops the numeric coefficients outside them, with only the consistency check at 555-567.
@@ -717,7 +717,7 @@ These are the inequalities and identities that no run checks. Each item points t
 - [ ] μ and Σ are the conditional law given V = zV; and, outside this scope, the tables are the upstream functionals.
 
 **Scope 2 (CB4)**
-- [ ] |K1^{(n)}(w)| ≤ A_n(ρ) on |w| ≤ ρ, with the lattice tail ≤ 2u_{j0}/(1−q) and Z1_iv ≤ Z (706-724).
+- [ ] |K1^{(n)}(w)| ≤ A_n(ρ) on |w| ≤ ρ, with the lattice tail ≤ 2u_{j0}/(1−q), and the lower endpoint of Z1_iv at most the exact truncated sum, which is at most Z (706-724).
 - [ ] The sup bound on |z| = ρ (728-737), and Cauchy's estimate for every j, including j > NK in majA and majGY and i > J in θ.
 - [ ] ‖PQ‖_max ≤ 6‖P‖_max‖Q‖_max; the induction h_j ≤ C_H R^j θ(R) and w_j ≤ C_W R^j θ(R); θ(R) ≤ 1 suffices (778-783, 800).
 - [ ] G(t) is invertible on [0, 1/R), with inverse Σ H_j t^j.
