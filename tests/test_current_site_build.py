@@ -157,6 +157,62 @@ class CurrentSiteBuildTests(unittest.TestCase):
             self.assertEqual(axes, {"source": "recorded", "review": "recorded", "kernel": "not_recorded",
                                     "computation": "not_recorded", "alignment": "not_recorded"})
 
+    def test_live_node_pages_resume_from_recorded_review_without_inventing_task_state(self):
+        # Promoting a review issue, lookalike metadata or a shared hash to task state fails here.
+        pin = "math.d5-component.punctured-pin-proof"
+        with TemporaryDirectory() as tmp:
+            data = fixture()
+            nodes = data["graph"]["data"]["nodes"]
+            nodes["node-0"].update({"review_issue": 67, "review_disposition": "<script>ACCEPT</script>",
+                                    "next_action": "merge now", "owner": "Claude S", "status": "complete"})
+            nodes["node-1"] = {"kind": "proof", "classification": "PROVED_REVIEWED", "source": "proof/PROOF.md", "fingerprint": "f" * 64}
+            nodes[pin] = dict(nodes.pop("node-2"), source="proof/PROOF.md", fingerprint="f" * 64)
+            site, payload = self.prepare(Path(tmp), data)
+            result = self.run_build(site, payload)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            task = "https://github.com/d6g8k5htny-coder/main/pull/327#issuecomment-6321244764"
+            sections = {}
+            for node in nodes:
+                raw = (site / "nodes" / (node + ".html")).read_text()
+                self.assertEqual(raw.count('<section id="resume-node"'), 1)
+                section = raw[raw.index('<section id="resume-node"'):].split("</section>", 1)[0]
+                self.assertLess(raw.index('<section id="resume-node"'), raw.index("Independent evidence metadata axes"))
+                parsed = Page(section)
+                text = " ".join(" ".join(parsed.text).split())
+                sections[node] = (parsed, text)
+                self.assertFalse(any(tag == "script" for tag, attrs in parsed.tags))
+                self.assertIn("Resume this node", text)
+                self.assertIn("2026-10-13T12:00:00Z", text)
+                self.assertIn("before any ownership- or head-dependent action", text)
+                self.assertIn("this static page cannot evaluate freshness", text)
+                self.assertIn(f"commit {MATH_COMMIT}", text)
+                self.assertIn("f" * 64, text)
+                for label in ("Next action", "Missing input", "Owner evidence", "Retained stop"):
+                    self.assertIn(f"{label} not recorded in this snapshot", text)
+                self.assertEqual(task in parsed.links, node == pin)
+            parsed, text = sections["alpha"]
+            self.assertIn("https://github.com/d6g8k5htny-coder/main/issues/67#issuecomment-123", parsed.links)
+            self.assertIn("not the current task, an owner claim or a completion record", text)
+            self.assertIn("No explicitly identified task record for this node", text)
+            parsed, text = sections["node-0"]
+            self.assertIn("<script>ACCEPT</script>", text)
+            self.assertIn("67 Issue number recorded without a repository in this snapshot; no link is inferred.", text)
+            self.assertFalse(any("/issues/67" in href for href in parsed.links))
+            self.assertNotIn("merge now", text)
+            self.assertNotIn("Claude S", text)
+            self.assertNotIn("complete", text.replace("completion record", ""))
+            parsed, text = sections["gamma"]
+            self.assertFalse(any("javascript:" in href for href in parsed.links))
+            parsed, text = sections["node-1"]
+            self.assertIn("Review metadata: not recorded in this snapshot", text)
+            parsed, text = sections[pin]
+            self.assertIn("https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6321679618", parsed.links)
+            self.assertIn("not scientific acceptance, source-binding admission, a registration or an owner claim", text)
+            self.assertIn("Site-maintained pointer, not part of the graph snapshot", text)
+            archived = list((site / "snapshots").rglob("*.html"))
+            self.assertTrue(archived)
+            self.assertFalse(any(b"resume-node" in page.read_bytes() for page in archived))
+
     def test_source_links_only_resolve_the_exact_math_inventory_and_external_links_stay_separate(self):
         # A fabricated blob link for a missing/hostile path or a wrong-repository join fails here.
         with TemporaryDirectory() as tmp:

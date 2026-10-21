@@ -67,6 +67,31 @@ export function filterSources(sources,query) {
 export function evidenceAxes(node) {
   return ['source','review','kernel','computation','alignment'].map(axis=>({axis,state:(axis==='source' && !!node.source)||(axis==='review' && Object.keys(node).some(k=>k.startsWith('review_')&&node[k]))?'recorded':'not_recorded'}));
 }
+export const RESUME_NOT_RECORDED='not recorded in this snapshot';
+export const RESUME_FRESHNESS_WARNING='Refresh from the live canonical record before any ownership- or head-dependent action. This block is a dated snapshot observation, not live task state.';
+export const RESUME_REVIEW_LABEL='Recorded review metadata. This is a review record, not the current task, an owner claim or a completion record. A closed or accepted review does not establish that work on this node is finished.';
+export const RESUME_OPERATIONAL=Object.freeze([['next_action','Next action'],['missing_input','Missing input'],['owner_evidence','Owner evidence'],['retained_stop','Retained stop']].map(row=>Object.freeze(row)));
+export const RESUME_ISSUE_NOTE='Issue number recorded without a repository in this snapshot; no link is inferred.';
+export const RESUME_NO_TASK='No explicitly identified task record for this node. A recorded review issue is not used as a task record.';
+// Site-maintained task pointers, not graph metadata. Tools/current_site_history.py keeps the same table.
+export const RESUME_TASK_RECORDS=Object.freeze({
+  'math.d5-component.punctured-pin-proof':Object.freeze({url:'https://github.com/d6g8k5htny-coder/main/pull/327#issuecomment-6321244764',label:'Operational request: main#327 comment 6321244764',meaning:'A request for a source-only registration input for this node. It is an operational pointer, not scientific acceptance, source-binding admission, a registration or an owner claim.',identified_on:'2026-10-21',identified_in:'https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6321679618'}),
+});
+const REVIEW_URL=/^https:\/\/github\.com\/d6g8k5htny-coder\/(?:main|Math-)\/(?:issues|pull)\/[1-9][0-9]*(?:#[A-Za-z0-9_-]+)?$/;
+const metadataText=value=>typeof value==='string'?value:JSON.stringify(value);
+// One projection feeds the atlas inspector and the static node pages; only `now` adds a freshness state.
+export function resumeProjection(snapshot,id,now) {
+  const graph=snapshot?.graph?.data;if(!hasNode(graph,id))return null;
+  const node=graph.nodes[id],identity=snapshot.graph.identity,own=key=>Object.prototype.hasOwnProperty.call(node,key);
+  const task=Object.prototype.hasOwnProperty.call(RESUME_TASK_RECORDS,id)?RESUME_TASK_RECORDS[id]:null;
+  return {node:id,
+    snapshot:{observed_at:snapshot.observed_at,graph_repository:identity.repository,graph_commit:identity.commit,graph_path:identity.path,graph_sha256:identity.sha256,main_commit:snapshot.repositories.find(r=>r.repository==='d6g8k5htny-coder/main')?.commit??null},
+    freshness:Number.isFinite(now)?freshness(snapshot.observed_at,now):null,warning:RESUME_FRESHNESS_WARNING,
+    state:['classification','controlling'].map(field=>({field,text:own(field)&&node[field]!==null?metadataText(node[field]):RESUME_NOT_RECORDED})),
+    review:{label:RESUME_REVIEW_LABEL,fields:Object.keys(node).filter(key=>key.startsWith('review_')).map(field=>{const value=node[field];return {field,text:metadataText(value),url:typeof value==='string'&&REVIEW_URL.test(value)?value:null,note:field==='review_issue'&&typeof value==='number'?RESUME_ISSUE_NOTE:null};})},
+    operational:RESUME_OPERATIONAL.map(([field,label])=>({field,label,text:RESUME_NOT_RECORDED})),
+    continuation:task?{...task}:null,continuation_text:task?null:RESUME_NO_TASK};
+}
 export const MAX_WINDOW_NODES=150;
 export const REQUIRED_ROUTE_SEMANTICS='One shortest route per unresolved research target follows recorded dependent-to-prerequisite edges, with every edge required. The selected root is excluded as a target; contextual edges supply no required route.';
 const REACH_LABELS=Object.freeze({allEdge:'All-edge reach (includes context)',requiredOnly:'Required-dependency reach'});

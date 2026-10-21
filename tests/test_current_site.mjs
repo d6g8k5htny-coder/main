@@ -5,6 +5,7 @@ import {readFile} from 'node:fs/promises';
 import './test_current_site_shell.mjs';
 import './test_current_observation_coherence.mjs';
 import './test_current_inventory_acquisition.mjs';
+import './test_current_site_resume.mjs';
 let m = {};
 try { m = await import('../docs/site/current-model.mjs'); } catch (e) { if (e.code !== 'ERR_MODULE_NOT_FOUND') throw e; }
 const commit='a'.repeat(40), digest='b'.repeat(64);
