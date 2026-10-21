@@ -3,7 +3,7 @@
 G5 of the whole-document read of draft 14 (reads/WHOLE_READ_D14_ANTHROPIC_20261021.md), confirmed as a GAP by
 Grok Bot agent 3 (main#389 6326409144): Corollary S9.16 quoted c_{2,24} in [0.07340691930603427103, ...104]
 without a source; the d = 2 value of c_{2,ref} was not computed anywhere, and the certified table of Theorem
-S11.5 has only 16 digits. Draft 16 adds one sentence to the proof of Corollary S9.16 and a check script
+S11.5 has only 16 digits. Draft 16 adds one passage to the proof of Corollary S9.16 and a check script
 (checks/s9_c2_d2_check.py: the d = 2 moments of phi symbolically, and a 300-digit interval enclosure through
 Theorem S4.4). No statement changes; no number or label changes.
 
@@ -36,7 +36,7 @@ edit('supp_s9_cusp.tex', [
 edit('supp_s0_status.tex', [
     (r"""Checkpoint draft~15 of """ + date + ",", r"""Checkpoint draft~16 of """ + date + ","),
     (r"""\item \emph{Draft~15}""",
-     r"""\item \emph{Draft~16} gives the source of the $d=2$ enclosure of $c_{2,24}$ in Corollary~\ref{cor:cusp-torus}: one sentence in its proof computes $c_{2,\mathrm{ref}}$ from Definition~\ref{def:correction-coef} and transfers a certified enclosure through Theorem~\ref{thm:correction-main}, with a check script. No statement or number changes.
+     r"""\item \emph{Draft~16} gives the source of the $d=2$ enclosure of $c_{2,24}$ in Corollary~\ref{cor:cusp-torus}: one passage in its proof computes $c_{2,\mathrm{ref}}$ from Definition~\ref{def:correction-coef} and transfers a certified enclosure through Theorem~\ref{thm:correction-main}, with a check script. No statement or number changes.
 \item \emph{Draft~15}"""),
 ])
 
