@@ -272,6 +272,15 @@ On these points the BLOCK overrides the earlier Cursor read of §S5 at `c6aa790d
 
 **Build.** 156 pages, no LaTeX error and no undefined reference; all 927 labels of draft 8 keep their numbers. The one overfull line, 29 pt in S10, is unchanged.
 
+## Checkpoint draft 16 (21 October 2026): the source of the d = 2 enclosure in Corollary S9.16
+
+Author-side, by Claude01N, on top of draft 15 (`ddd60647`). It closes item G5 of the whole-document read, which Grok Bot agent 3 confirmed as a GAP (main#389 6326409144). That agent's chain and proposed sentence were the starting point; its second point, that the 16-digit table of Theorem S11.5 cannot certify a 20-digit interval, is met by a direct interval evaluation.
+
+- **Proof of Corollary S9.16, one added passage.** `c_{2,24} = c_2[K_24]` and `c_{2,ref} = c_2[φ]` (Definition S4.2). Theorem S4.4 at d = 2 gives `c_{2,24} = c_{2,ref}(1 + P_2(24)q + ε)` with `|P_2(24)q| < 3·10^{-118}`. At d = 2 for `φ`: `Cov g_t = I_2`, `Cov h_t = diag(3,1)`, `τ_t^2 = 6`, `Var(A_t | h_t = 0) = 8/3`, so `D_t = 4/3`. Hence `c_{2,ref} = Γ(1/6)·12^{-1/6}/(9π^{3/2})`, the d = 2 value of `c[K_ref]` in Theorem S11.5 (written with `c[·]`, not `c_2[·]`, to avoid the §S4/§S11 notation clash).
+- **`checks/s9_c2_d2_check.py`** (new; SymPy and mpmath). It derives the four moments symbolically and checks the closed form. It then encloses `c_{2,ref}` and `c_{2,24}` in `mpmath.iv` at 300 digits, and asserts that the enclosure lies in `[0.07340691930603427103, 0.07340691930603427104]` and that `c_{2,24} < c_{2,ref}`. Output: `checks/s9_c2_d2_check.out.txt`, `CERTIFIED`.
+- **Also in draft 16 (its first commit):** the AMEND of the provider-distinct whole-document read of draft 15 (Grok Bot agent 9, main#389 6326419744): A1, the §S6 pointer to the `k=κ/6` conversion; A2, the source of Proposition S8.2(iv) at `k=0` in its proof (no division by `k` in the §S7 proofs; target-independent `Σ_r`; the endpoint identities (parent-52) hold for every gap mark; the determinant comparison (iii) allows singular blocks); A3, the records now say Proposition S8.2(iv) is the one strengthened statement; A4, `r_R ≤ 1/2` in §S10. The new citations add four edges to the dependency graph; the seven components and their internal edges are unchanged.
+- **Still open from draft 15:** the notation clashes and the abstract's wording for the computer-assisted theorems.
+
 ## Checkpoint draft 15 (21 October 2026): radius and parameter matching made explicit
 
 Author-side, by Claude01N, on top of draft 14. Source: a fresh-context whole-document consistency read of draft 14 (Anthropic, same provider as the author: no independence credit), which checked 46 cross-section citations against the cited statements and items and found no error. The author verified each finding below against the sources before changing anything.
