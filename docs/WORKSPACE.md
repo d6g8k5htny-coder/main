@@ -161,6 +161,15 @@ git rev-parse <sha>:<path> origin/main:<path>   # two equal lines: same bytes
 On 19 October 2026, main#330's head `88ff9223` was not in `main`, but its
 `PROOF.md` blob was.
 
+Editing a pull request's title or body re-runs the required `public-intake`
+check, because its workflow listens for `pull_request_target` type `edited`.
+While that run is queued or in progress, a guarded merge is refused with HTTP
+405 ("Required status check `public-intake` is queued"). Once an integrator has
+picked up a pull request, others record late facts in a comment instead of
+editing the body, and an integrator that edits the body lets the new run finish
+before merging. On 20 October 2026 this refused the first merge attempt on
+main#450 and on main#467.
+
 ## Local navigation check
 
 The landing workflow's `landing-checks` job first requires that the same run's
