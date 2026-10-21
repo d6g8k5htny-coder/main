@@ -16,7 +16,7 @@ The conditional law $\E^0_{r,t,b,\kappa}[\,\cdot\,]=\E[\,\cdot\mid\Pi_{r,x,t}=z_
 \[
 W_r=|\det H_M|\,|\det H_S|\,\ind_{\{H_M\prec0,\ \Ind(H_S)=2\}},\qquad Z_r(t,b,\kappa)=\E^0_{r,t,b,\kappa}[W_r].
 \]
-By Section~\ref{sec:contact}, $c_Zr^2\le Z_r\le C_Zr^2$ on compact positive mark sets; in particular $Z_r>0$. The \emph{all-typed determinant-weighted Palm law} is
+By Lemma~\ref{lem:contact-normalizer}, $Z_r>0$ for $0<r<12$, and $c_Zr^2\le Z_r\le C_Zr^2$ on a compact positive mark set for $0<r\le r_0$ of Lemma~\ref{lem:contact-normalizer}(iii). The \emph{all-typed determinant-weighted Palm law} is
 \begin{equation}\label{eq:selection-palm}
 \E^{MS}_{r,t,b,\kappa}[F]=\frac{\E^0_{r,t,b,\kappa}[W_rF]}{Z_r(t,b,\kappa)} .
 \end{equation}
@@ -132,7 +132,7 @@ The three terms on the right of \eqref{eq:selection-reduction} are $O(r^3)$ unif
 
 \subsection{The endpoint factor and the Palm normalization}\label{ssec:selection-endpoint}
 
-Recall from Section~\ref{sec:contact} that, on compact positive mark sets,
+Recall from Lemma~\ref{lem:contact-normalizer}(iii) that, on a compact positive mark set and for $0<r\le r_0$ of that lemma,
 \begin{equation}\label{eq:selection-normalizer}
 c_Zr^2\le Z_r=\E^0[W_r]\le C_Zr^2,\qquad\E^0[W_r^2]\le C_Wr^4 .
 \end{equation}
@@ -920,7 +920,7 @@ so \eqref{eq:selection-markov} gives $\Prob^{MS}_r(B_r)\le C_Br^3$. Proposition~
 \[
 1-p_r=\Prob^{MS}_r(E_r^c)\le\Prob^{MS}_r(A_r^c)+\Prob^{MS}_r(E_r^c\cap A_r)\le\Prob^{MS}_r(A_r^c)+\Prob^{MS}_r(B_r)+\Prob^{MS}_r(L_{{\rm same},r})\le C_{\rm sel}r^3,
 \]
-with all constants uniform in $t\in S^2$ and on the compact mark set.
+with all constants uniform in $t\in S^2$ and on the compact mark set. Here $r_0$ is the least of the radii for which Lemma~\ref{lem:contact-normalizer}(iii) on $I_b\times I_\kappa$ and the results just cited hold, so that each of them applies for $0<r\le r_0$.
 \end{proof}
 
 Theorem~\ref{thm:selection-main} is the bound (3.13) of the main text, proved here through explicit witnesses in $d=3$.

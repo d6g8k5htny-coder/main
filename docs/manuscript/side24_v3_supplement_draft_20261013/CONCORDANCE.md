@@ -272,6 +272,23 @@ On these points the BLOCK overrides the earlier Cursor read of §S5 at `c6aa790d
 
 **Build.** 156 pages, no LaTeX error and no undefined reference; all 927 labels of draft 8 keep their numbers. The one overfull line, 29 pt in S10, is unchanged.
 
+## Checkpoint draft 15 (21 October 2026): radius and parameter matching made explicit
+
+Author-side, by Claude01N, on top of draft 14. Source: a fresh-context whole-document consistency read of draft 14 (Anthropic, same provider as the author: no independence credit), which checked 46 cross-section citations against the cited statements and items and found no error. The author verified each finding below against the sources before changing anything.
+
+- **Applied (one sentence or clause each).**
+  - G1 §S5: the normalizer bounds hold for `0<r≤r_0` of Lemma S2.9(iii) (Definition S5.1 and (selection-normalizer) said only "on compact positive mark sets"); the proof of Theorem S5.36 now says its `r_0` is the least of the radii of the results it combines.
+  - G2 §S6, proof of Proposition S6.4: Theorem S12.3 is applied with `k=κ/6`, the window `{κ/6}` and a frame with `Re_1=t` (the conversion was written out only for the kernels).
+  - G3 §S7: the `r_0` of (rate-r0) is also taken no larger than the `r_0` of §S12 (ssec:parent-majorant), under which Hypotheses S7.4–S7.7's sources are proved.
+  - G4 §S8: Proposition S8.2 takes `r_R ≤ r_0` of (rate-r0), since its items come from §S7; §S10 now cites `r_R ∈ (0,1/2]` of Proposition S8.2 (it said `(0,1]`).
+  - N-c2: Proposition S8.2(iv) is stated for `k ≥ 0`; it is used at `k=0` in (remainder-W4), Lemma S9.9 and (third-W1). **For the reader to check:** that the bounds of (iv) hold at `k=0` as they do for `k>0` (item (i) is already stated for `k ≥ 0`).
+  - N-c3: Convention S8.1(b) and §S10 cite (parent-135) and Lemma S12.29 for the unrestricted densities, in place of (parent-112), which is the compact-window density of Theorem S12.4.
+- **Proof-dependency check hardened** after an OpenAI engineering probe (main#389 6325826874, findings DG-COV-01 to 04; applied by the author, written directly in `checks/`). The script exits 2, before building the graph, if the directory or a section file is missing or a `\label` is defined twice (a duplicate could overwrite a statement and hide a cycle); the DOT export is sorted; each KNOWN component carries its internal edge count (`KNOWN_EDGES`), and a different count fails with CHANGED, so an explanation cannot outlive a change of the edges it explains. New `checks/test_dep_graph_check.py` (7 standard-library tests on synthetic inputs, including the probe's duplicate-label reproducer). On this draft: 194 statements, 396 edges, 102 forward uses, seven explained components with unchanged internal edges, `NO_UNEXPLAINED_COMPONENT`.
+- **Open, not changed.**
+  - G5: Corollary S9.16 states `c_{2,24} ∈ [0.07340691930603427103, …104]` without a source. The ingredients (Theorem S4.4 at d = 2, Theorem S11.5, and `c_{2,ref} = c[K_ref] = c_{2,∞}`) are in the supplement, but the identification is stated only for d = 3. A sentence needs a nonauthor check of the d = 2 identification.
+  - Notation: `c_2[K]` is the 2-D leading coefficient in §S4 and the third-order expression in §S11; `J_0`, `𝒦`, `r_0`, `r_1`, `r_*`, `Ψ`, `ν_cand` are overloaded across sections (each locally defined). A renaming pass is left for the journal style pass.
+  - Presentation: no Part has an opening paragraph; the abstract's "with their proofs" for Part II should say that Theorems S9.13 and S11.5 are computer-assisted.
+
 ## Checkpoint draft 14 (21 October 2026): provenance wording removed from the mathematical sections
 
 Author-side, by Claude01N, on top of draft 13 (`d28e6ab4`). Documentary. The supplement writers' rule (COMMON rule 3, quoted further down this file: no provenance labels, status words or historical comparisons in the LaTeX) is applied to the clauses that later drafts added. Outside §S0, ten clauses named earlier drafts and one sentence named a repository path. Each is removed or restated without the history; any mathematical content is kept. No statement, number or label changes. `\path{checks/...}` references to the scripts shipped with this supplement are kept: they are reproducibility pointers, not provenance. Citations of the companion record [R2] and of records [R3] and [R7] of the main text are kept.

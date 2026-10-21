@@ -15,7 +15,12 @@ mathematics: an edge is a reference, not a verified logical use.
 
 The seven statement-level components of draft 13 are listed in KNOWN with the reason each is acyclic at
 the level of items, definitions and pointers; the script exits 1 only if a component outside that list
-appears, so it is a regression check for later drafts, not a proof of anything.
+appears, or if the internal edges of a listed component change (KNOWN_EDGES), so it is a regression check
+for later drafts, not a proof of anything. It exits 2, before building the graph, if the directory or any of
+the thirteen section files is missing, or if a \\label is defined twice (a duplicate would overwrite a
+statement and could hide a component).
+
+Exit codes: 0 no unexplained component; 1 an unexplained or changed component; 2 invalid input.
 
 Usage: python3 dep_graph_check.py SUPPDIR [--dot out.dot]
 """
@@ -55,6 +60,19 @@ FILES = ['supp_s1_setting.tex', 'supp_s2_contact.tex', 'supp_s3_coefficient.tex'
          'supp_s5_selection.tex', 'supp_s6_limit.tex', 'supp_s7_rate.tex', 'supp_s8_remainder.tex',
          'supp_s9_cusp.tex', 'supp_s10_third.tex', 'supp_s11_ctwo.tex', 'supp_s12_parent.tex', 'supp_s13_cap.tex']
 
+# Number of graph edges inside each KNOWN component when its explanation was written. A different count means
+# the explanation must be reviewed again, so the script then treats the component as unexplained.
+KNOWN_EDGES = {
+    frozenset(['prop:parent-KR', 'prop:parent-ledger']): 2,
+    frozenset(['lem:parent-generic', 'prop:parent-push', 'prop:parent-near', 'thm:parent-A', 'thm:parent-B', 'thm:parent-C']): 7,
+    frozenset(['lem:selection-slope', 'lem:selection-capture', 'lem:selection-robust']): 4,
+    frozenset(['lem:selection-collarchart', 'lem:selection-collarfactor', 'lem:selection-singchart', 'lem:selection-singfactor',
+               'lem:selection-finsing', 'lem:selection-fincol']): 12,
+    frozenset(['prop:coefficient-iso', 'cor:coefficient-BF']): 2,
+    frozenset(['prop:correction-firstvar', 'thm:correction-main']): 2,
+    frozenset(['lem:remainder-W', 'prop:remainder-Z', 'thm:remainder-vanish', 'thm:remainder-rate']): 7,
+}
+
 
 def strip_comments(s):
     return re.sub(r'(?<!\\)%.*', '', s)
@@ -76,6 +94,26 @@ def main():
         dot_out = sys.argv[sys.argv.index('--dot') + 1]
     aux_nums = load_numbers(os.path.join(d, 'supp_main.aux'))
     nums = {}   # computed from the sources: one shared counter per section, S<n>.<i>
+
+    # Input validation: every section file must exist, and no \\label may be defined twice.
+    if not os.path.isdir(d):
+        print('INPUT_ERROR: not a directory: %s' % d)
+        sys.exit(2)
+    missing = [fn for fn in FILES if not os.path.exists(os.path.join(d, fn))]
+    if missing:
+        print('INPUT_ERROR: missing section files: %s' % ', '.join(missing))
+        sys.exit(2)
+    seen = {}
+    dups = []
+    for fn in FILES:
+        for lab in re.findall(r'\\label\{([^}]*)\}', strip_comments(open(os.path.join(d, fn), encoding='utf-8').read())):
+            if lab in seen:
+                dups.append('%s (%s, %s)' % (lab, seen[lab], fn))
+            else:
+                seen[lab] = fn
+    if dups:
+        print('INPUT_ERROR: duplicate labels: %s' % '; '.join(dups))
+        sys.exit(2)
 
     # Pass 1: statements (label, env, file, span) and proofs (span, explicit target).
     statements = []          # dicts with label, env, file, start, end, text
@@ -219,12 +257,18 @@ def main():
         return ((int(m.group(1)), int(m.group(2))) if m else (999, 0), label)
     # deterministic order: members by statement number, components by their first member
     bad = sorted((sorted(c, key=numkey) for c in sccs if len(c) > 1), key=lambda c: numkey(c[0]))
-    unknown = [c for c in bad if frozenset(c) not in KNOWN]
+    def internal(c):
+        cs = set(c)
+        return sum(1 for a in c for b in edges[a] if b in cs)
+    unknown = [c for c in bad if frozenset(c) not in KNOWN or (KNOWN_EDGES and KNOWN_EDGES.get(frozenset(c)) != internal(c))]
     print('nontrivial strongly connected components: %d (%d explained in KNOWN, %d not)' % (len(bad), len(bad) - len(unknown), len(unknown)))
     for c in bad:
         print('  COMPONENT:', '; '.join(name(x) for x in c))
-        if frozenset(c) in KNOWN:
+        print('     internal edges: %d' % internal(c))
+        if frozenset(c) in KNOWN and c not in unknown:
             print('     explained:', KNOWN[frozenset(c)])
+        elif frozenset(c) in KNOWN:
+            print('     CHANGED: internal edges differ from KNOWN_EDGES (%s); review the explanation' % KNOWN_EDGES.get(frozenset(c)))
         else:
             print('     NOT EXPLAINED: a new statement-level component')
         cs = set(c)
@@ -253,8 +297,8 @@ def main():
     if dot_out:
         with open(dot_out, 'w', encoding='utf-8') as f:
             f.write('digraph supp {\n rankdir=LR; node [shape=box, fontsize=9];\n')
-            for a in edges:
-                for b in edges[a]:
+            for a in sorted(edges, key=numkey):
+                for b in sorted(edges[a], key=numkey):
                     f.write(' "%s" -> "%s";\n' % (nums.get(a, a), nums.get(b, b)))
             f.write('}\n')
         print('dot written to', dot_out)
