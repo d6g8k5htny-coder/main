@@ -217,6 +217,27 @@ def exercise_hosted_amendments(browser,origin,output,report,data,expect):
         finally:context.close()
 
 
+def exercise_resume_parity(browser,origin,report,data,expect):
+    # The inspector and the script-free node page must show one projection: same rows, same links, no task state.
+    from urllib.parse import urlencode,quote
+    def reading(block):return block.evaluate("(e)=>({rows:[...e.querySelectorAll('dl.resume-fields')].map(dl=>[...dl.children].map(c=>c.textContent.trim())),links:[...e.querySelectorAll('a[href]')].map(a=>a.href)})")
+    pin='math.d5-component.punctured-pin-proof';task='https://github.com/d6g8k5htny-coder/main/pull/327#issuecomment-6321244764'
+    for node in [pin,'math.lifetime-remainder','math.uniform-matrix-cap-lifetime','hist.CH-LIFT']:
+        case={'case':'resume-node-interactive-static-parity','node':node,'passed':False,'page_errors':[]};report['cases'].append(case)
+        context=browser.new_context(reduced_motion='reduce');page=context.new_page();page.set_default_timeout(15000);page.on('pageerror',lambda e:case['page_errors'].append(str(e)))
+        try:
+            page.goto(origin+'dependencies.html?'+urlencode({'atlas-node':node,'atlas-view':'list'}));expect(page.locator('#atlas-inspector h3')).to_have_text(node)
+            live=page.locator('#atlas-resume');expect(live).to_contain_text('Resume this node');expect(live.locator('.resume-warning')).to_contain_text(data['observed_at']);expect(live.locator('.resume-warning')).to_contain_text('before any ownership- or head-dependent action')
+            interactive=reading(live);case['freshness']=live.locator('.resume-warning').get_attribute('data-freshness');require(case['freshness'] in ('current','stale','clock disagreement'),'Interactive block omitted its freshness state')
+            page.goto(origin+'nodes/'+quote(node)+'.html');block=page.locator('#resume-node');expect(block).to_contain_text('this static page cannot evaluate freshness');static=reading(block)
+            case['interactive']=interactive;case['static']=static
+            require(interactive==static,f'Interactive and static Resume blocks differ for {node}')
+            require(interactive['rows'][-1]==['Next action','not recorded in this snapshot','Missing input','not recorded in this snapshot','Owner evidence','not recorded in this snapshot','Retained stop','not recorded in this snapshot'],'Operational task state was not shown as unrecorded')
+            require((task in interactive['links'])==(node==pin),'Continuation link appeared without an explicit task record')
+            require(not any(re.fullmatch(r'https://github\.com/d6g8k5htny-coder/(?:main|Math-)/issues/[0-9]+',href) for href in interactive['links']),'A bare review issue number was turned into a link')
+            require(not case['page_errors'],f'Page errors: {case["page_errors"]}');case['passed']=True
+        except Exception:case['error']=traceback.format_exc()
+        finally:context.close()
 def exercise_observation_coherence(browser,origin,output,report,data,expect):
     """Controlled old/new responses; no claim about the serving cache layer."""
     raw=(ROOT/'docs/site/current.json').read_bytes()
@@ -263,6 +284,7 @@ def main():
             browser=p.chromium.launch(channel='chrome',chromium_sandbox=True);report['browser']=browser.version
             exercise_atlas_shell(browser,origin,args.output,report,data,expect)
             exercise_hosted_amendments(browser,origin,args.output,report,data,expect)
+            exercise_resume_parity(browser,origin,report,data,expect)
             for width in [1200,320]:
                 for scheme in ['light','dark']:
                     case={'width':width,'color_scheme':scheme,'passed':False};report['cases'].append(case)
