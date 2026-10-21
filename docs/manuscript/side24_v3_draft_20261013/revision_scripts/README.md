@@ -15,6 +15,12 @@ r0, r1 and r3–r7 were made by direct edits; their commits and the change list 
 Check, from the repository root:
 
 ```
-git show b033a118:docs/manuscript/side24_v3_draft_20261013/s3_proof.tex > /tmp/s3.tex   # and the other edited files
-python3 docs/manuscript/side24_v3_draft_20261013/revision_scripts/make_r12.py /tmp      # then cmp against d550d238
+mkdir -p /tmp/r12check
+for f in s0_status.tex s3_proof.tex s6_literature.tex README.md; do
+  git show b033a118:docs/manuscript/side24_v3_draft_20261013/$f > /tmp/r12check/$f
+done
+python3 docs/manuscript/side24_v3_draft_20261013/revision_scripts/make_r12.py /tmp/r12check
+for f in s0_status.tex s3_proof.tex s6_literature.tex README.md; do
+  git show d550d238:docs/manuscript/side24_v3_draft_20261013/$f | cmp - /tmp/r12check/$f
+done
 ```
