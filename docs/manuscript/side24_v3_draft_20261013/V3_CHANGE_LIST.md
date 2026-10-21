@@ -393,3 +393,18 @@ r10 is commit `d9f01444`: 23 pages, 562,001 B, SHA-256 `edf1bc77…`. Its read A
 - **README.** Revision r11; the earlier-revisions list adds r10; [R1] is draft 13, and draft 12 is named as the bytes the slice reads bind; "Requested: a Cursor read of the r10→r11 delta".
 
 **Build.** `build.sh` compiles with no LaTeX error and the same 2 pt overfull line as before; 23 pages.
+
+## Revision r12 (21 October, about 19:30Z)
+
+r11 is commit `b033a118`: 23 pages, 562,006 B, SHA-256 `cbfe9db6…`. Its Cursor read passed (main#389 6302472048). r12 is this PDF: 23 pages, 562,474 B, SHA-256 `72f6b0566c8225ca30594cc451ec9fad39c38261e38a61676faddfa8e5672cf5`.
+
+**Why.** Dylan Roy decided the four author decisions (main#389 6324313740): he kept the defaults of decisions 1–3 and chose the Supplement-only form of decision 4, which §0 had drafted since r7. So the leading term now rests on the Supplement alone.
+
+**Changes (no theorem, display or constant changes; the proofs are the same, but the statements they cite now come from the Supplement).**
+- **§3.4, the paragraph after Corollary 3.5, and the proof of Corollary 3.5.** (3.13) is Supplement Theorem S12.3, which is Theorem A of [R2] with its proof in Supplement Part III. Before r12 these passages cited Theorem A of [R2].
+- **§3, proof of Proposition 3.10.** "This is Supplement Proposition S6.2." The proof applies the marked two-point Kac–Rice formula (Supplement Proposition S12.22) on the separated pair set, where the covariance is nonsingular. It cites no result of [R2] that the Supplement does not prove itself. For `0<ℓ≤1` and pairs at distance at least the small radius `r₀` of [R2], the same bound is its (14.1) (Supplement Lemma S12.29). Before r12 it was "the bound (14.1) of [R2]".
+- **§6, "Relation to the parent record", last sentence.** §3 cites the Supplement statements, not the record: S12.3 for (3.13), and S6.2, whose proof uses only S12.22 from Part III, for Proposition 3.10. S5.36 gives a second, three-dimensional proof of (3.13). The rest of the paragraph is unchanged.
+- **§0.** "Revised through r12 on 21 October 2026". The heading is now "Author decisions (decided)", with a sentence citing the decision record. Item 1 drops its "Alternatives" sentence. Item 4 states the decided form. "Settle decision 4" leaves "Before submission".
+- **README.** Revision r12. The earlier-revisions list adds r11. "Author decisions (decided)" replaces "Decisions still with the author". The r11 read is recorded, and a read of the r11→r12 delta is requested. The integration line reflects the decisions.
+
+**Build.** `build.sh` compiles with no LaTeX error and the same 2 pt overfull line as before; 23 pages. Built by `make_r12.py` (exact-match edits), then rebuilt.
