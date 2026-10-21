@@ -2,9 +2,8 @@
 
 Checklist items G6/G12 (part) and G8 (part) of SUBMISSION_READINESS.md.
 - refs.bib: BobrowskiBorman pages 49--70 (J. Topol. Anal. 4 (2012), no. 1; per the publication record at
-  cris.iucc.ac.il); ChenavierHirsch title corrected to the published "Extremal lifetimes of persistent loops
-  and holes" (per N. Chenavier's publication list; the arXiv version 2009.13202 is "Extremal life times of
-  persistent loops and holes"); LadghamLR article number 104221 and DOI 10.1016/j.spa.2023.09.008 (Crossref).
+  cris.iucc.ac.il); ChenavierHirsch keeps the published title "Extremal lifetimes of persistent cycles" (Springer
+  and Crossref; the arXiv version 2009.13202 is "Extremal life times of persistent loops and holes"); LadghamLR article number 104221 and DOI 10.1016/j.spa.2023.09.008 (Crossref).
 - main.tex: MSC 2020 codes and keywords (amsart \\subjclass, \\keywords). Identity details stay with the author.
 - s0_status.tex date line; README.
 No theorem, display or constant changes.
@@ -37,8 +36,6 @@ edit('refs.bib', [
   pages   = {49--70},
   year    = {2012},
   doi     = {10.1142/S1793525312500057},"""),
-    ("title   = {Extremal lifetimes of persistent cycles},",
-     "title   = {Extremal lifetimes of persistent loops and holes},"),
     ("""  journal = {Stochastic Process. Appl.},
   volume  = {166},
   year    = {2023},

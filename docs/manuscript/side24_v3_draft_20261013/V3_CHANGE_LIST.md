@@ -425,14 +425,14 @@ r12 is commit `d550d238`: 23 pages, 562,474 B, SHA-256 `72f6b056…`. Its Cursor
 
 ## Revision r14 (21 October, about 20:20Z)
 
-r13 is commit `04a3ee03`: 23 pages, 563301 B, SHA-256 `b3852c53…`. Its Cursor read ended in readback PASS (main#389 6325266500). r14 is this PDF: 23 pages, 564220 B, SHA-256 `912269a62cb233754e0bb78231513505163ffa15c02a1085623cbb2ba9cc64a2`.
+r13 is commit `04a3ee03`: 23 pages, 563301 B, SHA-256 `b3852c53…`. Its Cursor read ended in readback PASS (main#389 6325266500). r14 is this PDF: 23 pages, 564207 B, SHA-256 `029b281c075e9c2a1d087b335447319c4a50d208ad5e8f4ed64ef4c88c13680a`.
 
 **Why.** Checklist items G6 and G12 (in part) and G8 (in part) of `SUBMISSION_READINESS.md`, closed with free sources and a team decision, with no owner action needed.
 
 **Changes (documentary; no theorem, display or constant changes).**
 - **`refs.bib`, three corrections.**
   - **BobrowskiBorman:** pages 49–70 added (J. Topol. Anal. 4 (2012), no. 1), from the publication record at cris.iucc.ac.il.
-  - **ChenavierHirsch:** the title is corrected to the published "Extremal lifetimes of persistent loops and holes", as in N. Chenavier's publication list. The draft had "… persistent cycles". The arXiv version, 2009.13202, is "Extremal life times of persistent loops and holes".
+  - **ChenavierHirsch:** the title is the published "Extremal lifetimes of persistent cycles" (Springer and Crossref, DOI 10.1007/s10687-021-00430-6). The arXiv version, 2009.13202, is "Extremal life times of persistent loops and holes".
   - **LadghamLR:** article number 104221 and DOI 10.1016/j.spa.2023.09.008 added, from Crossref.
 - **`main.tex`:** MSC 2020 codes "Primary 60G60; Secondary 60G15, 55N31, 60D05", and keywords. The author's address, email, affiliation and ORCID stay with him (G8).
 - **§0:** "Revised through r14 on 21 October 2026".
