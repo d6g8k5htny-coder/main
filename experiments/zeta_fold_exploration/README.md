@@ -1131,7 +1131,10 @@ and mpmath are importable and take a few seconds.
 The repository's own `python3 -B -S -m unittest discover -s tests` does not enter
 `experiments/`, and the script directories here are not packages, so test discovery does not
 pick up the scripts. `python3 -B make_manifest.py --check` verifies every committed file
-against `MANIFEST.json`.
+against `MANIFEST.json`. It also refuses a manifest that lists a committed path twice, or whose
+`committed_total_bytes` is not an integer equal to the sum of the measured file sizes.
+The repository's `tests` discovery above includes `tests/test_zeta_manifest_check.py`, which
+exercises that check on synthetic packets only.
 
 **Scripts.** Each script finds its inputs and outputs relative to its own file, so it can be
 run from anywhere. Small outputs go to `results/<dbn|theta|stats>/`; large samples go to
