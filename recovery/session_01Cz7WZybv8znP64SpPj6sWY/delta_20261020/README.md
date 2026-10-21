@@ -1,11 +1,11 @@
-# Recovery delta, 18–20 October 2026: session 01Cz, recovery rows §12, §5 and §18, the main#446 consumer note, the two main#460 reviews, and the main#460 composition read
+# Recovery delta, 18–21 October 2026: session 01Cz, recovery rows §12, §5 and §18, the main#446 consumer note, the main#460 reviews and composition read, and the 21 October units
 
 Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`. This is a retention copy for the owner's recovery request, [main#307 / 6136156988](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6136156988).
 - It continues the 17–18 October delta, `recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/` (branch `claude/recovery-01cz-delta-20261018`, draft main#444), and does not repeat it.
 - It is kept separate because main#444 is already near the 500-file limit of the `public-intake` check.
 
 - **Not for merge.** Nothing here is a proof, an accepted result or a status change. Scientific effect NONE. Organizational-independence credit 0.
-- **What it holds:** this session's own posted texts, comparison and verification results, check scripts and logs behind the unit in the table below, plus the scripts of the three multi-agent runs.
+- **What it holds:** this session's own posted texts, comparison and verification results, check scripts and logs behind the units in the table below, plus the scripts of their multi-agent runs.
 - **What it leaves out:**
   - Copies of other lanes' material: the four carriers, Math- files, comment texts and API dumps.
   - Own files that are superseded or redundant: an earlier draft, partial and subset results, text dumps, duplicate scripts, sent bodies with the footer and API readbacks.
@@ -27,7 +27,11 @@ Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`. This is a retentio
 | `m460_nonauthor_review/` | `M460-NONAUTHOR-REVIEW-01CZ-20261020`: nonauthor engineering review of draft main#460 (test-only R03 pin) at exact head `65a7ab8d` | main#460: pickup 6285652622, verdict 6286384129 (edited once at 08:05Z), native COMMENT review 5582356017; main#419 pointers 6285653023, 6286402021 | PASS_SCOPED with limits; the integrator then held on R03's hosted-comparison predicate (460/6286492695) |
 | `m460_review2/` | `M460-REVIEW2-01CZ-20261020`: fresh nonauthor engineering review of draft main#460 at exact head `a68ce39c`, after the writer added hosted R03 controls | main#460: pickup 6286773707, verdict 6287637143, native COMMENT review 5583098843; main#419 pointers 6286776203, 6287643104 | PASS_SCOPED with one limit (L1: the hosted control asserts the R03 witnesses but does not record their observed outcomes), for R03's owner and the integrator |
 | `m460_composition/` | `M460-COMPOSITION-01CZ-20261020`: the bounded composition read of draft main#460 at exact head `b5b6eb20` (merge of `a68ce39c` with `main` `7e95ddcc`) that the integrator requested in 460/6288136767 | main#460: pickup 6288150010, pointer 6288265710, verdict 6288840431, native COMMENT review 5583815803; main#419 pointers 6288153935, 6288849308 | PASS_SCOPED: the test blob and the PR's patch are unchanged by the refresh, main#461's base delta touches nothing the test or its workflow reads, and the `a68ce39c` review (L1, N2) applies unchanged; posted and released |
-| `workflows/` | the scripts of the §12 comparison run, the four-lens check of that result post and its re-check, the §5 lens run, the §2(b) summoner check and its pre-post check, the §18 lens run and its two pre-post checks, the consumer-note verification run and its pre-post check, the two main#460 review runs, and the main#460 composition-read run and its pre-post check | — | method record |
+| `c2_335_characterization/` | `C2-CONTRACT-CHARACTERIZATION-01CZ-20261021`: data support for Math- issue 335. It records the genuine baseline and per-mutant outcomes of the C2 torus-transfer omission controls on Math- `main` `27606578` | Math- issue 335: pickup 6328350180, record and release 6328636311; main#475 pointers 6328354409, 6328643308 | all five mutants exit 1 through the final `RESULTS.json` comparison in both modes, and each changes a field set that matches its seeded defect; an uncaught exception also exits 1, and the workflow's exit-code-only check would accept it; released |
+| `rvdq023_locators/` | the RV-DQ-023 preflight locators for LS-DER-021, item 2 of 419/6250496071, in the locator-only role of 419/6320832078 | main#475: post 6327850237 | delivered; dot recorded it complete (475/6328045583); the native binding and the third-family preflight stay open |
+| `m481_pickup_release/` | `M481-FINAL-INTEGRATION-01CZ-20261021`: the main#481 final-integration pickup, released without a merge after this session's permission control refused a pre-merge read | main#481: pickup 6327996637, release 6328022731, diagnostic 6328105706; main#475: 6328001560, 6328029033, 6328123320 | no mutation; main#481 later merged by another lane as `b7f72a71` |
+| `crawl_20261021/` | the read-only crawl of six repositories as of 22:18Z on 21 October: 99 open PRs and issues, all in main, Math-, meta-framework and query- (governance- and Universal-Law-Workspace had none open) | — | as-of ledger; not a register or an assignment |
+| `workflows/` | the scripts of the §12 comparison run, the four-lens check of that result post and its re-check, the §5 lens run, the §2(b) summoner check and its pre-post check, the §18 lens run and its two pre-post checks, the consumer-note verification run and its pre-post check, the two main#460 review runs, the main#460 composition-read run and its pre-post check, the RV-DQ-023 locator run, the crawl run, and the C2 record's pre-post check | — | method record |
 
 ## Reproducing
 
@@ -73,6 +77,25 @@ Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`. This is a retentio
 - **m460_review2.** `lens_results.json` holds the three lens reports (code, replay, hosted) and their adversarial verifications. Two verifiers finished after the verdict was posted; `followup.txt` records why no follow-up note was needed. The agents' archive copies, variant copies, run logs and a container-image root filesystem are not included; `SOURCES.json` lists them by listing hash.
 
 - **m460_composition.** `lens_results.json` holds the four lens reports (identity, base delta, replay, hosted) and their adversarial verifications; `prepost_results.json` holds the two pre-post checks (accuracy, rules) of `verdict.md`. The agents' archive copies, run logs and scratch are not included; `SOURCES.json` lists them by listing hash. Model and product labels in the posted texts, the results and the pre-post workflow script are redacted and marked `hand_edited`; the posted comments are authoritative.
+
+- **c2_335_characterization.**
+  - `own/run_all.py <src> <out>` runs the 14 children (baseline, controls and five mutants, in `-B -S` and `-B -O -S`) from the packet directory. `own/results.json` is its output, with each stream's size and SHA-256.
+  - `own/field_diff.py <packet> <mutant>` lists the `RESULTS.json` fields a mutant changes. `own/fields/` holds its five outputs.
+  - `own/bogus_unknown_mutant.stderr` is the crash counterexample.
+  - The workflow's first `run` step, which was run unchanged, is not copied. Extract it from workflow blob `819f1046` (1,463 B, SHA-256 `59dd4e1a…`). Rebuild the tree with `git archive` of Math- `27606578`. `SOURCES.json` lists the tree, the child streams and that excerpt.
+  - `record.md` is the posted text. `prepost_results.json` holds the two checks applied before posting.
+  - Model labels in the pre-post workflow script are redacted and marked `hand_edited`.
+- **rvdq023_locators.**
+  - `post475.md` is the posted text.
+  - `own/scripts_apply.py <export> <begin> <end> <out>` applies the frozen-body rule. `own/scripts_extract.py <dir>` tests candidate rules against the frozen targets. `own/vd_check.py <draft>` checks a draft's blob ids and SHA-256 values against local git.
+  - Not included, and listed in `SOURCES.json` by listing hash: the lens reports, the agents' verification and work scratch, the mirrored exports, the extracted candidate body and the board scan.
+- **m481_pickup_release.**
+  - Posted texts only. One product label in `pickup.md` is redacted and marked `hand_edited`; the posted comment is authoritative.
+  - The refused step was a read-only GitHub `GET`, refused by this session's own permission control. No write or merge call was sent.
+- **crawl_20261021.**
+  - `ledger.md` is the synthesis, and `items.json` holds the 99 per-item records, as of 22:18Z on 21 October. Both are snapshots: re-read GitHub before acting on any line.
+  - Model and product labels in them, and in the crawl workflow script, are redacted and marked `hand_edited`.
+- **Posted texts** in the 21 October units are GitHub readbacks, apart from that one recorded redaction. Each file ends with one newline that the posted comment does not have.
 
 ## Caveats
 
