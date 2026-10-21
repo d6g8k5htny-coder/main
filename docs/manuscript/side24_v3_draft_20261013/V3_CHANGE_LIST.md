@@ -462,3 +462,19 @@ r14 is commit `ba1b904d`. Its Cursor read went: AMEND 6325580614, applied; readb
 - **README:** revision r15; r14 is added to the earlier revisions, and its reads are recorded; a read of the r14→r15 delta is requested.
 
 **Build.** `build.sh` compiles with no LaTeX error and the same 2 pt overfull line as before; 23 pages. BibTeX reports no warnings. Built by `revision_scripts/make_r15.py`.
+
+## Revision r16 (21 October, about 20:55Z)
+
+r15 is commit `18543a20`. Its Cursor read passed (main#389 6326222268). r16 is this PDF: 23 pages, 564369 B, SHA-256 `34a11a275ab9d1854284a8110ffe99f6beca8f53a1ace6a4497225a1cb28b3e8`.
+
+**Why.** Supplement draft 15 (commit `ddd60647` of `claude/side24-v3-supplement-draft15-20261021`) is now read.
+- Draft 14 removed provenance wording from the mathematical sections (readback PASS, 6325795760).
+- Draft 15 made the matching of radii and parameters explicit, with no statement strengthened, and hardened the proof-dependency check (Cursor read 6326091969; its AMEND was applied; readback PASS 6326245246).
+- All 943 labels of drafts 12–14 keep their numbers, so every Supplement number the main text cites names the same statement.
+
+**Changes (documentary; no theorem, display or constant changes).**
+- **Appendix A, [R1]:** the Supplement is now cited at checkpoint draft 15, commit `ddd60647` of `claude/side24-v3-supplement-draft15-20261021`.
+- **§0:** "Revised through r16 on 21 October 2026".
+- **README:** revision r16; r15 is added to the earlier revisions and its read is recorded; [R1] is now draft 15; a read of r15→r16 is requested.
+
+**Build.** `build.sh` compiles with no LaTeX error and the same 2 pt overfull line as before; 23 pages; no BibTeX warnings. Built by `revision_scripts/make_r16.py`.
