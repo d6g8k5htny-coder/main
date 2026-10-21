@@ -1154,6 +1154,19 @@ the saved `.out` file named in its docstring is that stdout. Approximate runtime
 - `dbn/indep_ht.py 60 xi` (seconds), `dbn/indep_ht.py 60 c910` (~2 min),
   `dbn/indep_ht.py 60 c3435` (~7 min),
   `dbn/lobe_identity.py` (~8 min).
+  The `60 c910` and `60 c3435` commands above, and in the script's docstring, do not reproduce
+  the committed `indep_ht_c910.out` and `indep_ht_c3435.out`:
+  - **Current script.** With `dbn/indep_ht.py`, `60 c910` matches every line except the
+    iteration-4 step. `60 c3435` does not meet its stop rule within 12 iterations, although its
+    final `t*`, `z0`, A, B/A, C/A and κ lines match.
+  - **Where the committed files come from.** They are the stdout of the review-math run of the
+    earlier script, blob `c561d95b`. That run is retained, with the script, under
+    `recovery/session_01S16677s1SGeAJmN3QMz4ip/zeta_raw/review-math/` (commit `5d298b9e`).
+  - **Exact reproduction.** With Python 3.13.16, mpmath 1.4.1 (python backend) and
+    `OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1`, `python -B <c561d95b> 55 c910` and
+    `… 90 c3435` reproduce the two files exactly apart from `time`.
+  - **Limit.** The original command lines were not recorded, so this is a sufficient
+    invocation, not a log (§9).
 - `theta/check_theta.py` and `stats/check_gue_transfer.py` (seconds),
   `theta/project_theta_checks.py` (~7 min).
 - `python3 -B experiments/universality/fold_controls.py`, run from the repository root
@@ -1236,6 +1249,35 @@ A nonauthor read from a non-Anthropic provider was requested, in four slices:
   execution of the same programs and fixed inputs, not the replay's own streams, and it makes
   no scientific acceptance.
 
+  **Residual trails reproduced exactly.** The replay's two differing files,
+  `results/dbn/indep_ht_c910.out` and `indep_ht_c3435.out`, differ from fresh runs only in the
+  iteration-4 Newton step.
+  - **Provenance.** The committed files are the same git blobs as the review-math outputs kept
+    in the packet author's recovery checkpoint, under
+    `recovery/session_01S16677s1SGeAJmN3QMz4ip/zeta_raw/review-math/` (commit `5d298b9e`).
+    Those were written by the earlier script `c561d95b`.
+  - **Mechanism.** That script sets the working precision before it computes the subinterval
+    constant `U = mpf('1.3')`. The current script (`736760f2`) computes `U` at 60 digits first,
+    so the quadrature breakpoints, and with them the iteration-4 noise, differ.
+  - **Reproduction.** In the pinned environment, `c561d95b` reproduces both committed files
+    exactly, apart from `time`, as `55 c910` and `90 c3435`. These are the only matches among
+    dps 50–70 and dps 85–100.
+    ([data note](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6322382147);
+    outputs retained on draft [main#471](https://github.com/d6g8k5htny-coder/main/pull/471) at
+    `95a00ce4`.)
+  - **Separate fact.** With the current script, the documented `60 c3435` does not converge
+    ([6304057120](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6304057120)).
+  - **Limits.** The original command lines were never recorded, so this is a sufficient
+    invocation, not a log of what was run. The reported values (`t*`, `z0`, A, B/A, C/A, κ)
+    were never affected. The diagnostic is Anthropic, the same provider as the packet author,
+    with organizational-independence credit 0.
+  - **Non-Anthropic re-execution.** A nonauthor
+    [xAI Grok 4.7 re-execution](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6322666857)
+    (Cursor agent `bc-8084f8ef`; source-exposed, organizational-independence credit 0) ran
+    `c561d95b` at `55 c910` and `90 c3435` in the pinned environment. Each output differs from
+    the committed file only in its `time` line. It also confirmed that the committed files are
+    the review-math blobs.
+
   **Additional fresh-seed evidence REPORTED; record applicability PASS (scoped).**
   Separately, [OpenAI GPT-6's R2a report](https://github.com/d6g8k5htny-coder/main/pull/451#issuecomment-6279371506)
   records a separate summation implementation with seed **31415927**, 192 points against
@@ -1289,9 +1331,10 @@ A nonauthor read from a non-Anthropic provider was requested, in four slices:
   `CLAIMS.md` as unverified background reading; its pages were not read, and nothing here
   claims that Edwards was verified. The docstring of `stats/rs_zeta.py` still names Edwards. That
   file is left byte-unchanged so that the replay and R2a records stay bound to its blob
-  `8b97a1f6`. The replay's two residual-trail discrepancies remain unresolved, its own 13
-  timing-only streams stay unretained (their classification now rests on the retained re-run
-  above), and R2a's own raw JSON is unpublished; no record closes all of slice C.
+  `8b97a1f6`. The replay's two residual-trail discrepancies now have the exact reproduction
+  above. Its own 13 timing-only streams stay unretained (their classification now rests on the
+  retained re-run above), and R2a's own raw JSON is unpublished; no record closes all of
+  slice C.
 - **D.** A wording audit of the non-claims. **Read: AMEND** (the same review, §10.1). **Delta
   readback: PASS (scoped)** (review 5487707101, with slice A).
 
@@ -1319,7 +1362,9 @@ review checked the 59-command multiset, hashes, counts, environment, discrepanci
 binding at exact replay head `78976ae7`. It did not independently reapply timing masks to 13
 timing-only replay byte streams that were not retained. The replay used the same programs and
 fixed inputs: it is not a second implementation or a scientific acceptance. Both residual
-trails remain unexplained. Scientific effect stays NONE.
+trails were later reproduced exactly with the earlier review-math script (item C). The original
+command lines were not recorded, so that is a sufficient invocation, not a log. Scientific
+effect stays NONE.
 
 The packet was integrated into main as `3e589ae0` on 12 October 2026 by a third OpenAI dot /
 Codex lane (`/root/integrate_zeta_exploration_packet`), distinct from both reviewer lanes. The
