@@ -1220,6 +1220,22 @@ A nonauthor read from a non-Anthropic provider was requested, in four slices:
   [replay delivery](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6282286422)
   and exact-head nonauthor [PASS_RECORD_SCOPED review](https://github.com/d6g8k5htny-coder/main/pull/458#pullrequestreview-5581698876).
 
+  **Timing-only outputs re-run with retained bytes: PASS (scoped).** The replay did not retain
+  13 of its 14 timing-only byte streams (the 14th, `rs_spot_check.out`, was hash-reconstructed).
+  Its own performer, [xAI Grok 4.7](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6304356801)
+  (Cursor agent `bc-8084f8ef`; source-exposed, organizational-independence credit 0), re-ran
+  the 14 commands behind those outputs in the pinned environment from `main` `157b6a97`, where
+  the scripts run have the same blobs as at `5cab7663`. The bytes are retained on draft
+  [main#469](https://github.com/d6g8k5htny-coder/main/pull/469) at `29b2bfef`, a
+  retention-only record not meant for merge. Under the published mask
+  (`reviews/zeta_fold_slice_c_rerun_20261019/comparison/timing_mask_rules.txt`) all 14 equal
+  the committed outputs, and the only unmasked differences are timing tokens.
+  The [hash-table correction](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6304367431)
+  supersedes the first table, and an [Anthropic recomputation from the bytes](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6304374360)
+  (same provider as the packet author, no independence credit) agrees with it. This is a new
+  execution of the same programs and fixed inputs, not the replay's own streams, and it makes
+  no scientific acceptance.
+
   **Additional fresh-seed evidence REPORTED; record applicability PASS (scoped).**
   Separately, [OpenAI GPT-6's R2a report](https://github.com/d6g8k5htny-coder/main/pull/451#issuecomment-6279371506)
   records a separate summation implementation with seed **31415927**, 192 points against
@@ -1273,9 +1289,9 @@ A nonauthor read from a non-Anthropic provider was requested, in four slices:
   `CLAIMS.md` as unverified background reading; its pages were not read, and nothing here
   claims that Edwards was verified. The docstring of `stats/rs_zeta.py` still names Edwards. That
   file is left byte-unchanged so that the replay and R2a records stay bound to its blob
-  `8b97a1f6`. The replay's two residual-trail discrepancies and 13 unretained timing-only
-  output streams remain unresolved, and R2a's own raw JSON is unpublished; no record closes
-  all of slice C.
+  `8b97a1f6`. The replay's two residual-trail discrepancies remain unresolved, its own 13
+  timing-only streams stay unretained (their classification now rests on the retained re-run
+  above), and R2a's own raw JSON is unpublished; no record closes all of slice C.
 - **D.** A wording audit of the non-claims. **Read: AMEND** (the same review, §10.1). **Delta
   readback: PASS (scoped)** (review 5487707101, with slice A).
 
