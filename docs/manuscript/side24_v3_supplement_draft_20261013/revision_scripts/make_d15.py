@@ -108,7 +108,7 @@ sec = ("## Checkpoint draft 15 (" + date + "): radius and parameter matching mad
        "the DOT export is sorted; each KNOWN component carries its internal edge count (`KNOWN_EDGES`), and a different count "
        "fails with CHANGED, so an explanation cannot outlive a change of the edges it explains. New `checks/test_dep_graph_check.py` "
        "(7 standard-library tests on synthetic inputs, including the probe's duplicate-label reproducer). On this draft: "
-       "194 statements, 396 edges, 102 forward uses, seven explained components with unchanged internal edges, `NO_UNEXPLAINED_COMPONENT`.\n"
+       "194 statements, 397 edges, 102 forward uses, seven explained components with unchanged internal edges, `NO_UNEXPLAINED_COMPONENT`.\n"
        "- **Open, not changed.**\n"
        "  - G5: Corollary S9.16 states `c_{2,24} ∈ [0.07340691930603427103, …104]` without a source. The ingredients (Theorem S4.4 at d = 2, Theorem S11.5, and `c_{2,ref} = c[K_ref] = c_{2,∞}`) are in the supplement, but the identification is stated only for d = 3. A sentence needs a nonauthor check of the d = 2 identification.\n"
        "  - Notation: `c_2[K]` is the 2-D leading coefficient in §S4 and the third-order expression in §S11; `J_0`, `𝒦`, `r_0`, `r_1`, `r_*`, `Ψ`, `ν_cand` are overloaded across sections (each locally defined). A renaming pass is left for the journal style pass.\n"
