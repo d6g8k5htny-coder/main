@@ -26,7 +26,7 @@ Marks: **[HUMAN]** needs Dylan or another person: judgement, identity, an accoun
 | G3 | **The MathSciNet search has not been run.** | **[SUBSCRIPTION]** | Search MR for "persistence diagram" or "barcode" with "Gaussian field" or "random function", and for close critical-point pairs. Follow the forward citations of Adler–Taylor, Azaïs–Wschebor, Chazal–Divol, Perez and Baryshnikov (2025). |
 | G4 | **The zbMATH Open search.** Run by Cursor through the zbMATH Open API (main#389 6325580607): four queries; no hit gives a near-diagonal short-lifetime density for H₀ persistence of a smooth Gaussian field in d ≥ 2. The HTML site was blocked by a bot check, and one query returned no results. | **[DONE]** at API level; MathSciNet (G3) remains **[SUBSCRIPTION]** | |
 | G5 | **Bibliography additions found in this pass** (§3). | **[DONE]** in r13 (Cursor AMEND 6325193355 applied; readbacks PASS 6325266500) | Add Baryshnikov, *Brownian motions, persistent homology and chirality*, J. Appl. Comput. Topol. 9 (2025) 28. Mention it in §6 as the one-dimensional near-diagonal law (Brownian motion with drift). Its outlook names higher-dimensional Gaussian processes as future work. |
-| G6 | **Publication status of arXiv-only references.** **[DONE]** in r15 from Cursor record B (Crossref, zbMATH Open; main#389 6325580607): Perez → J. Appl. Comput. Topol. 7 (2023); Hirsch–Lachièze-Rey → Ann. Appl. Probab. 36 (2026); Chenavier–Hirsch and HLO pages added. Pranav (arXiv:2109.08721) has no published version and stays a preprint. | **[DONE]** | |
+| G6 | **Publication status of arXiv-only references.** The r15 corrections from Cursor record B (Crossref, zbMATH Open; main#389 6325580607) are retained: Perez → J. Appl. Comput. Topol. 7 (2023); Hirsch–Lachièze-Rey → Ann. Appl. Probab. 36 (2026); Chenavier–Hirsch and HLO pages added. Pranav (arXiv:2109.08721) remains cited as a preprint: **no journal version was verified in the sources checked on 21 October 2026**. The dated evidence and limits are in §2.1. | **[DONE]** for the bounded bibliographic check; Pranav journal publication **[UNVERIFIED]** | Revisit if a publisher record, journal DOI or author confirmation supplies a journal version. |
 | G7 | **The §7 "Remaining before submission" paragraph is partly stale.** "The treatment of its imports from the parent record" is settled by decision 4 in r12. | **[DONE]** in r13 (same read) | Rewrite that sentence to list only what remains: G2, G3/G4, provenance labels, and the journal style pass. |
 | G8 | **The front matter is incomplete.** (r14: MSC 2020 codes and keywords added; the identity details remain.) `main.tex` has `\author{Dylan Roy}` only, with no address, email, affiliation (or "independent researcher") or ORCID. | **[HUMAN]** for identity details; **[AI]** can propose MSC codes (60G60, 60G15, 55N31, 60D05) | Dylan supplies what he wants printed. |
 | G9 | **The repository records cited in Appendix A are paths and commits** in a GitHub repository. Referees need stable, citable access. | **[HUMAN]** (needs an account and a decision) | Archive a tagged snapshot with a DOI (for example Zenodo from GitHub) and cite the DOI in Appendix A, or make the Supplement self-contained and post it on arXiv as a companion. Decision 4 already makes the leading term rest on the Supplement alone. |
@@ -37,6 +37,89 @@ Marks: **[HUMAN]** needs Dylan or another person: judgement, identity, an accoun
 | G14 | **AI-use disclosure wording** must match the chosen journal's policy. §7 already discloses AI checks; the venue may want a statement about AI-generated text and proofs. | **[HUMAN]** decision, **[AI]** draft | After the venue choice, compare §7 with the journal's policy text. |
 
 **Not a gap for submission:** main#389 does not need to merge for submission. The draft lives on its branch with full records.
+
+## 2.1. G6 bibliographic verification addendum — 21 October 2026
+
+Dylan Roy — delegated AI work. Actual performer: OpenAI / ChatGPT GPT-6 Astra Pro,
+with three OpenAI bibliographic research agents; no human, blind or organizational
+independence credit. Canonical pickup:
+[main#389 6328112653](https://github.com/d6g8k5htny-coder/main/pull/389#issuecomment-6328112653).
+This is a citation-metadata check. The manuscript's mathematical claims, existing
+review evidence and instruction not to submit are unchanged.
+
+**Compared source.** Main-text r17 at
+`10e9120301ff5c5d9b1d6f3ff70a79f2f6959465`; `refs.bib` Git blob
+`f7b84a63ba6376c3dcd89cc3d7fe86a2da711ee0`.
+The journal corrections were already authored in r15
+(`18543a204e40810276b56a3619b4377cdbba499a`) from
+[Cursor record B](https://github.com/d6g8k5htny-coder/main/pull/389#issuecomment-6325580607)
+and received the
+[r15 nonauthor PASS](https://github.com/d6g8k5htny-coder/main/pull/389#issuecomment-6326222268).
+This addendum verifies the three G6 references against additional sources; it
+does not reattribute those corrections or extend the earlier review's scope.
+
+| Reference | Verified bibliographic identity | Dates and persistent identifiers | Comparison with r17 |
+|---|---|---|---|
+| Perez | Daniel Perez, sole author. *On the persistent homology of almost surely $C^0$ stochastic processes*. **Journal of Applied and Computational Topology 7(4), 879–906 (2023)**. | Online/version of record **5 July 2023**; issue **December 2023**. Journal DOI [10.1007/s41468-023-00132-x](https://doi.org/10.1007/s41468-023-00132-x). [arXiv:2012.09459](https://arxiv.org/abs/2012.09459): v1 17 December 2020; latest listed v3 7 November 2022. | `Perez` already has the correct journal, volume, issue, pages, year and DOI, retaining the arXiv identifier. |
+| Hirsch–Lachièze-Rey | Christian Hirsch and Raphaël Lachièze-Rey. *Functional central limit theorem for topological functionals of Gaussian critical points*. **The Annals of Applied Probability 36(5), 4430–4464 (2026)**. | Issue **October 2026**; Crossref print/issued date **1 October 2026**. Publisher's indexed record says first available in Project Euclid **25 September 2026**. Journal DOI [10.1214/26-AAP2333](https://doi.org/10.1214/26-AAP2333). [arXiv:2411.11429](https://arxiv.org/abs/2411.11429): v1 18 November 2024; latest listed v3 15 December 2025. | `HirschLR` already has the correct journal, volume, issue, pages, year and DOI, retaining the arXiv identifier. Crossref supplies no separate `published-online` field. |
+| Pranav | Pratyush Pranav, sole author. *Topology and geometry of Gaussian random fields II: on critical points, excursion sets, and persistent homology*. **arXiv preprint (2021)**; no journal version verified in this check. | [arXiv:2109.08721v1](https://arxiv.org/abs/2109.08721v1), submitted **17 September 2021**; only v1 is listed. Preprint DOI [10.48550/arXiv.2109.08721](https://doi.org/10.48550/arXiv.2109.08721), issued through DataCite. No journal date, journal DOI, volume, issue, pages or article number is verified. | Retain `Pranav` as `@misc`, year 2021, arXiv:2109.08721. The arXiv DOI is a preprint identifier, not a journal DOI. |
+
+**Positive journal evidence.** Perez's
+[Springer article record](https://link.springer.com/article/10.1007/s41468-023-00132-x),
+[volume 7 issue 4 contents](https://link.springer.com/journal/41468/volumes-and-issues/7-4)
+and directly retrieved
+[Crossref DOI metadata](https://api.crossref.org/works/10.1007/s41468-023-00132-x)
+agree. For Hirsch–Lachièze-Rey, the
+[publisher record](https://projecteuclid.org/journals/annals-of-applied-probability/volume-36/issue-5/Functional-central-limit-theorem-for-topological-functionals-of-Gaussian-critical/10.1214/26-AAP2333.full),
+[Crossref DOI metadata](https://api.crossref.org/works/10.1214/26-AAP2333) and
+[Aarhus University record](https://pure.au.dk/portal/en/publications/functional-central-limit-theorem-for-topological-functionals-of-g/)
+agree on the final citation. Both are paginated journal articles; neither needs
+an article number. The live arXiv records omit journal-reference fields even for
+these two published papers, so that omission alone cannot establish nonpublication.
+
+**Pranav evidence and bounded search.** The
+[ERC-ARThUs project bibliography](https://www.arthus-erc.net/ercpub_en.html),
+explicitly last updated **8 May 2026**, places the exact Part II title under
+“Not resubmitted Preprints” and gives an MNRAS submission with a placeholder
+volume. The
+[European Commission CORDIS results](https://cordis.europa.eu/project/id/740021/results)
+classify the work as a 2021 preprint, 29 pages, with the same arXiv DOI.
+The current arXiv abstract record supplies the title, sole author, date and
+version above. These sources support retaining the preprint citation; their
+update dates do not prove the absence of a later journal publication.
+
+On 21 October, direct Crossref REST queries inspected the first 20 results for
+`query.title=Topology and geometry of Gaussian random fields II: on critical points, excursion sets, and persistent homology`
+with `query.author=Pranav`, and the first 10 results for
+`query.bibliographic=2109.08721`. Neither inspected result set contained a
+journal match. The identifier query returned unrelated fuzzy matches, not an
+exact-ID absence certificate. The title query returned the distinct **Part I**
+paper, DOI `10.1093/mnras/stz541`; its MNRAS 485(3), 4167–4208 (2019) metadata
+must not be transferred to Part II.
+The directly retrieved
+[INSPIRE arXiv record](https://inspirehep.net/api/arxiv/2109.08721)
+matches Part II and has no `dois` or `publication_info` fields.
+Exact-title/identifier web searches, including publisher-targeted searches,
+found no verified journal version. This is a documented search outcome,
+not a claim that every index was exhaustively searched.
+
+**Access limits and disposition.** Crossref and INSPIRE APIs were reachable in
+the final direct checks, despite earlier web-fetch failures. The DataCite API
+request for `10.48550/arxiv.2109.08721` returned **HTTP 503**; the preprint DOI
+is nevertheless explicitly supplied by arXiv and CORDIS. NASA ADS, Semantic
+Scholar API and some repository full-text routes did not yield usable records
+during the parallel checks. Direct Project Euclid retrieval returned a page
+shell; its first-availability date was read from indexed publisher text,
+while final citation metadata was independently obtained from Crossref and
+Aarhus. No paywalled journal full-text equivalence check or new MathSciNet
+search was performed.
+
+This addendum **supersedes** the earlier G6 assertion that Pranav “has no
+published version,” and the §5 instruction to repeat G6 as a human lookup.
+The bounded check is complete; a journal version of Pranav remains
+**unverified**, with the preprint citation retained. No required `refs.bib`
+change follows from this check. G1, G3 and the separate human, subscription,
+venue, archiving and submission decisions retain their existing requirements.
 
 ## 3. Novelty search, 21 October 2026 (fourth pass; sources this session could reach)
 
@@ -87,5 +170,5 @@ Sources: the links in §3; [Springer AI editorial policy](https://www.springer.c
 | Who | Action |
 |---|---|
 | Dylan **[HUMAN]** | G1 (human review route), the venue choice (§4), G8 (front-matter details), G9/G10 (archive and Supplement hosting), G13 (arXiv account). |
-| Dylan **[SUBSCRIPTION]/[BROWSER]** | G3, G4 and G6, with the queries in G3. |
+| Dylan **[SUBSCRIPTION]/[BROWSER]** | G3 and G4, with the queries in G3. G6's bounded check and remaining Pranav uncertainty are recorded in §2.1. |
 | Author agent **[AI]** | r13 (G5, G7) is done and read (main#389 6325193355, 6325266500). After the venue choice: G11, G12 and G14. |
