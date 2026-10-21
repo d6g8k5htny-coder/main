@@ -430,10 +430,10 @@ r13 is commit `04a3ee03`: 23 pages, 563301 B, SHA-256 `b3852c53…`. Its Cursor 
 **Why.** Checklist items G6 and G12 (in part) and G8 (in part) of `SUBMISSION_READINESS.md`, closed with free sources and a team decision, with no owner action needed.
 
 **Changes (documentary; no theorem, display or constant changes).**
-- **`refs.bib`, three corrections.**
+- **`refs.bib`, two corrections.**
   - **BobrowskiBorman:** pages 49–70 added (J. Topol. Anal. 4 (2012), no. 1), from the publication record at cris.iucc.ac.il.
-  - **ChenavierHirsch:** the title is the published "Extremal lifetimes of persistent cycles" (Springer and Crossref, DOI 10.1007/s10687-021-00430-6). The arXiv version, 2009.13202, is "Extremal life times of persistent loops and holes".
   - **LadghamLR:** article number 104221 and DOI 10.1016/j.spa.2023.09.008 added, from Crossref.
+- **ChenavierHirsch** is unchanged from r13. The title is the published "Extremal lifetimes of persistent cycles" (Springer and Crossref, DOI 10.1007/s10687-021-00430-6). The arXiv version, 2009.13202, is "Extremal life times of persistent loops and holes".
 - **`main.tex`:** MSC 2020 codes "Primary 60G60; Secondary 60G15, 55N31, 60D05", and keywords. The author's address, email, affiliation and ORCID stay with him (G8).
 - **§0:** "Revised through r14 on 21 October 2026".
 - **README:** revision r14; r13 is added to the earlier revisions; the r13 reads are recorded; a read of r13→r14 is requested.
