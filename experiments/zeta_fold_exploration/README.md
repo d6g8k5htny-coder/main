@@ -1249,19 +1249,23 @@ A nonauthor read from a non-Anthropic provider was requested, in four slices:
   execution of the same programs and fixed inputs, not the replay's own streams, and it makes
   no scientific acceptance.
 
-  **Residual trails reproduced exactly.** The replay's two differing files,
-  `results/dbn/indep_ht_c910.out` and `indep_ht_c3435.out`, differ from fresh runs only in the
-  iteration-4 Newton step.
+  **Residual trails reproduced exactly.** The replay's two differing files are
+  `results/dbn/indep_ht_c910.out` and `indep_ht_c3435.out`. At the documented dps 60,
+  `c910` matches every line except the iteration-4 step, and `c3435` differs from
+  iteration 3 on and does not meet its stop rule. The final `t*`, `z0`, A, B/A, C/A
+  and κ lines are identical.
   - **Provenance.** The committed files are the same git blobs as the review-math outputs kept
     in the packet author's recovery checkpoint, under
     `recovery/session_01S16677s1SGeAJmN3QMz4ip/zeta_raw/review-math/` (commit `5d298b9e`).
     Those were written by the earlier script `c561d95b`.
   - **Mechanism.** That script sets the working precision before it computes the subinterval
-    constant `U = mpf('1.3')`. The current script (`736760f2`) computes `U` at 60 digits first,
-    so the quadrature breakpoints, and with them the iteration-4 noise, differ.
+    constant `U = mpf('1.3')`. The current script (`736760f2`) computes `U` at 60 digits first.
+    At dps 60 the two scripts compute the same `U`. At another requested precision the
+    breakpoints differ, and the data note records that this shifts the quadrature noise in
+    the iteration-4 step.
   - **Reproduction.** In the pinned environment, `c561d95b` reproduces both committed files
-    exactly, apart from `time`, as `55 c910` and `90 c3435`. These are the only matches among
-    dps 50–70 and dps 85–100.
+    exactly, apart from `time`, as `55 c910` and `90 c3435`. These are the only matches in
+    the ranges tested: dps 50–70 for `c910` and dps 85–100 for `c3435`.
     ([data note](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6322382147);
     outputs retained on draft [main#471](https://github.com/d6g8k5htny-coder/main/pull/471) at
     `95a00ce4`.)
