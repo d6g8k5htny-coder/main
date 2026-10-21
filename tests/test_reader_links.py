@@ -905,8 +905,8 @@ NEWER_WORK = re.compile(r'(<aside id="newer-work" class="latest-upstream" tabind
 
 class NewerWorkRoutes(unittest.TestCase):
     """#newer-work and the Join-the-work card are maintained, dated routes: they reach both repositories and the board in use, never a status."""
-    ACTIVE_BOARD = 419   # current coordination successor; guide routing may await its own amendment
-    PREVIOUS_BOARD = 307
+    ACTIVE_BOARD = 475   # current coordination successor; guide routing may await its own amendment
+    PREVIOUS_BOARD = 419
     HISTORICAL_BOARD = 229
     QUEUE = 275
     ISSUES = SOURCE_ROOT+'main/issues/'
@@ -926,7 +926,8 @@ class NewerWorkRoutes(unittest.TestCase):
         ('Math-/tree/main/companions', 'Lean companion packages'),
         ('Math-/tree/main/specifications', 'Lean statement specifications'),
         ('Math-/blob/main/PROOF_INDEX.md', 'selected proof index'),
-        ('main/issues/419', 'active coordination board, main #419'),
+        ('main/issues/475', 'active coordination board, main #475'),
+        ('main/issues/419', 'main #419'),
         ('main/issues/307', 'main #307'),
         ('main/issues/275', 'task and claim queue, main #275'),
         ('main/issues/229', 'historical board, main #229'),
@@ -973,7 +974,7 @@ class NewerWorkRoutes(unittest.TestCase):
         self.assertTrue(aside.startswith('<aside id="newer-work" class="latest-upstream" tabindex="-1"><h3>Check newer work</h3>'
                                          '<p><strong>Mutable upstream navigation.</strong>'))
         self.assertRegex(aside,'Routes '+self.AS_READ+r'\.')
-        self.assertIn('Routes as read 15 October 2026.',aside)
+        self.assertIn('Routes as read 21 October 2026.',aside)
         self.assertIn('">contribution guide</a> for submission instructions',aside)
         self.assertNotIn('it names the same board and queue',aside)
         self.assertIn(self.ASIDE_229,aside)
@@ -1039,7 +1040,7 @@ class NewerWorkRoutes(unittest.TestCase):
         self.assertIn(f'<a href="{self.ISSUES}{self.QUEUE}">Current tasks and claims ↗</a>',card)
         self.assertIn(f'<a href="{self.ISSUES}{self.HISTORICAL_BOARD}#issuecomment-6038554880">historical #229 working guidance</a>',card)
         self.assertIn(f'successor to <a href="{self.ISSUES}{self.PREVIOUS_BOARD}">main #{self.PREVIOUS_BOARD}</a>, which stays readable as history;',card)
-        # Declarations stay where CONTRIBUTING.md puts them (#275 or the task's issue/PR); #419 takes general coordination.
+        # Declarations stay where CONTRIBUTING.md puts them (#275 or the task's issue/PR); #475 takes general coordination.
         self.assertIn("Comment <code>/claim</code> on the task's issue or PR",card)
 
     def test_entry_wording_names_cuts_and_the_index_as_selections(self):

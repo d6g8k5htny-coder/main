@@ -6,7 +6,7 @@ Owner directive: Dylan Roy, 27 September 2026. Scientific effect: **NONE**.
 
 This dated note is contributor routing only. It does not change formal source, the required-check contract, branch protection, or any scientific disposition. A merge or green check is not theorem acceptance.
 
-New formal work is claimed in the relevant current formal pull request or work discussion, not on closed [main#95](https://github.com/d6g8k5htny-coder/main/issues/95). Work without a pull request uses the relevant work discussion. Use [main#275](https://github.com/d6g8k5htny-coder/main/issues/275) for tasks and claims and [main#419](https://github.com/d6g8k5htny-coder/main/issues/419) for coordination (the earlier [#307](https://github.com/d6g8k5htny-coder/main/issues/307) is readable history). Read the [current workflow](../governance/OP-WORKFLOW-20260930.md) before writing, and reconcile exact-path ownership with any open documentation lane.
+New formal work is claimed in the relevant current formal pull request or work discussion, not on closed [main#95](https://github.com/d6g8k5htny-coder/main/issues/95). Work without a pull request uses the relevant work discussion. Use [main#275](https://github.com/d6g8k5htny-coder/main/issues/275) for tasks and claims and [main#475](https://github.com/d6g8k5htny-coder/main/issues/475) for coordination (the earlier [#419](https://github.com/d6g8k5htny-coder/main/issues/419) and [#307](https://github.com/d6g8k5htny-coder/main/issues/307) are readable history). Read the [current workflow](../governance/OP-WORKFLOW-20260930.md) before writing, and reconcile exact-path ownership with any open documentation lane.
 
 Examples of later formal companions, kept distinct from the September scalar pilot:
 

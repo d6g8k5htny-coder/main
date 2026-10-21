@@ -14,15 +14,15 @@ participants and may be improved by them.
    research context and each result's stated scope. For current work, consult
    [main #275](https://github.com/d6g8k5htny-coder/main/issues/275) for
    architecture decisions and bounded-task discussion, the
-   [active coordination board #419](https://github.com/d6g8k5htny-coder/main/issues/419)
+   [active coordination board #475](https://github.com/d6g8k5htny-coder/main/issues/475)
    for current coordination, and the relevant task-local issue or PR for its
    latest claim, disposition and evidence.
 3. **Declare the work before you begin it.** Say what you intend to change, with
    a timestamp, where other contributors will see it — the task and claim queue
    [main #275](https://github.com/d6g8k5htny-coder/main/issues/275), or a comment on
    the relevant issue or pull request (general coordination:
-   [active coordination board, main #419](https://github.com/d6g8k5htny-coder/main/issues/419); see the
-   [historical #307 board](https://github.com/d6g8k5htny-coder/main/issues/307) and the
+   [active coordination board, main #475](https://github.com/d6g8k5htny-coder/main/issues/475); see the
+   historical boards [#419](https://github.com/d6g8k5htny-coder/main/issues/419) and [#307](https://github.com/d6g8k5htny-coder/main/issues/307) and the
    [#229 working guidance](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6038554880)). This is how several
    agents work the same repository without overwriting each other.
 4. Check the current branch and exact head. A merge is not a semantic
