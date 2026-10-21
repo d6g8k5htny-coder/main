@@ -1,0 +1,23 @@
+# real-packet check at main a9e6c7624181b19964e08b161c6583fbb2a0dcd2, 2026-10-21T19:21:43Z, Python 3.11.15
+## original generation
+116 committed files, 553466 bytes; 9 raw entries
+byte-identical to committed: yes
+## original --check
+ok
+exit=0
+## candidate --check on committed manifest
+MISMATCH make_manifest.py
+MISMATCH committed_total_bytes
+2 mismatches
+exit=1
+-O exit=1
+## candidate generation
+116 committed files, 553860 bytes; 9 raw entries
+differing top-level keys: ['committed_files', 'committed_total_bytes']
+row paths identical: True | changed rows: ['make_manifest.py']
+total: 553466 -> 553860
+## candidate --check on regenerated manifest
+ok
+exit=0
+ok
+-O exit=0

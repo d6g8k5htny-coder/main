@@ -1,0 +1,16 @@
+E1 row missing 'path' key                  orig: exit 1 |  | stderr: KeyError: 'path'
+E1 row missing 'path' key                  cand: exit 1 |  | stderr: KeyError: 'path'
+E2 committed_files is a dict               orig: exit 1 |  | stderr: TypeError: string indices must be integers, not 'str'
+E2 committed_files is a dict               cand: exit 1 |  | stderr: TypeError: string indices must be integers, not 'str'
+E3 MANIFEST.json absent                    orig: exit 1 | MISMATCH make_manifest.py | MISMATCH payload.txt | 2 mismatches
+E3 MANIFEST.json absent                    cand: exit 1 | MISMATCH make_manifest.py | MISMATCH payload.txt | MISMATCH committed_total_bytes | 3 mismatches
+E4 total = 2**70                           orig: exit 0 | ok
+E4 total = 2**70                           cand: exit 1 | MISMATCH committed_total_bytes | 1 mismatches
+E5 duplicate of the tool's own row         orig: exit 0 | ok
+E5 duplicate of the tool's own row         cand: exit 1 | MISMATCH duplicate committed path: make_manifest.py | 1 mismatches
+E6 row bytes field tampered, hash intact   orig: exit 1 | MISMATCH payload.txt | 1 mismatches
+E6 row bytes field tampered, hash intact   cand: exit 1 | MISMATCH payload.txt | 1 mismatches
+E7 './payload.txt' alias row added         orig: exit 1 | MISMATCH ./payload.txt | 1 mismatches
+E7 './payload.txt' alias row added         cand: exit 1 | MISMATCH ./payload.txt | 1 mismatches
+E8 total null                              orig: exit 0 | ok
+E8 total null                              cand: exit 1 | MISMATCH committed_total_bytes | 1 mismatches
