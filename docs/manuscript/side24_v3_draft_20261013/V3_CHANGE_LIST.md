@@ -411,7 +411,7 @@ r11 is commit `b033a118`: 23 pages, 562,006 B, SHA-256 `cbfe9db6…`. Its Cursor
 
 ## Revision r13 (21 October, about 19:50Z)
 
-r12 is commit `d550d238`: 23 pages, 562,474 B, SHA-256 `72f6b056…`. Its Cursor read passed (main#389 6324514156). r13 is this PDF: 23 pages, 563185 B, SHA-256 `7f75cf526c022773096f5d1b0f8e33d670b41d0b34c5a526c7d43c6634b1b116`.
+r12 is commit `d550d238`: 23 pages, 562,474 B, SHA-256 `72f6b056…`. Its Cursor read passed (main#389 6324514156). r13 is this PDF: 23 pages, 563301 B, SHA-256 `b3852c5302daf5bda2e5e15ea348378fd4a90724c55f7dda7ee0e7c7a7bd3e10`.
 
 **Why.** It closes items G5 and G7 of `SUBMISSION_READINESS.md`. Novelty pass 4 found Baryshnikov (2025), the closest prior work, which was not cited. Decision 4 (r12) settled the parent-record imports that §7 still listed as remaining.
 
