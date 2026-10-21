@@ -214,17 +214,21 @@ def main():
     print('statements: %d numbered (%s), %d other; proofs: %d; edges: %d' % (
         len(numbered), ', '.join('%d %s' % (sum(1 for s in numbered if s['env'] == e), e) for e in STMT_ENVS),
         len(statements) - len(numbered), len(proofs), n_edges))
-    bad = [c for c in sccs if len(c) > 1]
+    def numkey(label):
+        m = re.match(r'S(\d+)\.(\d+)', nums.get(label, ''))
+        return ((int(m.group(1)), int(m.group(2))) if m else (999, 0), label)
+    # deterministic order: members by statement number, components by their first member
+    bad = sorted((sorted(c, key=numkey) for c in sccs if len(c) > 1), key=lambda c: numkey(c[0]))
     unknown = [c for c in bad if frozenset(c) not in KNOWN]
     print('nontrivial strongly connected components: %d (%d explained in KNOWN, %d not)' % (len(bad), len(bad) - len(unknown), len(unknown)))
     for c in bad:
-        print('  COMPONENT:', '; '.join(name(x) for x in sorted(c, key=lambda l: nums.get(l, ''))))
+        print('  COMPONENT:', '; '.join(name(x) for x in c))
         if frozenset(c) in KNOWN:
             print('     explained:', KNOWN[frozenset(c)])
         else:
             print('     NOT EXPLAINED: a new statement-level component')
         cs = set(c)
-        for a in sorted(c, key=lambda l: nums.get(l, '')):
+        for a in c:
             texts = [('statement', stmt_by_label[a]['text'])] + [('proof', p['text']) for p in proof_of.get(a, [])]
             for kind, t in texts:
                 for m in re.finditer(r'\\(?:eq)?ref\{([^}]*)\}', t):
@@ -244,7 +248,7 @@ def main():
         return (int(m.group(1)), int(m.group(2))) if m else (999, 0)
     fwd = [(a, b) for a in edges for b in edges[a] if key(b) > key(a)]
     print('forward uses (a proof uses a later-numbered statement; allowed when acyclic): %d' % len(fwd))
-    for a, b in sorted(fwd, key=lambda ab: key(ab[0])):
+    for a, b in sorted(fwd, key=lambda ab: (key(ab[0]), key(ab[1]), ab[0], ab[1])):
         print('   %s uses %s' % (name(a), name(b)))
     if dot_out:
         with open(dot_out, 'w', encoding='utf-8') as f:

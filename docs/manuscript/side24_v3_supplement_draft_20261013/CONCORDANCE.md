@@ -272,6 +272,47 @@ On these points the BLOCK overrides the earlier Cursor read of §S5 at `c6aa790d
 
 **Build.** 156 pages, no LaTeX error and no undefined reference; all 927 labels of draft 8 keep their numbers. The one overfull line, 29 pt in S10, is unchanged.
 
+## Checkpoint draft 14 (21 October 2026): provenance wording removed from the mathematical sections
+
+Author-side, by Claude01N, on top of draft 13 (`d28e6ab4`). Documentary. The supplement writers' rule (COMMON rule 3, quoted further down this file: no provenance labels, status words or historical comparisons in the LaTeX) is applied to the clauses that later drafts added. Outside §S0, eleven clauses named earlier drafts and one sentence named a repository path. Each is removed or restated without the history; any mathematical content is kept. No statement, number or label changes. `\path{checks/...}` references to the scripts shipped with this supplement are kept: they are reproducibility pointers, not provenance. Citations of the companion record [R2] and of records [R3] and [R7] of the main text are kept.
+
+- **The changed wording (old → new):**
+  - `supp_s5_selection.tex`
+    - was: That script subtracts $f(x)$, as drafts~1--8 did, but the pins do not fix $f(x)$.
+    - now: That script subtracts $f(x)$, but the pins do not fix $f(x)$.
+  - `supp_s5_selection.tex`
+    - was: Drafts~1--8 stated in its place an integral of $\rho^{-m}$ times the density over $S^2$, bounded by $C_ms^{-7}$; at a fixed positive scale that integral diverges for $m\ge2$, because the density is positive on the axis.
+    - now: An integral of $\rho^{-m}$ times the density over $S^2$ would not serve in its place: at a fixed positive scale that integral diverges for $m\ge2$, because the density is positive on the axis.
+  - `supp_s5_selection.tex`
+    - was: Drafts~1--8 bounded these moments by a power of $1+\rho^{-1}$, through a lower bound $\rho^{10}$ for the third-point block that holds only in the contact limit.
+    - now: A bound of these moments by a power of $1+\rho^{-1}$, through a lower bound $\rho^{10}$ for the third-point block, would not serve here: that lower bound holds only in the contact limit.
+  - `supp_s5_selection.tex`
+    - was: So a bound by $\rho^{-m}$ times a function of the scale alone cannot be integrated over the directions, and drafts~1--8 of this supplement asserted such a bound in \eqref{eq:selection-singdens} (\path{CONCORDANCE.md}, ``Checkpoint draft~9'').
+    - now: So a bound by $\rho^{-m}$ times a function of the scale alone cannot be integrated over the directions.
+  - `supp_s7_rate.tex`
+    - was: Theorem~\ref{thm:rate-bounded} is the statement of Theorem~R (\texttt{frontiers/three\_fronts\_20260924/LIFETIME\_REMAINDER.md}, blob \texttt{247b3ecf}) at every fixed $d\ge 2$ and $L>0$.
+    - now: Theorem~\ref{thm:rate-bounded} is the statement of Theorem~R of record [R3] of the main text at every fixed $d\ge 2$ and $L>0$.
+  - `supp_s8_remainder.tex`
+    - was:  and $r_Z:=r_K$ (drafts~1--11 took $r_Z$ to be the radius of the near-diagonal analysis of Theorem~Z of record [R7] of the main text, which the proof of Proposition~\ref{prop:remainder-Z} in \S\ref{ssec:remainder-Z} does not use).
+    - now:  and $r_Z:=r_K$.
+  - `supp_s8_remainder.tex`
+    - was: Together the two bounds are Theorem~K of record [R7] of the main text, which drafts~1--10 cited for them.
+    - now: Together the two bounds are Theorem~K of record [R7] of the main text.
+  - `supp_s8_remainder.tex`
+    - was: Items (i) and (ii) are Theorem~Z of record [R7] of the main text, which drafts~1--11 cited for them; they are proved
+    - now: Items (i) and (ii) are Theorem~Z of record [R7] of the main text; they are proved
+  - `supp_s8_remainder.tex`
+    - was: This subsection proves the second bound of Proposition~\ref{prop:remainder-K}, which drafts~1--10 imported from Theorem~K of record [R7] of the main text.
+    - now: This subsection proves the second bound of Proposition~\ref{prop:remainder-K}, which is also part of Theorem~K of record [R7] of the main text.
+  - `supp_s8_remainder.tex`
+    - was: This subsection proves items (i) and (ii) of Proposition~\ref{prop:remainder-Z}, which drafts~1--11 imported from Theorem~Z of record [R7] of the main text.
+    - now: This subsection proves items (i) and (ii) of Proposition~\ref{prop:remainder-Z}, which are also Theorem~Z of record [R7] of the main text.
+  - `supp_s11_ctwo.tex`
+    - was: Drafts~1--9 stated them as a hypothesis; both follow from Section~\ref{sec:third}.
+    - now: Both follow from Section~\ref{sec:third}.
+- **Proof-dependency check made reproducible** (residual 2, raised in the author's draft-13 readback request on main#389). `checks/dep_graph_check.py` now orders its output completely by statement number: the forward-use list by (source, target), the components by their first member and each component's members by number. Before this, ties followed Python's set order, so the committed output could differ from a rerun. `checks/dep_graph_check.out.txt` is regenerated; the result is unchanged: 194 numbered statements, 396 edges, 102 forward uses, seven explained components, `NO_UNEXPLAINED_COMPONENT`. Six reruns with random hash seeds reproduce the file byte for byte.
+- **Build.** See README and `SHA256SUMS`.
+
 ## Checkpoint draft 13 (20 October 2026): the proof-dependency graph, and three documentary repairs
 
 Author-side, by Claude01N, on top of draft 12 (`59d20df5`). No number of draft 12 changes; one proof environment is added (a proof carries no number).
