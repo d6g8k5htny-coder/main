@@ -3,7 +3,7 @@
 For every numbered statement (theorem, lemma, proposition, corollary) the script finds its proofs
 (the next ``proof`` environment; every ``\\begin{proof}[Proof of ...~\\ref{label}...]`` naming it, joint
 proofs included; and a ``\\subsection{Proof of ...~\\ref{label}}`` up to the next sectioning command), collects
-every ``\\ref``/``\\eqref`` in the statement and in its proof, maps equation labels to the statement
+every ``\\ref``/``\\eqref`` in the statement (including its optional title) and in its proof, maps equation labels to the statement
 that owns them (the statement or proof in which the display appears), and builds the directed graph
 "A's proof uses B". It then reports:
   1. strongly connected components of size > 1, each with its internal references in context, so that a
@@ -15,8 +15,8 @@ mathematics: an edge is a reference, not a verified logical use.
 
 The seven statement-level components of draft 13 are listed in KNOWN with the reason each is acyclic at
 the level of items, definitions and pointers; the script exits 1 only if a component outside that list
-appears, or if the internal edges of a listed component change (KNOWN_EDGES), so it is a regression check
-for later drafts, not a proof of anything. It exits 2, before building the graph, if the directory or any of
+appears, or if the directed internal edge set of a listed component changes (KNOWN_EDGES), so it is a regression check
+for later drafts, not a proof of anything. Unchanged edges do not certify an unchanged explanation or proof. It exits 2, before building the graph, if the directory or any of
 the thirteen section files is missing, or if a \\label is defined twice (a duplicate would overwrite a
 statement and could hide a component).
 
@@ -60,17 +60,61 @@ FILES = ['supp_s1_setting.tex', 'supp_s2_contact.tex', 'supp_s3_coefficient.tex'
          'supp_s5_selection.tex', 'supp_s6_limit.tex', 'supp_s7_rate.tex', 'supp_s8_remainder.tex',
          'supp_s9_cusp.tex', 'supp_s10_third.tex', 'supp_s11_ctwo.tex', 'supp_s12_parent.tex', 'supp_s13_cap.tex']
 
-# Number of graph edges inside each KNOWN component when its explanation was written. A different count means
-# the explanation must be reviewed again, so the script then treats the component as unexplained.
+# Exact directed label-pair snapshots observed in the committed draft16 graph report:
+# commit 3d434b425a57e446fa78bb3e9340ab274f65e437, report blob e79fee95e0b3e531dc560e2cc5125648ebfa57fa.
+# These bind structural explanation reuse, not proof text or mathematical correctness.
+# Do not update a snapshot merely to make a changed component pass: review its explanation first.
 KNOWN_EDGES = {
-    frozenset(['prop:parent-KR', 'prop:parent-ledger']): 2,
-    frozenset(['lem:parent-generic', 'prop:parent-push', 'prop:parent-near', 'thm:parent-A', 'thm:parent-B', 'thm:parent-C']): 7,
-    frozenset(['lem:selection-slope', 'lem:selection-capture', 'lem:selection-robust']): 4,
-    frozenset(['lem:selection-collarchart', 'lem:selection-collarfactor', 'lem:selection-singchart', 'lem:selection-singfactor',
-               'lem:selection-finsing', 'lem:selection-fincol']): 12,
-    frozenset(['prop:coefficient-iso', 'cor:coefficient-BF']): 2,
-    frozenset(['prop:correction-firstvar', 'thm:correction-main']): 2,
-    frozenset(['lem:remainder-W', 'prop:remainder-Z', 'thm:remainder-vanish', 'thm:remainder-rate']): 7,
+    frozenset(['prop:parent-KR', 'prop:parent-ledger']): frozenset([
+        ('prop:parent-KR', 'prop:parent-ledger'),
+        ('prop:parent-ledger', 'prop:parent-KR'),
+    ]),
+    frozenset(['lem:parent-generic', 'prop:parent-near', 'prop:parent-push', 'thm:parent-A', 'thm:parent-B', 'thm:parent-C']): frozenset([
+        ('lem:parent-generic', 'thm:parent-C'),
+        ('prop:parent-near', 'prop:parent-push'),
+        ('prop:parent-push', 'thm:parent-B'),
+        ('thm:parent-A', 'lem:parent-generic'),
+        ('thm:parent-B', 'thm:parent-A'),
+        ('thm:parent-C', 'lem:parent-generic'),
+        ('thm:parent-C', 'prop:parent-near'),
+    ]),
+    frozenset(['lem:selection-capture', 'lem:selection-robust', 'lem:selection-slope']): frozenset([
+        ('lem:selection-capture', 'lem:selection-slope'),
+        ('lem:selection-robust', 'lem:selection-capture'),
+        ('lem:selection-robust', 'lem:selection-slope'),
+        ('lem:selection-slope', 'lem:selection-robust'),
+    ]),
+    frozenset(['lem:selection-collarchart', 'lem:selection-collarfactor', 'lem:selection-fincol', 'lem:selection-finsing', 'lem:selection-singchart', 'lem:selection-singfactor']): frozenset([
+        ('lem:selection-collarchart', 'lem:selection-fincol'),
+        ('lem:selection-collarfactor', 'lem:selection-collarchart'),
+        ('lem:selection-fincol', 'lem:selection-collarchart'),
+        ('lem:selection-fincol', 'lem:selection-collarfactor'),
+        ('lem:selection-fincol', 'lem:selection-finsing'),
+        ('lem:selection-finsing', 'lem:selection-singchart'),
+        ('lem:selection-finsing', 'lem:selection-singfactor'),
+        ('lem:selection-singchart', 'lem:selection-finsing'),
+        ('lem:selection-singchart', 'lem:selection-singfactor'),
+        ('lem:selection-singfactor', 'lem:selection-collarfactor'),
+        ('lem:selection-singfactor', 'lem:selection-finsing'),
+        ('lem:selection-singfactor', 'lem:selection-singchart'),
+    ]),
+    frozenset(['cor:coefficient-BF', 'prop:coefficient-iso']): frozenset([
+        ('cor:coefficient-BF', 'prop:coefficient-iso'),
+        ('prop:coefficient-iso', 'cor:coefficient-BF'),
+    ]),
+    frozenset(['prop:correction-firstvar', 'thm:correction-main']): frozenset([
+        ('prop:correction-firstvar', 'thm:correction-main'),
+        ('thm:correction-main', 'prop:correction-firstvar'),
+    ]),
+    frozenset(['lem:remainder-W', 'prop:remainder-Z', 'thm:remainder-rate', 'thm:remainder-vanish']): frozenset([
+        ('lem:remainder-W', 'thm:remainder-vanish'),
+        ('prop:remainder-Z', 'lem:remainder-W'),
+        ('prop:remainder-Z', 'thm:remainder-rate'),
+        ('prop:remainder-Z', 'thm:remainder-vanish'),
+        ('thm:remainder-rate', 'lem:remainder-W'),
+        ('thm:remainder-vanish', 'prop:remainder-Z'),
+        ('thm:remainder-vanish', 'thm:remainder-rate'),
+    ]),
 }
 
 
@@ -133,7 +177,7 @@ def main():
             label = lab.group(1) if lab else '%s@%s:%d' % (env, fn, m.start())
             counter += 1
             nums[label] = 'S%d.%d' % (sec_no, counter)
-            st = dict(label=label, env=env, file=fn, start=m.start(), end=m.end(), text=body)
+            st = dict(label=label, env=env, file=fn, start=m.start(), end=m.end(), text=(m.group(2) or '') + body)
             statements.append(st)
             stmt_by_label[label] = st
             for e in re.finditer(r'\\label\{([^}]*)\}', body):
@@ -260,7 +304,12 @@ def main():
     def internal(c):
         cs = set(c)
         return sum(1 for a in c for b in edges[a] if b in cs)
-    unknown = [c for c in bad if frozenset(c) not in KNOWN or (KNOWN_EDGES and KNOWN_EDGES.get(frozenset(c)) != internal(c))]
+    def internal_pairs(c):
+        cs = frozenset(c)
+        return frozenset((a, b) for a in c for b in edges[a] if b in cs)
+    # No truthiness escape: an absent snapshot must not authorize explanation reuse.
+    unknown = [c for c in bad if frozenset(c) not in KNOWN
+               or KNOWN_EDGES.get(frozenset(c)) != internal_pairs(c)]
     print('nontrivial strongly connected components: %d (%d explained in KNOWN, %d not)' % (len(bad), len(bad) - len(unknown), len(unknown)))
     for c in bad:
         print('  COMPONENT:', '; '.join(name(x) for x in c))
@@ -268,7 +317,7 @@ def main():
         if frozenset(c) in KNOWN and c not in unknown:
             print('     explained:', KNOWN[frozenset(c)])
         elif frozenset(c) in KNOWN:
-            print('     CHANGED: internal edges differ from KNOWN_EDGES (%s); review the explanation' % KNOWN_EDGES.get(frozenset(c)))
+            print('     CHANGED: directed internal edges differ from or lack a KNOWN_EDGES snapshot; review the explanation')
         else:
             print('     NOT EXPLAINED: a new statement-level component')
         cs = set(c)
