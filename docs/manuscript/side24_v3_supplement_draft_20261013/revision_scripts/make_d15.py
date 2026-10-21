@@ -4,7 +4,8 @@ A fresh-context whole-document consistency read of draft 14 (same provider, Anth
 found no error and five places where a radius or parametrisation proved in one section is used in another without
 the matching sentence (G1-G5), plus notation clashes. The author verified G1-G4 against the sources; this draft adds
 the matching sentences. G5 (the source of the d=2 enclosure of c_{2,24}) and the notation clashes are recorded as
-open in CONCORDANCE, not changed. No statement is strengthened; no number or label changes.
+open in CONCORDANCE, not changed. No statement is strengthened except Proposition S8.2(iv), now stated for k >= 0;
+no number or label changes.
 
 G1  S5: the normalizer bounds hold for 0<r<=r_0 of Lemma S2.9(iii); the radius of Theorem S5.36 is the least of the
     radii of the results its proof combines.
@@ -47,7 +48,7 @@ edit('supp_s5_selection.tex', [
 
 edit('supp_s6_limit.tex', [
     (r"""By Theorem~\ref{thm:parent-A} at $d=3$ and $L=24$, whose selection probability is $p_r$ (Remark~\ref{rem:selection-parent}),""",
-     r"""By Theorem~\ref{thm:parent-A} at $d=3$ and $L=24$, applied with gap mark $k=\kappa/6$, gap window $\{\kappa/6:\kappa\in I_\kappa\}$ for a compact $I_\kappa\subset(0,\infty)$ and any orthonormal frame $R$ with $Re_1=t$ (the conversion of the preceding paragraph), and whose selection probability is $p_r$ (Remark~\ref{rem:selection-parent}),"""),
+     r"""By Theorem~\ref{thm:parent-A} at $d=3$ and $L=24$, applied with gap mark $k=\kappa/6$, gap window $\{\kappa/6:\kappa\in I_\kappa\}$ for a compact $I_\kappa\subset(0,\infty)$ and any orthonormal frame $R$ with $Re_1=t$ (the conversion $k=\kappa/6$ of the paragraph \emph{The kernel in Part~II's notation} before Proposition~\ref{prop:limit-far}), and whose selection probability is $p_r$ (Remark~\ref{rem:selection-parent}),"""),
 ])
 
 edit('supp_s7_rate.tex', [
@@ -74,7 +75,7 @@ edit('supp_s10_third.tex', [
 edit('supp_s0_status.tex', [
     (r"""Checkpoint draft~14 of """ + date + ",", r"""Checkpoint draft~15 of """ + date + ","),
     (r"""\item \emph{Draft~14}""",
-     r"""\item \emph{Draft~15} makes radius and parameter matching explicit at six places that a whole-document consistency read identified (normalizer radius and the radius of Theorem~\ref{thm:selection-main}; Theorem~\ref{thm:parent-A} in the variables of \S\ref{sec:limit}; the radii of \S\ref{sec:rate} against \S\ref{sec:parent}; $r_R$ in \S\S\ref{sec:remainder} and~\ref{sec:third}; Proposition~\ref{prop:remainder-R}(iv) at $k=0$; the density citation for the unrestricted densities). No statement is strengthened and no number changes.
+     r"""\item \emph{Draft~15} makes radius and parameter matching explicit at six places that a whole-document consistency read identified (normalizer radius and the radius of Theorem~\ref{thm:selection-main}; Theorem~\ref{thm:parent-A} in the variables of \S\ref{sec:limit}; the radii of \S\ref{sec:rate} against \S\ref{sec:parent}; $r_R$ in \S\S\ref{sec:remainder} and~\ref{sec:third}; Proposition~\ref{prop:remainder-R}(iv) at $k=0$; the density citation for the unrestricted densities). No statement is strengthened except Proposition~\ref{prop:remainder-R}(iv), now stated for $k\ge0$, and no number changes.
 \item \emph{Draft~14}"""),
 ])
 
@@ -86,7 +87,7 @@ readme = open(d + '/README.md', encoding='utf-8').read()
 readme = readme.rstrip('\n') + (
     "\n\nDraft 15 (" + date + ") adds the sentences that match radii and parameters across sections at six places "
     "found by a whole-document consistency read (CONCORDANCE, \"Checkpoint draft 15\"). No statement is strengthened "
-    "and no number changes. Two findings of that read stay open there: the source of the d = 2 enclosure of c_{2,24} "
+    "except Proposition S8.2(iv), now stated for k ≥ 0, and no number changes. Two findings of that read stay open there: the source of the d = 2 enclosure of c_{2,24} "
     "in Corollary S9.16, and the notation clashes (notably c_2[K] in §S4 and §S11).\n")
 open(d + '/README.md', 'w', encoding='utf-8').write(readme)
 
