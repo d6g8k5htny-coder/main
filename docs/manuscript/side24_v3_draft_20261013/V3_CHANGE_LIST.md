@@ -478,3 +478,20 @@ r15 is commit `18543a20`. Its Cursor read passed (main#389 6326222268). r16 is t
 - **README:** revision r16; r15 is added to the earlier revisions and its read is recorded; [R1] is now draft 15; a read of r15→r16 is requested.
 
 **Build.** `build.sh` compiles with no LaTeX error and the same 2 pt overfull line as before; 23 pages; no BibTeX warnings. Built by `revision_scripts/make_r16.py`.
+
+## Revision r17 (21 October, about 21:20Z)
+
+r16 is commit `fcc83ab5`. Its Cursor read passed (main#389 6326401627). r17 is this PDF: 23 pages, 564369 B, SHA-256 `8ac5e2787616e2222c736434940f04a36d90fe70dd63785cd80f2627078f8be1`.
+
+**Why.** Supplement draft 16 (commit `3d434b42` of `claude/side24-v3-supplement-draft16-20261021`) is read.
+- It applies the AMEND (A1–A4) of Grok Bot agent 9's whole-document read of draft 15, a read by a provider other than the author's (main#389 6326419744).
+- It closes gap G5, which Grok Bot agent 3 confirmed (6326409144). The proof of Corollary S9.16 now derives `c_{2,ref}` at d = 2, and a 300-digit interval check certifies the printed enclosure of `c_{2,24}`.
+- Cursor's read of the two commits passed the first; its AMEND on the second was applied, and the readback passed (6326651921, 6326705347).
+- All 943 labels keep their numbers.
+
+**Changes (documentary; no theorem, display or constant changes).**
+- **Appendix A, [R1]:** now draft 16, commit `3d434b42`.
+- **§0:** "Revised through r17 on 21 October 2026".
+- **README:** revision r17; r16 is added to the earlier revisions and its read is recorded; [R1] is draft 16; a read of r16→r17 is requested.
+
+**Build.** `build.sh`: 23 pages, no LaTeX error, the same 2 pt overfull line, no BibTeX warnings. Built by `revision_scripts/make_r17.py`.
