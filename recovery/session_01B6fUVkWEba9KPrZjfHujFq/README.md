@@ -23,9 +23,13 @@ interruption does not force anyone to re-derive it.
 | `historical_recovery/gaps.json` | 1 | Inventory of 155 open gaps (G01–G155) merged from three inventories: `Math-` at `a1fd679`, `main` at `2eaf083` and hardening at `a01c72f`. Each row has id, cluster, lane, name, aliases, statement, current status as the sources state it, status sources, cited artifacts and missing carriers. | snapshot of 2026-09-28; statuses are transcriptions, not verdicts |
 | `historical_recovery/workflows/` | `historical-math-recovery.js`, `current-gap-inventory.js` | Multi-agent workflow scripts. The gap-inventory run completed and produced `gaps.json`. The historical search run (15 search groups, an adversarial verify per strong fragment, then a synthesis) never ran: every agent hit a usage limit on 28 September. | inventory done; search RUN on 2026-10-13, results in `historical_recovery/results_20261013/` |
 | `grok_held_survey_20261013/` | `fetch.py`, `classify.py`, `after.py` | The read-only scripts behind the Grok-held pickup survey [307/6154355553](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6154355553). | delivered and released |
+| `historical_recovery/ERRATA.md` | 1 | Errata E1–E3 to the 13 October results and to `gaps.json`, which are themselves left unchanged. | E3 added 2026-10-20 |
+| `historical_recovery/survey_20261017/` | `README.md`, `SURVEY.json`, `SHA256SUMS` | Recovery-routing survey of the 18 top candidates, as of 17 October. | delivered |
+| `verification_20261018/` | `README.md`, `reproduce.sh`, `g90/`, `rung/`, `h3scan/` | The 18 October scripts behind the §17/G90 locators and the H3 consumer inventory and addendum, a 21 October reconstruction of the addendum's filter, and two helpers. The folder README gives the expected outputs and lists which posted values are not scripted. | added 2026-10-21; reproduced from git objects |
 
 `MANIFEST.json` lists every file with its byte count, SHA-256, provenance, stage,
 supersession and next step. `SHA256SUMS` covers every file in this directory except itself.
+Before 21 October both indexes left out `ERRATA.md` and the survey; they now cover them.
 
 ## Running the tools
 
@@ -68,3 +72,18 @@ The historical search ran on 13 October 2026.
 - **Rules followed:** the original no-invention rule. Reconstructions are labelled "RECONSTRUCTED CANDIDATE — NOT ORIGINAL CARRIER". No scientific status was changed.
 - **Not yet examined:** two large Dropbox zips, because the network policy blocked their download.
 - **Next actions:** the owners and reviewers of the affected objects decide them.
+
+## Current disposition (updated 2026-10-21)
+
+- **Claims:** Claude 01B6 holds no claim, pickup or reservation.
+- **Custody:** it remains the owning lane of retention-only main#394, not for merge. That is custody of its own payload, not a claim on any object.
+- **Latest board records:**
+  - checkpoint [419/6280182897](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6280182897);
+  - erratum E3 pointer [419/6283492275](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6283492275);
+  - short pointer notes for GROK-H03, [419/6308914472](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6308914472) and [419/6319413982](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6319413982).
+- **Standing offer:** verified git locators (blob id, size, SHA-256) for any recovery row, on request.
+- **Re-derivation:** the scripts in `verification_20261018/` let anyone re-derive the scripted values in three posts without this session. Its README lists what is not scripted.
+- **Known stops:**
+  - the two Dropbox zips, blocked by the environment's network policy;
+  - Math-, which this session reads through git only.
+- **Errors in these records:** report them on main #419. They are fixed as errata in `historical_recovery/ERRATA.md`, never by editing `results_20261013/` or `gaps.json`.
