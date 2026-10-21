@@ -1104,9 +1104,9 @@ def restore_history(site, reader=None, expected_manifest_sha=None):
             raise ValueError("published current observation has different mathematical material")
         ensure_render_budget(data, remote)
         # Only an exact complete map can select a predecessor presentation.
-        # Current builds keep annotations and style-first output by default.
-        for annotations, style_first in ((True, True), (True, False), (False, True), (False, False)):
-            live = render_live_current_v2(data, remote, annotations=annotations, style_first=style_first)
+        # Current builds keep annotations, the Resume block and style-first output by default.
+        for annotations, style_first, resume in LIVE_PRESENTATIONS:
+            live = render_live_current_v2(data, remote, annotations=annotations, style_first=style_first, resume=resume)
             if [descriptor(k, v) for k, v in sorted(live.items())] == manifest["current_observation"]["files"]:
                 break
         else:
@@ -1490,6 +1490,10 @@ def render_static_v2(projection, meta, *, archived=True, style_first=None):
 # Repository-owned live renderer. Current routes bind the full fresh observation;
 # the separately named historical link retains its own original pins and date.
 LIVE_RENDERER_V2 = "research-live-static-v2"
+# (annotations, style_first, resume) for each published live presentation: the
+# current default first, then predecessors without the Resume block or annotations.
+LIVE_PRESENTATIONS = ((True, True, True), (True, False, True), (True, True, False),
+                      (True, False, False), (False, True, False), (False, False, False))
 
 
 def _live_v2_current_section(data, meta, *, annotations=True):
@@ -1602,15 +1606,17 @@ def _resume_html(view):
             f'<h3>Continuation</h3>\n{continuation}\n</section>\n')
 
 
-def render_live_current_v2(data, meta, *, style_first=True, annotations=True, acquisition=None):
+def render_live_current_v2(data, meta, *, style_first=True, annotations=True, acquisition=None, resume=None):
     """Render current static routes from the full fresh schema-1 observation."""
+    if resume is None:
+        resume = annotations
     if annotations and acquisition is None:
         acquisition = project_current_acquisitions(data)
     graph = data["graph"]["data"]
     pages = {}
     for node_id, node in graph["nodes"].items():
         body = (f'<h1>{_v1_escape(node_id)}</h1>\n<p>Original kind: <code>{_v1_escape(node.get("kind", "not_recorded"))}</code> · recorded classification: <code>{_v1_escape(node.get("classification", "not_recorded"))}</code>.</p>\n'
-                + _resume_html(resume_projection(data, node_id))
+                + (_resume_html(resume_projection(data, node_id)) if resume else '')
                 + '<h2>Independent evidence metadata axes</h2>\n' + _v1_axes_html(node)
                 + '\n<p>These values describe metadata presence, not a proof result, applicability or scientific acceptance. No kernel, computation or alignment record is admitted by this graph export.</p>\n'
                 '<p>Graph-to-artifact binding: unresolved; artifact roles: unknown; custody: unknown. No Artifact Index mapping is inferred.</p>\n'
