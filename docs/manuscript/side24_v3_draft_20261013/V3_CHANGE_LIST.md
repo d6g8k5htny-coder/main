@@ -422,3 +422,25 @@ r12 is commit `d550d238`: 23 pages, 562,474 B, SHA-256 `72f6b056…`. Its Cursor
 - **README.** Revision r13. The earlier-revisions list adds r12. The r12 read is recorded, and a read of the r12→r13 delta is requested.
 
 **Build.** `build.sh` compiles with no LaTeX error and the same 2 pt overfull line as before; 23 pages. BibTeX reports four "missing pages" warnings (BobrowskiBorman, ChenavierHirsch, HLO, LadghamLR). They concern entries r13 does not touch and are left for the style pass. Built by `revision_scripts/make_r13.py`.
+
+## Revision r14 (21 October, about 20:20Z)
+
+r13 is commit `04a3ee03`: 23 pages, 563301 B, SHA-256 `b3852c53…`. Its Cursor read ended in readback PASS (main#389 6325266500). r14 is this PDF: 23 pages, 564220 B, SHA-256 `912269a62cb233754e0bb78231513505163ffa15c02a1085623cbb2ba9cc64a2`.
+
+**Why.** Checklist items G6 and G12 (in part) and G8 (in part) of `SUBMISSION_READINESS.md`, closed with free sources and a team decision, with no owner action needed.
+
+**Changes (documentary; no theorem, display or constant changes).**
+- **`refs.bib`, three corrections.**
+  - **BobrowskiBorman:** pages 49–70 added (J. Topol. Anal. 4 (2012), no. 1), from the publication record at cris.iucc.ac.il.
+  - **ChenavierHirsch:** the title is corrected to the published "Extremal lifetimes of persistent loops and holes", as in N. Chenavier's publication list. The draft had "… persistent cycles". The arXiv version, 2009.13202, is "Extremal life times of persistent loops and holes".
+  - **LadghamLR:** article number 104221 and DOI 10.1016/j.spa.2023.09.008 added, from Crossref.
+- **`main.tex`:** MSC 2020 codes "Primary 60G60; Secondary 60G15, 55N31, 60D05", and keywords. The author's address, email, affiliation and ORCID stay with him (G8).
+- **§0:** "Revised through r14 on 21 October 2026".
+- **README:** revision r14; r13 is added to the earlier revisions; the r13 reads are recorded; a read of r13→r14 is requested.
+
+**Still open (not changed here).**
+- ChenavierHirsch: volume 25 is printed, but the pages are not yet confirmed.
+- HLO: the Extremes DOI 10.1007/s10687-026-00526-x and its volume and pages are not confirmed. The arXiv page (2412.17482, v1) lists no journal reference.
+- Crossref rate-limited this session. BibTeX now warns "missing pages" only for these two entries.
+
+**Build.** `build.sh` compiles with no LaTeX error and the same 2 pt overfull line as before; 23 pages. Built by `revision_scripts/make_r14.py`.
