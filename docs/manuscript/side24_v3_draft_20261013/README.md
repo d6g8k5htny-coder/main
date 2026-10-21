@@ -1,10 +1,10 @@
-# SIDE24 manuscript — V3 draft (13 October 2026; revision r14 of 21 October)
+# SIDE24 manuscript — V3 draft (13 October 2026; revision r15 of 21 October)
 
 Dylan Roy — delegated AI work. Actual performer: Anthropic Claude, Claude Code session `session_01NMeKEismAyeqgdB4sy2NJU` (Claude01N), the author of the V3 edit pack. This is an **author-side draft** of the SIDE24 manuscript for the author's decisions and for nonauthor reads. Scientific effect NONE: no register, status or proof file changes, and no theorem changes.
 
 ## Contents
 
-- `SIDE24_V3_DRAFT_20261013.pdf`: the compiled draft, revision r14, 23 pages. Its first section, "Status of this draft", is for the author and is removed before submission. Earlier revisions are kept at their commits: r13 (23 pages, SHA-256 `b3852c53…`) at `04a3ee03`, r12 (23 pages, SHA-256 `72f6b056…`) at `d550d238`, r11 (23 pages, SHA-256 `cbfe9db6…`) at `b033a118`, r10 (23 pages, SHA-256 `edf1bc77…`) at `d9f01444`, r9 (23 pages, SHA-256 `2bea32be…`) at `3022daae`, r8 (22 pages, SHA-256 `9e051654…`) at `2f176488`, r7 (22 pages, SHA-256 `af944708…`) at `5543bd20`, r6 (22 pages, SHA-256 `602762a2…`) at `398cf6fb`, r5 (22 pages, SHA-256 `0d8113f7…`) at `74bc4988`, r4 (21 pages, SHA-256 `a22db882…`) at `7bab515f`, r3 (19 pages, SHA-256 `75496787…`) at `7aff36d0`, r2 at `ff73d996`, r1 (SHA-256 `aa866725…`) at `56b680cd`, and r0 (18 pages, SHA-256 `8270e498…`) at `6deb0899`. `V3_CHANGE_LIST.md` records every revision.
+- `SIDE24_V3_DRAFT_20261013.pdf`: the compiled draft, revision r15, 23 pages. Its first section, "Status of this draft", is for the author and is removed before submission. Earlier revisions are kept at their commits: r14 at `ba1b904d`, r13 (23 pages, SHA-256 `b3852c53…`) at `04a3ee03`, r12 (23 pages, SHA-256 `72f6b056…`) at `d550d238`, r11 (23 pages, SHA-256 `cbfe9db6…`) at `b033a118`, r10 (23 pages, SHA-256 `edf1bc77…`) at `d9f01444`, r9 (23 pages, SHA-256 `2bea32be…`) at `3022daae`, r8 (22 pages, SHA-256 `9e051654…`) at `2f176488`, r7 (22 pages, SHA-256 `af944708…`) at `5543bd20`, r6 (22 pages, SHA-256 `602762a2…`) at `398cf6fb`, r5 (22 pages, SHA-256 `0d8113f7…`) at `74bc4988`, r4 (21 pages, SHA-256 `a22db882…`) at `7bab515f`, r3 (19 pages, SHA-256 `75496787…`) at `7aff36d0`, r2 at `ff73d996`, r1 (SHA-256 `aa866725…`) at `56b680cd`, and r0 (18 pages, SHA-256 `8270e498…`) at `6deb0899`. `V3_CHANGE_LIST.md` records every revision.
 - `main.tex`, `s0_status.tex` … `s7_disclosure.tex`, `appA_records.tex`, `refs.bib`: the LaTeX sources. `build.sh` rebuilds the PDF with `pdflatex` and `bibtex` (amsart, amsplain).
 - `V3_CHANGE_LIST.md`: where every V2 amendment (M1–M7) and every V3 edit-pack item (E1–E78) went, the corrections found while drafting, the record of the pre-delivery check, and the "do not print" compliance.
 - `SHA256SUMS`: hashes of every file above except this README.
@@ -32,5 +32,6 @@ Dylan Roy — delegated AI work. Actual performer: Anthropic Claude, Claude Code
 - **Reads of r11:** the Cursor read of the r10→r11 delta passed (main#389 6302472048).
 - **Reads of r12:** the Cursor read of the r11→r12 delta passed (main#389 6324514156).
 - **Reads of r13:** Cursor AMEND (main#389 6325193355), applied; readback AMEND (6325247357), applied; readback PASS (6325266500).
-- **Requested:** a nonauthor read of the r13→r14 delta (three `refs.bib` corrections; MSC 2020 codes and keywords in `main.tex`; §0; this README; the change list).
+- **Reads of r14:** Cursor AMEND (main#389 6325580614), applied; readback AMEND (6325782917), applied; readback PASS (6325821191).
+- **Requested:** a nonauthor read of the r14→r15 delta (`refs.bib` completed from Crossref and zbMATH Open data, main#389 6325580607; §0; this README; the change list).
 - **Integration:** not requested. The author's decisions are made; submission still waits on the items in §0, "Before submission".

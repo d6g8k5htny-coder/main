@@ -444,3 +444,21 @@ r13 is commit `04a3ee03`: 23 pages, 563301 B, SHA-256 `b3852c53…`. Its Cursor 
 - Crossref rate-limited this session. BibTeX now warns "missing pages" only for these two entries.
 
 **Build.** `build.sh` compiles with no LaTeX error and the same 2 pt overfull line as before; 23 pages. Built by `revision_scripts/make_r14.py`.
+
+## Revision r15 (21 October, about 20:45Z)
+
+r14 is commit `ba1b904d`. Its Cursor read went: AMEND 6325580614, applied; readback AMEND 6325782917, applied; readback PASS 6325821191. r15 is this PDF: 23 pages, 564370 B, SHA-256 `3cab55776df92d59d73b1904e25621953cb51a295e748467d3cbba45a9d24d22`.
+
+**Why.** Checklist items G6 and G12 (the bibliography part). The data come from Cursor's record B (main#389 6325580607), drawn from Crossref and zbMATH Open, sources this session could not reach. No owner action was needed.
+
+**Changes (documentary; no theorem, display or constant changes).**
+- **`refs.bib`**
+  - **ChenavierHirsch:** Extremes 25 (2022), no. 2, 299–330.
+  - **HLO:** Extremes 29 (2026), no. 3, 495–559.
+  - **Perez:** now the published article, J. Appl. Comput. Topol. 7 (2023), no. 4, 879–906, DOI 10.1007/s41468-023-00132-x (zbMATH 1527.60062); the arXiv number is kept.
+  - **HirschLR:** now the published article, Ann. Appl. Probab. 36 (2026), no. 5, 4430–4464, DOI 10.1214/26-AAP2333; the arXiv number is kept.
+  - **Pranav (arXiv:2109.08721):** no published version was found, so it stays a preprint.
+- **§0:** "Revised through r15 on 21 October 2026".
+- **README:** revision r15; r14 is added to the earlier revisions, and its reads are recorded; a read of the r14→r15 delta is requested.
+
+**Build.** `build.sh` compiles with no LaTeX error and the same 2 pt overfull line as before; 23 pages. BibTeX reports no warnings. Built by `revision_scripts/make_r15.py`.
