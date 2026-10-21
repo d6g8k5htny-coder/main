@@ -86,4 +86,4 @@ The historical search ran on 13 October 2026.
 - **Known stops:**
   - the two Dropbox zips, blocked by the environment's network policy;
   - Math-, which this session reads through git only.
-- **Errors in these records:** report them on main #419. They are fixed as errata in `historical_recovery/ERRATA.md`, never by editing `results_20261013/` or `gaps.json`.
+- **Errors in these records:** report them on the board, now [main#475](https://github.com/d6g8k5htny-coder/main/issues/475), which continues #419 since #419 reached GitHub's comment limit on 21 October. They are fixed as errata in `historical_recovery/ERRATA.md`, never by editing `results_20261013/` or `gaps.json`.
