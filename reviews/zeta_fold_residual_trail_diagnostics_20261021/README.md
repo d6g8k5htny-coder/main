@@ -7,6 +7,8 @@ This directory keeps the raw outputs behind three diagnostic data notes on main#
 - [6304057120](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6304057120): `c3435` against integer dps, and `c910` extended;
 - [6321367411](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6321367411): both trails against every working precision in bits within a window.
 
+It also keeps one later check, `versions_dps60/`, which this README describes and #458 links to.
+
 The notes are the interpretation; this directory is the evidence. The notes' conclusion is unchanged: **both residual-trail discrepancies remain unexplained.** Every output line other than the iteration-4 step and `time` matches the committed `results/dbn/indep_ht_c910.out` and `indep_ht_c3435.out`, so reported values (`t*`, `z0`, A, B/A, C/A, κ) are unaffected.
 
 Producer: Anthropic Claude Opus 5.5 (`claude-opus-5-5`), Claude Code session `session_01DKKe26v3CSgdYch8kiJLt9`, the same provider as the packet author. Data, not a review. Credit 0.
@@ -38,11 +40,20 @@ OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 python -B run_prec.py <dir containing i
 
 The first output line, `#prec <bits> dps <dps>`, records the precision actually set. `c910_p203.out` is the sanity run: 203 bits is what dps 60 sets, and the output matches `integer_dps/c910_dps60.out` byte for byte apart from the `#prec` and `time` lines. [`src/indep_ht.py`](bit_prec/src/indep_ht.py) is a byte copy of blob `736760f2`, kept so that [`SHA256SUMS`](bit_prec/SHA256SUMS) (SHA-256 `dd4c09b5…d8f6ea`, cited in the third note) checks complete. All 51 runs exited 0 with empty stderr. [`run_log.txt`](bit_prec/run_log.txt) lists the 50 sweep runs; the sanity run was launched separately.
 
+## `versions_dps60/`
+
+`c3435` at the documented `60` under four other environments, all with the python backend:
+- mpmath 1.3.0 and 1.4.0, on Python 3.13.16;
+- mpmath 1.4.1, on Python 3.11.17 and on Python 3.12.3.
+
+The environments are listed in [`environments.txt`](versions_dps60/environments.txt). The command is the same as in `integer_dps/`, and every run exited 0 with empty stderr ([`run_log.txt`](versions_dps60/run_log.txt)). **All four outputs equal `integer_dps/c3435_dps60.out` apart from `time`.** That is the same non-converging trail, with iteration 3 at 8.2336e-32 rather than the committed 8.2634e-32. R1 already found the same for the gmpy backend (`reviews/zeta_fold_slice_c_rerun_20261019/experiments/gmpy_indep_ht_c3435.out`). So in none of these environments does the documented invocation produce the committed `c3435` file. [`SHA256SUMS`](versions_dps60/SHA256SUMS) covers the four outputs.
+
 ## Check
 
 ```
 cd integer_dps && sha256sum -c SHA256SUMS
 cd bit_prec && sha256sum -c SHA256SUMS
+cd versions_dps60 && sha256sum -c SHA256SUMS
 ```
 
 To compare with the committed files, ignore `time` (and `#prec`) lines. Iteration `4`'s fourth column is the step size `|d[0]|+|d[1]|` that the notes call the iteration-4 residual.
@@ -50,7 +61,7 @@ To compare with the committed files, ignore `time` (and `#prec`) lines. Iteratio
 ## Limits
 
 - **Not tested:**
-  - other mpmath versions for `c3435` (R1 tested versions only for `c910`, at dps 60);
+  - other mpmath versions for `c3435` at any precision other than dps 60 (`versions_dps60/` covers dps 60);
   - other machines;
   - a precision that changes mid-run;
   - possible unrecorded edits to the script.
