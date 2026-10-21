@@ -19,8 +19,8 @@ the last an exploratory packet whose scientific effect is NONE, which makes no
 claim of progress toward the Riemann Hypothesis and whose independent numerical
 reproduction (review slice C) is only partly done: a different-provider replay of
 its 59 commands is performed (record PASS, scoped). Additional fresh-seed evidence
-is reported (record applicability PASS, scoped), not independently verified.
-Independent verification of that evidence remains open. The Riemann–Siegel
+is reported (record applicability PASS, scoped), and its tables were
+independently re-executed in the pinned environment (PASS, scoped). The Riemann–Siegel
 coefficients now cite Siegel 1932, the source actually checked, and agree with it
 as translated (PASS, scoped); Edwards 1974 stays unverified background reading. No
 record closes all of slice C. None of the three
