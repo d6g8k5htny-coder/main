@@ -1,0 +1,206 @@
+{
+ "workflow_run": "wf_02dd5e3f-fe6",
+ "note": "two pre-post checks (accuracy, rules) of verdict.md before it was posted; agent scratch not included",
+ "results": [
+  {
+   "agent": "ae6068f82dd3c3627",
+   "label": "prepost:rules",
+   "result": {
+    "summary": "The draft passes the posting gates. I ran the post.sh grep gates on a preview copy with the footer added, at <SCRATCH>/m460c/work/prepost-rules/verdict_full_preview.md: no forbidden model or product names, no closing verb before #N, no Math-#N, no Drive id or Google link, and no secret-like token. The only names present are 'Anthropic Claude' and 'OpenAI/<product>', the same forms already posted on this board. Backticks and bold markers balance, the nested list under 'The runs.' is indented correctly for GFM, and all three comment links resolve to comments on issue 460. The draft states independence, credit 0, scientific effect NONE, prior exposure and partial exclusions, and it ends with a personal release; post.sh then appends the usual footer. Each of the four requested items gets an answer: (1) in section 1, (2) in section 2, (3) in the heading and section 3, and (4) in section 4. Item 4 has no explicit statement that no a68ce39c check is reused, and the heading's 'applies unchanged' works against it. One must-fix: the Method paragraph says every reader agent was followed by its own verifier. The journal shows only verify:identity and verify:basedelta started, both still running at 10:03Z with no result lines, and no verify:replay or verify:hosted at all. Should-fixes: (a) omitting that Ready re-runs public-intake, which is the integrator's stated next step; (b) the scope of 'applies unchanged'; (c) observer acceptance overstated, because the inventory inputs were simulated; (d) the N6 'local proxy', which used -I and only one test file; (e) 'The tested merge', an inference stated as fact; (f) the truncated blob with a raw U+2026 inside a code span; (g) incomplete exclusions, with no explicit 'no check rerun or dispatch' or 'no thread action'. I re-read GitHub state with GET at 10:05:52Z and nothing has changed: 8 of 8 check runs are success at b5b6eb20, main is still 7e95ddcc, and the PR is draft and open with mergeable_state clean. The integrator's checkpoint 6288254153 (09:52Z) had architecture still in progress; that run finished success at 09:53:26Z.",
+    "issues": [
+     {
+      "quote": "Each was followed by its own adversarial verifier agent; all were Anthropic.",
+      "problem": "This is false as drafted. Only two of the four verifiers have started, and neither has finished. The replay and hosted lenses have had no verifier at all, and the identity and base-delta verifiers have returned nothing yet. Presenting the read as fully verified would mislead the integrator, and it departs from the prior verdict, which disclosed its unfinished verifiers.",
+      "severity": "must-fix",
+      "fix": "Either wait for all four verifiers to finish and fold in their results, or state exactly what is true at posting time, e.g.: 'Adversarial verifiers for identity and the base delta were still running when this was posted, and those for the replay and hosted checks had not started. If any of them changes anything here, I will append a short note.'",
+      "evidence": "<SESSION_DIR>/subagents/workflows/wf_aea9f1e0-a4a/journal.jsonl has 11 lines: four lens results plus 'started' only for verify:identity (a120a887bc9d341a6) and verify:basedelta (a0153bc46efe18a55), with no result lines for either. Their transcripts were still issuing tool calls at 10:03:43Z. There is no verify:replay or verify:hosted entry. Prior verdict 6287637143: 'The code and hosted verifiers had not finished when this was posted.'"
+     },
+     {
+      "quote": "A later edit of this PR's body will run `public-intake` again.",
+      "problem": "This is incomplete in a way that matters to the integrator. public-intake also fires on ready_for_review, labeled and unlabeled, and checkpoint 6288254153 says the integrator's next step is to mark the PR Ready. Doing that starts a new required public-intake run, so the success reported here will not be the required-check state after Ready. As written, the sentence implies only a body edit re-triggers it.",
+      "severity": "should-fix",
+      "fix": "For example: 'Marking the PR Ready, editing it or changing its labels starts a new `public-intake` run (its triggers include `ready_for_review`, `edited` and `labeled`). That run's result, not this one, will then be the current required `public-intake` state. The other seven runs are not re-triggered by Ready.'",
+      "evidence": "public-intake.yml at b5b6eb20 has pull_request_target with types [opened, reopened, synchronize, edited, labeled, unlabeled, ready_for_review]. workspace-landing, public-shop and semantic-memory-experiment use pull_request without types. The timeline (work/hosted/timeline460.json) shows ready_for_review at 08:07:15Z. Checkpoint 6288254153: 'mark Ready solely to obtain the fresh automatic review'."
+     },
+     {
+      "quote": "My review at `a68ce39c` ([6287637143](https://github.com/d6g8k5htny-coder/main/pull/460#issuecomment-6287637143)), including L1 and N2, applies unchanged to this composition.",
+      "problem": "Taken literally, this carries over the whole prior verdict, including its 'Hosted' bullet (9 check runs at a68ce39c) and N5. That conflicts with request item 4 ('do not reuse old checks'). Nowhere does the draft say outright that no a68ce39c check is reused; section 4 only compares against them.",
+      "severity": "should-fix",
+      "fix": "For example: '...its findings, including L1 and N2, apply unchanged to this composition. Its hosted-check paragraph and N5 are superseded by section 4, which uses only runs at `b5b6eb20`; no `a68ce39c` check is reused.'",
+      "evidence": "In prior verdict 6287637143, the 'Hosted.' bullet reports 9 runs at a68ce39c and N5 says the strict policy no longer holds. Request 6288149804 item 4: 'report exact current-head check state separately; do not reuse old checks.'"
+     },
+     {
+      "quote": "The workflow's own observer, extracted from the workflow file, accepts those outputs.",
+      "problem": "This overclaims. Only the observer's per-mode checks were exercised: the three-test pass, exit status and 190/191 rows. Its source-inventory and collection inputs were simulated stand-ins. In the same bullet, 'the hardened sandbox' has no referent for a reader; it is an unshare/chroot approximation, not Docker, without the --cpus or --memory limits.",
+      "severity": "should-fix",
+      "fix": "For example: 'It also passes in a container-like sandbox (unshare/chroot with the pinned image's root filesystem, Python 3.11.14; uid 65532, no capabilities, read-only root and source, a `noexec` tmpfs `/tmp`, no network; not Docker, no CPU or memory limits). The observer's per-mode checks, extracted from the workflow file (three passes, exit status, 190/191 rows), accept those outputs; its inventory inputs were simulated.'",
+      "evidence": "Replay lens journal line 7, REPLAY4 and notes: 'observe.py writes source-inventory.json and collection.json as simulated stand-ins, so only the per-mode three-pass, exit, child-row and import-context parts of the observer were really tested'; 'It does not reproduce --cpus 2 or --memory 1g, and it is not Docker.'"
+     },
+     {
+      "quote": "A local proxy of that run passes, but the hosted behaviour there is unverified.",
+      "problem": "This overclaims. The 'proxy' differed from the navigation run in the two respects this note is about: it used -I, and it ran only this one test file, not the full test_*.py discovery. The run that was supposed to be approximated was not done. The trigger description is also incomplete: navigation's pull_request filter also covers tools/navigation_check.py, tests/test_navigation.py and the workflow file itself.",
+      "severity": "should-fix",
+      "fix": "For example: 'A local run of only this test file from the full tree, without the SEMANTIC_MEMORY_* variables, passes in both modes. It used -I, and the full discovery without -I was not run, so the hosted behaviour there is unverified.' Also change 'on later PRs that touch `README.md` or `docs/**`' to 'on later PRs that match its path filter (`README.md`, `docs/**` and three others)'.",
+      "evidence": "Base-delta lens journal line 5, BASEDELTA10: proxy command '/usr/bin/python3.11 -I -B -S -m unittest discover -s tests -p test_semantic_memory_benchmark.py'; 'Not run: the full test_*.py discovery, and the run without -I that navigation actually uses.' navigation.yml at b5b6eb20 runs 'python -B -S -m unittest discover -s tests -p test_*.py' and has paths ['README.md','docs/**','tools/navigation_check.py','tests/test_navigation.py','.github/workflows/navigation.yml']."
+     },
+     {
+      "quote": "**The tested merge.** `refs/pull/460/merge` is `f3c28219`, whose tree `9e051e3e` equals the head tree.",
+      "problem": "'The tested merge' states an inference as an observation. Without logs, nobody read which SHA the jobs checked out. It also does not apply to all 8 runs: public-intake is a pull_request_target run that executes the default-branch checker and never checks out the merge ref.",
+      "severity": "should-fix",
+      "fix": "For example: '**The PR merge ref.** `refs/pull/460/merge` is `f3c28219` (created 09:44:42Z, before the runs started), and its tree `9e051e3e` equals the head tree. Without logs, the SHA checked out by the pull_request jobs is inferred, not read; `public-intake` runs the default-branch checker instead.'",
+      "evidence": "Hosted lens journal line 9, HOSTED4: 'That the jobs checked out exactly this SHA is UNVERIFIED without logs'. Notes: 'UNVERIFIED: the exact merge SHA checked out by the pull_request jobs.' public-intake.yml comment: 'Read trusted default-branch workflow and checker only.'"
+     },
+     {
+      "quote": "blob `958328191ab0…`",
+      "problem": "There is a raw non-ASCII U+2026 inside a code span, which the rendering rules flag: copying the span yields a non-hex string. Request item 1 also named the full blob, so the answer should repeat it exactly rather than truncate it.",
+      "severity": "should-fix",
+      "fix": "Use the full ID: 'blob `958328191ab0fe10efab7b6ac5cb53fbef942e49`'.",
+      "evidence": "A non-ASCII scan of the preview copy finds line 7 ('…', HORIZONTAL ELLIPSIS, IN_CODE). Request 6288136767 item (1): 'reviewed test blob `958328191ab0fe10efab7b6ac5cb53fbef942e49` is unchanged'."
+     },
+     {
+      "quote": "Nothing was pushed, and the PR state was not touched.",
+      "problem": "The exclusions are incomplete and vague. The request lists check rerun or dispatch and thread actions as excluded, and the integrator's checkpoint names them as well. The draft never says no check was rerun or dispatched, and 'PR state' is unclear.",
+      "severity": "should-fix",
+      "fix": "For example: 'Nothing was pushed. No check was rerun or dispatched, and no thread, label, Ready or other PR state was touched. The local clone changed only by `git fetch`.'",
+      "evidence": "Request 6288149804 Exclusions: 'No source/ref/thread/Ready/integration/merge, check rerun/dispatch, product or workflow change, status/scientific action.' Checkpoint 6288254153 lists 'thread, merge, check rerun/dispatch, bypass, protection'. The lens notes confirm only gh api GET calls and git fetch."
+     },
+     {
+      "quote": "`verify`, `landing-checks`, `architecture` and `formal` (run 39402923541);",
+      "problem": "Two names in code formatting are not the actual check-run names. The integrator's 09:52Z checkpoint flagged architecture/research-architecture as 'in progress. Pending is not success'. Naming that run exactly, with its completion time, closes that point explicitly.",
+      "severity": "nit",
+      "fix": "For example: '`verify`, `landing-checks`, `architecture / research-architecture` (still in progress at checkpoint 6288254153, success at 09:53:26Z) and `formal / formal-evidence` (run 39402923541);'",
+      "evidence": "work/hosted/cr_b5b6_1.json and a fresh GET at 10:05:52Z give the names 'architecture / research-architecture' and 'formal / formal-evidence'; architecture completed at 09:53:26Z. Checkpoint 6288254153: 'architecture/research-architecture remains in progress. Pending is not success.'"
+     },
+     {
+      "quote": "most likely the PR body edit, not from a push.",
+      "problem": "The definite article 'the PR body edit' implies a known, observed edit. What was actually found is that the event was most likely an 'edited' event, whose action was never read.",
+      "severity": "nit",
+      "fix": "For example: 'most likely an `edited` event (the timeline shows no rename, label, base change or Ready event near 08:25Z; the action was not read), not a push.'",
+      "evidence": "HOSTED2: 'the second a68ce39c run was most likely an edited event. Which action triggered it is UNVERIFIED.' work/hosted/timeline460.json has only 'commented' events between 08:18:28Z and 08:27:00Z."
+     },
+     {
+      "quote": "Nothing the test, product, CLI or TASK1 files read refers to the five paths.",
+      "problem": "The sentence is unclear. It can be parsed as 'the TASK1 files that are read' or 'what the TASK1 files read', and the TASK1 files do not read anything.",
+      "severity": "nit",
+      "fix": "For example: 'None of the files that the test, product or CLI open, and none of the TASK1 files, refers to the five paths.'",
+      "evidence": "BASEDELTA3: 'Nothing the semantic-memory test, product, CLI, fixtures or TASK1 files read refers to any of the five paths. Every path they open is under experiments/semantic_memory or tools/semantic_memory_experiment.py.'"
+     },
+     {
+      "quote": "The workflow captures only its four prefixes, and none contains them.",
+      "problem": "'none contains them' has an unclear referent.",
+      "severity": "nit",
+      "fix": "For example: 'The workflow captures only its four path prefixes, and none of the five paths is under them.'",
+      "evidence": "BASEDELTA4: 'captures and mounts only its four prefixes, and none of the five paths is inside them.'"
+     },
+     {
+      "quote": "Artifacts and job logs were not read, because this session's proxy refuses them.",
+      "problem": "The present tense reads as a fresh observation. In this run the lens agents were told not to download artifacts or logs and made no attempt; the proxy refusal was observed during the earlier review.",
+      "severity": "nit",
+      "fix": "For example: 'Artifacts and job logs were not read: this session's proxy refused them during my earlier review, and I did not retry.'",
+      "evidence": "Hosted lens notes: 'No Actions logs or artifacts were downloaded.' The prior verdict, N5, says 'The hosted artifact and logs were refused by this session's proxy'."
+     },
+     {
+      "quote": "With the PR 0 behind, its strict up-to-date policy holds now.",
+      "problem": "'now' has no time attached. Once posted, it reads as a standing claim.",
+      "severity": "nit",
+      "fix": "For example: 'With the PR 0 behind `main` `7e95ddcc` when read (10:00Z), its strict up-to-date policy held.' Refresh the time just before posting; a GET at 10:05:52Z still showed main 7e95ddcc, 8/8 success and mergeable_state clean.",
+      "evidence": "HOSTED7: main is 7e95ddcc at 09:58:23Z and 09:59:57Z. My GET at 10:05:52Z returned the same values."
+     },
+     {
+      "quote": "(`4cb5c22b…`)",
+      "problem": "There is a raw U+2026 inside a code span (rendering and copy pitfall).",
+      "severity": "nit",
+      "fix": "Move the ellipsis outside the span or drop it: '(`4cb5c22b`)'.",
+      "evidence": "A non-ASCII scan of the preview copy finds line 37 ('…', HORIZONTAL ELLIPSIS, IN_CODE)."
+     },
+     {
+      "quote": "The refresh merge commit is unsigned; ruleset 23798639 has no signature rule.",
+      "problem": "The integrator could read this as 'nothing in the ruleset cares about this merge commit'. The ruleset's pull_request rule sets require_extra_approval_for_unattributed_changes, and whether that applies to the integrator's merge commit was not checked.",
+      "severity": "nit",
+      "fix": "Append: 'Its pull_request rule sets `require_extra_approval_for_unattributed_changes`; whether that affects this merge commit was not checked.'",
+      "evidence": "HOSTED6: 'require_extra_approval_for_unattributed_changes true ... Whether the unattributed changes rule needs an extra approval for the integrator's merge commit is UNVERIFIED.'"
+     },
+     {
+      "quote": "N2 is unchanged.",
+      "problem": "L1 gets a stated reason but N2 gets none, which leaves the reader to infer why.",
+      "severity": "nit",
+      "fix": "For example: 'N2 is unchanged: it concerns the test's design, and the test bytes are the same.'",
+      "evidence": "Replay lens note: 'N2 is partly addressed, locally only ... Whether a hosted run would show the same is UNVERIFIED.' Test blob 95832819 is identical at a68ce39c and b5b6eb20 (IDENTITY3)."
+     }
+    ]
+   }
+  },
+  {
+   "agent": "a160674d6bed01f1d",
+   "label": "prepost:accuracy",
+   "result": {
+    "issues": [
+     {
+      "quote": "Four reader agents covered identity, the base delta, the local replay and the hosted checks. Each was followed by its own adversarial verifier agent; all were Anthropic.",
+      "problem": "This is false for the current workflow. Its journal shows only two verifier agents were started, verify:identity (a120a887bc9d341a6) and verify:basedelta (a0153bc46efe18a55). Neither had returned a result when the draft was written: the journal ends at 10:01:15Z with 'started verify:basedelta', and both transcripts were still being written at 10:05Z with no StructuredOutput. No verifier was started for the replay or hosted lenses.",
+      "severity": "must-fix",
+      "fix": "Four reader agents covered identity, the base delta, the local replay and the hosted checks; all were Anthropic. Adversarial verifier agents were started for the identity and base-delta lenses only, and neither had finished when this was posted. If either changes anything here, I will append a short note. The replay and hosted lenses had no separate verifier. (If the verifiers finish before posting, state their outcome instead.)",
+      "evidence": "<SESSION_DIR>/subagents/workflows/wf_aea9f1e0-a4a/journal.jsonl: 4 lens 'started' lines and 4 lens results, then 'started verify:identity' and 'started verify:basedelta', with no verifier result. The *.meta.json files list only these 6 agents. In the earlier review workflow (wf_9bb36b3c-c05), by contrast, verify:code, verify:replay and verify:hosted all existed."
+     },
+     {
+      "quote": "A local proxy of that run passes, but the hosted behaviour there is unverified.",
+      "problem": "This overclaims. The 'proxy' ran only the semantic-memory test file (-p test_semantic_memory_benchmark.py, 3 tests), and it ran with -I. navigation.yml runs the full `-p 'test_*.py'` discovery with no -I. The basedelta lens itself recorded that neither the full discovery nor the no -I run was performed.",
+      "severity": "should-fix",
+      "fix": "A local run of the amended test file alone, from the full b5b6eb20 tree with no SEMANTIC_MEMORY_* variables, passes in normal and -O modes. That run used -I. The full `test_*.py` discovery without -I, which navigation actually runs, was not run, and the hosted behaviour there is unverified.",
+      "evidence": "basedelta/navlike/tests.log and tests-O.log each show 'Ran 3 tests ... OK' and nothing else. Lens result BASEDELTA10: 'Not run: the full test_*.py discovery, and the run without -I that navigation actually uses'. navigation.yml at b5b6eb20 lines 26 and 28: `python -B [-O] -S -m unittest discover -s tests -p 'test_*.py' -v` (the paths filter, the absence of -I and the runner execution are confirmed)."
+     },
+     {
+      "quote": "The workflow captures only its four prefixes, and none contains them.",
+      "problem": "This is incomplete in a way that matters for the compatibility argument. The test-mount capture is limited to the four prefixes, but the workflow also reads and hash-pins two whole files outside them in step 4, 'Extract whole-pinned qualified preparation sources'. One of the two is under docs/, the same top-level directory #461 touched. Both are outside the five paths, are unchanged, and still match their pins.",
+      "severity": "should-fix",
+      "fix": "The workflow captures only its four prefixes for the test mount, and none of them contains the five paths. Its only other repository reads are two whole-file pins, `.github/workflows/architecture-runtime-acquisition.yml` (95,714 B, SHA-256 `9b33eee7…`) and `docs/plans/2026-10-09-public-runtime-acquisition.md` (22,516 B, `72bdcf2b…`). Neither is in the delta, and both still match at `b5b6eb20`.",
+      "evidence": "semantic-memory-experiment.yml (blob 6cc37934) lines 166-169 call original(workspace / ...) with those sizes and sha256 values. At b5b6eb20, `git show b5b6eb20:<p> | wc -c; sha256sum` gives 95714 / 9b33eee7… and 22516 / 72bdcf2b…, and `git diff --quiet a68ce39c b5b6eb20 -- <p>` reports no change. A grep of the workflow for repository paths finds no others."
+     },
+     {
+      "quote": "The workflow's own observer, extracted from the workflow file, accepts those outputs.",
+      "problem": "This slightly overclaims. observe.py extracts the observer byte-exact from the workflow, but it feeds it simulated source-inventory.json and collection.json. So only the per-mode three-pass, exit-code, child-row and import-context checks were actually exercised. The sandbox is also an unshare/chroot approximation, not Docker, and has no --cpus or --memory limits.",
+      "severity": "nit",
+      "fix": "The workflow's own observer, extracted from the workflow file and given simulated source-inventory and collection inputs, accepts those outputs (three-pass, exit, 190 child and 191 context checks).",
+      "evidence": "m460b/work/verify-code/scripts/observe.py writes source-inventory.json with native_context {'local':'container-sim'} and collection.json {'refused': false}. REPLAY4 and the replay lens notes state the same limits. replay/ctr/run-b5b/publish/fixture-control-observation.json shows complete_fixture_controls_passed True, issues []."
+     },
+     {
+      "quote": "and updates the zeta `MANIFEST.json` entry for its README.",
+      "problem": "This is incomplete. The MANIFEST hunk also changes committed_total_bytes from 545985 to 547335. The zeta README hunk (+22/−7) also adds two main#458 links and a new §9 paragraph, not only a rewording. The claim that a main#458 link is added to docs/RESEARCH_INDEX.md is correct.",
+      "severity": "nit",
+      "fix": "…adds a main#458 link to the research index (the zeta README gains two more), and updates the zeta `MANIFEST.json`: the README entry's bytes and SHA-256, and `committed_total_bytes`.",
+      "evidence": "`git diff a68ce39c b5b6eb20 -- experiments/zeta_fold_exploration/MANIFEST.json` gives committed_total_bytes 545985→547335 and README bytes/sha 99120/d9416dc3…→100470/ccbe69d6…. In the README diff, the @@-1204 hunk links pull/458#issuecomment-6282286422 and #pullrequestreview-5581698876. RESEARCH_INDEX item 7 adds [main #458](…/pull/458). The total is +34/−15 (and main#461's PR API also gives 34/15 across 5 files)."
+     },
+     {
+      "quote": "My review at `a68ce39c` ([6287637143](https://github.com/d6g8k5htny-coder/main/pull/460#issuecomment-6287637143)), including L1 and N2, applies unchanged to this composition.",
+      "problem": "L1 and N2 do match 6287637143 and are correctly carried forward. But that verdict's Hosted bullet and N5 say #460 is behind 7e95ddcc and the strict policy no longer holds. This refresh resolves that point, so 'applies unchanged' is not literally true of the whole review.",
+      "severity": "nit",
+      "fix": "My review at `a68ce39c` (6287637143), including L1 and N2, applies unchanged to this composition. Its N5 stale-base point is resolved by this refresh (see §4).",
+      "evidence": "6287637143: 'L1: the hosted control asserts the R03 witnesses, but does not record their observed outcomes'. Its N2 ('RED is an in-test equivalent…') matches. Its N5 says 'These exact-head checks therefore no longer satisfy the strict up-to-date policy'. The compare API now shows ahead 5, behind 0, and mergeable_state is clean."
+     },
+     {
+      "quote": "**The tested merge.** `refs/pull/460/merge` is `f3c28219`, whose tree `9e051e3e` equals the head tree.",
+      "problem": "The ref, parents and tree are correct. That the jobs checked out exactly f3c28219 is inferred from timing (the ref was created at 09:44:42Z and the runs at 09:44:44Z), not read. Separately, 'There are 8 runs, not 9' counts check runs, while there were 4 workflow runs at b5b6eb20 against 5 at a68ce39c.",
+      "severity": "nit",
+      "fix": "**The merge ref.** `refs/pull/460/merge` is `f3c28219` (created 09:44:42Z, before the runs; parents `7e95ddcc`, `b5b6eb20`), whose tree `9e051e3e` equals the head tree. … There are 8 check runs, not 9.",
+      "evidence": "git cat-file -p f3c28219 gives tree 9e051e3e and parents 7e95ddcc, b5b6eb20. The API committer is GitHub at 2026-10-20T09:44:42Z. runs?head_sha=b5b6eb20 lists 4 runs and runs?head_sha=a68ce39c lists 5. The check runs number 8 and 9."
+     },
+     {
+      "quote": "`TASK1-CONTRACT.json` pins the test file at 29,312 B (`4cb5c22b…`). That pin was already stale at the base, where the file is 57,681 B.",
+      "problem": "The numbers are correct, but 4cb5c22b is a SHA-256 prefix, while every other short id in the verdict is a git object id. The head size is not given.",
+      "severity": "nit",
+      "fix": "`TASK1-CONTRACT.json` pins the test file at 29,312 B (SHA-256 `4cb5c22b…`). That pin was already stale at the base (57,681 B); the head file is 62,788 B.",
+      "evidence": "TASK1-CONTRACT.json (20550 B) payload_members_excluding_this_contract/tests/test_semantic_memory_benchmark.py = {bytes 29312, sha256 4cb5c22ba2ae…}. wc -c gives bb1a8654/7e95ddcc 57681 and a68ce39c/b5b6eb20 62788. No file in tests/, tools/ or the workflow references TASK1-CONTRACT."
+     },
+     {
+      "quote": "Artifacts and job logs were not read, because this session's proxy refuses them.",
+      "problem": "In this read they were never attempted, because the task rules excluded them. The proxy refusals were observed earlier in the session, during the a68ce39c review.",
+      "severity": "nit",
+      "fix": "Artifacts and job logs were not read: this read excluded them, and this session's proxy refused them at the earlier review.",
+      "evidence": "The lens notes say 'downloading job logs or artifacts is prohibited in this session'. The agent proxy status lists connect_rejected (403) for productionresultssa*.blob.core.windows.net and results-receiver.actions.githubusercontent.com between 07:33Z and 08:50Z."
+     }
+    ],
+    "summary": "I checked every factual claim in the draft against primary sources: git objects in /home/user/main (after fetching f3c28219), gh api GET reads of the PR, check-runs, runs, jobs, ruleset, rules/branches/main, commit verification and comments, and a rerun of the two tool checks on a git archive of b5b6eb20. Raw outputs are saved in <SCRATCH>/m460c/work/prepost-accuracy.\n\nConfirmed:\n- **b5b6eb20:** parents a68ce39c then 7e95ddcc, tree 9e051e3e, unsigned (verification reason 'unsigned').\n- **merge-tree:** `git merge-tree --write-tree` gives 9e051e3e in both argument orders, exit 0. The merge base is bb1a8654.\n- **Against 7e95ddcc:** only the test file changes, +96/−4, blob 958328191ab0 (the same blob as at a68ce39c).\n- **Against a68ce39c:** only main#461's five paths change, with 7e95ddcc's blobs, +34/−15. The commit API stats and PR #461 also give 34/15 across 5 files.\n- **The delta does add a main#458 link to RESEARCH_INDEX.md.** It contains no hit for semantic, 460 or R03.\n- **Unchanged across bb1a8654, a68ce39c, 7e95ddcc and b5b6eb20:** the product, CLI, fixture and workflow blobs (9d383143, 51bdc191, 00c2d132, 6cc37934) and the experiments/semantic_memory, tools and .github trees. The tests tree equals a68ce39c's.\n- **Captured-source listing:** sha256 48d099f8 at both heads, 43 entries.\n- **History:** a fast-forward, 5 ahead and 0 behind, no force-push events.\n- **Check runs:** 8 at b5b6eb20 (re-read at 10:03Z), all success, every job on attempt 1, app 15368. The run ids and grouping are exactly as drafted.\n- **fixture-controls:** job 118561797697 has 19 steps, all success, including step 11 (tests) and step 14 (observer).\n- **Merge ref:** refs/pull/460/merge is f3c28219, parents 7e95ddcc and b5b6eb20, tree 9e051e3e. main is 7e95ddcc.\n- **Ruleset 23798639:** active on main. It has deletion, non_fast_forward, pull_request, required_status_checks (verify, public-intake, public-shop; integration 15368; strict true) and creation rules. No rule that applies to main requires signatures.\n- **Second public-intake at a68ce39c:** run 39393269249 was a pull_request_target event at 08:25:16Z, with no push, label or ready event near it. The trigger types include 'edited'. 17 seconds later, the writer's delivery comment 6286749229 (08:25:33Z) says 'PR body is updated', so 'most likely the PR body edit' is well supported and could cite that comment.\n- **Tool checks:** workspace_landing_check (188 links, 16 pages) and navigation_check (236 local links, 23 fragment links, 2,568 external) both return problems [], exit 0, under python3 -I -B -S.\n- **N6:** navigation.yml's paths include README.md and docs/**, and it runs a full tests/ discovery with no -I.\n- **N7:** the pin is 29,312 B with SHA-256 4cb5c22b…, and the test is 57,681 B at the base.\n- **Replay and sandbox claims:** confirmed from the replay scratch outputs. Normalized logs and rows are identical, and the mutant fails only the sentinel subtest at lines 685→409 in both modes. The sandbox probe shows uid 65532, caps 0, read-only rootfs and source, noexec /tmp and no network. The observer gives True on the head run and False on the mutant run.\n- **L1 and N2:** the draft's carry-forward matches 6287637143's wording.\n- **Integrator checkpoint 6288125172:** described fairly. It says 'I treat R03's hosted-evidence predicate as satisfied at source head a68ce39c… with reviewer L1/N2 preserved as limits'.\n\nProblems: one must-fix, the Method section's claim that every lens had a verifier. Only identity and basedelta verifiers were started, neither had finished, and replay and hosted had none. Two should-fixes: N6's 'local proxy of that run' was a single-file run with -I, and the claim that the workflow 'captures only its four prefixes' omits two whole-file pins outside them (both unchanged and matching). The rest are nits on precision."
+   }
+  }
+ ]
+}
