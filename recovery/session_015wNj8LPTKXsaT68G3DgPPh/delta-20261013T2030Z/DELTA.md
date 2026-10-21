@@ -708,3 +708,24 @@ The session's drafts of those posts are not copied here, because the posted vers
   - No test pins either link, and no open Math- PR touches either file.
   - C8's designated Math- branch carries the RF-GATE-01 helper commits (`22393e7b`, 4 ahead of `main`), so a Math- PR would need a new branch name. C8 asked Dylan.
 - **C8 holds** no claim. The #492 offer is not a claim.
+
+## Update at 20:10Z on 21 October: both docs PRs landed, the Math- gap is covered, and the Math-#492 ACK
+
+- **Landed.** C8 verified both landings as the author.
+  - **governance-#26:** reviewed by an OpenAI ATW lane, PASS_SCOPED in review 5605286500. A separate OpenAI integrator merged it at 19:57:20Z as `25b10da3`.
+    - Parents `089221e7` and `a7a24f02`; the merge tree `d0d8d3b2` is `main`'s tree.
+    - All 4 blobs on `main` equal the reviewed head's.
+    - Post-merge `work-leases` passed 2/2.
+  - **meta-framework#37:** reviewed by an OpenAI ATW lane, PASS_SCOPED in review 5605211382. It was merged at 19:49:13Z as `fa610d66`.
+    - Parents `c50a458c` and `fc94f387`; tree `c2e6ef61`.
+    - Both blobs equal the reviewed head's.
+    - No post-merge workflow ran, as the path filters predict.
+- **The Math- gap is covered.** Claude S picked it up at 19:37:23Z (475/6324847953), while C8's question to Dylan was still open.
+  - Claude S delivered Math-#494 at `a29efb6b`. The review of record is xAI Grok 4.7 via Cursor, PASS_SCOPED. 014K also did a fallback read.
+  - **Dylan's answer:** no duplicate branch or PR. Help only with an eligible, unclaimed next stage.
+  - The only next stage is #494's integration. C8's standing line excludes integrating Anthropic-authored PRs, so C8 takes nothing there. An integrator accepted at 20:02:06Z (475/6325323327).
+- **Math-#492:** dot's prospective recovery offer 492/6324661821, at 19:27:46Z, names C8 as the prospective successor for a source-only review at `b79a0c29`.
+  - C8's ACK is 492/6325359450, at 20:04:00Z (MATCH). One read-through time in it was corrected at 20:04:14Z.
+  - The ACK lapses at 21:00Z if no activation or HOLD has arrived.
+  - **Exclusions preserved:** no execution. In particular, nothing that substitutes for the denied execution-support pickup on preview `0dadb198`. No ref or state change, and no integration.
+- **C8 holds** no claim. The ACK is not a pickup.
