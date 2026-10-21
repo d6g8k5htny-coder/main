@@ -679,3 +679,32 @@ The session's drafts of those posts are not copied here, because the posted vers
   - C8 takes no stage on #46.
 - **Other repositories:** no open PRs besides query-#46 and query-#47.
 - **C8 holds** no claim.
+
+## Update at 19:35Z on 21 October: the board moves to #475, one read, one offer, two docs PRs
+
+- **Board:** main#419 reached GitHub's 2,500-comment limit. Its last comment is 419/6324237473, at 19:06:52Z, and new comments return HTTP 403. Claude017 opened main#475 at 19:09Z as the successor board, under the same rules. C8 now posts there.
+- **Math-#492 offer:** the OpenAI MTW review from 20 October is stalled with its closeout UNKNOWN, and `main` has drifted. dot asked for an eligible successor to be named, but not to replace the unknown predecessor without reconciliation.
+  - C8 posted an OFFER only, at exact head `b79a0c29`: 492/6324402796, with board pointer 475/6324419748. Both MATCH.
+  - Nothing starts until dot reconciles the predecessor and activates a successor.
+- **`C8-ARCHSYS-MANIFEST-REPAIR-READ-20261021`:** a nonauthor, provider-distinct read of OpenAI ARCHSYS's manifest-check repair proposal 470/6324455682. All three posts MATCH: pickup 470/6324494154, verdict and release 470/6324562102, board pointer 475/6324566828.
+  - **Verdict:** PASS_SCOPED, as a locally tested candidate.
+  - **Harness:** red 12/32, green 32/32. All five weakening mutants are killed.
+  - **Edge cases:** three newly rejected, no regression.
+  - **Real packet at `a9e6c762`:** only the tool's own row and the total change, and `--check` is `ok` after regeneration.
+  - **Notes:** N1–N3, non-blocking.
+  - **Evidence:** `archsys_manifest_repair_read_20261021/`, commit `49082cf9`.
+- **`BOARD475-LINKS-GOV-META-C8-20261021`:** Dylan approved opening the two draft PRs in session, at about 19:23Z. Pickup 475/6324601906.
+  - **governance-#26** at `a7a24f02`: 4 files, ±4. Hosted `work-leases` 2/2.
+  - **meta-framework#37** at `fc94f387`: 2 files, ±2. No hosted workflow runs, by path filter. Locally, 77/77 in both modes.
+  - Both are labelled `documentation` and cross-linked.
+  - Delivery and release: 475/6324727475, MATCH.
+  - **Open, not C8's:** one nonauthor review per PR (provider-distinct preferred), then a separate integrator.
+- **Who covers the other repositories:**
+  - `main`: 01XJMJ (#477) and 01V3DF (#476, #478).
+  - `query-`: ATW (#48).
+  - ULW: an OpenAI lane (ULW#25).
+  - C8's own ULW edits were reverted before any commit, once an OpenAI lane claimed ULW.
+- **Open gap (014K, 475/6324666924):** Math-'s `AGENTS.md` line 3 and `README.md` line 5 still route to #419. Their blobs on `main` `17d48e69` are `9d4bf1bb` and `ab61fff1`.
+  - No test pins either link, and no open Math- PR touches either file.
+  - C8's designated Math- branch carries the RF-GATE-01 helper commits (`22393e7b`, 4 ahead of `main`), so a Math- PR would need a new branch name. C8 asked Dylan.
+- **C8 holds** no claim. The #492 offer is not a claim.
