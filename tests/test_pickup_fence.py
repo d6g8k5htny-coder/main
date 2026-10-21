@@ -34,6 +34,15 @@ def git(*args, cwd, check=True):
     return r
 
 
+def no_housekeeping(repo):
+    """Turn off automatic gc and maintenance in ``repo``. They can run detached after a push,
+    fetch or commit and still be writing into ``objects/pack`` while tearDown removes the tree.
+    The setting goes in each repository's own config, because a local ``receive-pack`` does not
+    see the pushing side's ``-c`` or ``GIT_CONFIG_*`` settings."""
+    for key, value in (('gc.auto', '0'), ('maintenance.auto', 'false'), ('receive.autogc', 'false')):
+        git('config', key, value, cwd=repo)
+
+
 class PickupFenceTest(unittest.TestCase):
     """Worker A holds a stale view of ``work``; worker B has pushed a newer commit."""
 
@@ -42,8 +51,10 @@ class PickupFenceTest(unittest.TestCase):
         root = self.tmp.name
         self.remote = os.path.join(root, 'remote.git')
         git('init', '--bare', '-q', '-b', 'main', self.remote, cwd=root)
+        no_housekeeping(self.remote)
         seed = os.path.join(root, 'seed')
         git('clone', '-q', self.remote, seed, cwd=root)
+        no_housekeeping(seed)
         with open(os.path.join(seed, 'f.txt'), 'w') as f:
             f.write('base\n')
         git('add', 'f.txt', cwd=seed)
@@ -53,6 +64,7 @@ class PickupFenceTest(unittest.TestCase):
         self.b = os.path.join(root, 'b')
         for d in (self.a, self.b):
             git('clone', '-q', '-b', 'work', self.remote, d, cwd=root)
+            no_housekeeping(d)
         self.old_head = git('rev-parse', 'HEAD', cwd=self.a).stdout.strip()
         # B advances the branch; A does not fetch.
         with open(os.path.join(self.b, 'f.txt'), 'a') as f:

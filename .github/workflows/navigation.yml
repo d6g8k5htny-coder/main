@@ -19,14 +19,31 @@ jobs:
       - name: Current landing and navigation controls
         run: |
           set -euo pipefail
+          navigation_phase=evidence-setup
+          report_navigation_exit() {
+            local status=$?
+            if [ "$status" -ne 0 ]; then
+              printf 'NAVIGATION_PHASE_FAILED phase=%s exit=%s\n' "$navigation_phase" "$status" >&2 || :
+            fi
+            exit "$status"
+          }
+          trap report_navigation_exit EXIT
           mkdir -p navigation-evidence
+          navigation_phase=python-version
           python --version > navigation-evidence/python.txt
+          navigation_phase=source-identity
           git rev-parse HEAD > navigation-evidence/commit.txt
+          navigation_phase=landing
           python -B -S tools/workspace_landing_check.py > navigation-evidence/landing.txt
+          navigation_phase=tests-normal
           python -B -S -m unittest discover -s tests -p 'test_*.py' -v > navigation-evidence/tests-normal.log 2>&1
+          navigation_phase=tests-normal-count
           grep -Eq '^Ran [1-9][0-9]* tests? in ' navigation-evidence/tests-normal.log || { echo "::error::navigation normal discovery collected 0 tests or returned no count"; exit 1; }
+          navigation_phase=tests-optimized
           python -B -O -S -m unittest discover -s tests -p 'test_*.py' -v > navigation-evidence/tests-optimized.log 2>&1
+          navigation_phase=tests-optimized-count
           grep -Eq '^Ran [1-9][0-9]* tests? in ' navigation-evidence/tests-optimized.log || { echo "::error::navigation optimized discovery collected 0 tests or returned no count"; exit 1; }
+          navigation_phase=public-navigation
           python -B -S tools/navigation_check.py --verify-public > navigation-evidence/navigation.json
       - name: Preserve actual results including failures
         if: always()
