@@ -46,3 +46,12 @@ body{overflow-wrap:anywhere}
 .current-results li{margin-block:.65rem}
 
 .current-more[hidden]{display:none!important}
+
+/* Resume this node: dated snapshot fields, review records and operational gaps stay visibly separate. */
+.resume-node{margin-block:1rem;padding:1rem;border:1px solid var(--edge,#39516b);border-radius:12px;min-width:0;overflow-wrap:anywhere}
+.resume-node h2,.resume-node h4{margin-top:0}
+.resume-fields{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:.4rem .8rem}
+.resume-fields dt,.resume-fields dd{margin:0;overflow-wrap:anywhere}
+.resume-warning{border-left:3px solid #ba952d;padding-left:.8rem}
+.resume-warning:not([data-freshness=current]){border-left-style:dashed}
+@media(forced-colors:active){.resume-warning{border-left-color:CanvasText}}
