@@ -4,20 +4,24 @@
 Input: a directory of JSON records shaped like node-status interface v0
 (records/node_status/<node_id>.json) with three optional handoff fields:
 
-  predecessor:     {"node_id": str, "url": str} | null
-  successor:       {"node_id": str, "url": str} | null
+  predecessor:     {"node_id": str, "url": http(s) URL} | null
+  successor:       {"node_id": str, "url": http(s) URL} | null
   carried_forward: [{"id": str, "text": str, "source_url": str,
                      "status": "open" | "resolved",
                      "resolution_url": str (required when resolved)}]
 
+source_url is required and must be a GitHub issue or comment URL.
+
 Checks (each failure is reported; the exit status is 1 if any):
   1. reciprocity: A.successor -> B requires B.predecessor -> A, and the reverse;
-     a link to a node with no record is a failure, not a skip;
+     a link to a node with no record is a failure, not a skip; a link url that
+     is not http(s) is a failure;
   2. ownership: a non-null owner needs an id and an evidence_url that is a
      GitHub issue/PR comment URL (the PICKUP or assignment). Ownership is never
      inferred, and moving a board does not move it;
-  3. carry-forward: every predecessor item that is open must appear, by id, in
-     the successor's carried_forward, either still open or resolved with a
+  3. carry-forward: carried_forward must be a list of objects with unique ids
+     and a source_url. Every predecessor item that is open must appear, by id,
+     in the successor's carried_forward, either still open or resolved with a
      resolution_url. Items may not be silently dropped.
 
 The tool reads files only. It makes no network call and writes nothing.
@@ -29,10 +33,26 @@ import json
 import re
 import sys
 from pathlib import Path
+from urllib.parse import urlparse
 
 COMMENT_URL = re.compile(
     r"^https://github\.com/[\w.-]+/[\w.-]+/(?:issues|pull)/\d+#(?:issuecomment|pullrequestreview)-\d+$"
 )
+SOURCE_URL = re.compile(
+    r"^https://github\.com/[\w.-]+/[\w.-]+/(?:issues|pull)/\d+"
+    r"(?:#(?:issuecomment|pullrequestreview)-\d+)?$"
+)
+
+
+def _http_url(url):
+    if not isinstance(url, str) or not url or any(ch.isspace() for ch in url):
+        return False
+    parsed = urlparse(url)
+    return parsed.scheme.lower() in ("http", "https") and bool(parsed.netloc)
+
+
+def _source_url(url):
+    return isinstance(url, str) and bool(SOURCE_URL.match(url))
 
 
 def load_records(directory):
@@ -67,6 +87,7 @@ def check_reciprocal(records):
     errors = []
     for node, rec in sorted(records.items()):
         for field, back in (("successor", "predecessor"), ("predecessor", "successor")):
+            link = rec.get(field)
             target = _link(rec, field)
             if target is None:
                 continue
@@ -76,6 +97,8 @@ def check_reciprocal(records):
                 errors.append(f"{node}: {field} {target!r} has no record")
             elif _link(records[target], back) != node:
                 errors.append(f"{node}: {field} {target!r} does not link back as {back}")
+            if isinstance(link, dict) and not _http_url(link.get("url")):
+                errors.append(f"{node}: {field} url is not an http(s) URL")
     return errors
 
 
@@ -94,26 +117,50 @@ def check_ownership(records):
     return errors
 
 
-def _items(rec):
-    items = rec.get("carried_forward") or []
-    return {i.get("id"): i for i in items if isinstance(i, dict)}
+def _carried(node, rec, errors):
+    raw = rec.get("carried_forward")
+    if raw is None:
+        raw = []
+    if not isinstance(raw, list):
+        errors.append(f"{node}: carried_forward is not a list")
+        return {}
+    by_id = {}
+    for item in raw:
+        if not isinstance(item, dict):
+            errors.append(f"{node}: carried_forward item is not a dict")
+            continue
+        item_id = item.get("id")
+        if not item_id:
+            errors.append(f"{node}: carried_forward item without an id")
+        elif item_id in by_id:
+            errors.append(f"{node}: duplicate carried_forward id {item_id!r}")
+        else:
+            by_id[item_id] = item
+        source = item.get("source_url")
+        if not isinstance(source, str) or not source:
+            errors.append(f"{node}: item {item_id!r} has no source_url")
+        elif not _source_url(source):
+            errors.append(f"{node}: item {item_id!r} source_url is not a comment or issue URL")
+        if not item_id:
+            continue
+        if item.get("status") == "resolved" and not COMMENT_URL.match(str(item.get("resolution_url", ""))):
+            errors.append(f"{node}: item {item_id!r} resolved without a resolution_url")
+        elif item.get("status") not in ("open", "resolved"):
+            errors.append(f"{node}: item {item_id!r} has status {item.get('status')!r}")
+    return by_id
 
 
 def check_carried_forward(records):
     errors = []
+    parsed = {}
     for node, rec in sorted(records.items()):
-        for item_id, item in _items(rec).items():
-            if not item_id:
-                errors.append(f"{node}: carried_forward item without an id")
-            elif item.get("status") == "resolved" and not COMMENT_URL.match(str(item.get("resolution_url", ""))):
-                errors.append(f"{node}: item {item_id!r} resolved without a resolution_url")
-            elif item.get("status") not in ("open", "resolved"):
-                errors.append(f"{node}: item {item_id!r} has status {item.get('status')!r}")
+        parsed[node] = _carried(node, rec, errors)
+    for node, rec in sorted(records.items()):
         succ = _link(rec, "successor")
         if not succ or succ not in records:
             continue
-        carried = _items(records[succ])
-        for item_id, item in _items(rec).items():
+        carried = parsed[succ]
+        for item_id, item in parsed[node].items():
             if item_id and item.get("status") == "open" and item_id not in carried:
                 errors.append(f"{node}: open item {item_id!r} not carried forward to {succ!r}")
     return errors

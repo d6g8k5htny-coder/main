@@ -4,8 +4,10 @@ The records below are invented test data. They make no ownership,
 acknowledgement or custody claim about any real board or agent.
 """
 
+import contextlib
 import copy
 import importlib.util
+import io
 import json
 from pathlib import Path
 import subprocess
@@ -57,6 +59,16 @@ class BoardLinks(unittest.TestCase):
     def records(self):
         return copy.deepcopy(BASE)
 
+    def assert_rejected(self, records, needle):
+        with tempfile.TemporaryDirectory() as d:
+            for node, rec in records.items():
+                Path(d, f"{node}.json").write_text(json.dumps(rec), encoding="utf-8")
+            errs = cbl.check(d)
+            self.assertTrue(any(needle in e for e in errs), errs)
+            with contextlib.redirect_stdout(io.StringIO()):
+                code = cbl.main(["check_board_links.py", d])
+            self.assertEqual(code, 1, errs)
+
     def test_consistent_chain_passes(self):
         self.assertEqual(self.run_check(self.records()), [])
 
@@ -103,6 +115,78 @@ class BoardLinks(unittest.TestCase):
         r["board-new"]["carried_forward"][0] = {"id": "item-a", "status": "resolved"}
         errs = self.run_check(r)
         self.assertTrue(any("without a resolution_url" in e for e in errs), errs)
+
+    def test_carried_item_without_source_url_fails(self):
+        issue = "https://github.com/example/repo/issues/9"
+        for mutate in (
+            lambda item: item.pop("source_url"),
+            lambda item: item.__setitem__("source_url", ""),
+            lambda item: item.__setitem__("source_url", "https://example.com/notes"),
+        ):
+            r = self.records()
+            mutate(r["board-new"]["carried_forward"][0])
+            self.assert_rejected(r, "source_url")
+        r = self.records()
+        for node in r:
+            for item in r[node]["carried_forward"]:
+                item["source_url"] = issue
+        self.assertEqual(self.run_check(r), [])
+
+    def test_carried_item_not_dict_fails(self):
+        r = self.records()
+        r["board-old"]["carried_forward"].append("stray")
+        self.assert_rejected(r, "is not a dict")
+
+    def test_carried_forward_dict_instead_of_list_fails(self):
+        r = self.records()
+        r["board-old"]["carried_forward"] = {
+            "id": "item-a", "text": "open review", "source_url": PICKUP, "status": "open",
+        }
+        self.assert_rejected(r, "is not a list")
+
+    def test_duplicate_item_id_fails(self):
+        r = self.records()
+        r["board-old"]["carried_forward"].append(
+            {"id": "item-a", "text": "different text", "source_url": PICKUP, "status": "open"})
+        self.assert_rejected(r, "duplicate carried_forward id")
+
+    def test_link_url_not_http_fails(self):
+        for node, field in (("board-old", "successor"), ("board-new", "predecessor")):
+            for bad in ("not-a-url", "ftp://example.com/board", ""):
+                r = self.records()
+                r[node][field]["url"] = bad
+                self.assert_rejected(r, "not an http(s) URL")
+        r = self.records()
+        r["board-old"]["successor"]["url"] = "http://example.com/board"
+        r["board-new"]["predecessor"]["url"] = "http://example.com/old"
+        self.assertEqual(self.run_check(r), [])
+
+    def test_malformed_link_fails(self):
+        r = self.records()
+        r["board-old"]["successor"] = "board-new"
+        self.assert_rejected(r, "malformed")
+
+    def test_owner_without_id_fails(self):
+        r = self.records()
+        r["board-new"]["owner"] = {"evidence_url": PICKUP}
+        self.assert_rejected(r, "without an id")
+
+    def test_carried_item_without_id_fails(self):
+        r = self.records()
+        r["board-new"]["carried_forward"].append(
+            {"text": "extra", "source_url": PICKUP, "status": "open"})
+        self.assert_rejected(r, "without an id")
+
+    def test_bad_item_status_fails(self):
+        r = self.records()
+        r["board-new"]["carried_forward"].append(
+            {"id": "item-c", "text": "nope", "source_url": PICKUP, "status": "closed"})
+        self.assert_rejected(r, "has status")
+
+    def test_duplicate_node_id_fails(self):
+        r = self.records()
+        r["board-old-again"] = copy.deepcopy(r["board-old"])
+        self.assert_rejected(r, "duplicate node_id")
 
     def test_cli_exit_status_and_no_writes(self):
         with tempfile.TemporaryDirectory() as d:
