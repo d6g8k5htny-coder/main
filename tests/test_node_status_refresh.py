@@ -302,6 +302,29 @@ class RefreshTests(unittest.TestCase):
         self.assertIsInstance(failed["refresh_error"], str)
         self.assertEqual(failed["owner"], rec["owner"])
 
+    def test_release_sets_released_url_only_for_matching_pickup_id(self):
+        pickup = "https://github.com/d6g8k5htny-coder/main/issues/475#issuecomment-6346922771"
+        other = "https://github.com/d6g8k5htny-coder/main/pull/495#issuecomment-6347042124"
+        match = "https://github.com/d6g8k5htny-coder/main/pull/495#issuecomment-6347046676"
+        rec = load("fresh.json")
+        rec["owner"] = {"id": "agent-9", "evidence_url": pickup}
+
+        def refresh(body, url):
+            return nsr.refresh_record(rec, offline_fetch, NOW, lambda evidence: [{"url": url, "body": body}])
+
+        different = refresh("**RELEASE: other pickup**\n\n- Releases PICKUP 111.\n", other)
+        self.assertNotIn("released_url", different["owner"])
+        self.assertEqual(different["owner"], rec["owner"])
+
+        unnamed = refresh("**RELEASE: no pickup id**\n\nThe review is finished.\n", other)
+        self.assertNotIn("released_url", unnamed["owner"])
+        self.assertEqual(unnamed["owner"], rec["owner"])
+
+        matched = refresh("**RELEASE: this pickup**\n\n- Releases PICKUP 6346922771.\n", match)
+        self.assertEqual(matched["owner"]["released_url"], match)
+        self.assertEqual(matched["owner"]["id"], "agent-9")
+        self.assertEqual(matched["owner"]["evidence_url"], pickup)
+
     def test_github_fetch_uses_moving_ref_for_pinned_url(self):
         seen = []
 
