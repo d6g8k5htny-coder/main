@@ -285,6 +285,17 @@ class BoardLinks(unittest.TestCase):
         r["board-new"]["owner"] = {"evidence_url": PICKUP}
         self.assert_rejected(r, "without an id")
 
+    def test_carried_item_id_must_be_string(self):
+        r = self.records()
+        r["board-new"]["carried_forward"].append(
+            {"id": 5, "text": "extra", "source_url": PICKUP, "status": "open"})
+        self.assert_rejected(r, "without an id")
+
+    def test_carried_item_extra_key_fails(self):
+        r = self.records()
+        r["board-new"]["carried_forward"][0]["extra"] = "no"
+        self.assert_rejected(r, "only id, text, source_url, status, and resolution_url")
+
     def test_carried_item_without_id_fails(self):
         r = self.records()
         r["board-new"]["carried_forward"].append(

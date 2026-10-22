@@ -24,8 +24,10 @@ Checks (each failure is reported; the exit status is 1 if any):
      itself must match COMMENT_URL. Owner keys are closed to id, evidence_url,
      and released_url. Ownership is never inferred, and moving a board does
      not move it;
-  3. carry-forward: carried_forward must be a list of objects with unique ids,
-     non-empty text, and a source_url. Every predecessor item that is open must
+  3. carry-forward: carried_forward must be a list of objects with unique
+     string ids, non-empty text, and a source_url. Item keys are only id,
+     text, source_url, status, and resolution_url. Every predecessor item
+     that is open must
      appear, by id, in the successor's carried_forward, either still open or
      resolved with a resolution_url. Items may not be silently dropped.
   4. refresh_error, when present, is a string or null.
@@ -148,8 +150,12 @@ def _carried(node, rec, errors):
         if not isinstance(item, dict):
             errors.append(f"{node}: carried_forward item is not a dict")
             continue
+        extra = sorted(set(item) - {"id", "text", "source_url", "status", "resolution_url"})
+        if extra:
+            errors.append(
+                f"{node}: carried_forward item allows only id, text, source_url, status, and resolution_url")
         item_id = item.get("id")
-        if not item_id:
+        if not isinstance(item_id, str) or item_id == "":
             errors.append(f"{node}: carried_forward item without an id")
         elif item_id in by_id:
             errors.append(f"{node}: duplicate carried_forward id {item_id!r}")

@@ -42,7 +42,7 @@ and fails, with exit status 1, when:
 
 - a predecessor or successor link is not reciprocated, points to a missing record, or its `url` is not an http(s) URL;
 - an owner lacks an id or a comment URL as its evidence, has a key other than `id`, `evidence_url`, and `released_url`, or a `released_url` does not match that pattern;
-- `carried_forward` is not a list, an entry is not an object, an id is duplicated, `text` is missing or empty, `source_url` is not a GitHub issue or comment URL, or a resolution URL does not match that pattern;
+- `carried_forward` is not a list, an entry is not an object, an id is not a non-empty string or is duplicated, a key is outside `id`, `text`, `source_url`, `status`, and `resolution_url`, `text` is missing or empty, `source_url` is not a GitHub issue or comment URL, or a resolution URL does not match that pattern;
 - `refresh_error` is present and is neither a string nor null;
 - an open predecessor item is missing from the successor's `carried_forward`, or an
   item is marked resolved without a resolution URL.
