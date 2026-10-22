@@ -136,7 +136,11 @@
           "text": {"type": "string", "minLength": 1},
           "source_url": {"type": "string", "minLength": 1},
           "status": {"enum": ["open", "resolved"]},
-          "resolution_url": {"type": "string", "minLength": 1}
+          "resolution_url": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^https://github\\.com/d6g8k5htny-coder/(main|Math-)/(issues|pull)/[1-9]\\d*#(issuecomment-[1-9]\\d*|pullrequestreview-[1-9]\\d*)$"
+          }
         }
       }
     },

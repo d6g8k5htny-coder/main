@@ -29,8 +29,9 @@ FORBIDDEN = frozenset({
 NODE_ID = re.compile(r"[A-Za-z0-9][A-Za-z0-9_.-]*\Z")
 SHA = re.compile(r"[0-9a-f]{40}\Z")
 OBSERVED = re.compile(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z\Z")
-# Canonical evidence_url and released_url pattern. The same characters are
-# NODE_STATUS_EVIDENCE_URL_PATTERN in docs/site/current-model.mjs.
+# Canonical comment URL: evidence_url, released_url, and carried_forward
+# resolution_url. The same characters are NODE_STATUS_EVIDENCE_URL_PATTERN
+# in docs/site/current-model.mjs.
 EVIDENCE_URL_PATTERN = r"^https://github\.com/d6g8k5htny-coder/(main|Math-)/(issues|pull)/[1-9]\d*#(issuecomment-[1-9]\d*|pullrequestreview-[1-9]\d*)$"
 EVIDENCE_URL = re.compile(EVIDENCE_URL_PATTERN)
 PINNED_URL = re.compile(
@@ -43,9 +44,6 @@ UTC_REV = re.compile(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z\Z")
 CARRIED_SOURCE_URL = re.compile(
     r"^https://github\.com/[\w.-]+/[\w.-]+/(?:issues|pull)/\d+"
     r"(?:#(?:issuecomment|pullrequestreview)-\d+)?$")
-CARRIED_COMMENT_URL = re.compile(
-    r"^https://github\.com/[\w.-]+/[\w.-]+/(?:issues|pull)/\d+"
-    r"#(?:issuecomment|pullrequestreview)-\d+$")
 STATUSES = frozenset({"fresh", "stale", "unknown"})
 MAX_FILES = 256
 MAX_BYTES = 65536
@@ -142,6 +140,14 @@ def check_schema_file(root):
             problems.append("schema: released_url pattern drift")
         if "released_url" in owner_object.get("required", []):
             problems.append("schema: released_url must stay optional")
+    resolution = (
+        props.get("carried_forward", {})
+        .get("items", {})
+        .get("properties", {})
+        .get("resolution_url", {})
+    )
+    if resolution.get("pattern") != EVIDENCE_URL_PATTERN:
+        problems.append("schema: resolution_url pattern drift")
     return problems
 
 
@@ -218,8 +224,8 @@ def check_carried(value, problems):
             problems.append(f"{label}.source_url must be a GitHub issue or comment URL")
         if item["status"] not in ("open", "resolved"):
             problems.append(f"{label}.status must be open or resolved")
-        elif item["status"] == "resolved" and not CARRIED_COMMENT_URL.fullmatch(str(item.get("resolution_url", ""))):
-            problems.append(f"{label} resolved without a resolution_url")
+        elif item["status"] == "resolved" and not EVIDENCE_URL.fullmatch(str(item.get("resolution_url", ""))):
+            problems.append(f"{label} resolution_url does not match the comment pattern")
 
 
 def check_source(source, index, problems):

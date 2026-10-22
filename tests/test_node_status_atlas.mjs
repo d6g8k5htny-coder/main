@@ -85,6 +85,7 @@ test('published node-status records are real graph nodes with no owner and no ma
   assert.deepEqual(ownerObject.required, ['id', 'evidence_url']);
   assert.equal(ownerObject.properties.evidence_url.pattern, PATTERN);
   assert.equal(ownerObject.properties.released_url.pattern, PATTERN);
+  assert.equal(schema.properties.carried_forward.items.properties.resolution_url.pattern, PATTERN);
   assert.equal(m.NODE_STATUS_EVIDENCE_URL_PATTERN, PATTERN);
   const printed = python(['-c', 'import sys; sys.path.insert(0, "tools"); from validate_node_status import EVIDENCE_URL_PATTERN; from current_site_history import EVIDENCE_URL_PATTERN as shared; assert shared == EVIDENCE_URL_PATTERN; print(EVIDENCE_URL_PATTERN)']);
   assert.equal(printed.status, 0, printed.stderr);
@@ -181,6 +182,44 @@ test('closed schema, evidence pattern, and primary source_rev are enforced', asy
   assert.notEqual(joined.status, 0);
   assert.match(joined.stderr, /source_rev must be a single rev/);
   assert.doesNotMatch(joined.stderr, /source_rev must equal sources\[0\]\.rev/);
+});
+
+test('carried_forward resolution_url uses the shared comment pattern', async () => {
+  const base = (await records())['eng.hard-gate'];
+  const item = (resolution_url, status = 'resolved') => ({
+    ...base,
+    carried_forward: [{
+      id: 'pickup',
+      text: 'A carried comment.',
+      source_url: COMMENT,
+      status,
+      resolution_url,
+    }],
+  });
+  const rejected = [
+    'https://github.com/d6g8k5htny-coder/main/issues/475#issuecomment-0',
+    'https://github.com/d6g8k5htny-coder/main/issues/475#issuecomment-01',
+    'https://github.com/d6g8k5htny-coder/main/pull/463#pullrequestreview-0',
+    'https://github.com/d6g8k5htny-coder/Math-/pull/0463#issuecomment-6198606495',
+    'https://github.com/d6g8k5htny-coder/meta-framework/issues/475#issuecomment-12',
+    'https://github.com/other-owner/main/issues/475#issuecomment-12',
+  ];
+  for (const url of rejected) {
+    const failed = await validate(item(url));
+    assert.notEqual(failed.status, 0, url);
+    assert.match(failed.stderr, /carried_forward\[0\] resolution_url does not match the comment pattern/);
+    assert.doesNotMatch(failed.stderr, /Traceback/);
+  }
+  for (const url of [COMMENT, RELEASED]) {
+    const passed = await validate(item(url));
+    assert.equal(passed.status, 0, `${url}\n${passed.stderr}`);
+    assert.equal(passed.saved.carried_forward[0].resolution_url, url);
+  }
+  const open = await validate({
+    ...base,
+    carried_forward: [{id: 'pickup', text: 'Still open.', source_url: 'https://github.com/d6g8k5htny-coder/meta-framework/issues/475#issuecomment-0', status: 'open'}],
+  });
+  assert.equal(open.status, 0, open.stderr);
 });
 
 test('released_url keeps the owner object and the atlas says released', async () => {
