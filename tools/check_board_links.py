@@ -39,7 +39,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 COMMENT_URL = re.compile(
-    r"^https://github\.com/d6g8k5htny-coder/(main|Math-)/(issues|pull)/\d+#(issuecomment-\d+|pullrequestreview-\d+)$"
+    r"^https://github\.com/d6g8k5htny-coder/(main|Math-)/(issues|pull)/[1-9]\d*#(issuecomment-[1-9]\d*|pullrequestreview-[1-9]\d*)$"
 )
 
 

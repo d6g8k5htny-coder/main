@@ -33,7 +33,7 @@ with three optional handoff fields: `predecessor` and `successor`, each
 `{id, text, source_url, status: open|resolved, resolution_url}`.
 Those three shapes are unchanged. `source_url`, `resolution_url`, owner
 `evidence_url`, and `released_url` share one comment-URL pattern:
-`https://github.com/d6g8k5htny-coder/(main|Math-)/(issues|pull)/<n>#(issuecomment-|pullrequestreview-)<n>`.
+`https://github.com/d6g8k5htny-coder/(main|Math-)/(issues|pull)/[1-9]\d*#(issuecomment-[1-9]\d*|pullrequestreview-[1-9]\d*)`.
 An owner with `released_url` is not current, so the id and evidence checks do not apply; `released_url` must match that pattern.
 
 `python -B -S tools/check_board_links.py records/node_status` reads the records

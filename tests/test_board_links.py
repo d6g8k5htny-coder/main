@@ -153,6 +153,26 @@ class BoardLinks(unittest.TestCase):
             r["board-old"]["carried_forward"][1]["resolution_url"] = url
             self.assert_rejected(r, "resolution_url")
 
+    def test_zero_leading_comment_ids_fail(self):
+        rejected = (
+            "https://github.com/d6g8k5htny-coder/main/issues/0#issuecomment-200",
+            "https://github.com/d6g8k5htny-coder/main/pull/02#issuecomment-200",
+            "https://github.com/d6g8k5htny-coder/main/issues/2#issuecomment-0",
+            "https://github.com/d6g8k5htny-coder/Math-/pull/3#issuecomment-0200",
+            "https://github.com/d6g8k5htny-coder/main/pull/3#pullrequestreview-0",
+            "https://github.com/d6g8k5htny-coder/Math-/issues/4#pullrequestreview-01",
+        )
+        for url in rejected:
+            r = self.records()
+            r["board-new"]["owner"]["evidence_url"] = url
+            self.assert_rejected(r, "no PICKUP")
+            r = self.records()
+            r["board-new"]["carried_forward"][0]["source_url"] = url
+            self.assert_rejected(r, "source_url")
+            r = self.records()
+            r["board-old"]["carried_forward"][1]["resolution_url"] = url
+            self.assert_rejected(r, "resolution_url")
+
     def test_released_owner_is_not_current(self):
         r = self.records()
         r["board-new"]["owner"] = {"released_url": REVIEW}
