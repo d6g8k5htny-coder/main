@@ -3,6 +3,9 @@ from contextlib import redirect_stdout
 from importlib import import_module
 from io import StringIO
 import json
+import os
+import signal
+import time
 from pathlib import Path
 import sys
 import tempfile
@@ -115,6 +118,141 @@ class SiteGraphCaptureContract(unittest.TestCase):
         self.assertNotIn("::", summary)
         self.assertNotIn("synthetic", summary)
         self.assertEqual(result["controller_exit"], 0)
+
+
+    def _resistant_descendant_program(self, ready, mode):
+        # The direct child owns the captured pipes. Its same-group descendant
+        # closes both streams, ignores TERM, announces its exact Linux identity,
+        # and self-expires even if an assertion or controller cleanup fails.
+        return (
+            "import json,os,signal,time\n"
+            "from pathlib import Path\n"
+            "ready=Path(" + repr(str(ready)) + ")\n"
+            "mode=" + repr(mode) + "\n"
+            "leader=os.getpid()\n"
+            "signal.signal(signal.SIGTERM,lambda *_:os._exit(0))\n"
+            "signal.alarm(12)\n"
+            "read_fd,write_fd=os.pipe()\n"
+            "descendant=os.fork()\n"
+            "if descendant==0:\n"
+            " os.close(read_fd)\n"
+            " signal.signal(signal.SIGTERM,signal.SIG_IGN)\n"
+            " signal.signal(signal.SIGALRM,signal.SIG_DFL)\n"
+            " signal.alarm(12)\n"
+            " os.close(1)\n"
+            " os.close(2)\n"
+            " fields=Path('/proc/self/stat').read_text().rsplit(')',1)[1].split()\n"
+            " record={'pid':os.getpid(),'group':os.getpgrp(),'leader':leader,'start':fields[19]}\n"
+            " ready.write_text(json.dumps(record))\n"
+            " os.write(write_fd,b'R')\n"
+            " os.close(write_fd)\n"
+            " while True: signal.pause()\n"
+            "os.close(write_fd)\n"
+            "token=os.read(read_fd,1)\n"
+            "os.close(read_fd)\n"
+            "if token!=b'R': os._exit(90)\n"
+            "if mode=='overflow': os.write(1,b'x'*65)\n"
+            "if mode=='post-loop':\n"
+            " os.close(1)\n"
+            " os.close(2)\n"
+            " Path(str(ready)+'.parent-closed').write_bytes(b'closed')\n"
+            "while True: signal.pause()\n"
+        )
+
+    def _fixture_record(self, ready):
+        record = json.loads(ready.read_bytes())
+        self.assertEqual(set(record), {"pid", "group", "leader", "start"})
+        for key in ("pid", "group", "leader"):
+            self.assertIs(type(record[key]), int)
+            self.assertGreater(record[key], 1)
+        self.assertIs(type(record["start"]), str)
+        self.assertTrue(record["start"].isascii() and record["start"].isdigit())
+        self.assertEqual(record["group"], record["leader"])
+        self.assertNotEqual(record["pid"], record["leader"])
+        self.assertNotEqual(record["group"], os.getpgrp())
+        return record
+
+    def _fixture_running(self, record):
+        try:
+            raw = Path("/proc/" + str(record["pid"]) + "/stat").read_text()
+        except (FileNotFoundError, ProcessLookupError):
+            return False
+        fields = raw.rsplit(")", 1)[1].split()
+        # A reused PID is not this fixture; an unreaped zombie is not running.
+        return fields[19] == record["start"] and fields[0] not in ("Z", "X")
+
+    def _cleanup_resistant_fixture(self, ready):
+        if not ready.is_file():
+            return
+        record = self._fixture_record(ready)
+        if self._fixture_running(record):
+            self.assertEqual(os.getpgid(record["pid"]), record["group"])
+            try:
+                os.killpg(record["group"], signal.SIGKILL)
+            except ProcessLookupError:
+                pass
+            end = time.monotonic() + 0.5
+            while self._fixture_running(record) and time.monotonic() < end:
+                time.sleep(0.005)
+            self.assertFalse(self._fixture_running(record),
+                             "test finally cleanup left its identified descendant running")
+
+    def _run_group_cleanup_case(self, mode, expected_outcome, expected_exit):
+        ready = Path(self.temp.name) / "descendant-ready.json"
+        try:
+            result = self.run_child(
+                self._resistant_descendant_program(ready, mode),
+                wall_seconds=1, terminate_seconds=0.15, drain_seconds=0.25,
+                file_limit=32, aggregate_limit=64,
+            )
+            self.assertTrue(ready.is_file(), "descendant readiness was never established")
+            record = self._fixture_record(ready)
+            self.assertEqual(result["controller_outcome"], expected_outcome)
+            self.assertEqual(result["controller_exit"], expected_exit)
+            self.assertEqual(result["child_returncode"], 0)
+            self.assertFalse(result["original_streams_complete"])
+            self.assertLess(result["elapsed_seconds"], 3)
+            if mode == "post-loop":
+                self.assertEqual(Path(str(ready) + ".parent-closed").read_bytes(), b"closed")
+                self.assertEqual(result["streams"]["stdout"]["observed_bytes"], 0)
+                self.assertEqual(result["streams"]["stderr"]["observed_bytes"], 0)
+            end = time.monotonic() + 0.5
+            while self._fixture_running(record) and time.monotonic() < end:
+                time.sleep(0.005)
+            self.assertFalse(
+                self._fixture_running(record),
+                "identified TERM-resistant same-group descendant survived capture return",
+            )
+            return result
+        finally:
+            self._cleanup_resistant_fixture(ready)
+
+    @unittest.skipUnless(sys.platform == "linux" and hasattr(os, "fork"),
+                         "requires Linux POSIX process groups and /proc identity")
+    def test_timeout_finishes_group_cleanup_after_term_closes_pipes(self):
+        # Catches skipping group escalation when TERM exits the direct child
+        # and selector EOF occurs before the termination grace expires.
+        result = self._run_group_cleanup_case("timeout", "CHILD_TIMEOUT", 124)
+        self.assertTrue(result["timed_out"])
+        self.assertFalse(result["overflow"])
+
+    @unittest.skipUnless(sys.platform == "linux" and hasattr(os, "fork"),
+                         "requires Linux POSIX process groups and /proc identity")
+    def test_overflow_finishes_group_cleanup_after_term_closes_pipes(self):
+        # Catches treating an exited direct child and drained pipes as complete
+        # cleanup while its TERM-resistant descendant remains in the group.
+        result = self._run_group_cleanup_case("overflow", "OUTPUT_OVERFLOW", 74)
+        self.assertTrue(result["overflow"])
+        self.assertEqual((self.output / "stdout.bin").read_bytes(), b"x" * 32)
+
+    @unittest.skipUnless(sys.platform == "linux" and hasattr(os, "fork"),
+                         "requires Linux POSIX process groups and /proc identity")
+    def test_post_loop_wait_timeout_finishes_process_group_cleanup(self):
+        # Catches the distinct timeout after both captured pipes were already
+        # closed: waiting for the direct child must still finish group cleanup.
+        result = self._run_group_cleanup_case("post-loop", "CHILD_TIMEOUT", 124)
+        self.assertTrue(result["timed_out"])
+        self.assertFalse(result["overflow"])
 
 
 if __name__ == "__main__":
