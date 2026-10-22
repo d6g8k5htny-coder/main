@@ -1539,6 +1539,15 @@ RESUME_ISSUE_NOTE = "Issue number recorded without a repository in this snapshot
 RESUME_NO_TASK = "No explicitly identified task record for this node. A recorded review issue is not used as a task record."
 # Site-maintained task pointers, not graph metadata. docs/site/current-model.mjs keeps the same table.
 RESUME_TASK_RECORDS = {
+    "math.lifetime-remainder": {
+        "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6351719961",
+        "label": "Operational continuation: Math-#193 R1 integration closeout",
+        "meaning": ("Continuation from the merged conditional R1 far-sector addendum for d=2, L=24. It is an "
+                    "operational pointer, not scientific acceptance, source-binding admission, R81/R83 adoption, "
+                    "completion of the general Theorem R remainder claim or an owner claim."),
+        "identified_on": "2026-10-22",
+        "identified_in": "https://github.com/d6g8k5htny-coder/main/issues/388#issuecomment-6352139396",
+    },
     "math.d5-component.punctured-pin-proof": {
         "url": "https://github.com/d6g8k5htny-coder/main/pull/327#issuecomment-6321244764",
         "label": "Operational request: main#327 comment 6321244764",
