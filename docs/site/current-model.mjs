@@ -42,18 +42,97 @@ export async function parseVerifiedSnapshot(raw,identity,cryptoAPI=globalThis.cr
 }
 export async function fetchVerifiedSnapshot(fetcher,identity,{signal,cryptoAPI=globalThis.crypto}={}) {
   if(!DIGEST.test(identity?.sha256)||!Number.isSafeInteger(Number(identity?.bytes))||Number(identity.bytes)<0)throw Error('Invalid current source identity.');
-  const read=async url=>{
+  // Abort also bounds response-body consumption. Cancellation is best-effort;
+  // waiting for a stalled stream's cancel promise would defeat that budget.
+  const abortable=(operation,cancel)=>new Promise((resolve,reject)=>{
+    let settled=false;
+    const finish=(complete,value)=>{
+      if(settled)return;
+      settled=true;signal?.removeEventListener('abort',abort);complete(value);
+    };
+    const abort=()=>{
+      const error=signal?.reason??Object.assign(Error('Current source request aborted.'),{name:'AbortError'});
+      finish(reject,error);
+      try{Promise.resolve(cancel?.()).catch(()=>{});}catch{}
+    };
+    if(signal?.aborted){abort();return;}
+    signal?.addEventListener('abort',abort,{once:true});
+    try{Promise.resolve(operation()).then(value=>finish(resolve,value),error=>finish(reject,error));}
+    catch(error){finish(reject,error);}
+  });
+  const request=async url=>{
     const response=await fetcher(url,{cache:'no-store',credentials:'omit',signal});
     if(!response.ok)throw Error('Current source snapshot unavailable.');
-    return parseVerifiedSnapshot(await response.arrayBuffer(),identity,cryptoAPI);
+    return response;
+  };
+  const readBytes=async (response,limit,oversized,streamOnly=false)=>{
+    // Metadata requires a bounded streaming reader. Preserve arrayBuffer
+    // support for the existing payload transport when no stream is exposed.
+    if(!response.body?.getReader){
+      if(streamOnly)throw Error('Current source metadata bounded reading unavailable.');
+      return new Uint8Array(await abortable(()=>response.arrayBuffer(),()=>response.body?.cancel()));
+    }
+    const reader=response.body.getReader(),chunks=[];
+    let size=0,cancelled=false;
+    const cancel=()=>{
+      if(cancelled)return;
+      cancelled=true;
+      try{Promise.resolve(reader.cancel()).catch(()=>{});}catch{}
+    };
+    try{
+      for(;;){
+        const {done,value}=await abortable(()=>reader.read(),cancel);
+        if(done)break;
+        if(!(value instanceof Uint8Array))throw Error('Invalid current source response bytes.');
+        if(value.byteLength>limit-size)throw oversized();
+        if(value.byteLength){chunks.push(value.slice());size+=value.byteLength;}
+      }
+    }catch(error){cancel();throw error;}
+    finally{try{reader.releaseLock();}catch{}}
+    const bytes=new Uint8Array(size);
+    let offset=0;
+    for(const chunk of chunks){bytes.set(chunk,offset);offset+=chunk.byteLength;}
+    return bytes;
+  };
+  const read=async (url,descriptor=identity)=>{
+    const response=await request(url);
+    const bytes=await readBytes(response,Number(descriptor.bytes),()=>new SnapshotIntegrityError('Current payload byte count mismatch.'));
+    return abortable(()=>parseVerifiedSnapshot(bytes,descriptor,cryptoAPI));
+  };
+  const readMetadata=async()=>{
+    const bytes=await readBytes(await request('current-meta.json'),16384,()=>Error('Oversized current source metadata.'),true);
+    const text=new TextDecoder('utf-8',{fatal:true}).decode(bytes);
+    const metadata=JSON.parse(text);
+    if(!metadata||typeof metadata!=='object'||Array.isArray(metadata))throw Error('Invalid current source metadata.');
+    const keys=Object.keys(metadata).sort().join(',');
+    if(keys!=='bytes,observed_at,sha256'&&keys!=='archive,bytes,history_manifest_sha256,observed_at,sha256')throw Error('Invalid current source metadata fields.');
+    // JSON.parse keeps only the last duplicate member. Inspect complete JSON
+    // string tokens as well, so escaped spellings cannot conceal duplicates.
+    const seen=new Set();
+    for(const token of text.matchAll(/"(?:\\.|[^"\\])*"/g)){
+      if(!/^\s*:/.test(text.slice(token.index+token[0].length)))continue;
+      const key=JSON.parse(token[0]);
+      if(seen.has(key))throw Error('Duplicate current source metadata field.');
+      seen.add(key);
+    }
+    const digest=value=>typeof value==='string'&&DIGEST.test(value);
+    const observed=metadata.observed_at;
+    if(!digest(metadata.sha256)||!Number.isSafeInteger(metadata.bytes)||metadata.bytes<0||metadata.bytes>16777216||
+       typeof observed!=='string'||!/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ$/.test(observed)||
+       !Number.isFinite(Date.parse(observed))||new Date(observed).toISOString()!==observed.slice(0,-1)+'.000Z'||
+       (seen.has('archive')&&(!digest(metadata.archive)||!digest(metadata.history_manifest_sha256))))throw Error('Invalid current source metadata identity.');
+    return metadata;
   };
   try{return await read('current.json');}
-  catch(error){
-    if(!(error instanceof SnapshotIntegrityError))throw error;
-    // A mutable alias can lag the page across publication. One digest-keyed
-    // request may recover it; only the advertised bytes can be admitted.
-    return read('current.json?observation='+identity.sha256);
-  }
+  catch(error){if(signal?.aborted||!(error instanceof SnapshotIntegrityError))throw error;}
+  // A mutable alias can lag the page across publication. Preserve the old
+  // digest-keyed retry before considering one coherent successor observation.
+  try{return await read('current.json?observation='+identity.sha256);}
+  catch(error){if(signal?.aborted||!(error instanceof SnapshotIntegrityError))throw error;}
+  const metadata=await readMetadata();
+  const snapshot=await read('current.json?observation='+metadata.sha256,metadata);
+  if(snapshot.observed_at!==metadata.observed_at)throw Error('Current source observation time mismatch.');
+  return snapshot;
 }
 export function freshness(observed,now=Date.now()) {
   const age=now-Date.parse(observed);
