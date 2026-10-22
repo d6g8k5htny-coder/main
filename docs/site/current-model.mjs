@@ -79,17 +79,50 @@ export const RESUME_TASK_RECORDS=Object.freeze({
 });
 const REVIEW_URL=/^https:\/\/github\.com\/d6g8k5htny-coder\/(?:main|Math-)\/(?:issues|pull)\/[1-9][0-9]*(?:#[A-Za-z0-9_-]+)?$/;
 const metadataText=value=>typeof value==='string'?value:JSON.stringify(value);
+const NODE_STATUS_FORBIDDEN=new Set(['lemma_closed','prizes_solved','discharges_OBL_H5_JETMOD','certified_C_H','freeze','inventable_attempt_accepted']);
+const NODE_STATUS_STATE=/^(?:fresh|stale|unknown)$/;
+const NODE_STATUS_OBSERVED=/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/;
+function nodeStatusForbidden(value){
+  if(!value||typeof value!=='object')return false;
+  return Object.entries(value).some(([key,item])=>NODE_STATUS_FORBIDDEN.has(key)||nodeStatusForbidden(item));
+}
+// A record without an evidence URL is not applied. Freshness is not scientific validity.
+function nodeStatusRecord(statusRecords,id){
+  if(!statusRecords||typeof statusRecords!=='object'||Array.isArray(statusRecords)||!Object.prototype.hasOwnProperty.call(statusRecords,id))return null;
+  const record=statusRecords[id];
+  if(!record||typeof record!=='object'||Array.isArray(record)||record.scientific_effect!=='NONE'||nodeStatusForbidden(record))return null;
+  if(!Object.prototype.hasOwnProperty.call(record,'owner'))return null;
+  const owner=record.owner;
+  if(owner!==null&&(typeof owner!=='object'||Array.isArray(owner)||typeof owner.id!=='string'||!owner.id||typeof owner.evidence_url!=='string'||!owner.evidence_url))return null;
+  return record;
+}
+function nodeStatusList(value){return Array.isArray(value)&&value.every(item=>typeof item==='string'&&item)&&value.length?value.join('; '):null;}
+function nodeStatusOperational(record){
+  const owner=record.owner;
+  return RESUME_OPERATIONAL.map(([field,label])=>{
+    const row={field,label,text:RESUME_NOT_RECORDED};
+    if(field==='next_action'&&typeof record.next_action==='string'&&record.next_action){
+      row.text=record.next_action;
+      if(typeof record.status==='string'&&NODE_STATUS_STATE.test(record.status)&&typeof record.observed_at==='string'&&NODE_STATUS_OBSERVED.test(record.observed_at))row.note=`Node-status view ${record.status} as of ${record.observed_at}. Scientific effect NONE. Freshness is not scientific validity.`;
+    }else if(field==='missing_input'){const text=nodeStatusList(record.missing_input);if(text)row.text=text;}
+    else if(field==='owner_evidence'){row.text=owner===null?'No owner recorded in this node-status view.':owner.id;if(owner&&owner.evidence_url)row.url=owner.evidence_url;}
+    else if(field==='retained_stop')row.text=nodeStatusList(record.stops)||'No retained stop recorded in this node-status view.';
+    return row;
+  });
+}
 // One projection feeds the atlas inspector and the static node pages; only `now` adds a freshness state.
-export function resumeProjection(snapshot,id,now) {
+// statusRecords is optional. The snapshot-only call stays unchanged for static pages.
+export function resumeProjection(snapshot,id,now,statusRecords) {
   const graph=snapshot?.graph?.data;if(!hasNode(graph,id))return null;
   const node=graph.nodes[id],identity=snapshot.graph.identity,own=key=>Object.prototype.hasOwnProperty.call(node,key);
   const task=Object.prototype.hasOwnProperty.call(RESUME_TASK_RECORDS,id)?RESUME_TASK_RECORDS[id]:null;
+  const record=nodeStatusRecord(statusRecords,id);
   return {node:id,
     snapshot:{observed_at:snapshot.observed_at,graph_repository:identity.repository,graph_commit:identity.commit,graph_path:identity.path,graph_sha256:identity.sha256,main_commit:snapshot.repositories.find(r=>r.repository==='d6g8k5htny-coder/main')?.commit??null},
     freshness:Number.isFinite(now)?freshness(snapshot.observed_at,now):null,warning:RESUME_FRESHNESS_WARNING,
     state:['classification','controlling'].map(field=>({field,text:own(field)&&node[field]!==null?metadataText(node[field]):RESUME_NOT_RECORDED})),
     review:{label:RESUME_REVIEW_LABEL,fields:Object.keys(node).filter(key=>key.startsWith('review_')).map(field=>{const value=node[field];return {field,text:metadataText(value),url:typeof value==='string'&&REVIEW_URL.test(value)?value:null,note:field==='review_issue'&&typeof value==='number'?RESUME_ISSUE_NOTE:null};})},
-    operational:RESUME_OPERATIONAL.map(([field,label])=>({field,label,text:RESUME_NOT_RECORDED})),
+    operational:record?nodeStatusOperational(record):RESUME_OPERATIONAL.map(([field,label])=>({field,label,text:RESUME_NOT_RECORDED})),
     continuation:task?{...task}:null,continuation_text:task?null:RESUME_NO_TASK};
 }
 export const MAX_WINDOW_NODES=150;

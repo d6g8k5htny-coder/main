@@ -1554,14 +1554,81 @@ def _resume_text(value):
     return value if isinstance(value, str) else json.dumps(value, ensure_ascii=False, separators=(",", ":"))
 
 
-def resume_projection(data, node_id):
-    """The static form of current-model.mjs resumeProjection; a static page evaluates no freshness."""
+_NODE_STATUS_FORBIDDEN = frozenset({
+    "lemma_closed", "prizes_solved", "discharges_OBL_H5_JETMOD", "certified_C_H",
+    "freeze", "inventable_attempt_accepted"})
+_NODE_STATUS_STATE = re.compile(r"(?:fresh|stale|unknown)\Z")
+_NODE_STATUS_OBSERVED = re.compile(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z\Z")
+
+
+def _node_status_forbidden(value):
+    if isinstance(value, dict):
+        return any(key in _NODE_STATUS_FORBIDDEN or _node_status_forbidden(item) for key, item in value.items())
+    if isinstance(value, list):
+        return any(_node_status_forbidden(item) for item in value)
+    return False
+
+
+def _node_status_record(status_records, node_id):
+    """Optional current view. An owner without evidence_url drops the whole record."""
+    if not isinstance(status_records, dict) or node_id not in status_records:
+        return None
+    record = status_records[node_id]
+    if (not isinstance(record, dict) or record.get("scientific_effect") != "NONE"
+            or _node_status_forbidden(record) or "owner" not in record):
+        return None
+    owner = record["owner"]
+    if owner is not None and (not isinstance(owner, dict) or not isinstance(owner.get("id"), str) or not owner.get("id")
+                              or not isinstance(owner.get("evidence_url"), str) or not owner.get("evidence_url")):
+        return None
+    return record
+
+
+def _node_status_list(value):
+    if isinstance(value, list) and value and all(isinstance(item, str) and item for item in value):
+        return "; ".join(value)
+    return None
+
+
+def _node_status_operational(record):
+    owner = record["owner"]
+    rows = []
+    for field, label in RESUME_OPERATIONAL:
+        row = {"field": field, "label": label, "text": RESUME_NOT_RECORDED}
+        if field == "next_action" and isinstance(record.get("next_action"), str) and record["next_action"]:
+            row["text"] = record["next_action"]
+            if (_NODE_STATUS_STATE.fullmatch(str(record.get("status")))
+                    and isinstance(record.get("observed_at"), str)
+                    and _NODE_STATUS_OBSERVED.fullmatch(record["observed_at"])):
+                row["note"] = (f"Node-status view {record['status']} as of {record['observed_at']}. "
+                               "Scientific effect NONE. Freshness is not scientific validity.")
+        elif field == "missing_input":
+            text = _node_status_list(record.get("missing_input"))
+            if text:
+                row["text"] = text
+        elif field == "owner_evidence":
+            row["text"] = "No owner recorded in this node-status view." if owner is None else owner["id"]
+            if owner and owner.get("evidence_url"):
+                row["url"] = owner["evidence_url"]
+        elif field == "retained_stop":
+            row["text"] = _node_status_list(record.get("stops")) or "No retained stop recorded in this node-status view."
+        rows.append(row)
+    return rows
+
+
+def resume_projection(data, node_id, status_records=None):
+    """The static form of current-model.mjs resumeProjection; a static page evaluates no freshness.
+
+    status_records is the optional node-status map. The snapshot-only call matches the
+    JavaScript default and is what static pages render.
+    """
     nodes = data["graph"]["data"]["nodes"]
     if not isinstance(node_id, str) or node_id not in nodes:
         return None
     node, identity = nodes[node_id], data["graph"]["identity"]
     task = RESUME_TASK_RECORDS.get(node_id)
     main = next((repo["commit"] for repo in data["repositories"] if repo["repository"] == "d6g8k5htny-coder/main"), None)
+    record = _node_status_record(status_records, node_id)
     return {
         "node": node_id,
         "snapshot": {"observed_at": data["observed_at"], "graph_repository": identity["repository"],
@@ -1575,7 +1642,8 @@ def resume_projection(data, node_id):
              "url": value if isinstance(value, str) and _RESUME_REVIEW_URL.fullmatch(value) else None,
              "note": RESUME_ISSUE_NOTE if field == "review_issue" and isinstance(value, (int, float)) and not isinstance(value, bool) else None}
             for field, value in node.items() if field.startswith("review_")]},
-        "operational": [{"field": field, "label": label, "text": RESUME_NOT_RECORDED} for field, label in RESUME_OPERATIONAL],
+        "operational": _node_status_operational(record) if record else [
+            {"field": field, "label": label, "text": RESUME_NOT_RECORDED} for field, label in RESUME_OPERATIONAL],
         "continuation": dict(task) if task else None,
         "continuation_text": None if task else RESUME_NO_TASK,
     }
