@@ -61,6 +61,27 @@ class EvidencePathTests(unittest.TestCase):
             "execution receipt not recorded for FIXTURE-ARTIFACT-v1",
             "review link not recorded for FIXTURE-ARTIFACT-v1"])
 
+    def test_generic_unbound_node_reports_missing_binding(self):
+        graph = copy.deepcopy(GRAPH)
+        graph["data"]["edges"].append(
+            {"from": FIXTURE_NODE, "relation": "requires_evidence", "to": "fixture.lane1.unbound-node"})
+        result = evidence_path("fixture.lane1.unbound-node", graph, BINDINGS, RECEIPTS, REVIEWS)
+        self.assertFalse(result["complete"])
+        self.assertEqual(result["artifacts"], [])
+        self.assertEqual(result["missing"], [
+            "artifact index binding not recorded",
+            "execution receipt not recorded",
+            "review link not recorded"])
+
+    def test_non_sha_commit_in_identity_is_not_a_pinned_source(self):
+        for bad in ("main", "HEAD", "a" * 39, "A" * 40, "g" * 40, "a" * 41, 7, None):
+            graph = copy.deepcopy(GRAPH)
+            graph["identity"]["commit"] = bad
+            result = evidence_path(FIXTURE_NODE, graph, BINDINGS, RECEIPTS, REVIEWS)
+            self.assertIsNone(result["source"], bad)
+            self.assertIn("pinned source (url+sha) not recorded", result["missing"])
+            self.assertFalse(result["complete"])
+
     def test_unknown_node_is_refused(self):
         with self.assertRaises(Refused) as caught:
             evidence_path("fixture.lane1.not-in-graph", GRAPH, BINDINGS)
