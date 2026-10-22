@@ -17,11 +17,11 @@ Checks (each failure is reported; the exit status is 1 if any):
   1. reciprocity: A.successor -> B requires B.predecessor -> A, and the reverse;
      a link to a node with no record is a failure, not a skip; a link url that
      is not http(s) is a failure;
-  2. ownership: a non-null owner without released_url needs an id and an
-     evidence_url matching COMMENT_URL (the PICKUP or assignment). An owner
-     with released_url is not current, so those checks do not apply;
-     released_url itself must match COMMENT_URL. Ownership is never inferred,
-     and moving a board does not move it;
+  2. ownership: a non-null owner needs an id and an evidence_url matching
+     COMMENT_URL (the PICKUP or assignment). An owner with released_url is not
+     a current owner, and still needs that id and evidence_url; released_url
+     itself must match COMMENT_URL. Ownership is never inferred, and moving a
+     board does not move it;
   3. carry-forward: carried_forward must be a list of objects with unique ids
      and a source_url. Every predecessor item that is open must appear, by id,
      in the successor's carried_forward, either still open or resolved with a
@@ -110,15 +110,16 @@ def check_ownership(records):
         if not isinstance(owner, dict):
             errors.append(f"{node}: owner without an id")
             continue
-        if "released_url" in owner:
-            if not _comment_url(owner.get("released_url")):
-                errors.append(f"{node}: owner released_url is not a comment URL")
+        evidence = owner.get("evidence_url")
+        if "evidence_url" not in owner or not isinstance(evidence, str) or evidence == "":
+            errors.append(f"{node}: owner {owner.get('id')!r} has no PICKUP/assignment comment url")
             continue
-        if not owner.get("id"):
+        if not isinstance(owner.get("id"), str) or owner.get("id") == "":
             errors.append(f"{node}: owner without an id")
-            continue
-        if not _comment_url(owner.get("evidence_url")):
-            errors.append(f"{node}: owner {owner['id']!r} has no PICKUP/assignment comment url")
+        if not _comment_url(evidence):
+            errors.append(f"{node}: owner {owner.get('id')!r} has no PICKUP/assignment comment url")
+        if "released_url" in owner and not _comment_url(owner.get("released_url")):
+            errors.append(f"{node}: owner released_url is not a comment URL")
     return errors
 
 

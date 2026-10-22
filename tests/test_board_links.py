@@ -173,15 +173,20 @@ class BoardLinks(unittest.TestCase):
             r["board-old"]["carried_forward"][1]["resolution_url"] = url
             self.assert_rejected(r, "resolution_url")
 
-    def test_released_owner_is_not_current(self):
+    def test_released_owner_missing_id_fails(self):
         r = self.records()
-        r["board-new"]["owner"] = {"released_url": REVIEW}
-        self.assertEqual(self.run_check(r), [])
+        r["board-new"]["owner"] = {"evidence_url": PICKUP, "released_url": REVIEW}
+        self.assert_rejected(r, "without an id")
+
+    def test_released_owner_missing_evidence_url_fails(self):
+        r = self.records()
+        r["board-new"]["owner"] = {"id": "agent-old", "released_url": REVIEW}
+        self.assert_rejected(r, "no PICKUP")
+
+    def test_released_owner_with_evidence_passes(self):
         r = self.records()
         r["board-new"]["owner"] = {
-            "id": "agent-old",
-            "evidence_url": "https://github.com/example/repo/issues/2",
-            "released_url": PICKUP,
+            "id": "agent-old", "evidence_url": PICKUP, "released_url": REVIEW,
         }
         self.assertEqual(self.run_check(r), [])
 
