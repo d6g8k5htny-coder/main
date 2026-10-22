@@ -18,8 +18,7 @@ REVS = json.loads((FIX / "current_revs.json").read_text())
 def offline_fetch(url):
     if url not in REVS:
         raise nsr.SourceError("unreachable (offline fixture)")
-    item = REVS[url]
-    return item["rev"], item["observed_at"]
+    return REVS[url]
 
 
 def load(name):
@@ -45,10 +44,12 @@ class RefreshTests(unittest.TestCase):
         self.assertIsNone(out["refresh_error"])
 
     def test_changed_rev_is_stale(self):
-        out = nsr.refresh_record(load("stale.json"), offline_fetch, NOW)
+        rec = load("stale.json")
+        out = nsr.refresh_record(rec, offline_fetch, NOW)
         self.assertEqual(out["status"], "stale")
-        self.assertEqual(out["source_rev"], "3333333333333333333333333333333333333333")
-        self.assertNotIn(",", out["source_rev"])
+        self.assertEqual(out["source_rev"], rec["sources"][0]["rev"])
+        self.assertEqual(out["source_rev"], "2222222222222222222222222222222222222222")
+        self.assertNotIn("3333333333333333333333333333333333333333", json.dumps(out))
 
     def test_unreachable_is_unknown_with_error(self):
         rec = load("unknown.json")
@@ -155,33 +156,29 @@ class RefreshTests(unittest.TestCase):
         self.assertEqual(out["status"], "unknown")
         self.assertNotEqual(out["status"], "fresh")
 
-    def test_source_rev_is_single_newest_observed_update(self):
-        older = "5" * 40
-        newer = "6" * 40
+    def test_source_rev_is_primary_and_moving_ref_is_not_stored(self):
+        primary = "5" * 40
+        other = "6" * 40
+        moved = "7" * 40
         rec = load("fresh.json")
+        rec["source_rev"] = moved
         rec["sources"] = [
-            {"url": "https://github.com/d6g8k5htny-coder/main/blob/" + older + "/old.md", "rev": older},
-            {"url": "https://github.com/d6g8k5htny-coder/Math-/tree/" + newer + "/new", "rev": newer},
+            {"url": "https://github.com/d6g8k5htny-coder/main/blob/" + primary + "/old.md", "rev": primary},
+            {"url": "https://github.com/d6g8k5htny-coder/Math-/tree/" + other + "/new", "rev": other},
         ]
 
         def fetch(url):
             if url.endswith("/old.md"):
-                return older, "2026-10-22T10:00:00Z"
-            return newer, "2026-10-22T16:00:00Z"
+                return primary
+            return moved
 
         out = nsr.refresh_record(rec, fetch, NOW)
-        self.assertEqual(out["status"], "fresh")
-        self.assertEqual(out["source_rev"], newer)
-        self.assertNotIn(",", out["source_rev"])
-        self.assertEqual(len(out["source_rev"]), 40)
-
-        def tied(url):
-            if url.endswith("/old.md"):
-                return older, "2026-10-22T16:00:00Z"
-            return newer, "2026-10-22T16:00:00Z"
-
-        tied_out = nsr.refresh_record(rec, tied, NOW)
-        self.assertEqual(tied_out["source_rev"], newer)
+        self.assertEqual(out["status"], "stale")
+        self.assertEqual(out["source_rev"], primary)
+        self.assertEqual(out["sources"][0]["rev"], primary)
+        self.assertEqual(out["sources"][1]["rev"], other)
+        self.assertNotIn(moved, json.dumps(out))
+        self.assertIsNone(out["refresh_error"])
 
     def test_pinned_sha_accepted_and_other_rev_forms_unknown(self):
         math_sha = "a" * 40
@@ -190,26 +187,10 @@ class RefreshTests(unittest.TestCase):
             "url": "https://github.com/d6g8k5htny-coder/Math-/tree/" + math_sha + "/frontiers/downstream_gate_20260925",
             "rev": math_sha,
         }]
-        out = nsr.refresh_record(rec, lambda url: (math_sha, "2026-10-22T12:00:00Z"), NOW)
+        out = nsr.refresh_record(rec, lambda url: math_sha, NOW)
         self.assertEqual(out["status"], "fresh")
+        self.assertEqual(out["source_rev"], math_sha)
         self.assertIsNone(out["refresh_error"])
-
-        issue = load("fresh.json")
-        issue["sources"] = [{
-            "url": "https://github.com/d6g8k5htny-coder/main/issues/475",
-            "rev": "2026-10-22T17:30:25Z",
-        }]
-        out = nsr.refresh_record(issue, offline_fetch, NOW)
-        self.assertEqual(out["status"], "unknown")
-        self.assertIsInstance(out["refresh_error"], str)
-        self.assertNotEqual(out["source_rev"], "2026-10-22T17:30:25Z")
-
-        comment = load("fresh.json")
-        comment["sources"] = [{
-            "url": "https://github.com/d6g8k5htny-coder/main/pull/495#issuecomment-6347046676",
-            "rev": "2026-10-22T17:30:25Z",
-        }]
-        self.assertEqual(nsr.refresh_record(comment, offline_fetch, NOW)["status"], "unknown")
 
         other = load("fresh.json")
         other["sources"][0]["url"] = "https://github.com/example/repo/blob/" + ("1" * 40) + "/a.md"
@@ -222,7 +203,7 @@ class RefreshTests(unittest.TestCase):
         mismatch["sources"][0]["rev"] = "2" * 40
         out = nsr.refresh_record(mismatch, offline_fetch, NOW)
         self.assertEqual(out["status"], "unknown")
-        self.assertIn("appear in its url", out["refresh_error"])
+        self.assertIn("40-hex sha in its url", out["refresh_error"])
 
         upper = load("fresh.json")
         upper_sha = "A" * 40
@@ -231,6 +212,48 @@ class RefreshTests(unittest.TestCase):
             "rev": upper_sha,
         }]
         self.assertEqual(nsr.refresh_record(upper, offline_fetch, NOW)["status"], "unknown")
+
+    def test_discussion_updated_at_newer_is_stale_and_unfetched_is_unknown(self):
+        issue = nsr.refresh_record(load("issue.json"), offline_fetch, NOW)
+        self.assertEqual(issue["status"], "stale")
+        self.assertEqual(issue["source_rev"], "2026-10-22T17:00:00Z")
+        self.assertNotIn("2026-10-22T18:00:00Z", json.dumps(issue))
+        self.assertIsNone(issue["refresh_error"])
+
+        pull = load("fresh.json")
+        pull["sources"] = [{
+            "url": "https://github.com/d6g8k5htny-coder/main/pull/490",
+            "rev": "2026-10-22T12:00:00Z",
+        }]
+        pull["source_rev"] = "9999999999999999999999999999999999999999"
+        same = nsr.refresh_record(pull, offline_fetch, NOW)
+        self.assertEqual(same["status"], "fresh")
+        self.assertEqual(same["source_rev"], "2026-10-22T12:00:00Z")
+
+        comment_url = "https://github.com/d6g8k5htny-coder/Math-/pull/463#issuecomment-6198606495"
+        comment = load("fresh.json")
+        comment["sources"] = [{"url": comment_url, "rev": "2026-10-15T18:00:00Z"}]
+        older = nsr.refresh_record(comment, offline_fetch, NOW)
+        self.assertEqual(older["status"], "fresh")
+        self.assertEqual(older["source_rev"], "2026-10-15T18:00:00Z")
+
+        missing = load("fresh.json")
+        missing["sources"] = [{
+            "url": "https://github.com/d6g8k5htny-coder/main/issues/1",
+            "rev": "2026-10-22T17:00:00Z",
+        }]
+        missing["source_rev"] = "2026-10-22T17:00:00Z"
+        unknown = nsr.refresh_record(missing, offline_fetch, NOW)
+        self.assertEqual(unknown["status"], "unknown")
+        self.assertIsInstance(unknown["refresh_error"], str)
+        self.assertIn("unreachable", unknown["refresh_error"])
+        self.assertEqual(unknown["source_rev"], "2026-10-22T17:00:00Z")
+
+        bad_rev = load("issue.json")
+        bad_rev["sources"][0]["rev"] = "not-a-timestamp"
+        bad = nsr.refresh_record(bad_rev, offline_fetch, NOW)
+        self.assertEqual(bad["status"], "unknown")
+        self.assertIn("UTC Z", bad["refresh_error"])
 
     def test_refresh_error_is_string_or_null(self):
         fresh = nsr.refresh_record(load("fresh.json"), offline_fetch, NOW)
@@ -284,22 +307,28 @@ class RefreshTests(unittest.TestCase):
 
         def fake(path):
             seen.append(path)
-            return [{"sha": "ab" * 20, "commit": {"committer": {"date": "2026-10-22T18:00:00+00:00"}}}]
+            if "/commits?" in path:
+                return [{"sha": "ab" * 20, "commit": {"committer": {"date": "2026-10-22T18:00:00+00:00"}}}]
+            return {"updated_at": "2026-10-22T17:30:25+00:00"}
 
         nsr._api_get = fake
         pin = "1" * 40
         url = "https://github.com/d6g8k5htny-coder/Math-/blob/" + pin + "/frontiers/downstream_gate_20260925/GRAPH.json"
-        rev, observed = nsr.github_fetch(url)
-        self.assertEqual(rev, "ab" * 20)
-        self.assertEqual(observed, "2026-10-22T18:00:00Z")
+        self.assertEqual(nsr.github_fetch(url), "ab" * 20)
         self.assertEqual(len(seen), 1)
         self.assertIn("/repos/d6g8k5htny-coder/Math-/commits?", seen[0])
         self.assertNotIn("sha=", seen[0])
         self.assertNotIn(pin, seen[0])
+        self.assertEqual(nsr.github_fetch("https://github.com/d6g8k5htny-coder/main/issues/475"), "2026-10-22T17:30:25Z")
+        self.assertIn("/repos/d6g8k5htny-coder/main/issues/475", seen[-1])
+        self.assertEqual(nsr.github_fetch("https://github.com/d6g8k5htny-coder/main/pull/495"), "2026-10-22T17:30:25Z")
+        self.assertIn("/repos/d6g8k5htny-coder/main/pulls/495", seen[-1])
+        self.assertEqual(
+            nsr.github_fetch("https://github.com/d6g8k5htny-coder/main/pull/495#issuecomment-6347046676"),
+            "2026-10-22T17:30:25Z")
+        self.assertIn("/repos/d6g8k5htny-coder/main/issues/comments/6347046676", seen[-1])
         with self.assertRaises(nsr.SourceError):
-            nsr.github_fetch("https://github.com/d6g8k5htny-coder/main/issues/475")
-        with self.assertRaises(nsr.SourceError):
-            nsr.github_fetch("https://github.com/d6g8k5htny-coder/main/pull/495")
+            nsr.github_fetch("https://example.org/x")
         with self.assertRaises(nsr.SourceError):
             nsr.github_fetch("https://github.com/example/repo/blob/" + pin + "/a.md")
 
