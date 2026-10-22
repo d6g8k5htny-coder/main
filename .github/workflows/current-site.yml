@@ -57,7 +57,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Offline freshness tests
-        run: python3 -B -S -m unittest tests.test_node_status_refresh -v
+        run: python3 -B -m unittest tests.test_node_status_refresh
       - name: Report-only freshness refresh (read-only GitHub API)
         if: github.event_name != 'pull_request'
         env:

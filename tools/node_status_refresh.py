@@ -13,6 +13,7 @@ Rules:
   - every source rev unchanged             -> "fresh"
   - any source rev changed                 -> "stale"
   - any source unreachable / unparseable   -> "unknown" (error recorded; never "fresh")
+  - empty or missing source rev            -> "unknown" (never "fresh")
 Precedence: unknown > stale > fresh.
 
 The default fetcher reads the public GitHub REST API (read-only, optional
@@ -109,6 +110,10 @@ def refresh_record(record: dict, fetch: Fetcher, now: str | None = None) -> dict
         url = src.get("url") if isinstance(src, dict) else None
         if not url:
             errors.append("source without url")
+            continue
+        recorded = src.get("rev")
+        if not isinstance(recorded, str) or not recorded:
+            errors.append(f"{url}: empty or missing source revision")
             continue
         try:
             rev = fetch(url)

@@ -94,6 +94,64 @@ class RefreshTests(unittest.TestCase):
         with self.assertRaises(nsr.SourceError):
             nsr.github_fetch("https://example.org/x")
 
+    def test_scientific_effect_forced_none_not_passed_through(self):
+        rec = load("fresh.json")
+        rec["scientific_effect"] = "ACCEPTED"
+        out = nsr.refresh_record(rec, offline_fetch, NOW)
+        self.assertEqual(out["status"], "fresh")
+        self.assertEqual(out["scientific_effect"], "NONE")
+        self.assertNotEqual(out["scientific_effect"], "ACCEPTED")
+
+        rec = load("unknown.json")
+        rec["scientific_effect"] = "ACCEPTED"
+        out = nsr.refresh_record(rec, offline_fetch, NOW)
+        self.assertEqual(out["status"], "unknown")
+        self.assertEqual(out["scientific_effect"], "NONE")
+
+    def test_successful_refresh_clears_stale_refresh_error(self):
+        rec = load("fresh.json")
+        rec["refresh_error"] = "leftover from an earlier run"
+        out = nsr.refresh_record(rec, offline_fetch, NOW)
+        self.assertEqual(out["status"], "fresh")
+        self.assertNotIn("refresh_error", out)
+
+        rec = load("stale.json")
+        rec["refresh_error"] = "leftover from an earlier run"
+        out = nsr.refresh_record(rec, offline_fetch, NOW)
+        self.assertEqual(out["status"], "stale")
+        self.assertNotIn("refresh_error", out)
+
+    def test_empty_or_missing_source_revision_never_fresh(self):
+        rec = load("fresh.json")
+
+        def empty_fetch(url):
+            return ""
+
+        out = nsr.refresh_record(rec, empty_fetch, NOW)
+        self.assertEqual(out["status"], "unknown")
+        self.assertIn("refresh_error", out)
+        self.assertNotEqual(out["status"], "fresh")
+
+        def missing_fetch(url):
+            return None
+
+        out = nsr.refresh_record(load("fresh.json"), missing_fetch, NOW)
+        self.assertEqual(out["status"], "unknown")
+        self.assertNotEqual(out["status"], "fresh")
+
+        missing = load("fresh.json")
+        del missing["sources"][0]["rev"]
+        out = nsr.refresh_record(missing, offline_fetch, NOW)
+        self.assertEqual(out["status"], "unknown")
+        self.assertIn("refresh_error", out)
+        self.assertNotEqual(out["status"], "fresh")
+
+        blank = load("fresh.json")
+        blank["sources"][0]["rev"] = ""
+        out = nsr.refresh_record(blank, offline_fetch, NOW)
+        self.assertEqual(out["status"], "unknown")
+        self.assertNotEqual(out["status"], "fresh")
+
 
 if __name__ == "__main__":
     unittest.main()
