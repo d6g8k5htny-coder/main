@@ -47,6 +47,34 @@ def _signal_group(process, number):
         pass
 
 
+
+def _finish_stopped_group(process, stop_at, terminate_seconds, drain_seconds):
+    """Finish a refused capture independently of pipe or direct-child liveness."""
+    errors = []
+    if stop_at is None:
+        stop_at = time.monotonic()
+        try:
+            _signal_group(process, signal.SIGTERM)
+        except Exception as error:
+            errors.append(type(error).__name__)
+    remaining = max(0, stop_at + terminate_seconds - time.monotonic())
+    if remaining:
+        try:
+            time.sleep(remaining)
+        except Exception as error:
+            errors.append(type(error).__name__)
+    # Even an already-reaped direct child can have live group descendants.
+    try:
+        _signal_group(process, signal.SIGKILL)
+    except Exception as error:
+        errors.append(type(error).__name__)
+    try:
+        process.wait(timeout=drain_seconds)
+    except Exception as error:
+        errors.append(type(error).__name__)
+    return errors[0] if errors else None
+
+
 def run_capture(command, output_dir, *, context=None, wall_seconds=90,
                 file_limit=FILE_LIMIT, aggregate_limit=AGGREGATE_LIMIT,
                 terminate_seconds=2, drain_seconds=3):
@@ -74,9 +102,6 @@ def run_capture(command, output_dir, *, context=None, wall_seconds=90,
     files = {}
     rows = {}
     for name in ("stdout", "stderr"):
-        fd = os.open(output / (name + ".bin"),
-                     os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
-        files[name] = os.fdopen(fd, "wb")
         rows[name] = {"observed_bytes": 0, "retained_bytes": 0,
                       "observed_hash": hashlib.sha256(), "retained_hash": hashlib.sha256()}
     process = None
@@ -90,6 +115,14 @@ def run_capture(command, output_dir, *, context=None, wall_seconds=90,
     controller_error = None
     total = 0
     try:
+        for name in ("stdout", "stderr"):
+            fd = os.open(output / (name + ".bin"),
+                         os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o600)
+            try:
+                files[name] = os.fdopen(fd, "wb")
+            except Exception:
+                os.close(fd)
+                raise
         process = subprocess.Popen(command, stdin=subprocess.DEVNULL, stdout=subprocess.PIPE,
                                    stderr=subprocess.PIPE, start_new_session=True)
         for name, pipe in (("stdout", process.stdout), ("stderr", process.stderr)):
@@ -110,7 +143,9 @@ def run_capture(command, output_dir, *, context=None, wall_seconds=90,
                 killed = True
             if drain_deadline is not None and now >= drain_deadline:
                 incomplete = bool(selector.get_map())
-                _signal_group(process, signal.SIGKILL)
+                if stop_at is None:
+                    stop_at = now
+                    _signal_group(process, signal.SIGTERM)
                 break
             for key, _mask in selector.select(0.02):
                 try:
@@ -139,37 +174,63 @@ def run_capture(command, output_dir, *, context=None, wall_seconds=90,
                         stop_at = time.monotonic()
                         _signal_group(process, signal.SIGTERM)
                         drain_deadline = stop_at + terminate_seconds + drain_seconds
-        try:
-            process.wait(timeout=max(0.001, deadline - time.monotonic()) if stop_at is None
-                         else terminate_seconds + drain_seconds)
-        except subprocess.TimeoutExpired:
-            timed_out = True
-            _signal_group(process, signal.SIGTERM)
+        if stop_at is None:
             try:
-                process.wait(timeout=terminate_seconds)
+                process.wait(timeout=max(0.001, deadline - time.monotonic()))
             except subprocess.TimeoutExpired:
-                _signal_group(process, signal.SIGKILL)
-                process.wait(timeout=drain_seconds)
-    except (OSError, subprocess.SubprocessError) as error:
+                timed_out = True
+                stop_at = time.monotonic()
+                _signal_group(process, signal.SIGTERM)
+    except Exception as error:
         controller_error = type(error).__name__
         incomplete = True
-        if process is not None:
-            _signal_group(process, signal.SIGKILL)
-            try:
-                process.wait(timeout=drain_seconds)
-            except subprocess.SubprocessError:
-                pass
     finally:
-        for key in list(selector.get_map().values()):
+        # Attempt every close before group cleanup: a failed signal, wait, flush
+        # or close must not skip the other resources or manufacture success.
+        cleanup_errors = []
+        keys = []
+        try:
+            keys = list(selector.get_map().values())
+        except Exception as error:
+            cleanup_errors.append(type(error).__name__)
+        for key in keys:
             try:
                 selector.unregister(key.fileobj)
-            finally:
-                key.fileobj.close()
-        selector.close()
+            except Exception as error:
+                cleanup_errors.append(type(error).__name__)
+        pipes = [key.fileobj for key in keys]
+        if process is not None:
+            pipes.extend((process.stdout, process.stderr))
+        for pipe in dict.fromkeys(pipes):
+            if pipe is not None:
+                try:
+                    pipe.close()
+                except Exception as error:
+                    cleanup_errors.append(type(error).__name__)
+        try:
+            selector.close()
+        except Exception as error:
+            cleanup_errors.append(type(error).__name__)
         for stream in files.values():
-            stream.flush()
-            os.fsync(stream.fileno())
-            stream.close()
+            try:
+                stream.flush()
+                os.fsync(stream.fileno())
+            except Exception as error:
+                cleanup_errors.append(type(error).__name__)
+            try:
+                stream.close()
+            except Exception as error:
+                cleanup_errors.append(type(error).__name__)
+        if cleanup_errors:
+            controller_error = controller_error or cleanup_errors[0]
+            incomplete = True
+        if process is not None and (overflow or timed_out or incomplete or controller_error):
+            error_name = _finish_stopped_group(
+                process, stop_at, terminate_seconds, drain_seconds,
+            )
+            if error_name:
+                controller_error = controller_error or error_name
+                incomplete = True
     child_status = None if process is None else process.returncode
     complete = not (overflow or timed_out or incomplete or controller_error)
     if controller_error:
