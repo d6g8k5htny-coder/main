@@ -325,6 +325,27 @@ class RefreshTests(unittest.TestCase):
         self.assertEqual(matched["owner"]["id"], "agent-9")
         self.assertEqual(matched["owner"]["evidence_url"], pickup)
 
+    def test_report_only_includes_discovered_released_url(self):
+        pickup = "https://github.com/d6g8k5htny-coder/main/issues/475#issuecomment-6346922771"
+        release = "https://github.com/d6g8k5htny-coder/main/pull/495#issuecomment-6347046676"
+        body = "**RELEASE: nonauthor review**\n\n- Releases PICKUP 6346922771.\n"
+        rec = load("fresh.json")
+        rec["owner"] = {"id": "agent-9", "evidence_url": pickup}
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "fresh.json"
+            path.write_text(json.dumps(rec), encoding="utf-8")
+            before = path.read_bytes()
+            report = nsr.refresh_dir(
+                Path(tmp), offline_fetch, write=False, now=NOW,
+                comments=lambda url: [{"url": release, "body": body}])
+            self.assertEqual(path.read_bytes(), before)
+            self.assertEqual(report[0]["status"], "fresh")
+            self.assertEqual(report[0].get("released_url"), release)
+            quiet = nsr.refresh_dir(
+                Path(tmp), offline_fetch, write=False, now=NOW, comments=lambda url: [])
+            self.assertNotIn("released_url", quiet[0])
+            self.assertEqual(path.read_bytes(), before)
+
     def test_duplicate_json_key_is_unknown_and_not_rewritten(self):
         text = json.dumps(load("fresh.json"))
         owner = text.replace('"owner": null', '"owner": {"id": "unbacked"}', 1)

@@ -326,9 +326,13 @@ def refresh_dir(directory: Path, fetch: Fetcher, write: bool, now: str | None = 
             report.append({"file": path.name, "status": "unknown", "refresh_error": f"unreadable: {exc}"})
             continue
         new = refresh_record(record, fetch, now, comments)
-        report.append({"file": path.name, "node_id": new.get("node_id"), "status": new["status"],
-                       "previous_status": record.get("status"),
-                       "refresh_error": new.get("refresh_error")})
+        row = {"file": path.name, "node_id": new.get("node_id"), "status": new["status"],
+               "previous_status": record.get("status"),
+               "refresh_error": new.get("refresh_error")}
+        owner = new.get("owner")
+        if isinstance(owner, dict) and isinstance(owner.get("released_url"), str) and owner["released_url"]:
+            row["released_url"] = owner["released_url"]
+        report.append(row)
         if write:
             path.write_text(json.dumps(new, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     return report
