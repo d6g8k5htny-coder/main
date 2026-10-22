@@ -12,6 +12,9 @@ name: Current research site
       - 'tools/current_site_history.py'
       - 'tools/current_site_publication.py'
       - 'tests/test_current_site*'
+      - 'tools/node_status_refresh.py'
+      - 'tests/test_node_status_refresh.py'
+      - 'tests/fixtures/node_status_refresh/**'
       - '.github/workflows/current-site.yml'
   schedule:
     - cron: '*/30 * * * *'
@@ -40,6 +43,26 @@ jobs:
           python3 -B -S -m unittest discover -s tests -p 'test_current_site*.py' -v
           python3 -B -O -S -m unittest discover -s tests -p 'test_current_site*.py' -v
           node --test tests/test_current_site.mjs
+
+  node-status-refresh:
+    # LANES-20261022 Lane 3: report-only freshness of records/node_status.
+    # Non-blocking: never gates build/deploy, writes nothing, freshness is not scientific validity.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    continue-on-error: true
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Offline freshness tests
+        run: python3 -B -S -m unittest tests.test_node_status_refresh -v
+      - name: Report-only freshness refresh (read-only GitHub API)
+        if: github.event_name != 'pull_request'
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python3 -B -S tools/node_status_refresh.py records/node_status | tee -a "$GITHUB_STEP_SUMMARY"
 
   build:
     needs: controls
