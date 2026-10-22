@@ -10,15 +10,18 @@ Input: a directory of JSON records shaped like node-status interface v0
                      "status": "open" | "resolved",
                      "resolution_url": str (required when resolved)}]
 
-source_url is required and must be a GitHub issue or comment URL.
+source_url and resolution_url are comment URLs. Every comment URL uses
+COMMENT_URL below: owner evidence, source_url, resolution_url, and released_url.
 
 Checks (each failure is reported; the exit status is 1 if any):
   1. reciprocity: A.successor -> B requires B.predecessor -> A, and the reverse;
      a link to a node with no record is a failure, not a skip; a link url that
      is not http(s) is a failure;
-  2. ownership: a non-null owner needs an id and an evidence_url that is a
-     GitHub issue/PR comment URL (the PICKUP or assignment). Ownership is never
-     inferred, and moving a board does not move it;
+  2. ownership: a non-null owner without released_url needs an id and an
+     evidence_url matching COMMENT_URL (the PICKUP or assignment). An owner
+     with released_url is not current, so those checks do not apply;
+     released_url itself must match COMMENT_URL. Ownership is never inferred,
+     and moving a board does not move it;
   3. carry-forward: carried_forward must be a list of objects with unique ids
      and a source_url. Every predecessor item that is open must appear, by id,
      in the successor's carried_forward, either still open or resolved with a
@@ -36,11 +39,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 COMMENT_URL = re.compile(
-    r"^https://github\.com/[\w.-]+/[\w.-]+/(?:issues|pull)/\d+#(?:issuecomment|pullrequestreview)-\d+$"
-)
-SOURCE_URL = re.compile(
-    r"^https://github\.com/[\w.-]+/[\w.-]+/(?:issues|pull)/\d+"
-    r"(?:#(?:issuecomment|pullrequestreview)-\d+)?$"
+    r"^https://github\.com/d6g8k5htny-coder/(main|Math-)/(issues|pull)/\d+#(issuecomment-\d+|pullrequestreview-\d+)$"
 )
 
 
@@ -51,8 +50,8 @@ def _http_url(url):
     return parsed.scheme.lower() in ("http", "https") and bool(parsed.netloc)
 
 
-def _source_url(url):
-    return isinstance(url, str) and bool(SOURCE_URL.match(url))
+def _comment_url(url):
+    return isinstance(url, str) and COMMENT_URL.match(url) is not None
 
 
 def load_records(directory):
@@ -108,11 +107,17 @@ def check_ownership(records):
         owner = rec.get("owner")
         if owner is None:
             continue
-        if not isinstance(owner, dict) or not owner.get("id"):
+        if not isinstance(owner, dict):
             errors.append(f"{node}: owner without an id")
             continue
-        url = owner.get("evidence_url")
-        if not isinstance(url, str) or not COMMENT_URL.match(url):
+        if "released_url" in owner:
+            if not _comment_url(owner.get("released_url")):
+                errors.append(f"{node}: owner released_url is not a comment URL")
+            continue
+        if not owner.get("id"):
+            errors.append(f"{node}: owner without an id")
+            continue
+        if not _comment_url(owner.get("evidence_url")):
             errors.append(f"{node}: owner {owner['id']!r} has no PICKUP/assignment comment url")
     return errors
 
@@ -139,11 +144,11 @@ def _carried(node, rec, errors):
         source = item.get("source_url")
         if not isinstance(source, str) or not source:
             errors.append(f"{node}: item {item_id!r} has no source_url")
-        elif not _source_url(source):
-            errors.append(f"{node}: item {item_id!r} source_url is not a comment or issue URL")
+        elif not _comment_url(source):
+            errors.append(f"{node}: item {item_id!r} source_url is not a comment URL")
         if not item_id:
             continue
-        if item.get("status") == "resolved" and not COMMENT_URL.match(str(item.get("resolution_url", ""))):
+        if item.get("status") == "resolved" and not _comment_url(item.get("resolution_url")):
             errors.append(f"{node}: item {item_id!r} resolved without a resolution_url")
         elif item.get("status") not in ("open", "resolved"):
             errors.append(f"{node}: item {item_id!r} has status {item.get('status')!r}")

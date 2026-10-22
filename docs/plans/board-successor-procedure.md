@@ -30,16 +30,18 @@ Board rules carry over unchanged (PICKUP before reading, RESULT/RELEASE, finite 
 Records follow node-status interface v0 (Lane 2, `records/node_status/<node_id>.json`)
 with three optional handoff fields: `predecessor` and `successor`, each
 `{node_id, url}` or null, and `carried_forward`, a list of
-`{id, text, source_url, status: open|resolved, resolution_url}`
-where `source_url` is required and is a GitHub issue or comment URL.
-If Lane 2's merged schema differs, the checker is aligned to it in a follow-up.
+`{id, text, source_url, status: open|resolved, resolution_url}`.
+Those three shapes are unchanged. `source_url`, `resolution_url`, owner
+`evidence_url`, and `released_url` share one comment-URL pattern:
+`https://github.com/d6g8k5htny-coder/(main|Math-)/(issues|pull)/<n>#(issuecomment-|pullrequestreview-)<n>`.
+An owner with `released_url` is not current, so the id and evidence checks do not apply; `released_url` must match that pattern.
 
 `python -B -S tools/check_board_links.py records/node_status` reads the records
 and fails, with exit status 1, when:
 
 - a predecessor or successor link is not reciprocated, points to a missing record, or its `url` is not an http(s) URL;
-- an owner lacks an id or a GitHub comment URL as its evidence;
-- `carried_forward` is not a list, an entry is not an object, an id is duplicated, or an item lacks a GitHub issue or comment `source_url`;
+- a current owner lacks an id or a comment URL as its evidence, or a `released_url` does not match that pattern;
+- `carried_forward` is not a list, an entry is not an object, an id is duplicated, or a `source_url` or resolution URL does not match that pattern;
 - an open predecessor item is missing from the successor's `carried_forward`, or an
   item is marked resolved without a resolution URL.
 

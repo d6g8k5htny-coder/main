@@ -21,8 +21,9 @@ _spec = importlib.util.spec_from_file_location("check_board_links", TOOL)
 cbl = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(cbl)
 
-PICKUP = "https://github.com/example/repo/issues/2#issuecomment-200"
-RESOLVED = "https://github.com/example/repo/issues/2#issuecomment-201"
+PICKUP = "https://github.com/d6g8k5htny-coder/main/issues/2#issuecomment-200"
+RESOLVED = "https://github.com/d6g8k5htny-coder/main/issues/2#issuecomment-201"
+REVIEW = "https://github.com/d6g8k5htny-coder/Math-/pull/3#pullrequestreview-300"
 
 BASE = {
     "board-old": {
@@ -117,7 +118,6 @@ class BoardLinks(unittest.TestCase):
         self.assertTrue(any("without a resolution_url" in e for e in errs), errs)
 
     def test_carried_item_without_source_url_fails(self):
-        issue = "https://github.com/example/repo/issues/9"
         for mutate in (
             lambda item: item.pop("source_url"),
             lambda item: item.__setitem__("source_url", ""),
@@ -126,11 +126,55 @@ class BoardLinks(unittest.TestCase):
             r = self.records()
             mutate(r["board-new"]["carried_forward"][0])
             self.assert_rejected(r, "source_url")
+
+    def test_comment_url_pattern(self):
+        rejected = (
+            "https://github.com/example/main/issues/2#issuecomment-200",
+            "https://github.com/d6g8k5htny-coder/other/issues/2#issuecomment-200",
+            "https://github.com/d6g8k5htny-coder/main/issues/2",
+        )
+        for url in (PICKUP, REVIEW):
+            r = self.records()
+            r["board-new"]["owner"]["evidence_url"] = url
+            for node in r:
+                for item in r[node]["carried_forward"]:
+                    item["source_url"] = url
+                    if item.get("status") == "resolved":
+                        item["resolution_url"] = url
+            self.assertEqual(self.run_check(r), [], url)
+        for url in rejected:
+            r = self.records()
+            r["board-new"]["owner"]["evidence_url"] = url
+            self.assert_rejected(r, "no PICKUP")
+            r = self.records()
+            r["board-new"]["carried_forward"][0]["source_url"] = url
+            self.assert_rejected(r, "source_url")
+            r = self.records()
+            r["board-old"]["carried_forward"][1]["resolution_url"] = url
+            self.assert_rejected(r, "resolution_url")
+
+    def test_released_owner_is_not_current(self):
         r = self.records()
-        for node in r:
-            for item in r[node]["carried_forward"]:
-                item["source_url"] = issue
+        r["board-new"]["owner"] = {"released_url": REVIEW}
         self.assertEqual(self.run_check(r), [])
+        r = self.records()
+        r["board-new"]["owner"] = {
+            "id": "agent-old",
+            "evidence_url": "https://github.com/example/repo/issues/2",
+            "released_url": PICKUP,
+        }
+        self.assertEqual(self.run_check(r), [])
+
+    def test_malformed_released_url_fails(self):
+        for bad in (
+            "https://github.com/example/main/issues/2#issuecomment-200",
+            "https://github.com/d6g8k5htny-coder/other/pull/3#pullrequestreview-300",
+            "https://github.com/d6g8k5htny-coder/main/issues/2",
+            "",
+        ):
+            r = self.records()
+            r["board-new"]["owner"]["released_url"] = bad
+            self.assert_rejected(r, "released_url")
 
     def test_carried_item_not_dict_fails(self):
         r = self.records()
