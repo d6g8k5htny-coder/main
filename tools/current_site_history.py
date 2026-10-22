@@ -1032,6 +1032,23 @@ def _restore_v2_historical_pages(data, meta, aliases):
     return pages
 
 
+def _restore_v2_live_pages(data, meta, expected):
+    """Select a known presentation only by its complete published descriptors.
+
+    Continuation pointers are presentation inputs too. Keep the pre-R1 table
+    available for already-published observations; current builds use the current
+    table. Neither an observation date nor a partial match selects old bytes.
+    """
+    for task_records in (RESUME_TASK_RECORDS, _RESUME_TASK_RECORDS_V1):
+        for annotations, style_first, resume in LIVE_PRESENTATIONS:
+            pages = render_live_current_v2(data, meta, annotations=annotations,
+                                           style_first=style_first, resume=resume,
+                                           task_records=task_records)
+            if [descriptor(k, v) for k, v in sorted(pages.items())] == expected:
+                return pages
+    raise ValueError("live static reading does not match the exact observation")
+
+
 def restore_history(site, reader=None, expected_manifest_sha=None):
     site = Path(site).resolve()
     if expected_manifest_sha is not None:
@@ -1106,12 +1123,7 @@ def restore_history(site, reader=None, expected_manifest_sha=None):
         ensure_render_budget(data, remote)
         # Only an exact complete map can select a predecessor presentation.
         # Current builds keep annotations, the Resume block and style-first output by default.
-        for annotations, style_first, resume in LIVE_PRESENTATIONS:
-            live = render_live_current_v2(data, remote, annotations=annotations, style_first=style_first, resume=resume)
-            if [descriptor(k, v) for k, v in sorted(live.items())] == manifest["current_observation"]["files"]:
-                break
-        else:
-            raise ValueError("live static reading does not match the exact observation")
+        live = _restore_v2_live_pages(data, remote, manifest["current_observation"]["files"])
         historical = {}
         for entry in manifest["archives"]:
             snapshot = entry["id"]
@@ -1537,8 +1549,20 @@ RESUME_OPERATIONAL = (("next_action", "Next action"), ("missing_input", "Missing
                       ("owner_evidence", "Owner evidence"), ("retained_stop", "Retained stop"))
 RESUME_ISSUE_NOTE = "Issue number recorded without a repository in this snapshot; no link is inferred."
 RESUME_NO_TASK = "No explicitly identified task record for this node. A recorded review issue is not used as a task record."
-# Site-maintained task pointers, not graph metadata. docs/site/current-model.mjs keeps the same table.
+# Frozen pre-R1 presentation input. Do not advance this table with current links.
+_RESUME_TASK_RECORDS_V1 = {
+    "math.d5-component.punctured-pin-proof": {
+        "url": "https://github.com/d6g8k5htny-coder/main/pull/327#issuecomment-6321244764",
+        "label": "Operational request: main#327 comment 6321244764",
+        "meaning": ("A request for a source-only registration input for this node. It is an operational pointer, not "
+                    "scientific acceptance, source-binding admission, a registration or an owner claim."),
+        "identified_on": "2026-10-21",
+        "identified_in": "https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6321679618",
+    },
+}
+# Site-maintained current pointers, not graph metadata. The JavaScript table matches.
 RESUME_TASK_RECORDS = {
+    **{node: dict(record) for node, record in _RESUME_TASK_RECORDS_V1.items()},
     "math.lifetime-remainder": {
         "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6351719961",
         "label": "Operational continuation: Math-#193 R1 integration closeout",
@@ -1547,14 +1571,6 @@ RESUME_TASK_RECORDS = {
                     "completion of the general Theorem R remainder claim or an owner claim."),
         "identified_on": "2026-10-22",
         "identified_in": "https://github.com/d6g8k5htny-coder/main/issues/388#issuecomment-6352139396",
-    },
-    "math.d5-component.punctured-pin-proof": {
-        "url": "https://github.com/d6g8k5htny-coder/main/pull/327#issuecomment-6321244764",
-        "label": "Operational request: main#327 comment 6321244764",
-        "meaning": ("A request for a source-only registration input for this node. It is an operational pointer, not "
-                    "scientific acceptance, source-binding admission, a registration or an owner claim."),
-        "identified_on": "2026-10-21",
-        "identified_in": "https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6321679618",
     },
 }
 _RESUME_REVIEW_URL = re.compile(r"https://github\.com/d6g8k5htny-coder/(?:main|Math-)/(?:issues|pull)/[1-9][0-9]*(?:#[A-Za-z0-9_-]+)?")
@@ -1663,7 +1679,7 @@ def _node_status_operational(record, now=None):
     return rows
 
 
-def resume_projection(data, node_id, status_records=None, now=None):
+def resume_projection(data, node_id, status_records=None, now=None, *, task_records=None):
     """The static form of current-model.mjs resumeProjection; a static page evaluates no freshness.
 
     status_records is the optional node-status map. The snapshot-only call matches the
@@ -1674,7 +1690,7 @@ def resume_projection(data, node_id, status_records=None, now=None):
     if not isinstance(node_id, str) or node_id not in nodes:
         return None
     node, identity = nodes[node_id], data["graph"]["identity"]
-    task = RESUME_TASK_RECORDS.get(node_id)
+    task = (RESUME_TASK_RECORDS if task_records is None else task_records).get(node_id)
     main = next((repo["commit"] for repo in data["repositories"] if repo["repository"] == "d6g8k5htny-coder/main"), None)
     record = _node_status_record(status_records, node_id)
     return {
@@ -1730,7 +1746,7 @@ def _resume_html(view):
             f'<h3>Continuation</h3>\n{continuation}\n</section>\n')
 
 
-def render_live_current_v2(data, meta, *, style_first=True, annotations=True, acquisition=None, resume=None):
+def render_live_current_v2(data, meta, *, style_first=True, annotations=True, acquisition=None, resume=None, task_records=None):
     """Render current static routes from the full fresh schema-1 observation."""
     if resume is None:
         resume = annotations
@@ -1740,7 +1756,7 @@ def render_live_current_v2(data, meta, *, style_first=True, annotations=True, ac
     pages = {}
     for node_id, node in graph["nodes"].items():
         body = (f'<h1>{_v1_escape(node_id)}</h1>\n<p>Original kind: <code>{_v1_escape(node.get("kind", "not_recorded"))}</code> · recorded classification: <code>{_v1_escape(node.get("classification", "not_recorded"))}</code>.</p>\n'
-                + (_resume_html(resume_projection(data, node_id)) if resume else '')
+                + (_resume_html(resume_projection(data, node_id, task_records=task_records)) if resume else '')
                 + '<h2>Independent evidence metadata axes</h2>\n' + _v1_axes_html(node)
                 + '\n<p>These values describe metadata presence, not a proof result, applicability or scientific acceptance. No kernel, computation or alignment record is admitted by this graph export.</p>\n'
                 '<p>Graph-to-artifact binding: unresolved; artifact roles: unknown; custody: unknown. No Artifact Index mapping is inferred.</p>\n'
