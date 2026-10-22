@@ -217,23 +217,53 @@ def exercise_hosted_amendments(browser,origin,output,report,data,expect):
         finally:context.close()
 
 
+def assert_resume_readings(interactive,static,data,node,status_records,now):
+    """Check each consumer against its source inputs, including shared links.
+
+    The atlas has an optional operational overlay; static pages intentionally do
+    not. Expected rows come from the recorded source/model, never from observed
+    DOM values, and no field is dropped to make the two consumers look equal.
+    """
+    from current_site_history import resume_projection
+    def expected(records=None,clock=None):
+        view=resume_projection(data,node,records,clock)
+        groups=[view['state']]
+        if view['review']['fields']:groups.append(view['review']['fields'])
+        groups.append(view['operational'])
+        rows=[];links=[]
+        for group in groups:
+            row=[]
+            for item in group:
+                row.extend([item.get('label',item['field']),item['text']+(' '+item['note'] if item.get('note') else '')])
+                if item.get('url'):links.append(item['url'])
+            rows.append(row)
+        if view['continuation']:links.extend([view['continuation']['url'],view['continuation']['identified_in']])
+        return {'rows':rows,'links':links}
+    expected_live=expected(status_records,now);expected_static=expected()
+    require(interactive==expected_live,f'Interactive Resume block differs from its source-bound operational projection for {node}')
+    require(static==expected_static,f'Static Resume block differs from its snapshot-only projection for {node}')
+    require(interactive['rows'][:-1]==static['rows'][:-1],f'Shared graph/review Resume rows differ for {node}')
+    return {'expected_interactive':expected_live,'expected_static':expected_static}
+
+
 def exercise_resume_parity(browser,origin,report,data,expect):
-    # The inspector and the script-free node page must show one projection: same rows, same links, no task state.
+    # Both show the same graph/review/continuation sources; only the atlas receives operational records.
     from urllib.parse import urlencode,quote
     def reading(block):return block.evaluate("(e)=>({rows:[...e.querySelectorAll('dl.resume-fields')].map(dl=>[...dl.children].map(c=>c.textContent.trim())),links:[...e.querySelectorAll('a[href]')].map(a=>a.href)})")
-    pin='math.d5-component.punctured-pin-proof';task='https://github.com/d6g8k5htny-coder/main/pull/327#issuecomment-6321244764'
+    pin='math.d5-component.punctured-pin-proof'
+    status_records=json.loads((ROOT/'docs/site/node-status.json').read_bytes())
     for node in [pin,'math.lifetime-remainder','math.uniform-matrix-cap-lifetime','hist.CH-LIFT']:
         case={'case':'resume-node-interactive-static-parity','node':node,'passed':False,'page_errors':[]};report['cases'].append(case)
-        context=browser.new_context(reduced_motion='reduce');page=context.new_page();page.set_default_timeout(15000);page.on('pageerror',lambda e:case['page_errors'].append(str(e)))
+        render_clock=int(time.time()*1000);case['render_clock_ms']=render_clock
+        context=browser.new_context(reduced_motion='reduce');context.add_init_script(f'Date.now=()=>{render_clock};')
+        page=context.new_page();page.set_default_timeout(15000);page.on('pageerror',lambda e:case['page_errors'].append(str(e)))
         try:
             page.goto(origin+'dependencies.html?'+urlencode({'atlas-node':node,'atlas-view':'list'}));expect(page.locator('#atlas-inspector h3')).to_have_text(node)
             live=page.locator('#atlas-resume');expect(live).to_contain_text('Resume this node');expect(live.locator('.resume-warning')).to_contain_text(data['observed_at']);expect(live.locator('.resume-warning')).to_contain_text('before any ownership- or head-dependent action')
             interactive=reading(live);case['freshness']=live.locator('.resume-warning').get_attribute('data-freshness');require(case['freshness'] in ('current','stale','clock disagreement'),'Interactive block omitted its freshness state')
             page.goto(origin+'nodes/'+quote(node)+'.html');block=page.locator('#resume-node');expect(block).to_contain_text('this static page cannot evaluate freshness');static=reading(block)
             case['interactive']=interactive;case['static']=static
-            require(interactive==static,f'Interactive and static Resume blocks differ for {node}')
-            require(interactive['rows'][-1]==['Next action','not recorded in this snapshot','Missing input','not recorded in this snapshot','Owner evidence','not recorded in this snapshot','Retained stop','not recorded in this snapshot'],'Operational task state was not shown as unrecorded')
-            require((task in interactive['links'])==(node==pin),'Continuation link appeared without an explicit task record')
+            case.update(assert_resume_readings(interactive,static,data,node,status_records,render_clock))
             require(not any(re.fullmatch(r'https://github\.com/d6g8k5htny-coder/(?:main|Math-)/issues/[0-9]+',href) for href in interactive['links']),'A bare review issue number was turned into a link')
             require(not case['page_errors'],f'Page errors: {case["page_errors"]}');case['passed']=True
         except Exception:case['error']=traceback.format_exc()
