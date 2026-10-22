@@ -22,6 +22,8 @@ import urllib.error
 import urllib.request
 from urllib.parse import urlsplit
 import zipfile
+from current_inventory_acquisition import (project_current_acquisitions, current_source_list,
+                                           inventory_legend, acquisition_notice, date_explanation)
 
 from current_site_data import parse_json
 from site_asset_release import transform, without_release
@@ -1101,12 +1103,13 @@ def restore_history(site, reader=None, expected_manifest_sha=None):
         if data["observed_at"] != remote["observed_at"] or mathematical_digest(data) != mathematical_digest(data_by_id[manifest["current"]]):
             raise ValueError("published current observation has different mathematical material")
         ensure_render_budget(data, remote)
-        live = render_live_current_v2(data, remote)
-        if [descriptor(k, v) for k, v in sorted(live.items())] != manifest["current_observation"]["files"]:
-            # Restore the exact predecessor publication only as a complete map.
-            # New builds/publications keep the style-first renderer default.
-            live = render_live_current_v2(data, remote, style_first=False)
-        if [descriptor(k, v) for k, v in sorted(live.items())] != manifest["current_observation"]["files"]:
+        # Only an exact complete map can select a predecessor presentation.
+        # Current builds keep annotations, the Resume block and style-first output by default.
+        for annotations, style_first, resume in LIVE_PRESENTATIONS:
+            live = render_live_current_v2(data, remote, annotations=annotations, style_first=style_first, resume=resume)
+            if [descriptor(k, v) for k, v in sorted(live.items())] == manifest["current_observation"]["files"]:
+                break
+        else:
             raise ValueError("live static reading does not match the exact observation")
         historical = {}
         for entry in manifest["archives"]:
@@ -1487,9 +1490,13 @@ def render_static_v2(projection, meta, *, archived=True, style_first=None):
 # Repository-owned live renderer. Current routes bind the full fresh observation;
 # the separately named historical link retains its own original pins and date.
 LIVE_RENDERER_V2 = "research-live-static-v2"
+# (annotations, style_first, resume) for each published live presentation: the
+# current default first, then predecessors without the Resume block or annotations.
+LIVE_PRESENTATIONS = ((True, True, True), (True, False, True), (True, True, False),
+                      (True, False, False), (False, True, False), (False, False, False))
 
 
-def _live_v2_current_section(data, meta):
+def _live_v2_current_section(data, meta, *, annotations=True):
     pins = " · ".join(f'<a href="https://github.com/{_v1_escape(repo["repository"])}/tree/{repo["commit"]}">{_v1_escape(repo["repository"].split("/")[1])} <code>{repo["commit"]}</code></a>'
                       for repo in data["repositories"])
     refs = " · ".join(f'<a href="{_v1_escape(_v1_source_url(ref))}">{_v1_escape(ref.get("label", ref["path"]))}</a>'
@@ -1499,12 +1506,14 @@ def _live_v2_current_section(data, meta):
             '<h2>Current research sources</h2>\n'
             f'<p class="current-state" role="status">Pinned source observation: <time datetime="{_v1_escape(data["observed_at"])}">{_v1_escape(data["observed_at"])}</time>. Compare this timestamp with the present time; observation is not scientific revalidation.</p>\n'
             f'<p>{pins}</p>\n<p>{refs}</p>\n'
+            + (date_explanation(data, prefix='../', snapshot_prefix='../snapshots/' + archive + '/') if annotations else '')
+            +
             '<p><a href="../dependencies.html#current-atlas">Current mathematical atlas</a> · <a href="index.html">Current static graph and complete source inventory</a> · <a href="../current.json">Exact current source observation payload</a>. Scientific effect: NONE.</p>\n'
             f'<p><a href="../snapshots/{archive}/nodes/index.html">Historical mathematical material (original pins and observation)</a>.</p>\n'
             '</section>')
 
 
-def _live_v2_static_page(data, meta, title, body, *, style_first=True):
+def _live_v2_static_page(data, meta, title, body, *, style_first=True, annotations=True):
     return (f'<!doctype html>\n{_V1_GENERATED}\n<html lang="en"><head><meta charset="utf-8">\n'
             '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
             '<meta http-equiv="Content-Security-Policy" content="default-src \'none\'; style-src \'self\'; img-src \'self\'; script-src \'none\'; base-uri \'none\'; form-action \'none\'">\n'
@@ -1514,24 +1523,108 @@ def _live_v2_static_page(data, meta, title, body, *, style_first=True):
                '<link rel="stylesheet" href="../brand.css"><link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="../current.css">\n')
             + '</head><body><main class="node-static">\n'
             '<nav aria-label="Research site"><a href="../index.html">Home</a> · <a href="../explore.html">Explore</a> · <a href="../research.html">Research</a> · <a href="../workspace.html#inventory">Library</a> · <a href="../dependencies.html#current-atlas">Current dependencies</a> · <a href="index.html">Current static graph index</a></nav>\n'
-            + _live_v2_current_section(data, meta)
+            + _live_v2_current_section(data, meta, annotations=annotations)
             + '\n' + body + '\n</main></body></html>\n').encode("utf-8")
 
 
-def render_live_current_v2(data, meta, *, style_first=True):
+RESUME_NOT_RECORDED = "not recorded in this snapshot"
+RESUME_FRESHNESS_WARNING = ("Refresh from the live canonical record before any ownership- or head-dependent action. "
+                            "This block is a dated snapshot observation, not live task state.")
+RESUME_REVIEW_LABEL = ("Recorded review metadata. This is a review record, not the current task, an owner claim or a "
+                       "completion record. A closed or accepted review does not establish that work on this node is finished.")
+RESUME_OPERATIONAL = (("next_action", "Next action"), ("missing_input", "Missing input"),
+                      ("owner_evidence", "Owner evidence"), ("retained_stop", "Retained stop"))
+RESUME_ISSUE_NOTE = "Issue number recorded without a repository in this snapshot; no link is inferred."
+RESUME_NO_TASK = "No explicitly identified task record for this node. A recorded review issue is not used as a task record."
+# Site-maintained task pointers, not graph metadata. docs/site/current-model.mjs keeps the same table.
+RESUME_TASK_RECORDS = {
+    "math.d5-component.punctured-pin-proof": {
+        "url": "https://github.com/d6g8k5htny-coder/main/pull/327#issuecomment-6321244764",
+        "label": "Operational request: main#327 comment 6321244764",
+        "meaning": ("A request for a source-only registration input for this node. It is an operational pointer, not "
+                    "scientific acceptance, source-binding admission, a registration or an owner claim."),
+        "identified_on": "2026-10-21",
+        "identified_in": "https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6321679618",
+    },
+}
+_RESUME_REVIEW_URL = re.compile(r"https://github\.com/d6g8k5htny-coder/(?:main|Math-)/(?:issues|pull)/[1-9][0-9]*(?:#[A-Za-z0-9_-]+)?")
+
+
+def _resume_text(value):
+    return value if isinstance(value, str) else json.dumps(value, ensure_ascii=False, separators=(",", ":"))
+
+
+def resume_projection(data, node_id):
+    """The static form of current-model.mjs resumeProjection; a static page evaluates no freshness."""
+    nodes = data["graph"]["data"]["nodes"]
+    if not isinstance(node_id, str) or node_id not in nodes:
+        return None
+    node, identity = nodes[node_id], data["graph"]["identity"]
+    task = RESUME_TASK_RECORDS.get(node_id)
+    main = next((repo["commit"] for repo in data["repositories"] if repo["repository"] == "d6g8k5htny-coder/main"), None)
+    return {
+        "node": node_id,
+        "snapshot": {"observed_at": data["observed_at"], "graph_repository": identity["repository"],
+                     "graph_commit": identity["commit"], "graph_path": identity["path"],
+                     "graph_sha256": identity["sha256"], "main_commit": main},
+        "freshness": None, "warning": RESUME_FRESHNESS_WARNING,
+        "state": [{"field": field, "text": _resume_text(node[field]) if node.get(field) is not None else RESUME_NOT_RECORDED}
+                  for field in ("classification", "controlling")],
+        "review": {"label": RESUME_REVIEW_LABEL, "fields": [
+            {"field": field, "text": _resume_text(value),
+             "url": value if isinstance(value, str) and _RESUME_REVIEW_URL.fullmatch(value) else None,
+             "note": RESUME_ISSUE_NOTE if field == "review_issue" and isinstance(value, (int, float)) and not isinstance(value, bool) else None}
+            for field, value in node.items() if field.startswith("review_")]},
+        "operational": [{"field": field, "label": label, "text": RESUME_NOT_RECORDED} for field, label in RESUME_OPERATIONAL],
+        "continuation": dict(task) if task else None,
+        "continuation_text": None if task else RESUME_NO_TASK,
+    }
+
+
+def _resume_html(view):
+    snapshot = view["snapshot"]
+    rows = lambda items: "".join(f'<dt>{_v1_escape(item.get("label", item["field"]))}</dt><dd>' + (
+        f'<a href="{_v1_escape(item["url"])}">{_v1_escape(item["text"])}</a>' if item.get("url") else f'<code>{_v1_escape(item["text"])}</code>')
+        + (f' {_v1_escape(item["note"])}' if item.get("note") else "") + '</dd>' for item in items)
+    review = (f'<dl class="resume-fields">{rows(view["review"]["fields"])}</dl>' if view["review"]["fields"]
+              else f'<p>Review metadata: <code>{RESUME_NOT_RECORDED}</code>.</p>')
+    task = view["continuation"]
+    continuation = (f'<p><a href="{_v1_escape(task["url"])}">{_v1_escape(task["label"])}</a>. {_v1_escape(task["meaning"])} '
+                    f'Site-maintained pointer, not part of the graph snapshot; identified on <time datetime="{_v1_escape(task["identified_on"])}">{_v1_escape(task["identified_on"])}</time> '
+                    f'in <a href="{_v1_escape(task["identified_in"])}">the coordinator\'s activation record</a>. The linked comment is mutable; read it live before acting.</p>'
+                    if task else f'<p>{_v1_escape(view["continuation_text"])}</p>')
+    return ('<section id="resume-node" class="resume-node" aria-labelledby="resume-node-heading">\n'
+            '<h2 id="resume-node-heading">Resume this node</h2>\n'
+            f'<p class="resume-warning"><strong>As of <time datetime="{_v1_escape(snapshot["observed_at"])}">{_v1_escape(snapshot["observed_at"])}</time>.</strong> '
+            f'{_v1_escape(view["warning"])} Compare this date with the present time; this static page cannot evaluate freshness.</p>\n'
+            f'<p>Snapshot identity: graph <code>{_v1_escape(snapshot["graph_repository"])}</code> commit <code>{_v1_escape(snapshot["graph_commit"])}</code> · '
+            f'<code>{_v1_escape(snapshot["graph_path"])}</code> · SHA-256 <code>{_v1_escape(snapshot["graph_sha256"])}</code> · '
+            f'main commit <code>{_v1_escape(snapshot["main_commit"] or RESUME_NOT_RECORDED)}</code>.</p>\n'
+            f'<h3>Recorded graph state</h3>\n<dl class="resume-fields">{rows(view["state"])}</dl>\n'
+            f'<h3>Recorded review record</h3>\n<p>{_v1_escape(view["review"]["label"])}</p>\n{review}\n'
+            f'<h3>Operational task state</h3>\n<dl class="resume-fields">{rows(view["operational"])}</dl>\n'
+            f'<h3>Continuation</h3>\n{continuation}\n</section>\n')
+
+
+def render_live_current_v2(data, meta, *, style_first=True, annotations=True, acquisition=None, resume=None):
     """Render current static routes from the full fresh schema-1 observation."""
+    if resume is None:
+        resume = annotations
+    if annotations and acquisition is None:
+        acquisition = project_current_acquisitions(data)
     graph = data["graph"]["data"]
     pages = {}
     for node_id, node in graph["nodes"].items():
         body = (f'<h1>{_v1_escape(node_id)}</h1>\n<p>Original kind: <code>{_v1_escape(node.get("kind", "not_recorded"))}</code> · recorded classification: <code>{_v1_escape(node.get("classification", "not_recorded"))}</code>.</p>\n'
-                '<h2>Independent evidence metadata axes</h2>\n' + _v1_axes_html(node)
+                + (_resume_html(resume_projection(data, node_id)) if resume else '')
+                + '<h2>Independent evidence metadata axes</h2>\n' + _v1_axes_html(node)
                 + '\n<p>These values describe metadata presence, not a proof result, applicability or scientific acceptance. No kernel, computation or alignment record is admitted by this graph export.</p>\n'
                 '<p>Graph-to-artifact binding: unresolved; artifact roles: unknown; custody: unknown. No Artifact Index mapping is inferred.</p>\n'
                 '<h2>Source and recorded review references</h2>\n' + _v1_node_sources(data, node)
                 + '\n<h2>Original node metadata</h2><pre>'
                 + _v1_escape(json.dumps(node, ensure_ascii=False, indent=2, sort_keys=True)) + '</pre>\n'
                 + _v1_neighbors(data, node_id))
-        pages[f"nodes/{node_id}.html"] = _live_v2_static_page(data, meta, node_id, body, style_first=style_first)
+        pages[f"nodes/{node_id}.html"] = _live_v2_static_page(data, meta, node_id, body, style_first=style_first, annotations=annotations)
     items = "\n".join(f'<li><a href="{_v1_escape(node_id)}.html">{_v1_escape(node_id)}</a> · {_v1_escape(node.get("kind", "not_recorded"))} · <code>{_v1_escape(node.get("classification", "not_recorded"))}</code></li>'
                       for node_id, node in graph["nodes"].items())
     required = sum(edge["required"] for edge in graph["edges"])
@@ -1540,10 +1633,11 @@ def render_live_current_v2(data, meta, *, style_first=True):
             f'<p>Graph source: <a href="{_v1_escape(_v1_source_url(graph_source))}">{_v1_escape(graph_source["path"])}</a> · SHA-256 <code>{_v1_escape(graph_source["sha256"])}</code>. The upstream graph may be unchanged while its repository advances.</p>\n'
             '<p>Every current node has static source/evidence reading and required/context neighbor navigation at the fresh observation pins. Graph-to-artifact binding is unresolved; artifact roles and custody are unknown. No classification is promoted here.</p>\n'
             '<ul>\n' + items + '\n</ul>\n<h2 id="sources">Complete current public source inventory</h2>\n'
-            f'<p>{len(data["sources"])} indexed files at the pinned repository commits. Legacy, quarantine, recovery, scratch and operational paths are excluded from this discovery population.</p>\n<ul>\n'
-            + _v1_source_list(data["sources"]) + '\n</ul>\n'
+            f'<p>{len(data["sources"])} indexed files at the pinned repository commits. Legacy, quarantine, recovery, scratch and operational paths are excluded from this discovery population.</p>\n'
+            + ('<ul>\n' if not annotations else '')
+            + (inventory_legend() + acquisition_notice(acquisition) + '<ul aria-describedby="current-inventory-legend">\n' + current_source_list(data["sources"], acquisition) if annotations else _v1_source_list(data["sources"])) + '\n</ul>\n'
             + _v2_equation_collection(data))
-    pages["nodes/index.html"] = _live_v2_static_page(data, meta, "Current static graph, equation excerpts and source index", body, style_first=style_first)
+    pages["nodes/index.html"] = _live_v2_static_page(data, meta, "Current static graph, equation excerpts and source index", body, style_first=style_first, annotations=annotations)
     return pages
 
 

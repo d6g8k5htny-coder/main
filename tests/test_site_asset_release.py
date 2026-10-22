@@ -3,6 +3,7 @@ from html.parser import HTMLParser
 from pathlib import Path
 from tempfile import TemporaryDirectory
 from urllib.parse import urlsplit, parse_qs
+import hashlib
 import subprocess
 import importlib.util
 import sys
@@ -57,6 +58,9 @@ class AssetRelease(unittest.TestCase):
         subprocess.run(['git', '-C', str(root), 'add', '-A'], check=True,
                        capture_output=True)
 
+    def key(self, site, name):
+        return asset_release.asset_keys(site)[(site/name).resolve()]
+
     def run_tool(self, site, *args):
         flags = ['-B', '-S'] + (['-O'] if sys.flags.optimize else [])
         return subprocess.run([sys.executable, *flags, str(TOOL), '--site', str(site), *args], text=True, capture_output=True)
@@ -84,20 +88,86 @@ class AssetRelease(unittest.TestCase):
                     self.assertEqual(len(release), 1, 'Unversioned entry can reuse an older script/style')
                     self.assertRegex(release[0], r'^[0-9a-f]{64}$')
 
-    def test_transitive_imports_and_css_share_the_release(self):
+    def test_each_reference_carries_its_target_asset_key(self):
         with TemporaryDirectory() as tmp:
             site = self.fixture(Path(tmp)); result = self.run_tool(site)
             self.assertEqual(result.returncode, 0, result.stderr)
-            release = result.stdout.strip()
-            self.assertRegex(release, r'^[0-9a-f]{64}$')
-            for file, target in [('app.mjs','./core.mjs'),('app.mjs','./lazy.mjs'),('lazy.mjs','./core.mjs'),('style.css','mark.svg')]:
-                self.assertIn(target+'?site-release='+release, (site/file).read_text())
+            self.assertRegex(result.stdout.strip(), r'^[0-9a-f]{64}$')
+            keys = {n: self.key(site, n) for n in ('app.mjs', 'core.mjs', 'lazy.mjs', 'style.css', 'mark.svg')}
+            self.assertEqual(len(set(keys.values())), 5, 'each asset needs its own key')
+            for file, target in [('index.html','app.mjs'),('index.html','style.css'),('app.mjs','./core.mjs'),
+                                 ('app.mjs','./lazy.mjs'),('lazy.mjs','./core.mjs'),('style.css','mark.svg')]:
+                self.assertIn(target+'?site-release='+keys[target.removeprefix('./')], (site/file).read_text())
+
+            def framed(*parts):
+                digest = hashlib.sha256(b'public-site-asset-key-v1\0')
+                for part in parts:
+                    digest.update(len(part).to_bytes(8, 'big')); digest.update(part)
+                return digest.hexdigest()
+            self.assertEqual(keys['mark.svg'], framed(b'site/mark.svg', b'<svg/>'))
+            self.assertEqual(keys['core.mjs'], framed(b'site/core.mjs', b'export const x=1;'))
+            self.assertEqual(keys['lazy.mjs'], framed(b'site/lazy.mjs', b"import './core.mjs';",
+                                                      b'site/core.mjs', keys['core.mjs'].encode()))
             self.assertIn("import('https://example.test/tool.mjs')", (site/'app.mjs').read_text())
             self.assertIn('href="other.html#reading"', (site/'index.html').read_text())
             self.assertEqual((site/'config.json').read_bytes(), b'{"pin":"unchanged"}\n')
             self.assertEqual((site/'proof.md').read_bytes(), b'Exact research source.\n')
 
-    def test_changed_transitive_asset_and_config_invalidate_every_entry(self):
+    def test_edit_rekeys_only_changed_assets_and_their_importers(self):
+        with TemporaryDirectory() as tmp:
+            root = Path(tmp); site = self.fixture(root)
+            (site/'plain.html').write_text('<link rel="stylesheet" href="style.css"><p>Unrelated page</p>')
+            self.stage(root)
+            self.assertEqual(self.run_tool(site).returncode, 0)
+            before = {p.name: p.read_bytes() for p in site.iterdir()}
+            keys = {n: self.key(site, n) for n in ('app.mjs', 'core.mjs', 'lazy.mjs', 'style.css', 'mark.svg')}
+            (site/'core.mjs').write_text('export const x=2;')
+            stale = self.run_tool(site, '--check')
+            self.assertEqual(stale.returncode, 1, stale.stderr)
+            self.assertEqual(stale.stdout.splitlines()[2:], ['app.mjs', 'index.html', 'lazy.mjs'])
+            self.assertEqual(self.run_tool(site).returncode, 0)
+            after = {p.name: p.read_bytes() for p in site.iterdir()}
+            self.assertEqual(sorted(n for n in after if after[n] != before[n]),
+                             ['app.mjs', 'core.mjs', 'index.html', 'lazy.mjs'])
+            for name in ('core.mjs', 'app.mjs', 'lazy.mjs'):
+                self.assertNotEqual(self.key(site, name), keys[name], name)
+            for name in ('style.css', 'mark.svg'):
+                self.assertEqual(self.key(site, name), keys[name], name)
+
+    def test_data_and_page_edits_leave_every_asset_url_unchanged(self):
+        with TemporaryDirectory() as tmp:
+            root = Path(tmp); site = self.fixture(root)
+            first = self.run_tool(site)
+            self.assertEqual(first.returncode, 0, first.stderr)
+            (site/'config.json').write_text('{"pin":"new"}\n')
+            (site/'index.html').write_text((site/'index.html').read_text() + '<p>New paragraph</p>')
+            edited = self.snapshot(root)
+            check = self.run_tool(site, '--check')
+            self.assertEqual(check.returncode, 0, check.stdout + check.stderr)
+            self.assertNotEqual(check.stdout, first.stdout, 'the whole-site identity still changes')
+            self.assertEqual(self.snapshot(root), edited)
+
+    def test_reference_cycle_shares_one_key_and_rekeys_together(self):
+        with TemporaryDirectory() as tmp:
+            root = Path(tmp); site = self.fixture(root)
+            (site/'a.mjs').write_text("import './b.mjs'; export const a=1;")
+            (site/'b.mjs').write_text("import './a.mjs'; import './core.mjs'; export const b=1;")
+            (site/'app.mjs').write_text("import './a.mjs';")
+            self.stage(root)
+            result = self.run_tool(site)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            cycle, app = self.key(site, 'a.mjs'), self.key(site, 'app.mjs')
+            self.assertEqual(self.key(site, 'b.mjs'), cycle)
+            self.assertIn('./b.mjs?site-release='+cycle, (site/'a.mjs').read_text())
+            self.assertIn('./a.mjs?site-release='+cycle, (site/'b.mjs').read_text())
+            self.assertEqual(self.run_tool(site, '--check').returncode, 0)
+            (site/'core.mjs').write_text('export const x=3;')
+            self.assertEqual(self.run_tool(site).returncode, 0)
+            self.assertNotEqual(self.key(site, 'a.mjs'), cycle)
+            self.assertNotEqual(self.key(site, 'app.mjs'), app)
+            self.assertEqual(self.run_tool(site, '--check').returncode, 0)
+
+    def test_changed_transitive_asset_and_config_change_the_identity(self):
         with TemporaryDirectory() as tmp:
             site = self.fixture(Path(tmp)); first = self.run_tool(site)
             self.assertEqual(first.returncode, 0, first.stderr)
@@ -117,7 +187,7 @@ class AssetRelease(unittest.TestCase):
             self.stage(Path(tmp))
             result = self.run_tool(site)
             self.assertEqual(result.returncode, 0, result.stderr)
-            self.assertIn('theme.css?site-release='+result.stdout.strip(), (site/'style.css').read_text())
+            self.assertIn('theme.css?site-release='+self.key(site, 'theme.css'), (site/'style.css').read_text())
             (site/'theme.css').unlink()
             missing = self.run_tool(site, '--check')
             self.assertNotEqual(missing.returncode, 0)
@@ -144,7 +214,7 @@ class AssetRelease(unittest.TestCase):
                 '<link href="style.css?site-release='+old+'&amp;media=screen&amp;x=1&amp;x=2#part">')
             result = self.run_tool(site)
             self.assertEqual(result.returncode, 0, result.stderr)
-            self.assertIn('media=screen&amp;x=1&amp;x=2&amp;site-release='+result.stdout.strip()+'#part',
+            self.assertIn('media=screen&amp;x=1&amp;x=2&amp;site-release='+self.key(site, 'style.css')+'#part',
                           (site/'index.html').read_text())
             self.assertEqual(self.run_tool(site, '--check').returncode, 0)
             self.assertEqual(asset_release.without_release(
@@ -295,9 +365,10 @@ class AssetRelease(unittest.TestCase):
                  '-qm', 'Intact catalog baseline'], check=True, capture_output=True)
             (catalog/'catalog.json').unlink(); catalog.rmdir(); self.stage(root)
             before = self.snapshot(root)
-            stale = self.run_tool(site, '--check')
-            self.assertEqual(stale.returncode, 1, stale.stderr)
-            self.assertEqual(stale.stderr, '')
+            check = self.run_tool(site, '--check')
+            self.assertEqual(check.returncode, 0, check.stdout + check.stderr)
+            self.assertEqual(check.stderr, '')
+            self.assertNotEqual(check.stdout, first.stdout)
             self.assertEqual(self.snapshot(root), before)
             second = self.run_tool(site)
             self.assertEqual(second.returncode, 0, second.stderr)
@@ -384,7 +455,7 @@ class AssetRelease(unittest.TestCase):
             self.assertIn('src="ghost.js"', (site/'index.html').read_text())
             self.assertIn('url(ghost.svg)', (site/'style.css').read_text())
             self.assertIn('import("ghost.js")', (site/'app.mjs').read_text())
-            self.assertIn('./core.mjs?site-release='+result.stdout.strip(),
+            self.assertIn('./core.mjs?site-release='+self.key(site, 'core.mjs'),
                           (site/'app.mjs').read_text())
             self.assertEqual(self.run_tool(site, '--check').returncode, 0)
 
@@ -399,8 +470,8 @@ class AssetRelease(unittest.TestCase):
             result = self.run_tool(site)
             self.assertEqual(result.returncode, 0, result.stderr)
             text = (site/'app.mjs').read_text()
-            self.assertEqual(text.count('./core.mjs?site-release='+result.stdout.strip()), 3)
-            self.assertIn('./lazy.mjs?site-release='+result.stdout.strip(), text)
+            self.assertEqual(text.count('./core.mjs?site-release='+self.key(site, 'core.mjs')), 3)
+            self.assertIn('./lazy.mjs?site-release='+self.key(site, 'lazy.mjs'), text)
             self.assertIn('import("./dir/" + name)', text)
             self.assertIn('obj.import("ghost.js")', text)
 
@@ -419,13 +490,13 @@ class AssetRelease(unittest.TestCase):
             text = (site/'app.mjs').read_text()
             self.assertIn('αimport("./core.mjs")', text)
             self.assertNotIn('αimport("./core.mjs?site-release=', text)
-            self.assertEqual(text.count('./lazy.mjs?site-release='+result.stdout.strip()), 3)
+            self.assertEqual(text.count('./lazy.mjs?site-release='+self.key(site, 'lazy.mjs')), 3)
             css = (site/'style.css').read_text()
             self.assertIn('éurl(ghost.svg)', css)
             self.assertIn('💠url(mark.svg)', css)
             self.assertIn('́url(mark.svg)', css)
             self.assertEqual(css.count('mark.svg?site-release='), 1)
-            self.assertIn('mark.svg?site-release='+result.stdout.strip(),
+            self.assertIn('mark.svg?site-release='+self.key(site, 'mark.svg'),
                           (site/'style.css').read_text())
 
     def test_unsupported_contexts_fail_before_any_writes(self):
@@ -545,7 +616,7 @@ class AssetRelease(unittest.TestCase):
             (site/'app.mjs').write_text(source)
             first = self.run_tool(site)
             self.assertEqual(first.returncode, 0, first.stderr)
-            expected = source.replace('./core.mjs', './core.mjs?site-release=' + first.stdout.strip())
+            expected = source.replace('./core.mjs', './core.mjs?site-release=' + self.key(site, 'core.mjs'))
             self.assertEqual((site/'app.mjs').read_text(), expected)
             before = self.snapshot(root)
             for args in [('--check',), ()]:
@@ -699,7 +770,7 @@ class AssetRelease(unittest.TestCase):
                     self.assertEqual(self.snapshot(root), before)
                 else:
                     self.assertEqual(result.returncode, 0, result.stderr)
-                    expected = source.replace('core.mjs', 'core.mjs?site-release=' + result.stdout.strip())
+                    expected = source.replace('core.mjs', 'core.mjs?site-release=' + self.key(site, 'core.mjs'))
                     self.assertEqual((site/'app.mjs').read_text(), expected)
                     after = self.snapshot(root)
                     for args in [('--check',), ()]:
@@ -867,7 +938,7 @@ class AssetRelease(unittest.TestCase):
                 else:
                     self.assertEqual(result.returncode, 0, result.stderr)
                     self.assertEqual((site/'app.mjs').read_text(), source.replace(
-                        'core.mjs', 'core.mjs?site-release=' + result.stdout.strip()))
+                        'core.mjs', 'core.mjs?site-release=' + self.key(site, 'core.mjs')))
                     after = self.snapshot(root)
                     for args in [('--check',), ()]:
                         again = self.run_tool(site, *args)

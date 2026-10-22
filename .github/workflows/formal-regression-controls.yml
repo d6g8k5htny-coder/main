@@ -16,8 +16,6 @@ jobs:
     name: formal-regression-controls
     runs-on: ubuntu-24.04
     timeout-minutes: 49
-    env:
-      FORMAL_EVIDENCE_TEMP: ${{ runner.temp }}/formal-retained-volume-${{ github.run_id }}-${{ github.run_attempt }}/mount
     defaults:
       run:
         shell: bash
@@ -92,6 +90,8 @@ jobs:
           PY
       - name: Reserve the single bounded retained-evidence budget before preparation
         timeout-minutes: 1
+        env:
+          FORMAL_EVIDENCE_TEMP: ${{ runner.temp }}/formal-retained-volume-${{ github.run_id }}-${{ github.run_attempt }}/mount
         run: |
           set -euo pipefail
           python3 -I -B -S - <<'PY'
@@ -114,6 +114,8 @@ jobs:
           PY
       - name: Extract whole-pinned qualified preparation sources
         timeout-minutes: 1
+        env:
+          FORMAL_EVIDENCE_TEMP: ${{ runner.temp }}/formal-retained-volume-${{ github.run_id }}-${{ github.run_attempt }}/mount
         run: |
           set -euo pipefail
           python3 -I -B -S - "$FORMAL_EVIDENCE_TEMP" "$GITHUB_WORKSPACE" "$GITHUB_RUN_ID" "$GITHUB_RUN_ATTEMPT" <<'PY'
@@ -188,6 +190,8 @@ jobs:
       - name: Qualify canonical acquisition and restore daemon before tests
         id: preparation
         timeout-minutes: 19
+        env:
+          FORMAL_EVIDENCE_TEMP: ${{ runner.temp }}/formal-retained-volume-${{ github.run_id }}-${{ github.run_attempt }}/mount
         run: |
           set -euo pipefail
           RUNNER_TEMP="$FORMAL_EVIDENCE_TEMP" bash "$FORMAL_EVIDENCE_TEMP/formal-regression-preparation-source-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/run-preparation.sh"
@@ -195,6 +199,8 @@ jobs:
         id: preparation_seal
         if: always()
         timeout-minutes: 1
+        env:
+          FORMAL_EVIDENCE_TEMP: ${{ runner.temp }}/formal-retained-volume-${{ github.run_id }}-${{ github.run_attempt }}/mount
         run: |
           set -euo pipefail
           RUNNER_TEMP="$FORMAL_EVIDENCE_TEMP" bash "$FORMAL_EVIDENCE_TEMP/formal-regression-preparation-source-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/seal.sh"
@@ -202,6 +208,8 @@ jobs:
         id: preparation_budget
         if: always()
         timeout-minutes: 1
+        env:
+          FORMAL_EVIDENCE_TEMP: ${{ runner.temp }}/formal-retained-volume-${{ github.run_id }}-${{ github.run_attempt }}/mount
         run: |
           set -euo pipefail
           python3 -I -B -S - <<'PY'
@@ -271,6 +279,8 @@ jobs:
         id: preparation_cleanup
         if: always()
         timeout-minutes: 1
+        env:
+          FORMAL_EVIDENCE_TEMP: ${{ runner.temp }}/formal-retained-volume-${{ github.run_id }}-${{ github.run_attempt }}/mount
         run: |
           set -euo pipefail
           directory="$FORMAL_EVIDENCE_TEMP/formal-regression-preparation-source-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
@@ -295,6 +305,7 @@ jobs:
       - name: Require complete current-run preparation before formal controls
         timeout-minutes: 1
         env:
+          FORMAL_EVIDENCE_TEMP: ${{ runner.temp }}/formal-retained-volume-${{ github.run_id }}-${{ github.run_attempt }}/mount
           PREPARATION_ARTIFACT_ID: ${{ steps.preparation_retained.outputs.artifact-id }}
           PREPARATION_ARTIFACT_DIGEST: ${{ steps.preparation_retained.outputs.artifact-digest }}
         run: |
@@ -449,6 +460,8 @@ jobs:
           PY
       - name: Write fixed trusted driver and host controller
         timeout-minutes: 1
+        env:
+          FORMAL_EVIDENCE_TEMP: ${{ runner.temp }}/formal-retained-volume-${{ github.run_id }}-${{ github.run_attempt }}/mount
         run: |
           set -euo pipefail
           base="$FORMAL_EVIDENCE_TEMP/formal-regression-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
@@ -1224,6 +1237,8 @@ jobs:
       - name: Observe both frozen modes and dispose before bounded collection
         id: controls
         timeout-minutes: 16
+        env:
+          FORMAL_EVIDENCE_TEMP: ${{ runner.temp }}/formal-retained-volume-${{ github.run_id }}-${{ github.run_attempt }}/mount
         run: |
           set -euo pipefail
           base="$FORMAL_EVIDENCE_TEMP/formal-regression-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
@@ -1301,6 +1316,8 @@ jobs:
       - name: Recover only owned workers and retain bounded partials
         if: always()
         timeout-minutes: 4
+        env:
+          FORMAL_EVIDENCE_TEMP: ${{ runner.temp }}/formal-retained-volume-${{ github.run_id }}-${{ github.run_attempt }}/mount
         run: |
           set -euo pipefail
           base="$FORMAL_EVIDENCE_TEMP/formal-regression-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
@@ -1384,6 +1401,8 @@ jobs:
         id: final_seal
         if: always()
         timeout-minutes: 2
+        env:
+          FORMAL_EVIDENCE_TEMP: ${{ runner.temp }}/formal-retained-volume-${{ github.run_id }}-${{ github.run_attempt }}/mount
         run: |
           set -euo pipefail
           python3 -I -B -S - <<'PY'
@@ -1637,6 +1656,8 @@ jobs:
       - name: Release only owned evidence storage after upload and terminal proof
         if: always()
         timeout-minutes: 2
+        env:
+          FORMAL_EVIDENCE_TEMP: ${{ runner.temp }}/formal-retained-volume-${{ github.run_id }}-${{ github.run_attempt }}/mount
         run: |
           set -euo pipefail
           python3 -I -B -S - <<'PY'
