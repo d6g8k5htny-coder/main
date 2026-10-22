@@ -10,8 +10,9 @@ Input: a directory of JSON records shaped like node-status interface v0
                      "status": "open" | "resolved",
                      "resolution_url": str (required when resolved)}]
 
-source_url and resolution_url are comment URLs. Every comment URL uses
-COMMENT_URL below: owner evidence, source_url, resolution_url, and released_url.
+Owner evidence, released_url, and resolution_url use COMMENT_URL below.
+carried_forward source_url uses the carried-item pattern from interface v0:
+any GitHub issue or comment URL.
 
 Checks (each failure is reported; the exit status is 1 if any):
   1. reciprocity: A.successor -> B requires B.predecessor -> A, and the reverse;
@@ -23,10 +24,11 @@ Checks (each failure is reported; the exit status is 1 if any):
      itself must match COMMENT_URL. Owner keys are closed to id, evidence_url,
      and released_url. Ownership is never inferred, and moving a board does
      not move it;
-  3. carry-forward: carried_forward must be a list of objects with unique ids
-     and a source_url. Every predecessor item that is open must appear, by id,
-     in the successor's carried_forward, either still open or resolved with a
-     resolution_url. Items may not be silently dropped.
+  3. carry-forward: carried_forward must be a list of objects with unique ids,
+     non-empty text, and a source_url. Every predecessor item that is open must
+     appear, by id, in the successor's carried_forward, either still open or
+     resolved with a resolution_url. Items may not be silently dropped.
+  4. refresh_error, when present, is a string or null.
 
 The tool reads files only. It makes no network call and writes nothing.
 It checks link structure, not the truth of any linked comment, and has no
@@ -42,6 +44,9 @@ from urllib.parse import urlparse
 COMMENT_URL = re.compile(
     r"^https://github\.com/d6g8k5htny-coder/(main|Math-)/(issues|pull)/[1-9]\d*#(issuecomment-[1-9]\d*|pullrequestreview-[1-9]\d*)$"
 )
+CARRIED_SOURCE_URL = re.compile(
+    r"^https://github\.com/[\w.-]+/[\w.-]+/(?:issues|pull)/\d+"
+    r"(?:#(?:issuecomment|pullrequestreview)-\d+)?$")
 
 
 def _http_url(url):
@@ -52,7 +57,11 @@ def _http_url(url):
 
 
 def _comment_url(url):
-    return isinstance(url, str) and COMMENT_URL.match(url) is not None
+    return isinstance(url, str) and COMMENT_URL.fullmatch(url) is not None
+
+
+def _carried_source_url(url):
+    return isinstance(url, str) and CARRIED_SOURCE_URL.fullmatch(url) is not None
 
 
 def load_records(directory):
@@ -146,11 +155,14 @@ def _carried(node, rec, errors):
             errors.append(f"{node}: duplicate carried_forward id {item_id!r}")
         else:
             by_id[item_id] = item
+        text = item.get("text")
+        if not isinstance(text, str) or text == "":
+            errors.append(f"{node}: item {item_id!r} has no text")
         source = item.get("source_url")
         if not isinstance(source, str) or not source:
             errors.append(f"{node}: item {item_id!r} has no source_url")
-        elif not _comment_url(source):
-            errors.append(f"{node}: item {item_id!r} source_url is not a comment URL")
+        elif not _carried_source_url(source):
+            errors.append(f"{node}: item {item_id!r} source_url is not a GitHub issue or comment URL")
         if not item_id:
             continue
         if item.get("status") == "resolved" and not _comment_url(item.get("resolution_url")):
@@ -176,9 +188,18 @@ def check_carried_forward(records):
     return errors
 
 
+def check_refresh_error(records):
+    errors = []
+    for node, rec in sorted(records.items()):
+        if "refresh_error" in rec and rec["refresh_error"] is not None and not isinstance(rec["refresh_error"], str):
+            errors.append(f"{node}: refresh_error must be a string or null")
+    return errors
+
+
 def check(directory):
     records, errors = load_records(directory)
-    return errors + check_reciprocal(records) + check_ownership(records) + check_carried_forward(records)
+    return (errors + check_reciprocal(records) + check_ownership(records)
+            + check_carried_forward(records) + check_refresh_error(records))
 
 
 def main(argv):

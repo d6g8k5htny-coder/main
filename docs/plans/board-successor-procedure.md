@@ -31,17 +31,19 @@ Records follow node-status interface v0 (Lane 2, `records/node_status/<node_id>.
 with three optional handoff fields: `predecessor` and `successor`, each
 `{node_id, url}` or null, and `carried_forward`, a list of
 `{id, text, source_url, status: open|resolved, resolution_url}`.
-Those three shapes are unchanged. `source_url`, `resolution_url`, owner
+Those three shapes are unchanged. A carried item's `text` is required and non-empty.
+Its `source_url` is any GitHub issue or comment URL. `resolution_url`, owner
 `evidence_url`, and `released_url` share one comment-URL pattern:
 `https://github.com/d6g8k5htny-coder/(main|Math-)/(issues|pull)/[1-9]\d*#(issuecomment-[1-9]\d*|pullrequestreview-[1-9]\d*)`.
-An owner with `released_url` is not a current owner. It still needs a non-empty id and an `evidence_url` matching that pattern, and `released_url` must match it too. Owner keys are only `id`, `evidence_url`, and `released_url`.
+An owner with `released_url` is not a current owner. It still needs a non-empty id and an `evidence_url` matching that pattern, and `released_url` must match it too. Owner keys are only `id`, `evidence_url`, and `released_url`. `refresh_error`, when present, is a string or null.
 
 `python -B -S tools/check_board_links.py records/node_status` reads the records
 and fails, with exit status 1, when:
 
 - a predecessor or successor link is not reciprocated, points to a missing record, or its `url` is not an http(s) URL;
 - an owner lacks an id or a comment URL as its evidence, has a key other than `id`, `evidence_url`, and `released_url`, or a `released_url` does not match that pattern;
-- `carried_forward` is not a list, an entry is not an object, an id is duplicated, or a `source_url` or resolution URL does not match that pattern;
+- `carried_forward` is not a list, an entry is not an object, an id is duplicated, `text` is missing or empty, `source_url` is not a GitHub issue or comment URL, or a resolution URL does not match that pattern;
+- `refresh_error` is present and is neither a string nor null;
 - an open predecessor item is missing from the successor's `carried_forward`, or an
   item is marked resolved without a resolution URL.
 

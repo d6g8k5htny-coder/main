@@ -148,7 +148,7 @@ class BoardLinks(unittest.TestCase):
             self.assert_rejected(r, "no PICKUP")
             r = self.records()
             r["board-new"]["carried_forward"][0]["source_url"] = url
-            self.assert_rejected(r, "source_url")
+            self.assertEqual(self.run_check(r), [], url)
             r = self.records()
             r["board-old"]["carried_forward"][1]["resolution_url"] = url
             self.assert_rejected(r, "resolution_url")
@@ -168,10 +168,39 @@ class BoardLinks(unittest.TestCase):
             self.assert_rejected(r, "no PICKUP")
             r = self.records()
             r["board-new"]["carried_forward"][0]["source_url"] = url
-            self.assert_rejected(r, "source_url")
+            self.assertEqual(self.run_check(r), [], url)
             r = self.records()
             r["board-old"]["carried_forward"][1]["resolution_url"] = url
             self.assert_rejected(r, "resolution_url")
+
+    def test_trailing_newline_in_url_fails(self):
+        r = self.records()
+        r["board-new"]["owner"]["evidence_url"] = PICKUP + "\n"
+        self.assert_rejected(r, "no PICKUP")
+        r = self.records()
+        r["board-new"]["carried_forward"][0]["source_url"] = PICKUP + "\n"
+        self.assert_rejected(r, "source_url")
+        r = self.records()
+        r["board-old"]["carried_forward"][1]["resolution_url"] = RESOLVED + "\n"
+        self.assert_rejected(r, "resolution_url")
+
+    def test_carried_item_without_text_fails(self):
+        for mutate in (
+            lambda item: item.pop("text"),
+            lambda item: item.__setitem__("text", ""),
+        ):
+            r = self.records()
+            mutate(r["board-new"]["carried_forward"][0])
+            self.assert_rejected(r, "text")
+
+    def test_refresh_error_must_be_string_or_null(self):
+        r = self.records()
+        r["board-new"]["refresh_error"] = 5
+        self.assert_rejected(r, "refresh_error must be a string or null")
+        for ok in (None, "unread"):
+            r = self.records()
+            r["board-new"]["refresh_error"] = ok
+            self.assertEqual(self.run_check(r), [], ok)
 
     def test_released_owner_missing_id_fails(self):
         r = self.records()
