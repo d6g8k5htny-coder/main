@@ -8,7 +8,7 @@ hashes asset-release-normalized HTML, exact JSON and exact deterministic ZIP
 bytes. Restore admits all downloads and the durable manifest pin before writes.
 """
 import argparse
-from datetime import datetime
+from datetime import datetime, timezone
 import hashlib
 from html.parser import HTMLParser
 import io
@@ -24,6 +24,7 @@ from urllib.parse import urlsplit
 import zipfile
 from current_inventory_acquisition import (project_current_acquisitions, current_source_list,
                                            inventory_legend, acquisition_notice, date_explanation)
+from validate_node_status import EVIDENCE_URL_PATTERN
 
 from current_site_data import parse_json
 from site_asset_release import transform, without_release
@@ -1559,6 +1560,8 @@ _NODE_STATUS_FORBIDDEN = frozenset({
     "freeze", "inventable_attempt_accepted"})
 _NODE_STATUS_STATE = re.compile(r"(?:fresh|stale|unknown)\Z")
 _NODE_STATUS_OBSERVED = re.compile(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z\Z")
+_NODE_STATUS_EVIDENCE = re.compile(EVIDENCE_URL_PATTERN)
+_NODE_STATUS_STALE_MS = 24 * 60 * 60 * 1000
 
 
 def _node_status_forbidden(value):
@@ -1590,37 +1593,73 @@ def _node_status_list(value):
     return None
 
 
-def _node_status_operational(record):
+def _node_status_evidence(url):
+    return url if isinstance(url, str) and _NODE_STATUS_EVIDENCE.fullmatch(url) else None
+
+
+def _node_status_note(record, now):
+    recorded = record.get("status")
+    observed = record.get("observed_at")
+    if not (isinstance(recorded, str) and _NODE_STATUS_STATE.fullmatch(recorded)
+            and isinstance(observed, str) and _NODE_STATUS_OBSERVED.fullmatch(observed)):
+        return None
+    shown = recorded
+    if isinstance(now, (int, float)) and not isinstance(now, bool):
+        try:
+            parsed = datetime.strptime(observed, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
+        except ValueError:
+            parsed = None
+        if parsed is not None:
+            age = now - int(parsed.timestamp()) * 1000
+            if age > _NODE_STATUS_STALE_MS:
+                shown = "stale"
+    return (f"Node-status view {shown} as of {observed}. Recorded status {recorded}. "
+            "Scientific effect NONE. Freshness is not scientific validity.")
+
+
+def _node_status_operational(record, now=None):
     owner = record["owner"]
     rows = []
     for field, label in RESUME_OPERATIONAL:
         row = {"field": field, "label": label, "text": RESUME_NOT_RECORDED}
         if field == "next_action" and isinstance(record.get("next_action"), str) and record["next_action"]:
             row["text"] = record["next_action"]
-            if (_NODE_STATUS_STATE.fullmatch(str(record.get("status")))
-                    and isinstance(record.get("observed_at"), str)
-                    and _NODE_STATUS_OBSERVED.fullmatch(record["observed_at"])):
-                row["note"] = (f"Node-status view {record['status']} as of {record['observed_at']}. "
-                               "Scientific effect NONE. Freshness is not scientific validity.")
+            note = _node_status_note(record, now)
+            if note:
+                row["note"] = note
         elif field == "missing_input":
             text = _node_status_list(record.get("missing_input"))
             if text:
                 row["text"] = text
         elif field == "owner_evidence":
-            row["text"] = "No owner recorded in this node-status view." if owner is None else owner["id"]
-            if owner and owner.get("evidence_url"):
-                row["url"] = owner["evidence_url"]
+            if owner is None:
+                row["text"] = "No owner recorded in this node-status view."
+            elif isinstance(owner, dict) and "released_url" in owner:
+                row["text"] = "released"
+                link = _node_status_evidence(owner.get("released_url"))
+                if link:
+                    row["url"] = link
+                elif isinstance(owner.get("released_url"), str) and owner["released_url"]:
+                    row["text"] = owner["released_url"]
+            elif isinstance(owner, dict):
+                link = _node_status_evidence(owner.get("evidence_url"))
+                if link:
+                    row["text"] = owner["id"]
+                    row["url"] = link
+                elif isinstance(owner.get("evidence_url"), str) and owner["evidence_url"]:
+                    row["text"] = owner["evidence_url"]
         elif field == "retained_stop":
             row["text"] = _node_status_list(record.get("stops")) or "No retained stop recorded in this node-status view."
         rows.append(row)
     return rows
 
 
-def resume_projection(data, node_id, status_records=None):
+def resume_projection(data, node_id, status_records=None, now=None):
     """The static form of current-model.mjs resumeProjection; a static page evaluates no freshness.
 
     status_records is the optional node-status map. The snapshot-only call matches the
-    JavaScript default and is what static pages render.
+    JavaScript default and is what static pages render. now is the render clock in
+    milliseconds, used only for the node-status stale display.
     """
     nodes = data["graph"]["data"]["nodes"]
     if not isinstance(node_id, str) or node_id not in nodes:
@@ -1642,7 +1681,7 @@ def resume_projection(data, node_id, status_records=None):
              "url": value if isinstance(value, str) and _RESUME_REVIEW_URL.fullmatch(value) else None,
              "note": RESUME_ISSUE_NOTE if field == "review_issue" and isinstance(value, (int, float)) and not isinstance(value, bool) else None}
             for field, value in node.items() if field.startswith("review_")]},
-        "operational": _node_status_operational(record) if record else [
+        "operational": _node_status_operational(record, now) if record else [
             {"field": field, "label": label, "text": RESUME_NOT_RECORDED} for field, label in RESUME_OPERATIONAL],
         "continuation": dict(task) if task else None,
         "continuation_text": None if task else RESUME_NO_TASK,
@@ -1651,8 +1690,16 @@ def resume_projection(data, node_id, status_records=None):
 
 def _resume_html(view):
     snapshot = view["snapshot"]
+    def _href(item):
+        url = item.get("url")
+        if not isinstance(url, str) or not url:
+            return None
+        if item.get("field") == "owner_evidence" and not _NODE_STATUS_EVIDENCE.fullmatch(url):
+            return None
+        return url
+
     rows = lambda items: "".join(f'<dt>{_v1_escape(item.get("label", item["field"]))}</dt><dd>' + (
-        f'<a href="{_v1_escape(item["url"])}">{_v1_escape(item["text"])}</a>' if item.get("url") else f'<code>{_v1_escape(item["text"])}</code>')
+        f'<a href="{_v1_escape(_href(item))}">{_v1_escape(item["text"])}</a>' if _href(item) else f'<code>{_v1_escape(item["text"])}</code>')
         + (f' {_v1_escape(item["note"])}' if item.get("note") else "") + '</dd>' for item in items)
     review = (f'<dl class="resume-fields">{rows(view["review"]["fields"])}</dl>' if view["review"]["fields"]
               else f'<p>Review metadata: <code>{RESUME_NOT_RECORDED}</code>.</p>')

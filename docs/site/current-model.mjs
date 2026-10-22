@@ -82,11 +82,25 @@ const metadataText=value=>typeof value==='string'?value:JSON.stringify(value);
 const NODE_STATUS_FORBIDDEN=new Set(['lemma_closed','prizes_solved','discharges_OBL_H5_JETMOD','certified_C_H','freeze','inventable_attempt_accepted']);
 const NODE_STATUS_STATE=/^(?:fresh|stale|unknown)$/;
 const NODE_STATUS_OBSERVED=/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/;
+// Same characters as EVIDENCE_URL_PATTERN in tools/validate_node_status.py.
+export const NODE_STATUS_EVIDENCE_URL_PATTERN = String.raw`^https://github\.com/d6g8k5htny-coder/(main|Math-)/(issues|pull)/[1-9]\d*#(issuecomment-[1-9]\d*|pullrequestreview-[1-9]\d*)$`;
+export const NODE_STATUS_EVIDENCE_URL = new RegExp(NODE_STATUS_EVIDENCE_URL_PATTERN);
+const NODE_STATUS_STALE_MS = 24 * 60 * 60 * 1000;
 function nodeStatusForbidden(value){
   if(!value||typeof value!=='object')return false;
   return Object.entries(value).some(([key,item])=>NODE_STATUS_FORBIDDEN.has(key)||nodeStatusForbidden(item));
 }
+export function nodeStatusEvidenceURL(url){
+  return typeof url==='string' && NODE_STATUS_EVIDENCE_URL.test(url) ? url : null;
+}
+// Owner evidence is linked only when it matches the shared comment pattern.
+export function resumeFieldHref(item){
+  if(!item || typeof item.url!=='string' || !item.url)return null;
+  if(item.field==='owner_evidence' && !NODE_STATUS_EVIDENCE_URL.test(item.url))return null;
+  return item.url;
+}
 // A record without an evidence URL is not applied. Freshness is not scientific validity.
+// released_url stays on the owner object; this reader does not replace that object with null.
 function nodeStatusRecord(statusRecords,id){
   if(!statusRecords||typeof statusRecords!=='object'||Array.isArray(statusRecords)||!Object.prototype.hasOwnProperty.call(statusRecords,id))return null;
   const record=statusRecords[id];
@@ -97,15 +111,38 @@ function nodeStatusRecord(statusRecords,id){
   return record;
 }
 function nodeStatusList(value){return Array.isArray(value)&&value.every(item=>typeof item==='string'&&item)&&value.length?value.join('; '):null;}
-function nodeStatusOperational(record){
+function nodeStatusNote(record, now){
+  const recorded=record.status, observed=record.observed_at;
+  if(typeof recorded!=='string'||!NODE_STATUS_STATE.test(recorded)||typeof observed!=='string'||!NODE_STATUS_OBSERVED.test(observed))return null;
+  let shown=recorded;
+  if(Number.isFinite(now)){
+    const age=now-Date.parse(observed);
+    if(Number.isFinite(age)&&age>NODE_STATUS_STALE_MS)shown='stale';
+  }
+  return `Node-status view ${shown} as of ${observed}. Recorded status ${recorded}. Scientific effect NONE. Freshness is not scientific validity.`;
+}
+function nodeStatusOperational(record, now){
   const owner=record.owner;
   return RESUME_OPERATIONAL.map(([field,label])=>{
     const row={field,label,text:RESUME_NOT_RECORDED};
     if(field==='next_action'&&typeof record.next_action==='string'&&record.next_action){
       row.text=record.next_action;
-      if(typeof record.status==='string'&&NODE_STATUS_STATE.test(record.status)&&typeof record.observed_at==='string'&&NODE_STATUS_OBSERVED.test(record.observed_at))row.note=`Node-status view ${record.status} as of ${record.observed_at}. Scientific effect NONE. Freshness is not scientific validity.`;
+      const note=nodeStatusNote(record, now);
+      if(note)row.note=note;
     }else if(field==='missing_input'){const text=nodeStatusList(record.missing_input);if(text)row.text=text;}
-    else if(field==='owner_evidence'){row.text=owner===null?'No owner recorded in this node-status view.':owner.id;if(owner&&owner.evidence_url)row.url=owner.evidence_url;}
+    else if(field==='owner_evidence'){
+      if(owner===null)row.text='No owner recorded in this node-status view.';
+      else if(owner&&Object.prototype.hasOwnProperty.call(owner,'released_url')){
+        row.text='released';
+        const link=nodeStatusEvidenceURL(owner.released_url);
+        if(link)row.url=link;
+        else if(typeof owner.released_url==='string'&&owner.released_url)row.text=owner.released_url;
+      }else if(owner){
+        const link=nodeStatusEvidenceURL(owner.evidence_url);
+        if(link){row.text=owner.id;row.url=link;}
+        else if(typeof owner.evidence_url==='string'&&owner.evidence_url)row.text=owner.evidence_url;
+      }
+    }
     else if(field==='retained_stop')row.text=nodeStatusList(record.stops)||'No retained stop recorded in this node-status view.';
     return row;
   });
@@ -122,7 +159,7 @@ export function resumeProjection(snapshot,id,now,statusRecords) {
     freshness:Number.isFinite(now)?freshness(snapshot.observed_at,now):null,warning:RESUME_FRESHNESS_WARNING,
     state:['classification','controlling'].map(field=>({field,text:own(field)&&node[field]!==null?metadataText(node[field]):RESUME_NOT_RECORDED})),
     review:{label:RESUME_REVIEW_LABEL,fields:Object.keys(node).filter(key=>key.startsWith('review_')).map(field=>{const value=node[field];return {field,text:metadataText(value),url:typeof value==='string'&&REVIEW_URL.test(value)?value:null,note:field==='review_issue'&&typeof value==='number'?RESUME_ISSUE_NOTE:null};})},
-    operational:record?nodeStatusOperational(record):RESUME_OPERATIONAL.map(([field,label])=>({field,label,text:RESUME_NOT_RECORDED})),
+    operational:record?nodeStatusOperational(record, now):RESUME_OPERATIONAL.map(([field,label])=>({field,label,text:RESUME_NOT_RECORDED})),
     continuation:task?{...task}:null,continuation_text:task?null:RESUME_NO_TASK};
 }
 export const MAX_WINDOW_NODES=150;
