@@ -37,6 +37,19 @@ EVIDENCE_URL = re.compile(EVIDENCE_URL_PATTERN)
 PINNED_URL = re.compile(
     r"^https://github\.com/d6g8k5htny-coder/(main|Math-)/(blob|tree)/"
     r"[0-9a-f]{40}/[A-Za-z0-9_./-]+$")
+
+
+def pinned_commit(url):
+    """Commit in the /blob/<sha>/ or /tree/<sha>/ segment, not elsewhere in the path."""
+    if not isinstance(url, str) or PINNED_URL.fullmatch(url) is None:
+        return None
+    parts = url.split("/")
+    if len(parts) < 8 or parts[5] not in ("blob", "tree"):
+        return None
+    commit = parts[6]
+    if SHA.fullmatch(commit) is None:
+        return None
+    return commit
 GITHUB_OBJECT_URL = re.compile(
     r"^https://github\.com/d6g8k5htny-coder/(main|Math-)/(issues|pull)/[1-9]\d*"
     r"(#(issuecomment-[1-9]\d*|pullrequestreview-[1-9]\d*))?$")
@@ -234,11 +247,12 @@ def check_source(source, index, problems):
         problems.append(f"{label} must have url and rev")
         return
     url, rev = source.get("url"), source.get("rev")
-    if isinstance(url, str) and PINNED_URL.fullmatch(url):
+    pin = pinned_commit(url)
+    if pin is not None:
         if not isinstance(rev, str) or not SHA.fullmatch(rev):
             problems.append(f"{label}.rev must be a 40-character commit")
-        elif rev not in url:
-            problems.append(f"{label}.rev must appear in its url")
+        elif rev != pin:
+            problems.append(f"{label}.rev must equal the blob or tree commit")
         return
     if isinstance(url, str) and GITHUB_OBJECT_URL.fullmatch(url):
         if not isinstance(rev, str) or not UTC_REV.fullmatch(rev):

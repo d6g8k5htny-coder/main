@@ -66,7 +66,29 @@ function noteOf(view) {
   return view.operational.find(row => row.field === 'next_action').note;
 }
 
-test('published node-status records are real graph nodes with no owner and no mathematical flags', async () => {
+function expectedNote(record, now) {
+  const recorded = record.status;
+  const observed = record.observed_at;
+  let shown = recorded;
+  if (Number.isFinite(now)) {
+    const age = now - Date.parse(observed);
+    if (Number.isFinite(age) && age > DAY) shown = 'stale';
+  }
+  return `Node-status view ${shown} as of ${observed}. Recorded status ${recorded}. Scientific effect NONE. Freshness is not scientific validity.`;
+}
+
+function expectedOwner(record) {
+  const owner = record.owner;
+  if (owner === null) return {text: 'No owner recorded in this node-status view.'};
+  if (owner && Object.hasOwn(owner, 'released_url')) {
+    if (m.NODE_STATUS_EVIDENCE_URL.test(owner.released_url)) return {text: 'released', url: owner.released_url};
+    return {text: owner.released_url};
+  }
+  if (owner && m.NODE_STATUS_EVIDENCE_URL.test(owner.evidence_url)) return {text: owner.id, url: owner.evidence_url};
+  return {text: owner && owner.evidence_url};
+}
+
+test('published node-status records are real graph nodes with a valid owner and no mathematical flags', async () => {
   const view = await records();
   const ids = Object.keys(view);
   assert.ok(ids.length >= 2 && ids.length <= 3, ids.join(','));
@@ -97,7 +119,10 @@ test('published node-status records are real graph nodes with no owner and no ma
   for (const [id, record] of Object.entries(view)) {
     assert.equal(record.node_id, id);
     assert.equal(record.schema_version, 0);
-    assert.equal(record.owner, null);
+    if (record.owner !== null) {
+      assert.equal(m.NODE_STATUS_EVIDENCE_URL.test(record.owner.evidence_url), true, id);
+      if (Object.hasOwn(record.owner, 'released_url')) assert.equal(m.NODE_STATUS_EVIDENCE_URL.test(record.owner.released_url), true, id);
+    }
     assert.equal(record.scientific_effect, 'NONE');
     assert.ok(['fresh', 'stale', 'unknown'].includes(record.status));
     assert.equal(record.source_rev, record.sources[0].rev);
@@ -184,6 +209,27 @@ test('closed schema, evidence pattern, and primary source_rev are enforced', asy
   assert.doesNotMatch(joined.stderr, /source_rev must equal sources\[0\]\.rev/);
 });
 
+test('pinned rev equals the blob or tree commit segment', async () => {
+  const base = (await records())['eng.hard-gate'];
+  const pin = 'a'.repeat(40);
+  const later = 'b'.repeat(40);
+  const other = 'c'.repeat(40);
+  const pinned = (kind, sha, path) => `https://github.com/d6g8k5htny-coder/Math-/${kind}/${sha}/${path}`;
+  const withPin = (url, rev) => ({...base, sources: [{url, rev}], source_rev: rev});
+  for (const kind of ['blob', 'tree']) {
+    const path = kind === 'blob' ? `receipts/${later}.json` : `receipts/${later}`;
+    const matched = await validate(withPin(pinned(kind, pin, path), pin));
+    assert.equal(matched.status, 0, `${kind}\n${matched.stderr}`);
+    const inPath = await validate(withPin(pinned(kind, pin, path), later));
+    assert.notEqual(inPath.status, 0, kind);
+    assert.match(inPath.stderr, /sources\[0\]\.rev must equal the blob or tree commit/);
+    assert.doesNotMatch(inPath.stderr, /Traceback/);
+    const mismatch = await validate(withPin(pinned(kind, pin, 'frontiers/downstream_gate_20260925/GRAPH.json'), other));
+    assert.notEqual(mismatch.status, 0, kind);
+    assert.match(mismatch.stderr, /sources\[0\]\.rev must equal the blob or tree commit/);
+  }
+});
+
 test('carried_forward resolution_url uses the shared comment pattern', async () => {
   const base = (await records())['eng.hard-gate'];
   const item = (resolution_url, status = 'resolved') => ({
@@ -264,10 +310,11 @@ test('resume projection shows a node-status view and refuses an owner without ev
   for (const id of Object.keys(view)) {
     const shown = m.resumeProjection(data, id, undefined, view);
     assert.equal(shown.operational.find(row => row.field === 'next_action').text, view[id].next_action);
-    assert.match(noteOf(shown), /Node-status view fresh as of 2026-10-22T17:00:35Z\. Recorded status fresh\./);
+    assert.equal(noteOf(shown), expectedNote(view[id]));
     assert.match(noteOf(shown), /Freshness is not scientific validity/);
-    assert.equal(ownerRow(shown).text, 'No owner recorded in this node-status view.');
-    assert.equal(ownerRow(shown).url, undefined);
+    const want = expectedOwner(view[id]);
+    assert.equal(ownerRow(shown).text, want.text);
+    assert.equal(ownerRow(shown).url, want.url);
     assert.equal(shown.scientific_effect, undefined);
     assert.doesNotMatch(JSON.stringify(shown.operational), /merge now|not an owner/);
     assert.deepEqual(flags(shown), []);
@@ -291,15 +338,21 @@ test('resume projection shows a node-status view and refuses an owner without ev
   assert.equal(ownerRow(plain).text, 'javascript:alert(1)');
   assert.equal(m.resumeFieldHref({field: 'owner_evidence', text: 'javascript:alert(1)', url: 'javascript:alert(1)'}), null);
   assert.equal(m.nodeStatusEvidenceURL('javascript:alert(1)'), null);
-  const observed = view[id].observed_at;
+  const fresh = {...view[id], status: 'fresh', owner: null};
+  const freshView = {...view, [id]: fresh};
+  const unowned = m.resumeProjection(data, id, undefined, freshView);
+  assert.equal(ownerRow(unowned).text, 'No owner recorded in this node-status view.');
+  assert.equal(ownerRow(unowned).url, undefined);
+  const observed = fresh.observed_at;
   const instant = Date.parse(observed);
-  const boundary = m.resumeProjection(data, id, instant + DAY, view);
+  const boundary = m.resumeProjection(data, id, instant + DAY, freshView);
+  assert.equal(noteOf(boundary), expectedNote(fresh, instant + DAY));
   assert.match(noteOf(boundary), /Node-status view fresh as of /);
   assert.doesNotMatch(noteOf(boundary), /Node-status view stale/);
-  const past = m.resumeProjection(data, id, instant + DAY + 1, view);
+  const past = m.resumeProjection(data, id, instant + DAY + 1, freshView);
   assert.match(noteOf(past), /Node-status view stale as of /);
   assert.match(noteOf(past), /Recorded status fresh/);
-  const unknown = {[id]: {...view[id], status: 'unknown'}};
+  const unknown = {[id]: {...fresh, status: 'unknown'}};
   const overridden = m.resumeProjection(data, id, instant + DAY + 1, unknown);
   assert.match(noteOf(overridden), /Node-status view stale as of /);
   assert.match(noteOf(overridden), /Recorded status unknown/);
@@ -308,16 +361,46 @@ test('resume projection shows a node-status view and refuses an owner without ev
   const ids = [...Object.keys(view), 'other'];
   const py = pythonJson(['-c', script, tools], {input: JSON.stringify({data, ids, records: view})});
   assert.deepEqual(py, ids.map(node => m.resumeProjection(data, node, undefined, view).operational));
-  const pyPast = pythonJson(['-c', script, tools], {input: JSON.stringify({data, ids: [id], records: view, now: instant + DAY + 1})});
-  assert.deepEqual(pyPast, [m.resumeProjection(data, id, instant + DAY + 1, view).operational]);
-  const pyEdge = pythonJson(['-c', script, tools], {input: JSON.stringify({data, ids: [id], records: view, now: instant + DAY})});
-  assert.deepEqual(pyEdge, [m.resumeProjection(data, id, instant + DAY, view).operational]);
+  const pyPast = pythonJson(['-c', script, tools], {input: JSON.stringify({data, ids: [id], records: freshView, now: instant + DAY + 1})});
+  assert.deepEqual(pyPast, [m.resumeProjection(data, id, instant + DAY + 1, freshView).operational]);
+  const pyEdge = pythonJson(['-c', script, tools], {input: JSON.stringify({data, ids: [id], records: freshView, now: instant + DAY})});
+  assert.deepEqual(pyEdge, [m.resumeProjection(data, id, instant + DAY, freshView).operational]);
   const pyScript = pythonJson(['-c', script, tools], {input: JSON.stringify({data, ids: [id], records: hostile})});
   assert.deepEqual(pyScript, [plain.operational]);
   const pyOwner = pythonJson(['-c', script, tools], {input: JSON.stringify({data, ids: [id], records: ownerless})});
   assert.deepEqual(pyOwner, [hidden.operational]);
   const pyFlag = pythonJson(['-c', script, tools], {input: JSON.stringify({data, ids: [id], records: flagged})});
   assert.deepEqual(pyFlag, [m.resumeProjection(data, id, undefined, flagged).operational]);
+});
+
+test('a valid observed_at and source_rev refresh still validates and renders', async () => {
+  const view = await records();
+  const used = new Set(Object.values(view).map(record => record.observed_at));
+  const refreshedAt = used.has('2026-10-23T17:00:35Z') ? '2026-10-24T17:00:35Z' : '2026-10-23T17:00:35Z';
+  const pin = 'e'.repeat(40);
+  const refreshed = Object.fromEntries(Object.entries(view).map(([id, record]) => {
+    const source = {...record.sources[0]};
+    const current = source.url.match(/\/(?:blob|tree)\/([0-9a-f]{40})\//);
+    const nextPin = current && current[1] === pin ? 'f'.repeat(40) : pin;
+    const url = source.url.replace(/\/(blob|tree)\/[0-9a-f]{40}\//, `/$1/${nextPin}/`);
+    if (url !== source.url) {
+      source.url = url;
+      source.rev = nextPin;
+    } else source.rev = refreshedAt;
+    return [id, {...record, observed_at: refreshedAt, sources: [source, ...record.sources.slice(1)], source_rev: source.rev}];
+  }));
+  for (const record of Object.values(refreshed)) {
+    const result = await validate(record);
+    assert.equal(result.status, 0, result.stderr);
+    assert.notEqual(record.observed_at, view[record.node_id].observed_at);
+  }
+  const id = Object.keys(refreshed)[0];
+  const data = snapshot({[id]: {kind: 'candidate', classification: 'OPEN_ACTIVE'}});
+  const now = Date.parse(refreshedAt);
+  const shown = m.resumeProjection(data, id, now, refreshed);
+  assert.equal(noteOf(shown), expectedNote(refreshed[id], now));
+  assert.match(noteOf(shown), new RegExp(`as of ${refreshedAt}`));
+  assert.equal(ownerRow(shown).text, expectedOwner(refreshed[id]).text);
 });
 
 test('the atlas resume section passes the published node-status view into resumeProjection', async () => {
