@@ -1,5 +1,6 @@
 """Offline publication-anchor controls with an immutable Git object API fixture."""
 import copy
+import base64
 import hashlib
 import importlib.util
 import io
@@ -364,18 +365,33 @@ class PublicationTests(unittest.TestCase):
             self.prepare(second, reader=PublicReader({}), attempts=1)
         self.assertEqual(self.api.head, first["head"])
 
-    def test_public_anchor_pins_real_history_closure_on_a_fresh_runner(self):
+    def real_publication(self, *, predecessor=False):
         site = ROOT / "docs/site"
-        manifest = json.loads((site / "snapshots/index.json").read_bytes())
         files = {path: (site / path).read_bytes() for path in self.module.PATHS.values()}
+        frozen = {}
+        if predecessor:
+            fixture = json.loads((ROOT / "tests/fixtures/current_site_publication/pre_r1_resume.json").read_bytes())
+            self.assertEqual(fixture["source_commit"], "f946932c1ee19859d8778b0a7af359211e472d73")
+            self.assertEqual(set(fixture["files"]), {"current-meta.json", "snapshots/index.json", "nodes/math.lifetime-remainder.html"})
+            for path, row in fixture["files"].items():
+                raw = base64.b64decode(row["base64"], validate=True)
+                self.assertEqual(len(raw), row["bytes"])
+                self.assertEqual(hashlib.sha256(raw).hexdigest(), row["sha256"])
+                frozen[path] = raw
+            files.update(frozen)
+        manifest = json.loads(files["snapshots/index.json"])
         for entry in manifest["archives"]:
             files[entry["bundle"]["path"]] = (site / entry["bundle"]["path"]).read_bytes()
         for row in manifest.get("current_observation", {}).get("files", []):
-            files[row["path"]] = (site / row["path"]).read_bytes()
+            files[row["path"]] = frozen.get(row["path"], (site / row["path"]).read_bytes())
         candidate = copy.deepcopy(self.candidate)
         candidate["snapshot_ids"] = sorted(entry["id"] for entry in manifest["archives"])
         for field, path in self.module.PATHS.items():
             candidate[field] = {"bytes": len(files[path]), "sha256": hashlib.sha256(files[path]).hexdigest()}
+        return manifest, files, candidate
+
+    def test_public_anchor_pins_real_history_closure_on_a_fresh_runner(self):
+        manifest, files, candidate = self.real_publication()
         self.prepare(candidate)
         reader = PublicReader(files)
         with tempfile.TemporaryDirectory() as tmp:
@@ -385,6 +401,58 @@ class PublicationTests(unittest.TestCase):
             self.assertEqual(result["snapshots"], len(candidate["snapshot_ids"]))
             ledger = json.loads((target / ".current-site-restored-history.json").read_bytes())
             self.assertEqual(ledger["manifest_sha256"], candidate["manifest"]["sha256"])
+
+    def test_retained_resume_table_restores_exact_bytes_without_changing_current_default(self):
+        import current_site_history as history
+        manifest, files, candidate = self.real_publication(predecessor=True)
+        self.prepare(candidate)
+        reader = PublicReader(files)
+        lifetime = "nodes/math.lifetime-remainder.html"
+        closeout = b"https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6351719961"
+        data = json.loads(files["current.json"])
+        meta = json.loads(files["current-meta.json"])
+        current = history.render_live_current_v2(data, meta)[lifetime]
+        self.assertIn(closeout, current)
+        self.assertNotIn(closeout, files[lifetime])
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "fresh"; target.mkdir()
+            self.module.restore_publication(target, api=self.api, reader=reader, history_reader=reader, attempts=1)
+            for row in manifest["current_observation"]["files"]:
+                self.assertEqual(history.descriptor(row["path"], (target / row["path"]).read_bytes()), row)
+            self.assertEqual(history.canonical_bytes(lifetime, (target / lifetime).read_bytes()),
+                             history.canonical_bytes(lifetime, files[lifetime]))
+            self.assertNotIn(closeout, (target / lifetime).read_bytes())
+        self.assertEqual(history.render_live_current_v2(data, meta)[lifetime], current)
+
+    def test_unknown_resume_presentation_is_not_admitted_by_a_self_consistent_receipt(self):
+        import current_site_history as history
+        manifest, files, candidate = self.real_publication(predecessor=True)
+        lifetime = "nodes/math.lifetime-remainder.html"
+        unknown = files[lifetime] + b"\n<!-- unrecognized presentation -->\n"
+        changed = history.descriptor(lifetime, unknown)
+        for row in manifest["current_observation"]["files"]:
+            if row["path"] == lifetime:
+                row.update(changed)
+        for row in manifest["aliases"]:
+            if row["path"] == lifetime:
+                row.update(changed)
+        total = history.history_size(manifest["archives"], manifest["aliases"], manifest["current_observation"])
+        manifest["total_bytes"] = total
+        manifest["capacity"] = history.capacity_record(manifest["archives"], total)
+        files[lifetime] = unknown
+        files["snapshots/index.json"] = encoded(manifest)
+        meta = json.loads(files["current-meta.json"])
+        meta["history_manifest_sha256"] = hashlib.sha256(files["snapshots/index.json"]).hexdigest()
+        files["current-meta.json"] = encoded(meta)
+        for field, path in self.module.PATHS.items():
+            candidate[field] = {"bytes": len(files[path]), "sha256": hashlib.sha256(files[path]).hexdigest()}
+        self.prepare(candidate)
+        reader = PublicReader(files)
+        with tempfile.TemporaryDirectory() as tmp:
+            target = Path(tmp) / "fresh"; target.mkdir()
+            with self.assertRaisesRegex(ValueError, "live static reading does not match the exact observation"):
+                self.module.restore_publication(target, api=self.api, reader=reader, history_reader=reader, attempts=1)
+            self.assertEqual(list(target.iterdir()), [])
 
 
 if __name__ == "__main__":
