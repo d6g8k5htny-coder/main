@@ -183,6 +183,22 @@ class BoardLinks(unittest.TestCase):
         r["board-new"]["owner"] = {"id": "agent-old", "released_url": REVIEW}
         self.assert_rejected(r, "no PICKUP")
 
+    def test_owner_extra_key_fails(self):
+        r = self.records()
+        r["board-new"]["owner"] = {
+            "id": "agent-x", "evidence_url": PICKUP, "note": "extra",
+        }
+        self.assert_rejected(r, "only id, evidence_url, and released_url")
+
+    def test_allowed_owner_keys_pass(self):
+        for owner in (
+            {"id": "agent-x", "evidence_url": PICKUP},
+            {"id": "agent-old", "evidence_url": PICKUP, "released_url": REVIEW},
+        ):
+            r = self.records()
+            r["board-new"]["owner"] = owner
+            self.assertEqual(self.run_check(r), [], owner)
+
     def test_released_owner_with_evidence_passes(self):
         r = self.records()
         r["board-new"]["owner"] = {

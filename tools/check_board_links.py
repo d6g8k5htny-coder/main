@@ -20,8 +20,9 @@ Checks (each failure is reported; the exit status is 1 if any):
   2. ownership: a non-null owner needs an id and an evidence_url matching
      COMMENT_URL (the PICKUP or assignment). An owner with released_url is not
      a current owner, and still needs that id and evidence_url; released_url
-     itself must match COMMENT_URL. Ownership is never inferred, and moving a
-     board does not move it;
+     itself must match COMMENT_URL. Owner keys are closed to id, evidence_url,
+     and released_url. Ownership is never inferred, and moving a board does
+     not move it;
   3. carry-forward: carried_forward must be a list of objects with unique ids
      and a source_url. Every predecessor item that is open must appear, by id,
      in the successor's carried_forward, either still open or resolved with a
@@ -110,6 +111,9 @@ def check_ownership(records):
         if not isinstance(owner, dict):
             errors.append(f"{node}: owner without an id")
             continue
+        extra = sorted(set(owner) - {"id", "evidence_url", "released_url"})
+        if extra:
+            errors.append(f"{node}: owner allows only id, evidence_url, and released_url")
         evidence = owner.get("evidence_url")
         if "evidence_url" not in owner or not isinstance(evidence, str) or evidence == "":
             errors.append(f"{node}: owner {owner.get('id')!r} has no PICKUP/assignment comment url")

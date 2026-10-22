@@ -34,13 +34,13 @@ with three optional handoff fields: `predecessor` and `successor`, each
 Those three shapes are unchanged. `source_url`, `resolution_url`, owner
 `evidence_url`, and `released_url` share one comment-URL pattern:
 `https://github.com/d6g8k5htny-coder/(main|Math-)/(issues|pull)/[1-9]\d*#(issuecomment-[1-9]\d*|pullrequestreview-[1-9]\d*)`.
-An owner with `released_url` is not a current owner. It still needs a non-empty id and an `evidence_url` matching that pattern, and `released_url` must match it too.
+An owner with `released_url` is not a current owner. It still needs a non-empty id and an `evidence_url` matching that pattern, and `released_url` must match it too. Owner keys are only `id`, `evidence_url`, and `released_url`.
 
 `python -B -S tools/check_board_links.py records/node_status` reads the records
 and fails, with exit status 1, when:
 
 - a predecessor or successor link is not reciprocated, points to a missing record, or its `url` is not an http(s) URL;
-- an owner lacks an id or a comment URL as its evidence, or a `released_url` does not match that pattern;
+- an owner lacks an id or a comment URL as its evidence, has a key other than `id`, `evidence_url`, and `released_url`, or a `released_url` does not match that pattern;
 - `carried_forward` is not a list, an entry is not an object, an id is duplicated, or a `source_url` or resolution URL does not match that pattern;
 - an open predecessor item is missing from the successor's `carried_forward`, or an
   item is marked resolved without a resolution URL.
