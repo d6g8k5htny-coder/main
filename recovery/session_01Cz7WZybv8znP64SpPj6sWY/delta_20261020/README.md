@@ -1,4 +1,4 @@
-# Recovery delta, 18–21 October 2026: session 01Cz, recovery rows §12, §5 and §18, the main#446 consumer note, the main#460 reviews and composition read, and the 21 October units
+# Recovery delta, 18–22 October 2026: session 01Cz, recovery rows §12, §5 and §18, the main#446 consumer note, the main#460 reviews and composition read, and the 21–22 October units
 
 Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`. This is a retention copy for the owner's recovery request, [main#307 / 6136156988](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6136156988).
 - It continues the 17–18 October delta, `recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/` (branch `claude/recovery-01cz-delta-20261018`, draft main#444), and does not repeat it.
@@ -31,7 +31,8 @@ Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`. This is a retentio
 | `rvdq023_locators/` | the RV-DQ-023 preflight locators for LS-DER-021, item 2 of 419/6250496071, in the locator-only role of 419/6320832078 | main#475: post 6327850237 | delivered; dot recorded it complete (475/6328045583); the native binding and the third-family preflight stay open |
 | `m481_pickup_release/` | `M481-FINAL-INTEGRATION-01CZ-20261021`: the main#481 final-integration pickup, released without a merge after this session's permission control refused a pre-merge read | main#481: pickup 6327996637, release 6328022731, diagnostic 6328105706; main#475: 6328001560, 6328029033, 6328123320 | no mutation; main#481 later merged by another lane as `b7f72a71` |
 | `crawl_20261021/` | the read-only crawl of six repositories as of 22:18Z on 21 October: 99 open PRs and issues, all in main, Math-, meta-framework and query- (governance- and Universal-Law-Workspace had none open) | — | as-of ledger; not a register or an assignment |
-| `workflows/` | the scripts of the §12 comparison run, the four-lens check of that result post and its re-check, the §5 lens run, the §2(b) summoner check and its pre-post check, the §18 lens run and its two pre-post checks, the consumer-note verification run and its pre-post check, the two main#460 review runs, the main#460 composition-read run and its pre-post check, the RV-DQ-023 locator run, the crawl run, and the C2 record's pre-post check | — | method record |
+| `cov_exact_engines_20261022/` | `COV-EXACT-UNASSESSED-ENGINES-01CZ-20261022`: locators and a static trace of the engines that the `cov_exact.py` defect disposition (main#447 comment 6329640342) lists as not assessed, classified under the #447 author's rule | main#475: pickup 6329729396, record and release 6330437266, run-setup note to 01Fi 6330494323 | delivered and released; data only |
+| `workflows/` | the scripts of the §12 comparison run, the four-lens check of that result post and its re-check, the §5 lens run, the §2(b) summoner check and its pre-post check, the §18 lens run and its two pre-post checks, the consumer-note verification run and its pre-post check, the two main#460 review runs, the main#460 composition-read run and its pre-post check, the RV-DQ-023 locator run, the crawl run, the C2 record's pre-post check, and the cov_exact record's three-lens run and `lambda_q` refutation panel | — | method record |
 
 ## Reproducing
 
@@ -95,7 +96,20 @@ Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`. This is a retentio
 - **crawl_20261021.**
   - `ledger.md` is the synthesis, and `items.json` holds the 99 per-item records, as of 22:18Z on 21 October. Both are snapshots: re-read GitHub before acting on any line.
   - Model and product labels in them, and in the crawl workflow script, are redacted and marked `hand_edited`.
-- **Posted texts** in the 21 October units are GitHub readbacks, apart from that one recorded redaction. Each file ends with one newline that the posted comment does not have.
+- **cov_exact_engines_20261022.**
+  - `record.md`, `pickup.md` and `note_01fi.md` are the texts as sent. The `*_posted.txt` files are GitHub readbacks. Each readback has one more blank line before the footer than the sent text, and is otherwise identical.
+  - `own/scan.py <root> <out.json>` is the static scanner. It reads every `.py` file under `<root>` as text, and parses with `ast` (never importing or running) only those whose text names `cov_exact` or `f08c1c5f`.
+  - `own/scan_reduced.json` is its output with the quoted source text dropped: the `text` fields and the quoted halves of `load_lines` and `lattice_attr` are removed, and `lattice_attr` is renamed `lattice_attr_lines`.
+  - `own/lamq_check.py` and `own/lamq_check2.py` are this session's own re-implementations of one lattice sum (lattice at 40 digits, and at 100 digits summed at 40). Their outputs are beside them.
+  - `prepost_verifier_report.md` is the fresh-context checker's report on an earlier draft. `lens_results.json` and `lamq_refutation_results.json` hold the lens, skeptic and refutation results. Their confirmed corrections are in the posted record. They quote single source lines as evidence; no engine file or block is reproduced.
+  - The local items named in the record's last Limits bullet are retained here, apart from the sources.
+  - Not included, and listed in `SOURCES.json`:
+    - the extracted archive sources and the two archives (DG-MIGRATION object `a2136bc0`, and git blob `c4065c67`);
+    - 01Fi's note and the contender-check scan, which are other lanes' text;
+    - the full scan with quoted source lines;
+    - the agents' scratch, transcripts and journals;
+    - own working lists.
+- **Posted texts** in the 21 October units, and the `*_posted.txt` files of `cov_exact_engines_20261022/`, are GitHub readbacks, apart from that one recorded redaction. Each such file ends with one newline that the posted comment does not have.
 
 ## Caveats
 

@@ -1,0 +1,139 @@
+{
+ "workflow_run": "wf_e4d31278-8ae",
+ "note": "three skeptics (code path, mathematics, records) trying to refute the lambda_q claim; none refuted it, and the records skeptic found the prior H5-REPAIR-002 record, which the posted record cites; agent scratch not included",
+ "results": [
+  {
+   "agent": "aa5a41ce2a4798922",
+   "label": "refute:math",
+   "result": {
+    "refuted": false,
+    "parts": [
+     {
+      "part": "lambda_q (h5_kernel.py:75-82) sums signed w(k)*k^q over the symmetric lattice |j|<=116 and calls the result a certified upper bound on sup|K1^(q)|",
+      "holds": "holds",
+      "evidence": "h5_kernel.py:57-59 builds ks=[j*h for j in -J..J] with J=int(ceil(30/(pi/12)))+1=116. ws=exp(-k^2/2). L79 tot=sum(wj*(kj**q)), with no abs(). L80 lam=tot/Z1.a+tail(q). The docstring at L76 reads 'Certified upper bound on sup_s |K1^{(q)}(s)| = (1/Z) sum w k^q'. My script found that the ks intervals are exact negatives of each other and the ws intervals are identical in pairs (sym_k=True, sym_w=True). So for odd q the signed sum is exactly 0 in exact arithmetic, and only rounding width is left."
+     },
+     {
+      "part": "Mathematics: is there any reading under which the signed odd-q sum is a valid upper bound?",
+      "holds": "holds",
+      "evidence": "No reading works. For odd q, K1^(q)(s)=±(1/Z)Σw k^q sin(ks). cov_exact.py:25 and :28 (archive member H2_foundations/cov_exact.py) say these are 'NONZERO SINE SUMS at s != 0'. The equality sup|K1^(q)|=(1/Z)Σw k^q holds only for even q: every term is then positive and the sup is reached at s=0. My script reproduces the even values exactly (15, 105, 945, 10395). A local per-box reading also fails. A box centred at t=0 with eta=0.0015 contains s=eta, where |K1^(7)(eta)|>=0.1575 (rigorous interval), compared with lambda_7.b=3.6e-39."
+     },
+     {
+      "part": "tm_factor (L531-539) uses the Lagrange remainder in the right form, so lambda_q(n+TD+1) is exactly the quantity that must be an upper bound",
+      "holds": "holds",
+      "evidence": "L535-537 sets the coefficients K1^(n+m)(t)/m! for m=0..TD. That is the degree-TD Taylor polynomial of K1^(n)(t+u). The exact remainder is K1^(n+TD+1)(xi)*u^(TD+1)/(TD+1)! with |u|<=eta. Bounding it needs sup|K1^(n+TD+1)| over the box, which the global sup also covers. L538 puts LAT.lambda_q(n+TD+1) in exactly that slot. The form is correct and the input to it is wrong. A valid input is (1/Z)Σw|k|^q + tail."
+     },
+     {
+      "part": "Independent numbers at 40 digits: signed sum about 1e-38 for odd q, absolute sum 38.3 for q=7",
+      "holds": "holds",
+      "evidence": "My own script built the lattice at dps=100, which is what cov_exact sets at import (cov_exact.py:84, :531, before h5_kernel.py:112 LAT=Lattice()), and then switched to dps=40 (h5_run.py:25-26). Signed [lo,hi] / absolute: q=5 [-4.5e-40, 4.4e-40] / 6.383. q=7 [-3.46e-39, 3.57e-39] / 38.298. q=9 [-3.14e-38, 3.03e-38] / 306.39. q=11 [-2.88e-37, 2.92e-37] / 3063.9. q=13 [-4.48e-36, 4.51e-36] / 36766.5. The tail term is of order 1e-200. 'About 1e-38' is right in order of magnitude: 3.6e-39 at q=7 and 3.0e-38 at q=9."
+     },
+     {
+      "part": "The true sup exceeds the computed lambda_q (rigorous lower bound)",
+      "holds": "holds",
+      "evidence": "An interval enclosure of the truncated sine sum, widened by the certified tail, on the grid s in [0,4] with step 0.005 gives these maxima. q=7: K1^(7)(0.54) in [35.5388, 35.5388], so the sup is at least 35.54, about 1e40 times lambda_7.b=3.57e-39. q=9: |K1^(9)(0.485)| >= 288.49, against 3.03e-38. q=11: |K1^(11)(0.445)| >= 2913.4, against 2.92e-37. The image-sum leading term He_q(s)e^{-s^2/2} agrees to 10 digits."
+     },
+     {
+      "part": "Parity: q is odd for odd n when TD=5 (StationBox) and for even n when TD=6 (CoarseBox), and those factors actually occur",
+      "holds": "holds",
+      "evidence": "StationBox calls _set_eta(...,td=5) at L559 and CoarseBox calls _set_eta(...,td=6) at L1328. coarse_fine_hi calls _set_TD(6) at L1615. CoarseBox L1342-1353 calls cross_tm with ja=xjet(i) in {f,fx,fy,...} and pk in JETS_MS. ja='f' with pk='f' gives tm_factor(0,...) at TD=6, so q=7. Even n in {0,2,4} gives q in {7,9,11}. In StationBox, ja='fx' with pk='f' gives n=1 at TD=5, so q=7."
+     },
+     {
+      "part": "The remainder enters the certified enclosures, and h5_run's certified cover uses CoarseBox",
+      "holds": "holds",
+      "evidence": "TM.eval_box adds [-R.b, R.b] (L232-243). eval_box_sub adds R as well (around L311). TM.__mul__ carries R=drop+B1*o.R+B2*self.R+R*R (L342), so an underestimated factor R stays underestimated in the products. h5_run.py:105 (ctx.coarse) builds hk.CoarseBox and :216 calls coarse_fine_hi. The local copies of h5_kernel.py and h5_run.py match the archive members byte for byte (sha256 b2e6014c..., 19504b97...)."
+     },
+     {
+      "part": "The factor remainder is underestimated by many orders of magnitude",
+      "holds": "holds",
+      "evidence": "At eta=0.0015 (the falsify.py:56 box size), R from the code against the valid R from the absolute sum: TD=6 n=0 q=7: 1.2e-62 vs 1.3e-22. TD=6 n=2: 1.0e-61 vs 1.0e-21. TD=6 n=4: 9.9e-61 vs 1.0e-20. TD=5 n=1: 5.6e-59 vs 6.1e-19. TD=5 n=3: 4.8e-58 vs 4.8e-18. That is about 40 orders of magnitude. The claim makes no statement about printed outputs, and I did not assess them."
+     }
+    ],
+    "corrected_wording": "The claim stands as written. Two small sharpenings: (1) The computed odd-q lambda_q at 40 digits is about 3.6e-39 for q=7, 3.0e-38 for q=9 and 2.9e-37 for q=11 (the lattice is built at 100 digits by cov_exact's import-time configure and summed at h5_run's 40 digits). (2) The true sup|K1^(7)| lies between 35.54 (rigorous lower bound at s=0.54) and 38.30 (the absolute sum), so 'of order Σw|k|^q/Z' is accurate. For even q, lambda_q is a valid and tight bound. The Lagrange remainder form in tm_factor is correct. The defect is only that L79 uses w*k^q where it should use w*|k|^q. At eta=0.0015 the factor remainder comes out about 1e-62 to 1e-58 where a valid bound would be about 1e-22 to 1e-18.",
+    "notes": "The mathematics lens cannot refute the claim. The k -> -k symmetry makes the odd-q signed sum exactly 0, while K1^(q) for odd q is a nonzero sine sum (cov_exact.py:25,28). So no global or per-box reading makes lambda_q a valid bound for odd q. The Taylor polynomial at h5_kernel.py:535-537 is the standard degree-TD expansion, so the Lagrange remainder needs exactly sup|K1^(n+TD+1)|, which is the role L538 gives to lambda_q. My script is <SCRATCH>/covtrace/lens_notes/lamq/mathematics/lamq_check.py and its output is <SCRATCH>/covtrace/lens_notes/lamq/mathematics/lamq_check.out. The script imports nothing from the archive and I executed nothing from the archive or the extracted tree. The repo clone has no lambda_q (git grep on origin/main b7f72a71 finds nothing). Not assessed: whether the roughly 1e-22 of missing remainder changes any printed certified bound. It is probably negligible next to the other terms, but it is still a gap in the rigour of the certified path."
+   }
+  },
+  {
+   "agent": "a139c4eed9c4c5e96",
+   "label": "refute:codepath",
+   "result": {
+    "refuted": false,
+    "parts": [
+     {
+      "part": "lambda_q (h5_kernel.py L75-82) sums signed w*k^q over the symmetric lattice, so for odd q it cancels to rounding level, not a sup bound",
+      "holds": "holds",
+      "evidence": "L80: tot = sum(wj*(kj**q)) with no abs(). L56-58: ks = j*h for j in -J..J, h = iv.pi/12, J = 116 (my recomputation printed J = 116). The docstring at L76 says 'Certified upper bound on sup_s |K1^{(q)}(s)|'. I rebuilt the same formula myself (lattice at dps 100, the cov_exact import default per cov_exact.py L71-72 and configure(); lambda at dps 40 per h5_run.py L25-26). Results: lambda_5 in [-4.5e-40, 4.4e-40], lambda_7 in [-3.46e-39, 3.57e-39], lambda_9 in [-3.1e-38, 3.0e-38], lambda_11 in [-2.9e-37, 2.9e-37]. Even q comes out exact and valid: 15, 105, 945, 10395. Script: <SCRATCH>/covtrace/lens_notes/lamq/codepath/lamq_check.py"
+     },
+     {
+      "part": "sup_s |K1^{(q)}(s)| is of order sum w|k|^q / Z (38.3 for q = 7)",
+      "holds": "holds",
+      "evidence": "Computed: sum w|k|^7/Z = 38.298, and the grid sup over s in [0,12] of |K1^{(7)}| = 35.54. For q = 9: 306.4 and 288.5. For q = 11: 3064 and 2913. The 38.3 figure is the |k|-sum bound; the actual sup is 35.5, the same order."
+     },
+     {
+      "part": "tm_factor (L531-539) sets R = lambda_q(n+TD+1)*eta^(TD+1)/(TD+1)!, and eval_box encloses with [-R.b, R.b]",
+      "holds": "holds",
+      "evidence": "L538: t.R = LAT.lambda_q(n + TD + 1)*(eta**(TD+1))/FAC[TD+1]. q passes straight through with no abs() or even-rounding. eval_box L232-243 returns outer + iv.mpf([-self.R.b, self.R.b]). eval_mv L269 and eval_box_sub L312 do the same. coarse_fine_hi adds R.b at L1631, L1634, L1643 and L1649."
+     },
+     {
+      "part": "StationBox TD = 5 and CoarseBox TD = 6 when tm_factor runs; q is odd for odd n (TD 5) or even n (TD 6)",
+      "holds": "holds",
+      "evidence": "StationBox: _set_eta(eta1, eta2, td=5) at L559 runs before KernelSeries (L563) and cross_tm (L585, L607). CoarseBox: _set_eta(..., td=6) at L1328 runs before KernelSeries (L1333) and cross_tm (L1355, L1373). TD is the module global read at call time (L535-538). Only _set_TD (L140-145) writes TD, and it is called only from _set_eta (L154) and coarse_fine_hi (L1615, also 6). No archive script assigns hk.TD."
+     },
+     {
+      "part": "Odd-q factors actually reach tm_factor on these paths",
+      "holds": "holds",
+      "evidence": "In the Grr cross block (L601-608 and L1367-1374, which do not depend on T), ja comes from xjet(i) for i in (0,1,2,9,10,11) and jb from JETS_H. For example, f x fxx gives tm_factor(2, arg1, 0) and tm_factor(0, 'dyv', 1). Under TD 6 that is q = 9 and q = 7, both odd. Under TD 5, pairs such as f x fxy (1,1) give q = 7 on both axes. The C rows (L1342-1356 and L572-586) add pairs such as f x f (0,0), which gives q = 7 under TD 6. Per-axis n spans 0..4."
+     },
+     {
+      "part": "No other caller, cache prefill, or later re-bound or validation rescues the remainder",
+      "holds": "holds",
+      "evidence": "lambda_q is called only at L538. _lam_cache starts empty (L61) and is written only at L81. I grepped every non-99_DO_NOT_OPEN .py/.md/.txt/.json member of a2136bc0.zip and found no other lambda_q, _lam_cache or tm_factor use and no monkeypatching. All four h5_kernel.py copies in the zip hash to b2e6014c... git grep at b7f72a71 finds nothing. self_test (L95-104) checks only k1, never lambda_q. TM.__mul__ (L314-343) bounds only the dropped product degrees; it does not bound the factor's own Taylor truncation. The coefficient beyond n+TD that KernelSeries computes (NMAX, L525) is never used. falsify.py L56-60 only envelope-checks one box (1e-6 < hi < 1e-4)."
+     },
+     {
+      "part": "h5_run.py's certified cover uses CoarseBox and depends on these TMs, so R is underestimated by many orders of magnitude on the certified path",
+      "holds": "holds",
+      "evidence": "h5_run.py L104-106 (ctx.coarse calls hk.CoarseBox). L194-216 (bound_box_fine calls CoarseBox, then hk.coarse_fine_hi). R1/cells2/rimprobes go through this path at L341, L392 and L422-459. The h5_run_r*.py drivers do the same at L129 and L240. The TMs feed in as follows: detgg_t (L1393), qnum_t (L1399), S2NUM (L1415) and mu2NUM (L1426) are built from C/Grr cross_tm factors, and coarse_fine_hi evaluates them at L1630-1650. Code-computed vs valid R at eta = 0.0015, TD 6: n=0 gives 1.2e-62 vs 1.2e-22, n=2 gives 1.0e-61 vs 9.8e-22, n=4 gives 9.9e-61 vs 9.9e-21. That is a ratio of about 1e40. Even n under TD 5 and odd n under TD 6 give ratio 1. StationBox (patches, eta 1e-4, TD 5) shows the same 1e40 ratio for n = 1 and 3."
+     }
+    ],
+    "corrected_wording": "The claim holds as written, with one magnitude detail made precise. In h5_kernel.py, Lattice.lambda_q (L75-82) adds up the signed terms w*k^q over the symmetric lattice (J = 116). For odd q this cancels to rounding level: at 40 digits, lambda_7 is about ±3.5e-39, lambda_9 about ±3e-38 and lambda_11 about ±3e-37. The true sup|K1^{(q)}| is 35.5, 288 and 2913 (|k|-sum bounds 38.3, 306 and 3064). tm_factor (L538) uses this value as the Taylor remainder, and no caller, cache, abs() or later check corrects it. The factor's remainder is therefore about 1e40 times too small whenever q = n+TD+1 is odd: odd n in StationBox (TD 5, L559) and even n in CoarseBox (TD 6, L1328). Such factors do occur: the Grr cross block produces f x fxx, which gives q = 9 and q = 7 under TD 6. They feed detgg_t, qnum_t, S2NUM and mu2NUM, which coarse_fine_hi evaluates on the certified cover in h5_run.py (L194-216) and the h5_run_r*.py drivers. In absolute terms the missing remainder is small: about 1e-22 to 1e-20 per factor at eta = 0.0015. This lens does not say whether any printed number moves.",
+    "notes": "I did not run anything from the archive. The numbers come from my own reimplementation of the L53-82 formulas: <SCRATCH>/covtrace/lens_notes/lamq/codepath/lamq_check.py (venv python3 -I -B).\n\nOn the \"about 1e-38\" figure: LAT is built when h5_kernel is imported (L112). The cov_exact import sets dps to 100 before that (cov_exact.py L71-72 and configure()), and h5_run sets dps to 40 afterwards (L25-26). So the lattice intervals are narrow, and the cancellation residue is set by the 40-digit arithmetic inside lambda_q: 3.5e-39 for q = 7, rising to 3e-37 for q = 11. If the lattice were built at 53 bits, the residue would be about 1e-13 instead, which still leaves the bound off by many orders of magnitude.\n\nOut of scope for this lens: the absolute omitted error is tiny, about 1e-22 per factor at eta = 0.0015 and TD 6. In practice, the interval Horner overestimation on each sub-box in eval_box_sub and coarse_fine_hi may swamp it. That would not restore rigor, and whether any printed bound changes is UNKNOWN here. The claim itself makes no such statement.\n\nStationBox (TD 5) is used only in the 'patches' lower-bound part (h5_run.py L470-500) and GBounds. The same defect hits odd-n factors there."
+   }
+  },
+  {
+   "agent": "ac46486eb7260e216",
+   "label": "refute:records",
+   "result": {
+    "refuted": false,
+    "parts": [
+     {
+      "part": "Kernel b2e6014c is the version pinned for the H5 certified results",
+      "holds": "holds",
+      "evidence": "Archive: K3_SIDE24_LB/UPPER2D/H5_closure/H5_RECEIPTS.txt:4-5 ('Code freeze ... b2e6014c... h5_kernel.py') and CODE_HASHES.txt:1. All four archive copies hash to b2e6014c (H5_closure/, STAGE_E/h5snap/, STAGE_E/mut_D1/H5_closure/, STAGE_E/mut_H5/; I hashed each with unzip -p | sha256sum). origin/main b7f72a71: incoming/claude-audit-package-recovery-20260928/05_ANTHROPIC_AUDIT_STATE_REGEN_2026-09-15/CL-PIN-001_H5_DRIVER_CODE_PINS_2026-09-15.txt:9 pins b2e6014c. Its L6-7 caveat says these pins are custody-only snapshot bytes. It is also pinned in incoming/claude-bundle-v3-native-copies-20260928/K3_SIDE24_LB/RETURN_06/SOURCE_CAPSULE.sha256.txt:169 and TREE_MANIFEST.sha256.txt:491."
+     },
+     {
+      "part": "No later or different h5_kernel in the archive or on main fixes lambda_q",
+      "holds": "holds",
+      "evidence": "In the archive, only the four identical b2e6014c copies define lambda_q: a scan of every non-99_DO_NOT_OPEN member for 'lambda_q|lam_cache' hit only those copies and their .pyc files. The origin/main tree has no h5_kernel.py and no lambda_q. Two unadopted author-side repair candidates exist off main. (1) effa5994... changes only wj*(kj**q) to wj*(abs(kj)**q): drive/mirrors/2026-09-16 — HOLD_NOT_FOR_SUBMISSION/MATH-20260917-b9c2_H5_LAMBDA_REPAIR.md:7-16. (2) 60c63257... adds abs plus a normalizer-tail fix: CLOSE-20260917-b9c2_H5_IMPACT_AND_REPAIR.md:21,39,53-66. Both are at commit 7caac254 and on branches such as origin/agent3/jetmod-rnunif-status-open-hold. origin/main only indexes them, in docs/public-math/sources-12.md:15,47 and sources-12.json:52,308. Both records say the frozen source is unchanged and no totals are re-blessed (LAMBDA_REPAIR L70-73; IMPACT L15,72)."
+     },
+     {
+      "part": "The certified path runs CoarseBox (TD=6) and StationBox (TD=5)",
+      "holds": "holds",
+      "evidence": "The transcripts do not print class names or TD. They show 'R1 th.._dl..' cell lines and 'patch th=..' lines, e.g. h5_transcript_r0.05_s0p2_cells.txt and h5_transcript_r0.05_s0p1_patches.txt. Driver call sites: h5_run.py:7,105,194-215 send R1 cells to hk.CoarseBox, and h5_run.py:470-486 sends patches to hk.StationBox. Box TD settings: h5_kernel.py:1328 (CoarseBox, td=6) and :559 (StationBox, td=5). Records: H5_CLOSURE.md:34 ('R1 ... CoarseBox TM chain (TD=6)'), :39 (lower patches use 'Grade-A StationBox'), :124 ('TD = 6 coarse / TD = 5 fine-chart'). Caveat: the driver bytes pinned in the receipts are not in the archive. H5_RECEIPTS.txt:6 pins h5_run.py 10546c2c, and CODE_HASHES lists 38813a02, df885b3d and 6f748837, but no archive member has any of these hashes. The archived h5_run.py is 19504b97, which matches CL-PIN-001:10 (custody only). The record text at H5_CLOSURE.md:34 still ties R1 to CoarseBox."
+     },
+     {
+      "part": "An existing record already notes the lambda_q defect",
+      "holds": "holds",
+      "evidence": "MATH-20260917-b9c2_H5_ANALYTIC_ADVANCE.md:163-171 states that odd q cancels and gives q=1 and q=7 witnesses. MATH-20260917-b9c2_H5_LAMBDA_REPAIR.md:42-53 shows the actual tm_factor at n=1, TD=5 claims radius 1.69e-119 against a true Taylor error of 7.28e-21 (at 100 digits). CLOSE-20260917-b9c2_H5_IMPACT_AND_REPAIR.md:29-33 traces the chain lambda_q -> tm_factor -> cross_tm -> CoarseBox/StationBox -> h5_run -> h5_merge/h5_promote. Its L41-49 shows the CoarseBox TD=6 factors at q=n+7 for n=0,2,4 have enclosures disjoint from the true values, at both 40 and 100 digits. Its L15 says the affected numbers have not all been shown false. Neither the archive nor the origin/main tree holds such a note. The archive predates these records, and the only 'odd q' hit on main is an unrelated LPW excerpt that correctly uses |k1|^q: audits/dropbox_import/2026-09-27/.../lpw_constant.py.numbered.txt:204."
+     },
+     {
+      "part": "Mathematical core: the signed sum cancels to about 1e-38 at 40 digits, versus about 38.3 for q=7",
+      "holds": "holds",
+      "evidence": "Code: h5_kernel.py:57-59 builds the symmetric lattice (J=116), :79 sums wj*(kj**q), :538 sets R = lambda_q(n+TD+1)*eta^(TD+1)/(TD+1)!, and :243 / :312 add [-R.b, R.b] in eval_box and eval_box_sub. My own re-implementation (lens_notes/lamq/records/lamq_check.py, run with venv -I -B, no archive code imported) gives signed upper bounds of 1.97e-38 (q=7), 1.97e-37 (q=9) and 2.25e-36 (q=11). The absolute sums are 38.30, 306.4 and 3063.9, and the grid sup of |K1^(7)| on [0,24] is about 35.5. The run precision is 40 digits for lambda_q: importing cov_exact sets dps to 100 (cov_exact.py:71-72), so LAT is built at h5_kernel.py:112 at 100 digits, but h5_run.py:25-26 then sets dps=40, and lambda_q is computed lazily per box."
+     }
+    ],
+    "corrected_wording": "The claim stands. One wording precision: CoarseBox encloses its TMs with TM.eval_box_sub (h5_kernel.py:294-312), which adds the same [-R.b, R.b] at L312 as eval_box does at L243. The finding is also not new. The 2026-09-17 records MATH-20260917-b9c2_H5_ANALYTIC_ADVANCE.md, MATH-20260917-b9c2_H5_LAMBDA_REPAIR.md and CLOSE-20260917-b9c2_H5_IMPACT_AND_REPAIR.md (at commit 7caac254, indexed from origin/main docs/public-math/sources-12.md) already identify the odd-q cancellation in the pinned kernel b2e6014c and trace it through CoarseBox and StationBox. They also propose repaired kernels: effa5994 (abs only) and 60c63257 (abs plus normalizer tail). Neither repair has been adopted, pinned or replayed for the H5 totals, and the frozen b2e6014c remains the only kernel in the archive and the only one pinned (H5_RECEIPTS.txt:5, CODE_HASHES.txt:1, CL-PIN-001:9).",
+    "notes": "The records check does not refute the claim; it supports it. b2e6014c is the only h5_kernel version anywhere in the archive and is the one pinned by the H5 receipts and by CL-PIN-001 on main. No fixed version exists in the archive or in the origin/main tree. Records on other branches (2026-09-17, task b9c2) already document this exact defect and its CoarseBox (TD=6, q=n+7 for n=0,2,4) and StationBox consumers. They report that the old enclosures are disjoint from the true values at the driver's 40-digit precision, and they say no printed number has been shown false. Their reported old radius of about 1e-119 is from a 100-digit setup. At the run's 40 digits, my reproduction gives lambda_q(7) of about 2e-38, which matches the claim. Side finding: the h5_run.py bytes pinned in the r=0.05 receipts (10546c2c in H5_RECEIPTS.txt:6, and the CODE_HASHES entries) are not in the archive. The archived driver (19504b97) is pinned only as custody snapshot bytes. That the receipt-era runs used CoarseBox therefore rests on the H5_CLOSURE.md:34 text and the current driver, not on byte-identical pinned code. My only script is <SCRATCH>/covtrace/lens_notes/lamq/records/lamq_check.py. Nothing from the archive was executed and nothing was posted."
+   }
+  }
+ ]
+}
