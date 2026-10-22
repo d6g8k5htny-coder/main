@@ -74,7 +74,7 @@ jobs:
               'python_version': '.'.join(str(x) for x in sys.version_info[:3]),
               'node_version': version(['node', '--version']),
               'python_command_version': version(['python3', '--version']),
-              'candidate_base_commit': '918e292b3b8a6ab8111c397ec8ee478d10339f79',
+              'candidate_base_commit': 'f658845968bbf2f686946d47ceb44461d3d9024f',
               'candidate_source_guard': 'not_started', 'node_phase': 'not_started',
           }
           context_raw = (json.dumps(context, indent=2) + '\n').encode()
@@ -114,7 +114,7 @@ jobs:
                       or not re.fullmatch(r'[0-9a-f]{40}', context['pull_request_head_sha'] or '')
                       or context['pull_request_base_sha'] != context['candidate_base_commit']):
                   raise SystemExit('Unexpected candidate event head or base context')
-              required_candidate_freeze_sha256 = '066764c6d0ce89658c6746682d40f06dd2c9bdaaa187b2a99b31d66893acfe6f'
+              required_candidate_freeze_sha256 = '738edfed0377f07a34b4496363e268adb96a3b214d4a75b6114eb8f08f85938c'
               if not re.fullmatch(r'[0-9a-f]{64}', required_candidate_freeze_sha256):
                   raise SystemExit('Unbound candidate freeze; private template is not publishable')
               candidate_freeze_path = Path('tests/fixtures/current_site_transition_candidate_20261022/production-source-freeze.json')
