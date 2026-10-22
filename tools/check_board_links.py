@@ -66,11 +66,21 @@ def _carried_source_url(url):
     return isinstance(url, str) and CARRIED_SOURCE_URL.fullmatch(url) is not None
 
 
+def _unique_pairs(pairs):
+    """Reject duplicate object names before handoff checks, including nested ones."""
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError(f"duplicate JSON key: {key}")
+        result[key] = value
+    return result
+
+
 def load_records(directory):
     records, errors = {}, []
     for path in sorted(Path(directory).glob("*.json")):
         try:
-            rec = json.loads(path.read_text(encoding="utf-8"))
+            rec = json.loads(path.read_text(encoding="utf-8"), object_pairs_hook=_unique_pairs)
         except (OSError, ValueError) as exc:
             errors.append(f"{path.name}: unreadable JSON ({exc})")
             continue
