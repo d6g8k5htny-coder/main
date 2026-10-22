@@ -73,8 +73,9 @@ test('explicit task records are frozen operational pointers to public records',(
   assert.ok(Object.isFrozen(m.RESUME_TASK_RECORDS)&&Object.isFrozen(m.RESUME_OPERATIONAL));
   for(const [id,record] of Object.entries(m.RESUME_TASK_RECORDS)){assert.ok(Object.isFrozen(record));assert.match(id,/^[A-Za-z0-9][A-Za-z0-9_.-]*$/);
     assert.deepEqual(Object.keys(record),['url','label','meaning','identified_on','identified_in']);
-    for(const url of [record.url,record.identified_in])assert.match(url,/^https:\/\/github\.com\/d6g8k5htny-coder\/main\/(?:issues|pull)\/[1-9][0-9]*#issuecomment-[1-9][0-9]*$/);
-    assert.match(record.label,/^Operational request: /);assert.match(record.meaning,/operational pointer, not scientific acceptance/);assert.match(record.identified_on,/^\d{4}-\d{2}-\d{2}$/);}
+    assert.match(record.url,/^https:\/\/github\.com\/d6g8k5htny-coder\/(?:main|Math-)\/(?:issues|pull)\/[1-9][0-9]*#issuecomment-[1-9][0-9]*$/);
+    assert.match(record.identified_in,/^https:\/\/github\.com\/d6g8k5htny-coder\/main\/(?:issues|pull)\/[1-9][0-9]*#issuecomment-[1-9][0-9]*$/);
+    assert.match(record.label,/^Operational (?:request|continuation): /);assert.match(record.meaning,/operational pointer, not scientific acceptance/);assert.match(record.identified_on,/^\d{4}-\d{2}-\d{2}$/);}
   const view=m.resumeProjection(closed(),pin);view.continuation.url='x';assert.notEqual(m.RESUME_TASK_RECORDS[pin].url,'x');
 });
 test('static node pages render the identical projection for every real node and the fixtures',async()=>{

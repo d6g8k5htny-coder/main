@@ -91,7 +91,9 @@ function expectedOwner(record) {
 test('published node-status records are real graph nodes with a valid owner and no mathematical flags', async () => {
   const view = await records();
   const ids = Object.keys(view);
-  assert.ok(ids.length >= 2 && ids.length <= 3, ids.join(','));
+  for (const seed of ['eng.d0-packet-allowlist-fix', 'eng.hard-gate', 'math.side24-coefficient']) {
+    assert.ok(Object.hasOwn(view, seed), `retained seed record: ${seed}`);
+  }
   const schema = JSON.parse(await readFile(new URL('../architecture/node-status.schema.json', import.meta.url), 'utf8'));
   assert.deepEqual(schema.required, ['schema_version', 'node_id', 'owner', 'next_action', 'missing_input', 'stops', 'sources', 'source_rev', 'observed_at', 'status', 'scientific_effect']);
   for (const name of ['predecessor', 'successor', 'carried_forward', 'refresh_error']) {
@@ -410,4 +412,44 @@ test('the atlas resume section passes the published node-status view into resume
   assert.match(source, /function resumeSection\(view\)/);
   assert.match(source, /resumeFieldHref\(item\)/);
   assert.match(source, /import \{[^}]*resumeFieldHref\} from '\.\/current-model\.mjs/);
+});
+
+test('lifetime continuation exposes conditional R1 evidence without promoting the general graph claim', async () => {
+  const id = 'math.lifetime-remainder';
+  const view = await records();
+  assert.ok(Object.hasOwn(view, id), 'lifetime operational record is published');
+  const record = view[id];
+  assert.equal(record.owner, null);
+  assert.equal(record.scientific_effect, 'NONE');
+  assert.match(record.next_action, /R81\/R83/);
+  assert.match(record.next_action, /separately claimed/);
+  assert.match(record.next_action, /conditional R1/);
+  assert.match(record.stops.join(' '), /R83-EXEC-01/);
+  assert.match(record.stops.join(' '), /count-tail.*authentic.*IID/);
+  const landed = '9f3fb6918b28e6378c034ebc19e76d432f5391cb';
+  for (const name of ['PROOF.md', 'README.md', 'SOURCE_MAP.json', 'REVIEW.md']) {
+    assert.ok(record.sources.some(source => source.rev === landed && source.url === `https://github.com/d6g8k5htny-coder/Math-/blob/${landed}/frontiers/far_sector_lifetime_refinement_20261022/${name}`), name);
+  }
+  const data = JSON.parse(await readFile(new URL('../docs/site/current.json', import.meta.url), 'utf8'));
+  const instant = Date.parse(record.observed_at);
+  const shown = m.resumeProjection(data, id, instant, view);
+  assert.deepEqual(shown.state, [{field: 'classification', text: 'AUTHOR_SIDE_CANDIDATE'}, {field: 'controlling', text: 'false'}]);
+  assert.equal(ownerRow(shown).text, 'No owner recorded in this node-status view.');
+  assert.equal(ownerRow(shown).url, undefined);
+  assert.equal(shown.operational.find(row => row.field === 'next_action').text, record.next_action);
+  assert.match(noteOf(m.resumeProjection(data, id, instant + DAY + 1, view)), /Node-status view stale/);
+  assert.equal(shown.continuation.url, 'https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6351719961');
+  assert.equal(shown.continuation.identified_in, 'https://github.com/d6g8k5htny-coder/main/issues/388#issuecomment-6352139396');
+  assert.match(shown.continuation.meaning, /not scientific acceptance/);
+  assert.match(shown.continuation.meaning, /R81\/R83/);
+  const script = 'import json,sys\nsys.path.insert(0,"tools")\nfrom current_site_history import resume_projection,render_live_current_v2\np=json.load(sys.stdin)\nv=resume_projection(p["data"],p["id"],p["records"],p["now"])\nhtml=render_live_current_v2(p["data"],json.load(open("docs/site/current-meta.json")),annotations=False,resume=True)["nodes/"+p["id"]+".html"].decode()\nprint(json.dumps({"projection":resume_projection(p["data"],p["id"],p["records"]),"timed_operational":v["operational"],"html":html}))';
+  const py = pythonJson(['-c', script], {input: JSON.stringify({data, id, records: view, now: instant})});
+  assert.deepEqual(py.projection, m.resumeProjection(data, id, undefined, view));
+  assert.deepEqual(py.timed_operational, shown.operational);
+  assert.ok(py.html.includes(`href="${shown.continuation.url}"`));
+  assert.ok(py.html.includes(`href="${shown.continuation.identified_in}"`));
+  assert.match(py.html, /AUTHOR_SIDE_CANDIDATE/);
+  const resume = py.html.split('<section id="resume-node"')[1].split('</section>')[0];
+  assert.equal((resume.match(/not recorded in this snapshot/g) || []).length, 4);
+  assert.ok(!resume.includes(record.next_action), 'static route remains snapshot-only');
 });
