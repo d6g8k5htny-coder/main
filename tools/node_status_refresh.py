@@ -304,12 +304,22 @@ def refresh_record(record: dict, fetch: Fetcher, now: str | None = None,
     return out
 
 
+def _unique_pairs(pairs):
+    """Reject duplicate JSON names before observing or rewriting a record."""
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError(f"duplicate JSON key: {key}")
+        result[key] = value
+    return result
+
+
 def refresh_dir(directory: Path, fetch: Fetcher, write: bool, now: str | None = None,
                 comments: Comments | None = None) -> list[dict]:
     report = []
     for path in sorted(directory.glob("*.json")):
         try:
-            record = json.loads(path.read_text(encoding="utf-8"))
+            record = json.loads(path.read_text(encoding="utf-8"), object_pairs_hook=_unique_pairs)
             if not isinstance(record, dict):
                 raise ValueError("record is not an object")
         except Exception as exc:

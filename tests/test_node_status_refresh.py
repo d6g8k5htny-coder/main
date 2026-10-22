@@ -325,6 +325,37 @@ class RefreshTests(unittest.TestCase):
         self.assertEqual(matched["owner"]["id"], "agent-9")
         self.assertEqual(matched["owner"]["evidence_url"], pickup)
 
+    def test_duplicate_json_key_is_unknown_and_not_rewritten(self):
+        text = json.dumps(load("fresh.json"))
+        owner = text.replace('"owner": null', '"owner": {"id": "unbacked"}', 1)
+        raw_owner = owner[:-1] + ',"owner": null}'
+        item = ('{"id": "hold-1", "text": "Unresolved synthetic item", "status": "open", '
+                '"source_url": "https://github.com/example/repo/issues/1"}')
+        raw_carried = text[:-1] + ',"carried_forward": [' + item + '], "carried_forward": []}'
+        calls = []
+
+        def fetch(url):
+            calls.append(url)
+            return offline_fetch(url)
+
+        for label, raw, key in (
+            ("owner", raw_owner, "owner"),
+            ("carried_forward", raw_carried, "carried_forward"),
+        ):
+            with self.subTest(label=label):
+                calls.clear()
+                with tempfile.TemporaryDirectory() as tmp:
+                    path = Path(tmp) / "fresh.json"
+                    path.write_text(raw, encoding="utf-8")
+                    before = path.read_bytes()
+                    for write in (False, True):
+                        report = nsr.refresh_dir(Path(tmp), fetch, write=write, now=NOW)
+                        self.assertEqual(len(report), 1)
+                        self.assertEqual(report[0]["status"], "unknown")
+                        self.assertIn("duplicate JSON key: " + key, report[0]["refresh_error"])
+                        self.assertEqual(path.read_bytes(), before)
+                        self.assertEqual(calls, [])
+
     def test_github_fetch_uses_moving_ref_for_pinned_url(self):
         seen = []
 
