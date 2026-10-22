@@ -1,6 +1,6 @@
 // NON-CERTIFYING educational arithmetic. These functions illustrate source
 // definitions; they do not simulate a field or estimate a theorem's constants.
-import { annulusModel, p15Model, remoteModel } from './geometry.mjs?site-release=edba1b0463dbcc320babb9a5845fb859602619b3d91bb4983f7b86c0ebcab353';
+import { annulusModel, p15Model, remoteModel } from './geometry.mjs?site-release=a902d0c6682241fe116da974c1e833b52379c2b13422b618cf911944c69304ed';
 
 function finite(value, name) {
   if (!Number.isFinite(value)) throw new RangeError(`${name} must be finite`);

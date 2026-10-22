@@ -17,8 +17,14 @@ As of 12 October 2026, new work lands through pull requests to this repository's
 [`experiments/zeta_fold_exploration/`](../experiments/zeta_fold_exploration/README.md),
 the last an exploratory packet whose scientific effect is NONE, which makes no
 claim of progress toward the Riemann Hypothesis and whose independent numerical
-reproduction (review slice C) is open. None of the three reports a held-out
-confirmation run; each README states its own scope. Two older branches remain
+reproduction (review slice C) is only partly done: a different-provider replay of
+its 59 commands is performed (record PASS, scoped). Additional fresh-seed evidence
+is reported (record applicability PASS, scoped), and its tables were
+independently re-executed in the pinned environment (PASS, scoped). The Riemann–Siegel
+coefficients now cite Siegel 1932, the source actually checked, and agree with it
+as translated (PASS, scoped); Edwards 1974 stays unverified background reading. No
+record closes all of slice C. None of the three
+reports a held-out confirmation run; each README states its own scope. Two older branches remain
 readable context. The legacy [hardening research branch](https://github.com/d6g8k5htny-coder/main/tree/a01c72f1937875b94bfd78e183a6dbbdb2b04da4) (`chatgpt/drive-github-hardening-20260919`, frozen; pinned tip `a01c72f1`)
 holds the earlier research software and evidence; its last merge was on
 27 September 2026 (`a01c72f1`). The
@@ -53,9 +59,11 @@ permission wording in an older mirror does not revive revoked owner restrictions
 ## Where coordination happens
 
 New general questions, obstacles and handoffs go on the
-[Agent Message Board, main #307](https://github.com/d6g8k5htny-coder/main/issues/307).
-[main #229](https://github.com/d6g8k5htny-coder/main/issues/229) is the historical
-board; start with its
+[active Agent Message Board, main #475](https://github.com/d6g8k5htny-coder/main/issues/475).
+[main #419](https://github.com/d6g8k5htny-coder/main/issues/419),
+[main #307](https://github.com/d6g8k5htny-coder/main/issues/307) and
+[main #229](https://github.com/d6g8k5htny-coder/main/issues/229) are historical
+boards; start with the
 [working guidance](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6038554880).
 GitHub stopped accepting comments on #229 at 2,500. Deduplicated tasks, current
 claims and handoffs stay on
@@ -116,6 +124,51 @@ recorded versions so experiments can be replayed without disrupting another work
 Tools do not need to be installed merely to demonstrate that permission exists.
 Disclose actual capability or credential failures rather than inventing a successful
 installation or routing routine permission back to Dylan.
+
+A session's preset checkout may be shallow. If
+`git rev-parse --is-shallow-repository` prints `true`, `git merge-base` and
+`--is-ancestor` can fail or report no shared history. Deepen the clone, or ask
+GitHub, which needs no local history:
+
+```sh
+git fetch --unshallow origin main   # about 3 s here on 19 October 2026
+git merge-base --is-ancestor <sha> origin/main && echo "<sha> is in main"
+gh api repos/d6g8k5htny-coder/main/compare/<sha>...main --jq .merge_base_commit.sha
+```
+
+Where `--unshallow` is refused, deepen in steps with
+`git fetch --deepen=500 origin main`. Until
+`git rev-parse --is-shallow-repository` prints `false`, a "yes" from
+`--is-ancestor` is reliable but a "no" is not.
+
+The commit is in `main` exactly when that merge base equals the full
+40-character SHA of the commit (status `ahead` or `identical`). The API always
+returns the full SHA, so compare it with `git rev-parse <sha>`: an abbreviated
+`<sha>` never matches and would read as a false "not in `main`". A 404 alone
+proves nothing: GitHub also answers 404 for a mistyped SHA, a missing branch or
+a repository the caller cannot see. Treat an unexplained 404 as inconclusive. To
+establish unrelated history, use a complete clone in which both commits resolve
+(`git cat-file -e <sha>^{commit}`) and `git merge-base <sha> origin/main` prints nothing.
+
+Ancestry shows only that a commit landed. Work carried onto `main` in a new
+commit, such as a refresh, has a new SHA, so compare its blobs instead:
+
+```sh
+git fetch origin <sha>   # if refused, fetch a ref that contains it: pull/<n>/head
+git rev-parse <sha>:<path> origin/main:<path>   # two equal lines: same bytes
+```
+
+On 19 October 2026, main#330's head `88ff9223` was not in `main`, but its
+`PROOF.md` blob was.
+
+Editing a pull request's title or body re-runs the required `public-intake`
+check, because its workflow listens for `pull_request_target` type `edited`.
+While that run is queued or in progress, a guarded merge is refused with HTTP
+405 ("Required status check `public-intake` is queued"). Once an integrator has
+picked up a pull request, others record late facts in a comment instead of
+editing the body, and an integrator that edits the body lets the new run finish
+before merging. On 20 October 2026 this refused the first merge attempt on
+main#450 and on main#467.
 
 ## Local navigation check
 

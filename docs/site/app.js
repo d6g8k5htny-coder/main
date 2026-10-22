@@ -1,6 +1,6 @@
-import {verifiedJSON, verifiedBytes, validateStatus, validateCoefficient, safeSourceURL, hex40, hex64} from './core.mjs?site-release=edba1b0463dbcc320babb9a5845fb859602619b3d91bb4983f7b86c0ebcab353';
-import {connectCatalogQuery} from './catalog-query.mjs?site-release=edba1b0463dbcc320babb9a5845fb859602619b3d91bb4983f7b86c0ebcab353';
-import {prepareWorkspaceFragment} from './workspace-fragment.mjs?site-release=edba1b0463dbcc320babb9a5845fb859602619b3d91bb4983f7b86c0ebcab353';
+import {verifiedJSON, verifiedBytes, validateStatus, validateCoefficient, safeSourceURL, hex40, hex64} from './core.mjs?site-release=661f463aeada98bf975bd417b7a74d10af55c600eb1544713aebc59ee15f5b54';
+import {connectCatalogQuery} from './catalog-query.mjs?site-release=6df9dde5257d98f717b209b7ee9a206c1df4edf0e52d3be91d4e5875bf7c766c';
+import {prepareWorkspaceFragment} from './workspace-fragment.mjs?site-release=9e779c23813875538d26b0416781a6d2f41df738338055f5c4362a61aa35cc8e';
 const finishFragment=prepareWorkspaceFragment();
 const el=id=>document.getElementById(id);
 const node=(tag,text,cls)=>{const n=document.createElement(tag);if(text!==undefined)n.textContent=text;if(cls)n.className=cls;return n;};
@@ -91,7 +91,7 @@ async function inventory(config) {
   let limit=50;
   const render=()=>{const query=el('search').value.trim().toLowerCase(),repository=el('repository-filter').value,path=el('path-filter').value.trim().toLowerCase();
     const matches=rows.filter(row=>(!repository||row.repository===repository)&&row.path.toLowerCase().includes(path)&&[row.repository,row.path,row.commit,row.sha256].some(s=>s.toLowerCase().includes(query)));el('catalog').replaceChildren();
-    matches.slice(0,limit).forEach(row=>{const tr=node('tr'),name=node('td'),commit=node('td'),hash=node('td');name.append(node('small',row.repository),link(row.path,safeSourceURL(row)));commit.append(node('code',row.commit));hash.append(node('code',row.sha256));tr.append(name,commit,hash);el('catalog').append(tr);});
+    matches.slice(0,limit).forEach(row=>{const tr=node('tr'),name=node('td'),commit=node('td'),hash=node('td');name.append(node('small',row.repository),link(row.path,safeSourceURL(row)),node('small','Acquisition evidence: Metadata only','acquisition-label'));commit.append(node('code',row.commit));hash.append(node('code',row.sha256));tr.append(name,commit,hash);el('catalog').append(tr);});
     el('inventory-state').textContent=`${matches.length.toLocaleString()} matches · ${Math.min(limit,matches.length)} shown · all 2,138 source records loaded from the original hash-verified shards.`;if(!matches.length)el('inventory-state').append(' Try a broader search or clear filters.');el('more').hidden=matches.length<=limit;};
   const syncQuery=connectCatalogQuery(typeof window==='undefined'?null:window,{search:el('search'),repository:el('repository-filter'),path:el('path-filter'),link:el('catalog-link'),note:el('catalog-query-note')},()=>{limit=50;render();});
   el('catalog-clear').disabled=false;

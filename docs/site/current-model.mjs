@@ -1,4 +1,4 @@
-import {OPEN_CLASSIFICATIONS, NON_RESEARCH_KINDS} from './dependency-model.mjs?site-release=edba1b0463dbcc320babb9a5845fb859602619b3d91bb4983f7b86c0ebcab353';
+import {OPEN_CLASSIFICATIONS, NON_RESEARCH_KINDS} from './dependency-model.mjs?site-release=14af1552ef5b72df346782ea4c3d2a9e1fbeeeb89c9ec7421de6f63e4f8e7aff';
 
 const REPOSITORIES = new Set(['d6g8k5htny-coder/main','d6g8k5htny-coder/Math-']);
 const SHA = /^[0-9a-f]{40}$/;
@@ -31,13 +31,29 @@ export function validateSnapshot(data) {
   if(!Array.isArray(data.references)||data.references.some(s=>!identity(s)||!DIGEST.test(s.sha256)))throw Error('Invalid source references.');
   return data;
 }
+class SnapshotIntegrityError extends Error {}
 export async function parseVerifiedSnapshot(raw,identity,cryptoAPI=globalThis.crypto) {
   const bytes=raw instanceof Uint8Array?raw:new Uint8Array(raw);
-  if(bytes.byteLength!==Number(identity.bytes))throw Error('Current payload byte count mismatch.');
+  if(bytes.byteLength!==Number(identity.bytes))throw new SnapshotIntegrityError('Current payload byte count mismatch.');
   if(!DIGEST.test(identity.sha256)||!cryptoAPI?.subtle)throw Error('Current payload digest verification unavailable.');
   const hash=Array.from(new Uint8Array(await cryptoAPI.subtle.digest('SHA-256',bytes))).map(b=>b.toString(16).padStart(2,'0')).join('');
-  if(hash!==identity.sha256)throw Error('Current payload digest mismatch.');
+  if(hash!==identity.sha256)throw new SnapshotIntegrityError('Current payload digest mismatch.');
   return validateSnapshot(JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(bytes)));
+}
+export async function fetchVerifiedSnapshot(fetcher,identity,{signal,cryptoAPI=globalThis.crypto}={}) {
+  if(!DIGEST.test(identity?.sha256)||!Number.isSafeInteger(Number(identity?.bytes))||Number(identity.bytes)<0)throw Error('Invalid current source identity.');
+  const read=async url=>{
+    const response=await fetcher(url,{cache:'no-store',credentials:'omit',signal});
+    if(!response.ok)throw Error('Current source snapshot unavailable.');
+    return parseVerifiedSnapshot(await response.arrayBuffer(),identity,cryptoAPI);
+  };
+  try{return await read('current.json');}
+  catch(error){
+    if(!(error instanceof SnapshotIntegrityError))throw error;
+    // A mutable alias can lag the page across publication. One digest-keyed
+    // request may recover it; only the advertised bytes can be admitted.
+    return read('current.json?observation='+identity.sha256);
+  }
 }
 export function freshness(observed,now=Date.now()) {
   const age=now-Date.parse(observed);
@@ -50,6 +66,31 @@ export function filterSources(sources,query) {
 }
 export function evidenceAxes(node) {
   return ['source','review','kernel','computation','alignment'].map(axis=>({axis,state:(axis==='source' && !!node.source)||(axis==='review' && Object.keys(node).some(k=>k.startsWith('review_')&&node[k]))?'recorded':'not_recorded'}));
+}
+export const RESUME_NOT_RECORDED='not recorded in this snapshot';
+export const RESUME_FRESHNESS_WARNING='Refresh from the live canonical record before any ownership- or head-dependent action. This block is a dated snapshot observation, not live task state.';
+export const RESUME_REVIEW_LABEL='Recorded review metadata. This is a review record, not the current task, an owner claim or a completion record. A closed or accepted review does not establish that work on this node is finished.';
+export const RESUME_OPERATIONAL=Object.freeze([['next_action','Next action'],['missing_input','Missing input'],['owner_evidence','Owner evidence'],['retained_stop','Retained stop']].map(row=>Object.freeze(row)));
+export const RESUME_ISSUE_NOTE='Issue number recorded without a repository in this snapshot; no link is inferred.';
+export const RESUME_NO_TASK='No explicitly identified task record for this node. A recorded review issue is not used as a task record.';
+// Site-maintained task pointers, not graph metadata. Tools/current_site_history.py keeps the same table.
+export const RESUME_TASK_RECORDS=Object.freeze({
+  'math.d5-component.punctured-pin-proof':Object.freeze({url:'https://github.com/d6g8k5htny-coder/main/pull/327#issuecomment-6321244764',label:'Operational request: main#327 comment 6321244764',meaning:'A request for a source-only registration input for this node. It is an operational pointer, not scientific acceptance, source-binding admission, a registration or an owner claim.',identified_on:'2026-10-21',identified_in:'https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6321679618'}),
+});
+const REVIEW_URL=/^https:\/\/github\.com\/d6g8k5htny-coder\/(?:main|Math-)\/(?:issues|pull)\/[1-9][0-9]*(?:#[A-Za-z0-9_-]+)?$/;
+const metadataText=value=>typeof value==='string'?value:JSON.stringify(value);
+// One projection feeds the atlas inspector and the static node pages; only `now` adds a freshness state.
+export function resumeProjection(snapshot,id,now) {
+  const graph=snapshot?.graph?.data;if(!hasNode(graph,id))return null;
+  const node=graph.nodes[id],identity=snapshot.graph.identity,own=key=>Object.prototype.hasOwnProperty.call(node,key);
+  const task=Object.prototype.hasOwnProperty.call(RESUME_TASK_RECORDS,id)?RESUME_TASK_RECORDS[id]:null;
+  return {node:id,
+    snapshot:{observed_at:snapshot.observed_at,graph_repository:identity.repository,graph_commit:identity.commit,graph_path:identity.path,graph_sha256:identity.sha256,main_commit:snapshot.repositories.find(r=>r.repository==='d6g8k5htny-coder/main')?.commit??null},
+    freshness:Number.isFinite(now)?freshness(snapshot.observed_at,now):null,warning:RESUME_FRESHNESS_WARNING,
+    state:['classification','controlling'].map(field=>({field,text:own(field)&&node[field]!==null?metadataText(node[field]):RESUME_NOT_RECORDED})),
+    review:{label:RESUME_REVIEW_LABEL,fields:Object.keys(node).filter(key=>key.startsWith('review_')).map(field=>{const value=node[field];return {field,text:metadataText(value),url:typeof value==='string'&&REVIEW_URL.test(value)?value:null,note:field==='review_issue'&&typeof value==='number'?RESUME_ISSUE_NOTE:null};})},
+    operational:RESUME_OPERATIONAL.map(([field,label])=>({field,label,text:RESUME_NOT_RECORDED})),
+    continuation:task?{...task}:null,continuation_text:task?null:RESUME_NO_TASK};
 }
 export const MAX_WINDOW_NODES=150;
 export const REQUIRED_ROUTE_SEMANTICS='One shortest route per unresolved research target follows recorded dependent-to-prerequisite edges, with every edge required. The selected root is excluded as a target; contextual edges supply no required route.';
@@ -142,4 +183,32 @@ export function searchEquations(equations,query,limit=MAX_WINDOW_NODES) {
   const matches=equations.filter(e=>words.every(word=>`${e.text} ${e.repository} ${e.path}`.toLowerCase().includes(word)));
   const {values,...counts}=windowed(matches,options(limit));
   return {equations:values,total:equations.length,...counts};
+}
+
+// Current inventory content associations do not classify or bind graph nodes.
+export const ACQUISITION_LABELS=Object.freeze({metadata_only:'Metadata only',graph_data_included:'Parsed graph',source_identity_only:'Reference identity',excerpts_included:'Included excerpts',unavailable:'Unavailable'});
+export const ACQUISITION_UNAVAILABLE='Acquisition associations could not be qualified for this observation; no content association inferred.';
+export async function projectCurrentAcquisitions(data) {
+  const reasons=new Set(),rows=[],index=new Map(),commits=new Map();
+  const result=()=>({disposition:reasons.size?'unavailable':'qualified',reasons:[...reasons].sort(),rows});
+  if(!data||typeof data!=='object'||Array.isArray(data)){reasons.add('invalid_acquisition_input');return result();}
+  const unicode=s=>typeof s==='string'&&!/[\uD800-\uDBFF](?![\uDC00-\uDFFF])|(?<![\uD800-\uDBFF])[\uDC00-\uDFFF]/u.test(s);
+  const path=s=>unicode(s)&&[...s].length<=4096&&safePath(s)&&!/[\u007f%]/.test(s);
+  if(!Array.isArray(data.repositories)||data.repositories.length!==2)reasons.add('invalid_acquisition_input');
+  else for(const r of data.repositories){if(!r||!REPOSITORIES.has(r.repository)||typeof r.commit!=='string'||!SHA.test(r.commit)||commits.has(r.repository))reasons.add('invalid_acquisition_input');else commits.set(r.repository,r.commit);}
+  const identity=(s,whole=true)=>s&&typeof s==='object'&&REPOSITORIES.has(s.repository)&&typeof s.commit==='string'&&SHA.test(s.commit)&&s.commit===commits.get(s.repository)&&path(s.path)&&(!whole||(typeof s.blob==='string'&&SHA.test(s.blob)&&Number.isSafeInteger(s.bytes)&&s.bytes>=0&&s.bytes<=16*1024*1024))?[s.repository,s.commit,s.path]:null;
+  const inventoryShape=Array.isArray(data.sources);
+  if(!inventoryShape)reasons.add('invalid_acquisition_input');
+  for(const s of inventoryShape?data.sources:[]){const key=identity(s),encoded=JSON.stringify(key),row={key,identity:key?[...key,s.blob,s.bytes]:null,categories:[],whole_files:[],excerpts:[]};rows.push(row);if(!key)reasons.add('invalid_acquisition_identity');else if(index.has(encoded))reasons.add('duplicate_inventory_identity');else index.set(encoded,{source:s,row});}
+  const wholeSeen=new Set();
+  const whole=(s,category,graph=false)=>{const key=identity(s);if(!key||(graph&&s.repository!=='d6g8k5htny-coder/Math-')||typeof s.sha256!=='string'||!DIGEST.test(s.sha256)){reasons.add('invalid_acquisition_identity');return;}const encoded=JSON.stringify(key);if(wholeSeen.has(encoded))reasons.add('duplicate_acquisition_identity');wholeSeen.add(encoded);if(!inventoryShape)return;const match=index.get(encoded);if(!match){reasons.add('missing_acquisition_inventory');return;}if(match.source.blob!==s.blob)reasons.add('acquisition_blob_conflict');if(match.source.bytes!==s.bytes)reasons.add('acquisition_bytes_conflict');match.row.categories.push(category);match.row.whole_files.push({category,sha256:s.sha256});};
+  if(!data.graph||typeof data.graph.identity!=='object'||!data.graph.identity||Array.isArray(data.graph.identity))reasons.add('invalid_acquisition_input');else whole(data.graph.identity,'graph_data_included',true);
+  if(!Array.isArray(data.references))reasons.add('invalid_acquisition_input');else for(const s of data.references)whole(s,'source_identity_only');
+  const ids=new Set(),spans=new Set();
+  if(!Array.isArray(data.equations))reasons.add('invalid_acquisition_input');else for(const e of data.equations){const key=identity(e,false);if(!key||!unicode(e.id)||!e.id||!unicode(e.text)||!Number.isSafeInteger(e.line_start)||!Number.isSafeInteger(e.line_end)||e.line_start<1||e.line_end<e.line_start||typeof e.sha256!=='string'||!DIGEST.test(e.sha256)){reasons.add('invalid_excerpt_record');continue;}
+    let digest;try{digest=Array.from(new Uint8Array(await globalThis.crypto.subtle.digest('SHA-256',new TextEncoder().encode(e.text))),b=>b.toString(16).padStart(2,'0')).join('');}catch{reasons.add('invalid_excerpt_record');continue;}
+    if(digest!==e.sha256){reasons.add('invalid_excerpt_record');continue;}const span=JSON.stringify([...key,e.line_start,e.line_end]);if(ids.has(e.id)||spans.has(span))reasons.add('duplicate_excerpt_identity');ids.add(e.id);spans.add(span);if(!inventoryShape)continue;const match=index.get(JSON.stringify(key));if(!match){reasons.add('missing_excerpt_inventory');continue;}if(!match.row.categories.includes('excerpts_included'))match.row.categories.push('excerpts_included');match.row.excerpts.push({id:e.id,line_start:e.line_start,line_end:e.line_end,sha256:e.sha256});
+  }
+  for(const row of rows)if(reasons.size){row.categories=['unavailable'];row.whole_files=[];row.excerpts=[];}else if(!row.categories.length)row.categories=['metadata_only'];
+  return result();
 }
