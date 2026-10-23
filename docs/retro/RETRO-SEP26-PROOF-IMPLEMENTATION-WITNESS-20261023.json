@@ -5,16 +5,18 @@
   "scientific_effect": "NONE",
   "scientific_status_authority": false,
   "graph_node_creation": false,
-  "scope": "seventeen-september-cut; historical source identities and packet co-location only",
+  "scope": "commit 2026-09-26T02:00:04Z compared with commit 2026-10-22T21:24:07Z; historical packet source identities only",
   "source_cut": {
     "commit": "10e1f191c7d9f2755ca971ddbba87874d2475619",
     "tree_git_sha1": "ce758d18b862f20c5d90bd828065e0b4a1b3e9e7",
-    "source_blob_count": 152
+    "source_blob_count": 152,
+    "commit_utc": "2026-09-26T02:00:04Z"
   },
   "comparison_cut": {
     "commit": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
     "tree_git_sha1": "dd42defa2440f5a15777399fce2881867e004d2b",
-    "source_blob_count": 2746
+    "source_blob_count": 2746,
+    "commit_utc": "2026-10-22T21:24:07Z"
   },
   "comparison": {
     "historical_blob_paths_present": 152,
@@ -711,5 +713,22 @@
     "Historical checker/workflow/review/graph changes prohibit transferring a prior pass or scientific verdict to current source by filename alone.",
     "This is a temporal supplement to RETRO-MATH-BIND-01's 313 current-cut units, not a new graph-node registry, Artifact Index admission, or proof-status ledger.",
     "This two-commit comparison does not cover nondefault branches, deleted-at-intermediate-and-restored content, pre-September history or private Drive/Dropbox."
-  ]
+  ],
+  "coverage_perimeter": {
+    "selection_rule": "Only packet files sharing directories with basename-exact PROOF.md from the historical source cut.",
+    "proof_md_exact_basename_count": 7,
+    "additional_suffix_proof_md_outside_packet_scope": 1,
+    "additional_proof_named_file": "imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md",
+    "proof_index_outside_packet_scope": "PROOF_INDEX.md",
+    "source_files_manifests_all_historical_cut": 9,
+    "source_files_manifests_selected_packets": 4,
+    "source_files_manifests_outside_packets": [
+      "frontiers/contact_kernel_tail_20260925/SOURCE_FILES.json",
+      "frontiers/downstream_gate_20260925/SOURCE_FILES.json",
+      "frontiers/three_fronts_20260924/SOURCE_FILES.json",
+      "reviews/contact_kernel_tail_20260925/SOURCE_FILES.json",
+      "reviews/d5_finite_r_hermite_repair_20260925/SOURCE_FILES.json"
+    ],
+    "excluded_paths_have_no_asserted_proof_to_implementation_verdict": true
+  }
 }
