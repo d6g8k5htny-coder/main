@@ -1,5 +1,4 @@
 import json,re,collections,csv
-units=json.load(open('/workspace/units.json'))
 rows=[]
 for l in open('/workspace/r13/walk.jsonl'):
   d=json.loads(l)
@@ -34,7 +33,7 @@ R=[
  (r'\bC6\b|C6_|c6_','unit:frontiers/c6_remote_coefficient_numerics_20260930','Math- unit'),
  (r'Sard|sard','unit:frontiers/sard_g_pinned_transfer_20260929','Math- unit'),
  (r'elder','unit:frontiers/em_intermediate_elder_20261006','Math- unit'),
- (r'\.lean$|Lean|formal','unit:formal (GB-8p/q region)','Math- unit region'),
+ (r'\.lean$|\bLean\b|formal','unit:formal (GB-8p/q region)','Math- unit region'),
 ]
 R=[(re.compile(a,re.I),b,c) for a,b,c in R]
 def slug(s): return re.sub(r'[^a-z0-9]+','-',s.lower()).strip('-')[:48]
