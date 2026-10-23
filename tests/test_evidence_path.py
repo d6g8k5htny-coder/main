@@ -82,6 +82,21 @@ class EvidencePathTests(unittest.TestCase):
             self.assertIn("pinned source (url+sha) not recorded", result["missing"])
             self.assertFalse(result["complete"])
 
+    def test_missing_empty_or_traversal_path_is_not_a_pinned_source(self):
+        cases = {"missing": None, "empty": "", "traversal": "../GRAPH.json",
+                 "inner-traversal": "docs/../../GRAPH.json", "absolute": "/GRAPH.json",
+                 "non-string": 7}
+        for label, bad in cases.items():
+            graph = copy.deepcopy(GRAPH)
+            if bad is None:
+                del graph["identity"]["path"]
+            else:
+                graph["identity"]["path"] = bad
+            result = evidence_path(FIXTURE_NODE, graph, BINDINGS, RECEIPTS, REVIEWS)
+            self.assertIsNone(result["source"], label)
+            self.assertIn("pinned source (url+sha) not recorded", result["missing"], label)
+            self.assertFalse(result["complete"], label)
+
     def test_unknown_node_is_refused(self):
         with self.assertRaises(Refused) as caught:
             evidence_path("fixture.lane1.not-in-graph", GRAPH, BINDINGS)

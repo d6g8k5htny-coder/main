@@ -79,9 +79,13 @@ def _pinned_source(identity):
     if type(commit) is not str or SHA.fullmatch(commit) is None:
         return None
     path = identity.get("path")
-    url = "https://github.com/" + repository + "/blob/" + commit
-    if type(path) is str and path and ".." not in path.split("/"):
-        url += "/" + path
+    # A pinned source names a file: a missing, empty, absolute or traversing
+    # path is not a source, so the caller reports it as missing evidence.
+    if type(path) is not str or not path or "\\" in path:
+        return None
+    if any(part in ("", ".", "..") for part in path.split("/")):
+        return None
+    url = "https://github.com/" + repository + "/blob/" + commit + "/" + path
     return {"url": url, "sha": commit}
 
 
