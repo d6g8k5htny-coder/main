@@ -68,16 +68,18 @@ The two package prefixes are:
 | Coefficient / [contract.py][contract] | 3170 | `acd5926bc87823d4ce3cd1f35bdd07528189fbec` | `7dbd6de6671fe5919151987c2ef62fb165409601e3d4e38d60ae60d8c9513678` |
 | Coefficient / [test_coefficient.py][tests] | 6907 | `12b7df5ab5f28741d3cd4bc5009f96d17ee5220b` | `0dca94d76c93aa612188e197b831f13ae069926ff6e9237412f2ff089c80fde2` |
 
-The [coefficient proof's trusted-computation section][roles] declares these roles:
+The [coefficient proof's trusted-computation section][roles] declares the
+producer/checker/helper roles below. The test-file row is the appendix author's
+description from static inspection, not a role declared in that proof.
 
-| Carrier | Source-declared role and boundary |
+| Carrier | Role, provenance and boundary |
 | --- | --- |
 | `coefficient.py` | Producer for the fixed collision expression; uses the moment kernel and common contract. |
 | `verify_coefficient.py` | Separate checker reconstructing coefficient witnesses; uses `verify_certificate.py` and the common contract, and does not import or execute the producer. |
 | `moment_kernel.py` | Reused full-spectrum moment/exponential-witness producer. Its unassigned-parameter input semantics are retained. |
 | `verify_certificate.py` | Reused moment/exponential-witness checker, consumed by the coefficient checker. |
 | `contract.py` | Shared trusted parsing, fixed configuration, source/custody and resource logic. The proof explicitly excludes scalar/Gamma/root enclosure calculations from this helper. |
-| `test_coefficient.py` | Existing source tests and tamper controls. Listing them is not a fresh execution receipt. |
+| `test_coefficient.py` | Appendix-author description from static inspection: existing source tests and tamper controls. This is not a source-declared proof role or a fresh execution receipt. |
 
 These are documentary roles, not a new audit of code correctness. Software
 separation with a shared contract and specification is not organizational
@@ -112,6 +114,8 @@ came from `oct23_retro_dependency_gap` and
 `oct23_cross_family_support`. Source/history exposed; same provider and shared
 principal; organizational, blind, human and scientific independence credit 0.
 The original method/code authors and their published reviews are not renamed.
+The original publication's Git author field records publishing custody, not
+actual appendix authorship; the author attribution above remains controlling.
 
 Existing GB-8w/#555 author and integration roles remain with their actual
 holders. This appendix has its own review/integration stage; earlier reviews of
@@ -119,12 +123,12 @@ other bytes are not adopted as approval of this file.
 
 [Owner mandate](../../governance/OWNER_MANDATE_20261015.md) and
 [standing delegation](../../governance/OP-AUTONOMY-20260923-v2.1.md) apply.
-Scientific effect NONE; eng ≠ discharge; no flags; OBL OPEN.
+NOT A RESULT; Scientific effect NONE; eng ≠ discharge; no flags; OBL OPEN.
 
 [method-proof]: https://github.com/d6g8k5htny-coder/Math-/blob/9f3fb6918b28e6378c034ebc19e76d432f5391cb/frontiers/full_spectrum_enclosure_method_20261018/PROOF.md
 [coefficient-proof]: https://github.com/d6g8k5htny-coder/Math-/blob/9f3fb6918b28e6378c034ebc19e76d432f5391cb/frontiers/finite_l_d2_coefficient_20261018/PROOF.md#L11
 [source-map]: https://github.com/d6g8k5htny-coder/Math-/blob/9f3fb6918b28e6378c034ebc19e76d432f5391cb/frontiers/finite_l_d2_coefficient_20261018/SOURCE_MAP.json
-[roles]: https://github.com/d6g8k5htny-coder/Math-/blob/9f3fb6918b28e6378c034ebc19e76d432f5391cb/frontiers/finite_l_d2_coefficient_20261018/PROOF.md#L97
+[roles]: https://github.com/d6g8k5htny-coder/Math-/blob/9f3fb6918b28e6378c034ebc19e76d432f5391cb/frontiers/finite_l_d2_coefficient_20261018/PROOF.md#L86-L107
 [producer]: https://github.com/d6g8k5htny-coder/Math-/blob/9f3fb6918b28e6378c034ebc19e76d432f5391cb/frontiers/finite_l_d2_coefficient_20261018/coefficient.py
 [checker]: https://github.com/d6g8k5htny-coder/Math-/blob/9f3fb6918b28e6378c034ebc19e76d432f5391cb/frontiers/finite_l_d2_coefficient_20261018/verify_coefficient.py
 [kernel]: https://github.com/d6g8k5htny-coder/Math-/blob/9f3fb6918b28e6378c034ebc19e76d432f5391cb/frontiers/finite_l_d2_coefficient_20261018/moment_kernel.py
