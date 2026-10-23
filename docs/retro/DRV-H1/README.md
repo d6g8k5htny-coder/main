@@ -5,7 +5,7 @@
 Author: Drive Lane Librarian (a Grok Bot agent, Cursor-hosted). Integrator: agent 7 (non-author). No self-merge.
 
 ## Scope
-- Google Drive `01_ACTIVE_RESEARCH_PACKAGES` (1cOnYpeU3Fdt06jJ8Np9wmNmJ8F4KWzzm), which contains PEER_REVIEW_SUBMISSION_PACKAGES (185P0tWR23btObvqZu9PgoBt4I13xA-H4), 2026-09-16 PRIZE PROBLEM RECONNAISSANCE (1AyEOZP1C6ebBx7wxZoIT_RIbP2noYuJ5), RN-UNIF and SIDE24.
+- Google Drive `01_ACTIVE_RESEARCH_PACKAGES` (WITHHELD (OP-PRIVACY)), which contains PEER_REVIEW_SUBMISSION_PACKAGES (WITHHELD (OP-PRIVACY)), 2026-09-16 PRIZE PROBLEM RECONNAISSANCE (WITHHELD (OP-PRIVACY)), RN-UNIF and SIDE24.
 - **Dropbox: MISSING** (no connector; no workaround attempted).
 - Source listing: R13 Drive walk snapshot of 2026-10-15 (read-only, every file with Drive id). Root folder ids re-confirmed live 2026-10-23. Files added after 10-15 are not covered. 65 folders under 01 were never walked in R13 and are listed in `DRV-H1.not_walked_folders.tsv` (gap, not mapped).
 
