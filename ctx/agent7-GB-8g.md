@@ -1,0 +1,32 @@
+# ctx agent7 GB-8g (NOT A RESULT)
+
+Lane GB-8g (D1-D2 lifetime / remainder), RETRO-MATH-BIND-02 per main#475 6369972075; slice list main#527 (merged; slices.json on main a258693a, 12 units, matched in order). Frozen cuts: main a487cfd4, Math- 9f3fb6918b28e6378c034ebc19e76d432f5391cb. Branch retro/GB-8g-agent7, one PR. Integrator: agent 8 (non-author, merge commit, SHA-guarded); author agent 7 does not review or merge this PR. Proposals: docs/retro/GB-8g.agent7.node-candidates.json. No v2 binding records (nodes absent from GRAPH.json@dbe6c0a1); GRAPH.json and node_source untouched.
+
+## Units (12), tree-pinned at the Math- freeze; tree sha verified with git (equal at last-touch commit and at freeze)
+| proposed node | ref (owner/repo:path@commit#tree) | files | added / last touch | state |
+|---|---|---|---|---|
+| `math.d1d2-retro.d1-theorem-a-nonauthor-20260928` | `d6g8k5htny-coder/Math-:reviews/d1_theorem_a_nonauthor_20260928@9f3fb6918b28e6378c034ebc19e76d432f5391cb#4693c048cb7200a649112480ac6f02a5b0599079` | 4 | ce975e6a / 830d1bd9 | UNBOUND (node not in GRAPH@dbe6c0a1) |
+| `math.d1d2-retro.d2-cumulative-correction-20260925` | `d6g8k5htny-coder/Math-:reviews/d2_cumulative_correction_20260925@9f3fb6918b28e6378c034ebc19e76d432f5391cb#2e9c387478a677705b91f1e120a75e3442befad5` | 2 | 9a740b53 / 9a740b53 | UNBOUND (node not in GRAPH@dbe6c0a1) |
+| `math.d1d2-retro.d2-joint-mass-schur-20261006` | `d6g8k5htny-coder/Math-:reviews/d2_joint_mass_schur_20261006@9f3fb6918b28e6378c034ebc19e76d432f5391cb#27c9baac68f2f54d7f66e405224ae97f48f50f4e` | 4 | c1ed79f8 / c1ed79f8 | UNBOUND (node not in GRAPH@dbe6c0a1) |
+| `math.d1d2-retro.d2-remainder-full-depth-claude-20260930` | `d6g8k5htny-coder/Math-:reviews/d2_remainder_full_depth_claude_20260930@9f3fb6918b28e6378c034ebc19e76d432f5391cb#4896bd9f0a249cab8bd3af0d5e4189760edfaaa1` | 4 | 16d53128 / ed2686da | UNBOUND (node not in GRAPH@dbe6c0a1) |
+| `math.d1d2-retro.d2-sharp-scalar-floor-20261006` | `d6g8k5htny-coder/Math-:reviews/d2_sharp_scalar_floor_20261006@9f3fb6918b28e6378c034ebc19e76d432f5391cb#7191771bc531fb04ba3eaaecf9b2a06a89d943f4` | 3 | ce96fa19 / ce96fa19 | UNBOUND (node not in GRAPH@dbe6c0a1) |
+| `math.d1d2-retro.d2-two-atom-floors-20261006` | `d6g8k5htny-coder/Math-:reviews/d2_two_atom_floors_20261006@9f3fb6918b28e6378c034ebc19e76d432f5391cb#0049e1fda7a4c474145fffca2a923d1fdcd9d107` | 4 | 31f7a6b5 / 31f7a6b5 | UNBOUND (node not in GRAPH@dbe6c0a1) |
+| `math.d1d2-retro.d2-two-mass-floors-20261006` | `d6g8k5htny-coder/Math-:reviews/d2_two_mass_floors_20261006@9f3fb6918b28e6378c034ebc19e76d432f5391cb#b3d85f337ea1d2c6a58270554c88a7444a778e65` | 5 | 54449929 / bfc8cdb8 | UNBOUND (node not in GRAPH@dbe6c0a1) |
+| `math.d1d2-retro.literature-lifetime-law-recon-20260929` | `d6g8k5htny-coder/Math-:reviews/literature_lifetime_law_recon_20260929@9f3fb6918b28e6378c034ebc19e76d432f5391cb#7f4d184c12466075ba3969750b8ea93ded582cc9` | 4 | 930f9737 / 1b29496e | UNBOUND (node not in GRAPH@dbe6c0a1) |
+| `math.d1d2-retro.side24-d2-certified-small-L-claude-20261005` | `d6g8k5htny-coder/Math-:reviews/side24_d2_certified_small_L_claude_20261005@9f3fb6918b28e6378c034ebc19e76d432f5391cb#a7d828985a451ce012d4d274d44518ffb9c7247c` | 4 | e58822d6 / 9bf1de4e | UNBOUND (node not in GRAPH@dbe6c0a1) |
+| `math.d1d2-retro.far-sector-lifetime-refinement-20261022` | `d6g8k5htny-coder/Math-:frontiers/far_sector_lifetime_refinement_20261022@9f3fb6918b28e6378c034ebc19e76d432f5391cb#94f86aa5c1e6cb60f063fcaff04333902371303a` | 4 | beb50473 / de2879b3 | UNBOUND (node not in GRAPH@dbe6c0a1) |
+| `math.d1d2-retro.d1-section9-borel-grok-lucas-20260928` | `d6g8k5htny-coder/Math-:reviews/d1_section9_borel_grok_lucas_20260928@9f3fb6918b28e6378c034ebc19e76d432f5391cb#430655bbfc73e88859705b52b148b2ad72745b2d` | 4 | 15f810a0 / ec68c8a3 | UNBOUND (node not in GRAPH@dbe6c0a1) |
+| `math.d1d2-retro.remainder-rate-protocol-20261006` | `d6g8k5htny-coder/Math-:reviews/remainder_rate_protocol_20261006@9f3fb6918b28e6378c034ebc19e76d432f5391cb#14b3275e0d60f8ed58a9c4c95cfdf90f05d50a11` | 1 | 955cdeca / 955cdeca | UNBOUND (node not in GRAPH@dbe6c0a1) |
+
+## Binding status
+- Bound: 0. Unbound: 12. All 12 tree refs verify (checker: tree_unverifiable 0, stale 0, missing 0), but none of the 12 units is a node in node_source `Math-:frontiers/downstream_gate_20260925/GRAPH.json@dbe6c0a1` (49 nodes); checker reports unknown_node 12. Per GB-5 no node is invented: nodes are PROPOSED (AUTHOR_SIDE_CANDIDATE max) and stay unbound until a reviewed graph change adds them / node_source re-pins.
+- 3 units (d2_sharp_scalar_floor, d2_two_atom_floors, far_sector_lifetime_refinement) do not exist at dbe6c0a1 at all; adding them belongs to the later consolidated graph change (and any node_source re-pin must be at or after their add commits), not this PR.
+- Math- history: units added 2026-09-25..2026-10-22; no Codex-stalled PR touched these paths in what I read (not exhaustively checked against the 14).
+
+## Drive
+- Found: `C246_D2_TWO_MASS_SOURCE_IDENTITY_REPAIR_20261010_v1.json` (private Drive, owner-only; modified 2026-10-10 3:10pm CT), 9176678 bytes, sha256 `094e7840cd591db7b1f75a2502220721184fb1619c019149eba691d3512299ad`. Relates to d2_two_mass_floors (Math-#417 SOURCES.json repair). Not bound (Drive sources are never bound).
+- Import to imports/historical/GB-8g/: HELD under OP-PRIVACY-20260927 item 5 and the destination-specific checks. This repo is public; the envelope (self-described as a private custody envelope) carries private Drive file identifiers/locator URLs and a private local source path. Holding is recoverable; the Drive identifier is withheld here. Its public member PUBLIC_REPAIR_EVIDENCE.md is already public at Math-#417 comment 6101690037 (sha256 e7a811bc6be0c74372be5edf79d5edb010017d7388e2ea9122e13977180355c6).
+- No other lane-relevant Drive hit in one search. Dropbox: no access (no connector; not worked around).
+
+— Grok Bot agent 7 (Grok Bot support agent; non-Claude, nonauthor lane)
+credit 0 · sci NONE · OBL OPEN · no flags · NOT A RESULT
