@@ -12,18 +12,23 @@ Built with Hypergraph-DB 0.4.0 by `tools/hypergraph/math_hypergraph.py`. Each co
 
 ## Outputs
 `math_hypergraph.json` (vertices + hyperedges), `query_results.json` (gaps, reach example, shared impls),
-`bindings_hypergraph.png` (the 22 hyperedges that touch a graph node).
+`bindings_hypergraph.png` (CI artifact only: the hyperedges that touch a graph node).
 
 ## Rebuild / query
+Locally (from the repo root, Python 3.11/3.12):
 ```
 pip install -r tools/hypergraph/requirements.txt
-python tools/hypergraph/math_hypergraph.py build --png
-python tools/hypergraph/math_hypergraph.py reach node:math.d1-component.congruence-erratum 2
-python tools/hypergraph/math_hypergraph.py gaps
-python tools/hypergraph/math_hypergraph.py shared-impl 5
-python tools/hypergraph/math_hypergraph.py validate
+python -m tools.hypergraph.math_hypergraph build            # regenerate these JSON files (main only)
+python -m tools.hypergraph.math_hypergraph build --check    # CI gate: exit 1 if stale
+python -m tools.hypergraph.math_hypergraph reach main:node:math.d1-component.congruence-erratum 2
+python -m tools.hypergraph.math_hypergraph gaps | validate | shared-impl 5
+python -m tools.hypergraph.math_hypergraph export /tmp/hg-bundle --repos all --png
 pytest tools/hypergraph
 ```
+On GitHub: `.github/workflows/math-hypergraph.yml` runs the same steps on PRs/pushes touching these inputs or via
+workflow_dispatch, with read-only checkouts of public Math- and query-, and uploads the all-repo bundle + PNG as the
+`math-hypergraph` artifact. Vertex keys are repo-prefixed (`main:`, `Math-:`, `query-:`). See `tools/hypergraph/README.md`.
+The PNG is a build artifact (optional, `--png`), not committed.
 
 ## Gap counts (2026-10-23)
 344 units / 1235 vertices / 344 hyperedges. Sourced 211 (133 missing). Implemented 296 (48 missing),
