@@ -213,6 +213,33 @@ class RefreshTests(unittest.TestCase):
         }]
         self.assertEqual(nsr.refresh_record(upper, offline_fetch, NOW)["status"], "unknown")
 
+    def test_pinned_url_trailing_newline_is_not_pinned(self):
+        sha = "b" * 40
+        url = "https://github.com/d6g8k5htny-coder/main/blob/" + sha + "/a.md"
+        seen = []
+
+        def fetch(got):
+            seen.append(got)
+            return sha
+
+        good = load("fresh.json")
+        good["sources"] = [{"url": url, "rev": sha}]
+        out = nsr.refresh_record(good, fetch, NOW)
+        self.assertEqual(nsr._classify(url)[0], "sha")
+        self.assertEqual(out["status"], "fresh")
+        self.assertEqual(out["source_rev"], sha)
+        self.assertEqual(seen, [url])
+
+        seen.clear()
+        newline = url + "\n"
+        self.assertIsNone(nsr._classify(newline)[0])
+        bad = load("fresh.json")
+        bad["sources"] = [{"url": newline, "rev": sha}]
+        rejected = nsr.refresh_record(bad, fetch, NOW)
+        self.assertEqual(rejected["status"], "unknown")
+        self.assertIn("not a pinned", rejected["refresh_error"])
+        self.assertEqual(seen, [])
+
     def test_discussion_updated_at_newer_is_stale_and_unfetched_is_unknown(self):
         issue = nsr.refresh_record(load("issue.json"), offline_fetch, NOW)
         self.assertEqual(issue["status"], "stale")
