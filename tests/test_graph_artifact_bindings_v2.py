@@ -57,6 +57,14 @@ GB7E_NODES = {
 }
 GB7E_EXCLUDED = {"math.d5-component.remote-window-proof"}
 
+# GB-8a (main#475 6369972075): remaining existing nodes, per-file records (a file
+# under the bound eng.hard-gate tree is not bound without its own record).
+GB8A_NODES = {
+    "eng.d0-packet-allowlist-fix",
+    "math.d5-pin-neighborhood-first-moment",
+    "math.rn-selector-region-crosswalk",
+}
+
 
 def _pairs_no_dupes(pairs):
     keys = [k for k, _ in pairs]
@@ -142,6 +150,17 @@ class GraphArtifactBindingsV2Test(unittest.TestCase):
                 self.assertEqual(rec["commit"], ns["commit"])
         bound = {r["node_id"] for r in self.doc["bindings"]}
         self.assertFalse(bound & GB7E_EXCLUDED)
+
+    def test_gb8a_nodes_are_pinned_files(self):
+        self.assertLessEqual(GB8A_NODES, self.site_nodes)
+        ns = self.doc["node_source"]
+        recs = [r for r in self.doc["bindings"] if r["node_id"] in GB8A_NODES]
+        self.assertEqual({r["node_id"] for r in recs}, GB8A_NODES)
+        for rec in recs:
+            with self.subTest(node=rec["node_id"]):
+                self.assertEqual(rec["kind"], "file")
+                self.assertEqual(rec["repository"], ns["repository"])
+                self.assertEqual(rec["commit"], ns["commit"])
 
     def test_no_kind_is_promoted_to_bound(self):
         # Only file/tree can ever evaluate as bound; GB-7b binds no main-repo file,
