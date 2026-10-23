@@ -54,7 +54,10 @@ CARRIED_SOURCE_URL = re.compile(
 def _http_url(url):
     if not isinstance(url, str) or not url or any(ch.isspace() for ch in url):
         return False
-    parsed = urlparse(url)
+    try:
+        parsed = urlparse(url)
+    except ValueError:
+        return False
     return parsed.scheme.lower() in ("http", "https") and bool(parsed.netloc)
 
 
