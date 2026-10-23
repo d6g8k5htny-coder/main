@@ -356,6 +356,94 @@ class GraphBindingV2ReportTest(unittest.TestCase):
         rc, _, err = self.run_v2(self.doc([]), None, "--scope", "art/*.json")
         self.assertEqual(rc, 2)
 
+    def test_absent_null_last_seen_commit_kept_honest(self):
+        # GB-5 L104 "without faking a pin": null = never committed; still
+        # counted with missing, never bound.
+        a = {"node_id": "hist.old", "kind": "absent", "repository": REPO,
+             "artifact_path": "gone.json", "reason": "never committed",
+             "last_seen_commit": None, "roles": ["source"]}
+        rc, rep, err = self.run_v2(self.doc([a]))
+        self.assertEqual(rc, 0, err)
+        self.assertEqual(rep["absent"][0]["last_seen_commit"], None)
+        self.assertEqual(rep["bound"], [])
+        del a["last_seen_commit"]
+        self.assertEqual(self.run_v2(self.doc([a]))[0], 2)  # key still required
+        a["last_seen_commit"] = "abc"
+        self.assertEqual(self.run_v2(self.doc([a]))[0], 2)  # non-null must be 40-hex
+
+    def test_external_unverified_may_name_repository(self):
+        e = {"node_id": "TEST.ext", "kind": "external_unverified", "repository": REPO,
+             "url": "external:Math-PR7", "roles": ["source"]}
+        rc, rep, err = self.run_v2(self.doc([e]))
+        self.assertEqual(rc, 0, err)
+        self.assertEqual(rep["bound"], [])
+
+    def test_foreign_node_source_requires_checkout_and_pin(self):
+        d = self.doc([])
+        d["node_source"]["repository"] = "o/other"
+        self.assertEqual(self.run_v2(d)[0], 2)  # no checkout: fail closed
+        src = self.root / "src"
+        src.mkdir()
+        g = lambda *a: subprocess.run(["git", "-C", str(src), *a], check=True,
+                                      capture_output=True, text=True).stdout.strip()
+        g("init", "-q")
+        (src / "g.json").write_text(json.dumps(self.graph))
+        g("add", "g.json")
+        g("-c", "user.name=t", "-c", "user.email=t@t", "commit", "-qm", "g")
+        pin = g("rev-parse", "HEAD")
+        (src / "g.json").write_text(json.dumps({"nodes": {"ONLY.wt": {}}}))  # dirty tree ignored
+        d["node_source"]["commit"] = pin
+        rc, rep, err = self.run_v2(d, None, "--node-source-checkout", str(src))
+        self.assertEqual(rc, 0, err)
+        self.assertTrue(rep["node_source_read"]["pinned"])
+        self.assertEqual(rep["counts"]["graph_nodes"], 7)
+        d["node_source"]["commit"] = "2" * 40  # pin absent from checkout
+        self.assertEqual(self.run_v2(d, None, "--node-source-checkout", str(src))[0], 2)
+
+    def test_foreign_repository_records_never_bound(self):
+        r = self.rec("TEST.n1", "art/a.json", b"A", repository="o/other")
+        rc, rep, _ = self.run_v2(self.doc([r]))
+        self.assertEqual(rc, 0)
+        self.assertEqual(rep["bound"], [])
+        self.assertEqual(rep["other_repository"][0]["node_id"], "TEST.n1")
+
+
+DATA_525 = "29b7d5969e2cd707debb7449c69a71bbcd39cf63"
+MATH_PIN = "dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde"
+
+
+class Composition525Test(unittest.TestCase):
+    """Pinned composition: main#525 data at 29b7d596 + Math- checkout holding
+    dbe6c0a1 (set GB_MATH_CHECKOUT). Skips when either commit is unavailable."""
+
+    def test_525_composition(self):
+        import os
+        repo = TOOL.parents[1]
+        math = os.environ.get("GB_MATH_CHECKOUT")
+        ok = lambda d, c: subprocess.run(["git", "-C", str(d), "cat-file", "-e", c + "^{commit}"],
+                                         capture_output=True).returncode == 0
+        if not math or not ok(repo, DATA_525) or not ok(math, MATH_PIN):
+            self.skipTest("29b7d596 or Math- dbe6c0a1 unavailable")
+        with tempfile.TemporaryDirectory() as t:
+            arc = subprocess.run(["git", "-C", str(repo), "archive", DATA_525, "architecture"],
+                                 capture_output=True, check=True).stdout
+            subprocess.run(["tar", "-x", "-C", t], input=arc, check=True)
+            f = "architecture/graph-artifact-bindings.v2.json"
+            p = subprocess.run([sys.executable, "-B", str(TOOL), "--root", t, "--v2",
+                                str(Path(t) / f), "--node-source-checkout", math],
+                               capture_output=True, text=True)
+            self.assertEqual(p.returncode, 0, p.stderr)
+            rep = json.loads(p.stdout)
+            self.assertTrue(rep["node_source_read"]["pinned"])
+            c = rep["counts"]
+            self.assertEqual((c["bindings"], c["graph_nodes"], c["bound"], c["absent"],
+                              c["historical"], c["external_unverified"], c["other_repository"],
+                              c["unknown_node"], c["missing"], c["stale"]),
+                             (21, 49, 0, 3, 7, 2, 9, 0, 0, 0))
+            self.assertEqual([a["last_seen_commit"] for a in rep["absent"]], [None] * 3)
+            self.assertIn("hist.lemma_closed", rep["unbound_nodes"])
+            self.assertEqual(len(rep["unbound_nodes"]), 28)
+
 
 if __name__ == "__main__":
     unittest.main()

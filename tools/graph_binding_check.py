@@ -214,7 +214,7 @@ V2_KIND_FIELDS = {
     "historical": ({"repository", "artifact_path", "commit", "blob_sha", "sha256"}, set()),
     "tree": ({"repository", "artifact_path", "commit", "blob_sha"}, set()),
     "absent": ({"repository", "artifact_path", "reason", "last_seen_commit"}, set()),
-    "external_unverified": ({"url"}, set()),
+    "external_unverified": ({"url"}, {"repository"}),
 }
 V2_OPTIONAL = {"artifact_id"}
 HEX40 = re.compile(r"[0-9a-f]{40}")
@@ -276,8 +276,8 @@ def load_v2(path):
         kind = r["kind"]
         if kind not in V2_KINDS:
             raise InputError(f"v2 binding kind unknown: {kind!r}")
-        need, _ = V2_KIND_FIELDS[kind]
-        allowed = V2_REQUIRED | need | V2_OPTIONAL
+        need, opt = V2_KIND_FIELDS[kind]
+        allowed = V2_REQUIRED | need | opt | V2_OPTIONAL
         if not need <= set(r) or not set(r) <= allowed:
             raise InputError(f"v2 {kind} binding fields must be {sorted(V2_REQUIRED | need)} (+artifact_id)")
         if not isinstance(r["node_id"], str) or not NODE_ID.fullmatch(r["node_id"]):
@@ -295,6 +295,10 @@ def load_v2(path):
         if "artifact_path" in r:
             _v2_path(r["artifact_path"])
         for f in ("commit", "blob_sha", "last_seen_commit"):
+            # Contract L104: absent needs last_seen_commit "without faking a
+            # pin"; null = no commit ever contained the file (honest unknown).
+            if f == "last_seen_commit" and r.get(f, 0) is None:
+                continue
             if f in r:
                 _hex(r[f], HEX40, f)
         if "sha256" in r:
@@ -312,17 +316,50 @@ def load_v2(path):
     return doc
 
 
-def _v2_nodes(root: Path, ns):
-    """Node universe only from the declared node_source file (graph.data.nodes,
-    or a top-level nodes dict/list). Returns {node_id: node_object}."""
-    target = (root / ns["path"]).resolve()
+def _git_show(checkout: Path, commit: str, rel: str):
+    import subprocess
     try:
-        target.relative_to(root)
-    except ValueError:
-        raise InputError("v2 node_source.path escapes root")
-    if not target.is_file():
-        raise InputError("v2 node_source.path missing at checked ref")
-    data = _strict_load(target)
+        out = subprocess.run(["git", "-C", str(checkout), "show", f"{commit}:{rel}"],
+                             capture_output=True, timeout=120)
+    except (OSError, subprocess.SubprocessError):
+        return None
+    return out.stdout if out.returncode == 0 else None
+
+
+def _v2_nodes(root: Path, ns, repository: str, ns_checkout):
+    """Node universe only from the declared node_source (contract L62): its
+    repository at its pinned commit. Returns ({node_id: node}, read_info).
+
+    - node_source.repository != --repository: --node-source-checkout (a git
+      checkout of that repository) is required and the file is read with
+      `git show <commit>:<path>`; no checkout, or the pin is not in it -> exit 2.
+    - same repository: read at the pin from --root's git if available, else
+      from the --root working tree, reported as pinned=false."""
+    import tempfile
+    if ns["repository"] != repository and ns_checkout is None:
+        raise InputError(f"v2 node_source repository {ns['repository']} is not --repository "
+                         f"{repository}; pass --node-source-checkout")
+    checkout = Path(ns_checkout).resolve() if ns_checkout is not None else root
+    raw = _git_show(checkout, ns["commit"], ns["path"])
+    info = {"repository": ns["repository"], "commit": ns["commit"], "path": ns["path"]}
+    if raw is not None:
+        info["pinned"] = True
+        with tempfile.NamedTemporaryFile(suffix=".json") as fh:
+            fh.write(raw)
+            fh.flush()
+            data = _strict_load(Path(fh.name))
+    elif ns_checkout is not None:
+        raise InputError("v2 node_source pin not readable in --node-source-checkout")
+    else:
+        target = (root / ns["path"]).resolve()
+        try:
+            target.relative_to(root)
+        except ValueError:
+            raise InputError("v2 node_source.path escapes root")
+        if not target.is_file():
+            raise InputError("v2 node_source.path missing at checked ref")
+        info["pinned"] = False
+        data = _strict_load(target)
     nodes = data
     if isinstance(nodes, dict) and "graph" in nodes:
         nodes = nodes["graph"]
@@ -338,7 +375,7 @@ def _v2_nodes(root: Path, ns):
     for k in nodes:
         if not isinstance(k, str) or not NODE_ID.fullmatch(k):
             raise InputError(f"v2 invalid node id in node_source {k!r}")
-    return nodes
+    return nodes, info
 
 
 def _git_tree_sha(root: Path, rel: str):
@@ -352,9 +389,12 @@ def _git_tree_sha(root: Path, rel: str):
     return sha if out.returncode == 0 and HEX40.fullmatch(sha) else None
 
 
-def check_v2(root: Path, doc, repository: str):
+def check_v2(root: Path, doc, repository: str, ns_checkout=None):
+    """Records are evaluated in one repository only (--repository at --root,
+    the checked ref, contract L85). Records naming another repository are
+    reported as other_repository and never bound (fail closed)."""
     root = root.resolve()
-    nodes = _v2_nodes(root, doc["node_source"])
+    nodes, ns_info = _v2_nodes(root, doc["node_source"], repository, ns_checkout)
     st = {k: [] for k in ("bound", "stale", "missing", "historical", "absent",
                           "external_unverified", "other_repository",
                           "tree_unverifiable", "unknown_node")}
@@ -373,6 +413,8 @@ def check_v2(root: Path, doc, repository: str):
         if kind in ("historical", "absent", "external_unverified"):
             if kind == "external_unverified":
                 item["url"] = r["url"]
+            if kind == "absent":
+                item["last_seen_commit"] = r["last_seen_commit"]
             st[kind].append(item)
             continue
         if r["repository"] != repository:
@@ -467,6 +509,8 @@ def check_v2(root: Path, doc, repository: str):
         "mode": "report",
         "scientific_effect": "NONE",
         "node_source": doc["node_source"],
+        "node_source_read": ns_info,
+        "checked_repository": repository,
         "counts": {"graph_nodes": len(nodes), "bindings": len(doc["bindings"]),
                    "in_scope_artifacts": len(in_scope),
                    **{k: len(v) for k, v in st.items()}},
@@ -488,6 +532,8 @@ def main(argv=None) -> int:
     ap.add_argument("--root", required=True)
     ap.add_argument("--bindings")
     ap.add_argument("--v2", help="v2 bindings file (report mode only)")
+    ap.add_argument("--node-source-checkout",
+                    help="git checkout of node_source.repository (v2), read at its pinned commit")
     ap.add_argument("--repository", default="d6g8k5htny-coder/main",
                     help="owner/name of --root, for v2 records")
     ap.add_argument("--graph-nodes", action="append", default=[])
@@ -499,7 +545,8 @@ def main(argv=None) -> int:
         try:
             if args.bindings or args.graph_nodes or args.site_nodes or args.scope:
                 raise InputError("--v2 takes node source and scope from the v2 file only")
-            report = check_v2(Path(args.root), load_v2(args.v2), args.repository)
+            report = check_v2(Path(args.root), load_v2(args.v2), args.repository,
+                              args.node_source_checkout)
         except (InputError, OSError) as exc:
             print(f"GRAPH_BINDING_INPUT_ERROR: {exc}", file=sys.stderr)
             return 2
