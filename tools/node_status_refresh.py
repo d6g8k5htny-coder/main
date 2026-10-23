@@ -45,7 +45,8 @@ SCHEMA_VERSION = 0
 STATUSES = ("fresh", "stale", "unknown")
 API = "https://api.github.com"
 _COMMENT_PAGE = 100
-_COMMENT_PAGE_LIMIT = 10
+# Bounded support for 2,500 comments plus a terminal short/empty page.
+_COMMENT_PAGE_LIMIT = 26
 
 _SHA = re.compile(r"^[0-9a-f]{40}$")
 _UTC = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
