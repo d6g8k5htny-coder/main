@@ -116,6 +116,65 @@ class GraphBindingCheckTest(unittest.TestCase):
         self.assertEqual(rc, 1)
         self.assertEqual(rep["unbound_nodes"], ["TEST.n3"])
 
+    def _raw(self, *args):
+        bf = self.root / "bindings.json"
+        bf.write_text(json.dumps(self.full()))
+        cmd = [sys.executable, "-B", str(TOOL), "--root", str(self.root),
+               "--bindings", str(bf), *args]
+        p = subprocess.run(cmd, capture_output=True, text=True)
+        return p.returncode, p.stdout, p.stderr
+
+    # F1: empty or missing node sets fail closed.
+    def test_f1_missing_site_nodes_dir_exits_2(self):
+        rc, out, err = self._raw("--site-nodes", str(self.root / "nope"))
+        self.assertEqual((rc, out), (2, ""))
+        self.assertIn("GRAPH_BINDING_INPUT_ERROR", err)
+
+    def test_f1_empty_graph_nodes_exits_2_even_report_only(self):
+        empty = self.root / "empty.json"
+        empty.write_text("[]")
+        for extra in ([], ["--report-only"]):
+            with self.subTest(extra=extra):
+                rc, out, _ = self._raw("--graph-nodes", str(empty), *extra)
+                self.assertEqual((rc, out), (2, ""))
+
+    def test_f1_empty_site_nodes_dir_exits_2(self):
+        (self.root / "emptysite").mkdir()
+        rc, out, _ = self._raw("--site-nodes", str(self.root / "emptysite"))
+        self.assertEqual((rc, out), (2, ""))
+
+    def test_f1_scope_matching_nothing_fails(self):
+        rc, rep, _ = self.run_tool(self.full(), "--scope", "nomatch/*.json")
+        self.assertEqual(rc, 1)
+        self.assertEqual(rep["empty_scopes"], ["nomatch/*.json"])
+        self.assertEqual(rep["status"], "UNBOUND_ITEMS")
+
+    # F2/F3: scope patterns must stay inside root and exit 2 when malformed.
+    def test_f2_f3_bad_scope_exits_2_without_traceback(self):
+        (self.root.parent / ("gb6_sib_" + self.root.name)).write_text("x")
+        try:
+            for pat in ("../*", "art/../../*", "/etc/*", "", "art//*", "art\\*"):
+                with self.subTest(pat=pat):
+                    rc, out, err = self._raw("--graph-nodes", str(self.nodes),
+                                             "--scope", pat)
+                    self.assertEqual((rc, out), (2, ""))
+                    self.assertIn("GRAPH_BINDING_INPUT_ERROR", err)
+                    self.assertNotIn("Traceback", err)
+        finally:
+            (self.root.parent / ("gb6_sib_" + self.root.name)).unlink()
+
+    def test_f2_scope_symlink_escape_reported(self):
+        outside = self.root.parent / ("gb6_scope_out_" + self.root.name)
+        outside.write_bytes(b"X")
+        try:
+            (self.root / "art" / "esc.json").symlink_to(outside)
+            rc, rep, _ = self.run_tool(self.full())
+            self.assertEqual(rc, 1)
+            self.assertEqual(rep["scope_outside_root"], ["art/esc.json"])
+            self.assertNotIn("art/esc.json", rep["unbound_artifacts"])
+        finally:
+            outside.unlink()
+
     def test_deterministic_output(self):
         a = self.run_tool([], "--report-only")
         b = self.run_tool([], "--report-only")

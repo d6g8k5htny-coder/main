@@ -14,7 +14,10 @@ Inputs (all explicit; no network, no writes):
   --scope GLOB          in-scope artifact glob relative to root (repeatable)
   --report-only         always exit 0 after printing the report
 
-Exit codes: 0 all bound; 1 unbound/stale items found; 2 malformed input.
+Exit codes: 0 all bound; 1 unbound/stale items or a scope matching nothing;
+2 malformed input, including an empty node set, a missing --site-nodes
+directory, or an absolute/'..' --scope (fail closed; --report-only does not
+override exit 2).
 The report is deterministic JSON on stdout (sorted keys, one trailing newline).
 """
 from __future__ import annotations
@@ -81,12 +84,26 @@ def load_nodes(files, site_dirs):
                 raise InputError(f"duplicate node id {n!r}")
             nodes.add(n)
     for d in site_dirs:
+        if not Path(d).is_dir():
+            raise InputError(f"--site-nodes is not a directory: {Path(d).name!r}")
         for html in sorted(Path(d).glob("*.html")):
             n = html.name[:-len(".html")]
             if not NODE_ID.fullmatch(n):
                 raise InputError(f"invalid site node id {n!r}")
             nodes.add(n)
+    if not nodes:
+        # F1: an empty node set must fail closed, never read as ALL_BOUND.
+        raise InputError("graph node set is empty")
     return nodes
+
+
+def validate_scope(pattern: str) -> str:
+    """F2/F3: scope globs must be repo-relative; no absolute, '..' or empty parts."""
+    if (not isinstance(pattern, str) or not pattern or "\\" in pattern
+            or "\x00" in pattern or pattern.startswith("/")
+            or any(part in ("..", "") for part in pattern.split("/"))):
+        raise InputError(f"--scope not repo-relative: {pattern!r}")
+    return pattern
 
 
 def load_bindings(path):
@@ -135,11 +152,22 @@ def check(root: Path, nodes, bindings, scopes):
             continue
         bound_nodes.add(b["node_id"])
         bound_paths.add(b["artifact_path"])
-    in_scope = set()
+    in_scope, empty_scopes, scope_outside = set(), [], []
     for g in scopes:
-        for p in root.glob(g):
-            if p.is_file():
-                in_scope.add(p.relative_to(root).as_posix())
+        matched = False
+        for p in root.glob(validate_scope(g)):
+            if not p.is_file():
+                continue
+            rel = p.relative_to(root).as_posix()
+            try:
+                p.resolve().relative_to(root)
+            except ValueError:
+                scope_outside.append(rel)  # symlink escaping root
+                continue
+            matched = True
+            in_scope.add(rel)
+        if not matched:
+            empty_scopes.append(g)
     report = {
         "schema_version": 1,
         "scientific_effect": "NONE",
@@ -154,10 +182,13 @@ def check(root: Path, nodes, bindings, scopes):
         "bindings_missing_artifact": missing,
         "bindings_stale_sha": stale,
         "bindings_outside_root": outside,
+        "empty_scopes": sorted(empty_scopes),
+        "scope_outside_root": sorted(scope_outside),
     }
     failing = any(report[k] for k in (
         "unbound_nodes", "unbound_artifacts", "bindings_unknown_node",
-        "bindings_missing_artifact", "bindings_stale_sha", "bindings_outside_root"))
+        "bindings_missing_artifact", "bindings_stale_sha", "bindings_outside_root",
+        "empty_scopes", "scope_outside_root"))
     report["status"] = "UNBOUND_ITEMS" if failing else "ALL_BOUND"
     return report, failing
 
@@ -174,6 +205,8 @@ def main(argv=None) -> int:
     try:
         if not args.graph_nodes and not args.site_nodes:
             raise InputError("need --graph-nodes and/or --site-nodes")
+        for g in args.scope:
+            validate_scope(g)
         nodes = load_nodes(args.graph_nodes, args.site_nodes)
         bindings = load_bindings(args.bindings)
         report, failing = check(Path(args.root), nodes, bindings, args.scope)
