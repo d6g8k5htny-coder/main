@@ -42,16 +42,16 @@ Status: 13 pinned in Math-; 2 absent in Math- (pinned in main instead); 0 v2 rec
 
 ## Drive / Dropbox
 - Drive (read-only title search): `UniversalLaw`, `lean`. 10 leads. LEADS_FOUND_NOT_IMPORTED: title matches only; none names a lane unit path, so nothing is bound or copied under imports/historical/GB-8p/. Mapping them is DRV-H1..H3 work.
-  - `1LuLp-7QF3mydlAb_Vv7MZWO6G2O4D7P-` C291_LITERAL_FIELD_LEAN_DELIVERY_20261018.zip (2026-10-18T00:56:38Z)
-  - `1kFKwch740NTfxNJi8EFZnSlE4UVrZJrlfPiMHXSKsMQ` CL-VER-001-20260727-01 (Lean source for the corrected trichotomy) (2026-07-27T18:36:47Z)
-  - `1tQorQbs5JlQU9arCKkQKq3dHy5HebUAwWBUNfL1ToP0` GP-REC-220-v1.0 DQ-002 Lean Runtime Availability Check (2026-07-26T02:34:34Z)
-  - `139NzUfVXV5-rW-pn_vIu6xFrqnwDcsHYPbWIn7FqOPs` GP-REQ-194-v1.0 Independent Source Review and Clean Lean Build of GP-FOR-192 (2026-07-26T02:20:15Z)
-  - `12b2f_GuMvvbMVjoEItEDkBO6N3GieF4qVC8q1HLwFN4` CL-REC-203-v1.0 Status Delta 2026-07-25 (2026-07-25T13:08:26Z)
-  - `1Yifwna2ubGTUtpqmI_hOm76S_8zv4wAZjdaizc9niPI` GP-FOR-001 Initial q0 Formal Core: Tier-A Lean Drafts (2026-07-24T21:37:51Z)
-  - `1kJgGJ2A0nugONgPg-EfWOVknLIzw-31q` GP-FOR-189-v1.0_Status.lean (2026-07-24T21:34:28Z)
-  - `1ZQztzXzUiSC_AhMiPcibupSI5JRt5hS7` GP-FOR-189-v1.0_Algebra.lean (2026-07-24T21:34:18Z)
-  - `1Pde6B_n0kKPRTFdpayo-aMd07JimRgyDxBUEC4lJsyw` Recommendation - Graph Visualization and Data Structure Approaches for Universal Law Project (2026-10-19T16:44:21Z)
-  - `1gdBie_ivKWTOYhah-G01jyAERb5qDpgTLxDkzbUmcqA` Universal Law Project - Graph Visualization & Data Structure Recommendations (2026-10-19T16:44:03Z)
+  - `WITHHELD (OP-PRIVACY)` C291_LITERAL_FIELD_LEAN_DELIVERY_20261018.zip (2026-10-18T00:56:38Z)
+  - `WITHHELD (OP-PRIVACY)` CL-VER-001-20260727-01 (Lean source for the corrected trichotomy) (2026-07-27T18:36:47Z)
+  - `WITHHELD (OP-PRIVACY)` GP-REC-220-v1.0 DQ-002 Lean Runtime Availability Check (2026-07-26T02:34:34Z)
+  - `WITHHELD (OP-PRIVACY)` GP-REQ-194-v1.0 Independent Source Review and Clean Lean Build of GP-FOR-192 (2026-07-26T02:20:15Z)
+  - `WITHHELD (OP-PRIVACY)` CL-REC-203-v1.0 Status Delta 2026-07-25 (2026-07-25T13:08:26Z)
+  - `WITHHELD (OP-PRIVACY)` GP-FOR-001 Initial q0 Formal Core: Tier-A Lean Drafts (2026-07-24T21:37:51Z)
+  - `WITHHELD (OP-PRIVACY)` GP-FOR-189-v1.0_Status.lean (2026-07-24T21:34:28Z)
+  - `WITHHELD (OP-PRIVACY)` GP-FOR-189-v1.0_Algebra.lean (2026-07-24T21:34:18Z)
+  - `WITHHELD (OP-PRIVACY)` Recommendation - Graph Visualization and Data Structure Approaches for Universal Law Project (2026-10-19T16:44:21Z)
+  - `WITHHELD (OP-PRIVACY)` Universal Law Project - Graph Visualization & Data Structure Recommendations (2026-10-19T16:44:03Z)
 - Dropbox: no access (no connector), not worked around.
 
 ## NOT EXECUTED
