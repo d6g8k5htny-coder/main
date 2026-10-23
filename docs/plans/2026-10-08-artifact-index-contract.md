@@ -45,3 +45,46 @@ Every row exactly `{artifact_id,source_row,fields}`: source_row is original1-bas
 Tests launch the CLI as a subprocess with -B -S and propagate the active optimized mode. Before implementation, actual hosted RED must identify the missing CLI, not merely fail discovery/import/setup. Cover valid deterministic preservation and typing; multiple native ranges/default offsets/blank cells; every independently pinned identity; each required/duplicate/invalid flag; duplicate/nonfinite/deep/oversized JSON and canonical base64; native source/header/range/row/grid/type contradictions; unknown/duplicate artifact IDs and bindings; six explicit roles; unknown graph IDs; missing mappings; forged columns; private Source/Notes and unselected-row canaries absent from public stdout and refusal stderr; inert code/URL strings never fetched or executed. Positive selected public strings may themselves contain URLs/code as inert escaped data; omission is determined by explicit field/row policy.
 
 Keep fixtures synthetic and compact. Do not copy any real private capture into tests or the public repository. Complete this unit only after exact candidate hosted normal/optimized controls pass with full discovery, original failure/success archives and nonauthor source/privacy review. Real selected source projection/readback follows that tested parser; the capture SHA alone does not authenticate a Sheet revision. Native graph archive readback, evidence-public projection, Astro/build/browser/deployment and all other architecture outcomes remain separate work.
+
+## Proposed v2 extension: required node_id <-> artifact_path+sha binding (GB-5, proposal only)
+
+Status: PROPOSAL under GRAPH-BIND-01 (main#475 directive 6363671135, slice GB-5). Doc-only. This section changes no code, workflow, CI, required check or setting. v1 behavior above stays in force until a separate tested implementation lands with nonauthor review. Wiring any check into CI needs Dylan's approval, routed through CoS. Scientific effect NONE. A binding records where an artifact lives at a pinned revision. It is never acceptance, review or discharge evidence, and math stays fail-closed.
+
+### Motivation
+
+v1 bindings join graph nodes to Artifact Index rows only by `artifact_id`. `architecture/public-artifact-index-bindings.json` is currently `[]`, and all graph IDs are unmapped. Nothing records which repository file at which exact bytes backs a node, so no checker can report unbound or stale items.
+
+### Binding record (schema_version 2)
+
+Each binding is exactly this object. Unknown, missing or duplicate keys refuse:
+
+- `node_id`: graph node ID, using the same ASCII pattern and 192-character bound as v1 IDs.
+- `artifact_id`: optional Artifact Index ID (v1 semantics). If present, it must be selected by policy.
+- `repository`: `owner/name`, using the `[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+` pattern.
+- `artifact_path`: a repo-relative POSIX path. It must be non-empty, contain no leading `/`, have no `.` or `..` segments, use no backslashes or control characters, and be at most 1024 UTF-8 bytes.
+- `commit`: a 40-hex lowercase commit at which the path was observed.
+- `blob_sha`: the 40-hex lowercase git blob SHA of `artifact_path` at `commit`.
+- `sha256`: the 64-hex lowercase SHA-256 of the exact file bytes at that blob.
+- `roles`: a non-empty, unique, lexically sorted list drawn from the v1 role set.
+
+A binding is unique per (`node_id`, `repository`, `artifact_path`). One node may bind several artifacts, and one artifact may back several nodes. Records sort by `node_id`, then `repository`, then `artifact_path`.
+
+### Required states (what a GB-6-style check reports)
+
+- **bound**: `artifact_path` exists at `commit`, and its blob and SHA-256 equal the pins.
+- **stale**: the path exists at the checked ref, but its current blob differs from `blob_sha`. This is reported, not silently repinned.
+- **missing**: the path does not exist at the checked ref.
+- **unbound node**: a graph node with no binding record.
+- **unbound artifact**: an in-scope file that no binding names. Scope is declared by an explicit, reviewed include-glob list in the bindings document, never inferred.
+
+In report mode the check lists all five states and exits 0. In enforce mode it exits nonzero on stale, missing or unbound items. Enforce mode is only used once Dylan approves CI wiring. Output is deterministic sorted ASCII JSON, matching v1 output rules.
+
+### Migration
+
+1. v1 `{node_id, artifact_id, roles}` records remain valid as v1. A v2 document carries `schema_version: 2` at the root and rejects v1-shaped records.
+2. Pins come from a reviewed source commit, never from the working tree of an unreviewed head.
+3. Per-lane binding PRs (GB-7+) populate records only after GB-1..GB-4 inventories report, one PR per area.
+
+### Non-goals
+
+No inference of bindings from titles or prose, no network fetch, no Sheet writes, and no change to required checks. Binding status does not change scientific status.
