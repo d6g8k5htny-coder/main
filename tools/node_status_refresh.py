@@ -51,7 +51,7 @@ _SHA = re.compile(r"^[0-9a-f]{40}$")
 _UTC = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$")
 _PINNED = re.compile(
     r"^https://github\.com/d6g8k5htny-coder/(main|Math-)/(blob|tree)/"
-    r"([0-9a-f]{40})/([A-Za-z0-9_./-]+)$")
+    r"([0-9a-f]{40})/([A-Za-z0-9_./-]+)")
 _DISCUSSION = re.compile(
     r"^https://github\.com/d6g8k5htny-coder/(main|Math-)/(issues|pull)/"
     r"([1-9][0-9]*)(?:#issuecomment-([1-9][0-9]*))?$")
@@ -96,7 +96,7 @@ def _api_get(path: str) -> object:
 def _classify(url: object) -> tuple[str, re.Match[str]] | tuple[None, None]:
     if not isinstance(url, str):
         return None, None
-    pinned = _PINNED.match(url)
+    pinned = _PINNED.fullmatch(url)
     if pinned:
         return "sha", pinned
     discussion = _DISCUSSION.fullmatch(url)
