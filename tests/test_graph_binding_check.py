@@ -181,5 +181,143 @@ class GraphBindingCheckTest(unittest.TestCase):
         self.assertEqual(a, b)
 
 
+def blob(b):
+    return hashlib.sha1(b"blob %d\x00" % len(b) + b).hexdigest()
+
+
+C = "1" * 40
+REPO = "d6g8k5htny-coder/main"
+
+
+class GraphBindingV2ReportTest(unittest.TestCase):
+    """v2 contract (GB-5, e1d1ebc2): report mode only."""
+
+    def setUp(self):
+        self.tmp = tempfile.TemporaryDirectory()
+        self.root = Path(self.tmp.name)
+        (self.root / "art").mkdir()
+        (self.root / "art" / "a.json").write_bytes(b"A")
+        (self.root / "art" / "b.json").write_bytes(b"B")
+        (self.root / "pkg").mkdir()
+        (self.root / "pkg" / "x.txt").write_bytes(b"x")
+        self.graph = {"graph": {"data": {"nodes": {
+            "TEST.n1": {"source": "art/a.json"},
+            "TEST.n2": {"source": "art/b.json"},
+            "TEST.dir": {"source": "pkg/"},
+            "TEST.url": {"source": "https://github.com/o/r/pull/1"},
+            "TEST.ext": {"source": "external:Math-PR7"},
+            "hist.old": {},
+            "hist.carried": {"source": "art/a.json"},
+        }}}}
+        (self.root / "g.json").write_text(json.dumps(self.graph))
+
+    def tearDown(self):
+        self.tmp.cleanup()
+
+    def rec(self, node, path, data, **kw):
+        r = {"node_id": node, "kind": "file", "repository": REPO, "artifact_path": path,
+             "commit": C, "blob_sha": blob(data), "sha256": sha(data), "roles": ["source"]}
+        r.update(kw)
+        return r
+
+    def doc(self, bindings, scope=("art/*.json",)):
+        return {"schema_version": 2,
+                "node_source": {"kind": "site-projection", "repository": REPO,
+                                "path": "g.json", "commit": C},
+                "scope": sorted(scope), "bindings": bindings}
+
+    def run_v2(self, doc, raw=None, *extra):
+        f = self.root / "v2.json"
+        f.write_text(raw if raw is not None else json.dumps(doc))
+        p = subprocess.run([sys.executable, "-B", str(TOOL), "--root", str(self.root),
+                            "--v2", str(f), *extra], capture_output=True, text=True)
+        return p.returncode, (json.loads(p.stdout) if p.stdout else None), p.stderr
+
+    def test_bound_and_ref_format(self):
+        rc, rep, _ = self.run_v2(self.doc([self.rec("TEST.n1", "art/a.json", b"A")]))
+        self.assertEqual(rc, 0)
+        self.assertEqual(rep["mode"], "report")
+        self.assertEqual(rep["bound"][0]["ref"], f"{REPO}:art/a.json@{C}#{blob(b'A')}")
+        self.assertEqual(rep["unbound_artifacts"], ["art/b.json"])
+        self.assertIn("TEST.n2", rep["unbound_nodes"])
+
+    def test_stale_still_exit_zero(self):
+        r = self.rec("TEST.n1", "art/a.json", b"OLD")
+        rc, rep, _ = self.run_v2(self.doc([r]))
+        self.assertEqual(rc, 0)
+        self.assertEqual(rep["counts"]["stale"], 1)
+        self.assertEqual(rep["stale"][0]["actual_blob_sha"], blob(b"A"))
+
+    def test_missing_unknown_and_other_kinds(self):
+        recs = [
+            self.rec("TEST.n1", "art/gone.json", b"A"),
+            self.rec("TEST.n2", "art/b.json", b"B", repository="o/other"),
+            {"node_id": "TEST.url", "kind": "external_unverified", "url": "https://x/1",
+             "roles": ["review"]},
+            self.rec("ZZ.nope", "art/a.json", b"A"),
+            {"node_id": "hist.carried", "kind": "absent", "repository": REPO,
+             "artifact_path": "old.json", "reason": "deleted", "last_seen_commit": C,
+             "roles": ["source"]},
+            self.rec("hist.old", "art/a.json", b"A", kind="historical"),
+        ]
+        recs.sort(key=lambda r: (r["node_id"], r.get("repository", ""),
+                                 r.get("artifact_path", r.get("url", ""))))
+        rc, rep, _ = self.run_v2(self.doc(recs))
+        self.assertEqual(rc, 0)
+        c = rep["counts"]
+        self.assertEqual((c["missing"], c["other_repository"], c["external_unverified"],
+                          c["unknown_node"], c["absent"], c["historical"], c["bound"]),
+                         (1, 1, 1, 1, 1, 1, 0))
+
+    def test_policy_open_fields_listed_not_judged(self):
+        rc, rep, _ = self.run_v2(self.doc([]))
+        self.assertEqual(rc, 0)
+        pol = rep["policy_open"]
+        self.assertEqual([d["node_id"] for d in pol["directory_sources"]], ["TEST.dir"])
+        self.assertEqual(pol["hist_nodes_without_source"], ["hist.old"])
+        self.assertEqual([d["node_id"] for d in pol["url_or_external_sources"]],
+                         ["TEST.ext", "TEST.url"])
+        # listing does not change bound/unbound state: all still unbound
+        for n in ("TEST.dir", "TEST.url", "TEST.ext", "hist.old"):
+            self.assertIn(n, rep["unbound_nodes"])
+        self.assertEqual(rep["counts"]["bound"], 0)
+
+    def test_tree_kind_without_git_is_unverifiable(self):
+        r = {"node_id": "TEST.dir", "kind": "tree", "repository": REPO,
+             "artifact_path": "pkg", "commit": C, "blob_sha": C, "roles": ["source"]}
+        rc, rep, _ = self.run_v2(self.doc([r]))
+        self.assertEqual(rc, 0)
+        self.assertEqual(rep["counts"]["tree_unverifiable"], 1)
+
+    def test_malformed_exit_two(self):
+        bad = [
+            dict(self.doc([]), schema_version=1),
+            dict(self.doc([]), extra=1),
+            self.doc([self.rec("TEST.n1", "../a.json", b"A")]),
+            self.doc([self.rec("TEST.n1", "art/a.json", b"A", roles=[])]),
+            self.doc([self.rec("TEST.n1", "art/a.json", b"A", roles=["boss"])]),
+            self.doc([self.rec("TEST.n1", "art/a.json", b"A", blob_sha="ABC")]),
+            self.doc([self.rec("TEST.n2", "art/b.json", b"B"),
+                      self.rec("TEST.n1", "art/a.json", b"A")]),
+            self.doc([self.rec("TEST.n1", "art/a.json", b"A")] * 2),
+            self.doc([], scope=("/etc/*",)),
+        ]
+        for d in bad:
+            rc, rep, err = self.run_v2(d)
+            self.assertEqual(rc, 2, d)
+            self.assertIn("GRAPH_BINDING_INPUT_ERROR", err)
+        rc, _, _ = self.run_v2(None, raw='{"schema_version":2,"schema_version":2}')
+        self.assertEqual(rc, 2)
+
+    def test_empty_node_source_fails_closed(self):
+        (self.root / "g.json").write_text(json.dumps({"nodes": {}}))
+        rc, _, _ = self.run_v2(self.doc([]))
+        self.assertEqual(rc, 2)
+
+    def test_v2_rejects_mixed_v1_args(self):
+        rc, _, err = self.run_v2(self.doc([]), None, "--scope", "art/*.json")
+        self.assertEqual(rc, 2)
+
+
 if __name__ == "__main__":
     unittest.main()

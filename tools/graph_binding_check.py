@@ -14,7 +14,13 @@ Inputs (all explicit; no network, no writes):
   --scope GLOB          in-scope artifact glob relative to root (repeatable)
   --report-only         always exit 0 after printing the report
 
-Exit codes: 0 all bound; 1 unbound/stale items or a scope matching nothing;
+v2 mode (GB-5 contract in docs/plans/2026-10-08-artifact-index-contract.md):
+  --v2 FILE             v2 root {schema_version:2,node_source,scope,bindings};
+                        records use kind/repository/artifact_path/commit/
+                        blob_sha/sha256 and refs owner/repo:path@commit#blob.
+                        REPORT ONLY: exit 0 on well-formed input, 2 otherwise.
+
+Exit codes (v1): 0 all bound; 1 unbound/stale items or a scope matching nothing;
 2 malformed input, including an empty node set, a missing --site-nodes
 directory, or an absolute/'..' --scope (fail closed; --report-only does not
 override exit 2).
@@ -193,16 +199,288 @@ def check(root: Path, nodes, bindings, scopes):
     return report, failing
 
 
+# ---------------------------------------------------------------------------
+# v2 report mode (GB-5 contract, main e1d1ebc2). REPORT ONLY: exits 0 on any
+# well-formed input and 2 on malformed input; there is no enforce mode.
+# ---------------------------------------------------------------------------
+V2_ROOT_KEYS = {"schema_version", "node_source", "scope", "bindings"}
+V2_NODE_SOURCE_KEYS = {"kind", "repository", "path", "commit"}
+V2_NODE_SOURCE_KINDS = {"graph-readback", "site-projection"}
+V2_KINDS = {"file", "tree", "historical", "absent", "external_unverified"}
+V2_ROLES = {"source", "review", "kernel", "computation", "alignment", "teaching-source"}
+V2_REQUIRED = {"node_id", "kind", "roles"}
+V2_KIND_FIELDS = {
+    "file": ({"repository", "artifact_path", "commit", "blob_sha", "sha256"}, set()),
+    "historical": ({"repository", "artifact_path", "commit", "blob_sha", "sha256"}, set()),
+    "tree": ({"repository", "artifact_path", "commit", "blob_sha"}, set()),
+    "absent": ({"repository", "artifact_path", "reason", "last_seen_commit"}, set()),
+    "external_unverified": ({"url"}, set()),
+}
+V2_OPTIONAL = {"artifact_id"}
+HEX40 = re.compile(r"[0-9a-f]{40}")
+REPO = re.compile(r"[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+")
+CONTROL = re.compile(r"[\x00-\x1f\x7f]")
+
+
+def git_blob_sha(data: bytes) -> str:
+    return hashlib.sha1(b"blob %d\x00" % len(data) + data).hexdigest()
+
+
+def v2_ref(repository: str, path: str, commit: str, blob: str) -> str:
+    """Compact reference form from the contract: owner/repo:path@commit#blob."""
+    return f"{repository}:{path}@{commit}#{blob}"
+
+
+def _v2_path(value) -> str:
+    if (not isinstance(value, str) or not value or len(value.encode("utf-8")) > 1024
+            or value.startswith("/") or "\\" in value or CONTROL.search(value)
+            or any(part in ("", ".", "..") for part in value.split("/"))):
+        raise InputError(f"v2 artifact_path not repo-relative: {value!r}")
+    return value
+
+
+def _hex(value, pattern, name):
+    if not isinstance(value, str) or not pattern.fullmatch(value):
+        raise InputError(f"v2 {name} must be full lower-case hex")
+    return value
+
+
+def load_v2(path):
+    doc = _strict_load(Path(path))
+    if not isinstance(doc, dict) or set(doc) != V2_ROOT_KEYS:
+        raise InputError(f"v2 root must have exactly keys {sorted(V2_ROOT_KEYS)}")
+    if type(doc["schema_version"]) is not int or doc["schema_version"] != 2:
+        raise InputError("v2 schema_version must be integer 2")
+    ns = doc["node_source"]
+    if not isinstance(ns, dict) or set(ns) != V2_NODE_SOURCE_KEYS:
+        raise InputError("v2 node_source must have exactly kind, repository, path, commit")
+    if ns["kind"] not in V2_NODE_SOURCE_KINDS:
+        raise InputError("v2 node_source.kind unknown")
+    if not isinstance(ns["repository"], str) or not REPO.fullmatch(ns["repository"]):
+        raise InputError("v2 node_source.repository must be owner/name")
+    _v2_path(ns["path"])
+    _hex(ns["commit"], HEX40, "node_source.commit")
+    scope = doc["scope"]
+    if (not isinstance(scope, list) or scope != sorted(set(scope))
+            or not all(isinstance(g, str) for g in scope)):
+        raise InputError("v2 scope must be a sorted unique list of strings")
+    for g in scope:
+        validate_scope(g)
+    recs = doc["bindings"]
+    if not isinstance(recs, list):
+        raise InputError("v2 bindings must be a list")
+    seen, keys = set(), []
+    for r in recs:
+        if not isinstance(r, dict) or not V2_REQUIRED <= set(r):
+            raise InputError("v2 binding missing node_id/kind/roles")
+        kind = r["kind"]
+        if kind not in V2_KINDS:
+            raise InputError(f"v2 binding kind unknown: {kind!r}")
+        need, _ = V2_KIND_FIELDS[kind]
+        allowed = V2_REQUIRED | need | V2_OPTIONAL
+        if not need <= set(r) or not set(r) <= allowed:
+            raise InputError(f"v2 {kind} binding fields must be {sorted(V2_REQUIRED | need)} (+artifact_id)")
+        if not isinstance(r["node_id"], str) or not NODE_ID.fullmatch(r["node_id"]):
+            raise InputError("v2 invalid node_id")
+        roles = r["roles"]
+        if (not isinstance(roles, list) or not roles or roles != sorted(set(roles))
+                or not set(roles) <= V2_ROLES):
+            raise InputError("v2 roles must be a nonempty sorted unique subset of the v1 roles")
+        if "artifact_id" in r and (not isinstance(r["artifact_id"], str)
+                                   or not NODE_ID.fullmatch(r["artifact_id"])):
+            raise InputError("v2 invalid artifact_id")
+        if "repository" in r and (not isinstance(r["repository"], str)
+                                  or not REPO.fullmatch(r["repository"])):
+            raise InputError("v2 repository must be owner/name")
+        if "artifact_path" in r:
+            _v2_path(r["artifact_path"])
+        for f in ("commit", "blob_sha", "last_seen_commit"):
+            if f in r:
+                _hex(r[f], HEX40, f)
+        if "sha256" in r:
+            _hex(r["sha256"], HEX64, "sha256")
+        for f in ("reason", "url"):
+            if f in r and (not isinstance(r[f], str) or not r[f] or CONTROL.search(r[f])):
+                raise InputError(f"v2 {f} must be a nonempty string")
+        key = (r["node_id"], r.get("repository", ""), r.get("artifact_path", r.get("url", "")))
+        if key in seen:
+            raise InputError(f"v2 duplicate binding {key}")
+        seen.add(key)
+        keys.append(key)
+    if keys != sorted(keys):
+        raise InputError("v2 bindings must sort by node_id, repository, artifact_path")
+    return doc
+
+
+def _v2_nodes(root: Path, ns):
+    """Node universe only from the declared node_source file (graph.data.nodes,
+    or a top-level nodes dict/list). Returns {node_id: node_object}."""
+    target = (root / ns["path"]).resolve()
+    try:
+        target.relative_to(root)
+    except ValueError:
+        raise InputError("v2 node_source.path escapes root")
+    if not target.is_file():
+        raise InputError("v2 node_source.path missing at checked ref")
+    data = _strict_load(target)
+    nodes = data
+    if isinstance(nodes, dict) and "graph" in nodes:
+        nodes = nodes["graph"]
+    if isinstance(nodes, dict) and "data" in nodes:
+        nodes = nodes["data"]
+    if isinstance(nodes, dict) and "nodes" in nodes:
+        nodes = nodes["nodes"]
+    if isinstance(nodes, list):
+        nodes = {n.get("id") if isinstance(n, dict) else n:
+                 (n if isinstance(n, dict) else {}) for n in nodes}
+    if not isinstance(nodes, dict) or not nodes:
+        raise InputError("v2 node_source has no nodes")  # F1: fail closed
+    for k in nodes:
+        if not isinstance(k, str) or not NODE_ID.fullmatch(k):
+            raise InputError(f"v2 invalid node id in node_source {k!r}")
+    return nodes
+
+
+def _git_tree_sha(root: Path, rel: str):
+    import subprocess
+    try:
+        out = subprocess.run(["git", "-C", str(root), "rev-parse", f"HEAD:{rel}"],
+                             capture_output=True, text=True, timeout=30)
+    except (OSError, subprocess.SubprocessError):
+        return None
+    sha = out.stdout.strip()
+    return sha if out.returncode == 0 and HEX40.fullmatch(sha) else None
+
+
+def check_v2(root: Path, doc, repository: str):
+    root = root.resolve()
+    nodes = _v2_nodes(root, doc["node_source"])
+    st = {k: [] for k in ("bound", "stale", "missing", "historical", "absent",
+                          "external_unverified", "other_repository",
+                          "tree_unverifiable", "unknown_node")}
+    nodes_with_record, file_bound_paths = set(), set()
+    for r in doc["bindings"]:
+        item = {"node_id": r["node_id"], "kind": r["kind"]}
+        if "artifact_path" in r and "repository" in r:
+            item["artifact_path"] = r["artifact_path"]
+        if r["kind"] in ("file", "historical", "tree"):
+            item["ref"] = v2_ref(r["repository"], r["artifact_path"], r["commit"], r["blob_sha"])
+        if r["node_id"] not in nodes:
+            st["unknown_node"].append(item)
+            continue
+        nodes_with_record.add(r["node_id"])
+        kind = r["kind"]
+        if kind in ("historical", "absent", "external_unverified"):
+            if kind == "external_unverified":
+                item["url"] = r["url"]
+            st[kind].append(item)
+            continue
+        if r["repository"] != repository:
+            st["other_repository"].append(item)
+            continue
+        target = root / r["artifact_path"]
+        try:
+            target.resolve().relative_to(root)
+        except ValueError:
+            st["missing"].append(dict(item, detail="escapes_root"))
+            continue
+        if kind == "tree":
+            if not target.is_dir():
+                st["missing"].append(item)
+                continue
+            actual = _git_tree_sha(root, r["artifact_path"])
+            if actual is None:
+                st["tree_unverifiable"].append(item)
+            elif actual == r["blob_sha"]:
+                st["bound"].append(item)
+            else:
+                st["stale"].append(dict(item, actual_blob_sha=actual))
+            continue
+        if not target.is_file():
+            st["missing"].append(item)
+            continue
+        data = target.resolve().read_bytes()
+        blob, digest = git_blob_sha(data), hashlib.sha256(data).hexdigest()
+        if blob == r["blob_sha"] and digest == r["sha256"]:
+            st["bound"].append(item)
+            file_bound_paths.add(r["artifact_path"])
+        else:
+            st["stale"].append(dict(item, actual_blob_sha=blob, actual_sha256=digest))
+    in_scope, empty_scopes = set(), []
+    for g in doc["scope"]:
+        matched = False
+        for p in root.glob(g):
+            if p.is_file():
+                try:
+                    p.resolve().relative_to(root)
+                except ValueError:
+                    continue
+                matched = True
+                in_scope.add(p.relative_to(root).as_posix())
+        if not matched:
+            empty_scopes.append(g)
+
+    # Agent 16's open policy questions (475/6364544516). Listed only: these
+    # fields never pass or fail anything, and they do not change any node's
+    # bound/unbound state, which is computed from binding records as above.
+    pol_dir, pol_hist, pol_ext = [], [], []
+    for nid in sorted(nodes):
+        src = nodes[nid].get("source") if isinstance(nodes[nid], dict) else None
+        if isinstance(src, str) and (src.startswith(("http://", "https://"))
+                                     or src.startswith("external:")):
+            pol_ext.append({"node_id": nid, "source": src})
+        elif isinstance(src, str) and (src.endswith("/") or (root / src).is_dir()):
+            pol_dir.append({"node_id": nid, "source": src})
+        if nid.startswith("hist.") and not src:
+            pol_hist.append(nid)
+    for k in st:
+        st[k].sort(key=lambda x: (x["node_id"], x.get("artifact_path", ""), x["kind"]))
+    return {
+        "schema_version": 2,
+        "mode": "report",
+        "scientific_effect": "NONE",
+        "node_source": doc["node_source"],
+        "counts": {"graph_nodes": len(nodes), "bindings": len(doc["bindings"]),
+                   "in_scope_artifacts": len(in_scope),
+                   **{k: len(v) for k, v in st.items()}},
+        **st,
+        "unbound_nodes": sorted(set(nodes) - nodes_with_record),
+        "unbound_artifacts": sorted(in_scope - file_bound_paths),
+        "empty_scopes": empty_scopes,
+        "policy_open": {
+            "note": "open policy questions 475/6364544516; listed only, not pass/fail",
+            "directory_sources": pol_dir,
+            "hist_nodes_without_source": pol_hist,
+            "url_or_external_sources": pol_ext,
+        },
+    }
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(allow_abbrev=False, description=__doc__.splitlines()[0])
     ap.add_argument("--root", required=True)
-    ap.add_argument("--bindings", required=True)
+    ap.add_argument("--bindings")
+    ap.add_argument("--v2", help="v2 bindings file (report mode only)")
+    ap.add_argument("--repository", default="d6g8k5htny-coder/main",
+                    help="owner/name of --root, for v2 records")
     ap.add_argument("--graph-nodes", action="append", default=[])
     ap.add_argument("--site-nodes", action="append", default=[])
     ap.add_argument("--scope", action="append", default=[])
     ap.add_argument("--report-only", action="store_true")
     args = ap.parse_args(argv)
+    if args.v2 is not None:
+        try:
+            if args.bindings or args.graph_nodes or args.site_nodes or args.scope:
+                raise InputError("--v2 takes node source and scope from the v2 file only")
+            report = check_v2(Path(args.root), load_v2(args.v2), args.repository)
+        except (InputError, OSError) as exc:
+            print(f"GRAPH_BINDING_INPUT_ERROR: {exc}", file=sys.stderr)
+            return 2
+        sys.stdout.write(json.dumps(report, sort_keys=True, indent=1) + "\n")
+        return 0  # v2 is report-only by contract until Dylan approves enforcement
     try:
+        if not args.bindings:
+            raise InputError("--bindings is required without --v2")
         if not args.graph_nodes and not args.site_nodes:
             raise InputError("need --graph-nodes and/or --site-nodes")
         for g in args.scope:
