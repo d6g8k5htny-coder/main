@@ -1,6 +1,8 @@
 import unittest
 import importlib.util
 import numpy as np
+if importlib.util.find_spec('gudhi') is None:
+    raise unittest.SkipTest('gudhi is not installed (see requirements.txt)')
 spec=importlib.util.find_spec('controls')
 if spec:import controls
 else:controls=None

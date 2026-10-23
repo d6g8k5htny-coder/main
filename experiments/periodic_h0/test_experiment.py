@@ -6,6 +6,8 @@ from pathlib import Path
 import unittest
 import numpy as np
 
+if importlib.util.find_spec('gudhi') is None:
+    raise unittest.SkipTest('gudhi is not installed (see requirements.txt)')
 spec=importlib.util.find_spec('experiment')
 if spec:
     import experiment as ex
