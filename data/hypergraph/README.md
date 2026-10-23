@@ -21,7 +21,9 @@ pip install -r tools/hypergraph/requirements.txt
 python -m tools.hypergraph.math_hypergraph build            # regenerate these JSON files (main only)
 python -m tools.hypergraph.math_hypergraph build --check    # CI gate: exit 1 if stale
 python -m tools.hypergraph.math_hypergraph reach main:node:math.d1-component.congruence-erratum 2
-python -m tools.hypergraph.math_hypergraph gaps | validate | shared-impl 5
+python -m tools.hypergraph.math_hypergraph gaps
+python -m tools.hypergraph.math_hypergraph validate
+python -m tools.hypergraph.math_hypergraph shared-impl 5
 python -m tools.hypergraph.math_hypergraph export /tmp/hg-bundle --repos all --png
 pytest tools/hypergraph
 ```
@@ -31,7 +33,7 @@ workflow_dispatch, with read-only checkouts of public Math- and query-, and uplo
 The PNG is a build artifact (optional, `--png`), not committed.
 
 ## Gap counts (2026-10-23)
-344 units / 1235 vertices / 344 hyperedges. Sourced 211 (133 missing). Implemented 296 (48 missing),
+344 units / 1234 vertices / 344 hyperedges. Sourced 211 (133 missing). Implemented 296 (48 missing),
 of which 30 are placeholder-only ("in PR head" / "per census", no artifact). Bound units 14.
 28 of 49 graph nodes unbound per #527; 13 nodes touched by no unit. Role problems 0.
 Dropbox not crawled.
