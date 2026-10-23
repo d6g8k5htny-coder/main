@@ -75,21 +75,92 @@ export const RESUME_ISSUE_NOTE='Issue number recorded without a repository in th
 export const RESUME_NO_TASK='No explicitly identified task record for this node. A recorded review issue is not used as a task record.';
 // Site-maintained task pointers, not graph metadata. Tools/current_site_history.py keeps the same table.
 export const RESUME_TASK_RECORDS=Object.freeze({
+  'math.lifetime-remainder':Object.freeze({url:'https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6351719961',label:'Operational continuation: Math-#193 R1 integration closeout',meaning:'Continuation from the merged conditional R1 far-sector addendum for d=2, L=24. It is an operational pointer, not scientific acceptance, source-binding admission, R81/R83 adoption, completion of the general Theorem R remainder claim or an owner claim.',identified_on:'2026-10-22',identified_in:'https://github.com/d6g8k5htny-coder/main/issues/388#issuecomment-6352139396'}),
   'math.d5-component.punctured-pin-proof':Object.freeze({url:'https://github.com/d6g8k5htny-coder/main/pull/327#issuecomment-6321244764',label:'Operational request: main#327 comment 6321244764',meaning:'A request for a source-only registration input for this node. It is an operational pointer, not scientific acceptance, source-binding admission, a registration or an owner claim.',identified_on:'2026-10-21',identified_in:'https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6321679618'}),
 });
 const REVIEW_URL=/^https:\/\/github\.com\/d6g8k5htny-coder\/(?:main|Math-)\/(?:issues|pull)\/[1-9][0-9]*(?:#[A-Za-z0-9_-]+)?$/;
 const metadataText=value=>typeof value==='string'?value:JSON.stringify(value);
+const NODE_STATUS_FORBIDDEN=new Set(['lemma_closed','prizes_solved','discharges_OBL_H5_JETMOD','certified_C_H','freeze','inventable_attempt_accepted']);
+const NODE_STATUS_STATE=/^(?:fresh|stale|unknown)$/;
+const NODE_STATUS_OBSERVED=/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/;
+// Same characters as EVIDENCE_URL_PATTERN in tools/validate_node_status.py.
+export const NODE_STATUS_EVIDENCE_URL_PATTERN = String.raw`^https://github\.com/d6g8k5htny-coder/(main|Math-)/(issues|pull)/[1-9]\d*#(issuecomment-[1-9]\d*|pullrequestreview-[1-9]\d*)$`;
+export const NODE_STATUS_EVIDENCE_URL = new RegExp(NODE_STATUS_EVIDENCE_URL_PATTERN);
+const NODE_STATUS_STALE_MS = 24 * 60 * 60 * 1000;
+function nodeStatusForbidden(value){
+  if(!value||typeof value!=='object')return false;
+  return Object.entries(value).some(([key,item])=>NODE_STATUS_FORBIDDEN.has(key)||nodeStatusForbidden(item));
+}
+export function nodeStatusEvidenceURL(url){
+  return typeof url==='string' && NODE_STATUS_EVIDENCE_URL.test(url) ? url : null;
+}
+// Owner evidence is linked only when it matches the shared comment pattern.
+export function resumeFieldHref(item){
+  if(!item || typeof item.url!=='string' || !item.url)return null;
+  if(item.field==='owner_evidence' && !NODE_STATUS_EVIDENCE_URL.test(item.url))return null;
+  return item.url;
+}
+// A record without an evidence URL is not applied. Freshness is not scientific validity.
+// released_url stays on the owner object; this reader does not replace that object with null.
+function nodeStatusRecord(statusRecords,id){
+  if(!statusRecords||typeof statusRecords!=='object'||Array.isArray(statusRecords)||!Object.prototype.hasOwnProperty.call(statusRecords,id))return null;
+  const record=statusRecords[id];
+  if(!record||typeof record!=='object'||Array.isArray(record)||record.scientific_effect!=='NONE'||nodeStatusForbidden(record))return null;
+  if(!Object.prototype.hasOwnProperty.call(record,'owner'))return null;
+  const owner=record.owner;
+  if(owner!==null&&(typeof owner!=='object'||Array.isArray(owner)||typeof owner.id!=='string'||!owner.id||typeof owner.evidence_url!=='string'||!owner.evidence_url))return null;
+  return record;
+}
+function nodeStatusList(value){return Array.isArray(value)&&value.every(item=>typeof item==='string'&&item)&&value.length?value.join('; '):null;}
+function nodeStatusNote(record, now){
+  const recorded=record.status, observed=record.observed_at;
+  if(typeof recorded!=='string'||!NODE_STATUS_STATE.test(recorded)||typeof observed!=='string'||!NODE_STATUS_OBSERVED.test(observed))return null;
+  let shown=recorded;
+  if(Number.isFinite(now)){
+    const age=now-Date.parse(observed);
+    if(Number.isFinite(age)&&age>NODE_STATUS_STALE_MS)shown='stale';
+  }
+  return `Node-status view ${shown} as of ${observed}. Recorded status ${recorded}. Scientific effect NONE. Freshness is not scientific validity.`;
+}
+function nodeStatusOperational(record, now){
+  const owner=record.owner;
+  return RESUME_OPERATIONAL.map(([field,label])=>{
+    const row={field,label,text:RESUME_NOT_RECORDED};
+    if(field==='next_action'&&typeof record.next_action==='string'&&record.next_action){
+      row.text=record.next_action;
+      const note=nodeStatusNote(record, now);
+      if(note)row.note=note;
+    }else if(field==='missing_input'){const text=nodeStatusList(record.missing_input);if(text)row.text=text;}
+    else if(field==='owner_evidence'){
+      if(owner===null)row.text='No owner recorded in this node-status view.';
+      else if(owner&&Object.prototype.hasOwnProperty.call(owner,'released_url')){
+        row.text='released';
+        const link=nodeStatusEvidenceURL(owner.released_url);
+        if(link)row.url=link;
+        else if(typeof owner.released_url==='string'&&owner.released_url)row.text=owner.released_url;
+      }else if(owner){
+        const link=nodeStatusEvidenceURL(owner.evidence_url);
+        if(link){row.text=owner.id;row.url=link;}
+        else if(typeof owner.evidence_url==='string'&&owner.evidence_url)row.text=owner.evidence_url;
+      }
+    }
+    else if(field==='retained_stop')row.text=nodeStatusList(record.stops)||'No retained stop recorded in this node-status view.';
+    return row;
+  });
+}
 // One projection feeds the atlas inspector and the static node pages; only `now` adds a freshness state.
-export function resumeProjection(snapshot,id,now) {
+// statusRecords is optional. The snapshot-only call stays unchanged for static pages.
+export function resumeProjection(snapshot,id,now,statusRecords) {
   const graph=snapshot?.graph?.data;if(!hasNode(graph,id))return null;
   const node=graph.nodes[id],identity=snapshot.graph.identity,own=key=>Object.prototype.hasOwnProperty.call(node,key);
   const task=Object.prototype.hasOwnProperty.call(RESUME_TASK_RECORDS,id)?RESUME_TASK_RECORDS[id]:null;
+  const record=nodeStatusRecord(statusRecords,id);
   return {node:id,
     snapshot:{observed_at:snapshot.observed_at,graph_repository:identity.repository,graph_commit:identity.commit,graph_path:identity.path,graph_sha256:identity.sha256,main_commit:snapshot.repositories.find(r=>r.repository==='d6g8k5htny-coder/main')?.commit??null},
     freshness:Number.isFinite(now)?freshness(snapshot.observed_at,now):null,warning:RESUME_FRESHNESS_WARNING,
     state:['classification','controlling'].map(field=>({field,text:own(field)&&node[field]!==null?metadataText(node[field]):RESUME_NOT_RECORDED})),
     review:{label:RESUME_REVIEW_LABEL,fields:Object.keys(node).filter(key=>key.startsWith('review_')).map(field=>{const value=node[field];return {field,text:metadataText(value),url:typeof value==='string'&&REVIEW_URL.test(value)?value:null,note:field==='review_issue'&&typeof value==='number'?RESUME_ISSUE_NOTE:null};})},
-    operational:RESUME_OPERATIONAL.map(([field,label])=>({field,label,text:RESUME_NOT_RECORDED})),
+    operational:record?nodeStatusOperational(record, now):RESUME_OPERATIONAL.map(([field,label])=>({field,label,text:RESUME_NOT_RECORDED})),
     continuation:task?{...task}:null,continuation_text:task?null:RESUME_NO_TASK};
 }
 export const MAX_WINDOW_NODES=150;

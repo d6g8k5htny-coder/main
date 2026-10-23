@@ -8,7 +8,7 @@ hashes asset-release-normalized HTML, exact JSON and exact deterministic ZIP
 bytes. Restore admits all downloads and the durable manifest pin before writes.
 """
 import argparse
-from datetime import datetime
+from datetime import datetime, timezone
 import hashlib
 from html.parser import HTMLParser
 import io
@@ -24,6 +24,7 @@ from urllib.parse import urlsplit
 import zipfile
 from current_inventory_acquisition import (project_current_acquisitions, current_source_list,
                                            inventory_legend, acquisition_notice, date_explanation)
+from validate_node_status import EVIDENCE_URL_PATTERN
 
 from current_site_data import parse_json
 from site_asset_release import transform, without_release
@@ -1031,6 +1032,23 @@ def _restore_v2_historical_pages(data, meta, aliases):
     return pages
 
 
+def _restore_v2_live_pages(data, meta, expected):
+    """Select a known presentation only by its complete published descriptors.
+
+    Continuation pointers are presentation inputs too. Keep the pre-R1 table
+    available for already-published observations; current builds use the current
+    table. Neither an observation date nor a partial match selects old bytes.
+    """
+    for task_records in (RESUME_TASK_RECORDS, _RESUME_TASK_RECORDS_V1):
+        for annotations, style_first, resume in LIVE_PRESENTATIONS:
+            pages = render_live_current_v2(data, meta, annotations=annotations,
+                                           style_first=style_first, resume=resume,
+                                           task_records=task_records)
+            if [descriptor(k, v) for k, v in sorted(pages.items())] == expected:
+                return pages
+    raise ValueError("live static reading does not match the exact observation")
+
+
 def restore_history(site, reader=None, expected_manifest_sha=None):
     site = Path(site).resolve()
     if expected_manifest_sha is not None:
@@ -1105,12 +1123,7 @@ def restore_history(site, reader=None, expected_manifest_sha=None):
         ensure_render_budget(data, remote)
         # Only an exact complete map can select a predecessor presentation.
         # Current builds keep annotations, the Resume block and style-first output by default.
-        for annotations, style_first, resume in LIVE_PRESENTATIONS:
-            live = render_live_current_v2(data, remote, annotations=annotations, style_first=style_first, resume=resume)
-            if [descriptor(k, v) for k, v in sorted(live.items())] == manifest["current_observation"]["files"]:
-                break
-        else:
-            raise ValueError("live static reading does not match the exact observation")
+        live = _restore_v2_live_pages(data, remote, manifest["current_observation"]["files"])
         historical = {}
         for entry in manifest["archives"]:
             snapshot = entry["id"]
@@ -1536,8 +1549,8 @@ RESUME_OPERATIONAL = (("next_action", "Next action"), ("missing_input", "Missing
                       ("owner_evidence", "Owner evidence"), ("retained_stop", "Retained stop"))
 RESUME_ISSUE_NOTE = "Issue number recorded without a repository in this snapshot; no link is inferred."
 RESUME_NO_TASK = "No explicitly identified task record for this node. A recorded review issue is not used as a task record."
-# Site-maintained task pointers, not graph metadata. docs/site/current-model.mjs keeps the same table.
-RESUME_TASK_RECORDS = {
+# Frozen pre-R1 presentation input. Do not advance this table with current links.
+_RESUME_TASK_RECORDS_V1 = {
     "math.d5-component.punctured-pin-proof": {
         "url": "https://github.com/d6g8k5htny-coder/main/pull/327#issuecomment-6321244764",
         "label": "Operational request: main#327 comment 6321244764",
@@ -1547,6 +1560,19 @@ RESUME_TASK_RECORDS = {
         "identified_in": "https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6321679618",
     },
 }
+# Site-maintained current pointers, not graph metadata. The JavaScript table matches.
+RESUME_TASK_RECORDS = {
+    **{node: dict(record) for node, record in _RESUME_TASK_RECORDS_V1.items()},
+    "math.lifetime-remainder": {
+        "url": "https://github.com/d6g8k5htny-coder/Math-/issues/193#issuecomment-6351719961",
+        "label": "Operational continuation: Math-#193 R1 integration closeout",
+        "meaning": ("Continuation from the merged conditional R1 far-sector addendum for d=2, L=24. It is an "
+                    "operational pointer, not scientific acceptance, source-binding admission, R81/R83 adoption, "
+                    "completion of the general Theorem R remainder claim or an owner claim."),
+        "identified_on": "2026-10-22",
+        "identified_in": "https://github.com/d6g8k5htny-coder/main/issues/388#issuecomment-6352139396",
+    },
+}
 _RESUME_REVIEW_URL = re.compile(r"https://github\.com/d6g8k5htny-coder/(?:main|Math-)/(?:issues|pull)/[1-9][0-9]*(?:#[A-Za-z0-9_-]+)?")
 
 
@@ -1554,14 +1580,119 @@ def _resume_text(value):
     return value if isinstance(value, str) else json.dumps(value, ensure_ascii=False, separators=(",", ":"))
 
 
-def resume_projection(data, node_id):
-    """The static form of current-model.mjs resumeProjection; a static page evaluates no freshness."""
+_NODE_STATUS_FORBIDDEN = frozenset({
+    "lemma_closed", "prizes_solved", "discharges_OBL_H5_JETMOD", "certified_C_H",
+    "freeze", "inventable_attempt_accepted"})
+_NODE_STATUS_STATE = re.compile(r"(?:fresh|stale|unknown)\Z")
+_NODE_STATUS_OBSERVED = re.compile(r"\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z\Z")
+_NODE_STATUS_EVIDENCE = re.compile(EVIDENCE_URL_PATTERN)
+_NODE_STATUS_STALE_MS = 24 * 60 * 60 * 1000
+
+
+def _node_status_forbidden(value):
+    if isinstance(value, dict):
+        return any(key in _NODE_STATUS_FORBIDDEN or _node_status_forbidden(item) for key, item in value.items())
+    if isinstance(value, list):
+        return any(_node_status_forbidden(item) for item in value)
+    return False
+
+
+def _node_status_record(status_records, node_id):
+    """Optional current view. An owner without evidence_url drops the whole record."""
+    if not isinstance(status_records, dict) or node_id not in status_records:
+        return None
+    record = status_records[node_id]
+    if (not isinstance(record, dict) or record.get("scientific_effect") != "NONE"
+            or _node_status_forbidden(record) or "owner" not in record):
+        return None
+    owner = record["owner"]
+    if owner is not None and (not isinstance(owner, dict) or not isinstance(owner.get("id"), str) or not owner.get("id")
+                              or not isinstance(owner.get("evidence_url"), str) or not owner.get("evidence_url")):
+        return None
+    return record
+
+
+def _node_status_list(value):
+    if isinstance(value, list) and value and all(isinstance(item, str) and item for item in value):
+        return "; ".join(value)
+    return None
+
+
+def _node_status_evidence(url):
+    return url if isinstance(url, str) and _NODE_STATUS_EVIDENCE.fullmatch(url) else None
+
+
+def _node_status_note(record, now):
+    recorded = record.get("status")
+    observed = record.get("observed_at")
+    if not (isinstance(recorded, str) and _NODE_STATUS_STATE.fullmatch(recorded)
+            and isinstance(observed, str) and _NODE_STATUS_OBSERVED.fullmatch(observed)):
+        return None
+    shown = recorded
+    if isinstance(now, (int, float)) and not isinstance(now, bool):
+        try:
+            parsed = datetime.strptime(observed, "%Y-%m-%dT%H:%M:%SZ").replace(tzinfo=timezone.utc)
+        except ValueError:
+            parsed = None
+        if parsed is not None:
+            age = now - int(parsed.timestamp()) * 1000
+            if age > _NODE_STATUS_STALE_MS:
+                shown = "stale"
+    return (f"Node-status view {shown} as of {observed}. Recorded status {recorded}. "
+            "Scientific effect NONE. Freshness is not scientific validity.")
+
+
+def _node_status_operational(record, now=None):
+    owner = record["owner"]
+    rows = []
+    for field, label in RESUME_OPERATIONAL:
+        row = {"field": field, "label": label, "text": RESUME_NOT_RECORDED}
+        if field == "next_action" and isinstance(record.get("next_action"), str) and record["next_action"]:
+            row["text"] = record["next_action"]
+            note = _node_status_note(record, now)
+            if note:
+                row["note"] = note
+        elif field == "missing_input":
+            text = _node_status_list(record.get("missing_input"))
+            if text:
+                row["text"] = text
+        elif field == "owner_evidence":
+            if owner is None:
+                row["text"] = "No owner recorded in this node-status view."
+            elif isinstance(owner, dict) and "released_url" in owner:
+                row["text"] = "released"
+                link = _node_status_evidence(owner.get("released_url"))
+                if link:
+                    row["url"] = link
+                elif isinstance(owner.get("released_url"), str) and owner["released_url"]:
+                    row["text"] = owner["released_url"]
+            elif isinstance(owner, dict):
+                link = _node_status_evidence(owner.get("evidence_url"))
+                if link:
+                    row["text"] = owner["id"]
+                    row["url"] = link
+                elif isinstance(owner.get("evidence_url"), str) and owner["evidence_url"]:
+                    row["text"] = owner["evidence_url"]
+        elif field == "retained_stop":
+            row["text"] = _node_status_list(record.get("stops")) or "No retained stop recorded in this node-status view."
+        rows.append(row)
+    return rows
+
+
+def resume_projection(data, node_id, status_records=None, now=None, *, task_records=None):
+    """The static form of current-model.mjs resumeProjection; a static page evaluates no freshness.
+
+    status_records is the optional node-status map. The snapshot-only call matches the
+    JavaScript default and is what static pages render. now is the render clock in
+    milliseconds, used only for the node-status stale display.
+    """
     nodes = data["graph"]["data"]["nodes"]
     if not isinstance(node_id, str) or node_id not in nodes:
         return None
     node, identity = nodes[node_id], data["graph"]["identity"]
-    task = RESUME_TASK_RECORDS.get(node_id)
+    task = (RESUME_TASK_RECORDS if task_records is None else task_records).get(node_id)
     main = next((repo["commit"] for repo in data["repositories"] if repo["repository"] == "d6g8k5htny-coder/main"), None)
+    record = _node_status_record(status_records, node_id)
     return {
         "node": node_id,
         "snapshot": {"observed_at": data["observed_at"], "graph_repository": identity["repository"],
@@ -1575,7 +1706,8 @@ def resume_projection(data, node_id):
              "url": value if isinstance(value, str) and _RESUME_REVIEW_URL.fullmatch(value) else None,
              "note": RESUME_ISSUE_NOTE if field == "review_issue" and isinstance(value, (int, float)) and not isinstance(value, bool) else None}
             for field, value in node.items() if field.startswith("review_")]},
-        "operational": [{"field": field, "label": label, "text": RESUME_NOT_RECORDED} for field, label in RESUME_OPERATIONAL],
+        "operational": _node_status_operational(record, now) if record else [
+            {"field": field, "label": label, "text": RESUME_NOT_RECORDED} for field, label in RESUME_OPERATIONAL],
         "continuation": dict(task) if task else None,
         "continuation_text": None if task else RESUME_NO_TASK,
     }
@@ -1583,8 +1715,16 @@ def resume_projection(data, node_id):
 
 def _resume_html(view):
     snapshot = view["snapshot"]
+    def _href(item):
+        url = item.get("url")
+        if not isinstance(url, str) or not url:
+            return None
+        if item.get("field") == "owner_evidence" and not _NODE_STATUS_EVIDENCE.fullmatch(url):
+            return None
+        return url
+
     rows = lambda items: "".join(f'<dt>{_v1_escape(item.get("label", item["field"]))}</dt><dd>' + (
-        f'<a href="{_v1_escape(item["url"])}">{_v1_escape(item["text"])}</a>' if item.get("url") else f'<code>{_v1_escape(item["text"])}</code>')
+        f'<a href="{_v1_escape(_href(item))}">{_v1_escape(item["text"])}</a>' if _href(item) else f'<code>{_v1_escape(item["text"])}</code>')
         + (f' {_v1_escape(item["note"])}' if item.get("note") else "") + '</dd>' for item in items)
     review = (f'<dl class="resume-fields">{rows(view["review"]["fields"])}</dl>' if view["review"]["fields"]
               else f'<p>Review metadata: <code>{RESUME_NOT_RECORDED}</code>.</p>')
@@ -1606,7 +1746,7 @@ def _resume_html(view):
             f'<h3>Continuation</h3>\n{continuation}\n</section>\n')
 
 
-def render_live_current_v2(data, meta, *, style_first=True, annotations=True, acquisition=None, resume=None):
+def render_live_current_v2(data, meta, *, style_first=True, annotations=True, acquisition=None, resume=None, task_records=None):
     """Render current static routes from the full fresh schema-1 observation."""
     if resume is None:
         resume = annotations
@@ -1616,7 +1756,7 @@ def render_live_current_v2(data, meta, *, style_first=True, annotations=True, ac
     pages = {}
     for node_id, node in graph["nodes"].items():
         body = (f'<h1>{_v1_escape(node_id)}</h1>\n<p>Original kind: <code>{_v1_escape(node.get("kind", "not_recorded"))}</code> · recorded classification: <code>{_v1_escape(node.get("classification", "not_recorded"))}</code>.</p>\n'
-                + (_resume_html(resume_projection(data, node_id)) if resume else '')
+                + (_resume_html(resume_projection(data, node_id, task_records=task_records)) if resume else '')
                 + '<h2>Independent evidence metadata axes</h2>\n' + _v1_axes_html(node)
                 + '\n<p>These values describe metadata presence, not a proof result, applicability or scientific acceptance. No kernel, computation or alignment record is admitted by this graph export.</p>\n'
                 '<p>Graph-to-artifact binding: unresolved; artifact roles: unknown; custody: unknown. No Artifact Index mapping is inferred.</p>\n'
