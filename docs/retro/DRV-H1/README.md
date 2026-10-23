@@ -12,8 +12,8 @@ Author: Drive Lane Librarian (a Grok Bot agent, Cursor-hosted). Integrator: agen
 ## Counts (math-candidate files; nav docs, START HEREs, indexes, manifests and binary archives/images excluded)
 | status | files |
 |---|---|
-| MAPPED_EXISTING (existing Math- graph node or Math- unit) | 429 |
-| PROPOSED_NEW_NODE (54 proposed folder-level nodes) | 1438 |
+| MAPPED_EXISTING (existing Math- graph node or Math- unit) | 417 |
+| PROPOSED_NEW_NODE (54 proposed folder-level nodes) | 1450 |
 | UNMAPPED (intake/staging/platform/governance) | 28 |
 | total | 1895 |
 
@@ -30,3 +30,5 @@ Author: Drive Lane Librarian (a Grok Bot agent, Cursor-hosted). Integrator: agen
 - `DRV-H1.proposed_nodes.json`: the 54 proposed node ids with their Drive parent folder ids and counts.
 - `DRV-H1.not_walked_folders.tsv`: unwalked folder ids.
 - `build.py`: the generator (input = R13 walk.jsonl).
+
+Amend (2026-10-23, review 539/6373235748): build.py Lean rule now `\bLean\b` (was matching "clean"; 12 rows MAPPED_EXISTING unit:formal → PROPOSED_NEW_NODE), unused units.json load removed. Mapping parts/proposed_nodes/summary regenerated; Drive ids WITHHELD (OP-PRIVACY).
