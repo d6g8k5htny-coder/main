@@ -389,14 +389,59 @@ def _git_tree_sha(root: Path, rel: str):
     return sha if out.returncode == 0 and HEX40.fullmatch(sha) else None
 
 
-def check_v2(root: Path, doc, repository: str, ns_checkout=None):
-    """Records are evaluated in one repository only (--repository at --root,
-    the checked ref, contract L85). Records naming another repository are
-    reported as other_repository and never bound (fail closed)."""
+def _verify_pinned(checkout: Path, r):
+    """CoS ruling (1), 12:51Z: a record in a second repository is checked at
+    its own pinned commit in an explicitly supplied checkout; never a tip.
+    Returns None when the commit/blob verifies, else a detail string."""
+    import subprocess
+    def git(*a):
+        try:
+            return subprocess.run(["git", "-C", str(checkout), *a],
+                                  capture_output=True, timeout=120)
+        except (OSError, subprocess.SubprocessError):
+            return None
+    c = git("cat-file", "-e", r["commit"] + "^{commit}")
+    if c is None or c.returncode != 0:
+        return "commit_not_found"
+    o = git("rev-parse", "--verify", "-q", f"{r['commit']}:{r['artifact_path']}")
+    if o is None or o.returncode != 0:
+        return "path_not_at_commit"
+    actual = o.stdout.decode().strip()
+    if actual != r["blob_sha"]:
+        return "blob_mismatch"
+    if r["kind"] == "tree":
+        t = git("cat-file", "-t", actual)
+        return None if t is not None and t.stdout.strip() == b"tree" else "not_a_tree"
+    data = git("cat-file", "blob", actual)
+    if data is None or data.returncode != 0:
+        return "blob_unreadable"
+    if git_blob_sha(data.stdout) != r["blob_sha"] or hashlib.sha256(data.stdout).hexdigest() != r["sha256"]:
+        return "sha256_mismatch"
+    return None
+
+
+def parse_repos(items):
+    out = {}
+    for it in items:
+        name, sep, path = it.partition("=")
+        if not sep or not REPO.fullmatch(name) or not path or name in out:
+            raise InputError(f"bad --repo {it!r} (want owner/repo=PATH, once per repo)")
+        out[name] = path
+    return out
+
+
+def check_v2(root: Path, doc, repository: str, ns_checkout=None, repos=None):
+    """Records in --repository are evaluated at --root (the checked ref, L85).
+    Records in another repository are verified at their own pinned commit in
+    the --repo checkout (CoS ruling 1); not supplied or not verifiable ->
+    unverifiable, never bound (fail closed)."""
     root = root.resolve()
+    repos = dict(repos or {})
+    if ns_checkout is None and doc["node_source"]["repository"] in repos:
+        ns_checkout = repos[doc["node_source"]["repository"]]
     nodes, ns_info = _v2_nodes(root, doc["node_source"], repository, ns_checkout)
     st = {k: [] for k in ("bound", "stale", "missing", "historical", "absent",
-                          "external_unverified", "other_repository",
+                          "external_unverified", "unverifiable",
                           "tree_unverifiable", "unknown_node")}
     nodes_with_record, file_bound_paths = set(), set()
     for r in doc["bindings"]:
@@ -418,8 +463,15 @@ def check_v2(root: Path, doc, repository: str, ns_checkout=None):
             st[kind].append(item)
             continue
         if r["repository"] != repository:
-            st["other_repository"].append(item)
-            continue
+            if r["repository"] not in repos:
+                st["unverifiable"].append(dict(item, detail="repo_not_supplied"))
+                continue
+            why = _verify_pinned(Path(repos[r["repository"]]), r)
+            if why is not None:
+                st["unverifiable"].append(dict(item, detail=why))
+                continue
+            st["bound"].append(dict(item, verified_at=r["commit"]))
+            continue  # scope/unbound_artifacts are --repository paths only
         target = root / r["artifact_path"]
         try:
             target.resolve().relative_to(root)
@@ -517,6 +569,9 @@ def check_v2(root: Path, doc, repository: str, ns_checkout=None):
         **st,
         "unbound_nodes": sorted(set(nodes) - nodes_with_record),
         "unbound_artifacts": sorted(in_scope - file_bound_paths),
+        # CoS ruling: unverifiable / absent (incl. null) records count as
+        # unbound; L93 unbound_nodes stays "no record at all".
+        "nodes_not_bound": sorted(set(nodes) - {b["node_id"] for b in st["bound"]}),
         "empty_scopes": empty_scopes,
         "source_rules": {
             "contract": "docs/plans/2026-10-08-artifact-index-contract.md@e1d1ebc2",
@@ -532,6 +587,8 @@ def main(argv=None) -> int:
     ap.add_argument("--root", required=True)
     ap.add_argument("--bindings")
     ap.add_argument("--v2", help="v2 bindings file (report mode only)")
+    ap.add_argument("--repo", action="append", default=[],
+                    help="owner/repo=PATH git checkout for a second repository (v2, repeatable)")
     ap.add_argument("--node-source-checkout",
                     help="git checkout of node_source.repository (v2), read at its pinned commit")
     ap.add_argument("--repository", default="d6g8k5htny-coder/main",
@@ -546,7 +603,7 @@ def main(argv=None) -> int:
             if args.bindings or args.graph_nodes or args.site_nodes or args.scope:
                 raise InputError("--v2 takes node source and scope from the v2 file only")
             report = check_v2(Path(args.root), load_v2(args.v2), args.repository,
-                              args.node_source_checkout)
+                              args.node_source_checkout, parse_repos(args.repo))
         except (InputError, OSError) as exc:
             print(f"GRAPH_BINDING_INPUT_ERROR: {exc}", file=sys.stderr)
             return 2

@@ -265,7 +265,7 @@ class GraphBindingV2ReportTest(unittest.TestCase):
         rc, rep, _ = self.run_v2(self.doc(recs))
         self.assertEqual(rc, 0)
         c = rep["counts"]
-        self.assertEqual((c["missing"], c["other_repository"], c["external_unverified"],
+        self.assertEqual((c["missing"], c["unverifiable"], c["external_unverified"],
                           c["unknown_node"], c["absent"], c["historical"], c["bound"]),
                          (1, 1, 1, 1, 1, 1, 0))
 
@@ -400,12 +400,70 @@ class GraphBindingV2ReportTest(unittest.TestCase):
         d["node_source"]["commit"] = "2" * 40  # pin absent from checkout
         self.assertEqual(self.run_v2(d, None, "--node-source-checkout", str(src))[0], 2)
 
+    def _foreign_repo(self):
+        src = self.root / "o_other"
+        src.mkdir()
+        g = lambda *a: subprocess.run(["git", "-C", str(src), *a], check=True,
+                                      capture_output=True, text=True).stdout.strip()
+        g("init", "-q")
+        (src / "d").mkdir()
+        (src / "d" / "f.json").write_bytes(b"F")
+        g("add", ".")
+        g("-c", "user.name=t", "-c", "user.email=t@t", "commit", "-qm", "f")
+        pin, tree = g("rev-parse", "HEAD"), g("rev-parse", "HEAD:d")
+        (src / "d" / "f.json").write_bytes(b"TIP")  # working tree/tip must be ignored
+        g("-c", "user.name=t", "-c", "user.email=t@t", "commit", "-qam", "tip")
+        return src, pin, tree
+
+    def test_ruling1_second_repo_verified_at_pinned_commit(self):
+        src, pin, tree = self._foreign_repo()
+        f = self.rec("TEST.n1", "d/f.json", b"F", repository="o/other", commit=pin)
+        t = {"node_id": "TEST.dir", "kind": "tree", "repository": "o/other",
+             "artifact_path": "d", "commit": pin, "blob_sha": tree, "roles": ["source"]}
+        rc, rep, err = self.run_v2(self.doc([t, f]), None, "--repo", f"o/other={src}")
+        self.assertEqual(rc, 0, err)
+        self.assertEqual(sorted(b["node_id"] for b in rep["bound"]), ["TEST.dir", "TEST.n1"])
+        self.assertEqual(rep["unverifiable"], [])
+
+    def test_ruling1_unsupplied_repo_bad_commit_bad_blob_unverifiable(self):
+        src, pin, tree = self._foreign_repo()
+        good = self.rec("TEST.n1", "d/f.json", b"F", repository="o/other", commit=pin)
+        rc, rep, _ = self.run_v2(self.doc([good]))  # repo not supplied
+        self.assertEqual((rc, rep["bound"], rep["unverifiable"][0]["detail"]),
+                         (0, [], "repo_not_supplied"))
+        cases = {"commit_not_found": dict(commit="2" * 40),
+                 "blob_mismatch": dict(blob_sha=blob(b"TIP"), sha256=sha(b"TIP")),
+                 "sha256_mismatch": dict(sha256=sha(b"X")),
+                 "path_not_at_commit": dict(artifact_path="d/none.json")}
+        for want, kw in cases.items():
+            r = dict(good, **kw)
+            rc, rep, err = self.run_v2(self.doc([r]), None, "--repo", f"o/other={src}")
+            self.assertEqual(rc, 0, err)
+            self.assertEqual(rep["bound"], [], want)
+            self.assertEqual(rep["unverifiable"][0]["detail"], want)
+            self.assertIn("TEST.n1", rep["nodes_not_bound"])
+        self.assertEqual(self.run_v2(self.doc([good]), None, "--repo", "bad")[0], 2)
+
+    def test_ruling2_null_commit_only_on_absent(self):
+        for kind in ("file", "historical", "tree"):
+            r = self.rec("TEST.n1", "art/a.json", b"A", kind=kind, commit=None)
+            if kind == "tree":
+                del r["sha256"]
+            self.assertEqual(self.run_v2(self.doc([r]))[0], 2, kind)
+        a = {"node_id": "TEST.n1", "kind": "absent", "repository": REPO,
+             "artifact_path": "gone.json", "reason": "never seen",
+             "last_seen_commit": None, "roles": ["source"]}
+        rc, rep, _ = self.run_v2(self.doc([a]))
+        self.assertEqual(rc, 0)
+        self.assertIn("TEST.n1", rep["nodes_not_bound"])
+        self.assertEqual(rep["bound"], [])
+
     def test_foreign_repository_records_never_bound(self):
         r = self.rec("TEST.n1", "art/a.json", b"A", repository="o/other")
         rc, rep, _ = self.run_v2(self.doc([r]))
         self.assertEqual(rc, 0)
         self.assertEqual(rep["bound"], [])
-        self.assertEqual(rep["other_repository"][0]["node_id"], "TEST.n1")
+        self.assertEqual(rep["unverifiable"][0]["node_id"], "TEST.n1")
 
 
 DATA_525 = "29b7d5969e2cd707debb7449c69a71bbcd39cf63"
@@ -430,16 +488,18 @@ class Composition525Test(unittest.TestCase):
             subprocess.run(["tar", "-x", "-C", t], input=arc, check=True)
             f = "architecture/graph-artifact-bindings.v2.json"
             p = subprocess.run([sys.executable, "-B", str(TOOL), "--root", t, "--v2",
-                                str(Path(t) / f), "--node-source-checkout", math],
+                                str(Path(t) / f), "--repo", f"d6g8k5htny-coder/Math-={math}"],
                                capture_output=True, text=True)
             self.assertEqual(p.returncode, 0, p.stderr)
             rep = json.loads(p.stdout)
             self.assertTrue(rep["node_source_read"]["pinned"])
             c = rep["counts"]
             self.assertEqual((c["bindings"], c["graph_nodes"], c["bound"], c["absent"],
-                              c["historical"], c["external_unverified"], c["other_repository"],
+                              c["historical"], c["external_unverified"], c["unverifiable"],
                               c["unknown_node"], c["missing"], c["stale"]),
-                             (21, 49, 0, 3, 7, 2, 9, 0, 0, 0))
+                             (21, 49, 9, 3, 7, 2, 0, 0, 0, 0))
+            self.assertEqual({b["verified_at"] for b in rep["bound"]}, {MATH_PIN})
+            self.assertEqual(len(rep["nodes_not_bound"]), 40)
             self.assertEqual([a["last_seen_commit"] for a in rep["absent"]], [None] * 3)
             self.assertIn("hist.lemma_closed", rep["unbound_nodes"])
             self.assertEqual(len(rep["unbound_nodes"]), 28)
