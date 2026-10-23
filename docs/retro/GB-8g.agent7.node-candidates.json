@@ -729,8 +729,56 @@
           "bytes": 6965
         }
       ],
-      "implementations": [],
-      "implementation_status": "NO_IMPLEMENTATION_FOUND"
+      "implementations": [
+        {
+          "repository": "d6g8k5htny-coder/Math-",
+          "commit": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+          "path": "frontiers/remainder_rate_20260930/rate_ledger_check.py",
+          "blob_sha": "3293ca22ab89bd650f361832c62b03724a976f03",
+          "sha256": "5ad2b0ca9e7a131040252db5f23a3dc6444c3b0120912fbede4a593fbe7cb5d2",
+          "bytes": 18229
+        },
+        {
+          "repository": "d6g8k5htny-coder/Math-",
+          "commit": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+          "path": "tests/test_remainder_rate_workflow.py",
+          "blob_sha": "d4b4cf36330f5216e378e4569a0f8b5d00f4f6ee",
+          "sha256": "7746ea92fddeeb792bb1baf5c4ac81091c43be2f1495040853387bc339d963e0",
+          "bytes": 26106
+        },
+        {
+          "repository": "d6g8k5htny-coder/Math-",
+          "commit": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+          "path": "tools/remainder_rate_replay.py",
+          "blob_sha": "dddc5acdbdd81165b1dac6641e99e4d53ece81bf",
+          "sha256": "a589ad1678dfa70434eee1073aca53ecff67db8def7949b588dc34f8e7855ce3",
+          "bytes": 5937
+        }
+      ],
+      "implementation_status": "PINNED_IMPLEMENTATIONS",
+      "stored_outputs": [
+        {
+          "repository": "d6g8k5htny-coder/Math-",
+          "commit": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+          "path": "frontiers/remainder_rate_20260930/RESULTS.json",
+          "blob_sha": "88d97cc6a45d2213399cf87260a3a358d73d9df7",
+          "sha256": "c2c8ed1ccf0e15c992d88aff04caae1a99291f6d71b75f59db943cadbf5dc7e0",
+          "bytes": 1074,
+          "note": "Frozen stored output named in SCOPE.md; not a new execution."
+        }
+      ],
+      "workflows": [
+        {
+          "repository": "d6g8k5htny-coder/Math-",
+          "commit": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+          "path": ".github/workflows/remainder-rate.yml",
+          "blob_sha": "e5c7c0f07f0bed5b6734cd04b9081b96dc6e1099",
+          "sha256": "2c66d0868e1f46e98bdeaf78ab6c7692118ed14b587c1b5815c7946b6de4b782",
+          "bytes": 5637,
+          "note": "Current workflow at the freeze. Version-distinct from the historical workflow blob d32aa63cb0733e879e9d8ca3c362ea6fa5520e5b named in SCOPE.md; not equated. Workflow review/authorization is separate. Its trigger also references tests/test_direct_replay_import_triggers.py (blob 2df34a3db865f21060f3cef44c128904bd0b3e95), not pinned as an implementation."
+        }
+      ],
+      "implementation_basis": "SCOPE.md (blob b9b0b449) names rate_ledger_check.py and RESULTS.json in its exact-sources table; tools/remainder_rate_replay.py line 92 invokes rate_ledger_check.py. Finding 543/6373668832, confirmed in HOLD 543/6373775265."
     }
   ],
   "credit": 0,
@@ -746,7 +794,17 @@
   },
   "inventory_counts": {
     "source_file_entries": 43,
-    "implementation_entries": 22,
-    "units_with_no_implementation": 3
+    "implementation_entries": 25,
+    "units_with_no_implementation": 2,
+    "stored_output_entries": 1,
+    "workflow_entries_separate": 1
+  },
+  "amendment_2": {
+    "reason": "HOLD 543/6373775265: remainder_rate_protocol NO_IMPLEMENTATION_FOUND was incorrect as a source-relationship claim",
+    "author": "agent 7 (original author)",
+    "source_head_repaired": "49bfee8bc45279bc0b049a126a2d3af0d6dc172c",
+    "change": "remainder_rate_protocol: 3 code/test implementation pins; RESULTS.json moved to stored_outputs; current workflow pinned separately and not equated to the historical blob. d1_section9_borel and far_sector_lifetime_refinement keep implementations [] with their qualifications.",
+    "scientific_effect": "NONE",
+    "graph_effect": "NONE"
   }
 }
