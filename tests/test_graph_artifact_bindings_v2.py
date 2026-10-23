@@ -44,6 +44,19 @@ GB7B_NODES = {
     "math.d1-component.reconciliation-record", "math.rn-mesoscopic-reduction",
 }
 
+# GB-7e scope (main#475 6368882683): math.d5-component nodes bound file-kind to the
+# Math- source named by node_source GRAPH.json at its pinned commit. remote-window-proof
+# is deliberately excluded (its source file is the GB-7c FC-10 candidate for
+# math.rn-fixed-remote-window, 522/6364026501).
+GB7E_NODES = {
+    "math.d5-component." + n for n in (
+        "annulus-proof", "annulus-review", "collar-proof", "collar-review",
+        "i5-review-claude", "i5-review-xai", "intermediate-window-proof",
+        "offpin-second-moment-review", "punctured-pin-continuum-check",
+        "punctured-pin-continuum-review", "punctured-pin-proof", "punctured-pin-review-111")
+}
+GB7E_EXCLUDED = {"math.d5-component.remote-window-proof"}
+
 
 def _pairs_no_dupes(pairs):
     keys = [k for k, _ in pairs]
@@ -116,6 +129,19 @@ class GraphArtifactBindingsV2Test(unittest.TestCase):
         bound = {r["node_id"] for r in self.doc["bindings"]}
         self.assertEqual(GB7B_NODES - PROTECTED_NODES - bound, set())
         self.assertFalse(bound & PROTECTED_NODES)
+
+    def test_gb7e_d5_components_are_pinned_files(self):
+        self.assertLessEqual(GB7E_NODES | GB7E_EXCLUDED, self.site_nodes)
+        ns = self.doc["node_source"]
+        recs = {r["node_id"]: r for r in self.doc["bindings"] if r["node_id"] in GB7E_NODES}
+        self.assertEqual(set(recs), GB7E_NODES)
+        for node, rec in recs.items():
+            with self.subTest(node=node):
+                self.assertEqual(rec["kind"], "file")
+                self.assertEqual(rec["repository"], ns["repository"])
+                self.assertEqual(rec["commit"], ns["commit"])
+        bound = {r["node_id"] for r in self.doc["bindings"]}
+        self.assertFalse(bound & GB7E_EXCLUDED)
 
     def test_no_kind_is_promoted_to_bound(self):
         # Only file/tree can ever evaluate as bound; GB-7b binds no main-repo file,
