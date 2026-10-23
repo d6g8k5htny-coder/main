@@ -319,13 +319,16 @@ def _snapshot_outputs(root, output):
         _directory(output)
     except CustodyError:
         return {name: {"state": "unsafe"} for name in OUTPUT_NAMES}, [], ["unsafe_output_directory"]
-    with os.scandir(output) as entries:
-        names = []
-        for index, entry in enumerate(entries):
-            if index == 64:
-                holds.append("output_directory_inventory_overflow")
-                break
-            names.append(entry.name)
+    try:
+        with os.scandir(output) as entries:
+            names = []
+            for index, entry in enumerate(entries):
+                if index == 64:
+                    holds.append("output_directory_inventory_overflow")
+                    break
+                names.append(entry.name)
+    except OSError as exc:
+        raise CustodyError("output directory inventory failed: " + str(output)) from exc
     unexpected = sorted(set(names) - set(OUTPUT_NAMES))
     if unexpected:
         holds.append("unexpected_output_members")
@@ -425,7 +428,11 @@ def _prepare_artifact(root, receipt):
             raise CustodyError("upload-stage readback refused; safe partial stage preserved")
         target = stage / relative
         if target.parent != stage and not _present(target.parent):
-            target.parent.mkdir(mode=0o700)  # exactly one known logs/outputs component
+            try:
+                target.parent.mkdir(mode=0o700)  # exactly one known logs/outputs component
+            except OSError as exc:
+                raise CustodyError("artifact stage subdirectory cannot be created: "
+                                   + str(target.parent)) from exc
         fd = os.open(target, os.O_WRONLY | os.O_CREAT | os.O_EXCL, 0o600)
         with os.fdopen(fd, "wb") as destination:
             destination.write(raw)
