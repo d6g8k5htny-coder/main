@@ -9,6 +9,9 @@ artifact directory in a scanned repo is one `artifact` hyperedge. Every vertex i
 ## Inputs config — `inputs.json`
 Lists each repo: `checkout` (path relative to this repo's root), and either main's `ledger`/`graph`/`report`
 or an `artifacts` map of role -> fnmatch globs (`source`, `review`, `formal`, `impl`, `spec`, `test`) with `unit_depth`.
+Patterns are tried in order (first matching role wins, so specific `formal`/`impl` globs precede the `reviews/*` catch-all).
+Ledger paths resolve deterministically: `<repo>:<path>` is honored, paths starting with the unit or a configured
+`root_dirs` entry are repo-root-relative, anything else is unit-relative.
 `default_repos` is what `build`/`--check` use; `--repos all` adds every repo whose checkout is present.
 Absent checkouts (private or not cloned) are skipped with `skip <repo>: ...` on stderr.
 
@@ -19,7 +22,10 @@ pip install -r tools/hypergraph/requirements.txt          # all pins exact
 pytest tools/hypergraph
 python -m tools.hypergraph.math_hypergraph build           # rewrite data/hypergraph/*.json (default repos)
 python -m tools.hypergraph.math_hypergraph build --check   # exit 1 if committed outputs are stale
-python -m tools.hypergraph.math_hypergraph validate | gaps | repos | shared-impl 5
+python -m tools.hypergraph.math_hypergraph validate
+python -m tools.hypergraph.math_hypergraph gaps
+python -m tools.hypergraph.math_hypergraph repos
+python -m tools.hypergraph.math_hypergraph shared-impl 5
 python -m tools.hypergraph.math_hypergraph reach main:node:math.d1-component.congruence-erratum 2
 # other repos (optional, read-only):
 git clone --depth 1 https://github.com/d6g8k5htny-coder/Math- external/Math-
