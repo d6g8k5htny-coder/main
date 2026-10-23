@@ -39,7 +39,7 @@ Status: 11 tree-pinned; 0 absent; 0 v2 records added; 11 unbound_artifact; 0 exi
 ## Drive / Dropbox
 - Drive read-only title searches `C6`, `C7`, `gaussian`, `C261` (~18:05Z). `elder` and `cusp` were already run by GB-8l (#546, ~17:20Z) and are reused, not repeated.
 - **No hit maps to a GB-8m unit**, so no lead is recorded. Unit files cite only C13/C25/C110/C261 in passing, and the gaussian_a4 README says the C261 history "is separate". Bytes were **not fetched** and nothing was **imported** under `imports/historical/GB-8m/` (NOT EXECUTED).
-- Unmatched hits, left for DRV-H1..H3: `C299-candidate7-source-review-20261022.zip`, `c7_mc_check.py`, `C144_C7_Slice_A_Review_20261007.zip`, `C244-C6-PRIMARY-LITERATURE-COMPARISON-20261010-v1.json`, the C261/C261A Oct 11–16 packets and `C40-GAUSSIAN-TAIL-ANALYTIC-REVIEWS-20260930.zip`. IDs are in the JSON `drive.unmatched_title_hits`.
+- Unmatched hits, left for DRV-H1..H3: `C299-candidate7-source-review-20261022.zip`, `c7_mc_check.py`, `C144_C7_Slice_A_Review_20261007.zip`, `C244-C6-PRIMARY-LITERATURE-COMPARISON-20261010-v1.json`, the C261/C261A Oct 11–16 packets and `C40-GAUSSIAN-TAIL-ANALYTIC-REVIEWS-20260930.zip`. Drive file identifiers are withheld from this public file under the OP-PRIVACY destination-specific publication checks; only titles are listed.
 - Dropbox: no access (no connector); not worked around.
 
 ## Lane context from agent 13
