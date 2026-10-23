@@ -396,7 +396,7 @@ def test_real_records_owner_released_url_consistency():
 def test_real_records_match_published_projection():
     records = _require_real_records()
     if not PROJECTION_PATH.is_file():
-        pytest.skip("docs/site/node-status.json is absent; published-projection staleness is not checked")
+        pytest.fail("mandatory published projection is missing: docs/site/node-status.json")
     published = json.loads(PROJECTION_PATH.read_text(encoding="utf-8"))
     by_id = {record["node_id"]: record for _, record in records}
     assert set(published) == set(by_id)
@@ -464,3 +464,40 @@ def test_real_records_fresh_against_live_source_head():
         + " are not compared to a live source head; tools/validate_node_status.py performs "
         "no network fetch, so this check is skipped instead of passed"
     )
+
+
+@pytest.mark.parametrize("state", [
+    "missing", "directory", "matching", "missing-node", "changed-value",
+])
+def test_required_published_projection_boundary(tmp_path, monkeypatch, state):
+    """Synthetic files exercise real loading; no project ownership is invented."""
+    directory = tmp_path / "records"
+    directory.mkdir()
+    records = {}
+    for name in LANE2_RECORD_NAMES:
+        record = _rec(name[:-5])
+        records[record["node_id"]] = record
+        (directory / name).write_text(json.dumps(record), encoding="utf-8")
+    projection = tmp_path / "node-status.json"
+    if state == "directory":
+        projection.mkdir()
+    elif state not in ("missing", "directory"):
+        published = copy.deepcopy(records)
+        if state == "missing-node":
+            published.pop(next(iter(published)))
+        elif state == "changed-value":
+            published[next(iter(published))]["source_rev"] = REV_B
+        projection.write_text(json.dumps(published), encoding="utf-8")
+    monkeypatch.setitem(globals(), "RECORDS_DIR", directory)
+    monkeypatch.setitem(globals(), "PROJECTION_PATH", projection)
+    try:
+        if state in ("missing", "directory"):
+            with pytest.raises(pytest.fail.Exception, match="mandatory published projection"):
+                test_real_records_match_published_projection()
+        elif state in ("missing-node", "changed-value"):
+            with pytest.raises(AssertionError):
+                test_real_records_match_published_projection()
+        else:
+            test_real_records_match_published_projection()
+    except pytest.skip.Exception as error:
+        pytest.fail(f"mandatory projection was skipped instead of checked: {error}")
