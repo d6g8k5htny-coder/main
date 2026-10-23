@@ -1,7 +1,8 @@
 name: Research navigation and public source checks
 'on':
   push:
-    branches: [chatgpt/navigation-price-20260924]
+    branches: [main]
+    paths: ['README.md', 'docs/**', 'tools/navigation_check.py', 'tests/test_navigation.py', '.github/workflows/navigation.yml']
   pull_request:
     paths: ['README.md', 'docs/**', 'tools/navigation_check.py', 'tests/test_navigation.py', '.github/workflows/navigation.yml']
   workflow_dispatch:
