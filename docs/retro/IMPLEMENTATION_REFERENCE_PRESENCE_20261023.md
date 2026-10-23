@@ -11,7 +11,7 @@
 
 ## Reproducible extraction and classification
 
-1. Select only inventory Markdown rows matching `^- \`(Math-|main):([^@\`]+)@([^\`]+)\`: (\d+) files; impl: (.*)$` (the row counts and frozen short source SHA are carried as recorded). All **291** expected rows parse; no malformed selected row.
+1. Select only inventory Markdown rows matching ``^- `(Math-|main):([^@`]+)@([^`]+)`: (\d+) files; impl: (.*)$`` (the row counts and frozen short source SHA are carried as recorded). All **291** expected rows parse; no malformed selected row.
 2. An implementation field equal to `NO IMPLEMENTATION FOUND` has zero declared reference tokens. Otherwise split on `, `, preserving all tokens. A `main:` or `Math-:` prefix explicitly changes the referenced repository; unqualified paths are resolved in the unit's own repository. Resolve each path literally in the matching **complete pinned Git tree**, and accept a reference as present only when its entry is a `blob`. No title/prose inference or branch-tip substitution.
 3. **Local code-language reference:** at least one declared path equals its unit path or begins with `<unit path>/` in that same repo, and ends with `.py`, `.lean`, `.rs`, `.jl`, `.ipynb`, `.mjs`, `.js`, `.c`, `.cc`, `.cpp`, `.f90`, `.r`, or `.sh`. This is a syntactic, intentionally broad indicator; a test or self-reference qualifies, and neither execution nor proof implementation is implied.
 4. **Reference-only:** declared references exist, but no code-language reference within the unit is named. These are further grouped below. **No recorded reference:** inventory says `NO IMPLEMENTATION FOUND`, not that the project lacks the software.
