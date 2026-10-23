@@ -31,6 +31,8 @@ jobs:
       - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
         with:
           python-version: '3.12'
+          cache: pip
+          cache-dependency-path: experiments/periodic_h0/requirements.txt
       - name: Initialize exclusive pilot custody and source identity
         id: pilot_custody_init
         run: python -B -S tools/periodic_pilot_custody.py init
