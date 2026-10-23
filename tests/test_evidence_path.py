@@ -97,6 +97,34 @@ class EvidencePathTests(unittest.TestCase):
             self.assertIn("pinned source (url+sha) not recorded", result["missing"], label)
             self.assertFalse(result["complete"], label)
 
+    def test_source_path_is_serialized_as_url_path_data(self):
+        cases = (
+            ("GRAPH.json", "GRAPH.json"),
+            ("docs/GRAPH.json", "docs/GRAPH.json"),
+            ("%2e%2e/GRAPH.json", "%252e%252e/GRAPH.json"),
+            ("%2E%2E/GRAPH.json", "%252E%252E/GRAPH.json"),
+            (".%2e/GRAPH.json", ".%252e/GRAPH.json"),
+            ("%2e./GRAPH.json", "%252e./GRAPH.json"),
+            ("docs/%2e%2e/%2e%2e/GRAPH.json", "docs/%252e%252e/%252e%252e/GRAPH.json"),
+            ("docs/a#b?.json", "docs/a%23b%3F.json"),
+            ("docs/a b%.json", "docs/a%20b%25.json"),
+            ("docs/a%2Fb.json", "docs/a%252Fb.json"),
+            ("docs/caf\u00e9.json", "docs/caf%C3%A9.json"),
+            ("docs/a\tb\n.json", "docs/a%09b%0A.json"),
+        )
+        for path, encoded in cases:
+            with self.subTest(path=path):
+                graph = copy.deepcopy(GRAPH)
+                graph["identity"]["path"] = path
+                result = evidence_path(FIXTURE_NODE, graph, BINDINGS, RECEIPTS, REVIEWS)
+                self.assertEqual(result["source"], {
+                    "url": "https://github.com/example/fixture/blob/" + COMMIT + "/" + encoded,
+                    "sha": COMMIT,
+                })
+                self.assertEqual(result["missing"], [])
+                self.assertTrue(result["complete"])
+                self.assertEqual(graph["identity"]["path"], path)
+
     def test_unknown_node_is_refused(self):
         with self.assertRaises(Refused) as caught:
             evidence_path("fixture.lane1.not-in-graph", GRAPH, BINDINGS)

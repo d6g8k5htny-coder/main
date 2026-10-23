@@ -17,6 +17,7 @@ import json
 from pathlib import Path
 import re
 import sys
+from urllib.parse import quote
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -85,7 +86,9 @@ def _pinned_source(identity):
         return None
     if any(part in ("", ".", "..") for part in path.split("/")):
         return None
-    url = "https://github.com/" + repository + "/blob/" + commit + "/" + path
+    # Quote filename data before URL parsing can interpret escapes or delimiters.
+    url = ("https://github.com/" + repository + "/blob/" + commit + "/"
+           + quote(path, safe="/"))
     return {"url": url, "sha": commit}
 
 
