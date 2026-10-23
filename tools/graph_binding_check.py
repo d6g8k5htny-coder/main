@@ -426,15 +426,19 @@ def check_v2(root: Path, doc, repository: str):
     #      record is evaluated per L87, and files under it stay unbound
     #      artifacts unless a `file` record names them (L94).
     #  Q3 (L102, L92) URL/external: source: external_unverified, "Never bound".
-    # hist.* nodes: the doc has no rule for hist.* nodes (Q1/L100 covers deleted
-    # files only), so that question stays OPEN and is listed only.
+    #  hist.* nodes: CoS ruling 2026-10-23 12:24Z (475), fail-closed, in force
+    #      until Dylan or the GB-5 owner changes it: a hist.* node may carry a
+    #      historical record pinned to an old commit, but per L90 that never
+    #      counts as bound -> reported as unbound_historical, never bound.
+    hist_bound = [i for i in st["bound"] if i["node_id"].startswith("hist.")]
+    st["bound"] = [i for i in st["bound"] if not i["node_id"].startswith("hist.")]
     kinds_by_node = {}
     bound_nodes = set()
     for r in doc["bindings"]:
         kinds_by_node.setdefault(r["node_id"], set()).add(r["kind"])
     for item in st["bound"]:
         bound_nodes.add(item["node_id"])
-    dir_rule, ext_rule, pol_hist = [], [], []
+    dir_rule, ext_rule, hist_rule = [], [], []
     for nid in sorted(nodes):
         src = nodes[nid].get("source") if isinstance(nodes[nid], dict) else None
         kinds = sorted(kinds_by_node.get(nid, ()))
@@ -450,8 +454,12 @@ def check_v2(root: Path, doc, repository: str):
                 "node_id": nid, "source": src, "record_kinds": kinds,
                 "status": "pinned_by_tree_or_files" if ok else "loose_directory_unbound",
                 "bound": nid in bound_nodes})
-        if nid.startswith("hist.") and not src:
-            pol_hist.append(nid)
+        if nid.startswith("hist."):
+            hist_rule.append({
+                "node_id": nid, "source": src, "record_kinds": kinds,
+                "has_historical_record": "historical" in kinds,
+                "status": "unbound_historical", "bound": False,
+                "demoted_from_bound": sum(1 for i in hist_bound if i["node_id"] == nid)})
     for k in st:
         st[k].sort(key=lambda x: (x["node_id"], x.get("artifact_path", ""), x["kind"]))
     return {
@@ -470,10 +478,7 @@ def check_v2(root: Path, doc, repository: str):
             "contract": "docs/plans/2026-10-08-artifact-index-contract.md@e1d1ebc2",
             "directory_sources": dir_rule,         # Q2, L101 + L87 + L94
             "url_or_external_sources": ext_rule,   # Q3, L102 + L92
-        },
-        "policy_open": {
-            "note": "contract silent on hist.* nodes (475/6364544516 Q2); listed only, not pass/fail",
-            "hist_nodes_without_source": pol_hist,
+            "hist_nodes": hist_rule,               # CoS ruling 475 12:24Z + L90
         },
     }
 

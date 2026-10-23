@@ -269,12 +269,27 @@ class GraphBindingV2ReportTest(unittest.TestCase):
                           c["unknown_node"], c["absent"], c["historical"], c["bound"]),
                          (1, 1, 1, 1, 1, 1, 0))
 
-    def test_hist_nodes_stay_open_listed_only(self):
+    def test_hist_nodes_unbound_historical_without_record(self):
         rc, rep, _ = self.run_v2(self.doc([]))
         self.assertEqual(rc, 0)
-        self.assertEqual(rep["policy_open"]["hist_nodes_without_source"], ["hist.old"])
-        self.assertIn("hist.old", rep["unbound_nodes"])
-        self.assertNotIn("directory_sources", rep["policy_open"])
+        self.assertNotIn("policy_open", rep)
+        h = {x["node_id"]: x for x in rep["source_rules"]["hist_nodes"]}
+        self.assertEqual(sorted(h), ["hist.carried", "hist.old"])
+        for x in h.values():
+            self.assertEqual((x["status"], x["bound"]), ("unbound_historical", False))
+
+    def test_hist_node_never_bound_even_with_records(self):
+        recs = [self.rec("hist.carried", "art/a.json", b"A"),
+                self.rec("hist.old", "art/a.json", b"A", kind="historical")]
+        rc, rep, _ = self.run_v2(self.doc(recs))
+        self.assertEqual(rc, 0)
+        self.assertEqual(rep["counts"]["bound"], 0)
+        self.assertEqual(rep["counts"]["historical"], 1)
+        h = {x["node_id"]: x for x in rep["source_rules"]["hist_nodes"]}
+        self.assertTrue(h["hist.old"]["has_historical_record"])
+        self.assertEqual(h["hist.carried"]["demoted_from_bound"], 1)
+        for x in h.values():
+            self.assertEqual((x["status"], x["bound"]), ("unbound_historical", False))
 
     def test_directory_source_loose_is_unbound(self):
         rc, rep, _ = self.run_v2(self.doc([], scope=("pkg/*",)))
