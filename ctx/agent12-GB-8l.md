@@ -37,8 +37,8 @@ Status: 13 tree-pinned; 0 absent; 0 v2 records added; 13 unbound_artifact; 0 exi
 
 ## Drive / Dropbox
 - Drive read-only title searches `elder`, `cusp` (~17:20Z). Two leads recorded as `external_unverified` (bytes **not fetched**, **not imported** under `imports/historical/GB-8l/` — NOT EXECUTED; never bound):
-  - `C292_COMPACT_MORSE_ELDER_DELIVERY.zip` (Drive id `153WX_L6h5a7_KHHOS0dsmYiRj-nc2XkD`, mod 2026-10-18T01:33Z) → `frontiers/compact_morse_elder_adapter_20261018` (unit files mention C292).
-  - `C89-QUANTITATIVE-SHRINKING-FAR-ELDER-20261002.zip` (`1K22O_pd9xcb4XpkJJYxQNf_FQ4ri_mXx`, mod 2026-10-02T23:48Z) → `frontiers/far_elder_flat_ridge_20260930` (unit has C89_V1*_PROOF.md, c89_replay.py).
+  - `C292_COMPACT_MORSE_ELDER_DELIVERY.zip` (Drive id `WITHHELD (OP-PRIVACY)`, mod 2026-10-18T01:33Z) → `frontiers/compact_morse_elder_adapter_20261018` (unit files mention C292).
+  - `C89-QUANTITATIVE-SHRINKING-FAR-ELDER-20261002.zip` (`WITHHELD (OP-PRIVACY)`, mod 2026-10-02T23:48Z) → `frontiers/far_elder_flat_ridge_20260930` (unit has C89_V1*_PROOF.md, c89_replay.py).
   - Unmatched hits (no GB-8l unit claims them): C245 cusp replay audit JSON, C86 clipped-cusp crossover zip, July EC-013 / LS-DER-051/065 elder-rule docs. Left for DRV-H1..H3.
 - Dropbox: no access (no connector); not worked around.
 
