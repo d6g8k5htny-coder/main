@@ -11,7 +11,9 @@ mh = importlib.util.module_from_spec(spec); sys.modules["math_hypergraph"] = mh;
 
 @pytest.fixture(scope="module")
 def built():
-    return mh.build()
+    hg, G, skipped = mh.build()
+    assert skipped == []
+    return hg, G
 
 
 def test_counts(built):
@@ -53,12 +55,12 @@ def test_validator_flags_missing_unit_role(built):
 
 def test_reach(built):
     hg, _ = built
-    q = "node:math.d1-component.congruence-erratum"
+    q = "main:node:math.d1-component.congruence-erratum"
     one = mh.reach(hg, q, 1)
-    assert any(v.startswith("unit:") for v in one)
+    assert any(mh._vt(v) == "unit" for v in one)
     assert one <= mh.reach(hg, q, 2)
     with pytest.raises(KeyError):
-        mh.reach(hg, "node:does-not-exist", 1)
+        mh.reach(hg, "main:node:does-not-exist", 1)
 
 
 def test_isolated_vertex_workaround(built):
@@ -80,7 +82,7 @@ def test_cli(capsys):
     assert json.loads(capsys.readouterr().out)["sourced"] == 211
     assert mh.main(["validate"]) == 0
     capsys.readouterr()
-    assert mh.main(["reach", "node:nope"]) == 2
+    assert mh.main(["reach", "main:node:nope"]) == 2
 
 
 def test_committed_outputs_current(built, tmp_path):
@@ -88,3 +90,26 @@ def test_committed_outputs_current(built, tmp_path):
     mh.write_outputs(hg, G, tmp_path)
     for f in ("math_hypergraph.json", "query_results.json"):
         assert (tmp_path / f).read_text() == (mh.DATA / f).read_text(), f"{f} stale: rerun build"
+
+
+def test_every_vertex_repo_prefixed(built):
+    hg, _ = built
+    assert {v.split(":", 1)[0] for v in hg.all_v} <= {"main", "Math-", "query-"}
+
+
+def test_build_check_mode(tmp_path):
+    cfg = mh.load_config()
+    assert mh.check(cfg, ["main"]) == []
+    (tmp_path / "math_hypergraph.json").write_text("{}\n")
+    assert "math_hypergraph.json" in mh.check(cfg, ["main"], tmp_path)
+    assert mh.main(["build", "--check"]) == 0
+
+
+def test_export_bundle_roundtrip(tmp_path):
+    assert mh.main(["export", str(tmp_path / "b"), "--repos", "main"]) == 0
+    b = tmp_path / "b"
+    assert {"math_hypergraph.json", "query_results.json", "README.md", "MANIFEST.json"} <= {f.name for f in b.iterdir()}
+    m = json.loads((b / "MANIFEST.json").read_text())
+    assert m["files"]["math_hypergraph.json"] == mh._sha(b / "math_hypergraph.json")
+    hg = mh.load_json(b / "math_hypergraph.json")
+    assert hg.num_e == 344
