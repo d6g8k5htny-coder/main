@@ -30,6 +30,8 @@ PUBLIC_COLUMNS = (
     "Authority / canonical impact", "Dependencies or supersession", "Modified UTC",
 )
 PUBLIC_INDICES = tuple(HEADER.index(column) for column in PUBLIC_COLUMNS)
+# Every public column precedes the private trailing Source/Notes suffix.
+ROW_MINIMUM_CELLS = max(PUBLIC_INDICES) + 1
 ROLES = frozenset(("source", "review", "kernel", "computation", "alignment", "teaching-source"))
 PIN_KEYS = frozenset((
     "capture_sha256", "metadata_sha256", "policy_sha256",
@@ -230,14 +232,18 @@ def _native_rows(native, source, intervals):
         rows = _bounded_list(block.get("rowData"), stop - start, stop - start)
         for offset, row in enumerate(rows):
             _object(row)
-            cells = _bounded_list(row.get("values"), len(HEADER), len(HEADER))
+            position = start + offset
+            # formattedValue reads elide trailing empty cells. Nonheader rows may
+            # omit only the trailing private Source/Notes cells; the header may not.
+            minimum = len(HEADER) if position == 0 else ROW_MINIMUM_CELLS
+            cells = _bounded_list(row.get("values"), minimum, len(HEADER))
             values = []
             for cell in cells:
                 _object(cell)
                 value = cell.get("formattedValue", "")
                 _require(type(value) is str and len(value.encode("utf-8")) <= CELL_LIMIT)
                 values.append(value)
-            position = start + offset
+            values.extend([""] * (len(HEADER) - len(values)))
             if position == 0:
                 _require(values == list(HEADER))
                 header_count += 1
