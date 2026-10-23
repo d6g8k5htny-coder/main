@@ -23,6 +23,27 @@ Lane GB-8g (D1-D2 lifetime / remainder), RETRO-MATH-BIND-02 per main#475 6369972
 - 3 units (d2_sharp_scalar_floor, d2_two_atom_floors, far_sector_lifetime_refinement) do not exist at dbe6c0a1 at all; adding them belongs to the later consolidated graph change (and any node_source re-pin must be at or after their add commits), not this PR.
 - Math- history: units added 2026-09-25..2026-10-22; no Codex-stalled PR touched these paths in what I read (not exhaustively checked against the 14).
 
+## AMEND_REQUIRED repair: per-file source and implementation identity
+
+OpenAI Codex /root amended the released author branch at exact predecessor head `5a9c6db509f1335fb0cde7794df31f839ddcde4a` under the task-local pickup recorded on main#543. The proposal JSON now records all **43 source files** and **22 per-unit implementation entries** with repository, frozen commit, repository path, Git blob SHA, SHA-256, and byte count. The source inventory is frozen at Math- `9f3fb6918b28e6378c034ebc19e76d432f5391cb`; the two main-side implementation files are frozen at main `a487cfd4`. Three units have explicit empty implementation arrays, matching RETRO-MATH-BIND-01.
+
+| unit | source files | implementation entries | pinned implementation paths |
+|---|---:|---:|---|
+| `reviews/d1_theorem_a_nonauthor_20260928` | 4 | 3 | `Math-:reviews/d1_theorem_a_nonauthor_20260928/theorem_a_exact_check.py@9f3fb691#01d0900f`<br>`Math-:.github/workflows/d1-cap-elder-partner-second-pass.yml@9f3fb691#4b688ce1`<br>`Math-:.github/workflows/d1-chain-reconciliation.yml@9f3fb691#b32264cb` |
+| `reviews/d2_cumulative_correction_20260925` | 2 | 3 | `Math-:reviews/d2_cumulative_correction_20260925/check_correction.py@9f3fb691#499cbd25`<br>`main:tests/test_museum_data.py@a487cfd4#95a89e3f`<br>`main:tools/museum_data.py@a487cfd4#9fad2bbf` |
+| `reviews/d2_joint_mass_schur_20261006` | 4 | 1 | `Math-:reviews/d2_joint_mass_schur_20261006/joint_mass.py@9f3fb691#7be42626` |
+| `reviews/d2_remainder_full_depth_claude_20260930` | 4 | 2 | `Math-:reviews/d2_remainder_full_depth_claude_20260930/remainder_review_check.py@9f3fb691#0185e3d4`<br>`Math-:.github/workflows/d2-remainder-fulldepth-review.yml@9f3fb691#dbbba357` |
+| `reviews/d2_sharp_scalar_floor_20261006` | 3 | 2 | `Math-:reviews/d2_sharp_scalar_floor_20261006/check_partb.py@9f3fb691#cc88ad90`<br>`Math-:tests/test_d2_sharp_scalar_floor.py@9f3fb691#9e1a7849` |
+| `reviews/d2_two_atom_floors_20261006` | 4 | 4 | `Math-:reviews/d2_two_atom_floors_20261006/test_two_atom_bounds.py@9f3fb691#cf4d3d6c`<br>`Math-:reviews/d2_two_atom_floors_20261006/two_atom_bounds.py@9f3fb691#ae1bfe55`<br>`Math-:.github/workflows/d2-two-atom-floors.yml@9f3fb691#25b0844e`<br>`Math-:tests/test_d2_two_atom_floors.py@9f3fb691#55ee6dd8` |
+| `reviews/d2_two_mass_floors_20261006` | 5 | 3 | `Math-:reviews/d2_two_mass_floors_20261006/test_two_mass.py@9f3fb691#88041eaf`<br>`Math-:reviews/d2_two_mass_floors_20261006/two_mass.py@9f3fb691#c5617002`<br>`Math-:.github/workflows/d2-two-mass-floors.yml@9f3fb691#5d4a4ef2` |
+| `reviews/literature_lifetime_law_recon_20260929` | 4 | 1 | `Math-:.github/workflows/d1-third-order-law.yml@9f3fb691#e188a408` |
+| `reviews/side24_d2_certified_small_L_claude_20261005` | 4 | 3 | `Math-:reviews/side24_d2_certified_small_L_claude_20261005/certified_d2.py@9f3fb691#6fd5b751`<br>`Math-:.github/workflows/d2-two-mass-floors.yml@9f3fb691#5d4a4ef2`<br>`Math-:.github/workflows/side24-d2-certified.yml@9f3fb691#502430d6` |
+| `frontiers/far_sector_lifetime_refinement_20261022` | 4 | 0 | **explicit empty set — NO IMPLEMENTATION FOUND** |
+| `reviews/d1_section9_borel_grok_lucas_20260928` | 4 | 0 | **explicit empty set — NO IMPLEMENTATION FOUND** |
+| `reviews/remainder_rate_protocol_20261006` | 1 | 0 | **explicit empty set — NO IMPLEMENTATION FOUND** |
+
+This repair changes no proposed node id, directory tree identity, first/last commit, graph membership, classification, binding status, v2 record, Drive disposition, or integration reservation. Scientific effect: **NONE**. Status remains **NOT A RESULT** and all 12 candidates remain `PROPOSED_UNBOUND` pending an independently reviewed graph change.
+
 ## Drive
 - Found: `C246_D2_TWO_MASS_SOURCE_IDENTITY_REPAIR_20261010_v1.json` (private Drive, owner-only; modified 2026-10-10 3:10pm CT), 9176678 bytes, sha256 `094e7840cd591db7b1f75a2502220721184fb1619c019149eba691d3512299ad`. Relates to d2_two_mass_floors (Math-#417 SOURCES.json repair). Not bound (Drive sources are never bound).
 - Import to imports/historical/GB-8g/: HELD under OP-PRIVACY-20260927 item 5 and the destination-specific checks. This repo is public; the envelope (self-described as a private custody envelope) carries private Drive file identifiers/locator URLs and a private local source path. Holding is recoverable; the Drive identifier is withheld here. Its public member PUBLIC_REPAIR_EVIDENCE.md is already public at Math-#417 comment 6101690037 (sha256 e7a811bc6be0c74372be5edf79d5edb010017d7388e2ea9122e13977180355c6).
