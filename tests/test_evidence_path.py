@@ -125,6 +125,71 @@ class EvidencePathTests(unittest.TestCase):
                 self.assertTrue(result["complete"])
                 self.assertEqual(graph["identity"]["path"], path)
 
+    def test_malformed_https_evidence_authorities_are_missing(self):
+        bad_urls = (
+            "https://", "https://?r=1", "https://#review", "https://:443/r",
+            "https://[::1/r", "https://example.invalid:notaport/r",
+            "https://example.invalid:65536/r", "https://bad host.invalid/r",
+            "https://[::1]suffix/r", "https://prefix[::1]/r",
+            "https://[v1.a]/r", "https://bad|host.invalid/r",
+            "https://%20/r", "https://example.invalid:\uff14\uff14\uff13/r",
+        )
+        for channel, label in (("receipts", "execution receipt"), ("reviews", "review link")):
+            for value in bad_urls:
+                with self.subTest(channel=channel, value=value):
+                    tables = {"receipts": copy.deepcopy(RECEIPTS), "reviews": copy.deepcopy(REVIEWS)}
+                    tables[channel]["FIXTURE-ARTIFACT-v1"]["url"] = value
+                    before = copy.deepcopy(tables)
+                    result = evidence_path(FIXTURE_NODE, GRAPH, BINDINGS, **tables)
+                    self.assertFalse(result["complete"])
+                    self.assertEqual(result[channel], [])
+                    self.assertEqual(result["missing"], [label + " not recorded for FIXTURE-ARTIFACT-v1"])
+                    self.assertEqual(result["scientific_effect"], "NONE")
+                    self.assertEqual(tables, before)
+
+    def test_raw_url_whitespace_controls_and_backslashes_are_missing(self):
+        bad_urls = (
+            "https://example.invalid/r\n", "https://exa\tmple.invalid/r",
+            "https://example.invalid/r\r", "https://example.invalid/\x00r",
+            "https://example.invalid/\x1fr", "https://example.invalid/\x7fr",
+            "https://example.invalid/a b", "https://example.invalid/\u00a0r",
+            "https://example.invalid\\other/r", "https://example.invalid/r\\x",
+        )
+        for channel, label in (("receipts", "execution receipt"), ("reviews", "review link")):
+            for value in bad_urls:
+                with self.subTest(channel=channel, value=value):
+                    tables = {"receipts": copy.deepcopy(RECEIPTS), "reviews": copy.deepcopy(REVIEWS)}
+                    tables[channel]["FIXTURE-ARTIFACT-v1"]["url"] = value
+                    result = evidence_path(FIXTURE_NODE, GRAPH, BINDINGS, **tables)
+                    self.assertFalse(result["complete"])
+                    self.assertEqual(result[channel], [])
+                    self.assertEqual(result["missing"], [label + " not recorded for FIXTURE-ARTIFACT-v1"])
+
+    def test_https_evidence_values_and_existing_limits_are_preserved(self):
+        base = "https://example.invalid/"
+        good_urls = (
+            base, base + "receipt?attempt=1#L2", "https://EXAMPLE.invalid:443/r",
+            "https://[::1]:443/r", "https://[2001:db8::1]/r",
+            base + "a%20b?q=%23#review", "https://b\u00fccher.example/r",
+            base + "x" * (2048 - len(base)),
+        )
+        for channel, label in (("receipts", "execution receipt"), ("reviews", "review link")):
+            for value in good_urls + ("", None, True, 7, "http://example.invalid/r", base + "x" * 2048):
+                valid = value in good_urls
+                with self.subTest(channel=channel, value=value):
+                    tables = {"receipts": copy.deepcopy(RECEIPTS), "reviews": copy.deepcopy(REVIEWS)}
+                    tables[channel]["FIXTURE-ARTIFACT-v1"]["url"] = value
+                    before = copy.deepcopy(tables)
+                    result = evidence_path(FIXTURE_NODE, GRAPH, BINDINGS, **tables)
+                    self.assertEqual(result["complete"], valid)
+                    self.assertEqual(result["missing"], [] if valid else [label + " not recorded for FIXTURE-ARTIFACT-v1"])
+                    if valid:
+                        self.assertEqual(result[channel][0]["url"], value)
+                    else:
+                        self.assertEqual(result[channel], [])
+                    self.assertEqual(tables, before)
+                    self.assertEqual(result["scientific_effect"], "NONE")
+
     def test_unknown_node_is_refused(self):
         with self.assertRaises(Refused) as caught:
             evidence_path("fixture.lane1.not-in-graph", GRAPH, BINDINGS)

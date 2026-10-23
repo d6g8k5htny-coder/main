@@ -14,10 +14,11 @@ from __future__ import annotations
 
 import argparse
 import json
+from ipaddress import IPv6Address
 from pathlib import Path
 import re
 import sys
-from urllib.parse import quote
+from urllib.parse import quote, urlsplit
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -93,7 +94,29 @@ def _pinned_source(identity):
 
 
 def _https_url(value):
-    return type(value) is str and value.startswith("https://") and len(value) <= 2048
+    # A locator needs a usable authority; parsing alone is not validation.
+    if type(value) is not str or not value.startswith("https://") or len(value) > 2048:
+        return False
+    # Refuse raw characters that parsers can strip or reinterpret. Encoded
+    # path/query data remains inert and the original URL is never rewritten.
+    if "\\" in value or any(c.isspace() or ord(c) < 32 or ord(c) == 127 for c in value):
+        return False
+    try:
+        parts = urlsplit(value)
+        host = parts.hostname
+        parts.port  # Access validates the port's numeric syntax and range.
+        if parts.scheme != "https" or not host:
+            return False
+        authority = parts.netloc.rsplit("@", 1)[-1]
+        if authority.startswith("["):
+            if re.fullmatch(r"\[[0-9A-Fa-f:.]+\](?::[0-9]*)?", authority) is None:
+                return False
+            IPv6Address(host)
+        elif re.fullmatch(r"[A-Za-z0-9_.-]+", host.encode("idna").decode("ascii")) is None:
+            return False
+        return True
+    except (ValueError, UnicodeError):
+        return False
 
 
 def evidence_path(node_id, graph, bindings, receipts=None, reviews=None):
