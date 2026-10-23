@@ -115,31 +115,37 @@ def added_lines(diff_text, marker_width=1):
     marker = "+" * marker_width
     path = None
     new_line = None
+    # True between a "diff " line and its first hunk. Only there is a
+    # "+++ " line a file header; inside a hunk it is an added "++" line.
+    in_header = False
     for raw in diff_text.splitlines():
-        if raw.startswith("diff --git "):
+        if raw.startswith("diff "):
             path = None
             new_line = None
+            in_header = True
             continue
-        if raw.startswith("+++ ") or raw.startswith('+++ "'):
+        if in_header and raw.startswith("+++ "):
             path = _git_path(raw[4:])
-            new_line = None
             continue
         if raw.startswith("@@"):
             match = _HUNK.search(raw)
             new_line = int(match.group(1)) if match else None
+            in_header = False
+            continue
+        if in_header:
             continue
         if path is None or new_line is None:
             continue
         if raw.startswith("\\"):
             continue
-        if raw.startswith(marker):
+        columns = raw[:marker_width]
+        if len(columns) < marker_width or "-" in columns:
+            continue  # row absent from the result file
+        # Every row without a "-" column exists in the result, so it
+        # advances the counter; only all-"+" rows are scanned.
+        if columns == marker:
             yield path, new_line, raw[marker_width:]
-            new_line += 1
-            continue
-        if marker_width == 1 and raw.startswith("-"):
-            continue
-        if marker_width == 1 and raw.startswith(" "):
-            new_line += 1
+        new_line += 1
 
 
 def _git(repo, args):
@@ -164,18 +170,31 @@ def _record(prefix, channel, sha, path, line):
 
 
 def _add(store, seen, prefix, channel, sha, path, line):
-    place = (prefix, path, line)
+    # Channel and commit are part of the identity: the same prefix at the
+    # same place in two commits, or at head, is a separate exposure.
+    place = (prefix, channel, sha or "", path, line)
     if place in seen:
         return
     seen.add(place)
     store.append((channel, sha or "", path, line, prefix))
 
 
+def _scan_paths(store, seen, names, channel, sha):
+    """Scan changed destination paths (NUL-separated --name-only output).
+
+    Independent of content hunks, so pure renames and empty-file additions
+    are covered. A path hit is reported at line 0.
+    """
+    for path in names.split("\0"):
+        if not path:
+            continue
+        for _ignored, prefix in hits_in_text(path):
+            _add(store, seen, prefix, channel, sha, redact(path), 0)
+
+
 def _scan_patch(store, seen, diff_text, channel, sha, marker_width):
     for path, line, text in added_lines(diff_text, marker_width):
         safe_path = redact(path)
-        for _ignored, prefix in hits_in_text(path):
-            _add(store, seen, prefix, channel, sha, safe_path, line)
         for _ignored, prefix in hits_in_text(text):
             _add(store, seen, prefix, channel, sha, safe_path, line)
 
@@ -224,6 +243,7 @@ def scan_range(repo, base, head):
                  "--no-ext-diff", "--no-textconv", sha],
             )
             _scan_patch(store, seen, diff, "commit", sha, len(parents))
+            names = _git(repo, ["show", "-c", "--format=", "--name-only", "-z", sha])
         else:
             diff = _git(
                 repo,
@@ -231,22 +251,32 @@ def scan_range(repo, base, head):
                  "--no-ext-diff", "--no-textconv", sha],
             )
             _scan_patch(store, seen, diff, "commit", sha, 1)
+            names = _git(repo, ["show", "--format=", "--name-only", "-z", "-M", sha])
+        _scan_paths(store, seen, names, "commit", sha)
     net = _git(
         repo,
         ["diff", "--unified=0", "--no-color", "--no-ext-diff", "--no-textconv",
          "%s..%s" % (base, head)],
     )
     _scan_patch(store, seen, net, "files", "", 1)
+    names = _git(repo, ["diff", "--name-only", "-z", "-M", "%s..%s" % (base, head)])
+    _scan_paths(store, seen, names, "files", "")
     return [_record(*_order(item)) for item in _sorted(store)]
 
 
 def _read_body(spec):
-    if spec == "-":
-        return sys.stdin.read()
-    path = Path(spec)
-    if not path.is_file():
-        raise ScanError("PR body is not a file: %s" % redact(str(path)))
-    return path.read_text(encoding="utf-8", errors="replace")
+    try:
+        if spec == "-":
+            return sys.stdin.read()
+        path = Path(spec)
+        if not path.is_file():
+            raise ScanError("PR body is not a file: %s" % redact(str(path)))
+        return path.read_text(encoding="utf-8", errors="replace")
+    except OSError as exc:
+        # The path can carry an identifier that redact() would not bound
+        # (e.g. after "-" or "_"), so the diagnostic names no path at all.
+        reason = exc.strerror or exc.__class__.__name__
+        raise ScanError("cannot read PR body: %s" % redact(reason))
 
 
 def main(argv=None):

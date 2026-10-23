@@ -12,6 +12,9 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from unittest import mock
+import contextlib
+import io
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -147,6 +150,35 @@ class DiffParse(unittest.TestCase):
         self.assertEqual(rows[0][0], "keep.txt")
         self.assertEqual(scan.hits_in_text(rows[0][2]), [(1, token[:4])])
 
+    def test_plus_plus_content_line_is_not_a_header(self):
+        token = synthetic_id(33, "1Pls")
+        diff = "\n".join([
+            "diff --git a/notes.md b/notes.md",
+            "--- a/notes.md",
+            "+++ b/notes.md",
+            "@@ -1,0 +2,2 @@",
+            "+++ heading",
+            "+file_id " + token,
+        ])
+        rows = list(scan.added_lines(diff))
+        self.assertEqual([(r[0], r[1]) for r in rows], [("notes.md", 2), ("notes.md", 3)])
+        self.assertEqual(rows[0][2], "++ heading")
+        self.assertEqual(scan.hits_in_text(rows[1][2]), [(1, token[:4])])
+
+    def test_mixed_prefix_merge_rows_advance_line(self):
+        token = synthetic_id(33, "1Mix")
+        diff = "\n".join([
+            "diff --cc conflict.txt",
+            "+++ b/conflict.txt",
+            "@@@ -1,1 -1,1 +1,3 @@@",
+            "+ from-first",
+            " +from-second",
+            "- dropped",
+            "++file_id " + token,
+        ])
+        rows = list(scan.added_lines(diff, marker_width=2))
+        self.assertEqual([(r[0], r[1]) for r in rows], [("conflict.txt", 3)])
+
 
 class GitRange(unittest.TestCase):
     def setUp(self):
@@ -257,6 +289,66 @@ class GitRange(unittest.TestCase):
         self.assertEqual(missing.returncode, 2)
         if token in missing.stderr:
             self.fail("git error kept more than the first 4 characters")
+
+    def test_plus_plus_line_in_range_is_scanned(self):
+        token = synthetic_id(33, "1Hdr")
+        base = self.commit_file("notes.md", "base\n", "base")
+        head = self.commit_file("notes.md", "base\n++ heading\nfile_id %s\n" % token, "add")
+        hits = scan.scan_range(self.repo, base, head)
+        self.assertIn("%s\tcommit\t%s\tnotes.md\t3" % (token[:4], head), hits)
+        self.assertIn("%s\tfiles\t-\tnotes.md\t3" % token[:4], hits)
+        run = self.cli(["--base", base, "--head", head])
+        self.assertEqual(run.returncode, 1)
+
+    def test_dedup_keeps_each_commit_and_head(self):
+        first = synthetic_id(33, "1Dup")
+        second = synthetic_id(33, "1Dup")[:-1] + "Q"
+        self.assertNotEqual(first, second)
+        base = self.commit_file("notes.txt", "base\n", "base")
+        one = self.commit_file("notes.txt", "file_id %s\n" % first, "first")
+        two = self.commit_file("notes.txt", "file_id %s\n" % second, "second")
+        hits = scan.scan_range(self.repo, base, two)
+        self.assertIn("1Dup\tcommit\t%s\tnotes.txt\t1" % one, hits)
+        self.assertIn("1Dup\tcommit\t%s\tnotes.txt\t1" % two, hits)
+        self.assertIn("1Dup\tfiles\t-\tnotes.txt\t1", hits)
+        self.assertEqual(len(hits), len(set(hits)))
+
+    def test_pure_rename_and_empty_file_paths_are_scanned(self):
+        token = synthetic_id(33, "1Ren")
+        empty = synthetic_id(33, "1Emp")
+        base = self.commit_file("clean.txt", "same\n", "base")
+        (self.repo / "r").mkdir()
+        self.git(["mv", "clean.txt", "r/%s.txt" % token])
+        self.git(["commit", "-q", "-m", "rename"])
+        renamed = self.git(["rev-parse", "HEAD"])
+        head = self.commit_file("e/%s" % empty, "", "empty")
+        hits = scan.scan_range(self.repo, base, head)
+        rendered = "\n".join(hits)
+        if token in rendered or empty in rendered:
+            self.fail("path output kept more than the first 4 characters")
+        self.assertTrue(any(l.startswith("1Ren\tcommit\t%s\t" % renamed) for l in hits))
+        self.assertTrue(any(l.startswith("1Ren\tfiles\t-\t") for l in hits))
+        self.assertTrue(any(l.startswith("1Emp\tcommit\t%s\t" % head) for l in hits))
+        self.assertEqual(self.cli(["--base", base, "--head", head]).returncode, 1)
+
+    def test_body_read_error_is_redacted_exit_2(self):
+        token = synthetic_id(33, "1Unr")
+        body = self.repo / ("body-%s.txt" % token)
+        body.write_text("x\n", encoding="utf-8")
+        err = io.StringIO()
+        out = io.StringIO()
+        boom = PermissionError(13, "Permission denied", str(body))
+        with mock.patch.object(scan.Path, "read_text", side_effect=boom), \
+                contextlib.redirect_stderr(err), contextlib.redirect_stdout(out):
+            code = scan.main(["--body", str(body)])
+        self.assertEqual(code, 2)
+        if token in err.getvalue() or token in out.getvalue():
+            self.fail("body read error kept more than the first 4 characters")
+        self.assertIn("cannot read PR body: Permission denied", err.getvalue())
+        with mock.patch.object(scan.sys, "stdin") as fake, \
+                contextlib.redirect_stderr(err), contextlib.redirect_stdout(out):
+            fake.read.side_effect = OSError(5, "I/O error")
+            self.assertEqual(scan.main(["--body", "-"]), 2)
 
     def cli(self, args, input_text=""):
         return subprocess.run(
