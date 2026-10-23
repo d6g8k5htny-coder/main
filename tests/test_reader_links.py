@@ -1039,7 +1039,8 @@ class NewerWorkRoutes(unittest.TestCase):
         self.assertIn(f'<a href="{self.ISSUES}{self.ACTIVE_BOARD}">Active coordination board ↗</a>',card)
         self.assertIn(f'<a href="{self.ISSUES}{self.QUEUE}">Current tasks and claims ↗</a>',card)
         self.assertIn(f'<a href="{self.ISSUES}{self.HISTORICAL_BOARD}#issuecomment-6038554880">historical #229 working guidance</a>',card)
-        self.assertIn(f'successor to <a href="{self.ISSUES}{self.PREVIOUS_BOARD}">main #{self.PREVIOUS_BOARD}</a>, which stays readable as history;',card)
+        self.assertIn(f'successor to <a href="{self.ISSUES}{self.PREVIOUS_BOARD}">main #{self.PREVIOUS_BOARD}</a>, which stays readable as history '
+                      'after GitHub stopped accepting comments there at 2,500 on 21 October 2026;',card)
         # Declarations stay where CONTRIBUTING.md puts them (#275 or the task's issue/PR); #475 takes general coordination.
         self.assertIn("Comment <code>/claim</code> on the task's issue or PR",card)
 
