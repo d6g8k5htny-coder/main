@@ -1,19 +1,20 @@
-# GitHub capabilities inventory (agent fleet)
+# GitHub capabilities inventory (agent fleet: Grok/Cursor verified, ChatGPT connector reported)
 
 Status: ops reference, NOT A RESULT. Verified 2026-10-23 against live tool schemas (read-only probes; main at be5a458e).
 
-Three GitHub namespaces exist (namespace ids as exposed to agents). Only two reach github.com:
+Scope: the three namespaces visible to Grok/Cursor agents were verified against live schemas. The **ChatGPT GitHub connector** used by the OpenAI lane is a fourth GitHub surface. Grok agents cannot see it, so its row comes from ChatGPT's review of this PR ([5634301530](https://github.com/d6g8k5htny-coder/main/pull/575#pullrequestreview-5634301530), re-stated in [5634328018](https://github.com/d6g8k5htny-coder/main/pull/575#pullrequestreview-5634328018)), not from our own probe. Where a limit below says "not available", it means not available in the Grok/Cursor namespaces.
 
 | Namespace | Reaches | Notes |
 |---|---|---|
 | `user-GitHub-xai` | github.com | Widest coverage: Actions writes, threads, Copilot review, security, projects, rulesets |
 | `cursor-github` | github.com | REST + a few GraphQL mutations; has `set_pull_request_draft` |
+| ChatGPT GitHub connector (OpenAI lane only) | github.com | Reported 89 operations, including `mark_pull_request_ready_for_review`, `convert_pull_request_to_draft`, `create_blob`, `create_tree`, `create_commit` (extra ordered parents), `update_ref` (incl. force-with-lease), `remove_pull_request_reviewers`, `enable_auto_merge`. Its Ready op was exercised on [Math-#501](https://github.com/d6g8k5htny-coder/Math-/pull/501#issuecomment-6374413766). |
 | `cursor-origin` | **Origin-hosted repos only** | NOT usable on d6g8k5htny-coder/* GitHub repos |
 
 ## Top 10 efficiency wins
 
 1. **Resolve review threads ourselves**: `user-GitHub-xai pull_request_review_write method=resolve_thread threadId=PRRT_...` (get ids from `pull_request_read method=get_review_comments`). Unblocks 405s from "conversation resolution required". Also `unresolve_thread`.
-2. **Mark Ready / back to Draft**: `cursor-github set_pull_request_draft {draft:false}` (GraphQL markPullRequestReadyForReview), or `user-GitHub-xai update_pull_request draft:false`. Capability exists; *policy* still says only the author (or Dylan) undrafts someone else's PR.
+2. **Mark Ready / back to Draft**: `cursor-github set_pull_request_draft {draft:false}` (GraphQL markPullRequestReadyForReview), or `user-GitHub-xai update_pull_request draft:false`. The ChatGPT connector has the same capability (`mark_pull_request_ready_for_review` / `convert_pull_request_to_draft`). Policy: Ready on someone else's PR needs explicit authorization from the author or the owner (Dylan). That includes explicit task-local author delegation to a distinct integrator, as on Math-#501. All other workflow predicates (exact-head nonauthor review, required checks) must also hold. Having the tool is not authorization.
 3. **One-call sync with main**: `update_pull_request_branch` (both namespaces) with `expectedHeadSha` / `expected_head_sha`. GitHub creates the two-parent merge commit server-side, so we do not need create-tree/create-commit. Async (202): re-read head after.
 4. **SHA-guarded merge**: `merge_pull_request` with `expectedHeadSha` (xai) or `sha` (cursor-github); 409 if head moved. Methods: merge/squash/rebase.
 5. **Rerun flaky/failed CI**: `user-GitHub-xai actions_run_trigger method=rerun_failed_jobs run_id=...` (also `rerun_workflow_run`, `cancel_workflow_run`, `run_workflow` for workflow_dispatch).
@@ -38,7 +39,7 @@ Three GitHub namespaces exist (namespace ids as exposed to agents). Only two rea
 - Pending review flow: create without event -> `add_comment_to_pending_review` -> `submit_pending` / `delete_pending`.
 - Threads: xai `resolve_thread` / `unresolve_thread`; replies via xai `add_reply_to_pull_request_comment` or cursor-github `reply_to_pull_request_review_comment`.
 - Copilot: xai `request_copilot_review`.
-- Not available: dismissing a review on GitHub, removing requested reviewers on GitHub (Origin-only tools).
+- Not available in Grok/Cursor namespaces: dismissing a review, or removing requested reviewers (Origin-only tools there). The ChatGPT connector reports `remove_pull_request_reviewers`.
 
 ### Checks / Actions
 - Read: xai `actions_list` (list_workflows, list_workflow_runs w/ filters, list_workflow_jobs, list_workflow_run_artifacts), `actions_get` (get_workflow, get_workflow_run, get_workflow_job, download_workflow_run_artifact, get_workflow_run_usage, get_workflow_run_logs_url), `get_job_logs`. cursor-github: list_workflows, list_workflow_runs, list_workflow_run_jobs, get_job, get_workflow(_run), get_job_logs, list_check_runs_for_ref, get_commit_combined_status.
@@ -48,7 +49,7 @@ Three GitHub namespaces exist (namespace ids as exposed to agents). Only two rea
 - Branch: `create_branch` (cursor-github accepts exact `sha`). No branch delete / force-update tool.
 - Commit: xai `push_files` (many files, one single-parent commit on branch tip), `create_or_update_file` (needs blob sha for updates), `delete_file`.
 - Read: get_file_contents, get_repository_tree (xai) / get_git_tree (cursor-github), list_commits, get_commit, compare_commits, list_branches, get_branch, tags.
-- **Limit:** no git create-tree / create-commit / update-ref, so no hand-built multi-parent commits, no force-push, no rebase. Workaround: `update_pull_request_branch` for merges with base.
+- **Limit (Grok/Cursor namespaces only):** no git create-blob / create-tree / create-commit / update-ref, so no hand-built multi-parent commits, no force-push, no rebase. Workaround: `update_pull_request_branch` for merges with base. The ChatGPT connector reports all four primitives (multi-parent `create_commit`, `update_ref` with force-with-lease). Fleet policy still forbids force-pushes.
 
 ### Issues, labels, projects, discussions
 - Issues: xai `issue_read` (get, get_comments, get_sub_issues, get_parent, get_labels), `issue_write` (create/update, labels, assignees, state_reason, issue_fields, parent), `sub_issue_write`; cursor-github create_issue/update_issue/sub-issue tools.
@@ -72,7 +73,7 @@ Sources checked 2026-10-23.
 - **Copilot coding agent**: assign an issue to Copilot (or mention @copilot on a PR); it works in a GitHub Actions sandbox and opens a draft PR. Needs a Copilot plan + enablement. [docs](https://docs.github.com/en/copilot/concepts/agents/coding-agent/about-coding-agent)
 - **Codex cloud / Codex GitHub review**: `@codex review` on PRs; it leaves review threads. Example: main#552 thread `PRRT_kwDOQpeC2s6vvOIw` ([r4363242632](https://github.com/d6g8k5htny-coder/main/pull/552#discussion_r4363242632)), resolved by 20:40Z on 2026-10-23. [Codex cloud](https://developers.openai.com/codex/cloud), [GitHub integration](https://developers.openai.com/codex/integrations/github)
 - **Claude Code GitHub Actions**: [anthropics/claude-code-action](https://github.com/anthropics/claude-code-action), triggered by @claude mentions. Needs a workflow file + API secret (Dylan-only).
-- **Auto-merge** (`enablePullRequestAutoMerge` [GraphQL mutation](https://docs.github.com/en/graphql/reference/mutations) / `gh pr merge --auto`): merges once required checks + reviews pass. Repo setting "Allow auto-merge" must be on; none of our namespaces exposes it. [docs](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/incorporating-changes-from-a-pull-request/automatically-merging-a-pull-request). **It does not remove the MAIN-LOCK race**: auto-merge does not update a PR branch that has fallen behind main, so with "require branches up to date" it just stalls, and without it, it merges untested combinations.
+- **Auto-merge** (`enablePullRequestAutoMerge` [GraphQL mutation](https://docs.github.com/en/graphql/reference/mutations) / `gh pr merge --auto`): merges once required checks + reviews pass. Repo setting "Allow auto-merge" must be on; no Grok/Cursor namespace exposes it; the ChatGPT connector reports `enable_auto_merge`. [docs](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/incorporating-changes-from-a-pull-request/automatically-merging-a-pull-request). **It does not remove the MAIN-LOCK race**: auto-merge does not update a PR branch that has fallen behind main, so with "require branches up to date" it just stalls, and without it, it merges untested combinations.
 - **Merge queue**: tests each PR against latest main + PRs ahead of it. **Not available on this repo**: GitHub gates it to public repos owned by an *organization* (or Enterprise Cloud private repos); d6g8k5htny-coder is a personal account. Sources: [GitHub docs gated-feature text](https://github.com/github/docs/blob/main/data/reusables/gated-features/merge-queue.md), [GA changelog](https://github.blog/changelog/2023-07-12-pull-request-merge-queue-is-now-generally-available/), [Managing a merge queue](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/configuring-pull-request-merges/managing-a-merge-queue); third-party report of a 422 on a user-owned repo: [Aureliolo/synthorg 3b78f93](https://github.com/Aureliolo/synthorg/commit/3b78f93acac81cad3e9e941f7b64b84311baf55f). Using it would also require adding an `on: merge_group` trigger to **every required workflow** ([events reference](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows)), which is a Dylan-only workflow edit.
 - **CODEOWNERS**: auto-requests reviewers by path; enforcement needs a ruleset. [docs](https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners)
 - **gh CLI**: `gh pr ready`, `gh pr merge --auto`, `gh run rerun --failed`, `gh api graphql`. Needs a token on the box; we do not mint or read tokens. [manual](https://cli.github.com/manual/)
@@ -85,7 +86,13 @@ Available now: everything listed under Top 10 and the inventory, within fleet po
 1. Policy call: may integrators undraft PRs whose author has gone quiet (tool exists: `set_pull_request_draft`)?
    - Source: GitHub search `repo:d6g8k5htny-coder/main is:pr is:open draft:true GPT-6`, as of 2026-10-23 20:50Z (15:50 CDT). It returned 24 open drafts that mention "GPT-6" anywhere (mentions, not verified authorship): #315 #343 #350 #358 #385 #389 #399 #405 #407 #408 #447 #460 #471 #478 #484 #485 #518 #519 #530 #564 #568 #572 #573 #575.
    - Agent 1's review of #575 identified about 16 of those as GPT-6-authored drafts: #315 #350 #358 #385 #405 #407 #408 #460 #471 #484 #518 #519 #530 #568 #572 #573. All 16 appear in the search result. Separately, #485 and #447 have GPT-6/6.1 reviewers.
-   - Review-passed and waiting on an author/Ready step, per agent 1 (not re-verified here): #566, #572, #573, Math-#500, query-#50.
+   - Review status, each with its source. Draft state was re-read via the public REST API at 2026-10-23 20:54Z (15:54 CDT):
+     - main#566 (head 95170dfd): agent 4 re-PASS [539/6373930465](https://github.com/d6g8k5htny-coder/main/issues/539#issuecomment-6373930465). Now `draft=false`, open; not waiting on Ready.
+     - main#573 (head 43d089c4): agent 12 ACCEPT_WITH_FINDINGS [573/6374324691](https://github.com/d6g8k5htny-coder/main/pull/573#issuecomment-6374324691). Still Draft.
+     - main#572 (head 9f54e6d1): agent 8 PASS_SCOPED [572/6374409508](https://github.com/d6g8k5htny-coder/main/pull/572#issuecomment-6374409508). Still Draft, and ON HOLD for a frozen-source mismatch on duplicate required edges ([539/6374511628](https://github.com/d6g8k5htny-coder/main/issues/539#issuecomment-6374511628) item 4).
+     - Math-#500: Codex plus a second model family passed, per the board ([539/6374053839](https://github.com/d6g8k5htny-coder/main/issues/539#issuecomment-6374053839)). Now `draft=false`, at head 980feb97, which moved after that review.
+     - query-#50 (head 3d4c6e0e): Codex PASS_SCOPED ([539/6374053839](https://github.com/d6g8k5htny-coder/main/issues/539#issuecomment-6374053839)). Now `draft=false`.
+     - As of 20:54Z, only #572 and #573 of these are still Draft.
 2. MAIN-LOCK race, sourced: #554 merged at 20:03:16Z while #540 held MAIN-LOCK. #540 then got a 405 at 20:16Z ([540/6373876826](https://github.com/d6g8k5htny-coder/main/pull/540#issuecomment-6373876826)). The fix was posted at [539/6373887135](https://github.com/d6g8k5htny-coder/main/issues/539#issuecomment-6373887135). Auto-merge alone would **not** prevent this (see above). A merge queue would, but it is unavailable on a personal-account repo; it needs a transfer to an organization plus `merge_group` workflow edits. Dylan decides.
 3. Optional: CODEOWNERS, Copilot coding agent, Claude/Codex Actions (workflow files + secrets).
 4. Any ruleset, custom-property, workflow-log deletion, or repo create/fork action.
