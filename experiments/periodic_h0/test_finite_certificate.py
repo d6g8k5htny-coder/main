@@ -123,7 +123,7 @@ class CertificateTests(unittest.TestCase):
         bad = copy.deepcopy(data); bad['records'][0]['modes'][2][2] = '1'
         with self.assertRaises(ValueError): fc.verify(bad, result)
 
-    @unittest.skipUnless(importlib.util.find_spec('numpy'), 'Extraction needs the pinned numerical environment; core replay does not')
+    @unittest.skipUnless(importlib.util.find_spec('numpy') and importlib.util.find_spec('gudhi'), 'Extraction needs the pinned numerical environment; core replay does not')
     def test_extractor_captures_the_actual_generator_input(self):
         self.assertIsNotNone(importlib.util.find_spec('run_certificate'), 'Coefficient extractor is not implemented')
         import run_certificate as runner
@@ -267,7 +267,7 @@ class CertificateTests(unittest.TestCase):
         self.assertIn('budget at 8²', report)
         self.assertNotIn('1024', report)
 
-    @unittest.skipUnless(importlib.util.find_spec('numpy'), 'Generation needs the pinned numerical environment')
+    @unittest.skipUnless(importlib.util.find_spec('numpy') and importlib.util.find_spec('gudhi'), 'Generation needs the pinned numerical environment')
     def test_regeneration_writes_fixed_lf_under_windows_text_translation(self):
         import run_certificate as runner
         original = Path.write_text
