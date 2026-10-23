@@ -47,8 +47,8 @@ The CLI accepts one inert, bounded JSON specification or prints a synthetic exam
 python -B -S experiments/universality/amplitude_mixture_falsifier.py --example
 python -B -S experiments/universality/amplitude_mixture_falsifier.py --spec /path/to/spec.json
 python -B -S experiments/universality/amplitude_mixture_falsifier.py --spec /path/to/spec.json --require-covariance-transfer
-python -B -S -m unittest discover -s tests -p 'test_amplitude_mixture_falsifier.py' -v
-python -B -O -S -m unittest discover -s tests -p 'test_amplitude_mixture_falsifier.py' -v
+python -B -S -m unittest discover -s experiments/universality -p 'test_amplitude_mixture_falsifier.py' -v
+python -B -O -S -m unittest discover -s experiments/universality -p 'test_amplitude_mixture_falsifier.py' -v
 ~~~
 
 Synthetic example (not a measured bar intensity):
