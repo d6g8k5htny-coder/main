@@ -252,4 +252,51 @@ class PilotCustodyTests(unittest.TestCase):
             self.assertIn(literal,text)
         for literal in ['continue-on-error:','|| true','rm -']:self.assertNotIn(literal,text)
 
+
+class S1MutantGapTests(unittest.TestCase):
+    """S1 (#475): pin agent 9 N1 (a)-(c). Kept apart from S2's OSError tests."""
+    setUp=PilotCustodyTests.setUp
+    initialize=PilotCustodyTests.initialize
+    seal=PilotCustodyTests.seal
+    def _succeed(self):
+        root=self.initialize()
+        self.assertEqual(custody.run_pilot(root,self.checkout,self.temp,self.env),0)
+        return root
+    def test_s1a_clean_seal_with_non_success_status_is_not_pilot_success(self):
+        for status,outcome in [('failure','success'),('cancelled','success'),
+                               ('success','failure'),('success','skipped')]:
+            with self.subTest(status=status,outcome=outcome):
+                temp=self.base/('s1a-'+status+'-'+outcome);temp.mkdir()
+                root=self.initialize(temp)
+                self.assertEqual(custody.run_pilot(root,self.checkout,temp,self.env),0)
+                r=self.seal(root,temp,status=status,outcome=outcome)
+                self.assertEqual(r['holds'],[]);self.assertEqual(r['custody_exit'],0)
+                self.assertEqual(r['output_completeness'],'complete')
+                self.assertFalse(r['pilot_success'])
+    def test_s1b_same_size_stream_tampering_is_held(self):
+        root=self._succeed()
+        path=root/'logs/pilot.stdout.bin';raw=path.read_bytes()
+        path.write_bytes(bytes(b^0x01 for b in raw[:1])+raw[1:])
+        self.assertEqual(len(path.read_bytes()),len(raw))
+        r=self.seal(root)
+        self.assertIn('changed_stream:pilot.stdout.bin',r['holds'])
+        self.assertEqual(r['custody_exit'],custody.CUSTODY_FAILURE)
+        self.assertFalse((root/'upload/logs/pilot.stdout.bin').exists())
+    def test_s1b_same_size_tampering_after_inventory_refuses_stage(self):
+        root=self._succeed()
+        execution=json.loads((root/'execution.json').read_text())
+        streams,problems=custody._stream_inventory(root,execution)
+        self.assertEqual(problems,[])
+        path=root/'logs/pilot.stdout.bin';raw=path.read_bytes()
+        path.write_bytes(bytes(b^0x01 for b in raw[:1])+raw[1:])
+        receipt={'identity':{},'raw_streams':streams,'outputs':{}}
+        with self.assertRaises(custody.CustodyError):
+            custody._prepare_artifact(root,receipt)
+    def test_s1c_newline_or_cr_in_workflow_ref_is_refused(self):
+        ref=self.env['GITHUB_WORKFLOW_REF']
+        for bad in [ref+'\n',ref+'\r',ref+'\nx',ref[:-4]+'\r\nmain']:
+            with self.subTest(ref=repr(bad)),self.assertRaises(custody.CustodyError):
+                custody.context_from_env(dict(self.env,GITHUB_WORKFLOW_REF=bad))
+        self.assertEqual(list(self.temp.iterdir()),[])
+
 if __name__=='__main__':unittest.main()

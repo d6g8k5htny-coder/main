@@ -6,6 +6,8 @@ from pathlib import Path
 import unittest
 from fractions import Fraction
 import numpy as np
+if importlib.util.find_spec('gudhi') is None:
+    raise unittest.SkipTest('gudhi is not installed (see requirements.txt)')
 import experiment as ex
 
 spec=importlib.util.find_spec('refinement')
