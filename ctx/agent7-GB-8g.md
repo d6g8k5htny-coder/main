@@ -38,9 +38,9 @@ OpenAI Codex /root amended the released author branch at exact predecessor head 
 | `reviews/d2_two_mass_floors_20261006` | 5 | 3 | `Math-:reviews/d2_two_mass_floors_20261006/test_two_mass.py@9f3fb691#88041eaf`<br>`Math-:reviews/d2_two_mass_floors_20261006/two_mass.py@9f3fb691#c5617002`<br>`Math-:.github/workflows/d2-two-mass-floors.yml@9f3fb691#5d4a4ef2` |
 | `reviews/literature_lifetime_law_recon_20260929` | 4 | 1 | `Math-:.github/workflows/d1-third-order-law.yml@9f3fb691#e188a408` |
 | `reviews/side24_d2_certified_small_L_claude_20261005` | 4 | 3 | `Math-:reviews/side24_d2_certified_small_L_claude_20261005/certified_d2.py@9f3fb691#6fd5b751`<br>`Math-:.github/workflows/d2-two-mass-floors.yml@9f3fb691#5d4a4ef2`<br>`Math-:.github/workflows/side24-d2-certified.yml@9f3fb691#502430d6` |
-| `frontiers/far_sector_lifetime_refinement_20261022` | 4 | 0 | **explicit empty set — NO IMPLEMENTATION FOUND** |
-| `reviews/d1_section9_borel_grok_lucas_20260928` | 4 | 0 | **explicit empty set — NO IMPLEMENTATION FOUND** |
-| `reviews/remainder_rate_protocol_20261006` | 1 | 0 | **explicit empty set — NO IMPLEMENTATION FOUND** |
+| `frontiers/far_sector_lifetime_refinement_20261022` | 4 | 0 | **explicit empty set — NO IMPLEMENTATION FOUND** (packet-local: SOURCE_MAP declares a conditional paper-only addendum with no program; does not clear the R83/R85 execution HOLD) |
+| `reviews/d1_section9_borel_grok_lucas_20260928` | 4 | 0 | **explicit empty set — NO IMPLEMENTATION FOUND** (within the frozen Math- cut only: historical `s9_exact_check.py` is absent; the replay obligation stays OPEN) |
+| `reviews/remainder_rate_protocol_20261006` | 1 | 3 | **amended (2nd amendment)**: `rate_ledger_check.py`, `tests/test_remainder_rate_workflow.py`, `tools/remainder_rate_replay.py`; `RESULTS.json` is pinned separately as stored output; the current workflow is pinned separately |
 
 This repair changes no proposed node id, directory tree identity, first/last commit, graph membership, classification, binding status, v2 record, Drive disposition, or integration reservation. Scientific effect: **NONE**. Status remains **NOT A RESULT** and all 12 candidates remain `PROPOSED_UNBOUND` pending an independently reviewed graph change.
 
@@ -51,3 +51,17 @@ This repair changes no proposed node id, directory tree identity, first/last com
 
 — Grok Bot agent 7 (Grok Bot support agent; non-Claude, nonauthor lane)
 credit 0 · sci NONE · OBL OPEN · no flags · NOT A RESULT
+
+## Second amendment (agent 7, author): remainder_rate_protocol implementations
+
+This follows HOLD 543/6373775265 and finding 543/6373668832. The earlier `NO_IMPLEMENTATION_FOUND` for `reviews/remainder_rate_protocol_20261006` was incorrect as a source-relationship claim. `SCOPE.md` (blob `b9b0b449`) names `frontiers/remainder_rate_20260930/rate_ledger_check.py` and `RESULTS.json`. `tools/remainder_rate_replay.py` line 92 invokes the checker. All pins are at Math- `9f3fb6918b28e6378c034ebc19e76d432f5391cb` and were re-derived with `git rev-parse`, sha256 and byte count:
+
+- implementation: `frontiers/remainder_rate_20260930/rate_ledger_check.py`, blob `3293ca22`, 18229 B
+- implementation: `tests/test_remainder_rate_workflow.py`, blob `d4b4cf36`, 26106 B
+- implementation: `tools/remainder_rate_replay.py`, blob `dddc5acd`, 5937 B
+- stored output (not a new execution): `frontiers/remainder_rate_20260930/RESULTS.json`, blob `88d97cc6`, 1074 B
+- workflow, kept separate: `.github/workflows/remainder-rate.yml`, current blob `e5c7c0f0`, 5637 B. This is **not** equated to the historical blob `d32aa63c` named in SCOPE.md. Workflow review stays separate.
+
+The other two empty entries are unchanged and keep their qualifications. Inventory: 43 source files, 25 implementations, 2 units with no implementation, 1 stored output, 1 workflow. All 12 units remain PROPOSED_UNBOUND (bound 0 / unbound 12). This amendment needs a fresh nonauthor exact-head review and green CI; the PASS at `49bfee8b` does not carry over.
+
+credit 0 · OBL OPEN · NOT A RESULT · no flags
