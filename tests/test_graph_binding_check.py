@@ -269,18 +269,41 @@ class GraphBindingV2ReportTest(unittest.TestCase):
                           c["unknown_node"], c["absent"], c["historical"], c["bound"]),
                          (1, 1, 1, 1, 1, 1, 0))
 
-    def test_policy_open_fields_listed_not_judged(self):
+    def test_hist_nodes_stay_open_listed_only(self):
         rc, rep, _ = self.run_v2(self.doc([]))
         self.assertEqual(rc, 0)
-        pol = rep["policy_open"]
-        self.assertEqual([d["node_id"] for d in pol["directory_sources"]], ["TEST.dir"])
-        self.assertEqual(pol["hist_nodes_without_source"], ["hist.old"])
-        self.assertEqual([d["node_id"] for d in pol["url_or_external_sources"]],
-                         ["TEST.ext", "TEST.url"])
-        # listing does not change bound/unbound state: all still unbound
-        for n in ("TEST.dir", "TEST.url", "TEST.ext", "hist.old"):
-            self.assertIn(n, rep["unbound_nodes"])
+        self.assertEqual(rep["policy_open"]["hist_nodes_without_source"], ["hist.old"])
+        self.assertIn("hist.old", rep["unbound_nodes"])
+        self.assertNotIn("directory_sources", rep["policy_open"])
+
+    def test_directory_source_loose_is_unbound(self):
+        rc, rep, _ = self.run_v2(self.doc([], scope=("pkg/*",)))
+        d = rep["source_rules"]["directory_sources"]
+        self.assertEqual([(x["node_id"], x["status"], x["bound"]) for x in d],
+                         [("TEST.dir", "loose_directory_unbound", False)])
+        self.assertIn("TEST.dir", rep["unbound_nodes"])
+
+    def test_directory_tree_record_files_still_unbound(self):
+        r = {"node_id": "TEST.dir", "kind": "tree", "repository": REPO,
+             "artifact_path": "pkg", "commit": C, "blob_sha": C, "roles": ["source"]}
+        rc, rep, _ = self.run_v2(self.doc([r], scope=("pkg/*",)))
+        self.assertEqual(rc, 0)
+        d = rep["source_rules"]["directory_sources"][0]
+        self.assertEqual((d["status"], d["record_kinds"]), ("pinned_by_tree_or_files", ["tree"]))
+        self.assertEqual(rep["unbound_artifacts"], ["pkg/x.txt"])  # L94: only file records bind
+
+    def test_external_source_never_bound(self):
+        recs = [{"node_id": "TEST.ext", "kind": "external_unverified", "url": "external:Math-PR7",
+                 "roles": ["source"]},
+                {"node_id": "TEST.url", "kind": "external_unverified",
+                 "url": "https://github.com/o/r/pull/1", "roles": ["source"]}]
+        rc, rep, _ = self.run_v2(self.doc(recs))
+        self.assertEqual(rc, 0)
+        e = rep["source_rules"]["url_or_external_sources"]
+        self.assertEqual([(x["node_id"], x["has_external_unverified_record"], x["bound"])
+                          for x in e], [("TEST.ext", True, False), ("TEST.url", True, False)])
         self.assertEqual(rep["counts"]["bound"], 0)
+        self.assertEqual(rep["counts"]["external_unverified"], 2)
 
     def test_tree_kind_without_git_is_unverifiable(self):
         r = {"node_id": "TEST.dir", "kind": "tree", "repository": REPO,

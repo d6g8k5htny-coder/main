@@ -420,17 +420,36 @@ def check_v2(root: Path, doc, repository: str):
         if not matched:
             empty_scopes.append(g)
 
-    # Agent 16's open policy questions (475/6364544516). Listed only: these
-    # fields never pass or fail anything, and they do not change any node's
-    # bound/unbound state, which is computed from binding records as above.
-    pol_dir, pol_hist, pol_ext = [], [], []
+    # Node `source` rules from the GB-5 contract, fail-closed answers (e1d1ebc2
+    # docs/plans/2026-10-08-artifact-index-contract.md). Report only.
+    #  Q2 (L101) directory source: "Bind each file, or use kind: tree"; a tree
+    #      record is evaluated per L87, and files under it stay unbound
+    #      artifacts unless a `file` record names them (L94).
+    #  Q3 (L102, L92) URL/external: source: external_unverified, "Never bound".
+    # hist.* nodes: the doc has no rule for hist.* nodes (Q1/L100 covers deleted
+    # files only), so that question stays OPEN and is listed only.
+    kinds_by_node = {}
+    bound_nodes = set()
+    for r in doc["bindings"]:
+        kinds_by_node.setdefault(r["node_id"], set()).add(r["kind"])
+    for item in st["bound"]:
+        bound_nodes.add(item["node_id"])
+    dir_rule, ext_rule, pol_hist = [], [], []
     for nid in sorted(nodes):
         src = nodes[nid].get("source") if isinstance(nodes[nid], dict) else None
+        kinds = sorted(kinds_by_node.get(nid, ()))
         if isinstance(src, str) and (src.startswith(("http://", "https://"))
                                      or src.startswith("external:")):
-            pol_ext.append({"node_id": nid, "source": src})
+            ext_rule.append({
+                "node_id": nid, "source": src, "record_kinds": kinds,
+                "has_external_unverified_record": "external_unverified" in kinds,
+                "bound": nid in bound_nodes})
         elif isinstance(src, str) and (src.endswith("/") or (root / src).is_dir()):
-            pol_dir.append({"node_id": nid, "source": src})
+            ok = bool(set(kinds) & {"tree", "file"})
+            dir_rule.append({
+                "node_id": nid, "source": src, "record_kinds": kinds,
+                "status": "pinned_by_tree_or_files" if ok else "loose_directory_unbound",
+                "bound": nid in bound_nodes})
         if nid.startswith("hist.") and not src:
             pol_hist.append(nid)
     for k in st:
@@ -447,11 +466,14 @@ def check_v2(root: Path, doc, repository: str):
         "unbound_nodes": sorted(set(nodes) - nodes_with_record),
         "unbound_artifacts": sorted(in_scope - file_bound_paths),
         "empty_scopes": empty_scopes,
+        "source_rules": {
+            "contract": "docs/plans/2026-10-08-artifact-index-contract.md@e1d1ebc2",
+            "directory_sources": dir_rule,         # Q2, L101 + L87 + L94
+            "url_or_external_sources": ext_rule,   # Q3, L102 + L92
+        },
         "policy_open": {
-            "note": "open policy questions 475/6364544516; listed only, not pass/fail",
-            "directory_sources": pol_dir,
+            "note": "contract silent on hist.* nodes (475/6364544516 Q2); listed only, not pass/fail",
             "hist_nodes_without_source": pol_hist,
-            "url_or_external_sources": pol_ext,
         },
     }
 
