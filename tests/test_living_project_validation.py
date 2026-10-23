@@ -26,9 +26,11 @@ tools/validate_node_status.py and architecture/node-status.schema.json.
 Required fields and the source_rev = sources[0].rev rule are asserted on those
 records. The evidence id pattern and owner/released_url consistency are asserted
 only when a real record carries that data; otherwise the test skips with a
-reason. A missing real input is never a silent pass.
+reason. A missing records/node_status directory, schema, or validator fails,
+as an empty records directory does. Optional unexercised fields stay an
+explicit skip. `python -S` cannot import the preinstalled pytest.
 
-Run: python -B -S -m pytest tests/test_living_project_validation.py
+Run: python -B -m pytest tests/test_living_project_validation.py
 """
 from __future__ import annotations
 
@@ -254,30 +256,52 @@ def test_docstring_disclaims_proof_verification():
     assert "dependency validation is not proof verification" in __doc__.lower()
 
 
-def _require_real_records():
-    """Load records/node_status/*.json. Skip only when Lane 2 has not landed."""
-    if not RECORDS_DIR.is_dir():
-        pytest.skip("records/node_status/ not merged yet; adoption PENDING (Lane 2)")
-    missing = [name for name in LANE2_RECORD_NAMES if not (RECORDS_DIR / name).is_file()]
+def _load_real_records(records_dir):
+    """Load JSON records from records_dir.
+
+    A missing directory and a directory missing a required record both call
+    pytest.fail. That is a raised outcome, not an assert, so python -O does
+    not erase it. Optional fields are not decided here.
+    """
+    records_dir = Path(records_dir)
+    if not records_dir.is_dir():
+        pytest.fail("mandatory records directory is missing: " + str(records_dir))
+    missing = [name for name in LANE2_RECORD_NAMES if not (records_dir / name).is_file()]
     if missing:
-        pytest.fail("Lane 2 records missing from records/node_status: " + ", ".join(missing))
-    paths = sorted(path for path in RECORDS_DIR.glob("*.json") if path.is_file() and not path.is_symlink())
+        pytest.fail("Lane 2 records missing from " + str(records_dir) + ": " + ", ".join(missing))
+    paths = sorted(path for path in records_dir.glob("*.json") if path.is_file() and not path.is_symlink())
     return [(path, json.loads(path.read_text(encoding="utf-8"))) for path in paths]
 
 
+def _require_real_records():
+    return _load_real_records(RECORDS_DIR)
+
+
+def _load_schema(path):
+    path = Path(path)
+    if not path.is_file():
+        pytest.fail("mandatory node-status schema is missing: " + str(path))
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
 def _schema():
-    if not SCHEMA_PATH.is_file():
-        pytest.skip("architecture/node-status.schema.json is not in this tree; schema checks are not run")
-    return json.loads(SCHEMA_PATH.read_text(encoding="utf-8"))
+    return _load_schema(SCHEMA_PATH)
 
 
-def _main_validator():
-    if not VALIDATOR_PATH.is_file():
-        pytest.skip("tools/validate_node_status.py is not in this tree; main validator checks are not run")
-    spec = importlib.util.spec_from_file_location("lane2_validate_node_status", VALIDATOR_PATH)
+def _load_validator(path):
+    path = Path(path)
+    if not path.is_file():
+        pytest.fail("mandatory node-status validator is missing: " + str(path))
+    spec = importlib.util.spec_from_file_location("lane2_validate_node_status", path)
+    if spec is None or spec.loader is None:
+        pytest.fail("mandatory node-status validator is missing: " + str(path))
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
+
+
+def _main_validator():
+    return _load_validator(VALIDATOR_PATH)
 
 
 def _record_evidence_urls(record):
@@ -402,6 +426,31 @@ def test_real_records_cited_artifacts_when_present():
     present = frozenset(str(path.relative_to(REPO)) for path in REPO.rglob("*") if path.is_file())
     missing = sorted(artifact for artifact in cited if artifact not in present)
     assert missing == []
+
+
+def test_missing_records_directory_is_a_failure(tmp_path):
+    missing = tmp_path / "no-such-node-status"
+    with pytest.raises(pytest.fail.Exception, match="mandatory records directory is missing"):
+        _load_real_records(missing)
+
+
+def test_empty_records_directory_is_a_failure(tmp_path):
+    empty = tmp_path / "node_status"
+    empty.mkdir()
+    with pytest.raises(pytest.fail.Exception, match="Lane 2 records missing"):
+        _load_real_records(empty)
+
+
+def test_missing_schema_is_a_failure(tmp_path):
+    missing = tmp_path / "node-status.schema.json"
+    with pytest.raises(pytest.fail.Exception, match="mandatory node-status schema is missing"):
+        _load_schema(missing)
+
+
+def test_missing_validator_is_a_failure(tmp_path):
+    missing = tmp_path / "validate_node_status.py"
+    with pytest.raises(pytest.fail.Exception, match="mandatory node-status validator is missing"):
+        _load_validator(missing)
 
 
 def test_real_records_fresh_against_live_source_head():
