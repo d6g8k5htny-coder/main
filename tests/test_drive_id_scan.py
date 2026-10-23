@@ -331,6 +331,37 @@ class GitRange(unittest.TestCase):
         self.assertTrue(any(l.startswith("1Emp\tcommit\t%s\t" % head) for l in hits))
         self.assertEqual(self.cli(["--base", base, "--head", head]).returncode, 1)
 
+    def test_dash_or_underscore_prefixed_id_is_found_and_redacted(self):
+        token = synthetic_id(33, "1Dsh")
+        self.assertEqual(scan.hits_in_text("private-%s.txt" % token), [(1, token[:4])])
+        self.assertEqual(scan.hits_in_text("x_%s" % token), [(1, token[:4])])
+        self.assertNotIn(token, scan.redact("private-%s.txt" % token))
+        base = self.commit_file("clean.txt", "x\n", "base")
+        head = self.commit_file("private-%s.txt" % token, "file_id %s\n" % token, "add")
+        hits = scan.scan_range(self.repo, base, head)
+        self.assertTrue(hits)
+        if token in "\n".join(hits):
+            self.fail("reported path kept more than the first 4 characters")
+        self.assertTrue(any(l.endswith("\t0") for l in hits))
+
+    def test_form_feed_inside_added_line_is_scanned(self):
+        token = synthetic_id(33, "1Fff")
+        base = self.commit_file("f.txt", "x\n", "base")
+        head = self.commit_file("f.txt", "x\nintro\f%s\n" % token, "add")
+        hits = scan.scan_range(self.repo, base, head)
+        self.assertIn("1Fff\tcommit\t%s\tf.txt\t2" % head, hits)
+        self.assertIn("1Fff\tfiles\t-\tf.txt\t2", hits)
+
+    def test_subdirectory_repo_with_diff_relative_scans_whole_tree(self):
+        token = synthetic_id(33, "1Rel")
+        (self.repo / "sub").mkdir()
+        base = self.commit_file("sub/keep.txt", "x\n", "base")
+        head = self.commit_file("root.txt", "file_id %s\n" % token, "add")
+        self.git(["config", "diff.relative", "true"])
+        hits = scan.scan_range(self.repo / "sub", base, head)
+        self.assertIn("1Rel\tfiles\t-\troot.txt\t1", hits)
+        self.assertIn("1Rel\tcommit\t%s\troot.txt\t1" % head, hits)
+
     def test_body_read_error_is_redacted_exit_2(self):
         token = synthetic_id(33, "1Unr")
         body = self.repo / ("body-%s.txt" % token)

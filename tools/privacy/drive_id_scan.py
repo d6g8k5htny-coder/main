@@ -42,8 +42,10 @@ _HEX = frozenset("0123456789abcdefABCDEF")
 _ALPHABET = frozenset("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-")
 # 33- and 44-character Drive tokens. Boundaries keep hex pins (40 and 64)
 # and longer identifiers from matching a prefix.
+# Only letters and digits bound a token: a "-" or "_" before or after it (as in
+# "private-<id>.txt") must not hide it from detection or redaction.
 _TOKEN = re.compile(
-    r"(?<![A-Za-z0-9_-])(1(?:[A-Za-z0-9_-]{32}|[A-Za-z0-9_-]{43}))(?![A-Za-z0-9_-])"
+    r"(?<![A-Za-z0-9])(1(?:[A-Za-z0-9_-]{43}|[A-Za-z0-9_-]{32}))(?![A-Za-z0-9])"
 )
 _HUNK = re.compile(r"\+(\d+)")
 
@@ -118,7 +120,9 @@ def added_lines(diff_text, marker_width=1):
     # True between a "diff " line and its first hunk. Only there is a
     # "+++ " line a file header; inside a hunk it is an added "++" line.
     in_header = False
-    for raw in diff_text.splitlines():
+    # Git ends diff rows with LF only; splitlines() would also break a row at
+    # \f, \r, or U+2028 and drop the tail of an added line.
+    for raw in diff_text.split("\n"):
         if raw.startswith("diff "):
             path = None
             new_line = None
@@ -223,7 +227,9 @@ def scan_range(repo, base, head):
     Returns rendered hit lines. Raises ScanError when git cannot read the range.
     The full identifier is never included.
     """
-    repo = Path(repo)
+    # Run every query from the top level and with --no-relative, so --repo
+    # pointing at a subdirectory or diff.relative=true cannot hide changes.
+    repo = Path(_git(Path(repo), ["rev-parse", "--show-toplevel"]).strip())
     store = []
     seen = set()
     commits = [
@@ -239,27 +245,27 @@ def scan_range(repo, base, head):
         if len(parents) >= 2:
             diff = _git(
                 repo,
-                ["show", "-c", "-p", "--format=", "--unified=0", "--no-color",
+                ["show", "--no-relative", "-c", "-p", "--format=", "--unified=0", "--no-color",
                  "--no-ext-diff", "--no-textconv", sha],
             )
             _scan_patch(store, seen, diff, "commit", sha, len(parents))
-            names = _git(repo, ["show", "-c", "--format=", "--name-only", "-z", sha])
+            names = _git(repo, ["show", "--no-relative", "-c", "--format=", "--name-only", "-z", sha])
         else:
             diff = _git(
                 repo,
-                ["show", "-p", "--format=", "--unified=0", "--no-color",
+                ["show", "--no-relative", "-p", "--format=", "--unified=0", "--no-color",
                  "--no-ext-diff", "--no-textconv", sha],
             )
             _scan_patch(store, seen, diff, "commit", sha, 1)
-            names = _git(repo, ["show", "--format=", "--name-only", "-z", "-M", sha])
+            names = _git(repo, ["show", "--no-relative", "--format=", "--name-only", "-z", "-M", sha])
         _scan_paths(store, seen, names, "commit", sha)
     net = _git(
         repo,
-        ["diff", "--unified=0", "--no-color", "--no-ext-diff", "--no-textconv",
+        ["diff", "--no-relative", "--unified=0", "--no-color", "--no-ext-diff", "--no-textconv",
          "%s..%s" % (base, head)],
     )
     _scan_patch(store, seen, net, "files", "", 1)
-    names = _git(repo, ["diff", "--name-only", "-z", "-M", "%s..%s" % (base, head)])
+    names = _git(repo, ["diff", "--no-relative", "--name-only", "-z", "-M", "%s..%s" % (base, head)])
     _scan_paths(store, seen, names, "files", "")
     return [_record(*_order(item)) for item in _sorted(store)]
 
