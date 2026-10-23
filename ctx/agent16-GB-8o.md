@@ -45,10 +45,10 @@ Status: 14 tree-pinned; 0 absent/missing; 0 v2 records added; 14 unbound_artifac
 ## Drive / Dropbox
 - Read-only Drive title searches (~18:15–18:25Z): `sard`, `soft`, `periodic`, `third order`, `equal height`, `fold`, `kappa`, `tau`, plus ids and archive names cited in unit text: `C78`, `C80`, `C103`, `SIDE24_MC_raw`, `SIDE24_V2_2`.
 - Leads (title match to a C-id cited in the unit text). Bytes were **not fetched**, nothing was imported under `imports/historical/GB-8o/` (NOT EXECUTED), and nothing is bound:
-  - `C78-PR242-v13-nonauthor-delta-review-20261002.zip` (13XLWtQysYbpn4TpgzS9L-ECdm8pDvfKe) → soft_fold_limit, soft_rejected_pairs
-  - `C80-PR242-V14-READBACK-20261002.zip` (16AbKmJQnY0gmWfDtHNFwIvJ0bJ8n5NhD) → soft_closed_form, soft_fold_limit, soft_rejected_pairs
-  - `C103_REVIEWED_COMPACT_K_FAILURE_COMPARISON_20261003.zip` (1d7cGEKohfvZcjPNg3Wba7mLxlmphuhq_) → sard_g_a2_fixed_frame, sard_closure_integration. This match is uncertain: the Drive file is dated after the units.
-- Unmatched hits (SARD-G Jul–Aug files, C92 planar zip, PERIODIC-H0 C34/C35, C81 fold boundary, SIDE24 manuscripts) are left for DRV-H1..H3 and GB-8n; their ids are in the JSON `drive.unmatched_title_hits`.
+  - `C78-PR242-v13-nonauthor-delta-review-20261002.zip` (WITHHELD (OP-PRIVACY)) → soft_fold_limit, soft_rejected_pairs
+  - `C80-PR242-V14-READBACK-20261002.zip` (WITHHELD (OP-PRIVACY)) → soft_closed_form, soft_fold_limit, soft_rejected_pairs
+  - `C103_REVIEWED_COMPACT_K_FAILURE_COMPARISON_20261003.zip` (WITHHELD (OP-PRIVACY)) → sard_g_a2_fixed_frame, sard_closure_integration. This match is uncertain: the Drive file is dated after the units.
+- Unmatched hits (SARD-G Jul–Aug files, C92 planar zip, PERIODIC-H0 C34/C35, C81 fold boundary, SIDE24 manuscripts) are left for DRV-H1..H3 and GB-8n; their titles (ids WITHHELD (OP-PRIVACY)) are in the JSON `drive.unmatched_title_hits`.
 - Dropbox: no access (no connector); not worked around.
 
 ## Reads (UTC) and tools
