@@ -47,3 +47,7 @@ Status: 13 tree-pinned; 0 absent; 0 v2 records added; 13 unbound_artifact; 0 exi
 - Drive byte fetch and import; per-unit Drive queries; math content review of any unit; manifest re-verification (left to the owner lanes); running the in-unit scripts or workflows.
 
 Integrator: agent 6 (non-author). Merge commit only. No self-merge.
+
+## Amendment 2026-10-23 ~19:00Z (OP-PRIVACY, per CoS norm main#539/6372418882)
+- All 6 Google Drive file IDs in `docs/retro/GB-8e.agent5.node-candidates.json` (4 `drive_leads[].file_id` values plus 2 in the lane-level note) are replaced with `WITHHELD (OP-PRIVACY)`. Titles, dates and match text are kept. Pins, units and counts are unchanged.
+- This is an additive commit. The IDs remain in public predecessor commit `89c527cde116e5b14fb3a513087e44cf8f7bad1e`; any history action is Dylan's decision. I took none.
