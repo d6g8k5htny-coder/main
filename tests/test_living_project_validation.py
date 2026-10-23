@@ -28,9 +28,12 @@ records. The evidence id pattern and owner/released_url consistency are asserted
 only when a real record carries that data; otherwise the test skips with a
 reason. A missing records/node_status directory, schema, or validator fails,
 as an empty records directory does. Optional unexercised fields stay an
-explicit skip. `python -S` cannot import the preinstalled pytest.
+explicit skip that names the missing data. The module is unittest-only and
+-O safe: checks use _require(), which raises AssertionError explicitly instead
+of a bare assert, so `python -O` cannot erase them.
 
-Run: python -B -m pytest tests/test_living_project_validation.py
+Run: python -B -S -m unittest tests.test_living_project_validation
+     python -B -O -S -m unittest tests.test_living_project_validation
 """
 from __future__ import annotations
 
@@ -38,10 +41,11 @@ import copy
 import importlib.util
 import json
 import re
+import tempfile
+import unittest
 from datetime import datetime
 from pathlib import Path
 
-import pytest
 
 REPO = Path(__file__).resolve().parents[1]
 RECORDS_DIR = REPO / "records" / "node_status"
@@ -54,6 +58,19 @@ LANE2_RECORD_NAMES = (
     "eng.hard-gate.json",
     "math.side24-coefficient.json",
 )
+
+
+
+class MandatoryInputMissing(Exception):
+    """A mandatory input is absent. Raised, not asserted, so -O keeps it and it
+    is never mistaken for an ordinary assertion failure."""
+
+
+def _require(condition, *detail):
+    """-O-safe check: raise AssertionError explicitly (a bare assert is erased by -O)."""
+    if not condition:
+        raise AssertionError(detail if detail else "check failed")
+
 
 REQUIRED = {
     "schema_version", "node_id", "owner", "next_action", "missing_input",
@@ -236,39 +253,19 @@ FAULTS = {
 }
 
 
-def test_clean_fixture_passes():
-    assert validate(**clean()) == []
-
-
-@pytest.mark.parametrize("name", sorted(FAULTS))
-def test_planted_fault_is_rejected(name):
-    cls, build = FAULTS[name]
-    errs = validate(**build())
-    assert errs, f"planted fault {name} was accepted"
-    assert any(e[0] == cls for e in errs), (name, errs)
-
-
-def test_every_fault_class_is_seeded():
-    assert {c for c, _ in FAULTS.values()} >= {"artifact", "link", "dependency", "owner", "stale"}
-
-
-def test_docstring_disclaims_proof_verification():
-    assert "dependency validation is not proof verification" in __doc__.lower()
-
-
 def _load_real_records(records_dir):
     """Load JSON records from records_dir.
 
-    A missing directory and a directory missing a required record both call
-    pytest.fail. That is a raised outcome, not an assert, so python -O does
-    not erase it. Optional fields are not decided here.
+    A missing directory and a directory missing a required record both raise
+    MandatoryInputMissing. That is a raised outcome, not an assert, so python -O
+    does not erase it. Optional fields are not decided here.
     """
     records_dir = Path(records_dir)
     if not records_dir.is_dir():
-        pytest.fail("mandatory records directory is missing: " + str(records_dir))
+        raise MandatoryInputMissing("mandatory records directory is missing: " + str(records_dir))
     missing = [name for name in LANE2_RECORD_NAMES if not (records_dir / name).is_file()]
     if missing:
-        pytest.fail("Lane 2 records missing from " + str(records_dir) + ": " + ", ".join(missing))
+        raise MandatoryInputMissing("Lane 2 records missing from " + str(records_dir) + ": " + ", ".join(missing))
     paths = sorted(path for path in records_dir.glob("*.json") if path.is_file() and not path.is_symlink())
     return [(path, json.loads(path.read_text(encoding="utf-8"))) for path in paths]
 
@@ -280,7 +277,7 @@ def _require_real_records():
 def _load_schema(path):
     path = Path(path)
     if not path.is_file():
-        pytest.fail("mandatory node-status schema is missing: " + str(path))
+        raise MandatoryInputMissing("mandatory node-status schema is missing: " + str(path))
     return json.loads(path.read_text(encoding="utf-8"))
 
 
@@ -291,10 +288,10 @@ def _schema():
 def _load_validator(path):
     path = Path(path)
     if not path.is_file():
-        pytest.fail("mandatory node-status validator is missing: " + str(path))
+        raise MandatoryInputMissing("mandatory node-status validator is missing: " + str(path))
     spec = importlib.util.spec_from_file_location("lane2_validate_node_status", path)
     if spec is None or spec.loader is None:
-        pytest.fail("mandatory node-status validator is missing: " + str(path))
+        raise MandatoryInputMissing("mandatory node-status validator is missing: " + str(path))
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
@@ -319,185 +316,234 @@ def _record_evidence_urls(record):
     return found
 
 
-def test_adoption_on_merged_records():
-    """Real records/node_status files, checked by main's validator and schema."""
-    records = _require_real_records()
-    schema = _schema()
-    mod = _main_validator()
-    assert schema["required"] == list(mod.REQUIRED)
-    assert mod.check_schema_file(REPO) == []
-    assert mod.validate_directory(REPO, RECORDS_DIR) == []
-    names = {path.name for path, _ in records}
-    missing = [name for name in LANE2_RECORD_NAMES if name not in names]
-    assert missing == []
-    ids = [record["node_id"] for _, record in records]
-    assert len(ids) == len(set(ids))
-    for path, record in records:
-        assert path.stem == record.get("node_id")
-
-
-def test_real_records_required_fields():
-    records = _require_real_records()
-    required = _schema()["required"]
-    assert required
-    for path, record in records:
-        missing = [name for name in required if name not in record]
-        assert missing == [], (path.name, missing)
-
-
-def test_real_records_source_rev_equals_first_source():
-    records = _require_real_records()
-    mod = _main_validator()
-    for path, record in records:
-        sources = record.get("sources")
-        assert isinstance(sources, list) and sources, path.name
-        assert record.get("source_rev") == sources[0].get("rev"), path.name
-        assert "," not in str(record.get("source_rev")), path.name
-        assert mod._source_rev_problems(record, sources) == [], path.name
-
-
-def test_real_records_evidence_id_pattern():
-    records = _require_real_records()
-    found = [(path.name, label, url) for path, record in records for label, url in _record_evidence_urls(record)]
-    if not found:
-        pytest.skip(
-            "no real record has evidence_url, released_url, or resolution_url; "
-            "the evidence id pattern is not exercised on records/node_status"
-        )
-    mod = _main_validator()
-    for name, label, url in found:
-        assert mod.EVIDENCE_URL.fullmatch(url), (name, label, url)
-
-
-def test_real_records_owner_released_url_consistency():
-    records = _require_real_records()
-    exercised = []
-    for path, record in records:
-        owner = record.get("owner")
-        if isinstance(owner, dict):
-            exercised.append((path, record, owner))
-    if not exercised:
-        pytest.skip(
-            "every real record has owner null; owner/released_url consistency is not exercised "
-            "(released_url must stay on the owner object and must not clear it)"
-        )
-    mod = _main_validator()
-    for path, record, owner in exercised:
-        problems = []
-        mod.check_owner(record, problems)
-        assert problems == [], (path.name, problems)
-        if "released_url" in owner:
-            assert isinstance(record["owner"], dict)
-            assert "id" in owner and "evidence_url" in owner
-            assert mod.EVIDENCE_URL.fullmatch(owner["evidence_url"])
-            assert mod.EVIDENCE_URL.fullmatch(owner["released_url"])
-
-
-def test_real_records_match_published_projection():
-    records = _require_real_records()
-    if not PROJECTION_PATH.is_file():
-        pytest.fail("mandatory published projection is missing: docs/site/node-status.json")
-    published = json.loads(PROJECTION_PATH.read_text(encoding="utf-8"))
+def check_real_records_match_published_projection(records_dir=None, projection_path=None):
+    """Shared by the real-record test and the synthetic boundary tests."""
+    records = _load_real_records(RECORDS_DIR if records_dir is None else records_dir)
+    projection_path = PROJECTION_PATH if projection_path is None else Path(projection_path)
+    if not projection_path.is_file():
+        raise MandatoryInputMissing("mandatory published projection is missing: docs/site/node-status.json")
+    published = json.loads(projection_path.read_text(encoding="utf-8"))
     by_id = {record["node_id"]: record for _, record in records}
-    assert set(published) == set(by_id)
+    _require(set(published) == set(by_id), sorted(set(published) ^ set(by_id)))
     for node_id, record in by_id.items():
-        assert published[node_id] == record
-        assert published[node_id]["source_rev"] == record["source_rev"]
-        assert published[node_id]["observed_at"] == record["observed_at"]
+        _require(published[node_id] == record, node_id)
+        _require(published[node_id]["source_rev"] == record["source_rev"], node_id)
+        _require(published[node_id]["observed_at"] == record["observed_at"], node_id)
 
 
-def test_real_records_dependencies_when_present():
-    records = _require_real_records()
-    payloads = [record for _, record in records]
-    if not any(record.get("depends_on") for record in payloads):
-        pytest.skip(
-            "no real record carries depends_on; dependency checks are not exercised. "
-            "depends_on is not interface v0. Dependency validation is not proof verification."
+class SyntheticValidatorTests(unittest.TestCase):
+    def test_clean_fixture_passes(self):
+        self.assertEqual(validate(**clean()), [])
+
+    def test_every_fault_class_is_seeded(self):
+        self.assertTrue({c for c, _ in FAULTS.values()} >= {"artifact", "link", "dependency", "owner", "stale"})
+
+    def test_docstring_disclaims_proof_verification(self):
+        self.assertIn("dependency validation is not proof verification", __doc__.lower())
+
+
+class PlantedFaultTests(unittest.TestCase):
+    """One generated test method per planted fault (was pytest.mark.parametrize)."""
+
+    def _check_fault(self, name):
+        cls, build = FAULTS[name]
+        errs = validate(**build())
+        self.assertTrue(errs, f"planted fault {name} was accepted")
+        self.assertTrue(any(e[0] == cls for e in errs), (name, errs))
+
+
+def _add_fault_test(name):
+    def test(self):
+        self._check_fault(name)
+    test.__name__ = "test_planted_fault_is_rejected__" + name
+    setattr(PlantedFaultTests, test.__name__, test)
+
+
+for _name in sorted(FAULTS):
+    _add_fault_test(_name)
+del _name
+
+
+class RealRecordTests(unittest.TestCase):
+    def test_adoption_on_merged_records(self):
+        """Real records/node_status files, checked by main's validator and schema."""
+        records = _require_real_records()
+        schema = _schema()
+        mod = _main_validator()
+        self.assertEqual(schema["required"], list(mod.REQUIRED))
+        self.assertEqual(mod.check_schema_file(REPO), [])
+        self.assertEqual(mod.validate_directory(REPO, RECORDS_DIR), [])
+        names = {path.name for path, _ in records}
+        self.assertEqual([name for name in LANE2_RECORD_NAMES if name not in names], [])
+        ids = [record["node_id"] for _, record in records]
+        self.assertEqual(len(ids), len(set(ids)))
+        for path, record in records:
+            self.assertEqual(path.stem, record.get("node_id"))
+
+    def test_real_records_required_fields(self):
+        records = _require_real_records()
+        required = _schema()["required"]
+        self.assertTrue(required)
+        for path, record in records:
+            missing = [name for name in required if name not in record]
+            self.assertEqual(missing, [], path.name)
+
+    def test_real_records_source_rev_equals_first_source(self):
+        records = _require_real_records()
+        mod = _main_validator()
+        for path, record in records:
+            sources = record.get("sources")
+            self.assertTrue(isinstance(sources, list) and sources, path.name)
+            self.assertEqual(record.get("source_rev"), sources[0].get("rev"), path.name)
+            self.assertNotIn(",", str(record.get("source_rev")), path.name)
+            self.assertEqual(mod._source_rev_problems(record, sources), [], path.name)
+
+    def test_real_records_evidence_id_pattern(self):
+        records = _require_real_records()
+        found = [(path.name, label, url) for path, record in records for label, url in _record_evidence_urls(record)]
+        if not found:
+            self.skipTest(
+                "no real record has evidence_url, released_url, or resolution_url; "
+                "the evidence id pattern is not exercised on records/node_status"
+            )
+        mod = _main_validator()
+        for name, label, url in found:
+            self.assertTrue(mod.EVIDENCE_URL.fullmatch(url), (name, label, url))
+
+    def test_real_records_owner_released_url_consistency(self):
+        records = _require_real_records()
+        exercised = [(path, record, record["owner"]) for path, record in records
+                     if isinstance(record.get("owner"), dict)]
+        if not exercised:
+            self.skipTest(
+                "every real record has owner null; owner/released_url consistency is not exercised "
+                "(released_url must stay on the owner object and must not clear it)"
+            )
+        mod = _main_validator()
+        for path, record, owner in exercised:
+            problems = []
+            mod.check_owner(record, problems)
+            self.assertEqual(problems, [], path.name)
+            if "released_url" in owner:
+                self.assertIsInstance(record["owner"], dict)
+                self.assertTrue("id" in owner and "evidence_url" in owner)
+                self.assertTrue(mod.EVIDENCE_URL.fullmatch(owner["evidence_url"]))
+                self.assertTrue(mod.EVIDENCE_URL.fullmatch(owner["released_url"]))
+
+    def test_real_records_match_published_projection(self):
+        check_real_records_match_published_projection()
+
+    def test_real_records_dependencies_when_present(self):
+        payloads = [record for _, record in _require_real_records()]
+        if not any(record.get("depends_on") for record in payloads):
+            self.skipTest(
+                "no real record carries depends_on; dependency checks are not exercised. "
+                "depends_on is not interface v0. Dependency validation is not proof verification."
+            )
+        self.assertEqual([err for err in validate(payloads) if err[0] == "dependency"], [])
+
+    def test_real_records_cited_artifacts_when_present(self):
+        records = _require_real_records()
+        cited = [artifact for _, record in records for artifact in record.get("artifacts", [])]
+        if not cited:
+            self.skipTest("no real record cites repo artifact paths; missing-artifact checks are not exercised")
+        present = frozenset(str(path.relative_to(REPO)) for path in REPO.rglob("*") if path.is_file())
+        self.assertEqual(sorted(artifact for artifact in cited if artifact not in present), [])
+
+    def test_real_records_fresh_against_live_source_head(self):
+        records = _require_real_records()
+        fresh = [record["node_id"] for _, record in records if record.get("status") == "fresh"]
+        if not fresh:
+            self.skipTest("no real record is marked fresh; live-head freshness is not exercised")
+        self.skipTest(
+            "fresh records "
+            + ", ".join(fresh)
+            + " are not compared to a live source head; tools/validate_node_status.py performs "
+            "no network fetch, so this check is skipped instead of passed"
         )
-    errs = [err for err in validate(payloads) if err[0] == "dependency"]
-    assert errs == []
 
 
-def test_real_records_cited_artifacts_when_present():
-    records = _require_real_records()
-    cited = [artifact for _, record in records for artifact in record.get("artifacts", [])]
-    if not cited:
-        pytest.skip("no real record cites repo artifact paths; missing-artifact checks are not exercised")
-    present = frozenset(str(path.relative_to(REPO)) for path in REPO.rglob("*") if path.is_file())
-    missing = sorted(artifact for artifact in cited if artifact not in present)
-    assert missing == []
+class MandatoryInputTests(unittest.TestCase):
+    def setUp(self):
+        self._tmp = tempfile.TemporaryDirectory()
+        self.tmp_path = Path(self._tmp.name)
+
+    def tearDown(self):
+        self._tmp.cleanup()
+
+    def test_missing_records_directory_is_a_failure(self):
+        with self.assertRaisesRegex(MandatoryInputMissing, "mandatory records directory is missing"):
+            _load_real_records(self.tmp_path / "no-such-node-status")
+
+    def test_empty_records_directory_is_a_failure(self):
+        empty = self.tmp_path / "node_status"
+        empty.mkdir()
+        with self.assertRaisesRegex(MandatoryInputMissing, "Lane 2 records missing"):
+            _load_real_records(empty)
+
+    def test_missing_schema_is_a_failure(self):
+        with self.assertRaisesRegex(MandatoryInputMissing, "mandatory node-status schema is missing"):
+            _load_schema(self.tmp_path / "node-status.schema.json")
+
+    def test_missing_validator_is_a_failure(self):
+        with self.assertRaisesRegex(MandatoryInputMissing, "mandatory node-status validator is missing"):
+            _load_validator(self.tmp_path / "validate_node_status.py")
 
 
-def test_missing_records_directory_is_a_failure(tmp_path):
-    missing = tmp_path / "no-such-node-status"
-    with pytest.raises(pytest.fail.Exception, match="mandatory records directory is missing"):
-        _load_real_records(missing)
+class PublishedProjectionBoundaryTests(unittest.TestCase):
+    """Synthetic files exercise real loading; no project ownership is invented.
+
+    One method per state (was pytest.mark.parametrize). A skip here is itself a
+    failure: the projection is mandatory.
+    """
+
+    def _run_state(self, state):
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp_path = Path(tmp)
+            directory = tmp_path / "records"
+            directory.mkdir()
+            records = {}
+            for name in LANE2_RECORD_NAMES:
+                record = _rec(name[:-5])
+                records[record["node_id"]] = record
+                (directory / name).write_text(json.dumps(record), encoding="utf-8")
+            projection = tmp_path / "node-status.json"
+            if state == "directory":
+                projection.mkdir()
+            elif state not in ("missing", "directory"):
+                published = copy.deepcopy(records)
+                if state == "missing-node":
+                    published.pop(next(iter(published)))
+                elif state == "changed-value":
+                    published[next(iter(published))]["source_rev"] = REV_B
+                projection.write_text(json.dumps(published), encoding="utf-8")
+            try:
+                if state in ("missing", "directory"):
+                    with self.assertRaisesRegex(MandatoryInputMissing, "mandatory published projection"):
+                        check_real_records_match_published_projection(directory, projection)
+                elif state in ("missing-node", "changed-value"):
+                    with self.assertRaises(AssertionError):
+                        check_real_records_match_published_projection(directory, projection)
+                else:
+                    check_real_records_match_published_projection(directory, projection)
+            except unittest.SkipTest as error:
+                self.fail(f"mandatory projection was skipped instead of checked: {error}")
+
+    def test_state_missing(self):
+        self._run_state("missing")
+
+    def test_state_directory(self):
+        self._run_state("directory")
+
+    def test_state_matching(self):
+        self._run_state("matching")
+
+    def test_state_missing_node(self):
+        self._run_state("missing-node")
+
+    def test_state_changed_value(self):
+        self._run_state("changed-value")
 
 
-def test_empty_records_directory_is_a_failure(tmp_path):
-    empty = tmp_path / "node_status"
-    empty.mkdir()
-    with pytest.raises(pytest.fail.Exception, match="Lane 2 records missing"):
-        _load_real_records(empty)
-
-
-def test_missing_schema_is_a_failure(tmp_path):
-    missing = tmp_path / "node-status.schema.json"
-    with pytest.raises(pytest.fail.Exception, match="mandatory node-status schema is missing"):
-        _load_schema(missing)
-
-
-def test_missing_validator_is_a_failure(tmp_path):
-    missing = tmp_path / "validate_node_status.py"
-    with pytest.raises(pytest.fail.Exception, match="mandatory node-status validator is missing"):
-        _load_validator(missing)
-
-
-def test_real_records_fresh_against_live_source_head():
-    records = _require_real_records()
-    fresh = [record["node_id"] for _, record in records if record.get("status") == "fresh"]
-    if not fresh:
-        pytest.skip("no real record is marked fresh; live-head freshness is not exercised")
-    pytest.skip(
-        "fresh records "
-        + ", ".join(fresh)
-        + " are not compared to a live source head; tools/validate_node_status.py performs "
-        "no network fetch, so this check is skipped instead of passed"
-    )
-
-
-@pytest.mark.parametrize("state", [
-    "missing", "directory", "matching", "missing-node", "changed-value",
-])
-def test_required_published_projection_boundary(tmp_path, monkeypatch, state):
-    """Synthetic files exercise real loading; no project ownership is invented."""
-    directory = tmp_path / "records"
-    directory.mkdir()
-    records = {}
-    for name in LANE2_RECORD_NAMES:
-        record = _rec(name[:-5])
-        records[record["node_id"]] = record
-        (directory / name).write_text(json.dumps(record), encoding="utf-8")
-    projection = tmp_path / "node-status.json"
-    if state == "directory":
-        projection.mkdir()
-    elif state not in ("missing", "directory"):
-        published = copy.deepcopy(records)
-        if state == "missing-node":
-            published.pop(next(iter(published)))
-        elif state == "changed-value":
-            published[next(iter(published))]["source_rev"] = REV_B
-        projection.write_text(json.dumps(published), encoding="utf-8")
-    monkeypatch.setitem(globals(), "RECORDS_DIR", directory)
-    monkeypatch.setitem(globals(), "PROJECTION_PATH", projection)
-    try:
-        if state in ("missing", "directory"):
-            with pytest.raises(pytest.fail.Exception, match="mandatory published projection"):
-                test_real_records_match_published_projection()
-        elif state in ("missing-node", "changed-value"):
-            with pytest.raises(AssertionError):
-                test_real_records_match_published_projection()
-        else:
-            test_real_records_match_published_projection()
-    except pytest.skip.Exception as error:
-        pytest.fail(f"mandatory projection was skipped instead of checked: {error}")
+if __name__ == "__main__":
+    unittest.main()
