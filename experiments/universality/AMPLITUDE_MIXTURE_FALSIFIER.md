@@ -61,7 +61,7 @@ A normal run returns one deterministic ASCII JSON line and exits 0. It reports e
 
 In the optional --require-covariance-transfer mode the same JSON is returned but exit status is 1: the attempt to infer a universal short-bar exponent from covariance alone is vetoed. Bad schema, unknown fields, duplicate JSON keys, unsupported numeric forms, invalid rationals, nonfinite values, oversized inputs, malformed grids and invalid intervals return exit 2 and an opaque error; caller input is not echoed.
 
-The unit suite tests normal and optimized Python, independence of output from JSON field order, exact moment identities, sorted rational witness grids, malformed/floated/oversized input, caller-data nonleakage, the explicit inference veto, and a constant-amplitude negative mutation. Those test results are **engineering outcomes**, not standalone mathematical proof or a claim that field/barcode algorithms were exercised.
+The unit suite tests normal and optimized Python, deterministic output across interpreter modes and file/stdin routes, exact moment identities, sorted rational witness grids, malformed/floated/oversized input, caller-data nonleakage, the explicit inference veto, and a constant-amplitude negative mutation. Those test results are **engineering outcomes**, not standalone mathematical proof or a claim that field/barcode algorithms were exercised.
 
 ## Architectural incorporation boundary
 
