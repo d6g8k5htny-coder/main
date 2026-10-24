@@ -113,6 +113,14 @@ with open(OUT+'/LEDGER_CROSSWALK.tsv','w',encoding='utf-8') as f:
         if not rowlevel(r) or (r['label']=='(withheld)' and not r['named']): agg2[(row,unit)][f'{match}:{kind}:{r["tier"]}']+=1; continue
         f.write('\t'.join([row,repo,unit,mp,mi,match,mt,kind,r['path'] if r['named'] else '',r['label'],r['ext'],str(r['size']),r['cm'],r['tier'],r['hash'],r['loc'],inu,nloc,r['flags']])+'\n')
 summary['ledger_hits_aggregated']={f'{row} {unit}':dict(c) for (row,unit),c in sorted(agg2.items(),key=lambda kv:int(kv[0][0]))}
+# no exact byte total anywhere in the published summary: every total is rounded to the nearest 100 KB, so a withheld cell
+# (fewer than three files) cannot be recovered by differencing a total against the printed rows and cells
+ROUND=100_000
+def rnd(b): return int(round(b/ROUND))*ROUND
+summary['bytes']=rnd(summary['bytes'])
+for k,v in summary['tiers'].items(): v['bytes']=rnd(v['bytes'])
+summary['dropbox_only']['bytes_distinct']=rnd(summary['dropbox_only']['bytes_distinct'])
+summary['bytes_rounding']=f'every byte total in this file is rounded to the nearest {ROUND//1000} KB; exact bytes appear only in per-file rows of CROSSWALK.tsv and in aggregate cells of three files or more'
 summary['row_level_rule']='per-file rows only for paths the 2026-09-27 import already named or for files whose bytes are already public (GIT_EXACT, ARCHIVE_EXACT, EMPTY); all other files are in CROSSWALK_AGGREGATE.tsv by folder, extension and tier, with their row-level hashes held locally pending an owner or CoS publication decision'
 summary['hash_receipt']=json.load(open(S+'/dbx/hash_receipt.json'))
 summary['row_level_rows']=sum(1 for r in rows if rowlevel(r))
