@@ -162,7 +162,7 @@ jobs:
           (output / 'artifact-input.json').write_text(json.dumps(record, indent=2) + '\n')
           (output / 'report.json').write_text(json.dumps({**record, **pending}, indent=2) + '\n')
           PY
-      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0
         with:
           python-version: '3.12'
       - name: Install pinned optional browser tooling
@@ -221,7 +221,7 @@ jobs:
           ref: ${{ github.sha }}
           persist-credentials: false
       - name: Receive the exact qualified publication metadata
-        uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5
+        uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8.0.2
         with:
           artifact-ids: ${{ needs.build.outputs.publication-metadata-id }}
           path: ${{ runner.temp }}/current-site-publication-metadata
