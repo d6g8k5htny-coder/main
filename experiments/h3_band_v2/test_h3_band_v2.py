@@ -49,6 +49,16 @@ def run_with_mpmath(stub, *args):
     return subprocess.run([sys.executable, '-I', '-B', '-S', *opt, '-c', code], capture_output=True, text=True, timeout=600)
 
 
+def run_with_mpmath_version(version, *args):
+    """Run the program with the installed mpmath but its __version__ replaced, as if another release ran."""
+    opt = ['-O'] if sys.flags.optimize else []
+    code = ('import runpy, sys, mpmath\n'
+            'mpmath.__version__ = %r\n'
+            'sys.argv = [%r] + %r\n'
+            'sys.exit(runpy.run_path(%r, run_name="__main__"))\n') % (version, str(PROG), [str(a) for a in args], str(PROG))
+    return subprocess.run([sys.executable, '-I', '-B', *opt, '-c', code], capture_output=True, text=True, timeout=1800)
+
+
 def load_program():
     spec = importlib.util.spec_from_file_location('h3_band_v2_under_test', PROG)
     module = importlib.util.module_from_spec(spec)
@@ -138,7 +148,7 @@ class ReviewedRecords(unittest.TestCase):
         self.assertNotIn('environment.mpmath', m.compare_record(fresh, expected, runtime=False))
 
     def test_committed_records_name_the_pinned_mpmath(self):
-        # verify-record does not read a record's environment, so the committed records are checked here
+        # MPMATH_PIN, requirements.txt and the committed records must agree; every check then requires the pin
         pin = next(ln.split()[0].split('==')[1] for ln in (HERE / 'requirements.txt').read_text().splitlines()
                    if ln.startswith('mpmath=='))
         self.assertEqual(load_program().MPMATH_PIN, pin)
@@ -148,15 +158,21 @@ class ReviewedRecords(unittest.TestCase):
 
     def test_a_record_naming_another_mpmath_is_rejected(self):
         # the reviewed record must name the pinned producer, whatever mpmath the verifier has
-        rec = json.loads((RESULTS / 'ceil.json').read_text())
-        rec['environment']['mpmath'] = '0.0'
-        with tempfile.TemporaryDirectory() as d:
-            p = Path(d) / 'r.json'
-            p.write_text(json.dumps(rec))
-            for r in (self.check(RESULTS / 'ceil.transcript.txt', p),
-                      run_with_mpmath(None, 'verify-record', '--transcript', RESULTS / 'ceil.transcript.txt', '--results', p)):
-                self.assertEqual(r.returncode, 1, r.stdout + r.stderr)
-                self.assertEqual(summary(r), 'H3_BAND_V2 VERIFY_FAIL: record mismatch in environment.mpmath pin')
+        for change in ('another version', 'no environment', 'environment not an object'):
+            rec = json.loads((RESULTS / 'ceil.json').read_text())
+            if change == 'another version':
+                rec['environment']['mpmath'] = '0.0'
+            elif change == 'no environment':
+                del rec['environment']
+            else:
+                rec['environment'] = '1.4.1'
+            with self.subTest(change=change), tempfile.TemporaryDirectory() as d:
+                p = Path(d) / 'r.json'
+                p.write_text(json.dumps(rec))
+                for r in (self.check(RESULTS / 'ceil.transcript.txt', p),
+                          run_with_mpmath(None, 'verify-record', '--transcript', RESULTS / 'ceil.transcript.txt', '--results', p)):
+                    self.assertEqual(r.returncode, 1, r.stdout + r.stderr)
+                    self.assertEqual(summary(r), 'H3_BAND_V2 VERIFY_FAIL: record mismatch in environment.mpmath pin')
 
     def test_a_relabelled_record_is_rejected(self):
         # the mode is read from the transcript's header, not taken from the record
@@ -172,17 +188,18 @@ class ReviewedRecords(unittest.TestCase):
     def test_a_transcript_whose_header_names_no_envelope_is_rejected(self):
         # even with a record made consistent with the headerless transcript and naming no mode
         text = (RESULTS / 'ceil.transcript.txt').read_text().split('\n', 1)[1]
-        rec = json.loads((RESULTS / 'ceil.json').read_text())
-        rec['mode'] = None
-        rec['transcript_sha256'] = hashlib.sha256(text.encode()).hexdigest()
-        with tempfile.TemporaryDirectory() as d:
-            t = Path(d) / 't.txt'
-            p = Path(d) / 'r.json'
-            t.write_text(text)
-            p.write_text(json.dumps(rec))
-            r = self.check(t, p)
-        self.assertEqual(r.returncode, 1, r.stdout + r.stderr)
-        self.assertEqual(summary(r), 'H3_BAND_V2 VERIFY_FAIL: the transcript header names no envelope')
+        for mode in (None, 'ceil'):
+            rec = json.loads((RESULTS / 'ceil.json').read_text())
+            rec['mode'] = mode
+            rec['transcript_sha256'] = hashlib.sha256(text.encode()).hexdigest()
+            with self.subTest(mode=mode), tempfile.TemporaryDirectory() as d:
+                t = Path(d) / 't.txt'
+                p = Path(d) / 'r.json'
+                t.write_text(text)
+                p.write_text(json.dumps(rec))
+                r = self.check(t, p)
+                self.assertEqual(r.returncode, 1, r.stdout + r.stderr)
+                self.assertEqual(summary(r), 'H3_BAND_V2 VERIFY_FAIL: the transcript header names no envelope')
 
     def test_a_record_that_is_not_an_object_is_rejected(self):
         with tempfile.TemporaryDirectory() as d:
@@ -257,7 +274,7 @@ class ReviewedRecords(unittest.TestCase):
             p.write_text(json.dumps(rec))
             r = self.check(t, p)
         self.assertEqual(r.returncode, 1, r.stdout)
-        self.assertIn('mutation is not none', summary(r))
+        self.assertEqual(summary(r), 'H3_BAND_V2 VERIFY_FAIL: record mismatch in mutation is not none')
 
     def test_a_transcript_without_all_checks_pass_is_rejected(self):
         text, rec = self.doctored_pair('floor', lambda t: t.replace('ALL_CHECKS_PASS\n', ''))
@@ -268,7 +285,7 @@ class ReviewedRecords(unittest.TestCase):
             p.write_text(json.dumps(rec))
             r = self.check(t, p)
         self.assertEqual(r.returncode, 1, r.stdout)
-        self.assertIn('ALL_CHECKS_PASS missing', summary(r))
+        self.assertEqual(summary(r), 'H3_BAND_V2 VERIFY_FAIL: record mismatch in ALL_CHECKS_PASS missing')
 
     def test_record_and_verify_together_are_refused(self):
         with tempfile.TemporaryDirectory() as d:
@@ -311,6 +328,12 @@ class Replays(unittest.TestCase):
             r = run('ceil', '--verify', p)
         self.assertEqual(r.returncode, 1, r.stdout[-2000:])
         self.assertEqual(summary(r), 'H3_BAND_V2 VERIFY_FAIL: record mismatch in environment.mpmath pin, environment.mpmath')
+
+    def test_replay_rejects_another_running_mpmath_for_the_pinned_record(self):
+        # the record names the pin, so only the runtime gate can fire
+        r = run_with_mpmath_version('0.0', 'ceil', '--verify', RESULTS / 'ceil.json')
+        self.assertEqual(r.returncode, 1, r.stdout[-2000:] + r.stderr[-2000:])
+        self.assertEqual(summary(r), 'H3_BAND_V2 VERIFY_FAIL: record mismatch in environment.mpmath')
 
     def test_replay_rejects_a_record_that_is_not_an_object_before_running(self):
         with tempfile.TemporaryDirectory() as d:

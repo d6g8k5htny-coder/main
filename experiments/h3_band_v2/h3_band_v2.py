@@ -43,7 +43,6 @@ except ImportError:  # the certificate needs mpmath; the structure lemma does no
 
 HERE = Path(__file__).resolve().parent
 COV_EXACT_SHA256 = 'f08c1c5f653f2ffd2e85d39e1112f80d15db04d15f932e5ee42db2ca3553e783'
-MPMATH_PIN = '1.4.1'  # the producer runtime every record must name; requirements.txt pins the same wheel
 PROGRAM = 'experiments/h3_band_v2/h3_band_v2.py'
 
 MUTATIONS = {
@@ -1362,6 +1361,9 @@ def parse_certified(text):
 
 def file_sha256(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+MPMATH_PIN = '1.4.1'  # the producer runtime every record must name; requirements.txt pins the same wheel
 
 
 def transcript_mode(body):
