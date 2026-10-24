@@ -1,0 +1,174 @@
+{
+ "workflow_run": "wf_b9a21ed5-e09",
+ "note": "pre-post check of check_corr.md (draft before the fixes)",
+ "results": [
+  {
+   "agent": "a1e83801f0f85a1ad",
+   "label": "prepost:rules",
+   "result": {
+    "problems": [
+     {
+      "sentence": "The check scripts and logs will join my retention branch (main#454) with the next unit.",
+      "problem": "Rule 3: 'main#454' is bare repo-prefixed shorthand with no explicit URL. It cannot mislink, because PR 454 is in main, but the rule asks for an explicit URL or the 'Math- PR 123' form, and this session's earlier posts used linked text. It also calls the PR a branch, and 'the next unit' is session jargon.",
+      "fix": "The check scripts and logs will be added to my retention PR, [main PR 454](https://github.com/d6g8k5htny-coder/main/pull/454), in its next push.",
+      "severity": "should"
+     },
+     {
+      "sentence": "This holds with 96–192 midpoints on (0, π), both in the r → 0 limit and at finite r from 0.04 to 0.005.",
+      "problem": "Rule 7 (precision): the ±0.001 values hold only in the r → 0 limit. In cursor/num/finite_r.log, with 96–192 midpoints, finite r gives 0.2176 and 0.2185 at t = 0.2 for r = 0.04 and 0.02, and 0.4822–0.4825 at t = 0.4 for r = 0.04. Those values are outside 0.220 ± 0.001 and 0.479 ± 0.001; they approach the limit as r falls.",
+      "fix": "These are the r → 0 limits with 96–192 midpoints on (0, π); at finite r from 0.04 to 0.005, with 192 midpoints, the values are 0.218–0.221 and 0.480–0.483, approaching those limits.",
+      "severity": "should"
+     },
+     {
+      "sentence": "It is not logged in the unit, and it reproduces only to about 1%.",
+      "problem": "Rule 7: 'the unit' is ambiguous. In the verdict, 'the unit' means the record's unit (sing_check, bfcheck_A.log), not the xAI run. The basis is also weak: the adv checker concluded 'unlogged' because nothing was in this session's own cursor/num scratch folder, not from the xAI agent's outputs. What the files support is that the verdict cites no log for 0.475.",
+      "fix": "The verdict cites no log for it, and it reproduces only to about 1% (converged 0.479).",
+      "severity": "should"
+     },
+     {
+      "sentence": "The periodized field is the carriers' exact object (024 l.74).",
+      "problem": "Rule 7: '024 l.74' is jargon. A cold reader cannot tell that it means LS-DER-024, line 74 of the text layer. 'The periodized field' also leaves out which field.",
+      "fix": "The side-24 periodized Bargmann–Fock field is the carriers' exact object (LS-DER-024, line 74 of the text layer).",
+      "severity": "should"
+     },
+     {
+      "sentence": "It posted no board mirror, so this record is the board's pointer to it.",
+      "problem": "Rule 7: 'this record' can be read as 'my §12 record', which the same comment also calls 'my record'. The comment itself is what is meant.",
+      "fix": "It posted no board mirror, so this comment is the board's pointer to it.",
+      "severity": "should"
+     },
+     {
+      "sentence": "**SUMMONER CHECK + CORRECTION: the xAI PASS_SCOPED on §12 §2(b) ([454/6282139686](https://github.com/d6g8k5htny-coder/main/pull/454#issuecomment-6282139686)), and one numeric correction to my §12 record ([419/6280394188](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6280394188)).**",
+      "problem": "Rule 7: '§12 §2(b)' stacks two section marks with no explanation. A reader cannot tell that §12 is the recovery row and §2(b) is a section of the record. The links are correct (rule 6 verified).",
+      "fix": "**SUMMONER CHECK + CORRECTION: the xAI PASS_SCOPED on §2(b) of my recovery-row §12 record ([454/6282139686](https://github.com/d6g8k5htny-coder/main/pull/454#issuecomment-6282139686)), and one numeric correction to that record ([419/6280394188](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6280394188)).**",
+      "severity": "should"
+     },
+     {
+      "sentence": "A 48-angle integral gives 0.100, 0.054 and 0.027 at r = 0.04, 0.02 and 0.01: still small and falling, so the statement stands.",
+      "problem": "Rule 7: the sentence does not say what is integrated (the typed ratio to r⁴t⁻⁶). '48-angle' is also the ambiguous half-circle or full-circle term that the adv check flagged in the verdict. The adv/fr_r23 logs use 48 midpoints on (0, π).",
+      "fix": "An angular integral of that typed ratio (the angle-integrated intensity divided by r⁴t⁻⁶), with 48 midpoints on (0, π), gives 0.100, 0.054 and 0.027 at r = 0.04, 0.02 and 0.01: still small and falling, so the statement stands.",
+      "severity": "should"
+     },
+     {
+      "sentence": "Credit 0, scientific effect NONE.",
+      "problem": "Rule 5 is met, but 'Credit 0' is terse and does not name the credit. The board's standard term, used later in this draft and in the verdict, is organizational-independence credit.",
+      "fix": "Organizational-independence credit 0, scientific effect NONE.",
+      "severity": "nit"
+     },
+     {
+      "sentence": "Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY` (01Cz), the summoner and the record's author.",
+      "problem": "Rule 2, borderline: 'Claude' is Anthropic's model-family name, not a provider or agent id. It matches the identity line in the posted record and request, so it may be accepted convention. The strict form drops it. Rule 1 passes: the session id's alphanumeric part is 24 characters, and post.sh exempts 'session_' tokens.",
+      "fix": "Anthropic, session `session_01Cz7WZybv8znP64SpPj6sWY` (01Cz), the summoner and the record's author.",
+      "severity": "nit"
+     },
+     {
+      "sentence": "The carrier hashes `ce1eafee…` and `e373caf4…` and the P2 blob `d8acf0bc` match.",
+      "problem": "Rule 7: the sentence does not say which carrier each hash belongs to, what kind of hash it is, or what they match.",
+      "fix": "The SHA-256 hashes of the LS-DER-024 and LS-DER-033 docx carriers (`ce1eafee…`, `e373caf4…`) and the P2 blob id `d8acf0bc` match the verdict's values.",
+      "severity": "nit"
+     },
+     {
+      "sentence": "the growth factor of about 16 per halving of r.",
+      "problem": "Rule 7: the sentence does not say what grows. The previous bullet, 'the pointwise densities;', likewise gives no values.",
+      "fix": "the growth of the ratio to r⁴t⁻⁶ by a factor of about 16 per halving of r. (and the bullet before it: 'the pointwise densities, p t⁶ = 0.244 at π/2 and 0.494 at π/4, t = 0.4;')",
+      "severity": "nit"
+     },
+     {
+      "sentence": "Its headline names (27)–(28), where my request and record name (26)–(28).",
+      "problem": "Rule 7: the equation numbers are not tied to a document, and 'my request' is not linked. The request is 454/6282011803, verified on pull/454. The next sentence, '(26) is printed as an identity', also leaves out where it is printed.",
+      "fix": "Its headline names LS-DER-024 (27)–(28), where my request ([454/6282011803](https://github.com/d6g8k5htny-coder/main/pull/454#issuecomment-6282011803)) and record name (26)–(28). (next sentence: 'In LS-DER-024 §7.2, (26) is printed as an identity, …')",
+      "severity": "nit"
+     }
+    ],
+    "verdict": "Postable after small edits; no hard rule violation. Rule 1 passes: no drive or docs.google links, and no matching tokens. The session id's alphanumeric part is 24 characters and post.sh exempts 'session_' tokens. Rule 2 passes: no Grok, version or other model identifiers. 'Anthropic Claude' is borderline (nit). Rule 3: one bare 'main#454'. It is same-repo so it cannot mislink, but it should be an explicit link. Rule 4 passes: no closing verbs before #N. Rule 5 passes: no independence credit claimed, 'scientific effect NONE' and 'No status change' are both stated, and 'Credit 0' could name the credit. Rule 6 passes: I checked all three links against the GitHub REST API. Verdict 6282139686 is a cursor[bot] comment at pull/454. Pickup 6282034959 is at pull/454. Record 6280394188 is at issues/419. Each link uses the right form. The main issues are rule 7 clarity: '024 l.74', '§12 §2(b)', 'this record' (meaning this comment), 'not logged in the unit', and two unclear '48-angle' or factor phrases. Separately, the finite-r ±0.001 claim on line 12 is over-precise according to cursor/num/finite_r.log. I wrote nothing to scratch and posted nothing."
+   }
+  },
+  {
+   "agent": "a2cfa47ad03ae220d",
+   "label": "prepost:accuracy",
+   "result": {
+    "verdict": "The draft is accurate on substance, but it needs changes before posting: one numeric overclaim, several statements that verification was broader than it was, and one attribution that misleads. The numbers I recomputed match the logs. The closed form gives 3.2309785. The r→0 limits are 0.2200–0.2205 and 0.4784–0.4794 with 96–192 midpoints. The adversarial pass gives 0.0999, 0.0538 and 0.0272 at t = r^(2/3). The growth factors are 16.21 and 16.05. Line 70 of bfcheck.py is a rule with 8 midpoints on (0, π) (nodes at 11.25° to 168.75°), weighted by 2π/8. Problems: (1) the ±0.001 band is said to hold at finite r from 0.04, but the r = 0.04 values are 0.2176 and 0.4825. (2) \"Three separate readers\" is too strong: the adversarial pass read the numeric pass's profile log while both were running, and the numeric pass reused the record's bfcheck.py functions. (3) Several checks are presented as general when only one pass did them: the power-count reruns and the r^(2/3) integral (adversarial only), and the finite-r runs to r = 0.005 (numeric only). (4) The verdict only cleared the three statements the request named, not all of the record's \"other §2(b) statements\". (5) \"Every … equation attribution matches\" contradicts the draft's own small points. (6) \"Not logged in the unit\" rests on the adversarial pass searching the numeric pass's scratch folder; the verdict never said the figure was logged anywhere. The correction does not overstate the 0.42 error. It slightly understates the estimator defect: the matching 0.22 at t = 0.2 comes from the same 8-node grid and agrees only by where the nodes fall. It also leaves out that the verdict itself flagged the 0.42. Nothing the checkers listed as a correction is missing from the draft. I wrote no files.",
+    "problems": [
+     {
+      "sentence": "This holds with 96–192 midpoints on (0, π), both in the r → 0 limit and at finite r from 0.04 to 0.005.",
+      "problem": "Numeric overclaim. The ±0.001 band holds only in the r → 0 limit: numeric pass 0.22005/0.22025 and 0.47841/0.47905, adversarial pass 0.22047/0.47939. At finite r, num/finite_r.log with 96–192 midpoints gives 0.2176, 0.2185, 0.2199, 0.2205 at t = 0.2 and 0.4825, 0.4805, 0.4802, 0.4801 at t = 0.4, for r = 0.04, 0.02, 0.01, 0.005. The r = 0.04 values fall outside 0.220 ± 0.001 and 0.479 ± 0.001 by about 0.0024 and 0.0035. Only the numeric pass ran finite r down to 0.005. The sentence before this one also never says which model the values come from.",
+      "fix": "These are r → 0 limits on the planar kernel (b = 6/5, κ = 1) with 96–192 midpoints on (0, π); the adversarial pass gets 0.2205 and 0.4794 with 96. At finite r = 0.04, 0.02, 0.01 and 0.005, with 192 midpoints, the numeric pass gets 0.2176, 0.2185, 0.2199 and 0.2205 at t = 0.2, and 0.4825, 0.4805, 0.4802 and 0.4801 at t = 0.4. Those are stable in r to within about 0.003 and approach the limits.",
+      "severity": "must"
+     },
+     {
+      "sentence": "Three separate readers ran in this session, all Anthropic.",
+      "problem": "The three passes were not independent. The adversarial pass read the numeric pass's scratch while both were running. It cites \"cursor/num (only profile_t04.log)\" and \"profile_t04.log:12,15\", and its logs are timed 03:04–03:08, when num's integral logs were still being written at 03:08. The numeric pass also exec's the record's own bfcheck.py definitions (num/bf_fine.py l.4; lim.py reuses cov/condlaw/gdens). The bullets that follow never say which pass checked what, so a reader will assume all three confirmed every item.",
+      "fix": "Three checker passes ran in this session, all Anthropic: a text pass, a numeric pass and an adversarial pass. They are not fully independent. The adversarial pass read the numeric pass's profile log while both ran, and the numeric pass reused the record's own bfcheck.py functions. I note below which pass checked what.",
+      "severity": "should"
+     },
+     {
+      "sentence": "Every quote and equation attribution in the verdict matches the carrier texts and P2.",
+      "problem": "This contradicts the draft's own 'Small points'. The text pass rated three attributions PARTLY: 'which is (26)', the upper order of Z credited to 'the (P13) moment bound in P2 §7' (P2 states only (P14), the lower bound), and 'any such t lies in [(√15/2)r, δ]'. The adversarial pass found that 'the side-24 periodization is the carriers' local model' misstates 024 l.72–74 ('1. EXACT OBJECT … normalized-periodized Bargmann-Fock Gaussian field on the flat side-24 torus'). The quotes all match; some attributions do not.",
+      "fix": "Every quote in the verdict matches the carrier texts and P2. Its equation attributions match too, except for the points listed under \"Small points\": P2 does not state Z = O(r²), \"any such t\" needs t ≤ δ, and the side-24 periodization is the carriers' exact object, not their local model.",
+      "severity": "should"
+     },
+     {
+      "sentence": "It finds that the fixed-t argument holds, and that the record's other §2(b) statements do not overreach.",
+      "problem": "This widens the scope of the verdict. The verdict says \"The three other §2(b) statements do not overreach\", meaning the three the request listed: the t ≲ r^(2/3) crossover, the r²t⁴ count and the η⁶ falsifier. It did not review the record's other §2(b) statements, such as the R_κ moment claim for (25), the O(r³) window count, or LS-DER-033 §10/§11. Without the list, readers will take the PASS_SCOPED as covering all of §2(b).",
+      "fix": "It finds that the fixed-t argument holds, and that the three other §2(b) statements my request named (the t ≲ r^(2/3) crossover, the r²t⁴ count and the η⁶ falsifier) do not overreach.",
+      "severity": "should"
+     },
+     {
+      "sentence": "Reruns of the record's `v2_physical` and `v5_euler` scripts reproduce the model counts in the verdict's three bullets.",
+      "problem": "Only the adversarial pass ran these (adv/v2_copy.log, adv/v5_copy.log). They cover bullets 1–2: third determinant t³ + r², endpoint determinant r t² + r², ∂Q/∂t = 2P4h/s², S₀ ≈ 2t²P4h/s². For bullet 3 they give only the order r² of the physical product: v2 at t = 1/10 has |prod|/r² constant. The η⁶ structure of (25) and 'R finite and nonzero at η = 0' were checked against 033 (3.4) in the text, not by rerun. The t⁷ comes from v3_counts, which was not rerun, and the draft itself calls t⁷ a model exponent.",
+      "fix": "In the adversarial pass, reruns of the record's `v2_physical` and `v5_euler` scripts reproduce the model counts in the verdict's first two bullets: third determinant t³ + r², endpoint determinant r t² + r², ∂Q/∂t = 2P₄ₕ/s², and endpoint weight of order r²t⁴. They also reproduce the order r² of the physical product at fixed t in its third bullet. That bullet's η⁶ statement about (25) was checked against 033 (3.4).",
+      "severity": "should"
+     },
+     {
+      "sentence": "The record's 0.22 at t = 0.2 stands (0.220 ± 0.001).",
+      "problem": "This understates the estimator defect. The 0.22 comes from the same 8-node grid, and the numeric pass found it matches \"only by chance of node placement\". The record's 8-node values at t = 0.2 drift 0.2010, 0.2153, 0.2199 at r = 0.04, 0.02, 0.01 (bfcheck_A.log), against converged finite-r values of 0.2176, 0.2185, 0.2199. With 16 nodes the limit is 0.2315 (num) or 0.2318 (adv). The record's \"stable in r\" is true of the converged values, not of its own 8-node t = 0.2 numbers.",
+      "fix": "The record's 0.22 at t = 0.2 stands (0.220 ± 0.001), but the same 8-node grid matches it only because of where its nodes fall. Its values there were 0.201, 0.215 and 0.220 at r = 0.04, 0.02 and 0.01, against converged 0.218, 0.219 and 0.220, and 16 nodes give 0.231. The record's \"stable in r\" holds for the converged values.",
+      "severity": "should"
+     },
+     {
+      "sentence": "**\"0.42 at t = 0.4\" is wrong.** It came from an 8-node angular quadrature, with 8 midpoints on (0, π).",
+      "problem": "This leaves out who found the problem. The verdict itself flags it: \"The record's 0.22 and 0.42 are its 8-angle estimator in `bfcheck_A.log`; at t = 0.4 a finer angular integral is about 0.48.\" As written, the correction reads as the summoner's own discovery. The adversarial pass's note (v) says the verdict did not explicitly call for a correction; that is fair to say, but the verdict did identify the number. (The 8 midpoints on (0, π) are correct: bfcheck.py l.70, Lam = 2π·acc/8.)",
+      "fix": "**\"0.42 at t = 0.4\" is wrong.** The verdict flagged it (\"at t = 0.4 a finer angular integral is about 0.48\") without calling for a correction, and my numeric and adversarial passes confirm it. It came from an 8-node angular quadrature, with 8 midpoints on (0, π) (bfcheck.py l.70).",
+      "severity": "should"
+     },
+     {
+      "sentence": "It is not logged in the unit, and it reproduces only to about 1%.",
+      "problem": "Wrong basis. The adversarial pass's 'unlogged' finding comes from searching cursor/num, which is the summoner's own numeric scratch, not the record's unit and not anything the xAI agent produced. The record's retention unit could never hold the xAI agent's computation, and the verdict never says it does. What is true is that the verdict publishes no script or log for the figure, and that '48-angle' does not say whether the nodes cover (0, π) or the full circle, as both the numeric and adversarial passes noted. The ~1% is right: 0.4722/0.4731 with 24 midpoints and 0.4796/0.4794 with 48. The verdict's 0.221 at t = 0.2 does reproduce (0.2210/0.2215 with 24 midpoints, 0.2205/0.2204 with 48).",
+      "fix": "The verdict gives no script or log for it, and \"48-angle\" does not say whether the 48 nodes cover (0, π) or the full circle. Reruns give 0.472–0.473 with 24 midpoints on (0, π) and 0.479–0.480 with 48, so 0.475 reproduces only to about 1%. Its 0.221 at t = 0.2 reproduces.",
+      "severity": "should"
+     },
+     {
+      "sentence": "A 48-angle integral gives 0.100, 0.054 and 0.027 at r = 0.04, 0.02 and 0.01: still small and falling, so the statement stands.",
+      "problem": "The values are correct (adv/fr_r23_*.log: 0.0999, 0.0538, 0.0272, which is Λ/(r⁴t⁻⁶) at t = r^(2/3)). But only the adversarial pass computed them, and the draft uses the same ambiguous '48-angle' wording it faults in the verdict. The log has 48 midpoints on (0, π), from 1.88° to 178.13°.",
+      "fix": "A finite-r integral with 48 midpoints on (0, π), from the adversarial pass, gives 0.100, 0.054 and 0.027 at r = 0.04, 0.02 and 0.01. That is still small and falls roughly like r, so the statement stands.",
+      "severity": "nit"
+     },
+     {
+      "sentence": "**\"Roughly t\" is a numerical size,** about 1.1t at t = 0.2 and 1.2t at t = 0.4, from two values of t.",
+      "problem": "The ratios are right (0.220/0.2 = 1.10, 0.479/0.4 = 1.20). The adversarial pass also computed t = 0.1 (adv/int_t01.log: 0.1072 with 96 midpoints, which is 1.07t) and listed it in its correction. 'From two values of t' describes the record's basis, not everything the checkers found.",
+      "fix": "**\"Roughly t\" is a numerical size**: about 1.1t at t = 0.2 and 1.2t at t = 0.4, from the record's two values of t (a rerun at t = 0.1 gives 1.07t).",
+      "severity": "nit"
+     },
+     {
+      "sentence": "Its headline names (27)–(28), where my request and record name (26)–(28).",
+      "problem": "The verdict's bold headline (verdict l.1) names no equations. The (27)–(28) appears in its opening sentence (l.3). The pickup (l.9) also names (26)–(28), which makes the point stronger.",
+      "fix": "Its opening sentence names (27)–(28), where my request, its own pickup and my record name (26)–(28).",
+      "severity": "nit"
+     },
+     {
+      "sentence": "The planar kernel is the local approximation that both numerical checks use.",
+      "problem": "'Both' is unclear here. At least three checks use the planar kernel: the verdict's own check, the record's bfcheck.py ('planar BF kernel …; side-24 periodization corrections ~e^-288 ignored', l.1), and this session's numeric and adversarial reruns.",
+      "fix": "The planar kernel is the local approximation that the verdict's check, the record's bfcheck.py and my reruns all use.",
+      "severity": "nit"
+     },
+     {
+      "sentence": "It posted no board mirror, so this record is the board's pointer to it.",
+      "problem": "'This record' could be confused with 'my §12 record' (419/6280394188), which the same comment is correcting. The draft calls itself 'this comment' elsewhere.",
+      "fix": "It posted no board mirror, so this comment is the board's pointer to it.",
+      "severity": "nit"
+     }
+    ]
+   }
+  }
+ ]
+}

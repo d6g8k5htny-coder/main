@@ -1,0 +1,487 @@
+{
+ "workflow_run": "wf_33c219ee-f02",
+ "note": "three lens reports (diff, mutation, hosted) and their adversarial verifications; agent scratch not included",
+ "results": [
+  {
+   "agent": "a3343b62b080373ed",
+   "label": "lens:diff",
+   "result": {
+    "summary": "I reviewed the diff for main#460 at head 65a7ab8d over base bb1a8654 and found no defects. The head commit is one commit ahead and 0 behind. Its only parent is bb1a8654 and its tree is fe08bb864760cd9ce8ab4f8c86a434851f478a47. Exactly one path changes, tests/test_semantic_memory_benchmark.py, with blob 87589a82 -> 6c4c8e48 and +1/-1. The edit is on line 594, where the oracle sentinel \" \" becomes the ASCII escape literal \"　\". `git diff --check` is clean.\n\nThe four other blobs are byte-identical at base and head:\n- 9d383143 = experiments/semantic_memory/benchmark.py\n- 51bdc191 = tools/semantic_memory_experiment.py\n- 00c2d132 = experiments/semantic_memory/fixtures/development-cases.json\n- 6cc37934 = .github/workflows/semantic-memory-experiment.yml\n\nWhy ASCII space masked the mutant: the product rejects a blank sentinel in two places. The intended guard is `_text` at line 66, which requires the value to be non-empty after strip(). A later leak scan (lines 438-447) also rejects any sentinel that appears inside a corpus or request string. ASCII space appears in all 32 corpus texts and all 96 request queries, so with the line-66 guard removed the leak scan at line 442 still refused the file. Both paths give the same CLI exit 1 and the same refusal message, so the test could not tell them apart. U+3000 is blank after strip() but appears in none of the 832 corpus strings or 944 request strings. With the guard removed nothing else catches it.\n\nI reproduced this in a local copy (Python 3.11.17) in both normal and -O modes:\n- The intact product rejects through line 66 (called from line 431).\n- The mutant product accepts the U+3000 file.\n- With the amended test, the mutant fails exactly one subtest, `whitespace_only_oracle_sentinel` (exit code 0 where 1 was required).\n- All three test methods pass on the unchanged product.\n- The old test with the same mutant passes all three methods, which is the masking control.\n\nThe author's counts reproduce exactly: 32 corpus rows, 832 corpus strings, 48 cases, 96 request profiles, 944 request strings, and 0 U+3000 hits. Not reproduced and still UNVERIFIED: the broader suite result (842 passed, 6 skips), the hosted 8/8 checks, and the hosted 190 CLI / 191 import-context accounting.",
+    "findings": [
+     {
+      "id": "D1-compare",
+      "claim": "The compare is 1 ahead and 0 behind, with exactly one file changed (+1/-1) and blob 87589a82 -> 6c4c8e48.",
+      "evidence": "`gh api repos/d6g8k5htny-coder/main/compare/bb1a8654...65a7ab8d` -> {\"ahead_by\":1,\"behind_by\":0,\"status\":\"ahead\",\"total_commits\":1,\"merge_base\":\"bb1a8654dcb365cf331c269293d04308988dc5b4\",\"files\":[{\"filename\":\"tests/test_semantic_memory_benchmark.py\",\"status\":\"modified\",\"additions\":1,\"deletions\":1,\"sha\":\"6c4c8e4807aeab87a82779dfc04fc4178850fb71\"}]}. After `git -C /home/user/main fetch -q origin 65a7ab8d...` and `fetch -q origin bb1a8654...` (both exit 0), `git diff --raw --abbrev=40 bb1a8654.. 65a7ab8d..` -> `:100644 100644 87589a8281cbe8bc35ca2af7ceb278e5cf1c7d12 6c4c8e4807aeab87a82779dfc04fc4178850fb71 M tests/test_semantic_memory_benchmark.py`. `--numstat` -> `1 1`. The head commit's only parent is bb1a8654 and its tree is fe08bb864760cd9ce8ab4f8c86a434851f478a47, matching the author's comment. The PR is open and draft.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "D2-exact-line",
+      "claim": "The only edit is one line, 594 in both versions, inside the whitespace_only_oracle_sentinel mutation. The new line is pure ASCII: it contains the 6-character escape 　, not a raw U+3000 character.",
+      "evidence": "git diff hunk `@@ -591,7 +591,7 @@`:\n-            p, \"heldout-oracle.json\", lambda v: v.update(oracle_only_sentinel=\" \")))\n+            p, \"heldout-oracle.json\", lambda v: v.update(oracle_only_sentinel=\"　\")))\nThe `od -c` dump of head line 594 shows the bytes `\" \\ u 3 0 0 0 \"`. The test file has 3 lines containing non-ASCII bytes at both base and head (pre-existing, not new). `git diff --check` exit 0.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "D3-unchanged-blobs",
+      "claim": "The product, CLI, development-fixture and workflow blobs named in the PR body are identical at base and head.",
+      "evidence": "`git ls-tree -r <sha>` gives the same results at bb1a8654 and 65a7ab8d: 9d383143036cbfded585d0544d89d636e83cc609 experiments/semantic_memory/benchmark.py; 51bdc1917dc3f234f2f27cba205ae4b668d4616d tools/semantic_memory_experiment.py; 00c2d13255588d217fd2e504f4b392a13400dfed experiments/semantic_memory/fixtures/development-cases.json; 6cc379349cbac608b3b133ef7a4be0342e5eca78 .github/workflows/semantic-memory-experiment.yml. The compare lists no other changed paths, so all other fixtures are unchanged too.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "D4-mechanism",
+      "claim": "The ASCII-space sentinel masked the R03 mutant because the later leak scan also rejects it. U+3000 reaches only the line-66 guard.",
+      "evidence": "Product: line 66 `_require(type(value) is str and bool(value.strip()))`. Line 431 `sentinel = _text(oracle[\"oracle_only_sentinel\"])`. Lines 438-447 scan every key and value of corpus_projection and request_projections, with line 442 `_require(sentinel not in item)`. The CLI catches every Exception and prints the same message with exit 1, and the test's `refused` helper checks only that outcome.\n\nScript <SCRATCH>/m460/work/diff/scripts/mechanism.py writes a fixture copy using the test's own `casefile` encoding with the descriptor rebound, then calls validate_fixtures. Output:\n-- sentinel=ascii_space: head -> ValueError via lines [478, 431, 66, 53]; mut_head -> ValueError via lines [478, 442, 53] `_require(sentinel not in item)`.\n-- sentinel=u3000 (oracle bytes `\"\\xe3\\x80\\x80\"`): head -> ValueError via lines [478, 431, 66, 53]; mut_head -> ACCEPTED (no exception).\n\nASCII space appears in 32/832 corpus strings and 96/944 request strings, for example DEV01's query on development-cases.json line 7: \"Which calibration color is recorded for P01?\".",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "D5-sentinel-absence",
+      "claim": "U+3000 is absent from every string the leak scan checks: 832 corpus strings over 32 rows and 944 request strings over 48 cases and 96 profiles. It is also absent from the raw fixture bytes.",
+      "evidence": "`python3 -I -B scripts/census.py <head copy>` loads benchmark.py, calls validate_fixtures and admit_benchmark, and walks the strings exactly as lines 438-447 do (dict keys and values, lists). Output: `corpus_rows 32 corpus_strings 832 u3000_hits_corpus 0`, `cases 48 request_profiles 96 request_strings 944 u3000_hits_request 0`, `whitespace_chars_present ['0xa','0xd','0x20']`, `raw_fixture_u3000_byte_or_escape_hits []`, admission admitted=True with semantic_sha256 8d28c546... Results are identical with -O and on the base copy.\n\nThe counts add up: corpus is 32 rows x (14 keys + 12 string values) = 832. Requests are 48 case keys + 96 profile keys + 480 field keys + 288 query/task_scope/profile values + 32 exact_source_id/exact_ref values (8 exact_ref cases x 2 profiles x 2) = 944. Of the 29 single code points that strip to empty, 26 (including U+3000) are absent from the projections.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "D6-u3000-properties",
+      "claim": "U+3000 strips to empty and is 3 UTF-8 bytes long.",
+      "evidence": "census.py output: `u3000_strip_empty True utf8_len 3 utf8 e38080 isspace True`. A separate one-liner gives: IDEOGRAPHIC SPACE, category Zs, repr(strip()) == '', 3 bytes, json.dumps -> \"　\", and json.dumps(ensure_ascii=False) -> b'\"\\xe3\\x80\\x80\"'. The 3 bytes are far below the 2048-byte _text limit.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "D7-red-green-matrix",
+      "claim": "With the amended test the R03-only mutant fails exactly one subtest, and the unchanged product passes. The old test does not catch the mutant in any of the three methods, in either mode.",
+      "evidence": "The R03-only mutant is made with sed on line 66: `_require(type(value) is str and bool(value.strip()))` -> `_require(type(value) is str)`. `diff -r -q` shows only benchmark.py changed in each mutant copy. Command: `python3 -I -B [-O] -S -m unittest discover -s <tree>/tests -p test_semantic_memory_benchmark.py [-k test_frozen_case_inventory_and_hashes] -v`, run under cwd=<scratch>/logs.\n\nTargeted method: head exit 0; head -O exit 0; base exit 0; base -O exit 0; mut_head exit 1; mut_head -O exit 1; mut_base exit 0; mut_base -O exit 0.\n\nAll 3 methods: all_head and all_head_O 3/3 ok. all_mut_head and all_mut_head_O: the only failure is `(mutation='whitespace_only_oracle_sentinel') ... FAIL` with `AssertionError: 0 != 1`, and the other two methods pass, giving FAILED (failures=1). all_base, all_base_O, all_mut_base and all_mut_base_O are each 3/3 OK, which is the masking control.\n\nThis ran locally on Python 3.11.17; the R03 comment cites 3.12.14 for the hosted lane.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "D8-encoding-and-O",
+      "claim": "I found nothing in the change that could break JSON or CLI encoding or -O behavior.",
+      "evidence": "The test's `encoded()` writes the oracle with ensure_ascii=False, so the file contains raw UTF-8 bytes E3 80 80. The product's `_strict_json` decodes it as UTF-8, and its quote/escape depth scanner is unaffected. `casefile` rebinds the oracle's byte/sha256 descriptor in the manifest, so the descriptor check passes. The sentinel travels only inside the fixture file, never through argv, environment or stdout. The CLI reads files as bytes and writes a fixed ASCII refusal message, so locale or IO encoding cannot matter. The sentinel is also left out of both the report and the semantic hash (line 454), so the report bytes are unaffected. `grep -nE '^\\s*assert '` over the test, product and CLI finds nothing (exit 1). The product uses explicit `_require` raises and the test uses unittest assert methods, so -O does not change behavior, as confirmed by the -O runs above. The number of CLI invocations in this subtest is unchanged (one accepted plus one refused), so the 190/191 hosted accounting should be unaffected, but I did not replay it.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "D9-broader-suite",
+      "claim": "Author claim: the full repository suite gives 842 passed and 6 hosted-container/toolchain skips.",
+      "evidence": "Not run in this diff lens.",
+      "status": "UNVERIFIED"
+     },
+     {
+      "id": "D10-hosted-checks",
+      "claim": "Author claim: 8/8 hosted checks succeeded at the exact head, including fixture-controls run 39384794324 with 190 CLI / 191 import-context accounting in both interpreter modes.",
+      "evidence": "Not queried in this diff lens.",
+      "status": "UNVERIFIED"
+     },
+     {
+      "id": "D11-no-local-mutation",
+      "claim": "The /home/user/main working tree and index were left untouched. All copies came from git archive into the scratch directory.",
+      "evidence": "`git -C /home/user/main status --porcelain | wc -l` -> 0. The only repo operations were fetches into the object store. Copies are under <SCRATCH>/m460/work/diff/{head,base,mut_head,mut_base}, with logs in .../diff/logs and scripts in .../diff/scripts.",
+      "status": "VERIFIED"
+     }
+    ],
+    "concerns": [
+     "Non-blocking: the repair depends on U+3000 being absent from the fixtures, and the test never checks this. The sentinel-only positive check nearby (about lines 513-519) does assert that its marker is absent from the public bytes, but this subtest has no such guard. If a future fixture adds U+3000 to any corpus text or query, the subtest would again pass on the mutant without anyone noticing. The frozen fixture hashes and BENCHMARK_SEMANTIC_SHA256 make this unlikely. An optional precondition assertion could be added in a separate PR.",
+     "My RED/GREEN runs used local Python 3.11.17, while the hosted lane uses Python 3.12.14 according to the R03 comment. U+3000 is whitespace (category Zs) in both versions, so I expect no difference, but the hosted result is not reproduced here.",
+     "Hosted qualification at this exact head (8/8 checks, run 39384794324, 190/191 accounting) and the 842-passed broader suite are author claims I did not reproduce. They remain UNVERIFIED for a separate lens or the integrator."
+    ]
+   }
+  },
+  {
+   "agent": "af7ba9deb4ab7e1a2",
+   "label": "lens:hosted",
+   "result": {
+    "summary": "LENS hosted, M460-NONAUTHOR-REVIEW-01CZ-20261020. PR main#460 is open and draft. Head 65a7ab8d (tree fe08bb86), base bb1a8654. At query time (2026-10-20T07:37Z) main's HEAD was still bb1a8654, so the PR is 1 commit ahead and 0 behind, and it changes only tests/test_semantic_memory_benchmark.py (blob 87589a82 to 6c4c8e48, +1/-1, the sentinel line becomes \"　\").\n\nAll 8 check runs at the exact head are conclusion=success, run_attempt=1. They come from 4 workflow runs: 3 triggered by pull_request and 1 (public-intake) by pull_request_target. No job has a skipped or failed step. The ruleset 'Verified pull requests' (23798639) requires verify, public-intake and public-shop (integration 15368 = github-actions), all success at this head. It also sets a strict up-to-date policy, which currently holds because base == main HEAD.\n\nThe fixture-controls run 39384794324 tested pull/460/merge 3234e622. Its parents are bb1a8654 and 65a7ab8d, and its tree is identical to the head tree. All 19 step entries succeeded, including both interpreter modes (python -I -B -S and python -I -B -O -S in python:3.11.14-slim-bookworm@sha256:83f339c1...).\n\nThe 190/191 accounting never appears as numbers in the console log. It lives in the retained artifact (semantic-memory-task1-originals-39384794324-1, id 12246014811, sha256 f9d7dc36...). I could not download that artifact or the run-logs zip: the blob host returned Forbidden through the proxy. So the per-mode counts are inferred, not read. The step logic, identical at base and head, can only exit 0 if each mode has exactly 190 child rows, 191 import-context rows (1 TEST + 190 CLI), 3/3 ok with 'Ran 3 tests' and OK, mode exit 0, container exit 0, and the balanced-omission count controls are refused in both modes. That step succeeded.\n\nNo run of this workflow exists on main or at bb1a8654: it does not trigger on push to main, and branch=main and head_sha=bb1a8654 queries both return 0. The closest equivalent is main#448's last run 39172631997, which tested merge 74a3fbce. Its 45 inventoried Task1 source files (including the workflow and both pinned preparation sources) are byte-identical to base bb1a8654. Its full normalized step log matches the head run line for line (983 lines each); the only differences are artifact IDs, digests and sizes and a temp HOME path. The accounting conditions are therefore unchanged.\n\nThe Ready-triggered automatic (<product>) review has not run because the PR is draft. I record that as not run, not as a failure.",
+    "findings": [
+     {
+      "id": "H1",
+      "claim": "All 8 check runs at exact head 65a7ab8d9db4eed01320ff67e5ef3900e6bf123b are completed/success, each with head_sha = the exact head, from 4 workflow runs all at run_attempt 1.",
+      "evidence": "Command: gh api repos/d6g8k5htny-coder/main/commits/65a7ab8d.../check-runs --jq ... returned total_count 8, all head_sha 65a7ab8d, all completed/success, app github-actions. The runs are: verify (job 118504374710), landing-checks (118504314077), architecture / research-architecture (118501956552) and formal / formal-evidence (118501956023), all in run 39384794393; public-intake (118501956980) in run 39384794235; fixture-controls (118501956869) in run 39384794324; browser-smoke (118501956113) and public-shop (118501955704) in run 39384794312. Per-run command: gh api .../actions/runs/<id> --jq '.event,.head_sha,.conclusion'. 39384794393 workspace-landing.yml: pull_request, 65a7ab8d, success, attempt 1. 39384794235 public-intake.yml: pull_request_target, 65a7ab8d, success, attempt 1. 39384794324 semantic-memory-experiment.yml: pull_request, 65a7ab8d, success, attempt 1. 39384794312 public-shop.yml: pull_request, 65a7ab8d, success, attempt 1. Command: actions/runs?head_sha=65a7ab8d returned total_count 4, the same four runs. Check-suites at head: 4 github-actions suites completed/success (1+2+1+4 = 8 runs).",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "H2",
+      "claim": "Checks required on main are verify, public-intake and public-shop (integration_id 15368 = github-actions), with strict up-to-date policy. All three are success at the exact head, and the up-to-date condition currently holds.",
+      "evidence": "Command: gh api repos/d6g8k5htny-coder/main/rules/branches/main. Ruleset 23798639 'Verified pull requests' sets required_status_checks [verify, public-intake, public-shop] integration_id 15368, strict_required_status_checks_policy true. Its pull_request rule sets required_approving_review_count 0, required_review_thread_resolution true, dismiss_stale_reviews_on_push true, require_extra_approval_for_unattributed_changes true. It also has deletion, non_fast_forward and creation rules. Ruleset 25014147 only protects refs/heads/codex/site-publication-receipts. Classic branch protection returns 404 'Branch not protected'. The three required check runs report app.id 15368, conclusion success, head 65a7ab8d. gh api .../branches/main returned bb1a8654 at 2026-10-20T07:37Z. compare main...65a7ab8d returned status ahead, ahead_by 1, behind_by 0, merge_base bb1a8654, 1 file.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "H3",
+      "claim": "The workflow set that ran is exactly the expected set for a change to tests/test_semantic_memory_benchmark.py. No workflow is missing, no job is skipped, and no step is skipped.",
+      "evidence": "I extracted head and base trees via git archive into the scratch dir. diff -r base/.github head/.github reported the workflows identical. Of the path-filtered workflows, only semantic-memory-experiment.yml lists tests/test_semantic_memory_benchmark.py. workspace-landing, public-shop and public-intake (pull_request_target) have no path filter. That gives 4 runs, which matches the actions/runs?head_sha listing. Every job lists all steps as success: formal 16/16, research-architecture 19/19, landing-checks 13/13, verify 5/5, public-shop 12/12, browser-smoke 11/11, public-intake 5/5, fixture-controls 19/19.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "H4",
+      "claim": "Fixture-controls run 39384794324 tested merge commit 3234e622, whose tree equals the PR head tree. All 17 numbered steps plus post-checkout and Complete job succeeded, including the step that runs both interpreter modes.",
+      "evidence": "Command: gh api .../actions/runs/39384794324/jobs returned 1 job, 118501956869, success on ubuntu-24.04. Steps 1-17 and 34-35 are all success. Step 11 'Run all three fixture methods in both interpreter modes' ran 07:10:55-07:12:08Z. Job log (fetched via the GitHub MCP get_job_logs, 1366/1366 lines, saved sha256 ea9445b9...): line 101 fetches +3234e6224eae...:refs/remotes/pull/460/merge, and line 352 reads 'HEAD is now at 3234e622 Merge 65a7ab8d... into bb1a8654...'. Locally, git log 3234e622 shows tree fe08bb86 with parents bb1a8654 and 65a7ab8d, and git diff 65a7ab8d 3234e622 is empty. ls-remote shows refs/pull/460/head = 65a7ab8d and refs/pull/460/merge = 3234e622, so neither is stale. Lines 778 and 783 show the modes: 'python -I -B -S -m unittest discover -s /source/tests -p test_semantic_memory_benchmark.py -v' (normal) and 'python -I -B -O -S ...' (optimized), with IMAGE python:3.11.14-slim-bookworm@sha256:83f339c1be63.... Console outputs: {qualified_sources: PIN_MATCH, literal_scripts: 4}; {available_originals: 154, recovery_complete: true, status: ACCEPTED_PREPARATION}; {status: ACCEPTED_PREPARATION, current_run: 39384794324, positive: PASS, negative_refusals: 25}. Artifacts: semantic-memory-task1-originals-39384794324-1 (id 12246014811, 64 files, 96413 B, sha256 f9d7dc36...) and architecture-preparation-39384794324-1 (id 12245879862, sha256 38ecf534...).",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "H5",
+      "claim": "The 190 CLI / 191 import-context accounting held in both modes at the exact head. This is inferred from the enforcing step logic plus step success. The actual per-mode counts in the artifact were not read.",
+      "evidence": "The job console has no numeric accounting lines; the observer writes fixture-control-observation.json and observer-count-controls.json into the artifact. In the workflow step 'Observe exact fixture inventories...' (lines 515-916, identical at base and head), the canonical observer appends an issue unless len(child rows) == 190 and len(import-context rows) == 191. It also requires import-context kinds TEST == 1 and CLI == the child count, optimize 0 for normal and 1 for optimized, complete_three_pass ('Ran 3 tests' + OK) and mode exit 0 in each mode, and container exit 0. Any issue raises a ValueError, and the step exits nonzero if either the canonical observer or the count-control driver is nonzero. The count-control driver itself requires 190/191 framing and refusal of a balanced one-CLI omission in both modes. Step 14 concluded success. Retrieval attempts: gh api .../runs/39384794324/logs, gh api .../jobs/118501956869/logs and gh api .../artifacts/12246014811/zip all failed with 'Get https://productionresultssa10.blob.core.windows.net/...: Forbidden' (0-byte outputs). The MCP download_workflow_run_artifact returned only a signed URL to the same blob host. My attempt to read the proxy README and status was denied by the session permission classifier, so I did not pursue it.",
+      "status": "UNVERIFIED"
+     },
+     {
+      "id": "H6",
+      "claim": "No run of the fixture-controls workflow exists on main or at base bb1a8654. The equivalent base comparator is main#448's last run 39172631997 (success). Its tested Task1 sources are byte-identical to base, and its step log matches the head run except for per-run identifiers. The accounting is unchanged.",
+      "evidence": "Command: actions/workflows/semantic-memory-experiment.yml/runs?branch=main returned total_count 0, and ?head_sha=bb1a8654 also returned 0. The workflow's triggers are push to codex/semantic-memory-task1-20261016 and pull_request with path filters; there is no push-to-main trigger. Of 14 total runs, the latest before #460 is 39172631997 (pull_request, head 4f69a6d3 = main#448 head, success, 2026-10-18T22:31Z). Its job 117808707088 has all 19 step entries success, and its log line 346 reads 'HEAD is now at 74a3fbce Merge 4f69a6d3 into 0a7e5145'. git ls-tree -r over the 4 inventoried prefixes plus the 2 pinned preparation sources returns 45 files at 74a3fbce, at #448 merge 2f204a92 and at base bb1a8654, all identical (list sha 069eaed5...). Head differs only on tests/test_semantic_memory_benchmark.py. 2f204a92 is an ancestor of bb1a8654, and git log 2f204a92..bb1a8654 over those paths is empty. I stripped timestamps and run IDs from both job logs (from the first 'Run set -euo pipefail' onward) and diffed them: 983 vs 983 lines. The only differences are the preparation artifact (231316 vs 231248 B, id and digest), the originals artifact (96417 vs 96413 B, id and digest) and the temp HOME path. Console JSON lines are identical (PIN_MATCH/4; 154 originals ACCEPTED_PREPARATION; positive PASS, negative_refusals 25). Upload counts are identical (157 and 64 files). Test step durations: prior 22:32:25-22:33:30 (65 s), head 07:10:55-07:12:08 (73 s).",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "H7",
+      "claim": "The author's claimed unchanged product, CLI, fixture and workflow blobs are present at the same paths in both base and head.",
+      "evidence": "git ls-tree -r at both 65a7ab8d and bb1a8654 gives: 9d383143 = experiments/semantic_memory/benchmark.py, 51bdc191 = tools/semantic_memory_experiment.py, 00c2d132 = experiments/semantic_memory/fixtures/development-cases.json, 6cc37934 = .github/workflows/semantic-memory-experiment.yml. git diff bb1a8654 65a7ab8d is a single hunk at line 594: oracle_only_sentinel=\" \" becomes oracle_only_sentinel=\"　\".",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "H8",
+      "claim": "The Ready-triggered automatic (<product>) review has not run because PR #460 is draft. There are no native reviews, review comments, requested reviewers or labels. This is recorded as not run, not as a failure.",
+      "evidence": "pulls/460 returned draft true, state open, mergeable_state clean. pulls/460/reviews returned length 0, pulls/460/comments returned 0, requested_reviewers is empty, labels are []. The issue comments are only 6285624215 (author delivery) and 6285652622 (this review's pickup). governance/OP-WORKFLOW-20260930.md lines 230-233 say that marking Ready can start an automatic review, which must finish and be reconciled before merge. public-intake.yml also has ready_for_review among its pull_request_target types, so it will re-run on Ready.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "H9",
+      "claim": "Three non-Actions check suites at head (apps claude, cursor, github-pages) are 'queued' with 0 check runs, and the legacy combined commit status reads 'pending' with 0 statuses. None of these is required.",
+      "evidence": "commits/65a7ab8d/check-suites returned 7 suites: 106724434196 claude queued 0 runs, 106724434687 cursor queued 0 runs, 106724435083 github-pages queued 0 runs, and 4 github-actions suites completed/success. commits/65a7ab8d/status returned {state: pending, total_count: 0, statuses: []}. The required contexts (H2) are check runs from integration 15368 only.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "H10",
+      "claim": "The author's hosted claims in comment 6285624215 match the observable hosted record: 8/8 SUCCESS, no rerun, dispatch or cancellation, fixture-controls run 39384794324 with both interpreter modes. The '190 CLI / 191 import-context accounting' detail is consistent with, but not directly confirmed by, what I could read.",
+      "evidence": "All runs are at run_attempt 1, triggered by pull_request or pull_request_target, with no workflow_dispatch event at head (H1). The 8 check names match the comment's list. The accounting matches H5 (inferred) and H6 (unchanged versus the base-equivalent run).",
+      "status": "VERIFIED"
+     }
+    ],
+    "concerns": [
+     "The actual 190/191 per-mode counts were not read. The artifact (id 12246014811) and the run-logs zip are served from productionresultssa10.blob.core.windows.net, which returned Forbidden through the session proxy. I also could not read the proxy README or status: the permission classifier denied that. The conclusion rests on the enforcing workflow code (identical at base and head) plus step 14's success. A reviewer with artifact access should read fixture-control-observation.json and observer-count-controls.json to confirm the counts: modes.{normal,optimized}.child_mode_diagnostic.records == 190, import_context_diagnostic.records == 191 with kinds {TEST:1, CLI:190}, and outcome PASS.",
+     "The task asked for a comparison with 'the latest successful run on main at base bb1a8654', but no such run exists: the workflow never runs on push to main. I substituted main#448's last run 39172631997 (merge 74a3fbce), whose tested Task1 sources are byte-identical to bb1a8654. It ran on 2026-10-18, before #448 merged, so it is the base-equivalent tree, not a run at commit bb1a8654 itself.",
+     "The hosted CI only shows GREEN (unchanged product + amended test, 3/3 in normal and -O). The RED evidence (amended test failing only whitespace_only_oracle_sentinel against the R03-only mutant) and the masking control are local author evidence. No hosted job runs a mutant, so hosted checks cannot show that the repair discriminates R03; that falls to other review lenses.",
+     "Freshness: the required-check strict up-to-date policy holds only while main HEAD == bb1a8654 (true at 2026-10-20T07:37Z). Any later push to main makes these checks stale for merge purposes, and the integrator must get fresh checks on the new tested merge.",
+     "Not yet run, by design: the Ready-triggered automatic <product> review (draft PR), and the public-intake re-run on ready_for_review. The ruleset also requires review-thread resolution and sets require_extra_approval_for_unattributed_changes; there are currently 0 threads and 0 reviews.",
+     "Scratch files are under <SCRATCH>/m460/work/hosted/: dl/head-job.log (head job log, sha256 ea9445b9...), dl/prior-job.log (prior job log, sha256 f225c504...), dl/head.steps and dl/prior.steps (normalized step logs), and inv-*.txt (source inventories). I did not change /home/user/main's working tree or index (git status --porcelain shows 0 lines); I only ran git fetch for the four SHAs. Nothing was posted to GitHub."
+    ]
+   }
+  },
+  {
+   "agent": "ae6738b09ad38173f",
+   "label": "lens:mutation",
+   "result": {
+    "summary": "I reproduced the author's red/green evidence for main#460 (head 65a7ab8d, base bb1a8654) in archive copies under <SCRATCH>/m460/work/mutation/. I used the CI invocation style from .github/workflows/semantic-memory-experiment.yml lines 410/415: `python -I -B -S -m unittest discover -s <root>/tests -p test_semantic_memory_benchmark.py -v`, plus the same with -O. Local interpreter: Python 3.11.17; CI pins python:3.11.14-slim. The R03-only mutant removes the conjunct at experiments/semantic_memory/benchmark.py:66, changing `_require(type(value) is str and bool(value.strip()))` to `_require(type(value) is str)`. Results in both normal and -O mode: (a) base test + mutant gives OK, 3/3 and 1/1 targeted, exit 0, so the old test masks the mutant. (b) head test + mutant gives exit 1, FAILED (failures=1): the only failure is subtest (mutation='whitespace_only_oracle_sentinel') in test_frozen_case_inventory_and_hashes, at tests line 322 `self.assertEqual(result.returncode, 1, ...)`, with `AssertionError: 0 != 1`. (c) head test + unchanged product gives OK, 3/3, exit 0. A direct CLI probe confirms the mechanism. The decoded-projection membership claim (0/832 corpus and 0/944 request strings contain U+3000) reproduces exactly. The broader suite at head, run in a scratch git clone, gives 842 run, OK, 6 skipped (5 hosted-container, 1 Lean toolchain), 0 failures and 0 errors in 349.8 s. That matches the author's 842/6. /home/user/main was not touched (HEAD 9e7bacb8, tree and index clean). Nothing was posted to GitHub.",
+    "findings": [
+     {
+      "id": "M1-inputs",
+      "claim": "The PR head and base are as stated, and the diff is a one-line, test-only change in tests/test_semantic_memory_benchmark.py with blob 87589a82 -> 6c4c8e48.",
+      "evidence": "`git -C /home/user/main fetch -q origin 65a7ab8d...` and `fetch -q origin bb1a8654...` both exited 0. `git rev-parse 65a7ab8d^{tree} 65a7ab8d^` gives fe08bb864760cd9ce8ab4f8c86a434851f478a47 and bb1a8654dcb365cf331c269293d04308988dc5b4. `git diff --stat base head` shows `tests/test_semantic_memory_benchmark.py | 2 +-`, 1 file, +1/-1. The change at line 594 is `oracle_only_sentinel=\" \"` -> `oracle_only_sentinel=\"　\"`. `od -c` shows the new line is a pure ASCII escape. `git hash-object` on the archive copies gives: test 87589a82 at base and 6c4c8e48 at head; product 9d383143 at both; CLI 51bdc191; development-cases 00c2d132; workflow 6cc37934. These match the PR body. `gh api .../pulls/460` reports state open, draft true, head and base SHAs as above. The copies were made with `git -C /home/user/main archive <sha> | tar -x -C <scratch>/{base,head}`.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "M2-mutant",
+      "claim": "The R03-only mutant removes only the bool(value.strip()) conjunct of the _text guard at benchmark.py:66, the guard named in #448 comment 6285186894.",
+      "evidence": "Original line 66: `    _require(type(value) is str and bool(value.strip()))`. Mutated line 66: `    _require(type(value) is str)`. Applied with `sed -i '66s/    _require(type(value) is str and bool(value.strip()))$/    _require(type(value) is str)/'` to the copies base_mut and head_mut. `diff -u` shows only that one line changed. `ast.parse` reports 'parse ok'. Both mutant files are byte-identical: sha256 9aac72f6198d65a68ac256d195b803c1aaffd78c7d73b3f67ccb73c58b9b4df4, git blob e861c33e13b32521ad3e49ce0196a69b0ccdbc29. The CLI loads the adjacent product file (tools/semantic_memory_experiment.py _product()), so the mutant is what runs in the CLI subprocess and in the parent runpy admission probe.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "M3a-masking-control",
+      "claim": "(a) The base (old) test with the R03-only mutant passes in both normal and -O mode, confirming the masking.",
+      "evidence": "Whole file, run as `(cd base_mut && python3 -I -B -S -m unittest discover -s <W>/base_mut/tests -p test_semantic_memory_benchmark.py -v)`: exit 0, 'Ran 3 tests in 18.780s', OK. The -O run of the same command: exit 0, 'Ran 3 tests in 24.591s', OK. The targeted method alone (the same command plus `-k test_frozen_case_inventory_and_hashes`): normal exit 0, 'Ran 1 test in 15.819s', OK; -O exit 0, 'Ran 1 test in 18.789s', OK.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "M3b-red",
+      "claim": "(b) The head test with the R03-only mutant fails only at subtest mutation='whitespace_only_oracle_sentinel', because the product returns 0 where 1 is required. This holds in both modes.",
+      "evidence": "Whole file in head_mut with `python3 -I -B -S -m unittest discover ... -v`: exit 1, 'Ran 3 tests in 20.180s', 'FAILED (failures=1)'. The -O run: exit 1, 'Ran 3 tests in 25.160s', 'FAILED (failures=1)'. The other two methods report ok. The only failing line is `test_frozen_case_inventory_and_hashes (...) (mutation='whitespace_only_oracle_sentinel') ... FAIL`. Traceback: tests line 332 `self.refused(path, timeout)` -> line 322 `self.assertEqual(result.returncode, 1, result.stdout.decode(\"utf-8\", \"replace\"))` -> `AssertionError: 0 != 1 : {` followed by the full prepare-report JSON (benchmark_admission admitted false, reason STRUCTURAL_VALIDATION_ONLY). The positive control `self.accepted(path)` at line 331 passed before the mutation. Targeted -k runs: normal exit 1, 'Ran 1 test in 14.191s', failures=1; -O exit 1, 'Ran 1 test in 18.847s', failures=1. Both runs have the same single failing subtest and assertion.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "M3c-green",
+      "claim": "(c) The head test with the unchanged product passes all 3 target methods in both normal and -O mode.",
+      "evidence": "In head: normal exit 0 'Ran 3 tests in 17.852s' OK (first run); repeated in the matrix with exit 0 'Ran 3 tests in 20.125s' OK. -O: exit 0, 'Ran 3 tests in 25.366s', OK. Targeted -k runs: normal exit 0, 1/1, 13.982s; -O exit 0, 1/1, 18.962s. As an extra control, the base test with the unchanged product also passes: normal 19.754s OK, -O 24.426s OK. All runs used the same `python3 -I -B [-O] -S -m unittest discover -s <copy>/tests -p test_semantic_memory_benchmark.py -v` form. Logs are in <W>/logs/file_*.log and <W>/logs/targeted_*.log.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "M4-mechanism-probe",
+      "claim": "A direct CLI probe shows why the old sentinel masked R03 and the new one does not. The ASCII-space sentinel is refused even by the mutant, through the leak scan. The U+3000 sentinel is refused only by the intact guard.",
+      "evidence": "Script <W>/scripts/cli_probe.py copies the head fixtures, sets heldout-oracle.json oracle_only_sentinel and rebinds the case_files descriptor the same way the test's casefile() does. It then runs `python3 -I -B [-O] -S <copy>/tools/semantic_memory_experiment.py prepare-report --fixtures <dir>`. Results in both normal and -O mode: original sentinel -> exit 0 for both products. ' ' -> exit 1 for both the unchanged product and the mutant (masked). '　' -> exit 1 for the unchanged product, exit 0 (167181 stdout bytes) for the mutant. '\\t' -> same pattern as U+3000. Every refusal stderr is 'semantic memory fixtures refused: invalid input or output\\n'.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "M5-projection-membership",
+      "claim": "U+3000 does not occur in any of the 832 decoded corpus-projection strings or the 944 request-projection strings (32 corpus rows; 48 cases / 96 request profiles). It strips to empty and is 3 UTF-8 bytes.",
+      "evidence": "Script <W>/scripts/projection_scan.py runs the unchanged product in memory. Its only change is an injected capture of `projection` and `requests` just before `pending = [projection, requests]`. It calls validate_fixtures on the pristine fixtures and walks the strings the same way the product's leak scan does (dict keys, values, lists). Output in both normal and -O: 'corpus_rows 32 request_cases 48 request_profiles 96', 'projection_strings 832 request_strings 944', 'U+3000 hits_projection 0 hits_requests 0 strip_empty True utf8_bytes 3', and 'ASCII space hits_projection 32 hits_requests 96'. This is a supplementary check outside the mutation lens.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "M6-full-file-head",
+      "claim": "The full tests/test_semantic_memory_benchmark.py at head on the unchanged product passes in normal and -O mode.",
+      "evidence": "The file has exactly 3 test methods, so the full file is the same as the 3 target methods. Normal: exit 0, Ran 3, OK, wall 17.95s (first run) and 20.24s (matrix run). -O: exit 0, Ran 3, OK, wall 25.54s. No skips. The suite's 120s per-mode deadline was not approached.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "M7-broad-suite",
+      "claim": "The broader suite at head, `python -B -S -m unittest discover -s tests -p 'test_*.py' -v`, gives 842 run, 0 failures, 0 errors, 6 hosted or toolchain skips, matching the author.",
+      "evidence": "Run in a separate scratch clone checked out at detached HEAD 65a7ab8d. The clone was made with `git clone -q --no-checkout /home/user/main <W>/clone`, then `git -C <W>/clone fetch -q https://github.com/d6g8k5htny-coder/main 65a7ab8d...` and `checkout -q --detach`; status was clean. Result: exit 0, 'Ran 842 tests in 349.334s', 'OK (skipped=6)', wall 349.8s. Skip reasons: 5x 'requires hosted restricted container' (test_architecture_sandbox) and 1x 'Lean toolchain not installed' (test_formal_gate). That is 836 passed + 6 skipped. The author's '842 passed' means 842 run. In the archive copy without .git (<W>/head_suite), the same command gave 'Ran 842 tests in 343.729s', 'OK (skipped=18)', exit 0. The 12 extra skips are all test_reader_links 'git object ... unavailable in this checkout', caused by the missing git history in the copy, not by the PR. The broad suite was not run in -O mode.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "M8-hosted-checks",
+      "claim": "The hosted checks at the exact head are 8/8 success, as the author states.",
+      "evidence": "Read-only call `gh api repos/d6g8k5htny-coder/main/commits/65a7ab8d.../check-runs` lists verify, landing-checks, public-intake, fixture-controls (run 39384794324), architecture / research-architecture, browser-smoke, formal / formal-evidence and public-shop, all completed/success. I did not open the job logs, so the 190 CLI / 191 import-context accounting inside fixture-controls is UNVERIFIED by me.",
+      "status": "VERIFIED"
+     },
+     {
+      "id": "M9-hosted-mutant-comparison",
+      "claim": "The R03 acceptance criteria ask for a sanctioned hosted mutant comparison (R03 mutant vs amended test, in the hosted container). That comparison has not been reproduced in the hosted lane.",
+      "evidence": "All of my mutant runs were local: Python 3.11.17, running as root, not inside the python:3.11.14-slim container with --network none, --read-only and user 65532. The author's evidence also describes the mutant runs as local. The hosted fixture-controls run covers only the unchanged product. Whether a hosted mutant run exists is UNVERIFIED.",
+      "status": "UNVERIFIED"
+     }
+    ],
+    "concerns": [
+     "Non-blocking, outside R03 scope: under the R03-only mutant (strip check removed from _text for every caller: query, expected_answer, source title/body, names, source_representation, sentinel), only the sentinel subtest fails. No other subtest checks the nonblank guard for those other _text fields. #460 makes no claim about them.",
+     "Non-blocking: the repair still depends on the fixture. It discriminates only while U+3000 is absent from every decoded projection and request string. If a future fixture adds U+3000, the masking would come back silently, because the test does not assert that absence. TAB and NBSP would currently discriminate as well (0 hits).",
+     "Environment difference: local runs used Python 3.11.17 as root outside the hosted container. CI pins python:3.11.14-slim with user 65532, --read-only and --network none. Root may bypass permission-based refusals, but no test outcome differed from the author's.",
+     "Not done: I did not run the broad suite in -O mode. The fixture-controls 190/191 accounting and the hosted job logs are UNVERIFIED (I read only the check-run conclusions).",
+     "All scratch is under <SCRATCH>/m460/work/mutation/ (copies base, head, base_mut, head_mut, head_suite and clone; logs/ and scripts/). /home/user/main was not modified: HEAD 9e7bacb8f04a1abba1fef0a77a7e0e666b064c76, `git diff --quiet` and `git diff --cached --quiet` both clean. My only writes to it were object fetches into its object store, as the task instructed."
+    ]
+   }
+  },
+  {
+   "agent": "a76cfc3bb9646e540",
+   "label": "verify:diff",
+   "result": {
+    "verdicts": [
+     {
+      "id": "D1-compare",
+      "verdict": "CONFIRMED",
+      "correction": "",
+      "evidence": "`gh api repos/d6g8k5htny-coder/main/compare/bb1a8654...65a7ab8d` returned {\"ahead_by\":1,\"behind_by\":0,\"status\":\"ahead\",\"total_commits\":1,\"merge_base\":\"bb1a8654dcb365cf331c269293d04308988dc5b4\",\"files\":[{\"filename\":\"tests/test_semantic_memory_benchmark.py\",\"status\":\"modified\",\"additions\":1,\"deletions\":1,\"sha\":\"6c4c8e4807aeab87a82779dfc04fc4178850fb71\"}]}. Both fetches exited 0. `git diff --raw --abbrev=40 bb1a8654.. 65a7ab8d..` printed `:100644 100644 87589a8281cbe8bc35ca2af7ceb278e5cf1c7d12 6c4c8e4807aeab87a82779dfc04fc4178850fb71 M tests/test_semantic_memory_benchmark.py`, and `--numstat` printed `1 1`. `rev-list --count` gives 1 ahead and 0 behind. `git cat-file -p 65a7ab8d` shows tree fe08bb864760cd9ce8ab4f8c86a434851f478a47 and a single parent, bb1a8654. `gh api .../pulls/460` reports state open, draft true, base_ref main, merged false."
+     },
+     {
+      "id": "D2-exact-line",
+      "verdict": "CORRECTED",
+      "correction": "The substance is right, but the lens's own text is broken. Its summary and D2 print a raw U+3000 character (rendered as a wide space) where they mean the 6-character ASCII escape. That makes the sentence 'ASCII escape literal \"<U+3000>\"' contradict itself. It should read: the new line contains the Python source literal `\"　\"` (6 ASCII characters), which Python evaluates to the single character U+3000.",
+      "evidence": "git diff hunk `@@ -591,7 +591,7 @@`: base line 594 is `lambda v: v.update(oracle_only_sentinel=\" \")))` and head line 594 is the same with `\"　\"`. Running `sed -n 594p head/... | od -c` shows the bytes `\" \\ u 3 0 0 0 \" ) ) ) \\n`, all ASCII. `grep -nP '[^\\x00-\\x7F]'` finds the same 3 non-ASCII lines (854, 855, 867) at both base and head, so the change adds no new non-ASCII lines. `git diff --check` exited 0."
+     },
+     {
+      "id": "D3-unchanged-blobs",
+      "verdict": "CONFIRMED",
+      "correction": "",
+      "evidence": "`git ls-tree -r` gives identical entries at bb1a8654 and 65a7ab8d: 6cc379349cbac608b3b133ef7a4be0342e5eca78 .github/workflows/semantic-memory-experiment.yml; 9d383143036cbfded585d0544d89d636e83cc609 experiments/semantic_memory/benchmark.py; 00c2d13255588d217fd2e504f4b392a13400dfed experiments/semantic_memory/fixtures/development-cases.json; 51bdc1917dc3f234f2f27cba205ae4b668d4616d tools/semantic_memory_experiment.py. The test blob is 87589a82 at base and 6c4c8e48 at head. The compare lists only the one path."
+     },
+     {
+      "id": "D4-mechanism",
+      "verdict": "CONFIRMED",
+      "correction": "One addition: U+3000 also catches weaker variants of the guard that the R03 mutant does not cover, so the repair is stronger than the alternative whitespace sentinels.",
+      "evidence": "Product lines confirmed with grep and awk:\n- 66 `_require(type(value) is str and bool(value.strip()))`\n- 431 `sentinel = _text(oracle[\"oracle_only_sentinel\"])`\n- 438-447 a recursive scan over keys and values of [projection, requests], with 442 `_require(sentinel not in item)`\n- 478 `return _validated_bundle(fixture_dir)[0]`\nThe CLI's `except Exception` writes the fixed refusal message and returns 1.\n\nMy own script <SCRATCH>/m460/work/verify-diff/scripts/mechanism.py rewrites the oracle the way the test's `encoded()`/`casefile` do (ensure_ascii=False, descriptor rebound), then calls validate_fixtures:\n- ascii_space: head is refused via lines [478, 431, 66, 53]; mut_head is refused via [478, 442, 53] `_require(sentinel not in item)`.\n- u3000 (oracle bytes `\"\\xe3\\x80\\x80\"`): head is refused via [478, 431, 66, 53]; mut_head is ACCEPTED.\n\nI also tried in-memory guard variants. `bool(value)` (no strip) accepts U+3000, so it is caught. An ASCII-only `strip(' \\t\\n\\r\\x0b\\x0c')` accepts U+3000, so it is caught. That ASCII-only variant refuses a tab sentinel, so tab would miss it. U+00A0 behaves like U+3000. My census confirms ASCII space is present in 32 of the 832 corpus strings (all 32 texts) and 96 of the 944 request strings (all 96 queries)."
+     },
+     {
+      "id": "D5-sentinel-absence",
+      "verdict": "CONFIRMED",
+      "correction": "",
+      "evidence": "I wrote my own census script, <SCRATCH>/m460/work/verify-diff/scripts/census.py. It exec-loads benchmark.py, calls validate_fixtures, and walks the strings exactly as lines 438-447 do. Run with `python3 -I -B` (and with -O, and on base), it printed `corpus_rows 32 corpus_strings 832 u3000_corpus 0` and `cases 48 profiles 96 request_strings 944 u3000_request 0`. Of the 29 blank code points, only ['0xa','0xd','0x20'] are present. `raw_fixture_u3000_hits []` covers both the raw bytes E3 80 80 and the `　` escape across all fixture files. admit_benchmark returns admitted=True with semantic_sha256 8d28c546b7871916adac363f56dc58204785093686ba919f14f5a4c79cefd04f. Base, head, -O and normal all give the same output. The lens's arithmetic for 832 and 944 checks out."
+     },
+     {
+      "id": "D6-u3000-properties",
+      "verdict": "CONFIRMED",
+      "correction": "The same rendering problem appears here: plain json.dumps gives the 8-character ASCII text `\"　\"`, not a raw wide space as the report displays.",
+      "evidence": "census.py prints `strip_empty True utf8 e38080 3 IDEOGRAPHIC SPACE Zs True`. `python3 -I -c` gives json.dumps(s) -> `\"　\"` and json.dumps(s, ensure_ascii=False).encode() -> b'\"\\xe3\\x80\\x80\"'. Three bytes is far under the 2048-byte _text maximum."
+     },
+     {
+      "id": "D7-red-green-matrix",
+      "verdict": "CONFIRMED",
+      "correction": "I also reproduced the full matrix on Python 3.12.3. The hosted lane uses 3.12.14, which I did not have. The lens ran only 3.11.17.",
+      "evidence": "I built my own mutants by replacing line 66 with `_require(type(value) is str)` in copies of head and base. `diff -r -q` shows only benchmark.py differs.\n\nCommand: `python3 -I -B [-O] -S -m unittest discover -s <tree>/tests -p test_semantic_memory_benchmark.py [-k test_frozen_case_inventory_and_hashes] -v`, run with cwd in the logs directory.\n\nPython 3.11.17, targeted method:\n- head, head_O, base, base_O, mut_base, mut_base_O: rc=0\n- mut_head, mut_head_O: rc=1, FAILED (failures=1), subtest (mutation='whitespace_only_oracle_sentinel')\n\nPython 3.11.17, all 3 methods:\n- head, head_O, base, base_O, mut_base, mut_base_O: Ran 3, OK\n- mut_head, mut_head_O: FAILED (failures=1), sole FAIL is test_frozen_case_inventory_and_hashes (mutation='whitespace_only_oracle_sentinel'), raised at test lines 332 and 322 with `AssertionError: 0 != 1`. The stdout is a full report, so the mutant exited 0.\n\n/usr/bin/python3.12 (3.12.3), all 3 methods: the same 8-arm pattern. head, base and mut_base are OK in both modes; mut_head fails only that subtest in both modes."
+     },
+     {
+      "id": "D8-encoding-and-O",
+      "verdict": "CONFIRMED",
+      "correction": "One addition: nothing in the head tree pins the old test blob or its sha256. The test entry in TASK1-CONTRACT.json was already stale at base, so the change does not affect it.",
+      "evidence": "`grep -nE '^\\s*assert '` over the test, product and CLI exits 1. `encoded()` uses ensure_ascii=False, and `casefile` rebinds bytes and sha256 in manifest case_files. The semantic dict drops oracle_only_sentinel at line 454, and the report has no oracle field.\n\n`grep -rIl` for 87589a82, 6c4c8e48 and the base/head test sha256 prefixes (3c638065..., 3add593f...) finds nothing in the head tree. TASK1-CONTRACT.json:192-194 pins the test file at 29312 bytes / sha256 4cb5c22b..., but the base file is already 57681 bytes, and no workflow reads that pin. The workflow (identical blob at base and head) captures the test as a git blob and checks sha1 equality, with no ASCII requirement on test content. The change is ASCII anyway."
+     },
+     {
+      "id": "D9-broader-suite",
+      "verdict": "CORRECTED",
+      "correction": "I partly reproduced it. Locally the suite ran 842 tests with 0 failures and 18 skips. The author's wording '842 passed, 6 skips' cannot be literally true for a unittest count of 842, because unittest's 'Ran N' includes skipped tests. The likely reading is 836 passed + 6 skipped in the author's environment. My higher skip count (18) depends on the environment: an archive copy with no .git, on local toolchains.",
+      "evidence": "Fresh `git archive 65a7ab8d` copy at <SCRATCH>/m460/work/verify-diff/suite. Command (cwd=suite): `timeout 900 python3 -B -S -m unittest discover -s tests -p 'test_*.py'` on Python 3.11.17 gave rc=0 with `Ran 842 tests in 367.801s` and `OK (skipped=18)`. Log: .../verify-diff/logs/suite_head.log. I did not enumerate the individual skip reasons."
+     },
+     {
+      "id": "D10-hosted-checks",
+      "verdict": "CORRECTED",
+      "correction": "I verified this through the API; it is no longer just an author claim. All 8 check runs completed with success at the exact head. Run 39384794324 succeeded on attempt 1, and the workflow at head enforces 190/191 inside a step that succeeded. Limit: the hosted run only covers the unchanged product (the GREEN arm). It does not run the RED arm or the masking-control arm.",
+      "evidence": "`gh api repos/.../commits/65a7ab8d.../check-runs` lists verify, landing-checks, public-intake, fixture-controls(run 39384794324), architecture / research-architecture, browser-smoke, formal / formal-evidence and public-shop, all completed and success. `gh api .../actions/runs/39384794324` gives event pull_request, run_attempt 1, head_sha 65a7ab8d..., conclusion success. Its jobs listing shows steps 1-17 all success.\n\nIn the workflow, step 14 ('Observe exact fixture inventories...') appends an issue when CLI rows != 190 (lines 818-819) or contexts != 191 (lines 884-885), and raises ValueError if any issues exist (lines 912-913). The step's success therefore implies both modes met 190/191. I did not download the retained artifacts."
+     },
+     {
+      "id": "D11-no-local-mutation",
+      "verdict": "CONFIRMED",
+      "correction": "I can only confirm that the tree is clean now. The lens's past actions cannot be checked beyond that.",
+      "evidence": "`git -C /home/user/main status --porcelain | wc -l` -> 0 after all of my runs. My only repo operations were `fetch` and `archive`. All copies are under <SCRATCH>/m460/work/verify-diff/{head,base,mut_head,mut_base,suite}."
+     }
+    ],
+    "missed": [
+     "The R03 finding (6285186894) asked for a 'sanctioned hosted comparison in both normal and optimized modes' covering all three arms: GREEN, RED and the masking control. Hosted run 39384794324 covers only the GREEN arm. The RED and masking-control arms exist only as local evidence. The author's masking control was normal mode only. The diff lens and I reproduced RED and the masking control in both modes, on 3.11.17 and, for me, also 3.12.3. This is an evidence-provenance gap, not a code defect. The integrator should decide whether two independent local reproductions satisfy R03, or whether to ask for an evidence AMEND. No code change is needed.",
+     "Current main has not moved: `gh api .../compare/bb1a8654...main` returns ahead_by 0 and behind_by 0. The head is therefore current with main and needs no reconcile today.",
+     "There is no wrong-reason pass and no vacuous pass. Nothing before line 431 inspects the sentinel's value; earlier code only checks the oracle's keys. The intact product refuses U+3000 exactly at line 66, called from line 431. The mutant accepts it end to end: exit 0 with a full report on stdout. The subtest really runs, because its failure is observed under the mutant, and the positive accepted() pre-check runs first.",
+     "U+3000 is the stronger sentinel. Besides the R03 mutant, it also catches a `bool(value)` (no-strip) variant and an ASCII-only `strip(' \\t\\n\\r\\x0b\\x0c')` variant. A tab sentinel would miss the ASCII-only variant.",
+     "Informational: under concurrent load, my 3.12.3 -O runs of the 3-method file took 60-71 s, against the class-wide 120 s deadline. The deadline belongs to the existing test and is unaffected by this one-line change.",
+     "I agree with the lens's non-blocking concern: the subtest does not check that U+3000 is absent from the fixtures. The `mutation` helper uses prepare-report (structural) mode, so the frozen semantic hash would not protect it. A future fixture that added U+3000 to a corpus text or query would silently re-mask R03. An optional precondition assertion could go in a follow-up. It is not needed for #460, and my overall assessment is PASS on the code."
+    ]
+   }
+  },
+  {
+   "agent": "a531359e6f0bcabbd",
+   "label": "verify:hosted",
+   "result": {
+    "verdicts": [
+     {
+      "id": "H1",
+      "verdict": "CONFIRMED",
+      "correction": "",
+      "evidence": "`gh api repos/d6g8k5htny-coder/main/commits/65a7ab8d9db4eed01320ff67e5ef3900e6bf123b/check-runs` returned total_count 8. All 8 have head_sha 65a7ab8d, completed/success, app 15368 github-actions, with the same job IDs as the lens. Per-run `gh api .../actions/runs/<id> --jq ...` gave: 39384794393 workspace-landing.yml pull_request success attempt 1; 39384794235 public-intake.yml pull_request_target success 1; 39384794324 semantic-memory-experiment.yml pull_request success 1; 39384794312 public-shop.yml pull_request success 1. All have head_sha 65a7ab8d and head_branch codex/rtw-m448-r03-test-pin-20261020. `actions/runs?head_sha=65a7ab8d...` and `actions/runs?branch=codex/rtw-m448-r03-test-pin-20261020` both return total_count 4, the same four runs, so no cancelled runs or reruns exist. The check-suites query shows 4 github-actions suites with latest_check_runs_count 1, 2, 1 and 4."
+     },
+     {
+      "id": "H2",
+      "verdict": "CONFIRMED",
+      "correction": "The claim is accurate but leaves out details (see missed): ruleset 23798639 also covers refs/heads/codex/enforcement-probe-20260922 and has a bypass actor (Integration 1144995, bypass_mode always). More important, none of the three required checks runs tests/test_semantic_memory_benchmark.py.",
+      "evidence": "`gh api repos/d6g8k5htny-coder/main/rules/branches/main` returns ruleset 23798639 with deletion, non_fast_forward, pull_request (0 approvals, dismiss_stale true, thread_resolution true, require_extra_approval_for_unattributed_changes true), required_status_checks [verify, public-intake, public-shop] with integration_id 15368 and strict true, and creation. Ruleset 25014147 targets only refs/heads/codex/site-publication-receipts (deletion, non_fast_forward). `branches/main/protection` returns 404 'Branch not protected'. `branches/main` returned bb1a8654 at 2026-10-20T07:54:32Z. `compare/main...65a7ab8d` returned ahead 1, behind 0, merge_base bb1a8654, 1 file."
+     },
+     {
+      "id": "H3",
+      "verdict": "CONFIRMED",
+      "correction": "",
+      "evidence": "I extracted head and base with git archive into .../verify-hosted/{head,base}; `diff -r base/.github head/.github` shows no differences. I matched every pull_request paths filter against tests/test_semantic_memory_benchmark.py with a GitHub-glob matcher, and only semantic-memory-experiment.yml matches. navigation.yml and public-intake-controls.yml use flow-style path lists, which I checked by hand; neither matches. workspace-landing and public-shop have pull_request on branches [main] with no path filter, and public-intake is pull_request_target with no path filter. That is 4 runs. Step counts from the jobs API (filter=all): formal 16/16, research-architecture 19/19, landing-checks 13/13, verify 5/5, public-intake 5/5, fixture-controls 19/19, public-shop 12/12, browser-smoke 11/11. No step concluded anything other than success."
+     },
+     {
+      "id": "H4",
+      "verdict": "CONFIRMED",
+      "correction": "",
+      "evidence": "`gh api .../actions/runs/39384794324/jobs` returned 1 job, 118501956869, on ubuntu-24.04, with steps 1-17, 34 and 35 all success. Step 11 ran 07:10:55-07:12:08Z and step 14 ran 07:12:09Z. I fetched the job log via MCP get_job_logs (original_length 1366); its sha256 ea9445b933eb8d14ce8c2614f04167310f78e81bedcf68d323f0bdc03f4aa269 equals the lens's. Line 101 fetches +3234e6224eae...:refs/remotes/pull/460/merge. Line 352 reads 'HEAD is now at 3234e622 Merge 65a7ab8d... into bb1a8654...'. Lines 778/783 show `python -I -B -S` and `python -I -B -O -S`. Lines 751/793 show IMAGE python:3.11.14-slim-bookworm@sha256:83f339c1be63.... Locally, `git log -1 --format='%T %P' 3234e622` gives tree fe08bb86 with parents bb1a8654 and 65a7ab8d, `git diff 65a7ab8d 3234e622` is empty, and ls-remote shows refs/pull/460/head = 65a7ab8d and refs/pull/460/merge = 3234e622. The console JSON lines match the lens: lines 552, 558 and 728. The artifacts API lists 12246014811 (96413 B, sha256:f9d7dc36..., not expired) and 12245879862 (231248 B, sha256:38ecf534...). Log line 1320 says 64 files uploaded."
+     },
+     {
+      "id": "H5",
+      "verdict": "CONFIRMED",
+      "correction": "The claim is confirmed as qualified (inferred, not read). The hosted per-mode counts in artifact 12246014811 are still UNVERIFIED. Three additions: (a) Step 11 itself directly exits nonzero if either mode's unittest is nonzero, so both modes exiting 0 is direct evidence, not inferred. (b) The proxy status endpoint (curl $HTTPS_PROXY/__agentproxy/status) records 'gateway answered 403 to CONNECT (policy denial or upstream failure)' for productionresultssa10.blob.core.windows.net:443 and results-receiver.actions.githubusercontent.com:443. This is an egress policy block, and per the proxy README it should not be retried. (c) I locally reproduced 190/191 in both modes at head and at base (outside the pinned image).",
+      "evidence": "`gh api .../actions/jobs/118501956869/logs` fails with 'Get https://productionresultssa10.blob.core.windows.net/...: Forbidden' and a 0-byte output, reproduced. Head workflow lines 515-916: the canonical observer appends an issue unless len(child rows)==190 (log line 1182) and len(contexts)==191 (line 1248). It raises ValueError on 'parent/child import context count join' unless TEST==1 and CLI==child records, requires optimize 0/1 per mode, complete_three_pass (3 ok rows plus a single 'Ran 3 tests' footer plus terminal OK), mode-exit '0' and container-exit '0', and raises if any issue exists. The count-control driver requires len(children)==190 and len(contexts)==191 before the balanced-omission refusal in both modes. The shell exits on either nonzero status. Step 14 is success. Local run: `SEMANTIC_MEMORY_CHILD_MODE_LOG=... SEMANTIC_MEMORY_IMPORT_CONTEXT=... python3 -I -B [-O] -S -m unittest discover -s <head>/tests -p test_semantic_memory_benchmark.py -v` gives normal 'Ran 3 tests ... OK' with 190 child rows (optimize 0), 191 contexts and Counter{CLI:190, TEST:1}; optimized gives the same with optimize 1. Base gives 190/191 in both modes. Local Python is 3.11.17, not the pinned 3.11.14 image."
+     },
+     {
+      "id": "H6",
+      "verdict": "CONFIRMED",
+      "correction": "",
+      "evidence": "`actions/workflows/semantic-memory-experiment.yml/runs?branch=main` returns 0, and `?head_sha=bb1a8654...` returns 0. The workflow has 14 runs; the one before #460 is 39172631997 (pull_request, head 4f69a6d3, success, attempt 1). `pulls/448` shows merged true, head 4f69a6d3, merge_commit 2f204a92. Job 117808707088 has 19 steps, 0 non-success. I fetched its log via MCP (original_length 1360, sha256 f225c504..., matching the lens); line 346 reads 'HEAD is now at 74a3fbce Merge 4f69a6d3... into 0a7e5145...'. `git ls-tree -r <c> -- experiments/semantic_memory tests/test_semantic_memory_benchmark.py tools/semantic_memory_experiment.py .github/workflows/semantic-memory-experiment.yml .github/workflows/architecture-runtime-acquisition.yml docs/plans/2026-10-09-public-runtime-acquisition.md | sha256sum` gives 45 lines and 069eaed50a4289e8... at 74a3fbce, 2f204a92 and bb1a8654. At 65a7ab8d it gives 2d20954a..., differing only in the test blob. `merge-base --is-ancestor 2f204a92 bb1a8654` succeeds, and `git log 2f204a92..bb1a8654 -- <paths>` has 0 commits. I normalized both logs from 'Run set -euo pipefail' with timestamps stripped: 983 vs 983 lines. With run IDs masked, the diff contains only the artifact bytes/IDs/digests (231316/231248, 96417/96413) and the temp HOME path. Both logs report 157 and 64 files uploaded."
+     },
+     {
+      "id": "H7",
+      "verdict": "CORRECTED",
+      "correction": "The blob identities are correct. The diff rendering is wrong at the byte level. The new line is `oracle_only_sentinel=\"　\"`, a 6-character ASCII Python escape inside the quotes, not a literal U+3000 character in the source. The lens wrote the line as `oracle_only_sentinel=\"　\"` in H7 and in its summary. At runtime the test helper encoded() serializes with ensure_ascii=False, so heldout-oracle.json receives U+3000 as raw UTF-8 bytes E3 80 80, and casefile() rebinds the manifest bytes and sha256.",
+      "evidence": "`git diff bb1a8654 65a7ab8d | cat -A` shows the hunk at line 591-597, with '+            p, \"heldout-oracle.json\", lambda v: v.update(oracle_only_sentinel=\"　\")))$' containing no non-ASCII bytes. `grep -n u3000 tests/test_semantic_memory_benchmark.py` returns line 594 only. `git ls-tree` at both commits gives 9d383143 benchmark.py, 51bdc191 tools/semantic_memory_experiment.py, 00c2d132 development-cases.json and 6cc37934 semantic-memory-experiment.yml, identical at base and head. The test blob changes 87589a82 -> 6c4c8e48."
+     },
+     {
+      "id": "H8",
+      "verdict": "CONFIRMED",
+      "correction": "",
+      "evidence": "`pulls/460` shows state open, draft true, mergeable_state clean, labels 0, requested_reviewers 0, 1 commit. `pulls/460/reviews` and `pulls/460/comments` both return length 0. Issue comments are only 6285624215 and 6285652622. governance/OP-WORKFLOW-20260930.md lines 230-233 contain the Ready/automatic-review text, and line 239 names it the 'automatic <product> review'. public-intake.yml pull_request_target types include ready_for_review."
+     },
+     {
+      "id": "H9",
+      "verdict": "CONFIRMED",
+      "correction": "",
+      "evidence": "`commits/65a7ab8d/check-suites` returns 7 suites: 106724434196 claude, 106724434687 cursor and 106724435083 github-pages are queued with 0 runs, and 4 github-actions suites are completed/success. `commits/65a7ab8d/status` returns state pending, total_count 0, 0 statuses."
+     },
+     {
+      "id": "H10",
+      "verdict": "CONFIRMED",
+      "correction": "The author's phrase 'all 17 applicable steps' refers to numbered steps 1-17. The jobs API shows 19 entries in total, including post-checkout and Complete job. This is consistent.",
+      "evidence": "All four runs at the head are run_attempt 1 with event pull_request or pull_request_target, there is no workflow_dispatch, and the branch has 4 runs in total. The 8 check names match the author comment. Accounting: see H5 (inferred hosted, reproduced locally) and H6 (unchanged versus the base-equivalent run)."
+     }
+    ],
+    "missed": [
+     "MERGE-GATE GAP: fixture-controls is the only hosted check that runs tests/test_semantic_memory_benchmark.py, and it is NOT a required check. The required checks verify, public-intake and public-shop never run this test. verify is workspace-landing's `required` job and needs only [checks, formal]. Its unittest targets are test_required_formal_check, test_research_delivery, test_workspace_landing and the binding controls. public-shop runs its own shop and site tests. public-intake is pull_request_target and runs the default-branch checker. So the ruleset would let #460 merge even if fixture-controls were red. The integrator must gate on fixture-controls 118501956869 (and any fresh run on a new tested merge) by hand. I confirmed this with grep over the head workflows workspace-landing.yml, public-shop.yml, formal-verification.yml and research-architecture.yml.",
+     "R03 ACCEPTANCE WORDING: main#448 comment 6285186894 asks for 'a sanctioned hosted comparison in both normal and optimized modes': unchanged product + amended test passes, R03-only mutant + amended test fails this subtest, and old test + R03 gives the masking control. The hosted record contains only the GREEN arm. The author's RED and masking evidence is local, and the masking control was claimed only for normal mode. The lens said hosted cannot show RED but did not compare this with R03's explicit 'hosted' requirement. The review must decide whether that is an AMEND (a sanctioned hosted mutant comparison) or an accepted, recorded deviation backed by the local reproductions below.",
+     "LOCAL DISCRIMINATION REPRODUCTION (not hosted; local Python 3.11.17, not the pinned image), which bears on the 'earlier guard' and 'vacuous' risks. In .../verify-hosted/mut-{head,base} I replaced only `_require(type(value) is str and bool(value.strip()))` with `_require(type(value) is str)` in experiments/semantic_memory/benchmark.py line 66. Command: `python3 -I -B [-O] -S -m unittest discover -s <cfg>/tests -p test_semantic_memory_benchmark.py -k test_frozen_case_inventory_and_hashes -v`. Results: head (amended test, unchanged product) rc 0 in normal and -O. mut-head (amended test, R03 mutant) rc 1 in both modes, with exactly one FAIL, subtest mutation='whitespace_only_oracle_sentinel': 'AssertionError: 0 != 1', meaning the mutant accepted the U+3000 sentinel and emitted a report. base (old test, unchanged) rc 0 in both modes. mut-base (old test, R03 mutant) rc 0 in both modes, so the masking control also holds under -O. Because the mutant returns 0, no earlier guard (transport, descriptor, or the decoded-string leak scan) catches the U+3000 sentinel. That also shows U+3000 is absent from that fixture's decoded projection and requests. The unchanged product's refusal must therefore come from the strip() guard, so the subtest is neither vacuous nor passing for the wrong reason. Logs are in <SCRATCH>/m460/work/verify-hosted/runs/.",
+     "RULESET DETAILS OMITTED: ruleset 23798639 has bypass_actors [{actor_id 1144995, actor_type Integration, bypass_mode always}] and also targets refs/heads/codex/enforcement-probe-20260922 (`gh api repos/d6g8k5htny-coder/main/rulesets/23798639 --jq '.conditions, .bypass_actors'`). An integration with always-bypass can merge past the required checks and review rules. The integrator should record it if it is used.",
+     "BLOB-HOST CAUSE: the artifact and log download failure is an egress proxy policy denial. The proxy status shows a gateway 403 to CONNECT for productionresultssa10.blob.core.windows.net:443 and results-receiver.actions.githubusercontent.com:443. It is not a GitHub permission issue. Per /root/.ccr/README.md it must not be retried or routed around. A reviewer outside this sandbox must read fixture-control-observation.json and observer-count-controls.json in artifact 12246014811 (sha256 f9d7dc36ce316c85747a55d4c76b6039151a3bb23a02698959b206479e5f298e) to directly confirm the hosted per-mode counts and outcome PASS.",
+     "FRESHNESS RECHECK: at 2026-10-20T07:54:32Z main is still bb1a8654, PR head is still 65a7ab8d, draft true, mergeable_state clean. There are still 2 issue comments, 0 reviews and 0 review comments. Nothing was posted. /home/user/main `git status --porcelain` showed 0 lines before work; I ran only `git fetch` of 65a7ab8d, bb1a8654, pull/460/head and pull/460/merge, plus a by-SHA fetch check for 74a3fbce, which was already present."
+    ]
+   }
+  },
+  {
+   "agent": "a3f5d353cd2a9b1f5",
+   "label": "verify:mutation",
+   "result": {
+    "verdicts": [
+     {
+      "id": "M1-inputs",
+      "verdict": "CONFIRMED",
+      "correction": "",
+      "evidence": "`git -C /home/user/main fetch -q origin 65a7ab8d9db4eed01320ff67e5ef3900e6bf123b` exited 0 (f1=0), and the same fetch for bb1a8654 exited 0 (f2=0). `git rev-parse 65a7ab8d^{tree} 65a7ab8d^` gives fe08bb864760cd9ce8ab4f8c86a434851f478a47 and bb1a8654dcb365cf331c269293d04308988dc5b4. `git rev-list --count bb1a8654..65a7ab8d` gives 1. `git diff --stat` shows `tests/test_semantic_memory_benchmark.py | 2 +-`, 1 file changed. The diff hunk @@ -591,7 +591,7 @@ changes line 594 from `oracle_only_sentinel=\" \"` to `oracle_only_sentinel=\"　\"`. `od -c` shows the line is the six ASCII bytes `\\ u 3 0 0 0`, and `grep -P '[^\\x00-\\x7F]'` on line 594 gives 0. `ls-tree` gives the test blob 87589a82... at base and 6c4c8e48... at head. Each of these is identical at base and head (`git rev-parse <sha>:<path>`): product 9d383143..., CLI 51bdc191..., development-cases 00c2d132..., workflow 6cc37934.... `git diff --check base head` exited 0. `gh api pulls/460` reports state open, draft true, mergeable_state clean, and head/base SHAs as stated. My copies are under .../work/verify-mutation/{base,head,base_mut,head_mut}, made by `git archive | tar -x`."
+     },
+     {
+      "id": "M2-mutant",
+      "verdict": "CONFIRMED",
+      "correction": "",
+      "evidence": "I applied the mutant independently with a Python exact-string replace that asserts the line occurs once. It changes `    _require(type(value) is str and bool(value.strip()))` (benchmark.py:66, inside `_text`) to `    _require(type(value) is str)`. `diff -u` shows only that line changed, and `ast.parse` succeeded. Both mutant copies have sha256 9aac72f6198d65a68ac256d195b803c1aaffd78c7d73b3f67ccb73c58b9b4df4 and git blob e861c33e13b32521ad3e49ce0196a69b0ccdbc29, byte-identical to the lens's mutant. Reading the code: the CLI `_product()` opens the adjacent `experiments/semantic_memory/benchmark.py` through dir fds and execs it. The test's `admission_corpus` calls `runpy.run_path(CLI)` and then `_product()`. So the mutant runs in both the CLI subprocess and the parent process. The copies have no __pycache__, and every run used -B."
+     },
+     {
+      "id": "M3a-masking-control",
+      "verdict": "CONFIRMED",
+      "correction": "I did not re-run the targeted `-k` runs (1/1). I reproduced only the whole-file runs, which include that method. Note that the author's own evidence claims the masking control in normal mode only. The -O masking control comes from the lens's and my local runs, not from the author or a hosted run.",
+      "evidence": "My script <W>/scripts/run_matrix.sh runs `cd <copy> && SEMANTIC_MEMORY_CHILD_MODE_LOG=... SEMANTIC_MEMORY_IMPORT_CONTEXT=... python3 -I -B [-O] -S -m unittest discover -s <copy>/tests -p test_semantic_memory_benchmark.py -v`. This mirrors the CI form at workflow lines 410/415 (workdir /source). base_mut normal: rc=0, 'Ran 3 tests in 19.188s', OK, child=190, import=191. base_mut -O: rc=0, 'Ran 3 tests in 25.712s', OK, child=190, import=191. The CLI-child count matches the green run, so the whitespace_only_oracle_sentinel subtest did run and passed, which is the masking."
+     },
+     {
+      "id": "M3b-red",
+      "verdict": "CORRECTED",
+      "correction": "Line numbers: the positive control `self.accepted(path)` is at tests line 330, not 331. Line 331 is `change(path)` and line 332 is `self.refused(path, timeout)`. Everything else is confirmed.",
+      "evidence": "head_mut normal: rc=1, 'Ran 3 tests in 18.773s', 'FAILED (failures=1)'. head_mut -O: rc=1, 'Ran 3 tests in 25.410s', 'FAILED (failures=1)'. In both logs test_deep_and_confusable_spans_are_real and test_gold_never_enters_index_or_prompt are 'ok'. The only FAIL is `test_frozen_case_inventory_and_hashes (...) (mutation='whitespace_only_oracle_sentinel')`. The traceback goes from line 332 `self.refused(path, timeout)` to line 322 `self.assertEqual(result.returncode, 1, result.stdout.decode(\"utf-8\", \"replace\"))`, then `AssertionError: 0 != 1 : {` followed by the prepare-report JSON with benchmark_admission admitted false. There is exactly 1 AssertionError per log. child=190 and import=191 in both mutant runs, so the remaining subtests went on running after the failing subtest. `sed -n 320,333p` confirms the lines: 320 def refused, 322 assertEqual, 327 def mutation, 328 subTest, 329 fresh, 330 accepted, 331 change, 332 refused."
+     },
+     {
+      "id": "M3c-green",
+      "verdict": "CONFIRMED",
+      "correction": "",
+      "evidence": "head (unchanged product) normal: rc=0, 'Ran 3 tests in 19.000s', OK. head -O: rc=0, 'Ran 3 tests in 24.683s', OK. Control, base test plus unchanged product: normal rc=0 OK (20.283s), -O rc=0 OK (25.466s). I also checked the accounting the lens left UNVERIFIED, locally. The child-mode logs have exactly 190 rows `{\"optimize\": 0}` in normal mode and 190 rows `{\"optimize\": 1}` in -O mode. The import-context logs have 190 CLI_PROCESS_IMPORT_CONTEXT rows and 1 TEST_PROCESS_IMPORT_CONTEXT row per mode, with optimize matching the mode. That is the workflow's expected_children=190 / expected_contexts=191 (workflow lines 539-540, 818-819, 884-885)."
+     },
+     {
+      "id": "M4-mechanism-probe",
+      "verdict": "CONFIRMED",
+      "correction": "My attribution is stronger than the lens's. With the unchanged product, the U+3000 refusal comes from the intended guard (_text:66, reached from line 431). It is not an earlier or unrelated guard, so the green result is not passing for the wrong reason. The lens also did not mention that an empty-string sentinel would be masked as well.",
+      "evidence": "Script <W>/scripts/probe.py execs each copy's benchmark.py in process. It builds fixtures the same way casefile() does (ensure_ascii=False encoding, rebound heldout-oracle descriptor), calls validate_fixtures and records the traceback frames. Results, identical in normal and -O. Unchanged head: ' ', U+3000, TAB, '' and NBSP are all refused at `_text:66` <- `_validated_bundle:431 sentinel = _text(oracle[\"oracle_only_sentinel\"])`. Mutant: ' ' is refused at `_validated_bundle:442 _require(sentinel not in item)` (the leak scan); '' is also refused at 442; U+3000, TAB and NBSP are ACCEPTED. Direct CLI run `python3 -I -B [-O] -S <copy>/tools/semantic_memory_experiment.py prepare-report --fixtures <dir>`: head with ' ' or U+3000 gives rc=1, empty stdout, stderr 'semantic memory fixtures refused: invalid input or output'. head_mut with ' ' gives rc=1 and the same stderr. head_mut with U+3000 gives rc=0 and 167181 stdout bytes (wc -c). The original fixture gives rc=0 for both products."
+     },
+     {
+      "id": "M5-projection-membership",
+      "verdict": "CONFIRMED",
+      "correction": "",
+      "evidence": "I checked this independently without touching the product. Script <W>/scripts/scan.py calls validate_fixtures on the pristine fixtures and walks report['corpus_projection'] and report['request_projections'], which are the same objects as projection and requests at line 436. It walks them the same way the leak scan does: dict keys, then values, then list items. Output, identical in normal and -O: 'corpus_rows 32 request_cases 48 profiles 96', 'projection_strings 832 request_strings 944', 'U+3000 hits_proj 0 hits_req 0', 'ASCII space hits_proj 32 hits_req 96', TAB 0/0, NBSP 0/0, 'u3000 strip empty True utf8 bytes 3'. A raw byte scan of every fixture file found no U+3000 UTF-8 bytes and no 　 escapes. Of the 29 str.isspace characters, 26 occur nowhere in the projections; only ' ', '\\n' and '\\r' occur."
+     },
+     {
+      "id": "M6-full-file-head",
+      "verdict": "CONFIRMED",
+      "correction": "",
+      "evidence": "`grep -n 'def test_'` finds exactly 3 test methods (lines 415, 723, 814), so the full file is the same set as the 3 target methods. Head with the unchanged product: normal rc=0, Ran 3, OK, wall 19.09s; -O rc=0, Ran 3, OK, wall 24.87s. No skips, and well inside the 120s per-mode deadline set in setUpClass."
+     },
+     {
+      "id": "M7-broad-suite",
+      "verdict": "UNVERIFIABLE",
+      "correction": "I could not confirm 842 run / 6 skipped. My own broad run had not finished when this report was required. I also did not reproduce the claim of 12 extra test_reader_links skips in the archive copy that lacks .git.",
+      "evidence": "I made a scratch clone with `git clone -q --no-checkout /home/user/main <W>/clone`, then `git -C <W>/clone fetch -q /home/user/main 65a7ab8d...` and `checkout -q --detach`. HEAD is 65a7ab8d9db4eed01320ff67e5ef3900e6bf123b and status is clean. I started `python3 -B -S -m unittest discover -s tests -p 'test_*.py' -v` in that clone, logging to <W>/logs/broad_normal.log. When I had to report, the log had 162 lines and no 'Ran N tests' summary yet."
+     },
+     {
+      "id": "M8-hosted-checks",
+      "verdict": "CONFIRMED",
+      "correction": "I read the job steps and confirmed that the workflow enforces the 190/191 counts. The hosted log and artifact contents are still UNVERIFIED, because the proxy returned 403 Forbidden from blob storage for both the job log and the artifact download.",
+      "evidence": "`gh api repos/d6g8k5htny-coder/main/commits/65a7ab8d.../check-runs` shows total_count 8, all completed/success, all with head_sha 65a7ab8d: verify, landing-checks, public-intake, fixture-controls (run 39384794324, job 118501956869), architecture / research-architecture, browser-smoke, formal / formal-evidence, public-shop. Run 39384794324 has event pull_request, run_attempt 1 and conclusion success. Job steps 1-17 all succeeded, including step 11 'Run all three fixture methods in both interpreter modes' and step 14 'Observe exact fixture inventories...'. The workflow fails a mode unless it has exactly 190 CLI-child rows and 191 import-context rows (lines 818-819, 884-885). `gh api .../actions/jobs/118501956869/logs` and `gh run download 39384794324 -n semantic-memory-task1-originals-39384794324-1` both failed with Forbidden from productionresultssa10.blob.core.windows.net."
+     },
+     {
+      "id": "M9-hosted-mutant-comparison",
+      "verdict": "CONFIRMED",
+      "correction": "This can be stronger than UNVERIFIED. The Task1 workflow's run history has no hosted mutant comparison: the only run since 2026-10-18 is the natural one on the unchanged product at the head. So the hosted R03 mutant comparison required by #448 comment 6285186894 remains unmet. All mutant evidence is local, from the author, the lens and me.",
+      "evidence": "`gh api actions/workflows/semantic-memory-experiment.yml/runs?per_page=15` shows the latest run is 39384794324 (pull_request, branch codex/rtw-m448-r03-test-pin-20261020, 65a7ab8d, success). The previous run is 39172631997 on 2026-10-18 on a different branch. `gh api actions/runs?head_sha=65a7ab8d...` returns 4 runs, all natural (Public results intake, Task1 fixture controls, public-shop, workspace-landing). The author's comment 6285624215 and the PR body describe the mutant runs as local. My mutant runs were also local: Python 3.11.17, root, base_prefix /usr, not the python:3.11.14-slim container with --network none, --read-only and user 65532."
+     }
+    ],
+    "missed": [
+     "Wrong-reason check, which supports PASS: in-process traceback attribution shows that, with the unchanged product, the amended U+3000 sentinel is refused only by the intended guard (_text:66, reached from benchmark.py:431). Under the R03-only mutant no later guard catches it, and it is accepted (rc=0). So the green result is not passing for an unrelated reason. The red result also shows the mutation is not vacuous. The key `oracle_only_sentinel` already exists, so `v.update` replaces the value and does not add a key that `_keys` would reject.",
+     "A non-ASCII whitespace character is needed, not just any blank one: an empty-string sentinel '' would also be masked under the mutant, because the leak scan at line 442 refuses since '' is in every string. Any ASCII-space-based blank is masked because ' ' occurs in 32 projection and 96 request strings. U+3000 is a sound choice. TAB, NBSP and 23 other str.isspace characters would also discriminate today.",
+     "Possible AMEND or qualification gap, process rather than code: #448 comment 6285186894 asks for a sanctioned hosted comparison in both normal and optimized modes. That means unchanged product + amended test passes (done hosted, run 39384794324), R03 mutant + amended test fails at this subtest (local only), and old test + R03 gives the masking control (author: local, normal mode only; lens and I: local, both modes). The hosted mutant legs have not been run. The reviewer or integrator must decide whether local evidence satisfies that criterion.",
+     "Fragility, non-blocking hardening suggestion: the repair works only because U+3000 is absent from every decoded projection and request string. The test never asserts that absence. If a future fixture added U+3000, the masking would come back silently. A cheap guard would be to assert, inside the subtest, that '　' does not appear in any string of the accepted report's corpus_projection or request_projections before mutating.",
+     "Coverage limit, outside R03 and non-blocking: tests/test_semantic_memory_benchmark.py is the only test file that references semantic_memory. Under the R03-only mutant, the nonblank guard for the other _text callers (query, expected_answer, source_representation, title, body, _relative names) has no discriminating subtest. Only the sentinel subtest fails.",
+     "Lens line-number slip: the positive control `self.accepted(path)` is at line 330, not 331.",
+     "Accounting the lens left UNVERIFIED, now checked locally: all 8 local whole-file runs (base, head, base_mut and head_mut, each in normal and -O) produced exactly 190 CLI-child rows and 191 import-context rows, with the optimize flag matching the mode. This includes the failing mutant runs, so the failing subtest does not change the accounting. The hosted job logs and artifacts could not be read (blob storage 403 via the proxy).",
+     "Not done by me: the broad-suite result (my run did not finish before reporting), a broad suite in -O mode, and the targeted -k runs. /home/user/main was not modified: HEAD 9e7bacb8f04a1abba1fef0a77a7e0e666b064c76, `git diff --quiet` and `git diff --cached --quiet` both 0, porcelain empty. Nothing was posted to GitHub. All scratch is under <SCRATCH>/m460/work/verify-mutation/."
+    ]
+   }
+  }
+ ]
+}

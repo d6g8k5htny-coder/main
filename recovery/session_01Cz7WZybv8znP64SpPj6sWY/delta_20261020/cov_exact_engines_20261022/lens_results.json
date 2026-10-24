@@ -1,0 +1,648 @@
+{
+ "workflow_run": "wf_08ad7a3a-2cd",
+ "note": "three lenses on the draft record (downstream reach, adversarial classification, archive-wide completeness), each followed by a skeptic; they read an earlier draft, and their confirmed corrections were applied before posting (record.md is the posted text); agent scratch not included",
+ "results": [
+  {
+   "agent": "a56b59e06429cb47b",
+   "label": "lens:downstream",
+   "result": {
+    "summary": "I traced who uses the rung floor's certified numbers and the H5 drivers' certified outputs, in the archive and on origin/main. I ran no engine. I read archive members to stdout or in memory and wrote only my own notes (under <SCRATCH>/covtrace/lens_notes/downstream-reach/).\n\n(a) Rung floor, archive. Every load-bearing consumer takes only the lower end of the interval, Z_lo = 7.7592917375327855e-3, as a divisor of upper bounds:\n- D3: d3_amend_v2, d3_perc_decay and d3_rn_unif all read it from H3_RUNG_FLOOR.md. It gives κ_far ≤ 0.68, B_remote ≤ 21.9279·r³ and B2-far ≤ 17.6802·r³.\n- D1 v2.2 then consumes those D3 numbers.\n- D1's C_RN is computed against c_Z·r², not against Z_lo. The rung floor's only role there is the check that Z_lo > c_Z·r².\n\nThe upper end 1.1468646473404396e-2 is never load-bearing. It appears only in drift checks, the QMC consistency check, LPW v3/v4 consistency checks and LPW v3's labeled ESTIMATE.\n\nThe mut_rung_floor_* transcripts belong to an LPW/H1 mutation family on the λ eigenfloor. They are not about h3_rung_floor.\n\n(a) H5, archive. The drivers never read the rung floor. Z_lo = max(c_Z·r², Z_own.a), and Z_own.a = 0 in every banked transcript, so Z_lo = c_Z·r².\n- The certified output that moves downstream is I_hi in h5_totals*.json. D1's gates and h5_promote use it as an upper bound; I_lo appears only in containment checks.\n- The twin-derived Z_own.b = 1.3970321600e-2 is hard-coded as an upper bound on Z in H5 helper drivers and in two Stage-E scripts that certify lower bounds on ρ_w. No file I found cites those two scripts' results.\n\n(b) origin/main.\n- Neither H3_RUNG_FLOOR.md, h3_rung_floor.py nor any mut_rung_floor file exists in the tree; they appear only as manifest or receipt rows.\n- The citations sit in incoming/ copies (D1 v2.2 receipts and gate, the D3 amendment v2 and PERC-DECAY, RETURN_06, the D1 v2.3 draft and d1_falsify_v4, CL-OBL-001, CL-PIN-001, H5_ZBAND), in docs/QUEUE_RECONCILIATION_20260927.md and in docs/public-math catalogs.\n- H5_ZBAND consumes the band floor and band ceiling, not the rung floor.\n- sources-14 links to commit 7caac254, which is not an ancestor of origin/main. That commit holds d3_rn_unif.py and cov_exact.py as plain files, byte-identical to the archive copies, so the draft's 'only inside a chunked archive' does not hold for those two files.\n\nI did not judge any theorem.",
+    "findings": [
+     {
+      "claim": "The rung floor's certified numbers come from h3_rung_floor.py: the lower end is Ebox.a times r^2, the upper end is a Cauchy-Schwarz bound, and CR7d checks the lower end against REQ_EFF = max(REQ, REQ_RUNG).",
+      "evidence": "archive UPPER2D/H3_closure/h3_rung_floor.py:363-375 (REQ_RUNG L372, used only inside this file); rung_normal.txt:50-52,60; H3_RUNG_FLOOR.md:9-11; RECEIPT_h3.json:58",
+      "affects_draft": "adds information",
+      "proposed_wording": "h3_rung_floor.py certifies Z_0.05 in [7.7592917375327855e-3, 1.1468646473404396e-2] (L363-369); its load-bearing check CR7d (L372-375) uses only the lower end."
+     },
+     {
+      "claim": "In the archive, every downstream consumer of the rung floor that bears load uses only the lower end Z_lo, as a divisor of upper bounds; the upper end 1.1468646473404396e-2 appears only in drift and consistency checks and in an estimate labeled non-load-bearing.",
+      "evidence": "d3_amend_v2.py:78-86 (parse; Z_HI drift check L86), L258 (Z_HI used only in the QMC-inside-interval check), L237 and L266 (Z_LO divisors); d3_perc_decay.py:82-87,109,263; d3_rn_unif.py:74-78,680-682,705,1173-1174,1196; lpw_constant_v3.py:510-512,526-530 (ESTIMATE, non-load-bearing); lpw_constant_v4.py:535,540",
+      "affects_draft": "adds information",
+      "proposed_wording": "Downstream, every consumer takes only the lower end, Z_lo = 7.7592917375327855e-3, and uses it as a denominator of upper bounds. The upper end 1.1468646473404396e-2 enters only drift and consistency checks and an estimate labeled non-load-bearing (d3_amend_v2.py L86, L258; lpw_constant_v3.py L510-530; lpw_constant_v4.py L535-540)."
+     },
+     {
+      "claim": "D3 turns Z_lo into certified upper bounds: kappa_far <= 0.68 and B_remote <= 21.9279 r^3 (D3 remote amendment v2), and B2-far <= 17.680197 r^3 (PERC-DECAY).",
+      "evidence": "d3_amend_v2.py:266-268,283-291; ta2_normal.txt:2,14,23; D3_REMOTE_AMENDMENT_v2.md:7-10,42-55; d3_perc_decay.py:263-267; pd_normal.txt:64,70; PERC_DECAY.md:7-8,45",
+      "affects_draft": "adds information",
+      "proposed_wording": "Rung floor -> Z_lo -> D3: kappa_far <= 0.68 and B_remote <= 21.9279 r^3 (d3_amend_v2.py L266-291), and B2-far <= 17.6802 r^3 (d3_perc_decay.py L263). All of these are upper bounds divided by Z_lo."
+     },
+     {
+      "claim": "D1 v2.2 consumes D3's bracket computed at the floor, and its gate d1_falsify_v3.py hard-codes Z_LO for the kappa and I_ann recomputation and the rung-floor check; D1 v2.1 used the rung floor only for C_RN and the check, while its kappa pieces were still at the QMC probe.",
+      "evidence": "D1_ASSEMBLY_v2_2.md:52-62,73-75,85-87; d1_falsify_v3.py:110-148 (Z_LO divisors; C-denominator-direction L135-136), L150-157; D1_ASSEMBLY_v2_1.md:57-61,66-71; d1_falsify_v2.py:120-127; D1_V2_2_RECEIPTS.txt:28",
+      "affects_draft": "adds information",
+      "proposed_wording": "D1 v2.2 takes Z_lo as a lower bound, both through D3's bracket (D1_ASSEMBLY_v2_2.md L52-62) and directly in its gate (d1_falsify_v3.py L110-157)."
+     },
+     {
+      "claim": "The arithmetic of 'D1's C_RN' divides by c_Z r^2 from the H3 closure, not by Z_lo; the rung floor enters only as the one-sided premise Z_0.05 >= Z_lo > c_Z (0.05)^2, and the numerator is attributed to H4.",
+      "evidence": "d1_falsify_v2.py:140 and d1_falsify_v3.py:171 (crn05 = sqrt(31.23)/cZ); d1_falsify_v3.py:154 (D-Zlo-above-floor); H4_closure/cert_normal.txt:24 (C_RN_cert = sqrt(E)/(c_Z r^2)); D1_ASSEMBLY_v2_1.md:66-74; H3_RUNG_FLOOR.md:11,17-19; B4LOC consumer b4loc_driver.py:73,406-408",
+      "affects_draft": "draft overclaims",
+      "proposed_wording": "Feeds D1's C_RN: C_RN(0.05) = sqrt(E)/(c_Z r^2) <= 3.46. The rung floor supplies only the one-sided check that Z_lo exceeds c_Z r^2 (d1_falsify_v3.py L154, L171)."
+     },
+     {
+      "claim": "D3's printed numbers depend on the specific value of Z_lo: the D1 gate's own kappa formula, evaluated at the band floor 2.30659559567154 r^2 that D1's receipts name as an alternative, gives kappa about 0.902 and I_ann about 23.79 r^3, above the consumed 0.68 and 17.6804.",
+      "evidence": "formula d1_falsify_v3.py:121-122,132,138,115-116; alternative named at D1_V2_2_RECEIPTS.txt:79-83 (origin/main <v3> copy); my own python3 -I -B Decimal arithmetic: Z_band(0.05) = 5.766488989e-3 gives kappa 0.90225 and I_ann 23.7904; Z_lo gives kappa 0.67679 and I_ann 17.68036",
+      "affects_draft": "adds information",
+      "proposed_wording": "The D3 numbers that D1 consumes depend on the rung floor's lower end itself. The band floor named as an alternative in D1_V2_2_RECEIPTS.txt L79-83 would not reproduce kappa_far <= 0.68 under the gate's formula (d1_falsify_v3.py L121-122)."
+     },
+     {
+      "claim": "The H5 drivers do not read the rung floor: Z_lo = max(C_Z_H3 r^2, Z_own.a), with C0_H3_LO hard-coded, and every banked transcript shows Z_own.a = 0, so Z_lo = c_Z r^2.",
+      "evidence": "h5_run.py:282-285; h5_kernel.py:1246-1247; cells2_s0.log:4; h5_transcript_r0.025_s0p1_patches.txt:4; h5_transcript_r0.0125_s0p1_patches.txt:4; stitch_refine3.py:16; sdisk_probes.py:15; h5_promote.py:64-76; the only link is the document claim at H3_RUNG_FLOOR.md:17",
+      "affects_draft": "adds information",
+      "proposed_wording": "H5's normalizer lower bound in the banked runs is c_Z r^2 (Z_own.a = 0 in every transcript). The rung floor reaches H5 only through H3_RUNG_FLOOR.md L17's statement that c_Z r^2 <= Z_0.05."
+     },
+     {
+      "claim": "The twin-derived upper end Z_own.b = 1.3970321600e-2 is hard-coded as an upper bound on Z in H5 helper drivers and in Stage-E certify_axis_break.py and isserlis_break.py, which divide by it to certify lower bounds on rho_w.",
+      "evidence": "origin of the value: h5_kernel.py:467,507-509 (PinFrame takes LAT.k1 values) and 1214-1241 (z_hi); cells2_s0.log:4; hard-codes: stitch_refine3.py:17, sdisk_probes.py:16, sring_probes.py:16, stitch_outer.py:16, recompute_cell.py:16, test_cell.py:14, h5_promote.py:73; STAGE_E/certify_axis_break.py:21,43,187; STAGE_E/isserlis_break.py:39,222; no citing file found except RETURN_06/TREE_MANIFEST.sha256:662,669",
+      "affects_draft": "adds information",
+      "proposed_wording": "H5's twin-derived Z upper bound 1.3970321600e-2 also leaves the kernel: Stage-E certify_axis_break.py (L43, L187) and isserlis_break.py (L39, L222) use it as an upper bound on Z. The draft lists these two files as hash-pin only."
+     },
+     {
+      "claim": "H5's certified output, I_hi in versioned h5_totals*.json, is consumed downstream as an upper bound by D1's gates and h5_promote; I_lo appears only in containment checks.",
+      "evidence": "h5_merge.py:218-263; h5_totals_v3.json:3-5; d1_falsify_v3.py:92-100,160-165; d1_falsify_v2.py:92-100,130-135; d1_falsify.py:66-83,118 (v1 9.142887704e-02); h5_promote.py:91-102 and promote_modeA.txt:42-47; H5_RUNG2_2026-09-15.md:11-16; H5_RUNG3_2026-09-15.md:9-14; BRANCH_DIR.md:63 (evidence only per RETURN_06/DEPENDENCY_DAG.md:53-54)",
+      "affects_draft": "adds information",
+      "proposed_wording": "h5_kernel -> h5_run* -> h5_merge -> h5_totals_v3.json I_hi = 8.0975589252e-02 -> D1 v2.1/v2.2 chart part (upper bound; d1_falsify_v3.py L92-100, L160-165)."
+     },
+     {
+      "claim": "LPW v3 and v4 read both rung-floor endpoints, but only in consistency checks; v3's certified c uses 4 B_3, and v4's uses U_CEIL from H3_BAND_CEIL.",
+      "evidence": "lpw_constant_v3.py:502-517,534; lpw_constant_v4.py:104-105,524-542,563; t_normal.txt (v4):148,151,154",
+      "affects_draft": "adds information",
+      "proposed_wording": "LPW v3 and v4 pin H3_RUNG_FLOOR.md but use its interval only in consistency checks. Neither certified constant depends on it (v3 L517, L534; v4 L542, L563)."
+     },
+     {
+      "claim": "The mut_rung_floor_* transcripts belong to a mutation family named 'rung_floor' that targets the lambda eigenfloor 0.123809288439, not h3_rung_floor's Z values.",
+      "evidence": "lpw_constant_v4.py:603-610; lpw_constant_v3.py:574-581; UPPER2D/H1_v2_hardening/lpw_constant_v3.py:476-491; H1_V2_HARDENING_REPORT.md:113; LPW_CONSTANT/v4/mut_rung_floor_normal.txt:26-28 (same carrier hash check as every v4 transcript),149,152,173",
+      "affects_draft": "adds information",
+      "proposed_wording": "The LPW and H1 mut_rung_floor transcripts concern the lambda eigenfloor mutation. Their only contact with H3_RUNG_FLOOR.md is the carrier hash check and consistency lines that every v4 transcript carries."
+     },
+     {
+      "claim": "On origin/main, H3_RUNG_FLOOR.md, h3_rung_floor.py and the mut_rung_floor files are not in the tree; they appear only as manifest or receipt rows.",
+      "evidence": "git ls-tree -r origin/main (b7f72a71) has no path matching H3_RUNG|rung_floor|mut_rung; rows at <v3>/UPPER2D/H3_closure/MANIFEST.sha256.txt:9, RECEIPT_h3.json:52-69,89, <v3>/RETURN_06/TREE_MANIFEST.sha256.txt:391-392,424,435, <v3>/LPW_CONSTANT/v4/MANIFEST.sha256.txt:37-38",
+      "affects_draft": "adds information",
+      "proposed_wording": "On main b7f72a71 the rung floor certificate and its transcripts are present only as hash rows (MANIFEST L9, TREE_MANIFEST L424/L435, LPW v4 MANIFEST L37-38)."
+     },
+     {
+      "claim": "On origin/main, the records that cite the rung floor for D1's C_RN and D3's Z_lo are incoming/ copies plus one docs page.",
+      "evidence": "<v3>/UPPER2D/D1_assembly/D1_V2_2_RECEIPTS.txt:28-29,79-83,115-121; <v3>/UPPER2D/D1_assembly/d1_falsify_v3.py.txt:110,157,172; <v3>/UPPER2D/D3_percolation/D3_REMOTE_AMENDMENT_v2.md:7-10; <v3>/UPPER2D/D3_percolation/d3_perc_decay.py.txt:82-87; <v3>/UPPER2D/D3_percolation/FREEZE_PERC_DECAY.txt:35-36; <v3>/RETURN_06/00_EXECUTIVE_STATE.md:9-14,56; <v3>/RETURN_06/DEPENDENCY_DAG.md:36-39; incoming/claude-audit-package-recovery-20260928/05_.../D1_v2_3_DRAFT/D1_ASSEMBLY_v2_3_DRAFT.md:48-50; .../d1_falsify_v4.py.txt:53,173,216-222,236-237; .../CL-OBL-001_...md:69; .../CL-LEDGER-001_...md:18; 06_UNMIRRORED_.../PERC_DECAY.md:7-8; docs/QUEUE_RECONCILIATION_20260927.md:60-75 (claims node H3-RUNG-FLOOR, AUTHOR_SIDE_CERTIFIED / LABEL_PRESERVED_NOT_CONTROLLING; the node file itself is not on origin/main)",
+      "affects_draft": "adds information",
+      "proposed_wording": "Records on main that cite the rung floor are: the D1 v2.2 receipts and gate, the D3 amendment v2 and PERC-DECAY copies, RETURN_06, the D1 v2.3 draft and d1_falsify_v4, CL-OBL-001 and CL-LEDGER-001, and docs/QUEUE_RECONCILIATION_20260927.md L60-75."
+     },
+     {
+      "claim": "On origin/main, the records that cite H5's certified outputs are D1's receipts and gates, RETURN_06, the H5 tightening copy, the D1 v2.3 draft and CL-PIN-001; H5_ZBAND consumes the band floor and band ceiling, not H5 outputs or the rung floor.",
+      "evidence": "<v3>/UPPER2D/D1_assembly/D1_V2_2_RECEIPTS.txt:22; d1_falsify_v3.py.txt:47,92-100,165; <v3>/RETURN_06/00_EXECUTIVE_STATE.md:11; DEPENDENCY_DAG.md:45-48; <v3>/UPPER2D/H5_closure/H5_CLOSURE_TIGHTENING_2026-09-15.md:81,90; D1_ASSEMBLY_v2_3_DRAFT.md:41-43,76-78; d1_falsify_v4.py.txt:57,74-75,155-169,225-230; CL-PIN-001_H5_DRIVER_CODE_PINS_2026-09-15.txt:3-25 (custody only); H5_ZBAND/H5_ZBAND_CONSUMPTION_2026-09-15.md:14-21,33-34; CL-OBL-001_...md:19-23",
+      "affects_draft": "adds information",
+      "proposed_wording": "On main, H5's I_hi(v3) = 8.0975589252e-2 is cited as an upper bound in the D1 v2.2 receipts and gate, RETURN_06 and the D1 v2.3 draft. H5_ZBAND records that Z_lo feeds every I_hi and that Z_hi feeds only I_lo."
+     },
+     {
+      "claim": "Commit 7caac254, which origin/main's docs/public-math/sources-14 links to, holds d3_rn_unif.py (85d7725f), cov_exact.py (f08c1c5f) and H3_RUNG_FLOOR.md (6347275d) as plain files under engine/rn_engine/frozen/; the commit is reachable from three remote branches but not from origin/main.",
+      "evidence": "docs/public-math/sources-14.md:43 and sources-14.json:276-282 (origin/main); git ls-tree 7caac254 engine/rn_engine; 'git show 7caac254:engine/rn_engine/frozen/K3_SIDE24_LB/UPPER2D/D3_percolation/d3_rn_unif.py | sha256sum' = 85d7725fab42...; cov_exact.py = f08c1c5f...; H3_RUNG_FLOOR.md has blob c2f44fba, which matches the archive bytes; git branch -r --contains lists origin/chatgpt/drive-github-hardening-20260919, origin/claude/github-chatgpt-xxw5kp, origin/cursor/side24-missing-source-custody-0532; merge-base says not an ancestor of origin/main; engine/rn_engine/README.md:38-40 at 7caac254 says do not run the certifier or quote a bound from it",
+      "affects_draft": "draft overclaims",
+      "proposed_wording": "d3_rn_unif.py and cov_exact.py are also plain files at commit 7caac254 (engine/rn_engine/frozen/, on three remote branches, not on main). So 'only inside a chunked archive' does not hold for those two files."
+     }
+    ]
+   }
+  },
+  {
+   "agent": "a450cd817162e400b",
+   "label": "lens:classify",
+   "result": {
+    "summary": "I tried to refute the draft's classification headline and could not; it stands. (i) No class-3 iv value feeds CK4–CK6, CERT_LO or CERT_HI in h3_c0_certificate.py. (ii) Both h3_rung_floor's library iv Grams and h5's twin carry class-3 values (or their analogue) used two-sided, so neither certified path is class-1/2-only. (iii) The Lattice twin matches cov_exact's iv shape and tail formula at orders ≤ 8. However, the draft calls lambda_q the 'class-2 analogue', and that is wrong for odd q: it sums signed w·k^q, which returns about 1e-98, and the Taylor-model remainder calls it with odd q in both StationBox and CoarseBox. This is a new gap, separate from the library defect, and its effect on any printed number was not assessed. (iv) The draft misses no iv evaluator call. But it omits the one_minus_a2_poisson(mode='iv') gates in all four H3 engines. It also describes several files as having no library call (or as not naming it) when they reach it indirectly in mpf mode. Minor precision fixes: a6 enters only det G0; twin orders used are 9–12, not 9–18; the twin also evaluates at 0; c2's sentinel has both arguments nonzero; only the h5_run*.py drivers run at dps 40. Sources are under <SCRATCH>/covtrace/src/K3_SIDE24_LB/. My own check scripts are <SCRATCH>/covtrace/lens_notes/adversarial/lambda_q_check.py and rung_enum.py. lambda_q_check.py re-implements the formulas without importing any engine and ran under the scratchpad venv's mpmath 1.3.0; rung_enum.py is pure Python. The engines' own mpmath version is UNKNOWN. No engine was run.",
+    "findings": [
+     {
+      "claim": "No class-3 iv value reaches CK4-CK6, CERT_LO or CERT_HI in h3_c0_certificate.py, so the attempt to refute its class-1 headline fails.",
+      "evidence": "UPPER2D/H3_closure/h3_c0_certificate.py:84-86 call moment_a(1..3,'iv'), which goes through cov_exact.py:443 k1(2m,0) to cov_exact.py:311-314 e_sum(2m,0,'iv'): class 1. :128 detG uses a2,a4,a6; :136-137 m_i and s2_i use a2,a4; :199-203 c0_i; :216-217 CERT_LO/HI are the endpoints of c0_i. A grep of the file shows z1-z4, cu_f and cu_11 referenced only at :108-124, and om only at :93-95.",
+      "affects_draft": "none",
+      "proposed_wording": "Keep: \"h3_c0_certificate.py's load-bearing values are class 1, proven contained.\""
+     },
+     {
+      "claim": "a6 feeds only det G0, not m, s^2 or the c0 interval.",
+      "evidence": "h3_c0_certificate.py:128 is the only computational use of a6 (other uses are checks at :89, :96, :101); :136-137 use a2 and a4 only; :203 builds c0_i from m_i and s2_i.",
+      "affects_draft": "draft overclaims",
+      "proposed_wording": "a2 and a4 feed m and s^2 (L136-137), the c0 interval (L199-203) and its CERTIFIED LOWER BOUND (L216-220); a6 enters only det G0 (L128-129). All three are class 1."
+     },
+     {
+      "claim": "The four odd-order CK3 calls are class 3 by the rule's letter, but each returns a class-1 factor times [-tau, tau] around an exact zero, so each contains the truth, and they feed nothing beyond CK3.",
+      "evidence": "h3_c0_certificate.py:108-117; cov_exact.py:428 forms the product; cov_exact.py:316-322 sends odd n to s_sum at :297-302 with sv = iv.mpf(0). Checked locally in mpmath 1.3.0: (iv.pi/12)*(-7)*iv.mpf(0) = [0,0] and iv.sin([0,0]) = [0,0]. The engines' mpmath version is UNKNOWN.",
+      "affects_draft": "adds information",
+      "proposed_wording": "Four have an odd order at s = 0. They are class 3 by the rule's letter, but each returns a factor times [-tau, tau] around an exact 0, so it contains the truth. They feed only the CK3 checks (L112-124)."
+     },
+     {
+      "claim": "The draft omits the one_minus_a2_poisson(mode='iv') call in each H3 engine; it is neither class 1 nor class 2, so it is class 3 under the rule's 'everything else', but it is a Poisson ratio with tails in both sums, not the truncated-normalizer formula, and every use is only a positivity gate.",
+      "evidence": "h3_c0_certificate.py:93-95 (CK2a; om unused afterwards); h3_rung_floor.py:100-104 (CR1a); h3_band_ceil.py:87,100 and h3_band_floor.py:87,100 (CB1a); cov_exact.py:504-513; msg_6329793582.txt:10-12.",
+      "affects_draft": "adds information",
+      "proposed_wording": "Each H3 engine also calls one_minus_a2_poisson(mode='iv') (h3_c0_certificate.py L93, h3_rung_floor.py L100, h3_band_ceil.py and h3_band_floor.py L87). Under the rule's 'everything else' it is class 3. But it is a Poisson ratio that carries its tail in both sums (cov_exact.py L504-513), not the truncated-normalizer formula, and each use is only a 0 < 1 - a2 < 1e-100 gate."
+     },
+     {
+      "claim": "For every executable RUNG, the rung floor's GP, GY and GYV contain class-3 terms k1(n1, +-r)*k1(n2, 0) with n1 = 0..4, and these feed mu, Sigma, T and the CR7d floor, so refutation (ii) fails for h3_rung_floor.",
+      "evidence": "h3_rung_floor.py:79-82 (RUNG = p/q); :123-125 (M and S share y = 0, so dy = 0 always); :127-137 (V, Yv); :130 (1/r, so r = 0 raises); :143; :147-149; :180-183 (mu, Sig); :201 (T); :354-366 (Ebox, lo); :374 (CR7d). My own enumeration (lens_notes/adversarial/rung_enum.py) finds one or more such terms in GP 15/36, GY 10/36 and GYV 15/36 entries. The x-orders are GP 0-2, GY 0-4, GYV 0-3. Example: GY[0][1] = Cov(q_M, q_S) = k1(0,-r)*k1(4,0).",
+      "affects_draft": "adds information",
+      "proposed_wording": "Every executable RUNG has r != 0, because r = 0 would divide by zero at L130. So the M-S terms k1(n1, +-r)*k1(n2, 0), with n1 = 0..4, are class 3 at every rung. One or more such terms appear in 15 of 36 GP entries, 10 of 36 GY entries and 15 of 36 GYV entries, for example Cov(q_M, q_S) = k1(0, -r)*k1(4, 0). In the M-M and S-S entries, odd-order factors at s = 0 are exact zeros."
+     },
+     {
+      "claim": "At orders up to 8 the Lattice twin has exactly the library's iv shape and tail: the same index bound J = 116 (|k| <= 30.37, not <= 30), the same truncated interval Z1 divisor, the same tail formula with divisor Z1.a, the same parity signs, and an equivalent symmetric pad.",
+      "evidence": "h5_kernel.py:54-59 vs cov_exact.py:151-160; h5_kernel.py:63-73 vs cov_exact.py:200-209; h5_kernel.py:84-98 vs cov_exact.py:282-286, 298-302, 311-322. mpmath ctx_iv.convert takes the outer endpoints of iv.mpf([-t, t]) for an interval t (checked locally: equals iv.mpf([-t.b, t.b])). lambda_q_check.py printed J = 116 and max|k| = 30.368729. The twin hard-codes 30 (L55) and allows orders up to 18 (L86).",
+      "affects_draft": "none",
+      "proposed_wording": "It sums over |j| <= J = ceil(30/(pi/12)) + 1 = 116, that is |k| <= 30.37 (L55-59), which is the library's own bound at KMAX = 30 (cov_exact.py L152). It divides by the truncated interval Z1 and adds a +-tail pad, using the same formula as spectral_tail_1d (L63-73 against cov_exact.py L200-209)."
+     },
+     {
+      "claim": "lambda_q is not an upper bound for odd q: it sums signed w*k^q, which cancels to about 1e-98, and the Taylor-model remainder calls it with odd q, so the draft's description of it as the 'class-2 analogue' fails for odd q.",
+      "evidence": "h5_kernel.py:79 uses kj**q, not abs(kj)**q (contrast h3_band_ceil.py:331 abs(kk)**n). :538 sets R = lambda_q(n+TD+1)*eta^(TD+1)/(TD+1)!. TD = 5 in StationBox (:559) and 6 in CoarseBox (:1328); cross_tm (:546-549) passes per-axis orders. Example: CoarseBox row 'f' (xjet(0), :722-723) against pin 'f' gives tm_factor(0) and so lambda_q(7). R.b enters the bounds at :243, :269, :312 and in coarse_fine_hi at :1631, :1634, :1643, :1649. My own re-implementation (lambda_q_check.py) gives lambda_q.b = 1.21e-98 at q=7 vs (1/Z)sum w|k|^7 = 38.30; 1.19e-97 at q=9 vs 306.4; 1.37e-96 at q=11 vs 3063.9. Even q agree exactly (15, 105, 945, 10395).",
+      "affects_draft": "contradicts the draft",
+      "proposed_wording": "lambda_q (L75-82) is a class-2-style majorant only for even q. It sums w*k^q with the sign of k (L79), so for odd q the +-k terms cancel and it returns about 1e-98, not an upper bound. L538 calls it with odd q = n + TD + 1 (odd n in StationBox, TD = 5; even n in CoarseBox, TD = 6), so those Taylor-model remainders are effectively zero. This gap is separate from the library defect; its effect on any printed number was not assessed."
+     },
+     {
+      "claim": "The kernel evaluates twin orders only up to 11 or 12, not up to 18.",
+      "evidence": "h5_kernel.py:525 sets NMAX = 4+TD+2, and :528-529 evaluate orders 0..NMAX; TD is 5 or 6 (:559, :1328, :1615); the twin's ceiling is 18 (:86); lambda_q is called with q up to 4+TD+1 <= 11 (:538).",
+      "affects_draft": "draft overclaims",
+      "proposed_wording": "Orders 9-12 come only from the twin (NMAX = 4 + TD + 2 at L525, with TD = 5 or 6). The library stops at order 8, and the twin allows up to 18 (L86)."
+     },
+     {
+      "claim": "Not every twin argument is nonzero: PinFrame also caches t = 0, and KernelSeries also evaluates at 'zero' for the y-jet x y-jet entries; the class-3-analogue values are the +-r M-S entries and the dxM/dxS/dyv cross terms.",
+      "evidence": "h5_kernel.py:465-467 (t in {0, r, -r}); :476 (t = xi - xj); :523-524 (args dxM, dxS, dyv, zero); :598 and :1365 (kcov at 'zero','zero'); :584-585, :606-607, :1354-1355, :1371-1373 (cross terms at dxM, dxS, dyv).",
+      "affects_draft": "draft overclaims",
+      "proposed_wording": "PinFrame's 12x12 Gram takes twin values at t = 0 and +-r (L463-478). The Taylor-model coefficients take them at the cell offsets dxM, dxS, dyv and at 0 (L520-529). The +-r and offset arguments are nonzero, so they are the class-3 analogue, and they are used two-sided."
+     },
+     {
+      "claim": "In the H5 drivers the Z_r lower bound used as the rho_hi divisor is the larger of the H3 class-1 floor and H5's own bracket, which is built from PinFrame twin values at +-r, so the class-3 analogue can also enter through Z_lo; which of the two wins is UNKNOWN without a run.",
+      "evidence": "h5_run.py:279-286 (Z_lo = max(C_Z_H3*r^2, Z_own.a)); h5_kernel.py:502-510 (mu_pair, S_pair from G12); :1214-1241 (Z_r_own_bracket); :1246-1247 (C_Z_H3); :1468-1470 (rho_hi divides by Z_lo); falsify.py:35-38.",
+      "affects_draft": "adds information",
+      "proposed_wording": "The drivers also take Z_lo = max(c_Z r^2 from H3, which is class 1, and the lower end of Z_r_own_bracket, which comes from twin values at +-r) as the divisor in every rho upper bound (h5_run.py L282-284)."
+     },
+     {
+      "claim": "The draft's account of h5's three library iv calls holds, except that anchors has two callers; self_test is a gate in every driver and cannot detect the defect, because both sides use the same formula.",
+      "evidence": "grep over src: pair_law has no caller; anchors is called at H5_closure/falsify.py:42 and STAGE_E/mut_D1/H5_closure/falsify.py:42; self_test is called at h5_run.py:277, h5_run_r0p0125.py:301 (and the other three r* drivers at :301), falsify.py:34, stitch_outer.py:10 and others; h5_kernel.py:100-109.",
+      "affects_draft": "draft overclaims",
+      "proposed_wording": "moment_a (L1272-1273) is in anchors, which only falsify.py and its STAGE_E/mut_D1 copy call (L42 in each)."
+     },
+     {
+      "claim": "Only h5_run.py and the four h5_run_r*.py drivers run the kernel at dps 40; the helper drivers set dps 40 before importing the kernel, and the first cov_exact import resets mp.dps and iv.dps to 100.",
+      "evidence": "h5_run.py:22-26 and h5_run_r0p0125.py:46-50 (the other three r* drivers have the same lines) import first, then set 40. falsify.py:19-23, stitch_outer.py:5-7, sdisk_probes.py:5-7, test_cell.py:5-7, promote_stitchfix.py:25-26 and h5_merge.py:19,22 set 40 first, then import. A grep finds no later dps assignment in falsify.py, stitch_outer.py or sdisk_probes.py. h5_kernel.py:29 imports cov_exact, whose import runs configure (cov_exact.py:129-130, :531).",
+      "affects_draft": "adds information",
+      "proposed_wording": "The helper drivers (falsify.py, stitch_*.py, sdisk/sring_probes.py, recompute_cell.py, test_cell.py, promote_stitchfix.py, h5_merge.py) set dps 40 before importing the kernel. cov_exact's import-time configure() resets that to 100, so they run at (100, 30)."
+     },
+     {
+      "claim": "c2_probes' iv sentinel has both arguments nonzero, so both factors are class 3, and it checks containment of the mpf value, which uses the same truncated Z1, so it cannot detect the defect.",
+      "evidence": "c2_probes.py:418-420 call cov((2,0),(0,0),0.03,0.004) in mpf and in iv; cov_exact.py:279-280 (the mpf path divides by the truncated Z1); cov_exact.py:282-286; p0_certification is called at c2_probes.py:822.",
+      "affects_draft": "draft underclaims",
+      "proposed_wording": "Its one iv cov (L419) is k1(2, 0.03)*k1(0, 0.004): both factors class 3. It is only a gate, a containment sentinel in p0_certification that compares against the mpf value, which has the same truncated normalizer."
+     },
+     {
+      "claim": "Several files the draft calls 'hash pin only, no library call' or 'do not name cov_exact' do reach the library indirectly, in mpf mode only, which keeps them outside this defect.",
+      "evidence": "STAGE_E/certify_axis_break.py:84,89-91 and STAGE_E/isserlis_break.py:56,231-235,278 call c1_grid.GridLaw, which calls ce.cov(...,'mpf') at C1_alpha_intensity/c1_grid.py:56,73. D3_percolation/d3_amend.py:79,417 and d3_amend_v2.py:89,252 call d3_perc.PinKit, which calls ce.cov at d3_perc.py:199-216. BRANCH_dir/br_mc.py:44-50,102,147 and br_probes.py:28,67-103 take ce from h4_probes, call ce.cov in default mode and read ce._LATT. The scanner keys on the name only (scan.py LOADRX = r'cov_exact|f08c1c5f').",
+      "affects_draft": "contradicts the draft",
+      "proposed_wording": "Indirect mpf use, so outside this defect: STAGE_E/certify_axis_break.py and isserlis_break.py through c1_grid.GridLaw (c1_grid.py L73); d3_amend.py and d3_amend_v2.py through d3_perc.PinKit (d3_perc.py L215); BRANCH_dir/br_mc.py and br_probes.py through h4_probes.ce (br_mc.py L48-50)."
+     },
+     {
+      "claim": "Apart from the calls the draft discusses, the one_minus_a2_poisson gates and the library's own self-tests, the object has no iv evaluator use and no direct lattice read.",
+      "evidence": "All 15 .py files in src that contain an 'iv' literal are among the 32 keys of scan.json (grep compared with the key list). Direct _LATT_IV reads occur only at h3_band_ceil.py:325-327 and h3_band_floor.py:325-327. lattice() is called only at selftest_cov_exact.py:166. The self-test iv calls (selftest_cov_exact.py:314, 321, 325; selftest_pin_transform.py:224, 252, 277, 282) are mpf-in-iv containment gates.",
+      "affects_draft": "adds information",
+      "proposed_wording": "Beyond these, the object's only iv uses are the library self-tests (selftest_cov_exact.py L314-325, selftest_pin_transform.py) and the one_minus_a2_poisson gates. The only direct _LATT_IV reads are h3_band_ceil.py and h3_band_floor.py L325-327."
+     },
+     {
+      "claim": "The two band engines are byte-identical to the copies on main, and their _LATT_IV use is the class-2 pattern.",
+      "evidence": "sha256 of h3_band_ceil.py is b97c5428... and of h3_band_floor.py is a907eeed..., equal to the hashes of git show origin/main:incoming/claude-bundle-v3-native-copies-20260928/K3_SIDE24_LB/UPPER2D/H3_closure/h3_band_ceil.py.txt and h3_band_floor.py.txt at b7f72a71. abs_sum_A uses abs(kk)**n plus a tail, divides by _Z1 and uses only .b (h3_band_ceil.py:328-336, :345).",
+      "affects_draft": "none",
+      "proposed_wording": "Keep as drafted."
+     }
+    ]
+   }
+  },
+  {
+   "agent": "af855f6f52559b52c",
+   "label": "lens:complete",
+   "result": {
+    "summary": "Archive-wide completeness check of a2136bc0.zip (sha256 a2136bc0…2b5b, 1,794 members). I read everything in place: the zip and its nested zips in memory, plus the verified extracted .py tree. Nothing was executed and nothing was unpickled. The draft's counts and lists hold up. There are 251 top-level .py files, and 32 of them name cov_exact. BRANCH_dir has 4 files and W8_lambda has 3. The mpf-only list, the no-direct-call list, the claims that pin_covariance and reg_lemmas are called only from their selftests, and the claim that kmax/jmax are never set to non-default values are all confirmed. h5_run.py and the four h5_run_r*.py drivers import the kernel first and then set dps 40, so they run at 40. Five more H5 entry scripts (seven files counting copies) run at 100, because they set dps before importing h5_kernel and cov_exact's import-time configure() resets it. These are falsify.py (2 identical copies), h5_merge.py (3 copies) and h5_promote.py. No non-Python member is program code that calls the evaluators in iv mode. No dynamic load reaches an H2 file. No variant copy of a named engine exists anywhere in the archive or its nested zips. The draft misses 16 transitive consumers that do not name cov_exact: 14 H5 scripts that import h5_kernel, and 2 STAGE_E scripts that import c1_grid. None of them calls an evaluator directly. Two smaller gaps: the draft calls its scan an \"AST scan of the 251 Python files\", but the scanner parses only the 32 files that name cov_exact; and it lists only one configure(dps=…) call. Notes and tools: <SCRATCH>/covtrace/lens_notes/completeness/ (members.txt, zscan.json, tools/zscan.py, tools/trans.py, notes.txt).",
+    "findings": [
+     {
+      "claim": "The counts are confirmed: 1,794 members, 251 top-level .py, and 32 that name cov_exact (identical to ref_files.txt); the 10 nested .zip members hold 31 more .py files, and none of them matches cov_exact, f08c1c5f, _LATT_IV, e_sum, s_sum, k1_image or ce.k1/cov/moment_a.",
+      "evidence": "unzip -Z1 a2136bc0.zip gives 1,794 lines, with 251 ending .py; lens_notes/completeness/zscan.json covers 282 .py in total (251 top-level, 31 nested, e.g. K3_SIDE24_LB/KIMI_LPW_CONSTANT_PACKAGE.zip!LPW_CONSTANT/lpw_constant.py and the doubly nested …LPW_Return_03_2026-09-12.zip!…/Q0_Next_Phase_2026-09-12.zip!…/verify_local_path.py), all without hits; the 32 hits are exactly the paths in covtrace/ref_files.txt.",
+      "affects_draft": "adds information",
+      "proposed_wording": "251 top-level Python members, 32 of which name cov_exact; the 31 further .py files inside the archive's 10 nested zips do not reference the library."
+     },
+     {
+      "claim": "No non-Python member is program code that calls the library's evaluators in iv mode, so there is no iv caller outside the draft's files.",
+      "evidence": "There are no .ipynb, .sage, .jl, .m or .py.txt members (extension census, members.txt). Pattern hits outside .py/.pyc are only 49 .txt, 22 .md, 3 .sha256 and 1 .json, and every one is a transcript, freeze pin, manifest or prose: e.g. H3_closure/rung_normal.txt:4 '[ok] CR0 sha256(cov_exact.py) matches', C2_B_classes/FREEZE.txt:28, H3_closure/H3_BAND_FLOOR.md:61 and :110 (ce.cov in prose), H2_foundations/README.md:41-47 (usage contract), H2_foundations/RECEIPT_cov_exact.json:7-14. The only non-.py members containing program text, KIMI_EXPORT_2026-08-03/KIMI_EXPORT_CONCAT.txt and KIMI_EXPORT_2026-08-04_LB/KIMI_EXPORT_CONCAT_LB.txt, match no pattern. The 22 .sh files match no pattern; the only inline Python, H5_closure/supervisor.sh:9-21, reads JSON. The PDFs (Flate streams decoded) and the 6 .pkl files (raw bytes, not unpickled) match nothing.",
+      "affects_draft": "none",
+      "proposed_wording": "A scan of all 1,794 members (nested zips, docx and decoded PDF streams included) finds no non-Python program text that references cov_exact or its evaluators."
+     },
+     {
+      "claim": "Every .pyc that references the library was compiled from a .py that is in the archive, with one exception: BRANCH_dir/__pycache__/br_mc.cpython-312.opt-1.pyc was compiled from an earlier 12,314-byte br_mc.py, and its embedded strings differ from the current br_mc.pyc only in the elapsed-time output.",
+      "evidence": "pyc header source sizes: br_mc.cpython-312.opt-1.pyc size=12314 against br_mc.py 12,404 B, and br_mc.cpython-312.pyc size=12404 (MATCH). A string diff shows that only the current pyc has 'rung%g.elapsed', 'elapsed_seconds=%.3f', 'open' and 'write'. All other library-hitting pyc files (cov_exact, pin_transform, reg_lemmas, c1_grid, d2_probes, d3_amend, d3_perc, h4_probes, h5_kernel ×2, br_probes ×2) have header sizes equal to their .py sizes, and no pyc lacks its source.",
+      "affects_draft": "adds information",
+      "proposed_wording": "An older br_mc.py survives only as BRANCH_dir/__pycache__/br_mc.cpython-312.opt-1.pyc; going by its embedded strings, it differs from the current file only in timing output."
+     },
+     {
+      "claim": "No dynamic loading reaches an H2 file: every importlib/spec_from_file_location/import_module target is a non-H2 module, and no .py file that fails to name cov_exact mentions H2_foundations.",
+      "evidence": "The targets are h4_probes.py (BRANCH_dir/br_mc.py:44-46, br_probes.py:24-26), h5_run_r<tag>.py (H5_closure/promote_probes.py:12-19, promote_stitchfix.py:16-23), h5_merge (h5_promote.py:88), b1_falsifier.py (D3_percolation/d3_falsifier.py:73,94; B2a_outside_cover/b2a_attacks.py:39-41), and W3's own engines (W3_numerics/w3_harness.py:20-23, w3_lbox.py:9-19). The remaining __import__ uses are __import__('mpmath') (REVIEW_LPW/RB_R2_part2_spectral.py:84) and __import__('sys') (stitch_outer.py:21). There is no exec(open(…)), runpy, sys.modules manipulation or SourceFileLoader in any .py. grep for H2_foundations across all .py returns only files that also name cov_exact.",
+      "affects_draft": "none",
+      "proposed_wording": "A search of all 251 Python members for importlib, runpy, exec, __import__ and sys.modules use, and for runtime-assembled H2 paths, finds no load of cov_exact that a text search would miss."
+     },
+     {
+      "claim": "The four h5_run_r*.py drivers are produced at runtime by promote_run.py, which rewrites literals in h5_run.py and then execv's the result; the archive holds the generated module for every rung that left H5 output.",
+      "evidence": "H5_closure/promote_run.py:15 reads h5_run.py, :60-64 replaces the literals, :72-76 writes h5_run_r<tag>.py, :78 calls os.execv. Line 1 of each h5_run_r0p0125/0177/025/035355.py is '# GENERATED by promote_run.py for rung r=…'. The H5_closure output member names carry only _r0.0125, _r0.0177, _r0.025, _r0.035355 and _r0.05.",
+      "affects_draft": "adds information",
+      "proposed_wording": "The four h5_run_r*.py drivers are runtime-generated copies of h5_run.py (promote_run.py:15-78); the archive holds one for every rung with recorded output."
+     },
+     {
+      "claim": "Beyond BRANCH_dir, 23 Python files reach cov_exact without naming it: 21 import h5_kernel (whose line 29 is 'import cov_exact as ce') and 2 import c1_grid; the draft mentions only 7 of them (h5_run.py, the four rung drivers, the two falsify.py copies), and none of the 23 calls an evaluator directly.",
+      "evidence": "import h5_kernel at: H5_closure/falsify.py:23, h5_merge.py:22, h5_promote.py:117, h5_run.py:22, h5_run_r*.py:46 (×4), promote_probes.py:21, promote_stitchfix.py:26, recompute_cell.py:7, sdisk_probes.py:7, sring_probes.py:7, stitch_outer.py:7, stitch_refine.py:7, stitch_refine2.py:7, stitch_refine3.py:7, test_cell.py:7, STAGE_E/mut_D1/H5_closure/falsify.py:23, STAGE_E/h5snap/h5_merge.py:22, STAGE_E/mut_H5/h5_merge.py:22. import c1_grid at: STAGE_E/hunt_rim.py:20, STAGE_E/hunt_wedges.py:24. AST scan (tools/trans.py): none of these makes an evaluator-named call. They reach the library only through hk.LAT.self_test() (e.g. h5_run.py:277, stitch_outer.py:10) and hk.anchors (falsify.py:42).",
+      "affects_draft": "draft underclaims",
+      "proposed_wording": "Add to 'No direct evaluator call': '14 further H5 scripts that import h5_kernel without naming cov_exact (h5_merge ×3, h5_promote, promote_probes, promote_stitchfix, recompute_cell, sdisk/sring_probes, stitch_outer, stitch_refine{,2,3}, test_cell), and STAGE_E/hunt_rim.py and hunt_wedges.py through c1_grid; none calls an evaluator directly.'"
+     },
+     {
+      "claim": "Confirmed: h5_run.py and all four h5_run_r*.py import the kernel before setting mp.dps = iv.dps = 40, so they run at 40.",
+      "evidence": "H5_closure/h5_run.py:22 'import h5_kernel as hk', then :25-26 'mp.dps = 40' / 'iv.dps = 40'. h5_run_r0p0125.py, h5_run_r0p0177.py, h5_run_r0p025.py and h5_run_r0p035355.py each have the import at :46 and the dps lines at :49-50. cov_exact.py:117-119 shows configure() would refuse dps < 60.",
+      "affects_draft": "none",
+      "proposed_wording": "h5_run.py (L22 then L25-26) and the four h5_run_r*.py (L46 then L49-50) import the kernel and then set dps 40 directly, bypassing configure()."
+     },
+     {
+      "claim": "Five H5 entry scripts (seven files with copies) run at dps 100, not 40: falsify.py (two identical copies), h5_merge.py (three copies) and h5_promote.py all set dps before the first import of h5_kernel, so cov_exact's import-time configure() resets mp and iv to 100, and nothing lowers it afterwards.",
+      "evidence": "cov_exact.py:531 runs configure(dps=DEFAULT_DPS,…) at import, and :129-130 set mp.dps and iv.dps. H5_closure/falsify.py:19-20 set dps 40, then :23 imports h5_kernel; it then runs PinFrame, Z_r_own_bracket, anchors and CoarseBox/coarse_fine_hi at :35-58 with no further dps line. STAGE_E/mut_D1/H5_closure/falsify.py is the same file (sha 5bc9dbcc), with the same lines. h5_merge.py:19 sets mp.dps = 40 and :22 imports; STAGE_E/h5snap/h5_merge.py and STAGE_E/mut_H5/h5_merge.py do the same at :19 and :22. h5_promote.py:21 sets mp.dps = 50, :88 runs importlib.import_module('h5_merge'), and :120 calls hk.PinFrame(r). By contrast, recompute_cell, sdisk_probes, sring_probes, stitch_outer, stitch_refine{,2,3} and test_cell import h5_run at :3 and set 40 at :5-6, and promote_probes and promote_stitchfix exec a rung module first (:19, :23), so all of these stay at 40.",
+      "affects_draft": "adds information",
+      "proposed_wording": "The H5 falsifier (falsify.py, both copies), h5_merge.py (three copies) and h5_promote.py set dps before importing h5_kernel, so cov_exact's import-time configure() puts them at dps 100; only h5_run.py, the four rung drivers and the helper scripts that import h5_run first run at 40."
+     },
+     {
+      "claim": "Confirmed that no file calls configure() with a non-default kmax or jmax; but configure(dps=100) is called in five more files than the draft's c2_probes.py, and the library selftest calls configure(dps=150).",
+      "evidence": "All configure( calls: B4LOC_damline/b4loc_driver.py:67, C2_B_classes/c2_probes.py:79, D2_branch_control/d2_probes.py:87, D3_percolation/d3_perc.py:78, H4_closure/h4_probes.py:113, H4_closure/h4_certificate.py:124 (DPS = 100 at :42), and H2_foundations/selftest_cov_exact.py:86 (dps=30, must be refused), :286 (dps=150), :305 (dps=100), :339 (kmax=0, must be refused).",
+      "affects_draft": "draft underclaims",
+      "proposed_wording": "configure() is called only with dps (100 in b4loc_driver, c2_probes, d2_probes, d3_perc, h4_probes and h4_certificate; 150 and then 100 in selftest_cov_exact.py:286/305), never with kmax or jmax except the refused kmax=0 test at selftest_cov_exact.py:339."
+     },
+     {
+      "claim": "Confirmed that h3_c0_certificate.py, h3_rung_floor.py and selftest_reg_lemmas.py run at dps 100.",
+      "evidence": "h3_c0_certificate.py:49-51 (DPS = 100, mp/iv.dps = DPS), import at :80, and mp.dps = DPS again at :210. h3_rung_floor.py:56-58 (DPS = 100), import at :96. selftest_reg_lemmas.py:43 imports cov_exact (import-time dps 100) and has no dps line.",
+      "affects_draft": "none",
+      "proposed_wording": "(no change)"
+     },
+     {
+      "claim": "The mpf-only list is confirmed: every evaluator call in d3_perc, d3_rn_unif, d2_probes, h4_certificate, h4_probes, h3_falsifier, b4loc_driver, c1_grid and c1_intensity is mpf, and none of these files reads _LATT_IV or passes 'iv'.",
+      "evidence": "scan.json call modes: d3_perc 12, d3_rn_unif 2, d2_probes 24, h4_certificate 4, h4_probes 18 and b4loc_driver 8, all default('mpf'); h3_falsifier 1 'mpf'; c1_grid 1 explicit 'mpf' (c1_grid.py:73); c1_intensity 5 'mpf'/default (c1_intensity.py:101). grep for 'iv' or _LATT in these files finds none. d3_rn_unif.py:84 gets ce from d3_perc, and :495 calls PT.matrix_T_num(R, mode='mpf'). c1_grid.py:59 does use pt.certified_inverse, an interval inverse of an mpf Gram, but that is not a cov_exact iv evaluation.",
+      "affects_draft": "none",
+      "proposed_wording": "(no change)"
+     },
+     {
+      "claim": "The no-direct-evaluator-call list is confirmed, and make_receipts.py is the only cov_exact-naming file that only lists the library's hash; the others import it through d3_perc, h4_probes or c1_grid, and d3_rn_unif.py hash-pins reg_lemmas without importing it.",
+      "evidence": "d3_amend.py:79,81 and d3_amend_v2.py:89,92 ('import d3_perc as E', 'ce = E.ce'); d3_perc_decay.py:90; h4_falsifier.py:67 (hash pin) and :319 (import h4_probes); STAGE_E/certify_axis_break.py:57 (pin) and :84 (import c1_grid); STAGE_E/isserlis_break.py:53 (pin) and :56 (import c1_grid); scan.json shows 0 evaluator calls in all six. make_receipts.py imports only hashlib/json/os/sys (:9-12) and mpmath/sympy (:29), and names cov_exact only in a file list (:65-66). d3_rn_unif.py:64 pins reg_lemmas.py, but its imports (:36-40, :82-83, :491) do not include it.",
+      "affects_draft": "none",
+      "proposed_wording": "(no change; optionally: 'make_receipts.py only lists the library's hash.')"
+     },
+     {
+      "claim": "Confirmed archive-wide, nested zips included, that pin_transform.pin_covariance is called only from selftest_pin_transform.py.",
+      "evidence": "Definition at H2_foundations/pin_transform.py:289, whose only ce call is at :301. Calls exist only at selftest_pin_transform.py:191, 203, 224, 252, 277, 282. The other archive mentions are prose (H2_foundations/README.md:76) and the pin_transform pyc files. The library's other consumers use only pt.certified_inverse (h5_kernel.py:486, c1_grid.py:59, c1_intensity.py:163, reg_lemmas.py:176), which makes no ce call.",
+      "affects_draft": "none",
+      "proposed_wording": "(no change)"
+     },
+     {
+      "claim": "Confirmed that reg_lemmas is imported only by its selftest; at document level, however, D1_ASSEMBLY and RETURN_06's DEPENDENCY_DAG consume its G1/G4/G5 countersignature, which answers the draft's 'I did not trace who consumes those obligations'.",
+      "evidence": "The only import is H2_foundations/selftest_reg_lemmas.py:45 ('import reg_lemmas as rg'); no other .py, nested or top-level, imports it. UPPER2D/D1_assembly/D1_ASSEMBLY.md:36 reads 'Lemma R countersignature: OBL-B1-REG-G1/G4/G5 CLOSED', and :38-41 says OBL-B1-REG 'is closed by H2's reg_lemmas countersignature: G4 … certified floor λ_min ≥ 6.16287e-3'. RETURN_06/DEPENDENCY_DAG.md:14 has 'reg_lemmas.py e7005a5a… ──@EXACT (Lemma R countersignature G1/G4/G5)──▶ B1 …, D2'.",
+      "affects_draft": "adds information",
+      "proposed_wording": "Only its selftest imports reg_lemmas, but D1_ASSEMBLY.md:36-41 and RETURN_06/DEPENDENCY_DAG.md:14 consume the countersignature: OBL-B1-REG is recorded as CLOSED and feeds B1 and D2."
+     },
+     {
+      "claim": "Confirmed: BRANCH_dir has 4 .py files and W8_lambda has 3, and neither names cov_exact; BRANCH_dir reaches the library only through mpf calls on h4_probes' ce, and W8_lambda has its own lattice, even though RETURN_06's DAG lists 'W8-lane' as a cov_exact consumer.",
+      "evidence": "BRANCH_dir holds br_certificate.py, br_falsifier.py, br_mc.py and br_probes.py. br_mc.py:48 and br_probes.py:28 set 'ce = h4p.ce'; br_mc.py:50 reads ce._LATT (mpf); every ce.cov call is default mpf (br_probes.py:67, 69, 90, 97, 100, 103; br_mc.py:102, 147). W8_lambda holds mutate_lambda_grid.py, verify_lambda_grid_v2.py and verify_lambda_grid_v3.py; the v2/v3 files import only mpmath, fractions, math and os (:2-5), and :731-736 build their own π/12 lattice at dps 70. RETURN_06/DEPENDENCY_DAG.md:12 nevertheless reads 'cov_exact.py f08c1c5f… ──@EXACT library──▶ … BRANCH, W8-lane'.",
+      "affects_draft": "adds information",
+      "proposed_wording": "W8_lambda/ (3 Python files) has its own lattice (verify_lambda_grid_v2.py:731-736) and does not import the library, although RETURN_06/DEPENDENCY_DAG.md:12 lists a 'W8-lane' consumer."
+     },
+     {
+      "claim": "There are no variant copies of the named engines anywhere in the archive: h5_kernel.py's four copies are byte-identical, its two pyc files differ only in the embedded source path, and no near-copy of any of the 32 files exists under another name, nested zips included.",
+      "evidence": "sha256 b2e6014c… at 66,310 B for H5_closure/h5_kernel.py, STAGE_E/h5snap/h5_kernel.py, STAGE_E/mut_D1/H5_closure/h5_kernel.py and STAGE_E/mut_H5/h5_kernel.py. A string diff of H5_closure/__pycache__/h5_kernel.cpython-312.pyc against STAGE_E/mut_H5/__pycache__/h5_kernel.cpython-312.pyc shows only '/mnt/agents/output/…/H5_closure/h5_kernel.py' against '…/STAGE_E/mut_H5/h5_kernel.py'. Every other named engine (h3_rung_floor, h3_c0_certificate, d3_perc, d3_rn_unif, d3_amend_v2, c2_probes, d2_probes, h4_*, cov_exact, reg_lemmas, h3_band_*) occurs once. A line-overlap scan of all 250 non-listed .py files (219 top-level, 31 nested) finds no file sharing 15 or more code lines with any listed engine, except c2_falsifier.py/h4_falsifier.py boilerplate (25 lines). The four .py.txt files on main (<v3>/UPPER2D/…/b4loc_driver, d3_perc_decay, h3_band_ceil, h3_band_floor) are byte-identical to the archive members (bf3b0225…, ee68ac75…, b97c5428…, a907eeed…).",
+      "affects_draft": "none",
+      "proposed_wording": "(no change; optionally: 'No other copy or variant of these engines exists in the object; h5_kernel.py's four copies are byte-identical.')"
+     },
+     {
+      "claim": "Some non-engine files do have variants: d3_rn_unif_dbg.py differs from d3_rn_unif.py only by dropped memoization and a debug flag; the STAGE_E copies of h5_merge.py are an older variant; and h5_run.py, h5_run_r0p0125.py and h5_run_r0p0177.py have bytecode compiled from earlier sources whose contents are UNKNOWN.",
+      "evidence": "diff d3_rn_unif.py d3_rn_unif_dbg.py: only the _CM2/_CM3 caches (d3_rn_unif.py:1456-1479) and '_P1DBG = False' (dbg:1714). h5_merge.py is f14eba68 at 13,506 B, while STAGE_E/h5snap/h5_merge.py and STAGE_E/mut_H5/h5_merge.py are 12597672 at 11,748 B (diff from :30, assemble signature). pyc header source sizes are 24,147, 28,346 and 28,531 against current 26,420, 28,694 and 28,707 B; the bytecode was not disassembled.",
+      "affects_draft": "adds information",
+      "proposed_wording": "Earlier versions of h5_run.py, h5_run_r0p0125.py and h5_run_r0p0177.py survive only as bytecode (__pycache__, source sizes 24,147/28,346/28,531 B); they were not examined."
+     },
+     {
+      "claim": "The draft's description 'static AST scan of the 251 Python files' overstates the scan: the scanner AST-parses only the 32 files whose text names cov_exact or f08c1c5f.",
+      "evidence": "covtrace/scan.py:15 (LOADRX = re.compile(r'cov_exact|f08c1c5f')) and :76 ('if LOADRX.search(src): res[…] = scan(p)'); scan.json has 32 entries. Draft record.md:44 versus its own Limits at record.md:108.",
+      "affects_draft": "draft overclaims",
+      "proposed_wording": "**The iv call sites, classified (static AST scan of the 32 Python files, out of 251, that name cov_exact)**"
+     }
+    ]
+   }
+  },
+  {
+   "agent": "a4d0551ab0be86a23",
+   "label": "verify:downstream",
+   "result": {
+    "verdicts": [
+     {
+      "claim": "1. The rung floor's certified numbers come from h3_rung_floor.py: the lower end is Ebox.a times r^2, the upper end is a Cauchy-Schwarz bound, and CR7d checks the lower end against REQ_EFF = max(REQ, REQ_RUNG).",
+      "verdict": "confirmed",
+      "evidence": "h3_rung_floor.py:363 (hi_raw = Ebox.b + sqrt(E2).b*sqrt(pRest).b), 365-367 (lo = Ebox.a*r^2, hi = hi_raw*r^2), 372-375 (REQ_RUNG, REQ_EFF, CR7d on lo). An archive grep for REQ_RUNG|REQ_EFF matches only h3_rung_floor.py:372-376. rung_normal.txt:50,52,60; H3_RUNG_FLOOR.md:9-11; RECEIPT_h3.json:58. The only other use of hi_raw is the CR8 MC check (h3_rung_floor.py:395-397), which the engine labels as not load-bearing (L380).",
+      "corrected_wording": "h3_rung_floor.py certifies Z_0.05 in [7.7592917375327855e-3, 1.1468646473404396e-2] (L363-369). Its load-bearing check CR7d (L372-375) uses only the lower end. The upper end enters only the labeled MC diagnostic CR8 (L395-397)."
+     },
+     {
+      "claim": "2. In the archive, every load-bearing downstream consumer of the rung floor uses only the lower end Z_lo, as a divisor of upper bounds. The upper end 1.1468646473404396e-2 appears only in drift and consistency checks and in an estimate labeled non-load-bearing.",
+      "verdict": "confirmed",
+      "evidence": "d3_amend_v2.py:78-86 (parse, drift checks), 237 and 266 (Z_LO divisors), 251/257-258 (Z_HI used only in the emit and the QMC-inside check). d3_perc_decay.py:82-87, 109, 263. d3_rn_unif.py:74-78, 680-682, 705, 734, 1173-1174, 1196. lpw_constant_v3.py:502-517 (consistency), 526-530 (ESTIMATE). lpw_constant_v4.py:535, 540. The lens omitted three items, none of which changes the conclusion: d3_rn_unif_dbg.py:74-79 (the same parse); v3_falsify.py:67-70 and v4_falsify.py:35-36 (RUNG_HI used only in consistency checks); d3_falsifier.py:606, 626 (pin-mutation tests). d3_rn_unif.py's Z_lo use yields no certified number: CL-RNU-001 on main (L31-32) says its certifier is defined but never invoked.",
+      "corrected_wording": "Downstream, every load-bearing consumer takes only the lower end, Z_lo = 7.7592917375327855e-3, as a denominator of upper bounds (d3_amend_v2.py L237, L266; d3_perc_decay.py L109, L263). The upper end appears only in drift and consistency checks (d3_amend_v2.py L86, L258; lpw_constant_v3/v4; v3_falsify.py L67-70; v4_falsify.py L35-36) and in LPW v3's labeled ESTIMATE. d3_rn_unif.py also divides by Z_lo but certifies nothing: its certifier is never invoked."
+     },
+     {
+      "claim": "3. D3 turns Z_lo into certified upper bounds: kappa_far <= 0.68 and B_remote <= 21.9279 r^3 (D3 remote amendment v2), and B2-far <= 17.680197 r^3 (PERC-DECAY).",
+      "verdict": "confirmed",
+      "evidence": "d3_amend_v2.py:237-241 (I_ann(Z_lo) rounded up to 17.6804), 266-272 (kappa_far <= 0.68), 283-291 (B_remote <= 21.9279). ta2_normal.txt:2, 13-14, 18, 22-24 (also P_r(A.rem) <= 23.2119 r^3). D3_REMOTE_AMENDMENT_v2.md:7-10, 42-55. d3_perc_decay.py:263. pd_normal.txt:64, 70. PERC_DECAY.md:7-8, 45. Both numerators come from d3_perc.window_cap_env (d3_amend_v2.py:213; d3_perc_decay.py:247).",
+      "corrected_wording": "Rung floor -> Z_lo -> D3: I_ann <= 17.6804 r^3, kappa_far <= 0.68, B_remote <= 21.9279 r^3 and P_r(A.rem) <= 23.2119 r^3 (d3_amend_v2.py L237-291), and B2-far <= 17.6802 r^3 (d3_perc_decay.py L263). Each is an upper bound divided by Z_lo, with its numerator computed by d3_perc.window_cap_env (L213, L247)."
+     },
+     {
+      "claim": "4. D1 v2.2 consumes D3's bracket computed at the floor, and its gate d1_falsify_v3.py hard-codes Z_LO for the kappa and I_ann recomputation and the rung-floor check. D1 v2.1 used the rung floor only for C_RN and the check; its kappa pieces were still at the QMC probe.",
+      "verdict": "confirmed",
+      "evidence": "D1_ASSEMBLY_v2_2.md:52-62, 73-75, 85-87. d1_falsify_v3.py:110-148 (Z_LO divisors; C-denominator-direction at L134-136), 150-157. D1_ASSEMBLY_v2_1.md:57-61 (kappa 0.62556 at the probe, cap 0.66), 66-74. d1_falsify_v2.py:111-127. D1_V2_2_RECEIPTS.txt:28.",
+      "corrected_wording": "D1 v2.2 takes Z_lo as a lower bound, both through D3's bracket (D1_ASSEMBLY_v2_2.md L52-62) and directly in its gate (d1_falsify_v3.py L110-157). D1 v2.1 used it only in the C_RN premise and the rung-floor check (D1_ASSEMBLY_v2_1.md L66-74; d1_falsify_v2.py L120-127)."
+     },
+     {
+      "claim": "5. The arithmetic of D1's C_RN divides by c_Z r^2 from the H3 closure, not by Z_lo. The rung floor enters only as the one-sided premise Z_0.05 >= Z_lo > c_Z (0.05)^2, and the numerator is attributed to H4. (The lens tagged this 'draft overclaims'.)",
+      "verdict": "confirmed",
+      "evidence": "The arithmetic is confirmed: d1_falsify_v2.py:140 and d1_falsify_v3.py:171 (crn05 = sqrt(31.23)/cZ); d1_falsify_v3.py:154; H4_closure/cert_normal.txt:24 (C_RN_cert = sqrt(E)/(c_Z r^2) = 3.45909, with E/r^4 = 31.227); b4loc_driver.py:73, 406-408 (C_RN = 3.47 consumed as an upper bound). The 'overclaims' tag is not supported. RETURN_06/DEPENDENCY_DAG.md:36-39 itself records the edge 'H3_RUNG_FLOOR -> D1(1) C_RN(0.05) <= 3.46'. D1_ASSEMBLY_v2_1.md:66-67 and D1_ASSEMBLY_v2_2.md:73-74 say C_RN's denominator rests on the rung floor. STAGE_E/REVIEW_proof.md:226-231 explains why: before R2, nothing certified c_Z r^2 <= Z at r = 0.05. So the rung floor does feed C_RN, as the certified premise for its denominator.",
+      "corrected_wording": "C_RN(0.05) = sqrt(E)/(c_Z r^2) <= 3.46 (H4 cert_normal.txt L24; d1_falsify_v3.py L171). The rung floor feeds C_RN only as the one-sided certificate that c_Z r^2 < Z_lo <= Z_0.05 (d1_falsify_v3.py L154; DEPENDENCY_DAG.md L36-39; REVIEW_proof.md L226-231). This refines the draft's 'feeds D1's C_RN'; it does not contradict it."
+     },
+     {
+      "claim": "6. D3's printed numbers depend on the specific value of Z_lo. The D1 gate's own kappa formula, evaluated at the band floor 2.30659559567154 r^2 that D1's receipts name as an alternative, gives kappa about 0.902 and I_ann about 23.79 r^3, above the consumed 0.68 and 17.6804.",
+      "verdict": "confirmed",
+      "evidence": "Formula: d1_falsify_v3.py:111-122, 138. The alternative is named at D1_V2_2_RECEIPTS.txt:79-83; the main copy is byte-identical to the archive copy (sha256 58edc293a112). My own python3 -I -B Decimal run: Z = 2.30659559567154*0.0025 = 5.766488989e-3 gives kappa 0.902254 and I_ann 23.7904; Z_lo gives 0.676789 and 17.68036; c_Z r^2 gives 1.2778 and 33.97. A second record makes the same substitution: H3_BAND_FLOOR.md:152-153 (main <v3> copy) calls the band statement 'the normalizer floor used by D1 v2.1's C_RN and the D3 v2 kappa_far denominator'.",
+      "corrected_wording": "The D3 numbers that D1 consumes depend on the rung floor's lower end itself. The band floor that D1_V2_2_RECEIPTS.txt L79-83 and H3_BAND_FLOOR.md L152-153 name as an alternative gives kappa_far about 0.90 and I_ann about 23.79 r^3 under the gate's formula (d1_falsify_v3.py L121-122, L138), so it would not reproduce kappa_far <= 0.68."
+     },
+     {
+      "claim": "7. The H5 drivers do not read the rung floor. Z_lo = max(C_Z_H3 r^2, Z_own.a) with C0_H3_LO hard-coded, and every banked transcript shows Z_own.a = 0, so Z_lo = c_Z r^2.",
+      "verdict": "confirmed",
+      "evidence": "h5_run.py:282-286; h5_run_r0p*.py:308-310; h5_kernel.py:1246-1247 (C0_H3_LO, C_Z_H3). No H5_closure .py names H3_RUNG_FLOOR (archive grep). All 448 'Z_r interval' transcript lines in the archive show own=[0.000000e+00, ...]. H5_CLOSURE.md:142-145 ('own lo ... vacuous at r = 0.05'). STAGE_E/REVIEW_proof.md:220-231 is the Stage-E finding that R2 answered. h5_promote.py:64-76.",
+      "corrected_wording": "In the banked runs H5's normalizer lower bound is c_Z r^2 (Z_own.a = 0 in every transcript). The rung floor reaches H5 only as the certificate that c_Z (0.05)^2 <= Z_0.05 (H3_RUNG_FLOOR.md L17-19; REVIEW_proof.md L226-231). For r in (0, 0.05], H3_BAND_FLOOR's 2.3066 r^2 also supplies that premise (D1_V2_2_RECEIPTS.txt L65-66, L79-83)."
+     },
+     {
+      "claim": "8. The twin-derived upper end Z_own.b = 1.3970321600e-2 is hard-coded as an upper bound on Z in H5 helper drivers and in Stage-E certify_axis_break.py and isserlis_break.py, which divide by it to certify lower bounds on rho_w. (The proposed wording adds that the draft lists those two files as hash-pin only.)",
+      "verdict": "confirmed",
+      "evidence": "The substance holds: h5_kernel.py:465-467 (LAT.k1 at t in {0, +r, -r}), 506-509 (mu_pair, S_pair), 1214-1241 (z_hi = sqrt(M8sup).b); h5_kernel.py:1307 and h5_run.py:491 (Z_hi divides only lower bounds); certify_axis_break.py:43, 187; isserlis_break.py:39, 222. Four corrections: (a) The Stage-E files hard-code 1.3970321e-02, not 1.3970321600e-2. That is below Z_own.b by 6e-10 (4.3e-8 relative), which is the unsafe direction for a divisor of a lower bound. certify_axis_break.py:115 sets SAFE = 1.0000000001, which does not cover it; isserlis_break.py:222 applies a factor of 0.999. (b) h5_promote.py:73 uses the value only in a ratio consistency check (L77-78), not as a divisor. (c) The lens missed stitch_refine.py:16 and stitch_refine2.py:16. (d) The current draft does not call these files hash-pin only. record.md:79-82 lists them under 'No direct evaluator call ... through c1_grid, all mpf'.",
+      "corrected_wording": "H5's twin-derived Z upper bound also leaves the kernel. Helper drivers set ctx.Z_hi = 1.3970321600e-2 (stitch_refine*.py, sdisk/sring_probes.py, stitch_outer.py, recompute_cell.py, test_cell.py). Stage-E certify_axis_break.py (L43, L187) and isserlis_break.py (L39, L222) divide by a truncated 1.3970321e-02 to certify lower bounds on rho_w. The draft (L79-82) treats both scripts as reaching cov_exact only through mpf c1_grid."
+     },
+     {
+      "claim": "9. H5's certified output, I_hi in the versioned h5_totals*.json, is consumed downstream as an upper bound by D1's gates and h5_promote. I_lo appears only in containment checks.",
+      "verdict": "confirmed",
+      "evidence": "h5_merge.py:215-242 (I_hi assembly includes remote 19.55 r^3; I_lo = 2*patches_lo). h5_totals_v3.json:3-5. d1_falsify_v3.py:92-107, 160-165. d1_falsify_v2.py:92-109, 130-135. d1_falsify.py:67-84, 118. h5_promote.py:85-110; promote_modeA.txt:42-47. H5_RUNG2_2026-09-15.md:10-17; H5_RUNG3_2026-09-15.md:8-15. BRANCH_DIR.md:61-63 (consistency display). DEPENDENCY_DAG.md:53-54.",
+      "corrected_wording": "h5_kernel -> h5_run* -> h5_merge -> h5_totals_v3.json I_hi = 8.0975589252e-2 -> D1 v2.1/v2.2 chart part, used as an upper bound (d1_falsify_v3.py L92-107, L160-165). The rung-2/3 I_hi feed D1 v2.3's OBL-D1-PROMOTE rung family."
+     },
+     {
+      "claim": "10. LPW v3 and v4 read both rung-floor endpoints, but only in consistency checks. v3's certified c uses 4 B_3, and v4's uses U_CEIL from H3_BAND_CEIL.",
+      "verdict": "confirmed",
+      "evidence": "lpw_constant_v3.py:502-517 (C_Z = 4*B3_RAT at L517), 526-530 (ESTIMATE), 534. lpw_constant_v4.py:104-105, 524-542 (C_Z = U_CEIL at L542), 563. LPW v4 t_normal.txt:148, 151, 154. Also v3_falsify.py:67-70 and v4_falsify.py:35-36 (consistency only).",
+      "corrected_wording": "LPW v3 and v4 (and their falsifiers) pin H3_RUNG_FLOOR.md but use its interval only in consistency checks. Neither certified constant depends on it (v3 L517, L534; v4 L542, L563)."
+     },
+     {
+      "claim": "11. The mut_rung_floor_* transcripts belong to a mutation family named 'rung_floor' that targets the lambda eigenfloor 0.123809288439, not h3_rung_floor's Z values.",
+      "verdict": "confirmed",
+      "evidence": "lpw_constant_v4.py:603-610; lpw_constant_v3.py:574-581; H1_v2_hardening/lpw_constant_v3.py:476-491; H1_V2_HARDENING_REPORT.md:113 (m12); LPW_CONSTANT/v4/mut_rung_floor_normal.txt:26-28 (carrier hash check), 149, 152, 173 (fails on M_RUNG_FLOOR lambda).",
+      "corrected_wording": "As proposed."
+     },
+     {
+      "claim": "12. On origin/main, H3_RUNG_FLOOR.md, h3_rung_floor.py and the mut_rung_floor files are not in the tree; they appear only as manifest or receipt rows.",
+      "verdict": "confirmed",
+      "evidence": "git ls-tree -r origin/main (b7f72a71) has no path matching 'rung'. Rows: <v3>/UPPER2D/H3_closure/MANIFEST.sha256.txt:2, 9; RECEIPT_h3.json:57-58, 69, 89; TREE_MANIFEST.sha256.txt:391-392, 424, 435; LPW v4 MANIFEST.sha256.txt:37-38. The lens omitted SOURCE_CAPSULE.sha256.txt:84, 162. The paths also appear as hash-pinned carrier paths inside script copies (lpw_constant_v3.py.txt:110, lpw_constant_v4.py.txt:104, d3_perc_decay.py.txt:70, d1_falsify_v3.py.txt:43). H3_RUNG_FLOOR.md bytes exist at 7caac254, which is cataloged by sources-14 but is not on main.",
+      "corrected_wording": "On main b7f72a71 the rung-floor certificate, its engine and its transcripts are absent as files. They appear as hash rows (MANIFEST L2/L9, RECEIPT_h3 L69/L89, TREE_MANIFEST L424/L435, SOURCE_CAPSULE L84/L162, LPW v4 MANIFEST L37-38) and as pinned carrier paths in script copies."
+     },
+     {
+      "claim": "13. On origin/main, the records that cite the rung floor for D1's C_RN and D3's Z_lo are incoming/ copies plus one docs page.",
+      "verdict": "confirmed",
+      "evidence": "Each listed citation checks: D1_V2_2_RECEIPTS.txt:28, 71, 79-83, 121; d1_falsify_v3.py.txt:110, 157, 172 (byte-identical to the archive copy); D3_REMOTE_AMENDMENT_v2.md:7-10; FREEZE_PERC_DECAY.txt:35-36; 00_EXECUTIVE_STATE.md:13, 56; DEPENDENCY_DAG.md:36-39; D1_ASSEMBLY_v2_3_DRAFT.md:47-48; d1_falsify_v4.py.txt:53, 173, 215-222, 236-237; CL-OBL-001:69; CL-LEDGER-001:18; 06_.../PERC_DECAY.md:7-8; docs/QUEUE_RECONCILIATION_20260927.md:60-76. The list is not complete. Also on main: <v3>/UPPER2D/H3_closure/H3_BAND_FLOOR.md:21, 138-145 (a Stage-E erratum on h3_rung_floor.py CR5f), 151-153; RETURN_06/ADVERSARIAL_REPORT.md:36-37, OBLIGATION_LEDGER.md:114, ADDENDUM_2026-09-15_B4LOC_PERC_DECAY.md:106, ADDENDUM_2026-09-15_H3_BAND_FLOOR.md:31, 68; LPW lpw_constant_v3.py.txt:502-528 and lpw_constant_v4.py.txt:525-541; CL-RNU-001:24-29; CL-STATE-001:28, 51, 58; docs/public-math/sources-14.md:43 (path catalog only).",
+      "corrected_wording": "Records on main that cite the rung floor are the incoming/ copies of: the D1 v2.2 receipts and gate; the D3 amendment v2 and PERC-DECAY (with FREEZE); RETURN_06 (EXECUTIVE_STATE, DEPENDENCY_DAG, ADVERSARIAL_REPORT, OBLIGATION_LEDGER, two addenda); H3_BAND_FLOOR.md; LPW v3/v4; the D1 v2.3 draft and d1_falsify_v4; CL-OBL-001, CL-LEDGER-001, CL-RNU-001 and CL-STATE-001. Outside incoming/ they are docs/QUEUE_RECONCILIATION_20260927.md L60-76 and the sources-14 path catalog."
+     },
+     {
+      "claim": "14. On origin/main, the records that cite H5's certified outputs are D1's receipts and gates, RETURN_06, the H5 tightening copy, the D1 v2.3 draft and CL-PIN-001. H5_ZBAND consumes the band floor and band ceiling, not H5 outputs or the rung floor.",
+      "verdict": "confirmed",
+      "evidence": "D1_V2_2_RECEIPTS.txt:22; d1_falsify_v3.py.txt:47, 92-100, 165; 00_EXECUTIVE_STATE.md:11; DEPENDENCY_DAG.md:45-48; H5_CLOSURE_TIGHTENING_2026-09-15.md:81, 90; D1_ASSEMBLY_v2_3_DRAFT.md:41-43, 76-78; d1_falsify_v4.py.txt:57, 74-75, 155-170, 225-230; CL-PIN-001:3-25 (custody only, L6-7); H5_ZBAND_CONSUMPTION_2026-09-15.md:14-21, 33-34; CL-OBL-001:19-23. The lens also missed CL-STATE-001:28, 46; CL-AUD-001:64; CL-ERR-001:96-97; HOLD_NOT_FOR_SUBMISSION_2026-09-16/CHART_SIDE_JETMOD_PLAN.md:86.",
+      "corrected_wording": "On main, H5's I_hi(v3) = 8.0975589252e-2 is cited as an upper bound in the D1 v2.2 receipts and gate, RETURN_06, the H5 tightening copy, the D1 v2.3 draft and gate v4, CL-STATE-001, CL-AUD-001, CL-ERR-001 and CHART_SIDE_JETMOD_PLAN. H5_ZBAND (L19-21) records that Z_lo feeds every I_hi and Z_hi feeds only I_lo, and it consumes the band floor and ceiling."
+     },
+     {
+      "claim": "15. Commit 7caac254, which origin/main's sources-14 links to, holds d3_rn_unif.py (85d7725f), cov_exact.py (f08c1c5f) and H3_RUNG_FLOOR.md (6347275d) as plain files. It is reachable from three remote branches but not from origin/main, so the draft's 'only inside a chunked archive' does not hold.",
+      "verdict": "confirmed",
+      "evidence": "docs/public-math/sources-14.md:43; sources-14.json:276-282 (blob c2f44fba, sha256 6347275d). git ls-tree 7caac254 engine/rn_engine lists 12 files. Hashes I recomputed from git show 7caac254 match the archive members: d3_rn_unif 85d7725f, cov_exact f08c1c5f, H3_RUNG_FLOOR 6347275d. The lens did not list d3_perc.py (5bc09241, an engine in the draft's own table, record.md:31), d3_amend.py (12175217), pin_transform.py (c6988ac7) and reg_lemmas.py (e7005a5a), which are byte-identical too. git branch -r --contains lists the three branches; merge-base --is-ancestor gives NOT_ANCESTOR. engine/rn_engine/README.md:38-40 at 7caac254 says not to run the certifier or quote a bound from it; L41-52 records d3_perc.py as quarantined under Q-RN5-MOMENT-001.",
+      "corrected_wording": "d3_rn_unif.py, d3_perc.py and cov_exact.py (also d3_amend.py, pin_transform.py and reg_lemmas.py) are plain files at commit 7caac254 (engine/rn_engine/frozen/), on three remote branches but not on main. So 'only inside a chunked archive' does not hold for the two table engines d3_rn_unif.py and d3_perc.py."
+     }
+    ],
+    "missed": "The lens missed these items within its own scope:\n\n(1) Quarantine on the D3 consumers. Commit 7caac254 also holds d3_perc.py (5bc09241). Its README (engine/rn_engine/README.md:41-52, at 7caac254, not on main) records two quarantines:\n- d3_perc.py's window_cap_env and envelope_v, and their consumers, under Q-RN5-MOMENT-001 (DEFECTIVE_SCOPE);\n- d3_amend_v2.py, named by Q-RN5-MOMENT-002.\nBoth D3 consumers of Z_lo compute their numerators with E.window_cap_env (d3_amend_v2.py:213 gives Num_ann, hence I_ann <= 17.6804; d3_perc_decay.py:247 gives B2-far <= 17.6802). So those Z_lo-derived numbers also depend on a function that a record off main lists as quarantined. Only Q-RN5-MOMENT-004 appears on main (incoming/claude-audit-package-recovery-20260928/QUARANTINED_Q-RN5-MOMENT-004/).\n\n(2) The band floor gives a second route to the c_Z r^2 premise. C_RN and H5's I_hi need only Z_0.05 >= c_Z (0.05)^2. H3_BAND_FLOOR (Z_r >= 2.3066 r^2 on all of (0, 0.05]) also supplies that premise (D1_V2_2_RECEIPTS.txt:65-66, 79-83; H5_ZBAND_CONSUMPTION:33-34). The only downstream numbers that need the rung floor's own value are D3's Z_lo-divided ones: kappa_far <= 0.68, I_ann 17.6804, B_remote 21.9279, A.rem 23.2119 and B2-far 17.6802.\n\n(3) Origin of the R2 repair. STAGE_E/REVIEW_proof.md:220-232 found that H5's I_hi at r = 0.05, C_RN(0.05) and D3's spine all rested on an uncertified c_Z (0.05)^2. That is the finding R2 answered, and it ties H5 I_hi to the rung floor more directly than H3_RUNG_FLOOR.md:17 alone.\n\n(4) Uncited H5 Z-window records. H5_CLOSURE.md:142-145 and H5_RECEIPTS.txt:15, 20 cite the H5 Z window [4.0387e-3, 1.397032e-2].\n\n(5) The Stage-E Z_HI literal is rounded down. certify_axis_break.py:43 and isserlis_break.py:39 hard-code 1.3970321e-02, below Z_own.b (4.3e-8 relative, the unsafe direction for a divisor of a lower bound). certify_axis_break's SAFE = 1+1e-10 (L115) does not cover the gap; isserlis_break's factor of 0.999 (L222) does.\n\n(6) d3_rn_unif.py certifies nothing. It divides by Z_lo but its certifier is never invoked (CL-RNU-001:31-32 on main; 7caac254 README:38-40). No archive file other than its _dbg twin names it.\n\n(7) Origin/main citation lists are incomplete:\n- rung floor: H3_BAND_FLOOR.md copy L21, 138-153; RETURN_06 ADVERSARIAL_REPORT/OBLIGATION_LEDGER/two addenda; LPW v3/v4 script copies; CL-RNU-001; CL-STATE-001;\n- H5 I_hi: CL-STATE-001, CL-AUD-001:64, CL-ERR-001:96-97, CHART_SIDE_JETMOD_PLAN.md:86.\n\n(8) The lens says the draft lists the Stage-E break scripts as 'hash-pin only'. The current draft (record.md:79-82) lists them under 'No direct evaluator call ... through c1_grid, all mpf'.\n\n(9) Finding 5's 'draft overclaims' tag is unwarranted. The package DAG (DEPENDENCY_DAG.md:36-39) records the rung floor -> C_RN edge itself. I could not check what disposition 447/6329640342 actually says, because it is not among the sources: UNKNOWN.\n\n(10) The lens did not mention two minor items:\n- the stretch rungs 9/200 and 11/200 (RECEIPT_h3.json:59-62; rung_045.txt and rung_055.txt) are cited as 'same margins' in D1_ASSEMBLY_v2_1.md:72 and D1_ASSEMBLY_v2_2.md:74-75, but no file consumes them numerically;\n- H3_BAND_FLOOR.md:136-145 records a Stage-E numerics erratum on h3_rung_floor.py: CR5f computes aS.b*qS.b; the label is wrong but the check is sound.\n\nMy only artifact is a read-only zip grep helper at <SCRATCH>/covtrace/lens_notes/skeptic-downstream/zg.py. I ran no engine and extracted nothing."
+   }
+  },
+  {
+   "agent": "a1d083d1f10e54e86",
+   "label": "verify:classify",
+   "result": {
+    "verdicts": [
+     {
+      "claim": "No class-3 iv value reaches CK4-CK6, CERT_LO or CERT_HI in h3_c0_certificate.py; the class-1 headline stands.",
+      "verdict": "confirmed",
+      "evidence": "UPPER2D/H3_closure/h3_c0_certificate.py:84-86 call moment_a(1..3, mode='iv') with the default impl 'spectral'. These go through cov_exact.py:443 k1(2m,0) and :311-314 e_sum(2m,0,'iv'), which is class 1. The c0 path is :128 detG(a2,a4,a6), :136-137 m_i and s2_i, :199-203 c0_i, :216-217 CERT_LO/CERT_HI. A grep of the file finds z1-z4, cu_f and cu_11 only at :108-123 and om only at :93-94. The sources are under <SCRATCH>/covtrace/src/K3_SIDE24_LB/.",
+      "corrected_wording": "Keep: h3_c0_certificate.py's load-bearing values are class 1."
+     },
+     {
+      "claim": "a6 feeds only det G0, not m, s^2 or the c0 interval.",
+      "verdict": "confirmed",
+      "evidence": "h3_c0_certificate.py:128 is a6's only computational use. Its other uses are the checks at :89, :96 and :101 and the mutation at :91. :136-137 use only a2 and a4, and :203 builds c0_i from m_i and s2_i. The current record.md:64 already says this, so 'draft overclaims' no longer applies.",
+      "corrected_wording": "As in record.md L64; no change needed."
+     },
+     {
+      "claim": "The four odd-order CK3 calls each return a class-1 factor times [-tau, tau] around an exact zero, contain the truth, and feed only CK3.",
+      "verdict": "confirmed",
+      "evidence": "h3_c0_certificate.py:108-111 give the orders. z1 = k1(1,0)*k1(2,0); z2 = k1(0,0)*k1(3,0); z3 = (0,2)x(1,1) = k1(1,0)*k1(3,0), where BOTH factors are odd; z4 = k1(3,0)*k1(2,0). At s=0 cov_exact.py:297-302 gives tot = [0,0]. My own mpmath 1.3.0 check (lens_notes/skeptic-classify/chk.py) gives k*[0,0] = [0,0], iv.sin([0,0]) = [0,0], and a product [-t1,t1]*[-t3,t3] that contains 0. z1-z4 are used only at :112-113. The lens's wording is wrong for z3, which is not a class-1 factor times a pad.",
+      "corrected_wording": "Four have an odd order at s = 0. z1, z2 and z4 are a class-1 factor times [-tau, tau]; z3 = k1(1,0)*k1(3,0) is the product of two such pads. Each contains the exact 0, and they feed only CK3 (L112-117)."
+     },
+     {
+      "claim": "The draft omits one_minus_a2_poisson(mode='iv') in each H3 engine. It is class 3 under the rule's 'everything else', but it is a Poisson ratio and each use is only a positivity gate.",
+      "verdict": "confirmed",
+      "evidence": "h3_c0_certificate.py:93-94 (om is unused after this); h3_rung_floor.py:100-103; h3_band_ceil.py:87,100 and h3_band_floor.py:87,100; cov_exact.py:504-513 (num/den truncated at |j|<=50 plus a 3*tau pad, with no Z1); msg_6329793582.txt:10-12. Two corrections. First, record.md:72 already says the band engines 'use the iv Poisson guard', so only h3_c0 and h3_rung_floor are omitted. Second, the band engines also print DEV2.b (L102), which is still not load-bearing.",
+      "corrected_wording": "h3_c0_certificate.py (L93) and h3_rung_floor.py (L100) also call one_minus_a2_poisson(mode='iv'); the band engines' call is already noted. It is neither class 1 nor class 2, so it falls under the rule's catch-all. It uses its own Poisson denominator, not Z_T (cov_exact.py L504-513), and each use is only the 0 < 1-a2 < 1e-100 gate."
+     },
+     {
+      "claim": "For every executable RUNG, GP/GY/GYV contain class-3 terms k1(n1,+-r)*k1(n2,0) (n1 = 0..4) feeding mu, Sigma, T and CR7d. One or more such terms appear in 15/36 GP, 10/36 GY and 15/36 GYV entries.",
+      "verdict": "confirmed",
+      "evidence": "h3_rung_floor.py:79-82 RUNG; :123-125 M=(-r/2,0) and S=(r/2,0), so dy=0; :127-137 V and Yv; :130 1/r (my check: 1/mpf(0) raises ZeroDivisionError); :143; :147-149; :180-183; :196-201; :354-366; :374. I ran rung_enum.py (pure Python) and recounted by hand. The 15/10/15 counts are entries with an M-S term whose y-factor has EVEN order. Counting all M-S terms gives 27 GP, 18 GY and 27 GYV entries; the rest have an odd k1(n2,0), an exact-zero pad that makes the product contain 0. GY[0][1] = k1(0,-r)*k1(4,0) is correct.",
+      "corrected_wording": "r != 0 at every executable rung (r = 0 raises at L130). The M-S terms k1(n1, +-r)*k1(n2, 0) are class 3. Those with even n2, which are not exact zeros, appear in 15 of 36 GP entries, 10 of 36 GY entries and 15 of 36 GYV entries, e.g. Cov(q_M, q_S) = k1(0,-r)*k1(4,0). They feed mu, Sigma, T and the CR7d floor."
+     },
+     {
+      "claim": "At orders up to 8 the Lattice twin has the library's iv shape and tail: J = 116, the truncated Z1 divisor, the same tail formula with Z1.a, the same parity signs, and an equivalent symmetric pad.",
+      "verdict": "confirmed",
+      "evidence": "h5_kernel.py:54-59 match cov_exact.py:151-161; :63-73 match :200-209; :84-98 match :282-286, :298-302 and :311-322 (n%4==2 negates the even branch, and (n+1)%4==2 negates the odd branch). My check printed J = 116, and iv.mpf([-t,t]) with an interval t equals [-t.b, t.b]. One difference: the twin passes s straight to iv.mpf without _check_order_s, but every caller passes an mpf (L465, L523-524).",
+      "corrected_wording": "Keep as proposed."
+     },
+     {
+      "claim": "lambda_q is not an upper bound for odd q (about 1e-98), and the TM remainder calls it with odd q in StationBox and CoarseBox.",
+      "verdict": "confirmed",
+      "evidence": "h5_kernel.py:79 sums kj**q with sign; :538 R = lambda_q(n+TD+1)*eta^(TD+1)/(TD+1)!; TD = 5 at :559 and 6 at :1328 and :1615; :546-549. CoarseBox Grr[0][3] (:1367-1373, ja='f', jb='fxx') calls tm_factor(2,'dxM',0) -> lambda_q(9) and tm_factor(0,'dyv',1) -> lambda_q(7). C row 'f' against pin 'f' also occurs, since displayed T[0][0] = 1/2 (pin_transform.py:158). R.b is added at :243, :269 and :312 and in coarse_fine_hi at :1631, :1634, :1643 and :1649. My re-implementation (lattice built at dps 100) gives lambda_q.b = 1.21e-98 at q=7, 1.19e-97 at q=9 and 1.37e-96 at q=11, against |k|-sums of 38.30, 306.39 and 3063.88. Even q agree.",
+      "corrected_wording": "Keep as proposed."
+     },
+     {
+      "claim": "The kernel evaluates twin orders only up to 11 or 12, not 18.",
+      "verdict": "confirmed",
+      "evidence": "h5_kernel.py:525 NMAX = 4+TD+2; :528-529 evaluate orders 0..NMAX; :465-467 PinFrame uses orders 0..8. But tm_factor reads coef only up to n+TD (L535-537), with per-axis n <= 4 (2nd-order jets in DER L33). So the orders actually consumed are <= 9 (TD=5) or <= 10 (TD=6); orders 11-12 are computed and never read. lambda_q goes up to q = 11 (L538).",
+      "corrected_wording": "Twin orders up to 4+TD+2 (11 or 12) are computed (L525), but the Taylor coefficients read only orders up to 4+TD (9 or 10), and lambda_q goes up to 11. The library stops at 8."
+     },
+     {
+      "claim": "PinFrame caches t = 0 and +-r; KernelSeries evaluates at 'zero' too; the class-3 analogues are the +-r and dxM/dxS/dyv entries.",
+      "verdict": "confirmed",
+      "evidence": "h5_kernel.py:465-467 (t in {0, r, -r}); t = xi - xj is at :474, not :476; :523-524; :598 and :1365 (kcov 'zero','zero'); :584-585, :606-607, :1354-1355 and :1371-1373. Whether every box has dxM, dxS and dyv nonzero depends on the box centres (h5_run.py:420-486). That is UNKNOWN for every box, but it is generically true.",
+      "corrected_wording": "PinFrame's Gram takes twin values at t = 0 and +-r (L463-478). The Taylor-model coefficients take them at dxM, dxS, dyv and 0 (L520-529). The +-r and offset arguments (nonzero at generic box centres) are the class-3 analogue, used two-sided."
+     },
+     {
+      "claim": "The drivers' Z_lo = max(C_Z_H3 r^2, Z_own.a), where Z_own comes from PinFrame twin values at +-r, so the class-3 analogue can enter through Z_lo; which side wins is UNKNOWN.",
+      "verdict": "confirmed",
+      "evidence": "h5_run.py:282-285; ctx.Z_lo is used at :117, :216, :423, :444, :459 and :492. h5_kernel.py:502-510 (mu_pair, S_pair from G12); :1214-1241; :1246-1247; :1468-1470; falsify.py:36-38. Also Z_hi = Z_own.b (h5_run.py:285) is the divisor for the lower bounds (:472), so twin values enter both directions.",
+      "corrected_wording": "Keep as proposed. Optionally add that Z_hi = Z_own.b is the divisor in the lower bounds (h5_run.py L285, L472)."
+     },
+     {
+      "claim": "h5's three library iv calls: pair_law has no caller; anchors has two falsify.py callers; self_test is a gate that cannot detect the defect.",
+      "verdict": "confirmed",
+      "evidence": "A grep over all 251 .py files in src finds no pair_law caller. anchors is called at H5_closure/falsify.py:42 and STAGE_E/mut_D1/H5_closure/falsify.py:42. self_test is called at h5_run.py:277, the h5_run_r*.py drivers at :301, falsify.py:34, stitch_outer.py:10 and others. h5_kernel.py:100-109 compares ce.k1 iv with the twin, and both use the same truncated-Z1 formula. Minor: h5_merge.py, h5_promote.py and promote_run.py do not call self_test, so it is not a gate in every driver.",
+      "corrected_wording": "As in record.md L57-60."
+     },
+     {
+      "claim": "Only h5_run.py and the four h5_run_r*.py run at dps 40. The helper drivers (falsify, stitch_*, sdisk/sring_probes, recompute_cell, test_cell, promote_stitchfix, h5_merge) set 40 before importing the kernel and are reset to (100, 30).",
+      "verdict": "refuted",
+      "evidence": "stitch_outer.py, stitch_refine.py, stitch_refine2.py, stitch_refine3.py, sdisk_probes.py, sring_probes.py, recompute_cell.py and test_cell.py all run 'import h5_run' at L3, BEFORE the mp.dps/iv.dps = 40 lines at L5-6. h5_run.py:22 imports h5_kernel, whose cov_exact import runs configure(100) (cov_exact.py:531). h5_run.py:25-26 then sets 40 at module level, and the helper's 'import h5_kernel' at L7 is a cached no-op. promote_stitchfix.py:21-23 and promote_probes.py:17-19 exec_module an h5_run_r*.py, whose L46 import and L49-50 dps 40 do the same; promote_stitchfix.py:25-26 then set 40 and re-import from cache. So all of these run at dps 40. Only falsify.py (:19-23) and h5_merge.py (:19,22) import the kernel after setting 40, so they are reset to 100; h5_promote.py inherits 100 through h5_merge (:88, :117).",
+      "corrected_wording": "h5_run.py, the four h5_run_r*.py drivers and every helper that imports h5_run or execs a rung driver first run at dps 40: stitch_*.py, sdisk/sring_probes.py, recompute_cell.py, test_cell.py, promote_stitchfix.py and promote_probes.py. Only falsify.py and h5_merge.py (with h5_promote.py through it) end at dps 100, because cov_exact's import-time configure() runs after their dps-40 lines."
+     },
+     {
+      "claim": "c2_probes' iv sentinel has both arguments nonzero (both factors class 3), and it checks containment of the mpf value, which uses the same truncated Z1.",
+      "verdict": "confirmed",
+      "evidence": "c2_probes.py:418-420 compute cov((2,0),(0,0),0.03,0.004) = k1(2,0.03)*k1(0,0.004) in mpf and in iv, then check 'v_m in v_i'. cov_exact.py:279-280 is the mpf path with truncated Z1. p0_certification is defined at :397 and called at :822. configure(dps=100) is at :79.",
+      "corrected_wording": "Its one iv cov (L419) is k1(2, 0.03)*k1(0, 0.004), so both factors are class 3. It is only a containment sentinel against the mpf value, which uses the same truncated normalizer, so it cannot see the defect."
+     },
+     {
+      "claim": "certify_axis_break/isserlis_break (via c1_grid.GridLaw), d3_amend/d3_amend_v2 (via d3_perc.PinKit) and BRANCH_dir (via h4_probes.ce) reach the library indirectly, in mpf only. This contradicts the draft.",
+      "verdict": "confirmed",
+      "evidence": "c1_grid.py:73 ce.cov(...,'spectral','mpf') in _gram, called from :56. certify_axis_break.py:84 import and :92 GridLaw (not :89-91). isserlis_break.py:56 and :235. d3_amend.py:79 and :417; d3_amend_v2.py:89 and :252; d3_perc.py:215-216 ce.cov in default mode. br_mc.py:44-50, :102 and :147; br_probes.py:28 and :67-100. But the current record.md:41 and :79-82 already say exactly this, so the 'contradicts the draft' label is out of date.",
+      "corrected_wording": "Already in record.md L41 and L79-82; no change needed."
+     },
+     {
+      "claim": "Beyond the calls the draft discusses, the Poisson gates and the library self-tests, there is no iv evaluator use or direct lattice read. The self-test iv calls (selftest_cov_exact.py:314,321,325; selftest_pin_transform.py:224,252,277,282) are mpf-in-iv containment gates.",
+      "verdict": "confirmed",
+      "evidence": "A grep for an 'iv' literal finds 15 .py files among the 251 in src, all of them scan.json keys. _LATT_IV is read only at h3_band_ceil.py:325-327 and h3_band_floor.py:325-327; lattice() only at selftest_cov_exact.py:166; ce._LATT (mpf) at br_mc.py:50, which the draft discusses. selftest_cov_exact.py:314-326 are mpf-in-iv containment checks. However, selftest_pin_transform.py:224, 252, 277 and 282 are not containment gates. They build iv pin Grams through pt.pin_covariance (pin_transform.py:301 ce.cov with mode) at r = 1e-5, 0.025 and 0.5, so the values are class 3. They feed certified_inverse residual and guard-refusal checks (P11, L225-287). They are still self-test only, and pin_covariance has no other caller.",
+      "corrected_wording": "Beyond these, the only iv uses are library self-tests. selftest_cov_exact.py L314-325 are mpf-in-iv containment gates. selftest_pin_transform.py L224-282 build class-3 iv pin Grams for P11 certified-inverse and guard checks. The rest are the one_minus_a2_poisson gates. The only direct _LATT_IV reads are h3_band_ceil.py and h3_band_floor.py L325-327."
+     },
+     {
+      "claim": "The two band engines are byte-identical to the copies on main, and their _LATT_IV use is the class-2 pattern.",
+      "verdict": "confirmed",
+      "evidence": "sha256 b97c5428... and a907eeed... equal 'git show origin/main:incoming/claude-bundle-v3-native-copies-20260928/K3_SIDE24_LB/UPPER2D/H3_closure/h3_band_{ceil,floor}.py.txt' at b7f72a71 (rev-parse checked). h3_band_ceil.py:328-335 sums ww*abs(kk)**n*e^{|kk| rho} plus a tail and divides by _Z1; :345 uses only A_rho[n].b. Nuance: :325 takes kk = mpf(x.a), the LOWER endpoint of each k interval, so for k > 0 |k| is rounded down by about an ulp. This is a rounding-level departure from a strict majorant; the rule calls it the abs_sum_A pattern anyway.",
+      "corrected_wording": "Keep as drafted."
+     }
+    ],
+    "missed": "These are things the lens missed within its own scope. My own check script is <SCRATCH>/covtrace/lens_notes/skeptic-classify/chk.py. It re-implements the formulas without importing any engine and ran under the scratchpad venv's mpmath 1.3.0. Line numbers below are under <SCRATCH>/covtrace/src/K3_SIDE24_LB/UPPER2D/.\n\n(1) Driver precision is mis-stated. The dps-40 set is much larger than the lens says, as set out in the refuted verdict. Seven helper scripts import h5_run at L3, which already loads the kernel and sets dps 40: stitch_outer.py, stitch_refine.py, stitch_refine2.py, stitch_refine3.py, sdisk_probes.py, sring_probes.py and test_cell.py. recompute_cell.py also does this. promote_stitchfix.py and promote_probes.py exec a rung driver first, with the same effect. Only falsify.py and h5_merge.py (and h5_promote.py through h5_merge) end at dps 100. The draft's own L47 and L101 are unaffected.\n\n(2) The selftest_pin_transform iv calls are class-3 iv pin Grams at separations r, not containment gates.\n\n(3) The CK3 call z3 = k1(1,0)*k1(3,0) has two odd-order factors.\n\n(4) The rung counts 15/10/15 count only M-S terms whose y-order is even. M-S terms of any kind appear in 27, 18 and 27 entries.\n\n(5) The rung floor's separations are the mpf-rounded r = fmpf(p/q) (h3_rung_floor.py L123-125). Its basis coefficients 1/r, 1/r^3 and 1/(2r^2) are multiplied in mpf and wrapped as point intervals with iv.mpf(ca*cb) (L143). Neither rounding is enclosed. This is a rounding-level gap separate from the class rule. abs_sum_A's use of mpf(x.a) at h3_band_ceil.py L325 is a similar small point.\n\n(6) The draft's 40-digit lambda_q magnitudes do not reproduce under the drivers' actual setup. record.md L93 gives about 2e-38, 2e-37 and 2e-36. In the drivers, LAT is built at dps 100 at import (h5_kernel.py L29 and L112) and summed at 40. My check gives about 3.6e-39 for q=7, 3.0e-38 for q=9 and 2.9e-37 for q=11. The conclusion, near zero rather than a bound, is unchanged, but the quoted figures depend on construction precision. Quoting the dps-100 values, 1.2e-98, 1.2e-97 and 1.4e-96, would be safer.\n\n(7) Orders 11-12 are computed in KernelSeries but never read. tm_factor reads orders up to n+TD, at most 10.\n\n(8) Twin values also enter lower bounds through Z_hi = Z_own.b (h5_run.py L285, L472).\n\n(9) The lens did not re-check the draft's selftest_reg_lemmas item. I checked it, and it matches the source: reg_lemmas.py L100-101 cov(...,'spectral',mode); selftest_reg_lemmas.py L3-4, L8-9, L91, L106, L111.\n\n(10) Housekeeping: while checking, I accidentally created lens_notes/ivfiles_tmp.txt and deleted it straight away. Nothing else was written outside lens_notes/skeptic-classify/."
+   }
+  },
+  {
+   "agent": "a19a6c17a895be254",
+   "label": "verify:complete",
+   "result": {
+    "verdicts": [
+     {
+      "claim": "Counts: 1,794 members, 251 top-level .py, 32 name cov_exact (= ref_files.txt); 10 nested .zip members hold 31 more .py, none matching the library patterns.",
+      "verdict": "confirmed",
+      "evidence": "unzip -Z1 a2136bc0.zip (sha256 a2136bc0...2b5b) gives 1,794 lines, 251 ending .py, 0 directory entries. My own in-memory scan (lens_notes/skeptic-completeness/zs.py -> zs.json) covers 282 .py: 251 top-level and 31 nested. There are 13 containers: the 10 zip members, plus the doubly nested Q0_Next_Phase_2026-09-12.zip inside LPW_Return_03_2026-09-12.zip, plus 2 .docx. No nested .py hits cov_exact/f08c1c5f/_LATT_IV/e_sum/s_sum/k1_image/ce.<eval>. The only nested 'pin_transform' text is the ck label 'six_pin_transform_determinant' (Q0.../verify_local_path.py:100), which is not an import. The naming set equals ref_files.txt and the 32 keys of scan.json. All 251 extracted .py files sha-match the archive.",
+      "corrected_wording": "251 top-level Python members, 32 of which name cov_exact; the 31 further .py files inside the archive's nested zips (10 zip members, one of which nests another) do not reference the library."
+     },
+     {
+      "claim": "No non-Python member is program code that calls the evaluators in iv mode; hits outside .py/.pyc are only 49 .txt, 22 .md, 3 .sha256, 1 .json, all transcripts/pins/manifests/prose; .sh, PDFs and .pkl match nothing.",
+      "verdict": "confirmed",
+      "evidence": "My zs.json extension counter for core hits gives txt 49, md 22, sha256 3, json 1, py 34, pyc 18, and nothing else. Spot reads: rung_normal.txt:4 '[ok] CR0 sha256(cov_exact.py) matches'; C2_B_classes/FREEZE.txt:28 (a sha line); H3_BAND_FLOOR.md:61,110 (prose 'ce.cov'); H2_foundations/README.md:41-47 (usage contract); RECEIPT_cov_exact.json:7-14. The only non-.py text with an iv-mode pattern is README.md:45 (prose). In my code-text scan (codetext.py), only KIMI_EXPORT_2026-08-03/KIMI_EXPORT_CONCAT.txt and KIMI_EXPORT_2026-08-04_LB/KIMI_EXPORT_CONCAT_LB.txt contain 3 or more import/def lines, and both have no hits. The other two concat files (SARDG, ADDENDUM) contain no program text. supervisor.sh:9-21 is the only inline Python in a .sh, and it counts JSON cells.",
+      "corrected_wording": "A scan of all 1,794 members (nested zips, docx and decoded PDF streams included) finds no non-Python program text that references cov_exact or calls its evaluators."
+     },
+     {
+      "claim": "Every library-referencing .pyc was compiled from a .py in the archive, except BRANCH_dir/__pycache__/br_mc.cpython-312.opt-1.pyc (from an earlier 12,314-B br_mc.py differing only in elapsed-time output).",
+      "verdict": "confirmed",
+      "evidence": "My pyc header parse (pyc.py): br_mc.cpython-312.opt-1.pyc has src_size 12314 against br_mc.py at 12,404, and br_mc.cpython-312.pyc has 12404 (MATCH). The other 16 pyc files with literal library names (cov_exact x2, pin_transform x2, reg_lemmas x2, c1_grid, d2_probes, d3_amend, d3_perc, h4_probes x2, h5_kernel x2, br_probes x2) all MATCH, and no pyc lacks its source. My printable-string diff: only the old pyc has the '[%.0fs]' print format, and only the new one has 'elapsed_seconds=%.3f', 'rung%g.elapsed', 'open', 'write'. Caveat: this holds only for literal-name hits. h5_run.cpython-312.pyc, h5_run_r0p0125.pyc and h5_run_r0p0177.pyc reach the library through h5_kernel and also come from earlier sources (24,147/28,346/28,531 B against 26,420/28,694/28,707 B).",
+      "corrected_wording": "Among bytecode files that name the library, only BRANCH_dir/__pycache__/br_mc.cpython-312.opt-1.pyc comes from an older br_mc.py, and judging by its strings that older file differed only in timing output. Older bytecode of three h5_run*.py drivers, which reach the library through h5_kernel, also survives (see below)."
+     },
+     {
+      "claim": "No dynamic loading reaches an H2 file: every importlib/spec_from_file_location/import_module target is a non-H2 module; no .py that fails to name cov_exact mentions H2_foundations. Proposed: 'finds no load of cov_exact that a text search would miss'.",
+      "verdict": "refuted",
+      "evidence": "These sub-facts are true: no dynamic target is an H2 file; there is no exec(open), runpy, SourceFileLoader or sys.modules use; every .py mentioning H2_foundations also names cov_exact. But dynamic loads do reach cov_exact transitively without naming it. BRANCH_dir/br_mc.py:44-46 and br_probes.py:24-26 load h4_probes.py, which has 'import cov_exact as ce' at h4_probes.py:112. promote_probes.py:17-19 and promote_stitchfix.py:21-23 exec_module the generated h5_run_r*.py, which import h5_kernel at :46, and h5_kernel.py:29 imports cov_exact. h5_promote.py:88 calls importlib.import_module('h5_merge'), and h5_merge.py:22 imports h5_kernel. A 'cov_exact' text search misses every one of these; the draft (record.md:108) says BRANCH came from reading imports. The lens's W3 list is also partial: w3_taylor, w3_drive, w3_run, w3_scan, w3_cert:1126-1129, w3_lower, t_one, t_boxint, w3_tm, w3_scan2, w3_pinprobe, w3_strip and w3_pscan also use spec_from_file_location, all with W3 targets.",
+      "corrected_wording": "No dynamic load names an H2 file directly. Three dynamic loads do reach cov_exact without naming it, which a text search would miss: BRANCH_dir's importlib load of h4_probes.py (br_mc.py:44-46, br_probes.py:24-26); promote_probes.py/promote_stitchfix.py loading the generated h5_run_r*.py; and h5_promote.py:88 import_module('h5_merge'). All of them are mpf or go through h5_kernel, and none adds a direct iv evaluator call."
+     },
+     {
+      "claim": "The four h5_run_r*.py are generated at runtime by promote_run.py (reads h5_run.py, rewrites literals, writes, execv); the archive holds one for every rung with recorded output.",
+      "verdict": "confirmed",
+      "evidence": "In promote_run.py: :15 reads h5_run.py, :60-64 does the replace loop, :72-76 writes h5_run_r<tag>.py with the GENERATED header, :78 calls os.execv. Line 1 of each h5_run_r0p0125/0177/025/035355.py reads '# GENERATED by promote_run.py for rung r=...'. The H5_closure member names carry rung tags _r0.0125 (21), _r0.0177 (21), _r0.025 (28), _r0.035355 (29) and _r0.05 (26); r=0.05 is h5_run.py itself.",
+      "corrected_wording": "The four h5_run_r*.py drivers are runtime-generated copies of h5_run.py (promote_run.py:15-78); the archive holds one for every rung other than 0.05 that has recorded output."
+     },
+     {
+      "claim": "Beyond BRANCH_dir, 23 Python files reach cov_exact without naming it (21 import h5_kernel, 2 import c1_grid); the draft mentions 7; none calls an evaluator directly.",
+      "verdict": "refuted",
+      "evidence": "My AST import graph (imp.py -> imp.out) reproduces the 21 h5_kernel importers and 2 c1_grid importers exactly. None of them makes an evaluator call; the only kernel call is hk.LAT.self_test(). The draft names 7 of them (record.md:47, :60). But 23 is not the total. Other non-naming files run cov_exact consumers through subprocess or execv. D3_percolation/d3_falsifier.py runs d3_perc.py, d3_amend.py, d3_amend_v2.py and d3_perc_decay.py (:354, :415, :536, :668), and also writes and runs mutated copies _mut_amend.py (:478-489) and _mut_amend_v2.py (:604-613). B4LOC_damline/b4loc_falsifier.py:46-48 runs b4loc_driver.py. C1_alpha_intensity/falsify.py:53-59 runs c1_intensity.py and c1_grid.py. D2_branch_control/d2_falsifier.py:297-301 runs d2_probes.py. H5_closure/promote_run.py:78 execv's the generated driver. All the launched engines are mpf-only or on the H5 path, so the iv picture does not change.",
+      "corrected_wording": "Add to 'No direct evaluator call': 14 further H5 scripts import h5_kernel without naming cov_exact (h5_merge x3, h5_promote, promote_probes, promote_stitchfix, recompute_cell, sdisk/sring_probes, stitch_outer, stitch_refine{,2,3}, test_cell). STAGE_E/hunt_rim.py and hunt_wedges.py reach it through c1_grid. These falsifiers run engines as subprocesses: d3_falsifier.py, b4loc_falsifier.py, C1 falsify.py and d2_falsifier.py; promote_run.py execs the rung drivers. None of these files calls an evaluator directly."
+     },
+     {
+      "claim": "h5_run.py and the four h5_run_r*.py import the kernel before setting mp.dps = iv.dps = 40, so they run at 40.",
+      "verdict": "confirmed",
+      "evidence": "h5_run.py has the import at :22 and the dps lines at :25-26. Each h5_run_r*.py has the import at :46 and the dps lines at :49-50. cov_exact.py:117-119 refuses dps < 60. Nuance that both the lens and the draft miss: h5_kernel.py:112 runs 'LAT = Lattice()' at import time, right after 'import cov_exact' (h5_kernel.py:29) has set mp.dps = iv.dps = 100 (cov_exact.py:129-130 via :531). The Lattice twin's h, ks, ws and Z1 (h5_kernel.py:53-59) are therefore built at 100 digits, and only the later arithmetic runs at 40.",
+      "corrected_wording": "h5_run.py (L22 then L25-26) and the four h5_run_r*.py (L46 then L49-50) import the kernel and then set dps 40 directly, bypassing configure(). The kernel's lattice twin (h5_kernel.py:112) has already been built at dps 100 during the import."
+     },
+     {
+      "claim": "Five H5 entry scripts (seven files with copies) run at dps 100: falsify.py (2 copies), h5_merge.py (3 copies), h5_promote.py set dps before first importing h5_kernel, so cov_exact's import-time configure() resets to 100.",
+      "verdict": "refuted",
+      "evidence": "The ordering is right. falsify.py sets dps at :19-20 and imports at :23; STAGE_E/mut_D1/H5_closure/falsify.py is byte-identical (cmp). h5_merge.py sets mp.dps at :19 and imports at :22, and both STAGE_E copies do the same. h5_promote.py sets dps 50 at :21, calls import_module('h5_merge') at :88, imports hk at :117 and calls hk.PinFrame at :120. h5_kernel.py has no 'dps' or 'configure' text at all. The count is wrong, though: 2 + 3 + 1 = 6 files, under 3 script names and 4 distinct contents, not 'five scripts / seven files'. Also, h5_merge.py (all three copies) never uses hk (grep 'hk\\.' gives 0), so dps 100 there touches only its mpf sums of banked JSON. h5_promote's only kernel use is a display of PinFrame G12 midpoints (:120-125). The case that matters is falsify.py, which runs PinFrame, Z_r_own_bracket, anchors, CoarseBox and coarse_fine_hi (:34-58) at 100.",
+      "corrected_wording": "Three H5 scripts set dps before importing h5_kernel, so cov_exact's import-time configure() leaves them at dps 100: falsify.py (two identical copies), h5_merge.py (three copies, two variants) and h5_promote.py, six files in all. Only falsify.py evaluates the kernel there in a way that matters; h5_merge.py makes no kernel call, and h5_promote uses PinFrame only for a display. h5_run.py, the four rung drivers and the helper scripts that import h5_run or exec a rung module first run at 40."
+     },
+     {
+      "claim": "No file calls configure() with non-default kmax/jmax; configure(dps=100) is called in b4loc_driver, c2_probes, d2_probes, d3_perc, h4_probes, h4_certificate; selftest uses dps=30 (refused), 150, 100, kmax=0 (refused).",
+      "verdict": "confirmed",
+      "evidence": "grep 'configure(' over all .py: b4loc_driver.py:67, d3_perc.py:78, h4_probes.py:113, h4_certificate.py:124 (DPS = 100 at :42), d2_probes.py:87, c2_probes.py:79; selftest_cov_exact.py:86 (dps=30), :286 (150), :305 (100), :339 (kmax=0); cov_exact.py:531 is the import-time default. Outside the library, no file writes _CFG, DEFAULT_KMAX/JMAX or _LATT; the one exception is selftest_cov_exact.py:77 (the sine_drop mutation).",
+      "corrected_wording": "configure() is called only with dps: 100 in b4loc_driver, c2_probes, d2_probes, d3_perc, h4_probes and h4_certificate, and 150 then 100 at selftest_cov_exact.py:286/305. It is never called with kmax or jmax except the kmax=0 test at selftest_cov_exact.py:339, which must be refused."
+     },
+     {
+      "claim": "h3_c0_certificate.py, h3_rung_floor.py and selftest_reg_lemmas.py run at dps 100.",
+      "verdict": "confirmed",
+      "evidence": "h3_c0_certificate.py: :49 DPS = 100, :50-51 set mp/iv.dps, :80 import, :210 mp.dps = DPS. h3_rung_floor.py: :56 DPS = 100, :57-58, :96 import. selftest_reg_lemmas.py:43 imports cov_exact and has no dps line. reg_lemmas.py and pin_transform.py set no dps themselves (reg_lemmas.py:55, pin_transform.py:71).",
+      "corrected_wording": "(no change)"
+     },
+     {
+      "claim": "mpf-only list confirmed (d3_perc, d3_rn_unif, d2_probes, h4_certificate, h4_probes, h3_falsifier, b4loc_driver, c1_grid, c1_intensity).",
+      "verdict": "confirmed",
+      "evidence": "Modes in scan.json: d3_perc 12, d3_rn_unif 2, d2_probes 24, h4_certificate 4, h4_probes 18 and b4loc_driver 8, all default('mpf'); h3_falsifier 1 'mpf'; c1_grid 1 'mpf' (c1_grid.py:73, positional); c1_intensity 1 'mpf' + 4 default (c1_intensity.py:101). grep for 'iv' strings or _LATT finds 0 in all nine files. d3_rn_unif.py:84 has 'ce = E.ce', and :495 has matrix_T_num(R, mode='mpf'). pt.certified_inverse (c1_grid.py:59, c1_intensity.py:163) makes no ce call; the only ce call in pin_transform.py is at :301.",
+      "corrected_wording": "(no change)"
+     },
+     {
+      "claim": "No-direct-call list confirmed; make_receipts.py only lists the hash; d3_rn_unif.py pins reg_lemmas without importing it.",
+      "verdict": "confirmed",
+      "evidence": "d3_amend.py:79,81; d3_amend_v2.py:89,92; d3_perc_decay.py:90; h4_falsifier.py:67 (pin) and :319 (import h4_probes); certify_axis_break.py:57 and :84; isserlis_break.py:53-54 and :56. scan.json shows 0 evaluator calls in all six. make_receipts.py imports at :9-12 and :29 (mpmath, sympy) and names cov_exact only at :65-66. d3_rn_unif.py:64 pins reg_lemmas, and its imports (:36-40, :82-83, :491) do not include it.",
+      "corrected_wording": "(no change; optionally: 'make_receipts.py only lists the library's hash.')"
+     },
+     {
+      "claim": "pin_transform.pin_covariance is called only from selftest_pin_transform.py, archive-wide.",
+      "verdict": "confirmed",
+      "evidence": "grep over all 251 .py: the definition is at pin_transform.py:289, with its ce call at :301; the calls are at selftest_pin_transform.py:191, 203, 224, 252, 277, 282. Other mentions are prose (README.md:76) and pyc files. No nested member mentions it.",
+      "corrected_wording": "(no change)"
+     },
+     {
+      "claim": "reg_lemmas is imported only by its selftest; D1_ASSEMBLY.md:36-41 and RETURN_06/DEPENDENCY_DAG.md:14 consume its G1/G4/G5 countersignature.",
+      "verdict": "confirmed",
+      "evidence": "The only import is selftest_reg_lemmas.py:45; my import graph shows no other importer. D1_ASSEMBLY.md:36 reads '**Lemma R countersignature: OBL-B1-REG-G1/G4/G5 CLOSED**', and :39-42 says 'OBL-B1-REG ... is closed by H2's reg_lemmas countersignature: G4 ... certified floor λ_min ≥ 6.16287e-3'. DEPENDENCY_DAG.md:14 reads 'reg_lemmas.py e7005a5a… ──@EXACT (Lemma R countersignature G1/G4/G5)──▶ B1 ..., D2'.",
+      "corrected_wording": "Only its selftest imports reg_lemmas, but D1_ASSEMBLY.md:36-42 and RETURN_06/DEPENDENCY_DAG.md:14 consume the countersignature: OBL-B1-REG is recorded as CLOSED and feeds B1 and D2."
+     },
+     {
+      "claim": "BRANCH_dir has 4 .py and W8_lambda 3, neither names cov_exact; BRANCH reaches it only via mpf calls on h4_probes' ce; W8 has its own lattice although DEPENDENCY_DAG.md:12 lists 'W8-lane'.",
+      "verdict": "confirmed",
+      "evidence": "BRANCH_dir contains br_certificate, br_falsifier, br_mc and br_probes. br_mc.py:48 and br_probes.py:28 have 'ce = h4p.ce'. br_mc.py:49 calls ce._build_lattice() and :50 reads ce._LATT. Every ce.cov call (br_mc.py:102, 147; br_probes.py:67, 69, 90, 97, 100, 103) uses the default mpf. br_certificate and br_falsifier reach the library only by importing br_mc/br_probes (:70-71, :33-34). W8_lambda contains mutate_lambda_grid, verify_lambda_grid_v2 and _v3. The v2/v3 imports are mpmath/fractions/math/os (:2-5), and v2 builds its own pi/12 lattice at :728-738 with mp.dps = 70 at :1093. DEPENDENCY_DAG.md:12 lists '... BRANCH, W8-lane'.",
+      "corrected_wording": "W8_lambda/ (3 Python files) has its own lattice (verify_lambda_grid_v2.py:728-738) and does not import the library, although RETURN_06/DEPENDENCY_DAG.md:12 lists a 'W8-lane' consumer."
+     },
+     {
+      "claim": "No variant copies of the named engines: h5_kernel's four copies are byte-identical, its two pyc files differ only in source path, no near-copy exists; the four .py.txt on main are byte-identical to the archive.",
+      "verdict": "confirmed",
+      "evidence": "sha256 over zs.json: h5_kernel.py is b2e6014c at 66,310 B, in 4 copies. Every other listed file's sha occurs once in the archive, nested zips included. The two h5_kernel pyc files differ only in the embedded path (strdiff.py). My line-overlap check (overlap.py, lines of 30+ characters, comments excluded): c2_falsifier.py shares 28 lines with h4_falsifier.py and STAGE_E/attack_h4jc.py shares 15. Both overlaps are B1F discrete-model and ck boilerplate, not engine copies, so the lens's '15 or more' threshold depends on the metric. On main at b7f72a71 (origin/main has since moved to f3b27d3c), <v3>/UPPER2D holds SIX .py.txt files, not four: b4loc_driver bf3b0225, d3_perc_decay ee68ac75, h3_band_ceil b97c5428, h3_band_floor a907eeed, plus b4loc_falsifier d59ad790 and d1_falsify_v3 5805e53d. All six are byte-identical to archive members.",
+      "corrected_wording": "(no change; optionally: 'No other copy or variant of these engines exists in the object; h5_kernel.py's four copies are byte-identical. The six .py.txt files under <v3>/UPPER2D on main are byte-identical to their archive members.')"
+     },
+     {
+      "claim": "Non-engine variants: d3_rn_unif_dbg.py differs only by dropped memoization and a debug flag; STAGE_E h5_merge copies are an older variant; h5_run.py, h5_run_r0p0125.py, h5_run_r0p0177.py have bytecode from earlier, unexamined sources.",
+      "verdict": "confirmed",
+      "evidence": "diff d3_rn_unif.py d3_rn_unif_dbg.py shows the dropped _CM2/_CM3 caches (d3_rn_unif.py:1456-1479), '_P1DBG = False' at dbg:1714, a debug emit block at dbg:1828-1835, and '_P1DBG = True' at dbg:2233, so the flag is switched on. d3_rn_unif_dbg.py also names cov_exact; it is one of the 32 and is listed by the draft as mpf, so 'non-engine' is loose. h5_merge.py is f14eba68 at 13,506 B. Both STAGE_E copies are 12597672 at 11,748 B (cmp identical), and the diff starts at :30 (assemble signature) and :32/36 (glob pattern). The pyc header sizes 24,147/28,346/28,531 against 26,420/28,694/28,707 are confirmed by pyc.py. I did not disassemble the bytecode.",
+      "corrected_wording": "d3_rn_unif_dbg.py is d3_rn_unif.py without the _CM2/_CM3 memoization and with debug output switched on (_P1DBG = True at :2233). Earlier versions of h5_run.py, h5_run_r0p0125.py and h5_run_r0p0177.py survive only as bytecode (source sizes 24,147/28,346/28,531 B); they were not examined."
+     },
+     {
+      "claim": "The draft's 'static AST scan of the 251 Python files' overstates the scan: the scanner parses only the 32 files naming cov_exact or f08c1c5f.",
+      "verdict": "confirmed",
+      "evidence": "covtrace/scan.py:15 has LOADRX = re.compile(r'cov_exact|f08c1c5f'), and :76-77 scans only if LOADRX.search(src). scan.json has 32 keys, equal to ref_files.txt. record.md:44 says 'static AST scan of the 251 Python files', while record.md:108 admits the narrower scope.",
+      "corrected_wording": "**The iv call sites, classified (static AST scan of the 32 Python files, out of 251, that name cov_exact)**"
+     }
+    ],
+    "missed": "These are gaps inside the lens's own scope. None of them adds an iv evaluator call outside the draft's files.\n\n(1) Subprocess and execv consumers were not counted. These files do not name cov_exact but run engines that use it:\n- D3_percolation/d3_falsifier.py runs d3_perc.py, d3_amend.py, d3_amend_v2.py and d3_perc_decay.py (:354, :415, :536, :668). It also writes and runs runtime-generated mutated copies of hash-pinned engines, _mut_amend.py (:478-489) and _mut_amend_v2.py (:604-613), and deletes them afterwards. These are runtime variant copies that a scan of the archive cannot see.\n- B4LOC_damline/b4loc_falsifier.py:46-48 runs b4loc_driver.py.\n- C1_alpha_intensity/falsify.py:53-59 runs c1_intensity.py and c1_grid.py.\n- D2_branch_control/d2_falsifier.py:297-301 runs d2_probes.py.\n- H5_closure/promote_run.py:78 execv's the generated driver.\nThe .sh launchers record which entry points actually ran:\n- H5_closure/supervisor.sh:25-47 runs h5_run.py and h5_merge.py.\n- falsify_promote.sh:6-19 runs h5_promote.py.\n- queue_runner.sh:14-19, supervisor_part.sh and supervisor_rung.sh run promote_run.py and promote_probes.py.\n- keeper.sh:16 runs stitch_refine3.py.\n- BRANCH_dir/keeper_rung025.sh:15 runs br_mc.py.\n\n(2) h5_kernel.py:112 builds 'LAT = Lattice()' at import time, at iv.dps 100 set by cov_exact. So the twin lattice (h, ks, ws, Z1) is 100-digit even in the drivers that drop to dps 40 afterwards. Saying they \"run at 40\" leaves this out.\n\n(3) The same reset-on-import pattern exists outside H5. h3_falsifier.py sets mp.dps = 120 at :46 and imports cov_exact at :164, so its F2 section runs at 100 (mpf only). In the other direction, c1_grid.py:25 and c1_intensity.py:55 lower mp.dps to 80 after importing, bypassing configure(). So hunt_rim and hunt_wedges, which set 80 before importing c1_grid (:18/:22), end at 80.\n\n(4) There are four KIMI_EXPORT_CONCAT*.txt members, not two. SARDG and ADDENDUM contain no program text and no hits.\n\n(5) Main at b7f72a71 has six .py.txt files under <v3>/UPPER2D, not four, and all six are byte-identical to archive members. origin/main has moved to f3b27d3c since the pin, so I checked at b7f72a71.\n\n(6) The lens's list of W3 importlib users is partial: 13 more W3 files use spec_from_file_location. All of them target W3 modules, so its conclusion stands.\n\nMy notes and tools are in <SCRATCH>/covtrace/lens_notes/skeptic-completeness/ (notes.txt, zs.py/zs.json, imp.py/imp.out, pyc.py, strdiff.py, overlap.py, codetext.py, nested_read.py)."
+   }
+  }
+ ]
+}

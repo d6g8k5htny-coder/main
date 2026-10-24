@@ -1,0 +1,274 @@
+{
+ "python": "3.11.17 (main, Oct  1 2026, 15:41:07) [GCC 13.3.0]",
+ "executable": "/usr/local/bin/python3",
+ "packet": "<SCRATCH>/c2char/src/frontiers/c2_torus_transfer_20261001",
+ "results": [
+  {
+   "mode": "normal",
+   "case": "check",
+   "argv": [
+    "-B",
+    "-S",
+    "transfer.py",
+    "--check"
+   ],
+   "rc": 0,
+   "seconds": 141.8,
+   "stdout_bytes": 13,
+   "stdout_sha256": "c6b9ef18c4dcb1476b486467d448ef6967aa414837cfa1c6c512598965191045",
+   "stderr_bytes": 0,
+   "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "stdout_tail": "check passed\n",
+   "stderr_tail": ""
+  },
+  {
+   "mode": "optimized",
+   "case": "check",
+   "argv": [
+    "-B",
+    "-O",
+    "-S",
+    "transfer.py",
+    "--check"
+   ],
+   "rc": 0,
+   "seconds": 140.5,
+   "stdout_bytes": 13,
+   "stdout_sha256": "c6b9ef18c4dcb1476b486467d448ef6967aa414837cfa1c6c512598965191045",
+   "stderr_bytes": 0,
+   "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "stdout_tail": "check passed\n",
+   "stderr_tail": ""
+  },
+  {
+   "mode": "normal",
+   "case": "controls",
+   "argv": [
+    "-B",
+    "-S",
+    "controls.py"
+   ],
+   "rc": 0,
+   "seconds": 15.5,
+   "stdout_bytes": 1789,
+   "stdout_sha256": "90247407c99f551e4d2c7eda56602b408b4fe11fbacde3f1f92b215f5de0eeed",
+   "stderr_bytes": 0,
+   "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "stdout_tail": " bound = 5.485e+01   slack 4995179.1   ok\n  s=1/2 eps=1/100000: |c2[K]-c2[phi]| = 1.100e-07   bound = 4.526e-01   slack 4112561.8   ok\nd=3 reference c2 (floating) 0.161234049126963  in certified interval: True\n  s=2 eps=1/1000: |c2[K]-c2[phi]| = 1.141e-03   bound = 4.564e+04   slack 40013609.0   ok\n  s=2 eps=1/100000: |c2[K]-c2[phi]| = 1.145e-05   bound = 8.822e+01   slack 7706212.2   ok\n  s=1/2 eps=1/1000: |c2[K]-c2[phi]| = 1.175e-05   bound = 3.193e+03   slack 271771672.8   ok\n  s=1/2 eps=1/100000: |c2[K]-c2[phi]| = 1.172e-07   bound = 2.039e+01   slack 173987536.2   ok\ncontrols: 0 failures\n",
+   "stderr_tail": ""
+  },
+  {
+   "mode": "optimized",
+   "case": "controls",
+   "argv": [
+    "-B",
+    "-O",
+    "-S",
+    "controls.py"
+   ],
+   "rc": 0,
+   "seconds": 15.2,
+   "stdout_bytes": 1789,
+   "stdout_sha256": "90247407c99f551e4d2c7eda56602b408b4fe11fbacde3f1f92b215f5de0eeed",
+   "stderr_bytes": 0,
+   "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "stdout_tail": " bound = 5.485e+01   slack 4995179.1   ok\n  s=1/2 eps=1/100000: |c2[K]-c2[phi]| = 1.100e-07   bound = 4.526e-01   slack 4112561.8   ok\nd=3 reference c2 (floating) 0.161234049126963  in certified interval: True\n  s=2 eps=1/1000: |c2[K]-c2[phi]| = 1.141e-03   bound = 4.564e+04   slack 40013609.0   ok\n  s=2 eps=1/100000: |c2[K]-c2[phi]| = 1.145e-05   bound = 8.822e+01   slack 7706212.2   ok\n  s=1/2 eps=1/1000: |c2[K]-c2[phi]| = 1.175e-05   bound = 3.193e+03   slack 271771672.8   ok\n  s=1/2 eps=1/100000: |c2[K]-c2[phi]| = 1.172e-07   bound = 2.039e+01   slack 173987536.2   ok\ncontrols: 0 failures\n",
+   "stderr_tail": ""
+  },
+  {
+   "mode": "normal",
+   "case": "mutant-no-image",
+   "argv": [
+    "-B",
+    "-S",
+    "transfer.py",
+    "--mutant",
+    "no-image"
+   ],
+   "rc": 1,
+   "seconds": 12.7,
+   "stdout_bytes": 30,
+   "stdout_sha256": "800a127a1a5fc450d536fddc71c7c47884d283a798f08c885f782544f37452d9",
+   "stderr_bytes": 0,
+   "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "stdout_tail": "MISMATCH against RESULTS.json\n",
+   "stderr_tail": ""
+  },
+  {
+   "mode": "optimized",
+   "case": "mutant-no-image",
+   "argv": [
+    "-B",
+    "-O",
+    "-S",
+    "transfer.py",
+    "--mutant",
+    "no-image"
+   ],
+   "rc": 1,
+   "seconds": 12.4,
+   "stdout_bytes": 30,
+   "stdout_sha256": "800a127a1a5fc450d536fddc71c7c47884d283a798f08c885f782544f37452d9",
+   "stderr_bytes": 0,
+   "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "stdout_tail": "MISMATCH against RESULTS.json\n",
+   "stderr_tail": ""
+  },
+  {
+   "mode": "normal",
+   "case": "mutant-no-theta",
+   "argv": [
+    "-B",
+    "-S",
+    "transfer.py",
+    "--mutant",
+    "no-theta"
+   ],
+   "rc": 1,
+   "seconds": 141.6,
+   "stdout_bytes": 30,
+   "stdout_sha256": "800a127a1a5fc450d536fddc71c7c47884d283a798f08c885f782544f37452d9",
+   "stderr_bytes": 0,
+   "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "stdout_tail": "MISMATCH against RESULTS.json\n",
+   "stderr_tail": ""
+  },
+  {
+   "mode": "optimized",
+   "case": "mutant-no-theta",
+   "argv": [
+    "-B",
+    "-O",
+    "-S",
+    "transfer.py",
+    "--mutant",
+    "no-theta"
+   ],
+   "rc": 1,
+   "seconds": 138.4,
+   "stdout_bytes": 30,
+   "stdout_sha256": "800a127a1a5fc450d536fddc71c7c47884d283a798f08c885f782544f37452d9",
+   "stderr_bytes": 0,
+   "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "stdout_tail": "MISMATCH against RESULTS.json\n",
+   "stderr_tail": ""
+  },
+  {
+   "mode": "normal",
+   "case": "mutant-drop-ratio",
+   "argv": [
+    "-B",
+    "-S",
+    "transfer.py",
+    "--mutant",
+    "drop-ratio"
+   ],
+   "rc": 1,
+   "seconds": 136.4,
+   "stdout_bytes": 30,
+   "stdout_sha256": "800a127a1a5fc450d536fddc71c7c47884d283a798f08c885f782544f37452d9",
+   "stderr_bytes": 0,
+   "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "stdout_tail": "MISMATCH against RESULTS.json\n",
+   "stderr_tail": ""
+  },
+  {
+   "mode": "optimized",
+   "case": "mutant-drop-ratio",
+   "argv": [
+    "-B",
+    "-O",
+    "-S",
+    "transfer.py",
+    "--mutant",
+    "drop-ratio"
+   ],
+   "rc": 1,
+   "seconds": 137.4,
+   "stdout_bytes": 30,
+   "stdout_sha256": "800a127a1a5fc450d536fddc71c7c47884d283a798f08c885f782544f37452d9",
+   "stderr_bytes": 0,
+   "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "stdout_tail": "MISMATCH against RESULTS.json\n",
+   "stderr_tail": ""
+  },
+  {
+   "mode": "normal",
+   "case": "mutant-eta-half",
+   "argv": [
+    "-B",
+    "-S",
+    "transfer.py",
+    "--mutant",
+    "eta-half"
+   ],
+   "rc": 1,
+   "seconds": 138.7,
+   "stdout_bytes": 30,
+   "stdout_sha256": "800a127a1a5fc450d536fddc71c7c47884d283a798f08c885f782544f37452d9",
+   "stderr_bytes": 0,
+   "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "stdout_tail": "MISMATCH against RESULTS.json\n",
+   "stderr_tail": ""
+  },
+  {
+   "mode": "optimized",
+   "case": "mutant-eta-half",
+   "argv": [
+    "-B",
+    "-O",
+    "-S",
+    "transfer.py",
+    "--mutant",
+    "eta-half"
+   ],
+   "rc": 1,
+   "seconds": 137.4,
+   "stdout_bytes": 30,
+   "stdout_sha256": "800a127a1a5fc450d536fddc71c7c47884d283a798f08c885f782544f37452d9",
+   "stderr_bytes": 0,
+   "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "stdout_tail": "MISMATCH against RESULTS.json\n",
+   "stderr_tail": ""
+  },
+  {
+   "mode": "normal",
+   "case": "mutant-fp-const",
+   "argv": [
+    "-B",
+    "-S",
+    "transfer.py",
+    "--mutant",
+    "fp-const"
+   ],
+   "rc": 1,
+   "seconds": 141.6,
+   "stdout_bytes": 30,
+   "stdout_sha256": "800a127a1a5fc450d536fddc71c7c47884d283a798f08c885f782544f37452d9",
+   "stderr_bytes": 0,
+   "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "stdout_tail": "MISMATCH against RESULTS.json\n",
+   "stderr_tail": ""
+  },
+  {
+   "mode": "optimized",
+   "case": "mutant-fp-const",
+   "argv": [
+    "-B",
+    "-O",
+    "-S",
+    "transfer.py",
+    "--mutant",
+    "fp-const"
+   ],
+   "rc": 1,
+   "seconds": 140.3,
+   "stdout_bytes": 30,
+   "stdout_sha256": "800a127a1a5fc450d536fddc71c7c47884d283a798f08c885f782544f37452d9",
+   "stderr_bytes": 0,
+   "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+   "stdout_tail": "MISMATCH against RESULTS.json\n",
+   "stderr_tail": ""
+  }
+ ]
+}
