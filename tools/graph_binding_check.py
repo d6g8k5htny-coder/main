@@ -112,6 +112,14 @@ def validate_scope(pattern: str) -> str:
     return pattern
 
 
+def scope_paths(root: Path, pattern: str):
+    """Include descendant files for terminal ** on every supported Python."""
+    pattern = validate_scope(pattern)
+    if pattern == "**" or pattern.endswith("/**"):
+        pattern += "/*"
+    return root.glob(pattern)
+
+
 def load_bindings(path):
     data = _strict_load(Path(path))
     if not isinstance(data, list):
@@ -161,7 +169,7 @@ def check(root: Path, nodes, bindings, scopes):
     in_scope, empty_scopes, scope_outside = set(), [], []
     for g in scopes:
         matched = False
-        for p in root.glob(validate_scope(g)):
+        for p in scope_paths(root, g):
             if not p.is_file():
                 continue
             rel = p.relative_to(root).as_posix()
@@ -503,7 +511,7 @@ def check_v2(root: Path, doc, repository: str, ns_checkout=None, repos=None):
     in_scope, empty_scopes = set(), []
     for g in doc["scope"]:
         matched = False
-        for p in root.glob(g):
+        for p in scope_paths(root, g):
             if p.is_file():
                 try:
                     p.resolve().relative_to(root)
