@@ -16,10 +16,12 @@ and shared principal, organizational-independence credit0, scientific effect NON
 """
 from __future__ import annotations
 
+import base64
 import copy
 import hashlib
 import json
 import os
+import resource
 import runpy
 from pathlib import Path
 import shutil
@@ -40,6 +42,15 @@ SOURCE_KEYS = {"source_id", "revision_id", "source_sha256", "extraction_sha256",
                "supersession_state"}
 REQUEST_KEYS = {"query", "exact_source_id", "exact_ref", "task_scope", "profile"}
 SENTINEL = "EVALUATOR_ONLY_6205877540_NEVER_INDEX_OR_PROMPT"
+R03_EVIDENCE_ENV = "SEMANTIC_MEMORY_R03_EVIDENCE"
+R03_MAX_STREAM_BYTES = 1048576
+R03_MAX_SIDECAR_BYTES = 1048576
+R03_SOURCE_PATHS = (
+    "tests/test_semantic_memory_benchmark.py",
+    "experiments/semantic_memory/benchmark.py",
+    "tools/semantic_memory_experiment.py",
+    ".github/workflows/semantic-memory-experiment.yml",
+)
 
 # Literal frozen expectations copied from original manifest SHA256 fc4fb7dd...
 # before these findings; never derived from the product or mutated copy.
@@ -207,6 +218,7 @@ def write_import_context(destination, kind, entry_source):
 
 destination = os.environ.pop('SEMANTIC_MEMORY_CHILD_MODE_LOG', None)
 import_destination = os.environ.pop('SEMANTIC_MEMORY_IMPORT_CONTEXT', None)
+os.environ.pop('SEMANTIC_MEMORY_R03_EVIDENCE', None)
 if destination:
     fd = os.open(destination, os.O_WRONLY | os.O_CREAT | os.O_APPEND | os.O_NOFOLLOW, 0o600)
     with os.fdopen(fd, 'a', encoding='ascii') as stream:
@@ -227,12 +239,88 @@ def encoded(value):
                        allow_nan=False) + "\n").encode("utf-8")
 
 
+def private_r03_file_limit():
+    # Linux child-only limit bounds writes before the parent captures any bytes.
+    # It also caps any other regular file written by this prepare-report child;
+    # fixtures already exist and this fixed invocation has no report destination.
+    resource.setrlimit(resource.RLIMIT_FSIZE,
+                       (R03_MAX_STREAM_BYTES, R03_MAX_STREAM_BYTES))
+
+
+def read_private_r03_stream(stream):
+    # TemporaryFile may be unlinked (nlink0); it needs stable regular-file
+    # geometry, not the fresh sidecar destination's named single-link rule.
+    before = os.fstat(stream.fileno())
+    if not stat.S_ISREG(before.st_mode) or before.st_size > R03_MAX_STREAM_BYTES:
+        raise RuntimeError("private R03 stream is not a bounded regular file")
+    stream.seek(0)
+    raw = stream.read(R03_MAX_STREAM_BYTES + 1)
+    after = os.fstat(stream.fileno())
+    geometry = lambda item: (item.st_dev, item.st_ino, item.st_size,
+                             item.st_mtime_ns, item.st_ctime_ns)
+    if (not stat.S_ISREG(after.st_mode) or geometry(before) != geometry(after)
+            or len(raw) != before.st_size):
+        raise RuntimeError("private R03 stream changed during bounded capture")
+    return raw
+
+
+def strict_r03_json(raw):
+    def unique_pairs(pairs):
+        result = {}
+        for key, value in pairs:
+            if key in result:
+                raise ValueError("duplicate R03 stdout JSON key")
+            result[key] = value
+        return result
+
+    def refuse_constant(token):
+        raise ValueError("nonfinite R03 stdout JSON token: " + token)
+
+    return json.loads(raw.decode("utf-8"), object_pairs_hook=unique_pairs,
+                      parse_constant=refuse_constant)
+
+
+def r03_stream_record(raw):
+    return {"bytes": len(raw), "sha256": digest(raw),
+            "base64": base64.b64encode(raw).decode("ascii")}
+
+
+def write_r03_evidence(destination, record):
+    """Retain actual private outcomes without changing unittest log framing."""
+    if not destination:
+        raise RuntimeError("trusted R03 evidence destination is missing")
+    body = (json.dumps(record, sort_keys=True, ensure_ascii=True,
+                       allow_nan=False) + "\n").encode("ascii")
+    if len(body) > R03_MAX_SIDECAR_BYTES:
+        raise RuntimeError("R03 evidence exceeds 1MiB; no truncated sidecar emitted")
+    fd = os.open(destination, os.O_WRONLY | os.O_CREAT | os.O_EXCL
+                 | os.O_NOFOLLOW, 0o600)
+    with os.fdopen(fd, "wb") as stream:
+        opened = os.fstat(stream.fileno())
+        if not stat.S_ISREG(opened.st_mode) or opened.st_nlink != 1:
+            raise RuntimeError("R03 evidence is not a fresh regular single-link file")
+        if stream.write(body) != len(body):
+            raise RuntimeError("R03 evidence short write")
+        stream.flush()
+        closed = os.fstat(stream.fileno())
+        if (not stat.S_ISREG(closed.st_mode) or closed.st_nlink != 1
+                or closed.st_size != len(body)):
+            raise RuntimeError("R03 evidence changed during retention")
+        os.fchmod(stream.fileno(), 0o444)
+    named = os.stat(destination, follow_symlinks=False)
+    if (not stat.S_ISREG(named.st_mode) or named.st_nlink != 1
+            or (named.st_dev, named.st_ino) != (opened.st_dev, opened.st_ino)
+            or named.st_size != len(body) or stat.S_IMODE(named.st_mode) != 0o444):
+        raise RuntimeError("R03 evidence name no longer binds the retained bytes")
+
+
 class SemanticMemoryFixtureContract(unittest.TestCase):
     """Three exact plan methods; each mutation targets a consumer behavior."""
 
     @classmethod
     def setUpClass(cls):
         cls.deadline = time.monotonic() + 120
+        cls.r03_evidence_destination = os.environ.pop(R03_EVIDENCE_ENV, None)
         cls.import_context_destination = os.environ.pop("SEMANTIC_MEMORY_IMPORT_CONTEXT", None)
         if cls.import_context_destination:
             write_import_context(cls.import_context_destination, "TEST_PROCESS_IMPORT_CONTEXT", __file__)
@@ -305,6 +393,7 @@ class SemanticMemoryFixtureContract(unittest.TestCase):
         if report is not None:
             args += ["--report", str(report)]
         environment = os.environ.copy()
+        environment.pop(R03_EVIDENCE_ENV, None)
         if self.import_context_destination:
             environment["SEMANTIC_MEMORY_IMPORT_CONTEXT"] = self.import_context_destination
         try:
@@ -314,7 +403,7 @@ class SemanticMemoryFixtureContract(unittest.TestCase):
             self.fail("real CLI blocked or exceeded finite child/mode deadline")
 
     def invoke_private_r03(self, path, cli, timeout=20):
-        """Run a private derivative without changing native-original accounting."""
+        """Capture a bounded derivative without native-original accounting."""
         remaining = self.deadline - time.monotonic()
         self.assertGreater(remaining, 0, "finite120s per-mode test budget exhausted")
         args = [sys.executable, "-I", "-B"] + (["-O"] if sys.flags.optimize else []) + [
@@ -322,11 +411,26 @@ class SemanticMemoryFixtureContract(unittest.TestCase):
         environment = os.environ.copy()
         environment.pop("SEMANTIC_MEMORY_CHILD_MODE_LOG", None)
         environment.pop("SEMANTIC_MEMORY_IMPORT_CONTEXT", None)
-        try:
-            return subprocess.run(args, cwd=self.home, env=environment, capture_output=True,
-                                  timeout=min(timeout, remaining), check=False)
-        except subprocess.TimeoutExpired:
-            self.fail("private R03 control exceeded finite child/mode deadline")
+        environment.pop(R03_EVIDENCE_ENV, None)
+        with tempfile.TemporaryFile() as stdout, tempfile.TemporaryFile() as stderr:
+            timed_out = False
+            try:
+                result = subprocess.run(args, cwd=self.home, env=environment,
+                    stdout=stdout, stderr=stderr, preexec_fn=private_r03_file_limit,
+                    timeout=min(timeout, remaining), check=False)
+            except subprocess.TimeoutExpired:
+                timed_out = True
+                result = subprocess.CompletedProcess(args, None)
+            result.stdout = read_private_r03_stream(stdout)
+            result.stderr = read_private_r03_stream(stderr)
+        if (len(result.stdout) > R03_MAX_STREAM_BYTES
+                or len(result.stderr) > R03_MAX_STREAM_BYTES):
+            self.fail("private R03 capture exceeded 1MiB; no truncated sidecar emitted")
+        saturated = (len(result.stdout) >= R03_MAX_STREAM_BYTES
+                     or len(result.stderr) >= R03_MAX_STREAM_BYTES)
+        result.r03_capture_status = ("SATURATED" if saturated else
+                                     "TIMEOUT" if timed_out else "COMPLETE")
+        return result
 
     def hosted_r03_controls(self, amended):
         """Retain hosted RED/masking witnesses without modifying native sources."""
@@ -361,40 +465,50 @@ class SemanticMemoryFixtureContract(unittest.TestCase):
                       lambda v: v.update(oracle_only_sentinel=" "))
         masking = self.invoke_private_r03(valid, private_cli)
 
-        self.assertEqual((positive.returncode, red.returncode, masking.returncode),
-                         (0, 0, 1))
-        self.assertEqual(positive.stderr, b"")
-        self.assertEqual(red.stderr, b"")
-        self.assertIs(type(json.loads(positive.stdout)), dict)
-        self.assertIs(type(json.loads(red.stdout)), dict)
-        self.assertEqual(masking.stdout, b"")
-        self.assertTrue(masking.stderr.startswith(
-            b"semantic memory fixtures refused:"), masking.stderr[:300])
-        self.assertNotIn(b"Traceback", masking.stderr)
-
+        results = (
+            ("R03_VALID_POSITIVE", 0, positive),
+            ("AMENDED_U3000_PLUS_R03_RED", 0, red),
+            ("OLD_ASCII_SPACE_PLUS_R03_MASKING", 1, masking),
+        )
         record = {
             "schema_version": 1,
             "kind": "HOSTED_R03_DERIVATIVE_CONTROL",
             "mode": "optimized" if sys.flags.optimize else "normal",
+            "optimize": sys.flags.optimize,
+            "source_sha256": {name: digest((ROOT / name).read_bytes())
+                              for name in R03_SOURCE_PATHS},
             "native_product_git_blob": git_blob(product),
             "native_cli_git_blob": git_blob(cli),
             "mutant_sha256": digest(mutant),
             "transform": "remove_only_bool_value_strip",
             "probes": [
-                {"arm": "R03_VALID_POSITIVE", "expected_exit": 0,
-                 "observed_exit": positive.returncode, "stdout_sha256": digest(positive.stdout)},
-                {"arm": "AMENDED_U3000_PLUS_R03_RED", "expected_exit": 0,
-                 "observed_exit": red.returncode, "stdout_sha256": digest(red.stdout)},
-                {"arm": "OLD_ASCII_SPACE_PLUS_R03_MASKING", "expected_exit": 1,
-                 "observed_exit": masking.returncode, "stderr_sha256": digest(masking.stderr)},
+                {"arm": arm, "expected_exit": expected,
+                 "observed_exit": result.returncode,
+                 "capture_status": result.r03_capture_status,
+                 "stdout": r03_stream_record(result.stdout),
+                 "stderr": r03_stream_record(result.stderr)}
+                for arm, expected, result in results
             ],
             "native_accounting": "PRIVATE_PROBES_EXCLUDED; EXPECTED_COUNTS_UNCHANGED_190_CLI_191_CONTEXT",
             "native_originals_modified": False,
             "scientific_effect": "NONE",
         }
-        # The hosted observer requires an exact three-line unittest result
-        # shape with OK terminal. Keep this source-bound record in the captured
-        # source and make the ordinary test result its retained outcome.
+        # Record every actual exit and raw stream before outcome assertions.
+        # Saturation/timeout remains evidence and cannot satisfy acceptance;
+        # an overlarge envelope is explicitly refused, never silently truncated.
+        write_r03_evidence(self.r03_evidence_destination, record)
+        self.assertEqual(tuple(result.r03_capture_status for _, _, result in results),
+                         ("COMPLETE", "COMPLETE", "COMPLETE"))
+        self.assertEqual((positive.returncode, red.returncode, masking.returncode),
+                         (0, 0, 1))
+        self.assertEqual(positive.stderr, b"")
+        self.assertEqual(red.stderr, b"")
+        self.assertIs(type(strict_r03_json(positive.stdout)), dict)
+        self.assertIs(type(strict_r03_json(red.stdout)), dict)
+        self.assertEqual(masking.stdout, b"")
+        self.assertTrue(masking.stderr.startswith(
+            b"semantic memory fixtures refused:"), masking.stderr[:300])
+        self.assertNotIn(b"Traceback", masking.stderr)
         self.assertEqual(json.loads(json.dumps(
             record, sort_keys=True, ensure_ascii=True, allow_nan=False)), record)
 
@@ -423,9 +537,10 @@ class SemanticMemoryFixtureContract(unittest.TestCase):
         self.assertGreater(self.deadline - time.monotonic(), 0,
                            "finite120s per-mode test budget exhausted")
         # Diagnostic paths belong to the trusted harness, never product API data.
-        # Restore both exact existence and value even on loader/API exceptions.
+        # Restore exact existence and value even on loader/API exceptions.
         missing = object()
-        names = ("SEMANTIC_MEMORY_CHILD_MODE_LOG", "SEMANTIC_MEMORY_IMPORT_CONTEXT")
+        names = ("SEMANTIC_MEMORY_CHILD_MODE_LOG", "SEMANTIC_MEMORY_IMPORT_CONTEXT",
+                 R03_EVIDENCE_ENV)
         saved = {name: os.environ.pop(name, missing) for name in names}
         try:
             namespace = runpy.run_path(str(CLI), run_name="_semantic_memory_admission_probe")
