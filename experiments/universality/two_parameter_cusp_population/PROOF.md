@@ -8,11 +8,12 @@ within its eleven-path scope through 02:20 UTC on 9 October 2026. The initial
 detached base is published quartic PR336 head
 `3ab12c6542c88554ad0d42e0e19aff2461dc3c0d`; no main integration is implied.
 
-Sections 1-10 preserve the frozen external preparation exactly: 32,809 UTF-8
+Sections 1-10 preserve the mathematical core exactly: 28,073 UTF-8
+bytes / 620 lines, SHA256
+`d4c2f0bc923d95a8a1905f4745dd4c2cad6025c1f1dcda99441e9f5285f5a213`.
+The full historical preparation is recorded separately: 32,809 UTF-8
 bytes / 696 lines, SHA256
 `001c4f609e167fcf139b5f46611bacdbf7203e4191060953d34485f78e2fc7c6`.
-Its 28,073-byte / 620-line mathematical core has SHA256
-`d4c2f0bc923d95a8a1905f4745dd4c2cad6025c1f1dcda99441e9f5285f5a213`.
 Both `final_contract_review` and `benchmark_formal_audit` completed separate
 fresh FULL original-source mathematical PASS reviews, with no must-fix.
 Root fully read the actual original 696 lines. Their exact reading ranges

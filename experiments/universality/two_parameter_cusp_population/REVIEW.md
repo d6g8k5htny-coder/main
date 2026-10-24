@@ -114,3 +114,20 @@ All performers remain source/route-exposed OpenAI/Codex AI agents, org0.
 No human mathematical authorship is inferred from configured Git identity.
 No hosted checks, ready state, main merge, compiler, empirical experiment,
 sampler/count coupling, blind admission or scientific promotion is claimed.
+
+## Documentary identity note, 24 October 2026
+
+The incorporated-proof citations above, 38350 UTF-8 bytes / 782 lines, SHA256
+`9e8caa52b6448e23e465e646ca98d6e42e0cd71442ad4118b59145ee849e1326`,
+refer to the historical proof identity read on 9 October 2026, including
+ranges 1-260, 261-520 and 521-782. Those bindings, and the construction
+snapshot in lines 1-61, are unchanged. Sections 1-10 remain the mathematical
+core: 28073 UTF-8 bytes / 620 lines, SHA256
+`d4c2f0bc923d95a8a1905f4745dd4c2cad6025c1f1dcda99441e9f5285f5a213`.
+The full historical preparation remains separate: 32809 UTF-8 bytes / 696
+lines, SHA256
+`001c4f609e167fcf139b5f46611bacdbf7203e4191060953d34485f78e2fc7c6`.
+After the header binding repair, the current proof is 38379 UTF-8 bytes /
+783 lines, SHA256
+`7920434448adec7d282e3c151f12a92f15afc8e4179b8379276921f57228e27c`.
+This note records that identity only. It is not a mathematical review.
