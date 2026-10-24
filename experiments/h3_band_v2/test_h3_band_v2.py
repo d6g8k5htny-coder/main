@@ -146,10 +146,15 @@ class ReviewedRecords(unittest.TestCase):
         fresh['environment']['mpmath'] = '0.0'
         self.assertIn('environment.mpmath', m.compare_record(fresh, expected, runtime=True))
         self.assertNotIn('environment.mpmath', m.compare_record(fresh, expected, runtime=False))
-        # a reviewed record with a malformed environment is a mismatch in both paths, never a traceback
-        for change in ('no environment', 'environment not an object'):
+        # a reviewed record naming no producer, or with a malformed environment, is a mismatch in both paths,
+        # never a traceback
+        for change in ('no version', 'no mpmath key', 'no environment', 'environment not an object'):
             malformed = json.loads(json.dumps(expected))
-            if change == 'no environment':
+            if change == 'no version':
+                malformed['environment']['mpmath'] = None
+            elif change == 'no mpmath key':
+                del malformed['environment']['mpmath']
+            elif change == 'no environment':
                 del malformed['environment']
             else:
                 malformed['environment'] = '1.4.1'
@@ -205,7 +210,9 @@ class ReviewedRecords(unittest.TestCase):
         original = (RESULTS / 'ceil.transcript.txt').read_text()
         for layout, text, mode in (('no header', original.split('\n', 1)[1], None),
                                    ('no header', original.split('\n', 1)[1], 'ceil'),
-                                   ('header on line 2', 'copied transcript\n' + original, 'ceil')):
+                                   ('header on line 2', 'copied transcript\n' + original, 'ceil'),
+                                   ('blank first line', '\n' + original, 'ceil'),
+                                   ('indented header', ' ' + original, 'ceil')):
             rec = json.loads((RESULTS / 'ceil.json').read_text())
             rec['mode'] = mode
             rec['transcript_sha256'] = hashlib.sha256(text.encode()).hexdigest()
