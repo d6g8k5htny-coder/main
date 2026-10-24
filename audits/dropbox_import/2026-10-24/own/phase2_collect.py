@@ -20,8 +20,17 @@ def observe(rel,size,h,src):
         global agree; agree+=1
     obs[rel]=(h,size,src)
 conflicts=set()
-for rel,v in prev.items():   # observations harvested from the transcript (phase2_harvest.py) are observations too
-    observe(rel,v.get('size'),v['content_hash'],'harvest')
+rej.update({'harvest_malformed':0,'harvest_not_in_listing':0,'harvest_size_mismatch':0,'harvest_size_missing':0,'harvest_conflict_sentinel':0})
+for rel,v in prev.items():   # observations harvested from the transcript (phase2_harvest.py) pass the same validation
+    h=v.get('content_hash'); size=v.get('size')
+    if h=='CONFLICT': rej['harvest_conflict_sentinel']+=1; conflicts.add(rel); continue
+    if not isinstance(h,str) or not re.fullmatch(r'[0-9a-f]{64}',h): rej['harvest_malformed']+=1; continue
+    if rel not in inv: rej['harvest_not_in_listing']+=1; continue
+    if size is None:
+        if inv[rel]==0 and h==EMPTY: size=0
+        else: rej['harvest_size_missing']+=1; continue
+    if size!=inv[rel]: rej['harvest_size_mismatch']+=1; continue
+    observe(rel,size,h,'harvest')
 for p in sorted(glob.glob(S+'/dbx/agentout/*.tsv')):
     for line in open(p,encoding='utf-8'):
         c=line.rstrip('\n').split('\t')

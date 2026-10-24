@@ -67,9 +67,19 @@ agg=collections.defaultdict(lambda:{'files':0,'bytes':0,'distinct_contents':set(
 for r in rows:
     if rowlevel(r) or r['personal']: continue
     a=agg[(r['label'],r['ext'],r['tier'])]; a['files']+=1; a['bytes']+=r['size']; a['distinct_contents'].add(r['hash'] or r['path']); a['modified_on_or_after_import_day']+=('MODIFIED_ON_OR_AFTER_IMPORT_DAY' in r['flags'])
+MIN_CELL=3   # no aggregate cell may describe fewer than three files (a single file's exact size is per-file data)
+agg2={}
+for (lab,ex,ti),a in agg.items():
+    key=(lab,ex,ti) if a['files']>=MIN_CELL else (lab,'(other)',ti)
+    b=agg2.setdefault(key,{'files':0,'bytes':0,'distinct_contents':set(),'modified_on_or_after_import_day':0,'merged_extensions':set()})
+    b['files']+=a['files']; b['bytes']+=a['bytes']; b['distinct_contents']|=a['distinct_contents']; b['modified_on_or_after_import_day']+=a['modified_on_or_after_import_day']
+    if key[1]=='(other)': b['merged_extensions'].add(ex)
 with open(OUT+'/CROSSWALK_AGGREGATE.tsv','w',encoding='utf-8') as f:
     f.write('folder\textension\ttier\tfiles\tdistinct_contents\tbytes\tmodified_on_or_after_import_day\n')
-    for (lab,ex,ti),a in sorted(agg.items()): f.write('\t'.join([lab,ex,ti,str(a['files']),str(len(a['distinct_contents'])),str(a['bytes']),str(a['modified_on_or_after_import_day'])])+'\n')
+    for (lab,ex,ti),a in sorted(agg2.items()):
+        small=a['files']<MIN_CELL
+        f.write('\t'.join([lab,ex,ti,str(a['files']),'withheld' if small else str(len(a['distinct_contents'])),'withheld' if small else str(a['bytes']),'withheld' if small else str(a['modified_on_or_after_import_day'])])+'\n')
+summary_agg_note=f'cells with fewer than {MIN_CELL} files are merged into an (other) extension row per folder and tier; a cell still below {MIN_CELL} files prints its file count only'
 # --- SUMMARY.json
 tiers=collections.defaultdict(lambda:{'files':0,'bytes':0})
 for r in rows: tiers[r['tier']]['files']+=1; tiers[r['tier']]['bytes']+=r['size']
@@ -106,6 +116,7 @@ summary['ledger_hits_aggregated']={f'{row} {unit}':dict(c) for (row,unit),c in s
 summary['row_level_rule']='per-file rows only for paths the 2026-09-27 import already named or for files whose bytes are already public (GIT_EXACT, ARCHIVE_EXACT, EMPTY); all other files are in CROSSWALK_AGGREGATE.tsv by folder, extension and tier, with their row-level hashes held locally pending an owner or CoS publication decision'
 summary['hash_receipt']=json.load(open(S+'/dbx/hash_receipt.json'))
 summary['row_level_rows']=sum(1 for r in rows if rowlevel(r))
+summary['aggregate_rule']=summary_agg_note
 json.dump(summary,open(OUT+'/SUMMARY.json','w'),indent=1,sort_keys=True)
 # --- HASH_UNAVAILABLE.tsv
 import glob
