@@ -418,7 +418,7 @@ def append_receipt(api, receipt, old_head, *, read_attempts=REF_READBACK_ATTEMPT
             read_pause(min(1, max(0, deadline - read_clock())))
     else:
         api.request("POST", "/git/refs", {"ref": REF_NAME, "sha": commit})
-    observed = read_anchor_at(api, commit)
+    observed = read_anchor(api)
     if observed != {"head": commit, "receipt": receipt}:
         raise ValueError("receipt branch changed during write; publication recovery needed")
     return observed

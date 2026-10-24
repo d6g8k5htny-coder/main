@@ -30,6 +30,7 @@ class GitObjectAPI:
         self.race = False
         self.unknown_patch = False
         self.ref_reads = []
+        self.post_ref_reads = []
         self.post_patch_ref_reads = []
         self.corrupt_after_patch = None
 
@@ -64,6 +65,7 @@ class GitObjectAPI:
             if self.head is not None:
                 raise ValueError("branch already exists")
             self.head = body["sha"]
+            self.ref_reads = list(self.post_ref_reads)
         elif method == "PATCH" and path == m.REF_WRITE:
             if body["force"] is not False:
                 raise AssertionError("forced update reached fixture")
@@ -221,6 +223,40 @@ class PublicationTests(unittest.TestCase):
             self.prepare(future)
         self.assertEqual(self.api.calls, [])
 
+    def test_candidate_and_execution_identity_mismatches_are_rejected_before_api_access(self):
+        cases = []
+        different_run = copy.deepcopy(self.candidate)
+        different_run["run"]["id"] = 43
+        cases.append(("run id", different_run, self.context))
+        different_workflow = copy.deepcopy(self.candidate)
+        different_workflow["source"]["workflow"] = ".github/workflows/other.yml"
+        cases.append(("source workflow", different_workflow, self.context))
+        for field, value in (("repository", "evil/private"), ("ref", "refs/heads/other")):
+            context = copy.deepcopy(self.context)
+            context[field] = value
+            cases.append(("execution " + field, self.candidate, context))
+        for label, candidate, context in cases:
+            with self.subTest(label=label), self.assertRaises(ValueError):
+                self.module.prepare_publication(
+                    candidate, api=self.api, context=context, reader=PublicReader({}),
+                    allow_bootstrap=True, now="2026-10-13T15:00:00Z")
+            self.assertEqual(self.api.calls, [])
+
+    def test_observe_rejects_altered_prepared_digest_or_inventory_before_api_access(self):
+        prepared = self.prepare()
+        for field, value in (("manifest.sha256", "e" * 64), ("snapshot_ids", ["e" * 64])):
+            candidate = copy.deepcopy(self.candidate)
+            if field == "manifest.sha256":
+                candidate["manifest"]["sha256"] = value
+            else:
+                candidate[field] = value
+            api = GitObjectAPI(self.module)
+            with self.subTest(field=field), self.assertRaisesRegex(ValueError, "prepared receipt"):
+                self.module.observe_publication(
+                    candidate, prepared, api=api, context=self.context,
+                    reader=self.reader, now="2026-10-13T15:01:00Z", attempts=1)
+            self.assertEqual(api.calls, [])
+
     def test_post_patch_old_head_once_then_target_is_verified_without_repatch(self):
         prepared = self.prepare()
         self.api.post_patch_ref_reads = [prepared["head"]]
@@ -273,6 +309,12 @@ class PublicationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "bootstrap"):
             self.module.prepare_publication(self.candidate, api=self.api, context=self.context, reader=self.reader, allow_bootstrap=True)
         self.assertEqual(self.api.head, None)
+
+    def test_bootstrap_post_requires_ref_readback_of_the_created_commit(self):
+        self.api.post_ref_reads = [None]
+        with self.assertRaisesRegex(ValueError, "(unavailable|recovery|branch)"):
+            self.prepare()
+        self.assertEqual(len([call for call in self.api.calls if call[:2] == ("POST", "/git/refs")]), 1)
 
     def test_unavailable_branch_is_not_treated_as_initial_absence(self):
         class Unavailable:
