@@ -43,6 +43,7 @@ except ImportError:  # the certificate needs mpmath; the structure lemma does no
 
 HERE = Path(__file__).resolve().parent
 COV_EXACT_SHA256 = 'f08c1c5f653f2ffd2e85d39e1112f80d15db04d15f932e5ee42db2ca3553e783'
+MPMATH_PIN = '1.4.1'  # the producer runtime every record must name; requirements.txt pins the same wheel
 PROGRAM = 'experiments/h3_band_v2/h3_band_v2.py'
 
 MUTATIONS = {
@@ -1363,6 +1364,15 @@ def file_sha256(path):
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
+def transcript_mode(body):
+    """The envelope a transcript names in its first line, or None if that line is missing or unknown."""
+    first = body.split('\n', 1)[0]
+    for mode in ('ceil', 'floor'):
+        if first.startswith('H3 BAND V2 %s ' % mode.upper()):
+            return mode
+    return None
+
+
 def transcript_mutation(body):
     """The mutation a transcript declares in its header, or None if the header is missing."""
     for ln in body.splitlines():
@@ -1392,8 +1402,9 @@ def make_record(mode, body):
 
 
 def compare_record(record, expected, runtime=True):
-    """Return a list of mismatches between a fresh record and the reviewed one. Only a recomputing
-    replay (runtime=True) must match the reviewed mpmath; verify-record recomputes nothing."""
+    """Return a list of mismatches between a fresh record and the reviewed one. The reviewed record must
+    name the pinned producer mpmath; only a recomputing replay (runtime=True) must also run it, since
+    verify-record recomputes nothing."""
     bad = []
     for key in ('schema', 'program', 'program_sha256', 'cov_exact_sha256', 'mode', 'mutation', 'all_checks_pass',
                 'transcript_sha256', 'cells', 'uniform', 'scientific_effect', 'review_status'):
@@ -1404,7 +1415,10 @@ def compare_record(record, expected, runtime=True):
         bad.append('mutation is not none')
     if record.get('all_checks_pass') is not True or expected.get('all_checks_pass') is not True:
         bad.append('ALL_CHECKS_PASS missing')
-    if runtime and record['environment'].get('mpmath') != expected.get('environment', {}).get('mpmath'):
+    env = expected.get('environment')
+    if not isinstance(env, dict) or env.get('mpmath') != MPMATH_PIN:
+        bad.append('environment.mpmath pin')
+    if runtime and record['environment'].get('mpmath') != (env.get('mpmath') if isinstance(env, dict) else None):
         bad.append('environment.mpmath')
     if not expected.get('cells') or not expected.get('uniform'):
         bad.append('empty record')
@@ -1445,11 +1459,16 @@ def main(argv=None):
             return 2
         body = Path(args.transcript).read_text()
         expected = json.loads(Path(args.results).read_text())
-        bad = compare_record(make_record(expected.get('mode'), body), expected, runtime=False)
+        if not isinstance(expected, dict):
+            print('H3_BAND_V2 VERIFY_FAIL: the reviewed record is not a JSON object')
+            return 1
+        # the mode comes from the transcript's own header, so a relabelled record is caught
+        mode = transcript_mode(body)
+        bad = compare_record(make_record(mode, body), expected, runtime=False)
         if bad:
             print('H3_BAND_V2 VERIFY_FAIL: record mismatch in %s' % ', '.join(bad))
             return 1
-        print('H3_BAND_V2 VERIFY PASS: transcript matches the reviewed %s record (%d cells)' % (expected['mode'], len(expected['cells'])))
+        print('H3_BAND_V2 VERIFY PASS: transcript matches the reviewed %s record (%d cells)' % (mode, len(expected['cells'])))
         return 0
     if mpmath is None:
         print('H3_BAND_V2 ERROR: mpmath is required for the certificate')
@@ -1471,7 +1490,8 @@ def main(argv=None):
     if args.record:
         Path(args.record).write_text(json.dumps(record, indent=2, sort_keys=True) + '\n')
     if args.verify:
-        bad = compare_record(record, json.loads(Path(args.verify).read_text()))
+        expected = json.loads(Path(args.verify).read_text())
+        bad = compare_record(record, expected) if isinstance(expected, dict) else ['the reviewed record is not a JSON object']
         if bad:
             print('H3_BAND_V2 VERIFY_FAIL: record mismatch in %s' % ', '.join(bad))
             return 1

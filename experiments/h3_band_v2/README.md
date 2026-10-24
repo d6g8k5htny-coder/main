@@ -110,7 +110,7 @@ python3 -B -m unittest discover -s experiments/h3_band_v2 -p 'test_*.py' -v
   - 1 on any failed check (`H3_BAND_V2 FAIL: …`) or any record mismatch (`H3_BAND_V2 VERIFY_FAIL: …`);
   - 2 on a refused combination of options;
   - 3 for a mutated run that completed, which is never a certificate.
-- **Comparing a stored transcript:** `verify-record --transcript F --results R` checks a transcript against a record without recomputing. It needs only the standard library, and it does not compare the verifier's mpmath version with the record's; only a recomputing `--verify` replay does.
+- **Comparing a stored transcript:** `verify-record --transcript F --results R` checks a transcript against a record without recomputing. It needs only the standard library, and it does not compare the verifier's mpmath version with the record's; only a recomputing `--verify` replay does. It does require the record to name the pinned producer mpmath (`MPMATH_PIN`, the same version as `requirements.txt`), and it reads the mode from the transcript's first line rather than from the record.
 
 ## Negative controls
 
@@ -140,7 +140,9 @@ The record checks are tested too. Each of the following is rejected:
 - a mutated transcript, or one without `ALL_CHECKS_PASS`, even with a record made consistent with it;
 - a transcript and record doctored consistently with each other. `verify-record` alone accepts that pair; only a recomputing replay exposes it;
 - a transcript whose only change is a check line that carries no certified decimal. Only the transcript digest binds those lines;
-- in a recomputing replay, a record made with another mpmath version. `verify-record` itself passes with mpmath missing or at any version, because it recomputes nothing and does not read the record's environment block. A separate test checks that the committed records name the `requirements.txt` pin.
+- a record naming a producer mpmath other than the pin, by `verify-record` and by a recomputing replay. `verify-record` does not depend on the verifier's own mpmath; only a recomputing replay requires the verifier to run the pinned version;
+- a record relabelled to the other envelope, because the mode is read from the transcript's first line;
+- a record that is not a JSON object.
 
 ## Provenance
 
@@ -149,5 +151,5 @@ The record checks are tested too. Each of the following is rejected:
   - The program never calls those evaluators for a certified value. A2 and DEV2/DEV4 come from Poisson sums with their own denominator tails.
   - The program's only load-bearing use of Z_T is the CB4 majorant A_n(ρ), which divides a nonnegative sum by an interval whose lower end is at most Z_T, which is at most Z. That can only make the bound larger.
   - CB1d (above) and CB7 are checks only. The library itself is frozen and stays byte-identical. A repaired library would be a separate successor.
-- **Records:** `results/*.json` bind the program digest, the cov_exact digest, the producer's mpmath version (which a recomputing replay enforces), the transcript digest and every certified decimal. They also require an unmutated run that passed every check. `results/*.transcript.txt` are the matching transcripts.
+- **Records:** `results/*.json` bind the program digest, the cov_exact digest, the producer's mpmath version, which must equal the pin `MPMATH_PIN` (a recomputing replay also requires the verifier to run it), the transcript digest and every certified decimal. They also require an unmutated run that passed every check. `results/*.transcript.txt` are the matching transcripts.
 - **Re-recording:** any edit to `h3_band_v2.py` requires regenerating the records with `--record`, and that regeneration is itself a change for review.

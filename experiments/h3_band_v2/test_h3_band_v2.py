@@ -140,9 +140,41 @@ class ReviewedRecords(unittest.TestCase):
         # verify-record does not read a record's environment, so the committed records are checked here
         pin = next(ln.split()[0].split('==')[1] for ln in (HERE / 'requirements.txt').read_text().splitlines()
                    if ln.startswith('mpmath=='))
+        self.assertEqual(load_program().MPMATH_PIN, pin)
         for mode in ('ceil', 'floor'):
             rec = json.loads((RESULTS / ('%s.json' % mode)).read_text())
             self.assertEqual(rec['environment']['mpmath'], pin, mode)
+
+    def test_a_record_naming_another_mpmath_is_rejected(self):
+        # the reviewed record must name the pinned producer, whatever mpmath the verifier has
+        rec = json.loads((RESULTS / 'ceil.json').read_text())
+        rec['environment']['mpmath'] = '0.0'
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d) / 'r.json'
+            p.write_text(json.dumps(rec))
+            for r in (self.check(RESULTS / 'ceil.transcript.txt', p),
+                      run_with_mpmath(None, 'verify-record', '--transcript', RESULTS / 'ceil.transcript.txt', '--results', p)):
+                self.assertEqual(r.returncode, 1, r.stdout + r.stderr)
+                self.assertEqual(summary(r), 'H3_BAND_V2 VERIFY_FAIL: record mismatch in environment.mpmath pin')
+
+    def test_a_relabelled_record_is_rejected(self):
+        # the mode is read from the transcript's header, not taken from the record
+        rec = json.loads((RESULTS / 'ceil.json').read_text())
+        rec['mode'] = 'floor'
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d) / 'r.json'
+            p.write_text(json.dumps(rec))
+            r = self.check(RESULTS / 'ceil.transcript.txt', p)
+        self.assertEqual(r.returncode, 1, r.stdout + r.stderr)
+        self.assertEqual(summary(r), 'H3_BAND_V2 VERIFY_FAIL: record mismatch in mode')
+
+    def test_a_record_that_is_not_an_object_is_rejected(self):
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d) / 'r.json'
+            p.write_text('[]')
+            r = self.check(RESULTS / 'ceil.transcript.txt', p)
+        self.assertEqual(r.returncode, 1, r.stdout + r.stderr)
+        self.assertEqual(summary(r), 'H3_BAND_V2 VERIFY_FAIL: the reviewed record is not a JSON object')
 
     def test_a_changed_check_line_is_rejected(self):
         # only the transcript digest binds the lines that carry no certified decimal
@@ -196,6 +228,8 @@ class ReviewedRecords(unittest.TestCase):
         # a transcript edited by `edit` and a record made consistent with it from the same program
         text = edit((RESULTS / ('%s.transcript.txt' % mode)).read_text())
         rec = load_program().make_record(mode, text)
+        # the producer environment of the reviewed record, so only the intended defect differs
+        rec['environment'] = json.loads((RESULTS / ('%s.json' % mode)).read_text())['environment']
         return text, rec
 
     def test_a_mutated_transcript_with_a_matching_record_is_rejected(self):
@@ -260,7 +294,7 @@ class Replays(unittest.TestCase):
             p.write_text(json.dumps(rec))
             r = run('ceil', '--verify', p)
         self.assertEqual(r.returncode, 1, r.stdout[-2000:])
-        self.assertEqual(summary(r), 'H3_BAND_V2 VERIFY_FAIL: record mismatch in environment.mpmath')
+        self.assertEqual(summary(r), 'H3_BAND_V2 VERIFY_FAIL: record mismatch in environment.mpmath pin, environment.mpmath')
 
     def test_replay_rejects_a_self_consistent_doctored_record(self):
         # transcript and record doctored together, so verify-record alone would accept them;
