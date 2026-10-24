@@ -1391,8 +1391,9 @@ def make_record(mode, body):
     }
 
 
-def compare_record(record, expected):
-    """Return a list of mismatches between a fresh record and the reviewed one."""
+def compare_record(record, expected, runtime=True):
+    """Return a list of mismatches between a fresh record and the reviewed one. Only a recomputing
+    replay (runtime=True) must match the reviewed mpmath; verify-record recomputes nothing."""
     bad = []
     for key in ('schema', 'program', 'program_sha256', 'cov_exact_sha256', 'mode', 'mutation', 'all_checks_pass',
                 'transcript_sha256', 'cells', 'uniform', 'scientific_effect', 'review_status'):
@@ -1403,7 +1404,7 @@ def compare_record(record, expected):
         bad.append('mutation is not none')
     if record.get('all_checks_pass') is not True or expected.get('all_checks_pass') is not True:
         bad.append('ALL_CHECKS_PASS missing')
-    if record['environment'].get('mpmath') != expected.get('environment', {}).get('mpmath'):
+    if runtime and record['environment'].get('mpmath') != expected.get('environment', {}).get('mpmath'):
         bad.append('environment.mpmath')
     if not expected.get('cells') or not expected.get('uniform'):
         bad.append('empty record')
@@ -1444,7 +1445,7 @@ def main(argv=None):
             return 2
         body = Path(args.transcript).read_text()
         expected = json.loads(Path(args.results).read_text())
-        bad = compare_record(make_record(expected.get('mode'), body), expected)
+        bad = compare_record(make_record(expected.get('mode'), body), expected, runtime=False)
         if bad:
             print('H3_BAND_V2 VERIFY_FAIL: record mismatch in %s' % ', '.join(bad))
             return 1

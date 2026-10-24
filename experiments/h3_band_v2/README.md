@@ -110,7 +110,7 @@ python3 -B -m unittest discover -s experiments/h3_band_v2 -p 'test_*.py' -v
   - 1 on any failed check (`H3_BAND_V2 FAIL: …`) or any record mismatch (`H3_BAND_V2 VERIFY_FAIL: …`);
   - 2 on a refused combination of options;
   - 3 for a mutated run that completed, which is never a certificate.
-- **Comparing a stored transcript:** `verify-record --transcript F --results R` checks a transcript against a record without recomputing.
+- **Comparing a stored transcript:** `verify-record --transcript F --results R` checks a transcript against a record without recomputing. It needs only the standard library, and it does not compare the verifier's mpmath version with the record's; only a recomputing `--verify` replay does.
 
 ## Negative controls
 

@@ -31,6 +31,23 @@ def run(*args):
                           capture_output=True, text=True, timeout=1800)
 
 
+def run_with_mpmath(stub, *args):
+    """Run the program without site-packages (-S) and with sys.modules['mpmath'] preset: None hides mpmath,
+    a string fakes that version."""
+    opt = ['-O'] if sys.flags.optimize else []
+    code = ('import runpy, sys, types\n'
+            'stub = %r\n'
+            'if stub is None:\n'
+            '    sys.modules["mpmath"] = None\n'
+            'else:\n'
+            '    fake = types.ModuleType("mpmath")\n'
+            '    fake.__version__, fake.mp, fake.iv, fake.mpf = stub, None, None, None\n'
+            '    sys.modules["mpmath"] = fake\n'
+            'sys.argv = [%r] + %r\n'
+            'sys.exit(runpy.run_path(%r, run_name="__main__"))\n') % (stub, str(PROG), [str(a) for a in args], str(PROG))
+    return subprocess.run([sys.executable, '-I', '-B', '-S', *opt, '-c', code], capture_output=True, text=True, timeout=600)
+
+
 def load_program():
     spec = importlib.util.spec_from_file_location('h3_band_v2_under_test', PROG)
     module = importlib.util.module_from_spec(spec)
@@ -99,6 +116,24 @@ class ReviewedRecords(unittest.TestCase):
             r = self.check(RESULTS / ('%s.transcript.txt' % mode), RESULTS / ('%s.json' % mode))
             self.assertEqual(r.returncode, 0, r.stdout)
             self.assertIn('VERIFY PASS', summary(r))
+
+    def test_verify_record_does_not_depend_on_the_verifiers_mpmath(self):
+        # verify-record recomputes nothing, so neither a missing mpmath nor another version may matter
+        for stub in (None, '0.0'):
+            for mode in ('ceil', 'floor'):
+                with self.subTest(mpmath=stub, mode=mode):
+                    r = run_with_mpmath(stub, 'verify-record', '--transcript', RESULTS / ('%s.transcript.txt' % mode),
+                                        '--results', RESULTS / ('%s.json' % mode))
+                    self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+                    self.assertIn('VERIFY PASS', summary(r))
+
+    def test_a_replay_still_requires_the_reviewed_mpmath_version(self):
+        m = load_program()
+        expected = json.loads((RESULTS / 'ceil.json').read_text())
+        fresh = json.loads(json.dumps(expected))
+        fresh['environment']['mpmath'] = '0.0'
+        self.assertIn('environment.mpmath', m.compare_record(fresh, expected))
+        self.assertNotIn('environment.mpmath', m.compare_record(fresh, expected, runtime=False))
 
     def test_records_carry_review_status_and_no_scientific_effect(self):
         for mode in ('ceil', 'floor'):
@@ -194,6 +229,17 @@ class Replays(unittest.TestCase):
         r = run('floor', '--verify', RESULTS / 'floor.json')
         self.assertEqual(r.returncode, 0, r.stdout[-2000:] + r.stderr[-2000:])
         self.assertIn('matches the reviewed record', summary(r))
+
+    def test_replay_rejects_a_record_made_with_another_mpmath(self):
+        # the record differs from the reviewed one only in the producer's mpmath version
+        rec = json.loads((RESULTS / 'ceil.json').read_text())
+        rec['environment']['mpmath'] = '0.0'
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d) / 'r.json'
+            p.write_text(json.dumps(rec))
+            r = run('ceil', '--verify', p)
+        self.assertEqual(r.returncode, 1, r.stdout[-2000:])
+        self.assertEqual(summary(r), 'H3_BAND_V2 VERIFY_FAIL: record mismatch in environment.mpmath')
 
     def test_replay_rejects_a_self_consistent_doctored_record(self):
         # transcript and record doctored together, so verify-record alone would accept them;
