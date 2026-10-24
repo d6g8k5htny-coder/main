@@ -26,7 +26,9 @@ with open(T,'rb') as f:
                 p=e.get('path','')
                 if '//' not in p or 'content_hash' not in e: continue
                 rel=p.split('//',1)[1]
+                v={'size':e.get('size'),'content_hash':e['content_hash']}  # size may be absent for empty files
+                if rel in out and out[rel]!=v: v={'size':None,'content_hash':'CONFLICT'}   # two transcript observations disagree: fail closed
                 if rel not in out: new+=1
-                out[rel]={'size':e.get('size'),'content_hash':e['content_hash']}  # size may be absent for empty files
+                out[rel]=v
 json.dump(out, open(OUT,'w'), indent=0, sort_keys=True, ensure_ascii=False)
 print('calls',calls,'new',new,'total',len(out))

@@ -12,7 +12,7 @@ import csv, json, collections, hashlib, os, re, shutil, sys
 from pathlib import PurePosixPath
 S='<SCRATCH>'
 SD='<SESSION_DIR>'
-WT=S+'/dbxpr/wt'; FINAL=WT+'/audits/dropbox_import/2026-10-24'; OUT=S+'/dbxpr/build_out/2026-10-24'; M='/home/user/main/audits/dropbox_import/2026-09-27'
+WT=S+'/dbxpr/wt'; FINAL=WT+'/audits/dropbox_import/2026-10-24'; OUT=S+'/dbxpr/build_out/2026-10-24'; M='<MAIN_CHECKOUT>/audits/dropbox_import/2026-09-27'
 if os.path.exists(OUT): shutil.rmtree(OUT)
 os.makedirs(OUT+'/own')
 p3=[l.rstrip('\n').split('\t') for l in open(S+'/dbx/phase3.tsv',encoding='utf-8')][1:]
@@ -54,12 +54,22 @@ def ext(name):
 rows=[]
 for path,name,size,cm,tier,h,loc,flags in p3:
     rows.append(dict(path=path,name=name,size=int(size),cm=cm,tier=tier,hash=h,loc=redact_locator(loc),flags=flags,personal='PERSONAL_NAME' in flags,named=path in imp_paths,label=label(path),ext=ext(name)))
-# --- CROSSWALK.tsv
+# --- CROSSWALK.tsv: row level only where nothing new is disclosed: the 2026-09-27 import already named the path, or the bytes
+#     are already public (GIT_EXACT, ARCHIVE_EXACT, EMPTY: the hash is the hash of a public blob).  Everything else is aggregated.
+PUBLIC_BYTES=('GIT_EXACT','ARCHIVE_EXACT','EMPTY')
+def rowlevel(r): return (not r['personal']) and (r['named'] or r['tier'] in PUBLIC_BYTES)
 with open(OUT+'/CROSSWALK.tsv','w',encoding='utf-8') as f:
     f.write('\t'.join(['dropbox_path_if_already_named','folder','extension','bytes','client_modified','content_hash','tier','git_or_archive_locator','flags'])+'\n')
     for r in sorted(rows,key=lambda r:(r['tier'],r['label'],r['hash'],r['size'])):
-        if r['personal']: continue
+        if not rowlevel(r): continue
         f.write('\t'.join([r['path'] if r['named'] else '', r['label'], r['ext'], str(r['size']), r['cm'], r['hash'], r['tier'], r['loc'], r['flags']])+'\n')
+agg=collections.defaultdict(lambda:{'files':0,'bytes':0,'distinct_contents':set(),'modified_on_or_after_import_day':0})
+for r in rows:
+    if rowlevel(r) or r['personal']: continue
+    a=agg[(r['label'],r['ext'],r['tier'])]; a['files']+=1; a['bytes']+=r['size']; a['distinct_contents'].add(r['hash'] or r['path']); a['modified_on_or_after_import_day']+=('MODIFIED_ON_OR_AFTER_IMPORT_DAY' in r['flags'])
+with open(OUT+'/CROSSWALK_AGGREGATE.tsv','w',encoding='utf-8') as f:
+    f.write('folder\textension\ttier\tfiles\tdistinct_contents\tbytes\tmodified_on_or_after_import_day\n')
+    for (lab,ex,ti),a in sorted(agg.items()): f.write('\t'.join([lab,ex,ti,str(a['files']),str(len(a['distinct_contents'])),str(a['bytes']),str(a['modified_on_or_after_import_day'])])+'\n')
 # --- SUMMARY.json
 tiers=collections.defaultdict(lambda:{'files':0,'bytes':0})
 for r in rows: tiers[r['tier']]['files']+=1; tiers[r['tier']]['bytes']+=r['size']
@@ -84,15 +94,18 @@ summary={'listed_at':'2026-10-24T18:31Z (list_folder, 11 pages, has_more=false)'
 json.dump(summary,open(OUT+'/SUMMARY.json','w'),indent=1,sort_keys=True)
 # --- LEDGER_CROSSWALK.tsv: per-file rows only for files whose folder is named or that the import named; withheld-folder hits are counted per unit
 lc=[l.rstrip('\n').split('\t') for l in open(S+'/dbx/ledger_crosswalk.tsv',encoding='utf-8')][1:]
-bypath={r['path']:r for r in rows}; agg=collections.defaultdict(collections.Counter)
+bypath={r['path']:r for r in rows}; agg2=collections.defaultdict(collections.Counter)
 with open(OUT+'/LEDGER_CROSSWALK.tsv','w',encoding='utf-8') as f:
     f.write('\t'.join(['ledger_row','repo','unit','missing_proof','missing_impl','match','matched_tokens','kind','dropbox_path_if_already_named','folder','extension','bytes','client_modified','tier','content_hash','git_or_archive_locator','locator_in_unit','locator_count','flags'])+'\n')
     for row,repo,unit,mp,mi,match,kind,path,size,cm,tier,h,loc,flags,mt,inu,nloc in lc:
         r=bypath.get(path)
         if r is None or r['personal']: continue
-        if r['label']=='(withheld)' and not r['named']: agg[(row,unit)][f'{match}:{kind}:{r["tier"]}']+=1; continue
+        if not rowlevel(r) or (r['label']=='(withheld)' and not r['named']): agg2[(row,unit)][f'{match}:{kind}:{r["tier"]}']+=1; continue
         f.write('\t'.join([row,repo,unit,mp,mi,match,mt,kind,r['path'] if r['named'] else '',r['label'],r['ext'],str(r['size']),r['cm'],r['tier'],r['hash'],r['loc'],inu,nloc,r['flags']])+'\n')
-summary['ledger_hits_in_withheld_folders']={f'{row} {unit}':dict(c) for (row,unit),c in sorted(agg.items(),key=lambda kv:int(kv[0][0]))}
+summary['ledger_hits_aggregated']={f'{row} {unit}':dict(c) for (row,unit),c in sorted(agg2.items(),key=lambda kv:int(kv[0][0]))}
+summary['row_level_rule']='per-file rows only for paths the 2026-09-27 import already named or for files whose bytes are already public (GIT_EXACT, ARCHIVE_EXACT, EMPTY); all other files are in CROSSWALK_AGGREGATE.tsv by folder, extension and tier, with their row-level hashes held locally pending an owner or CoS publication decision'
+summary['hash_receipt']=json.load(open(S+'/dbx/hash_receipt.json'))
+summary['row_level_rows']=sum(1 for r in rows if rowlevel(r))
 json.dump(summary,open(OUT+'/SUMMARY.json','w'),indent=1,sort_keys=True)
 # --- HASH_UNAVAILABLE.tsv
 import glob
@@ -105,7 +118,7 @@ with open(OUT+'/HASH_UNAVAILABLE.tsv','w',encoding='utf-8') as f:
             if r and not r['personal'] and q not in seen:
                 seen.add(q); f.write('\t'.join([r['path'] if r['named'] else '', r['label'], r['ext'], str(r['size']), 'NOT_ALLOWED' if 'NOT_ALLOWED' in l else 'error'])+'\n')
 # --- own scripts, with local path roots replaced
-SUBS=[(S,'<SCRATCH>'),(SD,'<SESSION_DIR>'),('<SESSION_PROJECTS>','<SESSION_PROJECTS>')]
+SUBS=[(S,'<SCRATCH>'),(SD,'<SESSION_DIR>'),('<SESSION_PROJECTS>','<SESSION_PROJECTS>'),('<MAIN_CHECKOUT>','<MAIN_CHECKOUT>')]
 for fn in ('classify_ns.py','classify_hash.py','ledger_crosswalk.py','phase2_harvest.py','phase2_collect.py','phase2_batches.py','nextbatches.py','idx/zip_index.py','pages/merge.py'):
     src=S+'/dbx/'+fn
     if os.path.exists(src):

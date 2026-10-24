@@ -8,7 +8,7 @@ The 2026-09-27 import's listing of a hash is a flag (IMPORT_LISTED:...), not a t
 import csv, json, collections, os, re, sys
 from pathlib import PurePosixPath
 S='<SCRATCH>'
-M='/home/user/main/audits/dropbox_import/2026-09-27'
+M='<MAIN_CHECKOUT>/audits/dropbox_import/2026-09-27'
 IMPORT_DAY='2026-09-27T00:00:00Z'  # the import README records the day only, so 'on or after' the import day
 EMPTY_HASH='e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
 PERSONAL=re.compile(r'(?i)r[eé]sum[eé]|curriculum.?vitae|(?<![a-z])cv(?![a-z])|(?<![a-z])tax(?:es)?(?![a-z])|(?<![a-z0-9])(?:w-?2|w-?9|1099)(?![a-z0-9])|bank|pay.?(?:stub|slip|roll)|passport|driv\w*.?licen[cs]e|invoice|medical|insurance|(?<![a-z])lease(?![a-z])|(?<![a-z])ssn(?![a-z])|id.?card|vehicle|policy\d|social.?security|birth.?cert|mortgage|(?<![a-z])loan(?![a-z])|credit.?card|(?<![a-z])visa(?![a-z])|\.dmg$')  # the import's personal-paperwork test, widened after a listing-page review (id cards, vehicle or policy numbers, installers)
