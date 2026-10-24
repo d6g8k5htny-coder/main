@@ -437,9 +437,16 @@ def build(site, payload):
             raise ValueError(f"{page.name}: exactly one ordered CURRENT-SITE marker pair is required")
         start = original.index(START) + len(START)
         end = original.index(END)
-        script_free = page.name in ("research.html", "formal.html") or bool(re.search(
+        script_blocked = bool(re.search(
             rb"script-src\s+(?:&#39;|'|&apos;)none(?:&#39;|'|&apos;)", original))
-        section = current_section(data, meta, search=not script_free, acquisition=acquisition).replace("\n</section>", "\n" + capacity_html + "\n</section>").encode("utf-8")
+        search_enabled = page.name not in ("research.html", "formal.html") and not script_blocked
+        section = current_section(data, meta, search=search_enabled, acquisition=acquisition).replace("\n</section>", "\n" + capacity_html + "\n</section>").encode("utf-8")
+        if page.name == "research.html":
+            if script_blocked:
+                raise ValueError("research.html: current freshness loader requires a script-enabled CSP")
+            section = section.replace(
+                b"\n</section>",
+                b'\n<script type="module" src="current.mjs"></script>\n</section>')
         outputs[page.name] = original[:start] + b"\n" + section + b"\n" + original[end:]
     archive_relative = f'snapshots/{archive_id}'
     archive_outputs = ({f"{archive_relative}/{name}": content for name, content in archive.items()} if archive else {})
