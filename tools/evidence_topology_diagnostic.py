@@ -183,6 +183,33 @@ def _edge_record(edge):
     return {"from": src, "to": dst, "relation": relation, "required": required}
 
 
+def _json_equal(left, right):
+    """Compare parsed values without Python's bool/number coercion.
+
+    Preserve existing numeric equality (1 == 1.0, 0 == -0.0) and parser
+    precision. This is not lexical or lossless-decimal comparison; raw source
+    digests retain byte identity. Object order is immaterial; array order is
+    significant. Use an explicit stack to avoid a new recursion-depth limit.
+    """
+    pending = [(left, right)]
+    while pending:
+        a, b = pending.pop()
+        if type(a) is bool or type(b) is bool:
+            if type(a) is not type(b) or a != b:
+                return False
+        elif type(a) is dict and type(b) is dict:
+            if a.keys() != b.keys():
+                return False
+            pending.extend((value, b[key]) for key, value in a.items())
+        elif type(a) is list and type(b) is list:
+            if len(a) != len(b):
+                return False
+            pending.extend(zip(a, b))
+        elif a != b:
+            return False
+    return True
+
+
 def compare(first, second):
     left, right = first["nodes"], second["nodes"]
     old, new = set(first["edges"]), set(second["edges"])
@@ -191,10 +218,11 @@ def compare(first, second):
     return {
         "nodes_added": sorted(new_ids - old_ids),
         "nodes_removed": sorted(old_ids - new_ids),
-        "node_attributes_changed": sorted(node for node in old_ids & new_ids if left[node] != right[node]),
+        "node_attributes_changed": sorted(node for node in old_ids & new_ids
+                                          if not _json_equal(left[node], right[node])),
         "typed_edges_added": [_edge_record(e) for e in sorted(new - old)],
         "typed_edges_removed": [_edge_record(e) for e in sorted(old - new)],
-        "other_metadata_changed": first["metadata"] != second["metadata"],
+        "other_metadata_changed": not _json_equal(first["metadata"], second["metadata"]),
         "beta_delta": {
             subset: {key: b[subset][key] - a[subset][key] for key in ("beta0", "beta1")}
             for subset in ("all_edges", "required_edges_only")
