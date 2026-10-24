@@ -4,6 +4,7 @@ Every check goes through the program's command line, so a test exercises the sam
 as a replay. Structure and record checks need only the standard library; the replays and the
 mutation controls need mpmath and are skipped without it.
 """
+import hashlib
 import importlib.util
 import json
 import subprocess
@@ -168,6 +169,21 @@ class ReviewedRecords(unittest.TestCase):
         self.assertEqual(r.returncode, 1, r.stdout + r.stderr)
         self.assertEqual(summary(r), 'H3_BAND_V2 VERIFY_FAIL: record mismatch in mode')
 
+    def test_a_transcript_whose_header_names_no_envelope_is_rejected(self):
+        # even with a record made consistent with the headerless transcript and naming no mode
+        text = (RESULTS / 'ceil.transcript.txt').read_text().split('\n', 1)[1]
+        rec = json.loads((RESULTS / 'ceil.json').read_text())
+        rec['mode'] = None
+        rec['transcript_sha256'] = hashlib.sha256(text.encode()).hexdigest()
+        with tempfile.TemporaryDirectory() as d:
+            t = Path(d) / 't.txt'
+            p = Path(d) / 'r.json'
+            t.write_text(text)
+            p.write_text(json.dumps(rec))
+            r = self.check(t, p)
+        self.assertEqual(r.returncode, 1, r.stdout + r.stderr)
+        self.assertEqual(summary(r), 'H3_BAND_V2 VERIFY_FAIL: the transcript header names no envelope')
+
     def test_a_record_that_is_not_an_object_is_rejected(self):
         with tempfile.TemporaryDirectory() as d:
             p = Path(d) / 'r.json'
@@ -295,6 +311,15 @@ class Replays(unittest.TestCase):
             r = run('ceil', '--verify', p)
         self.assertEqual(r.returncode, 1, r.stdout[-2000:])
         self.assertEqual(summary(r), 'H3_BAND_V2 VERIFY_FAIL: record mismatch in environment.mpmath pin, environment.mpmath')
+
+    def test_replay_rejects_a_record_that_is_not_an_object_before_running(self):
+        with tempfile.TemporaryDirectory() as d:
+            p = Path(d) / 'r.json'
+            p.write_text('[]')
+            r = run('ceil', '--verify', p)
+        self.assertEqual(r.returncode, 1, r.stdout[-2000:])
+        self.assertEqual(summary(r), 'H3_BAND_V2 VERIFY_FAIL: the reviewed record is not a JSON object')
+        self.assertNotIn('ALL_CHECKS_PASS', r.stdout)
 
     def test_replay_rejects_a_self_consistent_doctored_record(self):
         # transcript and record doctored together, so verify-record alone would accept them;

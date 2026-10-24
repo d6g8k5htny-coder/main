@@ -1464,6 +1464,9 @@ def main(argv=None):
             return 1
         # the mode comes from the transcript's own header, so a relabelled record is caught
         mode = transcript_mode(body)
+        if mode is None:
+            print('H3_BAND_V2 VERIFY_FAIL: the transcript header names no envelope')
+            return 1
         bad = compare_record(make_record(mode, body), expected, runtime=False)
         if bad:
             print('H3_BAND_V2 VERIFY_FAIL: record mismatch in %s' % ', '.join(bad))
@@ -1476,6 +1479,11 @@ def main(argv=None):
     if MUT and args.record:
         print('H3_BAND_V2 ERROR: --record is refused under --mutation; a mutated run is not a certificate')
         return 2
+    expected = json.loads(Path(args.verify).read_text()) if args.verify else None
+    if args.verify and not isinstance(expected, dict):
+        # checked before the run, so a malformed record costs no recomputation
+        print('H3_BAND_V2 VERIFY_FAIL: the reviewed record is not a JSON object')
+        return 1
     try:
         run_certificate(args.mode, args.h2_dir, mc=args.mc)
     except CheckFailed as e:
@@ -1490,8 +1498,7 @@ def main(argv=None):
     if args.record:
         Path(args.record).write_text(json.dumps(record, indent=2, sort_keys=True) + '\n')
     if args.verify:
-        expected = json.loads(Path(args.verify).read_text())
-        bad = compare_record(record, expected) if isinstance(expected, dict) else ['the reviewed record is not a JSON object']
+        bad = compare_record(record, expected)
         if bad:
             print('H3_BAND_V2 VERIFY_FAIL: record mismatch in %s' % ', '.join(bad))
             return 1
