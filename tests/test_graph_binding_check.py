@@ -55,6 +55,15 @@ class GraphBindingCheckTest(unittest.TestCase):
         self.assertEqual(rep["unbound_nodes"], ["TEST.n1", "TEST.n2"])
         self.assertEqual(rep["unbound_artifacts"], ["art/a.json", "art/b.json"])
 
+    def test_terminal_recursive_scope_reports_nested_unbound_file(self):
+        (self.root / "art" / "deep").mkdir()
+        (self.root / "art" / "deep" / "c.txt").write_bytes(b"C")
+        rc, rep, _ = self.run_tool(self.full(), "--scope", "art/**")
+        self.assertEqual(rc, 1)
+        self.assertEqual(rep["counts"]["in_scope_artifacts"], 3)
+        self.assertEqual(rep["unbound_artifacts"], ["art/deep/c.txt"])
+        self.assertEqual(rep["empty_scopes"], [])
+
     def test_report_only_exits_zero(self):
         rc, rep, _ = self.run_tool([], "--report-only")
         self.assertEqual(rc, 0)
@@ -240,6 +249,22 @@ class GraphBindingV2ReportTest(unittest.TestCase):
         self.assertEqual(rep["bound"][0]["ref"], f"{REPO}:art/a.json@{C}#{blob(b'A')}")
         self.assertEqual(rep["unbound_artifacts"], ["art/b.json"])
         self.assertIn("TEST.n2", rep["unbound_nodes"])
+
+    def test_terminal_recursive_scope_includes_direct_and_nested_files(self):
+        (self.root / "art" / "deep").mkdir()
+        (self.root / "art" / "deep" / "c.txt").write_bytes(b"C")
+        cases = {
+            "art/**": ["art/a.json", "art/b.json", "art/deep/c.txt"],
+            "**": ["art/a.json", "art/b.json", "art/deep/c.txt",
+                   "g.json", "pkg/x.txt", "v2.json"],
+        }
+        for pattern, expected in cases.items():
+            with self.subTest(pattern=pattern):
+                rc, rep, err = self.run_v2(self.doc([], scope=(pattern,)))
+                self.assertEqual(rc, 0, err)
+                self.assertEqual(rep["counts"]["in_scope_artifacts"], len(expected))
+                self.assertEqual(rep["unbound_artifacts"], expected)
+                self.assertEqual(rep["empty_scopes"], [])
 
     def test_stale_still_exit_zero(self):
         r = self.rec("TEST.n1", "art/a.json", b"OLD")

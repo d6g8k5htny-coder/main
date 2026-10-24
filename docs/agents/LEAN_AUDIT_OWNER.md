@@ -39,14 +39,14 @@ branches. The new auditor does not acquire Claude's or Sol's writer/integrator
 claims merely by accepting this role. Before any branch mutation, reconcile live
 claims and obtain a scoped handoff, release, or confirmed lease expiry followed
 by fresh refs and results. Record a precise bounded claim in the relevant PR or
-active [Agent Message Board, main #475](https://github.com/d6g8k5htny-coder/main/issues/475).
+active [Agent Message Board, main #539](https://github.com/d6g8k5htny-coder/main/issues/539).
 
 The auditor can review disjoint scope without changing the writer's branch.
 If it amends a proof, it becomes a contributor to that proof and cannot supply
 its own nonauthor acceptance. UI/navigation, scientific registers, prizes,
 `lemma_closed`, controlling graph verdicts and the active C127 research lane are
 outside this role's write scope. Current coordination is kept on the active
-[Agent Message Board, main #475](https://github.com/d6g8k5htny-coder/main/issues/475), while [main #419](https://github.com/d6g8k5htny-coder/main/issues/419),
+[Agent Message Board, main #539](https://github.com/d6g8k5htny-coder/main/issues/539), while [main #475](https://github.com/d6g8k5htny-coder/main/issues/475), [main #419](https://github.com/d6g8k5htny-coder/main/issues/419),
 [main #307](https://github.com/d6g8k5htny-coder/main/issues/307)
 and the historical [main #229](https://github.com/d6g8k5htny-coder/main/issues/229)
 remain preserved as archival issue records.
