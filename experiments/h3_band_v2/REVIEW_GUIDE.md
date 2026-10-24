@@ -7,7 +7,7 @@
 - `README:N` is the package README.md, `test:N` is `test_h3_band_v2.py`, and `cov_exact.py:N` is `h2/cov_exact.py`.
 - `ceil.txt:N` and `floor.txt:N` are the frozen `h3_band_ceil.py.txt` and `h3_band_floor.py.txt`, in the frozen directory named at README:11. The frozen `H3_BAND_CEIL.md` and `H3_BAND_FLOOR.md` sit beside them.
 
-**Provenance of the sections.** The four scope sections were written and adversarially checked against an earlier program, sha256 `99eceb98…`. The final program differs from it by fail-closed guards, comments, and record checks that run only after the certified values are computed. Its certified decimals and both transcripts are byte-identical: transcript sha256 `d0def90d…` (ceil) and `c80b7a0f…` (floor). The differences:
+**Provenance of the sections.** The four scope sections were written and adversarially checked against an earlier program, sha256 `99eceb98…`. The final program differs from it by fail-closed guards, comments, and record checks that never feed the computation. Its certified decimals and both transcripts are byte-identical: transcript sha256 `d0def90d…` (ceil) and `c80b7a0f…` (floor). The differences:
 - `ck(up(var_iv) > 0)` in `t0_lower` (414);
 - `ck(x.b < 1)` in `gram_tail` (884);
 - `ck(var.a > 0)` in `trunc_mom_iv` (890);
@@ -31,13 +31,24 @@ Every line reference below was remapped to the final file and re-read there. Whe
 
 - **Run commands:** README:97-113. They cover `structure`, `ceil --verify`, `floor --verify` and the unit tests. A run prints one summary line, and the exit codes are listed at README:109-112. `structure` needs only the standard library (the import guard at 38-42).
 - **Fail-closed checks.** Every `ck` (101-104) that fails stops the run with `H3_BAND_V2 FAIL: …` (in `structure` mode, `STRUCTURE FAIL`) and exit 1. No PASS line is printed, and no transcript or record is written: those are written only after `run_certificate` returns (1489-1501).
-- **Replay.** `--verify` requires the fresh record to equal the reviewed one: the program digest, the cov_exact digest, the mpmath version, the transcript digest and every certified decimal (`compare_record`, 1406-1427). `verify-record` compares the same fields, without recomputing, so it does not depend on the verifier's runtime and needs only the standard library (1458-1477).
+- **Replay.** `--verify` requires the fresh record to equal the reviewed one: the program digest, the cov_exact digest, the mpmath version, the transcript digest and every certified decimal (`compare_record`, 1406-1427). `verify-record` compares the same fields, without recomputing, so its outcome does not depend on the verifier's mpmath version, and it needs only the standard library (1458-1477).
   - **Producer pin.** Every check requires the reviewed record to name the pinned producer mpmath, `MPMATH_PIN` (1366, 1420-1424). A test binds that constant to `requirements.txt`. Only a recomputing replay also compares the verifier's own mpmath with it.
   - **Mode.** `verify-record` reads the mode from the transcript's first line (`transcript_mode`, 1369-1375), which the transcript digest binds, so a record relabelled to the other envelope fails.
-  - **Malformed inputs.** A record that is valid JSON but not an object, and a transcript whose first line names no envelope, give `VERIFY_FAIL` instead of passing or a traceback (1462-1471). The replay checks the record's type before it runs (1484-1488). Invalid JSON and a non-UTF-8 transcript still stop with a traceback and exit 1. The transcript digest is taken over the text as read, so a copy with CRLF line endings still matches.
+  - **Malformed inputs.** A record that is valid JSON but not an object, and a transcript whose first line names no envelope, give `VERIFY_FAIL` instead of passing or a traceback (1462-1471). The replay checks the record's type before it runs (1484-1488).
+  - **Known limits.** None of these lets the values the program checks disagree with the transcript or the source:
+    - A record that Python's `json` module cannot parse stops with a traceback and exit 1. That covers invalid JSON, and valid JSON beyond the module's limits, such as an integer of more than 4,300 digits or very deep nesting. A non-UTF-8 transcript stops the same way.
+    - The transcript digest is taken over the text as read, so a copy with CRLF line endings still matches.
+    - A record is read last-key-wins. If a key appears twice, only its last value is checked, while a person or another parser may read the first.
+    - Fields are compared by value, so a record with `"schema": true` or `1.0` matches `1`.
+    - `make_record` reads the verifier's `mpmath.__version__` whenever mpmath imports (1397). An mpmath module without that attribute stops `verify-record` with a traceback.
 
-  The tests run `verify-record` with no site-packages and with a faked mpmath version. They check that a changed check line is caught by the transcript digest, that a record naming another mpmath or relabelled to the other mode is rejected, and that a replay still rejects a record made with another version (test:131-222, 321-345).
-- **Negative controls** (README:115-145). There are fourteen mutations. Twelve are caught inside the run at a named check, and `drop_fail_piece` and `old_remainder` only by the replay. The record controls are listed there too. The tests are at test:74-98 (structure mode) and test:367-423 (full runs).
+  The tests run `verify-record` with no site-packages and with a faked mpmath version. They check that:
+  - a changed check line is caught by the transcript digest;
+  - a record naming no or another mpmath, or with a missing or non-object environment, is rejected, by `compare_record` in both paths too;
+  - a record relabelled to the other mode is rejected, and a header on any line but the first names no envelope;
+  - a non-object record of every JSON type is rejected, and the replay rejects it before running, even with a fake mpmath that cannot compute;
+  - a replay still rejects a record made with another version (test:131-254, 353-378).
+- **Negative controls** (README:115-146). There are fourteen mutations. Twelve are caught inside the run at a named check, and `drop_fail_piece` and `old_remainder` only by the replay. The record controls are listed there too. The tests are at test:74-98 (structure mode) and test:400-456 (full runs).
 - **What the controls do and do not show.** They show that each named check can fire, and that the checks are not vacuous against those regressions. They do not show that the inequalities used between the checks are true. Those inequalities are the subject of this guide.
 
 ### What rests on a written derivation
@@ -169,7 +180,7 @@ This completes the proof.
 
 ### 1.7 What the program checks at run time
 - **(a)-(d), exactly**, at 268, failing closed through `ck` (101-104).
-  - There are four controls (72-79), tested at test:80-89 (structure mode) and test:371-374 (full runs). Each exits 1 at its own branch; `structure_window` fails at row 2.
+  - There are four controls (72-79), tested at test:80-89 (structure mode) and test:404-407 (full runs). Each exits 1 at its own branch; `structure_window` fails at row 2.
   - In `structure` mode, a mutation the lemma cannot see now ends `H3_BAND_V2 MUTATED STRUCTURE RUN (…): the lemma holds for these tables; NOT A CERTIFICATE` and exits 3 (1451-1454; test:91-98). Such mutations are `wrong_window` and those that do not touch the tables. For `wrong_window` the lemma really does hold on the mutated tables, because column 5 of E is zero.
 - **(e):** the G0 inverse residual is below 1e−70 (612-614); observed 8.26e−98.
 - **Gram pole pattern (555-567).** Every coefficient that `ser_trim` kept (orders LMIN..NK) and that the law then discards has |enclosure| ≤ 1e−60; observed ≤ 6.3e−100. `ser_trim` would remove any order below LMIN = −8 before this check, so the check never sees such orders. The tables have none (lowest −6), and the exact lemma runs first.
@@ -289,7 +300,7 @@ For every t ∈ (0, r*] and all indices a, b:
 10. **First-cell guard (858).** The program checks R·r* < 0.2; the actual value is 0.16005.
     - Convergence itself needs only R·r* < 1 and QRHO·r* < 1. R·r* < 1 follows from 858 and is checked again in `tails` for majW and majH. QRHO·r* < 1 is checked only in `tails`, for majA and majGY (824, 837).
     - The 0.2 is a margin inherited from the frozen program (ceil.txt:383).
-    - The frozen first cell (0, 1/400] gives R/400 ≈ 6.56 > 1, so the majorant genuinely diverges there. This is the `wide_first_cell` control (README:48 and README:128; test:378).
+    - The frozen first cell (0, 1/400] gives R/400 ≈ 6.56 > 1, so the majorant genuinely diverges there. This is the `wide_first_cell` control (README:48 and README:128; test:411).
 11. **Enclosure (1118-1122).**
     - μ_a(t) = Σ_{k=0}^{J} μ_{k,a} t^k + (tail), with no k = −1 term by H1. Each μ_{k,a} lies in X[k]_a (H3), and t ∈ [0, r*]. So Horner encloses the polynomial, and ±MT covers the tail. The same argument applies to Σ with ST.
     - `band_lo` widens the rotated law by 2MT and 4ST (1205-1206). This is valid because each row of LR (680) has ℓ¹ norm at most 2: a rotated-vector tail is ≤ 2MT and a rotated-matrix tail ≤ 2·2·ST.
@@ -446,7 +457,7 @@ By (I4), Σ − Σ_h is exactly the sum of these terms, and the sum of their bou
 - The frozen bound therefore omits RH and, for the mean, the residual RW. It also omits the high orders `ext_mu`/`ext_S`: orders J+1..2NK of A_P W_P and J+1..3NK of D.
 
 ### 3.5 Checked numerically at run time
-- `r_lo > 0` (1063), x < 1 in each `gram_tail` call (884) and `rhoE < 0.5` (1074). These are the only hypotheses of the derivation that are checked at run time. The `no_preconditioner` control fails the contraction check (test:381).
+- `r_lo > 0` (1063), x < 1 in each `gram_tail` call (884) and `rhoE < 0.5` (1074). These are the only hypotheses of the derivation that are checked at run time. The `no_preconditioner` control fails the contraction check (test:414).
 - `T_mu, T_Sig < 1e−2` (1113). This is a sanity bound only; no inequality depends on it.
 - **Upstream consistency checks, not proofs:**
   - CB2 shows that the dropped Gram pole enclosures are < 1e−60 (555-567). This is far weaker than the scale that matters here; see Poles.
@@ -456,7 +467,7 @@ By (I4), Σ − Σ_h is exactly the sum of these terms, and the sum of their bou
   - The printed deviation, 1.37e−91 for μ and 2.06e−91 for Σ, is exactly that reference's own rounding error, |direct dps-100 − direct dps-200|. Against dps 200, the Neumann midpoint is off by 6.7e−101 and 1.1e−100.
   - The corrections there are T_mu = 1.49e−10 and T_Sig = 1.23e−7. So CB7 cannot detect an under-estimated remainder anywhere between about 1e−91 and 1e−2.
   - The heavy part's half-width (≈ 9e−98) is below the reference error, so CB7 would also reject a valid remainder below about 1e−91. It tests the heavy polynomial at about 1e−91 resolution, not the remainder.
-- The `old_remainder` control is caught only by the replay digests (test:384), not inside the run.
+- The `old_remainder` control is caught only by the replay digests (test:417), not inside the run.
 
 ### 3.6 What rests only on this derivation
 Everything from S1 to S9 except the checks just listed:

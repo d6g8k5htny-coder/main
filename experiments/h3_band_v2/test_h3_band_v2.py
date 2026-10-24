@@ -146,6 +146,17 @@ class ReviewedRecords(unittest.TestCase):
         fresh['environment']['mpmath'] = '0.0'
         self.assertIn('environment.mpmath', m.compare_record(fresh, expected, runtime=True))
         self.assertNotIn('environment.mpmath', m.compare_record(fresh, expected, runtime=False))
+        # a reviewed record with a malformed environment is a mismatch in both paths, never a traceback
+        for change in ('no environment', 'environment not an object'):
+            malformed = json.loads(json.dumps(expected))
+            if change == 'no environment':
+                del malformed['environment']
+            else:
+                malformed['environment'] = '1.4.1'
+            with self.subTest(change=change):
+                self.assertEqual(m.compare_record(expected, malformed, runtime=True),
+                                 ['environment.mpmath pin', 'environment.mpmath'])
+                self.assertEqual(m.compare_record(expected, malformed, runtime=False), ['environment.mpmath pin'])
 
     def test_committed_records_name_the_pinned_mpmath(self):
         # MPMATH_PIN, requirements.txt and the committed records must agree; every check then requires the pin
@@ -158,10 +169,14 @@ class ReviewedRecords(unittest.TestCase):
 
     def test_a_record_naming_another_mpmath_is_rejected(self):
         # the reviewed record must name the pinned producer, whatever mpmath the verifier has
-        for change in ('another version', 'no environment', 'environment not an object'):
+        for change in ('another version', 'no version', 'no mpmath key', 'no environment', 'environment not an object'):
             rec = json.loads((RESULTS / 'ceil.json').read_text())
             if change == 'another version':
                 rec['environment']['mpmath'] = '0.0'
+            elif change == 'no version':
+                rec['environment']['mpmath'] = None
+            elif change == 'no mpmath key':
+                del rec['environment']['mpmath']
             elif change == 'no environment':
                 del rec['environment']
             else:
@@ -186,13 +201,15 @@ class ReviewedRecords(unittest.TestCase):
         self.assertEqual(summary(r), 'H3_BAND_V2 VERIFY_FAIL: record mismatch in mode')
 
     def test_a_transcript_whose_header_names_no_envelope_is_rejected(self):
-        # even with a record made consistent with the headerless transcript and naming no mode
-        text = (RESULTS / 'ceil.transcript.txt').read_text().split('\n', 1)[1]
-        for mode in (None, 'ceil'):
+        # even with a record made consistent with the transcript; only the first line may name the envelope
+        original = (RESULTS / 'ceil.transcript.txt').read_text()
+        for layout, text, mode in (('no header', original.split('\n', 1)[1], None),
+                                   ('no header', original.split('\n', 1)[1], 'ceil'),
+                                   ('header on line 2', 'copied transcript\n' + original, 'ceil')):
             rec = json.loads((RESULTS / 'ceil.json').read_text())
             rec['mode'] = mode
             rec['transcript_sha256'] = hashlib.sha256(text.encode()).hexdigest()
-            with self.subTest(mode=mode), tempfile.TemporaryDirectory() as d:
+            with self.subTest(layout=layout, mode=mode), tempfile.TemporaryDirectory() as d:
                 t = Path(d) / 't.txt'
                 p = Path(d) / 'r.json'
                 t.write_text(text)
@@ -201,13 +218,28 @@ class ReviewedRecords(unittest.TestCase):
                 self.assertEqual(r.returncode, 1, r.stdout + r.stderr)
                 self.assertEqual(summary(r), 'H3_BAND_V2 VERIFY_FAIL: the transcript header names no envelope')
 
+    NOT_OBJECTS = ('[]', '[1]', 'null', '"x"', '1', 'true')  # falsy and truthy, so the check must be on the type
+
     def test_a_record_that_is_not_an_object_is_rejected(self):
-        with tempfile.TemporaryDirectory() as d:
-            p = Path(d) / 'r.json'
-            p.write_text('[]')
-            r = self.check(RESULTS / 'ceil.transcript.txt', p)
-        self.assertEqual(r.returncode, 1, r.stdout + r.stderr)
-        self.assertEqual(summary(r), 'H3_BAND_V2 VERIFY_FAIL: the reviewed record is not a JSON object')
+        for payload in self.NOT_OBJECTS:
+            with self.subTest(record=payload), tempfile.TemporaryDirectory() as d:
+                p = Path(d) / 'r.json'
+                p.write_text(payload)
+                r = self.check(RESULTS / 'ceil.transcript.txt', p)
+                self.assertEqual(r.returncode, 1, r.stdout + r.stderr)
+                self.assertEqual(summary(r), 'H3_BAND_V2 VERIFY_FAIL: the reviewed record is not a JSON object')
+
+    def test_replay_checks_the_record_type_before_running(self):
+        # the fake mpmath cannot compute, so only a check made before the run can produce this summary;
+        # Replays.test_replay_rejects_a_record_that_is_not_an_object_before_running repeats it with mpmath
+        pin = load_program().MPMATH_PIN
+        for payload in self.NOT_OBJECTS:
+            with self.subTest(record=payload), tempfile.TemporaryDirectory() as d:
+                p = Path(d) / 'r.json'
+                p.write_text(payload)
+                r = run_with_mpmath(pin, 'ceil', '--verify', p)
+                self.assertEqual(r.returncode, 1, r.stdout + r.stderr)
+                self.assertEqual(summary(r), 'H3_BAND_V2 VERIFY_FAIL: the reviewed record is not a JSON object')
 
     def test_a_changed_check_line_is_rejected(self):
         # only the transcript digest binds the lines that carry no certified decimal
@@ -336,13 +368,14 @@ class Replays(unittest.TestCase):
         self.assertEqual(summary(r), 'H3_BAND_V2 VERIFY_FAIL: record mismatch in environment.mpmath')
 
     def test_replay_rejects_a_record_that_is_not_an_object_before_running(self):
-        with tempfile.TemporaryDirectory() as d:
-            p = Path(d) / 'r.json'
-            p.write_text('[]')
-            r = run('ceil', '--verify', p)
-        self.assertEqual(r.returncode, 1, r.stdout[-2000:])
-        self.assertEqual(summary(r), 'H3_BAND_V2 VERIFY_FAIL: the reviewed record is not a JSON object')
-        self.assertNotIn('ALL_CHECKS_PASS', r.stdout)
+        for payload in ReviewedRecords.NOT_OBJECTS:
+            with self.subTest(record=payload), tempfile.TemporaryDirectory() as d:
+                p = Path(d) / 'r.json'
+                p.write_text(payload)
+                r = run('ceil', '--verify', p)
+                self.assertEqual(r.returncode, 1, r.stdout[-2000:])
+                self.assertEqual(summary(r), 'H3_BAND_V2 VERIFY_FAIL: the reviewed record is not a JSON object')
+                self.assertNotIn('ALL_CHECKS_PASS', r.stdout)
 
     def test_replay_rejects_a_self_consistent_doctored_record(self):
         # transcript and record doctored together, so verify-record alone would accept them;

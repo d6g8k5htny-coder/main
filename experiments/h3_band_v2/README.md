@@ -140,9 +140,10 @@ The record checks are tested too. Each of the following is rejected:
 - a mutated transcript, or one without `ALL_CHECKS_PASS`, even with a record made consistent with it;
 - a transcript and record doctored consistently with each other. `verify-record` alone accepts that pair; only a recomputing replay exposes it;
 - a transcript whose only change is a check line that carries no certified decimal. Only the transcript digest binds those lines;
-- a record naming a producer mpmath other than the pin, by `verify-record` and by a recomputing replay. `verify-record` does not depend on the verifier's own mpmath; only a recomputing replay requires the verifier to run the pinned version;
+- a record that names no producer mpmath or one other than the pin, or whose environment block is missing or not an object, by `verify-record` and by a recomputing replay. `verify-record`'s outcome does not depend on the verifier's mpmath version; only a recomputing replay requires the verifier to run the pinned version;
 - a record relabelled to the other envelope, because the mode is read from the transcript's first line;
-- a record that is not a JSON object.
+- a transcript whose first line names no envelope, even with a record made consistent with it;
+- a record that is valid JSON but not an object, of any JSON type, by `verify-record` and by a replay before it runs.
 
 ## Provenance
 
