@@ -1,0 +1,1705 @@
+{
+ "c6-hard-direction-factorization.yml": {
+  "bytes": 3605,
+  "blob": "342b09e71c5011e0cfd06b8cd72ce0baee4a0ee2",
+  "n_returncode": 2,
+  "returncode_lines": [
+   [
+    60,
+    "if out.returncode != 0:"
+   ],
+   [
+    63,
+    "rc = subprocess.run([sys.executable, *flags, script, '--check', '--mutant', m], cwd=root, capture_output=True, timeout=900).returncode"
+   ]
+  ],
+  "mutant_markers": 3,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 1
+ },
+ "c6-microscopic-tail-numerics.yml": {
+  "bytes": 3633,
+  "blob": "8e57caaaf4f262bae6f54117f0e21e65feb0fcb6",
+  "n_returncode": 2,
+  "returncode_lines": [
+   [
+    61,
+    "if out.returncode != 0:"
+   ],
+   [
+    64,
+    "rc = subprocess.run([sys.executable, *flags, script, '--check', '--mutant', m], cwd=root, capture_output=True, timeout=900).returncode"
+   ]
+  ],
+  "mutant_markers": 3,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 1
+ },
+ "c6-remote-coefficient-d3-numerics.yml": {
+  "bytes": 3640,
+  "blob": "6725cc6ee7c16d02adc9adf7277acce72b203703",
+  "n_returncode": 2,
+  "returncode_lines": [
+   [
+    61,
+    "if out.returncode != 0:"
+   ],
+   [
+    64,
+    "rc = subprocess.run([sys.executable, *flags, script, '--check', '--mutant', m], cwd=root, capture_output=True, timeout=900).returncode"
+   ]
+  ],
+  "mutant_markers": 3,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 1
+ },
+ "c6-remote-coefficient-numerics.yml": {
+  "bytes": 3487,
+  "blob": "0f622023e6f353151408a05b39266330b5d7699e",
+  "n_returncode": 2,
+  "returncode_lines": [
+   [
+    59,
+    "if out.returncode != 0:"
+   ],
+   [
+    62,
+    "rc = subprocess.run([sys.executable, *flags, script, '--check', '--mutant', m], cwd=root, capture_output=True, timeout=900).returncode"
+   ]
+  ],
+  "mutant_markers": 3,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 1
+ },
+ "c6-sharpened.yml": {
+  "bytes": 2699,
+  "blob": "1e5fd374a7faef33447851673a80fb2a70e8c306",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    54,
+    "capture_output=True, timeout=300).returncode"
+   ]
+  ],
+  "mutant_markers": 5,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "c6-tail-constant-certified.yml": {
+  "bytes": 4230,
+  "blob": "53b09857dd9a23efa9cbb1f4a8b68f8617412b4d",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    65,
+    "capture_output=True, timeout=1500).returncode"
+   ]
+  ],
+  "mutant_markers": 8,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "c6-witness-collision-reconciliation.yml": {
+  "bytes": 4004,
+  "blob": "a176b69a2a0440eecf5eb4292ffe4ebe293e98e8",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    72,
+    "capture_output=True, timeout=300).returncode"
+   ]
+  ],
+  "mutant_markers": 5,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "c7-nonvanishing-review.yml": {
+  "bytes": 3545,
+  "blob": "9043f1d68c9830e25a981dc53f08978dc4b2a063",
+  "n_returncode": 2,
+  "returncode_lines": [
+   [
+    59,
+    "if case=='baseline':require(p.returncode==0 and r['passed'] and p.stdout==(root/'RESULTS.json').read_bytes(),'baseline')"
+   ],
+   [
+    60,
+    "else:require(p.returncode==1 and not r['passed'] and expected[case] in r['failed'],'intended semantic rejection')"
+   ]
+  ],
+  "mutant_markers": 3,
+  "stdout_refs": 3,
+  "stderr_refs": 1,
+  "stderr_compared": true,
+  "stdout_compared": true,
+  "rc_eq_1": 1,
+  "rc_eq_2": 0,
+  "rc_eq_0": 1
+ },
+ "c7-total-bounded.yml": {
+  "bytes": 4074,
+  "blob": "a19097df41c48afe2b216fa10240af6c42233582",
+  "n_returncode": 3,
+  "returncode_lines": [
+   [
+    66,
+    "print(json.dumps({'stage': 'baseline', 'flags': flags, 'returncode': out.returncode,"
+   ],
+   [
+    72,
+    "if out.returncode != 1 or out.stdout != diagnostic or out.stderr != b'':"
+   ],
+   [
+    74,
+    "print(json.dumps({'stage': m, 'flags': flags, 'returncode': out.returncode,"
+   ]
+  ],
+  "mutant_markers": 6,
+  "stdout_refs": 4,
+  "stderr_refs": 4,
+  "stderr_compared": true,
+  "stdout_compared": true,
+  "rc_eq_1": 1,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "c8-cap-failure-coefficient-dims.yml": {
+  "bytes": 3650,
+  "blob": "b74f83b24bb3d5812ce4a1f1f31c17c3e00936eb",
+  "n_returncode": 2,
+  "returncode_lines": [
+   [
+    57,
+    "if out.returncode != 0:"
+   ],
+   [
+    62,
+    "rc = subprocess.run([sys.executable, *flags, script, '--check', '--mutant', m], cwd=root, capture_output=True, timeout=600).returncode"
+   ]
+  ],
+  "mutant_markers": 4,
+  "stdout_refs": 2,
+  "stderr_refs": 1,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 1
+ },
+ "c8-cap-failure-coefficient-planar.yml": {
+  "bytes": 4066,
+  "blob": "a9c9daba3de200025f1d45da63777b89b51bf957",
+  "n_returncode": 2,
+  "returncode_lines": [
+   [
+    58,
+    "if out.returncode != 0:"
+   ],
+   [
+    64,
+    "return m, flags, subprocess.run([sys.executable, *flags, script, '--check', '--procs', '1', '--mutant', m], cwd=root, capture_output=True, timeout=2400).returnc"
+   ]
+  ],
+  "mutant_markers": 7,
+  "stdout_refs": 2,
+  "stderr_refs": 1,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 1
+ },
+ "c8-lifetime-difference-constant.yml": {
+  "bytes": 4135,
+  "blob": "1f99cdabe23cc247f2be2bddab57f045702b91a0",
+  "n_returncode": 2,
+  "returncode_lines": [
+   [
+    66,
+    "if out.returncode != 0:"
+   ],
+   [
+    70,
+    "rc = subprocess.run([sys.executable, '-B', '-S', script, '--check', '--procs', procs, '--mutant', m], cwd=root, capture_output=True, timeout=3600).returncode"
+   ]
+  ],
+  "mutant_markers": 4,
+  "stdout_refs": 2,
+  "stderr_refs": 1,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 1
+ },
+ "c8-normalizer-floor-planar.yml": {
+  "bytes": 4297,
+  "blob": "042f07defaccb0683517ebb70100ce5675712a41",
+  "n_returncode": 2,
+  "returncode_lines": [
+   [
+    56,
+    "if out.returncode != 0:"
+   ],
+   [
+    59,
+    "rc = subprocess.run([sys.executable, *flags, script, '--check', '--mutant', m], cwd=root, capture_output=True, timeout=1500).returncode"
+   ]
+  ],
+  "mutant_markers": 3,
+  "stdout_refs": 1,
+  "stderr_refs": 1,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 1
+ },
+ "c8-theorem-a-constants-d3.yml": {
+  "bytes": 3761,
+  "blob": "8a1fdad244afb4fff62a7cf11a4f8cd659719416",
+  "n_returncode": 2,
+  "returncode_lines": [
+   [
+    59,
+    "if out.returncode != 0:"
+   ],
+   [
+    63,
+    "rc = subprocess.run([sys.executable, '-B', '-S', script, '--check', '--procs', procs, '--mutant', m], cwd=root, capture_output=True, timeout=2400).returncode"
+   ]
+  ],
+  "mutant_markers": 4,
+  "stdout_refs": 2,
+  "stderr_refs": 1,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 1
+ },
+ "c8-theorem-a-constants-planar.yml": {
+  "bytes": 3623,
+  "blob": "3a5ee3eb3cb2a69b03ce82de2c4c627e33114007",
+  "n_returncode": 2,
+  "returncode_lines": [
+   [
+    57,
+    "if out.returncode != 0:"
+   ],
+   [
+    61,
+    "rc = subprocess.run([sys.executable, '-B', '-S', script, '--check', '--procs', '2', '--mutant', m], cwd=root, capture_output=True, timeout=1800).returncode"
+   ]
+  ],
+  "mutant_markers": 4,
+  "stdout_refs": 2,
+  "stderr_refs": 1,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 1
+ },
+ "c8-torus-vanishing-remainder.yml": {
+  "bytes": 4042,
+  "blob": "ccf712864f4e8cdb61d08106425c61a2f11655e1",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    69,
+    "if out.returncode != 0:"
+   ]
+  ],
+  "mutant_markers": 4,
+  "stdout_refs": 2,
+  "stderr_refs": 1,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 1
+ },
+ "c8-window-coefficient-d3-torus.yml": {
+  "bytes": 4666,
+  "blob": "0194bba0b9a1d7ff20f5986863af19ada7528dba",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    70,
+    "capture_output=True, timeout=1500).returncode"
+   ]
+  ],
+  "mutant_markers": 8,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "c8-window-coefficient-d4.yml": {
+  "bytes": 4173,
+  "blob": "b6cc2ef4484e65d57b13ec07c32efaadbd1a5f28",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    64,
+    "capture_output=True, timeout=1500).returncode"
+   ]
+  ],
+  "mutant_markers": 8,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "c8-window-coefficient-d5.yml": {
+  "bytes": 4204,
+  "blob": "af29c8c2dbfd9b5344eda2180104b8b5cd69e120",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    64,
+    "capture_output=True, timeout=1500).returncode"
+   ]
+  ],
+  "mutant_markers": 8,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "c8-window-coefficient-d6.yml": {
+  "bytes": 4224,
+  "blob": "71828761bae40175d3fb16b172950bde135dc3f2",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    64,
+    "capture_output=True, timeout=1500).returncode"
+   ]
+  ],
+  "mutant_markers": 8,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "c8-window-coefficient-d7.yml": {
+  "bytes": 4248,
+  "blob": "d2087b5b6eb42a8889db575c33b370653ff562a4",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    64,
+    "capture_output=True, timeout=1500).returncode"
+   ]
+  ],
+  "mutant_markers": 8,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "c8-window-coefficient-planar.yml": {
+  "bytes": 4634,
+  "blob": "b5061549c51bfb0343e969f4f8619757f95d6dc0",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    70,
+    "capture_output=True, timeout=1500).returncode"
+   ]
+  ],
+  "mutant_markers": 8,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "candidate-parity-rate.yml": {
+  "bytes": 10077,
+  "blob": "b244693c066c780d3f4dcf77dedd37843f55875b",
+  "n_returncode": 2,
+  "returncode_lines": [
+   [
+    154,
+    "rc = subprocess.run([sys.executable, *flags, script, '--mutant', m], capture_output=True, timeout=600).returncode"
+   ],
+   [
+    157,
+    "rc = subprocess.run([sys.executable, *flags, script, '--mutant', 'M99'], capture_output=True, timeout=600).returncode"
+   ]
+  ],
+  "mutant_markers": 6,
+  "stdout_refs": 2,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "candidate-third-order.yml": {
+  "bytes": 8354,
+  "blob": "624a74faa39c55344da4eb49ed3c3f21fa061878",
+  "n_returncode": 2,
+  "returncode_lines": [
+   [
+    129,
+    "rc = subprocess.run([sys.executable, *flags, script, '--mutant', m], capture_output=True, timeout=600).returncode"
+   ],
+   [
+    132,
+    "rc = subprocess.run([sys.executable, *flags, script, '--mutant', 'M9'], capture_output=True, timeout=600).returncode"
+   ]
+  ],
+  "mutant_markers": 7,
+  "stdout_refs": 2,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "contact-small-gap.yml": {
+  "bytes": 4164,
+  "blob": "9cde8e049501fe5ea98efdcf6d8bf9a24d2d7e4b",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    55,
+    "if proc.returncode:"
+   ]
+  ],
+  "mutant_markers": 2,
+  "stdout_refs": 2,
+  "stderr_refs": 2,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "cusp-second-order.yml": {
+  "bytes": 7499,
+  "blob": "459d93fea4e10cf291c8ee70e289045c5c5b6855",
+  "n_returncode": 2,
+  "returncode_lines": [
+   [
+    110,
+    "if (result.returncode != 1 or result.stderr or len(result.stdout) != size"
+   ],
+   [
+    114,
+    "if unknown.returncode != 2 or unknown.stdout or unknown.stderr != b'unknown mutant label\\n':"
+   ]
+  ],
+  "mutant_markers": 17,
+  "stdout_refs": 4,
+  "stderr_refs": 3,
+  "stderr_compared": true,
+  "stdout_compared": true,
+  "rc_eq_1": 1,
+  "rc_eq_2": 1,
+  "rc_eq_0": 0
+ },
+ "d1-cap-elder-partner-second-pass.yml": {
+  "bytes": 4039,
+  "blob": "4b688ce1681021e28f37f3fd3fb80a450effd4ba",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    73,
+    "capture_output=True, timeout=600).returncode"
+   ]
+  ],
+  "mutant_markers": 6,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "d1-cde-fulldepth-review.yml": {
+  "bytes": 2694,
+  "blob": "089df7714734520f9d5d0ad5953822feb5773c7f",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    54,
+    "capture_output=True, timeout=300).returncode"
+   ]
+  ],
+  "mutant_markers": 8,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "d1-chain-reconciliation.yml": {
+  "bytes": 3150,
+  "blob": "b32264cbbaa6984da23f6ec4d2729807b31b5c02",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    60,
+    "capture_output=True, timeout=300).returncode"
+   ]
+  ],
+  "mutant_markers": 5,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "d1-line.yml": {
+  "bytes": 7232,
+  "blob": "68b548a32bba09abace9036139f2f3b6e22a6991",
+  "n_returncode": 2,
+  "returncode_lines": [
+   [
+    106,
+    "if proc.returncode != 1:"
+   ],
+   [
+    112,
+    "rc = subprocess.run([sys.executable, *flags, script, *bad], capture_output=True, timeout=600).returncode"
+   ]
+  ],
+  "mutant_markers": 8,
+  "stdout_refs": 2,
+  "stderr_refs": 1,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 1,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "d1-sharp-remainder.yml": {
+  "bytes": 9861,
+  "blob": "0fbc255c963f14ba0744b07742ff387881260ccd",
+  "n_returncode": 2,
+  "returncode_lines": [
+   [
+    145,
+    "if proc.returncode != 1:"
+   ],
+   [
+    151,
+    "rc = subprocess.run([sys.executable, *flags, script, *bad], capture_output=True, timeout=600).returncode"
+   ]
+  ],
+  "mutant_markers": 9,
+  "stdout_refs": 2,
+  "stderr_refs": 1,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 1,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "d1-theorem-a.yml": {
+  "bytes": 3424,
+  "blob": "55dad2971f1c2f2a655474e9bbd715cfe7a85cdb",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    64,
+    "capture_output=True, timeout=300).returncode"
+   ]
+  ],
+  "mutant_markers": 5,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "d1-third-order-law.yml": {
+  "bytes": 3560,
+  "blob": "e188a4082c06c1ed0e16bcdf7e48a4ed6510c83d",
+  "n_returncode": 2,
+  "returncode_lines": [
+   [
+    62,
+    "rc = subprocess.run([sys.executable, *flags, script, '--mutant', m], capture_output=True, timeout=600).returncode"
+   ],
+   [
+    65,
+    "rc = subprocess.run([sys.executable, *flags, script, '--mutant', 'M9'], capture_output=True, timeout=600).returncode"
+   ]
+  ],
+  "mutant_markers": 7,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "d2-remainder-fulldepth-review.yml": {
+  "bytes": 3331,
+  "blob": "dbbba35705ddcffa74c200f0e0784531fe72f93f",
+  "n_returncode": 2,
+  "returncode_lines": [
+   [
+    56,
+    "rc = subprocess.run([sys.executable, *flags, script, '--mutant', m], capture_output=True, timeout=300).returncode"
+   ],
+   [
+    59,
+    "rc = subprocess.run([sys.executable, *flags, script, '--mutant', 'M9'], capture_output=True, timeout=300).returncode"
+   ]
+  ],
+  "mutant_markers": 7,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "d5-intermediate-window-review.yml": {
+  "bytes": 2803,
+  "blob": "ecf5c711ed0194e2be3bbd9261b740b8d9cd4c89",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    55,
+    "capture_output=True, timeout=300).returncode"
+   ]
+  ],
+  "mutant_markers": 5,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "d5-pin-disk.yml": {
+  "bytes": 2961,
+  "blob": "70697b1d1b980648313f77c05fe6b4f142e19bfa",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    56,
+    "capture_output=True, timeout=300).returncode"
+   ]
+  ],
+  "mutant_markers": 9,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "d5-punctured-pin-continuum-review.yml": {
+  "bytes": 2795,
+  "blob": "3500d189cafff00e32840ef7163dd4d2bd520775",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    54,
+    "capture_output=True, timeout=300).returncode"
+   ]
+  ],
+  "mutant_markers": 5,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "d5-reconciliation.yml": {
+  "bytes": 4241,
+  "blob": "b5d14f6e10bbfd726808c23c609c6958c7bff99c",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    82,
+    "if rejected.returncode != 1 or rejected.stdout != wanted or rejected.stderr:"
+   ]
+  ],
+  "mutant_markers": 5,
+  "stdout_refs": 2,
+  "stderr_refs": 2,
+  "stderr_compared": false,
+  "stdout_compared": true,
+  "rc_eq_1": 1,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "downstream-gate.yml": {
+  "bytes": 10157,
+  "blob": "f05bbec845a260e2448d76d0bf33c9461b562db9",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    87,
+    "if run.returncode or f'Ran {count} tests' not in run.stderr or 'skipped=' in run.stderr:"
+   ]
+  ],
+  "mutant_markers": 2,
+  "stdout_refs": 4,
+  "stderr_refs": 9,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "elder-cusp-parity.yml": {
+  "bytes": 9918,
+  "blob": "29be167a6b6008fce4d5c2b5c1c1c7a6fe392dff",
+  "n_returncode": 2,
+  "returncode_lines": [
+   [
+    151,
+    "rc = subprocess.run([sys.executable, *flags, script, '--mutant', m], capture_output=True, timeout=600).returncode"
+   ],
+   [
+    154,
+    "rc = subprocess.run([sys.executable, *flags, script, '--mutant', 'M99'], capture_output=True, timeout=600).returncode"
+   ]
+  ],
+  "mutant_markers": 6,
+  "stdout_refs": 2,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "elder-dimension-lift-review.yml": {
+  "bytes": 2915,
+  "blob": "801df8dd5c602418cc4c623882f6ef72d5fb01df",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    56,
+    "capture_output=True, timeout=300).returncode"
+   ]
+  ],
+  "mutant_markers": 5,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "elder-lower-all-d.yml": {
+  "bytes": 3395,
+  "blob": "89cd0618d18931ce15cd6d744e02e9aa7127b71e",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    63,
+    "if out.returncode != 1 or out.stdout != expected_failures[m] or out.stderr:"
+   ]
+  ],
+  "mutant_markers": 11,
+  "stdout_refs": 2,
+  "stderr_refs": 2,
+  "stderr_compared": false,
+  "stdout_compared": true,
+  "rc_eq_1": 1,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "elder-lower-review.yml": {
+  "bytes": 5764,
+  "blob": "4a26f8b6b2cca40ff96942e01b134cdfb4e88c17",
+  "n_returncode": 3,
+  "returncode_lines": [
+   [
+    86,
+    "if out.returncode != 0:"
+   ],
+   [
+    100,
+    "if out.returncode != 1 or out.stdout != report or out.stderr:"
+   ],
+   [
+    104,
+    "if out.returncode != 2 or out.stdout or out.stderr != unknown_stderr:"
+   ]
+  ],
+  "mutant_markers": 12,
+  "stdout_refs": 3,
+  "stderr_refs": 3,
+  "stderr_compared": true,
+  "stdout_compared": true,
+  "rc_eq_1": 1,
+  "rc_eq_2": 1,
+  "rc_eq_0": 1
+ },
+ "elder-third-order.yml": {
+  "bytes": 9801,
+  "blob": "f247407330dd068880bc68f66520f95d8fee2296",
+  "n_returncode": 2,
+  "returncode_lines": [
+   [
+    150,
+    "rc = subprocess.run([sys.executable, *flags, script, '--mutant', m], capture_output=True, timeout=600).returncode"
+   ],
+   [
+    153,
+    "rc = subprocess.run([sys.executable, *flags, script, '--mutant', 'M9'], capture_output=True, timeout=600).returncode"
+   ]
+  ],
+  "mutant_markers": 7,
+  "stdout_refs": 2,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "equal-height-mass.yml": {
+  "bytes": 5326,
+  "blob": "d4cd9c64baa27189b5404d7de17fc357f9c54023",
+  "n_returncode": 3,
+  "returncode_lines": [
+   [
+    83,
+    "if result.returncode != 0 or result.stdout != expected or result.stderr != b'':"
+   ],
+   [
+    88,
+    "if (result.returncode != 1 or result.stderr != b'' or len(result.stdout) != size"
+   ],
+   [
+    92,
+    "if result.returncode != 2 or result.stdout != b'' or result.stderr != b'unknown mutant label\\n':"
+   ]
+  ],
+  "mutant_markers": 20,
+  "stdout_refs": 4,
+  "stderr_refs": 3,
+  "stderr_compared": true,
+  "stdout_compared": true,
+  "rc_eq_1": 1,
+  "rc_eq_2": 1,
+  "rc_eq_0": 1
+ },
+ "far-elder-flat-ridge.yml": {
+  "bytes": 4482,
+  "blob": "957099fb6d001336ce2349fda21274da396abda8",
+  "n_returncode": 2,
+  "returncode_lines": [
+   [
+    70,
+    "rc = subprocess.run([sys.executable, *flags, script, '--mutant', m], capture_output=True, timeout=600).returncode"
+   ],
+   [
+    73,
+    "rc = subprocess.run([sys.executable, *flags, script, '--mutant', 'M9'], capture_output=True, timeout=600).returncode"
+   ]
+  ],
+  "mutant_markers": 7,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "full-price.yml": {
+  "bytes": 6852,
+  "blob": "cba23fd70f49e352fe756dad48d5aa97632c8bb0",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    46,
+    "if p.returncode or f'Ran {expected} tests' not in p.stderr or 'skipped=' in p.stderr: raise RuntimeError('regression failed: '+tag)"
+   ]
+  ],
+  "mutant_markers": 2,
+  "stdout_refs": 2,
+  "stderr_refs": 4,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "iba1-periodic-jet.yml": {
+  "bytes": 6123,
+  "blob": "4b1d55e61153104777eb5321ece1844445bafa04",
+  "n_returncode": 2,
+  "returncode_lines": [
+   [
+    78,
+    "if run.returncode != 0 or run.stderr or run.stdout != (root / 'RESULTS.json').read_bytes():"
+   ],
+   [
+    94,
+    "if m.returncode != code or m.stderr:"
+   ]
+  ],
+  "mutant_markers": 20,
+  "stdout_refs": 4,
+  "stderr_refs": 2,
+  "stderr_compared": false,
+  "stdout_compared": true,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 1
+ },
+ "literature-classical-neighbors.yml": {
+  "bytes": 2775,
+  "blob": "4c53aa4011b6353ce46de6836a5b14d78e7c4cb8",
+  "n_returncode": 2,
+  "returncode_lines": [
+   [
+    51,
+    "rc = subprocess.run([sys.executable, *flags, script, '--mutant', m], capture_output=True, timeout=600).returncode"
+   ],
+   [
+    54,
+    "rc = subprocess.run([sys.executable, *flags, script, '--mutant', 'M9'], capture_output=True, timeout=600).returncode"
+   ]
+  ],
+  "mutant_markers": 7,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "p15-overlap-tail-review.yml": {
+  "bytes": 2806,
+  "blob": "7881207703c9a3704a4c2d9a7049e8e68f89a931",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    55,
+    "capture_output=True, timeout=300).returncode"
+   ]
+  ],
+  "mutant_markers": 5,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "register-alignment.yml": {
+  "bytes": 4151,
+  "blob": "74bbb0b2a474e01b8f7d94482ab5ec0e0ceaf85b",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    73,
+    "capture_output=True, timeout=300).returncode"
+   ]
+  ],
+  "mutant_markers": 5,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "remainder-vanishing.yml": {
+  "bytes": 3766,
+  "blob": "e238b8a3e8f504cd6bae03363bdfc73562ea3ba1",
+  "n_returncode": 2,
+  "returncode_lines": [
+   [
+    65,
+    "rc = subprocess.run([sys.executable, *flags, script, '--mutant', m], capture_output=True, timeout=600).returncode"
+   ],
+   [
+    68,
+    "rc = subprocess.run([sys.executable, *flags, script, '--mutant', 'M9'], capture_output=True, timeout=600).returncode"
+   ]
+  ],
+  "mutant_markers": 7,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "remote-collision.yml": {
+  "bytes": 4382,
+  "blob": "9200a1c14276746883c30b38ef8c4bd74aa90f51",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    78,
+    "if rejected.returncode != 1 or rejected.stdout != wanted or rejected.stderr:"
+   ]
+  ],
+  "mutant_markers": 5,
+  "stdout_refs": 2,
+  "stderr_refs": 2,
+  "stderr_compared": false,
+  "stdout_compared": true,
+  "rc_eq_1": 1,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "remote-distance-moments-review.yml": {
+  "bytes": 2835,
+  "blob": "7ccebfad6ed0c9ded15e34db2c8e7b0f417101d1",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    55,
+    "capture_output=True, timeout=300).returncode"
+   ]
+  ],
+  "mutant_markers": 5,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "remote-height-marks-review.yml": {
+  "bytes": 2757,
+  "blob": "a019deed2a1461c139f9f31c203128f368e02cce",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    54,
+    "capture_output=True, timeout=300).returncode"
+   ]
+  ],
+  "mutant_markers": 5,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "remote-height-review.yml": {
+  "bytes": 2836,
+  "blob": "c947ba577e6d5d83b1f46c61eb9357d57d4c2a9b",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    55,
+    "capture_output=True, timeout=300).returncode"
+   ]
+  ],
+  "mutant_markers": 5,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "remote-inverse-separation-review.yml": {
+  "bytes": 2851,
+  "blob": "54a3f691650f6ffe182fd9025c4056ffb60f279a",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    55,
+    "capture_output=True, timeout=300).returncode"
+   ]
+  ],
+  "mutant_markers": 5,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "remote-mixed-inverse-review.yml": {
+  "bytes": 2810,
+  "blob": "1939dd1774e0e3d9bb5409ae08248cfc9c719ede",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    55,
+    "capture_output=True, timeout=300).returncode"
+   ]
+  ],
+  "mutant_markers": 5,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "remote-pair-law-review.yml": {
+  "bytes": 2789,
+  "blob": "0229ba5e66174331f61fa8bec47e8f79a96a114c",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    55,
+    "capture_output=True, timeout=300).returncode"
+   ]
+  ],
+  "mutant_markers": 5,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "remote-window.yml": {
+  "bytes": 3524,
+  "blob": "a930d9c106f5dda9c08de2257fdd8cb8ab2001d4",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    45,
+    "if run.returncode or f'Ran {count} tests' not in run.stderr or 'skipped=' in run.stderr:"
+   ]
+  ],
+  "mutant_markers": 2,
+  "stdout_refs": 2,
+  "stderr_refs": 4,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "sard-g-a2-fixed-frame-review.yml": {
+  "bytes": 2747,
+  "blob": "5942d27d24664ca3169cb69f64ebf5e49ce37103",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    54,
+    "capture_output=True, timeout=300).returncode"
+   ]
+  ],
+  "mutant_markers": 5,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "sard-g-a2-regularity.yml": {
+  "bytes": 2497,
+  "blob": "5791830f739d2c5336849524f26885c7fed6f06f",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    51,
+    "capture_output=True, timeout=120).returncode"
+   ]
+  ],
+  "mutant_markers": 3,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "sard-g-pinned-transfer.yml": {
+  "bytes": 2503,
+  "blob": "542bbd13457439510dc326810dc98cc88bdc4dd9",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    51,
+    "capture_output=True, timeout=120).returncode"
+   ]
+  ],
+  "mutant_markers": 3,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "sard-g-r1r2-review.yml": {
+  "bytes": 2743,
+  "blob": "475888b2ff01655a91f18a5bcc14a035cc52f6c2",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    54,
+    "capture_output=True, timeout=300).returncode"
+   ]
+  ],
+  "mutant_markers": 5,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "sard-g-r3r4-review.yml": {
+  "bytes": 3786,
+  "blob": "97b87e13784456f13aa93b7df978629108b4d995",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    72,
+    "if rejected.returncode != 1 or rejected.stdout != wanted or rejected.stderr:"
+   ]
+  ],
+  "mutant_markers": 5,
+  "stdout_refs": 2,
+  "stderr_refs": 2,
+  "stderr_compared": false,
+  "stdout_compared": true,
+  "rc_eq_1": 1,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "side24-d2-certified.yml": {
+  "bytes": 5306,
+  "blob": "502430d6f98f28cdc38a520e48dd6fd2f17b85d5",
+  "n_returncode": 6,
+  "returncode_lines": [
+   [
+    60,
+    "if run.returncode != 0 or run.stderr != b'' or run.stdout != (root / 'RESULTS.json').read_bytes():"
+   ],
+   [
+    61,
+    "raise ValueError('replay differs from RESULTS.json (exit %d, stderr %r)' % (run.returncode, run.stderr[:200]))"
+   ],
+   [
+    76,
+    "if m.returncode != 1 or m.stderr != b'':"
+   ],
+   [
+    77,
+    "raise ValueError('mutant %s: exit %d, stderr %r' % (label, m.returncode, m.stderr[:200]))"
+   ],
+   [
+    87,
+    "if m.returncode != 2 or m.stdout != b'unknown mutant\\n' or m.stderr != b'':"
+   ],
+   [
+    88,
+    "raise ValueError('unknown-label control: exit %d, stdout %r, stderr %r' % (m.returncode, m.stdout[:80], m.stderr[:200]))"
+   ]
+  ],
+  "mutant_markers": 20,
+  "stdout_refs": 6,
+  "stderr_refs": 6,
+  "stderr_compared": true,
+  "stdout_compared": true,
+  "rc_eq_1": 1,
+  "rc_eq_2": 1,
+  "rc_eq_0": 1
+ },
+ "side24-d4-closed-form.yml": {
+  "bytes": 4451,
+  "blob": "1ef15b05b17364f486de1bf6c446128cbdf7f9e0",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    65,
+    "ok = r.returncode == 1 and json.loads(r.stdout)['passed'] is False"
+   ]
+  ],
+  "mutant_markers": 8,
+  "stdout_refs": 2,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": true,
+  "rc_eq_1": 1,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "side24-d4-coefficient.yml": {
+  "bytes": 4780,
+  "blob": "8ea0132189c9e0e7cfb4452af1cc931ec248f8e3",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    72,
+    "ok = r.returncode == 1 and json.loads(r.stdout)['passed'] is False"
+   ]
+  ],
+  "mutant_markers": 8,
+  "stdout_refs": 2,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": true,
+  "rc_eq_1": 1,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "side24-d5-closed-form.yml": {
+  "bytes": 4498,
+  "blob": "40fe93342f2c86b8120c15e6844189b890ab6a62",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    63,
+    "capture_output=True, timeout=600).returncode"
+   ]
+  ],
+  "mutant_markers": 8,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "side24-d5-coefficient.yml": {
+  "bytes": 4613,
+  "blob": "93ac2e5e30f9244a10c482235765e822a2adc88b",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    70,
+    "capture_output=True, timeout=1500).returncode"
+   ]
+  ],
+  "mutant_markers": 8,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "side24-d6-coefficient.yml": {
+  "bytes": 4654,
+  "blob": "c45d9a5a21fe997425ac8d16f9a55c66906d04cc",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    70,
+    "capture_output=True, timeout=3000).returncode"
+   ]
+  ],
+  "mutant_markers": 8,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "side24-periodization-firstvar.yml": {
+  "bytes": 2699,
+  "blob": "15d650c56a4529c085ddb2ce196e59535f86acf4",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    54,
+    "capture_output=True, timeout=300).returncode"
+   ]
+  ],
+  "mutant_markers": 8,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "side24-periodization-remainder.yml": {
+  "bytes": 5255,
+  "blob": "59227d6301a7d9d7006d7df8e1c7820bd7627f58",
+  "n_returncode": 2,
+  "returncode_lines": [
+   [
+    63,
+    "stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL).returncode == 0"
+   ],
+   [
+    92,
+    "capture_output=True, timeout=300).returncode"
+   ]
+  ],
+  "mutant_markers": 8,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 1
+ },
+ "side24-v1-coefficient-review.yml": {
+  "bytes": 3619,
+  "blob": "54fe9387353375b228c6e30ff28f32073ab2491e",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    59,
+    "capture_output=True, timeout=300).returncode"
+   ]
+  ],
+  "mutant_markers": 8,
+  "stdout_refs": 2,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "soft-closed-form.yml": {
+  "bytes": 10455,
+  "blob": "efb3b211da0f7ae1b06ece95f1e099e013c710dd",
+  "n_returncode": 2,
+  "returncode_lines": [
+   [
+    150,
+    "if run.returncode != 1:"
+   ],
+   [
+    157,
+    "rc = subprocess.run([sys.executable, *flags, script, '--mutant', 'M99'], capture_output=True, timeout=600).returncode"
+   ]
+  ],
+  "mutant_markers": 8,
+  "stdout_refs": 2,
+  "stderr_refs": 1,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 1,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "soft-fold-limit.yml": {
+  "bytes": 10578,
+  "blob": "839b99a47a4b9d0a79525216118717b22bad4614",
+  "n_returncode": 2,
+  "returncode_lines": [
+   [
+    158,
+    "rc = subprocess.run([sys.executable, *flags, script, '--mutant', m], capture_output=True, timeout=600).returncode"
+   ],
+   [
+    161,
+    "rc = subprocess.run([sys.executable, *flags, script, '--mutant', 'M99'], capture_output=True, timeout=600).returncode"
+   ]
+  ],
+  "mutant_markers": 6,
+  "stdout_refs": 2,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "soft-rejected-pairs.yml": {
+  "bytes": 9974,
+  "blob": "a930f5334aeb40cb7b5365ed64b21fe773afaa1e",
+  "n_returncode": 2,
+  "returncode_lines": [
+   [
+    152,
+    "rc = subprocess.run([sys.executable, *flags, script, '--mutant', m], capture_output=True, timeout=600).returncode"
+   ],
+   [
+    155,
+    "rc = subprocess.run([sys.executable, *flags, script, '--mutant', 'M99'], capture_output=True, timeout=600).returncode"
+   ]
+  ],
+  "mutant_markers": 6,
+  "stdout_refs": 2,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "third-order-coefficient.yml": {
+  "bytes": 6594,
+  "blob": "efef047cf44c6ac3a0a6aa5eebc82f76d2aba254",
+  "n_returncode": 2,
+  "returncode_lines": [
+   [
+    101,
+    "rc = subprocess.run([sys.executable, *flags, script, '--mutant', m], capture_output=True, timeout=900).returncode"
+   ],
+   [
+    104,
+    "rc = subprocess.run([sys.executable, *flags, script, '--mutant', 'M9'], capture_output=True, timeout=900).returncode"
+   ]
+  ],
+  "mutant_markers": 7,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "third-order-rate.yml": {
+  "bytes": 9922,
+  "blob": "85859c3ca46faf9b6302427de28aa488e1e13aee",
+  "n_returncode": 2,
+  "returncode_lines": [
+   [
+    152,
+    "rc = subprocess.run([sys.executable, *flags, script, '--mutant', m], capture_output=True, timeout=600).returncode"
+   ],
+   [
+    155,
+    "rc = subprocess.run([sys.executable, *flags, script, '--mutant', 'M9'], capture_output=True, timeout=600).returncode"
+   ]
+  ],
+  "mutant_markers": 7,
+  "stdout_refs": 2,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "three-fronts.yml": {
+  "bytes": 3381,
+  "blob": "badca3bdc32ee928aa8891c9b71ec79977f3eae4",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    47,
+    "if price.returncode or 'Ran 3 tests' not in price.stderr or 'skipped=' in price.stderr:"
+   ]
+  ],
+  "mutant_markers": 2,
+  "stdout_refs": 2,
+  "stderr_refs": 4,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ },
+ "unrestricted-selection-difference.yml": {
+  "bytes": 2643,
+  "blob": "b30b9f80c976076a8411b8399b5e15f76df0c1df",
+  "n_returncode": 1,
+  "returncode_lines": [
+   [
+    51,
+    "capture_output=True, timeout=120).returncode"
+   ]
+  ],
+  "mutant_markers": 3,
+  "stdout_refs": 1,
+  "stderr_refs": 0,
+  "stderr_compared": false,
+  "stdout_compared": false,
+  "rc_eq_1": 0,
+  "rc_eq_2": 0,
+  "rc_eq_0": 0
+ }
+}

@@ -1,4 +1,4 @@
-# Recovery delta, 18–22 October 2026: session 01Cz, recovery rows §12, §5 and §18, the main#446 consumer note, the main#460 reviews and composition read, and the 21–22 October units
+# Recovery delta, 18–24 October 2026: session 01Cz, recovery rows §12, §5 and §18, the main#446 consumer note, the main#460 reviews and composition read, and the 21–24 October units
 
 Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`. This is a retention copy for the owner's recovery request, [main#307 / 6136156988](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6136156988).
 - It continues the 17–18 October delta, `recovery/session_01Cz7WZybv8znP64SpPj6sWY/delta_20261018/` (branch `claude/recovery-01cz-delta-20261018`, draft main#444), and does not repeat it.
@@ -32,6 +32,7 @@ Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`. This is a retentio
 | `m481_pickup_release/` | `M481-FINAL-INTEGRATION-01CZ-20261021`: the main#481 final-integration pickup, released without a merge after this session's permission control refused a pre-merge read | main#481: pickup 6327996637, release 6328022731, diagnostic 6328105706; main#475: 6328001560, 6328029033, 6328123320 | no mutation; main#481 later merged by another lane as `b7f72a71` |
 | `crawl_20261021/` | the read-only crawl of six repositories as of 22:18Z on 21 October: 99 open PRs and issues, all in main, Math-, meta-framework and query- (governance- and Universal-Law-Workspace had none open) | — | as-of ledger; not a register or an assignment |
 | `cov_exact_engines_20261022/` | `COV-EXACT-UNASSESSED-ENGINES-01CZ-20261022`: locators and a static trace of the engines that the `cov_exact.py` defect disposition (main#447 comment 6329640342) lists as not assessed, classified under the #447 author's rule | main#475: pickup 6329729396, record and release 6330437266, run-setup note to 01Fi 6330494323 | delivered and released; data only |
+| `m322_ledger_20261024/` | `AUD-LEGACY-MUTANT-01-LEDGER-01CZ-20261022`: static classification ledger of the 82 Math- workflows whose text contains `returncode` (control predicate, accepted exit statuses, baseline stderr handling, skeptic re-derivation, repair status), for Math- issue 322 | Math-322: pickup 6331271545 (22 Oct), lapse and re-pickup 6387837249, record and release 6388271177 (24 Oct); main#475 pointer 6331271890; main#539 mirrors 6387837482 and 6388276823 | delivered and released; data only |
 | `workflows/` | the scripts of the §12 comparison run, the four-lens check of that result post and its re-check, the §5 lens run, the §2(b) summoner check and its pre-post check, the §18 lens run and its two pre-post checks, the consumer-note verification run and its pre-post check, the two main#460 review runs, the main#460 composition-read run and its pre-post check, the RV-DQ-023 locator run, the crawl run, the C2 record's pre-post check, and the cov_exact record's three-lens run and `lambda_q` refutation panel | — | method record |
 
 ## Reproducing
@@ -109,7 +110,13 @@ Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`. This is a retentio
     - the full scan with quoted source lines;
     - the agents' scratch, transcripts and journals;
     - own working lists.
-- **Posted texts** in the 21 October units, and the `*_posted.txt` files of `cov_exact_engines_20261022/`, are GitHub readbacks, apart from that one recorded redaction. Each such file ends with one newline that the posted comment does not have.
+- **m322_ledger_20261024.**
+  - `pickup.md`, `ptr475.md`, `status.md`, `mirror539.md`, `record.md` and `mirror.md` are the texts as sent; `posts.json` maps them to their comment ids. The `*_posted.txt` files are GitHub readbacks, each with one more blank line before the footer than the sent text and otherwise identical.
+  - `own/ledger_rows_final.json` and `own/ledger_table.md` are the 82-row ledger as posted (blob column from `git ls-tree` at Math- `d1f6ad28`). `own/ledger_raw.json` holds every reader's full classification and every skeptic's verdict with their line-numbered evidence; the one accepted skeptic correction (`downstream-gate.yml`, stderr label) is applied only in the final rows.
+  - `own/prepass.py` and `own/prepass.json` are the heuristic first pass over the 81 files (text patterns only); `own/status_map.json` is the board-held repair and claim status joined into the table; `own/rc_files.txt`, `own/lastcommit.tsv` and `own/shell_candidates.txt` are the working lists.
+  - `workflow_results.json` is extracted from the batch run's journal (12 readers, 12 skeptics). The run's script is `workflows/aud-legacy-mutant-ledger-wf_c4d925e1-36a.js`.
+  - Not included, and listed in `SOURCES.json`: the 81 extracted workflow copies (byte-identical to the Math- blobs in the table), the readers' scratch notes, other lanes' text, intermediate build files and the agents' transcripts.
+- **Posted texts** in the 21 October units, and the `*_posted.txt` files of `cov_exact_engines_20261022/` and `m322_ledger_20261024/`, are GitHub readbacks, apart from that one recorded redaction. Each such file ends with one newline that the posted comment does not have.
 
 ## Caveats
 
