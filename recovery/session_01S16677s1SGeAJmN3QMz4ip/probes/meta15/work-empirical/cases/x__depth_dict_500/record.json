@@ -1,0 +1,34 @@
+{
+  "api": {
+    "exception": "RecursionError: maximum recursion depth exceeded"
+  },
+  "api_O": {
+    "exception": "RecursionError: maximum recursion depth exceeded",
+    "rc": 1
+  },
+  "api_O_equal": false,
+  "api_categories": [
+    "EXC:RecursionError"
+  ],
+  "case": "x__depth_dict_500",
+  "cli_O": {
+    "rc": 1,
+    "stderr_tail": "RecursionError: maximum recursion depth exceeded",
+    "stdout_byte_equal_expected": null,
+    "stdout_matches_api": false,
+    "violations": null
+  },
+  "cli_normal": {
+    "rc": 1,
+    "stderr_tail": "RecursionError: maximum recursion depth exceeded",
+    "stdout_byte_equal_expected": null,
+    "stdout_matches_api": false,
+    "violations": null
+  },
+  "desc": "true marker under 500 nested objects",
+  "files": {
+    "x.json": "{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":...(3036 bytes)"
+  },
+  "input_unchanged": true,
+  "kind": "extra"
+}

@@ -1,0 +1,290 @@
+test_all_reader_shapes_accept_oversized_leading_zero_one (tests.test_long_schema_version.LongSchemaMajorTests.test_all_reader_shapes_accept_oversized_leading_zero_one) ... 
+  test_all_reader_shapes_accept_oversized_leading_zero_one (tests.test_long_schema_version.LongSchemaMajorTests.test_all_reader_shapes_accept_oversized_leading_zero_one) (example='source_ref.git.json') ... ERROR
+  test_all_reader_shapes_accept_oversized_leading_zero_one (tests.test_long_schema_version.LongSchemaMajorTests.test_all_reader_shapes_accept_oversized_leading_zero_one) (example='source_ref.drive.json') ... ERROR
+  test_all_reader_shapes_accept_oversized_leading_zero_one (tests.test_long_schema_version.LongSchemaMajorTests.test_all_reader_shapes_accept_oversized_leading_zero_one) (example='repository_role.json') ... ERROR
+  test_all_reader_shapes_accept_oversized_leading_zero_one (tests.test_long_schema_version.LongSchemaMajorTests.test_all_reader_shapes_accept_oversized_leading_zero_one) (example='source_manifest.json') ... ERROR
+  test_all_reader_shapes_accept_oversized_leading_zero_one (tests.test_long_schema_version.LongSchemaMajorTests.test_all_reader_shapes_accept_oversized_leading_zero_one) (example='workspace_snapshot.json') ... ERROR
+test_all_reader_shapes_reject_oversized_unsupported_major (tests.test_long_schema_version.LongSchemaMajorTests.test_all_reader_shapes_reject_oversized_unsupported_major) ... 
+  test_all_reader_shapes_reject_oversized_unsupported_major (tests.test_long_schema_version.LongSchemaMajorTests.test_all_reader_shapes_reject_oversized_unsupported_major) (example='source_ref.git.json', suffix='999') ... ERROR
+  test_all_reader_shapes_reject_oversized_unsupported_major (tests.test_long_schema_version.LongSchemaMajorTests.test_all_reader_shapes_reject_oversized_unsupported_major) (example='source_ref.git.json', suffix='002') ... ERROR
+  test_all_reader_shapes_reject_oversized_unsupported_major (tests.test_long_schema_version.LongSchemaMajorTests.test_all_reader_shapes_reject_oversized_unsupported_major) (example='source_ref.drive.json', suffix='999') ... ERROR
+  test_all_reader_shapes_reject_oversized_unsupported_major (tests.test_long_schema_version.LongSchemaMajorTests.test_all_reader_shapes_reject_oversized_unsupported_major) (example='source_ref.drive.json', suffix='002') ... ERROR
+  test_all_reader_shapes_reject_oversized_unsupported_major (tests.test_long_schema_version.LongSchemaMajorTests.test_all_reader_shapes_reject_oversized_unsupported_major) (example='repository_role.json', suffix='999') ... ERROR
+  test_all_reader_shapes_reject_oversized_unsupported_major (tests.test_long_schema_version.LongSchemaMajorTests.test_all_reader_shapes_reject_oversized_unsupported_major) (example='repository_role.json', suffix='002') ... ERROR
+  test_all_reader_shapes_reject_oversized_unsupported_major (tests.test_long_schema_version.LongSchemaMajorTests.test_all_reader_shapes_reject_oversized_unsupported_major) (example='source_manifest.json', suffix='999') ... ERROR
+  test_all_reader_shapes_reject_oversized_unsupported_major (tests.test_long_schema_version.LongSchemaMajorTests.test_all_reader_shapes_reject_oversized_unsupported_major) (example='source_manifest.json', suffix='002') ... ERROR
+  test_all_reader_shapes_reject_oversized_unsupported_major (tests.test_long_schema_version.LongSchemaMajorTests.test_all_reader_shapes_reject_oversized_unsupported_major) (example='workspace_snapshot.json', suffix='999') ... ERROR
+  test_all_reader_shapes_reject_oversized_unsupported_major (tests.test_long_schema_version.LongSchemaMajorTests.test_all_reader_shapes_reject_oversized_unsupported_major) (example='workspace_snapshot.json', suffix='002') ... ERROR
+test_oversized_leading_zero_major_one_is_still_supported (tests.test_long_schema_version.LongSchemaMajorTests.test_oversized_leading_zero_major_one_is_still_supported) ... 
+  test_oversized_leading_zero_major_one_is_still_supported (tests.test_long_schema_version.LongSchemaMajorTests.test_oversized_leading_zero_major_one_is_still_supported) (minor='0') ... ERROR
+  test_oversized_leading_zero_major_one_is_still_supported (tests.test_long_schema_version.LongSchemaMajorTests.test_oversized_leading_zero_major_one_is_still_supported) (minor='15') ... ERROR
+test_oversized_unsupported_major_is_contract_error (tests.test_long_schema_version.LongSchemaMajorTests.test_oversized_unsupported_major_is_contract_error) ... 
+  test_oversized_unsupported_major_is_contract_error (tests.test_long_schema_version.LongSchemaMajorTests.test_oversized_unsupported_major_is_contract_error) (major_length=5000, suffix='999') ... ERROR
+  test_oversized_unsupported_major_is_contract_error (tests.test_long_schema_version.LongSchemaMajorTests.test_oversized_unsupported_major_is_contract_error) (major_length=5001, suffix='002') ... ERROR
+test_short_version_contract_unchanged (tests.test_long_schema_version.LongSchemaMajorTests.test_short_version_contract_unchanged) ... ok
+
+======================================================================
+ERROR: test_all_reader_shapes_accept_oversized_leading_zero_one (tests.test_long_schema_version.LongSchemaMajorTests.test_all_reader_shapes_accept_oversized_leading_zero_one) (example='source_ref.git.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tests/test_long_schema_version.py", line 61, in test_all_reader_shapes_accept_oversized_leading_zero_one
+    output = validate(source)
+             ^^^^^^^^^^^^^^^^
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tools/contract_validation.py", line 61, in validate_source_ref
+    row=_copy(data);parse_major(row.get('schema_version'))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tools/contract_validation.py", line 25, in parse_major
+    major=int(m.group(1))
+          ^^^^^^^^^^^^^^^
+ValueError: Exceeds the limit (4300 digits) for integer string conversion: value has 5001 digits; use sys.set_int_max_str_digits() to increase the limit
+
+======================================================================
+ERROR: test_all_reader_shapes_accept_oversized_leading_zero_one (tests.test_long_schema_version.LongSchemaMajorTests.test_all_reader_shapes_accept_oversized_leading_zero_one) (example='source_ref.drive.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tests/test_long_schema_version.py", line 61, in test_all_reader_shapes_accept_oversized_leading_zero_one
+    output = validate(source)
+             ^^^^^^^^^^^^^^^^
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tools/contract_validation.py", line 61, in validate_source_ref
+    row=_copy(data);parse_major(row.get('schema_version'))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tools/contract_validation.py", line 25, in parse_major
+    major=int(m.group(1))
+          ^^^^^^^^^^^^^^^
+ValueError: Exceeds the limit (4300 digits) for integer string conversion: value has 5001 digits; use sys.set_int_max_str_digits() to increase the limit
+
+======================================================================
+ERROR: test_all_reader_shapes_accept_oversized_leading_zero_one (tests.test_long_schema_version.LongSchemaMajorTests.test_all_reader_shapes_accept_oversized_leading_zero_one) (example='repository_role.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tests/test_long_schema_version.py", line 61, in test_all_reader_shapes_accept_oversized_leading_zero_one
+    output = validate(source)
+             ^^^^^^^^^^^^^^^^
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tools/contract_validation.py", line 84, in validate_repository_role
+    row=_copy(data);parse_major(row.get('schema_version'));_full_repo(row.get('repository'),public=False);_nonempty(row.get('role_id'),'role_id')
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tools/contract_validation.py", line 25, in parse_major
+    major=int(m.group(1))
+          ^^^^^^^^^^^^^^^
+ValueError: Exceeds the limit (4300 digits) for integer string conversion: value has 5001 digits; use sys.set_int_max_str_digits() to increase the limit
+
+======================================================================
+ERROR: test_all_reader_shapes_accept_oversized_leading_zero_one (tests.test_long_schema_version.LongSchemaMajorTests.test_all_reader_shapes_accept_oversized_leading_zero_one) (example='source_manifest.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tests/test_long_schema_version.py", line 61, in test_all_reader_shapes_accept_oversized_leading_zero_one
+    output = validate(source)
+             ^^^^^^^^^^^^^^^^
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tools/contract_validation.py", line 91, in validate_source_manifest
+    row=_copy(data);parse_major(row.get('schema_version'));_nonempty(row.get('distribution'),'distribution');_nonempty(row.get('version'),'version');_full_repo(row.get('repository'),public=True)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tools/contract_validation.py", line 25, in parse_major
+    major=int(m.group(1))
+          ^^^^^^^^^^^^^^^
+ValueError: Exceeds the limit (4300 digits) for integer string conversion: value has 5001 digits; use sys.set_int_max_str_digits() to increase the limit
+
+======================================================================
+ERROR: test_all_reader_shapes_accept_oversized_leading_zero_one (tests.test_long_schema_version.LongSchemaMajorTests.test_all_reader_shapes_accept_oversized_leading_zero_one) (example='workspace_snapshot.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tests/test_long_schema_version.py", line 61, in test_all_reader_shapes_accept_oversized_leading_zero_one
+    output = validate(source)
+             ^^^^^^^^^^^^^^^^
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tools/contract_validation.py", line 108, in validate_workspace_snapshot
+    row=_copy(data);parse_major(row.get('schema_version'));_nonempty(row.get('snapshot'),'snapshot')
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tools/contract_validation.py", line 25, in parse_major
+    major=int(m.group(1))
+          ^^^^^^^^^^^^^^^
+ValueError: Exceeds the limit (4300 digits) for integer string conversion: value has 5001 digits; use sys.set_int_max_str_digits() to increase the limit
+
+======================================================================
+ERROR: test_all_reader_shapes_reject_oversized_unsupported_major (tests.test_long_schema_version.LongSchemaMajorTests.test_all_reader_shapes_reject_oversized_unsupported_major) (example='source_ref.git.json', suffix='999')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tests/test_long_schema_version.py", line 54, in test_all_reader_shapes_reject_oversized_unsupported_major
+    validate(source)
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tools/contract_validation.py", line 61, in validate_source_ref
+    row=_copy(data);parse_major(row.get('schema_version'))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tools/contract_validation.py", line 25, in parse_major
+    major=int(m.group(1))
+          ^^^^^^^^^^^^^^^
+ValueError: Exceeds the limit (4300 digits) for integer string conversion: value has 5000 digits; use sys.set_int_max_str_digits() to increase the limit
+
+======================================================================
+ERROR: test_all_reader_shapes_reject_oversized_unsupported_major (tests.test_long_schema_version.LongSchemaMajorTests.test_all_reader_shapes_reject_oversized_unsupported_major) (example='source_ref.git.json', suffix='002')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tests/test_long_schema_version.py", line 54, in test_all_reader_shapes_reject_oversized_unsupported_major
+    validate(source)
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tools/contract_validation.py", line 61, in validate_source_ref
+    row=_copy(data);parse_major(row.get('schema_version'))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tools/contract_validation.py", line 25, in parse_major
+    major=int(m.group(1))
+          ^^^^^^^^^^^^^^^
+ValueError: Exceeds the limit (4300 digits) for integer string conversion: value has 5001 digits; use sys.set_int_max_str_digits() to increase the limit
+
+======================================================================
+ERROR: test_all_reader_shapes_reject_oversized_unsupported_major (tests.test_long_schema_version.LongSchemaMajorTests.test_all_reader_shapes_reject_oversized_unsupported_major) (example='source_ref.drive.json', suffix='999')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tests/test_long_schema_version.py", line 54, in test_all_reader_shapes_reject_oversized_unsupported_major
+    validate(source)
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tools/contract_validation.py", line 61, in validate_source_ref
+    row=_copy(data);parse_major(row.get('schema_version'))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tools/contract_validation.py", line 25, in parse_major
+    major=int(m.group(1))
+          ^^^^^^^^^^^^^^^
+ValueError: Exceeds the limit (4300 digits) for integer string conversion: value has 5000 digits; use sys.set_int_max_str_digits() to increase the limit
+
+======================================================================
+ERROR: test_all_reader_shapes_reject_oversized_unsupported_major (tests.test_long_schema_version.LongSchemaMajorTests.test_all_reader_shapes_reject_oversized_unsupported_major) (example='source_ref.drive.json', suffix='002')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tests/test_long_schema_version.py", line 54, in test_all_reader_shapes_reject_oversized_unsupported_major
+    validate(source)
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tools/contract_validation.py", line 61, in validate_source_ref
+    row=_copy(data);parse_major(row.get('schema_version'))
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tools/contract_validation.py", line 25, in parse_major
+    major=int(m.group(1))
+          ^^^^^^^^^^^^^^^
+ValueError: Exceeds the limit (4300 digits) for integer string conversion: value has 5001 digits; use sys.set_int_max_str_digits() to increase the limit
+
+======================================================================
+ERROR: test_all_reader_shapes_reject_oversized_unsupported_major (tests.test_long_schema_version.LongSchemaMajorTests.test_all_reader_shapes_reject_oversized_unsupported_major) (example='repository_role.json', suffix='999')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tests/test_long_schema_version.py", line 54, in test_all_reader_shapes_reject_oversized_unsupported_major
+    validate(source)
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tools/contract_validation.py", line 84, in validate_repository_role
+    row=_copy(data);parse_major(row.get('schema_version'));_full_repo(row.get('repository'),public=False);_nonempty(row.get('role_id'),'role_id')
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tools/contract_validation.py", line 25, in parse_major
+    major=int(m.group(1))
+          ^^^^^^^^^^^^^^^
+ValueError: Exceeds the limit (4300 digits) for integer string conversion: value has 5000 digits; use sys.set_int_max_str_digits() to increase the limit
+
+======================================================================
+ERROR: test_all_reader_shapes_reject_oversized_unsupported_major (tests.test_long_schema_version.LongSchemaMajorTests.test_all_reader_shapes_reject_oversized_unsupported_major) (example='repository_role.json', suffix='002')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tests/test_long_schema_version.py", line 54, in test_all_reader_shapes_reject_oversized_unsupported_major
+    validate(source)
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tools/contract_validation.py", line 84, in validate_repository_role
+    row=_copy(data);parse_major(row.get('schema_version'));_full_repo(row.get('repository'),public=False);_nonempty(row.get('role_id'),'role_id')
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tools/contract_validation.py", line 25, in parse_major
+    major=int(m.group(1))
+          ^^^^^^^^^^^^^^^
+ValueError: Exceeds the limit (4300 digits) for integer string conversion: value has 5001 digits; use sys.set_int_max_str_digits() to increase the limit
+
+======================================================================
+ERROR: test_all_reader_shapes_reject_oversized_unsupported_major (tests.test_long_schema_version.LongSchemaMajorTests.test_all_reader_shapes_reject_oversized_unsupported_major) (example='source_manifest.json', suffix='999')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tests/test_long_schema_version.py", line 54, in test_all_reader_shapes_reject_oversized_unsupported_major
+    validate(source)
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tools/contract_validation.py", line 91, in validate_source_manifest
+    row=_copy(data);parse_major(row.get('schema_version'));_nonempty(row.get('distribution'),'distribution');_nonempty(row.get('version'),'version');_full_repo(row.get('repository'),public=True)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tools/contract_validation.py", line 25, in parse_major
+    major=int(m.group(1))
+          ^^^^^^^^^^^^^^^
+ValueError: Exceeds the limit (4300 digits) for integer string conversion: value has 5000 digits; use sys.set_int_max_str_digits() to increase the limit
+
+======================================================================
+ERROR: test_all_reader_shapes_reject_oversized_unsupported_major (tests.test_long_schema_version.LongSchemaMajorTests.test_all_reader_shapes_reject_oversized_unsupported_major) (example='source_manifest.json', suffix='002')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tests/test_long_schema_version.py", line 54, in test_all_reader_shapes_reject_oversized_unsupported_major
+    validate(source)
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tools/contract_validation.py", line 91, in validate_source_manifest
+    row=_copy(data);parse_major(row.get('schema_version'));_nonempty(row.get('distribution'),'distribution');_nonempty(row.get('version'),'version');_full_repo(row.get('repository'),public=True)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tools/contract_validation.py", line 25, in parse_major
+    major=int(m.group(1))
+          ^^^^^^^^^^^^^^^
+ValueError: Exceeds the limit (4300 digits) for integer string conversion: value has 5001 digits; use sys.set_int_max_str_digits() to increase the limit
+
+======================================================================
+ERROR: test_all_reader_shapes_reject_oversized_unsupported_major (tests.test_long_schema_version.LongSchemaMajorTests.test_all_reader_shapes_reject_oversized_unsupported_major) (example='workspace_snapshot.json', suffix='999')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tests/test_long_schema_version.py", line 54, in test_all_reader_shapes_reject_oversized_unsupported_major
+    validate(source)
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tools/contract_validation.py", line 108, in validate_workspace_snapshot
+    row=_copy(data);parse_major(row.get('schema_version'));_nonempty(row.get('snapshot'),'snapshot')
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tools/contract_validation.py", line 25, in parse_major
+    major=int(m.group(1))
+          ^^^^^^^^^^^^^^^
+ValueError: Exceeds the limit (4300 digits) for integer string conversion: value has 5000 digits; use sys.set_int_max_str_digits() to increase the limit
+
+======================================================================
+ERROR: test_all_reader_shapes_reject_oversized_unsupported_major (tests.test_long_schema_version.LongSchemaMajorTests.test_all_reader_shapes_reject_oversized_unsupported_major) (example='workspace_snapshot.json', suffix='002')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tests/test_long_schema_version.py", line 54, in test_all_reader_shapes_reject_oversized_unsupported_major
+    validate(source)
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tools/contract_validation.py", line 108, in validate_workspace_snapshot
+    row=_copy(data);parse_major(row.get('schema_version'));_nonempty(row.get('snapshot'),'snapshot')
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tools/contract_validation.py", line 25, in parse_major
+    major=int(m.group(1))
+          ^^^^^^^^^^^^^^^
+ValueError: Exceeds the limit (4300 digits) for integer string conversion: value has 5001 digits; use sys.set_int_max_str_digits() to increase the limit
+
+======================================================================
+ERROR: test_oversized_leading_zero_major_one_is_still_supported (tests.test_long_schema_version.LongSchemaMajorTests.test_oversized_leading_zero_major_one_is_still_supported) (minor='0')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tests/test_long_schema_version.py", line 45, in test_oversized_leading_zero_major_one_is_still_supported
+    self.assertEqual(parse_major(SUPPORTED_PADDED_ONE + "." + minor), 1)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tools/contract_validation.py", line 25, in parse_major
+    major=int(m.group(1))
+          ^^^^^^^^^^^^^^^
+ValueError: Exceeds the limit (4300 digits) for integer string conversion: value has 5001 digits; use sys.set_int_max_str_digits() to increase the limit
+
+======================================================================
+ERROR: test_oversized_leading_zero_major_one_is_still_supported (tests.test_long_schema_version.LongSchemaMajorTests.test_oversized_leading_zero_major_one_is_still_supported) (minor='15')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tests/test_long_schema_version.py", line 45, in test_oversized_leading_zero_major_one_is_still_supported
+    self.assertEqual(parse_major(SUPPORTED_PADDED_ONE + "." + minor), 1)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tools/contract_validation.py", line 25, in parse_major
+    major=int(m.group(1))
+          ^^^^^^^^^^^^^^^
+ValueError: Exceeds the limit (4300 digits) for integer string conversion: value has 5001 digits; use sys.set_int_max_str_digits() to increase the limit
+
+======================================================================
+ERROR: test_oversized_unsupported_major_is_contract_error (tests.test_long_schema_version.LongSchemaMajorTests.test_oversized_unsupported_major_is_contract_error) (major_length=5000, suffix='999')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tests/test_long_schema_version.py", line 40, in test_oversized_unsupported_major_is_contract_error
+    parse_major(major + ".0")
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tools/contract_validation.py", line 25, in parse_major
+    major=int(m.group(1))
+          ^^^^^^^^^^^^^^^
+ValueError: Exceeds the limit (4300 digits) for integer string conversion: value has 5000 digits; use sys.set_int_max_str_digits() to increase the limit
+
+======================================================================
+ERROR: test_oversized_unsupported_major_is_contract_error (tests.test_long_schema_version.LongSchemaMajorTests.test_oversized_unsupported_major_is_contract_error) (major_length=5001, suffix='002')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tests/test_long_schema_version.py", line 40, in test_oversized_unsupported_major_is_contract_error
+    parse_major(major + ".0")
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt28/tools/contract_validation.py", line 25, in parse_major
+    major=int(m.group(1))
+          ^^^^^^^^^^^^^^^
+ValueError: Exceeds the limit (4300 digits) for integer string conversion: value has 5001 digits; use sys.set_int_max_str_digits() to increase the limit
+
+----------------------------------------------------------------------
+Ran 5 tests in 0.005s
+
+FAILED (errors=19)

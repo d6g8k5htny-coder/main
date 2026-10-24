@@ -1,0 +1,22 @@
+Do not pursue and do not claim:
+
+- **Any "RH program".** The note's route ends at "prove the zeta heat flow has no positive-time transition". That statement is equivalent to Λ ≤ 0, which is RH. Do not present any packet content as progress toward RH, support for RH, or a bound on Λ beyond known results.
+- **That −1/3 explains or relates to the critical line.** It does not. The data contradict it: zeta short bars give a density exponent of about 0, namely −0.020 [−0.041, +0.001], against −1/3.
+- **New lower bounds on Λ from collisions.** Every collision found is at t < 0 (for example t* ≈ −0.3846, which reproduces a 1990s bound). Rodgers–Tao's Λ ≥ 0 supersedes all of them.
+- **Numerical searches for positive-time folds.** Such a search is an RH counterexample search. RH has already been verified to 3·10^12 (Platt–Trudgian).
+- **The theta/modular route.**
+  - At L = 24 the periodization is invisible: about 1e−125 in the jets.
+  - ζ needs a Mellin transform over L, which the project disclaims.
+  - Epstein zetas violate the RH analogue, so theta structure plus a functional equation selects nothing.
+  - A formal "theta bridge" in Lean would add nothing. From memory, Mathlib already proves ζ's functional equation via Jacobi theta and Mellin, and the Math- Side24 Lean scratch already uses Mathlib's Poisson/theta lemmas.
+- **Hunting for new "global theta constraints" on H_t.** The constraints the note asks for exist already (de Bruijn's strip lemma, Newman, Ki–Kim–Lee, Rodgers–Tao). The question is outside the project's competence and mission.
+- **Applying the project's Gaussian theorems to ζ or H_t.** They are random-field results with admission interfaces. ζ is deterministic and is not admitted.
+- **A covariance-matched Gaussian null model with covariance Ξ(z/2)/Ξ(0).** It is valid by Bochner's theorem (Φ > 0, Φ even), and the Math- line theorem's (R1)–(R3) probably apply. But its zero set has constant density and encodes nothing about ζ's zeros. It adds nothing beyond any other positive spectrum.
+- **Using real-axis persistence to "detect" off-line zeros.** Counting zeros against N(T) by the argument principle (Turing's method) already does this, and better.
+- **Fitting exponents at moderate lengths or on small windows.** Fits over 0.1–1×median give misleading intermediate values (for example −0.21 for CUE N=128). Windows of about 110 bars cannot estimate an exponent.
+- **Calling the persistence phrasing of collisions new.** It is Cerf theory and vineyards. Likewise, the local fold algebra is not new.
+- **Treating the existing zeta/CUE/Gaussian runs as confirmations.** The data were inspected first. Any confirmation needs a frozen protocol on fresh data.
+- **Citing or reviving history/2025.** That retired chapter contains the tautological "Critical Line Optimality" theorem and is self-described as "obsolete and wrong".
+- **Committing the owner's forwarded note verbatim.** Under the privacy rule and for attribution, paraphrase its claims instead.
+- **Putting RH-adjacent framing on the public site or reader home before nonauthor review.** Avoid "Riemann Hypothesis" in packet or PR titles. Use "zeta zeros" and "de Bruijn–Newman flow".
+- **Exploring the d ≥ 2 Epstein analogues or "modular persistence" without a concrete project question.** Neither has a link to the admission problem.

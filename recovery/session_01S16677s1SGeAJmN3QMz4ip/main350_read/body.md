@@ -1,0 +1,13 @@
+The main universality workflow discovers tests from its parent directory and skips the nested cusp directory because it has no `__init__.py`. This separate validation candidate copies the exact reviewed field, selector and runner sources from PR #349, the three unchanged historical premise documents and the immutable saved results, then adds one four-line step to run the nested tests normally and under optimization.
+
+The proposed tree contains all 13 consumed scientific source bodies: eleven copied documents/code/test files plus the two unchanged primitive modules already on main. The new discovery is expected to execute 105 software tests in each mode. The full declared scientific command already ran exactly once in the primary lineage; this workflow addition executes software controls without repeating that eighteen-fixture attempt.
+
+Validation completed before publication:
+
+- Distinct review passed on the complete 66-line workflow candidate, SHA-256 `c793f11f75690e126cf14c91416f4315b2316b9312a741335b2f4faa530d754c`.
+- Actual YAML parsing, duplicate-key inspection and structural comparison passed: native main plus exactly one four-line step.
+- Complete current-main primitive bodies and immutable analytic-parent document bodies match the frozen scientific cut. The saved result review independently replayed all 18 supplied certificates.
+
+This draft has parent `36eed0e9e2c7d4d1ad26bc2c2ae8499d31e78563`, head `4ccbaf628b9d5431982cbc3c210a86546c1534ae`, and tree `e08e25507d210cecd4332b4a5e3563ead3f01bc0`. It owns exactly fifteen paths under separate claim `b1e04e75-c355-44a1-9bef-a41c840177c7`. Actual hosted job outcomes, test counts and complete source bodies at the real Actions checkout remain pending. Any hosted evidence belongs to this validation candidate and its actual checkout; it does not establish green CI at PR #349's distinct SHA or compatibility of the complete parent stack.
+
+The current main integrator's window and all peer-owned paths remain with their owners. This is a coverage/review candidate, with no main merge or new scientific promotion. Authors and distinct reviewers are source-exposed OpenAI/Codex agents from the same provider/account; organizational/blind credit is zero and Dylan's personal reading is NOT_CLAIMED. Gaussian universality, blind random models, spatial Poisson, higher homology and Lean/kernel remain open under the ACTIVE full landmark goal.

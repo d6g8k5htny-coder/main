@@ -1,0 +1,19 @@
+pristine core=64 tail= 512 status=INCONCLUSIVE_PRECISION evals=2114 t=0.20s tail_lo=1.092931389649e-01 tail_hi=1.092934378348e-01 width=2.989e-07 disc_tail=2.989e-07 gates_false=['normalized_width']
+pristine core=64 tail=1024 status=INCONCLUSIVE_PRECISION evals=4162 t=0.50s tail_lo=1.092932136823e-01 tail_hi=1.092932883999e-01 width=7.472e-08 disc_tail=7.472e-08 gates_false=['normalized_width']
+pristine core=64 tail=2048 status=INCONCLUSIVE_PRECISION evals=8258 t=0.79s tail_lo=1.092932323617e-01 tail_hi=1.092932510411e-01 width=1.868e-08 disc_tail=1.868e-08 gates_false=['normalized_width']
+mutant   core=64 tail= 512 status=INCONCLUSIVE_PRECISION evals=2114 t=0.24s tail_lo=1.092931389649e-01 tail_hi=1.092931389649e-01 width=3.628e-38 disc_tail=2.989e-07 gates_false=['normalized_width']
+mutant   core=64 tail=1024 status=INCONCLUSIVE_PRECISION evals=4162 t=0.41s tail_lo=1.092932136823e-01 tail_hi=1.092932136823e-01 width=3.624e-38 disc_tail=7.472e-08 gates_false=['normalized_width']
+mutant   core=64 tail=2048 status=INCONCLUSIVE_PRECISION evals=8258 t=0.79s tail_lo=1.092932323617e-01 tail_hi=1.092932323617e-01 width=3.607e-38 disc_tail=1.868e-08 gates_false=['normalized_width']
+
+pristine coarse_upper(512) - finer_lower(1024) = POS  (2.241525e-07)   coarse_lower<=finer_lower: True   finer_lo<=finer_hi: True
+pristine coarse_upper(512) - finer_lower(2048) = POS  (2.054731e-07)   coarse_lower<=finer_lower: True   finer_lo<=finer_hi: True
+mutant   coarse_upper(512) - finer_lower(1024) = NEG  (-7.471740e-08)   coarse_lower<=finer_lower: True   finer_lo<=finer_hi: True
+   exact finer_lower - mutant coarse_upper = 110770127964024035006453969387323164636630381124117933425519677/1482521263040042663009052462615821307352825354839967634589869622165504
+mutant   coarse_upper(512) - finer_lower(2048) = NEG  (-9.339678e-08)   coarse_lower<=finer_lower: True   finer_lo<=finer_hi: True
+   exact finer_lower - mutant coarse_upper = 1661552543063803603579426007338117164970072365766424117796777593/17790255156480511956108629551389855688233904258079611615078435465986048
+
+pristine full core: status=CERTIFIED evals=67586 t=4.52s
+tail_interval(full core, 512) == tail_interval(core 64, 512): True
+tail discretization equal: True
+pristine full tail_hi - mutant(core64) 1024 finer lower = 2.2415250782798664e-07
+C270 exact margin reproduced (finer pristine 1024 lower - mutant coarse upper): True

@@ -1,0 +1,15 @@
+................F..........................
+======================================================================
+FAIL: test_tail_upper_endpoint_dominates_a_finer_midpoint_lower_bound (test_population_certificate.EnclosureTests.test_tail_upper_endpoint_dominates_a_finer_midpoint_lower_bound)
+Kills M06_CEILING_ONLY (C270-A4): the trapezoid ceiling at population_certificate.py
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/p343patch3/copy/experiments/universality/two_parameter_cusp_population/test_population_certificate.py", line 417, in test_tail_upper_endpoint_dominates_a_finer_midpoint_lower_bound
+    self.assertGreaterEqual(coarse['tail_interval'][1], finer['tail_interval'][0])
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Fraction(54009800806636526851281238530358106212548057797498569598413536711223, 494173754346680887669684154205273769117608451613322544863289874055168) not greater than or equal to Fraction(81014756595018772288939361022521852980404405011438416456587017826673, 741260631520021331504526231307910653676412677419983817294934811082752)
+
+----------------------------------------------------------------------
+Ran 43 tests in 10.058s
+
+FAILED (failures=1)

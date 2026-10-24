@@ -1,0 +1,15 @@
+Composition facts, computed 05:13Z on main at b7deb198722582df191006e4f47238f92e6e543d (read-only merge-tree, nothing pushed):
+- merge-base of the chain with main: 0be54aa227d7015b0abda00feb5e847a3fbdbcdb
+- main README.md blob (experiments/universality/README.md) is bf668e88 on both main and the base 0be54aa2: the chain's README routing deltas apply without overlap
+- git merge-tree --write-tree origin/main 88ff9223 (#330): clean, tree 8ca07166; delta vs main 3 files +921/-2
+- git merge-tree --write-tree origin/main 89657c7c (#331): clean, tree a8a86f10; delta vs main 5 files +1947/-7
+- git merge-tree --write-tree origin/main 6bd133d5 (#334): clean, tree ca6c6877; delta vs main 7 files +2892/-7
+Retention commit for #343/#336 evidence: ff43ab3cbcbba3ef9ef1ea7eb346e712a6b129ad on claude/recovery-S-20261013 (267 files).
+Own bindings verification 05:18Z (sha256/bytes/lines on the worktrees): #330 §12 table (ST 43927/804 3d952a90, IG 34629/637 c8bd489c, PP 30935/618 320bc988) exact; #331 §13 table (SG 42478/826 6c0f34cb, ST, IG, PP, ET 23774/458 c9e4fb09) exact; #334 §12 table (SG, HK 46174/911 87f43e6e, ST, PP) exact; cores: SG §1-11 lines 19-755 = 36656 B 4cad43d3 exact; HK §1-12 lines 25-796 = 37220 B c770d4f7 exact; #334 §1-11 lines 41-677 = 28494 B f558dafc exact.
+Own REVIEW/README checks 05:21Z: local links 28/33/36 all resolve (counts match the three REVIEW records); construction-snapshot prefixes #330 1981B/31 lines 12d7db0c, #331 1908B/34 e1c10998, #334 5296B/82 ecb42a67 exact; #331 README 14805B/223 303a83b0 exact (asymptotic wording present at line 135); #330 README 207 lines; #334 README 246 lines 16387B 1484efcd (REVIEW gives the pre-edit 16378B 3184e4ea and says two phrases were changed; current bytes not bound in REVIEW); #334 README is a pure 23-line insertion over #331's 223 lines; base README on main 195 lines bf668e88.
+Own reading notes (05:20-05:30Z):
+- #334 §4 (lines 195-270) re-derived in full: m_F(t) = a^-alpha t^alpha ∫_{t/a}^∞ s^-alpha nu_H ds + m_H(t/a); (11) finiteness iff alpha<beta; (12) subcritical with the boundary-term cancellation in the density; (14) critical with a=2 from E[A^2]=1 (a^2 alpha/(alpha+2)=1 at alpha=2/3); (15)-(16) supercritical: E R^-beta = alpha/(alpha-beta), coefficient c_I a^-beta [1/(alpha-beta)+1/beta] = (c_I/beta) E A^-beta; Jensen E A^-beta > 1 strict. All hold as written.
+- #334 §9 (527-600): t_n -> 0 is explicit (the original AMEND is repaired); Cesaro/log argument coherent.
+- #331 §3 (105-181): finite-chain pivot lemma and triple-sequence version check out (delta iso => H_*(X^+,X^-)=0; next connecting map zero via surjective delta); counterexamples are valid filtered CW complexes.
+- #331 §4-5 (182-305): ridge C3 / phi_r C4, phi_0'''(0)=12k (h'(0)=0, F_st=0 kill the other terms), exact splitting via integral remainder + smooth signed LDL, unique axial connection (w_- blows up at -inf, w_+ at +inf), transverse; no-escape by annulus height cost Delta_* vs k r^3. Coherent.
+- #330 §7 (471-551): (27) half-Gaussian factor 2^(-1/3)Gamma(7/6)tau^(4/3)/sqrt(pi) = (1/2) E|X|^(4/3) for X~N(0,tau^2) checks; the 24^(1/3) prefactor assembly not re-derived by me (lens).

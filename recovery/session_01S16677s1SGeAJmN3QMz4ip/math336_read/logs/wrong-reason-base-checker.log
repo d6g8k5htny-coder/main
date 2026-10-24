@@ -1,0 +1,56 @@
+test_main_exit_status (tests.test_navigation_quotes.NavigationRecordOffline.test_main_exit_status) ... {
+  "documents": {
+    "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt336/docs/integration/2026-09-29-navigation-refresh.md": {
+      "checked": 33,
+      "failures": [],
+      "quotes": 69,
+      "summaries": 112,
+      "unchecked_offline": 148
+    }
+  },
+  "github": false,
+  "passed": true,
+  "root": "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt336"
+}
+ok
+test_navigation_record_file_sourced_passages_are_verbatim_or_labelled (tests.test_navigation_quotes.NavigationRecordOffline.test_navigation_record_file_sourced_passages_are_verbatim_or_labelled) ... ok
+test_escaped_pipe_inside_cell_matches_source (tests.test_navigation_quotes.QuoteSemantics.test_escaped_pipe_inside_cell_matches_source) ... ok
+test_github_link_is_unchecked_offline_not_failed (tests.test_navigation_quotes.QuoteSemantics.test_github_link_is_unchecked_offline_not_failed) ... ok
+test_github_transport_failure_is_not_counted_as_offline (tests.test_navigation_quotes.QuoteSemantics.test_github_transport_failure_is_not_counted_as_offline) ... ok
+test_header_row_quotation_marks_are_ignored (tests.test_navigation_quotes.QuoteSemantics.test_header_row_quotation_marks_are_ignored) ... ok
+test_labelled_summary_with_foreign_verdict_word_is_rejected (tests.test_navigation_quotes.QuoteSemantics.test_labelled_summary_with_foreign_verdict_word_is_rejected) ... ok
+test_labelled_summary_with_source_verdict_words_is_accepted (tests.test_navigation_quotes.QuoteSemantics.test_labelled_summary_with_source_verdict_words_is_accepted) ... ok
+test_missing_source_file_is_rejected (tests.test_navigation_quotes.QuoteSemantics.test_missing_source_file_is_rejected) ... ok
+test_nearest_preceding_link_governs_each_passage (tests.test_navigation_quotes.QuoteSemantics.test_nearest_preceding_link_governs_each_passage) ... ok
+test_omissions_in_order_are_accepted (tests.test_navigation_quotes.QuoteSemantics.test_omissions_in_order_are_accepted) ... ok
+test_paraphrase_in_quotation_marks_is_rejected (tests.test_navigation_quotes.QuoteSemantics.test_paraphrase_in_quotation_marks_is_rejected) ... ok
+test_passage_without_preceding_link_is_rejected (tests.test_navigation_quotes.QuoteSemantics.test_passage_without_preceding_link_is_rejected) ... ok
+test_pieces_out_of_order_are_rejected (tests.test_navigation_quotes.QuoteSemantics.test_pieces_out_of_order_are_rejected) ... ok
+test_require_online_rejects_unchecked_github_link (tests.test_navigation_quotes.QuoteSemantics.test_require_online_rejects_unchecked_github_link) ... usage: python3.11 -m unittest [-h] [--root ROOT] [--github]
+                              documents [documents ...]
+python3.11 -m unittest: error: unrecognized arguments: --require-online
+ERROR
+test_verbatim_excerpt_is_accepted (tests.test_navigation_quotes.QuoteSemantics.test_verbatim_excerpt_is_accepted) ... ok
+
+======================================================================
+ERROR: test_require_online_rejects_unchecked_github_link (tests.test_navigation_quotes.QuoteSemantics.test_require_online_rejects_unchecked_github_link)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt336/tests/test_navigation_quotes.py", line 96, in test_require_online_rejects_unchecked_github_link
+    rc = check_doc_quotes.main([str(doc), '--root', self.tmp, '--require-online'])
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt336/tools/check_doc_quotes.py", line 190, in main
+    args = parser.parse_args(argv)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.11/argparse.py", line 1889, in parse_args
+    self.error(msg % ' '.join(argv))
+  File "/usr/lib/python3.11/argparse.py", line 2652, in error
+    self.exit(2, _('%(prog)s: error: %(message)s\n') % args)
+  File "/usr/lib/python3.11/argparse.py", line 2639, in exit
+    _sys.exit(status)
+SystemExit: 2
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.118s
+
+FAILED (errors=1)

@@ -1,0 +1,24 @@
+== v2->v3 delta applied to A1 successor fb43953f (tree 0e010800)
+c0643fa078db46c627517e25a18e4f9adf654d4bd50c7fe898403b0a277778c6  experiments/universality/two_parameter_cusp_population/test_population_certificate.py
+50
+== python3.12 -B -E  -S discover (A1 successor + v3 test)
+----------------------------------------------------------------------
+Ran 50 tests in 15.451s
+
+OK
+== python3.12 -B -E -O -S discover (A1 successor + v3 test)
+----------------------------------------------------------------------
+Ran 50 tests in 12.808s
+
+OK
+398:            tail_upper_ceiling += step * Q(endpoint_ceiling, 2 * SCALE)
+== M06_CEILING_ONLY applied to the A1 successor production module (exactly one match)
+== mutant run 
+FAIL: test_tail_upper_endpoint_dominates_a_finer_midpoint_lower_bound (test_population_certificate.EnclosureTests.test_tail_upper_endpoint_dominates_a_finer_midpoint_lower_bound)
+Ran 50 tests in 14.359s
+FAILED (failures=1)
+== mutant run -O
+FAIL: test_tail_upper_endpoint_dominates_a_finer_midpoint_lower_bound (test_population_certificate.EnclosureTests.test_tail_upper_endpoint_dominates_a_finer_midpoint_lower_bound)
+Ran 50 tests in 12.831s
+FAILED (failures=1)
+== restored: be1d135b838733e4 (A1 successor be1d135b expected)

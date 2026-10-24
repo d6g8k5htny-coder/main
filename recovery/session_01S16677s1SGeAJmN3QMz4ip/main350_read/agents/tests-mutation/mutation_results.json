@@ -1,0 +1,315 @@
+[
+ {
+  "returncode": 1,
+  "ran": 105,
+  "summary": "FAILED (failures=1, errors=10)",
+  "failing_tests": [
+   "test_surgery_field.ArithmeticTests.test_outward_rounding_contains_nondyadic_and_negative_values.test_outward_rounding_contains_nondyadic_and_negative_values",
+   "test_surgery_field.FieldTests.test_chi_and_surgery_transitions_change_the_actual_field.test_chi_and_surgery_transitions_change_the_actual_field",
+   "test_surgery_field.FieldTests.test_core_value_contains_exact_full_polynomial.test_core_value_contains_exact_full_polynomial",
+   "test_surgery_field.FieldTests.test_origin_and_seed_collar.test_origin_and_seed_collar",
+   "test_surgery_field.FieldTests.test_plateau_boundaries_replay_core_and_seed.test_plateau_boundaries_replay_core_and_seed",
+   "test_surgery_field.FieldTests.test_records_expose_input_model_branches_output_and_gates.test_records_expose_input_model_branches_output_and_gates",
+   "test_surgery_field.FieldTests.test_torus_old_critical_values_and_integer_seam_translations.test_torus_old_critical_values_and_integer_seam_translations",
+   "test_surgery_field.PrimitiveTests.test_psi_extreme_transition_endpoints_keep_certified_denominator.test_psi_extreme_transition_endpoints_keep_certified_denominator",
+   "test_surgery_field.PrimitiveTests.test_psi_plateaus_midpoint_and_descending_interval.test_psi_plateaus_midpoint_and_descending_interval",
+   "test_surgery_field.PrimitiveTests.test_sine_remainder_domain_and_pi_half_identity.test_sine_remainder_domain_and_pi_half_identity",
+   "test_surgery_field.PrimitiveTests.test_sine_zero_and_odd_reflection.test_sine_zero_and_odd_reflection"
+  ],
+  "id": "SF1_outward_inward",
+  "file": "surgery_field.py",
+  "note": "interval bound inward instead of outward"
+ },
+ {
+  "returncode": 0,
+  "ran": 105,
+  "summary": "OK",
+  "failing_tests": [],
+  "id": "SF2_sine_remainder_dropped",
+  "file": "surgery_field.py",
+  "note": "Taylor truncation remainder not added to sine enclosure"
+ },
+ {
+  "returncode": 0,
+  "ran": 105,
+  "summary": "OK",
+  "failing_tests": [],
+  "id": "SF3_height_guard_weakened",
+  "file": "surgery_field.py",
+  "note": "guard constant changed (consequent made 16x weaker)"
+ },
+ {
+  "returncode": 0,
+  "ran": 105,
+  "summary": "OK",
+  "failing_tests": [],
+  "id": "SF4_bind_record_skips_guard",
+  "file": "surgery_field.py",
+  "note": "field evaluation no longer re-binds analytic source on each call"
+ },
+ {
+  "returncode": 1,
+  "ran": 105,
+  "summary": "FAILED (failures=3, errors=1)",
+  "failing_tests": [
+   "test_global_h0_selector.AdditionalCertificateTests.test_elder_deadline_retains_already_computed_events_and_finite_bar.test_elder_deadline_retains_already_computed_events_and_finite_bar",
+   "test_global_h0_selector.AdditionalCertificateTests.test_late_actual_deadline_withdraws_computed_bars_without_erasing_values.test_late_actual_deadline_withdraws_computed_bars_without_erasing_values",
+   "test_surgery_field.BudgetTests.test_deadline_is_shared_across_new_fixtures.test_deadline_is_shared_across_new_fixtures",
+   "test_surgery_field.BudgetTests.test_zero_reduced_ceilings_are_enforced.test_zero_reduced_ceilings_are_enforced"
+  ],
+  "id": "SF5_checkpoint_strict",
+  "file": "surgery_field.py",
+  "note": "deadline inequality flipped (exact deadline admitted)"
+ },
+ {
+  "returncode": 0,
+  "ran": 105,
+  "summary": "OK",
+  "failing_tests": [],
+  "id": "SF6_dependency_identity_dropped",
+  "file": "surgery_field.py",
+  "note": "imported primitive identity/precision check dropped"
+ },
+ {
+  "returncode": 1,
+  "ran": 105,
+  "summary": "FAILED (failures=1)",
+  "failing_tests": [
+   "test_surgery_field.PrimitiveTests.test_q_monotone_endpoint_enclosure_and_boundary_argument.test_q_monotone_endpoint_enclosure_and_boundary_argument"
+  ],
+  "id": "SF7_exp_dyadic_threshold",
+  "file": "surgery_field.py",
+  "note": "dyadic exp shortcut threshold lowered (2^-4096 claim unsound for 2048<1/t<2839)"
+ },
+ {
+  "returncode": 0,
+  "ran": 105,
+  "summary": "OK",
+  "failing_tests": [],
+  "id": "SF8_width_gate_loosened",
+  "file": "surgery_field.py",
+  "note": "field width gate loosened by 2^20"
+ },
+ {
+  "returncode": 0,
+  "ran": 105,
+  "summary": "OK",
+  "failing_tests": [],
+  "id": "GS1_variation_counts_zeros",
+  "file": "global_h0_selector.py",
+  "note": "Sturm variation counts interior zeros as negative sign"
+ },
+ {
+  "returncode": 1,
+  "ran": 105,
+  "summary": "FAILED (failures=4)",
+  "failing_tests": [
+   "test_global_h0_selector.AdditionalCertificateTests.test_irrational_isolator_requires_its_retained_sturm_witness.test_irrational_isolator_requires_its_retained_sturm_witness",
+   "test_global_h0_selector.SelectorBehaviorTests.test_irrational_equal_births_merge_but_are_excluded_from_population_law.test_irrational_equal_births_merge_but_are_excluded_from_population_law",
+   "test_global_h0_selector.SelectorBehaviorTests.test_rational_tie_retains_actual_bar_under_the_same_label_convention.test_rational_tie_retains_actual_bar_under_the_same_label_convention",
+   "test_global_h0_selector.VerificationTamperingTests.test_missing_irrational_equality_witness_is_rejected.test_missing_irrational_equality_witness_is_rejected"
+  ],
+  "id": "GS2_elder_tiebreak_flipped_producer",
+  "file": "global_h0_selector.py",
+  "note": "elder tie-break by ordinal flipped in producer only"
+ },
+ {
+  "returncode": 0,
+  "ran": 105,
+  "summary": "OK",
+  "failing_tests": [],
+  "id": "GS3_verify_completeness_trivial",
+  "file": "global_h0_selector.py",
+  "note": "verifier root-completeness check made trivially true (name retained)"
+ },
+ {
+  "returncode": 0,
+  "ran": 105,
+  "summary": "OK",
+  "failing_tests": [],
+  "id": "GS4_projection_degenerate_flipped",
+  "file": "global_h0_selector.py",
+  "note": "population projection labels degenerate/non-wedge swapped"
+ },
+ {
+  "returncode": 1,
+  "ran": 105,
+  "summary": "FAILED (failures=3)",
+  "failing_tests": [
+   "test_global_h0_selector.AdditionalCertificateTests.test_irrational_isolator_requires_its_retained_sturm_witness.test_irrational_isolator_requires_its_retained_sturm_witness",
+   "test_global_h0_selector.SelectorBehaviorTests.test_irrational_equal_births_merge_but_are_excluded_from_population_law.test_irrational_equal_births_merge_but_are_excluded_from_population_law",
+   "test_global_h0_selector.VerificationTamperingTests.test_missing_irrational_equality_witness_is_rejected.test_missing_irrational_equality_witness_is_rejected"
+  ],
+  "id": "GS5_tie_branch_skipped",
+  "file": "global_h0_selector.py",
+  "note": "elder-rule equal-height tie identity branch skipped"
+ },
+ {
+  "returncode": 0,
+  "ran": 105,
+  "summary": "OK",
+  "failing_tests": [],
+  "id": "GS6_verify_guard_replay_dropped",
+  "file": "global_h0_selector.py",
+  "note": "verifier no longer replays guard certificate"
+ },
+ {
+  "returncode": 1,
+  "ran": 105,
+  "summary": "FAILED (failures=7)",
+  "failing_tests": [
+   "test_global_h0_selector.AdditionalCertificateTests.test_elder_deadline_retains_already_computed_events_and_finite_bar.test_elder_deadline_retains_already_computed_events_and_finite_bar",
+   "test_global_h0_selector.AdditionalCertificateTests.test_late_actual_deadline_withdraws_computed_bars_without_erasing_values.test_late_actual_deadline_withdraws_computed_bars_without_erasing_values",
+   "test_global_h0_selector.SelectorBehaviorTests.test_hostile_younger_right_is_derived_from_two_to_one_incidence.test_hostile_younger_right_is_derived_from_two_to_one_incidence",
+   "test_global_h0_selector.SelectorBehaviorTests.test_irrational_equal_births_merge_but_are_excluded_from_population_law.test_irrational_equal_births_merge_but_are_excluded_from_population_law",
+   "test_global_h0_selector.SelectorBehaviorTests.test_rational_tie_retains_actual_bar_under_the_same_label_convention.test_rational_tie_retains_actual_bar_under_the_same_label_convention",
+   "test_global_h0_selector.SelectorBehaviorTests.test_reflection_changes_younger_to_left_without_changing_lifetime.test_reflection_changes_younger_to_left_without_changing_lifetime",
+   "test_global_h0_selector.VerificationTamperingTests.test_swapped_elder_birth_is_rejected.test_swapped_elder_birth_is_rejected"
+  ],
+  "id": "GS7_elder_rank_flipped_both",
+  "file": "global_h0_selector.py",
+  "note": "elder rank (older survives) flipped in BOTH producer and verifier"
+ },
+ {
+  "returncode": 0,
+  "ran": 105,
+  "summary": "OK",
+  "failing_tests": [],
+  "id": "GS8_verify_isolator_width_dropped",
+  "file": "global_h0_selector.py",
+  "note": "verifier isolator width bound dropped"
+ },
+ {
+  "returncode": 1,
+  "ran": 105,
+  "summary": "FAILED (failures=27)",
+  "failing_tests": [
+   "test_global_h0_selector.AdditionalCertificateTests.test_elder_deadline_retains_already_computed_events_and_finite_bar.test_elder_deadline_retains_already_computed_events_and_finite_bar",
+   "test_global_h0_selector.AdditionalCertificateTests.test_integer_polynomial_coefficients_in_a_certificate_are_rejected.test_integer_polynomial_coefficients_in_a_certificate_are_rejected",
+   "test_global_h0_selector.AdditionalCertificateTests.test_irrational_isolator_requires_its_retained_sturm_witness.test_irrational_isolator_requires_its_retained_sturm_witness",
+   "test_global_h0_selector.AdditionalCertificateTests.test_late_actual_deadline_withdraws_computed_bars_without_erasing_values.test_late_actual_deadline_withdraws_computed_bars_without_erasing_values",
+   "test_global_h0_selector.AdditionalCertificateTests.test_missing_required_selection_and_root_records_are_rejected.test_missing_required_selection_and_root_records_are_rejected",
+   "test_global_h0_selector.AdditionalCertificateTests.test_repeated_roots_report_zero_axial_hessian.test_repeated_roots_report_zero_axial_hessian",
+   "test_global_h0_selector.AdditionalCertificateTests.test_verification_charges_the_same_fixture_without_resetting_deadline.test_verification_charges_the_same_fixture_without_resetting_deadline",
+   "test_global_h0_selector.AdditionalCertificateTests.test_verifier_also_avoids_public_root_isolation.test_verifier_also_avoids_public_root_isolation",
+   "test_global_h0_selector.SelectorBehaviorTests.test_fold_multiplicities_do_not_create_fictitious_zero_length_bars.test_fold_multiplicities_do_not_create_fictitious_zero_length_bars",
+   "test_global_h0_selector.SelectorBehaviorTests.test_hostile_younger_right_is_derived_from_two_to_one_incidence.test_hostile_younger_right_is_derived_from_two_to_one_incidence",
+   "test_global_h0_selector.SelectorBehaviorTests.test_irrational_equal_births_merge_but_are_excluded_from_population_law.test_irrational_equal_births_merge_but_are_excluded_from_population_law",
+   "test_global_h0_selector.SelectorBehaviorTests.test_nonwedge_has_no_finite_bar.test_nonwedge_has_no_finite_bar",
+   "test_global_h0_selector.SelectorBehaviorTests.test_rational_tie_retains_actual_bar_under_the_same_label_convention.test_rational_tie_retains_actual_bar_under_the_same_label_convention",
+   "test_global_h0_selector.SelectorBehaviorTests.test_reflection_changes_younger_to_left_without_changing_lifetime.test_reflection_changes_younger_to_left_without_changing_lifetime",
+   "test_global_h0_selector.VerificationTamperingTests.test_changed_finite_bar_death_group_is_rejected.test_changed_finite_bar_death_group_is_rejected",
+   "test_global_h0_selector.VerificationTamperingTests.test_changed_incidence_sign_is_rejected.test_changed_incidence_sign_is_rejected",
+   "test_global_h0_selector.VerificationTamperingTests.test_changed_original_polynomial_sign_witness_is_rejected.test_changed_original_polynomial_sign_witness_is_rejected",
+   "test_global_h0_selector.VerificationTamperingTests.test_changed_quartic_factorization_scalar_is_rejected.test_changed_quartic_factorization_scalar_is_rejected",
+   "test_global_h0_selector.VerificationTamperingTests.test_changed_root_multiplicity_is_rejected_despite_pass_flags.test_changed_root_multiplicity_is_rejected_despite_pass_flags",
+   "test_global_h0_selector.VerificationTamperingTests.test_missing_irrational_equality_witness_is_rejected.test_missing_irrational_equality_witness_is_rejected",
+   "test_global_h0_selector.VerificationTamperingTests.test_omitted_merge_batch_is_rejected.test_omitted_merge_batch_is_rejected",
+   "test_global_h0_selector.VerificationTamperingTests.test_omitted_regular_component_is_rejected_despite_pass_flags.test_omitted_regular_component_is_rejected_despite_pass_flags",
+   "test_global_h0_selector.VerificationTamperingTests.test_swapped_elder_birth_is_rejected.test_swapped_elder_birth_is_rejected",
+   "test_global_h0_selector.VerificationTamperingTests.test_swapped_elder_graph_decision_is_rejected.test_swapped_elder_graph_decision_is_rejected",
+   "test_global_h0_selector.VerificationTamperingTests.test_verifier_replays_without_calling_selector.test_verifier_replays_without_calling_selector"
+  ],
+  "id": "GS9_connectivity_loop_early_return",
+  "file": "global_h0_selector.py",
+  "note": "regular-level connectivity loop skips the first positive component"
+ },
+ {
+  "returncode": 0,
+  "ran": 105,
+  "summary": "OK",
+  "failing_tests": [],
+  "id": "RN1_withdrawal_on_failure_removed",
+  "file": "run_global_h0_selector.py",
+  "note": "withdrawn attempt keeps nested CERTIFIED statuses"
+ },
+ {
+  "returncode": 0,
+  "ran": 105,
+  "summary": "OK",
+  "failing_tests": [],
+  "id": "RN2_core_overlap_trivial",
+  "file": "run_global_h0_selector.py",
+  "note": "root-box field/height overlap check trivialised"
+ },
+ {
+  "returncode": 0,
+  "ran": 105,
+  "summary": "OK",
+  "failing_tests": [],
+  "id": "RN3_core_anchor_identity_trivial",
+  "file": "run_global_h0_selector.py",
+  "note": "core anchor exact-identity containment trivialised"
+ },
+ {
+  "returncode": 0,
+  "ran": 105,
+  "summary": "OK",
+  "failing_tests": [],
+  "id": "RN4_positive_signs_gate_trivial",
+  "file": "run_global_h0_selector.py",
+  "note": "soundness gate positive_signs trivially PASS"
+ },
+ {
+  "returncode": 0,
+  "ran": 105,
+  "summary": "OK",
+  "failing_tests": [],
+  "id": "RN5_periodic_translation_trivial",
+  "file": "run_global_h0_selector.py",
+  "note": "periodic translation check trivialised"
+ },
+ {
+  "returncode": 1,
+  "ran": 105,
+  "summary": "FAILED (failures=2)",
+  "failing_tests": [
+   "test_global_h0_runner.MainLifecycle.test_main_derived_gate_acceptance_is_explicit_and_whole_ledger_occurs_once.test_main_derived_gate_acceptance_is_explicit_and_whole_ledger_occurs_once",
+   "test_global_h0_runner.MainLifecycle.test_main_source_drift_withdraws_live_acceptance_and_keeps_all_numeric_evidence.test_main_source_drift_withdraws_live_acceptance_and_keeps_all_numeric_evidence"
+  ],
+  "id": "RN6_drift_recheck_dropped",
+  "file": "run_global_h0_selector.py",
+  "note": "post-computation source drift re-check dropped"
+ },
+ {
+  "returncode": 1,
+  "ran": 105,
+  "summary": "FAILED (failures=1)",
+  "failing_tests": [
+   "test_global_h0_runner.RunnerHandoff.test_literal_expectations_match_all_eighteen_contract_rows.test_literal_expectations_match_all_eighteen_contract_rows"
+  ],
+  "id": "RN7_fixture13_expectation_changed",
+  "file": "run_global_h0_selector.py",
+  "note": "fixture_13 younger-root expectation changed"
+ },
+ {
+  "returncode": 1,
+  "ran": 105,
+  "summary": "FAILED (failures=2)",
+  "failing_tests": [
+   "test_global_h0_runner.MainLifecycle.test_main_exact_deadline_withdraws_before_artifact_creation.test_main_exact_deadline_withdraws_before_artifact_creation",
+   "test_global_h0_runner.RunnerHandoff.test_final_gate_applies_post_computation_drift_and_exact_deadline.test_final_gate_applies_post_computation_drift_and_exact_deadline"
+  ],
+  "id": "RN8_deadline_strict",
+  "file": "run_global_h0_selector.py",
+  "note": "final deadline inequality flipped"
+ },
+ {
+  "returncode": 0,
+  "ran": 105,
+  "summary": "OK",
+  "failing_tests": [],
+  "id": "RN9_sourced_fixture_id_dropped",
+  "file": "run_global_h0_selector.py",
+  "note": "field record fixture binding dropped from soundness"
+ },
+ {
+  "returncode": 0,
+  "ran": 105,
+  "summary": "OK",
+  "failing_tests": [],
+  "id": "RN10_verified_all_true_dropped",
+  "file": "run_global_h0_selector.py",
+  "note": "soundness no longer requires every verifier check True"
+ }
+]

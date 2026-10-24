@@ -1,0 +1,65 @@
+{
+  "api": {
+    "ok": false,
+    "repositories_checked": [
+      "Math-",
+      "google-drive",
+      "governance-",
+      "main",
+      "meta-framework",
+      "query-",
+      "sandbox",
+      "trial"
+    ],
+    "scientific_effect": "NONE",
+    "violations": [
+      "generated JSON parse error: meta-framework/generated/x.json: maximum recursion depth exceeded while decoding a JSON object from a unicode string"
+    ]
+  },
+  "api_O": {
+    "ok": false,
+    "repositories_checked": [
+      "Math-",
+      "google-drive",
+      "governance-",
+      "main",
+      "meta-framework",
+      "query-",
+      "sandbox",
+      "trial"
+    ],
+    "scientific_effect": "NONE",
+    "violations": [
+      "generated JSON parse error: meta-framework/generated/x.json: maximum recursion depth exceeded while decoding a JSON object from a unicode string"
+    ]
+  },
+  "api_O_equal": true,
+  "api_categories": [
+    "PARSE"
+  ],
+  "case": "x__depth_dict_100000",
+  "cli_O": {
+    "rc": 2,
+    "stderr_tail": "",
+    "stdout_byte_equal_expected": true,
+    "stdout_matches_api": true,
+    "violations": [
+      "generated JSON parse error: meta-framework/generated/x.json: maximum recursion depth exceeded while decoding a JSON object from a unicode string"
+    ]
+  },
+  "cli_normal": {
+    "rc": 2,
+    "stderr_tail": "",
+    "stdout_byte_equal_expected": true,
+    "stdout_matches_api": true,
+    "violations": [
+      "generated JSON parse error: meta-framework/generated/x.json: maximum recursion depth exceeded while decoding a JSON object from a unicode string"
+    ]
+  },
+  "desc": "true marker under 100000 nested objects",
+  "files": {
+    "x.json": "{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":...(600036 bytes)"
+  },
+  "input_unchanged": true,
+  "kind": "extra"
+}

@@ -1,0 +1,596 @@
+test_main_exit_status (tests.test_navigation_quotes.NavigationRecordOffline.test_main_exit_status) ... {
+  "documents": {
+    "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344/docs/integration/2026-09-29-navigation-refresh.md": {
+      "checked": 33,
+      "failures": [],
+      "quotes": 69,
+      "summaries": 112,
+      "unchecked_offline": 148
+    }
+  },
+  "github": false,
+  "passed": true,
+  "require_online": false,
+  "root": "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344"
+}
+ok
+test_navigation_record_file_sourced_passages_are_verbatim_or_labelled (tests.test_navigation_quotes.NavigationRecordOffline.test_navigation_record_file_sourced_passages_are_verbatim_or_labelled) ... ok
+test_cli_preserves_positive_and_rejects_prefixed_source (tests.test_navigation_quotes.QuoteSemantics.test_cli_preserves_positive_and_rejects_prefixed_source) ... 
+  test_cli_preserves_positive_and_rejects_prefixed_source (tests.test_navigation_quotes.QuoteSemantics.test_cli_preserves_positive_and_rejects_prefixed_source) (word='ACCEPT', prefix='UN') ... FAIL
+  test_cli_preserves_positive_and_rejects_prefixed_source (tests.test_navigation_quotes.QuoteSemantics.test_cli_preserves_positive_and_rejects_prefixed_source) (word='AMEND', prefix='UN') ... FAIL
+  test_cli_preserves_positive_and_rejects_prefixed_source (tests.test_navigation_quotes.QuoteSemantics.test_cli_preserves_positive_and_rejects_prefixed_source) (word='HOLD', prefix='UN') ... FAIL
+  test_cli_preserves_positive_and_rejects_prefixed_source (tests.test_navigation_quotes.QuoteSemantics.test_cli_preserves_positive_and_rejects_prefixed_source) (word='CONFIRMED', prefix='UN') ... FAIL
+  test_cli_preserves_positive_and_rejects_prefixed_source (tests.test_navigation_quotes.QuoteSemantics.test_cli_preserves_positive_and_rejects_prefixed_source) (word='VERIFIED', prefix='UN') ... FAIL
+  test_cli_preserves_positive_and_rejects_prefixed_source (tests.test_navigation_quotes.QuoteSemantics.test_cli_preserves_positive_and_rejects_prefixed_source) (word='REJECT', prefix='UN') ... FAIL
+test_escaped_pipe_inside_cell_matches_source (tests.test_navigation_quotes.QuoteSemantics.test_escaped_pipe_inside_cell_matches_source) ... ok
+test_github_link_is_unchecked_offline_not_failed (tests.test_navigation_quotes.QuoteSemantics.test_github_link_is_unchecked_offline_not_failed) ... ok
+test_github_transport_failure_is_not_counted_as_offline (tests.test_navigation_quotes.QuoteSemantics.test_github_transport_failure_is_not_counted_as_offline) ... ok
+test_header_row_quotation_marks_are_ignored (tests.test_navigation_quotes.QuoteSemantics.test_header_row_quotation_marks_are_ignored) ... ok
+test_labelled_summary_with_foreign_verdict_word_is_rejected (tests.test_navigation_quotes.QuoteSemantics.test_labelled_summary_with_foreign_verdict_word_is_rejected) ... ok
+test_labelled_summary_with_source_verdict_words_is_accepted (tests.test_navigation_quotes.QuoteSemantics.test_labelled_summary_with_source_verdict_words_is_accepted) ... ok
+test_missing_source_file_is_rejected (tests.test_navigation_quotes.QuoteSemantics.test_missing_source_file_is_rejected) ... ok
+test_nearest_preceding_link_governs_each_passage (tests.test_navigation_quotes.QuoteSemantics.test_nearest_preceding_link_governs_each_passage) ... ok
+test_omissions_in_order_are_accepted (tests.test_navigation_quotes.QuoteSemantics.test_omissions_in_order_are_accepted) ... ok
+test_paraphrase_in_quotation_marks_is_rejected (tests.test_navigation_quotes.QuoteSemantics.test_paraphrase_in_quotation_marks_is_rejected) ... ok
+test_passage_without_preceding_link_is_rejected (tests.test_navigation_quotes.QuoteSemantics.test_passage_without_preceding_link_is_rejected) ... ok
+test_pieces_out_of_order_are_rejected (tests.test_navigation_quotes.QuoteSemantics.test_pieces_out_of_order_are_rejected) ... ok
+test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) ... 
+  test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='ACCEPT', prefix='UN') ... FAIL
+  test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='ACCEPT', prefix='RE') ... FAIL
+  test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='ACCEPT', prefix='_') ... FAIL
+  test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='ACCEPT', prefix='9') ... FAIL
+  test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='ACCEPT', prefix='é') ... FAIL
+  test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='AMEND', prefix='UN') ... FAIL
+  test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='AMEND', prefix='RE') ... FAIL
+  test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='AMEND', prefix='_') ... FAIL
+  test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='AMEND', prefix='9') ... FAIL
+  test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='AMEND', prefix='é') ... FAIL
+  test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='HOLD', prefix='UN') ... FAIL
+  test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='HOLD', prefix='RE') ... FAIL
+  test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='HOLD', prefix='_') ... FAIL
+  test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='HOLD', prefix='9') ... FAIL
+  test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='HOLD', prefix='é') ... FAIL
+  test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='CONFIRMED', prefix='UN') ... FAIL
+  test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='CONFIRMED', prefix='RE') ... FAIL
+  test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='CONFIRMED', prefix='_') ... FAIL
+  test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='CONFIRMED', prefix='9') ... FAIL
+  test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='CONFIRMED', prefix='é') ... FAIL
+  test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='VERIFIED', prefix='UN') ... FAIL
+  test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='VERIFIED', prefix='RE') ... FAIL
+  test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='VERIFIED', prefix='_') ... FAIL
+  test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='VERIFIED', prefix='9') ... FAIL
+  test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='VERIFIED', prefix='é') ... FAIL
+  test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='REJECT', prefix='UN') ... FAIL
+  test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='REJECT', prefix='RE') ... FAIL
+  test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='REJECT', prefix='_') ... FAIL
+  test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='REJECT', prefix='9') ... FAIL
+  test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='REJECT', prefix='é') ... FAIL
+test_prefixed_summary_is_not_an_unprefixed_verdict_claim (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_summary_is_not_an_unprefixed_verdict_claim) ... ok
+test_require_online_rejects_unchecked_github_link (tests.test_navigation_quotes.QuoteSemantics.test_require_online_rejects_unchecked_github_link) ... {
+  "documents": {
+    "/tmp/docquotes-xt8i3mvc/docs/nested/a.md": {
+      "checked": 0,
+      "failures": [
+        [
+          "unchecked-offline-required",
+          "",
+          "1"
+        ]
+      ],
+      "quotes": 1,
+      "summaries": 0,
+      "unchecked_offline": 1
+    }
+  },
+  "github": false,
+  "passed": false,
+  "require_online": true,
+  "root": "/tmp/docquotes-xt8i3mvc"
+}
+ok
+test_standalone_verdict_after_prefixed_word_is_found (tests.test_navigation_quotes.QuoteSemantics.test_standalone_verdict_after_prefixed_word_is_found) ... ok
+test_verbatim_excerpt_is_accepted (tests.test_navigation_quotes.QuoteSemantics.test_verbatim_excerpt_is_accepted) ... ok
+test_word_start_and_existing_suffix_families_remain_accepted (tests.test_navigation_quotes.QuoteSemantics.test_word_start_and_existing_suffix_families_remain_accepted) ... ok
+
+======================================================================
+FAIL: test_cli_preserves_positive_and_rejects_prefixed_source (tests.test_navigation_quotes.QuoteSemantics.test_cli_preserves_positive_and_rejects_prefixed_source) (word='ACCEPT', prefix='UN')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344/tests/test_navigation_quotes.py", line 128, in test_cli_preserves_positive_and_rejects_prefixed_source
+    self.assertEqual(result.returncode, expected)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_cli_preserves_positive_and_rejects_prefixed_source (tests.test_navigation_quotes.QuoteSemantics.test_cli_preserves_positive_and_rejects_prefixed_source) (word='AMEND', prefix='UN')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344/tests/test_navigation_quotes.py", line 128, in test_cli_preserves_positive_and_rejects_prefixed_source
+    self.assertEqual(result.returncode, expected)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_cli_preserves_positive_and_rejects_prefixed_source (tests.test_navigation_quotes.QuoteSemantics.test_cli_preserves_positive_and_rejects_prefixed_source) (word='HOLD', prefix='UN')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344/tests/test_navigation_quotes.py", line 128, in test_cli_preserves_positive_and_rejects_prefixed_source
+    self.assertEqual(result.returncode, expected)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_cli_preserves_positive_and_rejects_prefixed_source (tests.test_navigation_quotes.QuoteSemantics.test_cli_preserves_positive_and_rejects_prefixed_source) (word='CONFIRMED', prefix='UN')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344/tests/test_navigation_quotes.py", line 128, in test_cli_preserves_positive_and_rejects_prefixed_source
+    self.assertEqual(result.returncode, expected)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_cli_preserves_positive_and_rejects_prefixed_source (tests.test_navigation_quotes.QuoteSemantics.test_cli_preserves_positive_and_rejects_prefixed_source) (word='VERIFIED', prefix='UN')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344/tests/test_navigation_quotes.py", line 128, in test_cli_preserves_positive_and_rejects_prefixed_source
+    self.assertEqual(result.returncode, expected)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_cli_preserves_positive_and_rejects_prefixed_source (tests.test_navigation_quotes.QuoteSemantics.test_cli_preserves_positive_and_rejects_prefixed_source) (word='REJECT', prefix='UN')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344/tests/test_navigation_quotes.py", line 128, in test_cli_preserves_positive_and_rejects_prefixed_source
+    self.assertEqual(result.returncode, expected)
+AssertionError: 0 != 1
+
+======================================================================
+FAIL: test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='ACCEPT', prefix='UN')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344/tests/test_navigation_quotes.py", line 86, in test_prefixed_source_verdict_does_not_authorize_summary
+    self.assertEqual([f[0] for f in report['failures']], ['verdict-word-not-in-source'])
+AssertionError: Lists differ: [] != ['verdict-word-not-in-source']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'verdict-word-not-in-source'
+
+- []
++ ['verdict-word-not-in-source']
+
+======================================================================
+FAIL: test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='ACCEPT', prefix='RE')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344/tests/test_navigation_quotes.py", line 86, in test_prefixed_source_verdict_does_not_authorize_summary
+    self.assertEqual([f[0] for f in report['failures']], ['verdict-word-not-in-source'])
+AssertionError: Lists differ: [] != ['verdict-word-not-in-source']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'verdict-word-not-in-source'
+
+- []
++ ['verdict-word-not-in-source']
+
+======================================================================
+FAIL: test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='ACCEPT', prefix='_')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344/tests/test_navigation_quotes.py", line 86, in test_prefixed_source_verdict_does_not_authorize_summary
+    self.assertEqual([f[0] for f in report['failures']], ['verdict-word-not-in-source'])
+AssertionError: Lists differ: [] != ['verdict-word-not-in-source']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'verdict-word-not-in-source'
+
+- []
++ ['verdict-word-not-in-source']
+
+======================================================================
+FAIL: test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='ACCEPT', prefix='9')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344/tests/test_navigation_quotes.py", line 86, in test_prefixed_source_verdict_does_not_authorize_summary
+    self.assertEqual([f[0] for f in report['failures']], ['verdict-word-not-in-source'])
+AssertionError: Lists differ: [] != ['verdict-word-not-in-source']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'verdict-word-not-in-source'
+
+- []
++ ['verdict-word-not-in-source']
+
+======================================================================
+FAIL: test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='ACCEPT', prefix='é')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344/tests/test_navigation_quotes.py", line 86, in test_prefixed_source_verdict_does_not_authorize_summary
+    self.assertEqual([f[0] for f in report['failures']], ['verdict-word-not-in-source'])
+AssertionError: Lists differ: [] != ['verdict-word-not-in-source']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'verdict-word-not-in-source'
+
+- []
++ ['verdict-word-not-in-source']
+
+======================================================================
+FAIL: test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='AMEND', prefix='UN')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344/tests/test_navigation_quotes.py", line 86, in test_prefixed_source_verdict_does_not_authorize_summary
+    self.assertEqual([f[0] for f in report['failures']], ['verdict-word-not-in-source'])
+AssertionError: Lists differ: [] != ['verdict-word-not-in-source']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'verdict-word-not-in-source'
+
+- []
++ ['verdict-word-not-in-source']
+
+======================================================================
+FAIL: test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='AMEND', prefix='RE')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344/tests/test_navigation_quotes.py", line 86, in test_prefixed_source_verdict_does_not_authorize_summary
+    self.assertEqual([f[0] for f in report['failures']], ['verdict-word-not-in-source'])
+AssertionError: Lists differ: [] != ['verdict-word-not-in-source']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'verdict-word-not-in-source'
+
+- []
++ ['verdict-word-not-in-source']
+
+======================================================================
+FAIL: test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='AMEND', prefix='_')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344/tests/test_navigation_quotes.py", line 86, in test_prefixed_source_verdict_does_not_authorize_summary
+    self.assertEqual([f[0] for f in report['failures']], ['verdict-word-not-in-source'])
+AssertionError: Lists differ: [] != ['verdict-word-not-in-source']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'verdict-word-not-in-source'
+
+- []
++ ['verdict-word-not-in-source']
+
+======================================================================
+FAIL: test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='AMEND', prefix='9')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344/tests/test_navigation_quotes.py", line 86, in test_prefixed_source_verdict_does_not_authorize_summary
+    self.assertEqual([f[0] for f in report['failures']], ['verdict-word-not-in-source'])
+AssertionError: Lists differ: [] != ['verdict-word-not-in-source']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'verdict-word-not-in-source'
+
+- []
++ ['verdict-word-not-in-source']
+
+======================================================================
+FAIL: test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='AMEND', prefix='é')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344/tests/test_navigation_quotes.py", line 86, in test_prefixed_source_verdict_does_not_authorize_summary
+    self.assertEqual([f[0] for f in report['failures']], ['verdict-word-not-in-source'])
+AssertionError: Lists differ: [] != ['verdict-word-not-in-source']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'verdict-word-not-in-source'
+
+- []
++ ['verdict-word-not-in-source']
+
+======================================================================
+FAIL: test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='HOLD', prefix='UN')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344/tests/test_navigation_quotes.py", line 86, in test_prefixed_source_verdict_does_not_authorize_summary
+    self.assertEqual([f[0] for f in report['failures']], ['verdict-word-not-in-source'])
+AssertionError: Lists differ: [] != ['verdict-word-not-in-source']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'verdict-word-not-in-source'
+
+- []
++ ['verdict-word-not-in-source']
+
+======================================================================
+FAIL: test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='HOLD', prefix='RE')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344/tests/test_navigation_quotes.py", line 86, in test_prefixed_source_verdict_does_not_authorize_summary
+    self.assertEqual([f[0] for f in report['failures']], ['verdict-word-not-in-source'])
+AssertionError: Lists differ: [] != ['verdict-word-not-in-source']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'verdict-word-not-in-source'
+
+- []
++ ['verdict-word-not-in-source']
+
+======================================================================
+FAIL: test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='HOLD', prefix='_')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344/tests/test_navigation_quotes.py", line 86, in test_prefixed_source_verdict_does_not_authorize_summary
+    self.assertEqual([f[0] for f in report['failures']], ['verdict-word-not-in-source'])
+AssertionError: Lists differ: [] != ['verdict-word-not-in-source']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'verdict-word-not-in-source'
+
+- []
++ ['verdict-word-not-in-source']
+
+======================================================================
+FAIL: test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='HOLD', prefix='9')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344/tests/test_navigation_quotes.py", line 86, in test_prefixed_source_verdict_does_not_authorize_summary
+    self.assertEqual([f[0] for f in report['failures']], ['verdict-word-not-in-source'])
+AssertionError: Lists differ: [] != ['verdict-word-not-in-source']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'verdict-word-not-in-source'
+
+- []
++ ['verdict-word-not-in-source']
+
+======================================================================
+FAIL: test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='HOLD', prefix='é')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344/tests/test_navigation_quotes.py", line 86, in test_prefixed_source_verdict_does_not_authorize_summary
+    self.assertEqual([f[0] for f in report['failures']], ['verdict-word-not-in-source'])
+AssertionError: Lists differ: [] != ['verdict-word-not-in-source']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'verdict-word-not-in-source'
+
+- []
++ ['verdict-word-not-in-source']
+
+======================================================================
+FAIL: test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='CONFIRMED', prefix='UN')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344/tests/test_navigation_quotes.py", line 86, in test_prefixed_source_verdict_does_not_authorize_summary
+    self.assertEqual([f[0] for f in report['failures']], ['verdict-word-not-in-source'])
+AssertionError: Lists differ: [] != ['verdict-word-not-in-source']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'verdict-word-not-in-source'
+
+- []
++ ['verdict-word-not-in-source']
+
+======================================================================
+FAIL: test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='CONFIRMED', prefix='RE')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344/tests/test_navigation_quotes.py", line 86, in test_prefixed_source_verdict_does_not_authorize_summary
+    self.assertEqual([f[0] for f in report['failures']], ['verdict-word-not-in-source'])
+AssertionError: Lists differ: [] != ['verdict-word-not-in-source']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'verdict-word-not-in-source'
+
+- []
++ ['verdict-word-not-in-source']
+
+======================================================================
+FAIL: test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='CONFIRMED', prefix='_')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344/tests/test_navigation_quotes.py", line 86, in test_prefixed_source_verdict_does_not_authorize_summary
+    self.assertEqual([f[0] for f in report['failures']], ['verdict-word-not-in-source'])
+AssertionError: Lists differ: [] != ['verdict-word-not-in-source']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'verdict-word-not-in-source'
+
+- []
++ ['verdict-word-not-in-source']
+
+======================================================================
+FAIL: test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='CONFIRMED', prefix='9')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344/tests/test_navigation_quotes.py", line 86, in test_prefixed_source_verdict_does_not_authorize_summary
+    self.assertEqual([f[0] for f in report['failures']], ['verdict-word-not-in-source'])
+AssertionError: Lists differ: [] != ['verdict-word-not-in-source']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'verdict-word-not-in-source'
+
+- []
++ ['verdict-word-not-in-source']
+
+======================================================================
+FAIL: test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='CONFIRMED', prefix='é')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344/tests/test_navigation_quotes.py", line 86, in test_prefixed_source_verdict_does_not_authorize_summary
+    self.assertEqual([f[0] for f in report['failures']], ['verdict-word-not-in-source'])
+AssertionError: Lists differ: [] != ['verdict-word-not-in-source']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'verdict-word-not-in-source'
+
+- []
++ ['verdict-word-not-in-source']
+
+======================================================================
+FAIL: test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='VERIFIED', prefix='UN')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344/tests/test_navigation_quotes.py", line 86, in test_prefixed_source_verdict_does_not_authorize_summary
+    self.assertEqual([f[0] for f in report['failures']], ['verdict-word-not-in-source'])
+AssertionError: Lists differ: [] != ['verdict-word-not-in-source']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'verdict-word-not-in-source'
+
+- []
++ ['verdict-word-not-in-source']
+
+======================================================================
+FAIL: test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='VERIFIED', prefix='RE')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344/tests/test_navigation_quotes.py", line 86, in test_prefixed_source_verdict_does_not_authorize_summary
+    self.assertEqual([f[0] for f in report['failures']], ['verdict-word-not-in-source'])
+AssertionError: Lists differ: [] != ['verdict-word-not-in-source']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'verdict-word-not-in-source'
+
+- []
++ ['verdict-word-not-in-source']
+
+======================================================================
+FAIL: test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='VERIFIED', prefix='_')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344/tests/test_navigation_quotes.py", line 86, in test_prefixed_source_verdict_does_not_authorize_summary
+    self.assertEqual([f[0] for f in report['failures']], ['verdict-word-not-in-source'])
+AssertionError: Lists differ: [] != ['verdict-word-not-in-source']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'verdict-word-not-in-source'
+
+- []
++ ['verdict-word-not-in-source']
+
+======================================================================
+FAIL: test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='VERIFIED', prefix='9')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344/tests/test_navigation_quotes.py", line 86, in test_prefixed_source_verdict_does_not_authorize_summary
+    self.assertEqual([f[0] for f in report['failures']], ['verdict-word-not-in-source'])
+AssertionError: Lists differ: [] != ['verdict-word-not-in-source']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'verdict-word-not-in-source'
+
+- []
++ ['verdict-word-not-in-source']
+
+======================================================================
+FAIL: test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='VERIFIED', prefix='é')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344/tests/test_navigation_quotes.py", line 86, in test_prefixed_source_verdict_does_not_authorize_summary
+    self.assertEqual([f[0] for f in report['failures']], ['verdict-word-not-in-source'])
+AssertionError: Lists differ: [] != ['verdict-word-not-in-source']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'verdict-word-not-in-source'
+
+- []
++ ['verdict-word-not-in-source']
+
+======================================================================
+FAIL: test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='REJECT', prefix='UN')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344/tests/test_navigation_quotes.py", line 86, in test_prefixed_source_verdict_does_not_authorize_summary
+    self.assertEqual([f[0] for f in report['failures']], ['verdict-word-not-in-source'])
+AssertionError: Lists differ: [] != ['verdict-word-not-in-source']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'verdict-word-not-in-source'
+
+- []
++ ['verdict-word-not-in-source']
+
+======================================================================
+FAIL: test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='REJECT', prefix='RE')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344/tests/test_navigation_quotes.py", line 86, in test_prefixed_source_verdict_does_not_authorize_summary
+    self.assertEqual([f[0] for f in report['failures']], ['verdict-word-not-in-source'])
+AssertionError: Lists differ: [] != ['verdict-word-not-in-source']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'verdict-word-not-in-source'
+
+- []
++ ['verdict-word-not-in-source']
+
+======================================================================
+FAIL: test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='REJECT', prefix='_')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344/tests/test_navigation_quotes.py", line 86, in test_prefixed_source_verdict_does_not_authorize_summary
+    self.assertEqual([f[0] for f in report['failures']], ['verdict-word-not-in-source'])
+AssertionError: Lists differ: [] != ['verdict-word-not-in-source']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'verdict-word-not-in-source'
+
+- []
++ ['verdict-word-not-in-source']
+
+======================================================================
+FAIL: test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='REJECT', prefix='9')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344/tests/test_navigation_quotes.py", line 86, in test_prefixed_source_verdict_does_not_authorize_summary
+    self.assertEqual([f[0] for f in report['failures']], ['verdict-word-not-in-source'])
+AssertionError: Lists differ: [] != ['verdict-word-not-in-source']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'verdict-word-not-in-source'
+
+- []
++ ['verdict-word-not-in-source']
+
+======================================================================
+FAIL: test_prefixed_source_verdict_does_not_authorize_summary (tests.test_navigation_quotes.QuoteSemantics.test_prefixed_source_verdict_does_not_authorize_summary) (word='REJECT', prefix='é')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt344/tests/test_navigation_quotes.py", line 86, in test_prefixed_source_verdict_does_not_authorize_summary
+    self.assertEqual([f[0] for f in report['failures']], ['verdict-word-not-in-source'])
+AssertionError: Lists differ: [] != ['verdict-word-not-in-source']
+
+Second list contains 1 additional elements.
+First extra element 0:
+'verdict-word-not-in-source'
+
+- []
++ ['verdict-word-not-in-source']
+
+----------------------------------------------------------------------
+Ran 21 tests in 0.975s
+
+FAILED (failures=36)

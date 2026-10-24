@@ -1,0 +1,635 @@
+VERIFY3.log -- main PR #343 test amendment v3 (twenty proposed tests: the nineteen of v2 plus one C270-A4 tail-upper regression)
+Date: 2026-10-13T08:41:14Z
+PR head (read-only worktree /tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt343): 5bf0bcd461b4b7de49052680dd6d4c6e8ee11e1f   worktree untouched: git status --short -> 0 lines; no __pycache__ in /tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt343/experiments/universality/two_parameter_cusp_population: confirmed
+Python: Python 3.12.3 at /usr/bin/python3.12; the workflow literal 'python3' is Python 3.13.16 at /usr/bin/python3.13; both were run.
+
+== Artifacts ==
+Patch (v3):       /tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/p343patch3/343-tests-amendment-v3.patch
+Patch sha256:     c07df8e44bfc30762ad936b2426cbb8518fde4ef635b49a2f24a9a8332c329ba
+Patch size:       17981 bytes
+Patch stat:       1 file changed, 288 insertions(+), 0 deletions(-)   (hunks: @@ -8,7 +8,9 @@ @@ -282,5 +284,291 @@ )
+Deleted lines:    0 (test-only, additive; no existing test changed; v2's 42 tests kept verbatim: v2->v3 delta has 0 deletions)
+Pristine file:    experiments/universality/two_parameter_cusp_population/test_population_certificate.py  sha256 3e1da0372f4cb3e6778a28f681096c2bc47bd64ef8317bbb286fee51184679e1  (15086 bytes, 23 tests)
+Amended file:     /tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/p343patch3/copy/experiments/universality/two_parameter_cusp_population/test_population_certificate.py  sha256 2b75cf30a19b9968bf1b2753db76c773d41938d06351dfc60ca97044c1256603  (32306 bytes, 43 tests)
+v2 amended file:  /tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/p343patch2/copy/experiments/universality/two_parameter_cusp_population/test_population_certificate.py  sha256 c43a929d86fda0e6ea0f75067a80ab304887ab1226a21f17e76b5e2dfe95ae0f  (29833 bytes, 42 tests)
+v2->v3 delta:     /tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/p343patch3/343-tests-amendment-v2-to-v3.diff  sha256 8f1f56fa874db05cabbc954e749a66ef05c8190dac2bd038e9a7539b1da0efb0  (2972 bytes; 33 insertions, 0 deletions)
+Scratch copy:     /tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/p343patch3/copy  (cp -r of /tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/p343patch2/copy; population_certificate.py / run_population_certificate.py byte-identical to wt343: 314cd46ebe3b6005 / 3799f53e2066ae3f == 314cd46ebe3b6005 / 3799f53e2066ae3f)
+Build script:     /tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/p343patch3/build_v3.py (v2 amended text + one method appended at the end of EnclosureTests; anchor asserted unique)
+Prototype:        /tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/p343patch3/proto3.py -> /tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/p343patch3/proto3.log (oracle margins pristine vs M06_CEILING_ONLY at 512/1024/2048 tail panels with 64 core panels, CORE_PANELS-independence of tail_interval against the full 2^16-core row, C270 rational reproduced)
+Mutant source:    /tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/p343patch3/mutants_src/M06_CEILING_ONLY/experiments/universality/two_parameter_cusp_population/population_certificate.py  sha256 9f6ec1d8438bc69d2477e6a60509343919985a35f4859bbffb49bd3aa1364f2f (20176 bytes) == C270's stated source_after 9f6ec1d8438bc69d2477e6a60509343919985a35f4859bbffb49bd3aa1364f2f (20176 bytes); single-line replacement at line 392, exactly one match asserted
+Mutant driver:    /tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/p343patch3/run_mutants3.sh (run_mutants2.sh retargeted at p343patch3, second mutant root mutants_src, MODE=-O support, new test name added to NEW_TESTS); per-mutant unittest output /tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/p343patch3/mutants/<NAME>.log and <NAME>_O.log; summaries /tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/p343patch3/mutants_summary3.log (normal) and /tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/p343patch3/mutants_summary3_O.log (-O)
+
+== The new test (v2 -> v3) ==
+EnclosureTests.test_tail_upper_endpoint_dominates_a_finer_midpoint_lower_bound   kills M06_CEILING_ONLY (C270-A4). Oracle: convexity of the tail integrand on [1,1/rhi] (CONTROLLED_FALSIFICATION.md 'Direct tail' paragraph: midpoint lower / trapezoid upper sums, 'It is convex; f''<=99/32*t^(-19/4)'; gates tail_convexity, tail_second_derivative) => trapezoid sums are upper bounds, midpoint sums lower bounds increasing under dyadic refinement. Asserts, at j=1 with CORE_PANELS patched to 64 (tail sums never read the core; tail_interval identical at 64 and 2^16 core panels, see proto3.log) and TAIL_PANELS at the declared 512 vs 2*512: (a) coarse tail upper endpoint >= finer tail lower endpoint [the kill]; (b) finer lower <= finer upper; (c) coarse lower <= finer lower + finer arithmetic tail_lower width (rigorous form of 'midpoint sums increase under refinement'); plus status INCONCLUSIVE_PRECISION (normalized_width gate fails with 64 core panels), tail gates true, evaluation counts 2114 / 4162, pc.TAIL_PANELS == 512.
+Observed margins (proto3.log): pristine coarse upper - finer(1024) lower = +2.2415e-7; damaged (M06_CEILING_ONLY) coarse upper - finer(1024) lower = -7.4717e-8, exactly finer - damaged = 110770127964024035006453969387323164636630381124117933425519677/1482521263040042663009052462615821307352825354839967634589869622165504 == C270's rational. At 2048 panels the margins would be +2.0547e-7 / -9.3397e-8 (not used; 1024 reproduces C270's acceptance evidence at half the cost).
+Runtime of the new test alone (python3.12, from the package dir): normal Ran 1 test in 0.623s ; -O Ran 1 test in 0.701s
+
+== v2 -> v3 delta (diff -u v2 amended vs v3 amended) ==
+--- a/experiments/universality/two_parameter_cusp_population/test_population_certificate.py
++++ b/experiments/universality/two_parameter_cusp_population/test_population_certificate.py
+@@ -383,6 +383,39 @@
+             self.assertLess(lo, hi)
+         self.assertEqual(pc.poisson_target(), pc.poisson_target(pc.coefficient_interval()))
+ 
++    def test_tail_upper_endpoint_dominates_a_finer_midpoint_lower_bound(self):
++        """Kills M06_CEILING_ONLY (C270-A4): the trapezoid ceiling at population_certificate.py
++        line 392 replaced by an outward-rounded midpoint sum while tail_upper_floor and the
++        positive tail diagnostic stay intact, which the component replay above cannot see.
++
++        Oracle: the tail integrand C*(9*t^(-11/4) - rhi^2*t^(-3/4)) is convex on [1, 1/rhi]
++        (CONTROLLED_FALSIFICATION.md, direct tail: "It is convex; f'' <= 99/32*t^(-19/4)";
++        gates tail_convexity and tail_second_derivative), so on every octave each trapezoid
++        sum bounds the integral from above, each midpoint sum from below, and midpoint sums
++        increase under dyadic refinement. With outward rounding the declared 512-panel tail
++        upper endpoint therefore dominates the 1024-panel tail lower endpoint. The damaged
++        ceiling is itself a 512-panel midpoint sum and falls below that finer lower bound by
++        about 7.5e-8 at j=1; the pristine ceiling exceeds it by about 2.2e-7. The core is cut
++        to 64 panels because the tail sums read only rhi, the tail coefficient and
++        TAIL_PANELS, never the core; the row is then INCONCLUSIVE_PRECISION but still reports
++        its tail interval. The finer sum is an oracle only; the campaign keeps 512 panels.
++        """
++        def tail_row(panels):
++            with mock.patch.object(pc, 'CORE_PANELS', 64), mock.patch.object(pc, 'TAIL_PANELS', panels):
++                row = pc.direct_mass(1)
++            self.assertEqual(row['status'], 'INCONCLUSIVE_PRECISION')
++            self.assertTrue(row['gates']['tail_convexity'] and row['gates']['tail_second_derivative'])
++            # 65 core nodes; two tail octaves of 2*panels+1 nodes sharing the node t=2.
++            self.assertEqual(row['evaluations'], 65 + 2 * (2 * panels + 1) - 1)
++            return row
++        self.assertEqual(pc.TAIL_PANELS, 512)
++        coarse, finer = tail_row(pc.TAIL_PANELS), tail_row(2 * pc.TAIL_PANELS)
++        self.assertLessEqual(finer['tail_interval'][0], finer['tail_interval'][1])
++        # Refinement raises the midpoint sum; the finer floor loses at most its own arithmetic width.
++        self.assertLessEqual(coarse['tail_interval'][0],
++                             finer['tail_interval'][0] + finer['arithmetic_components']['tail_lower'])
++        self.assertGreaterEqual(coarse['tail_interval'][1], finer['tail_interval'][0])
++
+ 
+ class PredicateFixtureTests(unittest.TestCase):
+     # A5: predicate fixtures strictly between the outer and inner envelopes,
+
+== CI step commands (.github/workflows/universality-controls.yml, run with python3.12 as in v1/v2), from /tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/p343patch3/copy ==
+$ python3.12 -B -E -S -m unittest discover -s experiments/universality/two_parameter_cusp_population -p 'test_population_certificate.py' -v
+--- tail of /tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/p343patch3/ci3_312.log ---
+----------------------------------------------------------------------
+Ran 43 tests in 10.146s
+
+OK
+' ... ok' lines: 43 ; FAIL/ERROR lines: 0
+
+$ python3.12 -B -E -O -S -m unittest discover -s experiments/universality/two_parameter_cusp_population -p 'test_population_certificate.py' -v
+--- tail of /tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/p343patch3/ci3_312_O.log ---
+----------------------------------------------------------------------
+Ran 43 tests in 11.089s
+
+OK
+' ... ok' lines: 43 ; FAIL/ERROR lines: 0
+
+Extra (workflow literal 'python3' = 3.13 on this host):
+$ python3 -B -E -S -m unittest discover -s experiments/universality/two_parameter_cusp_population -p 'test_population_certificate.py' -v   -> Ran 43 tests in 9.543s  OK  ok-lines: 43
+$ python3 -B -E -O -S -m unittest discover -s experiments/universality/two_parameter_cusp_population -p 'test_population_certificate.py' -v   -> Ran 43 tests in 9.729s  OK  ok-lines: 43
+
+Test list (python3.12 normal mode, 43):
+  Executes runner lines 193-235 on a known-good stub; kills M24 (runner schedule diverging from pc). ... ok
+  Kills M17 (overlap predicate disabled) and M18 (CDF route ignored in the intersection). ... ok
+  Kills M26 (exit 0 on FALSIFIED) and M27 (full campaign receipt ignores budget arguments). ... ok
+  Kills M25 (mass gate trivially true). ... ok
+  Kills M22 (post-run hash comparison dropped). Contract: 'check them again at the end'. ... ok
+  Kills M28 (void/target width gates ignored). ... ok
+  Kills M19 (row status PASS regardless) and M20; B shifted by 1.2e-4 > E(tau_8) = 7.8e-5. ... ok
+  test_actual_younger_height_and_reflection (test_population_certificate.CriticalHeightTests.test_actual_younger_height_and_reflection) ... ok
+  test_guard_witnesses_check_rational_consequents (test_population_certificate.CriticalHeightTests.test_guard_witnesses_check_rational_consequents) ... ok
+  test_null_discriminants_and_tie_are_excluded (test_population_certificate.CriticalHeightTests.test_null_discriminants_and_tie_are_excluded) ... ok
+  test_selector_rejects_inexact_and_invalid_inputs (test_population_certificate.CriticalHeightTests.test_selector_rejects_inexact_and_invalid_inputs) ... ok
+  Kills M04 (root sliver dropped) and M06 (tail trapezoid replaced by midpoint sum). ... ok
+  Kills M16 (status CERTIFIED regardless of gates). ... ok
+  Kills M03b (Poisson target endpoints taken inward); exp(-B) is contained either way. ... ok
+  Kills M02 (sqrt lower endpoint rounded up). Exact radicands (8, 16) cannot see polarity. ... ok
+  The literal branch cdf_mass(9/4) == 1/5 cannot fail; this checks the computed route. ... ok
+  Kills M06_CEILING_ONLY (C270-A4): the trapezoid ceiling at population_certificate.py ... ok
+  Kills M03a (void endpoints taken inward); containment of (1-m)^n alone cannot see it. ... ok
+  test_budget_zero_preserves_no_execution_credit (test_population_certificate.IntervalRouteTests.test_budget_zero_preserves_no_execution_credit) ... ok
+  test_cdf_boundaries_keep_whole_rectangle_probability (test_population_certificate.IntervalRouteTests.test_cdf_boundaries_keep_whole_rectangle_probability) ... ok
+  test_one_complete_direct_row_has_sound_widths_and_cdf_overlap (test_population_certificate.IntervalRouteTests.test_one_complete_direct_row_has_sound_widths_and_cdf_overlap) ... ok
+  test_partial_budget_counts_actual_evaluations (test_population_certificate.IntervalRouteTests.test_partial_budget_counts_actual_evaluations) ... ok
+  test_power_enclosures_have_correct_polarity (test_population_certificate.IntervalRouteTests.test_power_enclosures_have_correct_polarity) ... ok
+  test_routes_reject_invalid_math_and_schedule_inputs (test_population_certificate.IntervalRouteTests.test_routes_reject_invalid_math_and_schedule_inputs) ... ok
+  test_split_root_encloses_hand_checked_half (test_population_certificate.IntervalRouteTests.test_split_root_encloses_hand_checked_half) ... ok
+  test_void_encloses_literal_four_copy_probability (test_population_certificate.IntervalRouteTests.test_void_encloses_literal_four_copy_probability) ... ok
+  Kills M10 (a gate silently deleted). ... ok
+  Kills M11 (status PASS regardless of gates): an injected fixed-left lifetime must fail. ... ok
+  Kills M08/M08b (FALSIFIED threshold moved from the outer to the inner envelope). ... ok
+  Kills M20 (FALSIFIED dropped from the priority list). ... ok
+  Kills M21 (PASS if any status passes): an undeclared status beside PASS is no pass. ... ok
+  Kills M15 (WIDTH_LIMIT relaxed 256x); the existing (0,1/4) fixture is 16384x over the limit. ... ok
+  test_common_inner_and_outer_coefficient_polarity (test_population_certificate.PredicateTests.test_common_inner_and_outer_coefficient_polarity) ... ok
+  test_interval_predicates_reject_bad_endpoints (test_population_certificate.PredicateTests.test_interval_predicates_reject_bad_endpoints) ... ok
+  test_void_endpoint_distance_strict_boundary (test_population_certificate.PredicateTests.test_void_endpoint_distance_strict_boundary) ... ok
+  test_final_timer_accounts_for_posthash_and_serialization_preparation (test_population_certificate.RunnerCustodyTests.test_final_timer_accounts_for_posthash_and_serialization_preparation) ... ok
+  test_final_timer_withdraws_literal_accepted_statuses_on_expired_clock (test_population_certificate.RunnerCustodyTests.test_final_timer_withdraws_literal_accepted_statuses_on_expired_clock) ... ok
+  test_frozen_manifest_detects_real_source_drift (test_population_certificate.RunnerCustodyTests.test_frozen_manifest_detects_real_source_drift) ... ok
+  test_json_rejects_duplicate_nonfinite_and_float_math (test_population_certificate.RunnerCustodyTests.test_json_rejects_duplicate_nonfinite_and_float_math) ... ok
+  test_preexisting_frozen_source_drift_prevents_population_evaluation (test_population_certificate.RunnerCustodyTests.test_preexisting_frozen_source_drift_prevents_population_evaluation) ... ok
+  test_source_drift_disqualifies_full_campaign_receipt (test_population_certificate.RunnerCustodyTests.test_source_drift_disqualifies_full_campaign_receipt) ... ok
+  test_source_drift_withdraws_nested_void_acceptance (test_population_certificate.RunnerCustodyTests.test_source_drift_withdraws_nested_void_acceptance) ... ok
+  test_zero_budget_attempt_serializes_and_refuses_overwrite (test_population_certificate.RunnerCustodyTests.test_zero_budget_attempt_serializes_and_refuses_overwrite) ... ok
+
+== M06_CEILING_ONLY alone, both modes (mutant swapped into the copy, pristine restored and sha256-verified) ==
+M06_CEILING_ONLY_bothmodes: Ran 43 tests in 11.050s FAILED (failures=1) failing: test_tail_upper_endpoint_dominates_a_finer_midpoint_lower_bound 
+M06_CEILING_ONLY_bothmodes_O: Ran 43 tests in 11.327s FAILED (failures=1) failing: test_tail_upper_endpoint_dominates_a_finer_midpoint_lower_bound 
+M06_CEILING_ONLY_bothmodes_py313: Ran 43 tests in 10.058s FAILED (failures=1) failing: test_tail_upper_endpoint_dominates_a_finer_midpoint_lower_bound 
+Failure detail (normal mode):
+  FAIL: test_tail_upper_endpoint_dominates_a_finer_midpoint_lower_bound (test_population_certificate.EnclosureTests.test_tail_upper_endpoint_dominates_a_finer_midpoint_lower_bound)
+  Kills M06_CEILING_ONLY (C270-A4): the trapezoid ceiling at population_certificate.py
+  ----------------------------------------------------------------------
+  Traceback (most recent call last):
+    File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/p343patch3/copy/experiments/universality/two_parameter_cusp_population/test_population_certificate.py", line 417, in test_tail_upper_endpoint_dominates_a_finer_midpoint_lower_bound
+      self.assertGreaterEqual(coarse['tail_interval'][1], finer['tail_interval'][0])
+  AssertionError: Fraction(54009800806636526851281238530358106212548057797498569598413536711223, 494173754346680887669684154205273769117608451613322544863289874055168) not greater than or equal to Fraction(81014756595018772288939361022521852980404405011438416456587017826673, 741260631520021331504526231307910653676412677419983817294934811082752)
+  
+  ----------------------------------------------------------------------
+
+== Mutant sweep, normal mode: the 22 originally surviving mutants + M06_CEILING_ONLY (python3.12 -B -E -S discover, mutant module swapped into the copy, pristine restored and sha256-verified after each) ==
+$ /tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/p343patch3/run_mutants3.sh <22 names from p343patch2/mutants_summary2.log> M06_CEILING_ONLY
+KILLED_BY_NEW            M02_sqrt_lower_rounds_up                     modifies=[population_certificate.py] exit=1 Ran 43 tests in 10.359s restore=OK
+    new_failing: test_power_enclosures_bracket_irrational_radicands
+    existing_failing: (none)
+KILLED_BY_NEW            M03a_void_interval_inward                    modifies=[population_certificate.py] exit=1 Ran 43 tests in 10.968s restore=OK
+    new_failing: test_void_interval_replays_its_outward_log_exp_composition
+    existing_failing: (none)
+KILLED_BY_NEW            M03b_poisson_target_inward                   modifies=[population_certificate.py] exit=1 Ran 43 tests in 9.827s restore=OK
+    new_failing: test_poisson_target_replays_its_outward_exp_composition
+    existing_failing: (none)
+KILLED_BY_NEW            M04_drop_root_sliver                         modifies=[population_certificate.py] exit=1 Ran 43 tests in 10.515s restore=OK
+    new_failing: test_direct_row_replays_its_component_composition
+    existing_failing: (none)
+KILLED_BY_NEW            M06_tail_upper_uses_midpoint_sum             modifies=[population_certificate.py] exit=1 Ran 43 tests in 10.532s restore=OK
+    new_failing: test_direct_row_replays_its_component_composition test_tail_upper_endpoint_dominates_a_finer_midpoint_lower_bound
+    existing_failing: (none)
+KILLED_BY_NEW            M08_falsify_low_side_at_inner                modifies=[population_certificate.py] exit=1 Ran 43 tests in 10.136s restore=OK
+    new_failing: test_coefficient_inconclusive_strictly_between_outer_and_inner
+    existing_failing: (none)
+KILLED_BY_NEW            M08b_falsify_high_side_at_inner              modifies=[population_certificate.py] exit=1 Ran 43 tests in 10.471s restore=OK
+    new_failing: test_coefficient_inconclusive_strictly_between_outer_and_inner
+    existing_failing: (none)
+KILLED_BY_NEW            M10_drop_reject_fixed_left_gate              modifies=[population_certificate.py] exit=1 Ran 43 tests in 10.801s restore=OK
+    new_failing: test_negative_controls_evaluate_every_declared_gate test_negative_controls_fail_when_the_selector_is_fixed_left
+    existing_failing: (none)
+KILLED_BY_NEW            M11_negative_controls_always_pass            modifies=[population_certificate.py] exit=1 Ran 43 tests in 10.300s restore=OK
+    new_failing: test_negative_controls_fail_when_the_selector_is_fixed_left
+    existing_failing: (none)
+KILLED_BY_NEW            M15_width_limit_256x                         modifies=[population_certificate.py] exit=1 Ran 43 tests in 9.628s restore=OK
+    new_failing: test_consistent_routes_and_correct_coefficient_pass test_falsified_attempt_exits_one_and_is_no_full_campaign_under_reduced_budget test_void_width_gate_at_its_declared_limit test_wrong_coefficient_is_falsified_at_row_eight_only
+    existing_failing: (none)
+KILLED_BY_NEW            M16_direct_status_always_certified           modifies=[population_certificate.py] exit=1 Ran 43 tests in 9.358s restore=OK
+    new_failing: test_failed_direct_gate_is_not_certified test_tail_upper_endpoint_dominates_a_finer_midpoint_lower_bound
+    existing_failing: (none)
+KILLED_BY_NEW            M17_overlap_elif_false                       modifies=[run_population_certificate.py] exit=1 Ran 43 tests in 9.733s restore=OK
+    new_failing: test_disjoint_routes_are_route_consistency_failures
+    existing_failing: (none)
+KILLED_BY_NEW            M18_ignore_cdf_route_in_intersection         modifies=[run_population_certificate.py] exit=1 Ran 43 tests in 10.642s restore=OK
+    new_failing: test_consistent_routes_and_correct_coefficient_pass test_disjoint_routes_are_route_consistency_failures
+    existing_failing: (none)
+KILLED_BY_NEW            M19_row_status_pass_regardless               modifies=[run_population_certificate.py] exit=1 Ran 43 tests in 9.955s restore=OK
+    new_failing: test_falsified_attempt_exits_one_and_is_no_full_campaign_under_reduced_budget test_wrong_coefficient_is_falsified_at_row_eight_only
+    existing_failing: (none)
+KILLED_BY_NEW            M20_overall_drops_falsified                  modifies=[run_population_certificate.py] exit=1 Ran 43 tests in 9.865s restore=OK
+    new_failing: test_falsified_attempt_exits_one_and_is_no_full_campaign_under_reduced_budget test_overall_priority_is_the_declared_one test_wrong_coefficient_is_falsified_at_row_eight_only
+    existing_failing: (none)
+KILLED_BY_NEW            M21_overall_pass_if_any_pass                 modifies=[run_population_certificate.py] exit=1 Ran 43 tests in 9.882s restore=OK
+    new_failing: test_overall_requires_every_status_to_pass
+    existing_failing: (none)
+KILLED_BY_NEW            M22_drop_post_run_drift_check                modifies=[run_population_certificate.py] exit=1 Ran 43 tests in 10.578s restore=OK
+    new_failing: test_source_edited_during_evaluation_is_source_drift
+    existing_failing: (none)
+KILLED_BY_NEW            M24_runner_schedule_n_diverges_from_pc       modifies=[run_population_certificate.py] exit=1 Ran 43 tests in 10.542s restore=OK
+    new_failing: test_consistent_routes_and_correct_coefficient_pass test_falsified_attempt_exits_one_and_is_no_full_campaign_under_reduced_budget test_row_eight_mass_gate_withholds_the_void_test test_wide_void_interval_is_inconclusive_even_with_a_passing_coefficient test_wrong_coefficient_is_falsified_at_row_eight_only
+    existing_failing: (none)
+KILLED_BY_NEW            M25_j8_mass_gate_trivial                     modifies=[run_population_certificate.py] exit=1 Ran 43 tests in 9.519s restore=OK
+    new_failing: test_row_eight_mass_gate_withholds_the_void_test
+    existing_failing: (none)
+KILLED_BY_NEW            M26_exit_code_zero_on_falsified              modifies=[run_population_certificate.py] exit=1 Ran 43 tests in 9.705s restore=OK
+    new_failing: test_falsified_attempt_exits_one_and_is_no_full_campaign_under_reduced_budget
+    existing_failing: (none)
+KILLED_BY_NEW            M27_full_campaign_ignores_budget_args        modifies=[run_population_certificate.py] exit=1 Ran 43 tests in 9.855s restore=OK
+    new_failing: test_falsified_attempt_exits_one_and_is_no_full_campaign_under_reduced_budget
+    existing_failing: (none)
+KILLED_BY_NEW            M28_ignore_void_width_gates                  modifies=[run_population_certificate.py] exit=1 Ran 43 tests in 9.532s restore=OK
+    new_failing: test_wide_void_interval_is_inconclusive_even_with_a_passing_coefficient
+    existing_failing: (none)
+KILLED_BY_NEW            M06_CEILING_ONLY                             modifies=[population_certificate.py] exit=1 Ran 43 tests in 10.765s restore=OK
+    new_failing: test_tail_upper_endpoint_dominates_a_finer_midpoint_lower_bound
+    existing_failing: (none)
+normal sweep exit 0
+Tally: KILLED_BY_NEW=23 KILLED_BY_EXISTING_ONLY=0 SURVIVES=0 ; restore mismatches: 0 ; mutants with an existing (pre-amendment) test failing: 0
+
+== Mutant sweep, optimized mode (-O), same 23 ==
+$ MODE=-O /tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/p343patch3/run_mutants3.sh <same 23 names>
+KILLED_BY_NEW            M02_sqrt_lower_rounds_up                     modifies=[population_certificate.py] exit=1 Ran 43 tests in 10.207s restore=OK
+    new_failing: test_power_enclosures_bracket_irrational_radicands
+    existing_failing: (none)
+KILLED_BY_NEW            M03a_void_interval_inward                    modifies=[population_certificate.py] exit=1 Ran 43 tests in 9.501s restore=OK
+    new_failing: test_void_interval_replays_its_outward_log_exp_composition
+    existing_failing: (none)
+KILLED_BY_NEW            M03b_poisson_target_inward                   modifies=[population_certificate.py] exit=1 Ran 43 tests in 10.650s restore=OK
+    new_failing: test_poisson_target_replays_its_outward_exp_composition
+    existing_failing: (none)
+KILLED_BY_NEW            M04_drop_root_sliver                         modifies=[population_certificate.py] exit=1 Ran 43 tests in 10.316s restore=OK
+    new_failing: test_direct_row_replays_its_component_composition
+    existing_failing: (none)
+KILLED_BY_NEW            M06_tail_upper_uses_midpoint_sum             modifies=[population_certificate.py] exit=1 Ran 43 tests in 10.970s restore=OK
+    new_failing: test_direct_row_replays_its_component_composition test_tail_upper_endpoint_dominates_a_finer_midpoint_lower_bound
+    existing_failing: (none)
+KILLED_BY_NEW            M08_falsify_low_side_at_inner                modifies=[population_certificate.py] exit=1 Ran 43 tests in 10.420s restore=OK
+    new_failing: test_coefficient_inconclusive_strictly_between_outer_and_inner
+    existing_failing: (none)
+KILLED_BY_NEW            M08b_falsify_high_side_at_inner              modifies=[population_certificate.py] exit=1 Ran 43 tests in 10.222s restore=OK
+    new_failing: test_coefficient_inconclusive_strictly_between_outer_and_inner
+    existing_failing: (none)
+KILLED_BY_NEW            M10_drop_reject_fixed_left_gate              modifies=[population_certificate.py] exit=1 Ran 43 tests in 10.421s restore=OK
+    new_failing: test_negative_controls_evaluate_every_declared_gate test_negative_controls_fail_when_the_selector_is_fixed_left
+    existing_failing: (none)
+KILLED_BY_NEW            M11_negative_controls_always_pass            modifies=[population_certificate.py] exit=1 Ran 43 tests in 10.774s restore=OK
+    new_failing: test_negative_controls_fail_when_the_selector_is_fixed_left
+    existing_failing: (none)
+KILLED_BY_NEW            M15_width_limit_256x                         modifies=[population_certificate.py] exit=1 Ran 43 tests in 10.410s restore=OK
+    new_failing: test_consistent_routes_and_correct_coefficient_pass test_falsified_attempt_exits_one_and_is_no_full_campaign_under_reduced_budget test_void_width_gate_at_its_declared_limit test_wrong_coefficient_is_falsified_at_row_eight_only
+    existing_failing: (none)
+KILLED_BY_NEW            M16_direct_status_always_certified           modifies=[population_certificate.py] exit=1 Ran 43 tests in 9.923s restore=OK
+    new_failing: test_failed_direct_gate_is_not_certified test_tail_upper_endpoint_dominates_a_finer_midpoint_lower_bound
+    existing_failing: (none)
+KILLED_BY_NEW            M17_overlap_elif_false                       modifies=[run_population_certificate.py] exit=1 Ran 43 tests in 10.668s restore=OK
+    new_failing: test_disjoint_routes_are_route_consistency_failures
+    existing_failing: (none)
+KILLED_BY_NEW            M18_ignore_cdf_route_in_intersection         modifies=[run_population_certificate.py] exit=1 Ran 43 tests in 11.116s restore=OK
+    new_failing: test_consistent_routes_and_correct_coefficient_pass test_disjoint_routes_are_route_consistency_failures
+    existing_failing: (none)
+KILLED_BY_NEW            M19_row_status_pass_regardless               modifies=[run_population_certificate.py] exit=1 Ran 43 tests in 11.367s restore=OK
+    new_failing: test_falsified_attempt_exits_one_and_is_no_full_campaign_under_reduced_budget test_wrong_coefficient_is_falsified_at_row_eight_only
+    existing_failing: (none)
+KILLED_BY_NEW            M20_overall_drops_falsified                  modifies=[run_population_certificate.py] exit=1 Ran 43 tests in 9.884s restore=OK
+    new_failing: test_falsified_attempt_exits_one_and_is_no_full_campaign_under_reduced_budget test_overall_priority_is_the_declared_one test_wrong_coefficient_is_falsified_at_row_eight_only
+    existing_failing: (none)
+KILLED_BY_NEW            M21_overall_pass_if_any_pass                 modifies=[run_population_certificate.py] exit=1 Ran 43 tests in 11.063s restore=OK
+    new_failing: test_overall_requires_every_status_to_pass
+    existing_failing: (none)
+KILLED_BY_NEW            M22_drop_post_run_drift_check                modifies=[run_population_certificate.py] exit=1 Ran 43 tests in 10.750s restore=OK
+    new_failing: test_source_edited_during_evaluation_is_source_drift
+    existing_failing: (none)
+KILLED_BY_NEW            M24_runner_schedule_n_diverges_from_pc       modifies=[run_population_certificate.py] exit=1 Ran 43 tests in 10.302s restore=OK
+    new_failing: test_consistent_routes_and_correct_coefficient_pass test_falsified_attempt_exits_one_and_is_no_full_campaign_under_reduced_budget test_row_eight_mass_gate_withholds_the_void_test test_wide_void_interval_is_inconclusive_even_with_a_passing_coefficient test_wrong_coefficient_is_falsified_at_row_eight_only
+    existing_failing: (none)
+KILLED_BY_NEW            M25_j8_mass_gate_trivial                     modifies=[run_population_certificate.py] exit=1 Ran 43 tests in 9.696s restore=OK
+    new_failing: test_row_eight_mass_gate_withholds_the_void_test
+    existing_failing: (none)
+KILLED_BY_NEW            M26_exit_code_zero_on_falsified              modifies=[run_population_certificate.py] exit=1 Ran 43 tests in 9.252s restore=OK
+    new_failing: test_falsified_attempt_exits_one_and_is_no_full_campaign_under_reduced_budget
+    existing_failing: (none)
+KILLED_BY_NEW            M27_full_campaign_ignores_budget_args        modifies=[run_population_certificate.py] exit=1 Ran 43 tests in 11.294s restore=OK
+    new_failing: test_falsified_attempt_exits_one_and_is_no_full_campaign_under_reduced_budget
+    existing_failing: (none)
+KILLED_BY_NEW            M28_ignore_void_width_gates                  modifies=[run_population_certificate.py] exit=1 Ran 43 tests in 10.277s restore=OK
+    new_failing: test_wide_void_interval_is_inconclusive_even_with_a_passing_coefficient
+    existing_failing: (none)
+KILLED_BY_NEW            M06_CEILING_ONLY                             modifies=[population_certificate.py] exit=1 Ran 43 tests in 10.126s restore=OK
+    new_failing: test_tail_upper_endpoint_dominates_a_finer_midpoint_lower_bound
+    existing_failing: (none)
+-O sweep exit 0
+Tally: KILLED_BY_NEW=23 KILLED_BY_EXISTING_ONLY=0 SURVIVES=0 ; restore mismatches: 0 ; mutants with an existing (pre-amendment) test failing: 0
+Post-sweep module hashes in the copy: 314cd46ebe3b60055d01f47fe0d34db450b885f8757fe071fd715d4ccfd2a38e 3799f53e2066ae3f47a6b65ca93a130f2531ee78df1e0f4a094077cd8eabfb4e
+
+== Patch checks ==
+$ diff -u --label a/experiments/universality/two_parameter_cusp_population/test_population_certificate.py --label b/experiments/universality/two_parameter_cusp_population/test_population_certificate.py wt343/experiments/universality/two_parameter_cusp_population/test_population_certificate.py p343patch3/copy/experiments/universality/two_parameter_cusp_population/test_population_certificate.py > p343patch3/343-tests-amendment-v3.patch   (exit 1 = differences, as expected)
+$ diff -u --label a/experiments/universality/two_parameter_cusp_population/test_population_certificate.py --label b/experiments/universality/two_parameter_cusp_population/test_population_certificate.py p343patch2/copy/experiments/universality/two_parameter_cusp_population/test_population_certificate.py p343patch3/copy/experiments/universality/two_parameter_cusp_population/test_population_certificate.py > p343patch3/343-tests-amendment-v2-to-v3.diff
+$ git -C /tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/wt343 apply --check /tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/p343patch3/343-tests-amendment-v3.patch   -> exit 0; worktree untouched (git status --short -> 0 lines; pristine sha 3e1da0372f4cb3e6 unchanged; HEAD 5bf0bcd4)
+$ (pristine file copied to /tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/p343patch3/roundtrip/, git apply v3 patch)   -> sha256 2b75cf30a19b9968bf1b2753db76c773d41938d06351dfc60ca97044c1256603 == amended file (cmp identical)
+$ (pristine file copied to /tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/p343patch3/roundtrip_p/, patch -p1 < v3 patch)   -> cmp identical to the amended file
+$ (pristine file copied to /tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/p343patch3/roundtrip_v2v3/, git apply v2 patch, then git apply v2-to-v3 delta)   -> cmp identical to the v3 amended file
+$ git apply --numstat v3 patch -> 288 0 experiments/universality/two_parameter_cusp_population/test_population_certificate.py
+
+== Prototype evidence (/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/p343patch3/proto3.log) ==
+pristine core=64 tail= 512 status=INCONCLUSIVE_PRECISION evals=2114 t=0.20s tail_lo=1.092931389649e-01 tail_hi=1.092934378348e-01 width=2.989e-07 disc_tail=2.989e-07 gates_false=['normalized_width']
+pristine core=64 tail=1024 status=INCONCLUSIVE_PRECISION evals=4162 t=0.50s tail_lo=1.092932136823e-01 tail_hi=1.092932883999e-01 width=7.472e-08 disc_tail=7.472e-08 gates_false=['normalized_width']
+pristine core=64 tail=2048 status=INCONCLUSIVE_PRECISION evals=8258 t=0.79s tail_lo=1.092932323617e-01 tail_hi=1.092932510411e-01 width=1.868e-08 disc_tail=1.868e-08 gates_false=['normalized_width']
+mutant   core=64 tail= 512 status=INCONCLUSIVE_PRECISION evals=2114 t=0.24s tail_lo=1.092931389649e-01 tail_hi=1.092931389649e-01 width=3.628e-38 disc_tail=2.989e-07 gates_false=['normalized_width']
+mutant   core=64 tail=1024 status=INCONCLUSIVE_PRECISION evals=4162 t=0.41s tail_lo=1.092932136823e-01 tail_hi=1.092932136823e-01 width=3.624e-38 disc_tail=7.472e-08 gates_false=['normalized_width']
+mutant   core=64 tail=2048 status=INCONCLUSIVE_PRECISION evals=8258 t=0.79s tail_lo=1.092932323617e-01 tail_hi=1.092932323617e-01 width=3.607e-38 disc_tail=1.868e-08 gates_false=['normalized_width']
+
+pristine coarse_upper(512) - finer_lower(1024) = POS  (2.241525e-07)   coarse_lower<=finer_lower: True   finer_lo<=finer_hi: True
+pristine coarse_upper(512) - finer_lower(2048) = POS  (2.054731e-07)   coarse_lower<=finer_lower: True   finer_lo<=finer_hi: True
+mutant   coarse_upper(512) - finer_lower(1024) = NEG  (-7.471740e-08)   coarse_lower<=finer_lower: True   finer_lo<=finer_hi: True
+   exact finer_lower - mutant coarse_upper = 110770127964024035006453969387323164636630381124117933425519677/1482521263040042663009052462615821307352825354839967634589869622165504
+mutant   coarse_upper(512) - finer_lower(2048) = NEG  (-9.339678e-08)   coarse_lower<=finer_lower: True   finer_lo<=finer_hi: True
+   exact finer_lower - mutant coarse_upper = 1661552543063803603579426007338117164970072365766424117796777593/17790255156480511956108629551389855688233904258079611615078435465986048
+
+pristine full core: status=CERTIFIED evals=67586 t=4.52s
+tail_interval(full core, 512) == tail_interval(core 64, 512): True
+tail discretization equal: True
+pristine full tail_hi - mutant(core64) 1024 finer lower = 2.2415250782798664e-07
+C270 exact margin reproduced (finer pristine 1024 lower - mutant coarse upper): True
+
+== v3 patch ==
+--- a/experiments/universality/two_parameter_cusp_population/test_population_certificate.py
++++ b/experiments/universality/two_parameter_cusp_population/test_population_certificate.py
+@@ -8,7 +8,9 @@
+ import importlib.util
+ import tempfile
+ import time
++import types
+ import unittest
++from unittest import mock
+ 
+ import population_certificate as pc
+ import run_population_certificate as runner
+@@ -282,5 +284,291 @@
+                     runner.load_json(path)
+ 
+ 
++def stub_pc(b_shift=Q(0), cdf_shift=Q(0), override=None, void=None):
++    """Module stand-in for the campaign wiring. The direct route replays
++    n * cdf_mass(tau) widened by 2^-20 per side as CERTIFIED; optional literal
++    overrides for a row (both routes), a coefficient shift, a CDF shift or a
++    fixed void interval inject the fault under test. No scientific execution is
++    represented by any certificate built from it."""
++    override = override or {}
++    stub = types.SimpleNamespace(**{k: getattr(pc, k) for k in dir(pc) if not k.startswith('__')})
++
++    def cdf_mass(tau):
++        for j, (lo, hi) in override.items():
++            t, n = pc._schedule(j)
++            if tau == t:
++                return lo / n, hi / n
++        return tuple(x + cdf_shift for x in pc.cdf_mass(tau))
++
++    def direct_mass(j, max_evaluations=80000, deadline=None):
++        tau, n = pc._schedule(j)
++        if j in override:
++            lo, hi = override[j]
++        else:
++            m = pc.cdf_mass(tau)
++            lo, hi = n * m[0] - Q(1, 1 << 20), n * m[1] + Q(1, 1 << 20)
++        return {'j': j, 'tau': tau, 'n': n, 'status': 'CERTIFIED', 'evaluations': 1,
++                'normalized_interval': (lo, hi), 'interval': (lo / n, hi / n)}
++
++    base_b = pc.coefficient_interval()
++    stub.cdf_mass, stub.direct_mass = cdf_mass, direct_mass
++    stub.coefficient_interval = lambda: (base_b[0] + b_shift, base_b[1] + b_shift)
++    stub.poisson_target = lambda b=None: pc.poisson_target(stub.coefficient_interval() if b is None else b)
++    if void is not None:
++        stub.void_interval = lambda mass, n: void
++    return stub
++
++
++def campaign(**kw):
++    return runner._campaign(stub_pc(**kw), 80000, time.monotonic() + 900)
++
++
++class EnclosureTests(unittest.TestCase):
++    # A4: enclosure soundness (sqrt lower endpoint, root sliver, tail trapezoid
++    # upper bound, CERTIFIED only when every direct gate holds).
++    def test_power_enclosures_bracket_irrational_radicands(self):
++        """Kills M02 (sqrt lower endpoint rounded up). Exact radicands (8, 16) cannot see polarity."""
++        for v in (Q(2), Q(3), Q(1, 3), Q(5, 7)):
++            lo, hi = pc._sqrt((v, v))
++            self.assertTrue(lo < hi and lo * lo <= v <= hi * hi, (v, lo, hi))
++            lo, hi = pc.quarter_power_bounds(v)
++            self.assertTrue(lo < hi and lo ** 4 <= v <= hi ** 4, (v, lo, hi))
++            lo, hi = pc.cube_root_bounds(v)
++            self.assertTrue(lo < hi and lo ** 3 <= v <= hi ** 3, (v, lo, hi))
++
++    def test_direct_row_replays_its_component_composition(self):
++        """Kills M04 (root sliver dropped) and M06 (tail trapezoid replaced by midpoint sum)."""
++        row = pc.direct_mass(1)
++        core, tail = row['core_interval'], row['tail_interval']
++        self.assertEqual(row['normalized_interval'],
++                         (core[0] + tail[0], core[1] + tail[1] + row['sliver_width']))
++        self.assertGreater(row['sliver_width'], 0)
++        self.assertGreater(row['discretization_components']['core'], 0)
++        self.assertGreater(row['discretization_components']['tail'], 0)
++        self.assertEqual(row['interval'], tuple(x / row['n'] for x in row['normalized_interval']))
++        self.assertEqual((row['tau'], row['n']), (Q(1, 8), 4))
++
++    def test_failed_direct_gate_is_not_certified(self):
++        """Kills M16 (status CERTIFIED regardless of gates)."""
++        with mock.patch.object(pc, 'CORE_PANELS', 64):
++            row = pc.direct_mass(1)
++        self.assertFalse(row['gates']['normalized_width'])
++        self.assertEqual(row['status'], 'INCONCLUSIVE_PRECISION')
++        self.assertGreaterEqual(row['normalized_width'], Q(1, 1 << 17))
++
++    def test_saturation_is_reached_by_the_closed_form_not_only_the_literal(self):
++        """The literal branch cdf_mass(9/4) == 1/5 cannot fail; this checks the computed route."""
++        lo, hi = pc.cdf_mass(Q(9, 4) - Q(1, 1 << 40))
++        self.assertLess(Q(1, 5) - lo, Q(1, 1 << 80))
++        self.assertLessEqual(hi, Q(1, 5))
++
++    def test_void_interval_replays_its_outward_log_exp_composition(self):
++        """Kills M03a (void endpoints taken inward); containment of (1-m)^n alone cannot see it."""
++        def exponent(m, n):
++            lo, hi = pc.log_bounds(1 - m, bits=pc.BITS)
++            return pc._outward((-n * hi, -n * lo))
++        # Normalized mass n*m in (1/7, 1/5) at n = 4 and at the row-8 count, plus a point mass.
++        for mass, n in (((Q(1, 7), Q(1, 5)), 4), ((Q(1, 7 * 4 ** 8), Q(1, 5 * 4 ** 8)), 4 ** 8),
++                        ((Q(1, 3), Q(1, 3)), 4)):
++            lo, hi = pc.void_interval(mass, n)
++            self.assertEqual((lo, hi), (pc.exp_neg_bounds(exponent(mass[1], n)[1])[0],
++                                        pc.exp_neg_bounds(exponent(mass[0], n)[0])[1]))
++            self.assertTrue(lo < (1 - mass[1]) ** n <= (1 - mass[0]) ** n < hi, (mass, n))
++
++    def test_poisson_target_replays_its_outward_exp_composition(self):
++        """Kills M03b (Poisson target endpoints taken inward); exp(-B) is contained either way."""
++        for b in (pc.coefficient_interval(), (Q(1, 3), Q(1, 2))):
++            lo, hi = pc.poisson_target(b)
++            self.assertEqual((lo, hi), (pc.exp_neg_bounds(b[1])[0], pc.exp_neg_bounds(b[0])[1]))
++            self.assertLess(lo, hi)
++        self.assertEqual(pc.poisson_target(), pc.poisson_target(pc.coefficient_interval()))
++
++    def test_tail_upper_endpoint_dominates_a_finer_midpoint_lower_bound(self):
++        """Kills M06_CEILING_ONLY (C270-A4): the trapezoid ceiling at population_certificate.py
++        line 392 replaced by an outward-rounded midpoint sum while tail_upper_floor and the
++        positive tail diagnostic stay intact, which the component replay above cannot see.
++
++        Oracle: the tail integrand C*(9*t^(-11/4) - rhi^2*t^(-3/4)) is convex on [1, 1/rhi]
++        (CONTROLLED_FALSIFICATION.md, direct tail: "It is convex; f'' <= 99/32*t^(-19/4)";
++        gates tail_convexity and tail_second_derivative), so on every octave each trapezoid
++        sum bounds the integral from above, each midpoint sum from below, and midpoint sums
++        increase under dyadic refinement. With outward rounding the declared 512-panel tail
++        upper endpoint therefore dominates the 1024-panel tail lower endpoint. The damaged
++        ceiling is itself a 512-panel midpoint sum and falls below that finer lower bound by
++        about 7.5e-8 at j=1; the pristine ceiling exceeds it by about 2.2e-7. The core is cut
++        to 64 panels because the tail sums read only rhi, the tail coefficient and
++        TAIL_PANELS, never the core; the row is then INCONCLUSIVE_PRECISION but still reports
++        its tail interval. The finer sum is an oracle only; the campaign keeps 512 panels.
++        """
++        def tail_row(panels):
++            with mock.patch.object(pc, 'CORE_PANELS', 64), mock.patch.object(pc, 'TAIL_PANELS', panels):
++                row = pc.direct_mass(1)
++            self.assertEqual(row['status'], 'INCONCLUSIVE_PRECISION')
++            self.assertTrue(row['gates']['tail_convexity'] and row['gates']['tail_second_derivative'])
++            # 65 core nodes; two tail octaves of 2*panels+1 nodes sharing the node t=2.
++            self.assertEqual(row['evaluations'], 65 + 2 * (2 * panels + 1) - 1)
++            return row
++        self.assertEqual(pc.TAIL_PANELS, 512)
++        coarse, finer = tail_row(pc.TAIL_PANELS), tail_row(2 * pc.TAIL_PANELS)
++        self.assertLessEqual(finer['tail_interval'][0], finer['tail_interval'][1])
++        # Refinement raises the midpoint sum; the finer floor loses at most its own arithmetic width.
++        self.assertLessEqual(coarse['tail_interval'][0],
++                             finer['tail_interval'][0] + finer['arithmetic_components']['tail_lower'])
++        self.assertGreaterEqual(coarse['tail_interval'][1], finer['tail_interval'][0])
++
++
++class PredicateFixtureTests(unittest.TestCase):
++    # A5: predicate fixtures strictly between the outer and inner envelopes,
++    # the void width gate at its declared limit, and the declared overall priority.
++    def test_coefficient_inconclusive_strictly_between_outer_and_inner(self):
++        """Kills M08/M08b (FALSIFIED threshold moved from the outer to the inner envelope)."""
++        b, e = (Q(1, 5), Q(3, 10)), (Q(1, 10), Q(1, 10))   # inner=[1/5,3/10], outer=[1/10,2/5]
++        self.assertEqual(pc.classify_coefficient((Q(12, 100), Q(15, 100)), b, e), 'INCONCLUSIVE_PRECISION')
++        self.assertEqual(pc.classify_coefficient((Q(35, 100), Q(38, 100)), b, e), 'INCONCLUSIVE_PRECISION')
++        self.assertEqual(pc.classify_coefficient((Q(9, 100), Q(99, 1000)), b, e), 'FALSIFIED')
++
++    def test_void_width_gate_at_its_declared_limit(self):
++        """Kills M15 (WIDTH_LIMIT relaxed 256x); the existing (0,1/4) fixture is 16384x over the limit."""
++        target = (Q(1, 2), Q(1, 2))
++        self.assertEqual(pc.classify_void((Q(1, 2), Q(1, 2) + Q(1, 1 << 16)), target), 'PASS')
++        self.assertEqual(pc.classify_void((Q(1, 2), Q(1, 2) + Q(1, 1 << 16) + Q(1, 1 << 40)), target),
++                         'INCONCLUSIVE_PRECISION')
++
++    def test_overall_priority_is_the_declared_one(self):
++        """Kills M20 (FALSIFIED dropped from the priority list)."""
++        self.assertEqual(runner._overall(['PASS'] * 8), 'PASS')
++        self.assertEqual(runner._overall(['PASS'] * 7 + ['FALSIFIED']), 'FALSIFIED')
++        self.assertEqual(runner._overall(['FALSIFIED', 'INCONCLUSIVE_PRECISION']), 'INCONCLUSIVE_PRECISION')
++        self.assertEqual(runner._overall(['FALSIFIED', 'FAIL_IMPLEMENTATION']), 'FAIL_IMPLEMENTATION')
++        self.assertEqual(runner._overall([]), 'INCONCLUSIVE_PRECISION')
++
++    def test_overall_requires_every_status_to_pass(self):
++        """Kills M21 (PASS if any status passes): an undeclared status beside PASS is no pass."""
++        self.assertEqual(runner._overall(['PASS', 'NOT_A_DECLARED_STATUS']), 'INCONCLUSIVE_PRECISION')
++        self.assertEqual(runner._overall(['NOT_RUN', 'PASS', 'PASS']), 'INCONCLUSIVE_PRECISION')
++        self.assertEqual(runner._overall(['PASS', 'PASS']), 'PASS')
++        self.assertEqual(runner._overall([]), 'INCONCLUSIVE_PRECISION')
++
++
++class NegativeControlTests(unittest.TestCase):
++    # A1: the mass negative controls must be able to fail; an injected fixed-left
++    # selector has to trip the declared gates instead of comparing literals.
++    DECLARED = {'all_stationary_and_inside_rectangle', 'chart_gaps', 'outer_height_identity',
++                'actual_theta2_gap', 'reject_fixed_left', 'boundary_exclusion',
++                'whole_rectangle_mass', 'missing_sign_detected', 'conditioning_detected'}
++
++    def test_negative_controls_evaluate_every_declared_gate(self):
++        """Kills M10 (a gate silently deleted)."""
++        result = pc.negative_controls()
++        self.assertEqual(set(result['gates']), self.DECLARED)
++        self.assertTrue(all(result['gates'].values()))
++        self.assertEqual(result['status'], 'PASS')
++        self.assertEqual(len(result['controls']), 14)
++
++    def test_negative_controls_fail_when_the_selector_is_fixed_left(self):
++        """Kills M11 (status PASS regardless of gates): an injected fixed-left lifetime must fail."""
++        real = pc.critical_fixture
++
++        def fixed_left(a, h, sign=1):
++            row = real(a, h, sign)
++            if h == 2 * a:
++                row['lifetime'] = 32 * a ** 4
++            return row
++        with mock.patch.object(pc, 'critical_fixture', fixed_left):
++            result = pc.negative_controls()
++        self.assertFalse(result['gates']['actual_theta2_gap'])
++        self.assertFalse(result['gates']['reject_fixed_left'])
++        self.assertEqual(result['status'], 'FAIL_IMPLEMENTATION')
++
++
++class CampaignWiringTests(unittest.TestCase):
++    # A2: the acceptance wiring of runner._campaign (route intersection, coefficient
++    # and void verdicts, row-8 gates, exit code, full-campaign receipt) is executed
++    # on literal stubs. A3: the end-of-run source-drift check is exercised.
++    def test_consistent_routes_and_correct_coefficient_pass(self):
++        """Executes runner lines 193-235 on a known-good stub; kills M24 (runner schedule diverging from pc)."""
++        cert = campaign()
++        self.assertEqual(cert['status'], 'PASS')
++        self.assertEqual([r['status'] for r in cert['rows']], ['PASS'] * 8)
++        self.assertEqual(cert['rows'][7]['finite_void']['status'], 'PASS')
++        for r in cert['rows']:
++            self.assertEqual(r['intersection_normalized'],
++                             (max(r['direct']['normalized_interval'][0], r['cdf_normalized'][0]),
++                              min(r['direct']['normalized_interval'][1], r['cdf_normalized'][1])))
++
++    def test_wrong_coefficient_is_falsified_at_row_eight_only(self):
++        """Kills M19 (row status PASS regardless) and M20; B shifted by 1.2e-4 > E(tau_8) = 7.8e-5."""
++        cert = campaign(b_shift=Q(3, 25000))
++        row8 = cert['rows'][7]
++        self.assertEqual(row8['coefficient_status'], 'FALSIFIED')
++        self.assertEqual(row8['status'], 'FALSIFIED')
++        self.assertEqual(row8['finite_void']['status'], 'PASS')
++        self.assertEqual(cert['status'], 'FALSIFIED')
++        self.assertEqual([r['status'] for r in cert['rows'][:7]], ['PASS'] * 7)
++
++    def test_disjoint_routes_are_route_consistency_failures(self):
++        """Kills M17 (overlap predicate disabled) and M18 (CDF route ignored in the intersection)."""
++        cert = campaign(cdf_shift=Q(1, 100))
++        self.assertEqual([r['status'] for r in cert['rows']], ['FAIL_ROUTE_CONSISTENCY'] * 8)
++        self.assertEqual(cert['status'], 'FAIL_ROUTE_CONSISTENCY')
++        self.assertTrue(all(r['coefficient_status'] == 'NOT_RUN' for r in cert['rows']))
++
++    def test_row_eight_mass_gate_withholds_the_void_test(self):
++        """Kills M25 (mass gate trivially true)."""
++        cert = campaign(override={8: (Q(34, 100), Q(34, 100) + Q(1, 1 << 20))})
++        row8 = cert['rows'][7]
++        self.assertFalse(row8['finite_void']['gates']['mass_gate'])
++        self.assertEqual(row8['finite_void']['status'], 'INCONCLUSIVE_PRECISION')
++        self.assertEqual(row8['status'], 'INCONCLUSIVE_PRECISION')
++
++    def test_wide_void_interval_is_inconclusive_even_with_a_passing_coefficient(self):
++        """Kills M28 (void/target width gates ignored)."""
++        cert = campaign(void=(Q(0), Q(1, 4)))
++        row1 = cert['rows'][0]
++        self.assertEqual(row1['coefficient_status'], 'PASS')
++        self.assertFalse(row1['void_width_gate'])
++        self.assertEqual(row1['status'], 'INCONCLUSIVE_PRECISION')
++        self.assertEqual(cert['status'], 'INCONCLUSIVE_PRECISION')
++
++    def test_falsified_attempt_exits_one_and_is_no_full_campaign_under_reduced_budget(self):
++        """Kills M26 (exit 0 on FALSIFIED) and M27 (full campaign receipt ignores budget arguments)."""
++        falsified = campaign(b_shift=Q(3, 25000))
++        with tempfile.TemporaryDirectory() as tmp, mock.patch.object(runner, '_campaign', lambda *a: falsified):
++            rec = runner.run(output_dir=Path(tmp) / 'attempt', max_evaluations=80000, time_budget=900)
++        self.assertEqual(rec['status'], 'FALSIFIED')
++        self.assertEqual(rec['exit_code'], 1)
++        certified = {'rows': [{'direct': {'status': 'CERTIFIED'}} for _ in range(8)]}
++        self.assertTrue(runner.full_declared_campaign(certified, 80000, 900, []))
++        self.assertFalse(runner.full_declared_campaign(certified, 79999, 900, []))
++        self.assertFalse(runner.full_declared_campaign(certified, 80000, 899, []))
++
++    def test_source_edited_during_evaluation_is_source_drift(self):
++        """Kills M22 (post-run hash comparison dropped). Contract: 'check them again at the end'."""
++        # Same copied nine-file source cut as the pre-run drift test above.
++        population = runner.POPULATION.relative_to(runner.REPOSITORY)
++        with tempfile.TemporaryDirectory() as temporary:
++            base = Path(temporary)
++            for source in runner.SOURCE_PATHS:
++                target = base / source.relative_to(runner.REPOSITORY)
++                target.parent.mkdir(parents=True, exist_ok=True)
++                target.write_bytes(source.read_bytes())
++            copy_path = base / population / 'run_population_certificate.py'
++            spec = importlib.util.spec_from_file_location('copied_runner_drift', copy_path)
++            copied = importlib.util.module_from_spec(spec)
++            spec.loader.exec_module(copied)
++            proof = base / population / 'PROOF.md'
++
++            def campaign_that_edits_a_source(pc_module, max_evaluations, deadline):
++                proof.write_bytes(proof.read_bytes() + b'\n')
++                return {'schema_version': 1, 'status': 'PASS', 'rows': [], 'scope_statuses':
++                        {'exact_non_gaussian_population': 'PASS'}}
++            copied._campaign = campaign_that_edits_a_source
++            rec = copied.run(output_dir=base / 'attempt', max_evaluations=80000, time_budget=900)
++            self.assertEqual(rec['status'], 'INCONCLUSIVE_SOURCE_DRIFT')
++            self.assertEqual(rec['exit_code'], 2)
++            self.assertEqual(rec['source_drift'], [str(population / 'PROOF.md')])
++            self.assertFalse(rec['full_declared_campaign'])
++
++
+ if __name__ == '__main__':
+     unittest.main()

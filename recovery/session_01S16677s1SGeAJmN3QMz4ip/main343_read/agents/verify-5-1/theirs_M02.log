@@ -1,0 +1,14 @@
+..F.
+======================================================================
+FAIL: test_power_enclosures_bracket_irrational_radicands (__main__.EnclosureTests.test_power_enclosures_bracket_irrational_radicands)
+Kills M02 (sqrt lower endpoint rounded up). Exact radicands (8, 16) cannot see polarity.
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user/77b2421d-c423-5f03-8502-d31f33b60ec1/scratchpad/p343336/agents/343-tests-mutation/proposed_tests.py", line 53, in test_power_enclosures_bracket_irrational_radicands
+    self.assertTrue(lo < hi and lo * lo <= v <= hi * hi, (v, lo, hi))
+AssertionError: False is not true : (Fraction(2, 1), Fraction(481231938336009023090067544955250113855, 340282366920938463463374607431768211456), Fraction(481231938336009023090067544955250113855, 340282366920938463463374607431768211456))
+
+----------------------------------------------------------------------
+Ran 4 tests in 15.536s
+
+FAILED (failures=1)

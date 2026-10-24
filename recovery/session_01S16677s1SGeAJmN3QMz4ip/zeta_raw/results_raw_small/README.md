@@ -1,0 +1,3 @@
+# Three small raw sample files of the zeta exploration packet (preserved bytes)
+
+These are the three `results/raw/*.npz` files of `experiments/zeta_fold_exploration` (main, commit 4675c5d3) that are small enough for ordinary git: `rs_cheb_coeffs.npz` (2,194 B), `Z_grid_600_900.npz` (360,754 B), `Z_grid_5000_5200.npz` (320,746 B). Their SHA-256 equal the packet `MANIFEST.json` `raw_files` entries. UNVERIFIED EXPERIMENTAL RAW INPUTS; restore by placing them at `experiments/zeta_fold_exploration/results/raw/`. The six large raw files (203 MB) could not be preserved by this session: the approved draft-release route is refused for this session type (see main#307). The packet manifest records their hashes and regenerate commands.
