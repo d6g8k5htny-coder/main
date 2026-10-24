@@ -1,0 +1,50 @@
+{
+  "assets": {
+    "css": {
+      "expected_leaf_key": "405fcbdcc62d6e66b213a6033a88b036ae7213d4a9704a8d852ccb2cafcf0ea8",
+      "leaf_key_name": "site/font.woff2",
+      "leaf_name": "font.woff2",
+      "leaf_source_utf8": "SYNTHETIC_FONT_BYTES_v1\n",
+      "path": "site/app.css",
+      "served_changed_body_utf8": "@font-face {\n  font-family: \"SyntheticFixtureFont\";\n  src: url(\"./font.woff2?site-release=405fcbdcc62d6e66b213a6033a88b036ae7213d4a9704a8d852ccb2cafcf0ea8\") format(\"woff2\");\n}\n.synthetic-fixture { font-family: \"SyntheticFixtureFont\"; color: #654321; }\n",
+      "served_correct_utf8": "@font-face {\n  font-family: \"SyntheticFixtureFont\";\n  src: url(\"./font.woff2?site-release=405fcbdcc62d6e66b213a6033a88b036ae7213d4a9704a8d852ccb2cafcf0ea8\") format(\"woff2\");\n}\n.synthetic-fixture { font-family: \"SyntheticFixtureFont\"; color: #123456; }\n",
+      "served_wrong_key_utf8": "@font-face {\n  font-family: \"SyntheticFixtureFont\";\n  src: url(\"./font.woff2?site-release=ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\") format(\"woff2\");\n}\n.synthetic-fixture { font-family: \"SyntheticFixtureFont\"; color: #123456; }\n",
+      "source_utf8": "@font-face {\n  font-family: \"SyntheticFixtureFont\";\n  src: url(\"./font.woff2\") format(\"woff2\");\n}\n.synthetic-fixture { font-family: \"SyntheticFixtureFont\"; color: #123456; }\n",
+      "wrong_leaf_key": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    },
+    "js": {
+      "expected_leaf_key": "8d7e9bac0b48afa65fec72c1c3430552860e8c6cb525441b08c775f58f4868b7",
+      "leaf_key_name": "site/dep.mjs",
+      "leaf_name": "dep.mjs",
+      "leaf_source_utf8": "export const fixtureDependency = \"synthetic-dependency-v1\";\n",
+      "path": "site/app.mjs",
+      "served_changed_body_utf8": "import { fixtureDependency } from \"./dep.mjs?site-release=8d7e9bac0b48afa65fec72c1c3430552860e8c6cb525441b08c775f58f4868b7\";\nexport const fixtureLabel = \"synthetic-app-v2\";\nexport const fixtureValue = fixtureDependency;\n",
+      "served_correct_utf8": "import { fixtureDependency } from \"./dep.mjs?site-release=8d7e9bac0b48afa65fec72c1c3430552860e8c6cb525441b08c775f58f4868b7\";\nexport const fixtureLabel = \"synthetic-app-v1\";\nexport const fixtureValue = fixtureDependency;\n",
+      "served_wrong_key_utf8": "import { fixtureDependency } from \"./dep.mjs?site-release=ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff\";\nexport const fixtureLabel = \"synthetic-app-v1\";\nexport const fixtureValue = fixtureDependency;\n",
+      "source_utf8": "import { fixtureDependency } from \"./dep.mjs\";\nexport const fixtureLabel = \"synthetic-app-v1\";\nexport const fixtureValue = fixtureDependency;\n",
+      "wrong_leaf_key": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff"
+    }
+  },
+  "fixture_only": true,
+  "legacy_pages": [
+    "index.html",
+    "research.html",
+    "workspace.html",
+    "dependencies.html"
+  ],
+  "maintained_pages": [
+    "cite.html",
+    "dependencies.html",
+    "explore.html",
+    "formal.html",
+    "index.html",
+    "measure.html",
+    "museum.html",
+    "reproduce.html",
+    "research.html",
+    "workspace.html"
+  ],
+  "payload_utf8": "{\"edges\":[],\"fixture_only\":true,\"nodes\":[{\"id\":\"synthetic-fixture-node-v1\",\"label\":\"Synthetic fixture node\"}],\"schema_version\":1}\n",
+  "schema_version": 1,
+  "source_commit": "ef25e477faad3eba8b75aea1247e7d68c6059df8"
+}

@@ -1,0 +1,182 @@
+name: Site collector frozen-source first RED
+
+'on':
+  pull_request:
+    paths:
+      - 'tests/site_collector/**'
+      - '.github/workflows/site-collector-red.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: site-collector-frozen-red-${{ github.run_id }}-${{ github.run_attempt }}
+  cancel-in-progress: false
+
+jobs:
+  frozen-source-first-red:
+    # Synthetic/unit Source observations only. This is not a current-public or AT gate.
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Record the bounded observation scope and native event context
+        timeout-minutes: 1
+        run: |
+          set -euo pipefail
+          python3 -I -B -S - "$RUNNER_TEMP/site-collector-red-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT" <<'PY'
+          import json, os, pathlib, sys
+          root = pathlib.Path(sys.argv[1])
+          root.mkdir(mode=0o700, exist_ok=False)
+          context = {
+              'schema_version': 1,
+              'kind': 'FROZEN_SITE_COLLECTOR_UNIT_SOURCE_CONTEXT',
+              'scope': 'Synthetic fixtures and unchanged frozen helper excerpts only',
+              'frozen_fixture_source_commit': 'ef25e477faad3eba8b75aea1247e7d68c6059df8',
+              'later_main_observed_by_spec': 'f946932c1ee19859d8778b0a7af359211e472d73',
+              'event_github_sha': os.environ['GITHUB_SHA'],
+              'repository': os.environ['GITHUB_REPOSITORY'],
+              'event_name': os.environ['GITHUB_EVENT_NAME'],
+              'ref': os.environ['GITHUB_REF'],
+              'run_id': os.environ['GITHUB_RUN_ID'],
+              'run_attempt': os.environ['GITHUB_RUN_ATTEMPT'],
+              'required_phase_reports': ['setup-observation.json', 'regression-observation.json'],
+              'expected_setup_methods': 10,
+              'expected_regression_assertion_failures': 5,
+              'current_public_bytes_observed': False,
+              'current_35_harness_runtime_qualified': False,
+              'node_status_consumer_wrapper_qualified': False,
+              'scientific_effect': 'NONE',
+              'organizational_independence_credit': 0,
+          }
+          descriptor = os.open(root / 'native-context.json',
+                               os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o444)
+          with os.fdopen(descriptor, 'w', encoding='ascii') as stream:
+              json.dump(context, stream, sort_keys=True, separators=(',', ':'), ensure_ascii=True)
+              stream.write('\n')
+          PY
+      - name: Check out the proposed source without retained credentials
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        timeout-minutes: 1
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+      - name: Setup - require all ten positive controls before regressions
+        timeout-minutes: 2
+        run: |
+          set -euo pipefail
+          python3 -I -B -S tests/site_collector/observe_legacy_red.py \
+            --phase setup \
+            --report "$RUNNER_TEMP/site-collector-red-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/setup-observation.json"
+      - name: Regression - preserve genuine five-assertion RED as exit one
+        timeout-minutes: 2
+        # The driver reports GENUINE_RED_FROZEN_BASELINE only for the exact five
+        # AssertionError failures with zero errors. Error/incomplete exits2;
+        # all-pass is separately NO_RED_OBSERVED. Never suppress a nonzero exit.
+        run: |
+          set -euo pipefail
+          python3 -I -B -S tests/site_collector/observe_legacy_red.py \
+            --phase regression \
+            --report "$RUNNER_TEMP/site-collector-red-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT/regression-observation.json"
+      - name: Emit bounded exact Source report bytes for native log qualification
+        if: always()
+        timeout-minutes: 1
+        run: |
+          set -euo pipefail
+          python3 -I -B -S - "$RUNNER_TEMP/site-collector-red-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT" <<'PY'
+          import base64, hashlib, json, os, re, stat, sys
+          NAMES = ('native-context.json', 'setup-observation.json', 'regression-observation.json')
+          LIMIT = 64 * 1024
+          TOTAL = 192 * 1024
+          CHUNK = 3072
+          private_prefixes = tuple(('/' + name + '/').encode('ascii') for name in ('private', 'tmp', 'Users', 'home', '__w', 'var', 'opt', 'runner', 'mnt', 'workspace'))
+          file_uri = b'file:' + b'/' * 2
+          private = re.compile(rb'(?:-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----|gh[pousr]_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|\bsk-[A-Za-z0-9_-]{20,}\b)')
+          forbidden = {'event_payload', 'event_path', 'github_event_path', 'github_token', 'authorization', 'credentials', 'password', 'secret', 'token'}
+          def unsafe_text(text):
+              value = text.encode('utf-8')
+              return any(prefix in value for prefix in private_prefixes) or file_uri in value or bool(private.search(value))
+          def sensitive(value):
+              if isinstance(value, dict):
+                  return any(str(k).lower() in forbidden or unsafe_text(str(k)) or sensitive(v) for k, v in value.items())
+              if isinstance(value, list):
+                  return any(sensitive(v) for v in value)
+              if isinstance(value, str):
+                  return unsafe_text(value)
+              return False
+          def shape(info):
+              return stat.S_ISREG(info.st_mode) and info.st_nlink == 1 and 0 < info.st_size <= LIMIT
+          def identity(info):
+              return (info.st_dev, info.st_ino, info.st_mode, info.st_nlink, info.st_size, info.st_mtime_ns, info.st_ctime_ns)
+          def unique(pairs):
+              value = {}
+              for key, item in pairs:
+                  if key in value:
+                      raise ValueError('duplicate report key')
+                  value[key] = item
+              return value
+          def no_constant(value):
+              raise ValueError('nonfinite report constant')
+          root_fd = None
+          try:
+              root_fd = os.open(sys.argv[1], os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+              if not stat.S_ISDIR(os.fstat(root_fd).st_mode):
+                  raise ValueError('report directory shape')
+              before = {name: os.stat(name, dir_fd=root_fd, follow_symlinks=False) for name in NAMES}
+              if not all(shape(info) for info in before.values()) or sum(info.st_size for info in before.values()) > TOTAL:
+                  raise ValueError('report bounds or shape')
+              reports = []
+              for name in NAMES:
+                  fd = os.open(name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=root_fd)
+                  try:
+                      opened = os.fstat(fd)
+                      if not shape(opened) or identity(opened) != identity(before[name]):
+                          raise ValueError('report changed before read')
+                      raw = bytearray()
+                      while len(raw) <= LIMIT:
+                          block = os.read(fd, min(8192, LIMIT + 1 - len(raw)))
+                          if not block:
+                              break
+                          raw.extend(block)
+                      after = os.fstat(fd)
+                      if identity(opened) != identity(after) or len(raw) != opened.st_size:
+                          raise ValueError('report incomplete or changed')
+                  finally:
+                      os.close(fd)
+                  raw = bytes(raw)
+                  data = json.loads(raw, object_pairs_hook=unique, parse_constant=no_constant)
+                  if not isinstance(data, dict) or any(prefix in raw for prefix in private_prefixes) or file_uri in raw or private.search(raw) or sensitive(data):
+                      raise ValueError('report not a publishable JSON object')
+                  reports.append((name, raw))
+              if len(reports) != 3 or sum(len(raw) for _, raw in reports) > TOTAL:
+                  raise ValueError('report set incomplete')
+              # No bytes are emitted until all three files have passed admission.
+              print('SITE_COLLECTOR_REPORT_SET_BEGIN v1 files=3')
+              for name, raw in reports:
+                  digest = hashlib.sha256(raw).hexdigest()
+                  encoded = base64.b64encode(raw).decode('ascii')
+                  chunks = [encoded[i:i + CHUNK] for i in range(0, len(encoded), CHUNK)]
+                  print(f'SITE_COLLECTOR_REPORT_BEGIN name={name} bytes={len(raw)} sha256={digest} chunks={len(chunks)}')
+                  for index, chunk in enumerate(chunks):
+                      print(f'SITE_COLLECTOR_REPORT_CHUNK name={name} index={index} data={chunk}')
+                  print(f'SITE_COLLECTOR_REPORT_END name={name} bytes={len(raw)} sha256={digest} chunks={len(chunks)}')
+              print('SITE_COLLECTOR_REPORT_SET_END v1 files=3')
+          except Exception:
+              print('SITE_COLLECTOR_REPORT_EXPORT_REFUSED', file=sys.stderr)
+              raise SystemExit(2)
+          finally:
+              if root_fd is not None:
+                  os.close(root_fd)
+          PY
+      - name: Retain structured Source observations on every conclusion
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        timeout-minutes: 2
+        with:
+          name: site-collector-frozen-source-red-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ${{ runner.temp }}/site-collector-red-${{ github.run_id }}-${{ github.run_attempt }}/native-context.json
+            ${{ runner.temp }}/site-collector-red-${{ github.run_id }}-${{ github.run_attempt }}/setup-observation.json
+            ${{ runner.temp }}/site-collector-red-${{ github.run_id }}-${{ github.run_attempt }}/regression-observation.json
+          if-no-files-found: error
+          retention-days: 90
+          compression-level: 6

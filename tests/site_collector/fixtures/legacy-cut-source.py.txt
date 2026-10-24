@@ -1,0 +1,59 @@
+"""Whole-cut checks. Deferred qualified release scanner is never imported by preparation."""
+from pathlib import Path
+import re,json,importlib.util,sys
+from adapter_core import *
+from activation import validate_payload_source_pin
+
+def canonical_static(raw):
+    clean,count=re.subn(rb'(<link rel="stylesheet" href="[^"?]+)\?site-release=[0-9a-f]{64}(">)',rb'\1\2',raw)
+    require(count==3 and b'site-release=' not in clean,'Unexpected static release canonicalization contract');return clean
+def verify_aliases(manifest,bodies):
+    aliases=manifest['aliases'];descs=manifest['current_observation']['files'];paths=[a['path'] for a in aliases];expected={d['path']:d for d in descs}
+    require(len(paths)==len(set(paths))==len(descs) and set(paths)==set(expected),'Alias/current descriptor census differs')
+    for a in aliases:
+        key=a['path'];url_key(ORIGIN+key);require(a['binding']=='current_observation' and a['snapshot']==manifest['current'],'Alias is not bound to current observation')
+        require({k:a[k] for k in ('path','bytes','sha256')}==expected[key],'Alias descriptor differs from current descriptor')
+        require({'path':key,**record(canonical_static(bodies[key]))}==expected[key],'Stable mixed-cut alias body: '+key)
+    return len(paths)
+def verify_maintained_html(payload,bodies):
+    digest=record(payload)['sha256'];count=0
+    for key in ('index.html','research.html','workspace.html','dependencies.html'):
+        raw=bodies[key].decode('utf-8');digests=re.findall(r'data-current-digest="([0-9a-f]{64})"',raw);sizes=re.findall(r'data-current-bytes="([0-9]+)"',raw)
+        require(digests==[digest] and sizes==[str(len(payload))],'Maintained HTML advertises another observation: '+key);count+=1
+    return count
+def compare_material_assets(bodies,source_bodies,normalize):
+    rows=[]
+    for key,raw in bodies.items():
+        path=key.split('?')[0];suffix=Path(path).suffix
+        static_json=path in ('config.json','dependency-source/GRAPH.json','dependency-source/PROVENANCE.json')
+        if not static_json and suffix not in ('.js','.mjs','.css','.svg','.png','.jpg','.jpeg','.webp','.ico','.woff','.woff2'):continue
+        require(path in source_bodies,'Material asset absent from final qualified Source: '+key);source=source_bodies[path]
+        if suffix in ('.js','.mjs','.css'):
+            actual=normalize(raw.decode('utf-8'),suffix).encode();expected=normalize(source.decode('utf-8'),suffix).encode()
+        else:actual,expected=raw,source
+        require(actual==expected,'Served material asset differs from final qualified Source: '+key);rows.append({'url':ORIGIN+key,'raw':record(raw),'source':record(source),'comparison':'Only qualified reserved release URL spans normalized' if suffix in ('.js','.mjs','.css') else 'Exact raw bytes'})
+    require(rows,'No independently qualified code assets');return rows
+def verify_runtime_cut(grant,bodies):
+    root=grant['root'];payload=bodies['current.json'];manifest=json.loads(bodies['snapshots/index.json']);metadata=json.loads(bodies['current-meta.json']);data=json.loads(payload)
+    validate_payload_source_pin(data,grant['source'])
+    require(metadata['sha256']==record(payload)['sha256'] and metadata['bytes']==len(payload) and metadata['observed_at']==data['observed_at'] and metadata['history_manifest_sha256']==record(bodies['snapshots/index.json'])['sha256'] and metadata['archive']==manifest['current'],'Metadata/current observation joins differ')
+    require(manifest['current_observation']['payload']=={'path':'current.json',**record(payload)},'Manifest current payload descriptor differs')
+    require(sorted(a['id'] for a in manifest['archives'])==grant['receipt']['snapshot_ids'],'Receipt/archive inventory differs')
+    expected_history=grant['expectations'].get('preserved_archives');require(isinstance(expected_history,list) and expected_history,'Qualified predecessor archive descriptors absent')
+    current_history={a['id']:a for a in manifest['archives']}
+    require(all(current_history.get(a['id'])==a for a in expected_history),'Preserved archive descriptor changed')
+    aliases=verify_aliases(manifest,bodies);maintained=verify_maintained_html(payload,bodies)
+    source_root=Path(grant['evidence']['source_report']['source_root']);tool=root/'inputs/provisional-source/tools/site_asset_release.py'
+    bound=load(root/'records/provisional-input-verification.json');tool_desc=next(r for r in bound['copied'] if r['path']=='tools/site_asset_release.py');require(record(tool.read_bytes())=={k:tool_desc[k] for k in ('bytes','sha256')},'Qualified release scanner copy changed')
+    # Future runtime only: the complete Source seal already proves this helper and each
+    # Source asset. Loading this qualified scanner is explicitly NOT executed in preparation.
+    spec=importlib.util.spec_from_file_location('qualified_release_span_scanner',tool);module=importlib.util.module_from_spec(spec);old=sys.dont_write_bytecode;sys.dont_write_bytecode=True
+    try:spec.loader.exec_module(module)
+    finally:sys.dont_write_bytecode=old
+    source_bodies={}
+    for key in bodies:
+        path=key.split('?')[0]
+        if path in ('config.json','dependency-source/GRAPH.json','dependency-source/PROVENANCE.json') or Path(path).suffix in ('.js','.mjs','.css','.svg','.png','.jpg','.jpeg','.webp','.ico','.woff','.woff2'):
+            p=source_root/'docs/site'/path;require(p.is_file() and not p.is_symlink(),'Qualified asset file missing');source_bodies[path]=p.read_bytes()
+    assets=compare_material_assets(bodies,source_bodies,lambda text,suffix:module.transform(text,suffix,module.without_release))
+    result={'aliases':aliases,'maintained_html':maintained,'material_assets':assets,'archive_descriptors_preserved':len(expected_history),'Source_identity':'EXACT_FINAL_QUALIFIED_SOURCE_WITH_REVIEWED_RELEASE_URL_NORMALIZATION','scientific_effect':'NONE'};save(root/'runtime-cut-coherence.json',result);return result
