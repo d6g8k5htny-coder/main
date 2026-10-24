@@ -23,8 +23,12 @@ Every line reference below was remapped to the final file and re-read there. Whe
 
 - **Run commands:** README:97-113. They cover `structure`, `ceil --verify`, `floor --verify` and the unit tests. A run prints one summary line, and the exit codes are listed at README:109-112. `structure` needs only the standard library (the import guard at 38-42).
 - **Fail-closed checks.** Every `ck` (101-104) that fails stops the run with `H3_BAND_V2 FAIL: …` (in `structure` mode, `STRUCTURE FAIL`) and exit 1. No PASS line is printed, and no transcript or record is written: those are written only after `run_certificate` returns (1460-1472).
-- **Replay.** `--verify` requires the fresh record to equal the reviewed one: the program digest, the cov_exact digest, the mpmath version, the transcript digest and every certified decimal (`compare_record`, 1394-1411). `verify-record` compares the same fields except the mpmath version: it recomputes nothing, so it does not depend on the verifier's runtime and needs only the standard library. The tests run it with no site-packages and with a faked mpmath version, and check that a replay still rejects a record made with another version (test:120-136, 233-242).
-- **Negative controls** (README:115-141). There are fourteen mutations. Twelve are caught inside the run at a named check, and `drop_fail_piece` and `old_remainder` only by the replay. The record controls are listed there too. The tests are at test:63-87 (structure mode) and test:264-320 (full runs).
+- **Replay.** `--verify` requires the fresh record to equal the reviewed one: the program digest, the cov_exact digest, the mpmath version, the transcript digest and every certified decimal (`compare_record`, 1394-1411). `verify-record` compares the same fields except the record's environment block, which it does not read: it recomputes nothing, so it does not depend on the verifier's runtime and needs only the standard library. Two limits follow.
+  - It accepts a record whatever producer mpmath that record names. A test therefore checks that the committed records name the `requirements.txt` pin.
+  - It takes the mode from the record, so its mode comparison is vacuous. The transcript's first line names the envelope and is bound by the transcript digest, but `verify-record` does not compare that line with the record's mode. This predates the runtime fix.
+
+  The tests run it with no site-packages and with a faked mpmath version. They check that a changed check line is caught by the transcript digest, and that a replay still rejects a record made with another version (test:120-157, 254-263).
+- **Negative controls** (README:115-143). There are fourteen mutations. Twelve are caught inside the run at a named check, and `drop_fail_piece` and `old_remainder` only by the replay. The record controls are listed there too. The tests are at test:63-87 (structure mode) and test:285-341 (full runs).
 - **What the controls do and do not show.** They show that each named check can fire, and that the checks are not vacuous against those regressions. They do not show that the inequalities used between the checks are true. Those inequalities are the subject of this guide.
 
 ### What rests on a written derivation
@@ -156,7 +160,7 @@ This completes the proof.
 
 ### 1.7 What the program checks at run time
 - **(a)-(d), exactly**, at 268, failing closed through `ck` (101-104).
-  - There are four controls (72-79), tested at test:69-78 (structure mode) and test:268-271 (full runs). Each exits 1 at its own branch; `structure_window` fails at row 2.
+  - There are four controls (72-79), tested at test:69-78 (structure mode) and test:289-292 (full runs). Each exits 1 at its own branch; `structure_window` fails at row 2.
   - In `structure` mode, a mutation the lemma cannot see now ends `H3_BAND_V2 MUTATED STRUCTURE RUN (…): the lemma holds for these tables; NOT A CERTIFICATE` and exits 3 (1435-1438; test:80-87). Such mutations are `wrong_window` and those that do not touch the tables. For `wrong_window` the lemma really does hold on the mutated tables, because column 5 of E is zero.
 - **(e):** the G0 inverse residual is below 1e−70 (612-614); observed 8.26e−98.
 - **Gram pole pattern (555-567).** Every coefficient that `ser_trim` kept (orders LMIN..NK) and that the law then discards has |enclosure| ≤ 1e−60; observed ≤ 6.3e−100. `ser_trim` would remove any order below LMIN = −8 before this check, so the check never sees such orders. The tables have none (lowest −6), and the exact lemma runs first.
@@ -276,7 +280,7 @@ For every t ∈ (0, r*] and all indices a, b:
 10. **First-cell guard (858).** The program checks R·r* < 0.2; the actual value is 0.16005.
     - Convergence itself needs only R·r* < 1 and QRHO·r* < 1. R·r* < 1 follows from 858 and is checked again in `tails` for majW and majH. QRHO·r* < 1 is checked only in `tails`, for majA and majGY (824, 837).
     - The 0.2 is a margin inherited from the frozen program (ceil.txt:383).
-    - The frozen first cell (0, 1/400] gives R/400 ≈ 6.56 > 1, so the majorant genuinely diverges there. This is the `wide_first_cell` control (README:48 and README:128; test:275).
+    - The frozen first cell (0, 1/400] gives R/400 ≈ 6.56 > 1, so the majorant genuinely diverges there. This is the `wide_first_cell` control (README:48 and README:128; test:296).
 11. **Enclosure (1118-1122).**
     - μ_a(t) = Σ_{k=0}^{J} μ_{k,a} t^k + (tail), with no k = −1 term by H1. Each μ_{k,a} lies in X[k]_a (H3), and t ∈ [0, r*]. So Horner encloses the polynomial, and ±MT covers the tail. The same argument applies to Σ with ST.
     - `band_lo` widens the rotated law by 2MT and 4ST (1205-1206). This is valid because each row of LR (680) has ℓ¹ norm at most 2: a rotated-vector tail is ≤ 2MT and a rotated-matrix tail ≤ 2·2·ST.
@@ -433,7 +437,7 @@ By (I4), Σ − Σ_h is exactly the sum of these terms, and the sum of their bou
 - The frozen bound therefore omits RH and, for the mean, the residual RW. It also omits the high orders `ext_mu`/`ext_S`: orders J+1..2NK of A_P W_P and J+1..3NK of D.
 
 ### 3.5 Checked numerically at run time
-- `r_lo > 0` (1063), x < 1 in each `gram_tail` call (884) and `rhoE < 0.5` (1074). These are the only hypotheses of the derivation that are checked at run time. The `no_preconditioner` control fails the contraction check (test:278).
+- `r_lo > 0` (1063), x < 1 in each `gram_tail` call (884) and `rhoE < 0.5` (1074). These are the only hypotheses of the derivation that are checked at run time. The `no_preconditioner` control fails the contraction check (test:299).
 - `T_mu, T_Sig < 1e−2` (1113). This is a sanity bound only; no inequality depends on it.
 - **Upstream consistency checks, not proofs:**
   - CB2 shows that the dropped Gram pole enclosures are < 1e−60 (555-567). This is far weaker than the scale that matters here; see Poles.
@@ -443,7 +447,7 @@ By (I4), Σ − Σ_h is exactly the sum of these terms, and the sum of their bou
   - The printed deviation, 1.37e−91 for μ and 2.06e−91 for Σ, is exactly that reference's own rounding error, |direct dps-100 − direct dps-200|. Against dps 200, the Neumann midpoint is off by 6.7e−101 and 1.1e−100.
   - The corrections there are T_mu = 1.49e−10 and T_Sig = 1.23e−7. So CB7 cannot detect an under-estimated remainder anywhere between about 1e−91 and 1e−2.
   - The heavy part's half-width (≈ 9e−98) is below the reference error, so CB7 would also reject a valid remainder below about 1e−91. It tests the heavy polynomial at about 1e−91 resolution, not the remainder.
-- The `old_remainder` control is caught only by the replay digests (test:281), not inside the run.
+- The `old_remainder` control is caught only by the replay digests (test:302), not inside the run.
 
 ### 3.6 What rests only on this derivation
 Everything from S1 to S9 except the checks just listed:

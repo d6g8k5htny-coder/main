@@ -138,7 +138,9 @@ The record checks are tested too. Each of the following is rejected:
 - a doctored record;
 - a record bound to other program bytes;
 - a mutated transcript, or one without `ALL_CHECKS_PASS`, even with a record made consistent with it;
-- a transcript and record doctored consistently with each other. `verify-record` alone accepts that pair; only a recomputing replay exposes it.
+- a transcript and record doctored consistently with each other. `verify-record` alone accepts that pair; only a recomputing replay exposes it;
+- a transcript whose only change is a check line that carries no certified decimal. Only the transcript digest binds those lines;
+- in a recomputing replay, a record made with another mpmath version. `verify-record` itself passes with mpmath missing or at any version, because it recomputes nothing and does not read the record's environment block. A separate test checks that the committed records name the `requirements.txt` pin.
 
 ## Provenance
 
@@ -147,5 +149,5 @@ The record checks are tested too. Each of the following is rejected:
   - The program never calls those evaluators for a certified value. A2 and DEV2/DEV4 come from Poisson sums with their own denominator tails.
   - The program's only load-bearing use of Z_T is the CB4 majorant A_n(ρ), which divides a nonnegative sum by an interval whose lower end is at most Z_T, which is at most Z. That can only make the bound larger.
   - CB1d (above) and CB7 are checks only. The library itself is frozen and stays byte-identical. A repaired library would be a separate successor.
-- **Records:** `results/*.json` bind the program digest, the cov_exact digest, the mpmath version, the transcript digest and every certified decimal. They also require an unmutated run that passed every check. `results/*.transcript.txt` are the matching transcripts.
+- **Records:** `results/*.json` bind the program digest, the cov_exact digest, the producer's mpmath version (which a recomputing replay enforces), the transcript digest and every certified decimal. They also require an unmutated run that passed every check. `results/*.transcript.txt` are the matching transcripts.
 - **Re-recording:** any edit to `h3_band_v2.py` requires regenerating the records with `--record`, and that regeneration is itself a change for review.

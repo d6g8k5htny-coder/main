@@ -127,13 +127,34 @@ class ReviewedRecords(unittest.TestCase):
                     self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
                     self.assertIn('VERIFY PASS', summary(r))
 
-    def test_a_replay_still_requires_the_reviewed_mpmath_version(self):
+    def test_compare_record_gates_mpmath_only_when_runtime(self):
+        # the replay's own call site is covered by Replays.test_replay_rejects_a_record_made_with_another_mpmath
         m = load_program()
         expected = json.loads((RESULTS / 'ceil.json').read_text())
         fresh = json.loads(json.dumps(expected))
         fresh['environment']['mpmath'] = '0.0'
-        self.assertIn('environment.mpmath', m.compare_record(fresh, expected))
+        self.assertIn('environment.mpmath', m.compare_record(fresh, expected, runtime=True))
         self.assertNotIn('environment.mpmath', m.compare_record(fresh, expected, runtime=False))
+
+    def test_committed_records_name_the_pinned_mpmath(self):
+        # verify-record does not read a record's environment, so the committed records are checked here
+        pin = next(ln.split()[0].split('==')[1] for ln in (HERE / 'requirements.txt').read_text().splitlines()
+                   if ln.startswith('mpmath=='))
+        for mode in ('ceil', 'floor'):
+            rec = json.loads((RESULTS / ('%s.json' % mode)).read_text())
+            self.assertEqual(rec['environment']['mpmath'], pin, mode)
+
+    def test_a_changed_check_line_is_rejected(self):
+        # only the transcript digest binds the lines that carry no certified decimal
+        text = (RESULTS / 'ceil.transcript.txt').read_text()
+        line = next(ln for ln in text.splitlines() if ln.startswith('CB0 PASS:'))
+        with tempfile.TemporaryDirectory() as d:
+            t = Path(d) / 't.txt'
+            t.write_text(text.replace(line, 'CB0 SKIPPED: H2 library digest not checked'))
+            for r in (self.check(t, RESULTS / 'ceil.json'),
+                      run_with_mpmath(None, 'verify-record', '--transcript', t, '--results', RESULTS / 'ceil.json')):
+                self.assertEqual(r.returncode, 1, r.stdout + r.stderr)
+                self.assertEqual(summary(r), 'H3_BAND_V2 VERIFY_FAIL: record mismatch in transcript_sha256')
 
     def test_records_carry_review_status_and_no_scientific_effect(self):
         for mode in ('ceil', 'floor'):
