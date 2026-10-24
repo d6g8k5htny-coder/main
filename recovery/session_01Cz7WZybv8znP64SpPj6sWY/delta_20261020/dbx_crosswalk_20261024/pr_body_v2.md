@@ -12,7 +12,7 @@ Unresolved finding IDs and next action: none open; the per-file hashes of unpubl
 
 ## Verification
 
-- Hashes: Dropbox `content_hash` read from connector link metadata for 5,647 of 5,649 non-skip files (two 3-byte files refused link metadata, listed in `HASH_UNAVAILABLE.tsv`); no file content downloaded.
+- Hashes: Dropbox `content_hash` read from connector link metadata for 5,647 of 5,649 non-skip files (two [size withheld] files refused link metadata, listed in `HASH_UNAVAILABLE.tsv`); no file content downloaded.
 - Consistency checks run locally: the 93 `PUBLISHED_EXACT_ORIGINAL` rows of the 2026-09-27 `MANIFEST.csv` all classify `GIT_EXACT`; its 14 `PUBLISHED_EXTRACTED_TEXT` rows all classify `IMPORT_SEEN`; the two previously verified anchors (`[dropbox file name withheld]`, `[dropbox file name withheld]`) classify `GIT_EXACT` and `ARCHIVE_EXACT`; the 138 empty files all match the empty blob.
 - Publication guard in `own/build_pr.py` (local): the output contains no `ns:` namespace id, no `id:` value, no download URL, no `rev`, no Drive URL; full Dropbox paths appear only for the 132 files the 2026-09-27 import already named; 13 personal-looking names are counted and not listed.
 - Hosted checks: none required for a data-only directory; whatever runs on this branch is linked from the PR checks tab.

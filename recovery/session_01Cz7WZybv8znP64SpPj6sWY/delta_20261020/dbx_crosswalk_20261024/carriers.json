@@ -30,7 +30,7 @@
     "06c4a1a081bf7a163f954ca8f791347c696f792e"
    ],
    "tree": "d66ed76a03407e1d09b9b0f258183842cff05247",
-   "state": "open draft, one commit; tree = the reviewed main#590 tip tree d09bf1de plus N1 (four files differ); fresh nonauthor delta read requested (539/6389504892), not for merge by the author"
+   "state": "open draft, one commit; tree = the reviewed main#590 tip tree plus N1 (four files differ); nonauthor delta read 5640045547 (agent 13) PASS_WITH_FINDINGS at 06c4a1a0 (594/6389588942); F1 answered by description-only edits of main#594, main#589 and main#590 (21:13Z), F2 (behind main) left to the integrator so that the PASS head stays exact, F3 closed by CI 7/7 green; ready for a separate integrator in the MAIN-LOCK order; not for merge by the author"
   }
  ],
  "reviews": [
@@ -57,6 +57,14 @@
    "by": "nonauthor, agent 8",
    "verdict": "AMEND_SCOPED: tip verified (tree identical to #589 37c29627, rounding, A1-A3, CI 8/8); H1 blocking (ancestor 8d84a7c5 carries the pre-rounding SUMMARY.json); N1 (exact sizes of two unnamed files in HASH_UNAVAILABLE.tsv); N2 (stale counts in the PR body)",
    "answered": "H1 by the single commit 06c4a1a0 on main#594 from a3870738; N1 in that commit; N2 in the main#594 body (590/6389501107, 539/6389504892)"
+  },
+  {
+   "id": "pullrequestreview 5640045547",
+   "pr": "main#594",
+   "head": "06c4a1a0",
+   "by": "nonauthor, agent 13 (CoS assignment 594/6389565697)",
+   "verdict": "PASS_WITH_FINDINGS: H1 history, tree vs d09bf1de, N1 and N2 pass; nonblocking F1 (the PR description still gave the exact size of the two hash-refused files), F2 (behind main; integrator syncs once), F3 (one check in progress at read time)",
+   "answered": "F1 by description edits of #594, #589 and #590; F2 left to the integrator; F3 by CI completion (594/6389618132)"
   }
  ],
  "decisions": [
@@ -74,7 +82,12 @@
    "what": "H1: author single-commit rebuild from a3870738, not squash; then a fresh nonauthor delta read, not agent 8; integrate only after that PASS and the MAIN-LOCK order",
    "by": "CoS",
    "where": "539/6389430715, 590/6389431693"
+  },
+  {
+   "what": "fresh nonauthor delta read of main#594 assigned to agent 13",
+   "by": "CoS",
+   "where": "594/6389565697, 539/6389567227"
   }
  ],
- "retention_note": "published/ in this unit is refreshed to main#594 head 06c4a1a0 (byte totals rounded to 100 KB; the two unnamed sizes withheld). The copies of README.md and SUMMARY.json in this branch's earlier commits, through 9057f7f5, are the 6c01a832 versions with exact totals, the exposure that F1a-c and H1 name. This session does not rewrite a pushed branch, so they stay in the history; the owner or the CoS decide the disposal of this branch."
+ "retention_note": "published/ in this unit is refreshed to main#594 head 06c4a1a0 (byte totals rounded to 100 KB; the two unnamed sizes withheld). The copies of README.md and SUMMARY.json in this branch's earlier commits, through 9057f7f5, are the 6c01a832 versions with exact totals, the exposure that F1a-c and H1 name. This session does not rewrite a pushed branch, so they stay in the history; the owner or the CoS decide the disposal of this branch. The retained PR descriptions (pr_body*.md), result.md, result_posted.txt and workflow_results.json carry [size withheld] in place of the exact size that F1 of review 5640045547 names; the descriptions as sent before 21:13Z, the posted RESULT comment 539/6388834520 (a record, not edited by the author) and the copies in this branch's commits 9057f7f5 and 2cc5de93 carry that size."
 }
