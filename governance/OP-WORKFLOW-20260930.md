@@ -37,6 +37,24 @@ release, or confirmed lease expiry followed by current-state reconciliation.
 Review work can proceed without taking over the writer's branch. Release a
 finished claim. An offered task becomes active only when an actual pickup occurs.
 
+For already-authorized, low-impact work with no live owner, an eligible worker
+may begin the smallest disjoint stage after reading current claims and publishing
+an actual task-local pickup naming the source, scope, exclusions, checks and a
+finite checkpoint. Availability notes, offers and shared agent labels are not
+pickups; such routine work needs no extra coordinator acknowledgement unless a
+specific task or existing rule requires one. This does not authorize an occupied
+role, private-access expansion, security-sensitive change, protected integration
+or an action stopped by a denial or unresolved finding.
+
+A coordinator may prospectively authorize a named receiver's exact bounded
+stage in the existing task discussion. Only when that record expressly permits
+pickup to activate that ordinary stage may the receiver personally accept and
+pick it up after fresh source and contention checks without another routine ACK.
+An offer or the prospective record alone permits no mutation. Unresolved prior
+custody or transfer of an occupied reservation still requires separate receiver
+acknowledgement, fresh coordinator reconciliation and explicit activation as
+described below; silence, expiry and shared identities never supply release.
+
 For an unresolved integration reservation, consult the case-specific prospective
 reassignment implemented in [#276’s amendment](https://github.com/d6g8k5htny-coder/main/pull/276#issuecomment-6038812718)
 and [activation](https://github.com/d6g8k5htny-coder/main/pull/276#issuecomment-6038906820).
@@ -82,6 +100,71 @@ acknowledgement and activation stand alone; an unidentified second successor doe
 delay the first. Retained stops are carried by name. None of this adds a register, a
 scheduler, a permission gate, a forced release or independence credit.
 
+The confirmations above assume a coordinator whose record reaches the board.
+Two conditions defeat that: the coordinator is unavailable, or it is answering
+but a platform failure keeps its record off GitHub. When, for either reason, a
+specific routine coordinator confirmation or activation that an ordinary stage
+waits on has been requested in its task thread and has gone unanswered for 24
+hours, measured from that request and regardless of other coordinator or
+Chief-of-Staff activity, a peer may confirm it instead. The peer is an eligible
+agent of a different provider from the acting worker, is neither the object's
+author, predecessor nor receiver, has not reviewed it, and reads the same
+current refs, claims, findings and reported in-flight work; it records in the
+task thread what it read and that it concurs, names the record a fallback
+confirmation, states which condition applied as far as it is known, and mirrors
+that record on the current board with a cross-link, as for any claim or
+handoff, so that contention checks see the activation. The receiver's own
+acknowledgement, fresh source and contention checks, the predecessor's UNKNOWN
+closeout and its preserved work and attribution are unchanged.
+
+The fallback covers ordinary engineering, documentation, review and integration
+stages only. It cannot approve a manual review route, lift an owner stop, cure a
+platform or permission denial, change protections or private access, activate a
+security-sensitive stage or supply scientific acceptance; those keep their
+existing owner or coordinator steps. A peer confirms only what it has verified
+itself: it does not post, relay or act on a coordinator's blocked record. A step
+that the coordinator's platform refused as an approval stays refused until that
+platform clears it. An owner may independently authorize a route within owner
+authority; that decision neither clears nor relays the platform refusal and
+overrides no permission or protection. An owner-imposed stop is distinct, and
+only the owner clears it. A coordinator record posted later supersedes a
+fallback confirmation for anything not yet landed. The fallback repairs an
+absent or unreachable confirmer; it is not a second coordinator and earns no
+independence credit.
+
+Four checks bracket every claim, mutation and verdict:
+
+1. Before claiming, check whether the requested output has already landed on
+   the default branch; if it has, do not reselect the work.
+2. Right after claiming, and again before substantive work, reread the
+   task-local and board claims and stop on overlap. There is no fixed wait.
+   Each claim has one canonical pickup record, named in the claim; board or
+   task-local mirrors cross-link it and carry no priority of their own.
+   "Earliest created_at wins" compares canonical records only, applies only to
+   genuinely equivalent scopes, after the already-landed check; a claimant
+   withdraws only its own claim. If which record is canonical, or their order,
+   is ambiguous or tied, both actors stop the affected mutation and reconcile
+   in the existing thread; this does not reassign claims already released.
+3. Before mutating, recheck current state and use an expected-head guard. For
+   unversioned configuration such as automation prompts, use one serial writer
+   with a readback after each write.
+4. Before posting a verdict, reread the native review collection and stop if an
+   equivalent review already exists.
+
+A lease end is a checkpoint, not proof of release: an unknown predecessor goes
+through explicit reassignment, successor acknowledgement and fresh activation,
+with its closeout kept UNKNOWN. Reuse an existing collision notice where
+possible. If none exists, or it cannot reach the affected actors, post one
+source-linked warning containing materially new conflict evidence; avoid
+duplicate notices. Review
+carry-over to a new head also needs unchanged hypotheses and consumed
+dependencies, the current tested composition and checks, and the actual
+Ready-triggered review, not just matching blobs. The checklist records the
+reviewed head, the PR-reported base and the actually tested merge commit and its
+parents as separate identities, never inferred from a green badge. A resolved
+thread is UI state, not a finding disposition; AMEND history and successor
+reviews keep both identities.
+
 Maintain one short current disposition in the PR body or a linked comment:
 current head, owner, completed review scopes, unresolved finding IDs, validation
 and next action. Update it on material change; link detailed evidence instead
@@ -89,6 +172,15 @@ of copying it. The [PR template](../.github/pull_request_template.md) supplies
 this shape. Closed [main #95](https://github.com/d6g8k5htny-coder/main/issues/95)
 is formal-rollout history; current work stays in its relevant PR. Neither issue
 closure nor an outdated review thread resolves an outstanding obligation.
+
+At source pickup, run a complete by-path contender check of the paths you will
+touch against open pull requests; shared generated files and consumed
+dependencies count as overlap. Before any mutation, revalidate changed or new
+pull request heads. An exact-head, complete, paginated inventory may be reused,
+refreshing only changed entries and pull requests merged since the candidate
+base; a full repository recrawl is not required before every small docs edit.
+Link a compact overlap record from the pull request instead of copying a long
+list. Unresolved ownership still stops the affected write.
 
 This is cooperative coordination. It does not install a distributed lock or
 claim that every agent has acknowledged a notice. A competing mutation stops
@@ -171,6 +263,82 @@ Marking a pull request ready can start an automatic review. Wait for that review
 to finish and reconcile its findings before merging; an earlier automatic review
 of the same head does not replace it. If it cannot finish, say so on the pull
 request and settle the next step there instead of merging past it.
+
+### Manual review route when the automatic review fails on its usage limit
+
+Dylan's standing decision of 19 October 2026
+([419/6276889147](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6276889147))
+permits a merge without the automatic Codex review for an engineering- or
+docs-only pull request whose Ready-triggered review failed solely because of the
+connector's usage limit. His words: "Approve this manual route for engineering-
+or docs-only PRs whenever the Codex review fails on usage limits, under the same
+three conditions. Proofs, registers and security changes are excluded." The
+three conditions are those of his #448 decision
+([448/6275896657](https://github.com/d6g8k5htny-coder/main/pull/448#issuecomment-6275896657)):
+(1) the existing reviews are confirmed to cover the current head and base;
+(2) all required checks pass on the current tested merge; (3) repository
+protections remain enforced. This route provides a documented alternative to the
+quota-unavailable automatic review only where project policy permits. It does
+not replace required CI checks or platform-enforced approvals and earns no
+scientific or organizational-independence credit. It is not a review.
+
+**Scope.** Covered: ordinary engineering and documentation changes whose content
+changes no scientific statement, predicate, finding, review disposition or
+status evidence. Purely operational custody metadata is covered only where the
+pull request states its non-scientific scope explicitly. Excluded: proofs and
+other mathematical statements; scientific review records; custody or intake
+packages that carry proofs, mathematical statements, scientific findings or
+register or index effects; status registers and index surfaces (`STATUS.md`,
+`PROOF_INDEX`, `LANDING_CLAIMS`, `claims/`); security-sensitive changes
+(workflows, permissions, credentials, rulesets, protections); and changes to
+decision authority, including this guide. An excluded object proceeds only on a
+case-specific owner decision for that exact pull request, as
+[450/6278845335](https://github.com/d6g8k5htny-coder/main/pull/450#issuecomment-6278845335)
+and
+[446/6279654050](https://github.com/d6g8k5htny-coder/main/pull/446#issuecomment-6279654050)
+did; such a decision adopts no rule beyond its own pull request, and #446 is an
+example of one, not authority for a class. A doubtful case is excluded and goes
+back to the owner.
+
+**Reviewer eligibility.** The required review must be performed by an eligible
+nonauthor and bound to the exact reviewed source. Assess relevant competence,
+prior involvement and applicable independence requirements. Provider diversity
+is useful but is not mandatory for covered routine engineering/documentation
+unless another applicable requirement explicitly demands it. Record nonauthor
+status, provider diversity, review exposure and organizational independence
+separately. Provider diversity alone establishes no organizational-independence
+credit. For a base-only refresh, require an exact-current-head composition
+assessment confirming unchanged reviewed content, compatible base changes and
+preserved review qualifications. An eligible prior reviewer may perform that
+assessment; a different model family is not automatically required. Material
+changes require the appropriate new review. The integrator is separately claimed
+and is neither the author nor a reviewer of record.
+
+**Safeguards.** The route applies only when a usage-limit failure is established
+at the exact current head by corroborating evidence: the connector's explicit
+usage-limit notice together with the native review objects, review threads and
+issue comments at that head. An explicit quota-only failure that produced no
+substantive review output qualifies; the missing output caused by that failure
+is not itself an ambiguous review. The connector's failed-state flags alone
+establish neither a usage-limit failure nor the absence of findings; any actual
+finding, and any uncertain substantive partial output, requires assessment and
+a disposition before the route applies. Before merging, the integrator records
+on the pull request the exact head, base and tested merge commit, the
+review-thread state, the applicable rulesets, and each of the three conditions
+with its evidence; it then merges once with the expected head SHA and no bypass,
+verifies the landed bytes and the post-merge checks, and posts a release record.
+The route cures neither an owner stop nor a platform or permission denial, is
+never a reason to route a denied step to another executor or session, and
+settles no scientific predicate: a merge under it changes no scientific status.
+
+Where `public-intake` is required, verify its actual trusted workflow and event
+identity and its current head, as CONTRIBUTING requires, as well as its
+success. A check name and head alone cannot establish the Ready-event binding.
+On an ordinary pending-required-check 405, re-read current refs, ownership, and
+protection and check state. One retry at the same expected head is appropriate
+only after the missing requirement has actually succeeded and no other stop
+applies. This does not waive the separate Ready-triggered review, approve
+security changes, or authorize retrying platform denials.
 
 Follow [the required formal checks](../docs/FORMAL_REQUIRED_CHECKS.md) and
 [release operations](../docs/RELEASE_OPERATIONS.md). A base change can change

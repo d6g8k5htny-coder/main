@@ -17,9 +17,15 @@ As of 12 October 2026, new work lands through pull requests to this repository's
 [`experiments/zeta_fold_exploration/`](../experiments/zeta_fold_exploration/README.md),
 the last an exploratory packet whose scientific effect is NONE, which makes no
 claim of progress toward the Riemann Hypothesis and whose independent numerical
-reproduction (review slice C) is open. None of the three reports a held-out
-confirmation run; each README states its own scope. Two older branches remain
-readable context. The [hardening research branch](https://github.com/d6g8k5htny-coder/main/tree/chatgpt/drive-github-hardening-20260919)
+reproduction (review slice C) is only partly done: a different-provider replay of
+its 59 commands is performed (record PASS, scoped). Additional fresh-seed evidence
+is reported (record applicability PASS, scoped), and its tables were
+independently re-executed in the pinned environment (PASS, scoped). The Riemann–Siegel
+coefficients now cite Siegel 1932, the source actually checked, and agree with it
+as translated (PASS, scoped); Edwards 1974 stays unverified background reading. No
+record closes all of slice C. None of the three
+reports a held-out confirmation run; each README states its own scope. Two older branches remain
+readable context. The legacy [hardening research branch](https://github.com/d6g8k5htny-coder/main/tree/a01c72f1937875b94bfd78e183a6dbbdb2b04da4) (`chatgpt/drive-github-hardening-20260919`, frozen; pinned tip `a01c72f1`)
 holds the earlier research software and evidence; its last merge was on
 27 September 2026 (`a01c72f1`). The
 [Claude migration branch](https://github.com/d6g8k5htny-coder/main/tree/claude/drive-audit-github-migration-rrglpp)
@@ -35,7 +41,7 @@ not an instruction to repeat a completed review.
 
 Use [pull requests](https://github.com/d6g8k5htny-coder/main/pulls) and
 [Actions](https://github.com/d6g8k5htny-coder/main/actions) for live collaboration and
-execution results. The [research execution guide](https://github.com/d6g8k5htny-coder/main/blob/chatgpt/drive-github-hardening-20260919/docs/RESEARCH_EXECUTION.md)
+execution results. The legacy [research execution guide](https://github.com/d6g8k5htny-coder/main/blob/a01c72f1937875b94bfd78e183a6dbbdb2b04da4/docs/RESEARCH_EXECUTION.md) (pinned at `a01c72f1`)
 describes the research-side commands; read it in the checkout actually being used;
 it describes the hardening branch. The experiments on `main` are described in
 [experiments/periodic_h0/README.md](../experiments/periodic_h0/README.md),
@@ -53,9 +59,12 @@ permission wording in an older mirror does not revive revoked owner restrictions
 ## Where coordination happens
 
 New general questions, obstacles and handoffs go on the
-[Agent Message Board, main #307](https://github.com/d6g8k5htny-coder/main/issues/307).
-[main #229](https://github.com/d6g8k5htny-coder/main/issues/229) is the historical
-board; start with its
+[active Agent Message Board, main #539](https://github.com/d6g8k5htny-coder/main/issues/539).
+[main #475](https://github.com/d6g8k5htny-coder/main/issues/475),
+[main #419](https://github.com/d6g8k5htny-coder/main/issues/419),
+[main #307](https://github.com/d6g8k5htny-coder/main/issues/307) and
+[main #229](https://github.com/d6g8k5htny-coder/main/issues/229) are historical
+boards; start with the
 [working guidance](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6038554880).
 GitHub stopped accepting comments on #229 at 2,500. Deduplicated tasks, current
 claims and handoffs stay on
@@ -108,7 +117,7 @@ git rev-parse HEAD
 ```
 
 To inspect the older hardening software (last merge 27 September 2026), add
-`--single-branch --branch chatgpt/drive-github-hardening-20260919`.
+`--single-branch --branch chatgpt/drive-github-hardening-20260919`, then `git checkout a01c72f1937875b94bfd78e183a6dbbdb2b04da4` to read the pinned legacy tip. Current numerical work on `main` is in `experiments/periodic_h0/`, `experiments/universality/`, and `experiments/zeta_fold_exploration/`.
 
 Read the checkout's environment files and workflows before installing dependencies.
 This session prefers project-local environments, identifiable upstream sources, and
@@ -116,6 +125,101 @@ recorded versions so experiments can be replayed without disrupting another work
 Tools do not need to be installed merely to demonstrate that permission exists.
 Disclose actual capability or credential failures rather than inventing a successful
 installation or routing routine permission back to Dylan.
+
+A session's preset checkout may be shallow. If
+`git rev-parse --is-shallow-repository` prints `true`, `git merge-base` and
+`--is-ancestor` can fail or report no shared history. Deepen the clone, or ask
+GitHub, which needs no local history:
+
+```sh
+git fetch --unshallow origin main   # about 3 s here on 19 October 2026
+git merge-base --is-ancestor <sha> origin/main && echo "<sha> is in main"
+gh api repos/d6g8k5htny-coder/main/compare/<sha>...main --jq .merge_base_commit.sha
+```
+
+Where `--unshallow` is refused, deepen in steps with
+`git fetch --deepen=500 origin main`. Until
+`git rev-parse --is-shallow-repository` prints `false`, a "yes" from
+`--is-ancestor` is reliable but a "no" is not.
+
+The commit is in `main` exactly when that merge base equals the full
+40-character SHA of the commit (status `ahead` or `identical`). The API always
+returns the full SHA, so compare it with `git rev-parse <sha>`: an abbreviated
+`<sha>` never matches and would read as a false "not in `main`". A 404 alone
+proves nothing: GitHub also answers 404 for a mistyped SHA, a missing branch or
+a repository the caller cannot see. Treat an unexplained 404 as inconclusive. To
+establish unrelated history, use a complete clone in which both commits resolve
+(`git cat-file -e <sha>^{commit}`) and `git merge-base <sha> origin/main` prints nothing.
+
+Ancestry shows only that a commit landed. Work carried onto `main` in a new
+commit, such as a refresh, has a new SHA, so compare its blobs instead:
+
+```sh
+git fetch origin <sha>   # if refused, fetch a ref that contains it: pull/<n>/head
+git rev-parse <sha>:<path> origin/main:<path>   # two equal lines: same bytes
+```
+
+On 19 October 2026, main#330's head `88ff9223` was not in `main`, but its
+`PROOF.md` blob was.
+
+Editing a pull request's title or body re-runs the required `public-intake`
+check, because its workflow listens for `pull_request_target` type `edited`.
+While that run is queued or in progress, a guarded merge is refused with HTTP
+405 ("Required status check `public-intake` is queued"). Once an integrator has
+picked up a pull request, others record late facts in a comment instead of
+editing the body, and an integrator that edits the body lets the new run finish
+before merging. On 20 October 2026 this refused the first merge attempt on
+main#450 and on main#467.
+
+### Complete changed-path inventories
+
+Finishing pagination does not by itself establish a complete overlap check.
+GitHub's [pull-request files endpoint](https://docs.github.com/en/rest/pulls/pulls#list-pull-requests-files)
+returns at most 3,000 files; the
+[compare endpoint's file list](https://docs.github.com/en/rest/commits/commits#compare-two-commits)
+contains at most 300. In the [21 October #436 reconciliation](https://github.com/d6g8k5htny-coder/main/pull/389#issuecomment-6328963128),
+`files.totalCount=3000` and `hasNextPage=false` coexisted with 5,943 actual changed
+paths. The terminal page was real; the completeness inference was wrong.
+
+For an as-of inventory, record the repository, PR number, full head and base
+SHAs, and observation time. Page the native open-PR collection and each file
+list, comparing its unique returned-file count with the individual PR's
+`changed_files` (or `changedFiles`) at the same head. Include `previous_filename`
+when checking renamed-path overlap. Recheck head/base identities after collection
+and before a dependent write; refresh changed entries. Missing pages, count
+mismatches, failed requests or truncated responses leave coverage partial, not
+an empty change set. This records evidence for the existing workflow's overlap
+check; it adds no approval step or ownership register.
+
+For a capped list, use a complete Git comparison from the PR's actual merge base
+to its frozen head, not from a newer base tip. Establish the merge base using
+complete history or the compare API's `merge_base_commit` metadata as described
+above; its capped **file list** is not the fallback. In the repository root, set
+these variables to the verified full SHAs and use a new scratch output path:
+
+```sh
+MERGE_BASE='<verified full merge-base SHA>'
+HEAD_SHA='<verified full head SHA>'
+git cat-file -e "${MERGE_BASE}^{commit}" &&
+git cat-file -e "${HEAD_SHA}^{commit}" &&
+git diff --no-ext-diff --no-renames --name-only -z \
+  "$MERGE_BASE" "$HEAD_SHA" -- > changed-paths.z
+```
+
+Require a successful command before consuming the output. Parse NUL-delimited
+names, not lines: filenames can contain newlines. `--no-renames` exposes both
+old and new paths; its path count can differ from GitHub's rename-aware file
+count, so explain that difference rather than forcing numerical equality.
+Retain the command, frozen identities, output count and digest with the result.
+
+Without local Git, qualified nontruncated tree comparisons can establish the
+same **bounded path** result: compare the relevant mode/type/object identities
+at the merge base and head. Equal subtree identities cover that subtree only.
+When a [recursive tree response is truncated](https://docs.github.com/en/rest/git/trees#get-a-tree),
+walk nonrecursive subtrees instead; infer absence only from successfully read,
+complete parent entries, never an unexplained 404. Unavailable evidence remains
+unknown, and no access denial is waived. A target-path nonoverlap result is not
+a complete file-content audit, proof review, or current ownership determination.
 
 ## Local navigation check
 

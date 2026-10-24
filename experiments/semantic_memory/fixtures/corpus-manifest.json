@@ -1,0 +1,1094 @@
+{
+  "baseline_definitions": {
+    "E": "first12000_characters_then_full_prompt_admission",
+    "L": "exact_ref_first_then_deterministic_literal_or_SQLite_FTS5",
+    "S": "exact_ref_first_then_literal_fallback_and_semantic_top4"
+  },
+  "case_files": {
+    "development-cases.json": {
+      "bytes": 1918,
+      "sha256": "1be389e720faadac74e84b9a3122e0233726fb72786f4d4806ab6233421db4dc"
+    },
+    "heldout-cases.json": {
+      "bytes": 10150,
+      "sha256": "988ba566f9792f36c3e69064758f0b3ff80e187e3abcc7788910cc8e1563ee19"
+    },
+    "heldout-oracle.json": {
+      "bytes": 18125,
+      "sha256": "2b9df86c89e133a5a672d6ec2bc573b9667a69dc17afdb630f86f8f007233414"
+    }
+  },
+  "development_case_ids": [
+    "DEV01",
+    "DEV02",
+    "DEV03",
+    "DEV04",
+    "DEV05",
+    "DEV06",
+    "DEV07",
+    "DEV08"
+  ],
+  "gates": {
+    "answerable_cases": 32,
+    "answerable_retrieval_min": 29,
+    "break_even_queries_max": 500,
+    "citation_fidelity": 1.0,
+    "exact_ref_cases": 8,
+    "exact_ref_successes": 8,
+    "fairness_p95_increase_ratio_max": 0.1,
+    "generation_cases_per_profile": 20,
+    "generation_score_min": 18,
+    "improvement_over_better_baseline_min": 2,
+    "no_answer_generation_abstentions_per_profile": 4,
+    "paraphrase_deep_cases": 16,
+    "paraphrase_deep_recall_min": 14,
+    "peak_experiment_rss_bytes_max": 12884901888,
+    "semantic_vs_literal_warm_complete_task_p95_ratio_max": 1.25,
+    "starvation_max": 0,
+    "task1_quality_measured": false,
+    "unsupported_answer_max": 0
+  },
+  "generation_case_ids": [
+    "P01",
+    "P02",
+    "P03",
+    "P04",
+    "D01",
+    "D02",
+    "D03",
+    "D04",
+    "V01",
+    "V02",
+    "V03",
+    "V04",
+    "X01",
+    "X02",
+    "X03",
+    "X04",
+    "N01",
+    "N02",
+    "N03",
+    "N04"
+  ],
+  "heldout_case_ids": [
+    "D01",
+    "D02",
+    "D03",
+    "D04",
+    "D05",
+    "D06",
+    "D07",
+    "D08",
+    "N01",
+    "N02",
+    "N03",
+    "N04",
+    "N05",
+    "N06",
+    "N07",
+    "N08",
+    "P01",
+    "P02",
+    "P03",
+    "P04",
+    "P05",
+    "P06",
+    "P07",
+    "P08",
+    "V01",
+    "V02",
+    "V03",
+    "V04",
+    "V05",
+    "V06",
+    "V07",
+    "V08",
+    "X01",
+    "X02",
+    "X03",
+    "X04",
+    "X05",
+    "X06",
+    "X07",
+    "X08"
+  ],
+  "pending_obligations": [
+    "tokenizer_parity",
+    "final_chunk_count_le_128",
+    "500_token_chunks",
+    "semantic_retrieval",
+    "quality_cost_fairness",
+    "actual_W_C_integration"
+  ],
+  "query_order": [
+    {
+      "arms": [
+        "S",
+        "L",
+        "E"
+      ],
+      "case_id": "P01",
+      "profiles": [
+        "W",
+        "C"
+      ]
+    },
+    {
+      "arms": [
+        "L",
+        "E",
+        "S"
+      ],
+      "case_id": "P05",
+      "profiles": [
+        "C",
+        "W"
+      ]
+    },
+    {
+      "arms": [
+        "S",
+        "E",
+        "L"
+      ],
+      "case_id": "N03",
+      "profiles": [
+        "W",
+        "C"
+      ]
+    },
+    {
+      "arms": [
+        "S",
+        "E",
+        "L"
+      ],
+      "case_id": "X07",
+      "profiles": [
+        "C",
+        "W"
+      ]
+    },
+    {
+      "arms": [
+        "L",
+        "S",
+        "E"
+      ],
+      "case_id": "X02",
+      "profiles": [
+        "W",
+        "C"
+      ]
+    },
+    {
+      "arms": [
+        "E",
+        "L",
+        "S"
+      ],
+      "case_id": "X05",
+      "profiles": [
+        "C",
+        "W"
+      ]
+    },
+    {
+      "arms": [
+        "S",
+        "L",
+        "E"
+      ],
+      "case_id": "V03",
+      "profiles": [
+        "W",
+        "C"
+      ]
+    },
+    {
+      "arms": [
+        "L",
+        "E",
+        "S"
+      ],
+      "case_id": "V08",
+      "profiles": [
+        "C",
+        "W"
+      ]
+    },
+    {
+      "arms": [
+        "S",
+        "L",
+        "E"
+      ],
+      "case_id": "X03",
+      "profiles": [
+        "W",
+        "C"
+      ]
+    },
+    {
+      "arms": [
+        "L",
+        "S",
+        "E"
+      ],
+      "case_id": "V04",
+      "profiles": [
+        "C",
+        "W"
+      ]
+    },
+    {
+      "arms": [
+        "L",
+        "S",
+        "E"
+      ],
+      "case_id": "D05",
+      "profiles": [
+        "W",
+        "C"
+      ]
+    },
+    {
+      "arms": [
+        "E",
+        "L",
+        "S"
+      ],
+      "case_id": "N01",
+      "profiles": [
+        "C",
+        "W"
+      ]
+    },
+    {
+      "arms": [
+        "L",
+        "S",
+        "E"
+      ],
+      "case_id": "D02",
+      "profiles": [
+        "W",
+        "C"
+      ]
+    },
+    {
+      "arms": [
+        "L",
+        "E",
+        "S"
+      ],
+      "case_id": "V07",
+      "profiles": [
+        "C",
+        "W"
+      ]
+    },
+    {
+      "arms": [
+        "S",
+        "E",
+        "L"
+      ],
+      "case_id": "V06",
+      "profiles": [
+        "W",
+        "C"
+      ]
+    },
+    {
+      "arms": [
+        "S",
+        "L",
+        "E"
+      ],
+      "case_id": "X06",
+      "profiles": [
+        "C",
+        "W"
+      ]
+    },
+    {
+      "arms": [
+        "L",
+        "S",
+        "E"
+      ],
+      "case_id": "X04",
+      "profiles": [
+        "W",
+        "C"
+      ]
+    },
+    {
+      "arms": [
+        "E",
+        "L",
+        "S"
+      ],
+      "case_id": "V01",
+      "profiles": [
+        "C",
+        "W"
+      ]
+    },
+    {
+      "arms": [
+        "S",
+        "E",
+        "L"
+      ],
+      "case_id": "D08",
+      "profiles": [
+        "W",
+        "C"
+      ]
+    },
+    {
+      "arms": [
+        "E",
+        "S",
+        "L"
+      ],
+      "case_id": "N04",
+      "profiles": [
+        "C",
+        "W"
+      ]
+    },
+    {
+      "arms": [
+        "S",
+        "E",
+        "L"
+      ],
+      "case_id": "N05",
+      "profiles": [
+        "W",
+        "C"
+      ]
+    },
+    {
+      "arms": [
+        "E",
+        "L",
+        "S"
+      ],
+      "case_id": "D01",
+      "profiles": [
+        "C",
+        "W"
+      ]
+    },
+    {
+      "arms": [
+        "L",
+        "S",
+        "E"
+      ],
+      "case_id": "N07",
+      "profiles": [
+        "W",
+        "C"
+      ]
+    },
+    {
+      "arms": [
+        "L",
+        "E",
+        "S"
+      ],
+      "case_id": "P08",
+      "profiles": [
+        "C",
+        "W"
+      ]
+    },
+    {
+      "arms": [
+        "E",
+        "S",
+        "L"
+      ],
+      "case_id": "X08",
+      "profiles": [
+        "W",
+        "C"
+      ]
+    },
+    {
+      "arms": [
+        "S",
+        "E",
+        "L"
+      ],
+      "case_id": "D04",
+      "profiles": [
+        "C",
+        "W"
+      ]
+    },
+    {
+      "arms": [
+        "L",
+        "S",
+        "E"
+      ],
+      "case_id": "X01",
+      "profiles": [
+        "W",
+        "C"
+      ]
+    },
+    {
+      "arms": [
+        "L",
+        "E",
+        "S"
+      ],
+      "case_id": "D07",
+      "profiles": [
+        "C",
+        "W"
+      ]
+    },
+    {
+      "arms": [
+        "S",
+        "E",
+        "L"
+      ],
+      "case_id": "P07",
+      "profiles": [
+        "W",
+        "C"
+      ]
+    },
+    {
+      "arms": [
+        "E",
+        "S",
+        "L"
+      ],
+      "case_id": "P06",
+      "profiles": [
+        "C",
+        "W"
+      ]
+    },
+    {
+      "arms": [
+        "L",
+        "E",
+        "S"
+      ],
+      "case_id": "V02",
+      "profiles": [
+        "W",
+        "C"
+      ]
+    },
+    {
+      "arms": [
+        "E",
+        "L",
+        "S"
+      ],
+      "case_id": "P04",
+      "profiles": [
+        "C",
+        "W"
+      ]
+    },
+    {
+      "arms": [
+        "S",
+        "L",
+        "E"
+      ],
+      "case_id": "N06",
+      "profiles": [
+        "W",
+        "C"
+      ]
+    },
+    {
+      "arms": [
+        "S",
+        "E",
+        "L"
+      ],
+      "case_id": "D06",
+      "profiles": [
+        "C",
+        "W"
+      ]
+    },
+    {
+      "arms": [
+        "E",
+        "L",
+        "S"
+      ],
+      "case_id": "P02",
+      "profiles": [
+        "W",
+        "C"
+      ]
+    },
+    {
+      "arms": [
+        "L",
+        "S",
+        "E"
+      ],
+      "case_id": "N02",
+      "profiles": [
+        "C",
+        "W"
+      ]
+    },
+    {
+      "arms": [
+        "S",
+        "L",
+        "E"
+      ],
+      "case_id": "N08",
+      "profiles": [
+        "W",
+        "C"
+      ]
+    },
+    {
+      "arms": [
+        "L",
+        "S",
+        "E"
+      ],
+      "case_id": "V05",
+      "profiles": [
+        "C",
+        "W"
+      ]
+    },
+    {
+      "arms": [
+        "S",
+        "E",
+        "L"
+      ],
+      "case_id": "D03",
+      "profiles": [
+        "W",
+        "C"
+      ]
+    },
+    {
+      "arms": [
+        "E",
+        "S",
+        "L"
+      ],
+      "case_id": "P03",
+      "profiles": [
+        "C",
+        "W"
+      ]
+    }
+  ],
+  "schedule_algorithm": "materialized-v1; authoring Python3 random.Random(20261008) shuffle; rows are authority",
+  "schema_version": 1,
+  "seed": 20261008,
+  "sources": [
+    {
+      "access_state": "available",
+      "content_ref": "corpus/D01.txt",
+      "exclusion_state": "included",
+      "extraction_sha256": "7a23e09a507268de7faab01d547a0b8ca73ce9a133fa3fe775f1a252507b8fe2",
+      "extractor_version": "synthetic-identity-utf8/v1",
+      "observed_at": "2026-10-16T00:00:00Z",
+      "policy_epoch": 1,
+      "revision_id": "r1",
+      "source_id": "SYN.D01",
+      "source_sha256": "7a23e09a507268de7faab01d547a0b8ca73ce9a133fa3fe775f1a252507b8fe2",
+      "supersession_state": "current",
+      "text_bytes": 12554,
+      "text_sha256": "7a23e09a507268de7faab01d547a0b8ca73ce9a133fa3fe775f1a252507b8fe2"
+    },
+    {
+      "access_state": "available",
+      "content_ref": "corpus/D02.txt",
+      "exclusion_state": "included",
+      "extraction_sha256": "40b28eaddbf3292672715ba53f5f4b78e354ec7c73e5b3ea0e835ff5be0aa8b7",
+      "extractor_version": "synthetic-identity-utf8/v1",
+      "observed_at": "2026-10-16T00:00:00Z",
+      "policy_epoch": 1,
+      "revision_id": "r1",
+      "source_id": "SYN.D02",
+      "source_sha256": "40b28eaddbf3292672715ba53f5f4b78e354ec7c73e5b3ea0e835ff5be0aa8b7",
+      "supersession_state": "current",
+      "text_bytes": 12554,
+      "text_sha256": "40b28eaddbf3292672715ba53f5f4b78e354ec7c73e5b3ea0e835ff5be0aa8b7"
+    },
+    {
+      "access_state": "available",
+      "content_ref": "corpus/D03.txt",
+      "exclusion_state": "included",
+      "extraction_sha256": "c9979c21480d89262ff61992f3ac355c6245ce4235a9af4fd148f76fc7678f68",
+      "extractor_version": "synthetic-identity-utf8/v1",
+      "observed_at": "2026-10-16T00:00:00Z",
+      "policy_epoch": 1,
+      "revision_id": "r1",
+      "source_id": "SYN.D03",
+      "source_sha256": "c9979c21480d89262ff61992f3ac355c6245ce4235a9af4fd148f76fc7678f68",
+      "supersession_state": "current",
+      "text_bytes": 12554,
+      "text_sha256": "c9979c21480d89262ff61992f3ac355c6245ce4235a9af4fd148f76fc7678f68"
+    },
+    {
+      "access_state": "available",
+      "content_ref": "corpus/D04.txt",
+      "exclusion_state": "included",
+      "extraction_sha256": "b4f9f42e03d50b059060650d2807cc5671755c518e065d39558084b03ba92dd5",
+      "extractor_version": "synthetic-identity-utf8/v1",
+      "observed_at": "2026-10-16T00:00:00Z",
+      "policy_epoch": 1,
+      "revision_id": "r1",
+      "source_id": "SYN.D04",
+      "source_sha256": "b4f9f42e03d50b059060650d2807cc5671755c518e065d39558084b03ba92dd5",
+      "supersession_state": "current",
+      "text_bytes": 12554,
+      "text_sha256": "b4f9f42e03d50b059060650d2807cc5671755c518e065d39558084b03ba92dd5"
+    },
+    {
+      "access_state": "available",
+      "content_ref": "corpus/D05.txt",
+      "exclusion_state": "included",
+      "extraction_sha256": "72e11437a3d8603740ede470904618429339d207e8521a667c9e141a6a9816e3",
+      "extractor_version": "synthetic-identity-utf8/v1",
+      "observed_at": "2026-10-16T00:00:00Z",
+      "policy_epoch": 1,
+      "revision_id": "r1",
+      "source_id": "SYN.D05",
+      "source_sha256": "72e11437a3d8603740ede470904618429339d207e8521a667c9e141a6a9816e3",
+      "supersession_state": "current",
+      "text_bytes": 12554,
+      "text_sha256": "72e11437a3d8603740ede470904618429339d207e8521a667c9e141a6a9816e3"
+    },
+    {
+      "access_state": "available",
+      "content_ref": "corpus/D06.txt",
+      "exclusion_state": "included",
+      "extraction_sha256": "fb99f4cd48b884b20a2708b9d44327f7143e66de67c5a35e987c7cd9aad488f0",
+      "extractor_version": "synthetic-identity-utf8/v1",
+      "observed_at": "2026-10-16T00:00:00Z",
+      "policy_epoch": 1,
+      "revision_id": "r1",
+      "source_id": "SYN.D06",
+      "source_sha256": "fb99f4cd48b884b20a2708b9d44327f7143e66de67c5a35e987c7cd9aad488f0",
+      "supersession_state": "current",
+      "text_bytes": 12554,
+      "text_sha256": "fb99f4cd48b884b20a2708b9d44327f7143e66de67c5a35e987c7cd9aad488f0"
+    },
+    {
+      "access_state": "available",
+      "content_ref": "corpus/D07.txt",
+      "exclusion_state": "included",
+      "extraction_sha256": "c25666994717c1597460e2e658d6e795da35aab98e73281c82cb510805532da8",
+      "extractor_version": "synthetic-identity-utf8/v1",
+      "observed_at": "2026-10-16T00:00:00Z",
+      "policy_epoch": 1,
+      "revision_id": "r1",
+      "source_id": "SYN.D07",
+      "source_sha256": "c25666994717c1597460e2e658d6e795da35aab98e73281c82cb510805532da8",
+      "supersession_state": "current",
+      "text_bytes": 12554,
+      "text_sha256": "c25666994717c1597460e2e658d6e795da35aab98e73281c82cb510805532da8"
+    },
+    {
+      "access_state": "available",
+      "content_ref": "corpus/D08.txt",
+      "exclusion_state": "included",
+      "extraction_sha256": "a7bac8e6454a1b7a1989b1ee5bc44c87565cafa55afc32719436a0c4a959bfae",
+      "extractor_version": "synthetic-identity-utf8/v1",
+      "observed_at": "2026-10-16T00:00:00Z",
+      "policy_epoch": 1,
+      "revision_id": "r1",
+      "source_id": "SYN.D08",
+      "source_sha256": "a7bac8e6454a1b7a1989b1ee5bc44c87565cafa55afc32719436a0c4a959bfae",
+      "supersession_state": "current",
+      "text_bytes": 12554,
+      "text_sha256": "a7bac8e6454a1b7a1989b1ee5bc44c87565cafa55afc32719436a0c4a959bfae"
+    },
+    {
+      "access_state": "available",
+      "content_ref": "corpus/P01.txt",
+      "exclusion_state": "included",
+      "extraction_sha256": "7557e12373db44f1e6478be8761f5ebb8b66c8287da80d945f38c2271ca4cbcb",
+      "extractor_version": "synthetic-identity-utf8/v1",
+      "observed_at": "2026-10-16T00:00:00Z",
+      "policy_epoch": 1,
+      "revision_id": "r1",
+      "source_id": "SYN.P01",
+      "source_sha256": "7557e12373db44f1e6478be8761f5ebb8b66c8287da80d945f38c2271ca4cbcb",
+      "supersession_state": "current",
+      "text_bytes": 553,
+      "text_sha256": "7557e12373db44f1e6478be8761f5ebb8b66c8287da80d945f38c2271ca4cbcb"
+    },
+    {
+      "access_state": "available",
+      "content_ref": "corpus/P02.txt",
+      "exclusion_state": "included",
+      "extraction_sha256": "5721d41b4705f623715824e3395b3682e74dcbdcc9945a4878b5c3752efb14c2",
+      "extractor_version": "synthetic-identity-utf8/v1",
+      "observed_at": "2026-10-16T00:00:00Z",
+      "policy_epoch": 1,
+      "revision_id": "r1",
+      "source_id": "SYN.P02",
+      "source_sha256": "5721d41b4705f623715824e3395b3682e74dcbdcc9945a4878b5c3752efb14c2",
+      "supersession_state": "current",
+      "text_bytes": 553,
+      "text_sha256": "5721d41b4705f623715824e3395b3682e74dcbdcc9945a4878b5c3752efb14c2"
+    },
+    {
+      "access_state": "available",
+      "content_ref": "corpus/P03.txt",
+      "exclusion_state": "included",
+      "extraction_sha256": "ac42c097f1ebef1f90e9a27294d6ac8e9d693bdb226bb7b21fade92f3765836c",
+      "extractor_version": "synthetic-identity-utf8/v1",
+      "observed_at": "2026-10-16T00:00:00Z",
+      "policy_epoch": 1,
+      "revision_id": "r1",
+      "source_id": "SYN.P03",
+      "source_sha256": "ac42c097f1ebef1f90e9a27294d6ac8e9d693bdb226bb7b21fade92f3765836c",
+      "supersession_state": "current",
+      "text_bytes": 553,
+      "text_sha256": "ac42c097f1ebef1f90e9a27294d6ac8e9d693bdb226bb7b21fade92f3765836c"
+    },
+    {
+      "access_state": "available",
+      "content_ref": "corpus/P04.txt",
+      "exclusion_state": "included",
+      "extraction_sha256": "37baa07d5e996cc5cc5f2ce8c46da9c49b240084d4b18dd291908233375028cc",
+      "extractor_version": "synthetic-identity-utf8/v1",
+      "observed_at": "2026-10-16T00:00:00Z",
+      "policy_epoch": 1,
+      "revision_id": "r1",
+      "source_id": "SYN.P04",
+      "source_sha256": "37baa07d5e996cc5cc5f2ce8c46da9c49b240084d4b18dd291908233375028cc",
+      "supersession_state": "current",
+      "text_bytes": 554,
+      "text_sha256": "37baa07d5e996cc5cc5f2ce8c46da9c49b240084d4b18dd291908233375028cc"
+    },
+    {
+      "access_state": "available",
+      "content_ref": "corpus/P05.txt",
+      "exclusion_state": "included",
+      "extraction_sha256": "4154026b919714148d6eb512394614aee7b56f7ce1f31a01091da9f483a3d09a",
+      "extractor_version": "synthetic-identity-utf8/v1",
+      "observed_at": "2026-10-16T00:00:00Z",
+      "policy_epoch": 1,
+      "revision_id": "r1",
+      "source_id": "SYN.P05",
+      "source_sha256": "4154026b919714148d6eb512394614aee7b56f7ce1f31a01091da9f483a3d09a",
+      "supersession_state": "current",
+      "text_bytes": 554,
+      "text_sha256": "4154026b919714148d6eb512394614aee7b56f7ce1f31a01091da9f483a3d09a"
+    },
+    {
+      "access_state": "available",
+      "content_ref": "corpus/P06.txt",
+      "exclusion_state": "included",
+      "extraction_sha256": "7132c9f66701142213294014109ef9ce713b10fa570b581c1ac8147ca3735e44",
+      "extractor_version": "synthetic-identity-utf8/v1",
+      "observed_at": "2026-10-16T00:00:00Z",
+      "policy_epoch": 1,
+      "revision_id": "r1",
+      "source_id": "SYN.P06",
+      "source_sha256": "7132c9f66701142213294014109ef9ce713b10fa570b581c1ac8147ca3735e44",
+      "supersession_state": "current",
+      "text_bytes": 554,
+      "text_sha256": "7132c9f66701142213294014109ef9ce713b10fa570b581c1ac8147ca3735e44"
+    },
+    {
+      "access_state": "available",
+      "content_ref": "corpus/P07.txt",
+      "exclusion_state": "included",
+      "extraction_sha256": "979b1469c74847eeb4ffacc31aee87d8a1d97386ea50ee9668fdc4983963352a",
+      "extractor_version": "synthetic-identity-utf8/v1",
+      "observed_at": "2026-10-16T00:00:00Z",
+      "policy_epoch": 1,
+      "revision_id": "r1",
+      "source_id": "SYN.P07",
+      "source_sha256": "979b1469c74847eeb4ffacc31aee87d8a1d97386ea50ee9668fdc4983963352a",
+      "supersession_state": "current",
+      "text_bytes": 554,
+      "text_sha256": "979b1469c74847eeb4ffacc31aee87d8a1d97386ea50ee9668fdc4983963352a"
+    },
+    {
+      "access_state": "available",
+      "content_ref": "corpus/P08.txt",
+      "exclusion_state": "included",
+      "extraction_sha256": "ce12b7d637974a757aea3ec99ce29995b80f0b7f77ec4b84979d7bdff6e905a5",
+      "extractor_version": "synthetic-identity-utf8/v1",
+      "observed_at": "2026-10-16T00:00:00Z",
+      "policy_epoch": 1,
+      "revision_id": "r1",
+      "source_id": "SYN.P08",
+      "source_sha256": "ce12b7d637974a757aea3ec99ce29995b80f0b7f77ec4b84979d7bdff6e905a5",
+      "supersession_state": "current",
+      "text_bytes": 554,
+      "text_sha256": "ce12b7d637974a757aea3ec99ce29995b80f0b7f77ec4b84979d7bdff6e905a5"
+    },
+    {
+      "access_state": "available",
+      "content_ref": "corpus/R01-old.txt",
+      "exclusion_state": "included",
+      "extraction_sha256": "a6d59fa9686a91f4995654bdec47856110fe8598b20ff6fc9de284f9bf50d2c0",
+      "extractor_version": "synthetic-identity-utf8/v1",
+      "observed_at": "2026-10-16T00:00:00Z",
+      "policy_epoch": 1,
+      "revision_id": "r1",
+      "source_id": "SYN.R01",
+      "source_sha256": "a6d59fa9686a91f4995654bdec47856110fe8598b20ff6fc9de284f9bf50d2c0",
+      "supersession_state": "superseded",
+      "text_bytes": 187,
+      "text_sha256": "a6d59fa9686a91f4995654bdec47856110fe8598b20ff6fc9de284f9bf50d2c0"
+    },
+    {
+      "access_state": "available",
+      "content_ref": "corpus/R01-current.txt",
+      "exclusion_state": "included",
+      "extraction_sha256": "e16fc9facad32b3d00c61b081565f5e136be5672e4975bbcc4770824a6d9fc92",
+      "extractor_version": "synthetic-identity-utf8/v1",
+      "observed_at": "2026-10-16T00:00:00Z",
+      "policy_epoch": 1,
+      "revision_id": "r2",
+      "source_id": "SYN.R01",
+      "source_sha256": "e16fc9facad32b3d00c61b081565f5e136be5672e4975bbcc4770824a6d9fc92",
+      "supersession_state": "current",
+      "text_bytes": 191,
+      "text_sha256": "e16fc9facad32b3d00c61b081565f5e136be5672e4975bbcc4770824a6d9fc92"
+    },
+    {
+      "access_state": "available",
+      "content_ref": "corpus/R02-old.txt",
+      "exclusion_state": "included",
+      "extraction_sha256": "4125f0ac9d1edefce2bd0b7c0be8b0f3852cb30ad21cdb533627572a4e3b1b4d",
+      "extractor_version": "synthetic-identity-utf8/v1",
+      "observed_at": "2026-10-16T00:00:00Z",
+      "policy_epoch": 1,
+      "revision_id": "r1",
+      "source_id": "SYN.R02",
+      "source_sha256": "4125f0ac9d1edefce2bd0b7c0be8b0f3852cb30ad21cdb533627572a4e3b1b4d",
+      "supersession_state": "superseded",
+      "text_bytes": 187,
+      "text_sha256": "4125f0ac9d1edefce2bd0b7c0be8b0f3852cb30ad21cdb533627572a4e3b1b4d"
+    },
+    {
+      "access_state": "available",
+      "content_ref": "corpus/R02-current.txt",
+      "exclusion_state": "included",
+      "extraction_sha256": "92eda75bab11b15872b44bf8757fc1dd1a9dd50e797576055c4c3257e6a87146",
+      "extractor_version": "synthetic-identity-utf8/v1",
+      "observed_at": "2026-10-16T00:00:00Z",
+      "policy_epoch": 1,
+      "revision_id": "r2",
+      "source_id": "SYN.R02",
+      "source_sha256": "92eda75bab11b15872b44bf8757fc1dd1a9dd50e797576055c4c3257e6a87146",
+      "supersession_state": "current",
+      "text_bytes": 191,
+      "text_sha256": "92eda75bab11b15872b44bf8757fc1dd1a9dd50e797576055c4c3257e6a87146"
+    },
+    {
+      "access_state": "available",
+      "content_ref": "corpus/R03-old.txt",
+      "exclusion_state": "included",
+      "extraction_sha256": "c51e1133a9dceef59f56f2621750aefb6550be984464db3fd4044ef59e3d4e81",
+      "extractor_version": "synthetic-identity-utf8/v1",
+      "observed_at": "2026-10-16T00:00:00Z",
+      "policy_epoch": 1,
+      "revision_id": "r1",
+      "source_id": "SYN.R03",
+      "source_sha256": "c51e1133a9dceef59f56f2621750aefb6550be984464db3fd4044ef59e3d4e81",
+      "supersession_state": "superseded",
+      "text_bytes": 187,
+      "text_sha256": "c51e1133a9dceef59f56f2621750aefb6550be984464db3fd4044ef59e3d4e81"
+    },
+    {
+      "access_state": "available",
+      "content_ref": "corpus/R03-current.txt",
+      "exclusion_state": "included",
+      "extraction_sha256": "b7562f271742e25796dc47425682aa1566cf0b9ecae5b53490bcbe9d284fee29",
+      "extractor_version": "synthetic-identity-utf8/v1",
+      "observed_at": "2026-10-16T00:00:00Z",
+      "policy_epoch": 1,
+      "revision_id": "r2",
+      "source_id": "SYN.R03",
+      "source_sha256": "b7562f271742e25796dc47425682aa1566cf0b9ecae5b53490bcbe9d284fee29",
+      "supersession_state": "current",
+      "text_bytes": 191,
+      "text_sha256": "b7562f271742e25796dc47425682aa1566cf0b9ecae5b53490bcbe9d284fee29"
+    },
+    {
+      "access_state": "available",
+      "content_ref": "corpus/R04-old.txt",
+      "exclusion_state": "included",
+      "extraction_sha256": "3653d921d517da7b60d8ebac0defc3cc7f1eb1d940549618ce5ab7eaa50849f6",
+      "extractor_version": "synthetic-identity-utf8/v1",
+      "observed_at": "2026-10-16T00:00:00Z",
+      "policy_epoch": 1,
+      "revision_id": "r1",
+      "source_id": "SYN.R04",
+      "source_sha256": "3653d921d517da7b60d8ebac0defc3cc7f1eb1d940549618ce5ab7eaa50849f6",
+      "supersession_state": "superseded",
+      "text_bytes": 187,
+      "text_sha256": "3653d921d517da7b60d8ebac0defc3cc7f1eb1d940549618ce5ab7eaa50849f6"
+    },
+    {
+      "access_state": "available",
+      "content_ref": "corpus/R04-current.txt",
+      "exclusion_state": "included",
+      "extraction_sha256": "8b041c86d5b321191d3568def1a176eb6cbe5c764b2ca36646a590e36a130489",
+      "extractor_version": "synthetic-identity-utf8/v1",
+      "observed_at": "2026-10-16T00:00:00Z",
+      "policy_epoch": 1,
+      "revision_id": "r2",
+      "source_id": "SYN.R04",
+      "source_sha256": "8b041c86d5b321191d3568def1a176eb6cbe5c764b2ca36646a590e36a130489",
+      "supersession_state": "current",
+      "text_bytes": 191,
+      "text_sha256": "8b041c86d5b321191d3568def1a176eb6cbe5c764b2ca36646a590e36a130489"
+    },
+    {
+      "access_state": "available",
+      "content_ref": "corpus/R05-old.txt",
+      "exclusion_state": "included",
+      "extraction_sha256": "37555e5951bd322c038183974ab7f93aca45d2dd71a77fe9afa9ca76b9105dc1",
+      "extractor_version": "synthetic-identity-utf8/v1",
+      "observed_at": "2026-10-16T00:00:00Z",
+      "policy_epoch": 1,
+      "revision_id": "r1",
+      "source_id": "SYN.R05",
+      "source_sha256": "37555e5951bd322c038183974ab7f93aca45d2dd71a77fe9afa9ca76b9105dc1",
+      "supersession_state": "superseded",
+      "text_bytes": 187,
+      "text_sha256": "37555e5951bd322c038183974ab7f93aca45d2dd71a77fe9afa9ca76b9105dc1"
+    },
+    {
+      "access_state": "available",
+      "content_ref": "corpus/R05-current.txt",
+      "exclusion_state": "included",
+      "extraction_sha256": "c59300d9c4cb482821d38fd506bc8c79ecb6e3be69274d34765cd7afe2bcf193",
+      "extractor_version": "synthetic-identity-utf8/v1",
+      "observed_at": "2026-10-16T00:00:00Z",
+      "policy_epoch": 1,
+      "revision_id": "r2",
+      "source_id": "SYN.R05",
+      "source_sha256": "c59300d9c4cb482821d38fd506bc8c79ecb6e3be69274d34765cd7afe2bcf193",
+      "supersession_state": "current",
+      "text_bytes": 191,
+      "text_sha256": "c59300d9c4cb482821d38fd506bc8c79ecb6e3be69274d34765cd7afe2bcf193"
+    },
+    {
+      "access_state": "available",
+      "content_ref": "corpus/R06-old.txt",
+      "exclusion_state": "included",
+      "extraction_sha256": "90c20ddfb3c7653debe508a25a8fcb9f3ac4feabb78e76855c20ad8c7d3a358c",
+      "extractor_version": "synthetic-identity-utf8/v1",
+      "observed_at": "2026-10-16T00:00:00Z",
+      "policy_epoch": 1,
+      "revision_id": "r1",
+      "source_id": "SYN.R06",
+      "source_sha256": "90c20ddfb3c7653debe508a25a8fcb9f3ac4feabb78e76855c20ad8c7d3a358c",
+      "supersession_state": "superseded",
+      "text_bytes": 187,
+      "text_sha256": "90c20ddfb3c7653debe508a25a8fcb9f3ac4feabb78e76855c20ad8c7d3a358c"
+    },
+    {
+      "access_state": "available",
+      "content_ref": "corpus/R06-current.txt",
+      "exclusion_state": "included",
+      "extraction_sha256": "ec2c6df25f9c796e9f0daa980dc9e83dcbb9bda40d1c7630900ef46d60f5d7a4",
+      "extractor_version": "synthetic-identity-utf8/v1",
+      "observed_at": "2026-10-16T00:00:00Z",
+      "policy_epoch": 1,
+      "revision_id": "r2",
+      "source_id": "SYN.R06",
+      "source_sha256": "ec2c6df25f9c796e9f0daa980dc9e83dcbb9bda40d1c7630900ef46d60f5d7a4",
+      "supersession_state": "current",
+      "text_bytes": 191,
+      "text_sha256": "ec2c6df25f9c796e9f0daa980dc9e83dcbb9bda40d1c7630900ef46d60f5d7a4"
+    },
+    {
+      "access_state": "available",
+      "content_ref": "corpus/R07-old.txt",
+      "exclusion_state": "included",
+      "extraction_sha256": "5a1ae52f41025b926065ce72680df734ff9ecb71c5d9bdba3f86d67a4e029238",
+      "extractor_version": "synthetic-identity-utf8/v1",
+      "observed_at": "2026-10-16T00:00:00Z",
+      "policy_epoch": 1,
+      "revision_id": "r1",
+      "source_id": "SYN.R07",
+      "source_sha256": "5a1ae52f41025b926065ce72680df734ff9ecb71c5d9bdba3f86d67a4e029238",
+      "supersession_state": "superseded",
+      "text_bytes": 187,
+      "text_sha256": "5a1ae52f41025b926065ce72680df734ff9ecb71c5d9bdba3f86d67a4e029238"
+    },
+    {
+      "access_state": "available",
+      "content_ref": "corpus/R07-current.txt",
+      "exclusion_state": "included",
+      "extraction_sha256": "b4cd5d12cac6e117921e3fb19812ba9efa70a6343f144b2d0b16bb4364e43891",
+      "extractor_version": "synthetic-identity-utf8/v1",
+      "observed_at": "2026-10-16T00:00:00Z",
+      "policy_epoch": 1,
+      "revision_id": "r2",
+      "source_id": "SYN.R07",
+      "source_sha256": "b4cd5d12cac6e117921e3fb19812ba9efa70a6343f144b2d0b16bb4364e43891",
+      "supersession_state": "current",
+      "text_bytes": 191,
+      "text_sha256": "b4cd5d12cac6e117921e3fb19812ba9efa70a6343f144b2d0b16bb4364e43891"
+    },
+    {
+      "access_state": "available",
+      "content_ref": "corpus/R08-old.txt",
+      "exclusion_state": "included",
+      "extraction_sha256": "78839b982a7339bd6e6d77547d97871ebc90a4361aca2fbb918e923d2584a37f",
+      "extractor_version": "synthetic-identity-utf8/v1",
+      "observed_at": "2026-10-16T00:00:00Z",
+      "policy_epoch": 1,
+      "revision_id": "r1",
+      "source_id": "SYN.R08",
+      "source_sha256": "78839b982a7339bd6e6d77547d97871ebc90a4361aca2fbb918e923d2584a37f",
+      "supersession_state": "superseded",
+      "text_bytes": 187,
+      "text_sha256": "78839b982a7339bd6e6d77547d97871ebc90a4361aca2fbb918e923d2584a37f"
+    },
+    {
+      "access_state": "available",
+      "content_ref": "corpus/R08-current.txt",
+      "exclusion_state": "included",
+      "extraction_sha256": "b8b1d92e7a064b8928890170e059a41839ad756a68dd2ad84a9bf4e67e85f87a",
+      "extractor_version": "synthetic-identity-utf8/v1",
+      "observed_at": "2026-10-16T00:00:00Z",
+      "policy_epoch": 1,
+      "revision_id": "r2",
+      "source_id": "SYN.R08",
+      "source_sha256": "b8b1d92e7a064b8928890170e059a41839ad756a68dd2ad84a9bf4e67e85f87a",
+      "supersession_state": "current",
+      "text_bytes": 192,
+      "text_sha256": "b8b1d92e7a064b8928890170e059a41839ad756a68dd2ad84a9bf4e67e85f87a"
+    }
+  ],
+  "text_transform": {
+    "normalization": "none",
+    "version": "synthetic-identity-utf8/v1"
+  }
+}

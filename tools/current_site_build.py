@@ -19,6 +19,8 @@ import tempfile
 from urllib.parse import quote, urlsplit
 
 from current_site_data import parse_json, public_inventory_path, safe_path
+from current_inventory_acquisition import (project_current_acquisitions, current_source_list,
+                                           inventory_legend, acquisition_notice, date_explanation)
 from site_asset_release import transform, without_release
 from current_site_history import (choose_archive, mathematical_projection, mathematical_digest, manifest_bytes,
                                   manifest_plan, render_static_v2, render_live_current_v2,
@@ -169,7 +171,9 @@ def source_list(sources):
                      for source in sources)
 
 
-def current_section(data, meta, *, prefix="", search=True, snapshot_prefix=None, archived=False):
+def current_section(data, meta, *, prefix="", search=True, snapshot_prefix=None, archived=False, acquisition=None):
+    if not archived and acquisition is None:
+        acquisition = project_current_acquisitions(data)
     snapshot_prefix = snapshot_prefix if snapshot_prefix is not None else f'{prefix}snapshots/{meta.get("archive", meta["sha256"])}/'
     node_index = snapshot_prefix + "nodes/index.html" if archived else prefix + "nodes/index.html"
     pins = " · ".join(f'<a href="https://github.com/{escape(repo["repository"])}/tree/{repo["commit"]}">{escape(repo["repository"].split("/")[1])} <code>{repo["commit"]}</code></a>'
@@ -178,16 +182,19 @@ def current_section(data, meta, *, prefix="", search=True, snapshot_prefix=None,
                       for ref in data["references"])
     controls = ""
     if search:
-        controls = ('<details><summary>Search the current public source inventory</summary>\n'
+        controls = ((inventory_legend() + '<div class="current-acquisition-notice">' + acquisition_notice(acquisition) + '</div>' if not archived else '')
+                    + '<details><summary>Search the current public source inventory</summary>\n'
                     '<label>Source path or repository <input class="current-search" type="search" disabled placeholder="Search after snapshot verification"></label>\n'
                     f'<p class="current-count">{min(8, len(data["sources"]))} of {len(data["sources"])} indexed public files shown. Historical, recovery and operational paths are outside this discovery population.</p>\n'
-                    '<ul class="current-results">\n' + source_list(data["sources"][:8]) + '\n</ul>\n'
+                    + ('<ul class="current-results" aria-describedby="current-inventory-legend">\n' + current_source_list(data["sources"][:8], acquisition) if not archived else '<ul class="current-results">\n' + source_list(data["sources"][:8])) + '\n</ul>\n'
                     '<button class="current-more" type="button" hidden>Show more files</button>\n'
                     '<noscript><p>Use the <a href="' + node_index + '#sources">complete static source inventory</a>.</p></noscript>\n</details>')
     return (f'<section id="current-research" class="current-research" data-current-digest="{meta["sha256"]}" data-current-bytes="{meta["bytes"]}">\n'
             + ('<h2>Snapshot research sources</h2>\n' if archived else '<h2>Current research sources</h2>\n')
             + f'<p class="current-state" role="status">Pinned source observation: <time datetime="{data["observed_at"]}">{data["observed_at"]}</time>. Compare this timestamp with the present time; observation is not scientific revalidation.</p>\n'
             f'<p>{pins}</p>\n<p>{refs}</p>\n'
+            + (date_explanation(data, prefix=prefix, snapshot_prefix=snapshot_prefix) if not archived else '')
+            +
             f'<p><a href="{prefix}dependencies.html#current-atlas">Current mathematical atlas</a> · <a href="{node_index}">Current static graph and complete source inventory</a> · <a href="{prefix}current.json">Exact current observation payload</a> · <a href="{snapshot_prefix}nodes/index.html">Historical mathematical material (original pins and observation)</a>. Scientific effect: NONE.</p>\n'
             + controls + '\n</section>')
 
@@ -287,7 +294,7 @@ def static_page(data, meta, title, body, *, archived=False, node_id=None):
             '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
             '<meta http-equiv="Content-Security-Policy" content="default-src \'none\'; style-src \'self\'; img-src \'self\'; script-src \'none\'; base-uri \'none\'; form-action \'none\'">\n'
             f'<title>{escape(title)} · Research dependency atlas</title>\n'
-            f'<link rel="stylesheet" href="{site_prefix}brand.css"><link rel="stylesheet" href="{site_prefix}style.css"><link rel="stylesheet" href="{site_prefix}current.css">\n'
+            f'<link rel="stylesheet" href="{site_prefix}style.css"><link rel="stylesheet" href="{site_prefix}brand.css"><link rel="stylesheet" href="{site_prefix}current.css">\n'
             '</head><body><main class="node-static">\n'
             f'<nav aria-label="Research site"><a href="{site_prefix}index.html">Home</a> · <a href="{site_prefix}explore.html">Explore</a> · <a href="{site_prefix}research.html">Research</a> · <a href="{site_prefix}workspace.html#inventory">Library</a> · <a href="{site_prefix}dependencies.html#current-atlas">Current dependencies</a> · <a href="index.html">Static graph index</a></nav>\n'
             + current_section(data, meta, prefix=site_prefix, search=False,
@@ -410,7 +417,8 @@ def build(site, payload):
         ensure_render_budget(projection, archive_meta)
         archive = {"current.json": projection_raw, "current-meta.json": manifest_bytes(archive_meta),
                    **render_static_v2(projection, archive_meta, archived=True)}
-    aliases = render_live_current_v2(data, meta)
+    acquisition = project_current_acquisitions(data)
+    aliases = render_live_current_v2(data, meta, acquisition=acquisition)
     planned, all_aliases, _ = manifest_plan(site, data, meta, raw, aliases, archive)
     capacity = planned["capacity"]
     capacity_html = (f'<p class="current-capacity">History capacity: {capacity["snapshots"]} of {capacity["maximum_snapshots"]} mathematical archives; '
@@ -431,7 +439,7 @@ def build(site, payload):
         end = original.index(END)
         script_free = page.name in ("research.html", "formal.html") or bool(re.search(
             rb"script-src\s+(?:&#39;|'|&apos;)none(?:&#39;|'|&apos;)", original))
-        section = current_section(data, meta, search=not script_free).replace("\n</section>", "\n" + capacity_html + "\n</section>").encode("utf-8")
+        section = current_section(data, meta, search=not script_free, acquisition=acquisition).replace("\n</section>", "\n" + capacity_html + "\n</section>").encode("utf-8")
         outputs[page.name] = original[:start] + b"\n" + section + b"\n" + original[end:]
     archive_relative = f'snapshots/{archive_id}'
     archive_outputs = ({f"{archive_relative}/{name}": content for name, content in archive.items()} if archive else {})

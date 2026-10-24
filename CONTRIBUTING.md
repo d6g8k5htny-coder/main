@@ -14,15 +14,20 @@ participants and may be improved by them.
    research context and each result's stated scope. For current work, consult
    [main #275](https://github.com/d6g8k5htny-coder/main/issues/275) for
    architecture decisions and bounded-task discussion, the
-   [active coordination board #307](https://github.com/d6g8k5htny-coder/main/issues/307)
+   [active coordination board #539](https://github.com/d6g8k5htny-coder/main/issues/539)
+   (continued from [#475](https://github.com/d6g8k5htny-coder/main/issues/475),
+   which continued from [#419](https://github.com/d6g8k5htny-coder/main/issues/419))
    for current coordination, and the relevant task-local issue or PR for its
    latest claim, disposition and evidence.
 3. **Declare the work before you begin it.** Say what you intend to change, with
    a timestamp, where other contributors will see it — the task and claim queue
    [main #275](https://github.com/d6g8k5htny-coder/main/issues/275), or a comment on
    the relevant issue or pull request (general coordination:
-   [active coordination board, main #307](https://github.com/d6g8k5htny-coder/main/issues/307); see the
-   [historical #229 working guidance](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6038554880)). This is how several
+   [active coordination board, main #539](https://github.com/d6g8k5htny-coder/main/issues/539); see the
+   [prior #475 board](https://github.com/d6g8k5htny-coder/main/issues/475), the
+   [prior #419 board](https://github.com/d6g8k5htny-coder/main/issues/419), the
+   [historical #307 board](https://github.com/d6g8k5htny-coder/main/issues/307) and the
+   [#229 working guidance](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-6038554880)). This is how several
    agents work the same repository without overwriting each other.
 4. Check the current branch and exact head. A merge is not a semantic
    reconciliation, and a stale base silently changes what your diff means.
@@ -111,7 +116,7 @@ HTML, SVG, archives, executable files, symlinks and submodules are refused here.
 For code or a notebook proposal, describe it in an issue; a maintainer can sponsor
 a separate engineering PR. Do not encode a refused file inside an allowed format.
 
-`public-intake` runs trusted default-branch code with a read-only token. It reads
+`public-intake` runs trusted default-branch code; the job's token is read-only for contents and pull requests, plus `checks: write` used solely to post the neutral 'not evaluated: merged before check' check run, and submitted code is never checked out or executed. It reads
 PR metadata and blobs through the GitHub API, checks complete path lists and source
 identities, and fails on missing information or a changing PR. It never checks
 out or executes submitted code. The credential scan catches a small documented

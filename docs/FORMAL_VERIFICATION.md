@@ -2,6 +2,21 @@
 
 Owner directive: Dylan Roy, 27 September 2026. Scientific effect: **NONE**.
 
+## Current routing (13 October 2026)
+
+This dated note is contributor routing only. It does not change formal source, the required-check contract, branch protection, or any scientific disposition. A merge or green check is not theorem acceptance.
+
+New formal work is claimed in the relevant current formal pull request or work discussion, not on closed [main#95](https://github.com/d6g8k5htny-coder/main/issues/95). Work without a pull request uses the relevant work discussion. Use [main#275](https://github.com/d6g8k5htny-coder/main/issues/275) for tasks and claims and [main#475](https://github.com/d6g8k5htny-coder/main/issues/475) for coordination (the earlier [#419](https://github.com/d6g8k5htny-coder/main/issues/419) and [#307](https://github.com/d6g8k5htny-coder/main/issues/307) are readable history). Read the [current workflow](../governance/OP-WORKFLOW-20260930.md) before writing, and reconcile exact-path ownership with any open documentation lane.
+
+Examples of later formal companions, kept distinct from the September scalar pilot:
+
+- Landed cap companion: [Math- `frontiers/cap_first_exit_lean_20261002/README.md` at `7d2f62500ad6effba2bbdf6f3b89b0826408dc4a`](https://github.com/d6g8k5htny-coder/Math-/blob/7d2f62500ad6effba2bbdf6f3b89b0826408dc4a/frontiers/cap_first_exit_lean_20261002/README.md) (README blob `4f5e1bf09f3ae7acf8dc60289697f40baecba56c`, as cited by main#286). This is a conditional deterministic formal companion, not kernel evidence for the full probability or persistence-module theorem.
+- Retained formal interfaces: [Math-#193](https://github.com/d6g8k5htny-coder/Math-/issues/193).
+
+The evidence distinctions in "One proof, several separate questions" below explain the separate questions that formal evidence addresses. The September pilot's origin, implementation, execution snapshot and standing instructions are retained as historical evidence, including their original source identities and failed hosted build. Current execution and enforcement requirements are specified in the [required-check contract](FORMAL_REQUIRED_CHECKS.md).
+
+**September 2026 origin — original wording:**
+
 This extends the existing [formal-ladder work item #95](https://github.com/d6g8k5htny-coder/main/issues/95). It does not renumber that ladder, replace the scientific-status authority, or retroactively describe reviewed informal proofs as formal proofs.
 
 ## One proof, several separate questions
@@ -16,7 +31,7 @@ This extends the existing [formal-ladder work item #95](https://github.com/d6g8k
 
 The primary backend is Lean 4 + mathlib. Dependencies and workflow actions are pinned. Formal evidence is an additional conjunction in a future promotion decision, never a substitute for a missing parent obligation. The present pilot does not change repository-wide branch protection or the controlling promotion engine.
 
-## Implemented pilot and exact sources
+## Implemented pilot and exact sources (historical, September 2026)
 
 [Math- PR92](https://github.com/d6g8k5htny-coder/Math-/pull/92) introduces an isolated `formal/` package. Inspect the exact successor [commit cc2989c1280f4f227d0c6aa30c8841d6ba01e46e](https://github.com/d6g8k5htny-coder/Math-/tree/cc2989c1280f4f227d0c6aa30c8841d6ba01e46e/formal) and its [execution run](https://github.com/d6g8k5htny-coder/Math-/actions/runs/36352398376). A PR link is not evidence that it has landed; the run itself supplies its outcome.
 
@@ -28,13 +43,17 @@ The first hosted build exposed three compilation defects. Original source bytes 
 
 ## Gate and trust boundary
 
+*September 2026 pilot execution snapshot. The counts below are historical; current enforcement is specified in the [required-check contract](FORMAL_REQUIRED_CHECKS.md).*
+
 The source-only gate checks hashes and inventory; it is not a Lean run. Execution additionally performs a fresh local-package build, `leanchecker`, complete `#print axioms` reports, elaborated-type capture and five real negative controls. `sorryAx`, custom axioms and native-computation axioms are rejected; the only allowed foundational axioms are `propext`, `Classical.choice` and `Quot.sound`. Actual installed dependency commits are compared with the lock. Missing evidence fails closed.
 
 The controls include false fold and power inequalities, a `sorry` proof, an indirect custom axiom and a native-computation proof. The Python gate has 38 tests in both normal and optimized mode. A receipt is emitted only after the execution checks succeed, and identifies the exact Git commit, environment, manifest, logs and results. Treat a caller-supplied JSON receipt as untrusted until matched to the actual trusted workflow.
 
 `none`, `specified`, `proved` (proof text supplied), and `kernel-checked` are formal-progress labels. Independent alignment is a separate pending/accepted/stale dimension. None is a replacement for scientific ACCEPT/AMEND. An authenticated alignment review must bind the exact manifest, scope and complete target set, cite immutable review evidence, and record different author/reviewer provider, family and agent. A validator checks that contract; strings alone cannot authenticate a reviewer.
 
-## Standing instructions for current and future agents
+## Historical standing instructions (September 2026 pilot)
+
+The following offer table is retained as the September pilot record. It is not the current claim route. Current claim route: the relevant current formal pull request or work discussion, with tasks and claims on main#275 and coordination on main#419 (successor to main#307). Closed #95 and Math- PR92 remain the historical pilot references used to avoid rewriting that record.
 
 Use #95 and PR92 to claim work and avoid duplicate writers. The OpenAI implementation author does not supply independent review credit. Read the exact head before reviewing; changed source, scope or dependencies invalidate the prior alignment record.
 
