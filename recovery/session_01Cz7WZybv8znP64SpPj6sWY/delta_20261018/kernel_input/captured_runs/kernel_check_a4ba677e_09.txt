@@ -1,0 +1,47 @@
+# command run at 2026-10-18T01:16:37.460Z (result at 2026-10-18T01:16:38.101Z) by a check agent of this session, run wf_966f8d9a-712
+# --- command ---
+cd <SCRATCH>/kern/work_containment && for f in fixtures/point_certificate.TEST_ONLY.json fixtures/interval_certificate.TEST_ONLY.json out_sweep/106.json out_sweep/197.json; do b=$(basename $f .json); echo -n "$b@128/32/24: "; python3 -I ../scripts_containment/tighten.py . $f tight/${b}_128.json 128 32 24; done; ls tight; cat > ../scripts_containment/contain_files.py <<'EOF'
+import sys, json, os
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import contain, mpmath as mp
+tot = 0; nf = 0
+for fn in sys.argv[1:]:
+    if not fn.endswith(".json") or fn.endswith("mutations.json"): continue
+    c = json.load(open(fn))
+    fails, mm, ns = contain.check(c, 24)
+    tot += ns; nf += len(fails)
+    for f in fails: print("FAIL", fn, f)
+    print(os.path.basename(fn), "L=[%s,%s]" % (c["request"]["L_lo"][:20], c["request"]["L_hi"][:20]), "samples", ns, "fails", len(fails), "min mu2 margin", mp.nstr(mm["mu2"][0], 4))
+print("TOTAL samples", tot, "fails", nf)
+EOF
+<SCRATCH>/m193/venv/bin/python -I ../scripts_containment/contain_files.py tight/*.json
+# --- captured tool output (verbatim) ---
+point_certificate.TEST_ONLY@128/32/24: ACCEPT tightened vs producer widths: {'mu2': '3.94e-22->2.07e-34', 'mu4': '4.64e-20->3.31e-32', 'mu6': '6.72e-18->5.3e-30', 'z': '4.96e-24->1.31e-36'}
+interval_certificate.TEST_ONLY@128/32/24: ACCEPT tightened vs producer widths: {'mu2': '0.568->0.568', 'mu4': '22.4->22.4', 'mu6': '885->885', 'z': '0.0144->0.0144'}
+106@128/32/24: ACCEPT tightened vs producer widths: {'mu2': '0.000558->0.000558', 'mu4': '0.0106->0.0106', 'mu6': '0.209->0.209', 'z': '3.53e-05->3.53e-05'}
+197@128/32/24: ACCEPT tightened vs producer widths: {'mu2': '0.112->0.112', 'mu4': '0.873->0.873', 'mu6': '7.75->7.75', 'z': '0.161->0.161'}
+105.json
+106_128.json
+197_128.json
+201.json
+210.json
+290.json
+326.json
+350.json
+interval_certificate.TEST_ONLY.json
+interval_certificate.TEST_ONLY_128.json
+point_certificate.TEST_ONLY.json
+point_certificate.TEST_ONLY_128.json
+105.json L=[3/1,3/1] samples 1 fails 0 min mu2 margin 2.338e-5
+106_128.json L=[3/1,3/1] samples 1 fails 0 min mu2 margin 2.338e-5
+197_128.json L=[30/1,30/1] samples 1 fails 0 min mu2 margin 0.03161
+201.json L=[30/1,30/1] samples 1 fails 0 min mu2 margin 2.589e-22
+210.json L=[1/7,1/7] samples 1 fails 0 min mu2 margin 3.379e-417
+290.json L=[1/1,1000000000001/100000] samples 32 fails 0 min mu2 margin 2.905e-17
+326.json L=[3/10,30/1] samples 32 fails 0 min mu2 margin 4.917e-93
+350.json L=[7/400,1/20] samples 32 fails 0 min mu2 margin 1.419e-27987
+interval_certificate.TEST_ONLY.json L=[1/1,2/1] samples 32 fails 0 min mu2 margin 1.592e-7
+interval_certificate.TEST_ONLY_128.json L=[1/1,2/1] samples 32 fails 0 min mu2 margin 1.592e-7
+point_certificate.TEST_ONLY.json L=[1/1,1/1] samples 1 fails 0 min mu2 margin 6.295e-23
+point_certificate.TEST_ONLY_128.json L=[1/1,1/1] samples 1 fails 0 min mu2 margin 1.103e-36
+TOTAL samples 167 fails 0

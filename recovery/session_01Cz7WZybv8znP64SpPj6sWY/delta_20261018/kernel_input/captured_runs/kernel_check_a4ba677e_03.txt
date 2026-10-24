@@ -1,0 +1,49 @@
+# command run at 2026-10-18T01:00:13.156Z (result at 2026-10-18T01:00:21.547Z) by a check agent of this session, run wf_966f8d9a-712
+# --- command ---
+cat > <SCRATCH>/kern/scripts_containment/contain_all.py <<'EOF'
+import sys, json, os
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import contain, mpmath as mp
+summ = json.load(open(sys.argv[1]))
+use_dual = len(sys.argv) > 2 and sys.argv[2] == "dual"
+total_fail = 0; nsamp = 0; ncert = 0
+tight = []
+for s in summ:
+    if s["status"] != "ENCLOSED": continue
+    c = json.load(open(s["path"]))
+    fails, mm, ns = contain.check(c, 24, use_dual=use_dual)
+    ncert += 1; nsamp += ns; total_fail += len(fails)
+    for f in fails: print("FAIL", s["tag"], f)
+    # record tightest relative margin vs width
+    from fractions import Fraction as F
+    for k,(m,L) in mm.items():
+        if not k.startswith("raw"):
+            lo,hi = map(F, c["bounds"][k])
+            w = hi-lo
+            if w > 0:
+                tight.append((m/ (mp.mpf(w.numerator)/w.denominator), s["tag"], k, L, mp.nstr(m,5)))
+            else:
+                tight.append((mp.mpf(-1) if m < 0 else mp.mpf(0), s["tag"], k, L, "zero-width"))
+print("certs", ncert, "samples", nsamp, "containment failures", total_fail)
+tight.sort(key=lambda t: t[0])
+for t in tight[:12]: print(" tightest margin/width", mp.nstr(t[0],5), t[1:])
+EOF
+cd <SCRATCH>/kern && time <SCRATCH>/m193/venv/bin/python -I scripts_containment/contain_all.py work_containment/out_sweep/summary.json 2>&1 | tail -20
+# --- captured tool output (verbatim) ---
+certs 295 samples 2403 containment failures 0
+ tightest margin/width 0.0 ('pt L=1/7 M=1 b=128 p=24', 'z', '1/7', '0.0')
+ tightest margin/width 0.0 ('pt L=1/7 M=1 b=80 p=16', 'z', '1/7', '0.0')
+ tightest margin/width 0.0 ('pt L=1/7 M=2 b=128 p=24', 'z', '1/7', '0.0')
+ tightest margin/width 0.0 ('pt L=1/7 M=2 b=80 p=16', 'z', '1/7', '0.0')
+ tightest margin/width 0.0 ('pt-coarse L=1/7', 'z', '1/7', '0.0')
+ tightest margin/width 0.0 ('pt L=1/20 M=1 b=128 p=24', 'z', '1/20', '0.0')
+ tightest margin/width 0.0 ('pt L=1/20 M=1 b=80 p=16', 'z', '1/20', '0.0')
+ tightest margin/width 0.0 ('pt L=1/20 M=2 b=128 p=24', 'z', '1/20', '0.0')
+ tightest margin/width 0.0 ('pt L=1/20 M=2 b=80 p=16', 'z', '1/20', '0.0')
+ tightest margin/width 0.0 ('pt-coarse L=1/20', 'z', '1/20', '0.0')
+ tightest margin/width 0.0 ('pt L=1/50 M=1 b=128 p=24', 'z', '1/50', '0.0')
+ tightest margin/width 0.0 ('pt L=1/50 M=1 b=80 p=16', 'z', '1/50', '0.0')
+
+real	0m7.943s
+user	0m7.823s
+sys	0m0.025s

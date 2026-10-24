@@ -1,0 +1,115 @@
+# command run at 2026-10-18T00:58:50.843Z (result at 2026-10-18T00:58:52.144Z) by a check agent of this session, run wf_966f8d9a-712
+# --- command ---
+cat > <SCRATCH>/kern/scripts_containment/produce.py <<'EOF'
+"""Stdlib-only driver (run with python3 -I). Produces certificates with the delivered
+producer copy and verifies them with the delivered checker copy (separate module).
+argv: workdir requests.json outdir"""
+import sys, json, os, time
+work, reqfile, outdir = sys.argv[1], sys.argv[2], sys.argv[3]
+sys.path.insert(0, work)
+import moment_kernel as mk
+import verify_certificate as vc
+os.makedirs(outdir, exist_ok=True)
+reqs = json.load(open(reqfile))
+summary = []
+for i, (tag, req) in enumerate(reqs):
+    t = time.monotonic()
+    try:
+        c = mk.certify(req)
+    except mk.KernelHold as e:
+        summary.append({"tag": tag, "req": req, "status": "HOLD", "reason": e.reason, "t": time.monotonic()-t})
+        continue
+    dt = time.monotonic()-t
+    try:
+        vc.verify(json.loads(json.dumps(c)))
+        v = "ACCEPT"
+    except ValueError as e:
+        v = "REJECT:" + str(e)
+    path = os.path.join(outdir, "%03d.json" % i)
+    with open(path, "w") as f:
+        json.dump(c, f, sort_keys=True)
+    summary.append({"tag": tag, "req": req, "status": c["status"], "outcome": c["outcome"], "verify": v, "path": path, "t": dt})
+json.dump(summary, open(os.path.join(outdir, "summary.json"), "w"), indent=1)
+for s in summary:
+    print(s["tag"], s["status"], s.get("reason", s.get("outcome")), s.get("verify", ""), "%.3fs" % s["t"])
+EOF
+cat > <SCRATCH>/kern/scripts_containment/contain.py <<'EOF'
+"""mpmath containment checker (venv python -I). argv: cert.json [nsamples]
+Checks every certified bound contains the high-precision reference at endpoints and
+interior sample points of [L_lo, L_hi]."""
+import sys, json, os
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import ref, mpmath as mp
+from fractions import Fraction as F
+mp.mp.dps = 130
+
+def samples(lo, hi, n):
+    if lo == hi:
+        return [lo]
+    pts = [lo, hi]
+    for j in range(1, n + 1):
+        pts.append(lo + (hi - lo) * F(j, n + 1))
+    # a few irregular interior points
+    for num, den in [(1, 997), (996, 997), (1, 3), (2, 3), (1, 7), (355, 1130)]:
+        pts.append(lo + (hi - lo) * F(num, den))
+    return sorted(set(pts))
+
+def mpf(q):
+    return mp.mpf(q.numerator) / q.denominator
+
+def check(cert, n=24, use_dual=False):
+    r = cert["request"]
+    lo, hi = F(r["L_lo"]), F(r["L_hi"])
+    b = {k: (F(v[0]), F(v[1])) for k, v in cert["bounds"].items()}
+    raw = {k: (F(v[0]), F(v[1])) for k, v in cert["raw"].items()}
+    fails = []
+    minmargin = {}
+    for L in samples(lo, hi, n):
+        d = ref.direct(L)
+        vals = {"z": d["z"], "mu2": d["mu2"], "mu4": d["mu4"], "mu6": d["mu6"]}
+        rawv = {"0": d["S"][0], "2": d["S"][1], "4": d["S"][2], "6": d["S"][3]}
+        if use_dual:
+            u = ref.dual(L)
+            for k in vals:
+                if abs(vals[k] - u[k]) > mp.mpf(10) ** -100 * max(abs(vals[k]), mp.mpf(10) ** -200):
+                    fails.append(("DUAL_MISMATCH", str(L), k))
+        for k, v in list(vals.items()) + [("raw" + k2, v2) for k2, v2 in rawv.items()]:
+            lo_b, hi_b = b[k] if not k.startswith("raw") else raw[k[3:]]
+            ml, mh = v - mpf(lo_b), mpf(hi_b) - v
+            if ml < 0 or mh < 0:
+                fails.append(("NONCONTAINMENT", str(L), k, mp.nstr(v, 30), [str(lo_b), str(hi_b)], mp.nstr(ml, 5), mp.nstr(mh, 5)))
+            m = min(ml, mh)
+            if k not in minmargin or m < minmargin[k][0]:
+                minmargin[k] = (m, str(L))
+    return fails, minmargin, len(samples(lo, hi, n))
+
+if __name__ == "__main__":
+    cert = json.load(open(sys.argv[1]))
+    n = int(sys.argv[2]) if len(sys.argv) > 2 else 24
+    fails, mm, ns = check(cert, n, use_dual=True)
+    print("samples", ns, "fails", len(fails))
+    for f in fails: print(" ", f)
+    for k, (m, L) in mm.items(): print(" minmargin", k, mp.nstr(m, 6), "at L=", L)
+EOF
+cd <SCRATCH>/kern && V=<SCRATCH>/m193/venv/bin/python; for c in point interval; do echo "== $c"; $V -I scripts_containment/contain.py work_containment/fixtures/${c}_certificate.TEST_ONLY.json 40; done
+# --- captured tool output (verbatim) ---
+== point
+samples 1 fails 0
+ minmargin z 1.56586e-24 at L= 1
+ minmargin mu2 6.29522e-23 at L= 1
+ minmargin mu4 2.44169e-21 at L= 1
+ minmargin mu6 9.63464e-20 at L= 1
+ minmargin raw0 1.56586e-24 at L= 1
+ minmargin raw2 6.2192e-23 at L= 1
+ minmargin raw4 2.44161e-21 at L= 1
+ minmargin raw6 9.63457e-20 at L= 1
+== interval
+samples 48 fails 0
+ minmargin z 1.56586e-24 at L= 1
+ minmargin mu2 1.59173e-7 at L= 1
+ minmargin mu4 7.82531e-6 at L= 1
+ minmargin mu6 0.000324144 at L= 1
+ minmargin raw0 1.56586e-24 at L= 1
+ minmargin raw2 1.58424e-7 at L= 1
+ minmargin raw4 7.81792e-6 at L= 1
+ minmargin raw6 0.000324071 at L= 1

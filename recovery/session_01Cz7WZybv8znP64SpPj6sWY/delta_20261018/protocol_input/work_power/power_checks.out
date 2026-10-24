@@ -1,0 +1,24 @@
+P3: 85766121 94091762 True q_old^3<2: True q_old^6>2: True
+P16 tilt: 4*r/Q**2  exponent: -2*n*r**2/Q**2
+P18 n from P16=alpha: log((2*J/alpha)**(Q**2/(2*r**2)))  with r=sV: log((2*J/alpha)**(Q**2/(2*V**2*s**2)))
+P19 width: (-Lbar + Ubar + V*(2*B + t_j) + 2*r)/V  | A+ - yhat - D = 0  | yhat - A- - D = -t_j
+floor(a) argmin Q/m: [eta - 2 + 1/eta]
+floor(a) n/ln(2J/alpha) >= 8*(eta - 1)**4/eta**4
+  at eta=1/20: 1042568 ; Q/m* = 361/20 = 18.05
+  J=2, alpha=0.999999: n >= 1445307
+  J=8, alpha=0.05: n >= 6013867
+  J=8, alpha=0.01: n >= 7691815
+  J=8, alpha=0.1: n >= 5291214
+floor(b) n/ln(2J/alpha) >= 2*(1 - eta)**2/eta**2  at eta=1/20: 722
+  J=2, alpha=0.999999: n >= 1000.905
+  J=8, alpha=0.05: n >= 4164.728
+  J=8, alpha=0.01: n >= 5326.742
+ratio floor(a)/floor(b) = 4 - 8/eta + 4/eta**2 = 1444
+floor(a) with KL instead of Hoeffding: n/ln(2J/alpha) >= approx 179608.22 at Q/m = 26.25
+common Q,r, J=2: P13 route n/ln >= 1159826.0 (Q/m0=23.375); Jensen floor n/ln >= 1800.0 (Q/m0=1.5)
+common Q,r, J=8: P13 route n/ln >= 4.905662e+7 (Q/m0=238.25); Jensen floor n/ln >= 446512.5 (Q/m0=23.625)
+(m_{J-1}/m_0)^2 for J=8: 645.07958
+shell ratio small-u slope (x delta/a): 8.142990869  closed form (8/3)(1+2^(-1/3))/(2^(2/3)-1) = 8.142990869
+P14 route (2H<=eta C0 w, all budget): need a/delta >= 325.72024 ; X+- route (H once): 162.86103
+  => J=8 window ratio ell_*/delta >= 2^8 a/delta + 2 : 83386.382 (P14), 41694.424 (X+-)
+randomised sandwiches: P8 violations 0 ; reverse N_P(I-)<=N_F(I)<=N_P(I+) violations 0

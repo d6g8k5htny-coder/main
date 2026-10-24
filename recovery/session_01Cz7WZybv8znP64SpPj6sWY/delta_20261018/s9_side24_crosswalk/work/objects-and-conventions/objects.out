@@ -1,0 +1,35 @@
+== (1) FIELD: P 3D image sum vs chain product of 1D k_L, derivative tensor through order 6
+  L=2.2: max |dK_P - dK_chain| over all |gamma|<=6 = 2.3e-41;  K(0): P=1.0 chain=1.0
+  L=24.0: max |dK_P - dK_chain| over all |gamma|<=6 = 1.1e-243;  K(0): P=1.0 chain=1.0
+  L=24 vs K_infty, max derivative diff: 1.2505e-492
+== (4) OBJECTS at L=2.2
+  u=(1, 0, 0): detSg-detCovG=0.0 detSh-detCovV=0.0 max|Gamma_t-Cov(A|V=0)|=0.0 tau2/(144 sig2)=1.0 sig2(sign+)/sig2(sign-)=1.0 parity max=0.0
+  u=(1, 1, 1): detSg-detCovG=0.0 detSh-detCovV=0.0 max|Gamma_t-Cov(A|V=0)|=0.0 tau2/(144 sig2)=1.0 sig2(sign+)/sig2(sign-)=1.0 parity max=0.0
+  u=(0.3, -0.7, 0.2): detSg-detCovG=0.0 detSh-detCovV=0.0 max|Gamma_t-Cov(A|V=0)|=0.0 tau2/(144 sig2)=1.0 sig2(sign+)/sig2(sign-)=1.0 parity max=0.0
+  u=(-0.9, 0.15, 0.4): detSg-detCovG=0.0 detSh-detCovV=0.0 max|Gamma_t-Cov(A|V=0)|=0.0 tau2/(144 sig2)=1.0 sig2(sign+)/sig2(sign-)=1.0 parity max=0.0
+== (4) OBJECTS at L=24
+  u=(1, 0, 0): detSg-detCovG=0.0 detSh-detCovV=0.0 max|Gamma_t-Cov(A|V=0)|=0.0 tau2/(144 sig2)=1.0 sig2(sign+)/sig2(sign-)=1.0 parity max=1.25e-492
+  u=(1, 1, 1): detSg-detCovG=0.0 detSh-detCovV=0.0 max|Gamma_t-Cov(A|V=0)|=0.0 tau2/(144 sig2)=1.0 sig2(sign+)/sig2(sign-)=1.0 parity max=2.4e-493
+  u=(0.3, -0.7, 0.2): detSg-detCovG=0.0 detSh-detCovV=0.0 max|Gamma_t-Cov(A|V=0)|=0.0 tau2/(144 sig2)=1.0 sig2(sign+)/sig2(sign-)=1.0 parity max=6.83e-493
+  u=(-0.9, 0.15, 0.4): detSg-detCovG=0.0 detSh-detCovV=0.0 max|Gamma_t-Cov(A|V=0)|=0.0 tau2/(144 sig2)=1.0 sig2(sign+)/sig2(sign-)=1.0 parity max=7.39e-493
+== (4) OBJECTS at BF
+  u=(1, 0, 0): detSg-detCovG=0.0 detSh-detCovV=0.0 max|Gamma_t-Cov(A|V=0)|=0.0 tau2/(144 sig2)=1.0 sig2(sign+)/sig2(sign-)=1.0 parity max=0.0
+  u=(1, 1, 1): detSg-detCovG=0.0 detSh-detCovV=0.0 max|Gamma_t-Cov(A|V=0)|=0.0 tau2/(144 sig2)=1.0 sig2(sign+)/sig2(sign-)=1.0 parity max=0.0
+  u=(0.3, -0.7, 0.2): detSg-detCovG=0.0 detSh-detCovV=0.0 max|Gamma_t-Cov(A|V=0)|=0.0 tau2/(144 sig2)=1.0 sig2(sign+)/sig2(sign-)=1.0 parity max=0.0
+  u=(-0.9, 0.15, 0.4): detSg-detCovG=0.0 detSh-detCovV=0.0 max|Gamma_t-Cov(A|V=0)|=0.0 tau2/(144 sig2)=1.0 sig2(sign+)/sig2(sign-)=1.0 parity max=0.0
+  BF: tau2 = 6.0  sig2 = 0.041666666666666666667 (056 (35): 1/24)  detSh = 3.0  Cov(u_t,g_t) = ['0.25', '0.0', '0.0']
+  BF: Cov(A|V=0) = [['2.66666666667', '0.0', '0.666666666667'], ['0.0', '1.0', '0.0'], ['0.666666666667', '0.0', '2.66666666667']]
+== (4b) D object: P literal definition (grid, cone indicator) vs LS-DER-060 spectral (chain)
+  L=2.2 u=(0.3, -0.7, 0.2): D_P(direct grid)=0.10046308  D_t(060 spectral)=0.100462981770906  rel diff=9.69e-07
+  L=2.2 u=(1, 1, 1): D_P(direct grid)=0.03252463  D_t(060 spectral)=0.0325246122565006  rel diff=6.78e-07
+  BF u=(1, 0, 0): D_P(direct grid)=2.38384545  D_t(060 spectral)=2.38384359055016  rel diff=7.79e-07
+  BF target D_2 = 29/6 - sqrt(6) = 2.38384359055016
+== (2/3) PIN LEDGER: 12*pi_0(P, f_xxx coordinate, target 12k) vs p_Y(chain, -f_ttt/12, target -kappa/6), kappa=6k
+  L=2.2 u=(0.3, -0.7, 0.2) b=0.4 k=0.7: 12 pi_0 / p_Y = 1.0
+  L=2.2 u=(1, 1, 1) b=-1.1 k=0.25: 12 pi_0 / p_Y = 1.0
+  BF u=(0.3, -0.7, 0.2) b=0.4 k=0.7: 12 pi_0 / p_Y = 1.0  047(7) closed form ratio=1.0
+  BF u=(1, 1, 1) b=-1.1 k=0.25: 12 pi_0 / p_Y = 1.0  047(7) closed form ratio=1.0
+== (3) DIRECTED SPHERE: integrand evenness and full-integrand equality at L=2.2
+  u=(0.3, -0.7, 0.2): P(15.2) integrand=0.00122927105650615698  056(24) integrand=0.00122927105650615698  ratio=1.0  I(-u)/I(u)=1.0
+  u=(1, 1, 1): P(15.2) integrand=0.000279468686615102032  056(24) integrand=0.000279468686615102032  ratio=1.0  I(-u)/I(u)=1.0
+  u=(-0.9, 0.15, 0.4): P(15.2) integrand=0.00219278249269589918  056(24) integrand=0.00219278249269589918  ratio=1.0  I(-u)/I(u)=1.0

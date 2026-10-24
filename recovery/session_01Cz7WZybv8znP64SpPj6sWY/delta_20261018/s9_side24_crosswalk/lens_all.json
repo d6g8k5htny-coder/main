@@ -1,0 +1,429 @@
+[
+ {
+  "verdict": "MATCH_WITH_NOTES",
+  "findings": [
+   {
+    "id": "F1",
+    "claim": "FIELD: the chain's K_L and PROOF/P's K_24 are the same covariance: centered, variance one, scale exp(-|x|^2/2), same image-sum normalization.",
+    "status": "MATCH",
+    "chain_locus": "LS-DER-041 lines 37-39 eq(1) k_L(t)=sum exp(-(t+nL)^2/2)/sum exp(-(nL)^2/2), line 45 eq(2) product form (d=2); LS-DER-061 lines 87-92 eq(1) plus 'product of three copies of k_L' (d=3), lines 107-108 eq(3) derivative covariances; LS-DER-062 lines 132-151 Poisson dual; LS-DER-055 lines 39-47 eqs(1)-(2) K_{d,L}=Z^{-1} sum_{n in Z^d} exp(-|x+nL|^2/2), the literal P/PROOF form",
+    "landing_locus": "PROOF.md lines 16-19 (K_24, variance one, d in {2,3}); P.md lines 11-14 (K_L), line 59 (Poisson a_n)",
+    "evidence": "exp(-|z+Ln|^2/2) is the product over i of exp(-(z_i+Ln_i)^2/2), so the Z^3 sum of the product is the product of the 1D sums, for both numerator and denominator. The chain itself states both forms (055 (1)-(2) and 061 (1)). Numerical check: P's 3D lattice sum (brute force over the cube |n_i|<=6) against the chain's product of 1D moments m_j, for every derivative multi-index with |gamma|<=6. Max difference 2.3e-41 at L=2.2, where images are O(0.09), and 1.1e-243 at L=24 (40-digit run). K(0)=1 in both. objects.out section (1)."
+   },
+   {
+    "id": "F2",
+    "claim": "COUNTED OBJECT: the chain's nu_(3,L)(ell) and P's coefficient density count the same thing. Both are the expected number (first moment) of finite superlevel H0 bars, essential class excluded, per unit volume per unit lifetime, with lifetime = f(M)-f(S). In both, selected elder pairs equal the finite-bar count, and the selected and all-typed counts share one coefficient.",
+    "status": "MATCH",
+    "chain_locus": "LS-CLS-077 lines 58-64 and 120-125 ('finite nonessential superlevel H0 bars', 'first-moment short-lifetime density'); LS-DER-076 line 165 (superlevel X_a={f>=a}), lines 180-185 eq(11) (non-global maxima <-> finite bars <-> merge saddles); LS-DER-058 lines 478-484 eqs(57)-(59) ('complete specific lifetime density of all finite nonessential superlevel H0 bars', C^tot=L^d c); LS-DER-055 line 312 eq(31); LS-DER-075 line 122 eq(6) ell=b-h; LS-DER-053 lines 539-544, 584",
+    "landing_locus": "P.md line 24 (index counts negative eigenvalues: max has d, saddle d-1), line 29 (global ordinary superlevel elder death partner), lines 47-52 Theorem C eq(1.3) (all finite ordinary superlevel H0 bars, expected per unit volume, essential class excluded), line 319 (per unit midpoint volume), line 445 (selected full-pair count = finite-bar count; stationarity gives per-unit-volume density)",
+    "evidence": "Units agree: count per (volume x lifetime), and c ell^(-1/3) has the same dimension in both. Both use the superlevel filtration. In the d=3 chain, 'specific' means per unit volume only by inheritance. The d=2 definition is LS-DER-040 line 55 and CL-AUD-LSDER030 line 60 (per unit ordinary torus area). In d=3 it is fixed by the total=L^d*specific relations (055 eq(31), 058 eq(59)) and by LS-DER-076 eq(10), where the dx integral is not taken. P states per unit volume directly (lines 47, 319, 445)."
+   },
+   {
+    "id": "F3",
+    "claim": "CONVENTIONS, pair coordinates and sphere: both use ordered typed (maximum, index-(d-1) saddle) pairs; midpoint/displacement Jacobian one; M=x-(r/2)u, S=x+(r/2)u; ordinary (not probability-normalized) surface measure over the FULL S^(d-1); no 1/2, antipodal, branch or unordered-pair multiplier.",
+    "status": "MATCH",
+    "chain_locus": "LS-DER-076 lines 82-86 eq(1), 98-107 eqs(3)-(4), 139-153 eqs(8)-(10), line 159 (antipode maps to (S,M), not an atom; 1/2 only for unoriented axes, not used), lines 197-201 eq(12) (branch firewall), 210-233 eqs(13)-(15); LS-CLS-077 lines 50-52; LS-DER-056 line 296 eq(24) over S^2, line 420 (|S^2|=4pi)",
+    "landing_locus": "P.md lines 18-21 (M=-(r/2)u, S=(r/2)u), line 317 (determinant one; sigma is ordinary surface area on S^(d-1), not probability-normalized; 'no factor 1/2: maximum/saddle pairs are ordered by their different roles'), lines 428-430 eq(13.6) and 476-478 eq(15.2) over S^(d-1); PROOF.md lines 21-22, 77 (|S^2|=4pi)",
+    "evidence": "Same orientation (u points from M to S) and the same full-sphere measure. Numerically, the full (15.2) integrand is even in u at L=2.2: I(-u)/I(u)=1 to 20 digits for 3 directions (objects.out section (3)). So the directed convention can only matter through a full-sphere vs hemisphere choice, and both sources integrate the full sphere with no 1/2. Possible convention mistakes and their cost (none present): hemisphere 1/2, probability-normalized S^2 1/(4pi), unordered pairs 1/2 (ledger.out)."
+   },
+   {
+    "id": "F4",
+    "claim": "DEFINITIONS: P's G, t_u, V_u, A_u, tau_u, p_G(0), p_Vu(0), D_u are, as Gaussian objects, the same functionals as LS-DER-056's g_t, -12u_t, h_t, Q_t(q_t), sigma_t, Sigma_g, Sigma_h, D_t.",
+    "status": "MATCH",
+    "chain_locus": "LS-DER-056 lines 121-122 eq(2) (u_t=-d_ttt f/12, g_t), line 128 eq(3) h_t, lines 134-139 eqs(4)-(5) q_t/Q_t, line 154 (parity), line 163 eq(8), lines 166-174 eqs(9)-(10) sigma_t^2, lines 180-198 eqs(11)-(14) Sigma_h, Gamma_t, lines 233-244 eqs(18)-(19) D_t, p_h(0), lines 271-272 eq(22) p_g(0)",
+    "landing_locus": "P.md line 449 (G=grad f, t_u=d_u^3 f, V_u=H u with coordinates (f_xx,f_xy1..), A_u transverse block), lines 451-454 eq(15.1) (tau_u^2=Var(t_u|G=0), D_u=E[(det A_u)^2 1{A_u<0}|V_u=0]), line 456, lines 460-461",
+    "evidence": "objects.py builds each source's objects from its own literal definitions, at L=2.2 (strongly anisotropic: integrand ranges 2.8e-4 to 2.2e-3 across directions), at L=24 and at BF, for 4 directions. Results: det Sigma_g = det Cov(G) and det Sigma_h = det Cov(V_u) exactly; Gamma_t = Cov(A_u|V_u=0) entrywise; tau_u^2/(144 sigma_t^2) = 1; odd-even cross-covariances 0 (parity, both sources). This part shows the two sources name the same functionals; it is not an analytic proof. Independent route for D: P's literal cone-indicator definition (S^2 grid quadrature) against the LS-DER-060 eq(16) spectral formula. Relative agreement 9.7e-7 and 6.8e-7 at L=2.2 and 7.8e-7 at BF, which recovers D_2=29/6-sqrt(6) (objects.out section (4b))."
+   },
+   {
+    "id": "F5",
+    "claim": "BF reference objects in PROOF.md agree with the chain's planar limits.",
+    "status": "MATCH",
+    "chain_locus": "LS-DER-056 lines 396-417 eqs(33)-(37) (Sigma_g->I, det Sigma_h->3, sigma_t^2->1/24, Q|h=0 = GOE_2 + sqrt(2/3) Z I_2, D_2=29/6-sqrt6); LS-DER-047 line 64 eq(4) Cov(-f_111/12, f_1)=[[5/48,1/4],[1/4,1]]; LS-DER-053 line 180 (GOE_2 diag var 2, off-diag var 1)",
+    "landing_locus": "PROOF.md lines 38-44 (Cov(G)=I, Var(t)=15, Cov(t,G)=(-3,0,..), V cov diag(3,1,1), tau^2=6, p_G p_V=(2pi)^-d/sqrt3), lines 48-52 (A = Q + sqrt(2/3) Z I_m), lines 70-71 (D_2=29/6-sqrt6)",
+    "evidence": "Computed at BF: tau^2=6, sigma_t^2=1/24 (144/24=6), det Sigma_h=3, Cov(u_t,g_t)=(1/4,0,0)=-(-3)/12. Cov(A|V=0) in (A11,A12,A22) = [[8/3,0,2/3],[0,1,0],[2/3,0,8/3]], which equals both PROOF line 49 and GOE_2+sqrt(2/3)Z I_2."
+   },
+   {
+    "id": "F6",
+    "claim": "Gap variable, cubic coordinate and Jacobian conventions DIFFER in notation but cancel exactly: chain kappa=6k; chain pin coordinate u=-f_ttt/12 with |det|=r^-(d+3), against P's f_xxx coordinate with |det|=12 r^-(d+3); Kac-Rice gap Jacobian r^3/6 dkappa against r^3 dk; lifetime factor (6^(2/3)/3)kappa^(-2/3) against (1/3)k^(-2/3); soft factor kappa^2 against (6k)^2.",
+    "status": "MATCH",
+    "chain_locus": "LS-DER-046 lines 100-135 eqs(3)-(6) (V^-_corr = -U3/12; |det T_r|=r^-(d+3); target (b-kappa r^3/12, -kappa/6, 0..)), lines 155-174 eqs(8)-(10); LS-DER-075 line 81 eq(1), lines 87-88 eq(2), 140-142 eq(9), 170-180 eqs(12)-(13); LS-DER-047 lines 52-53 eq(2), 85-87 eq(7)",
+    "landing_locus": "P.md line 21 (s=b-k r^3), line 90 eq(3.2) (12 r^-(d+3)), lines 94/103 eq(3.3) (targets, U3->12k), line 167 (diag(-6k,A_0)), lines 171-172 eq(5.4), line 317 (r^3 db dk), lines 319-322 eq(10.2), line 341 eq(11.1), lines 428-430 eq(13.6)",
+    "evidence": "ledger.py (sympy) gives: same saddle value iff kappa=6k; f_ttt = 12k = 2kappa; contact measure P(dk)/chain(dkappa=6dk) = 1; r dr/dell reproduces P (11.1) and 075 (9) exactly; coefficient integrand per dk = 144 E k^(4/3) pi_U on both sides. Numerically, 12*pi_0 (P coordinates, target 12k) / p_Y (chain coordinates, target -kappa/6) = 1 at L=2.2 and at BF; at BF it also equals the 047 eq(7) closed form 2sqrt3/(2pi)^4 exp(-3b^2/4-kappa^2/3) (objects.out section (2/3))."
+   },
+   {
+    "id": "F7",
+    "claim": "Sign of u_t: chain u_t=-f_ttt/12 with target -kappa/6, i.e. f_ttt=+2kappa>0; P's U3 target is +12k>0. Same physical sign, and the number does not depend on the sign.",
+    "status": "MATCH",
+    "chain_locus": "LS-DER-056 lines 121-122 eq(2), line 151 eq(7), lines 262-265 eq(21); LS-DER-053 line 156 eq(5) (target (b,2kappa,..) for f_111)",
+    "landing_locus": "P.md line 94 eq(3.3), line 103 (v_0=(b,0,0,12k,0..)), line 460 (phi_tau(12k))",
+    "evidence": "sigma_t^2 is unchanged under u_t -> +f_ttt/12: ratio 1 to 20 digits at all tested L and directions. phi_tau is even, so the sign enters neither (15.2) nor (24)."
+   },
+   {
+    "id": "F8",
+    "claim": "Birth integration and cone moment: both condition D only on V_u=h_t=0 (f integrated out, odd block independent), with a centered conditional law. The '1/2' in LS-DER-060 eq(8) is a negative/positive-cone symmetry identity inside D, not a pair-counting multiplier.",
+    "status": "MATCH",
+    "chain_locus": "LS-DER-056 lines 216-236 eqs(16)-(18); LS-DER-060 lines 115-119 eq(8), 141-145 eq(10), 203-208 eq(16)",
+    "landing_locus": "P.md lines 455 (centered nondegenerate A_u|V_u=0), 460-463 (z_0 conditional on f=b,V_u=0; b-integration gives p_Vu(0) D_u)",
+    "evidence": "The D grid check (F4) uses P's literal neg-def indicator with no 1/2 and matches 060 eq(16), which carries the 1/2 internally; LS-DER-056 eq(28) uses 15/(4pi) and LS-DER-060 eq(10) uses 15/(8pi)."
+   },
+   {
+    "id": "F9",
+    "claim": "Full coefficient expression: P (15.2) at d=3 and LS-DER-056 (24)-(25), each built from its own objects, agree pointwise at a non-trivial L; the constants agree, B_3 = Gamma(7/6)/(24^(1/3) sqrt pi) * (2pi)^-3 * 144^(2/3).",
+    "status": "MATCH",
+    "chain_locus": "LS-DER-056 lines 295-305 eqs(24)-(25); LS-DER-061 lines 144-153 eqs(8)-(9) (formula actually executed)",
+    "landing_locus": "P.md lines 465-478 (15.2); PROOF.md lines 21, 77-81",
+    "evidence": "At L=2.2, P(15.2) integrand / 056(24) integrand = 1 to 20 digits for 3 directions (e.g. 0.00122927105650615698 on both sides). This extends coordinator item (iii) from symbolic identification to object-level evaluation away from the BF point."
+   },
+   {
+    "id": "F10",
+    "claim": "Theorem scope and status differ, although no formula differs. P/PROOF: c_{d,L} defined for any L>0, with the Theorem C (finite-bar) interpretation an unreviewed author-side candidate. PROOF evaluates only the expression (15.2) and makes the finite-bar meaning conditional. Chain: theorem stated for 'admissible' (perturbative large-L) tori including L=24, with the identification closed at reviewed scope by the Anthropic verdicts.",
+    "status": "MATCH (formula); status/scope differ",
+    "chain_locus": "LS-DER-053 lines 107-113 ('or a normalized periodized BF field whose local jets are a sufficiently small perturbation'), line 535; LS-DER-058 lines 39, 45, 489-493; LS-DER-056 line 103; LS-CLS-077 lines 26, 38-52, 120-125",
+    "landing_locus": "P.md line 5, lines 11, 47-52; PROOF.md lines 4, 12-14, 28-30",
+    "evidence": "The difference is in hypotheses and review status, not in field, count, convention or factor. It does not change the number at L=24."
+   },
+   {
+    "id": "F11",
+    "claim": "Cosmetic labelling difference: ENCLOSURE.json keys cone_moments by ambient d ('2':'4/3', '3':'29/6-sqrt(6)'), while the PROOF.md text and the chain index D by m=n=d-1 (D_1=4/3, D_2=29/6-sqrt6).",
+    "status": "DIFFERS (label only; values consistent)",
+    "chain_locus": "LS-DER-075 line 189 eq(14) (D_n, n=d-1), lines 250-253 eq(20) (D_2 for d=3)",
+    "landing_locus": "side24/ENCLOSURE.json 'cone_moments'; PROOF.md lines 56-58, 70-71, 81 (D_(d-1)); coefficient.py lines 215-220 (cone_moment(d))",
+    "evidence": "The values attached to each dimension agree; only the dictionary key convention differs. This has no effect on the number."
+   },
+   {
+    "id": "F12",
+    "claim": "No place found where the two sources' conventions differ in a way that changes c_(3,24).",
+    "status": "MATCH",
+    "chain_locus": "as in F1-F9",
+    "landing_locus": "as in F1-F9",
+    "evidence": "Checked items: field normalization, amplitude (variance one in both; P line 480 a^(-2/3) scaling not triggered), length scale, superlevel vs sublevel, per-volume vs total, full vs half sphere, ordered vs unordered, kappa vs k, pin coordinate scaling, sign of u_t, conditioning sets for tau/sigma and D, and cone-moment definition. Every item matched or cancelled exactly. Scripts and outputs: objects.py / objects.out and ledger.py / ledger.out in <SCRATCH>/s9/work/objects-and-conventions/."
+   }
+  ],
+  "caveats": [
+   "The object-equality checks in F4 (zero differences) show that both sources name the same derivative functionals, built from one derivative tensor. They are definitional, not independent analytic proofs. The independent parts are: the 3D image sum vs the 1D product (F1), P's literal cone indicator vs the LS-DER-060 spectral formula (F4/F8; grid accuracy about 1e-6 relative), the pin-density ledger across the two coordinate systems (F6), and the BF closed forms (F5, F6).",
+   "In the d=3 chain, 'specific' (per unit volume) is defined only by inheritance from the d=2 per-area definition and the total = L^d*specific relations (LS-DER-055 eq(31), LS-DER-058 eq(59)). LS-CLS-077 has no standalone d=3 per-volume sentence. P states per unit volume directly.",
+   "The landing side's identification of (15.2) with the finite-bar coefficient rests on P's Theorem C, which is an author-side candidate with no nonauthor acceptance (P line 5; PROOF lines 12-14). Formula-level agreement does not supply that review.",
+   "I did not recompute any frozen-body BODY_SHA256 or file hash. Line numbers refer to the local export files as given; the freeze policies normalize line endings, so line numbers may differ from the hashed body text.",
+   "Scope is d=3 only. PROOF's d=2 value was not crosswalked against the chain's d=2 results.",
+   "LS-DER-061's quadrature and the P_3(24) correction were not re-run here; only the formula and objects it evaluates (061 eqs(8)-(9) = 056 eqs(24)-(25)) were checked against P (15.2)."
+  ]
+ },
+ {
+  "verdict": "MATCH_WITH_NOTES",
+  "findings": [
+   {
+    "id": "CV-1",
+    "claim": "Freeze-policy extraction, strict, per each file's own FREEZE POLICY. Four declared bodies reproduce exactly: LS-DER-056, LS-DER-062, LS-DER-063, plus LS-DER-061 (checked as an extra). Three do not reproduce under the strict policy: LS-CLS-074, LS-DER-075, LS-DER-076.",
+    "status": "MIXED (4 MATCH / 3 MISMATCH strict)",
+    "evidence": "Script: <SCRATCH>/s9/work/custody-and-verdict-scope/freeze.py. Steps: strip the export BOM (the body never starts the file), CRLF/CR->LF, take text strictly between the unique BEGIN/END lines, strip trailing LFs, add one LF, encode UTF-8. LS-DER-056 (markers at L96/L504): 10556 B, 5b3f7250...0d4 = declared L79-80, MATCH. LS-DER-062 (L109/L379): 9204 B, 2ce24d43...a98 = L92-93, MATCH. LS-DER-063 (L41/L182): 7411 B, 54646f7f...e83 = L25-26, MATCH. LS-DER-061 (L68/L354): 9284 B, 58be3457...36 = L50-51, MATCH. LS-CLS-074 (L79/L275): 6010 B, 4893b8c3...7e6 vs declared 5957 B / cf82fc57...045 (L66-67), MISMATCH. LS-DER-075 (L58/L306): 5655 B, a87c90a7...6ae vs 5584 B / d18ad44e...60 (L44-45), MISMATCH. LS-DER-076 (L58/L270): 7225 B, 5d6e43d2...104 vs 7167 B / 8250c80a...1ea (L44-45), MISMATCH.",
+    "chain_locus": "LS-CLS-074, LS-DER-056/061/062/063/075/076 headers and frozen bodies",
+    "landing_locus": "n/a"
+   },
+   {
+    "id": "CV-2",
+    "claim": "Diagnostic only, not a policy-conformant match: all three strict mismatches are explained by one deterministic export artefact. The rendered export doubles every blank separator line. Collapsing each run of two or more blank lines inside the body to a single blank line gives the declared bytes and SHA-256 exactly for all three. The same transform also exactly reproduces LS-DER-071, LS-DER-072, LS-DER-073 v1.0-v1.3, LS-DATA-075A/B and LS-REQ-042. The same transform breaks the four files that already match strictly, so it is document-specific and not a universal rule.",
+    "status": "EXPORT-ARTEFACT (diagnosed)",
+    "evidence": "freeze.py 'collapse_blank_runs' diagnostic: LS-CLS-074 gives 5957 B / cf82fc57 (sha_match=True). LS-DER-075 gives 5584 / d18ad44e (True). LS-DER-076 gives 7167 / 8250c80a (True). On LS-DER-056/061/062/063 the same transform gives False. The strict policy text does not allow this transform, so under the stated policy these three remain MISMATCH. One unresolved exception, outside the required list: LS-REQ-043-v1.0 (the DQ-109 packet that CL-AUD-LSDER076 executed) gives 3461 B strict and 3433 B after collapse, vs declared 3056 B / 71754d66 (L29-30). That is a 377 B residual I could not explain (scripts req043.py and req043b.py in the same work dir).",
+    "chain_locus": "same files plus LS-REQ-043-v1.0 L29-30",
+    "landing_locus": "n/a"
+   },
+   {
+    "id": "CV-3",
+    "claim": "Neither the terminal closure LS-CLS-077 nor any of the seven CL-AUD verdicts (062/071/072/073/073V13/075/076) declares a freeze policy, BODY_BYTES or BODY_SHA256, so MATCH/MISMATCH does not apply. LS-CLS-077's banner says 'The frozen closure body below remains unchanged' (L12), but the export has no BEGIN/END markers and no body hash. No other export in the chain declares a hash for LS-CLS-077 (grep). The only custody available for these eight objects is whole-export identity: all 55 exports match chain_index.tsv on bytes, sha256 and git blob id.",
+    "status": "NO FREEZE DECLARATION (export identity only)",
+    "evidence": "freeze.py prints NO_FREEZE_DECLARATION for LS-CLS-077 and all seven CL-AUD files. A loop over chain_index.tsv checking wc -c, sha256sum and git hash-object gives 55/55 equal. Whole-export sha256 per the index: LS-CLS-077 403bac36...910; CL-AUD-062 f4d1bbbb...57e; 071 3ab5d0a1...696; 072 4869d7ab...922; 073 135d564b...0df; 073V13 e04c48b0...0f1; 075 e379ff7b...d57; 076 68cb32bd...a7b9. These identify rendered exports, not frozen bodies.",
+    "chain_locus": "LS-CLS-077 L12; chain_index.tsv",
+    "landing_locus": "n/a"
+   },
+   {
+    "id": "CV-4",
+    "claim": "Hashes that one chain file quotes for another are consistent with the target's own declaration wherever both are present.",
+    "status": "CONSISTENT",
+    "evidence": "xref.py: CL-AUD-073 banner L8 quotes LS-DER-073-v1.3 8,558 / c9c5bf65. CL-AUD-073V13 banner L9 quotes LS-CLS-074 5,957 / cf82fc57. LS-CLS-074 banner L44 quotes LS-DER-075 5,584 / d18ad44e. LS-DER-056 banner L42 and L58 quote LS-DER-061 9,284 / 58be3457 and LS-DER-060 8,873 / fc2c35b1. LS-DER-061 banner L9 and L24 quote LS-DER-063 7,411 / 54646f7f and LS-DER-062 9,204 / 2ce24d43. LS-REQ-043 L62-64 quotes LS-DER-076 7,167 / 8250c80a. All equal the declared values. The banners were written by the chain's own (OpenAI-family) author and are not independent evidence.",
+    "chain_locus": "banners of CL-AUD-073, CL-AUD-073V13, LS-CLS-074, LS-DER-056, LS-DER-061, LS-REQ-043",
+    "landing_locus": "n/a"
+   },
+   {
+    "id": "CV-5",
+    "claim": "CL-AUD-LSDER062 (Anthropic family). Reviewed LS-DER-053/056/059/060/061/062 plus LS-DATA-061A/B and 062B under LS-REQ-034-v1.0 / DQ-086. Disposition: AMEND REQUIRED. FAIL on the reported precision of LS-DER-061 (12), (13), (17) and the 061B ladder. PASS on LS-DER-061 (14)-(15) ('c_(3,24) is correct as printed') and on LS-DER-056 (17), (23), (25), (29), (30), (33)-(37) and (24)->(38). The absolute c_(3,24) and selected persistence were not closed by this verdict. Exact hashes were not reproduced.",
+    "status": "AMEND REQUIRED (later repaired)",
+    "evidence": "CL-AUD-LSDER062-20260728-01.txt: objects L8; verdict L10/L36; hash 'NOT PERFORMED ... connector returns a rendered text representation' L24; LS-DER-056 rows L79-86; FAIL row L113; (14)(15) PASS L57 and L114; 'No sign, scale, prefactor or structural error' L60; repairs R1-R6 L121-151; relative correction independent of B_3, while the absolute value depends on 1/6, 6^(2/3)/3 and LS-DER-047, 'none of which was reviewed here' L160; selected persistence NOT closed, cite as all-typed local contact coefficient L166; NOT CITABLE list, including directed-rounding interval and hash identity, L169.",
+    "chain_locus": "CL-AUD-LSDER062 L8-L193",
+    "landing_locus": "n/a"
+   },
+   {
+    "id": "CV-6",
+    "claim": "CL-AUD-LSDER071 (LS-REQ-038 / DQ-099; LS-DER-071 at two gates, LS-DER-064 sec 4-6 and LS-DER-065 sec 3-5 as far as recomputed). Disposition: AMEND REQUIRED. Gate A proved: |epsilon_24| < 1e-180, and P_3(L) = -L^2(10L^4-147L^2+315)/105 with P_3(24) = -620813376/35. Gate B not proved (earliest defect LS-DER-071 (31)->(32); LS-DER-051 never reviewed). No hash reproduction.",
+    "status": "AMEND REQUIRED (Gate A PASS; Gate B later repaired)",
+    "evidence": "CL-AUD-LSDER071-20260728-01.txt: packet L5; no hash L6; credit scope L7; verdict L13; P_3 and epsilon L28; Gate B defect L34-46; citation scope, with the relative interval now unconditional and the selected coefficient NOT closed, L58-61. My exact check: -24^2(10*24^4-147*24^2+315)/105 = -620813376/35 (supersede.py).",
+    "chain_locus": "CL-AUD-LSDER071 L5-L76",
+    "landing_locus": "n/a"
+   },
+   {
+    "id": "CV-7",
+    "claim": "CL-AUD-LSDER072 (LS-REQ-039 / DQ-101; LS-DER-072-v1.0 in full; LS-DER-051-v1.0 sec 4-11, eq (9)-(33)): AMEND REQUIRED, with B1 PASS, B2 FAIL at LS-DER-072 (14) (matrix capture/escape lemma not written) and B3 PASS. CL-AUD-LSDER073 (LS-REQ-040 / DQ-103; LS-DER-073-v1.2 and LS-DATA-073A/B-v1.2): AMEND REQUIRED, with M2 FAIL at (20) (omitted -(1/2)Y^T T Y term), M1/M3/M4 PASS and M5 not reached. Neither reproduced hashes. In both, the local all-typed coefficient and the relative interval stay closed and only the selected identification is open.",
+    "status": "AMEND REQUIRED x2 (later repaired)",
+    "evidence": "CL-AUD-LSDER072: successor banner, B2 successor review open, L1-13; packet and no raw bytes L20; objects L21; verdict L27; B2 FAIL L36-39; scope L51-52. CL-AUD-LSDER073: banner L1-16; objects and no hash L23; verdict L29; M5 not reached L56; scope L62-64.",
+    "chain_locus": "CL-AUD-LSDER072 L1-61; CL-AUD-LSDER073 L1-73",
+    "landing_locus": "n/a"
+   },
+   {
+    "id": "CV-8",
+    "claim": "CL-AUD-LSDER073V13 (LS-REQ-041 / DQ-105; LS-DER-073-v1.3 and LS-DATA-073A/B-v1.3; v1.2 consulted only for inherited M1/M3/M4): ENERGY REPAIR PASS, SELECTED SIDE-24 COEFFICIENT CLOSED AT REVIEWED SCOPE. Caveats it states: (a) the C1 interpolation estimate (33), ||F_exact-F||_C1 <= C_+ r, is used but derived in no reviewed document; (b) at the time, the absolute normalization (Kac-Rice 1/6, 6^(2/3)/3 from LS-DER-046/050) was never reviewed; (c) no hash reproduced in any of these reviews.",
+    "status": "PASS with stated imports",
+    "evidence": "CL-AUD-LSDER073V13-20260728-01.txt: banner, with ABSOLUTE-NORM:EXTERNAL-AUDIT-OPEN at the time, L1-18; objects and no hash L25; verdict L31; carried import L52; scope 'does not extend to any other L or field class', absolute normalization unreviewed, 'No exact-hash identity was reproduced in any of these reviews' L58-60.",
+    "chain_locus": "CL-AUD-LSDER073V13 L1-69",
+    "landing_locus": "n/a"
+   },
+   {
+    "id": "CV-9",
+    "claim": "CL-AUD-LSDER075 (LS-REQ-042 / DQ-107; LS-DER-075-v1.0 and LS-DATA-075A/B-v1.0): ABSOLUTE NORMALIZATION PASS for N1 (1/6), N2 (6^(2/3)/3), N3 (nonduplication) and the d=3 closed form 2^(-23/6)3^(-8/3)(29sqrt6-36)Gamma(1/6)pi^(-5/2). The algebra was rederived by hand plus arbitrary precision, without sympy. It newly flagged the pair-counting convention as unreviewed. Its own banner still marks the d3 crosswalk REVIEW-OPEN (stale; see CV-13). No hash reproduction.",
+    "status": "PASS (one caveat later discharged)",
+    "evidence": "CL-AUD-LSDER075-20260728-01.txt: banner L1-19; objects, no hash, no sympy L26; verdict L32; closed form and 0.041775931840598343... L53; discharge of 073V13 caveat L59; new pair-counting caveat L62.",
+    "chain_locus": "CL-AUD-LSDER075 L1-71",
+    "landing_locus": "n/a"
+   },
+   {
+    "id": "CV-10",
+    "claim": "CL-AUD-LSDER076 (LS-REQ-043 / DQ-109; LS-DER-076-v1.0 and LS-DATA-076A/B-v1.0; context CL-AUD-S2DER010 and CL-AUD-LSDER030): PAIR-COUNTING PASS, ABSOLUTE c_(3,24) CLOSED AT REVIEWED SCOPE (P1-P5 PASS: det = 1, full directed S^2, no factor 1/2, H0 unit multiplicity, branch firewall, (1/6) r dr). It corrects its own prior CL-AUD-075 citation error. Outside its scope: LS-DER-021/037 as mathematics; Morse-ness and distinct critical values (an imported hypothesis); other L and field classes; H_k for k>0; canonical promotion. No hash reproduction.",
+    "status": "PASS with stated exclusions",
+    "evidence": "CL-AUD-LSDER076-20260728-01.txt: objects and 'No raw-byte access, so no hash reproduction is claimed' L5; verdict L11; P1-P5 L17-32; (c) absolute closed L40; self-correction L43; exclusions L46.",
+    "chain_locus": "CL-AUD-LSDER076 L1-55",
+    "landing_locus": "n/a"
+   },
+   {
+    "id": "CV-11",
+    "claim": "LS-CLS-077 Section 3 is accurate as worded. None of the seven 2026-07-28 verdicts reproduced frozen-body hashes. Each one says so explicitly and attributes it to rendered-text connector access. The only exact-hash reproductions in the cited set are the older 2026-07-27 reviews CL-AUD-LSDER030 and CL-AUD-S2DER010, for the inherited counting convention. The mirror also holds a second object carrying the same ID CL-AUD-LSDER030-20260727-01 (CONCURRENT_DUPLICATE_OBJECT), with the same APPROVE disposition.",
+    "status": "CONFIRMED",
+    "evidence": "LS-CLS-077 L111. No-hash statements: CL-AUD-062 L24; 071 L6; 072 L20; 073 L23; 073V13 L25 and L60; 075 L26; 076 L5. Older exact reproductions: CL-AUD-LSDER030 L41-42 and L85 (12,794 B / 5476f11a... MATCHES declared); CL-AUD-S2DER010 L30 (17,845 B / bd4e839f...). Duplicate: CONCURRENT_DUPLICATE_OBJECT.txt L1 and L19 (APPROVE WITH NONMATERIAL CLARIFICATIONS).",
+    "chain_locus": "LS-CLS-077 L98-111",
+    "landing_locus": "n/a"
+   },
+   {
+    "id": "CV-12",
+    "claim": "No FAIL in the chain is left unrepaired. Every FAIL or not-proved finding was followed by a successor and a later Anthropic PASS at reviewed scope: 062 FAIL -> LS-DER-063; 071 Gate B -> 072 -> 073 -> 073V13 PASS; 075 caveat -> 076 PASS. LS-DER-063 supersedes only the precision claims of LS-DER-061 (12), (13), (17) and 061B; LS-DER-061 (14)-(15) stand. Items the chain itself still declares not closed: directed-rounding certification of the full nonlinear quadrature; exact-hash reproduction by Anthropic; Morse and distinct-critical-value genericity (imported); the C1 interpolation import (33); LS-DER-021/037 as mathematics; other L and field classes; canonical restoration and release. None of these changes the value of c_(3,24) at the 20 digits of PROOF.md's enclosure. That value depends only on c_(3,inf) and the normalization closed by 075/076; the side-24 correction is relative ~1.49e-118.",
+    "status": "NO OPEN FAIL ON THE VALUE; declared non-closures remain",
+    "evidence": "LS-DER-063 L66, L101 (supersession scope) and L171-175 (open list at the time). My numeric check (supersede.py, mpmath 400 digits): the closed form for c_(3,inf) matches LS-DER-061 (14) (188 printed decimals) to 8.5e-190. c_inf*(1+LS-DER-063 (1)) matches LS-DER-061 (15) to 2.3e-189 (under 1 ulp of the printed 1e-188). LS-DER-063 (2) equals c_inf * LS-DER-063 (1) to relative 2.4e-280. LS-DER-063 (1) - P_3(24)e^-288 = -7.5200873044650121968e-237, matching LS-DER-063 (3) and CL-AUD-062 L102. strcmp.py: the CL-AUD-062 R2 280-digit string equals LS-DER-063 (1) exactly. The R1 (12)/(13)/(17) strings are prefixes of LS-DER-063 (1)/(2)/(3). LS-DER-061 (12) diverges from LS-DER-063 (1) at significant digit 163, as CL-AUD-062 L48 says. c_(3,24) from the chain lies in PROOF.md's d=3 interval. LS-CLS-077 L137, L141 and L178 (R-CERT); CL-AUD-073V13 L52; CL-AUD-076 L46.",
+    "chain_locus": "LS-DER-061 (12)-(15) L192-218; LS-DER-063 (1)-(3) L78-92; LS-CLS-077 L128-141",
+    "landing_locus": "PROOF.md L26 (d=3 interval), L173 (4)"
+   },
+   {
+    "id": "CV-13",
+    "claim": "Several status banners were not updated after the terminal verdicts. They still read OPEN for items later closed by CL-AUD-073V13/076 and LS-CLS-077. This is a banner-currency issue, not an open mathematical item: other files, written later, record the closure.",
+    "status": "STALE BANNERS (non-blocking)",
+    "evidence": "LS-DER-056 L1-16 ('Until that narrow verdict returns ...', [[d3-PAIR-CROSSWALK:REVIEW-OPEN]]). LS-DER-075 L1-13 ([[d3-DIRECTED-SPHERE-CROSSWALK:OPEN]]). CL-AUD-LSDER075 L1-19 ([[d3-CROSSWALK:REVIEW-OPEN]]). LS-DER-053 L1-17 ('Until DQ-099 returns ... same-family only'). LS-DER-063 L1-10 ('No external PASS ... until DQ-099 returns'). Banners that do point to the final closure: LS-CLS-074 L1-16, LS-DER-076 L1-12, LS-REQ-043 L1-14.",
+    "chain_locus": "banners listed",
+    "landing_locus": "n/a"
+   },
+   {
+    "id": "CV-14",
+    "claim": "Ordering and citation are disjoint. Every date in the chain exports is 2026-07-27 or 2026-07-28. P and PROOF.md are dated 24 Sept 2026. The chain cites neither P nor PROOF.md, and neither landing file cites any chain ID. The landing's custody link is internal only: PROOF.md quotes P's SHA-256, which equals the local P.md. The equivalence of the two sources is therefore a crosswalk built by this review, not one asserted by either source. One label collision: P names its own compact-mark result 'Theorem B' (P.md L37). The chain's mirror folder is 'THEOREM_B \u2014 STATUS RETRACTION AND REPAIR PROGRAM', and CL-AUD-062 L169 says 'Canonical Theorem B remains retracted'. Nothing links the two, so no identification should be drawn from the label. The chain's c_(3,24) statement corresponds in form to P's Theorem C (1.3), not to P's Theorem B.",
+    "status": "NO CROSS-CITATION",
+    "evidence": "grep -o for dates over named/*.txt: 3x 2026-07-27, 120x 2026-07-28. grep of the chain for UNIFORM-MATRIX, MARKED-CYLINDER, SIDE24-COEFFICIENT, issue63, side24_v1, Math-, campaign 61, P15, 2026-09 and September: 0 hits (the only hits are the generic word 'enclosure'). grep of PROOF.md, P.md, ENCLOSURE.json, coefficient.py and test_coefficient.py for LS-, CL-AUD, DQ-, REQ-, Bargmann, Fock: 0 hits (the only hits are P's own 'Theorem B' at L37 and L45). PROOF.md L9-10 quotes 9350ad6e...4bc7, which equals sha256sum of the local P.md (40261 B). PROOF.md 10272 B, c06daccc...7769 confirmed. P.md L4 and PROOF.md L3 and L210 give the Sept dates; P.md L7 cites predecessor MARKED-CYLINDER-CAP-20260924-v1, not the chain.",
+    "chain_locus": "all named exports",
+    "landing_locus": "PROOF.md L3, L9-14, L210-216; P.md L3-7, L37, L47-52"
+   },
+   {
+    "id": "CV-15",
+    "claim": "Provenance limits. Every chain derivation and closure record (LS-DER-*, LS-CLS-*, LS-REQ-*) is OpenAI-family authored. The external verdicts are Anthropic family and cover only chain objects. P and PROOF.md are also OpenAI-family authored, with no nonauthor review. Agreement between A and B is therefore same-family agreement, and the Anthropic review credit does not carry over to P (15.2) or PROOF.md. The claim status is asymmetric. A asserts that c_(3,24) is the selected finite nonessential H0 coefficient, closed at compositional reviewed scope. B certifies only the numerical value of the expression P (15.2); it says reading that as the finite-bar constant is conditional on P's unreviewed proof, and its ENCLOSURE.json sets scientific_acceptance false.",
+    "status": "SCOPE ASYMMETRY (reported, not a numerical mismatch)",
+    "evidence": "OpenAI-family 'Prepared by' lines: LS-CLS-077 L21, LS-CLS-074 L60, LS-DER-056 L73, LS-DER-063 L19, LS-DER-075 L38, LS-DER-076 L38, LS-DER-061 L44, LS-DER-062 L86. Anthropic reviewer lines: CL-AUD-062 L18, 071 L4, 072 L19, 073 L22, 073V13 L24, 075 L25, 076 L4. LS-CLS-077 is itself not reviewed: 'Authority: closure record grounded in the cited Anthropic verdicts', 'Canonical impact: NONE BY ITSELF' (L23-25), compositional credit L98. PROOF.md L3-4 ('Author: OpenAI / <product>'; 'author-side coefficient-evaluation candidate; nonauthor review open'), L12-14 (conditional on parent proof), L198-199 (tests are not formal verification), L204-208 (review open). P.md L4-5 ('no nonauthor acceptance ...'), L486, L490. ENCLOSURE.json: 'scientific_acceptance': false, 'scope': 'coefficient of issue63 Eq15.2; parent theorem unreviewed'.",
+    "chain_locus": "LS-CLS-077 L19-26, L98-111, L150",
+    "landing_locus": "PROOF.md L3-4, L12-14; ENCLOSURE.json scope; P.md L4-5"
+   },
+   {
+    "id": "CV-16",
+    "claim": "Supporting note, outside my lens. The chain's field normalization as executed and the landing's field are the same covariance. LS-DER-061 (1)-(2) defines the 3D covariance as the product of three normalized 1D periodized kernels. That product factorizes exactly into P's K_L(z) = sum_{n in Z^3} exp(-|z+Ln|^2/2) / sum_{n in Z^3} exp(-|Ln|^2/2), because numerator and denominator are both products over coordinates.",
+    "status": "CONSISTENT",
+    "evidence": "LS-DER-061 L84-98, with 1D k_L(x) at L87-89 and 'the three-dimensional covariance is the product of three copies of k_L' at L92. P.md L11-14; PROOF.md L16-19. Product of Gaussians over coordinates: exp(-sum_i (z_i+n_i L)^2/2) = exp(-|z+nL|^2/2), summed over n in Z^3; the denominator is the same at z=0.",
+    "chain_locus": "LS-DER-061 (1)-(3)",
+    "landing_locus": "P.md L11-14; PROOF.md L16-19"
+   }
+  ],
+  "caveats": [
+   "All chain files are rendered Drive exports (UTF-8 with BOM, CRLF). I had no raw Drive bytes. The strict MISMATCHes for LS-CLS-074, LS-DER-075 and LS-DER-076 are reported exactly as found. The blank-line-collapse explanation reproduces the declared hashes bit-exactly, but that transform is not part of the stated freeze policy, so it is a diagnostic and not a policy MATCH.",
+   "LS-CLS-077 (the terminal closure) and all seven CL-AUD verdicts have no freeze declaration. Their custody here rests only on whole-export identity against chain_index.tsv, which I verified (55/55 on bytes, sha256 and git blob). I did not independently check that those blobs are present at hardening-branch commit a01c72f1.",
+   "LS-REQ-043-v1.0 (the packet executed as CL-AUD-LSDER076) does not reproduce its declared body hash even after blank-run collapse: 377 B residual, cause undetermined. It is outside the required file list but sits on the path to the terminal PASS.",
+   "I did not re-review the mathematics behind any verdict. My numerical checks covered only the supersession, consistency and digit-string claims listed (mpmath at 400 digits). The formula-level identities (i)-(iv) were taken as established by the coordinator.",
+   "Provenance families are as stated in the files. The chain derivations, P and PROOF.md all state OpenAI-family authorship, and the verdicts state Anthropic-family review. None of the Anthropic verdicts reviewed P or PROOF.md. Drive ids and URLs in the sources were deliberately not reproduced.",
+   "Scripts and outputs are only under <SCRATCH>/s9/work/custody-and-verdict-scope/ (freeze.py, xref.py, supersede.py, strcmp.py, req043.py, req043b.py). Nothing was posted, edited or pushed."
+  ]
+ },
+ {
+  "verdict": "MATCH_WITH_NOTES",
+  "findings": [
+   {
+    "id": "FM-1",
+    "claim": "The chain's kappa is exactly 6 times P's scaled gap mark k, and both sources define the lifetime the same way: ell = f(M)-f(S) = k r^3 = kappa r^3/6.",
+    "status": "MATCH",
+    "evidence": "Solving b - k r^3 = b - kappa r^3/6 gives kappa = 6k (fm_sym.out 1a). Two other definitions in each source agree with this. (i) Contact target: P's U3 -> f_xxx = 12k, and the chain's u_t = -f_ttt/12 has target -kappa/6, so f_ttt = 2 kappa = 12k (fm_sym 1b/1c, 2d/2e). (ii) Endpoint soft eigenvalue: P (5.2) gives alpha_M -> -6k with alpha = f_xx/r, and LS-DER-046 (8) gives A_M^r -> -kappa with A = f_tt/r. A cubic model through both pin sets gives f''(M)/r = -6k = -kappa (fm_sym 1b/1c). Lifetime: LS-DER-075 (6) ell = kappa r^3/6. P has Theorem B's scaled gap (f(M)-f(S))/distance^3 and (11.1) r = (ell/k)^(1/3). Their difference is 0 (fm_sym 4d). Signs and orientation also agree: u points from M to S in both, and the f_ttt target is positive in both.",
+    "chain_locus": "LS-DER-075 frozen body (1) line 81, (6) line 122; LS-DER-046 (2) line 87, (5) line 129, (8) line 156; LS-DER-056 (2) line 121, (7) line 151",
+    "landing_locus": "P line 21 (f(S)=b-k r^3), line 37 (scaled gap), (3.3) line 94, (5.2) lines 155-156, (11.1) line 341"
+   },
+   {
+    "id": "FM-2",
+    "claim": "P's pin Jacobian factor 12 and the chain's r^-(d+3) differ only by the chain's u=-f_ttt/12 normalization. The two raw pin densities are the same object, and the 12 is counted exactly once in each source.",
+    "status": "MATCH",
+    "evidence": "Identically V^-_corr = -U3/12 (fm_sym 2a). The axial 4x4 blocks have |det| 12/r^4 for P (3.1) and 1/r^4 for LS-DER-046 (3). Hence P (3.2) |det T_r| = 12 r^-(d+3) and chain (4) = r^-(d+3), checked for d=2 and 3 (fm_sym 2b/2c). The limit of V^-_corr is -f_ttt/12 (fm_sym 2f). So p_Y = 12 pi_r at every r, and P (10.1) and LS-DER-046 (6) give the same raw density. I also checked this numerically with full 8-dimensional joint contact densities for a non-reference anisotropic covariance: p_0(b,6k)/[12 pi_0(b,k)] = 1 to 20 digits at three (b,k) points (fm_num.out).",
+    "chain_locus": "LS-DER-046 (3) line 104, (4) line 123, (6) line 135; LS-DER-047 (2) line 52, (4)-(5) lines 63-70; LS-DER-050 (4) line 90",
+    "landing_locus": "P (3.1) line 81, (3.2) line 90, (10.1) lines 314-315"
+   },
+   {
+    "id": "FM-3",
+    "claim": "The chain's Kac-Rice factor 1/6 does not appear in P in so many words. It is a Jacobian that comes from using kappa instead of k: P's height Jacobian r^3 db dk equals the chain's (r^3/6) db dkappa.",
+    "status": "MATCH",
+    "evidence": "P line 317 says '(f(M),f(S))=(b,b-k r^3) contributes r^3 db dk'. With dk = dkappa/6 this is (r^3/6) db dkappa, which is LS-DER-075 (2)-(3) and LS-DER-046 (11). At finite r, P's r A_r dr db dk dsigma (10.2) is exactly the pushforward under kappa=6k of the chain's (1/6) r p_Y z_r dr db dkappa dt (LS-DER-046 (13),(15)). The ratio is 1 for d=2 and 3 (fm_sym 3). The radial power ledgers also match: P line 326 and LS-DER-075 (4)-(5) / LS-DER-076 (15).",
+    "chain_locus": "LS-DER-075 (2)-(5) lines 87-113; LS-DER-046 (11) line 192, (13) line 204; LS-DER-076 (15) lines 224-233",
+    "landing_locus": "P line 317; (10.2) lines 321-322; power ledger lines 326-327"
+   },
+   {
+    "id": "FM-4",
+    "claim": "The soft-endpoint factors match: the chain's r^2 kappa^2 E[...] equals P's Z_r/r^2 -> (6k)^2 E[...]. Both use the same weight W_r with the same type indicators and the same conditioning.",
+    "status": "MATCH",
+    "evidence": "LS-DER-046 (10) is z_0 = kappa^2 E[(det Q)^2 1{Q<0} | limiting pins], and P (5.4) is z_0 = (6k)^2 E[det(A_0)^2 1{A_0<0}]. These are equal at kappa=6k. Both normalizers are E|det H_M det H_S| times the indicators (maximum at M, index-(d-1) saddle at S), with no extra pin density (P lines 26-28; LS-DER-046 lines 170-174).",
+    "chain_locus": "LS-DER-046 (10) line 174; LS-DER-075 (12) lines 170-171",
+    "landing_locus": "P (5.4) lines 171-172; (11.3) line 355"
+   },
+   {
+    "id": "FM-5",
+    "claim": "The lifetime Jacobians are the same under kappa=6k: LS-DER-075 (9) (6^(2/3)/3) kappa^(-2/3) ell^(-1/3) is P (11.1) (1/3) k^(-2/3) ell^(-1/3).",
+    "status": "MATCH",
+    "evidence": "I re-derived both from r=(ell/k)^(1/3) and r=(6 ell/kappa)^(1/3). Each matches its source's stated form, and their ratio at kappa=6k is 1 (fm_sym 4a-4c).",
+    "chain_locus": "LS-DER-075 (7)-(11) lines 128-158; LS-DER-046 (17) line 243",
+    "landing_locus": "P (11.1) line 341, (11.2) lines 345-347"
+   },
+   {
+    "id": "FM-6",
+    "claim": "LS-DER-075 Section 4 ('no double counting') agrees with P. Each source contains each factor once, and the two combined scalars are equal: P's 4 k^(-2/3) pi_0 z_0 dk = the chain's (6^(2/3)/18) kappa^(-2/3) p_0 z_0 dkappa.",
+    "status": "MATCH",
+    "evidence": "In P: the 12 appears once ((3.2)/(10.1)/(10.2)), the lifetime factor 1/(3k^(2/3)) once ((11.2)), and (6k)^2 once ((5.4)). This gives 4 = 12/3 in (11.3)/(13.6) and 144 = 4*36 at line 465. There is no 1/6 because P works in k. In the chain: the 1/6 appears once (inside J_0, LS-DER-046 (14) lines 210-212; LS-DER-075 (12)), and 6^(2/3)/3 once (LS-DER-046 (19) line 264). The identity 6^(2/3)/18 = 4 * 6^(2/3)/(12*6) holds. The 6^(2/3) comes from k^(-2/3) = (kappa/6)^(-2/3), the 1/12 from p_0 = 12 pi_0, and the 1/6 from dk = dkappa/6. The integrand ratio after changing variables is 1 (fm_sym 5a-5c). Neither source has a factor the other lacks.",
+    "chain_locus": "LS-DER-075 Section 4 lines 164-180, (13) line 180; LS-DER-046 (14) lines 210-212, (19) line 264",
+    "landing_locus": "P (11.3) lines 351-353, (13.6) lines 428-430, line 465"
+   },
+   {
+    "id": "FM-7",
+    "claim": "The chain's kappa integral, LS-DER-056 (23), times (1/6)(6^(2/3)/3) equals p_G(0) times P's gamma kernel 144 int k^(4/3) phi_tau(12k) dk = p_G(0) Gamma(7/6) tau^(4/3)/(24^(1/3) sqrt pi).",
+    "status": "MATCH",
+    "evidence": "I evaluated (23) independently and it matches its stated right-hand side (fm_sym 6a). P's gamma integral (lines 471-472) also re-derives (6b). The ratio of (1/6)(6^(2/3)/3)*I23 at sigma=tau/12 to P's kernel is 1 (6c). The integrals were also done numerically at fixed b, using full 8-dimensional joint densities for the anisotropic covariance: P's int_k / chain's int_kappa = 1 and P's int_k / [p_(f,V)(b,0) p_G(0) Gamma(7/6) tau^(4/3)/(24^(1/3) sqrt pi)] = 1, both to 20 digits, at b=-0.4 and b=0.8 (fm_num.out).",
+    "chain_locus": "LS-DER-056 (21)-(23) lines 262-286, line 275",
+    "landing_locus": "P lines 465-472"
+   },
+   {
+    "id": "FM-8",
+    "claim": "B_3 = 3 Gamma(7/6)/(2^(4/3) pi^(7/2)) breaks down exactly into P's (15.2) prefactor Gamma(7/6)/(24^(1/3) sqrt pi), times (2 pi)^-3, times 144^(2/3).",
+    "status": "MATCH",
+    "evidence": "The (2 pi)^-3 is the product of the Gaussian normalizations of p_g(0) and p_h(0) in LS-DER-056 (19),(22). The 144^(2/3) is (tau^2/sigma_t^2)^(2/3). Ratio = 1 (fm_sym 7a). B_3 is also reproduced from (1/6)(6^(2/3)/3) Gamma(7/6) 72^(7/6)/(2 sqrt(2 pi)) (2 pi)^-3 (7b). The prefactor of (30) is B_3*15/(4 pi), and (29) evaluates to 15/(4 pi) (7c, 7d).",
+    "chain_locus": "LS-DER-056 (24)-(25) lines 295-305, (28)-(30) lines 336-365",
+    "landing_locus": "P (15.2) lines 476-478"
+   },
+   {
+    "id": "FM-9",
+    "claim": "The two products agree as functions of the covariance, not only at the reference law.",
+    "status": "MATCH",
+    "evidence": "(a) Symbolic check: the (24) integrand divided by the (15.2) integrand is 1 for arbitrary det Sigma_g, det Sigma_h, D, with tau^2 = 144 sigma^2 (fm_sym 7e). Both scale as A^(-2/3) under f -> A f, which matches P line 480 (7f). (b) Isotropic family with arbitrary (a, m4, chi): P (15.2) equals LS-DER-075 (18)-(19) (= LS-DER-050 (19)-(20)), and also equals LS-DER-075's recombination (1/6)(6^(2/3)/3)|S^(d-1)| B_d K_d, for every d = 2..7 (fm_sym 8). This uses A|V=0 = sqrt(beta) M_n, which I derived. (c) Numerical check with a non-reference, even, anisotropic covariance K = (3/5)exp(-z'M1z/2) + (2/5)exp(-z'M2z/2) in the non-axis direction t=(1,2,2)/3, each quantity computed from its own source's definitions. tau^2 from P (15.1) = 144 sigma_t^2 from chain (10) = 10.211243449500543782 (the reference value would be 6). det Sigma_g = 1.292072 and det Sigma_h = 6.13127. D = 3.39661934925669; the same routine reproduces D_2 = 29/6 - sqrt(6). The (24) integrand = the (15.2) integrand = 0.00415507665213807567, ratio 1 to 20 digits; the reference-law integrand would be 0.0033244. P line 460's factorization ratio = 1. The birth integral int p_(f,V)(b,0) E[F|f=b,V=0] db = p_V(0) D_u = 0.0870967312113, ratio 1 to 12 digits, which checks P line 463 and chain (17).",
+    "chain_locus": "LS-DER-056 (10),(13),(17)-(19),(24); LS-DER-075 (15)-(19); LS-DER-050 (16)-(20) lines 200-237",
+    "landing_locus": "P (15.1) lines 453-454, lines 460-463, (15.2) lines 476-478, line 480"
+   },
+   {
+    "id": "FM-10",
+    "claim": "PROOF.md formula (1) is P (15.2) evaluated at the reference covariance, and at d=3 it equals LS-CLS-077's closed form. coefficient.py encodes formula (1) directly, but neither coefficient.py nor its tests check the reduction from (15.2) to (1).",
+    "status": "MATCH_WITH_NOTE",
+    "evidence": "I redid this independently: P(15.2)@ref / PROOF(1) = 1 for d=2 and d=3, using |S^(d-1)|, p_G p_V = (2 pi)^-d/sqrt3 and tau^(4/3) = 6^(2/3) (PROOF lines 42-44). PROOF(1) at d=3 divided by LS-CLS-077's 2^(-23/6) 3^(-8/3)(29 sqrt6 - 36) Gamma(1/6) pi^(-5/2) = 1, and c_3,ref = 0.0417759318405983433429366654286 (fm_sym 9, 9b, 9c). coefficient.py reference_coefficient (lines 223-228) hard-codes Gamma(7/6)(3/2)^(1/3) D/(2 sqrt3 pi^(d-1) sqrt pi). No test in test_coefficient.py checks the 24^(1/3), 6^(2/3) or 144 factors. The reduction from (15.2) exists only in PROOF Section 1's prose (lines 77-81), and it is correct.",
+    "chain_locus": "LS-CLS-077 lines 81-84; LS-DER-075 (21) lines 259-261",
+    "landing_locus": "PROOF.md (1) lines 77-81, lines 42-44; coefficient.py lines 223-228; test_coefficient.py (no normalization test)"
+   },
+   {
+    "id": "FM-11",
+    "claim": "The pair-counting and measure conventions are the same: ordered (M,S), midpoint/displacement determinant 1, ordinary (not probability-normalized) area on the full directed sphere, no factor 1/2, u pointing from M to S, and counts per unit volume.",
+    "status": "MATCH",
+    "evidence": "P line 317 says determinant one, r^(d-1) dr dsigma with ordinary area, 'no factor 1/2', ordered roles, per unit midpoint volume ((10.2) line 321; Theorem C line 47). LS-DER-076 (2)-(4) lines 92-107 give M = x - (r/2)t, S = x + (r/2)t, and (8)-(10) lines 139-154 give determinant 1 with no prefactor. The antipodal argument is at line 159. LS-DER-056 calls (24) the 'specific coefficient' at line 292, and LS-DER-046 (11) uses the measure dx. P's pins at line 20 use M = -(r/2)u, S = (r/2)u, the same orientation.",
+    "chain_locus": "LS-DER-076 (2)-(15) lines 92-233; LS-DER-056 line 292",
+    "landing_locus": "P lines 20, 47, 317, 321"
+   },
+   {
+    "id": "FM-12",
+    "claim": "Hazard, not an error: the chain's 'corrected-pin density r^-(d+3)' and P's '12 r^-(d+3)' are each tied to their own pin frame. Moving a factor from one ledger into the other without the u = -f_ttt/12 rescaling would lose or double a factor of 12. Likewise, applying the chain's 1/6 to P's k-measure would double count.",
+    "status": "NOTE",
+    "evidence": "See FM-2, FM-3 and FM-6. Neither source makes this mistake. The kappa=6k map and p_0 = 12 pi_0 must be applied together.",
+    "chain_locus": "LS-DER-046 (4)-(6); LS-DER-075 (4)",
+    "landing_locus": "P (3.2), (10.1), line 317"
+   }
+  ],
+  "caveats": [
+   "Scope is the factor-map lens only. My checks show that, given the same covariance K_24, the chain's absolute normalization (LS-DER-046/075/076, and LS-DER-056 (24)-(25)) and P's (15.2) / PROOF formula (1) are the same coefficient expression, factor for factor and as functions of the covariance. They do not check whether the chain's 'normalized periodized Bargmann-Fock field' is literally P's K_L; that belongs to the field lens. The chain's planar limits (LS-DER-056 (33)-(35): Sigma_g->I, Sigma_h->diag(3,1,1), sigma^2->1/24) are consistent with P's reference exp(-|z|^2/2).",
+   "These are algebraic and numerical identities only. They do not validate either source's analytic theorems: P's Kac-Rice and elder-selection proof is unreviewed (PROOF.md lines 12-14), and the chain's selection results sit at reviewed scope. Nor are they formal verification. The numerical checks use mpmath quadrature (about 20 digits, and about 12 digits for the birth-integration step), not interval arithmetic.",
+   "The numerical check of 'as functions of the covariance' used one deliberately non-reference anisotropic covariance and one direction, plus the full symbolic isotropic family for d=2..7 and a symbolic pointwise identity for arbitrary covariance objects. It is not an exhaustive sweep over covariances.",
+   "fm_sym 8c returned a polar_lift artifact. Rerunning with Omega declared positive gives exactly 1.",
+   "Scripts and outputs: <SCRATCH>/s9/work/factor-map/fm_sym.py, fm_sym.out, fm_num.py, fm_num.out. These are read-only scratch files; nothing was posted, edited or pushed."
+  ]
+ },
+ {
+  "verdict": "MATCH_WITH_NOTES",
+  "findings": [
+   {
+    "id": "F1",
+    "claim": "The chain states c_(3,24)/c_(3,inf) - 1 = P_3(24) e^-288 + eps_24, with P_3(24) = -620813376/35 (an exact rational), e^-288 enclosed by exact rationals, and |eps_24| < 1e-180. This is an analytic interval at reviewed scope. It is not a directed-rounding certificate of the quadrature.",
+    "status": "CONFIRMED (statement and status)",
+    "evidence": "P_3(24): I recomputed it exactly with Fractions from LS-DER-055 (23) at d=3 and from (27). Both give -620813376/35, which also equals -576*3233403/105 (CL-AUD-LSDER062 l.96, PASS). CL-AUD-LSDER071 A4 (l.28) re-derived it separately through Laplacian contractions. e^-288: rebuilding the LS-DER-062 (7)-(9) N=900 construction reproduces the (10) endpoints to 211 and 210 significant digits; CL-AUD-LSDER062 l.108 also reproduced it. eps_24 history: LS-DER-059 (20) first claimed <1e-170 (l.346), but its proof via (16) was ruled AMEND (CL-AUD-LSDER062 l.99-102: it relies on an upper covariance bound that was never stated; the conclusion is only numerically true). The repair LS-DER-064 (25) (l.322) and LS-DER-068 (20) (l.245) gives <1e-180, and CL-AUD-LSDER071 Gate A says 'proved at reviewed scope' (l.13-28, l.58), with no exact-hash reproduction (l.6). The terminal statements are LS-CLS-077 l.72-75 and LS-CLS-074 C1 l.111-123 ('independent of the direct 280-digit nonlinear evaluation'). R-CERT is still open (LS-CLS-077 l.137, l.178). Printed exact-rational endpoints exist only for the 1e-170 version, LS-DER-062 (17) (width 2.0e-170, which I checked). The 1e-180 interval is stated as a narrowing (LS-DER-064 l.331); no new endpoints are printed in the local files.",
+    "chain_locus": "LS-DER-055 (23),(27); LS-DER-059 (3),(17)-(22); LS-DER-062 (7)-(17); LS-DER-064 (25); LS-DER-068 (20); CL-AUD-LSDER062 l.96-110; CL-AUD-LSDER071 l.13-28,58; LS-CLS-074 l.111-123; LS-CLS-077 l.69-75",
+    "landing_locus": "n/a (chain-side status)"
+   },
+   {
+    "id": "F2",
+    "claim": "PROOF (4), |c_d,24/c_d,ref - 1| < 1e-106, agrees with the chain's statement and is strictly weaker than it. The chain gives a sign and a value of about -1.486e-118 \u00b1 1e-180. Neither source contradicts the other.",
+    "status": "CONSISTENT; chain stronger",
+    "evidence": "|R1| = |P_3(24) e^-288| = 1.48622e-118, which is 1.49e-12 of PROOF's 1e-106 bound. The chain's whole band R1 \u00b1 1e-180 lies inside \u00b11e-106. PROOF l.175 says explicitly that it does not claim the periodic constant equals the reference. The jet-level bounds also agree. The actual side-24 jet change at 300 digits is max_u |\u03b4 \u2202_u^6 K(0)| = \u03b4m6\u00b7q = 3.11952e-117 (jets.out). PROOF (2) bounds it by E = 2.1176e-112 (l.112-114; ENCLOSURE derivative_bound matches), the chain's LS-DER-059 (10) by 1e-113, and CL-AUD-LSDER071 A3 (l.25) recomputed 3.1195e-117. The 1-D first-order image jet differs from the exact normalized jet by at most 5.2e-242. 60E = 1.27e-110 < 1e-108 (PROOF (3)), and 32\u00b71e-108 < 1e-106 (PROOF (4)).",
+    "chain_locus": "LS-DER-059 (10),(22); LS-CLS-077 l.72-75",
+    "landing_locus": "PROOF.md (2) l.112-114, (3) l.132-133, (4) l.173-176; ENCLOSURE.json image_ledger"
+   },
+   {
+    "id": "F3",
+    "claim": "PROOF's c_3,ref is the chain's c_(3,inf). Both use the same K_inf(z) = exp(-|z|^2/2), the same reference blocks and the same value. They differ only in how they interpret it: PROOF treats it as a reference expression only, while the chain calls it the 'exact planar coefficient'. Neither claims an infinite-volume theorem.",
+    "status": "MATCH",
+    "evidence": "Kernel: PROOF l.34 K_infty = exp(-|z|^2/2). LS-DER-047 (1) l.37 E[f(x)f(y)] = exp(-|x-y|^2/2). The finite-L kernels are identical: PROOF l.18-19 = LS-DER-059 (4)-(5) = P l.13-14; LS-DER-061 (1) is a product of normalized 1-D kernels, which factorizes to the same thing. Value at 420 digits: LS-DER-059 (1) closed form minus PROOF (1) is -4.5e-423, and LS-CLS-077 form minus PROOF (1) is 0 (numerics.out). Reference blocks: PROOF l.38-49 gives Cov(G)=I, V-cov diag(3,1,1), tau^2=6, and A|V law (s,x,y) variances 5/3,1,1. The chain's LS-DER-059 (12)-(13) gives Sigma_g=I, Sigma_h=diag(3,1,1), sigma^2=1/24 (=6/144) and Gamma eigenvalues 1,2,10/3, which is the same law in (A22,A33,A23) coordinates. My code builds these from P's definitions and gets tau^2=6.0, Gamma_sxy=diag(5/3,1,1), det Sigma_V=3. Interpretation: PROOF l.34-35 says 'No infinite-volume persistence theorem is asserted'. LS-DER-059 l.178 says 'exact planar coefficient of LS-DER-047'. LS-CLS-077 l.135-136 also excludes L->inf/ell->0 interchange and an infinite-volume process.",
+    "chain_locus": "LS-DER-047 (1),(24); LS-DER-059 (1),(12),(13); LS-CLS-077 sec.2",
+    "landing_locus": "PROOF.md sec.1 l.34-81, formula (1)"
+   },
+   {
+    "id": "F4",
+    "claim": "At 420 digits, c_3,ref and the chain's c_(3,24) = c_ref(1 + P_3(24)e^-288 (\u00b11e-180)) both lie in PROOF's d=3 enclosure. They share 119 decimal places (118 significant digits) and first differ at decimal place 120. The enclosure resolves only 19 decimal places (18 significant digits). The match therefore cannot detect periodization at all, so it does not show source equivalence.",
+    "status": "CONFIRMED numerically; not equivalence evidence",
+    "evidence": "c_ref = 0.0417759318405983433429366654285755564666815196610447378849769957687473... (70 significant digits). The chain c_24 is identical to 70 digits. Decimal places 110-125 are 9932029088863202 for c_ref and 9932029088242321 for c_24, so the first difference is at place 120. This matches LS-DER-059 l.394/438 ('at least 118 decimal places') and the printed LS-DER-061 (14)/(15). ENCLOSURE d3 is [0.04177593184059834334, 0.04177593184059834335]. c_ref minus lower = 2.94e-21 and upper minus c_ref = 7.06e-21. The band c_ref(1+R1\u00b11e-180) is inside. |c_24 - c_ref| = 6.2088e-120, about 6e-100 of the enclosure width. The two endpoints share only the prefix 0.0417759318405983433. coefficient.py l.246-252 applies the 1e-106 allowance and then rounds outward, so at 20 digits the interval is limited by display rounding. Why this is not equivalence: (a) the match comes entirely from the shared closed form of c_ref (coordinator (i)), and the side-24 dependence sits about 100 orders below the enclosure's resolution; (b) the number cannot tell selected from all-typed counting, or ordered-pair from H0-bar counting. Both sources claim those give the same leading constant, but by theorem (P Thm C (1.3); the chain's selection theorems), not by numerics; (c) any field, normalization or counted object that differs by less than about 2e-19 relative would match equally well. The formula-level identity has to come from (iii) together with F5.",
+    "chain_locus": "LS-DER-059 l.394,438; LS-DER-061 (14),(15)",
+    "landing_locus": "ENCLOSURE.json dimensions.3; PROOF.md l.25-26; coefficient.py l.246-252"
+   },
+   {
+    "id": "F5",
+    "claim": "Optional independent check, done. I computed the first-order periodization response of the P (15.2) functional directly. It is exactly the chain's polynomial: -2L^6/21 + 7L^4/5 - 3L^2 = P_3(L). At L=24 that is -620813376/35, i.e. negative, with first-order relative value -1.4862170290658276072e-118. This is first order only; it is not a certificate.",
+    "status": "CONFIRMED (sign, order and exact first-order polynomial; no remainder bound)",
+    "evidence": "Method (first_variation.py). It uses only the P (15.1)-(15.2) definitions on K = k(x1)k(x2)k(x3), with the nearest-image jet changes dm_n = 2[He_n(L) - He_n(0)]q, i.e. dm2 = 2L^2, dm4 = 2L^4 - 12L^2, dm6 = 2L^6 - 30L^4 + 90L^2. For each direction u it builds p_G, p_V, tau_u^2 and the conditional A|V law from the sixth-jet tensors, so the full anisotropy is kept. The first variation of D_u comes from the exact Gaussian linear response. The closed-form reference moments are E0[h s^2] = 445/18 - 5\u221a6/8 and E0[h x^2] = 19/2 - 53\u221a6/16, which satisfy the homogeneity identity Ess/(5/3) + 2Exx = 7D0 exactly. I checked this against a direct 2-D quadrature of D for a generic non-diagonal perturbation: finite difference 0.987894879888771 vs formula 0.987894879855582. The other blocks use central differences (h=1e-20, 60 digits). The S^2 average uses Gauss-Legendre x trapezoid at 4x8 and 6x12. Both runs give d log c/dm2 = 39/70, d log c/dm4 = -1/70, d log c/dm6 = -1/21. These match the chain law (LS-DER-050 exponents with LS-DER-055 radialization) to within 1e-41. The irrational parts of the D-response cancel only after the sphere average. This is an independent test of the rotational-projection step in LS-DER-055 sec.2, because my computation does not use it.",
+    "chain_locus": "LS-DER-055 (3)-(5),(11)-(13),(18)-(23),(27); LS-DER-059 (3),(17),(18)",
+    "landing_locus": "P.md (15.1)-(15.2) l.453-478; PROOF.md l.18-19"
+   },
+   {
+    "id": "F6",
+    "claim": "LS-DER-061 vs LS-DER-063: LS-DER-063 corrects only reported precision. The reruns agree for 162 significant digits, and 061 (14)/(15) stand. The final chain value relies on the analytic interval, not on either quadrature. Both quadrature values lie inside R1 \u00b1 1e-180 and inside LS-DER-062 (17).",
+    "status": "CONFIRMED",
+    "evidence": "The defect was a 280-digit subtraction with a cancellation floor of about 162 digits (LS-DER-063 l.57-66; CL-AUD-LSDER062 l.48-57). LS-DER-063 reran at 400 digits with N_phi=64 and outer order (20,40) (l.72-79). My string comparisons: 061 (12) vs 063 (1) agree for 162 of the 190 printed digits. 063 (1) matches the CL-AUD-LSDER062 280-digit string in all 280 digits. 061 (17) vs 063 (3) agree for 43 digits, as CL-AUD-LSDER062 l.57 says. 063 (3) equals 063 (1) minus R1 to 119 of 120 printed digits (last digit is rounding); the value is -7.5200873e-237. 061 (14) matches the closed form in all 187 printed digits. 061 (15) matches c_ref(1+R1) in all 187 printed digits, and 061 (15)-(14) equals (13) at the last-digit level (1.4e-189). Both 061 (12) and 063 (1) lie inside LS-DER-062 (17), and |063 (1) - R1| < 1e-180. On reliance: LS-CLS-074 C1 l.123 says the analytic interval is 'independent of the direct 280-digit nonlinear evaluation', with C2 l.126-129 (LS-DER-063 controls reporting); LS-CLS-077 l.92 says the absolute value comes from the normalization plus the analytic relative correction. Minor: 063 (2) prints 282 significant digits although (1) supports 280. It agrees with (1)\u00d7c_ref to 279 digits, which is immaterial.",
+    "chain_locus": "LS-DER-061 header l.1-16, (12)-(17); LS-DER-063 (1)-(3) l.57-109; CL-AUD-LSDER062 l.42-57,121-139; LS-CLS-074 l.111-129; LS-CLS-077 l.92",
+    "landing_locus": "n/a (PROOF does not use the quadrature)"
+   },
+   {
+    "id": "F7",
+    "claim": "The status levels differ. The chain's side-24 correction is 'closed at reviewed scope' through Anthropic verdicts, none of which reproduced the frozen-body hashes. PROOF/ENCLOSURE is an author-side candidate with nonauthor review open and scientific_acceptance false. The numbers are consistent across this gap; the review credit does not carry over.",
+    "status": "NOTE",
+    "evidence": "CL-AUD-LSDER062 l.24 and CL-AUD-LSDER071 l.6 say no exact-hash reproduction was done; LS-CLS-077 l.111. PROOF.md l.4 reads 'nonauthor review open'; l.12-14 say the parent proof is not accepted. ENCLOSURE.json l.27 has scientific_acceptance false, and its scope says 'parent theorem unreviewed'.",
+    "chain_locus": "CL-AUD-LSDER062 l.24; CL-AUD-LSDER071 l.6; LS-CLS-077 l.98-111",
+    "landing_locus": "PROOF.md l.4,12-14,198-208; ENCLOSURE.json l.27-28"
+   }
+  ],
+  "caveats": [
+   "F5 is a first-order linear-response check only. It has no second-order or remainder bound, so it confirms the sign, the size and the exact polynomial P_3(L), but not eps_24 < 1e-180. No directed-rounding work (R-CERT) was attempted.",
+   "F5 uses only P (15.1)-(15.2). Mapping it onto the chain's LS-DER-056 integrand relies on the coordinator's identification (iii); I did not re-derive that identification. Agreement with the chain's P_3(L) supports it at the level of jet dependence. It cannot test the overall constant, because the constant cancels in d log c.",
+   "No printed exact-rational endpoints for the narrowed 1e-180 interval exist in the local files. Only LS-DER-062 (17), at 1e-170, is printed. The 1e-180 version is stated in LS-DER-064 l.331, LS-CLS-074 C1 and LS-CLS-077.",
+   "Counted-object equivalence (selected vs all-typed, ordered pairs vs H0 bars, per unit volume) cannot be decided numerically. In both sources it rests on theorem claims. This lens did not adjudicate it.",
+   "I did not check frozen-body SHA-256 values or custody; that belongs to another lens.",
+   "Scripts and outputs (read-only use of sources): <SCRATCH>/s9/work/side-24-correction-and-numerics/numerics.py (.out), digits.py, jets.py (.out), first_variation.py, with outputs first_variation_4x8.out and first_variation_6x12.out."
+  ]
+ }
+]

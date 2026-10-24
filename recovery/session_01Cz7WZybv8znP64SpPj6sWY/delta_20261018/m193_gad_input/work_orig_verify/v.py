@@ -1,0 +1,22 @@
+import sympy as sp
+V,u,l,r,t=sp.symbols('V u ell r t',positive=True)
+# absolute and one-sided 4/3 moments of N(0,V)
+pdf=sp.exp(-t**2/(2*V))/sp.sqrt(2*sp.pi*V)
+abs_m=sp.simplify(2*sp.integrate(t**sp.Rational(4,3)*pdf,(t,0,sp.oo)))
+one_m=sp.simplify(sp.integrate(t**sp.Rational(4,3)*pdf,(t,0,sp.oo)))
+print('abs - proof(19):',sp.simplify(abs_m-2**sp.Rational(2,3)*sp.gamma(sp.Rational(7,6))*V**sp.Rational(2,3)/sp.sqrt(sp.pi)))
+print('one - orig(23):',sp.simplify(one_m-2**sp.Rational(-1,3)*sp.gamma(sp.Rational(7,6))*V**sp.Rational(2,3)/sp.sqrt(sp.pi)))
+# radial delta (21)
+r0=(12*l/u)**sp.Rational(1,3)
+val=(u**2/4)*r0/sp.Abs(sp.diff(u*r**3/12,r).subs(r,r0))
+print('(21) ratio:',sp.nsimplify(sp.simplify(val/(12**sp.Rational(-1,3)*u**sp.Rational(4,3)*l**sp.Rational(-1,3)))))
+# prefactors
+proof_pref=2**sp.Rational(2,3)/(2*12**sp.Rational(1,3))
+orig_pref=12**sp.Rational(-1,3)*2**sp.Rational(-1,3)
+print('proof pref/24^-1/3:',sp.nsimplify(proof_pref*24**sp.Rational(1,3)), ' orig pref/24^-1/3:',sp.nsimplify(orig_pref*24**sp.Rational(1,3)))
+# GAD (26)->(27)
+print('144*12^(-7/3)/12^(-1/3):',sp.nsimplify(144*12**sp.Rational(-7,3)/12**sp.Rational(-1,3)))
+# (31) as L->inf specialization of (1): a=1, detB=3, V=6
+lhs=6**sp.Rational(2,3)/(24**sp.Rational(1,3)*sp.sqrt(3))
+rhs=sp.Rational(3,2)**sp.Rational(1,3)/sp.sqrt(3)
+print('(1)->(31) ratio:',sp.nsimplify(lhs/rhs))

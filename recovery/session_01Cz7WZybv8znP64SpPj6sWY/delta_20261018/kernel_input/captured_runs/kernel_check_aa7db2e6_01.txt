@@ -1,0 +1,103 @@
+# command run at 2026-10-18T01:03:17.031Z (result at 2026-10-18T01:03:20.448Z) by a check agent of this session, run wf_966f8d9a-712
+# --- command ---
+mkdir -p <SCRATCH>/kern/work_soundness/probe && cat > <SCRATCH>/kern/work_soundness/probe/mp_contain.py <<'EOF'
+"""Independent mpmath containment check of producer certificates (forall-L claim)."""
+import sys, json
+from fractions import Fraction as Q
+KDIR = sys.argv[1]
+sys.path.insert(0, KDIR)
+import mpmath as mp
+from moment_kernel import certify, KernelHold
+from verify_certificate import verify
+mp.mp.dps = 80
+
+def truth(L):
+    L = mp.mpf(L.numerator)/L.denominator
+    h = 2*mp.pi/L
+    N = int(40/h) + 5
+    S = [mp.mpf(0)]*4
+    for m in range(-N, N+1):
+        w = mp.e**(-(h*m)**2/2)
+        q2 = (h*m)**2
+        for k in range(4):
+            S[k] += q2**k * w if (k or True) else 0
+    # m=0: q2**0 = 1 -> contributes 1 to S0, 0 to others (0**k for k>0 is 0)
+    return {"z": S[0], "mu2": S[1]/S[0], "mu4": S[2]/S[0], "mu6": S[3]/S[0]}
+
+def mpq(s):
+    q = Q(s); return mp.mpf(q.numerator)/q.denominator
+
+cases = []
+def add(lo, hi, **kw): cases.append((lo, hi, kw))
+add("1/1","1/1", cutoff=2)
+add("1/1","2/1", cutoff=2)
+add("3/2","3/2", cutoff=3)
+add("1/1","1/1", cutoff=1, bits=16, pi_terms=1, exp_pairs=1)
+add("1/1","3/1", cutoff=3, bits=16, pi_terms=1, exp_pairs=1)
+add("5/1","7/1", cutoff=4)
+add("10/1","10/1", cutoff=4)
+add("10/1","20/1", cutoff=8)
+add("40/1","40/1", cutoff=16)
+add("100/1","100/1", cutoff=40)
+add("150/1","160/1", cutoff=64)
+add("163/1","163/1", cutoff=64)
+add("2/1","50/1", cutoff=64)
+add("6/5","6/5", cutoff=64)
+add("1/2","1/2", cutoff=1)
+add("1/10","1/10", cutoff=1)
+add("1/100","1/100", cutoff=1)
+add("10/1","10/1", cutoff=4, bits=16, pi_terms=1, exp_pairs=1)
+add("30/1","30/1", cutoff=12, bits=16, pi_terms=2, exp_pairs=1)
+add("7/3","9/2", cutoff=2, bits=128, pi_terms=32, exp_pairs=24)
+bad = 0
+for lo, hi, kw in cases:
+    req = dict(L_lo=lo, L_hi=hi, input_role="TEST_ONLY", **kw)
+    try:
+        c = certify(req)
+    except KernelHold as e:
+        print("HOLD", lo, hi, kw, e.reason); continue
+    c = json.loads(json.dumps(c))
+    try:
+        verify(c); vr = "ACCEPT"
+    except ValueError as e:
+        vr = "REJECT " + str(e)
+    Llo, Lhi = Q(lo), Q(hi)
+    pts = [Llo + (Lhi-Llo)*Q(i, 16) for i in range(17)] if Llo != Lhi else [Llo]
+    worst = {}
+    for L in pts:
+        t = truth(L)
+        for k, v in t.items():
+            a, b = (mpq(x) for x in c["bounds"][k])
+            if not (a <= v <= b):
+                bad += 1
+                print("  VIOLATION", lo, hi, kw, "L=", L, k, v, a, b)
+            # relative margin
+            w = b - a
+            worst[k] = min(worst.get(k, mp.inf), min(v-a, b-v)/w if w else mp.inf)
+    widths = {k: mp.nstr(mpq(c["bounds"][k][1]) - mpq(c["bounds"][k][0]), 3) for k in c["bounds"]}
+    print(vr, lo, hi, kw, c["outcome"], "widths", widths, "minmargfrac", {k: mp.nstr(v, 3) for k, v in worst.items()})
+print("VIOLATIONS", bad)
+EOF
+cd <SCRATCH>/kern/work_soundness/probe && <SCRATCH>/m193/venv/bin/python -I -B mp_contain.py <SCRATCH>/kern/work_soundness
+# --- captured tool output (verbatim) ---
+ACCEPT 1/1 1/1 {'cutoff': 2} BOUNDS_ONLY widths {'z': '4.96e-24', 'mu2': '3.94e-22', 'mu4': '4.64e-20', 'mu6': '6.72e-18'} minmargfrac {'z': '0.316', 'mu2': '0.16', 'mu4': '0.0526', 'mu6': '0.0143'}
+ACCEPT 1/1 2/1 {'cutoff': 2} BOUNDS_ONLY widths {'z': '0.0144', 'mu2': '0.568', 'mu4': '22.4', 'mu6': '885.0'} minmargfrac {'z': '1.09e-22', 'mu2': '2.8e-7', 'mu4': '3.49e-7', 'mu6': '3.66e-7'}
+ACCEPT 3/2 3/2 {'cutoff': 3} BOUNDS_ONLY widths {'z': '6.62e-24', 'mu2': '4.39e-22', 'mu4': '5.09e-20', 'mu6': '7.23e-18'} minmargfrac {'z': '0.331', 'mu2': '0.238', 'mu4': '0.124', 'mu6': '0.059'}
+ACCEPT 1/1 1/1 {'cutoff': 1, 'bits': 16, 'pi_terms': 1, 'exp_pairs': 1} BOUNDS_ONLY widths {'z': '6.1e-5', 'mu2': '0.0025', 'mu4': '0.1', 'mu6': '4.06'} minmargfrac {'z': '8.77e-5', 'mu2': '8.44e-5', 'mu4': '8.32e-5', 'mu6': '8.1e-5'}
+ACCEPT 1/1 3/1 {'cutoff': 3, 'bits': 16, 'pi_terms': 1, 'exp_pairs': 1} BOUNDS_ONLY widths {'z': '0.264', 'mu2': '10.8', 'mu4': '453.0', 'mu6': '2.17e+4'} minmargfrac {'z': '2.03e-8', 'mu2': '1.96e-8', 'mu4': '1.84e-8', 'mu6': '1.52e-8'}
+ACCEPT 5/1 7/1 {'cutoff': 4} BOUNDS_ONLY widths {'z': '0.799', 'mu2': '2.39', 'mu4': '15.9', 'mu6': '166.0'} minmargfrac {'z': '6.7e-9', 'mu2': '0.266', 'mu4': '0.154', 'mu6': '0.0816'}
+ACCEPT 10/1 10/1 {'cutoff': 4} BOUNDS_ONLY widths {'z': '0.0538', 'mu2': '0.112', 'mu4': '0.872', 'mu6': '7.74'} minmargfrac {'z': '0.3', 'mu2': '0.456', 'mu4': '0.46', 'mu6': '0.354'}
+ACCEPT 10/1 20/1 {'cutoff': 8} BOUNDS_ONLY widths {'z': '4.04', 'mu2': '8.13', 'mu4': '103.0', 'mu6': '2.09e+3'} minmargfrac {'z': '5.77e-8', 'mu2': '0.108', 'mu4': '0.0284', 'mu6': '0.00711'}
+ACCEPT 40/1 40/1 {'cutoff': 16} BOUNDS_ONLY widths {'z': '0.215', 'mu2': '0.112', 'mu4': '0.873', 'mu6': '7.76'} minmargfrac {'z': '0.298', 'mu2': '0.244', 'mu4': '0.158', 'mu6': '0.109'}
+ACCEPT 100/1 100/1 {'cutoff': 40} BOUNDS_ONLY widths {'z': '0.538', 'mu2': '0.112', 'mu4': '0.874', 'mu6': '7.76'} minmargfrac {'z': '0.19', 'mu2': '0.172', 'mu4': '0.0919', 'mu6': '0.0593'}
+ACCEPT 150/1 160/1 {'cutoff': 64} BOUNDS_ONLY widths {'z': '4.54', 'mu2': '0.459', 'mu4': '2.48', 'mu6': '18.3'} minmargfrac {'z': '0.0307', 'mu2': '0.499', 'mu4': '0.49', 'mu6': '0.494'}
+ACCEPT 163/1 163/1 {'cutoff': 64} BOUNDS_ONLY widths {'z': '1.0', 'mu2': '0.125', 'mu4': '0.944', 'mu6': '8.19'} minmargfrac {'z': '0.163', 'mu2': '0.155', 'mu4': '0.0763', 'mu6': '0.0477'}
+ACCEPT 2/1 50/1 {'cutoff': 64} BOUNDS_ONLY widths {'z': '18.9', 'mu2': '1.23e+4', 'mu4': '2.3e+7', 'mu6': '7.2e+10'} minmargfrac {'z': '1.69e-25', 'mu2': '1.14e-5', 'mu4': '5.99e-8', 'mu6': '1.89e-10'}
+ACCEPT 6/5 6/5 {'cutoff': 64} BOUNDS_ONLY widths {'z': '1.08e-22', 'mu2': '4.06e-18', 'mu4': '2.78e-13', 'mu6': '2.26e-8'} minmargfrac {'z': '0.0255', 'mu2': '4.81e-5', 'mu4': '6.52e-8', 'mu6': '8.42e-11'}
+ACCEPT 1/2 1/2 {'cutoff': 1} BOUNDS_ONLY widths {'z': '3.31e-24', 'mu2': '5.23e-22', 'mu4': '8.25e-20', 'mu6': '1.3e-17'} minmargfrac {'z': '3.1e-11', 'mu2': '3.09e-11', 'mu4': '3.1e-11', 'mu6': '3.1e-11'}
+ACCEPT 1/10 1/10 {'cutoff': 1} BOUNDS_ONLY widths {'z': '3.31e-24', 'mu2': '1.31e-20', 'mu4': '5.16e-17', 'mu6': '2.04e-13'} minmargfrac {'z': '0.0', 'mu2': '3.3e-834', 'mu4': '3.3e-834', 'mu6': '3.3e-834'}
+HOLD 1/100 1/100 {'cutoff': 1} EXP_RANGE_LIMIT
+ACCEPT 10/1 10/1 {'cutoff': 4, 'bits': 16, 'pi_terms': 1, 'exp_pairs': 1} BOUNDS_ONLY widths {'z': '0.601', 'mu2': '0.762', 'mu4': '3.83', 'mu6': '25.6'} minmargfrac {'z': '0.242', 'mu2': '0.297', 'mu4': '0.273', 'mu6': '0.293'}
+ACCEPT 30/1 30/1 {'cutoff': 12, 'bits': 16, 'pi_terms': 2, 'exp_pairs': 1} BOUNDS_ONLY widths {'z': '1.09', 'mu2': '0.47', 'mu4': '2.52', 'mu6': '18.0'} minmargfrac {'z': '0.207', 'mu2': '0.358', 'mu4': '0.381', 'mu6': '0.428'}
+ACCEPT 7/3 9/2 {'cutoff': 2, 'bits': 128, 'pi_terms': 32, 'exp_pairs': 24} BOUNDS_ONLY widths {'z': '0.752', 'mu2': '6.58', 'mu4': '81.8', 'mu6': '1.67e+3'} minmargfrac {'z': '1.79e-14', 'mu2': '0.047', 'mu4': '0.0311', 'mu6': '0.00836'}
+VIOLATIONS 0

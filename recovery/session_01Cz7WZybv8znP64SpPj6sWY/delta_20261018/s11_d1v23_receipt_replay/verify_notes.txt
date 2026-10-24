@@ -1,0 +1,49 @@
+OK_TO_POST False n_problems 7
+NOTES: The draft has two blockers before posting: the unfilled 'PDOPT' placeholder (now resolvable, because the -O run finished byte-identical at 7547476c…) and the O2 description. O2 actually re-ran the H3 band programs path-only, in both modes, and reported byte-for-byte transcript reproduction, which is exactly the comparison this record's pickup promised. Saying O2 'replayed their constants' gets that wrong. The other items are wording and overclaim fixes.
+
+Exit codes: only b4loc_t_normal.err records 'EXIT 0'. No file records exit codes for the driver -O run, the falsifier or either D3 run. My re-runs confirm exit 0 for all three B4LOC runs. For D3, the source ends with SystemExit(0) right after the PASS line.
+
+Hazard, no effect on these results: d3_perc_decay.py writes _mut_perc_decay.py in its working directory, so normal and -O runs must not share a directory at the same time. The d3_perc opt-1.pyc is timestamped 13:50:39, the same as the normal run's start, which suggests an earlier -O process. The -O run that counts started at 14:03:25, after the normal run finished at 14:03:05, and both outputs match the frozen hash.
+
+The Math- clone is a blob:none partial clone, so `ls-tree -l` fetches blobs lazily over the network. I stopped that scan; the Math- absence checks above are by filename.
+
+My scratch files are in <SCRATCH>/s11/verify/reexec/ (stage, t_normal.out, t_opt.out, tf_normal.out).
+CONFIRMED:
+ + Staged inputs match their stated sources. b4loc_driver.py (bf3b0225), b4loc_falsifier.py (d59ad790) and d3_perc_decay.py (ee68ac75) equal the main .py.txt copies under incoming/claude-bundle-v3-native-copies-20260928/K3_SIDE24_LB/UPPER2D/. cov_exact.py (f08c1c5f), pin_transform.py (c6988ac7), reg_le
+ + Every staged input passes the pins of the program that reads it. The B4LOC driver pins cov_exact and b1_falsifier. The falsifier pins the driver. d3_perc_decay pins d3_perc, cov_exact, pin_transform and H3_RUNG_FLOOR, and checks the Z_lo drift. d3_perc pins cov_exact and pin_transform. Staged extras
+ + B4LOC: t_normal and t_opt are both 11baaccc…, equal to FREEZE.txt t_normal/t_opt and the landed t_normal.txt. The driver digest 43ff9c1e… equals FREEZE.txt. The falsifier output is 1629de83… (= FREEZE tf_normal/tf_opt), its digest f939eeab… equals FREEZE.txt, and it has exactly three mutations (rn, 
+ + My independent re-run (stage rebuilt straight from git blobs, venv python -E -s) gives driver normal exit 0 at 11baaccc…, driver -O exit 0 at 11baaccc…, and falsifier exit 0 at 1629de83…. The output is deterministic and the exit codes are confirmed.
+ + D3 PERC-DECAY normal: pd_normal.out is 7547476c… (= FREEZE_PERC_DECAY pd_normal/pd_opt), the engine digest 58df7e31… equals the freeze, and all five MUT-PD-1..5 mutations fire. The -O run has now finished and is byte-identical (7547476c…).
+ + Environment: both venvs are CPython 3.11.17 with mpmath 1.3.0 (no gmpy2). numpy 2.4.6 is present only in the m193 venv, which ran D3. sympy 1.14.0 is installed but none of the re-run programs import it.
+ + The 'Not re-run' reasons are accurate to source. The H3 band programs hard-code /mnt/agents/output/K3_SIDE24_LB/UPPER2D/H2_foundations (lines 27 and 56) and open H2D/MANIFEST.sha256 (line 59). h5_zband_consume.py.txt lines 51–52 require band_O.txt and ceil_O.txt. d3_falsifier.py (abbb40d2 per FREEZE
+ + Receipts and gate: D1_V2_3_RECEIPTS.txt is blob 23743f31 on main and also in the hardening drive mirror. gate_v4.py has sha256 1bfb5dbc… and is 20,558 B. FREEZE body hashes 0d5c1b32 (B4LOC) and 5137a811 (PERC) match the receipt's consumed-carrier prefixes.
+ + Protocol: no model names, no Drive ids or URLs, and no closing verb before any #N (only 'main#445' as a plain reference). The pickup 6250643255 and the O2 comment 6243732292 both resolve to issue 419 comments.
+=========
+OK_TO_POST False n_problems 14
+NOTES: The draft's central claim does not survive. The operator's container zip, 09152026OKComputer_Project_Gap_Closure.zip (sha256 a2136bc0…), is stored on hardening a01c72f1 and main#395 head c74cbc2a as a chunked DG-MIGRATION object at drive/deltas/2026-09-19/DG-MIGRATION-20260919/objects.json. pinscan.py could not see it: it searched three refs by basename, never opened archive members, and never put chunks back together. Rebuilding the zip at its original paths, adding the zband files from main and regenerating zb_normal/zb_O, lets the v4 gate run to the receipts' exact transcript and digest. The v3 gate and the five-mutation suite also replay. The record needs a rewrite: verdict, §1 rows 3 and 5, the §2 ABSENT list and its attribution, the §3 'Not re-run' list, the PDOPT placeholder, and the closing bullets. The draft also cites CL-MIRROR-001 in §4, and that manifest points at the container zip by name and hash.
+
+Scratch is all under <SCRATCH>/s11/verify/bytespins/:
+- Scripts: hunt.py (rule re-implementation and blob scan), hunt2.py (rebuilds the DG objects and scans archives recursively), rules_lib.py, cands.py.
+- Pin results: hunt2.json (per-pin locations).
+- Rebuilt zips: zips/okcomputer_gap_closure.zip, zips/close_b9c2.zip.
+- Gate run: gatestage/UPPER2D (staged tree), gate_normal.out and gate_opt.out (both 9db82530).
+- ZBAND: zbstage/zb_normal.txt and zb_O.txt (a570dade).
+- v3 gate: v3stage, v3_normal.out.
+- Mutation runs: mutstage/.
+
+Nothing was posted or pushed. The only change to /home/user/main was fetching PR heads 441, 442, 446 and 447 into its object store.
+
+One removal the safety check blocked: I wanted to delete the copied d1_falsify_v3.py from gatestage/UPPER2D/D1_assembly/. I ran v3 in a separate copy (v3stage) instead, so the extra file is still in gatestage, inside my scratch dir, and does not affect the v4 results. You can delete it if you want.
+CONFIRMED:
+ + gate_v4.py sha256 = 1bfb5dbc88b842893b5b0365680ccaa9b4893b6c028a950c194d2c1c739e62a6. It equals main blob 3f6aad8d (d1_falsify_v4.py.txt, 20,558 B) and the Drive inventory sha.
+ + There are 47 pins: 24 WHOLE, 10 BODY, 2 SEP, 2 BEFORE_HASHLINE, 6 HIST, 1 body_strip, 2 excl_hashline. My independent re-implementation (hunt.py, scanning by content hash over every blob of 264 main refs, 41 open main PR heads, 30 Math- refs and google-drive HEAD = gd_tree commit ad08584b) reproduce
+ + The receipt label 'marker_strip_LF' is the gate's d1_body; the gate prints that exact label for d1_body. On blob 249971e8, d1_body and the byte-level body_strip both give 6f0c4a89…, the receipt value. The _MANIFEST's 'rule A' 2ec888da is marker_rstrip, a different rule.
+ + D1_V2_3_RECEIPTS.txt is the same blob 23743f31 on main and in the hardening mirror.
+ + CL-MIRROR-001: all 46 rows re-hash, sha256 and byte size, to blobs on origin/main. All 46 also match inside the container zip a2136bc0 at their original_path.
+ + B4LOC driver outputs: normal and -O both 11baaccc…, driver digest 43ff9c1e…. Falsifier digest f939eeab… equals B4LOC FREEZE.txt (main blob a515a746).
+ + PERC-DECAY: pd_normal = 7547476c…, engine digest 58df7e31… = FREEZE_PERC_DECAY.txt. pd_opt.out (completed after the draft) is identical.
+ + Staged-program provenance: b1_falsifier 818df798 at Math- imports/upper2d_stage_e_20260926/raw/B1_taxonomy/. cov_exact f08c1c5f, pin_transform c6988ac7, d3_perc 5bc09241 and H3_RUNG_FLOOR 6347275d are in hardening engine/rn_engine/frozen. The env claim matches the venvs: CPython 3.11.17, mpmath 1.3.
+ + Full v4 gate replay from repository bytes: exit 0, 156 PASS / 0 FAIL, transcript 9db82530… in both normal and -O, digest ea8076b4…. Run with /usr/bin/python3 3.13.16.
+ + ZBAND transcript regenerated from landed bytes: a570dade… in both modes, digest cbe8603f….
+ + v3 gate replay: 91 PASS, digest d800849e…, equal to the receipts and to the frozen v3_t_normal.txt.
+=========

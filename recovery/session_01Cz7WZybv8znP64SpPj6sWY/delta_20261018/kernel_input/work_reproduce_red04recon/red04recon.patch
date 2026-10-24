@@ -1,0 +1,17 @@
+# Apply to the delivered verify_certificate.py (Math-#193 pieces from 6243879677; sha256 in the label).
+# This reconstructs a legacy-accepting checker for the red04 control; it is NOT the undelivered red04 snapshot.
+--- verify_certificate.py (delivered, sha256 a0afbfdf9ca323db38e06171c138f683669c42fe99f6892d6233ab03802d4715)
++++ verify_certificate.py (local legacy-accepting reconstruction)
+@@ -166,6 +166,12 @@
+     outcome="BOUNDS_ONLY" if goal is None else ("TOLERANCE_MET" if all(w<=goal for w in widths) else "HOLD_INPUT_UNCERTAINTY" if spread>goal else "HOLD_TARGET_UNMET")
+     if c["outcome"]!=outcome: raise ValueError("FALSE_TOLERANCE_OR_HOLD_DISPOSITION")
+     er=c["error_accounting"]
++    if "rounding" in er:
++        # RECONSTRUCTION of legacy-accepting checker (not the delivered red04 snapshot)
++        _keys(er,("rounding","per_endpoint_round_error_lt","finite_widths","finite_width_scope"))
++        _keys(er["finite_widths"],degrees)
++        if any(ck.q(er["finite_widths"][key])!=finite[key][1]-finite[key][0] for key in degrees): raise ValueError("FALSE_FINITE_WIDTH")
++        return
+     _keys(er,("producer_rounding_spec","producer_round_quantum","checker_certifies","finite_widths","finite_width_scope"))
+     if er["producer_rounding_spec"]!="DYADIC_FLOOR_CEIL_EACH_LOCAL_CALL" or ck.q(er["producer_round_quantum"])!=F(1,2**bits) or er["checker_certifies"]!="FORWARD_CONTAINMENT_ONLY_NOT_MINIMAL_ROUNDING_OR_EXECUTION" or er["finite_width_scope"]!="includes input uncertainty, pi, exp and arithmetic; not a global sum of local errors":
+         raise ValueError("ROUNDING_PROVENANCE")
