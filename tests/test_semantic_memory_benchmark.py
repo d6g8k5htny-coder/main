@@ -9,8 +9,10 @@ CLI loader. Its original API RED is qualified at its pinned predecessor; this
 controls-first admission repair successor adds prospective strict CLI/report
 compatibility controls whose behavioral outcomes remain NOT_RUN. Every source/fact/oracle
 is synthetic. Only the captured CLI loader and benchmark subject are loaded as
-project code; no additional project helper is loaded. Same provider and
-shared principal, organizational-independence credit0, scientific effect NONE.
+project code; no additional project helper is loaded. A bounded R03-only
+private derivative is generated from those captured bytes solely as a hosted
+mutation control; it is not a native original or product change. Same provider
+and shared principal, organizational-independence credit0, scientific effect NONE.
 """
 from __future__ import annotations
 
@@ -311,6 +313,91 @@ class SemanticMemoryFixtureContract(unittest.TestCase):
         except subprocess.TimeoutExpired:
             self.fail("real CLI blocked or exceeded finite child/mode deadline")
 
+    def invoke_private_r03(self, path, cli, timeout=20):
+        """Run a private derivative without changing native-original accounting."""
+        remaining = self.deadline - time.monotonic()
+        self.assertGreater(remaining, 0, "finite120s per-mode test budget exhausted")
+        args = [sys.executable, "-I", "-B"] + (["-O"] if sys.flags.optimize else []) + [
+            "-S", "-c", LAUNCHER, str(cli), "prepare-report", "--fixtures", str(path)]
+        environment = os.environ.copy()
+        environment.pop("SEMANTIC_MEMORY_CHILD_MODE_LOG", None)
+        environment.pop("SEMANTIC_MEMORY_IMPORT_CONTEXT", None)
+        try:
+            return subprocess.run(args, cwd=self.home, env=environment, capture_output=True,
+                                  timeout=min(timeout, remaining), check=False)
+        except subprocess.TimeoutExpired:
+            self.fail("private R03 control exceeded finite child/mode deadline")
+
+    def hosted_r03_controls(self, amended):
+        """Retain hosted RED/masking witnesses without modifying native sources."""
+        product = (ROOT / "experiments/semantic_memory/benchmark.py").read_bytes()
+        cli = CLI.read_bytes()
+        git_blob = lambda raw: hashlib.sha1(
+            b"blob " + str(len(raw)).encode("ascii") + b"\0" + raw).hexdigest()
+        self.assertEqual(git_blob(product), "9d383143036cbfded585d0544d89d636e83cc609")
+        self.assertEqual(git_blob(cli), "51bdc1917dc3f234f2f27cba205ae4b668d4616d")
+
+        needle = b"_require(type(value) is str and bool(value.strip()))"
+        replacement = b"_require(type(value) is str)"
+        self.assertEqual(product.count(needle), 1, "exact R03 source guard")
+        mutant = product.replace(needle, replacement)
+        self.assertEqual(mutant.count(needle), 0)
+        self.assertEqual(mutant.count(replacement), product.count(replacement) + 1)
+
+        private = self.home / "r03-private-source"
+        (private / "tools").mkdir(parents=True)
+        (private / "experiments/semantic_memory").mkdir(parents=True)
+        private_cli = private / "tools/semantic_memory_experiment.py"
+        private_product = private / "experiments/semantic_memory/benchmark.py"
+        private_cli.write_bytes(cli)
+        private_product.write_bytes(mutant)
+        private_cli.chmod(0o444)
+        private_product.chmod(0o444)
+
+        valid = self.fresh()
+        positive = self.invoke_private_r03(valid, private_cli)
+        red = self.invoke_private_r03(amended, private_cli)
+        self.casefile(valid, "heldout-oracle.json",
+                      lambda v: v.update(oracle_only_sentinel=" "))
+        masking = self.invoke_private_r03(valid, private_cli)
+
+        self.assertEqual((positive.returncode, red.returncode, masking.returncode),
+                         (0, 0, 1))
+        self.assertEqual(positive.stderr, b"")
+        self.assertEqual(red.stderr, b"")
+        self.assertIs(type(json.loads(positive.stdout)), dict)
+        self.assertIs(type(json.loads(red.stdout)), dict)
+        self.assertEqual(masking.stdout, b"")
+        self.assertTrue(masking.stderr.startswith(
+            b"semantic memory fixtures refused:"), masking.stderr[:300])
+        self.assertNotIn(b"Traceback", masking.stderr)
+
+        record = {
+            "schema_version": 1,
+            "kind": "HOSTED_R03_DERIVATIVE_CONTROL",
+            "mode": "optimized" if sys.flags.optimize else "normal",
+            "native_product_git_blob": git_blob(product),
+            "native_cli_git_blob": git_blob(cli),
+            "mutant_sha256": digest(mutant),
+            "transform": "remove_only_bool_value_strip",
+            "probes": [
+                {"arm": "R03_VALID_POSITIVE", "expected_exit": 0,
+                 "observed_exit": positive.returncode, "stdout_sha256": digest(positive.stdout)},
+                {"arm": "AMENDED_U3000_PLUS_R03_RED", "expected_exit": 0,
+                 "observed_exit": red.returncode, "stdout_sha256": digest(red.stdout)},
+                {"arm": "OLD_ASCII_SPACE_PLUS_R03_MASKING", "expected_exit": 1,
+                 "observed_exit": masking.returncode, "stderr_sha256": digest(masking.stderr)},
+            ],
+            "native_accounting": "PRIVATE_PROBES_EXCLUDED; EXPECTED_COUNTS_UNCHANGED_190_CLI_191_CONTEXT",
+            "native_originals_modified": False,
+            "scientific_effect": "NONE",
+        }
+        # The hosted observer requires an exact three-line unittest result
+        # shape with OK terminal. Keep this source-bound record in the captured
+        # source and make the ordinary test result its retained outcome.
+        self.assertEqual(json.loads(json.dumps(
+            record, sort_keys=True, ensure_ascii=True, allow_nan=False)), record)
+
     def accepted(self, path):
         result = self.invoke(path)
         self.assertEqual(result.returncode, 0, result.stderr.decode("utf-8", "replace"))
@@ -590,8 +677,13 @@ class SemanticMemoryFixtureContract(unittest.TestCase):
         self.mutation("nonfinite_case_token_with_rebound_descriptor", nonfinite_case_token)
         self.mutation("stale_case_file_descriptor", lambda p: self.manifest(
             p, lambda m: m["case_files"]["heldout-cases.json"].update(sha256="0" * 64)))
-        self.mutation("whitespace_only_oracle_sentinel", lambda p: self.casefile(
-            p, "heldout-oracle.json", lambda v: v.update(oracle_only_sentinel=" ")))
+        with self.subTest(mutation="whitespace_only_oracle_sentinel"):
+            path = self.fresh()
+            self.accepted(path)  # Valid positive before the amended native negative.
+            self.casefile(path, "heldout-oracle.json",
+                          lambda v: v.update(oracle_only_sentinel="\u3000"))
+            self.refused(path)
+            self.hosted_r03_controls(path)
         def invalid_json_utf8(p):
             file = p / "corpus-manifest.json"
             file.write_bytes(file.read_bytes() + b"\xff")
