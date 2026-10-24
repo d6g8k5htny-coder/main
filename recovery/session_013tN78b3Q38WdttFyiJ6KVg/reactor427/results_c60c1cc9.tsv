@@ -1,0 +1,43 @@
+BASE	unmodified	SURVIVED	harness-ok	Ran 22 tests in 0.957s OK | -O Ran 22 tests in 0.762s OK | H 
+S1	status: accept anything but ACCEPTED	KILLED	harness-fail	Ran 22 tests in 0.774s FAILED (failures=4) | -O Ran 22 tests in 0.855s FAILED (failures=4) | H     raise RuntimeError(name + " mutation point is not unique") RuntimeError: allow_scientific_status_promotion mutation point is not unique
+S2	control schema_version: drop int type check	KILLED	harness-ok	Ran 22 tests in 0.677s FAILED (failures=1) | -O Ran 22 tests in 0.704s FAILED (failures=1) | H 
+S3	scope check disabled	KILLED	harness-ok	Ran 22 tests in 0.786s FAILED (failures=1) | -O Ran 22 tests in 0.722s FAILED (failures=1) | H 
+S4	campaign_status check disabled	KILLED	harness-ok	Ran 22 tests in 0.724s FAILED (failures=1) | -O Ran 22 tests in 0.668s FAILED (failures=1) | H 
+S5	local filename: allow slash	KILLED	harness-ok	Ran 22 tests in 0.802s FAILED (failures=1) | -O Ran 22 tests in 0.786s FAILED (failures=1) | H 
+S5b	local filename: allow . and ..	KILLED	harness-ok	Ran 22 tests in 0.744s FAILED (failures=2) | -O Ran 22 tests in 0.739s FAILED (failures=2) | H 
+S6	rational: allow zero denominator	KILLED	harness-ok	Ran 22 tests in 0.740s FAILED (errors=1) | -O Ran 22 tests in 0.980s FAILED (errors=1) | H 
+S7	rational: drop numerator int check	KILLED	harness-ok	Ran 22 tests in 0.764s FAILED (failures=1) | -O Ran 22 tests in 0.693s FAILED (failures=1) | H 
+S8	duplicate JSON keys allowed	KILLED	harness-ok	Ran 22 tests in 0.702s FAILED (failures=1) | -O Ran 22 tests in 0.777s FAILED (failures=1) | H 
+S9	strict keys: drop dict type check	KILLED	harness-ok	Ran 22 tests in 0.691s FAILED (errors=1) | -O Ran 22 tests in 0.774s FAILED (errors=1) | H 
+D1	alpha may be zero	KILLED	harness-ok	Ran 22 tests in 0.781s FAILED (failures=1) | -O Ran 22 tests in 0.807s FAILED (failures=1) | H 
+D2	amplitude_scale may be zero	KILLED	harness-ok	Ran 22 tests in 0.788s FAILED (failures=1) | -O Ran 22 tests in 0.718s FAILED (failures=1) | H 
+D3	threshold sign unchecked	KILLED	harness-ok	Ran 22 tests in 0.765s FAILED (failures=1) | -O Ran 22 tests in 0.815s FAILED (failures=1) | H 
+D4	expected_control sign unchecked	KILLED	harness-ok	Ran 22 tests in 0.750s FAILED (failures=1) | -O Ran 22 tests in 0.818s FAILED (failures=1) | H 
+F1	fixture grid_side check disabled	KILLED	harness-ok	Ran 22 tests in 0.807s FAILED (failures=1) | -O Ran 22 tests in 0.729s FAILED (failures=1) | H 
+F2	fixture values int check disabled	SURVIVED	harness-ok	Ran 22 tests in 0.748s OK | -O Ran 22 tests in 0.781s OK | H 
+F3	fixture exclusions check disabled	KILLED	harness-ok	Ran 22 tests in 0.776s FAILED (failures=1) | -O Ran 22 tests in 0.699s FAILED (failures=1) | H 
+P1	source repository check disabled	KILLED	harness-ok	Ran 22 tests in 0.754s FAILED (failures=1) | -O Ran 22 tests in 0.806s FAILED (failures=1) | H 
+P2	commit hex check dropped	SURVIVED	harness-ok	Ran 22 tests in 0.666s OK | -O Ran 22 tests in 0.795s OK | H 
+P3	raw_sha256 hex check dropped	KILLED	harness-ok	Ran 22 tests in 0.787s FAILED (failures=1) | -O Ran 22 tests in 0.794s FAILED (failures=1) | H 
+P4	blob hex check dropped	KILLED	harness-ok	Ran 22 tests in 0.755s FAILED (failures=1) | -O Ran 22 tests in 0.797s FAILED (failures=1) | H 
+P6	theorem flag: any non-True accepted	KILLED	harness-fail	Ran 22 tests in 0.751s FAILED (failures=2) | -O Ran 22 tests in 0.746s FAILED (failures=2) | H     raise RuntimeError(name + " mutation point is not unique") RuntimeError: allow_theorem_consumption mutation point is not unique
+P7	source_status check disabled	KILLED	harness-ok	Ran 22 tests in 0.730s FAILED (failures=1) | -O Ran 22 tests in 0.734s FAILED (failures=1) | H 
+P8	source count widened	SURVIVED	harness-ok	Ran 22 tests in 0.710s OK | -O Ran 22 tests in 0.771s OK | H 
+P9	PR->commit/path pin check disabled	KILLED	harness-ok	Ran 22 tests in 0.800s FAILED (failures=1) | -O Ran 22 tests in 0.757s FAILED (failures=1) | H 
+P10	PR set equality dropped	SURVIVED	harness-ok	Ran 22 tests in 0.773s OK | -O Ran 22 tests in 0.771s OK | H 
+P11	PR uniqueness dropped	SURVIVED	harness-ok	Ran 22 tests in 0.702s OK | -O Ran 22 tests in 0.765s OK | H 
+P12	commit uniqueness dropped	SURVIVED	harness-ok	Ran 22 tests in 0.755s OK | -O Ran 22 tests in 0.837s OK | H 
+H1	LOWER_HEX accepts anything	KILLED	harness-ok	Ran 22 tests in 0.772s FAILED (failures=2) | -O Ran 22 tests in 0.802s FAILED (failures=2) | H 
+V1	source length compare disabled	KILLED	harness-ok	Ran 22 tests in 0.867s FAILED (failures=1) | -O Ran 22 tests in 0.792s FAILED (failures=1) | H 
+V2	source sha256 compare disabled	KILLED	harness-ok	Ran 22 tests in 0.838s FAILED (failures=1) | -O Ran 22 tests in 0.769s FAILED (failures=1) | H 
+V3	source blob compare disabled	KILLED	harness-ok	Ran 22 tests in 0.785s FAILED (failures=1) | -O Ran 22 tests in 0.840s FAILED (failures=1) | H 
+V4	load never verifies sources even with env	KILLED	harness-ok	Ran 22 tests in 0.842s FAILED (failures=2) | -O Ran 22 tests in 0.785s FAILED (failures=2) | H 
+C1	closure hash comparison disabled	KILLED	harness-ok	Ran 22 tests in 1.048s FAILED (failures=1) | -O Ran 22 tests in 0.812s FAILED (failures=1) | H 
+K1	package file-set check disabled	KILLED	harness-ok	Ran 22 tests in 0.797s FAILED (failures=1) | -O Ran 22 tests in 0.765s FAILED (failures=1) | H 
+K2	package entry symlink check disabled	KILLED	harness-ok	Ran 22 tests in 0.927s FAILED (failures=1) | -O Ran 22 tests in 0.797s FAILED (failures=1) | H 
+K3	closure member symlink check disabled	SURVIVED	harness-ok	Ran 22 tests in 0.834s OK | -O Ran 22 tests in 0.899s OK | H 
+K4	verify_closure package-dir symlink check disabled	SURVIVED	harness-ok	Ran 22 tests in 0.812s OK | -O Ran 22 tests in 0.784s OK | H 
+K5	loader package-dir symlink check disabled	KILLED	harness-ok	Ran 22 tests in 1.024s FAILED (failures=1) | -O Ran 22 tests in 0.809s FAILED (failures=1) | H 
+L1	load: closure never verified	KILLED	harness-ok	Ran 22 tests in 0.826s FAILED (failures=1) | -O Ran 22 tests in 0.834s FAILED (failures=1) | H 
+L2	load: sources never validated	SURVIVED	harness-ok	Ran 22 tests in 0.854s OK | -O Ran 22 tests in 0.787s OK | H 
+L3	load: fixture never validated	SURVIVED	harness-ok	Ran 22 tests in 0.752s OK | -O Ran 22 tests in 0.712s OK | H 

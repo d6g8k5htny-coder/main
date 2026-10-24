@@ -1,0 +1,139 @@
+{
+ "pr": 370,
+ "head": "fedd0056c18093e8862b7f6ac2860dc04f8133b9",
+ "changed_files": 3,
+ "commit": "9f7a009afad36e8cc8b4eeb67c1d97989314bc20",
+ "selected": [
+  "downstream-gate.yml",
+  "full-regression-suite.yml",
+  "soft-fold-limit.yml"
+ ],
+ "runs": [
+  {
+   "workflow": "downstream-gate.yml",
+   "job": "checks",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Required-check integration controls in both Python modes",
+     "exit": 0,
+     "seconds": 2.4,
+     "tail": "oof_edits (test_required_formal_check.WiringTests.test_synthetic_control_uses_no_proof_edits) ... ok\n\n----------------------------------------------------------------------\nRan 57 tests in 1.252s\n\nOK\n",
+     "failed_tests": [],
+     "markers": []
+    },
+    {
+     "name": "Validation timeout evidence controls in both Python modes",
+     "exit": 0,
+     "seconds": 5.5,
+     "tail": "alidation.ValidationTimeoutTests.test_timeout_metadata_has_exact_invocation_and_elapsed_time) ... ok\n\n----------------------------------------------------------------------\nRan 36 tests in 2.657s\n\nOK\n",
+     "failed_tests": [],
+     "markers": []
+    },
+    {
+     "name": "Verify exact sources, transition inputs and regressions",
+     "exit": 0,
+     "seconds": 366.3,
+     "tail": "ecd1213e1c5b4b08e7aa4c9d0747037acaa8633c37\"}}, \"sources_unchanged\": true}\n{\"check_passed\": true, \"changed_nodes\": [], \"controlling_impacted\": [], \"promotion_permission\": false}\nDOWNSTREAM_GATE_PASSED\n",
+     "failed_tests": [],
+     "markers": []
+    },
+    {
+     "name": "P-C paired A/B source-bound conformance",
+     "exit": 0,
+     "seconds": 22.7,
+     "tail": "P_C_FOCUSED_TESTS_PASSED: normal and optimized, 94 methods each, no skips\n",
+     "failed_tests": [],
+     "markers": []
+    },
+    {
+     "name": "Bind existing checks to tested commit",
+     "exit": 0,
+     "seconds": 0.0,
+     "tail": "",
+     "failed_tests": [],
+     "markers": []
+    }
+   ],
+   "status": "PASS"
+  },
+  {
+   "workflow": "downstream-gate.yml",
+   "job": "formal",
+   "matrix": {},
+   "steps": [],
+   "status": "PASS"
+  },
+  {
+   "workflow": "downstream-gate.yml",
+   "job": "required",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Require both checks and source-bound current-run formal success",
+     "exit": 1,
+     "seconds": 0.0,
+     "tail": "REQUIRED_FORMAL_CHECK_FAILED: invalid run ID\n",
+     "failed_tests": [],
+     "markers": [
+      "REQUIRED_FORMAL_CHECK_FAILED: invalid run ID"
+     ]
+    }
+   ],
+   "status": "FAIL"
+  },
+  {
+   "workflow": "full-regression-suite.yml",
+   "job": "full-suite",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Bind tested commit",
+     "exit": 0,
+     "seconds": 0.0,
+     "tail": "tested-commit sha=9f7a009afad36e8cc8b4eeb67c1d97989314bc20 tree=2e354037fe9657fb57caba1917641c966a7a3c08 pr_head=fedd0056c18093e8862b7f6ac2860dc04f8133b9 event=pull_request run=0/1\n",
+     "failed_tests": [],
+     "markers": []
+    },
+    {
+     "name": "Full repository regression suite in both Python modes",
+     "exit": 1,
+     "seconds": 392.4,
+     "tail": "se, caller='0')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"$SCRATCH/ci-pre/full/wt-370/tests/test_retrofit_record_check.py\", line 629, in promisor_cases\n    self.assertEqual(object_present(), missing is None)\nAssertionError: True != False\n\n======================================================================\nFAIL: test_missing_promisor_objects_refused_without_caller_opt_in (test_retrofit_record_check.RawGitIdentity.test_missing_promisor_objects_refused_without_caller_opt_in) (missing='blob', route='subject', optimize=True, caller='0')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"$SCRATCH/ci-pre/full/wt-370/tests/test_retrofit_record_check.py\", line 629, in promisor_cases\n    self.assertEqual(object_present(), missing is None)\nAssertionError: True != False\n\n======================================================================\nFAIL: test_missing_promisor_objects_refused_without_caller_opt_in (test_retrofit_record_check.RawGitIdentity.test_missing_promisor_objects_refused_without_caller_opt_in) (missing='blob', route='evidence', optimize=False, caller='0')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"$SCRATCH/ci-pre/full/wt-370/tests/test_retrofit_record_check.py\", line 629, in promisor_cases\n    self.assertEqual(object_present(), missing is None)\nAssertionError: True != False\n\n======================================================================\nFAIL: test_missing_promisor_objects_refused_without_caller_opt_in (test_retrofit_record_check.RawGitIdentity.test_missing_promisor_objects_refused_without_caller_opt_in) (missing='blob', route='evidence', optimize=True, caller='0')\n----------------------------------------------------------------------\nTraceback (most recent call last):\n  File \"$SCRATCH/ci-pre/full/wt-370/tests/test_retrofit_record_check.py\", line 629, in promisor_cases\n    self.assertEqual(object_present(), missing is None)\nAssertionError: True != False\n\n----------------------------------------------------------------------\nRan 843 tests in 392.026s\n\nFAILED (failures=16)\n",
+     "failed_tests": [
+      "test_missing_promisor_blob_does_not_fetch test_retrofit_record_check.RawGitIdentity.test_missing_promisor_blob_does_not_fetch",
+      "test_missing_promisor_commit_does_not_fetch test_retrofit_record_check.RawGitIdentity.test_missing_promisor_commit_does_not_fetch",
+      "test_missing_promisor_objects_refused_without_caller_opt_in test_retrofit_record_check.RawGitIdentity.test_missing_promisor_objects_refused_without_caller_opt_in"
+     ],
+     "markers": []
+    }
+   ],
+   "status": "FAIL"
+  },
+  {
+   "workflow": "soft-fold-limit.yml",
+   "job": "exact-controls",
+   "matrix": {},
+   "steps": [
+    {
+     "name": "Exercise complete-shell output contracts in both modes",
+     "exit": 0,
+     "seconds": 137.1,
+     "tail": "plete_inventory (test_soft_fold_workflow.SoftFoldWorkflowTests.test_valid_complete_inventory) ... ok\n\n----------------------------------------------------------------------\nRan 9 tests in 68.615s\n\nOK\n",
+     "failed_tests": [],
+     "markers": []
+    },
+    {
+     "name": "Verify sources, replay both modes, reject mutants",
+     "exit": 1,
+     "seconds": 0.3,
+     "tail": "Traceback (most recent call last):\n  File \"<stdin>\", line 89, in <module>\n  File \"<stdin>\", line 70, in current\n  File \"<stdin>\", line 52, in get_json\n  File \"/usr/lib/python3.11/urllib/request.py\", line 216, in urlopen\n    return opener.open(url, data, timeout)\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.11/urllib/request.py\", line 525, in open\n    response = meth(req, response)\n               ^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.11/urllib/request.py\", line 634, in http_response\n    response = self.parent.error(\n               ^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.11/urllib/request.py\", line 563, in error\n    return self._call_chain(*args)\n           ^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/usr/lib/python3.11/urllib/request.py\", line 496, in _call_chain\n    result = func(*args)\n             ^^^^^^^^^^^\n  File \"/usr/lib/python3.11/urllib/request.py\", line 643, in http_error_default\n    raise HTTPError(req.full_url, code, msg, hdrs, fp)\nurllib.error.HTTPError: HTTP Error 403: Forbidden\n",
+     "failed_tests": [],
+     "markers": []
+    }
+   ],
+   "status": "FAIL"
+  }
+ ],
+ "status": "FAIL"
+}

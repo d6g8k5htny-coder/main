@@ -1,0 +1,43 @@
+BASE	unmodified	baseline SURVIVED	Ran 36 tests in 16.662s OK | -O: Ran 36 tests in 15.950s OK
+B1	env filter keeps every variable	KILLED	Ran 36 tests in 15.894s FAILED (failures=7) | -O: Ran 36 tests in 16.419s FAILED (failures=7)
+B2	GIT_INDEX_FILE inherited	KILLED	Ran 36 tests in 15.778s FAILED (failures=3) | -O: Ran 36 tests in 17.023s FAILED (failures=3)
+B3	GIT_DIR inherited	KILLED	Ran 36 tests in 16.046s FAILED (failures=5) | -O: Ran 36 tests in 17.085s FAILED (failures=5)
+B3b	GIT_WORK_TREE inherited	KILLED	Ran 36 tests in 16.493s FAILED (failures=1) | -O: Ran 36 tests in 16.864s FAILED (failures=1)
+B4	GIT_REPLACE_REF_BASE inherited	KILLED	Ran 36 tests in 16.088s FAILED (failures=1) | -O: Ran 36 tests in 16.588s FAILED (failures=1)
+B4b	GIT_OBJECT_DIRECTORY inherited	KILLED	Ran 36 tests in 17.106s FAILED (failures=1) | -O: Ran 36 tests in 16.786s FAILED (failures=1)
+B5	git failure ignored	SURVIVED	Ran 36 tests in 15.929s OK | -O: Ran 36 tests in 15.608s OK
+B6	sandbox/pycache/.git paths allowed	SURVIVED	Ran 36 tests in 16.066s OK | -O: Ran 36 tests in 14.469s OK
+B6b	path refusal case-sensitive	SURVIVED	Ran 36 tests in 14.346s OK | -O: Ran 36 tests in 15.910s OK
+B7	compiled payload allowed	SURVIVED	Ran 36 tests in 15.845s OK | -O: Ran 36 tests in 16.030s OK
+B8	symlink payload allowed	KILLED	Ran 36 tests in 15.802s FAILED (failures=2) | -O: Ran 36 tests in 15.543s FAILED (failures=2)
+B9	irregular payload allowed	SURVIVED	Ran 36 tests in 16.435s OK | -O: Ran 36 tests in 16.082s OK
+B10	missing members ignored	KILLED	Ran 36 tests in 17.721s FAILED (failures=23, errors=1) | -O: Ran 36 tests in 16.834s FAILED (failures=23, errors=1)
+B11	unexpected members ignored	KILLED	Ran 36 tests in 16.330s FAILED (failures=3) | -O: Ran 36 tests in 16.029s FAILED (failures=3)
+B12	README.md optional	KILLED	Ran 36 tests in 16.165s FAILED (failures=17) | -O: Ran 36 tests in 15.573s FAILED (failures=17)
+B13	identity reads honour replace refs	KILLED	Ran 36 tests in 16.368s FAILED (failures=4) | -O: Ran 36 tests in 16.338s FAILED (failures=4)
+B14	commit-only members ignored	KILLED	Ran 36 tests in 16.017s FAILED (failures=1) | -O: Ran 36 tests in 16.951s FAILED (failures=1)
+B15	checkout-only members ignored	SURVIVED	Ran 36 tests in 15.946s OK | -O: Ran 36 tests in 16.037s OK
+B16	symlink mode accepted in commit	KILLED	Ran 36 tests in 16.167s FAILED (failures=1) | -O: Ran 36 tests in 15.236s FAILED (failures=1)
+B17	non-blob kind accepted in commit	SURVIVED	Ran 36 tests in 15.101s OK | -O: Ran 36 tests in 15.415s OK
+B18	HEAD not peeled to a commit	KILLED	Ran 36 tests in 16.473s FAILED (failures=6) | -O: Ran 36 tests in 17.540s FAILED (failures=6)
+B19	hard-link check needs 3 links	KILLED	Ran 36 tests in 15.749s FAILED (failures=8) | -O: Ran 36 tests in 16.550s FAILED (failures=8)
+B20	hard-link check skipped	KILLED	Ran 36 tests in 17.363s FAILED (failures=8) | -O: Ran 36 tests in 16.755s FAILED (failures=8)
+B21	output inside repository allowed	KILLED	Ran 36 tests in 16.547s FAILED (failures=1) | -O: Ran 36 tests in 16.681s FAILED (failures=1)
+B22	negative epoch allowed	SURVIVED	Ran 36 tests in 16.742s OK | -O: Ran 36 tests in 16.921s OK
+B24	dirty tree allowed	KILLED	Ran 36 tests in 17.082s FAILED (failures=3) | -O: Ran 36 tests in 16.473s FAILED (failures=3)
+B25	commit length unchecked	SURVIVED	Ran 36 tests in 17.228s OK | -O: Ran 36 tests in 16.346s OK
+B26	strict bytes not bound to blob	KILLED	Ran 36 tests in 15.574s FAILED (failures=6) | -O: Ran 36 tests in 16.742s FAILED (failures=6)
+B27	strict membership skipped	KILLED	Ran 36 tests in 18.904s FAILED (failures=24, errors=1) | -O: Ran 36 tests in 19.318s FAILED (failures=24, errors=1)
+B28	strict commit entries skipped	KILLED	Ran 36 tests in 15.631s FAILED (failures=2) | -O: Ran 36 tests in 15.050s FAILED (failures=2)
+B29	release_eligible always true	KILLED	Ran 36 tests in 15.357s FAILED (failures=3) | -O: Ran 36 tests in 16.572s FAILED (failures=3)
+B30	manifest claims status authority	KILLED	Ran 36 tests in 12.372s FAILED (failures=4) | -O: Ran 36 tests in 13.102s FAILED (failures=4)
+B31	manifest commit abbreviated	KILLED	Ran 36 tests in 12.494s FAILED (failures=13) | -O: Ran 36 tests in 12.013s FAILED (failures=13)
+B32	member mtime zero	KILLED	Ran 36 tests in 13.033s FAILED (failures=3) | -O: Ran 36 tests in 12.677s FAILED (failures=3)
+B33	gzip mtime from clock	MIXED	Ran 36 tests in 18.298s OK | -O: Ran 36 tests in 18.111s FAILED (failures=1)
+B34	member order from git	SURVIVED	Ran 36 tests in 17.089s OK | -O: Ran 36 tests in 18.572s OK
+B35	name/version unchecked	SURVIVED	Ran 36 tests in 17.594s OK | -O: Ran 36 tests in 18.367s OK
+B36	_git inherits environment	KILLED	Ran 36 tests in 17.418s FAILED (failures=2) | -O: Ran 36 tests in 17.389s FAILED (failures=2)
+B37	_git_identity inherits environment	KILLED	Ran 36 tests in 17.437s FAILED (failures=4) | -O: Ran 36 tests in 16.928s FAILED (failures=4)
+B38	identity git failure ignored	KILLED	Ran 36 tests in 17.771s FAILED (failures=2) | -O: Ran 36 tests in 16.852s FAILED (failures=2)
+B39	member mode 0755	KILLED	Ran 36 tests in 14.118s FAILED (failures=3) | -O: Ran 36 tests in 11.949s FAILED (failures=3)
+B40	member size from wrong length	SURVIVED	Ran 36 tests in 16.623s OK | -O: Ran 36 tests in 16.244s OK

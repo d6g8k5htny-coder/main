@@ -1,0 +1,177 @@
+{
+ "data_controls": [
+  {
+   "case": "identity",
+   "rc": 0,
+   "caught": false,
+   "failed_checks": [],
+   "not_within_half_unit": [],
+   "bracket_mismatches": []
+  },
+  {
+   "case": "n53_last_digit_plus1",
+   "rc": 0,
+   "caught": true,
+   "failed_checks": [
+    "within_half_unit"
+   ],
+   "not_within_half_unit": [
+    53
+   ],
+   "bracket_mismatches": []
+  },
+  {
+   "case": "n79_last_digit_plus1",
+   "rc": 0,
+   "caught": true,
+   "failed_checks": [
+    "within_half_unit"
+   ],
+   "not_within_half_unit": [
+    79
+   ],
+   "bracket_mismatches": []
+  },
+  {
+   "case": "swap_17_18",
+   "rc": 0,
+   "caught": true,
+   "failed_checks": [
+    "within_half_unit",
+    "bracket_counts"
+   ],
+   "not_within_half_unit": [
+    17,
+    18
+   ],
+   "bracket_mismatches": [
+    16
+   ]
+  },
+  {
+   "case": "dup_40",
+   "rc": 0,
+   "caught": true,
+   "failed_checks": [
+    "within_half_unit",
+    "bracket_counts"
+   ],
+   "not_within_half_unit": [
+    41
+   ],
+   "bracket_mismatches": [
+    40
+   ]
+  },
+  {
+   "case": "drop_77_append_101",
+   "rc": 0,
+   "caught": true,
+   "failed_checks": [
+    "within_half_unit",
+    "bracket_counts"
+   ],
+   "not_within_half_unit": [
+    77,
+    78,
+    79,
+    80,
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90,
+    91,
+    92,
+    93,
+    94,
+    95,
+    96,
+    97,
+    98,
+    99,
+    100
+   ],
+   "bracket_mismatches": [
+    77,
+    78,
+    79,
+    80,
+    81,
+    82,
+    83,
+    84,
+    85,
+    86,
+    87,
+    88,
+    89,
+    90,
+    91,
+    92,
+    93,
+    94,
+    95,
+    96,
+    97,
+    98,
+    99
+   ]
+  },
+  {
+   "case": "n99_to_12_decimals",
+   "rc": 0,
+   "caught": true,
+   "failed_checks": [
+    "within_half_unit"
+   ],
+   "not_within_half_unit": [
+    99
+   ],
+   "bracket_mismatches": []
+  }
+ ],
+ "script_mutants": [
+  {
+   "mutant": "M0_unmutated",
+   "rc": 0,
+   "killed": false,
+   "pytest": "6 passed, 1 skipped, 94 deselected in 0.89s"
+  },
+  {
+   "mutant": "M1_within_half_unit_always_true",
+   "rc": 0,
+   "killed": false,
+   "pytest": "6 passed, 1 skipped, 94 deselected in 0.94s"
+  },
+  {
+   "mutant": "M2_real_part_always_half",
+   "rc": 0,
+   "killed": false,
+   "pytest": "6 passed, 1 skipped, 94 deselected in 0.95s"
+  },
+  {
+   "mutant": "M3_no_bracket_mismatches",
+   "rc": 0,
+   "killed": false,
+   "pytest": "6 passed, 1 skipped, 94 deselected in 0.88s"
+  },
+  {
+   "mutant": "M4_tolerance_x10",
+   "rc": 1,
+   "killed": true,
+   "pytest": "1 failed, 5 passed, 1 skipped, 94 deselected in 0.94s"
+  },
+  {
+   "mutant": "M5_compare_with_wrong_index",
+   "rc": 1,
+   "killed": true,
+   "pytest": "1 failed, 5 passed, 1 skipped, 94 deselected in 0.91s"
+  }
+ ]
+}

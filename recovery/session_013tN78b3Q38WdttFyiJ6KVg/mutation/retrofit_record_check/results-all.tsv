@@ -1,0 +1,78 @@
+BASE	unmodified	baseline SURVIVED	Ran 35 tests in 18.676s OK | -O: Ran 35 tests in 19.247s OK
+G1	git: drop --no-replace-objects	KILLED	Ran 35 tests in 18.739s FAILED (failures=24) | -O: Ran 35 tests in 19.813s FAILED (failures=24)
+G4	git env: keep all inherited GIT_ variables	KILLED	Ran 35 tests in 18.516s FAILED (failures=56) | -O: Ran 35 tests in 18.892s FAILED (failures=56)
+G5	git env: drop ceiling exception	KILLED	Ran 35 tests in 18.431s FAILED (failures=4) | -O: Ran 35 tests in 18.751s FAILED (failures=4)
+G6	capability probe skipped	KILLED	Ran 35 tests in 16.752s FAILED (failures=6) | -O: Ran 35 tests in 18.181s FAILED (failures=6)
+G7	commit-type check removed	KILLED	Ran 35 tests in 18.087s FAILED (failures=10) | -O: Ran 35 tests in 18.097s FAILED (failures=10)
+G8	blob-type check removed	KILLED	Ran 35 tests in 17.667s FAILED (failures=10) | -O: Ran 35 tests in 18.632s FAILED (failures=10)
+G9	rev-parse without --verify --quiet	SURVIVED	Ran 35 tests in 17.878s OK | -O: Ran 35 tests in 17.976s OK
+G10	nonzero git exit returns stdout	KILLED	Ran 35 tests in 17.582s FAILED (failures=6) | -O: Ran 35 tests in 18.631s FAILED (failures=6)
+G11	unlaunchable git returns None	KILLED	Ran 35 tests in 18.479s FAILED (failures=6) | -O: Ran 35 tests in 18.951s FAILED (failures=6)
+G12	subject backend error swallowed	KILLED	Ran 35 tests in 18.311s FAILED (failures=6) | -O: Ran 35 tests in 18.763s FAILED (failures=6)
+G13	file-evidence backend error swallowed	KILLED	Ran 35 tests in 18.601s FAILED (failures=6) | -O: Ran 35 tests in 18.323s FAILED (failures=6)
+V1	top level allows extra keys	KILLED	Ran 35 tests in 18.742s FAILED (failures=1) | -O: Ran 35 tests in 19.303s FAILED (failures=1)
+V2	schema unchecked	KILLED	Ran 35 tests in 18.927s FAILED (failures=7) | -O: Ran 35 tests in 19.143s FAILED (failures=7)
+V3	shard/directory mismatch unchecked	KILLED	Ran 35 tests in 18.062s FAILED (failures=2) | -O: Ran 35 tests in 18.891s FAILED (failures=2)
+V4	baseline unchecked	KILLED	Ran 35 tests in 18.268s FAILED (failures=22) | -O: Ran 35 tests in 18.419s FAILED (failures=22)
+V5	scientific_effect unchecked	KILLED	Ran 35 tests in 18.341s FAILED (failures=8) | -O: Ran 35 tests in 19.609s FAILED (failures=8)
+V6	status_authority falsy accepted	KILLED	Ran 35 tests in 18.650s FAILED (failures=4) | -O: Ran 35 tests in 19.972s FAILED (failures=4)
+V7	empty records accepted	KILLED	Ran 35 tests in 18.190s FAILED (failures=1) | -O: Ran 35 tests in 19.378s FAILED (failures=1)
+V8	record allows extra keys	KILLED	Ran 35 tests in 18.533s FAILED (failures=1) | -O: Ran 35 tests in 19.113s FAILED (failures=1)
+V9	record id prefix match	SURVIVED	Ran 35 tests in 18.631s OK | -O: Ran 35 tests in 18.871s OK
+V10	duplicate ids accepted	KILLED	Ran 35 tests in 18.311s FAILED (failures=1) | -O: Ran 35 tests in 17.964s FAILED (failures=1)
+V11	subject repository unchecked	SURVIVED	Ran 35 tests in 18.378s OK | -O: Ran 35 tests in 18.981s OK
+V12	HEX40 accepts uppercase	KILLED	Ran 35 tests in 18.335s FAILED (failures=1) | -O: Ran 35 tests in 19.040s FAILED (failures=1)
+V12b	subject commit prefix match	SURVIVED	Ran 35 tests in 18.390s OK | -O: Ran 35 tests in 18.807s OK
+V13	safe path allows ..	KILLED	Ran 35 tests in 17.765s FAILED (failures=1) | -O: Ran 35 tests in 19.109s FAILED (failures=1)
+V14	safe path allows absolute	SURVIVED	Ran 35 tests in 18.175s OK | -O: Ran 35 tests in 19.337s OK
+V15	safe path allows backslash	SURVIVED	Ran 35 tests in 18.465s OK | -O: Ran 35 tests in 19.438s OK
+V16	delta accepts ints	KILLED	Ran 35 tests in 18.263s FAILED (failures=3) | -O: Ran 35 tests in 18.381s FAILED (failures=3)
+V17	non-delta baseline check removed	KILLED	Ran 35 tests in 17.536s FAILED (failures=1) | -O: Ran 35 tests in 18.650s FAILED (failures=1)
+V18	git check runs despite subject errors	SURVIVED	Ran 35 tests in 17.671s OK | -O: Ran 35 tests in 18.855s OK
+V19	subject blob only needs to exist	KILLED	Ran 35 tests in 18.567s FAILED (failures=9) | -O: Ran 35 tests in 19.181s FAILED (failures=9)
+V20	axis unchecked	KILLED	Ran 35 tests in 18.720s FAILED (failures=15) | -O: Ran 35 tests in 20.119s FAILED (failures=15)
+V21	state unchecked	KILLED	Ran 35 tests in 18.095s FAILED (failures=16) | -O: Ran 35 tests in 19.962s FAILED (failures=16)
+V22	recorded without evidence accepted	KILLED	Ran 35 tests in 18.743s FAILED (failures=1) | -O: Ran 35 tests in 19.441s FAILED (failures=1)
+V23	not_applicable may carry evidence	SURVIVED	Ran 35 tests in 19.145s OK | -O: Ran 35 tests in 19.349s OK
+V24	performer unchecked	KILLED	Ran 35 tests in 19.261s FAILED (failures=58) | -O: Ran 35 tests in 19.310s FAILED (failures=58)
+V25	person allows extra keys	SURVIVED	Ran 35 tests in 18.813s OK | -O: Ran 35 tests in 19.227s OK
+V26	whitespace-only text accepted	SURVIVED	Ran 35 tests in 19.271s OK | -O: Ran 35 tests in 20.195s OK
+V27	empty exposure accepted	SURVIVED	Ran 35 tests in 18.792s OK | -O: Ran 35 tests in 19.164s OK
+V28	independence credit False/0.0 accepted	KILLED	Ran 35 tests in 19.018s FAILED (failures=1) | -O: Ran 35 tests in 21.461s FAILED (failures=1)
+V29	alias chains allowed	KILLED	Ran 35 tests in 20.153s FAILED (failures=2) | -O: Ran 35 tests in 20.723s FAILED (failures=2)
+V30	alias state may differ	KILLED	Ran 35 tests in 20.853s FAILED (failures=1) | -O: Ran 35 tests in 22.660s FAILED (failures=1)
+V31	alias evidence may differ	KILLED	Ran 35 tests in 20.473s FAILED (failures=2) | -O: Ran 35 tests in 20.595s FAILED (failures=2)
+V32	self alias allowed	SURVIVED	Ran 35 tests in 20.693s OK | -O: Ran 35 tests in 19.474s OK
+V33	alias target is last duplicate	SURVIVED	Ran 35 tests in 19.464s OK | -O: Ran 35 tests in 20.169s OK
+V34	notes unchecked	KILLED	Ran 35 tests in 19.471s FAILED (failures=14) | -O: Ran 35 tests in 20.712s FAILED (failures=14)
+V35	duplicate JSON keys accepted	KILLED	Ran 35 tests in 19.586s FAILED (failures=1) | -O: Ran 35 tests in 20.947s FAILED (failures=1)
+V36	non-finite JSON accepted	KILLED	Ran 35 tests in 19.585s FAILED (failures=1) | -O: Ran 35 tests in 20.594s FAILED (failures=1)
+E1	evidence allows extra keys	KILLED	Ran 35 tests in 18.498s FAILED (failures=3) | -O: Ran 35 tests in 19.481s FAILED (failures=3)
+E2	evidence repository unchecked	SURVIVED	Ran 35 tests in 20.532s OK | -O: Ran 35 tests in 19.984s OK
+E3	file evidence path unchecked	KILLED	Ran 35 tests in 18.805s FAILED (failures=14) | -O: Ran 35 tests in 19.714s FAILED (failures=14)
+E4	file evidence blob only needs to exist	KILLED	Ran 35 tests in 19.215s FAILED (failures=9) | -O: Ran 35 tests in 19.569s FAILED (failures=9)
+E5	ref prefix match	SURVIVED	Ran 35 tests in 18.093s OK | -O: Ran 35 tests in 18.806s OK
+E6	ids may have leading zeros	SURVIVED	Ran 35 tests in 17.814s OK | -O: Ran 35 tests in 19.535s OK
+E7	review commit unchecked	KILLED	Ran 35 tests in 18.336s FAILED (failures=1) | -O: Ran 35 tests in 19.186s FAILED (failures=1)
+E8	attempt 0 accepted	KILLED	Ran 35 tests in 18.482s FAILED (failures=1) | -O: Ran 35 tests in 19.064s FAILED (failures=1)
+E9	attempt True accepted	KILLED	Ran 35 tests in 18.148s FAILED (failures=1) | -O: Ran 35 tests in 19.098s FAILED (failures=1)
+E10	job unchecked	KILLED	Ran 35 tests in 18.844s FAILED (failures=2) | -O: Ran 35 tests in 19.130s FAILED (failures=2)
+E11	run_head_sha unchecked	KILLED	Ran 35 tests in 18.117s FAILED (failures=1) | -O: Ran 35 tests in 18.720s FAILED (failures=1)
+E12	checked_commit unchecked	KILLED	Ran 35 tests in 18.296s FAILED (failures=2) | -O: Ran 35 tests in 19.583s FAILED (failures=2)
+E13	purpose unchecked	KILLED	Ran 35 tests in 17.834s FAILED (failures=1) | -O: Ran 35 tests in 18.630s FAILED (failures=1)
+E14	conclusion unchecked	KILLED	Ran 35 tests in 18.488s FAILED (failures=1) | -O: Ran 35 tests in 18.985s FAILED (failures=1)
+E15	expected_conclusion unchecked	KILLED	Ran 35 tests in 18.127s FAILED (failures=1) | -O: Ran 35 tests in 18.696s FAILED (failures=1)
+E16	conclusion vocabulary gains 'passed'	SURVIVED	Ran 35 tests in 18.485s OK | -O: Ran 35 tests in 19.070s OK
+E17	expected conclusion gains 'neutral'	SURVIVED	Ran 35 tests in 18.832s OK | -O: Ran 35 tests in 19.190s OK
+A1	aliases counted as canonical	KILLED	Ran 35 tests in 18.771s FAILED (failures=1) | -O: Ran 35 tests in 19.287s FAILED (failures=1)
+A2	distinct evidence order-sensitive	SURVIVED	Ran 35 tests in 18.647s OK | -O: Ran 35 tests in 19.205s OK
+A3	aggregate status_authority True	KILLED	Ran 35 tests in 18.445s FAILED (failures=69) | -O: Ran 35 tests in 19.184s FAILED (failures=69)
+A4	subject key omits blob	KILLED	Ran 35 tests in 18.743s FAILED (failures=1) | -O: Ran 35 tests in 19.026s FAILED (failures=1)
+C1	same file may be read twice	KILLED	Ran 35 tests in 18.238s FAILED (failures=2) | -O: Ran 35 tests in 18.867s FAILED (failures=2)
+C2	duplicate shards accepted	KILLED	Ran 35 tests in 18.077s FAILED (failures=1) | -O: Ran 35 tests in 19.024s FAILED (failures=1)
+C3	shard directory never checked	KILLED	Ran 35 tests in 19.109s FAILED (failures=1) | -O: Ran 35 tests in 18.904s FAILED (failures=1)
+C4	exit code always 0	KILLED	Ran 35 tests in 18.063s FAILED (failures=85) | -O: Ran 35 tests in 19.564s FAILED (failures=85)
+C5	aggregate printed for failing inputs	KILLED	Ran 35 tests in 18.245s FAILED (failures=83) | -O: Ran 35 tests in 19.229s FAILED (failures=83)
+C6	--repo also verifies main	SURVIVED	Ran 35 tests in 18.636s OK | -O: Ran 35 tests in 19.121s OK
+C7	ValueError escapes	SURVIVED	Ran 35 tests in 18.901s OK | -O: Ran 35 tests in 19.447s OK
+C8	last file decides pass	KILLED	Ran 35 tests in 19.757s FAILED (failures=1) | -O: Ran 35 tests in 18.683s FAILED (failures=1)

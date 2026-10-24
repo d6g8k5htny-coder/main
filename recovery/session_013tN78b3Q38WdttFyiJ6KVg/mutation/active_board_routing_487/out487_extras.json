@@ -1,0 +1,177 @@
+[
+ {
+  "mutant": "BASE",
+  "normal": "Ran 23 tests in 0.004s OK",
+  "optimized": "Ran 23 tests in 0.004s OK",
+  "verdict": "BASE_OK",
+  "note": null
+ },
+ {
+  "mutant": "M01 image guard removed",
+  "normal": "Ran 23 tests in 0.003s FAILED (failures=1)",
+  "optimized": "Ran 23 tests in 0.003s FAILED (failures=1)",
+  "verdict": "KILLED",
+  "note": "occurrences=1"
+ },
+ {
+  "mutant": "M02 CANONICAL case-sensitive",
+  "normal": "Ran 23 tests in 0.004s FAILED (failures=1)",
+  "optimized": "Ran 23 tests in 0.003s FAILED (failures=1)",
+  "verdict": "KILLED",
+  "note": "occurrences=1"
+ },
+ {
+  "mutant": "M03 ACTIVE accepts only 'active'",
+  "normal": "Ran 23 tests in 0.003s FAILED (failures=1)",
+  "optimized": "Ran 23 tests in 0.004s FAILED (failures=1)",
+  "verdict": "KILLED",
+  "note": "occurrences=1"
+ },
+ {
+  "mutant": "M04 ACTIVE case-sensitive",
+  "normal": "Ran 23 tests in 0.003s FAILED (failures=1)",
+  "optimized": "Ran 23 tests in 0.004s FAILED (failures=1)",
+  "verdict": "KILLED",
+  "note": "occurrences=1"
+ },
+ {
+  "mutant": "M05 fence close ignores length",
+  "normal": "Ran 23 tests in 0.005s FAILED (failures=1)",
+  "optimized": "Ran 23 tests in 0.003s FAILED (failures=1)",
+  "verdict": "KILLED",
+  "note": "occurrences=1"
+ },
+ {
+  "mutant": "M06 fence close ignores char",
+  "normal": "Ran 23 tests in 0.004s FAILED (failures=1)",
+  "optimized": "Ran 23 tests in 0.003s FAILED (failures=1)",
+  "verdict": "KILLED",
+  "note": "occurrences=1"
+ },
+ {
+  "mutant": "M07 fence close ignores info string",
+  "normal": "Ran 23 tests in 0.003s FAILED (failures=1)",
+  "optimized": "Ran 23 tests in 0.004s FAILED (failures=1)",
+  "verdict": "KILLED",
+  "note": "occurrences=1"
+ },
+ {
+  "mutant": "M08 fences never open",
+  "normal": "Ran 23 tests in 0.004s FAILED (failures=7)",
+  "optimized": "Ran 23 tests in 0.006s FAILED (failures=7)",
+  "verdict": "KILLED",
+  "note": "occurrences=1"
+ },
+ {
+  "mutant": "M09 fence indent unbounded",
+  "normal": "Ran 23 tests in 0.003s FAILED (failures=1)",
+  "optimized": "Ran 23 tests in 0.003s FAILED (failures=1)",
+  "verdict": "KILLED",
+  "note": "occurrences=1"
+ },
+ {
+  "mutant": "M10 no whitespace normalization",
+  "normal": "Ran 23 tests in 0.004s FAILED (failures=1)",
+  "optimized": "Ran 23 tests in 0.002s FAILED (failures=1)",
+  "verdict": "KILLED",
+  "note": "occurrences=1"
+ },
+ {
+  "mutant": "M11 canonical count >=1 allowed",
+  "normal": "Ran 23 tests in 0.004s FAILED (failures=2)",
+  "optimized": "Ran 23 tests in 0.005s FAILED (failures=2)",
+  "verdict": "KILLED",
+  "note": "occurrences=1"
+ },
+ {
+  "mutant": "M12 canonical target check removed",
+  "normal": "Ran 23 tests in 0.003s FAILED (failures=1)",
+  "optimized": "Ran 23 tests in 0.003s FAILED (failures=1)",
+  "verdict": "KILLED",
+  "note": "occurrences=1"
+ },
+ {
+  "mutant": "M13 active number check removed",
+  "normal": "Ran 23 tests in 0.004s FAILED (failures=1)",
+  "optimized": "Ran 23 tests in 0.003s FAILED (failures=1)",
+  "verdict": "KILLED",
+  "note": "occurrences=1"
+ },
+ {
+  "mutant": "M14 active target check removed",
+  "normal": "Ran 23 tests in 0.004s FAILED (failures=6)",
+  "optimized": "Ran 23 tests in 0.004s FAILED (failures=6)",
+  "verdict": "KILLED",
+  "note": "occurrences=1"
+ },
+ {
+  "mutant": "M15 vacuous success allowed",
+  "normal": "Ran 23 tests in 0.004s FAILED (failures=4)",
+  "optimized": "Ran 23 tests in 0.005s FAILED (failures=4)",
+  "verdict": "KILLED",
+  "note": "occurrences=1"
+ },
+ {
+  "mutant": "M16 fullmatch->search on ACTIVE",
+  "normal": "Ran 23 tests in 0.003s FAILED (failures=1)",
+  "optimized": "Ran 23 tests in 0.003s FAILED (failures=1)",
+  "verdict": "KILLED",
+  "note": "occurrences=1"
+ },
+ {
+  "mutant": "M17 fullmatch->search on CANONICAL (filter)",
+  "normal": "Ran 23 tests in 0.003s FAILED (failures=1)",
+  "optimized": "Ran 23 tests in 0.003s FAILED (failures=1)",
+  "verdict": "KILLED",
+  "note": "occurrences=1"
+ },
+ {
+  "mutant": "M18 LINK target allows newline-free only -> any",
+  "normal": "Ran 23 tests in 0.003s OK",
+  "optimized": "Ran 23 tests in 0.003s OK",
+  "verdict": "SURVIVED",
+  "note": "occurrences=1"
+ },
+ {
+  "mutant": "M19 problems collapse to first only",
+  "normal": "Ran 23 tests in 0.005s FAILED (failures=1)",
+  "optimized": "Ran 23 tests in 0.005s FAILED (failures=1)",
+  "verdict": "KILLED",
+  "note": "occurrences=1"
+ },
+ {
+  "mutant": "M20 canonical first-of-many",
+  "normal": "Ran 23 tests in 0.003s FAILED (failures=2)",
+  "optimized": "Ran 23 tests in 0.003s FAILED (failures=2)",
+  "verdict": "KILLED",
+  "note": "occurrences=1"
+ },
+ {
+  "mutant": "D1 RESEARCH_INDEX active link back to #419",
+  "normal": "Ran 23 tests in 0.005s FAILED (failures=1)",
+  "optimized": "Ran 23 tests in 0.003s FAILED (failures=1)",
+  "verdict": "KILLED",
+  "note": "active links=2"
+ },
+ {
+  "mutant": "D2 AGENTS canonical board -> #419 (label+target)",
+  "normal": "Ran 23 tests in 0.004s FAILED (failures=1)",
+  "optimized": "Ran 23 tests in 0.003s FAILED (failures=1)",
+  "verdict": "KILLED",
+  "note": "canonical->419"
+ },
+ {
+  "mutant": "D3 AGENTS second canonical link appended",
+  "normal": "Ran 23 tests in 0.002s FAILED (failures=1)",
+  "optimized": "Ran 23 tests in 0.003s FAILED (failures=1)",
+  "verdict": "KILLED",
+  "note": "appended"
+ },
+ {
+  "mutant": "D4 RESEARCH_INDEX active label renumbered to #419 only",
+  "normal": "Ran 23 tests in 0.004s FAILED (failures=1)",
+  "optimized": "Ran 23 tests in 0.005s FAILED (failures=1)",
+  "verdict": "KILLED",
+  "note": "label only"
+ }
+]

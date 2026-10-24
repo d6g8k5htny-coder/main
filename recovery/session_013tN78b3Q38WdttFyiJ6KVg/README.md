@@ -1,0 +1,87 @@
+# Recovery checkpoint: session `session_013tN78b3Q38WdttFyiJ6KVg` ("Claude 54")
+
+This answers the owner's recovery request on main #307
+([6136156988](https://github.com/d6g8k5htny-coder/main/issues/307#issuecomment-6136156988)).
+It publishes this session's still-local tooling and raw results behind its data posts on main #275,
+so that a session or container interruption does not force anyone to re-derive them.
+
+- **Scientific effect:** NONE. Nothing here is a proof, a review verdict, a pickup or a status change.
+- **Organizational-independence credit:** 0. The author is an Anthropic session.
+- **Retention:** this is a payload branch. Please keep it while any work relies on it. Nothing on it is for merge.
+- **Edits:** absolute scratch paths in logs and results were replaced by the literal text `$SCRATCH`. In
+  `run_all.sh`, the scratch and clone paths became the required variables `SCRATCH` and `CLONE`. Nothing else
+  was changed from the working copies.
+
+## What is here
+
+| directory | what it is | data post | stage |
+| --- | --- | --- | --- |
+| `ci_prescreen/prescreen.py`, `triage.py`, `run_all.sh` | Local CI pre-screen for Math-. It composes each PR head onto a base with `git merge-tree --write-tree`, commits the tree locally, parses the PR's own workflows (path filters, `if:` expressions, matrices) and runs their `run:` steps. `triage.py` compares each PR's failures with the base run. | [275/6165376697](https://github.com/d6g8k5htny-coder/main/issues/275#issuecomment-6165376697) | delivered |
+| `ci_prescreen/results_math_20261014/` | One `target-<pr>.json` per open Math- PR that composes onto Math- `main` `46f2a289`; `target-0.json` is the base. #312 conflicts, so `prescreen.py` wrote no file for it; `table.md` records it. `triage.json` and `base_union.json` come from the scripts. `groups.json`, `groups_args.json` and `table.md` were derived ad hoc from `triage.json`; no script that generates them is kept. | same | raw results |
+| `ci_prescreen/main_tests.py`, `compare_main.py` | Default-home checks from `docs/REPRODUCE.md` (landing, navigation, `unittest` in normal and `-O` mode) on each open `main` PR composed onto a base, and a baseline comparison. | [275/6167454199](https://github.com/d6g8k5htny-coder/main/issues/275#issuecomment-6167454199) | delivered |
+| `ci_prescreen/results_main_20261014/` | One `mt-<pr>.json` per open `main` PR at `main` `c7ed3f8d` (`mt-0.json` is the base), plus the run log. | same | raw results |
+| `ci_prescreen/prescreen_main.py` | A generalized trial of `prescreen.py` (per-version virtual environments, reusable workflows). | none | draft; not used for any posted result |
+| `mutation/evidence_profile/` | 56 single-point mutants of Math- `tools/evidence_profile.py` at `46f2a289`, the runners and the proposed test class. `results.tsv` is the run without the class. `results2.tsv` is a rerun with the class of C2 only. `results2-seven.tsv` reruns all seven non-equivalent survivors with the class; it was added for this checkpoint, and all seven are killed in both modes. | [275/6159767786](https://github.com/d6g8k5htny-coder/main/issues/275#issuecomment-6159767786), corrected by [275/6163218609](https://github.com/d6g8k5htny-coder/main/issues/275#issuecomment-6163218609) | delivered; test class not yet written into Math- |
+| `mutation/retrofit_record_check/` | 77 mutants of Math- `tools/retrofit_record_check.py` at `46f2a289`, with the test-only Git shim and the test-id lists used. | [275/6160578395](https://github.com/d6g8k5htny-coder/main/issues/275#issuecomment-6160578395) | delivered; test class not yet written into Math- |
+| `mutation/query_archive/` | 42 mutants of query- `scripts/build_source_release.py` at `961a7d3a`. | [275/6161264306](https://github.com/d6g8k5htny-coder/main/issues/275#issuecomment-6161264306) | delivered; tests not yet written into query- |
+| `mutation/ulw_pins/` | 32 mutants of Universal-Law-Workspace `tools/verify_pins.py` at `5dd15eaf`. | same | delivered; tests not yet written into ULW |
+| `mutation/control_kit/` | `control_runner.py` and `control_mutants.json`: the 47 mutants that the proposed test classes are meant to kill, so a writer can rerun the control. That is 46 survivors, plus B33, whose result was mixed between modes. The other 13 survivors were judged equivalent or double-guarded in the posts. | [275/6163218609](https://github.com/d6g8k5htny-coder/main/issues/275#issuecomment-6163218609) | delivered |
+| `math385_repair/` | The repaired `tests/test_lm006_oned_coefficient_replay.py` for Math-#385, built only from that PR's own commits `268156a` and `ed58c25` (git blob `d82339dd`). It pins less than `1ee8a1d2`, the repair the PR body already links: it misses the second wait's 5-second timeout and the exact detail string. | [275/6165434698](https://github.com/d6g8k5htny-coder/main/issues/275#issuecomment-6165434698), compared in [275/6167610093](https://github.com/d6g8k5htny-coder/main/issues/275#issuecomment-6167610093) | proposal, superseded in strength by `1ee8a1d2`; nothing pushed to Math- |
+| `reactor427/` | The engineering-review kit for main#427 (Reactor A freeze). Each run re-pins `closure.json` after a single-point `validator.py` mutation, then runs the PR's tests in `-B` and `-O` and its mutation harness. `kit_a16a511a.py` holds 25 mutants and `results_a16a511a.tsv` is its run at `a16a511a`. `kit2.py` holds 42 mutants and writes `results_d1.tsv` beside itself; that run was at `4cc17538`, despite the name (21 tests), and is kept here as `results_4cc17538.tsv`. `kit3.py` is `kit2.py` with only the output name changed; it produced `results_c60c1cc9.tsv` and `run_c60c1cc9.log` at `c60c1cc9`: 32 of 42 caught, with V4 newly caught. `guard_*.py` are the base-closure guard scripts extracted from the PR workflow at each head. `review_*.md` and `pickup_4cc17538.md` are the posted texts. `carry_c60c1cc9_local.md` is a local carry note that was not posted. | [427 review 5541703255](https://github.com/d6g8k5htny-coder/main/pull/427#pullrequestreview-5541703255), [5541971613](https://github.com/d6g8k5htny-coder/main/pull/427#pullrequestreview-5541971613), [5542186615](https://github.com/d6g8k5htny-coder/main/pull/427#pullrequestreview-5542186615) | delivered (added 2026-10-17); the `c60c1cc9` carry is local only |
+| `h3v2_447/` | Rounding-soundness read of main#447 (H3 band certificate v2) at `6651242a`. `scripts/rounding_run.py` replays an envelope with mpmath's `mp` context rounding in a chosen direction; `scripts/law_probe2.py` checks the certified (mu, Sigma) enclosures on every cell against a high-precision direct law; `scripts/mc_probe.py` is a NON-CERTIFYING Monte Carlo of E[G_r]. `diffs/` holds the probe hook, the R1 branch counter and the proposed R2 fix; `results/` holds their outputs; `RESULTS.md` gives the commands. `posts/` holds the posted texts. | [447/6246359073](https://github.com/d6g8k5htny-coder/main/pull/447#issuecomment-6246359073), routing [419/6246872121](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6246872121) | delivered (added 2026-10-18); R2 fix not applied on #447 by this lane |
+| `m428_census/` | The main#428 validator mutation census and its re-measure after #448. `kit428.py` applies 93 single-point mutants of `experiments/semantic_memory/benchmark.py` and runs `tests/test_semantic_memory_benchmark.py` with `-I -B -S`, in normal and `-O` mode. `results_bccbd346.tsv` is the run at `bccbd346` (23/93 killed); `results_efc2fe90.tsv` is the run at `efc2fe90`, after #448 (25/93). `cls_map.json` gives each earlier survivor's class (A, B, C, U); `compare_post448.py` compares the two runs into `compare_post448.json`. `r03_diag.py` and `r03_diag.out` locate where #448's whitespace sentinel is refused, with and without R03. `r03_patch_check.py` and `r03_patch_check.tsv` show that the one-line fix kills R03. `r03_fix_cab0eb19.diff` is that fix, a local commit that is not pushed. `posts/` holds the posted texts, read back from GitHub. The concrete counterexample inputs for the class-B survivors are deliberately not included. **Every test-file run here was local, not in the hosted isolated lane that the test file's header requires**; see the correction on 419/6279934798. | [428/6244680213](https://github.com/d6g8k5htny-coder/main/pull/428#issuecomment-6244680213), [419/6279934798](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6279934798) | delivered (added 2026-10-20). The R03 repair PR waits on DCL's source review, #448/6280171453. |
+| `zeta_457/` | Reconciliation of 01SHCrxv's FLINT cross-check of the 100 stored zeta zeros on `claude/physics-multiscale-reconstruction-a1G1I` (draft #457). `scripts/check_zeros_arb.py` is this session's own earlier, unposted FLINT check, and `results/out_arb.json` is its output. `scripts/audit_theirs.py` runs the data controls and script mutants against that branch's `scripts/cross_check_zeros_arb.py`. `results/audit_theirs.json` is the run at `90fa3bd7`, and `results/audit_head94.json` the run at `94a76e48`. Both outputs embed pytest timings, so a rerun reproduces the verdicts but not the hashes. `scripts/negtest_snippet.py` is the monkeypatch negative-control test class; `scripts/run_negtest.py` runs it against each mutant. These need python-flint 0.9.0 (FLINT 3.6.0), and pytest for the mutant runs. | [419/6282133838](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6282133838) | delivered (added 2026-10-20); nothing pushed to that branch |
+| `mutation/query_archive_v2/` | An author-side correction of `ArchiveRefusalPins` for the three portability findings on query-#47 at `4fb15c97`, reported in handoff [419/6286391397](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6286391397). The fixes: force-add the descendant fixture paths that an excludes file may ignore; skip the SHA-256 test when Git cannot create a SHA-256 repository; set `GIT_CEILING_DIRECTORIES` in the non-repository test. `test_patch_v2.py` is the corrected class, and `q47_v2.patch` applies to `tests/test_source_release.py` at #47's head (blob `19e1a0a`). `repro.py` runs the module under four configurations: baseline, a global excludes file, a Git that refuses SHA-256, and a `TMPDIR` inside another worktree. `repro_class_v1.txt` and `repro_class_v2.txt` are its outputs for the class as merged into #47 and for the corrected class. `control_v2.txt` is the mutant control with the corrected class. These are local runs, not hosted CI. | [419/6286391397](https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6286391397) | superseded, not posted: an OpenAI Codex writer fixed the same three findings on query-#47 at `a378fa41` (08:50Z), and that head passes all four configurations of `repro.py` in normal and `-O` mode. Kept as a record only. |
+| `ci_diag_464/` | CI diagnosis data for main#464 (OpenAI Codex, formal-regression controls) at `8a672c2a`. `runlen.py` measures every `steps[*].run` value over 15,000 characters; `runlen_out.txt` shows that it reproduces the author's 62,620 and 22,858, and measures the 71,187- and 22,470-character literal `run` values that hosted runs 39057144050 and 39402923328 executed successfully. `make_fix_a.py` moves `FORMAL_EVIDENCE_TEMP` from job-level to step-level `env:`. `fix_a.diff` is its output against the PR file, and `actionlint.txt` lints both versions. `navigation_repro.txt` is the local reproduction of the red `navigation` check: 337 subtest failures, all in `tests/test_formal_regression.py`. `post_464_6304480329.md` is the posted text. | [464/6304480329](https://github.com/d6g8k5htny-coder/main/pull/464#issuecomment-6304480329) | delivered data; no claim on the correction |
+| `issue_309/` | Read-only inventory for main#309 (the GP-REG-032 Evidence Role list) at the historical branch `a01c72f1`. It contains two independent parsers of the frozen exports (`scripts/parser-A/`, stdlib XML; `scripts/parser-B/`, openpyxl with raw-XML checks), the reconciling critic's scripts and `fact_sheet.md`, the consumer check, and `scripts/spot.py` with `results/spot_out.txt`. Counts: 09-18 has 485 populated, 56 in list, 429 outside; R1 and R2 have 497, 67 and 430. The validation element is identical in all three. The posted pickup and delivery texts are included. | [309/6305864217](https://github.com/d6g8k5htny-coder/main/issues/309#issuecomment-6305864217) | delivered and released |
+| `mutation/active_board_routing_487/` | Mutation run of main#487's `tests/test_active_board_routing.py` (OpenAI ARCHSYS) at `0a0f60bd`. Results: 12/20 helper mutants and 4/4 document edits are killed at the head. `extra_tests.py` holds seven optional methods; with them the result is 19/20 (M18 is equivalent) and 23/23 pass. `post_487_6329878095.md` is the posted text. | [487/6329878095](https://github.com/d6g8k5htny-coder/main/pull/487#issuecomment-6329878095) | delivered data; optional tests not pushed |
+
+`MANIFEST.json` lists every file except itself and `SHA256SUMS`, with its byte count, SHA-256, provenance, stage,
+supersession and next step.
+`SHA256SUMS` covers every file in this directory except itself.
+
+## Running the tools
+
+All tools use only the Python standard library, except `prescreen.py` and `prescreen_main.py`, which need PyYAML
+to read workflows. No tool pushes or calls an API itself. But `prescreen.py` executes each PR's workflow `run:`
+steps, which are untrusted PR code and may try to reach the network, so run it in a sandbox.
+
+- **Before running:** copy a tool's directory elsewhere first. Each runner writes its results table into its
+  own directory, which would overwrite the archived, checksummed tables here.
+- **Clones:** `prescreen.py` and `main_tests.py` need a `CLONE` with local refs named `pr/<N>` for each PR.
+  `prescreen.py` also accepts `PR:HEAD`. Both create local commits and worktrees inside `CLONE`.
+- **Math- pre-screen:** `SHIM_DIR=<dir> WORKERS=3 python3 -B prescreen.py CLONE BASE OUTDIR PR...`, then
+  `python3 -B triage.py OUTDIR`. `run_all.sh` is the exact invocation used. Pass PR `0` for the base run, but
+  only after the PR runs and the `base_union.json` step, as `run_all.sh` does. Otherwise the base selects a
+  different set of workflows, and `triage.py`'s comparison does not match.
+- **main pre-screen:** `WORKERS=3 python3 -B main_tests.py CLONE BASE OUTDIR 0 PR...`, then
+  `python3 -B compare_main.py OUTDIR`.
+- **Mutation runs:** `python3 -B run.py SRC` (evidence_profile) or `run_rr.py`, `run_q.py`, `run_u.py WORKTREE`
+  apply each mutant in turn and write a results table. Pass mutant ids after the path to run a subset.
+  The `*2` runners rerun after the proposed test class is added. For evidence_profile, `run2.py` appends
+  `test_patch.py` itself. For the other three, add the class from `test_patch.py` to the test file in
+  `WORKTREE` first. The `rr`, `q` and `u` runners edit the target file in place and restore it at the end.
+- **Git shim:** this container's Git is 2.43, which lacks `--no-lazy-fetch`. `shim/git` drops that one flag.
+  That is faithful only for complete local clones, where no lazy fetch can occur, so the partial-clone tests
+  were excluded (`ids.txt`, `ids2.txt`).
+- **#428 census:** `python3 -I kit428.py SRC OUT.tsv`, where SRC is a `main` checkout. Then run `python3 -I compare_post448.py OLD.tsv NEW.tsv cls_map.json OUT.json`, `python3 -I -B -S r03_diag.py SRC` and `python3 -I r03_patch_check.py SRC OUT.tsv`. These run the semantic-memory test file, whose header limits execution to the hosted isolated lane, so do not rerun them locally as evidence. The hosted CI of a repair PR is the place for that.
+- **Zeta reconciliation:** run `python -I check_zeros_arb.py DATA.json OUT.json`. Extract the branch first with `git archive <commit> | tar -x -C T`, then run `python -I audit_theirs.py T OUT.json` and `python -I run_negtest.py T PYTHON negtest_snippet.py`.
+- **Control kit:** from the target repository's root,
+  `python3 control_runner.py control_mutants.json FILE -- TEST COMMAND...`. `FILE` must be the repository-relative
+  path exactly as in `control_mutants.json`, for example `tools/retrofit_record_check.py`. Expect `SURVIVED`
+  without the new tests and `KILLED` with them. B33 may show `KILLED` even without them. For
+  `retrofit_record_check`, use Git 2.44 or later, or put `shim/git` first on `PATH` and run only the tests
+  listed in `ids.txt` or `ids2.txt`. Otherwise the baseline refuses, and every mutant shows `KILLED`.
+
+## Remaining obligations, blockers and owners
+
+- **Test classes (four tools):** a writer with push access to Math-, query- and ULW must add them.
+  The coordinator has not allocated one. An xAI writer is preferred: the tools' authors are Anthropic and OpenAI
+  sessions, and this test author is Anthropic. This session cannot push to those repositories.
+- **Math-#385:** the PR body records an OpenAI author session; whether it can be reached is not established
+  ([275/6167520070](https://github.com/d6g8k5htny-coder/main/issues/275#issuecomment-6167520070)). The broken test
+  file is unchanged at head `089d87ac`.
+- **Compact-cutoff stack (Math- #414, #415, #424, #425, #426, #427, #430, #451):** an expired deadline in
+  `.github/workflows/compact-cutoff-baseline.yml` awaits its owner.
+- **Next reproducible step:** rerun the relevant pre-screen on the then-current base before relying on any
+  readiness row here. These results are local, non-qualifying runs, not hosted CI.

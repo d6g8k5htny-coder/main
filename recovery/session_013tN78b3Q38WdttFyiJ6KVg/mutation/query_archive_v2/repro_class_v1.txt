@@ -1,0 +1,8 @@
+baseline           rc=0 Ran 43 tests in 17.229s OK []
+baseline       -O  rc=0 Ran 43 tests in 16.600s OK []
+ignores            rc=1 Ran 43 tests in 17.234s FAILED (failures=3) ['ArchiveRefusalPins.test_default_call_refuses_private_and_compiled_paths_under_a_listed_name']
+ignores        -O  rc=1 Ran 43 tests in 17.770s FAILED (failures=3) ['ArchiveRefusalPins.test_default_call_refuses_private_and_compiled_paths_under_a_listed_name']
+no_sha256          rc=1 Ran 43 tests in 20.226s FAILED (errors=1) ['ArchiveRefusalPins.test_non_sha1_commit_is_refused']
+no_sha256      -O  rc=1 Ran 43 tests in 19.240s FAILED (errors=1) ['ArchiveRefusalPins.test_non_sha1_commit_is_refused']
+ancestor_repo      rc=1 Ran 43 tests in 17.844s FAILED (failures=1) ['ArchiveRefusalPins.test_failed_git_command_is_reported']
+ancestor_repo  -O  rc=1 Ran 43 tests in 19.771s FAILED (failures=1) ['ArchiveRefusalPins.test_failed_git_command_is_reported']

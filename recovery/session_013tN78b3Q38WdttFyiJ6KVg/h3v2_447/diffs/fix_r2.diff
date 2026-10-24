@@ -1,0 +1,13 @@
+--- a/experiments/h3_band_v2/h3_band_v2.py
++++ b/experiments/h3_band_v2/h3_band_v2.py (R2 fix)
+@@ -768,8 +768,8 @@
+ 
+     majW = Maj(W_m, C_W, R)
+     majH = Maj(H_m, C_H, R)
+-    majA = Maj(A_m, M_GYV, 1 / RHO)
+-    majGY = Maj(GY_m, M_GY, 1 / RHO)
++    majA = Maj(A_m, M_GYV, up(1 / RHOi))
++    majGY = Maj(GY_m, M_GY, up(1 / RHOi))
+     R_STAR = F(1, 16384) if MUT != 'wide_first_cell' else F(1, 400)
+     ck(up(Ri * iv_frac(R_STAR)) < mpf('0.2'), 'CB4 R-majorant converges on the first cell (0, %s]' % frac_label(R_STAR))
+     tS = iv.mpf(up(iv_frac(R_STAR)))

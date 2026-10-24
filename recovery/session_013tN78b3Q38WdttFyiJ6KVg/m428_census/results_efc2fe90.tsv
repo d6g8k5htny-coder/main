@@ -1,0 +1,94 @@
+BASE	unmodified	SURVIVED	Ran 3 tests in 13.638s OK	Ran 3 tests in 21.483s OK
+R01	_keys:57 _require(type(value) is dict and set(value) == set(fields))	KILLED	Ran 3 tests in 13.586s FAILED (failures=4)	Ran 3 tests in 21.536s FAILED (failures=4)
+R02	_integer:61 _require(type(value) is int and low <= value <= high)	KILLED	Ran 3 tests in 13.668s FAILED (failures=2)	Ran 3 tests in 21.985s FAILED (failures=2)
+R03	_text:66 _require(type(value) is str and bool(value.strip()))	SURVIVED	Ran 3 tests in 12.963s OK	Ran 3 tests in 21.645s OK
+R04	_text:67 _require(len(value.encode("utf-8")) <= maximum)	KILLED	Ran 3 tests in 13.742s FAILED (failures=1)	Ran 3 tests in 21.677s FAILED (failures=1)
+R05	_identity:72 _require(type(value) is str and re.fullmatch(r"[A-Za-z0-9_.:-]{1,128}", value) is not None	SURVIVED	Ran 3 tests in 13.793s OK	Ran 3 tests in 21.756s OK
+R06	_hash:77 _require(type(value) is str and re.fullmatch(r"[0-9a-f]{64}", value) is not None)	SURVIVED	Ran 3 tests in 14.020s OK	Ran 3 tests in 21.772s OK
+R07	_same:92 _require(canonical_report(value) == canonical_report(expected))	KILLED	Ran 3 tests in 14.163s FAILED (failures=4)	Ran 3 tests in 21.730s FAILED (failures=4)
+R08	_strict_json:96 _require(type(raw) is bytes and len(raw) <= META_LIMIT)	SURVIVED	Ran 3 tests in 13.833s OK	Ran 3 tests in 21.544s OK
+R09	_strict_json:112 _require(depth <= 64)	SURVIVED	Ran 3 tests in 14.113s OK	Ran 3 tests in 21.791s OK
+R10	_strict_json:115 _require(depth >= 0)	SURVIVED	Ran 3 tests in 14.214s OK	Ran 3 tests in 21.571s OK
+R11	_strict_json:116 _require(not quoted and depth == 0)	SURVIVED	Ran 3 tests in 13.991s OK	Ran 3 tests in 21.599s OK
+R12	_strict_json:121 _require(key not in result)	KILLED	Ran 3 tests in 14.424s FAILED (failures=1)	Ran 3 tests in 21.216s FAILED (failures=1)
+R13	_strict_json:133 _require(level < 64)	SURVIVED	Ran 3 tests in 14.133s OK	Ran 3 tests in 21.556s OK
+R14	_strict_json:144 _require(math.isfinite(item))	SURVIVED	Ran 3 tests in 14.172s OK	Ran 3 tests in 21.727s OK
+R15	_strict_json:146 _require(item is None or type(item) in (bool, int))	SURVIVED	Ran 3 tests in 14.312s OK	Ran 3 tests in 21.516s OK
+R16	_relative:152 _require(not name.startswith("/") and "\\" not in name and ":" not in name)	SURVIVED	Ran 3 tests in 13.913s OK	Ran 3 tests in 21.495s OK
+R17	_relative:154 _require(all(piece not in ("", ".", "..") and not any(ord(c) < 32 for c in piece)	SURVIVED	Ran 3 tests in 14.374s OK	Ran 3 tests in 21.995s OK
+R18	_directory:161 _require(type(raw) is str and 0 < len(raw.encode("utf-8")) <= 4096 and "\0" not in raw)	SURVIVED	Ran 3 tests in 14.252s OK	Ran 3 tests in 21.798s OK
+R19	_directory:164 _require(all(piece not in ("", ".", "..") for piece in pieces))	SURVIVED	Ran 3 tests in 13.958s OK	Ran 3 tests in 21.850s OK
+R20	_read:191 _require(stat.S_ISREG(before.st_mode) and before.st_nlink == 1 and before.st_size <= limit	SURVIVED	Ran 3 tests in 14.082s OK	Ran 3 tests in 22.411s OK
+R21	_read:200 _require(size <= limit)	SURVIVED	Ran 3 tests in 13.992s OK	Ran 3 tests in 21.908s OK
+R22	_read:203 _require(all(getattr(before, field) == getattr(after, field) for field in fields))	SURVIVED	Ran 3 tests in 14.114s OK	Ran 3 tests in 22.153s OK
+R23	_read:204 _require(size == before.st_size)	SURVIVED	Ran 3 tests in 13.869s OK	Ran 3 tests in 22.079s OK
+R24	_inventory:216 _require(len(seen) < len(expected) and entry.name in expected and entry.name not in seen)	SURVIVED	Ran 3 tests in 13.842s OK	Ran 3 tests in 21.590s OK
+R25	_inventory:219 _require(stat.S_ISDIR(item.st_mode) if entry.name in directories else stat.S_ISREG(item.st	SURVIVED	Ran 3 tests in 13.807s OK	Ran 3 tests in 21.815s OK
+R26	_inventory:220 _require(seen == set(expected))	SURVIVED	Ran 3 tests in 13.958s OK	Ran 3 tests in 21.476s OK
+R27	_source:231 _require(type(value["observed_at"]) is str and re.fullmatch(	SURVIVED	Ran 3 tests in 13.668s OK	Ran 3 tests in 21.686s OK
+R28	_source:233 _require(value["extractor_version"] == "synthetic-identity-utf8/v1")	SURVIVED	Ran 3 tests in 14.387s OK	Ran 3 tests in 22.085s OK
+R29	_source:234 _require(value["access_state"] == "available" and value["exclusion_state"] == "included")	SURVIVED	Ran 3 tests in 14.885s OK	Ran 3 tests in 21.821s OK
+R30	_source:235 _require(value["supersession_state"] in ("current", "superseded"))	SURVIVED	Ran 3 tests in 14.573s OK	Ran 3 tests in 21.742s OK
+R31	_source:237 _require(re.fullmatch(r"corpus/[A-Za-z0-9_.-]+\.txt", value["content_ref"]) is not None)	SURVIVED	Ran 3 tests in 14.789s OK	Ran 3 tests in 22.155s OK
+R32	_case:245 _require(value["task_scope"] == "focused_excerpt")	SURVIVED	Ran 3 tests in 13.792s OK	Ran 3 tests in 21.889s OK
+R33	_case:247 _require(value["stratum"] == "development")	SURVIVED	Ran 3 tests in 14.164s OK	Ran 3 tests in 22.237s OK
+R34	_case:249 _require(identifier in HELD_IDS and value["stratum"] == STRATA[identifier[0]])	KILLED	Ran 3 tests in 14.474s FAILED (failures=1)	Ran 3 tests in 21.988s FAILED (failures=1)
+R35	_case:251 _require((source is None) == (revision is None))	SURVIVED	Ran 3 tests in 14.134s OK	Ran 3 tests in 22.347s OK
+R36	_case:256 _require(source is None)	KILLED	Ran 3 tests in 14.498s FAILED (failures=1)	Ran 3 tests in 21.822s FAILED (failures=1)
+R37	_case:258 _require(source is not None)	SURVIVED	Ran 3 tests in 14.398s OK	Ran 3 tests in 21.952s OK
+R38	_case:260 _require(source is None)	SURVIVED	Ran 3 tests in 14.451s OK	Ran 3 tests in 22.044s OK
+R39	_case:263 _require(not any(cue in query for cue in ("absent", "no-answer", "unanswerable", identifie	SURVIVED	Ran 3 tests in 14.508s OK	Ran 3 tests in 21.857s OK
+R40	case_request:270 _require(type(profile) is str and profile in ("W", "C"))	SURVIVED	Ran 3 tests in 13.281s OK	Ran 3 tests in 21.427s OK
+R41	_case_document:278 _require(type(value["cases"]) is list and len(value["cases"]) == len(expected))	SURVIVED	Ran 3 tests in 13.407s OK	Ran 3 tests in 21.157s OK
+R42	_case_document:283 _require(identifier in expected and identifier not in cases)	SURVIVED	Ran 3 tests in 13.493s OK	Ran 3 tests in 21.299s OK
+R43	_case_document:285 _require(set(cases) == set(expected))	SURVIVED	Ran 3 tests in 13.564s OK	Ran 3 tests in 21.069s OK
+R44	_gold:290 _require(type(records) is list and len(records) == len(expected))	SURVIVED	Ran 3 tests in 13.573s OK	Ran 3 tests in 21.117s OK
+R45	_gold:295 _require(type(identifier) is str and identifier in expected and identifier not in seen)	SURVIVED	Ran 3 tests in 13.416s OK	Ran 3 tests in 21.541s OK
+R46	_gold:297 _require(type(row["no_answer"]) is bool and row["no_answer"] == (identifier in ABSENT_IDS)	SURVIVED	Ran 3 tests in 13.179s OK	Ran 3 tests in 21.427s OK
+R47	_gold:298 _require(type(row["spans"]) is list and len(row["spans"]) <= 32)	SURVIVED	Ran 3 tests in 13.436s OK	Ran 3 tests in 21.622s OK
+R48	_gold:300 _require(row["expected_answer"] is None and row["spans"] == [])	KILLED	Ran 3 tests in 13.949s FAILED (failures=1)	Ran 3 tests in 22.093s FAILED (failures=1)
+R49	_gold:303 _require(bool(row["spans"]))	KILLED	Ran 3 tests in 14.237s FAILED (failures=1)	Ran 3 tests in 21.949s FAILED (failures=1)
+R50	_gold:308 _require(key in sources)	SURVIVED	Ran 3 tests in 14.107s OK	Ran 3 tests in 21.963s OK
+R51	_gold:310 _require(_hash(span["text_sha256"]) == source["text_sha256"])	KILLED	Ran 3 tests in 13.914s FAILED (failures=1)	Ran 3 tests in 22.515s FAILED (failures=1)
+R52	_gold:314 _require(bool(piece.strip()) and _hash(span["sha256"]) == _sha(piece))	KILLED	Ran 3 tests in 14.260s FAILED (failures=1)	Ran 3 tests in 21.647s FAILED (failures=1)
+R53	_gold:319 _require(len(prefix) > 12000 and len(prefix) != start)	SURVIVED	Ran 3 tests in 14.394s OK	Ran 3 tests in 22.005s OK
+R54	_gold:320 _require(piece.strip() not in raw.decode("utf-8")[:12000].encode("utf-8"))	SURVIVED	Ran 3 tests in 14.368s OK	Ran 3 tests in 21.711s OK
+R55	_gold:322 _require(source["supersession_state"] == "current")	SURVIVED	Ran 3 tests in 14.202s OK	Ran 3 tests in 22.020s OK
+R56	_gold:325 _require(bool(older) and all(s["text_sha256"] != source["text_sha256"] for s in older))	SURVIVED	Ran 3 tests in 14.618s OK	Ran 3 tests in 22.286s OK
+R57	_gold:327 _require(key == (case["exact_source_id"], case["exact_ref"]))	KILLED	Ran 3 tests in 14.580s FAILED (failures=1)	Ran 3 tests in 22.546s FAILED (failures=1)
+R58	_gold:328 _require(seen == set(expected))	SURVIVED	Ran 3 tests in 14.557s OK	Ran 3 tests in 22.385s OK
+R59	_representation:332 _require(type(controls) is list and len(controls) == 1)	SURVIVED	Ran 3 tests in 14.621s OK	Ran 3 tests in 22.341s OK
+R60	_representation:342 _require(value["extractor_version"] == "synthetic-github-body-title/v1")	SURVIVED	Ran 3 tests in 14.605s OK	Ran 3 tests in 21.951s OK
+R61	_representation:343 _require(_hash(value["source_sha256"]) == _sha(raw))	SURVIVED	Ran 3 tests in 14.284s OK	Ran 3 tests in 22.370s OK
+R62	_representation:345 _require(type(value["extracted_text"]) is str and value["extracted_text"].encode("utf-8") 	SURVIVED	Ran 3 tests in 14.578s OK	Ran 3 tests in 22.779s OK
+R63	_representation:346 _require(_hash(value["text_sha256"]) == _sha(derived))	KILLED	Ran 3 tests in 14.374s FAILED (failures=1)	Ran 3 tests in 22.366s FAILED (failures=1)
+R64	_validated_bundle:363 _require(manifest["schedule_algorithm"] == SCHEDULE)	SURVIVED	Ran 3 tests in 14.270s OK	Ran 3 tests in 22.543s OK
+R65	_validated_bundle:364 _require(type(manifest["sources"]) is list and len(manifest["sources"]) == 32)	SURVIVED	Ran 3 tests in 14.239s OK	Ran 3 tests in 22.402s OK
+R66	_validated_bundle:372 _require(key not in sources and path not in paths)	SURVIVED	Ran 3 tests in 14.377s OK	Ran 3 tests in 22.506s OK
+R67	_validated_bundle:375 _require(len(raw) == row["text_bytes"])	KILLED	Ran 3 tests in 14.325s FAILED (failures=1)	Ran 3 tests in 22.474s FAILED (failures=1)
+R68	_validated_bundle:377 _require(total <= TEXT_LIMIT)	SURVIVED	Ran 3 tests in 14.337s OK	Ran 3 tests in 21.573s OK
+R69	_validated_bundle:379 _require(all(row[name] == digest for name in ("text_sha256", "source_sha256", "extraction_	KILLED	Ran 3 tests in 14.843s FAILED (failures=2)	Ran 3 tests in 21.255s FAILED (failures=2)
+R70	_validated_bundle:398 _require(len(raw) == identity["bytes"] and _sha(raw) == identity["sha256"])	KILLED	Ran 3 tests in 14.511s FAILED (failures=1)	Ran 3 tests in 21.179s FAILED (failures=1)
+R71	_validated_bundle:406 _require((case["exact_source_id"], case["exact_ref"]) in sources)	SURVIVED	Ran 3 tests in 14.842s OK	Ran 3 tests in 21.443s OK
+R72	_validated_bundle:409 _require(type(values) is list and len(values) == len(expected)	SURVIVED	Ran 3 tests in 14.027s OK	Ran 3 tests in 21.576s OK
+R73	_validated_bundle:412 _require(type(generation) is list and len(generation) == 20	SURVIVED	Ran 3 tests in 14.111s OK	Ran 3 tests in 21.816s OK
+R74	_validated_bundle:415 _require(all(sum(value.startswith(prefix) for value in generation) == 4 for prefix in STRA	SURVIVED	Ran 3 tests in 14.322s OK	Ran 3 tests in 21.958s OK
+R75	_validated_bundle:418 _require(type(order) is list and len(order) == 40)	SURVIVED	Ran 3 tests in 14.074s OK	Ran 3 tests in 22.066s OK
+R76	_validated_bundle:422 _require(type(row["case_id"]) is str and row["case_id"] in HELD_IDS and row["case_id"] not	SURVIVED	Ran 3 tests in 14.236s OK	Ran 3 tests in 21.480s OK
+R77	_validated_bundle:425 _require(type(row[name]) is list and len(row[name]) == len(expected)	SURVIVED	Ran 3 tests in 14.222s OK	Ran 3 tests in 21.332s OK
+R78	_validated_bundle:427 _require(_sha(canonical_report(order)) == SCHEDULE_ROWS_SHA256)	KILLED	Ran 3 tests in 14.217s FAILED (failures=6)	Ran 3 tests in 22.019s FAILED (failures=6)
+R79	_validated_bundle:442 _require(sentinel not in item)	KILLED	Ran 3 tests in 14.136s FAILED (failures=7)	Ran 3 tests in 21.668s FAILED (failures=7)
+R80	admit_benchmark:484 _require(semantic_sha256 == BENCHMARK_SEMANTIC_SHA256)	KILLED	Ran 3 tests in 12.931s FAILED (failures=16)	Ran 3 tests in 19.834s FAILED (failures=16)
+R81	verify_report:498 _require(type(path) is str and bool(path) and not path.endswith("/"))	SURVIVED	Ran 3 tests in 13.895s OK	Ran 3 tests in 21.170s OK
+R82	verify_report:508 _require(supplied == expected)	KILLED	Ran 3 tests in 4.063s FAILED (failures=1)	Ran 3 tests in 6.383s FAILED (failures=1)
+ALL	_require disabled entirely	KILLED	Ran 3 tests in 4.282s FAILED (failures=23)	Ran 3 tests in 6.535s FAILED (failures=23)
+NF	nonfinite JSON raise removed	KILLED	Ran 3 tests in 13.673s FAILED (failures=1)	Ran 3 tests in 21.304s FAILED (failures=1)
+A1	admitted_corpus bypasses admission	KILLED	Ran 3 tests in 12.575s FAILED (failures=16)	Ran 3 tests in 20.161s FAILED (failures=16)
+C1	CLI: more than one --fixtures accepted	SURVIVED	Ran 3 tests in 13.582s OK	Ran 3 tests in 21.647s OK
+C2	CLI: --report accepted for prepare/admit	SURVIVED	Ran 3 tests in 13.707s OK	Ran 3 tests in 21.578s OK
+C3	CLI: verify-report without exactly one --report	SURVIVED	Ran 3 tests in 14.225s OK	Ran 3 tests in 21.695s OK
+C4	CLI: product-source type/size/nlink check disabled	SURVIVED	Ran 3 tests in 13.863s OK	Ran 3 tests in 22.370s OK
+C5	CLI: product-source read-stability check disabled	SURVIVED	Ran 3 tests in 13.782s OK	Ran 3 tests in 22.458s OK
+C6	CLI: short-write check disabled	SURVIVED	Ran 3 tests in 14.228s OK	Ran 3 tests in 22.461s OK
+C7	CLI: error path exits 0	KILLED	Ran 3 tests in 4.300s FAILED (failures=24)	Ran 3 tests in 6.624s FAILED (failures=24)
+C8	CLI: admit-benchmark runs structural validation only	KILLED	Ran 3 tests in 4.297s FAILED (failures=1)	Ran 3 tests in 6.737s FAILED (failures=1)
