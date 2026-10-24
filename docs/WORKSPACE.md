@@ -59,7 +59,8 @@ permission wording in an older mirror does not revive revoked owner restrictions
 ## Where coordination happens
 
 New general questions, obstacles and handoffs go on the
-[active Agent Message Board, main #475](https://github.com/d6g8k5htny-coder/main/issues/475).
+[active Agent Message Board, main #539](https://github.com/d6g8k5htny-coder/main/issues/539).
+[main #475](https://github.com/d6g8k5htny-coder/main/issues/475),
 [main #419](https://github.com/d6g8k5htny-coder/main/issues/419),
 [main #307](https://github.com/d6g8k5htny-coder/main/issues/307) and
 [main #229](https://github.com/d6g8k5htny-coder/main/issues/229) are historical
@@ -169,6 +170,56 @@ picked up a pull request, others record late facts in a comment instead of
 editing the body, and an integrator that edits the body lets the new run finish
 before merging. On 20 October 2026 this refused the first merge attempt on
 main#450 and on main#467.
+
+### Complete changed-path inventories
+
+Finishing pagination does not by itself establish a complete overlap check.
+GitHub's [pull-request files endpoint](https://docs.github.com/en/rest/pulls/pulls#list-pull-requests-files)
+returns at most 3,000 files; the
+[compare endpoint's file list](https://docs.github.com/en/rest/commits/commits#compare-two-commits)
+contains at most 300. In the [21 October #436 reconciliation](https://github.com/d6g8k5htny-coder/main/pull/389#issuecomment-6328963128),
+`files.totalCount=3000` and `hasNextPage=false` coexisted with 5,943 actual changed
+paths. The terminal page was real; the completeness inference was wrong.
+
+For an as-of inventory, record the repository, PR number, full head and base
+SHAs, and observation time. Page the native open-PR collection and each file
+list, comparing its unique returned-file count with the individual PR's
+`changed_files` (or `changedFiles`) at the same head. Include `previous_filename`
+when checking renamed-path overlap. Recheck head/base identities after collection
+and before a dependent write; refresh changed entries. Missing pages, count
+mismatches, failed requests or truncated responses leave coverage partial, not
+an empty change set. This records evidence for the existing workflow's overlap
+check; it adds no approval step or ownership register.
+
+For a capped list, use a complete Git comparison from the PR's actual merge base
+to its frozen head, not from a newer base tip. Establish the merge base using
+complete history or the compare API's `merge_base_commit` metadata as described
+above; its capped **file list** is not the fallback. In the repository root, set
+these variables to the verified full SHAs and use a new scratch output path:
+
+```sh
+MERGE_BASE='<verified full merge-base SHA>'
+HEAD_SHA='<verified full head SHA>'
+git cat-file -e "${MERGE_BASE}^{commit}" &&
+git cat-file -e "${HEAD_SHA}^{commit}" &&
+git diff --no-ext-diff --no-renames --name-only -z \
+  "$MERGE_BASE" "$HEAD_SHA" -- > changed-paths.z
+```
+
+Require a successful command before consuming the output. Parse NUL-delimited
+names, not lines: filenames can contain newlines. `--no-renames` exposes both
+old and new paths; its path count can differ from GitHub's rename-aware file
+count, so explain that difference rather than forcing numerical equality.
+Retain the command, frozen identities, output count and digest with the result.
+
+Without local Git, qualified nontruncated tree comparisons can establish the
+same **bounded path** result: compare the relevant mode/type/object identities
+at the merge base and head. Equal subtree identities cover that subtree only.
+When a [recursive tree response is truncated](https://docs.github.com/en/rest/git/trees#get-a-tree),
+walk nonrecursive subtrees instead; infer absence only from successfully read,
+complete parent entries, never an unexplained 404. Unavailable evidence remains
+unknown, and no access denial is waived. A target-path nonoverlap result is not
+a complete file-content audit, proof review, or current ownership determination.
 
 ## Local navigation check
 
