@@ -93,6 +93,41 @@ def _pinned_source(identity):
     return {"url": url, "sha": commit}
 
 
+def _ipv4_number(part):
+    """Parse one WHATWG IPv4 number; None means invalid numeric syntax."""
+    if not part:
+        return None
+    radix = 10
+    if part[:2].lower() == "0x":
+        radix, part = 16, part[2:]
+    elif len(part) >= 2 and part[0] == "0":
+        radix, part = 8, part[1:]
+    if any(c.lower() not in "0123456789abcdef"[:radix] for c in part):
+        return None
+    return int(part or "0", radix)
+
+
+def _numeric_host_ok(host):
+    """Apply special-URL numeric-host rules to an already admitted ASCII host.
+
+    See https://url.spec.whatwg.org/#concept-ipv4-parser. Non-numeric-ending
+    names retain the caller's existing policy; this is not DNS validation.
+    """
+    parts = host.split(".")
+    if parts[-1] == "":
+        parts.pop()
+    last = parts[-1]
+    if re.fullmatch(r"[0-9]+", last) is None and _ipv4_number(last) is None:
+        return True
+    if len(parts) > 4:
+        return False
+    numbers = [_ipv4_number(part) for part in parts]
+    if any(number is None for number in numbers):
+        return False
+    return (all(number <= 255 for number in numbers[:-1])
+            and numbers[-1] < 256 ** (5 - len(numbers)))
+
+
 def _https_url(value):
     # A locator needs a usable authority; parsing alone is not validation.
     if type(value) is not str or not value.startswith("https://") or len(value) > 2048:
@@ -112,8 +147,11 @@ def _https_url(value):
             if re.fullmatch(r"\[[0-9A-Fa-f:.]+\](?::[0-9]*)?", authority) is None:
                 return False
             IPv6Address(host)
-        elif re.fullmatch(r"[A-Za-z0-9_.-]+", host.encode("idna").decode("ascii")) is None:
-            return False
+        else:
+            ascii_host = host.encode("idna").decode("ascii")
+            if (re.fullmatch(r"[A-Za-z0-9_.-]+", ascii_host) is None
+                    or not _numeric_host_ok(ascii_host)):
+                return False
         return True
     except (ValueError, UnicodeError):
         return False

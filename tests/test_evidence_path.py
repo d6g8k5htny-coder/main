@@ -190,6 +190,55 @@ class EvidencePathTests(unittest.TestCase):
                     self.assertEqual(tables, before)
                     self.assertEqual(result["scientific_effect"], "NONE")
 
+    def test_invalid_numeric_https_hosts_are_missing(self):
+        # Regression for AST493-F1's numeric-host residual: letters allowed in
+        # the hostname are not enough when a special-URL host ends in a number.
+        bad_hosts = (
+            "256.0.0.1", "127.0.0.999", "1.2.3.4.5", "1.2.3.256",
+            "4294967296", "0x100000000", "example.123", "09",
+            "08.0.0.1", "1.16777216", "1.2.65536", "1.256.1",
+            "1.2.3.0x100", "0xg.1", "example.0x1", "example.09",
+            "1.2.3.4.5.", "1.2.3.4.0", "1.2.3.4.0.", "0x100000000.", "1..2", ".1",
+            "\uff11\uff12\uff17.0.0.999", "example\u3002123",
+        )
+        for channel, label in (("receipts", "execution receipt"), ("reviews", "review link")):
+            other = "reviews" if channel == "receipts" else "receipts"
+            for host in bad_hosts:
+                with self.subTest(channel=channel, host=host):
+                    tables = {"receipts": copy.deepcopy(RECEIPTS), "reviews": copy.deepcopy(REVIEWS)}
+                    tables[channel]["FIXTURE-ARTIFACT-v1"]["url"] = "https://" + host + "/evidence"
+                    before = copy.deepcopy(tables)
+                    result = evidence_path(FIXTURE_NODE, GRAPH, BINDINGS, **tables)
+                    self.assertFalse(result["complete"])
+                    self.assertEqual(result[channel], [])
+                    self.assertEqual(result["missing"], [label + " not recorded for FIXTURE-ARTIFACT-v1"])
+                    self.assertEqual(result[other][0]["url"], before[other]["FIXTURE-ARTIFACT-v1"]["url"])
+                    self.assertEqual(result["scientific_effect"], "NONE")
+                    self.assertEqual(tables, before)
+
+    def test_valid_numeric_and_nonnumeric_https_hosts_are_preserved(self):
+        good_hosts = (
+            "example.invalid", "127.0.0.1", "[2001:db8::1]", "2130706433",
+            "0x7f000001", "127.1", "0", "0x", "00", "127.0.0.1.",
+            "0xffffffff", "255.255.255.255", "127.0.65535", "127.16777215",
+            "1.2.65535", "0.0.0.0", "0177.0.0.1", "0X7f.1",
+            "08.example", "example.0xg", "example.1a", "1.2.3.4a",
+            "123.example", "\uff11\uff12\uff17\uff0e0\uff0e0\uff0e1",
+        )
+        for channel in ("receipts", "reviews"):
+            for host in good_hosts:
+                with self.subTest(channel=channel, host=host):
+                    value = "https://" + host + "/evidence?attempt=1#review"
+                    tables = {"receipts": copy.deepcopy(RECEIPTS), "reviews": copy.deepcopy(REVIEWS)}
+                    tables[channel]["FIXTURE-ARTIFACT-v1"]["url"] = value
+                    before = copy.deepcopy(tables)
+                    result = evidence_path(FIXTURE_NODE, GRAPH, BINDINGS, **tables)
+                    self.assertTrue(result["complete"])
+                    self.assertEqual(result["missing"], [])
+                    self.assertEqual(result[channel][0]["url"], value)
+                    self.assertEqual(result["scientific_effect"], "NONE")
+                    self.assertEqual(tables, before)
+
     def test_unknown_node_is_refused(self):
         with self.assertRaises(Refused) as caught:
             evidence_path("fixture.lane1.not-in-graph", GRAPH, BINDINGS)
