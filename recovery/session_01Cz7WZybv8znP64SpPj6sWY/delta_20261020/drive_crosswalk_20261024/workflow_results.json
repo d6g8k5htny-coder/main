@@ -1,0 +1,636 @@
+{
+ "listing_run": "wf_79a8e0a7-dc7",
+ "listing_note": "ten agents, one per modifiedTime window after 2026-09-17, paged the connector search and wrote metadata TSVs locally (ids stay local); their one-line returns are kept here",
+ "listing_returns": [
+  {
+   "window": "w02",
+   "files_written": 511,
+   "pages": 6,
+   "complete": true,
+   "notes": "Six search calls, no errors or retries; pages 1-5 returned 100 files each and were converted to TSV from the saved tool-result files (oversized responses), page 6 returned 11 files inline with no nextPageToken. All 511 lines have 9 tab-separated columns."
+  },
+  {
+   "window": "w03",
+   "files_written": 294,
+   "pages": 3,
+   "complete": true,
+   "notes": "Three search calls returned 100, 100 and 94 files; the third page had no nextPageToken. Each response exceeded the inline token limit and was saved to disk by the harness, so the TSV lines were written from those saved JSON files with a Python script; no errors or retries."
+  },
+  {
+   "window": "w01",
+   "files_written": 844,
+   "pages": 9,
+   "complete": true,
+   "notes": "Nine search calls succeeded with no errors or retries; the first eight pages each returned 100 files and were converted from the harness-saved JSON result files, the ninth returned 44 files inline with no nextPageToken. The converter script in the shared scratchpad was replaced mid-run by a sibling worker with an equivalent version taking an output-path argument; one conversion call failed on the argument change and was re-run, with no duplicate or lost lines (all 844 rows have 9 columns)."
+  },
+  {
+   "window": "w04",
+   "files_written": 119,
+   "pages": 2,
+   "complete": true,
+   "notes": "Two search calls (100 + 19 files); the second page had no nextPageToken. The first page's result exceeded the tool output limit and was saved to disk, so its rows were extracted from that saved JSON rather than from inline output; no retries needed. One id appears twice across the page boundary (a known duplicate-at-boundary behaviour), left as written."
+  },
+  {
+   "window": "w06",
+   "files_written": 23,
+   "pages": 1,
+   "complete": true,
+   "notes": "One search call returned 23 files with no nextPageToken; all lines written in a single pass with no errors or retries."
+  },
+  {
+   "window": "w05",
+   "files_written": 331,
+   "pages": 4,
+   "complete": true,
+   "notes": "Four search calls returned 100, 100, 100 and 31 files; the final page had no nextPageToken. No errors or retries; the first three pages were too large for inline display and were converted from the saved tool-result files, the last was written from the inline response. All 331 TSV lines have 9 columns."
+  },
+  {
+   "window": "w08",
+   "files_written": 22,
+   "pages": 1,
+   "complete": true,
+   "notes": "Single search call returned 22 files with no nextPageToken; all lines written in one pass with no errors or retries."
+  },
+  {
+   "window": "w09",
+   "files_written": 0,
+   "pages": 1,
+   "complete": true,
+   "notes": "The single search call returned an empty response (no files, no nextPageToken), so no file matched this window. An empty TSV was created at the named path; no errors or retries."
+  },
+  {
+   "window": "w07",
+   "files_written": 317,
+   "pages": 4,
+   "complete": true,
+   "notes": "Four search calls succeeded with no errors or retries (100+100+100+17 files); the first three results exceeded the inline size limit and were saved to files, which were parsed with a Python script, and the fourth page was returned inline with no nextPageToken. All 317 TSV lines have exactly 9 columns."
+  },
+  {
+   "window": "w10",
+   "files_written": 11,
+   "pages": 1,
+   "complete": true,
+   "notes": "Single search call returned 11 files with no nextPageToken; all lines written in one Bash call with no errors or retries."
+  }
+ ],
+ "review_run": "wf_64a2565e-5c4",
+ "review_note": "four lenses (privacy and publication rule, hash rule and tiers, counts and text, ledger matching) each followed by a skeptic per finding; confirmed findings were applied before the RESULT was posted; agent scratch not included",
+ "review_results": [
+  {
+   "agent": "a5848e2f5b91a981a",
+   "label": "lens:hashrule",
+   "result": {
+    "findings": [
+     {
+      "id": "F1",
+      "severity": "HIGH",
+      "file": "<SCRATCH>/gdrive/build_out/2026-10-24/ARCHIVE_CARRIERS.tsv",
+      "claim": "Carrier tiers are derived with an unknown size (classify(carrier_sha, None) in own/classify.py, carriers loop), so every carrier that is not in Git or an archive is labelled DRIVE_ONLY_DBX_UNKNOWN_OVER_4MIB regardless of its real size; 34 of the 43 carriers so labelled are 4 MiB or less and their Dropbox identity is derivable.",
+      "evidence": "Joining each carrier id to its snapshot record gives sizes for all 43 UNKNOWN carriers; 34 are <= 4,194,304 bytes (5,558 to 3,511,071 bytes). Re-deriving content_hash = sha256(sha256) for those 34: 32 are absent from the Dropbox table (true tier DRIVE_ONLY) and 2 are present (true tier DBX_EXACT; carrier sizes 131,069 and 2,561,890 bytes). The snapshot records already carry these correct tiers for the same ids, so the publication is internally inconsistent. Affected outputs: carrier_tier column for 34 of 73 rows in ARCHIVE_CARRIERS.tsv; SUMMARY.json archive_members.carriers_by_tier (43/29/1 should be DRIVE_ONLY 32, GIT_EXACT 29, DRIVE_ONLY_DBX_UNKNOWN_OVER_4MIB 9, DBX_EXACT 2, ARCHIVE_EXACT 1); README 'Carriers by tier' line; and the README sentence '3,267 are found nowhere else (all inside carriers over 4 MiB whose Dropbox identity is not derivable)' is false: 2,530 of the 3,267 NOT_FOUND members sit in carriers of 4 MiB or less whose Dropbox identity is derivable and absent, only 737 sit in carriers over 4 MiB. The MEMBER/VIA_CARRIER/NOT_FOUND counts themselves do not change (the 44 members of the two DBX_EXACT carriers are already MEMBER).",
+      "fix": "In classify.py pass the carrier's snapshot byte count (lookup by carrier id in the per-item records) to classify() instead of None, rebuild carriers, ARCHIVE_CARRIERS.tsv, SUMMARY.json and README; reword the NOT_FOUND sentence to split carriers over 4 MiB (identity not derivable) from carriers of 4 MiB or less (derivable, not in Dropbox)."
+     },
+     {
+      "id": "F2",
+      "severity": "LOW",
+      "file": "<SCRATCH>/gdrive/build_out/2026-10-24/DRIVE_CROSSWALK.tsv",
+      "claim": "Delta rows are not de-duplicated by Drive id, so the same Drive object is counted and printed twice when it appears in two delta manifests or in both the inventory and a delta.",
+      "evidence": "9 ids occur twice in the local per-item records (2 inventory+delta, 7 delta+delta listed under two manifests/hubs, e.g. hub 07_MODEL_ACCESSIBILITY_extras and hub DRIVE_STRUCTURE_AUDIT); 7 are files (4 GIT_EXACT, 3 NO_DIGEST). They inflate files_non_personal (3,742), the tier counts, DRIVE_AGGREGATE.tsv and delta_items (58), and the 4 GIT_EXACT objects each appear as two rows in DRIVE_CROSSWALK.tsv (same sha256 and bytes, different hub). classify.py only uses the seen-set for the in_inventory flag.",
+      "fix": "De-duplicate rows by id (keep one record, carry the second hub/manifest as an attribute) before counting and printing, or state in README that items are counted once per manifest listing."
+     },
+     {
+      "id": "F3",
+      "severity": "LOW",
+      "file": "<SCRATCH>/gdrive/build_out/2026-10-24/own/classify.py",
+      "claim": "derive_ch (content_hash = sha256(sha256(bytes))) is not the Dropbox rule for empty files, whose content_hash is sha256 of the empty string; the README states the rule without this carve-out.",
+      "evidence": "The Dropbox table has 138 size-0 entries, all with content_hash e3b0c442...; derive_ch on the empty-file sha256 yields 5df6e0e2.... The Git index itself records e3b0c442... for the two empty blobs (so the index is right and classify.py's rule disagrees with it). 1,221 member rows of 0 bytes carry in_dbx=False (should be True) and dbx_count 0; no tier changes because the empty blob is in Git (GIT_EXACT precedence) and no Drive hashed row is 0 bytes.",
+      "fix": "Special-case size==0 in derive_ch (content_hash = sha256(b'')), and add 'non-empty' to the rule sentence in README."
+     },
+     {
+      "id": "F4",
+      "severity": "LOW",
+      "file": "<SCRATCH>/gdrive/build_out/2026-10-24/PINS.json",
+      "claim": "PINS.json pins the Git index by hash but not the tip commits that the TIP label is relative to, although main's tip has moved since the index was built.",
+      "evidence": "The main-side tip blob set equals the tree of origin/main at 08c98c8f (0 blobs either way) while origin/main is now 8df77725 (10 tip-only, 17 tree-only blobs differ). No published row is affected: 118 TIP rows are on the current origin/main tree and the other 2 TIP rows are Math- tip blobs; all 45 BRANCH_OR_HISTORY rows are off the current tip. Without the pinned commit a reader cannot reproduce TIP.",
+      "fix": "Add the tip commits (main origin/main 08c98c8f, and the Math- tip commit used) to PINS.json next to the git_index hash."
+     }
+    ],
+    "checks_passed": [
+     "(1) 22 GIT_EXACT rows sampled from DRIVE_CROSSWALK.tsv across all 16 (hub x git_where) groups plus both Math- locator rows: git cat-file blob in the main checkout, sha256 of the bytes equals the printed sha256, byte length equals the printed bytes, and sha256(sha256(bytes)) equals the git_index dbx value for that blob (git_index sha256 and size also agree). Verification script: <SCRATCH>/gdrive/review_scratch/chk1_git.py",
+     "(1b) All 1,666 GIT_EXACT locator blob ids resolve in the Git index to the printed sha256 (0 mismatches); git_index dbx obeys sha256(sha256) for every blob of 4 MiB or less except the two empty blobs (where it correctly holds the Dropbox empty-file hash), and the 12 blobs over 4 MiB carry block hashes.",
+     "(2) 8 sampled DBX_EXACT items and then all 293: derived content_hash is present in the Dropbox table with the identical size, dbx_count matches the number of Dropbox paths; no DRIVE_ONLY row of 4 MiB or less has a Dropbox match; the in_dbx flag is consistent with the rule for every hashed row. Script: review_scratch/chk2_dbx.py",
+     "(3) All 17 hashed Drive files over 4,194,304 bytes have in_dbx None and tiers GIT_EXACT 4 / ARCHIVE_EXACT 3 / DRIVE_ONLY_DBX_UNKNOWN_OVER_4MIB 10; all 10 UNKNOWN-tier Drive rows are truly over 4 MiB; no hashed Drive row has an unknown or exactly-4 MiB size; the 27 member rows over 4 MiB have in_dbx None and no Dropbox tier; SUMMARY over_4mib count (17) matches. Script: review_scratch/chk3_over4.py",
+     "(4) Tier precedence (GIT_EXACT > ARCHIVE_EXACT > DBX_EXACT > UNKNOWN_OVER_4MIB > DRIVE_ONLY) recomputed from the raw Git index, archive indexes and Dropbox table for all 4,514 rows: 0 mismatches; git_where recomputed from full path lists: 0 mismatches (the [:6] path truncation is harmless, no blob has more than 6 paths); on_tip flags match tip_blobs; TIP rows are in tip_blobs for their repo; all 1,506 DRIVE_MIRROR_BRANCH rows have every path under drive/; the TSV tier/git_where/bytes/sha agree with the local records for all 1,690 digest-bearing rows; LEDGER_DRIVE.tsv tiers agree for all 527 hits. Script: review_scratch/chk4_tier.py",
+     "(5) MEMBER / VIA_CARRIER / NOT_FOUND reproduced for all 11,649 members from the member CSV and indexes: 0 mismatches against the local member records and against ARCHIVE_CARRIERS.tsv; carrier tiers are derived from the Carrier SHA-256 column and that digest equals the snapshot digest for every carrier present in the snapshot; per-row counts sum to members and totals are 11,649 / 8,042 / 340 / 3,267; no exact-tier carrier has NOT_FOUND members and no non-exact carrier has VIA_CARRIER members. Script: review_scratch/chk5_members.py (the size=None defect is F1)",
+     "(6) Delta rows: a digest is carried only when stored and exact (30 rows, all GIT_EXACT); the 8 stored-but-not-exact rows (reading-copy exports) and the 1 not-stored row that has a digest are NO_DIGEST with no sha256; 19 unstored rows are NO_DIGEST or FOLDER; bytes_drive equals bytes_stored on every exact row; all 30 delta rows in DRIVE_CROSSWALK.tsv are GIT_EXACT. Script: review_scratch/chk6_delta.py",
+     "PINS.json sha256 values for the Git index (32,221 blobs), the Dropbox table (5,724 entries) and the local full crosswalk match the files; SUMMARY.json tier counts, git_exact_where and hashed-file counts match the local records; both archive member indexes obey the content_hash rule (0 violations for non-empty members of 4 MiB or less)."
+    ]
+   }
+  },
+  {
+   "agent": "abff980dafcefb3bf",
+   "label": "lens:privacy",
+   "result": {
+    "findings": [
+     {
+      "id": "P-1",
+      "severity": "MEDIUM",
+      "file": "<SCRATCH>/gdrive/build_out/2026-10-24/LEDGER_DRIVE.tsv",
+      "claim": "289 of the 527 rows are per-item lines for Drive items that are neither title-public nor bytes-public (tier NO_DIGEST 260, DBX_EXACT 20, DRIVE_ONLY 8, DRIVE_ONLY_DBX_UNKNOWN_OVER_4MIB 1), contrary to the stated row-level rule, and each such row prints `matched_tokens`, a word of the hidden non-public title together with hub, tier, live_status and drv_map.",
+      "evidence": "Positional join of the TSV to the private hit list sorted exactly as build_pub.py sorts it (by ledger row, STRONG first, title) gives 0 field mismatches; 514 rows have a blank drive_title_if_public, of which 225 are GIT_EXACT/ARCHIVE_EXACT (allowed) and 289 are not. The single token covers up to 70% of the hidden title stem (11 rows >= 50%); 247 distinct hidden items, 113 hit by more than one row (union coverage <= 50% for 3 items). README/SUMMARY describe the row-level rule as 'per-file lines only where the title is already on main or the bytes are already public'.",
+      "fix": "Drop LEDGER_DRIVE rows whose item is neither title-public nor bytes-public, or replace them by one aggregate line per ledger row (hit count by tier, no tokens); print matched_tokens only when the Drive title is itself printed."
+     },
+     {
+      "id": "P-2",
+      "severity": "LOW",
+      "file": "<SCRATCH>/gdrive/build_out/2026-10-24/ARCHIVE_CARRIERS.tsv",
+      "claim": "37 of the 73 rows are per-carrier lines for carriers with a non-public title and non-public bytes (tier DRIVE_ONLY_DBX_UNKNOWN_OVER_4MIB, title blank), printing hub, tier and four exact member counts; this is a per-file line for a non-public item under the stated rule, and the exact member counts are a fingerprint joinable to the member list on the hardening branch.",
+      "evidence": "Row-by-row join to carriers.json/member_rows.json in build order (73 rows = 73 non-personal carriers, member counts match): by (tier, titled) the rows are OVER_4MIB untitled 37, GIT_EXACT untitled 24, OVER_4MIB titled 6, GIT_EXACT titled 5, ARCHIVE_EXACT untitled 1. No title, digest, bytes or id is printed on these rows.",
+      "fix": "Collapse carriers that are neither title-public nor bytes-public into one line per hub x tier with summed member counts (or counts only when fewer than 3 carriers), keeping per-carrier lines only for public carriers."
+     },
+     {
+      "id": "P-3",
+      "severity": "LOW",
+      "file": "<SCRATCH>/gdrive/build_out/2026-10-24/DRIVE_AGGREGATE.tsv",
+      "claim": "The 3-file floor holds per cell, but after subtracting the exact bytes of the public rows printed in DRIVE_CROSSWALK.tsv, 4 byte-printing cells leave only 1-2 non-public files whose byte size is inferred to within 1-42 KB, and the tier totals in SUMMARY.json/README.md size the single count-only file of tier DRIVE_ONLY_DBX_UNKNOWN_OVER_4MIB (hub 01_ACTIVE_RESEARCH_PACKAGES, class (other)) to about 7.2 MB within 23 KB.",
+      "evidence": "Recomputed every cell from the private rows: hub 02_LEGACY DBX_EXACT text (18 files, 1 non-public: inferred within 41,908 bytes of actual), hub 02_LEGACY NO_DIGEST google-doc (8 files, 1 non-public: within 27,538), hub 02_LEGACY DBX_EXACT (other) (3 files, 2 non-public: within 1,059), hub 05_FOUNDATIONS DRIVE_ONLY (other) (3 files, 2 non-public: within 12,819); tier total 145,300,000 minus the 9-file zip cell 138,100,000 = 7,200,000, actual within 23,329 bytes.",
+      "fix": "Apply the 3-file floor to the non-public residual of each cell (merge into (other) or print count only when fewer than 3 non-public files remain), and omit or coarsen tier totals for tiers that have count-only cells."
+     },
+     {
+      "id": "P-4",
+      "severity": "LOW",
+      "file": "<SCRATCH>/gdrive/build_out/2026-10-24/DRIVE_CROSSWALK.tsv",
+      "claim": "Two hub names that are Drive folder titles, DRIVE_STRUCTURE_AUDIT and 2026-09-18_REUSABLE_OPERATIONS, are printed by name (hub column: 3 rows each; also DRIVE_AGGREGATE.tsv rows and SUMMARY.json by_parent_hub_when_known) although neither string occurs anywhere on origin/main; they are whitelisted in hublabel() while other unlisted hubs are folded into (other hub).",
+      "evidence": "git grep -F over origin/main: 0 files for both strings (the other 9 printed hub names occur in 1-12 files on origin/main). The strings occur only on 84 remote branches (drive/deltas manifests, docs/RESEARCH_MAP.md, engine/operations/README.md), i.e. not on main.",
+      "fix": "Fold these two hubs into (other hub) like the other unlisted hubs, or cite the origin/main location that makes the names public before printing them."
+     }
+    ],
+    "checks_passed": [
+     "DRIVE_CROSSWALK.tsv row rule: all 1,840 rows joined back to the private row set by (hub label, tier, sha256 or title, bytes, class, source, live_status, digest_state, drv_map) with 0 unmatched; every matched item is title-public (exact case-insensitive match to a DRV-H2/DRV-H3 name at origin/main blobs f750f13f/85d072e7, no Drive-shaped token) or bytes-public (GIT_EXACT/ARCHIVE_EXACT); 0 rows with neither; 0 personal-lane items; the item set equals the expected 1,836 eligible items (4 ids carry both an inventory and a delta row).",
+     "Titles: 252 printed titles are all DRV-map names; 4 map-listed titles containing a 33-character mixed-case token (not Drive-shaped) were suppressed, more conservative than required; no title is printed on any ARCHIVE_EXACT row.",
+     "Digests: 1,690 sha256 values printed only on GIT_EXACT (1,666; all present in the 32,221-blob Git index) and ARCHIVE_EXACT (24; all also listed as payload digests in the archive member CSV at a01c72f1 blob 76be6e96); 0 digests on DBX_EXACT, DRIVE_ONLY, OVER_4MIB or NO_DIGEST rows; no Dropbox content_hash printed anywhere.",
+     "Exact byte counts: printed only on crosswalk rows, all of which are title- or bytes-public; LEDGER_DRIVE.tsv and ARCHIVE_CARRIERS.tsv print no bytes.",
+     "Drive id scan: 0 tokens of 33 or 44 characters starting with '1' and not all-hex in any of the 12 published files (regex re-implemented from tools/privacy/drive_id_scan.py at origin/main blob f34a69a7, not the build's guard); a broader scan for 25-44-character mixed-case non-hex tokens finds only separator-bearing titles/labels starting with a letter or '0', and no token of length 28, 33 or 44.",
+     "DRV-map titles embedding an id-shaped token: 0 of the 786 map names embed a Drive-shaped token; 71 embed a broader id-shaped token, 24 of those are printed, none Drive-shaped.",
+     "Emails, URLs, namespace ids: 0 email-shaped strings; 0 http(s), drive.google, docs.google, dropbox, rlkey, ns:<digits> or id:<token> markers in any published file (the only regex matches are the pattern literals inside own/build_pub.py); no digit run of 9+ characters other than two rounded byte totals.",
+     "Owner identification: the single owner address present in the live listing and the private rows does not occur in any published file, nor its local part; 4-character fragments hit only the common word 'real'; 'owner' occurs only as a role word; no personal name; PINS.json and README.md name only the authoring Claude session prefix and 'the author'.",
+     "Personal lane: 0 personal titles (length >= 3), 0 personal sha256, 0 personal ids in any published file; the personal lane appears only as the hub-name prefix 03_PERSONAL_AND_EARLIER_RESEARCH in README/SUMMARY/own (a string already on origin/main in 2 files); personal files are excluded from all aggregates (3,742 non-personal files) and counted (17) only.",
+     "Non-public titles anywhere (including Git paths): no non-public title of length >= 6 is printed as a cell or path component; the substring hits found are shorter non-public titles contained inside longer public titles, plus the repo filename drive/source_map/Archive_Members.csv cited in README.md (which coincides with the name of one unrelated non-public Drive CSV in hub 07) - benign.",
+     "Repo paths and blob ids: 48 repo paths and 1,668 blob ids in the crosswalk, locators on 29 GIT_EXACT carriers only; 0 paths under drive/; 0 path basenames equal to a non-public Drive title; 0 non-public titles (length >= 4) as path substrings; all 1,478 distinct blob ids are in the Git index; all 1,476 main blobs are reachable from origin/* (git rev-list --objects --remotes=origin); the 2 Math- blobs verified by index membership only.",
+     "archive_member column: its two 8-hex values are the public labels of the two reassembled archives (the DG-MIGRATION object label, present in 10 files on origin/main, and a git blob prefix named in the main#594 branch), not digest prefixes of non-public bytes.",
+     "DRIVE_AGGREGATE.tsv: all 70 cells recomputed exactly from the private rows (file counts and bytes rounded to 100,000); the 16 cells with fewer than 3 files print a blank bytes column; every printed byte total is a multiple of 100,000; file total 3,742; SUMMARY.json tier totals are multiples of 100,000 and the README MB figures derive from them.",
+     "LEDGER_DRIVE.tsv: the 13 printed Drive titles are all title-public; 0 personal items; 0 Drive tokens, emails or URLs; positional join to the hit list has 0 mismatches.",
+     "ARCHIVE_CARRIERS.tsv: the 11 printed carrier titles are all DRV-map names; 73 rows equal the 73 non-personal carriers; member counts match the member rows; 0 Drive tokens or emails.",
+     "own/: scratch and checkout roots replaced by placeholders; no Drive id, title, email or URL literal in any of the five scripts (classify.py, which the build guard exempts from its title check, was read in full); readme_drive.py identical to the original.",
+     "PINS.json: the DRV-map and snapshot blob ids match git rev-parse at origin/main and a01c72f1; a01c72f1 is reachable from a remote branch.",
+     "Noted, not a violation: blank-title GIT_EXACT rows are sorted by their hidden title and interleave with titled rows in 6 hub x tier groups; the blob id already locates these files, which the stated rule permits."
+    ]
+   }
+  },
+  {
+   "agent": "a1b2a8dc81342e0c7",
+   "label": "lens:counts",
+   "result": {
+    "findings": [
+     {
+      "id": "F1",
+      "severity": "HIGH",
+      "file": "build_out/2026-10-24/README.md",
+      "claim": "The Liveness bullet and paragraph say the listing 'marks snapshot items touched since the snapshot' and that STALE_SAME_SIZE 'means touched after the snapshot with the same byte count (moves and renames bump the time)'; the published counts CHANGED_AFTER_SNAPSHOT 349 and STALE_SAME_SIZE 277 (also in SUMMARY.json liveness.*) therefore over-state change since the snapshot.",
+      "evidence": "Recomputed from the ten live-listing TSVs: the listing cutoff is 2026-09-17T00:00Z, i.e. the start of the snapshot day, not the snapshot time (the inventory records carry no modifiedTime, so the scripts cannot compare). 266 of the 349 CHANGED files have createdTime == modifiedTime in the connector's own metadata (245 dated 2026-09-17, 18 dated 09-18, 3 dated 09-19) - they were never modified after creation, yet they are in the snapshot publication, so the snapshot saw their final state. 234 of the 277 STALE_SAME_SIZE digests belong to such files, and all 234 have the same title and the same parent folder as in the snapshot, so 'moves and renames' does not explain them. Only 64 CHANGED files (35 STALE_SAME_SIZE) have a live modifiedTime on or after 2026-09-18. The direction is conservative for digests (more marked stale than warranted) but the sentences are false as statements of fact.",
+      "fix": "Either (a) rename the status to what the listing shows (MODIFIED_AFTER_2026-09-17T00Z) and state that the cutoff pre-dates the snapshot time, or (b) treat items with createdTime == modifiedTime as untouched (digest CURRENT) and report 349 -> 83 possibly-changed files and 277 -> 43 possibly-stale digests, giving both numbers; in either case drop the '(moves and renames bump the time)' explanation or support it with a title/parent comparison."
+     },
+     {
+      "id": "F2",
+      "severity": "MEDIUM",
+      "file": "build_out/2026-10-24/README.md",
+      "claim": "'a digest is CURRENT only for untouched items' (Liveness bullet) and 'nothing modified after the snapshot has a current digest here' (Limits) do not describe the published data.",
+      "evidence": "26 hashed files have live_status CHANGED_AFTER_SNAPSHOT and digest_state CURRENT (23 from the 2026-09-18 delta, 3 from 2026-09-19): liveness.py marks a digest CURRENT when a dated delta re-hashed the item at or after the live modifiedTime. CURRENT 1,799 therefore includes 26 touched items with a valid later digest.",
+      "fix": "State the actual rule: CURRENT = not in the listing, or re-hashed by a dated delta (18-20 September) at or after the item's last modification; amend the Limits bullet to 'nothing modified after the last delta (2026-09-20) has a current digest here'."
+     },
+     {
+      "id": "F3",
+      "severity": "MEDIUM",
+      "file": "build_out/2026-10-24/README.md",
+      "claim": "'83 of them had no Dropbox name match in main#594' contradicts the prose of main#594 itself, which prints 30 MISSING-proof rows with a name-matched Dropbox file (implying 101 without).",
+      "evidence": "main#594's README (branch r3, audits/dropbox_import/2026-10-24) says 'Of the 131 rows with a MISSING proof source, 30 have at least one name-matched Dropbox file'. Its row-level LEDGER_CROSSWALK.tsv indeed covers 30 such rows (-> 101 without); its SUMMARY.json ledger_hits_aggregated adds 18 more rows (hits in withheld folders), giving 48 with a hit -> 83 without, which is the figure the local summary and this README use. Under the 101-row reading, the '13 of them without a Dropbox carrier' list becomes 21 rows (adds 59, 144, 206, 210, 211, 212, 214, 222).",
+      "fix": "Say how 83 is derived: 'no row-level or aggregated name hit in main#594 (48 rows have one: 30 in LEDGER_CROSSWALK.tsv plus 18 counted only in SUMMARY.json ledger_hits_aggregated; main#594's README prose counts the 30 row-level rows)'."
+     },
+     {
+      "id": "F4",
+      "severity": "MEDIUM",
+      "file": "build_out/2026-10-24/README.md",
+      "claim": "The README does not state what the liveness listing cannot show, and presents 'Listing complete: True' as a fact rather than a self-report.",
+      "evidence": "Nothing in the Liveness bullet or Limits says that (a) a modified-after search cannot see deletions or trashing, so UNCHANGED/CURRENT does not mean the item still exists or is still reachable; (b) 'complete' is the listing agents' flag in the parts manifest, not verifiable from the TSVs, and one of the ten windows (w09, covering 2026-10-23) returned zero items; (c) 85 duplicate lines across windows were de-duplicated to 2,387 ids; (d) the cutoff pre-dates the snapshot time (F1); (e) a modifiedTime bump need not be a content change. The only stated limit is 'the connector exposes no checksum'.",
+      "fix": "Add a Limits bullet: 'The live listing is metadata from a modified-after search: it cannot show deletions or trashing (UNCHANGED means not re-modified, not still present), its completeness is the listing agents' report (one window returned no items), 85 duplicate lines were merged, and its 00:00Z cutoff on the snapshot day pre-dates the snapshot run.'"
+     },
+     {
+      "id": "F5",
+      "severity": "MEDIUM",
+      "file": "build_out/2026-10-24/README.md",
+      "claim": "'for those the maps' md5/sha: MISSING gap is filled by the snapshot digest where one exists (drv_map column)' over-states what DRIVE_CROSSWALK.tsv delivers.",
+      "evidence": "Digests are printed only for public bytes (GIT_EXACT, ARCHIVE_EXACT). Of the 251 title-public files, 167 carry a digest, but 66 of them (DBX_EXACT 46, DRIVE_ONLY 19, DRIVE_ONLY_DBX_UNKNOWN_OVER_4MIB 1) have the sha256 cell blank; only 101 gaps are filled. Also, only DRV-H2.map.csv has an md5 column (reading 'MISSING (connector exposes size only)'); DRV-H3_drive_map.csv has no md5/sha column at all.",
+      "fix": "Write 'filled where the bytes are already public: 101 of the 167 title-public files with a digest; 66 digests (DBX_EXACT 46, DRIVE_ONLY 19, over-4 MiB 1) are withheld and held locally', and refer to the DRV-H2 md5 column only."
+     },
+     {
+      "id": "F6",
+      "severity": "MEDIUM",
+      "file": "build_out/2026-10-24/SUMMARY.json",
+      "claim": "row_level_rule says 'aggregated by hub x tier x class with no cell below 3 files' (also quoted in the README Files bullet), but DRIVE_AGGREGATE.tsv contains cells below 3 files.",
+      "evidence": "DRIVE_AGGREGATE.tsv has 68 cells, 15 of them below three files (5 with 1 file, 10 with 2), printed with the count and no bytes; the README's DRIVE_AGGREGATE bullet acknowledges this ('a cell still below three prints its file count only'), so the rule text contradicts both the table and the neighbouring bullet.",
+      "fix": "Reword the rule in SUMMARY.json and the README to 'classes below 3 files are merged into (other) per hub and tier; a cell still below 3 files prints its count only, no bytes'."
+     },
+     {
+      "id": "F7",
+      "severity": "LOW",
+      "file": "build_out/2026-10-24/README.md",
+      "claim": "'251 snapshot files carry a title that the DRV maps already print' is inconsistent with the drv_map column.",
+      "evidence": "255 non-personal files have a title in the maps and the drv_map column is set on 255 DRIVE_CROSSWALK.tsv rows; 4 are excluded from the 251 (and have their title withheld) only because the title contains an id-shaped token. One of the 251 is a delta record rather than an inventory record.",
+      "fix": "Say '255 files (4 titles withheld as id-bearing; drv_map set on all 255)' or exclude the 4 from the drv_map column consistently."
+     },
+     {
+      "id": "F8",
+      "severity": "LOW",
+      "file": "build_out/2026-10-24/README.md",
+      "claim": "'2,076 files carry a SHA-256 in that publication' under-counts the publication.",
+      "evidence": "The publication carries 2,085 files with a SHA-256; 2,076 is the count outside the personal lane (9 hashed files are in the personal lane and counted only).",
+      "fix": "Write '2,085 files carry a SHA-256 in that publication, 2,076 of them outside the personal lane'."
+     },
+     {
+      "id": "F9",
+      "severity": "LOW",
+      "file": "build_out/2026-10-24/README.md",
+      "claim": "'only in the drive/ mirror tree of the hardening branches (DRIVE_MIRROR_BRANCH)' and 'on a tip (TIP)' are imprecise.",
+      "evidence": "The drive/ tree was on main itself from a97f7b04 (2026-09-18) to the revert f35eef1b (2026-09-23), both ancestors of origin/main; all 200 sampled DRIVE_MIRROR_BRANCH blobs are reachable from origin/main's history. The label is path-based (every Git path of the blob starts with drive/), not branch-based. TIP is as of the index tips (main 08c98c8f, 32 commits behind origin/main 8df77725) - PINS.json says so, the README does not.",
+      "fix": "Write 'found in Git only under drive/ paths (the mirror tree, on main 2026-09-18..23 and on the hardening branches)' and add 'TIP as of the index tips listed in PINS.json' to the Git-side bullet."
+     },
+     {
+      "id": "F10",
+      "severity": "LOW",
+      "file": "build_out/2026-10-24/README.md",
+      "claim": "'3,267 are found nowhere else' slightly over-reaches for members whose own Dropbox identity was not checked.",
+      "evidence": "Of the 3,267 NOT_FOUND members, 5 have member tier DRIVE_ONLY_DBX_UNKNOWN_OVER_4MIB (member payload over 4 MiB), so they were checked against Git and the archives only; the other 3,262 were checked against all three sources.",
+      "fix": "Add '(5 of them over 4 MiB, Dropbox not checked)'."
+     },
+     {
+      "id": "F11",
+      "severity": "LOW",
+      "file": "build_out/2026-10-24/SUMMARY.json",
+      "claim": "liveness.new_since_snapshot.by_class counts the 72 new folders under 'google-doc'.",
+      "evidence": "mclass() maps any google-apps mime, including the folder mime, to 'google-doc'; the 838 'google-doc' items include the 72 folders the README reports separately, so by_class is not a file-class breakdown.",
+      "fix": "Add a 'folder' class (google-doc 766, folder 72) or note the inclusion."
+     },
+     {
+      "id": "F12",
+      "severity": "LOW",
+      "file": "build_out/2026-10-24/README.md",
+      "claim": "Terminology over-states the ledger evidence: '13 of them without a Dropbox carrier' (and the SUMMARY key missing_proof_rows_hit_without_dropbox_carrier / LEDGER_DRIVE.tsv column no_dropbox_carrier), and 'The same name rule applied to Drive titles'.",
+      "evidence": "The computed property is 'zero STRONG and zero WEAK Dropbox name hits', which the preceding sentence correctly calls 'no Dropbox name match'; 'carrier' suggests byte-level evidence. The Drive variant of the rule matches tokens against the Drive path below the hub (adjacent-token and pair rules), not titles alone, and omits the .export.txt stem normalisation of the Dropbox variant; 414 of the 527 hits are on rows whose proof is not MISSING.",
+      "fix": "Use 'without a Dropbox name hit' throughout (README, SUMMARY key, TSV column) and 'applied to Drive paths below the hub'; optionally state '527 hits over all 344 rows, 113 of them on MISSING-proof rows'."
+     },
+     {
+      "id": "F13",
+      "severity": "LOW",
+      "file": "build_out/2026-10-24/DRIVE_AGGREGATE.tsv",
+      "claim": "'a cell still below three prints its file count only' over-states the withholding: the bytes of a small cell are recoverable from the tier table.",
+      "evidence": "Summing the printed hub x tier cells per tier and subtracting from the tier table gives the hidden bytes, e.g. the single DRIVE_ONLY_DBX_UNKNOWN_OVER_4MIB '(other)' file in hub 01 = 145.3 MB - 138.1 MB = 7.2 MB (to 100 KB); NO_DIGEST 27.8 MB vs 24.9 MB printed.",
+      "fix": "Either accept and say so, or round tier totals in the README to 1 MB so single-file sizes are not derivable."
+     }
+    ],
+    "checks_passed": [
+     "Directory state: the review directory was rebuilt at 2026-10-24T22:18:04Z while the review ran; all results refer to README.md sha256 prefix 3e61abfe and SUMMARY.json f9529a0a. The 22:02 version had three defects that the rebuild removed (9 duplicate Drive ids counted twice; carriers classified with unknown size, giving 43 over-4 MiB carriers where the real-size count is 9; the sentence 'all inside carriers over 4 MiB').",
+     "Items: 4,456 inventory lines (byte-identical to the pinned blob at a01c72f1), 58 delta records -> 49 new ids (2 already in the inventory, 7 in two deltas), 4,505 rows = 4,505 distinct ids; folders 753 + non-personal files 3,735 + personal-lane files 17 = 4,505.",
+     "Hashed files: 2,076 outside the personal lane; 17 with Dropbox identity not derivable, all with a known size over 4 MiB (10 DRIVE_ONLY_DBX_UNKNOWN_OVER_4MIB, 4 GIT_EXACT, 3 ARCHIVE_EXACT).",
+     "Tiers: all six file counts and 100 KB-rounded byte totals reproduce (ARCHIVE_EXACT 24 / 42.1 MB, DBX_EXACT 293 / 11.3 MB, DRIVE_ONLY 87 / 37.6 MB, OVER_4MIB 10 / 145.3 MB, GIT_EXACT 1,662 / 66.3 MB, NO_DIGEST 1,659 / 27.8 MB); sum 3,735; NO_DIGEST = 1,652 native Google items + 7 delta rows without a stored object.",
+     "git_exact_where recomputed from the full Git index (every path of every blob, no truncation): BRANCH_OR_HISTORY 45, DRIVE_MIRROR_BRANCH 1,497, TIP 120 = 1,662; every GIT_EXACT crosswalk row carries a git_where.",
+     "Dropbox overlap: 882 Drive files with a derived content_hash present in the Dropbox table (DBX_EXACT 293 + GIT_EXACT 576 + ARCHIVE_EXACT 13); 814 distinct MISSING+DUP_IN_DROPBOX content hashes recomputed from the phase-3 table and confirmed as the figure main#594's README and SUMMARY print; 287 of them also carried by a Drive file.",
+     "Archive members: 11,649 members, MEMBER 8,042 / VIA_CARRIER 340 / NOT_FOUND 3,267; 73 carriers by tier ARCHIVE_EXACT 1, DBX_EXACT 2, DRIVE_ONLY 32, OVER_4MIB 9, GIT_EXACT 29, now computed with the carriers' real sizes and identical to the row-level tier of the same items; NOT_FOUND split 2,530 (DRIVE_ONLY carriers) / 737 (over-4 MiB carriers); all VIA_CARRIER members sit in GIT_EXACT carriers; ARCHIVE_CARRIERS.tsv has 73 rows whose four count columns sum to the same totals; no carrier is in the personal lane or missing from the snapshot.",
+     "Liveness counts: 2,472 TSV lines -> 2,387 distinct ids (85 duplicates); CHANGED_AFTER_SNAPSHOT 349 recomputed directly from TSV ids, UNCHANGED 3,386 (sum 3,735); CURRENT 1,799 + STALE_SAME_SIZE 277 = 2,076, no size-changed STALE; all ten window files present and flagged complete; window modified ranges are contiguous from 2026-09-17T00:49Z to 2026-10-24T21:05Z with no items dated 2026-10-23.",
+     "New since snapshot: 2,000 ids unknown to the snapshot, 72 folders, 493 titles in the DRV maps, 1,462 with a parent not in the snapshot; by_class sums to 2,000; by_parent_hub (538) + parent_not_in_snapshot (1,462) = 2,000.",
+     "Ledger: 344 rows, 131 with proof MISSING, 83 with no row-level or aggregated Dropbox hit (matches the union of main#594's published tables, see F3), 527 Drive name hits = 527 LEDGER_DRIVE.tsv rows, 32 distinct MISSING-proof rows hit, the 13-row list, 0 STRONG, hit tiers DBX_EXACT 11 / DRIVE_ONLY 3 / GIT_EXACT 25 / NO_DIGEST 74 (all 74 are native Google items); no hit item is a folder or personal-lane file; no_dropbox_carrier=Y appears only on MISSING-proof rows.",
+     "DRV maps: 135 and 651 rows read from the origin/main blobs pinned in PINS.json; 251 title-public files; 251 titles printed and 1,686 digests printed in DRIVE_CROSSWALK.tsv, exactly the GIT_EXACT+ARCHIVE_EXACT rows.",
+     "row_level_rows 1,836 = DRIVE_CROSSWALK.tsv data rows = recomputed eligible set (title public or bytes public); DRIVE_AGGREGATE.tsv's 68 cells reproduce cell-for-cell (hub, tier, class, files, rounded bytes), files sum 3,735, and cells below 3 files print no bytes.",
+     "PINS.json: inventory and Archive_Members blobs match a01c72f1 and the local copies byte-for-byte; DRV map blobs match origin/main; Git index 32,221 entries and sha256; Dropbox table 5,724 entries and sha256; local crosswalk sha256 and live-listing concatenation sha256 match the current files; index tip 08c98c8f is an ancestor of origin/main 8df77725 (32 commits behind) as the pin note says; f35eef1b is dated 2026-09-23 and reverts the drive/ port; the five own/ scripts are identical to the sources after root substitution.",
+     "Rule text: the empty-file content_hash case is implemented in classify.py; the 4 MiB limit affects only the Dropbox column (17 files); README numbers are generated from SUMMARY.json and every hard-coded figure (4,456; 32,221; 344; 131; 814) was verified independently."
+    ]
+   }
+  },
+  {
+   "agent": "a39a8fcf5ab31aa11",
+   "label": "skeptic:hashrule:F1",
+   "result": {
+    "id": "F1",
+    "refuted": true,
+    "reason": "The defect described (classify(carrier_sha, None) in the carriers loop) is not present in the build under review. The published own/classify.py (identical to the working script except for root-path substitution) looks up each carrier's snapshot byte count by carrier id and passes it to classify(), with an inline comment marking this as the F1 fix. I re-derived every carrier tier independently (python3 -I, from Archive_Members.csv carrier digests, drive_rows.json sizes, the Git blob index, the two archive indexes, and the Dropbox content_hash table using sha256(sha256) for files of 4 MiB or less and the empty-file rule): 73 carriers, all 73 have a snapshot size, tiers GIT_EXACT 29, DRIVE_ONLY 32, DRIVE_ONLY_DBX_UNKNOWN_OVER_4MIB 9, ARCHIVE_EXACT 1, DBX_EXACT 2; zero mismatches against carriers.json, zero against the per-item snapshot records, and the 9 UNKNOWN carriers are all over 4 MiB (smallest about 6.2 MB). The published ARCHIVE_CARRIERS.tsv sums to the same 29/32/9/1/2 across its 39 rows, with no public per-carrier row whose tier differs from my derivation; members_not_found by carrier tier is DRIVE_ONLY 2,530 and UNKNOWN 737 (total 3,267), matching my independent member-level count. SUMMARY.json archive_members.carriers_by_tier and not_found_by_carrier_tier already carry exactly these values, and the README already prints the split sentence ('2,530 inside DRIVE_ONLY carriers, 737 inside DRIVE_ONLY_DBX_UNKNOWN_OVER_4MIB carriers; the over-4 MiB carriers' Dropbox identity is not derivable') plus the matching 'Carriers by tier' line. For completeness I also ran the old rule (size=None) and got GIT_EXACT 29 / UNKNOWN 43 / ARCHIVE_EXACT 1, confirming the finding described a superseded version of the script, not the 2026-10-24 build directory. No internal inconsistency remains in the published files.",
+    "corrected_severity": "NONE"
+   }
+  },
+  {
+   "agent": "a345bb01694bad0bb",
+   "label": "skeptic:hashrule:F2",
+   "result": {
+    "id": "F2",
+    "refuted": true,
+    "reason": "The raw input does contain the duplication the finding describes (I counted 58 delta lines with an id, 51 distinct, 7 ids listed under two manifests and 2 also in the inventory, 9 in all, 7 of them files: 4 GIT_EXACT, 3 NO_DIGEST), but the published directory does not carry it. The classify.py under review (and the copy in build_out/2026-10-24/own/, identical after root substitution) already has a de-dup branch before the delta loop appends: an id already present is skipped and its second manifest folder is recorded as an also_in_deltas attribute. I re-read the per-item records (sha256 matches PINS.json's pin, so they are the ones the build consumed): 4,505 records, 4,505 distinct ids, 0 ids occurring twice, 9 records carrying also_in_deltas (7 delta-sourced, 2 inventory-sourced), 49 delta-source records. SUMMARY.json prints delta_items 49 and files_non_personal 3,735, not the 58 and 3,742 the finding quotes; tier counts sum to 3,735, GIT_EXACT 1,662 equals the git_exact_where sum, DRIVE_AGGREGATE.tsv sums to 1,899 = 3,735 - 1,836 crosswalk rows. In DRIVE_CROSSWALK.tsv each of the 4 GIT_EXACT duplicate ids appears exactly once (one row per digest+size, one distinct id each); of the 149 digest+size keys with more than one row (14 across differing hubs) none has more rows than distinct Drive ids with that digest and size, so the remaining repeats are genuinely distinct Drive objects with identical bytes. README.md states the once-per-id rule explicitly. File mtimes agree (classify.py and the records 22:17, build 22:24). The finding describes the pre-fix state; nothing in the directory being published reproduces it.",
+    "corrected_severity": "NONE"
+   }
+  },
+  {
+   "agent": "ade1b7222271bea19",
+   "label": "skeptic:hashrule:F3",
+   "result": {
+    "id": "F3",
+    "refuted": true,
+    "reason": "The defect does not reproduce against the directory under review. (1) own/classify.py lines 25-28 already define EMPTY_SHA=sha256(b'') and derive_ch returns EMPTY_SHA when size==0 or sha==EMPTY_SHA, with an inline comment stating the empty-block-list rule; the working copy differs from the published copy only by path placeholders (<SCRATCH>, <MAIN_CHECKOUT>). (2) README.md line 8 (and readme_drive.py that generates it) already reads 'For a non-empty file of 4 MiB or less the Dropbox content_hash is the SHA-256 of its SHA-256 (an empty file's is the SHA-256 of nothing)', i.e. the carve-out the finding asks to add is present. (3) The generated data the build consumes was produced after the fix: classify.py mtime 22:17:09, member_rows.json/drive_rows.json 22:17:37-38, build directory 22:24; sha256 of the local drive_rows.json (7723b1dc...) equals the pin in PINS.json, as do the Dropbox table (fb7ae837...) and Git index (a41ad010...) pins. (4) In member_rows.json all 1,221 size-0 rows carry content_hash e3b0c442..., in_dbx=True and dbx_count=138, the opposite of the claimed in_dbx=False / dbx_count 0; an independent recomputation (python3 -I) over Archive_Members.csv against the Dropbox table with the carve-out rule agrees with the generated flags on all 11,617 size-eligible member rows, 0 disagreements. The naive rule would indeed miss those 1,221 rows (sha256(sha256(empty))=5df6e0e2... has 0 Dropbox matches while e3b0c442... has 138; the Git index's two empty blobs also record e3b0c442...), so the reviewer's background facts are correct but describe a pre-fix state, not this build. No Drive hashed row or carrier is 0 bytes, so the 882 overlap figure and all tiers are unaffected either way, as the finding itself concedes. Only residue: the module docstring on own/classify.py line 5 still phrases the rule without the 'non-empty' qualifier, while the function comment two lines below and the README carry it; a cosmetic docstring nit with no effect on any published number.",
+    "corrected_severity": "NONE"
+   }
+  },
+  {
+   "agent": "af7b103c3f5a962ea",
+   "label": "lens:ledger",
+   "result": {
+    "findings": [
+     {
+      "id": "F1",
+      "severity": "MEDIUM",
+      "file": "build_out/2026-10-24/README.md",
+      "claim": "The README and SUMMARY present the 13 MISSING-proof rows 'hit without a Dropbox carrier' as if a Drive candidate had been found, but 12 of the 13 are reached only by a single shared English word inside a long prose Drive title, and the 13th (row 82) by a topical two-word phrase that hits four ledger rows identically; none is unit-specific and all 527 hits carry the same undifferentiated 'WEAK' label.",
+      "evidence": "Per row (local hits re-derived, 527/527 identical to the shipped set): rows 51 and 185 share the same two NO_DIGEST Google Docs via the lone token 'downstream' (title stems of 33 and 130 tokens, ordinary-English use); row 131 gets 5 lone 'multiplicity' hits on 18-19-token Doc titles about a different concept; row 166 gets 1 lone 'consumption' hit on a 6-token GIT_EXACT markdown name from a different identifier family; row 183 1 lone 'edge' (33-token title, prose sense); row 188 1 lone 'equal' (54-token title, 'exactly equal ... lengths' sense); rows 190 and 221 share the same two 'periodic' items (also hit rows 222 and 307 identically); row 195 1 lone 'localized' in a 22-token title ('moment' excluded at df 18, 'iba2' absent from Drive); row 198 'sector' x2 and 'marked' x1, never co-occurring; row 283 3 lone 'measure' hits (18-20-token titles); row 309 3 lone 'semantic' hits on items about a different concept while 'memory' has df 0 in Drive. Row 82's 7 'short+bar' hits are the identical 7 Google Docs that hit rows 69, 81 and 111 (row 81 is the same unit name minus 'all_d' and has a proof), and 3 of the 7 match only in a folder name, not the title. Median title-stem length of the 26 lone hits in the 13-row set is 18.5 tokens (min 4, max 130). README sentence: 'touching 32 MISSING-proof rows, 13 of them without a Dropbox carrier (rows ...)' plus 'labelled as such in LEDGER_DRIVE.tsv', where the label is 'WEAK' for every hit and LEDGER_DRIVE.tsv has only strong/weak counts.",
+      "fix": "Label lone-token hits distinctly (e.g. match = WEAK_LONE vs WEAK_PAIR/WEAK_ADJ in LEDGER_DRIVE_ROWS.tsv, and add 'lone' and 'multi' count columns to LEDGER_DRIVE.tsv next to 'weak'); in README and SUMMARY say that of the 13 rows, 12 are reached only by one shared common word in a prose title and 1 by a topical phrase shared with three other ledger rows, so none names a candidate carrier for the missing proof; drop the row list from the headline sentence or move it under that caveat."
+     },
+     {
+      "id": "F2",
+      "severity": "MEDIUM",
+      "file": "build_out/2026-10-24/own/classify.py",
+      "claim": "The lone-token branch of the WEAK rule (one matched token in the basename stem with document frequency <= 3, or a CODE token <= 30) is reproduced verbatim but not re-calibrated: it was tuned for Dropbox basenames that are short identifiers, while Drive titles are prose, so a 'rare token in the basename' means a word in a sentence rather than an identifier.",
+      "evidence": "Tokens per distinct stem: Dropbox corpus n=2,096, mean 3.6, median 3, p90 6, 79 stems over 8 tokens; Drive corpus n=3,468, mean 12.1, median 10, p90 22, 1,875 stems over 8 tokens. 381 of 527 Drive hits (106 of 113 MISSING-proof hits, 26 of 33 in the 13-row set) are lone-token hits; 173 of the 238 published per-item lines are lone-token lines. All 11 lone tokens in the 13-row set pass via df <= 3 (none is a CODE token): downstream 2, multiplicity 3, consumption 1, edge 1, equal 1, periodic 2, localized 1, sector 2, marked 1, measure 3, semantic 3; every one of them has df 0 in the Dropbox corpus, which is why the original stop list never needed them. A 'lone token only in identifier-like stems' guard (stem <= 8 tokens, the Dropbox p90 rounded up) keeps 140 of the 381 lone hits overall, and in the 13-row set keeps only 3 (one each on rows 166, 190, 221, all GIT_EXACT markdown names); rows 51, 131, 183, 185, 188, 195, 198, 283, 309 lose every hit, row 82 keeps its 7 pair hits; MISSING-proof rows hit falls from 32 accordingly.",
+      "fix": "Add a Drive-specific condition to the lone branch: count a lone token only when the title stem has at most 8 (or 6) tokens, or when the token is at least a third of the stem's tokens; keep the pair/adjacent branches unchanged. If the rule is to stay byte-for-byte the same as the Dropbox one, apply F1's labelling so the reader can separate the 381 lone hits from the 146 pair/adjacent hits. Growing the stop list token by token ('downstream', 'equal', 'edge', 'measure', 'localized', 'sector', 'marked', 'semantic', 'multiplicity', 'periodic') is a weaker fix: it would change nothing in the Dropbox crosswalk (df 0 there) and would not stop the next common word; 'short'/'bar' should not be stop-listed since the pair is a legitimate topical phrase, only labelled as shared across rows 69/81/82/111."
+     },
+     {
+      "id": "F3",
+      "severity": "LOW",
+      "file": "build_out/2026-10-24/own/classify.py",
+      "claim": "The search string is every path segment below the hub (segs[1:]) whereas the original matches below '[dropbox path withheld] folder>' (segs[2:]) because 'folder names like K3_SIDE24_LB are not file evidence'; the Drive analogue of that top-level folder (the package folder directly under the hub) is therefore treated as evidence, and some hits rest on folder names alone.",
+      "evidence": "Dropbox paths are '[dropbox path withheld]' (segment counts 4-8), so the original drops two levels; Drive paths are '<hub>/<package folder>/.../<title>' and the port drops one. 80 of 527 hits (3 of 113 MISSING-proof hits, 3 of the 7 on row 82) have no matched token in the title stem at all, only in folder segments, dominated by 'upper2d+stage' (row 260, 47 hits), 'short+bar' and 'second+moment'. Variant with segs[2:]: 480 hits (47 lost, 0 gained), MISSING-proof rows hit still 32, the 13-row set unchanged. Variant matching the title only: 451 hits (77 lost, 1 gained), MISSING-proof rows still 32, 13-row set unchanged.",
+      "fix": "Either drop the first folder below the hub as the original drops the repo folder, or record per hit whether the tokens were found in the title or only in a folder segment (e.g. a 'where' column: title / folder) so folder-only matches can be read as such; state the chosen segment rule in README next to the 'same name rule' sentence."
+     },
+     {
+      "id": "F4",
+      "severity": "LOW",
+      "file": "build_out/2026-10-24/own/classify.py",
+      "claim": "Seven delta files have an empty path, so the search string is empty and the WEAK rule is silently disabled for them (only STRONG stem equality could fire).",
+      "evidence": "7 non-personal files from the 2026-09-18 delta have path '' (all NO_DIGEST, title stems of 1-11 tokens); for them low = segs[-1] = ''. The title-only variant gains exactly 1 hit, not on a MISSING-proof row, so the published counts are unaffected today.",
+      "fix": "When the path is empty fall back to the title (low = title.lower()), or note in README that delta items without a reconstructed path were matched by stem equality only."
+     },
+     {
+      "id": "F5",
+      "severity": "LOW",
+      "file": "build_out/2026-10-24/README.md",
+      "claim": "Terminology in the ledger section conflates a name match with a byte carrier and leaves two counts without their denominator.",
+      "evidence": "'no_dropbox_carrier' and 'missing_proof_rows_hit_without_dropbox_carrier' are computed from the main#594 crosswalk summary as missing_proof = Y and strong = weak = 0, i.e. no Dropbox *name* hit, and only for MISSING-proof rows (every non-MISSING row prints N regardless); the README's previous clause already calls the same 83 rows 'no Dropbox name match'. The parenthetical 'DBX_EXACT 11, DRIVE_ONLY 3, GIT_EXACT 25, NO_DIGEST 74' sums to 113, the MISSING-proof hits, while the sentence's subject is the 527 hits.",
+      "fix": "Rename the column and key to no_dropbox_name_hit (or say 'without a Dropbox name match' in README), note that the flag is computed for MISSING-proof rows only, and write 'of the 113 hits on MISSING-proof rows' before the tier breakdown."
+     }
+    ],
+    "checks_passed": [
+     "Rule fidelity: an independent re-implementation of the original crosswalk rule applied to Drive (STOP and GENERIC_BASE sets, CODE regex, unit_parts date/_claude stripping, stem rule, adjacency, consecutive-pair and lone-token branches, df thresholds 60/150/30/3 over distinct stems) reproduces the shipped hit set exactly: 527 of 527 hits, 0 only-shipped, 0 only-mine; STOP and GENERIC_BASE are loaded from the original's source text and evaluate to the same sets.",
+     "stem(): the port omits the original's '.export.txt' strip and the .pyc/.url/.ds_store/__pycache__ exclusions; no Drive title carries any of those suffixes, so 0 of 3,735 stems differ and the hit set is unchanged under the original stem().",
+     "Personal lane: files under the 03_PERSONAL hub are excluded before matching; 0 hits on personal-lane items in the local hits set, 0 lines with a 03_ hub in LEDGER_DRIVE.tsv or LEDGER_DRIVE_ROWS.tsv (hubs present: 01, 02, 04, 90 only).",
+     "Public titles: 13 titles are printed in LEDGER_DRIVE_ROWS.tsv and all 13 appear in the DRV-H2/DRV-H3 maps at origin/main; 0 id-shaped tokens; the other 225 lines have a blank title and are all GIT_EXACT (224) or ARCHIVE_EXACT (1) with a Git blob/path locator; 0 locators point into a drive/ mirror path; for the 13 rows under review 7 lines are published, all GIT_EXACT with no title, the remaining 26 hits are counted only.",
+     "matched_tokens in the per-item table derive solely from the ledger unit name (0 exceptions over 238 lines), so no Drive title leaks through that column; 0 STRONG as stated.",
+     "Per-unit table LEDGER_DRIVE.tsv is internally consistent with the local hits: 126 units, 527 hits, strong/weak/tier counts, missing_proof and no_dropbox flags, unit names and public_items_listed all re-derive with 0 mismatches; README numbers equal SUMMARY.json and the tables (527 hits, 32 MISSING-proof rows, the 13-row list, 0 STRONG, 11+3+25+74 = 113 MISSING-proof hits).",
+     "The 13-row list equals (MISSING-proof rows with any Drive hit) intersected with the 83 rows whose main#594 crosswalk summary has strong = 0 and weak = 0, recomputed from the summary file.",
+     "Version reviewed: the directory was regenerated at 22:24:13 UTC while this review ran (the first read saw a single per-item LEDGER_DRIVE.tsv of 527 lines); all checks above are against the regenerated files, sha256 prefixes aae761d6 (LEDGER_DRIVE.tsv), 13cd2be0 (LEDGER_DRIVE_ROWS.tsv), ce4b4646 (README.md), 729bddc5 (SUMMARY.json). Review scripts were written only under review_scratch; nothing was posted, pushed or edited elsewhere."
+    ]
+   }
+  },
+  {
+   "agent": "afe3bf7f3474c011b",
+   "label": "skeptic:hashrule:F4",
+   "result": {
+    "id": "F4",
+    "refuted": true,
+    "reason": "The claim that PINS.json omits the tip commits is false as the file stands; the proposed fix is already implemented. PINS.json (build_out/2026-10-24) contains git_index.tip_commits_for_TIP_label with main = 08c98c8f... and Math- = d1f6ad28..., plus a note stating the index was built at those tips and that origin/main had moved to 8df77725 by the time this directory was built. The build script (build_pub.py line 114, and the copy under own/) derives these two values from the refs files captured with the index (refs_main.txt's refs/remotes/origin/main line and refs_math.txt's refs/heads/main line), so the pin is produced by the build, not hand-added. The README (line 9) states the rule as 'on a tip as of the index tips listed in PINS.json (TIP)', so the published rule and the pin agree. I independently reproduced the reviewer's numbers: the main-side tip blob set in tip_blobs.json (1,406 blobs) equals the tree of the pinned main commit exactly (0 tip-only, 0 tree-only), while the current origin/main tree (1,413 blobs) differs by 10 tip-only / 17 tree-only; the pinned main commit is an ancestor of origin/main, 32 commits behind. The Math- side also verifies: the pinned Math- commit exists in the local bare mirror as its refs/heads/main, and its tree (2,633 blobs) equals the Math- tip blob set exactly. Crosswalk counts match the finding (TIP 120 = 118 main rows, all of whose blobs are also in the current origin/main tree, + 2 Math- rows; BRANCH_OR_HISTORY 45, none on the current tip), so no published label is wrong either way. Since the tip commits are pinned and a reader can reproduce TIP from them, there is no defect.",
+    "corrected_severity": "NONE"
+   }
+  },
+  {
+   "agent": "a76cf966f738cc616",
+   "label": "skeptic:privacy:P-1",
+   "result": {
+    "id": "P-1",
+    "refuted": true,
+    "reason": "The defect does not reproduce against the directory under review. LEDGER_DRIVE.tsv there (written 22:32:59 by the current build_pub.py, which carries explicit '(P-1)' comments) is a 126-row, 11-column aggregate with one line per ledger unit (row, repo, unit, missing_proof, no_dropbox_name_hit, hits, strong, weak, hits_by_tier, hits_changed_after_snapshot, public_items_listed); it has no matched_tokens, title, drv_map or live_status column. I recomputed it independently from the private hit list: 126 ledger rows with hits, hits sum 527, public_items_listed sum 238, 0 field mismatches, and no hidden title of 8+ chars occurs in the text (the 60 unit-name tokens present are in the public 'unit' column only). The per-item lines now live in LEDGER_DRIVE_ROWS.tsv with 238 rows. Recomputing title-public (DRV-H2/DRV-H3 names at origin/main, minus id-bearing) and bytes-public (GIT_EXACT/ARCHIVE_EXACT) over the 527 hits gives exactly 238 public-item hits (13 title-public, 225 bytes-public) and 289 non-public hits with the finding's own breakdown (NO_DIGEST 260, DBX_EXACT 20, DRIVE_ONLY 8, OVER_4MIB 1); a positional join of LEDGER_DRIVE_ROWS.tsv to the public hits sorted as the script sorts them has 0 mismatches, so none of the 289 non-public rows is present. README and SUMMARY describe this split ('one line per ledger unit ... per-item lines for public items only'). The finding therefore describes the pre-fix build that the script's rmtree replaced. On the finding's second fix clause (tokens only when the title is printed): for the 225 blank-title rows (all GIT_EXACT/ARCHIVE_EXACT, i.e. within the stated row-level rule), every printed token is a token of the public ledger unit name and appears verbatim in the ledger markdown on origin/main (225/225); 51 rows matched only folder segments below the hub; 144 rows' Drive basename is itself a Git basename; for the 72 rows (26 items) where the basename is not in Git and a token does occur in the title, maximum coverage of the title stem is 0.45 (none >= 50%) and 80 of 81 such rows already print a Git locator for the same bytes. The finding itself classed these rows as allowed, so no row-level rule is breached and the residual is at most an optional hardening.",
+    "corrected_severity": "NONE"
+   }
+  },
+  {
+   "agent": "a2248cbde89d3243d",
+   "label": "skeptic:privacy:P-2",
+   "result": {
+    "id": "P-2",
+    "refuted": true,
+    "reason": "The claim and its evidence do not reproduce against the directory under review. ARCHIVE_CARRIERS.tsv there has 39 data rows, not 73: 36 per-carrier lines plus 3 aggregate lines (one per tier, labelled as carriers without a public title or public bytes). I rebuilt the carrier rule independently (python3 -I script in review_scratch/p2_check.py) from carriers.json, member_rows.json, drive_rows.json and the DRV-H2/DRV-H3 maps read from origin/main: 73 non-personal carriers, by tier DRIVE_ONLY 32, GIT_EXACT 29, OVER_4MIB 9, DBX_EXACT 2, ARCHIVE_EXACT 1; 36 are title-public or bytes-public and 37 are neither. The published per-carrier rows match that expected set exactly as a multiset of (tier, titled, members, found_elsewhere, via_carrier, not_found), with breakdown GIT_EXACT untitled 24, GIT_EXACT titled 5, DRIVE_ONLY titled 4, OVER_4MIB titled 1, DBX_EXACT titled 1, ARCHIVE_EXACT untitled 1; every printed title is in the DRV maps; 0 per-carrier rows are neither titled nor GIT_EXACT/ARCHIVE_EXACT; 0 untitled OVER_4MIB per-carrier rows exist. The 37 non-public carriers are summed into the 3 aggregate lines (DBX_EXACT 1/23, DRIVE_ONLY 28/4128, OVER_4MIB 8/4353 carriers/members) with blank hub, title and locator, and the sums match my recomputation. The finding's breakdown (OVER_4MIB untitled 37 + titled 6 = 43; GIT_EXACT 24 + 5; ARCHIVE_EXACT 1) is impossible against carriers.json (only 9 OVER_4MIB carriers) but equals a prior state in which all 43 non-Git/non-archive carriers sat in one bucket and all 73 were printed per-carrier; the build script's carrier block is annotated \"(P-2)\" and SUMMARY.json/README report carrier_rows 36, so the finding describes the pre-revision output, which the build under review has already corrected. Residual, much narrower than claimed: the DBX_EXACT aggregate cell holds a single carrier and prints its exact member counts (23, 23, 0, 0) with tier but no hub, title, locator or digest; the stated rule's \"cell below 3 prints its count and no bytes; the same rule for carriers\" was not applied to member counts, and the finding's own fix text (\"counts only when fewer than 3 carriers\") is not implemented for this one cell. Two carriers in carriers.json have 23 members, one in that tier, so a holder of the private member list (which lives on a fetched branch of the same remote) could identify the carrier and learn only that its bytes are in the Dropbox Github/ folder; nobody else learns anything identifying. That residual is the only thing left of the concern and is at most LOW; the finding as stated is refuted.",
+    "corrected_severity": "LOW"
+   }
+  },
+  {
+   "agent": "a3fb1488fe46026e6",
+   "label": "skeptic:privacy:P-4",
+   "result": {
+    "id": "P-4",
+    "refuted": true,
+    "reason": "The claimed leak does not reproduce in the build directory under review. (1) grep -rF for both named hub strings over every file in build_out/2026-10-24 (all TSVs, SUMMARY.json, PINS.json, README.md, own/*.py): 0 hits. (2) The hub column of DRIVE_CROSSWALK.tsv has exactly six distinct values: five whitelisted 0x_/90_ hubs plus one generic label '(2026-09-18..20 delta folders)' (26 rows); there is no '(other hub)' label anywhere, so the asserted asymmetry (two hubs whitelisted while others fold to '(other hub)') is not the rule in this build. Same for DRIVE_AGGREGATE.tsv (fold label: 3 cells, 12 files), LEDGER_DRIVE_ROWS.tsv, ARCHIVE_CARRIERS.tsv and SUMMARY.json liveness.new_since_snapshot.by_parent_hub_when_known (fold label: 59, no named delta hubs). (3) hublabel() in both the scratch build_pub.py and the build's own/build_pub.py (byte-identical after path substitution) returns the hub only if it starts with 00_/01_/02_/04_/05_/06_/90_ and otherwise returns the generic fold label; the line carries a '# P-4' comment, i.e. the fix was already applied before this build. (4) Arithmetic check with python3 -I against drive_rows.json using the build's row-level rule: 38 non-whitelisted files (all from the 2026-09-18/19 delta sources, 6 distinct hubs), 26 per-file-eligible + 12 aggregate-only = exactly the 26 fold-label crosswalk rows and 12 fold-label aggregate files, so the two named hubs' files (1 and 4 files; 0 and 3 per-file-eligible, not '3 rows each') are inside the fold and never printed by name. (5) The reviewer's premise does reproduce (git grep -F on origin/main: 0 files for both strings; 84 remote refs carry them), so the finding was presumably valid against an earlier state, but the directory that would be published no longer exhibits it. Note: README.md, DRIVE_AGGREGATE.tsv and own/build_pub.py carry mtimes (22:41) later than DRIVE_CROSSWALK.tsv/SUMMARY.json (22:32-22:33); the crosswalk already had the fold at 22:32, so the later edits are unrelated to P-4, but a full re-run of build_pub.py before publishing would make all artifacts provably from one script state.",
+    "corrected_severity": "NONE"
+   }
+  },
+  {
+   "agent": "a3ee1ec2455b405d8",
+   "label": "skeptic:privacy:P-3",
+   "result": {
+    "id": "P-3",
+    "refuted": false,
+    "reason": "Partially reproduced; the first half of the evidence is stale and the second half is a disclosed limit. I rebuilt title_public/bytes_public from drive_rows.json and the two DRV map CSVs at origin/main and recomputed the aggregate (script in review_scratch/p3_refute.py, run twice: before and after the 22:41 regeneration of the directory, same result). (1) The differencing claim does not reproduce against the directory under review: build_pub.py line 48 (comment 'P-3') builds the aggregate from the 1,899 files that have no per-file row only; all 34 published cells match my recomputation exactly, and zero crosswalk-row files sit inside any aggregate cell. The reviewer's four cells (hub 02 DBX_EXACT text 18 files/17 public; hub 02 NO_DIGEST google-doc 8/7; hub 02 DBX_EXACT (other) 3/1; hub 05 DRIVE_ONLY (other) 3/1; plus the 9-file 138.1 MB zip cell) are exactly what the pre-fix all-files aggregation yields, and I reproduced those numbers only in that mode. In the current TSV the two 02 cells (text, google-doc) no longer exist, hub 02 DBX_EXACT (other) is 3 files all non-public, and hub 05 DRIVE_ONLY (other) is 2 files printing no bytes. (2) The tier-total claim does reproduce: SUMMARY.json 'tiers' (build_pub.py line 99) and the README tier table still sum over all 3,735 non-personal files. For DRIVE_ONLY_DBX_UNKNOWN_OVER_4MIB (10 files) the published pieces are one crosswalk row with bytes printed (title public, digest withheld), the 8-file zip cell at 112.8 MB and one count-only (other) cell; 145.3 MB minus 112.8 MB minus that row's bytes lands 53,864 bytes from the single non-public file's actual size (about 7.2 MB, inside the +/-100 KB rounding envelope; the reviewer's 23 KB figure came from the pre-fix 9-file cell). For the other tiers the count-only residual covers 3 (DBX_EXACT), 4 (DRIVE_ONLY) and 5 (NO_DIGEST) files, so the floor holds. However, the README Limits section explicitly states that a small aggregate cell's bytes are recoverable from the tier totals to within the rounding and that such a cell prints no bytes of its own, so this residual is a stated limit, not an undisclosed break of the rule; what remains inferable is the approximate size of one unnamed, undigested file whose class the aggregate hides. Severity stays LOW: the cheap fix (coarsen or omit the tier total for the one tier with a 1-file count-only cell, or compute tier bytes over aggregate files only) is still open, but the four-cell differencing in the finding is already fixed and should be dropped from it.",
+    "corrected_severity": "LOW"
+   }
+  },
+  {
+   "agent": "a15017fa6b5c8b9ff",
+   "label": "skeptic:counts:F1",
+   "result": {
+    "id": "F1",
+    "refuted": true,
+    "reason": "The quoted sentences and counts are not in the build directory. I grepped build_out/2026-10-24 (README.md, SUMMARY.json, all TSVs, own/*) for 'CHANGED_AFTER_SNAPSHOT', 'touched', 349 and 277: the only hits are the superseded docstring at the top of own/liveness.py (and the working liveness.py) and an unrelated ledger row number. The current README (regenerated 22:45:41, identical to what readme_drive.py emits) states that the 2026-09-17T00:00Z cutoff precedes the snapshot taken that day, and splits the old status three ways: SAME_AS_CREATED (modifiedTime == createdTime, digest CURRENT), MODIFIED_ON_SNAPSHOT_DAY (digest UNCERTAIN_SNAPSHOT_DAY), MODIFIED_AFTER_SNAPSHOT_DAY (STALE / STALE_SAME_SIZE). Published counts: 43 / 40 / 3,386 / 266 files and CURRENT 2,033, STALE_SAME_SIZE 35, UNCERTAIN_SNAPSHOT_DAY 8 - i.e. the finding's fix (b) with a further split, plus the fix (a) statement. I recomputed independently from the ten parts/w*.tsv files (2,472 lines, 2,387 distinct ids after de-duplicating 85 page-boundary repeats, window 9 empty) joined to drive_rows.json by id, re-implementing the rule from the TSV columns rather than reusing stored fields: files outside the personal lane MODIFIED_AFTER 43, MODIFIED_ON_SNAPSHOT_DAY 40, NOT_MODIFIED 3,386, SAME_AS_CREATED 266; hashed outside the personal lane CURRENT 2,033 (2,042 including the 9 personal-lane digests), STALE_SAME_SIZE 35, UNCERTAIN 8; zero disagreements with the per-row live_status/digest_state in drive_rows.json and with DRIVE_CROSSWALK.tsv (28 STALE_SAME_SIZE, 247 SAME_AS_CREATED, 7 MODIFIED_ON_SNAPSHOT_DAY among its 1,836 public rows). The finding's evidence does reproduce against the raw data - 349 snapshot files appear in the listing, 266 have created==modified (245 on 09-17, 18 on 09-18, 3 on 09-19), 64 have modifiedTime >= 09-18, and 303 hashed seen minus 26 delta rows re-hashed by their delta modifiedTime gives the old 277, of which 234 are inventory-sourced SAME_AS_CREATED - so it describes an earlier build state, not this one. The one residual the finding asked about, '(moves and renames bump the time)', is now supported for the 35 files it covers: all 35 carry a different live title than the snapshot title (12 with a changed extension, the rest substantially lengthened names) and 30 of 35 sit under a different parent folder within the same hub; the 'same title and parent' observation held for the 234 SAME_AS_CREATED files, which are no longer labelled stale. Edge cases checked: no SAME_AS_CREATED item differs from its createdTime at millisecond level, so the to-the-second comparison misclassifies nothing; the delta re-hash clause is live (49 delta rows carry modifiedTime) though it fires for none of the 43. Only trace of the defect left: the docstring of the published own/liveness.py still names the superseded statuses CHANGED_AFTER_SNAPSHOT and UNCHANGED, contradicting the code below it and the README - a cosmetic inconsistency worth a one-line docstring update.",
+    "corrected_severity": "LOW"
+   }
+  },
+  {
+   "agent": "af6b4c4df94816b14",
+   "label": "skeptic:counts:F2",
+   "result": {
+    "id": "F2",
+    "refuted": true,
+    "reason": "The finding does not reproduce against the directory under review. (1) Neither quoted phrase exists in build_out/2026-10-24/README.md: grep for \"untouched\", \"CURRENT only for untouched\" and \"nothing modified after the snapshot has\" returns nothing in the README, in own/readme_drive.py (which generates it), anywhere else in the scratchpad, or in any commit of the main checkout (git log --all -S over '*.md'). The README's Liveness bullet already states the rule the finding asks for (\"its snapshot digest is CURRENT only if a dated delta (18-20 September) re-hashed it at or after that modification, otherwise STALE or STALE_SAME_SIZE\") and its Limits bullet already reads \"nothing modified after the last delta (2026-09-20) has a current digest here\" -- the finding's proposed fix text verbatim. (2) The label the finding cites, CHANGED_AFTER_SNAPSHOT, is not emitted anywhere in the published data; it survives only in a stale docstring at own/liveness.py lines 3-5, while the code (lines 31-40) emits SAME_AS_CREATED / MODIFIED_ON_SNAPSHOT_DAY / MODIFIED_AFTER_SNAPSHOT_DAY / NOT_MODIFIED_SINCE_2026-09-17. (3) Cross-tabulating live_status x digest_state for the 2,076 hashed files outside the personal lane in drive_rows.json gives: NOT_MODIFIED/CURRENT 1,782 (+ personal lane excluded), SAME_AS_CREATED/CURRENT 260, MODIFIED_AFTER_SNAPSHOT_DAY/STALE_SAME_SIZE 35, MODIFIED_ON_SNAPSHOT_DAY/UNCERTAIN 8; MODIFIED_AFTER_SNAPSHOT_DAY with CURRENT = 0. The published DRIVE_CROSSWALK.tsv (1,836 rows) shows the same pattern: 28 MODIFIED_AFTER rows, all STALE_SAME_SIZE, none CURRENT. SUMMARY.json and the README agree (CURRENT 2,033 / STALE_SAME_SIZE 35 / UNCERTAIN 8); the finding's \"CURRENT 1,799\" matches nothing in this build. (4) The \"26 items (23 from the 2026-09-18 delta, 3 from 2026-09-19)\" are real but are the 26 delta-sourced hashed rows, and all 26 carry live_status SAME_AS_CREATED (live modifiedTime equals createdTime), with each row's sha256 equal to its delta manifest digest at a01c72f1 and the manifest modifiedTime at or after the live modifiedTime. Their CURRENT digest is therefore correct and the README explains exactly that label (\"never modified after creation (SAME_AS_CREATED, digest CURRENT)\"). No CURRENT hashed row has a live modifiedTime after 2026-09-20, so the Limits sentence holds. The finding appears to describe an earlier in-session draft, not the build directory. Residual observations outside F2's claim, both minor: (a) the published own/liveness.py docstring still names the superseded labels CHANGED_AFTER_SNAPSHOT/UNCHANGED (cosmetic); (b) one inventory-sourced file modified on 2026-09-18 is labelled STALE_SAME_SIZE although the 2026-09-18 delta manifest re-hashed it after that modification with the identical digest -- classify.py keeps the inventory record and does not carry the delta modifiedTime, so the 'rehashed' branch cannot fire for it. That is a conservative understatement of currency for 1 of 35 rows (the README's \"only if\" remains true), the opposite direction from the finding.",
+    "corrected_severity": "NONE"
+   }
+  },
+  {
+   "agent": "afcea285cf1ed50c7",
+   "label": "skeptic:counts:F4",
+   "result": {
+    "id": "F4",
+    "refuted": true,
+    "reason": "The evidence does not reproduce against the README in the build directory. (1) The quoted string \"Listing complete: True\" appears nowhere in the build directory (grep -rn over build_out/2026-10-24 returns no match). The results paragraph (README line 31) reads \"The ten listing agents each reported their window complete (True; a self-report, see Limits)\", i.e. it is already framed as a self-report, not a fact. (2) The Limits section (line 52) already contains almost exactly the bullet the finding proposes: \"The live listing is metadata from a modified-after search: it cannot show deletions or trashing (NOT_MODIFIED_SINCE_2026-09-17 means not re-modified, not still present), its completeness is the listing agents' self-report (one window returned no items), duplicate lines across page boundaries were de-duplicated by id, and items whose parent the snapshot does not know are counted without a hub.\" That covers sub-claims (a), (b) and (c). (3) Sub-claim (d), the cutoff pre-dating the snapshot, is stated in the Inputs Liveness bullet (line 10): \"That cutoff precedes the snapshot taken that day, so an item modified on 17 September is MODIFIED_ON_SNAPSHOT_DAY (digest UNCERTAIN_SNAPSHOT_DAY)\". (4) Sub-claim (e), a modifiedTime bump not implying a content change, is also on line 10: \"moves and renames bump the time; identity not re-verified\", and the STALE_SAME_SIZE state exists for exactly that case. (5) The text is produced by the generator (readme_drive.py lines 19 and 30, identical copy shipped in own/), not a stray hand edit. I did reproduce the underlying facts the finding relies on: an independent recount of parts/w01..w10.tsv gives 2,472 lines, 2,387 distinct ids, 85 duplicate lines, window 9 with zero lines, and parts/complete.json has all ten flags true; liveness_summary.json agrees (live_items 2387, duplicate_lines 85, all_complete true). One detail cuts against the finding rather than for it: all 85 duplicates are repeats within the same window with identical modifiedTime (0 across windows), so the README's \"across page boundaries\" wording is correct and the finding's \"across windows\" is not. The only residual omission is that the README does not print the number 85 and SUMMARY.json's windows_complete flag carries no qualifier inside the JSON itself; both are cosmetic given the README's explicit caveat. It is possible the reviewer saw a README generated before the 22:45Z regeneration, but the directory under review already carries the fix.",
+    "corrected_severity": "NONE"
+   }
+  },
+  {
+   "agent": "a73e061dc8376045c",
+   "label": "skeptic:counts:F3",
+   "result": {
+    "id": "F3",
+    "refuted": true,
+    "reason": "The quoted sentence does not exist in the README under review and the proposed fix is already present. grep for \"name match\" in build_out/2026-10-24/README.md returns 0 hits; line 35 actually reads \"83 of them had no Dropbox name hit of either strength in main#594 (48 had one: 30 printed at row level there, 18 only in its aggregated `ledger_hits`)\", and the readme template (readme_drive.py line 20) emits exactly that parenthetical. SUMMARY.json `ledger.dropbox_name_hit_rule` spells the same rule out (\"row level (30 rows) or in its aggregated ledger_hits (18 rows); 48 rows in all, 83 without\"). I reproduced the arithmetic independently with a script under review_scratch/: parsing the ledger at commit 6c604f34 (the commit main#594's PINS.json names) gives 344 rows, 131 with proof cell MISSING; main#594's LEDGER_CROSSWALK.tsv (branch r3) has 30 distinct MISSING-proof rows (all within the 131); main#594's SUMMARY.json `ledger_hits_aggregated` has 120 row keys, 37 of them MISSING-proof, 18 not already at row level; 30+18=48, 131-48=83. Restricting to the 32 MISSING-proof rows with Drive hits, the rows not in the 48 are exactly the 13 the README lists (51, 82, 131, 166, 183, 185, 188, 190, 195, 198, 221, 283, 309), and LEDGER_DRIVE.tsv's `no_dropbox_name_hit=Y` flag equals that set. Under a row-level-only reading the list would be 21 rows (adding 59, 144, 206, 210, 211, 212, 214, 222) and the count 101, matching the reviewer's alternative, but the README does not use that reading and says so. There is no contradiction with main#594 either: its README line 35 counts the 30 row-level rows and its line 44 states that hits on files outside the row-level rule are counted per ledger row in SUMMARY.json `ledger_hits_aggregated`; the local README draws on both and labels each. Residual nit only: the README names the main#594 key as `ledger_hits` rather than `ledger_hits_aggregated`, and the `no_dropbox_name_hit` column of LEDGER_DRIVE.tsv is not glossed in the README's file list (it is defined in SUMMARY.json). That is a wording imprecision, not a MEDIUM contradiction.",
+    "corrected_severity": "LOW"
+   }
+  },
+  {
+   "agent": "ae4d91fec2fe31a4b",
+   "label": "skeptic:counts:F6",
+   "result": {
+    "id": "F6",
+    "refuted": true,
+    "reason": "The claimed rule text is not in the build's stated rule. SUMMARY.json row_level_rule and the README Files bullet already read \"...classes below 3 files are merged into (other) per hub and tier and a cell still below 3 files prints its count and no bytes\", i.e. the wording the reviewer proposes as the fix; grep over the build directory finds the phrase \"no cell below 3 files\" only in the module docstring at line 4 of own/build_pub.py, while the inline comment at line 46 and the code (lines 46-57) state and implement the merge-then-count-only rule. The evidence also does not reproduce: DRIVE_AGGREGATE.tsv has 34 cells (not 68), 9 below three files (5 with one, 4 with two; not 15 with 5 and 10), all nine are (other) cells with an empty bytes column, and no cell of three or more lacks bytes. I rebuilt the aggregate independently (python3 -I, from the private row records plus the DRV-H2/DRV-H3 maps read via git show origin/main): 41 pre-merge cells (19 below 3: 13 ones, 6 twos) and 34 merged cells (9 below 3: 5 ones, 4 twos), matching the shipped TSV cell-for-cell with zero mismatches, and the tier files_in_published_parts figures equal public-bytes rows plus cells of three or more. The shipped own/ scripts differ from the scratch originals only by root placeholders. The only residual is the compressed docstring on line 4 of own/build_pub.py, a comment that could be reworded to match line 46 and SUMMARY.json; that is cosmetic, not a contradiction between the stated rule and the table.",
+    "corrected_severity": "LOW"
+   }
+  },
+  {
+   "agent": "abfcc615d3d84b83c",
+   "label": "skeptic:counts:F5",
+   "result": {
+    "id": "F5",
+    "refuted": true,
+    "reason": "The sentence the finding criticizes does not exist in the directory under review. grep -rni for \"md5/sha\", \"MISSING gap\" and \"filled by the snapshot\" over build_out/2026-10-24 (README.md, all TSVs, SUMMARY.json, PINS.json, own/*.py) returns only hits on the literal column name `drv_map`; the README generator own/readme_drive.py contains no \"gap\", \"fill\" or \"md5\" wording at all. There is a single build (every file in the directory, README included, has the same 22:45:41 mtime), so no earlier README variant exists at this path. The README's actual \"Join to the DRV maps\" paragraph reads: 251 snapshot files carry a title the DRV-H2 map (135 rows) or DRV-H3 map (651 rows) already prints; 167 of them have a snapshot digest, printed for the 101 whose bytes are already public (GIT_EXACT, ARCHIVE_EXACT) and withheld for the rest (DBX_EXACT 46, DRIVE_ONLY 19, DRIVE_ONLY_DBX_UNKNOWN_OVER_4MIB 1; held locally). That is substantively the text the finding proposes as the fix, and it names the two map files only by path and row count, never an md5/sha column of either map, so the \"refer to the DRV-H2 md5 column only\" point has nothing to attach to. I reproduced the figures independently: a csv recount of DRIVE_CROSSWALK.tsv gives 251 rows with drv_map set (DRV-H2 26, DRV-H3 225), 101 with a printed sha256 (all GIT_EXACT), 150 blank (DBX_EXACT 46, DRIVE_ONLY 19, OVER_4MIB 1, NO_DIGEST 84), and sha256 cells filled only in GIT_EXACT (1,662) and ARCHIVE_EXACT (24) rows; a recount from the private per-item records applying build_pub.py's own title_public rule (title in maps, not id-bearing, outside the personal lane; 4 id-bearing GIT_EXACT titles excluded) gives 251 titles, 167 with digest, 101 printed, 66 withheld as 46/19/1, matching SUMMARY.json drv_map_digests. So the finding's evidence numbers are correct but confirm the README rather than contradict it. The secondary facts (DRV-H2 map on origin/main has an md5 column, DRV-H3 map has none, DRV-H2.md line 14 says md5/sha MISSING because the connector exposes size only) are true but the README makes no claim about those columns. The only place \"md5/sha: MISSING (connector exposes size only)\" occurs in this work is the earlier PICKUP post draft under posts/ (outside the publish directory), where it is a correct quotation of DRV-H2.md's own wording describing the gap, with no \"filled where one exists (drv_map column)\" assertion; the RESULT post draft has no drv_map/filled/md5 wording. No defect in the published README reproduces.",
+    "corrected_severity": "NONE"
+   }
+  },
+  {
+   "agent": "a3e886fb808e4d48c",
+   "label": "skeptic:counts:F8",
+   "result": {
+    "id": "F8",
+    "refuted": true,
+    "reason": "The defect does not reproduce against the directory under review. README.md line 7 in build_out/2026-10-24 already reads \"2,085 files carry a SHA-256 in that publication (binary originals and stored delta objects), 2,076 of them outside the personal lane; native Google Docs carry none\" -- which is the finding's proposed fix nearly verbatim. A recursive grep of the build directory for \"2,076 files carry\" and \"2076 files carry\" returns no match, so the quoted sentence is not in the publication. The wording is generated by readme_drive.py line 8 from SUMMARY.json's hashed_files.count_including_personal_lane (2085) and hashed_files.count (2076), both computed in build_pub.py line 96, and the README and scripts carry the same 22:45:41 mtime, so this is the output of the current build, not a later hand edit. I independently recounted from the local per-item records with python3 -I: 3,752 files, 2,085 with a SHA-256, 2,076 of them outside the personal lane and 9 inside; 3,735 files outside the lane and 17 inside, matching SUMMARY.json items and the README. The finding appears to describe a stale draft; nothing in the published directory needs changing for this point.",
+    "corrected_severity": "NONE"
+   }
+  },
+  {
+   "agent": "a0d543832e967ea25",
+   "label": "skeptic:counts:F7",
+   "result": {
+    "id": "F7",
+    "refuted": true,
+    "reason": "Parsed build_out/2026-10-24/DRIVE_CROSSWALK.tsv (1,836 rows) with a python3 -I script: drv_map is set on exactly 251 rows and title_if_public on exactly 251 rows, and the sets coincide (0 rows with drv_map set but title empty, 0 rows with title set but drv_map empty; DRV-H3 225, DRV-H2 26). LEDGER_DRIVE_ROWS.tsv is also consistent (13 drv_map cells, none on a row with the title withheld). The finding's evidence that drv_map is set on 255 crosswalk rows does not reproduce for this directory. Independent recount from the private per-item records against the two DRV maps at origin/main (135 and 651 rows) confirms the input-level figures (255 non-personal files with a map title, 4 id-bearing, 251 title-public; the 4 excluded are GIT_EXACT inventory records that still get a per-file row with bytes/digest and a blank title), but the published column already applies the same exclusion: build_pub.py line 28 clears drv_map where the title is not public, that line is present in the published own/build_pub.py (identical to the live script apart from root-path substitution), and the script mtime 22:45:41.346 precedes the build directory creation 22:45:41.711 in the same run. The 'one is a delta record' point is true (250 inventory + 1 delta of 18 September) but consistent with the README's own definition of the snapshot (4,456 items plus 49 delta items; 4,505 - 753 folders - 17 personal = the 3,735 files in the tiers table). Residual at most cosmetic: the README could optionally mention that 4 further map titles are withheld as id-bearing; nothing in the directory contradicts the published 251.",
+    "corrected_severity": "NONE"
+   }
+  },
+  {
+   "agent": "ac7a7e3698b593abf",
+   "label": "skeptic:counts:F10",
+   "result": {
+    "id": "F10",
+    "refuted": true,
+    "reason": "The underlying numbers reproduce but the claimed defect does not. From member_rows.json (11,649 members) I counted 3,267 preserved=NOT_FOUND; by member tier they are DRIVE_ONLY 3,262 and DRIVE_ONLY_DBX_UNKNOWN_OVER_4MIB 5; exactly those 5 have bytes > 4 MiB (all 6,062,706 bytes) with flags in_dbx=None, matching classify.py, which only derives a Dropbox content_hash when size <= 4*1024*1024. However, the README never says '3,267 are found nowhere else' (grep -c 'nowhere else' returns 0). The sentence actually published (README line 29) reads: '3,267 are found in none of the three places (2,530 inside DRIVE_ONLY carriers, 737 inside DRIVE_ONLY_DBX_UNKNOWN_OVER_4MIB carriers; the over-4 MiB carriers' Dropbox identity is not derivable, nor is that of the 5 members themselves over 4 MiB)'. That parenthetical is precisely the caveat the proposed fix asks to add, already present in the same sentence. It is generated by own/readme_drive.py line 18 from SUMMARY.json's 'archive_members_not_found_over_4mib': 5, which own/build_pub.py line 98 computes as NOT_FOUND members with bytes > 4 MiB; SUMMARY.json confirms the value 5. The README's Rule paragraph also states up front that the 4 MiB limit affects only the Dropbox column. So the disclosure the finding requests is already made, and the quoted over-reaching phrase does not exist in the directory under review.",
+    "corrected_severity": "NONE"
+   }
+  },
+  {
+   "agent": "a18ee6977ac3e6f98",
+   "label": "skeptic:counts:F9",
+   "result": {
+    "id": "F9",
+    "refuted": true,
+    "reason": "The quoted wording does not exist in the directory under review. grep for 'only in the drive/ mirror tree' and 'on a tip' over build_out/2026-10-24 returns nothing; README.md line 9 (and the published generator own/readme_drive.py, identical to the live generator modulo root placeholders) already reads: 'git_where says whether a matching blob is on a tip as of the index tips listed in PINS.json (TIP), found in Git only under drive/ paths (DRIVE_MIRROR_BRANCH: the mirror tree, on main from 18 to 23 September 2026 and on the hardening branches; f35eef1b reverted it from main) or elsewhere in history (BRANCH_OR_HISTORY)' - i.e. the proposed fix is already applied verbatim, and PINS.json carries tip_commits_for_TIP_label (main 08c98c8f, Math- d1f6ad28) plus a note that origin/main was 8df77725 at build time. I reproduced the structural facts behind the finding: classify.py line 125 assigns DRIVE_MIRROR_BRANCH when all index paths of the blob start with drive/ (path-based); all 1,362 distinct DRIVE_MIRROR_BRANCH locators in DRIVE_CROSSWALK.tsv have index paths entirely under drive/, all 1,362 are reachable from origin/main history and none is in origin/main's tip tree; all 88 TIP main-repo blobs are in the 08c98c8f tree; git rev-list --count 08c98c8f..origin/main = 32. So the label and TIP semantics the README now states are correct. One part of the reviewer's evidence does not reproduce and leaks into the adopted wording: the drive/ tree was not on the main branch from 18 September. a97f7b04 (2026-09-18) is not on origin/main's first-parent line (rev-list --first-parent shows 0 hits) and its tree contains 0 of the 1,362 mirror blobs; the tree reached the main branch via the PR #2 merge b040bf0c at 2026-09-23T16:27:14-05:00 (1,362 of 1,362 blobs in that tree) and left via the PR #32 revert merge 4fc1d7c1 at 16:53:42-05:00 the same day (26 minutes). Also 84 of 292 remote ref tips still carry drive/, not only the hardening branch. Residual (new, LOW, not F9 as stated): the parenthetical 'on main from 18 to 23 September 2026 and on the hardening branches' should read roughly 'the mirror tree of PR #2, on the main branch only on 23 September 2026 between merge b040bf0c and revert merge 4fc1d7c1 (f35eef1b), and still on many branch tips'. F9 itself: not reproducible, severity NONE.",
+    "corrected_severity": "NONE"
+   }
+  },
+  {
+   "agent": "a07e647b5d5a627cf",
+   "label": "skeptic:counts:F11",
+   "result": {
+    "id": "F11",
+    "refuted": true,
+    "reason": "Evidence does not reproduce against the build directory under review. (1) Read build_out/2026-10-24/SUMMARY.json: liveness.new_since_snapshot.by_class already has a separate 'folder': 72 and 'google-doc': 766 (plus image 28, json 241, markdown 230, office 9, other 87, pdf 31, text 143, zip 393); the ten classes sum to 2000 = items, and 'folders': 72 agrees with the README's '2,000 items (72 folders)'. There is no 838 anywhere in SUMMARY.json or README.md. (2) Read mclass() in build_pub.py and in the published copy build_out/2026-10-24/own/build_pub.py (byte-identical for that function): its first branch is 'folder' if 'google-apps.folder' in m, before the 'google-doc' if 'google-apps' branch, so folders are not mapped to 'google-doc'. by_class is computed at build_pub.py line 108 as Counter(mclass(v['mime']) for v in new). (3) Independent reproduction with python3 -I over new_items.json (2000 records): google-apps mimes total 838, of which 72 carry the folder suffix, 732 document and 34 spreadsheet; applying the shipped mclass yields exactly the SUMMARY by_class dict (match: True). The 838 figure the reviewer cites is what an older folder-less mclass would produce (such a variant survives only in own/analysis2.py, which is applied to the non-folder file list for DRIVE_AGGREGATE and never to the new-items set). The proposed fix ('folder' class with google-doc 766 / folder 72) is already what the published SUMMARY.json contains, so there is no defect to correct.",
+    "corrected_severity": "NONE"
+   }
+  },
+  {
+   "agent": "abb51bdf90593c1b4",
+   "label": "skeptic:counts:F12",
+   "result": {
+    "id": "F12",
+    "refuted": true,
+    "reason": "The quoted wording, keys and counts do not exist in the directory under review; the build already carries the fix the finding proposes. Reproduction: (1) grep of build_out/2026-10-24/README.md for 'carrier' finds it only in the archive-carrier paragraph and the ARCHIVE_CARRIERS.tsv file description, where it correctly means archive carriers; the ledger sentence reads '13 of those without a Dropbox name hit', and 'Drive titles' occurs zero times while 'applied to Drive paths below the hub' occurs once, followed by an explicit statement that the rule is 'applied to the path below the hub and its package folder (title only where a delta item has no path)'. (2) SUMMARY.json has no key containing 'carrier'; the keys are missing_proof_rows_hit_without_dropbox_name_hit, missing_proof_rows_without_dropbox_name_hit and rows_without_dropbox_name_hit_reached_only_by_lone_tokens, and dropbox_name_hit_rule states the zero-STRONG-and-zero-WEAK definition. (3) LEDGER_DRIVE.tsv header column 5 is no_dropbox_name_hit; the file contains zero occurrences of 'carrier'; the four 'carrier' occurrences in LEDGER_DRIVE_ROWS.tsv are all in column 12 (git_locator repo paths), not a column name or flag. (4) Counts: recomputing from the local hits file and the published TSV gives 480 hits (sum of the hits column = 480, 125 unit lines), 113 on MISSING-proof rows and 367 on non-MISSING rows, 32 distinct MISSING rows hit, 13 of them flagged Y in both missing_proof and no_dropbox_name_hit (rows 51, 82, 131, 166, 183, 185, 188, 190, 195, 198, 221, 283, 309), matching README and SUMMARY exactly; the finding's figures 527 and 414 appear nowhere in the directory (grep -w over all files), and the README already states '480 hits over all 344 rows' and 'Of the 113 hits on MISSING-proof rows', i.e. the optional sentence is already present with correct numbers. (5) Residual evidence point on the stem rule: the Drive variant indeed omits the Dropbox variant's .export.txt strip, but zero of the 3,735 non-personal Drive titles contain '.export.txt', so it cannot change any hit; the remaining rule (STOP/GENERIC_BASE/CODE, df thresholds 150/60 and 30/3, adjacent, consecutive-pair and lone-token tests, dropping two path levels and matching on the remainder) is line-for-line the same as the main#594 Dropbox script, which likewise matches path segments below the top-level folder, not basenames alone, so 'applied to paths' is already the stated and implemented rule. All build files are timestamped 22:45:41 and the own/ script copies carry the same key names; the finding evidently describes an earlier build (hits file 22:41, classify.py 22:40) that was superseded before this directory was written. No defect reproduces.",
+    "corrected_severity": "NONE"
+   }
+  },
+  {
+   "agent": "af8668d47019cc48b",
+   "label": "skeptic:counts:F13",
+   "result": {
+    "id": "F13",
+    "refuted": false,
+    "reason": "Evidence as written does NOT reproduce, but the headline survives for one cell by a different route. (1) Read README.md, SUMMARY.json and build_pub.py (own/ copy identical in rule): the tier table prints 'bytes of published parts' = rows with public bytes + aggregate cells of >=3 files (build_pub.py l.100-102, tier_bytes_rule). It shows DRIVE_ONLY_DBX_UNKNOWN_OVER_4MIB 112.8 MB (8 files) and NO_DIGEST 26.2 MB (1,570 files), not 145.3 / 27.8. Recomputed from DRIVE_AGGREGATE.tsv + DRIVE_CROSSWALK.tsv with python3 -I: OVER_4MIB printed cells = 112.8 MB, so table minus cells = 0; NO_DIGEST printed cells sum to 26.3 MB (per-cell rounding) vs table 26.2, residual -0.1 MB = rounding noise. Nothing is derivable from the directory's own tier table, and the proposed fix (round tier totals to 1 MB) would change nothing. (2) The finding's 145.3 and 27.8 are whole-tier totals (recomputed from the private rows: 145,263,349 and 27,785,582 bytes). Only 145.3 is public (RESULT post of 22:41Z, posts/result.md); NO_DIGEST 27.8 is quoted nowhere public, and the finding's '24.9 MB printed' does not reproduce (printed NO_DIGEST parts are 26.3 aggregate + 0.4 crosswalk = 26.7). Even granting 27.8, the residual ~1.1 MB spreads over 5 count-only files in 4 cells (delta/00/02/06 '(other)'), so no single size is derivable. Same for DBX_EXACT (0.3 MB over 3 files, 2 cells) and DRIVE_ONLY (~0.2 MB over 4 files, 2 cells, within rounding). (3) What does reproduce: the public post's 145.3 MB covers 10 files; the directory prints bytes for 9 of them, the 8-file zip cell (112.8 MB) plus one crosswalk row printing exact bytes 25,269,465 (build_pub.py prints 'bytes' when title_public OR bytes_public, so a title-public row with withheld digest still prints its size). 145.3 - 112.8 - 25.27 = 7.23 MB; the single count-only '(other)' file in hub 01 of that tier is actually 7,176,671 bytes, recovered to ~50 KB. The README Limits sentence that the post's whole-tier totals are 'not combinable with this directory's cells ... because the cells here exclude the files whose bytes those totals also covered only in aggregate' is false for this tier: the only excluded file is the withheld one. Side note: files_in_published_parts=8 for that tier undercounts rows that actually print bytes (9). Correct fix is not coarser tier rounding; either drop/correct the Limits claim, or blank 'bytes' on title-public rows without public bytes in tiers that have a count-only cell (or merge the lone file into the zip cell). Severity stays LOW: one untitled, undigested file's approximate size in a known hub and tier.",
+    "corrected_severity": "LOW"
+   }
+  },
+  {
+   "agent": "a9acef15168f84f7b",
+   "label": "skeptic:ledger:F1",
+   "result": {
+    "id": "F1",
+    "refuted": true,
+    "reason": "The defect as stated does not reproduce against the directory under review. (1) Labels: LEDGER_DRIVE_ROWS.tsv carries match in {WEAK_ADJ, WEAK_LONE, WEAK_PAIR} plus where and title_stem_tokens; LEDGER_DRIVE.tsv has strong, weak_adjacent, weak_pair, weak_lone, hits_in_title and hits_in_folder_only columns, so the claim that every hit carries one undifferentiated WEAK label and that LEDGER_DRIVE.tsv has only strong/weak counts is false for this build. (2) Count: the shipped set is 480 hits (WEAK_LONE 381, WEAK_PAIR 98, WEAK_ADJ 1), not 527; the rule in own/classify.py now matches below the hub and package folder (the lens F3 change), which is what the finding's 527 predates. I re-derived the join independently from the local row table with that rule, taking the STOP/GENERIC lists from the public main#594 ledger_crosswalk.py on the fetched PR branch (byte-identical to the local copy after root substitution): 480/480 tuples (row, item, match, where, tokens, stem length) identical to the shipped set, and every SUMMARY.json ledger figure (113 MISSING-proof hits, 106 lone / 7 pair, 32 rows, the 13 rows, 12 lone-only rows, 241 lone hits on titles over eight tokens, 33 folder-only) recomputes exactly; own/ scripts equal the working scripts after substitution. (3) Text: the README no longer says 'without a Dropbox carrier' or 'labelled as such in LEDGER_DRIVE.tsv'; it says 'without a Dropbox name hit', states 'None is STRONG', gives the class counts, says 'Of the 13 rows ... 12 are reached only by one rare token in a prose title (WEAK_LONE, the weakest class ...); none is unit-specific', and points to per-hit labels in LEDGER_DRIVE_ROWS.tsv; SUMMARY.json lists the lone-only rows and carries an explicit note. The finding's proposed fix is therefore essentially already in the shipped directory. The underlying facts the finding cites do reproduce (rows 51/185 share two lone 'downstream' hits on 130- and 33-token titles; row 131 five lone 'multiplicity'; 166 one lone 'consumption' on a 6-token GIT_EXACT name; 183 'edge' 33 tokens; 188 'equal' 54; 190/221 the same two 'periodic' items also hitting 222 and 307; 195 'localized' 22 tokens with df[moment]=18 and df[iba2]=0; 198 'sector' x2 and 'marked' x1; 283 three 'measure'; 309 three 'semantic' with df[memory]=0; median stem length 18.5, min 4, max 130 over 26 lone hits; row 82's seven short+bar WEAK_PAIR hits with 3 folder-only are the identical seven NO_DIGEST items hitting rows 69, 81 and 111; all 13 rows are MISSING-proof in the public ledger), but they are disclosed rather than presented as candidates. Residual wording gaps only: the README does not say that row 82's pair hits are the same items as three other ledger rows (one of which is the same unit without its suffix and has a proof), LEDGER_DRIVE.tsv only lets a reader infer this from identical count profiles on rows 69/81/82/111, the 13-row list still precedes the caveat by two sentences, and 'prose title' is loose for the 4- and 6-token titles on rows 190/221/166. That is a LOW nit, not a MEDIUM misrepresentation.",
+    "corrected_severity": "LOW"
+   }
+  },
+  {
+   "agent": "a2497dffa6096677d",
+   "label": "skeptic:ledger:F2",
+   "result": {
+    "id": "F2",
+    "refuted": true,
+    "reason": "Independent reproduction (python3 -I over the hits JSON, drive_rows, the Dropbox inventory TSV, the two scripts and the published TSVs). What reproduces: the lone branch in own/classify.py is verbatim the Dropbox ledger_crosswalk.py branch (CODE and df<=30, or df<=3); Dropbox stems n=2,096 mean 3.6 median 3 p90 6 (79 over 8 tokens) vs Drive stems n=3,468 mean 12.1 median 10 p90 22 (1,875 over 8); 381 WEAK_LONE hits; 106 of 113 MISSING-proof hits and 26 of 33 hits in the 13-row set are lone; the same 11 lone tokens, all passing via df<=3, none CODE; a stem<=8 guard keeps 140 of 381 lone hits, keeps only 3 GIT_EXACT lone hits (rows 166, 190, 221) plus row 82's 7 pair hits in the 13-row set, rows 51/131/183/185/188/195/198/283/309 lose every hit, MISSING-proof rows hit fall 32 -> 11. What does not reproduce against the directory under review: total hits are 480 not 527, pair/adjacent are 99 (98+1) not 146, published per-item lines are 192 (173 lone) not 238, and 'sector' has Dropbox df 7, not 0 (10 of 11 tokens have df 0 there). The 22:41Z RESULT post also says 480, so the 527/146/238 figures match no artefact present. Decisive point: the finding itself allows the rule to stay byte-for-byte if F1's labelling is applied, and that is already in the directory: README and SUMMARY.json declare the rule 'byte for byte' main#594 and 'name evidence only', report WEAK_ADJ 1 / WEAK_LONE 381 / WEAK_PAIR 98 and that 241 lone hits fall on titles over eight tokens, name the 12 of 13 rows reached only by lone tokens as the weakest class and 'none is unit-specific'; LEDGER_DRIVE.tsv has per-unit weak_lone/weak_pair/weak_adjacent columns; LEDGER_DRIVE_ROWS.tsv carries match, where and title_stem_tokens per item, so a reader can apply exactly the proposed guard. The classify.py comment cites the lens F1/F2 explicitly. No published figure is wrong and no false claim is made from the lone hits. Residual (LOW): the README headline '32 MISSING-proof rows hit, 13 without a Dropbox name hit' is not accompanied by the guarded counts (11 and 4 under stem<=8), which would make the disclosure one sentence shorter to use; a cosmetic improvement, not a defect in the published data.",
+    "corrected_severity": "LOW"
+   }
+  },
+  {
+   "agent": "ad30672a633d62d62",
+   "label": "skeptic:ledger:F4",
+   "result": {
+    "id": "F4",
+    "refuted": true,
+    "reason": "The defect does not exist in the directory under review. (1) build_out/2026-10-24/own/classify.py computes the search string as `low='/'.join(segs[2:]) if len(segs)>=3 else (segs[-1] if segs else r['title'].lower())` with `segs=r['path'].lower().split('/') if r['path'] else []`, under a comment marked \"(F4)\": an empty path yields segs=[] and low=title.lower(), not segs[-1]=''. The claim's premise (low = segs[-1] = '') would only hold for an unguarded split that produces ['']; that is not the code shipped. (2) The build copy is byte-identical (after placeholder substitution) to the scratch classify.py whose mtime (22:40:46) precedes the ledger_drive_hits.json / drive_rows.json it wrote (22:41:12-13), so the published hits were produced by the title-fallback version. (3) I confirmed the premise count: drive_rows.json has 18 empty-path records, all from the 2026-09-18 delta, 11 folders, 7 non-personal files, all NO_DIGEST, title stems of 1-11 tokens. Zero of the 480 hits land on those 7 ids. (4) I re-ran the ledger join (same STOP/GENERIC_BASE/CODE/df/stem/unit_parts logic, same 344 ledger rows) on just those 7 records under three variants: low='' (the alleged behaviour), low=title.lower() (the shipped behaviour), and low=stem(title). All three produce 0 hits, so the evidence sentence \"the title-only variant gains exactly 1 hit\" does not reproduce; there is no hit to gain. (5) The README already states the rule the fix asks for: line 35 says the rule is applied \"to the path below the hub and its package folder (title only where a delta item has no path)\". (6) Published LEDGER_DRIVE.tsv sums to hits 480, strong 0, weak_adjacent 1, weak_pair 98, weak_lone 381, title 447 / folder-only 33, matching the hits file and SUMMARY.json, so the published counts are consistent with the fixed run. Both halves of the suggested fix (title fallback in code, README note) are already present; no residual defect.",
+    "corrected_severity": "NONE"
+   }
+  },
+  {
+   "agent": "a3084c32391c3c0ef",
+   "label": "skeptic:ledger:F3",
+   "result": {
+    "id": "F3",
+    "refuted": true,
+    "reason": "The claim does not hold against the build directory under review. (1) own/classify.py line 87 in build_out/2026-10-24 reads low='/'.join(segs[2:]) if len(segs)>=3 else (segs[-1] if segs else title) — it already drops the hub AND the package folder, exactly as the original ledger_crosswalk.py drops [dropbox path withheld] (its line 52, segs[2:]); the line above it carries a comment citing 'ledger lens F3', i.e. this finding was applied before the build was produced. The scratch copy of the script is byte-identical to the published copy after path redaction (diff rc=0). (2) The same script computes a per-hit 'where' value (title / folder); build_pub.py writes it as the 'where' column of LEDGER_DRIVE_ROWS.tsv (192 public-item lines: 184 title, 8 folder) and as hits_in_title / hits_in_folder_only in LEDGER_DRIVE.tsv, and SUMMARY.json carries ledger.hits_by_where = title 447 / folder 33 and name_hits = 480. (3) README.md line 35 states the segment rule next to the name-rule sentence: 'applied to the path below the hub and its package folder (title only where a delta item has no path); it is name evidence only, labelled per hit in LEDGER_DRIVE_ROWS.tsv (match, where)' and '33 of them match only in a folder segment'. (4) Independent re-run: I rewrote the join in review_scratch (python3 -I, reading the generated per-item records and the ledger rows, STOP/GENERIC_BASE via ast.literal_eval from the original crosswalk source) and ran three variants. segs[1:]: 527 hits, 80 folder-only, 47 on row 260 — the finding's numbers, so its evidence describes an earlier segs[1:] state. segs[2:]: 480 hits, 447 title / 33 folder, 0 on row 260, 7 on row 82 (4 title / 3 folder), 113 MISSING-proof hits on 32 rows — and the (row, item, match, where) set is IDENTICAL to the generated hits file consumed by the build (0 only-in-variant, 0 only-in-built). Title-only: 451 hits (1 gained, 30 lost vs built). So the published outputs were produced by the segs[2:] rule, with the folder-only hits labelled, and the README states the rule — all three elements of the proposed fix are present. Residual nit only: README line 35 first says 'Drive paths below the hub' before refining to 'below the hub and its package folder' two sentences later; the explicit rule statement is correct. Drive path depth for non-personal files is 0-15 segments (mode 4-6), so dropping two levels leaves evidence for all but 51 items with fewer than 3 segments, which fall back to the last segment or title as coded.",
+    "corrected_severity": "NONE"
+   }
+  },
+  {
+   "agent": "a5a07fd0341454107",
+   "label": "skeptic:ledger:F5",
+   "result": {
+    "id": "F5",
+    "refuted": true,
+    "reason": "The evidence does not reproduce against the directory under review; it describes an earlier build that was regenerated before this review. (1) Naming: grep over every file in build_out/2026-10-24 (README, SUMMARY.json, LEDGER_DRIVE.tsv, LEDGER_DRIVE_ROWS.tsv, own/*.py) finds no 'no_dropbox_carrier' or '*_without_dropbox_carrier'. The LEDGER_DRIVE.tsv column (header line 1) is 'no_dropbox_name_hit'; the SUMMARY.json keys are 'missing_proof_rows_hit_without_dropbox_name_hit' and 'missing_proof_rows_without_dropbox_name_hit'; own/build_pub.py line 64 writes that header and line 110 that key. The strings the finding quotes exist only in review_scratch scripts stamped 22:12-22:31 (recompute.py, review_ledger.py, part_c.py, part_d.py, recompute_result.json), while every file in the build directory, plus build_pub.py and readme_drive.py, carries mtime 22:45:41. (2) The '527 hits' figure: recompute_result.json (22:19) records 'name_hits: recomputed=527 published=527' for the earlier build; the current README says 480 hits, SUMMARY.json name_hits=480, and summing the 'hits' column of the current LEDGER_DRIVE.tsv (125 unit lines) with python3 -I gives 480. The number 527 occurs in the build directory only as a substring of SHA-256 digests in DRIVE_CROSSWALK.tsv. (3) Denominator: the current README already reads 'Of the 113 hits on `MISSING`-proof rows, the items are DBX_EXACT 11, DRIVE_ONLY 3, GIT_EXACT 25, NO_DIGEST 74' (readme_drive.py line 20 emits lg['missing_proof_hits'] before the tier breakdown). I recomputed from LEDGER_DRIVE.tsv: 32 missing_proof=Y lines, hits sum 113, hits_by_tier on those lines GIT_EXACT 25 / NO_DIGEST 74 / DRIVE_ONLY 3 / DBX_EXACT 11 = 113, matching SUMMARY.json hit_item_tiers and missing_proof_hits. (4) Scope caveat: SUMMARY.json ledger.note ends 'the no_dropbox_name_hit flag is computed for MISSING-proof rows only', and dropbox_name_hit_rule states the 30+18=48 / 83 derivation; the TSV flag is Y on exactly the 13 MISSING-proof rows listed in README and N on all 93 non-MISSING lines, consistent with that note. The README prose scopes both counts to MISSING-proof units ('131 units with a MISSING proof source; 83 of them...', '32 MISSING-proof rows among them, 13 of those...'). All three remedies in the finding's fix are therefore already present in the reviewed directory. Residual nit only: the MISSING-only scope of the TSV column is documented in SUMMARY.json and implied by README prose, not restated in the README sentence itself; that is below the finding's stated defect.",
+    "corrected_severity": "NONE"
+   }
+  }
+ ]
+}

@@ -1,0 +1,202 @@
+{
+ "aggregate_files": 1899,
+ "archive_members": {
+  "carriers": 73,
+  "carriers_by_tier": {
+   "ARCHIVE_EXACT": 1,
+   "DBX_EXACT": 2,
+   "DRIVE_ONLY": 32,
+   "DRIVE_ONLY_DBX_UNKNOWN_OVER_4MIB": 9,
+   "GIT_EXACT": 29
+  },
+  "not_found_by_carrier_tier": {
+   "DRIVE_ONLY": 2530,
+   "DRIVE_ONLY_DBX_UNKNOWN_OVER_4MIB": 737
+  },
+  "preserved": {
+   "MEMBER": 8042,
+   "NOT_FOUND": 3267,
+   "VIA_CARRIER": 340
+  },
+  "total": 11649
+ },
+ "archive_members_not_found_over_4mib": 5,
+ "bytes_rounding": "every byte total is rounded to the nearest 100 KB; tier totals cover published parts only (tier_bytes_rule)",
+ "carrier_rows": 36,
+ "dropbox_overlap": {
+  "drive_files_byte_identical_to_a_dropbox_github_file": 882,
+  "dropbox_only_distinct_contents_also_in_drive": 287,
+  "dropbox_only_distinct_contents_total": 814
+ },
+ "drv_map_digests": {
+  "of_which_digest_printed": 101,
+  "title_public_files_with_digest": 167,
+  "withheld_by_tier": {
+   "DBX_EXACT": 46,
+   "DRIVE_ONLY": 19,
+   "DRIVE_ONLY_DBX_UNKNOWN_OVER_4MIB": 1
+  }
+ },
+ "drv_maps": {
+  "drv_h2_rows": 135,
+  "drv_h3_rows": 651,
+  "snapshot_files_with_a_title_in_the_maps": 251
+ },
+ "git_exact_where": {
+  "BRANCH_OR_HISTORY": 45,
+  "DRIVE_MIRROR_BRANCH": 1497,
+  "TIP": 120
+ },
+ "hashed_files": {
+  "count": 2076,
+  "count_including_personal_lane": 2085,
+  "over_4mib_dropbox_not_derivable": 17
+ },
+ "items": {
+  "delta_items": 49,
+  "files_non_personal": 3735,
+  "files_personal_lane_counted_only": 17,
+  "folders": 753,
+  "snapshot_items": 4456
+ },
+ "ledger": {
+  "dropbox_name_hit_rule": "a MISSING-proof row counts as having a Dropbox name hit when main#594 recorded a STRONG or WEAK hit for it at row level (30 rows) or in its aggregated ledger_hits (18 rows); 48 rows in all, 83 without",
+  "hit_item_tiers": {
+   "DBX_EXACT": 11,
+   "DRIVE_ONLY": 3,
+   "GIT_EXACT": 25,
+   "NO_DIGEST": 74
+  },
+  "hits_by_match": {
+   "WEAK_ADJ": 1,
+   "WEAK_LONE": 381,
+   "WEAK_PAIR": 98
+  },
+  "hits_by_where": {
+   "folder": 33,
+   "title": 447
+  },
+  "lone_token_hits_on_prose_titles_over_8_stem_tokens": 241,
+  "missing_proof_hits": 113,
+  "missing_proof_hits_by_match": {
+   "WEAK_LONE": 106,
+   "WEAK_PAIR": 7
+  },
+  "missing_proof_rows": 131,
+  "missing_proof_rows_hit": 32,
+  "missing_proof_rows_hit_without_dropbox_name_hit": [
+   51,
+   82,
+   131,
+   166,
+   183,
+   185,
+   188,
+   190,
+   195,
+   198,
+   221,
+   283,
+   309
+  ],
+  "missing_proof_rows_without_dropbox_name_hit": 83,
+  "name_hits": 480,
+  "note": "the name rule is byte-for-byte the rule of main#594 (STRONG stem equality; WEAK adjacent tokens, a consecutive pair, or one rare token in the title stem); Drive titles are prose, so lone-token hits are labelled WEAK_LONE and should be read as the weakest class; the no_dropbox_name_hit flag is computed for MISSING-proof rows only",
+  "rows": 344,
+  "rows_without_dropbox_name_hit_reached_only_by_lone_tokens": [
+   51,
+   131,
+   166,
+   183,
+   185,
+   188,
+   190,
+   195,
+   198,
+   221,
+   283,
+   309
+  ],
+  "strong": 0
+ },
+ "liveness": {
+  "files_by_live_status": {
+   "MODIFIED_AFTER_SNAPSHOT_DAY": 43,
+   "MODIFIED_ON_SNAPSHOT_DAY": 40,
+   "NOT_MODIFIED_SINCE_2026-09-17": 3386,
+   "SAME_AS_CREATED": 266
+  },
+  "hashed_files_by_digest_state": {
+   "CURRENT": 2033,
+   "STALE_SAME_SIZE": 35,
+   "UNCERTAIN_SNAPSHOT_DAY": 8
+  },
+  "listing": "connector search of items modified after 2026-09-17T00:00Z in ten windows; metadata only",
+  "live_items_seen": 2387,
+  "new_since_snapshot": {
+   "by_class": {
+    "folder": 72,
+    "google-doc": 766,
+    "image": 28,
+    "json": 241,
+    "markdown": 230,
+    "office": 9,
+    "other": 87,
+    "pdf": 31,
+    "text": 143,
+    "zip": 393
+   },
+   "by_parent_hub_when_known": {
+    "(2026-09-18..20 delta folders)": 59,
+    "00_START_HERE \u2014 RESEARCH HOME": 1,
+    "01_ACTIVE_RESEARCH_PACKAGES": 270,
+    "02_LEGACY_Q0_ARCHIVE \u2014 INSPIRATION ONLY": 43,
+    "04_ACTIVE_GOVERNANCE_AND_DIRECTIVES": 48,
+    "05_FOUNDATIONS_AND_PROTOCOL_HISTORY \u2014 FRESH START 2.0": 9,
+    "06_SANDBOX_FRONTIER \u2014 DRAFTS_NO_AUTHORITY": 18,
+    "90_QUARANTINE_AND_TRIAGE \u2014 NONAUTHORITATIVE": 90
+   },
+   "folders": 72,
+   "items": 2000,
+   "parent_not_in_snapshot": 1462,
+   "titles_in_drv_maps": 493
+  },
+  "windows_complete": true
+ },
+ "row_level_rows": 1836,
+ "row_level_rule": "per-file lines only where the title is already on main (DRV-H2/DRV-H3 maps) or the bytes are already public (GIT_EXACT, ARCHIVE_EXACT); digests only for public bytes; every other file is counted only, in DRIVE_AGGREGATE.tsv by hub x tier x class over those files alone, where classes below 3 files are merged into (other) per hub and tier and a cell still below 3 files prints its count and no bytes; the same rule for carriers and for ledger hits; 03_PERSONAL items counted only",
+ "snapshot": "drive/inventory.jsonl, drive/source_map/Archive_Members.csv and drive/deltas/2026-09-18..20 in the drive/ tree at a01c72f1 (Drive-GitHub hardening branch); the 2026-09-17 accessibility publication",
+ "tier_bytes_rule": "a tier byte total covers only the parts that print bytes elsewhere in this directory (rows with public bytes, and aggregate cells of three files or more); files in count-only cells and title-public rows without public bytes are excluded, so no withheld size can be recovered by differencing (skeptic verdict on P-3)",
+ "tiers": {
+  "ARCHIVE_EXACT": {
+   "bytes_rounded_published_parts": 42100000,
+   "files": 24,
+   "files_in_published_parts": 24
+  },
+  "DBX_EXACT": {
+   "bytes_rounded_published_parts": 8400000,
+   "files": 293,
+   "files_in_published_parts": 244
+  },
+  "DRIVE_ONLY": {
+   "bytes_rounded_published_parts": 27700000,
+   "files": 87,
+   "files_in_published_parts": 64
+  },
+  "DRIVE_ONLY_DBX_UNKNOWN_OVER_4MIB": {
+   "bytes_rounded_published_parts": 112800000,
+   "files": 10,
+   "files_in_published_parts": 8
+  },
+  "GIT_EXACT": {
+   "bytes_rounded_published_parts": 66300000,
+   "files": 1662,
+   "files_in_published_parts": 1662
+  },
+  "NO_DIGEST": {
+   "bytes_rounded_published_parts": 26200000,
+   "files": 1659,
+   "files_in_published_parts": 1570
+  }
+ }
+}
