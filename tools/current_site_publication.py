@@ -32,6 +32,8 @@ WORKFLOW = ".github/workflows/current-site.yml"
 MAX_RECEIPT_BYTES = 1024 * 1024
 MAX_PUBLIC_BYTES = 16 * 1024 * 1024
 MAX_SNAPSHOTS = 512
+REF_READBACK_ATTEMPTS = 4
+REF_READBACK_SECONDS = 10
 HEX40 = re.compile(r"[0-9a-f]{40}\Z")
 HEX64 = re.compile(r"[0-9a-f]{64}\Z")
 PATHS = {"manifest": "snapshots/index.json", "metadata": "current-meta.json", "payload": "current.json"}
@@ -129,9 +131,13 @@ def validate_receipt(receipt):
 def source_guard(candidate, context):
     validate_candidate(candidate)
     closed(context, ("repository", "ref", "commit", "run_id", "run_attempt"), "execution context")
+    hex_value(context["commit"], HEX40, "execution source commit")
+    integer(context["run_id"], 1, 2**63-1, "execution run id")
+    integer(context["run_attempt"], 1, 100_000, "execution run attempt")
     if (context["repository"] != REPOSITORY or context["ref"] != "refs/heads/main"
             or candidate["source"]["commit"] != context["commit"]
-            or candidate["run"] != {"id": context["run_id"], "attempt": context["run_attempt"]}):
+            or candidate["run"]["id"] != context["run_id"]
+            or candidate["run"]["attempt"] > context["run_attempt"]):
         raise ValueError("publication source/run differs from qualified execution")
 
 
@@ -285,8 +291,7 @@ def verified_commit(api, commit):
     return data, parents
 
 
-def read_anchor(api=None, *, allow_bootstrap=False):
-    api = api if api is not None else GitHubAPI()
+def read_ref_head(api, *, allow_bootstrap=False):
     try:
         ref = api.request("GET", REF_READ)
     except urllib.error.HTTPError as error:
@@ -295,7 +300,10 @@ def read_anchor(api=None, *, allow_bootstrap=False):
         raise ValueError("publication receipt branch unavailable; bootstrap requires explicit initial 404") from error
     if ref.get("ref") != REF_NAME or not isinstance(ref.get("object"), dict) or ref["object"].get("type") != "commit":
         raise ValueError("invalid publication anchor ref")
-    head = hex_value(ref["object"].get("sha"), HEX40, "anchor ref commit")
+    return hex_value(ref["object"].get("sha"), HEX40, "anchor ref commit")
+
+
+def read_anchor_at(api, head):
     commit, parents = verified_commit(api, head)
     tree_sha = commit["tree"]["sha"]
     tree = api.request("GET", "/git/trees/" + tree_sha)
@@ -319,6 +327,12 @@ def read_anchor(api=None, *, allow_bootstrap=False):
     if parents != ([receipt["previous_receipt_commit"]] if receipt["previous_receipt_commit"] else []):
         raise ValueError("anchor receipt differs from actual Git parent")
     return {"head": head, "receipt": receipt}
+
+
+def read_anchor(api=None, *, allow_bootstrap=False):
+    api = api if api is not None else GitHubAPI()
+    head = read_ref_head(api, allow_bootstrap=allow_bootstrap)
+    return None if head is None else read_anchor_at(api, head)
 
 
 def check_public(candidate, raw):
@@ -365,7 +379,8 @@ def public_readback(receipt, *, reader=None, attempts=67, pause=time.sleep, cloc
             pause(min(10, max(0, deadline - clock())))
 
 
-def append_receipt(api, receipt, old_head):
+def append_receipt(api, receipt, old_head, *, read_attempts=REF_READBACK_ATTEMPTS,
+                   read_pause=time.sleep, read_clock=time.monotonic):
     raw = encode(validate_receipt(receipt))
     if len(raw) > MAX_RECEIPT_BYTES:
         raise ValueError("receipt capacity exceeded")
@@ -387,9 +402,23 @@ def append_receipt(api, receipt, old_head):
         raise ValueError("created receipt commit differs from requested immutable tree/parent")
     if old_head:
         api.request("PATCH", REF_WRITE, {"sha": commit, "force": False})
+        integer(read_attempts, 1, REF_READBACK_ATTEMPTS, "receipt ref readback attempts")
+        deadline = read_clock() + REF_READBACK_SECONDS
+        for attempt in range(read_attempts):
+            visible = read_ref_head(api)
+            if visible == commit:
+                observed = read_anchor_at(api, commit)
+                if observed != {"head": commit, "receipt": receipt}:
+                    raise ValueError("receipt target differs from immutable requested receipt")
+                return observed
+            if visible != old_head:
+                raise ValueError("receipt branch advanced to a third-party head; publication race")
+            if attempt + 1 == read_attempts or read_clock() >= deadline:
+                raise ValueError("receipt target visibility readback exhausted; publication recovery needed")
+            read_pause(min(1, max(0, deadline - read_clock())))
     else:
         api.request("POST", "/git/refs", {"ref": REF_NAME, "sha": commit})
-    observed = read_anchor(api)
+    observed = read_anchor_at(api, commit)
     if observed != {"head": commit, "receipt": receipt}:
         raise ValueError("receipt branch changed during write; publication recovery needed")
     return observed
