@@ -1,0 +1,80 @@
+{
+ "note": "the three draft PRs that carried audits/dropbox_import/2026-10-24, their heads, the nonauthor reviews and the owner and CoS decisions, by comment or review id; other lanes' texts are not included",
+ "carriers": [
+  {
+   "pr": "main#589",
+   "branch": "claude/dbx-crosswalk-01cz-20261024",
+   "heads": [
+    "c351acbd16e52c8fda5a47935f21af430b269c30",
+    "6c01a832f1b49c83d3099859343ff5083c471bd1",
+    "3e134717e2839414948e0a5918568897f5869aae",
+    "37c29627b5d938cc0e9e1cf799e6d2aff723060e"
+   ],
+   "state": "closed 2026-10-24 20:22Z as superseded (comment 6389101272); branch kept, no remote deleted"
+  },
+  {
+   "pr": "main#590",
+   "branch": "claude/dbx-crosswalk-01cz-20261024-r2",
+   "base": "a38707383d406e0751481f3d0152e71b527c0c9a",
+   "heads": [
+    "8d84a7c5fa137f3d2ab57eac4391e14bb1032d24",
+    "6a9c049cf55d04e1fa333966a6e2371538710349"
+   ],
+   "state": "opened as a fresh branch answering F2; closed as redundant 20:15Z (6389024617) after the CoS tip-only ruling (589/6389006793); reopened after the owner's F2 decision (CoS relay 589/6389084026, 539/6389083675); closed 21:03Z as superseded (6389501107); branch kept, no remote deleted"
+  },
+  {
+   "pr": "main#594",
+   "branch": "claude/dbx-crosswalk-01cz-20261024-r3",
+   "base": "a38707383d406e0751481f3d0152e71b527c0c9a",
+   "heads": [
+    "06c4a1a081bf7a163f954ca8f791347c696f792e"
+   ],
+   "tree": "d66ed76a03407e1d09b9b0f258183842cff05247",
+   "state": "open draft, one commit; tree = the reviewed main#590 tip tree d09bf1de plus N1 (four files differ); fresh nonauthor delta read requested (539/6389504892), not for merge by the author"
+  }
+ ],
+ "reviews": [
+  {
+   "id": "pullrequestreview 5639738563",
+   "pr": "main#589",
+   "head": "c351acbd",
+   "by": "nonauthor, OpenAI lane (GTP)",
+   "verdict": "AMEND_SOURCE_SCOPED: A1, A2, A3",
+   "answered": "6c01a832; 589/6388931004, 539/6388931160"
+  },
+  {
+   "id": "pullrequestreview 5639778197",
+   "pr": "main#589",
+   "head": "6c01a832",
+   "by": "nonauthor, agent 8",
+   "verdict": "F1 (per-file rows for unnamed files), F2 (those rows in the branch history), F3 (fail-closed hash collection); then F1a-c (exact totals allow differencing of withheld cells)",
+   "answered": "F1 and F3 in 3e134717 (589/6389024430); F1a-c by rounding to 100 KB in 37c29627 (589/6389079709); F2 by the fresh branches main#590 and main#594"
+  },
+  {
+   "id": "pullrequestreview 5639987376",
+   "pr": "main#590",
+   "head": "6a9c049c",
+   "by": "nonauthor, agent 8",
+   "verdict": "AMEND_SCOPED: tip verified (tree identical to #589 37c29627, rounding, A1-A3, CI 8/8); H1 blocking (ancestor 8d84a7c5 carries the pre-rounding SUMMARY.json); N1 (exact sizes of two unnamed files in HASH_UNAVAILABLE.tsv); N2 (stale counts in the PR body)",
+   "answered": "H1 by the single commit 06c4a1a0 on main#594 from a3870738; N1 in that commit; N2 in the main#594 body (590/6389501107, 539/6389504892)"
+  }
+ ],
+ "decisions": [
+  {
+   "what": "a tip-only amendment answers F2",
+   "by": "CoS",
+   "where": "589/6389006793"
+  },
+  {
+   "what": "rewrite or rebuild so that the c351acbd per-file rows are not in the mergeable history (F2)",
+   "by": "owner, relayed by the CoS",
+   "where": "589/6389084026, 539/6389083675"
+  },
+  {
+   "what": "H1: author single-commit rebuild from a3870738, not squash; then a fresh nonauthor delta read, not agent 8; integrate only after that PASS and the MAIN-LOCK order",
+   "by": "CoS",
+   "where": "539/6389430715, 590/6389431693"
+  }
+ ],
+ "retention_note": "published/ in this unit is refreshed to main#594 head 06c4a1a0 (byte totals rounded to 100 KB; the two unnamed sizes withheld). The copies of README.md and SUMMARY.json in this branch's earlier commits, through 9057f7f5, are the 6c01a832 versions with exact totals, the exposure that F1a-c and H1 name. This session does not rewrite a pushed branch, so they stay in the history; the owner or the CoS decide the disposal of this branch."
+}

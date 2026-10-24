@@ -1,5 +1,5 @@
 {
- "note": "Not included: the path-level data (private Dropbox paths), raw pages and subagent TSVs, the Git and archive indexes, the pre-copy build directory and the agents' transcripts. Listed by local path, size and listing hash. The published subset is main#589.",
+ "note": "Not included: the path-level data (private Dropbox paths), raw pages and subagent TSVs, the Git and archive indexes, the pre-copy build directory and the agents' transcripts. Listed by local path, size and listing hash. The published subset is main#594 (after main#589 and main#590, both closed as superseded).",
  "references": [
   {
    "local_path": "dbx/inventory.tsv",
@@ -72,13 +72,6 @@
    "what": "the Git blob index (32,221 blobs, all refs of main after unshallowing and Math- main plus PR refs), tip-blob sets, archive member indexes, refs snapshots and the folder-name occurrence check; public content but 12 MB; not included, rebuildable with tools/dropbox_reconcile.py index-git"
   },
   {
-   "local_path": "dbxpr/build_out",
-   "files": 18,
-   "bytes": 1302720,
-   "listing_sha256": "57af49f0003db0f63ccbb154b503c0d60ca382c6b85fdb46f3b98e199bc37f97",
-   "what": "the assembled publication directory before copying into the branch; identical to main#589 head c351acbd audits/dropbox_import/2026-10-24; not included"
-  },
-  {
    "local_path": "<SESSION_DIR>/subagents/workflows/wf_f257e3e1-7d8",
    "files": 112,
    "bytes": 13430186,
@@ -105,6 +98,20 @@
    "bytes": 8234041,
    "listing_sha256": "7836d81732cc3b4872a07da79ef74c4e8ddef49f03fc4f56f888191ba7f2f055",
    "what": "transcripts and journals of the retrieval and review agents; not included"
+  },
+  {
+   "local_path": "dbxpr/build_out",
+   "files": 18,
+   "bytes": 1306489,
+   "listing_sha256": "c7cd12b3e336027c68eb7a5865e8f8ae13178dd2b394283632184aa6e8d2998a",
+   "what": "the assembled publication directory before copying into the branch; identical to main#594 head 06c4a1a0 audits/dropbox_import/2026-10-24; not included"
+  },
+  {
+   "local_path": "dbxpr/posts",
+   "files": 55,
+   "bytes": 80808,
+   "listing_sha256": "4bf3d530e3fe5ee1cf4c3bfc32cad409400a95faf9c1ae720960461e936d410c",
+   "what": "own post receipts, readbacks and PR-body drafts; the sent and posted texts are in this unit; not included"
   }
  ]
 }

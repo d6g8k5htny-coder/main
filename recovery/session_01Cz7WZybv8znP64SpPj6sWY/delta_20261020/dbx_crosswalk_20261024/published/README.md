@@ -11,7 +11,7 @@ Lane `DBX-MATH-TREE-CONTENTHASH-CROSSWALK-01CZ-20261024`, Anthropic Claude, Clau
 
 ## Tiers
 
-| tier | meaning | files | bytes |
+| tier | meaning | files | bytes (rounded to 100 KB) |
 |---|---|---|---|
 | `GIT_EXACT` | byte-identical to a Git blob (locator repo:path; flag `ON_TIP` when the blob is in the tip tree of `origin/main` or Math- `main`, else `HISTORY_OR_BRANCH_ONLY`) | 1,905 | 48.9 MB |
 | `ARCHIVE_EXACT` | byte-identical to an archive member, not to a Git blob | 1,529 | 48.5 MB |
@@ -40,9 +40,9 @@ Lane `DBX-MATH-TREE-CONTENTHASH-CROSSWALK-01CZ-20261024`, Anthropic Claude, Clau
 ## Files
 
 - `CROSSWALK.tsv`: 3,598 per-file rows, only where nothing new is disclosed: the 2026-09-27 import already named the path (then the path is printed), or the bytes are already public (`GIT_EXACT`, `ARCHIVE_EXACT`, `EMPTY`: the hash is the hash of a public blob; then folder label, extension, bytes, `client_modified`, `content_hash`, tier, locator and flags are printed, archive member paths redacted through withheld folders).
-- `CROSSWALK_AGGREGATE.tsv`: every other file (Dropbox-only, name-size-different, pending), as counts, distinct contents and bytes by folder label, extension and tier. Their per-file hashes, sizes and times are held locally (`PINS.json`) and are released only on an owner or CoS publication decision, because a hash of unpublished content is a confirmation oracle (01Fi's caveat, 539/6387941726).
+- `CROSSWALK_AGGREGATE.tsv`: every other file (Dropbox-only, name-size-different, pending), as counts, distinct contents and bytes by folder label, extension and tier; cells with fewer than three files are merged into an `(other)` row per folder and tier, and a cell still below three files prints its file count only, so no cell describes one file. Every byte total in `SUMMARY.json` and in this README is rounded to the nearest 100 KB, so a withheld cell cannot be recovered by differencing a total against the printed rows and cells. Their per-file hashes, sizes and times are held locally (`PINS.json`) and are released only on an owner or CoS publication decision, because a hash of unpublished content is a confirmation oracle (01Fi's caveat, 539/6387941726).
 - `LEDGER_CROSSWALK.tsv`: ledger row, unit, match strength, matched tokens and kind, then the same Dropbox columns, under the same row-level rule; hits on files outside it are counted per ledger row in `SUMMARY.json` (`ledger_hits_aggregated`).
-- `SUMMARY.json`: the counts above, by tier and by folder. `PINS.json`: sizes and SHA-256 of the local inputs (inventory, hashes, Git index, archive indexes) and the ledger commit. `HASH_UNAVAILABLE.tsv`: files whose link metadata the connector refused.
+- `SUMMARY.json`: the counts above, by tier and by folder. `PINS.json`: sizes and SHA-256 of the local inputs (inventory, hashes, Git index, archive indexes) and the ledger commit. `HASH_UNAVAILABLE.tsv`: files whose link metadata the connector refused (folder and extension only; their sizes are withheld, as for any aggregate cell below three files).
 - `own/`: the scripts (page merge, phase 1 name and size, batching, hash harvest and collection with its fail-closed receipt, phase 3 tiers, ledger matching, archive indexing, this assembly and README generator). Local roots are replaced by placeholders (`<SCRATCH>`, `<MAIN_CHECKOUT>`, `<SESSION_DIR>`). They do not reproduce the tables on their own: the inventory, the hash set and the Git index are digest-bound in `PINS.json` but not published.
 - Not here: the path-level crosswalk of every file (`PINS.json` gives its row count and SHA-256). It is held locally by session 01Cz and offered to the owner or the CoS, who decide what else may be named.
 
