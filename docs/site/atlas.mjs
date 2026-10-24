@@ -1,5 +1,5 @@
-import {currentSnapshot,element,anchor} from './current.mjs?site-release=9d297c66edf81157e25abdfc83bc49a0ddc5b9b1c1953233d0c95a7a54adb7a2';
-import {hasNode,readState,neighborhood,searchGraph,downstreamReach,requiredDependencyPaths,REQUIRED_ROUTE_SEMANTICS,evidenceAxes,sourceURL,sourceForNode,nodePage,resumeProjection,RESUME_NOT_RECORDED,resumeFieldHref} from './current-model.mjs?site-release=c74b06de2c8a80615e70df68d7a5eb122731d3a9030311f275503fd9a0f4bdf7';
+import {currentSnapshot,element,anchor} from './current.mjs?site-release=fc7e8a98c1e23f476962c4c83e95ed3ce817490007987112d9b2cf6d3d90b142';
+import {hasNode,readState,neighborhood,searchGraph,downstreamReach,requiredDependencyPaths,REQUIRED_ROUTE_SEMANTICS,evidenceAxes,sourceURL,sourceForNode,staticNodeLinks,resumeProjection,RESUME_NOT_RECORDED,resumeFieldHref} from './current-model.mjs?site-release=a30d68465e3acda48eedce64854afebc7af5c84903a4e6b0c649e08007b08999';
 import {createAtlasShell,viewForViewport} from './atlas-shell.mjs?site-release=9fce5f707e3486ef152ffdaa1cf1e4adf7cd9cf9dac116407a69b6528b4c656c';
 const byId=id=>document.getElementById(id);
 const svgElement=(tag,attrs)=>{const n=document.createElementNS('http://www.w3.org/2000/svg',tag);for(const [k,v]of Object.entries(attrs))n.setAttribute(k,String(v));return n;};
@@ -39,7 +39,12 @@ async function start() {
     const r=reach(selected),reachText=`Downstream nodes · all edges: ${r.allEdge}. Downstream nodes · required edges: ${r.requiredOnly}.`;
     const reachPanel=element('p',reachText);reachPanel.id='atlas-reach';panel.append(reachPanel,element('p',`Complete indexed snapshot query at ${data.graph.identity.commit}. Each count excludes the selected node and counts distinct downstream nodes. All edges includes context; required edges uses required edges at every step. These counts do not identify blocked theorems or prove completeness.`));byId('atlas-diagnostic-selection').textContent=`Selected ${selected}: ${reachText} No scientific disposition is inferred.`;
     panel.append(element('p',n.scope||n.notes||'Statement and scope extraction not recorded. Inspect the source reference.'));
-    panel.append(anchor('Read this node without JavaScript',nodePage(selected)));
+    const readingLinks=staticNodeLinks(selected,[...(byId('current-research')?.querySelectorAll('a[href]')||[])].map(link=>link.getAttribute('href')),location.href);
+    const preservedReading=element('p');
+    if(readingLinks.preserved)preservedReading.append(anchor('Read the preserved mathematical record',readingLinks.preserved),' — Opens the preserved mathematical record with its original source revisions and capture date.');
+    else preservedReading.textContent='Preserved mathematical record unavailable from this observation.';
+    panel.append(preservedReading);
+    if(readingLinks.current){const currentReading=element('p');currentReading.append(anchor('Read the static node record',readingLinks.current),' — The capture date and source revisions on that page may differ from this view.');panel.append(currentReading);}
     panel.append(resumeSection(resumeProjection(data,selected,Date.now(),nodeStatus)));
     const dl=element('dl',undefined,'atlas-axes');for(const a of evidenceAxes(n)){dl.append(element('dt',a.axis),element('dd',`${a.axis[0].toUpperCase()+a.axis.slice(1)} metadata ${a.state==='recorded'?'recorded':'not recorded'} · ${a.state}`));}panel.append(dl,element('p','These labels describe metadata in this graph snapshot. Evidence values, applicability and custody are separate. No explicit graph-to-artifact binding · Artifact roles: unknown · Custody: unknown.'));
     const source=sourceForNode(data,n);if(source){panel.append(anchor('Immutable source reference (document bytes not acquired by this graph view)',sourceURL(source)));panel.append(element('p',`Git blob ${source.blob} · ${source.bytes} bytes in the pinned tree. Reference presence is not mathematical verification.`));}else panel.append(element('p',n.source?`Unresolved source reference: ${n.source}. No matched public file in this pinned source inventory.`:'Source reference not recorded.'));
