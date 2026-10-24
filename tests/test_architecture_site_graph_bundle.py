@@ -802,14 +802,17 @@ class NativeGraphBundleContract(unittest.TestCase):
         with TemporaryDirectory() as temporary:
             site, payload = prepare_site(Path(temporary))
             builder()(site, payload, **build_arguments(value))
+            import_module("current_site_history").publish_history(site)
             before = snapshot(site)
             prior_index = json.loads(before["snapshots/index.json"])
+            self.assertEqual(len(prior_index["archives"]), 1)
             changed = json.loads(payload.read_bytes())
             changed["observed_at"] = "2026-10-13T12:00:01Z"
             raw = (json.dumps(changed, ensure_ascii=False, indent=2) + "\n").encode("utf-8")
             payload.write_bytes(raw)
             expected = bundle(value, current=raw)
             builder()(site, payload, **build_arguments(value))
+            import_module("current_site_history").publish_history(site)
             after = snapshot(site)
             for path, content in expected.items():
                 self.assertEqual(after[path], content, path)
