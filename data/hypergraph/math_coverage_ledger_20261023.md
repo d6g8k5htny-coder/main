@@ -1,15 +1,34 @@
 # Math coverage ledger: retroactive artifact binding, 2026-10-23
 Lane: RETRO-MATH-BIND-02, run by CoS (Cursor-hosted Grok Bot). Inputs: main#527 rows (Math-@9f3fb691, main), #538 (closed, 802fdb0b), the R22 tip 67818d30 and R21 tip 93a19170 companions, the GB-8 slices, and the DRV-H1 Drive map (#550 @e8d37ce9, 1895 Drive files: 417 MAPPED_EXISTING, 1450 PROPOSED_NEW_NODE, 28 UNMAPPED).
 Math stays fail-closed: credit 0 · OBL OPEN · no flags. This is an inventory only. It makes no correctness claim.
-**Dropbox: NOT CRAWLED.** There is no connector for it. Any Dropbox-only artifacts are unaccounted for.
+**Dropbox: project-wide crawl NOT ESTABLISHED.** Connector availability is actor-specific, as reconciled in [539/6376180210](https://github.com/d6g8k5htny-coder/main/issues/539#issuecomment-6376180210). This ledger validates no Dropbox-only source bytes; those artifacts remain outside this membership supplement.
 
 ## Totals
 - Header corrected 2026-10-23 (CoS): the table has 133 literal `MISSING` source cells, so sourced = 211 (was misstated as 215 / 129).
 - Units: **344**. That is 313 from #527, 17 unmerged from #538, 13 R22 companions and 1 R21 companion.
-- Have a proof or lemma source file in the repo: **211**. No source file: **133**.
+- Have a proof or lemma source file in the repo: **213**. No source file: **131**.
 - Have an implementation (code or refs): **296**. Missing an implementation: **48**.
 - Tied to a graph node: **22**. Bound (node, impl and commit): **14**. The graph has 49 nodes with 21 bound per #527, so 28 nodes are unbound.
 - Name-matched to a Drive mirror: 4. Name matching is weak. DRV-H1 maps Drive by folder lane, not by unit.
+
+## Main source-membership supplement, 24 October 2026
+
+Rows 307 and 310 now list the **56 tracked Markdown members** under their existing
+Main containers (28 periodic-H0 and 28 universality files), frozen at Main
+`32366ac0d4e2d1464eaac51866b9dce2128970b9`. These include proofs, reviews,
+reading maps, protocols and historical reports. Membership is source presence,
+not a claim that every member is a proof or that co-located code implements it.
+The original 211 sourced / 133 missing snapshot is retained above as historical;
+current container counts are 213 / 131. The denominator remains **344 ledger
+rows**, not 344 accepted theorems or 56 new units. Implementation, node, bound and
+status cells are unchanged.
+
+This is not a complete Main corpus. Zeta, research-translation, formal sources,
+other roots, histories and private storage keep their existing scope. In
+particular `EXACT_SAMPLE_SHRINKING_BIN.md` points to its separately identified
+canonical proof in GitHub comment 229/5976299711; indexing the note does not
+import or verify that complete comment body. Scientific acceptance and original
+review qualifications are unchanged. Credit 0; OBL OPEN; NOT A RESULT.
 
 ## Ledger
 | # | source | repo | unit | lane | proof/lemma files (sample) | impl | graph node | bound | status | drive hits |
@@ -320,10 +339,10 @@ Math stays fail-closed: credit 0 · OBL OPEN · no flags. This is an inventory o
 | 304 | main#527 | Math- | `specifications/lean_statements_20261010` | GB-8q | Specifications.lean; Specifications/Field.lean; Specifications/Lifetime.lean | specifications/lean_statements_20261010/Specifications.lean; specifications/lean_statements_20261010/Specifications/Field.lean | — | N | orphan | 0 |
 | 305 | main#527 | Math- | `claims/LANDING_CLAIMS.json` | GB-8r | MISSING | .github/workflows/landing-claims.yml | — | N | orphan | 0 |
 | 306 | main#527 | main | `experiments/board_capacity_probe_20261022` | GB-8r | MISSING | experiments/board_capacity_probe_20261022/board_capacity_probe.py; experiments/board_capacity_probe_20261022/test_board_capacity_probe.py | — | N | orphan | 0 |
-| 307 | main#527 | main | `experiments/periodic_h0` | GB-8n | MISSING | experiments/periodic_h0/controls.py; experiments/periodic_h0/count_confidence.py | — | N | orphan | 0 |
+| 307 | main#527 | main | `experiments/periodic_h0` | GB-8n | experiments/periodic_h0/APPROXIMATION.md; experiments/periodic_h0/CONFIRMATION_READINESS.md; experiments/periodic_h0/COUNT_CONFIDENCE.md; experiments/periodic_h0/EXACT_H0.md; experiments/periodic_h0/EXACT_SAMPLE_SHRINKING_BIN.md; experiments/periodic_h0/FINITE_CERTIFICATE.md; experiments/periodic_h0/FINITE_COUNT_LOSS.md; experiments/periodic_h0/GAUSSIAN_COUPLING.md; experiments/periodic_h0/GAUSSIAN_TAIL.md; experiments/periodic_h0/HESSIAN_GRID.md; experiments/periodic_h0/MEAN_ADAPTIVE_CONFIDENCE.md; experiments/periodic_h0/NODAL_CERTIFICATE.md; experiments/periodic_h0/README.md; experiments/periodic_h0/REFINEMENT_PROTOCOL.md; experiments/periodic_h0/WORD_POLYNOMIAL.md; experiments/periodic_h0/results/certificate8/RESULTS.md; experiments/periodic_h0/results/count_confidence1/RESULTS.md; experiments/periodic_h0/results/exact_h0_1/RESULTS.md; experiments/periodic_h0/results/finite_count_loss1/RESULTS.md; experiments/periodic_h0/results/gaussian_coupling1/RESULTS.md; experiments/periodic_h0/results/gaussian_tail1/RESULTS.md; experiments/periodic_h0/results/hessian1/RESULTS.md; experiments/periodic_h0/results/nodal1/RESULTS.md; experiments/periodic_h0/results/pilot32/RESULTS.md; experiments/periodic_h0/results/refinement8/RESULTS.md; experiments/periodic_h0/results/word_polynomial1/RESULTS.md; experiments/periodic_h0/spectral_shrinking_bins/PROOF.md; experiments/periodic_h0/spectral_shrinking_bins/README.md | experiments/periodic_h0/controls.py; experiments/periodic_h0/count_confidence.py | — | N | orphan | 0 |
 | 308 | main#527 | main | `experiments/reactor_v0` | GB-8r | MISSING | experiments/reactor_v0/evaluator.py; experiments/reactor_v0/exact_helpers.py | — | N | orphan | 0 |
 | 309 | main#527 | main | `experiments/semantic_memory` | GB-8r | MISSING | experiments/semantic_memory/benchmark.py; main:.github/workflows/semantic-memory-experiment.yml | — | N | orphan | 0 |
-| 310 | main#527 | main | `experiments/universality` | GB-8r | MISSING | experiments/universality/amplitude_process_controls.py; experiments/universality/fold_controls.py | — | N | orphan | 1 |
+| 310 | main#527 | main | `experiments/universality` | GB-8r | experiments/universality/AMPLITUDE_MIXTURE_FALSIFIER.md; experiments/universality/PROTOCOL.md; experiments/universality/README.md; experiments/universality/VALIDATION.md; experiments/universality/finite_candidate_lifetime/PROOF.md; experiments/universality/finite_candidate_lifetime/REVIEW.md; experiments/universality/finite_contact_genericity/PROOF.md; experiments/universality/finite_contact_genericity/REVIEW.md; experiments/universality/finite_elder_transfer/PROOF.md; experiments/universality/finite_elder_transfer/REVIEW.md; experiments/universality/finite_fold_chart/PROOF.md; experiments/universality/finite_fold_chart/REVIEW.md; experiments/universality/finite_gaussian_contact/PROOF.md; experiments/universality/finite_gaussian_contact/REVIEW.md; experiments/universality/finite_h0_lifetime/PROOF.md; experiments/universality/finite_h0_lifetime/REVIEW.md; experiments/universality/finite_weighted_fold_window/PROOF.md; experiments/universality/finite_weighted_fold_window/REVIEW.md; experiments/universality/fold_structural_universality/PROOF.md; experiments/universality/fold_structural_universality/REVIEW.md; experiments/universality/higher_homology_fold/PROOF.md; experiments/universality/higher_homology_fold/REVIEW.md; experiments/universality/iid_short_bar_process/PROOF.md; experiments/universality/iid_short_bar_process/REVIEW.md; experiments/universality/periodized_gaussian_h0/PROOF.md; experiments/universality/periodized_gaussian_h0/REVIEW.md; experiments/universality/spectral_gaussian_admission/PROOF.md; experiments/universality/spectral_gaussian_admission/REVIEW.md | experiments/universality/amplitude_process_controls.py; experiments/universality/fold_controls.py | — | N | orphan | 1 |
 | 311 | main#527 | main | `experiments/zeta_fold_exploration` | GB-8n | MISSING | experiments/zeta_fold_exploration/dbn/check_collision.py; experiments/zeta_fold_exploration/dbn/check_collision_persistence.py | — | N | orphan | 0 |
 | 312 | main#527 | main | `formal/UniversalLaw` | GB-8p | MISSING | formal/UniversalLaw/Side24/ConeMoments.lean; formal/UniversalLaw/Side24/Endpoints.lean | — | N | orphan | 0 |
 | 313 | main#527 | main | `formal/UniversalLaw.lean` | GB-8p | MISSING | formal/UniversalLaw.lean; main:formal/manifest.json | — | N | orphan | 0 |
