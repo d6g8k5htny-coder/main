@@ -150,7 +150,7 @@ def check_flow(page, origin, expect, result):
     result["steps"].append("explicit search link and refresh retain results")
 
     # Real fragment navigation creates a history entry; typing replaces it.
-    page.get_by_role("link",name="Recorded status",exact=True).click()
+    page.locator('.library-routes a[href="#board"]').click()
     page.locator("#search").fill("EC-014")
     require(urlsplit(page.url).fragment=="board","Board navigation was overwritten")
     page.go_back()
@@ -1085,6 +1085,9 @@ def check_curvature_preset_flow(page, origin, expect, result, output):
     center=page.locator('#curvature-center');spread=page.locator('#curvature-spread')
     expect(spread).to_have_value('2')
     spread.focus();page.keyboard.press('Tab')
+    expect(page.locator('#peaks .experiment-options > summary')).to_be_focused()
+    open_ancestor_disclosures(page.locator('[data-curvature-preset="maximum"]'))
+    page.keyboard.press('Tab')
     ns={'s':'http://www.w3.org/2000/svg'}
     rows=[
         ('maximum',-2,[-3,-1],'peak','Downward in both directions',245),
@@ -1284,6 +1287,7 @@ def check_source_card_flow(page, origin, expect, result, output):
             page.go_back();expect(center).to_have_value("-1")
             expect(page.locator("#curvature-kind")).to_contain_text("flat")
             page.go_forward();expect(center).to_have_value("-3")
+            open_ancestor_disclosures(page.locator('#curvature-reset'))
             page.get_by_role("button",name="Reset curvatures",exact=True).click()
             expect(center).to_have_value("-2")
             page.get_by_role("button",name="Compare half distance",exact=True).click()
