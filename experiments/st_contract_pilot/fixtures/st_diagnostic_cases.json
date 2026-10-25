@@ -1,0 +1,192 @@
+{
+  "cases": [
+    {
+      "expected": {
+        "algebra_result_retained": true,
+        "cumulative_power": "2/3",
+        "density_power": "-1/3",
+        "evidence_and_mapping_absences_retained": true,
+        "joint_radial_power": "1",
+        "mark_power": "-2/3"
+      },
+      "id": "ST-01",
+      "operation": "ordinary_joint_pushforward",
+      "purpose": "Complete regular joint ledger",
+      "remove": [],
+      "set": {}
+    },
+    {
+      "expected": {
+        "baseline_source_statement_changed": false,
+        "cumulative_power": "1",
+        "density_power": "0",
+        "joint_radial_power": "2",
+        "mark_power": "-1",
+        "new_envelope_weight": "k^(-1)",
+        "new_far_condition": "nu_far(ell)->0",
+        "old_analytic_evidence_carries_automatically": false,
+        "stale_expected_algebra": true
+      },
+      "id": "ST-02",
+      "operation": "ordinary_joint_pushforward",
+      "purpose": "Coherent counterfactual contact-order mutation, not a new admitted field",
+      "remove": [],
+      "set": {
+        "/counterfactual_relation": "a=d+2",
+        "/instance_role": "counterfactual_template",
+        "/ledger/a": 4,
+        "/ledger/observation_power": -4
+      }
+    },
+    {
+      "expected": {
+        "diagnostics": [
+          "MISSING_HEIGHT_JACOBIAN",
+          "BASELINE_LEDGER_INCOMPLETE"
+        ],
+        "operation_allowed": false,
+        "ordinary_pushforward_called": false,
+        "silent_factor_insertion": false,
+        "untyped_partial_sum_is_not_a_valid_joint_density": true
+      },
+      "id": "ST-03",
+      "operation": "ordinary_joint_pushforward",
+      "purpose": "Missing height Jacobian and incorrect declared zero radial power",
+      "remove": [
+        "/ledger/height_jacobian_power"
+      ],
+      "set": {
+        "/expected_algebra/joint_radial_power": "0"
+      }
+    },
+    {
+      "expected": {
+        "diagnostics": [
+          "WRONG_REPRESENTATION",
+          "NO_INDEPENDENT_DK"
+        ],
+        "fixed_lifetime_source_representation_remains_valid": true,
+        "operation_allowed": false,
+        "ordinary_pushforward_called": false
+      },
+      "id": "ST-04",
+      "operation": "ordinary_joint_pushforward",
+      "purpose": "Valid fixed-ell kernel supplied to the wrong operation",
+      "remove": [],
+      "set": {
+        "/selected_representation": "fixed_lifetime_near_kernel"
+      }
+    },
+    {
+      "expected": {
+        "diagnostics": [
+          "WRONG_REPRESENTATION",
+          "NO_INDEPENDENT_DK",
+          "PINNED_RADIAL_POWER_MISMATCH"
+        ],
+        "operation_allowed": false,
+        "ordinary_pushforward_called": false,
+        "representation_check_precedes_integrability_check": true
+      },
+      "id": "ST-05",
+      "operation": "ordinary_joint_pushforward",
+      "purpose": "An apparently integrable scalar power cannot bypass the fixed-ell type guard",
+      "remove": [],
+      "set": {
+        "/fixed_lifetime_alternative/radial_power": "1",
+        "/selected_representation": "fixed_lifetime_near_kernel"
+      }
+    },
+    {
+      "expected": {
+        "correct_density_power": "-1/3",
+        "diagnostics": [
+          "REPEATED_DENSITY_CONVERSION"
+        ],
+        "submitted_density_power_accepted": false
+      },
+      "id": "ST-06",
+      "operation": "ordinary_joint_pushforward",
+      "purpose": "Reject subtracting one again from the density shortcut",
+      "remove": [],
+      "set": {
+        "/requested_extra_density_conversion": "-1",
+        "/submitted_density_power": "-4/3"
+      }
+    },
+    {
+      "expected": {
+        "absence_does_not_revoke_existing_project_evidence": true,
+        "algebra_result_retained": true,
+        "density_power": "-1/3",
+        "diagnostics": [
+          "SELECT_EVIDENCE_NOT_SUPPLIED",
+          "REVIEWED_NODE_ASSOCIATION_NOT_SUPPLIED"
+        ],
+        "other_missing_obligations_also_retained": true,
+        "requested_reporting_uses_allowed": false
+      },
+      "id": "ST-07",
+      "operation": "ordinary_joint_pushforward",
+      "purpose": "Algebra does not confer actual-bar admission or complete consumer coverage",
+      "remove": [],
+      "set": {
+        "/requested_reporting_uses": [
+          "actual_bar_admission",
+          "complete_downstream_coverage"
+        ]
+      }
+    },
+    {
+      "expected": {
+        "diagnostics": [
+          "SOURCE_IDENTITY_MISMATCH"
+        ],
+        "identity_check_precedes_derived_claims": true,
+        "old_applicability_carried": false,
+        "operation_allowed": false,
+        "required_git_blob": "483d779cfdfdcea0bd8d0ec47c9fdaeff485fd4b"
+      },
+      "id": "ST-08",
+      "operation": "ordinary_joint_pushforward",
+      "purpose": "Reject a deliberately mismatched consumed-source identity",
+      "remove": [],
+      "set": {
+        "/fixture_note": "Deliberate invalid pin; not an observation of a native GitHub object.",
+        "/source/git_blob": "0000000000000000000000000000000000000000"
+      }
+    }
+  ],
+  "contract_file": "st_measure_contract.json",
+  "format": "ulhi.st.inert-cases/2",
+  "interpretation": {
+    "base": "Deep copy of st_measure_contract.json revision 2, not the predecessor contract.",
+    "counterfactual": "ST-02 explicitly overrides only the baseline relation a=d+3 with a=d+2 for hypothetical evaluation. Its a and observation_power change together. The baseline source and stale expected_algebra stay unchanged.",
+    "diagnostic_names": "Proposal-local expected messages, not new scientific-status vocabulary.",
+    "every_case": {
+      "field_admission": "NOT_ESTABLISHED_BY_THIS_PROPOSAL",
+      "product_execution": "NOT_RUN",
+      "scientific_acceptance": false
+    },
+    "expected_values": "Manually transcribed from the adopted brief and personally read source; not observed runtime results.",
+    "patch": "Object-member JSON Pointer overlay only: apply all set entries, then all remove entries. No patch runner is included.",
+    "patch_semantics": {
+      "failure": "Any invalid pointer, absent parent, non-object parent or conflicting target refuses the whole case; do not retain a partial overlay.",
+      "order": "All set entries precede all remove entries. Distinct targets must not equal, contain, or be ancestors of one another, so within-stage order is irrelevant.",
+      "pointer_syntax": "Nonempty slash-prefixed JSON Pointer; decode ~1 as slash and ~0 as tilde; reject other tilde escapes.",
+      "remove": "Delete an existing terminal member; absence is an input error.",
+      "set": "Add an absent terminal member or replace an existing terminal member with the supplied JSON value; do not deep-merge the value.",
+      "status": "This is a declared inert-case interpretation, not an implemented patch library or extension of evidence_adapter v1.",
+      "targets": "Only object members. All ancestor object members must exist; no array indices or implicit parent creation."
+    },
+    "request_fields": "Added instance_role, counterfactual_relation and requested-reporting/conversion fields are case-overlay metadata, not changes to the closed production adapter schema.",
+    "selection": {
+      "kind_to_contract_member": {
+        "fixed_lifetime_near_kernel": "fixed_lifetime_alternative",
+        "joint_before_lifetime_pushforward": "representation"
+      },
+      "rule": "The selector must match the selected object kind. Unknown or missing selector, member or kind is an input error; no implicit default.",
+      "selector_path": "/selected_representation"
+    }
+  }
+}
