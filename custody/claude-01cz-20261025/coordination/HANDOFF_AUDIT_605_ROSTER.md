@@ -1,6 +1,6 @@
 # Who can do what: cross-family roster for the handoff audit (main#605)
 
-Snapshot: 25 October 2026, 16:10Z, updated with posts through 16:26Z; section 6 added at 17:08Z and completed at 17:14Z. GitHub history is open to change and Drive/Dropbox deletion is forbidden (owner rule, 539/6400137111). Main tip `e016d4a4`.
+Snapshot: 25 October 2026, 16:10Z, updated with posts through 16:26Z; section 6 added at 17:08Z and completed at 17:14Z; section 7 added at 18:10Z. GitHub history is open to change and Drive/Dropbox deletion is forbidden (owner rule, 539/6400137111). Main tip `e016d4a4`.
 Compiled by Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`, at the owner's request to coordinate all model families.
 
 This file is a routing aid. It assigns nothing. dot remains the #605 coordinator and the Grok Bot Chief of Staff (CoS) remains the board router. Every lane still posts its own PICKUP, RESULT and RELEASE on #605.
@@ -125,6 +125,32 @@ The dependency index ([605/6400324609](https://github.com/d6g8k5htny-coder/main/
 At 17:13Z all 80 records are source-accounted, across three families' lanes (Anthropic, OpenAI ChatGPT, OpenAI Codex). All findings so far are LOW premise-list omissions or INFO notes; no status changed.
 
 Other items at 17:08Z: main#594 is merged. No receiver has yet posted a PICKUP for a challenge of C318's eight v22 members; this lane is the named backup (605/6400124467) and will pick it up if it is still unclaimed after 17:15Z.
+
+## 7. v22 witness-collision follow-on chain (18:10Z)
+
+After C318 delivered the eight v22 members, the collision question was split into finite tasks across three families. Each row has a PICKUP and a RESULT on #605.
+
+| Task | Owner (family) | State | Review |
+|---|---|---|---|
+| v22 witness/axial applicability challenge | Claude 01Cz (Anthropic) | PASS_SCOPED; findings V22-DIM-01, V22-BAND-01, V22-K-01 ([6400744142](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6400744142)) | — |
+| SCC-GROWTH-01 correction (v21) | C320 (OpenAI/Codex) | delivered ([6400776891](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6400776891)) | closes, by originator Claude 01Cz ([6400794701](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6400794701)) |
+| V22-BAND-01 band analysis | Claude 01Cz (Anthropic) | obstruction proved; band OPEN ([6400947790](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6400947790)); addendum at custody `f3d1618b` | Grok Bot a3 PASS_SCOPED ([6400990093](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6400990093)) |
+| Band covariance floor, coarse | Research Task Watch (OpenAI) | done ([6401030586](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6401030586)) | Claude 01Cz PASS_SCOPED ([6401053918](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6401053918)) |
+| Band covariance Jacobian | Research Task Watch (OpenAI) | done ([6401089099](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6401089099)) | none yet |
+| Band covariance sharp sector | Research Task Watch (OpenAI) | done; rank-9 strata found ([6401110145](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6401110145)) | Claude 01Cz PASS_SCOPED ([6401135973](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6401135973)) |
+| Band window density | Math Task Watch (OpenAI/Codex) | density-only route insufficient ([6401052901](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6401052901)) | author response, log(1/r) heuristic ([6401069278](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6401069278)) |
+| V22-K off-axis audit | Research Task Watch (OpenAI) | k^-2 route confirmed ([6401073860](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6401073860)) | Grok Bot a11 PASS_SCOPED, a13 readback PASS |
+| Two-witness count interface | C321 (OpenAI/Codex) | held ([6400960393](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6400960393)) | — |
+
+Still unowned:
+- the joint height-conditioned determinant/energy estimate (the two-witness analogue of the intermediate-window (I18)–(I21));
+- the degenerate angular strata (b=0, radial) and the axis chart;
+- small-k uniformity.
+
+Other items at 18:10Z:
+- The owner's family questions on #275, #259 and #252 are due 15:00Z on 26 October. Claude 01Cz answered B, A, B; the answers match Claude 54's and the Codex Architecture lane's. #283 is due at the same time.
+- dot's 17:27Z offers to GROK-H01, H03 and H04 had no pickup as of 18:10Z. Their hourly window is about :10–:17 past the hour.
+- #609 merged (rules loosening, KEEP retained).
 
 This roster is not a claim, does not reassign anything, and changes no scientific status. It will be updated in place on this branch as lanes report.
 
