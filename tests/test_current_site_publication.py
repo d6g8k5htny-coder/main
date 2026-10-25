@@ -29,18 +29,22 @@ class GitObjectAPI:
         self.calls = []
         self.race = False
         self.unknown_patch = False
+        self.ref_reads = []
+        self.post_ref_reads = []
+        self.post_patch_ref_reads = []
+        self.corrupt_after_patch = None
 
     def request(self, method, path, body=None):
         self.calls.append((method, path, copy.deepcopy(body)))
         m = self.module
         if method == "GET" and path == m.REF_READ:
-            if self.head is None:
+            visible = self.ref_reads.pop(0) if self.ref_reads else self.head
+            if visible is None:
                 raise urllib.error.HTTPError(m.API_ORIGIN + path, 404, "Not Found", {}, None)
-            return {"ref": m.REF_NAME, "object": {"type": "commit", "sha": self.head}}
+            return {"ref": m.REF_NAME, "object": {"type": "commit", "sha": visible}}
         if method == "GET":
             return copy.deepcopy(self.objects[path.rsplit("/", 1)[1]])
         if path == "/git/blobs":
-            import base64
             raw = base64.b64decode(body["content"], validate=True)
             sha = hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
             self.objects[sha] = {"sha": sha, "size": len(raw), "encoding": "base64", "content": body["content"]}
@@ -61,6 +65,7 @@ class GitObjectAPI:
             if self.head is not None:
                 raise ValueError("branch already exists")
             self.head = body["sha"]
+            self.ref_reads = list(self.post_ref_reads)
         elif method == "PATCH" and path == m.REF_WRITE:
             if body["force"] is not False:
                 raise AssertionError("forced update reached fixture")
@@ -68,6 +73,16 @@ class GitObjectAPI:
             if self.race or parents != [{"sha": self.head}]:
                 raise ValueError("non-fast-forward branch race")
             self.head = body["sha"]
+            self.ref_reads = list(self.post_patch_ref_reads)
+            if self.corrupt_after_patch == "commit":
+                self.objects[self.head]["tree"]["sha"] = "f" * 40
+            elif self.corrupt_after_patch == "tree":
+                tree = self.objects[self.objects[self.head]["tree"]["sha"]]
+                tree["tree"][0]["sha"] = "f" * 40
+            elif self.corrupt_after_patch == "receipt":
+                tree = self.objects[self.objects[self.head]["tree"]["sha"]]
+                blob = self.objects[tree["tree"][0]["sha"]]
+                blob["content"] = base64.b64encode(base64.b64decode(blob["content"]) + b" ").decode()
             if self.unknown_patch:
                 raise OSError("unknown outcome after reference update")
         else:
@@ -180,6 +195,111 @@ class PublicationTests(unittest.TestCase):
         same = self.prepare()
         self.assertEqual(same["receipt"]["phase"], "observed")
 
+    def test_later_attempt_reuses_exact_observed_candidate_without_mutation(self):
+        prepared = self.prepare()
+        observed = self.module.observe_publication(
+            self.candidate, prepared, api=self.api, reader=self.reader,
+            context=self.context, now="2026-10-13T15:01:00Z", attempts=1)
+        writes = len([call for call in self.api.calls if call[0] in ("POST", "PATCH")])
+        self.context["run_attempt"] = 2
+        same = self.prepare(self.candidate)
+        self.assertEqual(same, observed)
+        self.assertEqual(len([call for call in self.api.calls if call[0] in ("POST", "PATCH")]), writes)
+
+    def test_later_attempt_observes_exact_prepared_candidate_with_original_run_identity(self):
+        prepared = self.prepare()
+        self.context["run_attempt"] = 2
+        observed = self.module.observe_publication(
+            self.candidate, prepared, api=self.api, reader=self.reader,
+            context=self.context, now="2026-10-13T15:01:00Z", attempts=1)
+        self.assertEqual(observed["receipt"]["run"], {"id": 42, "attempt": 1})
+        self.assertEqual(observed["receipt"]["recorded_by"]["run_attempt"], 2)
+        self.assertEqual(observed["receipt"]["previous_receipt_commit"], prepared["head"])
+
+    def test_future_attempt_candidate_is_rejected_before_api_access(self):
+        future = copy.deepcopy(self.candidate)
+        future["run"]["attempt"] = 2
+        with self.assertRaisesRegex(ValueError, "source/run"):
+            self.prepare(future)
+        self.assertEqual(self.api.calls, [])
+
+    def test_candidate_and_execution_identity_mismatches_are_rejected_before_api_access(self):
+        cases = []
+        different_run = copy.deepcopy(self.candidate)
+        different_run["run"]["id"] = 43
+        cases.append(("run id", different_run, self.context))
+        different_workflow = copy.deepcopy(self.candidate)
+        different_workflow["source"]["workflow"] = ".github/workflows/other.yml"
+        cases.append(("source workflow", different_workflow, self.context))
+        for field, value in (("repository", "evil/private"), ("ref", "refs/heads/other")):
+            context = copy.deepcopy(self.context)
+            context[field] = value
+            cases.append(("execution " + field, self.candidate, context))
+        for label, candidate, context in cases:
+            with self.subTest(label=label), self.assertRaises(ValueError):
+                self.module.prepare_publication(
+                    candidate, api=self.api, context=context, reader=PublicReader({}),
+                    allow_bootstrap=True, now="2026-10-13T15:00:00Z")
+            self.assertEqual(self.api.calls, [])
+
+    def test_observe_rejects_altered_prepared_digest_or_inventory_before_api_access(self):
+        prepared = self.prepare()
+        for field, value in (("manifest.sha256", "e" * 64), ("snapshot_ids", ["e" * 64])):
+            candidate = copy.deepcopy(self.candidate)
+            if field == "manifest.sha256":
+                candidate["manifest"]["sha256"] = value
+            else:
+                candidate[field] = value
+            api = GitObjectAPI(self.module)
+            with self.subTest(field=field), self.assertRaisesRegex(ValueError, "prepared receipt"):
+                self.module.observe_publication(
+                    candidate, prepared, api=api, context=self.context,
+                    reader=self.reader, now="2026-10-13T15:01:00Z", attempts=1)
+            self.assertEqual(api.calls, [])
+
+    def test_post_patch_old_head_once_then_target_is_verified_without_repatch(self):
+        prepared = self.prepare()
+        self.api.post_patch_ref_reads = [prepared["head"]]
+        observed = self.module.observe_publication(
+            self.candidate, prepared, api=self.api, reader=self.reader,
+            context=self.context, now="2026-10-13T15:01:00Z", attempts=1)
+        self.assertEqual(observed["receipt"]["phase"], "observed")
+        self.assertEqual(len([call for call in self.api.calls if call[0] == "PATCH"]), 1)
+
+    def test_post_patch_old_head_forever_fails_bounded_without_repatch(self):
+        prepared = self.prepare()
+        self.api.post_patch_ref_reads = [prepared["head"]] * 4
+        reads_before = len([call for call in self.api.calls if call[:2] == ("GET", self.module.REF_READ)])
+        with self.assertRaisesRegex(ValueError, "(visibility|readback|recovery)"):
+            self.module.observe_publication(
+                self.candidate, prepared, api=self.api, reader=self.reader,
+                context=self.context, now="2026-10-13T15:01:00Z", attempts=1)
+        reads_after = len([call for call in self.api.calls if call[:2] == ("GET", self.module.REF_READ)])
+        self.assertEqual(reads_after - reads_before, 5)
+        self.assertEqual(len([call for call in self.api.calls if call[0] == "PATCH"]), 1)
+
+    def test_post_patch_third_head_is_a_hard_race_without_repatch(self):
+        prepared = self.prepare()
+        self.api.objects["f" * 40] = copy.deepcopy(self.api.objects[prepared["head"]])
+        self.api.post_patch_ref_reads = ["f" * 40]
+        with self.assertRaisesRegex(ValueError, "race"):
+            self.module.observe_publication(
+                self.candidate, prepared, api=self.api, reader=self.reader,
+                context=self.context, now="2026-10-13T15:01:00Z", attempts=1)
+        self.assertEqual(len([call for call in self.api.calls if call[0] == "PATCH"]), 1)
+
+    def test_post_patch_target_requires_immutable_commit_tree_and_receipt_verification(self):
+        for corruption in ("commit", "tree", "receipt"):
+            with self.subTest(corruption=corruption):
+                self.setUp()
+                prepared = self.prepare()
+                self.api.corrupt_after_patch = corruption
+                with self.assertRaisesRegex(ValueError, "(integrity|receipt|anchor)"):
+                    self.module.observe_publication(
+                        self.candidate, prepared, api=self.api, reader=self.reader,
+                        context=self.context, now="2026-10-13T15:01:00Z", attempts=1)
+                self.assertEqual(len([call for call in self.api.calls if call[0] == "PATCH"]), 1)
+
     def test_missing_receipt_branch_needs_explicit_bootstrap_and_actual_remote_absence(self):
         with self.assertRaisesRegex(ValueError, "bootstrap"):
             self.module.read_anchor(self.api)
@@ -189,6 +309,12 @@ class PublicationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "bootstrap"):
             self.module.prepare_publication(self.candidate, api=self.api, context=self.context, reader=self.reader, allow_bootstrap=True)
         self.assertEqual(self.api.head, None)
+
+    def test_bootstrap_post_requires_ref_readback_of_the_created_commit(self):
+        self.api.post_ref_reads = [None]
+        with self.assertRaisesRegex(ValueError, "(unavailable|recovery|branch)"):
+            self.prepare()
+        self.assertEqual(len([call for call in self.api.calls if call[:2] == ("POST", "/git/refs")]), 1)
 
     def test_unavailable_branch_is_not_treated_as_initial_absence(self):
         class Unavailable:
