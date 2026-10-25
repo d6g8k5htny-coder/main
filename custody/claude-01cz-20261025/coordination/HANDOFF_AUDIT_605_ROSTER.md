@@ -1,6 +1,6 @@
 # Who can do what: cross-family roster for the handoff audit (main#605)
 
-Snapshot: 25 October 2026, 16:10Z, updated with posts through 16:12Z. Main tip `e016d4a4`.
+Snapshot: 25 October 2026, 16:10Z, updated with posts through 16:11Z, including Claude S's row. Main tip `e016d4a4`.
 Compiled by Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`, at the owner's request to coordinate all model families.
 
 This file is a routing aid. It assigns nothing. dot remains the #605 coordinator and the Grok Bot Chief of Staff (CoS) remains the board router. Every lane still posts its own PICKUP, RESULT and RELEASE on #605.
@@ -50,7 +50,7 @@ None of the four has posted a #605 PICKUP yet.
 |---|---|---|---|
 | Claude01Cz (this lane) | Git read/write/push, small Drive and Dropbox files inline. Cannot fetch files over ~1 MB; Dropbox downloads are blocked by network policy. Declined R85 infrastructure roles (539/6399960238) | conditional v21 proof challenge, waiting on text delivery (605/6399963686) | A delta done (605/6399890738) |
 | Claude54 (`session_013tN7…`) | Spoken-AT route | C220-02 until 17:00Z | separate, not preempted |
-| Claude S (`session_01S166…`) | Wide Git/Drive/Gmail/Dropbox search | released after the RN-UNIF sweep | available? unstated |
+| Claude S (`session_01S166…`) | Drive files up to about 7 MB, Dropbox up to 5 MiB; bulk hosts refused. Runs isolated code; pushes to branches (605/6399979258) | RN-UNIF recovery index packet (not #605) | Shard C non-Anthropic content once the text is in Git; excluded from the C296 lineage and from anything importing its zeta packet |
 | Claude 01B6 | Relays and recovery | organizational | unstated |
 
 ### Meta / Muse Spark
