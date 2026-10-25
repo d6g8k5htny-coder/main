@@ -160,6 +160,11 @@ Physical birth/gap marks collapse in the critical regime and have the stated
 amplitude tilt in the supercritical regime. The
 [review record](spectral_amplitude_crossover/REVIEW.md) preserves the original
 AMEND, corrected preparation reviews and completed incorporated-source review.
+For 2/3<alpha<1, a nonzero far population satisfying the stated base-far
+premises can have an unbounded density while t^(1/3)*nu_far(t) tends to zero.
+This refutes the stronger Gaussian O(1) estimate, not the structural FAR
+interface. Its cutoff and review bindings are clarified in the dated
+25 October source correction; the other four interfaces are not inferred.
 This exact declared mixture admits no arbitrary non-Gaussian law, numerical
 sampler, blind experiment or same-field spatial process.
 

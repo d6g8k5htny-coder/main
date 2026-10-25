@@ -8,11 +8,23 @@ integration contributor: `/root/final_contract_review`. Integration owner:
 detached construction base is
 `89657c7c48289378949dc59e7fbe6dc1a55d9c62`.
 
-Sections 1-11 are preserved byte-for-byte from the corrected external
-34,110-byte / 730-line source, SHA256
+At incorporation on 8 October, Sections 1-11 were preserved byte-for-byte
+from the corrected external 34,110-byte / 730-line source, SHA256
 `9e8f10162e9fa21f308454df9463459cdd67ef39a2d8103a78a397b4ab82dd0d`.
-The 28,494-byte mathematical core has SHA256
+That historical 28,494-byte mathematical core has SHA256
 `f558dafcdb3841646c3d364056a95c07e7a56759ef5bc47f9b6033b85f5e0df0`.
+
+**25 October 2026 source correction by OpenAI/Codex Root01a11cbf.**
+This successor corrects the FAR interpretation in Section 5 and clarifies
+its cutoff premise in Section 8. The historical whole-file and core hashes
+above identify the parent preparation, not this corrected source. Sections
+1-4, 6-7 and 9-11, all amplitude/phase/process formulas, and the four consumed
+source identities in Section 12 remain unchanged. The dated companion
+[review record](REVIEW.md) identifies the exact corrected proof and README;
+any new nonauthor verdict must bind these actual successor bytes. Earlier
+AMEND/PASS records and construction-stage PENDING statements below keep
+their dates, sources and actual performers. No new formal, numerical,
+independent-provider or scientific acceptance is claimed by this correction.
 The preserved original 33,421-byte / 720-line source, SHA256
 `5b1859080a137aed9eeeba20e1b6f0c5a61387e5eb6fa20bb1b8704860fb73d2`,
 received two separate full-source AMEND verdicts. Its missing critical
@@ -285,23 +297,43 @@ and ENVELOPE for a Gaussian covariance cannot be transferred to
 this non-Gaussian coefficient law. Nor must the Gaussian FAR
 O(1) bound survive.
 
-For example, fix a positive physical distance cutoff and let
-nu_H,far be its actual finite-bar density. SG/HK gives nu_H,far<=C
-near zero and finite total mass. If this population is nonzero,
-then its Mellin moment is finite for every alpha<1, and exactly
-the same transform gives
+For example, choose a fixed positive physical distance cutoff for which
+the actual finite-bar density nu_H,far is bounded near zero and has finite
+total mass, and suppose this population is nonzero. SG/HK supplies the
+far bound at its declared near-band cutoff; applying it at another cutoff
+requires that bound there as well. Under these stated premises the Mellin
+moment M_(alpha,far) is positive and finite for 0<alpha<1, and exactly the
+same amplitude transform gives
 
       nu_F,far(t) ~ alpha a^(-alpha) M_(alpha,far)t^(alpha-1).
                                                         (17)
 
-This applies even when beta<alpha<1: the restored full fold
-asymptotic (16) coexists with an unbounded, but lower-order, far
-density. The five original contracts are sufficient, not necessary,
-and it would be false to assert that F has regained all their
-literal bounds merely because its leading exponent returns.
-For the P5 law, a robust good multi-maximum field provides a
-positive-probability population at some fixed positive cutoff.
-Section 8 establishes that actual support assertion.
+This applies even when beta<alpha<1: the restored full fold asymptotic
+(16) coexists with an unbounded, but lower-order, far density. However,
+the actual structural FAR interface in ST requires only
+
+      t^(1/3) nu_F,far(t) -> 0.
+
+Writing K=alpha a^(-alpha) M_(alpha,far)>0, equation (17) gives
+
+      t^(1/3) nu_F,far(t) ~ K t^(alpha-beta) -> 0
+                              when beta<alpha<1.       (17a)
+
+Thus this example violates the stronger O(1) sufficient estimate while
+satisfying the scaled FAR requirement for the same physical cutoff.
+For alpha=5/6, the full density power is -1/3, the far density power is
+-1/6, and its scaled FAR contribution decays as t^(1/6). These are
+consequences of (16)-(17), not new numerical observations. Equation (17)
+does not establish that the five structural interfaces are unnecessary,
+or decide whether the other four interfaces hold for this mixture.
+Returning to the leading fold exponent alone cannot establish those
+interfaces. The covariance-only falsifier and phase/process formulas
+remain as stated under their declared base premises.
+
+For the P5 law, Section 8 provides a positive-probability population at
+some fixed positive cutoff. That support assertion and the bounded
+base-far premise must hold at the same chosen cutoff before using (17);
+positivity at an unspecified different cutoff does not supply the match.
 
 These are exact results for this specified power-density amplitude
 law. They are not a claim that every small-amplitude law or every
@@ -520,9 +552,12 @@ The same good neighborhood also has at least one finite bar whose
 endpoints stay a fixed positive distance apart: its finite distinct
 critical points have a positive minimum pair distance, and their
 branches vary continuously on a sufficiently small neighborhood.
-This justifies the positive far population used in (17) at some
-fixed distance cutoff. No arbitrary uniform cutoff over all law
-realizations is inferred.
+This supplies a positive far population at some fixed distance cutoff.
+To apply (17), that same cutoff must also have the bounded base-far
+estimate assumed in Section 5. This support argument alone does not
+identify it with SG/HK's declared near-band radius or prove the estimate
+at every cutoff. No arbitrary uniform cutoff over all law realizations
+is inferred.
 
 ## 9. Critical process: logarithmic singleton limit
 

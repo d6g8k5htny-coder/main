@@ -142,3 +142,83 @@ unit tests, numerical count/sampler coupling, seed or blind experiment
 was supplied by these reviews. Main/native/hosted publication outcomes
 will be recorded only after they occur. Same-field spatial limits,
 critical Lean and scientific promotion remain open. Goal ACTIVE.
+
+## 25 October 2026 author correction and current source bindings
+
+The preceding 144-line / 8,932-byte record is retained byte-for-byte from
+Main334 parent `6bd133d591e43e75a9292463bb4bfde7a34984dc`, SHA256
+`351ba1e9b866bae880da2042b24f827a1f0aef7613f728d572a6722669a4c5b1`.
+Its construction-stage current/PENDING labels and completed review claims
+refer to their dated source identities. This append supersedes their use
+as statements about the corrected proof or this extended review record.
+
+Actual correction author is OpenAI/Codex Root01a11cbf, under new finite
+claim2837 / `88cdcb4d-4fdc-4b18-8a2e-3a38d6bfbd8a`, issued25October2026
+at14:40:45UTC. The [current author pickup](https://github.com/d6g8k5htny-coder/main/pull/334#issuecomment-6399017462)
+retains the exact scope and deadlines. No old lease or reviewer claim is
+revived. The parent proof37461B retains SHA256
+`aeea6b55a1876c357d9beeeb5a96ee54a5b17b53c6138e2993c454f1117f65d5`;
+the parent README16387B retains SHA256
+`1484efcd0704727dbb2d3dcfcb76ad833fd989152c6004d82f77e3da2acea636`.
+Their original native objects and actual review history remain unchanged.
+
+### Mathematical disposition of A1
+
+The original Anthropic Claude S [scoped adverse review](https://github.com/d6g8k5htny-coder/main/pull/334#issuecomment-6139276725)
+identified A1 and D1 on13October; the later Copilot findings
+[4365128840](https://github.com/d6g8k5htny-coder/main/pull/334#discussion_r4365128840)
+and [4365128873](https://github.com/d6g8k5htny-coder/main/pull/334#discussion_r4365128873)
+remain separate native records. Muse Spark's
+[documentary delta read](https://github.com/d6g8k5htny-coder/main/pull/334#issuecomment-6154507888)
+checked the recorded bindings; it was not a new derivation of Section5.
+Those performances keep their authors, scopes, dates and zero claimed
+organizational credit. This amendment does not adopt the separate stronger
+supplements or claim their review.
+
+ST's actual FAR interface is `t^(1/3) nu_far(t)->0`; its O(1) estimate is
+only sufficient. The parent Section5 inferred too much from an unbounded
+but lower-order far contribution. The corrected Section5 explicitly derives
+`K t^(alpha-2/3)->0` for2/3<alpha<1 and withdraws that inference about the
+five interfaces. At alpha5/6 its far power is-1/6 and scaled power+1/6,
+while the full density retains power-1/3 under the declared premises.
+No interface other than this fixed-cutoff FAR comparison is established
+for the mixture. The base-far bound and nonzero far population must apply
+at the same chosen cutoff; Section8's support witness is now explicitly
+kept separate from that matching requirement. No new all-cutoff estimate
+is asserted.
+
+The original formulas(1)-(33), amplitude law, phase regimes, coefficients,
+iid-copy process limits and named SG/HK/ST/PP premises are unchanged.
+Sections1-4,6-7,9-11 are byte-conserved. Sections5/8 and the introductory
+source-identity wording have the declared corrections; therefore the old
+f558dafc mathematical-core hash is historical and is not a current-source
+binding. The complete actual diff and corrected core identity are retained
+in the new external author/review receipts.
+
+### Metadata disposition of D1 and exact successor inputs
+
+The historical metadata PASS at lines114-122 of the retained prefix covers
+REVIEW82/ecb42 and the pre-edit README246/3184. It cannot be rebound to
+REVIEW144/351ba1 and README246/1484 by implication. The author withdraws the
+PR body's unsupported claim of a separate completed audit for those later
+bytes; the pending state in the parent record remains its actual recorded
+state. This is a dated correction, without a retrospective audit date or
+invented verdict. Any actual audit found later must retain its own exact
+source, performer and date.
+
+The new corrected input identities are:
+
+| Input | UTF-8 bytes / lines | SHA256 |
+| --- | --- | --- |
+| Corrected [PROOF.md](PROOF.md) |39600 /813| `2086a6501c4e6131de52f501409b994b84cb7c62589c3814c073f1b38bfa4cd9` |
+| Corrected [suite README](../README.md) |16754 /251| `6bd157a7bbb4e62dfbb6900545f43508e0ac3daf1042bf30dd927053ce5463f3` |
+
+These author records are inputs to a new substantive nonauthor review of
+the complete corrected proof, full README, this full extended record and
+the actual three-file diff. Its verdict must bind this review record's own
+final hash externally after the source freeze; this file does not hash or
+review itself. No future PASS, publication, CI, integration or scientific
+result is asserted here. The loaded mathematical premises and historical
+reviews retain their separate limits. Source exposure and same-provider
+review earn org0/blind0/human0; no blind seed, sampler, numerical run, formal
+kernel proof or same-field spatial limit is supplied by this correction.
