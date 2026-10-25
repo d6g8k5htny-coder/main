@@ -51,7 +51,9 @@ class PublicRoutes(unittest.TestCase):
         self.assertEqual(href,f"https://github.com/{config['proof']['repository']}/blob/{config['proof']['commit']}/{config['proof']['path']}")
         for pinned in ('blob/f2e432ea5c86742e480c66624775bc9103343314/STATUS.md','blob/9d7b6802424fb4715b31999066aafca8ee2f3cca/coefficients/side24_v1/ENCLOSURE.json','tree/f2e432ea5c86742e480c66624775bc9103343314/docs/public-math'):
             self.assertIn(pinned,page.split('<noscript>',1)[1] if pinned.startswith('blob/f2e') else page)
-        self.assertEqual(page.count('<noscript>'),4)
+        # Four preserved source fallbacks plus explicit reading-list and
+        # current-discovery explanations; none replaces the pinned routes.
+        self.assertEqual(page.count('<noscript>'),6)
 
     def test_remaining_teaching_exports_keep_readable_static_limits_and_disabled_actions(self):
         text=(SITE/'explore.html').read_text()
@@ -111,11 +113,12 @@ class PublicRoutes(unittest.TestCase):
                     if u.fragment and target.suffix=='.html':
                         self.assertIn(unquote(u.fragment),pages[target].ids + dynamic.get(target, []),f'{path.name}: {link}')
     def test_consistent_navigation_and_accessible_entry(self):
-        expected=['index.html','explore.html','research.html','workspace.html#inventory','dependencies.html#current-atlas']
+        expected=['index.html','explore.html','research.html','workspace.html','dependencies.html#current-atlas']
         for name in ('index','explore','research','museum','formal','workspace','reproduce','cite','measure','dependencies'):
             text=(SITE/f'{name}.html').read_text(); page=Page(text)
-            # Workspace's local inventory anchor is the same destination.
-            nav=['workspace.html#inventory' if x=='#inventory' else x for x in page.nav]
+            # Library now starts with an explicit current/datetagged choice.
+            # Old #inventory bookmarks remain valid separate destinations.
+            nav=['workspace.html' if x=='#library-start' else x for x in page.nav]
             self.assertEqual(nav,expected,name)
             self.assertIn('main-content',page.ids)
             self.assertIn('href="reproduce.html"',text)
