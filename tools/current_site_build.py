@@ -171,7 +171,9 @@ def source_list(sources):
                      for source in sources)
 
 
-def current_section(data, meta, *, prefix="", search=True, snapshot_prefix=None, archived=False, acquisition=None):
+def current_section(data, meta, *, prefix="", search=True, snapshot_prefix=None, archived=False,
+                    acquisition=None, compact=False, capacity_html=""):
+    """Keep full static rendering stable; reading-page builds explicitly opt into compact detail."""
     if not archived and acquisition is None:
         acquisition = project_current_acquisitions(data)
     snapshot_prefix = snapshot_prefix if snapshot_prefix is not None else f'{prefix}snapshots/{meta.get("archive", meta["sha256"])}/'
@@ -189,14 +191,19 @@ def current_section(data, meta, *, prefix="", search=True, snapshot_prefix=None,
                     + ('<ul class="current-results" aria-describedby="current-inventory-legend">\n' + current_source_list(data["sources"][:8], acquisition) if not archived else '<ul class="current-results">\n' + source_list(data["sources"][:8])) + '\n</ul>\n'
                     '<button class="current-more" type="button" hidden>Show more files</button>\n'
                     '<noscript><p>Use the <a href="' + node_index + '#sources">complete static source inventory</a>.</p></noscript>\n</details>')
-    return (f'<section id="current-research" class="current-research" data-current-digest="{meta["sha256"]}" data-current-bytes="{meta["bytes"]}">\n'
-            + ('<h2>Snapshot research sources</h2>\n' if archived else '<h2>Current research sources</h2>\n')
+    details = (f'<p>{pins}</p>\n<p>{refs}</p>\n'
+               + (date_explanation(data, prefix=prefix, snapshot_prefix=snapshot_prefix) if not archived else '')
+               + f'<p><a href="{prefix}dependencies.html#current-atlas">Current mathematical atlas</a> · <a href="{node_index}">Current static graph and complete source inventory</a> · <a href="{prefix}current.json">Exact current observation payload</a> · <a href="{snapshot_prefix}nodes/index.html">Historical mathematical material (original pins and observation)</a>. Scientific effect: NONE.</p>\n'
+               + (inventory_legend() if compact and not search and not archived else '')
+               + controls + ('\n' + capacity_html if capacity_html else ''))
+    if compact:
+        details = '<details class="current-source-details"><summary>Sources and scope</summary>\n' + details + '\n</details>'
+    heading = ('<h2>Source observation</h2>\n' if compact else
+               '<h2>Snapshot research sources</h2>\n' if archived else '<h2>Current research sources</h2>\n')
+    return (f'<section id="current-research" class="current-research{" current-research-compact" if compact else ""}" data-current-digest="{meta["sha256"]}" data-current-bytes="{meta["bytes"]}">\n'
+            + heading
             + f'<p class="current-state" role="status">Pinned source observation: <time datetime="{data["observed_at"]}">{data["observed_at"]}</time>. Compare this timestamp with the present time; observation is not scientific revalidation.</p>\n'
-            f'<p>{pins}</p>\n<p>{refs}</p>\n'
-            + (date_explanation(data, prefix=prefix, snapshot_prefix=snapshot_prefix) if not archived else '')
-            +
-            f'<p><a href="{prefix}dependencies.html#current-atlas">Current mathematical atlas</a> · <a href="{node_index}">Current static graph and complete source inventory</a> · <a href="{prefix}current.json">Exact current observation payload</a> · <a href="{snapshot_prefix}nodes/index.html">Historical mathematical material (original pins and observation)</a>. Scientific effect: NONE.</p>\n'
-            + controls + '\n</section>')
+            + details + '\n</section>')
 
 
 def axes_html(node):
@@ -482,7 +489,8 @@ def build(site, payload, *, native_graph_archive=None, native_graph_expected=Non
         script_blocked = bool(re.search(
             rb"script-src\s+(?:&#39;|'|&apos;)none(?:&#39;|'|&apos;)", original))
         search_enabled = page.name not in ("research.html", "formal.html") and not script_blocked
-        section = current_section(data, meta, search=search_enabled, acquisition=acquisition).replace("\n</section>", "\n" + capacity_html + "\n</section>").encode("utf-8")
+        section = current_section(data, meta, search=search_enabled, acquisition=acquisition,
+                                  compact=True, capacity_html=capacity_html).encode("utf-8")
         if page.name == "research.html":
             if script_blocked:
                 raise ValueError("research.html: current freshness loader requires a script-enabled CSP")

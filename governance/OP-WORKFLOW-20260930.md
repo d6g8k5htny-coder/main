@@ -211,11 +211,25 @@ transfer an old review to new proof bytes.
 Blind reconstruction, adversarial attack and derived evidence profiles follow
 the [closure-evidence protocol](OP-CLOSURE-EVIDENCE-20261006.md).
 
-Record actual author/reviewer exposure and separate technical verdict from
-organizational independence. Same-provider review can be useful technical work
-but earns zero organizational-independence credit. An author replay is not a
-nonauthor review. Required analytic review, formal alignment and scientific
-acceptance remain distinct from engineering checks and each other.
+Apply the [25 October review-family decision](OWNER_DECISION_20261025_REVIEW_FAMILIES.md)
+when assigning or reusing a review. A separate engineering reviewer may be from
+the author's model family. Scientific review requires a different actual model
+family from the author, including review of proof correctness, statement/source
+alignment, hypotheses, mathematical applicability or scientific acceptance.
+For mixed work, an engineering review covers only its engineering scope; the
+scientific scope needs its own appropriately qualified review. Routine author
+testing and same-family technical checks remain useful evidence but do not
+qualify as scientific review.
+
+Record the actual author/reviewer family, provider, exposure, reviewed source
+and scope. Different sessions, accounts, agent labels or model variants alone
+do not establish different families. Preserve historical review records and
+outcomes; using an older review for a new or pending scientific acceptance
+decision must meet the current family rule. This rule changes no status by
+itself. Separate technical verdict from organizational independence:
+same-provider review earns zero organizational-independence credit. An author
+replay is not a nonauthor review. Required analytic review, formal alignment
+and scientific acceptance remain distinct from engineering checks and each other.
 
 ## Delegated owner review
 
