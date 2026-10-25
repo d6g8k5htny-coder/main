@@ -24,3 +24,24 @@
 | `reviews/fixed_r_protocol_20261006` | tree | `050187ba8097` | 1 |
 | `reviews/iba2_010_interface_ledger_20261005` | tree | `bd495951b9d9` | 1 |
 | `reviews/legacy_json_workflow_repair_20261006` | tree | `06beef8f1ebc` | 1 |
+
+## Amendment: frozen implementation-reference pins (Codex C309 555/6398148551, CoS 555/6398199928)
+
+Contract: RETRO-MATH-BIND-01.md L38 (implementation paths pinned `owner/repo:path@commit#blob`), §(d) L503, GB-8w inventory L474–477. Pins are taken at the lane cuts (Math- `9f3fb691`, main `a487cfd4`). Each blob is re-checked with `git hash-object` (12/12 PASS), and its sha256 is recorded in `implementation_refs` in the JSON. This is reference data only: no workflow was edited or executed, and no v2 records were added. The 9 other units keep `NO IMPLEMENTATION FOUND`, per the inventory.
+
+| unit | implementation ref (`repo:path@commit#blob`) |
+|---|---|
+| `reviews/register_alignment_20260930` | `Math-:reviews/register_alignment_20260930/alignment_check.py@9f3fb691#fdd59020` |
+| | `Math-:.github/workflows/register-alignment.yml@9f3fb691#74bbb0b2` |
+| | `Math-:.github/workflows/register-execution-readiness.yml@9f3fb691#844532f6` |
+| `reviews/register_execution_readiness_20260930` | `Math-:reviews/register_execution_readiness_20260930/execution_dryrun.py@9f3fb691#20bded66` |
+| | `Math-:reviews/register_execution_readiness_20260930/test_execution_dryrun.py@9f3fb691#f7831e8a` |
+| | `Math-:.github/workflows/register-execution-readiness.yml@9f3fb691#844532f6` |
+| `reviews/replacement_20260925_pr19_pr21` | `Math-:reviews/replacement_20260925_pr19_pr21/check_interfaces.py@9f3fb691#ec9fc6a9` |
+| | `Math-:reviews/replacement_20260925_pr19_pr21/check_two_scale.py@9f3fb691#3105d7ed` |
+| | `Math-:.github/workflows/landing-claims.yml@9f3fb691#0516a6df` |
+| | `Math-:.github/workflows/register-alignment.yml@9f3fb691#74bbb0b2` |
+| `reviews/retrofit_20261006` | `main:tests/test_reader_links.py@a487cfd4#ef90a3b9` |
+| | `Math-:tests/test_retrofit_record_check.py@9f3fb691#b02c230e` |
+
+The JSON carries the full 40-hex commit and blob values. Ceiling is unchanged (AUTHOR_SIDE_CANDIDATE), and math stays fail-closed: credit 0 · sci NONE · eng≠discharge · no flags · OBL OPEN.
