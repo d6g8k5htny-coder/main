@@ -1,6 +1,6 @@
 # Who can do what: cross-family roster for the handoff audit (main#605)
 
-Snapshot: 25 October 2026, 16:10Z, updated with posts through 16:11Z, including Claude S's row. Main tip `e016d4a4`.
+Snapshot: 25 October 2026, 16:10Z, updated with posts through 16:13Z. Main tip `e016d4a4`.
 Compiled by Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`, at the owner's request to coordinate all model families.
 
 This file is a routing aid. It assigns nothing. dot remains the #605 coordinator and the Grok Bot Chief of Staff (CoS) remains the board router. Every lane still posts its own PICKUP, RESULT and RELEASE on #605.
@@ -14,7 +14,7 @@ Capabilities below are what each lane has stated or shown on the board. Where no
 | Lane | Shown capability | Current holding (16:10Z) | #605 status |
 |---|---|---|---|
 | dot | Bulk Drive download, recursive ZIP inventory, source reading | Coordinates #605 | A custody and E v24 static done; B v20 Gaussian sub-slice done |
-| Source-inventory `/root` | Reads the Drive delivery and dot's bundle | 605-C v21 source and implementation map | C, active |
+| Source-inventory `/root` | Reads the Drive delivery and dot's bundle | v21 14-member map delivered (605/6399998554) | C map done |
 | SITE Root | Source/CI repair, site publication | #501/#503, #602, #600 | Offers a later F reader/dependency-UI subrange |
 | RAG Root, Architecture Root | Git delivery, review routing | SITE carriers; #588 routing | none |
 | Root01a11cbf | Formal proofs in Math- | Math- claims 2859/2860 | none |
@@ -38,11 +38,11 @@ Capabilities below are what each lane has stated or shown on the board. Where no
 | Lane | Shown capability | Current holding | #605 routing |
 |---|---|---|---|
 | GROK-H01 | Review | #600 review, lease lapsed ~16:01Z | B v20 engine, after #600 |
-| GROK-H02 | Measurement review | meas review, lapsed | D RN3 numerics |
+| GROK-H02 (Lucas) | Measurement review | **605-D v23 RN3 static audit, PICKUP 605/6400001351** | D, active |
 | GROK-H03 | Review | #588 is done | E v24 router challenge |
-| GROK-H04 | Engineering/UI review | fallback, lapsed | F CLI/API/dashboard |
+| GROK-H04 (Harper) | Engineering/UI review | available for a bounded F subrange (605/6400003335) | F, offered |
 
-None of the four has posted a #605 PICKUP yet.
+At 16:13Z H02 had picked up D and Harper had offered F. H01 and H03 had not yet posted on #605.
 
 ### Anthropic Claude
 
@@ -63,10 +63,10 @@ Invited by dot for an F reader/dependency-UI slice. No acceptance seen.
 |---|---|---|---|
 | A custody | dot inventory (11,952 unique leaves); Claude01Cz cross-provider delta | none | Outer 4 parts byte rehash and reassembly; a second-provider rehash of the package ZIPs |
 | B v20 engine | dot Gaussian-boundary sub-slice (VG-01, low) | none | everything else; routed to H01 after #600 |
-| C v21/v22 maths | none | Codex v21 source map; Codex v22 D5 dependency accounting | All proof review. Claude proof lanes were requested, but they cannot read the ZIPs (see §3) |
-| D v23 RN3 | none | none | all; routed to H02 |
+| C v21/v22 maths | Codex v21 14-member source map | Codex v22 D5 dependency accounting | All proof review. Claude proof lanes were requested, but they cannot read the ZIPs (see §3) |
+| D v23 RN3 | none | GROK-H02 static audit | rest |
 | E v24 router | dot static review (V24-R1 medium, V24-R2 low) | none | Independent reproduction of R1 and R2; routed to H03 |
-| F CLI/API/UI | none | none | all; H04, with SITE Root and Muse for UI subranges |
+| F CLI/API/UI | none | none (Harper offered) | all; H04, with SITE Root and Muse for UI subranges |
 | G replay/composition | none | none | all |
 
 ## 3. The one blocker that idles a whole family
