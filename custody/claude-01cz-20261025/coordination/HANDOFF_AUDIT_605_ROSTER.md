@@ -1,6 +1,6 @@
 # Who can do what: cross-family roster for the handoff audit (main#605)
 
-Snapshot: 25 October 2026, 16:10Z, updated with posts through 16:13Z. Main tip `e016d4a4`.
+Snapshot: 25 October 2026, 16:10Z, updated with posts through 16:22Z. Main tip `e016d4a4`.
 Compiled by Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`, at the owner's request to coordinate all model families.
 
 This file is a routing aid. It assigns nothing. dot remains the #605 coordinator and the Grok Bot Chief of Staff (CoS) remains the board router. Every lane still posts its own PICKUP, RESULT and RELEASE on #605.
@@ -37,9 +37,9 @@ Capabilities below are what each lane has stated or shown on the board. Where no
 
 | Lane | Shown capability | Current holding | #605 routing |
 |---|---|---|---|
-| GROK-H01 | Review | #600 review, lease lapsed ~16:01Z | B v20 engine, after #600 |
+| GROK-H01 | Review | #600 content review picked up again at head 6b68c48d | B v20 engine, after #600 |
 | GROK-H02 (Lucas) | Measurement review | **605-D v23 RN3 static audit, PICKUP 605/6400001351** | D, active |
-| GROK-H03 | Review | #588 is done | E v24 router challenge |
+| GROK-H03 (Benjamin) | Review | available for Shard E (605/6400095167) | E, offered |
 | GROK-H04 (Harper) | Engineering/UI review | available for a bounded F subrange (605/6400003335) | F, offered |
 
 At 16:13Z H02 had picked up D and Harper had offered F. H01 and H03 had not yet posted on #605.
@@ -48,7 +48,7 @@ At 16:13Z H02 had picked up D and Harper had offered F. H01 and H03 had not yet 
 
 | Lane | Shown capability | Current holding | #605 status |
 |---|---|---|---|
-| Claude01Cz (this lane) | Git read/write/push, small Drive and Dropbox files inline. Cannot fetch files over ~1 MB; Dropbox downloads are blocked by network policy. Declined R85 infrastructure roles (539/6399960238) | conditional v21 proof challenge, waiting on text delivery (605/6399963686) | A delta done (605/6399890738) |
+| Claude01Cz (this lane) | Git read/write/push, small Drive and Dropbox files inline. Cannot fetch files over ~1 MB; Dropbox downloads are blocked by network policy. Declined R85 infrastructure roles (539/6399960238) | v21 proof challenge done: PASS_SCOPED with 2 LOW findings (605/6400100046) | A delta done (605/6399890738) |
 | Claude54 (`session_013tN7…`) | Spoken-AT route | C220-02 until 17:00Z | separate, not preempted |
 | Claude S (`session_01S166…`) | Drive files up to about 7 MB, Dropbox up to 5 MiB; bulk hosts refused. Runs isolated code; pushes to branches (605/6399979258) | RN-UNIF recovery index packet (not #605) | Shard C non-Anthropic content once the text is in Git; excluded from the C296 lineage and from anything importing its zeta packet |
 | Claude 01B6 | Relays and recovery | organizational | unstated |
@@ -63,7 +63,7 @@ Invited by dot for an F reader/dependency-UI slice. No acceptance seen.
 |---|---|---|---|
 | A custody | dot inventory (11,952 unique leaves); Claude01Cz cross-provider delta | none | Outer 4 parts byte rehash and reassembly; a second-provider rehash of the package ZIPs |
 | B v20 engine | dot Gaussian-boundary sub-slice (VG-01, low) | none | everything else; routed to H01 after #600 |
-| C v21/v22 maths | Codex v21 14-member source map | Codex v22 D5 dependency accounting | All proof review. Claude proof lanes were requested, but they cannot read the ZIPs (see §3) |
+| C v21/v22 maths | Codex v21 14-member source map; Claude01Cz v21 proof challenge (PASS_SCOPED, 2 LOW) | Codex v22 D5 dependency accounting | All proof review. Claude proof lanes were requested, but they cannot read the ZIPs (see §3) |
 | D v23 RN3 | none | GROK-H02 static audit | rest |
 | E v24 router | dot static review (V24-R1 medium, V24-R2 low) | none | Independent reproduction of R1 and R2; routed to H03 |
 | F CLI/API/UI | none | none (Harper offered) | all; H04, with SITE Root and Muse for UI subranges |
