@@ -1,0 +1,29 @@
+{
+  "id": "scalar_variance_bounds_v1",
+  "schema": "ul-v19-scalar-profile-1",
+  "scope": "universal_Nat_scalar_bounds_for_generic_Gaussian_variance_family",
+  "alignment_status": "generic_law_only_actual_field_D5_open",
+  "allowed_axioms": [],
+  "statements": [
+    {
+      "declaration": "Frontier.second_moment_bound",
+      "formal_statement": "\u2200 (n d : Nat), n \u2264 d \u2192 d*d + 3*(n*n) \u2264 4*(d*d)"
+    },
+    {
+      "declaration": "Frontier.fourth_moment_bound",
+      "formal_statement": "\u2200 (n d : Nat), n \u2264 d \u2192 9*((d*d)*(d*d)) + 18*((n*n)*(d*d)) + 105*((n*n)*(n*n)) \u2264 132*((d*d)*(d*d))"
+    }
+  ],
+  "sources": {
+    "AttemptDecide.lean": "9716bf8d7e83851675c07354c1d55b354cc62c651c4e75b1f0cbff22605dbdc2",
+    "Audit.expected.txt": "f443fd6c4f4b7e5545621e1b23a87c0e3b29ee5108d27b9bbd4ccf182662eef0",
+    "Audit.lean": "421dc8a2a9839eb454950e9dae706fb16aee1f1b7dce06e47d16333104c05f2f",
+    "FalseControl.lean": "d9214882049d9f117461148b6b1a2a841c36a75199c7de3d84863b17b7bf0166",
+    "VarianceBounds.lean": "9012b3f3531eed7e845220cb0febeeeb438261d7affe49d1b4d5e3eb5926fcb9"
+  },
+  "module": "VarianceBounds",
+  "attempt_grammar": [
+    "decide_without_parameter_elimination",
+    "monotonicity_and_distributivity"
+  ]
+}
