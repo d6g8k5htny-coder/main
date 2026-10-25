@@ -62,9 +62,10 @@ def main():
     # Real context loss must release the canvas and retain useful fallback.
     canvas.evaluate("e=>e.getContext('webgl2').getExtension('WEBGL_lose_context').loseContext()");expect(page.locator('#atlas-space-status')).to_contain_text('context lost');expect(page.locator('#atlas-stage')).to_be_visible();require(page.locator('#atlas-space-host canvas').count()==0,'Lost renderer retained');page.locator('#atlas-space-toggle').click();page.locator('#atlas-space-host').scroll_into_view_if_needed();expect(page.locator('#atlas-space-host')).to_have_attribute('data-ready','true');page.locator('#atlas-space-toggle').click();require(page.locator('#atlas-space-host canvas').count()==0,'View exit leaked canvas');row['context_loss']='PASS'
     require(not row['errors'],f"Page errors: {row['errors']}");row['passed']=True;context.close()
-   for kind in ['rapid-exit','exact-filters','drag-and-hidden','keyboard-selection','full-dataset-performance']:
-    row={'case':kind};report['cases'].append(row);context=browser.new_context(viewport={'width':1200,'height':900},reduced_motion='reduce');page=context.new_page();page.set_default_timeout(15000)
+   for kind in ['rapid-exit','exact-filters','drag-and-hidden','keyboard-selection','full-dataset-performance','mobile-default-list-entry']:
+    row={'case':kind};report['cases'].append(row);context=browser.new_context(viewport={'width':390 if kind=='mobile-default-list-entry' else 1200,'height':900},reduced_motion='reduce');page=context.new_page();page.set_default_timeout(15000)
     query='?atlas-view=graph&atlas-classification=OPEN_ACTIVE' if kind=='exact-filters' else '?atlas-view=graph'
+    if kind=='mobile-default-list-entry':query=''
     page.goto(origin+query);page.wait_for_function("document.querySelector('#atlas-status').textContent.startsWith('Source snapshot')")
     if kind=='rapid-exit':
      page.route('**/atlas-spatial.mjs*',lambda route:(time.sleep(.3),route.continue_()))
@@ -74,6 +75,8 @@ def main():
      if kind=='full-dataset-performance':page.locator('#atlas-search').fill('.')
      expected=page.locator('#atlas-list button').evaluate_all('(nodes)=>nodes.map(n=>n.firstChild.textContent)');page.locator('#atlas-space-toggle').click();page.locator('#atlas-space-host').scroll_into_view_if_needed();expect(page.locator('#atlas-space-host')).to_have_attribute('data-ready','true')
      actual=page.locator('.atlas-space > details ul').first.locator('button').all_text_contents();require(actual==expected,'3D page differs from controller filters');row['nodes']=actual
+     if kind=='mobile-default-list-entry':
+      expect(page.locator('#atlas-list')).to_be_hidden();page.locator('#atlas-space-toggle').click();expect(page.locator('#atlas-list')).to_be_visible();require(page.locator('#atlas-space-host canvas').count()==0,'List exit leaked renderer')
      if kind=='full-dataset-performance':
       canvas=page.locator('#atlas-space-host canvas');canvas.focus();draws=[];interactions=[]
       for _ in range(12):

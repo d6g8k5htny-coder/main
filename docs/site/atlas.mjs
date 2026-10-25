@@ -1,6 +1,6 @@
 import {currentSnapshot,element,anchor} from './current.mjs?site-release=fc7e8a98c1e23f476962c4c83e95ed3ce817490007987112d9b2cf6d3d90b142';
 import {hasNode,readState,neighborhood,searchGraph,downstreamReach,requiredDependencyPaths,REQUIRED_ROUTE_SEMANTICS,evidenceAxes,sourceURL,sourceForNode,staticNodeLinks,resumeProjection,RESUME_NOT_RECORDED,resumeFieldHref} from './current-model.mjs?site-release=a30d68465e3acda48eedce64854afebc7af5c84903a4e6b0c649e08007b08999';
-import {createAtlasShell,viewForViewport} from './atlas-shell.mjs?site-release=22fadb600ec2c6cedee6aa4f7e3788214cef269256b598fa7835d0dcc885fe42';
+import {createAtlasShell,viewForViewport} from './atlas-shell.mjs?site-release=b5fee8f064f240e3add434f4a55ec4f43aee8b85789aec096a14205f90072307';
 const byId=id=>document.getElementById(id);
 const svgElement=(tag,attrs)=>{const n=document.createElementNS('http://www.w3.org/2000/svg',tag);for(const [k,v]of Object.entries(attrs))n.setAttribute(k,String(v));return n;};
 // Mirrors the static node page block rendered from the same projection by tools/current_site_history.py.

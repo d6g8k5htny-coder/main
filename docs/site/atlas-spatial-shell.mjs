@@ -26,10 +26,10 @@ export function installSpatialAtlas({root,onChange}) {
   const nodeID=button=>button.firstChild?.textContent||'';
   const selected=()=>inspector.querySelector('h3')?.textContent||'';
   const refused=()=>!get('atlas-error').hidden||!inspector.querySelector('h3');
-  const shown=()=>!stage.hidden&&root.getAttribute('data-atlas-panel')!=='diagnostics'&&!(matchMedia('(max-width:720px)').matches&&root.getAttribute('data-atlas-panel')!=='browse');
+  const shown=()=>root.getAttribute('data-atlas-panel')!=='diagnostics'&&!(matchMedia('(max-width:720px)').matches&&root.getAttribute('data-atlas-panel')!=='browse');
   function pick(id){buttons().find(button=>nodeID(button)===id)?.click();}
-  function fail(message){generation++;renderer?.dispose();renderer=null;delete host.dataset.ready;delete host.dataset.frames;active=false;toggle.setAttribute('aria-pressed','false');section.hidden=true;stage.classList.remove('atlas-space-replaced');status.textContent=message+' Use Graph or List to continue.';onChange();}
-  function display(){toggle.setAttribute('aria-pressed',String(active));focus.setAttribute('aria-pressed',String(focused));for(const b of [reset,focus,plus,minus])b.hidden=!active;section.hidden=!active||!shown()||refused();stage.classList.toggle('atlas-space-replaced',active&&!section.hidden);renderer?.pause(section.hidden||!intersecting);}
+  function fail(message){generation++;renderer?.dispose();renderer=null;delete host.dataset.ready;delete host.dataset.frames;active=false;toggle.setAttribute('aria-pressed','false');section.hidden=true;stage.classList.remove('atlas-space-replaced');list.classList.remove('atlas-space-replaced');status.textContent=message+' Use Graph or List to continue.';onChange();}
+  function display(){toggle.setAttribute('aria-pressed',String(active));focus.setAttribute('aria-pressed',String(focused));for(const b of [reset,focus,plus,minus])b.hidden=!active;section.hidden=!active||!shown()||refused();stage.classList.toggle('atlas-space-replaced',active&&!section.hidden);list.classList.toggle('atlas-space-replaced',active&&!section.hidden);renderer?.pause(section.hidden||!intersecting);}
   function formalEvidence(){
     if(!data||refused()||get('atlas-formal-evidence'))return;
     const panel=make('section');panel.id='atlas-formal-evidence';panel.append(make('h4','Formal evidence for this claim'),make('p','No verified graph-to-formal-artifact mapping is recorded in this source projection. Missing evidence remains unknown.'));
