@@ -2,8 +2,9 @@ import {
   loadPublication,
   loadSelection,
   compareSnapshots,
-} from "./compare-model.mjs?site-release=6c69a2165f77b03d7f2d07cb3189e49a5f44f8ac2309341cd6076abd583594cc";
-import { sourceURL } from "./current-model.mjs?site-release=a30d68465e3acda48eedce64854afebc7af5c84903a4e6b0c649e08007b08999";
+  selectionDescription,
+} from "./compare-model.mjs";
+import { sourceURL } from "./current-model.mjs";
 const $ = (id) => document.getElementById(id);
 let publication,
   generation = 0,
@@ -35,10 +36,10 @@ function selectionFromURL() {
     const archives = publication.choices.filter((c) => !c.current);
     return [archives[0], archives.at(-1)];
   }
-  if (ids.some((x) => !x || !/^[0-9a-f]{64}$/.test(x)))
+  if (ids.some((x) => !x || !/^(archive|current):[0-9a-f]{64}$/.test(x)))
     throw Error("Both exact selection IDs are required.");
   return ids.map((id) => {
-    const c = publication.choices.find((c) => c.id === id);
+    const c = publication.choices.find((c) => c.key === id);
     if (!c)
       throw Error("Selection ID is absent from this verified publication.");
     return c;
@@ -46,13 +47,13 @@ function selectionFromURL() {
 }
 function selected() {
   return ["from", "to"].map((id) =>
-    publication.choices.find((c) => c.id === $(id).value),
+    publication.choices.find((c) => c.key === $(id).value),
   );
 }
 function selectionURL(choices) {
   const url = new URL(location.href);
-  url.searchParams.set("from", choices[0].id);
-  url.searchParams.set("to", choices[1].id);
+  url.searchParams.set("from", choices[0].key);
+  url.searchParams.set("to", choices[1].key);
   return url;
 }
 function drawPage() {
@@ -138,7 +139,7 @@ function render(result, choices, before, after) {
   exact.className = "exact-selection";
   choices.forEach((c, i) => {
     exact.append(element("strong", i ? " To: " : "From: "));
-    const a = element("a", `${c.observed_at} · ${c.id}`);
+    const a = element("a", selectionDescription(c));
     a.href = c.descriptor.path;
     exact.append(a);
   });
@@ -208,17 +209,14 @@ async function initialize() {
       const select = $(id);
       select.replaceChildren();
       for (const c of publication.choices) {
-        const option = element(
-          "option",
-          `${c.observed_at} · ${c.current ? "current observation" : "retained archive"} · ${c.id}`,
-        );
-        option.value = c.id;
+        const option = element("option", selectionDescription(c));
+        option.value = c.key;
         select.append(option);
       }
       select.disabled = false;
     }
     const choices = selectionFromURL();
-    choices.forEach((c, i) => ($(i ? "to" : "from").value = c.id));
+    choices.forEach((c, i) => ($(i ? "to" : "from").value = c.key));
     $("compare").disabled = false;
     await compare();
   } catch (error) {
@@ -240,6 +238,8 @@ for (const id of ["from", "to"])
   $(id).addEventListener("change", () => {
     ++generation;
     clear();
+    $("compare").disabled =
+      !publication || selected().some((choice) => !choice);
     status(
       "Awaiting comparison: selection changed. Load the selected observations.",
       "awaiting",
@@ -263,7 +263,7 @@ window.addEventListener("popstate", () => {
   }
   try {
     const choices = selectionFromURL();
-    choices.forEach((c, i) => ($(i ? "to" : "from").value = c.id));
+    choices.forEach((c, i) => ($(i ? "to" : "from").value = c.key));
     compare();
   } catch (error) {
     ++generation;

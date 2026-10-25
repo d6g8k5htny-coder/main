@@ -6,9 +6,12 @@ import hashlib
 import subprocess
 import http.server
 import json
+import re
 from pathlib import Path
 import threading
 from playwright.sync_api import sync_playwright
+from current_site_history import (validate_manifest, mathematical_projection, mathematical_digest,
+                                  manifest_bytes, render_static_v2, archive_record, history_size, capacity_record)
 
 
 def main():
@@ -143,6 +146,95 @@ def main():
             page.locator('#compare-state[data-state="refused"]').wait_for()
             assert page.locator('#comparison-results .change').count() == 0
             report['checks'].append('Forged selection IDs refuse without substitute comparison')
+            page.locator('#to').select_option(page.locator('#to option').last.get_attribute('value'))
+            assert page.locator('#compare').is_enabled()
+            page.locator('#compare').click()
+            page.locator('#compare-state[data-state="completed"]').wait_for()
+            assert 'forged' not in page.url
+            report['checks'].append('Explicit valid selector choice recovers invalid share URL through Load')
+            # A producer-admitted publication can expose the same full payload
+            # as both a retained archive and the current observation. Preserve roles.
+            alias_registry = page.request.get(origin + 'snapshots/index.json').json()
+            alias_archive = next(a for a in alias_registry['archives'] if a['id'] == alias_registry['current'])
+            archive_descriptor = next(d for d in alias_archive['files'] if d['path'] == 'current.json')
+            alias_payload = page.request.get(origin + f"snapshots/{alias_archive['id']}/current.json").body()
+            alias_registry['total_bytes'] += archive_descriptor['bytes'] - alias_registry['current_observation']['payload']['bytes']
+            alias_registry['capacity']['bytes'] = alias_registry['total_bytes']
+            alias_registry['current_observation']['payload'] = {**archive_descriptor, 'path': 'current.json'}
+            validate_manifest(alias_registry)
+            alias_registry_raw = json.dumps(alias_registry).encode()
+            alias_meta = {'archive': alias_archive['id'], 'sha256': archive_descriptor['sha256'],
+                          'bytes': archive_descriptor['bytes'], 'observed_at': alias_archive['observed_at'],
+                          'history_manifest_sha256': hashlib.sha256(alias_registry_raw).hexdigest()}
+            alias_html = page.request.get(origin + 'compare.html').text()
+            alias_html = re.sub(r'data-current-digest="[0-9a-f]{64}"', f'data-current-digest="{archive_descriptor["sha256"]}"', alias_html)
+            alias_html = re.sub(r'data-current-bytes="[0-9]+"', f'data-current-bytes="{archive_descriptor["bytes"]}"', alias_html)
+            alias_page = browser.new_page(viewport={'width': 390, 'height': 844}, color_scheme='dark')
+            alias_page.on('pageerror', lambda error: errors.append(str(error)))
+            fixtures = {'compare.html': (alias_html, 'text/html'),
+                        'current-meta.json': (json.dumps(alias_meta), 'application/json'),
+                        'snapshots/index.json': (alias_registry_raw, 'application/json'),
+                        'current.json': (alias_payload, 'application/json')}
+            def alias_response(route):
+                body, content_type = fixtures[route.request.url.removeprefix(origin)]
+                route.fulfill(body=body, content_type=content_type)
+            for path in fixtures:
+                alias_page.route(origin + path, alias_response)
+            alias_page.goto(origin + 'compare.html')
+            alias_page.locator('#compare-state[data-state="completed"]').wait_for()
+            alias_page.locator('#from').select_option('archive:' + alias_archive['id'])
+            alias_page.locator('#to').select_option('current:' + alias_archive['id'])
+            alias_page.locator('#compare').click()
+            alias_page.locator('#compare-state[data-state="completed"]').wait_for()
+            assert all(count == '0' for count in alias_page.locator('.comparison-counts dd').all_text_contents())
+            exact = alias_page.locator('.exact-selection').inner_text()
+            assert 'retained archive' in exact and 'current observation' in exact
+            assert ('payload SHA-256 ' + archive_descriptor['sha256']) in exact
+            assert (str(archive_descriptor['bytes']) + ' bytes') in exact
+            screenshot = args.output / 'compare-identical-current-archive-fixture.png'
+            alias_page.screenshot(path=str(screenshot), full_page=True)
+            report['screenshots'].append(str(screenshot))
+            report['checks'].append('Producer-validated same-byte archive/current fixture preserves typed roles and yields zero deltas')
+            # Produce and admit an actual schema2 archive in memory. Its material
+            # identity deliberately differs from the exact projection payload hash.
+            projection = mathematical_projection(json.loads(alias_payload))
+            projection_raw = manifest_bytes(projection)
+            material_id = mathematical_digest(projection)
+            projection_meta = {'sha256': hashlib.sha256(projection_raw).hexdigest(),
+                               'bytes': len(projection_raw), 'observed_at': projection['observed_at'],
+                               'mathematical_sha256': material_id, 'archive_version': 2}
+            projection_files = {**render_static_v2(projection, projection_meta),
+                                'current.json': projection_raw, 'current-meta.json': manifest_bytes(projection_meta)}
+            material_entry, _, _ = archive_record(material_id, projection_files)
+            alias_registry['archives'].append(material_entry)
+            alias_registry['total_bytes'] = history_size(alias_registry['archives'], alias_registry['aliases'], alias_registry['current_observation'])
+            alias_registry['capacity'] = capacity_record(alias_registry['archives'], alias_registry['total_bytes'])
+            validate_manifest(alias_registry)
+            material_registry_raw = manifest_bytes(alias_registry)
+            alias_meta['history_manifest_sha256'] = hashlib.sha256(material_registry_raw).hexdigest()
+            fixtures['current-meta.json'] = (json.dumps(alias_meta), 'application/json')
+            fixtures['snapshots/index.json'] = (material_registry_raw, 'application/json')
+            material_path = f'snapshots/{material_id}/current.json'
+            fixtures[material_path] = (projection_raw, 'application/json')
+            alias_page.route(origin + material_path, alias_response)
+            alias_page.goto(origin + 'compare.html')
+            alias_page.locator('#compare-state[data-state="completed"]').wait_for()
+            alias_page.locator('#from').select_option('archive:' + alias_archive['id'])
+            alias_page.locator('#to').select_option('archive:' + material_id)
+            alias_page.locator('#compare').click()
+            alias_page.locator('#compare-state[data-state="completed"]').wait_for()
+            material_text = alias_page.locator('.exact-selection').inner_text()
+            assert ('material archive ID ' + material_id) in material_text
+            assert ('payload SHA-256 ' + projection_meta['sha256']) in material_text
+            assert (str(len(projection_raw)) + ' bytes') in material_text
+            assert material_id != projection_meta['sha256']
+            assert 'Inventory coverage: incomparable' in alias_page.locator('#comparison-summary').inner_text()
+            assert all(count == '0' for count in alias_page.locator('.comparison-counts dd').all_text_contents())
+            screenshot = args.output / 'compare-material-archive-fixture.png'
+            alias_page.screenshot(path=str(screenshot), full_page=True)
+            report['screenshots'].append(str(screenshot))
+            report['checks'].append('Producer-generated/admitted schema2 fixture displays distinct material ID and exact payload SHA/bytes; omitted inventory incomparable')
+            alias_page.close()
             nojs = browser.new_page(java_script_enabled=False, viewport={'width': 390, 'height': 844})
             nojs.goto(origin + 'compare.html')
             assert nojs.locator('noscript').first.is_visible()
