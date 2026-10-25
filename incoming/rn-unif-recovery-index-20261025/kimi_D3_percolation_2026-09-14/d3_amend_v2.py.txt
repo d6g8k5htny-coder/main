@@ -1,0 +1,320 @@
+#!/usr/bin/env python3
+"""D3 REMOTE AMENDMENT v2 engine (Stage E repair R2/V1) -- the kappa_far
+bracket certified at the R2-certified rung floor, NOT the QMC probe.
+
+Finding repaired: v1 (63d91cdd..., historical) computed the relative kappa
+pieces against the QMC probe Z_r = 8.06118054e-3; at the R2-certified floor
+    Z_lo = 7.7592917375327855e-3   (H3_closure/H3_RUNG_FLOOR.md, frozen
+    6347275d..., interval-enclosed Z_{0.05} in [7.7592917375327855e-3,
+    1.1468646473404396e-2], no Monte Carlo in that certificate),
+the assembled kappa_far = 0.6772854 breaches the v1 round-up 0.66, and the
+crude-spine annulus I_ann carries the same 1/Z_r (its frozen display divided
+by the same QMC probe).  v2 therefore:
+
+  * recomputes every piece against Z_lo, with the per-piece Z-scaling
+    verified EXPLICITLY from Z-free numerators (each relative piece is
+    written as N/Z with N exact-kernel and displayed; the Z-independent
+    pieces are shown to contain no Z);
+  * recomputes the annulus numerator Num_ann exact-kernel (the frozen D4
+    grid, cap form, WITHOUT the 1/Z_r), consistency-cks Num_ann/Z_probe
+    against the frozen display 17.0182368, and only then divides by Z_lo;
+  * assembles the floor-consistent certified bracket
+        B_remote = I_ann(Z_lo) + (576-25 pi) J(ell) (1 + kappa_far),
+        kappa_far <= 0.68,
+    with upper bounds rounded UP;
+  * states the grade exactly: with the R2 floor consumed, the G.7-scope
+    two-sided normalizer dependency AT THE RUNG is DISCHARGED (the R2
+    certificate is interval-enclosed, MC-free); the QMC probe remains as a
+    diagnostic display only.  D3-LEMMA-RN-UNIF remains named for the ZONE
+    UNIFORMITY (v1 disposition stands: rigidity-decoupling + certified
+    annulus Riemann sum) -- a different item, untouched by R2.
+
+House conventions: fail-closed ck() -> SystemExit(1); no bare asserts;
+deterministic; both modes byte-identical; receipts separate.
+"""
+import hashlib
+import re
+import sys
+
+import mpmath
+from mpmath import mp, mpf
+
+mp.dps = 100
+
+_OUT = []
+
+
+def emit(line):
+    _OUT.append(str(line))
+    print(line)
+
+
+def ck(cond, msg):
+    if not cond:
+        print("D3-AMEND-V2 FAIL: %s" % msg)
+        raise SystemExit(1)
+
+
+def _sha256(path):
+    return hashlib.sha256(open(path, 'rb').read()).hexdigest()
+
+
+# freeze-before-consume: pin everything imported or consumed BEFORE import
+_EXPECT = {
+    'd3_perc.py': '5bc092412943e1c2185a8cf86cee23ae9cd9a2aad9bd9ef0b02807e9ff58dfa4',
+    'd3_amend.py': '12175217869a9bd7b3f623fdb34a6c0c699419722bfe534e3b5226352504b5b6',
+    '../H2_foundations/cov_exact.py':
+        'f08c1c5f653f2ffd2e85d39e1112f80d15db04d15f932e5ee42db2ca3553e783',
+    '../H2_foundations/pin_transform.py':
+        'c6988ac7fcfa32dcc03c1374e13fb4c26af1c12c25cb824a315e6dce8991fd41',
+    '../H3_closure/H3_RUNG_FLOOR.md':
+        '6347275d86c56842b719b36180e535bc1793d6995ddb68464db2960820440dfa',
+}
+for _p, _h in _EXPECT.items():
+    _got = _sha256(_p)
+    ck(_got == _h, "hash pin mismatch on %s" % _p)
+
+# parse the certified floor out of the pinned R2 artifact (fail-closed)
+_floor_txt = open('../H3_closure/H3_RUNG_FLOOR.md').read()
+_m = re.search(r'Z_\{0\.05\} ∈ \[\s*([\d.e+-]+)\s*,\s*([\d.e+-]+)\s*\]',
+               _floor_txt)
+ck(_m, "R2 floor interval line not found in the pinned artifact")
+Z_LO = mpf(_m.group(1))
+Z_HI = mpf(_m.group(2))
+ck(Z_LO == mpf('7.7592917375327855e-3'),
+   "R2 floor drifted: %s" % mpmath.nstr(Z_LO, 18))
+ck(Z_HI == mpf('1.1468646473404396e-2'), "R2 ceiling drifted")
+
+sys.path.insert(0, '.')
+import d3_perc as E          # noqa: E402  (hash-pinned above)
+import d3_amend as V1        # noqa: E402  (hash-pinned above; utilities)
+
+ce = E.ce
+nstr = mpmath.nstr
+eigvals_cert = V1.eigvals_cert
+w2_gauss = V1.w2_gauss
+
+
+# ---------------------------------------------------------------------------
+# V1: Z-free numerators of every kappa piece at the axis-worst station
+# ---------------------------------------------------------------------------
+def v1_pieces(kit):
+    y = (mpf(5), mpf(0))
+    st = E.station(kit, y)
+    v = kit.b - kit.ell / 2
+    emit("V1 Z-free numerators at the axis-worst station (d=5, th=0),"
+         " r = 0.05, v = window mid")
+    cov = st['cov']
+    muv = E.np9_mean(st['np9'], v)
+    msad = E.m_sad_cf(v)
+
+    # kappa_cross = N_cross / Z   (N_cross = Bcross / m_sad, exact-kernel)
+    Bcross = E.kappa_cross(st, kit, v)
+    N_cross = Bcross / msad
+    emit("  kappa_cross = N_cross/Z:  N_cross = Bcross/m_sad = %s"
+         " (exact-kernel; Bcross the frozen tau-form Lipschitz bound)"
+         % nstr(N_cross, 10))
+
+    # kappa_pair = N_pair / Z   (N_pair = ||h||_2 sqrt(chi2), exact-kernel)
+    mu6 = kit.Hmean
+    S6 = kit.Hcov
+    mu9p = mp.matrix([muv[i] for i in range(6)])
+    S9p = st['Spair']
+    S9inv = S9p ** -1
+    S6inv = S6 ** -1
+    for Sx, Sxinv, nn in [(S9p, S9inv, 6), (S6, S6inv, 6)]:
+        Ir = Sx * Sxinv - mp.eye(nn)
+        rr = max(abs(Ir[i, j]) for i in range(nn) for j in range(nn))
+        ck(rr < mpf('1e-30'), "pair inversion residual %s" % nstr(rr, 3))
+    M = S9inv - S6inv * mpf('0.5')
+    lamM, _VM = eigvals_cert(M, 6, "v2:M")
+    ck(min(lamM) > 0, "chi2 form M not positive definite")
+    c = S9inv * mu9p - S6inv * mu6 * mpf('0.5')
+    kk = (mu9p.T * S9inv * mu9p)[0, 0] - mpf('0.5') * (mu6.T * S6inv * mu6)[0, 0]
+    logq = (-3 * mpmath.log(2) + mpmath.log(mpmath.fabs(mp.det(S6))) / 2
+            - mpmath.log(mpmath.fabs(mp.det(S9p)))
+            - mpmath.log(mpmath.fabs(mp.det(M))) / 2
+            + (c.T * (M ** -1) * c)[0, 0] - kk)
+    chi2 = mpmath.exp(logq) - 1
+    ck(chi2 >= 0 and chi2 < 1, "chi2 out of range")
+    dM4_6 = E.det_moment(mp.matrix([mu6[0], mu6[1], mu6[2]]),
+                         E.submat(S6, [0, 1, 2], [0, 1, 2]), 4)
+    dS4_6 = E.det_moment(mp.matrix([mu6[3], mu6[4], mu6[5]]),
+                         E.submat(S6, [3, 4, 5], [3, 4, 5]), 4)
+    hL2 = (mpmath.sqrt(dM4_6) * mpmath.sqrt(dS4_6))**mpf('0.5')
+    N_pair = hL2 * mpmath.sqrt(chi2)
+    emit("  kappa_pair  = N_pair/Z:   N_pair = ||h||_2 sqrt(chi2) = %s"
+         " (exact-kernel; chi2 = %s closed form)" % (nstr(N_pair, 10),
+                                                     nstr(chi2, 4)))
+
+    # kappa_y: contains NO Z (W2/Bures coupling vs the closed form m_sad)
+    a2, a4 = E.A2, E.A4
+    mu_y = mp.matrix([muv[6], muv[7], muv[8]])
+    mu_y0 = mp.matrix([-a2 * v, -a2 * v, mpf(0)])
+    Sy0 = mp.zeros(3, 3)
+    Sy0[0, 0] = a4 - a2 * a2
+    Sy0[1, 1] = a4 - a2 * a2
+    Sy0[2, 2] = a2 * a2
+    w2y, _d, _t1, _t2 = w2_gauss(mu_y, st['Syres'], mu_y0, Sy0, 3, "v2:y")
+    Ey1 = sum(st['Syres'][i, i] for i in range(3)) + sum(mu_y[i]**2 for i in range(3))
+    Ey0 = sum(Sy0[i, i] for i in range(3)) + sum(mu_y0[i]**2 for i in range(3))
+    kap_y = mpmath.sqrt(2 * (Ey1 + Ey0)) * mpmath.sqrt(w2y) / msad
+    emit("  kappa_y     = %s (Z-INDEPENDENT: W2/Bures pieces and m_sad"
+         " only -- no Z_r anywhere in the piece)" % nstr(kap_y, 6))
+
+    # R_pg, R_wm: exact ratios, Z-independent
+    pgrad0 = 1 / (2 * mp.pi * a2)
+    Rpg = st['pgrad'] / pgrad0
+    wm = E._Phi((kit.b - st['mu_t']) / st['s_t']) - E._Phi((kit.s - st['mu_t']) / st['s_t'])
+    Rwm = wm / (E._Phi(kit.b) - E._Phi(kit.s))
+    emit("  R_pg = %s, R_wm = %s (Z-INDEPENDENT exact ratios)"
+         % (nstr(Rpg, 8), nstr(Rwm, 8)))
+
+    # endpoint variation of the cross numerator (absorbed in the round-up)
+    Bc_b = E.kappa_cross(st, kit, kit.b) / E.m_sad_cf(kit.b)
+    Bc_s = E.kappa_cross(st, kit, kit.s) / E.m_sad_cf(kit.s)
+    emit("  [variation] N_cross(v=b) = %s, N_cross(v=s) = %s"
+         % (nstr(Bc_b, 8), nstr(Bc_s, 8)))
+    return {'st': st, 'N_cross': N_cross, 'N_pair': N_pair,
+            'kap_y': kap_y, 'Rpg': Rpg, 'Rwm': Rwm,
+            'Ncross_max': max(N_cross, Bc_b, Bc_s)}
+
+
+def v2_assemble(pcs, Zden, tag):
+    """Assemble kappa_far at denominator Zden from the Z-free numerators:
+    kappa_far = Rpg*Rwm*[(1 + N_pair/Z)(1 + kap_y) + N_cross/Z] - 1."""
+    kc = pcs['N_cross'] / Zden
+    kp = pcs['N_pair'] / Zden
+    ky = pcs['kap_y']
+    kfar = pcs['Rpg'] * pcs['Rwm'] * ((1 + kp) * (1 + ky) + kc) - 1
+    emit("  [%s] Z = %s: kappa_cross = %s, kappa_pair = %s, kappa_y = %s"
+         " -> kappa_far = %s" % (tag, nstr(Zden, 12), nstr(kc, 8),
+                                 nstr(kp, 7), nstr(ky, 6), nstr(kfar, 9)))
+    return kfar, kc, kp
+
+
+# ---------------------------------------------------------------------------
+# V3: the annulus numerator, exact-kernel, WITHOUT the 1/Z_r
+# ---------------------------------------------------------------------------
+def v3_annulus_numerator(kit, Zr_probe):
+    emit("")
+    emit("V3 annulus numerator Num_ann (frozen D4 grid, cap form, NO 1/Z_r);"
+         " consistency-ck against the frozen display, then floor division")
+    radii = [mpf(x) for x in ['0.1', '0.15', '0.2', '0.3', '0.4', '0.5',
+                              '0.75', '1', '1.5', '2', '3', '4', '5']]
+    angles = [0, 45, 90, 135, 180]
+    gridn = []
+    for th in angles:
+        row = []
+        for dd in radii:
+            y = (dd * mpmath.cos(mpmath.radians(th)),
+                 dd * mpmath.sin(mpmath.radians(th)))
+            st = E.station(kit, y)
+            Icap, _dl = E.window_cap_env(kit, st)
+            row.append(st['pgrad'] * Icap)         # numerator only, no /Z
+        gridn.append(row)
+
+    def trapz_x(vals, xs):
+        tot = mpf(0)
+        for i in range(len(xs) - 1):
+            tot += (vals[i] + vals[i + 1]) / 2 * (xs[i + 1] - xs[i])
+        return tot
+
+    thrad = [mpf(th) * mp.pi / 180 for th in angles]
+    rad_int = []
+    for j, dd in enumerate(radii):
+        col = [gridn[i][j] for i in range(len(angles))]
+        rad_int.append(trapz_x(col, thrad) * 2 * dd)
+    Num_ann = trapz_x(rad_int, radii)
+    ck(Num_ann > 0 and mpmath.isfinite(Num_ann), "annulus numerator bad")
+    # consistency: Num_ann / Z_probe must reproduce the frozen display
+    iann_probe = Num_ann / Zr_probe / kit.r**3
+    emit("  Num_ann = %s ; Num_ann/Z_probe/r^3 = %s (frozen display:"
+         " 17.0182368)" % (nstr(Num_ann, 10), nstr(iann_probe, 10)))
+    ck(abs(iann_probe - mpf('17.0182368')) < mpf('0.001'),
+       "annulus numerator inconsistent with the frozen display: %s"
+       % nstr(iann_probe, 10))
+    iann_floor = Num_ann / Z_LO / kit.r**3
+    import math as _m
+    iann_floor_up = mpf(_m.ceil(float(iann_floor) * 10000)) / 10000
+    emit("  I_ann(Z_lo)/r^3 = Num_ann/Z_lo/r^3 = %s -> consumed as %s"
+         " (round UP at 4 dp)" % (nstr(iann_floor, 10), nstr(iann_floor_up, 8)))
+    return Num_ann, iann_floor, iann_floor_up
+
+
+if __name__ == '__main__':
+    emit("D3 REMOTE AMENDMENT v2 engine -- kappa_far and bracket certified"
+         " at the R2 rung floor")
+    emit("R2 floor consumed: Z_lo = %s (parsed from the pinned artifact"
+         " H3_closure/H3_RUNG_FLOOR.md sha256 6347275d...; interval-enclosed"
+         " two-sided Z in [%s, %s], MC-free certificate)"
+         % (nstr(Z_LO, 18), nstr(Z_LO, 12), nstr(Z_HI, 12)))
+    kit = E.PinKit(mpf('0.05'))
+    Zr_probe, Zr_se = E.mc_pair(kit.Hmean, kit.Hcov, N=2000000, seed=20260914)
+    Zp = mpf(repr(Zr_probe))
+    emit("QMC probe Z_r = %s +- %s (DIAGNOSTIC DISPLAY ONLY; inside the R2"
+         " interval: %s)" % (nstr(Zp, 10), nstr(Zr_se, 3),
+                              Z_LO < Zp < Z_HI))
+    ck(Z_LO < Zp < Z_HI, "QMC probe outside the certified R2 interval")
+
+    pcs = v1_pieces(kit)
+    emit("")
+    emit("V2 per-piece Z-scaling verification and assembly")
+    kfar_probe, kc_p, kp_p = v2_assemble(pcs, Zp, "QMC probe, diagnostic")
+    ck(abs(kfar_probe - mpf('0.65284336')) < mpf('0.001'),
+       "probe-denominator assembly inconsistent with v1: %s" % nstr(kfar_probe, 9))
+    kfar_floor, kc_f, kp_f = v2_assemble(pcs, Z_LO, "R2 floor, certified")
+    kf_up = mpf('0.68')
+    ck(kfar_floor <= kf_up, "assembled kappa_far at the floor exceeds %s"
+       % nstr(kf_up, 4))
+    emit("  kappa_far <= %s CERTIFIED at the R2 floor (assembled %s;"
+         " round-UP absorbing the displayed N_cross endpoint variation)"
+         % (nstr(kf_up, 4), nstr(kfar_floor, 9)))
+
+    Num_ann, iann_floor, iann_floor_up = v3_annulus_numerator(kit, Zp)
+
+    emit("")
+    emit("V4 the certified bracket (upper bounds round UP)")
+    J = E.J_window(kit.ell)
+    Ifar0 = (576 - 25 * mp.pi) * J / kit.r**3
+    Ifar = Ifar0 * (1 + kf_up)
+    emit("  I_far/r^3 <= %s * (1 + %s) = %s" % (nstr(Ifar0, 8), nstr(kf_up, 4),
+                                               nstr(Ifar, 10)))
+    B_v2 = iann_floor_up + Ifar
+    B_up = mpf('21.9279')
+    ck(B_v2 <= B_up, "bracket exceeds the round-up %s" % nstr(B_up, 8))
+    emit("  *** B_remote = I_ann(Z_lo) + I_far <= %s + %s = %s r^3"
+         % (nstr(iann_floor_up, 8), nstr(Ifar, 10), nstr(B_v2, 10)))
+    emit("  *** CERTIFIED BRACKET (floor-consistent): B_remote <= %s r^3;"
+         " exact form B_remote = %s + %s*(1+kappa_far), kappa_far <= %s"
+         % (nstr(B_up, 8), nstr(iann_floor_up, 8), nstr(Ifar0, 8),
+            nstr(kf_up, 4)))
+    emit("  full P_r(A.rem) <= I_hole + B_remote <= 1.284 + %s = %s r^3"
+         " [I_hole CONSUMES C1 chart envelope]"
+         % (nstr(B_up, 8), nstr(mpf('1.284') + B_up, 8)))
+    emit("")
+    emit("  reconciliation (rounding directions; each line's denominator):")
+    emit("    19.5465   kappa=0 remote POINT DISPLAY (RN at QMC-central;"
+         " not an upper bound) -- rejected by the falsifier gate")
+    emit("    20.9      frozen THM display (same kappa=0 reading, total"
+         " incl. hole) -- superseded")
+    emit("    21.2153   v1 certified bracket: kappa pieces at the QMC probe"
+         " denominator + I_ann at the probe -- SUPERSEDED BY FLOOR")
+    emit("    21.2658   v2 with I_ann left at its frozen probe display"
+         " (the R2-round's prescribed form; denominator mix: floor in the"
+         " kappas, probe in I_ann) -- SUPERSEDED BY the floor-consistent")
+    emit("    %s   v2 CERTIFIED: every 1/Z_r at the R2 floor" % nstr(B_up, 8))
+    emit("")
+    emit("V5 grade: with the R2 interval consumed, the G.7-scope two-sided"
+         " normalizer dependency AT THE RUNG r=0.05 is DISCHARGED -- every"
+         " 1/Z_r in the bracket divides the certified floor Z_lo (the R2"
+         " certificate is interval-enclosed and Monte-Carlo-free; the QMC"
+         " probe here is diagnostic display only, consistency-ck'd inside"
+         " the R2 interval). 'Monte-Carlo-free' is claimed ONLY against"
+         " this certified denominator. D3-LEMMA-RN-UNIF remains NAMED for"
+         " the ZONE UNIFORMITY (v1 disposition stands: rigidity-decoupling"
+         " lemma for tau(y) + certified interval-box Riemann sum for the"
+         " annulus) -- a different item, untouched by R2.")
+    body = '\n'.join(_OUT) + '\n'
+    emit("D3-AMEND-V2 PASS digest=%s" % hashlib.sha256(body.encode()).hexdigest())
+    raise SystemExit(0)

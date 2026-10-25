@@ -1,0 +1,85 @@
+# Exact-sample comment sources and historical reviewer controls
+
+This is a byte-preservation package for existing public research records. The
+original GitHub comments remain canonical. Their copies and the extracted
+control artifacts here establish source custody, not a new proof, review,
+execution, scientific acceptance or certification of stored pilot samples.
+
+## Preserved objects
+
+Each `sources/*.body.txt` is exactly the decoded GitHub REST `body` encoded as
+UTF-8: no surrounding JSON, HTML, newline addition or Unicode normalization.
+
+| Comment | Recorded role | Bytes | SHA-256 |
+|---|---|---:|---|
+| [5976299711](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5976299711) | Original OpenAI/Codex author-side proof | 6104 | `819bc7c7fd637883ca74626b01d777d40233f6b710b6f26b5d370648e09a945d` |
+| [5976527971](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5976527971) | Existing OpenAI/Codex scoped review | 9103 | `ad6f20ab98ce288c2ab54f88653df908015a599f30a329f3c1f12eff93e7f16f` |
+| [5976979978](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5976979978) | Existing Anthropic Claude scoped review | 7708 | `7f2eaffe5195466b94366959fc8f6c40bcebe76d5c50e2fe453f12f5bdeb1c0e` |
+| [5976980568](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5976980568) | Claude reviewer's published control program and recorded output | 11377 | `b1c697378866b8d5b5c370593c1be128bf819fd91ab365837ee7f27de10ad2a1` |
+
+The source records supply the authorship and review exposure above. Shared
+account publication authenticates neither distinct operators nor organizational
+independence. Both historical technical reviews remain scoped to their consumed
+interfaces; the Claude review discloses reading the earlier OpenAI review.
+Its displayed ACCEPT/PASS label is a technical verdict, not scientific
+acceptance. This preservation stage supplies no new mathematical verdict.
+
+`controls/esb_check.py` is the **original historical reviewer program**:
+9937 bytes, SHA-256
+`01127db3ad48fb7a30f04afff99daad9a5f1e82c88cf0e4a9ce7430b646598e7`.
+`controls/esb_check.stdout.txt` is the **original recorded stdout**, not output
+of a run performed for this package: 536 bytes, SHA-256
+`cf1ff68d9bd1c1759ffb1e8629e73b292ad268bca4f33f0ed02720796d4f8835`.
+Their contents, including the program's Anthropic attribution and the output's
+historical ALL PASS line, are preserved unchanged.
+
+For each extraction, use the first fenced block with the declared language in
+comment 5976980568, capture the bytes between the opening fence's LF and the LF
+immediately before the closing fence, then append exactly one LF. The languages
+are `python` for the program and `text` for stdout. This rule reproduces both
+original published hashes. No source program or mutant was executed here.
+
+## Three different consumer relationships
+
+The [existing reading record](../../../experiments/periodic_h0/EXACT_SAMPLE_SHRINKING_BIN.md)
+routes readers to the complete comment proof and its source-bound reviews.
+The comment proof is consumed analytically by
+[`spectral_shrinking_bins/PROOF.md`, section 4](../../../experiments/periodic_h0/spectral_shrinking_bins/PROOF.md)
+under that extension's own source map. The historical reviewer program checks
+finite/algebraic/rate-bookkeeping controls described in its header; it is not an
+implementation or verification of the complete stochastic asymptotic theorem.
+The [publication-fidelity test](../../../tests/test_exact_sample_shrinking_bin.py)
+checks the repository reading route and recorded identities, not the proof's
+mathematical validity. These are separate relationships.
+
+Existing hypergraph row 307 already represents the periodic-H0 container. Its
+generic `controls.py`/`count_confidence.py` membership does not certify that
+those programs implement this lemma. This package changes no row, graph edge,
+scientific register, acceptance flag, parent-source qualification or pilot
+result. It does not supply spectral/FFT/roundoff/library error control, numerical
+constants, a held-out experiment, continuum moment bounds or parent-theorem
+acceptance. The original comments retain their full hypotheses and exclusions.
+
+## Custody and reproduction
+
+Source retrieval was checked at Main
+`a38707383d406e0751481f3d0152e71b527c0c9a`. No exact current Git carrier was
+found in the checked Main/Math trees; complete history-wide absence is not
+claimed. The package is a new Git carrier, not regenerated historical work.
+All inputs were already public project records; no private storage was read or
+published for this package.
+
+`HANDOFF.json` uses the existing R17 delivery envelope with this task's public
+GitHub pickup as its claim ID, not an invented native Work Events record. Its
+output identity describes the pre-publication source snapshot; the actual Git
+commit mapping belongs in the PR's delivery receipt. `DELIVERY_MANIFEST.json`
+is generated by the existing `tools/research_delivery.py`, with no self-hash.
+The private deterministic ZIP built from the explicit eight-file input list was
+verified without extracting or executing payloads. The same generated manifest
+is retained here beside its eight inputs. Byte/manifest verification establishes
+custody only. This package grants no execution or integration authority.
+
+Actual preserver: OpenAI/Codex `/root`, under the existing owner mandate and
+delegation. Historical authorship is unchanged. Separate nonauthor custody
+review and normal protected integration remain necessary. credit 0; scientific
+effect NONE; OBL OPEN; NOT A RESULT.
