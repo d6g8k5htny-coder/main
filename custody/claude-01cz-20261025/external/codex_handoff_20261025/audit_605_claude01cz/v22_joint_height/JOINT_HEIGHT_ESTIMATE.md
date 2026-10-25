@@ -2,7 +2,7 @@
 
 - **Author:** Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY` (Claude 01Cz). 25 October 2026. New authorship.
 - **Pickup:** main#605 comment 6402828527. It answers the CoS ask at 605/6402815781 and the GAP at 605/6402796082 (band item (b)).
-- **Status:** author-side candidate. It needs a nonauthor review from a family other than Anthropic. Scientific effect NONE. Credit 0. OBL OPEN.
+- **Status:** v1.1. v1 (commit c29be312, sha256 97b045ad…) received PASS_SCOPED from Grok Bot agent 11 (xAI) at main#605 comment 6402926910, with one non-blocking erratum: restore the constant c₁ inside (·)₊ in (B1). v1.1 applies only that erratum. A separate OpenAI review pickup (605/6402897026) is bound to v1. Scientific effect NONE. Credit 0. OBL OPEN.
 - **Inputs, used unchanged:**
   - C322 `HEIGHT_SCHUR_AUDIT.md` (sha256 1bddb227…, PASS_SCOPED at 605/6402018947): its sector (4), rows and target (6)/(8), variance bounds (2), the Gaussian disintegration (22), and the integrand (24).
   - GENERIC-HEIGHT-MEAN-01 v2 (commit d5d871ca, sha256 697d433d…, PASS_SCOPED at 605/6402401602): its (1), (2) and (7).
@@ -69,15 +69,15 @@ and p is a polynomial of degree M = 8 in X. Write Env₈ = Env₈(q, s, z, w, η
 **Statement.** There are constants c, C > 0, depending only on the sector, L, and the compact ranges of b and k, such that, on the setting above,
 
     ∫_{I_r} p_{F(x)|T=ν}(h) E[W_r|det H_x det H_y|𝔪 | T=ν, F(x)=h] dh
-        ≤ C · Env₈ · min{ 1 ,  (k r³/s⁴) · exp[ −c ( k s (r + e)|e − e*| − k r³ − C s⁴ )₊² / s⁸ ] },   (B1)
+        ≤ C · Env₈ · min{ 1 ,  (k r³/s⁴) · exp[ −c ( c₁ k s (r + e)|e − e*| − k r³ − C s⁴ )₊² / s⁸ ] },   (B1)
 
-where e* is the positive root of Π from GENERIC-HEIGHT-MEAN-01 v2 §5.
+where e* is the positive root of Π from GENERIC-HEIGHT-MEAN-01 v2 §5, and c₁ > 0 is the constant c of v2 (7). (v1.1 erratum: v1 omitted c₁ inside (·)₊ in (B1) and (C1), which overstated the bound when c₁ < 1. Found by Grok Bot agent 11, main#605 comment 6402926910.)
 
 *Proof.*
 1. Apply Lemma A′ under Q_r(· | T = ν), with I = I_r = (b − kr³, b), so |I| = kr³.
 2. C322 (2) gives c s⁸ ≤ σ² ≤ C s⁸. Use the lower bound in the prefactor |I|/σ ≤ C k r³/s⁴. Use the upper bound in the exponent: u₀² ≥ dist(m, I_r)²/(C s⁸).
 3. **Distance from m to the window.** By GENERIC-HEIGHT-MEAN-01 v2 (1), m − b = Π + ρ with |ρ| ≤ C s⁴. Every h ∈ I_r satisfies |h − b| ≤ kr³. So dist(m, I_r) ≥ |m − b| − kr³ ≥ |Π| − kr³ − C s⁴.
-4. **Lower bound on |Π|.** By v2 (7), |Π| ≥ c k s (r + e)|e − e*|. ∎
+4. **Lower bound on |Π|.** By v2 (7), |Π| ≥ c₁ k s (r + e)|e − e*|. ∎
 
 **Remarks.**
 - (B1) is an upper bound with constants, not an asymptotic.
@@ -94,13 +94,13 @@ with c′ = 1/(1 + C). (If e ≥ e*, then r + e ≥ r + v. If e < e*, then |v| �
 
 Put L := k r³ + C s⁴. The e-integral of the window factor in (B1) satisfies
 
-    ∫_0^{ε₀ s} min{1, (kr³/s⁴) e^{−c(ks(r+e)|e−e*| − L)₊²/s⁸}} de  ≤  C · min{ s ,  (k r³/s⁴) · 𝒲 },    (C1)
+    ∫_0^{ε₀ s} min{1, (kr³/s⁴) e^{−c(c₁ks(r+e)|e−e*| − L)₊²/s⁸}} de  ≤  C · min{ s ,  (k r³/s⁴) · 𝒲 },    (C1)
 
     𝒲 := min{ (k r³ + s⁴)/(k s r) ,  ((k r³ + s⁴)/(k s))^{1/2} }.
 
 *Proof.*
-- **Near region**, where k s (r + |v|)|v| ≤ 2L/(c c′): its v-measure is at most C min{L/(ksr), (L/(ks))^{1/2}}. On it, bound the exponential by 1.
-- **Far region:** there g − L ≥ g/2 with g := c c′ k s (r + |v|)|v|. So the integrand is at most exp(−c″ k² s² r² v²/s⁸), and also at most exp(−c″ k² s² v⁴/s⁸). Integrating either bound gives C s³/(k r) and C s^{3/2}/k^{1/2} respectively, and both are ≤ C𝒲.
+- **Near region**, where k s (r + |v|)|v| ≤ 2L/(c₁ c′): its v-measure is at most C min{L/(ksr), (L/(ks))^{1/2}}. On it, bound the exponential by 1.
+- **Far region:** there g − L ≥ g/2 with g := c₁ c′ k s (r + |v|)|v|. So the integrand is at most exp(−c″ k² s² r² v²/s⁸), and also at most exp(−c″ k² s² v⁴/s⁸). Integrating either bound gives C s³/(k r) and C s^{3/2}/k^{1/2} respectively, and both are ≤ C𝒲.
 - **The first branch** of the min: bound the integrand by 1 over an interval of length ε₀ s. ∎
 
 **What (C1) says.** C322 (23) alone gives the e-integrated bound C k r³/s³. The extra factor from the mean offset is
