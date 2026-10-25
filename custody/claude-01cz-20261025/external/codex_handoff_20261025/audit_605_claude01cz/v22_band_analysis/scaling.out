@@ -1,0 +1,8 @@
+J02 forced  = s*(-3*J03*sin(theta)**3 + 9*J21*sin(theta)*cos(theta)**2 + 72*k*cos(theta)**3 + s*(5*J31*sin(theta)*cos(theta)**3 + 2*J40*cos(theta)**4 + (-J04*sin(theta)**2 - J13*sin(2*theta)/2 + 3*J22*cos(theta)**2)*sin(theta)**2))/(6*sin(theta)**2)   (order s)
+H(x) leading: [s*(J21*sin(theta) + 12*k*cos(theta)), -s*(J21 + 12*k/tan(theta))*cos(theta), -s*(J21 + 12*k/tan(theta))*cos(theta), s*(J03*sin(theta) + J21*sin(theta) - J21/sin(theta))/2]  -> all O(s): True
+det H(pin +1) leading: -3*k*r*s*(J03*sin(theta)**2*cos(2*theta) - J03*sin(theta)**2 + 3*J21*sin(theta)**2*cos(2*theta) - 3*J21*sin(theta)**2 - 3*J21*cos(2*theta) + 3*J21 + 24*k*sin(theta)*cos(theta)*cos(2*theta) + 24*k*sin(theta)*cos(theta))/((cos(2*theta) - 1)*sin(theta))
+det H(pin -1) leading: 3*k*r*s*(J03*sin(theta)**2*cos(2*theta) - J03*sin(theta)**2 + 3*J21*sin(theta)**2*cos(2*theta) - 3*J21*sin(theta)**2 - 3*J21*cos(2*theta) + 3*J21 + 24*k*sin(theta)*cos(theta)*cos(2*theta) + 24*k*sin(theta)*cos(theta))/((cos(2*theta) - 1)*sin(theta))
+F(x)-b leading: s**3*(-J03*sin(theta)**3 + 3*J21*sin(theta)*cos(theta)**2 + 24*k*cos(theta)**3)/12  (order s^3)
+---- collision limit: impose H(x)w=0 at leading order
+solutions: 1
+F(x)-b = s^3 * 0
