@@ -203,3 +203,147 @@ test("decoded byte identity survives HTTP content encoding", async () => {
   );
   assert.equal(raw.length, 3);
 });
+
+const digestOf = async (bytes) =>
+  Buffer.from(await webcrypto.subtle.digest("SHA-256", bytes)).toString("hex");
+test("raw duplicate node IDs refuse even when exact byte digest matches", async () => {
+  const m = await load();
+  const id = Object.keys(data[0].graph.data.nodes)[0];
+  const duplicate = JSON.stringify({
+    ...data[0].graph.data.nodes[id],
+    classification: "duplicate-control",
+  });
+  const text = JSON.stringify(data[0]).replace(
+    '"nodes":{',
+    '"nodes":{' + JSON.stringify(id) + ":" + duplicate + ",",
+  );
+  const bytes = new TextEncoder().encode(text);
+  await assert.rejects(
+    m.parsePayload(
+      bytes,
+      {
+        path: "current.json",
+        bytes: bytes.length,
+        sha256: await digestOf(bytes),
+      },
+      1,
+      webcrypto,
+    ),
+    /duplicate JSON key/i,
+  );
+});
+test("strict raw JSON refuses escaped equivalent keys and accepts scoped nested keys", async () => {
+  const m = await load();
+  for (const text of [
+    '{"a":1,"\\u0061":2}',
+    '{"nodes":{"n":{},"\\u006e":{}}}',
+    '{"x":[{"same":1,"same":2}]}',
+    '{"__proto__":1,"__proto__":2}',
+  ])
+    assert.throws(() => m.parseStrictJSON(text), /duplicate JSON key/i);
+  const safe =
+    '{"a":{"same":1},"b":[{"same":2},{"same":3}],"text":"braces {} [] \\\" and : escaped \\\\"}';
+  assert.deepEqual(m.parseStrictJSON(safe), JSON.parse(safe));
+  assert.throws(
+    () => m.parseStrictJSON("[".repeat(130) + "0" + "]".repeat(130)),
+    /depth/i,
+  );
+});
+test("raw duplicate metadata and hash-matching registry keys refuse", async () => {
+  const m = await load();
+  const meta = JSON.parse(await readFile(new URL("current-meta.json", site)));
+  const duplicateMeta =
+    '{"sha256":"' + "0".repeat(64) + '",' + JSON.stringify(meta).slice(1);
+  const fetcher = async (path) =>
+    new Response(
+      path === "current-meta.json"
+        ? duplicateMeta
+        : await readFile(new URL(path, site)),
+    );
+  await assert.rejects(
+    m.loadPublication(fetcher, webcrypto),
+    /duplicate JSON key/i,
+  );
+  const duplicateRegistry =
+    '{"current":"' + "0".repeat(64) + '",' + JSON.stringify(registry).slice(1);
+  const modifiedMeta = {
+    ...meta,
+    history_manifest_sha256: await digestOf(
+      new TextEncoder().encode(duplicateRegistry),
+    ),
+  };
+  await assert.rejects(
+    m.loadPublication(
+      async (path) =>
+        new Response(
+          path === "current-meta.json"
+            ? JSON.stringify(modifiedMeta)
+            : path === "snapshots/index.json"
+              ? duplicateRegistry
+              : await readFile(new URL(path, site)),
+        ),
+      webcrypto,
+    ),
+    /duplicate JSON key/i,
+  );
+});
+test("producer-admitted identical current/archive bytes retain distinct typed selections", async () => {
+  const m = await load();
+  const identical = structuredClone(registry);
+  const a = identical.archives.find((a) => a.id === identical.current);
+  const d = a.files.find((f) => f.path === "current.json");
+  identical.total_bytes +=
+    d.bytes - identical.current_observation.payload.bytes;
+  identical.capacity.bytes = identical.total_bytes;
+  identical.current_observation.payload = { ...d, path: "current.json" };
+  const registryBytes = new TextEncoder().encode(JSON.stringify(identical));
+  const meta = {
+    archive: a.id,
+    sha256: d.sha256,
+    bytes: d.bytes,
+    observed_at: a.observed_at,
+    history_manifest_sha256: await digestOf(registryBytes),
+  };
+  const fetcher = async (path) =>
+    new Response(
+      path === "current-meta.json"
+        ? JSON.stringify(meta)
+        : path === "snapshots/index.json"
+          ? registryBytes
+          : path === "current.json"
+            ? await readFile(new URL(`snapshots/${a.id}/current.json`, site))
+            : await readFile(new URL(path, site)),
+    );
+  const publication = await m.loadPublication(fetcher, webcrypto);
+  const archive = publication.choices.find((c) => !c.current && c.id === a.id),
+    current = publication.choices.find((c) => c.current);
+  assert.equal(archive.key, `archive:${a.id}`);
+  assert.equal(current.key, `current:${a.id}`);
+  assert.notEqual(archive.key, current.key);
+  const result = m.compareSnapshots(
+    await m.loadSelection(archive, publication, fetcher, webcrypto),
+    await m.loadSelection(current, publication, fetcher, webcrypto),
+  );
+  for (const [key, value] of Object.entries(result))
+    if (Array.isArray(value)) assert.equal(value.length, 0, key);
+});
+test("material selection labels distinguish archive semantic ID from exact payload digest and bytes", async () => {
+  const m = await load();
+  const choice = {
+    id: "a".repeat(64),
+    key: "archive:" + "a".repeat(64),
+    current: false,
+    version: 2,
+    observed_at: "2026-10-25T00:00:00Z",
+    descriptor: {
+      sha256: "b".repeat(64),
+      bytes: 123,
+      path: "snapshots/a/current.json",
+    },
+  };
+  const label = m.selectionDescription(choice);
+  assert.match(label, /material archive ID/);
+  assert.ok(label.includes(choice.id));
+  assert.ok(label.includes("payload SHA-256 " + choice.descriptor.sha256));
+  assert.match(label, /123 bytes/);
+});

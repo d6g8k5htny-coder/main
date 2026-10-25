@@ -107,6 +107,49 @@ export async function verifyBytes(raw, d, cryptoAPI = globalThis.crypto) {
   if (digest !== d.sha256) fail("Payload digest mismatch.");
   return bytes;
 }
+// JSON.parse validates grammar, then an iterative scan checks the original text.
+// Keys are decoded individually so escaped spellings share the same identity.
+// No reserialization can erase a duplicate before this check sees its bytes.
+export function parseStrictJSON(text) {
+  if (typeof text !== "string" || text.length > MAX_BYTES)
+    fail("JSON text exceeds capacity.");
+  const data = JSON.parse(text);
+  const stack = [];
+  for (let index = 0; index < text.length; index++) {
+    const character = text[index];
+    if (character === "{" || character === "[") {
+      stack.push(character === "{" ? new Set() : null);
+      if (stack.length > 128) fail("JSON nesting depth exceeds capacity.");
+    } else if (character === "}" || character === "]") {
+      stack.pop();
+    } else if (character === '"') {
+      const start = index;
+      index++;
+      while (text[index] !== '"') {
+        if (text[index] === "\\") index++;
+        index++;
+      }
+      let next = index + 1;
+      while (/\s/.test(text[next] || "") && next < text.length) next++;
+      if (text[next] === ":") {
+        const key = JSON.parse(text.slice(start, index + 1));
+        const keys = stack.at(-1);
+        if (keys.has(key)) fail("Duplicate JSON key: " + key);
+        keys.add(key);
+      }
+    }
+  }
+  return data;
+}
+export function selectionDescription(choice) {
+  const role = choice.current ? "current observation" : "retained archive";
+  const identity = choice.current
+    ? "observation ID"
+    : choice.version === 2
+      ? "material archive ID"
+      : "archive ID";
+  return `${choice.observed_at} · ${role} · ${identity} ${choice.id} · payload SHA-256 ${choice.descriptor.sha256} · ${choice.descriptor.bytes} bytes`;
+}
 export async function parsePayload(
   raw,
   d,
@@ -114,10 +157,10 @@ export async function parsePayload(
   cryptoAPI = globalThis.crypto,
 ) {
   const bytes = await verifyBytes(raw, d, cryptoAPI);
-  let data;
-  if (version === 1) data = await parseVerifiedSnapshot(bytes, d, cryptoAPI);
-  else
-    data = JSON.parse(new TextDecoder("utf-8", { fatal: true }).decode(bytes));
+  const data = parseStrictJSON(
+    new TextDecoder("utf-8", { fatal: true }).decode(bytes),
+  );
+  if (version === 1) await parseVerifiedSnapshot(bytes, d, cryptoAPI);
   return validatePayload(data, version);
 }
 export function validateMetadata(meta) {
@@ -170,6 +213,7 @@ export function validateRegistry(registry, meta) {
       fail("Archive payload identity mismatch.");
     choices.push({
       id: a.id,
+      key: `archive:${a.id}`,
       observed_at: a.observed_at,
       version,
       descriptor: { ...d, path: `snapshots/${a.id}/${d.path}` },
@@ -189,9 +233,9 @@ export function validateRegistry(registry, meta) {
     (a, b) =>
       a.observed_at.localeCompare(b.observed_at) || a.id.localeCompare(b.id),
   );
-  if (seen.has(meta.sha256)) fail("Ambiguous current and archive IDs.");
   choices.push({
     id: meta.sha256,
+    key: `current:${meta.sha256}`,
     observed_at: meta.observed_at,
     version: 1,
     descriptor: current,
@@ -258,7 +302,7 @@ export async function loadPublication(
   expectedIdentity,
 ) {
   const decode = (b) =>
-    JSON.parse(new TextDecoder("utf-8", { fatal: true }).decode(b));
+    parseStrictJSON(new TextDecoder("utf-8", { fatal: true }).decode(b));
   const meta = validateMetadata(
     decode(await readBounded(fetcher, "current-meta.json", 16384)),
   );
