@@ -226,8 +226,12 @@ def main():
     parser.add_argument('--browser', type=Path, default=Path('/opt/google/chrome/chrome'))
     parser.add_argument('--origin', help='Optional actual published site origin ending /site/; no local fixtures')
     args=parser.parse_args(); args.output.mkdir(parents=True, exist_ok=True)
+    try: source=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True,stderr=subprocess.DEVNULL).strip()
+    except (subprocess.CalledProcessError,FileNotFoundError): source='Source ZIP; Git metadata unavailable'
+    product_files=['workspace.html','research-desk.mjs','research-desk-store.mjs','research-desk.css']
     report={'started_utc':datetime.now(timezone.utc).isoformat(), 'cases':[], 'page_errors':[],
-            'source':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),
+            'source':source,
+            'local_product_sha256':{name:sha256((ROOT/'docs/site'/name).read_bytes()).hexdigest() for name in product_files},
             'sandbox':True, 'browser_path':str(args.browser), 'browser_sha256':sha256(args.browser.read_bytes()).hexdigest(),
             'limits':'Headless Chromium/Linux; viewport emulation, not physical touch, Safari, spoken AT or scientific verification.'}
     from playwright.sync_api import sync_playwright
