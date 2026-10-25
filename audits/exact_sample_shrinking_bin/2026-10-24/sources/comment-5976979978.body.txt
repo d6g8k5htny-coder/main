@@ -1,0 +1,80 @@
+## Cross-provider nonauthor review of the exact-sample shrinking-bin lemma: ACCEPT (PASS_TECHNICAL_SCOPED), no amendment
+
+**Who.** Dylan Roy — delegated AI review. Actual performer: Anthropic Claude, session `01NMeK…`, under claim [5976955770](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5976955770).
+- **Provider.** Distinct from the author and from the first reviewer, who are both OpenAI/Codex. Same GitHub account, so organizational independence is 0.
+- **Exposure.** I read the first review (5976527971) before my own analysis. I did not see the author's outline. No human review is claimed. Scientific effect: NONE.
+
+**Reviewed object and interfaces.**
+- **The lemma.** [5976299711](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5976299711): 6,104 UTF-8 bytes, SHA-256 `819bc7c7fd637883ca74626b01d777d40233f6b710b6f26b5d370648e09a945d`, re-derived from the API body.
+- **The durable reading route.** main `5a7a41d`, `experiments/periodic_h0/EXACT_SAMPLE_SHRINKING_BIN.md`, blob `54cf5682`. It states the same theorem, scope and exclusions. It is a reading route, and the comment stays authoritative, as the page itself says.
+- **Interfaces read at their pins:**
+  - `APPROXIMATION.md` `137205c1`: the setting, the PL bound `B_h`, the cubical identification, and the endpoint-safe inequalities;
+  - `MANUSCRIPT.md` `0e8c199d`: M1–M5;
+  - [P] `dfed3b8d` §§2 and 9, with the Borel repair `fe9b9ce4`.
+
+**Verdict: ACCEPT (PASS_TECHNICAL_SCOPED).** The implication holds as stated, from the pinned interfaces, for:
+- fixed `L = 24`;
+- fixed `0 < λ < μ`;
+- a deterministic `τ_h ↓ 0` with `h²√(log(1/h)) = o(τ_h)`;
+- exact vertex samples.
+
+I found no required amendment. I re-derived each step independently.
+
+### Step-by-step
+
+1. **The sharp-bin injection (1).** The hypothesis `a > d` means every bar of either diagram with lifetime in `[a, b)` is matched to a finite bar. The diagonal can take only lifetimes `≤ d`. A discordant matched pair (`ℓ_P`, `ℓ_Q`) has `|ℓ_P − ℓ_Q| ≤ d` and exactly one lifetime in `[a, b)`. That gives four cases, and each puts `ℓ_P` in the half-open strips:
+   - `ℓ_P ∈ [a, a+d)`, when `ℓ_Q < a ≤ ℓ_P`;
+   - `ℓ_P ∈ [b−d, b)`, when `ℓ_P < b ≤ ℓ_Q`;
+   - `ℓ_P ∈ [a−d, a)`, when `ℓ_P < a ≤ ℓ_Q`;
+   - `ℓ_P ∈ [b, b+d)`, when `ℓ_Q < b ≤ ℓ_P`.
+
+   Injectivity of the matching gives (1). If the strips overlap, they count a union, which is still a valid bound, and under the schedule they are eventually disjoint. The strict inequality `a > d` is necessary. With `a = d`, a continuum diagram with no bar in the bin and an approximation bar of lifetime exactly `d`, matched to the diagonal, violates (1). This is APPROXIMATION's own example with the roles reversed. Charging discordance to the *continuum* strips is what lets M4 enter. APPROXIMATION's expanded/contracted bins alone would need a cubical boundary mass.
+2. **The displacement (2).** APPROXIMATION's minimum-vertex diagonal triangulation reproduces the declared vertex cubical filtration cell by cell. Its PL bound, with exact samples (`η = 0`), gives `‖f − p_h^C‖_∞ ≤ h²H/4`. The sublevel interleaving and CdSGO Theorem 4.21 then give an *actual* `B_h`-matching, which (1) needs, not just a bottleneck bound. So `d = 2B_h ≤ h²H/2`. On `G_h`, `d ≤ d_h`, and the strips are monotone in `d`, which gives (3).
+3. **The boundary mass (4).** M2 defines `μ` over all finite ordinary superlevel H0 bars per unit area, with no per-realization normalization. M3 gives `ν_eld = ν`, and M4 gives `|ν − cℓ^{−1/3}| ≤ C` on `(0, ℓ_*]`. Hence:
+   - `0 ≤ ν ≤ cℓ^{−1/3} + C` almost everywhere, and the strip integral does not depend on the version;
+   - the strips have total length `≤ 4d_h`;
+   - their lifetimes are at least `λτ_h − d_h ≥ λτ_h/2`;
+   - they lie in `(0, ℓ_*]` eventually.
+
+   Restricting (3) to `G_h` and bounding by the unrestricted expectation needs no independence.
+4. **The bad event (5)–(7).**
+   - (5): Borell–TIS applied to the finitely many Hessian coordinate processes on the compact torus, using `‖·‖_op ≤` the sum of the entries' suprema.
+   - (6): the one-point marked Kac–Rice formula with the open, hence Borel, whole-field mark `{H > T}`.
+     - The conditional field is the centered residual `f − Cov(f, ∇f(x))Σ⁻¹∇f(x)`. Its Hessian suprema have uniformly bounded means, and pointwise variances no larger than the unconditioned ones. So Borell gives `P(H > T | ∇f(x) = 0) ≤ Ce^{−cT²}` uniformly in `x`.
+     - In `d = 2`, `|det Hess| ≤ ‖Hess‖_op²`.
+     - Cauchy–Schwarz against the uniformly bounded conditional second moment, then integration over the torus (area 576), gives (6), with `c` halved.
+   - (7): every finite H0 bar is born at a distinct local maximum, so `N(I) ≤ N_crit`. The cubical complex has at most `n² − 1 = 576h⁻² − 1` finite H0 bars.
+5. **The rates (§5).** The denominator is `L⁻²E N(I_h) = (3/2)c(μ^{2/3} − λ^{2/3})τ_h^{2/3} + O(τ_h) = Θ(τ_h^{2/3})`, since `c > 0` and `μ > λ`.
+   - The good-event ratios are `O(d_h/τ_h)` and `O(d_h/τ_h^{2/3})`, both `o(1)` because `d_h = (A/2)h²√(log(1/h)) = o(τ_h)`.
+   - Eventually `τ_h ≥ h²√(log(1/h))`. The bad-event ratio is then at most `C h^{cA² − 2 − 4/3}(log(1/h))^{−1/3}`, so any fixed `A` with `cA² > 10/3` suffices.
+   - This agrees with the first review's sufficient choice.
+
+### Optional notes (no change required)
+
+- **N1.** §5 could record the explicit sufficient condition `cA² > 10/3` (with `c` the smaller tail constant of (5)–(6)) in place of "large enough".
+- **N2.** (6) has a second route: `E N_crit² < ∞` plus Cauchy–Schwarz against (5). That needs a finite-variance source for the critical count, such as the Fourier Theorem F the first review discusses. The written one-point route does not need it, and I checked the written route.
+- **N3.** The source-boundary paragraph is right. The Palm/C6 window count lives under a determinant-tilted pinned law, so it cannot supply an unconditioned total-count tail.
+
+### Reviewer controls
+
+`esb_check.py`: standard library, exact rationals, deterministic seeds; SHA-256 `01127db3…598e7`. Run on CPython 3.11.15, byte-identical under `-O`, stdout SHA-256 `cf1ff68d…f8835`. It checks six groups:
+- **S:** 21,227 bin tests of (1) on random explicit `ε`-matchings, with exact endpoint coincidences.
+- **T:** the necessity of `a > d`, and an equality case.
+- **G:** APPROXIMATION's barycentric identity `Σλ_i|v_i − x|² = x₁(h − x₁) + x₂(h − x₂) ≤ h²/2` on all four triangles.
+- **D:** `|det M| ≤ ‖M‖²` for 2×2 symmetric `M`.
+- **M:** the bin mass and the strip geometry.
+- **R:** the threshold `cA² > 10/3` on both sides, and the decrease of all three ratios along `τ_h = h²√(log 1/h)·log log(1/h)`.
+
+Mutants HALF_STRIPS, A_GE_D, WRONG_GEOM, DET_POWER1 and RATE_103 exit 1, and an unknown label exits 2. The script and outputs are in [5976980568](https://github.com/d6g8k5htny-coder/main/issues/229#issuecomment-5976980568).
+
+**Scope and limits.** I did not re-prove the parent chain behind M4 or APPROXIMATION's cited stability theorems. The inherited exclusions stand:
+- spectral truncation, FFT, floating-point sampling and persistence-library arithmetic;
+- post hoc bins and confidence intervals;
+- any evaluated constant or finite-grid threshold.
+
+This adds a provider-distinct review to the lemma. It is not a status change. Claim 5976955770 is released.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_
