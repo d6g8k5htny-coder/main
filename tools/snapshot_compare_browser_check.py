@@ -2,6 +2,8 @@
 """Bounded real-browser checks for the standalone retained snapshot comparison."""
 import argparse
 import functools
+import hashlib
+import subprocess
 import http.server
 import json
 from pathlib import Path
@@ -27,7 +29,15 @@ def main():
         server = http.server.ThreadingHTTPServer(('127.0.0.1', 0), functools.partial(Quiet, directory=str(site)))
         threading.Thread(target=server.serve_forever, daemon=True).start()
         origin = f'http://127.0.0.1:{server.server_port}/'
-    report = {'origin': origin, 'checks': [], 'screenshots': []}
+    try:
+        source_head = subprocess.run(['git', 'rev-parse', 'HEAD'], cwd=Path(__file__).resolve().parents[1], capture_output=True, text=True, check=True).stdout.strip()
+    except (OSError, subprocess.CalledProcessError):
+        source_head = 'source ZIP or checkout without Git metadata'
+    browser_path = Path(args.browser).resolve()
+    browser_version = subprocess.run([str(browser_path), '--version'], capture_output=True, text=True, check=True).stdout.strip()
+    report = {'origin': origin, 'checks': [], 'screenshots': [],
+              'browser': {'executable': str(browser_path), 'sha256': hashlib.sha256(browser_path.read_bytes()).hexdigest(), 'version': browser_version, 'chromium_sandbox': True},
+              'source': {'git_head': source_head, 'site': args.origin or str(site), 'comparison_files_sha256': {name: hashlib.sha256((Path(__file__).resolve().parents[1] / 'docs/site' / name).read_bytes()).hexdigest() for name in ['compare.html', 'compare.mjs', 'compare-model.mjs', 'compare.css']}}}
     try:
         with sync_playwright() as p:
             browser = p.chromium.launch(executable_path=args.browser, headless=True, chromium_sandbox=True)
@@ -36,6 +46,20 @@ def main():
             page.on('pageerror', lambda error: errors.append(str(error)))
             page.goto(origin + 'compare.html')
             page.locator('#compare-state[data-state="completed"]').wait_for()
+            assert page.locator('body.reader-shell').count() == 1
+            assert page.locator('meta[http-equiv="Content-Security-Policy"]').get_attribute('content') == "default-src 'self'; connect-src 'self' https://raw.githubusercontent.com; style-src 'self'; script-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'"
+            assert page.locator('body > header nav a').count() == 5
+            assert page.locator('body > header nav a', has_text='Library').get_attribute('href') == 'workspace.html'
+            assert page.locator('.reader-tools a').all_text_contents() == ['Reproduce', 'Cite']
+            assert page.locator('footer .site-map a').count() == 14
+            assert page.locator('#compare-state').evaluate("e => e.parentElement.getAttribute('role')") == 'status'
+            for link in page.locator('body > header a').all():
+                assert link.is_visible()
+            for link in page.locator('body > header nav a').all():
+                assert link.bounding_box()['height'] >= 44
+            report['checks'].append('Shared shell, exact CSP, five primary links, 44px header targets, Research tools and 14-link footer map')
+            page.wait_for_function("!document.querySelector('#current-research .current-search').disabled")
+            report['checks'].append('Existing current loader initializes copied source inventory controls')
             summary = page.locator('#comparison-summary').inner_text()
             assert 'Source commit pins' in summary and 'Source blob / byte identities' in summary
             report['actual_summary'] = summary
@@ -87,6 +111,11 @@ def main():
             page.emulate_media(color_scheme='dark', reduced_motion='reduce')
             page.set_viewport_size({'width': 390, 'height': 844})
             assert page.evaluate('document.documentElement.scrollWidth <= innerWidth')
+            for link in page.locator('body > header a').all():
+                assert link.is_visible()
+            for link in page.locator('body > header nav a').all():
+                assert link.bounding_box()['height'] >= 44
+            assert page.locator('footer .site-map a').count() == 14
             screenshot = args.output / 'compare-mobile-dark.png'
             page.screenshot(path=str(screenshot), full_page=True)
             report['screenshots'].append(str(screenshot))
