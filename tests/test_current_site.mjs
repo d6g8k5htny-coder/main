@@ -289,3 +289,53 @@ test('static reading links refuse missing ambiguous and unsafe archive addresses
  for(const badPage of ['not a URL','javascript:alert(1)',`https://user:pass@example.test/main/site/dependencies.html`])assert.deepEqual(m.staticNodeLinks(node,[href],badPage),{current:'nodes/math.lifetime-remainder.html',preserved:null});
  assert.deepEqual(m.staticNodeLinks(node,null,page),{current:'nodes/math.lifetime-remainder.html',preserved:null});
 });
+
+
+// A refused bookmark must not acquire current-source defaults through any
+// serialization caller. Selecting a current diagnostic node is the exception.
+test('refused source identity survives view changes Share reload and history',async()=>{
+ for(const search of [
+  '?snapshot='+('0'.repeat(40))+'&main-snapshot='+commit+'&atlas-node=a',
+  '?snapshot='+commit+'&main-snapshot='+('0'.repeat(40))+'&atlas-node=a',
+  '?snapshot='+('0'.repeat(40))+'&snapshot='+commit+'&main-snapshot='+('0'.repeat(40))+'&atlas-node=a&atlas-node=b',
+  '?snapshot=malformed&main-snapshot='+commit+'&atlas-node=a',
+  '?snapshot='+commit+'&main-snapshot='+commit+'&atlas-node=not-a-node'
+ ]){
+  const f=await atlasController(search+'&unrelated=keep#current-atlas');
+  const identity=url=>{const q=new URL(url).searchParams;return ['snapshot','main-snapshot','atlas-node'].map(key=>q.getAll(key));};
+  const original=identity(f.url);
+  try{
+   assert.match(f.get('atlas-count').textContent,/refused/);
+   for(const view of ['list','graph']){
+    f.get('atlas-view').value=view;f.event('atlas-view','change');
+    assert.deepEqual(identity(f.url),original,'view change adopted current source');
+    assert.deepEqual(identity(f.get('atlas-share').href),original,'Share adopted current source');
+    assert.equal(new URL(f.url).searchParams.get('atlas-view'),view,'address lost chosen layout');
+    assert.equal(new URL(f.url).searchParams.get('unrelated'),'keep');
+    const reload=await f.reload();try{assert.match(reload.get('atlas-count').textContent,/refused/);assert.equal(reload.get('atlas-view').value,view);}finally{reload.close();}
+   }
+   f.history.pushState(null,'',new URL(f.url));f.event('atlas-toggle-view','click');f.history.back();assert.deepEqual(identity(f.url),original);assert.match(f.get('atlas-count').textContent,/refused/);f.history.forward();assert.deepEqual(identity(f.get('atlas-share').href),original);
+  }finally{f.close();}
+ }
+});
+
+test('initial Share and every non-adopting control preserve a refused identity',async()=>{
+ const f=await atlasController('?snapshot='+('0'.repeat(40))+'&main-snapshot='+commit+'&atlas-node=a');
+ const pins=url=>{const q=new URL(url).searchParams;return ['snapshot','main-snapshot','atlas-node'].map(k=>q.getAll(k));},original=pins(f.url);
+ try{
+  assert.equal(typeof f.get('atlas-share').href,'string','initial Share must be initialized for a refused bookmark');
+  assert.deepEqual(pins(f.get('atlas-share').href),original,'initial Share did not preserve refused bookmark');
+  for(const [id,event]of [['atlas-toggle-view','click'],['atlas-expand','click'],['atlas-collapse','click'],['atlas-reset','click'],['atlas-search','input'],['equation-search','input'],['equation-select','change']]){
+   f.event(id,event);assert.deepEqual(pins(f.url),original,id+' adopted source defaults');assert.deepEqual(pins(f.get('atlas-share').href),original);assert.match(f.get('atlas-count').textContent,/refused/);
+  }
+ }finally{f.close();}
+});
+
+test('explicit current diagnostic selection alone may adopt current source pins',async()=>{
+ const f=await atlasController('?snapshot='+('0'.repeat(40))+'&atlas-node=a');
+ try{
+  f.get('atlas-diagnostics').querySelectorAll('button')[0].dispatchEvent(new Event('click'));
+  const q=new URL(f.url).searchParams;assert.equal(q.get('snapshot'),commit);assert.equal(q.get('main-snapshot'),commit);assert.equal(f.get('atlas-error').hidden,true);assert.ok(f.graphIDs().length>0);
+  f.history.back();assert.match(f.get('atlas-count').textContent,/refused/);assert.equal(new URL(f.url).searchParams.get('snapshot'),'0'.repeat(40));f.history.forward();assert.equal(f.get('atlas-error').hidden,true);
+ }finally{f.close();}
+});
