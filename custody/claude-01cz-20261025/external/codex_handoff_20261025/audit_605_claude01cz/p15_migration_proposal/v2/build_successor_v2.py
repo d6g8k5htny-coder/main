@@ -8,7 +8,7 @@ RAW_ORIG = open("dataset_original.json","rb").read(); RAW_PATCH = open("P15_APPL
 assert _h.sha256(RAW_ORIG).hexdigest() == "4cfae309b9da989ca6c95881f207c0a097a4dde836f45eacbe0e78d7faf9e4d7", "original input pin"
 assert _h.sha256(RAW_PATCH).hexdigest() == "9779bbb850f829dc5ecda3f2796159b22c1fde8f27c195f350e6f63b019d11fc", "patch input pin"
 orig = json.loads(RAW_ORIG.decode("utf-8"))
-ops = json.load(open('P15_APPLY_READY.patch.json', encoding='utf-8'))
+ops = json.loads(RAW_PATCH.decode('utf-8'))  # parse the already-pinned bytes; no second open
 d = copy.deepcopy(orig)
 def ptr(doc, path):
     parts = path.split('/')[1:]

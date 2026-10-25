@@ -30,3 +30,9 @@
 - An accepting editor.
 
 The alignment PASS_SCOPED in 6404282041 covers the premise change only, and is not relabelled.
+
+## v2.1 advisory follow-up (after review 605/6404432133)
+- Advisory 3: `build_successor_v2.py` now parses the already-hashed `RAW_PATCH` bytes. It no longer opens the pathname a second time.
+- Advisory 4: `test_guard.py` now exits with status 1 when any expectation fails.
+- Rerun on pinned inputs (4cfae309…, 9779bbb8…): successor canonical sha256 `3f69ae83…` unchanged, 8/8 as expected, exit 0. Guard logic and data are unchanged.
+- The status stays PROPOSED_NOT_ADOPTED. This is not adoption.
