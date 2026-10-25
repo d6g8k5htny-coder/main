@@ -1,0 +1,18 @@
+--- model.py
++++ model_successor_PROPOSAL.py
+@@ -55,7 +55,14 @@
+     if len(records)!=104:raise GateError('original 104 records not preserved')
+     if sum(r['project_acceptance']=='primary' for r in records.values())!=26:raise GateError('primary status change')
+     if len(local)!=40:raise GateError('scoped-local inventory change')
+-    if sum(len(o['premises']) for o in obs.values())!=108:raise GateError('proof link count changed without documented migration')
++    migs=data.get('metadata',{}).get('documented_link_migrations',[])
++    if len({m.get('id') for m in migs})!=len(migs):raise GateError('duplicate documented link migration')
++    for m in migs:
++        oid=m.get('obligation','');pid=m.get('added_premise')
++        if not oid.startswith('OBL:') or oid[4:] not in obs:raise GateError('documented migration names unknown obligation')
++        if pid not in records or pid not in obs[oid[4:]]['premises']:raise GateError('documented migration link not present')
++        if m.get('link_count_after',0)-m.get('link_count_before',0)!=1:raise GateError('documented migration must add exactly one link')
++    if sum(len(o['premises']) for o in obs.values())!=108+len(migs):raise GateError('proof link count changed without documented migration')
+     for r in records.values():
+         if r['project_acceptance'] not in ACCEPT or r['proof_obligation_status'] not in PROOF or r['import_status'] not in IMPORT:raise GateError('unknown status axis')
+         if not r['statement'] or not r['scope'] or not r['source']:raise GateError('missing statement, scope or source')
