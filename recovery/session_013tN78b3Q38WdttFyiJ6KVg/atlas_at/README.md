@@ -12,5 +12,6 @@ This is evidence for pickup [388/6404030858](https://github.com/d6g8k5htny-coder
   - `SUMMARY_NOTES.md`: the critic's label corrections to the generated summaries.
 - **`CONTENTS_SHA256`** gives the sha256 of every file inside the archive.
 - **`LOG_HASHES.tsv`** gives the length and sha256 of every Orca, speech-dispatcher, Chromium and server log.
+- **`delivery_388_6404824046.md`** is the posted result, read back from GitHub ([388/6404824046](https://github.com/d6g8k5htny-coder/main/issues/388#issuecomment-6404824046)).
 
 Paths inside these files are left as recorded.
