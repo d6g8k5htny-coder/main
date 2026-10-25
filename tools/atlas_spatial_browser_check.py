@@ -12,16 +12,16 @@ ROOT=Path(__file__).resolve().parents[1]
 def require(value,message):
  if not value:raise AssertionError(message)
 def main():
- parser=argparse.ArgumentParser();parser.add_argument('--output',type=Path,required=True);parser.add_argument('--browser',default='/usr/bin/chromium');parser.add_argument('--site',type=Path,default=ROOT/'docs/site');args=parser.parse_args();out=args.output;out.mkdir(parents=True,exist_ok=True)
+ parser=argparse.ArgumentParser();parser.add_argument('--output',type=Path,required=True);parser.add_argument('--browser',default='/usr/bin/chromium');parser.add_argument('--site',type=Path,default=ROOT/'docs/site');parser.add_argument('--only',help='Run one exact named regression case');args=parser.parse_args();out=args.output;out.mkdir(parents=True,exist_ok=True)
  class Handler(SimpleHTTPRequestHandler):
   def log_message(self,*args):pass
  server=ThreadingHTTPServer(('127.0.0.1',0),partial(Handler,directory=str(args.site.parent)));threading.Thread(target=server.serve_forever,daemon=True).start();origin=f'http://127.0.0.1:{server.server_port}/{args.site.name}/dependencies.html'
- report={'environment':{'platform':platform.platform(),'browser_executable':args.browser,'GPU':'Chromium SwiftShader software WebGL; not physical mobile GPU','dataset_bytes':(args.site/'current.json').stat().st_size},'cases':[]}
+ report={'environment':{'platform':platform.platform(),'browser_executable':args.browser,'GPU':'Chromium SwiftShader software WebGL; not physical mobile GPU','chromium_sandbox':True,'dataset_bytes':(args.site/'current.json').stat().st_size},'cases':[]}
  payload=(args.site/'current.json').read_bytes();report['source_payload_sha256']=hashlib.sha256(payload).hexdigest();report['source_repositories']=json.loads(payload)['repositories'];report['checked_commit']=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
  try:
   with sync_playwright() as p:
-   browser=p.chromium.launch(executable_path=args.browser,headless=True,args=['--enable-unsafe-swiftshader','--disable-background-networking']);report['environment']['browser']=browser.version
-   for width,height,scheme in [(1200,900,'dark'),(390,844,'light')]:
+   browser=p.chromium.launch(executable_path=args.browser,headless=True,chromium_sandbox=True,args=['--enable-unsafe-swiftshader','--disable-background-networking']);report['environment']['browser']=browser.version
+   for width,height,scheme in ([] if args.only else [(1200,900,'dark'),(390,844,'light')]):
     row={'case':'real-render-pick-history-keyboard','viewport':[width,height],'scheme':scheme,'errors':[]};report['cases'].append(row)
     context=browser.new_context(viewport={'width':width,'height':height},color_scheme=scheme,reduced_motion='reduce');page=context.new_page();page.on('pageerror',lambda e:row['errors'].append(str(e)));page.set_default_timeout(15000)
     t=time.perf_counter();page.goto(origin+'?atlas-view=graph');page.wait_for_function("document.querySelector('#atlas-status').textContent.startsWith('Source snapshot')");row['load_ms']=(time.perf_counter()-t)*1000
@@ -62,11 +62,20 @@ def main():
     # Real context loss must release the canvas and retain useful fallback.
     canvas.evaluate("e=>e.getContext('webgl2').getExtension('WEBGL_lose_context').loseContext()");expect(page.locator('#atlas-space-status')).to_contain_text('context lost');expect(page.locator('#atlas-stage')).to_be_visible();require(page.locator('#atlas-space-host canvas').count()==0,'Lost renderer retained');page.locator('#atlas-space-toggle').click();page.locator('#atlas-space-host').scroll_into_view_if_needed();expect(page.locator('#atlas-space-host')).to_have_attribute('data-ready','true');page.locator('#atlas-space-toggle').click();require(page.locator('#atlas-space-host canvas').count()==0,'View exit leaked canvas');row['context_loss']='PASS'
     require(not row['errors'],f"Page errors: {row['errors']}");row['passed']=True;context.close()
-   for kind in ['rapid-exit','exact-filters','drag-and-hidden','keyboard-selection','full-dataset-performance','mobile-default-list-entry','closed-coverage-count']:
+   for kind in ['rapid-exit','exact-filters','drag-and-hidden','keyboard-selection','full-dataset-performance','mobile-default-list-entry','closed-coverage-count','failed-activation-history-no-webgl','failed-activation-history-blocked-module','admitted-to-refused-formal-history']:
+    if args.only and args.only!=kind:continue
     row={'case':kind};report['cases'].append(row);context=browser.new_context(viewport={'width':390 if kind=='mobile-default-list-entry' else 1200,'height':900},reduced_motion='reduce');page=context.new_page();page.set_default_timeout(15000)
     query='?atlas-view=graph&atlas-classification=OPEN_ACTIVE' if kind=='exact-filters' else '?atlas-view=graph'
     if kind=='mobile-default-list-entry':query=''
+    if kind.startswith('failed-activation-history'):
+     if kind.endswith('no-webgl'):page.add_init_script("const original=HTMLCanvasElement.prototype.getContext;HTMLCanvasElement.prototype.getContext=function(type,...args){return type.includes('webgl')?null:original.call(this,type,...args)}")
+     else:page.route('**/atlas-spatial.mjs*',lambda route:route.abort())
+    if kind=='admitted-to-refused-formal-history':query='?snapshot='+'0'*40
     page.goto(origin+query);page.wait_for_function("document.querySelector('#atlas-status').textContent.startsWith('Source snapshot')")
+    if kind.startswith('failed-activation-history'):
+     original=page.url;page.locator('#atlas-space-toggle').click();expect(page.locator('#atlas-space-status')).to_contain_text('unavailable');failed=page.url;length=page.evaluate('history.length');page.go_back();require(page.url==original,'Renderer failure trapped Back in fallback loop');require(page.evaluate('history.length')==length,'Failure added history during traversal');page.go_forward();expect(page.locator('#atlas-space-status')).to_contain_text('unavailable');require(page.url==failed,'Forward rewrote failed3D intent');require(page.evaluate('history.length')==length,'Forward failure added history');row['passed']=True;context.close();continue
+    if kind=='admitted-to-refused-formal-history':
+     expect(page.locator('#atlas-error')).to_be_visible();page.locator('#atlas-tab-diagnostics').click();page.locator('#atlas-diagnostics').evaluate('(e)=>e.closest("details").open=true');page.locator('#atlas-diagnostics button').first.click();expect(page.locator('#atlas-formal-evidence')).to_be_visible();page.go_back();page.locator('#atlas-tab-evidence').click();expect(page.locator('#atlas-error')).to_be_visible();require(page.locator('#atlas-formal-evidence').count()==0 or not page.locator('#atlas-formal-evidence').is_visible(),'Refused history retained current formal evidence');row['passed']=True;context.close();continue
     if kind=='closed-coverage-count':
      expect(page.locator('#atlas-count')).to_be_hidden();expect(page.locator('#atlas-space-status')).to_contain_text('displayed');page.locator('#atlas-search').fill('lifetime');expect(page.locator('#atlas-space-status')).to_contain_text('6 displayed');ax=context.new_cdp_session(page);document=ax.send('DOM.getDocument');node=ax.send('DOM.querySelector',{'nodeId':document['root']['nodeId'],'selector':'#atlas-stage'});tree=ax.send('Accessibility.getPartialAXTree',{'nodeId':node['nodeId']});require(any('6 displayed' in n.get('description',{}).get('value','') for n in tree['nodes']),'Closed-coverage AX description missing count');row['passed']=True;context.close();continue
     if kind=='rapid-exit':
@@ -76,7 +85,7 @@ def main():
 
      if kind=='full-dataset-performance':page.locator('#atlas-search').fill('.')
      expected=page.locator('#atlas-list button').evaluate_all('(nodes)=>nodes.map(n=>n.firstChild.textContent)');page.locator('#atlas-space-toggle').click();page.locator('#atlas-space-host').scroll_into_view_if_needed();expect(page.locator('#atlas-space-host')).to_have_attribute('data-ready','true')
-     actual=page.locator('.atlas-space > details ul').first.locator('button').all_text_contents();require(actual==expected,'3D page differs from controller filters');row['nodes']=actual
+     actual=page.locator('.atlas-space > details ul').first.locator('button').evaluate_all('(nodes)=>nodes.map(n=>n.firstChild.textContent)');require(actual==expected,'3D page differs from controller filters');row['nodes']=actual;metadata=page.locator('.atlas-space > details ul').first.locator('button small').all_text_contents();canonical=page.locator('#atlas-list button small:first-of-type').all_text_contents();require(metadata==canonical,'Spatial labels dropped recorded kind/classification')
      if kind=='mobile-default-list-entry':
       expect(page.locator('#atlas-list')).to_be_hidden();page.locator('#atlas-space-toggle').click();expect(page.locator('#atlas-list')).to_be_visible();require(page.locator('#atlas-space-host canvas').count()==0,'List exit leaked renderer')
      if kind=='full-dataset-performance':
@@ -88,9 +97,10 @@ def main():
       canvas=page.locator('#atlas-space-host canvas');box=canvas.bounding_box();before=page.locator('#atlas-inspector h3').inner_text();page.mouse.move(box['x']+100,box['y']+100);page.mouse.down();page.mouse.move(box['x']+160,box['y']+130,steps=5);page.mouse.up();require(page.locator('#atlas-inspector h3').inner_text()==before,'Drag picked a node')
       page.locator('#atlas-reader').scroll_into_view_if_needed();page.evaluate('scrollTo(0,document.body.scrollHeight)');page.wait_for_timeout(100);frames=page.locator('#atlas-space-host').get_attribute('data-frames');page.wait_for_timeout(200);require(page.locator('#atlas-space-host').get_attribute('data-frames')==frames,'Offscreen idle work');row['paused_frames']=frames
      if kind=='keyboard-selection':
-      button=page.locator('.atlas-space > details ul').first.locator('button').last;target=button.inner_text();button.focus();page.keyboard.press('Enter');expect(page.locator('#atlas-inspector h3')).to_have_text(target);expect(page.locator('#atlas-inspector')).to_be_focused()
+      button=page.locator('.atlas-space > details ul').first.locator('button').last;target=button.evaluate('(e)=>e.firstChild.textContent');button.focus();page.keyboard.press('Enter');expect(page.locator('#atlas-inspector h3')).to_have_text(target);expect(page.locator('#atlas-inspector')).to_be_focused()
     row['passed']=True;context.close()
    for kind in ['no-webgl','blocked-module','refused-bookmark','no-javascript']:
+    if args.only and args.only!=kind:continue
     row={'case':kind};report['cases'].append(row);context=browser.new_context(java_script_enabled=kind!='no-javascript');page=context.new_page();page.set_default_timeout(15000)
     if kind=='no-webgl':page.add_init_script("const original=HTMLCanvasElement.prototype.getContext;HTMLCanvasElement.prototype.getContext=function(type,...args){return type.includes('webgl')?null:original.call(this,type,...args)}")
     if kind=='blocked-module':page.route('**/atlas-spatial.mjs*',lambda route:route.abort())
