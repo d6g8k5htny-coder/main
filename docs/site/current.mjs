@@ -1,4 +1,4 @@
-import {fetchVerifiedSnapshot,freshness,filterSources,sourceURL,projectCurrentAcquisitions,ACQUISITION_LABELS,ACQUISITION_UNAVAILABLE} from './current-model.mjs?site-release=c74b06de2c8a80615e70df68d7a5eb122731d3a9030311f275503fd9a0f4bdf7';
+import {fetchVerifiedSnapshot,freshness,filterSources,sourceURL,projectCurrentAcquisitions,ACQUISITION_LABELS,ACQUISITION_UNAVAILABLE} from './current-model.mjs?site-release=a30d68465e3acda48eedce64854afebc7af5c84903a4e6b0c649e08007b08999';
 export function element(tag,text,className) {
   const e=document.createElement(tag);if(text!==undefined)e.textContent=text;if(className)e.className=className;return e;
 }
