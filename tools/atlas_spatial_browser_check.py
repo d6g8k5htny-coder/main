@@ -107,7 +107,7 @@ def main():
     if kind=='no-javascript':
      page.goto(origin);require(page.locator('#current-research a').count()>0,'Missing static source fallback');row['passed']=True;context.close();continue
     page.goto(origin+('?snapshot='+'0'*40+'&atlas-space=3d' if kind=='refused-bookmark' else '?atlas-view=graph'));page.wait_for_function("document.querySelector('#atlas-status').textContent.startsWith('Source snapshot')")
-    if kind=='refused-bookmark':expect(page.locator('#atlas-error')).to_be_visible();expect(page.locator('#atlas-space-status')).to_contain_text('unavailable');require(page.locator('#atlas-space-host canvas').count()==0,'Refused bookmark rendered nodes')
+    if kind=='refused-bookmark':expect(page.locator('#atlas-error')).to_be_visible();expect(page.locator('#atlas-space-status')).to_contain_text('refused');require(page.locator('#atlas-space-host canvas').count()==0,'Refused bookmark rendered nodes')
     else:
      page.locator('#atlas-space-toggle').click();expect(page.locator('#atlas-space-status')).to_contain_text('unavailable');expect(page.locator('#atlas-stage')).to_be_visible();page.locator('#atlas-view').select_option('list');expect(page.locator('#atlas-list')).to_be_visible()
     row['passed']=True;context.close()
