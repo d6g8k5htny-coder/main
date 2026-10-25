@@ -32,8 +32,8 @@ workflow_dispatch, with read-only checkouts of public Math- and query-, and uplo
 `math-hypergraph` artifact. Vertex keys are repo-prefixed (`main:`, `Math-:`, `query-:`). See `tools/hypergraph/README.md`.
 The PNG is a build artifact (optional, `--png`), not committed.
 
-## Gap counts after the zeta membership correction (2026-10-25)
-344 ledger rows / 1296 vertices / 344 hyperedges. Sourced containers 215 (129 missing). Implemented 296 (48 missing),
+## Gap counts after the research-translation memberships (2026-10-25)
+344 ledger rows / 1301 vertices / 344 hyperedges. Sourced containers 215 (129 missing). Implemented 296 (48 missing),
 of which 30 are placeholder-only ("in PR head" / "per census", no artifact). Bound units 14.
 28 of 49 graph nodes unbound per #527; 13 nodes touched by no unit. Role problems 0.
 Rows 307 and 310 now include the 56 tracked Markdown members under the existing
@@ -66,6 +66,27 @@ historical GB-8n proposal/pins and ENGINEERING_CONTROL/unbound meaning; no new
 node or theorem unit is introduced. All original vertices and memberships,
 343 other raw rows and all node/bound/status cells remain unchanged. Only row
 311's source/implementation membership changes; no zeta program was executed.
+
+Research-translation's later bounded membership addition reuses the existing
+source manifests at Main `e016d4a445bf6ece2724f82dcf843040afc2157c`; its bytes
+are unchanged in candidate base `af1845fc4f5f8b5eb7cabbdd1f624d365025fb60`.
+Row 307 gains the EXPERIMENT protocol and MANUSCRIPT M4–M5 source interface,
+plus the declared discrete pilot model/runner. The pilot stays inconclusive.
+The spectral proof's historical manuscript90936297 pin is preserved; only its
+unchanged 1506-byte consumed M4–M5 slice is reused, not a new parent proof.
+Row 311 gains PERSISTENCE_BRIDGE only for §2.1's integration identity/kernel,
+through the zeta note's explicit citation and existing finite exact controls.
+These are scoped source/protocol/consumer relationships, not full manuscript,
+C46/C47, bridge, analytic-zeta or continuum verification. Aggregate membership
+does not assert that every program proves every co-member statement.
+
+That addition preserves all 1296 prior vertices/memberships and all 344
+ordered edges, changing only 307/311 memberships (342 other raw rows unchanged).
+Five added vertices yield 1301; sourced/implemented container counts, all
+node/bound/status cells and all original review/scientific qualifications
+remain. No source manifest, historical pin, proof, program or production
+builder changes. Full C46/C47 computational consumers remain unidentified in
+the bounded search, alongside wider Main/history/cloud accounting gaps.
 
 This is a bounded membership correction, not complete Main/history/cloud
 coverage. The exact-sample shrinking-bin comment sources have separately
