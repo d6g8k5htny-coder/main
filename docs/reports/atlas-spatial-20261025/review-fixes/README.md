@@ -16,3 +16,7 @@ The original13-case harness used Playwright’s default disabled browser sandbox
 [Current screenshots](browser/after-1200.png) · [Narrow](browser/after-390.png) · [Full49-node graph](browser/full-dataset.png)
 
 Reproduce one targeted regression with `python tools/atlas_spatial_browser_check.py --only admitted-to-refused-formal-history --output /tmp/refusal-check` or run the complete tool without --only. Author reports and tests are not the pending nonauthor verdict.
+
+## UI-requested traversal extension
+
+The same refusal regression now also checks Back→refused→Forward→readmitted, then Back→refused→Graph/List switch. The real sandboxed browser control passed on the unchanged ce81/55 product source; `refusal-roundtrip.json` records that execution from55 with the subsequently committed test-driver extension. The only successor implementation delta is five test lines plus these evidence files; no product code changed.
