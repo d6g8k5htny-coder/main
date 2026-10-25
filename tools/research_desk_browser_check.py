@@ -120,6 +120,19 @@ def run(origin, browser, out, report, local):
         expect(p.locator('#desk-entries')).to_contain_text('Dated catalog search')
         p.locator('#catalog .desk-save-source').click()
         expect(p.locator('#desk-entries > li')).to_have_count(2)
+        # A DOM-boundary fixture tests a legal filename spelling; it is not
+        # an acquired source or a new mathematical record.
+        p.evaluate('''() => {
+            const row=document.createElement('tr');row.id='punctuation-fixture';
+            for(let i=0;i<3;i++)row.append(document.createElement('td'));
+            const a=document.createElement('a');a.textContent="docs/proof(1)!'*.md";
+            a.href='https://github.com/d6g8k5htny-coder/main/blob/'+'a'.repeat(40)+"/docs/proof(1)!'*.md";
+            row.children[0].append(a);row.children[1].textContent='a'.repeat(40);row.children[2].textContent='0'.repeat(64);
+            document.querySelector('#catalog').append(row);
+        }''')
+        expect(p.locator('#punctuation-fixture .desk-save-source')).to_be_visible()
+        p.locator('#punctuation-fixture .desk-save-source').click()
+        expect(p.locator('#desk-entries > li')).to_have_count(3)
         close(c)
     case('dated-catalog-isolated-query-and-source', catalog)
 
@@ -128,6 +141,7 @@ def run(origin, browser, out, report, local):
         p.locator('#reading-list > summary').click()
         before = p.evaluate('(key)=>localStorage.getItem(key)', KEY)
         for name, content in [('malformed', b'{'), ('oversize', b' ' * 131073),
+                              ('duplicate', ('{"schema":"'+KEY+'","entries":[],"entries":[]}').encode()),
                               ('unsafe', json.dumps({'schema':KEY,'entries':[{'kind':'source','url':'javascript:alert(1)'}]}).encode())]:
             p.locator('#desk-import').set_input_files({'name':name+'.json','mimeType':'application/json','buffer':content})
             expect(p.locator('#desk-status')).to_contain_text('Import refused')
@@ -198,12 +212,16 @@ def run(origin, browser, out, report, local):
     def two_tabs():
         c=context();a=page(c,'workspace.html?source-q=PROOF.md#library-current');b=page(c,'workspace.html?source-q=README.md#library-current')
         expect(a.locator('#desk-save-current')).to_be_enabled();expect(b.locator('#desk-save-current')).to_be_enabled()
+        a.evaluate('''key=>{navigator.locks.request(key,()=>new Promise(resolve=>{window.releaseDeskLock=resolve}));}''',KEY)
+        a.wait_for_function("typeof window.releaseDeskLock==='function'")
         a.locator('#desk-save-current').click();b.locator('#desk-save-current').click()
+        expect(a.locator('#desk-count')).to_have_text('0 saved items');expect(b.locator('#desk-count')).to_have_text('0 saved items')
+        a.evaluate('window.releaseDeskLock()')
         expect(a.locator('#desk-count')).to_have_text('2 saved items');expect(b.locator('#desk-count')).to_have_text('2 saved items')
         stored=json.loads(a.evaluate('(key)=>localStorage.getItem(key)',KEY))
         assert {x['query'] for x in stored['entries']}=={'PROOF.md','README.md'}
         close(c)
-    case('two-tabs-preserve-both-explicit-saves',two_tabs)
+    case('two-tabs-queued-locks-preserve-both-explicit-saves',two_tabs)
 
     def query_limit():
         c=context();p=page(c,'workspace.html#library-current')

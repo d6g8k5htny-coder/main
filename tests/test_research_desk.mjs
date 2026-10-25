@@ -8,6 +8,14 @@ catch(error) { if(error.code!=='ERR_MODULE_NOT_FOUND')throw error; }
 const {validateEntry,entryKey,parseReadingList,mergeEntries,sourceHref,searchHref,readingListJSON}=store;
 const desk=await import('../docs/site/research-desk.mjs');
 
+test('imported notes refuse raw duplicate schema and source identity keys',()=>{
+  const serialized=readingListJSON([source()]);
+  const duplicateSchema=serialized.replace('"schema":', '"schema":"universal-law-reading-list/v1","schema":');
+  assert.throws(()=>parseReadingList(duplicateSchema),/Duplicate JSON key/);
+  const duplicatePath=serialized.replace('"path":', '"path":"docs/erased.md","path":');
+  assert.throws(()=>parseReadingList(duplicatePath),/Duplicate JSON key/);
+});
+
 test('source-button identity matches legal filename URI spellings without conflating path segments',()=>{
   const url='https://github.com/d6g8k5htny-coder/main/blob/'+'a'.repeat(40)+'/docs/proof(1)!\'*.md';
   const escaped=url.replace('(', '%28').replace(')', '%29').replace('!', '%21').replace("'", '%27').replace('*','%2A');

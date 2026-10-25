@@ -3,8 +3,8 @@ import {
   loadSelection,
   compareSnapshots,
   selectionDescription,
-} from "./compare-model.mjs";
-import { sourceURL } from "./current-model.mjs";
+} from "./compare-model.mjs?site-release=4036fca2cd4519e4d09f2e19ffd38e64b3b2e6ce1ef20840dc52a9941d77d946";
+import { sourceURL } from "./current-model.mjs?site-release=a30d68465e3acda48eedce64854afebc7af5c84903a4e6b0c649e08007b08999";
 const $ = (id) => document.getElementById(id);
 let publication,
   generation = 0,

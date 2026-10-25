@@ -1,3 +1,4 @@
+import {parseStrictJSON} from "./reader-json.mjs?site-release=730b0b4d5c93a9e5aa5eee3feddd4070e9480db86af489c2982bfa0e39fca706";
 // Reader-supplied reading notes carry identities, never scientific status.
 // This module deliberately has no storage, network or DOM access.
 export const SCHEMA='universal-law-reading-list/v1';
@@ -118,7 +119,7 @@ export function mergeEntries(existing,incoming) {
 export function parseReadingList(input) {
   if(typeof input!=='string')fail('Reading-list JSON must be text.');
   if(new TextEncoder().encode(input).byteLength>MAX_FILE_BYTES)throw new RangeError('Reading-list file exceeds 128 KiB.');
-  const data=JSON.parse(input);
+  const data=parseStrictJSON(input);
   record(data,new Set(['schema','entries']));
   if(!owns(data,'schema')||!owns(data,'entries')||data.schema!==SCHEMA)fail('Unsupported reading-list schema.');
   return {schema:SCHEMA,entries:mergeEntries([],data.entries)};

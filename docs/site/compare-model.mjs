@@ -1,3 +1,5 @@
+import {parseStrictJSON} from "./reader-json.mjs?site-release=730b0b4d5c93a9e5aa5eee3feddd4070e9480db86af489c2982bfa0e39fca706";
+export {parseStrictJSON};
 import { validateSnapshot, parseVerifiedSnapshot } from "./current-model.mjs?site-release=a30d68465e3acda48eedce64854afebc7af5c84903a4e6b0c649e08007b08999";
 const HEX = /^[0-9a-f]{64}$/;
 const ORIGIN = "https://d6g8k5htny-coder.github.io/main/site/";
@@ -106,40 +108,6 @@ export async function verifyBytes(raw, d, cryptoAPI = globalThis.crypto) {
   ).join("");
   if (digest !== d.sha256) fail("Payload digest mismatch.");
   return bytes;
-}
-// JSON.parse validates grammar, then an iterative scan checks the original text.
-// Keys are decoded individually so escaped spellings share the same identity.
-// No reserialization can erase a duplicate before this check sees its bytes.
-export function parseStrictJSON(text) {
-  if (typeof text !== "string" || text.length > MAX_BYTES)
-    fail("JSON text exceeds capacity.");
-  const data = JSON.parse(text);
-  const stack = [];
-  for (let index = 0; index < text.length; index++) {
-    const character = text[index];
-    if (character === "{" || character === "[") {
-      stack.push(character === "{" ? new Set() : null);
-      if (stack.length > 128) fail("JSON nesting depth exceeds capacity.");
-    } else if (character === "}" || character === "]") {
-      stack.pop();
-    } else if (character === '"') {
-      const start = index;
-      index++;
-      while (text[index] !== '"') {
-        if (text[index] === "\\") index++;
-        index++;
-      }
-      let next = index + 1;
-      while (/\s/.test(text[next] || "") && next < text.length) next++;
-      if (text[next] === ":") {
-        const key = JSON.parse(text.slice(start, index + 1));
-        const keys = stack.at(-1);
-        if (keys.has(key)) fail("Duplicate JSON key: " + key);
-        keys.add(key);
-      }
-    }
-  }
-  return data;
 }
 export function selectionDescription(choice) {
   const role = choice.current ? "current observation" : "retained archive";
