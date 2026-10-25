@@ -1,0 +1,9 @@
+PASS  original dataset (no migration): accepted
+PASS  successor proposal: accepted
+PASS  CE1: extra undocumented edge + duplicate-credit migration: only the single authorized link migration is permitted
+PASS  CE2: remove old edge, add other edge, keep count 109: edge set is not exactly the original 108 edges plus the authorized edge
+PASS  CE3: 900->901 counts: unauthorized link migration
+PASS  CE4: arbitrary migration status: link migration status not allowed
+PASS  undocumented 109th edge (no migration entry): proof link count changed without documented migration
+PASS  migration entry present but edge absent: edge set is not exactly the original 108 edges plus the authorized edge
+ALL EXPECTED (8/8)
