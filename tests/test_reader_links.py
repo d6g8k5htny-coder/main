@@ -699,6 +699,30 @@ def validate_reading_pins(text):
         raise ValueError('proof SHA-256 association drift')
     return parsed.links
 
+# #587 renders one same-origin freshness module into research.html. The static
+# checkout has none; current_site_build.py inserts this tag, and site_asset_release.py
+# may append its site-release query. Every other '<script' still fails.
+def assert_research_page_scripts(case, text):
+    opens=[m.start() for m in re.finditer('<script', text)]
+    case.assertLessEqual(len(opens), 1, [text[i:i+80] for i in opens])
+    if not opens:
+        return
+    rest=text[opens[0]:]
+    opener='<script type="module" src="'
+    case.assertTrue(rest.startswith(opener), rest[:180])
+    after=rest[len(opener):]
+    quote=after.find('"')
+    case.assertGreater(quote, 0)
+    src=after[:quote]
+    case.assertRegex(src, r'\Acurrent\.mjs(?:\?site-release=[0-9a-f]{64})?\Z')
+    parts=urlsplit(src)
+    case.assertEqual((parts.scheme, parts.netloc, parts.path), ('', '', 'current.mjs'))
+    case.assertEqual(parts.fragment, '')
+    case.assertRegex(parts.query, r'\A(?:site-release=[0-9a-f]{64})?\Z')
+    tail=after[quote:]
+    case.assertTrue(tail.startswith('"></script>'), tail[:80])
+    case.assertNotIn('<script', rest[len(opener)+quote+len('"></script>'):])
+
 class LatestSourceControls(unittest.TestCase):
     def test_pinned_citations_are_exact_and_hashes_retain_the_checked_identity(self):
         self.assertEqual(len(validate_reading_pins((SITE/'research.html').read_text())),45+len(OCT10_FACE_PINS)+len(OCT10_PINS))
@@ -782,7 +806,7 @@ class ShrinkingBinReading(unittest.TestCase):
         self.assertIn('tabindex="-1" aria-labelledby="sampling-heading"',section)
         self.assertIn('datetime="2026-10-04T06:20:32Z"',section)
         self.assertIn('<details class="latest-identities" id="sampling-details">',section)
-        self.assertNotIn('<script',text)
+        assert_research_page_scripts(self, text)
         for term in ('C131 · EXACT VERTEX SAMPLES','C132 · CONDITIONAL SPECTRAL EXTENSION',
                      'fixed side-24 planar torus','unconditioned normalized Gaussian field',
                      'finite ordinary superlevel H0 bars','multiplicity','essential class is excluded',
@@ -1815,7 +1839,7 @@ class UniversalitySourcesReading(unittest.TestCase):
         self.assertEqual(len(tree.find('dl','card-status')),3)
         used=set().union(*[n['classes'] for n in tree.elements])
         self.assertLessEqual(used,self.ALLOWED_CLASSES,used-self.ALLOWED_CLASSES)
-        self.assertNotIn('<script',self.page())
+        assert_research_page_scripts(self, self.page())
         all_formulas=[]
         for (identity,directory,name,_),face in zip(self.CARDS,OCT10_FACE_PINS):
             card=self.card(identity);card_tree=FiniteH0LifetimeReading.Tree(card)
