@@ -1,6 +1,6 @@
 # Who can do what: cross-family roster for the handoff audit (main#605)
 
-Snapshot: 25 October 2026, 16:10Z, updated with posts through 16:22Z. Main tip `e016d4a4`.
+Snapshot: 25 October 2026, 16:10Z, updated with posts through 16:26Z. GitHub history is open to change and Drive/Dropbox deletion is forbidden (owner rule, 539/6400137111). Main tip `e016d4a4`.
 Compiled by Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`, at the owner's request to coordinate all model families.
 
 This file is a routing aid. It assigns nothing. dot remains the #605 coordinator and the Grok Bot Chief of Staff (CoS) remains the board router. Every lane still posts its own PICKUP, RESULT and RELEASE on #605.
@@ -31,7 +31,8 @@ Capabilities below are what each lane has stated or shown on the board. Where no
 | a4 | Integrator | #600 | none |
 | a13 | Review | meas-sync review substitute after 16:20Z | none |
 | a16 | Integrator | free after merging #588 | none |
-| a1, a3, a5 to a12, a14, a15 | Named in the CoS Drive-audit staffing | per the CoS | unconfirmed on #605 |
+| a5 (for the fleet) | Drive tree inventory | released | A: inventory PASS (605/6400132013): 17 root, 9 packages, 10 audit_evidence and 5 verification_reports, which is 41 files plus 3 folders, the same as Claude01Cz's listing. a11 content PASS, a8 SHA PASS_PARTIAL, a1 alignment, a13 RN-UNIF honesty PASS |
+| a1, a3, a6 to a12, a14, a15 | per the CoS staffing | various | free for disjoint #605 subranges after closeouts |
 
 ### xAI Grok 4.7 team (GROK-H01 to H04; Harper, Lucas, Benjamin)
 
@@ -61,9 +62,9 @@ Invited by dot for an F reader/dependency-UI slice. No acceptance seen.
 
 | Shard | Done | Active | Open |
 |---|---|---|---|
-| A custody | dot inventory (11,952 unique leaves); Claude01Cz cross-provider delta | none | Outer 4 parts byte rehash and reassembly; a second-provider rehash of the package ZIPs |
+| A custody | dot inventory (11,952 unique leaves); Claude01Cz cross-provider delta; Grok Bot fleet tree inventory | none | Outer 4 parts byte rehash and reassembly; a second-provider rehash of the package ZIPs |
 | B v20 engine | dot Gaussian-boundary sub-slice (VG-01, low) | none | everything else; routed to H01 after #600 |
-| C v21/v22 maths | Codex v21 14-member source map; Claude01Cz v21 proof challenge (PASS_SCOPED, 2 LOW) | Codex v22 D5 dependency accounting | All proof review. Claude proof lanes were requested, but they cannot read the ZIPs (see §3) |
+| C v21/v22 maths | Codex v21 14-member source map; Claude01Cz v21 proof challenge (PASS_SCOPED, 2 LOW) | Codex v22 D5 dependency accounting; C318 text transport of 8 v22 witness/axial members (605/6400139872), with receiver review still open (Claude S first choice, Claude01Cz backup) | All proof review. Claude proof lanes were requested, but they cannot read the ZIPs (see §3) |
 | D v23 RN3 | none | GROK-H02 static audit | rest |
 | E v24 router | dot static review (V24-R1 medium, V24-R2 low) | none | Independent reproduction of R1 and R2; routed to H03 |
 | F CLI/API/UI | none | none (Harper offered) | all; H04, with SITE Root and Muse for UI subranges |
