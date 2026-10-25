@@ -699,6 +699,30 @@ def validate_reading_pins(text):
         raise ValueError('proof SHA-256 association drift')
     return parsed.links
 
+# #587 renders one same-origin freshness module into research.html. The static
+# checkout has none; current_site_build.py inserts this tag, and site_asset_release.py
+# may append its site-release query. Every other '<script' still fails.
+def assert_research_page_scripts(case, text):
+    opens=[m.start() for m in re.finditer('<script', text)]
+    case.assertLessEqual(len(opens), 1, [text[i:i+80] for i in opens])
+    if not opens:
+        return
+    rest=text[opens[0]:]
+    opener='<script type="module" src="'
+    case.assertTrue(rest.startswith(opener), rest[:180])
+    after=rest[len(opener):]
+    quote=after.find('"')
+    case.assertGreater(quote, 0)
+    src=after[:quote]
+    case.assertRegex(src, r'\Acurrent\.mjs(?:\?site-release=[0-9a-f]{64})?\Z')
+    parts=urlsplit(src)
+    case.assertEqual((parts.scheme, parts.netloc, parts.path), ('', '', 'current.mjs'))
+    case.assertEqual(parts.fragment, '')
+    case.assertRegex(parts.query, r'\A(?:site-release=[0-9a-f]{64})?\Z')
+    tail=after[quote:]
+    case.assertTrue(tail.startswith('"></script>'), tail[:80])
+    case.assertNotIn('<script', rest[len(opener)+quote+len('"></script>'):])
+
 class LatestSourceControls(unittest.TestCase):
     def test_pinned_citations_are_exact_and_hashes_retain_the_checked_identity(self):
         self.assertEqual(len(validate_reading_pins((SITE/'research.html').read_text())),45+len(OCT10_FACE_PINS)+len(OCT10_PINS))
@@ -782,7 +806,7 @@ class ShrinkingBinReading(unittest.TestCase):
         self.assertIn('tabindex="-1" aria-labelledby="sampling-heading"',section)
         self.assertIn('datetime="2026-10-04T06:20:32Z"',section)
         self.assertIn('<details class="latest-identities" id="sampling-details">',section)
-        self.assertNotIn('<script',text)
+        assert_research_page_scripts(self, text)
         for term in ('C131 · EXACT VERTEX SAMPLES','C132 · CONDITIONAL SPECTRAL EXTENSION',
                      'fixed side-24 planar torus','unconditioned normalized Gaussian field',
                      'finite ordinary superlevel H0 bars','multiplicity','essential class is excluded',
@@ -905,7 +929,8 @@ NEWER_WORK = re.compile(r'(<aside id="newer-work" class="latest-upstream" tabind
 
 class NewerWorkRoutes(unittest.TestCase):
     """#newer-work and the Join-the-work card are maintained, dated routes: they reach both repositories and the board in use, never a status."""
-    ACTIVE_BOARD = 307   # the board CONTRIBUTING.md and docs/WORKSPACE.md name; change with them when it moves again
+    ACTIVE_BOARD = 475   # current coordination successor; guide routing may await its own amendment
+    PREVIOUS_BOARD = 419
     HISTORICAL_BOARD = 229
     QUEUE = 275
     ISSUES = SOURCE_ROOT+'main/issues/'
@@ -925,7 +950,9 @@ class NewerWorkRoutes(unittest.TestCase):
         ('Math-/tree/main/companions', 'Lean companion packages'),
         ('Math-/tree/main/specifications', 'Lean statement specifications'),
         ('Math-/blob/main/PROOF_INDEX.md', 'selected proof index'),
-        ('main/issues/307', 'active coordination board, main #307'),
+        ('main/issues/475', 'active coordination board, main #475'),
+        ('main/issues/419', 'main #419'),
+        ('main/issues/307', 'main #307'),
         ('main/issues/275', 'task and claim queue, main #275'),
         ('main/issues/229', 'historical board, main #229'),
         ('main/blob/main/CONTRIBUTING.md', 'contribution guide'),
@@ -971,7 +998,9 @@ class NewerWorkRoutes(unittest.TestCase):
         self.assertTrue(aside.startswith('<aside id="newer-work" class="latest-upstream" tabindex="-1"><h3>Check newer work</h3>'
                                          '<p><strong>Mutable upstream navigation.</strong>'))
         self.assertRegex(aside,'Routes '+self.AS_READ+r'\.')
-        self.assertRegex(aside,re.escape('">contribution guide</a> (')+self.AS_READ+re.escape(', it names the same board and queue)'))
+        self.assertIn('Routes as read 21 October 2026.',aside)
+        self.assertIn('">contribution guide</a> for submission instructions',aside)
+        self.assertNotIn('it names the same board and queue',aside)
         self.assertIn(self.ASIDE_229,aside)
         # #latest-work keeps one <time> (the 18:00 cut's); the browser check's '#latest-work time' locator is strict.
         self.assertNotIn('<time',aside)
@@ -1034,7 +1063,9 @@ class NewerWorkRoutes(unittest.TestCase):
         self.assertIn(f'<a href="{self.ISSUES}{self.ACTIVE_BOARD}">Active coordination board ↗</a>',card)
         self.assertIn(f'<a href="{self.ISSUES}{self.QUEUE}">Current tasks and claims ↗</a>',card)
         self.assertIn(f'<a href="{self.ISSUES}{self.HISTORICAL_BOARD}#issuecomment-6038554880">historical #229 working guidance</a>',card)
-        # Declarations stay where CONTRIBUTING.md puts them (#275 or the task's issue/PR); #307 takes general coordination.
+        self.assertIn(f'successor to <a href="{self.ISSUES}{self.PREVIOUS_BOARD}">main #{self.PREVIOUS_BOARD}</a>, which stays readable as history '
+                      'after GitHub stopped accepting comments there at 2,500 on 21 October 2026;',card)
+        # Declarations stay where CONTRIBUTING.md puts them (#275 or the task's issue/PR); #475 takes general coordination.
         self.assertIn("Comment <code>/claim</code> on the task's issue or PR",card)
 
     def test_entry_wording_names_cuts_and_the_index_as_selections(self):
@@ -1808,7 +1839,7 @@ class UniversalitySourcesReading(unittest.TestCase):
         self.assertEqual(len(tree.find('dl','card-status')),3)
         used=set().union(*[n['classes'] for n in tree.elements])
         self.assertLessEqual(used,self.ALLOWED_CLASSES,used-self.ALLOWED_CLASSES)
-        self.assertNotIn('<script',self.page())
+        assert_research_page_scripts(self, self.page())
         all_formulas=[]
         for (identity,directory,name,_),face in zip(self.CARDS,OCT10_FACE_PINS):
             card=self.card(identity);card_tree=FiniteH0LifetimeReading.Tree(card)

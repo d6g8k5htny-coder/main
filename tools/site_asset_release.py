@@ -1,6 +1,11 @@
 #!/usr/bin/env python3
 """Refresh Git-tracked local asset URLs; CI uses --check.
 
+Each local asset URL carries that asset's own key: a hash of its key-stripped
+bytes and of the keys of the assets it references, so an edit re-keys only the
+changed assets and their importers. The printed release is the whole-site
+identity; it is not written into URLs.
+
 Stage new/deleted site inputs before running this tool. Release identities use
 tracked membership and current working-tree bytes, with explicit POSIX ordering.
 Only recognized live URL spans are normalized/rewritten. This bounded stdlib
@@ -98,26 +103,90 @@ def release(site, files=None):
             digest.update(part)
     return digest.hexdigest()
 
-def version(value, path, site, token, files=None):
-    clean = without_release(value)
-    url = urlsplit(clean)
+def _target(value, path, site, allowed):
+    """The tracked local asset a live URL names, or None for any other URL."""
+    url = urlsplit(without_release(value))
     if url.scheme or url.netloc or not url.path or Path(url.path).suffix not in ASSETS:
-        return value
+        return None
     target = (path.parent / url.path).resolve()
-    allowed = set(inventory(site) if files is None else files)
     if not target.is_relative_to(site.resolve()) or not target.is_file() or target not in allowed:
         raise ValueError(f'{path.name}: missing/outside local asset {value} (must be tracked)')
-    query = url.query + ('&' if url.query else '') + 'site-release=' + token
+    return target
+
+def asset_keys(site, files=None):
+    """Merkle keys over local asset references; a reference cycle shares one key."""
+    site = site.resolve()
+    files = inventory(site) if files is None else files
+    allowed = set(files)
+    name = lambda p: p.relative_to(site.parent).as_posix()
+    assets = sorted((p for p in files if p.is_relative_to(site) and p.suffix in ASSETS), key=name)
+    body, refs = {}, {}
+    for path in assets:
+        data, targets = path.read_bytes(), set()
+        if path.suffix in EDITABLE:
+            def strip(value, path=path, targets=targets):
+                target = _target(value, path, site, allowed)
+                if target is not None:
+                    targets.add(target)
+                return without_release(value)
+            data = transform(data.decode('utf-8'), path.suffix, strip).encode('utf-8')
+        body[path], refs[path] = data, sorted(targets, key=name)
+    # Iterative Tarjan: components arrive after every component they reference.
+    index, low, stack, on_stack, components = {}, {}, [], set(), []
+    for root in assets:
+        if root in index:
+            continue
+        index[root] = low[root] = len(index)
+        stack.append(root); on_stack.add(root)
+        work = [(root, iter(refs[root]))]
+        while work:
+            node, children = work[-1]
+            for child in children:
+                if child not in index:
+                    index[child] = low[child] = len(index)
+                    stack.append(child); on_stack.add(child)
+                    work.append((child, iter(refs[child])))
+                    break
+                if child in on_stack:
+                    low[node] = min(low[node], index[child])
+            else:
+                work.pop()
+                if work:
+                    low[work[-1][0]] = min(low[work[-1][0]], low[node])
+                if low[node] == index[node]:
+                    component = []
+                    while not component or component[-1] != node:
+                        component.append(stack.pop()); on_stack.discard(component[-1])
+                    components.append(sorted(component, key=name))
+    keys = {}
+    for component in components:
+        digest = hashlib.sha256(b'public-site-asset-key-v1\0')
+        external = sorted({t for p in component for t in refs[p]} - set(component), key=name)
+        parts = [part for p in component for part in (name(p).encode('utf-8'), body[p])]
+        parts += [part for t in external for part in (name(t).encode('utf-8'), keys[t].encode('ascii'))]
+        for part in parts:
+            digest.update(len(part).to_bytes(8, 'big'))
+            digest.update(part)
+        keys.update(dict.fromkeys(component, digest.hexdigest()))
+    return keys
+
+def version(value, path, site, keys, files=None):
+    allowed = set(inventory(site) if files is None else files)
+    target = _target(value, path, site, allowed)
+    if target is None:
+        return value
+    url = urlsplit(without_release(value))
+    query = url.query + ('&' if url.query else '') + 'site-release=' + keys[target]
     return urlunsplit((url.scheme, url.netloc, url.path, query, url.fragment))
 
-def updates(site, token, files=None):
+def updates(site, keys, files=None):
     files = inventory(site) if files is None else files
     for path in files:
         if not path.is_relative_to(site.resolve()) or path.suffix not in EDITABLE:
             continue
         text = path.read_bytes().decode('utf-8')
         amended = transform(text, path.suffix,
-                            lambda value: version(value, path, site, token, files))
+                            lambda value: version(value, path, site, keys, files))
         if amended != text:
             yield path, amended
 
@@ -131,19 +200,20 @@ def main():
         parser.error('site must be an existing directory')
     try:
         files = inventory(args.site)
-        token = release(args.site, files)
-        pending = list(updates(args.site, token, files))
+        identity = release(args.site, files)
+        keys = asset_keys(args.site, files)
+        pending = list(updates(args.site, keys, files))
     except (ValueError, UnicodeError, OSError) as error:
         parser.error(str(error))
     if args.check and pending:
         print('Asset URLs are stale; run python -B tools/site_asset_release.py')
-        print('Expected release: ' + token)
+        print('Expected release: ' + identity)
         for path, _ in pending:
             print(path.relative_to(args.site).as_posix())
         return 1
     for path, text in pending:
         path.write_bytes(text.encode('utf-8'))
-    print(token)
+    print(identity)
     return 0
 
 from html.parser import HTMLParser

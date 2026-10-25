@@ -20,3 +20,38 @@ body{overflow-wrap:anywhere}
 .atlas button{overflow-wrap:anywhere;white-space:normal}
 .atlas button small{display:block;margin:.3rem 0}
 @media(forced-colors:active){.atlas-node[aria-pressed=true]{outline:3px solid Highlight}.atlas-edge{stroke:CanvasText}.atlas-edge.context{stroke-dasharray:7 5}}
+/* The verified DOM is enhanced in place; static and no-script markup stays readable. */
+.atlas-reader{min-width:0;overflow-wrap:anywhere}
+.atlas-reader-navigation,#atlas-inspector-tabs{display:flex;gap:.5rem;flex-wrap:wrap;align-items:center;margin-bottom:.8rem}
+.atlas-reader-navigation a{display:inline-flex;align-items:center;min-height:44px;max-width:100%}
+#atlas-inspector-tabs [aria-selected=true]{text-decoration:underline;text-decoration-thickness:.18em;text-underline-offset:.3em}
+.atlas-reader [role=tabpanel]{min-width:0;overflow-wrap:anywhere}
+.atlas-reader [role=tabpanel]:focus-visible,#atlas-inspector-tabs [role=tab]:focus-visible,.atlas-reader-navigation a:focus-visible{outline:3px solid var(--ul-focus);outline-offset:3px}
+@media(forced-colors:active){.atlas-reader [role=tabpanel]:focus-visible,#atlas-inspector-tabs [role=tab]:focus-visible,.atlas-reader-navigation a:focus-visible{outline-color:Highlight}}
+#atlas-open-reader,.atlas-reader-navigation{display:none}
+@media(max-width:720px){
+  .atlas[data-atlas-panel=browse] .atlas-reader{display:none}
+  #atlas-open-reader{display:block;margin:.8rem 0}
+  .atlas:not([data-atlas-panel=browse])[data-atlas-panel] [data-atlas-browse],.atlas:not([data-atlas-panel=browse])[data-atlas-panel]>.atlas-toolbar,.atlas:not([data-atlas-panel=browse])[data-atlas-panel]>#atlas-count,.atlas:not([data-atlas-panel=browse])[data-atlas-panel]>#atlas-breadcrumb{display:none}
+  .atlas:not([data-atlas-panel=browse])[data-atlas-panel] .atlas-reader{min-height:100vh;min-height:100svh;padding:.5rem 0;scroll-margin-top:.5rem}
+  .atlas-reader-navigation{display:flex}
+  .atlas-reader pre{max-height:none;overflow:visible}
+}
+@media print{.atlas-reader-navigation,#atlas-inspector-tabs,#atlas-open-reader{display:none!important}.atlas[data-atlas-panel] .atlas-reader{display:block!important;min-height:0!important;padding:0!important;scroll-margin-top:0!important}.atlas-reader [role=tabpanel]{display:block!important}}
+
+/* Inventory acquisition labels share a visible legend; long identities wrap. */
+.acquisition-label{display:block;margin-block:.25rem;overflow-wrap:anywhere}
+.inventory-legend,.inventory-unavailable,.current-date-explanation{margin-block:1rem}
+.current-date-explanation dd{margin-block-end:.75rem;overflow-wrap:anywhere}
+.current-results li{margin-block:.65rem}
+
+.current-more[hidden]{display:none!important}
+
+/* Resume this node: dated snapshot fields, review records and operational gaps stay visibly separate. */
+.resume-node{margin-block:1rem;padding:1rem;border:1px solid var(--edge,#39516b);border-radius:12px;min-width:0;overflow-wrap:anywhere}
+.resume-node h2,.resume-node h4{margin-top:0}
+.resume-fields{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:.4rem .8rem}
+.resume-fields dt,.resume-fields dd{margin:0;overflow-wrap:anywhere}
+.resume-warning{border-left:3px solid #ba952d;padding-left:.8rem}
+.resume-warning:not([data-freshness=current]){border-left-style:dashed}
+@media(forced-colors:active){.resume-warning{border-left-color:CanvasText}}

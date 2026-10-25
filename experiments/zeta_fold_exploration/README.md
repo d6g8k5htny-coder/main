@@ -12,8 +12,12 @@ de Bruijn–Newman constant Λ beyond known results. None should be read into it
   slice B **PASS (scoped)** (review 5487692150). Integrated into main as `3e589ae0` on
   12 October 2026 by a third OpenAI lane, distinct from both reviewers (§9). Automatic Codex
   review: **NOT_RUN** (quota). Slice C (independent numerical reproduction): different-provider
-  replay of the packet's 59 commands **PERFORMED; record PASS (scoped)**; the different-seed or
-  independent Riemann–Siegel check is **still open** (§9). Dylan's personal reading: **PENDING**.
+  replay of the packet's 59 commands **PERFORMED; record PASS (scoped)**. Additional fresh-seed
+  evidence is **REPORTED; record applicability PASS (scoped)**, and its tables were
+  **independently re-executed: PASS (scoped)** (§9).
+  The Riemann–Siegel coefficients now cite Siegel 1932, the source actually checked, and agree
+  with it as translated (**PASS (scoped)**); Edwards 1974 stays unverified background reading
+  (owner decision). Slice C is not fully closed (§9). Dylan's personal reading: **PENDING**.
 - Object: `ZETA-FOLD-EXPLORATION-20261012`, draft v2 as read back at `0969b327` and landed at
   `3e589ae0` (README blob `b367aecd`; v1 carried the same-provider passes, v2 adds the slice A,
   B and D amendments, §10), plus post-integration edits that neither readback covers: the §6.2
@@ -266,8 +270,9 @@ Let Θ(u) = Σ_{n∈ℤ} e^{−π u n²}.
 - *From memory, unchecked:* de la Vallée Poussin 1896, Sturm's zero-number property for the heat
   equation, Mumford, Cerf 1970 (exact passage not located), Gonek 1989, Hejhal 1989, Selberg's
   original, and the CUE log|Z_U| variance of order ½ log N (§6.1). Edwards 1974 is identified
-  bibliographically only; its Riemann–Siegel coefficients and our implementation are left to
-  slice C (they were validated numerically against `mpmath.siegelz`).
+  bibliographically only and stays unverified background reading: by owner decision the
+  Riemann–Siegel coefficients cite Siegel 1932, the source actually checked (in English
+  translation, §9); they were also validated numerically against `mpmath.siegelz`.
 
 Only the items a reviewer reports as checked carry the stronger terms; every other item stays
 unverified (§9).
@@ -1149,6 +1154,19 @@ the saved `.out` file named in its docstring is that stdout. Approximate runtime
 - `dbn/indep_ht.py 60 xi` (seconds), `dbn/indep_ht.py 60 c910` (~2 min),
   `dbn/indep_ht.py 60 c3435` (~7 min),
   `dbn/lobe_identity.py` (~8 min).
+  The `60 c910` and `60 c3435` commands above, and in the script's docstring, do not reproduce
+  the committed `indep_ht_c910.out` and `indep_ht_c3435.out`:
+  - **Current script.** With `dbn/indep_ht.py`, `60 c910` matches every line except the
+    iteration-4 step. `60 c3435` does not meet its stop rule within 12 iterations, although its
+    final `t*`, `z0`, A, B/A, C/A and κ lines match.
+  - **Where the committed files come from.** They are the stdout of the review-math run of the
+    earlier script, blob `c561d95b`. That run is retained, with the script, under
+    `recovery/session_01S16677s1SGeAJmN3QMz4ip/zeta_raw/review-math/` (commit `5d298b9e`).
+  - **Exact reproduction.** With Python 3.13.16, mpmath 1.4.1 (python backend) and
+    `OMP_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1`, `python -B <c561d95b> 55 c910` and
+    `… 90 c3435` reproduce the two files exactly apart from `time`.
+  - **Limit.** The original command lines were not recorded, so this is a sufficient
+    invocation, not a log (§9).
 - `theta/check_theta.py` and `stats/check_gue_transfer.py` (seconds),
   `theta/project_theta_checks.py` (~7 min).
 - `python3 -B experiments/universality/fold_controls.py`, run from the repository root
@@ -1211,10 +1229,116 @@ A nonauthor read from a non-Anthropic provider was requested, in four slices:
   14 were timing-only, two residual trails differed, and all nine raw-sample hashes matched.
   The replay re-executed the packet's own `mpmath.siegelz`/`zetazero`/`nzeros` comparisons with
   the packet's same fixed seeds. It added neither a different seed nor an independent
-  Riemann–Siegel check beyond the packet's existing validation, so that part of slice C,
-  including the Edwards coefficients left to it above, remains open. See the
+  Riemann–Siegel check beyond the packet's existing validation. See the
   [replay delivery](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6282286422)
   and exact-head nonauthor [PASS_RECORD_SCOPED review](https://github.com/d6g8k5htny-coder/main/pull/458#pullrequestreview-5581698876).
+
+  **Timing-only outputs re-run with retained bytes: PASS (scoped).** The replay did not retain
+  13 of its 14 timing-only byte streams (the 14th, `rs_spot_check.out`, was hash-reconstructed).
+  Its own performer, [xAI Grok 4.7](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6304356801)
+  (Cursor agent `bc-8084f8ef`; source-exposed, organizational-independence credit 0), re-ran
+  the 14 commands behind those outputs in the pinned environment from `main` `157b6a97`, where
+  the scripts run have the same blobs as at `5cab7663`. The bytes are retained on draft
+  [main#469](https://github.com/d6g8k5htny-coder/main/pull/469) at `29b2bfef`, a
+  retention-only record not meant for merge. Under the published mask
+  (`reviews/zeta_fold_slice_c_rerun_20261019/comparison/timing_mask_rules.txt`) all 14 equal
+  the committed outputs, and the only unmasked differences are timing tokens.
+  The [hash-table correction](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6304367431)
+  supersedes the first table, and an [Anthropic recomputation from the bytes](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6304374360)
+  (same provider as the packet author, no independence credit) agrees with it. This is a new
+  execution of the same programs and fixed inputs, not the replay's own streams, and it makes
+  no scientific acceptance.
+
+  **Residual trails reproduced exactly.** The replay's two differing files are
+  `results/dbn/indep_ht_c910.out` and `indep_ht_c3435.out`. At the documented dps 60,
+  `c910` matches every line except the iteration-4 step, and `c3435` differs from
+  iteration 3 on and does not meet its stop rule. The final `t*`, `z0`, A, B/A, C/A
+  and κ lines are identical.
+  - **Provenance.** The committed files are the same git blobs as the review-math outputs kept
+    in the packet author's recovery checkpoint, under
+    `recovery/session_01S16677s1SGeAJmN3QMz4ip/zeta_raw/review-math/` (commit `5d298b9e`).
+    Those were written by the earlier script `c561d95b`.
+  - **Mechanism.** That script sets the working precision before it computes the subinterval
+    constant `U = mpf('1.3')`. The current script (`736760f2`) computes `U` at 60 digits first.
+    At dps 60 the two scripts compute the same `U`. At another requested precision the
+    breakpoints differ, and the data note records that this shifts the quadrature noise in
+    the iteration-4 step.
+  - **Reproduction.** In the pinned environment, `c561d95b` reproduces both committed files
+    exactly, apart from `time`, as `55 c910` and `90 c3435`. These are the only matches in
+    the ranges tested: dps 50–70 for `c910` and dps 85–100 for `c3435`.
+    ([data note](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6322382147);
+    outputs retained on draft [main#471](https://github.com/d6g8k5htny-coder/main/pull/471) at
+    `95a00ce4`.)
+  - **Separate fact.** With the current script, the documented `60 c3435` does not converge
+    ([6304057120](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6304057120)).
+  - **Limits.** The original command lines were never recorded, so this is a sufficient
+    invocation, not a log of what was run. The reported values (`t*`, `z0`, A, B/A, C/A, κ)
+    were never affected. The diagnostic is Anthropic, the same provider as the packet author,
+    with organizational-independence credit 0.
+  - **Non-Anthropic re-execution.** A nonauthor
+    [xAI Grok 4.7 re-execution](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6322666857)
+    (Cursor agent `bc-8084f8ef`; source-exposed, organizational-independence credit 0) ran
+    `c561d95b` at `55 c910` and `90 c3435` in the pinned environment. Each output differs from
+    the committed file only in its `time` line. It also confirmed that the committed files are
+    the review-math blobs.
+
+  **Additional fresh-seed evidence REPORTED; record applicability PASS (scoped).**
+  Separately, [OpenAI GPT-6's R2a report](https://github.com/d6g8k5htny-coder/main/pull/451#issuecomment-6279371506)
+  records a separate summation implementation with seed **31415927**, 192 points against
+  `mpmath.siegelz`, and four fresh zero-count windows at coarse and half-step grids agreeing
+  with `mpmath.nzeros`. The nonauthor [record-applicability assessment](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6289356717),
+  performed by OpenAI Codex `/root`, Capability Frontier observer (CAPFRONT), was source-exposed,
+  not blind: the reviewer was not the packet author or R2a executor, but shared R2a's OpenAI
+  provider and the project's GitHub principal. That assessment
+  accepts this as reported additional different-seed evidence for this component, not a
+  new execution or independent verification of those numerical outputs. R2a used
+  Python 3.13.5 / numpy 2.3.5 / mpmath 1.3.0, not the pinned environment, and did not execute
+  the exact `rs_zeta.py` bytes. Its raw JSON was not uploaded with the report or retrieved
+  by the applicability reader; its reported hash and results were not independently
+  verified there, and custody elsewhere remains unknown. This evidence has organizational-
+  independence credit 0 and supplies no uniform error bound, interval certificate,
+  zero-completeness proof or scientific acceptance. Reimplementing the quoted formula does
+  not verify it against a printed source; that comparison is recorded below.
+
+  **R2a independently re-executed: PASS (scoped).** A nonauthor
+  [xAI Grok 4.7 run](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6302968686)
+  (Cursor agent `bc-8084f8ef`, neither Anthropic nor OpenAI, not R2a's executor;
+  source-exposed, organizational-independence credit 0) re-executed R2a's described method
+  in the pinned environment (Python 3.13.16 / numpy 2.5.3 / mpmath 1.4.1). At R2a's printed
+  precision (`%.6e`), five of the nine maximum errors match. The other four — the three-term
+  entry in each of the three windows and the two-term entry at 900,000–980,000 — are lower by
+  7, 6, 1 and 1 units in the last printed digit. Against R2a's printed floats those four
+  differ by 6.66e-16, 6.31e-16, 6.29e-16 and 1.24e-15. The largest absolute gap among all nine
+  is 4.85e-12, on the one-term entry at 150,000–240,000, which still prints the same digits.
+  Every max |Z| matches R2a's three decimals, and all eight zero counts match exactly. The
+  fit-node residual scalars agree in size but not in printed digits (relative gaps 2.3%, 6.2%
+  and 1.2%, at the 1e-15 to 1e-17 level). On the same draws, `stats/rs_zeta.py` (blob
+  `8b97a1f6`) gives per-window maximum errors within 1.78e-15 of the separate sum's. Its
+  result JSON (SHA-256 `36d21857…f1816a4`) is posted in that comment. R2a's own
+  raw JSON remains unpublished and unverified. These are observed differences, not error
+  certificates, and the re-execution makes no scientific acceptance.
+
+  **Coefficients compared with Siegel 1932: PASS (scoped).** A nonauthor
+  [xAI Grok 4.7 read](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6294430745)
+  (Cursor agent `bc-8084f8ef`, source-exposed, organizational-independence credit 0)
+  compared `stats/rs_zeta.py`'s Ψ, C0–C2, expansion variable, prefactor and main sum with
+  Siegel's eqs. (44)–(45), as printed in the Barkan–Sklar English translation
+  (arXiv:1810.05198, p. 17; *Gesammelte Abhandlungen* I p. 290). It found them in agreement
+  after the change of variables δ = √(2π)(p − ½), with an independent 80-digit check. It
+  read neither Edwards's pages nor Siegel's German original. The translators state that
+  their German is limited.
+
+  **Citation corrected: the packet cites the source actually checked.** By Dylan Roy's
+  [decision of 20 October 2026](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6295674043)
+  ([wording](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6295755538)), the
+  packet cites Siegel 1932 for these coefficients instead of Edwards 1974. Edwards stays in
+  `CLAIMS.md` as unverified background reading; its pages were not read, and nothing here
+  claims that Edwards was verified. The docstring of `stats/rs_zeta.py` still names Edwards. That
+  file is left byte-unchanged so that the replay and R2a records stay bound to its blob
+  `8b97a1f6`. The replay's two residual-trail discrepancies now have the exact reproduction
+  above. Its own 13 timing-only streams stay unretained (their classification now rests on the
+  retained re-run above), and R2a's own raw JSON is unpublished; no record closes all of
+  slice C.
 - **D.** A wording audit of the non-claims. **Read: AMEND** (the same review, §10.1). **Delta
   readback: PASS (scoped)** (review 5487707101, with slice A).
 
@@ -1242,7 +1366,9 @@ review checked the 59-command multiset, hashes, counts, environment, discrepanci
 binding at exact replay head `78976ae7`. It did not independently reapply timing masks to 13
 timing-only replay byte streams that were not retained. The replay used the same programs and
 fixed inputs: it is not a second implementation or a scientific acceptance. Both residual
-trails remain unexplained. Scientific effect stays NONE.
+trails were later reproduced exactly with the earlier review-math script (item C). The original
+command lines were not recorded, so that is a sufficient invocation, not a log. Scientific
+effect stays NONE.
 
 The packet was integrated into main as `3e589ae0` on 12 October 2026 by a third OpenAI dot /
 Codex lane (`/root/integrate_zeta_exploration_packet`), distinct from both reviewer lanes. The

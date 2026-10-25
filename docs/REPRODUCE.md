@@ -69,9 +69,13 @@ Gaussian-process short-bar statistics. Those runs need the pinned
 `test_numeric` (six numeric smoke tests) skips without those modules. The packet
 makes no claim of progress toward the Riemann Hypothesis, and its §9 records
 independent numerical reproduction (review slice C) as only partly done: a
-different-provider replay of its 59 commands is performed (record PASS, scoped),
-but the different-seed or independent Riemann–Siegel check, including the Edwards
-coefficients, is still open.
+different-provider replay of its 59 commands is performed (record PASS, scoped).
+Additional fresh-seed evidence is reported (record applicability PASS, scoped),
+and its tables were independently re-executed in the pinned environment (PASS,
+scoped). The Riemann–Siegel coefficients now cite Siegel 1932, the source actually
+checked, and agree with it as translated (PASS, scoped); Edwards 1974 stays
+unverified background reading. No record closes all of slice C. The packet's §9 links the source reports,
+reviewer lineage and remaining limits.
 
 ### Math- packages and the hardening branch
 
