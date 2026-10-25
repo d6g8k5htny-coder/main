@@ -302,6 +302,130 @@ def exercise_observation_coherence(browser,origin,output,report,data,expect):
         except Exception:case['error']=traceback.format_exc()
         finally:context.close()
 
+def exercise_static_reading_destinations(browser,origin,report,data,expect):
+    """Activate real inspector links with independently served static generations.
+
+    The admitted atlas and material archive use the existing tracked fixture.
+    Only the mutable static response receives controlled older/newer date and
+    pin substitutions. These fixtures say nothing about a public cache layer.
+    """
+    from urllib.parse import quote,urlencode
+    html=(ROOT/'docs/site/dependencies.html').read_text()
+    section=re.search(r'(<section\b[^>]*\bid="current-research"[^>]*>)(.*?)(</section>)',html,re.S)
+    require(section is not None,'Static reading fixture has no generated current section')
+    hrefs=re.findall(r'\bhref="([^"]*)"',section.group(2))
+    archives={match.group(1) for href in hrefs if (match:=re.fullmatch(r'snapshots/([0-9a-f]{64})/nodes/index\.html',href))}
+    require(len(archives)==1,'Static reading fixture has no unique advertised material archive')
+    archive=next(iter(archives));material_root=ROOT/'docs/site/snapshots'/archive
+    material_raw=(material_root/'current.json').read_bytes();material=json.loads(material_raw)
+    node='math.uniform-matrix-cap-lifetime';encoded=quote(node,safe='')
+    require(node in data['graph']['data']['nodes'] and node in material['graph']['data']['nodes'],'Selected static fixture node is missing')
+    edge=next(e for e in data['graph']['data']['edges'] if e['from']==node)
+    current_path='nodes/'+encoded+'.html';preserved_path='snapshots/'+archive+'/nodes/'+encoded+'.html'
+    current_body=(ROOT/'docs/site'/current_path).read_text()
+    preserved_body=(ROOT/'docs/site'/preserved_path).read_bytes()
+    def identity(snapshot):
+        return {'observed_at':snapshot['observed_at'],'pins':{r['repository']:r['commit'] for r in snapshot['repositories']}}
+    atlas_identity=identity(data);material_identity=identity(material)
+    def static_reading(page):
+        # Read the actual visible source fields, not the synthetic response plan.
+        header=page.locator('#current-research');time_node=header.locator('.current-state time')
+        expect(time_node).to_be_visible();pins={};pin_links={}
+        for repository in ['d6g8k5htny-coder/main','d6g8k5htny-coder/Math-']:
+            link=header.locator('a[href^="https://github.com/'+repository+'/tree/"]')
+            expect(link).to_have_count(1);expect(link).to_be_visible()
+            pins[repository]=link.locator('code').inner_text();pin_links[repository]=link.get_attribute('href')
+            require(pin_links[repository]=='https://github.com/'+repository+'/tree/'+pins[repository],'Visible static pin disagrees with its source URL')
+        return {'url':page.url,'node':page.locator('main > h1').inner_text(),'observed_at':time_node.inner_text(),'datetime':time_node.get_attribute('datetime'),'pins':pins,'pin_links':pin_links,'script_count':page.locator('script').count(),'content_security_policy':page.locator('meta[http-equiv="Content-Security-Policy"]').get_attribute('content')}
+    def check_reading(reading,want,path,selected_node=node):
+        require(reading['url']==origin+path,'Activated static destination changed its route')
+        require(reading['node']==selected_node,'Activated static destination changed the selected node')
+        require(reading['observed_at']==want['observed_at'] and reading['datetime']==want['observed_at'],'Activated static destination changed its visible capture date')
+        require(reading['pins']==want['pins'],'Activated static destination changed its visible repository pins')
+        require(reading['script_count']==0 and "script-src 'none'" in reading['content_security_policy'],'Static reading destination is not script-free')
+    def announced(page):
+        expect(page.locator('#atlas-inspector h3')).to_have_text(node)
+        preserved=page.locator('#atlas-inspector').get_by_role('link',name='Read the preserved mathematical record',exact=True)
+        current=page.locator('#atlas-inspector').get_by_role('link',name='Read the static node record',exact=True)
+        expect(preserved).to_be_visible();expect(current).to_be_visible()
+        expect(preserved.locator('..')).to_contain_text('Opens the preserved mathematical record with its original source revisions and capture date.')
+        expect(current.locator('..')).to_contain_text('The capture date and source revisions on that page may differ from this view.')
+        require(preserved.get_attribute('href')==preserved_path and current.get_attribute('href')==current_path,'Inspector reading routes do not match the advertised archive and selected node')
+        return {'url':page.url,'node':node,**atlas_identity,'preserved_href':preserved.get_attribute('href'),'current_href':current.get_attribute('href'),'preserved_explanation':preserved.locator('..').inner_text(),'current_explanation':current.locator('..').inner_text()}
+    atlas_url=origin+'dependencies.html?'+urlencode({'atlas-node':node,'atlas-view':'list','atlas-panel':'evidence'})
+    for generation,date,main_pin,math_pin in [('older','2000-01-01T00:00:00Z','1'*40,'2'*40),('newer','2099-01-01T00:00:00Z','3'*40,'4'*40)]:
+        wanted={'observed_at':date,'pins':{'d6g8k5htny-coder/main':main_pin,'d6g8k5htny-coder/Math-':math_pin}}
+        def current_generation(source):
+            body=source.replace(data['observed_at'],date)
+            for repository,pin in wanted['pins'].items():body=body.replace(atlas_identity['pins'][repository],pin)
+            return body
+        body=current_generation(current_body)
+        case={'case':'static-reading-material-and-current-mixed-generations','current_static_generation':generation,'passed':False,'page_errors':[],
+              'scope':'Controlled local fixture with actual inspector-link activation; historical tracked fixture is not live project Source; no public cache or AT inference',
+              'advertised_material_archive':archive,'atlas_identity':atlas_identity,'material_identity':material_identity,'current_static_identity':wanted,
+              'fixture_bodies':{'atlas_html':{'bytes':len(html.encode()),'sha256':sha256(html.encode()).hexdigest()},'material_payload':{'bytes':len(material_raw),'sha256':sha256(material_raw).hexdigest()},'material_node':{'bytes':len(preserved_body),'sha256':sha256(preserved_body).hexdigest()},'current_node':{'bytes':len(body.encode()),'sha256':sha256(body.encode()).hexdigest()}},'requests':[]}
+        report['cases'].append(case);context=browser.new_context(viewport={'width':1200,'height':900},reduced_motion='reduce');page=context.new_page();page.set_default_timeout(15000);page.on('pageerror',lambda e:case['page_errors'].append(str(e)))
+        def serve_atlas(route):
+            case['requests'].append(route.request.url);route.fulfill(status=200,content_type='text/html',body=html)
+        def serve_material(route):
+            case['requests'].append(route.request.url);route.fulfill(status=200,content_type='text/html',body=preserved_body)
+        def serve_current(route):
+            case['requests'].append(route.request.url)
+            paths={origin+'nodes/'+quote(key,safe='')+'.html':ROOT/'docs/site/nodes'/(quote(key,safe='')+'.html') for key in data['graph']['data']['nodes']}
+            source=paths.get(route.request.url)
+            if source is None:route.continue_();return
+            response=current_generation(source.read_text())
+            case.setdefault('served_current_nodes',[]).append({'url':route.request.url,'bytes':len(response.encode()),'sha256':sha256(response.encode()).hexdigest()})
+            route.fulfill(status=200,content_type='text/html',body=response)
+        try:
+            require((date< data['observed_at']) if generation=='older' else (date>data['observed_at']),'Mixed-generation fixture is not older/newer than the admitted atlas')
+            require(wanted['pins']!=atlas_identity['pins'],'Mixed-generation static fixture did not change repository pins')
+            page.route(origin+'dependencies.html*',serve_atlas);page.route(origin+preserved_path,serve_material);page.route(origin+'nodes/*.html',serve_current)
+            page.goto(atlas_url);case['before_preserved_activation']=announced(page)
+            preserved=page.locator('#atlas-inspector').get_by_role('link',name='Read the preserved mathematical record',exact=True)
+            preserved.focus();page.keyboard.press('Enter');expect(page.locator('main > h1')).to_have_text(node)
+            case['preserved_destination']=static_reading(page);check_reading(case['preserved_destination'],material_identity,preserved_path)
+            neighbor=edge['to'];neighbor_name=quote(neighbor,safe='')+'.html'
+            page.locator('main a[href="'+neighbor_name+'"]').first.click();expect(page.locator('main > h1')).to_have_text(neighbor)
+            case['preserved_neighbor']=static_reading(page);check_reading(case['preserved_neighbor'],material_identity,'snapshots/'+archive+'/nodes/'+neighbor_name,neighbor)
+            page.goto(atlas_url);case['before_current_activation']=announced(page)
+            page.locator('#atlas-inspector').get_by_role('link',name='Read the static node record',exact=True).click();expect(page.locator('main > h1')).to_have_text(node)
+            case['current_destination']=static_reading(page);check_reading(case['current_destination'],wanted,current_path)
+            # Retain the existing generated relative-neighbor behavior at the
+            # actual activated alias, without replacing the destination by goto.
+            neighbor=edge['to'];page.locator('main a[href="'+quote(neighbor,safe='')+'.html"]').first.click()
+            expect(page.locator('main > h1')).to_have_text(neighbor)
+            case['static_neighbor']=static_reading(page);check_reading(case['static_neighbor'],wanted,'nodes/'+quote(neighbor,safe='')+'.html',neighbor)
+            require(not case['page_errors'],'Mixed-generation reading emitted page errors');case['passed']=True
+        except Exception:case['error']=traceback.format_exc()
+        finally:context.close()
+    for pointer_state in ['missing','ambiguous']:
+        contents=section.group(2)
+        if pointer_state=='missing':
+            for href in hrefs:
+                if re.fullmatch(r'snapshots/[0-9a-f]{64}/nodes/index\.html',href):contents=contents.replace('href="'+href+'"','href="#unavailable-fixture"')
+        else:
+            other='b'*64 if archive!='b'*64 else 'c'*64
+            contents+='<a href="snapshots/'+other+'/nodes/index.html">Controlled second material pointer</a>'
+        unavailable_html=html[:section.start(2)]+contents+html[section.end(2):]
+        case={'case':'static-reading-preserved-unavailable','pointer_state':pointer_state,'passed':False,'page_errors':[],
+              'scope':'Controlled generated-page pointer fixture; no inferred archive replacement','fixture_html_sha256':sha256(unavailable_html.encode()).hexdigest()}
+        report['cases'].append(case);context=browser.new_context(viewport={'width':1200,'height':900},reduced_motion='reduce');page=context.new_page();page.set_default_timeout(15000);page.on('pageerror',lambda e:case['page_errors'].append(str(e)))
+        try:
+            page.route(origin+'dependencies.html*',lambda route:route.fulfill(status=200,content_type='text/html',body=unavailable_html));page.goto(atlas_url)
+            expect(page.locator('#atlas-inspector h3')).to_have_text(node)
+            expect(page.locator('#atlas-inspector').get_by_role('link',name='Read the preserved mathematical record',exact=True)).to_have_count(0)
+            expect(page.locator('#atlas-inspector')).to_contain_text('Preserved mathematical record unavailable from this observation.')
+            current=page.locator('#atlas-inspector').get_by_role('link',name='Read the static node record',exact=True)
+            expect(current).to_be_visible();expect(current.locator('..')).to_contain_text('The capture date and source revisions on that page may differ from this view.')
+            require(current.get_attribute('href')==current_path,'Unavailable archive changed the current static destination')
+            case['before_activation']={'url':page.url,'node':node,'current_href':current.get_attribute('href'),'explanation':current.locator('..').inner_text()}
+            current.focus();page.keyboard.press('Enter');expect(page.locator('main > h1')).to_have_text(node)
+            case['current_destination']=static_reading(page);check_reading(case['current_destination'],atlas_identity,current_path)
+            require(not case['page_errors'],'Unavailable-preserved reading emitted page errors');case['passed']=True
+        except Exception:case['error']=traceback.format_exc()
+        finally:context.close()
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--output',type=Path,required=True);args=parser.parse_args();args.output.mkdir(parents=True,exist_ok=True)
     report={'scientific_effect':'NONE','checked_commit':None,'source_payload_sha256':None,'source_repositories':[],'cases':[],'limitations':['Local rendered Chromium evidence; physical mobile and complete screen-reader certification not established.']}
@@ -315,6 +439,7 @@ def main():
             exercise_atlas_shell(browser,origin,args.output,report,data,expect)
             exercise_hosted_amendments(browser,origin,args.output,report,data,expect)
             exercise_resume_parity(browser,origin,report,data,expect)
+            exercise_static_reading_destinations(browser,origin,report,data,expect)
             for width in [1200,320]:
                 for scheme in ['light','dark']:
                     case={'width':width,'color_scheme':scheme,'passed':False};report['cases'].append(case)

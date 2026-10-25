@@ -531,6 +531,147 @@ class CurrentSiteHistoryTests(unittest.TestCase):
         with patch.object(self.history, "MAX_FILE_BYTES", 2), self.assertRaises(ValueError):
             self.history.HistoryReader(opener=ControlledOpener()).get_bytes("snapshots/index.json")
 
+    def test_history_reader_retries_transient_503_then_200(self):
+        history = self.history
+        self.assertEqual(history.GET_RETRY_ATTEMPTS, 4)
+        self.assertEqual(history.GET_RETRY_BUDGET_SECONDS, 30)
+        self.assertLessEqual(
+            sum(history.GET_RETRY_BACKOFF_SECONDS) + history.GET_RETRY_JITTER_SECONDS * (history.GET_RETRY_ATTEMPTS - 1),
+            history.GET_RETRY_BUDGET_SECONDS)
+        archive = "snapshots/" + ("ab" * 32) + "/archive.zip"
+
+        class Response(io.BytesIO):
+            def __init__(self, raw, url, status=200, headers=None):
+                super().__init__(raw)
+                self.status = status
+                self.headers = {} if headers is None else headers
+                self._url = url
+
+            def geturl(self):
+                return self._url
+
+        class Opener:
+            def __init__(self, script):
+                self.script = list(script)
+                self.opens = []
+
+            def open(self, request, timeout):
+                self.opens.append((request.full_url, timeout))
+                action = self.script.pop(0)
+                if callable(action):
+                    action = action(request)
+                if isinstance(action, BaseException):
+                    raise action
+                status, body = action
+                return Response(body, request.full_url, status)
+
+        def reader(script, **kwargs):
+            opener = Opener(script)
+            sleeps = []
+            client = history.HistoryReader(opener=opener, pause=sleeps.append, jitter=lambda: 0, **kwargs)
+            return client, opener, sleeps
+
+        def http_error(request, code, reason, headers=None):
+            return urllib.error.HTTPError(request.full_url, code, reason, {} if headers is None else headers, None)
+
+        client, opener, sleeps = reader([
+            lambda request: http_error(request, 503, "Service Unavailable"),
+            (200, b"{}"),
+        ])
+        self.assertEqual(client.get_bytes("current.json"), b"{}")
+        self.assertEqual(client.requests, 1)
+        self.assertEqual(len(opener.opens), 2)
+        self.assertEqual(opener.opens[0][1], 20)
+        self.assertEqual(sleeps, [2])
+        self.assertTrue(all(url.startswith(history.ORIGIN) for url, _ in opener.opens))
+
+        client, opener, sleeps = reader([(503, b""), (200, b"{}")])
+        self.assertEqual(client.get_bytes("snapshots/index.json"), b"{}")
+        self.assertEqual(len(opener.opens), 2)
+        self.assertEqual(client.requests, 1)
+
+        client, opener, sleeps = reader([
+            lambda request: http_error(request, 503, "Service Unavailable"),
+            (200, b"{}"),
+        ])
+        client.requests = history.MAX_SNAPSHOTS + 2
+        self.assertEqual(client.get_bytes("current.json"), b"{}")
+        self.assertEqual(client.requests, history.MAX_SNAPSHOTS + 3)
+        self.assertEqual(len(opener.opens), 2)
+        with self.assertRaises(ValueError):
+            client.get_bytes("current.json")
+        self.assertEqual(len(opener.opens), 2)
+
+        client, opener, sleeps = reader([lambda request: http_error(request, 503, "Service Unavailable")] * 4)
+        with self.assertRaises(urllib.error.HTTPError) as caught:
+            client.get_bytes(archive)
+        self.assertEqual(caught.exception.code, 503)
+        self.assertIn(history.ORIGIN + archive, str(caught.exception))
+        self.assertEqual(len(opener.opens), 4)
+        self.assertEqual(sleeps, [2, 4, 8])
+        self.assertEqual(client.requests, 1)
+        self.assertLess(sum(sleeps), 30)
+
+        client, opener, sleeps = reader([
+            lambda request: http_error(request, 404, "Not Found"),
+            (200, b"{}"),
+        ])
+        with self.assertRaises(urllib.error.HTTPError) as caught:
+            client.get_bytes("snapshots/index.json")
+        self.assertEqual(caught.exception.code, 404)
+        self.assertIn(history.ORIGIN + "snapshots/index.json", str(caught.exception))
+        self.assertEqual(len(opener.opens), 1)
+        self.assertEqual(sleeps, [])
+
+        client, opener, sleeps = reader([
+            lambda request: http_error(request, 429, "Too Many Requests", {"Retry-After": "3"}),
+            (200, b"{}"),
+        ])
+        self.assertEqual(client.get_bytes("current-meta.json"), b"{}")
+        self.assertEqual(sleeps, [3])
+        self.assertEqual(len(opener.opens), 2)
+
+        client, opener, sleeps = reader([
+            lambda request: urllib.error.URLError("timed out"),
+            (200, b"{}"),
+        ])
+        self.assertEqual(client.get_bytes("current.json"), b"{}")
+        self.assertEqual(len(opener.opens), 2)
+        self.assertTrue(opener.opens[0][0].startswith(history.ORIGIN))
+
+        class Clock:
+            def __init__(self):
+                self.value = 0.0
+
+            def __call__(self):
+                return self.value
+
+        clock = Clock()
+        recorded = []
+
+        class BudgetOpener:
+            def __init__(self):
+                self.opens = []
+
+            def open(self, request, timeout):
+                self.opens.append((request.full_url, timeout))
+                clock.value += timeout
+                raise urllib.error.URLError("timed out")
+
+        def pause(delay):
+            recorded.append(delay)
+            clock.value += delay
+
+        budget = BudgetOpener()
+        client = history.HistoryReader(opener=budget, pause=pause, clock=clock, jitter=lambda: 0)
+        with self.assertRaises(urllib.error.URLError) as caught:
+            client.get_bytes(archive)
+        self.assertIn(history.ORIGIN + archive, str(caught.exception))
+        self.assertEqual([timeout for _, timeout in budget.opens], [20, 8])
+        self.assertEqual(recorded, [2])
+        self.assertLessEqual(clock.value, 30)
+        self.assertEqual(client.requests, 1)
+
 
 if __name__ == "__main__":
     unittest.main()
