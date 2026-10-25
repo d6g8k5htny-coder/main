@@ -541,9 +541,8 @@ class ProofConductor:
     def _append(self, kind, payload):
         if len(self.journal.events) >= MAX_EVENTS:
             raise ValueError('conductor journal event bound exceeded')
-        if self.journal.path.exists() and self.journal.path.stat().st_size + len(str(payload).encode('utf8')) > MAX_JOURNAL_BYTES:
-            raise ValueError('conductor journal byte bound exceeded')
-        return self.journal.append(kind,payload)
+        # The journal sizes the exact canonical record under its own transaction.
+        return self.journal.append(kind,payload,max_bytes=MAX_JOURNAL_BYTES)
 
     def blueprint(self, target_ids, budget=20):
         with self._transaction():

@@ -176,7 +176,8 @@ class Journal:
             events.append(event);prev=expected
         self.events=events
 
-    def append(self,etype,payload,event_id=None):
+    def append(self,etype,payload,event_id=None,max_bytes=None):
+        """max_bytes bounds the journal after this append, measured on the exact record bytes."""
         if event_id is not None and (not isinstance(event_id,str) or not 1<=len(event_id)<=180):raise ValueError('invalid event ID')
         with self.transaction():
             self._load()
@@ -189,8 +190,11 @@ class Journal:
                'type':etype,'payload':copy.deepcopy(payload),'prev_hash':self.events[-1]['event_hash'] if self.events else ZERO}
             if event_id:d['event_id']=event_id
             d['event_hash']=hashlib.sha256(canonical(d)).hexdigest()
+            record=canonical(d)+b'\n'
+            if max_bytes is not None and (self.path.stat().st_size if self.path.exists() else 0)+len(record)>max_bytes:
+                raise ValueError('conductor journal byte bound exceeded')
             with self.path.open('ab') as f:
-                f.write(canonical(d)+b'\n');f.flush();os.fsync(f.fileno())
+                f.write(record);f.flush();os.fsync(f.fileno())
             self.events.append(d);self._cond.notify_all();return copy.deepcopy(d)
 
     def since(self,seq):
