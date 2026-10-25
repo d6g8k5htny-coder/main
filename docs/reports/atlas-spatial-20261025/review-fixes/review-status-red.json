@@ -1,0 +1,31 @@
+{
+  "environment": {
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.41",
+    "browser_executable": "/usr/bin/chromium",
+    "GPU": "Chromium SwiftShader software WebGL; not physical mobile GPU",
+    "chromium_sandbox": true,
+    "dataset_bytes": 962639,
+    "browser": "154.0.8037.57"
+  },
+  "cases": [
+    {
+      "case": "admitted-to-refused-formal-history"
+    }
+  ],
+  "source_payload_sha256": "560d3d4e77369835c832dbb4fd0d12f4988744045b9cbc4c7978beddb6e9d20f",
+  "source_repositories": [
+    {
+      "commit": "b7deb198722582df191006e4f47238f92e6e543d",
+      "repository": "d6g8k5htny-coder/main",
+      "tree": "3d988a90a6313f68af21e0b04d08702632bf8ecc"
+    },
+    {
+      "commit": "dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde",
+      "repository": "d6g8k5htny-coder/Math-",
+      "tree": "acaf4fd05dc4392900d24fd58e13347009187317"
+    }
+  ],
+  "checked_commit": "7e82f6a59ef5f307ac40ec8d2ddd7a61093debad",
+  "failure": "Locator expected to contain text 'refused'\nActual value: 9 displayed \u00b7 9 nodes in the loaded neighborhood of 49 indexed source nodes \u00b7 0 outside this page Optional 3D uses this same source-bound page. \nCall log:\n  - Expect \"to_contain_text\" with timeout 5000ms\n  - waiting for locator(\"#atlas-space-status\")\n    14 \u00d7 locator resolved to <p role=\"status\" id=\"atlas-space-status\">9 displayed \u00b7 9 nodes in the loaded neighborhood \u2026</p>\n       - unexpected value \"9 displayed \u00b7 9 nodes in the loaded neighborhood of 49 indexed source nodes \u00b7 0 outside this page Optional 3D uses this same source-bound page.\"\n\nAria snapshot:\n- status: 9 displayed \u00b7 9 nodes in the loaded neighborhood of 49 indexed source nodes \u00b7 0 outside this page Optional 3D uses this same source-bound page.",
+  "traceback": "Traceback (most recent call last):\n  File \"/workspace/atlas-spatial/tools/atlas_spatial_browser_check.py\", line 78, in main\n    expect(page.locator('#atlas-error')).to_be_visible();page.locator('#atlas-tab-diagnostics').click();page.locator('#atlas-diagnostics').evaluate('(e)=>e.closest(\"details\").open=true');page.locator('#atlas-diagnostics button').first.click();expect(page.locator('#atlas-formal-evidence')).to_be_visible();page.go_back();page.locator('#atlas-tab-evidence').click();expect(page.locator('#atlas-error')).to_be_visible();require(page.locator('#atlas-formal-evidence').count()==0 or not page.locator('#atlas-formal-evidence').is_visible(),'Refused history retained current formal evidence');expect(page.locator('#atlas-space-status')).to_contain_text('refused');require('displayed' not in page.locator('#atlas-space-status').inner_text(),'Refusal retained admitted result count');row['passed']=True;context.close();continue\n                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/sync_api/_generated.py\", line 22016, in to_contain_text\n    self._sync(\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_sync_base.py\", line 115, in _sync\n    return task.result()\n           ^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_assertions.py\", line 303, in to_contain_text\n    await self._expect_impl(\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_assertions.py\", line 128, in _expect_impl\n    _record_soft_or_raise(\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_assertions.py\", line 60, in _record_soft_or_raise\n    raise error\nAssertionError: Locator expected to contain text 'refused'\nActual value: 9 displayed \u00b7 9 nodes in the loaded neighborhood of 49 indexed source nodes \u00b7 0 outside this page Optional 3D uses this same source-bound page. \nCall log:\n  - Expect \"to_contain_text\" with timeout 5000ms\n  - waiting for locator(\"#atlas-space-status\")\n    14 \u00d7 locator resolved to <p role=\"status\" id=\"atlas-space-status\">9 displayed \u00b7 9 nodes in the loaded neighborhood \u2026</p>\n       - unexpected value \"9 displayed \u00b7 9 nodes in the loaded neighborhood of 49 indexed source nodes \u00b7 0 outside this page Optional 3D uses this same source-bound page.\"\n\nAria snapshot:\n- status: 9 displayed \u00b7 9 nodes in the loaded neighborhood of 49 indexed source nodes \u00b7 0 outside this page Optional 3D uses this same source-bound page.\n"
+}

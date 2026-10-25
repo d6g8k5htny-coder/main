@@ -1,0 +1,113 @@
+name: Current-site native registry controls
+
+'on':
+  pull_request:
+    branches: [main]
+    paths:
+      - tests/test_current_site_native_registry.py
+      - tools/current_site_native_registry.py
+      - .github/workflows/current-site-native-registry-controls.yml
+
+permissions:
+  contents: read
+
+jobs:
+  registry-controls:
+    name: native-registry-${{ matrix.mode }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, optimized]
+    env:
+      IMAGE: python@sha256:83f339c1be6340ae1096010fdccf6552ac932d8f410d45d206014916bdf37e48
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        timeout-minutes: 1
+        with:
+          persist-credentials: false
+          fetch-depth: 1
+
+      - name: Record checked source and prepare pinned runtime
+        timeout-minutes: 3
+        shell: bash
+        env:
+          NATIVE_MODE: ${{ matrix.mode }}
+        run: |
+          set -euo pipefail
+          printf 'repository=%s\nevent=%s\nrun_id=%s\nrun_attempt=%s\nmode=%s\nevent_sha=%s\nworkflow_ref=%s\nworkflow_sha=%s\n' \
+            "$GITHUB_REPOSITORY" "$GITHUB_EVENT_NAME" "$GITHUB_RUN_ID" "$GITHUB_RUN_ATTEMPT" \
+            "$NATIVE_MODE" "$GITHUB_SHA" "$GITHUB_WORKFLOW_REF" "$GITHUB_WORKFLOW_SHA"
+          checked_commit="$(git rev-parse --verify HEAD)"
+          checked_tree="$(git rev-parse --verify 'HEAD^{tree}')"
+          printf 'checked_commit=%s\nchecked_tree=%s\n' "$checked_commit" "$checked_tree"
+          test "$checked_commit" = "$GITHUB_SHA"
+          for path in .github/workflows/current-site-native-registry-controls.yml tests/test_current_site_native_registry.py; do
+            test -f "$path"
+            test ! -L "$path"
+            git ls-files --stage -- "$path"
+            sha256sum -- "$path"
+          done
+          path=tools/current_site_native_registry.py
+          if [ -e "$path" ] || [ -L "$path" ]; then
+            test -f "$path"
+            test ! -L "$path"
+            git ls-files --stage -- "$path"
+            sha256sum -- "$path"
+          else
+            printf 'production_module=ABSENT\n'
+          fi
+          timeout --signal=TERM --kill-after=10s 120s docker pull --platform linux/amd64 "$IMAGE"
+          runtime_identity="$(docker image inspect --format '{{.Id}} {{.Os}} {{.Architecture}}' "$IMAGE")"
+          printf 'image_reference=%s\nimage_identity=%s\n' "$IMAGE" "$runtime_identity"
+          test "$runtime_identity" = 'sha256:44d8f4434bcb025b8cb5c3151be689a906223e47cc3146971feccda936d2e82b linux amd64'
+
+      - name: Run unchanged native registry cases in this mode
+        timeout-minutes: 4
+        shell: bash
+        env:
+          NATIVE_MODE: ${{ matrix.mode }}
+        run: |
+          set -euo pipefail
+          container="native-registry-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-${NATIVE_MODE}"
+          sandbox=(--pull=never --rm --log-driver none --platform linux/amd64
+            --network none --read-only --user 65532:65532 --cpus 2 --memory 1g --pids-limit 128
+            --cap-drop ALL --security-opt no-new-privileges
+            --tmpfs /tmp:rw,noexec,nosuid,size=128m
+            --mount "type=bind,source=$GITHUB_WORKSPACE,target=/source,readonly"
+            --workdir /source)
+          timeout --signal=TERM --kill-after=10s 30s docker run --name "$container" "${sandbox[@]}" "$IMAGE" \
+            python3 -I -B -S -c 'import platform, sys; print("runtime_python=" + sys.version); print("runtime_machine=" + platform.machine()); sys.exit(0 if sys.version_info[:3] == (3, 11, 14) and platform.machine() == "x86_64" else 2)'
+          flags=(-I -B -S)
+          case "$NATIVE_MODE" in
+            normal) ;;
+            optimized) flags+=(-O) ;;
+            *) exit 2 ;;
+          esac
+          printf 'test_command: '
+          printf '%q ' python3 "${flags[@]}" -m unittest discover -s tests -p test_current_site_native_registry.py -v
+          printf '\n'
+          set +e
+          timeout --signal=TERM --kill-after=10s 180s docker run --name "$container" "${sandbox[@]}" "$IMAGE" \
+            python3 "${flags[@]}" -m unittest discover -s tests -p test_current_site_native_registry.py -v 2>&1
+          status=$?
+          set -e
+          printf 'mode=%s\ntest_exit_status=%s\n' "$NATIVE_MODE" "$status"
+          exit "$status"
+
+      - name: Remove any timed-out container
+        if: always()
+        timeout-minutes: 1
+        shell: bash
+        env:
+          NATIVE_MODE: ${{ matrix.mode }}
+        run: |
+          set -euo pipefail
+          container="native-registry-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}-${NATIVE_MODE}"
+          present="$(docker ps -aq --filter "name=^/${container}$")"
+          if [ -n "$present" ]; then
+            timeout --signal=TERM --kill-after=5s 15s docker rm --force "$container"
+          fi
+          remaining="$(docker ps -aq --filter "name=^/${container}$")"
+          test -z "$remaining"
