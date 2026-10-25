@@ -142,7 +142,7 @@ test('atlas offset equation search and exact metadata filters survive URL state'
 // Exercise the real atlas controller, model and shell. This small Node DOM
 // implements only their DOM/event boundary, not browser layout, tabbing or AT.
 async function atlasController(search='',data=fixture()) {
- const renderer=await import('../docs/site/current.mjs'),shell=await import('../docs/site/atlas-shell.mjs');
+ const renderer=await import('../docs/site/current.mjs'),shell=await import('../docs/site/atlas-shell.mjs'),summary=await import('../docs/site/atlas-claim-summary.mjs');
  const source=await readFile(new URL('../docs/site/atlas.mjs',import.meta.url),'utf8');
  class Element extends EventTarget {
   constructor(tag,doc){super();this.tagName=tag.toUpperCase();this.ownerDocument=doc;this.children=[];this.attributes=new Map();this.style={};this.dataset={};this.hidden=false;this._text='';this._value='';}
@@ -152,6 +152,7 @@ async function atlasController(search='',data=fixture()) {
   get parentElement(){return this.parentNode;}
   setAttribute(key,value){this.attributes.set(key,String(value));}
   getAttribute(key){return this.attributes.get(key)??null;}
+  get href(){return this.getAttribute('href')||'';}set href(value){this.setAttribute('href',value);}
   remove(){if(this.parentNode){const siblings=this.parentNode.children;siblings.splice(siblings.indexOf(this),1);this.parentNode=null;}}
   append(...children){for(const child of children){if(typeof child!=='string'){child.remove();child.parentNode=this;}this.children.push(child);}}
   replaceChildren(...children){for(const child of this.children)if(typeof child!=='string')child.parentNode=null;this.children=[];this._text='';this.append(...children);}
@@ -180,7 +181,7 @@ async function atlasController(search='',data=fixture()) {
  const location=new URL('https://example.test/main/site/dependencies.html'+search),entries=[location.href];let cursor=0;
  const history={replaceState(state,title,url){location.href=new URL(url,location.href).href;entries[cursor]=location.href;},pushState(state,title,url){location.href=new URL(url,location.href).href;entries.splice(++cursor);entries.push(location.href);},back(){if(cursor>0){location.href=entries[--cursor];window.dispatchEvent(new Event('popstate'));}},forward(){if(cursor+1<entries.length){location.href=entries[++cursor];window.dispatchEvent(new Event('popstate'));}}};
  const saved=Object.getOwnPropertyDescriptor(globalThis,'document');globalThis.document=doc;
- const bindings={...m,...shell,currentSnapshot:Promise.resolve(data),element:renderer.element,anchor:renderer.anchor,document:doc,window,history,URL,URLSearchParams,matchMedia:()=>media,fetch:async()=>({ok:false})};
+ const bindings={...m,...shell,...summary,currentSnapshot:Promise.resolve(data),element:renderer.element,anchor:renderer.anchor,document:doc,window,history,URL,URLSearchParams,matchMedia:()=>media,fetch:async()=>({ok:false})};
  Object.defineProperty(bindings,'location',{get:()=>location});
  try{
   // Imports use the actual modules above; awaiting the real start lifecycle
@@ -192,6 +193,27 @@ async function atlasController(search='',data=fixture()) {
   return {get:id=>nodes.get(id),graphIDs,listIDs,history,window,get url(){return location.href;},event(id,type){nodes.get(id).dispatchEvent(new Event(type));},async reload(){return atlasController(location.search,data);},close(){if(saved)Object.defineProperty(globalThis,'document',saved);else delete globalThis.document;}};
  }catch(error){if(saved)Object.defineProperty(globalThis,'document',saved);else delete globalThis.document;throw error;}
 }
+
+test('claim summary puts exact scope and pinned source before continuation metadata',async()=>{
+ const data=fixture();data.graph.data.nodes.a.scope='fixed d>=2; literal <hypothesis> & exact 1/3';const f=await atlasController('?atlas-node=a',data);
+ try{const panel=f.get('atlas-inspector'),text=panel.textContent;assert.ok(text.indexOf('Immutable source reference')<text.indexOf('Resume this node'),'primary source must precede operational metadata');assert.ok(text.includes(data.graph.data.nodes.a.scope));assert.equal(panel.querySelectorAll('h3')[0].textContent,'a');assert.equal(panel.querySelectorAll('hypothesis').length,0);assert.match(text,/candidate.*OPEN_ACTIVE/);assert.ok(panel.querySelectorAll('a[href]').some(a=>a.getAttribute('href')===m.sourceURL(data.sources[0])));}
+ finally{f.close();}
+});
+test('controller owns an explicit formal gap even without the spatial rendering platform',async()=>{
+ const f=await atlasController('?atlas-node=a');
+ try{const panel=f.get('atlas-inspector'),formal=panel.querySelectorAll('section').find(n=>n.id==='atlas-formal-evidence');assert.ok(formal,'formal summary must be in the admitted claim projection');assert.match(formal.textContent,/No verified graph-to-formal-artifact mapping/);assert.match(formal.textContent,/No mapped declaration or hypothesis record/);assert.match(formal.textContent,/No mapped trusted kernel-execution receipt/);assert.match(formal.textContent,/No mapped exact-source alignment review/);const details=formal.querySelectorAll('details').find(n=>n.id==='atlas-formal-details');assert.ok(details);assert.equal(details.open,false);}
+ finally{f.close();}
+});
+test('same-claim layout preserves disclosures while changed and refused claims reset their projection',async()=>{
+ const data=fixture(),f=await atlasController('?atlas-node=a',data),details=()=>f.get('atlas-inspector').querySelectorAll('details');
+ try{const review=details().find(n=>n.id==='atlas-review-details'),formal=details().find(n=>n.id==='atlas-formal-details');assert.ok(review);assert.ok(formal);review.open=true;formal.open=true;f.get('atlas-view').value='list';f.event('atlas-view','change');assert.equal(details().find(n=>n.id==='atlas-review-details').open,true);assert.equal(details().find(n=>n.id==='atlas-formal-details').open,true);f.get('atlas-diagnostics').querySelectorAll('button').find(n=>n.textContent.startsWith('b:')).dispatchEvent(new Event('click'));assert.equal(details().find(n=>n.id==='atlas-review-details').open,false);assert.equal(details().find(n=>n.id==='atlas-formal-details').open,false);f.history.pushState(null,'','?snapshot='+'c'.repeat(40));f.window.dispatchEvent(new Event('popstate'));assert.equal(f.get('atlas-inspector').querySelectorAll('section').some(n=>n.id==='atlas-claim-summary'),false);assert.match(f.get('atlas-inspector').textContent,/snapshot/);}
+ finally{f.close();}
+});
+test('missing source and scope stay explicit and recorded notes are not labelled hypotheses',async()=>{
+ const data=fixture();data.graph.data.nodes.b.notes='A note, not an extracted statement.';const f=await atlasController('?atlas-node=b',data);
+ try{const panel=f.get('atlas-inspector');assert.match(panel.textContent,/Recorded note/);assert.match(panel.textContent,/Source reference not recorded/);assert.equal(panel.querySelectorAll('a[href]').some(a=>a.textContent.includes('Immutable source reference')),false);assert.match(panel.textContent,/No mapped declaration or hypothesis record/);}
+ finally{f.close();}
+});
 
 test('atlas Graph and List apply each bookmarked exact metadata filter without changing source evidence',async()=>{
  for(const [query,want]of [['atlas-classification=HOLD',['b']],['atlas-kind=predicate',['c']],['atlas-layer=D0',['b']],['atlas-classification=OPEN_ACTIVE&atlas-kind=candidate&atlas-layer=D1',['a']],['atlas-layer=unrecorded',[]],['atlas-classification=hold',[]]]){

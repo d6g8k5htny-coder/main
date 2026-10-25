@@ -1,0 +1,25 @@
+{"time": 1792968494.3927786, "action": "begin", "directory": "/workspace/scratch/atlas-summary-at/runs/20261025T224814Z-claim-summary-formal-followup48", "arguments": {"label": "claim-summary-formal-followup48", "url": null, "serve": "/workspace/atlas-claim-summary/docs/site", "path": "dependencies.html?atlas-view=list&atlas-node=math.uniform-matrix-cap-lifetime", "browse_steps": 24, "sayall_seconds": 22, "smoke": false, "scenario": "/workspace/scratch/atlas-summary-at/summary-formal-followup-scenario.json"}, "audio": "PulseAudio null sink; no human listening"}
+{"time": 1792968494.9409056, "action": "spawn", "name": "xvfb", "pid": 77575, "command": ["Xvfb", ":97", "-screen", "0", "1440x1000x24", "-nolisten", "tcp"]}
+{"time": 1792968495.0983844, "action": "spawn", "name": "pulse", "pid": 77580, "command": ["pulseaudio", "-n", "--daemonize=no", "--exit-idle-time=-1", "--use-pid-file=no", "--disable-shm=yes", "--dl-search-path=/workspace/scratch/atlas-summary-at/runtime/usr/lib/pulse-17.0+dfsg1/modules", "--load=module-native-protocol-unix socket=/workspace/scratch/atlas-summary-at/runs/20261025T224814Z-claim-summary-formal-followup48/pulse.sock", "--load=module-null-sink sink_name=at_null"]}
+{"time": 1792968495.250307, "action": "spawn", "name": "speech-dispatcher", "pid": 77585, "command": ["speech-dispatcher", "-s", "-t", "0", "-C", "/workspace/scratch/atlas-summary-at/runs/20261025T224814Z-claim-summary-formal-followup48/speech-config", "-S", "/workspace/scratch/atlas-summary-at/runs/20261025T224814Z-claim-summary-formal-followup48/speechd.sock", "-P", "/workspace/scratch/atlas-summary-at/runs/20261025T224814Z-claim-summary-formal-followup48/speechd.pid", "-L", "/workspace/scratch/atlas-summary-at/runs/20261025T224814Z-claim-summary-formal-followup48/speechd", "-m", "/workspace/scratch/atlas-summary-at/runtime/usr/lib/speech-dispatcher-modules"]}
+{"time": 1792968495.551699, "action": "spawn", "name": "atspi-events", "pid": 77595, "command": ["/usr/bin/python3", "/workspace/scratch/atlas-summary-at/atspi-events.py"]}
+{"time": 1792968495.55212, "action": "spawn", "name": "orca", "pid": 77596, "command": ["/usr/bin/python3", "/workspace/scratch/atlas-summary-at/runtime/usr/bin/orca", "--debug-file", "/workspace/scratch/atlas-summary-at/runs/20261025T224814Z-claim-summary-formal-followup48/orca-debug.log", "--user-prefs", "/workspace/scratch/atlas-summary-at/runs/20261025T224814Z-claim-summary-formal-followup48/orca-prefs", "--disable", "braille", "--speech-system", "speechdispatcherfactory"]}
+{"time": 1792968503.3110032, "action": "loaded", "url": "http://127.0.0.1:40295/dependencies.html?atlas-view=list&atlas-node=math.uniform-matrix-cap-lifetime", "title": "Mathematics · Universal Law"}
+{"time": 1792968503.5924556, "action": "scenario-step", "step": {"action": "phase", "name": "formal-full-field-followup"}}
+{"time": 1792968503.5925007, "action": "phase", "name": "formal-full-field-followup"}
+{"time": 1792968503.5925114, "action": "scenario-step", "step": {"action": "click", "selector": "#atlas-list button:has-text(\"math.uniform-matrix-cap-lifetime\")", "delay": 2}}
+{"time": 1792968505.6805942, "action": "scenario-step", "step": {"action": "click", "selector": "#atlas-formal-details > summary", "delay": 2}}
+{"time": 1792968507.7134702, "action": "scenario-step", "step": {"action": "key", "sequence": "KP_Add", "delay": 55}}
+{"time": 1792968507.7135708, "action": "key", "sequence": "KP_Add"}
+{"time": 1792968562.7299612, "action": "scenario-step", "step": {"action": "key", "sequence": "Control_L", "delay": 1}}
+{"time": 1792968562.7300668, "action": "key", "sequence": "Control_L"}
+{"time": 1792968563.7458172, "action": "scenario-step", "step": {"action": "snapshot", "name": "formal-full", "selectors": ["#atlas-formal-evidence"]}}
+{"time": 1792968564.0718684, "action": "phase", "name": "finished"}
+{"time": 1792968564.0720696, "action": "process-health", "status": {"xvfb": null, "pulse": null, "audio-recorder": null, "speech-dispatcher": null, "atspi-events": null, "orca": null}}
+{"time": 1792968564.1710968, "action": "completed"}
+{"time": 1792968565.4797444, "action": "child-exit", "name": "orca", "returncode": 0}
+{"time": 1792968565.4853432, "action": "child-exit", "name": "atspi-events", "returncode": -15}
+{"time": 1792968565.5993106, "action": "child-exit", "name": "speech-dispatcher", "returncode": 0}
+{"time": 1792968565.6005244, "action": "child-exit", "name": "audio-recorder", "returncode": 0}
+{"time": 1792968565.6016796, "action": "child-exit", "name": "pulse", "returncode": 0}
+{"time": 1792968565.6090386, "action": "child-exit", "name": "xvfb", "returncode": 0}
