@@ -1,4 +1,4 @@
-import { validateSnapshot, parseVerifiedSnapshot } from "./current-model.mjs";
+import { validateSnapshot, parseVerifiedSnapshot } from "./current-model.mjs?site-release=a30d68465e3acda48eedce64854afebc7af5c84903a4e6b0c649e08007b08999";
 const HEX = /^[0-9a-f]{64}$/;
 const ORIGIN = "https://d6g8k5htny-coder.github.io/main/site/";
 export const MAX_BYTES = 32 * 1024 * 1024;

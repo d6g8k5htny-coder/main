@@ -2,8 +2,8 @@ import {
   loadPublication,
   loadSelection,
   compareSnapshots,
-} from "./compare-model.mjs";
-import { sourceURL } from "./current-model.mjs";
+} from "./compare-model.mjs?site-release=6c69a2165f77b03d7f2d07cb3189e49a5f44f8ac2309341cd6076abd583594cc";
+import { sourceURL } from "./current-model.mjs?site-release=a30d68465e3acda48eedce64854afebc7af5c84903a4e6b0c649e08007b08999";
 const $ = (id) => document.getElementById(id);
 let publication,
   generation = 0,
