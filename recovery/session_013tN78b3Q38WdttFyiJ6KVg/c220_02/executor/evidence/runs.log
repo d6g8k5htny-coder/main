@@ -1,0 +1,79 @@
+=== S1 15:03:46
+/tmp/claude-0/-home-user-main/d5c985ca-97e5-58d8-a9d4-1e0a19065a22/scratchpad/c220/scripts/run_scenario.sh: line 10:  3212 Aborted                 C220_AUDIO_DIR="$OUT" LANG=C.UTF-8 speech-dispatcher -s -t 0 -l 5 -L "$OUT/sdlog" -C "$C/scripts/speechd-conf" -S "$SOCK" -P "$OUT/speechd.pid" > "$OUT/speechd.out" 2>&1
+scenario=S1 url=http://127.0.0.1:8765/museum.html?view=ec014 three=fail chrome_extra=--use-angle=swiftshader --enable-unsafe-swiftshader
+start 2026-10-25T15:03:47.119788285Z
+dbus=unix:path=/tmp/dbus-gxAAjBJ7De,guid=a19e74b9e4f7f8a6d47a550f6ade1a54 pid=3192
+driver_exit=0
+end 2026-10-25T15:06:24.909225877Z
+[2026-10-25T15:04:02.947Z] step 0 before navigation (neutral start page) :: status=null active=body
+[2026-10-25T15:05:43.775Z] step 1 first load settled :: status="2D fallback: the optional 3D library or WebGL could not load. All pin coordinates and six data labels remain visible." active=body
+[2026-10-25T15:06:23.893Z] step 2 final drain :: status="2D fallback: the optional 3D library or WebGL could not load. All pin coordinates and six data labels remain visible." active=body
+driver done
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user-main/d5c985ca-97e5-58d8-a9d4-1e0a19065a22/scratchpad/c220/scripts/extract.py", line 125, in <module>
+    u['step'] = win(u['t']); u['dom_origin'] = origin(u['text'])
+                ^^^^^^^^^^^
+  File "/tmp/claude-0/-home-user-main/d5c985ca-97e5-58d8-a9d4-1e0a19065a22/scratchpad/c220/scripts/extract.py", line 119, in win
+    if w['start'] is not None and w['start'] <= t < w['end']:
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: '<' not supported between instances of 'float' and 'NoneType'
+=== S2 15:06:26
+/tmp/claude-0/-home-user-main/d5c985ca-97e5-58d8-a9d4-1e0a19065a22/scratchpad/c220/scripts/run_scenario.sh: line 10:  3987 Aborted                 C220_AUDIO_DIR="$OUT" LANG=C.UTF-8 speech-dispatcher -s -t 0 -l 5 -L "$OUT/sdlog" -C "$C/scripts/speechd-conf" -S "$SOCK" -P "$OUT/speechd.pid" > "$OUT/speechd.out" 2>&1
+scenario=S2 url=http://127.0.0.1:8765/museum.html?view=ec014 three=fulfill chrome_extra=--disable-webgl --disable-3d-apis
+start 2026-10-25T15:06:27.672002079Z
+dbus=unix:path=/tmp/dbus-QfOtLmYBkR,guid=5725835882f6892983e638706ade1af4 pid=3965
+driver_exit=0
+end 2026-10-25T15:09:05.349950224Z
+[2026-10-25T15:06:43.295Z] step 0 before navigation (neutral start page) :: status=null active=body
+[2026-10-25T15:08:24.184Z] step 1 first load settled :: status="2D fallback: the optional 3D library or WebGL could not load. All pin coordinates and six data labels remain visible." active=body
+[2026-10-25T15:09:04.331Z] step 2 final drain :: status="2D fallback: the optional 3D library or WebGL could not load. All pin coordinates and six data labels remain visible." active=body
+driver done
+extracted S2
+=== S3 15:09:07
+/tmp/claude-0/-home-user-main/d5c985ca-97e5-58d8-a9d4-1e0a19065a22/scratchpad/c220/scripts/run_scenario.sh: line 10:  4859 Aborted                 C220_AUDIO_DIR="$OUT" LANG=C.UTF-8 speech-dispatcher -s -t 0 -l 5 -L "$OUT/sdlog" -C "$C/scripts/speechd-conf" -S "$SOCK" -P "$OUT/speechd.pid" > "$OUT/speechd.out" 2>&1
+scenario=S3 url=http://127.0.0.1:8765/museum.html?view=ec014 three=fulfill chrome_extra=--use-angle=swiftshader --enable-unsafe-swiftshader
+start 2026-10-25T15:09:08.181690467Z
+dbus=unix:path=/tmp/dbus-tRZZk7ID0b,guid=6210f41c9723a18a2d29a3f06ade1b95 pid=4846
+driver_exit=0
+end 2026-10-25T15:12:50.467459298Z
+[2026-10-25T15:09:23.809Z] step 0 before navigation (neutral start page) :: status=null active=body
+[2026-10-25T15:11:05.022Z] step 1 first load settled :: status="3D coordinate plane: drag with mouse or touch, or focus the canvas and use arrow keys. Orbit is a camera control only." active=body
+[2026-10-25T15:11:17.057Z] step 2 focus "Show 2D diagram" via Runtime.evaluate :: status="3D coordinate plane: drag with mouse or touch, or focus the canvas and use arrow keys. Orbit is a camera control only." active=button "Show 2D diagram"
+[2026-10-25T15:11:37.159Z] step 3 key Enter on "Show 2D diagram" via Input.dispatchKeyEvent :: status="2D coordinate diagram. All pin coordinates and six data labels remain visible." active=button "Show 3D view"
+[2026-10-25T15:11:49.205Z] step 4 focus "Show 3D view" via Runtime.evaluate :: status="2D coordinate diagram. All pin coordinates and six data labels remain visible." active=button "Show 3D view"
+[2026-10-25T15:12:09.317Z] step 5 key Enter on "Show 3D view" via Input.dispatchKeyEvent :: status="3D coordinate plane: drag with mouse or touch, or focus the canvas and use arrow keys. Orbit is a camera control only." active=button "Show 2D diagram"
+[2026-10-25T15:12:49.449Z] step 6 final drain :: status="3D coordinate plane: drag with mouse or touch, or focus the canvas and use arrow keys. Orbit is a camera control only." active=button "Show 2D diagram"
+driver done
+extracted S3
+=== S4 15:12:52
+/tmp/claude-0/-home-user-main/d5c985ca-97e5-58d8-a9d4-1e0a19065a22/scratchpad/c220/scripts/run_scenario.sh: line 10:  5942 Killed                  /usr/bin/python3.12 /usr/bin/orca --replace --debug-file="$OUT/orca-debug.txt" > "$OUT/orca.out" 2>&1
+scenario=S4 url=http://127.0.0.1:8765/museum.html?view=p15 three=fulfill chrome_extra=--use-angle=swiftshader --enable-unsafe-swiftshader
+start 2026-10-25T15:12:53.373166546Z
+dbus=unix:path=/tmp/dbus-Lt3BhnS7bj,guid=55e1ec86fa40df87e52735eb6ade1c76 pid=5920
+driver_exit=0
+end 2026-10-25T15:17:07.158687036Z
+[2026-10-25T15:13:09.022Z] step 0 before navigation (neutral start page) :: status=null active=body
+[2026-10-25T15:14:49.662Z] step 1 first load settled :: status="Selected 3 of 3: the full triple is not two-decomposable." active=body
+[2026-10-25T15:15:01.702Z] step 2 focus "Toggle x1" via Runtime.evaluate :: status="Selected 3 of 3: the full triple is not two-decomposable." active=button "Toggle x1"
+[2026-10-25T15:15:21.817Z] step 3 key Enter on "Toggle x1" via Input.dispatchKeyEvent :: status="Selected 2 of 3: this proper subset is two-decomposable." active=button "Toggle x1"
+[2026-10-25T15:15:33.853Z] step 4 focus "Toggle x1" via Runtime.evaluate :: status="Selected 2 of 3: this proper subset is two-decomposable." active=button "Toggle x1"
+[2026-10-25T15:15:53.940Z] step 5 key Enter on "Toggle x1" via Input.dispatchKeyEvent :: status="Selected 3 of 3: the full triple is not two-decomposable." active=button "Toggle x1"
+[2026-10-25T15:16:05.977Z] step 6 focus "Swap palette colors" via Runtime.evaluate :: status="Selected 3 of 3: the full triple is not two-decomposable." active=button "Swap palette colors"
+[2026-10-25T15:16:26.072Z] step 7 key Enter on "Swap palette colors" via Input.dispatchKeyEvent :: status="Selected 3 of 3: the full triple is not two-decomposable." active=button "Swap palette colors"
+[2026-10-25T15:17:06.140Z] step 8 final drain :: status="Selected 3 of 3: the full triple is not two-decomposable." active=button "Swap palette colors"
+driver done
+extracted S4
+=== S5 15:17:09
+/tmp/claude-0/-home-user-main/d5c985ca-97e5-58d8-a9d4-1e0a19065a22/scratchpad/c220/scripts/run_scenario.sh: line 10:  6794 Aborted                 C220_AUDIO_DIR="$OUT" LANG=C.UTF-8 speech-dispatcher -s -t 0 -l 5 -L "$OUT/sdlog" -C "$C/scripts/speechd-conf" -S "$SOCK" -P "$OUT/speechd.pid" > "$OUT/speechd.out" 2>&1
+scenario=S5 url=http://127.0.0.1:8765/museum.html?view=ec014 three=fulfill chrome_extra=--use-angle=swiftshader --enable-unsafe-swiftshader
+start 2026-10-25T15:17:10.150819534Z
+dbus=unix:path=/tmp/dbus-PK9Gl0LD8E,guid=f5cfb2bb95dbae482d7e82396ade1d77 pid=6775
+driver_exit=0
+end 2026-10-25T15:20:08.274478988Z
+[2026-10-25T15:17:25.796Z] step 0 before navigation (neutral start page) :: status=null active=body
+[2026-10-25T15:19:07.037Z] step 1 first load settled :: status="3D coordinate plane: drag with mouse or touch, or focus the canvas and use arrow keys. Orbit is a camera control only." active=body
+[2026-10-25T15:19:27.120Z] step 2 WEBGL_lose_context.loseContext() via Runtime.evaluate :: status="2D fallback: the graphics context became unavailable. The source-defined geometry remains visible." active=body
+[2026-10-25T15:20:07.254Z] step 3 final drain :: status="2D fallback: the graphics context became unavailable. The source-defined geometry remains visible." active=body
+driver done
+extracted S5
+ALL DONE 15:20:10
