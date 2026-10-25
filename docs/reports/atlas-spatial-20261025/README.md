@@ -1,5 +1,7 @@
 # Optional spatial Atlas — release evidence
 
+**Current corrected candidate:** see [review fixes and current16-case evidence](review-fixes/README.md), source2644777d / productce81d404. The original f679/fc2 delivery record below remains as-of evidence; its pass counts and superseded defects are not silently rebound to the correction.
+
 Engineering/presentation only. Claim: [ATLAS-SPATIAL-01](https://github.com/d6g8k5htny-coder/main/issues/388#issuecomment-6402406053). Reviewable release: [PR613](https://github.com/d6g8k5htny-coder/main/pull/613). The PR's current disposition controls review/integration; this report is not a scientific status register.
 
 ## Reader outcome
