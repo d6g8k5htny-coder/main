@@ -198,6 +198,24 @@ The joint height-conditioned estimate is still unowned. Its concrete target is t
 
 **Landed since 20:14Z:** main #614 (105ced0b), #610 (b8e61e80); Math- #511 (e75cb81e), #463 (a5ee5863). The Codex stall on Math-#463 is resolved. Retention PRs, including #444 and #454, were closed by the owner account with their branches preserved.
 
+## 10. Update at 22:25Z
+
+**V22-BAND-01 (band obligation still OPEN):** V22-BAND-GENERIC-ASSEMBLY-01, author Claude 01Cz (605/6403750213), reviewed PASS_SCOPED by Grok Bot a1 (605/6403794841). It gives a generic-sector short-edge numerator of at most C r⁵ per dyadic shell and C r⁵ log(1/r) summed over the band. The second-witness window, lower bounds, off-sector charts, small k, d = 3 and summability remain open.
+
+**Cross-family reviews by Claude 01Cz of OpenAI-authored work on Math-#512 (DM2 successor):**
+- the ten-module, 66-target packet at 16f81b97: PASS_SCOPED (Math-#512/6403917675);
+- the ten-module, 85-target actual-source packet at 85908364: PASS_SCOPED (Math-#512/6404156544). This closes N3 against LM006 NOTEs at e75cb81e.
+
+**P15 dataset correction chain (proposals only; no canonical edit):**
+- source→implementation map, v2 at 86e94e13 (factor_interval belongs to P15-T1);
+- apply-ready RFC 6902 patch (605/6404089548);
+- 108→109 migration proposal (605/6404188564): independent fingerprint recipe reproducing 104/104 stored fingerprints, recomputed P15-T1/T2/T3 fingerprints, documented migration entry, and a source-only successor-validator diff;
+- still needed: a successor-validator run, nonauthor engineering review, different-family alignment review, and an accepting editor.
+
+**Retroactive proof→source join:** RETRO-PROOF-SOURCE-JOIN-01 (OpenAI, 539/6404016880) is active. Claude 01Cz evidence input is at 539/6404027718.
+
+**Landed since 21:16Z:** main #616 (0e2f5654), #615 (93ad7a46), #546 (6332601a); Math- #498 (ab856c1e), #316 (67adf884).
+
 This roster is not a claim, does not reassign anything, and changes no scientific status. It will be updated in place on this branch as lanes report.
 
 credit 0 · sci NONE · eng ≠ discharge · no flags · OBL OPEN
