@@ -443,6 +443,168 @@ class PublicationTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "request bound"):
             client.request("GET", self.module.REF_READ)
 
+    def test_get_retries_transient_503_then_200_and_writes_do_not_retry(self):
+        module = self.module
+        self.assertEqual(module.GET_RETRY_ATTEMPTS, 4)
+        self.assertEqual(module.GET_RETRY_BUDGET_SECONDS, 30)
+        self.assertLessEqual(
+            sum(module.GET_RETRY_BACKOFF_SECONDS) + module.GET_RETRY_JITTER_SECONDS * (module.GET_RETRY_ATTEMPTS - 1),
+            module.GET_RETRY_BUDGET_SECONDS)
+
+        class Response(io.BytesIO):
+            def __init__(self, raw, url, status=200, headers=None):
+                super().__init__(raw)
+                self.status = status
+                self.headers = {} if headers is None else headers
+                self._url = url
+
+            def geturl(self):
+                return self._url
+
+        class Opener:
+            def __init__(self, script):
+                self.script = list(script)
+                self.opens = []
+
+            def open(self, request, timeout):
+                self.opens.append((request.get_method(), request.full_url, timeout))
+                action = self.script.pop(0)
+                if callable(action):
+                    action = action(request)
+                if isinstance(action, BaseException):
+                    raise action
+                status, body = action
+                return Response(body, request.full_url, status)
+
+        def client(script, **kwargs):
+            opener = Opener(script)
+            sleeps = []
+            api = module.GitHubAPI(opener=opener, pause=sleeps.append, jitter=lambda: 0, **kwargs)
+            return api, opener, sleeps
+
+        def http_error(request, code, reason, headers=None):
+            return urllib.error.HTTPError(request.full_url, code, reason, {} if headers is None else headers, None)
+
+        api, opener, sleeps = client([
+            lambda request: http_error(request, 503, "Service Unavailable"),
+            (200, b"{}"),
+        ])
+        self.assertEqual(api.request("GET", module.REF_READ), {})
+        self.assertEqual(api.requests, 1)
+        self.assertEqual([item[0] for item in opener.opens], ["GET", "GET"])
+        self.assertEqual(opener.opens[0][2], 20)
+        self.assertEqual(sleeps, [2])
+        self.assertTrue(all(url.startswith(module.API_ORIGIN) for _, url, _ in opener.opens))
+
+        api, opener, sleeps = client([(503, b""), (200, b"{}")])
+        self.assertEqual(api.request("GET", module.REF_READ), {})
+        self.assertEqual(len(opener.opens), 2)
+        self.assertEqual(api.requests, 1)
+
+        api, opener, sleeps = client([
+            lambda request: http_error(request, 503, "Service Unavailable"),
+            (200, b"{}"),
+        ])
+        api.requests = 63
+        self.assertEqual(api.request("GET", module.REF_READ), {})
+        self.assertEqual(api.requests, 64)
+        self.assertEqual(len(opener.opens), 2)
+        with self.assertRaisesRegex(ValueError, "request bound"):
+            api.request("GET", module.REF_READ)
+
+        api, opener, sleeps = client([lambda request: http_error(request, 503, "Service Unavailable")] * 4)
+        with self.assertRaises(urllib.error.HTTPError) as caught:
+            api.request("GET", module.REF_READ)
+        self.assertEqual(caught.exception.code, 503)
+        self.assertIn(module.API_ORIGIN + module.REF_READ, str(caught.exception))
+        self.assertEqual(len(opener.opens), 4)
+        self.assertEqual(sleeps, [2, 4, 8])
+        self.assertEqual(api.requests, 1)
+        self.assertLess(sum(sleeps), 30)
+
+        api, opener, sleeps = client([
+            lambda request: http_error(request, 404, "Not Found"),
+            (200, b"{}"),
+        ])
+        with self.assertRaises(urllib.error.HTTPError) as caught:
+            api.request("GET", module.REF_READ)
+        self.assertEqual(caught.exception.code, 404)
+        self.assertIn(module.API_ORIGIN + module.REF_READ, str(caught.exception))
+        self.assertEqual(len(opener.opens), 1)
+        self.assertEqual(sleeps, [])
+
+        api, opener, sleeps = client([
+            lambda request: http_error(request, 429, "Too Many Requests", {"Retry-After": "3"}),
+            (200, b"{}"),
+        ])
+        self.assertEqual(api.request("GET", module.REF_READ), {})
+        self.assertEqual(sleeps, [3])
+        self.assertEqual(len(opener.opens), 2)
+
+        api, opener, sleeps = client([
+            lambda request: http_error(request, 429, "Too Many Requests", {"Retry-After": "120"}),
+        ])
+        with self.assertRaises(urllib.error.HTTPError) as caught:
+            api.request("GET", module.REF_READ)
+        self.assertEqual(caught.exception.code, 429)
+        self.assertIn(module.API_ORIGIN + module.REF_READ, str(caught.exception))
+        self.assertEqual(len(opener.opens), 1)
+        self.assertEqual(sleeps, [])
+
+        api, opener, sleeps = client([
+            lambda request: urllib.error.URLError("timed out"),
+            (200, b"{}"),
+        ])
+        self.assertEqual(api.request("GET", module.REF_READ), {})
+        self.assertEqual(len(opener.opens), 2)
+        self.assertIn(module.API_ORIGIN + module.REF_READ, str(opener.opens[0][1]))
+        self.assertEqual(sleeps, [2])
+
+        api, opener, sleeps = client([
+            lambda request: http_error(request, 503, "Service Unavailable"),
+            (200, b"{}"),
+        ])
+        with self.assertRaises(urllib.error.HTTPError) as caught:
+            api.request("PATCH", module.REF_WRITE, {"sha": "a" * 40, "force": False})
+        self.assertEqual(len(opener.opens), 1)
+        self.assertEqual(opener.opens[0][0], "PATCH")
+        self.assertIn(module.API_ORIGIN + module.REF_WRITE, str(caught.exception))
+        self.assertEqual(sleeps, [])
+        self.assertEqual(api.requests, 1)
+
+        class Clock:
+            def __init__(self):
+                self.value = 0.0
+
+            def __call__(self):
+                return self.value
+
+        clock = Clock()
+        recorded = []
+
+        class BudgetOpener:
+            def __init__(self):
+                self.opens = []
+
+            def open(self, request, timeout):
+                self.opens.append(timeout)
+                clock.value += timeout
+                raise urllib.error.URLError("timed out")
+
+        def pause(delay):
+            recorded.append(delay)
+            clock.value += delay
+
+        budget = BudgetOpener()
+        api = module.GitHubAPI(opener=budget, pause=pause, clock=clock, jitter=lambda: 0)
+        with self.assertRaises(urllib.error.URLError) as caught:
+            api.request("GET", module.REF_READ)
+        self.assertIn(module.API_ORIGIN + module.REF_READ, str(caught.exception))
+        self.assertEqual(budget.opens, [20, 8])
+        self.assertEqual(recorded, [2])
+        self.assertLessEqual(clock.value, 30)
+        self.assertEqual(api.requests, 1)
+
     def test_qualified_metadata_package_binds_real_artifact_and_browser_evidence(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)

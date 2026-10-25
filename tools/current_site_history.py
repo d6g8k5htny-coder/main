@@ -16,8 +16,11 @@ import json
 import os
 from pathlib import Path, PurePosixPath
 import re
+import email.utils
+import random
 import stat
 import tempfile
+import time
 import urllib.error
 import urllib.request
 from urllib.parse import urlsplit
@@ -31,6 +34,11 @@ from site_asset_release import transform, without_release
 
 ORIGIN = "https://d6g8k5htny-coder.github.io/main/site/"
 MAX_SNAPSHOTS = 512
+TRANSIENT_HTTP = frozenset({429, 500, 502, 503, 504})
+GET_RETRY_ATTEMPTS = 4
+GET_RETRY_BUDGET_SECONDS = 30
+GET_RETRY_BACKOFF_SECONDS = (2, 4, 8)
+GET_RETRY_JITTER_SECONDS = 0.25
 MAX_HISTORY_BYTES = 768 * 1024 * 1024
 MAX_FILE_BYTES = 16 * 1024 * 1024
 MAX_MEMBERS = 20006
@@ -509,11 +517,78 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
         raise ValueError("public history redirect refused")
 
 
+def _default_jitter():
+    return random.uniform(0.0, GET_RETRY_JITTER_SECONDS)
+
+
+def _note_http_error(error, url):
+    marker = "[" + url + "]"
+    message = str(error.msg or "")
+    if marker not in message:
+        error.msg = (message + " " + marker).strip()
+    error.filename = url
+    return error
+
+
+def _note_url_error(error, url):
+    marker = "[" + url + "]"
+    reason = getattr(error, "reason", error)
+    text = str(reason)
+    if marker not in text:
+        text = text + " " + marker
+    noted = urllib.error.URLError(text)
+    noted.filename = url
+    return noted
+
+
+def _retry_after_seconds(headers, now):
+    if headers is None or not hasattr(headers, "get"):
+        return None
+    raw = headers.get("Retry-After")
+    if raw is None:
+        return None
+    text = str(raw).strip()
+    if re.fullmatch(r"[0-9]+", text):
+        return int(text)
+    if re.fullmatch(r"[0-9]+\.[0-9]+", text):
+        return float(text)
+    try:
+        parsed = email.utils.parsedate_to_datetime(text)
+    except (TypeError, ValueError, OverflowError, OSError):
+        return None
+    if parsed is None:
+        return None
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=timezone.utc)
+    delay = (parsed - now).total_seconds()
+    return 0 if delay < 0 else delay
+
+
+def _retry_delay(failed_attempt, retry_after, elapsed, jitter):
+    remaining = GET_RETRY_BUDGET_SECONDS - elapsed
+    if remaining <= 0:
+        return None
+    if retry_after is not None:
+        if retry_after >= remaining:
+            return None
+        return retry_after
+    if failed_attempt >= len(GET_RETRY_BACKOFF_SECONDS):
+        return None
+    delay = GET_RETRY_BACKOFF_SECONDS[failed_attempt] + jitter
+    if delay >= remaining:
+        return None
+    return delay
+
+
 class HistoryReader:
-    def __init__(self, opener=None):
+    def __init__(self, opener=None, *, pause=time.sleep, clock=time.monotonic, jitter=None, now=None):
         self.opener = opener or urllib.request.build_opener(NoRedirect())
         self.requests = 0
         self.total_bytes = 0
+        self.pause = pause
+        self.clock = clock
+        self.jitter = _default_jitter if jitter is None else jitter
+        self.now = (lambda: datetime.now(timezone.utc)) if now is None else now
 
     def get_bytes(self, path):
         if path not in ("snapshots/index.json", "current-meta.json", "current.json") and not re.fullmatch(
@@ -521,26 +596,74 @@ class HistoryReader:
             raise ValueError("nonpublic history request path refused")
         if self.requests >= MAX_SNAPSHOTS + 3:
             raise ValueError("history request capacity exceeded")
+        # One logical Pages GET. Retries do not consume MAX_SNAPSHOTS + 3, so a
+        # full restore can still absorb a transient 503. This is HistoryReader,
+        # not publication.PublicReader; public_readback retries that other path.
         self.requests += 1
         url = ORIGIN + path
         request = urllib.request.Request(url, headers={"User-Agent": "current-site-public-history",
                                                       "Cache-Control": "no-cache", "Pragma": "no-cache",
                                                       "Accept-Encoding": "identity"})
-        with self.opener.open(request, timeout=20) as response:
-            if response.geturl() != url or response.status != 200:
-                raise ValueError("public history response identity mismatch")
-            encoding = response.headers.get("Content-Encoding", "identity")
-            if encoding not in ("", "identity"):
-                raise ValueError("encoded public history response refused")
-            length = response.headers.get("Content-Length")
-            if length is not None and (not length.isascii() or not length.isdecimal() or int(length) > MAX_FILE_BYTES):
-                raise ValueError("history response byte bound exceeded")
-            raw = response.read(MAX_FILE_BYTES + 1)
+        raw, length = self._read_exchange(request)
         self.total_bytes += len(raw)
         if (len(raw) > MAX_FILE_BYTES or (length is not None and len(raw) != int(length))
                 or self.total_bytes > MAX_HISTORY_BYTES + 3 * MAX_FILE_BYTES):
-            raise ValueError("history response byte bound exceeded")
+            raise ValueError(f"history response byte bound exceeded [{url}]")
         return raw
+
+    def _read_exchange(self, outbound):
+        url = outbound.full_url
+        started = self.clock()
+        last_error = None
+        for attempt in range(GET_RETRY_ATTEMPTS):
+            elapsed = self.clock() - started
+            if attempt and elapsed >= GET_RETRY_BUDGET_SECONDS:
+                break
+            timeout = 20 if attempt == 0 else min(20, GET_RETRY_BUDGET_SECONDS - elapsed)
+            retry_after = None
+            try:
+                with self.opener.open(outbound, timeout=timeout) as response:
+                    if response.geturl() != url:
+                        raise ValueError(f"public history response identity mismatch [{url}]")
+                    status = response.status
+                    headers = response.headers
+                    if status in TRANSIENT_HTTP:
+                        last_error = urllib.error.HTTPError(
+                            url, status, f"transient HTTP {status} [{url}]", headers, None)
+                        retry_after = _retry_after_seconds(headers, self.now())
+                    elif status != 200:
+                        raise ValueError(f"public history response identity mismatch [{url}]")
+                    else:
+                        encoding = headers.get("Content-Encoding", "identity")
+                        if encoding not in ("", "identity"):
+                            raise ValueError(f"encoded public history response refused [{url}]")
+                        length = headers.get("Content-Length")
+                        if length is not None and (not length.isascii() or not length.isdecimal() or int(length) > MAX_FILE_BYTES):
+                            raise ValueError(f"history response byte bound exceeded [{url}]")
+                        return response.read(MAX_FILE_BYTES + 1), length
+            except urllib.error.HTTPError as error:
+                _note_http_error(error, url)
+                if error.code not in TRANSIENT_HTTP or attempt + 1 == GET_RETRY_ATTEMPTS:
+                    raise
+                last_error = error
+                retry_after = _retry_after_seconds(getattr(error, "headers", None), self.now())
+            except (urllib.error.URLError, TimeoutError) as error:
+                last_error = _note_url_error(error, url)
+                if attempt + 1 == GET_RETRY_ATTEMPTS:
+                    raise last_error from error
+                retry_after = None
+            if last_error is None:
+                raise ValueError(f"public history transient failure [{url}]")
+            if attempt + 1 == GET_RETRY_ATTEMPTS:
+                raise last_error
+            jitter = 0 if retry_after is not None else self.jitter()
+            delay = _retry_delay(attempt, retry_after, self.clock() - started, jitter)
+            if delay is None:
+                raise last_error
+            self.pause(delay)
+        if last_error is not None:
+            raise last_error
+        raise ValueError(f"public history transient retry budget exceeded [{url}]")
 
 
 class StaticHTML(HTMLParser):
@@ -993,7 +1116,7 @@ def remote_metadata(reader, *, missing_allowed=False):
     except urllib.error.HTTPError as error:
         if error.code == 404 and missing_allowed:
             return None
-        raise ValueError("published history metadata unavailable") from error
+        raise ValueError("published history metadata unavailable: " + str(error)) from error
     meta = parse_json(raw)
     if not isinstance(meta, dict):
         raise ValueError("malformed published history metadata")
@@ -1073,7 +1196,7 @@ def restore_history(site, reader=None, expected_manifest_sha=None):
         raw_manifest = reader.get_bytes("snapshots/index.json")
     except urllib.error.HTTPError as error:
         if error.code != 404:
-            raise ValueError("published history manifest unavailable") from error
+            raise ValueError("published history manifest unavailable: " + str(error)) from error
         if expected_manifest_sha is not None:
             raise ValueError("published manifest pin is unavailable; bootstrap refused") from error
         remote = remote_metadata(reader, missing_allowed=True)
