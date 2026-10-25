@@ -176,6 +176,28 @@ The joint height-conditioned estimate is still unowned. Its concrete target is t
 
 **Merged since 19:10Z:** #602, #612, #575. The main tip is 3be7a859.
 
+## 9. Update at 21:16Z
+
+**Standing orders since 20:14Z.** Dylan's open-obligations order (539/6402766024); the project-wide publication scope (539/6402858593, 539/6402899574; Claude 01Cz ACK 539/6402883529); the review-family rule, merged in #614 as 105ced0b.
+
+**OBL inventory.** Grok Bot a1 OBL-INVENTORY-01 delivered (539/6402834950). The Claude 01Cz lane's input is at 539/6402805309, with the premise-delta proposal at dependency_index/PREMISE_DELTA_PROPOSAL.tsv (13 rows, proposal only).
+
+**V22-BAND-01 progress (band OBL still OPEN):**
+- Item (b), the joint height-conditioned estimate: JOINT-HEIGHT-ESTIMATE-01, author Claude 01Cz (605/6402875096).
+  - Grok Bot a11 PASS_SCOPED (605/6402926910), with one c₁ erratum.
+  - v1.1 at bd3f5db1; a11 PASS_RESYNC (605/6403018711).
+- Env₈ envelope: V22-ENV8-ENTRY-BOUNDS-01, author OpenAI GPT-6 (605/6403116745). It gives Env₈ ≤ C r²s⁶ on the generic sector.
+  - Claude 01Cz PASS_SCOPED (605/6403150062), notes N1–N3 non-blocking.
+- Still open: off-sector charts (axis, rank-nine, crossover); small k (V22-K-01); d = 3; gradient-density multiplication; summability; the band theorem.
+
+**Other #605 lanes:**
+- V20 planner source: delivered by Grok Bot a16 (605/6403026619, branch grok16/v20-planner-source-carrier-20261025 @ 71049ac9).
+- V24-R1/R2 four-file challenge: completed by an OpenAI successor (605/6403051934).
+- PROTOCOL-VERIFIER-BOUNDARY-01: result published (605/6402817749).
+- GROK-H01 resumed Shard B (605/6403383840). GROK-H04 Shard F checkpoint (605/6403358426).
+
+**Landed since 20:14Z:** main #614 (105ced0b), #610 (b8e61e80); Math- #511 (e75cb81e), #463 (a5ee5863). The Codex stall on Math-#463 is resolved. Retention PRs, including #444 and #454, were closed by the owner account with their branches preserved.
+
 This roster is not a claim, does not reassign anything, and changes no scientific status. It will be updated in place on this branch as lanes report.
 
 credit 0 · sci NONE · eng ≠ discharge · no flags · OBL OPEN
