@@ -6,14 +6,14 @@ Context dump from the Drive Root Steward (Cursor-hosted Grok Bot agent), so noth
 
 ## Role and standing limits
 - Keeps Drive root holding only the 9 hub folders; strays go to 90/ROOT_INTAKE_YYYY-MM-DD or an obvious lane. Never delete; never promote/invent SoT; OBL stays OPEN.
-- Hubs: 00 1MXXGBinWI5SSF48o9mp8Tr3PrpQNuc06 · 01 1cOnYpeU3Fdt06jJ8Np9wmNmJ8F4KWzzm (link-shared) · 02 13guGw-6_jgWwczOlvgvR83fBlJiGHz6X · 03 1q8aCmqiM0YaqcEi-QpKrridXyQR5CXnB · 04 1mwgprwS1Q3sWCT8hdoA2Ib3TmMu_A7HH (link-shared) · 05 1PTiK2AUZSAn969ZATfUJuF7LC3wKGu7A · 06 1NehvnoZCiqRWXSVGRdfHFOccB7HXaF8q (link-shared) · 07 1j5vfg98shKLuNVEIUam9KD5TlfdW3kOH (owner-only) · 90 1VvBQrv1M0E51socyGY-fjzlypEkc9IPz (owner-only).
+- Hubs: 00 WITHHELD (OP-PRIVACY) · 01 WITHHELD (OP-PRIVACY) (link-shared) · 02 WITHHELD (OP-PRIVACY) · 03 WITHHELD (OP-PRIVACY) · 04 WITHHELD (OP-PRIVACY) (link-shared) · 05 WITHHELD (OP-PRIVACY) · 06 WITHHELD (OP-PRIVACY) (link-shared) · 07 WITHHELD (OP-PRIVACY) (owner-only) · 90 WITHHELD (OP-PRIVACY) (owner-only).
 - Dylan 2026-10-21 17:04 CT (via CoS): link sharing on 01/04/06/vault stays; move freeze lifted.
 
 ## Recent Drive ops (organizational only)
-- 2026-10-21: C261A zip 1jyCGjTYyZNjV50o1nvoTBTdyQIiFzaaW and C283 envelope 16LWrntbrhBVdn39cTM2z7H6odVs_ISqv filed into C15 bundle folder 1x4g3a3MpbMAjD7WnsdlZ64nDIl8Fa1-R (90/03_UNVERIFIED_AND_TRANSPORT; ~345 files). Folder name "verified" is a misnomer — not a verification claim.
-- 2026-10-21: graph-viz docs 1gdBie_ivKWTOYhah-G01jyAERb5qDpgTLxDkzbUmcqA, 1Pde6B_n0kKPRTFdpayo-aMd07JimRgyDxBUEC4lJsyw → hub 07.
-- 2026-10-22/23: agent 6 W9 scratch mirror folder 1fW9leeJ0MefpwL9slZ3qhW7DgIIz_yIQ moved root → 90 (owner-only checked; folder sharing unchanged).
-- Intake folders ROOT_INTAKE_2026-10-15 (1UqDBPyY0fcTIQyQAWokucLpnJmHscyGG) and 2026-10-21 (11U8SQZgrBCJk-IgWAArsWHkUOHn8MbKX) are empty.
+- 2026-10-21: C261A zip WITHHELD (OP-PRIVACY) and C283 envelope WITHHELD (OP-PRIVACY) filed into C15 bundle folder WITHHELD (OP-PRIVACY) (90/03_UNVERIFIED_AND_TRANSPORT; ~345 files). Folder name "verified" is a misnomer — not a verification claim.
+- 2026-10-21: graph-viz docs WITHHELD (OP-PRIVACY), WITHHELD (OP-PRIVACY) → hub 07.
+- 2026-10-22/23: agent 6 W9 scratch mirror folder WITHHELD (OP-PRIVACY) moved root → 90 (owner-only checked; folder sharing unchanged).
+- Intake folders ROOT_INTAKE_2026-10-15 (WITHHELD (OP-PRIVACY)) and 2026-10-21 (WITHHELD (OP-PRIVACY)) are empty.
 - Hourly routine "Drive root sweep" (20 8-20 * * * America/Chicago); outage Oct 18–21.
 
 ## R13 findings relevant to math artifacts (2026-10-15)
