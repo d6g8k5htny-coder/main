@@ -1,0 +1,23 @@
+PASS pin gradient zero at -1/2
+PASS pin gradient zero at 1/2
+PASS pin value difference is -k (a minus c gives +k)
+PASS six pin constraints have rank 6 (so 4 free cubic coefficients)
+PASS first witness equation matches note
+PASS second witness equation matches note
+PASS 4x4 determinant equals +-t n (n-t)(s n-h t)/4 up to the q-elimination factor
+   det(q,A,B,C) = n**2*t**2*(-n + t)*(-h*t + n*s)/4    note: -n*t*(-n + t)*(-h*t + n*s)/4
+   e=0 consistency minors: (3*d**2*k*t**4*(d - 1)*(d + 1)/4, 0)
+PASS e=0: consistency forces d(d^2-1)=0 (given t,d nonzero)
+   ell=0 consistency minors: (3*k*t**4*(lam - 1)**2*(lam + 1)**2/64, -3*k*lam*t**5*(lam - 1)**2*(lam + 1)/8)
+PASS ell=0: consistency forces lam=-1 (given lam not 0,1; t nonzero)
+PASS limits (8) of the nine rows
+PASS E cubic part = nu*zeta*J21
+PASS E first-order term = Q_g = M4(h,nu)-lam^2 M4(p,tau)
+PASS q13 = tau^3 lam^2 (lam-1)/6
+PASS Q_0 at centre = J31/12 - J13/3
+PASS beta_g = tau^3 (lam-1)/4
+PASS A1 target = -3 k r^2/2
+PASS M target = k(3/2-6 s^2)
+PASS E target = k F_g
+PASS dF_g/dlam = -3 lam - 12 p zeta
+PASS pin transformation |det| = 12 r^-5
