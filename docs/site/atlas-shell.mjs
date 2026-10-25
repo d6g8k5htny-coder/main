@@ -1,3 +1,4 @@
+import {installSpatialAtlas} from './atlas-spatial-shell.mjs?site-release=1282bb31c48fc1c9febd11866f0882251e7951b0997e2592b29ed72bf547af1d';
 // Presentation only: this module never fetches, admits or classifies source data.
 export function viewForViewport(search,parsedView,narrow){
   const requested=new URLSearchParams(search).get('atlas-view');
@@ -32,6 +33,7 @@ export function createAtlasShell({root,inspector,diagnostics,media,location,hist
   layout.insertBefore(reader,inspector);panels[0].append(inspector);panels[1].append(diagnostics);reader.append(navigation,tabs,...panels);
   browse.setAttribute('data-atlas-browse','');
   const open=make('button','atlas-open-reader','Read selected node');open.type='button';browse.append(open);
+  const spatial=installSpatialAtlas({root,onChange});
   let mode='browse';
   function apply(){
     root.setAttribute('data-atlas-panel',mode);
@@ -44,9 +46,10 @@ export function createAtlasShell({root,inspector,diagnostics,media,location,hist
   function selectNode(){mode='evidence';apply();}
   function restore(url,{focus=false}={}){
     const value=new URL(url,location.href).searchParams.get('atlas-panel');mode=names.includes(value)?value:'browse';apply();
+    spatial.restore(url);
     if(focus){if(media.matches&&mode==='browse')focusBrowse();else focusReading();}
   }
-  function decorateURL(url){if(mode==='browse')url.searchParams.delete('atlas-panel');else url.searchParams.set('atlas-panel',mode);return url;}
+  function decorateURL(url){spatial.decorateURL(url);if(mode==='browse')url.searchParams.delete('atlas-panel');else url.searchParams.set('atlas-panel',mode);return url;}
   function updateLinks(url){const target=new URL(url,location.href);target.searchParams.delete('atlas-panel');browseLink.href=target.href;}
   open.addEventListener('click',()=>{activate('evidence');focusReading();});
   browseLink.addEventListener('auxclick',()=>updateLinks(location.href));

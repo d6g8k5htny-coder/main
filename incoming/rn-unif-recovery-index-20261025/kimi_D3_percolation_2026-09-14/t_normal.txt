@@ -1,0 +1,76 @@
+D0 library certification (cov_exact/pin_transform sha256 verified pre-import vs H2 MANIFEST, fail-closed)
+  dps = 100
+  K1(0)=1 to 1e-90; spectral vs image K1'' agree < 1e-55 (incl. wrap edge 11.9)
+  certified spectral tails n=0,8: 3.86e-205, 2.99e-193 (< 1e-60)
+  1 - a2 = 9.65254179896e-123 (exact Poisson identity; finite torus, never planar)
+D1 unconditioned anchors -- closed forms at the exact law, cross-checked vs C1's frozen F5 anchors (independent code path)
+  Poisson: 1-a2 = 9.65254e-123, a4-3 = 5.50195e-120; closed-form torus correction <= 2.8e-120 (certified; negligible)
+  m_sad(b)=0.9866633224763 m_max(b)=1.413625600767 m_min(b)=0.01303772170906  (C1 anchors agree to 12 digits)
+  rho_sad0(b)=0.03049349156858  rho_max0(b)=0.04368904707022 (C1 anchors agree)
+  E[det^2 | f=b]: Wick engine 11.9536 vs closed v^4+2v^2+7 = 11.9536 (agree; = C1's 11.9536)
+  E[det^2 1{sad} | f=b]: GH engine 3.946561721 vs closed 4sqrt2 e^{-v^2/4} = 3.946653289905 (rel diff 2.3e-05 < 3e-4: the GH evidence engine is anchor-certified)
+  v=0 checks: P(det>0) = 1/sqrt2 = 0.7071067812; E|det|(0) = 2sqrt2-1 = 1.82842712475 (C1's parenthetical 'E|det|(0)=sqrt2' reads m_sad(0)=sqrt2; our anchors match C1 at the working point v=b to 12 digits)
+  window count J(ell) = int_{b-ell}^b rho_sad0(v) dv (erf closed form):
+   r        ell            J(ell)          I_uncond=(576-5r^2)J    I/r^3
+   0.1      0.000166667   5.083010973e-6  0.00292756017         2.9275602
+   0.05     2.08333e-5    6.352929859e-7  0.0003659208187       2.9273665
+   0.025    2.60417e-6    7.941032041e-8  4.57400964e-5         2.9273662
+   0.0125   3.25521e-7    9.926269695e-9  5.717523589e-6        2.9273721
+  => the remote raw window-saddle count is EXACTLY Theta(r^3) with coefficient 2.9274 (= 576*rho_sad0(b)/6 (1+o(1))); no percolation input is needed for the O(r^3) grade
+Z_r(r=0.05) = 8.06118054e-03 +- 7.91e-06 (fixed-seed antithetic MC, N=2e6; C1 F6 value 8.059372673e-3 -- agree)
+D2 remote probes (r = 0.05): exact-kernel factors; g-RN ratio by fixed-seed antithetic QMC (evidence, SE displayed)
+  DER-027a consistency display: their variance-channel floor is Var(f|pins) >= 0.9795957 for d >= 3 for the LOWER campaign's 7-pin family; ours is the 6-pin upper law -- displayed, not imposed
+  d     th   Var(f|pins)    s_t      (mu_t-b)/ell  pgrad/pgrad0  wm/wm0    tau_cross  kap_cross/(Zr msad)  g/(Zr msad) +- se   Zr_yv/Zr
+  1.5     0  0.1903856029  0.154667  +12297.2397   1.362345  3.368632  1.081e+00  25.1705(cert)   1.3771 +-0.0029  0.9998+-0.0010
+  1.5    90  0.6574525665  0.667764  -22219.3205   1.198642  2.419466  1.034e+00  5.3175(cert)   0.0978 +-0.0004  0.2118+-0.0002
+  2       0  0.5663100819  0.544748  +10584.6928   0.759190  3.474604  8.950e-01  24.3214(cert)   1.3624 +-0.0033  1.0002+-0.0010
+  2      90  0.9084218199  0.938212  -46806.4521   1.121607  1.275898  8.665e-01  12.8887(cert)   0.3070 +-0.0013  0.4586+-0.0005
+  3       0  0.9787472613  0.988182  -48368.9210   0.971743  1.236092  7.204e-01  24.6051(cert)   1.2417 +-0.0036  1.0001+-0.0010
+  3      90  0.9987659022  0.999377  -56953.6729   1.004345  1.015938  1.741e-01  12.5683(cert)   0.8033 +-0.0029  0.8947+-0.0009
+  5       0  0.9999999590  1.000000  -57589.6323   1.000000  1.000259  3.527e-04  0.6256(cert)   1.0046 +-0.0033  1.0000+-0.0010
+  5      90  0.9999999996  1.000000  -57599.7853   1.000000  1.000005  2.021e-06  0.0474(cert)   1.0027 +-0.0033  0.9999+-0.0010
+  reversion: Var(f|pins) at d=5 = 1 - 4.1e-8 (axis) / 1 - 4e-10 (transv.); the RN ratio g/(Z_r m_sad) sits in [0.098, 1.38] over all probes and reverts to 1.00 +- 0.01 at d=5 (QMC, evidence)
+  at d>=3 the variance floor 0.9795957 (DER-027a, 7-pin lower family) reads against our 6-pin axis value 0.9787473 (d=3): same reversion scale, different pin family -- consistency display only
+D3 r-ladder at fixed remote stations: rho_env/r^3 and kappa_cross r-stability (the remote term is Theta(r^3), the RN deviation at fixed d is r-independent)
+  station (d,th)     r=0.05 rho_env/r^3   r=0.025 rho_env/r^3   exponent   rel-kap(0.05)   rel-kap(0.025)
+  (   1,  0)        0.0052120827        0.0051361775         +0.021   28.28218      28.30213
+  (   1, 90)        0.0066363748        0.0065796431         +0.012   0.93562       0.92547
+  (   2,  0)        0.21800018          0.2176939            +0.002   24.36186      24.31735
+  (   2, 90)        0.089402591         0.089142757          +0.004   12.91012      12.85660
+  (   3, 90)        0.23225154          0.23169791           +0.003   12.58918      12.54387
+  (   5,  0)        0.26792289          0.26729941           +0.003   0.62660       0.62395
+  => per-area remote envelope rho_env = Theta(r^3) at fixed d (exponents within +-0.03 of 0); the RELATIVE RN cross-deviation kappa_cross/(Z_r m_sad) is r-independent at fixed d (the absolute bound scales like r^2, as does the main term Z_r m_sad) -- so the remote term is Theta(r^3) with an r-independent RN correction
+D4 remote-zone envelope (r = 0.05): rho(y) = pgrad*I/Z_r per unit area on the net d in {0.1,0.15,0.2,0.3,0.4,0.5,0.75,1,1.5,2,3,4,5}, th in {0,45,90,135,180}; spine = polarity-safe cap form; zone integral by polar trapezoid (evidence assembly of exact-kernel stations). The net starts at d = 0.1 = 2r: the disk d < 2r lies inside the chart lane's region rD cup B(pair, 2r) [CONSUMES C1]
+  rho_cap/r^3 table (rows th, cols d) [crude Wick envelope with the polarity-safe window cap: theorem-grade spine]:
+   th\d  0.1        0.15       0.2        0.3        0.4        0.5        0.75       1.0        1.5        2.0        3.0        4.0        5.0      
+      0  9.5225e-10188  2.4207e-4279  1.0607e-1579  1.9877e-339  3.8771e-109  1.8419e-44  1.4487e-8  0.005322   0.1793     0.2178     0.21015    0.2565     0.26758  
+     45  0.0098993  0.00050219  0.0001585  0.00045914  0.0012489  0.0027564  0.011661   0.03087    0.095043   0.15384    0.22472    0.26233    0.26784  
+     90  0.0099076  0.0014858  0.00048144  0.00020769  0.00025485  0.00048736  0.0021839  0.0066257  0.031506   0.089275   0.23195    0.26629    0.26801  
+    135  0.011899   0.00024159  0.00018319  0.00056824  0.001589   0.0036584  0.015712   0.038038   0.09237    0.14197    0.23671    0.26731    0.26807  
+    180  0.0        0.0        0.0        0.0        0.0        3.5772e-45  4.809e-9   0.0023226  0.1028     0.15749    0.23838    0.26983    0.26822  
+  rho_env/r^3 (GL window quadrature) [display]:
+   th\d  0.1        0.15       0.2        0.3        0.4        0.5        0.75       1.0        1.5        2.0        3.0        4.0        5.0      
+      0  1.4408e-10286  3.0422e-4286  1.1625e-1580  9.684e-340  2.7379e-109  1.5257e-44  1.3682e-8  0.0052034  0.1786     0.21764    0.21011    0.2564     0.26748  
+     45  0.00020196  6.1155e-5  9.7148e-5  0.00038579  0.0011331  0.0026129  0.01148    0.030692   0.094956   0.15383    0.22465    0.26223    0.26774  
+     90  0.0015468  0.00024698  0.00013796  0.00013805  0.00023671  0.00048196  0.0021838  0.0066254  0.031502   0.089254   0.23187    0.26619    0.26791  
+    135  0.00017601  3.3317e-5  8.578e-5   0.00044939  0.0014445  0.0034895  0.015513   0.037855   0.092265   0.1419     0.23662    0.2672     0.26797  
+    180  1.0713e-10291  6.5732e-4289  1.5856e-1582  6.1742e-341  3.5361e-110  2.9627e-45  4.541e-9   0.00227    0.10232    0.1573     0.23828    0.26972    0.26812  
+  rho_env2/r^3 table [typed-y envelope, GH anchor-certified evidence]:
+   th\d  0.1        0.15       0.2        0.3        0.4        0.5        0.75       1.0        1.5        2.0        3.0        4.0        5.0      
+      0  9.8682e-10284  1.4957e-4285  3.4057e-1580  1.6929e-339  3.5083e-109  1.5691e-44  9.7819e-9  0.0029158  0.060484   0.045118   0.023644   0.018339   0.017801 
+     45  0.053107   0.0089395  0.0067389  0.0084219  0.010776   0.013111   0.018467   0.022769   0.026454   0.024859   0.019883   0.017991   0.017791 
+     90  0.19334    0.021468   0.006432   0.0018905  0.0013301  0.0013878  0.0019909  0.0028747  0.0056581  0.0099175  0.016735   0.017743   0.017784 
+    135  0.054498   0.0047361  0.0030212  0.0034481  0.0044912  0.0056724  0.0087124  0.011393   0.014615   0.01584    0.017202   0.017731   0.017782 
+    180  1.9165e-10289  8.2208e-4289  1.1828e-1582  2.7596e-341  1.1675e-110  7.9504e-46  8.9781e-10  0.00039235  0.01537    0.017773   0.016584   0.017611   0.017778 
+  window GL refinement at (0.3,0.3): 12 vs 24 nodes, rel gap 3.4e-17 < 2% (quadrature certificate; spine values use the cap form anyway)
+  annulus integral (0.1<=d<=5): crude spine (cap form) E[N_w] <= 0.0021272796 = 17.0182 r^3; typed-y envelope: 1.40758 r^3 (evidence assemblies of exact-kernel / anchor-certified stations)
+D5 theorem assembly display (r = 0.05; evidence where labeled)
+  far zone {d >= 5}: area = 576-25pi = 497.46018
+    raw unconditioned window count = area*J(ell) = 0.00031603297 = 2.5282637 r^3 (EXACT)
+    certified cross-coupling: relative kap_cross(d=5) <= 0.63 (axis) / 0.048 (transverse) -- absolute bound 5.0e-3 vs main term Z_r m_sad = 7.95e-3; QMC RN ratio = 1.00 +- 0.01 (evidence)
+  remote annulus {0.1 <= d <= 5} = chart^c cap {d >= 2r}: crude spine integral = 17.0182 r^3 (theorem grade: exact-kernel stations, cap form); typed-y envelope = 1.40758 r^3 (anchor-certified evidence)
+  near zone rD cup B(pair, 2r): [CONSUMES C1 chart lane; its exact-g machinery owns the strong-conditioning regime]; the A.rem hole term I_hole <= I_chart (C1 envelope C*_env = 1.284)
+  ASSEMBLY (spine): P_r(A.rem) <= I_hole + I_ann + I_far <= (1.284 + 17.0182 + 2.52826) r^3 = 20.8305 r^3 (r = 0.05 display)
+  ASSEMBLY (typed-y evidence envelope): <= 5.21984 r^3. The QMC RN ratios (0.10-1.38 over the probe net, all within +-0.05 of the tabulated values) put the TRUE qualified-remote count near the far-zone plateau scale 2.5-3.5 r^3; the envelopes overcount by the dropped typing/AO factors (evidence-labeled)
+  historical consistency (labeled, never proof): C020 C* = 0.973 (local alpha); C021 corridor ceiling 2.6e-8 (beta corridor); C1/C012 anchor rel diffs 6.4e-4/9.6e-3; B2d discrete ensemble A.rem fraction 3107/8801 = 0.353 of A-failures (PL model, unconditioned-enriched: structural display only)
+D3-PERC PASS digest=0f67bfcf06625a1d62c2e895f9fea917b0acbc72a4517eb3d6d8077ae21ff494

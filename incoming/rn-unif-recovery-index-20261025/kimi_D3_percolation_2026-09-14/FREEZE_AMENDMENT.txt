@@ -1,0 +1,47 @@
+D3-PERC-AMEND-20260914-v1.0 freeze record (Stage E repair R3)
+=============================================================
+
+Agent D3, U2D-UPPER. Amendment to the frozen D3_PERCOLATION.md (body
+8e7fef6b..., UNTOUCHED): the certified kappa_far and the assembly-facing
+remote bracket.
+
+Extraction rule: lines strictly between the unique exact lines BEGIN_FROZEN_BODY and
+END_FROZEN_BODY of D3_REMOTE_AMENDMENT.md; normalize line endings to LF; exactly one
+terminal LF.
+
+frozen body bytes : 7243
+frozen body SHA-256: 63d91cdd6364725597504067a8ffa2378da0e89fe0e87afc81828dd78b8fec24
+whole-file SHA-256: fbe7583fde05e9ed212504e3d07e4a8e75e092c1d6a920ef09fdb4d65c8f24f9
+
+companions:
+sha256(d3_amend.py)     = 12175217869a9bd7b3f623fdb34a6c0c699419722bfe534e3b5226352504b5b6
+sha256(ta_normal.txt)   = fae8579f8c35f5a8c8033271e11fc1d1684da49d861b049e5c48a6e0c8553a29
+sha256(ta_opt.txt)      = fae8579f8c35f5a8c8033271e11fc1d1684da49d861b049e5c48a6e0c8553a29
+(amendment engine, normal and python3 -O byte-identical; D3-AMEND PASS, exit 0)
+amendment engine digest = 87b0c0f629d2e988bed5d582a4e26924af745b918c41f5dace94615b5bd026e3
+sha256(d3_falsifier.py) = d876df2c0ecafe3d9650634061e6b6e24e1eb6741b790388bb398d6c40b496ab
+sha256(tf_normal.txt)   = 65a202cec150daaa2d45f69a2a5f215a3c18c52e035372c464bd221496485a00
+sha256(tf_opt.txt)      = 65a202cec150daaa2d45f69a2a5f215a3c18c52e035372c464bd221496485a00
+(falsifier, normal and python3 -O byte-identical; D3-FALSIFIER PASS, exit 0)
+falsifier digest = 330c0431bde3eae27d450308278a99edb8321d63d76fe05162fd1601aa3e00b8
+
+consumed (read-only, hash-pinned at consume time, fail-closed):
+sha256(d3_perc.py)      = 5bc092412943e1c2185a8cf86cee23ae9cd9a2aad9bd9ef0b02807e9ff58dfa4
+  (the frozen D3 engine, imported as a module by d3_amend.py; unchanged)
+sha256(H2_foundations/cov_exact.py) = f08c1c5f653f2ffd2e85d39e1112f80d15db04d15f932e5ee42db2ca3553e783
+sha256(H2_foundations/pin_transform.py) = c6988ac7fcfa32dcc03c1374e13fb4c26af1c12c25cb824a315e6dce8991fd41
+
+HEADLINE (assembly-consumable, sec. 2 of the body):
+  B_remote = I_ann + I_far <= 17.0183 + 2.52826*(1+kappa_far), kappa_far <= 0.66
+           = 21.2153 r^3  (certified; upper bounds rounded UP)
+  P_r(A.rem) <= I_hole + B_remote <= 1.284 + 21.2153 = 22.4993 r^3.
+  kappa_far decomposition (exact-kernel, axis-worst station (5,0), r=0.05):
+  kappa_cross 0.62556315 (tau-form) + kappa_pair 0.0024234 (chi2 closed form)
+  + kappa_y 0.02437 (W2/Bures) + R_pg 0.99999994, R_wm 1.0002592
+  -> assembled 0.65284336 -> round-UP 0.66. NO QMC factor inside the
+  certified constant (QMC demoted to consistency display). Consumption:
+  G.7-scope two-sided normalizer inside the relative forms.
+  D3-LEMMA-RN-UNIF(r=0.05): NOT closed; missing pieces precisely stated
+  (rigidity-decoupling lemma for tau-uniformity; annulus interval-box
+  Riemann sum); the named gate in the falsifier rejects the kappa=0 sum
+  19.5465 as the bracket (window [20.54646, 22.5]).
