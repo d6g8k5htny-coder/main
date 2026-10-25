@@ -34,7 +34,7 @@
 .atlas-page .atlas-list button small { font-size: .8125rem; font-weight: 400; color: var(--ul-muted); }
 .atlas-page .atlas-minimap { margin: .5rem 0; background: var(--ul-raised); border-color: var(--ul-edge); }
 .atlas-page #current-atlas:has(#atlas-stage[hidden]) .atlas-graph-tools { display: none; }
-.atlas-page .atlas-reader { padding: .5rem; border: 0; max-height: 52rem; overflow: auto; overscroll-behavior: contain; scrollbar-gutter: stable; }
+.atlas-page .atlas-reader { padding: .5rem; border: 0; max-height: none; overflow: visible; }
 .atlas-page .atlas-inspector { background: var(--ul-surface); border-color: var(--ul-border); border-radius: var(--ul-radius-m); padding: 1.1rem; font-size: .9375rem; }
 .atlas-page .atlas-inspector h3 { font-size: 1.2rem; }
 .atlas-page .atlas-inspector section { padding: 1rem; }
@@ -85,7 +85,7 @@
 }
 @media (max-width: 360px) {
   .atlas-page main { padding-inline: 16px; }
-  .atlas-page .atlas-archive { padding-inline: .4rem; }
+  .atlas-page .atlas-archive { padding-inline: 0; border-inline: 0; }
   .atlas-page .atlas-searchbar { grid-template-columns: minmax(0, 1fr); }
   .atlas-page .atlas-view-field { display: flex; align-items: center; gap: .65rem; }
   .atlas-page .atlas-view-field label { margin: 0; }
