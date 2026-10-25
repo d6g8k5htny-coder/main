@@ -82,6 +82,8 @@ def run(origin, browser, out, report, local):
             p.reload()
             expect(p.locator('.current-search')).to_be_visible()
             expect(p.locator('.current-search')).to_have_value('PROOF.md')
+            p.locator('#library-current-link').focus(); p.keyboard.press('Enter')
+            expect(p.locator('.current-search')).to_be_focused()
             expect(p.locator('#desk-count')).to_have_text('2 saved items')
             p.locator('#reading-list > summary').click()
             with p.expect_download() as pending: p.locator('#desk-export').click()

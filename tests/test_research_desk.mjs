@@ -6,6 +6,17 @@ let store={};
 try { store=await import('../docs/site/research-desk-store.mjs'); }
 catch(error) { if(error.code!=='ERR_MODULE_NOT_FOUND')throw error; }
 const {validateEntry,entryKey,parseReadingList,mergeEntries,sourceHref,searchHref,readingListJSON}=store;
+const desk=await import('../docs/site/research-desk.mjs');
+
+test('source-button identity matches legal filename URI spellings without conflating path segments',()=>{
+  const url='https://github.com/d6g8k5htny-coder/main/blob/'+'a'.repeat(40)+'/docs/proof(1)!\'*.md';
+  const escaped=url.replace('(', '%28').replace(')', '%29').replace('!', '%21').replace("'", '%27').replace('*','%2A');
+  assert.equal(typeof desk.sourceLinkKey,'function');
+  assert.equal(desk.sourceLinkKey(url),desk.sourceLinkKey(escaped));
+  assert.notEqual(desk.sourceLinkKey(url+'/a%2Fb'),desk.sourceLinkKey(url+'/a/b'));
+  assert.equal(desk.sourceLinkKey('javascript:alert(1)'),null);
+  assert.equal(desk.sourceLinkKey(url+'?redirect=elsewhere'),null);
+});
 const schema='universal-law-reading-list/v1';
 const commit='0123456789abcdef0123456789abcdef01234567';
 const savedAt='2026-10-25T20:30:00Z';

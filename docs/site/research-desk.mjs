@@ -2,6 +2,15 @@
 import {currentSnapshot} from './current.mjs?site-release=fc7e8a98c1e23f476962c4c83e95ed3ce817490007987112d9b2cf6d3d90b142';
 import {SCHEMA,MAX_FILE_BYTES,validateEntry,entryKey,parseReadingList,mergeEntries,sourceHref,searchHref,readingListJSON} from './research-desk-store.mjs?site-release=76e64d22dace4a94cbaf09d50a840000db2998a140f76b4f80183fbfcbaeddeb';
 
+export function sourceLinkKey(href) {
+  try{
+    const url=new URL(href);
+    if(url.origin!=='https://github.com'||url.search||url.hash||url.username||url.password)return null;
+    // Preserve segment boundaries: an encoded slash is not a path separator.
+    return JSON.stringify([url.origin,...url.pathname.split('/').map(decodeURIComponent)]);
+  }catch{return null;}
+}
+
 export function startResearchDesk(doc=document,win=window,snapshot=currentSnapshot) {
   const root=doc.getElementById('research-desk');if(!root)return null;
   const byId=id=>doc.getElementById(id),make=(tag,text,cls)=>{
@@ -85,7 +94,7 @@ export function startResearchDesk(doc=document,win=window,snapshot=currentSnapsh
   }
   function attachCurrent() {
     if(!currentData||!sourceResults)return;
-    for(const row of sourceResults.children){const a=row.querySelector(':scope > a'),source=a&&currentSources.get(a.href);if(source)addSourceButton(row,source);}
+    for(const row of sourceResults.children){const a=row.querySelector(':scope > a'),source=a&&currentSources.get(sourceLinkKey(a.href));if(source)addSourceButton(row,source);}
     render();
   }
   function attachCatalog() {
@@ -96,7 +105,7 @@ export function startResearchDesk(doc=document,win=window,snapshot=currentSnapsh
         const url=new URL(a.href);if(url.origin!=='https://github.com'||url.search||url.hash||url.username||url.password)continue;
         const parts=url.pathname.split('/');if(parts[1]!=='d6g8k5htny-coder'||parts[3]!=='blob')continue;
         const entry=validateEntry({kind:'source',collection:'catalog',repository:parts[1]+'/'+parts[2],commit:parts[4],path:parts.slice(5).map(decodeURIComponent).join('/'),sha256:cells[2].textContent.trim(),savedAt:now()});
-        if(sourceHref(entry)!==url.href)continue;
+        if(sourceLinkKey(sourceHref(entry))!==sourceLinkKey(url.href))continue;
         addSourceButton(cells[0],entry);
       }catch{} // Unrecognized rows never become saved identities.
     }
@@ -112,7 +121,15 @@ export function startResearchDesk(doc=document,win=window,snapshot=currentSnapsh
   }
   const shouldReveal=()=>win.location.hash==='#library-current'||new URL(win.location.href).searchParams.has('source-q');
   if(shouldReveal())revealCurrent(false);
-  byId('library-current-link').addEventListener('click',()=>revealCurrent(true));
+  byId('library-current-link').addEventListener('click',()=>{
+    revealCurrent(false);
+    // Native fragment navigation runs after the click listener, including a
+    // repeated same-hash visit. Finish focus after that default action, only
+    // while the reader has not moved to another control in the meantime.
+    win.requestAnimationFrame(()=>{
+      if(win.location.hash==='#library-current'&&[byId('library-current'),byId('library-current-link')].includes(doc.activeElement))revealCurrent(true);
+    });
+  });
   win.addEventListener('hashchange',()=>{if(win.location.hash==='#library-current')revealCurrent(true);});
   win.addEventListener('popstate',()=>{if(shouldReveal())revealCurrent(false);});
   const readyObserver=new MutationObserver(()=>{
@@ -148,7 +165,7 @@ export function startResearchDesk(doc=document,win=window,snapshot=currentSnapsh
     if(!data)return;
     currentData=data;
     for(const source of data.sources){
-      try{const entry=validateEntry({kind:'source',collection:'current',repository:source.repository,commit:source.commit,path:source.path,blob:source.blob,bytes:source.bytes,observedAt:data.observed_at,savedAt:now()});currentSources.set(sourceHref(entry),entry);}catch{}
+      try{const entry=validateEntry({kind:'source',collection:'current',repository:source.repository,commit:source.commit,path:source.path,blob:source.blob,bytes:source.bytes,observedAt:data.observed_at,savedAt:now()});currentSources.set(sourceLinkKey(sourceHref(entry)),entry);}catch{}
     }
     currentButton.disabled=false;attachCurrent();
   }).catch(()=>{});
