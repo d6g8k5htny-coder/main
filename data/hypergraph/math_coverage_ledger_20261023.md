@@ -1,12 +1,12 @@
 # Math coverage ledger: retroactive artifact binding, 2026-10-23
 Lane: RETRO-MATH-BIND-02, run by CoS (Cursor-hosted Grok Bot). Inputs: main#527 rows (Math-@9f3fb691, main), #538 (closed, 802fdb0b), the R22 tip 67818d30 and R21 tip 93a19170 companions, the GB-8 slices, and the DRV-H1 Drive map (#550 @e8d37ce9, 1895 Drive files: 417 MAPPED_EXISTING, 1450 PROPOSED_NEW_NODE, 28 UNMAPPED).
 Math stays fail-closed: credit 0 · OBL OPEN · no flags. This is an inventory only. It makes no correctness claim.
-**Dropbox: project-wide crawl NOT ESTABLISHED.** Connector availability is actor-specific, as reconciled in [539/6376180210](https://github.com/d6g8k5htny-coder/main/issues/539#issuecomment-6376180210). This ledger validates no Dropbox-only source bytes; those artifacts remain outside this membership supplement.
+**Dropbox scope of this ledger: no Dropbox-only byte validation is established.** Connector availability is actor-specific, as reconciled in [539/6376180210](https://github.com/d6g8k5htny-coder/main/issues/539#issuecomment-6376180210). Separately coordinated storage crosswalks retain their own coverage and privacy qualifications; this membership supplement ingests no Dropbox-only source bytes.
 
 ## Totals
 - Header corrected 2026-10-23 (CoS): the table has 133 literal `MISSING` source cells, so sourced = 211 (was misstated as 215 / 129).
 - Units: **344**. That is 313 from #527, 17 unmerged from #538, 13 R22 companions and 1 R21 companion.
-- Have a proof or lemma source file in the repo: **214**. No source file: **130**.
+- Have a proof or lemma source file in the repo: **215**. No source file: **129**.
 - Have an implementation (code or refs): **296**. Missing an implementation: **48**.
 - Tied to a graph node: **22**. Bound (node, impl and commit): **14**. The graph has 49 nodes with 21 bound per #527, so 28 nodes are unbound.
 - Name-matched to a Drive mirror: 4. Name matching is weak. DRV-H1 maps Drive by folder lane, not by unit.
@@ -23,9 +23,9 @@ that supplement's container counts were 213 / 131. The denominator remains
 **344 ledger rows**, not 344 accepted theorems or 56 new units. Within that
 supplement, implementation, node, bound and status cells were unchanged.
 
-This is not a complete Main corpus. Zeta, research-translation, other roots,
+This is not a complete Main corpus. Research-translation, other roots,
 histories and private storage keep their existing scope; the later bounded
-formal correction is described below. In
+formal and zeta corrections are described below. In
 particular `EXACT_SAMPLE_SHRINKING_BIN.md` points to its separately identified
 canonical proof in GitHub comment 229/5976299711; indexing the note does not
 import or verify that complete comment body. Scientific acceptance and original
@@ -47,10 +47,66 @@ remains `PENDING_INDEPENDENT_REVIEW`.
 This is declared source-to-module provenance for one existing container, not
 a new theorem or fresh mathematical review. Row 313 is an import-only root
 and keeps its MISSING source cell. The other 343 raw rows, and all node, bound,
-status and Drive-hit cells, are unchanged. Current counts are 214 sourced /
+status and Drive-hit cells, are unchanged within that correction. Its counts were 214 sourced /
 130 missing, 1293 vertices and 344 hyperedges; implementation-container counts
 remain 296 / 48. Only row 312's source and implementation membership changes.
 All scientific predicates and original review qualifications are preserved.
+
+## Zeta source/consumer membership correction, 25 October 2026
+
+At Main `6c6c6b0ff649d5ac0413344c00b6cdbe95344f82`, existing row 311 gains
+README and CLAIMS source membership plus the README-linked `test_exact.py`
+consumer. The two existing collision programs remain. README contains the
+Proposition 1 proof; CLAIMS is its claim-by-claim audit. The exact test supplies
+bounded formal-series/algebraic controls, while the collision programs supply
+numerical checks. Their declared relationships do not establish full theorem
+verification, a limiting exponent, RH progress or acceptance of every package
+claim. The existing MANIFEST's five carrier identities were checked without
+executing the programs or regenerating the package.
+
+This reuses the already-landed [GB-8n proposal, Main548](https://github.com/d6g8k5htny-coder/main/pull/548),
+its historical pins and ENGINEERING_CONTROL/unbound meaning. The correction is
+not evidence that earlier source work was absent, and it creates no proposed
+node as an actual GRAPH/v2 node. Pending packet/replay/workflow proposals retain
+their owners and scope; only frozen committed Main is consumed here.
+
+That correction produced 215 sourced / 129 missing, 1296 vertices and 344 hyperedges;
+implementation-container counts remain 296 / 48. All 343 other raw rows,
+original vertices and memberships, and every node/bound/status/Drive-hit cell
+remain unchanged. Only row 311's source/implementation membership changes.
+Source presence is not correctness or scientific acceptance. Credit 0; OBL OPEN;
+NOT A RESULT. Complete Main/history/cloud coverage remains open.
+
+## Research-translation source/consumer memberships, 25 October 2026
+
+At source cut Main `e016d4a445bf6ece2724f82dcf843040afc2157c` (unchanged in
+candidate base `af1845fc4f5f8b5eb7cabbdd1f624d365025fb60`), existing row 307 gains
+EXPERIMENT and MANUSCRIPT source membership plus `experiment.py` and
+`run_pilot.py`. EXPERIMENT explicitly names the discretized periodic-H0 pilot
+as successor; its result remains inconclusive, not continuum confirmation.
+Only MANUSCRIPT M4–M5 is a declared spectral shrinking-bin analytic interface.
+The existing `spectral_shrinking_bins/SOURCES.json` retains its historical
+90936297 manuscript pin; the consumed 1506-byte M4–M5 slice is unchanged
+(SHA256 `8611117888b18569ae577e9b835589077ff65d93a856f8738d39a548d0738451`).
+An analytic source-to-source dependency is not an executable verification.
+
+Existing row 311 gains PERSISTENCE_BRIDGE membership only for its §2.1
+integration identity/kernel slice, explicitly cited by zeta README:451–464
+and controlled finitely by the already indexed `test_exact.py`:222–231.
+This does not attach the full bridge, C46/C47 or manuscript to either
+experiment, or establish analytic-zeta/continuum correctness. Generic source
+membership is not a theorem label, and an aggregate hyperedge does not mean
+that every program implements every statement. Existing source manifests,
+scientific predicates, review qualifications and historical pins are unchanged.
+
+This adds five vertices to 1301, with 344 ordered edges/row identities and
+215 sourced / 129 missing, 296 implemented / 48 missing containers unchanged.
+All 1296 prior vertices/memberships, 342 other raw rows and all
+node/bound/status/Drive cells are preserved. No new theorem unit or GRAPH/v2
+node is introduced. Full C46/C47 computational consumers were not identified
+in this bounded search; that remains an explicit accounting gap, not proof of
+absence. Complete Main/history/cloud accounting remains open. No pilot,
+mathematical test, sampler, Lean or manifest utility was executed.
 
 ## Ledger
 | # | source | repo | unit | lane | proof/lemma files (sample) | impl | graph node | bound | status | drive hits |
@@ -361,11 +417,11 @@ All scientific predicates and original review qualifications are preserved.
 | 304 | main#527 | Math- | `specifications/lean_statements_20261010` | GB-8q | Specifications.lean; Specifications/Field.lean; Specifications/Lifetime.lean | specifications/lean_statements_20261010/Specifications.lean; specifications/lean_statements_20261010/Specifications/Field.lean | — | N | orphan | 0 |
 | 305 | main#527 | Math- | `claims/LANDING_CLAIMS.json` | GB-8r | MISSING | .github/workflows/landing-claims.yml | — | N | orphan | 0 |
 | 306 | main#527 | main | `experiments/board_capacity_probe_20261022` | GB-8r | MISSING | experiments/board_capacity_probe_20261022/board_capacity_probe.py; experiments/board_capacity_probe_20261022/test_board_capacity_probe.py | — | N | orphan | 0 |
-| 307 | main#527 | main | `experiments/periodic_h0` | GB-8n | experiments/periodic_h0/APPROXIMATION.md; experiments/periodic_h0/CONFIRMATION_READINESS.md; experiments/periodic_h0/COUNT_CONFIDENCE.md; experiments/periodic_h0/EXACT_H0.md; experiments/periodic_h0/EXACT_SAMPLE_SHRINKING_BIN.md; experiments/periodic_h0/FINITE_CERTIFICATE.md; experiments/periodic_h0/FINITE_COUNT_LOSS.md; experiments/periodic_h0/GAUSSIAN_COUPLING.md; experiments/periodic_h0/GAUSSIAN_TAIL.md; experiments/periodic_h0/HESSIAN_GRID.md; experiments/periodic_h0/MEAN_ADAPTIVE_CONFIDENCE.md; experiments/periodic_h0/NODAL_CERTIFICATE.md; experiments/periodic_h0/README.md; experiments/periodic_h0/REFINEMENT_PROTOCOL.md; experiments/periodic_h0/WORD_POLYNOMIAL.md; experiments/periodic_h0/results/certificate8/RESULTS.md; experiments/periodic_h0/results/count_confidence1/RESULTS.md; experiments/periodic_h0/results/exact_h0_1/RESULTS.md; experiments/periodic_h0/results/finite_count_loss1/RESULTS.md; experiments/periodic_h0/results/gaussian_coupling1/RESULTS.md; experiments/periodic_h0/results/gaussian_tail1/RESULTS.md; experiments/periodic_h0/results/hessian1/RESULTS.md; experiments/periodic_h0/results/nodal1/RESULTS.md; experiments/periodic_h0/results/pilot32/RESULTS.md; experiments/periodic_h0/results/refinement8/RESULTS.md; experiments/periodic_h0/results/word_polynomial1/RESULTS.md; experiments/periodic_h0/spectral_shrinking_bins/PROOF.md; experiments/periodic_h0/spectral_shrinking_bins/README.md | experiments/periodic_h0/controls.py; experiments/periodic_h0/count_confidence.py | — | N | orphan | 0 |
+| 307 | main#527 | main | `experiments/periodic_h0` | GB-8n | experiments/periodic_h0/APPROXIMATION.md; experiments/periodic_h0/CONFIRMATION_READINESS.md; experiments/periodic_h0/COUNT_CONFIDENCE.md; experiments/periodic_h0/EXACT_H0.md; experiments/periodic_h0/EXACT_SAMPLE_SHRINKING_BIN.md; experiments/periodic_h0/FINITE_CERTIFICATE.md; experiments/periodic_h0/FINITE_COUNT_LOSS.md; experiments/periodic_h0/GAUSSIAN_COUPLING.md; experiments/periodic_h0/GAUSSIAN_TAIL.md; experiments/periodic_h0/HESSIAN_GRID.md; experiments/periodic_h0/MEAN_ADAPTIVE_CONFIDENCE.md; experiments/periodic_h0/NODAL_CERTIFICATE.md; experiments/periodic_h0/README.md; experiments/periodic_h0/REFINEMENT_PROTOCOL.md; experiments/periodic_h0/WORD_POLYNOMIAL.md; experiments/periodic_h0/results/certificate8/RESULTS.md; experiments/periodic_h0/results/count_confidence1/RESULTS.md; experiments/periodic_h0/results/exact_h0_1/RESULTS.md; experiments/periodic_h0/results/finite_count_loss1/RESULTS.md; experiments/periodic_h0/results/gaussian_coupling1/RESULTS.md; experiments/periodic_h0/results/gaussian_tail1/RESULTS.md; experiments/periodic_h0/results/hessian1/RESULTS.md; experiments/periodic_h0/results/nodal1/RESULTS.md; experiments/periodic_h0/results/pilot32/RESULTS.md; experiments/periodic_h0/results/refinement8/RESULTS.md; experiments/periodic_h0/results/word_polynomial1/RESULTS.md; experiments/periodic_h0/spectral_shrinking_bins/PROOF.md; experiments/periodic_h0/spectral_shrinking_bins/README.md; main:docs/research-translation/20260930/EXPERIMENT.md; main:docs/research-translation/20260930/MANUSCRIPT.md | experiments/periodic_h0/controls.py; experiments/periodic_h0/count_confidence.py; experiments/periodic_h0/experiment.py; experiments/periodic_h0/run_pilot.py | — | N | orphan | 0 |
 | 308 | main#527 | main | `experiments/reactor_v0` | GB-8r | MISSING | experiments/reactor_v0/evaluator.py; experiments/reactor_v0/exact_helpers.py | — | N | orphan | 0 |
 | 309 | main#527 | main | `experiments/semantic_memory` | GB-8r | MISSING | experiments/semantic_memory/benchmark.py; main:.github/workflows/semantic-memory-experiment.yml | — | N | orphan | 0 |
 | 310 | main#527 | main | `experiments/universality` | GB-8r | experiments/universality/AMPLITUDE_MIXTURE_FALSIFIER.md; experiments/universality/PROTOCOL.md; experiments/universality/README.md; experiments/universality/VALIDATION.md; experiments/universality/finite_candidate_lifetime/PROOF.md; experiments/universality/finite_candidate_lifetime/REVIEW.md; experiments/universality/finite_contact_genericity/PROOF.md; experiments/universality/finite_contact_genericity/REVIEW.md; experiments/universality/finite_elder_transfer/PROOF.md; experiments/universality/finite_elder_transfer/REVIEW.md; experiments/universality/finite_fold_chart/PROOF.md; experiments/universality/finite_fold_chart/REVIEW.md; experiments/universality/finite_gaussian_contact/PROOF.md; experiments/universality/finite_gaussian_contact/REVIEW.md; experiments/universality/finite_h0_lifetime/PROOF.md; experiments/universality/finite_h0_lifetime/REVIEW.md; experiments/universality/finite_weighted_fold_window/PROOF.md; experiments/universality/finite_weighted_fold_window/REVIEW.md; experiments/universality/fold_structural_universality/PROOF.md; experiments/universality/fold_structural_universality/REVIEW.md; experiments/universality/higher_homology_fold/PROOF.md; experiments/universality/higher_homology_fold/REVIEW.md; experiments/universality/iid_short_bar_process/PROOF.md; experiments/universality/iid_short_bar_process/REVIEW.md; experiments/universality/periodized_gaussian_h0/PROOF.md; experiments/universality/periodized_gaussian_h0/REVIEW.md; experiments/universality/spectral_gaussian_admission/PROOF.md; experiments/universality/spectral_gaussian_admission/REVIEW.md | experiments/universality/amplitude_process_controls.py; experiments/universality/fold_controls.py | — | N | orphan | 1 |
-| 311 | main#527 | main | `experiments/zeta_fold_exploration` | GB-8n | MISSING | experiments/zeta_fold_exploration/dbn/check_collision.py; experiments/zeta_fold_exploration/dbn/check_collision_persistence.py | — | N | orphan | 0 |
+| 311 | main#527 | main | `experiments/zeta_fold_exploration` | GB-8n | main:experiments/zeta_fold_exploration/README.md; main:experiments/zeta_fold_exploration/CLAIMS.md; main:docs/research-translation/20260930/PERSISTENCE_BRIDGE.md | experiments/zeta_fold_exploration/dbn/check_collision.py; experiments/zeta_fold_exploration/dbn/check_collision_persistence.py; experiments/zeta_fold_exploration/test_exact.py | — | N | orphan | 0 |
 | 312 | main#527 | main | `formal/UniversalLaw` | GB-8p | main:formal/sources/side24_v1/PROOF.md; main:formal/sources/side24_v1/ENCLOSURE.json | formal/UniversalLaw/Side24/Ledger.lean; formal/UniversalLaw/Side24/ConeMoments.lean; formal/UniversalLaw/Side24/Endpoints.lean | — | N | orphan | 0 |
 | 313 | main#527 | main | `formal/UniversalLaw.lean` | GB-8p | MISSING | formal/UniversalLaw.lean; main:formal/manifest.json | — | N | orphan | 0 |
 | 314 | #538 | Math- | `frontiers/critical_ridge_20261020` | PENDING_OPEN_PR #491,#496,#497 | execution/author/PROOF.md; project/CriticalRidge.lean; c299_hosted_verify.py | (in PR head) | — | N | unmerged | 0 |
