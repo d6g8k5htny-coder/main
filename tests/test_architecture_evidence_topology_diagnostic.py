@@ -187,7 +187,7 @@ class EvidenceTopologyDiagnostic(unittest.TestCase):
 
     def test_parsed_value_equivalence_does_not_invent_changes(self):
         cases = ((True, True), (False, False), (None, None), ([], []), ({}, {}),
-                 (1, 1.0), (0, -0.0),
+                 (1, 1.0), (0, -0.0), (1.0, 1), (-0.0, 0),
                  ({"a": [True, None, 1], "b": {"x": False}},
                   {"b": {"x": False}, "a": [True, None, 1.0]}))
         for left, right in cases:
@@ -202,7 +202,11 @@ class EvidenceTopologyDiagnostic(unittest.TestCase):
     def test_other_parsed_value_changes_remain_reported(self):
         cases = ((1, 2), (None, False), ("1", 1), ([], {}),
                  ([1], [1, 2]), ([1, 2], [2, 1]),
-                 ({"a": None}, {"b": None}), ({"a": []}, {"a": [], "b": 0}))
+                 ({"a": None}, {"b": None}), ({"a": []}, {"a": [], "b": 0}),
+                 (True, False), (False, True), (None, 0), ("a", "A"),
+                 ({}, []), ({"x": 0}, ["x"]), ("ab", ["a", "b"]),
+                 ([1, 2], [1]), ([], [1]),
+                 ({"a": [], "b": 0}, {"a": []}), ({}, {"a": None}))
         for left, right in cases:
             with self.subTest(left=left, right=right):
                 before, after = graph(["a"], [], value=left), graph(["a"], [], value=right)
@@ -211,6 +215,24 @@ class EvidenceTopologyDiagnostic(unittest.TestCase):
                 delta = self.compare_documents(before, after)
                 self.assertEqual(delta["node_attributes_changed"], ["a"])
                 self.assertIs(delta["other_metadata_changed"], True)
+
+    def test_added_node_is_reported_without_attribute_change(self):
+        p, pd = self.source("a.json", graph(["a"], []))
+        q, qd = self.source("b.json", graph(["a", "b"], []))
+        rc, report, err = self.call(p, pd, "--compare", q, "--compare-sha256", qd)
+        self.assertEqual((rc, err), (0, ""))
+        delta = report["delta"]
+        self.assertEqual((delta["nodes_added"], delta["nodes_removed"]), (["b"], []))
+        self.assertEqual(delta["node_attributes_changed"], [])
+
+    def test_top_level_metadata_keys_are_compared_by_name(self):
+        for old, new, changed in (({"epoch": 1}, {"era": 1}, True),
+                                 ({"epoch": 1, "era": 2}, {"era": 2, "epoch": 1}, False)):
+            with self.subTest(old=old, new=new):
+                delta = self.compare_documents(graph(["a"], [], **old),
+                                               graph(["a"], [], **new))
+                self.assertEqual(delta["node_attributes_changed"], [])
+                self.assertIs(delta["other_metadata_changed"], changed)
 
     def test_deeply_nested_parsed_values_keep_comparison_semantics(self):
         for right, changed in ((True, False), (1, True)):
