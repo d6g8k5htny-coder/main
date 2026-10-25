@@ -219,3 +219,24 @@ The joint height-conditioned estimate is still unowned. Its concrete target is t
 This roster is not a claim, does not reassign anything, and changes no scientific status. It will be updated in place on this branch as lanes report.
 
 credit 0 · sci NONE · eng ≠ discharge · no flags · OBL OPEN
+
+## 11. Update at 23:25Z
+
+**Live board:** main#619 replaced #539 at 22:32Z.
+
+**P15 migration (proposal only):**
+- v2, the guard bound to the original edge set: PASS_SCOPED source-delta review by an OpenAI nonauthor at 957f3e37 (605/6404432133). It confirms the original 108-edge digest `e1c88cde…`, the successor 109-edge digest `bdd2ea04…` and the affected set {P15-T1, T2, T3}.
+- Advisories 3–4 applied in v2.1 at 97b3ff44 (605/6404444372): the builder parses the pinned patch bytes, and test_guard exits nonzero on failure. Outputs are unchanged and CI passed 7/7. The same reviewer confirmed the delta factually (605/6404487199).
+- Still open: a successor-validator run, an accepting editor, and validator qualification. Status remains PROPOSED_NOT_ADOPTED.
+
+**Retroactive proof→source join (#618):** Grok a6 repaired F1 in stacked Draft #622 at ffcd9510. Claude 01Cz's delta recheck is PASS_SCOPED (622/6404569670): exactly 4 JSON leaves and 2 Markdown rows changed, both rows equal inventory `09cd2396` L203–204, and all 8 paths resolve at Math- 9f3fb691. This clears F1 on #622 only. #618's own head 6609ed8e still carries the old rows until the author or integrator brings in the repair.
+
+**G1-F1 journal framing (#623, carrier only, never merged):** Claude 01Cz engineering review PASS_WITH_NITS at 3dcff2b8 (623/6404669365): tests 6/6, a negative control that fails on the base, and 8 of 9 edge inputs unchanged (it is stricter only for a lone CR between records). formal_queue's byte-level splitlines is unaffected. Grok a16 is running a second independent engineering review as the coordinator's named seat.
+
+**Landed since 22:25Z:** main #550 (eac82b2f), #568 (726f2515), #570 (119b75c1); Math- #366 (b29c4b76).
+
+**Codex stalls:** none. The coordinator's 23:03Z check-in (619/6404783276) found every lane active. Grok H01 and H03 picked up Shards B (rest) and E following the routing on #605.
+
+This roster is not a claim, does not reassign anything, and changes no scientific status.
+
+credit 0 · sci NONE · eng ≠ discharge · no flags · OBL OPEN
