@@ -1,0 +1,47 @@
+{"time": 1792968198.6198945, "action": "begin", "directory": "/workspace/scratch/atlas-summary-at/runs/20261025T224318Z-claim-summary-candidate48", "arguments": {"label": "claim-summary-candidate48", "url": null, "serve": "/workspace/atlas-claim-summary/docs/site", "path": "dependencies.html?atlas-view=list&atlas-node=math.uniform-matrix-cap-lifetime", "browse_steps": 24, "sayall_seconds": 22, "smoke": false, "scenario": "/workspace/scratch/atlas-summary-at/summary-candidate-scenario.json"}, "audio": "PulseAudio null sink; no human listening"}
+{"time": 1792968199.19645, "action": "spawn", "name": "xvfb", "pid": 73512, "command": ["Xvfb", ":97", "-screen", "0", "1440x1000x24", "-nolisten", "tcp"]}
+{"time": 1792968199.3597689, "action": "spawn", "name": "pulse", "pid": 73565, "command": ["pulseaudio", "-n", "--daemonize=no", "--exit-idle-time=-1", "--use-pid-file=no", "--disable-shm=yes", "--dl-search-path=/workspace/scratch/atlas-summary-at/runtime/usr/lib/pulse-17.0+dfsg1/modules", "--load=module-native-protocol-unix socket=/workspace/scratch/atlas-summary-at/runs/20261025T224318Z-claim-summary-candidate48/pulse.sock", "--load=module-null-sink sink_name=at_null"]}
+{"time": 1792968199.5121021, "action": "spawn", "name": "speech-dispatcher", "pid": 73581, "command": ["speech-dispatcher", "-s", "-t", "0", "-C", "/workspace/scratch/atlas-summary-at/runs/20261025T224318Z-claim-summary-candidate48/speech-config", "-S", "/workspace/scratch/atlas-summary-at/runs/20261025T224318Z-claim-summary-candidate48/speechd.sock", "-P", "/workspace/scratch/atlas-summary-at/runs/20261025T224318Z-claim-summary-candidate48/speechd.pid", "-L", "/workspace/scratch/atlas-summary-at/runs/20261025T224318Z-claim-summary-candidate48/speechd", "-m", "/workspace/scratch/atlas-summary-at/runtime/usr/lib/speech-dispatcher-modules"]}
+{"time": 1792968199.8137112, "action": "spawn", "name": "atspi-events", "pid": 73591, "command": ["/usr/bin/python3", "/workspace/scratch/atlas-summary-at/atspi-events.py"]}
+{"time": 1792968199.8142874, "action": "spawn", "name": "orca", "pid": 73592, "command": ["/usr/bin/python3", "/workspace/scratch/atlas-summary-at/runtime/usr/bin/orca", "--debug-file", "/workspace/scratch/atlas-summary-at/runs/20261025T224318Z-claim-summary-candidate48/orca-debug.log", "--user-prefs", "/workspace/scratch/atlas-summary-at/runs/20261025T224318Z-claim-summary-candidate48/orca-prefs", "--disable", "braille", "--speech-system", "speechdispatcherfactory"]}
+{"time": 1792968207.7639935, "action": "loaded", "url": "http://127.0.0.1:38895/dependencies.html?atlas-view=list&atlas-node=math.uniform-matrix-cap-lifetime", "title": "Mathematics · Universal Law"}
+{"time": 1792968208.1125834, "action": "scenario-step", "step": {"action": "phase", "name": "claim-heading-and-scope"}}
+{"time": 1792968208.1126292, "action": "phase", "name": "claim-heading-and-scope"}
+{"time": 1792968208.1126401, "action": "scenario-step", "step": {"action": "click", "selector": "#atlas-list button:has-text(\"math.uniform-matrix-cap-lifetime\")", "delay": 2}}
+{"time": 1792968210.2054472, "action": "scenario-step", "step": {"action": "key", "sequence": "KP_Add", "delay": 30}}
+{"time": 1792968210.2055426, "action": "key", "sequence": "KP_Add"}
+{"time": 1792968240.2219474, "action": "scenario-step", "step": {"action": "key", "sequence": "Control_L", "delay": 1}}
+{"time": 1792968240.2227385, "action": "key", "sequence": "Control_L"}
+{"time": 1792968241.2435966, "action": "scenario-step", "step": {"action": "snapshot", "name": "claim-summary", "selectors": ["#atlas-inspector h3", "#atlas-claim-summary", "#atlas-status", "#atlas-space-status"]}}
+{"time": 1792968241.604273, "action": "scenario-step", "step": {"action": "phase", "name": "source-identity"}}
+{"time": 1792968241.6043203, "action": "phase", "name": "source-identity"}
+{"time": 1792968241.6043367, "action": "scenario-step", "step": {"action": "click", "selector": "#atlas-source-details > summary", "delay": 2}}
+{"time": 1792968243.6598883, "action": "scenario-step", "step": {"action": "key", "sequence": "KP_Add", "delay": 12}}
+{"time": 1792968243.660044, "action": "key", "sequence": "KP_Add"}
+{"time": 1792968255.6802905, "action": "scenario-step", "step": {"action": "key", "sequence": "Control_L", "delay": 1}}
+{"time": 1792968255.680564, "action": "key", "sequence": "Control_L"}
+{"time": 1792968256.6965532, "action": "scenario-step", "step": {"action": "phase", "name": "formal-declaration-execution-alignment"}}
+{"time": 1792968256.6966434, "action": "phase", "name": "formal-declaration-execution-alignment"}
+{"time": 1792968256.696655, "action": "scenario-step", "step": {"action": "click", "selector": "#atlas-formal-details > summary", "delay": 2}}
+{"time": 1792968258.719704, "action": "scenario-step", "step": {"action": "key", "sequence": "KP_Add", "delay": 40}}
+{"time": 1792968258.719799, "action": "key", "sequence": "KP_Add"}
+{"time": 1792968298.7360191, "action": "scenario-step", "step": {"action": "key", "sequence": "Control_L", "delay": 1}}
+{"time": 1792968298.736126, "action": "key", "sequence": "Control_L"}
+{"time": 1792968299.7522993, "action": "scenario-step", "step": {"action": "snapshot", "name": "formal-details", "selectors": ["#atlas-formal-details"]}}
+{"time": 1792968300.0630672, "action": "scenario-step", "step": {"action": "phase", "name": "review-and-continuation"}}
+{"time": 1792968300.063132, "action": "phase", "name": "review-and-continuation"}
+{"time": 1792968300.0631473, "action": "scenario-step", "step": {"action": "click", "selector": "#atlas-review-details > summary", "delay": 2}}
+{"time": 1792968302.1097202, "action": "scenario-step", "step": {"action": "key", "sequence": "KP_Add", "delay": 15}}
+{"time": 1792968302.1098123, "action": "key", "sequence": "KP_Add"}
+{"time": 1792968317.1261835, "action": "scenario-step", "step": {"action": "key", "sequence": "Control_L", "delay": 1}}
+{"time": 1792968317.1262808, "action": "key", "sequence": "Control_L"}
+{"time": 1792968318.1419568, "action": "scenario-step", "step": {"action": "snapshot", "name": "review-details", "selectors": ["#atlas-review-details"]}}
+{"time": 1792968318.5536697, "action": "phase", "name": "finished"}
+{"time": 1792968318.553864, "action": "process-health", "status": {"xvfb": null, "pulse": null, "audio-recorder": null, "speech-dispatcher": null, "atspi-events": null, "orca": null}}
+{"time": 1792968318.656093, "action": "completed"}
+{"time": 1792968319.7934496, "action": "child-exit", "name": "orca", "returncode": 0}
+{"time": 1792968319.7947187, "action": "child-exit", "name": "atspi-events", "returncode": -15}
+{"time": 1792968319.9088693, "action": "child-exit", "name": "speech-dispatcher", "returncode": 0}
+{"time": 1792968319.9100862, "action": "child-exit", "name": "audio-recorder", "returncode": 0}
+{"time": 1792968319.9112513, "action": "child-exit", "name": "pulse", "returncode": 0}
+{"time": 1792968319.9144862, "action": "child-exit", "name": "xvfb", "returncode": 0}
