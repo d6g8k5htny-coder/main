@@ -4,7 +4,9 @@ import json, copy
 import sys, os; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from migration_guard import check_link_migration
 class E(ValueError): pass
-O = json.load(open('../work/dataset_original.json')); P = json.load(open('../work/dataset_successor_PROPOSAL.json'))
+ORIG = sys.argv[1] if len(sys.argv) > 1 else 'canonical_dataset.json'  # original carrier at main 11f7b82e (raw sha256 4cfae309...)
+SUCC = sys.argv[2] if len(sys.argv) > 2 else os.path.join(os.path.dirname(os.path.abspath(__file__)), '..', 'dataset_successor_PROPOSAL.json')
+O = json.load(open(ORIG, encoding='utf-8')); P = json.load(open(SUCC, encoding='utf-8'))
 def obs(d): return {o['conclusion']: o for o in d['obligations']}
 def run(name, d, expect_ok):
     try: check_link_migration(d, obs(d), E); ok = True; msg = 'accepted'
