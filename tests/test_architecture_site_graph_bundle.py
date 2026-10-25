@@ -234,6 +234,10 @@ def unique_json_object(pairs):
 
 
 class NativeGraphBundleContract(unittest.TestCase):
+    def shortDescription(self):
+        # The canonical receipt requires one verbose result record per line.
+        return None
+
     def positive(self, value=None, **kwargs):
         value = sample() if value is None else value
         outputs = bundle(value, **kwargs)
