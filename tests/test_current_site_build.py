@@ -28,16 +28,29 @@ class Page(HTMLParser):
         self.tags = []
         self.links = []
         self.text = []
+        self.elements = []
+        self.text_contexts = []
+        self.stack = []
         self.feed(raw)
 
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
         self.tags.append((tag, attrs))
+        self.elements.append((tag, attrs, tuple(self.stack)))
         if tag == "a":
             self.links.append(attrs.get("href", ""))
+        if tag not in {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"}:
+            self.stack.append((tag, attrs))
+
+    def handle_endtag(self, tag):
+        for i in range(len(self.stack) - 1, -1, -1):
+            if self.stack[i][0] == tag:
+                del self.stack[i:]
+                break
 
     def handle_data(self, data):
         self.text.append(data)
+        self.text_contexts.append((data, tuple(self.stack)))
 
 
 def identity(repository, path):
@@ -125,6 +138,67 @@ class CurrentSiteBuildTests(unittest.TestCase):
             self.assertEqual(meta["sha256"], hashlib.sha256(payload.read_bytes()).hexdigest())
             self.assertEqual(meta["bytes"], len(payload.read_bytes()))
             self.assertEqual(meta["observed_at"], "2026-10-13T12:00:00Z")
+
+    def test_main_pages_keep_dated_status_before_closed_sources_and_scope(self):
+        # Moving the status or the verbose inventory outside its disclosure breaks the reading flow.
+        with TemporaryDirectory() as tmp:
+            site, payload = self.prepare(Path(tmp))
+            result = self.run_build(site, payload)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            for name in ("index.html", "research.html", "dependencies.html"):
+                with self.subTest(page=name):
+                    parsed = Page((site / name).read_text())
+                    scopes = [(tag, attrs) for tag, attrs in parsed.tags
+                              if tag == "details" and "current-source-details" in attrs.get("class", "").split()]
+                    self.assertEqual(len(scopes), 1, "verbose source details need one native disclosure")
+                    scope = scopes[0]
+                    self.assertNotIn("open", scope[1])
+                    status = [(tag, attrs, parents) for tag, attrs, parents in parsed.elements
+                              if "current-state" in attrs.get("class", "").split()]
+                    self.assertEqual(len(status), 1)
+                    self.assertEqual(status[0][1].get("role"), "status")
+                    self.assertNotIn(scope, status[0][2])
+                    self.assertLess(parsed.tags.index(status[0][:2]), parsed.tags.index(scope))
+                    self.assertTrue(any(text.strip() == "Sources and scope" and parents[-2:] == (scope, ("summary", {}))
+                                        for text, parents in parsed.text_contexts))
+                    self.assertTrue(any(tag == "time" and attrs.get("datetime") == "2026-10-13T12:00:00Z"
+                                        and status[0][:2] in parents and scope not in parents
+                                        for tag, attrs, parents in parsed.elements))
+                    for marker in ("current-date-explanation", "current-inventory-legend"):
+                        elements = [(attrs, parents) for tag, attrs, parents in parsed.elements if attrs.get("id") == marker]
+                        self.assertEqual(len(elements), 1, marker)
+                        self.assertIn(scope, elements[0][1], marker)
+                    capacity = [(attrs, parents) for tag, attrs, parents in parsed.elements
+                                if "current-capacity" in attrs.get("class", "").split()]
+                    self.assertEqual(len(capacity), 1)
+                    self.assertIn(scope, capacity[0][1])
+                    for href in (f"https://github.com/{MAIN}/tree/{COMMIT}",
+                                 f"https://github.com/{MATH}/tree/{MATH_COMMIT}",
+                                 f"https://github.com/{MAIN}/blob/{COMMIT}/STATUS.md",
+                                 "nodes/index.html", "current.json"):
+                        links = [parents for tag, attrs, parents in parsed.elements if tag == "a" and attrs.get("href") == href]
+                        self.assertTrue(links, href)
+                        self.assertTrue(all(scope in parents for parents in links), href)
+                    for tag, attrs, parents in parsed.elements:
+                        if set(attrs.get("class", "").split()) & {"current-search", "current-count", "current-results", "current-more"}:
+                            self.assertIn(scope, parents)
+                    identifiers = [attrs["id"] for tag, attrs in parsed.tags if "id" in attrs]
+                    self.assertEqual(len(identifiers), len(set(identifiers)))
+
+    def test_default_full_and_archived_source_sections_retain_baseline_bytes(self):
+        # Opting reading pages into compact presentation must not rewrite preserved static sections.
+        spec = importlib.util.spec_from_file_location("build_layout", TOOL)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        data = fixture()
+        meta = {"sha256": "f" * 64, "bytes": 123, "observed_at": data["observed_at"]}
+        full = module.current_section(data, meta)
+        archived = module.current_section(data, meta, archived=True, search=False,
+                                          prefix="../../../", snapshot_prefix="../")
+        self.assertEqual(hashlib.sha256(full.encode()).hexdigest(),
+                         "7726703beae823e784427eae242bd3eefe0169c986fce792ec3d4f1d809bc477")
+        self.assertEqual(hashlib.sha256(archived.encode()).hexdigest(),
+                         "f67bab9c9906e580f04d2346a72bf2bdc14170da1c2d17efe0459b01fe238c2a")
 
     def test_every_node_has_static_evidence_metadata_and_typed_neighbor_navigation(self):
         # Omitting isolated/absent nodes or changing edge direction breaks no-JS parity.

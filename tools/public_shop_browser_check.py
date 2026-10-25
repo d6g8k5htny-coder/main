@@ -64,6 +64,16 @@ def require(condition, message):
     if not condition:
         raise ValueError(message)
 
+def open_ancestor_disclosures(target):
+    """Reach a control by activating each closed parent summary, outermost first."""
+    target.wait_for(state='attached')
+    for disclosure in target.locator('xpath=ancestor::details').all():
+        if target.is_visible():break
+        if disclosure.get_attribute('open') is None:
+            summary=disclosure.locator(':scope > summary')
+            summary.focus();summary.press('Enter')
+            require(disclosure.get_attribute('open') is not None,'Keyboard summary activation did not open its disclosure')
+
 def check_warm_asset_release(browser, expect, result, output):
     with local_docs(warm_release=True) as (origin, requests):
         context=browser.new_context(viewport={"width":1200,"height":900},color_scheme="light")
@@ -72,10 +82,12 @@ def check_warm_asset_release(browser, expect, result, output):
         try:
             for _ in range(2):
                 page.goto(origin+'predecessor.html')
+                open_ancestor_disclosures(page.locator('#dependency-search'))
                 page.locator('#dependency-search').fill('math')
                 expect(page.locator('#search-results > li')).to_have_count(30)
             require(requests.count('/site/dependencies.mjs')==1,'Predecessor was not reused from Chromium HTTP cache')
             page.goto(origin+'dependencies.html')
+            open_ancestor_disclosures(page.locator('#dependency-search'))
             page.locator('#dependency-search').fill('math')
             expect(page.locator('#search-results > li')).to_have_count(39)
             for name in ('dependencies.mjs','dependency-model.mjs','dependencies.css','brand.css'):
@@ -271,7 +283,7 @@ def check_reading_addendum_flow(page, origin, expect, result, output):
     page.route("https://**/*",refuse_remote)
     try:
         page.goto(origin+"research.html")
-        jump=page.get_by_role("link",name="Latest public work",exact=True)
+        jump=page.locator('.hero a[href="#reading-cut-20261010"]')
         jump.focus();page.keyboard.press("Enter")
         newest=page.locator("#reading-cut-20261010")
         expect(newest).to_be_focused()
@@ -1497,6 +1509,7 @@ def check_source_card_flow(page, origin, expect, result, output):
     result["steps"].append("Home, Explore, Cite, Reproduce and Formal entries have one main heading and no document overflow")
     # Enter through the public reading path, not a fabricated application state.
     page.goto(origin+"research.html")
+    open_ancestor_disclosures(page.locator('#lifetimes'))
     page.get_by_role("link",name="Inspect its review and exact scope",exact=True).click()
     card=page.locator("#d2-lifetime-remainder")
     expect(card).to_be_visible(timeout=45000)
@@ -1529,6 +1542,7 @@ def check_source_card_flow(page, origin, expect, result, output):
 def check_reader_tools_flow(page, origin, expect, result, output):
     result["screenshots"]=[]
     page.goto(origin+"research.html")
+    open_ancestor_disclosures(page.locator('#further-reading'))
     measure=page.get_by_role("link",name="synthetic counts-to-density guide",exact=True)
     expect(measure).to_have_attribute("href","measure.html")
     measure.click()
@@ -1554,9 +1568,11 @@ def check_reader_tools_flow(page, origin, expect, result, output):
     result["steps"].append("Research route opens the synthetic measurement guide; normalization, invalid edge and exact source cut checked")
 
     page.goto(origin+"research.html")
+    open_ancestor_disclosures(page.locator('#further-reading'))
     dependencies=page.get_by_role("link",name="dated claim-dependency snapshot",exact=True)
     expect(dependencies).to_have_attribute("href","dependencies.html")
     dependencies.click()
+    open_ancestor_disclosures(page.locator('#dependency-search'))
     expect(page.locator("#load-status")).to_contain_text("Pinned Math commit 7858329974e2",timeout=45000)
     expect(page.locator("#node-count")).to_have_text("49")
     expect(page.locator("#edge-count")).to_have_text("55")
@@ -1574,6 +1590,7 @@ def check_reader_tools_flow(page, origin, expect, result, output):
     page.reload()
     expect(page.locator("#classification-filter")).to_have_value("PROVED_REVIEWED",timeout=45000)
     expect(page.locator("#dependency-search")).to_have_value("math")
+    open_ancestor_disclosures(page.locator('#clear-filters'))
     page.locator("#clear-filters").click()
     expect(page.locator("#search-results > li")).to_have_count(49)
     page.locator("#dependency-search").fill("reviews/pr22_fixed_annulus_nonauthor_20260925/REVIEW.md")
@@ -1636,6 +1653,7 @@ def check_reader_tools_flow(page, origin, expect, result, output):
     page.goto(origin+"dependencies.html?classification=ACCEPT_ALL")
     expect(page.locator("#filter-error")).to_contain_text("Unknown classification",timeout=45000)
     expect(page.locator("#search-results > li")).to_have_count(0)
+    open_ancestor_disclosures(page.locator('#clear-filters'))
     page.locator("#clear-filters").click()
     expect(page.locator("#filter-error")).to_be_hidden()
     expect(page.locator("#search-results > li")).to_have_count(49)
@@ -2047,6 +2065,7 @@ def check_rendered_text_layout(page, origin, expect, result, output):
     require(sum(1 for x in result["layouts"] if "source_detail_words" in x)>=1,"No case node without unlinked JSON metadata had its Source detail words checked at 390")
     page.goto(origin+"dependencies.html")
     expect(page.locator("#classification-filter")).to_be_enabled(timeout=45000)
+    open_ancestor_disclosures(page.locator('#dependency-search'))
     spaced();no_overflow("dependencies.html at 390 with text-spacing override")
     page.set_viewport_size({"width":320,"height":800});no_overflow("dependencies.html at 320 with text-spacing override")
     result["steps"].extend(["five long-token nodes at 320 and 390, with and without WCAG 1.4.12 text spacing: no document overflow, no text line cut where the reader "
