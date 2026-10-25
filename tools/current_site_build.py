@@ -395,14 +395,36 @@ def ensure_render_budget(data, meta):
     return 2 * (total_nodes + index + meta["bytes"] + 1024)
 
 
-def build(site, payload):
+def build(site, payload, *, native_graph_archive=None, native_graph_expected=None,
+          native_graph_source=None, build_repository=None, build_commit=None):
     site = site.resolve()
     if not site.is_dir():
         raise ValueError("site must be an existing directory")
+    native_values = (native_graph_archive, native_graph_expected, native_graph_source,
+                     build_repository, build_commit)
+    native_mode = any(value is not None for value in native_values)
+    if native_mode:
+        if any(type(value) is not kind for value, kind in
+               zip(native_values, (bytes, dict, bytes, str, str))):
+            raise ValueError("native graph build requires all five inputs with exact types")
+    elif any(os.path.lexists(site / name) for name in
+             ("proof-tree.html", "current-build-manifest.json", "native-graph")):
+        raise ValueError("existing native graph outputs require a complete native build")
     if payload.stat().st_size > MAX_PAYLOAD:
         raise ValueError("current payload exceeds its admitted byte bound")
     raw = payload.read_bytes()
     data = validate_payload(parse_json(raw))
+    native_outputs = {}
+    if native_mode:
+        # Direct tools/current_site_build.py execution initially exposes tools/.
+        repository_root = str(Path(__file__).resolve().parents[1])
+        if repository_root not in sys.path:
+            sys.path.insert(0, repository_root)
+        from architecture.site_graph_bundle import build_native_graph_bundle
+        native_outputs = build_native_graph_bundle(
+            native_graph_archive, native_graph_expected, native_graph_source,
+            build_repository=build_repository, build_commit=build_commit,
+            current_payload_bytes=raw)
     fresh_meta = {"sha256": hashlib.sha256(raw).hexdigest(), "bytes": len(raw), "observed_at": data["observed_at"]}
     chosen = choose_archive(site, data)
     archive_id = chosen["id"] if chosen else mathematical_digest(data)
@@ -426,7 +448,27 @@ def build(site, payload):
                      + ('Capacity warning: at least 75% of the archive or byte limit is used. Further versions will refuse publication at capacity; no history is pruned.'
                         if capacity["warning"] else 'Publication refuses additional versions at capacity; no history is pruned.') + '</p>')
     outputs = {"current.json": raw, "current-meta.json": manifest_bytes(meta), **all_aliases}
-    pages = sorted(site.glob("*.html"))
+    outputs.update(native_outputs)
+    existing_native_assets = []
+    if native_mode:
+        # Check every native ancestor before opening any existing native asset.
+        native_parents = {parent for name in native_outputs
+                          for parent in (site / name).parents
+                          if parent != site and parent.is_relative_to(site)}
+        for directory in sorted(native_parents, key=lambda path: len(path.parts)):
+            if directory.is_symlink() or (os.path.lexists(directory) and not directory.is_dir()):
+                raise ValueError("unavailable native graph namespace refused")
+        for name, content in native_outputs.items():
+            target = site / name
+            if os.path.lexists(target):
+                if target.is_symlink() or not target.is_file():
+                    raise ValueError("native graph destination is not a regular nonsymlink file")
+                if name.startswith("native-graph/"):
+                    if target.read_bytes() != content:
+                        raise ValueError("immutable native graph asset conflict; no repair inferred")
+                    existing_native_assets.append(name)
+    pages = sorted(page for page in site.glob("*.html")
+                   if not (native_mode and page.name == "proof-tree.html"))
     if not pages:
         raise ValueError("site has no main HTML pages")
     for page in pages:
@@ -458,6 +500,10 @@ def build(site, payload):
             raise ValueError("unavailable generated file destination refused")
         if target.is_symlink() or any(parent.is_symlink() for parent in target.parents if parent != site and parent.is_relative_to(site)):
             raise ValueError("symlinked generated target refused")
+    # All native targets passed the common destination preflight. Keep already
+    # admitted archive-addressed assets untouched; only current aliases refresh.
+    for name in existing_native_assets:
+        del outputs[name]
     if (site / archive_relative).exists():
         if not chosen:
             admit_existing_archive(site / archive_relative, archive)
