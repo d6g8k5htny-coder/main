@@ -100,6 +100,6 @@ The handoff is a distribution wrapper around unchanged releases, not a new engin
 | `audit_evidence/Universal_Law_v23_RN3_Recovery_AuditEvidence.zip` | 213,725 | `26f504b9fc227bb5a0e295c4291ea7d30c939bf9a02af07b84252bf08abf771b` |
 | `audit_evidence/Universal_Law_v24_Research_Router_AuditEvidence.zip` | 1,522,521 | `052daaa0b2ab17af8f3c2f1f794ea1b73e7e72829f00f5badd35a6ae3f1f2a07` |
 
-`index_files/` holds `START_HERE.txt`, `CONTENTS.json` and `SHA256SUMS` byte for byte; the first two match the hashes in `SHA256SUMS`. At 15:10Z the Drive folder also held `BRIEFING.md`, `BRIEFING.html`, `SOURCE_RECOVERY_UPDATE.json`, `V24_DASHBOARD_PREVIEW.png` and the four audit-evidence ZIPs for v20 to v23 with their `.sha256` files; the v24 audit-evidence ZIP and the three package ZIPs were still uploading. `SOURCE_RECOVERY_UPDATE.json` records that all 13 GitHub files of the recovery pack matched Codex's holdings and that 0 missing originals were recovered.
+`index_files/` holds `START_HERE.txt`, `CONTENTS.json` and `SHA256SUMS` byte for byte; the first two match the hashes in `SHA256SUMS`. At 15:10Z the Drive folder also held `BRIEFING.md`, `BRIEFING.html`, `SOURCE_RECOVERY_UPDATE.json`, `V24_DASHBOARD_PREVIEW.png` and all five audit-evidence ZIPs (v20 to v24) with `.sha256` files for v20 to v23; only the three package ZIPs were still uploading. `SOURCE_RECOVERY_UPDATE.json` records that all 13 GitHub files of the recovery pack matched Codex's holdings and that 0 missing originals were recovered.
 
 credit 0 · sci NONE · eng ≠ discharge · no flags · OBL OPEN
