@@ -8,10 +8,12 @@ from __future__ import annotations
 import argparse
 import base64
 from datetime import datetime, timezone
+import email.utils
 import hashlib
 import json
 import os
 from pathlib import Path
+import random
 import re
 import subprocess
 import tempfile
@@ -32,6 +34,13 @@ WORKFLOW = ".github/workflows/current-site.yml"
 MAX_RECEIPT_BYTES = 1024 * 1024
 MAX_PUBLIC_BYTES = 16 * 1024 * 1024
 MAX_SNAPSHOTS = 512
+REF_READBACK_ATTEMPTS = 4
+REF_READBACK_SECONDS = 10
+TRANSIENT_HTTP = frozenset({429, 500, 502, 503, 504})
+GET_RETRY_ATTEMPTS = 4
+GET_RETRY_BUDGET_SECONDS = 30
+GET_RETRY_BACKOFF_SECONDS = (2, 4, 8)
+GET_RETRY_JITTER_SECONDS = 0.25
 HEX40 = re.compile(r"[0-9a-f]{40}\Z")
 HEX64 = re.compile(r"[0-9a-f]{64}\Z")
 PATHS = {"manifest": "snapshots/index.json", "metadata": "current-meta.json", "payload": "current.json"}
@@ -129,9 +138,13 @@ def validate_receipt(receipt):
 def source_guard(candidate, context):
     validate_candidate(candidate)
     closed(context, ("repository", "ref", "commit", "run_id", "run_attempt"), "execution context")
+    hex_value(context["commit"], HEX40, "execution source commit")
+    integer(context["run_id"], 1, 2**63-1, "execution run id")
+    integer(context["run_attempt"], 1, 100_000, "execution run attempt")
     if (context["repository"] != REPOSITORY or context["ref"] != "refs/heads/main"
             or candidate["source"]["commit"] != context["commit"]
-            or candidate["run"] != {"id": context["run_id"], "attempt": context["run_attempt"]}):
+            or candidate["run"]["id"] != context["run_id"]
+            or candidate["run"]["attempt"] > context["run_attempt"]):
         raise ValueError("publication source/run differs from qualified execution")
 
 
@@ -202,16 +215,88 @@ def guard_request(method, path, body):
     raise ValueError("nonmetadata GitHub route refused")
 
 
+def _default_jitter():
+    return random.uniform(0.0, GET_RETRY_JITTER_SECONDS)
+
+
+def _note_http_error(error, url):
+    marker = "[" + url + "]"
+    message = str(error.msg or "")
+    if marker not in message:
+        error.msg = (message + " " + marker).strip()
+    error.filename = url
+    return error
+
+
+def _note_url_error(error, url):
+    marker = "[" + url + "]"
+    reason = getattr(error, "reason", error)
+    text = str(reason)
+    if marker not in text:
+        text = text + " " + marker
+    noted = urllib.error.URLError(text)
+    noted.filename = url
+    return noted
+
+
+def _retry_after_seconds(headers, now):
+    if headers is None or not hasattr(headers, "get"):
+        return None
+    raw = headers.get("Retry-After")
+    if raw is None:
+        return None
+    text = str(raw).strip()
+    if re.fullmatch(r"[0-9]+", text):
+        return int(text)
+    if re.fullmatch(r"[0-9]+\.[0-9]+", text):
+        return float(text)
+    try:
+        parsed = email.utils.parsedate_to_datetime(text)
+    except (TypeError, ValueError, OverflowError, OSError):
+        return None
+    if parsed is None:
+        return None
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=timezone.utc)
+    delay = (parsed - now).total_seconds()
+    return 0 if delay < 0 else delay
+
+
+def _retry_delay(failed_attempt, retry_after, elapsed, jitter):
+    remaining = GET_RETRY_BUDGET_SECONDS - elapsed
+    if remaining <= 0:
+        return None
+    if retry_after is not None:
+        if retry_after >= remaining:
+            return None
+        return retry_after
+    if failed_attempt >= len(GET_RETRY_BACKOFF_SECONDS):
+        return None
+    delay = GET_RETRY_BACKOFF_SECONDS[failed_attempt] + jitter
+    if delay >= remaining:
+        return None
+    return delay
+
+
 class GitHubAPI:
-    def __init__(self, *, token=None, opener=None):
+    def __init__(self, *, token=None, opener=None, pause=time.sleep, clock=time.monotonic, jitter=None, now=None):
         self.token = os.environ.get("GITHUB_TOKEN") if token is None else token
         self.opener = opener if opener is not None else urllib.request.build_opener(NoRedirect())
         self.requests = self.total_bytes = 0
+        self.pause = pause
+        self.clock = clock
+        self.jitter = _default_jitter if jitter is None else jitter
+        self.now = (lambda: datetime.now(timezone.utc)) if now is None else now
 
     def request(self, method, path, body=None):
         guard_request(method, path, body)
         if self.requests >= 64:
             raise ValueError("publication API request bound exceeded")
+        # One logical request. GET retries below do not consume the 64-request
+        # custody bound, so a full anchor read can still absorb a transient 503.
+        # PATCH and POST, including receipt ref writes, are never retried.
+        # PublicReader.get_bytes is a separate Pages path and is unchanged;
+        # public_readback already repeats that read.
         self.requests += 1
         headers = {"Accept": "application/vnd.github+json", "User-Agent": "current-site-publication-receipt",
                    "X-GitHub-Api-Version": "2022-11-28"}
@@ -220,18 +305,64 @@ class GitHubAPI:
         raw_body = encode(body) if body is not None else None
         if raw_body is not None:
             headers["Content-Type"] = "application/json"
-        request = urllib.request.Request(API_ORIGIN + path, data=raw_body, headers=headers, method=method)
-        with self.opener.open(request, timeout=20) as response:
-            if response.geturl() != request.full_url or response.status not in (200, 201):
-                raise ValueError("publication API response identity mismatch")
-            raw = response.read(MAX_RECEIPT_BYTES + 1)
+        outbound = urllib.request.Request(API_ORIGIN + path, data=raw_body, headers=headers, method=method)
+        raw = self._read_exchange(method, outbound)
         self.total_bytes += len(raw)
         if len(raw) > MAX_RECEIPT_BYTES or self.total_bytes > 16 * MAX_RECEIPT_BYTES:
-            raise ValueError("publication API byte bound exceeded")
+            raise ValueError(f"publication API byte bound exceeded [{outbound.full_url}]")
         result = parse_json(raw)
         if not isinstance(result, dict):
-            raise ValueError("publication API object response required")
+            raise ValueError(f"publication API object response required [{outbound.full_url}]")
         return result
+
+    def _read_exchange(self, method, outbound):
+        url = outbound.full_url
+        started = self.clock()
+        attempts = GET_RETRY_ATTEMPTS if method == "GET" else 1
+        last_error = None
+        for attempt in range(attempts):
+            elapsed = self.clock() - started
+            if attempt and elapsed >= GET_RETRY_BUDGET_SECONDS:
+                break
+            timeout = 20 if attempt == 0 else min(20, GET_RETRY_BUDGET_SECONDS - elapsed)
+            retry_after = None
+            try:
+                with self.opener.open(outbound, timeout=timeout) as response:
+                    if response.geturl() != url:
+                        raise ValueError(f"publication API response identity mismatch [{url}]")
+                    status = response.status
+                    headers = getattr(response, "headers", None)
+                    if method == "GET" and status in TRANSIENT_HTTP:
+                        last_error = urllib.error.HTTPError(
+                            url, status, f"transient HTTP {status} [{url}]", headers, None)
+                        retry_after = _retry_after_seconds(headers, self.now())
+                    elif status not in (200, 201):
+                        raise ValueError(f"publication API response identity mismatch [{url}]")
+                    else:
+                        return response.read(MAX_RECEIPT_BYTES + 1)
+            except urllib.error.HTTPError as error:
+                _note_http_error(error, url)
+                if method != "GET" or error.code not in TRANSIENT_HTTP or attempt + 1 == attempts:
+                    raise
+                last_error = error
+                retry_after = _retry_after_seconds(getattr(error, "headers", None), self.now())
+            except (urllib.error.URLError, TimeoutError) as error:
+                last_error = _note_url_error(error, url)
+                if method != "GET" or attempt + 1 == attempts:
+                    raise last_error from error
+                retry_after = None
+            if last_error is None:
+                raise ValueError(f"publication API transient failure [{url}]")
+            if attempt + 1 == attempts:
+                raise last_error
+            jitter = 0 if retry_after is not None else self.jitter()
+            delay = _retry_delay(attempt, retry_after, self.clock() - started, jitter)
+            if delay is None:
+                raise last_error
+            self.pause(delay)
+        if last_error is not None:
+            raise last_error
+        raise ValueError(f"publication API transient retry budget exceeded [{url}]")
 
 
 class PublicReader:
@@ -285,17 +416,19 @@ def verified_commit(api, commit):
     return data, parents
 
 
-def read_anchor(api=None, *, allow_bootstrap=False):
-    api = api if api is not None else GitHubAPI()
+def read_ref_head(api, *, allow_bootstrap=False):
     try:
         ref = api.request("GET", REF_READ)
     except urllib.error.HTTPError as error:
         if error.code == 404 and allow_bootstrap:
             return None
-        raise ValueError("publication receipt branch unavailable; bootstrap requires explicit initial 404") from error
+        raise ValueError("publication receipt branch unavailable; bootstrap requires explicit initial 404: " + str(error)) from error
     if ref.get("ref") != REF_NAME or not isinstance(ref.get("object"), dict) or ref["object"].get("type") != "commit":
         raise ValueError("invalid publication anchor ref")
-    head = hex_value(ref["object"].get("sha"), HEX40, "anchor ref commit")
+    return hex_value(ref["object"].get("sha"), HEX40, "anchor ref commit")
+
+
+def read_anchor_at(api, head):
     commit, parents = verified_commit(api, head)
     tree_sha = commit["tree"]["sha"]
     tree = api.request("GET", "/git/trees/" + tree_sha)
@@ -319,6 +452,12 @@ def read_anchor(api=None, *, allow_bootstrap=False):
     if parents != ([receipt["previous_receipt_commit"]] if receipt["previous_receipt_commit"] else []):
         raise ValueError("anchor receipt differs from actual Git parent")
     return {"head": head, "receipt": receipt}
+
+
+def read_anchor(api=None, *, allow_bootstrap=False):
+    api = api if api is not None else GitHubAPI()
+    head = read_ref_head(api, allow_bootstrap=allow_bootstrap)
+    return None if head is None else read_anchor_at(api, head)
 
 
 def check_public(candidate, raw):
@@ -365,7 +504,8 @@ def public_readback(receipt, *, reader=None, attempts=67, pause=time.sleep, cloc
             pause(min(10, max(0, deadline - clock())))
 
 
-def append_receipt(api, receipt, old_head):
+def append_receipt(api, receipt, old_head, *, read_attempts=REF_READBACK_ATTEMPTS,
+                   read_pause=time.sleep, read_clock=time.monotonic):
     raw = encode(validate_receipt(receipt))
     if len(raw) > MAX_RECEIPT_BYTES:
         raise ValueError("receipt capacity exceeded")
@@ -387,6 +527,20 @@ def append_receipt(api, receipt, old_head):
         raise ValueError("created receipt commit differs from requested immutable tree/parent")
     if old_head:
         api.request("PATCH", REF_WRITE, {"sha": commit, "force": False})
+        integer(read_attempts, 1, REF_READBACK_ATTEMPTS, "receipt ref readback attempts")
+        deadline = read_clock() + REF_READBACK_SECONDS
+        for attempt in range(read_attempts):
+            visible = read_ref_head(api)
+            if visible == commit:
+                observed = read_anchor_at(api, commit)
+                if observed != {"head": commit, "receipt": receipt}:
+                    raise ValueError("receipt target differs from immutable requested receipt")
+                return observed
+            if visible != old_head:
+                raise ValueError("receipt branch advanced to a third-party head; publication race")
+            if attempt + 1 == read_attempts or read_clock() >= deadline:
+                raise ValueError("receipt target visibility readback exhausted; publication recovery needed")
+            read_pause(min(1, max(0, deadline - read_clock())))
     else:
         api.request("POST", "/git/refs", {"ref": REF_NAME, "sha": commit})
     observed = read_anchor(api)

@@ -699,6 +699,23 @@ def validate_reading_pins(text):
         raise ValueError('proof SHA-256 association drift')
     return parsed.links
 
+# Same-origin presentation and freshness modules are the only research scripts.
+# Current generation may insert current.mjs; every inline/arbitrary script fails.
+def assert_research_page_scripts(case, text):
+    opens=list(re.finditer('<script', text))
+    tags=list(re.finditer(r'<script type="module" src="([^"]+)"></script>', text))
+    case.assertEqual(len(opens),len(tags), 'Unexpected script markup')
+    paths=[]
+    for tag in tags:
+        src=tag.group(1)
+        case.assertRegex(src, r'\A(?:current|reader-shell)\.mjs(?:\?site-release=[0-9a-f]{64})?\Z')
+        parts=urlsplit(src)
+        case.assertEqual((parts.scheme,parts.netloc,parts.fragment), ('','',''))
+        case.assertIn(parts.path,('current.mjs','reader-shell.mjs'))
+        case.assertRegex(parts.query, r'\A(?:site-release=[0-9a-f]{64})?\Z')
+        paths.append(parts.path)
+    case.assertEqual(len(paths),len(set(paths)), 'Duplicate module')
+
 class LatestSourceControls(unittest.TestCase):
     def test_pinned_citations_are_exact_and_hashes_retain_the_checked_identity(self):
         self.assertEqual(len(validate_reading_pins((SITE/'research.html').read_text())),45+len(OCT10_FACE_PINS)+len(OCT10_PINS))
@@ -777,12 +794,12 @@ class ShrinkingBinReading(unittest.TestCase):
 
     def test_static_entry_and_disclosure_keep_exact_sample_and_spectral_scopes_separate(self):
         text=(SITE/'research.html').read_text();section=self.section()
-        self.assertIn('href="#reading-cut-20261010">Latest public work',text)
+        self.assertIn('href="#reading-cut-20261010">Selected reading · 10 Oct',text)
         self.assertIn('href="#shrinking-bin-sampling">06:20 UTC grid-sampling reading cut below',text)
         self.assertIn('tabindex="-1" aria-labelledby="sampling-heading"',section)
         self.assertIn('datetime="2026-10-04T06:20:32Z"',section)
         self.assertIn('<details class="latest-identities" id="sampling-details">',section)
-        self.assertNotIn('<script',text)
+        assert_research_page_scripts(self, text)
         for term in ('C131 · EXACT VERTEX SAMPLES','C132 · CONDITIONAL SPECTRAL EXTENSION',
                      'fixed side-24 planar torus','unconditioned normalized Gaussian field',
                      'finite ordinary superlevel H0 bars','multiplicity','essential class is excluded',
@@ -905,8 +922,8 @@ NEWER_WORK = re.compile(r'(<aside id="newer-work" class="latest-upstream" tabind
 
 class NewerWorkRoutes(unittest.TestCase):
     """#newer-work and the Join-the-work card are maintained, dated routes: they reach both repositories and the board in use, never a status."""
-    ACTIVE_BOARD = 475   # current coordination successor; guide routing may await its own amendment
-    PREVIOUS_BOARD = 419
+    ACTIVE_BOARD = 539   # current coordination successor; guide routing may await its own amendment
+    PREVIOUS_BOARD = 475
     HISTORICAL_BOARD = 229
     QUEUE = 275
     ISSUES = SOURCE_ROOT+'main/issues/'
@@ -926,7 +943,8 @@ class NewerWorkRoutes(unittest.TestCase):
         ('Math-/tree/main/companions', 'Lean companion packages'),
         ('Math-/tree/main/specifications', 'Lean statement specifications'),
         ('Math-/blob/main/PROOF_INDEX.md', 'selected proof index'),
-        ('main/issues/475', 'active coordination board, main #475'),
+        ('main/issues/539', 'active coordination board, main #539'),
+        ('main/issues/475', 'main #475'),
         ('main/issues/419', 'main #419'),
         ('main/issues/307', 'main #307'),
         ('main/issues/275', 'task and claim queue, main #275'),
@@ -974,7 +992,7 @@ class NewerWorkRoutes(unittest.TestCase):
         self.assertTrue(aside.startswith('<aside id="newer-work" class="latest-upstream" tabindex="-1"><h3>Check newer work</h3>'
                                          '<p><strong>Mutable upstream navigation.</strong>'))
         self.assertRegex(aside,'Routes '+self.AS_READ+r'\.')
-        self.assertIn('Routes as read 21 October 2026.',aside)
+        self.assertIn('Routes as read 25 October 2026.',aside)
         self.assertIn('">contribution guide</a> for submission instructions',aside)
         self.assertNotIn('it names the same board and queue',aside)
         self.assertIn(self.ASIDE_229,aside)
@@ -1039,9 +1057,9 @@ class NewerWorkRoutes(unittest.TestCase):
         self.assertIn(f'<a href="{self.ISSUES}{self.ACTIVE_BOARD}">Active coordination board ↗</a>',card)
         self.assertIn(f'<a href="{self.ISSUES}{self.QUEUE}">Current tasks and claims ↗</a>',card)
         self.assertIn(f'<a href="{self.ISSUES}{self.HISTORICAL_BOARD}#issuecomment-6038554880">historical #229 working guidance</a>',card)
-        self.assertIn(f'successor to <a href="{self.ISSUES}{self.PREVIOUS_BOARD}">main #{self.PREVIOUS_BOARD}</a>, which stays readable as history '
-                      'after GitHub stopped accepting comments there at 2,500 on 21 October 2026;',card)
-        # Declarations stay where CONTRIBUTING.md puts them (#275 or the task's issue/PR); #475 takes general coordination.
+        self.assertIn(f'successor to <a href="{self.ISSUES}{self.PREVIOUS_BOARD}">main #{self.PREVIOUS_BOARD}</a>, which remains readable history '
+                      'after reaching the comment limit;',card)
+        # Declarations stay where CONTRIBUTING.md puts them (#275 or the task's issue/PR); #539 takes general coordination.
         self.assertIn("Comment <code>/claim</code> on the task's issue or PR",card)
 
     def test_entry_wording_names_cuts_and_the_index_as_selections(self):
@@ -1294,8 +1312,8 @@ class FiniteH0LifetimeReading(unittest.TestCase):
             with self.subTest(card=token):self.assertNotIn(token,card)
         eyebrow=section.split('<p class="eyebrow">',1)[1].split('</p>',1)[0]
         self.assertEqual(eyebrow,'Landed 8 October · main #314–#326 · fixed finite Gaussian scope')
-        # The hero up to the 10 October cut, that cut's own entry row and #status-words rows included, names none of #329's sources in any case.
-        hero=self.page().split('<section class="hero">',1)[1].split('<section id="reading-cut-20261010"',1)[0]
+        # The opening hero remains a general invitation; separately labelled dated question cards may name their own topic.
+        hero=self.page().split('<section class="hero">',1)[1].split('</section>',1)[0]
         for token in ('#329','#324','regular-fold','short-bar','periodized','universality'):
             with self.subTest(hero=token):self.assertNotIn(token,hero.lower())
 
@@ -1686,7 +1704,7 @@ class UniversalitySourcesReading(unittest.TestCase):
         self.assertEqual(section.split('<p class="eyebrow">',1)[1].split('</p>',1)[0],'Landed 8 October · main #329 · conditional and fixed-law scope')
         self.assertEqual(re.findall(r'<time datetime="([^"]+)">',section),[self.CUT_ISO])
         self.assertIn(f'<p class="section-intro">Reading cut<br><time datetime="{self.CUT_ISO}">10 October 2026 · 20:24 UTC</time></p>',section)
-        self.assertIn(f'<a class="button secondary" href="#{self.CUT_ID}">Latest public work</a>',text)
+        self.assertIn(f'<a class="button secondary" href="#{self.CUT_ID}">Selected reading · 10 Oct</a>',text)
         self.assertIn(f'Newest reading cut: <time datetime="{self.CUT_ISO}">10 October 2026, 20:24 UTC</time>.',text)
         self.assertEqual(text.split('<nav class="cut-list"',1)[1].split('<li>',2)[1],self.HERO_ROW)
         self.assertIn(f'<details class="latest-identities" id="{self.CUT_ID}-details"><summary>Exact sources, review records and what each review covers</summary>',section)
@@ -1815,7 +1833,7 @@ class UniversalitySourcesReading(unittest.TestCase):
         self.assertEqual(len(tree.find('dl','card-status')),3)
         used=set().union(*[n['classes'] for n in tree.elements])
         self.assertLessEqual(used,self.ALLOWED_CLASSES,used-self.ALLOWED_CLASSES)
-        self.assertNotIn('<script',self.page())
+        assert_research_page_scripts(self, self.page())
         all_formulas=[]
         for (identity,directory,name,_),face in zip(self.CARDS,OCT10_FACE_PINS):
             card=self.card(identity);card_tree=FiniteH0LifetimeReading.Tree(card)
