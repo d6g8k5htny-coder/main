@@ -8,6 +8,7 @@ and source/reviewer exposure. Omitted disclosures are recorded as UNSPECIFIED.
 These are caller reports, not authenticated identity or independence evidence.
 """
 import argparse
+import builtins
 from datetime import datetime, timezone
 from fractions import Fraction as Q
 import hashlib
@@ -15,6 +16,7 @@ import json
 from pathlib import Path
 import sys
 import time
+import types
 
 REPOSITORY = Path(__file__).resolve().parents[3]
 POPULATION = Path(__file__).resolve().parent
@@ -37,6 +39,15 @@ SOURCE_PATHS = [REPOSITORY / p for p in FIXED_HASHES] + [
     POPULATION / name for name in ('population_certificate.py',
                                   'test_population_certificate.py',
                                   'run_population_certificate.py')]
+PROJECT_MODULE_PATHS = {
+    'population_certificate': 'experiments/universality/two_parameter_cusp_population/population_certificate.py',
+    **{name: 'experiments/periodic_h0/' + name + '.py' for name in
+       ('finite_certificate', 'gaussian_tail', 'mean_adaptive_confidence', 'finite_count_loss')}}
+# Direct imports of the inspected five-module closure. Imported standard-library
+# internals remain ordinary trusted interpreter behavior, not source attestation.
+PROJECT_STDLIB_IMPORTS = frozenset((
+    'argparse', 'datetime', 'fractions', 'functools', 'hashlib', 'json', 'math',
+    'pathlib', 're', 'sys', 'time'))
 
 
 def _require(condition, message):
@@ -44,16 +55,81 @@ def _require(condition, message):
         raise ValueError(message)
 
 
-def freeze_sources(paths=SOURCE_PATHS, base=REPOSITORY):
+def _capture_sources(paths=SOURCE_PATHS, base=REPOSITORY):
+    """Return metadata and the exact same raw observations, once per source."""
     base = Path(base)
-    result = {}
+    result, image = {}, {}
     for path in paths:
         path = Path(path)
         raw = path.read_bytes()
         key = str(path.relative_to(base))
         _require(key not in result, 'Duplicate frozen source')
         result[key] = {'sha256': hashlib.sha256(raw).hexdigest(), 'bytes': len(raw)}
-    return result
+        image[key] = raw
+    return result, image
+
+
+def freeze_sources(paths=SOURCE_PATHS, base=REPOSITORY):
+    return _capture_sources(paths, base)[0]
+
+
+def _load_population(image, loading):
+    """Execute the captured project image without installing ambient modules.
+
+    This controls the inspected ordinary import routes, not arbitrary Python
+    introspection or malicious code. The already loaded coordinator, interpreter
+    and standard library remain trusted. Only the population's path insertion is
+    isolated: other process state is not a security sandbox.
+    """
+    modules = {}
+    private_sys = types.ModuleType('sys')
+    private_sys.__dict__.update(vars(sys))
+    private_sys.path = list(sys.path)
+    private_sys.modules = {name: module for name, module in sys.modules.items()
+                           if name not in PROJECT_MODULE_PATHS}
+    ordinary_import = builtins.__import__
+
+    def captured_import(name, globals=None, locals=None, fromlist=(), level=0):
+        if level == 0 and name in PROJECT_MODULE_PATHS:
+            return load(name)
+        if level == 0 and name == 'sys':
+            return private_sys
+        if level == 0 and name in PROJECT_STDLIB_IMPORTS:
+            return ordinary_import(name, globals, locals, fromlist, level)
+        raise ImportError('Import outside captured project closure and declared stdlib: ' + name)
+
+    def load(name):
+        if name in modules:
+            return modules[name]
+        path = PROJECT_MODULE_PATHS[name]
+        module = types.ModuleType(name)
+        module.__file__ = str(REPOSITORY / path)
+        module.__package__ = ''
+        module.__builtins__ = dict(vars(builtins), __import__=captured_import)
+        modules[name] = module
+        private_sys.modules[name] = module
+        # compile(bytes) consumes the retained image directly and never selects a
+        # .pyc or reopens this project's mutable files to obtain executable code.
+        exec(compile(image[path], module.__file__, 'exec', dont_inherit=True), module.__dict__)
+        loading['loaded_modules'].append(name)
+        return module
+
+    loading['status'] = 'LOADING'
+    try:
+        population = load('population_certificate')
+    except Exception:
+        loading['status'] = 'FAILED'
+        raise
+    loading['status'] = 'COMPLETE'
+    return population
+
+
+def _retained_source_drift(before, after):
+    # Error observations cannot qualify acceptance, including a source for which
+    # the before capture failed. No filesystem read supplies this decision.
+    return sorted({name for name, metadata in before.items()
+                   if metadata != after.get(name)}
+                  | {name for name, metadata in after.items() if 'error' in metadata})
 
 
 def source_drift(manifest, base=REPOSITORY):
@@ -332,22 +408,31 @@ def run(output_dir=DEFAULT_OUTPUT, max_evaluations=80000, time_budget=900, *,
     output_dir.mkdir(parents=True, exist_ok=False)
     start_utc, start = _utc(), time.monotonic()
     before, pre_drift = {}, []
+    loading = {
+        'status': 'NOT_LOADED',
+        'mode': 'retained_raw_bytes_private_project_import_context',
+        'captured_module_sources': {}, 'loaded_modules': [],
+        'loaded_coordinator_attested': False, 'interpreter_stdlib_attested': False,
+        'trusted_boundary': 'The already loaded runner is the coordinating TCB; '
+        'runner/test/docs disk hashes are custody metadata, not loaded-code self-attestation. '
+        'The interpreter and standard library are trusted; this is not a security sandbox '
+        'or an atomic multi-file filesystem snapshot.'}
     try:
-        before = freeze_sources()
+        before, image = _capture_sources()
+        loading['captured_module_sources'] = {
+            name: dict(before[path], path=path) for name, path in PROJECT_MODULE_PATHS.items()}
         pre_drift = [name for name, expected in FIXED_HASHES.items()
                      if before[name]['sha256'] != expected]
         if pre_drift:
             certificate = _empty_certificate('INCONCLUSIVE_SOURCE_DRIFT',
                                              'Frozen contract/proof/dependency identity mismatch before evaluation')
         else:
-            # Freeze prior to loading executable population source for this invocation.
-            import population_certificate as pc
+            pc = _load_population(image, loading)
             certificate = _campaign(pc, max_evaluations, start + time_budget)
     except (ImportError, OSError) as exc:
         certificate = _empty_certificate('SETUP_BLOCKED', type(exc).__name__ + ': ' + str(exc))
     except Exception as exc:
         certificate = _empty_certificate('FAIL_IMPLEMENTATION', type(exc).__name__ + ': ' + str(exc))
-    drift = sorted(set(pre_drift + source_drift(before)))
     after = {}
     for path in SOURCE_PATHS:
         name = str(path.relative_to(REPOSITORY))
@@ -355,6 +440,7 @@ def run(output_dir=DEFAULT_OUTPUT, max_evaluations=80000, time_budget=900, *,
             after.update(freeze_sources([path]))
         except OSError as exc:
             after[name] = {'error': type(exc).__name__ + ': ' + str(exc)}
+    drift = sorted(set(pre_drift + _retained_source_drift(before, after)))
     apply_source_drift(certificate, drift)
     end_utc, elapsed = _utc(), time.monotonic() - start
     exit_code = 0 if certificate['status'] == 'PASS' else (1 if certificate['status'].startswith('FAIL')
@@ -370,6 +456,7 @@ def run(output_dir=DEFAULT_OUTPUT, max_evaluations=80000, time_budget=900, *,
                   'final_runtime_budget_gate': 'PASS',
                   'exit_code': exit_code, 'status': certificate['status'],
                   'sources_before': before, 'sources_after': after, 'source_drift': drift,
+                  'project_source_loading': loading,
                   'performer': performer,
                   'exposure': exposure,
                   'organizational_independence_credit': 0,

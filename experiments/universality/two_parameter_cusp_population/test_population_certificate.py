@@ -5,7 +5,11 @@ No full eight-row integration campaign is performed by this test file.
 """
 from fractions import Fraction as Q
 from pathlib import Path
+from contextlib import contextmanager
+import hashlib
 import importlib.util
+import os
+import py_compile
 import subprocess
 import sys
 import tempfile
@@ -714,6 +718,284 @@ class RunnerAttributionTests(unittest.TestCase):
                 self.assertEqual(record['exposure'], exposure)
                 self.assertEqual(record['organizational_independence_credit'], 0)
                 self.assertEqual(record['actual_route_evaluations'], 0)
+
+
+class CapturedSourceRunTests(unittest.TestCase):
+    """Public-run source-image controls; accepting payloads are synthetic only.
+
+    No full numerical campaign is represented by these payloads. These tests
+    would fail if run() selected ambient/cached project code or decided drift
+    from an observation different from its retained sources_after manifest.
+    """
+    PROJECT_MODULES = ('population_certificate', 'finite_certificate',
+                       'gaussian_tail', 'mean_adaptive_confidence', 'finite_count_loss')
+    POPULATION_PATH = 'experiments/universality/two_parameter_cusp_population'
+    PROOF_PATH = POPULATION_PATH + '/PROOF.md'
+
+    @contextmanager
+    def source_fixture(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            base = Path(temporary).resolve()
+            for source in runner.SOURCE_PATHS:
+                target = base / source.relative_to(runner.REPOSITORY)
+                target.parent.mkdir(parents=True, exist_ok=True)
+                target.write_bytes(source.read_bytes())
+            script = base / self.POPULATION_PATH / 'run_population_certificate.py'
+            spec = importlib.util.spec_from_file_location('captured_source_runner_fixture', script)
+            copied = importlib.util.module_from_spec(spec)
+            spec.loader.exec_module(copied)
+            yield base, copied
+
+    @contextmanager
+    def ambient_imports(self, base, extra_path=None):
+        # Restore every caller cache entry and the exact path object/content.
+        with mock.patch.dict(sys.modules), mock.patch.object(sys, 'path', list(sys.path)):
+            for name in self.PROJECT_MODULES:
+                sys.modules.pop(name, None)
+            sys.path[:0] = [str(base / self.POPULATION_PATH),
+                            str(base / 'experiments/periodic_h0')]
+            if extra_path is not None:
+                sys.path.insert(0, str(extra_path))
+            yield
+
+    def synthetic_accepting(self):
+        certificate = runner._empty_certificate('PASS', '')
+        certificate['test_fixture'] = 'SYNTHETIC_ACCEPTING_NOT_NUMERICAL'
+        certificate['rows'] = [
+            {'j': j, 'tau': Q(1, 1 << (3 * j)), 'n': 4 ** j,
+             'status': 'PASS', 'coefficient_status': 'PASS',
+             'direct': {'status': 'CERTIFIED', 'evaluations': 0,
+                        'normalized_interval': (Q(1, 5), Q(1, 5))},
+             'cdf_normalized': (Q(1, 5), Q(1, 5))}
+            for j in range(1, 9)]
+        certificate['rows'][-1].update({
+            'void_interval': (Q(4, 5), Q(4, 5)),
+            'target_interval': (Q(4, 5), Q(4, 5)),
+            'finite_void': {'status': 'PASS', 'endpoint_distance': Q(0)}})
+        return certificate
+
+    def invoke(self, base, copied, probe=None, name='attempt'):
+        def synthetic(pc_module, max_evaluations, deadline):
+            certificate = self.synthetic_accepting()
+            if probe is not None:
+                certificate['observed_image'] = probe(pc_module)
+            return certificate
+        with mock.patch.object(copied, '_campaign', synthetic):
+            record = copied.run(output_dir=base / name, max_evaluations=80000, time_budget=900,
+                                performer='OpenAI/Codex source-custody test fixture',
+                                exposure='Synthetic accepting payload; no numerical campaign')
+        return record, copied.load_json(base / name / 'CERTIFICATE.json')
+
+    def assert_drift_closed(self, base, record, certificate, name='attempt'):
+        self.assertEqual(certificate['test_fixture'], 'SYNTHETIC_ACCEPTING_NOT_NUMERICAL')
+        self.assertEqual(record['status'], 'INCONCLUSIVE_SOURCE_DRIFT')
+        self.assertEqual(record['exit_code'], 2)
+        self.assertFalse(record['full_declared_campaign'])
+        self.assertIn(self.PROOF_PATH, record['source_drift'])
+        self.assertEqual(certificate['scope_statuses']['exact_non_gaussian_population'],
+                         'INCONCLUSIVE_SOURCE_DRIFT')
+        self.assertEqual([row['status'] for row in certificate['rows']],
+                         ['INCONCLUSIVE_SOURCE_DRIFT'] * 8)
+        self.assertEqual([row['coefficient_status'] for row in certificate['rows']],
+                         ['NOT_ACCEPTED_SOURCE_DRIFT'] * 8)
+        self.assertEqual(certificate['rows'][-1]['finite_void']['status'],
+                         'NOT_ACCEPTED_SOURCE_DRIFT')
+        for filename in ('CERTIFICATE.json', 'RESULTS.md'):
+            raw = (base / name / filename).read_bytes()
+            self.assertEqual(record['outputs'][filename],
+                             {'sha256': hashlib.sha256(raw).hexdigest(), 'bytes': len(raw)})
+        saved = runner.load_json(base / name / 'RUN.json')
+        for key in ('status', 'exit_code', 'source_drift', 'sources_before', 'sources_after',
+                    'full_declared_campaign', 'outputs'):
+            self.assertEqual(saved[key], record[key])
+
+    def test_cached_population_does_not_replace_captured_disk_image(self):
+        # Kills selecting sys.modules['population_certificate'] after hashing disk.
+        with self.source_fixture() as (base, copied), self.ambient_imports(base):
+            ambient = __import__('population_certificate')
+            path = base / self.POPULATION_PATH / 'population_certificate.py'
+            path.write_bytes(path.read_bytes() + b'\nCAPTURED_SENTINEL = "new frozen image"\n')
+            record, certificate = self.invoke(base, copied,
+                lambda module: getattr(module, 'CAPTURED_SENTINEL', 'old cached image'))
+            self.assertEqual(certificate['observed_image'], 'new frozen image')
+            self.assertEqual(record['source_drift'], [])
+            self.assertIs(sys.modules['population_certificate'], ambient)
+
+    def test_cached_edited_dependencies_and_aliases_do_not_survive_pinned_restoration(self):
+        # Each edited helper is really imported before its pinned bytes return.
+        probes = {
+            'finite_certificate': ('sqrt_bounds', lambda module: module._sqrt((Q(4), Q(4)))),
+            'gaussian_tail': ('exp_neg_bounds', lambda module: module.exp_neg_bounds(Q(0))),
+            'mean_adaptive_confidence': ('log_bounds', lambda module: module.log_bounds(Q(1))),
+            'finite_count_loss': ('bar_cap', lambda module: module.log_bounds.__globals__['cl'].bar_cap(1))}
+        for dependency, (function, probe) in probes.items():
+            with self.subTest(dependency=dependency), self.source_fixture() as (base, copied), self.ambient_imports(base):
+                path = base / 'experiments/periodic_h0' / (dependency + '.py')
+                pinned = path.read_bytes()
+                path.write_bytes(pinned + ('\ndef ' + function + '(*args, **kwargs):\n'
+                    '    raise RuntimeError("cached edited helper executed")\n').encode())
+                __import__('population_certificate')
+                path.write_bytes(pinned)
+                record, certificate = self.invoke(base, copied, lambda module: str(probe(module)))
+                self.assertEqual(record['status'], 'PASS', certificate.get('error'))
+                self.assertEqual(record['source_drift'], [])
+                self.assertIn('observed_image', certificate)
+
+    def test_cold_freeze_load_revert_executes_the_retained_population_bytes(self):
+        # Kills reopening mutable source after freeze, even when endpoints agree.
+        with self.source_fixture() as (base, copied), self.ambient_imports(base):
+            path = base / self.POPULATION_PATH / 'population_certificate.py'
+            pinned, read_bytes = path.read_bytes(), Path.read_bytes
+            last_before = base / self.POPULATION_PATH / 'run_population_certificate.py'
+            injected = []
+            def mutate_after_last_before(observed):
+                raw = read_bytes(observed)
+                if observed == last_before and not injected:
+                    injected.append(True)
+                    path.write_bytes(pinned + b'\nCAPTURED_SENTINEL = "transient unretained image"\n')
+                return raw
+            def probe(module):
+                value = getattr(module, 'CAPTURED_SENTINEL', 'retained original image')
+                path.write_bytes(pinned)
+                return value
+            with mock.patch.object(Path, 'read_bytes', mutate_after_last_before):
+                record, certificate = self.invoke(base, copied, probe)
+            self.assertEqual(certificate['observed_image'], 'retained original image')
+            self.assertEqual(record['source_drift'], [])
+
+    def test_ambient_project_cache_and_search_path_cannot_select_code(self):
+        for contamination in ('cache', 'path'):
+            with self.subTest(contamination=contamination), self.source_fixture() as (base, copied):
+                shadow = base / 'shadow'; shadow.mkdir()
+                (shadow / 'population_certificate.py').write_text('CAPTURED_SENTINEL = "ambient shadow"\n')
+                with self.ambient_imports(base, shadow):
+                    if contamination == 'cache':
+                        module = types.ModuleType('population_certificate')
+                        module.CAPTURED_SENTINEL = 'ambient shadow'
+                        sys.modules['population_certificate'] = module
+                    path_object, path_before = sys.path, list(sys.path)
+                    modules_before = {name: sys.modules.get(name) for name in self.PROJECT_MODULES}
+                    record, certificate = self.invoke(base, copied,
+                        lambda module: getattr(module, 'CAPTURED_SENTINEL', 'retained original image'))
+                    self.assertEqual(certificate['observed_image'], 'retained original image')
+                    self.assertEqual(record['status'], 'PASS')
+                    self.assertIs(sys.path, path_object)
+                    self.assertEqual(sys.path, path_before)
+                    for name, prior in modules_before.items():
+                        self.assertIs(sys.modules.get(name), prior)
+
+    def test_stale_bytecode_cannot_replace_the_captured_population_bytes(self):
+        # Same mtime and byte count make this a usable hostile timestamp pyc.
+        with self.source_fixture() as (base, copied), self.ambient_imports(base):
+            path = base / self.POPULATION_PATH / 'population_certificate.py'
+            pinned = path.read_bytes()
+            changed = pinned.replace(b'BITS = 128\n', b'BITS = 127\n', 1)
+            self.assertEqual(len(changed), len(pinned))
+            path.write_bytes(changed); os.utime(path, (1700000000, 1700000000))
+            py_compile.compile(str(path), doraise=True, optimize=sys.flags.optimize)
+            path.write_bytes(pinned); os.utime(path, (1700000000, 1700000000))
+            record, certificate = self.invoke(base, copied, lambda module: module.BITS)
+            self.assertEqual(certificate['observed_image'], 128)
+            self.assertEqual(record['source_drift'], [])
+
+    def test_uncaptured_and_dotted_project_imports_are_refused(self):
+        # Kills a private resolver that falls back to ambient arbitrary imports.
+        for route in ('uncaptured', 'project_dotted'):
+            with self.subTest(route=route), self.source_fixture() as (base, copied), self.ambient_imports(base):
+                population = base / self.POPULATION_PATH / 'population_certificate.py'
+                if route == 'uncaptured':
+                    (population.parent / 'sixth_project_dependency.py').write_text('SENTINEL = "uncaptured code"\n')
+                    injected = b'\nfrom sixth_project_dependency import SENTINEL\n'
+                else:
+                    extra = types.ModuleType('finite_certificate.extra')
+                    extra.SENTINEL = 'ambient dotted code'
+                    sys.modules['finite_certificate.extra'] = extra
+                    injected = b'\nfrom finite_certificate.extra import SENTINEL\n'
+                population.write_bytes(population.read_bytes() + injected)
+                record, certificate = self.invoke(base, copied)
+                self.assertEqual(record['status'], 'SETUP_BLOCKED')
+                self.assertEqual(record['exit_code'], 2)
+                self.assertEqual(certificate['rows'], [])
+                self.assertIn('ImportError', certificate.get('error', ''))
+
+    def test_receipt_identifies_consumed_image_without_attesting_loaded_coordinator(self):
+        with self.source_fixture() as (base, copied):
+            record, certificate = self.invoke(base, copied)
+            loading = record.get('project_source_loading', {})
+            self.assertEqual(loading.get('status'), 'COMPLETE')
+            self.assertEqual(set(loading['captured_module_sources']), set(self.PROJECT_MODULES))
+            self.assertEqual(set(loading['loaded_modules']), set(self.PROJECT_MODULES))
+            for metadata in loading['captured_module_sources'].values():
+                self.assertEqual({'sha256': metadata['sha256'], 'bytes': metadata['bytes']},
+                                 record['sources_before'][metadata['path']])
+            self.assertFalse(loading['loaded_coordinator_attested'])
+            self.assertFalse(loading['interpreter_stdlib_attested'])
+            self.assertIn('already loaded', loading['trusted_boundary'])
+            self.assertIn('custody', loading['trusted_boundary'])
+            self.assertEqual(certificate['test_fixture'], 'SYNTHETIC_ACCEPTING_NOT_NUMERICAL')
+
+    def test_each_invocation_has_a_private_project_image_and_preserves_caller_path(self):
+        with self.source_fixture() as (base, copied), self.ambient_imports(base):
+            interval = str(base / 'experiments/periodic_h0')
+            sys.path.remove(interval)
+            path_before = list(sys.path)
+            def probe(module):
+                prior = getattr(module, 'INVOCATION_SENTINEL', 'fresh image')
+                module.INVOCATION_SENTINEL = 'previous invocation'
+                return prior
+            for name in ('first', 'second'):
+                record, certificate = self.invoke(base, copied, probe, name=name)
+                self.assertEqual(certificate['observed_image'], 'fresh image')
+                self.assertEqual(record['status'], 'PASS')
+                self.assertEqual(sys.path, path_before)
+
+    def test_retained_after_edit_withdraws_all_nested_acceptance_and_binds_outputs(self):
+        with self.source_fixture() as (base, copied):
+            proof = base / self.PROOF_PATH
+            freeze = copied.freeze_sources
+            def edit_at_retained_after(paths=None, *args, **kwargs):
+                if paths == [proof]:
+                    proof.write_bytes(proof.read_bytes() + b'\nretained-after edit\n')
+                return freeze(*args, **kwargs) if paths is None else freeze(paths, *args, **kwargs)
+            with mock.patch.object(copied, 'freeze_sources', edit_at_retained_after):
+                record, certificate = self.invoke(base, copied)
+            self.assertNotEqual(record['sources_before'][self.PROOF_PATH], record['sources_after'][self.PROOF_PATH])
+            self.assert_drift_closed(base, record, certificate)
+
+    def test_retained_after_read_error_is_drift_and_preserves_the_error(self):
+        with self.source_fixture() as (base, copied):
+            proof = base / self.PROOF_PATH
+            freeze = copied.freeze_sources
+            def fail_at_retained_after(paths=None, *args, **kwargs):
+                if paths == [proof]:
+                    raise PermissionError('synthetic retained-after read denial')
+                return freeze(*args, **kwargs) if paths is None else freeze(paths, *args, **kwargs)
+            with mock.patch.object(copied, 'freeze_sources', fail_at_retained_after):
+                record, certificate = self.invoke(base, copied)
+            self.assertIn('PermissionError', record['sources_after'][self.PROOF_PATH].get('error', ''))
+            self.assert_drift_closed(base, record, certificate)
+
+    def test_decision_uses_retained_after_even_when_a_later_reread_would_revert(self):
+        with self.source_fixture() as (base, copied):
+            proof = base / self.PROOF_PATH
+            pinned, freeze, read_bytes = proof.read_bytes(), copied.freeze_sources, Path.read_bytes
+            reads = []
+            def count_source_reads(path):
+                if path == proof:
+                    reads.append(True)
+                return read_bytes(path)
+            def retain_then_revert(paths=None, *args, **kwargs):
+                if paths == [proof]:
+                    proof.write_bytes(pinned + b'\nretained observation only\n')
+                    retained = freeze(paths, *args, **kwargs)
+                    proof.write_bytes(pinned)
+                    return retained
+                return freeze(*args, **kwargs) if paths is None else freeze(paths, *args, **kwargs)
+            with mock.patch.object(Path, 'read_bytes', count_source_reads), mock.patch.object(copied, 'freeze_sources', retain_then_revert):
+                record, certificate = self.invoke(base, copied)
+            self.assertNotEqual(record['sources_before'][self.PROOF_PATH], record['sources_after'][self.PROOF_PATH])
+            self.assert_drift_closed(base, record, certificate)
+            self.assertEqual(len(reads), 2, 'one before read and one retained after read; no separate decision read')
 
 
 if __name__ == '__main__':
