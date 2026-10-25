@@ -1,0 +1,140 @@
+{
+ "scenarios": [
+  {
+   "id": "S1",
+   "spoken_by_step": [
+    "step 0 (start page): sent 15:49:40.780 [Orca startup] Screen reader on. || sent 15:49:46.042 [window activation] c220 start - Chromium frame. || sent 15:49:46.315 played 15:49:47.686 [Orca page-load message] Finished loading c220 start. | Say All chunks: 1",
+    "step 1 (navigate 15:49:54.949; widget DOM 'Checking\u2026' 15:49:55.788, line-399 fallback 15:49:55.878): sent 15:49:55.308 played 15:49:55.314 [page-load] Loading.  Please wait. || sent 15:49:55.474 played 15:50:11.704 [page-load] Finished loading Source records & exhibits \u00b7 Universal Law. || sent 15:49:55.489 played 15:50:15.293 [page-load] Page has 8 landmarks, 18 headings, 76 unvisited links. || sent 15:49:56.060 played 15:50:51.840 [WIDGET live region] 2D coordinate diagram. Checking optional 3D view\u2026 || sent 15:49:56.458 played 15:51:11.545 [WIDGET live region] 2D fallback: the optional 3D library or WebGL could not load. All pin coordinates and six data labels remain visible. | 8 outer museum status messages; Say All chunks: 28",
+    "step 2 (final drain): sent 15:52:02.893 [Orca shutdown] Screen reader off. | Say All chunks: 11"
+   ],
+   "agrees_with_executor": false,
+   "differences": "Step 1: my run also spoke '2D coordinate diagram. Checking optional 3D view\u2026' before the line-399 fallback. The executor's S1 has only the fallback. My Orca log has an object:text-changed:insert event on the widget status bar carrying the 'Checking\u2026' text. The executor's S1 log has no event with that text: Chromium coalesced the two DOM states 43 ms apart. The repeat run S1r2 shows the same extra message. The page summary differs: 8 landmarks, 18 headings, 76 unvisited links in mine; 8, 11, 65 reported. Agreements: 'Loading.  Please wait.', 'Finished loading \u2026', the line-399 fallback text (spoken last in the queue, as reported), 8 outer status messages, step 0 'Finished loading c220 start.' and the empty step 2 apart from Orca shutdown. The Say All counts (28/11 against 51/1) are not comparable because the step lengths and audio pacers differ.",
+   "evidence_dir": "/tmp/claude-0/-home-user-main/d5c985ca-97e5-58d8-a9d4-1e0a19065a22/scratchpad/c220/replicate/evidence/S1"
+  },
+  {
+   "id": "S1r2",
+   "spoken_by_step": [
+    "step 0: Screen reader on. || c220 start - Chromium frame. || sent 16:03:17.673 played 16:03:20.513 [page-load] Finished loading c220 start. | Say All 1",
+    "step 1 (widget DOM 'Checking\u2026' 16:03:26.794, fallback 16:03:26.956): sent 16:03:26.812 played 16:03:39.219 [page-load] Loading.  Please wait. || sent 16:03:27.186 [page-load] Finished loading Source records & exhibits \u00b7 Universal Law. || sent 16:03:27.227 [page-load] Page has 9 landmarks, 68 headings, 1 table, 159 unvisited links. || sent 16:03:27.478 played 16:04:26.906 [WIDGET live region] 2D coordinate diagram. Checking optional 3D view\u2026 || sent 16:03:27.841 played 16:04:47.025 [WIDGET live region] 2D fallback: the optional 3D library or WebGL could not load. All pin coordinates and six data labels remain visible. | 8 outer; Say All 24",
+    "step 2 (final drain): Screen reader off. | Say All 14"
+   ],
+   "agrees_with_executor": false,
+   "differences": "Repeat of S1 with identical settings. As in my first S1, the extra 'Checking optional 3D view\u2026' message was spoken before the line-399 fallback (DOM gap 162 ms). The page summary was 9 landmarks, 68 headings, 1 table, 159 unvisited links. Everything else matches the S1 comparison.",
+   "evidence_dir": "/tmp/claude-0/-home-user-main/d5c985ca-97e5-58d8-a9d4-1e0a19065a22/scratchpad/c220/replicate/evidence/S1r2"
+  },
+  {
+   "id": "S3",
+   "spoken_by_step": [
+    "step 0: Screen reader on. || c220 start - Chromium frame. || sent 15:52:15.540 played 15:52:18.464 [page-load] Finished loading c220 start. | Say All 1",
+    "step 1 (navigate 15:52:24.245; DOM 'Checking\u2026' 15:52:24.649, status3D 15:52:25.065): sent 15:52:24.871 played 15:52:44.997 [page-load] Finished loading Source records & exhibits \u00b7 Universal Law. || sent 15:52:24.893 played 15:52:48.637 [page-load] Page has 8 landmarks, 18 headings, 76 unvisited links. || sent 15:52:25.417 played 15:53:29.322 [WIDGET live region] 3D coordinate plane: drag with mouse or touch, or focus the canvas and use arrow keys. Orbit is a camera control only. | 8 outer; Say All 31",
+    "step 2 (focus 'Show 2D diagram' via Runtime.evaluate, 15:54:14.327): sent 15:54:14.395 played 15:54:14.400 [focus presentation] Show 2D diagram push button. | Say All 8",
+    "step 3 (Enter via Input.dispatchKeyEvent 15:54:26.334; DOM 15:54:26.336): sent 15:54:26.539 played 15:54:29.703 [WIDGET live region] 2D coordinate diagram. All pin coordinates and six data labels remain visible. | Say All 9",
+    "step 4 (focus 'Show 3D view': already focused): nothing besides Say All (5 chunks)",
+    "step 5 (Enter 15:54:58.385; DOM 15:54:58.391): sent 15:54:58.568 played 15:54:58.816 [WIDGET live region] 3D coordinate plane: drag with mouse or touch, or focus the canvas and use arrow keys. Orbit is a camera control only. | Say All 11",
+    "step 6 (final drain): Screen reader off. | Say All 13"
+   ],
+   "agrees_with_executor": false,
+   "differences": "Steps 2-6 agree exactly. The focus step says 'Show 2D diagram push button.', nearly unqueued. Each Enter yields one widget message with the exact reported text. Step 4 is silent. No name-change or key echo occurs with CDP keys. Step 1 differs: (a) 'Checking optional 3D view\u2026' was not spoken; the executor reported it. My Orca log has no AT-SPI event with that text at all (DOM gap 416 ms), so Chromium never surfaced it. S3r2 reproduced this. (b) 'Loading.  Please wait.' was absent here but present in S3r2, so its presence varies between runs. (c) The page summary was 8 landmarks, 18 headings, 76 unvisited links; 9, 67, 1 table, 157 reported. Both runs had 8 outer status messages. Say All continued through the interaction steps in both runs; the counts differ but are not comparable.",
+   "evidence_dir": "/tmp/claude-0/-home-user-main/d5c985ca-97e5-58d8-a9d4-1e0a19065a22/scratchpad/c220/replicate/evidence/S3"
+  },
+  {
+   "id": "S3r2",
+   "spoken_by_step": [
+    "step 0: Screen reader on. || c220 start - Chromium frame. || Finished loading c220 start. | Say All 1",
+    "step 1 (DOM 'Checking\u2026' 16:05:56.078, status3D 16:05:56.530): sent 16:05:56.100 [page-load] Loading.  Please wait. || sent 16:05:56.243 [page-load] Finished loading Source records & exhibits \u00b7 Universal Law. || sent 16:05:56.254 [page-load] Page has 8 landmarks, 12 headings, 66 unvisited links. || sent 16:05:57.077 played 16:07:10.620 [WIDGET live region] 3D coordinate plane: drag with mouse or touch, or focus the canvas and use arrow keys. Orbit is a camera control only. | 8 outer; Say All 30",
+    "step 2 (focus): sent 16:07:45.778 played 16:07:46.943 [focus presentation] Show 2D diagram push button. | Say All 8",
+    "step 3 (Enter): sent 16:07:57.915 played 16:07:58.187 [WIDGET live region] 2D coordinate diagram. All pin coordinates and six data labels remain visible. | Say All 10",
+    "step 4 (already focused): nothing besides Say All (4)",
+    "step 5 (Enter): sent 16:08:29.981 played 16:08:31.820 [WIDGET live region] 3D coordinate plane: drag with mouse or touch, or focus the canvas and use arrow keys. Orbit is a camera control only. | Say All 10",
+    "step 6: Screen reader off. | Say All 23"
+   ],
+   "agrees_with_executor": false,
+   "differences": "Repeat of S3. Steps 2-6 again agree exactly with the report. In step 1, 'Checking optional 3D view\u2026' was again never surfaced or spoken (DOM gap 452 ms). 'Loading.  Please wait.' was present this time, matching the report. The page summary was 8 landmarks, 12 headings, 66 unvisited links.",
+   "evidence_dir": "/tmp/claude-0/-home-user-main/d5c985ca-97e5-58d8-a9d4-1e0a19065a22/scratchpad/c220/replicate/evidence/S3r2"
+  },
+  {
+   "id": "S4",
+   "spoken_by_step": [
+    "step 0: Screen reader on. || c220 start - Chromium frame. || sent 15:55:53.445 played 15:55:54.947 [page-load] Finished loading c220 start. | Say All 1",
+    "step 1 (navigate 15:56:02.172; widget filled 15:56:02.574): sent 15:56:02.528 played 15:56:02.536 [page-load] Loading.  Please wait. || sent 15:56:02.789 [page-load] Finished loading Source records & exhibits \u00b7 Universal Law. || sent 15:56:02.820 [page-load] Page has 9 landmarks, 35 headings, 110 unvisited links. || sent 15:56:03.348 played 15:56:59.670 [WIDGET live region] Selected 3 of 3: the full triple is not two-decomposable. | 8 outer; Say All 35",
+    "step 2 (focus 'Toggle x1'): sent 15:57:52.341 played 15:57:52.862 [focus presentation] Toggle x1 toggle button pressed. | Say All 5",
+    "step 3 (Enter 15:58:04.252; DOM 15:58:04.255, aria-pressed false): sent 15:58:04.422 played 15:58:05.063 [WIDGET live region] Selected 2 of 3: this proper subset is two-decomposable. | Say All 9",
+    "step 4 (focus 'Toggle x1': already focused): nothing besides Say All (8)",
+    "step 5 (Enter 15:58:36.301; DOM 15:58:36.303, aria-pressed true): sent 15:58:36.453 played 15:58:37.700 [WIDGET live region] Selected 3 of 3: the full triple is not two-decomposable. | Say All 10",
+    "step 6 (focus 'Swap palette colors'): sent 15:58:56.388 played 15:58:58.112 [focus presentation] Swap palette colors push button. | Say All 8",
+    "step 7 (Enter; status rewritten with identical text 15:59:08.344): no widget speech | Say All 12",
+    "step 8 (final drain): Screen reader off. (sent 15:59:46.264, not played before speechd stopped) | Say All 2"
+   ],
+   "agrees_with_executor": true,
+   "differences": "Every widget live-region and focus string agrees step by step. That covers the initial fill, the 2 of 3 and 3 of 3 toggles, the silent identical-text rewrite on Swap, and the silent re-focus. As reported, no 'pressed'/'not pressed' state change was spoken while Say All ran. The only differences are Orca page-load messages and counts. Step 1 has an extra 'Loading.  Please wait.' (absent in the report). The page summary was 9 landmarks, 35 headings, 110 unvisited links; 8, 17, 75 reported. Say All counts differ (35/5/9/8/10/8/12/2 against 27/9/9/7/9/6/25/0) and are not comparable. Both runs had 8 outer status messages.",
+   "evidence_dir": "/tmp/claude-0/-home-user-main/d5c985ca-97e5-58d8-a9d4-1e0a19065a22/scratchpad/c220/replicate/evidence/S4"
+  },
+  {
+   "id": "S5",
+   "spoken_by_step": [
+    "step 0: Screen reader on. || c220 start - Chromium frame. || Finished loading c220 start. | Say All 1",
+    "step 1 (DOM 'Checking\u2026' 16:00:27.500, status3D 16:00:28.144): sent 16:00:27.598 [page-load] Loading.  Please wait. || sent 16:00:27.938 [page-load] Finished loading Source records & exhibits \u00b7 Universal Law. || sent 16:00:28.001 [page-load] Page has 9 landmarks, 67 headings, 1 table, 157 unvisited links. || sent 16:00:28.079 played 16:01:02.412 [WIDGET live region] 2D coordinate diagram. Checking optional 3D view\u2026 || sent 16:00:28.677 played 16:01:45.939 [WIDGET live region] 3D coordinate plane: drag with mouse or touch, or focus the canvas and use arrow keys. Orbit is a camera control only. | 8 outer; Say All 26",
+    "step 2 (loseContext() via Runtime.evaluate 16:02:17.077, result 'loseContext() called on webgl2'; DOM 16:02:17.079): sent 16:02:17.257 played 16:02:17.494 [WIDGET live region] 2D fallback: the graphics context became unavailable. The source-defined geometry remains visible. | Say All 16",
+    "step 3 (final drain): Screen reader off. | Say All 10"
+   ],
+   "agrees_with_executor": false,
+   "differences": "Step 2 (context loss) agrees exactly: one message with the line-375 text, played about 0.24 s after it was sent. Step 1 differs: my run spoke 'Checking optional 3D view\u2026' (DOM gap 644 ms); the executor's S5 has neither the speech nor the event (their gap was 488 ms). The page summary was 9, 67, 1 table, 157; 8, 11, 65 reported. 'Loading.  Please wait.', 'Finished loading \u2026', the status3D message and 8 outer messages all agree.",
+   "evidence_dir": "/tmp/claude-0/-home-user-main/d5c985ca-97e5-58d8-a9d4-1e0a19065a22/scratchpad/c220/replicate/evidence/S5"
+  },
+  {
+   "id": "S2",
+   "spoken_by_step": [
+    "step 0: Screen reader on. || c220 start - Chromium frame. || Finished loading c220 start. | Say All 1",
+    "step 1 (Chrome --disable-webgl --disable-3d-apis; three.js fulfilled; DOM 'Checking\u2026' 16:17:18.569, line-399 fallback 16:17:18.689): sent 16:17:18.531 [page-load] Loading.  Please wait. || sent 16:17:18.707 [page-load] Finished loading Source records & exhibits \u00b7 Universal Law. || sent 16:17:18.733 [page-load] Page has 8 landmarks, 39 headings, 117 unvisited links. || sent 16:17:19.284 played 16:18:17.338 [WIDGET live region] 2D fallback: the optional 3D library or WebGL could not load. All pin coordinates and six data labels remain visible. | 8 outer; Say All 30",
+    "step 2 (final drain): Screen reader off. | Say All 9"
+   ],
+   "agrees_with_executor": false,
+   "differences": "The line-399 fallback was spoken once; the executor reported it twice (sent 15:06:44.326 and 15:06:44.531). In the executor's log, Orca received a text-changed:insert for the 'Checking\u2026' text at 15:06:44.092. It handled that as a live-region event but presented the region's text after it had become the fallback, so the fallback was spoken for both inserts. My log has no 'Checking\u2026' insert event, so only one message was queued. Also: an extra 'Loading.  Please wait.' in mine, and the page summary was 8, 39, 117 (8, 7, 59 reported). Both runs had 8 outer messages. I did not reproduce the executor's speechd-only Say All chunk; every speechd message in my run matched an Orca debug-log record.",
+   "evidence_dir": "/tmp/claude-0/-home-user-main/d5c985ca-97e5-58d8-a9d4-1e0a19065a22/scratchpad/c220/replicate/evidence/S2"
+  },
+  {
+   "id": "S3F",
+   "spoken_by_step": [
+    "step 0: Screen reader on. || c220 start - Chromium frame. || Finished loading c220 start. | Say All 1",
+    "step 1 (museum.html?view=ec014#active-exhibit, no Say All; DOM 'Checking\u2026' 16:13:40.104, status3D 16:13:40.632): sent 16:13:40.091 [page-load] Loading.  Please wait. || sent 16:13:40.405 [page-load] Finished loading Source records & exhibits \u00b7 Universal Law. || sent 16:13:40.435 [page-load] Page has 9 landmarks, 63 headings, 1 table, 149 unvisited links. || sent 16:13:40.877 played 16:14:38.889 [WIDGET live region] 2D coordinate diagram. Checking optional 3D view\u2026 || sent 16:13:41.180 played 16:14:58.982 [WIDGET live region] 3D coordinate plane: drag with mouse or touch, or focus the canvas and use arrow keys. Orbit is a camera control only. | 8 outer; Say All 0",
+    "step 2 (focus 'Show 2D diagram'): sent 16:15:29.819 [focus presentation] main content || sent 16:15:29.822 played 16:15:30.986 [focus presentation] Show 2D diagram push button.",
+    "step 3 (Enter; DOM 16:15:41.731): sent 16:15:41.881 played 16:15:41.885 [name change of focused control] Show 3D view || sent 16:15:41.961 played 16:15:43.211 [WIDGET live region] 2D coordinate diagram. All pin coordinates and six data labels remain visible.",
+    "step 4 (already focused): nothing",
+    "step 5 (Enter; DOM 16:16:13.798): sent 16:16:13.878 [name change of focused control] Show 2D diagram || sent 16:16:13.968 played 16:16:15.399 [WIDGET live region] 3D coordinate plane: drag with mouse or touch, or focus the canvas and use arrow keys. Orbit is a camera control only.",
+    "step 6 (final drain): Screen reader off."
+   ],
+   "agrees_with_executor": false,
+   "differences": "Steps 3-6 agree exactly. Each Enter gives the name change ('Show 3D view' or 'Show 2D diagram') and then the widget message, and step 4 is silent. Step 1: an extra 'Checking optional 3D view\u2026' (gap 528 ms; the executor's run had no such event), an extra 'Loading.  Please wait.', and the page summary 9, 63, 1 table, 149 (8, 11, 65 reported). Step 2: an extra landmark announcement 'main content' before 'Show 2D diagram push button.'. In the executor's log Orca had moved its locus of focus to a paragraph after load. In mine it stayed on the document, so entering main was announced. Both runs had 8 outer messages and no Say All.",
+   "evidence_dir": "/tmp/claude-0/-home-user-main/d5c985ca-97e5-58d8-a9d4-1e0a19065a22/scratchpad/c220/replicate/evidence/S3F"
+  },
+  {
+   "id": "S4F",
+   "spoken_by_step": [
+    "step 0: Screen reader on. || c220 start - Chromium frame. || Finished loading c220 start. | Say All 1",
+    "step 1 (museum.html?view=p15#active-exhibit, no Say All; widget filled 16:09:34.665): sent 16:09:34.939 [page-load] Finished loading Source records & exhibits \u00b7 Universal Law. || sent 16:09:34.971 [page-load] Page has 8 landmarks, 12 headings, 66 unvisited links. || sent 16:09:35.632 played 16:10:37.520 [WIDGET live region] Selected 3 of 3: the full triple is not two-decomposable. | 7 outer",
+    "step 2 (focus 'Toggle x1'): sent 16:11:24.381 [focus presentation] Choose a subset of the three coordinates panel. || sent 16:11:24.385 played 16:11:25.665 [focus presentation] Toggle x1 toggle button pressed.",
+    "step 3 (Enter; DOM 16:11:36.282): sent 16:11:36.417 [pressed-state change] not pressed || sent 16:11:36.481 played 16:11:36.484 [WIDGET live region] Selected 2 of 3: this proper subset is two-decomposable.",
+    "step 4 (already focused): nothing",
+    "step 5 (Enter; DOM 16:12:08.346): sent 16:12:08.402 [pressed-state change] pressed || sent 16:12:08.490 played 16:12:08.493 [WIDGET live region] Selected 3 of 3: the full triple is not two-decomposable.",
+    "step 6 (focus 'Swap palette colors'): sent 16:12:28.448 played 16:12:28.452 [focus presentation] Swap palette colors push button.",
+    "step 7 (Enter; identical-text rewrite 16:12:40.393): nothing",
+    "step 8 (final drain, Orca shutdown): sent 16:13:18.299 played 16:13:18.302 Screen reader off."
+   ],
+   "agrees_with_executor": true,
+   "differences": "Every step's strings and their order agree with the report. That includes the group 'Choose a subset of the three coordinates panel.', the 'not pressed' and 'pressed' state changes before each widget message, the silent identical-text Swap, and 'Screen reader off.' at shutdown. Both runs had 7 outer messages. The only difference is the page summary: 8 landmarks, 12 headings, 66 unvisited links in mine; 8, 7, 59 reported.",
+   "evidence_dir": "/tmp/claude-0/-home-user-main/d5c985ca-97e5-58d8-a9d4-1e0a19065a22/scratchpad/c220/replicate/evidence/S4F"
+  }
+ ],
+ "scripts_dir": "/tmp/claude-0/-home-user-main/d5c985ca-97e5-58d8-a9d4-1e0a19065a22/scratchpad/c220/replicate/scripts",
+ "problems": [
+  "The main open result is a race: whether '2D coordinate diagram. Checking optional 3D view\u2026' is announced on EC-014 first load. The executor saw three outcomes: not surfaced (S1, S5, S3F), spoken (S3, S3X), or surfaced but read after the text changed, so the next message was spoken twice (S2). My seven runs saw two of them: spoken in S1, S1r2, S5 and S3F; never surfaced in S3, S3r2 and S2. The DOM gap between the two states does not predict which happens: spoken at 90, 162, 528 and 644 ms, not surfaced at 120, 416 and 452 ms. A claim that EC-014 announces exactly one first-load message, or always the 'Checking\u2026' message, is not supported.",
+  "Orca page-load messages vary between runs. 'Loading.  Please wait.' appears in some runs and not others. The 'Page has N landmarks, M headings\u2026' numbers depend on how much of the page had rendered: I got 8/12/66, 8/18/76, 8/39/117, 9/35/110, 9/63/1/149, 9/67/1/157 and 9/68/1/159.",
+  "Say All chunk counts and absolute 'played' times cannot be compared with the executor's. The default speech-dispatcher setup cannot open audio here (no PulseAudio, no /dev/snd), and utterances then never complete, which would stall Say All. I used my own speechd config (scripts/sdconf) routing ALSA's file plugin into rt_sink.py, which consumes 22050 Hz mono 16-bit audio in real time. The executor's pacer is different and about 10% faster (an 11.0 s utterance against 12.3 s in mine), and its step lengths also differ.",
+  "Chromium does not trust the agent-proxy CA, so the 26 raw.githubusercontent.com source files were fetched with curl (TLS verified) and served to the page through CDP Fetch.fulfillRequest. The page checked their sha256 itself and showed 'Source projections and displayed source bytes verified'. three.js was served or blocked the same way, and its SRI hash matched THREE_CDN.integrity.",
+  "The S3 Orca debug log contains 3 lines with binary junk, and some debug text there was overwritten. No speech record was lost: every speech-dispatcher queue entry matched an Orca SPEECH OUTPUT or Say All record (extract.py lists any unmatched speechd message as SPEECHD-ONLY, and none appeared).",
+  "Not replicated: the XTest variants S3X and S4X.",
+  "The first runner script (run_all.sh) printed a syntax error after its last scenario because I edited it while it was running; S1, S3 and S4 had all completed. Later batches used run_all2.sh. Chrome's background requests to Google hosts were refused by the proxy, which did not affect the runs.",
+  "compare.py compares items as sets, so it misses a count difference when other differences are present. I checked the S2 'spoken once against twice' difference by hand.",
+  "/home/user/main shows 321 pre-existing git status lines (staged files under recovery/session_013tN78b3Q38WdttFyiJ6KVg/, including c220_02). I did not create them: I only read the repository via git archive and never wrote, pushed or posted anything."
+ ]
+}

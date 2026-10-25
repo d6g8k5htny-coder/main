@@ -1,0 +1,106 @@
+{
+ "criterion_items": [
+  {
+   "item": "C220-02(a): record the intended first-load announcement behaviour",
+   "satisfied": "partly",
+   "reason": "The executor's 'intended_first_load' is detailed and matches the source. I checked geometry.mjs at f61419d8: L202/L240/L242 for P15; L273, L279, L282-283, L375, L381, L383-387, L392 and L399 for EC-014. museum.mjs L291-293 appends the article before mountGeometry. But the record is the author's own proposal, not an adopted design intent. It also contains two overstatements. 'SC 4.1.3 is met by the markup' is a conformance claim. 'Text present at insertion is document content' is an interpretation drawn from ARIA22's test procedure and common AT practice, not WAI-ARIA 1.2 normative text. The nonauthor check has to accept or amend this record before it can count as the recorded intent."
+  },
+  {
+   "item": "C220-02(b): record the actual browser/AT/version combination",
+   "satisfied": "yes",
+   "reason": "The record lists complete versions for Orca 46.1, AT-SPI 2.52.0, pyatspi 2.46.1, speech-dispatcher 0.12.0~rc2 and espeak-ng 1.51. The browser is Chromium 141.0.7390.37 from the Playwright build chromium-1194, with all flags given. It also records Xvfb 21.1.12, dbus, the kernel, the OS and Node. I checked that ~/.local/share/orca has the default user-settings.conf, an empty orca-customizations.py and no app-settings. The replicator's generated prefs match it in the general section. That supports the 'default profile' claim."
+  },
+  {
+   "item": "C220-02(c): inspect EC-014 async success",
+   "satisfied": "yes",
+   "reason": "status3D was spoken on first load in every success run: executor S3, S5, S3X and S3F, and replicator S3, S3r2, S5 and S3F. All SPEECH OUTPUT lines are in hash-verified Orca logs. I recomputed all 9 executor orca-debug.txt sha256 values and each matches the reported value."
+  },
+  {
+   "item": "C220-02(d): inspect EC-014 async fallback",
+   "satisfied": "partly",
+   "reason": "Two async branches were exercised. The L399 catch was reached by library blocked (S1, S1r2) and by WebGL context creation failing under --disable-webgl (S2, both harnesses). The L375 context-loss branch was reached in S5, by both harnesses. Three paths were not exercised: the L283 no-WebGL-globals branch (synchronous, so arguably outside 'async'), the loadThree timeout and SRI-mismatch routes into L399, and a real CDN failure. three.js was always supplied or blocked through CDP."
+  },
+  {
+   "item": "Pickup scope: EC-014 3D -> 2D -> 3D toggles",
+   "satisfied": "yes",
+   "reason": "Each toggle produced exactly one widget message with the correct text in executor S3, S3X and S3F and replicator S3, S3r2 and S3F. The focused button's rename was spoken whenever Orca's locus stayed on the button (the F variants and S3X step 5). It was suppressed under CDP keys while Say All ran. This is a harness and AT effect, and it is documented."
+  },
+  {
+   "item": "C220-02(e): inspect P15 initial fill",
+   "satisfied": "yes",
+   "reason": "'Selected 3 of 3...' was spoken as a live-region message in all 5 P15 runs: executor S4, S4X and S4F, and replicator S4 and S4F. It reached playback 30-72 s after the DOM fill. This answers the original audit's 'P15 initial announcement UNKNOWN' for this stack only."
+  },
+  {
+   "item": "C220-02(f): inspect P15 later toggles",
+   "satisfied": "yes",
+   "reason": "Changed sentences were spoken every time, in both harnesses. aria-pressed changes were spoken when Orca's locus stayed on the button. The identical-text rewrite on Swap palette colors was silent in every run, which matches the 'no new information' intent. S4 and S4F agree step by step across the two harnesses."
+  },
+  {
+   "item": "C220-02(g): capture what is actually spoken",
+   "satisfied": "partly",
+   "reason": "The capture is the strings Orca sent to speech-dispatcher, from Orca's debug log, cross-checked against the speechd log. I confirmed S2's two fallback sends in both logs. Audio was synthesised into a real-time paced ALSA file sink, but nobody listened to it or transcribed it, and the audio itself is not retained (hashes only). 'Played' means the start of speechd's playback thread, which can lead the sink by about 1.4 s. The two harnesses' sinks also differ by about 10% in utterance duration, unexplained. Two messages exist only in the speechd log because Orca's log tail was lost. One of them, the S3F final status, was reproduced by the replication."
+  },
+  {
+   "item": "C220-02(h): assess initial silence against intended behaviour and applicable criteria, not assumed a violation",
+   "satisfied": "partly",
+   "reason": "The assessment is done and treats silence as permitted. The executor's text has three problems. (1) It says 'there was no initial silence', but 'Checking...' was silent in 7 of 13 EC-014 runs. (2) It says 'a state replaced within about 0.05-0.6 s is skipped'. Its own data contradicts this (S3X spoken at a 453 ms gap, S5 silent at 488 ms), and so does the replicator's (spoken at 90 and 162 ms, silent at 416 and 452 ms). (3) It attributes S5's silence to Orca re-reading the atomic container, but S5's Orca log has no AT-SPI event carrying the 'Checking...' text at all. I verified that the text is absent in executor S1, S5 and S3F and replicator S2, S3 and S3r2. The atomic re-read explanation holds only for executor S2. I confirmed it in /usr/lib/python3/dist-packages/orca/liveregions.py _getMessage: for a text-changed:insert in an atomic container, Orca expands the container's current text. delivery.md fixes (1) and (2] but not the event-surfacing point."
+  },
+  {
+   "item": "Keep the widget task distinct from C201-AT-01",
+   "satisfied": "partly",
+   "reason": "Outer messages are counted but not assessed, which is correct. But the evidence labels all three outer role=status lines (#museum-state, #conditional-route-status and .current-state) as 'C201-AT-01 scope'. #332 defines C201-AT-01 as 'the two outer museum status lines'. .current-state sits in the generated CURRENT-SITE block. delivery.md also says 'that queue belongs to C201-AT-01', but the queue also holds Orca page-load messages and Say All, which are AT behaviour. Both attributions overreach."
+  },
+  {
+   "item": "Real AT execution, not a mock or audit",
+   "satisfied": "yes",
+   "reason": "This is a real Orca/AT-SPI/speech-dispatcher/Chromium run. The speechd connection fault in the earlier harness was found and fixed, and there are 0 'Cannot get speech server' lines. The interaction is still automated: focus via Runtime.evaluate; Enter via CDP, which Orca does not see, or via XTest. No human operator, no Orca browse-mode navigation, no Space-key activation."
+  },
+  {
+   "item": "Identity of the bytes exercised",
+   "satisfied": "yes",
+   "reason": "The 10 served files equal the git blobs at f61419d8, which I rechecked for geometry.mjs, museum.mjs and museum.html. There is no docs/site diff between f61419d8 and current origin/main e016d4a4. retain/c220_02/bind/cmp_deployed.json compares against SITE carrier PAGES.zip, whose sha256 557fd452... equals artifact 12601944165's digest. 9 of 10 files are identical to the deployed artifact. museum.html differs only in the CURRENT-SITE block: observation time, commit links and counts. That supersedes executor_result's 'deployed bytes NOT verified', and the delivery must say so. Two newer deployments now exist, 7314771566 (b16f96ff) and 7315542697 (e016d4a4). They were not compared."
+  },
+  {
+   "item": "Replication / reproducibility",
+   "satisfied": "partly",
+   "reason": "Nine reruns with separately written scripts. The differences are documented honestly, and the replicator's claims I spot-checked hold: S2 had one fallback send and one DOM change; the 'Checking...' event counts per run match. But it is the same session and the same provider, so it is not a nonauthor check (credit 0). The XTest variants S3X and S4X were not replicated."
+  },
+  {
+   "item": "Evidence retained and destination preflight",
+   "satisfied": "yes",
+   "reason": "The evidence is retained at public commit ea4637b9 on the draft #441 retention branch (350 c220_02 tree entries, not truncated), with SHA256SUMS and MANIFEST. My scan of the local retain copy, including gz members, found none of the following: proxy credentials, Bearer or Authorization strings, gh tokens, JWT-like strings, the user's email or .ccr paths. Raw caches and audio are not retained; only their hashes are."
+  },
+  {
+   "item": "Nonauthor check (needed before closure)",
+   "satisfied": "no",
+   "reason": "No nonauthor check has been performed yet. delivery.md requests one from a provider-distinct reviewer."
+  }
+ ],
+ "gaps_to_fix_before_delivery": [
+  "delivery.md line 9 says the messages 'became audible 31-80 s' after the DOM change. Change it to 'reached speech-dispatcher playback 31-80 s after'. Audibility was not verified, and the timing basis is the playback-thread start, not the sink.",
+  "Scope labels (delivery.md lines 9, 60 and 110). Attribute the 6-8 queued outer messages by source: #museum-state and #conditional-route-status are C201-AT-01's 'two outer museum status lines'; .current-state, from the generated CURRENT-SITE block, belongs to neither task as far as this record shows. Remove 'That queue belongs to C201-AT-01', because the queue also holds Orca page-load messages and Say All. Offer the delay as data for C201-AT-01, with no verdict.",
+  "'Checking...' mechanism. Add that in executor S1, S5 and S3F and replicator S2, S3 and S3r2, Orca's debug log has no AT-SPI event carrying the 'Checking...' text, so Chromium never surfaced that state. Only in executor S2 did the event surface and get read after the text changed, which is the atomic re-read in Orca's liveregions._getMessage. Do not carry over the executor's S5 note, its '0.05-0.6 s' threshold or 'there was no initial silence'. The S1 table cell 'replaced 43 ms after insertion' should not read as the cause.",
+  "Deployment statement (delivery.md line 57). Say that 7314462071 was the latest deployment at capture time, and name the later deployments 7314771566 (b16f96ff, 14:56Z) and 7315542697 (e016d4a4, 16:00Z). The docs/site tree is unchanged through e016d4a4, but those artifacts were not compared. Say explicitly that bind/cmp_deployed.json supersedes executor_result.json's 'deployed bytes NOT verified', and give the carrier's provenance: SITE carrier 665f0686, zip sha256 equal to the artifact digest.",
+  "Soften 'SC 4.1.3 is met by the markup' (delivery.md line 40) to: role=status supplies the programmatic determination 4.1.3 relies on; no WCAG conformance determination is made. Label 'text present at insertion is document content' as an interpretation from ARIA22's test procedure and common AT practice, not WAI-ARIA 1.2 normative text. Keep \u00a71 marked as a proposal for the nonauthor check to accept or amend.",
+  "Change 'So C220-01's repair holds at the AT level' (delivery.md line 8) to 'consistent with C220-01's landed repair on this one stack'. C220-01 is already complete, and this run adds no claim to it.",
+  "State the roughly 10% duration difference between the two pacing sinks (11.0 s vs 12.3 s for the same utterance). Absolute delays are approximate, and the cross-harness latency ranges should be read with that in mind."
+ ],
+ "caveats_to_state": [
+  "Linux Orca 46.1 with Chromium 141 (Playwright build chromium-1194, --no-sandbox, --force-renderer-accessibility, SwiftShader WebGL). Not VoiceOver/Safari, not NVDA or JAWS, not native macOS, not Google Chrome stable.",
+  "Headless Xvfb at 1280x900 with no window manager, a dbus-launch session bus and an explicitly started speech-dispatcher 0.12.0~rc2 (a release candidate) with a scratch config.",
+  "The speech record is the strings Orca handed to speech-dispatcher, from Orca's debug log and the speechd log. espeak-ng audio went to a real-time paced ALSA file sink. Nobody listened to it, it was not transcribed, and only its hashes are retained. 'Played' times are speechd playback-thread starts, which can lead the sink by up to about 1.4 s. Pronunciation and audibility were not verified.",
+  "Bytes were served locally from git blobs at f61419d8 over 127.0.0.1, not from the deployed site. The widget modules are byte-identical to the deployed Pages artifact. museum.html differs only in its CURRENT-SITE block, so outer .current-state text, queue length and timings on the live site may differ.",
+  "Pinned sources were relayed through curl and CDP Fetch.fulfillRequest because Chromium did not trust the proxy CA. The page verified every byte count and SHA-256 itself.",
+  "three.js r160 was supplied through CDP Fetch.fulfillRequest, or blocked through Fetch.failRequest. The page's own SRI check passed (sha384 matches THREE_CDN.integrity). Real jsDelivr latency, the loadThree timeout and SRI-mismatch failures were not exercised.",
+  "Interaction was automated. Focus was set with Runtime.evaluate element.focus(). Enter went through CDP Input.dispatchKeyEvent, which Orca does not see, so Say All kept running and suppressed rename and pressed-state speech. The X variants used XTest through AT-SPI. No human operator, no Orca browse-mode navigation, no Space-key activation.",
+  "Default Orca profile: Say All on load and page summary on. Bare ?view= URLs trigger Say All; the site's #active-exhibit form suppresses it. Page-summary counts and the presence of 'Loading. Please wait.' vary between runs.",
+  "Whether EC-014's initial 'Checking optional 3D view...' is spoken is nondeterministic: 6 of 13 runs, with no gap threshold. The S2 fallback duplicate occurred in 1 of 2 runs.",
+  "geometry.mjs L283 (no WebGL globals) was never reached, because Chromium 141 keeps the globals under --disable-webgl. It was not simulated.",
+  "Orca's debug-log tail is lost at shutdown. Two messages exist only in the speechd log (an S2 Say All chunk and the S3F final status). The S3F one was reproduced by the replication.",
+  "The replication is a same-session, same-provider rerun with separate scripts. It is not a nonauthor check, earns credit 0, and did not repeat S3X or S4X. Two early S3 trial runs were overwritten and are not evidence.",
+  "The outer status lines were not assessed. The 31-80 s first-load queue delay is an observed interaction offered as data to C201-AT-01, not a verdict for C201-AT-01 or C220-02.",
+  "The 'intended first-load behaviour' is the author's proposed record derived from source and specifications, not an owner-adopted design specification. It is not a WCAG conformance determination.",
+  "Evidence is retained at public retention commit ea4637b9 on draft #441, which is not for merge. Raw caches and audio are not retained."
+ ],
+ "closable_after_delivery": "Yes, conditionally. The current disposition (11 October) says #332 'stays open only for C220-02's actual assistive-technology evidence'. C220-01 (PR335) and C221-DOC-01 (PR359) are completed, and #294 is separate. This delivery is real AT execution, so a delivery followed by a passing nonauthor check would remove the last stated reason to keep the issue open. Closure needs all of the following: (1) an eligible nonauthor, not this session or its replicator, performs the check, preferably provider-distinct (C220-02 sets no provider requirement, and same-provider earns 0 independence credit); (2) the check binds to the delivery comment and retention commit ea4637b9 and either accepts or amends-and-resolves the proposed intended-behaviour record and the per-run assessment, with no AMEND left open; (3) a coordinator or another non-author actor closes as completed and updates the body's current disposition with links to the delivery and the check; (4) the recorded limits are kept as limits, not open obligations: no VoiceOver, L283 unexercised, the 'Checking...' race, the S2 duplicate and automated interaction; (5) the first-load queue-delay data is cross-linked to wherever C201-AT-01 is tracked, because closing #332 does not resolve C201-AT-01, #294 or SITE's AT tasks. If the check disputes the intended behaviour, for example by holding that the initial EC-014 or P15 content must be announced or that the delay is a widget defect, #332 stays open."
+}
