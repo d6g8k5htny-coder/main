@@ -212,7 +212,7 @@ def exercise_hosted_amendments(browser,origin,output,report,data,expect):
                         page.set_viewport_size({'width':width,'height':900});page.evaluate('new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve)))')
                         require(page.locator('#atlas-inspector details[open]').count()==2,'Breakpoint rebuild closed same-node route/metadata disclosures')
                     require(address(page)==before,'Breakpoint disclosure preservation wrote history')
-                opened=page.locator('#atlas-inspector details').evaluate_all('(nodes)=>nodes.map(n=>({summary:n.querySelector("summary").textContent,open:n.open}))');case['observations'].append({'before':before,'after':address(page),'disclosures':opened,'selected':selected})
+                opened=page.locator('#atlas-route-details, #atlas-node-details').evaluate_all('(nodes)=>nodes.map(n=>({summary:n.querySelector("summary").textContent,open:n.open}))');case['observations'].append({'before':before,'after':address(page),'disclosures':opened,'selected':selected})
                 require(len(opened)==2 and all(n['open'] for n in opened),'Panel change closed same-node route/metadata disclosures');require(page.locator('#atlas-inspector h3').inner_text()==selected and page.locator('#atlas-inspector').inner_text()==text,'Shell-only change replaced selected evidence')
             else:
                 first=page.locator('#atlas-inspector h3').inner_text();other=next(n for n in data['graph']['data']['nodes'] if n!=first)

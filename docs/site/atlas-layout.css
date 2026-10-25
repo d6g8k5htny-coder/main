@@ -36,8 +36,17 @@
 .atlas-page #current-atlas:has(#atlas-stage[hidden]) .atlas-graph-tools { display: none; }
 .atlas-page .atlas-reader { padding: .5rem; border: 0; max-height: none; overflow: visible; }
 .atlas-page .atlas-inspector { background: var(--ul-surface); border-color: var(--ul-border); border-radius: var(--ul-radius-m); padding: 1.1rem; font-size: .9375rem; }
-.atlas-page .atlas-inspector h3 { font-size: 1.2rem; }
+.atlas-page .atlas-inspector h3 { font-size: 1.2rem; overflow-wrap: anywhere; }
 .atlas-page .atlas-inspector section { padding: 1rem; }
+.atlas-page .atlas-inspector #atlas-claim-summary { padding: 0; }
+.atlas-page #atlas-claim-summary > h4 { margin-bottom: .5rem; }
+.atlas-page #atlas-claim-summary > a { display: inline-block; min-height: 44px; overflow-wrap: anywhere; }
+.atlas-page #atlas-claim-summary .atlas-source-pin { margin-top: .25rem; font-size: .8125rem; color: var(--ul-muted); overflow-wrap: anywhere; }
+.atlas-page #atlas-claim-summary #atlas-formal-evidence { margin-block: 1rem; padding: .85rem 0 0; border-top: 1px solid var(--ul-border); }
+.atlas-page #atlas-formal-evidence > h4 { margin-top: 0; }
+.atlas-page #atlas-formal-evidence > p { font-size: .875rem; }
+.atlas-page .atlas-inspector details > summary { min-height: 44px; padding-block: .65rem; }
+.atlas-page #atlas-review-details { margin-block: .75rem; }
 .atlas-page #atlas-inspector-tabs { margin: 0 0 .7rem; gap: .5rem; }
 .atlas-page #atlas-inspector-tabs button { padding: .6rem 1rem; }
 .atlas-page .atlas-scope-note { margin: 1.3rem 0 .5rem; padding-left: .8rem; border-left: 3px solid var(--ul-edge); font-size: .875rem; }

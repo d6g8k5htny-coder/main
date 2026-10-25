@@ -1,4 +1,3 @@
-import {sourceURL} from './current-model.mjs?site-release=a30d68465e3acda48eedce64854afebc7af5c84903a4e6b0c649e08007b08999';
 import {spatialProjection} from './atlas-spatial-model.mjs?site-release=fd1120b32431cde3ebcfa63bbe5e191a0502b4f1a62a6869b90c196c3677372f';
 
 // Adapter over the admitted controller projection. It never parses a graph from
@@ -15,7 +14,8 @@ export function installSpatialAtlas({root,onChange}) {
   for(const button of [reset,focus,plus,minus])button.type='button';focus.setAttribute('aria-pressed','false');
   bar.append(toggle,reset,focus,plus,minus);stage.before(bar);
   const section=make('section');section.className='atlas-space';section.hidden=true;section.setAttribute('aria-label','Spatial Atlas');stage.before(section);
-  const status=make('p','Optional 3D uses the same displayed nodes and source snapshot.');status.id='atlas-space-status';status.setAttribute('role','status');bar.after(status);
+  const status=make('p','Optional 3D uses the same displayed nodes and source snapshot.');status.id='atlas-space-status';
+  const statusRegion=make('div');statusRegion.id='atlas-space-status-region';statusRegion.setAttribute('role','status');statusRegion.append(status);bar.after(statusRegion);
   const host=make('div');host.id='atlas-space-host';host.className='atlas-space-host';
   const instructions=make('p','Drag to orbit · Shift-drag or right-drag to pan · scroll or buttons to zoom. Keyboard: arrows orbit, Shift+arrows pan, +/− zoom, Home reset. Layout distance is not proof strength.');
   const legend=make('p','Arrows point from dependent to dependency. Solid: required; dashed: context. Exact recorded relationship types appear below.');
@@ -31,28 +31,8 @@ export function installSpatialAtlas({root,onChange}) {
   function pick(id){buttons().find(button=>nodeID(button)===id)?.click();}
   function fail(message){failureMessage=message;generation++;renderer?.dispose();renderer=null;delete host.dataset.ready;delete host.dataset.frames;active=false;toggle.setAttribute('aria-pressed','false');section.hidden=true;stage.classList.remove('atlas-space-replaced');list.classList.remove('atlas-space-replaced');display();status.textContent=message+' Use Graph or List to continue.';}
   function display(){toggle.setAttribute('aria-pressed',String(active));focus.setAttribute('aria-pressed',String(focused));for(const b of [reset,focus,plus,minus])b.hidden=!active;section.hidden=!active||!shown()||refused();stage.classList.toggle('atlas-space-replaced',active&&!section.hidden);list.classList.toggle('atlas-space-replaced',active&&!section.hidden);renderer?.pause(section.hidden||!intersecting);}
-  function formalEvidence(){
-    if(refused()){get('atlas-formal-evidence')?.remove();nodes.replaceChildren();relations.replaceChildren();status.textContent='Source-bound bookmark refused; no current result count or formal evidence substituted.';return;}
-    if(!data||get('atlas-formal-evidence'))return;
-    const panel=make('section');panel.id='atlas-formal-evidence';panel.append(make('h4','Formal evidence for this claim'),make('p','No verified graph-to-formal-artifact mapping is recorded in this source projection. Missing evidence remains unknown.'));
-    const fields=make('dl');
-    for(const [name,value]of [
-      ['Acquisition','Graph metadata and pinned file inventory; proof document bytes are not acquired by this graph view.'],
-      ['Mathematical review','Recorded review fields above retain their original scope; no formal alignment or scientific acceptance follows.'],
-      ['Declaration and hypotheses','No mapped declaration or hypothesis record. Read the exact mathematical source and its scope.'],
-      ['Graph-source revision (formal artifact unmapped)',`${data.graph.identity.repository} ${data.graph.identity.commit} · ${data.graph.identity.path}`],
-      ['Checked execution','No mapped trusted kernel-execution receipt. A green CI run alone does not establish coverage.'],
-      ['Alignment','No mapped exact-source alignment review.'],
-      ['Scientific acceptance','Unchanged; neither visualization nor formal execution promotes a claim.']
-    ])fields.append(make('dt',name),make('dd',value));
-    panel.append(fields);
-    const discovery=make('details');discovery.append(make('summary','Explore formal packages separately (unmapped)'),make('p','These are source references in the pinned inventory, not formal evidence attached to the selected claim. Open the manifests for declarations, scope and dependency pins; inspect trusted execution and alignment separately.'));
-    for(const source of data.sources.filter(s=>['formal/manifest.json','formal/SCOPE.md','formal/ALIGNMENT.md'].includes(s.path))){const p=make('p'),a=make('a',`${source.repository} · ${source.path} · ${source.commit.slice(0,8)}`);a.href=sourceURL(source);p.append(a);discovery.append(p);}
-    panel.append(discovery);inspector.after(panel);
-  }
   function sync(){frame=0;if(disposed)return;
-    formalEvidence();
-    if(refused()){if(active)fail('3D unavailable: source-bound bookmark refused. No graph substituted.');else display();return;}
+    if(refused()){nodes.replaceChildren();relations.replaceChildren();lastSignature='';status.textContent='Source-bound bookmark refused; no current result count or formal evidence substituted.';if(active)fail('3D unavailable: source-bound bookmark refused. No graph substituted.');else display();return;}
     display();if(!active){const text=[failureMessage,get('atlas-count').textContent.split('. ')[0],'Optional 3D uses this same source-bound page.'].filter(Boolean).join(' ');if(status.textContent!==text)status.textContent=text;return;}if(!renderer||!data)return;
     const ids=buttons().map(nodeID),id=selected(),signature=JSON.stringify([ids,id,focused]);
     if(signature!==lastSignature){lastSignature=signature;const view=spatialProjection(data.graph.data,ids,id,focused);renderer.update(view,id);nodes.replaceChildren();relations.replaceChildren();
@@ -77,7 +57,7 @@ export function installSpatialAtlas({root,onChange}) {
   const observer=new MutationObserver(schedule);observer.observe(list,{childList:true});observer.observe(inspector,{childList:true});observer.observe(root,{attributes:true,attributeFilter:['data-atlas-panel']});observer.observe(stage,{attributes:true,attributeFilter:['hidden']});
   const visibility=new IntersectionObserver(entries=>{intersecting=entries[0].isIntersecting;renderer?.pause(!intersecting||section.hidden);});visibility.observe(host);
   listen(window,'pagehide',()=>{deactivate();});listen(window,'pageshow',()=>restore(location.href));
-  function restore(url){formalEvidence();const params=new URL(url,location.href).searchParams;focused=params.get('atlas-space-focus')==='dependencies';const wants=params.get('atlas-space')==='3d';if(wants&&!active)activate();else if(!wants&&active)deactivate();else schedule();}
+  function restore(url){const params=new URL(url,location.href).searchParams;focused=params.get('atlas-space-focus')==='dependencies';const wants=params.get('atlas-space')==='3d';if(wants&&!active)activate();else if(!wants&&active)deactivate();else schedule();}
   function decorateURL(url){if(active)url.searchParams.set('atlas-space','3d');else url.searchParams.delete('atlas-space');if(active&&focused)url.searchParams.set('atlas-space-focus','dependencies');else url.searchParams.delete('atlas-space-focus');return url;}
   import('./current.mjs?site-release=fc7e8a98c1e23f476962c4c83e95ed3ce817490007987112d9b2cf6d3d90b142').then(m=>m.currentSnapshot).then(snapshot=>{if(!disposed){data=snapshot;schedule();}});
   display();restore(location.href);
