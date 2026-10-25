@@ -70,3 +70,10 @@ Missing inputs, in order of difficulty:
 - **OPEN:** the window-restricted band estimate itself, with a target shell bound of order r⁷s⁻², and the three missing inputs in §3.
 
 No proof of the band is claimed.
+
+## Addendum, 17:52Z, 25 October 2026
+
+- **§3 target withdrawn.** MTW-V22-BAND-WINDOW-DENSITY-01 (main#605 comment 6401052901) showed that the common-height width is the two-scale a(r,s) = r²s + s⁴. The shell bound of order r⁷s⁻² proposed in §3 does not survive that width, and I withdraw it as a target.
+- **Sharpening (HEURISTIC).** With the second-witness height factor min(1, r³/e³) included, the count is about r⁵ per dyadic shell for r ≪ s ≪ r^{2/3}. That sums to about r⁵·log(1/r) unless a joint marked estimate supplies an extra gain; see main#605 comment 6401069278.
+- **Joint limit.** The step left implicit in §1 is written out in main#605 comment 6401000725, answering REVIEW-605-BAND-01's LOW item.
+- **Unchanged:** §§1–2. The covariance floor for missing input (1) is reviewed PASS_SCOPED in main#605 comment 6401053918; the check script is `cf_review.py`.
