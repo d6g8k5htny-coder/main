@@ -1,0 +1,2111 @@
+[
+ {
+  "record_id": "D1-01",
+  "topic": "D1",
+  "title": "Periodized Gaussian field",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+  "proof_ref": "\u00a71",
+  "necessary_premises": "",
+  "external_imports": "-",
+  "commit": "82247833b5dd58e04291d55353b52938d73ec614",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 495,
+  "headings": [
+   [
+    1,
+    "# Uniform matrix-cap selection and unrestricted short-lifetime asymptotics"
+   ],
+   [
+    9,
+    "## 1. Model, convention, and the three theorems"
+   ],
+   [
+    54,
+    "## 2. Positive Fourier spectrum and finite-jet rank"
+   ],
+   [
+    69,
+    "## 3. An exact nonsingular contact frame for all orientations"
+   ],
+   [
+    115,
+    "## 4. Uniform conditional derivative moments and the independent residual"
+   ],
+   [
+    138,
+    "## 5. Endpoint identities and the actual full normalizer"
+   ],
+   [
+    184,
+    "## 6. The double soft-eigenvalue factor in the typed weight"
+   ],
+   [
+    212,
+    "## 7. Full matrix boundary-layer integration, including corank intersections"
+   ],
+   [
+    276,
+    "## 8. Pinned genericity and global event measurability"
+   ],
+   [
+    298,
+    "## 9. A source-bound weighted Kac-Rice interface"
+   ],
+   [
+    310,
+    "## 10. Exact radial ledger: the dimension cancels"
+   ],
+   [
+    337,
+    "## 11. Lifetime pushforward and the exact compact coefficient"
+   ],
+   [
+    365,
+    "## 12. Short bars, moments, and the exact remaining boundary"
+   ],
+   [
+    386,
+    "## 13. Removing all birth and gap cutoffs by a direct intensity majorant"
+   ],
+   [
+    435,
+    "## 14. The off-diagonal contribution is bounded, not silently discarded"
+   ],
+   [
+    447,
+    "## 15. Analytically eliminate birth and gap from the leading coefficient"
+   ],
+   [
+    482,
+    "## 16. Supplied interfaces, retained limits, and review"
+   ],
+   [
+    492,
+    "### Primary-source attribution"
+   ]
+  ],
+  "dir_files": [
+   "imports/lifetime_parent_20260925/CAP_PAIRING_IDENTITIES.md",
+   "imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md",
+   "imports/lifetime_parent_20260925/ERRATUM_POINTER.md",
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md",
+   "imports/lifetime_parent_20260925/README.md",
+   "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+   "imports/lifetime_parent_20260925/verify.py"
+  ],
+  "impl": [
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/verify.py"
+  ]
+ },
+ {
+  "record_id": "D1-02",
+  "topic": "D1",
+  "title": "Conditioned two-pin weighted law",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+  "proof_ref": "\u00a71",
+  "necessary_premises": "",
+  "external_imports": "-",
+  "commit": "82247833b5dd58e04291d55353b52938d73ec614",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 495,
+  "headings": [
+   [
+    1,
+    "# Uniform matrix-cap selection and unrestricted short-lifetime asymptotics"
+   ],
+   [
+    9,
+    "## 1. Model, convention, and the three theorems"
+   ],
+   [
+    54,
+    "## 2. Positive Fourier spectrum and finite-jet rank"
+   ],
+   [
+    69,
+    "## 3. An exact nonsingular contact frame for all orientations"
+   ],
+   [
+    115,
+    "## 4. Uniform conditional derivative moments and the independent residual"
+   ],
+   [
+    138,
+    "## 5. Endpoint identities and the actual full normalizer"
+   ],
+   [
+    184,
+    "## 6. The double soft-eigenvalue factor in the typed weight"
+   ],
+   [
+    212,
+    "## 7. Full matrix boundary-layer integration, including corank intersections"
+   ],
+   [
+    276,
+    "## 8. Pinned genericity and global event measurability"
+   ],
+   [
+    298,
+    "## 9. A source-bound weighted Kac-Rice interface"
+   ],
+   [
+    310,
+    "## 10. Exact radial ledger: the dimension cancels"
+   ],
+   [
+    337,
+    "## 11. Lifetime pushforward and the exact compact coefficient"
+   ],
+   [
+    365,
+    "## 12. Short bars, moments, and the exact remaining boundary"
+   ],
+   [
+    386,
+    "## 13. Removing all birth and gap cutoffs by a direct intensity majorant"
+   ],
+   [
+    435,
+    "## 14. The off-diagonal contribution is bounded, not silently discarded"
+   ],
+   [
+    447,
+    "## 15. Analytically eliminate birth and gap from the leading coefficient"
+   ],
+   [
+    482,
+    "## 16. Supplied interfaces, retained limits, and review"
+   ],
+   [
+    492,
+    "### Primary-source attribution"
+   ]
+  ],
+  "dir_files": [
+   "imports/lifetime_parent_20260925/CAP_PAIRING_IDENTITIES.md",
+   "imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md",
+   "imports/lifetime_parent_20260925/ERRATUM_POINTER.md",
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md",
+   "imports/lifetime_parent_20260925/README.md",
+   "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+   "imports/lifetime_parent_20260925/verify.py"
+  ],
+  "impl": [
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/verify.py"
+  ]
+ },
+ {
+  "record_id": "D1-03",
+  "topic": "D1",
+  "title": "Positive Fourier spectrum and finite-jet nondegeneracy",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+  "proof_ref": "\u00a72, Fourier representation",
+  "necessary_premises": "",
+  "external_imports": "-",
+  "commit": "82247833b5dd58e04291d55353b52938d73ec614",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 495,
+  "headings": [
+   [
+    1,
+    "# Uniform matrix-cap selection and unrestricted short-lifetime asymptotics"
+   ],
+   [
+    9,
+    "## 1. Model, convention, and the three theorems"
+   ],
+   [
+    54,
+    "## 2. Positive Fourier spectrum and finite-jet rank"
+   ],
+   [
+    69,
+    "## 3. An exact nonsingular contact frame for all orientations"
+   ],
+   [
+    115,
+    "## 4. Uniform conditional derivative moments and the independent residual"
+   ],
+   [
+    138,
+    "## 5. Endpoint identities and the actual full normalizer"
+   ],
+   [
+    184,
+    "## 6. The double soft-eigenvalue factor in the typed weight"
+   ],
+   [
+    212,
+    "## 7. Full matrix boundary-layer integration, including corank intersections"
+   ],
+   [
+    276,
+    "## 8. Pinned genericity and global event measurability"
+   ],
+   [
+    298,
+    "## 9. A source-bound weighted Kac-Rice interface"
+   ],
+   [
+    310,
+    "## 10. Exact radial ledger: the dimension cancels"
+   ],
+   [
+    337,
+    "## 11. Lifetime pushforward and the exact compact coefficient"
+   ],
+   [
+    365,
+    "## 12. Short bars, moments, and the exact remaining boundary"
+   ],
+   [
+    386,
+    "## 13. Removing all birth and gap cutoffs by a direct intensity majorant"
+   ],
+   [
+    435,
+    "## 14. The off-diagonal contribution is bounded, not silently discarded"
+   ],
+   [
+    447,
+    "## 15. Analytically eliminate birth and gap from the leading coefficient"
+   ],
+   [
+    482,
+    "## 16. Supplied interfaces, retained limits, and review"
+   ],
+   [
+    492,
+    "### Primary-source attribution"
+   ]
+  ],
+  "dir_files": [
+   "imports/lifetime_parent_20260925/CAP_PAIRING_IDENTITIES.md",
+   "imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md",
+   "imports/lifetime_parent_20260925/ERRATUM_POINTER.md",
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md",
+   "imports/lifetime_parent_20260925/README.md",
+   "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+   "imports/lifetime_parent_20260925/verify.py"
+  ],
+  "impl": [
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/verify.py"
+  ]
+ },
+ {
+  "record_id": "D1-04",
+  "topic": "D1",
+  "title": "Contact-frame Jacobian",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+  "proof_ref": "\u00a73, Eq. (3.2)",
+  "necessary_premises": "",
+  "external_imports": "-",
+  "commit": "82247833b5dd58e04291d55353b52938d73ec614",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 495,
+  "headings": [
+   [
+    1,
+    "# Uniform matrix-cap selection and unrestricted short-lifetime asymptotics"
+   ],
+   [
+    9,
+    "## 1. Model, convention, and the three theorems"
+   ],
+   [
+    54,
+    "## 2. Positive Fourier spectrum and finite-jet rank"
+   ],
+   [
+    69,
+    "## 3. An exact nonsingular contact frame for all orientations"
+   ],
+   [
+    115,
+    "## 4. Uniform conditional derivative moments and the independent residual"
+   ],
+   [
+    138,
+    "## 5. Endpoint identities and the actual full normalizer"
+   ],
+   [
+    184,
+    "## 6. The double soft-eigenvalue factor in the typed weight"
+   ],
+   [
+    212,
+    "## 7. Full matrix boundary-layer integration, including corank intersections"
+   ],
+   [
+    276,
+    "## 8. Pinned genericity and global event measurability"
+   ],
+   [
+    298,
+    "## 9. A source-bound weighted Kac-Rice interface"
+   ],
+   [
+    310,
+    "## 10. Exact radial ledger: the dimension cancels"
+   ],
+   [
+    337,
+    "## 11. Lifetime pushforward and the exact compact coefficient"
+   ],
+   [
+    365,
+    "## 12. Short bars, moments, and the exact remaining boundary"
+   ],
+   [
+    386,
+    "## 13. Removing all birth and gap cutoffs by a direct intensity majorant"
+   ],
+   [
+    435,
+    "## 14. The off-diagonal contribution is bounded, not silently discarded"
+   ],
+   [
+    447,
+    "## 15. Analytically eliminate birth and gap from the leading coefficient"
+   ],
+   [
+    482,
+    "## 16. Supplied interfaces, retained limits, and review"
+   ],
+   [
+    492,
+    "### Primary-source attribution"
+   ]
+  ],
+  "dir_files": [
+   "imports/lifetime_parent_20260925/CAP_PAIRING_IDENTITIES.md",
+   "imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md",
+   "imports/lifetime_parent_20260925/ERRATUM_POINTER.md",
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md",
+   "imports/lifetime_parent_20260925/README.md",
+   "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+   "imports/lifetime_parent_20260925/verify.py"
+  ],
+  "impl": [
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/verify.py"
+  ]
+ },
+ {
+  "record_id": "D1-A",
+  "topic": "D1",
+  "title": "Uniform global elder selection",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+  "proof_ref": "Theorem A, Eq. (1.1)",
+  "necessary_premises": "D1-02;D1-CAP-ELDER;D1-CAP-MATRIX;D1-CORR-CONG;D1-CORR-SCOPE;D1-ELDER-MEAS",
+  "external_imports": "-",
+  "commit": "82247833b5dd58e04291d55353b52938d73ec614",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 495,
+  "headings": [
+   [
+    1,
+    "# Uniform matrix-cap selection and unrestricted short-lifetime asymptotics"
+   ],
+   [
+    9,
+    "## 1. Model, convention, and the three theorems"
+   ],
+   [
+    54,
+    "## 2. Positive Fourier spectrum and finite-jet rank"
+   ],
+   [
+    69,
+    "## 3. An exact nonsingular contact frame for all orientations"
+   ],
+   [
+    115,
+    "## 4. Uniform conditional derivative moments and the independent residual"
+   ],
+   [
+    138,
+    "## 5. Endpoint identities and the actual full normalizer"
+   ],
+   [
+    184,
+    "## 6. The double soft-eigenvalue factor in the typed weight"
+   ],
+   [
+    212,
+    "## 7. Full matrix boundary-layer integration, including corank intersections"
+   ],
+   [
+    276,
+    "## 8. Pinned genericity and global event measurability"
+   ],
+   [
+    298,
+    "## 9. A source-bound weighted Kac-Rice interface"
+   ],
+   [
+    310,
+    "## 10. Exact radial ledger: the dimension cancels"
+   ],
+   [
+    337,
+    "## 11. Lifetime pushforward and the exact compact coefficient"
+   ],
+   [
+    365,
+    "## 12. Short bars, moments, and the exact remaining boundary"
+   ],
+   [
+    386,
+    "## 13. Removing all birth and gap cutoffs by a direct intensity majorant"
+   ],
+   [
+    435,
+    "## 14. The off-diagonal contribution is bounded, not silently discarded"
+   ],
+   [
+    447,
+    "## 15. Analytically eliminate birth and gap from the leading coefficient"
+   ],
+   [
+    482,
+    "## 16. Supplied interfaces, retained limits, and review"
+   ],
+   [
+    492,
+    "### Primary-source attribution"
+   ]
+  ],
+  "dir_files": [
+   "imports/lifetime_parent_20260925/CAP_PAIRING_IDENTITIES.md",
+   "imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md",
+   "imports/lifetime_parent_20260925/ERRATUM_POINTER.md",
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md",
+   "imports/lifetime_parent_20260925/README.md",
+   "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+   "imports/lifetime_parent_20260925/verify.py"
+  ],
+  "impl": [
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/verify.py"
+  ]
+ },
+ {
+  "record_id": "D1-B",
+  "topic": "D1",
+  "title": "Compact-mark lifetime density",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+  "proof_ref": "Theorem B, Eq. (1.2)",
+  "necessary_premises": "D1-A;D1-EQ-COMPACT;D1-KR-BOREL;D1-KR-JACOB",
+  "external_imports": "-",
+  "commit": "82247833b5dd58e04291d55353b52938d73ec614",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 495,
+  "headings": [
+   [
+    1,
+    "# Uniform matrix-cap selection and unrestricted short-lifetime asymptotics"
+   ],
+   [
+    9,
+    "## 1. Model, convention, and the three theorems"
+   ],
+   [
+    54,
+    "## 2. Positive Fourier spectrum and finite-jet rank"
+   ],
+   [
+    69,
+    "## 3. An exact nonsingular contact frame for all orientations"
+   ],
+   [
+    115,
+    "## 4. Uniform conditional derivative moments and the independent residual"
+   ],
+   [
+    138,
+    "## 5. Endpoint identities and the actual full normalizer"
+   ],
+   [
+    184,
+    "## 6. The double soft-eigenvalue factor in the typed weight"
+   ],
+   [
+    212,
+    "## 7. Full matrix boundary-layer integration, including corank intersections"
+   ],
+   [
+    276,
+    "## 8. Pinned genericity and global event measurability"
+   ],
+   [
+    298,
+    "## 9. A source-bound weighted Kac-Rice interface"
+   ],
+   [
+    310,
+    "## 10. Exact radial ledger: the dimension cancels"
+   ],
+   [
+    337,
+    "## 11. Lifetime pushforward and the exact compact coefficient"
+   ],
+   [
+    365,
+    "## 12. Short bars, moments, and the exact remaining boundary"
+   ],
+   [
+    386,
+    "## 13. Removing all birth and gap cutoffs by a direct intensity majorant"
+   ],
+   [
+    435,
+    "## 14. The off-diagonal contribution is bounded, not silently discarded"
+   ],
+   [
+    447,
+    "## 15. Analytically eliminate birth and gap from the leading coefficient"
+   ],
+   [
+    482,
+    "## 16. Supplied interfaces, retained limits, and review"
+   ],
+   [
+    492,
+    "### Primary-source attribution"
+   ]
+  ],
+  "dir_files": [
+   "imports/lifetime_parent_20260925/CAP_PAIRING_IDENTITIES.md",
+   "imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md",
+   "imports/lifetime_parent_20260925/ERRATUM_POINTER.md",
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md",
+   "imports/lifetime_parent_20260925/README.md",
+   "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+   "imports/lifetime_parent_20260925/verify.py"
+  ],
+  "impl": [
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/verify.py"
+  ]
+ },
+ {
+  "record_id": "D1-C",
+  "topic": "D1",
+  "title": "Unrestricted finite-bar leading term",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+  "proof_ref": "Theorem C, Eq. (1.3)",
+  "necessary_premises": "D1-A;D1-KR-BOREL;D1-KR-DOM;D1-KR-FAR",
+  "external_imports": "-",
+  "commit": "82247833b5dd58e04291d55353b52938d73ec614",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 495,
+  "headings": [
+   [
+    1,
+    "# Uniform matrix-cap selection and unrestricted short-lifetime asymptotics"
+   ],
+   [
+    9,
+    "## 1. Model, convention, and the three theorems"
+   ],
+   [
+    54,
+    "## 2. Positive Fourier spectrum and finite-jet rank"
+   ],
+   [
+    69,
+    "## 3. An exact nonsingular contact frame for all orientations"
+   ],
+   [
+    115,
+    "## 4. Uniform conditional derivative moments and the independent residual"
+   ],
+   [
+    138,
+    "## 5. Endpoint identities and the actual full normalizer"
+   ],
+   [
+    184,
+    "## 6. The double soft-eigenvalue factor in the typed weight"
+   ],
+   [
+    212,
+    "## 7. Full matrix boundary-layer integration, including corank intersections"
+   ],
+   [
+    276,
+    "## 8. Pinned genericity and global event measurability"
+   ],
+   [
+    298,
+    "## 9. A source-bound weighted Kac-Rice interface"
+   ],
+   [
+    310,
+    "## 10. Exact radial ledger: the dimension cancels"
+   ],
+   [
+    337,
+    "## 11. Lifetime pushforward and the exact compact coefficient"
+   ],
+   [
+    365,
+    "## 12. Short bars, moments, and the exact remaining boundary"
+   ],
+   [
+    386,
+    "## 13. Removing all birth and gap cutoffs by a direct intensity majorant"
+   ],
+   [
+    435,
+    "## 14. The off-diagonal contribution is bounded, not silently discarded"
+   ],
+   [
+    447,
+    "## 15. Analytically eliminate birth and gap from the leading coefficient"
+   ],
+   [
+    482,
+    "## 16. Supplied interfaces, retained limits, and review"
+   ],
+   [
+    492,
+    "### Primary-source attribution"
+   ]
+  ],
+  "dir_files": [
+   "imports/lifetime_parent_20260925/CAP_PAIRING_IDENTITIES.md",
+   "imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md",
+   "imports/lifetime_parent_20260925/ERRATUM_POINTER.md",
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md",
+   "imports/lifetime_parent_20260925/README.md",
+   "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+   "imports/lifetime_parent_20260925/verify.py"
+  ],
+  "impl": [
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/verify.py"
+  ]
+ },
+ {
+  "record_id": "D1-CAP-ELDER",
+  "topic": "D1",
+  "title": "Separating cap gives global ordinary elder pairing",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md",
+  "proof_ref": "\u00a7\u00a74\u20135, eqs. (13)\u2013(14) and maximin argument",
+  "necessary_premises": "D1-CAP-RIDGE",
+  "external_imports": "-",
+  "commit": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 231,
+  "headings": [
+   [
+    1,
+    "# A weaker separating-cylinder criterion, dimension-independent geometry, and an improved "
+   ],
+   [
+    7,
+    "## 1. Results and exact division of scope"
+   ],
+   [
+    49,
+    "## 2. Normalize the mark and exploit the forced third derivative"
+   ],
+   [
+    70,
+    "## 3. A vector ridge exists globally across the cylinder"
+   ],
+   [
+    108,
+    "## 4. The correct ridge derivative and all cap boundary faces"
+   ],
+   [
+    157,
+    "## 5. Global elder pairing, actual branches, and mark scaling"
+   ],
+   [
+    169,
+    "## 6. What is imported for the 2D probability calculation"
+   ],
+   [
+    185,
+    "## 7. The smaller exceptional layer and its retained far branch"
+   ],
+   [
+    215,
+    "## 8. Exact comparison and remaining work"
+   ]
+  ],
+  "dir_files": [
+   "imports/lifetime_parent_20260925/CAP_PAIRING_IDENTITIES.md",
+   "imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md",
+   "imports/lifetime_parent_20260925/ERRATUM_POINTER.md",
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md",
+   "imports/lifetime_parent_20260925/README.md",
+   "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+   "imports/lifetime_parent_20260925/verify.py"
+  ],
+  "impl": [
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/verify.py"
+  ]
+ },
+ {
+  "record_id": "D1-CAP-HERMITE",
+  "topic": "D1",
+  "title": "Pinned Hermite identity and transverse concavity",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md",
+  "proof_ref": "\u00a7\u00a72\u20133, eqs. (4)\u2013(8)",
+  "necessary_premises": "",
+  "external_imports": "-",
+  "commit": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 231,
+  "headings": [
+   [
+    1,
+    "# A weaker separating-cylinder criterion, dimension-independent geometry, and an improved "
+   ],
+   [
+    7,
+    "## 1. Results and exact division of scope"
+   ],
+   [
+    49,
+    "## 2. Normalize the mark and exploit the forced third derivative"
+   ],
+   [
+    70,
+    "## 3. A vector ridge exists globally across the cylinder"
+   ],
+   [
+    108,
+    "## 4. The correct ridge derivative and all cap boundary faces"
+   ],
+   [
+    157,
+    "## 5. Global elder pairing, actual branches, and mark scaling"
+   ],
+   [
+    169,
+    "## 6. What is imported for the 2D probability calculation"
+   ],
+   [
+    185,
+    "## 7. The smaller exceptional layer and its retained far branch"
+   ],
+   [
+    215,
+    "## 8. Exact comparison and remaining work"
+   ]
+  ],
+  "dir_files": [
+   "imports/lifetime_parent_20260925/CAP_PAIRING_IDENTITIES.md",
+   "imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md",
+   "imports/lifetime_parent_20260925/ERRATUM_POINTER.md",
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md",
+   "imports/lifetime_parent_20260925/README.md",
+   "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+   "imports/lifetime_parent_20260925/verify.py"
+  ],
+  "impl": [
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/verify.py"
+  ]
+ },
+ {
+  "record_id": "D1-CAP-MATRIX",
+  "topic": "D1",
+  "title": "Double soft-eigenvalue typed determinant envelope",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+  "proof_ref": "\u00a7\u00a75\u20136 eqs. (5.1), (5.3), (6.1), (6.2)",
+  "necessary_premises": "",
+  "external_imports": "-",
+  "commit": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 495,
+  "headings": [
+   [
+    1,
+    "# Uniform matrix-cap selection and unrestricted short-lifetime asymptotics"
+   ],
+   [
+    9,
+    "## 1. Model, convention, and the three theorems"
+   ],
+   [
+    54,
+    "## 2. Positive Fourier spectrum and finite-jet rank"
+   ],
+   [
+    69,
+    "## 3. An exact nonsingular contact frame for all orientations"
+   ],
+   [
+    115,
+    "## 4. Uniform conditional derivative moments and the independent residual"
+   ],
+   [
+    138,
+    "## 5. Endpoint identities and the actual full normalizer"
+   ],
+   [
+    184,
+    "## 6. The double soft-eigenvalue factor in the typed weight"
+   ],
+   [
+    212,
+    "## 7. Full matrix boundary-layer integration, including corank intersections"
+   ],
+   [
+    276,
+    "## 8. Pinned genericity and global event measurability"
+   ],
+   [
+    298,
+    "## 9. A source-bound weighted Kac-Rice interface"
+   ],
+   [
+    310,
+    "## 10. Exact radial ledger: the dimension cancels"
+   ],
+   [
+    337,
+    "## 11. Lifetime pushforward and the exact compact coefficient"
+   ],
+   [
+    365,
+    "## 12. Short bars, moments, and the exact remaining boundary"
+   ],
+   [
+    386,
+    "## 13. Removing all birth and gap cutoffs by a direct intensity majorant"
+   ],
+   [
+    435,
+    "## 14. The off-diagonal contribution is bounded, not silently discarded"
+   ],
+   [
+    447,
+    "## 15. Analytically eliminate birth and gap from the leading coefficient"
+   ],
+   [
+    482,
+    "## 16. Supplied interfaces, retained limits, and review"
+   ],
+   [
+    492,
+    "### Primary-source attribution"
+   ]
+  ],
+  "dir_files": [
+   "imports/lifetime_parent_20260925/CAP_PAIRING_IDENTITIES.md",
+   "imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md",
+   "imports/lifetime_parent_20260925/ERRATUM_POINTER.md",
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md",
+   "imports/lifetime_parent_20260925/README.md",
+   "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+   "imports/lifetime_parent_20260925/verify.py"
+  ],
+  "impl": [
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/verify.py"
+  ]
+ },
+ {
+  "record_id": "D1-CAP-RIDGE",
+  "topic": "D1",
+  "title": "Unique transverse ridge and positive ridge third derivative",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md",
+  "proof_ref": "\u00a7\u00a73\u20134, eqs. (9)\u2013(12)",
+  "necessary_premises": "D1-CAP-HERMITE",
+  "external_imports": "-",
+  "commit": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 231,
+  "headings": [
+   [
+    1,
+    "# A weaker separating-cylinder criterion, dimension-independent geometry, and an improved "
+   ],
+   [
+    7,
+    "## 1. Results and exact division of scope"
+   ],
+   [
+    49,
+    "## 2. Normalize the mark and exploit the forced third derivative"
+   ],
+   [
+    70,
+    "## 3. A vector ridge exists globally across the cylinder"
+   ],
+   [
+    108,
+    "## 4. The correct ridge derivative and all cap boundary faces"
+   ],
+   [
+    157,
+    "## 5. Global elder pairing, actual branches, and mark scaling"
+   ],
+   [
+    169,
+    "## 6. What is imported for the 2D probability calculation"
+   ],
+   [
+    185,
+    "## 7. The smaller exceptional layer and its retained far branch"
+   ],
+   [
+    215,
+    "## 8. Exact comparison and remaining work"
+   ]
+  ],
+  "dir_files": [
+   "imports/lifetime_parent_20260925/CAP_PAIRING_IDENTITIES.md",
+   "imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md",
+   "imports/lifetime_parent_20260925/ERRATUM_POINTER.md",
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md",
+   "imports/lifetime_parent_20260925/README.md",
+   "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+   "imports/lifetime_parent_20260925/verify.py"
+  ],
+  "impl": [
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/verify.py"
+  ]
+ },
+ {
+  "record_id": "D1-COR-CUMULATIVE",
+  "topic": "D1",
+  "title": "Compact-window cumulative short-bar law",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+  "proof_ref": "\u00a712 (12.1)\u2013(12.2)",
+  "necessary_premises": "D1-B",
+  "external_imports": "-",
+  "commit": "82247833b5dd58e04291d55353b52938d73ec614",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 495,
+  "headings": [
+   [
+    1,
+    "# Uniform matrix-cap selection and unrestricted short-lifetime asymptotics"
+   ],
+   [
+    9,
+    "## 1. Model, convention, and the three theorems"
+   ],
+   [
+    54,
+    "## 2. Positive Fourier spectrum and finite-jet rank"
+   ],
+   [
+    69,
+    "## 3. An exact nonsingular contact frame for all orientations"
+   ],
+   [
+    115,
+    "## 4. Uniform conditional derivative moments and the independent residual"
+   ],
+   [
+    138,
+    "## 5. Endpoint identities and the actual full normalizer"
+   ],
+   [
+    184,
+    "## 6. The double soft-eigenvalue factor in the typed weight"
+   ],
+   [
+    212,
+    "## 7. Full matrix boundary-layer integration, including corank intersections"
+   ],
+   [
+    276,
+    "## 8. Pinned genericity and global event measurability"
+   ],
+   [
+    298,
+    "## 9. A source-bound weighted Kac-Rice interface"
+   ],
+   [
+    310,
+    "## 10. Exact radial ledger: the dimension cancels"
+   ],
+   [
+    337,
+    "## 11. Lifetime pushforward and the exact compact coefficient"
+   ],
+   [
+    365,
+    "## 12. Short bars, moments, and the exact remaining boundary"
+   ],
+   [
+    386,
+    "## 13. Removing all birth and gap cutoffs by a direct intensity majorant"
+   ],
+   [
+    435,
+    "## 14. The off-diagonal contribution is bounded, not silently discarded"
+   ],
+   [
+    447,
+    "## 15. Analytically eliminate birth and gap from the leading coefficient"
+   ],
+   [
+    482,
+    "## 16. Supplied interfaces, retained limits, and review"
+   ],
+   [
+    492,
+    "### Primary-source attribution"
+   ]
+  ],
+  "dir_files": [
+   "imports/lifetime_parent_20260925/CAP_PAIRING_IDENTITIES.md",
+   "imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md",
+   "imports/lifetime_parent_20260925/ERRATUM_POINTER.md",
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md",
+   "imports/lifetime_parent_20260925/README.md",
+   "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+   "imports/lifetime_parent_20260925/verify.py"
+  ],
+  "impl": [
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/verify.py"
+  ]
+ },
+ {
+  "record_id": "D1-CORR-CONG",
+  "topic": "D1 corrected lifetime / marked Kac\u2013Rice",
+  "title": "Mandatory A3 congruence erratum",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md",
+  "proof_ref": "\u00a75 mandatory erratum E1; reconciliation \u00a71",
+  "necessary_premises": "",
+  "external_imports": "-",
+  "commit": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 45,
+  "headings": [
+   [
+    1,
+    "# Additive erratum \u2014 endpoint Hessian congruence in UNIFORM_MATRIX_CAP_AND_LIFETIME"
+   ],
+   [
+    8,
+    "## Correction"
+   ],
+   [
+    42,
+    "## Review requirement"
+   ]
+  ],
+  "dir_files": [
+   "imports/lifetime_parent_20260925/CAP_PAIRING_IDENTITIES.md",
+   "imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md",
+   "imports/lifetime_parent_20260925/ERRATUM_POINTER.md",
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md",
+   "imports/lifetime_parent_20260925/README.md",
+   "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+   "imports/lifetime_parent_20260925/verify.py"
+  ],
+  "impl": [
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/verify.py"
+  ]
+ },
+ {
+  "record_id": "D1-CORR-SCOPE",
+  "topic": "D1 corrected lifetime / marked Kac\u2013Rice",
+  "title": "Mandatory D1 in-law and embedded-cylinder clarifications",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "reviews/d1_chain_reconciliation_20260928/RECONCILIATION.md",
+  "proof_ref": "\u00a71 reading rule E3, \u00a75 W1 and embedded radius",
+  "necessary_premises": "",
+  "external_imports": "-",
+  "commit": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 310,
+  "headings": [
+   [
+    1,
+    "# D1 Theorem A selection chain \u2014 source-bound reconciliation"
+   ],
+   [
+    10,
+    "## 1. The reconciled object and its reading rule"
+   ],
+   [
+    43,
+    "## 2. Reconciled statements"
+   ],
+   [
+    71,
+    "## 3. The four components of the chain"
+   ],
+   [
+    83,
+    "## 4. Interface ledger"
+   ],
+   [
+    133,
+    "## 5. Residual items and their discharge"
+   ],
+   [
+    168,
+    "## 6. Review of the previously unreviewed \u00a7\u00a711\u201312 (C2)"
+   ],
+   [
+    207,
+    "## 7. Consumption contract"
+   ],
+   [
+    227,
+    "## 8. Independence, lineage and requests"
+   ],
+   [
+    248,
+    "## 9. Register transitions justified by this record"
+   ],
+   [
+    281,
+    "## 10. Checks"
+   ]
+  ],
+  "dir_files": [
+   "reviews/d1_chain_reconciliation_20260928/LEDGER.json",
+   "reviews/d1_chain_reconciliation_20260928/RECONCILIATION.md",
+   "reviews/d1_chain_reconciliation_20260928/RECOVERED_G2.md",
+   "reviews/d1_chain_reconciliation_20260928/RECOVERED_REVIEWS.json",
+   "reviews/d1_chain_reconciliation_20260928/RECOVERED_X3.md",
+   "reviews/d1_chain_reconciliation_20260928/RECOVERED_X4.md",
+   "reviews/d1_chain_reconciliation_20260928/RECOVERED_X5.md",
+   "reviews/d1_chain_reconciliation_20260928/RESULTS.json",
+   "reviews/d1_chain_reconciliation_20260928/SCHEMA_NOTE.md",
+   "reviews/d1_chain_reconciliation_20260928/SOURCE_FILES.json",
+   "reviews/d1_chain_reconciliation_20260928/reconciliation_check.py"
+  ],
+  "impl": [
+   "reviews/d1_chain_reconciliation_20260928/LEDGER.json",
+   "reviews/d1_chain_reconciliation_20260928/RECOVERED_REVIEWS.json",
+   "reviews/d1_chain_reconciliation_20260928/RESULTS.json",
+   "reviews/d1_chain_reconciliation_20260928/SOURCE_FILES.json",
+   "reviews/d1_chain_reconciliation_20260928/reconciliation_check.py"
+  ]
+ },
+ {
+  "record_id": "D1-ELDER-MEAS",
+  "topic": "D1 corrected lifetime / marked Kac\u2013Rice",
+  "title": "Borel global elder maximin event",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+  "proof_ref": "\u00a78 pinned genericity and global Borel pairing",
+  "necessary_premises": "",
+  "external_imports": "EXT-MORSE-ELDER",
+  "commit": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 495,
+  "headings": [
+   [
+    1,
+    "# Uniform matrix-cap selection and unrestricted short-lifetime asymptotics"
+   ],
+   [
+    9,
+    "## 1. Model, convention, and the three theorems"
+   ],
+   [
+    54,
+    "## 2. Positive Fourier spectrum and finite-jet rank"
+   ],
+   [
+    69,
+    "## 3. An exact nonsingular contact frame for all orientations"
+   ],
+   [
+    115,
+    "## 4. Uniform conditional derivative moments and the independent residual"
+   ],
+   [
+    138,
+    "## 5. Endpoint identities and the actual full normalizer"
+   ],
+   [
+    184,
+    "## 6. The double soft-eigenvalue factor in the typed weight"
+   ],
+   [
+    212,
+    "## 7. Full matrix boundary-layer integration, including corank intersections"
+   ],
+   [
+    276,
+    "## 8. Pinned genericity and global event measurability"
+   ],
+   [
+    298,
+    "## 9. A source-bound weighted Kac-Rice interface"
+   ],
+   [
+    310,
+    "## 10. Exact radial ledger: the dimension cancels"
+   ],
+   [
+    337,
+    "## 11. Lifetime pushforward and the exact compact coefficient"
+   ],
+   [
+    365,
+    "## 12. Short bars, moments, and the exact remaining boundary"
+   ],
+   [
+    386,
+    "## 13. Removing all birth and gap cutoffs by a direct intensity majorant"
+   ],
+   [
+    435,
+    "## 14. The off-diagonal contribution is bounded, not silently discarded"
+   ],
+   [
+    447,
+    "## 15. Analytically eliminate birth and gap from the leading coefficient"
+   ],
+   [
+    482,
+    "## 16. Supplied interfaces, retained limits, and review"
+   ],
+   [
+    492,
+    "### Primary-source attribution"
+   ]
+  ],
+  "dir_files": [
+   "imports/lifetime_parent_20260925/CAP_PAIRING_IDENTITIES.md",
+   "imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md",
+   "imports/lifetime_parent_20260925/ERRATUM_POINTER.md",
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md",
+   "imports/lifetime_parent_20260925/README.md",
+   "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+   "imports/lifetime_parent_20260925/verify.py"
+  ],
+  "impl": [
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/verify.py"
+  ]
+ },
+ {
+  "record_id": "D1-EQ-COMPACT",
+  "topic": "D1",
+  "title": "Compact-window leading coefficient",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+  "proof_ref": "\u00a711 (11.3)",
+  "necessary_premises": "",
+  "external_imports": "-",
+  "commit": "82247833b5dd58e04291d55353b52938d73ec614",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 495,
+  "headings": [
+   [
+    1,
+    "# Uniform matrix-cap selection and unrestricted short-lifetime asymptotics"
+   ],
+   [
+    9,
+    "## 1. Model, convention, and the three theorems"
+   ],
+   [
+    54,
+    "## 2. Positive Fourier spectrum and finite-jet rank"
+   ],
+   [
+    69,
+    "## 3. An exact nonsingular contact frame for all orientations"
+   ],
+   [
+    115,
+    "## 4. Uniform conditional derivative moments and the independent residual"
+   ],
+   [
+    138,
+    "## 5. Endpoint identities and the actual full normalizer"
+   ],
+   [
+    184,
+    "## 6. The double soft-eigenvalue factor in the typed weight"
+   ],
+   [
+    212,
+    "## 7. Full matrix boundary-layer integration, including corank intersections"
+   ],
+   [
+    276,
+    "## 8. Pinned genericity and global event measurability"
+   ],
+   [
+    298,
+    "## 9. A source-bound weighted Kac-Rice interface"
+   ],
+   [
+    310,
+    "## 10. Exact radial ledger: the dimension cancels"
+   ],
+   [
+    337,
+    "## 11. Lifetime pushforward and the exact compact coefficient"
+   ],
+   [
+    365,
+    "## 12. Short bars, moments, and the exact remaining boundary"
+   ],
+   [
+    386,
+    "## 13. Removing all birth and gap cutoffs by a direct intensity majorant"
+   ],
+   [
+    435,
+    "## 14. The off-diagonal contribution is bounded, not silently discarded"
+   ],
+   [
+    447,
+    "## 15. Analytically eliminate birth and gap from the leading coefficient"
+   ],
+   [
+    482,
+    "## 16. Supplied interfaces, retained limits, and review"
+   ],
+   [
+    492,
+    "### Primary-source attribution"
+   ]
+  ],
+  "dir_files": [
+   "imports/lifetime_parent_20260925/CAP_PAIRING_IDENTITIES.md",
+   "imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md",
+   "imports/lifetime_parent_20260925/ERRATUM_POINTER.md",
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md",
+   "imports/lifetime_parent_20260925/README.md",
+   "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+   "imports/lifetime_parent_20260925/verify.py"
+  ],
+  "impl": [
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/verify.py"
+  ]
+ },
+ {
+  "record_id": "D1-EQ-GLOBAL",
+  "topic": "D1",
+  "title": "Unrestricted leading coefficient",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+  "proof_ref": "\u00a715 (15.1)\u2013(15.2)",
+  "necessary_premises": "",
+  "external_imports": "-",
+  "commit": "82247833b5dd58e04291d55353b52938d73ec614",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 495,
+  "headings": [
+   [
+    1,
+    "# Uniform matrix-cap selection and unrestricted short-lifetime asymptotics"
+   ],
+   [
+    9,
+    "## 1. Model, convention, and the three theorems"
+   ],
+   [
+    54,
+    "## 2. Positive Fourier spectrum and finite-jet rank"
+   ],
+   [
+    69,
+    "## 3. An exact nonsingular contact frame for all orientations"
+   ],
+   [
+    115,
+    "## 4. Uniform conditional derivative moments and the independent residual"
+   ],
+   [
+    138,
+    "## 5. Endpoint identities and the actual full normalizer"
+   ],
+   [
+    184,
+    "## 6. The double soft-eigenvalue factor in the typed weight"
+   ],
+   [
+    212,
+    "## 7. Full matrix boundary-layer integration, including corank intersections"
+   ],
+   [
+    276,
+    "## 8. Pinned genericity and global event measurability"
+   ],
+   [
+    298,
+    "## 9. A source-bound weighted Kac-Rice interface"
+   ],
+   [
+    310,
+    "## 10. Exact radial ledger: the dimension cancels"
+   ],
+   [
+    337,
+    "## 11. Lifetime pushforward and the exact compact coefficient"
+   ],
+   [
+    365,
+    "## 12. Short bars, moments, and the exact remaining boundary"
+   ],
+   [
+    386,
+    "## 13. Removing all birth and gap cutoffs by a direct intensity majorant"
+   ],
+   [
+    435,
+    "## 14. The off-diagonal contribution is bounded, not silently discarded"
+   ],
+   [
+    447,
+    "## 15. Analytically eliminate birth and gap from the leading coefficient"
+   ],
+   [
+    482,
+    "## 16. Supplied interfaces, retained limits, and review"
+   ],
+   [
+    492,
+    "### Primary-source attribution"
+   ]
+  ],
+  "dir_files": [
+   "imports/lifetime_parent_20260925/CAP_PAIRING_IDENTITIES.md",
+   "imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md",
+   "imports/lifetime_parent_20260925/ERRATUM_POINTER.md",
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md",
+   "imports/lifetime_parent_20260925/README.md",
+   "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+   "imports/lifetime_parent_20260925/verify.py"
+  ],
+  "impl": [
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/verify.py"
+  ]
+ },
+ {
+  "record_id": "D1-KR-BOREL",
+  "topic": "D1 corrected lifetime / marked Kac\u2013Rice",
+  "title": "Finite-measure extension to the global elder weight",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "reviews/d1_section9_borel_repair_20260925/REPAIR.md",
+  "proof_ref": "Replacement \u00a7\u00a79.2\u20139.4, reviewed C1\u2013C6",
+  "necessary_premises": "D1-ELDER-MEAS;D1-KR-KERNEL",
+  "external_imports": "EXT-C2-KERNEL;EXT-KR-AAL",
+  "commit": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 148,
+  "headings": [
+   [
+    1,
+    "# D1 Section 9 repair \u2014 Borel elder mark in weighted pair Kac\u2013Rice"
+   ],
+   [
+    9,
+    "## 1. Review finding consumed \u2014 and one citation correction"
+   ],
+   [
+    23,
+    "## 2. Exact replacement for parent Section 9"
+   ],
+   [
+    25,
+    "### 9. A source-bound weighted Kac\u2013Rice interface for the global elder mark"
+   ],
+   [
+    37,
+    "#### 9.1 A regular conditional law on the whole C^2 field"
+   ],
+   [
+    57,
+    "#### 9.2 Two finite measures on D x E"
+   ],
+   [
+    76,
+    "#### 9.3 Cylinder functions generate the full Borel sigma-algebra"
+   ],
+   [
+    94,
+    "#### 9.4 Apply the extension to the elder/type mark"
+   ],
+   [
+    112,
+    "## 3. What this repair does and does not close"
+   ],
+   [
+    133,
+    "## 4. Review request"
+   ],
+   [
+    145,
+    "## 5. Source-integrity note"
+   ]
+  ],
+  "dir_files": [
+   "reviews/d1_section9_borel_repair_20260925/RECONNAISSANCE.md",
+   "reviews/d1_section9_borel_repair_20260925/REPAIR.md"
+  ],
+  "impl": []
+ },
+ {
+  "record_id": "D1-KR-DOM",
+  "topic": "D1 corrected lifetime / marked Kac\u2013Rice",
+  "title": "Unnormalized all-mark majorant and diagonal exhaustion",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+  "proof_ref": "\u00a713 (13.3)\u2013(13.6), plus replacement \u00a79 final exhaustion",
+  "necessary_premises": "D1-KR-JACOB",
+  "external_imports": "EXT-GAUSS-MOMENTS;EXT-KR-OFFDIAG",
+  "commit": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 495,
+  "headings": [
+   [
+    1,
+    "# Uniform matrix-cap selection and unrestricted short-lifetime asymptotics"
+   ],
+   [
+    9,
+    "## 1. Model, convention, and the three theorems"
+   ],
+   [
+    54,
+    "## 2. Positive Fourier spectrum and finite-jet rank"
+   ],
+   [
+    69,
+    "## 3. An exact nonsingular contact frame for all orientations"
+   ],
+   [
+    115,
+    "## 4. Uniform conditional derivative moments and the independent residual"
+   ],
+   [
+    138,
+    "## 5. Endpoint identities and the actual full normalizer"
+   ],
+   [
+    184,
+    "## 6. The double soft-eigenvalue factor in the typed weight"
+   ],
+   [
+    212,
+    "## 7. Full matrix boundary-layer integration, including corank intersections"
+   ],
+   [
+    276,
+    "## 8. Pinned genericity and global event measurability"
+   ],
+   [
+    298,
+    "## 9. A source-bound weighted Kac-Rice interface"
+   ],
+   [
+    310,
+    "## 10. Exact radial ledger: the dimension cancels"
+   ],
+   [
+    337,
+    "## 11. Lifetime pushforward and the exact compact coefficient"
+   ],
+   [
+    365,
+    "## 12. Short bars, moments, and the exact remaining boundary"
+   ],
+   [
+    386,
+    "## 13. Removing all birth and gap cutoffs by a direct intensity majorant"
+   ],
+   [
+    435,
+    "## 14. The off-diagonal contribution is bounded, not silently discarded"
+   ],
+   [
+    447,
+    "## 15. Analytically eliminate birth and gap from the leading coefficient"
+   ],
+   [
+    482,
+    "## 16. Supplied interfaces, retained limits, and review"
+   ],
+   [
+    492,
+    "### Primary-source attribution"
+   ]
+  ],
+  "dir_files": [
+   "imports/lifetime_parent_20260925/CAP_PAIRING_IDENTITIES.md",
+   "imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md",
+   "imports/lifetime_parent_20260925/ERRATUM_POINTER.md",
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md",
+   "imports/lifetime_parent_20260925/README.md",
+   "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+   "imports/lifetime_parent_20260925/verify.py"
+  ],
+  "impl": [
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/verify.py"
+  ]
+ },
+ {
+  "record_id": "D1-KR-FAR",
+  "topic": "D1 corrected lifetime / marked Kac\u2013Rice",
+  "title": "Far-off-diagonal height-intensity domination",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+  "proof_ref": "\u00a714 (14.1)",
+  "necessary_premises": "",
+  "external_imports": "EXT-GAUSS-MOMENTS",
+  "commit": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 495,
+  "headings": [
+   [
+    1,
+    "# Uniform matrix-cap selection and unrestricted short-lifetime asymptotics"
+   ],
+   [
+    9,
+    "## 1. Model, convention, and the three theorems"
+   ],
+   [
+    54,
+    "## 2. Positive Fourier spectrum and finite-jet rank"
+   ],
+   [
+    69,
+    "## 3. An exact nonsingular contact frame for all orientations"
+   ],
+   [
+    115,
+    "## 4. Uniform conditional derivative moments and the independent residual"
+   ],
+   [
+    138,
+    "## 5. Endpoint identities and the actual full normalizer"
+   ],
+   [
+    184,
+    "## 6. The double soft-eigenvalue factor in the typed weight"
+   ],
+   [
+    212,
+    "## 7. Full matrix boundary-layer integration, including corank intersections"
+   ],
+   [
+    276,
+    "## 8. Pinned genericity and global event measurability"
+   ],
+   [
+    298,
+    "## 9. A source-bound weighted Kac-Rice interface"
+   ],
+   [
+    310,
+    "## 10. Exact radial ledger: the dimension cancels"
+   ],
+   [
+    337,
+    "## 11. Lifetime pushforward and the exact compact coefficient"
+   ],
+   [
+    365,
+    "## 12. Short bars, moments, and the exact remaining boundary"
+   ],
+   [
+    386,
+    "## 13. Removing all birth and gap cutoffs by a direct intensity majorant"
+   ],
+   [
+    435,
+    "## 14. The off-diagonal contribution is bounded, not silently discarded"
+   ],
+   [
+    447,
+    "## 15. Analytically eliminate birth and gap from the leading coefficient"
+   ],
+   [
+    482,
+    "## 16. Supplied interfaces, retained limits, and review"
+   ],
+   [
+    492,
+    "### Primary-source attribution"
+   ]
+  ],
+  "dir_files": [
+   "imports/lifetime_parent_20260925/CAP_PAIRING_IDENTITIES.md",
+   "imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md",
+   "imports/lifetime_parent_20260925/ERRATUM_POINTER.md",
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md",
+   "imports/lifetime_parent_20260925/README.md",
+   "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+   "imports/lifetime_parent_20260925/verify.py"
+  ],
+  "impl": [
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/verify.py"
+  ]
+ },
+ {
+  "record_id": "D1-KR-JACOB",
+  "topic": "D1 corrected lifetime / marked Kac\u2013Rice",
+  "title": "Exact pair-to-lifetime Jacobian and dimensional cancellation",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+  "proof_ref": "\u00a7\u00a710\u201311, equations (10.1)\u2013(11.3)",
+  "necessary_premises": "D1-KR-BOREL",
+  "external_imports": "-",
+  "commit": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 495,
+  "headings": [
+   [
+    1,
+    "# Uniform matrix-cap selection and unrestricted short-lifetime asymptotics"
+   ],
+   [
+    9,
+    "## 1. Model, convention, and the three theorems"
+   ],
+   [
+    54,
+    "## 2. Positive Fourier spectrum and finite-jet rank"
+   ],
+   [
+    69,
+    "## 3. An exact nonsingular contact frame for all orientations"
+   ],
+   [
+    115,
+    "## 4. Uniform conditional derivative moments and the independent residual"
+   ],
+   [
+    138,
+    "## 5. Endpoint identities and the actual full normalizer"
+   ],
+   [
+    184,
+    "## 6. The double soft-eigenvalue factor in the typed weight"
+   ],
+   [
+    212,
+    "## 7. Full matrix boundary-layer integration, including corank intersections"
+   ],
+   [
+    276,
+    "## 8. Pinned genericity and global event measurability"
+   ],
+   [
+    298,
+    "## 9. A source-bound weighted Kac-Rice interface"
+   ],
+   [
+    310,
+    "## 10. Exact radial ledger: the dimension cancels"
+   ],
+   [
+    337,
+    "## 11. Lifetime pushforward and the exact compact coefficient"
+   ],
+   [
+    365,
+    "## 12. Short bars, moments, and the exact remaining boundary"
+   ],
+   [
+    386,
+    "## 13. Removing all birth and gap cutoffs by a direct intensity majorant"
+   ],
+   [
+    435,
+    "## 14. The off-diagonal contribution is bounded, not silently discarded"
+   ],
+   [
+    447,
+    "## 15. Analytically eliminate birth and gap from the leading coefficient"
+   ],
+   [
+    482,
+    "## 16. Supplied interfaces, retained limits, and review"
+   ],
+   [
+    492,
+    "### Primary-source attribution"
+   ]
+  ],
+  "dir_files": [
+   "imports/lifetime_parent_20260925/CAP_PAIRING_IDENTITIES.md",
+   "imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md",
+   "imports/lifetime_parent_20260925/ERRATUM_POINTER.md",
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/MARKED_CYLINDER_CAP_PROOF.md",
+   "imports/lifetime_parent_20260925/README.md",
+   "imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+   "imports/lifetime_parent_20260925/verify.py"
+  ],
+  "impl": [
+   "imports/lifetime_parent_20260925/MANIFEST.json",
+   "imports/lifetime_parent_20260925/verify.py"
+  ]
+ },
+ {
+  "record_id": "D1-KR-KERNEL",
+  "topic": "D1 corrected lifetime / marked Kac\u2013Rice",
+  "title": "C2-valued Gaussian regression conditional kernel",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "reviews/d1_section9_borel_repair_20260925/REPAIR.md",
+  "proof_ref": "Replacement \u00a79.1",
+  "necessary_premises": "",
+  "external_imports": "EXT-C2-KERNEL",
+  "commit": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 148,
+  "headings": [
+   [
+    1,
+    "# D1 Section 9 repair \u2014 Borel elder mark in weighted pair Kac\u2013Rice"
+   ],
+   [
+    9,
+    "## 1. Review finding consumed \u2014 and one citation correction"
+   ],
+   [
+    23,
+    "## 2. Exact replacement for parent Section 9"
+   ],
+   [
+    25,
+    "### 9. A source-bound weighted Kac\u2013Rice interface for the global elder mark"
+   ],
+   [
+    37,
+    "#### 9.1 A regular conditional law on the whole C^2 field"
+   ],
+   [
+    57,
+    "#### 9.2 Two finite measures on D x E"
+   ],
+   [
+    76,
+    "#### 9.3 Cylinder functions generate the full Borel sigma-algebra"
+   ],
+   [
+    94,
+    "#### 9.4 Apply the extension to the elder/type mark"
+   ],
+   [
+    112,
+    "## 3. What this repair does and does not close"
+   ],
+   [
+    133,
+    "## 4. Review request"
+   ],
+   [
+    145,
+    "## 5. Source-integrity note"
+   ]
+  ],
+  "dir_files": [
+   "reviews/d1_section9_borel_repair_20260925/RECONNAISSANCE.md",
+   "reviews/d1_section9_borel_repair_20260925/REPAIR.md"
+  ],
+  "impl": []
+ },
+ {
+  "record_id": "D1-LOWER-DIM",
+  "topic": "D1 extension",
+  "title": "Fixed-dimensional cubic elder-rejection lower bound",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "frontiers/elder_dimension_lift_20260928/PROOF.md",
+  "proof_ref": "Theorem A (A2)\u2013(A4), dimensional lower",
+  "necessary_premises": "",
+  "external_imports": "-",
+  "commit": "e7f8aca41c308f8ad8614b587f75916943c86f27",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 481,
+  "headings": [
+   [
+    1,
+    "# One soft transverse direction: an elder-failure lower event in every fixed dimension"
+   ],
+   [
+    8,
+    "## 1. Model, precise claims, and dependence boundaries"
+   ],
+   [
+    98,
+    "## 2. Complete physical third-order jets after the pin frame"
+   ],
+   [
+    132,
+    "## 3. A unit-Jacobian chart around one soft transverse direction"
+   ],
+   [
+    189,
+    "## 4. The raw rare set has volume and probability of order r"
+   ],
+   [
+    218,
+    "## 5. Remainder control is conditioned after ALL the physical jets"
+   ],
+   [
+    248,
+    "## 6. Exact pinned planar normal form on the sheared plane"
+   ],
+   [
+    284,
+    "## 7. Stable path above the death pin"
+   ],
+   [
+    310,
+    "## 8. Full endpoint Hessians: only two directions are soft"
+   ],
+   [
+    363,
+    "## 9. Two additional saddles with a stable negative complement"
+   ],
+   [
+    417,
+    "## 10. Parent-dependent selection and density consequences"
+   ],
+   [
+    454,
+    "## 11. What is new, what is checked, and what remains for review"
+   ]
+  ],
+  "dir_files": [
+   "frontiers/elder_dimension_lift_20260928/PROOF.md",
+   "frontiers/elder_dimension_lift_20260928/README.md",
+   "frontiers/elder_dimension_lift_20260928/RECONNAISSANCE.md",
+   "frontiers/elder_dimension_lift_20260928/RESULTS.json",
+   "frontiers/elder_dimension_lift_20260928/SOURCE_FILES.json",
+   "frontiers/elder_dimension_lift_20260928/SOURCE_MAP.json",
+   "frontiers/elder_dimension_lift_20260928/lift.py",
+   "frontiers/elder_dimension_lift_20260928/test_lift.py",
+   "frontiers/elder_dimension_lift_20260928/verify.py"
+  ],
+  "impl": [
+   "frontiers/elder_dimension_lift_20260928/RESULTS.json",
+   "frontiers/elder_dimension_lift_20260928/SOURCE_FILES.json",
+   "frontiers/elder_dimension_lift_20260928/SOURCE_MAP.json",
+   "frontiers/elder_dimension_lift_20260928/lift.py",
+   "frontiers/elder_dimension_lift_20260928/test_lift.py",
+   "frontiers/elder_dimension_lift_20260928/verify.py"
+  ]
+ }
+]

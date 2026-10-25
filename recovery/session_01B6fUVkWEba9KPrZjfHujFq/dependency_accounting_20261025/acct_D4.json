@@ -1,0 +1,956 @@
+[
+ {
+  "record_id": "D4-01",
+  "topic": "D4",
+  "title": "Remote count and occurrence upper bounds",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "frontiers/remote_window_20260924/PROOF.md",
+  "proof_ref": "Eq. (3)",
+  "necessary_premises": "D4-A",
+  "external_imports": "-",
+  "commit": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 218,
+  "headings": [
+   [
+    1,
+    "# Remote critical points in a shrinking height window"
+   ],
+   [
+    8,
+    "## 1. The count and the new scope"
+   ],
+   [
+    55,
+    "## 2. Exact observations and uniform remote nondegeneracy"
+   ],
+   [
+    86,
+    "## 3. A common regression coupling, with the extra height pin retained"
+   ],
+   [
+    102,
+    "## 4. The endpoint weights vanish to second order even after remote conditioning"
+   ],
+   [
+    148,
+    "## 5. Kac-Rice yields the actual bound and the limiting density"
+   ],
+   [
+    177,
+    "## 6. Several mutually separated witnesses"
+   ],
+   [
+    199,
+    "## 7. RN crosswalk and remaining work"
+   ],
+   [
+    213,
+    "## 8. Attribution and test scope"
+   ]
+  ],
+  "dir_files": [
+   "frontiers/remote_window_20260924/PROOF.md",
+   "frontiers/remote_window_20260924/README.md",
+   "frontiers/remote_window_20260924/RECONNAISSANCE.md",
+   "frontiers/remote_window_20260924/RESULTS.json",
+   "frontiers/remote_window_20260924/SOURCE_FILES.json",
+   "frontiers/remote_window_20260924/remote_window.py",
+   "frontiers/remote_window_20260924/run_validation.py",
+   "frontiers/remote_window_20260924/test_remote_window.py"
+  ],
+  "impl": [
+   "frontiers/remote_window_20260924/RESULTS.json",
+   "frontiers/remote_window_20260924/SOURCE_FILES.json",
+   "frontiers/remote_window_20260924/remote_window.py",
+   "frontiers/remote_window_20260924/run_validation.py",
+   "frontiers/remote_window_20260924/test_remote_window.py"
+  ]
+ },
+ {
+  "record_id": "D4-A",
+  "topic": "D4",
+  "title": "Fixed-remote shrinking-height count",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "frontiers/remote_window_20260924/PROOF.md",
+  "proof_ref": "Theorem A, Eq. (2)",
+  "necessary_premises": "D1-02;D4-KERNEL;D4-NUM;D4-Z",
+  "external_imports": "-",
+  "commit": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 218,
+  "headings": [
+   [
+    1,
+    "# Remote critical points in a shrinking height window"
+   ],
+   [
+    8,
+    "## 1. The count and the new scope"
+   ],
+   [
+    55,
+    "## 2. Exact observations and uniform remote nondegeneracy"
+   ],
+   [
+    86,
+    "## 3. A common regression coupling, with the extra height pin retained"
+   ],
+   [
+    102,
+    "## 4. The endpoint weights vanish to second order even after remote conditioning"
+   ],
+   [
+    148,
+    "## 5. Kac-Rice yields the actual bound and the limiting density"
+   ],
+   [
+    177,
+    "## 6. Several mutually separated witnesses"
+   ],
+   [
+    199,
+    "## 7. RN crosswalk and remaining work"
+   ],
+   [
+    213,
+    "## 8. Attribution and test scope"
+   ]
+  ],
+  "dir_files": [
+   "frontiers/remote_window_20260924/PROOF.md",
+   "frontiers/remote_window_20260924/README.md",
+   "frontiers/remote_window_20260924/RECONNAISSANCE.md",
+   "frontiers/remote_window_20260924/RESULTS.json",
+   "frontiers/remote_window_20260924/SOURCE_FILES.json",
+   "frontiers/remote_window_20260924/remote_window.py",
+   "frontiers/remote_window_20260924/run_validation.py",
+   "frontiers/remote_window_20260924/test_remote_window.py"
+  ],
+  "impl": [
+   "frontiers/remote_window_20260924/RESULTS.json",
+   "frontiers/remote_window_20260924/SOURCE_FILES.json",
+   "frontiers/remote_window_20260924/remote_window.py",
+   "frontiers/remote_window_20260924/run_validation.py",
+   "frontiers/remote_window_20260924/test_remote_window.py"
+  ]
+ },
+ {
+  "record_id": "D4-COLLISION",
+  "topic": "D4",
+  "title": "Fixed-remote near-collision factorial bound",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "frontiers/remote_collision_20260928/PROOF.md",
+  "proof_ref": "Theorem C and Corollary D",
+  "necessary_premises": "D4-A",
+  "external_imports": "-",
+  "commit": "79cb314d5b9f6b8b410bfd0df200414314f6b8c7",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 329,
+  "headings": [
+   [
+    1,
+    "# Witness collisions in the fixed-remote height window: a second factorial moment and matc"
+   ],
+   [
+    8,
+    "## 1. Results"
+   ],
+   [
+    10,
+    "### Setting"
+   ],
+   [
+    31,
+    "### Theorem C (near-diagonal witness pairs)"
+   ],
+   [
+    42,
+    "### Corollary D (second factorial moment)"
+   ],
+   [
+    49,
+    "### Corollary E (matching probability asymptotics, fixed remote region)"
+   ],
+   [
+    57,
+    "### Corollary F (lower bound on the whole torus in every fixed `d`; matching upper bound o"
+   ],
+   [
+    71,
+    "## 2. Dependencies"
+   ],
+   [
+    83,
+    "## 3. The pair Kac\u2013Rice formula"
+   ],
+   [
+    115,
+    "## 4. Divided-difference coordinates, uniform through collision"
+   ],
+   [
+    171,
+    "## 5. Pathwise bounds"
+   ],
+   [
+    192,
+    "## 6. Proof of Theorem C"
+   ],
+   [
+    221,
+    "## 7. Separated pairs and the corollaries"
+   ],
+   [
+    241,
+    "## 8. Scope and non-claims"
+   ],
+   [
+    256,
+    "## 9. Literature and method"
+   ],
+   [
+    267,
+    "## 10. Finite controls"
+   ],
+   [
+    283,
+    "## Appendix A. Details for the continuum steps held in review 5342481786"
+   ],
+   [
+    315,
+    "## Revision history"
+   ]
+  ],
+  "dir_files": [
+   "frontiers/remote_collision_20260928/PROOF.md",
+   "frontiers/remote_collision_20260928/README.md",
+   "frontiers/remote_collision_20260928/RESULTS.json",
+   "frontiers/remote_collision_20260928/SOURCE_FILES.json",
+   "frontiers/remote_collision_20260928/collision_exact_check.py"
+  ],
+  "impl": [
+   "frontiers/remote_collision_20260928/RESULTS.json",
+   "frontiers/remote_collision_20260928/SOURCE_FILES.json",
+   "frontiers/remote_collision_20260928/collision_exact_check.py"
+  ]
+ },
+ {
+  "record_id": "D4-DET",
+  "topic": "D4",
+  "title": "Typed endpoint determinant contact limit",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "frontiers/remote_window_20260924/PROOF.md",
+  "proof_ref": "\u00a74 Eqs. (8)\u2013(10)",
+  "necessary_premises": "D4-REG",
+  "external_imports": "-",
+  "commit": "191ea7d541a486736ba7bbddfd4eac25a6c4567b",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 218,
+  "headings": [
+   [
+    1,
+    "# Remote critical points in a shrinking height window"
+   ],
+   [
+    8,
+    "## 1. The count and the new scope"
+   ],
+   [
+    55,
+    "## 2. Exact observations and uniform remote nondegeneracy"
+   ],
+   [
+    86,
+    "## 3. A common regression coupling, with the extra height pin retained"
+   ],
+   [
+    102,
+    "## 4. The endpoint weights vanish to second order even after remote conditioning"
+   ],
+   [
+    148,
+    "## 5. Kac-Rice yields the actual bound and the limiting density"
+   ],
+   [
+    177,
+    "## 6. Several mutually separated witnesses"
+   ],
+   [
+    199,
+    "## 7. RN crosswalk and remaining work"
+   ],
+   [
+    213,
+    "## 8. Attribution and test scope"
+   ]
+  ],
+  "dir_files": [
+   "frontiers/remote_window_20260924/PROOF.md",
+   "frontiers/remote_window_20260924/README.md",
+   "frontiers/remote_window_20260924/RECONNAISSANCE.md",
+   "frontiers/remote_window_20260924/RESULTS.json",
+   "frontiers/remote_window_20260924/SOURCE_FILES.json",
+   "frontiers/remote_window_20260924/remote_window.py",
+   "frontiers/remote_window_20260924/run_validation.py",
+   "frontiers/remote_window_20260924/test_remote_window.py"
+  ],
+  "impl": [
+   "frontiers/remote_window_20260924/RESULTS.json",
+   "frontiers/remote_window_20260924/SOURCE_FILES.json",
+   "frontiers/remote_window_20260924/remote_window.py",
+   "frontiers/remote_window_20260924/run_validation.py",
+   "frontiers/remote_window_20260924/test_remote_window.py"
+  ]
+ },
+ {
+  "record_id": "D4-JET",
+  "topic": "D4",
+  "title": "Fixed-remote finite-jet covariance floor",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "frontiers/remote_window_20260924/PROOF.md",
+  "proof_ref": "\u00a72 and review interface 1",
+  "necessary_premises": "D1-02;D1-03",
+  "external_imports": "-",
+  "commit": "191ea7d541a486736ba7bbddfd4eac25a6c4567b",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 218,
+  "headings": [
+   [
+    1,
+    "# Remote critical points in a shrinking height window"
+   ],
+   [
+    8,
+    "## 1. The count and the new scope"
+   ],
+   [
+    55,
+    "## 2. Exact observations and uniform remote nondegeneracy"
+   ],
+   [
+    86,
+    "## 3. A common regression coupling, with the extra height pin retained"
+   ],
+   [
+    102,
+    "## 4. The endpoint weights vanish to second order even after remote conditioning"
+   ],
+   [
+    148,
+    "## 5. Kac-Rice yields the actual bound and the limiting density"
+   ],
+   [
+    177,
+    "## 6. Several mutually separated witnesses"
+   ],
+   [
+    199,
+    "## 7. RN crosswalk and remaining work"
+   ],
+   [
+    213,
+    "## 8. Attribution and test scope"
+   ]
+  ],
+  "dir_files": [
+   "frontiers/remote_window_20260924/PROOF.md",
+   "frontiers/remote_window_20260924/README.md",
+   "frontiers/remote_window_20260924/RECONNAISSANCE.md",
+   "frontiers/remote_window_20260924/RESULTS.json",
+   "frontiers/remote_window_20260924/SOURCE_FILES.json",
+   "frontiers/remote_window_20260924/remote_window.py",
+   "frontiers/remote_window_20260924/run_validation.py",
+   "frontiers/remote_window_20260924/test_remote_window.py"
+  ],
+  "impl": [
+   "frontiers/remote_window_20260924/RESULTS.json",
+   "frontiers/remote_window_20260924/SOURCE_FILES.json",
+   "frontiers/remote_window_20260924/remote_window.py",
+   "frontiers/remote_window_20260924/run_validation.py",
+   "frontiers/remote_window_20260924/test_remote_window.py"
+  ]
+ },
+ {
+  "record_id": "D4-KERNEL",
+  "topic": "D4",
+  "title": "Positive fixed-remote contact intensity",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "frontiers/remote_window_20260924/PROOF.md",
+  "proof_ref": "\u00a75 Eq. (13)",
+  "necessary_premises": "D4-KR",
+  "external_imports": "-",
+  "commit": "191ea7d541a486736ba7bbddfd4eac25a6c4567b",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 218,
+  "headings": [
+   [
+    1,
+    "# Remote critical points in a shrinking height window"
+   ],
+   [
+    8,
+    "## 1. The count and the new scope"
+   ],
+   [
+    55,
+    "## 2. Exact observations and uniform remote nondegeneracy"
+   ],
+   [
+    86,
+    "## 3. A common regression coupling, with the extra height pin retained"
+   ],
+   [
+    102,
+    "## 4. The endpoint weights vanish to second order even after remote conditioning"
+   ],
+   [
+    148,
+    "## 5. Kac-Rice yields the actual bound and the limiting density"
+   ],
+   [
+    177,
+    "## 6. Several mutually separated witnesses"
+   ],
+   [
+    199,
+    "## 7. RN crosswalk and remaining work"
+   ],
+   [
+    213,
+    "## 8. Attribution and test scope"
+   ]
+  ],
+  "dir_files": [
+   "frontiers/remote_window_20260924/PROOF.md",
+   "frontiers/remote_window_20260924/README.md",
+   "frontiers/remote_window_20260924/RECONNAISSANCE.md",
+   "frontiers/remote_window_20260924/RESULTS.json",
+   "frontiers/remote_window_20260924/SOURCE_FILES.json",
+   "frontiers/remote_window_20260924/remote_window.py",
+   "frontiers/remote_window_20260924/run_validation.py",
+   "frontiers/remote_window_20260924/test_remote_window.py"
+  ],
+  "impl": [
+   "frontiers/remote_window_20260924/RESULTS.json",
+   "frontiers/remote_window_20260924/SOURCE_FILES.json",
+   "frontiers/remote_window_20260924/remote_window.py",
+   "frontiers/remote_window_20260924/run_validation.py",
+   "frontiers/remote_window_20260924/test_remote_window.py"
+  ]
+ },
+ {
+  "record_id": "D4-KR",
+  "topic": "D4",
+  "title": "Three-determinant weighted Kac\u2013Rice identity",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "frontiers/remote_window_20260924/PROOF.md",
+  "proof_ref": "\u00a75 Eq. (12)",
+  "necessary_premises": "D4-DET;D4-REG;D4-Z",
+  "external_imports": "EXT-KR-AAL",
+  "commit": "191ea7d541a486736ba7bbddfd4eac25a6c4567b",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 218,
+  "headings": [
+   [
+    1,
+    "# Remote critical points in a shrinking height window"
+   ],
+   [
+    8,
+    "## 1. The count and the new scope"
+   ],
+   [
+    55,
+    "## 2. Exact observations and uniform remote nondegeneracy"
+   ],
+   [
+    86,
+    "## 3. A common regression coupling, with the extra height pin retained"
+   ],
+   [
+    102,
+    "## 4. The endpoint weights vanish to second order even after remote conditioning"
+   ],
+   [
+    148,
+    "## 5. Kac-Rice yields the actual bound and the limiting density"
+   ],
+   [
+    177,
+    "## 6. Several mutually separated witnesses"
+   ],
+   [
+    199,
+    "## 7. RN crosswalk and remaining work"
+   ],
+   [
+    213,
+    "## 8. Attribution and test scope"
+   ]
+  ],
+  "dir_files": [
+   "frontiers/remote_window_20260924/PROOF.md",
+   "frontiers/remote_window_20260924/README.md",
+   "frontiers/remote_window_20260924/RECONNAISSANCE.md",
+   "frontiers/remote_window_20260924/RESULTS.json",
+   "frontiers/remote_window_20260924/SOURCE_FILES.json",
+   "frontiers/remote_window_20260924/remote_window.py",
+   "frontiers/remote_window_20260924/run_validation.py",
+   "frontiers/remote_window_20260924/test_remote_window.py"
+  ],
+  "impl": [
+   "frontiers/remote_window_20260924/RESULTS.json",
+   "frontiers/remote_window_20260924/SOURCE_FILES.json",
+   "frontiers/remote_window_20260924/remote_window.py",
+   "frontiers/remote_window_20260924/run_validation.py",
+   "frontiers/remote_window_20260924/test_remote_window.py"
+  ]
+ },
+ {
+  "record_id": "D4-NUM",
+  "topic": "D4",
+  "title": "Remote triple-determinant numerator estimate",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "frontiers/remote_window_20260924/PROOF.md",
+  "proof_ref": "\u00a75 Eq. (14)",
+  "necessary_premises": "D4-KR",
+  "external_imports": "-",
+  "commit": "191ea7d541a486736ba7bbddfd4eac25a6c4567b",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 218,
+  "headings": [
+   [
+    1,
+    "# Remote critical points in a shrinking height window"
+   ],
+   [
+    8,
+    "## 1. The count and the new scope"
+   ],
+   [
+    55,
+    "## 2. Exact observations and uniform remote nondegeneracy"
+   ],
+   [
+    86,
+    "## 3. A common regression coupling, with the extra height pin retained"
+   ],
+   [
+    102,
+    "## 4. The endpoint weights vanish to second order even after remote conditioning"
+   ],
+   [
+    148,
+    "## 5. Kac-Rice yields the actual bound and the limiting density"
+   ],
+   [
+    177,
+    "## 6. Several mutually separated witnesses"
+   ],
+   [
+    199,
+    "## 7. RN crosswalk and remaining work"
+   ],
+   [
+    213,
+    "## 8. Attribution and test scope"
+   ]
+  ],
+  "dir_files": [
+   "frontiers/remote_window_20260924/PROOF.md",
+   "frontiers/remote_window_20260924/README.md",
+   "frontiers/remote_window_20260924/RECONNAISSANCE.md",
+   "frontiers/remote_window_20260924/RESULTS.json",
+   "frontiers/remote_window_20260924/SOURCE_FILES.json",
+   "frontiers/remote_window_20260924/remote_window.py",
+   "frontiers/remote_window_20260924/run_validation.py",
+   "frontiers/remote_window_20260924/test_remote_window.py"
+  ],
+  "impl": [
+   "frontiers/remote_window_20260924/RESULTS.json",
+   "frontiers/remote_window_20260924/SOURCE_FILES.json",
+   "frontiers/remote_window_20260924/remote_window.py",
+   "frontiers/remote_window_20260924/run_validation.py",
+   "frontiers/remote_window_20260924/test_remote_window.py"
+  ]
+ },
+ {
+  "record_id": "D4-REG",
+  "topic": "D4",
+  "title": "Conditioned contact coupling and density transfer",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "frontiers/remote_window_20260924/PROOF.md",
+  "proof_ref": "\u00a73 Eq. (5)",
+  "necessary_premises": "D4-JET",
+  "external_imports": "EXT-GAUSS-MOMENTS",
+  "commit": "191ea7d541a486736ba7bbddfd4eac25a6c4567b",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 218,
+  "headings": [
+   [
+    1,
+    "# Remote critical points in a shrinking height window"
+   ],
+   [
+    8,
+    "## 1. The count and the new scope"
+   ],
+   [
+    55,
+    "## 2. Exact observations and uniform remote nondegeneracy"
+   ],
+   [
+    86,
+    "## 3. A common regression coupling, with the extra height pin retained"
+   ],
+   [
+    102,
+    "## 4. The endpoint weights vanish to second order even after remote conditioning"
+   ],
+   [
+    148,
+    "## 5. Kac-Rice yields the actual bound and the limiting density"
+   ],
+   [
+    177,
+    "## 6. Several mutually separated witnesses"
+   ],
+   [
+    199,
+    "## 7. RN crosswalk and remaining work"
+   ],
+   [
+    213,
+    "## 8. Attribution and test scope"
+   ]
+  ],
+  "dir_files": [
+   "frontiers/remote_window_20260924/PROOF.md",
+   "frontiers/remote_window_20260924/README.md",
+   "frontiers/remote_window_20260924/RECONNAISSANCE.md",
+   "frontiers/remote_window_20260924/RESULTS.json",
+   "frontiers/remote_window_20260924/SOURCE_FILES.json",
+   "frontiers/remote_window_20260924/remote_window.py",
+   "frontiers/remote_window_20260924/run_validation.py",
+   "frontiers/remote_window_20260924/test_remote_window.py"
+  ],
+  "impl": [
+   "frontiers/remote_window_20260924/RESULTS.json",
+   "frontiers/remote_window_20260924/SOURCE_FILES.json",
+   "frontiers/remote_window_20260924/remote_window.py",
+   "frontiers/remote_window_20260924/run_validation.py",
+   "frontiers/remote_window_20260924/test_remote_window.py"
+  ]
+ },
+ {
+  "record_id": "D4-REMOTE-PAIR",
+  "topic": "D4",
+  "title": "Separated remote witness tuples",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "frontiers/remote_window_20260924/PROOF.md",
+  "proof_ref": "\u00a76 (15)\u2013(16)",
+  "necessary_premises": "D4-TUPLE",
+  "external_imports": "-",
+  "commit": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 218,
+  "headings": [
+   [
+    1,
+    "# Remote critical points in a shrinking height window"
+   ],
+   [
+    8,
+    "## 1. The count and the new scope"
+   ],
+   [
+    55,
+    "## 2. Exact observations and uniform remote nondegeneracy"
+   ],
+   [
+    86,
+    "## 3. A common regression coupling, with the extra height pin retained"
+   ],
+   [
+    102,
+    "## 4. The endpoint weights vanish to second order even after remote conditioning"
+   ],
+   [
+    148,
+    "## 5. Kac-Rice yields the actual bound and the limiting density"
+   ],
+   [
+    177,
+    "## 6. Several mutually separated witnesses"
+   ],
+   [
+    199,
+    "## 7. RN crosswalk and remaining work"
+   ],
+   [
+    213,
+    "## 8. Attribution and test scope"
+   ]
+  ],
+  "dir_files": [
+   "frontiers/remote_window_20260924/PROOF.md",
+   "frontiers/remote_window_20260924/README.md",
+   "frontiers/remote_window_20260924/RECONNAISSANCE.md",
+   "frontiers/remote_window_20260924/RESULTS.json",
+   "frontiers/remote_window_20260924/SOURCE_FILES.json",
+   "frontiers/remote_window_20260924/remote_window.py",
+   "frontiers/remote_window_20260924/run_validation.py",
+   "frontiers/remote_window_20260924/test_remote_window.py"
+  ],
+  "impl": [
+   "frontiers/remote_window_20260924/RESULTS.json",
+   "frontiers/remote_window_20260924/SOURCE_FILES.json",
+   "frontiers/remote_window_20260924/remote_window.py",
+   "frontiers/remote_window_20260924/run_validation.py",
+   "frontiers/remote_window_20260924/test_remote_window.py"
+  ]
+ },
+ {
+  "record_id": "D4-SELECT",
+  "topic": "D4",
+  "title": "Dominated selector in fixed-remote height window",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "frontiers/remote_window_20260924/PROOF.md",
+  "proof_ref": "\u00a77 fixed-remote selector crosswalk",
+  "necessary_premises": "D4-01",
+  "external_imports": "-",
+  "commit": "191ea7d541a486736ba7bbddfd4eac25a6c4567b",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 218,
+  "headings": [
+   [
+    1,
+    "# Remote critical points in a shrinking height window"
+   ],
+   [
+    8,
+    "## 1. The count and the new scope"
+   ],
+   [
+    55,
+    "## 2. Exact observations and uniform remote nondegeneracy"
+   ],
+   [
+    86,
+    "## 3. A common regression coupling, with the extra height pin retained"
+   ],
+   [
+    102,
+    "## 4. The endpoint weights vanish to second order even after remote conditioning"
+   ],
+   [
+    148,
+    "## 5. Kac-Rice yields the actual bound and the limiting density"
+   ],
+   [
+    177,
+    "## 6. Several mutually separated witnesses"
+   ],
+   [
+    199,
+    "## 7. RN crosswalk and remaining work"
+   ],
+   [
+    213,
+    "## 8. Attribution and test scope"
+   ]
+  ],
+  "dir_files": [
+   "frontiers/remote_window_20260924/PROOF.md",
+   "frontiers/remote_window_20260924/README.md",
+   "frontiers/remote_window_20260924/RECONNAISSANCE.md",
+   "frontiers/remote_window_20260924/RESULTS.json",
+   "frontiers/remote_window_20260924/SOURCE_FILES.json",
+   "frontiers/remote_window_20260924/remote_window.py",
+   "frontiers/remote_window_20260924/run_validation.py",
+   "frontiers/remote_window_20260924/test_remote_window.py"
+  ],
+  "impl": [
+   "frontiers/remote_window_20260924/RESULTS.json",
+   "frontiers/remote_window_20260924/SOURCE_FILES.json",
+   "frontiers/remote_window_20260924/remote_window.py",
+   "frontiers/remote_window_20260924/run_validation.py",
+   "frontiers/remote_window_20260924/test_remote_window.py"
+  ]
+ },
+ {
+  "record_id": "D4-TUPLE",
+  "topic": "D4",
+  "title": "Joint contact asymptotic for separated witness tuples",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "frontiers/remote_window_20260924/PROOF.md",
+  "proof_ref": "\u00a76 Eq. (15)",
+  "necessary_premises": "D4-JET;D4-KR;D4-Z",
+  "external_imports": "-",
+  "commit": "191ea7d541a486736ba7bbddfd4eac25a6c4567b",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 218,
+  "headings": [
+   [
+    1,
+    "# Remote critical points in a shrinking height window"
+   ],
+   [
+    8,
+    "## 1. The count and the new scope"
+   ],
+   [
+    55,
+    "## 2. Exact observations and uniform remote nondegeneracy"
+   ],
+   [
+    86,
+    "## 3. A common regression coupling, with the extra height pin retained"
+   ],
+   [
+    102,
+    "## 4. The endpoint weights vanish to second order even after remote conditioning"
+   ],
+   [
+    148,
+    "## 5. Kac-Rice yields the actual bound and the limiting density"
+   ],
+   [
+    177,
+    "## 6. Several mutually separated witnesses"
+   ],
+   [
+    199,
+    "## 7. RN crosswalk and remaining work"
+   ],
+   [
+    213,
+    "## 8. Attribution and test scope"
+   ]
+  ],
+  "dir_files": [
+   "frontiers/remote_window_20260924/PROOF.md",
+   "frontiers/remote_window_20260924/README.md",
+   "frontiers/remote_window_20260924/RECONNAISSANCE.md",
+   "frontiers/remote_window_20260924/RESULTS.json",
+   "frontiers/remote_window_20260924/SOURCE_FILES.json",
+   "frontiers/remote_window_20260924/remote_window.py",
+   "frontiers/remote_window_20260924/run_validation.py",
+   "frontiers/remote_window_20260924/test_remote_window.py"
+  ],
+  "impl": [
+   "frontiers/remote_window_20260924/RESULTS.json",
+   "frontiers/remote_window_20260924/SOURCE_FILES.json",
+   "frontiers/remote_window_20260924/remote_window.py",
+   "frontiers/remote_window_20260924/run_validation.py",
+   "frontiers/remote_window_20260924/test_remote_window.py"
+  ]
+ },
+ {
+  "record_id": "D4-Z",
+  "topic": "D4",
+  "title": "Original full endpoint normalizer asymptotic",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "frontiers/remote_window_20260924/PROOF.md",
+  "proof_ref": "\u00a74 Eq. (11)",
+  "necessary_premises": "D4-DET",
+  "external_imports": "-",
+  "commit": "191ea7d541a486736ba7bbddfd4eac25a6c4567b",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 218,
+  "headings": [
+   [
+    1,
+    "# Remote critical points in a shrinking height window"
+   ],
+   [
+    8,
+    "## 1. The count and the new scope"
+   ],
+   [
+    55,
+    "## 2. Exact observations and uniform remote nondegeneracy"
+   ],
+   [
+    86,
+    "## 3. A common regression coupling, with the extra height pin retained"
+   ],
+   [
+    102,
+    "## 4. The endpoint weights vanish to second order even after remote conditioning"
+   ],
+   [
+    148,
+    "## 5. Kac-Rice yields the actual bound and the limiting density"
+   ],
+   [
+    177,
+    "## 6. Several mutually separated witnesses"
+   ],
+   [
+    199,
+    "## 7. RN crosswalk and remaining work"
+   ],
+   [
+    213,
+    "## 8. Attribution and test scope"
+   ]
+  ],
+  "dir_files": [
+   "frontiers/remote_window_20260924/PROOF.md",
+   "frontiers/remote_window_20260924/README.md",
+   "frontiers/remote_window_20260924/RECONNAISSANCE.md",
+   "frontiers/remote_window_20260924/RESULTS.json",
+   "frontiers/remote_window_20260924/SOURCE_FILES.json",
+   "frontiers/remote_window_20260924/remote_window.py",
+   "frontiers/remote_window_20260924/run_validation.py",
+   "frontiers/remote_window_20260924/test_remote_window.py"
+  ],
+  "impl": [
+   "frontiers/remote_window_20260924/RESULTS.json",
+   "frontiers/remote_window_20260924/SOURCE_FILES.json",
+   "frontiers/remote_window_20260924/remote_window.py",
+   "frontiers/remote_window_20260924/run_validation.py",
+   "frontiers/remote_window_20260924/test_remote_window.py"
+  ]
+ }
+]

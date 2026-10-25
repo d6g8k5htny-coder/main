@@ -1,0 +1,470 @@
+[
+ {
+  "record_id": "C6-01",
+  "topic": "C6",
+  "title": "Stretched-exponential moment",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "frontiers/c6_fourier_cutoff_20260929/PROOF.md",
+  "proof_ref": "(F2)",
+  "necessary_premises": "C6-F",
+  "external_imports": "-",
+  "commit": "4d59319b7fbe0790ebd5a1482bc91c4d9cc2d4f3",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 371,
+  "headings": [
+   [
+    1,
+    "# C6 Fourier cutoff: an exponential planar count cap and a single logarithm"
+   ],
+   [
+    9,
+    "## 1. Model, results and exact logical scope"
+   ],
+   [
+    73,
+    "## 2. Inputs, including their conditioning boundaries"
+   ],
+   [
+    95,
+    "## 3. Uniform Fourier error AFTER conditioning"
+   ],
+   [
+    147,
+    "## 4. Protected annuli and small-gradient volume"
+   ],
+   [
+    192,
+    "## 5. Laurent-polynomial zero cap, with no genericity shortcut"
+   ],
+   [
+    248,
+    "## 6. Gaussian cutoff tail and stretched-exponential count tail"
+   ],
+   [
+    295,
+    "## 7. Factorial moments: exactly one mean and a tail"
+   ],
+   [
+    317,
+    "## 8. Why a marked estimate is still needed for O(r^3)"
+   ],
+   [
+    349,
+    "## 9. Review and execution boundaries"
+   ]
+  ],
+  "dir_files": [
+   "frontiers/c6_fourier_cutoff_20260929/PROOF.md",
+   "frontiers/c6_fourier_cutoff_20260929/README.md",
+   "frontiers/c6_fourier_cutoff_20260929/RECONNAISSANCE.md",
+   "frontiers/c6_fourier_cutoff_20260929/RESULTS.json",
+   "frontiers/c6_fourier_cutoff_20260929/SOURCE_FILES.json",
+   "frontiers/c6_fourier_cutoff_20260929/SOURCE_MAP.json",
+   "frontiers/c6_fourier_cutoff_20260929/fourier.py",
+   "frontiers/c6_fourier_cutoff_20260929/test_fourier.py",
+   "frontiers/c6_fourier_cutoff_20260929/verify.py"
+  ],
+  "impl": [
+   "frontiers/c6_fourier_cutoff_20260929/RESULTS.json",
+   "frontiers/c6_fourier_cutoff_20260929/SOURCE_FILES.json",
+   "frontiers/c6_fourier_cutoff_20260929/SOURCE_MAP.json",
+   "frontiers/c6_fourier_cutoff_20260929/fourier.py",
+   "frontiers/c6_fourier_cutoff_20260929/test_fourier.py",
+   "frontiers/c6_fourier_cutoff_20260929/verify.py"
+  ]
+ },
+ {
+  "record_id": "C6-F",
+  "topic": "C6",
+  "title": "Stretched-exponential critical-count cap",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "frontiers/c6_fourier_cutoff_20260929/PROOF.md",
+  "proof_ref": "Theorem F, (F1)",
+  "necessary_premises": "",
+  "external_imports": "-",
+  "commit": "4d59319b7fbe0790ebd5a1482bc91c4d9cc2d4f3",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 371,
+  "headings": [
+   [
+    1,
+    "# C6 Fourier cutoff: an exponential planar count cap and a single logarithm"
+   ],
+   [
+    9,
+    "## 1. Model, results and exact logical scope"
+   ],
+   [
+    73,
+    "## 2. Inputs, including their conditioning boundaries"
+   ],
+   [
+    95,
+    "## 3. Uniform Fourier error AFTER conditioning"
+   ],
+   [
+    147,
+    "## 4. Protected annuli and small-gradient volume"
+   ],
+   [
+    192,
+    "## 5. Laurent-polynomial zero cap, with no genericity shortcut"
+   ],
+   [
+    248,
+    "## 6. Gaussian cutoff tail and stretched-exponential count tail"
+   ],
+   [
+    295,
+    "## 7. Factorial moments: exactly one mean and a tail"
+   ],
+   [
+    317,
+    "## 8. Why a marked estimate is still needed for O(r^3)"
+   ],
+   [
+    349,
+    "## 9. Review and execution boundaries"
+   ]
+  ],
+  "dir_files": [
+   "frontiers/c6_fourier_cutoff_20260929/PROOF.md",
+   "frontiers/c6_fourier_cutoff_20260929/README.md",
+   "frontiers/c6_fourier_cutoff_20260929/RECONNAISSANCE.md",
+   "frontiers/c6_fourier_cutoff_20260929/RESULTS.json",
+   "frontiers/c6_fourier_cutoff_20260929/SOURCE_FILES.json",
+   "frontiers/c6_fourier_cutoff_20260929/SOURCE_MAP.json",
+   "frontiers/c6_fourier_cutoff_20260929/fourier.py",
+   "frontiers/c6_fourier_cutoff_20260929/test_fourier.py",
+   "frontiers/c6_fourier_cutoff_20260929/verify.py"
+  ],
+  "impl": [
+   "frontiers/c6_fourier_cutoff_20260929/RESULTS.json",
+   "frontiers/c6_fourier_cutoff_20260929/SOURCE_FILES.json",
+   "frontiers/c6_fourier_cutoff_20260929/SOURCE_MAP.json",
+   "frontiers/c6_fourier_cutoff_20260929/fourier.py",
+   "frontiers/c6_fourier_cutoff_20260929/test_fourier.py",
+   "frontiers/c6_fourier_cutoff_20260929/verify.py"
+  ]
+ },
+ {
+  "record_id": "C6-RARE-CPOISSON",
+  "topic": "C6 rare clusters",
+  "title": "Canonical compound-Poisson approximation",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "frontiers/c6_rare_cluster_laws_20260929/PROOF.md",
+  "proof_ref": "\u00a74 Theorem C (4.1)",
+  "necessary_premises": "C6-PALM-Q;D5d-G",
+  "external_imports": "-",
+  "commit": "190cf2bd4f31c7caf219d5d9b3d1fa468c450ea6",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 146,
+  "headings": [
+   [
+    1,
+    "# Rare-cluster consequences of the sharp C6 moment bounds"
+   ],
+   [
+    6,
+    "## 1. Exact interface and dependency boundary"
+   ],
+   [
+    26,
+    "## 2. Conditional counts and size-biased counts are different"
+   ],
+   [
+    49,
+    "## 3. Sharp ordinary-Poisson obstruction, including optimized intensity"
+   ],
+   [
+    70,
+    "## 4. Canonical r-dependent compound Poissonization: sharp r^6 error"
+   ],
+   [
+    88,
+    "## 5. Factorial-moment matching to second rare-event order"
+   ],
+   [
+    100,
+    "## 6. Subsequential finite cluster-intensity measures, not a unique limit"
+   ],
+   [
+    128,
+    "## 7. Independent-replica limit, with an explicit extra assumption"
+   ],
+   [
+    143,
+    "## 8. Review and verification boundary"
+   ]
+  ],
+  "dir_files": [
+   "frontiers/c6_rare_cluster_laws_20260929/PROOF.md",
+   "frontiers/c6_rare_cluster_laws_20260929/README.md",
+   "frontiers/c6_rare_cluster_laws_20260929/RECONNAISSANCE.md",
+   "frontiers/c6_rare_cluster_laws_20260929/RESULTS.json",
+   "frontiers/c6_rare_cluster_laws_20260929/REVIEW_RECORD.md",
+   "frontiers/c6_rare_cluster_laws_20260929/SHARP_POISSON_COEFFICIENT.md",
+   "frontiers/c6_rare_cluster_laws_20260929/SOURCE_FILES.json",
+   "frontiers/c6_rare_cluster_laws_20260929/SOURCE_PINS.json",
+   "frontiers/c6_rare_cluster_laws_20260929/cluster_check.py",
+   "frontiers/c6_rare_cluster_laws_20260929/test_cluster_check.py",
+   "frontiers/c6_rare_cluster_laws_20260929/test_sharp_coefficient.py",
+   "frontiers/c6_rare_cluster_laws_20260929/test_source_pins.py",
+   "frontiers/c6_rare_cluster_laws_20260929/verify_packet.py"
+  ],
+  "impl": [
+   "frontiers/c6_rare_cluster_laws_20260929/RESULTS.json",
+   "frontiers/c6_rare_cluster_laws_20260929/SOURCE_FILES.json",
+   "frontiers/c6_rare_cluster_laws_20260929/SOURCE_PINS.json",
+   "frontiers/c6_rare_cluster_laws_20260929/cluster_check.py",
+   "frontiers/c6_rare_cluster_laws_20260929/test_cluster_check.py",
+   "frontiers/c6_rare_cluster_laws_20260929/test_sharp_coefficient.py",
+   "frontiers/c6_rare_cluster_laws_20260929/test_source_pins.py",
+   "frontiers/c6_rare_cluster_laws_20260929/verify_packet.py"
+  ]
+ },
+ {
+  "record_id": "C6-RARE-POISSON",
+  "topic": "C6 rare clusters",
+  "title": "Rare-count ordinary-Poisson obstruction",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "frontiers/c6_rare_cluster_laws_20260929/PROOF.md",
+  "proof_ref": "\u00a73 Theorem O (3.1)",
+  "necessary_premises": "C6-PALM-Q;D5d-G",
+  "external_imports": "-",
+  "commit": "190cf2bd4f31c7caf219d5d9b3d1fa468c450ea6",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 146,
+  "headings": [
+   [
+    1,
+    "# Rare-cluster consequences of the sharp C6 moment bounds"
+   ],
+   [
+    6,
+    "## 1. Exact interface and dependency boundary"
+   ],
+   [
+    26,
+    "## 2. Conditional counts and size-biased counts are different"
+   ],
+   [
+    49,
+    "## 3. Sharp ordinary-Poisson obstruction, including optimized intensity"
+   ],
+   [
+    70,
+    "## 4. Canonical r-dependent compound Poissonization: sharp r^6 error"
+   ],
+   [
+    88,
+    "## 5. Factorial-moment matching to second rare-event order"
+   ],
+   [
+    100,
+    "## 6. Subsequential finite cluster-intensity measures, not a unique limit"
+   ],
+   [
+    128,
+    "## 7. Independent-replica limit, with an explicit extra assumption"
+   ],
+   [
+    143,
+    "## 8. Review and verification boundary"
+   ]
+  ],
+  "dir_files": [
+   "frontiers/c6_rare_cluster_laws_20260929/PROOF.md",
+   "frontiers/c6_rare_cluster_laws_20260929/README.md",
+   "frontiers/c6_rare_cluster_laws_20260929/RECONNAISSANCE.md",
+   "frontiers/c6_rare_cluster_laws_20260929/RESULTS.json",
+   "frontiers/c6_rare_cluster_laws_20260929/REVIEW_RECORD.md",
+   "frontiers/c6_rare_cluster_laws_20260929/SHARP_POISSON_COEFFICIENT.md",
+   "frontiers/c6_rare_cluster_laws_20260929/SOURCE_FILES.json",
+   "frontiers/c6_rare_cluster_laws_20260929/SOURCE_PINS.json",
+   "frontiers/c6_rare_cluster_laws_20260929/cluster_check.py",
+   "frontiers/c6_rare_cluster_laws_20260929/test_cluster_check.py",
+   "frontiers/c6_rare_cluster_laws_20260929/test_sharp_coefficient.py",
+   "frontiers/c6_rare_cluster_laws_20260929/test_source_pins.py",
+   "frontiers/c6_rare_cluster_laws_20260929/verify_packet.py"
+  ],
+  "impl": [
+   "frontiers/c6_rare_cluster_laws_20260929/RESULTS.json",
+   "frontiers/c6_rare_cluster_laws_20260929/SOURCE_FILES.json",
+   "frontiers/c6_rare_cluster_laws_20260929/SOURCE_PINS.json",
+   "frontiers/c6_rare_cluster_laws_20260929/cluster_check.py",
+   "frontiers/c6_rare_cluster_laws_20260929/test_cluster_check.py",
+   "frontiers/c6_rare_cluster_laws_20260929/test_sharp_coefficient.py",
+   "frontiers/c6_rare_cluster_laws_20260929/test_source_pins.py",
+   "frontiers/c6_rare_cluster_laws_20260929/verify_packet.py"
+  ]
+ },
+ {
+  "record_id": "C6-RARE-REPLICAS",
+  "topic": "C6 rare clusters",
+  "title": "Independent-replica subsequential compound-Poisson law",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "frontiers/c6_rare_cluster_laws_20260929/PROOF.md",
+  "proof_ref": "\u00a76\u20137 Theorem S and independent replicas (7.1)",
+  "necessary_premises": "C6-PALM-Q;D5d-G",
+  "external_imports": "-",
+  "commit": "190cf2bd4f31c7caf219d5d9b3d1fa468c450ea6",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 146,
+  "headings": [
+   [
+    1,
+    "# Rare-cluster consequences of the sharp C6 moment bounds"
+   ],
+   [
+    6,
+    "## 1. Exact interface and dependency boundary"
+   ],
+   [
+    26,
+    "## 2. Conditional counts and size-biased counts are different"
+   ],
+   [
+    49,
+    "## 3. Sharp ordinary-Poisson obstruction, including optimized intensity"
+   ],
+   [
+    70,
+    "## 4. Canonical r-dependent compound Poissonization: sharp r^6 error"
+   ],
+   [
+    88,
+    "## 5. Factorial-moment matching to second rare-event order"
+   ],
+   [
+    100,
+    "## 6. Subsequential finite cluster-intensity measures, not a unique limit"
+   ],
+   [
+    128,
+    "## 7. Independent-replica limit, with an explicit extra assumption"
+   ],
+   [
+    143,
+    "## 8. Review and verification boundary"
+   ]
+  ],
+  "dir_files": [
+   "frontiers/c6_rare_cluster_laws_20260929/PROOF.md",
+   "frontiers/c6_rare_cluster_laws_20260929/README.md",
+   "frontiers/c6_rare_cluster_laws_20260929/RECONNAISSANCE.md",
+   "frontiers/c6_rare_cluster_laws_20260929/RESULTS.json",
+   "frontiers/c6_rare_cluster_laws_20260929/REVIEW_RECORD.md",
+   "frontiers/c6_rare_cluster_laws_20260929/SHARP_POISSON_COEFFICIENT.md",
+   "frontiers/c6_rare_cluster_laws_20260929/SOURCE_FILES.json",
+   "frontiers/c6_rare_cluster_laws_20260929/SOURCE_PINS.json",
+   "frontiers/c6_rare_cluster_laws_20260929/cluster_check.py",
+   "frontiers/c6_rare_cluster_laws_20260929/test_cluster_check.py",
+   "frontiers/c6_rare_cluster_laws_20260929/test_sharp_coefficient.py",
+   "frontiers/c6_rare_cluster_laws_20260929/test_source_pins.py",
+   "frontiers/c6_rare_cluster_laws_20260929/verify_packet.py"
+  ],
+  "impl": [
+   "frontiers/c6_rare_cluster_laws_20260929/RESULTS.json",
+   "frontiers/c6_rare_cluster_laws_20260929/SOURCE_FILES.json",
+   "frontiers/c6_rare_cluster_laws_20260929/SOURCE_PINS.json",
+   "frontiers/c6_rare_cluster_laws_20260929/cluster_check.py",
+   "frontiers/c6_rare_cluster_laws_20260929/test_cluster_check.py",
+   "frontiers/c6_rare_cluster_laws_20260929/test_sharp_coefficient.py",
+   "frontiers/c6_rare_cluster_laws_20260929/test_source_pins.py",
+   "frontiers/c6_rare_cluster_laws_20260929/verify_packet.py"
+  ]
+ },
+ {
+  "record_id": "C6-W",
+  "topic": "C6",
+  "title": "Narrow-window factorial upper bounds",
+  "source_repo": "d6g8k5htny-coder/Math-",
+  "source_path": "frontiers/c6_fourier_cutoff_20260929/PROOF.md",
+  "proof_ref": "Theorem W, (F3)\u2013(F4)",
+  "necessary_premises": "C6-F;D5-G",
+  "external_imports": "-",
+  "commit": "4d59319b7fbe0790ebd5a1482bc91c4d9cc2d4f3",
+  "resolved": true,
+  "bytes_ok": true,
+  "sha_ok": true,
+  "blob_ok": true,
+  "lines": 371,
+  "headings": [
+   [
+    1,
+    "# C6 Fourier cutoff: an exponential planar count cap and a single logarithm"
+   ],
+   [
+    9,
+    "## 1. Model, results and exact logical scope"
+   ],
+   [
+    73,
+    "## 2. Inputs, including their conditioning boundaries"
+   ],
+   [
+    95,
+    "## 3. Uniform Fourier error AFTER conditioning"
+   ],
+   [
+    147,
+    "## 4. Protected annuli and small-gradient volume"
+   ],
+   [
+    192,
+    "## 5. Laurent-polynomial zero cap, with no genericity shortcut"
+   ],
+   [
+    248,
+    "## 6. Gaussian cutoff tail and stretched-exponential count tail"
+   ],
+   [
+    295,
+    "## 7. Factorial moments: exactly one mean and a tail"
+   ],
+   [
+    317,
+    "## 8. Why a marked estimate is still needed for O(r^3)"
+   ],
+   [
+    349,
+    "## 9. Review and execution boundaries"
+   ]
+  ],
+  "dir_files": [
+   "frontiers/c6_fourier_cutoff_20260929/PROOF.md",
+   "frontiers/c6_fourier_cutoff_20260929/README.md",
+   "frontiers/c6_fourier_cutoff_20260929/RECONNAISSANCE.md",
+   "frontiers/c6_fourier_cutoff_20260929/RESULTS.json",
+   "frontiers/c6_fourier_cutoff_20260929/SOURCE_FILES.json",
+   "frontiers/c6_fourier_cutoff_20260929/SOURCE_MAP.json",
+   "frontiers/c6_fourier_cutoff_20260929/fourier.py",
+   "frontiers/c6_fourier_cutoff_20260929/test_fourier.py",
+   "frontiers/c6_fourier_cutoff_20260929/verify.py"
+  ],
+  "impl": [
+   "frontiers/c6_fourier_cutoff_20260929/RESULTS.json",
+   "frontiers/c6_fourier_cutoff_20260929/SOURCE_FILES.json",
+   "frontiers/c6_fourier_cutoff_20260929/SOURCE_MAP.json",
+   "frontiers/c6_fourier_cutoff_20260929/fourier.py",
+   "frontiers/c6_fourier_cutoff_20260929/test_fourier.py",
+   "frontiers/c6_fourier_cutoff_20260929/verify.py"
+  ]
+ }
+]
