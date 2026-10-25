@@ -32,7 +32,7 @@ export function installSpatialAtlas({root,onChange}) {
   function fail(message){failureMessage=message;generation++;renderer?.dispose();renderer=null;delete host.dataset.ready;delete host.dataset.frames;active=false;toggle.setAttribute('aria-pressed','false');section.hidden=true;stage.classList.remove('atlas-space-replaced');list.classList.remove('atlas-space-replaced');display();status.textContent=message+' Use Graph or List to continue.';}
   function display(){toggle.setAttribute('aria-pressed',String(active));focus.setAttribute('aria-pressed',String(focused));for(const b of [reset,focus,plus,minus])b.hidden=!active;section.hidden=!active||!shown()||refused();stage.classList.toggle('atlas-space-replaced',active&&!section.hidden);list.classList.toggle('atlas-space-replaced',active&&!section.hidden);renderer?.pause(section.hidden||!intersecting);}
   function formalEvidence(){
-    if(refused()){get('atlas-formal-evidence')?.remove();return;}
+    if(refused()){get('atlas-formal-evidence')?.remove();nodes.replaceChildren();relations.replaceChildren();status.textContent='Source-bound bookmark refused; no current result count or formal evidence substituted.';return;}
     if(!data||get('atlas-formal-evidence'))return;
     const panel=make('section');panel.id='atlas-formal-evidence';panel.append(make('h4','Formal evidence for this claim'),make('p','No verified graph-to-formal-artifact mapping is recorded in this source projection. Missing evidence remains unknown.'));
     const fields=make('dl');
@@ -52,7 +52,7 @@ export function installSpatialAtlas({root,onChange}) {
   }
   function sync(){frame=0;if(disposed)return;
     formalEvidence();
-    if(refused()){if(active)fail('3D unavailable: source-bound bookmark refused. No graph substituted.');return;}
+    if(refused()){if(active)fail('3D unavailable: source-bound bookmark refused. No graph substituted.');else display();return;}
     display();if(!active){const text=[failureMessage,get('atlas-count').textContent.split('. ')[0],'Optional 3D uses this same source-bound page.'].filter(Boolean).join(' ');if(status.textContent!==text)status.textContent=text;return;}if(!renderer||!data)return;
     const ids=buttons().map(nodeID),id=selected(),signature=JSON.stringify([ids,id,focused]);
     if(signature!==lastSignature){lastSignature=signature;const view=spatialProjection(data.graph.data,ids,id,focused);renderer.update(view,id);nodes.replaceChildren();relations.replaceChildren();
