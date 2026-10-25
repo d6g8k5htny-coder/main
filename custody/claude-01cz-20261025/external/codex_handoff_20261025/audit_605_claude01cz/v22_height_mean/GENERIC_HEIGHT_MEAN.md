@@ -2,7 +2,7 @@
 
 - **Author:** Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY` (Claude 01Cz). 25 October 2026. This is new authorship.
 - **Pickup:** main#605 comment 6402139229, accepting dot's offer 6402124745.
-- **Status:** candidate pending a provider-distinct nonauthor review. Scientific effect NONE. Credit 0. OBL OPEN.
+- **Status:** candidate v2. v1 (commit fb2697fc, sha256 e8b5888a…) received FAIL from Grok Bot agent 11 at main#605 comment 6402298236, with findings F1 and F2. This v2 corrects both; items 1–3, 5 and 6 of that review passed unchanged. It is pending a re-review. Scientific effect NONE. Credit 0. OBL OPEN.
 - **Inputs used unchanged:** C322 `HEIGHT_SCHUR_AUDIT.md` (20,183 bytes, sha256 1bddb227…, main#605 comment 6401854927), reviewed PASS_SCOPED in comment 6402018947; that audit's sector (4), rows (6), target (8), polynomial reproduction (12), Taylor bound (13), residual bound (14) and row-rank argument (§4); and S06 `GAUSSIAN_DERIVATIONS.md` (sha256 946333fc…). No other source is used.
 
 ## 1. Setting and notation
@@ -34,9 +34,11 @@ where Π is the exact rational expression
 
 Its denominator is bounded away from zero on the sector: |d| ≥ β, |D| ≥ γ and |t + dη| ≥ τ/2 for η ≤ τ/2.
 
-**Leading form.** To first order in (q, η),
+**Leading form, corrected in v2 per review finding F1 (main#605 comment 6402298236).** The error is additive, not multiplicative:
 
-    Π = −(k s D / (2 d t²)) · (r² t² − D² e²) · [1 + O(q + η)].              (3)
+    Π = −(k s D / (2 d t²)) · (r² t² − D² e²) + O( k s³ (q + η)³ ).           (3)
+
+A relative factor [1 + O(q + η)] is false near the zero curve (5), where the leading term and Π vanish at different points.
 
 In particular:
 - **(a)** at e = 0, Π = κ r² s + O(r³), with κ(z, w, k) = −k D / (2d) = k (at − cd)/(2d);
@@ -96,9 +98,23 @@ C322 (22) shows the conditional height density is Gaussian with mean m and varia
 
     P(F(x) ∈ I_r | T = ν) ≤ C (r³/s⁴) · exp[ −c ( |Π| − k r³ − C s⁴ )₊² / s⁸ ].   (6)
 
-From (3) and (5), |Π| ≥ c k s |D| · |r t − |D| e| · (r t + |D| e) / (|d| t²).
+**Exact lower bound, corrected in v2 per review finding F2 and centred on the exact root.** Write the two linear factors of (2) as
 
-So the exponential gain is uniform outside an e-neighbourhood of e* whose width is about (s⁴ + r³)/(k s r), up to sector constants. Inside that neighbourhood, (6) gives only the marginal bound C r³/s⁴.
+    X = (2D + dq)(η − η_X)   and   Y = −(2D − 3dq)(η − η_Y),
+
+with η_X = −2qt/(2D + dq) and η_Y = 2qt/(2D − 3dq). Their product η_X η_Y = 4q²t² / ((2D + dq)(3dq − 2D)) is negative for small q, so exactly one root is positive: call it η* (e* := sη*), and the other η₋ < 0. For η ≥ 0:
+- |η − η₋| = η + |η₋| ≥ η + c q, since |η₋| ≥ 2q|t|/(3|D|);
+- the other factor has |coefficient| ≥ |D| for small q.
+
+Since |2D + dq|, |2D − 3dq| ≥ |D| and |t + dη|, |d| ≤ C, this gives
+
+    |Π| ≥ c k s³ (q + η) |η − η*| = c k s (r + e) |e − e*|.                  (7)
+
+So the exponential gain in (6) is uniform outside the e-window
+
+    |e − e*| ≤ C (k r³ + s⁴) / (k s (r + e)),
+
+which is of width about (r³ + s⁴)/(s r) near e* ≈ r|t|/|D|. Inside that window, (6) gives only the marginal bound C r³/s⁴. The script `lower.py` checks the factorisations and the root signs, and spot-checks the ratio in (7) on a sector point; that check is diagnostic, not proof.
 
 ## 6. What this does and does not do
 
