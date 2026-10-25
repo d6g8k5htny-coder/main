@@ -1,0 +1,34 @@
+D3 REMOTE AMENDMENT v2 engine -- kappa_far and bracket certified at the R2 rung floor
+R2 floor consumed: Z_lo = 0.0077592917375327855 (parsed from the pinned artifact H3_closure/H3_RUNG_FLOOR.md sha256 6347275d...; interval-enclosed two-sided Z in [0.00775929173753, 0.0114686464734], MC-free certificate)
+QMC probe Z_r = 0.008061180539 +- 7.913666270522449e-06 (DIAGNOSTIC DISPLAY ONLY; inside the R2 interval: True)
+V1 Z-free numerators at the axis-worst station (d=5, th=0), r = 0.05, v = window mid
+  kappa_cross = N_cross/Z:  N_cross = Bcross/m_sad = 0.00504277749 (exact-kernel; Bcross the frozen tau-form Lipschitz bound)
+  kappa_pair  = N_pair/Z:   N_pair = ||h||_2 sqrt(chi2) = 1.953515362e-5 (exact-kernel; chi2 = 1.944e-6 closed form)
+  kappa_y     = 0.0243696 (Z-INDEPENDENT: W2/Bures pieces and m_sad only -- no Z_r anywhere in the piece)
+  R_pg = 0.99999994, R_wm = 1.0002592 (Z-INDEPENDENT exact ratios)
+  [variation] N_cross(v=b) = 0.0050428235, N_cross(v=s) = 0.0050427315
+
+V2 per-piece Z-scaling verification and assembly
+  [QMC probe, diagnostic] Z = 0.00806118053912: kappa_cross = 0.62556315, kappa_pair = 0.002423361, kappa_y = 0.0243696 -> kappa_far = 0.652843363
+  [R2 floor, certified] Z = 0.00775929173753: kappa_cross = 0.64990178, kappa_pair = 0.002517646, kappa_y = 0.0243696 -> kappa_far = 0.677284905
+  kappa_far <= 0.68 CERTIFIED at the R2 floor (assembled 0.677284905; round-UP absorbing the displayed N_cross endpoint variation)
+
+V3 annulus numerator Num_ann (frozen D4 grid, cap form, NO 1/Z_r); consistency-ck against the frozen display, then floor division
+  Num_ann = 1.714838453e-5 ; Num_ann/Z_probe/r^3 = 17.01823642 (frozen display: 17.0182368)
+  I_ann(Z_lo)/r^3 = Num_ann/Z_lo/r^3 = 17.68036065 -> consumed as 17.6804 (round UP at 4 dp)
+
+V4 the certified bracket (upper bounds round UP)
+  I_far/r^3 <= 2.5282637 * (1 + 0.68) = 4.247483056
+  *** B_remote = I_ann(Z_lo) + I_far <= 17.6804 + 4.247483056 = 21.92788306 r^3
+  *** CERTIFIED BRACKET (floor-consistent): B_remote <= 21.9279 r^3; exact form B_remote = 17.6804 + 2.5282637*(1+kappa_far), kappa_far <= 0.68
+  full P_r(A.rem) <= I_hole + B_remote <= 1.284 + 21.9279 = 23.2119 r^3 [I_hole CONSUMES C1 chart envelope]
+
+  reconciliation (rounding directions; each line's denominator):
+    19.5465   kappa=0 remote POINT DISPLAY (RN at QMC-central; not an upper bound) -- rejected by the falsifier gate
+    20.9      frozen THM display (same kappa=0 reading, total incl. hole) -- superseded
+    21.2153   v1 certified bracket: kappa pieces at the QMC probe denominator + I_ann at the probe -- SUPERSEDED BY FLOOR
+    21.2658   v2 with I_ann left at its frozen probe display (the R2-round's prescribed form; denominator mix: floor in the kappas, probe in I_ann) -- SUPERSEDED BY the floor-consistent
+    21.9279   v2 CERTIFIED: every 1/Z_r at the R2 floor
+
+V5 grade: with the R2 interval consumed, the G.7-scope two-sided normalizer dependency AT THE RUNG r=0.05 is DISCHARGED -- every 1/Z_r in the bracket divides the certified floor Z_lo (the R2 certificate is interval-enclosed and Monte-Carlo-free; the QMC probe here is diagnostic display only, consistency-ck'd inside the R2 interval). 'Monte-Carlo-free' is claimed ONLY against this certified denominator. D3-LEMMA-RN-UNIF remains NAMED for the ZONE UNIFORMITY (v1 disposition stands: rigidity-decoupling lemma for tau(y) + certified interval-box Riemann sum for the annulus) -- a different item, untouched by R2.
+D3-AMEND-V2 PASS digest=2df9ddb09567dc940a8a8b9016453daa3eaeeb88890d6de962d4ce7241b8b2cb
