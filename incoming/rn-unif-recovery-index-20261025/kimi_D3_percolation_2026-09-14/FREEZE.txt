@@ -1,0 +1,47 @@
+D3-PERC-20260914-v1.0 freeze record
+===================================
+
+Agent D3, U2D-UPPER Stage D (OBL-B1-PERC): the remote preemption class A.rem's
+probability under the exact law.
+
+Extraction rule: lines strictly between the unique exact lines BEGIN_FROZEN_BODY and
+END_FROZEN_BODY of D3_PERCOLATION.md; normalize line endings to LF; exactly one
+terminal LF.
+
+frozen body bytes : 18060
+frozen body SHA-256: 8e7fef6b4fb989404624bf50083c9d8624fa486eeda62e4784447f8edb3eac47
+whole-file SHA-256: 45f58a76749025aa21bfce53daa1c1f06092e677a67a9765fb9cd1d90434c12d
+
+companions:
+sha256(d3_perc.py)      = 5bc092412943e1c2185a8cf86cee23ae9cd9a2aad9bd9ef0b02807e9ff58dfa4
+sha256(d3_falsifier.py) = e54c388f498035ae0f04510eeb03b4fd06f6489a938ae692fff2c8dcddb8088f
+sha256(t_normal.txt)    = 3e840bfdceaaca76e8cae9b3e11dbcc5602e6c035b3e839577ec79639fb85787
+sha256(t_opt.txt)       = 3e840bfdceaaca76e8cae9b3e11dbcc5602e6c035b3e839577ec79639fb85787
+(normal and python3 -O probe outputs byte-identical; fail-closed checks PASS, exit 0)
+engine digest = 0f67bfcf06625a1d62c2e895f9fea917b0acbc72a4517eb3d6d8077ae21ff494
+sha256(tf_normal.txt)   = 03ce5cfc8d9db1cb105bc5c5d5e900ec0a429b8245c1461e50ef220d5c89e4ae
+sha256(tf_opt.txt)      = 03ce5cfc8d9db1cb105bc5c5d5e900ec0a429b8245c1461e50ef220d5c89e4ae
+(normal and python3 -O falsifier outputs byte-identical; D3-FALSIFIER PASS, exit 0)
+falsifier digest = 65c7df3534d043b0c13b84d8e7777961cf4219b3340f7533065a0ef15ca1a4ea
+
+consumed (read-only, hash-pinned at consume time, fail-closed):
+sha256(B1_taxonomy/b1_falsifier.py) = 818df7985412071259345455c9ff6b68cad0c0fa9d636009cf8849b550154185
+  (B1_TAXONOMY.md frozen body 7d7ddbec6e63b4c2... read in full; discrete cover
+   mirror built on it)
+sha256(H2_foundations/cov_exact.py) = f08c1c5f653f2ffd2e85d39e1112f80d15db04d15f932e5ee42db2ca3553e783
+sha256(H2_foundations/pin_transform.py) = c6988ac7fcfa32dcc03c1374e13fb4c26af1c12c25cb824a315e6dce8991fd41
+coordinator foundation: LEAD_INTENSITY_DERIVATION.md body 729644f3521d29c5... (L1)/(L2) consumed.
+references at their grades: DER-027a (variance channel floor 0.9795957, d >= 3,
+7-pin lower family; consistency display only), DER-009 (selection lemma; NOT needed
+in this lane -- Markov on counts is exact and no selection is performed).
+
+policy: fail-closed (ck -> SystemExit); no bare asserts (python -O safe);
+deterministic artifacts (fixed seeds, fixed orders, mpmath dps=100 exact-law core,
+certified tails, MT19937 fixed-seed MC with displayed standard errors); receipts
+separate from bodies; probes evidence-grade and consistency-only, never proof.
+
+headline (assembly-consumable, sec. 5 of the body):
+P_r(A.rem) <= I_hole + I_ann + I_far <= (1.284 [CONSUMES C1] + 17.02 + 2.53(1+kap_far)) r^3
+           = 20.9 r^3 spine form (typed-y evidence envelope form: 6.5 r^3) = O(r^3);
+named inputs: G.7-scope two-sided normalizer Z_r = Theta(r^2); D3-LEMMA-RN-UNIF
+(zone uniformity, foundations countersignature); PERC-DECAY (o(r^3) upgrade only).
