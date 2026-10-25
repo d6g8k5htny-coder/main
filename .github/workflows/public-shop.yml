@@ -66,6 +66,368 @@ jobs:
         run: python -B tools/public_shop_browser_check.py --output browser-evidence
       - name: Current mathematical atlas and static reading parity
         run: python -B tools/current_site_browser_check.py --output browser-evidence/current-atlas
+      - name: Preserve original current-atlas report in bounded log frames
+        if: always()
+        timeout-minutes: 1
+        env:
+          ATLAS_PRIOR_JOB_STATUS: ${{ job.status }}
+          ATLAS_PR_HEAD: ${{ github.event.pull_request.head.sha }}
+          ATLAS_PR_BASE: ${{ github.event.pull_request.base.sha }}
+        run: |
+          python3 -I -S -u - <<'UL_ATLAS_PRESERVER_PY'
+          """New UL current-atlas evidence carrier; no project imports or child processes."""
+          import base64
+          import datetime
+          import errno
+          import hashlib
+          import json
+          import math
+          import os
+          import re
+          import signal
+          import stat
+          import sys
+          
+          PREFIX = "UL_ATLAS_PRESERVE_1 "
+          SCHEMA = "ul-atlas-preserve/1"
+          REPORT_PATH = "browser-evidence/current-atlas/report.json"
+          MAX_REPORT = 1048576
+          MAX_METADATA = 1048576
+          MAX_CONTEXT = 16384
+          CHUNK = 3072
+          DEADLINE_SECONDS = 20
+          EXPECTED_CASES = 39
+          HEX40 = re.compile(r"[0-9a-f]{40}\Z")
+          HEX64 = re.compile(r"[0-9a-f]{64}\Z")
+          
+          
+          class Hold(Exception):
+              pass
+          
+          
+          class Deadline(BaseException):
+              pass
+          
+          
+          def canonical(value):
+              return json.dumps(value, sort_keys=True, separators=(",", ":"),
+                                ensure_ascii=True, allow_nan=False).encode("ascii")
+          
+          
+          def digest(raw):
+              return hashlib.sha256(raw).hexdigest()
+          
+          
+          def strict_json(raw):
+              def pairs(items):
+                  value = {}
+                  for key, item in items:
+                      if key in value:
+                          raise ValueError("duplicate JSON key")
+                      value[key] = item
+                  return value
+              def bad_constant(value):
+                  raise ValueError("nonfinite JSON number")
+              def finite_float(value):
+                  number = float(value)
+                  if not math.isfinite(number):
+                      raise ValueError("nonfinite JSON number")
+                  return number
+              return json.loads(raw.decode("utf-8"), object_pairs_hook=pairs,
+                                parse_constant=bad_constant, parse_float=finite_float)
+          
+          
+          def fingerprint(info):
+              return (info.st_dev, info.st_ino, info.st_mode, info.st_size,
+                      info.st_mtime_ns, info.st_ctime_ns)
+          
+          
+          class Snapshot:
+              """Bounded, no-follow regular files, checked again before emission."""
+              def __init__(self, root):
+                  self.root = root
+                  self.records = {}
+                  self.absent = {}
+          
+              def one(self, path, cap):
+                  parts = path.split("/")
+                  if any(not p or p in (".", "..") or "\\" in p for p in parts):
+                      raise Hold("UNSAFE_PATH")
+                  parent = os.dup(self.root)
+                  fd = None
+                  try:
+                      for part in parts[:-1]:
+                          child = os.open(part, os.O_RDONLY | os.O_DIRECTORY |
+                                          os.O_NOFOLLOW | os.O_CLOEXEC, dir_fd=parent)
+                          os.close(parent)
+                          parent = child
+                      fd = os.open(parts[-1], os.O_RDONLY | os.O_NOFOLLOW |
+                                   os.O_NONBLOCK | os.O_CLOEXEC, dir_fd=parent)
+                      before = os.fstat(fd)
+                      if not stat.S_ISREG(before.st_mode):
+                          raise Hold("NONREGULAR_INPUT")
+                      if before.st_size > cap:
+                          raise Hold("OVERSIZED_INPUT")
+                      chunks = []
+                      size = 0
+                      while True:
+                          block = os.read(fd, min(65536, cap + 1 - size))
+                          if not block:
+                              break
+                          chunks.append(block)
+                          size += len(block)
+                          if size > cap:
+                              raise Hold("OVERSIZED_INPUT")
+                      after = os.fstat(fd)
+                      current = os.stat(parts[-1], dir_fd=parent, follow_symlinks=False)
+                      if (fingerprint(before) != fingerprint(after) or
+                              fingerprint(after) != fingerprint(current) or size != after.st_size):
+                          raise Hold("CHANGED_INPUT")
+                      return b"".join(chunks), fingerprint(after)
+                  finally:
+                      if fd is not None:
+                          os.close(fd)
+                      os.close(parent)
+          
+              def read(self, path, cap, optional=False):
+                  try:
+                      item = self.one(path, cap)
+                  except FileNotFoundError:
+                      if optional:
+                          self.absent[path] = cap
+                          return None
+                      raise Hold("MISSING_INPUT") from None
+                  except OSError as error:
+                      code = "SYMLINK_OR_DIRECTORY_INPUT" if error.errno in (errno.ELOOP, errno.ENOTDIR) else "UNREADABLE_INPUT"
+                      raise Hold(code) from None
+                  self.records[path] = (cap, item)
+                  return item[0]
+          
+              def recheck(self):
+                  for path, (cap, previous) in self.records.items():
+                      try:
+                          current = self.one(path, cap)
+                      except (OSError, Hold):
+                          raise Hold("CHANGED_INPUT") from None
+                      if current != previous:
+                          raise Hold("CHANGED_INPUT")
+                  for path, cap in self.absent.items():
+                      try:
+                          self.one(path, cap)
+                      except FileNotFoundError:
+                          continue
+                      except (OSError, Hold):
+                          raise Hold("CHANGED_INPUT") from None
+                      raise Hold("CHANGED_INPUT")
+          
+          
+          def checkout_identity(snapshot):
+              raw = snapshot.read(".git/HEAD", 512)
+              try:
+                  head = raw.decode("ascii")
+              except UnicodeError:
+                  raise Hold("UNSUPPORTED_GIT_HEAD") from None
+              if re.fullmatch(r"[0-9a-f]{40}\n?", head):
+                  return head.rstrip("\n"), "detached", None
+              match = re.fullmatch(r"ref: (refs/heads/[A-Za-z0-9._/-]{1,200})\n?", head)
+              if not match:
+                  raise Hold("UNSUPPORTED_GIT_HEAD")
+              ref = match.group(1)
+              if ".." in ref or any(not p or p.startswith(".") or p.endswith((".", ".lock")) for p in ref.split("/")):
+                  raise Hold("UNSUPPORTED_GIT_REF")
+              loose = snapshot.read(".git/" + ref, 128, optional=True)
+              if loose is not None:
+                  try:
+                      value = loose.decode("ascii")
+                  except UnicodeError:
+                      raise Hold("UNSUPPORTED_GIT_REF") from None
+                  if not re.fullmatch(r"[0-9a-f]{40}\n?", value):
+                      raise Hold("UNSUPPORTED_GIT_REF")
+                  return value.rstrip("\n"), "loose", ref
+              packed = snapshot.read(".git/packed-refs", MAX_METADATA)
+              found = []
+              try:
+                  for line in packed.decode("ascii").splitlines():
+                      if line.startswith("#") or re.fullmatch(r"\^[0-9a-f]{40}", line):
+                          continue
+                      entry = re.fullmatch(r"([0-9a-f]{40}) ([^\s]+)", line)
+                      if not entry:
+                          raise Hold("UNSUPPORTED_PACKED_REFS")
+                      if entry.group(2) == ref:
+                          found.append(entry.group(1))
+              except UnicodeError:
+                  raise Hold("UNSUPPORTED_PACKED_REFS") from None
+              if len(found) != 1:
+                  raise Hold("UNRESOLVED_GIT_REF")
+              return found[0], "packed", ref
+          
+          
+          ENV_KEYS = (
+              "GITHUB_SERVER_URL", "GITHUB_REPOSITORY", "GITHUB_RUN_ID",
+              "GITHUB_RUN_ATTEMPT", "GITHUB_JOB", "GITHUB_EVENT_NAME", "GITHUB_REF",
+              "GITHUB_SHA", "GITHUB_WORKFLOW_REF", "GITHUB_WORKFLOW_SHA",
+              "RUNNER_OS", "RUNNER_ARCH", "ATLAS_PRIOR_JOB_STATUS",
+          )
+          
+          
+          def execution_environment(env):
+              result = {}
+              for key in ENV_KEYS:
+                  value = env.get(key, "")
+                  if not re.fullmatch(r"[\x20-\x7e]{1,1024}", value):
+                      raise Hold("MISSING_OR_INVALID_EXECUTION_CONTEXT")
+                  result[key] = value
+              if (not HEX40.fullmatch(result["GITHUB_SHA"]) or
+                      not HEX40.fullmatch(result["GITHUB_WORKFLOW_SHA"]) or
+                      not re.fullmatch(r"[1-9][0-9]*", result["GITHUB_RUN_ID"]) or
+                      not re.fullmatch(r"[1-9][0-9]*", result["GITHUB_RUN_ATTEMPT"]) or
+                      result["GITHUB_EVENT_NAME"] not in ("pull_request", "push", "workflow_dispatch") or
+                      result["ATLAS_PRIOR_JOB_STATUS"] not in ("success", "failure", "cancelled") or
+                      result["RUNNER_OS"] != "Linux"):
+                  raise Hold("INVALID_EXECUTION_CONTEXT")
+              for key in ("ATLAS_PR_HEAD", "ATLAS_PR_BASE"):
+                  value = env.get(key, "")
+                  if result["GITHUB_EVENT_NAME"] == "pull_request":
+                      if not HEX40.fullmatch(value):
+                          raise Hold("MISSING_PR_CONTEXT")
+                  elif value:
+                      raise Hold("UNEXPECTED_PR_CONTEXT")
+                  result[key] = value or None
+              if env.get("GITHUB_WORKSPACE") != os.getcwd():
+                  raise Hold("WORKSPACE_CWD_MISMATCH")
+              return result
+          
+          
+          def report_observation(raw, checkout):
+              try:
+                  value = strict_json(raw)
+              except (ValueError, UnicodeError, RecursionError):
+                  raise Hold("INVALID_OR_PARTIAL_REPORT_JSON") from None
+              if not isinstance(value, dict):
+                  raise Hold("INVALID_REPORT_SHAPE")
+              cases = value.get("cases")
+              if (not isinstance(cases, list) or len(cases) != EXPECTED_CASES or
+                      any(not isinstance(c, dict) or type(c.get("passed")) is not bool for c in cases) or
+                      value.get("error") or value.get("scientific_effect") != "NONE" or
+                      not isinstance(value.get("source_repositories"), list) or
+                      not isinstance(value.get("source_payload_sha256"), str) or
+                      not HEX64.fullmatch(value["source_payload_sha256"])):
+                  raise Hold("INCOMPLETE_REPORT")
+              if not checkout or value.get("checked_commit") != checkout:
+                  raise Hold("REPORT_CHECKOUT_MISMATCH")
+              return {"checked_commit": checkout, "cases": len(cases),
+                      "passed_cases": sum(c["passed"] for c in cases),
+                      "failed_cases": sum(not c["passed"] for c in cases)}
+          
+          
+          def capture(root, env):
+              snapshot = Snapshot(root)
+              holds = []
+              report = None
+              checkout = None
+              checkout_kind = None
+              checkout_ref = None
+              execution = {}
+              observation = None
+              try:
+                  report = snapshot.read(REPORT_PATH, MAX_REPORT)
+              except Hold as error:
+                  holds.append("REPORT_" + str(error))
+              try:
+                  checkout, checkout_kind, checkout_ref = checkout_identity(snapshot)
+              except Hold as error:
+                  holds.append("CHECKOUT_" + str(error))
+              try:
+                  execution = execution_environment(env)
+                  if checkout != execution["GITHUB_SHA"]:
+                      holds.append("NATIVE_CHECKOUT_EVENT_MISMATCH")
+              except Hold as error:
+                  holds.append(str(error))
+              if report is not None:
+                  try:
+                      observation = report_observation(report, checkout)
+                  except Hold as error:
+                      holds.append(str(error))
+              try:
+                  snapshot.recheck()
+              except Hold as error:
+                  holds.append(str(error))
+              stamp = datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="microseconds").replace("+00:00", "Z")
+              context = {
+                  "schema": SCHEMA, "captured_at_utc": stamp,
+                  "preservation_state": "HOLD" if holds else "COMPLETE",
+                  "hold_reasons": sorted(set(holds)), "scientific_effect": "NONE",
+                  "execution": execution,
+                  "checkout": {"commit": checkout, "kind": checkout_kind, "ref": checkout_ref,
+                               "method": "bounded-no-follow-native-git-metadata-two-read"},
+                  "native_metadata": [{"path": path, "bytes": len(item[1][0]),
+                                       "sha256": digest(item[1][0])}
+                                      for path, item in sorted(snapshot.records.items()) if path.startswith(".git/")],
+                  "report": None if report is None else {"path": REPORT_PATH, "bytes": len(report),
+                             "sha256": digest(report), "observation": observation},
+                  "scope": "Original report byte preservation only; no browser verdict or historical-case qualification.",
+              }
+              context_raw = canonical(context)
+              if len(context_raw) > MAX_CONTEXT:
+                  raise Hold("OVERSIZED_CONTEXT")
+              files = {"context.json": context_raw}
+              if report is not None:
+                  files["report.json"] = report
+              manifest = {"schema": SCHEMA, "captured_at_utc": stamp,
+                          "preservation_state": context["preservation_state"],
+                          "files": [{"name": name, "bytes": len(raw), "sha256": digest(raw),
+                                     "chunks": (len(raw) + CHUNK - 1) // CHUNK}
+                                    for name, raw in sorted(files.items())]}
+              return manifest, files
+          
+          
+          def emit(manifest, files, stream):
+              identity = digest(canonical(manifest))
+              sequence = 0
+              def write(record):
+                  stream.write(PREFIX + canonical(record).decode("ascii") + "\n")
+                  stream.flush()
+              write({"kind": "begin", "sequence": sequence, "capture": identity, "manifest": manifest})
+              for item in manifest["files"]:
+                  raw = files[item["name"]]
+                  for chunk in range(item["chunks"]):
+                      sequence += 1
+                      write({"kind": "data", "sequence": sequence, "capture": identity,
+                             "file": item["name"], "chunk": chunk,
+                             "base64": base64.b64encode(raw[chunk * CHUNK:(chunk + 1) * CHUNK]).decode("ascii")})
+              write({"kind": "end", "sequence": sequence + 1, "capture": identity,
+                     "data_frames": sequence, "manifest_sha256": identity})
+              return 0 if manifest["preservation_state"] == "COMPLETE" else 1
+          
+          
+          def main():
+              def expired(signum, frame):
+                  raise Deadline()
+              previous = signal.signal(signal.SIGALRM, expired)
+              signal.setitimer(signal.ITIMER_REAL, DEADLINE_SECONDS)
+              root = None
+              try:
+                  root = os.open(".", os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW | os.O_CLOEXEC)
+                  manifest, files = capture(root, os.environ)
+                  return emit(manifest, files, sys.stdout)
+              except (Deadline, Exception) as error:
+                  # Emergency output gets one second; no descendant or numeric PID exists.
+                  signal.signal(signal.SIGALRM, signal.SIG_DFL)
+                  signal.setitimer(signal.ITIMER_REAL, 1)
+                  reason = "TIMEOUT" if isinstance(error, Deadline) else str(error) if isinstance(error, Hold) else "PRESERVER_ABORT"
+                  sys.stdout.write(PREFIX + canonical({"kind": "abort", "reason": reason}).decode("ascii") + "\n")
+                  sys.stdout.flush()
+                  return 1
+              finally:
+                  if root is not None:
+                      os.close(root)
+                  signal.setitimer(signal.ITIMER_REAL, 0)
+                  signal.signal(signal.SIGALRM, previous)
+          
+          
+          if __name__ == "__main__":
+              raise SystemExit(main())
+          UL_ATLAS_PRESERVER_PY
       - name: Preserve browser results including failures
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
