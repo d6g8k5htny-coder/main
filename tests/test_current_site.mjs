@@ -2,6 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {webcrypto} from 'node:crypto';
 import {readFile} from 'node:fs/promises';
+import {runInNewContext} from 'node:vm';
 import './test_current_site_shell.mjs';
 import './test_current_observation_coherence.mjs';
 import './test_current_inventory_acquisition.mjs';
@@ -137,9 +138,154 @@ test('atlas offset equation search and exact metadata filters survive URL state'
  for(const raw of ['-1','abc','1.5','Infinity'])assert.equal(m.readState('?atlas-offset='+raw,fixture()).offset,0);
  assert.ok(Number.isSafeInteger(m.readState('?atlas-offset='+('9'.repeat(30)),fixture()).offset));
 });
+
+// Exercise the real atlas controller, model and shell. This small Node DOM
+// implements only their DOM/event boundary, not browser layout, tabbing or AT.
+async function atlasController(search='',data=fixture()) {
+ const renderer=await import('../docs/site/current.mjs'),shell=await import('../docs/site/atlas-shell.mjs');
+ const source=await readFile(new URL('../docs/site/atlas.mjs',import.meta.url),'utf8');
+ class Element extends EventTarget {
+  constructor(tag,doc){super();this.tagName=tag.toUpperCase();this.ownerDocument=doc;this.children=[];this.attributes=new Map();this.style={};this.dataset={};this.hidden=false;this._text='';this._value='';}
+  set textContent(value){this._text=String(value);this.children=[];}
+  get textContent(){return this._text+this.children.map(child=>typeof child==='string'?child:child.textContent).join('');}
+  get id(){return this.getAttribute('id')||'';}set id(value){this.setAttribute('id',value);}
+  get parentElement(){return this.parentNode;}
+  setAttribute(key,value){this.attributes.set(key,String(value));}
+  getAttribute(key){return this.attributes.get(key)??null;}
+  remove(){if(this.parentNode){const siblings=this.parentNode.children;siblings.splice(siblings.indexOf(this),1);this.parentNode=null;}}
+  append(...children){for(const child of children){if(typeof child!=='string'){child.remove();child.parentNode=this;}this.children.push(child);}}
+  replaceChildren(...children){for(const child of this.children)if(typeof child!=='string')child.parentNode=null;this.children=[];this._text='';this.append(...children);}
+  insertBefore(child,before){child.remove();child.parentNode=this;this.children.splice(this.children.indexOf(before),0,child);}
+  contains(child){return this===child||this.children.some(node=>typeof node!=='string'&&node.contains(child));}
+  querySelectorAll(selector){const matches=[];for(const child of this.children)if(typeof child!=='string'){if(selector==='a[href]'?child.tagName==='A'&&!!child.getAttribute('href'):child.tagName===selector.toUpperCase())matches.push(child);matches.push(...child.querySelectorAll(selector));}return matches;}
+  get firstChild(){return this.children[0];}
+  get offsetHeight(){return 140;}
+  get options(){return this.children;}
+  get value(){return this.tagName==='SELECT'?(this.children.find(child=>child.value===this._value)||this.firstChild)?.value||'':this._value;}
+  set value(value){this._value=String(value);}
+  get selectedIndex(){return this.children.findIndex(child=>child.value===this.value);}
+  set selectedIndex(index){this.value=this.children[index]?.value||'';}
+  focus(){this.ownerDocument.activeElement=this;}
+  scrollIntoView(){}
+  getClientRects(){return this.hidden?[]:[{}];}
+ }
+ const doc={activeElement:null,createElement(tag){return new Element(tag,this);},createElementNS(ns,tag){return this.createElement(tag);}};
+ const nodes=new Map();const add=(id,tag='div',parent)=>{const node=doc.createElement(tag);node.id=id;nodes.set(id,node);parent?.append(node);return node;};
+ doc.getElementById=id=>nodes.get(id);const root=add('current-atlas'),layout=add('atlas-layout','div',root),browse=add('atlas-browse','div',layout);
+ add('atlas-inspector','article',layout);add('atlas-diagnostics','ul',add('atlas-diagnostics-details','details',root));
+ const html=await readFile(new URL('../docs/site/dependencies.html',import.meta.url),'utf8');
+ for(const match of html.matchAll(/<([a-z][\w-]*)\b[^>]*\bid="([^"]+)"/g))if(!nodes.has(match[2]))add(match[2],match[1],browse);
+ for(const value of ['graph','list']){const option=doc.createElement('option');option.value=value;nodes.get('atlas-view').append(option);}
+ const window=new EventTarget(),media=new EventTarget();media.matches=false;
+ const location=new URL('https://example.test/main/site/dependencies.html'+search),entries=[location.href];let cursor=0;
+ const history={replaceState(state,title,url){location.href=new URL(url,location.href).href;entries[cursor]=location.href;},pushState(state,title,url){location.href=new URL(url,location.href).href;entries.splice(++cursor);entries.push(location.href);},back(){if(cursor>0){location.href=entries[--cursor];window.dispatchEvent(new Event('popstate'));}},forward(){if(cursor+1<entries.length){location.href=entries[++cursor];window.dispatchEvent(new Event('popstate'));}}};
+ const saved=Object.getOwnPropertyDescriptor(globalThis,'document');globalThis.document=doc;
+ const bindings={...m,...shell,currentSnapshot:Promise.resolve(data),element:renderer.element,anchor:renderer.anchor,document:doc,window,history,URL,URLSearchParams,matchMedia:()=>media,fetch:async()=>({ok:false})};
+ Object.defineProperty(bindings,'location',{get:()=>location});
+ try{
+  // Imports use the actual modules above; awaiting the real start lifecycle
+  // avoids testing a copied render function or a source-text pattern.
+  const program=source.replace(/^import .*;\n/gm,'').replace(/^if\(typeof document[^\n]+\n?$/m,'');
+  await runInNewContext(program+'\nstart();',bindings);
+  const graphIDs=()=>nodes.get('atlas-canvas').querySelectorAll('button').map(node=>node.textContent.split(/candidate|axiom|predicate/)[0]);
+  const listIDs=()=>nodes.get('atlas-list').querySelectorAll('button').map(node=>node.textContent.split(/candidate|axiom|predicate/)[0]);
+  return {get:id=>nodes.get(id),graphIDs,listIDs,history,window,get url(){return location.href;},event(id,type){nodes.get(id).dispatchEvent(new Event(type));},async reload(){return atlasController(location.search,data);},close(){if(saved)Object.defineProperty(globalThis,'document',saved);else delete globalThis.document;}};
+ }catch(error){if(saved)Object.defineProperty(globalThis,'document',saved);else delete globalThis.document;throw error;}
+}
+
+test('atlas Graph and List apply each bookmarked exact metadata filter without changing source evidence',async()=>{
+ for(const [query,want]of [['atlas-classification=HOLD',['b']],['atlas-kind=predicate',['c']],['atlas-layer=D0',['b']],['atlas-classification=OPEN_ACTIVE&atlas-kind=candidate&atlas-layer=D1',['a']],['atlas-layer=unrecorded',[]],['atlas-classification=hold',[]]]){
+  const data=fixture(),before=structuredClone(data),f=await atlasController('?atlas-node=a&'+query,data);
+  try{assert.deepEqual(f.graphIDs(),want);assert.deepEqual(f.listIDs(),want);f.event('atlas-toggle-view','click');assert.equal(f.get('atlas-stage').hidden,true);assert.deepEqual(f.listIDs(),want);assert.deepEqual(data,before);}
+  finally{f.close();}
+ }
+});
+
+test('atlas metadata filters page the complete matching set and disclose the exact bookmark constraints',async()=>{
+ const data=fixture();data.graph.data={nodes:{},edges:[]};
+ for(let i=0;i<305;i++)data.graph.data.nodes['node'+i]={kind:i%2?'axiom':'candidate',classification:'OPEN_ACTIVE',layer:'D1'};
+ const f=await atlasController('?atlas-node=node0&atlas-q=OPEN_ACTIVE&atlas-kind=candidate&atlas-view=list',data);
+ try{
+  assert.equal(f.listIDs().length,150);assert.match(f.get('atlas-count').textContent,/153 matching source nodes of 305 indexed source nodes/);assert.match(f.get('atlas-count').textContent,/kind: candidate/);
+  assert.equal(f.get('atlas-next').disabled,false);f.event('atlas-next','click');assert.deepEqual(f.listIDs(),['node300','node302','node304']);assert.equal(new URL(f.get('atlas-share').href).searchParams.get('atlas-offset'),'150');assert.equal(f.get('atlas-next').disabled,true);
+  f.event('atlas-previous','click');assert.equal(f.listIDs().length,150);assert.equal(new URL(f.get('atlas-share').href).searchParams.get('atlas-offset'),null);
+ }finally{f.close();}
+});
+
+test('atlas filter bookmarks persist through search, node selection, reload and Back',async()=>{
+ const f=await atlasController('?atlas-node=a&atlas-kind=predicate&atlas-layer=D1&source-q=independent');
+ try{
+  f.get('atlas-search').value='OPEN_ACTIVE';f.event('atlas-search','input');assert.deepEqual(f.listIDs(),['c']);
+  const saved=new URL(f.get('atlas-share').href);assert.equal(saved.searchParams.get('atlas-kind'),'predicate');assert.equal(saved.searchParams.get('atlas-layer'),'D1');assert.equal(saved.searchParams.get('source-q'),'independent');assert.equal(saved.searchParams.get('snapshot'),commit);assert.equal(saved.searchParams.get('main-snapshot'),commit);
+  const reloaded=await f.reload();try{assert.deepEqual(reloaded.graphIDs(),['c']);assert.equal(reloaded.get('atlas-search').value,'OPEN_ACTIVE');}finally{reloaded.close();}
+  f.get('atlas-list').querySelectorAll('button')[0].dispatchEvent(new Event('click'));assert.equal(new URL(f.url).searchParams.get('atlas-node'),'c');assert.deepEqual(f.graphIDs(),['c']);
+  // A same-document history entry with a different exact filter must restore
+  // both its parsed state and real rendered window when Back/Forward runs.
+  f.history.pushState(null,'','?atlas-node=a&atlas-classification=HOLD&atlas-view=list&snapshot='+commit+'&main-snapshot='+commit);f.window.dispatchEvent(new Event('popstate'));assert.deepEqual(f.listIDs(),['b']);
+  f.history.back();assert.deepEqual(f.graphIDs(),['c']);assert.equal(new URL(f.get('atlas-share').href).searchParams.get('atlas-kind'),'predicate');
+  f.history.forward();assert.deepEqual(f.listIDs(),['b']);assert.equal(f.get('atlas-view').value,'list');
+ }finally{f.close();}
+});
+
+test('atlas refuses mismatched source bookmarks before applying metadata filters',async()=>{
+ const f=await atlasController('?atlas-node=a&atlas-classification=HOLD&snapshot='+('c'.repeat(40)));
+ try{assert.deepEqual(f.graphIDs(),[]);assert.deepEqual(f.listIDs(),[]);assert.match(f.get('atlas-count').textContent,/bookmark refused/);assert.match(f.get('atlas-inspector').textContent,/another snapshot/);assert.equal(new URL(f.url).searchParams.get('snapshot'),'c'.repeat(40));}
+ finally{f.close();}
+});
 test('node identifiers and recorded source paths require own literal string fields',()=>{
  const f=fixture();assert.equal(m.hasNode(f.graph.data,{toString:()=> 'a'}),false);
  assert.equal(m.sourceForNode(f,Object.create({source:'proof/PROOF.md'})),null);
  assert.equal(m.sourceForNode(f,{source:['proof/PROOF.md']}),null);
  assert.equal(m.nodePage({toString:()=> 'a'}),null);
+});
+
+// Contract breaks caught here: losing the advertised immutable destination,
+// treating ordinary source anchors as ambiguity, or letting untrusted URL parts
+// choose a path outside the current page's site directory.
+test('static reading links retain one advertised material archive among source links',()=>{
+ const page='https://example.test/main/site/dependencies.html';
+ const node='math.lifetime-remainder', archive='a'.repeat(64);
+ const href=`snapshots/${archive}/nodes/index.html`;
+ const links=Object.freeze(['https://github.com/example/research/blob/main/PROOF.md',href,href,'nodes/index.html','#current-research']);
+ assert.equal(typeof m.staticNodeLinks,'function');
+ assert.deepEqual(m.staticNodeLinks(node,links,page),{
+  current:'nodes/math.lifetime-remainder.html',
+  preserved:`snapshots/${archive}/nodes/math.lifetime-remainder.html`
+ });
+ assert.deepEqual([...links],['https://github.com/example/research/blob/main/PROOF.md',href,href,'nodes/index.html','#current-research']);
+ for(const advertised of [href,`/main/site/${href}`,`https://example.test/main/site/${href}`]){
+  assert.deepEqual(m.staticNodeLinks('math.node /?#é',[advertised],page),{
+   current:'nodes/math.node%20%2F%3F%23%C3%A9.html',
+   preserved:`snapshots/${archive}/nodes/math.node%20%2F%3F%23%C3%A9.html`
+  });
+ }
+ // A sole well-formed generated pointer is trusted by producer/history admission;
+ // this URL projection makes no independent archive-association claim.
+ assert.equal(m.staticNodeLinks(node,[`snapshots/${'b'.repeat(64)}/nodes/index.html`],page).preserved,`snapshots/${'b'.repeat(64)}/nodes/math.lifetime-remainder.html`);
+});
+test('static reading links refuse missing ambiguous and unsafe archive addresses',()=>{
+ const page='https://example.test/main/site/dependencies.html', node='math.lifetime-remainder';
+ const archive='a'.repeat(64), href=`snapshots/${archive}/nodes/index.html`;
+ assert.equal(typeof m.staticNodeLinks,'function');
+ const unsafe=[
+  [],['https://github.com/example/research/blob/main/PROOF.md'],
+  [href,`snapshots/${'b'.repeat(64)}/nodes/index.html`],
+  [`snapshots/${'b'.repeat(64)}/nodes/index.html`,href],
+  [`https://elsewhere.test/main/site/${href}`],
+  [`https://user:pass@example.test/main/site/${href}`],
+  [`https://example.test:444/main/site/${href}`],
+  [`https://example.test/elsewhere/site/${href}`],
+  [`/main/site-other/${href}`],
+  [`${href}?`],[`${href}?capture=wrong`],[`${href}#`],[`${href}#wrong`],
+  [`snapshots/${archive.toUpperCase()}/nodes/index.html`],
+  [`snapshots/${archive.slice(1)}/nodes/index.html`],
+  [`snapshots/${archive}/nodes/not-index.html`],
+  [`snapshots/${archive}/nodes/index.html/extra`],
+  [`snapshots/%61${archive.slice(1)}/nodes/index.html`],
+  [null,undefined,42,{},true],
+ ];
+ for(const hrefs of unsafe)assert.deepEqual(m.staticNodeLinks(node,hrefs,page),{current:'nodes/math.lifetime-remainder.html',preserved:null},JSON.stringify(hrefs));
+ for(const invalid of [null,undefined,'',42,{},true])assert.deepEqual(m.staticNodeLinks(invalid,[href],page),{current:null,preserved:null});
+ for(const badPage of ['not a URL','javascript:alert(1)',`https://user:pass@example.test/main/site/dependencies.html`])assert.deepEqual(m.staticNodeLinks(node,[href],badPage),{current:'nodes/math.lifetime-remainder.html',preserved:null});
+ assert.deepEqual(m.staticNodeLinks(node,null,page),{current:'nodes/math.lifetime-remainder.html',preserved:null});
 });
