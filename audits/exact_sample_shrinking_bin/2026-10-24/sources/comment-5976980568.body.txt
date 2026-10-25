@@ -1,0 +1,218 @@
+## Reviewer controls for the exact-sample shrinking-bin review (Anthropic, cross-provider)
+
+These are the controls cited by the review above. `esb_check.py` is standard-library only and uses exact rationals and deterministic seeds. It was run on CPython 3.11.15.
+
+- Script SHA-256: `01127db3ad48fb7a30f04afff99daad9a5f1e82c88cf0e4a9ce7430b646598e7`.
+- Stdout SHA-256: `cf1ff68d9bd1c1759ffb1e8629e73b292ad268bca4f33f0ed02720796d4f8835`. The stdout is byte-identical under `-B -S` and `-B -O -S`.
+- Mutants HALF_STRIPS, A_GE_D, WRONG_GEOM, DET_POWER1 and RATE_103 exit 1, and an unknown label exits 2.
+
+### Extraction rule
+
+The script is the content of the first fenced `python` block below, plus one final newline.
+
+```python
+#!/usr/bin/env python3
+"""Reviewer controls for the exact-sample shrinking-bin lemma (main#229 5976299711). Standard library only; exact
+rationals; deterministic seeds. Anthropic Claude, cross-provider nonauthor review. Scientific effect NONE.
+
+Groups:
+  S  the sharp-bin injection (1): random finite diagrams P, explicit epsilon-matchings to Q (pairs moved by at most
+     epsilon per endpoint, extra short bars matched to the diagonal), random half-open bins with a > d = 2 epsilon,
+     many exact endpoint coincidences; check |N_Q(I) - N_P(I)| <= N_P(S_d(I)), S_d(I) = [a-d,a+d) u [b-d,b+d).
+  T  tightness and necessity: equality cases exist, and with a <= d the bound can fail (a single bar of lifetime d).
+  G  the triangle geometry behind B_h (APPROXIMATION): sum_i lambda_i |v_i - x|^2 = x1(h-x1) + x2(h-x2) <= h^2/2 on both
+     triangles of both diagonals (exact rationals on a grid of points).
+  D  |det M| <= ||M||_op^2 for 2 x 2 symmetric M (exact: compare det^2 with the squared largest eigenvalue squared).
+  M  the bin mass: integral of l^(-1/3) over [lam tau, mu tau) = (3/2)(mu^(2/3) - lam^(2/3)) tau^(2/3) (Simpson check), and
+     the strip bound: total strip length <= 4 d, strip lifetimes >= lam tau - d.
+  R  rate bookkeeping of section 5 for schedules tau_h = h^2 sqrt(log(1/h)) w_h with w_h -> infinity: the two good-event
+     ratios d_h/tau_h and d_h/tau_h^(2/3) tend to 0, and the bad-event ratio (h^-2 + 1) h^(c A^2) / tau_h^(2/3) tends to 0
+     exactly when c A^2 > 10/3 (checked on both sides of the threshold).
+Mutants (--mutant X) must make the run exit 1: HALF_STRIPS (strips cut to [a-d,a) u [b-d,b)), A_GE_D (allow a = d),
+WRONG_GEOM (h^2/4 instead of h^2/2), DET_POWER1 (the false bound |det M| <= ||M||_op), RATE_103 (threshold 3 instead of
+10/3). Unknown labels exit 2."""
+import math, random, sys
+from fractions import Fraction as F
+
+MUT = None
+if len(sys.argv) == 3 and sys.argv[1] == '--mutant':
+    MUT = sys.argv[2]
+    if MUT not in ('HALF_STRIPS', 'A_GE_D', 'WRONG_GEOM', 'DET_POWER1', 'RATE_103'):
+        print('unknown mutant'); sys.exit(2)
+elif len(sys.argv) != 1:
+    print('usage: esb_check.py [--mutant LABEL]'); sys.exit(2)
+
+fails = []
+def check(cond, msg):
+    if not cond:
+        fails.append(msg)
+
+def in_bin(l, a, b):
+    return a <= l < b
+
+def strips(a, b, d):
+    if MUT == 'HALF_STRIPS':
+        return [(a - d, a), (b - d, b)]
+    return [(a - d, a + d), (b - d, b + d)]
+
+def count(ls, lo, hi):
+    return sum(1 for l in ls if lo <= l < hi)
+
+def count_union(ls, ivs):
+    return sum(1 for l in ls if any(lo <= l < hi for lo, hi in ivs))
+
+# ---------------------------------------------------------------- S: the sharp-bin injection
+rng = random.Random(20261004)
+nS = 0
+for trial in range(4000):
+    den = rng.choice([4, 8, 12, 24])
+    eps = F(rng.randint(1, 6), den)
+    d = 2 * eps
+    P = []
+    for _ in range(rng.randint(0, 12)):
+        birth = F(rng.randint(0, 200), den)
+        life = F(rng.randint(1, 80), den)
+        P.append((birth, birth - life))           # superlevel bar: birth > death
+    # matched images: each endpoint moves by at most eps (exact multiples of 1/den to hit endpoints)
+    Q, pairs = [], []
+    for (bP, sP) in P:
+        while True:
+            db = F(rng.randint(-int(eps * den), int(eps * den)), den)
+            ds = F(rng.randint(-int(eps * den), int(eps * den)), den)
+            bQ, sQ = bP + db, sP + ds
+            if bQ - sQ > 0:
+                break
+        # a matched pair may also be sent to the diagonal only if both are short: keep it matched here
+        Q.append((bQ, sQ)); pairs.append(((bP, sP), (bQ, sQ)))
+    # extra Q bars matched to the diagonal: lifetime <= d
+    for _ in range(rng.randint(0, 4)):
+        bQ = F(rng.randint(0, 200), den)
+        Q.append((bQ, bQ - F(rng.randint(1, int(d * den)), den)))
+    # P bars matched to the diagonal would have lifetime <= d: drop matched P pairs that are short with prob 1/3
+    lP = [b - s for b, s in P]
+    lQ = [b - s for b, s in Q]
+    for _ in range(6):
+        a = F(rng.randint(1, 60), den)
+        b = a + F(rng.randint(1, 60), den)
+        cond_a = (a >= d) if MUT == 'A_GE_D' else (a > d)
+        if not cond_a:
+            continue
+        lhs = abs(count(lQ, a, b) - count(lP, a, b))
+        rhs = count_union(lP, strips(a, b, d))
+        nS += 1
+        check(lhs <= rhs, 'S: injection fails at trial %d (a=%s b=%s d=%s)' % (trial, a, b, d))
+
+# ---------------------------------------------------------------- T: necessity of a > d, and an equality case
+d = F(1, 2)
+P, Q = [d], []                                      # one bar of lifetime exactly d, matched to the diagonal
+a, b = d, 2 * d
+lhs = abs(count(Q, a, b) - count(P, a, b))
+rhs = count_union(P, strips(a, b, d))
+# with a = d the bound happens to hold here (the P bar lies in the lower strip); the failing case is the reversed roles
+P2, Q2 = [], [d]
+lhs2 = abs(count(Q2, a, b) - count(P2, a, b))
+rhs2 = count_union(P2, strips(a, b, d))
+check(lhs2 == 1 and rhs2 == 0, 'T: the a <= d counterexample (continuum empty, approximation bar of lifetime d) must violate (1)')
+if MUT == 'A_GE_D':
+    check(lhs2 <= rhs2, 'T: mutant allows a = d')
+# equality: a matched pair straddling a
+eP, eQ = [F(1)], [F(1) - F(1, 4)]
+check(abs(count(eQ, 1, 2) - count(eP, 1, 2)) == count_union(eP, strips(F(1), F(2), F(1, 2))) == 1, 'T: equality case')
+
+# ---------------------------------------------------------------- G: triangle geometry of APPROXIMATION's B_h
+h = F(1)
+gmax = F(0)
+for i in range(0, 25):
+    for j in range(0, 25):
+        x1, x2 = F(i, 24), F(j, 24)
+        for diag in ('AD', 'BC'):
+            if diag == 'AD':                         # diagonal (0,0)-(1,1): triangles below/above
+                tri = [(0, 0), (1, 0), (1, 1)] if x2 <= x1 else [(0, 0), (0, 1), (1, 1)]
+            else:                                    # diagonal (1,0)-(0,1)
+                tri = [(0, 0), (1, 0), (0, 1)] if x1 + x2 <= 1 else [(1, 0), (0, 1), (1, 1)]
+            (a1, a2), (b1, b2), (c1, c2) = [(F(p), F(q)) for p, q in tri]
+            det = (b1 - a1) * (c2 - a2) - (c1 - a1) * (b2 - a2)
+            l2 = ((x1 - a1) * (c2 - a2) - (c1 - a1) * (x2 - a2)) / det
+            l3 = ((b1 - a1) * (x2 - a2) - (x1 - a1) * (b2 - a2)) / det
+            l1 = 1 - l2 - l3
+            s = sum(l * ((p1 - x1) ** 2 + (p2 - x2) ** 2) for l, (p1, p2) in zip((l1, l2, l3), ((a1, a2), (b1, b2), (c1, c2))))
+            check(s == x1 * (h - x1) + x2 * (h - x2), 'G: barycentric second moment identity')
+            gmax = max(gmax, s)
+bound = h * h / 4 if MUT == 'WRONG_GEOM' else h * h / 2
+check(gmax <= bound, 'G: sum lambda |v - x|^2 exceeds the bound')
+
+# ---------------------------------------------------------------- D: |det M| <= ||M||_op^2 in d = 2
+rng2 = random.Random(7)
+for _ in range(3000):
+    p, q, r = (F(rng2.randint(-50, 50), rng2.randint(1, 9)) for _ in range(3))
+    det = p * r - q * q
+    # largest |eigenvalue|^2 = ((|tr| + sqrt(tr^2 - 4 det))/2)^2 >= |det|; exact test: |det| <= lam_max^2 iff ...
+    tr = p + r
+    disc = tr * tr - 4 * det                        # >= 0 for symmetric matrices
+    lam_max = (abs(float(tr)) + math.sqrt(float(disc))) / 2
+    if MUT == 'DET_POWER1':
+        check(abs(float(det)) <= lam_max * (1 + 1e-12), 'D: mutant claims |det| <= ||M||_op')
+    check(abs(float(det)) <= lam_max ** 2 * (1 + 1e-12), 'D: |det| > ||M||^2')
+
+# ---------------------------------------------------------------- M: bin mass and strips
+for lam, mu, tau in ((0.5, 2.0, 1e-3), (1.0, 3.0, 1e-5), (0.25, 0.75, 1e-2)):
+    a, b = lam * tau, mu * tau
+    n = 20000; hh = (b - a) / n
+    simpson = sum((1 if k in (0, n) else (4 if k % 2 else 2)) * (a + k * hh) ** (-1 / 3) for k in range(n + 1)) * hh / 3
+    closed = 1.5 * (mu ** (2 / 3) - lam ** (2 / 3)) * tau ** (2 / 3)
+    check(abs(simpson / closed - 1) < 1e-9, 'M: bin mass')
+    dd = tau * lam / 4
+    S = strips(a, b, dd) if MUT != 'HALF_STRIPS' else [(a - dd, a + dd), (b - dd, b + dd)]
+    check(sum(hi - lo for lo, hi in S) <= 4 * dd * (1 + 1e-15) and min(lo for lo, _ in S) >= a - dd, 'M: strips')
+
+# ---------------------------------------------------------------- R: rate bookkeeping of section 5
+thr = F(3) if MUT == 'RATE_103' else F(10, 3)
+def bad_ratio_exponent(cA2):
+    # (h^-2) h^(cA2) / tau^(2/3) with tau = h^2 sqrt(log(1/h)) w, w -> infinity: the power of h is cA2 - 2 - 4/3
+    return F(cA2) - 2 - F(4, 3)
+for cA2 in (F(3), F(10, 3), F(7, 2), F(4)):
+    e = bad_ratio_exponent(cA2)
+    vanishes = e > 0                                 # at e = 0 the log factor log^(-1/3) still vanishes, but only slowly
+    check((cA2 > thr) == vanishes, 'R: threshold c A^2 > 10/3')
+# numerical sanity of the three ratios along tau_h = h^2 sqrt(log(1/h)) log(log(1/h)) (w_h = log log 1/h), A = 3, c = 1/2
+prev = None
+for k in range(4, 40, 4):
+    hv = 10.0 ** (-k / 4)
+    L = math.log(1 / hv)
+    tau = hv * hv * math.sqrt(L) * math.log(L)
+    dh = 1.5 * hv * hv * math.sqrt(L)
+    r1, r2 = dh / tau, dh / tau ** (2 / 3)
+    r3 = (hv ** -2 + 1) * math.exp(-0.5 * 9 * L) / tau ** (2 / 3)
+    if prev:
+        check(r1 < prev[0] and r2 < prev[1] and r3 < prev[2], 'R: ratios must decrease along the schedule')
+    prev = (r1, r2, r3)
+
+print('S: %d bin tests on random epsilon-matchings, injection (1) holds' % nS)
+print('T: the strict condition a > d is necessary (a single approximation bar of lifetime d); an equality case is attained')
+print('G: barycentric second moment = x1(h-x1)+x2(h-x2) <= h^2/2 on all four triangles (625 points each)')
+print('D: |det M| <= ||M||_op^2 for 3000 random symmetric 2 x 2 matrices')
+print('M: bin mass (3/2)(mu^(2/3)-lam^(2/3))tau^(2/3) to 1e-9; strip length <= 4d')
+print('R: bad-event exponent c A^2 - 10/3; good-event ratios -> 0 along tau_h = h^2 sqrt(log 1/h) log log(1/h)')
+if fails:
+    print('FAILURES:', len(fails)); print('\n'.join(sorted(set(fails))[:10])); sys.exit(1)
+print('ALL PASS')
+```
+
+### Stdout
+
+```text
+S: 21227 bin tests on random epsilon-matchings, injection (1) holds
+T: the strict condition a > d is necessary (a single approximation bar of lifetime d); an equality case is attained
+G: barycentric second moment = x1(h-x1)+x2(h-x2) <= h^2/2 on all four triangles (625 points each)
+D: |det M| <= ||M||_op^2 for 3000 random symmetric 2 x 2 matrices
+M: bin mass (3/2)(mu^(2/3)-lam^(2/3))tau^(2/3) to 1e-9; strip length <= 4d
+R: bad-event exponent c A^2 - 10/3; good-event ratios -> 0 along tau_h = h^2 sqrt(log 1/h) log log(1/h)
+ALL PASS
+```
+
+Scientific effect: NONE.
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+---
+_Generated by [Claude Code](https://claude.ai/code)_
