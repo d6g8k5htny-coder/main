@@ -1,0 +1,263 @@
+{
+ "listing_run": "wf_3c2c139c-aac",
+ "listing_note": "one agent paged the recursive connector listing of folder A from the saved cursor and wrote the metadata TSV locally (paths stay local); its one-line return is kept here",
+ "listing_returns": [
+  {
+   "lines_written": 6270,
+   "pages": 21,
+   "complete": true,
+   "notes": "All 21 cursor-only list_folder calls succeeded with no errors or retries; 20 pages of 300 entries plus a final page of 270 with has_more false. Each response exceeded the inline size limit and was parsed from the harness-saved JSON file with python3 -I, appending to the TSV."
+  }
+ ],
+ "hash_run": "wf_884004c6-8b9",
+ "hash_note": "eleven agents, three batches of 25 files each, read the content_hash of each file from link metadata (no download URL requested) and wrote path, size and hash locally; their returns are kept here",
+ "hash_returns": [
+  {
+   "batches_done": [
+    "b003",
+    "b004",
+    "b005"
+   ],
+   "rows_written": 75,
+   "failures": 0,
+   "notes": "All three batch download_link calls succeeded whole on the first attempt (25 entries each, inline responses, no oversized files), so no retries or .fail.txt files were needed. Each TSV was written in one Bash call and validated: 3 tab-separated fields per row, integer size, 64-hex content_hash; wc -l totals 75 rows across the three files. No download_url was requested."
+  },
+  {
+   "batches_done": [
+    "b000",
+    "b001",
+    "b002"
+   ],
+   "rows_written": 75,
+   "failures": 0,
+   "notes": "All three batch download_link calls succeeded on the first attempt with inline responses (no oversized-response files, no retries, no per-entry failures). Each TSV has 25 rows and its path column was verified to match the batch input list in order; download URLs were never requested."
+  },
+  {
+   "batches_done": [
+    "b006",
+    "b007",
+    "b008"
+   ],
+   "rows_written": 75,
+   "failures": 0,
+   "notes": "All three batch download_link calls succeeded whole on the first attempt (25 entries each); no retries, no oversized responses, no .fail.txt files written. Each TSV was verified row-by-row against its batch input: paths match in order, sizes are integers, hashes are 64 hex chars; no download_url was requested."
+  },
+  {
+   "batches_done": [
+    "b009",
+    "b010",
+    "b011"
+   ],
+   "rows_written": 75,
+   "failures": 0,
+   "notes": "All three batch calls succeeded on the first attempt with 25 entries each; no retries, no oversized responses, no .fail.txt files written. No download URLs were requested."
+  },
+  {
+   "batches_done": [
+    "b012",
+    "b013",
+    "b014"
+   ],
+   "rows_written": 75,
+   "failures": 0,
+   "notes": "All three batch download_link calls succeeded on the first attempt with 25 entries each; no retries, no oversized responses, no failures recorded. Each TSV line was format-checked (3 tab-separated fields, integer size, 64-hex hash)."
+  },
+  {
+   "batches_done": [
+    "b015",
+    "b016",
+    "b017"
+   ],
+   "rows_written": 75,
+   "failures": 0,
+   "notes": "All three batch calls succeeded on the first attempt with 25 entries each, so no per-entry retries and no .fail.txt files were created. Responses fit inline (no oversized-response files); every TSV row was validated for a 3-field shape with an integer size and 64-hex content_hash."
+  },
+  {
+   "batches_done": [
+    "b018",
+    "b019",
+    "b020"
+   ],
+   "rows_written": 75,
+   "failures": 0,
+   "notes": "All three batch download_link calls succeeded on the first attempt with 25 entries each; no retries, no oversized responses, and no .fail.txt files were created. Each TSV holds 25 rows (75 total) with path, size and content_hash copied verbatim from the responses; download URLs were ignored and never requested."
+  },
+  {
+   "batches_done": [
+    "b021",
+    "b022",
+    "b023"
+   ],
+   "rows_written": 75,
+   "failures": 0,
+   "notes": "All three batch download_link calls succeeded on the first attempt (25 entries each, responses inline, no oversized saves); 25 rows written per batch TSV, no retries and no .fail.txt files created. No download_url was requested."
+  },
+  {
+   "batches_done": [
+    "b027",
+    "b028",
+    "b029"
+   ],
+   "rows_written": 75,
+   "failures": 0,
+   "notes": "All three batch calls succeeded on the first attempt with 25 entries each, responses fit inline, no retries or oversized responses, and no .fail.txt files were created."
+  },
+  {
+   "batches_done": [
+    "b024",
+    "b025",
+    "b026"
+   ],
+   "rows_written": 75,
+   "failures": 0,
+   "notes": "All three batch download_link calls succeeded in full on the first attempt with no oversized responses, so no per-entry retries or .fail.txt files were needed. Each TSV holds 25 rows whose path column matches its batch input in order, sizes are integers and all hashes are 64 hex characters; no download_url was requested."
+  },
+  {
+   "batches_done": [
+    "b030",
+    "b031",
+    "b032"
+   ],
+   "rows_written": 58,
+   "failures": 0,
+   "notes": "All three batch calls succeeded on the first attempt with no errors, retries or oversized responses; 25 + 25 + 8 rows written, no .fail.txt files created."
+  }
+ ],
+ "review_run": "wf_65d7bc1f-ea7",
+ "review_note": "three lenses (privacy and publication rule, hash rule and tiers, counts and text) each followed by a skeptic per finding; confirmed findings were applied before the RESULT was posted; agent scratch not included",
+ "review_results": [
+  {
+   "agent": "a145b31ebbb5d44bd",
+   "label": "lens:hashrule",
+   "result": {
+    "findings": [
+     {
+      "id": "F1",
+      "severity": "LOW",
+      "file": "<SCRATCH>/dbxroot/build_out/2026-10-25/own/classify_root.py",
+      "claim": "The hash-receipt size check is skipped silently when the size column is not all digits (`if sz.isdigit() and int(sz)!=byp[p]['size']`), so a hash row with a blank or malformed size would be accepted without the size-equality guarantee the README states ('ties each content_hash to the listing by path and byte count').",
+      "evidence": "Published own/classify_root.py contains the guarded comparison; my independent re-read of all 33 hash part files found 808 rows, 0 non-digit sizes, 0 size mismatches, 0 paths outside the inventory, 0 duplicates, 0 conflicts, so the weakness is latent in this build (receipt accepted=808 matches my count exactly).",
+      "fix": "Treat a non-digit size as a rejection category (e.g. 'size_missing') instead of falling through to accept; re-run would produce an identical receipt for this build."
+     },
+     {
+      "id": "F2",
+      "severity": "LOW",
+      "file": "<SCRATCH>/dbxroot/build_out/2026-10-25/own/classify_root.py",
+      "claim": "The DRIVE_MIRROR_BRANCH label is decided over the truncated `git_paths[:4]` list rather than over every path of the matching blobs, so a blob with more than four recorded paths whose non-drive/ paths sort after the cut would be mislabelled DRIVE_MIRROR_BRANCH instead of BRANCH_OR_HISTORY.",
+      "evidence": "own/classify_root.py sets f['git_paths']=sorted(...)[:4] and then tests all(... startswith('drive/') for p in f['git_paths']). Recomputing the label from the full path sets in git_index.json for all 89 GIT_EXACT rows gives 0 mismatches (TIP 17, DRIVE_MIRROR_BRANCH 68, BRANCH_OR_HISTORY 4), and every GIT_EXACT hash has exactly one git path, so the truncation is not triggered in this build.",
+      "fix": "Compute the drive/ test over the untruncated path set (e.g. all(p.startswith('drive/') for e in ents for p in e['paths'])) and truncate only for the stored locator."
+     }
+    ],
+    "checks_passed": [
+     "(1) Hash receipt: 33 part files, 808 rows, 0 malformed, 0 paths outside the inventory (0 Github/ paths), 0 size mismatches, 0 duplicate rows, 0 conflicting hashes, 808 distinct paths; receipt 'accepted 808, rejected {}' reproduced exactly; 0 hash rows on personal or size-0 files; all 808 hashable inventory rows have a hash (PENDING_HASH 0).",
+     "(1b) root_rows.json agrees with inventory_root.tsv on path set (1089), size, personal flag and with the part files on every content_hash; inventory_root.tsv is byte-identical to inventory_root.before.tsv; PINS.json sha256 values for git_index, content_hashes table, both archive indexes, local inventory and local rows all match, and the pinned counts (32221 blobs, 5724 entries, 1794/183 members) match the files.",
+     "(2) GIT_EXACT: all 89 crosswalk rows (not just 8) have a main: blob id in the locator; each resolved with git cat-file in /home/user/main as a blob; the Dropbox content_hash recomputed from the blob bytes (sha256 of concatenated 4 MiB block digests) equals the printed content_hash and the byte length equals the printed bytes in 89/89 cases, including one multi-block blob of 5,910,703 bytes; git_index.json dbx and size for each blob also match. No GIT_EXACT row involves a Math- blob.",
+     "(2b) Hash rule sanity on the indexes: for every git_index entry and archive member of size <= 4 MiB, stored dbx/content_hash equals sha256(sha256 digest) except the 84 size-0 entries, where it equals sha256(b'') as Dropbox defines for an empty file; 12 git blobs exceed 4 MiB (not checkable by that shortcut).",
+     "(3) ARCHIVE_EXACT: all 10 crosswalk rows have a member in the named archive (all a2136bc0) with identical content_hash and size; none of their hashes appears in the Git index (precedence respected); the row multiset (hash, bytes, tier, git_where) of ROOT_CROSSWALK.tsv equals the GIT_EXACT+ARCHIVE_EXACT subset of root_rows.json (99 rows).",
+     "(4) Tier precedence recomputed independently from inventory + part files + the three reference sides: 1089/1089 tiers agree (GITHUB_TREE_COPY 628, NOT_HASHED 281, GIT_EXACT 89, ROOT_ONLY 73, ARCHIVE_EXACT 10, ROOT_DUP 8); no GITHUB_TREE_COPY hash is in Git or an archive; ROOT_DUP = 4 hash groups of exactly 2 files each (each pair across two folder labels), none in any reference side; every ROOT_ONLY hash occurs once and is in no reference side; SUMMARY root_only/root_dup counts and distinct-contents (73/73, 8/4) reproduced.",
+     "(5) git_where: recomputed from tip_blobs.json (keyed repo:blob, 4039 entries, all present in git_index) and the full git_index path sets: 0 mismatches and on_tip flags consistent; tip_blobs.json 'main:' set (1406) equals the blob set of git ls-tree -r at the pinned tip commit 08c98c8f exactly; all 17 TIP rows are in that tree and no non-TIP row is; the 4 BRANCH_OR_HISTORY rows live only under recovery/; spot check of 5 DRIVE_MIRROR_BRANCH blobs via git log --all --find-object shows only drive/ paths in local history. The pinned tip is 87 commits behind the current local origin/main, but labels would be unchanged there.",
+     "(6) NOT_HASHED (281) is exactly the personal/other-material set (281 rows flagged personal; 0 personal rows with another tier; 0 NOT_HASHED rows carrying a hash); EMPTY count 0 equals the number of size-0 inventory rows (0); no hashed row carries the empty-file hash.",
+     "(7) GITHUB_TREE_COPY: all 628 rows (sample of 5 reported: 4144f268/37800, bafaeed9/99648, f7845e80/702, 9a4b8b36/3018, 8373dab8/47114 bytes) have their hash in content_hashes.json with identical size; 0 missing, 0 size mismatches; SUMMARY 'byte-identical to a Github/ file' 705 reproduced (628 + 77 GIT/ARCHIVE rows also in the table).",
+     "Published consistency: SUMMARY tier counts and git_exact_where equal the row data; ROOT_AGGREGATE files sum 990 + 99 crosswalk rows = 1089; files_in_published_parts per tier reproduced; no aggregate cell below 3 files prints bytes; all 159 LEDGER_ROOT_ROWS entries map to a crosswalk (hash, tier) pair; README figures (1,089 / 808 / 281 / 99 / 990 / TIP 17 / DRIVE_MIRROR_BRANCH 68 / BRANCH_OR_HISTORY 4 / 705) match SUMMARY."
+    ]
+   }
+  },
+  {
+   "agent": "a5622eb1dea330634",
+   "label": "lens:privacy",
+   "result": {
+    "findings": [
+     {
+      "id": "F1",
+      "severity": "HIGH",
+      "file": "<SCRATCH>/dbxroot/build_out/2026-10-25/own/build_root_pub.py",
+      "claim": "The published script de-anonymizes every generic folder label: its LABEL dict maps the real Dropbox folder names (including the 23-, 25- and 31-character ones for the folder C, peer-review packet and the two 'other root folder' labels, and the app-bundle folder) to the labels used in README/aggregate/crosswalk, and the guard's own folder-name tuple repeats four of them. This contradicts 'folders appear only as generic labels' for the whole directory.",
+      "evidence": "grep -n '^LABEL=' and grep -n 'for seg in' on own/build_root_pub.py show 5 of the 6 real folder names (all except the 4-char one, which is itself the label); cut -f5 inventory_root.tsv | sort -u confirms they are the inventory folder names. The guard only scans files starting with ROOT_/LEDGER_/SUMMARY/README/PINS for folder names, so own/ was never checked (my scan in review_scratch/check_all.py, section B3, reports 6 real-folder hits in own/build_root_pub.py and 3 in own/build_inventory.py).",
+      "fix": "Do not publish own/build_root_pub.py and own/build_inventory.py as-is: move the LABEL dict and the guard's folder-name tuple into a local, unpublished config (like shared_ns.txt), substitute placeholders on export, and extend the guard's folder-name and inventory-name checks to every file under own/."
+     },
+     {
+      "id": "F2",
+      "severity": "MEDIUM",
+      "file": "<SCRATCH>/dbxroot/build_out/2026-10-25/own/build_inventory.py",
+      "claim": "The published PERSONAL regex contains a capitalised personal first name used as a personal-item marker (an owner detail), and the folder test on the same script names the two short real root folder names with a comment describing them as the owner's other material.",
+      "evidence": "review_scratch/c1_quant.py: the regex has exactly one [A-Z][a-z]+ alternation; it matches 3 inventory paths (2 in folder E, 1 in account root), all flagged personal, so it is a real person's name tied to the owner's files. grep -n \"r\\['folder'\\] in (\" own/build_inventory.py shows the two real folder names.",
+      "fix": "Strip the name alternation from the published copy (or load the personal-marker list from a local file) and replace the two folder names with the labels or a placeholder; re-run the guard over own/."
+     },
+     {
+      "id": "F3",
+      "severity": "MEDIUM",
+      "file": "<SCRATCH>/dbxroot/build_out/2026-10-25/LEDGER_ROOT_ROWS.tsv",
+      "claim": "The matched_tokens column publishes fragments of Dropbox file names: each token is a word found in the Dropbox basename stem of the file identified by content_hash, and for most rows that word is not derivable from the public Git path of the located blob.",
+      "evidence": "review_scratch/c1_quant.py over the 159 rows: 75 token occurrences are in the Dropbox stem but in no Git path basename of the blob; 28 occurrences (all folder B, DRIVE_MIRROR_BRANCH blobs) appear nowhere in any Git path, so the Dropbox name differs from the Drive-mirror name and the token is new information. 18 distinct hashes are affected; for hashes eff9e02e, 015f7ae1 and 13e71a2d the union of tokens reveals 5 of 11, 5 of 12 and 5 of 15 name tokens. The ledger_rows column of ROOT_CROSSWALK.tsv and the per-unit hit counts in LEDGER_ROOT.tsv imply the same association more weakly.",
+      "fix": "Drop the matched_tokens column (keep match class only), or print it only when the token also occurs in the basename of a public Git path for that blob; state in README that ledger joins on Dropbox names are name evidence that is kept local."
+     },
+     {
+      "id": "F4",
+      "severity": "MEDIUM",
+      "file": "<SCRATCH>/dbxroot/build_out/2026-10-25/README.md",
+      "claim": "The 'months present (sample)' column (also SUMMARY.json by_folder.months) publishes modification months that pin single files, and for the four single-month folders it gives the modification month of every per-file crosswalk row, contradicting 'No Dropbox path, name or time' for those rows; the '(sample)' label is also inaccurate since every folder's list is complete.",
+      "evidence": "review_scratch/check_all.py section D: the sampling step is 1 for all 8 folders (all have <=6 months), so the lists are complete. Seven listed (folder, month) pairs correspond to 1-2 files: account root 2023-07 (1), 2024-09 (1), 2026-01 (2), 2026-09 (1); folder A 2026-05 (1); folder D 2025-09 (1); folder E 2025-12 (1). Shared namespace root, folder B, folder C and the folder F list one month each, so 70 of the 99 ROOT_CROSSWALK.tsv rows (32 + 21 + 17) have an inferable modification month.",
+      "fix": "Replace the column with a coarse range at year granularity, or list a month only when it covers 3+ files and suppress months entirely for folders that have per-file rows; remove '(sample)' or make the sampling real."
+     },
+     {
+      "id": "F5",
+      "severity": "LOW",
+      "file": "<SCRATCH>/dbxroot/build_out/2026-10-25/own/build_root_pub.py",
+      "claim": "The guard's PAT list embeds the leading four digits of both Dropbox namespace ids (the shared namespace and the account namespace) as literal regex prefixes followed by \\d{6,}, a partial namespace-id disclosure in a published file.",
+      "evidence": "python3 -I one-liner: read the two 4-digit literals from the PAT list in own/build_root_pub.py and the distinct ns prefixes from column 1 of inventory_root.tsv; both ns ids (11 digits each) start with one of the two literals (shared namespace matches the first, the other namespace the second). Also confirmed with shared_ns.txt.",
+      "fix": "Replace the two literal prefixes with a generic 10-12 digit pattern (e.g. (?<!\\d)\\d{10,12}(?!\\d)) or load the prefixes from the local shared_ns.txt at run time."
+     },
+     {
+      "id": "F6",
+      "severity": "LOW",
+      "file": "<SCRATCH>/dbxroot/build_out/2026-10-25/README.md",
+      "claim": "Several folder labels are not generic: 'folder A' is the real folder name verbatim and appears in all 10 published text files; the folder C label carries the vendor token and 'export' from the real 25-char name; the peer-review packet label carries three words of the real 31-char name; the app bundle label shares 'app'; the README scope sentence names 'folder A' and 'the folder C'.",
+      "evidence": "review_scratch/check_all.py section B3 (real-folder-name hits in every published file) and the label/word overlap table in review_scratch/c1_quant.py.",
+      "fix": "Use fully synthetic labels (e.g. folder A..F) and keep the label-to-name map local."
+     },
+     {
+      "id": "F7",
+      "severity": "LOW",
+      "file": "<SCRATCH>/dbxroot/build_out/2026-10-25/LEDGER_ROOT.tsv",
+      "claim": "Row 129 (hits_by_tier ROOT_ONLY:1, weak_lone 1) and the README/SUMMARY 'by tier of the hit item ... ROOT_ONLY 1' disclose that a file whose bytes are public nowhere has a Dropbox name containing one of the three distinctive tokens of that public unit name, i.e. name-derived information about a non-public file.",
+      "evidence": "review_scratch/check_all.py section C: the only hit on unit 129 is a WEAK_LONE match on a ROOT_ONLY office-class file in folder D (20,292 bytes, not published); the unit base has 3 distinctive tokens so the token is one of three.",
+      "fix": "Restrict LEDGER_ROOT.tsv hit counts to items in public tiers (or to GITHUB_TREE_COPY and above) and drop the ROOT_ONLY/ROOT_DUP/NOT_HASHED tiers from hits_by_tier."
+     }
+    ],
+    "checks_passed": [
+     "A1 crosswalk join: all 99 ROOT_CROSSWALK.tsv rows join to a root_rows.json record by content_hash + folder label + bytes + class; tiers are GIT_EXACT 89 / ARCHIVE_EXACT 10; no printed content_hash is shared with a file in a non-public tier; git_where column matches the records (review_scratch/check_all.py A1).",
+     "A2 publicity of GIT_EXACT: every GIT_EXACT hash is a dbx value in git_index.json; all 61 distinct main blob locators exist in /home/user/main and are reachable from a ref (git cat-file --batch-check, git rev-list --objects --all); the 18 blobs in LEDGER_ROOT_ROWS.tsv exist; both repos (main, Math-) are public per gh api repos/.../ (REST, read-only); no Math- locators are printed; c4065c67 is a blob in main.",
+     "A2b ARCHIVE_EXACT: all 6 distinct hashes are in the a2136bc0 member index; the object id is referenced in many files on origin/main, but a2136bc0 is not a git object in main, so the byte publicity of that archive rests on main#594's premise and was not re-verified here (noted as a caveat, not a violation).",
+     "A3 locators: every blob/archive locator matches the row's hash in git_index/archive index; archive locators carry no member names; the only path locator (rows 24, 25, 53, 54 of the crosswalk, two 2-byte json files, hash 830c6a41) is outside drive/, its basename differs from the Dropbox names, it contains no inventory name of 6+ chars, and it is a real path in main history (not at tip).",
+     "B1 inventory names: of the 738 inventory file names with 6+ characters, none appears in any published file except 'README.md' inside own/build_root_pub.py and own/readme_root.py, which is a Git path basename (public).",
+     "B2 tokens: no URL, email, ns:<digits>, id:<...>, 10-12 digit namespace string or ISO date-time in any published file; the only dropbox/rlkey strings are regex literals inside the guard of own/build_root_pub.py; all non-hex 33/44-character tokens in LEDGER_ROOT*.tsv are public ledger unit identifiers; no 64-hex token belongs to a GITHUB_TREE_COPY, ROOT_DUP, ROOT_ONLY or NOT_HASHED file.",
+     "C ledger files: LEDGER_ROOT_ROWS.tsv's 159 rows all carry public-tier hashes (18 distinct, all also in the crosswalk) independently verified in git_index; per-unit hit counts and public_items_listed agree with ledger_root_hits.json; every unit name in LEDGER_ROOT.tsv exists in the ledger file at the origin/main tip pinned in PINS.json; no STRONG (stem-equality) match is printed.",
+     "E1 aggregate: 30 cells; the 6 cells below 3 files are all '(other)' and print no bytes; the 24 byte cells are multiples of 100000; all cells recompute exactly from root_rows.json with the merge rule.",
+     "E2 tier totals: SUMMARY/README tier bytes equal rnd(public rows) + rnd(aggregate cells of 3+ files), are multiples of 100000, exclude the 3+3+2 files in count-only cells, and files_in_published_parts are correct; no grand total is printed from which a withheld size could be differenced; the single-file ROOT_ONLY cells' classes cannot be uniquely assigned from root_only.by_class/by_folder.",
+     "F1 hashes: 73 distinct 64-hex tokens across the directory = 6 pinned input sha256s + 67 content_hashes, all of GIT_EXACT/ARCHIVE_EXACT files (equal to the union of crosswalk and ledger-row hashes).",
+     "own/ scripts: the scratchpad root and main checkout path are replaced by placeholders; shared_ns.txt is read from a local file and the namespace id itself is not published; README counts are internally consistent (1,089 = 808 hashed + 281 counted only; 0 empty, 0 pending)."
+    ]
+   }
+  },
+  {
+   "agent": "a36b0aef536218d2d",
+   "label": "skeptic:hashrule:F1",
+   "result": {
+    "id": "F1",
+    "refuted": false,
+    "reason": "Not refuted; the defect reproduces and the evidence matches exactly. (1) Diffed the published classify script against the local source: identical except the scratch-root placeholder, and it contains the guarded comparison as quoted. (2) Wrote an independent checker (python3 -I) over all 33 hash part files against the inventory: 808 lines, all exactly 3 columns, 0 malformed hashes, 0 non-digit sizes, 0 size mismatches, 0 paths outside the inventory, 0 duplicate paths, 0 conflicts, 808 accepted; every hashable inventory row has a hash and no non-hashable row does, so receipt accepted=808 and rejected={} are correct for this build. (3) Replayed the script's exact accept/reject block on synthetic rows: a digit-string mismatch is rejected as size_mismatch, but blank, alphabetic, negative, space-padded and float-like size strings are all accepted with no rejection category, confirming the silent fall-through. (4) Nothing downstream would catch it: the inventory builder only consumes listing rows whose third column is the literal object type, so hash rows are ignored, and the publication script takes the classified rows and receipt as given. (5) The upstream shape is realistic, not hypothetical: the pipeline's own page parser emits an empty size when metadata lacks one and the inventory builder coerces non-digit sizes to zero, so an empty size string could reach a hash row. The README's claim that the receipt ties each hash to the listing by path and byte count therefore holds for this build only because all 808 rows carried matching digit sizes; the code does not enforce it structurally. Severity LOW is appropriate: no published number, tier or row would change, and the fix would yield an identical receipt; it is a latent robustness gap in published code that the README's guarantee leans on, so NONE would understate it and anything above LOW would overstate it.",
+    "corrected_severity": "LOW"
+   }
+  },
+  {
+   "agent": "a0b9e4ecaa4d188b4",
+   "label": "skeptic:hashrule:F2",
+   "result": {
+    "id": "F2",
+    "refuted": true,
+    "reason": "Code reading: the published classify script (identical to the local copy except the scratch root placeholder) does build git_paths as sorted(...)[:4] on line 39 and run the all(startswith('drive/')) test over that truncated list on line 40, so the line-level description is accurate. The defect it predicts, however, is unreachable with these inputs, not merely untriggered. I loaded the Git index (32,221 entries) with python3 -I: every entry carries exactly one recorded path (paths-per-blob distribution is {1: 32221}), every key is repo:blob, and a content hash maps to at most 2 entries (324 hashes with 2, all of them the same blob id present in both repos; 31,573 with 1). Because a blob id is content-determined and there are two repos, the union repo:path set per content hash is bounded at 2, so the [:4] cut can never drop a path for any hash in this index; a 'blob with more than four recorded paths' cannot exist in this index format. I recomputed the location label over the full, untruncated path sets for all 89 GIT_EXACT rows in the local rows file: TIP 17, DRIVE_MIRROR_BRANCH 68, BRANCH_OR_HISTORY 4, 0 mismatches against the stored label, stored git_paths equal to the full set in every row (all 89 have exactly one path and one blob), and 0 mismatches against the git_where column of the published crosswalk table; README and SUMMARY counts agree. No published document states a rule for DRIVE_MIRROR_BRANCH in terms of 'every path under drive/'; README and SUMMARY only report the three counts, so no stated rule is contradicted. Also note the truncation can only err in one direction (drive/ paths sorting ahead of a dropped non-drive path) and even that needs 5 or more paths per hash, which the two-repo, one-path-per-blob design excludes. Net: no published number or label is affected and none can be with these inputs; the suggested one-token hardening is harmless but optional. Severity for this build is NONE (a code-hygiene note for reuse of the script against a richer index, at most).",
+    "corrected_severity": "NONE"
+   }
+  }
+ ]
+}

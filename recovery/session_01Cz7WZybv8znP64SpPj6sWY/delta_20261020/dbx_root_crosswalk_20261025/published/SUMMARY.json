@@ -1,0 +1,182 @@
+{
+ "aggregate_files": 990,
+ "by_folder": {
+  "account root (loose files)": {
+   "files": 22,
+   "hashed": 11,
+   "years": []
+  },
+  "folder A": {
+   "files": 434,
+   "hashed": 428,
+   "years": []
+  },
+  "folder B": {
+   "files": 42,
+   "hashed": 42,
+   "years": []
+  },
+  "folder C": {
+   "files": 17,
+   "hashed": 17,
+   "years": []
+  },
+  "folder D": {
+   "files": 10,
+   "hashed": 3,
+   "years": [
+    "2025"
+   ]
+  },
+  "folder E (counted only)": {
+   "files": 22,
+   "hashed": 0,
+   "years": [
+    "2025"
+   ]
+  },
+  "folder F (counted only)": {
+   "files": 235,
+   "hashed": 0,
+   "years": [
+    "2026"
+   ]
+  },
+  "shared namespace root": {
+   "files": 307,
+   "hashed": 307,
+   "years": []
+  }
+ },
+ "by_folder_rule": "labels are synthetic (the label-to-folder map is local); years list only years with three or more files and are omitted for a folder that has per-file rows; no month, day or time is published",
+ "bytes_rounding": "every byte total is rounded to the nearest 100 KB; tier totals cover published parts only",
+ "files": {
+  "counted_only_personal_or_other_material": 281,
+  "empty": 0,
+  "hashed": 808,
+  "pending_hash": 0,
+  "total": 1089
+ },
+ "git_exact_where": {
+  "BRANCH_OR_HISTORY": 4,
+  "DRIVE_MIRROR_BRANCH": 68,
+  "TIP": 17
+ },
+ "github_tree_overlap": {
+  "files_byte_identical_to_a_Github_file": 705
+ },
+ "hash_receipt": {
+  "accepted": 808,
+  "rejected": {},
+  "rejected_samples": []
+ },
+ "ledger": {
+  "hits_by_match": {
+   "WEAK_LONE": 433,
+   "WEAK_PAIR": 16
+  },
+  "hits_by_tier": {
+   "GITHUB_TREE_COPY": 290,
+   "GIT_EXACT": 159
+  },
+  "hits_on_other_tiers_kept_local": 1,
+  "missing_proof_rows_hit": [
+   43,
+   59,
+   78,
+   137,
+   143,
+   144,
+   145,
+   146,
+   158,
+   161,
+   162,
+   169,
+   176,
+   177,
+   189,
+   190,
+   192,
+   195,
+   204,
+   206,
+   210,
+   212,
+   214,
+   222,
+   223,
+   225,
+   284,
+   285,
+   290,
+   291,
+   301,
+   311,
+   330
+  ],
+  "name_hits": 449,
+  "note": "the main#594 name rule applied to the path below the folder; names are prose and identifiers mixed; WEAK_LONE is the weakest class; name evidence only; published hits cover only items in the GIT_EXACT, ARCHIVE_EXACT and GITHUB_TREE_COPY tiers, and the matched tokens stay local",
+  "rows": 344,
+  "rows_hit": 114
+ },
+ "root_dup": {
+  "distinct_contents": 4,
+  "files": 8
+ },
+ "root_only": {
+  "by_class": {
+   "json": 1,
+   "markdown": 2,
+   "office": 1,
+   "other": 2,
+   "python": 2,
+   "text": 63,
+   "zip": 2
+  },
+  "by_folder": {
+   "account root (loose files)": 7,
+   "folder A": 64,
+   "folder D": 1,
+   "shared namespace root": 1
+  },
+  "distinct_contents": 73,
+  "files": 73
+ },
+ "row_level_rows": 99,
+ "row_level_rule": "no Dropbox path, name or time is published (nothing outside Github/ is import-named); per-file lines only for bytes already public (GIT_EXACT, ARCHIVE_EXACT) with hash, size and locator; everything else counted by folder label x class x tier over the non-listed files with classes below 3 merged and a cell still below 3 printing its count only",
+ "scope": "every file in the owner's Dropbox outside the Github/ subtree that main#594 covered: six top-level folders (labelled A to F), the root of the shared namespace that also carries Github/, and loose files at the account root; listed 2026-10-24 21:4xZ to 2026-10-25 00:0xZ; Github/ entries reached by the recursive listing were excluded",
+ "tier_bytes_rule": "a tier byte total covers only the parts that print bytes elsewhere in this directory (per-file rows and aggregate cells of three files or more); files in count-only cells are excluded, so no withheld size can be recovered by differencing",
+ "tiers": {
+  "ARCHIVE_EXACT": {
+   "bytes_rounded_published_parts": 400000,
+   "files": 10,
+   "files_in_published_parts": 10
+  },
+  "GITHUB_TREE_COPY": {
+   "bytes_rounded_published_parts": 11200000,
+   "files": 628,
+   "files_in_published_parts": 628
+  },
+  "GIT_EXACT": {
+   "bytes_rounded_published_parts": 14400000,
+   "files": 89,
+   "files_in_published_parts": 89
+  },
+  "NOT_HASHED": {
+   "bytes_rounded_published_parts": 36300000,
+   "files": 281,
+   "files_in_published_parts": 278
+  },
+  "ROOT_DUP": {
+   "bytes_rounded_published_parts": 400000,
+   "files": 8,
+   "files_in_published_parts": 6
+  },
+  "ROOT_ONLY": {
+   "bytes_rounded_published_parts": 32100000,
+   "files": 73,
+   "files_in_published_parts": 70
+  }
+ }
+}
