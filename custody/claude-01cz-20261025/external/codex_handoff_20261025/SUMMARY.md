@@ -85,4 +85,21 @@ python -S -B conditioning_lab.py --case conditioned_one
 python -B launch_v20.py
 ```
 
+## Package identities (from `CONTENTS.json`)
+
+The handoff is a distribution wrapper around unchanged releases, not a new engine version. These sizes and SHA-256 values let any lane verify the ZIPs once they are in Drive (`sha256sum -c SHA256SUMS` from the extracted outer package). The v24 ZIP also nests `Universal_Law_v22_Root_Resolution_Supplement.zip` and `Universal_Law_v23_RN3_Recovery_Addendum.zip`.
+
+| File | Bytes | SHA-256 |
+|---|---:|---|
+| `packages/Universal_Law_v20_Conditional_Mathematics.zip` | 290,395,573 | `71b6b21679ab970c2d876268ab29322373e0444af4ece6d248d5f5cc57e95d89` |
+| `packages/Universal_Law_v21_Separated_Collision_Supplement.zip` | 7,288,931 | `3f598aa86889eb58c1bf4d7f17bcfbaae01a194f2fca5db21f01a946c1eb80c5` |
+| `packages/Universal_Law_v24_Research_Router.zip` | 31,018,619 | `a8afb36d3d0f28aabd5bc9c43e4f855fe62130e24e8e3f76fed968fb9870314e` |
+| `audit_evidence/Universal_Law_v20_Conditional_Mathematics_AuditEvidence.zip` | 283,306 | `4459f439dc96c006418ae300118eda7f21df81599669c6276b52e1173f53126a` |
+| `audit_evidence/Universal_Law_v21_Separated_Collision_AuditEvidence.zip` | 98,403 | `23fc61e126731c4af1ee3259dd4766cc896248c6ecdd9fd230d75509776ad7f2` |
+| `audit_evidence/Universal_Law_v22_Root_Resolution_AuditEvidence.zip` | 503,073 | `0395050942d7255682a47e5b37f5ee2b75811944d787f16609765a9d360af4b8` |
+| `audit_evidence/Universal_Law_v23_RN3_Recovery_AuditEvidence.zip` | 213,725 | `26f504b9fc227bb5a0e295c4291ea7d30c939bf9a02af07b84252bf08abf771b` |
+| `audit_evidence/Universal_Law_v24_Research_Router_AuditEvidence.zip` | 1,522,521 | `052daaa0b2ab17af8f3c2f1f794ea1b73e7e72829f00f5badd35a6ae3f1f2a07` |
+
+`index_files/` holds `START_HERE.txt`, `CONTENTS.json` and `SHA256SUMS` byte for byte; the first two match the hashes in `SHA256SUMS`. At 15:10Z the Drive folder also held `BRIEFING.md`, `BRIEFING.html`, `SOURCE_RECOVERY_UPDATE.json`, `V24_DASHBOARD_PREVIEW.png` and the four audit-evidence ZIPs for v20 to v23 with their `.sha256` files; the v24 audit-evidence ZIP and the three package ZIPs were still uploading. `SOURCE_RECOVERY_UPDATE.json` records that all 13 GitHub files of the recovery pack matched Codex's holdings and that 0 missing originals were recovered.
+
 credit 0 · sci NONE · eng ≠ discharge · no flags · OBL OPEN
