@@ -1275,7 +1275,8 @@ jobs:
           if len(rows) + 1 > 512 or total + len(manifest) > 48 * 2**20:
               raise ValueError('actual originals plus exact manifest exceed unchanged publication count/aggregate caps')
           for path in files:
-              path.chmod(0o444)
+              if stat.S_IMODE(path.lstat().st_mode) != 0o444:
+                  path.chmod(0o444)
           fd = os.open(root / 'ARTIFACT_SHA256SUMS', os.O_WRONLY | os.O_CREAT | os.O_EXCL | os.O_NOFOLLOW, 0o444)
           with os.fdopen(fd, 'wb') as stream:
               stream.write(manifest)
