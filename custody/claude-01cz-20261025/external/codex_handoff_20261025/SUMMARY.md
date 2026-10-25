@@ -116,4 +116,26 @@ Facts in the reports beyond the briefing:
 - **v23:** the addendum is 12,833,946 bytes, SHA-256 `014c732b…c437`. The recovered RN3 ZIP is 2,706,421 bytes with 78 members and 22 original Python sources. The new floor Z > 0.0077592917375327858 exceeds the old imported floor 0.0077592917375327855 only in the 19th significant digit. The far integral is over [-12,12]² minus the radius-5 disk (area 24² − 25π); the 5 ≤ |y| ≤ 17 annulus is only the enclosure cover. The mathematical review is bound to SHA-256 `b8c04adf…0ff2`.
 - **v24:** the 49 tests break down as 31 core, 8 CLI, 6 live HTTP/SSE and 4 release, with none skipped. A claim changed the original budget once (4 to 3) and replayed exactly after restart. The report notes that the unwrapped planner can bypass the advisor.
 
+## Drive index files (15:19Z to 15:21Z)
+
+After the upload, the uploader added three index files to the Drive folder root. All three are saved byte for byte under `index_files/`:
+- `00_READ_FIRST_DRIVE.txt` gives the `cat` commands that rebuild the two split ZIPs.
+- `DRIVE_PARTS_MANIFEST.json` gives the size and SHA-256 of every part.
+- `DRIVE_FILE_INDEX.json` lists all 40 uploaded files with Drive id, size, SHA-256 and MD5, totalling 663,187,220 bytes.
+
+The index reports that names, sizes and parents passed for all 40 files. It also states that only the briefing PDF was downloaded back and rehashed; the other remote contents were not independently rehashed. Every file saved in this folder matches its index hash.
+
+Part hashes, in `cat` order:
+
+| Part | Bytes | SHA-256 |
+| --- | ---: | --- |
+| `packages/Universal_Law_v20_Conditional_Mathematics.zip.part001` | 83,886,080 | `64a5abe1827e8444ec1ad6b88a4d714b7961968d5aecc2d8475b896fa539f27f` |
+| `packages/Universal_Law_v20_Conditional_Mathematics.zip.part002` | 83,886,080 | `b59e6748dafa625336134206577bc3b0dc94f73309c9ee393e2d4614667e0c33` |
+| `packages/Universal_Law_v20_Conditional_Mathematics.zip.part003` | 83,886,080 | `dc8ce6b2e0d7e3800c69e5eb11d300acecf51a233a8f832dbb7b96e87f7f9f04` |
+| `packages/Universal_Law_v20_Conditional_Mathematics.zip.part004` | 38,737,333 | `bca36888e390f5b956a1bfd1567e1701f85f5d62cef1bbb1b76a10f9f0491e02` |
+| `Universal_Law_Project_Handoff_2026-10-25.zip.part001` | 83,886,080 | `10a3216e1c0ad6c9542f3be8602a5972f039f027a04698b2407e8a4d22c309ec` |
+| `Universal_Law_Project_Handoff_2026-10-25.zip.part002` | 83,886,080 | `20be737a535a3f699077567d38ac1ed5cb628722883ccd9f359e5b96ab5af7bf` |
+| `Universal_Law_Project_Handoff_2026-10-25.zip.part003` | 83,886,080 | `f4c7a32af4729e8ebd2d911dcb58254e50548715937cad57c86ef83b8a699b25` |
+| `Universal_Law_Project_Handoff_2026-10-25.zip.part004` | 79,901,468 | `ddd35300f3be178e3ed32fb0a9919400a74e456990970bace6a60e509ab3194a` |
+
 credit 0 · sci NONE · eng ≠ discharge · no flags · OBL OPEN
