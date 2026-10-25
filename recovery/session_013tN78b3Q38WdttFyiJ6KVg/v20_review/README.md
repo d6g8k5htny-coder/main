@@ -18,5 +18,6 @@ The reviewed source is Grok Bot a16's never-merge carrier at commit `71049ac9eb4
     - `critic_result.json`;
   - `delivery.md`: the posted result, with the commit and archive hash still as placeholders, since both are only known after this archive exists.
 - **`CONTENTS_SHA256`** gives the sha256 of every file inside the archive.
+- **`delivery_605_6404003023.md`** is the posted result, read back from GitHub ([605/6404003023](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6404003023)).
 
 Paths inside these files are left as recorded. Some members contain raw U+2028, U+2029 or U+0085 characters, which are the subject of finding G1-F1. They are the G1 notes, the reproduction and probe scripts (as string literals), and two workflow journals (`wf_cee8c9e5-0db`, `wf_69a00867-cac`). A tool that splits lines with `str.splitlines` will mis-frame those files. The JSON files written for this delivery use `\u` escapes.
