@@ -143,3 +143,54 @@ test('node identifiers and recorded source paths require own literal string fiel
  assert.equal(m.sourceForNode(f,{source:['proof/PROOF.md']}),null);
  assert.equal(m.nodePage({toString:()=> 'a'}),null);
 });
+
+// Contract breaks caught here: losing the advertised immutable destination,
+// treating ordinary source anchors as ambiguity, or letting untrusted URL parts
+// choose a path outside the current page's site directory.
+test('static reading links retain one advertised material archive among source links',()=>{
+ const page='https://example.test/main/site/dependencies.html';
+ const node='math.lifetime-remainder', archive='a'.repeat(64);
+ const href=`snapshots/${archive}/nodes/index.html`;
+ const links=Object.freeze(['https://github.com/example/research/blob/main/PROOF.md',href,href,'nodes/index.html','#current-research']);
+ assert.equal(typeof m.staticNodeLinks,'function');
+ assert.deepEqual(m.staticNodeLinks(node,links,page),{
+  current:'nodes/math.lifetime-remainder.html',
+  preserved:`snapshots/${archive}/nodes/math.lifetime-remainder.html`
+ });
+ assert.deepEqual([...links],['https://github.com/example/research/blob/main/PROOF.md',href,href,'nodes/index.html','#current-research']);
+ for(const advertised of [href,`/main/site/${href}`,`https://example.test/main/site/${href}`]){
+  assert.deepEqual(m.staticNodeLinks('math.node /?#é',[advertised],page),{
+   current:'nodes/math.node%20%2F%3F%23%C3%A9.html',
+   preserved:`snapshots/${archive}/nodes/math.node%20%2F%3F%23%C3%A9.html`
+  });
+ }
+ // A sole well-formed generated pointer is trusted by producer/history admission;
+ // this URL projection makes no independent archive-association claim.
+ assert.equal(m.staticNodeLinks(node,[`snapshots/${'b'.repeat(64)}/nodes/index.html`],page).preserved,`snapshots/${'b'.repeat(64)}/nodes/math.lifetime-remainder.html`);
+});
+test('static reading links refuse missing ambiguous and unsafe archive addresses',()=>{
+ const page='https://example.test/main/site/dependencies.html', node='math.lifetime-remainder';
+ const archive='a'.repeat(64), href=`snapshots/${archive}/nodes/index.html`;
+ assert.equal(typeof m.staticNodeLinks,'function');
+ const unsafe=[
+  [],['https://github.com/example/research/blob/main/PROOF.md'],
+  [href,`snapshots/${'b'.repeat(64)}/nodes/index.html`],
+  [`snapshots/${'b'.repeat(64)}/nodes/index.html`,href],
+  [`https://elsewhere.test/main/site/${href}`],
+  [`https://user:pass@example.test/main/site/${href}`],
+  [`https://example.test:444/main/site/${href}`],
+  [`https://example.test/elsewhere/site/${href}`],
+  [`/main/site-other/${href}`],
+  [`${href}?`],[`${href}?capture=wrong`],[`${href}#`],[`${href}#wrong`],
+  [`snapshots/${archive.toUpperCase()}/nodes/index.html`],
+  [`snapshots/${archive.slice(1)}/nodes/index.html`],
+  [`snapshots/${archive}/nodes/not-index.html`],
+  [`snapshots/${archive}/nodes/index.html/extra`],
+  [`snapshots/%61${archive.slice(1)}/nodes/index.html`],
+  [null,undefined,42,{},true],
+ ];
+ for(const hrefs of unsafe)assert.deepEqual(m.staticNodeLinks(node,hrefs,page),{current:'nodes/math.lifetime-remainder.html',preserved:null},JSON.stringify(hrefs));
+ for(const invalid of [null,undefined,'',42,{},true])assert.deepEqual(m.staticNodeLinks(invalid,[href],page),{current:null,preserved:null});
+ for(const badPage of ['not a URL','javascript:alert(1)',`https://user:pass@example.test/main/site/dependencies.html`])assert.deepEqual(m.staticNodeLinks(node,[href],badPage),{current:'nodes/math.lifetime-remainder.html',preserved:null});
+ assert.deepEqual(m.staticNodeLinks(node,null,page),{current:'nodes/math.lifetime-remainder.html',preserved:null});
+});
