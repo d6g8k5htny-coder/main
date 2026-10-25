@@ -799,6 +799,23 @@ class SemanticMemoryFixtureContract(unittest.TestCase):
                           lambda v: v.update(oracle_only_sentinel="\u3000"))
             self.refused(path)
             self.hosted_r03_controls(path)
+            # Exercise ordinary discovery without dropping any R03 controls.
+            # Each probe owns its temporary source; the native counters and
+            # existing class deadline are unchanged by these private calls.
+            for destination in (None, ""):
+                with self.subTest(r03_evidence_destination=destination):
+                    with tempfile.TemporaryDirectory(prefix="r03-discovery-") as directory:
+                        probe = type(self)()
+                        probe.home = Path(directory)
+                        probe.serial = 0
+                        probe.r03_evidence_destination = destination
+                        if destination is None:
+                            probe.hosted_r03_controls(path)
+                        else:
+                            with self.assertRaisesRegex(
+                                    RuntimeError,
+                                    "^trusted R03 evidence destination is missing$"):
+                                probe.hosted_r03_controls(path)
         def invalid_json_utf8(p):
             file = p / "corpus-manifest.json"
             file.write_bytes(file.read_bytes() + b"\xff")
