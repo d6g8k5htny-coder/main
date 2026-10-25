@@ -30,6 +30,12 @@ Observed production on 17 October 2026: [run 39076035717, attempt 1](https://git
 
 Local current-view controls: `python3 -B -S -m unittest tests.test_current_site_data tests.test_current_site_build`; `node --test tests/test_current_site.mjs`; and, with the pinned browser packages and packaged Chrome, `python3 -B tools/current_site_browser_check.py --output browser-evidence/current-atlas`.
 
+## Selected-claim reading
+
+The Atlas inspector leads with the selected record's literal scope (or a separately labelled note), immutable source reference and explicit formal-evidence gap. Source identity, formal declaration/execution/alignment fields, review/continuation records and complete metadata remain available in native disclosures. Disclosure state survives layout changes for the same admitted claim and resets for a changed or refused claim. There are no claim titles in the current graph; identifiers are retained rather than replaced with invented titles. This presentation creates no formal binding or scientific acceptance.
+
+An additional focused browser check is `python3 -B tools/atlas_claim_summary_browser_check.py --output browser-evidence/atlas-claim-summary` (packaged Chromium at `/usr/bin/chromium`, or `--browser PATH`). `--observe` records baseline failures without claiming acceptance. Real Orca speech evidence is version- and source-specific; DOM/AX checks alone do not certify spoken output.
+
 ## Verify the reader experience
 
 ```sh

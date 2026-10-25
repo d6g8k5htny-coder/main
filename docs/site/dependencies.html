@@ -13,10 +13,10 @@
   <link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=ef97bd43ea3d8999dbf26e5707d467987a745bf961cac2b3163f94062d087ba7">
   <script type="module" src="dependencies.mjs?site-release=d82de31c97db5296160a3c715627c118eefa1057b34452f1678f1acf331e0e79"></script>
 <link rel="stylesheet" href="current.css?site-release=9b70fee7f54345912905f33f4d15af39748b09c456bd88527b534cc9ceaae207">
-<link rel="stylesheet" href="atlas-layout.css?site-release=cc4a0db59cd608e9743ebfecb8a7b786f68c749ec0eb1b08588de15807b1267d">
-<link rel="stylesheet" href="atlas-spatial.css?site-release=8b4c487d439afc0f4e758ce881d67a63b598673202064960fe8aeb22a6836c27">
+<link rel="stylesheet" href="atlas-layout.css?site-release=797d898025b4899262dc66519cc33b5330709053b141fc39c56ba1d7e2174d49">
+<link rel="stylesheet" href="atlas-spatial.css?site-release=232305d210598af0bfdfc651c51494ef0afecd57e72dde59dc588b95d477137f">
 <script type="module" src="current.mjs?site-release=fc7e8a98c1e23f476962c4c83e95ed3ce817490007987112d9b2cf6d3d90b142"></script>
-<script type="module" src="atlas.mjs?site-release=e61ed8daae8f183cf483a4c9c45e2c778ffd3dd1813b79a9b799d5ff27d5e0b8"></script>
+<script type="module" src="atlas.mjs?site-release=d807f2f9895cb488ea1f3692f72d9a2c4ea2bfad07d837c60cec07d88bd7ff7f"></script>
 </head>
 <body class="dependency-page atlas-page">
 <a class="skip-link" href="#main-content">Skip to content</a>
@@ -32,7 +32,7 @@
       <h1 id="atlas-heading">Mathematical atlas</h1>
       <p class="intro">Find a claim. Follow its dependencies. Read the sources.</p>
     </div>
-    <p id="atlas-status" class="atlas-observation" role="status" aria-live="polite">Loading the current pinned graph…</p>
+    <div role="status" aria-live="polite"><p id="atlas-status" class="atlas-observation">Loading the current pinned graph…</p></div>
     <p id="atlas-error" class="atlas-error" role="alert" hidden></p>
     <div class="atlas-layout">
       <div class="atlas-browse">
@@ -78,7 +78,7 @@
       <p class="eyebrow">A separate reading collection</p><h2>Read an equation in its source</h2>
       <p>Exact acquired excerpts retain their surrounding proof scope. No equation-to-node logical association is recorded.</p>
       <label for="equation-search">Find equation text or source</label><input id="equation-search" type="search" disabled>
-      <p id="equation-count" role="status"></p>
+      <div role="status"><p id="equation-count"></p></div>
       <label for="equation-select">Exact acquired equation excerpt</label><select id="equation-select" disabled></select>
       <div class="atlas-toolbar"><button id="equation-previous" type="button" disabled>Previous excerpt</button><button id="equation-next" type="button" disabled>Next excerpt</button></div><div id="equation-content"></div>
     </div>
