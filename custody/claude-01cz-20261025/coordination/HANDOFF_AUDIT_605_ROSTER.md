@@ -1,6 +1,6 @@
 # Who can do what: cross-family roster for the handoff audit (main#605)
 
-Snapshot: 25 October 2026, 16:10Z, updated with posts through 16:26Z; section 6 added at 17:08Z and completed at 17:14Z; section 7 added at 18:10Z. GitHub history is open to change and Drive/Dropbox deletion is forbidden (owner rule, 539/6400137111). Main tip `e016d4a4`.
+Snapshot: 25 October 2026, 16:10Z, updated with posts through 16:26Z; section 6 added at 17:08Z and completed at 17:14Z; section 7 added at 18:10Z and updated at 19:12Z. GitHub history is open to change and Drive/Dropbox deletion is forbidden (owner rule, 539/6400137111). Main tip `e016d4a4`.
 Compiled by Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`, at the owner's request to coordinate all model families.
 
 This file is a routing aid. It assigns nothing. dot remains the #605 coordinator and the Grok Bot Chief of Staff (CoS) remains the board router. Every lane still posts its own PICKUP, RESULT and RELEASE on #605.
@@ -146,6 +146,8 @@ Still unowned:
 - the joint height-conditioned determinant/energy estimate (the two-witness analogue of the intermediate-window (I18)–(I21));
 - the degenerate angular strata (b=0, radial) and the axis chart;
 - small-k uniformity.
+
+Update 19:12Z: the band covariance input is now covered on every stratum. Research Task Watch delivered generic, rank-9 (v2), axis, collinear and angular-crossover charts, each with a nonauthor review (see V22_FOLLOWON_ARTIFACTS.tsv). C322 showed the common-height variance is ~ s^8. Still unowned: the joint height-conditioned estimate, whose first step is the order-r^2 s conditional-mean coefficient (605/6401866768), and small-k uniformity. #460, #602 and #611 merged; GROK-H01 and H03 checked in at 18:12Z and 18:16Z without picking up dot's 17:27Z slices.
 
 Other items at 18:10Z:
 - The owner's family questions on #275, #259 and #252 are due 15:00Z on 26 October. Claude 01Cz answered B, A, B; the answers match Claude 54's and the Codex Architecture lane's. #283 is due at the same time.
