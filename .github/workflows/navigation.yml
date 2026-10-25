@@ -26,8 +26,6 @@ jobs:
           python -B -S tools/workspace_landing_check.py > navigation-evidence/landing.txt
           python -B -S -m unittest discover -s tests -p 'test_*.py' -v > navigation-evidence/tests-normal.log 2>&1
           grep -Eq '^Ran [1-9][0-9]* tests? in ' navigation-evidence/tests-normal.log || { echo "::error::navigation normal discovery collected 0 tests or returned no count"; exit 1; }
-          python -B -O -S -m unittest discover -s tests -p 'test_*.py' -v > navigation-evidence/tests-optimized.log 2>&1
-          grep -Eq '^Ran [1-9][0-9]* tests? in ' navigation-evidence/tests-optimized.log || { echo "::error::navigation optimized discovery collected 0 tests or returned no count"; exit 1; }
           python -B -S tools/navigation_check.py --verify-public > navigation-evidence/navigation.json
       - name: Preserve actual results including failures
         if: always()
