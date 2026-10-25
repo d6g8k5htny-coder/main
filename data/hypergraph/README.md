@@ -32,8 +32,8 @@ workflow_dispatch, with read-only checkouts of public Math- and query-, and uplo
 `math-hypergraph` artifact. Vertex keys are repo-prefixed (`main:`, `Math-:`, `query-:`). See `tools/hypergraph/README.md`.
 The PNG is a build artifact (optional, `--png`), not committed.
 
-## Gap counts after the research-translation memberships (2026-10-25)
-344 ledger rows / 1301 vertices / 344 hyperedges. Sourced containers 215 (129 missing). Implemented 296 (48 missing),
+## Gap counts after the periodic-H0 consumer completion (2026-10-25)
+344 ledger rows / 1325 vertices / 344 hyperedges. Sourced containers 215 (129 missing). Implemented 296 (48 missing),
 of which 30 are placeholder-only ("in PR head" / "per census", no artifact). Bound units 14.
 28 of 49 graph nodes unbound per #527; 13 nodes touched by no unit. Role problems 0.
 Rows 307 and 310 now include the 56 tracked Markdown members under the existing
@@ -87,6 +87,26 @@ node/bound/status cells and all original review/scientific qualifications
 remain. No source manifest, historical pin, proof, program or production
 builder changes. Full C46/C47 computational consumers remain unidentified in
 the bounded search, alongside wider Main/history/cloud accounting gaps.
+
+The periodic-H0 declared-consumer completion adds 24 source-named program
+members to existing row 307, preserving its four previous programs. The
+[49-artifact source/consumer map](periodic_h0_consumer_map_20261025.json)
+records the 28 source carriers, 27 modules plus one named test, 21 additional
+suite-selected support tests, 11 historical receipts and output roles. It is
+an exact-source reference; the builder still consumes only its listed inputs.
+Renderers and certificate callers keep their presentation/operational roles,
+not theorem-proof labels. Other support tests are accounted without blanket
+implementation membership. No source program or mathematical test was run.
+
+All 1301 old vertices/memberships, all 344 ordered edges/row identities and
+343 other raw rows remain; only row 307's implementation cell expands.
+The graph now has 1325 vertices, while all container, node, bound and status
+counts remain. Spectral historical pins and Gaussian-tail finite-domain versus
+unbounded-asymptotic limits persist. The pilot32 receipt's older 11712-byte
+runner differs from the current 12130-byte runner; the map preserves both
+identities, and ten other receipt source inventories match current bytes.
+No historical receipt is rebound, IID/coupling law authenticated, or full NUM
+or continuum result verified by this membership correction.
 
 This is a bounded membership correction, not complete Main/history/cloud
 coverage. The exact-sample shrinking-bin comment sources have separately
