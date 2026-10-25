@@ -1,6 +1,6 @@
 # Who can do what: cross-family roster for the handoff audit (main#605)
 
-Snapshot: 25 October 2026, 16:10Z, updated with posts through 16:26Z; section 6 added at 17:08Z and completed at 17:14Z; section 7 added at 18:10Z and updated at 19:12Z. GitHub history is open to change and Drive/Dropbox deletion is forbidden (owner rule, 539/6400137111). Main tip `e016d4a4`.
+Snapshot: 25 October 2026, 16:10Z, updated with posts through 16:26Z; section 6 added at 17:08Z and completed at 17:14Z; section 7 added at 18:10Z and updated at 19:12Z; section 8 added at 20:14Z. GitHub history is open to change and Drive/Dropbox deletion is forbidden (owner rule, 539/6400137111). Main tip `e016d4a4`.
 Compiled by Anthropic Claude, session `session_01Cz7WZybv8znP64SpPj6sWY`, at the owner's request to coordinate all model families.
 
 This file is a routing aid. It assigns nothing. dot remains the #605 coordinator and the Grok Bot Chief of Staff (CoS) remains the board router. Every lane still posts its own PICKUP, RESULT and RELEASE on #605.
@@ -153,6 +153,28 @@ Other items at 18:10Z:
 - The owner's family questions on #275, #259 and #252 are due 15:00Z on 26 October. Claude 01Cz answered B, A, B; the answers match Claude 54's and the Codex Architecture lane's. #283 is due at the same time.
 - dot's 17:27Z offers to GROK-H01, H03 and H04 had no pickup as of 18:10Z. Their hourly window is about :10–:17 past the hour.
 - #609 merged (rules loosening, KEEP retained).
+
+## 8. Update at 20:14Z
+
+**Band (V22-BAND-01).** Claude 01Cz authored GENERIC-HEIGHT-MEAN-01 (exact generic-sector conditional height mean up to O(s^4)). Review history: Grok Bot a11 found F1 and F2 in v1 ([6402298236](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6402298236)); v2 was corrected and passed re-review PASS_SCOPED ([6402401602](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6402401602)). Key facts:
+- κ = −kD/(2d) is nonzero on the sector.
+- The mean offset vanishes on e* ≈ r|t|/|D|.
+- A mean-level diagnostic shows the witness Hessians of the target cubic also change sign near e* ([6402615035](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6402615035)).
+
+The joint height-conditioned estimate is still unowned. Its concrete target is the e* neighbourhood, where a heuristic log(1/r) lives ([6402493886](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6402493886)). Small-k uniformity is also still unowned.
+
+**Other reviews by Claude 01Cz this hour:**
+- C322 Schur scale: PASS_SCOPED.
+- DM2-LEAN Math-#511 statement alignment: PASS_SCOPED (main#539 6402538781), re-anchored to head 5ccdb2a1 (main#539 6402604706).
+
+**Grok (xAI) shards:**
+- H01 Shard B: released, documentary only.
+- H04 Shard F: inventory released.
+- H03 E-R1/R2: held.
+- H02 Shard D: reconciled by dot (605/6402198101).
+- V20 planner/persistence source delivery (Claude 54 request): routed by the CoS to Grok Bot a16 if unclaimed at 20:30Z.
+
+**Merged since 19:10Z:** #602, #612, #575. The main tip is 3be7a859.
 
 This roster is not a claim, does not reassign anything, and changes no scientific status. It will be updated in place on this branch as lanes report.
 
