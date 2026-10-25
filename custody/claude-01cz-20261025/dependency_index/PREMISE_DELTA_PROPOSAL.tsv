@@ -1,0 +1,15 @@
+record_id	severity	proposed_change	basis_in_pinned_source	finding_ref	accounting_file
+D2-R	LOW	add premise D1-EQ-GLOBAL	LIFETIME_REMAINDER.md Theorem R constant identified via parent Section 15	LOW-D2-R-PREMISE	D2_SOURCE_ACCOUNTING.tsv
+D2-OBS	INFO	optional: record parent observation transform U_r=T_r O_r as definitional import (no premise change required)	LIFETIME_REMAINDER.md lines 30-47	INFO-D2-OBS	D2_SOURCE_ACCOUNTING.tsv
+P15-E3	LOW	add premise P15-O3	EVEN_CAPACITY_EXTENSION.md §E3 uses Lemma O3 25/512 bound and (O5) price transfer	LOW-P15-E3-PREMISE	P15_SOURCE_ACCOUNTING.tsv
+P15-T1	LOW	add premise P15-T2	p15_tail_load PROOF.md line 222 '(T3)-(T4) now prove (T1)'	LOW-P15-T1-PREMISE	P15_SOURCE_ACCOUNTING.tsv
+P15-T1;P15-T2;P15-T3	LOW	repoint source_file from README.md to frontiers/p15_tail_load_20260928/PROOF.md at 79cb314d (12,828 bytes, sha256 fbca462d4988a06754ded9415ceea6bb1385be5535656d643bdd48edbbee8a20)	README.md (1,056 bytes) says 'Read PROOF.md'	LOW-P15-T-SOURCE	P15_SOURCE_ACCOUNTING.tsv
+P15-O3	INFO	optional: note record P15-O3 = source 'Theorem O4' (distinct from source 'Lemma O3')	p15_bipartite_overlap PROOF.md (O5)-(O12)	INFO-P15-O3-NAME	P15_SOURCE_ACCOUNTING.tsv
+D1-A	LOW	add premises D1-03;D1-04	UNIFORM_MATRIX_CAP_AND_LIFETIME.md §§2-3 density (3.5), floor (5.4)-(5.5), contact frame	LOW-D1-A-PREMISE	D1_CORE_SOURCE_ACCOUNTING.tsv
+D1-C	LOW	add premise D1-EQ-GLOBAL	UNIFORM_MATRIX_CAP_AND_LIFETIME.md Theorem C constant 'explicitly identified in Section 15'	LOW-D1-C-PREMISE	D1_CORE_SOURCE_ACCOUNTING.tsv
+D1-CAP-MATRIX	LOW	statement text: drop or source the word 'sharp' (does not occur in pinned source)	UNIFORM_MATRIX_CAP_AND_LIFETIME.md §§5-6	LOW-D1-CAP-MATRIX-STATEMENT	D1_CORE_SOURCE_ACCOUNTING.tsv
+D1-ELDER-MEAS	LOW	add premises D1-03;D1-02	UNIFORM_MATRIX_CAP_AND_LIFETIME.md §8 'Covariance positivity from Section 2' and 0<Z_r<infinity	LOW-ELDER-MEAS-PREMISE	D1_KR4_SOURCE_ACCOUNTING.tsv
+D1-KR-JACOB	LOW	add premises D1-02;D1-04	UNIFORM_MATRIX_CAP_AND_LIFETIME.md (10.1)-(10.2) conditioned pin density, Z_r, contact frame	LOW-KR-JACOB-PREMISE	D1_KR4_SOURCE_ACCOUNTING.tsv
+D1-KR-DOM	LOW	add premises D1-04;D1-CAP-MATRIX;D1-03;D1-A; separately (INFO, not adjudicated) the imported EXT-KR-OFFDIAG reads as a far-pair import while §13 is near-diagonal	UNIFORM_MATRIX_CAP_AND_LIFETIME.md §13 (13.1)-(13.6) and REPAIR.md §9.4	LOW-KR-DOM-PREMISE	D1_KR4_SOURCE_ACCOUNTING.tsv
+D1-KR-FAR	LOW	add premise D1-03	UNIFORM_MATRIX_CAP_AND_LIFETIME.md §14 'full rank by Section 2'	LOW-KR-FAR-PREMISE	D1_KR4_SOURCE_ACCOUNTING.tsv
+# PROPOSAL ONLY. Not a canonical dataset edit. Dependency-graph omissions; no status, disposition, lemma_closed or theorem change. Scientific effect: NONE. Applying requires the dataset owner and a nonauthor review.
