@@ -496,7 +496,8 @@ class SemanticMemoryFixtureContract(unittest.TestCase):
         # Record every actual exit and raw stream before outcome assertions.
         # Saturation/timeout remains evidence and cannot satisfy acceptance;
         # an overlarge envelope is explicitly refused, never silently truncated.
-        write_r03_evidence(self.r03_evidence_destination, record)
+        if self.r03_evidence_destination is not None:
+            write_r03_evidence(self.r03_evidence_destination, record)
         self.assertEqual(tuple(result.r03_capture_status for _, _, result in results),
                          ("COMPLETE", "COMPLETE", "COMPLETE"))
         self.assertEqual((positive.returncode, red.returncode, masking.returncode),
