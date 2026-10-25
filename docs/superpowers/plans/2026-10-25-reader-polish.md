@@ -22,3 +22,5 @@ Approach chosen by the implementer under the owner's existing authorization: mak
 ## Review focus
 
 At 320px and with increased text spacing, no header/footer link is clipped or offscreen. Keyboard focus remains visible and natural link order is unchanged. Supporting pages and static 404 navigation still work. Footer links remain available with JavaScript disabled and in print. A nested list does not alter a scientific source, classification or refusal state.
+
+Screenshot inspection found that increased text spacing split “Mathematics” inside its word at 320px. A focused Playwright assertion reproduced that failure. The second row now uses two equal-width cells within a six-column grid, giving the label room while retaining the three/two arrangement. This is a presentation refinement within the planned scope.
