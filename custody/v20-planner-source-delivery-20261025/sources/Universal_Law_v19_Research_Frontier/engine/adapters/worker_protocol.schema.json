@@ -1,0 +1,144 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:universal-law:worker:v17.1",
+  "title": "UL versioned worker job and receipt envelope",
+  "description": "Diagnostic receipts are execution evidence, never mathematical theorem certificates.",
+  "type": "object",
+  "required": [
+    "protocol_version",
+    "job_id",
+    "record_id",
+    "obligation_id",
+    "triggering_event",
+    "inputs",
+    "worker",
+    "resource_limits"
+  ],
+  "properties": {
+    "protocol_version": {
+      "const": "research-flow-worker-1"
+    },
+    "job_id": {
+      "type": "string",
+      "pattern": "^j-[a-f0-9]{32}$"
+    },
+    "record_id": {
+      "type": "string",
+      "minLength": 1
+    },
+    "obligation_id": {
+      "type": "string",
+      "pattern": "^OBL:"
+    },
+    "triggering_event": {
+      "type": "object"
+    },
+    "inputs": {
+      "type": "object",
+      "required": [
+        "obligation_fingerprint",
+        "binding_sha256",
+        "statement_sha256",
+        "baseline_dataset_sha256",
+        "effective_dataset_sha256",
+        "prerequisite_fingerprints",
+        "side_condition_fingerprints",
+        "import_fingerprints",
+        "correction_fingerprints",
+        "local_evidence_fingerprints",
+        "source_fingerprints",
+        "proof_notes"
+      ],
+      "properties": {
+        "binding_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "obligation_fingerprint": {
+          "$ref": "#/$defs/sha256"
+        },
+        "statement_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "baseline_dataset_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "effective_dataset_sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      }
+    },
+    "worker": {
+      "type": "object",
+      "required": [
+        "name",
+        "version",
+        "protocol",
+        "certificate_kind",
+        "formal_certification"
+      ]
+    },
+    "resource_limits": {
+      "type": "object",
+      "required": [
+        "wall_seconds",
+        "cpu_seconds",
+        "memory_bytes",
+        "max_output_bytes",
+        "max_artifact_bytes"
+      ],
+      "properties": {
+        "wall_seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 60
+        },
+        "cpu_seconds": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 30
+        },
+        "memory_bytes": {
+          "type": "integer",
+          "minimum": 67108864,
+          "maximum": 1073741824
+        },
+        "max_output_bytes": {
+          "type": "integer",
+          "minimum": 1024,
+          "maximum": 1048576
+        },
+        "max_artifact_bytes": {
+          "type": "integer",
+          "minimum": 65536,
+          "maximum": 8388608
+        }
+      },
+      "additionalProperties": false
+    },
+    "result": {
+      "enum": [
+        "diagnostic_completed",
+        "failed",
+        "blocked"
+      ]
+    },
+    "retryable": {
+      "type": "boolean"
+    },
+    "receipt_sha256": {
+      "$ref": "#/$defs/sha256"
+    },
+    "formal_certification": {
+      "const": "not_certified"
+    },
+    "theorem_certificates_awarded": {
+      "const": 0
+    }
+  },
+  "$defs": {
+    "sha256": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}$"
+    }
+  }
+}
