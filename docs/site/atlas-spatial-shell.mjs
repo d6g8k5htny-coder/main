@@ -9,7 +9,6 @@ export function installSpatialAtlas({root,onChange}) {
   if(!doc.defaultView?.MutationObserver)return {restore(){},decorateURL:u=>u};
   const get=id=>doc.getElementById(id),list=get('atlas-list'),stage=get('atlas-stage'),inspector=get('atlas-inspector');
   const make=(tag,text)=>{const node=doc.createElement(tag);if(text)node.textContent=text;return node;};
-  const style=make('link');style.rel='stylesheet';style.href=new URL('./atlas-spatial.css',import.meta.url).href;doc.head.append(style);
   const bar=make('div');bar.className='atlas-space-toolbar';
   const toggle=make('button','Explore in 3D');toggle.type='button';toggle.id='atlas-space-toggle';toggle.setAttribute('aria-pressed','false');
   const reset=make('button','Reset camera'),focus=make('button','Focus dependencies'),plus=make('button','Zoom in'),minus=make('button','Zoom out');
