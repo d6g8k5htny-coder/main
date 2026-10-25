@@ -1,0 +1,86 @@
+D3 PERC-DECAY engine -- far-lane decay certificate (MC-free; every denominator the R2 floor Z_lo = 0.0077592917375328)
+rung r = 0.05; window mid v = 1.199989583; J(ell) exact; (576-25pi)J/r^3 = 2.5282637 (frozen far count, kappa=0)
+
+PD1 certified Theta(r^3) bounds (exact inclusions; constants from the frozen v2 bracket 6796deea...)
+  B1.dir-far = FarRoute(d_max): the away lobe's merge into C_M is a saddle of height in (s,b) (C_M is born at b, the away lobe at s), i.e. a WINDOW SADDLE:  FarRoute subset {N_w >= 1}.
+    certified: P(FarRoute) <= E_{P_r}[N_w]; the D3-certified part (outside the C1 chart) <= B_remote + I_hole <= 21.9279 + 1.284 = 23.2119 r^3
+  B2-far: C2's exact separation (B2 subset {N_beta^* >= 1}, witnesses are window saddles): P(B2-far) <= E_{P_r}[N_w(d >= d_max)] -- bounded in PD4 at the crude-spine cap grade.
+  B4.rem: NOT subset of the window count (the non-local separator can close through ABOVE-window saddles, e.g. the away lobe joining an elder component at height > b): the certified content is the local dam line (re-verified PD2c); the remote part is NAMED-GAP (register PD5).
+
+PD2 exact-kernel reversion profile (CERTIFIED per station)
+  [away-axial ray (+x from S)] d_rel-to-S | y | Var(f|6pins) | (mu-s)/sigma | kappa_cross
+   d=0.05   y=(0.075,0.0) Var=2.59248e-11 z=19.6622 kc=25.1709
+   d=0.1    y=(0.125,0.0) Var=2.08318e-9 z=11.9429 kc=26.665
+   d=0.2    y=(0.225,0.0) Var=2.5009e-7 z=6.40978 kc=29.4171
+   d=0.25   y=(0.275,0.0) Var=1.24107e-6 z=5.11233 kc=29.9312
+   d=0.3    y=(0.325,0.0) Var=4.65497e-6 z=4.20486 kc=30.2391
+   d=0.5    y=(0.525,0.0) Var=0.000191344 z=2.26893 kc=30.6528
+   d=1.0    y=(1.025,0.0) Var=0.0221995 z=0.633899 kc=29.1937
+   d=2.0    y=(2.025,0.0) Var=0.585721 z=-0.486911 kc=25.3146
+   d=4.0    y=(4.025,0.0) Var=0.999921 z=-1.19011 kc=9.01332
+   d=8.0    y=(8.025,0.0) Var=1.0 z=-1.19998 kc=6.2268e-8
+  reversion read: Var -> 1, kappa_cross -> 0 along the ray; at the handoff d_max = 0.20-0.25 the RN factor is NOT yet small (displayed) -- the far lanes start INSIDE the conditioned zone.
+  [transverse ray (+y from S)] d_rel-to-S | y | Var(f|6pins) | (mu-s)/sigma | kappa_cross
+   d=0.2    y=(0.025,0.2) Var=0.000778983 z=-0.851342 kc=0.00218596
+   d=0.5    y=(0.025,0.5) Var=0.026499 z=-0.86618 kc=0.0282437
+   d=1.0    y=(0.025,1.0) Var=0.264241 z=-0.918511 kc=0.963089
+   d=2.0    y=(0.025,2.0) Var=0.908422 z=-1.08862 kc=13.3774
+
+PD2c B4.loc dam re-verified (per-section, exact-kernel CERTIFIED under the plain six-pin law; the assembled dam = dam line, uniformity the promotion scope)
+  (clearance = the cubic Hermite profile ell*(3 xi^2 - 2 xi^3); residual sd = Theta(r^4) -- both displayed exactly)
+   channel section xi=0.25 (x=0.0125): clearance mu-s = 3.2218e-6 (Hermite profile predicts 3.25521e-6), sd = 4.4849e-8 (= 0.0071758 r^4), kappa_dam = 71.8371
+   channel section xi=0.5 (x=0.0): clearance mu-s = 1.03581e-5 (Hermite profile predicts 1.04167e-5), sd = 7.9736e-8 (= 0.012758 r^4), kappa_dam = 129.905
+   channel section xi=0.75 (x=-0.0125): clearance mu-s = 1.75456e-5 (Hermite profile predicts 1.75781e-5), sd = 4.4849e-8 (= 0.0071758 r^4), kappa_dam = 391.218
+  per-section bound P(sup_section f <= s) <= Phi(-kappa_dam): polarity-safe (the axis point lies in the section); kappa = Theta(1/r) (clearance Theta(r^3) / sd Theta(r^4)), matching C2's ladder display log10 Phi(-kappa_*) = -126 at this rung (C2 2aba099d..., grade: per-section CERTIFIED; the uniform dam over the cut net is the dam line, promotion-scope).
+
+PD3 corridor-alive display (means/sd CERTIFIED exact-kernel, plain six-pin law; the structural CONCLUSION is evidence-grade):
+  axial conditional mean mu(x) from M through S toward the ghost elder (1.052, 0), level s = 1.199979167
+   x=-0.024  mu(x)-s = 2.080832e-5  sd = 4.8999e-10  z = (mu-s)/sd = 42466.9
+   x=-0.01   mu(x)-s = 1.629246e-5  sd = 5.6259e-8  z = (mu-s)/sd = 289.595
+   x=0       mu(x)-s = 1.035809e-5  sd = 7.9736e-8  z = (mu-s)/sd = 129.905
+   x=0.0125  mu(x)-s = 3.221801e-6  sd = 4.4849e-8  z = (mu-s)/sd = 71.8371
+   x=0.024   mu(x)-s = 2.429706e-8  sd = 4.8999e-10  z = (mu-s)/sd = 49.5869
+   x=0.03    mu(x)-s = 6.549508e-7  sd = 1.5431e-8  z = (mu-s)/sd = 42.4429
+   x=0.05    mu(x)-s = 2.027727e-5  sd = 7.1691e-7  z = (mu-s)/sd = 28.2844
+   x=0.075   mu(x)-s = 0.0001001125  sd = 5.0916e-6  z = (mu-s)/sd = 19.6622
+   x=0.1     mu(x)-s = 0.0002666523  sd = 1.7869e-5  z = (mu-s)/sd = 14.9226
+   x=0.15    mu(x)-s = 0.0009585482  sd = 9.6802e-5  z = (mu-s)/sd = 9.90217
+   x=0.2     mu(x)-s = 0.0022715  sd = 0.00031145  z = (mu-s)/sd = 7.29324
+   x=0.3     mu(x)-s = 0.007269892  sd = 0.001573  z = (mu-s)/sd = 4.6218
+   x=0.4     mu(x)-s = 0.01585473  sd = 0.0048643  z = (mu-s)/sd = 3.25943
+   x=0.5     mu(x)-s = 0.02791003  sd = 0.011491  z = (mu-s)/sd = 2.42885
+   x=0.7     mu(x)-s = 0.05857636  sd = 0.040251  z = (mu-s)/sd = 1.45527
+   x=1.0     mu(x)-s = 0.09366528  sd = 0.13763  z = (mu-s)/sd = 0.680555
+  the away-axial mean stays ABOVE s from S out to x = 1.0 (kernel scale >> d_max = 0.20--0.25), with the bottleneck z-score 0.68056 = Theta(1): the level-s connection from the pair region along the away axis toward the ghost-elder territory exists with Theta(1) probability (per-point displays; the path price needs the connectivity input). CONCLUSION (evidence-grade): the connectivity factor in every far-lane price is Theta(1) at the handoff and does NOT vanish as r -> 0 -- the classes are Theta(r^3), not o(r^3).
+
+PD4 window-count D-tail (exact, kappa=0 kernel part; RN factor separately) and the far-lane count bound
+   E_{Q}[N_w(d >= 0.2)]/r^3 = (576 - pi D^2) J/r^3 = 2.9267914
+   E_{Q}[N_w(d >= 0.5)]/r^3 = (576 - pi D^2) J/r^3 = 2.9234384
+   E_{Q}[N_w(d >= 1)]/r^3 = (576 - pi D^2) J/r^3 = 2.9114634
+   E_{Q}[N_w(d >= 2)]/r^3 = (576 - pi D^2) J/r^3 = 2.8635635
+   E_{Q}[N_w(d >= 4)]/r^3 = (576 - pi D^2) J/r^3 = 2.6719636
+   E_{Q}[N_w(d >= 8)]/r^3 = (576 - pi D^2) J/r^3 = 1.9055642
+  read: the raw count is Theta(r^3) at every D < 12 -- the D-tail decay of a CLASS price lives entirely in the connectivity factor (the named input PD-CONN), not in the count.
+  far-lane count bound (crude-spine cap grade, d >= d_max = 0.2, R2 floor): E_{P_r}[N_w(d >= 0.2)] <= Num/Z_lo = 17.680197 r^3
+  (this caps P(B2-far) via C2's exact separation; the annulus cap density profile itself decays: displayed in the frozen D4: rho_cap 7.8093e-7 @0.1 -> 1.3715e-9 @5, exact-kernel certified)
+
+PD5 NAMED-GAP REGISTER (each entry: certified bound | missing input | exact uncontrolled region)
+  [B1.dir-far] certified: P <= E_{P_r}[N_w]; D3-part <= 23.2119 r^3 (v2 bracket + C1 hole)
+     missing: PD-CONN | uncontrolled region: the level-s connectivity between the away lobe (mean extent ~0.4, PD3) and C_M through the far field, d in [d_max, O(1)] -- the bridge annulus; transverse part over (0,d_max] certified by BRANCH_dir | grade: COUNT-CERTIFIED / CONNECTIVITY-NAMED
+  [B2-far] certified: P <= E_{P_r}[N_w(d>=0.2)] <= 17.680197 r^3 (cap grade, R2 floor)
+     missing: PD-CONN | uncontrolled region: the far younger component touching S's sector lobes at level s, d in [d_max, O(1)] -- the same bridge annulus | grade: COUNT-CERTIFIED / CONNECTIVITY-NAMED
+  [B4.rem] certified: local dam per-section CERTIFIED (PD2c, kappa = Theta(1/r)); assembled dam = dam line (uniformity promotion-scope)
+     missing: PD-CONN + the above-window merge count | uncontrolled region: the non-local separator: the M-ward channel beyond the local cut net (d > r), the above-window merges (heights > b, NOT covered by the window count), and the torus wrap circuit (d ~ 12) | grade: LOCAL-CERTIFIED / REMOTE-NAMED
+
+  PD-CONN (the named input, deliverable-grade statement):
+  Let Q_r be the six-pin law at rung r <= 0.05, s = b - r^3/6, and A_r(K,D) the event that {f > s} has a connected component meeting both K and the complement of B(K,D). REQUIRED: explicit C0, c0 > 0, D0 >= 1 (r-independent) with P_{Q_r}(A_r(B(pair,2r),D)) <= C0 e^{-c0 D} for all D >= D0, r <= 0.05. CONSUMPTION: each far lane's D-tail <= (certified count density) C0 e^{-c0 D} (1 + kappa certified); class totals absorb at Theta(r^3) with certified constants; B4.rem's wrap <= C0 e^{-12 c0} (area factors). MISSING PIECES to certify PD-CONN: (i) explicit-constant arm bound for planar Bargmann-Fock at positive level (literature gives sharpness WITHOUT explicit constants -- an explicit RSW constant is the missing theorem); (ii) the conditioned-to-unconditioned FIELD-LEVEL patch on {d >= D0} (finite-dimensional reversion certified here; the field-level version needs continuity-modulus/entropy control -- Kolmogorov machinery, not built); (iii) torus-to-planar comparison (T1/C.6: <= 1e-120, available). NOTE (the verdict): PD-CONN certifies CONSTANTS, not order -- at sub-kernel D the connectivity factor is Theta(1) (PD3), so the classes remain Theta(r^3); the o(r^3) reading is not reachable by any input of this kind.
+
+VERDICT (evidence-grade structural assessment on certified displays): the far lanes are Theta(r^3)-order; PERC-DECAY should be RESTATED as 'the far lanes absorb at Theta(r^3) with the certified constants + PD-CONN D-tails' -- a premise this lane underwrites -- not 'o(r^3)'.
+
+PD6 mutation suite
+  MUT-PD-1 register-taxonomy tamper: mutation -> SystemExit with the expected failure
+  MUT-PD-2 grade-label tamper (evidence as certified): mutation -> SystemExit with the expected failure
+  MUT-PD-3 R2 floor-pin tamper: mutation -> SystemExit with the expected failure
+  MUT-PD-4 count-window tamper: mutation -> SystemExit with the expected failure
+  MUT-PD-5 corridor-display tamper: mutation -> SystemExit with the expected failure
+D3-PERC-DECAY PASS digest=58df7e312099d3acd93fe83f728b4b139274063c98386b9963bbc1a6270e2b9b

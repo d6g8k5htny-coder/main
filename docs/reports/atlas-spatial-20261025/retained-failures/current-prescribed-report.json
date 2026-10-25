@@ -1,0 +1,22 @@
+{
+  "scientific_effect": "NONE",
+  "checked_commit": "3be7a859d4ff05ceaf8b2c8ec748cfd2658c67f5",
+  "source_payload_sha256": "560d3d4e77369835c832dbb4fd0d12f4988744045b9cbc4c7978beddb6e9d20f",
+  "source_repositories": [
+    {
+      "commit": "b7deb198722582df191006e4f47238f92e6e543d",
+      "repository": "d6g8k5htny-coder/main",
+      "tree": "3d988a90a6313f68af21e0b04d08702632bf8ecc"
+    },
+    {
+      "commit": "dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde",
+      "repository": "d6g8k5htny-coder/Math-",
+      "tree": "acaf4fd05dc4392900d24fd58e13347009187317"
+    }
+  ],
+  "cases": [],
+  "limitations": [
+    "Local rendered Chromium evidence; physical mobile and complete screen-reader certification not established."
+  ],
+  "error": "Traceback (most recent call last):\n  File \"/workspace/atlas-spatial/tools/current_site_browser_check.py\", line 450, in main\n    browser=p.chromium.launch(channel='chrome',chromium_sandbox=True);report['browser']=browser.version\n            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/sync_api/_generated.py\", line 16702, in launch\n    self._sync(\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_sync_base.py\", line 115, in _sync\n    return task.result()\n           ^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_browser_type.py\", line 97, in launch\n    await self._channel.send(\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_connection.py\", line 76, in send\n    return await self._connection.wrap_api_call(\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_connection.py\", line 632, in wrap_api_call\n    raise rewrite_error(error, f\"{parsed_st['apiName']}: {error}\") from None\nplaywright._impl._errors.Error: BrowserType.launch: Chromium distribution 'chrome' is not found at /opt/google/chrome/chrome\nRun \"playwright install chrome\"\n"
+}
