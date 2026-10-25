@@ -1,9 +1,13 @@
 """Real journal, process contention, failure-specific decisions and stale guards."""
 import concurrent.futures
 import copy
+import hashlib
+import inspect
 import json
 import multiprocessing
 import os
+import sys
+import types
 from unittest.mock import patch
 import tempfile
 import shutil
@@ -650,6 +654,190 @@ class ProofConductorTests(unittest.TestCase):
         self.assertFalse(state['capabilities']['mathematical_approval'])
         state['tasks'][0]['scope'] = {'changed':True}
         self.assertNotEqual(state,self.conductor.snapshot())
+
+
+SEPARATORS = 'A\u2028B\u0085C\u2029D'
+ZERO_HASH = '0' * 64
+
+
+def _pre_fix_canonical(value):
+    """Historical canonical JSON bytes. ensure_ascii=False is unchanged."""
+    return json.dumps(value, sort_keys=True, ensure_ascii=False, separators=(',', ':')).encode('utf8')
+
+
+def _legacy_journal_events(raw, canonical):
+    """Pre-G1-F1 unload: decode the archive, then str.splitlines().
+
+    That split treats U+0085, U+2028 and U+2029 as line boundaries, so one
+    canonical record can become several fragments and fail to load.
+    """
+    if raw and not raw.endswith(b'\n'):
+        raise ValueError('incomplete journal tail; preserve and repair explicitly before resuming')
+    events = []
+    prev = ZERO_HASH
+    ids = {}
+    for n, line in enumerate(raw.decode('utf8').splitlines(), 1):
+        if not line.strip():
+            raise ValueError('empty journal line ' + str(n))
+        event = json.loads(line)
+        if not isinstance(event, dict) or not isinstance(event.get('payload'), dict) or not isinstance(event.get('type'), str):
+            raise ValueError('malformed journal event at line ' + str(n))
+        if event['seq'] != len(events) + 1 or event['prev_hash'] != prev:
+            raise ValueError('event sequence/previous hash corrupted at line ' + str(n))
+        body = {k: v for k, v in event.items() if k != 'event_hash'}
+        expected = hashlib.sha256(canonical(body)).hexdigest()
+        if event.get('event_hash') != expected:
+            raise ValueError('tampered event at line ' + str(n))
+        eid = event.get('event_id')
+        if eid:
+            if eid in ids:
+                raise ValueError('duplicate event ID in stored journal')
+            ids[eid] = event
+        events.append(event)
+        prev = expected
+    return events
+
+
+class JournalLfFramingTests(unittest.TestCase):
+    """G1-F1 reader framing. canonical() and the torn-tail guard stay as they are.
+
+    proof_conductor.Journal is engine.conductor.Journal. It has no second
+    decode-and-splitlines reader; ProofConductor(workdir) and _read() both
+    call this _load.
+    """
+
+    @classmethod
+    def setUpClass(cls):
+        root = Path(__file__).resolve().parent
+        engine = root / 'engine'
+        sys.path.insert(0, str(engine))
+        try:
+            import model  # noqa: F401
+        except ImportError:
+            stub = types.ModuleType('model')
+            stub.load = lambda *args, **kwargs: None
+            stub.validate = lambda *args, **kwargs: None
+            stub.fingerprints = lambda *args, **kwargs: {}
+            stub.digest = lambda *args, **kwargs: ''
+            stub.GateError = type('GateError', (Exception,), {})
+            sys.modules['model'] = stub
+        from conductor import Journal, ZERO, canonical
+        cls.Journal = Journal
+        cls.ZERO = ZERO
+        cls.canonical = staticmethod(canonical)
+        cls.root = root
+        cls.engine_source = (engine / 'conductor.py').read_text(encoding='utf8')
+
+    def setUp(self):
+        self.temp = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp.cleanup)
+        self.workdir = Path(self.temp.name) / 'journal'
+
+    def _seal(self, seq, prev, payload, etype='note'):
+        event = {'seq': seq, 'when_utc': '2026-10-25T00:00:00+00:00',
+                 'type': etype, 'payload': payload, 'prev_hash': prev}
+        event['event_hash'] = hashlib.sha256(self.canonical(event)).hexdigest()
+        return event
+
+    def _write(self, *events):
+        self.workdir.mkdir(parents=True, exist_ok=True)
+        raw = b''.join(self.canonical(event) + b'\n' for event in events)
+        (self.workdir / 'events.jsonl').write_bytes(raw)
+        return raw
+
+    def test_unicode_separators_break_legacy_reader_and_load_on_lf_bytes(self):
+        payload = {'note': SEPARATORS, 'plain': 'ok'}
+        event = self._seal(1, self.ZERO, payload)
+        raw = self._write(event)
+        self.assertEqual(raw.count(b'\n'), 1)
+        self.assertIn('\u2028'.encode('utf8'), raw)
+        self.assertIn('\u0085'.encode('utf8'), raw)
+        self.assertIn('\u2029'.encode('utf8'), raw)
+        self.assertNotIn(b'\\u2028', raw)
+        self.assertNotIn(b'\\u0085', raw)
+        self.assertNotIn(b'\\u2029', raw)
+        legacy_lines = raw.decode('utf8').splitlines()
+        self.assertEqual(len(legacy_lines), 4)
+        with self.assertRaises(json.JSONDecodeError):
+            _legacy_journal_events(raw, self.canonical)
+        journal = self.Journal(self.workdir)
+        self.assertEqual(journal.path.read_bytes(), raw)
+        journal._load()
+        self.assertEqual(journal.path.read_bytes(), raw)
+        self.assertEqual(len(journal.events), 1)
+        loaded = journal.events[0]
+        self.assertEqual(loaded['payload'], payload)
+        self.assertEqual(loaded['event_hash'], event['event_hash'])
+        body = {k: v for k, v in loaded.items() if k != 'event_hash'}
+        self.assertEqual(self.canonical(body), _pre_fix_canonical(body))
+        self.assertEqual(loaded['event_hash'], hashlib.sha256(_pre_fix_canonical(body)).hexdigest())
+
+    def test_ascii_lf_records_match_legacy_reader_and_keep_hashes(self):
+        first = self._seal(1, self.ZERO, {'msg': 'plain-ascii'})
+        second = self._seal(2, first['event_hash'], {'msg': 'second line'})
+        raw = self._write(first, second)
+        self.assertEqual(raw.decode('utf8').splitlines(), [record.decode('utf8') for record in raw.split(b'\n') if record != b''])
+        legacy = _legacy_journal_events(raw, self.canonical)
+        journal = self.Journal(self.workdir)
+        self.assertEqual(journal.path.read_bytes(), raw)
+        self.assertEqual([event['event_hash'] for event in journal.events],
+                         [event['event_hash'] for event in legacy])
+        self.assertEqual([event['payload'] for event in journal.events],
+                         [{'msg': 'plain-ascii'}, {'msg': 'second line'}])
+        for event in journal.events:
+            body = {k: v for k, v in event.items() if k != 'event_hash'}
+            self.assertEqual(self.canonical(body), _pre_fix_canonical(body))
+            self.assertEqual(event['event_hash'], hashlib.sha256(_pre_fix_canonical(body)).hexdigest())
+
+    def test_append_round_trip_preserves_canonical_archive_bytes(self):
+        journal = self.Journal(self.workdir)
+        first = journal.append('ascii', {'msg': 'plain'})
+        second = journal.append('unicode', {'msg': SEPARATORS})
+        raw = journal.path.read_bytes()
+        self.assertEqual(raw, self.canonical(first) + b'\n' + self.canonical(second) + b'\n')
+        self.assertTrue(raw.startswith(self.canonical(first) + b'\n'))
+        reloaded = self.Journal(self.workdir)
+        self.assertEqual(reloaded.path.read_bytes(), raw)
+        self.assertEqual([event['event_hash'] for event in reloaded.events],
+                         [first['event_hash'], second['event_hash']])
+        self.assertEqual(reloaded.events[1]['payload']['msg'], SEPARATORS)
+        for event in (first, second):
+            body = {k: v for k, v in event.items() if k != 'event_hash'}
+            self.assertEqual(self.canonical(body), _pre_fix_canonical(body))
+            self.assertEqual(event['event_hash'], hashlib.sha256(_pre_fix_canonical(body)).hexdigest())
+        with self.assertRaises(json.JSONDecodeError):
+            _legacy_journal_events(raw, self.canonical)
+
+    def test_torn_tail_guard_still_rejects_without_rewriting_bytes(self):
+        event = self._seal(1, self.ZERO, {'msg': 'kept'})
+        journal = self.Journal(self.workdir)
+        blob = self.canonical(event) + b'\n' + b'{"seq":2'
+        journal.path.write_bytes(blob)
+        with self.assertRaisesRegex(ValueError, 'incomplete journal tail'):
+            journal._load()
+        self.assertEqual(journal.events, [])
+        self.assertEqual(journal.path.read_bytes(), blob)
+        journal.path.write_bytes(b'\n')
+        with self.assertRaisesRegex(ValueError, 'empty journal line 1'):
+            journal._load()
+        self.assertEqual(journal.path.read_bytes(), b'\n')
+
+    def test_canonical_and_transport_serialization_stay_ensure_ascii_false(self):
+        source = inspect.getsource(self.canonical)
+        self.assertIn('ensure_ascii=False', source)
+        load_source = inspect.getsource(self.Journal._load)
+        self.assertNotIn(".decode('utf8').splitlines()", load_source)
+        self.assertIn("records=raw.split(b'\\n')", load_source)
+        self.assertEqual(self.engine_source.count('ensure_ascii=False'), 4)
+        self.assertNotIn(".decode('utf8').splitlines()", self.engine_source)
+        sample = {'note': SEPARATORS}
+        self.assertEqual(self.canonical(sample), _pre_fix_canonical(sample))
+
+    def test_proof_conductor_has_no_separate_splitlines_reader(self):
+        text = (self.root / 'proof_conductor.py').read_text(encoding='utf8')
+        self.assertNotIn('splitlines', text)
+        self.assertIn('self.journal = Journal(workdir)', text)
+        self.assertIn('self.journal._load()', text)
 
 
 if __name__ == '__main__':

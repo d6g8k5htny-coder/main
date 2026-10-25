@@ -121,8 +121,10 @@ def mermaid_source(snapshot, record_id):
 class Journal:
     """Fsync'd hash-chained events; explicit delivery IDs make retries idempotent.
 
-    A truncated or malformed journal fails closed. The service owns one runtime;
-    an OS lock serializes appends across local processes and threads.
+    A truncated or malformed journal fails closed. Each record is one
+    LF-terminated byte string: U+0085, U+2028 and U+2029 inside canonical JSON
+    stay in that record. The service owns one runtime; an OS lock serializes
+    appends across local processes and threads.
     """
     def __init__(self,workdir):
         self.workdir=Path(workdir)
@@ -160,7 +162,11 @@ class Journal:
         if not self.path.exists():self.events=[];return
         raw=self.path.read_bytes()
         if raw and not raw.endswith(b'\n'):raise ValueError('incomplete journal tail; preserve and repair explicitly before resuming')
-        for n,line in enumerate(raw.decode('utf8').splitlines(),1):
+        # LF bytes only. str.splitlines() also splits U+0085, U+2028 and U+2029.
+        records=raw.split(b'\n')
+        if records and records[-1]==b'':records.pop()
+        for n,record in enumerate(records,1):
+            line=record.decode('utf8')
             if not line.strip():raise ValueError('empty journal line '+str(n))
             event=json.loads(line)
             if not isinstance(event,dict) or not isinstance(event.get('payload'),dict) or not isinstance(event.get('type'),str):
