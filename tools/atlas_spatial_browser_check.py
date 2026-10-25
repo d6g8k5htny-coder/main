@@ -62,11 +62,13 @@ def main():
     # Real context loss must release the canvas and retain useful fallback.
     canvas.evaluate("e=>e.getContext('webgl2').getExtension('WEBGL_lose_context').loseContext()");expect(page.locator('#atlas-space-status')).to_contain_text('context lost');expect(page.locator('#atlas-stage')).to_be_visible();require(page.locator('#atlas-space-host canvas').count()==0,'Lost renderer retained');page.locator('#atlas-space-toggle').click();page.locator('#atlas-space-host').scroll_into_view_if_needed();expect(page.locator('#atlas-space-host')).to_have_attribute('data-ready','true');page.locator('#atlas-space-toggle').click();require(page.locator('#atlas-space-host canvas').count()==0,'View exit leaked canvas');row['context_loss']='PASS'
     require(not row['errors'],f"Page errors: {row['errors']}");row['passed']=True;context.close()
-   for kind in ['rapid-exit','exact-filters','drag-and-hidden','keyboard-selection','full-dataset-performance','mobile-default-list-entry']:
+   for kind in ['rapid-exit','exact-filters','drag-and-hidden','keyboard-selection','full-dataset-performance','mobile-default-list-entry','closed-coverage-count']:
     row={'case':kind};report['cases'].append(row);context=browser.new_context(viewport={'width':390 if kind=='mobile-default-list-entry' else 1200,'height':900},reduced_motion='reduce');page=context.new_page();page.set_default_timeout(15000)
     query='?atlas-view=graph&atlas-classification=OPEN_ACTIVE' if kind=='exact-filters' else '?atlas-view=graph'
     if kind=='mobile-default-list-entry':query=''
     page.goto(origin+query);page.wait_for_function("document.querySelector('#atlas-status').textContent.startsWith('Source snapshot')")
+    if kind=='closed-coverage-count':
+     expect(page.locator('#atlas-count')).to_be_hidden();expect(page.locator('#atlas-space-status')).to_contain_text('displayed');page.locator('#atlas-search').fill('lifetime');expect(page.locator('#atlas-space-status')).to_contain_text('6 displayed');ax=context.new_cdp_session(page);document=ax.send('DOM.getDocument');node=ax.send('DOM.querySelector',{'nodeId':document['root']['nodeId'],'selector':'#atlas-stage'});tree=ax.send('Accessibility.getPartialAXTree',{'nodeId':node['nodeId']});require(any('6 displayed' in n.get('description',{}).get('value','') for n in tree['nodes']),'Closed-coverage AX description missing count');row['passed']=True;context.close();continue
     if kind=='rapid-exit':
      page.route('**/atlas-spatial.mjs*',lambda route:(time.sleep(.3),route.continue_()))
      page.locator('#atlas-space-toggle').click();page.locator('#atlas-space-toggle').click();page.wait_for_timeout(500);require(page.locator('#atlas-space-host canvas').count()==0,'Stale async load resurrected renderer')
