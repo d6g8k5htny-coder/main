@@ -281,7 +281,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--browser", default=shutil.which("chromium") or shutil.which("google-chrome"))
-    parser.add_argument("--origin", help="Actual published /site/ origin; use its exact admitted payload")
+    parser.add_argument("--origin", help="Served /site/ origin; use its exact admitted payload")
     args = parser.parse_args()
     args.output.mkdir(parents=True, exist_ok=True)
     short_tmp = Path("/tmp/ulslc")
@@ -291,7 +291,9 @@ def main():
               "page_errors": [], "invocation": sys.argv,
               "scope": "Local Chromium DOM/state/focus and exact admitted source identities; engineering only. No source authentication, mathematical, spoken-AT, Safari or physical-device claim.",
               "actor": {"provider": "OpenAI", "family": "GPT-6", "role": "engineering test author", "organizational_independence_credit": 0, "scientific_effect": "NONE"},
-              "mode": "published origin" if args.origin else "local unchanged snapshot",
+              "mode": "served origin" if args.origin else "included local snapshot",
+              "checkout_identity_scope": "Local checkout only, including with --origin; checked_commit and source_sha256 do not identify served HTML or JavaScript.",
+              "served_code_identity": "Not acquired by this driver; bind served HTML and modules independently.",
               "chromium_sandbox": True,
               "source_sha256": {name: sha256((ROOT / "docs/site" / name).read_bytes()).hexdigest()
                                 for name in PRODUCT_FILES}}
