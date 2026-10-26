@@ -24,5 +24,27 @@
   "generated_metadata_sha256": "8a33e435685b3862f334006d6626bd05279664c25d88bed8b41f0493bc50b049",
   "registry_sha256": "5f822c4a2b512aa9293e2ebaee58abbf5f4caca4ad87362ef1e114b5d49ad817",
   "original_archives_and_payload_unchanged": true,
-  "scientific_effect": "NONE"
+  "scientific_effect": "NONE",
+  "navigation_followup": {
+    "original_native_run": 40334461953,
+    "original_native_job": 121612197360,
+    "original_native_head": "be15875536bc9724e86250d4bd5675dcd0c0d79e",
+    "native_python": "3.11.17",
+    "local_full_python312_before": {
+      "tests": 1427,
+      "failures": 2,
+      "skipped": 24
+    },
+    "root_cause": "Two historical byte-golden renderer tests used the new current-presentation default; historical output must explicitly request readable_status=False",
+    "repair": "Three renderer call arguments in two tests, preserving original hash fixtures and assertions; no production or policy change",
+    "after_exact_module_discovery": {
+      "python311_tests": 8,
+      "python311_seconds": 24.966,
+      "python312_tests": 8,
+      "python312_seconds": 18.82,
+      "failures": 0
+    },
+    "direct_qualified_module_probe_import_error": "Harness invocation only; full discovery adds tests directory, not a native failure",
+    "full_navigation_gate": "Fresh corrected-head hosted execution remains required"
+  }
 }
