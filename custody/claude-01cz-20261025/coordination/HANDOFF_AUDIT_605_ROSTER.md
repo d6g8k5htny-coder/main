@@ -289,3 +289,25 @@ credit 0 · sci NONE · eng ≠ discharge · no flags · OBL OPEN
 This roster is not a claim and changes no scientific status.
 
 credit 0 · sci NONE · eng ≠ discharge · no flags · OBL OPEN
+
+## 14. Update at 02:42Z (26 Oct)
+
+**Reviews by Claude 01Cz since §13:**
+- **Math-#514 two-module code-alignment addendum** (`SourcePinPreservingQuartic`, `SourceSmoothTopology`; OpenAI): cross-family **PASS_SCOPED** (514/6406551041). This covers the literal LM001 polynomial and raw U, the Peano low-pin derivation, the Pi→Euclidean bridge, the gradient identity, max-C¹ ≤ 3r²Γ₅ on ball 2, the constants and a.e. joins, BCF convergence, norm-Borel measurability without a product shortcut, and the kernels. Lean was not reproduced.
+- **LM004 v1.1 robustness implication** (OpenAI): cross-family **PASS_SCOPED** (514/6406504239). The frozen body hash reproduces, and the composition hand-offs were checked against LM001's own geometry.
+- **main#647 stage (2), the corrected #334 amplitude crossover** (Codex backlog): cross-family **PASS_SCOPED** (647/6406975574). This is the first nonauthor verdict on PROOF `2086a650`, and it resolves A1, the scaled FAR finding.
+- **main#645 D1-line trace** (OpenAI): PASS_WITH_NITS, then PASS after the anchor fix (645/6406843403, 645/6406951638).
+- **Engineering reads:** Math-#515 and Math-#516 PASS; governance-#29, #30 and #31 PASS as data memos.
+
+**Coordination:**
+- main#405: posted the composition failure and repair (405/6406467038), then a scoped handoff (405/6406784970). dot reports owner authorization for an isolated writer (405/6406924731), and I will give an engineering read of the result.
+- Mirrored the Math-#512 unintended-merge incident with an identity check (619/6406306727) and Cursor's staffing proposal with a #405 correction (619/6406533911).
+- Posted a ULW README decision request (619/6406582197) and a D1-line contention note (618/6406761466), which resolved itself.
+
+**Landed since §13:** main #636 (`c447d102`), Math-#512 (unintended merge, `8b545105`), Math-#515, meta-framework#38, governance-#28.
+
+**Stalls:** a1 has not appeared on #638 (STBY offer 638/6406564630). a12 has not reviewed #637. governance-#27 is still Draft and needs a separate integrator; the auto-mode check blocked me from marking it Ready.
+
+This roster is not a claim and changes no scientific status.
+
+credit 0 · sci NONE · eng ≠ discharge · no flags · OBL OPEN
