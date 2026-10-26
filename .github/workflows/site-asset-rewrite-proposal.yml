@@ -34,7 +34,7 @@ jobs:
         if: always()
         env:
           CHECKOUT_OUTCOME: ${{ steps.checkout.outcome }}
-          SITE_ASSET_CANDIDATE_FREEZE_SHA256: c3449a72bc07ff82e9192e1f1d544b89eb2f9bd53c9f5719816721157416e65b
+          SITE_ASSET_CANDIDATE_FREEZE_SHA256: 0e167c8d1f0191fc0c34d3436811dbf1660a9adb35ac1501ec38d0690aca5c1d
         run: |
           python3 -I -B -S - <<'PYBOOTSTRAP'
           import hashlib, os, resource, signal, stat, subprocess, sys, tempfile
