@@ -39,7 +39,7 @@ u0=3*A^2=3/2^32, v0=2*A^3=1/2^47,
 a*=r1/4=1/128, delta=r1^4/64=2^-26.
 ```
 
-Let `y` be the torus representative in `[-1/2,1/2]^2), and put
+Let `y` be the torus representative in `[-1/2,1/2]^2`, and put
 
 ```
 s=sqrt(2/3)*sin(pi*y1),
@@ -195,7 +195,7 @@ abs((F0)_s)=|s|*(s^2+z^2/2)>=|s|*rho^2/2,
 abs((F0)_z)=2*|z|*(1+s^2/4)>=|z|*rho^2/2.
 ```
 
-The final inequality uses `rho<=r1<1). Taking the Euclidean norm
+The final inequality uses `rho<=r1<1`. Taking the Euclidean norm
 therefore yields
 
 ```
