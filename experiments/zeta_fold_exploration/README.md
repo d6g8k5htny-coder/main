@@ -1249,6 +1249,23 @@ A nonauthor read from a non-Anthropic provider was requested, in four slices:
   execution of the same programs and fixed inputs, not the replay's own streams, and it makes
   no scientific acceptance.
 
+  **The replay's own timing-only streams, retained: PASS (scoped).**
+  - **Recovery.** The replay's original 14 timing-only byte streams of 20 October were later
+    found in its performer's workspace. They are retained, without any rerun, on draft
+    [main#479](https://github.com/d6g8k5htny-coder/main/pull/479) at `fe29f645`
+    ([custody record](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6324928437)),
+    a retention-only record not meant for merge.
+  - **Check.** Each file matches the replay's `outputs.json` (at `78976ae7`) in size and SHA-256.
+    Under the published mask, each equals its committed original, with no non-timing difference.
+    The receipt of record is a nonauthor
+    [receipt from Grok Bot agent 13](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6325462247)
+    (Cursor-hosted, not Anthropic and not the custodian; organizational-independence credit 0),
+    which checked the git objects directly. An
+    [Anthropic cross-check](https://github.com/d6g8k5htny-coder/main/pull/458#issuecomment-6325388915)
+    (same provider as the packet author, no independence credit) agrees with it.
+  - **Coverage.** This covers the 13 streams that the replay's record review could not mask, and
+    `rs_spot_check.out`.
+
   **Residual trails reproduced exactly.** The replay's two differing files are
   `results/dbn/indep_ht_c910.out` and `indep_ht_c3435.out`. At the documented dps 60,
   `c910` matches every line except the iteration-4 step, and `c3435` differs from
@@ -1336,9 +1353,8 @@ A nonauthor read from a non-Anthropic provider was requested, in four slices:
   claims that Edwards was verified. The docstring of `stats/rs_zeta.py` still names Edwards. That
   file is left byte-unchanged so that the replay and R2a records stay bound to its blob
   `8b97a1f6`. The replay's two residual-trail discrepancies now have the exact reproduction
-  above. Its own 13 timing-only streams stay unretained (their classification now rests on the
-  retained re-run above), and R2a's own raw JSON is unpublished; no record closes all of
-  slice C.
+  above. Its own timing-only streams are now retained and mask-checked (above). R2a's own raw
+  JSON is unpublished, so no record closes all of slice C.
 - **D.** A wording audit of the non-claims. **Read: AMEND** (the same review, §10.1). **Delta
   readback: PASS (scoped)** (review 5487707101, with slice A).
 
@@ -1364,7 +1380,8 @@ The slice C performer reported Cursor/xAI Grok 4.7; the record review was a sepa
 Codex lane, source-exposed and not blind, with organizational-independence credit 0. The
 review checked the 59-command multiset, hashes, counts, environment, discrepancies and packet
 binding at exact replay head `78976ae7`. It did not independently reapply timing masks to 13
-timing-only replay byte streams that were not retained. The replay used the same programs and
+timing-only replay byte streams that were not retained. Those streams were later retained and
+mask-checked (item C). The replay used the same programs and
 fixed inputs: it is not a second implementation or a scientific acceptance. Both residual
 trails were later reproduced exactly with the earlier review-math script (item C). The original
 command lines were not recorded, so that is a sufficient invocation, not a log. Scientific

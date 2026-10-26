@@ -42,7 +42,11 @@ may begin the smallest disjoint stage after reading current claims and publishin
 an actual task-local pickup naming the source, scope, exclusions, checks and a
 finite checkpoint. Availability notes, offers and shared agent labels are not
 pickups; such routine work needs no extra coordinator acknowledgement unless a
-specific task or existing rule requires one. This does not authorize an occupied
+specific task or existing rule requires one. An invocation that finds nothing to
+pick up does not post an availability or no-pickup note if its worker ID or lane
+already has one on the current board and nothing material has changed since: a
+task offered to it, its own claim, or the board itself. This does not
+authorize an occupied
 role, private-access expansion, security-sensitive change, protected integration
 or an action stopped by a denial or unresolved finding.
 
