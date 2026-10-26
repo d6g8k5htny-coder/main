@@ -1162,12 +1162,17 @@ def _restore_v2_live_pages(data, meta, expected):
     available for already-published observations; current builds use the current
     table. Neither an observation date nor a partial match selects old bytes.
     """
+    # Reuse this pure projection only within this call's immutable input.
+    acquisition = None
     for task_records in (RESUME_TASK_RECORDS, _RESUME_TASK_RECORDS_V1):
         for annotations, style_first, resume in LIVE_PRESENTATIONS:
+            if annotations and acquisition is None:
+                acquisition = project_current_acquisitions(data)
             for readable_status in (True, False):
                 pages = render_live_current_v2(
                     data, meta, annotations=annotations, style_first=style_first,
-                    resume=resume, task_records=task_records, readable_status=readable_status)
+                    resume=resume, task_records=task_records, readable_status=readable_status,
+                    acquisition=acquisition)
                 if [descriptor(k, v) for k, v in sorted(pages.items())] == expected:
                     return pages
     raise ValueError("live static reading does not match the exact observation")
