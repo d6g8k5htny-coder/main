@@ -729,3 +729,45 @@ The session's drafts of those posts are not copied here, because the posted vers
   - The ACK lapses at 21:00Z if no activation or HOLD has arrived.
   - **Exclusions preserved:** no execution. In particular, nothing that substitutes for the denied execution-support pickup on preview `0dadb198`. No ref or state change, and no integration.
 - **C8 holds** no claim. The ACK is not a pickup.
+
+## Update at 17:10Z on 26 October: back after five days, the E3 repair delivered late, three owner decisions, and the catch-up crawl
+
+- **The gap.** This session was inactive from about 21:15Z on 21 October until about 16:00Z on 26 October.
+  - It missed the E3 stage's 22:15Z checkpoint and 23:30Z terminal on 21 October. Nobody else took the stage; C8 checked #322, #539 and #619.
+  - The Math-#492 ACK lapsed at 21:00Z on 21 October with no activation. C8 holds nothing there.
+- **Boards.** #475 closed at 1,599 comments. #539 followed and is at 2,366 of GitHub's 2,500. The current board is main#619, opened by the Chief of Staff at 22:32Z on 25 October.
+- **Owner decisions made while C8 was away**, read on `main`:
+  - [Rules loosening](https://github.com/d6g8k5htny-coder/main/blob/main/governance/OWNER_DECISION_20261025_RULES_LOOSENING.md), approved about 17:32Z on 25 October. Under LOOSEN C, a nonauthor review is no longer a precondition for landing, a lapsed claim reopens after its stated lease, and a workflow-file change needs only a nonauthor review at the exact head. LOOSEN D allows parallel merges of path-disjoint PRs with SHA guards. KEEP stays in force.
+  - [Review families](https://github.com/d6g8k5htny-coder/main/blob/main/governance/OWNER_DECISION_20261025_REVIEW_FAMILIES.md), about 20:13Z on 25 October. An engineering reviewer may share the author's family; a scientific reviewer must not.
+  - The 25 October directive that all mathematical work be accounted for retroactively (the RETRO-* stages).
+- **`E3-WRAPPER-REPAIR-C8-20261021` delivered:** draft Math-#518 at `31c43861` on Math- `main` `180d6406`. DELIVERED + RELEASE is 322/6421147380 and the board pointer is 619/6421158233, both MATCH.
+  - **Local:** the real checker gave 20/20; this family's tests gave 15/15 in both modes; the RED control gave 72 false acceptances on unchanged `main`; the references were identical across two runs.
+  - **Hosted elder third-order job** (run 40357960786, CPython 3.11.16): every step passed and `replay()` gave 20/20 `protocol_ok`. Every stdout and stderr hash equals the local reference.
+  - **Hosted full suite** (run 40357960816): **cancelled at its 30-minute job budget**, still inside the optimized pass.
+    - This PR caused it. The suite runs every family in `tests/test_legacy_json_workflows.py`, so it now also runs the elder third-order contract, about 1 min 51 s across both modes. Successful runs on 24 and 25 October took 17.5 to 27.7 minutes.
+    - Fix `b0dd89f` (pushed, remote verified): the budget becomes 45 minutes, as `e01e346` raised it from 20 to 30, and `tests/test_full_suite_routing.py` moves its exact pins with it. The routing contract passes in both modes, and each mismatched pairing fails 7 tests. Root cause and fix are posted at 518/6422171229.
+  - **Local full-suite control:** 1026 tests. The same 170 results fail on the branch and on unchanged `main` (167 failures and 3 errors, in 37 tests). All of them fail at git's `--no-lazy-fetch` capability check, because local git is 2.43.0. None is in the legacy-JSON or trigger tests. Logs: `e3char/full_suite_normal.log` and `e3char/full_suite_pristine.log` in the scratchpad.
+  - **Review:** OpenAI/Codex Architecture Task Watch gave PASS_SCOPED_ENGINEERING at `31c43861`, with no findings (review 5655592944, pickup 518/6421392174, released). The delta `31c43861..b0dd89f` still needs a nonauthor readback.
+  - **Merge route:** C8's delivery posts said a merge needs Dylan's decision because #518 changes a workflow. Dylan has since answered that LOOSEN C applies, so an integrator may merge without asking him again. Recorded verbatim at 518/6422171229.
+- **Catch-up crawl** at 16:14Z: 79 PRs and 24 issues in 7 repositories. C8 found nothing that was both unowned and C8-eligible except the items below.
+  - **main#480:** integrated by 01SHCrxv; Claude017 confirmed the composition twice. Nothing for C8.
+  - **Math-#380:** no seat holder, but dot's 12 October pause (380/6134500439) still stands.
+    - A second unrecorded base-only carry, `30ac78b4`, landed at 18:00:49Z on 24 October. It was one of a sweep of base-only merges onto `010b27d7`: #316's branch at 17:56:16Z (`7f496ce0`), #353's at 17:56:45Z (`f14fc4ed`) and #366's at 17:57:04Z (`03fbe252`).
+    - C8 verified the bytes. The tree `b620720b` equals `git merge-tree f256bb91 010b27d7`, and the six blobs equal the reviewed inventory.
+    - Claude01N posted the same facts and a proposal to close the performer out as UNKNOWN at 16:36:22Z (380/6421516638). C8's prepared note was therefore not posted; the gate stopped it first.
+  - **governance-#34:** already reviewed (5655453326) and being integrated by 01DKKe. Not needed.
+  - **Math-#379** is the third-order-rate workflow, not elder-third-order. It does not overlap #518.
+  - **Math-#500** (23 October): an OpenAI lane expanded a prefix-only historical blob in C8's d6 `SOURCE_FILES.json`. Agent 3 merged it as `c99ad22f`. Nothing is owed by C8.
+  - **Legacy-wrapper backlog** (01Cz's ledger, 322/6388271177): 60 `status_only` wrappers. Thirteen are `c8-*` wrappers around C8's own October packets, and none has a claim.
+  - **Math-#335**, the C2 torus omission controls: 01Cz characterized them (335/6328636311). The repair stage is open; the xAI claim of 6 October passed its checkpoint and its release is UNKNOWN.
+- **Owner decisions, about 16:45Z, in this session** (one batched question; mirror 619/6422221480):
+  1. **#518:** "Yes, LOOSEN C applies (Recommended)". Recorded at 518/6422171229.
+  2. **Math-#380:** "Lift it, record UNKNOWN (Recommended)". dot's pause is lifted, and the performer of both branch updates is UNKNOWN. Recorded at 380/6421769255 (MATCH). Claude01N offered the integration on that lift.
+  3. **Wrapper repairs:** "My 7 c8-* wrappers (Recommended)". C8 may open draft PRs, in batches, lightest first.
+- **New pickup `C8-WRAPPERS-REPAIR-C8-20261026`** (322/6422210000, MATCH). It covers the seven `status_only` wrappers around packets this session added on 30 September and 1 October:
+  - the seven: `c8-cap-failure-coefficient-dims`, `-planar`, `c8-lifetime-difference-constant`, `c8-normalizer-floor-planar`, `c8-theorem-a-constants-d3`, `-planar` and `c8-torus-vanishing-remainder`;
+  - batch 1 is `cap-failure-dims` and `normalizer-floor-planar`, on branch `claude/determined-bardeen-mrqy4y-c8-wrappers` from `main` `f0f90857`;
+  - checkpoint 19:00Z, terminal 23:00Z;
+  - all seven checkers share one verdict convention: `--check` prints `{"check": "ok", …}` and exits 0, and a mutant prints `{"check": "FAIL", "reason": …, "mutant": …}` and exits 1;
+  - the six `c8-window-coefficient-*` wrappers are Claude017's packets and are out of scope.
+- **C8 holds:** author duties on Math-#518, and the batch-1 author stage of `C8-WRAPPERS-REPAIR-C8-20261026`.
