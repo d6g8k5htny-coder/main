@@ -1,6 +1,6 @@
 # Persistent Status Implementation Plan
 
-> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
+> **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [x]`) syntax for tracking.
 
 **Goal:** Let readers hear persistent source status without losing source or historical identities.
 
@@ -27,22 +27,22 @@
 
 ### Task 1: Preservation and reproduction
 
-- [ ] Verify original site/generator/test/publication archives privately with audience preflight/readback.
-- [ ] Run current site/build/history baseline checks; reproduce actual persistent status speech with source-matched HTML/payload/meta.
-- [ ] Add focused generation/restore/admission and browser assertions; retain their intended baseline failures.
+- [x] Verify original site/generator/test/publication archives privately with audience preflight/readback.
+- [x] Run current site/build/history baseline checks; reproduce actual persistent status speech with source-matched HTML/payload/meta.
+- [x] Add focused generation/restore/admission and browser assertions; retain their intended baseline failures.
 
 ### Task 2: Bounded presentation repair
 
 **Files:** `tools/current_site_build.py`, repository-owned live helpers/restore selection only in `tools/current_site_history.py`, `docs/site/brand.css`, `docs/site/dependencies.html`, `docs/site/atlas-layout.css`, current build/history tests, focused browser driver and required generated current/release-key outputs.
 
-- [ ] Add wrapper and explicit `readable_status=True/False` live rendering, preserving frozen functions.
-- [ ] Test both representations by full descriptors, exact legacy bytes, altered pins/text/digest rejection and frozen archive hashes.
-- [ ] Run matched actual speech, focused browser geometry/source checks and relevant existing controls/3D/refusal/formal checks.
-- [ ] Run standalone generation, asset release/check and all current prescribed local verification groups; commit exact implementation.
+- [x] Add wrapper and explicit `readable_status=True/False` live rendering, preserving frozen functions.
+- [x] Test both representations by full descriptors, exact legacy bytes, altered pins/text/digest rejection and frozen archive hashes.
+- [x] Run matched actual speech, focused browser geometry/source checks and relevant existing controls/3D/refusal/formal checks.
+- [x] Run standalone generation, asset release/check and all current prescribed local verification groups; commit exact implementation.
 
 ### Task 3: Review and delivery
 
-- [ ] Record source-qualified before/after screenshots, speech, performance and limitations with no private locators.
+- [x] Record source-qualified before/after screenshots, speech, performance and limitations with no private locators.
 - [ ] Obtain a separate actual whole-branch engineering review; fix material findings with reproductions.
-- [ ] Create Draft PR, preserve exact head, hand off to a separate actual integrator for current protected process.
+- [x] Create Draft PR, preserve exact head, hand off to a separate actual integrator for current protected process.
 - [ ] Verify actual deployed bytes and reader journeys; preserve final evidence and release only own claim.
