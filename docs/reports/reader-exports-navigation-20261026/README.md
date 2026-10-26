@@ -66,3 +66,9 @@ exact-element resolution was added for shared, section and source targets. Seven
 Research browser groups and77source guards pass after the fix. PNG/citation and
 other previously tested bytes are identical; their original scoped reports stay
 bound to those bytes. Current hosted review/checks are still separate gates.
+
+Engineering review: original[9e08 review](engineering-review.md), then
+[6c073 targeted correction review](engineering-review-fixes.md)PASS with no new
+findings. Actual nonauthor reviewer is OpenAI/Codex GPT-6 family; engineering
+only, organizational-independence credit0. Subsequent report/checklist additions
+do not change the reviewed product, test or workflow bytes.

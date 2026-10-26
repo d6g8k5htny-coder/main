@@ -12,7 +12,7 @@ actual exact-source receipts; local implementation alone cannot complete them.
 - [x] Carry saved exact identities into the existing citation authority; preserve refusals and optional real file SHA-256.
 - [x] Complete PNG normal, stale, failure, tamper, cleanup and retry checks.
 - [x] Final composed release keys and prescribed site checks.
-- [ ] Separate nonauthor engineering review and correction of actual findings.
+- [x] Separate nonauthor engineering review and correction of actual findings.
 - [ ] Current hosted review/checks, protected nonauthor integration.
 - [ ] Actual deployed-source readback and reader journeys.
 - [ ] New additive Drive package, independent download/manifest/CRC verification.
