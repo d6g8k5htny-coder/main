@@ -1,0 +1,1778 @@
+{
+ "schema": "retro-source-cell-recheck-reviewed/v1",
+ "method": "Model-assisted content reading (Anthropic Claude subagents of session_01S16677s1SGeAJmN3QMz4ip): five readers covered every statement document of the 129 rows, one verified the carriers, one reconciled; Claude S spot-checked rows 27, 148, 223, 263, 283. These classes are a reader judgment, not reproducible by the script, and make no correctness claim.",
+ "row_rule": "A row is SOURCE_DOCUMENT_PRESENT when at least one document is MATH_STATEMENT or MATH_REVIEW, or FORMAL_SOURCE with theorem/lemma declarations. Formal statement maps without in-file proofs are classed OTHER and do not count.",
+ "documents": [
+  {
+   "row": 1,
+   "path": "frontiers/README.md",
+   "content_class": "INDEX_ONLY",
+   "content_detail": "",
+   "verdict": "TOO_HIGH",
+   "evidence": "Package table 'Package | Start here | What is supplied'; 'These directories are source snapshots'. All 10 hits are 'Proof'/'PROOF.md'/'proof' link labels (the regex ignores case)"
+  },
+  {
+   "row": 4,
+   "path": "frontiers/c2_exact_20261001/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'**Theorem (closed forms).** For the Gaussian kernel'. Exact rational derivation plus certified interval enclosures"
+  },
+  {
+   "row": 4,
+   "path": "frontiers/c2_exact_20261001/README.md",
+   "content_class": "INDEX_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'Author-side exact closed forms with certified enclosures; ... See `NOTE.md`'. Restates the value table and gives replay commands"
+  },
+  {
+   "row": 6,
+   "path": "frontiers/c2_torus_transfer_20261001/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'**Theorem C2T.** ... |c2[K_L, u] - c2[phi]| <= eps_d(L0)'. Includes Lemma E and Lemma F with '*Proof.*'"
+  },
+  {
+   "row": 6,
+   "path": "frontiers/c2_torus_transfer_20261001/README.md",
+   "content_class": "INDEX_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'Author-side; scientific effect NONE. See `NOTE.md`'. Summary table and replay line only"
+  },
+  {
+   "row": 7,
+   "path": "frontiers/c6_cluster_coefficients_numerics_20260930/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Exact regression structure ('A ~ N(-b, 2)', 'N(0, diag(2,2,6))') plus floating values. It says 'Not a proof, not a certified enclosure' and 'no new mathematics is claimed here beyond the exact regression identities of §2'"
+  },
+  {
+   "row": 7,
+   "path": "frontiers/c6_cluster_coefficients_numerics_20260930/README.md",
+   "content_class": "INDEX_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "File listing: '`NOTE.md`: what is evaluated ... `coefficients.py`: standard library only'"
+  },
+  {
+   "row": 14,
+   "path": "frontiers/c6_microscopic_tail_numerics_20260930/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Exact rational shape integrals 'I = 246528/35, U_2 = ... 240192/35' plus Gauss-quadrature constants. Labelled 'Kind: numerical note' (not certified)"
+  },
+  {
+   "row": 14,
+   "path": "frontiers/c6_microscopic_tail_numerics_20260930/README.md",
+   "content_class": "INDEX_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'- `NOTE.md` — what is evaluated, exact structure, values, precision, non-claims'"
+  },
+  {
+   "row": 17,
+   "path": "frontiers/c6_remote_coefficient_d3_numerics_20260930/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Exact contact law and 'm_(3,0) = (7 - 4 sqrt2)/2', BBKS closed-form controls, Monte Carlo hole. Labelled 'Numerical evaluation only'"
+  },
+  {
+   "row": 17,
+   "path": "frontiers/c6_remote_coefficient_d3_numerics_20260930/README.md",
+   "content_class": "INDEX_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'`NOTE.md` evaluates the contact kernel ...' followed by replay commands"
+  },
+  {
+   "row": 18,
+   "path": "frontiers/c6_remote_coefficient_numerics_20260930/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "TOO_LOW",
+   "evidence": "Derives closed-form identities, e.g. \"Lambda_inf(0) = (2 sqrt2 - 1)/(2 pi)^(3/2) = 0.1160934862...\" and \"E|det H| = ... = 4/sqrt3\", and tabulates coefficient values for nu(1). The numerics are self-declared \"Certified: no\", but the exact far-field and control identities are derived in the note."
+  },
+  {
+   "row": 18,
+   "path": "frontiers/c6_remote_coefficient_numerics_20260930/README.md",
+   "content_class": "INDEX_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Packet navigation: \"NOTE.md — statement of what is evaluated, exact structure, method, values...\". It makes no claims of its own."
+  },
+  {
+   "row": 23,
+   "path": "frontiers/c8_cap_failure_coefficient_dims_20261001/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'**Theorem G_d.** Fix `d >= 3`' with '## 3. Proof of Theorem G_d'. Lemma 1 proved; certified d=3 enclosures"
+  },
+  {
+   "row": 23,
+   "path": "frontiers/c8_cap_failure_coefficient_dims_20261001/README.md",
+   "content_class": "INDEX_ONLY",
+   "content_detail": "",
+   "verdict": "TOO_HIGH",
+   "evidence": "Restates NOTE's statement, then '**Files.** - `NOTE.md`: statement, Lemma 1 ..., the proof of Theorem G_d'. No proof of its own; the 7 hits are theorem/lemma names"
+  },
+  {
+   "row": 24,
+   "path": "frontiers/c8_cap_failure_coefficient_planar_20260930/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'**Theorem G.** Fix `b in R`, `k > 0`' with '## 2. Proof of Theorem G' (coupling, domination)"
+  },
+  {
+   "row": 24,
+   "path": "frontiers/c8_cap_failure_coefficient_planar_20260930/README.md",
+   "content_class": "INDEX_ONLY",
+   "content_detail": "",
+   "verdict": "TOO_HIGH",
+   "evidence": "'Theorem G (`NOTE.md`) gives the exact leading behaviour'; '`NOTE.md` — statement, proof of Theorem G'. A summary of NOTE.md"
+  },
+  {
+   "row": 25,
+   "path": "frontiers/c8_elder_failure_coefficient_20261001/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'**Theorem (certified enclosures).** The following intervals contain the exact values'. Lemmas 1–3 and Lemma T"
+  },
+  {
+   "row": 25,
+   "path": "frontiers/c8_elder_failure_coefficient_20261001/README.md",
+   "content_class": "INDEX_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'Details and the method are in [NOTE.md](NOTE.md)'. Restated enclosures and replay"
+  },
+  {
+   "row": 26,
+   "path": "frontiers/c8_lifetime_difference_constant_20261001/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'**Theorem L (the radial ledger to second order).**', Corollaries L1 and L2, Lemmas 1–4, certified constants"
+  },
+  {
+   "row": 26,
+   "path": "frontiers/c8_lifetime_difference_constant_20261001/README.md",
+   "content_class": "INDEX_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'**Results** (`NOTE.md` Theorem L and Corollaries L1, L2)' and a file list"
+  },
+  {
+   "row": 27,
+   "path": "frontiers/c8_normalizer_floor_planar_20260930/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "TOO_LOW",
+   "evidence": "\"Certified inequality. ... Z_r / r^2 >= z_* = 3.5044\", proved by exact rational interval arithmetic, with \"Lemma (endpoint minimum)\" stated and proved. It had only 4 marker hits because ASCII \">=\" is not a marker, and the threshold is 6."
+  },
+  {
+   "row": 27,
+   "path": "frontiers/c8_normalizer_floor_planar_20260930/README.md",
+   "content_class": "INDEX_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Repeats NOTE.md's main result (\"Proves ... the explicit floor Z_r / r^2 >= z_* = 3.5044\") and gives no proof (\"NOTE.md states the method\"). It is an index; the math is carried by NOTE.md."
+  },
+  {
+   "row": 28,
+   "path": "frontiers/c8_theorem_a_constants_d3_20261001/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'**Theorem E3.** Let `d = 3`, `B = [0, 1]`'. Lemmas 1–5' with explicit certified constants"
+  },
+  {
+   "row": 28,
+   "path": "frontiers/c8_theorem_a_constants_d3_20261001/README.md",
+   "content_class": "INDEX_ONLY",
+   "content_detail": "",
+   "verdict": "TOO_HIGH",
+   "evidence": "'Theorem E3 (`NOTE.md`) holds on the band', restated table and '**Files.**'. No derivation"
+  },
+  {
+   "row": 29,
+   "path": "frontiers/c8_theorem_a_constants_planar_20260930/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'**Theorem E.** Let `B = [0, 1]` and `K = [1/2, 2]`', Theorem E' and Lemmas 1–5"
+  },
+  {
+   "row": 29,
+   "path": "frontiers/c8_theorem_a_constants_planar_20260930/README.md",
+   "content_class": "INDEX_ONLY",
+   "content_detail": "",
+   "verdict": "TOO_HIGH",
+   "evidence": "'Theorem E (`NOTE.md`) holds on the band'. Restated C(r_*) tables and file list"
+  },
+  {
+   "row": 30,
+   "path": "frontiers/c8_torus_vanishing_remainder_20261001/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'**Theorem L′.** For `d = 2, 3`, every torus side `L >= 10`'. Lemmas V1–V6"
+  },
+  {
+   "row": 30,
+   "path": "frontiers/c8_torus_vanishing_remainder_20261001/README.md",
+   "content_class": "INDEX_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'Theorem L′ (`NOTE.md`): ...' summary followed by 'Replay (standard library, about 3.5 minutes)'"
+  },
+  {
+   "row": 31,
+   "path": "frontiers/c8_window_coefficient_d3_torus_20260930/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'**Lemma S.** ... *Proof.* `det C' ≥ (1 − ε)⁴ det C` ... ∎' and a d=3 Proposition with certified interval"
+  },
+  {
+   "row": 32,
+   "path": "frontiers/c8_window_coefficient_d4_20261001/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'**Proposition (d = 4 window coefficient).**'. Total-trace reduction 'I^ref_B = (1/(96π)) ∫_{T>s>q>0} ...' and certified quadrature"
+  },
+  {
+   "row": 33,
+   "path": "frontiers/c8_window_coefficient_d5_20261001/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'**Proposition (d = 5 window coefficient).**'; '**Both Owen-type terms cancel identically.**' with closed form F_4(T)"
+  },
+  {
+   "row": 34,
+   "path": "frontiers/c8_window_coefficient_d6_20261001/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'**Proposition (d = 6 window coefficient).**' with torus interval '(relative half-width 1.36e-5)'"
+  },
+  {
+   "row": 35,
+   "path": "frontiers/c8_window_coefficient_d7_20261001/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'**Proposition (d = 7).** ... `D_6 = 155.8639107879976...` (width `7.9·10⁻⁵⁴`)'"
+  },
+  {
+   "row": 36,
+   "path": "frontiers/c8_window_coefficient_planar_20260930/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'**Theorem W (exact factorization, reference kernel).** ... c_{B,K} = c_{2,ref} F_B G_K' with derivation and certified values"
+  },
+  {
+   "row": 43,
+   "path": "frontiers/contact_kernel_tail_20260925/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'0<=Lambda_1(u,v)<=C_* |v|^-13 exp(-c_*/v^2). (K10)' and the tail formula (K12)–(K13). Borderline: exactly 6 hits, all from prose words (theorem x3, claim x2, proof); the ASCII math is not matched"
+  },
+  {
+   "row": 43,
+   "path": "frontiers/contact_kernel_tail_20260925/RECONNAISSANCE.md",
+   "content_class": "OTHER",
+   "content_detail": "literature/source reconnaissance memo; no statements of its own",
+   "verdict": "CORRECT",
+   "evidence": "Source and literature reconnaissance: 'Read the exact PR25 Sections B–C formulas ... Opened NIST DLMF section8.4'. No statements of its own [reconcile: reader class PROTOCOL_ONLY harmonized to OTHER with the other four reconnaissance memos; still non-math]"
+  },
+  {
+   "row": 51,
+   "path": "frontiers/downstream_gate_20260925/D0_CI_UNBLOCK.md",
+   "content_class": "PROTOCOL_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "A CI allowlist fix: \"PROBLEM packet: unexpected files ...\". \"Does not flip any scientific Boolean.\""
+  },
+  {
+   "row": 51,
+   "path": "frontiers/downstream_gate_20260925/README.md",
+   "content_class": "PROTOCOL_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Describes the semantics of a software graph gate: \"Tests establish software behavior, not proof or independent review.\" It has no mathematical statements."
+  },
+  {
+   "row": 51,
+   "path": "frontiers/downstream_gate_20260925/SCOPE.md",
+   "content_class": "PROTOCOL_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Scope and coordination for the fail-closed promotion rules: \"Fail-closed promotion and reverse-impact rules matching the owner's #90 directive.\" \"neither promotes mathematics\"."
+  },
+  {
+   "row": 59,
+   "path": "frontiers/equal_height_mass_value_20261001/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'**Proposition V (volume law).**' with '## 1. Proof of Proposition V' (Steps 1–5)"
+  },
+  {
+   "row": 59,
+   "path": "frontiers/equal_height_mass_value_20261001/README.md",
+   "content_class": "INDEX_ONLY",
+   "content_detail": "",
+   "verdict": "TOO_HIGH",
+   "evidence": "Restates Proposition V and values, then '`NOTE.md` — the proposition, its proof and the numbers'. A summary with no proof"
+  },
+  {
+   "row": 78,
+   "path": "frontiers/local_pairing_20260930/LOCAL_PAIRING.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'**Lemma P.** Let `θ = (s, a, β, c)` be typed ...', Lemma P′, Proposition 3.3, '**Theorem LP.**'"
+  },
+  {
+   "row": 78,
+   "path": "frontiers/local_pairing_20260930/README.md",
+   "content_class": "INDEX_ONLY",
+   "content_detail": "",
+   "verdict": "TOO_HIGH",
+   "evidence": "Summary bullets ('**Theorem LP** (conditional on [SC] and [P]...)') and 'Files: `LOCAL_PAIRING.md` (the note), `pairing_check.py`'. No proofs"
+  },
+  {
+   "row": 82,
+   "path": "frontiers/ordinary_short_bar_occurrence_all_d_20261001/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'**Theorem O_d (conditional on these interfaces).**' and '**Lemma F_d.**' with §2 proof"
+  },
+  {
+   "row": 82,
+   "path": "frontiers/ordinary_short_bar_occurrence_all_d_20261001/README.md",
+   "content_class": "INDEX_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'[Theorem and proof](NOTE.md) · [Exact sources](SOURCES.json)' and run commands"
+  },
+  {
+   "row": 122,
+   "path": "frontiers/third_order_coefficient_20261001/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'**Claim (formal in `d ≥ 2`).** ν_eld(ℓ) = c ℓ^{−1/3} + c₁ ℓ^{1/4} + c₂ ℓ^{1/3} + ...' with '## 1. Why the finite part (formal derivation)' and a computation. Not a proof for d ≥ 2"
+  },
+  {
+   "row": 122,
+   "path": "frontiers/third_order_coefficient_20261001/README.md",
+   "content_class": "INDEX_ONLY",
+   "content_detail": "",
+   "verdict": "TOO_HIGH",
+   "evidence": "Long summary and revision log of NOTE.md ('**Files.** - `NOTE.md`: the definition and its formal derivation (§1)'). No derivation of its own"
+  },
+  {
+   "row": 124,
+   "path": "frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'**Theorem R (candidate).**' and '**Lemma R3.1.**' with proofs (R1)–(R6)"
+  },
+  {
+   "row": 124,
+   "path": "frontiers/three_fronts_20260924/P15_PRICE_BOUNDARY.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Exact counterexample: 'the EXACT optimal cover price is covercost_c(O_1(D))=4/9 > 1/3 > log(4/3)'. Borderline: the 6 hits are only the words 'theorem' x5 and 'proof'"
+  },
+  {
+   "row": 124,
+   "path": "frontiers/three_fronts_20260924/P15_REALIZED_COVERS.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'**Proposition P1.** The inclusion-minimal forbidden ORIGINAL sets are exactly' and '**Theorem P2.**' with proofs"
+  },
+  {
+   "row": 124,
+   "path": "frontiers/three_fronts_20260924/README.md",
+   "content_class": "INDEX_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Navigation table '| Proof | New result | Boundary |' and test/run commands"
+  },
+  {
+   "row": 124,
+   "path": "frontiers/three_fronts_20260924/RECONNAISSANCE.md",
+   "content_class": "OTHER",
+   "content_detail": "literature/source reconnaissance memo; no statements of its own",
+   "verdict": "CORRECT",
+   "evidence": "Literature and source reconnaissance: 'Primary external source actually inspected: Armentano, Azais and Leon'. No statements of its own [reconcile: reader class PROTOCOL_ONLY harmonized to OTHER with the other four reconnaissance memos; still non-math]"
+  },
+  {
+   "row": 124,
+   "path": "frontiers/three_fronts_20260924/RN_COUNT_INTERFACE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "TOO_LOW",
+   "evidence": "'E[N_r 1_Er] <= (E N_r^p)^(1/p) P(E_r)^(1-1/p). (N1)'; 'This note proves the exact implication', with derived counterexamples (N4)–(N5). The math is written in ASCII, which the regex does not match (5 hits). The row class is unaffected"
+  },
+  {
+   "row": 131,
+   "path": "frontiers/window_multiplicity_laws_20260928/ELDER_LOWER_AND_DENSITY_GAP.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "States and proves 'Theorem E1 (direct lower bound)' 1-p_r >= c r^3 via an explicit polygonal path, plus Corollary E2 and the (E11) density-gap bounds."
+  },
+  {
+   "row": 131,
+   "path": "frontiers/window_multiplicity_laws_20260928/HEIGHT_MARKS.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'Theorem H1 (single-point joint height law)', a TV bound <= C r with a mixture-identity proof."
+  },
+  {
+   "row": 131,
+   "path": "frontiers/window_multiplicity_laws_20260928/LOCAL_MULTIPLICITY.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'Theorem L' c r^3 <= Q_r^W(A_r) <= C r^3, with the exact cubic, jet-box and tilt proof in sections 2-6."
+  },
+  {
+   "row": 131,
+   "path": "frontiers/window_multiplicity_laws_20260928/README.md",
+   "content_class": "INDEX_ONLY",
+   "content_detail": "",
+   "verdict": "TOO_HIGH",
+   "evidence": "A packet index ('| Read | Proposed result | Scope boundary |') that restates module results (e.g. (3/10)k^(5/3)|t|^(-2/3)) with no proof; 'Each manuscript records its own dependencies'."
+  },
+  {
+   "row": 131,
+   "path": "frontiers/window_multiplicity_laws_20260928/RECONNAISSANCE.md",
+   "content_class": "OTHER",
+   "content_detail": "literature/source reconnaissance memo; no statements of its own",
+   "verdict": "TOO_HIGH",
+   "evidence": "Literature-search memo ('Discovery metadata is not an imported theorem'). Its hits are citations such as 'Theorem 7.1'."
+  },
+  {
+   "row": 131,
+   "path": "frontiers/window_multiplicity_laws_20260928/REMOTE_DISTANCE_MOMENTS.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'Theorem D (distance moments)', the M_p(r) asymptotics with the p=1 transition and determinant estimate (D6)."
+  },
+  {
+   "row": 131,
+   "path": "frontiers/window_multiplicity_laws_20260928/REMOTE_PAIR_LAW.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'Theorem R' leading r^5 factorial-pair coefficient K_ij, plus Theorem H2 (Beta(2/3,2) gap law), with proofs."
+  },
+  {
+   "row": 133,
+   "path": "reviews/c6_fourier_completion_20260929/READING_NOTE.md",
+   "content_class": "MATH_REVIEW",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Editorial reading note: a Fulton refined-Bezout citation plus a local-multiplicity argument ('leaves their local ideal unchanged'). Self-described as 'not a new theorem'."
+  },
+  {
+   "row": 134,
+   "path": "reviews/c6_numerics_protocol_20261006/SCOPE.md",
+   "content_class": "PROTOCOL_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "\"This is an engineering repair, not a new mathematical or numerical acceptance.\" The \"48 k^5\" text is a quoted mutant diagnostic, not a claim."
+  },
+  {
+   "row": 136,
+   "path": "reviews/c6_tail_constant_certified_20260930/README.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "The primary record despite the README name: rigorous interval enclosures, plus proved identities 'T_b(k)=(12k^2+1)/(36k^3)' and 'Therefore T_2 = -T_1/12'."
+  },
+  {
+   "row": 137,
+   "path": "reviews/c6_witness_collision_reconciliation_20260929/RECONCILIATION.md",
+   "content_class": "MATH_REVIEW",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Register reconciliation ('introduces no new mathematical claim'). Its §4 checks the discharge by [PALM] Theorem Q with a monotonicity argument ('N_A ≤ N pathwise') and defines the residual."
+  },
+  {
+   "row": 139,
+   "path": "reviews/c7_total_k_scaling_recon_20260929/RETRACTION.md",
+   "content_class": "MATH_REVIEW",
+   "content_detail": "",
+   "verdict": "TOO_LOW",
+   "evidence": "Retracts a mathematical conjecture and gives the correction: \"That conjecture was wrong ... the near rejected density is O(ℓ^{1/4}) + O(1), and the unrestricted difference is O(1)\". The corrected proof lives in frontiers/c7_total_bounded_20260929/PROOF.md (Theorem K). [reconcile: counts as MATH_REVIEW; weak, proof is outside the unit]"
+  },
+  {
+   "row": 140,
+   "path": "reviews/c7_total_protocol_20261006/SCOPE.md",
+   "content_class": "PROTOCOL_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "\"This changes only the existing C7 workflow ... The mathematical packet, its checker, proof ... remain unchanged.\" The math-sounding text is mutant labels only."
+  },
+  {
+   "row": 141,
+   "path": "reviews/candidates_pending_20260928/CANDIDATES.md",
+   "content_class": "MATH_REVIEW",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'Historical theorem-candidate intake with current review crosswalk': restated candidate statements C1-C8 with dispositions. It is a catalog with no proofs of its own."
+  },
+  {
+   "row": 141,
+   "path": "reviews/candidates_pending_20260928/CORRECTIONS.md",
+   "content_class": "PROTOCOL_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Custody record of a catalog edit: 'This corrects navigation/notation in a candidate catalog', with blob/SHA lists."
+  },
+  {
+   "row": 141,
+   "path": "reviews/candidates_pending_20260928/README.md",
+   "content_class": "INDEX_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Three-line pointer: 'Read CANDIDATES.md.'"
+  },
+  {
+   "row": 141,
+   "path": "reviews/candidates_pending_20260928/SCOPE_ADDENDUM.md",
+   "content_class": "PROTOCOL_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Catalog scope repair: 'only its catalog summary is corrected'."
+  },
+  {
+   "row": 143,
+   "path": "reviews/collision_mechanism_20260925/CUMULATIVE_TRANSFER_CORRECTION.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'## Corrected cumulative theorem' with a full proof ('Dominated convergence proves the result.') and a counterexample."
+  },
+  {
+   "row": 143,
+   "path": "reviews/collision_mechanism_20260925/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Simplex Hessian bounds (A1)-(A4) with proof and exact determinant identity (B4): 'This is an exact cubic theorem, not just power counting.'"
+  },
+  {
+   "row": 143,
+   "path": "reviews/collision_mechanism_20260925/README.md",
+   "content_class": "INDEX_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'[Read the research note](NOTE.md)' plus run commands."
+  },
+  {
+   "row": 144,
+   "path": "reviews/contact_angular_tail_20260925/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Kernel bound '0<Lambda(u,v)<=C |v|^-13 exp(-gamma/v^2)' derived via Cauchy-Schwarz, plus angular asymptotics in sections 3-6."
+  },
+  {
+   "row": 144,
+   "path": "reviews/contact_angular_tail_20260925/README.md",
+   "content_class": "INDEX_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'Read NOTE.md for the source-bound mathematical statements and proofs.'"
+  },
+  {
+   "row": 144,
+   "path": "reviews/contact_angular_tail_20260925/RECONNAISSANCE.md",
+   "content_class": "OTHER",
+   "content_detail": "literature/source reconnaissance memo; no statements of its own",
+   "verdict": "CORRECT",
+   "evidence": "Literature scope memo: 'Primary references searched and read for scope'. No statements of its own."
+  },
+  {
+   "row": 145,
+   "path": "reviews/contact_kernel_substitute_20260926/SUBSTITUTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Re-derivation of the six-pin cubic, solved jets, determinant factorizations and type mass J=27392/315, checked 'in exact rational arithmetic'. It is a re-verification of published identities, not new results."
+  },
+  {
+   "row": 146,
+   "path": "reviews/contact_kernel_tail_20260925/ANNULUS_ASYMPTOTIC_BRIDGE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'## 4. Gluing theorem and proof' under hypotheses H1-H4; the Gaussian conclusion is conditional."
+  },
+  {
+   "row": 146,
+   "path": "reviews/contact_kernel_tail_20260925/COORDINATION.md",
+   "content_class": "PROTOCOL_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'Concurrency reconciliation and review provenance': branch and lane coordination only."
+  },
+  {
+   "row": 146,
+   "path": "reviews/contact_kernel_tail_20260925/KERNEL_TAILS_AND_SMALL_GAP.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "TOO_LOW",
+   "evidence": "'## 2. A proved near-axis bound for the limiting kernel' (bound (2.1) with 'Proof.'), plus the exact shape mass and the small-gap law in §4. The regex missed it because it uses ASCII <=."
+  },
+  {
+   "row": 146,
+   "path": "reviews/contact_kernel_tail_20260925/README.md",
+   "content_class": "INDEX_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'Read KERNEL_TAILS_AND_SMALL_GAP.md for the new kernel results'. Summary and run commands only."
+  },
+  {
+   "row": 146,
+   "path": "reviews/contact_kernel_tail_20260925/RECONNAISSANCE.md",
+   "content_class": "OTHER",
+   "content_detail": "literature/source reconnaissance memo; no statements of its own",
+   "verdict": "CORRECT",
+   "evidence": "Literature scope memo: 'No novelty or scientific-status claim is inferred from a search.'"
+  },
+  {
+   "row": 147,
+   "path": "reviews/cusp_workflow_protocol_20261006/SCOPE.md",
+   "content_class": "PROTOCOL_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "\"This is an engineering finding, not a counterexample to the original mathematical arguments or finite identities.\" Values such as -181/240 appear only as quoted mutant diagnostics."
+  },
+  {
+   "row": 148,
+   "path": "reviews/d0_custody_audit_20260926/AUDIT.md",
+   "content_class": "PROTOCOL_ONLY",
+   "content_detail": "",
+   "verdict": "TOO_HIGH",
+   "evidence": "Custody classification of carriers and graph nodes: 'One bounded audit; no theorem is constructed.' All 13 hits are words like proof/claim/theorem."
+  },
+  {
+   "row": 153,
+   "path": "reviews/d1_external_audit_20260930/AUDIT.md",
+   "content_class": "MATH_REVIEW",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'## 2. The topological lemma' with proof ('Then d_f(M)=s'), a ridge reconstruction (A4)-(A7), and an exact polynomial counterexample."
+  },
+  {
+   "row": 153,
+   "path": "reviews/d1_external_audit_20260930/README.md",
+   "content_class": "INDEX_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'Read AUDIT.md.' plus reproduction commands and scope list."
+  },
+  {
+   "row": 153,
+   "path": "reviews/d1_external_audit_20260930/VALIDATION.md",
+   "content_class": "PROTOCOL_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'Actual execution record' of test counts and custody fixtures: 'not a new nonauthor mathematical verdict'."
+  },
+  {
+   "row": 158,
+   "path": "reviews/d2_joint_mass_schur_20261006/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "TOO_LOW",
+   "evidence": "\"This is an EXACT SHARP constant for the declared class\", with a full proof ((3.1)-(5.1)) and a Bernstein certificate giving \"2.076345574173 < C(1/4,1/4,1,4) < 2.076345574174\". It is a new author-side candidate."
+  },
+  {
+   "row": 160,
+   "path": "reviews/d2_sharp_scalar_floor_20261006/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'## 2. Exact scalar proposition' S(t) >= H(x0,g0), with '## 3. Proof with denominator and monotonicity directions explicit'."
+  },
+  {
+   "row": 161,
+   "path": "reviews/d2_two_atom_floors_20261006/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'an ordinary mathematical derivation with finite rational controls': two-square completion (3.1) gives the floors s>=s0, g>=g0, Delta>=delta0."
+  },
+  {
+   "row": 162,
+   "path": "reviews/d2_two_mass_floors_20261006/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'## 2. Complete proof and exact hypotheses' for m2>=ell, G>=g, Delta>=d."
+  },
+  {
+   "row": 163,
+   "path": "reviews/d3_l4_round2_audit_20261005/REPLAY_SCOPE.md",
+   "content_class": "PROTOCOL_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Replay coverage and custody: \"This manifest is a custody root; neither a hash nor a replay is mathematical review.\""
+  },
+  {
+   "row": 164,
+   "path": "reviews/d5_c6_workflow_repair_20261005/REPLAY_SCOPE.md",
+   "content_class": "PROTOCOL_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "\"A process protocol does not prove the mathematical claim tested by a finite checker.\" \"No D5/C6 theorem ... is changed.\" Its 6 marker hits are all disclaimers."
+  },
+  {
+   "row": 166,
+   "path": "reviews/d5_consumption_bridge_20260928/BRIDGE.md",
+   "content_class": "MATH_REVIEW",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Reviewer record of 'exact consumption edges among already-reviewed statements'. It includes a derivation of the E6 bound '0 ≤ ν_cand(ℓ) − ν_eld(ℓ) ≤ C_{B,K} ℓ^{2/3}' and finite identities L1-L5."
+  },
+  {
+   "row": 166,
+   "path": "reviews/d5_consumption_bridge_20260928/DOMAIN_CORRECTION.md",
+   "content_class": "MATH_REVIEW",
+   "content_detail": "",
+   "verdict": "TOO_LOW",
+   "evidence": "Corrects two identity domains: 'v^4(4u^2+v^2)/4 is positive exactly when v is nonzero' and the L2 overlap integral diverges at t=0."
+  },
+  {
+   "row": 166,
+   "path": "reviews/d5_consumption_bridge_20260928/README.md",
+   "content_class": "INDEX_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'Read BRIDGE.md.'"
+  },
+  {
+   "row": 169,
+   "path": "reviews/d5_graph_fold_20260929/README.md",
+   "content_class": "INDEX_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "A graph/proof-index fold README: \"executes the already reviewed, declarative D5 reconciliation ... It does not alter proof bodies\". The bound E N(N-1)<=C r^3 log(1/r) is cited as earlier reviewed work, not stated here."
+  },
+  {
+   "row": 174,
+   "path": "reviews/d5_microdisk_20260926/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Exact nested expansion and constrained determinant 'det H_M=0 identically', plus the rate obstruction in §4."
+  },
+  {
+   "row": 174,
+   "path": "reviews/d5_microdisk_20260926/QUARTIC.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Constrained det H_M=-12 lambda k P^2 r^3/Q^2, stated as an 'Identity in Q[r,k,c,d,P,Q,lambda]'."
+  },
+  {
+   "row": 176,
+   "path": "reviews/d5_pin_disk_all_directions_20260928/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Deterministic bounds (T2) and '(T3) Angle-free soft-column bound' with proofs, plus a conditional Proposition in §3."
+  },
+  {
+   "row": 177,
+   "path": "reviews/d5_pin_microdisk_20260927/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Exact divided-difference rows, '(A,T) minor is exactly 1/2 - p', and the axis solve with soft determinant factors. It returns 'obstruction remains'."
+  },
+  {
+   "row": 181,
+   "path": "reviews/d5_reconciliation_20260929/RECONCILIATION.md",
+   "content_class": "MATH_REVIEW",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Register reconciliation ('introduces no new mathematical claim'). It binds and scopes statements D5-a..D5-f and the consumption graph ('D5-f ← D5-d (R = 4) + I4 ...'), and records the collar verdict."
+  },
+  {
+   "row": 183,
+   "path": "reviews/d5_short_edge_20260928/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'Lemma (author-side proof)': a deterministic short-edge triangle bound with '### Proof', plus the coordinate correction f_zz(M)=A-rC/2."
+  },
+  {
+   "row": 184,
+   "path": "reviews/direct_import_trigger_coverage_20261006/SCOPE.md",
+   "content_class": "PROTOCOL_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Workflow path-trigger coverage: \"This is a future-change coverage gap, not an allegation ... that a numerical output was incorrect.\""
+  },
+  {
+   "row": 185,
+   "path": "reviews/downstream_boundary_20260925/TRANSVERSE_BOUND_CANDIDATE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "TOO_LOW",
+   "evidence": "\"Candidate theorem. ... E_(Qr^W) N_j(rE) <= C*k*r^3*area(E)\", with a six-section proof (Kac-Rice ledger, \"Division by the FULL Z_r>=z_*r^2 proves the stated O(k*r^3) expected count\"). Its own disposition is a proof candidate still needing review."
+  },
+  {
+   "row": 186,
+   "path": "reviews/drive_hole_substitutes_20260926/LEDGER.md",
+   "content_class": "PROTOCOL_ONLY",
+   "content_detail": "",
+   "verdict": "TOO_HIGH",
+   "evidence": "Custody ledger ('emit a verification-grade substitute only when live Git identities...'). Its 11 hits are words like proof/claim/PROOF plus one ≤ in a cited row."
+  },
+  {
+   "row": 188,
+   "path": "reviews/equal_height_protocol_20261006/SCOPE.md",
+   "content_class": "PROTOCOL_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "\"This is not a ... numerical enclosure, theorem proof or global wrapper audit.\" Only report hashes and exit-code contracts."
+  },
+  {
+   "row": 189,
+   "path": "reviews/fixed_r_protocol_20261006/SCOPE.md",
+   "content_class": "PROTOCOL_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "\"This is an execution-protocol defect, not a counterexample to the fixed-separation inverse-lifetime theorem.\""
+  },
+  {
+   "row": 190,
+   "path": "reviews/iba1_periodic_jet_claude_20261005/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Computational record: cumulant/Schur-complement method and computed values, e.g. 'Every conditional covariance is positive definite in every tested direction'. Arithmetic is 'floating, not interval', except the L=24 value, which is checked against the side24_v1 enclosure."
+  },
+  {
+   "row": 191,
+   "path": "reviews/iba2_009_matching_20261005/REPORT.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'An exact formula for the actual rejected-density contribution in the moving band' (2.3)-(2.4), an explicit obstruction kernel (3.1), and sufficient tail conditions."
+  },
+  {
+   "row": 192,
+   "path": "reviews/iba2_010_interface_ledger_20261005/LEDGER.md",
+   "content_class": "INDEX_ONLY",
+   "content_detail": "",
+   "verdict": "TOO_HIGH",
+   "evidence": "'This is an author-side map, not an audit.' A table of consumed statements quoted from other sources, blob pins and review IDs. Hits come from the quoted statements."
+  },
+  {
+   "row": 195,
+   "path": "reviews/iba2_012_localized_moment_20261006/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'## 2. One factorial order is enough after event localization' with '**Proof.**', plus fixed-order sharpness in §4."
+  },
+  {
+   "row": 195,
+   "path": "reviews/iba2_012_localized_moment_20261006/README.md",
+   "content_class": "INDEX_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'Read NOTE.md and SOURCES.json.' plus test commands."
+  },
+  {
+   "row": 196,
+   "path": "reviews/iba2_012_log_cap_concentration_20261006/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'## 3. Shifted exponential control with its actual u dependence' with Proof (Tonelli), plus the growing-order threshold optimality in §6."
+  },
+  {
+   "row": 196,
+   "path": "reviews/iba2_012_log_cap_concentration_20261006/README.md",
+   "content_class": "INDEX_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'Read NOTE.md before using a bound.' A summary of the result plus replay table."
+  },
+  {
+   "row": 197,
+   "path": "reviews/iba2_012_log_cap_transfer_20261006/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'**Theorem LT.** Conditional on the quoted interfaces', with '## 3. Proof: a cutoff and four-factor Holder' and dyadic sharpness in §5."
+  },
+  {
+   "row": 197,
+   "path": "reviews/iba2_012_log_cap_transfer_20261006/README.md",
+   "content_class": "INDEX_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Displays the NOTE bound and says 'Read NOTE.md before using the formulas.' Run commands follow."
+  },
+  {
+   "row": 198,
+   "path": "reviews/iba2_012_marked_sector_20261006/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'## 2. Generic lemma and an explicit constant' with '### Proof of (S)' and '### Proof of (MT)'."
+  },
+  {
+   "row": 198,
+   "path": "reviews/iba2_012_marked_sector_20261006/README.md",
+   "content_class": "INDEX_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'Read NOTE.md and SOURCES.json.' plus the restated bound and replay instructions."
+  },
+  {
+   "row": 199,
+   "path": "reviews/lean_cycle2_20261005/agent6/ATTRIBUTION.md",
+   "content_class": "PROTOCOL_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'Attribution of record for the Math-#277 proposal', covering owner direction and provider UNKNOWN."
+  },
+  {
+   "row": 199,
+   "path": "reviews/lean_cycle2_20261005/agent6/BUILD_STATUS.md",
+   "content_class": "PROTOCOL_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'COMPILE_STATUS: UNCOMPILED', 'KERNEL_CHECKED: NO'."
+  },
+  {
+   "row": 199,
+   "path": "reviews/lean_cycle2_20261005/agent6/MomentTail_finite_MT_N2.lean.txt",
+   "content_class": "FORMAL_SOURCE",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Two theorem declarations ('theorem p02_lm009_moment40_tail_finite', '..._of_finite') with proof bodies. Marked 'UNCOMPILED — not kernel-checked'."
+  },
+  {
+   "row": 199,
+   "path": "reviews/lean_cycle2_20261005/agent6/NOTES_MT_N2.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Justifies the IsFiniteMeasure relaxation ('Why this is a real relaxation (not wording)') with finite-measure Markov checks (mass 2, mass 1/2, strict boundary)."
+  },
+  {
+   "row": 199,
+   "path": "reviews/lean_cycle2_20261005/agent7/BUILD_STATUS.md",
+   "content_class": "PROTOCOL_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "'COMPILE_STATUS: UNCOMPILED', 'lake build of companion: NOT EXECUTED'."
+  },
+  {
+   "row": 199,
+   "path": "reviews/lean_cycle2_20261005/agent7/MomentTail_family_interval_MT_N1.lean.txt",
+   "content_class": "FORMAL_SOURCE",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Two theorem declarations ('theorem p02_lm009_moment40_family_r3_interval', '..._of_interval') with proof bodies. Marked 'UNCOMPILED'."
+  },
+  {
+   "row": 199,
+   "path": "reviews/lean_cycle2_20261005/agent7/NOTES_MT_N1.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Type-theoretic argument that the per-r instance is a strict relaxation, using the zero-measure test: 'the companion admits a model the frozen type rejects'."
+  },
+  {
+   "row": 201,
+   "path": "reviews/legacy_json_workflow_repair_20261006/SCOPE.md",
+   "content_class": "PROTOCOL_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Repair of a legacy JSON workflow wrapper and its mutant-rejection tests: \"No mathematical acceptance or source-proof correction is asserted.\""
+  },
+  {
+   "row": 202,
+   "path": "reviews/legacy_trigger_coverage_20261006/SCOPE.md",
+   "content_class": "PROTOCOL_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Covers CI path triggers and Python import resolution only: \"This is missing trigger coverage, not a claim that the current numerical result is wrong\"."
+  },
+  {
+   "row": 203,
+   "path": "reviews/legacy_tty_diagnostic_20261006/SCOPE.md",
+   "content_class": "PROTOCOL_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Fixes argparse help-width matching under a TTY: \"a false rejection of a valid unknown-label diagnostic ... not a mathematical counterexample.\""
+  },
+  {
+   "row": 204,
+   "path": "reviews/literature_classical_neighbors_20261001/ADDENDUM.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Literature memo, but §3 derives a d=1 law with an explicit constant and a deterministic check: \"f_H(h) ~ C h^{−1/3}, P(H ≤ h) ~ (3/2) C h^{2/3}\". The file itself calls it \"a computation recorded for the attribution wording, not a reviewed theorem\"."
+  },
+  {
+   "row": 206,
+   "path": "reviews/lm006_common_regression_rate_20261006/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Coupling result with Hilbert-space proof: \"||X_r-Y||_Lp <= C_p r, sup_r E||X_r||^p < infinity. (A)\"."
+  },
+  {
+   "row": 207,
+   "path": "reviews/lm006_cubic_sign_band_20261006/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "TOO_LOW",
+   "evidence": "Full derivation of a conditional-density band bound, Gaussian moment bounds, a 12-jet Gram proof and a sharpness example: \"Equation (7) proves the cubic sign bound for this spectral class\"; (14) \"nu_r{ f_yy(S)>=0 } <= C r^3\". The regex missed it because the note writes <= in ASCII."
+  },
+  {
+   "row": 208,
+   "path": "reviews/lm006_endpoint_extension_20261005/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "\"Result. Under exactly these hypotheses, the conditional means and covariances ... extend continuously to r = 0\", proved in §§2-5."
+  },
+  {
+   "row": 209,
+   "path": "reviews/lm006_normalizer_stability_20261005/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "\"|T_r(v)-T_s(w)| <= (||v||+||w||)^3 ||v-w|| + |r-s| ||w||^4. (5)\" with \"Proof of the fixed-r part\"."
+  },
+  {
+   "row": 210,
+   "path": "reviews/lm006_positive_radius_density_20261006/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Only 6 marker hits, but it proves \"det A(z) = 16 z^4 (z-1)^14 != 0\" and \"TV(nu_r,nu0)=1, for every 0<r<=min(1,r0)\"."
+  },
+  {
+   "row": 211,
+   "path": "reviews/lm006_product_transverse_20261006/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Exact conditional law \"Q(S) | (B,G) ~ N(G/2-m2[F(S)+F(M)]/2, g[1+rho(r)]/2). (3)\", derived in §§2-3."
+  },
+  {
+   "row": 212,
+   "path": "reviews/lm006_quantified_regression_20261005/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "\"A quantitative finite-target conditioning lemma ... e_r^2=E||X_r-X_0||^2 <= K^2 r^2\", with \"Proof with constants\"."
+  },
+  {
+   "row": 213,
+   "path": "reviews/lm006_tilted_endpoint_law_20261005/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "\"A normalized-density lemma ... E_gamma|a/z-b/z0| <= 2 Delta/z0\", plus the TV=1 obstruction (13)."
+  },
+  {
+   "row": 214,
+   "path": "reviews/lm006_typed_sign_suppression_20261005/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "\"T_r(v) 1_E <= r |a_-| b_+^2 |g| + (1/16)|a_-| u^2 g^2. (2)\" with proof and sharpness witnesses."
+  },
+  {
+   "row": 215,
+   "path": "reviews/lm006_wrong_sign_asymptotic_20261006/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "\"Theorem (new actual-field asymptotic) ... nu_r(E_r)=C_{L,b} r^3+o(r^3)\", proved in §§2-6."
+  },
+  {
+   "row": 221,
+   "path": "reviews/periodic_tau_envelope_20261005/REPORT.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Math detection is right, but the kind label is wrong: this is an original theorem, not a review. \"Theorem T1 ... min_Delta F = min_{1<=m<=d} (A/m + B/m^2)\" ... \"QED\". The REVIEW/AUDIT label comes only from the filename REPORT.md."
+  },
+  {
+   "row": 222,
+   "path": "reviews/periodic_tau_positive_floor_20261005/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "\"Proposition P1. For every unit direction ... tau_u^2 = Delta sum_i t_i^3 + 9 m2 V2 ...\" and Corollary P2, each with proof."
+  },
+  {
+   "row": 223,
+   "path": "reviews/pin_micro_covariance_20260926/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "TOO_LOW",
+   "evidence": "\"Pin microdisk gradient desingularization — covariance lemma\", with a Cauchy-Binet minor bound and the covariance statement (3.1) \"c h^2 I_2 <= Cov(G_r(P,Q)|pins) <= C h^2 I_2\" plus a density envelope (4.1)-(4.2). Labelled an author-side lemma for separate review."
+  },
+  {
+   "row": 225,
+   "path": "reviews/pin_neighborhood_recon_20260926/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Reconnaissance-level derivation: \"E[N(M+r{κ r ≤ |s| ≤ 1/4})] ≤ C r^3 ... at reconnaissance level\". Inner disk explicitly \"open\"; the earlier r^2 log bound is withdrawn."
+  },
+  {
+   "row": 237,
+   "path": "reviews/register_execution_readiness_20260930/README.md",
+   "content_class": "PROTOCOL_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "A register-transition dry run plus checker and mutant engineering: \"Effect: engineering readiness only. Nothing is executed here\". No mathematical statements."
+  },
+  {
+   "row": 238,
+   "path": "reviews/remainder_rate_protocol_20261006/SCOPE.md",
+   "content_class": "PROTOCOL_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Repairs a workflow's child-output contract; M1-M4 are named only as checker mutants: \"This is one workflow repair, not acceptance of the remainder theorem\"."
+  },
+  {
+   "row": 251,
+   "path": "reviews/side24_d2_certified_small_L_claude_20261005/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Certified computation: \"rigorous outward enclosures of the coefficient (15.2) in d = 2 ... at L ∈ {24, 8, 2π, 4, 3, 2}\", by interval arithmetic and the Trefethen-Weideman quadrature bound."
+  },
+  {
+   "row": 255,
+   "path": "imports/gp_data_114_embedded_20260930/README.md",
+   "content_class": "PROTOCOL_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "A byte-custody packet. The historical interval-certificate claims are only described (\"not new verdicts supplied here\"): \"This packet claims individually readable public byte custody\"."
+  },
+  {
+   "row": 256,
+   "path": "imports/hardening_ebedb780/EC-014/proof.md.export.txt",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Closure-approval package. It states \"det T_r = -r^-5\" and \"(r^3/6) r^-5 r^2 = 1/6\" and displays the full T_r matrix. The full derivation is in external Drive GP-DER-061, not in this file. Weak instance."
+  },
+  {
+   "row": 256,
+   "path": "imports/hardening_ebedb780/EC-015/proof.md.export.txt",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Closure package. Existence via an explicit fixture with reproduced margins: \"the repaired degree-four witness event is nonempty\", \"cone margin kappa-2tau=0.00875000048828087 > 0\". Event definitions are in external GP-DER-092. Weak instance."
+  },
+  {
+   "row": 256,
+   "path": "imports/hardening_ebedb780/EC-021/proof.md.export.txt",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "\"inf_{0<r<=r_1} P_{r,Q4}^{MS}(B_q) >= c_Q4 > 0\", with a short derivation in \"4. MATHEMATICAL BASIS\". Closure-package wrapper."
+  },
+  {
+   "row": 256,
+   "path": "imports/hardening_ebedb780/P02-LM-001/proof.md.export.txt",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "\"THEOREM P02-LM-001. Assume REG_r(U) and s<=-C_cap(U)\", with a proof roadmap and obligation ledger. The \"Authoritative proof\" is external GP-DER-047."
+  },
+  {
+   "row": 256,
+   "path": "imports/hardening_ebedb780/P02-LM-002/proof.md.export.txt",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "\"W_r^2<=16r^4R^8\", with a complete \"3. EXACT PROOF\"."
+  },
+  {
+   "row": 256,
+   "path": "imports/hardening_ebedb780/P02-LM-005/proof.md.export.txt",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "\"THEOREM P02-LM-005. There exists r_GR>0 ...\", proved in §§3-6 (continuity, Fourier positivity, density envelope, moments)."
+  },
+  {
+   "row": 256,
+   "path": "imports/hardening_ebedb780/P02-LM-007/proof.md.export.txt",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Frozen lemma body with full Dudley/Borell-TIS proof: \"Q_{6,r}(H_{5,r}(D^+)>t) <=C_5exp(-c_5t^2)\"."
+  },
+  {
+   "row": 256,
+   "path": "imports/hardening_ebedb780/P02-LM-008/proof.md.export.txt",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "\"P_r(E)<=sqrt(C_W)/c_Z · Q_r(E)^(1/2)\", with \"3. EXACT PROOF\" (Cauchy-Schwarz)."
+  },
+  {
+   "row": 256,
+   "path": "imports/hardening_ebedb780/P15-B/P15-B_PALETTE_SEPARATED_LOCALIZATION.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "TOO_LOW",
+   "evidence": "Complete combinatorial argument that the marker count missed: \"G = union_i G_i covers D^(K). (B1) Proof: let U avoid G.\" Also includes bounds (B2)-(B4) and an exact chromatic-number example."
+  },
+  {
+   "row": 256,
+   "path": "imports/hardening_ebedb780/README.md",
+   "content_class": "INDEX_ONLY",
+   "content_detail": "",
+   "verdict": "TOO_HIGH",
+   "evidence": "Custody and provenance table only: \"These paths make source bytes reachable from Math `main` after merge. They do not accept a theorem\". The marker hits come from lemma titles and quoted status labels."
+  },
+  {
+   "row": 256,
+   "path": "imports/hardening_ebedb780/main_issue_59/ISSUE_BODY_TRANSCRIPTION.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Transcribed issue body with an Edmonds-based argument: \"K*=max_{nonempty A subset[n]} ceil(sum_{i in A}d_i/rank_M(A))\" and the 816-label witness."
+  },
+  {
+   "row": 262,
+   "path": "coefficients/lm006_wrong_sign_20261006_r20/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Certified interval computation: \"0.001305365507 <= C_(24,6/5) <= 0.001338803452\", with explicit tail and extremum bounds."
+  },
+  {
+   "row": 263,
+   "path": "coefficients/side24_d4_20260930/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "TOO_LOW",
+   "evidence": "Certified interval computation with an exact reduction, Cauchy remainder bounds and a torus transfer: \"Certified. `D_3 = 5.3231802688898968949231987396872606357843885294...`\" and \"|c_{4,24} / c_{4,ref} - 1| <= delta = 1.5702e-108\"."
+  },
+  {
+   "row": 264,
+   "path": "coefficients/side24_d4_closed_form_20260930/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "\"Proposition (closed form of D_3) ... D_3 = 50/3 − 76/(3π) − (200/(9π)) arctan(1/2)\", via lemmas L1-L3."
+  },
+  {
+   "row": 265,
+   "path": "coefficients/side24_d5_20260930/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "TOO_LOW",
+   "evidence": "Certified computation with a decoupling identity for every m: \"D_4 = 14.21876345897735760130646567787407831734060...... (enclosure width 3.9e-42)\" and \"|c_{5,24}/c_{5,ref} - 1| <= delta = 1.8554e-107\"."
+  },
+  {
+   "row": 266,
+   "path": "coefficients/side24_d5_closed_form_20260930/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "\"Proposition (closed form of D_4)\", via lemmas L1-L4. Stated as conditional on the unmerged Math-#200 reduction."
+  },
+  {
+   "row": 267,
+   "path": "coefficients/side24_d6_20260930/NOTE.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Certified enclosure: \"D_5 = 44.130651875074132710362024895402633148…… (enclosure width 3.9e-37)\". \"No closed form for D_5 is claimed\"."
+  },
+  {
+   "row": 279,
+   "path": "formal/COMPATIBILITY.md",
+   "content_class": "PROTOCOL_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Records three Lean compiler-compatibility fixes (noncomputable annotation, surplus ring): \"Delete that surplus tactic only.\" It also says \"all thirteen theorem statements remain unchanged\" without stating any of them."
+  },
+  {
+   "row": 280,
+   "path": "formal/D2_SCHUR.md",
+   "content_class": "OTHER",
+   "content_detail": "formal statement map: exact definitions of alpha/gamma/D/N/S/T and the statements of all 16 Lean declarations; the proofs are in ResearchFormalCoreR1/D2Schur.lean, not in this file",
+   "verdict": "TOO_LOW",
+   "evidence": "States mathematical identities and inequalities with hypotheses, e.g. \"d2_schur_numerator | `alpha*D-gamma^3-(2gamma+alpha)*k4^2*q*(1-4q)=N`\" and \"d2_schur_pos | `S>0` under the same conditions\". It also gives a degenerate counterexample control. [reconcile: statement map without in-file proof or derivation, so not MATH_STATEMENT; does not count toward SOURCE_DOCUMENT_PRESENT]"
+  },
+  {
+   "row": 281,
+   "path": "formal/GLOSSARY.md",
+   "content_class": "INDEX_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "A term-to-Lean-object glossary (\"formal scope, not renaming\"). It restates pilot objects such as \"`p <= C*r^4` implies `p <= C*r^3` on [0,1]\" without proof or derivation. Borderline, but not its own math."
+  },
+  {
+   "row": 282,
+   "path": "formal/LINEAGE_VALIDATION.md",
+   "content_class": "PROTOCOL_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "A review-lineage validator repair: \"This is an engineering successor to the validator, not an alignment acceptance, new proof\"."
+  },
+  {
+   "row": 283,
+   "path": "formal/MEASURE_BRIDGE.md",
+   "content_class": "OTHER",
+   "content_detail": "formal statement map: exact Lean declaration statements and hypotheses, no in-file proof; proofs in formal/ResearchFormalCoreR1/MeasureBridge.lean",
+   "verdict": "CORRECT",
+   "evidence": "OTHER here means a Lean-module scope note. It gives exact statements of 7 Lean declarations (\"p02_lm008_event_cs | n ≤ √M₂ √q\"), but the proofs live only in formal/ResearchFormalCoreR1/MeasureBridge.lean (7 theorem decls at the cut). It contains math, so the heuristic is not inflated. [reconcile: statement map without in-file proof or derivation, so not MATH_STATEMENT; does not count toward SOURCE_DOCUMENT_PRESENT]"
+  },
+  {
+   "row": 284,
+   "path": "formal/MOMENT_GENERALITY.md",
+   "content_class": "OTHER",
+   "content_detail": "formal statement map: exact Lean declaration statements and hypotheses, no in-file proof; proofs in formal/ResearchFormalCoreR1/MomentGenerality.lean",
+   "verdict": "CORRECT",
+   "evidence": "Lean scope note: a table of 4 target statements (\"mass of {epsilon < r R^5} is at most (M/epsilon^8)r^8\"), with no derivation in the file. Proofs are in MomentGenerality.lean (4 theorem decls). Math-bearing. [reconcile: statement map without in-file proof or derivation, so not MATH_STATEMENT; does not count toward SOURCE_DOCUMENT_PRESENT]"
+  },
+  {
+   "row": 285,
+   "path": "formal/MOMENT_TAIL.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "The \"## Exact derivation\" section gives the Markov argument: \"(epsilon/r)^8 <= R^40 ... mu(A) <= (M/epsilon^8) r^8\". Lean proofs are in MomentTail.lean."
+  },
+  {
+   "row": 286,
+   "path": "formal/README.md",
+   "content_class": "INDEX_ONLY",
+   "content_detail": "",
+   "verdict": "TOO_HIGH",
+   "evidence": "Lane README: run commands and summaries of the modules' results, with no statement of its own. \"Source-bound Lean evidence; no scientific promotion.\""
+  },
+  {
+   "row": 288,
+   "path": "formal/ResearchFormalCoreR1.lean",
+   "content_class": "FORMAL_SOURCE_NO_DECLS",
+   "content_detail": "import-only root module; 0 theorem/lemma declarations",
+   "verdict": "CORRECT",
+   "evidence": "Contains only 8 import lines, ending \"import ResearchFormalCoreR1.D2Schur\". The theorems live in the imported modules, which are outside this unit. [reconcile: no formal statement or proof in the file, so it does not count toward SOURCE_DOCUMENT_PRESENT]"
+  },
+  {
+   "row": 289,
+   "path": "formal/SCOPE.md",
+   "content_class": "OTHER",
+   "content_detail": "mixed: a formal scope map summarizing the mathematical content and hypotheses of the 63 Lean theorem targets, plus the alignment review contract; no proofs in the file",
+   "verdict": "TOO_LOW",
+   "evidence": "Contains statement-level math, e.g. \"reference integral >= c > 0 and error <= delta <= c/2 give perturbed integral >= c/2 ... every measurable-event probability error <= 2delta/c\". The class was assigned from the filename, although the document has 21 marker hits. The proofs are in the ResearchFormalCoreR1/*.lean modules. [reconcile: statement map without in-file proof or derivation, so not MATH_STATEMENT; does not count toward SOURCE_DOCUMENT_PRESENT]"
+  },
+  {
+   "row": 290,
+   "path": "formal/WEIGHTED_LAW.md",
+   "content_class": "OTHER",
+   "content_detail": "formal statement map: exact Lean declaration statements and hypotheses, no in-file proof; proofs in formal/ResearchFormalCoreR1/WeightedLaw.lean",
+   "verdict": "CORRECT",
+   "evidence": "Lean scope note: the definition \"weightedLaw μ W = ofReal(∫ W dμ)⁻¹ • μ.withDensity\", a 9-declaration table and one counterexample (weights (-1,3)). Proofs are only in WeightedLaw.lean. Math-bearing. [reconcile: statement map without in-file proof or derivation, so not MATH_STATEMENT; does not count toward SOURCE_DOCUMENT_PRESENT]"
+  },
+  {
+   "row": 291,
+   "path": "formal/WEIGHT_PERTURBATION.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "The \"## Mathematical argument\" section derives \"a/z - b/t = ((a-b) + (a/z)*(t-z))/t\" and the bound 2delta/c. Lean proofs are in WeightPerturbation.lean."
+  },
+  {
+   "row": 292,
+   "path": "formal/blueprint/src/content.tex",
+   "content_class": "FORMAL_SOURCE",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "TeX blueprint with 7 lemma and 1 definition environments, each with a \\lean link and a one-line proof sketch. It has no Lean theorem declarations of its own: \"% Link-only Blueprint source.\""
+  },
+  {
+   "row": 299,
+   "path": "formal/originals/Algebra.lean.txt",
+   "content_class": "FORMAL_SOURCE",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Lean source: 1 def and 6 theorem decls, e.g. \"theorem ec005_fold_gap\" and \"theorem ec014_contact_power\". Original bytes that failed the initial build (formal/evidence/initial-build-failure.log); the repaired copy is AlgebraV2.lean."
+  },
+  {
+   "row": 299,
+   "path": "formal/originals/ProbabilityCompanions.lean.txt",
+   "content_class": "FORMAL_SOURCE",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "Lean source with 7 theorem decls, e.g. \"theorem p02_lm008_quotient_bound\" and \"theorem p02_lm009_palm_r4_to_r3\". Original bytes that failed the initial build; the repaired copy is ProbabilityCompanionsV2.lean."
+  },
+  {
+   "row": 301,
+   "path": "repairs/c026_reciprocal_20260927/README.md",
+   "content_class": "MATH_STATEMENT",
+   "content_detail": "elementary; engineering-repair scope",
+   "verdict": "TOO_LOW",
+   "evidence": "Derives the inverse-polynomial coefficient recurrence and proves it: \"For each `k>=1`, the coefficient is `a_0*b_k + sum(a_j*b_(k-j))=0` by the recurrence\". It also reports the source defect \"returns linear coefficient 0, rather than -1\"."
+  },
+  {
+   "row": 306,
+   "path": "experiments/board_capacity_probe_20261022/README.md",
+   "content_class": "PROTOCOL_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "An offline issue-comment capacity diagnostic: \"It is **not a deployed monitor or adopted workflow**\". No mathematics."
+  },
+  {
+   "row": 308,
+   "path": "experiments/reactor_v0/README.md",
+   "content_class": "OTHER",
+   "content_detail": "engineering regression-control freeze; its only math is one exact finite-fixture value",
+   "verdict": "CORRECT",
+   "evidence": "\"sum_i min((t / (a * lifetime_i))**alpha, 1) = 1/4 + 1/16 = 5/16\" is called an \"engineering-only regression control\" that does not \"consume a Gaussian or asymptotic theorem conclusion\"."
+  },
+  {
+   "row": 309,
+   "path": "experiments/semantic_memory/TASK1-SOURCE-README.md",
+   "content_class": "PROTOCOL_ONLY",
+   "content_detail": "",
+   "verdict": "CORRECT",
+   "evidence": "A test-fixture/oracle contract for a retrieval benchmark: \"All documents and questions are newly authored synthetic software fixtures, not research results\"."
+  },
+  {
+   "row": 309,
+   "path": "experiments/semantic_memory/fixtures/corpus/D01.txt",
+   "content_class": "OTHER",
+   "content_detail": "synthetic retrieval test fixture",
+   "verdict": "CORRECT",
+   "evidence": "147 lines of \"Neutral padding\" plus \"the elder-death selector is omega_01, and its marker is K401. The selector is a synthetic fixture label only.\""
+  },
+  {
+   "row": 309,
+   "path": "experiments/semantic_memory/fixtures/corpus/D02.txt",
+   "content_class": "OTHER",
+   "content_detail": "synthetic retrieval test fixture",
+   "verdict": "CORRECT",
+   "evidence": "Same template as D01 (selector omega_02, marker K402): \"The selector is a synthetic fixture label only.\""
+  },
+  {
+   "row": 309,
+   "path": "experiments/semantic_memory/fixtures/corpus/D03.txt",
+   "content_class": "OTHER",
+   "content_detail": "synthetic retrieval test fixture",
+   "verdict": "CORRECT",
+   "evidence": "Same template as D01 (selector omega_03, marker K403): \"The selector is a synthetic fixture label only.\""
+  },
+  {
+   "row": 309,
+   "path": "experiments/semantic_memory/fixtures/corpus/D04.txt",
+   "content_class": "OTHER",
+   "content_detail": "synthetic retrieval test fixture",
+   "verdict": "CORRECT",
+   "evidence": "Same template as D01 (selector omega_04, marker K404): \"The selector is a synthetic fixture label only.\""
+  },
+  {
+   "row": 309,
+   "path": "experiments/semantic_memory/fixtures/corpus/D05.txt",
+   "content_class": "OTHER",
+   "content_detail": "synthetic retrieval test fixture",
+   "verdict": "CORRECT",
+   "evidence": "Same template as D01 (selector omega_05, marker K405): \"The selector is a synthetic fixture label only.\""
+  },
+  {
+   "row": 309,
+   "path": "experiments/semantic_memory/fixtures/corpus/D06.txt",
+   "content_class": "OTHER",
+   "content_detail": "synthetic retrieval test fixture",
+   "verdict": "CORRECT",
+   "evidence": "Same template as D01 (selector omega_06, marker K406): \"The selector is a synthetic fixture label only.\""
+  },
+  {
+   "row": 309,
+   "path": "experiments/semantic_memory/fixtures/corpus/D07.txt",
+   "content_class": "OTHER",
+   "content_detail": "synthetic retrieval test fixture",
+   "verdict": "CORRECT",
+   "evidence": "Same template as D01 (selector omega_07, marker K407): \"The selector is a synthetic fixture label only.\""
+  },
+  {
+   "row": 309,
+   "path": "experiments/semantic_memory/fixtures/corpus/D08.txt",
+   "content_class": "OTHER",
+   "content_detail": "synthetic retrieval test fixture",
+   "verdict": "CORRECT",
+   "evidence": "Same template as D01 (selector omega_08, marker K408): \"The selector is a synthetic fixture label only.\""
+  },
+  {
+   "row": 309,
+   "path": "experiments/semantic_memory/fixtures/corpus/P01.txt",
+   "content_class": "OTHER",
+   "content_detail": "synthetic retrieval test fixture",
+   "verdict": "CORRECT",
+   "evidence": "\"Synthetic fixture P01. This is test data, not a research result.\" (fixture coefficient 7/11). The single marker hit is \"claim ACCEPTED\" in an inert hostile-instruction line."
+  },
+  {
+   "row": 309,
+   "path": "experiments/semantic_memory/fixtures/corpus/P02.txt",
+   "content_class": "OTHER",
+   "content_detail": "synthetic retrieval test fixture",
+   "verdict": "CORRECT",
+   "evidence": "\"Synthetic fixture P02. This is test data, not a research result.\" (coefficient 8/12)."
+  },
+  {
+   "row": 309,
+   "path": "experiments/semantic_memory/fixtures/corpus/P03.txt",
+   "content_class": "OTHER",
+   "content_detail": "synthetic retrieval test fixture",
+   "verdict": "CORRECT",
+   "evidence": "\"Synthetic fixture P03. This is test data, not a research result.\" (coefficient 9/13)."
+  },
+  {
+   "row": 309,
+   "path": "experiments/semantic_memory/fixtures/corpus/P04.txt",
+   "content_class": "OTHER",
+   "content_detail": "synthetic retrieval test fixture",
+   "verdict": "CORRECT",
+   "evidence": "\"Synthetic fixture P04. This is test data, not a research result.\" (coefficient 10/14)."
+  },
+  {
+   "row": 309,
+   "path": "experiments/semantic_memory/fixtures/corpus/P05.txt",
+   "content_class": "OTHER",
+   "content_detail": "synthetic retrieval test fixture",
+   "verdict": "CORRECT",
+   "evidence": "\"Synthetic fixture P05. This is test data, not a research result.\" (coefficient 11/15)."
+  },
+  {
+   "row": 309,
+   "path": "experiments/semantic_memory/fixtures/corpus/P06.txt",
+   "content_class": "OTHER",
+   "content_detail": "synthetic retrieval test fixture",
+   "verdict": "CORRECT",
+   "evidence": "\"Synthetic fixture P06. This is test data, not a research result.\" (coefficient 12/16)."
+  },
+  {
+   "row": 309,
+   "path": "experiments/semantic_memory/fixtures/corpus/P07.txt",
+   "content_class": "OTHER",
+   "content_detail": "synthetic retrieval test fixture",
+   "verdict": "CORRECT",
+   "evidence": "\"Synthetic fixture P07. This is test data, not a research result.\" (coefficient 13/17)."
+  },
+  {
+   "row": 309,
+   "path": "experiments/semantic_memory/fixtures/corpus/P08.txt",
+   "content_class": "OTHER",
+   "content_detail": "synthetic retrieval test fixture",
+   "verdict": "CORRECT",
+   "evidence": "\"Synthetic fixture P08. This is test data, not a research result.\" (coefficient 14/18)."
+  },
+  {
+   "row": 309,
+   "path": "experiments/semantic_memory/fixtures/corpus/R01-current.txt",
+   "content_class": "OTHER",
+   "content_detail": "synthetic revision-pair fixture",
+   "verdict": "CORRECT",
+   "evidence": "\"Synthetic revision family R01 ... permits p <= 3/7 and permits equality ... marker NOW_01\"."
+  },
+  {
+   "row": 309,
+   "path": "experiments/semantic_memory/fixtures/corpus/R01-old.txt",
+   "content_class": "OTHER",
+   "content_detail": "synthetic revision-pair fixture",
+   "verdict": "CORRECT",
+   "evidence": "\"Synthetic revision family R01 ... permits p <= 2/7 and forbids equality ... marker OLD_01\"."
+  },
+  {
+   "row": 309,
+   "path": "experiments/semantic_memory/fixtures/corpus/R02-current.txt",
+   "content_class": "OTHER",
+   "content_detail": "synthetic revision-pair fixture",
+   "verdict": "CORRECT",
+   "evidence": "\"Synthetic revision family R02 ... p <= 4/7 and permits equality ... NOW_02\"."
+  },
+  {
+   "row": 309,
+   "path": "experiments/semantic_memory/fixtures/corpus/R02-old.txt",
+   "content_class": "OTHER",
+   "content_detail": "synthetic revision-pair fixture",
+   "verdict": "CORRECT",
+   "evidence": "\"Synthetic revision family R02 ... p <= 3/7 and forbids equality ... OLD_02\"."
+  },
+  {
+   "row": 309,
+   "path": "experiments/semantic_memory/fixtures/corpus/R03-current.txt",
+   "content_class": "OTHER",
+   "content_detail": "synthetic revision-pair fixture",
+   "verdict": "CORRECT",
+   "evidence": "\"Synthetic revision family R03 ... p <= 5/7 and permits equality ... NOW_03\"."
+  },
+  {
+   "row": 309,
+   "path": "experiments/semantic_memory/fixtures/corpus/R03-old.txt",
+   "content_class": "OTHER",
+   "content_detail": "synthetic revision-pair fixture",
+   "verdict": "CORRECT",
+   "evidence": "\"Synthetic revision family R03 ... p <= 4/7 and forbids equality ... OLD_03\"."
+  },
+  {
+   "row": 309,
+   "path": "experiments/semantic_memory/fixtures/corpus/R04-current.txt",
+   "content_class": "OTHER",
+   "content_detail": "synthetic revision-pair fixture",
+   "verdict": "CORRECT",
+   "evidence": "\"Synthetic revision family R04 ... p <= 6/7 and permits equality ... NOW_04\"."
+  },
+  {
+   "row": 309,
+   "path": "experiments/semantic_memory/fixtures/corpus/R04-old.txt",
+   "content_class": "OTHER",
+   "content_detail": "synthetic revision-pair fixture",
+   "verdict": "CORRECT",
+   "evidence": "\"Synthetic revision family R04 ... p <= 5/7 and forbids equality ... OLD_04\"."
+  },
+  {
+   "row": 309,
+   "path": "experiments/semantic_memory/fixtures/corpus/R05-current.txt",
+   "content_class": "OTHER",
+   "content_detail": "synthetic revision-pair fixture",
+   "verdict": "CORRECT",
+   "evidence": "\"Synthetic revision family R05 ... p <= 7/7 and permits equality ... NOW_05\"."
+  },
+  {
+   "row": 309,
+   "path": "experiments/semantic_memory/fixtures/corpus/R05-old.txt",
+   "content_class": "OTHER",
+   "content_detail": "synthetic revision-pair fixture",
+   "verdict": "CORRECT",
+   "evidence": "\"Synthetic revision family R05 ... p <= 6/7 and forbids equality ... OLD_05\"."
+  },
+  {
+   "row": 309,
+   "path": "experiments/semantic_memory/fixtures/corpus/R06-current.txt",
+   "content_class": "OTHER",
+   "content_detail": "synthetic revision-pair fixture",
+   "verdict": "CORRECT",
+   "evidence": "\"Synthetic revision family R06 ... p <= 8/7 and permits equality ... NOW_06\"."
+  },
+  {
+   "row": 309,
+   "path": "experiments/semantic_memory/fixtures/corpus/R06-old.txt",
+   "content_class": "OTHER",
+   "content_detail": "synthetic revision-pair fixture",
+   "verdict": "CORRECT",
+   "evidence": "\"Synthetic revision family R06 ... p <= 7/7 and forbids equality ... OLD_06\"."
+  },
+  {
+   "row": 309,
+   "path": "experiments/semantic_memory/fixtures/corpus/R07-current.txt",
+   "content_class": "OTHER",
+   "content_detail": "synthetic revision-pair fixture",
+   "verdict": "CORRECT",
+   "evidence": "\"Synthetic revision family R07 ... p <= 9/7 and permits equality ... NOW_07\"."
+  },
+  {
+   "row": 309,
+   "path": "experiments/semantic_memory/fixtures/corpus/R07-old.txt",
+   "content_class": "OTHER",
+   "content_detail": "synthetic revision-pair fixture",
+   "verdict": "CORRECT",
+   "evidence": "\"Synthetic revision family R07 ... p <= 8/7 and forbids equality ... OLD_07\"."
+  },
+  {
+   "row": 309,
+   "path": "experiments/semantic_memory/fixtures/corpus/R08-current.txt",
+   "content_class": "OTHER",
+   "content_detail": "synthetic revision-pair fixture",
+   "verdict": "CORRECT",
+   "evidence": "\"Synthetic revision family R08 ... p <= 10/7 and permits equality ... NOW_08\"."
+  },
+  {
+   "row": 309,
+   "path": "experiments/semantic_memory/fixtures/corpus/R08-old.txt",
+   "content_class": "OTHER",
+   "content_detail": "synthetic revision-pair fixture",
+   "verdict": "CORRECT",
+   "evidence": "\"Synthetic revision family R08 ... p <= 9/7 and forbids equality ... OLD_08\"."
+  },
+  {
+   "row": 313,
+   "path": "formal/UniversalLaw.lean",
+   "content_class": "FORMAL_SOURCE_NO_DECLS",
+   "content_detail": "import-only root module; 0 theorem/lemma declarations",
+   "verdict": "CORRECT",
+   "evidence": "Imports Side24.Ledger, ConeMoments and Endpoints, plus a docstring: \"Root module. `tools/formal_gate_check.py` requires this file to import exactly the modules registered in `formal/manifest.json`\". [reconcile: no formal statement or proof in the file, so it does not count toward SOURCE_DOCUMENT_PRESENT]"
+  }
+ ],
+ "weak_rows": {
+  "7": "uncertified numerics with exact identities",
+  "14": "uncertified numerics with exact identities",
+  "17": "uncertified numerics with exact identities",
+  "18": "uncertified numerics with exact identities",
+  "122": "formal claim, not proved for d>=2",
+  "133": "reading note",
+  "137": "reconciliation; no new mathematical claim",
+  "139": "retraction; the proof is in frontiers/c7_total_bounded_20260929/PROOF.md, outside the unit",
+  "141": "candidate catalog",
+  "166": "consumption bridge",
+  "181": "reconciliation; no new mathematical claim",
+  "190": "uncertified numerics with exact identities",
+  "199": "uncompiled Lean proposals",
+  "225": "reconnaissance-level result",
+  "256": "EC-014, EC-015 and P02-LM-001 keep their derivations in external Drive files",
+  "266": "conditional on the unmerged Math-#200"
+ },
+ "rule_sensitive_rows": {
+  "280": "formal statement map (Lean declarations, no in-file proof); proofs live in the formal module",
+  "283": "formal statement map; proofs in formal/ResearchFormalCoreR1/MeasureBridge.lean",
+  "284": "formal statement map; proofs in formal/ResearchFormalCoreR1/MomentGenerality.lean",
+  "288": "import-only root module, no declarations",
+  "289": "formal statement map (SCOPE.md)",
+  "290": "formal statement map; proofs in formal/ResearchFormalCoreR1/WeightedLaw.lean",
+  "313": "import-only root module, no declarations"
+ }
+}

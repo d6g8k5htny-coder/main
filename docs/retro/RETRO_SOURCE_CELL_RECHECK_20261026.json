@@ -1,0 +1,4637 @@
+{
+ "schema": "retro-source-cell-recheck/v1",
+ "not_a_result": true,
+ "scientific_effect": "NONE",
+ "performer": "Anthropic Claude, session_01S16677s1SGeAJmN3QMz4ip (Claude S)",
+ "pickup": "https://github.com/d6g8k5htny-coder/main/issues/619#issuecomment-6405600087",
+ "ledger": {
+  "repo": "main",
+  "commit": "99adffc8902b1fbfb7ab487020f9c0267f28f88d",
+  "path": "data/hypergraph/math_coverage_ledger_20261023.md",
+  "blob": "03fe9db3f21d22b4d1b8db409a9c6d887763ec64"
+ },
+ "cuts": {
+  "Math-": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+  "main": "a487cfd41bfe095842d9d9f5cec26fc23877b028"
+ },
+ "math_tip": "b29c4b769cac85437b409d152651d5cce4140015",
+ "marker_regex": "\\b(Theorem|Lemma|Proposition|Corollary|Proof|Claim|Definition|Remark)\\b|∎|\\\\begin\\{(theorem|lemma|proof)\\}|\\$\\$|\\\\\\(|\\\\\\[|≤|≥|∫|∑",
+ "reader_method": "Model-assisted content reading (Anthropic Claude subagents of session_01S16677s1SGeAJmN3QMz4ip): five readers covered every statement document of the 129 rows, one verified the carriers, one reconciled; Claude S spot-checked rows 27, 148, 223, 263, 283. These classes are a reader judgment, not reproducible by the script, and make no correctness claim.",
+ "row_rule": "A row is SOURCE_DOCUMENT_PRESENT when at least one document is MATH_STATEMENT or MATH_REVIEW, or FORMAL_SOURCE with theorem/lemma declarations. Formal statement maps without in-file proofs are classed OTHER and do not count.",
+ "missing_rows": 129,
+ "row_result_counts": {
+  "NOT_CHECKED_PINNED_TO_OPEN_PR": 1,
+  "NO_MATH_SOURCE_DOCUMENT": 45,
+  "SOURCE_DOCUMENT_PRESENT": 83
+ },
+ "rows": [
+  {
+   "row": 1,
+   "repo": "Math-",
+   "unit": "frontiers/README.md",
+   "lane": "GB-8r",
+   "ledger_impl_cell": ".github/workflows/price-budget.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [
+    {
+     "path": "frontiers/README.md",
+     "blob": "855ef2db8d095342e715e943420613dbc365922b",
+     "bytes": 2269,
+     "sha256": "3a931a7ec4e9283b6a636d5cf18225afa59923bfa5b8f9490c43c35e1edea05b",
+     "marker_hits": 10,
+     "heuristic_class": "README/INDEX+MATH",
+     "reviewed_class": "INDEX_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "TOO_HIGH",
+     "evidence": "Package table 'Package | Start here | What is supplied'; 'These directories are source snapshots'. All 10 hits are 'Proof'/'PROOF.md'/'proof' link labels (the regex ignores case)"
+    }
+   ],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 4,
+   "repo": "Math-",
+   "unit": "frontiers/c2_exact_20261001",
+   "lane": "GB-8r",
+   "ledger_impl_cell": "frontiers/c2_exact_20261001/certificate.py; frontiers/c2_exact_20261001/controls.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 12,
+   "statement_documents": [
+    {
+     "path": "frontiers/c2_exact_20261001/NOTE.md",
+     "blob": "a2798b87674ed5fc0d2144697e77ccb9b185b4ab",
+     "bytes": 14480,
+     "sha256": "598fc86a7c6b21bad438ef087e5aa7521f0fae08e25fa4f40f9b2ba635846dbb",
+     "marker_hits": 13,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'**Theorem (closed forms).** For the Gaussian kernel'. Exact rational derivation plus certified interval enclosures"
+    },
+    {
+     "path": "frontiers/c2_exact_20261001/README.md",
+     "blob": "9fb11719d968fb9e88aaa76d6b28dc89301ebb71",
+     "bytes": 786,
+     "sha256": "b5fd88c0abf4123c9539a8141b4c77f0123b446385190c65f651ace29b3bb6a5",
+     "marker_hits": 0,
+     "heuristic_class": "README/INDEX",
+     "reviewed_class": "INDEX_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'Author-side exact closed forms with certified enclosures; ... See `NOTE.md`'. Restates the value table and gives replay commands"
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "frontiers/c2_exact_20261001/NOTE.md"
+   ]
+  },
+  {
+   "row": 6,
+   "repo": "Math-",
+   "unit": "frontiers/c2_torus_transfer_20261001",
+   "lane": "GB-8r",
+   "ledger_impl_cell": "frontiers/c2_torus_transfer_20261001/ball.py; frontiers/c2_torus_transfer_20261001/controls.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 10,
+   "statement_documents": [
+    {
+     "path": "frontiers/c2_torus_transfer_20261001/NOTE.md",
+     "blob": "5ce5bad2a1073b9b425fc4c5e6eed5527d39eaf2",
+     "bytes": 21673,
+     "sha256": "6d15dccc847d9457ff5d77d6286179fa87505b5d0570fea7996366bb2ba79da3",
+     "marker_hits": 45,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'**Theorem C2T.** ... |c2[K_L, u] - c2[phi]| <= eps_d(L0)'. Includes Lemma E and Lemma F with '*Proof.*'"
+    },
+    {
+     "path": "frontiers/c2_torus_transfer_20261001/README.md",
+     "blob": "68eec096fc928692852e75117a5bd3ce51551e5e",
+     "bytes": 998,
+     "sha256": "63a3302d33c7ef56aac23044f743e7e613db9aaf2e448d72ef05e84d5135f46c",
+     "marker_hits": 1,
+     "heuristic_class": "README/INDEX",
+     "reviewed_class": "INDEX_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'Author-side; scientific effect NONE. See `NOTE.md`'. Summary table and replay line only"
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "frontiers/c2_torus_transfer_20261001/NOTE.md"
+   ]
+  },
+  {
+   "row": 7,
+   "repo": "Math-",
+   "unit": "frontiers/c6_cluster_coefficients_numerics_20260930",
+   "lane": "GB-8h",
+   "ledger_impl_cell": "frontiers/c6_cluster_coefficients_numerics_20260930/coefficients.py; .github/workflows/c6-cluster-coefficients-numerics.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 6,
+   "statement_documents": [
+    {
+     "path": "frontiers/c6_cluster_coefficients_numerics_20260930/NOTE.md",
+     "blob": "845881d40520d4acbe15ee196a1ba0d5412eafa1",
+     "bytes": 11018,
+     "sha256": "f20c1ac96b00edc071e428bd2e5dc4c91b8546a3ee0693367b783109b26aa518",
+     "marker_hits": 12,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Exact regression structure ('A ~ N(-b, 2)', 'N(0, diag(2,2,6))') plus floating values. It says 'Not a proof, not a certified enclosure' and 'no new mathematics is claimed here beyond the exact regression identities of §2'"
+    },
+    {
+     "path": "frontiers/c6_cluster_coefficients_numerics_20260930/README.md",
+     "blob": "5e7d05e10c3f61d2629bd5cf1ab47957860bf40f",
+     "bytes": 1317,
+     "sha256": "1c47f7009455e1a4e72eb3f40e45def4fd4f530b61a87eb610d080bbed9bfbc0",
+     "marker_hits": 1,
+     "heuristic_class": "README/INDEX",
+     "reviewed_class": "INDEX_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "File listing: '`NOTE.md`: what is evaluated ... `coefficients.py`: standard library only'"
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "frontiers/c6_cluster_coefficients_numerics_20260930/NOTE.md"
+   ],
+   "weak_note": "uncertified numerics with exact identities"
+  },
+  {
+   "row": 14,
+   "repo": "Math-",
+   "unit": "frontiers/c6_microscopic_tail_numerics_20260930",
+   "lane": "GB-8k",
+   "ledger_impl_cell": "frontiers/c6_microscopic_tail_numerics_20260930/tail_constants.py; .github/workflows/c6-microscopic-tail-numerics.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 6,
+   "statement_documents": [
+    {
+     "path": "frontiers/c6_microscopic_tail_numerics_20260930/NOTE.md",
+     "blob": "f5224e0bde234bd84c2975850773d686f9319951",
+     "bytes": 14419,
+     "sha256": "24a76ae647a67a4e4bd350848d1cc1703c7b211be364a76ae0de46a27f37dfbe",
+     "marker_hits": 7,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Exact rational shape integrals 'I = 246528/35, U_2 = ... 240192/35' plus Gauss-quadrature constants. Labelled 'Kind: numerical note' (not certified)"
+    },
+    {
+     "path": "frontiers/c6_microscopic_tail_numerics_20260930/README.md",
+     "blob": "0c93b920b560a100ac82d8ee05d4240ade227203",
+     "bytes": 1850,
+     "sha256": "6d1fa8448520802211b12831e1f7624ca3e2226b5a744d384c6e4d5ceebc99d3",
+     "marker_hits": 1,
+     "heuristic_class": "README/INDEX",
+     "reviewed_class": "INDEX_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'- `NOTE.md` — what is evaluated, exact structure, values, precision, non-claims'"
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "frontiers/c6_microscopic_tail_numerics_20260930/NOTE.md"
+   ],
+   "weak_note": "uncertified numerics with exact identities"
+  },
+  {
+   "row": 17,
+   "repo": "Math-",
+   "unit": "frontiers/c6_remote_coefficient_d3_numerics_20260930",
+   "lane": "GB-8b",
+   "ledger_impl_cell": "frontiers/c6_remote_coefficient_d3_numerics_20260930/remote3.py; .github/workflows/c6-remote-coefficient-d3-numerics.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 6,
+   "statement_documents": [
+    {
+     "path": "frontiers/c6_remote_coefficient_d3_numerics_20260930/NOTE.md",
+     "blob": "98a14c82c08ba7c6dff420c70b6d573e521c6960",
+     "bytes": 15285,
+     "sha256": "7d9ac0247e95c5723074dab786215d8dab3499dc4bfeb1f29905ad3ef61c63ed",
+     "marker_hits": 7,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Exact contact law and 'm_(3,0) = (7 - 4 sqrt2)/2', BBKS closed-form controls, Monte Carlo hole. Labelled 'Numerical evaluation only'"
+    },
+    {
+     "path": "frontiers/c6_remote_coefficient_d3_numerics_20260930/README.md",
+     "blob": "e58bba39ef42941246d90e6feda4fdd1aadfefe4",
+     "bytes": 1101,
+     "sha256": "b829753d61feff5f92edb0fbfc9d8542033ad8c1c73176cf0fbc4e3a3844f216",
+     "marker_hits": 0,
+     "heuristic_class": "README/INDEX",
+     "reviewed_class": "INDEX_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'`NOTE.md` evaluates the contact kernel ...' followed by replay commands"
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "frontiers/c6_remote_coefficient_d3_numerics_20260930/NOTE.md"
+   ],
+   "weak_note": "uncertified numerics with exact identities"
+  },
+  {
+   "row": 18,
+   "repo": "Math-",
+   "unit": "frontiers/c6_remote_coefficient_numerics_20260930",
+   "lane": "GB-8b",
+   "ledger_impl_cell": "frontiers/c6_remote_coefficient_numerics_20260930/remote.py; .github/workflows/c6-remote-coefficient-d3-numerics.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 6,
+   "statement_documents": [
+    {
+     "path": "frontiers/c6_remote_coefficient_numerics_20260930/NOTE.md",
+     "blob": "47fc0fedf10d9e68b6eef69808c3f3f7993c06de",
+     "bytes": 18777,
+     "sha256": "aa15838fb0c842f1d24ab5bc883e3546f2ad993b719470df2556b35a9878cf69",
+     "marker_hits": 2,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "TOO_LOW",
+     "evidence": "Derives closed-form identities, e.g. \"Lambda_inf(0) = (2 sqrt2 - 1)/(2 pi)^(3/2) = 0.1160934862...\" and \"E|det H| = ... = 4/sqrt3\", and tabulates coefficient values for nu(1). The numerics are self-declared \"Certified: no\", but the exact far-field and control identities are derived in the note."
+    },
+    {
+     "path": "frontiers/c6_remote_coefficient_numerics_20260930/README.md",
+     "blob": "79b0606281822f3ec2809a8b87317dae648508d0",
+     "bytes": 1731,
+     "sha256": "453e5adc6464cbbe020fcd20d59c3dd91afaaba20c91f96854510abf96b10e97",
+     "marker_hits": 1,
+     "heuristic_class": "README/INDEX",
+     "reviewed_class": "INDEX_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Packet navigation: \"NOTE.md — statement of what is evaluated, exact structure, method, values...\". It makes no claims of its own."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "frontiers/c6_remote_coefficient_numerics_20260930/NOTE.md"
+   ],
+   "weak_note": "uncertified numerics with exact identities"
+  },
+  {
+   "row": 23,
+   "repo": "Math-",
+   "unit": "frontiers/c8_cap_failure_coefficient_dims_20261001",
+   "lane": "GB-8h",
+   "ledger_impl_cell": "frontiers/c8_cap_failure_coefficient_dims_20261001/cap_coefficient_dims.py; .github/workflows/c8-cap-failure-coefficient-dims.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 6,
+   "statement_documents": [
+    {
+     "path": "frontiers/c8_cap_failure_coefficient_dims_20261001/NOTE.md",
+     "blob": "b42be5b87514414dded25589549a009eb3f5506a",
+     "bytes": 21870,
+     "sha256": "893961eb500cf83c89954e02ad04b44f98006d0c5229833b1cbaa0870f99ffbf",
+     "marker_hits": 29,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'**Theorem G_d.** Fix `d >= 3`' with '## 3. Proof of Theorem G_d'. Lemma 1 proved; certified d=3 enclosures"
+    },
+    {
+     "path": "frontiers/c8_cap_failure_coefficient_dims_20261001/README.md",
+     "blob": "1d27defb1a31e3c6a98d87d9581022aef762875c",
+     "bytes": 2671,
+     "sha256": "168c00d3d6fa2a12ebc1198485267a1236060309ef046c355d7860ec4082860a",
+     "marker_hits": 7,
+     "heuristic_class": "README/INDEX+MATH",
+     "reviewed_class": "INDEX_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "TOO_HIGH",
+     "evidence": "Restates NOTE's statement, then '**Files.** - `NOTE.md`: statement, Lemma 1 ..., the proof of Theorem G_d'. No proof of its own; the 7 hits are theorem/lemma names"
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "frontiers/c8_cap_failure_coefficient_dims_20261001/NOTE.md"
+   ]
+  },
+  {
+   "row": 24,
+   "repo": "Math-",
+   "unit": "frontiers/c8_cap_failure_coefficient_planar_20260930",
+   "lane": "GB-8h",
+   "ledger_impl_cell": "frontiers/c8_cap_failure_coefficient_planar_20260930/cap_coefficient.py; .github/workflows/c8-cap-failure-coefficient-planar.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 6,
+   "statement_documents": [
+    {
+     "path": "frontiers/c8_cap_failure_coefficient_planar_20260930/NOTE.md",
+     "blob": "2838b76b21a884bd77d18f294d1730780b3ed3ab",
+     "bytes": 29358,
+     "sha256": "b3e8d67f7c9f0ee3204e0cfc2e9ce134087f3ff56e26ec4b8a9268040e24a8dc",
+     "marker_hits": 25,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'**Theorem G.** Fix `b in R`, `k > 0`' with '## 2. Proof of Theorem G' (coupling, domination)"
+    },
+    {
+     "path": "frontiers/c8_cap_failure_coefficient_planar_20260930/README.md",
+     "blob": "0c0adf6af489dffde48d1d22f4da4c27aa1d10cd",
+     "bytes": 2744,
+     "sha256": "ee24910a9b9c570b44a7d63a7637bd6a5030c8be4b0e836006c4838f15b4db32",
+     "marker_hits": 7,
+     "heuristic_class": "README/INDEX+MATH",
+     "reviewed_class": "INDEX_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "TOO_HIGH",
+     "evidence": "'Theorem G (`NOTE.md`) gives the exact leading behaviour'; '`NOTE.md` — statement, proof of Theorem G'. A summary of NOTE.md"
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "frontiers/c8_cap_failure_coefficient_planar_20260930/NOTE.md"
+   ]
+  },
+  {
+   "row": 25,
+   "repo": "Math-",
+   "unit": "frontiers/c8_elder_failure_coefficient_20261001",
+   "lane": "GB-8h",
+   "ledger_impl_cell": "frontiers/c8_elder_failure_coefficient_20261001/boxes.py; frontiers/c8_elder_failure_coefficient_20261001/certificate.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 11,
+   "statement_documents": [
+    {
+     "path": "frontiers/c8_elder_failure_coefficient_20261001/NOTE.md",
+     "blob": "9903dd6f6b2514069bef78399b3d90201280911e",
+     "bytes": 27438,
+     "sha256": "de50468afe0cae0bd2147a79e1b5b45a9f57ade5a81a9a99fd95aaaccc826c7c",
+     "marker_hits": 28,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'**Theorem (certified enclosures).** The following intervals contain the exact values'. Lemmas 1–3 and Lemma T"
+    },
+    {
+     "path": "frontiers/c8_elder_failure_coefficient_20261001/README.md",
+     "blob": "68ac15054b26ab4e0b9021859727be3385b6dbbd",
+     "bytes": 1906,
+     "sha256": "63313f05a155a5b93db70c82c16eca7ab98c4f1311ddc770dffc5ccb2db85031",
+     "marker_hits": 1,
+     "heuristic_class": "README/INDEX",
+     "reviewed_class": "INDEX_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'Details and the method are in [NOTE.md](NOTE.md)'. Restated enclosures and replay"
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "frontiers/c8_elder_failure_coefficient_20261001/NOTE.md"
+   ]
+  },
+  {
+   "row": 26,
+   "repo": "Math-",
+   "unit": "frontiers/c8_lifetime_difference_constant_20261001",
+   "lane": "GB-8e",
+   "ledger_impl_cell": "frontiers/c8_lifetime_difference_constant_20261001/engine_e2.py; frontiers/c8_lifetime_difference_constant_20261001/engine_e3.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 8,
+   "statement_documents": [
+    {
+     "path": "frontiers/c8_lifetime_difference_constant_20261001/NOTE.md",
+     "blob": "845112c909e61f6b392fa9485125a9bf038e0f13",
+     "bytes": 35377,
+     "sha256": "8a19d5c07f1b6a7053503b6ee2d105dac2a2c0562eb5db14bf93e17958ba7c67",
+     "marker_hits": 39,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'**Theorem L (the radial ledger to second order).**', Corollaries L1 and L2, Lemmas 1–4, certified constants"
+    },
+    {
+     "path": "frontiers/c8_lifetime_difference_constant_20261001/README.md",
+     "blob": "d14fafdfa159bd714fe6e673b5d0fa02898500c5",
+     "bytes": 3622,
+     "sha256": "55ca70ff374720dd55fbf1d1855a8a29604639b9efb1f519f1b3dfe588c48b7c",
+     "marker_hits": 5,
+     "heuristic_class": "README/INDEX",
+     "reviewed_class": "INDEX_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'**Results** (`NOTE.md` Theorem L and Corollaries L1, L2)' and a file list"
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "frontiers/c8_lifetime_difference_constant_20261001/NOTE.md"
+   ]
+  },
+  {
+   "row": 27,
+   "repo": "Math-",
+   "unit": "frontiers/c8_normalizer_floor_planar_20260930",
+   "lane": "GB-8n",
+   "ledger_impl_cell": "frontiers/c8_normalizer_floor_planar_20260930/floor.py; .github/workflows/c8-normalizer-floor-planar.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 6,
+   "statement_documents": [
+    {
+     "path": "frontiers/c8_normalizer_floor_planar_20260930/NOTE.md",
+     "blob": "d321d52e83e9fa6cd2467f82310b6267c8be4e29",
+     "bytes": 17915,
+     "sha256": "3dffe22dc58bf4262ab580197b3fd5ef0f1ba71e0a2e3f7030748c4574fd9eab",
+     "marker_hits": 4,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "TOO_LOW",
+     "evidence": "\"Certified inequality. ... Z_r / r^2 >= z_* = 3.5044\", proved by exact rational interval arithmetic, with \"Lemma (endpoint minimum)\" stated and proved. It had only 4 marker hits because ASCII \">=\" is not a marker, and the threshold is 6."
+    },
+    {
+     "path": "frontiers/c8_normalizer_floor_planar_20260930/README.md",
+     "blob": "e99afd061220a551661e35e97e91d876881eb023",
+     "bytes": 2191,
+     "sha256": "56ae5b37b9355d9083758a62c2a96b0b9e976a5ee7c423ecf91c070eb846a31a",
+     "marker_hits": 0,
+     "heuristic_class": "README/INDEX",
+     "reviewed_class": "INDEX_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Repeats NOTE.md's main result (\"Proves ... the explicit floor Z_r / r^2 >= z_* = 3.5044\") and gives no proof (\"NOTE.md states the method\"). It is an index; the math is carried by NOTE.md."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "frontiers/c8_normalizer_floor_planar_20260930/NOTE.md"
+   ]
+  },
+  {
+   "row": 28,
+   "repo": "Math-",
+   "unit": "frontiers/c8_theorem_a_constants_d3_20261001",
+   "lane": "GB-8h",
+   "ledger_impl_cell": "frontiers/c8_theorem_a_constants_d3_20261001/theorem_a3.py; .github/workflows/c8-theorem-a-constants-d3.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 6,
+   "statement_documents": [
+    {
+     "path": "frontiers/c8_theorem_a_constants_d3_20261001/NOTE.md",
+     "blob": "718dd17eb6f1e94391ea8f3ad4d7c1bfd9d48d2d",
+     "bytes": 36029,
+     "sha256": "a93366be08211820492613b611c8c0e205158e520617716485707afb7ea0fc19",
+     "marker_hits": 38,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'**Theorem E3.** Let `d = 3`, `B = [0, 1]`'. Lemmas 1–5' with explicit certified constants"
+    },
+    {
+     "path": "frontiers/c8_theorem_a_constants_d3_20261001/README.md",
+     "blob": "bfd92f786151b154b86fdde34f94675995045df9",
+     "bytes": 3624,
+     "sha256": "b096e42b1f31b30f025c813b64eda44b03a725496ea1a298de0f51edc3249b94",
+     "marker_hits": 7,
+     "heuristic_class": "README/INDEX+MATH",
+     "reviewed_class": "INDEX_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "TOO_HIGH",
+     "evidence": "'Theorem E3 (`NOTE.md`) holds on the band', restated table and '**Files.**'. No derivation"
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "frontiers/c8_theorem_a_constants_d3_20261001/NOTE.md"
+   ]
+  },
+  {
+   "row": 29,
+   "repo": "Math-",
+   "unit": "frontiers/c8_theorem_a_constants_planar_20260930",
+   "lane": "GB-8n",
+   "ledger_impl_cell": "frontiers/c8_theorem_a_constants_planar_20260930/theorem_a.py; .github/workflows/c8-theorem-a-constants-planar.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 6,
+   "statement_documents": [
+    {
+     "path": "frontiers/c8_theorem_a_constants_planar_20260930/NOTE.md",
+     "blob": "49ebecf43c0e28d1c7d494ee4dc58f81dd405331",
+     "bytes": 32994,
+     "sha256": "b651692df5658e45c29da4356b0b06ee3e3ca6b1ec784c58416d829658da6e17",
+     "marker_hits": 38,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'**Theorem E.** Let `B = [0, 1]` and `K = [1/2, 2]`', Theorem E' and Lemmas 1–5"
+    },
+    {
+     "path": "frontiers/c8_theorem_a_constants_planar_20260930/README.md",
+     "blob": "bb03e4d1577f69a72d1e1a4241a80fcf0b76c133",
+     "bytes": 3687,
+     "sha256": "7f93e5f11d97367314d70148935308e714398eee2f8261a79c860101af663405",
+     "marker_hits": 8,
+     "heuristic_class": "README/INDEX+MATH",
+     "reviewed_class": "INDEX_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "TOO_HIGH",
+     "evidence": "'Theorem E (`NOTE.md`) holds on the band'. Restated C(r_*) tables and file list"
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "frontiers/c8_theorem_a_constants_planar_20260930/NOTE.md"
+   ]
+  },
+  {
+   "row": 30,
+   "repo": "Math-",
+   "unit": "frontiers/c8_torus_vanishing_remainder_20261001",
+   "lane": "GB-8e",
+   "ledger_impl_cell": "frontiers/c8_torus_vanishing_remainder_20261001/engine_e2.py; frontiers/c8_torus_vanishing_remainder_20261001/engine_e3.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 9,
+   "statement_documents": [
+    {
+     "path": "frontiers/c8_torus_vanishing_remainder_20261001/NOTE.md",
+     "blob": "8758ddf22870302db178f66d8265d946179e0705",
+     "bytes": 23886,
+     "sha256": "5ac08f6418750db3b1d0c156f8ed37b2eda904e3b0a9ac08bd7a842b4f23e2d8",
+     "marker_hits": 48,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'**Theorem L′.** For `d = 2, 3`, every torus side `L >= 10`'. Lemmas V1–V6"
+    },
+    {
+     "path": "frontiers/c8_torus_vanishing_remainder_20261001/README.md",
+     "blob": "c7aed0099859a5fa6fa6e4774e9c40d4ce8b6ab7",
+     "bytes": 1219,
+     "sha256": "604355ec86f604510bdc30757f1f372bb36193098811ae0e251d60ec06f89f24",
+     "marker_hits": 3,
+     "heuristic_class": "README/INDEX",
+     "reviewed_class": "INDEX_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'Theorem L′ (`NOTE.md`): ...' summary followed by 'Replay (standard library, about 3.5 minutes)'"
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "frontiers/c8_torus_vanishing_remainder_20261001/NOTE.md"
+   ]
+  },
+  {
+   "row": 31,
+   "repo": "Math-",
+   "unit": "frontiers/c8_window_coefficient_d3_torus_20260930",
+   "lane": "GB-8h",
+   "ledger_impl_cell": "frontiers/c8_window_coefficient_d3_torus_20260930/window_coefficient_d3.py; .github/workflows/c8-window-coefficient-d3-torus.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 4,
+   "statement_documents": [
+    {
+     "path": "frontiers/c8_window_coefficient_d3_torus_20260930/NOTE.md",
+     "blob": "549dc7cc3e8ce9b330fa20f6ade98d81c5fe4aaa",
+     "bytes": 19206,
+     "sha256": "0e5a94e16ab35ff0be16ff6bafbeb6dd02bb50271b2caff5a8090f913b85e459",
+     "marker_hits": 75,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'**Lemma S.** ... *Proof.* `det C' ≥ (1 − ε)⁴ det C` ... ∎' and a d=3 Proposition with certified interval"
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "frontiers/c8_window_coefficient_d3_torus_20260930/NOTE.md"
+   ]
+  },
+  {
+   "row": 32,
+   "repo": "Math-",
+   "unit": "frontiers/c8_window_coefficient_d4_20261001",
+   "lane": "GB-8h",
+   "ledger_impl_cell": "frontiers/c8_window_coefficient_d4_20261001/window_coefficient_d4.py; .github/workflows/c8-window-coefficient-d4.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 4,
+   "statement_documents": [
+    {
+     "path": "frontiers/c8_window_coefficient_d4_20261001/NOTE.md",
+     "blob": "d09612387e01866ea9d6fef7098aee26e226ed1a",
+     "bytes": 24546,
+     "sha256": "50288f5fcf2676f32bad0ca7afb3ac7163d77ff1f958f8db5b86dacfd93d6924",
+     "marker_hits": 74,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'**Proposition (d = 4 window coefficient).**'. Total-trace reduction 'I^ref_B = (1/(96π)) ∫_{T>s>q>0} ...' and certified quadrature"
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "frontiers/c8_window_coefficient_d4_20261001/NOTE.md"
+   ]
+  },
+  {
+   "row": 33,
+   "repo": "Math-",
+   "unit": "frontiers/c8_window_coefficient_d5_20261001",
+   "lane": "GB-8b",
+   "ledger_impl_cell": "frontiers/c8_window_coefficient_d5_20261001/window_coefficient_d5.py; .github/workflows/c8-window-coefficient-d5.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 4,
+   "statement_documents": [
+    {
+     "path": "frontiers/c8_window_coefficient_d5_20261001/NOTE.md",
+     "blob": "8399c6baf6d6dc9e2eae3a50d53abdf4d60d0651",
+     "bytes": 22577,
+     "sha256": "063854ab42a8216ce40083976bad9fa2f5ca2c1290d0b897a754b52c5f7e6598",
+     "marker_hits": 57,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'**Proposition (d = 5 window coefficient).**'; '**Both Owen-type terms cancel identically.**' with closed form F_4(T)"
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "frontiers/c8_window_coefficient_d5_20261001/NOTE.md"
+   ]
+  },
+  {
+   "row": 34,
+   "repo": "Math-",
+   "unit": "frontiers/c8_window_coefficient_d6_20261001",
+   "lane": "GB-8i",
+   "ledger_impl_cell": "frontiers/c8_window_coefficient_d6_20261001/window_coefficient_d6.py; .github/workflows/c8-window-coefficient-d6.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 4,
+   "statement_documents": [
+    {
+     "path": "frontiers/c8_window_coefficient_d6_20261001/NOTE.md",
+     "blob": "654c0aca5d04481418bd5768745100d338c9b544",
+     "bytes": 25762,
+     "sha256": "c143213807386240e612b6f3cc00b0f31dc6d2046f986b5f165dd2ab19422543",
+     "marker_hits": 56,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'**Proposition (d = 6 window coefficient).**' with torus interval '(relative half-width 1.36e-5)'"
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "frontiers/c8_window_coefficient_d6_20261001/NOTE.md"
+   ],
+   "postcut_carriers": [
+    {
+     "path": "frontiers/c8_window_coefficient_d6_20261001/SOURCE_FILES.json",
+     "landing": "Math-#500",
+     "merge": "c99ad22f33150abc69e3e54b9143a34169971369",
+     "role": "MANIFEST_REPIN",
+     "note": "declarative manifest; one blob id expanded to 40 hex",
+     "blob": "eed8158764f2cfcf24654e27a27723162446b014",
+     "blob_at_cut": "cc4d8cb4284cd54d6e425037207fddb2f32e66d7"
+    }
+   ]
+  },
+  {
+   "row": 35,
+   "repo": "Math-",
+   "unit": "frontiers/c8_window_coefficient_d7_20261001",
+   "lane": "GB-8i",
+   "ledger_impl_cell": "frontiers/c8_window_coefficient_d7_20261001/window_coefficient_d7.py; .github/workflows/c8-window-coefficient-d7.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 4,
+   "statement_documents": [
+    {
+     "path": "frontiers/c8_window_coefficient_d7_20261001/NOTE.md",
+     "blob": "66193992f2debdff033b43faf6c7fbc7c732b124",
+     "bytes": 27896,
+     "sha256": "d63d9dba48e1febeceabe3d3bb86837adc93cfc72dac306cd02617462306f026",
+     "marker_hits": 59,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'**Proposition (d = 7).** ... `D_6 = 155.8639107879976...` (width `7.9·10⁻⁵⁴`)'"
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "frontiers/c8_window_coefficient_d7_20261001/NOTE.md"
+   ]
+  },
+  {
+   "row": 36,
+   "repo": "Math-",
+   "unit": "frontiers/c8_window_coefficient_planar_20260930",
+   "lane": "GB-8i",
+   "ledger_impl_cell": "frontiers/c8_window_coefficient_planar_20260930/window_coefficient.py; .github/workflows/c8-window-coefficient-planar.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 4,
+   "statement_documents": [
+    {
+     "path": "frontiers/c8_window_coefficient_planar_20260930/NOTE.md",
+     "blob": "8d73ae387e69ca13bca73b4926a9b884248b3f24",
+     "bytes": 25754,
+     "sha256": "6484a79daf4232b5a5e4e92ab9857be54ee386fdf8d6a6c19a476b224da25d13",
+     "marker_hits": 15,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'**Theorem W (exact factorization, reference kernel).** ... c_{B,K} = c_{2,ref} F_B G_K' with derivation and certified values"
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "frontiers/c8_window_coefficient_planar_20260930/NOTE.md"
+   ]
+  },
+  {
+   "row": 43,
+   "repo": "Math-",
+   "unit": "frontiers/contact_kernel_tail_20260925",
+   "lane": "GB-8s",
+   "ledger_impl_cell": "frontiers/contact_kernel_tail_20260925/kernel_tail.py; frontiers/contact_kernel_tail_20260925/run_validation.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 7,
+   "statement_documents": [
+    {
+     "path": "frontiers/contact_kernel_tail_20260925/NOTE.md",
+     "blob": "8da0cc852310f7de87187d6b5b244ef828608151",
+     "bytes": 13359,
+     "sha256": "1d7fd4bc0571f96d6b9261aeca594745312faac86d4d31accfebce76f39c71ff",
+     "marker_hits": 6,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'0<=Lambda_1(u,v)<=C_* |v|^-13 exp(-c_*/v^2). (K10)' and the tail formula (K12)–(K13). Borderline: exactly 6 hits, all from prose words (theorem x3, claim x2, proof); the ASCII math is not matched"
+    },
+    {
+     "path": "frontiers/contact_kernel_tail_20260925/RECONNAISSANCE.md",
+     "blob": "c56cf30de0f8d2c521bfe99ac3946d9272f5ea0f",
+     "bytes": 1856,
+     "sha256": "d9b2ce283b781d055bf4764d8e67d0babd38b70e379c8a3a913374404c6827d7",
+     "marker_hits": 2,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "literature/source reconnaissance memo; no statements of its own",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Source and literature reconnaissance: 'Read the exact PR25 Sections B–C formulas ... Opened NIST DLMF section8.4'. No statements of its own [reconcile: reader class PROTOCOL_ONLY harmonized to OTHER with the other four reconnaissance memos; still non-math]"
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "frontiers/contact_kernel_tail_20260925/NOTE.md"
+   ]
+  },
+  {
+   "row": 51,
+   "repo": "Math-",
+   "unit": "frontiers/downstream_gate_20260925",
+   "lane": "GB-7/graph",
+   "ledger_impl_cell": "frontiers/downstream_gate_20260925/git_transition_audit.py; frontiers/downstream_gate_20260925/hard_gate.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 13,
+   "statement_documents": [
+    {
+     "path": "frontiers/downstream_gate_20260925/D0_CI_UNBLOCK.md",
+     "blob": "397ba511a4cd4e1bfb97b64017d711847a468cc0",
+     "bytes": 2068,
+     "sha256": "2423fa7d3519a5ba06739cb43cc72e26db70020350338a1fa508e5adfb109643",
+     "marker_hits": 0,
+     "heuristic_class": "PROTOCOL/SCOPE",
+     "reviewed_class": "PROTOCOL_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "A CI allowlist fix: \"PROBLEM packet: unexpected files ...\". \"Does not flip any scientific Boolean.\""
+    },
+    {
+     "path": "frontiers/downstream_gate_20260925/README.md",
+     "blob": "6ff49b966ab41dc4db771d48e547cc60da11764f",
+     "bytes": 4025,
+     "sha256": "13fc1accebebd6017f34b0e5473bf6338f2604948c25a002051b5f0620fc327a",
+     "marker_hits": 2,
+     "heuristic_class": "README/INDEX",
+     "reviewed_class": "PROTOCOL_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Describes the semantics of a software graph gate: \"Tests establish software behavior, not proof or independent review.\" It has no mathematical statements."
+    },
+    {
+     "path": "frontiers/downstream_gate_20260925/SCOPE.md",
+     "blob": "ed8c56a88c483cdda3138a99e217ab3518c6f5d3",
+     "bytes": 2218,
+     "sha256": "c7b5bb0ec34f53395b96ae24edceb3b5b0a3451caf7df6205b924d40e9e9fd84",
+     "marker_hits": 3,
+     "heuristic_class": "PROTOCOL/SCOPE",
+     "reviewed_class": "PROTOCOL_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Scope and coordination for the fail-closed promotion rules: \"Fail-closed promotion and reverse-impact rules matching the owner's #90 directive.\" \"neither promotes mathematics\"."
+    }
+   ],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 59,
+   "repo": "Math-",
+   "unit": "frontiers/equal_height_mass_value_20261001",
+   "lane": "GB-8n",
+   "ledger_impl_cell": "frontiers/equal_height_mass_value_20261001/equal_height_mass.py; frontiers/equal_height_mass_value_20261001/gamma_explore.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 7,
+   "statement_documents": [
+    {
+     "path": "frontiers/equal_height_mass_value_20261001/NOTE.md",
+     "blob": "95d622c88de21d152de72b8bd2612d1072bdd4fa",
+     "bytes": 19894,
+     "sha256": "fb9c56d7da5ead43fbd30860c38a17431609ad1808dbeba4f0489fdeb8e743b5",
+     "marker_hits": 79,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'**Proposition V (volume law).**' with '## 1. Proof of Proposition V' (Steps 1–5)"
+    },
+    {
+     "path": "frontiers/equal_height_mass_value_20261001/README.md",
+     "blob": "1288b1dc3aace7c956d5076c2e660343d0799e25",
+     "bytes": 3812,
+     "sha256": "578e55725288e047f7b6037ca8b73be576ae6d84bc40e18662329e1545c33d1d",
+     "marker_hits": 17,
+     "heuristic_class": "README/INDEX+MATH",
+     "reviewed_class": "INDEX_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "TOO_HIGH",
+     "evidence": "Restates Proposition V and values, then '`NOTE.md` — the proposition, its proof and the numbers'. A summary with no proof"
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "frontiers/equal_height_mass_value_20261001/NOTE.md"
+   ]
+  },
+  {
+   "row": 78,
+   "repo": "Math-",
+   "unit": "frontiers/local_pairing_20260930",
+   "lane": "GB-8s",
+   "ledger_impl_cell": "frontiers/local_pairing_20260930/exploration/elder_grid.py; frontiers/local_pairing_20260930/exploration/test_elder_grid.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 8,
+   "statement_documents": [
+    {
+     "path": "frontiers/local_pairing_20260930/LOCAL_PAIRING.md",
+     "blob": "1f8c9455b6d8bf8b22342cc705c2119a67f8dc76",
+     "bytes": 46742,
+     "sha256": "e01e1d097fb087fee013559f508ad58849da06f9a764eed1464286946d78331a",
+     "marker_hits": 263,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'**Lemma P.** Let `θ = (s, a, β, c)` be typed ...', Lemma P′, Proposition 3.3, '**Theorem LP.**'"
+    },
+    {
+     "path": "frontiers/local_pairing_20260930/README.md",
+     "blob": "958dea0ce44c45e104614e61bff80e8b392d328d",
+     "bytes": 3130,
+     "sha256": "745ef6547c7e93993649f5cb7a978af87b175a908f202d2e398e4eeca2e460ae",
+     "marker_hits": 14,
+     "heuristic_class": "README/INDEX+MATH",
+     "reviewed_class": "INDEX_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "TOO_HIGH",
+     "evidence": "Summary bullets ('**Theorem LP** (conditional on [SC] and [P]...)') and 'Files: `LOCAL_PAIRING.md` (the note), `pairing_check.py`'. No proofs"
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "frontiers/local_pairing_20260930/LOCAL_PAIRING.md"
+   ]
+  },
+  {
+   "row": 82,
+   "repo": "Math-",
+   "unit": "frontiers/ordinary_short_bar_occurrence_all_d_20261001",
+   "lane": "GB-8s",
+   "ledger_impl_cell": "frontiers/ordinary_short_bar_occurrence_all_d_20261001/check.py; frontiers/ordinary_short_bar_occurrence_all_d_20261001/test_check.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 6,
+   "statement_documents": [
+    {
+     "path": "frontiers/ordinary_short_bar_occurrence_all_d_20261001/NOTE.md",
+     "blob": "a7031f68f338979859cb84d76e5c3d4778fbaa7a",
+     "bytes": 24307,
+     "sha256": "cac41e81f9810a932b7b72834ff4da126a04be64e71e0c9068d70374b6dca79f",
+     "marker_hits": 20,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'**Theorem O_d (conditional on these interfaces).**' and '**Lemma F_d.**' with §2 proof"
+    },
+    {
+     "path": "frontiers/ordinary_short_bar_occurrence_all_d_20261001/README.md",
+     "blob": "e0b31ca4ade92e170d5aa1704b3005e6ced01cde",
+     "bytes": 2121,
+     "sha256": "21b447d8f0efbc65d8a4d14eaf00fbbb65ceeb62bf23a4391202636fc1fc8ccd",
+     "marker_hits": 5,
+     "heuristic_class": "README/INDEX",
+     "reviewed_class": "INDEX_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'[Theorem and proof](NOTE.md) · [Exact sources](SOURCES.json)' and run commands"
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "frontiers/ordinary_short_bar_occurrence_all_d_20261001/NOTE.md"
+   ]
+  },
+  {
+   "row": 122,
+   "repo": "Math-",
+   "unit": "frontiers/third_order_coefficient_20261001",
+   "lane": "GB-8i",
+   "ledger_impl_cell": "frontiers/third_order_coefficient_20261001/c2_check.py; .github/workflows/candidate-parity-rate.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 5,
+   "statement_documents": [
+    {
+     "path": "frontiers/third_order_coefficient_20261001/NOTE.md",
+     "blob": "fa44893404bceafb2956409b1d544de5397199a0",
+     "bytes": 47631,
+     "sha256": "cbb59eb8df5d492c5183e110219703559307441b0d9fb281434b5193e3ef8078",
+     "marker_hits": 153,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'**Claim (formal in `d ≥ 2`).** ν_eld(ℓ) = c ℓ^{−1/3} + c₁ ℓ^{1/4} + c₂ ℓ^{1/3} + ...' with '## 1. Why the finite part (formal derivation)' and a computation. Not a proof for d ≥ 2"
+    },
+    {
+     "path": "frontiers/third_order_coefficient_20261001/README.md",
+     "blob": "ccd40968ca164c7bed2cbe0ec58c5c3e8671548a",
+     "bytes": 11824,
+     "sha256": "fe7dc3f3140320511be9a8cb35a9123042e7de2375d1783f1f1491bcc6c3a890",
+     "marker_hits": 32,
+     "heuristic_class": "README/INDEX+MATH",
+     "reviewed_class": "INDEX_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "TOO_HIGH",
+     "evidence": "Long summary and revision log of NOTE.md ('**Files.** - `NOTE.md`: the definition and its formal derivation (§1)'). No derivation of its own"
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "frontiers/third_order_coefficient_20261001/NOTE.md"
+   ],
+   "weak_note": "formal claim, not proved for d>=2"
+  },
+  {
+   "row": 124,
+   "repo": "Math-",
+   "unit": "frontiers/three_fronts_20260924",
+   "lane": "GB-7/graph",
+   "ledger_impl_cell": "frontiers/three_fronts_20260924/frontier_math.py; frontiers/three_fronts_20260924/run_validation.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 13,
+   "statement_documents": [
+    {
+     "path": "frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md",
+     "blob": "247b3ecf80bfbe896948d5d489b2d5842a81c481",
+     "bytes": 17734,
+     "sha256": "380b7d0abdb0fe2de5a6564565af9560d3f1b1ce22fd5538927db0c52f4f3a4a",
+     "marker_hits": 12,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'**Theorem R (candidate).**' and '**Lemma R3.1.**' with proofs (R1)–(R6)"
+    },
+    {
+     "path": "frontiers/three_fronts_20260924/P15_PRICE_BOUNDARY.md",
+     "blob": "1d6946658e00e2446d68e8a4884425d4bcec62fb",
+     "bytes": 2266,
+     "sha256": "498af650ef7139c39d2630561dbfd0822c495ce6308a6cac8b767aefe0c2a40b",
+     "marker_hits": 6,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Exact counterexample: 'the EXACT optimal cover price is covercost_c(O_1(D))=4/9 > 1/3 > log(4/3)'. Borderline: the 6 hits are only the words 'theorem' x5 and 'proof'"
+    },
+    {
+     "path": "frontiers/three_fronts_20260924/P15_REALIZED_COVERS.md",
+     "blob": "173881916ccd0e738bdb41279e835e78e520fcbc",
+     "bytes": 11467,
+     "sha256": "c0dbb821fb57b685a20cc321e4074456f39a9697f3104afd1f728e4732179bb9",
+     "marker_hits": 8,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'**Proposition P1.** The inclusion-minimal forbidden ORIGINAL sets are exactly' and '**Theorem P2.**' with proofs"
+    },
+    {
+     "path": "frontiers/three_fronts_20260924/README.md",
+     "blob": "75ddec037e76a64521e14712a4ff2249db8ad649",
+     "bytes": 3017,
+     "sha256": "d3bc03e0bf300ba42dde5abc0320028d7c8ca2cc09a1bb2f1c39b257118b606b",
+     "marker_hits": 1,
+     "heuristic_class": "README/INDEX",
+     "reviewed_class": "INDEX_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Navigation table '| Proof | New result | Boundary |' and test/run commands"
+    },
+    {
+     "path": "frontiers/three_fronts_20260924/RECONNAISSANCE.md",
+     "blob": "d47a932adec657fb7d5190ac0dce5c977ad04870",
+     "bytes": 2008,
+     "sha256": "069367ab1b14c420abd34f29ab135cde5b1713f4c4327eeb2829566fae3b67e0",
+     "marker_hits": 5,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "literature/source reconnaissance memo; no statements of its own",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Literature and source reconnaissance: 'Primary external source actually inspected: Armentano, Azais and Leon'. No statements of its own [reconcile: reader class PROTOCOL_ONLY harmonized to OTHER with the other four reconnaissance memos; still non-math]"
+    },
+    {
+     "path": "frontiers/three_fronts_20260924/RN_COUNT_INTERFACE.md",
+     "blob": "371fd6d17920f2eb3b1c5ec30297acf6daf1d385",
+     "bytes": 8938,
+     "sha256": "aa993f5217bd70e6d1060402d121ab659f6582a098e29042c67585a345a8e3ab",
+     "marker_hits": 5,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "TOO_LOW",
+     "evidence": "'E[N_r 1_Er] <= (E N_r^p)^(1/p) P(E_r)^(1-1/p). (N1)'; 'This note proves the exact implication', with derived counterexamples (N4)–(N5). The math is written in ASCII, which the regex does not match (5 hits). The row class is unaffected"
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "frontiers/three_fronts_20260924/LIFETIME_REMAINDER.md",
+    "frontiers/three_fronts_20260924/P15_PRICE_BOUNDARY.md",
+    "frontiers/three_fronts_20260924/P15_REALIZED_COVERS.md",
+    "frontiers/three_fronts_20260924/RN_COUNT_INTERFACE.md"
+   ]
+  },
+  {
+   "row": 131,
+   "repo": "Math-",
+   "unit": "frontiers/window_multiplicity_laws_20260928",
+   "lane": "GB-8t",
+   "ledger_impl_cell": ".github/workflows/local-cluster-tightness.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 10,
+   "statement_documents": [
+    {
+     "path": "frontiers/window_multiplicity_laws_20260928/ELDER_LOWER_AND_DENSITY_GAP.md",
+     "blob": "aaefc8da9668e819591dd9db0b34442394f2362e",
+     "bytes": 10229,
+     "sha256": "8ce05a43bde8e0d718f09e2da1ffe75d3ec5893489254afdbf5b58b602cdba0c",
+     "marker_hits": 16,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "States and proves 'Theorem E1 (direct lower bound)' 1-p_r >= c r^3 via an explicit polygonal path, plus Corollary E2 and the (E11) density-gap bounds."
+    },
+    {
+     "path": "frontiers/window_multiplicity_laws_20260928/HEIGHT_MARKS.md",
+     "blob": "015d769675d9a2cf191286979d3b8c877cd91bdc",
+     "bytes": 7360,
+     "sha256": "44cc69260d27df3a66083ba127aaf275f240641cc8e3740ae0b0b119109270e2",
+     "marker_hits": 7,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'Theorem H1 (single-point joint height law)', a TV bound <= C r with a mixture-identity proof."
+    },
+    {
+     "path": "frontiers/window_multiplicity_laws_20260928/LOCAL_MULTIPLICITY.md",
+     "blob": "b5c18aac5529c5f975ee5bb056b304debafc6697",
+     "bytes": 13100,
+     "sha256": "e6272e8709835ca6290fecb7034fa84832dde08c3c4cc990a48b8019e89e7c8d",
+     "marker_hits": 8,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'Theorem L' c r^3 <= Q_r^W(A_r) <= C r^3, with the exact cubic, jet-box and tilt proof in sections 2-6."
+    },
+    {
+     "path": "frontiers/window_multiplicity_laws_20260928/README.md",
+     "blob": "126c8e3dec3f742bf6f0cfb11483578b096cbb01",
+     "bytes": 5665,
+     "sha256": "b617e6e4e7dd103c324a2492f008e0ffc3bf0c9702cb4d4f1ef23c41e8e1369c",
+     "marker_hits": 9,
+     "heuristic_class": "README/INDEX+MATH",
+     "reviewed_class": "INDEX_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "TOO_HIGH",
+     "evidence": "A packet index ('| Read | Proposed result | Scope boundary |') that restates module results (e.g. (3/10)k^(5/3)|t|^(-2/3)) with no proof; 'Each manuscript records its own dependencies'."
+    },
+    {
+     "path": "frontiers/window_multiplicity_laws_20260928/RECONNAISSANCE.md",
+     "blob": "6f788326539fd5278a91276f5e0eb51940f53dac",
+     "bytes": 4288,
+     "sha256": "edca076c906e9bdfaad69daa1a958bdc29b65463002f2ee5123b44ee75acedb2",
+     "marker_hits": 12,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "literature/source reconnaissance memo; no statements of its own",
+     "heuristic_verdict": "TOO_HIGH",
+     "evidence": "Literature-search memo ('Discovery metadata is not an imported theorem'). Its hits are citations such as 'Theorem 7.1'."
+    },
+    {
+     "path": "frontiers/window_multiplicity_laws_20260928/REMOTE_DISTANCE_MOMENTS.md",
+     "blob": "d077743b7fda8b1bb2e1bafdab97d01bb9e321b1",
+     "bytes": 11097,
+     "sha256": "b40dc67a0c4760d3db796914bdc50cbbd5fd1371786772fa919a3a100467b41d",
+     "marker_hits": 7,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'Theorem D (distance moments)', the M_p(r) asymptotics with the p=1 transition and determinant estimate (D6)."
+    },
+    {
+     "path": "frontiers/window_multiplicity_laws_20260928/REMOTE_PAIR_LAW.md",
+     "blob": "3fb602040b37158b16ba61bdfc62cc8df1ccc616",
+     "bytes": 15878,
+     "sha256": "b818a11f1abcf37616d592ecda6341b0d99365cf3ac5047bc2dbaede95da4c5e",
+     "marker_hits": 11,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'Theorem R' leading r^5 factorial-pair coefficient K_ij, plus Theorem H2 (Beta(2/3,2) gap law), with proofs."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "frontiers/window_multiplicity_laws_20260928/ELDER_LOWER_AND_DENSITY_GAP.md",
+    "frontiers/window_multiplicity_laws_20260928/HEIGHT_MARKS.md",
+    "frontiers/window_multiplicity_laws_20260928/LOCAL_MULTIPLICITY.md",
+    "frontiers/window_multiplicity_laws_20260928/REMOTE_DISTANCE_MOMENTS.md",
+    "frontiers/window_multiplicity_laws_20260928/REMOTE_PAIR_LAW.md"
+   ]
+  },
+  {
+   "row": 133,
+   "repo": "Math-",
+   "unit": "reviews/c6_fourier_completion_20260929",
+   "lane": "GB-8l",
+   "ledger_impl_cell": ".github/workflows/c6-witness-collision-reconciliation.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [
+    {
+     "path": "reviews/c6_fourier_completion_20260929/READING_NOTE.md",
+     "blob": "682d7045e71613efb92f6efb312b0bc210dfdabd",
+     "bytes": 5233,
+     "sha256": "62f84b68b3bcd034f1427eacf3919c7fb418d311af64f0ab2807d17682cc00b3",
+     "marker_hits": 15,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_REVIEW",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Editorial reading note: a Fulton refined-Bezout citation plus a local-multiplicity argument ('leaves their local ideal unchanged'). Self-described as 'not a new theorem'."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/c6_fourier_completion_20260929/READING_NOTE.md"
+   ],
+   "weak_note": "reading note"
+  },
+  {
+   "row": 134,
+   "repo": "Math-",
+   "unit": "reviews/c6_numerics_protocol_20261006",
+   "lane": "GB-8m",
+   "ledger_impl_cell": "MISSING",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [
+    {
+     "path": "reviews/c6_numerics_protocol_20261006/SCOPE.md",
+     "blob": "b7900ffd5289eab5d930fa710c8dcc604e85498c",
+     "bytes": 6119,
+     "sha256": "70f03b3bdacda0099e290b9b19b1dc85591eb1382042f3b313fa30699a0992b6",
+     "marker_hits": 1,
+     "heuristic_class": "PROTOCOL/SCOPE",
+     "reviewed_class": "PROTOCOL_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"This is an engineering repair, not a new mathematical or numerical acceptance.\" The \"48 k^5\" text is a quoted mutant diagnostic, not a claim."
+    }
+   ],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 136,
+   "repo": "Math-",
+   "unit": "reviews/c6_tail_constant_certified_20260930",
+   "lane": "GB-8m",
+   "ledger_impl_cell": "reviews/c6_tail_constant_certified_20260930/certify_tail_constants.py; .github/workflows/c6-tail-constant-certified.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 4,
+   "statement_documents": [
+    {
+     "path": "reviews/c6_tail_constant_certified_20260930/README.md",
+     "blob": "5f96b3d36defbcd7e32fbb4e9b1d0053aa55d047",
+     "bytes": 21599,
+     "sha256": "f207c320cbe3a676f8a683d5c26a0b74cf66d74d7fec708bf7a6b3517e70b799",
+     "marker_hits": 9,
+     "heuristic_class": "README/INDEX+MATH",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "The primary record despite the README name: rigorous interval enclosures, plus proved identities 'T_b(k)=(12k^2+1)/(36k^3)' and 'Therefore T_2 = -T_1/12'."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/c6_tail_constant_certified_20260930/README.md"
+   ]
+  },
+  {
+   "row": 137,
+   "repo": "Math-",
+   "unit": "reviews/c6_witness_collision_reconciliation_20260929",
+   "lane": "GB-8m",
+   "ledger_impl_cell": "reviews/c6_witness_collision_reconciliation_20260929/reconciliation_check.py; .github/workflows/c6-witness-collision-reconciliation.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 6,
+   "statement_documents": [
+    {
+     "path": "reviews/c6_witness_collision_reconciliation_20260929/RECONCILIATION.md",
+     "blob": "efd6aa656f1877aca66ff2969214228cf66c3fbf",
+     "bytes": 45762,
+     "sha256": "ce5ab424c3c7289c1548221956055f0d8f4404ec60a5de5d1293135745df2fde",
+     "marker_hits": 135,
+     "heuristic_class": "REVIEW/AUDIT+MATH",
+     "reviewed_class": "MATH_REVIEW",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Register reconciliation ('introduces no new mathematical claim'). Its §4 checks the discharge by [PALM] Theorem Q with a monotonicity argument ('N_A ≤ N pathwise') and defines the residual."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/c6_witness_collision_reconciliation_20260929/RECONCILIATION.md"
+   ],
+   "weak_note": "reconciliation; no new mathematical claim"
+  },
+  {
+   "row": 139,
+   "repo": "Math-",
+   "unit": "reviews/c7_total_k_scaling_recon_20260929",
+   "lane": "GB-8m",
+   "ledger_impl_cell": "MISSING",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [
+    {
+     "path": "reviews/c7_total_k_scaling_recon_20260929/RETRACTION.md",
+     "blob": "e96888c2303e8c2987c773ce05d2f6e91a15223c",
+     "bytes": 1182,
+     "sha256": "c1f3915ca850b00cb1e126e5b4cded05afc8b36c2581ba1155c01c5d83e793aa",
+     "marker_hits": 3,
+     "heuristic_class": "REVIEW/AUDIT",
+     "reviewed_class": "MATH_REVIEW",
+     "reviewed_detail": "",
+     "heuristic_verdict": "TOO_LOW",
+     "evidence": "Retracts a mathematical conjecture and gives the correction: \"That conjecture was wrong ... the near rejected density is O(ℓ^{1/4}) + O(1), and the unrestricted difference is O(1)\". The corrected proof lives in frontiers/c7_total_bounded_20260929/PROOF.md (Theorem K). [reconcile: counts as MATH_REVIEW; weak, proof is outside the unit]"
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/c7_total_k_scaling_recon_20260929/RETRACTION.md"
+   ],
+   "weak_note": "retraction; the proof is in frontiers/c7_total_bounded_20260929/PROOF.md, outside the unit"
+  },
+  {
+   "row": 140,
+   "repo": "Math-",
+   "unit": "reviews/c7_total_protocol_20261006",
+   "lane": "GB-8m",
+   "ledger_impl_cell": "MISSING",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [
+    {
+     "path": "reviews/c7_total_protocol_20261006/SCOPE.md",
+     "blob": "8d49b560d06c262c8c090420d6fe14646b864d76",
+     "bytes": 5429,
+     "sha256": "44eb69894d32b53fa45e0c1f6b6115c6893931c94e412ca7d8a7a8726aa0d3d7",
+     "marker_hits": 4,
+     "heuristic_class": "PROTOCOL/SCOPE",
+     "reviewed_class": "PROTOCOL_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"This changes only the existing C7 workflow ... The mathematical packet, its checker, proof ... remain unchanged.\" The math-sounding text is mutant labels only."
+    }
+   ],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 141,
+   "repo": "Math-",
+   "unit": "reviews/candidates_pending_20260928",
+   "lane": "GB-8u",
+   "ledger_impl_cell": ".github/workflows/c6-witness-collision-reconciliation.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 5,
+   "statement_documents": [
+    {
+     "path": "reviews/candidates_pending_20260928/CANDIDATES.md",
+     "blob": "02455f0561d51990e1486e5d4fbb4229c8a34f5a",
+     "bytes": 9465,
+     "sha256": "cbaa71b55190ac234b8363614b7e57387f60c33b393ea102408eb88ec1e44513",
+     "marker_hits": 19,
+     "heuristic_class": "REVIEW/AUDIT+MATH",
+     "reviewed_class": "MATH_REVIEW",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'Historical theorem-candidate intake with current review crosswalk': restated candidate statements C1-C8 with dispositions. It is a catalog with no proofs of its own."
+    },
+    {
+     "path": "reviews/candidates_pending_20260928/CORRECTIONS.md",
+     "blob": "5f7db0ec3131291e03c511e0437f71a8c6f62a4d",
+     "bytes": 2783,
+     "sha256": "73800c312745ee1c3cb14709e6cfd8c018fd1b9a093360814a47ce24a6692034",
+     "marker_hits": 2,
+     "heuristic_class": "REVIEW/AUDIT",
+     "reviewed_class": "PROTOCOL_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Custody record of a catalog edit: 'This corrects navigation/notation in a candidate catalog', with blob/SHA lists."
+    },
+    {
+     "path": "reviews/candidates_pending_20260928/README.md",
+     "blob": "b2f513ba969ab14b8a87fb130a926c7113cab92d",
+     "bytes": 236,
+     "sha256": "fcfb130a7ca43a38d379514d16db4d8c3ecdb605bd8a2f033d3b7d9c123eb12d",
+     "marker_hits": 1,
+     "heuristic_class": "README/INDEX",
+     "reviewed_class": "INDEX_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Three-line pointer: 'Read CANDIDATES.md.'"
+    },
+    {
+     "path": "reviews/candidates_pending_20260928/SCOPE_ADDENDUM.md",
+     "blob": "5359b0f9e8a571ea0a274d140c108896bcf40b88",
+     "bytes": 1383,
+     "sha256": "f9d86a8a334d57cbd6fb5acd96da442e680ed86cade92d2876ac3bb7ce19e15d",
+     "marker_hits": 3,
+     "heuristic_class": "PROTOCOL/SCOPE",
+     "reviewed_class": "PROTOCOL_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Catalog scope repair: 'only its catalog summary is corrected'."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/candidates_pending_20260928/CANDIDATES.md"
+   ],
+   "weak_note": "candidate catalog"
+  },
+  {
+   "row": 143,
+   "repo": "Math-",
+   "unit": "reviews/collision_mechanism_20260925",
+   "lane": "GB-8u",
+   "ledger_impl_cell": "reviews/collision_mechanism_20260925/exact_checks.py; .github/workflows/collision-mechanism-checks.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 4,
+   "statement_documents": [
+    {
+     "path": "reviews/collision_mechanism_20260925/CUMULATIVE_TRANSFER_CORRECTION.md",
+     "blob": "044ac5fdaf403a38e33983e31f0ad69f8e76d6d5",
+     "bytes": 3272,
+     "sha256": "83f653393dc6245980f6848e2bfc65ac9ad4c7d8304b028b88764356fd3825b6",
+     "marker_hits": 6,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'## Corrected cumulative theorem' with a full proof ('Dominated convergence proves the result.') and a counterexample."
+    },
+    {
+     "path": "reviews/collision_mechanism_20260925/NOTE.md",
+     "blob": "3ee3082911f4e8ebee93805633a326940aee17bf",
+     "bytes": 16243,
+     "sha256": "530dd3efaa965c850ea9e6575f42d3952c3efe6a89b2b5355b6afb4285c9d37e",
+     "marker_hits": 11,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Simplex Hessian bounds (A1)-(A4) with proof and exact determinant identity (B4): 'This is an exact cubic theorem, not just power counting.'"
+    },
+    {
+     "path": "reviews/collision_mechanism_20260925/README.md",
+     "blob": "d5b0a4562c319210997764bf67ac97af1f97378f",
+     "bytes": 1540,
+     "sha256": "feb62c5c74eb48f9d1a613f3a3607bbb45ff4a4041563ef24451fae18cfc999e",
+     "marker_hits": 4,
+     "heuristic_class": "README/INDEX",
+     "reviewed_class": "INDEX_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'[Read the research note](NOTE.md)' plus run commands."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/collision_mechanism_20260925/CUMULATIVE_TRANSFER_CORRECTION.md",
+    "reviews/collision_mechanism_20260925/NOTE.md"
+   ]
+  },
+  {
+   "row": 144,
+   "repo": "Math-",
+   "unit": "reviews/contact_angular_tail_20260925",
+   "lane": "GB-8u",
+   "ledger_impl_cell": "reviews/contact_angular_tail_20260925/angular_contact.py; reviews/contact_angular_tail_20260925/diagnostic.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 9,
+   "statement_documents": [
+    {
+     "path": "reviews/contact_angular_tail_20260925/NOTE.md",
+     "blob": "df008a07ee9ed11abb1a333df767a50f6de64a92",
+     "bytes": 18436,
+     "sha256": "62dc0a4e5da9e1b4abb9efa0479f9be88b897f52c015bd65dd758b86ac0e5668",
+     "marker_hits": 11,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Kernel bound '0<Lambda(u,v)<=C |v|^-13 exp(-gamma/v^2)' derived via Cauchy-Schwarz, plus angular asymptotics in sections 3-6."
+    },
+    {
+     "path": "reviews/contact_angular_tail_20260925/README.md",
+     "blob": "9a3fc32291276e112cd4692576c15cf91f428ea3",
+     "bytes": 1803,
+     "sha256": "52cd8222cb724a94efe2457b7117c533a28247a9f1fa37faf3e0e6b88e1be233",
+     "marker_hits": 2,
+     "heuristic_class": "README/INDEX",
+     "reviewed_class": "INDEX_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'Read NOTE.md for the source-bound mathematical statements and proofs.'"
+    },
+    {
+     "path": "reviews/contact_angular_tail_20260925/RECONNAISSANCE.md",
+     "blob": "af119ed3ba53a6b97a737112179db94a92579ed0",
+     "bytes": 1604,
+     "sha256": "327ef5c281487e5d2f962a80872a466376bec4a62c817190ac5974d3a9d706d5",
+     "marker_hits": 2,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "literature/source reconnaissance memo; no statements of its own",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Literature scope memo: 'Primary references searched and read for scope'. No statements of its own."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/contact_angular_tail_20260925/NOTE.md"
+   ]
+  },
+  {
+   "row": 145,
+   "repo": "Math-",
+   "unit": "reviews/contact_kernel_substitute_20260926",
+   "lane": "GB-8u",
+   "ledger_impl_cell": "reviews/contact_kernel_substitute_20260926/verify_substitute.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 2,
+   "statement_documents": [
+    {
+     "path": "reviews/contact_kernel_substitute_20260926/SUBSTITUTE.md",
+     "blob": "ae3b8e1f2ec046a5146c00029a5eccb9a17011b7",
+     "bytes": 14750,
+     "sha256": "987020c7f88f6335c04f6dbca1a58699c0f11004564285f9621563c2b35bb30e",
+     "marker_hits": 27,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Re-derivation of the six-pin cubic, solved jets, determinant factorizations and type mass J=27392/315, checked 'in exact rational arithmetic'. It is a re-verification of published identities, not new results."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/contact_kernel_substitute_20260926/SUBSTITUTE.md"
+   ]
+  },
+  {
+   "row": 146,
+   "repo": "Math-",
+   "unit": "reviews/contact_kernel_tail_20260925",
+   "lane": "GB-8u",
+   "ledger_impl_cell": "reviews/contact_kernel_tail_20260925/contact_tools.py; reviews/contact_kernel_tail_20260925/run_validation.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 10,
+   "statement_documents": [
+    {
+     "path": "reviews/contact_kernel_tail_20260925/ANNULUS_ASYMPTOTIC_BRIDGE.md",
+     "blob": "1ab830279a5eb3d012737a1fa4f669cbab163874",
+     "bytes": 7737,
+     "sha256": "fdb7ffeae0b4ed40452e164c24069dac0d7db10497e56e37bcf4e34f8c8ef831",
+     "marker_hits": 10,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'## 4. Gluing theorem and proof' under hypotheses H1-H4; the Gaussian conclusion is conditional."
+    },
+    {
+     "path": "reviews/contact_kernel_tail_20260925/COORDINATION.md",
+     "blob": "753af082774a42c654e7821f032c69344e69860f",
+     "bytes": 2084,
+     "sha256": "73af092aa04e435e8434ccb6e49ddd135026332b771624bbd026e9349de01349",
+     "marker_hits": 2,
+     "heuristic_class": "PROTOCOL/SCOPE",
+     "reviewed_class": "PROTOCOL_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'Concurrency reconciliation and review provenance': branch and lane coordination only."
+    },
+    {
+     "path": "reviews/contact_kernel_tail_20260925/KERNEL_TAILS_AND_SMALL_GAP.md",
+     "blob": "4d03f110ac82a4d876f97d1910fe997b128c6ca9",
+     "bytes": 10870,
+     "sha256": "5faa183452ec548ee1116dd199d250f597afc0fc6de3908b37a6fd4f0dcf8e76",
+     "marker_hits": 3,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "TOO_LOW",
+     "evidence": "'## 2. A proved near-axis bound for the limiting kernel' (bound (2.1) with 'Proof.'), plus the exact shape mass and the small-gap law in §4. The regex missed it because it uses ASCII <=."
+    },
+    {
+     "path": "reviews/contact_kernel_tail_20260925/README.md",
+     "blob": "0439447ae1251bd3751a6e69ff1b431b4c9bc078",
+     "bytes": 1737,
+     "sha256": "30f62e31609f3238b7503a9396af7046cf3434d2bd403732715d82a195975f30",
+     "marker_hits": 2,
+     "heuristic_class": "README/INDEX",
+     "reviewed_class": "INDEX_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'Read KERNEL_TAILS_AND_SMALL_GAP.md for the new kernel results'. Summary and run commands only."
+    },
+    {
+     "path": "reviews/contact_kernel_tail_20260925/RECONNAISSANCE.md",
+     "blob": "6ce3adae6d599d7f12e58a43aa2b39bdf5f7ebf0",
+     "bytes": 1667,
+     "sha256": "879bfb7cfb222f96f609e952dfb4d46309c5f631b771be63e3d203aef3c862b1",
+     "marker_hits": 3,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "literature/source reconnaissance memo; no statements of its own",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Literature scope memo: 'No novelty or scientific-status claim is inferred from a search.'"
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/contact_kernel_tail_20260925/ANNULUS_ASYMPTOTIC_BRIDGE.md",
+    "reviews/contact_kernel_tail_20260925/KERNEL_TAILS_AND_SMALL_GAP.md"
+   ]
+  },
+  {
+   "row": 147,
+   "repo": "Math-",
+   "unit": "reviews/cusp_workflow_protocol_20261006",
+   "lane": "GB-8m",
+   "ledger_impl_cell": "MISSING",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [
+    {
+     "path": "reviews/cusp_workflow_protocol_20261006/SCOPE.md",
+     "blob": "50fe5662469296f8ef7bebb4e0c89a9c86f7a865",
+     "bytes": 7503,
+     "sha256": "3c2a9777b5fc85277e5ec93fc49d8b6e107899f92a0295c3b5969eef84e4ca86",
+     "marker_hits": 3,
+     "heuristic_class": "PROTOCOL/SCOPE",
+     "reviewed_class": "PROTOCOL_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"This is an engineering finding, not a counterexample to the original mathematical arguments or finite identities.\" Values such as -181/240 appear only as quoted mutant diagnostics."
+    }
+   ],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 148,
+   "repo": "Math-",
+   "unit": "reviews/d0_custody_audit_20260926",
+   "lane": "GB-7/graph",
+   "ledger_impl_cell": "main:architecture/graph-artifact-bindings.v2.json",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [
+    {
+     "path": "reviews/d0_custody_audit_20260926/AUDIT.md",
+     "blob": "32c874c5b3e30743e624f3382bb63b1643379d40",
+     "bytes": 9068,
+     "sha256": "e4e22d2558970922979e32fbbae1f2a616bc465b16eab0d1ca96d2ec25f1fefe",
+     "marker_hits": 13,
+     "heuristic_class": "REVIEW/AUDIT+MATH",
+     "reviewed_class": "PROTOCOL_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "TOO_HIGH",
+     "evidence": "Custody classification of carriers and graph nodes: 'One bounded audit; no theorem is constructed.' All 13 hits are words like proof/claim/theorem."
+    }
+   ],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 153,
+   "repo": "Math-",
+   "unit": "reviews/d1_external_audit_20260930",
+   "lane": "GB-8f",
+   "ledger_impl_cell": "reviews/d1_external_audit_20260930/cap_audit.py; reviews/d1_external_audit_20260930/test_cap_audit.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 9,
+   "statement_documents": [
+    {
+     "path": "reviews/d1_external_audit_20260930/AUDIT.md",
+     "blob": "fdfccaf5356f4cc0cf8764bf323f94b6ff071768",
+     "bytes": 19468,
+     "sha256": "98356c5625aa07bcf62b9e6f1a3869ec1fea7dd789e8ea495a97b5c7abb473cf",
+     "marker_hits": 28,
+     "heuristic_class": "REVIEW/AUDIT+MATH",
+     "reviewed_class": "MATH_REVIEW",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'## 2. The topological lemma' with proof ('Then d_f(M)=s'), a ridge reconstruction (A4)-(A7), and an exact polynomial counterexample."
+    },
+    {
+     "path": "reviews/d1_external_audit_20260930/README.md",
+     "blob": "efbfabca522ec44fafe5d0092a56ad653a429ed1",
+     "bytes": 3014,
+     "sha256": "f7d91014a4c0e5e7b54f27a845c67f9dec1e6dca89609fb4ce6413dbf90fe117",
+     "marker_hits": 4,
+     "heuristic_class": "README/INDEX",
+     "reviewed_class": "INDEX_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'Read AUDIT.md.' plus reproduction commands and scope list."
+    },
+    {
+     "path": "reviews/d1_external_audit_20260930/VALIDATION.md",
+     "blob": "d83b1261201f0adceb80abd154d4f5b7ef8778e7",
+     "bytes": 2555,
+     "sha256": "7010fa762f5be2989cac7e5297e560dcc791aeb20611018cfc30bbddae858cbc",
+     "marker_hits": 1,
+     "heuristic_class": "REVIEW/AUDIT",
+     "reviewed_class": "PROTOCOL_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'Actual execution record' of test counts and custody fixtures: 'not a new nonauthor mathematical verdict'."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/d1_external_audit_20260930/AUDIT.md"
+   ]
+  },
+  {
+   "row": 158,
+   "repo": "Math-",
+   "unit": "reviews/d2_joint_mass_schur_20261006",
+   "lane": "GB-8g",
+   "ledger_impl_cell": "reviews/d2_joint_mass_schur_20261006/joint_mass.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 4,
+   "statement_documents": [
+    {
+     "path": "reviews/d2_joint_mass_schur_20261006/NOTE.md",
+     "blob": "196406624041016cb7890ab3d1220239261642ee",
+     "bytes": 12935,
+     "sha256": "b3933d7fcbf6ed67d6a53f33d8c6a75c73b69a6e9a106c971b4fbb16d0658890",
+     "marker_hits": 5,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "TOO_LOW",
+     "evidence": "\"This is an EXACT SHARP constant for the declared class\", with a full proof ((3.1)-(5.1)) and a Bernstein certificate giving \"2.076345574173 < C(1/4,1/4,1,4) < 2.076345574174\". It is a new author-side candidate."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/d2_joint_mass_schur_20261006/NOTE.md"
+   ]
+  },
+  {
+   "row": 160,
+   "repo": "Math-",
+   "unit": "reviews/d2_sharp_scalar_floor_20261006",
+   "lane": "GB-8g",
+   "ledger_impl_cell": "reviews/d2_sharp_scalar_floor_20261006/check_partb.py; tests/test_d2_sharp_scalar_floor.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 3,
+   "statement_documents": [
+    {
+     "path": "reviews/d2_sharp_scalar_floor_20261006/NOTE.md",
+     "blob": "8741b0c801fb5a75e7b13a169872769a30d16015",
+     "bytes": 7864,
+     "sha256": "38d1c6576955e0ce1c04c6a4a3f4703430538ba039a1e21ebef249b74644f637",
+     "marker_hits": 9,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'## 2. Exact scalar proposition' S(t) >= H(x0,g0), with '## 3. Proof with denominator and monotonicity directions explicit'."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/d2_sharp_scalar_floor_20261006/NOTE.md"
+   ]
+  },
+  {
+   "row": 161,
+   "repo": "Math-",
+   "unit": "reviews/d2_two_atom_floors_20261006",
+   "lane": "GB-8g",
+   "ledger_impl_cell": "reviews/d2_two_atom_floors_20261006/test_two_atom_bounds.py; reviews/d2_two_atom_floors_20261006/two_atom_bounds.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 4,
+   "statement_documents": [
+    {
+     "path": "reviews/d2_two_atom_floors_20261006/NOTE.md",
+     "blob": "cedbb44a237d1a158111dca81c30983f7efd37f1",
+     "bytes": 9327,
+     "sha256": "dd2c823327b1d93438a29bd14b15c804ba361723c682a41e1ff4a5ba92482661",
+     "marker_hits": 8,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'an ordinary mathematical derivation with finite rational controls': two-square completion (3.1) gives the floors s>=s0, g>=g0, Delta>=delta0."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/d2_two_atom_floors_20261006/NOTE.md"
+   ],
+   "postcut_manifest_repins": [
+    {
+     "path": "reviews/d2_two_atom_floors_20261006/SOURCE_FILES.json",
+     "status": "M",
+     "landing": "Math-#508",
+     "merge": "10f138512fe285e6ef1b0d145c5f4f07f2c1f9d5",
+     "blob": "9df8ca2185dce1611216a1865dba3f2a5f3b1f6e"
+    }
+   ]
+  },
+  {
+   "row": 162,
+   "repo": "Math-",
+   "unit": "reviews/d2_two_mass_floors_20261006",
+   "lane": "GB-8g",
+   "ledger_impl_cell": "reviews/d2_two_mass_floors_20261006/test_two_mass.py; reviews/d2_two_mass_floors_20261006/two_mass.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 5,
+   "statement_documents": [
+    {
+     "path": "reviews/d2_two_mass_floors_20261006/NOTE.md",
+     "blob": "b3e3b337697e4bf8c15bdab3666e49dc8833ca80",
+     "bytes": 9509,
+     "sha256": "6d8a41ada3dc7a104765c33f85aa58938d3572786b6ec7e7963f3e5b9f9c04c9",
+     "marker_hits": 10,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'## 2. Complete proof and exact hypotheses' for m2>=ell, G>=g, Delta>=d."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/d2_two_mass_floors_20261006/NOTE.md"
+   ],
+   "postcut_manifest_repins": [
+    {
+     "path": "reviews/d2_two_mass_floors_20261006/SOURCES.json",
+     "status": "M",
+     "landing": "Math-#508",
+     "merge": "10f138512fe285e6ef1b0d145c5f4f07f2c1f9d5",
+     "blob": "f1d079de2c82a90e4cd5cb08de774b44a8227e9b"
+    }
+   ]
+  },
+  {
+   "row": 163,
+   "repo": "Math-",
+   "unit": "reviews/d3_l4_round2_audit_20261005",
+   "lane": "GB-8j",
+   "ledger_impl_cell": "MISSING",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [
+    {
+     "path": "reviews/d3_l4_round2_audit_20261005/REPLAY_SCOPE.md",
+     "blob": "5123654dc34b25d766443fd6e4d597271cc6ceca",
+     "bytes": 5884,
+     "sha256": "c7565fe688620ac8089c8447c40f9e76d88f368245481d16876ed2e62899db95",
+     "marker_hits": 4,
+     "heuristic_class": "PROTOCOL/SCOPE",
+     "reviewed_class": "PROTOCOL_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Replay coverage and custody: \"This manifest is a custody root; neither a hash nor a replay is mathematical review.\""
+    }
+   ],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 164,
+   "repo": "Math-",
+   "unit": "reviews/d5_c6_workflow_repair_20261005",
+   "lane": "GB-8d",
+   "ledger_impl_cell": "MISSING",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [
+    {
+     "path": "reviews/d5_c6_workflow_repair_20261005/REPLAY_SCOPE.md",
+     "blob": "005715f7bcab5f2e1dcecc7cfb00a4dc7489a19a",
+     "bytes": 6458,
+     "sha256": "9adf773b8eab69c3d2a2226f8a3d660b676d8b06dd333341da576bf522952cc4",
+     "marker_hits": 6,
+     "heuristic_class": "PROTOCOL/SCOPE",
+     "reviewed_class": "PROTOCOL_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"A process protocol does not prove the mathematical claim tested by a finite checker.\" \"No D5/C6 theorem ... is changed.\" Its 6 marker hits are all disclaimers."
+    }
+   ],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 166,
+   "repo": "Math-",
+   "unit": "reviews/d5_consumption_bridge_20260928",
+   "lane": "GB-8d",
+   "ledger_impl_cell": "MISSING",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 4,
+   "statement_documents": [
+    {
+     "path": "reviews/d5_consumption_bridge_20260928/BRIDGE.md",
+     "blob": "7e1ef1c1d9f6df7f8781c3332fcb069d01c41dd9",
+     "bytes": 6361,
+     "sha256": "f4bc7a843a4763241e36fb14bf5920fbddd767c5d3f62a864549e0d6b9cdaaf9",
+     "marker_hits": 15,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_REVIEW",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Reviewer record of 'exact consumption edges among already-reviewed statements'. It includes a derivation of the E6 bound '0 ≤ ν_cand(ℓ) − ν_eld(ℓ) ≤ C_{B,K} ℓ^{2/3}' and finite identities L1-L5."
+    },
+    {
+     "path": "reviews/d5_consumption_bridge_20260928/DOMAIN_CORRECTION.md",
+     "blob": "62cf830ac6b4bc7b005954a2f497d16504d840a2",
+     "bytes": 2107,
+     "sha256": "e0cb4e30819625d71fcc1063f2560d43344dcc874c99b115ce81f3831b378874",
+     "marker_hits": 2,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "MATH_REVIEW",
+     "reviewed_detail": "",
+     "heuristic_verdict": "TOO_LOW",
+     "evidence": "Corrects two identity domains: 'v^4(4u^2+v^2)/4 is positive exactly when v is nonzero' and the L2 overlap integral diverges at t=0."
+    },
+    {
+     "path": "reviews/d5_consumption_bridge_20260928/README.md",
+     "blob": "c0b79225aa202971c20ed4f439b2d6b8449dd22b",
+     "bytes": 173,
+     "sha256": "71d0c4e631ab21888c491dcd5e0b771a76706bbb493eaa5493ec760bb3963728",
+     "marker_hits": 0,
+     "heuristic_class": "README/INDEX",
+     "reviewed_class": "INDEX_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'Read BRIDGE.md.'"
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/d5_consumption_bridge_20260928/BRIDGE.md",
+    "reviews/d5_consumption_bridge_20260928/DOMAIN_CORRECTION.md"
+   ],
+   "weak_note": "consumption bridge"
+  },
+  {
+   "row": 169,
+   "repo": "Math-",
+   "unit": "reviews/d5_graph_fold_20260929",
+   "lane": "GB-8c",
+   "ledger_impl_cell": "reviews/d5_graph_fold_20260929/verify.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 2,
+   "statement_documents": [
+    {
+     "path": "reviews/d5_graph_fold_20260929/README.md",
+     "blob": "b90db1f0edba4f4d52d965c3b0cc7303710fbc98",
+     "bytes": 1472,
+     "sha256": "eb0904b0a82e299d40f7d149665f201ff604dd7720c799ed23d99cc5497a56a8",
+     "marker_hits": 3,
+     "heuristic_class": "README/INDEX",
+     "reviewed_class": "INDEX_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "A graph/proof-index fold README: \"executes the already reviewed, declarative D5 reconciliation ... It does not alter proof bodies\". The bound E N(N-1)<=C r^3 log(1/r) is cited as earlier reviewed work, not stated here."
+    }
+   ],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 174,
+   "repo": "Math-",
+   "unit": "reviews/d5_microdisk_20260926",
+   "lane": "GB-8d",
+   "ledger_impl_cell": "MISSING",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 2,
+   "statement_documents": [
+    {
+     "path": "reviews/d5_microdisk_20260926/NOTE.md",
+     "blob": "19efd64e6353f083deaad58366616dff8dd5ef0a",
+     "bytes": 4844,
+     "sha256": "56451eeed00621f46fb543c4bce0abeb00b692495bee1fbc3fd3b9e437f359b6",
+     "marker_hits": 19,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Exact nested expansion and constrained determinant 'det H_M=0 identically', plus the rate obstruction in §4."
+    },
+    {
+     "path": "reviews/d5_microdisk_20260926/QUARTIC.md",
+     "blob": "16e2997622cb70615a648dd5c3c00e40301b19be",
+     "bytes": 2031,
+     "sha256": "54547b2d0853d05030a74fde31a48372d73680f7c2d347cbb6f924e07b4bad2c",
+     "marker_hits": 10,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Constrained det H_M=-12 lambda k P^2 r^3/Q^2, stated as an 'Identity in Q[r,k,c,d,P,Q,lambda]'."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/d5_microdisk_20260926/NOTE.md",
+    "reviews/d5_microdisk_20260926/QUARTIC.md"
+   ]
+  },
+  {
+   "row": 176,
+   "repo": "Math-",
+   "unit": "reviews/d5_pin_disk_all_directions_20260928",
+   "lane": "GB-8c",
+   "ledger_impl_cell": "reviews/d5_pin_disk_all_directions_20260928/triangle_bounds_probe.py; .github/workflows/d5-pin-disk.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 4,
+   "statement_documents": [
+    {
+     "path": "reviews/d5_pin_disk_all_directions_20260928/NOTE.md",
+     "blob": "c9a8ec2fb35f12222335715e0bd9426251d94af7",
+     "bytes": 11099,
+     "sha256": "16ac49eb3e74973b2472b22384db9314cbac4b3969ea11928eaf833b975febd7",
+     "marker_hits": 24,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Deterministic bounds (T2) and '(T3) Angle-free soft-column bound' with proofs, plus a conditional Proposition in §3."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/d5_pin_disk_all_directions_20260928/NOTE.md"
+   ]
+  },
+  {
+   "row": 177,
+   "repo": "Math-",
+   "unit": "reviews/d5_pin_microdisk_20260927",
+   "lane": "GB-8c",
+   "ledger_impl_cell": "reviews/d5_pin_microdisk_20260927/microdisk_exact.py; reviews/d5_pin_microdisk_20260927/run_validation.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 6,
+   "statement_documents": [
+    {
+     "path": "reviews/d5_pin_microdisk_20260927/NOTE.md",
+     "blob": "ac09361caac76d07f878c51ebddf6d2bea3f565f",
+     "bytes": 5409,
+     "sha256": "295de887768592b284ebe9ac32fcfb5a2cf7ff64d42eb048c860f9e036f044ea",
+     "marker_hits": 6,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Exact divided-difference rows, '(A,T) minor is exactly 1/2 - p', and the axis solve with soft determinant factors. It returns 'obstruction remains'."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/d5_pin_microdisk_20260927/NOTE.md"
+   ]
+  },
+  {
+   "row": 181,
+   "repo": "Math-",
+   "unit": "reviews/d5_reconciliation_20260929",
+   "lane": "GB-7/graph",
+   "ledger_impl_cell": "reviews/d5_reconciliation_20260929/reconciliation_check.py; .github/workflows/c6-fourier-cutoff.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 5,
+   "statement_documents": [
+    {
+     "path": "reviews/d5_reconciliation_20260929/RECONCILIATION.md",
+     "blob": "4062d76bdf3c60bc73f04295b88c245bcee395de",
+     "bytes": 12536,
+     "sha256": "14342b7eb0ad47c1c99b06be58fb6c901f5c7c72fc70f73e81de3dde50c23432",
+     "marker_hits": 34,
+     "heuristic_class": "REVIEW/AUDIT+MATH",
+     "reviewed_class": "MATH_REVIEW",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Register reconciliation ('introduces no new mathematical claim'). It binds and scopes statements D5-a..D5-f and the consumption graph ('D5-f ← D5-d (R = 4) + I4 ...'), and records the collar verdict."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/d5_reconciliation_20260929/RECONCILIATION.md"
+   ],
+   "weak_note": "reconciliation; no new mathematical claim"
+  },
+  {
+   "row": 183,
+   "repo": "Math-",
+   "unit": "reviews/d5_short_edge_20260928",
+   "lane": "GB-8c",
+   "ledger_impl_cell": "reviews/d5_short_edge_20260928/finite_controls.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 4,
+   "statement_documents": [
+    {
+     "path": "reviews/d5_short_edge_20260928/NOTE.md",
+     "blob": "e5fde88b41c0f80e4ea1e0c7102af597bff03f74",
+     "bytes": 10710,
+     "sha256": "81c48f076c06d0a8cdd12d1fd2810b5f706da003b17bd470acc95565b3c86523",
+     "marker_hits": 17,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'Lemma (author-side proof)': a deterministic short-edge triangle bound with '### Proof', plus the coordinate correction f_zz(M)=A-rC/2."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/d5_short_edge_20260928/NOTE.md"
+   ]
+  },
+  {
+   "row": 184,
+   "repo": "Math-",
+   "unit": "reviews/direct_import_trigger_coverage_20261006",
+   "lane": "GB-8w",
+   "ledger_impl_cell": "MISSING",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [
+    {
+     "path": "reviews/direct_import_trigger_coverage_20261006/SCOPE.md",
+     "blob": "552b9ab3b23356cbac63ef41cfbfb57c8d308d28",
+     "bytes": 4890,
+     "sha256": "25736700320a07e5c48bfa1b1c7fa926671eb1fc6d0e8303bbf126cfc2a3db7e",
+     "marker_hits": 1,
+     "heuristic_class": "PROTOCOL/SCOPE",
+     "reviewed_class": "PROTOCOL_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Workflow path-trigger coverage: \"This is a future-change coverage gap, not an allegation ... that a numerical output was incorrect.\""
+    }
+   ],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 185,
+   "repo": "Math-",
+   "unit": "reviews/downstream_boundary_20260925",
+   "lane": "GB-8u",
+   "ledger_impl_cell": ".github/workflows/contact-small-gap.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [
+    {
+     "path": "reviews/downstream_boundary_20260925/TRANSVERSE_BOUND_CANDIDATE.md",
+     "blob": "024d927779f79fadaf932541ea6474f2995f8c50",
+     "bytes": 9902,
+     "sha256": "f64c954245f17bcbc64a5ccf58a60689cf2a2fd85362f8321c0f64ff66584e36",
+     "marker_hits": 4,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "TOO_LOW",
+     "evidence": "\"Candidate theorem. ... E_(Qr^W) N_j(rE) <= C*k*r^3*area(E)\", with a six-section proof (Kac-Rice ledger, \"Division by the FULL Z_r>=z_*r^2 proves the stated O(k*r^3) expected count\"). Its own disposition is a proof candidate still needing review."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/downstream_boundary_20260925/TRANSVERSE_BOUND_CANDIDATE.md"
+   ]
+  },
+  {
+   "row": 186,
+   "repo": "Math-",
+   "unit": "reviews/drive_hole_substitutes_20260926",
+   "lane": "GB-8w",
+   "ledger_impl_cell": "MISSING",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [
+    {
+     "path": "reviews/drive_hole_substitutes_20260926/LEDGER.md",
+     "blob": "20193bd0d15597ef3a6fdb05402a6c4a3bdee049",
+     "bytes": 13512,
+     "sha256": "e501720f929828a8d827ef662104aa4a82380edaea3efd0a13a7bb4efdea6c97",
+     "marker_hits": 11,
+     "heuristic_class": "REVIEW/AUDIT+MATH",
+     "reviewed_class": "PROTOCOL_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "TOO_HIGH",
+     "evidence": "Custody ledger ('emit a verification-grade substitute only when live Git identities...'). Its 11 hits are words like proof/claim/PROOF plus one ≤ in a cited row."
+    }
+   ],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 188,
+   "repo": "Math-",
+   "unit": "reviews/equal_height_protocol_20261006",
+   "lane": "GB-8o",
+   "ledger_impl_cell": "MISSING",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [
+    {
+     "path": "reviews/equal_height_protocol_20261006/SCOPE.md",
+     "blob": "747ab05988d8325cb0934d4ce4a3549408c0dc85",
+     "bytes": 7228,
+     "sha256": "cb08d16224feda4e7ff436961a6466a85671e01745a7c850d5e8c9ce1fb8f3da",
+     "marker_hits": 3,
+     "heuristic_class": "PROTOCOL/SCOPE",
+     "reviewed_class": "PROTOCOL_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"This is not a ... numerical enclosure, theorem proof or global wrapper audit.\" Only report hashes and exit-code contracts."
+    }
+   ],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 189,
+   "repo": "Math-",
+   "unit": "reviews/fixed_r_protocol_20261006",
+   "lane": "GB-8w",
+   "ledger_impl_cell": "MISSING",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [
+    {
+     "path": "reviews/fixed_r_protocol_20261006/SCOPE.md",
+     "blob": "31d04c4c5f08c6a30596a6e98b755bb5c160da6c",
+     "bytes": 8252,
+     "sha256": "5cc511a10be0f9b82f81c5b79a70746a6a8312ce2704b771f51ac99563b5672e",
+     "marker_hits": 5,
+     "heuristic_class": "PROTOCOL/SCOPE",
+     "reviewed_class": "PROTOCOL_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"This is an execution-protocol defect, not a counterexample to the fixed-separation inverse-lifetime theorem.\""
+    }
+   ],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 190,
+   "repo": "Math-",
+   "unit": "reviews/iba1_periodic_jet_claude_20261005",
+   "lane": "GB-8o",
+   "ledger_impl_cell": "reviews/iba1_periodic_jet_claude_20261005/periodic_jet_check.py; .github/workflows/d3-l4-anisotropic.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 4,
+   "statement_documents": [
+    {
+     "path": "reviews/iba1_periodic_jet_claude_20261005/NOTE.md",
+     "blob": "e36e341f4f7b2781ef3bbcb0df8580ac17f85f8b",
+     "bytes": 9737,
+     "sha256": "4c2535ebfc3c494b3fcb9327b7336730ca46420c780173809166eb95908685ef",
+     "marker_hits": 6,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Computational record: cumulant/Schur-complement method and computed values, e.g. 'Every conditional covariance is positive definite in every tested direction'. Arithmetic is 'floating, not interval', except the L=24 value, which is checked against the side24_v1 enclosure."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/iba1_periodic_jet_claude_20261005/NOTE.md"
+   ],
+   "weak_note": "uncertified numerics with exact identities"
+  },
+  {
+   "row": 191,
+   "repo": "Math-",
+   "unit": "reviews/iba2_009_matching_20261005",
+   "lane": "GB-8u",
+   "ledger_impl_cell": "reviews/iba2_009_matching_20261005/boundary_layer_check.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 3,
+   "statement_documents": [
+    {
+     "path": "reviews/iba2_009_matching_20261005/REPORT.md",
+     "blob": "a0b398f55a1339161f1ada532aad2db6a74e01a2",
+     "bytes": 12716,
+     "sha256": "570a8bf7fdd78e56e6edd04d6a1f7431312daa5839c05a210aa72a76336dc27a",
+     "marker_hits": 13,
+     "heuristic_class": "REVIEW/AUDIT+MATH",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'An exact formula for the actual rejected-density contribution in the moving band' (2.3)-(2.4), an explicit obstruction kernel (3.1), and sufficient tail conditions."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/iba2_009_matching_20261005/REPORT.md"
+   ]
+  },
+  {
+   "row": 192,
+   "repo": "Math-",
+   "unit": "reviews/iba2_010_interface_ledger_20261005",
+   "lane": "GB-8w",
+   "ledger_impl_cell": "MISSING",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [
+    {
+     "path": "reviews/iba2_010_interface_ledger_20261005/LEDGER.md",
+     "blob": "d73c6e5d597ecd450cd040d3270d9ef481c16463",
+     "bytes": 7908,
+     "sha256": "d37108d32fedfd4315014a6d5d55d7cc066ef7e0007f0b884af7eed3e101ae62",
+     "marker_hits": 38,
+     "heuristic_class": "REVIEW/AUDIT+MATH",
+     "reviewed_class": "INDEX_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "TOO_HIGH",
+     "evidence": "'This is an author-side map, not an audit.' A table of consumed statements quoted from other sources, blob pins and review IDs. Hits come from the quoted statements."
+    }
+   ],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 195,
+   "repo": "Math-",
+   "unit": "reviews/iba2_012_localized_moment_20261006",
+   "lane": "GB-8u",
+   "ledger_impl_cell": "reviews/iba2_012_localized_moment_20261006/test_count_transfer.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 4,
+   "statement_documents": [
+    {
+     "path": "reviews/iba2_012_localized_moment_20261006/NOTE.md",
+     "blob": "9dd7d583e50336aea6e0625d57dffabc50ed4f3e",
+     "bytes": 9686,
+     "sha256": "204cbf1d671abbc1115d1e22123b95da51ee1fc60cb40e2c79c0abddb7e4dbe7",
+     "marker_hits": 13,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'## 2. One factorial order is enough after event localization' with '**Proof.**', plus fixed-order sharpness in §4."
+    },
+    {
+     "path": "reviews/iba2_012_localized_moment_20261006/README.md",
+     "blob": "048e560eff90e8866b70f2e7bb1e540fef1f07ff",
+     "bytes": 2410,
+     "sha256": "db0f78247fd118fdb9d37bfc2f7dfcfe90a6d6988cd1ec865eae9ac93e6e1acb",
+     "marker_hits": 2,
+     "heuristic_class": "README/INDEX",
+     "reviewed_class": "INDEX_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'Read NOTE.md and SOURCES.json.' plus test commands."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/iba2_012_localized_moment_20261006/NOTE.md"
+   ]
+  },
+  {
+   "row": 196,
+   "repo": "Math-",
+   "unit": "reviews/iba2_012_log_cap_concentration_20261006",
+   "lane": "GB-8v",
+   "ledger_impl_cell": "reviews/iba2_012_log_cap_concentration_20261006/concentration_check.py; reviews/iba2_012_log_cap_concentration_20261006/test_concentration.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 5,
+   "statement_documents": [
+    {
+     "path": "reviews/iba2_012_log_cap_concentration_20261006/NOTE.md",
+     "blob": "e37ea10e426b8e7ec415e252232d7c73d6ccafed",
+     "bytes": 14454,
+     "sha256": "8f523d01d418a42b13e26c07063f2342d8f01811bf820bbed3724ba1fcface39",
+     "marker_hits": 12,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'## 3. Shifted exponential control with its actual u dependence' with Proof (Tonelli), plus the growing-order threshold optimality in §6."
+    },
+    {
+     "path": "reviews/iba2_012_log_cap_concentration_20261006/README.md",
+     "blob": "9410d195eedbaee2f460dcd7cf6491c90909d962",
+     "bytes": 2844,
+     "sha256": "7ad6c74d7d5151c52f821cbbca33c5e8ad123d67a8d576f4362c4ae7b92f4848",
+     "marker_hits": 2,
+     "heuristic_class": "README/INDEX",
+     "reviewed_class": "INDEX_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'Read NOTE.md before using a bound.' A summary of the result plus replay table."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/iba2_012_log_cap_concentration_20261006/NOTE.md"
+   ]
+  },
+  {
+   "row": 197,
+   "repo": "Math-",
+   "unit": "reviews/iba2_012_log_cap_transfer_20261006",
+   "lane": "GB-8v",
+   "ledger_impl_cell": "reviews/iba2_012_log_cap_transfer_20261006/log_cap_check.py; reviews/iba2_012_log_cap_transfer_20261006/test_log_cap.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 5,
+   "statement_documents": [
+    {
+     "path": "reviews/iba2_012_log_cap_transfer_20261006/NOTE.md",
+     "blob": "b158965faf0f4113309d825ce1892743910fc028",
+     "bytes": 14237,
+     "sha256": "e975dc65e67d8631cbbd16568f92361731eb572fa88687c0b6e8eeb1af7313fe",
+     "marker_hits": 15,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'**Theorem LT.** Conditional on the quoted interfaces', with '## 3. Proof: a cutoff and four-factor Holder' and dyadic sharpness in §5."
+    },
+    {
+     "path": "reviews/iba2_012_log_cap_transfer_20261006/README.md",
+     "blob": "a8774b57d148c492298a58661d09ce206f66d89c",
+     "bytes": 2347,
+     "sha256": "587a4b61cb798b4e167d8ba1c31b44f79893da4236b3357c0c24ad09c2259bb4",
+     "marker_hits": 3,
+     "heuristic_class": "README/INDEX",
+     "reviewed_class": "INDEX_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Displays the NOTE bound and says 'Read NOTE.md before using the formulas.' Run commands follow."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/iba2_012_log_cap_transfer_20261006/NOTE.md"
+   ]
+  },
+  {
+   "row": 198,
+   "repo": "Math-",
+   "unit": "reviews/iba2_012_marked_sector_20261006",
+   "lane": "GB-8v",
+   "ledger_impl_cell": "reviews/iba2_012_marked_sector_20261006/marked_entropy_check.py; reviews/iba2_012_marked_sector_20261006/test_marked_entropy.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 5,
+   "statement_documents": [
+    {
+     "path": "reviews/iba2_012_marked_sector_20261006/NOTE.md",
+     "blob": "aaa5126088b8b8542a5a0ca03b3d6f1dcf9f85d4",
+     "bytes": 14975,
+     "sha256": "9293821dc1b1b13e2d00c0b9fbfa4e65a054e46a95963e492d5ed2d9103ebedb",
+     "marker_hits": 23,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'## 2. Generic lemma and an explicit constant' with '### Proof of (S)' and '### Proof of (MT)'."
+    },
+    {
+     "path": "reviews/iba2_012_marked_sector_20261006/README.md",
+     "blob": "969c156f5be3e1c542d2ccc3f2fe4a2d6f79d79f",
+     "bytes": 2343,
+     "sha256": "f4ae08d15f7cc74965e93047d0f68f0efe1a12d0619294875062c618f18fc47a",
+     "marker_hits": 4,
+     "heuristic_class": "README/INDEX",
+     "reviewed_class": "INDEX_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'Read NOTE.md and SOURCES.json.' plus the restated bound and replay instructions."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/iba2_012_marked_sector_20261006/NOTE.md"
+   ]
+  },
+  {
+   "row": 199,
+   "repo": "Math-",
+   "unit": "reviews/lean_cycle2_20261005",
+   "lane": "GB-8q",
+   "ledger_impl_cell": "MISSING",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 7,
+   "statement_documents": [
+    {
+     "path": "reviews/lean_cycle2_20261005/agent6/ATTRIBUTION.md",
+     "blob": "a50b0dbd3b1de6228d5b1b35462d5ed40bf05786",
+     "bytes": 2355,
+     "sha256": "dfbebe6f8207b4cfb1975307af0641776f705316586785067a60192717bed078",
+     "marker_hits": 0,
+     "heuristic_class": "PROTOCOL/SCOPE",
+     "reviewed_class": "PROTOCOL_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'Attribution of record for the Math-#277 proposal', covering owner direction and provider UNKNOWN."
+    },
+    {
+     "path": "reviews/lean_cycle2_20261005/agent6/BUILD_STATUS.md",
+     "blob": "a6960b05c5fdc63196babfee48c7037e9e3ad78b",
+     "bytes": 795,
+     "sha256": "e103cc252ad574971898b22bfe0215b15913db6e825af3c59fcacb42abf831f8",
+     "marker_hits": 0,
+     "heuristic_class": "PROTOCOL/SCOPE",
+     "reviewed_class": "PROTOCOL_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'COMPILE_STATUS: UNCOMPILED', 'KERNEL_CHECKED: NO'."
+    },
+    {
+     "path": "reviews/lean_cycle2_20261005/agent6/MomentTail_finite_MT_N2.lean.txt",
+     "blob": "7c9278baa728d1fbfcca413df6713929aef440fa",
+     "bytes": 2873,
+     "sha256": "4650d373bff434c6f3dafcbd84d7cfab9014a2145f045ab9b00e63832f3915ce",
+     "marker_hits": 17,
+     "heuristic_class": "FORMAL",
+     "reviewed_class": "FORMAL_SOURCE",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Two theorem declarations ('theorem p02_lm009_moment40_tail_finite', '..._of_finite') with proof bodies. Marked 'UNCOMPILED — not kernel-checked'."
+    },
+    {
+     "path": "reviews/lean_cycle2_20261005/agent6/NOTES_MT_N2.md",
+     "blob": "a408e765abd70ba356557881597b15f4ca70ec70",
+     "bytes": 3519,
+     "sha256": "9a6ed7eb363884686e97d73fb318f34983aecc3b413552e732184f13e6e304cf",
+     "marker_hits": 17,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Justifies the IsFiniteMeasure relaxation ('Why this is a real relaxation (not wording)') with finite-measure Markov checks (mass 2, mass 1/2, strict boundary)."
+    },
+    {
+     "path": "reviews/lean_cycle2_20261005/agent7/BUILD_STATUS.md",
+     "blob": "f9a68f39f10a8d051f997783b8a461d2f3fffc08",
+     "bytes": 625,
+     "sha256": "931304623e13ed40ef8ff1839fb5f299fcd36d1a6c011ade007cd95e30587085",
+     "marker_hits": 0,
+     "heuristic_class": "PROTOCOL/SCOPE",
+     "reviewed_class": "PROTOCOL_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "'COMPILE_STATUS: UNCOMPILED', 'lake build of companion: NOT EXECUTED'."
+    },
+    {
+     "path": "reviews/lean_cycle2_20261005/agent7/MomentTail_family_interval_MT_N1.lean.txt",
+     "blob": "739a7c402f1949c3c69b112705207adb4eaca0c1",
+     "bytes": 4069,
+     "sha256": "f55e12d972b59ab173319ef03c439847a33195e039da241befa80cad9b954635",
+     "marker_hits": 37,
+     "heuristic_class": "FORMAL",
+     "reviewed_class": "FORMAL_SOURCE",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Two theorem declarations ('theorem p02_lm009_moment40_family_r3_interval', '..._of_interval') with proof bodies. Marked 'UNCOMPILED'."
+    },
+    {
+     "path": "reviews/lean_cycle2_20261005/agent7/NOTES_MT_N1.md",
+     "blob": "20ecb346bdb7416b031a5a23d584b03240893701",
+     "bytes": 4933,
+     "sha256": "e8cbf6a1b6e6cca300f38e3a9c70130e73e8fa588d7d0589a76e5e4b33c7dcbd",
+     "marker_hits": 11,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Type-theoretic argument that the per-r instance is a strict relaxation, using the zero-measure test: 'the companion admits a model the frozen type rejects'."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/lean_cycle2_20261005/agent6/MomentTail_finite_MT_N2.lean.txt",
+    "reviews/lean_cycle2_20261005/agent6/NOTES_MT_N2.md",
+    "reviews/lean_cycle2_20261005/agent7/MomentTail_family_interval_MT_N1.lean.txt",
+    "reviews/lean_cycle2_20261005/agent7/NOTES_MT_N1.md"
+   ],
+   "weak_note": "uncompiled Lean proposals"
+  },
+  {
+   "row": 201,
+   "repo": "Math-",
+   "unit": "reviews/legacy_json_workflow_repair_20261006",
+   "lane": "GB-8w",
+   "ledger_impl_cell": "MISSING",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [
+    {
+     "path": "reviews/legacy_json_workflow_repair_20261006/SCOPE.md",
+     "blob": "d7fc8d7cd214b4da3fa1344f474d32bcb54ccbea",
+     "bytes": 7584,
+     "sha256": "0ff860c54a8f139def6dfeb92d0c6f6b2ec93f9432e017fbe6edfeb084257455",
+     "marker_hits": 5,
+     "heuristic_class": "PROTOCOL/SCOPE",
+     "reviewed_class": "PROTOCOL_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Repair of a legacy JSON workflow wrapper and its mutant-rejection tests: \"No mathematical acceptance or source-proof correction is asserted.\""
+    }
+   ],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 202,
+   "repo": "Math-",
+   "unit": "reviews/legacy_trigger_coverage_20261006",
+   "lane": "GB-8x",
+   "ledger_impl_cell": "MISSING",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [
+    {
+     "path": "reviews/legacy_trigger_coverage_20261006/SCOPE.md",
+     "blob": "bfe44d57f97de6bda9659e09fe92038b4dce43c6",
+     "bytes": 5764,
+     "sha256": "ed559927ef10c937eab6d7670e4eccd8b27e66c02fc4981cd55dd9612ffe8cae",
+     "marker_hits": 2,
+     "heuristic_class": "PROTOCOL/SCOPE",
+     "reviewed_class": "PROTOCOL_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Covers CI path triggers and Python import resolution only: \"This is missing trigger coverage, not a claim that the current numerical result is wrong\"."
+    }
+   ],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 203,
+   "repo": "Math-",
+   "unit": "reviews/legacy_tty_diagnostic_20261006",
+   "lane": "GB-8x",
+   "ledger_impl_cell": "MISSING",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [
+    {
+     "path": "reviews/legacy_tty_diagnostic_20261006/SCOPE.md",
+     "blob": "11c6bcdb8e28ff7560576bc51866d2fcbdcfd3fb",
+     "bytes": 5711,
+     "sha256": "f49e00efb330b6bdd58af988916a563def922ff4a44e660ca7a6a3d08e6472dd",
+     "marker_hits": 1,
+     "heuristic_class": "PROTOCOL/SCOPE",
+     "reviewed_class": "PROTOCOL_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Fixes argparse help-width matching under a TTY: \"a false rejection of a valid unknown-label diagnostic ... not a mathematical counterexample.\""
+    }
+   ],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 204,
+   "repo": "Math-",
+   "unit": "reviews/literature_classical_neighbors_20261001",
+   "lane": "GB-8v",
+   "ledger_impl_cell": "reviews/literature_classical_neighbors_20261001/d1_rice_check.py; .github/workflows/d1-line.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 5,
+   "statement_documents": [
+    {
+     "path": "reviews/literature_classical_neighbors_20261001/ADDENDUM.md",
+     "blob": "b289c7cd4be29fad6913aa4d753899cb0ef851aa",
+     "bytes": 16207,
+     "sha256": "5e3903ad05b0566a1e999b0e69b309a4165578705d687f4a3021d22ebd1e1e42",
+     "marker_hits": 30,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Literature memo, but §3 derives a d=1 law with an explicit constant and a deterministic check: \"f_H(h) ~ C h^{−1/3}, P(H ≤ h) ~ (3/2) C h^{2/3}\". The file itself calls it \"a computation recorded for the attribution wording, not a reviewed theorem\"."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/literature_classical_neighbors_20261001/ADDENDUM.md"
+   ]
+  },
+  {
+   "row": 206,
+   "repo": "Math-",
+   "unit": "reviews/lm006_common_regression_rate_20261006",
+   "lane": "GB-8i",
+   "ledger_impl_cell": "reviews/lm006_common_regression_rate_20261006/regression_rate_check.py; reviews/lm006_common_regression_rate_20261006/test_regression_rate.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 4,
+   "statement_documents": [
+    {
+     "path": "reviews/lm006_common_regression_rate_20261006/NOTE.md",
+     "blob": "3242441f1692a99942fde89a3ec6ef12e9e4693d",
+     "bytes": 17559,
+     "sha256": "8ee4189778be9e01ff36f1d7d01f991b7ebb1d746e9473689eb2f88af903b1b8",
+     "marker_hits": 12,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Coupling result with Hilbert-space proof: \"||X_r-Y||_Lp <= C_p r, sup_r E||X_r||^p < infinity. (A)\"."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/lm006_common_regression_rate_20261006/NOTE.md"
+   ]
+  },
+  {
+   "row": 207,
+   "repo": "Math-",
+   "unit": "reviews/lm006_cubic_sign_band_20261006",
+   "lane": "GB-8i",
+   "ledger_impl_cell": "reviews/lm006_cubic_sign_band_20261006/cubic_band.py; reviews/lm006_cubic_sign_band_20261006/test_cubic_band.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 4,
+   "statement_documents": [
+    {
+     "path": "reviews/lm006_cubic_sign_band_20261006/NOTE.md",
+     "blob": "88dae06c5eefd102239f976513eb5e97c4ac7580",
+     "bytes": 15359,
+     "sha256": "21284fa5945752736483437a59e5c98477b9ded3e90c6107d1454bf5f3d8ce9c",
+     "marker_hits": 4,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "TOO_LOW",
+     "evidence": "Full derivation of a conditional-density band bound, Gaussian moment bounds, a 12-jet Gram proof and a sharpness example: \"Equation (7) proves the cubic sign bound for this spectral class\"; (14) \"nu_r{ f_yy(S)>=0 } <= C r^3\". The regex missed it because the note writes <= in ASCII."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/lm006_cubic_sign_band_20261006/NOTE.md"
+   ]
+  },
+  {
+   "row": 208,
+   "repo": "Math-",
+   "unit": "reviews/lm006_endpoint_extension_20261005",
+   "lane": "GB-8i",
+   "ledger_impl_cell": "reviews/lm006_endpoint_extension_20261005/endpoint_check.py; reviews/lm006_endpoint_extension_20261005/test_endpoint_check.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 4,
+   "statement_documents": [
+    {
+     "path": "reviews/lm006_endpoint_extension_20261005/NOTE.md",
+     "blob": "551aa563562bc88a19e33d146259c03aa2d318f6",
+     "bytes": 15492,
+     "sha256": "d860fd4669f168c117b67066550047bfa2fcd90d77bbc366d978b6112e9f3757",
+     "marker_hits": 43,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"Result. Under exactly these hypotheses, the conditional means and covariances ... extend continuously to r = 0\", proved in §§2-5."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/lm006_endpoint_extension_20261005/NOTE.md"
+   ]
+  },
+  {
+   "row": 209,
+   "repo": "Math-",
+   "unit": "reviews/lm006_normalizer_stability_20261005",
+   "lane": "GB-8j",
+   "ledger_impl_cell": "reviews/lm006_normalizer_stability_20261005/stability_check.py; reviews/lm006_normalizer_stability_20261005/test_stability.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 4,
+   "statement_documents": [
+    {
+     "path": "reviews/lm006_normalizer_stability_20261005/NOTE.md",
+     "blob": "5790aaa0332bd8e79b276be1577e4c5f3502eed6",
+     "bytes": 10900,
+     "sha256": "2e63518026cef54bb91757ccbdba986a0765f8a8b640240417ba30c59e2f5fd4",
+     "marker_hits": 14,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"|T_r(v)-T_s(w)| <= (||v||+||w||)^3 ||v-w|| + |r-s| ||w||^4. (5)\" with \"Proof of the fixed-r part\"."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/lm006_normalizer_stability_20261005/NOTE.md"
+   ]
+  },
+  {
+   "row": 210,
+   "repo": "Math-",
+   "unit": "reviews/lm006_positive_radius_density_20261006",
+   "lane": "GB-8j",
+   "ledger_impl_cell": "reviews/lm006_positive_radius_density_20261006/joint_rank.py; reviews/lm006_positive_radius_density_20261006/test_joint_rank.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 4,
+   "statement_documents": [
+    {
+     "path": "reviews/lm006_positive_radius_density_20261006/NOTE.md",
+     "blob": "a6d5209a64d37b3ea28cb7dd64d92888a74acfe1",
+     "bytes": 12435,
+     "sha256": "2df0973dfc4f1682fafe69a044c515a6a9173dc835f55f57c769f7be00edbf91",
+     "marker_hits": 6,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Only 6 marker hits, but it proves \"det A(z) = 16 z^4 (z-1)^14 != 0\" and \"TV(nu_r,nu0)=1, for every 0<r<=min(1,r0)\"."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/lm006_positive_radius_density_20261006/NOTE.md"
+   ]
+  },
+  {
+   "row": 211,
+   "repo": "Math-",
+   "unit": "reviews/lm006_product_transverse_20261006",
+   "lane": "GB-8j",
+   "ledger_impl_cell": "reviews/lm006_product_transverse_20261006/product_transverse_check.py; reviews/lm006_product_transverse_20261006/test_product_transverse.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 4,
+   "statement_documents": [
+    {
+     "path": "reviews/lm006_product_transverse_20261006/NOTE.md",
+     "blob": "1532dad32419e255299cad8e4bdf87519e9397da",
+     "bytes": 11247,
+     "sha256": "5dfdd74912d7b48bb19eeec3f99ed82b0080d9a00053f525221462cd9346d3be",
+     "marker_hits": 6,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Exact conditional law \"Q(S) | (B,G) ~ N(G/2-m2[F(S)+F(M)]/2, g[1+rho(r)]/2). (3)\", derived in §§2-3."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/lm006_product_transverse_20261006/NOTE.md"
+   ]
+  },
+  {
+   "row": 212,
+   "repo": "Math-",
+   "unit": "reviews/lm006_quantified_regression_20261005",
+   "lane": "GB-8j",
+   "ledger_impl_cell": "reviews/lm006_quantified_regression_20261005/regression_check.py; reviews/lm006_quantified_regression_20261005/test_regression.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 4,
+   "statement_documents": [
+    {
+     "path": "reviews/lm006_quantified_regression_20261005/NOTE.md",
+     "blob": "a58948d251abdb34b334e1a1da83ec8982de29dc",
+     "bytes": 14663,
+     "sha256": "b68e077adbfdc551e6211cf8e61aa2d98719f1de4f653abcdbd5d90c613a11b1",
+     "marker_hits": 12,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"A quantitative finite-target conditioning lemma ... e_r^2=E||X_r-X_0||^2 <= K^2 r^2\", with \"Proof with constants\"."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/lm006_quantified_regression_20261005/NOTE.md"
+   ]
+  },
+  {
+   "row": 213,
+   "repo": "Math-",
+   "unit": "reviews/lm006_tilted_endpoint_law_20261005",
+   "lane": "GB-8j",
+   "ledger_impl_cell": "reviews/lm006_tilted_endpoint_law_20261005/test_tilt.py; reviews/lm006_tilted_endpoint_law_20261005/tilt_check.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 4,
+   "statement_documents": [
+    {
+     "path": "reviews/lm006_tilted_endpoint_law_20261005/NOTE.md",
+     "blob": "6633cdf0bfee55e2fc2046176effbf44634454b3",
+     "bytes": 11397,
+     "sha256": "ebff808093e4fcc9959ff8690c9cf049d91ac3306297853e559d70739747f113",
+     "marker_hits": 9,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"A normalized-density lemma ... E_gamma|a/z-b/z0| <= 2 Delta/z0\", plus the TV=1 obstruction (13)."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/lm006_tilted_endpoint_law_20261005/NOTE.md"
+   ]
+  },
+  {
+   "row": 214,
+   "repo": "Math-",
+   "unit": "reviews/lm006_typed_sign_suppression_20261005",
+   "lane": "GB-8j",
+   "ledger_impl_cell": "reviews/lm006_typed_sign_suppression_20261005/test_typed_sign.py; reviews/lm006_typed_sign_suppression_20261005/typed_sign_check.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 4,
+   "statement_documents": [
+    {
+     "path": "reviews/lm006_typed_sign_suppression_20261005/NOTE.md",
+     "blob": "9015971fa03f44ae99d410facc6f3d8c26cdc945",
+     "bytes": 11399,
+     "sha256": "bd9e15faff1c38d935a9761c36b9af32bfd4006fc900382e2e2430f481749a35",
+     "marker_hits": 7,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"T_r(v) 1_E <= r |a_-| b_+^2 |g| + (1/16)|a_-| u^2 g^2. (2)\" with proof and sharpness witnesses."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/lm006_typed_sign_suppression_20261005/NOTE.md"
+   ]
+  },
+  {
+   "row": 215,
+   "repo": "Math-",
+   "unit": "reviews/lm006_wrong_sign_asymptotic_20261006",
+   "lane": "GB-8j",
+   "ledger_impl_cell": "reviews/lm006_wrong_sign_asymptotic_20261006/sign_coefficient.py; reviews/lm006_wrong_sign_asymptotic_20261006/test_sign_coefficient.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 4,
+   "statement_documents": [
+    {
+     "path": "reviews/lm006_wrong_sign_asymptotic_20261006/NOTE.md",
+     "blob": "ea914c1b8e0b8180b645f3f626e2081ab87700b9",
+     "bytes": 15192,
+     "sha256": "00d57d987c28ef5f2e3f6467c9e343fb60ffb3ad5806d004f245fe16914fbb61",
+     "marker_hits": 10,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"Theorem (new actual-field asymptotic) ... nu_r(E_r)=C_{L,b} r^3+o(r^3)\", proved in §§2-6."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/lm006_wrong_sign_asymptotic_20261006/NOTE.md"
+   ],
+   "postcut_carriers": [
+    {
+     "path": "tools/lm006_sign_coefficient_replay.py",
+     "landing": "Math-#366",
+     "merge": "b29c4b769cac85437b409d152651d5cce4140015",
+     "role": "DEPENDENCY_PIN_ONLY",
+     "note": "pins reviews/lm006_wrong_sign_asymptotic_20261006/NOTE.md ea914c1b; runs no code of this unit",
+     "blob": "93d35b6505329c19814ad6b0ebade16b51560544",
+     "blob_at_cut": null
+    }
+   ]
+  },
+  {
+   "row": 221,
+   "repo": "Math-",
+   "unit": "reviews/periodic_tau_envelope_20261005",
+   "lane": "GB-8o",
+   "ledger_impl_cell": "reviews/periodic_tau_envelope_20261005/envelope_check.py; reviews/periodic_tau_envelope_20261005/test_envelope.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 4,
+   "statement_documents": [
+    {
+     "path": "reviews/periodic_tau_envelope_20261005/REPORT.md",
+     "blob": "2166869f20eb4d50249920691b90415943c4b5ff",
+     "bytes": 10021,
+     "sha256": "5534b03a332f3a3a7980a9c5a8c40c53f3b08d3c02b387d025ed31915ad825df",
+     "marker_hits": 11,
+     "heuristic_class": "REVIEW/AUDIT+MATH",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Math detection is right, but the kind label is wrong: this is an original theorem, not a review. \"Theorem T1 ... min_Delta F = min_{1<=m<=d} (A/m + B/m^2)\" ... \"QED\". The REVIEW/AUDIT label comes only from the filename REPORT.md."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/periodic_tau_envelope_20261005/REPORT.md"
+   ]
+  },
+  {
+   "row": 222,
+   "repo": "Math-",
+   "unit": "reviews/periodic_tau_positive_floor_20261005",
+   "lane": "GB-8o",
+   "ledger_impl_cell": "reviews/periodic_tau_positive_floor_20261005/positive_tau.py; reviews/periodic_tau_positive_floor_20261005/test_positive_tau.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 4,
+   "statement_documents": [
+    {
+     "path": "reviews/periodic_tau_positive_floor_20261005/NOTE.md",
+     "blob": "50d7ea3511dc11ad01adb2aa9786c20064e03421",
+     "bytes": 8664,
+     "sha256": "2103f7a3c4383bd6d9fc2906e3721a180e46b3d1e9962db3a5cc3f4f5779bc4e",
+     "marker_hits": 8,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"Proposition P1. For every unit direction ... tau_u^2 = Delta sum_i t_i^3 + 9 m2 V2 ...\" and Corollary P2, each with proof."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/periodic_tau_positive_floor_20261005/NOTE.md"
+   ]
+  },
+  {
+   "row": 223,
+   "repo": "Math-",
+   "unit": "reviews/pin_micro_covariance_20260926",
+   "lane": "GB-8c",
+   "ledger_impl_cell": "reviews/pin_micro_covariance_20260926/exact_check.py; .github/workflows/pin-micro-covariance.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 2,
+   "statement_documents": [
+    {
+     "path": "reviews/pin_micro_covariance_20260926/NOTE.md",
+     "blob": "36cc6cfcc0ab776bc22e5f1f480d4d264b1294a6",
+     "bytes": 5273,
+     "sha256": "0351da0680e81c2b001338ede50770b9e00fa5cb09aab438940a9b81d56fd866",
+     "marker_hits": 4,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "TOO_LOW",
+     "evidence": "\"Pin microdisk gradient desingularization — covariance lemma\", with a Cauchy-Binet minor bound and the covariance statement (3.1) \"c h^2 I_2 <= Cov(G_r(P,Q)|pins) <= C h^2 I_2\" plus a density envelope (4.1)-(4.2). Labelled an author-side lemma for separate review."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/pin_micro_covariance_20260926/NOTE.md"
+   ]
+  },
+  {
+   "row": 225,
+   "repo": "Math-",
+   "unit": "reviews/pin_neighborhood_recon_20260926",
+   "lane": "GB-8c",
+   "ledger_impl_cell": "reviews/pin_neighborhood_recon_20260926/algebra_check.py; main:tests/test_museum_data.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 2,
+   "statement_documents": [
+    {
+     "path": "reviews/pin_neighborhood_recon_20260926/NOTE.md",
+     "blob": "c83640bc2d8ae8153aa64bd5763084345a80c925",
+     "bytes": 14783,
+     "sha256": "43687b2c7e3033a25f6459585da7b1cb69f9a6594abe64099fde1551a0c904ab",
+     "marker_hits": 54,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Reconnaissance-level derivation: \"E[N(M+r{κ r ≤ |s| ≤ 1/4})] ≤ C r^3 ... at reconnaissance level\". Inner disk explicitly \"open\"; the earlier r^2 log bound is withdrawn."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/pin_neighborhood_recon_20260926/NOTE.md"
+   ],
+   "weak_note": "reconnaissance-level result"
+  },
+  {
+   "row": 237,
+   "repo": "Math-",
+   "unit": "reviews/register_execution_readiness_20260930",
+   "lane": "GB-8w",
+   "ledger_impl_cell": "reviews/register_execution_readiness_20260930/execution_dryrun.py; reviews/register_execution_readiness_20260930/test_execution_dryrun.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 7,
+   "statement_documents": [
+    {
+     "path": "reviews/register_execution_readiness_20260930/README.md",
+     "blob": "4bce440f7231edcf87252e7e5e0efb4f7d4dc73f",
+     "bytes": 15324,
+     "sha256": "a802bda922f3e3e5625d49a5e10776223643de6103f6216ee48bf5f21f0d84e2",
+     "marker_hits": 1,
+     "heuristic_class": "README/INDEX",
+     "reviewed_class": "PROTOCOL_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "A register-transition dry run plus checker and mutant engineering: \"Effect: engineering readiness only. Nothing is executed here\". No mathematical statements."
+    }
+   ],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 238,
+   "repo": "Math-",
+   "unit": "reviews/remainder_rate_protocol_20261006",
+   "lane": "GB-8g",
+   "ledger_impl_cell": "MISSING",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [
+    {
+     "path": "reviews/remainder_rate_protocol_20261006/SCOPE.md",
+     "blob": "b9b0b4498c01883016b5297db5544b0ba56e55ea",
+     "bytes": 6965,
+     "sha256": "9e0d93d04cbdca4c1b75e6fef48c291f0c1ea63c8022a0e619794512347a43eb",
+     "marker_hits": 4,
+     "heuristic_class": "PROTOCOL/SCOPE",
+     "reviewed_class": "PROTOCOL_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Repairs a workflow's child-output contract; M1-M4 are named only as checker mutants: \"This is one workflow repair, not acceptance of the remainder theorem\"."
+    }
+   ],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 251,
+   "repo": "Math-",
+   "unit": "reviews/side24_d2_certified_small_L_claude_20261005",
+   "lane": "GB-8g",
+   "ledger_impl_cell": "reviews/side24_d2_certified_small_L_claude_20261005/certified_d2.py; .github/workflows/d2-two-mass-floors.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 4,
+   "statement_documents": [
+    {
+     "path": "reviews/side24_d2_certified_small_L_claude_20261005/NOTE.md",
+     "blob": "852f7403a8a06a1ef061e363df9502ae16f7a341",
+     "bytes": 10164,
+     "sha256": "407828facb8dde26a036a08a5b3978eb74d6d8a508c68e2758c291e16e911588",
+     "marker_hits": 14,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Certified computation: \"rigorous outward enclosures of the coefficient (15.2) in d = 2 ... at L ∈ {24, 8, 2π, 4, 3, 2}\", by interval arithmetic and the Trefethen-Weideman quadrature bound."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "reviews/side24_d2_certified_small_L_claude_20261005/NOTE.md"
+   ]
+  },
+  {
+   "row": 255,
+   "repo": "Math-",
+   "unit": "imports/gp_data_114_embedded_20260930",
+   "lane": "GB-8t",
+   "ledger_impl_cell": "imports/gp_data_114_embedded_20260930/GP-DATA-114-v1.0_uniform_q_degree4_interval.py; imports/gp_data_114_embedded_20260930/inert_decoder.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 10,
+   "statement_documents": [
+    {
+     "path": "imports/gp_data_114_embedded_20260930/README.md",
+     "blob": "410f7a4a0598e093e8458ec6fa8f8aec14657f19",
+     "bytes": 5754,
+     "sha256": "7139b03d1e6263107aa43f4559457eb4e9f59b318a89266457973c5b30c6599a",
+     "marker_hits": 1,
+     "heuristic_class": "README/INDEX",
+     "reviewed_class": "PROTOCOL_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "A byte-custody packet. The historical interval-certificate claims are only described (\"not new verdicts supplied here\"): \"This packet claims individually readable public byte custody\"."
+    }
+   ],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 256,
+   "repo": "Math-",
+   "unit": "imports/hardening_ebedb780",
+   "lane": "GB-8t",
+   "ledger_impl_cell": "imports/hardening_ebedb780/verify.py; .github/workflows/hardening-proof-custody.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 13,
+   "statement_documents": [
+    {
+     "path": "imports/hardening_ebedb780/EC-014/proof.md.export.txt",
+     "blob": "7189b4d1538866594c6d8c94f09e247a2cd65abe",
+     "bytes": 11331,
+     "sha256": "c5e64b9ba3a906535f1ae58a161d594a427371599c102ae4a68849b087a2f62c",
+     "marker_hits": 13,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Closure-approval package. It states \"det T_r = -r^-5\" and \"(r^3/6) r^-5 r^2 = 1/6\" and displays the full T_r matrix. The full derivation is in external Drive GP-DER-061, not in this file. Weak instance."
+    },
+    {
+     "path": "imports/hardening_ebedb780/EC-015/proof.md.export.txt",
+     "blob": "7bcafa247f80297009f7450df28ece5cae58073c",
+     "bytes": 7196,
+     "sha256": "773b49b6d6930915d452a15243c89e32efa181b2ba7d42ae863c9dbc19393752",
+     "marker_hits": 6,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Closure package. Existence via an explicit fixture with reproduced margins: \"the repaired degree-four witness event is nonempty\", \"cone margin kappa-2tau=0.00875000048828087 > 0\". Event definitions are in external GP-DER-092. Weak instance."
+    },
+    {
+     "path": "imports/hardening_ebedb780/EC-021/proof.md.export.txt",
+     "blob": "fce94e3b77a2851ce76fa05002ecb1fd6faea1e9",
+     "bytes": 8269,
+     "sha256": "1b9a56a1b4ecca99452743e2f010717f1eca753cf0c7c7919677490cae0072ba",
+     "marker_hits": 10,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"inf_{0<r<=r_1} P_{r,Q4}^{MS}(B_q) >= c_Q4 > 0\", with a short derivation in \"4. MATHEMATICAL BASIS\". Closure-package wrapper."
+    },
+    {
+     "path": "imports/hardening_ebedb780/P02-LM-001/proof.md.export.txt",
+     "blob": "de9995e3e312894434fb747a689ee2c6df725d8b",
+     "bytes": 17261,
+     "sha256": "a07d7df63e1f5810ba6bad5576a80afcbfb02deab0790d7804f45ab9dc798ea0",
+     "marker_hits": 52,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"THEOREM P02-LM-001. Assume REG_r(U) and s<=-C_cap(U)\", with a proof roadmap and obligation ledger. The \"Authoritative proof\" is external GP-DER-047."
+    },
+    {
+     "path": "imports/hardening_ebedb780/P02-LM-002/proof.md.export.txt",
+     "blob": "d1fd7eccd5947cb6c5bf8724a77b7ec1c380a29b",
+     "bytes": 9748,
+     "sha256": "0f8f80922feb603e5b6e530eb885a7819b3a98d90d3c42d60a68259af766f7de",
+     "marker_hits": 27,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"W_r^2<=16r^4R^8\", with a complete \"3. EXACT PROOF\"."
+    },
+    {
+     "path": "imports/hardening_ebedb780/P02-LM-005/proof.md.export.txt",
+     "blob": "8fa134312a4fba7307b97e70498605a41b71ec82",
+     "bytes": 15009,
+     "sha256": "0fe0fad5d8e5519cac0e57a42181aa53560bb38d94f23aea51b63be3f182df8b",
+     "marker_hits": 24,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"THEOREM P02-LM-005. There exists r_GR>0 ...\", proved in §§3-6 (continuity, Fourier positivity, density envelope, moments)."
+    },
+    {
+     "path": "imports/hardening_ebedb780/P02-LM-007/proof.md.export.txt",
+     "blob": "f895c56c1abfabb6da48e7fc1d8a67a24e2583e9",
+     "bytes": 12936,
+     "sha256": "7de9525399327ae512c399274732faeee24e3de5bf7d6d3bc1440837a12ab2fc",
+     "marker_hits": 18,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Frozen lemma body with full Dudley/Borell-TIS proof: \"Q_{6,r}(H_{5,r}(D^+)>t) <=C_5exp(-c_5t^2)\"."
+    },
+    {
+     "path": "imports/hardening_ebedb780/P02-LM-008/proof.md.export.txt",
+     "blob": "70112651948447cf95f94c620e17c0e2bbc4dd99",
+     "bytes": 12160,
+     "sha256": "06967d0ba2c2d20550f3bd86ddc97981e324e5f94cd7710996445d507ae2285b",
+     "marker_hits": 29,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"P_r(E)<=sqrt(C_W)/c_Z · Q_r(E)^(1/2)\", with \"3. EXACT PROOF\" (Cauchy-Schwarz)."
+    },
+    {
+     "path": "imports/hardening_ebedb780/P15-B/P15-B_PALETTE_SEPARATED_LOCALIZATION.md",
+     "blob": "deab15ebd40e473374ec5943b0163a4a246081aa",
+     "bytes": 6286,
+     "sha256": "9b18b6e9abc90d18deef06ab12e3aa7794dad40e1618d99daa88e369c300e8c3",
+     "marker_hits": 5,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "TOO_LOW",
+     "evidence": "Complete combinatorial argument that the marker count missed: \"G = union_i G_i covers D^(K). (B1) Proof: let U avoid G.\" Also includes bounds (B2)-(B4) and an exact chromatic-number example."
+    },
+    {
+     "path": "imports/hardening_ebedb780/README.md",
+     "blob": "cf84a76549b10010dd68b7098c274de8d6f5f42a",
+     "bytes": 7605,
+     "sha256": "363ca7e91586e547d4bb62425c73a3cb1f8484c7b8470960945862467be41270",
+     "marker_hits": 25,
+     "heuristic_class": "README/INDEX+MATH",
+     "reviewed_class": "INDEX_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "TOO_HIGH",
+     "evidence": "Custody and provenance table only: \"These paths make source bytes reachable from Math `main` after merge. They do not accept a theorem\". The marker hits come from lemma titles and quoted status labels."
+    },
+    {
+     "path": "imports/hardening_ebedb780/main_issue_59/ISSUE_BODY_TRANSCRIPTION.md",
+     "blob": "8ea2464ee6b6b1f0d2ecc661714bef71d8025d5b",
+     "bytes": 6819,
+     "sha256": "a41bb3475586aa482551a45178631ce5d15e0f07c8061a14b5058bef6252bb7c",
+     "marker_hits": 8,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Transcribed issue body with an Edmonds-based argument: \"K*=max_{nonempty A subset[n]} ceil(sum_{i in A}d_i/rank_M(A))\" and the 816-label witness."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "imports/hardening_ebedb780/EC-014/proof.md.export.txt",
+    "imports/hardening_ebedb780/EC-015/proof.md.export.txt",
+    "imports/hardening_ebedb780/EC-021/proof.md.export.txt",
+    "imports/hardening_ebedb780/P02-LM-001/proof.md.export.txt",
+    "imports/hardening_ebedb780/P02-LM-002/proof.md.export.txt",
+    "imports/hardening_ebedb780/P02-LM-005/proof.md.export.txt",
+    "imports/hardening_ebedb780/P02-LM-007/proof.md.export.txt",
+    "imports/hardening_ebedb780/P02-LM-008/proof.md.export.txt",
+    "imports/hardening_ebedb780/P15-B/P15-B_PALETTE_SEPARATED_LOCALIZATION.md",
+    "imports/hardening_ebedb780/main_issue_59/ISSUE_BODY_TRANSCRIPTION.md"
+   ],
+   "weak_note": "EC-014, EC-015 and P02-LM-001 keep their derivations in external Drive files"
+  },
+  {
+   "row": 262,
+   "repo": "Math-",
+   "unit": "coefficients/lm006_wrong_sign_20261006_r20",
+   "lane": "GB-8h",
+   "ledger_impl_cell": "coefficients/lm006_wrong_sign_20261006_r20/enclose.py; coefficients/lm006_wrong_sign_20261006_r20/test_enclosure.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 5,
+   "statement_documents": [
+    {
+     "path": "coefficients/lm006_wrong_sign_20261006_r20/NOTE.md",
+     "blob": "a79f080851bba69a03ec4b8348dc93d04143bf62",
+     "bytes": 12359,
+     "sha256": "1a145132e05aa2721397d30fd3c422bbaab496ac8c24b947e416a3f4e0e0a526",
+     "marker_hits": 8,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Certified interval computation: \"0.001305365507 <= C_(24,6/5) <= 0.001338803452\", with explicit tail and extremum bounds."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "coefficients/lm006_wrong_sign_20261006_r20/NOTE.md"
+   ],
+   "postcut_carriers": [
+    {
+     "path": "tools/lm006_sign_coefficient_replay.py",
+     "landing": "Math-#366",
+     "merge": "b29c4b769cac85437b409d152651d5cce4140015",
+     "role": "NEW_CARRIER",
+     "note": "replay tool pins the unit NOTE.md a79f0808 and runs the unit enclose.py",
+     "blob": "93d35b6505329c19814ad6b0ebade16b51560544",
+     "blob_at_cut": null
+    },
+    {
+     "path": "tests/test_lm006_sign_coefficient_replay.py",
+     "landing": "Math-#366",
+     "merge": "b29c4b769cac85437b409d152651d5cce4140015",
+     "role": "NEW_CARRIER",
+     "note": "replay tool pins the unit NOTE.md a79f0808 and runs the unit enclose.py",
+     "blob": "6e6d5cead61153c6f829f43cdbc140142adf869e",
+     "blob_at_cut": null
+    },
+    {
+     "path": ".github/workflows/lm006-sign-coefficient.yml",
+     "landing": "Math-#366",
+     "merge": "b29c4b769cac85437b409d152651d5cce4140015",
+     "role": "NEW_CARRIER",
+     "note": "replay tool pins the unit NOTE.md a79f0808 and runs the unit enclose.py",
+     "blob": "21361d33a4f94e93861dc3f48c0c49306d95d352",
+     "blob_at_cut": null
+    }
+   ]
+  },
+  {
+   "row": 263,
+   "repo": "Math-",
+   "unit": "coefficients/side24_d4_20260930",
+   "lane": "GB-8h",
+   "ledger_impl_cell": "coefficients/side24_d4_20260930/cone_moment_d4.py; .github/workflows/side24-d4-coefficient.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 4,
+   "statement_documents": [
+    {
+     "path": "coefficients/side24_d4_20260930/NOTE.md",
+     "blob": "e00de4665594bad39545046433989bfa5178cd65",
+     "bytes": 20408,
+     "sha256": "338ddfe869542d08e3595a34d11ca1c8cabc9248e167663e09a178ccb3066abc",
+     "marker_hits": 3,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "TOO_LOW",
+     "evidence": "Certified interval computation with an exact reduction, Cauchy remainder bounds and a torus transfer: \"Certified. `D_3 = 5.3231802688898968949231987396872606357843885294...`\" and \"|c_{4,24} / c_{4,ref} - 1| <= delta = 1.5702e-108\"."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "coefficients/side24_d4_20260930/NOTE.md"
+   ]
+  },
+  {
+   "row": 264,
+   "repo": "Math-",
+   "unit": "coefficients/side24_d4_closed_form_20260930",
+   "lane": "GB-8h",
+   "ledger_impl_cell": "coefficients/side24_d4_closed_form_20260930/closed_form_d3.py; .github/workflows/side24-d4-closed-form.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 4,
+   "statement_documents": [
+    {
+     "path": "coefficients/side24_d4_closed_form_20260930/NOTE.md",
+     "blob": "8c97ea3642930646395566d09d0499d0ca090d35",
+     "bytes": 16289,
+     "sha256": "1b98443e4a9a297fa5b9c3a8c7549dd6ea713bdc5039a92f2b35fbd783253d13",
+     "marker_hits": 35,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"Proposition (closed form of D_3) ... D_3 = 50/3 − 76/(3π) − (200/(9π)) arctan(1/2)\", via lemmas L1-L3."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "coefficients/side24_d4_closed_form_20260930/NOTE.md"
+   ]
+  },
+  {
+   "row": 265,
+   "repo": "Math-",
+   "unit": "coefficients/side24_d5_20260930",
+   "lane": "GB-8b",
+   "ledger_impl_cell": "coefficients/side24_d5_20260930/cone_moment_d5.py; .github/workflows/side24-d5-coefficient.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 4,
+   "statement_documents": [
+    {
+     "path": "coefficients/side24_d5_20260930/NOTE.md",
+     "blob": "7d12f0502d2e557e1c04e101827a554b53ce3def",
+     "bytes": 14389,
+     "sha256": "a2d608c18cad1dbc2a27c2f87f201336789f1ff66277b96662c4716f193608db",
+     "marker_hits": 4,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "TOO_LOW",
+     "evidence": "Certified computation with a decoupling identity for every m: \"D_4 = 14.21876345897735760130646567787407831734060...... (enclosure width 3.9e-42)\" and \"|c_{5,24}/c_{5,ref} - 1| <= delta = 1.8554e-107\"."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "coefficients/side24_d5_20260930/NOTE.md"
+   ]
+  },
+  {
+   "row": 266,
+   "repo": "Math-",
+   "unit": "coefficients/side24_d5_closed_form_20260930",
+   "lane": "GB-8b",
+   "ledger_impl_cell": "coefficients/side24_d5_closed_form_20260930/closed_form_d4.py; .github/workflows/side24-d5-closed-form.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 4,
+   "statement_documents": [
+    {
+     "path": "coefficients/side24_d5_closed_form_20260930/NOTE.md",
+     "blob": "42cb7672595b39c9afb635c0f9c1720dc1cdc28b",
+     "bytes": 19273,
+     "sha256": "8a12017a9cedafb303779b06e221773f14963615e250a5f10a647436aea05198",
+     "marker_hits": 41,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"Proposition (closed form of D_4)\", via lemmas L1-L4. Stated as conditional on the unmerged Math-#200 reduction."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "coefficients/side24_d5_closed_form_20260930/NOTE.md"
+   ],
+   "weak_note": "conditional on the unmerged Math-#200"
+  },
+  {
+   "row": 267,
+   "repo": "Math-",
+   "unit": "coefficients/side24_d6_20260930",
+   "lane": "GB-8h",
+   "ledger_impl_cell": "coefficients/side24_d6_20260930/cone_moment_d6.py; .github/workflows/side24-d6-coefficient.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 4,
+   "statement_documents": [
+    {
+     "path": "coefficients/side24_d6_20260930/NOTE.md",
+     "blob": "e150b851fdb61f2372b67c25205d24d7eeeec144",
+     "bytes": 19928,
+     "sha256": "f5dbf532aa866f64ce913449229733213e3acd165949ef2cdaef547d33e87015",
+     "marker_hits": 44,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Certified enclosure: \"D_5 = 44.130651875074132710362024895402633148…… (enclosure width 3.9e-37)\". \"No closed form for D_5 is claimed\"."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "coefficients/side24_d6_20260930/NOTE.md"
+   ]
+  },
+  {
+   "row": 272,
+   "repo": "Math-",
+   "unit": "certificates/bf_source_integrity.py",
+   "lane": "GB-8r",
+   "ledger_impl_cell": "certificates/bf_source_integrity.py; .github/workflows/bf-six-pin-scalar.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 273,
+   "repo": "Math-",
+   "unit": "certificates/test_bf_source_integrity.py",
+   "lane": "GB-8r",
+   "ledger_impl_cell": "certificates/test_bf_source_integrity.py; .github/workflows/bf-six-pin-scalar.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 278,
+   "repo": "Math-",
+   "unit": "formal/.gitignore",
+   "lane": "GB-8q",
+   "ledger_impl_cell": "MISSING",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 279,
+   "repo": "Math-",
+   "unit": "formal/COMPATIBILITY.md",
+   "lane": "GB-8q",
+   "ledger_impl_cell": "MISSING",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [
+    {
+     "path": "formal/COMPATIBILITY.md",
+     "blob": "47052c7b6d2ab225dcefb9f0d7d0b6a0d48c8444",
+     "bytes": 2187,
+     "sha256": "33721aad32f82131a6956a06b58c5bc41f5d28f26efe840a99a4d51ad60cf247",
+     "marker_hits": 3,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "PROTOCOL_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Records three Lean compiler-compatibility fixes (noncomputable annotation, surplus ring): \"Delete that surplus tactic only.\" It also says \"all thirteen theorem statements remain unchanged\" without stating any of them."
+    }
+   ],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 280,
+   "repo": "Math-",
+   "unit": "formal/D2_SCHUR.md",
+   "lane": "GB-8q",
+   "ledger_impl_cell": "MISSING",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [
+    {
+     "path": "formal/D2_SCHUR.md",
+     "blob": "fd7921da96458afea61a6bb5baa317f8770b3f99",
+     "bytes": 5505,
+     "sha256": "c25f4add4c92479ae0f6dfaac43fc9be7a71766f050a79acbc2c72acf47ef4d3",
+     "marker_hits": 4,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "formal statement map: exact definitions of alpha/gamma/D/N/S/T and the statements of all 16 Lean declarations; the proofs are in ResearchFormalCoreR1/D2Schur.lean, not in this file",
+     "heuristic_verdict": "TOO_LOW",
+     "evidence": "States mathematical identities and inequalities with hypotheses, e.g. \"d2_schur_numerator | `alpha*D-gamma^3-(2gamma+alpha)*k4^2*q*(1-4q)=N`\" and \"d2_schur_pos | `S>0` under the same conditions\". It also gives a degenerate counterexample control. [reconcile: statement map without in-file proof or derivation, so not MATH_STATEMENT; does not count toward SOURCE_DOCUMENT_PRESENT]"
+    }
+   ],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": [],
+   "rule_sensitive_note": "formal statement map (Lean declarations, no in-file proof); proofs live in the formal module"
+  },
+  {
+   "row": 281,
+   "repo": "Math-",
+   "unit": "formal/GLOSSARY.md",
+   "lane": "GB-8p",
+   "ledger_impl_cell": "main:formal/manifest.json",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [
+    {
+     "path": "formal/GLOSSARY.md",
+     "blob": "f9cb1f8cc643a9dc2c9fa7ee9aff241d2dcc1815",
+     "bytes": 1872,
+     "sha256": "6bdda2ce054915efc26e8db462dbe8fd9d0c1db30e02328857bebc6568e05ce9",
+     "marker_hits": 5,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "INDEX_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "A term-to-Lean-object glossary (\"formal scope, not renaming\"). It restates pilot objects such as \"`p <= C*r^4` implies `p <= C*r^3` on [0,1]\" without proof or derivation. Borderline, but not its own math."
+    }
+   ],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 282,
+   "repo": "Math-",
+   "unit": "formal/LINEAGE_VALIDATION.md",
+   "lane": "GB-8q",
+   "ledger_impl_cell": "MISSING",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [
+    {
+     "path": "formal/LINEAGE_VALIDATION.md",
+     "blob": "5a0c5d20e1035651f9d1ee5e1529cb122bdbb1b1",
+     "bytes": 4340,
+     "sha256": "bba9d0a859f1ba45670fe122e4e72ae1094a2226de98aa814d838b0baaf61815",
+     "marker_hits": 5,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "PROTOCOL_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "A review-lineage validator repair: \"This is an engineering successor to the validator, not an alignment acceptance, new proof\"."
+    }
+   ],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 283,
+   "repo": "Math-",
+   "unit": "formal/MEASURE_BRIDGE.md",
+   "lane": "GB-8q",
+   "ledger_impl_cell": "MISSING",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [
+    {
+     "path": "formal/MEASURE_BRIDGE.md",
+     "blob": "822710dc0d4bca63922903bd1574045b7136346c",
+     "bytes": 4948,
+     "sha256": "bdb6c06f359f17d493d6057adbed61edb20236b7a3a3ca4880ae0b33d8a7200e",
+     "marker_hits": 24,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "formal statement map: exact Lean declaration statements and hypotheses, no in-file proof; proofs in formal/ResearchFormalCoreR1/MeasureBridge.lean",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "OTHER here means a Lean-module scope note. It gives exact statements of 7 Lean declarations (\"p02_lm008_event_cs | n ≤ √M₂ √q\"), but the proofs live only in formal/ResearchFormalCoreR1/MeasureBridge.lean (7 theorem decls at the cut). It contains math, so the heuristic is not inflated. [reconcile: statement map without in-file proof or derivation, so not MATH_STATEMENT; does not count toward SOURCE_DOCUMENT_PRESENT]"
+    }
+   ],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": [],
+   "rule_sensitive_note": "formal statement map; proofs in formal/ResearchFormalCoreR1/MeasureBridge.lean"
+  },
+  {
+   "row": 284,
+   "repo": "Math-",
+   "unit": "formal/MOMENT_GENERALITY.md",
+   "lane": "GB-8q",
+   "ledger_impl_cell": "MISSING",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [
+    {
+     "path": "formal/MOMENT_GENERALITY.md",
+     "blob": "b7cdbe5a3d5b5e4ca0c6aee21c7319b8961d1322",
+     "bytes": 5503,
+     "sha256": "5386c763f95ecd0946e0f23a22d1ba90e7956ff1a1bfcada0d454d1b5ace0cf2",
+     "marker_hits": 10,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "formal statement map: exact Lean declaration statements and hypotheses, no in-file proof; proofs in formal/ResearchFormalCoreR1/MomentGenerality.lean",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Lean scope note: a table of 4 target statements (\"mass of {epsilon < r R^5} is at most (M/epsilon^8)r^8\"), with no derivation in the file. Proofs are in MomentGenerality.lean (4 theorem decls). Math-bearing. [reconcile: statement map without in-file proof or derivation, so not MATH_STATEMENT; does not count toward SOURCE_DOCUMENT_PRESENT]"
+    }
+   ],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": [],
+   "rule_sensitive_note": "formal statement map; proofs in formal/ResearchFormalCoreR1/MomentGenerality.lean"
+  },
+  {
+   "row": 285,
+   "repo": "Math-",
+   "unit": "formal/MOMENT_TAIL.md",
+   "lane": "GB-8q",
+   "ledger_impl_cell": "MISSING",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [
+    {
+     "path": "formal/MOMENT_TAIL.md",
+     "blob": "d45f5259114fcfdc935da54d152577904e963a54",
+     "bytes": 5676,
+     "sha256": "20ecddcd830c41935dc4b366882db4d0432240932af6632d025b981f90e044bd",
+     "marker_hits": 13,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "The \"## Exact derivation\" section gives the Markov argument: \"(epsilon/r)^8 <= R^40 ... mu(A) <= (M/epsilon^8) r^8\". Lean proofs are in MomentTail.lean."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "formal/MOMENT_TAIL.md"
+   ]
+  },
+  {
+   "row": 286,
+   "repo": "Math-",
+   "unit": "formal/README.md",
+   "lane": "GB-8p",
+   "ledger_impl_cell": "main:formal/manifest.json",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [
+    {
+     "path": "formal/README.md",
+     "blob": "47d3ebba4d12387dd962d546da4bed0a044b8544",
+     "bytes": 6399,
+     "sha256": "52c4829c23c5caa8142b4c8d7152766b92cb966b1cb8213ff5210e6fa4ef080e",
+     "marker_hits": 8,
+     "heuristic_class": "README/INDEX+MATH",
+     "reviewed_class": "INDEX_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "TOO_HIGH",
+     "evidence": "Lane README: run commands and summaries of the modules' results, with no statement of its own. \"Source-bound Lean evidence; no scientific promotion.\""
+    }
+   ],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 288,
+   "repo": "Math-",
+   "unit": "formal/ResearchFormalCoreR1.lean",
+   "lane": "GB-8p",
+   "ledger_impl_cell": "formal/ResearchFormalCoreR1.lean",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [
+    {
+     "path": "formal/ResearchFormalCoreR1.lean",
+     "blob": "7e484d7d5037812fba329ba3e4c9b8eed8e4de76",
+     "bytes": 339,
+     "sha256": "c55cc116ff3ffbffdb692226e215450a5d2e85b60d27b1b04d529b87bdef38f8",
+     "marker_hits": 0,
+     "heuristic_class": "FORMAL_NO_THEOREM_DECLS",
+     "reviewed_class": "FORMAL_SOURCE_NO_DECLS",
+     "reviewed_detail": "import-only root module; 0 theorem/lemma declarations",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Contains only 8 import lines, ending \"import ResearchFormalCoreR1.D2Schur\". The theorems live in the imported modules, which are outside this unit. [reconcile: no formal statement or proof in the file, so it does not count toward SOURCE_DOCUMENT_PRESENT]"
+    }
+   ],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": [],
+   "rule_sensitive_note": "import-only root module, no declarations"
+  },
+  {
+   "row": 289,
+   "repo": "Math-",
+   "unit": "formal/SCOPE.md",
+   "lane": "GB-8p",
+   "ledger_impl_cell": "main:formal/UniversalLaw/Side24/Endpoints.lean",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [
+    {
+     "path": "formal/SCOPE.md",
+     "blob": "24ef1d7e616e6f6752033b145e7531f321919393",
+     "bytes": 11129,
+     "sha256": "8fa7e879e23742aba77df8687659ca9dcfd13a19e0add6192229c2f80629b3cb",
+     "marker_hits": 21,
+     "heuristic_class": "PROTOCOL/SCOPE",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "mixed: a formal scope map summarizing the mathematical content and hypotheses of the 63 Lean theorem targets, plus the alignment review contract; no proofs in the file",
+     "heuristic_verdict": "TOO_LOW",
+     "evidence": "Contains statement-level math, e.g. \"reference integral >= c > 0 and error <= delta <= c/2 give perturbed integral >= c/2 ... every measurable-event probability error <= 2delta/c\". The class was assigned from the filename, although the document has 21 marker hits. The proofs are in the ResearchFormalCoreR1/*.lean modules. [reconcile: statement map without in-file proof or derivation, so not MATH_STATEMENT; does not count toward SOURCE_DOCUMENT_PRESENT]"
+    }
+   ],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": [],
+   "rule_sensitive_note": "formal statement map (SCOPE.md)"
+  },
+  {
+   "row": 290,
+   "repo": "Math-",
+   "unit": "formal/WEIGHTED_LAW.md",
+   "lane": "GB-8q",
+   "ledger_impl_cell": "MISSING",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [
+    {
+     "path": "formal/WEIGHTED_LAW.md",
+     "blob": "ab1ece70af77767ab24d6b988fc9ba8159d52565",
+     "bytes": 4770,
+     "sha256": "a530dc957923c4c9111b734d8fcc0f4cd3cdba45b08480cfc2e241ecefc5fba4",
+     "marker_hits": 17,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "formal statement map: exact Lean declaration statements and hypotheses, no in-file proof; proofs in formal/ResearchFormalCoreR1/WeightedLaw.lean",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Lean scope note: the definition \"weightedLaw μ W = ofReal(∫ W dμ)⁻¹ • μ.withDensity\", a 9-declaration table and one counterexample (weights (-1,3)). Proofs are only in WeightedLaw.lean. Math-bearing. [reconcile: statement map without in-file proof or derivation, so not MATH_STATEMENT; does not count toward SOURCE_DOCUMENT_PRESENT]"
+    }
+   ],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": [],
+   "rule_sensitive_note": "formal statement map; proofs in formal/ResearchFormalCoreR1/WeightedLaw.lean"
+  },
+  {
+   "row": 291,
+   "repo": "Math-",
+   "unit": "formal/WEIGHT_PERTURBATION.md",
+   "lane": "GB-8q",
+   "ledger_impl_cell": "MISSING",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [
+    {
+     "path": "formal/WEIGHT_PERTURBATION.md",
+     "blob": "dbd204fbfbb4b00165326b9132ca636955d71c9e",
+     "bytes": 6508,
+     "sha256": "0ac969b86f5b2cc4e84b4bb61790c7497164b923dc5f3fc5be99195b75b1b212",
+     "marker_hits": 9,
+     "heuristic_class": "MATH_NOTE",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "The \"## Mathematical argument\" section derives \"a/z - b/t = ((a-b) + (a/z)*(t-z))/t\" and the bound 2delta/c. Lean proofs are in WeightPerturbation.lean."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "formal/WEIGHT_PERTURBATION.md"
+   ]
+  },
+  {
+   "row": 292,
+   "repo": "Math-",
+   "unit": "formal/blueprint",
+   "lane": "GB-8q",
+   "ledger_impl_cell": "MISSING",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [
+    {
+     "path": "formal/blueprint/src/content.tex",
+     "blob": "2afd3e89aedb9b6c805817b958c5c9e7bfdbc497",
+     "bytes": 3193,
+     "sha256": "0c976e8e4a5e69a443e93796c8f6cbf91bf73c224448c4256de72a041e04161f",
+     "marker_hits": 33,
+     "heuristic_class": "FORMAL",
+     "reviewed_class": "FORMAL_SOURCE",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "TeX blueprint with 7 lemma and 1 definition environments, each with a \\lean link and a one-line proof sketch. It has no Lean theorem declarations of its own: \"% Link-only Blueprint source.\""
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "formal/blueprint/src/content.tex"
+   ]
+  },
+  {
+   "row": 293,
+   "repo": "Math-",
+   "unit": "formal/evidence",
+   "lane": "GB-8q",
+   "ledger_impl_cell": "MISSING",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 3,
+   "statement_documents": [],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 294,
+   "repo": "Math-",
+   "unit": "formal/gate.py",
+   "lane": "GB-8p",
+   "ledger_impl_cell": "formal/gate.py; .github/workflows/formal-lean.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 295,
+   "repo": "Math-",
+   "unit": "formal/lake-manifest.json",
+   "lane": "GB-8p",
+   "ledger_impl_cell": ".github/workflows/c297-regular-superlevel.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 296,
+   "repo": "Math-",
+   "unit": "formal/lakefile.toml",
+   "lane": "GB-8p",
+   "ledger_impl_cell": ".github/workflows/c297-regular-superlevel.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 297,
+   "repo": "Math-",
+   "unit": "formal/lean-toolchain",
+   "lane": "GB-8p",
+   "ledger_impl_cell": ".github/workflows/c297-regular-superlevel.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 298,
+   "repo": "Math-",
+   "unit": "formal/manifest.json",
+   "lane": "GB-8p",
+   "ledger_impl_cell": "main:.github/workflows/formal-verification.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 299,
+   "repo": "Math-",
+   "unit": "formal/originals",
+   "lane": "GB-8q",
+   "ledger_impl_cell": "MISSING",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 2,
+   "statement_documents": [
+    {
+     "path": "formal/originals/Algebra.lean.txt",
+     "blob": "4554c810a0c1dfc1b1954c1cb2c4b07f4937f991",
+     "bytes": 1963,
+     "sha256": "4c196820c4db8fafc288dd35642828ba577e3544d60aba7d1d6d24f14ad1e8ae",
+     "marker_hits": 7,
+     "heuristic_class": "FORMAL",
+     "reviewed_class": "FORMAL_SOURCE",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Lean source: 1 def and 6 theorem decls, e.g. \"theorem ec005_fold_gap\" and \"theorem ec014_contact_power\". Original bytes that failed the initial build (formal/evidence/initial-build-failure.log); the repaired copy is AlgebraV2.lean."
+    },
+    {
+     "path": "formal/originals/ProbabilityCompanions.lean.txt",
+     "blob": "82aa4208ca84c60a583e796c9de277905f11d437",
+     "bytes": 3505,
+     "sha256": "4ace6600a476859982c8851ae9097c89b082d3c96291b3c8330bd4cc00bae65d",
+     "marker_hits": 38,
+     "heuristic_class": "FORMAL",
+     "reviewed_class": "FORMAL_SOURCE",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Lean source with 7 theorem decls, e.g. \"theorem p02_lm008_quotient_bound\" and \"theorem p02_lm009_palm_r4_to_r3\". Original bytes that failed the initial build; the repaired copy is ProbabilityCompanionsV2.lean."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "formal/originals/Algebra.lean.txt",
+    "formal/originals/ProbabilityCompanions.lean.txt"
+   ]
+  },
+  {
+   "row": 300,
+   "repo": "Math-",
+   "unit": "formal/tests",
+   "lane": "GB-8p",
+   "ledger_impl_cell": "formal/tests/test_alignment_lineage.py; formal/tests/test_d2_schur.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 8,
+   "statement_documents": [],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 301,
+   "repo": "Math-",
+   "unit": "repairs/c026_reciprocal_20260927",
+   "lane": "GB-8u",
+   "ledger_impl_cell": "repairs/c026_reciprocal_20260927/reciprocal.py; repairs/c026_reciprocal_20260927/test_reciprocal.py",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 3,
+   "statement_documents": [
+    {
+     "path": "repairs/c026_reciprocal_20260927/README.md",
+     "blob": "f359e1633581b0a8a85a3dfd05e8158a1d1e4c1d",
+     "bytes": 4460,
+     "sha256": "4c6994c905dfddfb3be4e36e47522a20a2406d71178db3fe1d04108bb7ac58f9",
+     "marker_hits": 3,
+     "heuristic_class": "README/INDEX",
+     "reviewed_class": "MATH_STATEMENT",
+     "reviewed_detail": "elementary; engineering-repair scope",
+     "heuristic_verdict": "TOO_LOW",
+     "evidence": "Derives the inverse-polynomial coefficient recurrence and proves it: \"For each `k>=1`, the coefficient is `a_0*b_k + sum(a_j*b_(k-j))=0` by the recurrence\". It also reports the source defect \"returns linear coefficient 0, rather than -1\"."
+    }
+   ],
+   "row_result": "SOURCE_DOCUMENT_PRESENT",
+   "math_source_documents": [
+    "repairs/c026_reciprocal_20260927/README.md"
+   ]
+  },
+  {
+   "row": 305,
+   "repo": "Math-",
+   "unit": "claims/LANDING_CLAIMS.json",
+   "lane": "GB-8r",
+   "ledger_impl_cell": ".github/workflows/landing-claims.yml",
+   "cut": "9f3fb6918b28e6378c034ebc19e76d432f5391cb",
+   "members_at_cut": 1,
+   "statement_documents": [],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 306,
+   "repo": "main",
+   "unit": "experiments/board_capacity_probe_20261022",
+   "lane": "GB-8r",
+   "ledger_impl_cell": "experiments/board_capacity_probe_20261022/board_capacity_probe.py; experiments/board_capacity_probe_20261022/test_board_capacity_probe.py",
+   "cut": "a487cfd41bfe095842d9d9f5cec26fc23877b028",
+   "members_at_cut": 6,
+   "statement_documents": [
+    {
+     "path": "experiments/board_capacity_probe_20261022/README.md",
+     "blob": "8cb781a21e8720f5f3cdb564eb8d3721c093bd0b",
+     "bytes": 7406,
+     "sha256": "234bd532181a45290e4e2a6d3de6e74203d82540e9f034a713dc6339f1161d92",
+     "marker_hits": 0,
+     "heuristic_class": "README/INDEX",
+     "reviewed_class": "PROTOCOL_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "An offline issue-comment capacity diagnostic: \"It is **not a deployed monitor or adopted workflow**\". No mathematics."
+    }
+   ],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 308,
+   "repo": "main",
+   "unit": "experiments/reactor_v0",
+   "lane": "GB-8r",
+   "ledger_impl_cell": "experiments/reactor_v0/evaluator.py; experiments/reactor_v0/exact_helpers.py",
+   "cut": "a487cfd41bfe095842d9d9f5cec26fc23877b028",
+   "members_at_cut": 11,
+   "statement_documents": [
+    {
+     "path": "experiments/reactor_v0/README.md",
+     "blob": "74f199ec311d724fdda8f6239c216a8571b39d84",
+     "bytes": 3056,
+     "sha256": "b78a30ccdaa52a00a1dd62599ee06899cfddf87b7081f3a06dce40722ae0bc85",
+     "marker_hits": 3,
+     "heuristic_class": "README/INDEX",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "engineering regression-control freeze; its only math is one exact finite-fixture value",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"sum_i min((t / (a * lifetime_i))**alpha, 1) = 1/4 + 1/16 = 5/16\" is called an \"engineering-only regression control\" that does not \"consume a Gaussian or asymptotic theorem conclusion\"."
+    }
+   ],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 309,
+   "repo": "main",
+   "unit": "experiments/semantic_memory",
+   "lane": "GB-8r",
+   "ledger_impl_cell": "experiments/semantic_memory/benchmark.py; main:.github/workflows/semantic-memory-experiment.yml",
+   "cut": "a487cfd41bfe095842d9d9f5cec26fc23877b028",
+   "members_at_cut": 40,
+   "statement_documents": [
+    {
+     "path": "experiments/semantic_memory/TASK1-SOURCE-README.md",
+     "blob": "16a6bfcadc17188439a8b38fa16d126e4bc7a27d",
+     "bytes": 6438,
+     "sha256": "f122f67845c87ab12d34cb56fc2398bf506036fa8fcbf01564d54665ecaf3bb3",
+     "marker_hits": 0,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "PROTOCOL_ONLY",
+     "reviewed_detail": "",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "A test-fixture/oracle contract for a retrieval benchmark: \"All documents and questions are newly authored synthetic software fixtures, not research results\"."
+    },
+    {
+     "path": "experiments/semantic_memory/fixtures/corpus/D01.txt",
+     "blob": "b0c16484b32576da4a6c5df8259c23f67075a953",
+     "bytes": 12554,
+     "sha256": "7a23e09a507268de7faab01d547a0b8ca73ce9a133fa3fe775f1a252507b8fe2",
+     "marker_hits": 0,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "synthetic retrieval test fixture",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "147 lines of \"Neutral padding\" plus \"the elder-death selector is omega_01, and its marker is K401. The selector is a synthetic fixture label only.\""
+    },
+    {
+     "path": "experiments/semantic_memory/fixtures/corpus/D02.txt",
+     "blob": "1f0757ef3cbd39165f5573573b8f6a38d0fa8ba5",
+     "bytes": 12554,
+     "sha256": "40b28eaddbf3292672715ba53f5f4b78e354ec7c73e5b3ea0e835ff5be0aa8b7",
+     "marker_hits": 0,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "synthetic retrieval test fixture",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Same template as D01 (selector omega_02, marker K402): \"The selector is a synthetic fixture label only.\""
+    },
+    {
+     "path": "experiments/semantic_memory/fixtures/corpus/D03.txt",
+     "blob": "489dcf6a4e0332a040abdb09306f7af6c5a9f5c4",
+     "bytes": 12554,
+     "sha256": "c9979c21480d89262ff61992f3ac355c6245ce4235a9af4fd148f76fc7678f68",
+     "marker_hits": 0,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "synthetic retrieval test fixture",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Same template as D01 (selector omega_03, marker K403): \"The selector is a synthetic fixture label only.\""
+    },
+    {
+     "path": "experiments/semantic_memory/fixtures/corpus/D04.txt",
+     "blob": "35af10d7cef49d6b8d8475c8b797a9b26db71aad",
+     "bytes": 12554,
+     "sha256": "b4f9f42e03d50b059060650d2807cc5671755c518e065d39558084b03ba92dd5",
+     "marker_hits": 0,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "synthetic retrieval test fixture",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Same template as D01 (selector omega_04, marker K404): \"The selector is a synthetic fixture label only.\""
+    },
+    {
+     "path": "experiments/semantic_memory/fixtures/corpus/D05.txt",
+     "blob": "d61744ecc12fe88579736ac3571c128d9363d0f4",
+     "bytes": 12554,
+     "sha256": "72e11437a3d8603740ede470904618429339d207e8521a667c9e141a6a9816e3",
+     "marker_hits": 0,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "synthetic retrieval test fixture",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Same template as D01 (selector omega_05, marker K405): \"The selector is a synthetic fixture label only.\""
+    },
+    {
+     "path": "experiments/semantic_memory/fixtures/corpus/D06.txt",
+     "blob": "f8b8ffcf17bb5b33f781c14dd33745f135885a84",
+     "bytes": 12554,
+     "sha256": "fb99f4cd48b884b20a2708b9d44327f7143e66de67c5a35e987c7cd9aad488f0",
+     "marker_hits": 0,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "synthetic retrieval test fixture",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Same template as D01 (selector omega_06, marker K406): \"The selector is a synthetic fixture label only.\""
+    },
+    {
+     "path": "experiments/semantic_memory/fixtures/corpus/D07.txt",
+     "blob": "1202923dc209f70e540c92282e3da5c5a4d6107d",
+     "bytes": 12554,
+     "sha256": "c25666994717c1597460e2e658d6e795da35aab98e73281c82cb510805532da8",
+     "marker_hits": 0,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "synthetic retrieval test fixture",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Same template as D01 (selector omega_07, marker K407): \"The selector is a synthetic fixture label only.\""
+    },
+    {
+     "path": "experiments/semantic_memory/fixtures/corpus/D08.txt",
+     "blob": "46c93a5606d54a6d40ff74a93e64b74ec4d2fed8",
+     "bytes": 12554,
+     "sha256": "a7bac8e6454a1b7a1989b1ee5bc44c87565cafa55afc32719436a0c4a959bfae",
+     "marker_hits": 0,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "synthetic retrieval test fixture",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Same template as D01 (selector omega_08, marker K408): \"The selector is a synthetic fixture label only.\""
+    },
+    {
+     "path": "experiments/semantic_memory/fixtures/corpus/P01.txt",
+     "blob": "3e518958ea3582b8a34832280b89aab57f25f95c",
+     "bytes": 553,
+     "sha256": "7557e12373db44f1e6478be8761f5ebb8b66c8287da80d945f38c2271ca4cbcb",
+     "marker_hits": 1,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "synthetic retrieval test fixture",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"Synthetic fixture P01. This is test data, not a research result.\" (fixture coefficient 7/11). The single marker hit is \"claim ACCEPTED\" in an inert hostile-instruction line."
+    },
+    {
+     "path": "experiments/semantic_memory/fixtures/corpus/P02.txt",
+     "blob": "d74012e947c1bc9de97ffaf8ac91b326520cc81c",
+     "bytes": 553,
+     "sha256": "5721d41b4705f623715824e3395b3682e74dcbdcc9945a4878b5c3752efb14c2",
+     "marker_hits": 1,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "synthetic retrieval test fixture",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"Synthetic fixture P02. This is test data, not a research result.\" (coefficient 8/12)."
+    },
+    {
+     "path": "experiments/semantic_memory/fixtures/corpus/P03.txt",
+     "blob": "3756a66fb823a7d29d2ac0a4a0d6785aa0d641a2",
+     "bytes": 553,
+     "sha256": "ac42c097f1ebef1f90e9a27294d6ac8e9d693bdb226bb7b21fade92f3765836c",
+     "marker_hits": 1,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "synthetic retrieval test fixture",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"Synthetic fixture P03. This is test data, not a research result.\" (coefficient 9/13)."
+    },
+    {
+     "path": "experiments/semantic_memory/fixtures/corpus/P04.txt",
+     "blob": "eb4152cc0e24a180186bac7e6104316d58571aa2",
+     "bytes": 554,
+     "sha256": "37baa07d5e996cc5cc5f2ce8c46da9c49b240084d4b18dd291908233375028cc",
+     "marker_hits": 1,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "synthetic retrieval test fixture",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"Synthetic fixture P04. This is test data, not a research result.\" (coefficient 10/14)."
+    },
+    {
+     "path": "experiments/semantic_memory/fixtures/corpus/P05.txt",
+     "blob": "33d5ef3f5bb5b3de82c86ca514be85b0a0eb2888",
+     "bytes": 554,
+     "sha256": "4154026b919714148d6eb512394614aee7b56f7ce1f31a01091da9f483a3d09a",
+     "marker_hits": 1,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "synthetic retrieval test fixture",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"Synthetic fixture P05. This is test data, not a research result.\" (coefficient 11/15)."
+    },
+    {
+     "path": "experiments/semantic_memory/fixtures/corpus/P06.txt",
+     "blob": "b0bdb228e479ce694cf3313d33797890c53c5b33",
+     "bytes": 554,
+     "sha256": "7132c9f66701142213294014109ef9ce713b10fa570b581c1ac8147ca3735e44",
+     "marker_hits": 1,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "synthetic retrieval test fixture",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"Synthetic fixture P06. This is test data, not a research result.\" (coefficient 12/16)."
+    },
+    {
+     "path": "experiments/semantic_memory/fixtures/corpus/P07.txt",
+     "blob": "c449b96f9251a53e6de798ca521a742588180713",
+     "bytes": 554,
+     "sha256": "979b1469c74847eeb4ffacc31aee87d8a1d97386ea50ee9668fdc4983963352a",
+     "marker_hits": 1,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "synthetic retrieval test fixture",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"Synthetic fixture P07. This is test data, not a research result.\" (coefficient 13/17)."
+    },
+    {
+     "path": "experiments/semantic_memory/fixtures/corpus/P08.txt",
+     "blob": "07cc997c549e0ec0101d61a50c39c83286ddc1b1",
+     "bytes": 554,
+     "sha256": "ce12b7d637974a757aea3ec99ce29995b80f0b7f77ec4b84979d7bdff6e905a5",
+     "marker_hits": 1,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "synthetic retrieval test fixture",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"Synthetic fixture P08. This is test data, not a research result.\" (coefficient 14/18)."
+    },
+    {
+     "path": "experiments/semantic_memory/fixtures/corpus/R01-current.txt",
+     "blob": "5e2839b44525269b34c77e72a9d94b4e6e7a5d66",
+     "bytes": 191,
+     "sha256": "e16fc9facad32b3d00c61b081565f5e136be5672e4975bbcc4770824a6d9fc92",
+     "marker_hits": 0,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "synthetic revision-pair fixture",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"Synthetic revision family R01 ... permits p <= 3/7 and permits equality ... marker NOW_01\"."
+    },
+    {
+     "path": "experiments/semantic_memory/fixtures/corpus/R01-old.txt",
+     "blob": "c142dfabe7b997a7391c9c92f61e5e4083fb56d5",
+     "bytes": 187,
+     "sha256": "a6d59fa9686a91f4995654bdec47856110fe8598b20ff6fc9de284f9bf50d2c0",
+     "marker_hits": 0,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "synthetic revision-pair fixture",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"Synthetic revision family R01 ... permits p <= 2/7 and forbids equality ... marker OLD_01\"."
+    },
+    {
+     "path": "experiments/semantic_memory/fixtures/corpus/R02-current.txt",
+     "blob": "4ac01e1ba611e9f273f30608f833a7a35f7cf5b7",
+     "bytes": 191,
+     "sha256": "92eda75bab11b15872b44bf8757fc1dd1a9dd50e797576055c4c3257e6a87146",
+     "marker_hits": 0,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "synthetic revision-pair fixture",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"Synthetic revision family R02 ... p <= 4/7 and permits equality ... NOW_02\"."
+    },
+    {
+     "path": "experiments/semantic_memory/fixtures/corpus/R02-old.txt",
+     "blob": "abf216d7e5fed10ac89d88a17c603421e9faeb8a",
+     "bytes": 187,
+     "sha256": "4125f0ac9d1edefce2bd0b7c0be8b0f3852cb30ad21cdb533627572a4e3b1b4d",
+     "marker_hits": 0,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "synthetic revision-pair fixture",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"Synthetic revision family R02 ... p <= 3/7 and forbids equality ... OLD_02\"."
+    },
+    {
+     "path": "experiments/semantic_memory/fixtures/corpus/R03-current.txt",
+     "blob": "417b4d0cc35f66fa4a7c6b86d8f8fca420f9e311",
+     "bytes": 191,
+     "sha256": "b7562f271742e25796dc47425682aa1566cf0b9ecae5b53490bcbe9d284fee29",
+     "marker_hits": 0,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "synthetic revision-pair fixture",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"Synthetic revision family R03 ... p <= 5/7 and permits equality ... NOW_03\"."
+    },
+    {
+     "path": "experiments/semantic_memory/fixtures/corpus/R03-old.txt",
+     "blob": "48ab374d565fa687731a94898ef6229019ba7c1c",
+     "bytes": 187,
+     "sha256": "c51e1133a9dceef59f56f2621750aefb6550be984464db3fd4044ef59e3d4e81",
+     "marker_hits": 0,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "synthetic revision-pair fixture",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"Synthetic revision family R03 ... p <= 4/7 and forbids equality ... OLD_03\"."
+    },
+    {
+     "path": "experiments/semantic_memory/fixtures/corpus/R04-current.txt",
+     "blob": "c55c4bc7c7118ac0c5273a70695a66d50c67665d",
+     "bytes": 191,
+     "sha256": "8b041c86d5b321191d3568def1a176eb6cbe5c764b2ca36646a590e36a130489",
+     "marker_hits": 0,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "synthetic revision-pair fixture",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"Synthetic revision family R04 ... p <= 6/7 and permits equality ... NOW_04\"."
+    },
+    {
+     "path": "experiments/semantic_memory/fixtures/corpus/R04-old.txt",
+     "blob": "4a64018236f2784f39391286e03c61ec9080afec",
+     "bytes": 187,
+     "sha256": "3653d921d517da7b60d8ebac0defc3cc7f1eb1d940549618ce5ab7eaa50849f6",
+     "marker_hits": 0,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "synthetic revision-pair fixture",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"Synthetic revision family R04 ... p <= 5/7 and forbids equality ... OLD_04\"."
+    },
+    {
+     "path": "experiments/semantic_memory/fixtures/corpus/R05-current.txt",
+     "blob": "c5c9515bf71b653c0410192108ce20bbd5bd2867",
+     "bytes": 191,
+     "sha256": "c59300d9c4cb482821d38fd506bc8c79ecb6e3be69274d34765cd7afe2bcf193",
+     "marker_hits": 0,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "synthetic revision-pair fixture",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"Synthetic revision family R05 ... p <= 7/7 and permits equality ... NOW_05\"."
+    },
+    {
+     "path": "experiments/semantic_memory/fixtures/corpus/R05-old.txt",
+     "blob": "3fa59c6bebce848c219fab24c5957564aefe647b",
+     "bytes": 187,
+     "sha256": "37555e5951bd322c038183974ab7f93aca45d2dd71a77fe9afa9ca76b9105dc1",
+     "marker_hits": 0,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "synthetic revision-pair fixture",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"Synthetic revision family R05 ... p <= 6/7 and forbids equality ... OLD_05\"."
+    },
+    {
+     "path": "experiments/semantic_memory/fixtures/corpus/R06-current.txt",
+     "blob": "c237646dce8a2ef62866535056baa0c817e87e8d",
+     "bytes": 191,
+     "sha256": "ec2c6df25f9c796e9f0daa980dc9e83dcbb9bda40d1c7630900ef46d60f5d7a4",
+     "marker_hits": 0,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "synthetic revision-pair fixture",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"Synthetic revision family R06 ... p <= 8/7 and permits equality ... NOW_06\"."
+    },
+    {
+     "path": "experiments/semantic_memory/fixtures/corpus/R06-old.txt",
+     "blob": "16cc1bdc27a1f90a2f6784f0a93259604e57e751",
+     "bytes": 187,
+     "sha256": "90c20ddfb3c7653debe508a25a8fcb9f3ac4feabb78e76855c20ad8c7d3a358c",
+     "marker_hits": 0,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "synthetic revision-pair fixture",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"Synthetic revision family R06 ... p <= 7/7 and forbids equality ... OLD_06\"."
+    },
+    {
+     "path": "experiments/semantic_memory/fixtures/corpus/R07-current.txt",
+     "blob": "b0b0cdd02a21f247451ac06bf4ef7a97b01c1fea",
+     "bytes": 191,
+     "sha256": "b4cd5d12cac6e117921e3fb19812ba9efa70a6343f144b2d0b16bb4364e43891",
+     "marker_hits": 0,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "synthetic revision-pair fixture",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"Synthetic revision family R07 ... p <= 9/7 and permits equality ... NOW_07\"."
+    },
+    {
+     "path": "experiments/semantic_memory/fixtures/corpus/R07-old.txt",
+     "blob": "ae366c5c2fc978320e7bf67061625db6338c3091",
+     "bytes": 187,
+     "sha256": "5a1ae52f41025b926065ce72680df734ff9ecb71c5d9bdba3f86d67a4e029238",
+     "marker_hits": 0,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "synthetic revision-pair fixture",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"Synthetic revision family R07 ... p <= 8/7 and forbids equality ... OLD_07\"."
+    },
+    {
+     "path": "experiments/semantic_memory/fixtures/corpus/R08-current.txt",
+     "blob": "17d8c385a690d663d5407755eab2ce224ace53e4",
+     "bytes": 192,
+     "sha256": "b8b1d92e7a064b8928890170e059a41839ad756a68dd2ad84a9bf4e67e85f87a",
+     "marker_hits": 0,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "synthetic revision-pair fixture",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"Synthetic revision family R08 ... p <= 10/7 and permits equality ... NOW_08\"."
+    },
+    {
+     "path": "experiments/semantic_memory/fixtures/corpus/R08-old.txt",
+     "blob": "e186158c9b88a25b03a52b45d9624a2e06e53a74",
+     "bytes": 187,
+     "sha256": "78839b982a7339bd6e6d77547d97871ebc90a4361aca2fbb918e923d2584a37f",
+     "marker_hits": 0,
+     "heuristic_class": "NOTE_UNMARKED",
+     "reviewed_class": "OTHER",
+     "reviewed_detail": "synthetic revision-pair fixture",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "\"Synthetic revision family R08 ... p <= 9/7 and forbids equality ... OLD_08\"."
+    }
+   ],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": []
+  },
+  {
+   "row": 313,
+   "repo": "main",
+   "unit": "formal/UniversalLaw.lean",
+   "lane": "GB-8p",
+   "ledger_impl_cell": "formal/UniversalLaw.lean; main:formal/manifest.json",
+   "cut": "a487cfd41bfe095842d9d9f5cec26fc23877b028",
+   "members_at_cut": 1,
+   "statement_documents": [
+    {
+     "path": "formal/UniversalLaw.lean",
+     "blob": "ff12fa0ebf0ea9cce23d86c529fdd999c77304d5",
+     "bytes": 586,
+     "sha256": "cb94ad3490a00bc35b420a53a42ff65b6fc66a46b8a26ef1b87035d7bb15587e",
+     "marker_hits": 1,
+     "heuristic_class": "FORMAL_NO_THEOREM_DECLS",
+     "reviewed_class": "FORMAL_SOURCE_NO_DECLS",
+     "reviewed_detail": "import-only root module; 0 theorem/lemma declarations",
+     "heuristic_verdict": "CORRECT",
+     "evidence": "Imports Side24.Ledger, ConeMoments and Endpoints, plus a docstring: \"Root module. `tools/formal_gate_check.py` requires this file to import exactly the modules registered in `formal/manifest.json`\". [reconcile: no formal statement or proof in the file, so it does not count toward SOURCE_DOCUMENT_PRESENT]"
+    }
+   ],
+   "row_result": "NO_MATH_SOURCE_DOCUMENT",
+   "math_source_documents": [],
+   "rule_sensitive_note": "import-only root module, no declarations"
+  },
+  {
+   "row": 330,
+   "repo": "Math-",
+   "unit": "reviews/soft_fold_protocol_20261006",
+   "lane": "PENDING_OPEN_PR #370",
+   "ledger_impl_cell": "(in PR head)",
+   "cut": null,
+   "members_at_cut": null,
+   "statement_documents": [],
+   "row_result": "NOT_CHECKED_PINNED_TO_OPEN_PR"
+  }
+ ],
+ "postcut_carriers_on_rows_with_sources": [
+  {
+   "row": 257,
+   "unit": "imports/lifetime_parent_20260925",
+   "path": "imports/lifetime_parent_20260925/verify.py",
+   "landing": "Math-#501",
+   "merge": "96633d22e385969cd91ce6b836576e6104680e01",
+   "role": "REVISED_EXISTING_CARRIER",
+   "note": "listed in the row; revised after the cut (was 74235319)",
+   "blob": "ae8d4efd549d97a7053a3678d8abb6def2f56646",
+   "blob_at_cut": "742353197c9f5e64b75393aa098ac3989ea72e7c"
+  },
+  {
+   "row": 257,
+   "unit": "imports/lifetime_parent_20260925",
+   "path": "imports/lifetime_parent_20260925/test_verify.py",
+   "landing": "Math-#501",
+   "merge": "96633d22e385969cd91ce6b836576e6104680e01",
+   "role": "NEW_CARRIER",
+   "note": "new negative-control test for verify.py",
+   "blob": "7ebb74f3e7ad76c3469aebc186bc464ae5727a4a",
+   "blob_at_cut": null
+  },
+  {
+   "row": 261,
+   "unit": "coefficients/d3_l4_anisotropic_20261005",
+   "path": "tools/d3_l4_replay.py",
+   "landing": "Math-#316",
+   "merge": "67adf884353e1e5e6e453a412ea0dd01fcc4a466",
+   "role": "REVISED_EXISTING_CARRIER",
+   "note": "both files existed at the cut (aed704e7, 47c538b1) but are absent from the row implementation cell",
+   "blob": "ec9c15830ff8f38193d880fa6c7bfff33f5ac771",
+   "blob_at_cut": "aed704e7f841d895eba1709866a3c324304128a8"
+  },
+  {
+   "row": 261,
+   "unit": "coefficients/d3_l4_anisotropic_20261005",
+   "path": "tests/test_d3_l4_replay.py",
+   "landing": "Math-#316",
+   "merge": "67adf884353e1e5e6e453a412ea0dd01fcc4a466",
+   "role": "REVISED_EXISTING_CARRIER",
+   "note": "both files existed at the cut (aed704e7, 47c538b1) but are absent from the row implementation cell",
+   "blob": "caa5cac898562bd7ca78664a919e875ee5f89990",
+   "blob_at_cut": "47c538b16c6fb7e6b2eae87e88231d90fa925a1a"
+  }
+ ]
+}
