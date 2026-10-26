@@ -124,6 +124,16 @@ so its results are not frozen. The dated catalog remains a separate collection.
 These tools appear only after the current snapshot verifies and add no source
 acquisition, mathematical review or storage schema.
 
+**Show more files** retains the current source rows, open acquisition identities
+and source-save controls while appending the next 50 matches. Keyboard activation
+focuses the first newly revealed source, including the final partial batch;
+programmatic loading does not steal focus from another control. Changing or
+restoring a query resets the result window. Focused regression:
+`python3 -B tools/source_list_continuity_browser_check.py --output
+browser-evidence/source-list-continuity`. This uses the real included admitted
+observation, or `--origin URL` for a separately recorded served observation;
+browser DOM checks do not establish source authentication or spoken accessibility.
+
 Focused checks: `node --test tests/test_library_source_search.mjs` and
 `python3 -B tools/library_source_search_browser_check.py --output
 browser-evidence/library-source-search` (optional installed Playwright/Chromium;
