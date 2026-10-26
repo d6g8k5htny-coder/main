@@ -44,7 +44,7 @@ python3 -B tools/site_asset_release.py          # run after ANY change under doc
 python3 -B tools/site_asset_release.py --check  # must print the token and exit 0; commit every rewritten file
 python3 -B -m unittest discover -s tests -p test_public_shop_data.py
 python3 -B -m unittest tests.test_site_asset_release
-node --test tests/test_public_shop_frontend.mjs tests/test_explore_models.mjs tests/test_curvature_export.mjs tests/test_teaching_export.mjs tests/test_pin_export.mjs tests/test_palette_export.mjs tests/test_reader_navigation.mjs tests/test_source_reference.mjs tests/test_measurement_model.mjs tests/test_dependency_viewer.mjs tests/test_museum_frontend.mjs tests/test_workspace_navigation.mjs
+node --test tests/test_public_shop_frontend.mjs tests/test_explore_models.mjs tests/test_curvature_export.mjs tests/test_teaching_export.mjs tests/test_pin_export.mjs tests/test_palette_export.mjs tests/test_figure_png.mjs tests/test_reading_list_citation.mjs tests/test_reader_navigation.mjs tests/test_source_reference.mjs tests/test_measurement_model.mjs tests/test_dependency_viewer.mjs tests/test_museum_frontend.mjs tests/test_workspace_navigation.mjs
 python3 -B -S -m unittest discover -s tests -p test_reader_links.py -v
 python3 -B -m unittest discover -s tests -p test_museum_data.py && python3 -B tools/museum_check.py && node --test tests/test_museum_geometry.mjs
 python3 -B -E -S tests/test_public_shop_check_identity_control.py -v
@@ -73,6 +73,51 @@ On macOS, a symlink alias in the process temporary directory can make the site-a
 
 Check real desktop/mobile layouts, keyboard operation, light/dark appearance and source-unavailable behavior separately. The pure-model tests are not browser or scientific verification.
 
+
+## Captioned PNG teaching figures
+
+Explore offers PNG alongside each existing SVG download. PNG rasterizes that
+same validated, captioned SVG at fixed2× dimensions and embeds its original
+structured metadata and readable citation in international-text chunks. Local
+fonts can differ; source acquisition and mathematical verification are not
+performed. Changed controls, geometry or theme cancel/refuse pending output;
+errors explain retry and preserve SVG/manual citation. Unsupported browsers and
+no-JavaScript views retain their existing alternatives.
+
+Focused checks: `node --test tests/test_figure_png.mjs` and
+`python3 -B tools/figure_png_browser_check.py --browser PATH --output
+browser-evidence/figure-png` (optional pinned browser packages plus Pillow).
+The exported PNG metadata can be inspected with a standard PNG text-chunk reader;
+its visible caption travels with the image even when an app strips metadata.
+
+## From a saved source to a reference
+
+Each saved source in the Library reading list has **Make a source reference**.
+It opens the existing Cite builder with its repository, full commit, literal path
+and actual SHA-256 when present. A Git blob is not substituted for a file hash.
+The builder checks syntax only; no authorship, source acquisition, review or
+mathematical acceptance is inferred. An unsupported literal path keeps its
+original source and list actions with an explicit unavailable note. Saved
+searches are not source citations. Back returns to the same browser-local list.
+
+Focused checks: `node --test tests/test_reading_list_citation.mjs` and
+`python3 -B tools/reading_list_citation_browser_check.py --browser PATH --output
+browser-evidence/reading-list-citation` (optional pinned browser packages).
+
+## Reading without losing your place
+
+Research adds small question/map/source links to each of its seven dated readings
+when JavaScript is available. These are native fragment links: keyboard focus,
+Back/Forward and reload retain the existing reader-shell behavior. Each reading
+also ends with a return to the question chooser. The source HTML, exact pins and
+historical wording stay unchanged; a missing expected source disclosure omits
+that reading’s enhancement. Without JavaScript the original open reading map and
+archive remain available. Print hides the added navigation.
+
+Focused browser check (Chrome with sandbox and the optional pinned Playwright
+packages): `python3 -B tools/research_reading_browser_check.py --browser PATH
+--output browser-evidence/research-reading`. This exercises navigation and
+refusals; it does not certify scientific content or spoken screen-reader output.
 
 ## Latest public work is a reading cut
 
@@ -133,6 +178,18 @@ Insert the new `<section id="…" class="latest-work" tabindex="-1" aria-labelle
 Rules for future cards, not a retrofit of pinned cuts: each card carries one visible primary pinned proof link on its face, with digests, reviews and manifests in the disclosure, and the test’s EXPECTED lists enumerate card-face and disclosure links separately. Each card ends with a `<dl class="card-status">` of up to three rows — “Landed?” (landed at Math or main `<commit>` / open proposal, quoting the PR state at the cut), “Read by” (provider · verdict token quoted from the linked review · scope) and “Scientific effect” (quoting the source’s own declaration) — reusing the 7 October labels “Who read it:” / “Still candidates:” / “Still informal:” verbatim where they apply. A display equation inside a future card is authored as `<p class="display-formula"><code>…</code></p>`, which `home.css` renders as a block; kickers and eyebrows are uppercased by CSS, so a future cut may author them in sentence case. Pinned cuts are not retrofitted.
 
 ## Keep or share a Library search
+
+Saved reading-list rows keep their focused source/reference control and open
+**Saved identity** disclosure when another tab updates the list. Validated
+metadata changes refresh the displayed identity and reference. If the focused
+item is removed, focus returns to the reading-list summary; a local Remove
+button uses the neighboring Remove button when one remains. No new data is saved
+automatically. These browser checks exercise that continuity and its tab-only,
+queued-write and outside-focus controls:
+
+```bash
+python3 -B tools/research_desk_continuity_browser_check.py --output reading-continuity-evidence
+```
 
 The Library's search, repository and path filters are saved in the current URL
 without adding a browser-history entry for every keystroke. Refreshing or
@@ -302,3 +359,26 @@ git -C query- checkout --detach c88768bb11efd1f7d6bda188f13064bedec54a06
 
 The source-identity gate checks these commands against `museum.json` and
 `config.json`. Updating the reading interface does not update either source pin.
+
+## One source-linked formal companion
+
+The SIDE24 inspector can expose the existing closed arithmetic declaration
+UniversalLaw.Side24.pairing_sum_six only when the complete claim record, proof
+source blob/size/fingerprint and formal manifest identity match the pinned
+evidence. This is a source-document connection, not coefficient or parent proof
+coverage. Its actual package review is REJECTED (AMEND); the chosen row ALIGNED
+does not override the existing all-31-target acceptance contract. Other claims,
+changed sources and older observations with another manifest remain unmapped.
+Original receipt/type/artifact bytes are retained under evidence/side24-main-3b39.
+No Lean source, source admission, scientific status or renderer dependency changes.
+
+Reproduce the offline data with python -B tools/atlas_formal_evidence_build.py
+--snapshot EXACT_CURRENT_JSON (add --check to compare). It reuses the existing
+formal source and receipt/log validators; it makes no network call or new Lean
+execution. The pinned original artifact is an input, not an authority for arbitrary
+caller receipts. Execute the focused browser observer with --site GENERATED_SITE
+--payload EXACT_CURRENT_JSON --output NEW_OUTPUT_DIRECTORY; the older committed
+observation deliberately has a stale manifest and is not the positive fixture.
+Run python -B -m unittest tests.test_atlas_formal_evidence_build, its -O equivalent,
+and node --test tests/test_atlas_formal_evidence.mjs tests/test_current_site.mjs.
+The browser observer records served-file identities separately from its own driver.
