@@ -1,0 +1,55 @@
+[
+  {
+    "name": "environment",
+    "argv": [
+      "/workspace/scratch/57388d5ddbb4/zeta-venv/bin/python",
+      "-B",
+      "-c",
+      "\nimport contextlib,hashlib,io,json,os,platform,sys\nimport numpy as np\nimport mpmath as mp\nfrom mpmath.libmp import BACKEND\nb=io.StringIO()\nwith contextlib.redirect_stdout(b): np.show_config()\nprint(json.dumps(dict(python=sys.version,executable=sys.executable,\n executable_sha256=hashlib.sha256(open(sys.executable,\"rb\").read()).hexdigest(),\n numpy=np.__version__,mpmath=mp.__version__,mpmath_backend=BACKEND,\n platform=platform.platform(),machine=platform.machine(),cpu_count=os.cpu_count(),\n processor=platform.processor(),numpy_config=b.getvalue(),\n thread_environment={k:os.environ.get(k) for k in\n [\"OMP_NUM_THREADS\",\"OPENBLAS_NUM_THREADS\",\"MKL_NUM_THREADS\",\"PYTHONDONTWRITEBYTECODE\"]}),indent=2))\n"
+    ],
+    "cwd": "/workspace/scratch/57388d5ddbb4/zeta-run",
+    "start_utc": "2026-10-26T06:45:11Z",
+    "wall_seconds": 0.6166572570800781,
+    "rc": 0,
+    "stdout_sha256": "e51ba81fd4026fee28965e3952badba95248a441690945cbb7dfb02e5d3ddc82",
+    "stderr_sha256": "fd034bd744fd3206fee453f53c1b1ceafee05c927bb5183807e9ca8f8bcb2da5",
+    "stdout_bytes": 2908,
+    "stderr_bytes": 212
+  },
+  {
+    "name": "manifest_before",
+    "argv": [
+      "/workspace/scratch/57388d5ddbb4/zeta-venv/bin/python",
+      "-B",
+      "make_manifest.py",
+      "--check"
+    ],
+    "cwd": "/workspace/scratch/57388d5ddbb4/zeta-run/experiments/zeta_fold_exploration",
+    "start_utc": "2026-10-26T06:45:12Z",
+    "wall_seconds": 0.16447710990905762,
+    "rc": 0,
+    "stdout_sha256": "dc51b8c96c2d745df3bd5590d990230a482fd247123599548e0632fdbf97fc22",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 3,
+    "stderr_bytes": 0
+  },
+  {
+    "name": "representative_count",
+    "argv": [
+      "/workspace/scratch/57388d5ddbb4/zeta-venv/bin/python",
+      "-B",
+      "dbn/count_check.py",
+      "1",
+      "103",
+      "0"
+    ],
+    "cwd": "/workspace/scratch/57388d5ddbb4/zeta-run/experiments/zeta_fold_exploration",
+    "start_utc": "2026-10-26T06:45:12Z",
+    "wall_seconds": 3.4271187782287598,
+    "rc": 0,
+    "stdout_sha256": "eee87ce75a838aa6fff0b59e47243f40567a4e25bee205e48fcb85189ca2022d",
+    "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout_bytes": 71,
+    "stderr_bytes": 0
+  }
+]
