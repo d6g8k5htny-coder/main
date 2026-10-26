@@ -156,7 +156,8 @@ class CurrentSiteBuildTests(unittest.TestCase):
                     status = [(tag, attrs, parents) for tag, attrs, parents in parsed.elements
                               if "current-state" in attrs.get("class", "").split()]
                     self.assertEqual(len(status), 1)
-                    self.assertEqual(status[0][1].get("role"), "status")
+                    self.assertNotIn("role", status[0][1])
+                    self.assertEqual(status[0][2][-1], ("div", {"role": "status"}))
                     self.assertNotIn(scope, status[0][2])
                     self.assertLess(parsed.tags.index(status[0][:2]), parsed.tags.index(scope))
                     self.assertTrue(any(text.strip() == "Sources and scope" and parents[-2:] == (scope, ("summary", {}))

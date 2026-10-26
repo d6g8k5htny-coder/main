@@ -9,12 +9,12 @@
 
 <link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=ef97bd43ea3d8999dbf26e5707d467987a745bf961cac2b3163f94062d087ba7">
 <meta name="color-scheme" content="dark light"><meta name="theme-color" media="(prefers-color-scheme: light)" content="#f6f8fc"><meta name="theme-color" media="(prefers-color-scheme: dark)" content="#07111f">
-<link rel="stylesheet" href="brand.css?site-release=5394863b316a477063ff357fce9654bfb48c3190f6880a518ad95db5b888aad3">
+<link rel="stylesheet" href="brand.css?site-release=96e1ca8ff6109b837d640a00de6ca352265bbb74ad5dc83db63944b71e8d3473">
 <link rel="stylesheet" href="current.css?site-release=9b70fee7f54345912905f33f4d15af39748b09c456bd88527b534cc9ceaae207">
 <script type="module" src="current.mjs?site-release=fc7e8a98c1e23f476962c4c83e95ed3ce817490007987112d9b2cf6d3d90b142"></script>
 <script type="module" src="reader-shell.mjs?site-release=0d65593d8fa0d22fc5138ba2410c1b40e980845b04260e7b57e5b38e41e93520"></script>
-<link rel="stylesheet" href="research-desk.css?site-release=46fdfa243ba520efad448a153bd4e15f3dda710a845fac9bfe390bee7a89fb92">
-<script type="module" src="research-desk.mjs?site-release=71d0aebbf8e30a14134ec1dbfe2383e1d8f1326bf71628ecb2a1e5301bf1c26f"></script>
+<link rel="stylesheet" href="research-desk.css?site-release=d00075655e467d99833fc66f6761e3b34a0dd7e53dfa2c65888c70510262189c">
+<script type="module" src="research-desk.mjs?site-release=55cca6c4aad83506124efefa65942a1334f5fd83e5553f3bcb1f7dc2f212a675"></script>
 </head>
 <body class="reader-shell reader-workspace">
 <a class="skip-link" href="#main-content">Skip to content</a>
@@ -27,10 +27,10 @@
 
 <section id="research-desk" aria-label="Your reading workspace">
 <details id="reading-list"><summary>Reading list <span id="desk-count">0 saved items</span></summary>
-<p>Save sources and searches in this browser. Export a copy for another device. Imports add to your list, up to 50 items.</p>
+<p>Save sources and searches in this browser. You can undo your last removal or clear before reloading this page. Export a copy for another device. Imports add to your list, up to 50 items.</p>
 <details class="desk-scope"><summary>About saved items</summary><p>Saved and imported identities are your reading notes. Saving does not acquire a document or establish mathematical review, applicability, acceptance or formal certification. Current searches reopen against the next admitted observation; their previous results are not frozen.</p></details>
 <p id="desk-empty">Your list is empty. Search a collection, then choose Save source or Save search.</p><ul id="desk-entries"></ul>
-<div class="desk-tools"><button id="desk-export" type="button" disabled>Export reading list</button><label for="desk-import">Import a reading list<input id="desk-import" type="file" disabled accept="application/json,.json"></label><button id="desk-clear" type="button" disabled>Clear reading list</button></div>
+<div class="desk-tools"><button id="desk-export" type="button" disabled>Export reading list</button><label for="desk-import">Import a reading list<input id="desk-import" type="file" disabled accept="application/json,.json"></label><button id="desk-clear" type="button" disabled>Clear reading list</button><button id="desk-undo" type="button" hidden disabled>Undo removal</button></div>
 <noscript><p>Saving and importing require JavaScript. The static source inventory and all existing source links remain available.</p></noscript>
 </details>
 <div id="desk-status" role="status"><p id="desk-message">Reading-list controls open when JavaScript is available. No sources or searches are saved automatically.</p></div>
@@ -40,7 +40,7 @@
 <!-- CURRENT-SITE:START -->
 <section id="current-research" class="current-research current-research-compact" data-current-digest="560d3d4e77369835c832dbb4fd0d12f4988744045b9cbc4c7978beddb6e9d20f" data-current-bytes="962639">
 <h2>Source observation</h2>
-<p class="current-state" role="status">Pinned source observation: <time datetime="2026-10-13T14:56:55Z">2026-10-13T14:56:55Z</time>. Compare this timestamp with the present time; observation is not scientific revalidation.</p>
+<div role="status"><p class="current-state">Pinned source observation: <time datetime="2026-10-13T14:56:55Z">2026-10-13T14:56:55Z</time>. Compare this timestamp with the present time; observation is not scientific revalidation.</p></div>
 <details class="current-source-details"><summary>Sources and scope</summary>
 <p><a href="https://github.com/d6g8k5htny-coder/main/tree/b7deb198722582df191006e4f47238f92e6e543d">main <code>b7deb198722582df191006e4f47238f92e6e543d</code></a> · <a href="https://github.com/d6g8k5htny-coder/Math-/tree/dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde">Math- <code>dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde</code></a></p>
 <p><a href="https://github.com/d6g8k5htny-coder/main/blob/b7deb198722582df191006e4f47238f92e6e543d/STATUS.md">Current status source</a> · <a href="https://github.com/d6g8k5htny-coder/main/blob/b7deb198722582df191006e4f47238f92e6e543d/docs/RESEARCH_INDEX.md">Current research guide</a> · <a href="https://github.com/d6g8k5htny-coder/Math-/blob/dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde/PROOF_INDEX.md">Current proof index</a></p>
@@ -61,7 +61,7 @@
 <button class="current-more" type="button" hidden>Show more files</button>
 <noscript><p>Use the <a href="nodes/index.html#sources">complete static source inventory</a>.</p></noscript>
 </details>
-<p class="current-capacity">History capacity: 2 of 512 mathematical archives; 26329623 of 805306368 conservative retained bytes (including registry and release-key allowances). Publication refuses additional versions at capacity; no history is pruned.</p>
+<p class="current-capacity">History capacity: 2 of 512 mathematical archives; 26330173 of 805306368 conservative retained bytes (including registry and release-key allowances). Publication refuses additional versions at capacity; no history is pruned.</p>
 </details>
 </section>
 <!-- CURRENT-SITE:END -->
