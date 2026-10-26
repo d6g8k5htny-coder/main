@@ -96,6 +96,21 @@ its visible caption travels with the image even when an app strips metadata.
 
 ## From a saved source to a reference
 
+The Library's verified current-source search offers **Clear search**, a native
+**Link to this search**, and **Save current search** together. A zero-match query
+shows recovery guidance. Clearing resets the existing result window and returns
+keyboard focus to the input. The link preserves literal query text and unrelated
+page parameters; it runs against the admitted observation available when opened,
+so its results are not frozen. The dated catalog remains a separate collection.
+These tools appear only after the current snapshot verifies and add no source
+acquisition, mathematical review or storage schema.
+
+Focused checks: `node --test tests/test_library_source_search.mjs` and
+`python3 -B tools/library_source_search_browser_check.py --output
+browser-evidence/library-source-search` (optional installed Playwright/Chromium;
+use `--browser PATH` if needed). The browser driver blocks external HTTPS requests
+and tests the included current snapshot; no online source custody is inferred.
+
 Each saved source in the Library reading list has **Make a source reference**.
 It opens the existing Cite builder with its repository, full commit, literal path
 and actual SHA-256 when present. A Git blob is not substituted for a file hash.
