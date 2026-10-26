@@ -38,6 +38,8 @@ An additional focused browser check is `python3 -B tools/atlas_claim_summary_bro
 
 ## Verify the reader experience
 
+Live Atlas control repair: `python3 -B tools/atlas_live_controls_browser_check.py --site docs/site --output browser-evidence/atlas-live-controls` exercises stable excerpt options, final-count announcements, keyboard View choice, exact source selection, reload/history and refused bookmarks at desktop/phone widths in both themes. Use an admitted matching HTML/payload/meta observation; `--observe` retains baseline failures. The report in `docs/reports/atlas-live-controls-20261026` distinguishes actual version-specific Orca speech from DOM checks and from the remaining Orca46.1 qualification. No production dependency was added.
+
 ```sh
 # Stage any new or deleted file under docs/site or docs/public-math first (git add <path> / git rm <path>).
 python3 -B tools/site_asset_release.py          # run after ANY change under docs/site or docs/public-math; re-keys ?site-release= URLs of changed assets and their importers
