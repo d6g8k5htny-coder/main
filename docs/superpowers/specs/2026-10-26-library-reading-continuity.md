@@ -1,0 +1,9 @@
+# Keep the reader's place in the Library
+
+Dylan's continuing UI/UX instruction authorizes this bounded engineering repair. Main c447d102's reading list replaces every saved row on a peer-tab or result-attachment update. Actual sandboxed Chrome reproduction lost source/reference/summary focus and closed Saved identity in six probes; two outside-focus controls passed. Root's audit is source-exposed engineering, not scientific or spoken-AT evidence.
+
+Preserve surviving literal entry identities, their focused controls and open/closed Saved identity disclosures. When validated same-key metadata changes, show the new metadata/reference without collapsing its disclosure. When a focused row disappears, local Remove retains its neighboring Remove fallback; other lost row controls return to the reading-list summary. A disabled Clear/Export control also returns to that summary. A reader who has moved focus outside an invalidated control keeps it. Retain the bounded 50-item schema, exact identities, save/import/export/conflict/refusal and coordinated/local-only storage semantics.
+
+Approaches considered: restoring role and disclosure state after rebuilding is small but still destroys all DOM reading context; keyed reconciliation retains surviving rows and controls and is selected by Root under delegated implementation discretion. A general UI framework or Undo introduces unrelated state and is excluded. Keep existing entryKey authority; no new identity or data registry. Reuse current brand and markup; no decorative redesign.
+
+Scope: research-desk.mjs, its derived workspace import key, a real-browser regression, and scoped documentation. No current importer/model/app/Atlas/source/mathematics/backend changes. Required site verification, separate engineering reviewer and separate protected integration remain. Same-family engineering review is allowed; scientific review requires a different actual family. Scientific effect NONE.
