@@ -502,7 +502,7 @@ r17 is commit `10e91203`. Its Cursor read passed (main#389 6326776936). Between 
 
 **Why.** A Copilot review of main#389 (discussion_r4365148684), verified by an OpenAI/Codex lane (389/6379998598), found that `build.sh` wrote `main.pdf` and never copied it to the distributed `SIDE24_V3_DRAFT_20261013.pdf`. Every revision so far made that copy by hand, and the lane verified all 14 manifest entries of r17, so no shipped packet was inconsistent; but a future revision that skipped the copy could have shipped a stale PDF with a passing manifest.
 
-**Changes (build procedure and records; the TeX sources are unchanged).**
+**Changes (build procedure and records; the mathematical manuscript TeX is unchanged, while the draft-only `s0_status.tex` changes only its revision/date line).**
 - **`build.sh`.** After the final `pdflatex` it copies `main.pdf` to `SIDE24_V3_DRAFT_20261013.pdf`. It pins `SOURCE_DATE_EPOCH=1791849600` (13 October 2026 00:00Z, the draft's date) with `FORCE_SOURCE_DATE=1`, so pdfTeX writes fixed creation and modification dates and a fixed trailer `/ID`: the build is byte-reproducible, and two builds here gave the same SHA-256. Without an argument it then runs `sha256sum -c SHA256SUMS`; with `--update-sums` it rewrites the manifest. So `sh build.sh` at a committed head is now a complete check of the packet, PDF included.
 - **The PDF** is rebuilt by the new script. Its content is r17's; only the dates and `/ID` differ, so the bytes and hash are new.
 - **§0:** "Revised through r18 on 26 October 2026".
