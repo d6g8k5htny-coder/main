@@ -16,3 +16,5 @@ These are the scripts the author used to produce checkpoint draft 13 from draft 
 **Draft 15.** `make_d15.py`, run on draft 14 (`860d82b4`), adds the radius and parameter matching sentences and writes the status-section, README and concordance entries. The hardening of `checks/dep_graph_check.py`, the new `checks/test_dep_graph_check.py` and the regenerated `checks/dep_graph_check.out.txt` were written directly; the concordance records them.
 
 **Draft 16.** First commit (`c41e84e8`): the AMEND A1–A4 of Grok Bot agent 9, applied by hand. Second commit: `make_d16.py`, run on that commit, adds the G5 passage to the proof of Corollary S9.16 and the status, README and concordance entries; `checks/s9_c2_d2_check.py` and its output were written directly.
+
+**Draft 17.** `build.sh` was rewritten by hand (the copy step, the pinned epoch, the manifest check). `make_d17.py`, run on `de21bfb6`, writes the status-section, README and concordance entries; then `sh build.sh --update-sums`.

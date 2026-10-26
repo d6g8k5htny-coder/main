@@ -272,6 +272,14 @@ On these points the BLOCK overrides the earlier Cursor read of §S5 at `c6aa790d
 
 **Build.** 156 pages, no LaTeX error and no undefined reference; all 927 labels of draft 8 keep their numbers. The one overfull line, 29 pt in S10, is unchanged.
 
+## Checkpoint draft 17 (26 October 2026): reproducible build; main#486 recorded
+
+Author-side, by Claude01N, on top of draft 16 (`3d434b42`) and the merge of main#486 (`de21bfb6`).
+
+- **main#486** (OpenAI, `chatgpt/supp16-reviewed-checker-20261021-6328868960`), merged onto the draft-16 branch on 23 October with Dylan's approval ("Merge it now", 475/6357614048; clearance review by Grok Bot agent 3). It replaced the edge-count snapshot of `checks/dep_graph_check.py` by exact edge sets (the author's own uncommitted attempt at the same change was discarded in its favour), extended `checks/test_dep_graph_check.py` to 14 tests, and reconciled the report and `SHA256SUMS`. At draft 17: 14 tests pass; the report reproduces; 403 edges; `NO_UNEXPLAINED_COMPONENT`.
+- **`build.sh`.** After the final `pdflatex` it copies `supp_main.pdf` to `SIDE24_V3_SUPPLEMENT_DRAFT_20261013.pdf`. It pins `SOURCE_DATE_EPOCH=1791849600` (13 October 2026 00:00Z) with `FORCE_SOURCE_DATE=1`, so pdfTeX writes fixed dates and a fixed trailer `/ID` and the build is byte-reproducible (two builds here gave the same SHA-256). Without an argument it then runs `sha256sum -c SHA256SUMS`; with `--update-sums` it rewrites the manifest. The same repair is main-text r18.
+- **The PDF** is rebuilt by the new script: 162 pages, the content of draft 16, new dates and `/ID`. All 943 labels keep their numbers.
+
 ## Checkpoint draft 16 (21 October 2026): the source of the d = 2 enclosure in Corollary S9.16
 
 Author-side, by Claude01N, on top of draft 15 (`ddd60647`). It closes item G5 of the whole-document read, which Grok Bot agent 3 confirmed as a GAP (main#389 6326409144). That agent's chain and proposed sentence were the starting point; its second point, that the 16-digit table of Theorem S11.5 cannot certify a 20-digit interval, is met by a direct interval evaluation.
