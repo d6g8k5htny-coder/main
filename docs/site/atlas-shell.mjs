@@ -40,7 +40,7 @@ export function createAtlasShell({root,inspector,diagnostics,media,location,hist
     const selected=mode==='diagnostics'?1:0;
     for(let i=0;i<buttons.length;i++){buttons[i].setAttribute('aria-selected',String(i===selected));buttons[i].tabIndex=i===selected?0:-1;panels[i].hidden=i!==selected;}
   }
-  function focusReading(){(mode==='diagnostics'?panels[1]:inspector).focus({preventScroll:true});if(media.matches)reader.scrollIntoView({block:'start',behavior:'auto'});}
+  function focusReading(){const target=mode==='diagnostics'?panels[1]:inspector;target.focus({preventScroll:true});if(media.matches)reader.scrollIntoView({block:'start',behavior:'auto'});else{const heading=target.querySelector?.('h3,h4')||target,bounds=heading.getBoundingClientRect?.(),height=doc.defaultView?.innerHeight;if(bounds&&height&&(bounds.top<0||bounds.bottom>height))heading.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'});}}
   function focusBrowse(){open.focus({preventScroll:true});open.scrollIntoView({block:'center',inline:'nearest',behavior:'auto'});}
   function activate(next){if(mode===next)return;mode=next;apply();onChange();}
   function selectNode(){mode='evidence';apply();}
