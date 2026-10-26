@@ -168,7 +168,7 @@ jobs:
               test_raw = Path('tests/test_current_site_transition.mjs').read_bytes()
               if hashlib.sha256(test_raw).hexdigest() != 'a6434c9fc0c06a37d09d430bb3d8c043107e8472fa1585c1ab8cdff336b3f66a':
                   raise SystemExit('Test source changed')
-              required_candidate_freeze_sha256 = '9eb23425150be17ba61fe766dacc2b6b11932a538598a0ca78f94b3ff22463da'
+              required_candidate_freeze_sha256 = 'c3449a72bc07ff82e9192e1f1d544b89eb2f9bd53c9f5719816721157416e65b'
               if not re.fullmatch(r'[0-9a-f]{64}', required_candidate_freeze_sha256):
                   raise SystemExit('Unbound candidate freeze; private template is not publishable')
               candidate_freeze_path = Path('tests/fixtures/current_site_transition_candidate_20261022/production-source-freeze.json')
@@ -491,8 +491,8 @@ jobs:
           import hashlib, json, os, re, selectors, signal, stat, subprocess, sys, time, types
           from pathlib import Path
           
-          MANIFEST_PIN = '9e73c73d21cf4b0534c57df4960cfaf3c141665204b5e13cde6b83cba6a592e6'
-          FREEZE_PIN = '9eb23425150be17ba61fe766dacc2b6b11932a538598a0ca78f94b3ff22463da'
+          MANIFEST_PIN = 'd1a359297842817467c8e3fc4fa44307d34167360b1ec4acbdda71095024ce0e'
+          FREEZE_PIN = 'c3449a72bc07ff82e9192e1f1d544b89eb2f9bd53c9f5719816721157416e65b'
           FIXTURE = 'tests/fixtures/site_transition_capture_regression_20261025'
           WORKFLOW = '.github/workflows/current-site-transition-candidate.yml'
           MANIFEST = FIXTURE + '/source-fixture-manifest.json'
