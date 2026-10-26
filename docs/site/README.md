@@ -38,6 +38,8 @@ An additional focused browser check is `python3 -B tools/atlas_claim_summary_bro
 
 ## Verify the reader experience
 
+Persistent source-status reading: `python3 -B -S -m unittest tests.test_persistent_status` checks current paragraph semantics, exact previous live-page restoration, frozen historical renderer identities and refusal of altered source text or pins. `python3 -B tools/persistent_status_browser_check.py --site docs/site --output browser-evidence/persistent-status` exercises desktop/phone themes, source disclosures, static/no-JavaScript reading and verification failure. Use an admitted matching HTML/payload/meta observation; `--observe` records baseline failures. Actual speech and its platform limits are reported separately in `docs/reports/atlas-persistent-status-20261026`; these browser checks do not certify speech or full accessibility. No production dependency was added.
+
 Live Atlas control repair: `python3 -B tools/atlas_live_controls_browser_check.py --site docs/site --output browser-evidence/atlas-live-controls` exercises stable excerpt options, final-count announcements, keyboard View choice, exact source selection, reload/history and refused bookmarks at desktop/phone widths in both themes. Use an admitted matching HTML/payload/meta observation; `--observe` retains baseline failures. The report in `docs/reports/atlas-live-controls-20261026` distinguishes actual version-specific Orca speech from DOM checks and from the remaining Orca46.1 qualification. No production dependency was added.
 
 ```sh

@@ -193,9 +193,12 @@ test('museum manifest must match the config byte count and SHA-256 before source
 // other evidence live region is the conditional route's status line; current-source observation has a separate live region.
 test('museum.html keeps its two evidence live regions and a separate current observation region',()=>{
   const html=fs.readFileSync(new URL('../docs/site/museum.html',import.meta.url),'utf8');
-  const live=[...html.matchAll(/<[a-z][a-z0-9]*\b[^>]*>/gi)].map(m=>m[0]).filter(tag=>/\brole="(status|alert|log|marquee|timer)"|\baria-live\b/i.test(tag));
-  assert.deepEqual(live.filter(tag=>!tag.includes('class="current-state"')),['<p id="museum-state" role="status">','<p id="conditional-route-status" role="status">']);
-  assert.equal(live.filter(tag=>tag.includes('class="current-state"')).length,1);
+  const current=html.match(/<!-- CURRENT-SITE:START -->([\s\S]*?)<!-- CURRENT-SITE:END -->/);
+  assert.ok(current,'current observation has its own generated section');
+  const regions=source=>[...source.matchAll(/<[a-z][a-z0-9]*\b[^>]*>/gi)].map(m=>m[0]).filter(tag=>/\brole="(status|alert|log|marquee|timer)"|\baria-live\b/i.test(tag));
+  assert.deepEqual(regions(html.replace(current[0],'')),['<p id="museum-state" role="status">','<p id="conditional-route-status" role="status">']);
+  assert.deepEqual(regions(current[1]),['<div role="status">']);
+  assert.match(current[1],/<div role="status"><p class="current-state">/);
   const state=documentFromHTML().getElementById('museum-state');
   assert.deepEqual([state.getAttribute('role'),state.getAttribute('aria-live')],['status',null]);
 });
