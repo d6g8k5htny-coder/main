@@ -2,6 +2,7 @@
 import {currentSnapshot} from './current.mjs?site-release=fc7e8a98c1e23f476962c4c83e95ed3ce817490007987112d9b2cf6d3d90b142';
 import {SCHEMA,MAX_FILE_BYTES,validateEntry,entryKey,parseReadingList,mergeEntries,sourceHref,searchHref,readingListJSON} from './research-desk-store.mjs?site-release=547418ff3547b671266d1e46bf8d33f1f3eedf83571f6a0bb69ca9d7786ffaf3';
 import {readingListCitationHref} from './reading-list-citation.mjs?site-release=02153e8e3acb70abca98685f5b274c0472eea6450ed2e9c3fc3125a7b0196968';
+import {startLibrarySourceSearch} from './library-source-search.mjs?site-release=0f7fa4196362a427e070fc49f58f8a2935840e9d797358cb9d325e5db44ee612';
 
 export function sourceLinkKey(href) {
   try{
@@ -17,11 +18,11 @@ export function startResearchDesk(doc=document,win=window,snapshot=currentSnapsh
   const byId=id=>doc.getElementById(id),make=(tag,text,cls)=>{
     const element=doc.createElement(tag);if(text!==undefined)element.textContent=text;if(cls)element.className=cls;return element;
   };
-  const list=byId('desk-entries'),reading=byId('reading-list'),message=byId('desk-message');
+  const list=byId('desk-entries'),reading=byId('reading-list'),message=byId('desk-message'),undo=byId('desk-undo');
   byId('desk-import').disabled=false;
   const currentInput=doc.querySelector('#current-research .current-search');
   const sourceResults=doc.querySelector('#current-research .current-results');
-  let entries=[],storage=null,persistent=false,storedProblem='',currentData=null,queue=Promise.resolve();
+  let entries=[],recovery=[],undoQueued=false,storage=null,persistent=false,storedProblem='',currentData=null,queue=Promise.resolve();
   const mode=()=>persistent?'Saved in this browser.':'Kept in this tab only; export to keep a copy.';
   const say=text=>{message.textContent=text+' '+mode();};
   const stored=()=>{const raw=storage.getItem(SCHEMA);return raw===null?[]:parseReadingList(raw).entries;};
@@ -33,55 +34,100 @@ export function startResearchDesk(doc=document,win=window,snapshot=currentSnapsh
   }catch {storedProblem='Stored reading data is unavailable or unreadable; existing data is preserved. ';}
   say(storedProblem+'Only items you choose to save enter this list.');
 
-  const currentSources=new Map();
+  const currentSources=new Map(),renderedRows=new Map();
   const now=()=>new Date().toISOString();
   const sourceButtons=()=>doc.querySelectorAll('button.desk-save-source');
   function render() {
-    const focused=doc.activeElement,oldButtons=[...list.querySelectorAll('button')],focusIndex=oldButtons.indexOf(focused);
-    list.replaceChildren();
+    const focused=doc.activeElement,oldRows=[...list.children];
+    const focusIndex=oldRows.findIndex(row=>row.contains(focused));
+    const keys=new Set(entries.map(entryKey));
+    // Keep surviving controls and disclosures in place. A background source
+    // update must not discard the DOM context of an unrelated saved item.
+    for(const [key,saved] of renderedRows)if(!keys.has(key)){
+      saved.row.remove();renderedRows.delete(key);
+    }
+    let cursor=list.firstElementChild;
     for(const entry of entries) {
-      const row=make('li'),content=make('div'),a=make('a');
-      if(entry.kind==='source') {
-        a.textContent=entry.repository.split('/')[1]+' · '+entry.path;a.href=sourceHref(entry);
-        content.append(make('small','Pinned source link','desk-kind'),a);
-        const details=make('details');details.append(make('summary','Saved identity'));
-        const identity=make('dl');
-        for(const [label,value] of [['Commit',entry.commit],['Git blob',entry.blob],['SHA-256',entry.sha256],['Bytes',entry.bytes],['Source observation',entry.observedAt],['Saved',entry.savedAt]]) {
-          if(value===undefined)continue;identity.append(make('dt',label),make('dd',String(value)));
+      const key=entryKey(entry),signature=JSON.stringify(entry);
+      let saved=renderedRows.get(key);
+      if(!saved){
+        const row=make('li'),content=make('div'),a=make('a');
+        let identity=null,citation=null;
+        if(entry.kind==='source') {
+          a.textContent=entry.repository.split('/')[1]+' · '+entry.path;a.href=sourceHref(entry);
+          content.append(make('small','Pinned source link','desk-kind'),a);
+          const details=make('details');details.append(make('summary','Saved identity'));
+          identity=make('dl');
+          details.append(identity);content.append(details);
+          const citationHref=readingListCitationHref(entry,win.location.href);
+          if(citationHref){
+            citation=make('a','Make a source reference','button secondary desk-cite-source');
+            citation.href=citationHref;content.append(citation);
+          }else content.append(make('p','Reference builder unavailable for this literal path.','desk-citation-unavailable'));
+        }else {
+          a.textContent=(entry.collection==='current'?'Current source search':'Dated catalog search')+': '+(entry.query||'All files');
+          a.href=searchHref(entry,win.location.href);
+          content.append(make('small',entry.collection==='current'?'Reopens against the next admitted observation':'Reopens the dated catalog','desk-kind'),a);
+          if(entry.repository||entry.path)content.append(make('p',[entry.repository&&'Repository: '+entry.repository,entry.path&&'Path: '+entry.path].filter(Boolean).join(' · ')));
         }
-        details.append(identity);content.append(details);
-        const citationHref=readingListCitationHref(entry,win.location.href);
-        if(citationHref){
-          const citation=make('a','Make a source reference','button secondary desk-cite-source');
-          citation.href=citationHref;content.append(citation);
-        }else content.append(make('p','Reference builder unavailable for this literal path.','desk-citation-unavailable'));
-      }else {
-        a.textContent=(entry.collection==='current'?'Current source search':'Dated catalog search')+': '+(entry.query||'All files');
-        a.href=searchHref(entry,win.location.href);
-        content.append(make('small',entry.collection==='current'?'Reopens against the next admitted observation':'Reopens the dated catalog','desk-kind'),a);
-        if(entry.repository||entry.path)content.append(make('p',[entry.repository&&'Repository: '+entry.repository,entry.path&&'Path: '+entry.path].filter(Boolean).join(' · ')));
+        const remove=make('button','Remove','desk-remove');remove.type='button';remove.setAttribute('aria-label','Remove '+a.textContent);
+        remove.addEventListener('click',()=>mutate(items=>items.filter(item=>entryKey(item)!==key),'Item removed.','Could not update reading list: ','remove'));
+        row.append(content,remove);
+        saved={row,identity,citation,signature:null};renderedRows.set(key,saved);
       }
-      const remove=make('button','Remove','desk-remove');remove.type='button';remove.setAttribute('aria-label','Remove '+a.textContent);
-      remove.addEventListener('click',()=>mutate(items=>items.filter(item=>entryKey(item)!==entryKey(entry)),'Item removed.'));
-      row.append(content,remove);list.append(row);
+      if(saved.signature!==signature){
+        if(saved.identity){
+          saved.identity.replaceChildren();
+          for(const [label,value] of [['Commit',entry.commit],['Git blob',entry.blob],['SHA-256',entry.sha256],['Bytes',entry.bytes],['Source observation',entry.observedAt],['Saved',entry.savedAt]]){
+            if(value!==undefined)saved.identity.append(make('dt',label),make('dd',String(value)));
+          }
+        }
+        if(saved.citation)saved.citation.href=readingListCitationHref(entry,win.location.href);
+        saved.signature=signature;
+      }
+      if(saved.row!==cursor)list.insertBefore(saved.row,cursor);
+      cursor=saved.row.nextElementSibling;
     }
     byId('desk-count').textContent=entries.length+' saved item'+(entries.length===1?'':'s');
     byId('desk-empty').hidden=entries.length>0;
     byId('desk-export').disabled=!entries.length;byId('desk-clear').disabled=!entries.length;
-    const keys=new Set(entries.map(entryKey));
+    undo.hidden=!recovery.length;undo.disabled=!recovery.length;
     for(const button of sourceButtons()){
       const saved=keys.has(button.dataset.deskKey);button.disabled=saved;button.textContent=saved?'Saved':'Save source';
     }
-    if(focusIndex>=0){const buttons=list.querySelectorAll('button');(buttons[Math.min(focusIndex,buttons.length-1)]||reading.querySelector('summary')).focus({preventScroll:true});}
+    if(focusIndex>=0){
+      if(list.contains(focused)){
+        // Native node moves may blur a retained control on older browsers.
+        if(doc.activeElement!==focused)focused.focus({preventScroll:true});
+      }else{
+        const next=focused.matches('.desk-remove')&&list.children[Math.min(focusIndex,list.children.length-1)]?.querySelector('.desk-remove');
+        (next||reading.querySelector('summary')).focus({preventScroll:true});
+      }
+    }else if([byId('desk-clear'),byId('desk-export'),undo].includes(focused)&&(focused.disabled||focused.hidden)){
+      reading.querySelector('summary').focus({preventScroll:true});
+    }
   }
-  function mutate(operation,success,refusal='Could not update reading list: ') {
+  function mutate(operation,success,refusal='Could not update reading list: ',intent=null) {
     queue=queue.then(async()=>{
       const apply=()=>{
         let base=entries;
         if(persistent){try{base=stored();}catch{persistent=false;storedProblem='Stored list could not be read; existing data is preserved. ';}}
-        const next=operation(base); // Validation/capacity failures never partially write.
+        // Recover only the latest actual removal, using the base read inside
+        // this lock. Undo adds to today's list; it never restores a stale
+        // whole-list snapshot over another tab's work.
+        if(intent==='undo'&&!recovery.length)throw new Error('No removed items remain to restore.');
+        const next=intent==='undo'?mergeEntries(base,recovery):operation(base);
+        const nextKeys=intent==='remove'?new Set(next.map(entryKey)):null;
+        const removed=nextKeys?base.filter(entry=>!nextKeys.has(entryKey(entry))):[];
+        // Validation/capacity/conflict failures above never partially write
+        // or consume the pending recovery.
         if(persistent){try{storage.setItem(SCHEMA,readingListJSON(next));}catch{persistent=false;storedProblem='Browser storage could not be updated. ';}}
-        entries=next;render();say(storedProblem+success);
+        entries=next;
+        if(intent==='undo')recovery=[];
+        else if(removed.length)recovery=removed;
+        render();
+        say(storedProblem+(intent==='remove'&&!removed.length?'No further items were removed.':success)+
+          (recovery.length?' Undo is available for the last removal in this page.':''));
       };
       if(persistent){
         let ran=false;
@@ -169,6 +215,7 @@ export function startResearchDesk(doc=document,win=window,snapshot=currentSnapsh
   attachCatalog();
   snapshot.then(data=>{
     if(!data)return;
+    startLibrarySourceSearch(doc,win);
     currentData=data;
     for(const source of data.sources){
       try{const entry=validateEntry({kind:'source',collection:'current',repository:source.repository,commit:source.commit,path:source.path,blob:source.blob,bytes:source.bytes,observedAt:data.observed_at,savedAt:now()});currentSources.set(sourceLinkKey(sourceHref(entry)),entry);}catch{}
@@ -176,7 +223,12 @@ export function startResearchDesk(doc=document,win=window,snapshot=currentSnapsh
     currentButton.disabled=false;attachCurrent();
   }).catch(()=>{});
 
-  byId('desk-clear').addEventListener('click',()=>mutate(()=>[],'Reading list cleared.'));
+  byId('desk-clear').addEventListener('click',()=>mutate(()=>[],'Reading list cleared.','Could not update reading list: ','remove'));
+  undo.addEventListener('click',()=>{
+    if(undoQueued||!recovery.length)return;
+    undoQueued=true;
+    mutate(null,'Removed items restored.','Undo refused: ','undo').finally(()=>{undoQueued=false;});
+  });
   byId('desk-export').addEventListener('click',()=>{
     try{
       const blob=new Blob([readingListJSON(entries)],{type:'application/json'}),url=URL.createObjectURL(blob),a=make('a');

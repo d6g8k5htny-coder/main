@@ -6,7 +6,7 @@ Built with Hypergraph-DB 0.4.0 by `tools/hypergraph/math_hypergraph.py`. Each co
 **one hyperedge** whose `roles` map labels members as unit / source / review / impl / node / lane / record.
 
 ## Inputs (all in-repo)
-- `math_coverage_ledger_20261023.md` — RETRO-MATH-BIND-02 ledger with the 24–25 October Main membership corrections; the original 211/133 and subsequent 213/131 and 214/130 snapshots are retained in its history.
+- `math_coverage_ledger_20261023.md` — RETRO-MATH-BIND-02 ledger with the 24–25 October Main membership corrections and the 26 October Math- landing recheck (rows 318 and 345); the original 211/133 and subsequent 213/131 and 214/130 snapshots are retained in its history.
 - `../../docs/site/dependency-source/GRAPH.json` — 49 graph nodes (#527).
 - `graph_binding_report_20261023.json` — #527 binding report snapshot (21 bound nodes).
 
@@ -31,6 +31,14 @@ On GitHub: `.github/workflows/math-hypergraph.yml` runs the same steps on PRs/pu
 workflow_dispatch, with read-only checkouts of public Math- and query-, and uploads the all-repo bundle + PNG as the
 `math-hypergraph` artifact. Vertex keys are repo-prefixed (`main:`, `Math-:`, `query-:`). See `tools/hypergraph/README.md`.
 The PNG is a build artifact (optional, `--png`), not committed.
+
+## Gap counts after the Math- landing recheck (2026-10-26)
+345 ledger rows / 1337 vertices / 345 hyperedges. Sourced containers 216 (129 missing). Implemented 297 (48 missing),
+of which 30 are placeholder-only. Bound units 14. 28 of 49 graph nodes unbound per #527; 13 nodes touched by no unit.
+Role problems 0. Row 318's lane now points at its Math-#510 landing (folder tree `a7ef0696`, not #477's head; its implementation and
+status cells are unchanged by the ledger owner's ruling) and new row 345 records `frontiers/determinant_moment_20261025`
+from Math-#511 (folder tree `8a6d93e6`); node, bound and Drive cells are unchanged.
+Details are in the ledger's 26 October section. Open Math-#512/#513 stay `PENDING_OPEN_PR` with no row.
 
 ## Gap counts after the periodic-H0 consumer completion (2026-10-25)
 344 ledger rows / 1325 vertices / 344 hyperedges. Sourced containers 215 (129 missing). Implemented 296 (48 missing),
