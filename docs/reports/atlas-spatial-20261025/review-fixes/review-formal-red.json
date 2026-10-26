@@ -1,0 +1,30 @@
+{
+  "environment": {
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.41",
+    "browser_executable": "/usr/bin/chromium",
+    "GPU": "Chromium SwiftShader software WebGL; not physical mobile GPU",
+    "dataset_bytes": 962639,
+    "browser": "154.0.8037.57"
+  },
+  "cases": [
+    {
+      "case": "admitted-to-refused-formal-history"
+    }
+  ],
+  "source_payload_sha256": "560d3d4e77369835c832dbb4fd0d12f4988744045b9cbc4c7978beddb6e9d20f",
+  "source_repositories": [
+    {
+      "commit": "b7deb198722582df191006e4f47238f92e6e543d",
+      "repository": "d6g8k5htny-coder/main",
+      "tree": "3d988a90a6313f68af21e0b04d08702632bf8ecc"
+    },
+    {
+      "commit": "dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde",
+      "repository": "d6g8k5htny-coder/Math-",
+      "tree": "acaf4fd05dc4392900d24fd58e13347009187317"
+    }
+  ],
+  "checked_commit": "fc2b05f17f78f968925d92cac9c7bf27cbf7b7e7",
+  "failure": "Refused history retained current formal evidence",
+  "traceback": "Traceback (most recent call last):\n  File \"/workspace/atlas-spatial/tools/atlas_spatial_browser_check.py\", line 78, in main\n    expect(page.locator('#atlas-error')).to_be_visible();page.locator('#atlas-tab-diagnostics').click();page.locator('#atlas-diagnostics').evaluate('(e)=>e.closest(\"details\").open=true');page.locator('#atlas-diagnostics button').first.click();expect(page.locator('#atlas-formal-evidence')).to_be_visible();page.go_back();page.locator('#atlas-tab-evidence').click();expect(page.locator('#atlas-error')).to_be_visible();require(page.locator('#atlas-formal-evidence').count()==0 or not page.locator('#atlas-formal-evidence').is_visible(),'Refused history retained current formal evidence');row['passed']=True;context.close();continue\n                                                                                                                                                                                                                                                                                                                                                                                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/workspace/atlas-spatial/tools/atlas_spatial_browser_check.py\", line 13, in require\n    if not value:raise AssertionError(message)\n                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Refused history retained current formal evidence\n"
+}

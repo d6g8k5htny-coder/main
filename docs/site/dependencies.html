@@ -8,26 +8,110 @@
   <title>Mathematics · Universal Law</title>
   <meta name="color-scheme" content="dark light"><meta name="theme-color" media="(prefers-color-scheme: light)" content="#f6f8fc"><meta name="theme-color" media="(prefers-color-scheme: dark)" content="#07111f">
   <link rel="stylesheet" href="style.css?site-release=6eb56e5c80ebf5811a77d0cb8583bf77dd8be44f170bebc9ae10721b2e6e9ab1">
-  <link rel="stylesheet" href="brand.css?site-release=3e01852d8990ec3e9bbb351abc10e1a60e9e085041b7a7b1de95a1033089b751">
+  <link rel="stylesheet" href="brand.css?site-release=96e1ca8ff6109b837d640a00de6ca352265bbb74ad5dc83db63944b71e8d3473">
   <link rel="stylesheet" href="dependencies.css?site-release=057ca4121356c0a263fa4b1ebcb86e525a33a4ee54c72ee2fee1b04f925f86b6">
   <link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=ef97bd43ea3d8999dbf26e5707d467987a745bf961cac2b3163f94062d087ba7">
   <script type="module" src="dependencies.mjs?site-release=d82de31c97db5296160a3c715627c118eefa1057b34452f1678f1acf331e0e79"></script>
 <link rel="stylesheet" href="current.css?site-release=9b70fee7f54345912905f33f4d15af39748b09c456bd88527b534cc9ceaae207">
+<link rel="stylesheet" href="atlas-layout.css?site-release=44b6a3701952b7f1f0910401d0ec05c8f642ecf63bc25fcd1af478c5782d1dca">
+<link rel="stylesheet" href="atlas-spatial.css?site-release=38e1c62152e61330e2aa63ad06db214a1bcecb7c046121680de9cafa9c28bf33">
 <script type="module" src="current.mjs?site-release=fc7e8a98c1e23f476962c4c83e95ed3ce817490007987112d9b2cf6d3d90b142"></script>
-<script type="module" src="atlas.mjs?site-release=91a527cfab5036f7f9b9e73efe8ea2d803bb0330f94169888772c330a2f1a43a"></script>
+<script type="module" src="atlas.mjs?site-release=e86ff969322a115ccc8d7c2e15e70db7e92d9051bbe21c8ed61c90b46af54724"></script>
 </head>
-<body class="dependency-page">
+<body class="dependency-page atlas-page">
 <a class="skip-link" href="#main-content">Skip to content</a>
 <header>
   <a class="brand" href="index.html">UNIVERSAL LAW <span>MATHEMATICS IN THE OPEN</span></a>
-  <nav aria-label="Primary"><a href="index.html">Home</a><a href="explore.html">Explore</a><a href="research.html">Research</a><a href="workspace.html#inventory">Library</a><a href="dependencies.html#current-atlas">Mathematics</a></nav>
+  <nav aria-label="Primary"><a href="index.html">Home</a><a href="explore.html">Explore</a><a href="research.html">Research</a><a href="workspace.html">Library</a><a href="dependencies.html#current-atlas">Mathematics</a></nav>
 </header>
 <nav class="reader-tools" aria-label="Research tools"><span class="reader-tools-label" aria-hidden="true">Research tools</span><a href="reproduce.html">Reproduce</a><a href="cite.html">Cite</a></nav>
 <main id="main-content" tabindex="-1">
+  <section id="current-atlas" class="atlas" aria-labelledby="atlas-heading" tabindex="-1">
+    <div class="atlas-intro">
+      <p class="eyebrow">Mathematics · source-bound research</p>
+      <h1 id="atlas-heading">Mathematical atlas</h1>
+      <p class="intro">Find a claim. Follow its dependencies. Read the sources.</p>
+    </div>
+    <details id="atlas-foundations" class="atlas-foundations">
+      <summary>Start here: the mathematical ideas</summary>
+      <h2>A landscape, a threshold, a lifetime</h2>
+      <p>Imagine a landscape whose height varies from place to place. Move a horizontal waterline through it and watch regions appear and join. This picture is a starting point for reading the research; each source specifies its own mathematical setting.</p>
+      <dl>
+        <dt>Random landscape</dt><dd>A function assigns a value, like height, to each location. In a random landscape the function is chosen according to a probability model. A picture of one landscape is one example, not a statement about every possible landscape.</dd>
+        <dt>Threshold and component</dt><dd>A threshold selects locations above or below a chosen value. A connected component is a piece joined together within that selected region. Read the source to see which direction its threshold moves.</dd>
+        <dt>Persistence and lifetime</dt><dd>Persistence tracks features as the threshold changes. A component can appear and later merge with another; the two threshold values describe its birth and death in the source's convention. Its lifetime measures their separation. This is about threshold values, which need not be elapsed time.</dd>
+        <dt>Hypotheses and scope</dt><dd>Hypotheses are the conditions a claim assumes. Scope says which objects or situations it covers. Read these before applying a result to another landscape or scale.</dd>
+      </dl>
+      <h3>Read a claim in three steps</h3>
+      <ol><li>Choose a claim and read its recorded scope and source.</li><li>Follow its recorded relationships. An arrow points from the claim that depends on something to its dependency. Required and context relationships keep their recorded meanings; position and distance do not measure proof strength.</li><li>Inspect evidence separately: source acquisition, mathematical review, kernel checking, statement alignment and scientific acceptance answer different questions. Missing evidence remains unknown.</li></ol>
+      <p><a href="explore.html">Try the teaching models</a> · <a href="research.html">Read the research introduction</a></p>
+    </details>
+    <div role="status" aria-live="polite"><p id="atlas-status" class="atlas-observation">Loading the current pinned graph…</p></div>
+    <p id="atlas-error" class="atlas-error" role="alert" hidden></p>
+    <div class="atlas-layout">
+      <div class="atlas-browse">
+        <div class="atlas-toolbar atlas-searchbar">
+          <div class="atlas-search-field"><label for="atlas-search">Find a claim or source</label><input id="atlas-search" type="search" placeholder="Search identifiers, classifications, or sources" disabled></div>
+          <div class="atlas-view-field"><label for="atlas-view">View</label><select id="atlas-view" disabled><option value="graph">Graph</option><option value="list">List</option></select></div>
+        </div>
+        <div class="atlas-toolbar atlas-primary-actions" aria-label="Neighborhood actions">
+          <button id="atlas-expand" type="button" aria-label="Expand one frontier of the loaded neighborhood" disabled>Expand</button>
+          <button id="atlas-collapse" type="button" disabled>Focus only</button>
+        </div>
+        <details class="atlas-navigation">
+          <summary>Navigation and view tools</summary>
+          <div class="atlas-toolbar" aria-label="History and focus">
+            <button id="atlas-back" type="button" disabled>Back</button><button id="atlas-forward" type="button" disabled>Forward</button><button id="atlas-focus" type="button" disabled>Read focus</button><button id="atlas-reset" type="button" disabled>Reset view</button>
+          </div>
+          <div class="atlas-toolbar" aria-label="Neighborhood pages">
+            <button id="atlas-previous" type="button" disabled>Previous nodes</button><button id="atlas-next" type="button" disabled>Next nodes</button>
+          </div>
+          <div class="atlas-graph-tools">
+            <p>Pan by scrolling the graph horizontally or vertically. Focus the canvas to scroll with the arrow keys; use Tab to reach each node.</p>
+            <div class="atlas-toolbar" aria-label="Graph zoom"><button id="atlas-zoom-in" type="button" disabled>Zoom in</button><button id="atlas-zoom-out" type="button" disabled>Zoom out</button></div>
+          </div>
+        </details>
+        <button id="atlas-toggle-view" type="button" disabled hidden>Switch to list</button>
+        <p class="atlas-partial-cue">A partial graph view. Search the full index or expand the selected neighborhood.</p>
+        <details class="atlas-coverage-controls"><summary>Neighborhood coverage</summary><p id="atlas-count" class="atlas-neighborhood-note" aria-live="polite"></p></details>
+        <div id="atlas-stage" class="atlas-stage" tabindex="0" aria-label="Loaded dependency neighborhood, scrollable" aria-describedby="atlas-count"><div id="atlas-canvas" class="atlas-canvas"></div></div>
+        <ul id="atlas-list" class="atlas-list" aria-label="Loaded graph nodes" aria-describedby="atlas-count" hidden></ul>
+        <details class="atlas-map atlas-graph-tools"><summary>Map of this loaded neighborhood</summary><svg id="atlas-minimap" class="atlas-minimap" aria-label="Loaded neighborhood minimap" role="img"></svg></details>
+        <details class="atlas-trail"><summary>Navigation trail</summary><p id="atlas-breadcrumb" class="atlas-breadcrumb"></p></details>
+      </div>
+      <article id="atlas-inspector" class="atlas-inspector" tabindex="-1" aria-label="Selected node source and five evidence axes"><p>Select a node after its source verifies.</p></article>
+    </div>
+    <p class="atlas-scope-note">This is a partial neighborhood of the indexed graph. Source metadata is not acquired proof content or mathematical acceptance.</p>
+    <p class="atlas-source-actions"><a id="atlas-share" href="#current-atlas">Share this source snapshot and selection</a> · <a href="nodes/index.html">Static node index and evidence pages</a></p>
+    <details id="atlas-snapshot-details" class="atlas-snapshot-details" hidden>
+      <summary>Source snapshot and reproducibility</summary>
+      <p id="atlas-snapshot-record"></p>
+      <ul id="atlas-snapshot-pins"></ul>
+    </details>
+    <details class="atlas-reading-guide"><summary>Source coverage and how to read the graph</summary>
+      <p id="atlas-coverage"></p>
+      <p>Expand a neighborhood to follow more recorded relationships. Displayed nodes are this page's window; loaded nodes are the neighborhood or search matches; the indexed total is the complete admitted graph. These are navigation counts, not proof completeness.</p>
+      <p><a href="#current-date-explanation">Why observation and classification dates differ</a> · <a href="#snapshot-heading">Preserved 3 October dependency snapshot</a></p>
+    </details>
+    <div class="atlas-equation">
+      <p class="eyebrow">A separate reading collection</p><h2>Read an equation in its source</h2>
+      <p>Exact acquired excerpts retain their surrounding proof scope. No equation-to-node logical association is recorded.</p>
+      <label for="equation-search">Find equation text or source</label><input id="equation-search" type="search" disabled>
+      <p id="equation-count"></p>
+      <div role="status" aria-atomic="true"><p id="equation-announcement" class="atlas-announcement"></p></div>
+      <label for="equation-select">Exact acquired equation excerpt</label><select id="equation-select" disabled></select>
+      <div class="atlas-toolbar"><button id="equation-previous" type="button" disabled>Previous excerpt</button><button id="equation-next" type="button" disabled>Next excerpt</button></div><div id="equation-content"></div>
+    </div>
+    <details><summary>Snapshot diagnostics and mapping gaps</summary><p id="atlas-diagnostic-selection"></p><ul id="atlas-diagnostics" class="atlas-diagnostics"></ul></details>
+    <details class="atlas-history"><summary>History and activity</summary><p>This view selects one current source snapshot. Source-bound archive links retain earlier node records; the <a href="snapshots/index.json">published snapshot manifest</a> identifies the retained population. The preserved dependency snapshot below retains its original date and identity. No activity report is admitted in this projection; no live presence, assignment or review activity is inferred.</p></details>
+    <noscript><p class="boundary">JavaScript is off. Use the <a href="nodes/index.html">static node index</a> to read all nodes, five metadata axes and required/context neighbors. Exact observation sources remain available below.</p></noscript>
+  </section>
+
 <!-- CURRENT-SITE:START -->
-<section id="current-research" class="current-research" data-current-digest="560d3d4e77369835c832dbb4fd0d12f4988744045b9cbc4c7978beddb6e9d20f" data-current-bytes="962639">
-<h2>Current research sources</h2>
-<p class="current-state" role="status">Pinned source observation: <time datetime="2026-10-13T14:56:55Z">2026-10-13T14:56:55Z</time>. Compare this timestamp with the present time; observation is not scientific revalidation.</p>
+<section id="current-research" class="current-research current-research-compact" data-current-digest="560d3d4e77369835c832dbb4fd0d12f4988744045b9cbc4c7978beddb6e9d20f" data-current-bytes="962639">
+<h2>Source observation</h2>
+<div role="status"><p class="current-state">Pinned source observation: <time datetime="2026-10-13T14:56:55Z">2026-10-13T14:56:55Z</time>. Compare this timestamp with the present time; observation is not scientific revalidation.</p></div>
+<details class="current-source-details"><summary>Sources and scope</summary>
 <p><a href="https://github.com/d6g8k5htny-coder/main/tree/b7deb198722582df191006e4f47238f92e6e543d">main <code>b7deb198722582df191006e4f47238f92e6e543d</code></a> · <a href="https://github.com/d6g8k5htny-coder/Math-/tree/dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde">Math- <code>dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde</code></a></p>
 <p><a href="https://github.com/d6g8k5htny-coder/main/blob/b7deb198722582df191006e4f47238f92e6e543d/STATUS.md">Current status source</a> · <a href="https://github.com/d6g8k5htny-coder/main/blob/b7deb198722582df191006e4f47238f92e6e543d/docs/RESEARCH_INDEX.md">Current research guide</a> · <a href="https://github.com/d6g8k5htny-coder/Math-/blob/dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde/PROOF_INDEX.md">Current proof index</a></p>
 <details id="current-date-explanation" class="current-date-explanation"><summary>Why these dates differ</summary><p>The observation time records when this source snapshot was collected. Graph classifications, historical records and curated stories keep their own source cuts; a newer observation or publication does not re-review their mathematics.</p><dl><dt>Source observation</dt><dd><time datetime="2026-10-13T14:56:55Z">2026-10-13T14:56:55Z</time>: collection time for the displayed pinned repository identities. The two-hour stale rule concerns this observation only.</dd><dt>Graph classification source</dt><dd><a href="https://github.com/d6g8k5htny-coder/Math-/blob/dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde/frontiers/downstream_gate_20260925/GRAPH.json">Exact graph classification source</a> at <code>dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde</code>. Classifications quote those graph bytes, which may remain unchanged while the repository advances; classification date not recorded separately.</dd><dt>Historical records</dt><dd><a href="snapshots/7c583e28878d2bf2c94bf37325820bd5eb1e7f3f557e8a78dd27881a27f6548c/nodes/index.html">Preserved dependency snapshot</a>, <a href="workspace.html#inventory">Library catalog</a> and <a href="workspace.html#board">recorded status board</a> retain their separate printed capture dates and source cuts.</dd><dt>Curated Research stories</dt><dd>The <a href="research.html#latest-work">dated reading cut</a> identifies the editorial selection and its sources; it does not claim that all later work is included or newly reviewed.</dd></dl></details><p><a href="dependencies.html#current-atlas">Current mathematical atlas</a> · <a href="nodes/index.html">Current static graph and complete source inventory</a> · <a href="current.json">Exact current observation payload</a> · <a href="snapshots/7c583e28878d2bf2c94bf37325820bd5eb1e7f3f557e8a78dd27881a27f6548c/nodes/index.html">Historical mathematical material (original pins and observation)</a>. Scientific effect: NONE.</p>
@@ -47,31 +131,23 @@
 <button class="current-more" type="button" hidden>Show more files</button>
 <noscript><p>Use the <a href="nodes/index.html#sources">complete static source inventory</a>.</p></noscript>
 </details>
-<p class="current-capacity">History capacity: 2 of 512 mathematical archives; 26329623 of 805306368 conservative retained bytes (including registry and release-key allowances). Publication refuses additional versions at capacity; no history is pruned.</p>
+<p class="current-capacity">History capacity: 2 of 512 mathematical archives; 26330173 of 805306368 conservative retained bytes (including registry and release-key allowances). Publication refuses additional versions at capacity; no history is pruned.</p>
+</details>
 </section>
 <!-- CURRENT-SITE:END -->
 
-  <section id="current-atlas" class="atlas" aria-labelledby="atlas-heading" tabindex="-1">
-<p class="eyebrow">Finite source snapshot · interactive mathematics</p><h1 id="atlas-heading">Equations and dependency worktree</h1>
-<p>Explore the recorded mathematical objects and the sources they consume. Each node keeps its original classification; equations are exact excerpts from separate proof sources.</p>
-<p><a href="#current-date-explanation">Why observation and classification dates differ</a></p>
-<p id="atlas-status" role="status" aria-live="polite">Loading the current pinned graph…</p><p id="atlas-coverage"></p>
-<p><a href="nodes/index.html">Static node index and evidence pages</a> · <a href="#snapshot-heading">Preserved 3 October dependency snapshot</a> · <a id="atlas-share" href="#current-atlas">Share this source snapshot and selection</a></p>
-<p id="atlas-error" class="atlas-error" role="alert" hidden></p>
-<div class="atlas-toolbar"><label for="atlas-search">Find in current graph</label><input id="atlas-search" type="search" disabled><label for="atlas-view">View</label><select id="atlas-view" disabled><option value="graph">Graph</option><option value="list">List</option></select></div>
-<div class="atlas-toolbar" aria-label="Graph controls"><button id="atlas-expand" type="button" disabled>Expand one frontier</button><button id="atlas-collapse" type="button" disabled>Collapse to focus</button><button id="atlas-reset" type="button" disabled>Reset view</button><button id="atlas-back" type="button" disabled>Back</button><button id="atlas-forward" type="button" disabled>Forward</button><button id="atlas-focus" type="button" disabled>Return to focus</button><button id="atlas-zoom-in" type="button" disabled>Zoom in</button><button id="atlas-zoom-out" type="button" disabled>Zoom out</button></div>
-<div class="atlas-toolbar" aria-label="Neighborhood pages"><button id="atlas-previous" type="button" disabled>Previous nodes</button><button id="atlas-next" type="button" disabled>Next nodes</button><button id="atlas-toggle-view" type="button" disabled>Switch to list</button></div>
-<p id="atlas-count" aria-live="polite"></p><p id="atlas-breadcrumb" class="atlas-breadcrumb"></p>
-<div class="atlas-layout"><div><div id="atlas-stage" class="atlas-stage" tabindex="0" aria-label="Loaded dependency neighborhood, scrollable"><div id="atlas-canvas" class="atlas-canvas"></div></div><ul id="atlas-list" class="atlas-list" aria-label="Loaded graph nodes" hidden></ul><p>Minimap of the loaded neighborhood only</p><svg id="atlas-minimap" class="atlas-minimap" aria-label="Loaded neighborhood minimap" role="img"></svg></div><article id="atlas-inspector" class="atlas-inspector" tabindex="-1" aria-label="Selected node source and five evidence axes"><p>Select a node after its source verifies.</p></article></div>
-<div class="atlas-equation"><h2>Read an equation in its source</h2><label for="equation-search">Find equation text or source</label><input id="equation-search" type="search" disabled><p id="equation-count" role="status"></p><label for="equation-select">Exact acquired equation excerpt</label><select id="equation-select" disabled></select><div class="atlas-toolbar"><button id="equation-previous" type="button" disabled>Previous excerpt</button><button id="equation-next" type="button" disabled>Next excerpt</button></div><div id="equation-content"></div></div>
-<details><summary>Snapshot diagnostics and mapping gaps</summary><p id="atlas-diagnostic-selection"></p><ul id="atlas-diagnostics" class="atlas-diagnostics"></ul></details>
-<details><summary>History and activity</summary><p>This view selects one current source snapshot. Source-bound archive links retain earlier node records; the <a href="snapshots/index.json">published snapshot manifest</a> identifies the retained population. The preserved dependency snapshot below retains its original date and identity. No activity report is admitted in this projection; no live presence, assignment or review activity is inferred.</p></details>
-<noscript><p>Use the <a href="nodes/index.html">static node index</a> to read all nodes, five metadata axes and required/context neighbors without JavaScript. Current source dates and exact identities are shown above.</p></noscript>
-</section>
+  <div class="atlas-archive-notices" aria-label="Preserved viewer status">
+    <p class="eyebrow">Preserved viewer status</p>
+    <div role="status" aria-live="polite"><p id="load-status" class="muted">Loading the local source snapshot…</p></div>
+    <p id="filter-error" class="error" role="alert" hidden></p>
+    <p id="selection-error" class="error" role="alert" hidden></p>
+  </div>
+  <details id="dependency-archive" class="atlas-archive">
+    <summary><h2>Archive · dependency viewer, 3 October 2026</h2></summary>
 <section class="dependency-intro">
     <nav class="breadcrumb" aria-label="Breadcrumb"><ol><li><a href="research.html">Research</a></li><li aria-current="page">Claim dependencies</li></ol></nav>
     <p class="eyebrow">SOURCE-BOUND RESEARCH NAVIGATION</p>
-    <h1>Claim dependency viewer</h1>
+    <h2>Claim dependency viewer</h2>
     <p class="intro">Find a recorded object, inspect its scope and evidence references, and trace the dependencies that give it context.</p>
     <p class="boundary"><strong>Dated read-only snapshot</strong> of Math <code>7858329</code>, captured 3 October 2026. This page derives navigation, ranking, and paths from frozen source bytes. It does not update current claim status, accept a proof, or replace the live proof index. Scientific effect: NONE.</p>
     <p class="boundary">As read on 8 October 2026 (Math- <code>2ca3bf26</code>), the live <code>GRAPH.json</code> had not changed since the pinned commit (its last change is <code>42db0ef</code>, 29 September 2026). Later changes are not imported here; compare against the <a href="https://github.com/d6g8k5htny-coder/Math-/blob/main/frontiers/downstream_gate_20260925/GRAPH.json">current GRAPH.json (mutable branch link)</a>.</p>
@@ -85,18 +161,18 @@
   </section>
 
   <section aria-labelledby="snapshot-heading">
-    <div class="section-heading"><div><p class="eyebrow">PINNED SOURCE</p><h2 id="snapshot-heading">What is in this graph?</h2></div><p id="load-status" class="muted" role="status" aria-live="polite">Loading the local source snapshot…</p></div>
+    <div class="section-heading"><div><p class="eyebrow">PINNED SOURCE</p><h3 id="snapshot-heading">What is in this graph?</h3></div></div>
     <div class="dependency-stats" role="group" aria-label="Graph summary">
-      <article><span id="node-count" class="count">—</span><h3>Recorded nodes</h3></article>
-      <article><span id="edge-count" class="count">—</span><h3>Source edges</h3></article>
-      <article><span id="unresolved-count" class="count">—</span><h3>Unresolved research targets</h3></article>
+      <article><span id="node-count" class="count">—</span><h4>Recorded nodes</h4></article>
+      <article><span id="edge-count" class="count">—</span><h4>Source edges</h4></article>
+      <article><span id="unresolved-count" class="count">—</span><h4>Unresolved research targets</h4></article>
     </div>
     <p class="muted">Rendered from <a href="dependency-source/GRAPH.json">dependency-source/GRAPH.json</a> (SHA-256 <code>8822e9618678321a342d69cd0b8ae6552de1b5d578c331de5072b2892ee9dd09</code>, 38,753 bytes, Git blob <code>220b56867f24c5ef6f55a3cce70490e9777cf3af</code>) as pinned by <a href="dependency-source/PROVENANCE.json">PROVENANCE.json</a>; the page refuses to render if the bytes differ.</p>
     <details id="classification-vocabulary"><summary>How this graph's classifications relate to review verdicts</summary><p>“Classification” is the downstream gate's promotion state at Math <code>7858329</code>, quoted from its <a href="https://github.com/d6g8k5htny-coder/Math-/blob/7858329974e28be79f29b22644370084ff43da4f/frontiers/downstream_gate_20260925/README.md">pinned README</a>: “Only <code>PROVED_REVIEWED</code> satisfies a still-required positive premise. Required <code>REFUTED</code>, <code>BLOCKED_ABSENT</code>, author-side/open, and <code>SUPERSEDED_NONBLOCKING</code> nodes block promotion.” A node classified <code>AUTHOR_SIDE_CANDIDATE</code> may still record a review disposition such as <code>ACCEPT</code>; that recorded disposition is shown beside the node and in its evidence table, and is the proof index's register, not the gate's.</p><p>Tokens recorded in this snapshot, quoted and not defined by this viewer — classifications: AUTHOR_SIDE_CANDIDATE, AUTHOR_SIDE_REDUCTION, BLOCKED_ABSENT, COVERED_BY_CANDIDATE, ENGINEERING_CONTROL, FALSE, HOLD, OPEN_ACTIVE, OPEN_HISTORICAL, PROVED_REVIEWED, REFUTED, SUPERSEDED_NONBLOCKING; layers D0–D7 as the source groups them; kinds: candidate, carrier, engineering, integrity_control, inventory, predicate, reading_rule_component, region, regional_supersession, register. The source also names tokens that never discharge an obligation: GREEN_CI, HASH_MATCH, ARCHITECTURAL_ADMISSION, NUMERICAL_EXPERIMENT, SAME_AUTHOR_REVIEW, NAVIGATION_SUCCESS, AUTHOR_SELF_CHECK.</p></details>
   </section>
 
   <section aria-labelledby="search-heading">
-    <div class="section-heading"><div><p class="eyebrow">FIND A CLAIM</p><h2 id="search-heading">Search exact identifiers and relations</h2></div><p class="section-intro">Search includes node IDs, classifications, notes, source paths, and edge relations.</p></div>
+    <div class="section-heading"><div><p class="eyebrow">FIND A CLAIM</p><h3 id="search-heading">Search exact identifiers and relations</h3></div><p class="section-intro">Search includes node IDs, classifications, notes, source paths, and edge relations.</p></div>
     <label for="dependency-search">Claim, source, status, or relation</label>
     <input id="dependency-search" type="search" autocomplete="off" list="dependency-tokens" placeholder="Try shrinking charts or OPEN_ACTIVE" disabled>
     <datalist id="dependency-tokens"><option value="AUTHOR_SIDE_CANDIDATE"></option><option value="AUTHOR_SIDE_REDUCTION"></option><option value="BLOCKED_ABSENT"></option><option value="COVERED_BY_CANDIDATE"></option><option value="ENGINEERING_CONTROL"></option><option value="FALSE"></option><option value="HOLD"></option><option value="OPEN_ACTIVE"></option><option value="OPEN_HISTORICAL"></option><option value="PROVED_REVIEWED"></option><option value="REFUTED"></option><option value="SUPERSEDED_NONBLOCKING"></option></datalist>
@@ -104,42 +180,43 @@
       <div><label for="classification-filter">Recorded classification</label><select id="classification-filter" disabled><option value="">All recorded classifications</option><option value="AUTHOR_SIDE_CANDIDATE">AUTHOR_SIDE_CANDIDATE</option><option value="AUTHOR_SIDE_REDUCTION">AUTHOR_SIDE_REDUCTION</option><option value="BLOCKED_ABSENT">BLOCKED_ABSENT</option><option value="COVERED_BY_CANDIDATE">COVERED_BY_CANDIDATE</option><option value="ENGINEERING_CONTROL">ENGINEERING_CONTROL</option><option value="FALSE">FALSE</option><option value="HOLD">HOLD</option><option value="OPEN_ACTIVE">OPEN_ACTIVE</option><option value="OPEN_HISTORICAL">OPEN_HISTORICAL</option><option value="PROVED_REVIEWED">PROVED_REVIEWED</option><option value="REFUTED">REFUTED</option><option value="SUPERSEDED_NONBLOCKING">SUPERSEDED_NONBLOCKING</option></select></div>
       <button id="clear-filters" type="button" disabled>Clear filters</button>
     </div>
-    <p id="filter-error" class="error" role="alert" hidden></p>
+
     <p class="muted">Filters describe this dated graph, not current scientific acceptance. The URL retains your filters and selected object.</p>
     <p id="search-summary" class="muted" aria-live="polite">Enter a search after the graph loads.</p>
     <ul id="search-results" class="node-list" role="list" aria-label="Search results"></ul>
   </section>
 
   <section aria-labelledby="targets-heading">
-    <div class="section-heading"><div><p class="eyebrow">UNRESOLVED TARGETS</p><h2 id="targets-heading">Ranked by all-edge reach (includes context)</h2></div><p class="section-intro">Unresolved here means a node whose recorded classification is OPEN_ACTIVE, OPEN_HISTORICAL, AUTHOR_SIDE_CANDIDATE or AUTHOR_SIDE_REDUCTION and whose kind is not engineering, integrity_control, inventory or register (the viewer's list rule in dependency-model.mjs, not a source verdict). Open leaves remain listed even when both counts are zero.</p></div>
+    <div class="section-heading"><div><p class="eyebrow">UNRESOLVED TARGETS</p><h3 id="targets-heading">Ranked by all-edge reach (includes context)</h3></div><p class="section-intro">Unresolved here means a node whose recorded classification is OPEN_ACTIVE, OPEN_HISTORICAL, AUTHOR_SIDE_CANDIDATE or AUTHOR_SIDE_REDUCTION and whose kind is not engineering, integrity_control, inventory or register (the viewer's list rule in dependency-model.mjs, not a source verdict). Open leaves remain listed even when both counts are zero.</p></div>
     <p id="reach-definitions" class="muted">All-edge reach counts the distinct nodes that reach a target through any recorded edge in this snapshot, including context edges that are not required premises; the target itself is excluded. Required-dependency reach counts only the nodes that reach a target through required edges at every step, in this snapshot. Neither count says how many results are blocked, how many premises remain unsatisfied, or whether a proof is complete.</p>
     <ol id="unresolved-targets" class="target-list" role="list" aria-describedby="reach-definitions"></ol>
   </section>
 
   <section id="node-detail" class="node-detail" aria-labelledby="detail-heading" tabindex="-1">
-    <div class="section-heading"><div><p class="eyebrow">SELECTED NODE</p><h2 id="detail-heading">Choose a claim to inspect</h2></div><a id="clear-selection" href="dependencies.html" hidden>Clear selection</a></div>
-    <p id="selection-error" class="error" role="alert" hidden></p>
+    <div class="section-heading"><div><p class="eyebrow">SELECTED NODE</p><h3 id="detail-heading">Choose a claim to inspect</h3></div><a id="clear-selection" href="dependencies.html" hidden>Clear selection</a></div>
+
     <div id="detail-empty" class="empty-state"><p>Select an unresolved target or a search result. A saved URL may use <code>?node=exact.id#node-detail</code>.</p></div>
     <div id="detail-content" hidden>
       <nav class="object-actions" aria-label="Selected object sections"><a href="#object-scope-panel">Recorded scope</a><a href="#object-evidence">Evidence references</a><a href="#object-reading-context">Recorded reading context</a><a href="#object-audit">Exact record</a><a href="#object-context">Dependencies</a></nav>
-      <article id="object-scope-panel" tabindex="-1" class="object-panel"><h3>Recorded scope and limits</h3><p id="object-classification"></p><p id="object-scope"></p><p id="object-notes"></p><p class="muted">These are the source's recorded fields, not a new summary of its theorem. Scope and exclusions not stated here must be read in the linked proof and review.</p></article>
-      <article id="object-evidence" tabindex="-1" class="object-panel"><h3>Evidence references</h3><p>Each lane reports what this graph records. A link is not a byte check, proof validation, independent review or scientific acceptance. “Not recorded” means this graph supplies no typed interface; it does not mean the evidence does not exist elsewhere.</p><div class="evidence-scroll" tabindex="0" role="region" aria-label="Evidence references table"><table class="evidence-table"><caption>Recorded evidence for the selected object</caption><thead><tr><th scope="col">Lane</th><th scope="col">Record state</th><th scope="col">Source detail</th></tr></thead><tbody id="evidence-body"></tbody></table></div></article>
-      <article id="object-reading-context" tabindex="-1" class="object-panel" aria-labelledby="reading-context-heading"><h3 id="reading-context-heading">Recorded reading context</h3><p>These are the graph's contextual record fields, distinct from required source-edge dependencies. They do not infer theorem applicability, scientific acceptance or new evidence. Reading-rule order is shown as recorded; reference buttons select nodes in this pinned snapshot. “Not recorded” means the field is absent here, without inference from other fields or edges.</p><dl id="recorded-context" class="metadata-grid"></dl></article>
-      <details id="object-audit" tabindex="-1" class="object-panel"><summary>Audit: inspect the complete recorded metadata</summary><p class="muted">Exact fields from the pinned graph, including providers, review disposition and non-discharge limits when recorded; the two reach rows are counts this viewer derives over the whole snapshot, not graph fields. Provider labels do not establish independence. Source paths below resolve at this graph's pinned commit; review URLs retain their recorded destination.</p><dl id="node-metadata" class="metadata-grid"></dl><h4>Complete source node (formatted JSON)</h4><p class="muted">All recorded node fields are retained below. Formatting is for reading; use the pinned graph for exact file bytes.</p><pre id="node-record"></pre></details>
+      <article id="object-scope-panel" tabindex="-1" class="object-panel"><h4>Recorded scope and limits</h4><p id="object-classification"></p><p id="object-scope"></p><p id="object-notes"></p><p class="muted">These are the source's recorded fields, not a new summary of its theorem. Scope and exclusions not stated here must be read in the linked proof and review.</p></article>
+      <article id="object-evidence" tabindex="-1" class="object-panel"><h4>Evidence references</h4><p>Each lane reports what this graph records. A link is not a byte check, proof validation, independent review or scientific acceptance. “Not recorded” means this graph supplies no typed interface; it does not mean the evidence does not exist elsewhere.</p><div class="evidence-scroll" tabindex="0" role="region" aria-label="Evidence references table"><table class="evidence-table"><caption>Recorded evidence for the selected object</caption><thead><tr><th scope="col">Lane</th><th scope="col">Record state</th><th scope="col">Source detail</th></tr></thead><tbody id="evidence-body"></tbody></table></div></article>
+      <article id="object-reading-context" tabindex="-1" class="object-panel" aria-labelledby="reading-context-heading"><h4 id="reading-context-heading">Recorded reading context</h4><p>These are the graph's contextual record fields, distinct from required source-edge dependencies. They do not infer theorem applicability, scientific acceptance or new evidence. Reading-rule order is shown as recorded; reference buttons select nodes in this pinned snapshot. “Not recorded” means the field is absent here, without inference from other fields or edges.</p><dl id="recorded-context" class="metadata-grid"></dl></article>
+      <details id="object-audit" tabindex="-1" class="object-panel"><summary>Audit: inspect the complete recorded metadata</summary><p class="muted">Exact fields from the pinned graph, including providers, review disposition and non-discharge limits when recorded; the two reach rows are counts this viewer derives over the whole snapshot, not graph fields. Provider labels do not establish independence. Source paths below resolve at this graph's pinned commit; review URLs retain their recorded destination.</p><dl id="node-metadata" class="metadata-grid"></dl><h5>Complete source node (formatted JSON)</h5><p class="muted">All recorded node fields are retained below. Formatting is for reading; use the pinned graph for exact file bytes.</p><pre id="node-record"></pre></details>
       <div id="object-context" tabindex="-1" class="relation-grid">
-        <article><h3>Consumes</h3><p class="muted">Edges point from a dependent claim to the source it consumes.</p><ul id="dependency-list" class="relation-list" role="list"></ul></article>
-        <article><h3>Consumed by</h3><p class="muted">Direct dependents recorded in this source snapshot.</p><ul id="dependent-list" class="relation-list" role="list"></ul></article>
+        <article><h4>Consumes</h4><p class="muted">Edges point from a dependent claim to the source it consumes.</p><ul id="dependency-list" class="relation-list" role="list"></ul></article>
+        <article><h4>Consumed by</h4><p class="muted">Direct dependents recorded in this source snapshot.</p><ul id="dependent-list" class="relation-list" role="list"></ul></article>
       </div>
-      <div class="path-panel"><h3>Paths to unresolved dependencies</h3><p class="muted">Shortest required source-edge paths found below the selected node. Contextual edges remain visible in the direct-dependency list but are not counted as consumed dependency paths. A missing path is not evidence that no dependency exists outside this snapshot.</p><ol id="dependency-paths" class="path-list" role="list"></ol></div>
+      <div class="path-panel"><h4>Paths to unresolved dependencies</h4><p class="muted">Shortest required source-edge paths found below the selected node. Contextual edges remain visible in the direct-dependency list but are not counted as consumed dependency paths. A missing path is not evidence that no dependency exists outside this snapshot.</p><ol id="dependency-paths" class="path-list" role="list"></ol></div>
     </div>
   </section>
 
   <section class="source-boundary" aria-labelledby="boundary-heading">
     <p class="eyebrow">HOW TO READ THIS PAGE</p>
-    <h2 id="boundary-heading">Paths explain the snapshot. They do not promote claims.</h2>
+    <h3 id="boundary-heading">Paths explain the snapshot. They do not promote claims.</h3>
     <p>The graph records dependency direction as <strong>dependent → dependency</strong>. Rankings are derived solely from those edges. Consult the <a href="https://github.com/d6g8k5htny-coder/Math-/blob/main/PROOF_INDEX.md">live proof index</a> and current source-bound reviews before acting on any displayed classification.</p>
   </section>
+  </details>
 </main>
-<footer><p><a href="index.html">Universal Law</a> · <a href="research.html">Research</a> · <a href="workspace.html">Library (research workspace)</a> · <a href="dependency-source/PROVENANCE.json">Viewer provenance</a></p><nav class="site-map" aria-label="All pages"><ul><li><strong>Learn</strong> <a href="index.html">Home</a> · <a href="explore.html">Explore</a> · <a href="measure.html">From counts to density</a></li><li><strong>Research</strong> <a href="research.html">Research</a> · <a href="museum.html">Source records</a> · <a href="dependencies.html">Claim dependencies</a> · <a href="formal.html">Formal verification</a></li><li><strong>Records and tools</strong> <a href="workspace.html#inventory">Library</a> · <a href="workspace.html#board">Status snapshot</a> · <a href="workspace.html#coefficient">Exact coefficients</a> · <a href="reproduce.html">Reproduce</a> · <a href="cite.html">Cite</a> · <a href="workspace.html#contribute">Contribute</a> · <a href="https://github.com/d6g8k5htny-coder/main">GitHub</a></li></ul></nav></footer>
+<footer><p><a href="index.html">Universal Law</a> · <a href="research.html">Research</a> · <a href="workspace.html">Library (research workspace)</a> · <a href="dependency-source/PROVENANCE.json">Viewer provenance</a></p><nav class="site-map" aria-label="All pages"><ul><li><strong>Learn</strong><ul class="site-map-links"><li><a href="index.html">Home</a></li><li><a href="explore.html">Explore</a></li><li><a href="measure.html">From counts to density</a></li></ul></li><li><strong>Research</strong><ul class="site-map-links"><li><a href="research.html">Research</a></li><li><a href="museum.html">Source records</a></li><li><a href="dependencies.html">Claim dependencies</a></li><li><a href="formal.html">Formal verification</a></li></ul></li><li><strong>Records and tools</strong><ul class="site-map-links"><li><a href="workspace.html">Library</a></li><li><a href="workspace.html#board">Status snapshot</a></li><li><a href="workspace.html#coefficient">Exact coefficients</a></li><li><a href="reproduce.html">Reproduce</a></li><li><a href="cite.html">Cite</a></li><li><a href="workspace.html#contribute">Contribute</a></li><li><a href="https://github.com/d6g8k5htny-coder/main">GitHub</a></li></ul></li></ul></nav></footer>
 </body>
 </html>
