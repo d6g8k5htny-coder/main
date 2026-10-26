@@ -29,6 +29,29 @@ def main():
             except Exception:row['passed']=False;row['error']=traceback.format_exc()
             c.close()
         if not args.baseline:
+            for scripted in [True,False]:
+                for scheme in ['light','dark']:
+                    row={'case':f'focus-yield-{scheme}-'+('scripted' if scripted else 'native-no-js')};report['cases'].append(row)
+                    c=browser.new_context(viewport={'width':320,'height':800},color_scheme=scheme,java_script_enabled=scripted);c.route('https://**',lambda route:route.abort());p=c.new_page();p.set_default_timeout(5000);p.on('pageerror',lambda e:report['page_errors'].append(str(e)))
+                    try:
+                        p.goto(origin+('workspace.html' if scripted else 'formal.html'))
+                        menu=p.locator('.reader-jump');summary=menu.locator('summary')
+                        summary.focus();expect(summary).to_be_focused()
+                        p.keyboard.press('Shift+Tab');assert not menu.evaluate('(e)=>e.contains(document.activeElement)')
+                        assert p.evaluate('document.activeElement.matches(":focus-visible")')
+                        assert menu.evaluate('(e)=>getComputedStyle(e).opacity')=='0','External visible focus must not be covered by the launcher'
+                        assert menu.evaluate('(e)=>getComputedStyle(e).pointerEvents')=='none'
+                        p.keyboard.press('Tab');expect(summary).to_be_focused();assert menu.evaluate('(e)=>getComputedStyle(e).opacity')=='1'
+                        p.keyboard.press('Space');expect(menu).to_have_attribute('open','');p.keyboard.press('Tab');expect(menu.locator('a').first).to_be_focused();assert menu.evaluate('(e)=>getComputedStyle(e).opacity')=='1'
+                        p.keyboard.press('Shift+Tab');expect(summary).to_be_focused();p.keyboard.press('Space');assert not menu.evaluate('(e)=>e.open')
+                        summary.evaluate('(e)=>e.blur()');assert menu.evaluate('(e)=>getComputedStyle(e).opacity')=='1'
+                        if scripted:
+                            p.locator('#library-current-link').click()
+                            field=p.locator('.current-search');field.click();expect(field).to_be_focused();assert menu.evaluate('(e)=>getComputedStyle(e).opacity')=='0'
+                            field.evaluate('(e)=>e.blur()');assert menu.evaluate('(e)=>getComputedStyle(e).opacity')=='1'
+                        row['passed']=True
+                    except Exception:row['passed']=False;row['error']=traceback.format_exc()
+                    c.close()
             row={'case':'native-no-js-and-script-free-formal'};report['cases'].append(row)
             c=browser.new_context(viewport={'width':390,'height':844},java_script_enabled=False);p=c.new_page()
             try:

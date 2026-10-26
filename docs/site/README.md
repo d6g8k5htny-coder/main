@@ -433,3 +433,14 @@ observation deliberately has a stale manifest and is not the positive fixture.
 Run python -B -m unittest tests.test_atlas_formal_evidence_build, its -O equivalent,
 and node --test tests/test_atlas_formal_evidence.mjs tests/test_current_site.mjs.
 The browser observer records served-file identities separately from its own driver.
+
+### Reader Go to and visible focus
+
+The native Go to disclosure on the eleven current reader pages stays available
+while scrolling. With `:has` support it yields visually and ignores pointer events
+while another element has `:focus-visible`, preventing the launcher from covering
+that focus indicator. Its summary remains in tab order: Tab/Shift+Tab into the
+menu restores it, and it stays visible while focus is inside. Pointer-focused
+inputs may also trigger this behavior. No focus is redirected and no content
+position changes. Formal remains script-free; native links work without scripts.
+Current automated qualification covers Chromium/Linux, not every browser or AT.

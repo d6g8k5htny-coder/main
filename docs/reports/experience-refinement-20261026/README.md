@@ -3,7 +3,9 @@
 The Go to disclosure keeps nine existing destinations reachable during long
 reading sessions on all eleven current reader pages. Native links work without
 JavaScript; Formal stays script-free. Optional dismissal preserves normal outside
-focus. Compare now has synchronized upper/lower page controls and verifies its
+focus. The launcher yields while another element has visible keyboard focus;
+it remains in tab order and returns when its summary receives focus. This also
+works without JavaScript. Compare now has synchronized upper/lower page controls and verifies its
 separate source inventory on demand, avoiding one duplicate initial payload
 transfer while preserving both independent validators and all source refusals.
 
@@ -47,3 +49,14 @@ Engineering only, actual OpenAI/Codex same GPT-6 family, organizational-independ
 credit0 and scientific effect NONE. No statements, dependencies, source admission,
 classifications or mathematical certification changed. Emulated Chromium checks
 do not establish physical Safari/touch, spoken AT, full WCAG or large-graph FPS.
+
+The first hosted run and whole-branch review exposed ER-I1: the fixed launcher
+covered the evidence table focus ring at320px with text spacing. A controlled
+reviewer comparison measured65.6% coverage with it present and100% with it hidden.
+The CSS focus-yield repair passed ten navigation cases (including Tab/Shift+Tab,
+no-JS Formal, input focus and blur restoration), the exact original painted-ring
+case at100%, thirty existing focus targets and twenty text-layout cases. No
+pixel threshold was relaxed. Original AMEND review and failures are retained.
+See focus-amendment.json and the previous SOURCE-before-focus.json receipt.
+The initial full-suite qualification remains scoped to its original bytes; later
+checks are separately bound rather than retroactively changing that evidence.
