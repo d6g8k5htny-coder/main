@@ -28,7 +28,7 @@
 
 ### Task 1: Baseline and implementation
 
-Files: dependencies.html, atlas.mjs successful-observation presentation/render visibility only, atlas-layout.css scoped additions, new tools/atlas_approachable_browser_check.py.
+Files: dependencies.html, atlas.mjs successful-observation presentation/render visibility only, atlas-layout.css scoped additions, new tools/atlas_approachable_browser_check.py. Audit-driven scope amendment: atlas-spatial.css final accessible-list metadata ink only, and tools/atlas_accessible_list_browser_check.py.
 
 Interfaces: existing admitted data, `atlas-status` and source identity utilities; new `atlas-snapshot-details`, `atlas-snapshot-record`, `atlas-snapshot-pins`, `atlas-foundations` IDs. No new public function or state schema.
 
@@ -36,6 +36,7 @@ Interfaces: existing admitted data, `atlas-status` and source identity utilities
 - [ ] Write focused browser checks for collapsed metadata, exact pins, native Enter/Space/focus, source visibility, state sharing/history and static guide. Run before product changes and retain expected failures.
 - [ ] Add native disclosures and concise status; preserve exact original observation text inside detail and hide detail whenever bookmark is refused.
 - [ ] Run the same checks, screenshots and measurements; actual spatial/refusal/current reader regressions and prescribed site/asset commands.
+- [ ] Preserve the auditor's pre-existing contrast failure, run focused real-3D text contrast RED in both themes, inherit the button ink, then verify GREEN and an independently identified audit recheck.
 - [ ] Commit all derived asset keys and source changes.
 
 ### Task 2: Audit and delivery
