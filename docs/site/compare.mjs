@@ -3,8 +3,8 @@ import {
   loadSelection,
   compareSnapshots,
   selectionDescription,
-} from "./compare-model.mjs?site-release=4036fca2cd4519e4d09f2e19ffd38e64b3b2e6ce1ef20840dc52a9941d77d946";
-import { sourceURL } from "./current-model.mjs?site-release=a30d68465e3acda48eedce64854afebc7af5c84903a4e6b0c649e08007b08999";
+} from "./compare-model.mjs?site-release=1f2c064486df73dd5a5cf9a0015ea17df2cc44ec0a65908bbeeddd50075985c8";
+import { sourceURL } from "./current-model.mjs?site-release=4852e23a5fe1f95b7c7ec91ff3f9472e2c614fe962f7c328cc57bcf36aba950e";
 const $ = (id) => document.getElementById(id);
 let publication,
   generation = 0,

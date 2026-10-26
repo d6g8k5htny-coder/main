@@ -1,0 +1,125 @@
+# SOURCE-FROZEN R1 DRAFT: no hosted execution or mechanical rewrite acceptance is claimed.
+name: Site asset rewrite proposal
+'on':
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: [main]
+    paths:
+      - 'docs/site/**'
+      - 'docs/public-math/**'
+      - 'tools/site_asset_release.py'
+      - 'tools/site_asset_rewrite_observation.py'
+      - 'tools/site_transition_source_guard.py'
+      - 'tests/test_site_transition_source_guard.py'
+      - 'tests/fixtures/current_site_transition_candidate_20261022/production-source-freeze.json'
+      - '.github/workflows/site-asset-rewrite-proposal.yml'
+permissions:
+  contents: read
+jobs:
+  exact-mechanical-proposal:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 6
+    permissions:
+      contents: read
+    steps:
+      - name: Check out the tested pull request merge
+        id: checkout
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 2
+          persist-credentials: false
+          clean: true
+      - name: Guard capture source and emit a bounded exact proposal or HOLD
+        if: always()
+        env:
+          CHECKOUT_OUTCOME: ${{ steps.checkout.outcome }}
+          SITE_ASSET_CANDIDATE_FREEZE_SHA256: 08599cdf4c4251932e92ed622bf695db1bb502578fcb2c60da42daa89ebace5e
+        run: |
+          python3 -I -B -S - <<'PYBOOTSTRAP'
+          import hashlib, os, resource, signal, stat, subprocess, sys, tempfile
+          from pathlib import Path
+          try:
+              if os.environ.get('CHECKOUT_OUTCOME') != 'success':
+                  raise ValueError('checkout')
+              root = Path.cwd().resolve(strict=True)
+              path = root / 'tools/site_asset_rewrite_observation.py'
+              if (root / 'tools').is_symlink() or not (root / 'tools').is_dir():
+                  raise ValueError('ancestor')
+              descriptor = os.open(path, os.O_RDONLY | os.O_NOFOLLOW)
+              try:
+                  before = os.fstat(descriptor)
+                  if not stat.S_ISREG(before.st_mode) or before.st_nlink != 1 or before.st_size > 32768:
+                      raise ValueError('file')
+                  raw = os.read(descriptor, 32769)
+                  after = os.fstat(descriptor)
+                  identity = lambda s: (s.st_dev, s.st_ino, s.st_mode, s.st_nlink, s.st_size, s.st_mtime_ns, s.st_ctime_ns)
+                  if (len(raw) != before.st_size or identity(before) != identity(after)
+                          or hashlib.sha256(raw).hexdigest() != 'befe4c3fc01a6c82766598c89ebf073a752ebb2e792d1b8a3721db742c72deb7'):
+                      raise ValueError('source')
+              finally:
+                  os.close(descriptor)
+              guard_path = root / 'tools/site_transition_source_guard.py'
+              descriptor = os.open(guard_path, os.O_RDONLY | os.O_NOFOLLOW)
+              try:
+                  before = os.fstat(descriptor)
+                  if not stat.S_ISREG(before.st_mode) or before.st_nlink != 1 or before.st_size != 4249:
+                      raise ValueError('guard_file')
+                  guard_raw = os.read(descriptor, 8193)
+                  after = os.fstat(descriptor)
+                  if (len(guard_raw) != 4249 or identity(before) != identity(after)
+                          or hashlib.sha256(guard_raw).hexdigest() != '69aa32de61db44014f3b78a4374dda1852ab6854fbf4ac988abef6abf88e1fc6'):
+                      raise ValueError('guard_source')
+              finally:
+                  os.close(descriptor)
+              # Buffer the capture process too: setup/import errors never echo
+              # an arbitrary traceback or a partial apparently complete set.
+              temporary = Path(os.environ['RUNNER_TEMP']).resolve(strict=True)
+              if temporary.is_relative_to(root):
+                  raise ValueError('temporary')
+              with tempfile.TemporaryDirectory(prefix='site-asset-carrier-', dir=temporary) as directory:
+                  directory = Path(directory)
+                  os.chmod(directory, 0o700)
+                  # Run the exact authenticated capture bytes from the owned carrier directory.
+                  staged_capture = directory / 'capture.py'
+                  with staged_capture.open('xb') as stream: stream.write(raw)
+                  staged_capture.chmod(0o444)
+                  output, errors = directory / 'stdout', directory / 'stderr'
+                  process, timed_out = None, False
+                  def cap():
+                      resource.setrlimit(resource.RLIMIT_FSIZE, (1048576, 2097152))
+                      resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
+                  try:
+                      with output.open('xb') as out, errors.open('xb') as err:
+                          process = subprocess.Popen([sys.executable, '-I', '-B', '-S', str(staged_capture)],
+                              stdin=subprocess.DEVNULL, stdout=out, stderr=err,
+                              start_new_session=True, preexec_fn=cap)
+                          try:
+                              code = process.wait(timeout=300)
+                          except subprocess.TimeoutExpired:
+                              timed_out = True
+                              code = None
+                  finally:
+                      if process is not None:
+                          try: os.killpg(process.pid, signal.SIGKILL)
+                          except ProcessLookupError: pass
+                          try: process.wait(timeout=5)
+                          except subprocess.TimeoutExpired: timed_out = True
+                  with output.open('rb') as stream:
+                      carrier = stream.read(950001)
+                  with errors.open('rb') as stream:
+                      error_bytes = stream.read(65537)
+                  if timed_out or len(carrier) > 950000 or error_bytes or code not in (0, 1):
+                      raise ValueError('capture')
+                  expected = (b'disposition=PROPOSAL_COMPLETE_REQUIRES_REVIEW' if code == 0
+                              else b'disposition=HOLD')
+                  lines = carrier.splitlines()
+                  if not lines or not lines[-1].startswith(b'CS_ASSET_COMPLETE ') or not lines[-1].endswith(expected):
+                      raise ValueError('incomplete')
+              sys.stdout.buffer.write(carrier)
+              sys.stdout.buffer.flush()
+              raise SystemExit(code)
+          except Exception:
+              print('CS_ASSET_HOLD code=BOOTSTRAP_OR_CAPTURE_SOURCE_ERROR complete_set=false', flush=True)
+              raise SystemExit(1)
+          PYBOOTSTRAP

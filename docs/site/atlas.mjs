@@ -1,7 +1,7 @@
-import {currentSnapshot,element,anchor} from './current.mjs?site-release=fc7e8a98c1e23f476962c4c83e95ed3ce817490007987112d9b2cf6d3d90b142';
-import {hasNode,readState,neighborhood,searchGraph,downstreamReach,requiredDependencyPaths,REQUIRED_ROUTE_SEMANTICS,evidenceAxes,sourceURL,sourceForNode,staticNodeLinks,resumeProjection,RESUME_NOT_RECORDED,resumeFieldHref} from './current-model.mjs?site-release=a30d68465e3acda48eedce64854afebc7af5c84903a4e6b0c649e08007b08999';
-import {createAtlasShell,viewForViewport} from './atlas-shell.mjs?site-release=b6853b9dc8f370daaa52ba7204b4880a191e50aa04719a4b3c8501cf7d8e36b0';
-import {createClaimSummary} from './atlas-claim-summary.mjs?site-release=c3282397f25caaf0882d47f4433279c88bab7471df6eaf5b123f1e357da30c94';
+import {currentSnapshot,element,anchor} from './current.mjs?site-release=f739c9840cf6ee25ce9d3ca809e030f6652751fc6b9b21d3c5d3f398dbf82438';
+import {hasNode,readState,neighborhood,searchGraph,downstreamReach,requiredDependencyPaths,REQUIRED_ROUTE_SEMANTICS,evidenceAxes,sourceURL,sourceForNode,staticNodeLinks,resumeProjection,RESUME_NOT_RECORDED,resumeFieldHref} from './current-model.mjs?site-release=4852e23a5fe1f95b7c7ec91ff3f9472e2c614fe962f7c328cc57bcf36aba950e';
+import {createAtlasShell,viewForViewport} from './atlas-shell.mjs?site-release=839ee9a1f6aecf8ac8ff6889c737a41c568c338d13677fe62360e3452f2e02ca';
+import {createClaimSummary} from './atlas-claim-summary.mjs?site-release=ad01419c575287a4f41a4db70e30bbf17f6f84629cfb48cc987c596d49712138';
 import {enableAtlasView,reconcileEquationOptions,createEquationAnnouncement} from './atlas-controls.mjs?site-release=58e7dd9a4fcfc326effc240080bbfac0cadd584908f84047b480fd9dcba522c7';
 const byId=id=>document.getElementById(id);
 const svgElement=(tag,attrs)=>{const n=document.createElementNS('http://www.w3.org/2000/svg',tag);for(const [k,v]of Object.entries(attrs))n.setAttribute(k,String(v));return n;};

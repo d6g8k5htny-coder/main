@@ -1,7 +1,7 @@
-import {element,anchor} from './current.mjs?site-release=fc7e8a98c1e23f476962c4c83e95ed3ce817490007987112d9b2cf6d3d90b142';
-import {sourceForNode,sourceURL} from './current-model.mjs?site-release=a30d68465e3acda48eedce64854afebc7af5c84903a4e6b0c649e08007b08999';
+import {element,anchor} from './current.mjs?site-release=f739c9840cf6ee25ce9d3ca809e030f6652751fc6b9b21d3c5d3f398dbf82438';
+import {sourceForNode,sourceURL} from './current-model.mjs?site-release=4852e23a5fe1f95b7c7ec91ff3f9472e2c614fe962f7c328cc57bcf36aba950e';
 
-import {createFormalEvidence} from './atlas-formal-evidence.mjs?site-release=fd282a960cfe2944617c2227b25ef1455bc6b142dced7b33ad1af99bc0d56f87';
+import {createFormalEvidence} from './atlas-formal-evidence.mjs?site-release=aef53faa1be1af618d80d17f75bbc320560f6a03bbc3060aacd4db99f898b2c5';
 
 // Presentation over the controller's admitted record. No acquisition, source
 // adoption, proof coverage inference, or scientific-status authority lives here.

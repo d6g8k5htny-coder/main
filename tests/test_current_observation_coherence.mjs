@@ -27,17 +27,28 @@ test('mixed publication recovers once at the page digest while retaining the sam
  assert.deepEqual(result,data);assert.deepEqual(seen.map(x=>x.url),['current.json','current.json?observation='+id.sha256]);
  assert.ok(seen.every(x=>x.opts.cache==='no-store'&&x.opts.credentials==='omit'&&x.opts.signal===controller.signal));
 });
-test('persistent digest mismatch refuses after two requests and never admits the old observation',async()=>{
- const {raw,old}=pair();let calls=0;
- await assert.rejects(run(async()=>{calls++;return response(old);},identity(raw)),/digest mismatch/);
- assert.equal(calls,2);
+test('persistent digest mismatch refuses after one metadata recovery and never admits the wrong observation',async()=>{
+ const {raw,old,data}=pair(),id=identity(raw),seen=[],controller=new AbortController();
+ const keyed='current.json?observation='+id.sha256;
+ assert.equal(old.length,raw.length);assert.notEqual(identity(old).sha256,id.sha256);
+ await assert.rejects(run(async(url,opts)=>{
+  seen.push({url,opts});
+  return url==='current-meta.json'?new Response(encode({...id,observed_at:data.observed_at})):response(old);
+ },id,{signal:controller.signal}),/digest mismatch/);
+ assert.deepEqual(seen.map(x=>x.url),['current.json',keyed,'current-meta.json',keyed]);
+ assert.ok(seen.every(x=>x.opts.cache==='no-store'&&x.opts.credentials==='omit'&&x.opts.signal===controller.signal));
 });
 test('byte-count mismatch may recover but the recovery bytes are checked as strictly',async()=>{
- const {raw}=pair();let calls=0;
- assert.equal((await run(async()=>response(++calls===1?Buffer.from('{}'):raw),identity(raw))).observed_at,'2026-10-20T12:06:05Z');
- assert.equal(calls,2);calls=0;
- await assert.rejects(run(async()=>{calls++;return response(Buffer.from('{}'));},identity(raw)),/byte count mismatch/);
+ const {raw,data}=pair(),id=identity(raw);let calls=0;
+ assert.equal((await run(async()=>response(++calls===1?Buffer.from('{}'):raw),id)).observed_at,'2026-10-20T12:06:05Z');
  assert.equal(calls,2);
+ const seen=[],controller=new AbortController(),keyed='current.json?observation='+id.sha256;
+ await assert.rejects(run(async(url,opts)=>{
+  seen.push({url,opts});
+  return url==='current-meta.json'?new Response(encode({...id,observed_at:data.observed_at})):response(Buffer.from('{}'));
+ },id,{signal:controller.signal}),/byte count mismatch/);
+ assert.deepEqual(seen.map(x=>x.url),['current.json',keyed,'current-meta.json',keyed]);
+ assert.ok(seen.every(x=>x.opts.cache==='no-store'&&x.opts.credentials==='omit'&&x.opts.signal===controller.signal));
 });
 test('HTTP refusal is not retried as an integrity mismatch',async()=>{
  const {raw}=pair();let calls=0;

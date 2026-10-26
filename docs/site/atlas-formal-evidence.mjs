@@ -1,6 +1,6 @@
-import {element,anchor} from './current.mjs?site-release=fc7e8a98c1e23f476962c4c83e95ed3ce817490007987112d9b2cf6d3d90b142';
-import {sourceURL} from './current-model.mjs?site-release=a30d68465e3acda48eedce64854afebc7af5c84903a4e6b0c649e08007b08999';
-import {formalConnection} from './atlas-formal-evidence-model.mjs?site-release=36dbb1f470e2c49e660275ff8090f74e56489b4cda5d0ccfd7b25b67e276f348';
+import {element,anchor} from './current.mjs?site-release=f739c9840cf6ee25ce9d3ca809e030f6652751fc6b9b21d3c5d3f398dbf82438';
+import {sourceURL} from './current-model.mjs?site-release=4852e23a5fe1f95b7c7ec91ff3f9472e2c614fe962f7c328cc57bcf36aba950e';
+import {formalConnection} from './atlas-formal-evidence-model.mjs?site-release=9f8914bce2dbd78137539cceafc0d9b3ce5e7efd71feda150fa2c1b142905de7';
 
 const receiptURL=new URL('./evidence/side24-main-3b39/receipt.json',import.meta.url).href;
 const typesURL=new URL('./evidence/side24-main-3b39/elaborated-types.log',import.meta.url).href;

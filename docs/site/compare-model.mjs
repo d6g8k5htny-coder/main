@@ -1,6 +1,6 @@
 import {parseStrictJSON} from "./reader-json.mjs?site-release=730b0b4d5c93a9e5aa5eee3feddd4070e9480db86af489c2982bfa0e39fca706";
 export {parseStrictJSON};
-import { validateSnapshot, parseVerifiedSnapshot } from "./current-model.mjs?site-release=a30d68465e3acda48eedce64854afebc7af5c84903a4e6b0c649e08007b08999";
+import { validateSnapshot, parseVerifiedSnapshot } from "./current-model.mjs?site-release=4852e23a5fe1f95b7c7ec91ff3f9472e2c614fe962f7c328cc57bcf36aba950e";
 const HEX = /^[0-9a-f]{64}$/;
 const ORIGIN = "https://d6g8k5htny-coder.github.io/main/site/";
 export const MAX_BYTES = 32 * 1024 * 1024;
