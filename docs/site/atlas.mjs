@@ -1,7 +1,7 @@
 import {currentSnapshot,element,anchor} from './current.mjs?site-release=fc7e8a98c1e23f476962c4c83e95ed3ce817490007987112d9b2cf6d3d90b142';
 import {hasNode,readState,neighborhood,searchGraph,downstreamReach,requiredDependencyPaths,REQUIRED_ROUTE_SEMANTICS,evidenceAxes,sourceURL,sourceForNode,staticNodeLinks,resumeProjection,RESUME_NOT_RECORDED,resumeFieldHref} from './current-model.mjs?site-release=a30d68465e3acda48eedce64854afebc7af5c84903a4e6b0c649e08007b08999';
 import {createAtlasShell,viewForViewport} from './atlas-shell.mjs?site-release=a1bda1574f211055e42e6d2596319fb304f8f754927db6b4a430b81f8153421d';
-import {createClaimSummary} from './atlas-claim-summary.mjs?site-release=f4f927b47229ad7c8ecb61eb7705f2f1937892d455ef80d1e212d1d6914d1f0d';
+import {createClaimSummary} from './atlas-claim-summary.mjs?site-release=c3282397f25caaf0882d47f4433279c88bab7471df6eaf5b123f1e357da30c94';
 const byId=id=>document.getElementById(id);
 const svgElement=(tag,attrs)=>{const n=document.createElementNS('http://www.w3.org/2000/svg',tag);for(const [k,v]of Object.entries(attrs))n.setAttribute(k,String(v));return n;};
 // Mirrors the static node page block rendered from the same projection by tools/current_site_history.py.
@@ -38,7 +38,7 @@ async function start() {
   let inspectedNode,inspectedError;
   function renderInspector(){const n=graph.nodes[selected];const panel=byId('atlas-inspector');const disclosures=new Map(inspectedNode===n&&inspectedError===state.error?[...panel.querySelectorAll('details')].map(detail=>[detail.id,detail.open]):[]);inspectedNode=n;inspectedError=state.error;panel.replaceChildren();if(!n||state.error){panel.append(element('p',state.error||'Select a node.'));return;}
     panel.append(element('h3',selected),element('p',`Kind: ${n.kind} · Classification: ${n.classification} · ${n.layer||'layer not recorded'}`));
-    panel.append(createClaimSummary(data,n));
+    panel.append(createClaimSummary(data,n,selected));
     const reviewDetails=element('details');reviewDetails.id='atlas-review-details';reviewDetails.append(element('summary','Review records and continuation'));
     const r=reach(selected),reachText=`Downstream nodes · all edges: ${r.allEdge}. Downstream nodes · required edges: ${r.requiredOnly}.`;
     const reachPanel=element('p',reachText);reachPanel.id='atlas-reach';reviewDetails.append(reachPanel,element('p',`Complete indexed snapshot query at ${data.graph.identity.commit}. Each count excludes the selected node and counts distinct downstream nodes. All edges includes context; required edges uses required edges at every step. These counts do not identify blocked theorems or prove completeness.`));byId('atlas-diagnostic-selection').textContent=`Selected ${selected}: ${reachText} No scientific disposition is inferred.`;

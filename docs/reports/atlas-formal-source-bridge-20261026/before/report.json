@@ -1,0 +1,3663 @@
+{
+  "mode": "local-baseline-observation",
+  "identity": {
+    "provider": "OpenAI",
+    "agent": "Codex",
+    "model_family": "GPT-6 as declared by system/developer; exact runtime model identifier unavailable",
+    "review_credit": false,
+    "scientific_credit": false,
+    "exposure": "Implementation-side helper; baseline source and harness read."
+  },
+  "site": "/workspace/scratch/atlas-formal-baseline/served-before",
+  "frozen_payload": "/workspace/scratch/atlas-formal-baseline/frozen/current.json",
+  "payload": {
+    "bytes": 1392120,
+    "sha256": "3982c9fe7ddd02b1abab6c2e6083286003d7c136979506fc0ad4a341385b4d84",
+    "git_blob": "ce9b9f07a01fb3b6165b03e4e9c09074029909c6"
+  },
+  "payload_repositories": [
+    {
+      "commit": "dd5f23f68be381726bcfb8df9ef86535594b04b9",
+      "repository": "d6g8k5htny-coder/main",
+      "tree": "98b3c1440ebabc0bb8b04539510826b50b0c393a"
+    },
+    {
+      "commit": "b29c4b769cac85437b409d152651d5cce4140015",
+      "repository": "d6g8k5htny-coder/Math-",
+      "tree": "11f6a153ac4429531757010e705fe70c1f0bfc23"
+    }
+  ],
+  "graph_identity": {
+    "blob": "220b56867f24c5ef6f55a3cce70490e9777cf3af",
+    "bytes": 38753,
+    "commit": "b29c4b769cac85437b409d152651d5cce4140015",
+    "path": "frontiers/downstream_gate_20260925/GRAPH.json",
+    "repository": "d6g8k5htny-coder/Math-",
+    "sha256": "8822e9618678321a342d69cd0b8ae6552de1b5d578c331de5072b2892ee9dd09"
+  },
+  "observed_at": "2026-10-26T00:08:26Z",
+  "selected": "math.side24-coefficient",
+  "node": {
+    "classification": "AUTHOR_SIDE_CANDIDATE",
+    "controlling": false,
+    "fingerprint": "c06daccc4ba4b9168522b9888b76a7d599934fc3b91bd753ee5d492262917769",
+    "kind": "candidate",
+    "layer": "D3",
+    "notes": "Evaluates parent Eq15.2; parent reconciled in reviews/d1_chain_reconciliation_20260928/RECONCILIATION.md",
+    "review_disposition": "ACCEPT",
+    "review_issue": 65,
+    "review_provider": "xAI/Grok via Cursor",
+    "review_source": "https://github.com/d6g8k5htny-coder/main/issues/65#issuecomment-5841269490",
+    "scope": "coefficient calculation for SIDE24 d=2,3; persistence reading via reconciled parent Theorem C; no finite-radius band",
+    "source": "coefficients/side24_v1/PROOF.md"
+  },
+  "tested_site_modules": {
+    "atlas-claim-summary.mjs": {
+      "bytes": 3813,
+      "sha256": "fd5f3998ccd8b76fd1c67431fbb79bf513f9ee71f25c0e36e744ea4ce6824133",
+      "git_blob": "7d3814e6f47932709743226e7ea79a978ab53ef2"
+    },
+    "atlas-layout.css": {
+      "bytes": 8900,
+      "sha256": "bf70f0e5d206b4a772560bac652ae8f37d20d1c5408e3f8c06c424cf2db47fd9",
+      "git_blob": "4c724eab40e432790a6531a9dfba74bb6b86a46c"
+    },
+    "atlas-shell.mjs": {
+      "bytes": 6067,
+      "sha256": "1c5711f680c26589527d91d1372cd838b26d00d5bbc287be3772584c5265751b",
+      "git_blob": "6acc2b4c5a9342ff68a4df09cbe1bfcbc67c8cd3"
+    },
+    "atlas-spatial-model.mjs": {
+      "bytes": 1489,
+      "sha256": "310d53ad61c244c33be26e484ef09c3220c40b8b5c3b85ecd9dfbb8ea1ec07e3",
+      "git_blob": "99708daf730414528602e58ba016e088923aad17"
+    },
+    "atlas-spatial-shell.mjs": {
+      "bytes": 9268,
+      "sha256": "68bafa1a242accca844389b71c841aba975980655a65d78f5101de3d49620aa9",
+      "git_blob": "3af480237a25651bb6bf86201631812f9291a3e4"
+    },
+    "atlas-spatial.css": {
+      "bytes": 2163,
+      "sha256": "ac9c1633a664dcfad6acf23f62d17568e212989abc1f8733fe7853a30fa2e073",
+      "git_blob": "ae1155cd01a549a7fdfa2694e5900903eb4da324"
+    },
+    "atlas-spatial.mjs": {
+      "bytes": 7662,
+      "sha256": "7b5400aeb0c4151c521ae39f3b8fc49f957878899352c258c73fe46e4b817547",
+      "git_blob": "952cde424e47f46aded2e5d9b09aede66f358fe5"
+    },
+    "atlas.mjs": {
+      "bytes": 23984,
+      "sha256": "8ae8470e5c014eb0db7fe1742b3fc81ec40e9bc361a799fc10269c5989ab0152",
+      "git_blob": "a2eb94204932d7380f12f9c237e9652cadf4d42d"
+    },
+    "brand.css": {
+      "bytes": 35505,
+      "sha256": "54067ed500a06819d503f43d0f2ca6a11427506c193896a44a3b80d2e393781b",
+      "git_blob": "1c5a1e8597e77fbd8085b63e0daf86f5c33dea35"
+    },
+    "catalog-query.mjs": {
+      "bytes": 2278,
+      "sha256": "a7b0ce38f470f52862c4ee318c9511534c19d11a76d4eaf5f08523cfe21cf6c2",
+      "git_blob": "5f26b39503d28c2ee82ca89dc7485e91515a9488"
+    },
+    "cite.mjs": {
+      "bytes": 875,
+      "sha256": "7e39828ce52f1f90bf84c32155a029c56d5e5adf2cbbbe4b12b11c0653dadd4f",
+      "git_blob": "3dac0ccde6f87c007ee674dc21e689919a19087c"
+    },
+    "compare-model.mjs": {
+      "bytes": 12705,
+      "sha256": "22d923448d092b74242cdc8e7af4279aee135b5ba5ceabc4fb4ace85cccdfa92",
+      "git_blob": "c65e830c79644c8fa48a9059351dbc9840c7e9a2"
+    },
+    "compare.css": {
+      "bytes": 2647,
+      "sha256": "1947ca876f09b0be58e2212ef828f35c83352773bc0ca7456b4dc7ec30bc17dd",
+      "git_blob": "67f1c59b7065823c60053904cc5d7472810399c5"
+    },
+    "compare.mjs": {
+      "bytes": 8977,
+      "sha256": "9313dbc22d428eccaecdde94d934e0dc235b70cbc9c4cdfe5c0b95391f12df5b",
+      "git_blob": "e6a297e5fb2096e2cc497b25687711f7fee2f10d"
+    },
+    "conditionals.mjs": {
+      "bytes": 8483,
+      "sha256": "efde1c0f7922996f901844ddd4139fb72ce4cec6a29db263f65d1cab106c2744",
+      "git_blob": "49a97186a02f642597466097b19689e6d76eb42c"
+    },
+    "core.mjs": {
+      "bytes": 4123,
+      "sha256": "d6a20d17fb2bb0d5e1b17d8bbee9658149b18c3678fbc84b92fe71557d40b0a4",
+      "git_blob": "3d9dcdc53facd8b1803cdfa6c7944a6db66db722"
+    },
+    "current-model.mjs": {
+      "bytes": 26458,
+      "sha256": "c9247ea9acec23172893caa03028041be784bf83f08b0209c077167a3de0f4cb",
+      "git_blob": "e053a8ae38cac462e41aa034e01ce567b68ab159"
+    },
+    "current.css": {
+      "bytes": 7524,
+      "sha256": "bfa30ddc9a325ab0f8086da14f715ea80d8e7a14919630b63885899add59d532",
+      "git_blob": "e35034c366bdaa212be47e9e316fa6c6a074044a"
+    },
+    "current.mjs": {
+      "bytes": 4816,
+      "sha256": "0cf73485540df3674ff2eb4458614d51dac7fdb7941f64db6215680fbb7a8a76",
+      "git_blob": "86d1b7b232fa68b61cc062fd9c5b1aafcd934809"
+    },
+    "curvature-export.mjs": {
+      "bytes": 16963,
+      "sha256": "4adefba708aacaff1b7d099f1291f5fd20732b93da3d1eb99e5d65483ce3549d",
+      "git_blob": "2463b206c1d90fd8c78b55731f3f9df19e793657"
+    },
+    "dependencies.css": {
+      "bytes": 8925,
+      "sha256": "99d5ade1df4ddc2b1de5a0ac1900ac66beb4f071f1ec77142ed925a13afb1760",
+      "git_blob": "ff57b46a3a91bc96b0a3ba7ed07d31bdb5eb2d61"
+    },
+    "dependencies.html": {
+      "bytes": 30841,
+      "sha256": "bf5fb437fe1a95f970ed68cfcba377287ac22c5190ea28860126244a1103d2d3",
+      "git_blob": "f5a557ff6f2745e98e583f8cb7612e3dbe1465ff"
+    },
+    "dependencies.mjs": {
+      "bytes": 15125,
+      "sha256": "adfffb557ee76140b4f216a2e20de165ce20ce542343957dff7f1bb7ce7eb56c",
+      "git_blob": "381f8fcb9892aed74e34a28a9d2d0df71d42df4c"
+    },
+    "dependency-model.mjs": {
+      "bytes": 16667,
+      "sha256": "d64be3db1178207db5fc457d32ecfd4a0e079d6e0e6d87927a57d59b48c8a17c",
+      "git_blob": "cb5db5ab0a7c056674efd7244a900702a5444644"
+    },
+    "explore-models.mjs": {
+      "bytes": 2567,
+      "sha256": "06e255f73b7f5f8ff26b4bf06fb73377823797fb46d662555cc2c828069367a6",
+      "git_blob": "b796b0ec82be1876b34786fcf834506fa97417d2"
+    },
+    "explore-state.mjs": {
+      "bytes": 1635,
+      "sha256": "766568e032c15c4ba10108cbf1457d9633e2a1a13bee5d9bf5abcd2788de3220",
+      "git_blob": "283bd7e7d2cda86124fae41052df6649fe459cb2"
+    },
+    "explore.css": {
+      "bytes": 8610,
+      "sha256": "36da686cdd6069618e6adb5ec0c613259a4a46f53891238b4ee92bb942565664",
+      "git_blob": "25e4375bd1d47bde9ce21d0b5b449655586cd070"
+    },
+    "explore.mjs": {
+      "bytes": 19450,
+      "sha256": "4c0be6c1aaef0a0a4688990feb3018be1218d399222d5715ee267f27afa8435f",
+      "git_blob": "628c5ec98ac4968186fbefd0c495e8151b19bb7e"
+    },
+    "geometry.mjs": {
+      "bytes": 24779,
+      "sha256": "d610f8c6d662f338dcc92934733e42625779968b21773a53584f4cd232191622",
+      "git_blob": "14cd10b00577b87d3ae2116971a4a1b54db9ddbb"
+    },
+    "home.css": {
+      "bytes": 9217,
+      "sha256": "e4a0329da5e160010014ed16a529a4450df513270acfceec90443c87266800d3",
+      "git_blob": "e32b6d0c6b62fa111f76b059db1ffeb8e38a89bd"
+    },
+    "home.mjs": {
+      "bytes": 515,
+      "sha256": "fc6cf93e7e19efb38a933441c65f15080c15b3e5a55b4dbe2129751ee0ed7620",
+      "git_blob": "cfd7bed7cf3a9bdb16c2874beca8894a057f761d"
+    },
+    "measure.mjs": {
+      "bytes": 2870,
+      "sha256": "47e904a9e436b9842176ab3d1342294e14ea5559c15c866e9f68b9ae78b6ffbe",
+      "git_blob": "355c6ebc04803281f847c0ab6b749bb5ebf8ebcd"
+    },
+    "measurement-model.mjs": {
+      "bytes": 2985,
+      "sha256": "1ec6bab0b2ce46e216cfe818db7df7861339a3de4de3b6b58409284e3bedcb1a",
+      "git_blob": "56a6c62feb8097e6e68f8a15768d2d3a60841c7d"
+    },
+    "museum.css": {
+      "bytes": 5127,
+      "sha256": "19836ba84c05a7739cde701f942318950de4ca8989869ce5e01803497fb89707",
+      "git_blob": "8a7e52736ff4054da12ec84c22f01a73df8ce910"
+    },
+    "museum.mjs": {
+      "bytes": 31604,
+      "sha256": "91f246c27333feb81ee4c20de5cf26f3ac3d201a409d7f692b42f4bf314b3493",
+      "git_blob": "c42990c3e5ae6558c1a27c952112c74c25627415"
+    },
+    "palette-export.mjs": {
+      "bytes": 7894,
+      "sha256": "ef9529cc46fb9a2e7b0f4baee681f047d1fdb7155013bafddfd429335c1d3bcc",
+      "git_blob": "72cf680203a2cf4e82ffd5e0cc240ff60fcc8897"
+    },
+    "pin-export.mjs": {
+      "bytes": 8641,
+      "sha256": "b7875d02acba0eb64f182bfbe3cd57ca25c9fad4977b8c95f2089c6bd7031508",
+      "git_blob": "ea3a3db0824dc8ba4b1b7469f78ba00644bc5037"
+    },
+    "reader-json.mjs": {
+      "bytes": 1461,
+      "sha256": "3be58abdb02a4b2da73bc42b539997fddd2e98aa2c05412558a186f0880d82bf",
+      "git_blob": "81ffe25bb11be3cb033396a8761b58fa79f206f2"
+    },
+    "reader-shell.mjs": {
+      "bytes": 1328,
+      "sha256": "3b49d384c1c49d3a2bb3a759906171f5ace107e06c4ab98560f3ca52e480f690",
+      "git_blob": "8b07f6e982765024353de6af3cf930c98a91c4c5"
+    },
+    "reference.css": {
+      "bytes": 1916,
+      "sha256": "88a8b9dedf681cb26252e52abe2a0209f94e15ae88fd1ab045d74f2e9753e650",
+      "git_blob": "a3323157c354db0f0df04a0651b070b9dd2dc829"
+    },
+    "reproduce-copy.mjs": {
+      "bytes": 5146,
+      "sha256": "30f8e9b4ee621a59ad2e33fb137c6ab034c9f4a0b49f9188388694d89d4d9e89",
+      "git_blob": "94dec95ae7ee0124e49fcd9378be139a70df1609"
+    },
+    "research-desk-store.mjs": {
+      "bytes": 7736,
+      "sha256": "b677d6e9f7061fc15bb766a6bcfcff08b44792abd31c2308948d48d28199885a",
+      "git_blob": "5fee993764caccc56ba90ef6b4abf9a6ef3e2112"
+    },
+    "research-desk.css": {
+      "bytes": 2725,
+      "sha256": "0704122b2adf2d668a0f6aa90f9b2a5ca77fdb8c2e22b2cb550c93fede4dca51",
+      "git_blob": "b1ab034392ab2d396626ed71f6a0ff0f0490f229"
+    },
+    "research-desk.mjs": {
+      "bytes": 12764,
+      "sha256": "702f6861534020d9b7c855e7ea0a0390094ff3ffc20d11c973f51d5bab0fba32",
+      "git_blob": "bf9b6f49fdcf873202ed0cbd25ec3b0e216b793b"
+    },
+    "source-quote.mjs": {
+      "bytes": 3434,
+      "sha256": "579b04adbb02d7f213d778b8119ee4faee7886e0ce73f40d019c9709d56c7f67",
+      "git_blob": "6007d9a4693b0ae4839bea11d56b817d5c7a4d57"
+    },
+    "source-reference.mjs": {
+      "bytes": 8527,
+      "sha256": "734364565a62772205d7e953c7441e7b5c66cb00f2bb956b378fcbb0bbdd4422",
+      "git_blob": "84782f61976c51b4f5d8c38a43c32c08cabb92cc"
+    },
+    "style.css": {
+      "bytes": 5924,
+      "sha256": "3b2cb40ad361719805dda07f68eb64b12d3ecd8cf666444b5875ac68514f0aeb",
+      "git_blob": "2c91e2f899e14f38297943b66d063f6b302a7588"
+    },
+    "teaching-export.mjs": {
+      "bytes": 18206,
+      "sha256": "299c9ae893885956da957803c187edfeb997a643411f9b42178b78529a523ac4",
+      "git_blob": "70186bff68f90d9e1c3d5f94cf4c922d48297409"
+    },
+    "workspace-fragment.mjs": {
+      "bytes": 1580,
+      "sha256": "602a1389b66a0d3883394724aebf633544ba74eb0614309de7800906b4d96b93",
+      "git_blob": "6f95fae94a07b8093a53f74ddf329bb1cecd24b6"
+    }
+  },
+  "driver": {
+    "path": "/workspace/scratch/atlas-formal-baseline/baseline_driver.py",
+    "bytes": 17747,
+    "sha256": "2246ef725b8817f3c1176a7d8c2afc2c395f151eaa618540ad69c5258b28fccc",
+    "git_blob": "1202aab4c0969ed760874130637218b5bcbe8d62"
+  },
+  "browser_executable": {
+    "path": "/usr/bin/chromium",
+    "bytes": 5064,
+    "sha256": "2c8d32d29dc6781c35ae196ea83299d507ac88fc339301abe74672feda299779",
+    "git_blob": "2a2228d042c2139b499898e1ecd347f9a0d4d997"
+  },
+  "browser_command_version": "Chromium 154.0.8037.57 built on Debian GNU/Linux 13 (trixie)",
+  "platform": "Linux-6.18.55-x86_64-with-glibc2.41",
+  "playwright": "1.62.0",
+  "chromium_sandbox": true,
+  "reduced_motion": "reduce",
+  "network": "loopback only application journeys; inherited normal proxy/CA retained",
+  "csp": "unmodified site policy; no bypass_csp, routes, security-disable flags, or injected application code",
+  "scope": "Four matched Graph/List and selected-reader journeys. No 3D/refusal duplication, AT/Orca, screenreader or new-feature acceptance.",
+  "started_at_utc": "2026-10-26T00:15:13Z",
+  "cases": [
+    {
+      "case": "1200x900-light",
+      "viewport": {
+        "width": 1200,
+        "height": 900
+      },
+      "color_scheme": "light",
+      "checks": [
+        {
+          "name": "full literal scope visible",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "immutable selected proof source visible",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "native formal disclosure initially closed",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "Graph/List same claim source scope and pins",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "same-claim layout retains formal disclosure",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "share link retains selected source pins",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "changed selection resets formal disclosure",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "native Back restores same claim source and pins",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "share navigation restores exact selection",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "reload restores exact selection",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "reload starts formal disclosure closed",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "no document overflow",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "no pageerrors",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "no failed application requests",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "no HTTP errors",
+          "passed": true,
+          "detail": null
+        }
+      ],
+      "failures": [],
+      "pageerrors": [],
+      "console_errors": [],
+      "failed_requests": [],
+      "http_errors": [],
+      "screenshots": {
+        "reader": "reader-1200x900-light.png",
+        "full-inspector": "full-inspector-1200x900-light.png",
+        "expanded-formal": "expanded-formal-1200x900-light.png",
+        "expanded-formal-viewport": "expanded-formal-viewport-1200x900-light.png"
+      },
+      "ready_ms": 339.13574799953494,
+      "initial_url": "http://127.0.0.1:41029/dependencies.html?atlas-node=math.side24-coefficient&atlas-view=graph&snapshot=b29c4b769cac85437b409d152651d5cce4140015&main-snapshot=dd5f23f68be381726bcfb8df9ef86535594b04b9#current-atlas",
+      "navigation_status": 200,
+      "performance_initial": {
+        "navigation": [
+          {
+            "name": "http://127.0.0.1:41029/dependencies.html?atlas-node=math.side24-coefficient&atlas-view=graph&snapshot=b29c4b769cac85437b409d152651d5cce4140015&main-snapshot=dd5f23f68be381726bcfb8df9ef86535594b04b9#current-atlas",
+            "entryType": "navigation",
+            "startTime": 0,
+            "duration": 260.70000000298023,
+            "navigationId": 3676,
+            "initiatorType": "navigation",
+            "deliveryType": "",
+            "nextHopProtocol": "http/1.0",
+            "renderBlockingStatus": "non-blocking",
+            "contentType": "text/html",
+            "contentEncoding": "",
+            "workerStart": 0,
+            "workerRouterEvaluationStart": 0,
+            "workerCacheLookupStart": 0,
+            "workerMatchedSourceType": "",
+            "workerFinalSourceType": "",
+            "redirectStart": 0,
+            "redirectEnd": 0,
+            "fetchStart": 1,
+            "domainLookupStart": 1,
+            "domainLookupEnd": 1,
+            "connectStart": 1,
+            "secureConnectionStart": 0,
+            "connectEnd": 1,
+            "requestStart": 2.800000000745058,
+            "responseStart": 6.900000002235174,
+            "firstInterimResponseStart": 0,
+            "finalResponseHeadersStart": 6.900000002235174,
+            "responseEnd": 8.100000001490116,
+            "transferSize": 31141,
+            "encodedBodySize": 30841,
+            "decodedBodySize": 30841,
+            "responseStatus": 200,
+            "serverTiming": [],
+            "unloadEventStart": 0,
+            "unloadEventEnd": 0,
+            "domInteractive": 22.800000000745058,
+            "domContentLoadedEventStart": 218.70000000298023,
+            "domContentLoadedEventEnd": 218.80000000074506,
+            "domComplete": 260.70000000298023,
+            "loadEventStart": 260.70000000298023,
+            "loadEventEnd": 260.70000000298023,
+            "type": "navigate",
+            "redirectCount": 0,
+            "activationStart": 0,
+            "criticalCHRestart": 0,
+            "notRestoredReasons": null,
+            "confidence": {
+              "randomizedTriggerRate": 0.4994798,
+              "value": "high"
+            }
+          }
+        ],
+        "resources": [
+          {
+            "name": "http://127.0.0.1:41029/style.css?site-release=6eb56e5c80ebf5811a77d0cb8583bf77dd8be44f170bebc9ae10721b2e6e9ab1",
+            "initiatorType": "link",
+            "startTime": 18.400000002235174,
+            "duration": 13.399999998509884,
+            "transferSize": 6224,
+            "encodedBodySize": 5924,
+            "decodedBodySize": 5924,
+            "responseEnd": 31.800000000745058
+          },
+          {
+            "name": "http://127.0.0.1:41029/brand.css?site-release=5394863b316a477063ff357fce9654bfb48c3190f6880a518ad95db5b888aad3",
+            "initiatorType": "link",
+            "startTime": 18.900000002235174,
+            "duration": 13.399999998509884,
+            "transferSize": 35805,
+            "encodedBodySize": 35505,
+            "decodedBodySize": 35505,
+            "responseEnd": 32.30000000074506
+          },
+          {
+            "name": "http://127.0.0.1:41029/dependencies.css?site-release=057ca4121356c0a263fa4b1ebcb86e525a33a4ee54c72ee2fee1b04f925f86b6",
+            "initiatorType": "link",
+            "startTime": 19,
+            "duration": 18.400000002235174,
+            "transferSize": 9225,
+            "encodedBodySize": 8925,
+            "decodedBodySize": 8925,
+            "responseEnd": 37.400000002235174
+          },
+          {
+            "name": "http://127.0.0.1:41029/dependencies.mjs?site-release=d82de31c97db5296160a3c715627c118eefa1057b34452f1678f1acf331e0e79",
+            "initiatorType": "script",
+            "startTime": 19.300000000745058,
+            "duration": 18.699999999254942,
+            "transferSize": 15425,
+            "encodedBodySize": 15125,
+            "decodedBodySize": 15125,
+            "responseEnd": 38
+          },
+          {
+            "name": "http://127.0.0.1:41029/current.css?site-release=9b70fee7f54345912905f33f4d15af39748b09c456bd88527b534cc9ceaae207",
+            "initiatorType": "link",
+            "startTime": 19.5,
+            "duration": 18,
+            "transferSize": 7824,
+            "encodedBodySize": 7524,
+            "decodedBodySize": 7524,
+            "responseEnd": 37.5
+          },
+          {
+            "name": "http://127.0.0.1:41029/atlas-layout.css?site-release=797d898025b4899262dc66519cc33b5330709053b141fc39c56ba1d7e2174d49",
+            "initiatorType": "link",
+            "startTime": 19.600000001490116,
+            "duration": 17.600000001490116,
+            "transferSize": 9200,
+            "encodedBodySize": 8900,
+            "decodedBodySize": 8900,
+            "responseEnd": 37.20000000298023
+          },
+          {
+            "name": "http://127.0.0.1:41029/atlas-spatial.css?site-release=232305d210598af0bfdfc651c51494ef0afecd57e72dde59dc588b95d477137f",
+            "initiatorType": "link",
+            "startTime": 19.800000000745058,
+            "duration": 16.400000002235174,
+            "transferSize": 2463,
+            "encodedBodySize": 2163,
+            "decodedBodySize": 2163,
+            "responseEnd": 36.20000000298023
+          },
+          {
+            "name": "http://127.0.0.1:41029/current.mjs?site-release=fc7e8a98c1e23f476962c4c83e95ed3ce817490007987112d9b2cf6d3d90b142",
+            "initiatorType": "script",
+            "startTime": 20,
+            "duration": 17.800000000745058,
+            "transferSize": 5116,
+            "encodedBodySize": 4816,
+            "decodedBodySize": 4816,
+            "responseEnd": 37.80000000074506
+          },
+          {
+            "name": "http://127.0.0.1:41029/atlas.mjs?site-release=d807f2f9895cb488ea1f3692f72d9a2c4ea2bfad07d837c60cec07d88bd7ff7f",
+            "initiatorType": "script",
+            "startTime": 20.100000001490116,
+            "duration": 20.699999999254942,
+            "transferSize": 24284,
+            "encodedBodySize": 23984,
+            "decodedBodySize": 23984,
+            "responseEnd": 40.80000000074506
+          },
+          {
+            "name": "http://127.0.0.1:41029/current-model.mjs?site-release=a30d68465e3acda48eedce64854afebc7af5c84903a4e6b0c649e08007b08999",
+            "initiatorType": "script",
+            "startTime": 40.80000000074506,
+            "duration": 3.699999999254942,
+            "transferSize": 26758,
+            "encodedBodySize": 26458,
+            "decodedBodySize": 26458,
+            "responseEnd": 44.5
+          },
+          {
+            "name": "http://127.0.0.1:41029/brand/mark.svg?site-release=ef97bd43ea3d8999dbf26e5707d467987a745bf961cac2b3163f94062d087ba7",
+            "initiatorType": "css",
+            "startTime": 45.80000000074506,
+            "duration": 3.100000001490116,
+            "transferSize": 1334,
+            "encodedBodySize": 1034,
+            "decodedBodySize": 1034,
+            "responseEnd": 48.900000002235174
+          },
+          {
+            "name": "http://127.0.0.1:41029/dependency-model.mjs?site-release=14af1552ef5b72df346782ea4c3d2a9e1fbeeeb89c9ec7421de6f63e4f8e7aff",
+            "initiatorType": "script",
+            "startTime": 141.90000000223517,
+            "duration": 4.300000000745058,
+            "transferSize": 16967,
+            "encodedBodySize": 16667,
+            "decodedBodySize": 16667,
+            "responseEnd": 146.20000000298023
+          },
+          {
+            "name": "http://127.0.0.1:41029/atlas-shell.mjs?site-release=a1bda1574f211055e42e6d2596319fb304f8f754927db6b4a430b81f8153421d",
+            "initiatorType": "script",
+            "startTime": 143.5,
+            "duration": 5.600000001490116,
+            "transferSize": 6367,
+            "encodedBodySize": 6067,
+            "decodedBodySize": 6067,
+            "responseEnd": 149.10000000149012
+          },
+          {
+            "name": "http://127.0.0.1:41029/atlas-claim-summary.mjs?site-release=f4f927b47229ad7c8ecb61eb7705f2f1937892d455ef80d1e212d1d6914d1f0d",
+            "initiatorType": "script",
+            "startTime": 143.60000000149012,
+            "duration": 5.399999998509884,
+            "transferSize": 4113,
+            "encodedBodySize": 3813,
+            "decodedBodySize": 3813,
+            "responseEnd": 149
+          },
+          {
+            "name": "http://127.0.0.1:41029/dependency-source/GRAPH.json",
+            "initiatorType": "fetch",
+            "startTime": 149.60000000149012,
+            "duration": 6.5,
+            "transferSize": 39053,
+            "encodedBodySize": 38753,
+            "decodedBodySize": 38753,
+            "responseEnd": 156.10000000149012
+          },
+          {
+            "name": "http://127.0.0.1:41029/dependency-source/PROVENANCE.json",
+            "initiatorType": "fetch",
+            "startTime": 149.90000000223517,
+            "duration": 6.899999998509884,
+            "transferSize": 1417,
+            "encodedBodySize": 1117,
+            "decodedBodySize": 1117,
+            "responseEnd": 156.80000000074506
+          },
+          {
+            "name": "http://127.0.0.1:41029/current.json",
+            "initiatorType": "fetch",
+            "startTime": 151.80000000074506,
+            "duration": 13.5,
+            "transferSize": 1392420,
+            "encodedBodySize": 1392120,
+            "decodedBodySize": 1392120,
+            "responseEnd": 165.30000000074506
+          },
+          {
+            "name": "http://127.0.0.1:41029/atlas-spatial-shell.mjs?site-release=c78e39a660ddf40b689f8ef39919b7f0a3281c9b9188e2b8557079967ce9daf6",
+            "initiatorType": "script",
+            "startTime": 152.90000000223517,
+            "duration": 8.5,
+            "transferSize": 9568,
+            "encodedBodySize": 9268,
+            "decodedBodySize": 9268,
+            "responseEnd": 161.40000000223517
+          },
+          {
+            "name": "http://127.0.0.1:41029/atlas-spatial-model.mjs?site-release=fd1120b32431cde3ebcfa63bbe5e191a0502b4f1a62a6869b90c196c3677372f",
+            "initiatorType": "script",
+            "startTime": 177.70000000298023,
+            "duration": 3.5,
+            "transferSize": 1789,
+            "encodedBodySize": 1489,
+            "decodedBodySize": 1489,
+            "responseEnd": 181.20000000298023
+          },
+          {
+            "name": "http://127.0.0.1:41029/node-status.json",
+            "initiatorType": "fetch",
+            "startTime": 218.5,
+            "duration": 2.5,
+            "transferSize": 6779,
+            "encodedBodySize": 6479,
+            "decodedBodySize": 6479,
+            "responseEnd": 221
+          },
+          {
+            "name": "http://127.0.0.1:41029/brand/mark.svg?site-release=ef97bd43ea3d8999dbf26e5707d467987a745bf961cac2b3163f94062d087ba7",
+            "initiatorType": "other",
+            "startTime": 284,
+            "duration": 0.9000000022351742,
+            "transferSize": 0,
+            "encodedBodySize": 1034,
+            "decodedBodySize": 1034,
+            "responseEnd": 284.9000000022352
+          }
+        ]
+      },
+      "load_metrics": {
+        "load_event_ms": 260.70000000298023,
+        "dom_content_loaded_ms": 218.80000000074506,
+        "resource_count": 21,
+        "resource_transfer_bytes": 1622131,
+        "resource_encoded_body_bytes": 1617165,
+        "resource_decoded_body_bytes": 1617165,
+        "document_transfer_bytes": 31141,
+        "document_encoded_body_bytes": 30841
+      },
+      "source": {
+        "href": "https://github.com/d6g8k5htny-coder/Math-/blob/b29c4b769cac85437b409d152651d5cce4140015/coefficients/side24_v1/PROOF.md",
+        "text": "Immutable source reference (document bytes not acquired by this graph view)",
+        "visible": true
+      },
+      "scope": {
+        "text": "coefficient calculation for SIDE24 d=2,3; persistence reading via reconciled parent Theorem C; no finite-radius band",
+        "visible": true
+      },
+      "formal_gap_text": "No verified graph-to-formal-artifact mapping is recorded in this source projection. Missing evidence remains unknown.",
+      "initial_signature": {
+        "selected": "math.side24-coefficient",
+        "source": "https://github.com/d6g8k5htny-coder/Math-/blob/b29c4b769cac85437b409d152651d5cce4140015/coefficients/side24_v1/PROOF.md",
+        "scope": "coefficient calculation for SIDE24 d=2,3; persistence reading via reconciled parent Theorem C; no finite-radius band",
+        "pins": {
+          "snapshot": [
+            "b29c4b769cac85437b409d152651d5cce4140015"
+          ],
+          "main-snapshot": [
+            "dd5f23f68be381726bcfb8df9ef86535594b04b9"
+          ],
+          "atlas-node": [
+            "math.side24-coefficient"
+          ]
+        }
+      },
+      "geometry_before": {
+        "inspector": {
+          "x": 739.046875,
+          "y": 316.40625,
+          "width": 416.953125,
+          "height": 1370.078125,
+          "top_relative_inspector": 0,
+          "left_relative_inspector": 0,
+          "viewport_intersects": true
+        },
+        "reader": {
+          "x": 731.046875,
+          "y": 248.84375,
+          "width": 432.953125,
+          "height": 1445.640625,
+          "top_relative_inspector": -67.5625,
+          "left_relative_inspector": -8,
+          "viewport_intersects": true
+        },
+        "source": {
+          "x": 757.640625,
+          "y": 581.265625,
+          "width": 379.765625,
+          "height": 51,
+          "top_relative_inspector": 264.859375,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "scope": {
+          "x": 757.640625,
+          "y": 489.765625,
+          "width": 379.765625,
+          "height": 76.5,
+          "top_relative_inspector": 173.359375,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "formal": {
+          "x": 757.640625,
+          "y": 733.640625,
+          "width": 379.765625,
+          "height": 190.921875,
+          "top_relative_inspector": 417.234375,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "formal_details": {
+          "x": 757.640625,
+          "y": 877.28125,
+          "width": 379.765625,
+          "height": 46.28125,
+          "top_relative_inspector": 560.875,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "formal_summary": {
+          "x": 757.640625,
+          "y": 877.28125,
+          "width": 379.765625,
+          "height": 46.28125,
+          "top_relative_inspector": 560.875,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "scroll": {
+          "x": 0,
+          "y": 81
+        },
+        "document_width": 1200,
+        "viewport_width": 1200
+      },
+      "geometry_reader_viewport": {
+        "inspector": {
+          "x": 739.046875,
+          "y": 24.40625,
+          "width": 416.953125,
+          "height": 1370.078125,
+          "top_relative_inspector": 0,
+          "left_relative_inspector": 0,
+          "viewport_intersects": true
+        },
+        "reader": {
+          "x": 731.046875,
+          "y": -43.15625,
+          "width": 432.953125,
+          "height": 1445.640625,
+          "top_relative_inspector": -67.5625,
+          "left_relative_inspector": -8,
+          "viewport_intersects": true
+        },
+        "source": {
+          "x": 757.640625,
+          "y": 289.265625,
+          "width": 379.765625,
+          "height": 51,
+          "top_relative_inspector": 264.859375,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "scope": {
+          "x": 757.640625,
+          "y": 197.765625,
+          "width": 379.765625,
+          "height": 76.5,
+          "top_relative_inspector": 173.359375,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "formal": {
+          "x": 757.640625,
+          "y": 441.640625,
+          "width": 379.765625,
+          "height": 190.921875,
+          "top_relative_inspector": 417.234375,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "formal_details": {
+          "x": 757.640625,
+          "y": 585.28125,
+          "width": 379.765625,
+          "height": 46.28125,
+          "top_relative_inspector": 560.875,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "formal_summary": {
+          "x": 757.640625,
+          "y": 585.28125,
+          "width": 379.765625,
+          "height": 46.28125,
+          "top_relative_inspector": 560.875,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "scroll": {
+          "x": 0,
+          "y": 373
+        },
+        "document_width": 1200,
+        "viewport_width": 1200
+      },
+      "formal_focus_before_enter": {
+        "tag": "SUMMARY",
+        "focused": true,
+        "outlineWidth": "3px",
+        "outlineStyle": "solid"
+      },
+      "geometry_focused_formal": {
+        "inspector": {
+          "x": 739.046875,
+          "y": 24.40625,
+          "width": 416.953125,
+          "height": 1370.078125,
+          "top_relative_inspector": 0,
+          "left_relative_inspector": 0,
+          "viewport_intersects": true
+        },
+        "reader": {
+          "x": 731.046875,
+          "y": -43.15625,
+          "width": 432.953125,
+          "height": 1445.640625,
+          "top_relative_inspector": -67.5625,
+          "left_relative_inspector": -8,
+          "viewport_intersects": true
+        },
+        "source": {
+          "x": 757.640625,
+          "y": 289.265625,
+          "width": 379.765625,
+          "height": 51,
+          "top_relative_inspector": 264.859375,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "scope": {
+          "x": 757.640625,
+          "y": 197.765625,
+          "width": 379.765625,
+          "height": 76.5,
+          "top_relative_inspector": 173.359375,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "formal": {
+          "x": 757.640625,
+          "y": 441.640625,
+          "width": 379.765625,
+          "height": 190.921875,
+          "top_relative_inspector": 417.234375,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "formal_details": {
+          "x": 757.640625,
+          "y": 585.28125,
+          "width": 379.765625,
+          "height": 46.28125,
+          "top_relative_inspector": 560.875,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "formal_summary": {
+          "x": 757.640625,
+          "y": 585.28125,
+          "width": 379.765625,
+          "height": 46.28125,
+          "top_relative_inspector": 560.875,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "scroll": {
+          "x": 0,
+          "y": 373
+        },
+        "document_width": 1200,
+        "viewport_width": 1200
+      },
+      "formal_enter_to_open_ms": 11.36489099735627,
+      "formal_fields": [
+        {
+          "name": "Acquisition",
+          "value": "Graph metadata and pinned file inventory; proof document bytes are not acquired by this graph view."
+        },
+        {
+          "name": "Mathematical review",
+          "value": "Recorded review fields retain their original scope; no formal alignment or scientific acceptance follows."
+        },
+        {
+          "name": "Declaration and hypotheses",
+          "value": "No mapped declaration or hypothesis record. Read the exact mathematical source and its scope."
+        },
+        {
+          "name": "Graph-source revision (formal artifact unmapped)",
+          "value": "d6g8k5htny-coder/Math- b29c4b769cac85437b409d152651d5cce4140015 \u00b7 frontiers/downstream_gate_20260925/GRAPH.json"
+        },
+        {
+          "name": "Checked execution",
+          "value": "No mapped trusted kernel-execution receipt. A green CI run alone does not establish coverage."
+        },
+        {
+          "name": "Alignment",
+          "value": "No mapped exact-source alignment review."
+        },
+        {
+          "name": "Scientific acceptance",
+          "value": "Unchanged; neither visualization nor formal execution promotes a claim."
+        }
+      ],
+      "formal_disclosure_text": "Inspect declaration, execution and alignment\nAcquisition\nGraph metadata and pinned file inventory; proof document bytes are not acquired by this graph view.\nMathematical review\nRecorded review fields retain their original scope; no formal alignment or scientific acceptance follows.\nDeclaration and hypotheses\nNo mapped declaration or hypothesis record. Read the exact mathematical source and its scope.\nGraph-source revision (formal artifact unmapped)\nd6g8k5htny-coder/Math- b29c4b769cac85437b409d152651d5cce4140015 \u00b7 frontiers/downstream_gate_20260925/GRAPH.json\nChecked execution\nNo mapped trusted kernel-execution receipt. A green CI run alone does not establish coverage.\nAlignment\nNo mapped exact-source alignment review.\nScientific acceptance\nUnchanged; neither visualization nor formal execution promotes a claim.\nExplore formal packages separately (unmapped)",
+      "formal_disclosure_links": [
+        {
+          "text": "d6g8k5htny-coder/main \u00b7 formal/ALIGNMENT.md \u00b7 dd5f23f6",
+          "href": "https://github.com/d6g8k5htny-coder/main/blob/dd5f23f68be381726bcfb8df9ef86535594b04b9/formal/ALIGNMENT.md"
+        },
+        {
+          "text": "d6g8k5htny-coder/main \u00b7 formal/SCOPE.md \u00b7 dd5f23f6",
+          "href": "https://github.com/d6g8k5htny-coder/main/blob/dd5f23f68be381726bcfb8df9ef86535594b04b9/formal/SCOPE.md"
+        },
+        {
+          "text": "d6g8k5htny-coder/main \u00b7 formal/manifest.json \u00b7 dd5f23f6",
+          "href": "https://github.com/d6g8k5htny-coder/main/blob/dd5f23f68be381726bcfb8df9ef86535594b04b9/formal/manifest.json"
+        },
+        {
+          "text": "d6g8k5htny-coder/Math- \u00b7 formal/SCOPE.md \u00b7 b29c4b76",
+          "href": "https://github.com/d6g8k5htny-coder/Math-/blob/b29c4b769cac85437b409d152651d5cce4140015/formal/SCOPE.md"
+        },
+        {
+          "text": "d6g8k5htny-coder/Math- \u00b7 formal/manifest.json \u00b7 b29c4b76",
+          "href": "https://github.com/d6g8k5htny-coder/Math-/blob/b29c4b769cac85437b409d152651d5cce4140015/formal/manifest.json"
+        }
+      ],
+      "geometry_expanded_formal": {
+        "inspector": {
+          "x": 739.046875,
+          "y": 24.40625,
+          "width": 416.953125,
+          "height": 2282.953125,
+          "top_relative_inspector": 0,
+          "left_relative_inspector": 0,
+          "viewport_intersects": true
+        },
+        "reader": {
+          "x": 731.046875,
+          "y": -43.15625,
+          "width": 432.953125,
+          "height": 2358.515625,
+          "top_relative_inspector": -67.5625,
+          "left_relative_inspector": -8,
+          "viewport_intersects": true
+        },
+        "source": {
+          "x": 757.640625,
+          "y": 289.265625,
+          "width": 379.765625,
+          "height": 51,
+          "top_relative_inspector": 264.859375,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "scope": {
+          "x": 757.640625,
+          "y": 197.765625,
+          "width": 379.765625,
+          "height": 76.5,
+          "top_relative_inspector": 173.359375,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "formal": {
+          "x": 757.640625,
+          "y": 441.640625,
+          "width": 379.765625,
+          "height": 1103.796875,
+          "top_relative_inspector": 417.234375,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "formal_details": {
+          "x": 757.640625,
+          "y": 585.28125,
+          "width": 379.765625,
+          "height": 959.15625,
+          "top_relative_inspector": 560.875,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "formal_summary": {
+          "x": 757.640625,
+          "y": 585.28125,
+          "width": 379.765625,
+          "height": 46.28125,
+          "top_relative_inspector": 560.875,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "scroll": {
+          "x": 0,
+          "y": 373
+        },
+        "document_width": 1200,
+        "viewport_width": 1200
+      },
+      "inspector_text": "math.side24-coefficient\n\nKind: candidate \u00b7 Classification: AUTHOR_SIDE_CANDIDATE \u00b7 D3\n\nRecorded scope\n\ncoefficient calculation for SIDE24 d=2,3; persistence reading via reconciled parent Theorem C; no finite-radius band\n\nImmutable source reference (document bytes not acquired by this graph view)\n\nd6g8k5htny-coder/Math- \u00b7 b29c4b76\n\nSource revision and blob\nFormal evidence for this claim\n\nNo verified graph-to-formal-artifact mapping is recorded in this source projection. Missing evidence remains unknown.\n\nInspect declaration, execution and alignment\nAcquisition\nGraph metadata and pinned file inventory; proof document bytes are not acquired by this graph view.\nMathematical review\nRecorded review fields retain their original scope; no formal alignment or scientific acceptance follows.\nDeclaration and hypotheses\nNo mapped declaration or hypothesis record. Read the exact mathematical source and its scope.\nGraph-source revision (formal artifact unmapped)\nd6g8k5htny-coder/Math- b29c4b769cac85437b409d152651d5cce4140015 \u00b7 frontiers/downstream_gate_20260925/GRAPH.json\nChecked execution\nNo mapped trusted kernel-execution receipt. A green CI run alone does not establish coverage.\nAlignment\nNo mapped exact-source alignment review.\nScientific acceptance\nUnchanged; neither visualization nor formal execution promotes a claim.\nExplore formal packages separately (unmapped)\n\nRead the preserved mathematical record \u2014 Opens the preserved mathematical record with its original source revisions and capture date.\n\nRead the static node record \u2014 The capture date and source revisions on that page may differ from this view.\n\nReview records and continuation\nConsumes\nmath.uniform-matrix-cap-lifetime\ncandidate \u00b7 PROVED_REVIEWED\nDownstream nodes \u00b7 all edges: 2 \u00b7 required edges: 2\n\nRequired \u00b7 evaluates_eq_15_2 \u00b7 math.side24-coefficient \u2192 math.uniform-matrix-cap-lifetime\n\nConsumed by\nNo direct relation recorded.\nRequired-edge routes to unresolved research targets\nComplete node metadata (inert text)",
+      "share_url": "http://127.0.0.1:41029/dependencies.html?atlas-node=math.side24-coefficient&atlas-view=list&snapshot=b29c4b769cac85437b409d152651d5cce4140015&main-snapshot=dd5f23f68be381726bcfb8df9ef86535594b04b9&atlas-expanded=math.side24-coefficient#current-atlas",
+      "history": {
+        "alternate_node": "math.uniform-matrix-cap-lifetime",
+        "back_forward_back": "completed"
+      },
+      "final_geometry": {
+        "inspector": {
+          "x": 739.046875,
+          "y": 316.40625,
+          "width": 416.953125,
+          "height": 1370.078125,
+          "top_relative_inspector": 0,
+          "left_relative_inspector": 0,
+          "viewport_intersects": true
+        },
+        "reader": {
+          "x": 731.046875,
+          "y": 248.84375,
+          "width": 432.953125,
+          "height": 1445.640625,
+          "top_relative_inspector": -67.5625,
+          "left_relative_inspector": -8,
+          "viewport_intersects": true
+        },
+        "source": {
+          "x": 757.640625,
+          "y": 581.265625,
+          "width": 379.765625,
+          "height": 51,
+          "top_relative_inspector": 264.859375,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "scope": {
+          "x": 757.640625,
+          "y": 489.765625,
+          "width": 379.765625,
+          "height": 76.5,
+          "top_relative_inspector": 173.359375,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "formal": {
+          "x": 757.640625,
+          "y": 733.640625,
+          "width": 379.765625,
+          "height": 190.921875,
+          "top_relative_inspector": 417.234375,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "formal_details": {
+          "x": 757.640625,
+          "y": 877.28125,
+          "width": 379.765625,
+          "height": 46.28125,
+          "top_relative_inspector": 560.875,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "formal_summary": {
+          "x": 757.640625,
+          "y": 877.28125,
+          "width": 379.765625,
+          "height": 46.28125,
+          "top_relative_inspector": 560.875,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "scroll": {
+          "x": 0,
+          "y": 81
+        },
+        "document_width": 1200,
+        "viewport_width": 1200
+      },
+      "final_url": "http://127.0.0.1:41029/dependencies.html?atlas-node=math.side24-coefficient&atlas-view=list&snapshot=b29c4b769cac85437b409d152651d5cce4140015&main-snapshot=dd5f23f68be381726bcfb8df9ef86535594b04b9&atlas-expanded=math.side24-coefficient#current-atlas",
+      "passed": true
+    },
+    {
+      "case": "1200x900-dark",
+      "viewport": {
+        "width": 1200,
+        "height": 900
+      },
+      "color_scheme": "dark",
+      "checks": [
+        {
+          "name": "full literal scope visible",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "immutable selected proof source visible",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "native formal disclosure initially closed",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "Graph/List same claim source scope and pins",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "same-claim layout retains formal disclosure",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "share link retains selected source pins",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "changed selection resets formal disclosure",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "native Back restores same claim source and pins",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "share navigation restores exact selection",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "reload restores exact selection",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "reload starts formal disclosure closed",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "no document overflow",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "no pageerrors",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "no failed application requests",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "no HTTP errors",
+          "passed": true,
+          "detail": null
+        }
+      ],
+      "failures": [],
+      "pageerrors": [],
+      "console_errors": [],
+      "failed_requests": [],
+      "http_errors": [],
+      "screenshots": {
+        "reader": "reader-1200x900-dark.png",
+        "full-inspector": "full-inspector-1200x900-dark.png",
+        "expanded-formal": "expanded-formal-1200x900-dark.png",
+        "expanded-formal-viewport": "expanded-formal-viewport-1200x900-dark.png"
+      },
+      "ready_ms": 319.9521030001051,
+      "initial_url": "http://127.0.0.1:41029/dependencies.html?atlas-node=math.side24-coefficient&atlas-view=graph&snapshot=b29c4b769cac85437b409d152651d5cce4140015&main-snapshot=dd5f23f68be381726bcfb8df9ef86535594b04b9#current-atlas",
+      "navigation_status": 200,
+      "performance_initial": {
+        "navigation": [
+          {
+            "name": "http://127.0.0.1:41029/dependencies.html?atlas-node=math.side24-coefficient&atlas-view=graph&snapshot=b29c4b769cac85437b409d152651d5cce4140015&main-snapshot=dd5f23f68be381726bcfb8df9ef86535594b04b9#current-atlas",
+            "entryType": "navigation",
+            "startTime": 0,
+            "duration": 251.5,
+            "navigationId": 4529,
+            "initiatorType": "navigation",
+            "deliveryType": "",
+            "nextHopProtocol": "http/1.0",
+            "renderBlockingStatus": "non-blocking",
+            "contentType": "text/html",
+            "contentEncoding": "",
+            "workerStart": 0,
+            "workerRouterEvaluationStart": 0,
+            "workerCacheLookupStart": 0,
+            "workerMatchedSourceType": "",
+            "workerFinalSourceType": "",
+            "redirectStart": 0,
+            "redirectEnd": 0,
+            "fetchStart": 0.5,
+            "domainLookupStart": 0.5,
+            "domainLookupEnd": 0.5,
+            "connectStart": 0.5,
+            "secureConnectionStart": 0,
+            "connectEnd": 0.5,
+            "requestStart": 2.600000001490116,
+            "responseStart": 4.700000002980232,
+            "firstInterimResponseStart": 0,
+            "finalResponseHeadersStart": 4.700000002980232,
+            "responseEnd": 4.900000002235174,
+            "transferSize": 31141,
+            "encodedBodySize": 30841,
+            "decodedBodySize": 30841,
+            "responseStatus": 200,
+            "serverTiming": [],
+            "unloadEventStart": 0,
+            "unloadEventEnd": 0,
+            "domInteractive": 30.600000001490116,
+            "domContentLoadedEventStart": 220.80000000074506,
+            "domContentLoadedEventEnd": 221,
+            "domComplete": 251.5,
+            "loadEventStart": 251.5,
+            "loadEventEnd": 251.5,
+            "type": "navigate",
+            "redirectCount": 0,
+            "activationStart": 0,
+            "criticalCHRestart": 0,
+            "notRestoredReasons": null,
+            "confidence": {
+              "randomizedTriggerRate": 0.4994798,
+              "value": "high"
+            }
+          }
+        ],
+        "resources": [
+          {
+            "name": "http://127.0.0.1:41029/style.css?site-release=6eb56e5c80ebf5811a77d0cb8583bf77dd8be44f170bebc9ae10721b2e6e9ab1",
+            "initiatorType": "link",
+            "startTime": 18.900000002235174,
+            "duration": 9.800000000745058,
+            "transferSize": 6224,
+            "encodedBodySize": 5924,
+            "decodedBodySize": 5924,
+            "responseEnd": 28.700000002980232
+          },
+          {
+            "name": "http://127.0.0.1:41029/brand.css?site-release=5394863b316a477063ff357fce9654bfb48c3190f6880a518ad95db5b888aad3",
+            "initiatorType": "link",
+            "startTime": 19.400000002235174,
+            "duration": 11.899999998509884,
+            "transferSize": 35805,
+            "encodedBodySize": 35505,
+            "decodedBodySize": 35505,
+            "responseEnd": 31.300000000745058
+          },
+          {
+            "name": "http://127.0.0.1:41029/dependencies.css?site-release=057ca4121356c0a263fa4b1ebcb86e525a33a4ee54c72ee2fee1b04f925f86b6",
+            "initiatorType": "link",
+            "startTime": 19.700000002980232,
+            "duration": 12.899999998509884,
+            "transferSize": 9225,
+            "encodedBodySize": 8925,
+            "decodedBodySize": 8925,
+            "responseEnd": 32.600000001490116
+          },
+          {
+            "name": "http://127.0.0.1:41029/dependencies.mjs?site-release=d82de31c97db5296160a3c715627c118eefa1057b34452f1678f1acf331e0e79",
+            "initiatorType": "script",
+            "startTime": 21.700000002980232,
+            "duration": 14.299999997019768,
+            "transferSize": 15425,
+            "encodedBodySize": 15125,
+            "decodedBodySize": 15125,
+            "responseEnd": 36
+          },
+          {
+            "name": "http://127.0.0.1:41029/current.css?site-release=9b70fee7f54345912905f33f4d15af39748b09c456bd88527b534cc9ceaae207",
+            "initiatorType": "link",
+            "startTime": 21.900000002235174,
+            "duration": 13.5,
+            "transferSize": 7824,
+            "encodedBodySize": 7524,
+            "decodedBodySize": 7524,
+            "responseEnd": 35.400000002235174
+          },
+          {
+            "name": "http://127.0.0.1:41029/atlas-layout.css?site-release=797d898025b4899262dc66519cc33b5330709053b141fc39c56ba1d7e2174d49",
+            "initiatorType": "link",
+            "startTime": 22,
+            "duration": 13.700000002980232,
+            "transferSize": 9200,
+            "encodedBodySize": 8900,
+            "decodedBodySize": 8900,
+            "responseEnd": 35.70000000298023
+          },
+          {
+            "name": "http://127.0.0.1:41029/atlas-spatial.css?site-release=232305d210598af0bfdfc651c51494ef0afecd57e72dde59dc588b95d477137f",
+            "initiatorType": "link",
+            "startTime": 22.100000001490116,
+            "duration": 13.300000000745058,
+            "transferSize": 2463,
+            "encodedBodySize": 2163,
+            "decodedBodySize": 2163,
+            "responseEnd": 35.400000002235174
+          },
+          {
+            "name": "http://127.0.0.1:41029/current.mjs?site-release=fc7e8a98c1e23f476962c4c83e95ed3ce817490007987112d9b2cf6d3d90b142",
+            "initiatorType": "script",
+            "startTime": 22.300000000745058,
+            "duration": 15.900000002235174,
+            "transferSize": 5116,
+            "encodedBodySize": 4816,
+            "decodedBodySize": 4816,
+            "responseEnd": 38.20000000298023
+          },
+          {
+            "name": "http://127.0.0.1:41029/atlas.mjs?site-release=d807f2f9895cb488ea1f3692f72d9a2c4ea2bfad07d837c60cec07d88bd7ff7f",
+            "initiatorType": "script",
+            "startTime": 22.400000002235174,
+            "duration": 16,
+            "transferSize": 24284,
+            "encodedBodySize": 23984,
+            "decodedBodySize": 23984,
+            "responseEnd": 38.400000002235174
+          },
+          {
+            "name": "http://127.0.0.1:41029/brand/mark.svg?site-release=ef97bd43ea3d8999dbf26e5707d467987a745bf961cac2b3163f94062d087ba7",
+            "initiatorType": "css",
+            "startTime": 40.80000000074506,
+            "duration": 2.699999999254942,
+            "transferSize": 1334,
+            "encodedBodySize": 1034,
+            "decodedBodySize": 1034,
+            "responseEnd": 43.5
+          },
+          {
+            "name": "http://127.0.0.1:41029/dependency-model.mjs?site-release=14af1552ef5b72df346782ea4c3d2a9e1fbeeeb89c9ec7421de6f63e4f8e7aff",
+            "initiatorType": "script",
+            "startTime": 126.30000000074506,
+            "duration": 8.100000001490116,
+            "transferSize": 16967,
+            "encodedBodySize": 16667,
+            "decodedBodySize": 16667,
+            "responseEnd": 134.40000000223517
+          },
+          {
+            "name": "http://127.0.0.1:41029/current-model.mjs?site-release=a30d68465e3acda48eedce64854afebc7af5c84903a4e6b0c649e08007b08999",
+            "initiatorType": "script",
+            "startTime": 126.5,
+            "duration": 8.5,
+            "transferSize": 26758,
+            "encodedBodySize": 26458,
+            "decodedBodySize": 26458,
+            "responseEnd": 135
+          },
+          {
+            "name": "http://127.0.0.1:41029/atlas-claim-summary.mjs?site-release=f4f927b47229ad7c8ecb61eb7705f2f1937892d455ef80d1e212d1d6914d1f0d",
+            "initiatorType": "script",
+            "startTime": 126.60000000149012,
+            "duration": 7.300000000745058,
+            "transferSize": 4113,
+            "encodedBodySize": 3813,
+            "decodedBodySize": 3813,
+            "responseEnd": 133.90000000223517
+          },
+          {
+            "name": "http://127.0.0.1:41029/atlas-shell.mjs?site-release=a1bda1574f211055e42e6d2596319fb304f8f754927db6b4a430b81f8153421d",
+            "initiatorType": "script",
+            "startTime": 126.60000000149012,
+            "duration": 8,
+            "transferSize": 6367,
+            "encodedBodySize": 6067,
+            "decodedBodySize": 6067,
+            "responseEnd": 134.60000000149012
+          },
+          {
+            "name": "http://127.0.0.1:41029/atlas-spatial-shell.mjs?site-release=c78e39a660ddf40b689f8ef39919b7f0a3281c9b9188e2b8557079967ce9daf6",
+            "initiatorType": "script",
+            "startTime": 138.5,
+            "duration": 12,
+            "transferSize": 9568,
+            "encodedBodySize": 9268,
+            "decodedBodySize": 9268,
+            "responseEnd": 150.5
+          },
+          {
+            "name": "http://127.0.0.1:41029/dependency-source/GRAPH.json",
+            "initiatorType": "fetch",
+            "startTime": 140.10000000149012,
+            "duration": 10.600000001490116,
+            "transferSize": 39053,
+            "encodedBodySize": 38753,
+            "decodedBodySize": 38753,
+            "responseEnd": 150.70000000298023
+          },
+          {
+            "name": "http://127.0.0.1:41029/dependency-source/PROVENANCE.json",
+            "initiatorType": "fetch",
+            "startTime": 140.20000000298023,
+            "duration": 10,
+            "transferSize": 1417,
+            "encodedBodySize": 1117,
+            "decodedBodySize": 1117,
+            "responseEnd": 150.20000000298023
+          },
+          {
+            "name": "http://127.0.0.1:41029/current.json",
+            "initiatorType": "fetch",
+            "startTime": 142.90000000223517,
+            "duration": 11.599999997764826,
+            "transferSize": 1392420,
+            "encodedBodySize": 1392120,
+            "decodedBodySize": 1392120,
+            "responseEnd": 154.5
+          },
+          {
+            "name": "http://127.0.0.1:41029/atlas-spatial-model.mjs?site-release=fd1120b32431cde3ebcfa63bbe5e191a0502b4f1a62a6869b90c196c3677372f",
+            "initiatorType": "script",
+            "startTime": 159,
+            "duration": 3.2000000029802322,
+            "transferSize": 1789,
+            "encodedBodySize": 1489,
+            "decodedBodySize": 1489,
+            "responseEnd": 162.20000000298023
+          },
+          {
+            "name": "http://127.0.0.1:41029/node-status.json",
+            "initiatorType": "fetch",
+            "startTime": 220.80000000074506,
+            "duration": 4,
+            "transferSize": 6779,
+            "encodedBodySize": 6479,
+            "decodedBodySize": 6479,
+            "responseEnd": 224.80000000074506
+          },
+          {
+            "name": "http://127.0.0.1:41029/brand/mark.svg?site-release=ef97bd43ea3d8999dbf26e5707d467987a745bf961cac2b3163f94062d087ba7",
+            "initiatorType": "other",
+            "startTime": 258.4000000022352,
+            "duration": 1.3999999985098839,
+            "transferSize": 0,
+            "encodedBodySize": 1034,
+            "decodedBodySize": 1034,
+            "responseEnd": 259.80000000074506
+          }
+        ]
+      },
+      "load_metrics": {
+        "load_event_ms": 251.5,
+        "dom_content_loaded_ms": 221,
+        "resource_count": 21,
+        "resource_transfer_bytes": 1622131,
+        "resource_encoded_body_bytes": 1617165,
+        "resource_decoded_body_bytes": 1617165,
+        "document_transfer_bytes": 31141,
+        "document_encoded_body_bytes": 30841
+      },
+      "source": {
+        "href": "https://github.com/d6g8k5htny-coder/Math-/blob/b29c4b769cac85437b409d152651d5cce4140015/coefficients/side24_v1/PROOF.md",
+        "text": "Immutable source reference (document bytes not acquired by this graph view)",
+        "visible": true
+      },
+      "scope": {
+        "text": "coefficient calculation for SIDE24 d=2,3; persistence reading via reconciled parent Theorem C; no finite-radius band",
+        "visible": true
+      },
+      "formal_gap_text": "No verified graph-to-formal-artifact mapping is recorded in this source projection. Missing evidence remains unknown.",
+      "initial_signature": {
+        "selected": "math.side24-coefficient",
+        "source": "https://github.com/d6g8k5htny-coder/Math-/blob/b29c4b769cac85437b409d152651d5cce4140015/coefficients/side24_v1/PROOF.md",
+        "scope": "coefficient calculation for SIDE24 d=2,3; persistence reading via reconciled parent Theorem C; no finite-radius band",
+        "pins": {
+          "snapshot": [
+            "b29c4b769cac85437b409d152651d5cce4140015"
+          ],
+          "main-snapshot": [
+            "dd5f23f68be381726bcfb8df9ef86535594b04b9"
+          ],
+          "atlas-node": [
+            "math.side24-coefficient"
+          ]
+        }
+      },
+      "geometry_before": {
+        "inspector": {
+          "x": 739.046875,
+          "y": 316.40625,
+          "width": 416.953125,
+          "height": 1370.078125,
+          "top_relative_inspector": 0,
+          "left_relative_inspector": 0,
+          "viewport_intersects": true
+        },
+        "reader": {
+          "x": 731.046875,
+          "y": 248.84375,
+          "width": 432.953125,
+          "height": 1445.640625,
+          "top_relative_inspector": -67.5625,
+          "left_relative_inspector": -8,
+          "viewport_intersects": true
+        },
+        "source": {
+          "x": 757.640625,
+          "y": 581.265625,
+          "width": 379.765625,
+          "height": 51,
+          "top_relative_inspector": 264.859375,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "scope": {
+          "x": 757.640625,
+          "y": 489.765625,
+          "width": 379.765625,
+          "height": 76.5,
+          "top_relative_inspector": 173.359375,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "formal": {
+          "x": 757.640625,
+          "y": 733.640625,
+          "width": 379.765625,
+          "height": 190.921875,
+          "top_relative_inspector": 417.234375,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "formal_details": {
+          "x": 757.640625,
+          "y": 877.28125,
+          "width": 379.765625,
+          "height": 46.28125,
+          "top_relative_inspector": 560.875,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "formal_summary": {
+          "x": 757.640625,
+          "y": 877.28125,
+          "width": 379.765625,
+          "height": 46.28125,
+          "top_relative_inspector": 560.875,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "scroll": {
+          "x": 0,
+          "y": 81
+        },
+        "document_width": 1200,
+        "viewport_width": 1200
+      },
+      "geometry_reader_viewport": {
+        "inspector": {
+          "x": 739.046875,
+          "y": 24.40625,
+          "width": 416.953125,
+          "height": 1370.078125,
+          "top_relative_inspector": 0,
+          "left_relative_inspector": 0,
+          "viewport_intersects": true
+        },
+        "reader": {
+          "x": 731.046875,
+          "y": -43.15625,
+          "width": 432.953125,
+          "height": 1445.640625,
+          "top_relative_inspector": -67.5625,
+          "left_relative_inspector": -8,
+          "viewport_intersects": true
+        },
+        "source": {
+          "x": 757.640625,
+          "y": 289.265625,
+          "width": 379.765625,
+          "height": 51,
+          "top_relative_inspector": 264.859375,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "scope": {
+          "x": 757.640625,
+          "y": 197.765625,
+          "width": 379.765625,
+          "height": 76.5,
+          "top_relative_inspector": 173.359375,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "formal": {
+          "x": 757.640625,
+          "y": 441.640625,
+          "width": 379.765625,
+          "height": 190.921875,
+          "top_relative_inspector": 417.234375,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "formal_details": {
+          "x": 757.640625,
+          "y": 585.28125,
+          "width": 379.765625,
+          "height": 46.28125,
+          "top_relative_inspector": 560.875,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "formal_summary": {
+          "x": 757.640625,
+          "y": 585.28125,
+          "width": 379.765625,
+          "height": 46.28125,
+          "top_relative_inspector": 560.875,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "scroll": {
+          "x": 0,
+          "y": 373
+        },
+        "document_width": 1200,
+        "viewport_width": 1200
+      },
+      "formal_focus_before_enter": {
+        "tag": "SUMMARY",
+        "focused": true,
+        "outlineWidth": "3px",
+        "outlineStyle": "solid"
+      },
+      "geometry_focused_formal": {
+        "inspector": {
+          "x": 739.046875,
+          "y": 24.40625,
+          "width": 416.953125,
+          "height": 1370.078125,
+          "top_relative_inspector": 0,
+          "left_relative_inspector": 0,
+          "viewport_intersects": true
+        },
+        "reader": {
+          "x": 731.046875,
+          "y": -43.15625,
+          "width": 432.953125,
+          "height": 1445.640625,
+          "top_relative_inspector": -67.5625,
+          "left_relative_inspector": -8,
+          "viewport_intersects": true
+        },
+        "source": {
+          "x": 757.640625,
+          "y": 289.265625,
+          "width": 379.765625,
+          "height": 51,
+          "top_relative_inspector": 264.859375,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "scope": {
+          "x": 757.640625,
+          "y": 197.765625,
+          "width": 379.765625,
+          "height": 76.5,
+          "top_relative_inspector": 173.359375,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "formal": {
+          "x": 757.640625,
+          "y": 441.640625,
+          "width": 379.765625,
+          "height": 190.921875,
+          "top_relative_inspector": 417.234375,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "formal_details": {
+          "x": 757.640625,
+          "y": 585.28125,
+          "width": 379.765625,
+          "height": 46.28125,
+          "top_relative_inspector": 560.875,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "formal_summary": {
+          "x": 757.640625,
+          "y": 585.28125,
+          "width": 379.765625,
+          "height": 46.28125,
+          "top_relative_inspector": 560.875,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "scroll": {
+          "x": 0,
+          "y": 373
+        },
+        "document_width": 1200,
+        "viewport_width": 1200
+      },
+      "formal_enter_to_open_ms": 7.487992999813287,
+      "formal_fields": [
+        {
+          "name": "Acquisition",
+          "value": "Graph metadata and pinned file inventory; proof document bytes are not acquired by this graph view."
+        },
+        {
+          "name": "Mathematical review",
+          "value": "Recorded review fields retain their original scope; no formal alignment or scientific acceptance follows."
+        },
+        {
+          "name": "Declaration and hypotheses",
+          "value": "No mapped declaration or hypothesis record. Read the exact mathematical source and its scope."
+        },
+        {
+          "name": "Graph-source revision (formal artifact unmapped)",
+          "value": "d6g8k5htny-coder/Math- b29c4b769cac85437b409d152651d5cce4140015 \u00b7 frontiers/downstream_gate_20260925/GRAPH.json"
+        },
+        {
+          "name": "Checked execution",
+          "value": "No mapped trusted kernel-execution receipt. A green CI run alone does not establish coverage."
+        },
+        {
+          "name": "Alignment",
+          "value": "No mapped exact-source alignment review."
+        },
+        {
+          "name": "Scientific acceptance",
+          "value": "Unchanged; neither visualization nor formal execution promotes a claim."
+        }
+      ],
+      "formal_disclosure_text": "Inspect declaration, execution and alignment\nAcquisition\nGraph metadata and pinned file inventory; proof document bytes are not acquired by this graph view.\nMathematical review\nRecorded review fields retain their original scope; no formal alignment or scientific acceptance follows.\nDeclaration and hypotheses\nNo mapped declaration or hypothesis record. Read the exact mathematical source and its scope.\nGraph-source revision (formal artifact unmapped)\nd6g8k5htny-coder/Math- b29c4b769cac85437b409d152651d5cce4140015 \u00b7 frontiers/downstream_gate_20260925/GRAPH.json\nChecked execution\nNo mapped trusted kernel-execution receipt. A green CI run alone does not establish coverage.\nAlignment\nNo mapped exact-source alignment review.\nScientific acceptance\nUnchanged; neither visualization nor formal execution promotes a claim.\nExplore formal packages separately (unmapped)",
+      "formal_disclosure_links": [
+        {
+          "text": "d6g8k5htny-coder/main \u00b7 formal/ALIGNMENT.md \u00b7 dd5f23f6",
+          "href": "https://github.com/d6g8k5htny-coder/main/blob/dd5f23f68be381726bcfb8df9ef86535594b04b9/formal/ALIGNMENT.md"
+        },
+        {
+          "text": "d6g8k5htny-coder/main \u00b7 formal/SCOPE.md \u00b7 dd5f23f6",
+          "href": "https://github.com/d6g8k5htny-coder/main/blob/dd5f23f68be381726bcfb8df9ef86535594b04b9/formal/SCOPE.md"
+        },
+        {
+          "text": "d6g8k5htny-coder/main \u00b7 formal/manifest.json \u00b7 dd5f23f6",
+          "href": "https://github.com/d6g8k5htny-coder/main/blob/dd5f23f68be381726bcfb8df9ef86535594b04b9/formal/manifest.json"
+        },
+        {
+          "text": "d6g8k5htny-coder/Math- \u00b7 formal/SCOPE.md \u00b7 b29c4b76",
+          "href": "https://github.com/d6g8k5htny-coder/Math-/blob/b29c4b769cac85437b409d152651d5cce4140015/formal/SCOPE.md"
+        },
+        {
+          "text": "d6g8k5htny-coder/Math- \u00b7 formal/manifest.json \u00b7 b29c4b76",
+          "href": "https://github.com/d6g8k5htny-coder/Math-/blob/b29c4b769cac85437b409d152651d5cce4140015/formal/manifest.json"
+        }
+      ],
+      "geometry_expanded_formal": {
+        "inspector": {
+          "x": 739.046875,
+          "y": 24.40625,
+          "width": 416.953125,
+          "height": 2282.953125,
+          "top_relative_inspector": 0,
+          "left_relative_inspector": 0,
+          "viewport_intersects": true
+        },
+        "reader": {
+          "x": 731.046875,
+          "y": -43.15625,
+          "width": 432.953125,
+          "height": 2358.515625,
+          "top_relative_inspector": -67.5625,
+          "left_relative_inspector": -8,
+          "viewport_intersects": true
+        },
+        "source": {
+          "x": 757.640625,
+          "y": 289.265625,
+          "width": 379.765625,
+          "height": 51,
+          "top_relative_inspector": 264.859375,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "scope": {
+          "x": 757.640625,
+          "y": 197.765625,
+          "width": 379.765625,
+          "height": 76.5,
+          "top_relative_inspector": 173.359375,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "formal": {
+          "x": 757.640625,
+          "y": 441.640625,
+          "width": 379.765625,
+          "height": 1103.796875,
+          "top_relative_inspector": 417.234375,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "formal_details": {
+          "x": 757.640625,
+          "y": 585.28125,
+          "width": 379.765625,
+          "height": 959.15625,
+          "top_relative_inspector": 560.875,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "formal_summary": {
+          "x": 757.640625,
+          "y": 585.28125,
+          "width": 379.765625,
+          "height": 46.28125,
+          "top_relative_inspector": 560.875,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "scroll": {
+          "x": 0,
+          "y": 373
+        },
+        "document_width": 1200,
+        "viewport_width": 1200
+      },
+      "inspector_text": "math.side24-coefficient\n\nKind: candidate \u00b7 Classification: AUTHOR_SIDE_CANDIDATE \u00b7 D3\n\nRecorded scope\n\ncoefficient calculation for SIDE24 d=2,3; persistence reading via reconciled parent Theorem C; no finite-radius band\n\nImmutable source reference (document bytes not acquired by this graph view)\n\nd6g8k5htny-coder/Math- \u00b7 b29c4b76\n\nSource revision and blob\nFormal evidence for this claim\n\nNo verified graph-to-formal-artifact mapping is recorded in this source projection. Missing evidence remains unknown.\n\nInspect declaration, execution and alignment\nAcquisition\nGraph metadata and pinned file inventory; proof document bytes are not acquired by this graph view.\nMathematical review\nRecorded review fields retain their original scope; no formal alignment or scientific acceptance follows.\nDeclaration and hypotheses\nNo mapped declaration or hypothesis record. Read the exact mathematical source and its scope.\nGraph-source revision (formal artifact unmapped)\nd6g8k5htny-coder/Math- b29c4b769cac85437b409d152651d5cce4140015 \u00b7 frontiers/downstream_gate_20260925/GRAPH.json\nChecked execution\nNo mapped trusted kernel-execution receipt. A green CI run alone does not establish coverage.\nAlignment\nNo mapped exact-source alignment review.\nScientific acceptance\nUnchanged; neither visualization nor formal execution promotes a claim.\nExplore formal packages separately (unmapped)\n\nRead the preserved mathematical record \u2014 Opens the preserved mathematical record with its original source revisions and capture date.\n\nRead the static node record \u2014 The capture date and source revisions on that page may differ from this view.\n\nReview records and continuation\nConsumes\nmath.uniform-matrix-cap-lifetime\ncandidate \u00b7 PROVED_REVIEWED\nDownstream nodes \u00b7 all edges: 2 \u00b7 required edges: 2\n\nRequired \u00b7 evaluates_eq_15_2 \u00b7 math.side24-coefficient \u2192 math.uniform-matrix-cap-lifetime\n\nConsumed by\nNo direct relation recorded.\nRequired-edge routes to unresolved research targets\nComplete node metadata (inert text)",
+      "share_url": "http://127.0.0.1:41029/dependencies.html?atlas-node=math.side24-coefficient&atlas-view=list&snapshot=b29c4b769cac85437b409d152651d5cce4140015&main-snapshot=dd5f23f68be381726bcfb8df9ef86535594b04b9&atlas-expanded=math.side24-coefficient#current-atlas",
+      "history": {
+        "alternate_node": "math.uniform-matrix-cap-lifetime",
+        "back_forward_back": "completed"
+      },
+      "final_geometry": {
+        "inspector": {
+          "x": 739.046875,
+          "y": 316.40625,
+          "width": 416.953125,
+          "height": 1370.078125,
+          "top_relative_inspector": 0,
+          "left_relative_inspector": 0,
+          "viewport_intersects": true
+        },
+        "reader": {
+          "x": 731.046875,
+          "y": 248.84375,
+          "width": 432.953125,
+          "height": 1445.640625,
+          "top_relative_inspector": -67.5625,
+          "left_relative_inspector": -8,
+          "viewport_intersects": true
+        },
+        "source": {
+          "x": 757.640625,
+          "y": 581.265625,
+          "width": 379.765625,
+          "height": 51,
+          "top_relative_inspector": 264.859375,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "scope": {
+          "x": 757.640625,
+          "y": 489.765625,
+          "width": 379.765625,
+          "height": 76.5,
+          "top_relative_inspector": 173.359375,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "formal": {
+          "x": 757.640625,
+          "y": 733.640625,
+          "width": 379.765625,
+          "height": 190.921875,
+          "top_relative_inspector": 417.234375,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "formal_details": {
+          "x": 757.640625,
+          "y": 877.28125,
+          "width": 379.765625,
+          "height": 46.28125,
+          "top_relative_inspector": 560.875,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "formal_summary": {
+          "x": 757.640625,
+          "y": 877.28125,
+          "width": 379.765625,
+          "height": 46.28125,
+          "top_relative_inspector": 560.875,
+          "left_relative_inspector": 18.59375,
+          "viewport_intersects": true
+        },
+        "scroll": {
+          "x": 0,
+          "y": 81
+        },
+        "document_width": 1200,
+        "viewport_width": 1200
+      },
+      "final_url": "http://127.0.0.1:41029/dependencies.html?atlas-node=math.side24-coefficient&atlas-view=list&snapshot=b29c4b769cac85437b409d152651d5cce4140015&main-snapshot=dd5f23f68be381726bcfb8df9ef86535594b04b9&atlas-expanded=math.side24-coefficient#current-atlas",
+      "passed": true
+    },
+    {
+      "case": "390x844-light",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "color_scheme": "light",
+      "checks": [
+        {
+          "name": "full literal scope visible",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "immutable selected proof source visible",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "native formal disclosure initially closed",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "Graph/List same claim source scope and pins",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "same-claim layout retains formal disclosure",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "share link retains selected source pins",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "changed selection resets formal disclosure",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "native Back restores same claim source and pins",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "share navigation restores exact selection",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "reload restores exact selection",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "reload starts formal disclosure closed",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "no document overflow",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "no pageerrors",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "no failed application requests",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "no HTTP errors",
+          "passed": true,
+          "detail": null
+        }
+      ],
+      "failures": [],
+      "pageerrors": [],
+      "console_errors": [],
+      "failed_requests": [],
+      "http_errors": [],
+      "screenshots": {
+        "reader": "reader-390x844-light.png",
+        "full-inspector": "full-inspector-390x844-light.png",
+        "expanded-formal": "expanded-formal-390x844-light.png",
+        "expanded-formal-viewport": "expanded-formal-viewport-390x844-light.png"
+      },
+      "ready_ms": 380.4528989967366,
+      "initial_url": "http://127.0.0.1:41029/dependencies.html?atlas-node=math.side24-coefficient&atlas-view=graph&snapshot=b29c4b769cac85437b409d152651d5cce4140015&main-snapshot=dd5f23f68be381726bcfb8df9ef86535594b04b9#current-atlas",
+      "navigation_status": 200,
+      "performance_initial": {
+        "navigation": [
+          {
+            "name": "http://127.0.0.1:41029/dependencies.html?atlas-node=math.side24-coefficient&atlas-view=graph&snapshot=b29c4b769cac85437b409d152651d5cce4140015&main-snapshot=dd5f23f68be381726bcfb8df9ef86535594b04b9#current-atlas",
+            "entryType": "navigation",
+            "startTime": 0,
+            "duration": 312,
+            "navigationId": 5221,
+            "initiatorType": "navigation",
+            "deliveryType": "",
+            "nextHopProtocol": "http/1.0",
+            "renderBlockingStatus": "non-blocking",
+            "contentType": "text/html",
+            "contentEncoding": "",
+            "workerStart": 0,
+            "workerRouterEvaluationStart": 0,
+            "workerCacheLookupStart": 0,
+            "workerMatchedSourceType": "",
+            "workerFinalSourceType": "",
+            "redirectStart": 0,
+            "redirectEnd": 0,
+            "fetchStart": 0.5,
+            "domainLookupStart": 0.5,
+            "domainLookupEnd": 0.5,
+            "connectStart": 0.5,
+            "secureConnectionStart": 0,
+            "connectEnd": 0.5,
+            "requestStart": 4.199999999254942,
+            "responseStart": 6.300000000745058,
+            "firstInterimResponseStart": 0,
+            "finalResponseHeadersStart": 6.300000000745058,
+            "responseEnd": 6.899999998509884,
+            "transferSize": 31141,
+            "encodedBodySize": 30841,
+            "decodedBodySize": 30841,
+            "responseStatus": 200,
+            "serverTiming": [],
+            "unloadEventStart": 0,
+            "unloadEventEnd": 0,
+            "domInteractive": 30.800000000745058,
+            "domContentLoadedEventStart": 267,
+            "domContentLoadedEventEnd": 267.0999999977648,
+            "domComplete": 311.8999999985099,
+            "loadEventStart": 312,
+            "loadEventEnd": 312,
+            "type": "navigate",
+            "redirectCount": 0,
+            "activationStart": 0,
+            "criticalCHRestart": 0,
+            "notRestoredReasons": null,
+            "confidence": {
+              "randomizedTriggerRate": 0.4994798,
+              "value": "low"
+            }
+          }
+        ],
+        "resources": [
+          {
+            "name": "http://127.0.0.1:41029/style.css?site-release=6eb56e5c80ebf5811a77d0cb8583bf77dd8be44f170bebc9ae10721b2e6e9ab1",
+            "initiatorType": "link",
+            "startTime": 25.300000000745058,
+            "duration": 19.899999998509884,
+            "transferSize": 6224,
+            "encodedBodySize": 5924,
+            "decodedBodySize": 5924,
+            "responseEnd": 45.19999999925494
+          },
+          {
+            "name": "http://127.0.0.1:41029/brand.css?site-release=5394863b316a477063ff357fce9654bfb48c3190f6880a518ad95db5b888aad3",
+            "initiatorType": "link",
+            "startTime": 25.800000000745058,
+            "duration": 18.799999997019768,
+            "transferSize": 35805,
+            "encodedBodySize": 35505,
+            "decodedBodySize": 35505,
+            "responseEnd": 44.599999997764826
+          },
+          {
+            "name": "http://127.0.0.1:41029/dependencies.css?site-release=057ca4121356c0a263fa4b1ebcb86e525a33a4ee54c72ee2fee1b04f925f86b6",
+            "initiatorType": "link",
+            "startTime": 25.800000000745058,
+            "duration": 18.899999998509884,
+            "transferSize": 9225,
+            "encodedBodySize": 8925,
+            "decodedBodySize": 8925,
+            "responseEnd": 44.69999999925494
+          },
+          {
+            "name": "http://127.0.0.1:41029/dependencies.mjs?site-release=d82de31c97db5296160a3c715627c118eefa1057b34452f1678f1acf331e0e79",
+            "initiatorType": "script",
+            "startTime": 27,
+            "duration": 25.399999998509884,
+            "transferSize": 15425,
+            "encodedBodySize": 15125,
+            "decodedBodySize": 15125,
+            "responseEnd": 52.399999998509884
+          },
+          {
+            "name": "http://127.0.0.1:41029/current.css?site-release=9b70fee7f54345912905f33f4d15af39748b09c456bd88527b534cc9ceaae207",
+            "initiatorType": "link",
+            "startTime": 27.199999999254942,
+            "duration": 16.899999998509884,
+            "transferSize": 7824,
+            "encodedBodySize": 7524,
+            "decodedBodySize": 7524,
+            "responseEnd": 44.099999997764826
+          },
+          {
+            "name": "http://127.0.0.1:41029/atlas-spatial.css?site-release=232305d210598af0bfdfc651c51494ef0afecd57e72dde59dc588b95d477137f",
+            "initiatorType": "link",
+            "startTime": 27.300000000745058,
+            "duration": 16,
+            "transferSize": 2463,
+            "encodedBodySize": 2163,
+            "decodedBodySize": 2163,
+            "responseEnd": 43.30000000074506
+          },
+          {
+            "name": "http://127.0.0.1:41029/atlas-layout.css?site-release=797d898025b4899262dc66519cc33b5330709053b141fc39c56ba1d7e2174d49",
+            "initiatorType": "link",
+            "startTime": 27.300000000745058,
+            "duration": 17.599999997764826,
+            "transferSize": 9200,
+            "encodedBodySize": 8900,
+            "decodedBodySize": 8900,
+            "responseEnd": 44.899999998509884
+          },
+          {
+            "name": "http://127.0.0.1:41029/current.mjs?site-release=fc7e8a98c1e23f476962c4c83e95ed3ce817490007987112d9b2cf6d3d90b142",
+            "initiatorType": "script",
+            "startTime": 27.399999998509884,
+            "duration": 24.800000000745058,
+            "transferSize": 5116,
+            "encodedBodySize": 4816,
+            "decodedBodySize": 4816,
+            "responseEnd": 52.19999999925494
+          },
+          {
+            "name": "http://127.0.0.1:41029/atlas.mjs?site-release=d807f2f9895cb488ea1f3692f72d9a2c4ea2bfad07d837c60cec07d88bd7ff7f",
+            "initiatorType": "script",
+            "startTime": 27.5,
+            "duration": 25.099999997764826,
+            "transferSize": 24284,
+            "encodedBodySize": 23984,
+            "decodedBodySize": 23984,
+            "responseEnd": 52.599999997764826
+          },
+          {
+            "name": "http://127.0.0.1:41029/brand/mark.svg?site-release=ef97bd43ea3d8999dbf26e5707d467987a745bf961cac2b3163f94062d087ba7",
+            "initiatorType": "css",
+            "startTime": 54.30000000074506,
+            "duration": 2.699999999254942,
+            "transferSize": 1334,
+            "encodedBodySize": 1034,
+            "decodedBodySize": 1034,
+            "responseEnd": 57
+          },
+          {
+            "name": "http://127.0.0.1:41029/current-model.mjs?site-release=a30d68465e3acda48eedce64854afebc7af5c84903a4e6b0c649e08007b08999",
+            "initiatorType": "script",
+            "startTime": 156.30000000074506,
+            "duration": 5.699999999254942,
+            "transferSize": 26758,
+            "encodedBodySize": 26458,
+            "decodedBodySize": 26458,
+            "responseEnd": 162
+          },
+          {
+            "name": "http://127.0.0.1:41029/dependency-model.mjs?site-release=14af1552ef5b72df346782ea4c3d2a9e1fbeeeb89c9ec7421de6f63e4f8e7aff",
+            "initiatorType": "script",
+            "startTime": 156.59999999776483,
+            "duration": 7.900000002235174,
+            "transferSize": 16967,
+            "encodedBodySize": 16667,
+            "decodedBodySize": 16667,
+            "responseEnd": 164.5
+          },
+          {
+            "name": "http://127.0.0.1:41029/atlas-shell.mjs?site-release=a1bda1574f211055e42e6d2596319fb304f8f754927db6b4a430b81f8153421d",
+            "initiatorType": "script",
+            "startTime": 156.69999999925494,
+            "duration": 6.399999998509884,
+            "transferSize": 6367,
+            "encodedBodySize": 6067,
+            "decodedBodySize": 6067,
+            "responseEnd": 163.09999999776483
+          },
+          {
+            "name": "http://127.0.0.1:41029/atlas-claim-summary.mjs?site-release=f4f927b47229ad7c8ecb61eb7705f2f1937892d455ef80d1e212d1d6914d1f0d",
+            "initiatorType": "script",
+            "startTime": 156.80000000074506,
+            "duration": 7.799999997019768,
+            "transferSize": 4113,
+            "encodedBodySize": 3813,
+            "decodedBodySize": 3813,
+            "responseEnd": 164.59999999776483
+          },
+          {
+            "name": "http://127.0.0.1:41029/atlas-spatial-shell.mjs?site-release=c78e39a660ddf40b689f8ef39919b7f0a3281c9b9188e2b8557079967ce9daf6",
+            "initiatorType": "script",
+            "startTime": 166.59999999776483,
+            "duration": 1.7000000029802322,
+            "transferSize": 9568,
+            "encodedBodySize": 9268,
+            "decodedBodySize": 9268,
+            "responseEnd": 168.30000000074506
+          },
+          {
+            "name": "http://127.0.0.1:41029/dependency-source/GRAPH.json",
+            "initiatorType": "fetch",
+            "startTime": 167.89999999850988,
+            "duration": 5.199999999254942,
+            "transferSize": 39053,
+            "encodedBodySize": 38753,
+            "decodedBodySize": 38753,
+            "responseEnd": 173.09999999776483
+          },
+          {
+            "name": "http://127.0.0.1:41029/dependency-source/PROVENANCE.json",
+            "initiatorType": "fetch",
+            "startTime": 168,
+            "duration": 4,
+            "transferSize": 1417,
+            "encodedBodySize": 1117,
+            "decodedBodySize": 1117,
+            "responseEnd": 172
+          },
+          {
+            "name": "http://127.0.0.1:41029/current.json",
+            "initiatorType": "fetch",
+            "startTime": 169.5,
+            "duration": 6.599999997764826,
+            "transferSize": 1392420,
+            "encodedBodySize": 1392120,
+            "decodedBodySize": 1392120,
+            "responseEnd": 176.09999999776483
+          },
+          {
+            "name": "http://127.0.0.1:41029/atlas-spatial-model.mjs?site-release=fd1120b32431cde3ebcfa63bbe5e191a0502b4f1a62a6869b90c196c3677372f",
+            "initiatorType": "script",
+            "startTime": 177.09999999776483,
+            "duration": 3.800000000745058,
+            "transferSize": 1789,
+            "encodedBodySize": 1489,
+            "decodedBodySize": 1489,
+            "responseEnd": 180.89999999850988
+          },
+          {
+            "name": "http://127.0.0.1:41029/node-status.json",
+            "initiatorType": "fetch",
+            "startTime": 266.69999999925494,
+            "duration": 8.399999998509884,
+            "transferSize": 6779,
+            "encodedBodySize": 6479,
+            "decodedBodySize": 6479,
+            "responseEnd": 275.0999999977648
+          },
+          {
+            "name": "http://127.0.0.1:41029/brand/mark.svg?site-release=ef97bd43ea3d8999dbf26e5707d467987a745bf961cac2b3163f94062d087ba7",
+            "initiatorType": "other",
+            "startTime": 318,
+            "duration": 0.6999999992549419,
+            "transferSize": 0,
+            "encodedBodySize": 1034,
+            "decodedBodySize": 1034,
+            "responseEnd": 318.69999999925494
+          }
+        ]
+      },
+      "load_metrics": {
+        "load_event_ms": 312,
+        "dom_content_loaded_ms": 267.0999999977648,
+        "resource_count": 21,
+        "resource_transfer_bytes": 1622131,
+        "resource_encoded_body_bytes": 1617165,
+        "resource_decoded_body_bytes": 1617165,
+        "document_transfer_bytes": 31141,
+        "document_encoded_body_bytes": 30841
+      },
+      "open_reader_ms": 80.09817399943131,
+      "source": {
+        "href": "https://github.com/d6g8k5htny-coder/Math-/blob/b29c4b769cac85437b409d152651d5cce4140015/coefficients/side24_v1/PROOF.md",
+        "text": "Immutable source reference (document bytes not acquired by this graph view)",
+        "visible": true
+      },
+      "scope": {
+        "text": "coefficient calculation for SIDE24 d=2,3; persistence reading via reconciled parent Theorem C; no finite-radius band",
+        "visible": true
+      },
+      "formal_gap_text": "No verified graph-to-formal-artifact mapping is recorded in this source projection. Missing evidence remains unknown.",
+      "initial_signature": {
+        "selected": "math.side24-coefficient",
+        "source": "https://github.com/d6g8k5htny-coder/Math-/blob/b29c4b769cac85437b409d152651d5cce4140015/coefficients/side24_v1/PROOF.md",
+        "scope": "coefficient calculation for SIDE24 d=2,3; persistence reading via reconciled parent Theorem C; no finite-radius band",
+        "pins": {
+          "snapshot": [
+            "b29c4b769cac85437b409d152651d5cce4140015"
+          ],
+          "main-snapshot": [
+            "dd5f23f68be381726bcfb8df9ef86535594b04b9"
+          ],
+          "atlas-node": [
+            "math.side24-coefficient"
+          ]
+        }
+      },
+      "geometry_before": {
+        "inspector": {
+          "x": 20,
+          "y": 212.96875,
+          "width": 350,
+          "height": 1440.171875,
+          "top_relative_inspector": 0,
+          "left_relative_inspector": 0,
+          "viewport_intersects": true
+        },
+        "reader": {
+          "x": 20,
+          "y": 31.8125,
+          "width": 350,
+          "height": 1629.328125,
+          "top_relative_inspector": -181.15625,
+          "left_relative_inspector": 0,
+          "viewport_intersects": true
+        },
+        "source": {
+          "x": 35.390625,
+          "y": 474.625,
+          "width": 319.21875,
+          "height": 51,
+          "top_relative_inspector": 261.65625,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "scope": {
+          "x": 35.390625,
+          "y": 383.125,
+          "width": 319.21875,
+          "height": 76.5,
+          "top_relative_inspector": 170.15625,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "formal": {
+          "x": 35.390625,
+          "y": 627,
+          "width": 319.21875,
+          "height": 216.421875,
+          "top_relative_inspector": 414.03125,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "formal_details": {
+          "x": 35.390625,
+          "y": 770.640625,
+          "width": 319.21875,
+          "height": 71.78125,
+          "top_relative_inspector": 557.671875,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "formal_summary": {
+          "x": 35.390625,
+          "y": 770.640625,
+          "width": 319.21875,
+          "height": 71.78125,
+          "top_relative_inspector": 557.671875,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "scroll": {
+          "x": 0,
+          "y": 366
+        },
+        "document_width": 390,
+        "viewport_width": 390
+      },
+      "geometry_reader_viewport": {
+        "inspector": {
+          "x": 20,
+          "y": 23.96875,
+          "width": 350,
+          "height": 1440.171875,
+          "top_relative_inspector": 0,
+          "left_relative_inspector": 0,
+          "viewport_intersects": true
+        },
+        "reader": {
+          "x": 20,
+          "y": -157.1875,
+          "width": 350,
+          "height": 1629.328125,
+          "top_relative_inspector": -181.15625,
+          "left_relative_inspector": 0,
+          "viewport_intersects": true
+        },
+        "source": {
+          "x": 35.390625,
+          "y": 285.625,
+          "width": 319.21875,
+          "height": 51,
+          "top_relative_inspector": 261.65625,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "scope": {
+          "x": 35.390625,
+          "y": 194.125,
+          "width": 319.21875,
+          "height": 76.5,
+          "top_relative_inspector": 170.15625,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "formal": {
+          "x": 35.390625,
+          "y": 438,
+          "width": 319.21875,
+          "height": 216.421875,
+          "top_relative_inspector": 414.03125,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "formal_details": {
+          "x": 35.390625,
+          "y": 581.640625,
+          "width": 319.21875,
+          "height": 71.78125,
+          "top_relative_inspector": 557.671875,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "formal_summary": {
+          "x": 35.390625,
+          "y": 581.640625,
+          "width": 319.21875,
+          "height": 71.78125,
+          "top_relative_inspector": 557.671875,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "scroll": {
+          "x": 0,
+          "y": 555
+        },
+        "document_width": 390,
+        "viewport_width": 390
+      },
+      "formal_focus_before_enter": {
+        "tag": "SUMMARY",
+        "focused": true,
+        "outlineWidth": "3px",
+        "outlineStyle": "none"
+      },
+      "geometry_focused_formal": {
+        "inspector": {
+          "x": 20,
+          "y": 23.96875,
+          "width": 350,
+          "height": 1440.171875,
+          "top_relative_inspector": 0,
+          "left_relative_inspector": 0,
+          "viewport_intersects": true
+        },
+        "reader": {
+          "x": 20,
+          "y": -157.1875,
+          "width": 350,
+          "height": 1629.328125,
+          "top_relative_inspector": -181.15625,
+          "left_relative_inspector": 0,
+          "viewport_intersects": true
+        },
+        "source": {
+          "x": 35.390625,
+          "y": 285.625,
+          "width": 319.21875,
+          "height": 51,
+          "top_relative_inspector": 261.65625,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "scope": {
+          "x": 35.390625,
+          "y": 194.125,
+          "width": 319.21875,
+          "height": 76.5,
+          "top_relative_inspector": 170.15625,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "formal": {
+          "x": 35.390625,
+          "y": 438,
+          "width": 319.21875,
+          "height": 216.421875,
+          "top_relative_inspector": 414.03125,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "formal_details": {
+          "x": 35.390625,
+          "y": 581.640625,
+          "width": 319.21875,
+          "height": 71.78125,
+          "top_relative_inspector": 557.671875,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "formal_summary": {
+          "x": 35.390625,
+          "y": 581.640625,
+          "width": 319.21875,
+          "height": 71.78125,
+          "top_relative_inspector": 557.671875,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "scroll": {
+          "x": 0,
+          "y": 555
+        },
+        "document_width": 390,
+        "viewport_width": 390
+      },
+      "formal_enter_to_open_ms": 6.668073001492303,
+      "formal_fields": [
+        {
+          "name": "Acquisition",
+          "value": "Graph metadata and pinned file inventory; proof document bytes are not acquired by this graph view."
+        },
+        {
+          "name": "Mathematical review",
+          "value": "Recorded review fields retain their original scope; no formal alignment or scientific acceptance follows."
+        },
+        {
+          "name": "Declaration and hypotheses",
+          "value": "No mapped declaration or hypothesis record. Read the exact mathematical source and its scope."
+        },
+        {
+          "name": "Graph-source revision (formal artifact unmapped)",
+          "value": "d6g8k5htny-coder/Math- b29c4b769cac85437b409d152651d5cce4140015 \u00b7 frontiers/downstream_gate_20260925/GRAPH.json"
+        },
+        {
+          "name": "Checked execution",
+          "value": "No mapped trusted kernel-execution receipt. A green CI run alone does not establish coverage."
+        },
+        {
+          "name": "Alignment",
+          "value": "No mapped exact-source alignment review."
+        },
+        {
+          "name": "Scientific acceptance",
+          "value": "Unchanged; neither visualization nor formal execution promotes a claim."
+        }
+      ],
+      "formal_disclosure_text": "Inspect declaration, execution and alignment\nAcquisition\nGraph metadata and pinned file inventory; proof document bytes are not acquired by this graph view.\nMathematical review\nRecorded review fields retain their original scope; no formal alignment or scientific acceptance follows.\nDeclaration and hypotheses\nNo mapped declaration or hypothesis record. Read the exact mathematical source and its scope.\nGraph-source revision (formal artifact unmapped)\nd6g8k5htny-coder/Math- b29c4b769cac85437b409d152651d5cce4140015 \u00b7 frontiers/downstream_gate_20260925/GRAPH.json\nChecked execution\nNo mapped trusted kernel-execution receipt. A green CI run alone does not establish coverage.\nAlignment\nNo mapped exact-source alignment review.\nScientific acceptance\nUnchanged; neither visualization nor formal execution promotes a claim.\nExplore formal packages separately (unmapped)",
+      "formal_disclosure_links": [
+        {
+          "text": "d6g8k5htny-coder/main \u00b7 formal/ALIGNMENT.md \u00b7 dd5f23f6",
+          "href": "https://github.com/d6g8k5htny-coder/main/blob/dd5f23f68be381726bcfb8df9ef86535594b04b9/formal/ALIGNMENT.md"
+        },
+        {
+          "text": "d6g8k5htny-coder/main \u00b7 formal/SCOPE.md \u00b7 dd5f23f6",
+          "href": "https://github.com/d6g8k5htny-coder/main/blob/dd5f23f68be381726bcfb8df9ef86535594b04b9/formal/SCOPE.md"
+        },
+        {
+          "text": "d6g8k5htny-coder/main \u00b7 formal/manifest.json \u00b7 dd5f23f6",
+          "href": "https://github.com/d6g8k5htny-coder/main/blob/dd5f23f68be381726bcfb8df9ef86535594b04b9/formal/manifest.json"
+        },
+        {
+          "text": "d6g8k5htny-coder/Math- \u00b7 formal/SCOPE.md \u00b7 b29c4b76",
+          "href": "https://github.com/d6g8k5htny-coder/Math-/blob/b29c4b769cac85437b409d152651d5cce4140015/formal/SCOPE.md"
+        },
+        {
+          "text": "d6g8k5htny-coder/Math- \u00b7 formal/manifest.json \u00b7 b29c4b76",
+          "href": "https://github.com/d6g8k5htny-coder/Math-/blob/b29c4b769cac85437b409d152651d5cce4140015/formal/manifest.json"
+        }
+      ],
+      "geometry_expanded_formal": {
+        "inspector": {
+          "x": 20,
+          "y": 23.96875,
+          "width": 350,
+          "height": 2514.484375,
+          "top_relative_inspector": 0,
+          "left_relative_inspector": 0,
+          "viewport_intersects": true
+        },
+        "reader": {
+          "x": 20,
+          "y": -157.1875,
+          "width": 350,
+          "height": 2703.640625,
+          "top_relative_inspector": -181.15625,
+          "left_relative_inspector": 0,
+          "viewport_intersects": true
+        },
+        "source": {
+          "x": 35.390625,
+          "y": 285.625,
+          "width": 319.21875,
+          "height": 51,
+          "top_relative_inspector": 261.65625,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "scope": {
+          "x": 35.390625,
+          "y": 194.125,
+          "width": 319.21875,
+          "height": 76.5,
+          "top_relative_inspector": 170.15625,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "formal": {
+          "x": 35.390625,
+          "y": 438,
+          "width": 319.21875,
+          "height": 1290.734375,
+          "top_relative_inspector": 414.03125,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "formal_details": {
+          "x": 35.390625,
+          "y": 581.640625,
+          "width": 319.21875,
+          "height": 1146.09375,
+          "top_relative_inspector": 557.671875,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "formal_summary": {
+          "x": 35.390625,
+          "y": 581.640625,
+          "width": 319.21875,
+          "height": 71.78125,
+          "top_relative_inspector": 557.671875,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "scroll": {
+          "x": 0,
+          "y": 555
+        },
+        "document_width": 390,
+        "viewport_width": 390
+      },
+      "inspector_text": "math.side24-coefficient\n\nKind: candidate \u00b7 Classification: AUTHOR_SIDE_CANDIDATE \u00b7 D3\n\nRecorded scope\n\ncoefficient calculation for SIDE24 d=2,3; persistence reading via reconciled parent Theorem C; no finite-radius band\n\nImmutable source reference (document bytes not acquired by this graph view)\n\nd6g8k5htny-coder/Math- \u00b7 b29c4b76\n\nSource revision and blob\nFormal evidence for this claim\n\nNo verified graph-to-formal-artifact mapping is recorded in this source projection. Missing evidence remains unknown.\n\nInspect declaration, execution and alignment\nAcquisition\nGraph metadata and pinned file inventory; proof document bytes are not acquired by this graph view.\nMathematical review\nRecorded review fields retain their original scope; no formal alignment or scientific acceptance follows.\nDeclaration and hypotheses\nNo mapped declaration or hypothesis record. Read the exact mathematical source and its scope.\nGraph-source revision (formal artifact unmapped)\nd6g8k5htny-coder/Math- b29c4b769cac85437b409d152651d5cce4140015 \u00b7 frontiers/downstream_gate_20260925/GRAPH.json\nChecked execution\nNo mapped trusted kernel-execution receipt. A green CI run alone does not establish coverage.\nAlignment\nNo mapped exact-source alignment review.\nScientific acceptance\nUnchanged; neither visualization nor formal execution promotes a claim.\nExplore formal packages separately (unmapped)\n\nRead the preserved mathematical record \u2014 Opens the preserved mathematical record with its original source revisions and capture date.\n\nRead the static node record \u2014 The capture date and source revisions on that page may differ from this view.\n\nReview records and continuation\nConsumes\nmath.uniform-matrix-cap-lifetime\ncandidate \u00b7 PROVED_REVIEWED\nDownstream nodes \u00b7 all edges: 2 \u00b7 required edges: 2\n\nRequired \u00b7 evaluates_eq_15_2 \u00b7 math.side24-coefficient \u2192 math.uniform-matrix-cap-lifetime\n\nConsumed by\nNo direct relation recorded.\nRequired-edge routes to unresolved research targets\nComplete node metadata (inert text)",
+      "share_url": "http://127.0.0.1:41029/dependencies.html?atlas-node=math.side24-coefficient&atlas-view=list&snapshot=b29c4b769cac85437b409d152651d5cce4140015&main-snapshot=dd5f23f68be381726bcfb8df9ef86535594b04b9&atlas-expanded=math.side24-coefficient#current-atlas",
+      "history": {
+        "alternate_node": "math.uniform-matrix-cap-lifetime",
+        "back_forward_back": "completed"
+      },
+      "final_geometry": {
+        "inspector": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top_relative_inspector": 0,
+          "left_relative_inspector": 0,
+          "viewport_intersects": false
+        },
+        "reader": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top_relative_inspector": 0,
+          "left_relative_inspector": 0,
+          "viewport_intersects": false
+        },
+        "source": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top_relative_inspector": 0,
+          "left_relative_inspector": 0,
+          "viewport_intersects": false
+        },
+        "scope": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top_relative_inspector": 0,
+          "left_relative_inspector": 0,
+          "viewport_intersects": false
+        },
+        "formal": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top_relative_inspector": 0,
+          "left_relative_inspector": 0,
+          "viewport_intersects": false
+        },
+        "formal_details": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top_relative_inspector": 0,
+          "left_relative_inspector": 0,
+          "viewport_intersects": false
+        },
+        "formal_summary": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top_relative_inspector": 0,
+          "left_relative_inspector": 0,
+          "viewport_intersects": false
+        },
+        "scroll": {
+          "x": 0,
+          "y": 119
+        },
+        "document_width": 390,
+        "viewport_width": 390
+      },
+      "final_url": "http://127.0.0.1:41029/dependencies.html?atlas-node=math.side24-coefficient&atlas-view=list&snapshot=b29c4b769cac85437b409d152651d5cce4140015&main-snapshot=dd5f23f68be381726bcfb8df9ef86535594b04b9&atlas-expanded=math.side24-coefficient#current-atlas",
+      "passed": true
+    },
+    {
+      "case": "390x844-dark",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "color_scheme": "dark",
+      "checks": [
+        {
+          "name": "full literal scope visible",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "immutable selected proof source visible",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "native formal disclosure initially closed",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "Graph/List same claim source scope and pins",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "same-claim layout retains formal disclosure",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "share link retains selected source pins",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "changed selection resets formal disclosure",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "native Back restores same claim source and pins",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "share navigation restores exact selection",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "reload restores exact selection",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "reload starts formal disclosure closed",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "no document overflow",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "no pageerrors",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "no failed application requests",
+          "passed": true,
+          "detail": null
+        },
+        {
+          "name": "no HTTP errors",
+          "passed": true,
+          "detail": null
+        }
+      ],
+      "failures": [],
+      "pageerrors": [],
+      "console_errors": [],
+      "failed_requests": [],
+      "http_errors": [],
+      "screenshots": {
+        "reader": "reader-390x844-dark.png",
+        "full-inspector": "full-inspector-390x844-dark.png",
+        "expanded-formal": "expanded-formal-390x844-dark.png",
+        "expanded-formal-viewport": "expanded-formal-viewport-390x844-dark.png"
+      },
+      "ready_ms": 353.7116480001714,
+      "initial_url": "http://127.0.0.1:41029/dependencies.html?atlas-node=math.side24-coefficient&atlas-view=graph&snapshot=b29c4b769cac85437b409d152651d5cce4140015&main-snapshot=dd5f23f68be381726bcfb8df9ef86535594b04b9#current-atlas",
+      "navigation_status": 200,
+      "performance_initial": {
+        "navigation": [
+          {
+            "name": "http://127.0.0.1:41029/dependencies.html?atlas-node=math.side24-coefficient&atlas-view=graph&snapshot=b29c4b769cac85437b409d152651d5cce4140015&main-snapshot=dd5f23f68be381726bcfb8df9ef86535594b04b9#current-atlas",
+            "entryType": "navigation",
+            "startTime": 0,
+            "duration": 294.8999999985099,
+            "navigationId": 8268,
+            "initiatorType": "navigation",
+            "deliveryType": "",
+            "nextHopProtocol": "http/1.0",
+            "renderBlockingStatus": "non-blocking",
+            "contentType": "text/html",
+            "contentEncoding": "",
+            "workerStart": 0,
+            "workerRouterEvaluationStart": 0,
+            "workerCacheLookupStart": 0,
+            "workerMatchedSourceType": "",
+            "workerFinalSourceType": "",
+            "redirectStart": 0,
+            "redirectEnd": 0,
+            "fetchStart": 0.5999999977648258,
+            "domainLookupStart": 0.5999999977648258,
+            "domainLookupEnd": 0.5999999977648258,
+            "connectStart": 0.5999999977648258,
+            "secureConnectionStart": 0,
+            "connectEnd": 0.5999999977648258,
+            "requestStart": 2.099999997764826,
+            "responseStart": 2.899999998509884,
+            "firstInterimResponseStart": 0,
+            "finalResponseHeadersStart": 2.899999998509884,
+            "responseEnd": 3.699999999254942,
+            "transferSize": 31141,
+            "encodedBodySize": 30841,
+            "decodedBodySize": 30841,
+            "responseStatus": 200,
+            "serverTiming": [],
+            "unloadEventStart": 0,
+            "unloadEventEnd": 0,
+            "domInteractive": 27.5,
+            "domContentLoadedEventStart": 259,
+            "domContentLoadedEventEnd": 260.19999999925494,
+            "domComplete": 294.8999999985099,
+            "loadEventStart": 294.8999999985099,
+            "loadEventEnd": 294.8999999985099,
+            "type": "navigate",
+            "redirectCount": 0,
+            "activationStart": 0,
+            "criticalCHRestart": 0,
+            "notRestoredReasons": null,
+            "confidence": {
+              "randomizedTriggerRate": 0.4994798,
+              "value": "high"
+            }
+          }
+        ],
+        "resources": [
+          {
+            "name": "http://127.0.0.1:41029/style.css?site-release=6eb56e5c80ebf5811a77d0cb8583bf77dd8be44f170bebc9ae10721b2e6e9ab1",
+            "initiatorType": "link",
+            "startTime": 21.599999997764826,
+            "duration": 21.800000000745058,
+            "transferSize": 6224,
+            "encodedBodySize": 5924,
+            "decodedBodySize": 5924,
+            "responseEnd": 43.399999998509884
+          },
+          {
+            "name": "http://127.0.0.1:41029/brand.css?site-release=5394863b316a477063ff357fce9654bfb48c3190f6880a518ad95db5b888aad3",
+            "initiatorType": "link",
+            "startTime": 22.699999999254942,
+            "duration": 14.300000000745058,
+            "transferSize": 35805,
+            "encodedBodySize": 35505,
+            "decodedBodySize": 35505,
+            "responseEnd": 37
+          },
+          {
+            "name": "http://127.0.0.1:41029/dependencies.css?site-release=057ca4121356c0a263fa4b1ebcb86e525a33a4ee54c72ee2fee1b04f925f86b6",
+            "initiatorType": "link",
+            "startTime": 22.799999997019768,
+            "duration": 21.300000000745058,
+            "transferSize": 9225,
+            "encodedBodySize": 8925,
+            "decodedBodySize": 8925,
+            "responseEnd": 44.099999997764826
+          },
+          {
+            "name": "http://127.0.0.1:41029/current.css?site-release=9b70fee7f54345912905f33f4d15af39748b09c456bd88527b534cc9ceaae207",
+            "initiatorType": "link",
+            "startTime": 23.199999999254942,
+            "duration": 15.399999998509884,
+            "transferSize": 7824,
+            "encodedBodySize": 7524,
+            "decodedBodySize": 7524,
+            "responseEnd": 38.599999997764826
+          },
+          {
+            "name": "http://127.0.0.1:41029/dependencies.mjs?site-release=d82de31c97db5296160a3c715627c118eefa1057b34452f1678f1acf331e0e79",
+            "initiatorType": "script",
+            "startTime": 23.199999999254942,
+            "duration": 21.199999999254942,
+            "transferSize": 15425,
+            "encodedBodySize": 15125,
+            "decodedBodySize": 15125,
+            "responseEnd": 44.399999998509884
+          },
+          {
+            "name": "http://127.0.0.1:41029/atlas-layout.css?site-release=797d898025b4899262dc66519cc33b5330709053b141fc39c56ba1d7e2174d49",
+            "initiatorType": "link",
+            "startTime": 23.299999997019768,
+            "duration": 16.5,
+            "transferSize": 9200,
+            "encodedBodySize": 8900,
+            "decodedBodySize": 8900,
+            "responseEnd": 39.79999999701977
+          },
+          {
+            "name": "http://127.0.0.1:41029/atlas-spatial.css?site-release=232305d210598af0bfdfc651c51494ef0afecd57e72dde59dc588b95d477137f",
+            "initiatorType": "link",
+            "startTime": 23.299999997019768,
+            "duration": 21.200000002980232,
+            "transferSize": 2463,
+            "encodedBodySize": 2163,
+            "decodedBodySize": 2163,
+            "responseEnd": 44.5
+          },
+          {
+            "name": "http://127.0.0.1:41029/current.mjs?site-release=fc7e8a98c1e23f476962c4c83e95ed3ce817490007987112d9b2cf6d3d90b142",
+            "initiatorType": "script",
+            "startTime": 23.5,
+            "duration": 19.699999999254942,
+            "transferSize": 5116,
+            "encodedBodySize": 4816,
+            "decodedBodySize": 4816,
+            "responseEnd": 43.19999999925494
+          },
+          {
+            "name": "http://127.0.0.1:41029/atlas.mjs?site-release=d807f2f9895cb488ea1f3692f72d9a2c4ea2bfad07d837c60cec07d88bd7ff7f",
+            "initiatorType": "script",
+            "startTime": 23.599999997764826,
+            "duration": 21.199999999254942,
+            "transferSize": 24284,
+            "encodedBodySize": 23984,
+            "decodedBodySize": 23984,
+            "responseEnd": 44.79999999701977
+          },
+          {
+            "name": "http://127.0.0.1:41029/current-model.mjs?site-release=a30d68465e3acda48eedce64854afebc7af5c84903a4e6b0c649e08007b08999",
+            "initiatorType": "script",
+            "startTime": 53.19999999925494,
+            "duration": 8.300000000745058,
+            "transferSize": 26758,
+            "encodedBodySize": 26458,
+            "decodedBodySize": 26458,
+            "responseEnd": 61.5
+          },
+          {
+            "name": "http://127.0.0.1:41029/dependency-model.mjs?site-release=14af1552ef5b72df346782ea4c3d2a9e1fbeeeb89c9ec7421de6f63e4f8e7aff",
+            "initiatorType": "script",
+            "startTime": 53.29999999701977,
+            "duration": 9.100000001490116,
+            "transferSize": 16967,
+            "encodedBodySize": 16667,
+            "decodedBodySize": 16667,
+            "responseEnd": 62.399999998509884
+          },
+          {
+            "name": "http://127.0.0.1:41029/atlas-shell.mjs?site-release=a1bda1574f211055e42e6d2596319fb304f8f754927db6b4a430b81f8153421d",
+            "initiatorType": "script",
+            "startTime": 56.69999999925494,
+            "duration": 7.300000000745058,
+            "transferSize": 6367,
+            "encodedBodySize": 6067,
+            "decodedBodySize": 6067,
+            "responseEnd": 64
+          },
+          {
+            "name": "http://127.0.0.1:41029/atlas-claim-summary.mjs?site-release=f4f927b47229ad7c8ecb61eb7705f2f1937892d455ef80d1e212d1d6914d1f0d",
+            "initiatorType": "script",
+            "startTime": 56.79999999701977,
+            "duration": 7.800000000745058,
+            "transferSize": 4113,
+            "encodedBodySize": 3813,
+            "decodedBodySize": 3813,
+            "responseEnd": 64.59999999776483
+          },
+          {
+            "name": "http://127.0.0.1:41029/brand/mark.svg?site-release=ef97bd43ea3d8999dbf26e5707d467987a745bf961cac2b3163f94062d087ba7",
+            "initiatorType": "css",
+            "startTime": 60.29999999701977,
+            "duration": 5.900000002235174,
+            "transferSize": 1334,
+            "encodedBodySize": 1034,
+            "decodedBodySize": 1034,
+            "responseEnd": 66.19999999925494
+          },
+          {
+            "name": "http://127.0.0.1:41029/dependency-source/GRAPH.json",
+            "initiatorType": "fetch",
+            "startTime": 170.19999999925494,
+            "duration": 7.800000000745058,
+            "transferSize": 39053,
+            "encodedBodySize": 38753,
+            "decodedBodySize": 38753,
+            "responseEnd": 178
+          },
+          {
+            "name": "http://127.0.0.1:41029/dependency-source/PROVENANCE.json",
+            "initiatorType": "fetch",
+            "startTime": 170.29999999701977,
+            "duration": 4.5,
+            "transferSize": 1417,
+            "encodedBodySize": 1117,
+            "decodedBodySize": 1117,
+            "responseEnd": 174.79999999701977
+          },
+          {
+            "name": "http://127.0.0.1:41029/atlas-spatial-shell.mjs?site-release=c78e39a660ddf40b689f8ef39919b7f0a3281c9b9188e2b8557079967ce9daf6",
+            "initiatorType": "script",
+            "startTime": 170.59999999776483,
+            "duration": 5.300000000745058,
+            "transferSize": 9568,
+            "encodedBodySize": 9268,
+            "decodedBodySize": 9268,
+            "responseEnd": 175.89999999850988
+          },
+          {
+            "name": "http://127.0.0.1:41029/current.json",
+            "initiatorType": "fetch",
+            "startTime": 172.19999999925494,
+            "duration": 7.099999997764826,
+            "transferSize": 1392420,
+            "encodedBodySize": 1392120,
+            "decodedBodySize": 1392120,
+            "responseEnd": 179.29999999701977
+          },
+          {
+            "name": "http://127.0.0.1:41029/atlas-spatial-model.mjs?site-release=fd1120b32431cde3ebcfa63bbe5e191a0502b4f1a62a6869b90c196c3677372f",
+            "initiatorType": "script",
+            "startTime": 251.5,
+            "duration": 2.7999999970197678,
+            "transferSize": 1789,
+            "encodedBodySize": 1489,
+            "decodedBodySize": 1489,
+            "responseEnd": 254.29999999701977
+          },
+          {
+            "name": "http://127.0.0.1:41029/node-status.json",
+            "initiatorType": "fetch",
+            "startTime": 259,
+            "duration": 2.399999998509884,
+            "transferSize": 6779,
+            "encodedBodySize": 6479,
+            "decodedBodySize": 6479,
+            "responseEnd": 261.3999999985099
+          },
+          {
+            "name": "http://127.0.0.1:41029/brand/mark.svg?site-release=ef97bd43ea3d8999dbf26e5707d467987a745bf961cac2b3163f94062d087ba7",
+            "initiatorType": "other",
+            "startTime": 333.3999999985099,
+            "duration": 0.8999999985098839,
+            "transferSize": 0,
+            "encodedBodySize": 1034,
+            "decodedBodySize": 1034,
+            "responseEnd": 334.29999999701977
+          }
+        ]
+      },
+      "load_metrics": {
+        "load_event_ms": 294.8999999985099,
+        "dom_content_loaded_ms": 260.19999999925494,
+        "resource_count": 21,
+        "resource_transfer_bytes": 1622131,
+        "resource_encoded_body_bytes": 1617165,
+        "resource_decoded_body_bytes": 1617165,
+        "document_transfer_bytes": 31141,
+        "document_encoded_body_bytes": 30841
+      },
+      "open_reader_ms": 58.81520099865156,
+      "source": {
+        "href": "https://github.com/d6g8k5htny-coder/Math-/blob/b29c4b769cac85437b409d152651d5cce4140015/coefficients/side24_v1/PROOF.md",
+        "text": "Immutable source reference (document bytes not acquired by this graph view)",
+        "visible": true
+      },
+      "scope": {
+        "text": "coefficient calculation for SIDE24 d=2,3; persistence reading via reconciled parent Theorem C; no finite-radius band",
+        "visible": true
+      },
+      "formal_gap_text": "No verified graph-to-formal-artifact mapping is recorded in this source projection. Missing evidence remains unknown.",
+      "initial_signature": {
+        "selected": "math.side24-coefficient",
+        "source": "https://github.com/d6g8k5htny-coder/Math-/blob/b29c4b769cac85437b409d152651d5cce4140015/coefficients/side24_v1/PROOF.md",
+        "scope": "coefficient calculation for SIDE24 d=2,3; persistence reading via reconciled parent Theorem C; no finite-radius band",
+        "pins": {
+          "snapshot": [
+            "b29c4b769cac85437b409d152651d5cce4140015"
+          ],
+          "main-snapshot": [
+            "dd5f23f68be381726bcfb8df9ef86535594b04b9"
+          ],
+          "atlas-node": [
+            "math.side24-coefficient"
+          ]
+        }
+      },
+      "geometry_before": {
+        "inspector": {
+          "x": 20,
+          "y": 212.96875,
+          "width": 350,
+          "height": 1440.171875,
+          "top_relative_inspector": 0,
+          "left_relative_inspector": 0,
+          "viewport_intersects": true
+        },
+        "reader": {
+          "x": 20,
+          "y": 31.8125,
+          "width": 350,
+          "height": 1629.328125,
+          "top_relative_inspector": -181.15625,
+          "left_relative_inspector": 0,
+          "viewport_intersects": true
+        },
+        "source": {
+          "x": 35.390625,
+          "y": 474.625,
+          "width": 319.21875,
+          "height": 51,
+          "top_relative_inspector": 261.65625,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "scope": {
+          "x": 35.390625,
+          "y": 383.125,
+          "width": 319.21875,
+          "height": 76.5,
+          "top_relative_inspector": 170.15625,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "formal": {
+          "x": 35.390625,
+          "y": 627,
+          "width": 319.21875,
+          "height": 216.421875,
+          "top_relative_inspector": 414.03125,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "formal_details": {
+          "x": 35.390625,
+          "y": 770.640625,
+          "width": 319.21875,
+          "height": 71.78125,
+          "top_relative_inspector": 557.671875,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "formal_summary": {
+          "x": 35.390625,
+          "y": 770.640625,
+          "width": 319.21875,
+          "height": 71.78125,
+          "top_relative_inspector": 557.671875,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "scroll": {
+          "x": 0,
+          "y": 366
+        },
+        "document_width": 390,
+        "viewport_width": 390
+      },
+      "geometry_reader_viewport": {
+        "inspector": {
+          "x": 20,
+          "y": 23.96875,
+          "width": 350,
+          "height": 1440.171875,
+          "top_relative_inspector": 0,
+          "left_relative_inspector": 0,
+          "viewport_intersects": true
+        },
+        "reader": {
+          "x": 20,
+          "y": -157.1875,
+          "width": 350,
+          "height": 1629.328125,
+          "top_relative_inspector": -181.15625,
+          "left_relative_inspector": 0,
+          "viewport_intersects": true
+        },
+        "source": {
+          "x": 35.390625,
+          "y": 285.625,
+          "width": 319.21875,
+          "height": 51,
+          "top_relative_inspector": 261.65625,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "scope": {
+          "x": 35.390625,
+          "y": 194.125,
+          "width": 319.21875,
+          "height": 76.5,
+          "top_relative_inspector": 170.15625,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "formal": {
+          "x": 35.390625,
+          "y": 438,
+          "width": 319.21875,
+          "height": 216.421875,
+          "top_relative_inspector": 414.03125,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "formal_details": {
+          "x": 35.390625,
+          "y": 581.640625,
+          "width": 319.21875,
+          "height": 71.78125,
+          "top_relative_inspector": 557.671875,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "formal_summary": {
+          "x": 35.390625,
+          "y": 581.640625,
+          "width": 319.21875,
+          "height": 71.78125,
+          "top_relative_inspector": 557.671875,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "scroll": {
+          "x": 0,
+          "y": 555
+        },
+        "document_width": 390,
+        "viewport_width": 390
+      },
+      "formal_focus_before_enter": {
+        "tag": "SUMMARY",
+        "focused": true,
+        "outlineWidth": "3px",
+        "outlineStyle": "none"
+      },
+      "geometry_focused_formal": {
+        "inspector": {
+          "x": 20,
+          "y": 23.96875,
+          "width": 350,
+          "height": 1440.171875,
+          "top_relative_inspector": 0,
+          "left_relative_inspector": 0,
+          "viewport_intersects": true
+        },
+        "reader": {
+          "x": 20,
+          "y": -157.1875,
+          "width": 350,
+          "height": 1629.328125,
+          "top_relative_inspector": -181.15625,
+          "left_relative_inspector": 0,
+          "viewport_intersects": true
+        },
+        "source": {
+          "x": 35.390625,
+          "y": 285.625,
+          "width": 319.21875,
+          "height": 51,
+          "top_relative_inspector": 261.65625,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "scope": {
+          "x": 35.390625,
+          "y": 194.125,
+          "width": 319.21875,
+          "height": 76.5,
+          "top_relative_inspector": 170.15625,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "formal": {
+          "x": 35.390625,
+          "y": 438,
+          "width": 319.21875,
+          "height": 216.421875,
+          "top_relative_inspector": 414.03125,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "formal_details": {
+          "x": 35.390625,
+          "y": 581.640625,
+          "width": 319.21875,
+          "height": 71.78125,
+          "top_relative_inspector": 557.671875,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "formal_summary": {
+          "x": 35.390625,
+          "y": 581.640625,
+          "width": 319.21875,
+          "height": 71.78125,
+          "top_relative_inspector": 557.671875,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "scroll": {
+          "x": 0,
+          "y": 555
+        },
+        "document_width": 390,
+        "viewport_width": 390
+      },
+      "formal_enter_to_open_ms": 6.382851002854295,
+      "formal_fields": [
+        {
+          "name": "Acquisition",
+          "value": "Graph metadata and pinned file inventory; proof document bytes are not acquired by this graph view."
+        },
+        {
+          "name": "Mathematical review",
+          "value": "Recorded review fields retain their original scope; no formal alignment or scientific acceptance follows."
+        },
+        {
+          "name": "Declaration and hypotheses",
+          "value": "No mapped declaration or hypothesis record. Read the exact mathematical source and its scope."
+        },
+        {
+          "name": "Graph-source revision (formal artifact unmapped)",
+          "value": "d6g8k5htny-coder/Math- b29c4b769cac85437b409d152651d5cce4140015 \u00b7 frontiers/downstream_gate_20260925/GRAPH.json"
+        },
+        {
+          "name": "Checked execution",
+          "value": "No mapped trusted kernel-execution receipt. A green CI run alone does not establish coverage."
+        },
+        {
+          "name": "Alignment",
+          "value": "No mapped exact-source alignment review."
+        },
+        {
+          "name": "Scientific acceptance",
+          "value": "Unchanged; neither visualization nor formal execution promotes a claim."
+        }
+      ],
+      "formal_disclosure_text": "Inspect declaration, execution and alignment\nAcquisition\nGraph metadata and pinned file inventory; proof document bytes are not acquired by this graph view.\nMathematical review\nRecorded review fields retain their original scope; no formal alignment or scientific acceptance follows.\nDeclaration and hypotheses\nNo mapped declaration or hypothesis record. Read the exact mathematical source and its scope.\nGraph-source revision (formal artifact unmapped)\nd6g8k5htny-coder/Math- b29c4b769cac85437b409d152651d5cce4140015 \u00b7 frontiers/downstream_gate_20260925/GRAPH.json\nChecked execution\nNo mapped trusted kernel-execution receipt. A green CI run alone does not establish coverage.\nAlignment\nNo mapped exact-source alignment review.\nScientific acceptance\nUnchanged; neither visualization nor formal execution promotes a claim.\nExplore formal packages separately (unmapped)",
+      "formal_disclosure_links": [
+        {
+          "text": "d6g8k5htny-coder/main \u00b7 formal/ALIGNMENT.md \u00b7 dd5f23f6",
+          "href": "https://github.com/d6g8k5htny-coder/main/blob/dd5f23f68be381726bcfb8df9ef86535594b04b9/formal/ALIGNMENT.md"
+        },
+        {
+          "text": "d6g8k5htny-coder/main \u00b7 formal/SCOPE.md \u00b7 dd5f23f6",
+          "href": "https://github.com/d6g8k5htny-coder/main/blob/dd5f23f68be381726bcfb8df9ef86535594b04b9/formal/SCOPE.md"
+        },
+        {
+          "text": "d6g8k5htny-coder/main \u00b7 formal/manifest.json \u00b7 dd5f23f6",
+          "href": "https://github.com/d6g8k5htny-coder/main/blob/dd5f23f68be381726bcfb8df9ef86535594b04b9/formal/manifest.json"
+        },
+        {
+          "text": "d6g8k5htny-coder/Math- \u00b7 formal/SCOPE.md \u00b7 b29c4b76",
+          "href": "https://github.com/d6g8k5htny-coder/Math-/blob/b29c4b769cac85437b409d152651d5cce4140015/formal/SCOPE.md"
+        },
+        {
+          "text": "d6g8k5htny-coder/Math- \u00b7 formal/manifest.json \u00b7 b29c4b76",
+          "href": "https://github.com/d6g8k5htny-coder/Math-/blob/b29c4b769cac85437b409d152651d5cce4140015/formal/manifest.json"
+        }
+      ],
+      "geometry_expanded_formal": {
+        "inspector": {
+          "x": 20,
+          "y": 23.96875,
+          "width": 350,
+          "height": 2514.484375,
+          "top_relative_inspector": 0,
+          "left_relative_inspector": 0,
+          "viewport_intersects": true
+        },
+        "reader": {
+          "x": 20,
+          "y": -157.1875,
+          "width": 350,
+          "height": 2703.640625,
+          "top_relative_inspector": -181.15625,
+          "left_relative_inspector": 0,
+          "viewport_intersects": true
+        },
+        "source": {
+          "x": 35.390625,
+          "y": 285.625,
+          "width": 319.21875,
+          "height": 51,
+          "top_relative_inspector": 261.65625,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "scope": {
+          "x": 35.390625,
+          "y": 194.125,
+          "width": 319.21875,
+          "height": 76.5,
+          "top_relative_inspector": 170.15625,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "formal": {
+          "x": 35.390625,
+          "y": 438,
+          "width": 319.21875,
+          "height": 1290.734375,
+          "top_relative_inspector": 414.03125,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "formal_details": {
+          "x": 35.390625,
+          "y": 581.640625,
+          "width": 319.21875,
+          "height": 1146.09375,
+          "top_relative_inspector": 557.671875,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "formal_summary": {
+          "x": 35.390625,
+          "y": 581.640625,
+          "width": 319.21875,
+          "height": 71.78125,
+          "top_relative_inspector": 557.671875,
+          "left_relative_inspector": 15.390625,
+          "viewport_intersects": true
+        },
+        "scroll": {
+          "x": 0,
+          "y": 555
+        },
+        "document_width": 390,
+        "viewport_width": 390
+      },
+      "inspector_text": "math.side24-coefficient\n\nKind: candidate \u00b7 Classification: AUTHOR_SIDE_CANDIDATE \u00b7 D3\n\nRecorded scope\n\ncoefficient calculation for SIDE24 d=2,3; persistence reading via reconciled parent Theorem C; no finite-radius band\n\nImmutable source reference (document bytes not acquired by this graph view)\n\nd6g8k5htny-coder/Math- \u00b7 b29c4b76\n\nSource revision and blob\nFormal evidence for this claim\n\nNo verified graph-to-formal-artifact mapping is recorded in this source projection. Missing evidence remains unknown.\n\nInspect declaration, execution and alignment\nAcquisition\nGraph metadata and pinned file inventory; proof document bytes are not acquired by this graph view.\nMathematical review\nRecorded review fields retain their original scope; no formal alignment or scientific acceptance follows.\nDeclaration and hypotheses\nNo mapped declaration or hypothesis record. Read the exact mathematical source and its scope.\nGraph-source revision (formal artifact unmapped)\nd6g8k5htny-coder/Math- b29c4b769cac85437b409d152651d5cce4140015 \u00b7 frontiers/downstream_gate_20260925/GRAPH.json\nChecked execution\nNo mapped trusted kernel-execution receipt. A green CI run alone does not establish coverage.\nAlignment\nNo mapped exact-source alignment review.\nScientific acceptance\nUnchanged; neither visualization nor formal execution promotes a claim.\nExplore formal packages separately (unmapped)\n\nRead the preserved mathematical record \u2014 Opens the preserved mathematical record with its original source revisions and capture date.\n\nRead the static node record \u2014 The capture date and source revisions on that page may differ from this view.\n\nReview records and continuation\nConsumes\nmath.uniform-matrix-cap-lifetime\ncandidate \u00b7 PROVED_REVIEWED\nDownstream nodes \u00b7 all edges: 2 \u00b7 required edges: 2\n\nRequired \u00b7 evaluates_eq_15_2 \u00b7 math.side24-coefficient \u2192 math.uniform-matrix-cap-lifetime\n\nConsumed by\nNo direct relation recorded.\nRequired-edge routes to unresolved research targets\nComplete node metadata (inert text)",
+      "share_url": "http://127.0.0.1:41029/dependencies.html?atlas-node=math.side24-coefficient&atlas-view=list&snapshot=b29c4b769cac85437b409d152651d5cce4140015&main-snapshot=dd5f23f68be381726bcfb8df9ef86535594b04b9&atlas-expanded=math.side24-coefficient#current-atlas",
+      "history": {
+        "alternate_node": "math.uniform-matrix-cap-lifetime",
+        "back_forward_back": "completed"
+      },
+      "final_geometry": {
+        "inspector": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top_relative_inspector": 0,
+          "left_relative_inspector": 0,
+          "viewport_intersects": false
+        },
+        "reader": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top_relative_inspector": 0,
+          "left_relative_inspector": 0,
+          "viewport_intersects": false
+        },
+        "source": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top_relative_inspector": 0,
+          "left_relative_inspector": 0,
+          "viewport_intersects": false
+        },
+        "scope": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top_relative_inspector": 0,
+          "left_relative_inspector": 0,
+          "viewport_intersects": false
+        },
+        "formal": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top_relative_inspector": 0,
+          "left_relative_inspector": 0,
+          "viewport_intersects": false
+        },
+        "formal_details": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top_relative_inspector": 0,
+          "left_relative_inspector": 0,
+          "viewport_intersects": false
+        },
+        "formal_summary": {
+          "x": 0,
+          "y": 0,
+          "width": 0,
+          "height": 0,
+          "top_relative_inspector": 0,
+          "left_relative_inspector": 0,
+          "viewport_intersects": false
+        },
+        "scroll": {
+          "x": 0,
+          "y": 119
+        },
+        "document_width": 390,
+        "viewport_width": 390
+      },
+      "final_url": "http://127.0.0.1:41029/dependencies.html?atlas-node=math.side24-coefficient&atlas-view=list&snapshot=b29c4b769cac85437b409d152651d5cce4140015&main-snapshot=dd5f23f68be381726bcfb8df9ef86535594b04b9&atlas-expanded=math.side24-coefficient#current-atlas",
+      "passed": true
+    }
+  ],
+  "browser_version": "154.0.8037.57",
+  "finished_at_utc": "2026-10-26T00:15:19Z",
+  "passed": 4,
+  "total": 4,
+  "metric_summary": {
+    "ready_ms": {
+      "values": [
+        339.13574799953494,
+        319.9521030001051,
+        380.4528989967366,
+        353.7116480001714
+      ],
+      "median": 346.4236979998532,
+      "min": 319.9521030001051,
+      "max": 380.4528989967366
+    },
+    "formal_enter_to_open_ms": {
+      "values": [
+        11.36489099735627,
+        7.487992999813287,
+        6.668073001492303,
+        6.382851002854295
+      ],
+      "median": 7.078033000652795,
+      "min": 6.382851002854295,
+      "max": 11.36489099735627
+    }
+  },
+  "external_application_requests": []
+}
