@@ -1,0 +1,15 @@
+synthetic T-D3-REM -> A.rem case E1 (as carved)
+synthetic T-D3-RELDER -> A.rem case E2 (as carved)
+ensemble pairs audited: 1787; A-failures: 1038 (A.loc 585, A.rem 453); A.rem case split: E1(remote S')=201 E2(remote elder)=252 E3(hole)=0
+engine re-run: exit 0, byte-identical to frozen transcript; headline windows all green
+amendment re-run: exit 0, byte-identical; certified bracket 21.2153 inside the discriminating gate [20.54646, 22.5] (kappa=0 sum 19.54646 rejected by construction)
+MUT-1 gate self-test: 8 mutated readings rejected, 4 certified readings accepted
+MUT-2 transcript tamper: kappa=0 and inflated tampered transcripts both rejected
+MUT-3 freeze-before-consume: one-hex pin mutation -> SystemExit with the hash-pin failure
+v2 re-run: exit 0, byte-identical; certified floor-consistent bracket 21.9279 inside the operative gate [21.27, 22.5]; the kappa=0 reading 19.54646, the QMC-denominator bracket 21.2153, and the mixed denominator form 21.265783016 are all below the gate edge
+MUT-V2-1 gate self-test: 9 sub-floor/out-of-range readings rejected (incl. kappa=0 19.54646, QMC-denominator 21.2153, mixed 21.265783016), 4 certified readings accepted
+MUT-V2-2 transcript tamper: QMC-denominator, mixed, kappa=0, and inflated tampered transcripts all rejected
+MUT-V2-3 QMC-denominator injection: mutated floor literal -> SystemExit with the R2 floor-drift failure
+MUT-V2-4 freeze-before-consume: one-hex R2-artifact pin mutation -> SystemExit with the hash-pin failure
+PERC-DECAY re-run: exit 0, byte-identical; register carries the three far-lane classes each with a certified bound + PD-CONN + a precise region; all five mutations fired; count bound 17.680197 r^3 and the corridor bottleneck z = 0.68056 within their windows
+D3-FALSIFIER PASS digest=fcb37708468875723bbfac838ab7b5ab374edb4ae60566f1ef2b7b5e44958e9f

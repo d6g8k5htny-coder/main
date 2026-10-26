@@ -6,7 +6,7 @@ Built with Hypergraph-DB 0.4.0 by `tools/hypergraph/math_hypergraph.py`. Each co
 **one hyperedge** whose `roles` map labels members as unit / source / review / impl / node / lane / record.
 
 ## Inputs (all in-repo)
-- `math_coverage_ledger_20261023.md` — RETRO-MATH-BIND-02 ledger with the 24 October Main source-membership supplement; the original 211/133 snapshot is retained in its history.
+- `math_coverage_ledger_20261023.md` — RETRO-MATH-BIND-02 ledger with the 24–25 October Main membership corrections and the 26 October Math- landing recheck (rows 318 and 345); the original 211/133 and subsequent 213/131 and 214/130 snapshots are retained in its history.
 - `../../docs/site/dependency-source/GRAPH.json` — 49 graph nodes (#527).
 - `graph_binding_report_20261023.json` — #527 binding report snapshot (21 bound nodes).
 
@@ -32,20 +32,94 @@ workflow_dispatch, with read-only checkouts of public Math- and query-, and uplo
 `math-hypergraph` artifact. Vertex keys are repo-prefixed (`main:`, `Math-:`, `query-:`). See `tools/hypergraph/README.md`.
 The PNG is a build artifact (optional, `--png`), not committed.
 
-## Gap counts after the Main membership supplement (2026-10-24)
-344 ledger rows / 1290 vertices / 344 hyperedges. Sourced containers 213 (131 missing). Implemented 296 (48 missing),
+## Gap counts after the Math- landing recheck (2026-10-26)
+345 ledger rows / 1337 vertices / 345 hyperedges. Sourced containers 216 (129 missing). Implemented 297 (48 missing),
+of which 30 are placeholder-only. Bound units 14. 28 of 49 graph nodes unbound per #527; 13 nodes touched by no unit.
+Role problems 0. Row 318's lane now points at its Math-#510 landing (folder tree `a7ef0696`, not #477's head; its implementation and
+status cells are unchanged by the ledger owner's ruling) and new row 345 records `frontiers/determinant_moment_20261025`
+from Math-#511 (folder tree `8a6d93e6`); node, bound and Drive cells are unchanged.
+Details are in the ledger's 26 October section. Open Math-#512/#513 stay `PENDING_OPEN_PR` with no row.
+
+## Gap counts after the periodic-H0 consumer completion (2026-10-25)
+344 ledger rows / 1325 vertices / 344 hyperedges. Sourced containers 215 (129 missing). Implemented 296 (48 missing),
 of which 30 are placeholder-only ("in PR head" / "per census", no artifact). Bound units 14.
 28 of 49 graph nodes unbound per #527; 13 nodes touched by no unit. Role problems 0.
 Rows 307 and 310 now include the 56 tracked Markdown members under the existing
 periodic-H0 and universality containers at Main
 `32366ac0d4e2d1464eaac51866b9dce2128970b9`. These are proofs, reviews, notes,
 protocols and historical reports, not 56 new theorem units or verified
-proof-to-code relationships. The original 2026-10-23 graph had 1234 vertices and
-211 sourced / 133 missing containers. Its 344 row identities and all
-implementation/node/bound/status cells are preserved.
+proof-to-code relationships. That supplement had 1290 vertices and 213 sourced /
+131 missing containers. The original 2026-10-23 graph had 1234 vertices and
+211 sourced / 133 missing containers.
+
+The later row-312 correction consumes the existing `formal/manifest.json`
+source-to-target map at Main `9c03589b1a3f0c1fd6befd09abe6b95c99cff7d7`.
+It adds the two pinned SIDE24 source copies and the omitted `Ledger.lean`
+implementation beside the existing ConeMoments/Endpoints modules. The map
+declares 27 proof-source arithmetic targets plus four published-number
+endpoint targets; these do not establish the coefficient enclosure or parent
+theorem. Statement alignment remains PENDING_INDEPENDENT_REVIEW; no Lean or
+formal gate ran. Row 313 is import-only and retains MISSING source. That
+correction produced 1293 vertices and 214/130 sourced/missing containers while
+preserving all row identities and the other 343 raw rows.
+
+Row 311's later zeta correction consumes committed README/CLAIMS and the
+existing MANIFEST at Main `6c6c6b0ff649d5ac0413344c00b6cdbe95344f82`.
+README's Proposition 1 is the primary proved-note carrier; CLAIMS is an audit.
+The explicitly linked `test_exact.py` is a bounded exact algebraic-control
+consumer beside the two existing numerical collision programs. This is not
+verification of the full analytic proposition, every 46-script package claim,
+a limiting exponent or RH progress. It reuses [Main548's](https://github.com/d6g8k5htny-coder/main/pull/548)
+historical GB-8n proposal/pins and ENGINEERING_CONTROL/unbound meaning; no new
+node or theorem unit is introduced. All original vertices and memberships,
+343 other raw rows and all node/bound/status cells remain unchanged. Only row
+311's source/implementation membership changes; no zeta program was executed.
+
+Research-translation's later bounded membership addition reuses the existing
+source manifests at Main `e016d4a445bf6ece2724f82dcf843040afc2157c`; its bytes
+are unchanged in candidate base `af1845fc4f5f8b5eb7cabbdd1f624d365025fb60`.
+Row 307 gains the EXPERIMENT protocol and MANUSCRIPT M4–M5 source interface,
+plus the declared discrete pilot model/runner. The pilot stays inconclusive.
+The spectral proof's historical manuscript90936297 pin is preserved; only its
+unchanged 1506-byte consumed M4–M5 slice is reused, not a new parent proof.
+Row 311 gains PERSISTENCE_BRIDGE only for §2.1's integration identity/kernel,
+through the zeta note's explicit citation and existing finite exact controls.
+These are scoped source/protocol/consumer relationships, not full manuscript,
+C46/C47, bridge, analytic-zeta or continuum verification. Aggregate membership
+does not assert that every program proves every co-member statement.
+
+That addition preserves all 1296 prior vertices/memberships and all 344
+ordered edges, changing only 307/311 memberships (342 other raw rows unchanged).
+Five added vertices yield 1301; sourced/implemented container counts, all
+node/bound/status cells and all original review/scientific qualifications
+remain. No source manifest, historical pin, proof, program or production
+builder changes. Full C46/C47 computational consumers remain unidentified in
+the bounded search, alongside wider Main/history/cloud accounting gaps.
+
+The periodic-H0 declared-consumer completion adds 24 source-named program
+members to existing row 307, preserving its four previous programs. The
+[49-artifact source/consumer map](periodic_h0_consumer_map_20261025.json)
+records the 28 source carriers, 27 modules plus one named test, 21 additional
+suite-selected support tests, 11 historical receipts and output roles. It is
+an exact-source reference; the builder still consumes only its listed inputs.
+Renderers and certificate callers keep their presentation/operational roles,
+not theorem-proof labels. Other support tests are accounted without blanket
+implementation membership. No source program or mathematical test was run.
+
+All 1301 old vertices/memberships, all 344 ordered edges/row identities and
+343 other raw rows remain; only row 307's implementation cell expands.
+The graph now has 1325 vertices, while all container, node, bound and status
+counts remain. Spectral historical pins and Gaussian-tail finite-domain versus
+unbounded-asymptotic limits persist. The pilot32 receipt's older 11712-byte
+runner differs from the current 12130-byte runner; the map preserves both
+identities, and ten other receipt source inventories match current bytes.
+No historical receipt is rebound, IID/coupling law authenticated, or full NUM
+or continuum result verified by this membership correction.
 
 This is a bounded membership correction, not complete Main/history/cloud
-coverage. The exact-sample shrinking-bin note's declared complete comment proof
-remains a separate custody boundary. A project-wide Dropbox crawl is not
-established; connector availability differs by actor. No scientific acceptance
+coverage. The exact-sample shrinking-bin comment sources have separately
+recorded [archive custody in Main591](https://github.com/d6g8k5htny-coder/main/pull/591#issuecomment-6398496409);
+this index change supplies no mathematical or execution qualification for
+them. Separate storage crosswalks retain their own coverage/privacy limits;
+this supplement ingests no Dropbox-only source bytes. No scientific acceptance
 or original review outcome changes.

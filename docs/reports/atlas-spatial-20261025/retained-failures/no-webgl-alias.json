@@ -1,0 +1,64 @@
+{
+  "environment": {
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.41",
+    "browser_executable": "/usr/bin/chromium",
+    "GPU": "Chromium SwiftShader software WebGL; not physical mobile GPU",
+    "dataset_bytes": 962639,
+    "browser": "154.0.8037.57"
+  },
+  "cases": [
+    {
+      "case": "real-render-pick-history-keyboard",
+      "viewport": [
+        1200,
+        900
+      ],
+      "scheme": "dark",
+      "errors": [],
+      "load_ms": 343.81531399958476,
+      "search_with_100ms_settle_ms": 149.15159299971492,
+      "activate_ms": 198.68174100020042,
+      "nodes": 6,
+      "edges": 5,
+      "picked": "math.d1-component.congruence-erratum",
+      "source": "https://github.com/d6g8k5htny-coder/Math-/blob/dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde/imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md",
+      "relationships": 1,
+      "share": "http://127.0.0.1:45417/site/dependencies.html?atlas-view=graph&atlas-node=math.uniform-matrix-cap-lifetime&snapshot=dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde&main-snapshot=b7deb198722582df191006e4f47238f92e6e543d&atlas-expanded=math.uniform-matrix-cap-lifetime%2Cmath.d1-component.congruence-erratum&atlas-q=lifetime&atlas-space=3d&atlas-panel=evidence#current-atlas",
+      "keyboard_frames": [
+        1,
+        2
+      ],
+      "context_loss": "PASS",
+      "passed": true
+    },
+    {
+      "case": "real-render-pick-history-keyboard",
+      "viewport": [
+        390,
+        844
+      ],
+      "scheme": "light",
+      "errors": [],
+      "load_ms": 266.3060760000917,
+      "search_with_100ms_settle_ms": 146.57548900004258,
+      "activate_ms": 228.96304200003215,
+      "nodes": 6,
+      "edges": 5,
+      "picked": "math.d1-component.congruence-erratum",
+      "source": "https://github.com/d6g8k5htny-coder/Math-/blob/dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde/imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md",
+      "relationships": 1,
+      "share": "http://127.0.0.1:45417/site/dependencies.html?atlas-view=graph&atlas-node=math.uniform-matrix-cap-lifetime&snapshot=dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde&main-snapshot=b7deb198722582df191006e4f47238f92e6e543d&atlas-expanded=math.uniform-matrix-cap-lifetime%2Cmath.d1-component.congruence-erratum&atlas-q=lifetime&atlas-space=3d&atlas-panel=evidence#current-atlas",
+      "keyboard_frames": [
+        1,
+        2
+      ],
+      "context_loss": "PASS",
+      "passed": true
+    },
+    {
+      "case": "no-webgl"
+    }
+  ],
+  "failure": "Locator expected to contain text 'unavailable'\nActual value: 3D \u00b7 7 displayed nodes \u00b7 6 recorded relationships \u00b7 Math dbe6c0a1. Same filtered page as Graph and List. \nCall log:\n  - Expect \"to_contain_text\" with timeout 5000ms\n  - waiting for locator(\"#atlas-space-status\")\n    - locator resolved to <p role=\"status\" id=\"atlas-space-status\">Loading optional 3D renderer\u2026</p>\n    - unexpected value \"Loading optional 3D renderer\u2026\"\n    13 \u00d7 locator resolved to <p role=\"status\" id=\"atlas-space-status\">3D \u00b7 7 displayed nodes \u00b7 6 recorded relationships\u2026</p>\n       - unexpected value \"3D \u00b7 7 displayed nodes \u00b7 6 recorded relationships \u00b7 Math dbe6c0a1. Same filtered page as Graph and List.\"\n\nAria snapshot:\n- status: 3D \u00b7 7 displayed nodes \u00b7 6 recorded relationships \u00b7 Math dbe6c0a1. Same filtered page as Graph and List.",
+  "traceback": "Traceback (most recent call last):\n  File \"/workspace/atlas-spatial/tools/atlas_spatial_browser_check.py\", line 58, in main\n    page.locator('#atlas-space-toggle').click();expect(page.locator('#atlas-space-status')).to_contain_text('unavailable');expect(page.locator('#atlas-stage')).to_be_visible();page.locator('#atlas-view').select_option('list');expect(page.locator('#atlas-list')).to_be_visible()\n                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/sync_api/_generated.py\", line 22016, in to_contain_text\n    self._sync(\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_sync_base.py\", line 115, in _sync\n    return task.result()\n           ^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_assertions.py\", line 303, in to_contain_text\n    await self._expect_impl(\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_assertions.py\", line 128, in _expect_impl\n    _record_soft_or_raise(\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_assertions.py\", line 60, in _record_soft_or_raise\n    raise error\nAssertionError: Locator expected to contain text 'unavailable'\nActual value: 3D \u00b7 7 displayed nodes \u00b7 6 recorded relationships \u00b7 Math dbe6c0a1. Same filtered page as Graph and List. \nCall log:\n  - Expect \"to_contain_text\" with timeout 5000ms\n  - waiting for locator(\"#atlas-space-status\")\n    - locator resolved to <p role=\"status\" id=\"atlas-space-status\">Loading optional 3D renderer\u2026</p>\n    - unexpected value \"Loading optional 3D renderer\u2026\"\n    13 \u00d7 locator resolved to <p role=\"status\" id=\"atlas-space-status\">3D \u00b7 7 displayed nodes \u00b7 6 recorded relationships\u2026</p>\n       - unexpected value \"3D \u00b7 7 displayed nodes \u00b7 6 recorded relationships \u00b7 Math dbe6c0a1. Same filtered page as Graph and List.\"\n\nAria snapshot:\n- status: 3D \u00b7 7 displayed nodes \u00b7 6 recorded relationships \u00b7 Math dbe6c0a1. Same filtered page as Graph and List.\n"
+}

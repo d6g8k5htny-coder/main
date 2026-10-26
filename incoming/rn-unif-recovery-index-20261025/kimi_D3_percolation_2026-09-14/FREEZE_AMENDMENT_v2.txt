@@ -1,0 +1,55 @@
+D3-PERC-AMEND-V2-20260914-v1.0 freeze record (Stage E repair R2/V1)
+====================================================================
+
+Agent D3, U2D-UPPER. Amendment v2: kappa_far and the remote bracket certified
+at the R2 rung floor. Supersedes the v1 amendment (body 63d91cdd...,
+historical); the frozen D3_PERCOLATION.md (body 8e7fef6b...) is UNTOUCHED.
+
+Extraction rule: lines strictly between the unique exact lines BEGIN_FROZEN_BODY and
+END_FROZEN_BODY of D3_REMOTE_AMENDMENT_v2.md; normalize line endings to LF; exactly
+one terminal LF.
+
+frozen body bytes : 4553
+frozen body SHA-256: 6796deea4bfd5e3df19fd561e6bc34efe2531263db9db8d015d0553c3a3d1302
+whole-file SHA-256: 2527ab5a1b5ee208a30a672e2457de04708228f3c154185d95c236bd4f4f5e6f
+
+companions:
+sha256(d3_amend_v2.py)  = 6399a0e31b089a94c4dfec7960682ef400f7f0f99a788e3668557d0a75cf7528
+sha256(ta2_normal.txt)  = 7bfb65ba86118f2ff3714310f4a719d8bcda50a682a1edf3ca9a83cdeab2bde8
+sha256(ta2_opt.txt)     = 7bfb65ba86118f2ff3714310f4a719d8bcda50a682a1edf3ca9a83cdeab2bde8
+(v2 engine, normal and python3 -O byte-identical; D3-AMEND-V2 PASS, exit 0)
+v2 engine digest = 2df9ddb09567dc940a8a8b9016453daa3eaeeb88890d6de962d4ce7241b8b2cb
+sha256(d3_falsifier.py) = c9e7458b8ec6da9eba8121d8de4bbe354cf8389409363170f2c17d7841ac526e
+sha256(tf_normal.txt)   = 9f4f55d0cc79f8a810e9d32edbed3acc5c3b6167014d4680428596679ad0b1f6
+sha256(tf_opt.txt)      = 9f4f55d0cc79f8a810e9d32edbed3acc5c3b6167014d4680428596679ad0b1f6
+(falsifier, normal and python3 -O byte-identical; D3-FALSIFIER PASS, exit 0)
+falsifier digest = 6b04697c8cffd5cec5e84c31cd0910957fa43fd61599e6d3cd7c6ae488f15270
+
+consumed (read-only, hash-pinned at consume time, fail-closed):
+sha256(d3_perc.py)      = 5bc092412943e1c2185a8cf86cee23ae9cd9a2aad9bd9ef0b02807e9ff58dfa4
+sha256(d3_amend.py)     = 12175217869a9bd7b3f623fdb34a6c0c699419722bfe534e3b5226352504b5b6
+sha256(H2_foundations/cov_exact.py) = f08c1c5f653f2ffd2e85d39e1112f80d15db04d15f932e5ee42db2ca3553e783
+sha256(H2_foundations/pin_transform.py) = c6988ac7fcfa32dcc03c1374e13fb4c26af1c12c25cb824a315e6dce8991fd41
+sha256(H3_closure/H3_RUNG_FLOOR.md) = 6347275d86c56842b719b36180e535bc1793d6995ddb68464db2960820440dfa
+  (R2-certified rung floor Z_lo = 7.7592917375327855e-3, interval-enclosed
+   two-sided Z in [7.7592917375327855e-3, 1.1468646473404396e-2], MC-free;
+   parsed fail-closed by the engine with a drift ck)
+
+HEADLINE (assembly-consumable, sec. 2 of the body; D1 v2.2 consumes 21.9279):
+  B_remote = I_ann(Z_lo) + I_far <= 17.6804 + 2.5282637*(1+0.68)
+           = 21.9279 r^3  (certified, floor-consistent, Monte-Carlo-free;
+           upper bounds rounded UP)
+  P_r(A.rem) <= I_hole + B_remote <= 1.284 + 21.9279 = 23.2119 r^3.
+  per-piece Z-scaling audit (sec. 1): kappa_cross = N_cross/Z (1/Z),
+  kappa_pair = N_pair/Z (1/Z), kappa_y Z-independent, R_pg/R_wm
+  Z-independent, I_ann = Num_ann/Z (1/Z; Num_ann = 1.714838453e-5
+  exact-kernel, consistency-ck'd vs the frozen 17.0182368 display).
+  kappa_far assembled at the floor 0.677284905 -> certified <= 0.68.
+  G.7-scope two-sided normalizer AT THE RUNG: DISCHARGED by R2.
+  D3-LEMMA-RN-UNIF: still NAMED for the zone uniformity (v1 disposition).
+  operative falsifier gate [21.27, 22.5] (edge raised from the prescribed
+  21.24: the mixed form 21.2658 > 21.24, so 21.27 is the minimal edge
+  rejecting it): rejects 19.5465 / 21.2153 / 21.2658; accepts 21.9279.
+  mutation suite: MUT-V2-1 gate self-test, MUT-V2-2 transcript tamper,
+  MUT-V2-3 QMC-denominator injection at the floor pin, MUT-V2-4 R2-artifact
+  hash-pin tamper -- all fire fail-closed.

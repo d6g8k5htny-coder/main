@@ -16,8 +16,11 @@ import json
 import os
 from pathlib import Path, PurePosixPath
 import re
+import email.utils
+import random
 import stat
 import tempfile
+import time
 import urllib.error
 import urllib.request
 from urllib.parse import urlsplit
@@ -31,6 +34,11 @@ from site_asset_release import transform, without_release
 
 ORIGIN = "https://d6g8k5htny-coder.github.io/main/site/"
 MAX_SNAPSHOTS = 512
+TRANSIENT_HTTP = frozenset({429, 500, 502, 503, 504})
+GET_RETRY_ATTEMPTS = 4
+GET_RETRY_BUDGET_SECONDS = 30
+GET_RETRY_BACKOFF_SECONDS = (2, 4, 8)
+GET_RETRY_JITTER_SECONDS = 0.25
 MAX_HISTORY_BYTES = 768 * 1024 * 1024
 MAX_FILE_BYTES = 16 * 1024 * 1024
 MAX_MEMBERS = 20006
@@ -509,11 +517,78 @@ class NoRedirect(urllib.request.HTTPRedirectHandler):
         raise ValueError("public history redirect refused")
 
 
+def _default_jitter():
+    return random.uniform(0.0, GET_RETRY_JITTER_SECONDS)
+
+
+def _note_http_error(error, url):
+    marker = "[" + url + "]"
+    message = str(error.msg or "")
+    if marker not in message:
+        error.msg = (message + " " + marker).strip()
+    error.filename = url
+    return error
+
+
+def _note_url_error(error, url):
+    marker = "[" + url + "]"
+    reason = getattr(error, "reason", error)
+    text = str(reason)
+    if marker not in text:
+        text = text + " " + marker
+    noted = urllib.error.URLError(text)
+    noted.filename = url
+    return noted
+
+
+def _retry_after_seconds(headers, now):
+    if headers is None or not hasattr(headers, "get"):
+        return None
+    raw = headers.get("Retry-After")
+    if raw is None:
+        return None
+    text = str(raw).strip()
+    if re.fullmatch(r"[0-9]+", text):
+        return int(text)
+    if re.fullmatch(r"[0-9]+\.[0-9]+", text):
+        return float(text)
+    try:
+        parsed = email.utils.parsedate_to_datetime(text)
+    except (TypeError, ValueError, OverflowError, OSError):
+        return None
+    if parsed is None:
+        return None
+    if parsed.tzinfo is None:
+        parsed = parsed.replace(tzinfo=timezone.utc)
+    delay = (parsed - now).total_seconds()
+    return 0 if delay < 0 else delay
+
+
+def _retry_delay(failed_attempt, retry_after, elapsed, jitter):
+    remaining = GET_RETRY_BUDGET_SECONDS - elapsed
+    if remaining <= 0:
+        return None
+    if retry_after is not None:
+        if retry_after >= remaining:
+            return None
+        return retry_after
+    if failed_attempt >= len(GET_RETRY_BACKOFF_SECONDS):
+        return None
+    delay = GET_RETRY_BACKOFF_SECONDS[failed_attempt] + jitter
+    if delay >= remaining:
+        return None
+    return delay
+
+
 class HistoryReader:
-    def __init__(self, opener=None):
+    def __init__(self, opener=None, *, pause=time.sleep, clock=time.monotonic, jitter=None, now=None):
         self.opener = opener or urllib.request.build_opener(NoRedirect())
         self.requests = 0
         self.total_bytes = 0
+        self.pause = pause
+        self.clock = clock
+        self.jitter = _default_jitter if jitter is None else jitter
+        self.now = (lambda: datetime.now(timezone.utc)) if now is None else now
 
     def get_bytes(self, path):
         if path not in ("snapshots/index.json", "current-meta.json", "current.json") and not re.fullmatch(
@@ -521,26 +596,74 @@ class HistoryReader:
             raise ValueError("nonpublic history request path refused")
         if self.requests >= MAX_SNAPSHOTS + 3:
             raise ValueError("history request capacity exceeded")
+        # One logical Pages GET. Retries do not consume MAX_SNAPSHOTS + 3, so a
+        # full restore can still absorb a transient 503. This is HistoryReader,
+        # not publication.PublicReader; public_readback retries that other path.
         self.requests += 1
         url = ORIGIN + path
         request = urllib.request.Request(url, headers={"User-Agent": "current-site-public-history",
                                                       "Cache-Control": "no-cache", "Pragma": "no-cache",
                                                       "Accept-Encoding": "identity"})
-        with self.opener.open(request, timeout=20) as response:
-            if response.geturl() != url or response.status != 200:
-                raise ValueError("public history response identity mismatch")
-            encoding = response.headers.get("Content-Encoding", "identity")
-            if encoding not in ("", "identity"):
-                raise ValueError("encoded public history response refused")
-            length = response.headers.get("Content-Length")
-            if length is not None and (not length.isascii() or not length.isdecimal() or int(length) > MAX_FILE_BYTES):
-                raise ValueError("history response byte bound exceeded")
-            raw = response.read(MAX_FILE_BYTES + 1)
+        raw, length = self._read_exchange(request)
         self.total_bytes += len(raw)
         if (len(raw) > MAX_FILE_BYTES or (length is not None and len(raw) != int(length))
                 or self.total_bytes > MAX_HISTORY_BYTES + 3 * MAX_FILE_BYTES):
-            raise ValueError("history response byte bound exceeded")
+            raise ValueError(f"history response byte bound exceeded [{url}]")
         return raw
+
+    def _read_exchange(self, outbound):
+        url = outbound.full_url
+        started = self.clock()
+        last_error = None
+        for attempt in range(GET_RETRY_ATTEMPTS):
+            elapsed = self.clock() - started
+            if attempt and elapsed >= GET_RETRY_BUDGET_SECONDS:
+                break
+            timeout = 20 if attempt == 0 else min(20, GET_RETRY_BUDGET_SECONDS - elapsed)
+            retry_after = None
+            try:
+                with self.opener.open(outbound, timeout=timeout) as response:
+                    if response.geturl() != url:
+                        raise ValueError(f"public history response identity mismatch [{url}]")
+                    status = response.status
+                    headers = response.headers
+                    if status in TRANSIENT_HTTP:
+                        last_error = urllib.error.HTTPError(
+                            url, status, f"transient HTTP {status} [{url}]", headers, None)
+                        retry_after = _retry_after_seconds(headers, self.now())
+                    elif status != 200:
+                        raise ValueError(f"public history response identity mismatch [{url}]")
+                    else:
+                        encoding = headers.get("Content-Encoding", "identity")
+                        if encoding not in ("", "identity"):
+                            raise ValueError(f"encoded public history response refused [{url}]")
+                        length = headers.get("Content-Length")
+                        if length is not None and (not length.isascii() or not length.isdecimal() or int(length) > MAX_FILE_BYTES):
+                            raise ValueError(f"history response byte bound exceeded [{url}]")
+                        return response.read(MAX_FILE_BYTES + 1), length
+            except urllib.error.HTTPError as error:
+                _note_http_error(error, url)
+                if error.code not in TRANSIENT_HTTP or attempt + 1 == GET_RETRY_ATTEMPTS:
+                    raise
+                last_error = error
+                retry_after = _retry_after_seconds(getattr(error, "headers", None), self.now())
+            except (urllib.error.URLError, TimeoutError) as error:
+                last_error = _note_url_error(error, url)
+                if attempt + 1 == GET_RETRY_ATTEMPTS:
+                    raise last_error from error
+                retry_after = None
+            if last_error is None:
+                raise ValueError(f"public history transient failure [{url}]")
+            if attempt + 1 == GET_RETRY_ATTEMPTS:
+                raise last_error
+            jitter = 0 if retry_after is not None else self.jitter()
+            delay = _retry_delay(attempt, retry_after, self.clock() - started, jitter)
+            if delay is None:
+                raise last_error
+            self.pause(delay)
+        if last_error is not None:
+            raise last_error
+        raise ValueError(f"public history transient retry budget exceeded [{url}]")
 
 
 class StaticHTML(HTMLParser):
@@ -993,7 +1116,7 @@ def remote_metadata(reader, *, missing_allowed=False):
     except urllib.error.HTTPError as error:
         if error.code == 404 and missing_allowed:
             return None
-        raise ValueError("published history metadata unavailable") from error
+        raise ValueError("published history metadata unavailable: " + str(error)) from error
     meta = parse_json(raw)
     if not isinstance(meta, dict):
         raise ValueError("malformed published history metadata")
@@ -1041,11 +1164,12 @@ def _restore_v2_live_pages(data, meta, expected):
     """
     for task_records in (RESUME_TASK_RECORDS, _RESUME_TASK_RECORDS_V1):
         for annotations, style_first, resume in LIVE_PRESENTATIONS:
-            pages = render_live_current_v2(data, meta, annotations=annotations,
-                                           style_first=style_first, resume=resume,
-                                           task_records=task_records)
-            if [descriptor(k, v) for k, v in sorted(pages.items())] == expected:
-                return pages
+            for readable_status in (True, False):
+                pages = render_live_current_v2(
+                    data, meta, annotations=annotations, style_first=style_first,
+                    resume=resume, task_records=task_records, readable_status=readable_status)
+                if [descriptor(k, v) for k, v in sorted(pages.items())] == expected:
+                    return pages
     raise ValueError("live static reading does not match the exact observation")
 
 
@@ -1073,7 +1197,7 @@ def restore_history(site, reader=None, expected_manifest_sha=None):
         raw_manifest = reader.get_bytes("snapshots/index.json")
     except urllib.error.HTTPError as error:
         if error.code != 404:
-            raise ValueError("published history manifest unavailable") from error
+            raise ValueError("published history manifest unavailable: " + str(error)) from error
         if expected_manifest_sha is not None:
             raise ValueError("published manifest pin is unavailable; bootstrap refused") from error
         remote = remote_metadata(reader, missing_allowed=True)
@@ -1509,15 +1633,18 @@ LIVE_PRESENTATIONS = ((True, True, True), (True, False, True), (True, True, Fals
                       (True, False, False), (False, True, False), (False, False, False))
 
 
-def _live_v2_current_section(data, meta, *, annotations=True):
+def _live_v2_current_section(data, meta, *, annotations=True, readable_status=True):
     pins = " · ".join(f'<a href="https://github.com/{_v1_escape(repo["repository"])}/tree/{repo["commit"]}">{_v1_escape(repo["repository"].split("/")[1])} <code>{repo["commit"]}</code></a>'
                       for repo in data["repositories"])
     refs = " · ".join(f'<a href="{_v1_escape(_v1_source_url(ref))}">{_v1_escape(ref.get("label", ref["path"]))}</a>'
                       for ref in data["references"])
     archive = _v1_escape(meta["archive"])
+    status = (f'<p class="current-state" role="status">Pinned source observation: <time datetime="{_v1_escape(data["observed_at"])}">{_v1_escape(data["observed_at"])}</time>. Compare this timestamp with the present time; observation is not scientific revalidation.</p>\n')
+    if readable_status:
+        status = '<div role="status">' + status.replace(' role="status"', '', 1).rstrip('\n') + '</div>\n'
     return (f'<section id="current-research" class="current-research" data-current-digest="{_v1_escape(meta["sha256"])}" data-current-bytes="{_v1_escape(meta["bytes"])}">\n'
             '<h2>Current research sources</h2>\n'
-            f'<p class="current-state" role="status">Pinned source observation: <time datetime="{_v1_escape(data["observed_at"])}">{_v1_escape(data["observed_at"])}</time>. Compare this timestamp with the present time; observation is not scientific revalidation.</p>\n'
+            + status +
             f'<p>{pins}</p>\n<p>{refs}</p>\n'
             + (date_explanation(data, prefix='../', snapshot_prefix='../snapshots/' + archive + '/') if annotations else '')
             +
@@ -1526,7 +1653,7 @@ def _live_v2_current_section(data, meta, *, annotations=True):
             '</section>')
 
 
-def _live_v2_static_page(data, meta, title, body, *, style_first=True, annotations=True):
+def _live_v2_static_page(data, meta, title, body, *, style_first=True, annotations=True, readable_status=True):
     return (f'<!doctype html>\n{_V1_GENERATED}\n<html lang="en"><head><meta charset="utf-8">\n'
             '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
             '<meta http-equiv="Content-Security-Policy" content="default-src \'none\'; style-src \'self\'; img-src \'self\'; script-src \'none\'; base-uri \'none\'; form-action \'none\'">\n'
@@ -1536,7 +1663,7 @@ def _live_v2_static_page(data, meta, title, body, *, style_first=True, annotatio
                '<link rel="stylesheet" href="../brand.css"><link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="../current.css">\n')
             + '</head><body><main class="node-static">\n'
             '<nav aria-label="Research site"><a href="../index.html">Home</a> · <a href="../explore.html">Explore</a> · <a href="../research.html">Research</a> · <a href="../workspace.html#inventory">Library</a> · <a href="../dependencies.html#current-atlas">Current dependencies</a> · <a href="index.html">Current static graph index</a></nav>\n'
-            + _live_v2_current_section(data, meta, annotations=annotations)
+            + _live_v2_current_section(data, meta, annotations=annotations, readable_status=readable_status)
             + '\n' + body + '\n</main></body></html>\n').encode("utf-8")
 
 
@@ -1746,7 +1873,7 @@ def _resume_html(view):
             f'<h3>Continuation</h3>\n{continuation}\n</section>\n')
 
 
-def render_live_current_v2(data, meta, *, style_first=True, annotations=True, acquisition=None, resume=None, task_records=None):
+def render_live_current_v2(data, meta, *, style_first=True, annotations=True, acquisition=None, resume=None, task_records=None, readable_status=True):
     """Render current static routes from the full fresh schema-1 observation."""
     if resume is None:
         resume = annotations
@@ -1764,7 +1891,7 @@ def render_live_current_v2(data, meta, *, style_first=True, annotations=True, ac
                 + '\n<h2>Original node metadata</h2><pre>'
                 + _v1_escape(json.dumps(node, ensure_ascii=False, indent=2, sort_keys=True)) + '</pre>\n'
                 + _v1_neighbors(data, node_id))
-        pages[f"nodes/{node_id}.html"] = _live_v2_static_page(data, meta, node_id, body, style_first=style_first, annotations=annotations)
+        pages[f"nodes/{node_id}.html"] = _live_v2_static_page(data, meta, node_id, body, style_first=style_first, annotations=annotations, readable_status=readable_status)
     items = "\n".join(f'<li><a href="{_v1_escape(node_id)}.html">{_v1_escape(node_id)}</a> · {_v1_escape(node.get("kind", "not_recorded"))} · <code>{_v1_escape(node.get("classification", "not_recorded"))}</code></li>'
                       for node_id, node in graph["nodes"].items())
     required = sum(edge["required"] for edge in graph["edges"])
@@ -1777,7 +1904,7 @@ def render_live_current_v2(data, meta, *, style_first=True, annotations=True, ac
             + ('<ul>\n' if not annotations else '')
             + (inventory_legend() + acquisition_notice(acquisition) + '<ul aria-describedby="current-inventory-legend">\n' + current_source_list(data["sources"], acquisition) if annotations else _v1_source_list(data["sources"])) + '\n</ul>\n'
             + _v2_equation_collection(data))
-    pages["nodes/index.html"] = _live_v2_static_page(data, meta, "Current static graph, equation excerpts and source index", body, style_first=style_first, annotations=annotations)
+    pages["nodes/index.html"] = _live_v2_static_page(data, meta, "Current static graph, equation excerpts and source index", body, style_first=style_first, annotations=annotations, readable_status=readable_status)
     return pages
 
 
