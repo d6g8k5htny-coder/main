@@ -184,10 +184,116 @@ These Math- merges landed after the cut and touch ledger rows; none of them supp
 | 262 | `.github/workflows/lm006-sign-coefficient.yml` | Math-#366 | `b29c4b76` | `21361d33` | NEW_CARRIER | replay tool pins the unit NOTE.md a79f0808 and runs the unit enclose.py |
 | 262 | `tests/test_lm006_sign_coefficient_replay.py` | Math-#366 | `b29c4b76` | `6e6d5cea` | NEW_CARRIER | replay tool pins the unit NOTE.md a79f0808 and runs the unit enclose.py |
 | 262 | `tools/lm006_sign_coefficient_replay.py` | Math-#366 | `b29c4b76` | `93d35b65` | NEW_CARRIER | replay tool pins the unit NOTE.md a79f0808 and runs the unit enclose.py |
-| 161 | `reviews/d2_two_atom_floors_20261006/SOURCE_FILES.json` | Math-#508 | `10f13851` | `9df8ca21` | MANIFEST_REPIN | |
-| 162 | `reviews/d2_two_mass_floors_20261006/SOURCES.json` | Math-#508 | `10f13851` | `f1d079de` | MANIFEST_REPIN | |
 
 Rows 257 and 261 are not `MISSING` rows; they appear because their implementation carriers changed after the cut.
+
+## Manifest and test re-pins (Math-#508, Math-#509)
+
+Every non-workflow path these two merges changed, with the ledger rows whose unit contains it. A row that is not a
+`MISSING` row is listed here only. None of these changes touches mathematical content.
+
+| Rows | Path | Landing | Merge | Blob before → after |
+|---|---|---|---|---|
+| 274 | `companions/d2_atom_integral_20261006/SOURCE_FILES.json` | Math-#508 | `10f13851` | `c68d2d7a` → `82953007` |
+| 275 | `companions/d2_moment_bridge_20261006/SOURCE_FILES.json` | Math-#508 | `10f13851` | `76b1c59d` → `b72d7de7` |
+| 276 | `companions/d2_square_schur_20261006/SOURCE_FILES.json` | Math-#508 | `10f13851` | `f424d054` → `af1d447e` |
+| 277 | `companions/torus_filtration_20261011/SOURCE_FILES.json` | Math-#508 | `10f13851` | `4234b2ae` → `ae2eff1f` |
+| 80 | `frontiers/nongaussian_smoothing_admission_20261017/FOLLOWON_SOURCE_INDEX.json` | Math-#508 | `10f13851` | `fa21d332` → `a92ee5b0` |
+| 161 | `reviews/d2_two_atom_floors_20261006/SOURCE_FILES.json` | Math-#508 | `10f13851` | `1c627ddf` → `9df8ca21` |
+| 162 | `reviews/d2_two_mass_floors_20261006/SOURCES.json` | Math-#508 | `10f13851` | `9ddeae97` → `f1d079de` |
+| 304 | `specifications/lean_statements_20261010/README.md` | Math-#508 | `10f13851` | `30e61717` → `2eb55662` |
+| no ledger unit | `tests/test_c6_factorial_job_budget.py` | Math-#508 | `10f13851` | `671ca014` → `5531fc90` |
+| no ledger unit | `tests/test_d5_reconciliation_workflow.py` | Math-#508 | `10f13851` | `b383166b` → `1790e408` |
+| no ledger unit | `tests/test_elder_lower_all_d_workflow.py` | Math-#508 | `10f13851` | `5a52984b` → `9e88a0c2` |
+| no ledger unit | `tests/test_elder_lower_review_workflow.py` | Math-#508 | `10f13851` | `f2524a66` → `d4388f81` |
+| no ledger unit | `tests/test_full_suite_routing.py` | Math-#508 | `10f13851` | `07f05865` → `f2f29811` |
+| 276 | `companions/d2_square_schur_20261006/SOURCE_FILES.json` | Math-#509 | `dd2d13b4` | `af1d447e` → `265c3517` |
+
+The same merges changed 182 workflow files under `.github/workflows/`, listed with blobs in
+`postcut_workflow_repins` in the JSON. #508 changes only `uses:` action pins; #509 changes one
+`timeout-minutes` value (25 → 60) in `d2-square-schur.yml`. 110 ledger rows cite one of them in their implementation cell; for those rows:
+
+| Workflow | Landing | Blob before → after | Ledger rows citing it |
+|---|---|---|---|
+| `bf-six-pin-scalar.yml` | Math-#508 | `ccba07ef` → `148494f2` | 272, 273 |
+| `c2-torus-transfer.yml` | Math-#508 | `819f1046` → `e8c11afd` | 38, 57 |
+| `c297-regular-superlevel.yml` | Math-#508 | `1201e225` → `c3ef2964` | 295, 296, 297 |
+| `c6-cluster-coefficients-numerics.yml` | Math-#508 | `0ab0fe0e` → `05985f18` | 7 |
+| `c6-cluster-law.yml` | Math-#508 | `3a09eabf` → `dc7d93aa` | 8 |
+| `c6-factorial-moment.yml` | Math-#508 | `4da40eba` → `984b08dc` | 10 |
+| `c6-fourier-cutoff.yml` | Math-#508 | `99045d18` → `110bfe86` | 19, 179, 181, 257 |
+| `c6-hard-direction-factorization.yml` | Math-#508 | `342b09e7` → `9016a5d4` | 12 |
+| `c6-marked-fourier.yml` | Math-#508 | `33ad7f26` → `4f7ccd47` | 15, 50 |
+| `c6-microscopic-tail-numerics.yml` | Math-#508 | `8e57caaa` → `d7d8769c` | 14 |
+| `c6-remote-coefficient-d3-numerics.yml` | Math-#508 | `6725cc6e` → `36727925` | 17, 18, 96 |
+| `c6-residual-closure.yml` | Math-#508 | `c8577515` → `da5d7071` | 135 |
+| `c6-tail-constant-certified.yml` | Math-#508 | `53b09857` → `9adcd4f6` | 136 |
+| `c6-witness-collision-reconciliation.yml` | Math-#508 | `a176b69a` → `2a27acea` | 133, 137, 141, 175, 182, 187 |
+| `c7-nonvanishing-review.yml` | Math-#508 | `9043f1d6` → `bb3167da` | 138 |
+| `c7-total-bounded.yml` | Math-#508 | `a19097df` → `de4887a8` | 21 |
+| `c8-cap-failure-coefficient-dims.yml` | Math-#508 | `b74f83b2` → `afb65fea` | 23 |
+| `c8-cap-failure-coefficient-planar.yml` | Math-#508 | `a9c9daba` → `f4c7e791` | 24, 77 |
+| `c8-lifetime-difference-constant.yml` | Math-#508 | `1f99cdab` → `ba3b9c09` | 151, 155 |
+| `c8-normalizer-floor-planar.yml` | Math-#508 | `042f07de` → `c3eeb175` | 27 |
+| `c8-theorem-a-constants-d3.yml` | Math-#508 | `8a1fdad2` → `c315ed12` | 28 |
+| `c8-theorem-a-constants-planar.yml` | Math-#508 | `3a5ee3eb` → `85fffc79` | 29 |
+| `c8-window-coefficient-d3-torus.yml` | Math-#508 | `0194bba0` → `225a2727` | 31 |
+| `c8-window-coefficient-d4.yml` | Math-#508 | `b6cc2ef4` → `f179abce` | 32 |
+| `c8-window-coefficient-d5.yml` | Math-#508 | `af29c8c2` → `35c7279e` | 33 |
+| `c8-window-coefficient-d6.yml` | Math-#508 | `71828761` → `5eed3f30` | 34 |
+| `c8-window-coefficient-d7.yml` | Math-#508 | `d2087b5b` → `482c29af` | 35 |
+| `c8-window-coefficient-planar.yml` | Math-#508 | `b5061549` → `e1f49959` | 36 |
+| `candidate-parity-rate.yml` | Math-#508 | `b244693c` → `024ca105` | 37, 49, 94, 95, 122, 123 |
+| `cap-first-exit-lean.yml` | Math-#508 | `2ca2252f` → `2e7a0730` | 149 |
+| `collision-mechanism-checks.yml` | Math-#508 | `47837be0` → `0a00f042` | 143 |
+| `contact-small-gap.yml` | Math-#508 | `9cde8e04` → `86cadd90` | 185, 228 |
+| `d1-cap-elder-partner-second-pass.yml` | Math-#508 | `4b688ce1` → `93623fd2` | 156 |
+| `d1-cde-fulldepth-review.yml` | Math-#508 | `089df771` → `50b247c6` | 150 |
+| `d1-line.yml` | Math-#508 | `68b548a3` → `a6485ec2` | 47, 48, 204 |
+| `d1-third-order-law.yml` | Math-#508 | `e188a408` → `e3a8d989` | 205 |
+| `d2-remainder-fulldepth-review.yml` | Math-#508 | `dbbba357` → `736a07f3` | 159 |
+| `d2-two-mass-floors.yml` | Math-#508 | `5d4a4ef2` → `3e3c6099` | 251 |
+| `d3-l4-anisotropic.yml` | Math-#508 | `73efbf12` → `3bf9e353` | 190 |
+| `d5-intermediate-window-review.yml` | Math-#508 | `ecf5c711` → `10ede983` | 171 |
+| `d5-pin-disk.yml` | Math-#508 | `70697b1d` → `8b1afd40` | 176, 224 |
+| `downstream-gate.yml` | Math-#508 | `f05bbec8` → `53046a26` | 234 |
+| `elder-cusp-parity.yml` | Math-#508 | `29be167a` → `d74de2a1` | 52 |
+| `elder-lower-all-d.yml` | Math-#508 | `89cd0618` → `603a3bed` | 54 |
+| `elder-lower-review.yml` | Math-#508 | `4a26f8b6` → `6a5b113e` | 152 |
+| `elder-third-order.yml` | Math-#508 | `f2474073` → `f5a06fce` | 62 |
+| `far-elder-flat-ridge.yml` | Math-#508 | `957099fb` → `a946de7b` | 129 |
+| `formal-lean.yml` | Math-#508 | `1d64378f` → `b9165ec9` | 294 |
+| `h5-rim-contract.yml` | Math-#508 | `b2c8f51a` → `2b63690e` | 259 |
+| `hardening-proof-custody.yml` | Math-#508 | `d1dffe7e` → `aac15653` | 256 |
+| `landing-claims.yml` | Math-#508 | `0516a6df` → `8eb48df6` | 229, 305 |
+| `lifetime-moment-boundary.yml` | Math-#508 | `6c9fa1d8` → `7c4b75bb` | 235 |
+| `local-cluster-tightness.yml` | Math-#508 | `072a5a4d` → `b1697d53` | 131 |
+| `ordinary-short-bar-occurrence-all-d.yml` | Math-#508 | `1687c868` → `16ef2996` | 111 |
+| `p15-overlap-tail-review.yml` | Math-#508 | `78812077` → `ca314513` | 220 |
+| `pin-micro-covariance.yml` | Math-#508 | `4579bb5d` → `2274350c` | 223 |
+| `price-budget.yml` | Math-#508 | `da03eca7` → `4238d6c3` | 1 |
+| `register-alignment.yml` | Math-#508 | `74bbb0b2` → `cdc94c9d` | 219, 236, 252 |
+| `remote-distance-moments-review.yml` | Math-#508 | `7ccebfad` → `76ff499a` | 239 |
+| `remote-height-marks-review.yml` | Math-#508 | `a019deed` → `ab79ba21` | 241 |
+| `remote-height-review.yml` | Math-#508 | `c947ba57` → `17ef7fae` | 240 |
+| `remote-inverse-separation-review.yml` | Math-#508 | `54a3f691` → `910ebe46` | 242 |
+| `remote-mixed-inverse-review.yml` | Math-#508 | `1939dd17` → `c7861b28` | 243 |
+| `remote-pair-law-review.yml` | Math-#508 | `0229ba5e` → `1c6a3c9c` | 244 |
+| `sard-g-a2-fixed-frame-review.yml` | Math-#508 | `5942d27d` → `429e6878` | 248 |
+| `sard-g-a2-regularity.yml` | Math-#508 | `5791830f` → `52119c7e` | 107 |
+| `sard-g-pinned-transfer.yml` | Math-#508 | `542bbd13` → `b0eebd5b` | 108 |
+| `sard-g-r1r2-review.yml` | Math-#508 | `475888b2` → `522b318f` | 249 |
+| `sard-g-r3r4-review.yml` | Math-#508 | `97b87e13` → `149eda16` | 250 |
+| `side24-d4-closed-form.yml` | Math-#508 | `1ef15b05` → `55229360` | 264 |
+| `side24-d4-coefficient.yml` | Math-#508 | `8ea01321` → `406f628b` | 263 |
+| `side24-d5-closed-form.yml` | Math-#508 | `40fe9334` → `7c398929` | 266 |
+| `side24-d5-coefficient.yml` | Math-#508 | `93ac2e5e` → `9f46fffa` | 265 |
+| `side24-d6-coefficient.yml` | Math-#508 | `c45d9a5a` → `6059c2ec` | 267 |
+| `side24-periodization-firstvar.yml` | Math-#508 | `15d650c5` → `47cbcc0c` | 112 |
+| `side24-periodization-remainder.yml` | Math-#508 | `59227d63` → `33d499f5` | 113 |
+| `soft-closed-form.yml` | Math-#508 | `efb3b211` → `5dd1ebf7` | 115, 116, 117 |
+| `soft-fold-limit.yml` | Math-#508 | `839b99a4` → `792b2845` | 42 |
+| `strict-unique-replacement-coefficient.yml` | Math-#508 | `452b78c0` → `f8271d8f` | 120 |
 
 ## Limits
 

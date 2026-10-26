@@ -114,14 +114,22 @@ def build(main_repo, math_repo):
                 'path': p, 'landing': pr, 'merge': merge, 'role': role, 'note': note,
                 'blob': text(math_repo, 'rev-parse', f'{merge}:{p}'),
                 'blob_at_cut': cut_blob if re.fullmatch(r'[0-9a-f]{40}', cut_blob) else None})
-    repins = []
-    for merge, pr in REPIN_MERGES:
-        for line in text(math_repo, 'diff', '--name-status', f'{merge}^1', merge).splitlines():
-            status, p = line.split('\t', 1)
-            if not p.startswith('.github/'):
-                repins.append({'path': p, 'status': status, 'landing': pr, 'merge': merge,
-                               'blob': text(math_repo, 'rev-parse', f'{merge}:{p}')})
     rows, all_cells = [], list(ledger_rows(main_repo))
+    math_units = [(int(c[0]), c[3].strip('`')) for c in all_cells if c[2] == 'Math-']
+    repins, workflow_repins = [], []
+    for merge, pr in REPIN_MERGES:
+        for line in text(math_repo, 'diff', '--raw', '--no-abbrev', f'{merge}^1', merge).splitlines():
+            meta, p = line.split('\t', 1)
+            _, _, before, after, status = meta.split()
+            entry = {'path': p, 'status': status, 'landing': pr, 'merge': merge,
+                     'blob_before': before, 'blob': after}
+            if p.startswith('.github/workflows/'):
+                entry['rows_citing'] = [int(c[0]) for c in all_cells if p in c[6]]
+                workflow_repins.append(entry)
+            else:
+                entry['rows'] = [row for row, unit in math_units
+                                 if p == unit or p.startswith(unit.rstrip('/') + '/')]
+                repins.append(entry)
     for cells in all_cells:
         if cells[5] != 'MISSING':
             continue
@@ -161,7 +169,7 @@ def build(main_repo, math_repo):
             rec['rule_sensitive_note'] = reviewed['rule_sensitive_rows'][str(row)]
         if row in carriers:
             rec['postcut_carriers'] = carriers[row]
-        rp = [r for r in repins if r['path'].startswith(unit.rstrip('/') + '/') or r['path'] == unit]
+        rp = [{k: v for k, v in r.items() if k != 'rows'} for r in repins if row in r['rows']]
         if rp:
             rec['postcut_manifest_repins'] = rp
         rows.append(rec)
@@ -184,6 +192,7 @@ def build(main_repo, math_repo):
         'reader_method': reviewed['method'], 'row_rule': reviewed['row_rule'],
         'missing_rows': len(rows), 'row_result_counts': dict(sorted(counts.items())),
         'rows': rows, 'postcut_carriers_on_rows_with_sources': other,
+        'postcut_repins': repins, 'postcut_workflow_repins': workflow_repins,
     }
 
 
@@ -261,11 +270,27 @@ def render(doc):
     carried += [(c['row'], c) for c in doc['postcut_carriers_on_rows_with_sources']]
     for row, c in sorted(carried, key=lambda x: (x[0], x[1]['path'])):
         out.append(f"| {row} | `{c['path']}` | {c['landing']} | `{c['merge'][:8]}` | `{c['blob'][:8]}` | {c['role']} | {c['note']} |")
-    for r in rows:
-        for c in r.get('postcut_manifest_repins', []):
-            out.append(f"| {r['row']} | `{c['path']}` | {c['landing']} | `{c['merge'][:8]}` | `{c['blob'][:8]}` | MANIFEST_REPIN | |")
     out += ['', 'Rows 257 and 261 are not `MISSING` rows; they appear because their implementation carriers changed after the cut.',
-            '', '## Limits', '',
+            '', '## Manifest and test re-pins (Math-#508, Math-#509)', '',
+            'Every non-workflow path these two merges changed, with the ledger rows whose unit contains it. A row that is not a',
+            '`MISSING` row is listed here only. None of these changes touches mathematical content.', '',
+            '| Rows | Path | Landing | Merge | Blob before → after |', '|---|---|---|---|---|']
+    for c in doc['postcut_repins']:
+        rows_txt = ', '.join(str(x) for x in c['rows']) or 'no ledger unit'
+        out.append(f"| {rows_txt} | `{c['path']}` | {c['landing']} | `{c['merge'][:8]}` | "
+                   f"`{c['blob_before'][:8]}` → `{c['blob'][:8]}` |")
+    wf = doc['postcut_workflow_repins']
+    cited = sorted({r for c in wf for r in c['rows_citing']})
+    out += ['', f"The same merges changed {len(wf)} workflow files under `.github/workflows/`, listed with blobs in",
+            '`postcut_workflow_repins` in the JSON. #508 changes only `uses:` action pins; #509 changes one',
+            '`timeout-minutes` value (25 → 60) in `d2-square-schur.yml`. '
+            f"{len(cited)} ledger rows cite one of them in their implementation cell; for those rows:", '',
+            '| Workflow | Landing | Blob before → after | Ledger rows citing it |', '|---|---|---|---|']
+    for c in wf:
+        if c['rows_citing']:
+            out.append(f"| `{c['path'].rsplit('/', 1)[-1]}` | {c['landing']} | `{c['blob_before'][:8]}` → `{c['blob'][:8]}` | "
+                       + ', '.join(str(x) for x in c['rows_citing']) + ' |')
+    out += ['', '## Limits', '',
             '- Only the units of `MISSING` rows were read; other ledger cells, rows and counts were not rechecked.',
             '- The reader classes are a model-assisted judgment and can be wrong; each document carries its quoted evidence in the JSON.',
             '- Formal statement maps (rows 280, 283, 284, 289, 290) and import-only Lean roots (rows 288, 313) are recorded but not',
