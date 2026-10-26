@@ -1,4 +1,5 @@
 import * as THREE from './vendor/three-0.160.0/three.module.js?site-release=f2988301e38ea3d44631f3220044accc019d63ae79b737e79b7b8ab7a2d5f778';
+import {placeSpatialLabels} from './atlas-spatial-labels.mjs?site-release=38a7fb25490081fe6c4fc295ef61bb0e7156aa7111dc71aa8881ff7d23d07b46';
 
 // An on-demand renderer: no animation loop, damping, physics or auto-rotation.
 export function createSpatialRenderer({host,onPick,onFailure}) {
@@ -18,9 +19,13 @@ export function createSpatialRenderer({host,onPick,onFailure}) {
     const {width,height}=host.getBoundingClientRect();if(width<1||height<1)return;
     renderer.setSize(width,height,false);camera.aspect=width/height;camera.position.set(target.x+radius*Math.sin(phi)*Math.sin(theta),target.y+radius*Math.cos(phi),target.z+radius*Math.sin(phi)*Math.cos(theta));camera.lookAt(target);camera.updateProjectionMatrix();camera.updateMatrixWorld();
     renderer.render(scene,camera);draws++;host.dataset.frames=String(draws);
-    // Keep selected + nearest readable labels; the complete list remains below.
-    const placed=[];
-    for(const {node,position,selected}of labelNodes){const p=position.clone().project(camera);const anchorX=(p.x+1)*width/2,y=(1-p.y)*height/2;const w=Math.min(node.offsetWidth||230,width-8),h=38;const x=Math.max(w/2+4,Math.min(width-w/2-4,anchorX));const box={x:x-w/2,y:y-36,w,h};const visible=p.z<1&&p.z>-1&&x>0&&x<width&&y>35&&y<height-10&&(selected||!placed.some(b=>Math.abs(box.x-b.x)<(box.w+b.w)/2&&Math.abs(box.y-b.y)<h));node.hidden=!visible;if(visible){node.style.left=`${x}px`;node.style.top=`${y-18}px`;placed.push(box);}}
+    // Read dimensions together: wrapping IDs have different heights. The full
+    // accessible list below retains labels that cannot fit in this projection.
+    for(const {node}of labelNodes)node.hidden=false;
+    const measurements=labelNodes.map(({node,position,selected})=>{const p=position.clone().project(camera);return {id:node.textContent,x:(p.x+1)*width/2,y:(1-p.y)*height/2,z:p.z,width:node.offsetWidth,height:node.offsetHeight,selected};});
+    const placed=new Map(placeSpatialLabels(measurements,width,height).map(box=>[box.id,box]));
+    for(const {node}of labelNodes){const box=placed.get(node.textContent);node.hidden=!box;if(box){node.style.left=`${box.left}px`;node.style.top=`${box.top}px`;}}
+    host.dataset.labels=String(placed.size);
     host.dataset.ready='true';host.dataset.renderMs=String(performance.now()-started);
   }
   function reset(){target.set(0,0,0);theta=.12;phi=1.1;radius=fittedRadius;schedule();}

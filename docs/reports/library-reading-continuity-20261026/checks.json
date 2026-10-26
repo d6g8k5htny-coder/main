@@ -1,0 +1,166 @@
+[
+  {
+    "command": [
+      "python",
+      "-B",
+      "tools/site_asset_release.py",
+      "--check"
+    ],
+    "exit_code": 0,
+    "seconds": 3.204,
+    "log": "/workspace/research/next-reader-stage-20261026/final-checks/00.log"
+  },
+  {
+    "command": [
+      "python",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_public_shop_data.py"
+    ],
+    "exit_code": 0,
+    "seconds": 0.23,
+    "log": "/workspace/research/next-reader-stage-20261026/final-checks/01.log"
+  },
+  {
+    "command": [
+      "python",
+      "-B",
+      "-m",
+      "unittest",
+      "tests.test_site_asset_release"
+    ],
+    "exit_code": 0,
+    "seconds": 18.619,
+    "log": "/workspace/research/next-reader-stage-20261026/final-checks/02.log"
+  },
+  {
+    "command": [
+      "node",
+      "--test",
+      "tests/test_public_shop_frontend.mjs",
+      "tests/test_explore_models.mjs",
+      "tests/test_curvature_export.mjs",
+      "tests/test_teaching_export.mjs",
+      "tests/test_pin_export.mjs",
+      "tests/test_palette_export.mjs",
+      "tests/test_figure_png.mjs",
+      "tests/test_reading_list_citation.mjs",
+      "tests/test_reader_navigation.mjs",
+      "tests/test_source_reference.mjs",
+      "tests/test_measurement_model.mjs",
+      "tests/test_dependency_viewer.mjs",
+      "tests/test_museum_frontend.mjs",
+      "tests/test_workspace_navigation.mjs"
+    ],
+    "exit_code": 0,
+    "seconds": 8.318,
+    "log": "/workspace/research/next-reader-stage-20261026/final-checks/03.log"
+  },
+  {
+    "command": [
+      "python",
+      "-B",
+      "-S",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_reader_links.py",
+      "-v"
+    ],
+    "exit_code": 0,
+    "seconds": 5.065,
+    "log": "/workspace/research/next-reader-stage-20261026/final-checks/04.log"
+  },
+  {
+    "command": [
+      "python",
+      "-B",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "tests",
+      "-p",
+      "test_museum_data.py"
+    ],
+    "exit_code": 0,
+    "seconds": 0.335,
+    "log": "/workspace/research/next-reader-stage-20261026/final-checks/05.log"
+  },
+  {
+    "command": [
+      "python",
+      "-B",
+      "tools/museum_check.py"
+    ],
+    "exit_code": 0,
+    "seconds": 1.866,
+    "log": "/workspace/research/next-reader-stage-20261026/final-checks/06.log"
+  },
+  {
+    "command": [
+      "node",
+      "--test",
+      "tests/test_museum_geometry.mjs"
+    ],
+    "exit_code": 0,
+    "seconds": 0.219,
+    "log": "/workspace/research/next-reader-stage-20261026/final-checks/07.log"
+  },
+  {
+    "command": [
+      "python",
+      "-B",
+      "-E",
+      "-S",
+      "tests/test_public_shop_check_identity_control.py",
+      "-v"
+    ],
+    "exit_code": 0,
+    "seconds": 0.146,
+    "log": "/workspace/research/next-reader-stage-20261026/final-checks/08.log"
+  },
+  {
+    "command": [
+      "python",
+      "-B",
+      "-E",
+      "-O",
+      "-S",
+      "tests/test_public_shop_check_identity_control.py",
+      "-v"
+    ],
+    "exit_code": 0,
+    "seconds": 0.492,
+    "log": "/workspace/research/next-reader-stage-20261026/final-checks/09.log"
+  },
+  {
+    "command": [
+      "python",
+      "-B",
+      "tools/public_shop_check.py"
+    ],
+    "exit_code": 0,
+    "seconds": 1.443,
+    "log": "/workspace/research/next-reader-stage-20261026/final-checks/10.log"
+  },
+  {
+    "command": [
+      "node",
+      "--test",
+      "tests/test_research_desk.mjs",
+      "tests/test_reading_list_citation.mjs"
+    ],
+    "exit_code": 0,
+    "seconds": 0.258,
+    "log": "/workspace/research/next-reader-stage-20261026/final-checks/11.log"
+  }
+]
