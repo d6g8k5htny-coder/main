@@ -1,0 +1,15 @@
+/* Native task navigation; no scientific or source-state styling. */
+body > .reader-jump {position:fixed;right:16px;bottom:max(16px,env(safe-area-inset-bottom));z-index:1000;margin:0;padding:0;border:0;font-size:14px;max-width:calc(100vw - 32px)}
+/* Yield to visible focus elsewhere without removing the native summary from
+   tab order. It returns as soon as focus enters the menu, including without JS. */
+body:has(:focus-visible):not(:has(.reader-jump:focus-within)) > .reader-jump {opacity:0;pointer-events:none}
+.reader-jump > summary {display:list-item;list-style-position:inside;cursor:pointer;min-height:44px;padding:12px 18px;border:1px solid var(--ul-border);border-radius:var(--ul-radius-m,8px);background:var(--ul-surface);color:var(--ul-text);font:600 14px/1.4 system-ui,sans-serif;box-shadow:0 4px 16px rgb(0 0 0 / .15)}
+.reader-jump > nav {position:absolute;bottom:calc(100% + 8px);right:0;width:19rem;max-width:calc(100vw - 32px);max-height:calc(100dvh - 100px);overflow:auto;overscroll-behavior:contain;background:var(--ul-surface);border:1px solid var(--ul-border);border-radius:var(--ul-radius-m,8px);padding:8px;box-shadow:0 12px 40px rgb(0 0 0 / .15)}
+.reader-jump:not([open]) > nav {display:none}
+.reader-jump[open] > nav {display:grid}
+.reader-jump > nav a {display:flex;align-items:center;min-height:44px;padding:10px 12px;margin:0;color:var(--ul-link);font:14px/1.4 system-ui,sans-serif;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
+.reader-jump > nav a:hover {background:var(--ul-background)}
+.reader-jump :is(summary,a):focus-visible {outline:3px solid var(--ul-focus);outline-offset:2px}
+body > .reader-jump ~ footer {padding-bottom:max(5rem,env(safe-area-inset-bottom))}
+@media(forced-colors:active){.reader-jump > :is(summary,nav){border-color:CanvasText;box-shadow:none}}
+@media print{body > .reader-jump{display:none!important}}
