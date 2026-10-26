@@ -179,6 +179,18 @@ Rules for future cards, not a retrofit of pinned cuts: each card carries one vis
 
 ## Keep or share a Library search
 
+Saved reading-list rows keep their focused source/reference control and open
+**Saved identity** disclosure when another tab updates the list. Validated
+metadata changes refresh the displayed identity and reference. If the focused
+item is removed, focus returns to the reading-list summary; a local Remove
+button uses the neighboring Remove button when one remains. No new data is saved
+automatically. These browser checks exercise that continuity and its tab-only,
+queued-write and outside-focus controls:
+
+```bash
+python3 -B tools/research_desk_continuity_browser_check.py --output reading-continuity-evidence
+```
+
 The Library's search, repository and path filters are saved in the current URL
 without adding a browser-history entry for every keystroke. Refreshing or
 returning with Back/Forward restores the filters. **Link to this search** gives a

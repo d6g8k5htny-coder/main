@@ -13,10 +13,10 @@
   <link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=ef97bd43ea3d8999dbf26e5707d467987a745bf961cac2b3163f94062d087ba7">
   <script type="module" src="dependencies.mjs?site-release=d82de31c97db5296160a3c715627c118eefa1057b34452f1678f1acf331e0e79"></script>
 <link rel="stylesheet" href="current.css?site-release=9b70fee7f54345912905f33f4d15af39748b09c456bd88527b534cc9ceaae207">
-<link rel="stylesheet" href="atlas-layout.css?site-release=c959ee193c94b9853cdfb7e5fb5b2fc880725ee1a7bd6c5516d2410aab06757c">
-<link rel="stylesheet" href="atlas-spatial.css?site-release=232305d210598af0bfdfc651c51494ef0afecd57e72dde59dc588b95d477137f">
+<link rel="stylesheet" href="atlas-layout.css?site-release=26f69d9b38717f9f8d82486d45e17d94e730336124018775c6f17f59e4514206">
+<link rel="stylesheet" href="atlas-spatial.css?site-release=38e1c62152e61330e2aa63ad06db214a1bcecb7c046121680de9cafa9c28bf33">
 <script type="module" src="current.mjs?site-release=fc7e8a98c1e23f476962c4c83e95ed3ce817490007987112d9b2cf6d3d90b142"></script>
-<script type="module" src="atlas.mjs?site-release=49b7d10b17b519a19e349055ae690215da53685c701d2feb0d45a6bc61651d3a"></script>
+<script type="module" src="atlas.mjs?site-release=8cd628dc24288c4726941a5fab1b65361b267a6c8e87c005c7f222f5d43ee88f"></script>
 </head>
 <body class="dependency-page atlas-page">
 <a class="skip-link" href="#main-content">Skip to content</a>
@@ -32,6 +32,20 @@
       <h1 id="atlas-heading">Mathematical atlas</h1>
       <p class="intro">Find a claim. Follow its dependencies. Read the sources.</p>
     </div>
+    <details id="atlas-foundations" class="atlas-foundations">
+      <summary>Start here: the mathematical ideas</summary>
+      <h2>A landscape, a threshold, a lifetime</h2>
+      <p>Imagine a landscape whose height varies from place to place. Move a horizontal waterline through it and watch regions appear and join. This picture is a starting point for reading the research; each source specifies its own mathematical setting.</p>
+      <dl>
+        <dt>Random landscape</dt><dd>A function assigns a value, like height, to each location. In a random landscape the function is chosen according to a probability model. A picture of one landscape is one example, not a statement about every possible landscape.</dd>
+        <dt>Threshold and component</dt><dd>A threshold selects locations above or below a chosen value. A connected component is a piece joined together within that selected region. Read the source to see which direction its threshold moves.</dd>
+        <dt>Persistence and lifetime</dt><dd>Persistence tracks features as the threshold changes. A component can appear and later merge with another; the two threshold values describe its birth and death in the source's convention. Its lifetime measures their separation. This is about threshold values, which need not be elapsed time.</dd>
+        <dt>Hypotheses and scope</dt><dd>Hypotheses are the conditions a claim assumes. Scope says which objects or situations it covers. Read these before applying a result to another landscape or scale.</dd>
+      </dl>
+      <h3>Read a claim in three steps</h3>
+      <ol><li>Choose a claim and read its recorded scope and source.</li><li>Follow its recorded relationships. An arrow points from the claim that depends on something to its dependency. Required and context relationships keep their recorded meanings; position and distance do not measure proof strength.</li><li>Inspect evidence separately: source acquisition, mathematical review, kernel checking, statement alignment and scientific acceptance answer different questions. Missing evidence remains unknown.</li></ol>
+      <p><a href="explore.html">Try the teaching models</a> · <a href="research.html">Read the research introduction</a></p>
+    </details>
     <div role="status" aria-live="polite"><p id="atlas-status" class="atlas-observation">Loading the current pinned graph…</p></div>
     <p id="atlas-error" class="atlas-error" role="alert" hidden></p>
     <div class="atlas-layout">
@@ -69,6 +83,11 @@
     </div>
     <p class="atlas-scope-note">This is a partial neighborhood of the indexed graph. Source metadata is not acquired proof content or mathematical acceptance.</p>
     <p class="atlas-source-actions"><a id="atlas-share" href="#current-atlas">Share this source snapshot and selection</a> · <a href="nodes/index.html">Static node index and evidence pages</a></p>
+    <details id="atlas-snapshot-details" class="atlas-snapshot-details" hidden>
+      <summary>Source snapshot and reproducibility</summary>
+      <p id="atlas-snapshot-record"></p>
+      <ul id="atlas-snapshot-pins"></ul>
+    </details>
     <details class="atlas-reading-guide"><summary>Source coverage and how to read the graph</summary>
       <p id="atlas-coverage"></p>
       <p>Expand a neighborhood to follow more recorded relationships. Displayed nodes are this page's window; loaded nodes are the neighborhood or search matches; the indexed total is the complete admitted graph. These are navigation counts, not proof completeness.</p>
