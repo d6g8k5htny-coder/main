@@ -16,6 +16,29 @@ export function sourceForNode(snapshot,node) {
   return snapshot.sources.find(s=>s.repository===snapshot.graph.identity.repository && s.path===node?.source) || null;
 }
 export function nodePage(id) { return typeof id==='string' && id ? `nodes/${encodeURIComponent(id)}.html` : null; }
+// A generated page advertises material history; this projection constrains its
+// address, not the archive's independent authenticity or association to the graph.
+// The caller supplies a selected own key from the admitted graph.
+export function staticNodeLinks(id,hrefs,pageURL) {
+  let current;try{current=nodePage(id);}catch{return {current:null,preserved:null};}
+  const result={current,preserved:null};
+  if(!current||!Array.isArray(hrefs)||typeof pageURL!=='string')return result;
+  let base;
+  try{const page=new URL(pageURL);if(!['http:','https:'].includes(page.protocol)||page.username||page.password)return result;base=new URL('.',page);}
+  catch{return result;}
+  const archives=new Set();
+  for(const href of hrefs){
+    // Empty query/fragment markers also refuse. Do not let URL normalization
+    // turn a malformed, encoded or traversing address into a canonical witness.
+    if(typeof href!=='string'||!href||/[?#\\%\u0000-\u0020\u007f]/.test(href)||/(?:^|\/)\.\.?(?:\/|$)/.test(href))continue;
+    let url;try{url=new URL(href,base);}catch{continue;}
+    if(url.origin!==base.origin||url.username||url.password||!url.pathname.startsWith(base.pathname))continue;
+    const match=/^snapshots\/([0-9a-f]{64})\/nodes\/index\.html$/.exec(url.pathname.slice(base.pathname.length));
+    if(match)archives.add(match[1]);
+  }
+  if(archives.size===1)result.preserved=`snapshots/${[...archives][0]}/${current}`;
+  return result;
+}
 export function validateSnapshot(data) {
   if(data?.schema_version!==1||data.scientific_effect!=='NONE'||!/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ$/.test(data.observed_at)||!Number.isFinite(Date.parse(data.observed_at))) throw Error('Invalid current source snapshot.');
   if(!Array.isArray(data.repositories)||data.repositories.length!==2) throw Error('Invalid repository inventory.');

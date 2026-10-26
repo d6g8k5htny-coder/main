@@ -1,4 +1,4 @@
-# Private Source proposal: no execution or mechanical rewrite is claimed here.
+# SOURCE-FROZEN R1 DRAFT: no hosted execution or mechanical rewrite acceptance is claimed.
 name: Site asset rewrite proposal
 'on':
   pull_request:
@@ -9,6 +9,8 @@ name: Site asset rewrite proposal
       - 'docs/public-math/**'
       - 'tools/site_asset_release.py'
       - 'tools/site_asset_rewrite_observation.py'
+      - 'tools/site_transition_source_guard.py'
+      - 'tests/test_site_transition_source_guard.py'
       - 'tests/fixtures/current_site_transition_candidate_20261022/production-source-freeze.json'
       - '.github/workflows/site-asset-rewrite-proposal.yml'
 permissions:
@@ -32,7 +34,7 @@ jobs:
         if: always()
         env:
           CHECKOUT_OUTCOME: ${{ steps.checkout.outcome }}
-          SITE_ASSET_CANDIDATE_FREEZE_SHA256: 738edfed0377f07a34b4496363e268adb96a3b214d4a75b6114eb8f08f85938c
+          SITE_ASSET_CANDIDATE_FREEZE_SHA256: 9eb23425150be17ba61fe766dacc2b6b11932a538598a0ca78f94b3ff22463da
         run: |
           python3 -I -B -S - <<'PYBOOTSTRAP'
           import hashlib, os, resource, signal, stat, subprocess, sys, tempfile
@@ -53,8 +55,21 @@ jobs:
                   after = os.fstat(descriptor)
                   identity = lambda s: (s.st_dev, s.st_ino, s.st_mode, s.st_nlink, s.st_size, s.st_mtime_ns, s.st_ctime_ns)
                   if (len(raw) != before.st_size or identity(before) != identity(after)
-                          or hashlib.sha256(raw).hexdigest() != '64d9955db5fbba1e4c9d3a22cf58871c8da9d74962bfecc5a8df5b2ea836d557'):
+                          or hashlib.sha256(raw).hexdigest() != 'befe4c3fc01a6c82766598c89ebf073a752ebb2e792d1b8a3721db742c72deb7'):
                       raise ValueError('source')
+              finally:
+                  os.close(descriptor)
+              guard_path = root / 'tools/site_transition_source_guard.py'
+              descriptor = os.open(guard_path, os.O_RDONLY | os.O_NOFOLLOW)
+              try:
+                  before = os.fstat(descriptor)
+                  if not stat.S_ISREG(before.st_mode) or before.st_nlink != 1 or before.st_size != 4249:
+                      raise ValueError('guard_file')
+                  guard_raw = os.read(descriptor, 8193)
+                  after = os.fstat(descriptor)
+                  if (len(guard_raw) != 4249 or identity(before) != identity(after)
+                          or hashlib.sha256(guard_raw).hexdigest() != '69aa32de61db44014f3b78a4374dda1852ab6854fbf4ac988abef6abf88e1fc6'):
+                      raise ValueError('guard_source')
               finally:
                   os.close(descriptor)
               # Buffer the capture process too: setup/import errors never echo
@@ -65,6 +80,10 @@ jobs:
               with tempfile.TemporaryDirectory(prefix='site-asset-carrier-', dir=temporary) as directory:
                   directory = Path(directory)
                   os.chmod(directory, 0o700)
+                  # Run the exact authenticated capture bytes from the owned carrier directory.
+                  staged_capture = directory / 'capture.py'
+                  with staged_capture.open('xb') as stream: stream.write(raw)
+                  staged_capture.chmod(0o444)
                   output, errors = directory / 'stdout', directory / 'stderr'
                   process, timed_out = None, False
                   def cap():
@@ -72,7 +91,7 @@ jobs:
                       resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
                   try:
                       with output.open('xb') as out, errors.open('xb') as err:
-                          process = subprocess.Popen([sys.executable, '-I', '-B', '-S', str(path)],
+                          process = subprocess.Popen([sys.executable, '-I', '-B', '-S', str(staged_capture)],
                               stdin=subprocess.DEVNULL, stdout=out, stderr=err,
                               start_new_session=True, preexec_fn=cap)
                           try:

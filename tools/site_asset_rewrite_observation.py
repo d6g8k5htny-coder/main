@@ -14,7 +14,11 @@ import subprocess
 import sys
 import tempfile
 import time
+import types
 
+# PROVISIONAL: final canonical modules/freeze are not yet bound by either consumer.
+GUARD = 'tools/site_transition_source_guard.py'
+GUARD_SHA = '69aa32de61db44014f3b78a4374dda1852ab6854fbf4ac988abef6abf88e1fc6'
 PRODUCER = 'tools/site_asset_release.py'
 PRODUCER_SHA = '390ea41ad0b4426913757c186e341dfcc1d1abcdafce505f51607a3dd31c0ffd'
 FREEZE = 'tests/fixtures/current_site_transition_candidate_20261022/production-source-freeze.json'
@@ -219,10 +223,22 @@ def observe(repo, work, context, deadline):
     context['candidate_freeze_sha256'] = expected
     immutable_sources = {}
     for label, source_path in (('capture_source', 'tools/site_asset_rewrite_observation.py'),
-                               ('workflow_source', '.github/workflows/site-asset-rewrite-proposal.yml')):
+                               ('workflow_source', '.github/workflows/site-asset-rewrite-proposal.yml'),
+                               ('merge_guard_source', GUARD)):
         source_raw, _ = safe_read(repo, source_path, 32768)
         context[label] = {'path': source_path, **pin(source_raw)}
         immutable_sources[source_path] = source_raw
+    executed_path = Path(__file__).absolute()
+    executed_raw, _ = safe_read(executed_path.parent, executed_path.name, 32768)
+    require(executed_raw == immutable_sources['tools/site_asset_rewrite_observation.py'],
+            'EXECUTED_CAPTURE_SOURCE_MISMATCH')
+    context['executed_capture_source'] = pin(executed_raw)
+    guard_raw = immutable_sources[GUARD]
+    require(len(guard_raw) == 4249 and digest(guard_raw) == GUARD_SHA, 'MERGE_GUARD_SOURCE_MISMATCH')
+    # Execute only the authenticated captured bytes, never a second mutable-path import.
+    guard = types.ModuleType('site_transition_source_guard')
+    guard.__file__ = str(repo / GUARD)
+    exec(compile(guard_raw, guard.__file__, 'exec'), guard.__dict__)
     require(os.environ.get('GITHUB_EVENT_NAME') == 'pull_request' and
             os.environ.get('GITHUB_REPOSITORY') == 'd6g8k5htny-coder/main', 'WRONG_EVENT_OR_REPOSITORY')
     event_path = Path(os.environ['GITHUB_EVENT_PATH'])
@@ -236,12 +252,10 @@ def observe(repo, work, context, deadline):
     checked = git(repo, work, ['rev-parse', 'HEAD'], serial, deadline).decode('ascii').strip()
     require(checked == os.environ.get('GITHUB_SHA') and re.fullmatch(r'[0-9a-f]{40}', checked) and
             os.environ.get('GITHUB_REF') == 'refs/pull/%d/merge' % number, 'WRONG_TESTED_COMMIT')
-    parents = git(repo, work, ['rev-list', '--parents', '-n', '1', 'HEAD'], serial, deadline).decode('ascii').split()
-    require(parents == [checked, base, head], 'TESTED_MERGE_PARENTS_MISMATCH')
     context.update({'event_name': 'pull_request', 'repository': 'd6g8k5htny-coder/main',
                     'event_ref': os.environ['GITHUB_REF'], 'event_sha': os.environ['GITHUB_SHA'],
                     'pull_request_number': number, 'head_sha': head, 'base_sha': base,
-                    'tested_commit': checked, 'tested_merge_parents': parents[1:]})
+                    'tested_commit': checked})
     for key in ('GITHUB_RUN_ID', 'GITHUB_RUN_ATTEMPT'):
         value = os.environ.get(key, '')
         require(re.fullmatch(r'[1-9][0-9]{0,19}', value), 'INVALID_RUN_CONTEXT')
@@ -254,9 +268,31 @@ def observe(repo, work, context, deadline):
     require(digest(freeze_raw) == expected, 'CANDIDATE_FREEZE_MISMATCH')
     freeze = load_json(freeze_raw)
     require(set(freeze) == {'schema_version', 'candidate_base_commit', 'files'} and
-            type(freeze['schema_version']) is int and freeze['schema_version'] == 1 and freeze['candidate_base_commit'] == base and
+            type(freeze['schema_version']) is int and freeze['schema_version'] == 1 and
+            isinstance(freeze['candidate_base_commit'], str) and
+            re.fullmatch(r'[0-9a-f]{40}', freeze['candidate_base_commit']) and
             isinstance(freeze['files'], list) and len(freeze['files']) == 3, 'INVALID_CANDIDATE_FREEZE')
+    serial[0] += 1
+    commit_capture, commit_raw = child(
+        ['git', '--no-replace-objects', 'cat-file', 'commit', checked],
+        repo, work, 'literal-commit-%04d' % serial[0], 131074, 10, deadline)
+    context['literal_commit_capture'] = commit_capture
+    require(commit_capture['status'] == 'COMPLETED' and 0 < len(commit_raw) <= 65536,
+            'LITERAL_COMMIT_CAPTURE_FAILED')
+    join = guard.verify_merge_join(
+        event_name=os.environ.get('GITHUB_EVENT_NAME'),
+        repository=os.environ.get('GITHUB_REPOSITORY'), event_ref=os.environ.get('GITHUB_REF'),
+        event_sha=os.environ.get('GITHUB_SHA'), pr_number=number, event_head_sha=head,
+        event_base_sha=base, checked_commit=checked, actual_commit_raw=commit_raw,
+        frozen_base_commit=freeze['candidate_base_commit'])
+    context.update({'source_join': join, 'actual_tree_sha': join['actual_tree_sha'],
+                    'actual_merge_parents': join['actual_merge_parents'],
+                    'tested_merge_parents': join['actual_merge_parents'],
+                    'candidate_base_commit': join['candidate_base_commit']})
     found = set()
+    require([entry.get('path') if isinstance(entry, dict) else None for entry in freeze['files']] ==
+            ['docs/site/current-model.mjs', 'docs/site/current.mjs', 'docs/site/dependency-model.mjs'],
+            'CANDIDATE_MEMBER_ORDER_MISMATCH')
     for entry in freeze['files']:
         require(isinstance(entry, dict) and set(entry) == {'path', 'bytes', 'sha256', 'git_blob'} and
                 entry['path'] in MODULES and entry['path'] not in found and
@@ -281,6 +317,9 @@ def observe(repo, work, context, deadline):
         producer_now, _ = safe_read(repo, PRODUCER, 32768)
         freeze_now, _ = safe_read(repo, FREEZE, 16384)
         require(producer_now == producer and freeze_now == freeze_raw, 'PHASE_IMMUTABLE_INPUT_CHANGED')
+        for source_path, source_before in immutable_sources.items():
+            source_now, _ = safe_read(repo, source_path, 32768)
+            require(source_now == source_before, 'PHASE_CAPTURE_WORKFLOW_OR_GUARD_CHANGED')
         result, _ = child([sys.executable, '-I', '-B', '-S', PRODUCER, *arguments], repo, work,
                           phase, STDIO_LIMIT, 90, deadline)
         context['producer_phases'].append(result)
@@ -306,7 +345,7 @@ def observe(repo, work, context, deadline):
         require(producer_after == producer and freeze_after == freeze_raw, 'PHASE_IMMUTABLE_INPUT_CHANGED')
         for source_path, source_before in immutable_sources.items():
             source_after, _ = safe_read(repo, source_path, 32768)
-            require(source_after == source_before, 'PHASE_CAPTURE_OR_WORKFLOW_CHANGED')
+            require(source_after == source_before, 'PHASE_CAPTURE_WORKFLOW_OR_GUARD_CHANGED')
         context[phase + '_inventory_sha256'] = digest(encoded({name: phase_state[name]['pin'] for name in names}))
         if phase == 'rewrite':
             rewritten = phase_state
@@ -351,6 +390,9 @@ def observe(repo, work, context, deadline):
     require(not git(repo, work, ['ls-files', '--others', '-z'], serial, deadline), 'FINAL_UNTRACKED_OUTPUT')
     require(git(repo, work, ['diff', '--name-status', '-z', '--no-renames', 'HEAD', '--'], serial, deadline).split(b'\0')[:-1] == difference,
             'FINAL_DIFF_CHANGED')
+    for source_path, source_before in immutable_sources.items():
+        source_final, _ = safe_read(repo, source_path, 32768)
+        require(source_final == source_before, 'FINAL_CAPTURE_WORKFLOW_OR_GUARD_CHANGED')
     context.update({'changed_file_count': len(records), 'changed_body_bytes': total,
                     'complete_set': True, 'disposition': 'PROPOSAL_COMPLETE_REQUIRES_REVIEW'})
     return records, bodies

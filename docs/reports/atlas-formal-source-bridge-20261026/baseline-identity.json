@@ -1,0 +1,39 @@
+{
+  "source_snapshot": {
+    "commit": "3b39c42d6edcc98ae165270be346f0e31c57f81d",
+    "captured_at_utc": "2026-10-26T00:13:22.121923+00:00",
+    "manifest": "source-snapshot.json",
+    "raw_site": "source-site"
+  },
+  "frozen_fixture": {
+    "payload": "frozen/current.json",
+    "sha256": "3982c9fe7ddd02b1abab6c2e6083286003d7c136979506fc0ad4a341385b4d84",
+    "bytes": 1392120,
+    "meta_before_after_sha256": "9729ec8ef032e745fc01ae5e264d4ede26d696377c504f84f5fecf65b4913899",
+    "repositories": [
+      {
+        "commit": "dd5f23f68be381726bcfb8df9ef86535594b04b9",
+        "repository": "d6g8k5htny-coder/main",
+        "tree": "98b3c1440ebabc0bb8b04539510826b50b0c393a"
+      },
+      {
+        "commit": "b29c4b769cac85437b409d152651d5cce4140015",
+        "repository": "d6g8k5htny-coder/Math-",
+        "tree": "11f6a153ac4429531757010e705fe70c1f0bfc23"
+      }
+    ],
+    "report": "frozen/freeze-report.json"
+  },
+  "trusted_build_harness": {
+    "checkout_at_capture": "3b39c42d6edcc98ae165270be346f0e31c57f81d",
+    "manifest": "harness-identities.json",
+    "build_sha256": "4ea46416519a45f6eddd65b7ccfafbaf9c741871bee785c537b2a62d1bd5703e",
+    "invocation": "python -B /workspace/atlas-formal-links/tools/current_site_build.py --payload /workspace/scratch/atlas-formal-baseline/frozen/current.json --site /workspace/scratch/atlas-formal-baseline/served-before"
+  },
+  "tested_site": {
+    "path": "served-before",
+    "modules_manifest": "results/baseline-report.json tested_site_modules",
+    "driver_sha256": "2246ef725b8817f3c1176a7d8c2afc2c395f151eaa618540ad69c5258b28fccc"
+  },
+  "browser": "runtime-provenance.json"
+}

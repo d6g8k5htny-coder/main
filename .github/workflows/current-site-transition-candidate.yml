@@ -1,4 +1,4 @@
-# PRIVATE UNBOUND CANDIDATE TEMPLATE. Not publishable until exact freeze binding and review.
+# SOURCE-FROZEN R1 DRAFT: actual hosted/native/runtime qualification and exact-head review remain pending.
 # Keep the independent intentional RED draft PR499 immutable and unmerged.
 name: Current reader publication transition candidate
 'on':
@@ -8,9 +8,17 @@ name: Current reader publication transition candidate
       - 'docs/site/current-model.mjs'
       - 'docs/site/current.mjs'
       - 'docs/site/dependency-model.mjs'
+      - 'docs/site/atlas.mjs'
+      - 'docs/site/atlas-shell.mjs'
+      - 'tools/site_transition_source_guard.py'
+      - 'tests/test_site_transition_source_guard.py'
       - 'tests/test_current_site_transition.mjs'
       - 'tests/fixtures/current_site_transition_20261022/**'
       - 'tests/fixtures/current_site_transition_candidate_20261022/production-source-freeze.json'
+      - 'tools/site_transition_capture_regression.py'
+      - 'tools/site_transition_capture_regression_supervisor.py'
+      - 'tools/site_transition_capture_regression_launcher.py'
+      - 'tests/fixtures/site_transition_capture_regression_20261025/**'
       - '.github/workflows/current-site-transition-candidate.yml'
 permissions:
   contents: read
@@ -23,7 +31,7 @@ jobs:
     steps:
       - name: Record native event context and tool versions before setup
         run: |
-          python3 -B -S - <<'PYCONTEXT'
+          python3 -I -B -S - <<'PYCONTEXT'
           import json, os, re, resource, signal, subprocess, sys
           from pathlib import Path
           output = Path(os.environ['RUNNER_TEMP']) / 'current-site-transition-candidate'
@@ -74,7 +82,8 @@ jobs:
               'python_version': '.'.join(str(x) for x in sys.version_info[:3]),
               'node_version': version(['node', '--version']),
               'python_command_version': version(['python3', '--version']),
-              'candidate_base_commit': 'f658845968bbf2f686946d47ceb44461d3d9024f',
+              'candidate_base_commit': None,
+              'composition_binding': 'PENDING_FINAL_CANONICAL_COMPOSITION',
               'candidate_source_guard': 'not_started', 'node_phase': 'not_started',
           }
           context_raw = (json.dumps(context, indent=2) + '\n').encode()
@@ -84,17 +93,67 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
           ref: ${{ github.sha }}
+          fetch-depth: 2
           persist-credentials: false
+          clean: true
       - name: Require exact frozen fixtures test and candidate production source
         run: |
-          python3 -B -S - <<'PYGUARD'
-          import hashlib, json, os, re, subprocess
+          python3 -I -B -S - <<'PYGUARD'
+          import hashlib, json, os, re, selectors, signal, stat, subprocess, time, types
           from pathlib import Path
           output = Path(os.environ['RUNNER_TEMP']) / 'current-site-transition-candidate'
           context_path = output / 'context.json'
           context = json.loads(context_path.read_text())
+          def source_bytes(name, limit):
+              parts = name.split('/')
+              directory = os.open('.', os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+              descriptor = None
+              try:
+                  for part in parts[:-1]:
+                      child = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=directory)
+                      os.close(directory)
+                      directory = child
+                  descriptor = os.open(parts[-1], os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=directory)
+                  before = os.fstat(descriptor)
+                  if not stat.S_ISREG(before.st_mode) or before.st_nlink != 1 or not 0 <= before.st_size <= limit:
+                      raise ValueError('Unsafe or oversized immutable Source')
+                  with os.fdopen(descriptor, 'rb', closefd=False) as stream:
+                      raw = stream.read(limit + 1)
+                  after = os.fstat(descriptor)
+                  identity = lambda s: (s.st_dev,s.st_ino,s.st_mode,s.st_nlink,s.st_size,s.st_mtime_ns,s.st_ctime_ns)
+                  if len(raw) != before.st_size or identity(before) != identity(after):
+                      raise ValueError('Immutable Source changed during read')
+                  return raw
+              finally:
+                  if descriptor is not None: os.close(descriptor)
+                  os.close(directory)
+          def bounded_git(arguments, limit):
+              process = subprocess.Popen(['git','--no-replace-objects',*arguments],
+                  stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,start_new_session=True)
+              poller = selectors.DefaultSelector()
+              os.set_blocking(process.stdout.fileno(),False)
+              poller.register(process.stdout,selectors.EVENT_READ)
+              raw, deadline = bytearray(), time.monotonic()+5
+              try:
+                  while poller.get_map():
+                      if time.monotonic()>=deadline: raise ValueError('Git read timeout; HOLD')
+                      for key,_ in poller.select(0.05):
+                          chunk=os.read(key.fileobj.fileno(),min(8192,limit+1-len(raw)))
+                          if not chunk: poller.unregister(key.fileobj); break
+                          raw.extend(chunk)
+                          if len(raw)>limit: raise ValueError('Git output cap; HOLD')
+                  if process.wait(timeout=2)!=0: raise ValueError('Git object read failed; HOLD')
+                  return bytes(raw)
+              finally:
+                  try: os.killpg(process.pid,signal.SIGKILL)
+                  except ProcessLookupError: pass
+                  process.wait(timeout=2)
+                  process.stdout.close(); poller.close()
           try:
-              checked_commit = subprocess.check_output(['git', 'rev-parse', 'HEAD'], text=True).strip()
+              head_raw = bounded_git(['rev-parse','--verify','HEAD'],41)
+              if not re.fullmatch(rb'[0-9a-f]{40}\n',head_raw):
+                  raise ValueError('Invalid actual HEAD; HOLD')
+              checked_commit = head_raw[:-1].decode('ascii')
               context['checked_commit'] = checked_commit
               if checked_commit != context['event_sha']:
                   raise SystemExit('Checkout differs from tested event SHA')
@@ -109,12 +168,7 @@ jobs:
               test_raw = Path('tests/test_current_site_transition.mjs').read_bytes()
               if hashlib.sha256(test_raw).hexdigest() != 'a6434c9fc0c06a37d09d430bb3d8c043107e8472fa1585c1ab8cdff336b3f66a':
                   raise SystemExit('Test source changed')
-              if (context['event_name'] != 'pull_request'
-                      or not re.fullmatch(r'[0-9a-f]{40}', context['event_sha'] or '')
-                      or not re.fullmatch(r'[0-9a-f]{40}', context['pull_request_head_sha'] or '')
-                      or context['pull_request_base_sha'] != context['candidate_base_commit']):
-                  raise SystemExit('Unexpected candidate event head or base context')
-              required_candidate_freeze_sha256 = '738edfed0377f07a34b4496363e268adb96a3b214d4a75b6114eb8f08f85938c'
+              required_candidate_freeze_sha256 = '9eb23425150be17ba61fe766dacc2b6b11932a538598a0ca78f94b3ff22463da'
               if not re.fullmatch(r'[0-9a-f]{64}', required_candidate_freeze_sha256):
                   raise SystemExit('Unbound candidate freeze; private template is not publishable')
               candidate_freeze_path = Path('tests/fixtures/current_site_transition_candidate_20261022/production-source-freeze.json')
@@ -130,8 +184,28 @@ jobs:
               freeze = json.loads(candidate_freeze_raw)
               if (set(freeze) != {'schema_version', 'candidate_base_commit', 'files'}
                       or type(freeze['schema_version']) is not int or freeze['schema_version'] != 1
-                      or freeze['candidate_base_commit'] != context['candidate_base_commit']):
+                      or not isinstance(freeze['candidate_base_commit'], str)
+                      or not re.fullmatch(r'[0-9a-f]{40}', freeze['candidate_base_commit'])):
                   raise SystemExit('Unexpected candidate freeze schema or base')
+              guard_path = 'tools/site_transition_source_guard.py'
+              guard_raw = source_bytes(guard_path, 8192)
+              if (len(guard_raw) != 4249 or hashlib.sha256(guard_raw).hexdigest() != '69aa32de61db44014f3b78a4374dda1852ab6854fbf4ac988abef6abf88e1fc6'):
+                  raise SystemExit('Merge guard Source changed')
+              guard = types.ModuleType('site_transition_source_guard')
+              guard.__file__ = str(Path(guard_path).absolute())
+              exec(compile(guard_raw, guard.__file__, 'exec'), guard.__dict__)
+              commit_raw = bounded_git(['cat-file','commit',checked_commit],65536)
+              join = guard.verify_merge_join(
+                  event_name=context['event_name'], repository=context['repository'],
+                  event_ref=context['event_ref'], event_sha=context['event_sha'],
+                  pr_number=context['pull_request_number'], event_head_sha=context['pull_request_head_sha'],
+                  event_base_sha=context['pull_request_base_sha'], checked_commit=checked_commit,
+                  actual_commit_raw=commit_raw, frozen_base_commit=freeze['candidate_base_commit'])
+              context.update(source_join=join, candidate_base_commit=join['candidate_base_commit'],
+                             actual_tree_sha=join['actual_tree_sha'],actual_merge_parents=join['actual_merge_parents'],
+                             composition_binding='FROZEN_SOURCE_JOIN')
+              context['merge_guard_source'] = {'path':guard_path,'bytes':len(guard_raw),
+                  'sha256':hashlib.sha256(guard_raw).hexdigest()}
               expected_paths = ['docs/site/current-model.mjs', 'docs/site/current.mjs', 'docs/site/dependency-model.mjs']
               if (not isinstance(freeze['files'], list) or len(freeze['files']) != 3
                       or any(not isinstance(entry, dict) for entry in freeze['files'])
@@ -152,6 +226,31 @@ jobs:
                   blob = hashlib.sha1(b'blob ' + str(len(raw)).encode() + b'\0' + raw).hexdigest()
                   if (len(raw), hashlib.sha256(raw).hexdigest(), blob) != (entry['bytes'], entry['sha256'], entry['git_blob']):
                       raise SystemExit('Candidate production source differs: ' + entry['path'])
+              # Additive schema-1 custody: bind actual core30 inputs plus the workflow wrapper.
+              immutable_paths = [
+                  'tools/site_transition_source_guard.py',
+                  '.github/workflows/current-site-transition-candidate.yml',
+                  'tests/test_current_site_transition.mjs',
+                  str(fixture_root / 'fixture-freeze.json'), candidate_freeze_path.as_posix(),
+                  *[str(fixture_root / entry['path']) for entry in json.loads(fixture_raw)['files']],
+                  *expected_paths,
+              ]
+              context['immutable_source_inputs'] = []
+              for name in immutable_paths:
+                  raw = source_bytes(name, 16777216)
+                  context['immutable_source_inputs'].append({'path':name,'bytes':len(raw),
+                      'sha256':hashlib.sha256(raw).hexdigest()})
+              # Rejoin the ledger to the already authenticated guard/test/freezes/modules.
+              if source_bytes(guard_path,8192) != guard_raw or source_bytes('tests/test_current_site_transition.mjs',32768) != test_raw:
+                  raise SystemExit('Guard or test changed after qualification')
+              if source_bytes(str(fixture_root / 'fixture-freeze.json'),16384) != fixture_raw or source_bytes(candidate_freeze_path.as_posix(),16384) != candidate_freeze_raw:
+                  raise SystemExit('Freeze changed after qualification')
+              for entry in [*json.loads(fixture_raw)['files'], *freeze['files']]:
+                  name = str(fixture_root / entry['path']) if entry in json.loads(fixture_raw)['files'] else entry['path']
+                  raw = source_bytes(name,16777216)
+                  if (len(raw),hashlib.sha256(raw).hexdigest()) != (entry['bytes'],entry['sha256']):
+                      raise SystemExit('Input changed after qualification')
+              context['immutable_source_recheck'] = 'pending'
               context['candidate_source_guard'] = 'passed'
           except BaseException as error:
               context['candidate_source_guard'] = 'failed'
@@ -164,8 +263,8 @@ jobs:
           PYGUARD
       - name: Capture bounded real Node TAP with a child deadline
         run: |
-          python3 -B -S - <<'PYNODE'
-          import json, os, resource, signal, subprocess, time
+          python3 -I -B -S - <<'PYNODE'
+          import hashlib, json, os, resource, signal, stat, subprocess, time
           from pathlib import Path
           output = Path(os.environ['RUNNER_TEMP']) / 'current-site-transition-candidate'
           context_path = output / 'context.json'
@@ -174,53 +273,136 @@ jobs:
               raw = (json.dumps(context, indent=2) + '\n').encode()
               if len(raw) > 65536: raise SystemExit('HOLD_CONTEXT_LIMIT')
               context_path.write_bytes(raw)
+          def recheck_sources():
+              for entry in context['immutable_source_inputs']:
+                  parts = entry['path'].split('/')
+                  directory = os.open('.',os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW)
+                  descriptor = None
+                  try:
+                      for part in parts[:-1]:
+                          next_directory = os.open(part,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW,dir_fd=directory)
+                          os.close(directory); directory=next_directory
+                      descriptor=os.open(parts[-1],os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK,dir_fd=directory)
+                      before=os.fstat(descriptor)
+                      if not stat.S_ISREG(before.st_mode) or before.st_nlink != 1 or before.st_size != entry['bytes'] or before.st_size > 16777216:
+                          raise ValueError('Immutable Source unsafe or changed')
+                      with os.fdopen(descriptor,'rb',closefd=False) as stream: raw=stream.read(entry['bytes']+1)
+                      after=os.fstat(descriptor)
+                      identity=lambda s:(s.st_dev,s.st_ino,s.st_mode,s.st_nlink,s.st_size,s.st_mtime_ns,s.st_ctime_ns)
+                      if identity(before)!=identity(after) or len(raw)!=entry['bytes'] or hashlib.sha256(raw).hexdigest()!=entry['sha256']:
+                          raise ValueError('Immutable Source changed')
+                  finally:
+                      if descriptor is not None: os.close(descriptor)
+                      os.close(directory)
           cap = 1048576
           def physical_limit():
               resource.setrlimit(resource.RLIMIT_FSIZE, (cap, cap))
           command = ['node', '--test', '--test-reporter=tap', 'tests/test_current_site_transition.mjs']
           context.update(node_phase='starting', node_command=command, capture_status='NOT_RUN',
                          capture_file_limit=cap, child_timeout_seconds=90)
-          save()
           child = None
+          code = None
           status = 'REFUSED_SETUP'
+          cleanup_errors, capture_errors = [], []
+          diagnostics_complete = False
           began = time.monotonic()
           paths = [output / 'tap.stdout.tap', output / 'tap.stderr.txt']
           try:
-              with paths[0].open('wb') as stdout, paths[1].open('wb') as stderr:
-                  child = subprocess.Popen(command, stdout=stdout, stderr=stderr,
-                                           start_new_session=True, preexec_fn=physical_limit)
-                  deadline = began + 90
-                  while True:
-                      if any(path.stat().st_size >= cap for path in paths):
-                          status = 'REFUSED_OUTPUT_LIMIT'; break
-                      code = child.poll()
-                      if code is not None:
-                          status = 'REFUSED_OUTPUT_LIMIT' if code == -signal.SIGXFSZ else 'COMPLETED'
-                          break
-                      if time.monotonic() >= deadline:
-                          status = 'TIMEOUT'; break
-                      time.sleep(0.05)
-          except OSError as error:
-              context['node_start_error'] = type(error).__name__
+              try:
+                  save()
+                  recheck_sources()
+                  with paths[0].open('wb') as stdout, paths[1].open('wb') as stderr:
+                      child = subprocess.Popen(command, stdout=stdout, stderr=stderr,
+                                               start_new_session=True, preexec_fn=physical_limit)
+                      deadline = began + 90
+                      while True:
+                          if any(path.stat().st_size >= cap for path in paths):
+                              status = 'REFUSED_OUTPUT_LIMIT'; break
+                          code = child.poll()
+                          if code is not None:
+                              status = 'REFUSED_OUTPUT_LIMIT' if code == -signal.SIGXFSZ else 'COMPLETED'
+                              break
+                          if time.monotonic() >= deadline:
+                              status = 'TIMEOUT'; break
+                          time.sleep(0.05)
+              except Exception as error:
+                  capture_errors.append({'operation':'capture', 'error':type(error).__name__})
+                  context['node_start_error' if child is None else 'node_capture_error'] = type(error).__name__
+                  status = 'REFUSED_SETUP' if child is None else 'REFUSED_CAPTURE'
+              finally:
+                  context['node_capture_outcome'] = status
+                  if child is not None:
+                      # Attempt group termination and reap independently, including normal exits.
+                      try: os.killpg(child.pid, signal.SIGKILL)
+                      except ProcessLookupError: pass
+                      except Exception as error:
+                          cleanup_errors.append({'operation':'killpg', 'error':type(error).__name__})
+                      try:
+                          code = child.wait(timeout=5)
+                      except Exception as error:
+                          cleanup_errors.append({'operation':'wait', 'error':type(error).__name__})
+                          status = 'REFUSED_REAP' if isinstance(error, subprocess.TimeoutExpired) else 'REFUSED_CLEANUP'
+                          try: code = child.poll()
+                          except Exception as poll_error:
+                              cleanup_errors.append({'operation':'poll', 'error':type(poll_error).__name__})
+                              code = None
+                      if type(code) is int:
+                          context['node_returncode'] = code
+                          try: (output / 'node-exit-code.txt').write_text(str(code) + '\n')
+                          except Exception as error:
+                              capture_errors.append({'operation':'exit_write', 'error':type(error).__name__})
+                      else:
+                          capture_errors.append({'operation':'exit_code', 'error':'MissingIntegerReturnCode'})
+                  for path in paths:
+                      descriptor = None
+                      try:
+                          descriptor = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+                          before = os.fstat(descriptor)
+                          if not stat.S_ISREG(before.st_mode) or before.st_nlink != 1:
+                              raise ValueError('Unsafe capture member')
+                          if not 0 <= before.st_size <= cap:
+                              status = 'REFUSED_OUTPUT_LIMIT'; continue
+                          captured, eof = bytearray(), False
+                          while len(captured) <= cap:
+                              chunk = os.read(descriptor, min(8192, cap + 1 - len(captured)))
+                              if not chunk: eof = True; break
+                              captured.extend(chunk)
+                          after = os.fstat(descriptor)
+                          named = os.stat(path, follow_symlinks=False)
+                          identity = lambda s: (s.st_dev,s.st_ino,s.st_mode,s.st_nlink,s.st_size,s.st_mtime_ns,s.st_ctime_ns)
+                          if identity(before) != identity(after) or identity(after) != identity(named):
+                              raise ValueError('Capture member changed during read')
+                          if len(captured) >= cap:
+                              status = 'REFUSED_OUTPUT_LIMIT'
+                          elif not eof or len(captured) != before.st_size:
+                              raise ValueError('Capture member size or EOF changed')
+                      except Exception as error:
+                          capture_errors.append({'operation':'capture:'+path.name, 'error':type(error).__name__})
+                      finally:
+                          if descriptor is not None:
+                              try: os.close(descriptor)
+                              except Exception as error:
+                                  capture_errors.append({'operation':'capture_close:'+path.name, 'error':type(error).__name__})
+                  if cleanup_errors and status != 'REFUSED_REAP': status = 'REFUSED_CLEANUP'
+                  if capture_errors and child is not None: status = 'REFUSED_CAPTURE'
+                  diagnostics_complete = True
           finally:
-              if child is not None:
-                  # Also remove surviving descendants after a normal leader exit.
-                  try: os.killpg(child.pid, signal.SIGKILL)
-                  except ProcessLookupError: pass
-                  try:
-                      code = child.wait(timeout=5)
-                  except subprocess.TimeoutExpired:
-                      status = 'REFUSED_REAP'
-                      code = child.poll()
-                  if code is not None:
-                      (output / 'node-exit-code.txt').write_text(str(code) + '\n')
-                      context['node_returncode'] = code
-              else:
-                  code = None
-              if any(path.stat().st_size >= cap for path in paths): status = 'REFUSED_OUTPUT_LIMIT'
-              context.update(node_phase='completed' if child is not None else 'not_started',
-                             capture_status=status, elapsed_seconds=round(time.monotonic()-began, 3))
-              save()
+              if not diagnostics_complete:
+                  status = 'REFUSED_CLEANUP' if child is not None else 'REFUSED_SETUP'
+              # Custody and context attempts cannot be skipped by capture/cleanup diagnostics.
+              try:
+                  recheck_sources()
+                  context['immutable_source_recheck'] = 'passed'
+              except Exception as error:
+                  status = 'REFUSED_SOURCE_CHANGED'
+                  context['immutable_source_recheck'] = 'failed'
+                  context['immutable_source_recheck_error'] = type(error).__name__
+              finally:
+                  context.update(node_phase='completed' if child is not None else 'not_started',
+                                 capture_status=status, cleanup_errors=cleanup_errors,
+                                 capture_cleanup_diagnostics='completed' if diagnostics_complete else 'incomplete',
+                                 capture_errors=capture_errors, elapsed_seconds=round(time.monotonic()-began, 3))
+                  save()
           if status != 'COMPLETED': raise SystemExit(1)
           raise SystemExit(code if code >= 0 else 128 - code)
           PYNODE
@@ -228,7 +410,7 @@ jobs:
         id: capture_admission
         if: always()
         run: |
-          python3 -B -S - <<'PYEMIT'
+          python3 -I -B -S - <<'PYEMIT'
           import base64, hashlib, json, os
           from pathlib import Path
           output = Path(os.environ['RUNNER_TEMP']) / 'current-site-transition-candidate'
@@ -248,6 +430,7 @@ jobs:
               context = json.loads(members['context.json'])
               complete = (context.get('candidate_source_guard') == 'passed' and context.get('node_phase') == 'completed'
                           and context.get('capture_status') == 'COMPLETED'
+                          and context.get('immutable_source_recheck') == 'passed'
                           and context.get('node_version', {}).get('status') == 'OK'
                           and context.get('python_command_version', {}).get('status') == 'OK'
                           and context.get('event_name') == 'pull_request'
@@ -283,3 +466,653 @@ jobs:
             ${{ runner.temp }}/current-site-transition-candidate/node-exit-code.txt
           if-no-files-found: error
           retention-days: 30
+
+  capture-wrapper-regressions:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - name: Check out exact pull request merge Source
+        id: capture_checkout
+        timeout-minutes: 3
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 2
+          clean: true
+          persist-credentials: false
+      - name: Authenticate explicit regression Source and stage read only repository layout
+        id: capture_prepare
+        if: always()
+        timeout-minutes: 1
+        run: |
+          /usr/bin/python3 -I -B -S - prepare <<'PYREG_DRIVER'
+          import hashlib, json, os, re, selectors, signal, stat, subprocess, sys, time, types
+          from pathlib import Path
+          
+          MANIFEST_PIN = '9e73c73d21cf4b0534c57df4960cfaf3c141665204b5e13cde6b83cba6a592e6'
+          FREEZE_PIN = '9eb23425150be17ba61fe766dacc2b6b11932a538598a0ca78f94b3ff22463da'
+          FIXTURE = 'tests/fixtures/site_transition_capture_regression_20261025'
+          WORKFLOW = '.github/workflows/current-site-transition-candidate.yml'
+          MANIFEST = FIXTURE + '/source-fixture-manifest.json'
+          GUARD_SHA = '69aa32de61db44014f3b78a4374dda1852ab6854fbf4ac988abef6abf88e1fc6'
+          LIMITS = {'job-context.json':65536, 'source-before.json':262144, 'source-after.json':262144,
+                    'contract.json':65536, 'baseline.stdout.bin':1048576, 'baseline.stderr.bin':1048576,
+                    'baseline.receipt.json':262144, 'baseline.witness.json':65536,
+                    'candidate.stdout.bin':1048576, 'candidate.stderr.bin':1048576,
+                    'candidate.receipt.json':262144, 'candidate.witness.json':131072,
+                    'disposition.json':65536, 'baseline.spawn-trace.json':65536, 'candidate.spawn-trace.json':65536}
+          NATIVE_KEYS = ('GITHUB_EVENT_NAME','GITHUB_EVENT_PATH','GITHUB_SHA','GITHUB_REF','GITHUB_REPOSITORY',
+                         'GITHUB_RUN_ID','GITHUB_RUN_ATTEMPT','GITHUB_WORKFLOW_REF','GITHUB_WORKFLOW_SHA')
+          native = {key:os.environ.get(key) for key in NATIVE_KEYS}
+          base = Path(os.environ['RUNNER_TEMP']).resolve(strict=True) / 'site-transition-capture-regression'
+          
+          def encoded(value):
+              return (json.dumps(value, sort_keys=True, indent=2, ensure_ascii=True) + '\n').encode('ascii')
+          
+          def object_json(raw):
+              def unique(pairs):
+                  value = {}
+                  for key,item in pairs:
+                      if key in value: raise ValueError('Duplicate JSON key')
+                      value[key] = item
+                  return value
+              return json.loads(raw, object_pairs_hook=unique)
+          
+          def pin(raw):
+              return {'bytes':len(raw), 'sha256':hashlib.sha256(raw).hexdigest()}
+          
+          def safe_read(path, limit):
+              path = Path(path)
+              if not path.is_absolute() or any(part in ('.','..') for part in path.parts[1:]):
+                  raise ValueError('Physical absolute input required')
+              directory = os.open('/', os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+              descriptor = None
+              try:
+                  for part in path.parts[1:-1]:
+                      following = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=directory)
+                      os.close(directory); directory = following
+                  descriptor = os.open(path.name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=directory)
+                  before = os.fstat(descriptor)
+                  if not stat.S_ISREG(before.st_mode) or before.st_nlink != 1 or not 0 <= before.st_size <= limit:
+                      raise ValueError('Unsafe or oversized input')
+                  chunks, size = [], 0
+                  while size <= limit:
+                      chunk = os.read(descriptor, min(65536, limit + 1 - size))
+                      if not chunk: break
+                      chunks.append(chunk); size += len(chunk)
+                  after = os.fstat(descriptor)
+                  named = os.stat(path.name, dir_fd=directory, follow_symlinks=False)
+                  shape = lambda s:(s.st_dev,s.st_ino,s.st_mode,s.st_nlink,s.st_size,s.st_mtime_ns,s.st_ctime_ns)
+                  raw = b''.join(chunks)
+                  if shape(before) != shape(after) or shape(after) != shape(named) or len(raw) != before.st_size:
+                      raise ValueError('Input changed during read')
+                  return raw
+              finally:
+                  if descriptor is not None: os.close(descriptor)
+                  os.close(directory)
+          
+          def write_json(path, value, limit):
+              raw = encoded(value)
+              if len(raw) > limit: raise ValueError('Bounded JSON limit')
+              path.write_bytes(raw)
+          
+          def clean_environment(state):
+              os.environ.clear()
+              os.environ.update(PATH='/usr/bin:/bin', HOME=str(base/'home'), TMPDIR=str(base/'tmp'),
+                                LANG='C.UTF-8', LC_ALL='C.UTF-8', TZ='UTC', RUNNER_TEMP=str(base.parent))
+          
+          def descriptor(path, raw):
+              return {'path':str(path), **pin(raw)}
+          
+          def capture_rows(state, label):
+              observed, errors = {}, []
+              for row in state['inputs']:
+                  for kind,root in [('original',Path(state['original_root'])),('staged',Path(state['staged_root']))]:
+                      name = kind+':'+row['relative']
+                      try:
+                          raw = safe_read(root/row['relative'], 2097152)
+                          observed[name] = pin(raw)
+                          if pin(raw) != row['pin']: raise ValueError('Immutable Source drift')
+                      except BaseException as error: errors.append({'input':name,'error':type(error).__name__})
+              for row in state.get('external_custody', []):
+                  try:
+                      raw = safe_read(row['path'], row['limit']); observed[row['path']] = pin(raw)
+                      if pin(raw) != row['pin']: raise ValueError('Contract/native input drift')
+                  except BaseException as error: errors.append({'input':row['path'],'error':type(error).__name__})
+              state['custody'][label] = {'observed':observed,'errors':errors}
+              target = 'source-before.json' if label.startswith('before') else 'source-after.json'
+              selected = {key:value for key,value in state['custody'].items() if key.startswith('before') == label.startswith('before')}
+              write_json(base/target, selected, LIMITS[target])
+              if errors: raise ValueError('Immutable custody HOLD')
+          
+          def helper(state):
+              row = next(row for row in state['inputs'] if row['relative'] == 'tools/site_transition_capture_regression_supervisor.py')
+              path = Path(state['staged_root'])/row['relative']
+              raw = safe_read(path, 2097152)
+              if pin(raw) != row['pin']: raise ValueError('Supervisor captured Source changed')
+              module = types.ModuleType('site_capture_authenticated_supervisor')
+              module.__file__ = str(path)
+              exec(compile(raw, str(path), 'exec'), module.__dict__)
+              return module
+          
+          def bounded_git(arguments, limit):
+              process = subprocess.Popen(['git','--no-replace-objects',*arguments],
+                  stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,start_new_session=True)
+              poller = selectors.DefaultSelector()
+              os.set_blocking(process.stdout.fileno(),False)
+              poller.register(process.stdout,selectors.EVENT_READ)
+              raw, deadline = bytearray(), time.monotonic()+5
+              try:
+                  while poller.get_map():
+                      if time.monotonic()>=deadline: raise ValueError('Git read timeout; HOLD')
+                      for key,_ in poller.select(0.05):
+                          chunk=os.read(key.fileobj.fileno(),min(8192,limit+1-len(raw)))
+                          if not chunk: poller.unregister(key.fileobj); break
+                          raw.extend(chunk)
+                          if len(raw)>limit: raise ValueError('Git output cap; HOLD')
+                  if process.wait(timeout=2)!=0: raise ValueError('Git object read failed; HOLD')
+                  return bytes(raw)
+              finally:
+                  try: os.killpg(process.pid,signal.SIGKILL)
+                  except ProcessLookupError: pass
+                  process.wait(timeout=2)
+                  process.stdout.close(); poller.close()
+          
+          def prepare(state):
+              if sys.platform != 'linux': raise ValueError('HOLD_UNSUPPORTED_PLATFORM')
+              clean_environment(state)
+              root = Path.cwd().resolve(strict=True)
+              if base.is_relative_to(root): raise ValueError('Temporary output inside repository')
+              if not re.fullmatch(r'[0-9a-f]{64}', MANIFEST_PIN) or not re.fullmatch(r'[0-9a-f]{64}', FREEZE_PIN):
+                  raise ValueError('PENDING_FINAL_CANONICAL_COMPOSITION')
+              manifest_raw = safe_read(root/MANIFEST, 65536)
+              if hashlib.sha256(manifest_raw).hexdigest() != MANIFEST_PIN: raise ValueError('Manifest pin')
+              manifest = object_json(manifest_raw)
+              if set(manifest) != {'schema_version','status','fixture_root','members','external_inputs','selectors'}:
+                  raise ValueError('Manifest schema')
+              if type(manifest['schema_version']) is not int or manifest['schema_version'] != 1 or manifest['status'] != 'ROOT_FROZEN_FINAL_CANONICAL_COMPOSITION' or manifest['fixture_root'] != FIXTURE:
+                  raise ValueError('PENDING or wrong manifest')
+              if type(manifest['members']) is not list or len(manifest['members']) != 38 or set(manifest['external_inputs']) != {'guard','final_freeze'}:
+                  raise ValueError('Exact manifest membership')
+              rows = [*manifest['members'], manifest['external_inputs']['guard'], manifest['external_inputs']['final_freeze']]
+              captured = {MANIFEST:manifest_raw}
+              for row in rows:
+                  if set(row) != {'path','bytes','sha256','git_blob','role'} or type(row['path']) is not str:
+                      raise ValueError('Manifest row')
+                  relative = row['path']; parts = relative.split('/')
+                  if relative.startswith('/') or any(part in ('','.','..') for part in parts) or relative in captured:
+                      raise ValueError('Duplicate or unsafe member path')
+                  if type(row['bytes']) is not int or not 0 <= row['bytes'] <= 2097152 or not re.fullmatch(r'[0-9a-f]{64}',row['sha256']) or not re.fullmatch(r'[0-9a-f]{40}',row['git_blob']):
+                      raise ValueError('Unbound member descriptor')
+                  raw = safe_read(root/relative, 2097152)
+                  if pin(raw) != {key:row[key] for key in ('bytes','sha256')} or hashlib.sha1(b'blob '+str(len(raw)).encode()+b'\0'+raw).hexdigest() != row['git_blob']:
+                      raise ValueError('Manifest member authentication')
+                  captured[relative] = raw
+              captured[WORKFLOW] = safe_read(root/WORKFLOW, 262144)
+              if len(captured) != 42: raise ValueError('Exact 42 immutable Sources')
+              guard_row = manifest['external_inputs']['guard']; freeze_row = manifest['external_inputs']['final_freeze']
+              if guard_row['path'] != 'tools/site_transition_source_guard.py' or guard_row['bytes'] != 4249 or guard_row['sha256'] != GUARD_SHA:
+                  raise ValueError('Exact merge guard')
+              if freeze_row['path'] != 'tests/fixtures/current_site_transition_candidate_20261022/production-source-freeze.json' or freeze_row['sha256'] != FREEZE_PIN:
+                  raise ValueError('Common freeze join')
+              freeze = object_json(captured[freeze_row['path']])
+              production = ['docs/site/current-model.mjs','docs/site/current.mjs','docs/site/dependency-model.mjs']
+              if set(freeze) != {'schema_version','candidate_base_commit','files'} or type(freeze['schema_version']) is not int or freeze['schema_version'] != 1 or not re.fullmatch(r'[0-9a-f]{40}',freeze['candidate_base_commit']) or type(freeze['files']) is not list or len(freeze['files']) != 3 or [row.get('path') for row in freeze['files']] != production:
+                  raise ValueError('Final three-member freeze schema')
+              for row in freeze['files']:
+                  if set(row) != {'path','bytes','sha256','git_blob'} or type(row['bytes']) is not int or row['bytes'] < 0 or not re.fullmatch(r'[0-9a-f]{64}',row['sha256']) or not re.fullmatch(r'[0-9a-f]{40}',row['git_blob']): raise ValueError('Production freeze descriptor')
+              event_raw = safe_read(Path(native['GITHUB_EVENT_PATH']), 65536); event = object_json(event_raw)
+              head_raw = bounded_git(['rev-parse','--verify','HEAD'],41)
+              if not re.fullmatch(rb'[0-9a-f]{40}\n',head_raw): raise ValueError('Actual checked HEAD')
+              checked = head_raw[:-1].decode('ascii'); commit_raw = bounded_git(['cat-file','commit',checked],65536)
+              guard = types.ModuleType('site_capture_authenticated_guard'); guard.__file__ = str(root/guard_row['path'])
+              exec(compile(captured[guard_row['path']],guard.__file__,'exec'),guard.__dict__)
+              pr = event.get('pull_request') or {}
+              join = guard.verify_merge_join(event_name=native['GITHUB_EVENT_NAME'], repository=native['GITHUB_REPOSITORY'],event_ref=native['GITHUB_REF'],event_sha=native['GITHUB_SHA'],pr_number=pr.get('number',event.get('number')),event_head_sha=(pr.get('head') or {}).get('sha'),event_base_sha=(pr.get('base') or {}).get('sha'),checked_commit=checked,actual_commit_raw=commit_raw,frozen_base_commit=freeze['candidate_base_commit'])
+              stage = base/'staged-repo'; stage.mkdir(mode=0o700)
+              for relative,raw in captured.items():
+                  target = stage/relative; target.parent.mkdir(parents=True,exist_ok=True); target.write_bytes(raw); target.chmod(0o444)
+              for name,raw in [('native-event.json',event_raw),('literal-commit.raw',commit_raw)]:
+                  target=base/name; target.write_bytes(raw); target.chmod(0o444)
+              closure = [descriptor(stage/path,raw) for path,raw in sorted(captured.items())]
+              seal_rows = [*closure, descriptor(base/'native-event.json',event_raw),descriptor(base/'literal-commit.raw',commit_raw)]
+              seal_path = base/'stage-seal.json'; write_json(seal_path,{'schema_version':1,'files':seal_rows,'excludes':['stage-seal.json','contract.json']},65536); seal_path.chmod(0o444)
+              executable = Path(sys.executable).resolve(strict=True); executable_raw = safe_read(executable,268435456)
+              at = lambda relative:descriptor(stage/relative,captured[relative])
+              contract = {'status':'ROOT_FROZEN_EXECUTION_CONTRACT','platform':'linux','cwd':str(stage),'regression_root':str(stage/FIXTURE),'source_manifest':at(MANIFEST),'interpreter':{**descriptor(executable,executable_raw),'version':list(sys.version_info[:3])},'wall_seconds':{'baseline':120,'candidate':180},'harness':at('tools/site_transition_capture_regression.py'),'supervisor_source':at('tools/site_transition_capture_regression_supervisor.py'),'launcher_source':at('tools/site_transition_capture_regression_launcher.py'),'source_seal':descriptor(seal_path,safe_read(seal_path,65536)),'workflows':{'baseline':at(FIXTURE+'/baseline-current-site-transition-candidate.yml.txt'),'candidate':at(WORKFLOW)},'selectors':manifest['selectors'],'closure':closure,'allowed_child_argv_sha256':[],'expected_children':{}}
+              state.update(original_root=str(root),staged_root=str(stage),inputs=[{'relative':path,'pin':pin(raw)} for path,raw in sorted(captured.items())],source_join=join,native=native,workflow_execution_binding='PENDING_EXTERNAL_NATIVE_SOURCE_QUALIFICATION',manifest_sha256=MANIFEST_PIN,common_freeze_sha256=FREEZE_PIN)
+              supervisor = helper(state)
+              qualified = supervisor.closed_sources(contract)
+              commands = supervisor.derive_allowed_child_argv(contract,qualified)
+              contract['allowed_child_argv_sha256'] = [hashlib.sha256(supervisor.compact(command)).hexdigest() for command in commands]
+              contract['expected_children'] = supervisor.derive_expected_children(contract,qualified)
+              if len(commands) != 13 or contract['expected_children'] != {'baseline':1,'candidate':23}: raise ValueError('Actual closed child census')
+              write_json(base/'contract.json',contract,65536); (base/'contract.json').chmod(0o444)
+              state['contract_pin'] = pin(safe_read(base/'contract.json',65536))
+              state['external_custody'] = [{'path':str(path),'pin':pin(safe_read(path,limit)),'limit':limit} for path,limit in [(base/'stage-seal.json',65536),(base/'contract.json',65536),(base/'native-event.json',65536),(base/'literal-commit.raw',65536),(executable,268435456)]]
+              for directory in sorted([stage,*[p for p in stage.rglob('*') if p.is_dir()]],key=lambda p:len(p.parts),reverse=True): directory.chmod(0o555)
+              state['prepared'] = True
+              capture_rows(state,'before_baseline')
+          
+          def preserve_selection(state, selection):
+              folder, copied = base/selection, {}
+              provenance=state.setdefault('preservation',{})
+              for source,target in [('stdout.bin',selection+'.stdout.bin'),('stderr.bin',selection+'.stderr.bin'),('spawn-trace.jsonl',selection+'.spawn-trace.json'),('receipt.json',selection+'.receipt.json')]:
+                  stage='read'
+                  try:
+                      raw=safe_read(folder/source,LIMITS[target]);stage='write';(base/target).write_bytes(raw);copied[source]=pin(raw)
+                  except BaseException as error:
+                      provenance[target]={'status':'MISSING' if stage=='read' and isinstance(error,FileNotFoundError) else 'REFUSED','stage':stage,'error':type(error).__name__,'detail':str(error)[:256]}
+                  else:provenance[target]={'status':'COPIED','pin':copied[source]}
+              receipt = object_json(safe_read(base/(selection+'.receipt.json'),262144))
+              evidence = receipt.get('regression_evidence')
+              if type(evidence) is dict and set(evidence) == {'harness_result','case_results','witnesses','subtests'}:
+                  write_json(base/(selection+'.witness.json'),evidence,LIMITS[selection+'.witness.json'])
+              expected = 'BASELINE_CAUSAL_RED' if selection == 'baseline' else 'CANDIDATE_20_GREEN'
+              good = (receipt.get('disposition') == 'CAPTURE_COMPLETE_REQUIRES_HARNESS_REVIEW'
+                  and receipt.get('regression_status') == expected and receipt.get('trace_complete') is True
+                  and type(receipt.get('integer_exit')) is int and receipt['integer_exit'] == (1 if selection == 'baseline' else 0)
+                  and receipt.get('verified_observed_cwd') == state['staged_root']
+                  and receipt.get('cleanup',{}).get('confirmed') is True and not receipt.get('cleanup',{}).get('errors')
+                  and receipt.get('source_before') == receipt.get('source_after') and type(evidence) is dict
+                  and set(evidence) == {'harness_result','case_results','witnesses','subtests'} and len(copied) == 4
+                  and all(receipt.get('captures',{}).get(name) == copied[name] for name in ('stdout.bin','stderr.bin','spawn-trace.jsonl')))
+              state[selection] = expected if good else 'HOLD'
+              if not good: raise ValueError('Actual selection regression/capture evidence not admitted')
+          
+          def phase(state, selection):
+              if not state.get('prepared') or state.get('errors'): raise ValueError('HOLD_NOT_PREPARED')
+              if selection == 'candidate' and state.get('baseline') != 'BASELINE_CAUSAL_RED': raise ValueError('HOLD_BASELINE_NOT_CAUSAL_RED')
+              clean_environment(state)
+              original_argv = sys.argv[:]
+              try:
+                  capture_rows(state,'before_'+selection)
+                  supervisor = helper(state)
+                  sys.argv = [str(Path(state['staged_root'])/'tools/site_transition_capture_regression_supervisor.py'),'--contract',str(base/'contract.json'),'--contract-sha256',state['contract_pin']['sha256'],'--selection',selection,'--output',str(base/selection)]
+                  result = supervisor.main()
+                  if result != 0: raise ValueError('Supervisor capture HOLD')
+              finally:
+                  sys.argv = original_argv
+                  try: preserve_selection(state,selection)
+                  finally: capture_rows(state,'after_'+selection)
+          
+          def main(which):
+              state = {'schema_version':1,'scientific_effect':'NONE','prepared':False,'baseline':'NOT_RUN','candidate':'NOT_RUN','utility_controls':{'classification':'NOT_RUN'},'custody':{},'errors':[],'disposition':'HOLD','runtime_admission':'PENDING_ACTUAL_SUPPORTED_ROUTE','native':native}
+              if which == 'prepare':
+                  base.mkdir(mode=0o700)
+                  for name in ('home','tmp'): (base/name).mkdir(mode=0o700)
+                  for name in LIMITS:
+                      raw = b'' if name.endswith('.bin') or name.endswith('.spawn-trace.json') else encoded({'status':'HOLD_NOT_RUN','scientific_effect':'NONE'})
+                      (base/name).write_bytes(raw)
+              else:
+                  state = object_json(safe_read(base/'job-state.json',262144))
+              try:
+                  if which == 'prepare': prepare(state)
+                  elif which in ('baseline','candidate'): phase(state,which)
+                  elif which == 'finish':
+                      if state.get('inputs'): capture_rows(state,'final')
+                      if state.get('errors') or state.get('baseline') != 'BASELINE_CAUSAL_RED' or state.get('candidate') != 'CANDIDATE_20_GREEN': raise ValueError('HOLD_INCOMPLETE_REGRESSION_GATES')
+                      state['disposition'] = 'PENDING_UTILITY_CONTROLS'
+                  else: raise ValueError('Unknown fixed phase')
+              except BaseException as error:
+                  state['disposition'] = 'HOLD'; state['errors'].append({'phase':which,'error':type(error).__name__,'detail':str(error)[:1024]})
+                  if len(state['errors']) > 16: state['errors'] = state['errors'][:16]
+              finally:
+                  for name in ('job-state.json','job-context.json','disposition.json'):
+                      try:
+                          value = state if name == 'job-state.json' else {key:value for key,value in state.items() if key not in ('inputs','custody','external_custody')}
+                          if name == 'disposition.json': value = {'classification':state['disposition'],'baseline':state['baseline'],'candidate':state['candidate'],'errors':state['errors'],'preservation':state.get('preservation',{}),'native_workflow_source_binding':'EXTERNAL_ROOT_GATE','carrier_support':'PENDING_ACTUAL_LOG_QUALIFICATION','scientific_effect':'NONE'}
+                          write_json(base/name,value,262144 if name == 'job-state.json' else 65536)
+                      except BaseException as error:
+                          state['disposition'] = 'HOLD'; state['errors'].append({'phase':which,'save':name,'error':type(error).__name__})
+                          print('CS_CAPTURE_REGRESSION_PHASE_HOLD '+which+' '+name+' '+type(error).__name__)
+              if state['disposition'] == 'HOLD' and (state['errors'] or which == 'finish'): raise SystemExit(1)
+          
+          main(sys.argv[1])
+          PYREG_DRIVER
+      - name: Require the selected safe causal baseline RED witness
+        id: capture_baseline
+        if: always()
+        timeout-minutes: 3
+        run: |
+          /usr/bin/python3 -I -B -S - baseline <<'PYREG_BASELINE'
+          import hashlib, json, os, stat, sys
+          from pathlib import Path
+          def read(path, limit):
+              directory = os.open('/', os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+              descriptor = None
+              try:
+                  for part in path.parts[1:-1]:
+                      following = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=directory)
+                      os.close(directory); directory = following
+                  descriptor = os.open(path.name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=directory)
+                  before = os.fstat(descriptor)
+                  if not stat.S_ISREG(before.st_mode) or before.st_nlink != 1 or not 0 <= before.st_size <= limit: raise ValueError('Unsafe bounded loader input')
+                  chunks, total = [], 0
+                  while total <= limit:
+                      block = os.read(descriptor, min(65536, limit+1-total))
+                      if not block: break
+                      chunks.append(block); total += len(block)
+                  after = os.fstat(descriptor); named = os.stat(path.name, dir_fd=directory, follow_symlinks=False)
+                  shape = lambda row:(row.st_dev,row.st_ino,row.st_mode,row.st_nlink,row.st_size,row.st_mtime_ns,row.st_ctime_ns)
+                  raw = b''.join(chunks)
+                  if shape(before) != shape(after) or shape(after) != shape(named) or len(raw) != before.st_size: raise ValueError('Loader input changed')
+                  return raw
+              finally:
+                  if descriptor is not None: os.close(descriptor)
+                  os.close(directory)
+          phase = sys.argv[1]
+          if phase not in ('baseline','candidate','finish'): raise ValueError('Fixed phase only')
+          root = Path.cwd().resolve(strict=True)
+          workflow = root/'.github/workflows/current-site-transition-candidate.yml'
+          raw = read(workflow,262144)
+          state = json.loads(read(Path(os.environ['RUNNER_TEMP']).resolve(strict=True)/'site-transition-capture-regression/job-state.json',262144))
+          if state.get('inputs'):
+              row = next(row for row in state['inputs'] if row['relative'] == '.github/workflows/current-site-transition-candidate.yml')
+              if row['pin'] != {'bytes':len(raw),'sha256':hashlib.sha256(raw).hexdigest()}: raise ValueError('Actual workflow driver Source drift')
+          lines = raw.splitlines(keepends=True)
+          header = b"          /usr/bin/python3 -I -B -S - prepare <<'PYREG_DRIVER'\n"
+          starts = [index for index,line in enumerate(lines) if line == header]
+          if len(starts) != 1: raise ValueError('Unique reviewed workflow driver required')
+          end = lines.index(b'          PYREG_DRIVER\n',starts[0]+1)
+          body = lines[starts[0]+1:end]
+          if not body or any(not line.startswith(b'          ') for line in body): raise ValueError('Workflow scalar indentation')
+          source = b''.join(line[10:] for line in body)
+          sys.argv = ['reviewed-workflow-inline-driver',phase]
+          namespace = {'__name__':'__main__'}
+          exec(compile(source,str(workflow)+'#PYREG_DRIVER','exec'),namespace)
+          PYREG_BASELINE
+      - name: Require all twenty candidate regression controls and exact witnesses
+        id: capture_candidate
+        if: always()
+        timeout-minutes: 4
+        run: |
+          /usr/bin/python3 -I -B -S - candidate <<'PYREG_CANDIDATE'
+          import hashlib, json, os, stat, sys
+          from pathlib import Path
+          def read(path, limit):
+              directory = os.open('/', os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+              descriptor = None
+              try:
+                  for part in path.parts[1:-1]:
+                      following = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=directory)
+                      os.close(directory); directory = following
+                  descriptor = os.open(path.name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=directory)
+                  before = os.fstat(descriptor)
+                  if not stat.S_ISREG(before.st_mode) or before.st_nlink != 1 or not 0 <= before.st_size <= limit: raise ValueError('Unsafe bounded loader input')
+                  chunks, total = [], 0
+                  while total <= limit:
+                      block = os.read(descriptor, min(65536, limit+1-total))
+                      if not block: break
+                      chunks.append(block); total += len(block)
+                  after = os.fstat(descriptor); named = os.stat(path.name, dir_fd=directory, follow_symlinks=False)
+                  shape = lambda row:(row.st_dev,row.st_ino,row.st_mode,row.st_nlink,row.st_size,row.st_mtime_ns,row.st_ctime_ns)
+                  raw = b''.join(chunks)
+                  if shape(before) != shape(after) or shape(after) != shape(named) or len(raw) != before.st_size: raise ValueError('Loader input changed')
+                  return raw
+              finally:
+                  if descriptor is not None: os.close(descriptor)
+                  os.close(directory)
+          phase = sys.argv[1]
+          if phase not in ('baseline','candidate','finish'): raise ValueError('Fixed phase only')
+          root = Path.cwd().resolve(strict=True)
+          workflow = root/'.github/workflows/current-site-transition-candidate.yml'
+          raw = read(workflow,262144)
+          state = json.loads(read(Path(os.environ['RUNNER_TEMP']).resolve(strict=True)/'site-transition-capture-regression/job-state.json',262144))
+          if state.get('inputs'):
+              row = next(row for row in state['inputs'] if row['relative'] == '.github/workflows/current-site-transition-candidate.yml')
+              if row['pin'] != {'bytes':len(raw),'sha256':hashlib.sha256(raw).hexdigest()}: raise ValueError('Actual workflow driver Source drift')
+          lines = raw.splitlines(keepends=True)
+          header = b"          /usr/bin/python3 -I -B -S - prepare <<'PYREG_DRIVER'\n"
+          starts = [index for index,line in enumerate(lines) if line == header]
+          if len(starts) != 1: raise ValueError('Unique reviewed workflow driver required')
+          end = lines.index(b'          PYREG_DRIVER\n',starts[0]+1)
+          body = lines[starts[0]+1:end]
+          if not body or any(not line.startswith(b'          ') for line in body): raise ValueError('Workflow scalar indentation')
+          source = b''.join(line[10:] for line in body)
+          sys.argv = ['reviewed-workflow-inline-driver',phase]
+          namespace = {'__name__':'__main__'}
+          exec(compile(source,str(workflow)+'#PYREG_DRIVER','exec'),namespace)
+          PYREG_CANDIDATE
+      - name: Validate actual trace seeds refusal controls and final Source custody
+        id: capture_custody
+        if: always()
+        timeout-minutes: 1
+        run: |
+          /usr/bin/python3 -I -B -S - finish <<'PYREG_CUSTODY'
+          import hashlib, json, os, stat, sys
+          from pathlib import Path
+          def read(path, limit):
+              directory = os.open('/', os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW)
+              descriptor = None
+              try:
+                  for part in path.parts[1:-1]:
+                      following = os.open(part, os.O_RDONLY | os.O_DIRECTORY | os.O_NOFOLLOW, dir_fd=directory)
+                      os.close(directory); directory = following
+                  descriptor = os.open(path.name, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK, dir_fd=directory)
+                  before = os.fstat(descriptor)
+                  if not stat.S_ISREG(before.st_mode) or before.st_nlink != 1 or not 0 <= before.st_size <= limit: raise ValueError('Unsafe bounded loader input')
+                  chunks, total = [], 0
+                  while total <= limit:
+                      block = os.read(descriptor, min(65536, limit+1-total))
+                      if not block: break
+                      chunks.append(block); total += len(block)
+                  after = os.fstat(descriptor); named = os.stat(path.name, dir_fd=directory, follow_symlinks=False)
+                  shape = lambda row:(row.st_dev,row.st_ino,row.st_mode,row.st_nlink,row.st_size,row.st_mtime_ns,row.st_ctime_ns)
+                  raw = b''.join(chunks)
+                  if shape(before) != shape(after) or shape(after) != shape(named) or len(raw) != before.st_size: raise ValueError('Loader input changed')
+                  return raw
+              finally:
+                  if descriptor is not None: os.close(descriptor)
+                  os.close(directory)
+          phase = sys.argv[1]
+          if phase not in ('baseline','candidate','finish'): raise ValueError('Fixed phase only')
+          root = Path.cwd().resolve(strict=True)
+          workflow = root/'.github/workflows/current-site-transition-candidate.yml'
+          raw = read(workflow,262144)
+          state = json.loads(read(Path(os.environ['RUNNER_TEMP']).resolve(strict=True)/'site-transition-capture-regression/job-state.json',262144))
+          if state.get('inputs'):
+              row = next(row for row in state['inputs'] if row['relative'] == '.github/workflows/current-site-transition-candidate.yml')
+              if row['pin'] != {'bytes':len(raw),'sha256':hashlib.sha256(raw).hexdigest()}: raise ValueError('Actual workflow driver Source drift')
+          lines = raw.splitlines(keepends=True)
+          header = b"          /usr/bin/python3 -I -B -S - prepare <<'PYREG_DRIVER'\n"
+          starts = [index for index,line in enumerate(lines) if line == header]
+          if len(starts) != 1: raise ValueError('Unique reviewed workflow driver required')
+          end = lines.index(b'          PYREG_DRIVER\n',starts[0]+1)
+          body = lines[starts[0]+1:end]
+          if not body or any(not line.startswith(b'          ') for line in body): raise ValueError('Workflow scalar indentation')
+          source = b''.join(line[10:] for line in body)
+          sys.argv = ['reviewed-workflow-inline-driver',phase]
+          namespace = {'__name__':'__main__'}
+          exec(compile(source,str(workflow)+'#PYREG_DRIVER','exec'),namespace)
+          # Pure-function controls over actual captured trace seeds; never process receipts.
+          state = namespace['object_json'](namespace['safe_read'](namespace['base']/'job-state.json',262144))
+          base = namespace['base']; safe_read = namespace['safe_read']; object_json = namespace['object_json']
+          write_json = namespace['write_json']; controls = []; seeds = {}
+          state['utility_controls'] = {'classification':'HOLD_NOT_RUN','lane':'ACTUAL_HELPER_PURE_FUNCTIONS_WITH_SYNTHETIC_MUTATIONS','controls':controls,'seeds':seeds}
+          expected_ids = ['baseline_trace_positive','baseline_outcome_positive','candidate_trace_positive','candidate_outcome_positive','unknown_kind','duplicate_endpoint','reversed_spawn_pair','unlisted_argv','wrong_identity','extra_schema_field','wrong_case_order','trace_at_cap','observed_cwd_positive','wrong_observed_cwd','wrong_causal_baseline','wrong_candidate_witness']
+          refusal_messages = {'unknown_kind':'Unknown trace kind','duplicate_endpoint':'Unique first launcher endpoint','reversed_spawn_pair':'Spawn must follow its unique begin','unlisted_argv':'Actual argv/hash/Source join','wrong_identity':'Spawned identity/actual argv join','extra_schema_field':'CASE_BEGIN schema','wrong_case_order':'Canonical actual case order','trace_at_cap':'Partial/oversized trace','wrong_observed_cwd':'Observed launch cwd mismatch'}
+          def clone(value): return json.loads(json.dumps(value))
+          def control(identifier, api, selection, mutation, payload, expected, invoke):
+              row = {'id':identifier,'api':api,'selection':selection,'lane':'SYNTHETIC_PURE_FUNCTION_CONTROL' if mutation else 'ACTUAL_CAPTURED_SEED_CONTROL','mutation':mutation,'seed_trace_sha256':seeds[selection]['trace']['sha256'],'input_bytes':len(payload),'input_sha256':hashlib.sha256(payload).hexdigest(),'expected':expected,'result':'NOT_RUN'}
+              controls.append(row)
+              try:
+                  observed = invoke()
+              except ValueError as error:
+                  message = refusal_messages.get(identifier)
+                  accepted = expected == 'ValueError' and str(error) == message
+                  row.update(result='EXPECTED_REFUSAL' if accepted else 'UNEXPECTED_REFUSAL',error=type(error).__name__,detail=str(error)[:512],expected_refusal_detail=message)
+                  if not accepted: raise
+              else:
+                  accepted = expected != 'ValueError' and observed == expected
+                  row.update(result='EXPECTED_VALUE' if accepted else 'UNEXPECTED_VALUE',observed=observed)
+                  if not accepted: raise ValueError('Utility control unexpectedly admitted/refused: '+identifier)
+          try:
+              if state.get('disposition') != 'PENDING_UTILITY_CONTROLS' or state.get('errors'): raise ValueError('Control seeds not admitted')
+              namespace['clean_environment'](state); namespace['capture_rows'](state,'before_utility_controls')
+              supervisor = namespace['helper'](state)
+              contract_raw = safe_read(base/'contract.json',65536); contract = object_json(contract_raw)
+              summaries, traces, receipts = {}, {}, {}
+              for selection in ('baseline','candidate'):
+                  trace = safe_read(base/(selection+'.spawn-trace.json'),65536)
+                  receipt_raw = safe_read(base/(selection+'.receipt.json'),262144); receipt = object_json(receipt_raw)
+                  identity = receipt['leader_identity_at_pidfd']
+                  seeds[selection] = {'trace':namespace['pin'](trace),'receipt':namespace['pin'](receipt_raw),'contract':namespace['pin'](contract_raw),'integer_exit':receipt['integer_exit'],'leader_identity':identity,'supervisor_pid':identity['ppid']}
+                  traces[selection], receipts[selection] = trace, receipt
+                  def validate(body, selected=selection, observed=receipt, held=identity):
+                      return supervisor.validate_trace(body,contract,selected,observed['integer_exit'],observed['leader_pid'],held['ppid'],held)
+                  summaries[selection] = validate(trace)
+                  control(selection+'_trace_positive','validate_trace',selection,None,trace,state['staged_root'],lambda:validate(trace)['verified_observed_cwd'])
+                  expected = 'BASELINE_CAUSAL_RED' if selection == 'baseline' else 'CANDIDATE_20_GREEN'
+                  control(selection+'_outcome_positive','validate_regression_outcome',selection,None,supervisor.compact(summaries[selection]),expected,lambda:supervisor.validate_regression_outcome(summaries[selection],selection))
+              events = summaries['candidate']['events']
+              first_spawn = next(i for i,row in enumerate(events) if row['kind']=='SPAWN_BEGIN')
+              spawned = next(i for i,row in enumerate(events) if row['kind']=='SPAWNED')
+              cases = [i for i,row in enumerate(events) if row['kind']=='CASE_BEGIN']
+              mutations = []
+              def changed(identifier,index,key,value):
+                  rows = clone(events); old = rows[index][key]; rows[index][key] = value
+                  mutations.append((identifier,{'operation':'replace','index':index,'key':key,'before':old,'after':value},rows))
+              changed('unknown_kind',1,'kind','UNKNOWN_CONTROL_KIND')
+              rows=clone(events);rows.insert(1,clone(rows[0]));mutations.append(('duplicate_endpoint',{'operation':'insert_clone','source_index':0,'at_index':1},rows))
+              if spawned != first_spawn+1: raise ValueError('Actual seed does not have adjacent first spawn pair')
+              rows=clone(events);rows[first_spawn],rows[spawned]=rows[spawned],rows[first_spawn];mutations.append(('reversed_spawn_pair',{'operation':'swap','indices':[first_spawn,spawned]},rows))
+              rows=clone(events);old=clone(rows[first_spawn]['argv']);rows[first_spawn]['argv'][-1]+=' # MUTATED_CONTROL';rows[first_spawn]['argv_sha256']=hashlib.sha256(supervisor.compact(rows[first_spawn]['argv'])).hexdigest();mutations.append(('unlisted_argv',{'operation':'replace_and_rehash_argv','index':first_spawn,'before':old,'after':rows[first_spawn]['argv']},rows))
+              changed('wrong_identity',spawned,'ppid',events[spawned]['ppid']+1)
+              rows=clone(events);rows[1]['unexpected_control_field']=True;mutations.append(('extra_schema_field',{'operation':'add','index':1,'key':'unexpected_control_field','value':True},rows))
+              rows=clone(events);old={'case_id':rows[cases[0]]['case_id'],'runtime_id':rows[cases[0]]['runtime_id']};new={key:rows[cases[1]][key] for key in old};rows[cases[0]].update(new);mutations.append(('wrong_case_order',{'operation':'replace_fields','index':cases[0],'before':old,'after':new},rows))
+              for identifier,mutation,rows in mutations:
+                  mutation['sequence_policy']='renumber_consecutive_indices'
+                  for index,row in enumerate(rows):row['sequence']=index
+                  body=b''.join(supervisor.compact(row) for row in rows)
+                  control(identifier,'validate_trace','candidate',mutation,body,'ValueError',lambda:validate(body)['verified_observed_cwd'])
+              body=b'X'*65536
+              control('trace_at_cap','validate_trace','candidate',{'operation':'replace_body','byte':88,'count':65536},body,'ValueError',lambda:validate(body)['verified_observed_cwd'])
+              cwd=summaries['candidate']['verified_observed_cwd']
+              for identifier,observed,expected in [('observed_cwd_positive',cwd,cwd),('wrong_observed_cwd',cwd+'-wrong-control','ValueError')]:
+                  payload=supervisor.compact({'contract_sha256':state['contract_pin']['sha256'],'observed_cwd':observed})
+                  control(identifier,'validate_launch_cwd','candidate',None if identifier.endswith('positive') else {'operation':'append_observed_cwd','suffix':'-wrong-control'},payload,expected,lambda:supervisor.validate_launch_cwd(contract,observed))
+              for selection,identifier,key,value in [('baseline','wrong_causal_baseline','caught_type','OSError'),('candidate','wrong_candidate_witness','post_source_opens',0)]:
+                  summary=clone(summaries[selection]);index=next(i for i,row in enumerate(summary['events']) if row['kind']=='CASE_WITNESS');old=summary['events'][index][key];summary['events'][index][key]=value
+                  control(identifier,'validate_regression_outcome',selection,{'operation':'replace_summary_event_field','index':index,'key':key,'before':old,'after':value},supervisor.compact(summary),'HOLD',lambda:supervisor.validate_regression_outcome(summary,selection))
+              if [row['id'] for row in controls] != expected_ids or any(row['result'] not in ('EXPECTED_VALUE','EXPECTED_REFUSAL') for row in controls): raise ValueError('Exact utility control census')
+              release=Path('/etc/os-release').resolve(strict=True); release_raw=safe_read(release,4096); release_text=release_raw.decode('ascii')
+              release_fields=dict(line.split('=',1) for line in release_text.splitlines() if '=' in line and not line.startswith('#'))
+              if release_fields.get('ID','').strip('"')!='ubuntu' or release_fields.get('VERSION_ID','').strip('"')!='24.04': raise ValueError('Unsupported Linux image route')
+              state['supported_software_observation']={'uname':list(os.uname()),'os_release':{'path':str(release),**namespace['pin'](release_raw),'text':release_text},'python':contract['interpreter'],'python_version_observed':list(sys.version_info[:3]),'pidfd_open_api':hasattr(os,'pidfd_open'),'pidfd_send_signal_api':hasattr(namespace['signal'],'pidfd_send_signal'),'selections':{key:{field:receipts[key].get(field) for field in ('elapsed_seconds','integer_exit','timeout','cap','cleanup','interpreter_after','captures')} for key in receipts},'qualification':'SCOPED_SOFTWARE_CI_OBSERVATION_ONLY_NOT_SCIENTIFIC_OR_CARRIER_ADMISSION'}
+              state['utility_controls']['classification']='PASS_16_PURE_FUNCTION_CONTROLS'
+              state['disposition']='PASS_CAPTURE_REGRESSIONS'
+          except BaseException as error:
+              state['disposition']='HOLD';state['errors'].append({'phase':'utility_controls','error':type(error).__name__,'detail':str(error)[:1024]})
+          finally:
+              try:namespace['capture_rows'](state,'after_utility_controls_final')
+              except BaseException as error:
+                  state['disposition']='HOLD';state['errors'].append({'phase':'utility_final_custody','error':type(error).__name__})
+              for name in ('job-state.json','job-context.json','disposition.json'):
+                  try:
+                      value=state if name=='job-state.json' else {key:value for key,value in state.items() if key not in ('inputs','custody','external_custody')}
+                      if name=='disposition.json':value={'classification':state['disposition'],'baseline':state['baseline'],'candidate':state['candidate'],'utility_controls':state['utility_controls'],'supported_software_observation':state.get('supported_software_observation'),'errors':state['errors'],'preservation':state.get('preservation',{}),'scientific_effect':'NONE','carrier_support':'PENDING_ACTUAL_LOG_QUALIFICATION','native_workflow_source_binding':'EXTERNAL_ROOT_GATE'}
+                      write_json(base/name,value,262144 if name=='job-state.json' else 65536)
+                  except BaseException as error:
+                      state['disposition']='HOLD';state['errors'].append({'phase':'utility_save','member':name,'error':type(error).__name__})
+                      print('CS_CAPTURE_REGRESSION_UTILITY_HOLD '+name+' '+type(error).__name__)
+          if state['disposition']!='PASS_CAPTURE_REGRESSIONS':raise SystemExit(1)
+          PYREG_CUSTODY
+      - name: Always emit the fifteen complete bounded regression evidence members
+        id: capture_emission
+        if: always()
+        timeout-minutes: 2
+        env:
+          CS_CHECKOUT_OUTCOME: ${{ steps.capture_checkout.outcome }}
+          CS_PREPARE_OUTCOME: ${{ steps.capture_prepare.outcome }}
+          CS_BASELINE_OUTCOME: ${{ steps.capture_baseline.outcome }}
+          CS_CANDIDATE_OUTCOME: ${{ steps.capture_candidate.outcome }}
+          CS_CUSTODY_OUTCOME: ${{ steps.capture_custody.outcome }}
+        run: |
+          /usr/bin/python3 -I -B -S - <<'PYREG_EVIDENCE'
+          import base64, hashlib, json, os, stat, sys
+          from pathlib import Path
+          base = Path(os.environ['RUNNER_TEMP']).resolve(strict=True)/'site-transition-capture-regression'
+          limits = {'job-context.json':65536,'source-before.json':262144,'source-after.json':262144,
+                    'contract.json':65536,'baseline.stdout.bin':1048576,'baseline.stderr.bin':1048576,
+                    'baseline.receipt.json':262144,'baseline.witness.json':65536,
+                    'candidate.stdout.bin':1048576,'candidate.stderr.bin':1048576,
+                    'candidate.receipt.json':262144,'candidate.witness.json':131072,
+                    'disposition.json':65536,'baseline.spawn-trace.json':65536,'candidate.spawn-trace.json':65536}
+          def encoded(value): return (json.dumps(value,sort_keys=True,indent=2,ensure_ascii=True)+'\n').encode('ascii')
+          def read(path,limit):
+              directory = os.open('/',os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW); descriptor = None
+              try:
+                  for part in path.parts[1:-1]:
+                      following=os.open(part,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW,dir_fd=directory)
+                      os.close(directory);directory=following
+                  descriptor=os.open(path.name,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK,dir_fd=directory)
+                  before=os.fstat(descriptor)
+                  if not stat.S_ISREG(before.st_mode) or before.st_nlink!=1 or not 0<=before.st_size<=limit:raise ValueError('Unsafe bounded evidence')
+                  chunks,total=[],0
+                  while total<=limit:
+                      block=os.read(descriptor,min(65536,limit+1-total))
+                      if not block:break
+                      chunks.append(block);total+=len(block)
+                  after=os.fstat(descriptor);named=os.stat(path.name,dir_fd=directory,follow_symlinks=False)
+                  shape=lambda row:(row.st_dev,row.st_ino,row.st_mode,row.st_nlink,row.st_size,row.st_mtime_ns,row.st_ctime_ns)
+                  raw=b''.join(chunks)
+                  if shape(before)!=shape(after) or shape(after)!=shape(named) or len(raw)!=before.st_size:raise ValueError('Evidence changed')
+                  return raw
+              finally:
+                  if descriptor is not None:os.close(descriptor)
+                  os.close(directory)
+          missing, refused, files = [], [], {}
+          for name,limit in limits.items():
+              try: files[name]=read(base/name,limit)
+              except FileNotFoundError:
+                  missing.append(name)
+                  files[name]=b'' if name.endswith('.bin') or name.endswith('.spawn-trace.json') else encoded({'status':'HOLD_MISSING_EVIDENCE','member':name,'scientific_effect':'NONE'})
+              except BaseException as error:
+                  refused.append({'member':name,'error':type(error).__name__})
+                  files[name]=encoded({'status':'HOLD_UNREADABLE_EVIDENCE','member':name,'error':type(error).__name__,'scientific_effect':'NONE'})
+          try: disposition=json.loads(files['disposition.json'])
+          except (ValueError,UnicodeError): disposition={}
+          if type(disposition) is not dict:disposition={}
+          try: context=json.loads(files['job-context.json'])
+          except (ValueError,UnicodeError): context={}
+          if type(context) is not dict:context={}
+          tables=[row.get('preservation',{}) for row in (context,disposition)]
+          for selection in ('baseline','candidate'):
+              for suffix in ('stdout.bin','stderr.bin','spawn-trace.json','receipt.json'):
+                  member=selection+'.'+suffix
+                  records=[table.get(member) for table in tables if type(table) is dict and type(table.get(member)) is dict]
+                  refusal=next((row for row in records if row.get('status')=='REFUSED'),None)
+                  absent=any(row.get('status')=='MISSING' for row in records)
+                  copied=any(row.get('status')=='COPIED' for row in records)
+                  if refusal is not None:
+                      if not any(row.get('member')==member for row in refused):refused.append({'member':member,'error':refusal.get('error','UnknownRefusal'),'stage':refusal.get('stage'),'detail':refusal.get('detail','')})
+                  elif absent or not copied:
+                      if member not in missing:missing.append(member)
+          outcomes={key:os.environ.get(key) for key in ('CS_CHECKOUT_OUTCOME','CS_PREPARE_OUTCOME','CS_BASELINE_OUTCOME','CS_CANDIDATE_OUTCOME','CS_CUSTODY_OUTCOME')}
+          passed=disposition.get('classification')=='PASS_CAPTURE_REGRESSIONS' and not missing and not refused and all(value=='success' for value in outcomes.values())
+          if len(files)!=15 or any(len(raw)>limits[name] for name,raw in files.items()) or sum(map(len,files.values()))>5767168:raise ValueError('Carrier raw census/cap HOLD')
+          rows=[{'name':name,'bytes':len(raw),'sha256':hashlib.sha256(raw).hexdigest(),'chunks':(len(raw)+3071)//3072} for name,raw in files.items()]
+          manifest=encoded({'schema_version':1,'carrier':'CS_CAPTURE_REGRESSION','members':rows,'member_count':15,'raw_bytes':sum(map(len,files.values())),'classification':'PASS_CAPTURE_REGRESSIONS' if passed else 'HOLD','step_outcomes':outcomes,'missing_original_members':missing,'refused_original_members':refused,'original_bytes_substituted_only_when_unavailable':True,'wire_cap':10485760,'scientific_effect':'NONE'})
+          wire=0
+          def emit(line):
+              global wire
+              raw=(line+'\n').encode('ascii');wire+=len(raw)
+              if wire>10485760:raise ValueError('Carrier wire cap HOLD')
+              sys.stdout.buffer.write(raw)
+          emit('CS_CAPTURE_REGRESSION_BEGIN 1 15 '+str(sum(map(len,files.values())))+' '+hashlib.sha256(manifest).hexdigest())
+          emit('CS_CAPTURE_REGRESSION_MANIFEST '+base64.b64encode(manifest).decode('ascii'))
+          chunks=0
+          for row in rows:
+              name=row['name'];raw=files[name]
+              emit('CS_CAPTURE_REGRESSION_FILE '+name+' '+str(len(raw))+' '+row['sha256']+' '+str(row['chunks']))
+              for index,start in enumerate(range(0,len(raw),3072)):
+                  block=raw[start:start+3072];chunks+=1
+                  emit('CS_CAPTURE_REGRESSION_CHUNK '+name+' '+str(index)+' '+str(len(block))+' '+hashlib.sha256(block).hexdigest()+' '+base64.b64encode(block).decode('ascii'))
+              emit('CS_CAPTURE_REGRESSION_FILE_END '+name+' '+str(row['chunks'])+' '+row['sha256'])
+          emit('CS_CAPTURE_REGRESSION_END 15 '+str(chunks)+' '+str(sum(map(len,files.values())))+' '+hashlib.sha256(manifest).hexdigest())
+          sys.stdout.buffer.flush()
+          if not passed:raise SystemExit(1)
+          PYREG_EVIDENCE
