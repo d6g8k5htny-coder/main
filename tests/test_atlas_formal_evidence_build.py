@@ -12,6 +12,10 @@ CLAIM = 'math.side24-coefficient'
 FIXTURE = ROOT/'tests/fixtures/atlas_formal_build_3b39'
 HISTORICAL_MANIFEST = '8dfcfe4e9296bca47eede517f37b546ea420ec6b51944b7c16164a906b40e090'
 HISTORICAL_FILES = {
+    'formal/README.md': ('README.md.txt',
+        '54436dfd808547d9da9ce0a2ad64b0e5935bb755844fef99b298281c49044aaa'),
+    'formal/REVIEW_LANE.md': ('REVIEW_LANE.md.txt',
+        '887f56209471fc0194d601a4f8a0c82eb75852e1c97da0400c16d447669e6340'),
     'tools/formal_gate_check.py': ('formal_gate_check.py.txt',
         '21c355e02ac6e01337d10465a3105b34b93f832586ee60aa2430f662a90cd8b7'),
     'tests/test_formal_gate.py': ('test_formal_gate.py.txt',
