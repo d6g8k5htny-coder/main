@@ -14,8 +14,9 @@ These are the scripts the author used to produce revisions of this draft. Each m
 | `make_r15.py` | r15 | `python3 make_r15.py DRAFTDIR`, applied to `ba1b904d`. It edits `refs.bib`, `s0_status.tex` and `README.md`. |
 | `make_r16.py` | r16 | `python3 make_r16.py DRAFTDIR`, applied to `18543a20`. It edits `appA_records.tex`, `s0_status.tex` and `README.md`. |
 | `make_r17.py` | r17 | `python3 make_r17.py DRAFTDIR`, applied to `fcc83ab5`. It edits `appA_records.tex`, `s0_status.tex` and `README.md`. |
+| `make_r18.py` | r18 | `python3 make_r18.py DRAFTDIR`, applied to `29ca667d` after `build.sh` was rewritten by hand. It edits `s0_status.tex`, `README.md` and `SUBMISSION_READINESS.md`; then `sh build.sh --update-sums`. |
 
-r0, r1 and r3–r7 were made by direct edits; their commits and the change list are the record. r11 (`b033a118`) was also made by direct edits: one sentence of Appendix A record [R1], the §0 date line, the README and the change list. After a script, run `sh build.sh` and regenerate `SHA256SUMS`, then compare the result with the revision's commit.
+r0, r1 and r3–r7 were made by direct edits; their commits and the change list are the record. r11 (`b033a118`) was also made by direct edits: one sentence of Appendix A record [R1], the §0 date line, the README and the change list. After a script, run `sh build.sh --update-sums` (since r18 the build is reproducible and the script copies the PDF and rewrites the manifest), then compare the result with the revision's commit.
 
 Check, from the repository root:
 

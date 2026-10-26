@@ -1,11 +1,11 @@
-# SIDE24 manuscript — V3 draft (13 October 2026; revision r17 of 21 October)
+# SIDE24 manuscript — V3 draft (13 October 2026; revision r18 of 26 October)
 
 Dylan Roy — delegated AI work. Actual performer: Anthropic Claude, Claude Code session `session_01NMeKEismAyeqgdB4sy2NJU` (Claude01N), the author of the V3 edit pack. This is an **author-side draft** of the SIDE24 manuscript for the author's decisions and for nonauthor reads. Scientific effect NONE: no register, status or proof file changes, and no theorem changes.
 
 ## Contents
 
-- `SIDE24_V3_DRAFT_20261013.pdf`: the compiled draft, revision r17, 23 pages. Its first section, "Status of this draft", is for the author and is removed before submission. Earlier revisions are kept at their commits: r16 at `fcc83ab5`, r15 at `18543a20`, r14 at `ba1b904d`, r13 (23 pages, SHA-256 `b3852c53…`) at `04a3ee03`, r12 (23 pages, SHA-256 `72f6b056…`) at `d550d238`, r11 (23 pages, SHA-256 `cbfe9db6…`) at `b033a118`, r10 (23 pages, SHA-256 `edf1bc77…`) at `d9f01444`, r9 (23 pages, SHA-256 `2bea32be…`) at `3022daae`, r8 (22 pages, SHA-256 `9e051654…`) at `2f176488`, r7 (22 pages, SHA-256 `af944708…`) at `5543bd20`, r6 (22 pages, SHA-256 `602762a2…`) at `398cf6fb`, r5 (22 pages, SHA-256 `0d8113f7…`) at `74bc4988`, r4 (21 pages, SHA-256 `a22db882…`) at `7bab515f`, r3 (19 pages, SHA-256 `75496787…`) at `7aff36d0`, r2 at `ff73d996`, r1 (SHA-256 `aa866725…`) at `56b680cd`, and r0 (18 pages, SHA-256 `8270e498…`) at `6deb0899`. `V3_CHANGE_LIST.md` records every revision.
-- `main.tex`, `s0_status.tex` … `s7_disclosure.tex`, `appA_records.tex`, `refs.bib`: the LaTeX sources. `build.sh` rebuilds the PDF with `pdflatex` and `bibtex` (amsart, amsplain).
+- `SIDE24_V3_DRAFT_20261013.pdf`: the compiled draft, revision r18, 23 pages. Its first section, "Status of this draft", is for the author and is removed before submission. Earlier revisions are kept at their commits: r17 (23 pages, SHA-256 `8ac5e278…`) at `10e91203`, r16 at `fcc83ab5`, r15 at `18543a20`, r14 at `ba1b904d`, r13 (23 pages, SHA-256 `b3852c53…`) at `04a3ee03`, r12 (23 pages, SHA-256 `72f6b056…`) at `d550d238`, r11 (23 pages, SHA-256 `cbfe9db6…`) at `b033a118`, r10 (23 pages, SHA-256 `edf1bc77…`) at `d9f01444`, r9 (23 pages, SHA-256 `2bea32be…`) at `3022daae`, r8 (22 pages, SHA-256 `9e051654…`) at `2f176488`, r7 (22 pages, SHA-256 `af944708…`) at `5543bd20`, r6 (22 pages, SHA-256 `602762a2…`) at `398cf6fb`, r5 (22 pages, SHA-256 `0d8113f7…`) at `74bc4988`, r4 (21 pages, SHA-256 `a22db882…`) at `7bab515f`, r3 (19 pages, SHA-256 `75496787…`) at `7aff36d0`, r2 at `ff73d996`, r1 (SHA-256 `aa866725…`) at `56b680cd`, and r0 (18 pages, SHA-256 `8270e498…`) at `6deb0899`. `V3_CHANGE_LIST.md` records every revision.
+- `main.tex`, `s0_status.tex` … `s7_disclosure.tex`, `appA_records.tex`, `refs.bib`: the LaTeX sources. `build.sh` rebuilds the PDF with `pdflatex` and `bibtex` (amsart, amsplain), copies it to `SIDE24_V3_DRAFT_20261013.pdf` and verifies `SHA256SUMS`; since r18 the build is byte-reproducible (`SOURCE_DATE_EPOCH` is pinned), so the PDF's checksum line is a real check. `sh build.sh --update-sums` rewrites the manifest after a source change.
 - `V3_CHANGE_LIST.md`: where every V2 amendment (M1–M7) and every V3 edit-pack item (E1–E78) went, the corrections found while drafting, the record of the pre-delivery check, and the "do not print" compliance.
 - `SHA256SUMS`: hashes of every file above except this README.
 
@@ -35,5 +35,6 @@ Dylan Roy — delegated AI work. Actual performer: Anthropic Claude, Claude Code
 - **Reads of r14:** Cursor AMEND (main#389 6325580614), applied; readback AMEND (6325782917), applied; readback PASS (6325821191).
 - **Reads of r15:** Cursor PASS (main#389 6326222268).
 - **Reads of r16:** Cursor PASS (main#389 6326401627).
-- **Requested:** a nonauthor read of the r16→r17 delta (Appendix A [R1] now cites supplement draft 16; §0; this README; the change list).
+- **Reads of r17:** Cursor PASS (main#389 6326776936).
+- **Requested:** a nonauthor read of the r17→r18 delta (`build.sh`: the copy step, the pinned epoch and the manifest check; the rebuilt PDF; §0; this README; the change list; `SUBMISSION_READINESS.md`).
 - **Integration:** not requested. The author's decisions are made; submission still waits on the items in §0, "Before submission".

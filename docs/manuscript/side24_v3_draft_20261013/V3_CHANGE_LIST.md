@@ -495,3 +495,18 @@ r16 is commit `fcc83ab5`. Its Cursor read passed (main#389 6326401627). r17 is t
 - **README:** revision r17; r16 is added to the earlier revisions and its read is recorded; [R1] is draft 16; a read of r16→r17 is requested.
 
 **Build.** `build.sh`: 23 pages, no LaTeX error, the same 2 pt overfull line, no BibTeX warnings. Built by `revision_scripts/make_r17.py`.
+
+## Revision r18 (26 October, about 16:30Z)
+
+r17 is commit `10e91203`. Its Cursor read passed (main#389 6326776936). Between r17 and r18 the branch also received two merges of `main` (`31d83e54`, `50f0f416`; no manuscript file changed) and the merge of #485 (`29ca667d`; `SUBMISSION_READINESS.md` only). r18 is this PDF: 23 pages, 564369 B, SHA-256 `905681ec64bc786e0e9f70b2bf05dbb65bd05a144e66742411db8b9272cc886e`.
+
+**Why.** A Copilot review of main#389 (discussion_r4365148684), verified by an OpenAI/Codex lane (389/6379998598), found that `build.sh` wrote `main.pdf` and never copied it to the distributed `SIDE24_V3_DRAFT_20261013.pdf`. Every revision so far made that copy by hand, and the lane verified all 14 manifest entries of r17, so no shipped packet was inconsistent; but a future revision that skipped the copy could have shipped a stale PDF with a passing manifest.
+
+**Changes (build procedure and records; the TeX sources are unchanged).**
+- **`build.sh`.** After the final `pdflatex` it copies `main.pdf` to `SIDE24_V3_DRAFT_20261013.pdf`. It pins `SOURCE_DATE_EPOCH=1791849600` (13 October 2026 00:00Z, the draft's date) with `FORCE_SOURCE_DATE=1`, so pdfTeX writes fixed creation and modification dates and a fixed trailer `/ID`: the build is byte-reproducible, and two builds here gave the same SHA-256. Without an argument it then runs `sha256sum -c SHA256SUMS`; with `--update-sums` it rewrites the manifest. So `sh build.sh` at a committed head is now a complete check of the packet, PDF included.
+- **The PDF** is rebuilt by the new script. Its content is r17's; only the dates and `/ID` differ, so the bytes and hash are new.
+- **§0:** "Revised through r18 on 26 October 2026".
+- **README:** revision r18; r17 is added to the earlier revisions; the `build.sh` description; the r17 read is recorded, and a read of r17→r18 is requested.
+- **`SUBMISSION_READINESS.md`:** new row G15 (the build procedure, DONE), and the author-agent row records the adoption of #485 (G6 qualification: Pranav's journal status is "unverified", not "no published version"; OpenAI proposal with a Cursor documentary PASS_SCOPED, merged onto the branch as `29ca667d`).
+
+**Build.** `sh build.sh` compiles with no LaTeX error and the same 2 pt overfull line as before; 23 pages; no BibTeX warnings; 14/14 manifest lines OK. Record edits by `revision_scripts/make_r18.py`; `build.sh` was rewritten directly.

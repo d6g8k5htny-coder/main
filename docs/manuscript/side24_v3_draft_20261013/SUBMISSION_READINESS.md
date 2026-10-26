@@ -1,6 +1,6 @@
 # SIDE24 V3: submission readiness, novelty search and venue comparison
 
-Status as of 21 October 2026, about 21:20Z (r17 made; supplement draft 16 read). This is a living record. Update it when any item changes, and supersede lines rather than delete them.
+Status as of 26 October 2026, about 16:30Z (r18 made: reproducible build; #485 adopted). This is a living record. Update it when any item changes, and supersede lines rather than delete them.
 Author of this record: Anthropic Claude, session `session_01NMeKEismAyeqgdB4sy2NJU` (Claude01N), for Dylan Roy. Dylan Roy — delegated AI work. Credit 0. Scientific effect NONE.
 **Nothing here submits anything. Dylan has said not to submit yet.**
 
@@ -32,6 +32,7 @@ Marks: **[HUMAN]** needs Dylan or another person: judgement, identity, an accoun
 | G9 | **The repository records cited in Appendix A are paths and commits** in a GitHub repository. Referees need stable, citable access. | **[HUMAN]** (needs an account and a decision) | Archive a tagged snapshot with a DOI (for example Zenodo from GitHub) and cite the DOI in Appendix A, or make the Supplement self-contained and post it on arXiv as a companion. Decision 4 already makes the leading term rest on the Supplement alone. |
 | G10 | **How the Supplement is hosted.** At 162 pages it will not be a normal journal supplement everywhere. | **[HUMAN]**: choose the venue first | Options: an arXiv companion paper cited by the main text, or a journal-hosted supplementary file. See §4. |
 | G11 | **Draft-only material must be removed.** The provenance wording in the Supplement's mathematical sections was removed in draft 14 (readback PASS 6325795760). The main text's §0 and the Supplement's §S0 status sections remain. | **[AI]**, after the venue choice | A final "submission build" revision. |
+| G15 | **Build procedure.** A Copilot review of main#389 (discussion_r4365148684), verified by an OpenAI/Codex lane (389/6379998598), found that `build.sh` never copied `main.pdf` to the distributed `SIDE24_V3_DRAFT_20261013.pdf`; every revision so far did the copy by hand and r17's 14 manifest entries were verified correct, but a future revision could have shipped a stale PDF with a passing manifest. | **[DONE]** in r18: `build.sh` copies the PDF, pins `SOURCE_DATE_EPOCH` so the build is byte-reproducible, and verifies (or, with `--update-sums`, rewrites) `SHA256SUMS`. The supplement's `build.sh` gets the same change in draft 17. | Resolve the Copilot thread once the r18 read passes. |
 | G12 | **Journal style pass** (class file, bibliography style, length). | **[AI]**, after the venue choice | BibTeX "missing pages" warnings: none since r15 (BobrowskiBorman and LadghamLR fixed in r14; ChenavierHirsch and HLO in r15). |
 | G13 | **arXiv posting.** A first-time math.PR submitter may need an endorsement. | **[HUMAN]** (account) **[BROWSER]** (check arXiv's current endorsement page) | Dylan's arXiv account and, if asked, an endorser. |
 | G14 | **AI-use disclosure wording** must match the chosen journal's policy. §7 already discloses AI checks; the venue may want a statement about AI-generated text and proofs. | **[HUMAN]** decision, **[AI]** draft | After the venue choice, compare §7 with the journal's policy text. |
@@ -171,4 +172,4 @@ Sources: the links in §3; [Springer AI editorial policy](https://www.springer.c
 |---|---|
 | Dylan **[HUMAN]** | G1 (human review route), the venue choice (§4), G8 (front-matter details), G9/G10 (archive and Supplement hosting), G13 (arXiv account). |
 | Dylan **[SUBSCRIPTION]/[BROWSER]** | G3 and G4, with the queries in G3. G6's bounded check and remaining Pranav uncertainty are recorded in §2.1. |
-| Author agent **[AI]** | r13 (G5, G7) is done and read (main#389 6325193355, 6325266500). After the venue choice: G11, G12 and G14. |
+| Author agent **[AI]** | r13–r18 done and read (r18's read requested). #485 (G6 qualification, OpenAI proposal, documentary PASS_SCOPED 485/6328282240) adopted onto the branch as merge `29ca667d`. After the venue choice: G11, G12 and G14. |
