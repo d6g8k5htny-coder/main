@@ -1,4 +1,4 @@
-import {installSpatialAtlas} from './atlas-spatial-shell.mjs?site-release=c78e39a660ddf40b689f8ef39919b7f0a3281c9b9188e2b8557079967ce9daf6';
+import {installSpatialAtlas} from './atlas-spatial-shell.mjs?site-release=dbd841649f10dfbc4d2446521bba88396c532ed7a9b9df36866709af32d4ee2f';
 // Presentation only: this module never fetches, admits or classifies source data.
 export function viewForViewport(search,parsedView,narrow){
   const requested=new URLSearchParams(search).get('atlas-view');
