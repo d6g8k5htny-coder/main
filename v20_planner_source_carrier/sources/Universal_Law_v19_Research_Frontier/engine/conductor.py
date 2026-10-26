@@ -660,16 +660,26 @@ class Coordinator:
             self.journal.append('CHECK_RUN',note);self.publish_snapshot();return note
 
     def _worker(self):
+        # An OSError raised before any journal bytes land (EMFILE on a lock, a failed read or snapshot write)
+        # leaves the journal and leases authoritative: back off, resume, and let recover_jobs() expire any lease
+        # that was left. A torn append still fails closed, because _load raises ValueError for it. Integrity
+        # ValueErrors end the worker, as before.
+        delay=.2
         while not self._stop.is_set():
-            try:msg=self.tasks.get(timeout=.2)
-            except queue.Empty:
-                self.recover_jobs()
-                if self.snapshot()['pending_job_count']:self.tasks.put('durable-recovery')
-                continue
-            try:self.run_checks()
-            except Exception as err:
-                self.journal.append('CHECK_RUN',{'result':'CHECK_ERROR','message':str(err),'theorem_certificates_awarded':0})
-            finally:self.tasks.task_done()
+            try:
+                try:msg=self.tasks.get(timeout=.2)
+                except queue.Empty:
+                    self.recover_jobs()
+                    if self.snapshot()['pending_job_count']:self.tasks.put('durable-recovery')
+                    delay=.2;continue
+                try:self.run_checks()
+                except Exception as err:
+                    self.journal.append('CHECK_RUN',{'result':'CHECK_ERROR','message':str(err),'theorem_certificates_awarded':0})
+                finally:self.tasks.task_done()
+                delay=.2
+            except OSError as err:
+                if delay==.2:print('UL worker: transient',repr(err),'- backing off',file=sys.stderr)
+                self._stop.wait(delay);delay=min(delay*2,5.0)
 
     def _watch_once(self):
         for f in sorted(self.inbox.glob('*.json')):

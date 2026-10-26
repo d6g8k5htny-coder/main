@@ -13,6 +13,7 @@ import hashlib
 import json
 import os
 from pathlib import Path
+import sys
 import threading
 import uuid
 
@@ -395,13 +396,27 @@ class FormalQueue:
         return self.snapshot()
 
     def _worker(self):
+        delay = 0.2
         while not self._stop.is_set():
             try:
-                if self._run_one():
-                    continue
+                progressed = self._run_one()
             except JournalError:
                 # Do not execute anything after an integrity failure.
                 return
+            except OSError as exc:
+                # Transient operational failure, for example ENOSPC or EMFILE in _claim or in the fallback
+                # _complete. The journal stays authoritative: _read repairs a torn tail, _recover fences a durable
+                # attempt_started once its slot lock is free (using one attempt), and anything not durable is still
+                # queued. Back off on _stop, not the shared _wake, so neither a pending wake nor another worker's
+                # clear() can turn the backoff into a busy loop or delay stop().
+                if delay == 0.2:
+                    print('formal queue worker: transient %r; backing off' % (exc,), file=sys.stderr)
+                self._stop.wait(delay)
+                delay = min(delay * 2, 5.0)
+                continue
+            delay = 0.2
+            if progressed:
+                continue
             self._wake.wait(0.2)
             self._wake.clear()
 
