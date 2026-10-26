@@ -54,8 +54,15 @@ fixture skips), museumfixture45pass, geometry10pass, readinglist/comparison42pas
 currentcontroller117pass; Python publicdata12, asset46, readerlinks77, museum14,
 identity5+5 and currentdata/build49pass; public-shop integration passes.
 All20newpuretests run in the existing public-shop Node command. Actual
-sandboxed Chrome156/Linux:6Research +3citation +11PNGbrowser groups pass,
+sandboxed Chrome156/Linux:7Research +3citation +11PNGbrowser groups pass,
 41PNGdownloads independently decoded and checked,0pageerrors. See
 [VERIFICATION.json](VERIFICATION.json) for exactcommands/producthashes. Local
 viewport emulation and source-byte conservation are not physical-device or
 spoken-AT certification.
+
+Separate engineering review found MinorM1: duplicate DOM IDs could misdirect an
+added reading link. A failing duplicate-target control was preserved, then unique
+exact-element resolution was added for shared, section and source targets. Seven
+Research browser groups and77source guards pass after the fix. PNG/citation and
+other previously tested bytes are identical; their original scoped reports stay
+bound to those bytes. Current hosted review/checks are still separate gates.

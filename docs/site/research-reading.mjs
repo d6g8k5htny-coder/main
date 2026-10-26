@@ -11,6 +11,15 @@ const READINGS = Object.freeze([
   ['latest-work', ['latest-work-details']],
 ]);
 
+function targetMatches(document, id) {
+  // IDs come from the fixed navigation table, never reader input.
+  return document.querySelectorAll(`[id="${id}"]`);
+}
+function uniqueTarget(document, id) {
+  const matches = targetMatches(document, id);
+  return matches.length === 1 ? matches[0] : null;
+}
+
 function anchor(document, target, label) {
   const link = document.createElement('a');
   link.href = `#${target}`;
@@ -19,21 +28,23 @@ function anchor(document, target, label) {
 }
 
 export function installReadingNavigation(document) {
-  const questions = document.getElementById('reading-questions');
-  const map = document.getElementById('reading-guide');
-  const archive = document.getElementById('reading-archive');
+  const questions = uniqueTarget(document, 'reading-questions');
+  const map = uniqueTarget(document, 'reading-guide');
+  const archive = uniqueTarget(document, 'reading-archive');
   if (!questions || !map || !archive) return 0;
   let installed = 0;
   for (const [id, sourceIds] of READINGS) {
-    const section = document.getElementById(id);
-    if (!section || !archive.contains(section) || section.querySelector(':scope > .reading-jump')) continue;
+    const section = uniqueTarget(document, id);
+    if (!section || section.tagName !== 'SECTION' || !section.classList.contains('latest-work')
+      || !archive.contains(section) || section.querySelector(':scope > .reading-jump')) continue;
     const heading = section.querySelector(':scope > .section-heading');
     const sources = [...section.querySelectorAll('details.latest-identities')];
     if (!heading || sources.length !== sourceIds.length) continue;
     // The oldest preserved disclosure has no HTML ID. Assign its explicit local
     // navigation ID at runtime; never rewrite its historical source text.
-    if (sources.some((source, i) => source.id ? source.id !== sourceIds[i]
-      : document.getElementById(sourceIds[i]) !== null)) continue;
+    if (sources.some((source, i) => source.id
+      ? source.id !== sourceIds[i] || uniqueTarget(document, sourceIds[i]) !== source
+      : targetMatches(document, sourceIds[i]).length !== 0)) continue;
     const nav = document.createElement('nav');
     nav.className = 'reading-jump';
     nav.setAttribute('aria-label', `Reading navigation: ${section.querySelector('time')?.textContent.trim() || id}`);

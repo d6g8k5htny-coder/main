@@ -9,15 +9,15 @@
     "docs/site/reading-list-citation.mjs": "7e957e9adff0d0197dfee6817002c7f45e2ea77f1303256477fbb70ba58c5ce5",
     "docs/site/research-desk.mjs": "0f52f187ec6d4db251b0c47c06aa2f6ca77e7c8c46b0e967b8509d923601190d",
     "docs/site/research-reading.css": "3374e2d6f0dff47e68c2e4709f99412953aca1f89127795711a769ac8206309e",
-    "docs/site/research-reading.mjs": "68c6d0d887951a4538ad67fa3a1b49266e8f1c80de85125a1f273f303fe7c951",
-    "docs/site/research.html": "3ae8e868a527791dbaca7e1a5546f9c5d0aedcaf589f941ebba902fc7e90efbb",
+    "docs/site/research-reading.mjs": "30c1e89ca15553d08ea9fb7520501a529a9655c2737bee681f1cabd65cf34250",
+    "docs/site/research.html": "10abad328b26391303787bd655178fe9d4f65bb0fbb06fc8089d501c7c1eafa1",
     "docs/site/workspace.html": "4a6180cd34b9ea2993a9807bcd27a0376e8a1a532dc8b19942656ad4682aef79",
     "tests/test_figure_png.mjs": "c820936cbf60c31262bb1a24f1548e31a2e471b28ea78cdee58d8e4f1bb36baa",
     "tests/test_reader_links.py": "261cb6014a53bafff0a38a5989dcfa0885c992fcf818a2c9cf42ee8c80bd5af7",
     "tests/test_reading_list_citation.mjs": "7bbdb892e8898d8da21401473d877e6c6175ca86267f7377c2fe33db7913723c",
     "tools/figure_png_browser_check.py": "67105c43d0d095d5e870c228019bc09ca351c884fde0716125735b955d0e2b8a",
     "tools/reading_list_citation_browser_check.py": "a34c2dd4c9823bae717f29e5fcea636f8610316dd3bb3e0cc137fe2425cb36ea",
-    "tools/research_reading_browser_check.py": "94239c9eab05f2ca66bd73545caff73abac51492dda3d6a352abcdab9c8dc72e"
+    "tools/research_reading_browser_check.py": "1fdb1a9804460dfb1153be7abc777b573976f8c43a484479f379aaa6860914f1"
   },
   "commands": [
     {
@@ -108,9 +108,9 @@
   "browser_reports": {
     "research": {
       "passed": true,
-      "cases": 6,
-      "report": "research-final/report.json",
-      "sha256": "4ab13774257f874a2c52a8ba45ab690ebcfa10ac4a9f37d7df6629c3a225b4da"
+      "cases": 7,
+      "report": "research-m1-green/report.json",
+      "sha256": "19841f7f8376fe389cfe9bb11c38528e0c9b42ee0b721f5f13bdccb68add4091"
     },
     "citation": {
       "passed": true,
@@ -125,8 +125,25 @@
       "sha256": "e68555c1751044bc56f355abe07b8544f00aeb6f5a15cc32cc798c04268787b8"
     }
   },
-  "canonical_asset_token": "59cbd3880468e855c2642b191c508a69de616a1c0b25147ed5c78859efbcb546",
+  "canonical_asset_token": "08cc172827b88c501edfefa03c25a22ce1a9e2138aba6a5633748c49cf90e8ec",
   "conservation": "Existing SVG validators, admission/controller/source-reference/store/reader-shell bytes and historical cut bodies unchanged; all generated current blocks unchanged.",
   "limits": "Author-side engineering verification; no new scientific/formal, physical device, Safari, spoken-AT or high-node performance verdict.",
-  "source_identity_note": "Product/test/workflow hashes bind the tested working bytes. Later report/checklist and docs-only Main composition changes do not alter these bytes. Raw command reports retain their original whole working-snapshot hashes."
+  "source_identity_note": "Product/test/workflow hashes bind the tested working bytes. Later report/checklist and docs-only Main composition changes do not alter these bytes. Raw command reports retain their original whole working-snapshot hashes.",
+  "review_correction": {
+    "finding": "Minor M1: ambiguous reading targets",
+    "baseline_candidate": "9e08f01090e6120997c9fb231ee39231557df47e",
+    "changed_product_or_test_files": [
+      "docs/site/research-reading.mjs",
+      "docs/site/research.html",
+      "tools/research_reading_browser_check.py"
+    ],
+    "other_tested_bytes_identical": true,
+    "targeted_checks": [
+      "Canonical asset release/check exit0",
+      "77reader-link tests pass",
+      "7research browser groups pass including duplicate global/section/source targets;0pageerrors"
+    ],
+    "failed_control": "research-duplicate-red/report.json: duplicate reading-questions incorrectly installed7 vs expected0",
+    "full_baseline_checks_reused": "Prior4Node+10Python and PNG/citationbrowser results retain exact original reports; unchanged consumed scopes verified by hashes. Hosted current-candidate full checks remain separate."
+  }
 }

@@ -98,6 +98,20 @@ def run(origin, browser, out, report):
         expect(p.locator('#reading-cut-20261010 h2')).to_be_visible()
         c.close()
     case('missing-source-disclosure-omits-only-affected-enhancement',missing)
+    def ambiguous():
+        c=context(); p=page(c)
+        for target, count in [('reading-questions',0),('reading-guide',0),('reading-archive',0),('reading-cut-20261010',6),('reading-cut-20261010-details',6),('latest-work-details',6)]:
+            p.reload()
+            result=p.evaluate("""async (id)=>{
+                document.querySelectorAll('.reading-jump,.reading-return').forEach(n=>n.remove());
+                const duplicate=document.createElement('div');duplicate.id=id;document.body.prepend(duplicate);
+                const s=[...document.scripts].find(s=>s.src.includes('research-reading.mjs'));const m=await import(s.src);
+                return m.installReadingNavigation(document);
+            }""",target)
+            assert result==count,(target,result,count)
+            expect(p.locator('.reading-jump')).to_have_count(count)
+        c.close()
+    case('ambiguous-global-section-and-source-targets-refuse-enhancement',ambiguous)
 
 if __name__=='__main__':
     ap=argparse.ArgumentParser();ap.add_argument('--browser',required=True);ap.add_argument('--output',type=Path,required=True);ap.add_argument('--origin');args=ap.parse_args()
