@@ -44,7 +44,7 @@ python3 -B tools/site_asset_release.py          # run after ANY change under doc
 python3 -B tools/site_asset_release.py --check  # must print the token and exit 0; commit every rewritten file
 python3 -B -m unittest discover -s tests -p test_public_shop_data.py
 python3 -B -m unittest tests.test_site_asset_release
-node --test tests/test_public_shop_frontend.mjs tests/test_explore_models.mjs tests/test_curvature_export.mjs tests/test_teaching_export.mjs tests/test_pin_export.mjs tests/test_palette_export.mjs tests/test_reader_navigation.mjs tests/test_source_reference.mjs tests/test_measurement_model.mjs tests/test_dependency_viewer.mjs tests/test_museum_frontend.mjs tests/test_workspace_navigation.mjs
+node --test tests/test_public_shop_frontend.mjs tests/test_explore_models.mjs tests/test_curvature_export.mjs tests/test_teaching_export.mjs tests/test_pin_export.mjs tests/test_palette_export.mjs tests/test_figure_png.mjs tests/test_reading_list_citation.mjs tests/test_reader_navigation.mjs tests/test_source_reference.mjs tests/test_measurement_model.mjs tests/test_dependency_viewer.mjs tests/test_museum_frontend.mjs tests/test_workspace_navigation.mjs
 python3 -B -S -m unittest discover -s tests -p test_reader_links.py -v
 python3 -B -m unittest discover -s tests -p test_museum_data.py && python3 -B tools/museum_check.py && node --test tests/test_museum_geometry.mjs
 python3 -B -E -S tests/test_public_shop_check_identity_control.py -v
@@ -73,6 +73,51 @@ On macOS, a symlink alias in the process temporary directory can make the site-a
 
 Check real desktop/mobile layouts, keyboard operation, light/dark appearance and source-unavailable behavior separately. The pure-model tests are not browser or scientific verification.
 
+
+## Captioned PNG teaching figures
+
+Explore offers PNG alongside each existing SVG download. PNG rasterizes that
+same validated, captioned SVG at fixed2× dimensions and embeds its original
+structured metadata and readable citation in international-text chunks. Local
+fonts can differ; source acquisition and mathematical verification are not
+performed. Changed controls, geometry or theme cancel/refuse pending output;
+errors explain retry and preserve SVG/manual citation. Unsupported browsers and
+no-JavaScript views retain their existing alternatives.
+
+Focused checks: `node --test tests/test_figure_png.mjs` and
+`python3 -B tools/figure_png_browser_check.py --browser PATH --output
+browser-evidence/figure-png` (optional pinned browser packages plus Pillow).
+The exported PNG metadata can be inspected with a standard PNG text-chunk reader;
+its visible caption travels with the image even when an app strips metadata.
+
+## From a saved source to a reference
+
+Each saved source in the Library reading list has **Make a source reference**.
+It opens the existing Cite builder with its repository, full commit, literal path
+and actual SHA-256 when present. A Git blob is not substituted for a file hash.
+The builder checks syntax only; no authorship, source acquisition, review or
+mathematical acceptance is inferred. An unsupported literal path keeps its
+original source and list actions with an explicit unavailable note. Saved
+searches are not source citations. Back returns to the same browser-local list.
+
+Focused checks: `node --test tests/test_reading_list_citation.mjs` and
+`python3 -B tools/reading_list_citation_browser_check.py --browser PATH --output
+browser-evidence/reading-list-citation` (optional pinned browser packages).
+
+## Reading without losing your place
+
+Research adds small question/map/source links to each of its seven dated readings
+when JavaScript is available. These are native fragment links: keyboard focus,
+Back/Forward and reload retain the existing reader-shell behavior. Each reading
+also ends with a return to the question chooser. The source HTML, exact pins and
+historical wording stay unchanged; a missing expected source disclosure omits
+that reading’s enhancement. Without JavaScript the original open reading map and
+archive remain available. Print hides the added navigation.
+
+Focused browser check (Chrome with sandbox and the optional pinned Playwright
+packages): `python3 -B tools/research_reading_browser_check.py --browser PATH
+--output browser-evidence/research-reading`. This exercises navigation and
+refusals; it does not certify scientific content or spoken screen-reader output.
 
 ## Latest public work is a reading cut
 
