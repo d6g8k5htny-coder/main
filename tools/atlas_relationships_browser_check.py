@@ -82,6 +82,17 @@ def main():
                                     box=detail.locator('summary').bounding_box();assert box['height']>=44,'Disclosure touch target too short'
                                     style=detail.locator('summary').evaluate('(e)=>({style:getComputedStyle(e).outlineStyle,width:parseFloat(getComputedStyle(e).outlineWidth)})')
                                     assert style['style']!='none' and style['width']>=2,'Keyboard focus ring missing'
+                                    focus=detail.locator('summary').evaluate('''(summary)=>{
+                                      const label=summary.closest('li').querySelector('.atlas-relation-kind');
+                                      const range=document.createRange();range.selectNodeContents(label);
+                                      const text=range.getBoundingClientRect(),box=summary.getBoundingClientRect(),style=getComputedStyle(summary);
+                                      const inner=box.top-parseFloat(style.outlineOffset),outer=inner-parseFloat(style.outlineWidth);
+                                      return {text_top:text.top,text_bottom:text.bottom,ring_outer_top:outer,ring_inner_top:inner,
+                                        overlap:Math.max(0,Math.min(text.bottom,inner)-Math.max(text.top,outer))};
+                                    }''')
+                                    row['relationship_focus']=focus
+                                    card.screenshot(path=str(args.output/f'relationship-focus-{width}-{scheme}.png'))
+                                    assert focus['overlap']==0,'Disclosure focus ring obscures the required/context label'
                                 detail.locator('summary').press('Enter');expect(detail).not_to_have_attribute('open','')
                         detail=page.locator('#atlas-dependencies details').first;detail.locator('summary').press('Enter')
                         # Same-source layout rerender retains only this selected node's disclosure.
