@@ -771,3 +771,19 @@ The session's drafts of those posts are not copied here, because the posted vers
   - all seven checkers share one verdict convention: `--check` prints `{"check": "ok", …}` and exits 0, and a mutant prints `{"check": "FAIL", "reason": …, "mutant": …}` and exits 1;
   - the six `c8-window-coefficient-*` wrappers are Claude017's packets and are out of scope.
 - **C8 holds:** author duties on Math-#518, and the batch-1 author stage of `C8-WRAPPERS-REPAIR-C8-20261026`.
+
+## 26 October, 17:00–18:30Z: #518 landed, batch 1 delivered as Math-#519, batch 2 started
+
+- **Math-#518 landed** at 17:54:17Z as `1965142e`, integrated by Claude01N (pickup 518/6422699589, landed 518/6423433762).
+  - Reads: Claude01N's delta readback PASS for `31c43861..b0dd89f` (518/6422517640). OpenAI/Codex root C325's composition review of the refreshed head `03827c4c`: PASS_SCOPED_ENGINEERING, no findings (review 5656318152; addendum 518/6423400339).
+  - Hosted: all 11 checks passed at `b0dd89f` (`full-suite` about 19.5 minutes) and again at `03827c4c`. At `03827c4c`, `full-suite` took 30 min 19 s, so the 45-minute budget was needed.
+  - C8 author check: parents `675b4a82` + `03827c4c`; the tree `ecbf8fbb` equals the tested tree; all eight reviewed blobs on `main` equal `b0dd89f`'s. PR body kept current (v7). The body records ARCHWATCH's gate ("a separate integrator who is neither author nor reviewer") beside Claude01N's disclosure that it also did the delta readback. Under the 25 October rules only author and reviewer must differ, and C8 took no position. Unsubscribed after the merge.
+- **Batch 1 of `C8-WRAPPERS-REPAIR-C8-20261026` delivered** as draft [Math-#519](https://github.com/d6g8k5htny-coder/Math-/pull/519), head `c168438b`, one commit on `main` `1965142e`. Delivery and release: 322/6424054207 (MATCH). Board: 619/6424068074 (MATCH).
+  - The branch is cut from `main` as the pickup said; it waited for #518 so the full suite has its 45-minute budget.
+  - Local: two characterization runs gave 18/18 identical children. The real checkers through the helper gave dims 10/10 and normalizer 8/8 `protocol_ok`, every stdout digest equal to the reference. GREEN: 13/13 in both modes on `1965142e`. RED: 90 false acceptances on unchanged `1965142e`, the same per-test breakdown as against `180d6406`. Full suite: 1,039 tests on the branch versus 1,026 on unchanged `main`, failing the same 37 tests (environment only).
+  - Hosted so far: the dims job passed on 3.11.16. Its contract step gave 13 OK in both modes, and `replay()` gave 10/10 `protocol_ok` with stdout digests equal to the local ones. The normalizer job and `full-suite` were still running.
+  - Merge route: LOOSEN C versus the #619 header line. It is recorded in the PR body for the integrator; C8 asks Dylan only if the integrator says his approval is needed.
+- **Batch 2 started:** `c8-cap-failure-coefficient-planar`. Characterization is running on unchanged `main` (packet tree `82e961ec`, the same at `f0f90857`; workflow blob `f4c7e791`). Checkpoint by 22:30Z and terminal by 03:00Z on 27 October, both on #322. No claim on the other four wrappers.
+- **Coordination:** Claude01N's round (619/6423747764) closed at 18:13:58Z with answers from 014K, 01DKKe and Claude017. Claude01N relayed the owner items to Dylan: the SIDE24 list, main#597's workflow-pin route and the Grok fleet spend limit. C8 did not duplicate them. main#638's review seat stays with 01Cz's standby offer, per Dylan's 17:11Z release. main#429's different-family slices are being covered by 01SHCrxv.
+- **Environment:** the container restarted at about 18:07Z. The worktrees, the scratchpad and the Math- clone survived. The harness restarted the running local full suites, and those reruns are the ones recorded above.
+- **C8 holds:** author duties on Math-#519, and the batch-2 stage of `C8-WRAPPERS-REPAIR-C8-20261026`.
