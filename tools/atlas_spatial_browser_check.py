@@ -46,7 +46,10 @@ def main():
        if neighbor in points:points.remove(neighbor);component.append(neighbor)
      xs=[x for x,y in component];ys=[y for x,y in component]
      if len(component)>8 and 3<max(xs)-min(xs)<20 and 3<max(ys)-min(ys)<20:clusters.append((sum(xs)/len(xs),sum(ys)/len(ys)))
-    require(clusters,'No visible unselected sphere pixels');box=canvas.bounding_box();x,y=sorted(clusters,key=lambda point:point[1])[-1];page.mouse.click(box['x']+x,box['y']+y);expect(page.locator('#atlas-inspector h3')).not_to_have_text(before);row['picked']=page.locator('#atlas-inspector h3').inner_text()
+    require(clusters,'No visible unselected sphere pixels');box=canvas.bounding_box()
+    uncovered=[(x,y) for x,y in sorted(clusters,key=lambda point:point[1],reverse=True) if page.evaluate('(p)=>document.elementFromPoint(p.x,p.y)===document.querySelector("#atlas-space-host canvas")',{'x':box['x']+x,'y':box['y']+y})]
+    require(uncovered,'No unselected sphere has an uncovered canvas hit target');x,y=uncovered[0];row['pick_hit_target']='CANVAS'
+    page.mouse.click(box['x']+x,box['y']+y);expect(page.locator('#atlas-inspector h3')).not_to_have_text(before);row['picked']=page.locator('#atlas-inspector h3').inner_text()
     expect(page.locator('#atlas-formal-evidence')).to_contain_text('No mapped trusted kernel-execution receipt');row['source']=page.locator('#atlas-inspector a',has_text='Immutable source reference').get_attribute('href') if page.locator('#atlas-inspector a',has_text='Immutable source reference').count() else None
     deps=page.locator('#atlas-inspector ul button');row['relationships']=deps.count()
     if deps.count():deps.first.click()
