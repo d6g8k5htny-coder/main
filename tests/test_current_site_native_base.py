@@ -878,6 +878,408 @@ class CurrentSiteNativeBaseContract(unittest.TestCase):
                 guards.enter_context(patch(target, side_effect=denied))
             self.assertEqual(validate(files, native_anchor=native_anchor), expected)
 
+    # Additional R04 F2 structural controls. These are inert fixture observations;
+    # they establish neither actual HTTP provenance nor functional guard execution.
+    def test_f2x_complete_current_no_start_accepts_legacy_and_native_public_targets(self):
+        validate = self.api()
+        for native in (False, True):
+            files, native_anchor, expected = _f2x_current_no_start_handoff(public_native=native)
+            with self.subTest(public_native=native):
+                self.assertEqual(validate(files, native_anchor=native_anchor), expected)
+                self.assertEqual(expected["disposition"]["operation"], "supersede-unstarted")
+                self.assertEqual(expected["disposition"]["served_snapshot_ids"], [SNAPSHOT_A])
+                self.assertEqual(expected["disposition"]["unserved_snapshot_ids"], [SNAPSHOT_X])
+
+    def test_f2x_equal_B_C_source_response_hashes_do_not_replace_four_locator_joins(self):
+        validate = self.api()
+        files, native_anchor, expected = _f2x_current_no_start_handoff()
+        sources = json.loads(files["qualification.json"])["no_start"]["protocol_sources"]
+        self.assertEqual(sources["contents_response_sha256s"][0], sources["contents_response_sha256s"][2])
+        self.assertEqual(sources["contents_response_sha256s"][1], sources["contents_response_sha256s"][3])
+        self.assertEqual(validate(files, native_anchor=native_anchor), expected)
+
+    def test_f2x_complete_no_start_nested_objects_are_closed_not_free_eligibility(self):
+        validate = self.api()
+        original, native_anchor, _ = _f2x_current_no_start_handoff()
+        qualification = json.loads(original["qualification.json"])
+        for name in (None, "run", "deploy_job", "guard_step", "pages_step", "protocol_sources"):
+            target = qualification["no_start"] if name is None else qualification["no_start"][name]
+            for missing in target:
+                bad = dict(original)
+                def remove(row, selected=name, field=missing):
+                    value = row["no_start"] if selected is None else row["no_start"][selected]
+                    value.pop(field)
+                rewrite(bad, "qualification.json", remove)
+                with self.subTest(object=name, missing=missing), self.assertRaises(ValueError):
+                    validate(bad, native_anchor=native_anchor)
+            bad = dict(original)
+            def extra(row, selected=name):
+                value = row["no_start"] if selected is None else row["no_start"][selected]
+                value["eligible"] = True
+            rewrite(bad, "qualification.json", extra)
+            with self.subTest(object=name, extra=True), self.assertRaises(ValueError):
+                validate(bad, native_anchor=native_anchor)
+
+    def test_f2x_no_start_pending_source_and_protocol_commit_joins_are_exact(self):
+        validate = self.api()
+        original, native_anchor, _ = _f2x_current_no_start_handoff()
+        for section, field in ((None, "pending_receipt_head"), (None, "pending_source_commit"),
+                               ("protocol_sources", "consumer_commit"),
+                               ("protocol_sources", "pending_commit")):
+            bad = dict(original)
+            def mutate(row, nested=section, key=field):
+                target = row["no_start"] if nested is None else row["no_start"][nested]
+                target[key] = "9" * 40
+            rewrite(bad, "qualification.json", mutate)
+            with self.subTest(section=section, field=field), self.assertRaises(ValueError):
+                validate(bad, native_anchor=native_anchor)
+
+    def test_f2x_no_start_run_identity_attempt_and_failure_terminal_state_must_join(self):
+        validate = self.api()
+        original, native_anchor, _ = _f2x_current_no_start_handoff()
+        changes = (("id", "999"), ("run_attempt", "2"), ("head_sha", "9" * 40),
+                   ("workflow_id", True), ("workflow_id", "0"),
+                   ("status", "in_progress"), ("conclusion", "success"),
+                   ("conclusion", "cancelled"), ("conclusion", "timed_out"),
+                   ("conclusion", None))
+        for field, value in changes:
+            bad = dict(original)
+            rewrite(bad, "qualification.json", lambda row, k=field, v=value:
+                    row["no_start"]["run"].update({k: v}))
+            with self.subTest(field=field, value=value), self.assertRaises(ValueError):
+                validate(bad, native_anchor=native_anchor)
+
+    def test_f2x_no_start_job_identity_attempt_and_failure_terminal_state_must_join(self):
+        validate = self.api()
+        original, native_anchor, _ = _f2x_current_no_start_handoff()
+        changes = (("id", "0"), ("run_id", "999"), ("run_attempt", "2"),
+                   ("head_sha", "9" * 40), ("name", True), ("status", "queued"),
+                   ("conclusion", "success"), ("conclusion", "cancelled"),
+                   ("conclusion", "timed_out"), ("conclusion", None))
+        for field, value in changes:
+            bad = dict(original)
+            rewrite(bad, "qualification.json", lambda row, k=field, v=value:
+                    row["no_start"]["deploy_job"].update({k: v}))
+            with self.subTest(field=field, value=value), self.assertRaises(ValueError):
+                validate(bad, native_anchor=native_anchor)
+
+    def test_f2x_no_start_steps_require_fixed_names_order_and_exact_completed_results(self):
+        validate = self.api()
+        original, native_anchor, _ = _f2x_current_no_start_handoff()
+        changes = (("guard_step", "name", "Another guard"),
+                   ("pages_step", "name", "Another Pages step"),
+                   ("guard_step", "number", True), ("pages_step", "number", 0),
+                   ("guard_step", "number", 7), ("guard_step", "number", 8),
+                   ("guard_step", "status", "in_progress"),
+                   ("guard_step", "conclusion", "success"),
+                   ("guard_step", "conclusion", "cancelled"),
+                   ("pages_step", "status", "in_progress"),
+                   ("pages_step", "conclusion", "success"),
+                   ("pages_step", "conclusion", "failure"),
+                   ("pages_step", "conclusion", None))
+        for section, field, value in changes:
+            bad = dict(original)
+            rewrite(bad, "qualification.json", lambda row, s=section, k=field, v=value:
+                    row["no_start"][s].update({k: v}))
+            with self.subTest(section=section, field=field, value=value), self.assertRaises(ValueError):
+                validate(bad, native_anchor=native_anchor)
+
+    def test_f2x_no_start_optional_timestamps_are_real_native_UTC_or_null(self):
+        validate = self.api()
+        original, native_anchor, _ = _f2x_current_no_start_handoff()
+        for section in ("deploy_job", "guard_step", "pages_step"):
+            for field in ("started_at", "completed_at"):
+                for value in ("2026-02-30T00:00:00Z", "2026-10-25T00:00:00+00:00", True):
+                    bad = dict(original)
+                    rewrite(bad, "qualification.json", lambda row, s=section, k=field, v=value:
+                            row["no_start"][s].update({k: v}))
+                    with self.subTest(section=section, field=field, value=value), self.assertRaises(ValueError):
+                        validate(bad, native_anchor=native_anchor)
+
+    def test_f2x_no_start_protocol_paths_body_hashes_and_git_blob_pins_must_join(self):
+        validate = self.api()
+        original, native_anchor, _ = _f2x_current_no_start_handoff()
+        changes = (("workflow_path", ".github/workflows/another.yml"),
+                   ("guard_path", "tools/another_guard.py"),
+                   ("workflow_blob_sha", "9" * 40), ("guard_blob_sha", "9" * 40),
+                   ("workflow_sha256", "9" * 64), ("guard_sha256", "9" * 64),
+                   ("workflow_bytes_b64", "_invalid_base64_"),
+                   ("guard_bytes_b64", "_invalid_base64_"),
+                   ("workflow_bytes_b64", base64.b64encode(b"different inert source\n").decode("ascii")),
+                   ("guard_bytes_b64", base64.b64encode(b"different inert source\n").decode("ascii")))
+        for field, value in changes:
+            bad = dict(original)
+            rewrite(bad, "qualification.json", lambda row, k=field, v=value:
+                    row["no_start"]["protocol_sources"].update({k: v}))
+            with self.subTest(field=field), self.assertRaises(ValueError):
+                validate(bad, native_anchor=native_anchor)
+
+    def test_f2x_no_start_source_body_cap_applies_even_with_recomputed_source_pins(self):
+        validate = self.api()
+        for source in ("workflow", "guard"):
+            kwargs = {source + "_body": b"#" * (262144 + 1)}
+            files, native_anchor, _ = _f2x_current_no_start_handoff(**kwargs)
+            with self.subTest(source=source), self.assertRaises(ValueError):
+                validate(files, native_anchor=native_anchor)
+
+    def test_f2x_no_start_contents_hash_vector_requires_exact_four_joined_responses(self):
+        validate = self.api()
+        original, native_anchor, _ = _f2x_current_no_start_handoff()
+        vector = json.loads(original["qualification.json"])["no_start"]["protocol_sources"]["contents_response_sha256s"]
+        for changed in (vector[:-1], vector + [vector[0]], ["9" * 64, *vector[1:]],
+                        [True, *vector[1:]]):
+            bad = dict(original)
+            rewrite(bad, "qualification.json", lambda row, value=changed:
+                    row["no_start"]["protocol_sources"].update(contents_response_sha256s=value))
+            with self.subTest(vector=changed), self.assertRaises(ValueError):
+                validate(bad, native_anchor=native_anchor)
+
+    def test_f2x_no_start_requires_B_and_C_contents_locators_even_when_body_hashes_repeat(self):
+        validate = self.api()
+        original, native_anchor, _ = _f2x_current_no_start_handoff()
+        for operation in ("remove", "substitute-B-for-C"):
+            bad = dict(original)
+            def mutate(row, selected=operation):
+                consumer = row["consumer_commit"]
+                pending = row["no_start"]["pending_source_commit"]
+                locator = "contents/.github/workflows/current-site.yml?ref=" + consumer
+                responses = row["metadata"]["responses"]
+                item = next(item for item in responses if item["locator"] == locator)
+                if selected == "remove":
+                    responses.remove(item)
+                else:
+                    item["locator"] = "contents/.github/workflows/current-site.yml?ref=" + pending
+                _f2x_recount_metadata(row["metadata"])
+            rewrite(bad, "qualification.json", mutate)
+            with self.subTest(operation=operation), self.assertRaises(ValueError):
+                validate(bad, native_anchor=native_anchor)
+
+    def test_f2x_no_start_source_and_pending_routes_cannot_change_ref_run_attempt_or_page(self):
+        validate = self.api()
+        original, native_anchor, _ = _f2x_current_no_start_handoff()
+        changes = (("workflow-contents", "contents/.github/workflows/current-site.yml?ref=main"),
+                   ("guard-contents", "contents/tools/current_site_native_guard.py?ref=" + "9" * 40),
+                   ("workflow-contents", "contents/.github/workflows/current-site.yml?ref=" + CONSUMER + "&extra=1"),
+                   ("pending-run", "actions/runs/999"),
+                   ("pending-jobs", "actions/runs/180/attempts/2/jobs?per_page=50&page=1"),
+                   ("pending-jobs", "actions/runs/180/attempts/1/jobs?per_page=50&page=5"))
+        for kind, locator in changes:
+            bad = dict(original)
+            def mutate(row, selected=kind, value=locator):
+                next(item for item in row["metadata"]["responses"]
+                     if item["route_kind"] == selected)["locator"] = value
+            rewrite(bad, "qualification.json", mutate)
+            with self.subTest(route_kind=kind, locator=locator), self.assertRaises(ValueError):
+                validate(bad, native_anchor=native_anchor)
+
+    def test_f2x_no_start_native_response_hashes_are_bounded_and_join_recorded_sources(self):
+        validate = self.api()
+        original, native_anchor, _ = _f2x_current_no_start_handoff()
+        for changed in ([], ["9" * 64], ["1" * 64] * 65, [True]):
+            bad = dict(original)
+            rewrite(bad, "qualification.json", lambda row, value=changed:
+                    row["no_start"].update(response_sha256s=value))
+            with self.subTest(response_hashes=changed), self.assertRaises(ValueError):
+                validate(bad, native_anchor=native_anchor)
+
+    def test_f2x_no_start_does_not_automatically_supersede_same_source_pending(self):
+        validate = self.api()
+        files, native_anchor, _ = _f2x_current_no_start_handoff(same_source=True)
+        with self.assertRaises(ValueError):
+            validate(files, native_anchor=native_anchor)
+
+    def test_f2x_no_start_cannot_be_attached_to_an_unrelated_operation(self):
+        validate = self.api()
+        active, _, _ = _f2x_current_no_start_handoff()
+        no_start = json.loads(active["qualification.json"])["no_start"]
+        files, native_anchor, _ = handoff()
+        rewrite(files, "qualification.json", lambda row: row.update(no_start=no_start))
+        with self.assertRaises(ValueError):
+            validate(files, native_anchor=native_anchor)
+
+    def test_f2x_one_captured_base_unstarted_supersession_bridge_is_accepted(self):
+        validate = self.api()
+        for native in (False, True):
+            records, operational, public = _f2x_superseded_bridge(public_native=native)
+            files, native_anchor, expected = handoff(records, operational, public)
+            with self.subTest(public_native=native):
+                self.assertEqual(validate(files, native_anchor=native_anchor), expected)
+                self.assertEqual(expected["disposition"]["operation"], "none")
+                self.assertEqual(expected["disposition"]["served_snapshot_ids"], [SNAPSHOT_A])
+                self.assertEqual(expected["disposition"]["unserved_snapshot_ids"], [])
+
+    def test_f2x_superseded_bridge_needs_its_original_reconciliation_record(self):
+        validate = self.api()
+        records, operational, public = _f2x_superseded_bridge()
+        bridge_head = records[2]["head"]
+        files, native_anchor, _ = handoff([row for row in records if row["head"] != bridge_head],
+                                         operational, public)
+        with self.assertRaises(ValueError):
+            validate(files, native_anchor=native_anchor)
+
+    def test_f2x_superseded_bridge_conserves_the_entire_captured_prepared_candidate(self):
+        validate = self.api()
+        records, operational, public = _f2x_superseded_bridge(alter_bridge_candidate=True)
+        files, native_anchor, _ = handoff(records, operational, public)
+        with self.assertRaises(ValueError):
+            validate(files, native_anchor=native_anchor)
+
+    def test_f2x_ordinary_observed_child_cannot_replace_unstarted_supersession_bridge(self):
+        validate = self.api()
+        records, operational, public = _f2x_superseded_bridge(bridge_kind="ordinary-observed")
+        files, native_anchor, _ = handoff(records, operational, public)
+        with self.assertRaises(ValueError):
+            validate(files, native_anchor=native_anchor)
+
+    def test_f2x_observed_recovery_bridge_cannot_retain_an_older_unserved_public_pointer(self):
+        validate = self.api()
+        records, operational, public = _f2x_superseded_bridge(bridge_kind="exact-public-recovery")
+        files, native_anchor, _ = handoff(records, operational, public)
+        with self.assertRaises(ValueError):
+            validate(files, native_anchor=native_anchor)
+
+    def test_f2x_two_children_do_not_expand_the_single_superseded_bridge_rule(self):
+        validate = self.api()
+        # Individually framed objects; this does not isolate distance from phase checks.
+        records, operational, public = _f2x_superseded_bridge(bridge_count=2)
+        files, native_anchor, _ = handoff(records, operational, public)
+        with self.assertRaises(ValueError):
+            validate(files, native_anchor=native_anchor)
+
+
+def _f2x_recount_metadata(metadata):
+    """Exact successful-fixture accounting, not observed transport accounting."""
+    rows = metadata["responses"]
+    metadata["logical_calls"] = len(rows)
+    metadata["physical_exchanges"] = sum(row["http_exchanges"] for row in rows)
+    metadata["received_bytes"] = sum(row["bytes"] for row in rows)
+
+
+def _f2x_current_no_start_handoff(*, public_native=False, same_source=False,
+                                workflow_body=None, guard_body=None):
+    """Complete typed no-start STRUCTURE; no real Source or HTTP qualification.
+
+    Source buffers are inert identities, not functional workflow/guard programs.
+    The Source-owned resolver must separately prove actual source equality,
+    standalone guard behavior, run/job pagination, freshness and HTTP facts.
+    """
+    records, _, public = superseded_chain(public_native=public_native)
+    prepared = records[1]
+    records = [public, prepared]
+    files, native_anchor, expected = handoff(records, prepared, public)
+    pending = anchor(prepared)["receipt"]
+    pending_commit = pending["source"]["commit"]
+    consumer = pending_commit if same_source else CONSUMER
+    run_id, attempt = str(pending["run"]["id"]), str(pending["run"]["attempt"])
+    workflow_body = (b"# Inert current-site workflow identity fixture; no runnable jobs.\n"
+                     if workflow_body is None else workflow_body)
+    guard_body = (b"# Inert standalone guard identity fixture; no executable implementation.\n"
+                  if guard_body is None else guard_body)
+    guard_step = {"number": 6, "name": "Verify native prepared state and current Main before Pages",
+                  "status": "completed", "conclusion": "failure",
+                  "started_at": "2026-10-25T00:00:01Z", "completed_at": "2026-10-25T00:00:02Z"}
+    pages_step = {"number": 7, "name": "Deploy the verified artifact", "status": "completed",
+                  "conclusion": "skipped", "started_at": None, "completed_at": None}
+    job = {"id": "701", "run_id": run_id, "run_attempt": attempt,
+           "head_sha": pending_commit, "name": "deploy", "status": "completed",
+           "conclusion": "failure", "started_at": DATE, "completed_at": "2026-10-25T00:00:03Z"}
+    run = {"id": run_id, "run_attempt": attempt, "head_sha": pending_commit,
+           "workflow_id": "601", "status": "completed", "conclusion": "failure"}
+    protocol = {"consumer_commit": consumer, "pending_commit": pending_commit,
+                "workflow_path": WORKFLOW, "workflow_blob_sha": git_sha("blob", workflow_body),
+                "workflow_sha256": digest(workflow_body),
+                "workflow_bytes_b64": base64.b64encode(workflow_body).decode("ascii"),
+                "guard_path": "tools/current_site_native_guard.py",
+                "guard_blob_sha": git_sha("blob", guard_body), "guard_sha256": digest(guard_body),
+                "guard_bytes_b64": base64.b64encode(guard_body).decode("ascii"),
+                "contents_response_sha256s": []}
+    qualification = json.loads(files["qualification.json"])
+    qualification.update(consumer_commit=consumer, initial_main_commit=consumer,
+                         final_main_commit=consumer, operation="supersede-unstarted")
+    metadata = qualification["metadata"]
+    # Ref source hashes remain inert envelope identities and are rebound for C.
+    main_body = canonical({"ref": "refs/heads/main", "object": {"type": "commit", "sha": consumer}})
+    for row in metadata["responses"]:
+        if row["route_kind"] == "main-ref":
+            row.update(bytes=len(main_body), sha256=digest(main_body))
+    response_hashes = []
+    for commit in (pending_commit, consumer):
+        for kind, path, body in (("workflow-contents", WORKFLOW, workflow_body),
+                                 ("guard-contents", "tools/current_site_native_guard.py", guard_body)):
+            response = canonical({"type": "file", "path": path, "sha": git_sha("blob", body),
+                                  "size": len(body), "encoding": "base64",
+                                  "content": base64.b64encode(body).decode("ascii")})
+            response_hash = digest(response)
+            metadata["responses"].append({"route_kind": kind, "locator": "contents/" + path + "?ref=" + commit,
+                                          "bytes": len(response), "sha256": response_hash, "http_exchanges": 1})
+            protocol["contents_response_sha256s"].append(response_hash)
+            response_hashes.append(response_hash)
+    native_run = {"id": int(run_id), "run_attempt": int(attempt), "head_sha": pending_commit,
+                  "workflow_id": 601, "status": "completed", "conclusion": "failure",
+                  "repository": {"full_name": REPOSITORY}, "event": "push", "path": WORKFLOW,
+                  "head_branch": "main"}
+    native_job = {**job, "id": 701, "run_id": int(run_id), "run_attempt": int(attempt),
+                  "steps": [copy.deepcopy(guard_step), copy.deepcopy(pages_step)]}
+    for kind, locator, response in (("pending-run", "actions/runs/" + run_id, canonical(native_run)),
+            ("pending-jobs", "actions/runs/" + run_id + "/attempts/" + attempt + "/jobs?per_page=50&page=1",
+             canonical({"total_count": 1, "jobs": [native_job]}))):
+        response_hash = digest(response)
+        metadata["responses"].append({"route_kind": kind, "locator": locator, "bytes": len(response),
+                                      "sha256": response_hash, "http_exchanges": 1})
+        response_hashes.append(response_hash)
+    _f2x_recount_metadata(metadata)
+    qualification["no_start"] = {"pending_receipt_head": prepared["head"],
+                                 "pending_source_commit": pending_commit, "run": run, "deploy_job": job,
+                                 "guard_step": guard_step, "pages_step": pages_step,
+                                 "protocol_sources": protocol, "response_sha256s": response_hashes}
+    files["qualification.json"] = canonical(qualification)
+    disposition = json.loads(files["pending-plan.json"])
+    disposition.update(operation="supersede-unstarted", pending_prepared_head=prepared["head"],
+                       consumer_commit=consumer, qualification_sha256=digest(files["qualification.json"]),
+                       unserved_snapshot_ids=sorted(set(pending["snapshot_ids"]) - set(disposition["served_snapshot_ids"])))
+    files["pending-plan.json"] = canonical(disposition)
+    expected["disposition"] = copy.deepcopy(disposition)
+    return files, native_anchor, expected
+
+
+def _f2x_superseded_bridge(*, public_native=False, bridge_kind="unstarted-deploy",
+                          bridge_count=1, alter_bridge_candidate=False):
+    """Captured H is prepared; one exact superseded child R can bridge P->R->H."""
+    records, first_disposition, public = superseded_chain(public_native=public_native)
+    captured = records[1]
+    captured_value = anchor(captured)["receipt"]
+    bridge_value = candidate_of(captured_value)
+    if alter_bridge_candidate:
+        bridge_value["artifact"]["sha256"] = "9" * 64
+    if bridge_kind == "unstarted-deploy":
+        reconciliation = copy.deepcopy(anchor(first_disposition)["receipt"]["reconciliation"])
+        bridge = frame_record(receipt(bridge_value, phase="superseded", previous=captured["head"],
+                                      reconciliation=reconciliation))
+    else:
+        reconciliation = None if bridge_kind == "ordinary-observed" else {
+            "kind": "exact-public-recovery", "effective_public_receipt_commit": captured["head"],
+            "run_id": None, "run_attempt": None, "job_id": None, "proof_sha256": "8" * 64}
+        bridge = frame_record(receipt(bridge_value, phase="observed", previous=captured["head"],
+                                      reconciliation=reconciliation))
+    records = [public, captured, bridge]
+    if bridge_count == 2:
+        # A second individually framed ordinary observed child is a forbidden
+        # distance-two witness, not a claim of two independently valid bridges.
+        bridge = frame_record(receipt(candidate_of(captured_value), phase="observed", previous=bridge["head"]))
+        records.append(bridge)
+    public_value = anchor(public)["receipt"]
+    base = {"receipt_commit": captured["head"], "public_receipt_commit": public["head"],
+            "registry_sha256": public_value["native"]["registry"]["sha256"] if public_native else None,
+            "sequence": public_value["native"]["sequence"] if public_native else 0}
+    value = candidate("Q", native=True, base=base, snapshots=[SNAPSHOT_A, SNAPSHOT_X])
+    prepared = frame_record(receipt(value, phase="prepared", previous=bridge["head"]))
+    reconciliation = {"kind": "unstarted-deploy", "effective_public_receipt_commit": public["head"],
+                      "run_id": str(value["run"]["id"]), "run_attempt": "1", "job_id": "702",
+                      "proof_sha256": "7" * 64}
+    operational = frame_record(receipt(value, phase="superseded", previous=prepared["head"],
+                                      reconciliation=reconciliation))
+    return records + [prepared, operational], operational, public
+
 
 if __name__ == "__main__":
     unittest.main()
