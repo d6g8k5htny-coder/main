@@ -5,9 +5,9 @@ Math stays fail-closed: credit 0 · OBL OPEN · no flags. This is an inventory o
 
 ## Totals
 - Header corrected 2026-10-23 (CoS): the table has 133 literal `MISSING` source cells, so sourced = 211 (was misstated as 215 / 129).
-- Units: **344**. That is 313 from #527, 17 unmerged from #538, 13 R22 companions and 1 R21 companion.
-- Have a proof or lemma source file in the repo: **215**. No source file: **129**.
-- Have an implementation (code or refs): **296**. Missing an implementation: **48**.
+- Units: **345**. That is 313 from #527, 17 from #538 (16 still unmerged; row 318 landed, see the 26 October landing recheck), 13 R22 companions, 1 R21 companion and 1 post-cut landing (row 345). The 344-row snapshots described below are retained as history.
+- Have a proof or lemma source file in the repo: **216**. No source file: **129**.
+- Have an implementation (code or refs): **297**. Missing an implementation: **48**.
 - Tied to a graph node: **22**. Bound (node, impl and commit): **14**. The graph has 49 nodes with 21 bound per #527, so 28 nodes are unbound.
 - Name-matched to a Drive mirror: 4. Name matching is weak. DRV-H1 maps Drive by folder lane, not by unit.
 
@@ -142,6 +142,47 @@ GRAPH/v2 node, scientific predicate or original review outcome changes.
 Aggregate membership is not an all-to-all source/code proof relation. The map
 is a frozen reference snapshot, not an extra builder input or status register.
 No source program, mathematical test, pilot, certificate caller or Lean ran.
+
+## Landing recheck: rows 318 and 345, 26 October 2026
+
+This applies step 3 of the fail-closed migration rule in
+`docs/retro/OPEN_MATH_PR_CANDIDATES_20261023.md`: after a protected merge, recheck
+the landed bytes and update this inventory through its owner. Data note
+[619/6405374286](https://github.com/d6g8k5htny-coder/main/issues/619#issuecomment-6405374286),
+corroborated in [619/6405386665](https://github.com/d6g8k5htny-coder/main/issues/619#issuecomment-6405386665)
+and routed by the ledger owner in [619/6405418011](https://github.com/d6g8k5htny-coder/main/issues/619#issuecomment-6405418011).
+Math- `main` was read at `b29c4b769cac85437b409d152651d5cce4140015`.
+
+- **Row 318** (`frontiers/source_lifetime_realization_20261017`) landed through
+  Math-#510, merge `c4eabc1a917ba2c1b96fe4af425cf2a484877c03` (head `478cd069`),
+  tree `a7ef0696d538248422f22f0b33dc2bbc4174bdc4`, 249 files. Its lane cell now
+  reads `LANDED Math-#510`, its implementation cell names the three listed Lean
+  files instead of the `(in PR head)` placeholder, and its status moves from
+  `unmerged` to `orphan`, the value every landed row without a graph node has.
+  **The landed bytes are not #477's.** The #477 head `db43694c9f9dbff2987e2e3c0a1260b5c48310ec`
+  has tree `f21fd02e7543aa573391f983f9f7f239598b7464` for this path, which differs
+  from the landed tree in 3 files (+404/−66). Nothing here describes #477.
+- **Row 345** (`frontiers/determinant_moment_20261025`) is new. It landed through
+  Math-#511, merge `e75cb81e8961d178f43aa9967dddd11cd579dc8a` (head `5ccdb2a1`),
+  tree `8a6d93e67be8b233a4f35251188112ab3f44014a`, 69 files. Its four Lean modules
+  are the root `ResearchFormalCoreR1.lean` and `ResearchFormalCoreR1/{AlgebraV2,DeterminantMoment,ProbabilityCompanionsV2}.lean`;
+  `gate.py` is the packet's own gate. Its lane is `LANDED Math-#511` because no
+  GB-8 slice predates it. The Drive-hit cell is 0 because no Drive name match was
+  run for this row.
+- **Not added.** Math-#512 (`7a2ee81e`) and Math-#513 (`37f8f01d`, stacked on
+  #512) change the row-345 path and add `frontiers/source_derivative_gaussian_20261025`.
+  Both are open, so under steps 1 and 2 they stay `PENDING_OPEN_PR`, keep their
+  stacking, and contribute no bytes to row 345.
+- **The other 16 candidate units** in `OPEN_MATH_PR_CANDIDATES_20261023.json`
+  are absent on `b29c4b76`, so rows 314–317 and 319–330 are unchanged.
+
+Node and bound cells are unchanged: no row gains a graph node, and a merge is
+not a mathematical predicate. Different-family statement reviews of the five
+DM2 declarations exist (539/6402538781 and Math-#511/6402733468), but they are
+not consumed as acceptance here. Counts after this recheck: 345 ledger rows, 1340 vertices and
+345 hyperedges; sourced 216 / missing 129; implemented 297 / missing 48, of which
+29 are placeholder-only; bound 14. All 343 other raw rows are unchanged. Source
+presence is not correctness or scientific acceptance. Credit 0; OBL OPEN; NOT A RESULT.
 
 ## Ledger
 | # | source | repo | unit | lane | proof/lemma files (sample) | impl | graph node | bound | status | drive hits |
@@ -463,7 +504,7 @@ No source program, mathematical test, pilot, certificate caller or Lean ran.
 | 315 | #538 | Math- | `frontiers/regular_point_chart_20261020` | PENDING_OPEN_PR #488 | RegularPointChart.lean; RegularPointChartAxiomAudit.lean; SOURCE_SHA256SUMS | (in PR head) | — | N | unmerged | 0 |
 | 316 | #538 | Math- | `frontiers/critical_level_attainment_20261020` | PENDING_OPEN_PR #487 | final-project/CriticalLevelAttainment.lean; final-project/CriticalLevelAxiomAudit.lean; FINAL_SOURCE_INVENTORY.json | (in PR head) | — | N | unmerged | 0 |
 | 317 | #538 | Math- | `frontiers/morse_finite_critical_20261018` | PENDING_OPEN_PR #482 | final-project/MorseFiniteCritical.lean; final-project/MorseFiniteControls.lean; final-project/MorseFiniteAxiomAudit.lean | (in PR head) | — | N | unmerged | 0 |
-| 318 | #538 | Math- | `frontiers/source_lifetime_realization_20261017` | PENDING_OPEN_PR #477 | SourceLifetimeField.lean; SourceLifetimeGeometry.lean; SourceThetaBridge.lean | (in PR head) | — | N | unmerged | 0 |
+| 318 | #538 | Math- | `frontiers/source_lifetime_realization_20261017` | LANDED Math-#510 | SourceLifetimeField.lean; SourceLifetimeGeometry.lean; SourceThetaBridge.lean | frontiers/source_lifetime_realization_20261017/SourceLifetimeField.lean; frontiers/source_lifetime_realization_20261017/SourceLifetimeGeometry.lean; frontiers/source_lifetime_realization_20261017/SourceThetaBridge.lean | — | N | orphan | 0 |
 | 319 | #538 | Math- | `frontiers/compact_source_cutoff_baseline_20261009` | PENDING_OPEN_PR #414 | CompactSourceCutoff.lean; SOURCE_MANIFEST.json | (in PR head) | — | N | unmerged | 0 |
 | 320 | #538 | Math- | `frontiers/compact_source_cutoff_proof_20261010` | PENDING_OPEN_PR #415 | CompactSourceCutoffProof.lean; SOURCE_MANIFEST.json | (in PR head) | — | N | unmerged | 0 |
 | 321 | #538 | Math- | `frontiers/compact_source_cutoff_proof_repair_20261011` | PENDING_OPEN_PR #424 | CompactSourceCutoffProof.lean; SOURCE_MANIFEST.json | (in PR head) | — | N | unmerged | 0 |
@@ -490,3 +531,4 @@ No source program, mathematical test, pilot, certificate caller or Lean ran.
 | 342 | R22 tip 67818d30 | Math- | `companions/cap_i4_residual_law_20261006` | R22-companion | CapI4ResidualLaw.lean; README.md | replay.py; test_contract.py | — | N | unmerged_branch | 0 |
 | 343 | R22 tip 67818d30 | Math- | `companions/cap_i4_spectral_assembly_20261006` | R22-companion | CapI4SpectralAssembly.lean; Contract.lean | (per census: lean+replay+test; unverified) | — | N | unmerged_branch | 0 |
 | 344 | R21 tip 93a19170 | Math- | `companions/cap_i4_chamber_bridge_20261006` | R21-companion | CapI4ChamberBridge.lean; Contract.lean | (R21 tip) | — | N | unmerged_branch | 0 |
+| 345 | Math-#511 | Math- | `frontiers/determinant_moment_20261025` | LANDED Math-#511 | ResearchFormalCoreR1.lean; ResearchFormalCoreR1/AlgebraV2.lean; ResearchFormalCoreR1/DeterminantMoment.lean; ResearchFormalCoreR1/ProbabilityCompanionsV2.lean | frontiers/determinant_moment_20261025/ResearchFormalCoreR1.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/AlgebraV2.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/DeterminantMoment.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/ProbabilityCompanionsV2.lean; frontiers/determinant_moment_20261025/gate.py | — | N | orphan | 0 |
