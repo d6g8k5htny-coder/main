@@ -181,6 +181,19 @@ Rules for future cards, not a retrofit of pinned cuts: each card carries one vis
 
 ## Keep or share a Library search
 
+The Library offers **Undo removal** after Remove or Clear reading list. It
+restores only the latest entries removed in this page, adding them to the
+current saved list so other tabs' additions survive. Source-metadata conflicts,
+the 50-item ceiling and the 128 KiB limit refuse restoration without consuming
+Undo. Resolve the conflict or free space in another tab before retrying: a new
+Remove or Clear on this page replaces its previous recovery. Recovery is kept in
+this page only and is lost on reload. Export remains the way to keep a separate
+copy. No source is acquired or mathematically reviewed by restoring a note.
+
+```bash
+python3 -B tools/research_desk_undo_browser_check.py --output reading-undo-evidence
+```
+
 Saved reading-list rows keep their focused source/reference control and open
 **Saved identity** disclosure when another tab updates the list. Validated
 metadata changes refresh the displayed identity and reference. If the focused
