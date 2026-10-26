@@ -1164,11 +1164,12 @@ def _restore_v2_live_pages(data, meta, expected):
     """
     for task_records in (RESUME_TASK_RECORDS, _RESUME_TASK_RECORDS_V1):
         for annotations, style_first, resume in LIVE_PRESENTATIONS:
-            pages = render_live_current_v2(data, meta, annotations=annotations,
-                                           style_first=style_first, resume=resume,
-                                           task_records=task_records)
-            if [descriptor(k, v) for k, v in sorted(pages.items())] == expected:
-                return pages
+            for readable_status in (True, False):
+                pages = render_live_current_v2(
+                    data, meta, annotations=annotations, style_first=style_first,
+                    resume=resume, task_records=task_records, readable_status=readable_status)
+                if [descriptor(k, v) for k, v in sorted(pages.items())] == expected:
+                    return pages
     raise ValueError("live static reading does not match the exact observation")
 
 
@@ -1632,15 +1633,18 @@ LIVE_PRESENTATIONS = ((True, True, True), (True, False, True), (True, True, Fals
                       (True, False, False), (False, True, False), (False, False, False))
 
 
-def _live_v2_current_section(data, meta, *, annotations=True):
+def _live_v2_current_section(data, meta, *, annotations=True, readable_status=True):
     pins = " · ".join(f'<a href="https://github.com/{_v1_escape(repo["repository"])}/tree/{repo["commit"]}">{_v1_escape(repo["repository"].split("/")[1])} <code>{repo["commit"]}</code></a>'
                       for repo in data["repositories"])
     refs = " · ".join(f'<a href="{_v1_escape(_v1_source_url(ref))}">{_v1_escape(ref.get("label", ref["path"]))}</a>'
                       for ref in data["references"])
     archive = _v1_escape(meta["archive"])
+    status = (f'<p class="current-state" role="status">Pinned source observation: <time datetime="{_v1_escape(data["observed_at"])}">{_v1_escape(data["observed_at"])}</time>. Compare this timestamp with the present time; observation is not scientific revalidation.</p>\n')
+    if readable_status:
+        status = '<div role="status">' + status.replace(' role="status"', '', 1).rstrip('\n') + '</div>\n'
     return (f'<section id="current-research" class="current-research" data-current-digest="{_v1_escape(meta["sha256"])}" data-current-bytes="{_v1_escape(meta["bytes"])}">\n'
             '<h2>Current research sources</h2>\n'
-            f'<p class="current-state" role="status">Pinned source observation: <time datetime="{_v1_escape(data["observed_at"])}">{_v1_escape(data["observed_at"])}</time>. Compare this timestamp with the present time; observation is not scientific revalidation.</p>\n'
+            + status +
             f'<p>{pins}</p>\n<p>{refs}</p>\n'
             + (date_explanation(data, prefix='../', snapshot_prefix='../snapshots/' + archive + '/') if annotations else '')
             +
@@ -1649,7 +1653,7 @@ def _live_v2_current_section(data, meta, *, annotations=True):
             '</section>')
 
 
-def _live_v2_static_page(data, meta, title, body, *, style_first=True, annotations=True):
+def _live_v2_static_page(data, meta, title, body, *, style_first=True, annotations=True, readable_status=True):
     return (f'<!doctype html>\n{_V1_GENERATED}\n<html lang="en"><head><meta charset="utf-8">\n'
             '<meta name="viewport" content="width=device-width, initial-scale=1">\n'
             '<meta http-equiv="Content-Security-Policy" content="default-src \'none\'; style-src \'self\'; img-src \'self\'; script-src \'none\'; base-uri \'none\'; form-action \'none\'">\n'
@@ -1659,7 +1663,7 @@ def _live_v2_static_page(data, meta, title, body, *, style_first=True, annotatio
                '<link rel="stylesheet" href="../brand.css"><link rel="stylesheet" href="../style.css"><link rel="stylesheet" href="../current.css">\n')
             + '</head><body><main class="node-static">\n'
             '<nav aria-label="Research site"><a href="../index.html">Home</a> · <a href="../explore.html">Explore</a> · <a href="../research.html">Research</a> · <a href="../workspace.html#inventory">Library</a> · <a href="../dependencies.html#current-atlas">Current dependencies</a> · <a href="index.html">Current static graph index</a></nav>\n'
-            + _live_v2_current_section(data, meta, annotations=annotations)
+            + _live_v2_current_section(data, meta, annotations=annotations, readable_status=readable_status)
             + '\n' + body + '\n</main></body></html>\n').encode("utf-8")
 
 
@@ -1869,7 +1873,7 @@ def _resume_html(view):
             f'<h3>Continuation</h3>\n{continuation}\n</section>\n')
 
 
-def render_live_current_v2(data, meta, *, style_first=True, annotations=True, acquisition=None, resume=None, task_records=None):
+def render_live_current_v2(data, meta, *, style_first=True, annotations=True, acquisition=None, resume=None, task_records=None, readable_status=True):
     """Render current static routes from the full fresh schema-1 observation."""
     if resume is None:
         resume = annotations
@@ -1887,7 +1891,7 @@ def render_live_current_v2(data, meta, *, style_first=True, annotations=True, ac
                 + '\n<h2>Original node metadata</h2><pre>'
                 + _v1_escape(json.dumps(node, ensure_ascii=False, indent=2, sort_keys=True)) + '</pre>\n'
                 + _v1_neighbors(data, node_id))
-        pages[f"nodes/{node_id}.html"] = _live_v2_static_page(data, meta, node_id, body, style_first=style_first, annotations=annotations)
+        pages[f"nodes/{node_id}.html"] = _live_v2_static_page(data, meta, node_id, body, style_first=style_first, annotations=annotations, readable_status=readable_status)
     items = "\n".join(f'<li><a href="{_v1_escape(node_id)}.html">{_v1_escape(node_id)}</a> · {_v1_escape(node.get("kind", "not_recorded"))} · <code>{_v1_escape(node.get("classification", "not_recorded"))}</code></li>'
                       for node_id, node in graph["nodes"].items())
     required = sum(edge["required"] for edge in graph["edges"])
@@ -1900,7 +1904,7 @@ def render_live_current_v2(data, meta, *, style_first=True, annotations=True, ac
             + ('<ul>\n' if not annotations else '')
             + (inventory_legend() + acquisition_notice(acquisition) + '<ul aria-describedby="current-inventory-legend">\n' + current_source_list(data["sources"], acquisition) if annotations else _v1_source_list(data["sources"])) + '\n</ul>\n'
             + _v2_equation_collection(data))
-    pages["nodes/index.html"] = _live_v2_static_page(data, meta, "Current static graph, equation excerpts and source index", body, style_first=style_first, annotations=annotations)
+    pages["nodes/index.html"] = _live_v2_static_page(data, meta, "Current static graph, equation excerpts and source index", body, style_first=style_first, annotations=annotations, readable_status=readable_status)
     return pages
 
 
