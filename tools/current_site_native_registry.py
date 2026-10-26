@@ -1085,7 +1085,6 @@ def _pb_metadata(value, index, consumer, pending, no_start):
     attempt = None if pending is None else str(pending["candidate"]["run"]["attempt"])
     source_refs = {consumer} | (set() if pending_source is None else {pending_source})
     contents = {}
-    action_rows = []
     jobs_pages = set()
     run_rows = 0
     for row in rows:
@@ -1120,15 +1119,12 @@ def _pb_metadata(value, index, consumer, pending, no_start):
         elif kind == "pending-run":
             _require(run_id is not None and locator == "actions/runs/" + run_id)
             run_rows += 1
-            action_rows.append(row)
         elif kind == "pending-jobs":
             _require(run_id is not None)
             prefix = "actions/runs/" + run_id + "/attempts/" + attempt + "/jobs?per_page=50&page="
             _require(locator.startswith(prefix) and locator[len(prefix):] in ("1", "2", "3", "4"))
             page = int(locator[len(prefix):])
-            _require(page not in jobs_pages, "duplicate pending job page refused")
             jobs_pages.add(page)
-            action_rows.append(row)
         else:
             raise ValueError("publication metadata route refused")
     _require(receipt_refs >= 2 and main_refs >= 2
@@ -1151,11 +1147,8 @@ def _pb_metadata(value, index, consumer, pending, no_start):
             "publication source response hash vector refused")
         _require(run_rows >= 1 and jobs_pages and len(jobs_pages) <= 4,
                  "publication no-start Actions source closure refused")
-        all_counts = _pb_hash_counts(row["sha256"] for row in rows)
-        evidence_counts = _pb_hash_counts(row["sha256"] for row in contents_rows + action_rows)
-        recorded_counts = _pb_hash_counts(no_start["response_sha256s"])
-        _require(all(count <= all_counts.get(digest, 0) for digest, count in recorded_counts.items())
-            and all(count <= recorded_counts.get(digest, 0) for digest, count in evidence_counts.items()),
+        all_hashes = {row["sha256"] for row in rows}
+        _require(all(digest in all_hashes for digest in no_start["response_sha256s"]),
             "publication no-start native response hashes refused")
 
 

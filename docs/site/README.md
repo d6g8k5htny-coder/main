@@ -19,6 +19,14 @@ The front and technical layers use the same existing evidence. No second scienti
 
 ## Current source publication
 
+The fixed **Go to** disclosure keeps Research, current-source search, the reading
+list, Mathematics, Compare and citation/reproduction tools reachable during long
+reading sessions. Its ordinary links work without JavaScript; Formal remains
+script-free. Other current pages add Escape/outside dismissal without trapping
+focus. It is navigation, not a proof search or an activity indicator. Print hides
+the control. Focused checks: `node --test tests/test_reader_jump.mjs` and
+`python3 -B tools/reader_jump_browser_check.py --output browser-evidence/reader-jump`.
+
 `tools/current_site_data.py` resolves public main and Math- commits once, verifies their complete Git trees and the seven acquired source files, and extracts exact indented proof displays. Other inventory rows bind paths and Git blobs; their document bytes are not downloaded. The page calls equation blocks excerpts and keeps their surrounding proof scope available by pinned line links. `tools/current_site_build.py` renders one payload offline into marked current sections and static node pages. Formal remains script-free. Research preserves its dated reading cuts and their source pins, with a separately identified current observation. Generated Research pages use the existing `current.mjs` module to verify the advertised local `current.json` observation and progressively update its clock-derived freshness label (`current`, `stale` or `clock disagreement`); the same observation becomes stale after two hours. The module checks freshness each minute and on page/visibility events; it does not poll for a new observation or refresh editorial reading cuts. Generated current navigation, the observation timestamp and source pins remain readable without JavaScript. Current observations and original dated reading cuts have separate identities.
 
 "Resume this node" appears in the atlas inspector and on each current static node page. Both come from `resumeProjection` in `current-model.mjs`; `tools/current_site_history.py` keeps a Python copy, and `tests/test_current_site_resume.mjs` checks that the two agree on every node. The block names the snapshot's graph commit, path, SHA-256 and observation time, and warns readers to refresh from the live record before any ownership- or head-dependent action. Recorded `review_*` fields are labelled as review records, not as the current task, an owner or completion. Next action, missing input, owner evidence and retained stop read "not recorded in this snapshot" on the snapshot-only projection, because the graph records none of them. The atlas inspector also passes `node-status.json`, the published copy of `records/node_status`, into that same projection. Static node pages stay on the snapshot-only call. An owner object is shown only when `evidence_url` matches the shared comment pattern; `released_url`, when present, stays on that object and the atlas says released. The panel shows the recorded status and `observed_at`, and says stale when `observed_at` is more than 24 hours before the render clock. Status is freshness of that view, not scientific validity, and `scientific_effect` stays NONE. A bare `review_issue` number names no repository, so it is not linked. Continuation links come only from the small site-maintained `RESUME_TASK_RECORDS` table of explicitly identified operational pointers; they are not graph metadata, scientific acceptance or source-binding admission. Archived snapshot pages are unchanged.
@@ -37,6 +45,17 @@ The Atlas inspector leads with the selected record's literal scope (or a separat
 An additional focused browser check is `python3 -B tools/atlas_claim_summary_browser_check.py --output browser-evidence/atlas-claim-summary` (packaged Chromium at `/usr/bin/chromium`, or `--browser PATH`). `--observe` records baseline failures without claiming acceptance. Real Orca speech evidence is version- and source-specific; DOM/AX checks alone do not certify spoken output.
 
 ## Verify the reader experience
+
+Compare has synchronized page controls before and after its results. It verifies
+its comparison metadata, registry and selected bytes immediately. Its separate
+source inventory stays pinned and unverified until Sources and scope is opened
+or a source deep link requests it, then uses the existing unchanged verifier.
+This avoids a redundant initial current-payload transfer; it does not share or
+weaken admission. Source-tool loading failures keep an explicit reload retry and
+all static source links. Focused checks: `node --test tests/test_compare_source_panel.mjs`
+and `python3 -B tools/compare_experience_browser_check.py --output
+browser-evidence/compare-experience`; the existing snapshot comparison checks retain
+their byte/registry/refusal coverage after explicitly opening that separate panel.
 
 Persistent source-status reading: `python3 -B -S -m unittest tests.test_current_site_persistent_status` checks current paragraph semantics, exact previous live-page restoration, frozen historical renderer identities and refusal of altered source text or pins. `python3 -B tools/persistent_status_browser_check.py --site docs/site --output browser-evidence/persistent-status` exercises desktop/phone themes, source disclosures, static/no-JavaScript reading and verification failure. Use an admitted matching HTML/payload/meta observation; `--observe` records baseline failures. Actual speech and its platform limits are reported separately in `docs/reports/atlas-persistent-status-20261026`; these browser checks do not certify speech or full accessibility. No production dependency was added.
 
@@ -414,3 +433,14 @@ observation deliberately has a stale manifest and is not the positive fixture.
 Run python -B -m unittest tests.test_atlas_formal_evidence_build, its -O equivalent,
 and node --test tests/test_atlas_formal_evidence.mjs tests/test_current_site.mjs.
 The browser observer records served-file identities separately from its own driver.
+
+### Reader Go to and visible focus
+
+The native Go to disclosure on the eleven current reader pages stays available
+while scrolling. With `:has` support it yields visually and ignores pointer events
+while another element has `:focus-visible`, preventing the launcher from covering
+that focus indicator. Its summary remains in tab order: Tab/Shift+Tab into the
+menu restores it, and it stays visible while focus is inside. Pointer-focused
+inputs may also trigger this behavior. No focus is redirected and no content
+position changes. Formal remains script-free; native links work without scripts.
+Current automated qualification covers Chromium/Linux, not every browser or AT.
