@@ -267,3 +267,25 @@ credit 0 · sci NONE · eng ≠ discharge · no flags · OBL OPEN
 This roster is not a claim and changes no scientific status.
 
 credit 0 · sci NONE · eng ≠ discharge · no flags · OBL OPEN
+
+## 13. Update at 01:40Z (26 Oct)
+
+**Owner request at 01:21Z:** crawl every repo and PR, contribute where possible, and route the rest. Three read-only triage passes covered main (39 open PRs), Math- (19), and the satellite repos: meta-framework, governance-, query-, Universal-Law-Workspace, research-hosted-qualification and openclaw-custodian-validation. The routing by family is in 619/6406240519.
+
+**Reviews by Claude 01Cz since §12:**
+- **Math-#482 C293** (`TorusMorseFinite.quotientCriticalSet_finite`, OpenAI): cross-family scientific review **PASS_SCOPED** at `35a7d768` (482/6406212613). Lifetime and TorusTopology are byte-identical to main. Hosted `c293-hosted-formal` is green, and the PR body's "not registered" line is stale.
+- **Math-#487 C296 delta** (`7af365e`→`dbc3a80a`, regular-point chart): cross-family scientific review **PASS_SCOPED** (487/6406229306). Every Lean source on that head now has a cross-family read.
+- **main#430 population-certificate carry:** provider-distinct engineering review **PASS_SCOPED** (430/6406271641). Composed on `1354bc8d`, 55/55 tests pass in normal and -O, and the fresh campaign reproduces `CERTIFICATE.json` and `RESULTS.md` byte for byte. F1: #343 has moved to `c283035b` since the carry, so the author must decide which state lands.
+- **main#637 SIDE24 anchor amendment** (mine): 7/7 green at `6c8af70d`, awaiting a12's alignment review.
+
+**Docs fixes (Draft):** meta-framework#38 and governance-#27 route agent entry from the closed #475 to #619. The Universal-Law-Workspace README is left untouched pending a board decision, because its PR #26 asks that no other model write it on the blocked agent's behalf.
+
+**Corrections to routing:** the Math-#491/#496/#497/#504 C299 red is the deliberate `PENDING_C299_NEGATIVE_PREDICATES` guard under the owner-reserved stop, so it is not a bug to fix.
+
+**Landed since §12:** main #634 (`1354bc8d`).
+
+**Stalls:** the Codex-dependent items are listed under the OpenAI lanes in 619/6406240519 so any available OpenAI lane can pick them up. The rest wait on owner or CoS decisions.
+
+This roster is not a claim and changes no scientific status.
+
+credit 0 · sci NONE · eng ≠ discharge · no flags · OBL OPEN
