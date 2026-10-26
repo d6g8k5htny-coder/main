@@ -38,6 +38,10 @@ An additional focused browser check is `python3 -B tools/atlas_claim_summary_bro
 
 ## Verify the reader experience
 
+Persistent source-status reading: `python3 -B -S -m unittest tests.test_current_site_persistent_status` checks current paragraph semantics, exact previous live-page restoration, frozen historical renderer identities and refusal of altered source text or pins. `python3 -B tools/persistent_status_browser_check.py --site docs/site --output browser-evidence/persistent-status` exercises desktop/phone themes, source disclosures, static/no-JavaScript reading and verification failure. Use an admitted matching HTML/payload/meta observation; `--observe` records baseline failures. Actual speech and its platform limits are reported separately in `docs/reports/atlas-persistent-status-20261026`; these browser checks do not certify speech or full accessibility. No production dependency was added.
+
+Live Atlas control repair: `python3 -B tools/atlas_live_controls_browser_check.py --site docs/site --output browser-evidence/atlas-live-controls` exercises stable excerpt options, final-count announcements, keyboard View choice, exact source selection, reload/history and refused bookmarks at desktop/phone widths in both themes. Use an admitted matching HTML/payload/meta observation; `--observe` retains baseline failures. The report in `docs/reports/atlas-live-controls-20261026` distinguishes actual version-specific Orca speech from DOM checks and from the remaining Orca46.1 qualification. No production dependency was added.
+
 ```sh
 # Stage any new or deleted file under docs/site or docs/public-math first (git add <path> / git rm <path>).
 python3 -B tools/site_asset_release.py          # run after ANY change under docs/site or docs/public-math; re-keys ?site-release= URLs of changed assets and their importers
@@ -91,6 +95,21 @@ The exported PNG metadata can be inspected with a standard PNG text-chunk reader
 its visible caption travels with the image even when an app strips metadata.
 
 ## From a saved source to a reference
+
+The Library's verified current-source search offers **Clear search**, a native
+**Link to this search**, and **Save current search** together. A zero-match query
+shows recovery guidance. Clearing resets the existing result window and returns
+keyboard focus to the input. The link preserves literal query text and unrelated
+page parameters; it runs against the admitted observation available when opened,
+so its results are not frozen. The dated catalog remains a separate collection.
+These tools appear only after the current snapshot verifies and add no source
+acquisition, mathematical review or storage schema.
+
+Focused checks: `node --test tests/test_library_source_search.mjs` and
+`python3 -B tools/library_source_search_browser_check.py --output
+browser-evidence/library-source-search` (optional installed Playwright/Chromium;
+use `--browser PATH` if needed). The browser driver blocks external HTTPS requests
+and tests the included current snapshot; no online source custody is inferred.
 
 Each saved source in the Library reading list has **Make a source reference**.
 It opens the existing Cite builder with its repository, full commit, literal path
@@ -178,6 +197,19 @@ Insert the new `<section id="…" class="latest-work" tabindex="-1" aria-labelle
 Rules for future cards, not a retrofit of pinned cuts: each card carries one visible primary pinned proof link on its face, with digests, reviews and manifests in the disclosure, and the test’s EXPECTED lists enumerate card-face and disclosure links separately. Each card ends with a `<dl class="card-status">` of up to three rows — “Landed?” (landed at Math or main `<commit>` / open proposal, quoting the PR state at the cut), “Read by” (provider · verdict token quoted from the linked review · scope) and “Scientific effect” (quoting the source’s own declaration) — reusing the 7 October labels “Who read it:” / “Still candidates:” / “Still informal:” verbatim where they apply. A display equation inside a future card is authored as `<p class="display-formula"><code>…</code></p>`, which `home.css` renders as a block; kickers and eyebrows are uppercased by CSS, so a future cut may author them in sentence case. Pinned cuts are not retrofitted.
 
 ## Keep or share a Library search
+
+The Library offers **Undo removal** after Remove or Clear reading list. It
+restores only the latest entries removed in this page, adding them to the
+current saved list so other tabs' additions survive. Source-metadata conflicts,
+the 50-item ceiling and the 128 KiB limit refuse restoration without consuming
+Undo. Resolve the conflict or free space in another tab before retrying: a new
+Remove or Clear on this page replaces its previous recovery. Recovery is kept in
+this page only and is lost on reload. Export remains the way to keep a separate
+copy. No source is acquired or mathematically reviewed by restoring a note.
+
+```bash
+python3 -B tools/research_desk_undo_browser_check.py --output reading-undo-evidence
+```
 
 Saved reading-list rows keep their focused source/reference control and open
 **Saved identity** disclosure when another tab updates the list. Validated

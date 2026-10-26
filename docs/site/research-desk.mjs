@@ -2,6 +2,7 @@
 import {currentSnapshot} from './current.mjs?site-release=fc7e8a98c1e23f476962c4c83e95ed3ce817490007987112d9b2cf6d3d90b142';
 import {SCHEMA,MAX_FILE_BYTES,validateEntry,entryKey,parseReadingList,mergeEntries,sourceHref,searchHref,readingListJSON} from './research-desk-store.mjs?site-release=547418ff3547b671266d1e46bf8d33f1f3eedf83571f6a0bb69ca9d7786ffaf3';
 import {readingListCitationHref} from './reading-list-citation.mjs?site-release=02153e8e3acb70abca98685f5b274c0472eea6450ed2e9c3fc3125a7b0196968';
+import {startLibrarySourceSearch} from './library-source-search.mjs?site-release=0f7fa4196362a427e070fc49f58f8a2935840e9d797358cb9d325e5db44ee612';
 
 export function sourceLinkKey(href) {
   try{
@@ -17,11 +18,11 @@ export function startResearchDesk(doc=document,win=window,snapshot=currentSnapsh
   const byId=id=>doc.getElementById(id),make=(tag,text,cls)=>{
     const element=doc.createElement(tag);if(text!==undefined)element.textContent=text;if(cls)element.className=cls;return element;
   };
-  const list=byId('desk-entries'),reading=byId('reading-list'),message=byId('desk-message');
+  const list=byId('desk-entries'),reading=byId('reading-list'),message=byId('desk-message'),undo=byId('desk-undo');
   byId('desk-import').disabled=false;
   const currentInput=doc.querySelector('#current-research .current-search');
   const sourceResults=doc.querySelector('#current-research .current-results');
-  let entries=[],storage=null,persistent=false,storedProblem='',currentData=null,queue=Promise.resolve();
+  let entries=[],recovery=[],undoQueued=false,storage=null,persistent=false,storedProblem='',currentData=null,queue=Promise.resolve();
   const mode=()=>persistent?'Saved in this browser.':'Kept in this tab only; export to keep a copy.';
   const say=text=>{message.textContent=text+' '+mode();};
   const stored=()=>{const raw=storage.getItem(SCHEMA);return raw===null?[]:parseReadingList(raw).entries;};
@@ -70,7 +71,7 @@ export function startResearchDesk(doc=document,win=window,snapshot=currentSnapsh
           if(entry.repository||entry.path)content.append(make('p',[entry.repository&&'Repository: '+entry.repository,entry.path&&'Path: '+entry.path].filter(Boolean).join(' · ')));
         }
         const remove=make('button','Remove','desk-remove');remove.type='button';remove.setAttribute('aria-label','Remove '+a.textContent);
-        remove.addEventListener('click',()=>mutate(items=>items.filter(item=>entryKey(item)!==key),'Item removed.'));
+        remove.addEventListener('click',()=>mutate(items=>items.filter(item=>entryKey(item)!==key),'Item removed.','Could not update reading list: ','remove'));
         row.append(content,remove);
         saved={row,identity,citation,signature:null};renderedRows.set(key,saved);
       }
@@ -90,6 +91,7 @@ export function startResearchDesk(doc=document,win=window,snapshot=currentSnapsh
     byId('desk-count').textContent=entries.length+' saved item'+(entries.length===1?'':'s');
     byId('desk-empty').hidden=entries.length>0;
     byId('desk-export').disabled=!entries.length;byId('desk-clear').disabled=!entries.length;
+    undo.hidden=!recovery.length;undo.disabled=!recovery.length;
     for(const button of sourceButtons()){
       const saved=keys.has(button.dataset.deskKey);button.disabled=saved;button.textContent=saved?'Saved':'Save source';
     }
@@ -101,18 +103,31 @@ export function startResearchDesk(doc=document,win=window,snapshot=currentSnapsh
         const next=focused.matches('.desk-remove')&&list.children[Math.min(focusIndex,list.children.length-1)]?.querySelector('.desk-remove');
         (next||reading.querySelector('summary')).focus({preventScroll:true});
       }
-    }else if([byId('desk-clear'),byId('desk-export')].includes(focused)&&focused.disabled){
+    }else if([byId('desk-clear'),byId('desk-export'),undo].includes(focused)&&(focused.disabled||focused.hidden)){
       reading.querySelector('summary').focus({preventScroll:true});
     }
   }
-  function mutate(operation,success,refusal='Could not update reading list: ') {
+  function mutate(operation,success,refusal='Could not update reading list: ',intent=null) {
     queue=queue.then(async()=>{
       const apply=()=>{
         let base=entries;
         if(persistent){try{base=stored();}catch{persistent=false;storedProblem='Stored list could not be read; existing data is preserved. ';}}
-        const next=operation(base); // Validation/capacity failures never partially write.
+        // Recover only the latest actual removal, using the base read inside
+        // this lock. Undo adds to today's list; it never restores a stale
+        // whole-list snapshot over another tab's work.
+        if(intent==='undo'&&!recovery.length)throw new Error('No removed items remain to restore.');
+        const next=intent==='undo'?mergeEntries(base,recovery):operation(base);
+        const nextKeys=intent==='remove'?new Set(next.map(entryKey)):null;
+        const removed=nextKeys?base.filter(entry=>!nextKeys.has(entryKey(entry))):[];
+        // Validation/capacity/conflict failures above never partially write
+        // or consume the pending recovery.
         if(persistent){try{storage.setItem(SCHEMA,readingListJSON(next));}catch{persistent=false;storedProblem='Browser storage could not be updated. ';}}
-        entries=next;render();say(storedProblem+success);
+        entries=next;
+        if(intent==='undo')recovery=[];
+        else if(removed.length)recovery=removed;
+        render();
+        say(storedProblem+(intent==='remove'&&!removed.length?'No further items were removed.':success)+
+          (recovery.length?' Undo is available for the last removal in this page.':''));
       };
       if(persistent){
         let ran=false;
@@ -200,6 +215,7 @@ export function startResearchDesk(doc=document,win=window,snapshot=currentSnapsh
   attachCatalog();
   snapshot.then(data=>{
     if(!data)return;
+    startLibrarySourceSearch(doc,win);
     currentData=data;
     for(const source of data.sources){
       try{const entry=validateEntry({kind:'source',collection:'current',repository:source.repository,commit:source.commit,path:source.path,blob:source.blob,bytes:source.bytes,observedAt:data.observed_at,savedAt:now()});currentSources.set(sourceLinkKey(sourceHref(entry)),entry);}catch{}
@@ -207,7 +223,12 @@ export function startResearchDesk(doc=document,win=window,snapshot=currentSnapsh
     currentButton.disabled=false;attachCurrent();
   }).catch(()=>{});
 
-  byId('desk-clear').addEventListener('click',()=>mutate(()=>[],'Reading list cleared.'));
+  byId('desk-clear').addEventListener('click',()=>mutate(()=>[],'Reading list cleared.','Could not update reading list: ','remove'));
+  undo.addEventListener('click',()=>{
+    if(undoQueued||!recovery.length)return;
+    undoQueued=true;
+    mutate(null,'Removed items restored.','Undo refused: ','undo').finally(()=>{undoQueued=false;});
+  });
   byId('desk-export').addEventListener('click',()=>{
     try{
       const blob=new Blob([readingListJSON(entries)],{type:'application/json'}),url=URL.createObjectURL(blob),a=make('a');

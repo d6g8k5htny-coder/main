@@ -1,0 +1,130 @@
+[
+  {
+    "action": "phase",
+    "name": "view"
+  },
+  {
+    "action": "click",
+    "selector": "#atlas-view"
+  },
+  {
+    "action": "park"
+  },
+  {
+    "action": "key",
+    "sequence": "Escape",
+    "delay": 0.3
+  },
+  {
+    "action": "key",
+    "sequence": "Alt_L+Down",
+    "delay": 0.5
+  },
+  {
+    "action": "park"
+  },
+  {
+    "action": "key",
+    "sequence": "Home",
+    "delay": 0.5
+  },
+  {
+    "action": "key",
+    "sequence": "Return",
+    "delay": 1
+  },
+  {
+    "action": "snapshot",
+    "name": "view-graph",
+    "selectors": [
+      "#atlas-view"
+    ]
+  },
+  {
+    "action": "key",
+    "sequence": "Alt_L+Down",
+    "delay": 0.5
+  },
+  {
+    "action": "park"
+  },
+  {
+    "action": "key",
+    "sequence": "End",
+    "delay": 0.5
+  },
+  {
+    "action": "key",
+    "sequence": "Return",
+    "delay": 1
+  },
+  {
+    "action": "snapshot",
+    "name": "view-list",
+    "selectors": [
+      "#atlas-view"
+    ]
+  },
+  {
+    "action": "phase",
+    "name": "sigma"
+  },
+  {
+    "action": "click",
+    "selector": "#equation-search"
+  },
+  {
+    "action": "type",
+    "text": "sigma",
+    "delay": 3
+  },
+  {
+    "action": "snapshot",
+    "name": "sigma",
+    "selectors": [
+      "#equation-count"
+    ]
+  },
+  {
+    "action": "phase",
+    "name": "zero"
+  },
+  {
+    "action": "key",
+    "sequence": "ctrl+a",
+    "delay": 0.2
+  },
+  {
+    "action": "type",
+    "text": "not-a-source-xyz",
+    "delay": 3
+  },
+  {
+    "action": "snapshot",
+    "name": "zero",
+    "selectors": [
+      "#equation-count"
+    ]
+  },
+  {
+    "action": "phase",
+    "name": "clear"
+  },
+  {
+    "action": "key",
+    "sequence": "ctrl+a",
+    "delay": 0.2
+  },
+  {
+    "action": "key",
+    "sequence": "BackSpace",
+    "delay": 3
+  },
+  {
+    "action": "snapshot",
+    "name": "clear",
+    "selectors": [
+      "#equation-count"
+    ]
+  }
+]
