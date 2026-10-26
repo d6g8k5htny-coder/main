@@ -19,6 +19,14 @@ The front and technical layers use the same existing evidence. No second scienti
 
 ## Current source publication
 
+The fixed **Go to** disclosure keeps Research, current-source search, the reading
+list, Mathematics, Compare and citation/reproduction tools reachable during long
+reading sessions. Its ordinary links work without JavaScript; Formal remains
+script-free. Other current pages add Escape/outside dismissal without trapping
+focus. It is navigation, not a proof search or an activity indicator. Print hides
+the control. Focused checks: `node --test tests/test_reader_jump.mjs` and
+`python3 -B tools/reader_jump_browser_check.py --output browser-evidence/reader-jump`.
+
 `tools/current_site_data.py` resolves public main and Math- commits once, verifies their complete Git trees and the seven acquired source files, and extracts exact indented proof displays. Other inventory rows bind paths and Git blobs; their document bytes are not downloaded. The page calls equation blocks excerpts and keeps their surrounding proof scope available by pinned line links. `tools/current_site_build.py` renders one payload offline into marked current sections and static node pages. Formal remains script-free. Research preserves its dated reading cuts and their source pins, with a separately identified current observation. Generated Research pages use the existing `current.mjs` module to verify the advertised local `current.json` observation and progressively update its clock-derived freshness label (`current`, `stale` or `clock disagreement`); the same observation becomes stale after two hours. The module checks freshness each minute and on page/visibility events; it does not poll for a new observation or refresh editorial reading cuts. Generated current navigation, the observation timestamp and source pins remain readable without JavaScript. Current observations and original dated reading cuts have separate identities.
 
 "Resume this node" appears in the atlas inspector and on each current static node page. Both come from `resumeProjection` in `current-model.mjs`; `tools/current_site_history.py` keeps a Python copy, and `tests/test_current_site_resume.mjs` checks that the two agree on every node. The block names the snapshot's graph commit, path, SHA-256 and observation time, and warns readers to refresh from the live record before any ownership- or head-dependent action. Recorded `review_*` fields are labelled as review records, not as the current task, an owner or completion. Next action, missing input, owner evidence and retained stop read "not recorded in this snapshot" on the snapshot-only projection, because the graph records none of them. The atlas inspector also passes `node-status.json`, the published copy of `records/node_status`, into that same projection. Static node pages stay on the snapshot-only call. An owner object is shown only when `evidence_url` matches the shared comment pattern; `released_url`, when present, stays on that object and the atlas says released. The panel shows the recorded status and `observed_at`, and says stale when `observed_at` is more than 24 hours before the render clock. Status is freshness of that view, not scientific validity, and `scientific_effect` stays NONE. A bare `review_issue` number names no repository, so it is not linked. Continuation links come only from the small site-maintained `RESUME_TASK_RECORDS` table of explicitly identified operational pointers; they are not graph metadata, scientific acceptance or source-binding admission. Archived snapshot pages are unchanged.
@@ -38,13 +46,28 @@ An additional focused browser check is `python3 -B tools/atlas_claim_summary_bro
 
 ## Verify the reader experience
 
+Compare has synchronized page controls before and after its results. It verifies
+its comparison metadata, registry and selected bytes immediately. Its separate
+source inventory stays pinned and unverified until Sources and scope is opened
+or a source deep link requests it, then uses the existing unchanged verifier.
+This avoids a redundant initial current-payload transfer; it does not share or
+weaken admission. Source-tool loading failures keep an explicit reload retry and
+all static source links. Focused checks: `node --test tests/test_compare_source_panel.mjs`
+and `python3 -B tools/compare_experience_browser_check.py --output
+browser-evidence/compare-experience`; the existing snapshot comparison checks retain
+their byte/registry/refusal coverage after explicitly opening that separate panel.
+
+Persistent source-status reading: `python3 -B -S -m unittest tests.test_current_site_persistent_status` checks current paragraph semantics, exact previous live-page restoration, frozen historical renderer identities and refusal of altered source text or pins. `python3 -B tools/persistent_status_browser_check.py --site docs/site --output browser-evidence/persistent-status` exercises desktop/phone themes, source disclosures, static/no-JavaScript reading and verification failure. Use an admitted matching HTML/payload/meta observation; `--observe` records baseline failures. Actual speech and its platform limits are reported separately in `docs/reports/atlas-persistent-status-20261026`; these browser checks do not certify speech or full accessibility. No production dependency was added.
+
+Live Atlas control repair: `python3 -B tools/atlas_live_controls_browser_check.py --site docs/site --output browser-evidence/atlas-live-controls` exercises stable excerpt options, final-count announcements, keyboard View choice, exact source selection, reload/history and refused bookmarks at desktop/phone widths in both themes. Use an admitted matching HTML/payload/meta observation; `--observe` retains baseline failures. The report in `docs/reports/atlas-live-controls-20261026` distinguishes actual version-specific Orca speech from DOM checks and from the remaining Orca46.1 qualification. No production dependency was added.
+
 ```sh
 # Stage any new or deleted file under docs/site or docs/public-math first (git add <path> / git rm <path>).
 python3 -B tools/site_asset_release.py          # run after ANY change under docs/site or docs/public-math; re-keys ?site-release= URLs of changed assets and their importers
 python3 -B tools/site_asset_release.py --check  # must print the token and exit 0; commit every rewritten file
 python3 -B -m unittest discover -s tests -p test_public_shop_data.py
 python3 -B -m unittest tests.test_site_asset_release
-node --test tests/test_public_shop_frontend.mjs tests/test_explore_models.mjs tests/test_curvature_export.mjs tests/test_teaching_export.mjs tests/test_pin_export.mjs tests/test_palette_export.mjs tests/test_reader_navigation.mjs tests/test_source_reference.mjs tests/test_measurement_model.mjs tests/test_dependency_viewer.mjs tests/test_museum_frontend.mjs tests/test_workspace_navigation.mjs
+node --test tests/test_public_shop_frontend.mjs tests/test_explore_models.mjs tests/test_curvature_export.mjs tests/test_teaching_export.mjs tests/test_pin_export.mjs tests/test_palette_export.mjs tests/test_figure_png.mjs tests/test_reading_list_citation.mjs tests/test_reader_navigation.mjs tests/test_source_reference.mjs tests/test_measurement_model.mjs tests/test_dependency_viewer.mjs tests/test_museum_frontend.mjs tests/test_workspace_navigation.mjs
 python3 -B -S -m unittest discover -s tests -p test_reader_links.py -v
 python3 -B -m unittest discover -s tests -p test_museum_data.py && python3 -B tools/museum_check.py && node --test tests/test_museum_geometry.mjs
 python3 -B -E -S tests/test_public_shop_check_identity_control.py -v
@@ -73,6 +96,66 @@ On macOS, a symlink alias in the process temporary directory can make the site-a
 
 Check real desktop/mobile layouts, keyboard operation, light/dark appearance and source-unavailable behavior separately. The pure-model tests are not browser or scientific verification.
 
+
+## Captioned PNG teaching figures
+
+Explore offers PNG alongside each existing SVG download. PNG rasterizes that
+same validated, captioned SVG at fixed2× dimensions and embeds its original
+structured metadata and readable citation in international-text chunks. Local
+fonts can differ; source acquisition and mathematical verification are not
+performed. Changed controls, geometry or theme cancel/refuse pending output;
+errors explain retry and preserve SVG/manual citation. Unsupported browsers and
+no-JavaScript views retain their existing alternatives.
+
+Focused checks: `node --test tests/test_figure_png.mjs` and
+`python3 -B tools/figure_png_browser_check.py --browser PATH --output
+browser-evidence/figure-png` (optional pinned browser packages plus Pillow).
+The exported PNG metadata can be inspected with a standard PNG text-chunk reader;
+its visible caption travels with the image even when an app strips metadata.
+
+## From a saved source to a reference
+
+The Library's verified current-source search offers **Clear search**, a native
+**Link to this search**, and **Save current search** together. A zero-match query
+shows recovery guidance. Clearing resets the existing result window and returns
+keyboard focus to the input. The link preserves literal query text and unrelated
+page parameters; it runs against the admitted observation available when opened,
+so its results are not frozen. The dated catalog remains a separate collection.
+These tools appear only after the current snapshot verifies and add no source
+acquisition, mathematical review or storage schema.
+
+Focused checks: `node --test tests/test_library_source_search.mjs` and
+`python3 -B tools/library_source_search_browser_check.py --output
+browser-evidence/library-source-search` (optional installed Playwright/Chromium;
+use `--browser PATH` if needed). The browser driver blocks external HTTPS requests
+and tests the included current snapshot; no online source custody is inferred.
+
+Each saved source in the Library reading list has **Make a source reference**.
+It opens the existing Cite builder with its repository, full commit, literal path
+and actual SHA-256 when present. A Git blob is not substituted for a file hash.
+The builder checks syntax only; no authorship, source acquisition, review or
+mathematical acceptance is inferred. An unsupported literal path keeps its
+original source and list actions with an explicit unavailable note. Saved
+searches are not source citations. Back returns to the same browser-local list.
+
+Focused checks: `node --test tests/test_reading_list_citation.mjs` and
+`python3 -B tools/reading_list_citation_browser_check.py --browser PATH --output
+browser-evidence/reading-list-citation` (optional pinned browser packages).
+
+## Reading without losing your place
+
+Research adds small question/map/source links to each of its seven dated readings
+when JavaScript is available. These are native fragment links: keyboard focus,
+Back/Forward and reload retain the existing reader-shell behavior. Each reading
+also ends with a return to the question chooser. The source HTML, exact pins and
+historical wording stay unchanged; a missing expected source disclosure omits
+that reading’s enhancement. Without JavaScript the original open reading map and
+archive remain available. Print hides the added navigation.
+
+Focused browser check (Chrome with sandbox and the optional pinned Playwright
+packages): `python3 -B tools/research_reading_browser_check.py --browser PATH
+--output browser-evidence/research-reading`. This exercises navigation and
+refusals; it does not certify scientific content or spoken screen-reader output.
 
 ## Latest public work is a reading cut
 
@@ -133,6 +216,31 @@ Insert the new `<section id="…" class="latest-work" tabindex="-1" aria-labelle
 Rules for future cards, not a retrofit of pinned cuts: each card carries one visible primary pinned proof link on its face, with digests, reviews and manifests in the disclosure, and the test’s EXPECTED lists enumerate card-face and disclosure links separately. Each card ends with a `<dl class="card-status">` of up to three rows — “Landed?” (landed at Math or main `<commit>` / open proposal, quoting the PR state at the cut), “Read by” (provider · verdict token quoted from the linked review · scope) and “Scientific effect” (quoting the source’s own declaration) — reusing the 7 October labels “Who read it:” / “Still candidates:” / “Still informal:” verbatim where they apply. A display equation inside a future card is authored as `<p class="display-formula"><code>…</code></p>`, which `home.css` renders as a block; kickers and eyebrows are uppercased by CSS, so a future cut may author them in sentence case. Pinned cuts are not retrofitted.
 
 ## Keep or share a Library search
+
+The Library offers **Undo removal** after Remove or Clear reading list. It
+restores only the latest entries removed in this page, adding them to the
+current saved list so other tabs' additions survive. Source-metadata conflicts,
+the 50-item ceiling and the 128 KiB limit refuse restoration without consuming
+Undo. Resolve the conflict or free space in another tab before retrying: a new
+Remove or Clear on this page replaces its previous recovery. Recovery is kept in
+this page only and is lost on reload. Export remains the way to keep a separate
+copy. No source is acquired or mathematically reviewed by restoring a note.
+
+```bash
+python3 -B tools/research_desk_undo_browser_check.py --output reading-undo-evidence
+```
+
+Saved reading-list rows keep their focused source/reference control and open
+**Saved identity** disclosure when another tab updates the list. Validated
+metadata changes refresh the displayed identity and reference. If the focused
+item is removed, focus returns to the reading-list summary; a local Remove
+button uses the neighboring Remove button when one remains. No new data is saved
+automatically. These browser checks exercise that continuity and its tab-only,
+queued-write and outside-focus controls:
+
+```bash
+python3 -B tools/research_desk_continuity_browser_check.py --output reading-continuity-evidence
+```
 
 The Library's search, repository and path filters are saved in the current URL
 without adding a browser-history entry for every keystroke. Refreshing or
@@ -302,3 +410,37 @@ git -C query- checkout --detach c88768bb11efd1f7d6bda188f13064bedec54a06
 
 The source-identity gate checks these commands against `museum.json` and
 `config.json`. Updating the reading interface does not update either source pin.
+
+## One source-linked formal companion
+
+The SIDE24 inspector can expose the existing closed arithmetic declaration
+UniversalLaw.Side24.pairing_sum_six only when the complete claim record, proof
+source blob/size/fingerprint and formal manifest identity match the pinned
+evidence. This is a source-document connection, not coefficient or parent proof
+coverage. Its actual package review is REJECTED (AMEND); the chosen row ALIGNED
+does not override the existing all-31-target acceptance contract. Other claims,
+changed sources and older observations with another manifest remain unmapped.
+Original receipt/type/artifact bytes are retained under evidence/side24-main-3b39.
+No Lean source, source admission, scientific status or renderer dependency changes.
+
+Reproduce the offline data with python -B tools/atlas_formal_evidence_build.py
+--snapshot EXACT_CURRENT_JSON (add --check to compare). It reuses the existing
+formal source and receipt/log validators; it makes no network call or new Lean
+execution. The pinned original artifact is an input, not an authority for arbitrary
+caller receipts. Execute the focused browser observer with --site GENERATED_SITE
+--payload EXACT_CURRENT_JSON --output NEW_OUTPUT_DIRECTORY; the older committed
+observation deliberately has a stale manifest and is not the positive fixture.
+Run python -B -m unittest tests.test_atlas_formal_evidence_build, its -O equivalent,
+and node --test tests/test_atlas_formal_evidence.mjs tests/test_current_site.mjs.
+The browser observer records served-file identities separately from its own driver.
+
+### Reader Go to and visible focus
+
+The native Go to disclosure on the eleven current reader pages stays available
+while scrolling. With `:has` support it yields visually and ignores pointer events
+while another element has `:focus-visible`, preventing the launcher from covering
+that focus indicator. Its summary remains in tab order: Tab/Shift+Tab into the
+menu restores it, and it stays visible while focus is inside. Pointer-focused
+inputs may also trigger this behavior. No focus is redirected and no content
+position changes. Formal remains script-free; native links work without scripts.
+Current automated qualification covers Chromium/Linux, not every browser or AT.

@@ -1,0 +1,213 @@
+{
+  "finding": "ER-I1: fixed Go to obscured the evidence-region focus ring at320px with text-spacing override.",
+  "original_public_head": "b14519045c88d91c2a9bdde3b09fccc396c362ba",
+  "original_hosted_job": 121726619256,
+  "reviewer_controlled_ring": {
+    "launcher_present": 0.656,
+    "launcher_hidden": 1.0
+  },
+  "repair": "CSS yields opacity/pointer events during external :focus-visible, retains tab order and restores on menu focus. No display:none, focus redirection, scroll/layout change or test threshold change.",
+  "native_focus_regression": {
+    "cases": [
+      {
+        "case": "persistent-keyboard-1440-light",
+        "passed": true
+      },
+      {
+        "case": "persistent-keyboard-1440-dark",
+        "passed": true
+      },
+      {
+        "case": "persistent-keyboard-390-light",
+        "passed": true
+      },
+      {
+        "case": "persistent-keyboard-390-dark",
+        "passed": true
+      },
+      {
+        "case": "persistent-keyboard-320-dark",
+        "passed": true
+      },
+      {
+        "case": "focus-yield-light-scripted",
+        "passed": true
+      },
+      {
+        "case": "focus-yield-dark-scripted",
+        "passed": true
+      },
+      {
+        "case": "focus-yield-light-native-no-js",
+        "passed": true
+      },
+      {
+        "case": "focus-yield-dark-native-no-js",
+        "passed": true
+      },
+      {
+        "case": "native-no-js-and-script-free-formal",
+        "passed": true
+      }
+    ],
+    "page_errors": [],
+    "limits": "Headless Chromium/Linux, emulated widths; no physical/Safari/spoken AT/full WCAG claim.",
+    "browser": "154.0.8037.57",
+    "passed": 10,
+    "failed": 0
+  },
+  "exact_original_ring_case": [
+    {
+      "hidden": false,
+      "screenshot": 1,
+      "viewport": {
+        "width": 320,
+        "height": 1127
+      },
+      "region": {
+        "x": 16,
+        "y": 52.296875,
+        "width": 288,
+        "height": 1045.5
+      },
+      "menu": {
+        "x": 203.34375,
+        "y": 1064,
+        "width": 100.65625,
+        "height": 47
+      },
+      "clip": {
+        "x": 7,
+        "y": 43,
+        "width": 307,
+        "height": 1064
+      }
+    },
+    {
+      "hidden": false,
+      "screenshot": 2,
+      "viewport": {
+        "width": 320,
+        "height": 1127
+      },
+      "region": {
+        "x": 16,
+        "y": 52.296875,
+        "width": 288,
+        "height": 1045.5
+      },
+      "menu": {
+        "x": 203.34375,
+        "y": 1064,
+        "width": 100.65625,
+        "height": 47
+      },
+      "clip": {
+        "x": 7,
+        "y": 43,
+        "width": 307,
+        "height": 1064
+      }
+    },
+    {
+      "hidden": false,
+      "pass": true,
+      "least_side": 1
+    },
+    {
+      "hidden": true,
+      "screenshot": 1,
+      "viewport": {
+        "width": 320,
+        "height": 1127
+      },
+      "region": {
+        "x": 16,
+        "y": 52.296875,
+        "width": 288,
+        "height": 1045.5
+      },
+      "menu": null,
+      "clip": {
+        "x": 7,
+        "y": 43,
+        "width": 307,
+        "height": 1064
+      }
+    },
+    {
+      "hidden": true,
+      "screenshot": 2,
+      "viewport": {
+        "width": 320,
+        "height": 1127
+      },
+      "region": {
+        "x": 16,
+        "y": 52.296875,
+        "width": 288,
+        "height": 1045.5
+      },
+      "menu": null,
+      "clip": {
+        "x": 7,
+        "y": 43,
+        "width": 307,
+        "height": 1064
+      }
+    },
+    {
+      "hidden": true,
+      "pass": true,
+      "least_side": 1
+    }
+  ],
+  "existing_layout_checks": {
+    "focus_ring_targets": 30,
+    "text_layouts": 20,
+    "passed": true
+  },
+  "limits": "Current sandboxed Chromium154/Linux; pointer-focused inputs may also match :focus-visible and hide launcher. Ordinary non-focused reading may still overlap it. No broader browser/physical/AT/fullWCAG claim.",
+  "artifacts": [
+    {
+      "path": "red/report.json",
+      "bytes": 2801,
+      "sha256": "d5a3cc6957d740b20d9d9fdf309caaa85ed7bb6b63e94b9643d8ca67b0950bc8"
+    },
+    {
+      "path": "green/report.json",
+      "bytes": 6252,
+      "sha256": "fa9d5958e221e98236123e39d8759b0b8f2c55d7e7e9872dd7feaeb060fa7c0e"
+    },
+    {
+      "path": "green-disclosure/report.json",
+      "bytes": 6199,
+      "sha256": "5dd0bf0ec28ca1351666734033d2617293efb1ff38fc841e40ebc1b402d759d6"
+    },
+    {
+      "path": "green-route/report.json",
+      "bytes": 1014,
+      "sha256": "b312709e80743d4135e08ed972ba38efb24259db8c532976103d3feb2d6638a3"
+    },
+    {
+      "path": "layout/report.json",
+      "bytes": 16490,
+      "sha256": "ceee4f765929629ee42139af889ddcd4a3ab9ca01b28040702394ec2bd050a96"
+    },
+    {
+      "path": "exact-ring/focus-ring-repro.json",
+      "bytes": 1622,
+      "sha256": "feddea932d98cc99050c8f4181a07c1566eb95aef6251aadd84b547925d89408"
+    },
+    {
+      "path": "check_layout.py",
+      "bytes": 1475,
+      "sha256": "aeac8d611c9af631b9d22ce11c745af9ff9298a26748f7422da2fcc13cd248cc"
+    },
+    {
+      "path": "exact_ring.py",
+      "bytes": 2095,
+      "sha256": "dd121f5c534123c788ec909ae5e2c9fa31f77f29877b9ef8ba800a4a592784bf"
+    }
+  ]
+}

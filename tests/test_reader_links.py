@@ -711,13 +711,27 @@ def assert_research_page_scripts(case, text):
     paths=[]
     for tag in tags:
         src=tag.group(1)
-        case.assertRegex(src, r'\A(?:current|reader-shell)\.mjs(?:\?site-release=[0-9a-f]{64})?\Z')
+        case.assertRegex(src, r'\A(?:current|reader-shell|research-reading|reader-jump)\.mjs(?:\?site-release=[0-9a-f]{64})?\Z')
         parts=urlsplit(src)
         case.assertEqual((parts.scheme,parts.netloc,parts.fragment), ('','',''))
-        case.assertIn(parts.path,('current.mjs','reader-shell.mjs'))
+        case.assertIn(parts.path,('current.mjs','reader-shell.mjs','research-reading.mjs','reader-jump.mjs'))
         case.assertRegex(parts.query, r'\A(?:site-release=[0-9a-f]{64})?\Z')
         paths.append(parts.path)
     case.assertEqual(len(paths),len(set(paths)), 'Duplicate module')
+
+class ResearchScriptBoundary(unittest.TestCase):
+    def test_navigation_module_is_explicitly_admitted(self):
+        for suffix in ('', '?site-release='+'a'*64):
+            assert_research_page_scripts(self, '<script type="module" src="reader-jump.mjs'+suffix+'"></script>')
+
+    def test_arbitrary_remote_inline_and_duplicate_scripts_remain_refused(self):
+        for src in ('evil.mjs','https://evil.example/reader-jump.mjs','//evil.example/reader-jump.mjs',
+                    'reader-jump.mjs#extra','reader-jump.mjs?unexpected=1','reader-jump.mjs?site-release=short'):
+            with self.subTest(src=src), self.assertRaises(AssertionError):
+                assert_research_page_scripts(self, '<script type="module" src="'+src+'"></script>')
+        for text in ('<script>run()</script>', '<script type="module" src="reader-jump.mjs"></script>'*2):
+            with self.subTest(text=text), self.assertRaises(AssertionError):
+                assert_research_page_scripts(self, text)
 
 class LatestSourceControls(unittest.TestCase):
     def test_pinned_citations_are_exact_and_hashes_retain_the_checked_identity(self):
@@ -925,8 +939,8 @@ NEWER_WORK = re.compile(r'(<aside id="newer-work" class="latest-upstream" tabind
 
 class NewerWorkRoutes(unittest.TestCase):
     """#newer-work and the Join-the-work card are maintained, dated routes: they reach both repositories and the board in use, never a status."""
-    ACTIVE_BOARD = 539   # current coordination successor; guide routing may await its own amendment
-    PREVIOUS_BOARD = 475
+    ACTIVE_BOARD = 619   # current coordination successor; guide routing may await its own amendment
+    PREVIOUS_BOARD = 539
     HISTORICAL_BOARD = 229
     QUEUE = 275
     ISSUES = SOURCE_ROOT+'main/issues/'
@@ -946,7 +960,8 @@ class NewerWorkRoutes(unittest.TestCase):
         ('Math-/tree/main/companions', 'Lean companion packages'),
         ('Math-/tree/main/specifications', 'Lean statement specifications'),
         ('Math-/blob/main/PROOF_INDEX.md', 'selected proof index'),
-        ('main/issues/539', 'active coordination board, main #539'),
+        ('main/issues/619', 'active coordination board, main #619'),
+        ('main/issues/539', 'main #539'),
         ('main/issues/475', 'main #475'),
         ('main/issues/419', 'main #419'),
         ('main/issues/307', 'main #307'),
@@ -995,7 +1010,7 @@ class NewerWorkRoutes(unittest.TestCase):
         self.assertTrue(aside.startswith('<aside id="newer-work" class="latest-upstream" tabindex="-1"><h3>Check newer work</h3>'
                                          '<p><strong>Mutable upstream navigation.</strong>'))
         self.assertRegex(aside,'Routes '+self.AS_READ+r'\.')
-        self.assertIn('Routes as read 25 October 2026.',aside)
+        self.assertIn('Routes as read 26 October 2026.',aside)
         self.assertIn('">contribution guide</a> for submission instructions',aside)
         self.assertNotIn('it names the same board and queue',aside)
         self.assertIn(self.ASIDE_229,aside)
@@ -1062,7 +1077,7 @@ class NewerWorkRoutes(unittest.TestCase):
         self.assertIn(f'<a href="{self.ISSUES}{self.HISTORICAL_BOARD}#issuecomment-6038554880">historical #229 working guidance</a>',card)
         self.assertIn(f'successor to <a href="{self.ISSUES}{self.PREVIOUS_BOARD}">main #{self.PREVIOUS_BOARD}</a>, which remains readable history '
                       'after reaching the comment limit;',card)
-        # Declarations stay where CONTRIBUTING.md puts them (#275 or the task's issue/PR); #539 takes general coordination.
+        # Declarations stay where CONTRIBUTING.md puts them (#275 or the task's issue/PR); #619 takes general coordination.
         self.assertIn("Comment <code>/claim</code> on the task's issue or PR",card)
 
     def test_entry_wording_names_cuts_and_the_index_as_selections(self):
