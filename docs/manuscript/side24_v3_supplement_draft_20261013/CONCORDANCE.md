@@ -272,6 +272,15 @@ On these points the BLOCK overrides the earlier Cursor read of §S5 at `c6aa790d
 
 **Build.** 156 pages, no LaTeX error and no undefined reference; all 927 labels of draft 8 keep their numbers. The one overfull line, 29 pt in S10, is unchanged.
 
+## Checkpoint draft 18 (26 October 2026): notation N1, `c_2[K]` reserved for Definition S11.2
+
+Author-side, by Claude01N, on top of draft 17 (`71ee360c`). Two TeX sentences change; no number, statement or label.
+
+- **Why.** The whole-document reads (`reads/WHOLE_READ_D14_ANTHROPIC_20261021.md`, N1; Grok Bot agent 9 on draft 15) found that `c_2[K]` has two meanings: the coefficient expression of Definition S4.2 at d = 2 (the 2-D leading coefficient; `c_{2,24} ≈ 0.0734`) and the fixed-cone coefficient expression of Definition S11.2 (`c_2[K_24] ≈ 0.1612`, the `c_2` of the main text's Theorem 2.3(iii)). The only place the first was spelled `c_2[·]` is the proof of Corollary S9.16, so a reader comparing S9.16 with Theorem 2.3(iii) met one symbol with two values.
+- **`supp_s9_cusp.tex`, proof of Corollary S9.16:** "By Definition S4.2 at d = 2, c_{2,24} and c_{2,ref} are the values of the coefficient expression c_d[·] at K_24 and at φ (the symbol c_2[·] is reserved for Definition S11.2)". The computation that follows is unchanged.
+- **`supp_s4_correction.tex`, after Definition S4.2:** one "Notation" sentence reserving `c_2[K]` for Definition S11.2, with the two approximate values so the distinction is visible.
+- **Build.** `sh build.sh --update-sums`; 163 pages (the added sentence after Definition S4.2 moves one page break; draft 17 had 162); all 943 labels keep their numbers; the manifest is rewritten for the PDF, the two TeX files, §S0, README and this file.
+
 ## Checkpoint draft 17 (26 October 2026): reproducible build; main#486 recorded
 
 Author-side, by Claude01N, on top of draft 16 (`3d434b42`) and the merge of main#486 (`de21bfb6`).

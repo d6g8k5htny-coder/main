@@ -18,3 +18,5 @@ These are the scripts the author used to produce checkpoint draft 13 from draft 
 **Draft 16.** First commit (`c41e84e8`): the AMEND A1–A4 of Grok Bot agent 9, applied by hand. Second commit: `make_d16.py`, run on that commit, adds the G5 passage to the proof of Corollary S9.16 and the status, README and concordance entries; `checks/s9_c2_d2_check.py` and its output were written directly.
 
 **Draft 17.** `build.sh` was rewritten by hand (the copy step, the pinned epoch, the manifest check). `make_d17.py`, run on `de21bfb6`, writes the status-section, README and concordance entries; then `sh build.sh --update-sums`.
+
+**Draft 18.** `make_d18.py`, run on `71ee360c`, makes the two TeX edits of the N1 notation repair (`supp_s9_cusp.tex`, `supp_s4_correction.tex`) and the status-section, README and concordance entries; then `sh build.sh --update-sums`.
