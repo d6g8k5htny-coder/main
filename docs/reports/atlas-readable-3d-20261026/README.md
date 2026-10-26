@@ -85,7 +85,8 @@ This records the observed public source pins, not an endorsement of the separate
 reported Math merge process. Source, fixture, driver and actual operator identities
 remain distinct in SOURCE.json.
 
-Use the byte-identical fixture/current.json with copies of each source's docs/site;
+Resolve the immutable original input in PAYLOAD_REFERENCE.json and verify its
+byte count/SHA256 before use with copies of each source's docs/site;
 run tools/current_site_build.py --payload EXACT_JSON --site COPIED_SITE, then run
 matched-observer.py --site COPIED_SITE --payload EXACT_JSON --output NEW_OUTPUT
 --code-label ACTUAL_SOURCE. The output must be under the copied observer's directory.
@@ -94,11 +95,17 @@ browser assertions are tools/atlas_spatial_labels_browser_check.py and the exist
 spatial/refusal/current-reader observers. The source code identity does not replace
 the recorded served-file hashes.
 
-Observation JSON files are explicit projections: only repeated hidden-label
-geometry is elided. Every visible/selected label, measured count, inventory,
-failure and timing remains. Complete original raw reports, failed probes,
-baseline seal and runtime qualification are retained privately with exact hashes
-in SOURCE.json. Baseline helper Nietzsche is implementation-side OpenAI/Codex,
+Observation JSON files are explicit engineering projections. Every visible and
+selected label geometry, measured count, ID inventory, picking failure and timing
+remains. Mathematical scope/statement text, classifications/status records,
+reader-source snapshots and the copied research payload are excluded from this
+revision. Their original bytes, complete raw reports, failed probes, baseline
+seal and runtime qualification remain in verified private custody and immutable
+original-source references, with hashes in SOURCE.json/PAYLOAD_REFERENCE.json.
+The original254 carrier was archived and independently verified before this
+refinement; history and Drive originals are retained. This report is UI
+measurement, not a proof/scientific-review/intake package or status surface.
+Baseline helper Nietzsche is implementation-side OpenAI/Codex,
 same provider/org0; after operator is the parent author. Neither is reviewer,
 human, scientific or AT approval. Separate source review/integration and actual
 deployment outcomes belong to current PR records, not inferred from this report.
