@@ -33,10 +33,11 @@ workflow_dispatch, with read-only checkouts of public Math- and query-, and uplo
 The PNG is a build artifact (optional, `--png`), not committed.
 
 ## Gap counts after the Math- landing recheck (2026-10-26)
-345 ledger rows / 1340 vertices / 345 hyperedges. Sourced containers 216 (129 missing). Implemented 297 (48 missing),
-of which 29 are placeholder-only. Bound units 14. 28 of 49 graph nodes unbound per #527; 13 nodes touched by no unit.
-Role problems 0. Row 318 now points at its Math-#510 landing (tree `a7ef0696`, not #477's head) and new row 345 records
-`frontiers/determinant_moment_20261025` from Math-#511 (tree `8a6d93e6`); node, bound and Drive cells are unchanged.
+345 ledger rows / 1337 vertices / 345 hyperedges. Sourced containers 216 (129 missing). Implemented 297 (48 missing),
+of which 30 are placeholder-only. Bound units 14. 28 of 49 graph nodes unbound per #527; 13 nodes touched by no unit.
+Role problems 0. Row 318's lane now points at its Math-#510 landing (folder tree `a7ef0696`, not #477's head; its implementation and
+status cells are unchanged by the ledger owner's ruling) and new row 345 records `frontiers/determinant_moment_20261025`
+from Math-#511 (folder tree `8a6d93e6`); node, bound and Drive cells are unchanged.
 Details are in the ledger's 26 October section. Open Math-#512/#513 stay `PENDING_OPEN_PR` with no row.
 
 ## Gap counts after the periodic-H0 consumer completion (2026-10-25)

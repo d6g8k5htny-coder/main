@@ -22,7 +22,7 @@ def test_counts(built):
     assert g["units"] == 345 and hg.num_e == 345
     assert (g["sourced"], g["no_source"]) == (216, 129)
     assert (g["implemented"], g["no_impl"]) == (297, 48)
-    assert g["impl_placeholder_only"] == 29
+    assert g["impl_placeholder_only"] == 30
     assert g["bound_units"] == 14
     assert g["graph_nodes"] == 49 and g["unbound_nodes_per_527"] == 28
     assert g["nodes_touched_by_no_unit"] == 13

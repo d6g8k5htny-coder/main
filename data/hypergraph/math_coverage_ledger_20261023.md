@@ -155,16 +155,17 @@ Math- `main` was read at `b29c4b769cac85437b409d152651d5cce4140015`.
 
 - **Row 318** (`frontiers/source_lifetime_realization_20261017`) landed through
   Math-#510, merge `c4eabc1a917ba2c1b96fe4af425cf2a484877c03` (head `478cd069`),
-  tree `a7ef0696d538248422f22f0b33dc2bbc4174bdc4`, 249 files. Its lane cell now
-  reads `LANDED Math-#510`, its implementation cell names the three listed Lean
-  files instead of the `(in PR head)` placeholder, and its status moves from
-  `unmerged` to `orphan`, the value every landed row without a graph node has.
+  folder tree `a7ef0696d538248422f22f0b33dc2bbc4174bdc4`, 249 files. Only its
+  lane cell changes, to `LANDED Math-#510`. By the ledger owner's ruling
+  ([632/6405722753](https://github.com/d6g8k5htny-coder/main/pull/632#issuecomment-6405722753)),
+  its implementation (`(in PR head)`) and status (`unmerged`) cells keep their
+  prior values; the three listed Lean files are present on Math- `main`.
   **The landed bytes are not #477's.** The #477 head `db43694c9f9dbff2987e2e3c0a1260b5c48310ec`
-  has tree `f21fd02e7543aa573391f983f9f7f239598b7464` for this path, which differs
-  from the landed tree in 3 files (+404/−66). Nothing here describes #477.
+  has folder tree `f21fd02e7543aa573391f983f9f7f239598b7464` for this path, which
+  differs from the landed folder tree in 3 files (+404/−66). Nothing here describes #477.
 - **Row 345** (`frontiers/determinant_moment_20261025`) is new. It landed through
   Math-#511, merge `e75cb81e8961d178f43aa9967dddd11cd579dc8a` (head `5ccdb2a1`),
-  tree `8a6d93e67be8b233a4f35251188112ab3f44014a`, 69 files. Its four Lean modules
+  folder tree `8a6d93e67be8b233a4f35251188112ab3f44014a`, 69 files. Its four Lean modules
   are the root `ResearchFormalCoreR1.lean` and `ResearchFormalCoreR1/{AlgebraV2,DeterminantMoment,ProbabilityCompanionsV2}.lean`;
   `gate.py` is the packet's own gate. Its lane is `LANDED Math-#511` because no
   GB-8 slice predates it. The Drive-hit cell is 0 because no Drive name match was
@@ -176,12 +177,13 @@ Math- `main` was read at `b29c4b769cac85437b409d152651d5cce4140015`.
 - **The other 16 candidate units** in `OPEN_MATH_PR_CANDIDATES_20261023.json`
   are absent on `b29c4b76`, so rows 314–317 and 319–330 are unchanged.
 
-Node and bound cells are unchanged: no row gains a graph node, and a merge is
-not a mathematical predicate. Different-family statement reviews of the five
+Node, bound and status cells are unchanged for row 318, and row 345 gets the
+`orphan` status every landed row without a graph node has: no row gains a graph
+node, and a merge is not a mathematical predicate. Different-family statement reviews of the five
 DM2 declarations exist (539/6402538781 and Math-#511/6402733468), but they are
-not consumed as acceptance here. Counts after this recheck: 345 ledger rows, 1340 vertices and
+not consumed as acceptance here. Counts after this recheck: 345 ledger rows, 1337 vertices and
 345 hyperedges; sourced 216 / missing 129; implemented 297 / missing 48, of which
-29 are placeholder-only; bound 14. All 343 other raw rows are unchanged. Source
+30 are placeholder-only; bound 14. All 343 other raw rows are unchanged. Source
 presence is not correctness or scientific acceptance. Credit 0; OBL OPEN; NOT A RESULT.
 
 ## Ledger
@@ -504,7 +506,7 @@ presence is not correctness or scientific acceptance. Credit 0; OBL OPEN; NOT A 
 | 315 | #538 | Math- | `frontiers/regular_point_chart_20261020` | PENDING_OPEN_PR #488 | RegularPointChart.lean; RegularPointChartAxiomAudit.lean; SOURCE_SHA256SUMS | (in PR head) | — | N | unmerged | 0 |
 | 316 | #538 | Math- | `frontiers/critical_level_attainment_20261020` | PENDING_OPEN_PR #487 | final-project/CriticalLevelAttainment.lean; final-project/CriticalLevelAxiomAudit.lean; FINAL_SOURCE_INVENTORY.json | (in PR head) | — | N | unmerged | 0 |
 | 317 | #538 | Math- | `frontiers/morse_finite_critical_20261018` | PENDING_OPEN_PR #482 | final-project/MorseFiniteCritical.lean; final-project/MorseFiniteControls.lean; final-project/MorseFiniteAxiomAudit.lean | (in PR head) | — | N | unmerged | 0 |
-| 318 | #538 | Math- | `frontiers/source_lifetime_realization_20261017` | LANDED Math-#510 | SourceLifetimeField.lean; SourceLifetimeGeometry.lean; SourceThetaBridge.lean | frontiers/source_lifetime_realization_20261017/SourceLifetimeField.lean; frontiers/source_lifetime_realization_20261017/SourceLifetimeGeometry.lean; frontiers/source_lifetime_realization_20261017/SourceThetaBridge.lean | — | N | orphan | 0 |
+| 318 | #538 | Math- | `frontiers/source_lifetime_realization_20261017` | LANDED Math-#510 | SourceLifetimeField.lean; SourceLifetimeGeometry.lean; SourceThetaBridge.lean | (in PR head) | — | N | unmerged | 0 |
 | 319 | #538 | Math- | `frontiers/compact_source_cutoff_baseline_20261009` | PENDING_OPEN_PR #414 | CompactSourceCutoff.lean; SOURCE_MANIFEST.json | (in PR head) | — | N | unmerged | 0 |
 | 320 | #538 | Math- | `frontiers/compact_source_cutoff_proof_20261010` | PENDING_OPEN_PR #415 | CompactSourceCutoffProof.lean; SOURCE_MANIFEST.json | (in PR head) | — | N | unmerged | 0 |
 | 321 | #538 | Math- | `frontiers/compact_source_cutoff_proof_repair_20261011` | PENDING_OPEN_PR #424 | CompactSourceCutoffProof.lean; SOURCE_MANIFEST.json | (in PR head) | — | N | unmerged | 0 |
