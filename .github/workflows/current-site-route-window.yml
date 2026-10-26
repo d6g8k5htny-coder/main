@@ -1,0 +1,90 @@
+name: Current site required-route window
+
+'on':
+  push:
+    paths:
+      - 'docs/site/atlas.mjs'
+      - 'docs/site/atlas-route-window.mjs'
+      - 'docs/site/dependencies.html'
+      - 'tools/current_site_route_window_release.py'
+      - 'tools/current_site_route_window_browser_check.py'
+      - 'tests/test_current_site_route_window.mjs'
+      - 'tests/test_current_site_route_release.py'
+      - 'tests/test_current_site_route_workflow.py'
+      - '.github/workflows/current-site-route-window.yml'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'docs/site/atlas.mjs'
+      - 'docs/site/atlas-route-window.mjs'
+      - 'docs/site/dependencies.html'
+      - 'tools/current_site_route_window_release.py'
+      - 'tools/current_site_route_window_browser_check.py'
+      - 'tests/test_current_site_route_window.mjs'
+      - 'tests/test_current_site_route_release.py'
+      - 'tests/test_current_site_route_workflow.py'
+      - '.github/workflows/current-site-route-window.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: current-site-route-window-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  route-window:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - name: Verify bounded route analysis and workflow contract
+        run: |
+          node --check docs/site/atlas.mjs
+          node --check docs/site/atlas-route-window.mjs
+          node --test tests/test_current_site_route_window.mjs
+          python3 -B -S -m unittest tests.test_current_site_route_release tests.test_current_site_route_workflow -v
+      - name: Generate the exact dependency page release pin
+        run: >-
+          python3 -B -S tools/current_site_route_window_release.py
+          --input docs/site/dependencies.html
+          --atlas docs/site/atlas.mjs
+          --output "$RUNNER_TEMP/dependencies.html"
+      - name: Preserve the exact generated dependency page
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: current-site-route-window-html-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/dependencies.html
+          if-no-files-found: error
+          retention-days: 7
+      - name: Require the checked-in dependency page to equal the generated page
+        run: cmp docs/site/dependencies.html "$RUNNER_TEMP/dependencies.html"
+      - name: Seed fail-closed browser evidence
+        run: |
+          mkdir -p "$RUNNER_TEMP/route-window-browser"
+          printf '%s\n' '{"scientific_effect":"NONE","passed":false,"error":"Browser check did not complete; inspect setup and run logs."}' > "$RUNNER_TEMP/route-window-browser/report.json"
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97
+        with:
+          python-version: '3.12'
+      - name: Install pinned optional browser tooling
+        run: >-
+          python -m pip install --require-hashes --only-binary=:all:
+          -r tests/browser-requirements.txt
+      - name: Exercise the 10,000-node required-route budget in packaged Chromium
+        run: >-
+          python -B tools/current_site_route_window_browser_check.py
+          --browser /opt/google/chrome/chrome
+          --output "$RUNNER_TEMP/route-window-browser"
+      - name: Preserve required-route browser evidence including failures
+        if: always()
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9
+        with:
+          name: current-site-route-window-browser-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ${{ runner.temp }}/route-window-browser
+          if-no-files-found: warn
+          retention-days: 30
