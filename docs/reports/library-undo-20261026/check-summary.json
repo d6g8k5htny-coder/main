@@ -1,0 +1,47 @@
+{
+  "scope": "Bounded local engineering test execution on frozen uncommitted candidate; no browsers, no source edits, no index/ref mutation, no external posts.",
+  "operator": "OpenAI Codex / GPT-6 family subagent /root/undo_local_verification; same-family technical test operator; not author or reviewer of record; no independent scientific review or organizational-independence credit.",
+  "candidate_head": "a15d2fb682fdb397584787143fffcf7290753ecf",
+  "governance_read": [
+    "AGENTS.md",
+    "docs/site/AGENTS.md",
+    "governance/OWNER_MANDATE_20261015.md",
+    "governance/OP-AUTONOMY-20260923-v2.1.md",
+    "governance/OWNER_DECISION_20261025_REVIEW_FAMILIES.md",
+    "governance/OP-WORKFLOW-20260930.md"
+  ],
+  "commands": {
+    "prescribed_and_reused_groups": 12,
+    "focused_groups": 1,
+    "max_concurrent_command_groups": 3,
+    "all_group_exit_codes": 0,
+    "prescribed_runner_exit_code": 0,
+    "focused_exit_code": 0
+  },
+  "test_invocations": {
+    "python_pass": 159,
+    "node_pass": 457,
+    "node_skip": 2,
+    "fail": 0,
+    "note": "Counts include repeat invocations across prescribed, museum fixture and focused groups; not unique tests."
+  },
+  "focused_node": {
+    "tests": 57,
+    "pass": 57,
+    "fail": 0,
+    "skip": 0
+  },
+  "skip_disposition": "Exactly two expected standalone museum tests skipped without MUSEUM_FIXTURE; museum_check.py reran all 45 museum frontend fixture tests with 45 pass, zero skip.",
+  "protected_sources_unchanged": true,
+  "git_head_and_status_unchanged": true,
+  "runner_adaptation": "Copied prior run_checks.py and changed root/out path literals only; added focused group in separate sequential invocation.",
+  "files": {
+    "commands_exitcodes_counts": "report-with-counts.json",
+    "prescribed_report": "report.json",
+    "focused_report": "focused-report.json",
+    "full_logs": "00.log through 11.log, 12-focused.log and runner.log",
+    "source_before": "source-before.json",
+    "source_after": "source-after.json",
+    "source_comparison": "source-comparison.json"
+  }
+}

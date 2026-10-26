@@ -1,0 +1,58 @@
+FFFFFF
+======================================================================
+FAIL: test_changed_graph_scope_is_refused_even_with_same_fingerprint (tests.test_atlas_formal_evidence_build.FormalConnectionAssembly.test_changed_graph_scope_is_refused_even_with_same_fingerprint)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/atlas-formal-links/tests/test_atlas_formal_evidence_build.py", line 42, in test_changed_graph_scope_is_refused_even_with_same_fingerprint
+    with self.assertRaisesRegex(ValueError, 'graph record'): self.build()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_changed_proof_bytes_are_refused (tests.test_atlas_formal_evidence_build.FormalConnectionAssembly.test_changed_proof_bytes_are_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/atlas-formal-links/tests/test_atlas_formal_evidence_build.py", line 38, in test_changed_proof_bytes_are_refused
+    with self.assertRaisesRegex(ValueError, 'proof'): self.build()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_exact_proof_source_connects_to_original_checked_closed_declaration (tests.test_atlas_formal_evidence_build.FormalConnectionAssembly.test_exact_proof_source_connects_to_original_checked_closed_declaration)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/atlas-formal-links/tests/test_atlas_formal_evidence_build.py", line 24, in test_exact_proof_source_connects_to_original_checked_closed_declaration
+    self.assertIsInstance(result, dict, 'A verified source connection is not assembled yet')
+AssertionError: None is not an instance of <class 'dict'> : A verified source connection is not assembled yet
+
+======================================================================
+FAIL: test_missing_named_claim_cannot_use_an_equally_named_source (tests.test_atlas_formal_evidence_build.FormalConnectionAssembly.test_missing_named_claim_cannot_use_an_equally_named_source)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/atlas-formal-links/tests/test_atlas_formal_evidence_build.py", line 55, in test_missing_named_claim_cannot_use_an_equally_named_source
+    with self.assertRaisesRegex(ValueError, 'graph record'): self.build()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_modified_execution_archive_is_not_trusted (tests.test_atlas_formal_evidence_build.FormalConnectionAssembly.test_modified_execution_archive_is_not_trusted)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/atlas-formal-links/tests/test_atlas_formal_evidence_build.py", line 51, in test_modified_execution_archive_is_not_trusted
+    with self.assertRaisesRegex(ValueError, 'artifact identity'): self.build()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+======================================================================
+FAIL: test_same_name_or_fingerprint_with_wrong_blob_is_refused (tests.test_atlas_formal_evidence_build.FormalConnectionAssembly.test_same_name_or_fingerprint_with_wrong_blob_is_refused)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/workspace/atlas-formal-links/tests/test_atlas_formal_evidence_build.py", line 47, in test_same_name_or_fingerprint_with_wrong_blob_is_refused
+    with self.assertRaisesRegex(ValueError, 'proof inventory'): self.build()
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ValueError not raised
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.028s
+
+FAILED (failures=6)

@@ -27,7 +27,7 @@ jobs:
           python3 -B -S -m unittest tests.test_current_site_data tests.test_current_site_build
           node --test tests/test_current_site.mjs
       - name: Browser data-validation controls
-        run: node --test tests/test_public_shop_frontend.mjs tests/test_explore_models.mjs tests/test_curvature_export.mjs tests/test_teaching_export.mjs tests/test_pin_export.mjs tests/test_palette_export.mjs tests/test_reader_navigation.mjs tests/test_source_reference.mjs tests/test_measurement_model.mjs tests/test_dependency_viewer.mjs tests/test_museum_frontend.mjs tests/test_workspace_navigation.mjs
+        run: node --test tests/test_public_shop_frontend.mjs tests/test_explore_models.mjs tests/test_curvature_export.mjs tests/test_teaching_export.mjs tests/test_pin_export.mjs tests/test_palette_export.mjs tests/test_figure_png.mjs tests/test_reading_list_citation.mjs tests/test_reader_navigation.mjs tests/test_source_reference.mjs tests/test_measurement_model.mjs tests/test_dependency_viewer.mjs tests/test_museum_frontend.mjs tests/test_workspace_navigation.mjs
       - name: Reader navigation and local asset routes
         run: python3 -B -S -m unittest discover -s tests -p test_reader_links.py -v
       - name: Museum source projection and refusal controls

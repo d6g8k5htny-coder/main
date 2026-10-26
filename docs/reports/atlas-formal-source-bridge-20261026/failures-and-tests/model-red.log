@@ -1,0 +1,61 @@
+✖ Exact admitted claim/source identity exposes only the pinned arithmetic companion (5.158077ms)
+✖ Source-identical documents at another recorded revision retain their actual current pin (3.841731ms)
+✔ changed scope leaves the mapping unavailable (3.835131ms)
+✔ extra graph field leaves the mapping unavailable (2.273842ms)
+✔ changed source blob leaves the mapping unavailable (2.596731ms)
+✔ changed source size leaves the mapping unavailable (3.32054ms)
+✔ changed fingerprint leaves the mapping unavailable (1.850496ms)
+✔ missing source leaves the mapping unavailable (2.349394ms)
+✔ changed formal manifest leaves the mapping unavailable (2.718519ms)
+✔ An equal-looking different node ID is never inferred to be covered (2.131071ms)
+✔ Other actual claims keep missing mappings explicit (2.553286ms)
+✔ An execution for another revision cannot attach to the artifact (3.297957ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 10
+ℹ fail 2
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 105.538156
+
+✖ failing tests:
+
+test at tests/test_atlas_formal_evidence.mjs:9:1
+✖ Exact admitted claim/source identity exposes only the pinned arithmetic companion (5.158077ms)
+  AssertionError [ERR_ASSERTION]: The verified source connection is absent
+      at TestContext.<anonymous> (file:///workspace/atlas-formal-links/tests/test_atlas_formal_evidence.mjs:11:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.start (node:internal/test_runner/test:1242:17)
+      at startSubtestAfterBootstrap (node:internal/test_runner/harness:387:17) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: null,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }
+
+test at tests/test_atlas_formal_evidence.mjs:17:1
+✖ Source-identical documents at another recorded revision retain their actual current pin (3.841731ms)
+  AssertionError [ERR_ASSERTION]: Expected values to be strictly equal:
+  + actual - expected
+  
+  + undefined
+  - 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+  
+      at TestContext.<anonymous> (file:///workspace/atlas-formal-links/tests/test_atlas_formal_evidence.mjs:21:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async startSubtestAfterBootstrap (node:internal/test_runner/harness:387:3) {
+    generatedMessage: true,
+    code: 'ERR_ASSERTION',
+    actual: undefined,
+    expected: 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa',
+    operator: 'strictEqual',
+    diff: 'simple'
+  }

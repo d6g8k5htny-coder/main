@@ -144,6 +144,7 @@ test('atlas offset equation search and exact metadata filters survive URL state'
 async function atlasController(search='',data=fixture()) {
  const renderer=await import('../docs/site/current.mjs'),shell=await import('../docs/site/atlas-shell.mjs'),summary=await import('../docs/site/atlas-claim-summary.mjs');
  const source=await readFile(new URL('../docs/site/atlas.mjs',import.meta.url),'utf8');
+ const controls=await readFile(new URL('../docs/site/atlas-controls.mjs',import.meta.url),'utf8');
  class Element extends EventTarget {
   constructor(tag,doc){super();this.tagName=tag.toUpperCase();this.ownerDocument=doc;this.children=[];this.attributes=new Map();this.style={};this.dataset={};this.hidden=false;this._text='';this._value='';}
   set textContent(value){this._text=String(value);this.children=[];}
@@ -156,7 +157,10 @@ async function atlasController(search='',data=fixture()) {
   remove(){if(this.parentNode){const siblings=this.parentNode.children;siblings.splice(siblings.indexOf(this),1);this.parentNode=null;}}
   append(...children){for(const child of children){if(typeof child!=='string'){child.remove();child.parentNode=this;}this.children.push(child);}}
   replaceChildren(...children){for(const child of this.children)if(typeof child!=='string')child.parentNode=null;this.children=[];this._text='';this.append(...children);}
-  insertBefore(child,before){child.remove();child.parentNode=this;this.children.splice(this.children.indexOf(before),0,child);}
+  insertBefore(child,before){if(!before){this.append(child);return;}child.remove();child.parentNode=this;this.children.splice(this.children.indexOf(before),0,child);}
+  cloneNode(){const copy=new Element(this.tagName,this.ownerDocument);for(const [key,value]of this.attributes)copy.setAttribute(key,value);return copy;}
+  replaceWith(node){const parent=this.parentNode;parent.insertBefore(node,this);this.remove();nodes.set(node.id,node);}
+  get text(){return this.textContent;}set text(value){this.textContent=value;}
   contains(child){return this===child||this.children.some(node=>typeof node!=='string'&&node.contains(child));}
   querySelectorAll(selector){const matches=[];for(const child of this.children)if(typeof child!=='string'){if(selector==='a[href]'?child.tagName==='A'&&!!child.getAttribute('href'):child.tagName===selector.toUpperCase())matches.push(child);matches.push(...child.querySelectorAll(selector));}return matches;}
   get firstChild(){return this.children[0];}
@@ -170,7 +174,7 @@ async function atlasController(search='',data=fixture()) {
   scrollIntoView(){}
   getClientRects(){return this.hidden?[]:[{}];}
  }
- const doc={activeElement:null,createElement(tag){return new Element(tag,this);},createElementNS(ns,tag){return this.createElement(tag);}};
+ const doc=Object.assign(new EventTarget(),{activeElement:null,createElement(tag){return new Element(tag,this);},createElementNS(ns,tag){return this.createElement(tag);}});
  const nodes=new Map();const add=(id,tag='div',parent)=>{const node=doc.createElement(tag);node.id=id;nodes.set(id,node);parent?.append(node);return node;};
  doc.getElementById=id=>nodes.get(id);const root=add('current-atlas'),layout=add('atlas-layout','div',root),browse=add('atlas-browse','div',layout);
  add('atlas-inspector','article',layout);add('atlas-diagnostics','ul',add('atlas-diagnostics-details','details',root));
@@ -181,18 +185,33 @@ async function atlasController(search='',data=fixture()) {
  const location=new URL('https://example.test/main/site/dependencies.html'+search),entries=[location.href];let cursor=0;
  const history={replaceState(state,title,url){location.href=new URL(url,location.href).href;entries[cursor]=location.href;},pushState(state,title,url){location.href=new URL(url,location.href).href;entries.splice(++cursor);entries.push(location.href);},back(){if(cursor>0){location.href=entries[--cursor];window.dispatchEvent(new Event('popstate'));}},forward(){if(cursor+1<entries.length){location.href=entries[++cursor];window.dispatchEvent(new Event('popstate'));}}};
  const saved=Object.getOwnPropertyDescriptor(globalThis,'document');globalThis.document=doc;
- const bindings={...m,...shell,...summary,currentSnapshot:Promise.resolve(data),element:renderer.element,anchor:renderer.anchor,document:doc,window,history,URL,URLSearchParams,matchMedia:()=>media,fetch:async()=>({ok:false})};
+ const bindings={...m,...shell,...summary,currentSnapshot:Promise.resolve(data),element:renderer.element,anchor:renderer.anchor,document:doc,window,history,URL,URLSearchParams,setTimeout,clearTimeout,Option:function(text,value){const option=doc.createElement('option');option.text=text;option.value=value;return option;},matchMedia:()=>media,fetch:async()=>({ok:false})};
  Object.defineProperty(bindings,'location',{get:()=>location});
  try{
   // Imports use the actual modules above; awaiting the real start lifecycle
   // avoids testing a copied render function or a source-text pattern.
   const program=source.replace(/^import .*;\n/gm,'').replace(/^if\(typeof document[^\n]+\n?$/m,'');
-  await runInNewContext(program+'\nstart();',bindings);
+  await runInNewContext(controls.replace(/^export /gm,'')+'\n'+program+'\nstart();',bindings);
   const graphIDs=()=>nodes.get('atlas-canvas').querySelectorAll('button').map(node=>node.textContent.split(/candidate|axiom|predicate/)[0]);
   const listIDs=()=>nodes.get('atlas-list').querySelectorAll('button').map(node=>node.textContent.split(/candidate|axiom|predicate/)[0]);
   return {get:id=>nodes.get(id),graphIDs,listIDs,history,window,get url(){return location.href;},event(id,type){nodes.get(id).dispatchEvent(new Event(type));},async reload(){return atlasController(location.search,data);},close(){if(saved)Object.defineProperty(globalThis,'document',saved);else delete globalThis.document;}};
  }catch(error){if(saved)Object.defineProperty(globalThis,'document',saved);else delete globalThis.document;throw error;}
 }
+
+test('the real admitted inspector exposes the exact source-linked arithmetic companion without parent coverage',async()=>{
+ const data={...fixture(),...JSON.parse(await readFile(new URL('./fixtures/atlas_formal_projection.json',import.meta.url),'utf8')),equations:[],references:[]};
+ const f=await atlasController('?atlas-node=math.side24-coefficient',data);
+ try{
+  const panel=f.get('atlas-inspector');
+  assert.match(panel.textContent,/UniversalLaw\.Side24\.pairing_sum_six/);
+  assert.match(panel.textContent,/PENDING_INDEPENDENT_REVIEW/);
+  assert.match(panel.textContent,/REJECTED/);
+  assert.match(panel.textContent,/does not prove the coefficient or parent theorem/);
+  assert.ok(panel.querySelectorAll('a[href]').some(a=>a.getAttribute('href').includes('receipt.json')));
+  f.get('atlas-view').value='list';f.event('atlas-view','change');
+  assert.match(panel.textContent,/UniversalLaw\.Side24\.pairing_sum_six/);
+ }finally{f.close();}
+});
 
 test('claim summary puts exact scope and pinned source before continuation metadata',async()=>{
  const data=fixture();data.graph.data.nodes.a.scope='fixed d>=2; literal <hypothesis> & exact 1/3';const f=await atlasController('?atlas-node=a',data);

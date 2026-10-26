@@ -44,7 +44,7 @@ export function installSpatialAtlas({root,onChange}) {
   }
   function schedule(){if(!frame&&!disposed)frame=requestAnimationFrame(sync);}
   async function activate(){failureMessage='';active=true;const ticket=++generation;lastSignature='';status.textContent='Loading optional 3D renderer…';display();
-    try{const [{currentSnapshot},{createSpatialRenderer}]=await Promise.all([import('./current.mjs?site-release=fc7e8a98c1e23f476962c4c83e95ed3ce817490007987112d9b2cf6d3d90b142'),import('./atlas-spatial.mjs?site-release=d0f4d1cb705ea392b4a9777b4ed41aacbbd8454ac730f28dfe4ca3065aee1fcc')]);const snapshot=await currentSnapshot;if(ticket!==generation||disposed)return;if(!snapshot||refused())throw Error('source snapshot or bookmark did not verify');data=snapshot;renderer=createSpatialRenderer({host,onPick:pick,onFailure:fail});sync();}
+    try{const [{currentSnapshot},{createSpatialRenderer}]=await Promise.all([import('./current.mjs?site-release=fc7e8a98c1e23f476962c4c83e95ed3ce817490007987112d9b2cf6d3d90b142'),import('./atlas-spatial.mjs?site-release=51162684675faa743673966321e285a5b533743b5e7b84005f0b4055dbdd5761')]);const snapshot=await currentSnapshot;if(ticket!==generation||disposed)return;if(!snapshot||refused())throw Error('source snapshot or bookmark did not verify');data=snapshot;renderer=createSpatialRenderer({host,onPick:pick,onFailure:fail});sync();}
     catch(error){if(ticket===generation&&!disposed)fail(`3D unavailable: ${error.message}.`);}
   }
   function deactivate(){generation++;active=false;renderer?.dispose();renderer=null;delete host.dataset.ready;delete host.dataset.frames;lastSignature='';display();status.textContent='3D paused. Graph and List retain the selected claim and source snapshot.';}
