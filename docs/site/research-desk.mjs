@@ -1,6 +1,7 @@
 // Reader-owned navigation notes. Never a source, proof or status authority.
 import {currentSnapshot} from './current.mjs?site-release=fc7e8a98c1e23f476962c4c83e95ed3ce817490007987112d9b2cf6d3d90b142';
 import {SCHEMA,MAX_FILE_BYTES,validateEntry,entryKey,parseReadingList,mergeEntries,sourceHref,searchHref,readingListJSON} from './research-desk-store.mjs?site-release=547418ff3547b671266d1e46bf8d33f1f3eedf83571f6a0bb69ca9d7786ffaf3';
+import {readingListCitationHref} from './reading-list-citation.mjs?site-release=02153e8e3acb70abca98685f5b274c0472eea6450ed2e9c3fc3125a7b0196968';
 
 export function sourceLinkKey(href) {
   try{
@@ -49,6 +50,11 @@ export function startResearchDesk(doc=document,win=window,snapshot=currentSnapsh
           if(value===undefined)continue;identity.append(make('dt',label),make('dd',String(value)));
         }
         details.append(identity);content.append(details);
+        const citationHref=readingListCitationHref(entry,win.location.href);
+        if(citationHref){
+          const citation=make('a','Make a source reference','button secondary desk-cite-source');
+          citation.href=citationHref;content.append(citation);
+        }else content.append(make('p','Reference builder unavailable for this literal path.','desk-citation-unavailable'));
       }else {
         a.textContent=(entry.collection==='current'?'Current source search':'Dated catalog search')+': '+(entry.query||'All files');
         a.href=searchHref(entry,win.location.href);
