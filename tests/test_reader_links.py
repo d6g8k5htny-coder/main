@@ -942,7 +942,7 @@ class NewerWorkRoutes(unittest.TestCase):
     ACTIVE_BOARD = 619   # current coordination successor; guide routing may await its own amendment
     PREVIOUS_BOARD = 539
     HISTORICAL_BOARD = 229
-    QUEUE = 275
+    ARCHITECTURE = 666  # architecture discussion, continued from #275 (option B, 26 October)
     ISSUES = SOURCE_ROOT+'main/issues/'
     AS_READ = r'as read \d{1,2} (?:January|February|March|April|May|June|July|August|September|October|November|December) 20\d\d'
     # The aside's routes in reading order, each with its exact name; a renamed or reordered route is a deliberate edit here.
@@ -965,7 +965,7 @@ class NewerWorkRoutes(unittest.TestCase):
         ('main/issues/475', 'main #475'),
         ('main/issues/419', 'main #419'),
         ('main/issues/307', 'main #307'),
-        ('main/issues/275', 'task and claim queue, main #275'),
+        ('main/issues/666', 'architecture discussion, main #666'),
         ('main/issues/229', 'historical board, main #229'),
         ('main/blob/main/CONTRIBUTING.md', 'contribution guide'),
         ('meta-framework/blob/main/registry.json', 'current curated catalog'),
@@ -1005,7 +1005,7 @@ class NewerWorkRoutes(unittest.TestCase):
     def test_routes_reach_both_repositories_and_the_board_in_use(self):
         aside=self.aside()
         self.assertEqual(self.anchors(aside),[(SOURCE_ROOT+href,name) for href,name in self.ROUTES])
-        for n in (self.ACTIVE_BOARD,self.QUEUE,self.HISTORICAL_BOARD):
+        for n in (self.ACTIVE_BOARD,self.ARCHITECTURE,self.HISTORICAL_BOARD):
             with self.subTest(issue=n):self.assertIn(f'main/issues/{n}',[href for href,_ in self.ROUTES])
         self.assertTrue(aside.startswith('<aside id="newer-work" class="latest-upstream" tabindex="-1"><h3>Check newer work</h3>'
                                          '<p><strong>Mutable upstream navigation.</strong>'))
@@ -1071,13 +1071,13 @@ class NewerWorkRoutes(unittest.TestCase):
         card=self.contribute_card()
         self.assertIn(f'<a href="{self.ISSUES}{self.ACTIVE_BOARD}">active coordination board, main #{self.ACTIVE_BOARD}</a> ('+'as read',card)
         self.assertRegex(card,re.escape(f'main #{self.ACTIVE_BOARD}</a> (')+self.AS_READ+';')
-        self.assertRegex(card,re.escape(f'main #{self.QUEUE}</a> (')+self.AS_READ+':')
+        self.assertRegex(card,re.escape(f'main #{self.ARCHITECTURE}</a> (')+self.AS_READ+':')
         self.assertIn(f'<a href="{self.ISSUES}{self.ACTIVE_BOARD}">Active coordination board ↗</a>',card)
-        self.assertIn(f'<a href="{self.ISSUES}{self.QUEUE}">Current tasks and claims ↗</a>',card)
+        self.assertIn(f'<a href="{self.ISSUES}{self.ARCHITECTURE}">Architecture discussion ↗</a>',card)
         self.assertIn(f'<a href="{self.ISSUES}{self.HISTORICAL_BOARD}#issuecomment-6038554880">historical #229 working guidance</a>',card)
         self.assertIn(f'successor to <a href="{self.ISSUES}{self.PREVIOUS_BOARD}">main #{self.PREVIOUS_BOARD}</a>, which remains readable history '
                       'after reaching the comment limit;',card)
-        # Declarations stay where CONTRIBUTING.md puts them (#275 or the task's issue/PR); #619 takes general coordination.
+        # Declarations stay where CONTRIBUTING.md puts them (#619 or the task's issue/PR); #666 takes architecture discussion.
         self.assertIn("Comment <code>/claim</code> on the task's issue or PR",card)
 
     def test_entry_wording_names_cuts_and_the_index_as_selections(self):

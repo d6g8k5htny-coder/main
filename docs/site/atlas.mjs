@@ -1,7 +1,7 @@
-import {currentSnapshot,element,anchor} from './current.mjs?site-release=fc7e8a98c1e23f476962c4c83e95ed3ce817490007987112d9b2cf6d3d90b142';
+import {currentSnapshot,element,anchor} from './current.mjs?site-release=27f990a4758c48ff2f4aa58b47a842bf61eebc3e0f7449f0dc68f63bc3c502f5';
 import {hasNode,readState,neighborhood,searchGraph,downstreamReach,requiredDependencyPaths,REQUIRED_ROUTE_SEMANTICS,evidenceAxes,sourceURL,sourceForNode,staticNodeLinks,resumeProjection,RESUME_NOT_RECORDED,resumeFieldHref} from './current-model.mjs?site-release=a30d68465e3acda48eedce64854afebc7af5c84903a4e6b0c649e08007b08999';
-import {createAtlasShell,viewForViewport} from './atlas-shell.mjs?site-release=a6f50fd2faed951b2fb1c7864eda331d2910ec69d2cd5c3cb7b0fe67303c85bc';
-import {createClaimSummary} from './atlas-claim-summary.mjs?site-release=c3282397f25caaf0882d47f4433279c88bab7471df6eaf5b123f1e357da30c94';
+import {createAtlasShell,viewForViewport} from './atlas-shell.mjs?site-release=718671ee61565b7eb38bfef88ba31bd6ce27fe6065c7fc8d8eb6f39e8462f518';
+import {createClaimSummary} from './atlas-claim-summary.mjs?site-release=3d0b09c4805f56b549237e1dec93b51d28bff408d92334bcee01fb75426db0e9';
 import {createRelationshipSections} from './atlas-relationships.mjs?site-release=a45607775d5c82c86420d6a93b1af9142a2e26ce385e14f298ce873e58d4d835';
 import {enableAtlasView,reconcileEquationOptions,createEquationAnnouncement} from './atlas-controls.mjs?site-release=58e7dd9a4fcfc326effc240080bbfac0cadd584908f84047b480fd9dcba522c7';
 const byId=id=>document.getElementById(id);

@@ -1,7 +1,7 @@
-import {element,anchor} from './current.mjs?site-release=fc7e8a98c1e23f476962c4c83e95ed3ce817490007987112d9b2cf6d3d90b142';
+import {element,anchor} from './current.mjs?site-release=27f990a4758c48ff2f4aa58b47a842bf61eebc3e0f7449f0dc68f63bc3c502f5';
 import {sourceForNode,sourceURL} from './current-model.mjs?site-release=a30d68465e3acda48eedce64854afebc7af5c84903a4e6b0c649e08007b08999';
 
-import {createFormalEvidence} from './atlas-formal-evidence.mjs?site-release=fd282a960cfe2944617c2227b25ef1455bc6b142dced7b33ad1af99bc0d56f87';
+import {createFormalEvidence} from './atlas-formal-evidence.mjs?site-release=51c7393f9036135ef2c813820cf8157dcc5025a2877f001b79f6d82f68894a84';
 
 // Presentation over the controller's admitted record. No acquisition, source
 // adoption, proof coverage inference, or scientific-status authority lives here.
