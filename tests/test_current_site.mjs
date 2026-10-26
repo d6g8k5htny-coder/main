@@ -153,7 +153,13 @@ async function atlasController(search='',data=fixture()) {
   setAttribute(key,value){this.attributes.set(key,String(value));}
   getAttribute(key){return this.attributes.get(key)??null;}
   get href(){return this.getAttribute('href')||'';}set href(value){this.setAttribute('href',value);}
-  remove(){if(this.parentNode){const siblings=this.parentNode.children;siblings.splice(siblings.indexOf(this),1);this.parentNode=null;}}
+  remove(...args){
+   if(this.tagName==='SELECT'&&args.length===1&&Number.isInteger(args[0])){
+    const child=this.children[args[0]];if(!child)return;child.parentNode=null;this.children.splice(args[0],1);return;
+   }
+   if(this.parentNode){const siblings=this.parentNode.children;siblings.splice(siblings.indexOf(this),1);this.parentNode=null;}
+  }
+  add(option){this.append(option);}
   append(...children){for(const child of children){if(typeof child!=='string'){child.remove();child.parentNode=this;}this.children.push(child);}}
   replaceChildren(...children){for(const child of this.children)if(typeof child!=='string')child.parentNode=null;this.children=[];this._text='';this.append(...children);}
   insertBefore(child,before){child.remove();child.parentNode=this;this.children.splice(this.children.indexOf(before),0,child);}
@@ -162,6 +168,7 @@ async function atlasController(search='',data=fixture()) {
   get firstChild(){return this.children[0];}
   get offsetHeight(){return 140;}
   get options(){return this.children;}
+  get text(){return this.textContent;}set text(value){this.textContent=value;}
   get value(){return this.tagName==='SELECT'?(this.children.find(child=>child.value===this._value)||this.firstChild)?.value||'':this._value;}
   set value(value){this._value=String(value);}
   get selectedIndex(){return this.children.findIndex(child=>child.value===this.value);}
@@ -171,17 +178,18 @@ async function atlasController(search='',data=fixture()) {
   getClientRects(){return this.hidden?[]:[{}];}
  }
  const doc={activeElement:null,createElement(tag){return new Element(tag,this);},createElementNS(ns,tag){return this.createElement(tag);}};
+ function Option(text='',value=''){const option=doc.createElement('option');option.text=text;option.value=value;return option;}
  const nodes=new Map();const add=(id,tag='div',parent)=>{const node=doc.createElement(tag);node.id=id;nodes.set(id,node);parent?.append(node);return node;};
  doc.getElementById=id=>nodes.get(id);const root=add('current-atlas'),layout=add('atlas-layout','div',root),browse=add('atlas-browse','div',layout);
  add('atlas-inspector','article',layout);add('atlas-diagnostics','ul',add('atlas-diagnostics-details','details',root));
  const html=await readFile(new URL('../docs/site/dependencies.html',import.meta.url),'utf8');
  for(const match of html.matchAll(/<([a-z][\w-]*)\b[^>]*\bid="([^"]+)"/g))if(!nodes.has(match[2]))add(match[2],match[1],browse);
- for(const value of ['graph','list']){const option=doc.createElement('option');option.value=value;nodes.get('atlas-view').append(option);}
+ for(const value of ['graph','list']){const option=doc.createElement('option');option.value=value;option.text=value==='graph'?'Graph':'List';nodes.get('atlas-view').append(option);}
  const window=new EventTarget(),media=new EventTarget();media.matches=false;
  const location=new URL('https://example.test/main/site/dependencies.html'+search),entries=[location.href];let cursor=0;
  const history={replaceState(state,title,url){location.href=new URL(url,location.href).href;entries[cursor]=location.href;},pushState(state,title,url){location.href=new URL(url,location.href).href;entries.splice(++cursor);entries.push(location.href);},back(){if(cursor>0){location.href=entries[--cursor];window.dispatchEvent(new Event('popstate'));}},forward(){if(cursor+1<entries.length){location.href=entries[++cursor];window.dispatchEvent(new Event('popstate'));}}};
  const saved=Object.getOwnPropertyDescriptor(globalThis,'document');globalThis.document=doc;
- const bindings={...m,...shell,...summary,currentSnapshot:Promise.resolve(data),element:renderer.element,anchor:renderer.anchor,document:doc,window,history,URL,URLSearchParams,matchMedia:()=>media,fetch:async()=>({ok:false})};
+ const bindings={...m,...shell,...summary,currentSnapshot:Promise.resolve(data),element:renderer.element,anchor:renderer.anchor,document:doc,window,history,URL,URLSearchParams,Option,matchMedia:()=>media,fetch:async()=>({ok:false})};
  Object.defineProperty(bindings,'location',{get:()=>location});
  try{
   // Imports use the actual modules above; awaiting the real start lifecycle

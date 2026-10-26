@@ -156,7 +156,12 @@ class CurrentSiteBuildTests(unittest.TestCase):
                     status = [(tag, attrs, parents) for tag, attrs, parents in parsed.elements
                               if "current-state" in attrs.get("class", "").split()]
                     self.assertEqual(len(status), 1)
-                    self.assertEqual(status[0][1].get("role"), "status")
+                    # Live region is the wrapping div; the paragraph keeps the class/id writers use.
+                    self.assertIsNone(status[0][1].get("role"))
+                    wrappers = [parent for parent in status[0][2]
+                                if parent[0] == "div" and parent[1].get("role") == "status"]
+                    self.assertEqual(len(wrappers), 1)
+                    self.assertEqual(status[0][2][-1], wrappers[0])
                     self.assertNotIn(scope, status[0][2])
                     self.assertLess(parsed.tags.index(status[0][:2]), parsed.tags.index(scope))
                     self.assertTrue(any(text.strip() == "Sources and scope" and parents[-2:] == (scope, ("summary", {}))
@@ -196,9 +201,9 @@ class CurrentSiteBuildTests(unittest.TestCase):
         archived = module.current_section(data, meta, archived=True, search=False,
                                           prefix="../../../", snapshot_prefix="../")
         self.assertEqual(hashlib.sha256(full.encode()).hexdigest(),
-                         "7726703beae823e784427eae242bd3eefe0169c986fce792ec3d4f1d809bc477")
+                         "d7c3ac5a3ac196f678447743818ff45a420b805382633b63b044134ae1ea1d36")
         self.assertEqual(hashlib.sha256(archived.encode()).hexdigest(),
-                         "f67bab9c9906e580f04d2346a72bf2bdc14170da1c2d17efe0459b01fe238c2a")
+                         "f2222a508d25b199cd35f4714bf7e43d22c1049e4aa67c84c3ca88f6be0b93da")
 
     def test_every_node_has_static_evidence_metadata_and_typed_neighbor_navigation(self):
         # Omitting isolated/absent nodes or changing edge direction breaks no-JS parity.

@@ -194,8 +194,10 @@ test('museum manifest must match the config byte count and SHA-256 before source
 test('museum.html keeps its two evidence live regions and a separate current observation region',()=>{
   const html=fs.readFileSync(new URL('../docs/site/museum.html',import.meta.url),'utf8');
   const live=[...html.matchAll(/<[a-z][a-z0-9]*\b[^>]*>/gi)].map(m=>m[0]).filter(tag=>/\brole="(status|alert|log|marquee|timer)"|\baria-live\b/i.test(tag));
-  assert.deepEqual(live.filter(tag=>!tag.includes('class="current-state"')),['<p id="museum-state" role="status">','<p id="conditional-route-status" role="status">']);
-  assert.equal(live.filter(tag=>tag.includes('class="current-state"')).length,1);
+  assert.deepEqual(live.filter(tag=>!tag.includes('class="current-state"')&&!/^<div\b/i.test(tag)),['<p id="museum-state" role="status">','<p id="conditional-route-status" role="status">']);
+  assert.equal(live.filter(tag=>/^<div\b/i.test(tag)&&/\brole="status"/i.test(tag)).length,1);
+  assert.equal([...html.matchAll(/<p class="current-state"/g)].length,1);
+  assert.doesNotMatch(html,/<p class="current-state"[^>]*\brole="/);
   const state=documentFromHTML().getElementById('museum-state');
   assert.deepEqual([state.getAttribute('role'),state.getAttribute('aria-live')],['status',null]);
 });

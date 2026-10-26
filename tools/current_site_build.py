@@ -202,7 +202,7 @@ def current_section(data, meta, *, prefix="", search=True, snapshot_prefix=None,
                '<h2>Snapshot research sources</h2>\n' if archived else '<h2>Current research sources</h2>\n')
     return (f'<section id="current-research" class="current-research{" current-research-compact" if compact else ""}" data-current-digest="{meta["sha256"]}" data-current-bytes="{meta["bytes"]}">\n'
             + heading
-            + f'<p class="current-state" role="status">Pinned source observation: <time datetime="{data["observed_at"]}">{data["observed_at"]}</time>. Compare this timestamp with the present time; observation is not scientific revalidation.</p>\n'
+            + f'<div role="status"><p class="current-state">Pinned source observation: <time datetime="{data["observed_at"]}">{data["observed_at"]}</time>. Compare this timestamp with the present time; observation is not scientific revalidation.</p></div>\n'
             + details + '\n</section>')
 
 

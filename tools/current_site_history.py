@@ -1359,7 +1359,7 @@ def _v1_current_section(data, meta, *, prefix="", search=True, snapshot_prefix=N
                     '<noscript><p>Use the <a href="' + node_index + '#sources">complete static source inventory</a>.</p></noscript>\n</details>')
     return (f'<section id="current-research" class="current-research" data-current-digest="{meta["sha256"]}" data-current-bytes="{meta["bytes"]}">\n'
             + ('<h2>Snapshot research sources</h2>\n' if archived else '<h2>Current research sources</h2>\n')
-            + f'<p class="current-state" role="status">Pinned source observation: <time datetime="{data["observed_at"]}">{data["observed_at"]}</time>. Compare this timestamp with the present time; observation is not scientific revalidation.</p>\n'
+            + f'<div role="status"><p class="current-state">Pinned source observation: <time datetime="{data["observed_at"]}">{data["observed_at"]}</time>. Compare this timestamp with the present time; observation is not scientific revalidation.</p></div>\n'
             f'<p>{pins}</p>\n<p>{refs}</p>\n'
             f'<p><a href="{prefix}dependencies.html#current-atlas">Current mathematical atlas</a> · <a href="{node_index}">Snapshot static graph and complete source inventory</a> · <a href="{snapshot_prefix}current.json">Exact snapshot observation payload</a>. Scientific effect: NONE.</p>\n'
             + controls + '\n</section>')
@@ -1508,7 +1508,7 @@ def _v2_material_section(projection, meta, *, site_prefix, snapshot_prefix):
                       for ref in projection["references"])
     return (f'<section id="current-research" class="current-research" data-current-digest="{_v1_escape(meta["sha256"])}" data-current-bytes="{_v1_escape(meta["bytes"])}">\n'
             '<h2>Historical mathematical material</h2>\n'
-            f'<p class="current-state" role="status">Original source observation: <time datetime="{_v1_escape(projection["observed_at"])}">{_v1_escape(projection["observed_at"])}</time>. Source commits are the original observation pins. Observation is not scientific revalidation.</p>\n'
+            f'<div role="status"><p class="current-state">Original source observation: <time datetime="{_v1_escape(projection["observed_at"])}">{_v1_escape(projection["observed_at"])}</time>. Source commits are the original observation pins. Observation is not scientific revalidation.</p></div>\n'
             f'<p>{pins}</p>\n<p>Original archived source and index references (original byte identities): {refs}</p>\n'
             '<p>Coverage: <code>mathematical-material-only</code>. This compact projection retains the recorded graph, equation excerpts and their selected source and review file identities.</p>\n'
             '<p>Versions record source material and archived index context. A changed version is not a new mathematical result, proof or scientific acceptance.</p>\n'
@@ -1640,7 +1640,7 @@ def _live_v2_current_section(data, meta, *, annotations=True):
     archive = _v1_escape(meta["archive"])
     return (f'<section id="current-research" class="current-research" data-current-digest="{_v1_escape(meta["sha256"])}" data-current-bytes="{_v1_escape(meta["bytes"])}">\n'
             '<h2>Current research sources</h2>\n'
-            f'<p class="current-state" role="status">Pinned source observation: <time datetime="{_v1_escape(data["observed_at"])}">{_v1_escape(data["observed_at"])}</time>. Compare this timestamp with the present time; observation is not scientific revalidation.</p>\n'
+            f'<div role="status"><p class="current-state">Pinned source observation: <time datetime="{_v1_escape(data["observed_at"])}">{_v1_escape(data["observed_at"])}</time>. Compare this timestamp with the present time; observation is not scientific revalidation.</p></div>\n'
             f'<p>{pins}</p>\n<p>{refs}</p>\n'
             + (date_explanation(data, prefix='../', snapshot_prefix='../snapshots/' + archive + '/') if annotations else '')
             +

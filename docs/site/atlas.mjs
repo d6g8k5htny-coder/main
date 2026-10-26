@@ -28,7 +28,13 @@ async function start() {
   const error=byId('atlas-error');error.textContent=state.error||'';error.hidden=!state.error;
   byId('atlas-status').textContent=`Source snapshot ${data.observed_at} · Math ${data.graph.identity.commit.slice(0,8)} · ${Object.keys(graph.nodes).length} nodes, ${graph.edges.length} edges (${graph.edges.filter(e=>e.required).length} required). Classifications are the graph's recorded values. No scientific status inferred.`;
   byId('atlas-coverage').textContent=`${Object.values(graph.nodes).filter(n=>n.source).length} source-bearing metadata records; 0 explicit graph-to-artifact bindings. Source metadata presence does not establish acquired proof content. ${data.equations.length} separately acquired equation excerpts from the named analytic sources. No logical joins from equations to graph nodes are recorded.`;
-  for(const button of root.querySelectorAll('button'))button.disabled=false;query.disabled=false;byId('atlas-view').disabled=false;byId('equation-select').disabled=false;byId('equation-search').disabled=false;
+  for(const button of root.querySelectorAll('button'))button.disabled=false;query.disabled=false;
+  // Rebuild View options at enable so AT-SPI does not keep pre-enable SENSITIVE option state.
+  // Restore the already-resolved view (URL / viewport), not the pre-enable markup default.
+  const viewSelect=byId('atlas-view');
+  viewSelect.replaceChildren(new Option('Graph','graph'),new Option('List','list'));
+  viewSelect.value=view==='list'?'list':'graph';
+  viewSelect.disabled=false;byId('equation-select').disabled=false;byId('equation-search').disabled=false;
   const shell=createAtlasShell({root,inspector:byId('atlas-inspector'),diagnostics:byId('atlas-diagnostics').parentElement,media:mobile,location,history,onChange({write=true}={}){if(!write)view=viewForViewport(viewPreference?'?atlas-view='+viewPreference:'',view,mobile.matches);render();if(write)urlState(true,true,!!state.error);}});
   // A refused bookmark may serialize layout, but never current-source defaults.
   // Only explicit selection clears state.error before adopting current pins.
@@ -83,7 +89,22 @@ async function start() {
   const diagnostics=byId('atlas-diagnostics');diagnostics.replaceChildren(element('li','Diagnostic report unavailable in this source projection. Engineering generation checks are separate from mathematical evidence.'));
   for(const [id,n]of Object.entries(graph.nodes)){const li=element('li');const b=element('button',`${id}: no explicit graph-to-artifact binding; roles/custody unknown`);b.type='button';b.addEventListener('click',()=>select(id));li.append(b);if(!n.source)li.append(element('span',' · source metadata not recorded'));diagnostics.append(li);}
   const eq=byId('equation-select'),eqSearch=byId('equation-search');eqSearch.value=state.equationQuery||'';
-  function equationOptions(selectedId=eq.value){const words=eqSearch.value.toLowerCase().trim().split(/\s+/).filter(Boolean);const matches=data.equations.filter(e=>words.every(w=>`${e.text} ${e.path} ${e.repository}`.toLowerCase().includes(w)));eq.replaceChildren(element('option','Choose a source equation excerpt'));eq.firstChild.value='';for(const e of matches){const option=element('option',`${e.path.split('/').slice(-2).join('/')} · lines ${e.line_start}–${e.line_end}`);option.value=e.id;eq.append(option);}if(selectedId&&matches.some(e=>e.id===selectedId))eq.value=selectedId;byId('equation-count').textContent=`${matches.length} matching excerpts of ${data.equations.length} acquired excerpts. Search covers exact text and public source paths; no equation-to-node logical join is inferred.`;}
+  function equationOptions(selectedId=eq.value){
+    const words=eqSearch.value.toLowerCase().trim().split(/\s+/).filter(Boolean);
+    const matches=data.equations.filter(e=>words.every(w=>`${e.text} ${e.path} ${e.repository}`.toLowerCase().includes(w)));
+    // Reconcile options in place: wholesale replaceChildren on each key floods AT queues.
+    const desired=[{value:'',label:'Choose a source equation excerpt'},...matches.map(e=>({value:e.id,label:`${e.path.split('/').slice(-2).join('/')} · lines ${e.line_start}–${e.line_end}`}))];
+    let i=0;while(i<desired.length&&i<eq.options.length&&eq.options[i].value===desired[i].value&&eq.options[i].text===desired[i].label)i++;
+    while(eq.options.length>desired.length)eq.remove(eq.options.length-1);
+    for(;i<desired.length;i++){
+      if(i<eq.options.length){const option=eq.options[i];if(option.value!==desired[i].value)option.value=desired[i].value;if(option.text!==desired[i].label)option.text=desired[i].label;}
+      else eq.add(new Option(desired[i].label,desired[i].value));
+    }
+    if(selectedId&&matches.some(e=>e.id===selectedId))eq.value=selectedId;
+    else if(!matches.some(e=>e.id===eq.value))eq.value='';
+    const countText=`${matches.length} matching excerpts of ${data.equations.length} acquired excerpts. Search covers exact text and public source paths; no equation-to-node logical join is inferred.`;
+    const count=byId('equation-count');if(count.textContent!==countText)count.textContent=countText;
+  }
   equationOptions(state.equation);
   function renderEquation(){const record=data.equations.find(e=>e.id===eq.value),panel=byId('equation-content');panel.replaceChildren();byId('equation-next').disabled=!!state.error||eq.selectedIndex>=eq.options.length-1;byId('equation-previous').disabled=!!state.error||eq.selectedIndex<=1;if(state.error){panel.append(element('p','Source-bound bookmark refused; no current equation substituted.'));return;}if(!record){panel.append(element('p','Select an acquired excerpt. The equation collection has no recorded logical joins to dependency nodes.'));return;}panel.append(element('pre',record.text),anchor('Read exact source lines and surrounding hypotheses',`${sourceURL(record)}#L${record.line_start}-L${record.line_end}`),element('p',`Acquired excerpt · ${record.repository} ${record.commit} · SHA-256 ${record.sha256} · lines ${record.line_start}–${record.line_end}. The surrounding proof's hypotheses and scope govern this equation; excerpt extraction is not theorem acceptance.`));}
   eq.addEventListener('change',()=>{renderEquation();urlState();});
