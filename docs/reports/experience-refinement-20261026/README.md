@@ -60,3 +60,13 @@ pixel threshold was relaxed. Original AMEND review and failures are retained.
 See focus-amendment.json and the previous SOURCE-before-focus.json receipt.
 The initial full-suite qualification remains scoped to its original bytes; later
 checks are separately bound rather than retroactively changing that evidence.
+
+A final test-tool amendment repairs an ineffective HTTPS URL glob in the navigation
+driver. The selected site is admitted through the matching guard; offsite HTTPS
+requests are refused. Actual browser fixtures first reproduced an external probe
+escaping the old guard, then passed ten navigation cases,451 local-fixture HTTPS
+requests and seven blocked offsite probes. Loopback replay also passed10/10.
+These are synthetic origin fixtures, not deployed-byte/TLS/source-authentication
+evidence. The initial own-origin-block diagnosis was disproved and corrected;
+initial import/tunnel fixture setup failures remain preserved. Product bytes and
+all scientific gates are unchanged. See origin-guard-amendment.json.

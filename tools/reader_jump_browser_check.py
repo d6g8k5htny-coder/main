@@ -10,7 +10,7 @@ def main():
     report={'cases':[],'page_errors':[],'limits':'Headless Chromium/Linux, emulated widths; no physical/Safari/spoken AT/full WCAG claim.'}
     def run(origin,browser):
         for width,scheme in [(1440,'light'),(1440,'dark'),(390,'light'),(390,'dark'),(320,'dark')]:
-            c=browser.new_context(viewport={'width':width,'height':844},color_scheme=scheme,reduced_motion='reduce');c.route('https://**',lambda route:route.abort());p=c.new_page();p.set_default_timeout(5000);p.on('pageerror',lambda e:report['page_errors'].append(str(e)))
+            c=browser.new_context(viewport={'width':width,'height':844},color_scheme=scheme,reduced_motion='reduce');c.route('https://**/*',lambda route:route.fallback() if route.request.url.startswith(origin) else route.abort());p=c.new_page();p.set_default_timeout(5000);p.on('pageerror',lambda e:report['page_errors'].append(str(e)))
             row={'case':f'persistent-keyboard-{width}-{scheme}'};report['cases'].append(row)
             try:
                 p.goto(origin+'workspace.html');assert p.locator('.reader-jump').count()==1,'Persistent Go to navigation is absent'
@@ -32,7 +32,7 @@ def main():
             for scripted in [True,False]:
                 for scheme in ['light','dark']:
                     row={'case':f'focus-yield-{scheme}-'+('scripted' if scripted else 'native-no-js')};report['cases'].append(row)
-                    c=browser.new_context(viewport={'width':320,'height':800},color_scheme=scheme,java_script_enabled=scripted);c.route('https://**',lambda route:route.abort());p=c.new_page();p.set_default_timeout(5000);p.on('pageerror',lambda e:report['page_errors'].append(str(e)))
+                    c=browser.new_context(viewport={'width':320,'height':800},color_scheme=scheme,java_script_enabled=scripted);c.route('https://**/*',lambda route:route.fallback() if route.request.url.startswith(origin) else route.abort());p=c.new_page();p.set_default_timeout(5000);p.on('pageerror',lambda e:report['page_errors'].append(str(e)))
                     try:
                         p.goto(origin+('workspace.html' if scripted else 'formal.html'))
                         menu=p.locator('.reader-jump');summary=menu.locator('summary')
