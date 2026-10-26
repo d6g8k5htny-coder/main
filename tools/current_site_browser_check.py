@@ -286,24 +286,27 @@ def exercise_observation_coherence(browser,origin,output,report,data,expect):
     previous=re.sub(rb'("observed_at"\s*:\s*)'+re.escape(json.dumps(data['observed_at']).encode()),lambda m:m.group(1)+b'"2000-01-01T00:00:00Z"',raw,count=1)
     require(json.loads(previous)['observed_at']=='2000-01-01T00:00:00Z' and len(previous)==len(raw),'Mixed-observation fixture identity failed')
     digest=sha256(raw).hexdigest()
+    metadata=(ROOT/'docs/site/current-meta.json').read_bytes()
+    metadata_identity=json.loads(metadata)
+    require(metadata_identity.get('sha256')==digest and type(metadata_identity.get('bytes')) is int and metadata_identity['bytes']==len(raw) and metadata_identity.get('observed_at')==data['observed_at'],'Observation metadata fixture does not bind the expected payload')
     for persistent in [False,True]:
         case={'case':'observation-persistent-mismatch-refusal' if persistent else 'observation-integrity-recovery','passed':False,
               'scope':'Controlled local old/new response fixture; no public cache-layer inference','requests':[],'page_errors':[],
-              'expected_payload':{'bytes':len(raw),'sha256':digest},'old_payload':{'bytes':len(previous),'sha256':sha256(previous).hexdigest()}}
+              'expected_payload':{'bytes':len(raw),'sha256':digest},'expected_metadata':{'bytes':len(metadata),'sha256':sha256(metadata).hexdigest()},'old_payload':{'bytes':len(previous),'sha256':sha256(previous).hexdigest()}}
         report['cases'].append(case)
         context=browser.new_context(viewport={'width':1200,'height':900},reduced_motion='reduce')
         page=context.new_page();page.on('pageerror',lambda e:case['page_errors'].append(str(e)))
         def respond(route):
             url=route.request.url;case['requests'].append(url)
-            body=previous if persistent or url==origin+'current.json' else raw
+            body=metadata if url==origin+'current-meta.json' else previous if persistent or url==origin+'current.json' else raw
             route.fulfill(status=200,content_type='application/json',body=body)
         try:
-            page.route('**/current.json*',respond);page.goto(origin+'dependencies.html')
+            page.route('**/current.json*',respond);page.route(origin+'current-meta.json',respond);page.goto(origin+'dependencies.html')
             if persistent:
                 expect(page.locator('.current-state')).to_contain_text('Unavailable')
                 expect(page.locator('#atlas-status')).to_contain_text('Unavailable')
                 require(page.locator('#atlas-inspector h3').count()==0 and page.locator('#atlas-canvas .atlas-node').count()==0 and page.locator('#equation-content pre').count()==0,'Persistent mismatch admitted current content')
-                require(1<=len(case['requests'])<=2,'Persistent mismatch exceeded the bounded request budget')
+                require(case['requests']==[origin+'current.json',origin+'current.json?observation='+digest,origin+'current-meta.json',origin+'current.json?observation='+digest],'Persistent mismatch did not retain its exact bounded metadata recovery sequence')
             else:
                 expect(page.locator('#atlas-inspector h3')).to_have_count(1)
                 expect(page.locator('.current-state')).to_contain_text('Verified source observation: '+data['observed_at'])
