@@ -347,3 +347,26 @@ git -C query- checkout --detach c88768bb11efd1f7d6bda188f13064bedec54a06
 
 The source-identity gate checks these commands against `museum.json` and
 `config.json`. Updating the reading interface does not update either source pin.
+
+## One source-linked formal companion
+
+The SIDE24 inspector can expose the existing closed arithmetic declaration
+UniversalLaw.Side24.pairing_sum_six only when the complete claim record, proof
+source blob/size/fingerprint and formal manifest identity match the pinned
+evidence. This is a source-document connection, not coefficient or parent proof
+coverage. Its actual package review is REJECTED (AMEND); the chosen row ALIGNED
+does not override the existing all-31-target acceptance contract. Other claims,
+changed sources and older observations with another manifest remain unmapped.
+Original receipt/type/artifact bytes are retained under evidence/side24-main-3b39.
+No Lean source, source admission, scientific status or renderer dependency changes.
+
+Reproduce the offline data with python -B tools/atlas_formal_evidence_build.py
+--snapshot EXACT_CURRENT_JSON (add --check to compare). It reuses the existing
+formal source and receipt/log validators; it makes no network call or new Lean
+execution. The pinned original artifact is an input, not an authority for arbitrary
+caller receipts. Execute the focused browser observer with --site GENERATED_SITE
+--payload EXACT_CURRENT_JSON --output NEW_OUTPUT_DIRECTORY; the older committed
+observation deliberately has a stale manifest and is not the positive fixture.
+Run python -B -m unittest tests.test_atlas_formal_evidence_build, its -O equivalent,
+and node --test tests/test_atlas_formal_evidence.mjs tests/test_current_site.mjs.
+The browser observer records served-file identities separately from its own driver.

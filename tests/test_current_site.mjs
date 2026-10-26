@@ -194,6 +194,21 @@ async function atlasController(search='',data=fixture()) {
  }catch(error){if(saved)Object.defineProperty(globalThis,'document',saved);else delete globalThis.document;throw error;}
 }
 
+test('the real admitted inspector exposes the exact source-linked arithmetic companion without parent coverage',async()=>{
+ const data={...fixture(),...JSON.parse(await readFile(new URL('./fixtures/atlas_formal_projection.json',import.meta.url),'utf8')),equations:[],references:[]};
+ const f=await atlasController('?atlas-node=math.side24-coefficient',data);
+ try{
+  const panel=f.get('atlas-inspector');
+  assert.match(panel.textContent,/UniversalLaw\.Side24\.pairing_sum_six/);
+  assert.match(panel.textContent,/PENDING_INDEPENDENT_REVIEW/);
+  assert.match(panel.textContent,/REJECTED/);
+  assert.match(panel.textContent,/does not prove the coefficient or parent theorem/);
+  assert.ok(panel.querySelectorAll('a[href]').some(a=>a.getAttribute('href').includes('receipt.json')));
+  f.get('atlas-view').value='list';f.event('atlas-view','change');
+  assert.match(panel.textContent,/UniversalLaw\.Side24\.pairing_sum_six/);
+ }finally{f.close();}
+});
+
 test('claim summary puts exact scope and pinned source before continuation metadata',async()=>{
  const data=fixture();data.graph.data.nodes.a.scope='fixed d>=2; literal <hypothesis> & exact 1/3';const f=await atlasController('?atlas-node=a',data);
  try{const panel=f.get('atlas-inspector'),text=panel.textContent;assert.ok(text.indexOf('Immutable source reference')<text.indexOf('Resume this node'),'primary source must precede operational metadata');assert.ok(text.includes(data.graph.data.nodes.a.scope));assert.equal(panel.querySelectorAll('h3')[0].textContent,'a');assert.equal(panel.querySelectorAll('hypothesis').length,0);assert.match(text,/candidate.*OPEN_ACTIVE/);assert.ok(panel.querySelectorAll('a[href]').some(a=>a.getAttribute('href')===m.sourceURL(data.sources[0])));}
