@@ -7,7 +7,8 @@ revision so far copied by hand; 14/14 manifest entries of r17 were verified corr
 build.sh, pins SOURCE_DATE_EPOCH (13 October 2026 00:00Z) with FORCE_SOURCE_DATE=1 so the PDF is byte-reproducible,
 and has build.sh verify SHA256SUMS (or rewrite it with --update-sums). build.sh was rewritten directly; this
 script makes the record edits. r18 also records the adoption of #485 (G6 qualification) onto the branch.
-No theorem, display or constant changes; the TeX sources are unchanged.
+No theorem, display or constant changes; the mathematical TeX sources are unchanged (s0_status.tex changes only
+its revision/date line; this sentence was corrected in r19 after the slice-A AMEND A-F1, main#389 6421761943).
 
 Usage: python3 make_r18.py DRAFTDIR   (applied to 29ca667d, after build.sh was rewritten)
 """

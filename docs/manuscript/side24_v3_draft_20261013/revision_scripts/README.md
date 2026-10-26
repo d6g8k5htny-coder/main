@@ -15,6 +15,7 @@ These are the scripts the author used to produce revisions of this draft. Each m
 | `make_r16.py` | r16 | `python3 make_r16.py DRAFTDIR`, applied to `18543a20`. It edits `appA_records.tex`, `s0_status.tex` and `README.md`. |
 | `make_r17.py` | r17 | `python3 make_r17.py DRAFTDIR`, applied to `fcc83ab5`. It edits `appA_records.tex`, `s0_status.tex` and `README.md`. |
 | `make_r18.py` | r18 | `python3 make_r18.py DRAFTDIR`, applied to `29ca667d` after `build.sh` was rewritten by hand. It edits `s0_status.tex`, `README.md` and `SUBMISSION_READINESS.md`; then `sh build.sh --update-sums`. |
+| `make_r19.py` | r19 | `python3 make_r19.py DRAFTDIR`, applied to `e9583f09` (r18 with its record amendment A-F1, which was a direct edit of one heading of the change list). It edits `appA_records.tex`, `s0_status.tex`, `README.md`, `SUBMISSION_READINESS.md`, `make_r18.py` (its docstring) and appends the r19 entry to the change list; then `sh build.sh --update-sums`, `python3 make_r19.py DRAFTDIR --pdf-stats` (fills the PDF line of the entry) and `sh build.sh --update-sums` again. |
 
 r0, r1 and r3–r7 were made by direct edits; their commits and the change list are the record. r11 (`b033a118`) was also made by direct edits: one sentence of Appendix A record [R1], the §0 date line, the README and the change list. After a script, run `sh build.sh --update-sums` (since r18 the build is reproducible and the script copies the PDF and rewrites the manifest), then compare the result with the revision's commit.
 

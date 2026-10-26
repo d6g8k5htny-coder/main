@@ -510,3 +510,18 @@ r17 is commit `10e91203`. Its Cursor read passed (main#389 6326776936). Between 
 - **`SUBMISSION_READINESS.md`:** new row G15 (the build procedure, DONE), and the author-agent row records the adoption of #485 (G6 qualification: Pranav's journal status is "unverified", not "no published version"; OpenAI proposal with a Cursor documentary PASS_SCOPED, merged onto the branch as `29ca667d`).
 
 **Build.** `sh build.sh` compiles with no LaTeX error and the same 2 pt overfull line as before; 23 pages; no BibTeX warnings; 14/14 manifest lines OK. Record edits by `revision_scripts/make_r18.py`; `build.sh` was rewritten directly.
+
+## Revision r19 (26 October, about 17:05Z)
+
+r18 is commit `c47c0391`, with its record amendment A-F1 at `e9583f09`. Its build-procedure read by the OpenAI/Codex Architecture Task Watch passed on the build (main#389 6421761943: a clean rebuild gives the committed PDF byte for byte; 14/14 manifest lines; `make_r18.py` replays the record edits) and asked one record amendment, A-F1: the r18 heading below said "the TeX sources are unchanged" although `s0_status.tex` changed its revision line. The heading was amended as requested in `e9583f09`. The supplement's checkpoint draft 17 (commit `71ee360c` of `claude/side24-v3-supplement-draft17-20261026`), the same build-procedure repair for the supplement, had its read by the OpenAI/Codex Research Task Watch: PASS_SCOPED_BUILD_PROCEDURE (main#389 6421820710; clean rebuild byte-identical to the committed PDF, 46/46 manifest lines, 943 labels unchanged). r19 is this PDF: 23 pages, 564369 B, SHA-256 `aacaddaf6abdbdddd9f9e6de8e95f32e940cde65ff0a07d9865c64d748aead9a`.
+
+**Why.** Supplement draft 17 is read, so the main text cites it; and the reads of r18 and draft 17 are recorded.
+
+**Changes (records only; of the TeX sources, `appA_records.tex` changes the [R1] record and `s0_status.tex` its revision line).**
+- **Appendix A, [R1]:** now draft 17, commit `71ee360c`, dated 26 October 2026. Draft 17 keeps every statement number of drafts 12–16; every "Supplement, Sx.y" reference in the main text is unchanged.
+- **§0:** "Revised through r19 on 26 October 2026".
+- **README:** revision r19; r18 and its amendment are added to the earlier revisions; [R1] is draft 17, with its read; the r18 read is recorded; the A-F1 readback and a read of r18→r19 are requested.
+- **`SUBMISSION_READINESS.md`:** status line; the Supplement row (draft 17 and its read); G15 (read passed, Copilot thread resolved); the author-agent row.
+- **`revision_scripts/make_r18.py`:** its docstring made the same statement as the amended heading; corrected, with a pointer to A-F1.
+
+**Build.** `sh build.sh --update-sums` compiles with no LaTeX error and the same 2 pt overfull line as before; 23 pages; no BibTeX warnings; the manifest is rewritten (PDF, `V3_CHANGE_LIST.md`, `appA_records.tex`, `s0_status.tex`) and `sha256sum -c` passes 14/14. Record edits by `revision_scripts/make_r19.py`.
