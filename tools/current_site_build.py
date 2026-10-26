@@ -172,7 +172,7 @@ def source_list(sources):
 
 
 def current_section(data, meta, *, prefix="", search=True, snapshot_prefix=None, archived=False,
-                    acquisition=None, compact=False, capacity_html=""):
+                    acquisition=None, compact=False, capacity_html="", readable_status=False):
     """Keep full static rendering stable; reading-page builds explicitly opt into compact detail."""
     if not archived and acquisition is None:
         acquisition = project_current_acquisitions(data)
@@ -200,9 +200,12 @@ def current_section(data, meta, *, prefix="", search=True, snapshot_prefix=None,
         details = '<details class="current-source-details"><summary>Sources and scope</summary>\n' + details + '\n</details>'
     heading = ('<h2>Source observation</h2>\n' if compact else
                '<h2>Snapshot research sources</h2>\n' if archived else '<h2>Current research sources</h2>\n')
+    status = (f'<p class="current-state" role="status">Pinned source observation: <time datetime="{data["observed_at"]}">{data["observed_at"]}</time>. Compare this timestamp with the present time; observation is not scientific revalidation.</p>\n'
+              if archived or not readable_status else
+              f'<div role="status"><p class="current-state">Pinned source observation: <time datetime="{data["observed_at"]}">{data["observed_at"]}</time>. Compare this timestamp with the present time; observation is not scientific revalidation.</p></div>\n')
     return (f'<section id="current-research" class="current-research{" current-research-compact" if compact else ""}" data-current-digest="{meta["sha256"]}" data-current-bytes="{meta["bytes"]}">\n'
             + heading
-            + f'<p class="current-state" role="status">Pinned source observation: <time datetime="{data["observed_at"]}">{data["observed_at"]}</time>. Compare this timestamp with the present time; observation is not scientific revalidation.</p>\n'
+            + status
             + details + '\n</section>')
 
 
@@ -490,7 +493,7 @@ def build(site, payload, *, native_graph_archive=None, native_graph_expected=Non
             rb"script-src\s+(?:&#39;|'|&apos;)none(?:&#39;|'|&apos;)", original))
         search_enabled = page.name not in ("research.html", "formal.html") and not script_blocked
         section = current_section(data, meta, search=search_enabled, acquisition=acquisition,
-                                  compact=True, capacity_html=capacity_html).encode("utf-8")
+                                  compact=True, capacity_html=capacity_html, readable_status=True).encode("utf-8")
         if page.name == "research.html":
             if script_blocked:
                 raise ValueError("research.html: current freshness loader requires a script-enabled CSP")
