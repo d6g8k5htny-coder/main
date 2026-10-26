@@ -214,7 +214,7 @@ def main():
     try: commit = subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
     except (subprocess.CalledProcessError, FileNotFoundError): commit = 'No Git metadata'
     report = {'started_utc': datetime.now(timezone.utc).isoformat(), 'git_head': commit,
-              'product_sha256': sha256((ROOT / 'docs/site/research-desk.mjs').read_bytes()).hexdigest(),
+              'local_product_sha256': sha256((ROOT / 'docs/site/research-desk.mjs').read_bytes()).hexdigest(),
               'sandbox': True, 'browser_sha256': sha256(args.browser.read_bytes()).hexdigest(),
               'cases': [], 'page_errors': [],
               'limits': 'Headless Chromium/Linux, emulated viewport; no physical touch, Safari, spoken AT or scientific qualification.'}
