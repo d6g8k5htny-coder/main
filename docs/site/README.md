@@ -44,6 +44,8 @@ The Atlas inspector leads with the selected record's literal scope (or a separat
 
 An additional focused browser check is `python3 -B tools/atlas_claim_summary_browser_check.py --output browser-evidence/atlas-claim-summary` (packaged Chromium at `/usr/bin/chromium`, or `--browser PATH`). `--observe` records baseline failures without claiming acceptance. Real Orca speech evidence is version- and source-specific; DOM/AX checks alone do not certify spoken output.
 
+The selected claim's **Depends on** and **Used by** cards retain every recorded edge. Required/context labels stay visible; **Recorded relationship** discloses the literal type, dependent → dependency direction and existing downstream counts. Keyboard selection brings an offscreen desktop heading into view while retaining the existing mobile reading route. `node --test tests/test_atlas_relationships.mjs` checks directed/parallel edges and unknown IDs; `python3 -B tools/atlas_relationships_browser_check.py --site docs/site --output browser-evidence/atlas-relationships` checks real keyboard/disclosure/history/visibility and narrow layouts against one admitted observation. `--observe` retains baseline failures; `--base-url URL` replays the same checks on the public origin after source identity verification. No new source mapping, status authority, dependency or spoken-AT qualification is introduced.
+
 ## Verify the reader experience
 
 Compare has synchronized page controls before and after its results. It verifies
@@ -123,6 +125,16 @@ page parameters; it runs against the admitted observation available when opened,
 so its results are not frozen. The dated catalog remains a separate collection.
 These tools appear only after the current snapshot verifies and add no source
 acquisition, mathematical review or storage schema.
+
+**Show more files** retains the current source rows, open acquisition identities
+and source-save controls while appending the next 50 matches. Keyboard activation
+focuses the first newly revealed source, including the final partial batch;
+programmatic loading does not steal focus from another control. Changing or
+restoring a query resets the result window. Focused regression:
+`python3 -B tools/source_list_continuity_browser_check.py --output
+browser-evidence/source-list-continuity`. This uses the real included admitted
+observation, or `--origin URL` for a separately recorded served observation;
+browser DOM checks do not establish source authentication or spoken accessibility.
 
 Focused checks: `node --test tests/test_library_source_search.mjs` and
 `python3 -B tools/library_source_search_browser_check.py --output
