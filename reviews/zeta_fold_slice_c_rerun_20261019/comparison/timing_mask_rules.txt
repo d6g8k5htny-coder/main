@@ -1,0 +1,11 @@
+Lines are compared after these regex substitutions (see scripts/compare.py TIMING):
+  '(setup )[0-9.]+s' -> '\\1<T>s'
+  '(zeta zeros in )[0-9.]+s' -> '\\1<T>s'
+  '^time [0-9.eE+-]+\\s*$' -> 'time <T>'
+  '(scan time )[0-9.eE+-]+' -> '\\1<T>'
+  '( time )[0-9.eE+-]+$' -> '\\1<T>'
+  '("seconds(?:_zero_finding|_total)?": )[0-9.eE+-]+' -> '\\1<T>'
+  '("sec_per_1e5_evals_at_9e5": )[0-9.eE+-]+' -> '\\1<T>'
+  '\\([0-9.]+ ?s\\)' -> '(<T>s)'
+  '(samples in )[0-9.]+s' -> '\\1<T>s'
+  '^(init )[0-9.]+( N \\d+)$' -> '\\1<T>\\2'

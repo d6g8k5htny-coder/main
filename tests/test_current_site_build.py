@@ -28,16 +28,29 @@ class Page(HTMLParser):
         self.tags = []
         self.links = []
         self.text = []
+        self.elements = []
+        self.text_contexts = []
+        self.stack = []
         self.feed(raw)
 
     def handle_starttag(self, tag, attrs):
         attrs = dict(attrs)
         self.tags.append((tag, attrs))
+        self.elements.append((tag, attrs, tuple(self.stack)))
         if tag == "a":
             self.links.append(attrs.get("href", ""))
+        if tag not in {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"}:
+            self.stack.append((tag, attrs))
+
+    def handle_endtag(self, tag):
+        for i in range(len(self.stack) - 1, -1, -1):
+            if self.stack[i][0] == tag:
+                del self.stack[i:]
+                break
 
     def handle_data(self, data):
         self.text.append(data)
+        self.text_contexts.append((data, tuple(self.stack)))
 
 
 def identity(repository, path):
@@ -83,13 +96,14 @@ class CurrentSiteBuildTests(unittest.TestCase):
         for name in ("index.html", "research.html", "dependencies.html"):
             prefix = '<!doctype html><meta charset="utf-8">'
             if name == "research.html":
-                prefix += '<meta http-equiv="Content-Security-Policy" content="script-src \'none\'">'
+                prefix += '<meta http-equiv="Content-Security-Policy" content="script-src \'self\'">'
             (site / name).write_bytes((prefix + "\n<main><p>Frozen cut 2026-09-25 &amp; identity.</p>\n"
                                       + START + "old panel" + END
                                       + "\n<pre>Historical evidence stays exact.\r\n</pre></main>").encode())
         (site / "historic.json").write_bytes(b'{"date":"2026-09-25","exact":"17/31"}\r\n')
         for name in ("brand.css", "style.css", "current.css"):
             (site / name).write_text("body { color: navy; }\n")
+        (site / "current.mjs").write_text("// Shared loader fixture; these Python tests do not execute JavaScript.\n")
         payload = root / "payload.json"
         payload.write_bytes(json.dumps(data or fixture(), ensure_ascii=False, indent=2).encode() + b"\n")
         return site, payload
@@ -125,6 +139,67 @@ class CurrentSiteBuildTests(unittest.TestCase):
             self.assertEqual(meta["bytes"], len(payload.read_bytes()))
             self.assertEqual(meta["observed_at"], "2026-10-13T12:00:00Z")
 
+    def test_main_pages_keep_dated_status_before_closed_sources_and_scope(self):
+        # Moving the status or the verbose inventory outside its disclosure breaks the reading flow.
+        with TemporaryDirectory() as tmp:
+            site, payload = self.prepare(Path(tmp))
+            result = self.run_build(site, payload)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            for name in ("index.html", "research.html", "dependencies.html"):
+                with self.subTest(page=name):
+                    parsed = Page((site / name).read_text())
+                    scopes = [(tag, attrs) for tag, attrs in parsed.tags
+                              if tag == "details" and "current-source-details" in attrs.get("class", "").split()]
+                    self.assertEqual(len(scopes), 1, "verbose source details need one native disclosure")
+                    scope = scopes[0]
+                    self.assertNotIn("open", scope[1])
+                    status = [(tag, attrs, parents) for tag, attrs, parents in parsed.elements
+                              if "current-state" in attrs.get("class", "").split()]
+                    self.assertEqual(len(status), 1)
+                    self.assertEqual(status[0][1].get("role"), "status")
+                    self.assertNotIn(scope, status[0][2])
+                    self.assertLess(parsed.tags.index(status[0][:2]), parsed.tags.index(scope))
+                    self.assertTrue(any(text.strip() == "Sources and scope" and parents[-2:] == (scope, ("summary", {}))
+                                        for text, parents in parsed.text_contexts))
+                    self.assertTrue(any(tag == "time" and attrs.get("datetime") == "2026-10-13T12:00:00Z"
+                                        and status[0][:2] in parents and scope not in parents
+                                        for tag, attrs, parents in parsed.elements))
+                    for marker in ("current-date-explanation", "current-inventory-legend"):
+                        elements = [(attrs, parents) for tag, attrs, parents in parsed.elements if attrs.get("id") == marker]
+                        self.assertEqual(len(elements), 1, marker)
+                        self.assertIn(scope, elements[0][1], marker)
+                    capacity = [(attrs, parents) for tag, attrs, parents in parsed.elements
+                                if "current-capacity" in attrs.get("class", "").split()]
+                    self.assertEqual(len(capacity), 1)
+                    self.assertIn(scope, capacity[0][1])
+                    for href in (f"https://github.com/{MAIN}/tree/{COMMIT}",
+                                 f"https://github.com/{MATH}/tree/{MATH_COMMIT}",
+                                 f"https://github.com/{MAIN}/blob/{COMMIT}/STATUS.md",
+                                 "nodes/index.html", "current.json"):
+                        links = [parents for tag, attrs, parents in parsed.elements if tag == "a" and attrs.get("href") == href]
+                        self.assertTrue(links, href)
+                        self.assertTrue(all(scope in parents for parents in links), href)
+                    for tag, attrs, parents in parsed.elements:
+                        if set(attrs.get("class", "").split()) & {"current-search", "current-count", "current-results", "current-more"}:
+                            self.assertIn(scope, parents)
+                    identifiers = [attrs["id"] for tag, attrs in parsed.tags if "id" in attrs]
+                    self.assertEqual(len(identifiers), len(set(identifiers)))
+
+    def test_default_full_and_archived_source_sections_retain_baseline_bytes(self):
+        # Opting reading pages into compact presentation must not rewrite preserved static sections.
+        spec = importlib.util.spec_from_file_location("build_layout", TOOL)
+        module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(module)
+        data = fixture()
+        meta = {"sha256": "f" * 64, "bytes": 123, "observed_at": data["observed_at"]}
+        full = module.current_section(data, meta)
+        archived = module.current_section(data, meta, archived=True, search=False,
+                                          prefix="../../../", snapshot_prefix="../")
+        self.assertEqual(hashlib.sha256(full.encode()).hexdigest(),
+                         "7726703beae823e784427eae242bd3eefe0169c986fce792ec3d4f1d809bc477")
+        self.assertEqual(hashlib.sha256(archived.encode()).hexdigest(),
+                         "f67bab9c9906e580f04d2346a72bf2bdc14170da1c2d17efe0459b01fe238c2a")
+
     def test_every_node_has_static_evidence_metadata_and_typed_neighbor_navigation(self):
         # Omitting isolated/absent nodes or changing edge direction breaks no-JS parity.
         with TemporaryDirectory() as tmp:
@@ -157,6 +232,62 @@ class CurrentSiteBuildTests(unittest.TestCase):
             self.assertEqual(axes, {"source": "recorded", "review": "recorded", "kernel": "not_recorded",
                                     "computation": "not_recorded", "alignment": "not_recorded"})
 
+    def test_live_node_pages_resume_from_recorded_review_without_inventing_task_state(self):
+        # Promoting a review issue, lookalike metadata or a shared hash to task state fails here.
+        pin = "math.d5-component.punctured-pin-proof"
+        with TemporaryDirectory() as tmp:
+            data = fixture()
+            nodes = data["graph"]["data"]["nodes"]
+            nodes["node-0"].update({"review_issue": 67, "review_disposition": "<script>ACCEPT</script>",
+                                    "next_action": "merge now", "owner": "Claude S", "status": "complete"})
+            nodes["node-1"] = {"kind": "proof", "classification": "PROVED_REVIEWED", "source": "proof/PROOF.md", "fingerprint": "f" * 64}
+            nodes[pin] = dict(nodes.pop("node-2"), source="proof/PROOF.md", fingerprint="f" * 64)
+            site, payload = self.prepare(Path(tmp), data)
+            result = self.run_build(site, payload)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            task = "https://github.com/d6g8k5htny-coder/main/pull/327#issuecomment-6321244764"
+            sections = {}
+            for node in nodes:
+                raw = (site / "nodes" / (node + ".html")).read_text()
+                self.assertEqual(raw.count('<section id="resume-node"'), 1)
+                section = raw[raw.index('<section id="resume-node"'):].split("</section>", 1)[0]
+                self.assertLess(raw.index('<section id="resume-node"'), raw.index("Independent evidence metadata axes"))
+                parsed = Page(section)
+                text = " ".join(" ".join(parsed.text).split())
+                sections[node] = (parsed, text)
+                self.assertFalse(any(tag == "script" for tag, attrs in parsed.tags))
+                self.assertIn("Resume this node", text)
+                self.assertIn("2026-10-13T12:00:00Z", text)
+                self.assertIn("before any ownership- or head-dependent action", text)
+                self.assertIn("this static page cannot evaluate freshness", text)
+                self.assertIn(f"commit {MATH_COMMIT}", text)
+                self.assertIn("f" * 64, text)
+                for label in ("Next action", "Missing input", "Owner evidence", "Retained stop"):
+                    self.assertIn(f"{label} not recorded in this snapshot", text)
+                self.assertEqual(task in parsed.links, node == pin)
+            parsed, text = sections["alpha"]
+            self.assertIn("https://github.com/d6g8k5htny-coder/main/issues/67#issuecomment-123", parsed.links)
+            self.assertIn("not the current task, an owner claim or a completion record", text)
+            self.assertIn("No explicitly identified task record for this node", text)
+            parsed, text = sections["node-0"]
+            self.assertIn("<script>ACCEPT</script>", text)
+            self.assertIn("67 Issue number recorded without a repository in this snapshot; no link is inferred.", text)
+            self.assertFalse(any("/issues/67" in href for href in parsed.links))
+            self.assertNotIn("merge now", text)
+            self.assertNotIn("Claude S", text)
+            self.assertNotIn("complete", text.replace("completion record", ""))
+            parsed, text = sections["gamma"]
+            self.assertFalse(any("javascript:" in href for href in parsed.links))
+            parsed, text = sections["node-1"]
+            self.assertIn("Review metadata: not recorded in this snapshot", text)
+            parsed, text = sections[pin]
+            self.assertIn("https://github.com/d6g8k5htny-coder/main/issues/419#issuecomment-6321679618", parsed.links)
+            self.assertIn("not scientific acceptance, source-binding admission, a registration or an owner claim", text)
+            self.assertIn("Site-maintained pointer, not part of the graph snapshot", text)
+            archived = list((site / "snapshots").rglob("*.html"))
+            self.assertTrue(archived)
+            self.assertFalse(any(b"resume-node" in page.read_bytes() for page in archived))
+
     def test_source_links_only_resolve_the_exact_math_inventory_and_external_links_stay_separate(self):
         # A fabricated blob link for a missing/hostile path or a wrong-repository join fails here.
         with TemporaryDirectory() as tmp:
@@ -177,7 +308,7 @@ class CurrentSiteBuildTests(unittest.TestCase):
                 self.assertFalse(any("javascript:" in href or "secret" in href or "missing/PROOF" in href
                                      for href in page.links))
 
-    def test_hostile_metadata_is_inert_and_research_keeps_its_script_free_contract(self):
+    def test_hostile_metadata_is_inert_and_research_uses_only_the_shared_loader(self):
         # Inserting raw labels into markup rather than escaped text would add a script tag.
         with TemporaryDirectory() as tmp:
             data = fixture()
@@ -189,8 +320,20 @@ class CurrentSiteBuildTests(unittest.TestCase):
             self.assertFalse(any(tag in ("script", "img", "iframe") for tag, attrs in alpha.tags))
             self.assertIn("<script>alert('label')</script>", " ".join(alpha.text))
             research = Page((site / "research.html").read_text())
-            self.assertFalse(any(tag == "script" or attrs.get("class") == "current-search" for tag, attrs in research.tags))
-            self.assertTrue(any(attrs.get("content") == "script-src 'none'" for tag, attrs in research.tags))
+            scripts = [attrs for tag, attrs in research.tags if tag == "script"]
+            self.assertEqual(len(scripts), 1)
+            self.assertEqual(scripts[0].get("type"), "module")
+            source = urlsplit(scripts[0].get("src", ""))
+            self.assertEqual((source.scheme, source.netloc, source.path), ("", "", "current.mjs"))
+            self.assertFalse(any(set(attrs.get("class", "").split()) &
+                                 {"current-search", "current-results", "current-more"}
+                                 for tag, attrs in research.tags))
+            self.assertTrue(any(attrs.get("content") == "script-src 'self'" for tag, attrs in research.tags))
+            section = [attrs for tag, attrs in research.tags if attrs.get("id") == "current-research"]
+            self.assertEqual(len(section), 1)
+            self.assertEqual(section[0]["data-current-digest"], hashlib.sha256(payload.read_bytes()).hexdigest())
+            self.assertEqual(int(section[0]["data-current-bytes"]), len(payload.read_bytes()))
+            self.assertTrue(any(attrs.get("class") == "current-state" for tag, attrs in research.tags))
             home = Page((site / "index.html").read_text())
             section = [attrs for tag, attrs in home.tags if attrs.get("id") == "current-research"][0]
             self.assertEqual(section["data-current-digest"], hashlib.sha256(payload.read_bytes()).hexdigest())
@@ -198,6 +341,42 @@ class CurrentSiteBuildTests(unittest.TestCase):
             self.assertTrue(any(attrs.get("class") == "current-search" for tag, attrs in home.tags))
             for reference in ("STATUS.md", "docs/RESEARCH_INDEX.md", "PROOF_INDEX.md"):
                 self.assertTrue(any(href.endswith("/" + reference) for href in research.links))
+
+    def test_research_template_allows_the_same_origin_current_module(self):
+        research = Page((ROOT / "docs/site/research.html").read_text())
+        policies = [attrs["content"] for tag, attrs in research.tags if tag == "meta"
+                    and attrs.get("http-equiv", "").lower() == "content-security-policy"]
+        self.assertEqual(len(policies), 1)
+        directives = {parts[0]: parts[1:] for directive in policies[0].split(";")
+                      if (parts := directive.split())}
+        effective = directives.get("script-src-elem", directives.get("script-src", directives.get("default-src", [])))
+        self.assertEqual(effective, ["'self'"])
+        self.assertEqual(directives.get("script-src"), ["'self'"])
+
+    def test_formal_remains_script_free_when_research_has_age_updates(self):
+        with TemporaryDirectory() as tmp:
+            site, payload = self.prepare(Path(tmp))
+            formal = (site / "research.html").read_bytes().replace(b"script-src 'self'", b"script-src 'none'")
+            (site / "formal.html").write_bytes(formal)
+            result = self.run_build(site, payload)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            parsed = Page((site / "formal.html").read_text())
+            self.assertFalse(any(tag == "script" or attrs.get("class") == "current-search" for tag, attrs in parsed.tags))
+            self.assertTrue(any(attrs.get("content") == "script-src 'none'" for tag, attrs in parsed.tags))
+            built = (site / "formal.html").read_bytes()
+            self.assertTrue(built.startswith(formal.split(START.encode())[0] + START.encode()))
+            self.assertTrue(built.endswith(END.encode() + formal.split(END.encode())[1]))
+
+    def test_script_blocked_research_refuses_before_any_site_write(self):
+        with TemporaryDirectory() as tmp:
+            site, payload = self.prepare(Path(tmp))
+            research = site / "research.html"
+            research.write_bytes(research.read_bytes().replace(b"script-src 'self'", b"script-src 'none'"))
+            before = self.snapshot(site)
+            result = self.run_build(site, payload)
+            self.assertNotEqual(result.returncode, 0)
+            self.assertIn("current freshness loader requires a script-enabled CSP", result.stderr)
+            self.assertEqual(before, self.snapshot(site))
 
     def test_invalid_payload_or_missing_marker_fails_before_any_site_write(self):
         # Admission must finish before mutations, preserving the last deployable tree on refusal.

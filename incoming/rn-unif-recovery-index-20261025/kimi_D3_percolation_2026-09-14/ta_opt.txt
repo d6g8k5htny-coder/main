@@ -1,0 +1,50 @@
+D3 REMOTE AMENDMENT engine -- certified kappa_far and bracket
+probe Z_r(0.05) = 0.008061180539 +- 7.913666270522449e-06 (QMC, CONSISTENCY DISPLAY ONLY -- the certified kappas are exact-kernel; the relative forms consume the G.7 two-sided normalizer)
+A1 certified kappa pieces at the axis-worst station (d=5, th=0), r = 0.05, v = window mid (endpoint variation displayed)
+  kappa_cross (tau form, certified)      = 0.62556315 (relative at probe Z_r [CONSUMES G.7])
+  chi2(p9||p6) = 1.9443e-6 (exact closed form; M min-eig 0.125)
+  kappa_pair (chi2 route, certified)     = 0.0024234
+  y-block W2^2 = 1.8355e-5 (mean part 1.8338e-5)
+  kappa_y (W2 coupling, certified)       = 0.02437
+  R_pg = 0.99999994   R_wm = 1.0002592 (exact)
+  [variation] kappa_cross(v=b) = 0.62556886
+  [variation] kappa_cross(v=s) = 0.62555744
+  kappa_far^(a) (assembled, axis-worst)  = 0.65284336
+  kappa_far^(a) certified <= 0.66 (round-UP absorbing all displayed variation + demoting QMC to consistency display)
+
+A1b decay display of the certified pieces (exact-kernel, evidence for the axis-worst claim: all pieces decreasing in d, axis worst)
+  (d,th)      kappa_cross   kappa_pair    kappa_y      R_wm-1
+  (5, 90)    0.047383      0.0001374     0.0006366    5.37e-6
+  (6,  0)    0.010316      2.41e-5       0.0002525    1.74e-6
+  (6, 90)    0.00042068    8.085e-7      3.745e-6     2.19e-8
+  (7,  0)    4.8761e-5     7.709e-8      8.25e-7      4.0e-9
+  (8,  0)    7.1587e-8     8.227e-11     8.896e-10    3.21e-12
+
+A2 the certified remote bracket (rounding: upper bounds round UP)
+  I_ann/r^3 = 17.0182368 (frozen D4 crude spine; displayed 17.0182) -> consumed as 17.0183 (round UP)
+  I_far(κ=0)/r^3 = (576-25pi) J(ell)/r^3 = 2.5282637 (exact)
+  I_far/r^3 <= 2.5282637 * (1 + 0.66) = 4.196917781
+
+  *** B_remote = I_ann + I_far <= 17.0183 + 4.196917781 = 21.21521778 r^3
+  *** CERTIFIED BRACKET: B_remote <= 21.2153 (round UP at 4 dp); exact form B_remote = 17.0183 + 2.52826(1+kappa_far), kappa_far <= 0.66 certified
+
+  reconciliation (rounding directions):
+    engine kappa=0 remote sum (DISPLAY, RN at QMC-central value): 17.0182 + 2.52826 = 19.5465 r^3 -- NOT an upper bound, point display only; the falsifier gate must reject it as the bracket
+    frozen THM display 20.9 (total incl. hole 1.284): the display of the same kappa=0 reading -- superseded by this amendment
+    certified bracket (this amendment): B_remote <= 21.2153 r^3 [kappa_far fully decomposed: kappa_cross 0.625563 + kappa_pair 0.0024234 + kappa_y 0.02437 + ratios 0.9999999/1.000259, assembled 0.65284336, round-up 0.66; NO QMC factor inside the certified constant]
+    full P_r(A.rem) <= I_hole + B_remote <= 1.284 + 21.2153 = 22.4993 r^3 [I_hole CONSUMES C1 chart envelope]
+    note vs the R3 finding's 21.14: that value kept kappa = 0.63 (kappa_cross alone); the full certified decomposition adds kappa_pair = 0.0024234 and kappa_y = 0.02437, giving kappa_far <= 0.66
+
+A3 D3-LEMMA-RN-UNIF(r=0.05) disposition
+  6-pin pair-block eigenvalues: 2.6e-10 5.21e-7 2.08e-6 0.0025 0.0025 4.0
+  ||Delta||_F = 2.2128e-5 ; tau = 0.00035265
+  rigid dir 0 (lam=2.6e-10): ||v_R^T Delta|| = 2.712e-7  (ratio 0.01226)
+  rigid dir 1 (lam=5.21e-7): ||v_R^T Delta|| = 6.045e-7  (ratio 0.02732)
+  entrywise tau envelope ||Delta||^2/lam_min = 1.881 vs true tau 0.0003527 (overbound x5.33e+3 -- the rigid-direction cancellation that entrywise kernel envelopes cannot see)
+  DISPOSITION: NOT closed. Precisely missing for the far-zone uniformity at r=0.05:
+   (i) a certified bound on tau(y) = tr(Delta^T Spair^{-1} Delta) and on the chi2 pair-shift, UNIFORM over {d >= 5}: entrywise kernel envelopes overbound tau by the displayed factor because the pins explain the rigid directions (the cancellation above);
+   (ii) the named route (RIGIDITY-DECOUPLING lemma, for foundations): the rigid directions of the pair block lie in the pin-determined subspace, so their conditional covariance with remote jets carries an explicit extra decay factor (evidence: the rigid-aligned norms above, ~80x below generic at the displayed station);
+   (iii) the annulus crude-spine zone-integral uniformity (trapezoid -> certified Riemann sum): missing a certified interval evaluation of rho_spine(y) over a box covering of {2r <= d <= 5}; machinery exists (cov_exact iv mode carries tails; certified inversion by residuals), costed ~10^3 boxes; not built in this lane.
+  What IS closed at r=0.05: every kappa piece at the axis-worst station (A1, exact-kernel certified), the exact far-zone main term (576-25pi)J(ell), and the monotone-decay displays of all pieces on the D2/D4 nets (axis-worst at d=5, exact-kernel evidence).
+A4 eps_QMC resolution: the certified kappa_far = 0.66 contains NO Monte-Carlo factor; the QMC RN ratios (Z_r probe, g/(Z_r m_sad) in [0.098,1.38], 1.00+-0.01 at d=5) are CONSISTENCY DISPLAYS ONLY. The certified constant is assembled from exact-kernel pieces and rounded UP (absorbing the displayed endpoint variation); the only external consumption is the G.7-scope two-sided normalizer inside the relative forms (verbatim the C2 5.0 caveat).
+D3-AMEND PASS digest=87b0c0f629d2e988bed5d582a4e26924af745b918c41f5dace94615b5bd026e3

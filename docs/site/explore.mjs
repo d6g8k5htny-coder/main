@@ -1,10 +1,12 @@
-import { coneModel, pinModel, paletteModel, applyCurvaturePreset } from './explore-models.mjs?site-release=4764cf2cfa0123b97aca3ec6ff8a1aba79e9ad1b5506d8616775b59c20e65ebc';
-import { readExploreState, exploreStateURL } from './explore-state.mjs?site-release=4764cf2cfa0123b97aca3ec6ff8a1aba79e9ad1b5506d8616775b59c20e65ebc';
+import { coneModel, pinModel, paletteModel, applyCurvaturePreset } from './explore-models.mjs?site-release=109d29cdf7be065beb083649ac3d4ee8d54059fa4bc81e9ce1baa834d3cbb25d';
+import { readExploreState, exploreStateURL } from './explore-state.mjs?site-release=9f58c92d5384ce49206068c2715c658367de056c2e45dbac2d22fcbf52a0a5b7';
 
-import { captureCurvatureDiagram, serializeCurvatureSVG, createCitationController } from './curvature-export.mjs?site-release=4764cf2cfa0123b97aca3ec6ff8a1aba79e9ad1b5506d8616775b59c20e65ebc';
-import { captureTeachingDiagram, createFigureCitationController } from './teaching-export.mjs?site-release=4764cf2cfa0123b97aca3ec6ff8a1aba79e9ad1b5506d8616775b59c20e65ebc';
-import { serializePinSVG, pinFigureCitation } from './pin-export.mjs?site-release=4764cf2cfa0123b97aca3ec6ff8a1aba79e9ad1b5506d8616775b59c20e65ebc';
-import { serializePaletteSVG, paletteFigureCitation } from './palette-export.mjs?site-release=4764cf2cfa0123b97aca3ec6ff8a1aba79e9ad1b5506d8616775b59c20e65ebc';
+import { captureCurvatureDiagram, serializeCurvatureSVG, buildFigureMetadata, buildFigureCitation, createCitationController } from './curvature-export.mjs?site-release=f7ffa0d49d92f35f5968549af9d27db4ea607e11d5cf8d1650d85069c0d690e1';
+import { captureTeachingDiagram, createFigureCitationController } from './teaching-export.mjs?site-release=e375f5789bd3e09d61d6b31b3ceb5e8451774c49b4ab82db358b4ea16806b2aa';
+import { serializePinSVG, pinFigureMetadata, pinFigureCitation } from './pin-export.mjs?site-release=3378fb7a30a53f510ca278d0667b41c248a0e3de4757b5aee5ddc073a19cb4cc';
+import { serializePaletteSVG, paletteFigureMetadata, paletteFigureCitation } from './palette-export.mjs?site-release=43921f7f1ceda9346f2e3afb7d48d1230a7dbe0be84f162fc78f7540904495b4';
+
+import { createFigurePNGController, downloadFigurePNG } from './figure-png.mjs?site-release=764457b8b47280b54f09377a913820465db1954f2ce717ee9f33933fd13118f9';
 
 const ns = 'http://www.w3.org/2000/svg';
 const byId = id => document.getElementById(id);
@@ -40,11 +42,37 @@ const downloadSupported = typeof Blob === 'function' && typeof URL.createObjectU
   && typeof URL.revokeObjectURL === 'function' && 'download' in document.createElement('a');
 let figureReady = false;
 const exportControls = new Set([exportButton, copyCitationButton]);
-function teachingFigureTools(prefix, currentParameters, serialize, buildCitation) {
+const pngSupported = downloadSupported && typeof AbortController === 'function'
+  && typeof HTMLCanvasElement === 'function' && typeof HTMLCanvasElement.prototype.toBlob === 'function';
+function pngTools(prefix, capture) {
+  const button = byId(`${prefix}-export-png`), message = byId(`${prefix}-png-message`);
+  exportControls.add(button);
+  const controller = createFigurePNGController({capture,
+    download: blob => downloadFigurePNG(blob, `${prefix}-teaching-figure.png`),
+    onChange(state) {
+      button.disabled = !pngSupported || !state.ready || state.pending;
+      message.textContent = pngSupported ? state.status
+        : 'PNG download is unavailable in this browser. Use SVG or the readable figure citation below.';
+    }
+  });
+  button.addEventListener('click', () => { if (pngSupported) void controller.export(); });
+  return controller;
+}
+const curvaturePNG = pngTools('curvature', timestamp => {
+  const params = currentFigureParameters();
+  return {svg: serializeCurvatureSVG(captureCurvatureDiagram(byId('curvature-diagram')), params, timestamp),
+    metadata: buildFigureMetadata(params, timestamp), citation: buildFigureCitation(params), width: 600, height: 535};
+});
+function teachingFigureTools(prefix, currentParameters, serialize, buildCitation, buildMetadata) {
   const download = byId(`${prefix}-export-svg`), copy = byId(`${prefix}-copy-citation`);
   const status = byId(`${prefix}-export-status`), details = byId(`${prefix}-figure-citation`);
   const text = byId(`${prefix}-citation-text`), svg = byId(`${prefix}-diagram`);
   exportControls.add(download); exportControls.add(copy);
+  const png = pngTools(prefix, timestamp => {
+    const params = currentParameters(), metadata = buildMetadata(params, timestamp);
+    return {svg: serialize(captureTeachingDiagram(svg), params, timestamp), metadata,
+      citation: buildCitation(params), width: 600, height: prefix === 'pin' ? 582 : metadata.decomposable ? 478 : 496};
+  });
   let ready = false;
   const controller = createFigureCitationController({buildCitation,
     writeText: typeof navigator.clipboard?.writeText === 'function' ? value => navigator.clipboard.writeText(value) : undefined,
@@ -56,7 +84,7 @@ function teachingFigureTools(prefix, currentParameters, serialize, buildCitation
   });
   function capture() { return serialize(captureTeachingDiagram(svg), currentParameters()); }
   function refuse() {
-    ready = false; download.disabled = true; controller.clear();
+    ready = false; download.disabled = true; controller.clear(); png.refresh(false);
   }
   download.addEventListener('click', () => {
     if (!ready || !downloadSupported) return;
@@ -82,7 +110,7 @@ function teachingFigureTools(prefix, currentParameters, serialize, buildCitation
     ready = false; download.disabled = true;
     try {
       capture(); ready = true; controller.setFigure(currentParameters());
-      download.disabled = !downloadSupported;
+      download.disabled = !downloadSupported; png.refresh(true);
       if (!downloadSupported) status.textContent = 'SVG download is unavailable in this browser. The figure citation remains readable below.';
     } catch { refuse(); }
   }};
@@ -108,6 +136,7 @@ function updateFigureTools() {
     exportButton.disabled = !downloadSupported;
     if (!downloadSupported) exportStatus.textContent = 'SVG download is unavailable in this browser. The figure citation can be copied manually below.';
   } catch { citation.clear(); }
+  curvaturePNG.refresh(figureReady);
 }
 exportButton.addEventListener('click', () => {
   if (!figureReady || !downloadSupported) return;
@@ -122,7 +151,7 @@ exportButton.addEventListener('click', () => {
     document.body.append(link); link.click();
     exportStatus.textContent = 'Curvature SVG download started. It is an illustrative teaching figure.';
   } catch {
-    figureReady = false; exportButton.disabled = true; citation.clear();
+    figureReady = false; exportButton.disabled = true; citation.clear(); curvaturePNG.refresh(false);
     exportStatus.textContent = 'SVG download could not complete: the displayed diagram is unavailable or contains unsupported content.';
     citationDetails.open = true;
   } finally {
@@ -136,7 +165,7 @@ copyCitationButton.addEventListener('click', () => {
   try {
     serializeCurvatureSVG(captureCurvatureDiagram(byId('curvature-diagram')), currentFigureParameters());
     void citation.copy();
-  } catch { figureReady = false; exportButton.disabled = true; citation.clear(); }
+  } catch { figureReady = false; exportButton.disabled = true; citation.clear(); curvaturePNG.refresh(false); }
 });
 function drawCone() {
   const model = coneModel(Number(center.value), Number(spread.value));
@@ -180,7 +209,7 @@ function drawCone() {
 
 const distance = byId('pin-distance');
 const regions = [...document.querySelectorAll('input[name="region"]')];
-const pinTools = teachingFigureTools('pin', () => ({r:Number(distance.value),region:regions.find(input => input.checked).value}), serializePinSVG, pinFigureCitation);
+const pinTools = teachingFigureTools('pin', () => ({r:Number(distance.value),region:regions.find(input => input.checked).value}), serializePinSVG, pinFigureCitation, pinFigureMetadata);
 function drawPins() {
   const model = pinModel({ r: Number(distance.value) });
   const remote = regions.find(input => input.checked).value === 'remote';
@@ -225,7 +254,7 @@ function drawPins() {
 }
 
 const objects = [...document.querySelectorAll('.object-choices input')];
-const paletteTools = teachingFigureTools('palette', () => ({objects:objects.filter(input => input.checked).map(input => Number(input.value) + 1)}), serializePaletteSVG, paletteFigureCitation);
+const paletteTools = teachingFigureTools('palette', () => ({objects:objects.filter(input => input.checked).map(input => Number(input.value) + 1)}), serializePaletteSVG, paletteFigureCitation, paletteFigureMetadata);
 function drawPalette() {
   const model = paletteModel(objects.filter(input => input.checked).map(input => Number(input.value)));
   const names = model.selected.map(value => value + 1);
@@ -312,6 +341,12 @@ objects.forEach(input => input.addEventListener('change', () => { drawPalette();
 byId('palette-reset').addEventListener('click', () => { objects.forEach(input => { input.checked = true; }); drawPalette(); commitState(); });
 window.addEventListener('popstate', restoreState);
 window.addEventListener('hashchange', updateLink);
+// Theme changes invalidate pending raster work, including a change away and
+// back. Reuse the existing capture validation and citation state for each view.
+const appearanceQuery = window.matchMedia?.('(prefers-color-scheme: dark)');
+const refreshAppearance = () => { updateFigureTools(); pinTools.refresh(); paletteTools.refresh(); };
+if (typeof appearanceQuery?.addEventListener === 'function') appearanceQuery.addEventListener('change', refreshAppearance);
+else appearanceQuery?.addListener?.(refreshAppearance);
 
 restoreState();
 shareLink.hidden = false;

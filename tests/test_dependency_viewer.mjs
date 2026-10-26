@@ -426,7 +426,7 @@ test('the pinned snapshot keeps its recorded counterexample and 19 differing cou
 
 test('reach labels state their edge scope and do not describe reach as blocking', async () => {
   const [page, app] = await Promise.all([readFile(pageURL, 'utf8'), readFile(appURL, 'utf8')]);
-  assert.ok(page.includes('<h2 id="targets-heading">Ranked by all-edge reach (includes context)</h2>'));
+  assert.ok(page.includes('<h3 id="targets-heading">Ranked by all-edge reach (includes context)</h3>'));
   assert.ok(page.includes('class="muted">All-edge reach counts the distinct nodes that reach a target through any recorded edge in this snapshot, including context edges that are not required premises; the target itself is excluded.'));
   assert.ok(page.includes('Required-dependency reach counts only the nodes that reach a target through required edges at every step, in this snapshot.'));
   assert.ok(page.includes('(the viewer\'s list rule in dependency-model.mjs, not a source verdict). Open leaves remain listed even when both counts are zero.</p></div>'));

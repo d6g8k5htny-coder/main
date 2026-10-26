@@ -113,12 +113,69 @@ the exact source and the remaining coalescing-contact factorial scope.
 Independent copies do not establish a same-field spatial expanding-domain
 process or retire the existing regional additional-witness lane.
 
+The [spectral Gaussian admission theorem](spectral_gaussian_admission/PROOF.md)
+extends the actual H0 intensity and iid-copy process to stationary Gaussian
+spectra with a positive K5 block and fourth-order square-root summability.
+It independently proves the C4 interfaces, permits arbitrary outside support
+holes and supplies optional zero-mode removal and general finite carriers.
+A dyadic argument admits polynomial tails beyond that summability test.
+The coefficient remains the actual jet functional of each law; explicit
+spectral degeneracy examples exclude automatic family uniformity. Its
+[review](spectral_gaussian_admission/REVIEW.md) binds the original and current
+source verdicts and finite-regularity classical imports. This admits no
+covariance-matched non-Gaussian sampler or numerical approximation by itself.
+
+The [higher-homology fold theorem](higher_homology_fold/PROOF.md) now proves,
+under its stated same-field C4 continuation and complete critical-list
+hypotheses, that an isolated regular cubic fold creates an actual ordinary
+Hp interval with p=d-j-1, where j is the transverse Hessian index. Exact transverse
+splitting gives one adapted-flow connection; a fixed-annulus height cost
+excludes other connecting orbits, making the relative handle incidence a
+unit. Aligned regular-level isotopy transfers smooth handle incidence to
+the actual C4 filtration. Under the admitted SG contracts, every degree
+p=0,...,d-1 has lifetime density asymptotic to c_(q,p)*ell^(-1/3)
+as ell tends to zero, with law-specific inertia-cone coefficient and symmetry
+c_(q,p)=c_(q,d-1-p). The all-degree weighted
+cluster estimate yields a degree-marked iid-copy Poisson limit. Its
+[review](higher_homology_fold/REVIEW.md) binds the exact topological proof,
+classical imports and source exposure. This does not admit a numerical
+Hp algorithm, arbitrary coefficient laws/geometries or spatial process.
+
+The [exact amplitude crossover theorem](spectral_amplitude_crossover/PROOF.md)
+considers F=A H for an admitted Gaussian field H and an independent bounded
+positive amplitude A=aR, where R has density alpha*r^(alpha-1) on 0<r<1 and
+normalization E[A^2]=1. This gives an actual covariance-matched non-Gaussian
+field with the same realization-wise critical points and persistence pairings.
+Its lifetime density and cumulative count have three leading small-lifetime
+asymptotics: alpha<2/3 changes the power to alpha through a global barcode
+Mellin moment; alpha=2/3 gives the power 2/3 with a logarithmic count factor;
+alpha>2/3 retains that power with a negative-amplitude-moment coefficient.
+Density powers are one less than the corresponding cumulative powers.
+For independent whole copies with t tending to zero, the subcritical limit
+is a Poisson process of whole-barcode clusters. For a full positive K5 base
+law its void rates differ strictly from a Poisson random measure for the
+full H0/all-degree population.
+The critical limit is an ordinary projected Poisson random measure under
+n*t^(2/3)*log(1/t) scaling; the supercritical limit uses n*t^(2/3) scaling.
+Physical birth/gap marks collapse in the critical regime and have the stated
+amplitude tilt in the supercritical regime. The
+[review record](spectral_amplitude_crossover/REVIEW.md) preserves the original
+AMEND, corrected preparation reviews and completed incorporated-source review.
+For 2/3<alpha<1, a nonzero far population satisfying the stated base-far
+premises can have an unbounded density while t^(1/3)*nu_far(t) tends to zero.
+This refutes the stronger Gaussian O(1) estimate, not the structural FAR
+interface. Its cutoff and review bindings are clarified in the dated
+25 October source correction; the other four interfaces are not inferred.
+This exact declared mixture admits no arbitrary non-Gaussian law, numerical
+sampler, blind experiment or same-field spatial process.
+
 These conventional analytic results discharge selected-bar counting and the
-leading near/far intensity composition for the stated ideal finite laws and the
-specific exact periodized Gaussian law. Further
+leading near/far intensity composition for the stated ideal finite laws and
+admitted stationary Gaussian spectral/carrier laws. Further
 conditional ranks, literal critical formal alignment, certified sampler and
-numerical/count coupling, genuinely blind law-by-law admission, higher homology
-and spatial expanding-domain process convergence remain separate obligations. The sampler
+numerical/count coupling, genuinely blind law-by-law admission, further field laws
+and geometries, and spatial expanding-domain process convergence remain separate
+obligations. The sampler
 and catalogue admissibility labels retain their original meaning.
 
 `models.py` defines the implemented finite-cutoff normalized sampler. Only
@@ -190,6 +247,6 @@ python3 -B -S experiments/universality/verify_published.py experiments/universal
 No held-out seeds have been consumed by this suite. Before a blind experiment,
 supply each model's actual law admission, coefficient/remainder/window,
 implementation coupling, numerical/count transfer, field-level precision and
-independent holdout custody described in the protocol. Further field laws,
-higher homology and geometry changes need their own actual analytic adapters
-and computational contracts; spatial expanding-domain process limits remain separate.
+independent holdout custody described in the protocol. Further field laws and geometry changes need their own actual analytic adapters;
+all admitted degrees still need their actual computational/count contracts.
+Spatial expanding-domain process limits remain separate.
