@@ -44,7 +44,7 @@ is added. Existing Claude54 Orca46 work retains its own scope.
 
 Linux Chromium154 with sandbox, local loopback, reduced motion, same dataset.
 Ready times before:339/320/380/354ms; after:352/349/362/322ms, one pass per layout.
-Formal disclosure before:6–11ms; after:9–10ms. Initial resource bodies add15,122bytes.
+Formal disclosure before:6–11ms; after:9–10ms. Initial resource bodies add15,359bytes.
 These are mixed single-environment observations, not a speedup or physical-device promise.
 See MEASUREMENTS.json and raw reports for exact values, module identities and timing.
 
