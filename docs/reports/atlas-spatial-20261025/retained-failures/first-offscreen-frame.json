@@ -1,0 +1,31 @@
+{
+  "environment": {
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.41",
+    "browser_executable": "/usr/bin/chromium",
+    "GPU": "Chromium SwiftShader software WebGL; not physical mobile GPU",
+    "dataset_bytes": 962639,
+    "browser": "154.0.8037.57"
+  },
+  "cases": [
+    {
+      "case": "real-render-pick-history-keyboard",
+      "viewport": [
+        1200,
+        900
+      ],
+      "scheme": "dark",
+      "errors": [],
+      "load_ms": 349.4590660002359,
+      "search_with_100ms_settle_ms": 153.5623569998279,
+      "activate_ms": 204.74536100027763,
+      "nodes": 6,
+      "edges": 5,
+      "picked": "math.d1-component.congruence-erratum",
+      "source": "https://github.com/d6g8k5htny-coder/Math-/blob/dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde/imports/lifetime_parent_20260925/ERRATUM_CONGRUENCE.md",
+      "relationships": 1,
+      "share": "http://127.0.0.1:45715/site/dependencies.html?atlas-view=graph&atlas-node=math.uniform-matrix-cap-lifetime&snapshot=dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde&main-snapshot=b7deb198722582df191006e4f47238f92e6e543d&atlas-expanded=math.uniform-matrix-cap-lifetime%2Cmath.d1-component.congruence-erratum&atlas-q=lifetime&atlas-space=3d&atlas-panel=evidence#current-atlas"
+    }
+  ],
+  "failure": "Locator expected to have attribute 'true'\nActual value: None \nCall log:\n  - Expect \"to_have_attribute\" with timeout 5000ms\n  - waiting for locator(\"#atlas-space-host\")\n    14 \u00d7 locator resolved to <div data-nodes=\"6\" data-edges=\"5\" id=\"atlas-space-host\" class=\"atlas-space-host\">\u2026</div>\n       - unexpected value \"null\"\n\nAria snapshot:\n- img \"3D dependency graph. Arrow keys orbit, Shift and arrows pan, plus and minus zoom, Home resets. Use the node list to select with a keyboard.\"",
+  "traceback": "Traceback (most recent call last):\n  File \"/workspace/atlas-spatial/tools/atlas_spatial_browser_check.py\", line 40, in main\n    expect(page.locator('#atlas-space-host')).to_have_attribute('data-ready','true')\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/sync_api/_generated.py\", line 22107, in to_have_attribute\n    self._sync(\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_sync_base.py\", line 115, in _sync\n    return task.result()\n           ^^^^^^^^^^^^^\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_assertions.py\", line 349, in to_have_attribute\n    await self._expect_impl(\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_assertions.py\", line 128, in _expect_impl\n    _record_soft_or_raise(\n  File \"/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/playwright/_impl/_assertions.py\", line 60, in _record_soft_or_raise\n    raise error\nAssertionError: Locator expected to have attribute 'true'\nActual value: None \nCall log:\n  - Expect \"to_have_attribute\" with timeout 5000ms\n  - waiting for locator(\"#atlas-space-host\")\n    14 \u00d7 locator resolved to <div data-nodes=\"6\" data-edges=\"5\" id=\"atlas-space-host\" class=\"atlas-space-host\">\u2026</div>\n       - unexpected value \"null\"\n\nAria snapshot:\n- img \"3D dependency graph. Arrow keys orbit, Shift and arrows pan, plus and minus zoom, Home resets. Use the node list to select with a keyboard.\"\n"
+}

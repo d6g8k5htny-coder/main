@@ -635,7 +635,8 @@ class ArtifactIndexProjectionContractTests(unittest.TestCase):
                 elif fault == "extra_rows":
                     blocks[1]["rowData"].append(copy.deepcopy(blocks[1]["rowData"][0]))
                 elif fault == "short_cells":
-                    blocks[2]["rowData"][0]["values"].pop()
+                    # Nine cells: public Modified UTC (J) is missing as well as K/L.
+                    del blocks[2]["rowData"][0]["values"][9:]
                 elif fault == "extra_cells":
                     blocks[2]["rowData"][0]["values"].append({})
                 elif fault == "cell_not_object":
@@ -651,6 +652,98 @@ class ArtifactIndexProjectionContractTests(unittest.TestCase):
                 replace_native(packet, native)
                 result = self.refuse(packet)
                 self.assertNotIn(b"PRIVATE_BAD_CELL", result.stderr)
+
+    def test_nonheader_rows_may_omit_only_trailing_private_source_and_notes_cells(self):
+        # formattedValue reads elide trailing empty cells, so blank private K/L
+        # may be absent. Absent cells read as empty strings and never project.
+        for block_index, row_index in ((1, 0), (1, 1), (2, 0)):
+            for length in (10, 11, 12):
+                with self.subTest(block=block_index, row=row_index, cells=length):
+                    packet = copy.deepcopy(self.packet)
+                    native = get_native(packet)
+                    del native["sheets"][0]["data"][block_index]["rowData"][row_index]["values"][length:]
+                    replace_native(packet, native)
+                    self.accept(packet)
+        packet = copy.deepcopy(self.packet)
+        native = get_native(packet)
+        for block in native["sheets"][0]["data"][1:]:
+            for native_row in block["rowData"]:
+                del native_row["values"][10:]
+        replace_native(packet, native)
+        self.accept(packet)
+
+    def test_nonheader_rows_outside_ten_to_twelve_cells_and_short_headers_refuse(self):
+        for block_index, row_index in ((1, 0), (1, 1), (2, 0)):
+            for length in (0, 1, 8, 9):
+                with self.subTest(block=block_index, row=row_index, cells=length):
+                    packet = copy.deepcopy(self.packet)
+                    native = get_native(packet)
+                    del native["sheets"][0]["data"][block_index]["rowData"][row_index]["values"][length:]
+                    replace_native(packet, native)
+                    self.refuse(packet)
+            for extra in (1, 2):
+                with self.subTest(block=block_index, row=row_index, cells=12 + extra):
+                    packet = copy.deepcopy(self.packet)
+                    native = get_native(packet)
+                    native["sheets"][0]["data"][block_index]["rowData"][row_index]["values"].extend([{}] * extra)
+                    replace_native(packet, native)
+                    self.refuse(packet)
+        for length in (9, 10, 11, 13):
+            with self.subTest(header_cells=length):
+                packet = copy.deepcopy(self.packet)
+                native = get_native(packet)
+                header = native["sheets"][0]["data"][0]["rowData"][0]["values"]
+                if length > 12:
+                    header.append({"formattedValue": "Extra"})
+                else:
+                    del header[length:]
+                replace_native(packet, native)
+                self.refuse(packet)
+        # A short row still refuses bad private cells that are present.
+        for value in ("PRIVATE_BAD_CELL", None, ["PRIVATE_ARRAY_CELL"]):
+            with self.subTest(short_row_private_cell=value):
+                packet = copy.deepcopy(self.packet)
+                native = get_native(packet)
+                cells = native["sheets"][0]["data"][2]["rowData"][0]["values"]
+                del cells[11:]
+                cells[10] = value if type(value) is str else {"formattedValue": value}
+                replace_native(packet, native)
+                result = self.refuse(packet)
+                self.assertNotIn(b"PRIVATE_BAD_CELL", result.stderr)
+                self.assertNotIn(b"PRIVATE_ARRAY_CELL", result.stderr)
+
+    def test_p2_synthetic_trailing_suffix_fixture_projects_with_its_independent_pins(self):
+        # Synthetic TEST fixture and pins published in main#327 comment 6325876189
+        # (2082 bytes, SHA256 0a49c41e...a18bdc): header 12 cells, data row 10.
+        fixture = (ROOT / "tests" / "fixtures" / "artifact_index_p2_trailing_suffix.json").read_bytes()
+        self.assertEqual(digest(fixture), "0a49c41eda400a2e71a20ad73a33877432e5adae784399d90a998de8d9a18bdc")
+        packet = json.loads(fixture)
+        expected = {
+            "bindings_sha256": "2b296a32b0037e49a722ca88cce47e678d2472c3e2cf5cd805900fd4aba0ba65",
+            "capture_sha256": "77929c4fcb3d815fb8a9f262a1b6e71f22e85fb0d12da5b743717f220820117e",
+            "graph_nodes_sha256": "221139c5f0571ac60640e8e2f591de16263cd0ab02805910070c728afcca1d31",
+            "metadata_sha256": "3aab18af5822ae5ca6fa1f98a22b72d2d69b742b5365ced6e0b2ba3cbac30539",
+            "policy_sha256": "9be75008ad5ad069787fa4e61723541de612660eb5674998ee45c2e059e198ee",
+        }
+        self.assertEqual(pins_for(packet), expected)
+        rows = get_native(packet)["sheets"][0]["data"][0]["rowData"]
+        self.assertEqual([len(native_row["values"]) for native_row in rows], [12, 10])
+        result = self.invoke(packet, expected=expected)
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertEqual(result.stderr, b"")
+        projected = json.loads(result.stdout)
+        self.assertEqual(projected, self.expected_projection(packet, expected))
+        self.assertEqual(result.stdout, canonical(projected) + b"\n")
+        self.assertEqual([value["artifact_id"] for value in projected["rows"]], ["TEST-P2-ARTIFACT"])
+        self.assertEqual(projected["rows"][0]["source_row"], 2)
+        self.assertEqual(projected["custody"], "unknown")
+        self.assertIs(projected["scientific_status_authority"], False)
+        self.assertEqual(projected["bindings"], [{"artifact_id": "TEST-P2-ARTIFACT",
+                                                  "node_id": "TEST-P2-NODE", "roles": ["source"]}])
+        self.assertEqual(projected["unmapped_nodes"], ["TEST-UNMAPPED-NODE"])
+        for canary in (b"TEST_PRIVATE_PRIORITY_CANARY", b"TEST_PRIVATE_TOPICS_CANARY"):
+            self.assertNotIn(canary, result.stdout + result.stderr)
+        self.assertNotIn(packet["capture"]["raw_base64"].encode("ascii"), result.stdout + result.stderr)
 
     def test_all_formatted_cells_are_strings_including_private_and_unselected_cells(self):
         for block_index, row_index, column in ((1, 0, 1), (1, 1, 10), (1, 1, 11), (2, 0, 3)):

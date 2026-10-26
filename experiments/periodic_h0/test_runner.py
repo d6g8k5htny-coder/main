@@ -6,6 +6,9 @@ import tempfile
 import json
 from pathlib import Path
 import unittest
+import importlib.util
+if importlib.util.find_spec('gudhi') is None:
+    raise unittest.SkipTest('gudhi is not installed (see requirements.txt)')
 import run_pilot
 
 class RunnerTests(unittest.TestCase):

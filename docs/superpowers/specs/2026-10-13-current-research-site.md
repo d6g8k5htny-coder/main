@@ -40,3 +40,23 @@ Negative controls cover truncated inventories, wrong blob, missing sources, grap
 
 
 Prepared-but-unpublished recovery follows the reviewed dispatch-only [operator runbook](../runbooks/current-site-publication-recovery.md): republish the exact qualified P artifact under a distinct actual dispatch identity, require exact public P readback, then let ordinary successor preparation append Observed P with its new observer. Never fake the old run attempt, roll back the prepared floor or delete pointers for bootstrap. The runbook is documented; a recovery executor and actual replay require separately qualified integrator execution.
+
+
+## Implementation correction — 25 October 2026
+
+The script-free Research sentence in **Reader experience** above records the
+original 13 October design. Since merged [PR #587](https://github.com/d6g8k5htny-coder/main/pull/587),
+`tools/current_site_build.py` inserts the existing `current.mjs` module into
+generated Research pages. Formal remains script-free.
+
+The generator still publishes readable current navigation, the static observation
+timestamp and pinned source links without JavaScript, separately from preserved
+dated editorial reading cuts. On generated Research pages, `current.mjs` verifies
+the advertised local `current.json` observation and then recomputes its
+clock-derived freshness label (`current`, `stale` or `clock disagreement`) each
+minute and on page/visibility events; the same observation becomes stale after
+two hours. Initial observation loading includes one digest-keyed fallback after
+an integrity mismatch, not recurring polling. This enhancement does not acquire
+new upstream source documents, update the observation's source pins, refresh
+editorial reading cuts or revalidate scientific claims. The original design text
+and the historical cuts keep their dates and identities.
