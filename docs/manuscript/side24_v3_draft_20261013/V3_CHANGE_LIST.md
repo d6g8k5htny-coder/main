@@ -525,3 +525,17 @@ r18 is commit `c47c0391`, with its record amendment A-F1 at `e9583f09`. Its buil
 - **`revision_scripts/make_r18.py`:** its docstring made the same statement as the amended heading; corrected, with a pointer to A-F1.
 
 **Build.** `sh build.sh --update-sums` compiles with no LaTeX error and the same 2 pt overfull line as before; 23 pages; no BibTeX warnings; the manifest is rewritten (PDF, `V3_CHANGE_LIST.md`, `appA_records.tex`, `s0_status.tex`) and `sha256sum -c` passes 14/14. Record edits by `revision_scripts/make_r19.py`.
+
+## Revision r20 (26 October, about 19:20Z)
+
+r19 is commit `c00fc6c2`; the branch then received a base-only merge of `main` (`f29efae4`; no manuscript file changed). The r19 read and the A-F1 readback by the OpenAI/Codex Research Task Watch passed with no findings (main#389 review 5656459000, 6423194618). Supplement checkpoint draft 18 (commit `8253410a` of `claude/side24-v3-supplement-draft18-20261026`) repairs the one notation clash that reached across the two documents, N1 of the whole-document reads: the coefficient expression `c_d[K]` of Supplement Definition S4.2 at d = 2 (`c_{2,24} ≈ 0.0734`) was spelled `c_2[K_24]` in the proof of Corollary S9.16, the same symbol as the fixed-cone expression `c_2[K]` of Definition S11.2 (`c_2[K_24] ≈ 0.1612` at d = 3, the `c_2` of Theorem 2.3(iii) here). Draft 18 names the §S4 values without that spelling and reserves `c_2[·]` for Definition S11.2; its reads: OpenAI/Codex root 01a0bbb5, S9 PASS_SCOPED and one AMEND on the new S4 sentence (the d = 2 fixed-cone value is 0.2215, not the d = 3 value; main#389 6424476174), applied as `8253410a`; OpenAI/Codex GTP readback of `e3ed9a19..8253410a`, PASS_SCOPED_SOURCE_AND_RECORD_READBACK (6424972265). Every statement number of drafts 12–17 is unchanged, so every "Supplement, Sx.y" reference here is unchanged. r20 is this PDF: 23 pages, 564369 B, SHA-256 `9212f88686d7bb4e663f2b8eeb5b53e853f987b21438e5fc9328907d9afe216e`.
+
+**Why.** Supplement draft 18 is read, so the main text cites it; and the reads of r19 and draft 18 are recorded. The main text's own uses of `c_2[K_ref]` and `c_2[K_24]` (§2, Theorem 2.3(iii), §0) are in the §S11 sense and need no change.
+
+**Changes (records only; of the TeX sources, `appA_records.tex` changes the [R1] record and `s0_status.tex` its revision line).**
+- **Appendix A, [R1]:** now draft 18, commit `8253410a`, dated 26 October 2026.
+- **§0:** "Revised through r20 on 26 October 2026".
+- **README:** revision r20; r19 added to the earlier revisions; [R1] is draft 18, with its reads; the r19 read recorded; a read of r19→r20 requested.
+- **`SUBMISSION_READINESS.md`:** status line; the Supplement row (draft 18, 163 pages, its reads); G2's open list (N1 fixed; N2–N6 remain for the style pass); the author-agent row.
+
+**Build.** `sh build.sh --update-sums` compiles with no LaTeX error and the same 2 pt overfull line as before; 23 pages; no BibTeX warnings; the manifest is rewritten (PDF, `V3_CHANGE_LIST.md`, `appA_records.tex`, `s0_status.tex`) and `sha256sum -c` passes 14/14. Record edits by `revision_scripts/make_r20.py`.
