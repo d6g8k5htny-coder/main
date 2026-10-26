@@ -1,5 +1,5 @@
 {
-  "boundary": "Exact local author code commit; native final source/review/integration and actual deployment acceptance separately recorded. Earlier red/green/matched browser checked_commit fields record base238 while these three worktree files were modified; their material bytes equal this fixed local commit, not the pristine238 tree. No older execution rebound.",
+  "boundary": "Fixed local author code identity below applies to GREEN and matched source bytes. RED deliberately combines the new regression driver (identical to fixed commita3cdb137) with OLD238 CSS and old-key generated HTML. Each phase records its actual served CSS/HTML and payload below. Raw checked_commit fields remain238, the worktree base; they do not identify the complete mixed/modified tree. Native review/integration/deployment are separately qualified; no older execution is rebound.",
   "local_code_commit": "a3cdb1374b57d0ba91a5764e9d414b862401f9d4",
   "local_code_tree": "af9a072ddd524a6ffbd7ea0f557c28023598613b",
   "parent": "238a1709554d59258fa8235918f621e291e15eab",
@@ -24,5 +24,112 @@
       "sha256": "8a6a1c57fd5382a61b0cb11af1ed632bf6a1c71cc70098afe340c5607e4f5b87",
       "blob": "fd56cfdcc7170ce2653fa5f65c8e8e254bd76885"
     }
-  ]
+  ],
+  "observations": {
+    "RED": {
+      "record": "red.json",
+      "raw_checked_commit": "238a1709554d59258fa8235918f621e291e15eab",
+      "served_css": {
+        "bytes": 12059,
+        "sha256": "9e9cd4b03d4893f3a374a48816690d06407167d7890b5e5caea63d3ca211c28d",
+        "path": "atlas-layout.css",
+        "source_commit": "238a1709554d59258fa8235918f621e291e15eab",
+        "blob": "281fc8a381a102a25b9a6de6902baeb55bdfb7f3"
+      },
+      "served_generated_html": {
+        "bytes": 34205,
+        "sha256": "a37f7d314c2acc6141de316441a6540e51759792d306071c0a3783afbb92127f",
+        "path": "dependencies.html",
+        "boundary": "Generated CURRENT block/fixture history differ from tracked source HTML; RED uses old238 CSS release key, GREEN/matched use fixed CSS key after normal release."
+      },
+      "regression_driver": {
+        "source_commit": "a3cdb1374b57d0ba91a5764e9d414b862401f9d4",
+        "path": "tools/atlas_relationships_browser_check.py",
+        "sha256": "8a6a1c57fd5382a61b0cb11af1ed632bf6a1c71cc70098afe340c5607e4f5b87"
+      },
+      "payload_sha256": "560d3d4e77369835c832dbb4fd0d12f4988744045b9cbc4c7978beddb6e9d20f",
+      "repositories": [
+        {
+          "commit": "b7deb198722582df191006e4f47238f92e6e543d",
+          "repository": "d6g8k5htny-coder/main",
+          "tree": "3d988a90a6313f68af21e0b04d08702632bf8ecc"
+        },
+        {
+          "commit": "dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde",
+          "repository": "d6g8k5htny-coder/Math-",
+          "tree": "acaf4fd05dc4392900d24fd58e13347009187317"
+        }
+      ]
+    },
+    "GREEN": {
+      "record": "green.json",
+      "raw_checked_commit": "238a1709554d59258fa8235918f621e291e15eab",
+      "served_css": {
+        "bytes": 12067,
+        "sha256": "0622b9b45125ed1d6c83fd355b093a008f30c76464c0ea6ac82bfdbe44d54417",
+        "path": "atlas-layout.css",
+        "source_commit": "a3cdb1374b57d0ba91a5764e9d414b862401f9d4",
+        "blob": "4aff881b9b3f0ff69873d9bf7d729711443d738b"
+      },
+      "served_generated_html": {
+        "bytes": 34205,
+        "sha256": "be2a2053e8580acb66ed1ff9e145277ae5a77db436a1ad2556b78b8c69f3d064",
+        "path": "dependencies.html",
+        "boundary": "Generated CURRENT block/fixture history differ from tracked source HTML; RED uses old238 CSS release key, GREEN/matched use fixed CSS key after normal release."
+      },
+      "regression_driver": {
+        "source_commit": "a3cdb1374b57d0ba91a5764e9d414b862401f9d4",
+        "path": "tools/atlas_relationships_browser_check.py",
+        "sha256": "8a6a1c57fd5382a61b0cb11af1ed632bf6a1c71cc70098afe340c5607e4f5b87"
+      },
+      "payload_sha256": "560d3d4e77369835c832dbb4fd0d12f4988744045b9cbc4c7978beddb6e9d20f",
+      "repositories": [
+        {
+          "commit": "b7deb198722582df191006e4f47238f92e6e543d",
+          "repository": "d6g8k5htny-coder/main",
+          "tree": "3d988a90a6313f68af21e0b04d08702632bf8ecc"
+        },
+        {
+          "commit": "dbe6c0a1b1a22c7404b0fd173ee0043b98a08cde",
+          "repository": "d6g8k5htny-coder/Math-",
+          "tree": "acaf4fd05dc4392900d24fd58e13347009187317"
+        }
+      ]
+    },
+    "matched": {
+      "record": "matched-browser.json",
+      "raw_checked_commit": "238a1709554d59258fa8235918f621e291e15eab",
+      "served_css": {
+        "bytes": 12067,
+        "sha256": "0622b9b45125ed1d6c83fd355b093a008f30c76464c0ea6ac82bfdbe44d54417",
+        "path": "atlas-layout.css",
+        "source_commit": "a3cdb1374b57d0ba91a5764e9d414b862401f9d4",
+        "blob": "4aff881b9b3f0ff69873d9bf7d729711443d738b"
+      },
+      "served_generated_html": {
+        "bytes": 34207,
+        "sha256": "35dbc3dd5ca4531568fbe563c217f8827cabc4c5a3b0d64677e2fefff6e86f27",
+        "path": "dependencies.html",
+        "boundary": "Generated CURRENT block/fixture history differ from tracked source HTML; RED uses old238 CSS release key, GREEN/matched use fixed CSS key after normal release."
+      },
+      "regression_driver": {
+        "source_commit": "a3cdb1374b57d0ba91a5764e9d414b862401f9d4",
+        "path": "tools/atlas_relationships_browser_check.py",
+        "sha256": "8a6a1c57fd5382a61b0cb11af1ed632bf6a1c71cc70098afe340c5607e4f5b87"
+      },
+      "payload_sha256": "6451709314ee88db90eb1a0fa121d061922a94288c64a48930f3382bd3e53a88",
+      "repositories": [
+        {
+          "commit": "ecebf8348ac9d81eb33d1c9f5f047be37bbb1db1",
+          "repository": "d6g8k5htny-coder/main",
+          "tree": "51cd7174d4d0b44a4a55b20abe35d15b2abcea7e"
+        },
+        {
+          "commit": "f0f90857dcf7586e5195fcb05c0058657fba4003",
+          "repository": "d6g8k5htny-coder/Math-",
+          "tree": "d7104e46ed76312b8d39c15fbae83d95ca5b4d8a"
+        }
+      ]
+    }
+  }
 }
