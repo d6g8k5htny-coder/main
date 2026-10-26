@@ -26,6 +26,14 @@ test('selected claim takes priority over nearer coincident nodes without changin
   const result=labels.placeSpatialLabels(input,390,352);
   assert.equal(result[0].id,id);verify(result,input,390,352);
 });
+test('labels leave a distinct unselected node clear for actual canvas picking',()=>{
+  assert.equal(typeof labels.placeSpatialLabels,'function');
+  const input=[entry('selected',195,180,230,80,true),entry('front-node',195,100,140,44,false,-.8)];
+  const result=labels.placeSpatialLabels(input,390,352);
+  assert.equal(result[0].id,'selected');verify(result,input,390,352);
+  const target={left:190,top:95,width:10,height:10};
+  assert.ok(result.every(box=>!intersects(box,target)),'An unselected node must remain uncovered');
+});
 test('camera-depth order and identifier ties are deterministic and inputs remain unchanged',()=>{
   assert.equal(typeof labels.placeSpatialLabels,'function');
   const input=[entry('z',150,140,110,44,false,.5),entry('b',320,200,120,60,false,-.4),entry('a',200,290,160,44,false,-.4)];

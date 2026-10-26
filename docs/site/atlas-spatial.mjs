@@ -1,5 +1,5 @@
 import * as THREE from './vendor/three-0.160.0/three.module.js?site-release=f2988301e38ea3d44631f3220044accc019d63ae79b737e79b7b8ab7a2d5f778';
-import {placeSpatialLabels} from './atlas-spatial-labels.mjs?site-release=d9d2a87447637bd9f3a88a83589ae46f75d604326f4e62610244ba439debe357';
+import {placeSpatialLabels} from './atlas-spatial-labels.mjs?site-release=38a7fb25490081fe6c4fc295ef61bb0e7156aa7111dc71aa8881ff7d23d07b46';
 
 // An on-demand renderer: no animation loop, damping, physics or auto-rotation.
 export function createSpatialRenderer({host,onPick,onFailure}) {
