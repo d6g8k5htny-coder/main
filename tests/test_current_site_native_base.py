@@ -1146,6 +1146,68 @@ class CurrentSiteNativeBaseContract(unittest.TestCase):
         with self.assertRaises(ValueError):
             validate(files, native_anchor=native_anchor)
 
+    def test_f2r_no_start_outer_singleton_native_response_hash_is_accepted(self):
+        validate = self.api()
+        files, native_anchor, expected = _f2x_current_no_start_handoff()
+        qualification = json.loads(files["qualification.json"])
+        native_response = next(row for row in qualification["metadata"]["responses"]
+                               if row["route_kind"] == "pending-run")
+        # Outer hashes are references, not an all-evidence coverage quorum.
+        # All four contents roles and the separate exact-four vector remain.
+        qualification["no_start"]["response_sha256s"] = [native_response["sha256"]]
+        files["qualification.json"] = canonical(qualification)
+        disposition = json.loads(files["pending-plan.json"])
+        disposition["qualification_sha256"] = digest(files["qualification.json"])
+        files["pending-plan.json"] = canonical(disposition)
+        expected["disposition"] = copy.deepcopy(disposition)
+        try:
+            actual = validate(files, native_anchor=native_anchor)
+        except ValueError:
+            self.fail("F2-SR-01 regression: a valid singleton outer response hash list was refused")
+        self.assertEqual(actual, expected)
+
+    def test_f2r_no_start_outer_64_repeated_native_hash_references_are_accepted(self):
+        validate = self.api()
+        files, native_anchor, expected = _f2x_current_no_start_handoff()
+        qualification = json.loads(files["qualification.json"])
+        native_response = next(row for row in qualification["metadata"]["responses"]
+                               if row["route_kind"] == "pending-run")
+        # The declared 1..64 vector bound does not count HTTP observations.
+        # Repeating an existing valid reference changes no transport counters.
+        qualification["no_start"]["response_sha256s"] = [native_response["sha256"]] * 64
+        files["qualification.json"] = canonical(qualification)
+        disposition = json.loads(files["pending-plan.json"])
+        disposition["qualification_sha256"] = digest(files["qualification.json"])
+        files["pending-plan.json"] = canonical(disposition)
+        expected["disposition"] = copy.deepcopy(disposition)
+        try:
+            actual = validate(files, native_anchor=native_anchor)
+        except ValueError:
+            self.fail("F2-SR-01 regression: 64 valid repeated outer hash references were refused")
+        self.assertEqual(actual, expected)
+
+    def test_f2r_repeated_pending_jobs_page_observation_is_accepted_and_fully_charged(self):
+        validate = self.api()
+        files, native_anchor, expected = _f2x_current_no_start_handoff()
+        qualification = json.loads(files["qualification.json"])
+        jobs_response = next(row for row in qualification["metadata"]["responses"]
+                             if row["route_kind"] == "pending-jobs")
+        # A second logical observation repeats page1 for the same run/attempt.
+        # Charge its own exchange and body; distinct page indices remain {1}.
+        qualification["metadata"]["responses"].append(copy.deepcopy(jobs_response))
+        _f2x_recount_metadata(qualification["metadata"])
+        qualification["no_start"]["response_sha256s"].append(jobs_response["sha256"])
+        files["qualification.json"] = canonical(qualification)
+        disposition = json.loads(files["pending-plan.json"])
+        disposition["qualification_sha256"] = digest(files["qualification.json"])
+        files["pending-plan.json"] = canonical(disposition)
+        expected["disposition"] = copy.deepcopy(disposition)
+        try:
+            actual = validate(files, native_anchor=native_anchor)
+        except ValueError:
+            self.fail("F2-SR-02 regression: a fully charged repeated pending-jobs page observation was refused")
+        self.assertEqual(actual, expected)
+
 
 def _f2x_recount_metadata(metadata):
     """Exact successful-fixture accounting, not observed transport accounting."""
