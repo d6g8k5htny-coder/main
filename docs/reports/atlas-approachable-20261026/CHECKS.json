@@ -1,0 +1,86 @@
+[
+  {
+    "command": "python -B -m unittest discover -s tests -p test_public_shop_data.py",
+    "exit": 0,
+    "seconds": 0.1676284979985212,
+    "raw_log_custody": "Private delivery: tests/00.log"
+  },
+  {
+    "command": "python -B -m unittest tests.test_site_asset_release",
+    "exit": 0,
+    "seconds": 15.312587897002231,
+    "raw_log_custody": "Private delivery: tests/01.log"
+  },
+  {
+    "command": "node --test tests/test_public_shop_frontend.mjs tests/test_explore_models.mjs tests/test_curvature_export.mjs tests/test_teaching_export.mjs tests/test_pin_export.mjs tests/test_palette_export.mjs tests/test_figure_png.mjs tests/test_reading_list_citation.mjs tests/test_reader_navigation.mjs tests/test_source_reference.mjs tests/test_measurement_model.mjs tests/test_dependency_viewer.mjs tests/test_museum_frontend.mjs tests/test_workspace_navigation.mjs",
+    "exit": 0,
+    "seconds": 1.8728053779996117,
+    "raw_log_custody": "Private delivery: tests/02.log"
+  },
+  {
+    "command": "python -B -S -m unittest discover -s tests -p test_reader_links.py -v",
+    "exit": 0,
+    "seconds": 2.270745524998347,
+    "raw_log_custody": "Private delivery: tests/03.log"
+  },
+  {
+    "command": "python -B -m unittest discover -s tests -p test_museum_data.py",
+    "exit": 0,
+    "seconds": 0.16556562200275948,
+    "raw_log_custody": "Private delivery: tests/04.log"
+  },
+  {
+    "command": "python -B tools/museum_check.py",
+    "exit": 0,
+    "seconds": 1.5221150380020845,
+    "raw_log_custody": "Private delivery: tests/05.log"
+  },
+  {
+    "command": "node --test tests/test_museum_geometry.mjs",
+    "exit": 0,
+    "seconds": 0.16462840700114612,
+    "raw_log_custody": "Private delivery: tests/06.log"
+  },
+  {
+    "command": "python -B -E -S tests/test_public_shop_check_identity_control.py -v",
+    "exit": 0,
+    "seconds": 0.1700864000013098,
+    "raw_log_custody": "Private delivery: tests/07.log"
+  },
+  {
+    "command": "python -B -E -O -S tests/test_public_shop_check_identity_control.py -v",
+    "exit": 0,
+    "seconds": 0.6190369480027584,
+    "raw_log_custody": "Private delivery: tests/08.log"
+  },
+  {
+    "command": "python -B tools/public_shop_check.py",
+    "exit": 0,
+    "seconds": 1.2278851150040282,
+    "raw_log_custody": "Private delivery: tests/09.log"
+  },
+  {
+    "command": "python -B -S -m unittest tests.test_current_site_data tests.test_current_site_build",
+    "exit": 0,
+    "seconds": 11.057706302999577,
+    "raw_log_custody": "Private delivery: tests/10.log"
+  },
+  {
+    "command": "node --test tests/test_current_site.mjs tests/test_atlas_reader_experience.mjs",
+    "exit": 0,
+    "seconds": 0.46688995900331065,
+    "raw_log_custody": "Private delivery: tests/11.log"
+  },
+  {
+    "command": "python -B -S -m unittest discover -s tests -p test_required_formal_check.py -v",
+    "exit": 0,
+    "seconds": 0.16425003099720925,
+    "raw_log_custody": "Private delivery: tests/12.log"
+  },
+  {
+    "command": "python -B -O -S -m unittest discover -s tests -p test_required_formal_check.py -v",
+    "exit": 0,
+    "seconds": 0.3148979480029084,
+    "raw_log_custody": "Private delivery: tests/13.log"
+  }
+]
