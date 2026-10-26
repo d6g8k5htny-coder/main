@@ -1,0 +1,108 @@
+{
+  "mode": "observation",
+  "origin": "http://127.0.0.1:37471/site/dependencies.html",
+  "payload_sha256": "6451709314ee88db90eb1a0fa121d061922a94288c64a48930f3382bd3e53a88",
+  "repositories": [
+    {
+      "commit": "ecebf8348ac9d81eb33d1c9f5f047be37bbb1db1",
+      "repository": "d6g8k5htny-coder/main",
+      "tree": "51cd7174d4d0b44a4a55b20abe35d15b2abcea7e"
+    },
+    {
+      "commit": "f0f90857dcf7586e5195fcb05c0058657fba4003",
+      "repository": "d6g8k5htny-coder/Math-",
+      "tree": "d7104e46ed76312b8d39c15fbae83d95ca5b4d8a"
+    }
+  ],
+  "checked_commit": "ecebf8348ac9d81eb33d1c9f5f047be37bbb1db1",
+  "driver_sha256": "ab0c2f9d6162aa7efaebdab392ffdd9fc6c8544f3953689a96fc6ddfa8af4831",
+  "environment": {
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.41",
+    "browser": "/usr/bin/chromium",
+    "sandbox": true,
+    "reduced_motion": true,
+    "browser_version": "154.0.8037.57"
+  },
+  "cases": [
+    {
+      "case": "compact-relationships",
+      "width": 1200,
+      "scheme": "light",
+      "passed": false,
+      "errors": [],
+      "readiness_ms": 355.9867959993426,
+      "source": "https://github.com/d6g8k5htny-coder/Math-/blob/f0f90857dcf7586e5195fcb05c0058657fba4003/imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+      "closed_inspector_height": 2653.28125,
+      "failure": "Compact source-bound dependency group missing",
+      "traceback": "Traceback (most recent call last):\n  File \"/workspace/atlas-refinement-20261026/tools/atlas_relationships_browser_check.py\", line 61, in main\n    assert page.locator('#atlas-dependencies').count()==1,'Compact source-bound dependency group missing'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Compact source-bound dependency group missing\n"
+    },
+    {
+      "case": "compact-relationships",
+      "width": 1200,
+      "scheme": "dark",
+      "passed": false,
+      "errors": [],
+      "readiness_ms": 374.8063840030227,
+      "source": "https://github.com/d6g8k5htny-coder/Math-/blob/f0f90857dcf7586e5195fcb05c0058657fba4003/imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+      "closed_inspector_height": 2653.28125,
+      "failure": "Compact source-bound dependency group missing",
+      "traceback": "Traceback (most recent call last):\n  File \"/workspace/atlas-refinement-20261026/tools/atlas_relationships_browser_check.py\", line 61, in main\n    assert page.locator('#atlas-dependencies').count()==1,'Compact source-bound dependency group missing'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Compact source-bound dependency group missing\n"
+    },
+    {
+      "case": "compact-relationships",
+      "width": 390,
+      "scheme": "light",
+      "passed": false,
+      "errors": [],
+      "readiness_ms": 396.7033969965996,
+      "source": "https://github.com/d6g8k5htny-coder/Math-/blob/f0f90857dcf7586e5195fcb05c0058657fba4003/imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+      "closed_inspector_height": 3089.296875,
+      "failure": "Compact source-bound dependency group missing",
+      "traceback": "Traceback (most recent call last):\n  File \"/workspace/atlas-refinement-20261026/tools/atlas_relationships_browser_check.py\", line 61, in main\n    assert page.locator('#atlas-dependencies').count()==1,'Compact source-bound dependency group missing'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Compact source-bound dependency group missing\n"
+    },
+    {
+      "case": "compact-relationships",
+      "width": 390,
+      "scheme": "dark",
+      "passed": false,
+      "errors": [],
+      "readiness_ms": 399.381673996686,
+      "source": "https://github.com/d6g8k5htny-coder/Math-/blob/f0f90857dcf7586e5195fcb05c0058657fba4003/imports/lifetime_parent_20260925/UNIFORM_MATRIX_CAP_AND_LIFETIME.md",
+      "closed_inspector_height": 3089.296875,
+      "failure": "Compact source-bound dependency group missing",
+      "traceback": "Traceback (most recent call last):\n  File \"/workspace/atlas-refinement-20261026/tools/atlas_relationships_browser_check.py\", line 61, in main\n    assert page.locator('#atlas-dependencies').count()==1,'Compact source-bound dependency group missing'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Compact source-bound dependency group missing\n"
+    },
+    {
+      "case": "dense-selection-visible",
+      "width": 1200,
+      "passed": false,
+      "closed_relationship_height": 2922.1875,
+      "selected_heading_box": {
+        "x": 757.640625,
+        "y": -2256.40625,
+        "width": 379.765625,
+        "height": 51.84375
+      },
+      "failure": "Selected heading focused outside viewport",
+      "traceback": "Traceback (most recent call last):\n  File \"/workspace/atlas-refinement-20261026/tools/atlas_relationships_browser_check.py\", line 112, in main\n    assert 0<=box['y'] and box['y']+box['height']<=900,'Selected heading focused outside viewport'\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nAssertionError: Selected heading focused outside viewport\n"
+    },
+    {
+      "case": "dense-selection-visible",
+      "width": 390,
+      "passed": true,
+      "closed_relationship_height": 3457.6875,
+      "selected_heading_box": {
+        "x": 35.390625,
+        "y": 228.65625,
+        "width": 319.21875,
+        "height": 51.84375
+      }
+    },
+    {
+      "case": "refused-source-clears-relationships",
+      "passed": true
+    }
+  ],
+  "passed": 2,
+  "total": 7
+}

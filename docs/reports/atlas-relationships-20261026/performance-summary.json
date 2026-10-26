@@ -1,0 +1,54 @@
+{
+  "environment": {
+    "platform": "Linux-6.18.55-x86_64-with-glibc2.41",
+    "playwright": "1.62.0",
+    "sandbox": true,
+    "renderer": "Chromium SwiftShader software WebGL",
+    "DPR": 1,
+    "reduced_motion": "reduce",
+    "isolated_contexts": true,
+    "network": "local HTTP; shared execution host; no throttling",
+    "browser": "154.0.8037.57"
+  },
+  "dataset": {
+    "payload_sha256": "6451709314ee88db90eb1a0fa121d061922a94288c64a48930f3382bd3e53a88",
+    "bytes": 1774655,
+    "nodes": 49,
+    "relationships": 55,
+    "equations": 108
+  },
+  "samples_per_side": 4,
+  "sides": {
+    "baseline": {
+      "ready_ms": {
+        "median": 423.9018264997867,
+        "min": 399.391138998908,
+        "max": 467.1305170049891
+      },
+      "activate_3d_ms": {
+        "median": 323.34892400103854,
+        "min": 292.5390190066537,
+        "max": 346.97908199450467
+      },
+      "decoded_before_3d": [
+        2019577
+      ]
+    },
+    "candidate": {
+      "ready_ms": {
+        "median": 416.74639549455605,
+        "min": 396.79480499762576,
+        "max": 474.1221580043202
+      },
+      "activate_3d_ms": {
+        "median": 321.4291844997206,
+        "min": 294.2868690006435,
+        "max": 373.32831700041424
+      },
+      "decoded_before_3d": [
+        2023195
+      ]
+    }
+  },
+  "limit": "Four alternating shared-host localHTTP contexts during other verification work. No statistical/hardware/large-graph/GPU/FPS certification."
+}
