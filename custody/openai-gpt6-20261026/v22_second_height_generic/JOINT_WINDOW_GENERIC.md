@@ -80,10 +80,10 @@ R(z+\eta w)-R(z)
 \]
 [ENV8] bounds \(\|\sup_{\rm chart}|D_Y^3R|\|_{L^2}\le Cs^4\), hence the **unconditioned interpolation residual** obeys
 \[
-\|\delta_R\|_{L^2(Q_r\ {\rm unconditioned})}
+\|\delta_R\|_{L^2(\mathbb P_F)}
 \le C\eta^3s^4 = C e^3s.\tag{7}
 \]
-On the conditional event \(T=\nu\), the random interpolating polynomial \(I_Tg\) is exactly \(P_\nu\), and **only then** \(\delta_R=F(y)-F(x)-\Delta_3(e)\). Gaussian covariance upper bounds and the reviewed target energy \(E_T\le C(b^2+k^2)\) now imply under \(T=\nu\)
+Here \(\mathbb P_F\) is the **original unconditioned field law**, not the pinned \(Q_r\); [ENV8]'s residual chart-sup moment is proved under that law. On the conditional event \(T=\nu\), the random interpolating polynomial \(I_Tg\) is exactly \(P_\nu\), and **only then** \(\delta_R=F(y)-F(x)-\Delta_3(e)\). Gaussian covariance upper bounds and the reviewed target energy \(E_T\le C(b^2+k^2)\) now imply under \(T=\nu\)
 \[
 |\mathbb E\delta|\le Ce^3s,\qquad
 \operatorname{sd}(\delta)\le Ce^3s.\tag{8}
