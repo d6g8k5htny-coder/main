@@ -5,9 +5,9 @@ Math stays fail-closed: credit 0 · OBL OPEN · no flags. This is an inventory o
 
 ## Totals
 - Header corrected 2026-10-23 (CoS): the table has 133 literal `MISSING` source cells, so sourced = 211 (was misstated as 215 / 129).
-- Units: **344**. That is 313 from #527, 17 unmerged from #538, 13 R22 companions and 1 R21 companion.
-- Have a proof or lemma source file in the repo: **215**. No source file: **129**.
-- Have an implementation (code or refs): **296**. Missing an implementation: **48**.
+- Units: **345**. That is 313 from #527, 17 from #538 (16 still unmerged; row 318 landed, see the 26 October landing recheck), 13 R22 companions, 1 R21 companion and 1 post-cut landing (row 345). The 344-row snapshots described below are retained as history.
+- Have a proof or lemma source file in the repo: **219**. No source file: **126**.
+- Have an implementation (code or refs): **297**. Missing an implementation: **48**.
 - Tied to a graph node: **22**. Bound (node, impl and commit): **14**. The graph has 49 nodes with 21 bound per #527, so 28 nodes are unbound.
 - Name-matched to a Drive mirror: 4. Name matching is weak. DRV-H1 maps Drive by folder lane, not by unit.
 
@@ -143,6 +143,86 @@ Aggregate membership is not an all-to-all source/code proof relation. The map
 is a frozen reference snapshot, not an extra builder input or status register.
 No source program, mathematical test, pilot, certificate caller or Lean ran.
 
+## Landing recheck: rows 318 and 345, 26 October 2026
+
+This applies step 3 of the fail-closed migration rule in
+`docs/retro/OPEN_MATH_PR_CANDIDATES_20261023.md`: after a protected merge, recheck
+the landed bytes and update this inventory through its owner. Data note
+[619/6405374286](https://github.com/d6g8k5htny-coder/main/issues/619#issuecomment-6405374286),
+corroborated in [619/6405386665](https://github.com/d6g8k5htny-coder/main/issues/619#issuecomment-6405386665)
+and routed by the ledger owner in [619/6405418011](https://github.com/d6g8k5htny-coder/main/issues/619#issuecomment-6405418011).
+Math- `main` was read at `b29c4b769cac85437b409d152651d5cce4140015`.
+
+- **Row 318** (`frontiers/source_lifetime_realization_20261017`) landed through
+  Math-#510, merge `c4eabc1a917ba2c1b96fe4af425cf2a484877c03` (head `478cd069`),
+  folder tree `a7ef0696d538248422f22f0b33dc2bbc4174bdc4`, 249 files. Only its
+  lane cell changes, to `LANDED Math-#510`. By the ledger owner's ruling
+  ([632/6405722753](https://github.com/d6g8k5htny-coder/main/pull/632#issuecomment-6405722753)),
+  its implementation (`(in PR head)`) and status (`unmerged`) cells keep their
+  prior values; the three listed Lean files are present on Math- `main`.
+  **The landed bytes are not #477's.** The #477 head `db43694c9f9dbff2987e2e3c0a1260b5c48310ec`
+  has folder tree `f21fd02e7543aa573391f983f9f7f239598b7464` for this path, which
+  differs from the landed folder tree in 3 files (+404/−66). Nothing here describes #477.
+- **Row 345** (`frontiers/determinant_moment_20261025`) is new. It landed through
+  Math-#511, merge `e75cb81e8961d178f43aa9967dddd11cd579dc8a` (head `5ccdb2a1`),
+  folder tree `8a6d93e67be8b233a4f35251188112ab3f44014a`, 69 files. Its four Lean modules
+  are the root `ResearchFormalCoreR1.lean` and `ResearchFormalCoreR1/{AlgebraV2,DeterminantMoment,ProbabilityCompanionsV2}.lean`;
+  `gate.py` is the packet's own gate. Its lane is `LANDED Math-#511` because no
+  GB-8 slice predates it. The Drive-hit cell is 0 because no Drive name match was
+  run for this row.
+- **Not added.** Math-#512 (`7a2ee81e`) and Math-#513 (`37f8f01d`, stacked on
+  #512) change the row-345 path and add `frontiers/source_derivative_gaussian_20261025`.
+  Both are open, so under steps 1 and 2 they stay `PENDING_OPEN_PR`, keep their
+  stacking, and contribute no bytes to row 345.
+- **The other 16 candidate units** in `OPEN_MATH_PR_CANDIDATES_20261023.json`
+  are absent on `b29c4b76`, so rows 314–317 and 319–330 are unchanged.
+
+Node, bound and status cells are unchanged for row 318, and row 345 gets the
+`orphan` status every landed row without a graph node has: no row gains a graph
+node, and a merge is not a mathematical predicate. Different-family statement reviews of the five
+DM2 declarations exist (539/6402538781 and Math-#511/6402733468), but they are
+not consumed as acceptance here. Counts after this recheck: 345 ledger rows, 1337 vertices and
+345 hyperedges; sourced 216 / missing 129; implemented 297 / missing 48, of which
+30 are placeholder-only; bound 14. All 343 other raw rows are unchanged. Source
+presence is not correctness or scientific acceptance. Credit 0; OBL OPEN; NOT A RESULT.
+
+## Canonical primary-source membership, 26 October 2026
+
+The frozen [33-URL source index](https://github.com/d6g8k5htny-coder/main/blob/7c18562242f63804abd24921be8dbfda89cc6b68/custody/claude-01cz-20261025/dependency_index/SOURCE_RESOLUTION_33.json)
+for 104 already-accounted records exposed ten omitted primary source paths in
+existing rows 84, 105, 124, 143, 151, 181, 247 and 257. This amendment appends
+those paths without replacing prior members, creating theorem units or adding
+implementation links. Exact historical pins, byte identities, alias handling
+and bounded consumer qualifications are recorded in the
+[implementation/evidence plan](../../docs/superpowers/plans/2026-10-26-canonical-source-membership.md).
+All canonical source bytes retain their verified identities at Math-
+`f0f90857dcf7586e5195fcb05c0058657fba4003`; the frozen index is not rewritten.
+
+Claude S's [#638](https://github.com/d6g8k5htny-coder/main/pull/638), exact head
+`52f4e50fa5dcab3fbdba0ce769911992632d2a93`, already records the source documents
+for rows 124, 143 and 181. Those identities and limits are reused; its 129-row
+audit is not repeated or adopted wholesale, and its author/reviewer roles are
+not transferred. Its row-257 verifier carrier remains custody-only evidence.
+
+Only rows 124, 143 and 181 change from MISSING source to source present.
+Source-presence counts become 219 / 126; the 345-row denominator is unchanged.
+All 1337 prior vertices/roles remain, ten source vertices yield 1347, and all
+345 ordered hyperedges remain. The other 337 raw rows and every implementation,
+node, bound, status and Drive cell are unchanged, including the separate
+rows-318/345 landing recheck above. Implemented/missing stays 297 / 48, with
+30 placeholder-only containers and 14 bound units.
+
+Existing code co-membership is not full-theorem coverage. Row 143's analytic
+correction has no identified direct computational consumer; row 247's assembled
+reading rule keeps implementation MISSING and does not duplicate row 108's
+bounded transfer controls. Other programs retain finite-algebra, bookkeeping,
+numerical-control or source-custody limits. The tail-load README remains an
+indirect pointer to the already-indexed PROOF, not a byte alias; its
+LOW-P15-T-SOURCE qualification is retained. Historical review outcomes,
+scientific acceptance and open proof obligations do not change. No mathematical
+program, simulation, certificate or Lean execution is supplied. Credit 0;
+OBL OPEN; source accounting only, NOT A RESULT.
+
 ## Ledger
 | # | source | repo | unit | lane | proof/lemma files (sample) | impl | graph node | bound | status | drive hits |
 |---|---|---|---|---|---|---|---|---|---|---|
@@ -229,7 +309,7 @@ No source program, mathematical test, pilot, certificate caller or Lean ran.
 | 81 | main#527 | Math- | `frontiers/ordinary_short_bar_occurrence_20261001` | GB-8s | PROOF.md | frontiers/ordinary_short_bar_occurrence_20261001/check.py; frontiers/ordinary_short_bar_occurrence_20261001/test_check.py | — | N | orphan | 0 |
 | 82 | main#527 | Math- | `frontiers/ordinary_short_bar_occurrence_all_d_20261001` | GB-8s | MISSING | frontiers/ordinary_short_bar_occurrence_all_d_20261001/check.py; frontiers/ordinary_short_bar_occurrence_all_d_20261001/test_check.py | — | N | orphan | 0 |
 | 83 | main#527 | Math- | `frontiers/original_finite_l_gaussian_binding_20261017` | GB-8w | PROOF.md; REVIEW.md; focused-tensor-normalization/FOCUSED_TENSOR_NORMALIZATION_REVIEW.md | MISSING | — | N | orphan | 0 |
-| 84 | main#527 | Math- | `frontiers/p15_bipartite_overlap_20260928` | GB-8s | PROOF.md | frontiers/p15_bipartite_overlap_20260928/overlap.py; frontiers/p15_bipartite_overlap_20260928/run_validation.py | — | N | orphan | 0 |
+| 84 | main#527 | Math- | `frontiers/p15_bipartite_overlap_20260928` | GB-8s | PROOF.md; EVEN_CAPACITY_EXTENSION.md | frontiers/p15_bipartite_overlap_20260928/overlap.py; frontiers/p15_bipartite_overlap_20260928/run_validation.py | — | N | orphan | 0 |
 | 85 | main#527 | Math- | `frontiers/p15_tail_load_20260928` | GB-8s | PROOF.md | frontiers/p15_tail_load_20260928/certificate.py; frontiers/p15_tail_load_20260928/test_certificate.py | — | N | orphan | 0 |
 | 86 | main#527 | Math- | `frontiers/planar_compact_k_chain_20261006` | GB-8n | A4_1/CLAIM.md; A4_1/ERRATUM_E1.md; A4_1/PROOF.md | frontiers/planar_compact_k_chain_20261006/A4_1/author_controls.py; frontiers/planar_compact_k_chain_20261006/A4_2/author_controls.py | — | N | orphan | 0 |
 | 87 | main#527 | Math- | `frontiers/planar_cubic_cluster_20260929` | GB-8n | PROOF.md | frontiers/planar_cubic_cluster_20260929/cubic.py; frontiers/planar_cubic_cluster_20260929/test_cubic.py | — | N | orphan | 0 |
@@ -250,7 +330,7 @@ No source program, mathematical test, pilot, certificate caller or Lean ran.
 | 102 | main#527 | Math- | `frontiers/replacement_bar_occurrence_20261001` | GB-8s | PROOF.md; sources/c50/PROOF.md | frontiers/replacement_bar_occurrence_20261001/check_exact.py; frontiers/replacement_bar_occurrence_20261001/test_exact.py | — | N | orphan | 0 |
 | 103 | main#527 | Math- | `frontiers/rn_annulus_bridge_20260925` | GB-7/graph | PROOF.md | frontiers/rn_annulus_bridge_20260925/annulus_bridge.py; frontiers/rn_annulus_bridge_20260925/run_validation.py | math.d5-component.annulus-proof | Y | bound | 0 |
 | 104 | main#527 | Math- | `frontiers/rn_mesoscopic_20260925` | GB-8d | PROOF.md | MISSING | — | N | orphan | 0 |
-| 105 | main#527 | Math- | `frontiers/rn_thin_tube_20260925` | GB-7/graph | PROOF.md | frontiers/rn_thin_tube_20260925/annulus.py; frontiers/rn_thin_tube_20260925/replay_two_scale.py | math.rn-fixed-annulus-window | N | unbound | 0 |
+| 105 | main#527 | Math- | `frontiers/rn_thin_tube_20260925` | GB-7/graph | PROOF.md; FIXED_ANNULUS_CANDIDATE.md; TWO_SCALE_ADDENDUM.md | frontiers/rn_thin_tube_20260925/annulus.py; frontiers/rn_thin_tube_20260925/replay_two_scale.py | math.rn-fixed-annulus-window | N | unbound | 0 |
 | 106 | main#527 | Math- | `frontiers/sard_g_a2_parameter_20260929` | GB-8n | PROOF.md | frontiers/sard_g_a2_parameter_20260929/check.py; frontiers/sard_g_a2_parameter_20260929/v2/a2.py | — | N | orphan | 0 |
 | 107 | main#527 | Math- | `frontiers/sard_g_a2_regularity_20260929` | GB-8n | PROOF.md | frontiers/sard_g_a2_regularity_20260929/a2_check.py; .github/workflows/sard-g-a2-regularity.yml | — | N | orphan | 0 |
 | 108 | main#527 | Math- | `frontiers/sard_g_pinned_transfer_20260929` | GB-8c | PROOF.md | frontiers/sard_g_pinned_transfer_20260929/transfer_check.py; .github/workflows/sard-g-pinned-transfer.yml | — | N | orphan | 0 |
@@ -269,7 +349,7 @@ No source program, mathematical test, pilot, certificate caller or Lean ran.
 | 121 | main#527 | Math- | `frontiers/subpin_collision_20261002` | GB-8t | PROOF.md | frontiers/subpin_collision_20261002/controls.py | — | N | orphan | 0 |
 | 122 | main#527 | Math- | `frontiers/third_order_coefficient_20261001` | GB-8i | MISSING | frontiers/third_order_coefficient_20261001/c2_check.py; .github/workflows/candidate-parity-rate.yml | — | N | orphan | 0 |
 | 123 | main#527 | Math- | `frontiers/third_order_rate_20261001` | GB-8o | PROOF.md | frontiers/third_order_rate_20261001/r37_check.py; .github/workflows/candidate-parity-rate.yml | — | N | orphan | 0 |
-| 124 | main#527 | Math- | `frontiers/three_fronts_20260924` | GB-7/graph | MISSING | frontiers/three_fronts_20260924/frontier_math.py; frontiers/three_fronts_20260924/run_validation.py | math.lifetime-remainder, math.p15-price-boundary, math.rn-count-interface | N | unbound | 0 |
+| 124 | main#527 | Math- | `frontiers/three_fronts_20260924` | GB-7/graph | LIFETIME_REMAINDER.md; P15_REALIZED_COVERS.md | frontiers/three_fronts_20260924/frontier_math.py; frontiers/three_fronts_20260924/run_validation.py | math.lifetime-remainder, math.p15-price-boundary, math.rn-count-interface | N | unbound | 0 |
 | 125 | main#527 | Math- | `frontiers/tl_soft_layer_20261006` | GB-8o | TL/AUTHOR_ROUND_NOTE_AND_CLAIM.md; TL/CLAIM.md; TL/PROOF.md | frontiers/tl_soft_layer_20261006/TL/author_controls.py; frontiers/tl_soft_layer_20261006/replay.py | — | N | orphan | 0 |
 | 126 | main#527 | Math- | `frontiers/ts_small_kappa_20261006` | GB-8o | TS/AUTHOR_READ_COMPLETE_AND_CLAIM.md; TS/CLAIM.md; TS/PROOF.md | frontiers/ts_small_kappa_20261006/TS/author_controls.py; frontiers/ts_small_kappa_20261006/replay.py | — | N | orphan | 0 |
 | 127 | main#527 | Math- | `frontiers/two_scale_cluster_geometry_20260929` | GB-8t | REVIEW_RECORD.json; REVIEW_RECORD.md | frontiers/two_scale_cluster_geometry_20260929/geometry.py; frontiers/two_scale_cluster_geometry_20260929/test_custody.py | — | N | orphan | 0 |
@@ -288,7 +368,7 @@ No source program, mathematical test, pilot, certificate caller or Lean ran.
 | 140 | main#527 | Math- | `reviews/c7_total_protocol_20261006` | GB-8m | MISSING | MISSING | — | N | orphan | 0 |
 | 141 | main#527 | Math- | `reviews/candidates_pending_20260928` | GB-8u | MISSING | .github/workflows/c6-witness-collision-reconciliation.yml | — | N | orphan | 0 |
 | 142 | main#527 | Math- | `reviews/cap_i4_d3_spectral_adapter_20261005` | GB-8i | PROOF.md | reviews/cap_i4_d3_spectral_adapter_20261005/algebra.py; reviews/cap_i4_d3_spectral_adapter_20261005/replay.py | — | N | orphan | 0 |
-| 143 | main#527 | Math- | `reviews/collision_mechanism_20260925` | GB-8u | MISSING | reviews/collision_mechanism_20260925/exact_checks.py; .github/workflows/collision-mechanism-checks.yml | — | N | orphan | 0 |
+| 143 | main#527 | Math- | `reviews/collision_mechanism_20260925` | GB-8u | CUMULATIVE_TRANSFER_CORRECTION.md | reviews/collision_mechanism_20260925/exact_checks.py; .github/workflows/collision-mechanism-checks.yml | — | N | orphan | 0 |
 | 144 | main#527 | Math- | `reviews/contact_angular_tail_20260925` | GB-8u | MISSING | reviews/contact_angular_tail_20260925/angular_contact.py; reviews/contact_angular_tail_20260925/diagnostic.py | — | N | orphan | 0 |
 | 145 | main#527 | Math- | `reviews/contact_kernel_substitute_20260926` | GB-8u | MISSING | reviews/contact_kernel_substitute_20260926/verify_substitute.py | — | N | orphan | 0 |
 | 146 | main#527 | Math- | `reviews/contact_kernel_tail_20260925` | GB-8u | MISSING | reviews/contact_kernel_tail_20260925/contact_tools.py; reviews/contact_kernel_tail_20260925/run_validation.py | — | N | orphan | 0 |
@@ -296,7 +376,7 @@ No source program, mathematical test, pilot, certificate caller or Lean ran.
 | 148 | main#527 | Math- | `reviews/d0_custody_audit_20260926` | GB-7/graph | MISSING | main:architecture/graph-artifact-bindings.v2.json | regional.fixed-annulus.high-jet-route | Y | bound | 0 |
 | 149 | main#527 | Math- | `reviews/d1_cap_elder_partner_second_pass_claude_20260930` | GB-8f | REVIEW.md | reviews/d1_cap_elder_partner_second_pass_claude_20260930/cap_maximin_check.py; .github/workflows/cap-first-exit-lean.yml | — | N | orphan | 0 |
 | 150 | main#527 | Math- | `reviews/d1_cde_full_depth_claude_20260929` | GB-8f | REVIEW.md | reviews/d1_cde_full_depth_claude_20260929/cde_review_check.py; .github/workflows/d1-cde-fulldepth-review.yml | — | N | orphan | 0 |
-| 151 | main#527 | Math- | `reviews/d1_chain_reconciliation_20260928` | GB-7/graph | RECOVERED_REVIEWS.json | reviews/d1_chain_reconciliation_20260928/reconciliation_check.py; .github/workflows/c8-lifetime-difference-constant.yml | math.d1-component.congruence-erratum, math.d1-component.marked-cylinder-cap, math.d1-component.reconciliation-record, math.d1-component.section9-replacement-v1_1, math.uniform-matrix-cap-lifetime | Y | bound | 0 |
+| 151 | main#527 | Math- | `reviews/d1_chain_reconciliation_20260928` | GB-7/graph | RECOVERED_REVIEWS.json; RECONCILIATION.md | reviews/d1_chain_reconciliation_20260928/reconciliation_check.py; .github/workflows/c8-lifetime-difference-constant.yml | math.d1-component.congruence-erratum, math.d1-component.marked-cylinder-cap, math.d1-component.reconciliation-record, math.d1-component.section9-replacement-v1_1, math.uniform-matrix-cap-lifetime | Y | bound | 0 |
 | 152 | main#527 | Math- | `reviews/d1_elder_lower_claude_20260928` | GB-8f | REVIEW.md | reviews/d1_elder_lower_claude_20260928/elder_lower_exact_check.py; .github/workflows/elder-lower-review.yml | — | N | orphan | 0 |
 | 153 | main#527 | Math- | `reviews/d1_external_audit_20260930` | GB-8f | MISSING | reviews/d1_external_audit_20260930/cap_audit.py; reviews/d1_external_audit_20260930/test_cap_audit.py | — | N | orphan | 0 |
 | 154 | main#527 | Math- | `reviews/d1_section9_borel_grok_lucas_20260928` | GB-8g | REVIEW.md | MISSING | — | N | orphan | 0 |
@@ -326,7 +406,7 @@ No source program, mathematical test, pilot, certificate caller or Lean ran.
 | 178 | main#527 | Math- | `reviews/d5_pin_neighborhood_20260926` | GB-8c | REVIEW.md | reviews/d5_pin_neighborhood_20260926/check_pin_chart.py; main:tests/test_museum_data.py | — | N | orphan | 0 |
 | 179 | main#527 | Math- | `reviews/d5_punctured_pin_continuum_claude_20260929` | GB-7/graph | REVIEW.md | reviews/d5_punctured_pin_continuum_claude_20260929/pp_continuum_check.py; .github/workflows/c6-fourier-cutoff.yml | math.d5-component.punctured-pin-continuum-check, math.d5-component.punctured-pin-continuum-review | Y | bound | 0 |
 | 180 | main#527 | Math- | `reviews/d5_punctured_pin_nonauthor_20260928` | GB-7/graph | REVIEW.md | reviews/d5_punctured_pin_nonauthor_20260928/punctured_pin_check.py; main:architecture/graph-artifact-bindings.v2.json | math.d5-component.punctured-pin-review-111 | Y | bound | 0 |
-| 181 | main#527 | Math- | `reviews/d5_reconciliation_20260929` | GB-7/graph | MISSING | reviews/d5_reconciliation_20260929/reconciliation_check.py; .github/workflows/c6-fourier-cutoff.yml | math.d5-pin-neighborhood-first-moment, math.rn-region.intermediate-r-to-rho, math.rn-region.mesoscopic-scaled-annulus, math.rn-region.pin-collision, math.rn-region.witness-collision | Y | bound | 0 |
+| 181 | main#527 | Math- | `reviews/d5_reconciliation_20260929` | GB-7/graph | RECONCILIATION.md | reviews/d5_reconciliation_20260929/reconciliation_check.py; .github/workflows/c6-fourier-cutoff.yml | math.d5-pin-neighborhood-first-moment, math.rn-region.intermediate-r-to-rho, math.rn-region.mesoscopic-scaled-annulus, math.rn-region.pin-collision, math.rn-region.witness-collision | Y | bound | 0 |
 | 182 | main#527 | Math- | `reviews/d5_remote_collision_grok_20260928` | GB-8c | REVIEW.md | .github/workflows/c6-witness-collision-reconciliation.yml | — | N | orphan | 0 |
 | 183 | main#527 | Math- | `reviews/d5_short_edge_20260928` | GB-8c | MISSING | reviews/d5_short_edge_20260928/finite_controls.py | — | N | orphan | 0 |
 | 184 | main#527 | Math- | `reviews/direct_import_trigger_coverage_20261006` | GB-8w | MISSING | MISSING | — | N | orphan | 0 |
@@ -392,7 +472,7 @@ No source program, mathematical test, pilot, certificate caller or Lean ran.
 | 244 | main#527 | Math- | `reviews/remote_pair_law_claude_20260928` | GB-8d | REVIEW.md | reviews/remote_pair_law_claude_20260928/remote_pair_review_check.py; .github/workflows/remote-pair-law-review.yml | — | N | orphan | 0 |
 | 245 | main#527 | Math- | `reviews/replacement_20260925_pr19_pr21` | GB-8w | REVIEW.md; TWO_SCALE_REVIEW.md | reviews/replacement_20260925_pr19_pr21/check_interfaces.py; reviews/replacement_20260925_pr19_pr21/check_two_scale.py | — | N | orphan | 0 |
 | 246 | main#527 | Math- | `reviews/retrofit_20261006` | GB-8w | CONTRACT.md; CONTRACT_EXAMPLE.json | main:tests/test_reader_links.py | — | N | orphan | 0 |
-| 247 | main#527 | Math- | `reviews/sard_closure_integration_20260929` | GB-8o | HARPER_REVIEW_RECORD.md; TRANSFER_REVIEW.md | MISSING | — | N | orphan | 0 |
+| 247 | main#527 | Math- | `reviews/sard_closure_integration_20260929` | GB-8o | HARPER_REVIEW_RECORD.md; TRANSFER_REVIEW.md; READING_RULE.md | MISSING | — | N | orphan | 0 |
 | 248 | main#527 | Math- | `reviews/sard_g_a2_fixed_frame_claude_20260929` | GB-8o | REVIEW.md | reviews/sard_g_a2_fixed_frame_claude_20260929/a2ff_review_check.py; .github/workflows/sard-g-a2-fixed-frame-review.yml | — | N | orphan | 0 |
 | 249 | main#527 | Math- | `reviews/sard_g_r1r2_claude_20260929` | GB-8o | REVIEW.md | reviews/sard_g_r1r2_claude_20260929/r1r2_review_check.py; .github/workflows/sard-g-r1r2-review.yml | — | N | orphan | 0 |
 | 250 | main#527 | Math- | `reviews/sard_g_r3r4_claude_20260929` | GB-8o | REVIEW.md | reviews/sard_g_r3r4_claude_20260929/r3r4_review_check.py; .github/workflows/sard-g-r3r4-review.yml | — | N | orphan | 0 |
@@ -402,7 +482,7 @@ No source program, mathematical test, pilot, certificate caller or Lean ran.
 | 254 | main#527 | Math- | `reviews/weight_perturbation_new7_20261005` | GB-8x | REVIEW.md | MISSING | — | N | orphan | 0 |
 | 255 | main#527 | Math- | `imports/gp_data_114_embedded_20260930` | GB-8t | MISSING | imports/gp_data_114_embedded_20260930/GP-DATA-114-v1.0_uniform_q_degree4_interval.py; imports/gp_data_114_embedded_20260930/inert_decoder.py | — | N | orphan | 0 |
 | 256 | main#527 | Math- | `imports/hardening_ebedb780` | GB-8t | MISSING | imports/hardening_ebedb780/verify.py; .github/workflows/hardening-proof-custody.yml | — | N | orphan | 0 |
-| 257 | main#527 | Math- | `imports/lifetime_parent_20260925` | GB-7/graph | ERRATUM_CONGRUENCE.md; ERRATUM_POINTER.md; MARKED_CYLINDER_CAP_PROOF.md | imports/lifetime_parent_20260925/verify.py; .github/workflows/c6-fourier-cutoff.yml | math.d1-component.congruence-erratum, math.d1-component.marked-cylinder-cap, math.uniform-matrix-cap-lifetime | N | unbound | 0 |
+| 257 | main#527 | Math- | `imports/lifetime_parent_20260925` | GB-7/graph | ERRATUM_CONGRUENCE.md; ERRATUM_POINTER.md; MARKED_CYLINDER_CAP_PROOF.md; UNIFORM_MATRIX_CAP_AND_LIFETIME.md | imports/lifetime_parent_20260925/verify.py; .github/workflows/c6-fourier-cutoff.yml | math.d1-component.congruence-erratum, math.d1-component.marked-cylinder-cap, math.uniform-matrix-cap-lifetime | N | unbound | 0 |
 | 258 | main#527 | Math- | `imports/transverse_contact_library_20260927` | GB-8t | companions/COLLISION_TRANSFER_THEOREM.md | imports/transverse_contact_library_20260927/companions/diagnostic_kernel.py; imports/transverse_contact_library_20260927/companions/exact_checks.py | — | N | orphan | 0 |
 | 259 | main#527 | Math- | `imports/upper2d_h5_ledgers_20260926` | GB-8t | REVIEW.md | imports/upper2d_h5_ledgers_20260926/verify.py; .github/workflows/h5-rim-contract.yml | — | N | orphan | 0 |
 | 260 | main#527 | Math- | `imports/upper2d_stage_e_20260926` | GB-8t | REVIEW.md | imports/upper2d_stage_e_20260926/raw/B1_taxonomy/b1_falsifier.py; imports/upper2d_stage_e_20260926/raw/C1_alpha_intensity/c1_grid.py | — | N | orphan | 0 |
@@ -463,7 +543,7 @@ No source program, mathematical test, pilot, certificate caller or Lean ran.
 | 315 | #538 | Math- | `frontiers/regular_point_chart_20261020` | PENDING_OPEN_PR #488 | RegularPointChart.lean; RegularPointChartAxiomAudit.lean; SOURCE_SHA256SUMS | (in PR head) | — | N | unmerged | 0 |
 | 316 | #538 | Math- | `frontiers/critical_level_attainment_20261020` | PENDING_OPEN_PR #487 | final-project/CriticalLevelAttainment.lean; final-project/CriticalLevelAxiomAudit.lean; FINAL_SOURCE_INVENTORY.json | (in PR head) | — | N | unmerged | 0 |
 | 317 | #538 | Math- | `frontiers/morse_finite_critical_20261018` | PENDING_OPEN_PR #482 | final-project/MorseFiniteCritical.lean; final-project/MorseFiniteControls.lean; final-project/MorseFiniteAxiomAudit.lean | (in PR head) | — | N | unmerged | 0 |
-| 318 | #538 | Math- | `frontiers/source_lifetime_realization_20261017` | PENDING_OPEN_PR #477 | SourceLifetimeField.lean; SourceLifetimeGeometry.lean; SourceThetaBridge.lean | (in PR head) | — | N | unmerged | 0 |
+| 318 | #538 | Math- | `frontiers/source_lifetime_realization_20261017` | LANDED Math-#510 | SourceLifetimeField.lean; SourceLifetimeGeometry.lean; SourceThetaBridge.lean | (in PR head) | — | N | unmerged | 0 |
 | 319 | #538 | Math- | `frontiers/compact_source_cutoff_baseline_20261009` | PENDING_OPEN_PR #414 | CompactSourceCutoff.lean; SOURCE_MANIFEST.json | (in PR head) | — | N | unmerged | 0 |
 | 320 | #538 | Math- | `frontiers/compact_source_cutoff_proof_20261010` | PENDING_OPEN_PR #415 | CompactSourceCutoffProof.lean; SOURCE_MANIFEST.json | (in PR head) | — | N | unmerged | 0 |
 | 321 | #538 | Math- | `frontiers/compact_source_cutoff_proof_repair_20261011` | PENDING_OPEN_PR #424 | CompactSourceCutoffProof.lean; SOURCE_MANIFEST.json | (in PR head) | — | N | unmerged | 0 |
@@ -490,3 +570,4 @@ No source program, mathematical test, pilot, certificate caller or Lean ran.
 | 342 | R22 tip 67818d30 | Math- | `companions/cap_i4_residual_law_20261006` | R22-companion | CapI4ResidualLaw.lean; README.md | replay.py; test_contract.py | — | N | unmerged_branch | 0 |
 | 343 | R22 tip 67818d30 | Math- | `companions/cap_i4_spectral_assembly_20261006` | R22-companion | CapI4SpectralAssembly.lean; Contract.lean | (per census: lean+replay+test; unverified) | — | N | unmerged_branch | 0 |
 | 344 | R21 tip 93a19170 | Math- | `companions/cap_i4_chamber_bridge_20261006` | R21-companion | CapI4ChamberBridge.lean; Contract.lean | (R21 tip) | — | N | unmerged_branch | 0 |
+| 345 | Math-#511 | Math- | `frontiers/determinant_moment_20261025` | LANDED Math-#511 | ResearchFormalCoreR1.lean; ResearchFormalCoreR1/AlgebraV2.lean; ResearchFormalCoreR1/DeterminantMoment.lean; ResearchFormalCoreR1/ProbabilityCompanionsV2.lean | frontiers/determinant_moment_20261025/ResearchFormalCoreR1.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/AlgebraV2.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/DeterminantMoment.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/ProbabilityCompanionsV2.lean; frontiers/determinant_moment_20261025/gate.py | — | N | orphan | 0 |

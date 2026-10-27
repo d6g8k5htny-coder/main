@@ -1,0 +1,35 @@
+✔ actual wrapped label sizes stay inside the viewport and do not overlap (1.150732ms)
+✔ selected claim takes priority over nearer coincident nodes without changing identifiers (0.207467ms)
+✖ labels leave a distinct unselected node clear for actual canvas picking (0.667477ms)
+✔ camera-depth order and identifier ties are deterministic and inputs remain unchanged (3.482049ms)
+✔ empty/tiny viewports and invalid or clipped points never create invalid rectangles (0.221968ms)
+✔ edge anchors retain an in-bounds readable label when space permits (0.297971ms)
+✔ a150-node dense projection keeps a selected ID readable without pretending every label fits (2.35304ms)
+ℹ tests 7
+ℹ suites 0
+ℹ pass 6
+ℹ fail 1
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 77.367929
+
+✖ failing tests:
+
+test at tests/test_atlas_spatial_labels.mjs:29:1
+✖ labels leave a distinct unselected node clear for actual canvas picking (0.667477ms)
+  AssertionError [ERR_ASSERTION]: An unselected node must remain uncovered
+      at TestContext.<anonymous> (file:///workspace/atlas-readable-3d/tests/test_atlas_spatial_labels.mjs:35:10)
+      at Test.runInAsyncScope (node:async_hooks:227:14)
+      at Test.run (node:internal/test_runner/test:1382:25)
+      at Test.processPendingSubtests (node:internal/test_runner/test:960:18)
+      at Test.postRun (node:internal/test_runner/test:1522:19)
+      at Test.run (node:internal/test_runner/test:1447:12)
+      at async Test.processPendingSubtests (node:internal/test_runner/test:960:7) {
+    generatedMessage: false,
+    code: 'ERR_ASSERTION',
+    actual: false,
+    expected: true,
+    operator: '==',
+    diff: 'simple'
+  }

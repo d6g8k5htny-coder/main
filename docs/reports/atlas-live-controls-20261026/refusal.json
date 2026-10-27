@@ -1,0 +1,480 @@
+{
+  "mode": "acceptance",
+  "checked_commit": "a15d2fb682fdb397584787143fffcf7290753ecf",
+  "platform": "Linux-6.18.55-x86_64-with-glibc2.41",
+  "chromium_sandbox": true,
+  "payload_sha256": "0c3a4a9b57f0d7214db6da2d2e6aceaeb0c643f1ba7e656655bb43b36925b9b2",
+  "source_repositories": [
+    {
+      "commit": "b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065",
+      "repository": "d6g8k5htny-coder/main",
+      "tree": "e4873934bc9cfaafba852e8c52b962fbef2177a4"
+    },
+    {
+      "commit": "180d6406b0a51b268a152241a70bde6a1b39a142",
+      "repository": "d6g8k5htny-coder/Math-",
+      "tree": "cf3e699e9deb25a7ce1b12b92b1c2f50dd3ba82f"
+    }
+  ],
+  "cases": [
+    {
+      "case": "math",
+      "width": 1200,
+      "scheme": "light",
+      "passed": true,
+      "states": [
+        {
+          "label": "initial-refusal",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=0000000000000000000000000000000000000000&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=0000000000000000000000000000000000000000&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value#current-atlas",
+          "view": "graph",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "",
+          "nodes": 0
+        },
+        {
+          "label": "after-view-change",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=0000000000000000000000000000000000000000&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=list#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=0000000000000000000000000000000000000000&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=list#current-atlas",
+          "view": "list",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "",
+          "nodes": 0
+        },
+        {
+          "label": "share-reload",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=0000000000000000000000000000000000000000&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=list#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=0000000000000000000000000000000000000000&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=list#current-atlas",
+          "view": "list",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "",
+          "nodes": 0
+        },
+        {
+          "label": "history-refusal",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=0000000000000000000000000000000000000000&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=list&atlas-panel=evidence#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=0000000000000000000000000000000000000000&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=list&atlas-panel=evidence#current-atlas",
+          "view": "list",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "",
+          "nodes": 0
+        },
+        {
+          "label": "explicit-current-selection",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=list&atlas-panel=evidence&atlas-expanded=eng.d0-packet-allowlist-fix#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=list&atlas-panel=evidence&atlas-expanded=eng.d0-packet-allowlist-fix#current-atlas",
+          "view": "list",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "",
+          "nodes": 4
+        }
+      ],
+      "errors": [],
+      "initial_share_preserved": true,
+      "view_change_ms": 44.184718004544266
+    },
+    {
+      "case": "main",
+      "width": 1200,
+      "scheme": "light",
+      "passed": true,
+      "states": [
+        {
+          "label": "initial-refusal",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=0000000000000000000000000000000000000000&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=0000000000000000000000000000000000000000&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value#current-atlas",
+          "view": "graph",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "",
+          "nodes": 0
+        },
+        {
+          "label": "after-view-change",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=0000000000000000000000000000000000000000&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=list#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=0000000000000000000000000000000000000000&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=list#current-atlas",
+          "view": "list",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "",
+          "nodes": 0
+        },
+        {
+          "label": "share-reload",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=0000000000000000000000000000000000000000&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=list#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=0000000000000000000000000000000000000000&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=list#current-atlas",
+          "view": "list",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "",
+          "nodes": 0
+        },
+        {
+          "label": "history-refusal",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=0000000000000000000000000000000000000000&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=list&atlas-panel=evidence#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=0000000000000000000000000000000000000000&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=list&atlas-panel=evidence#current-atlas",
+          "view": "list",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "",
+          "nodes": 0
+        },
+        {
+          "label": "explicit-current-selection",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=list&atlas-panel=evidence&atlas-expanded=eng.d0-packet-allowlist-fix#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=list&atlas-panel=evidence&atlas-expanded=eng.d0-packet-allowlist-fix#current-atlas",
+          "view": "list",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "",
+          "nodes": 4
+        }
+      ],
+      "errors": [],
+      "initial_share_preserved": true,
+      "view_change_ms": 45.536053003161214
+    },
+    {
+      "case": "duplicates",
+      "width": 1200,
+      "scheme": "light",
+      "passed": true,
+      "states": [
+        {
+          "label": "initial-refusal",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=0000000000000000000000000000000000000000&snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=0000000000000000000000000000000000000000&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=0000000000000000000000000000000000000000&snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=0000000000000000000000000000000000000000&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value#current-atlas",
+          "view": "graph",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "",
+          "nodes": 0
+        },
+        {
+          "label": "after-view-change",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=0000000000000000000000000000000000000000&snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=0000000000000000000000000000000000000000&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=list#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=0000000000000000000000000000000000000000&snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=0000000000000000000000000000000000000000&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=list#current-atlas",
+          "view": "list",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "",
+          "nodes": 0
+        },
+        {
+          "label": "share-reload",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=0000000000000000000000000000000000000000&snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=0000000000000000000000000000000000000000&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=list#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=0000000000000000000000000000000000000000&snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=0000000000000000000000000000000000000000&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=list#current-atlas",
+          "view": "list",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "",
+          "nodes": 0
+        },
+        {
+          "label": "history-refusal",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=0000000000000000000000000000000000000000&snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=0000000000000000000000000000000000000000&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=list&atlas-panel=evidence#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=0000000000000000000000000000000000000000&snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=0000000000000000000000000000000000000000&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=list&atlas-panel=evidence#current-atlas",
+          "view": "list",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "",
+          "nodes": 0
+        },
+        {
+          "label": "explicit-current-selection",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=list&atlas-panel=evidence&atlas-expanded=eng.d0-packet-allowlist-fix#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=list&atlas-panel=evidence&atlas-expanded=eng.d0-packet-allowlist-fix#current-atlas",
+          "view": "list",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "",
+          "nodes": 4
+        }
+      ],
+      "errors": [],
+      "initial_share_preserved": true,
+      "view_change_ms": 36.16654699726496
+    },
+    {
+      "case": "malformed",
+      "width": 1200,
+      "scheme": "light",
+      "passed": true,
+      "states": [
+        {
+          "label": "initial-refusal",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=malformed&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=malformed&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value#current-atlas",
+          "view": "graph",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "",
+          "nodes": 0
+        },
+        {
+          "label": "after-view-change",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=malformed&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=list#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=malformed&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=list#current-atlas",
+          "view": "list",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "",
+          "nodes": 0
+        },
+        {
+          "label": "share-reload",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=malformed&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=list#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=malformed&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=list#current-atlas",
+          "view": "list",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "",
+          "nodes": 0
+        },
+        {
+          "label": "history-refusal",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=malformed&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=list&atlas-panel=evidence#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=malformed&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=list&atlas-panel=evidence#current-atlas",
+          "view": "list",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "",
+          "nodes": 0
+        },
+        {
+          "label": "explicit-current-selection",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=list&atlas-panel=evidence&atlas-expanded=eng.d0-packet-allowlist-fix#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=list&atlas-panel=evidence&atlas-expanded=eng.d0-packet-allowlist-fix#current-atlas",
+          "view": "list",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "",
+          "nodes": 4
+        }
+      ],
+      "errors": [],
+      "initial_share_preserved": true,
+      "view_change_ms": 33.641738002188504
+    },
+    {
+      "case": "math",
+      "width": 390,
+      "scheme": "dark",
+      "passed": true,
+      "states": [
+        {
+          "label": "initial-refusal",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=0000000000000000000000000000000000000000&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=0000000000000000000000000000000000000000&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value#current-atlas",
+          "view": "list",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "",
+          "nodes": 0
+        },
+        {
+          "label": "after-view-change",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=0000000000000000000000000000000000000000&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=graph#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=0000000000000000000000000000000000000000&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=graph#current-atlas",
+          "view": "graph",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "",
+          "nodes": 0
+        },
+        {
+          "label": "share-reload",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=0000000000000000000000000000000000000000&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=graph#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=0000000000000000000000000000000000000000&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=graph#current-atlas",
+          "view": "graph",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "",
+          "nodes": 0
+        },
+        {
+          "label": "history-refusal",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=0000000000000000000000000000000000000000&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=graph&atlas-panel=evidence#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=0000000000000000000000000000000000000000&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=graph&atlas-panel=evidence#current-atlas",
+          "view": "graph",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "Source-bound bookmark refused; no current nodes substituted.",
+          "nodes": 0
+        },
+        {
+          "label": "explicit-current-selection",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=graph&atlas-panel=evidence&atlas-expanded=eng.d0-packet-allowlist-fix#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=graph&atlas-panel=evidence&atlas-expanded=eng.d0-packet-allowlist-fix#current-atlas",
+          "view": "graph",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "2 displayed \u00b7 2 nodes in the loaded neighborhood of 49 indexed source nodes \u00b7 0 outside this page. Rendering ceiling: 150 per page. Graph and list share this page. Solid arrows: required; dashed arrows: context. Direction: dependent \u2192 dependency.",
+          "nodes": 4
+        }
+      ],
+      "errors": [],
+      "initial_share_preserved": true,
+      "view_change_ms": 33.883522999531124
+    },
+    {
+      "case": "main",
+      "width": 390,
+      "scheme": "dark",
+      "passed": true,
+      "states": [
+        {
+          "label": "initial-refusal",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=0000000000000000000000000000000000000000&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=0000000000000000000000000000000000000000&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value#current-atlas",
+          "view": "list",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "",
+          "nodes": 0
+        },
+        {
+          "label": "after-view-change",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=0000000000000000000000000000000000000000&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=graph#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=0000000000000000000000000000000000000000&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=graph#current-atlas",
+          "view": "graph",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "",
+          "nodes": 0
+        },
+        {
+          "label": "share-reload",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=0000000000000000000000000000000000000000&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=graph#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=0000000000000000000000000000000000000000&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=graph#current-atlas",
+          "view": "graph",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "",
+          "nodes": 0
+        },
+        {
+          "label": "history-refusal",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=0000000000000000000000000000000000000000&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=graph&atlas-panel=evidence#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=0000000000000000000000000000000000000000&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=graph&atlas-panel=evidence#current-atlas",
+          "view": "graph",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "Source-bound bookmark refused; no current nodes substituted.",
+          "nodes": 0
+        },
+        {
+          "label": "explicit-current-selection",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=graph&atlas-panel=evidence&atlas-expanded=eng.d0-packet-allowlist-fix#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=graph&atlas-panel=evidence&atlas-expanded=eng.d0-packet-allowlist-fix#current-atlas",
+          "view": "graph",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "2 displayed \u00b7 2 nodes in the loaded neighborhood of 49 indexed source nodes \u00b7 0 outside this page. Rendering ceiling: 150 per page. Graph and list share this page. Solid arrows: required; dashed arrows: context. Direction: dependent \u2192 dependency.",
+          "nodes": 4
+        }
+      ],
+      "errors": [],
+      "initial_share_preserved": true,
+      "view_change_ms": 40.39904299861519
+    },
+    {
+      "case": "duplicates",
+      "width": 390,
+      "scheme": "dark",
+      "passed": true,
+      "states": [
+        {
+          "label": "initial-refusal",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=0000000000000000000000000000000000000000&snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=0000000000000000000000000000000000000000&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=0000000000000000000000000000000000000000&snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=0000000000000000000000000000000000000000&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value#current-atlas",
+          "view": "list",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "",
+          "nodes": 0
+        },
+        {
+          "label": "after-view-change",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=0000000000000000000000000000000000000000&snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=0000000000000000000000000000000000000000&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=graph#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=0000000000000000000000000000000000000000&snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=0000000000000000000000000000000000000000&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=graph#current-atlas",
+          "view": "graph",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "",
+          "nodes": 0
+        },
+        {
+          "label": "share-reload",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=0000000000000000000000000000000000000000&snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=0000000000000000000000000000000000000000&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=graph#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=0000000000000000000000000000000000000000&snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=0000000000000000000000000000000000000000&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=graph#current-atlas",
+          "view": "graph",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "",
+          "nodes": 0
+        },
+        {
+          "label": "history-refusal",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=0000000000000000000000000000000000000000&snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=0000000000000000000000000000000000000000&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=graph&atlas-panel=evidence#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=0000000000000000000000000000000000000000&snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=0000000000000000000000000000000000000000&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=graph&atlas-panel=evidence#current-atlas",
+          "view": "graph",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "Source-bound bookmark refused; no current nodes substituted.",
+          "nodes": 0
+        },
+        {
+          "label": "explicit-current-selection",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=graph&atlas-panel=evidence&atlas-expanded=eng.d0-packet-allowlist-fix#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=graph&atlas-panel=evidence&atlas-expanded=eng.d0-packet-allowlist-fix#current-atlas",
+          "view": "graph",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "2 displayed \u00b7 2 nodes in the loaded neighborhood of 49 indexed source nodes \u00b7 0 outside this page. Rendering ceiling: 150 per page. Graph and list share this page. Solid arrows: required; dashed arrows: context. Direction: dependent \u2192 dependency.",
+          "nodes": 4
+        }
+      ],
+      "errors": [],
+      "initial_share_preserved": true,
+      "view_change_ms": 37.048895996122155
+    },
+    {
+      "case": "malformed",
+      "width": 390,
+      "scheme": "dark",
+      "passed": true,
+      "states": [
+        {
+          "label": "initial-refusal",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=malformed&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=malformed&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value#current-atlas",
+          "view": "list",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "",
+          "nodes": 0
+        },
+        {
+          "label": "after-view-change",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=malformed&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=graph#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=malformed&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=graph#current-atlas",
+          "view": "graph",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "",
+          "nodes": 0
+        },
+        {
+          "label": "share-reload",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=malformed&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=graph#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=malformed&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=graph#current-atlas",
+          "view": "graph",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "",
+          "nodes": 0
+        },
+        {
+          "label": "history-refusal",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=malformed&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=graph&atlas-panel=evidence#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=malformed&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=graph&atlas-panel=evidence#current-atlas",
+          "view": "graph",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "Source-bound bookmark refused; no current nodes substituted.",
+          "nodes": 0
+        },
+        {
+          "label": "explicit-current-selection",
+          "url": "http://127.0.0.1:43581/site/dependencies.html?snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=graph&atlas-panel=evidence&atlas-expanded=eng.d0-packet-allowlist-fix#current-atlas",
+          "share": "http://127.0.0.1:43581/site/dependencies.html?snapshot=180d6406b0a51b268a152241a70bde6a1b39a142&main-snapshot=b7e012c23ed71b16a3a8245f0f0c3f24b8aa8065&atlas-node=eng.d0-packet-allowlist-fix&source-q=preserve&unrelated=reader+value&atlas-view=graph&atlas-panel=evidence&atlas-expanded=eng.d0-packet-allowlist-fix#current-atlas",
+          "view": "graph",
+          "error": "This bookmark names another snapshot. Use its pinned source; the current graph is not substituted.",
+          "count": "2 displayed \u00b7 2 nodes in the loaded neighborhood of 49 indexed source nodes \u00b7 0 outside this page. Rendering ceiling: 150 per page. Graph and list share this page. Solid arrows: required; dashed arrows: context. Direction: dependent \u2192 dependency.",
+          "nodes": 4
+        }
+      ],
+      "errors": [],
+      "initial_share_preserved": true,
+      "view_change_ms": 39.390291000017896
+    },
+    {
+      "case": "unverified-payload",
+      "passed": true
+    },
+    {
+      "case": "no-javascript-static-reading",
+      "passed": true
+    }
+  ],
+  "browser": "154.0.8037.57",
+  "passed": 10,
+  "total": 10
+}
