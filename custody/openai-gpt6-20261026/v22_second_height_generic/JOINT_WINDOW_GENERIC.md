@@ -73,17 +73,17 @@ The companion **check_joint_window_cubic.py** independently constructs the compl
 
 ## 2. New difference Schur upper scale \(e^3s\)
 
-Let \(R=g-I_Tg\). For every realized field, **pathwise** \(TR=0\), so \(D_wR(z)=D_wR(z+\eta w)=0\). The exact trapezoidal cancellation identity, obtained by integrating the derivative and twice integrating by parts, is
+Let \(R=g-I_Tg\), and define the **unconditioned interpolation residual difference** \(\delta_R:=R(z+\eta w)-R(z)\). For every realized field, **pathwise** \(TR=0\), so \(D_wR(z)=D_wR(z+\eta w)=0\). The exact trapezoidal cancellation identity, obtained by integrating the derivative and twice integrating by parts, is
 \[
 R(z+\eta w)-R(z)
 =-\frac12\int_0^\eta v(\eta-v)\,D_w^3R(z+vw)\,dv.\tag{6}
 \]
-[ENV8] bounds \(\|\sup_{\rm chart}|D_Y^3R|\|_{L^2}\le Cs^4\), hence for the actual **physical** height difference residual \(\delta:=F(y)-F(x)-\Delta_3(e)\), 
+[ENV8] bounds \(\|\sup_{\rm chart}|D_Y^3R|\|_{L^2}\le Cs^4\), hence the **unconditioned interpolation residual** obeys
 \[
-\|\delta\|_{L^2(Q_r\ {\rm unconditioned})}
+\|\delta_R\|_{L^2(Q_r\ {\rm unconditioned})}
 \le C\eta^3s^4 = C e^3s.\tag{7}
 \]
-Here \(\Delta_3\) is the target cubic under \(T=\nu\); before conditioning the exact residual is \(R(z+\eta w)-R(z)\). Gaussian covariance upper bounds and the reviewed target energy \(E_T\le C(b^2+k^2)\) now imply under \(T=\nu\)
+On the conditional event \(T=\nu\), the random interpolating polynomial \(I_Tg\) is exactly \(P_\nu\), and **only then** \(\delta_R=F(y)-F(x)-\Delta_3(e)\). Gaussian covariance upper bounds and the reviewed target energy \(E_T\le C(b^2+k^2)\) now imply under \(T=\nu\)
 \[
 |\mathbb E\delta|\le Ce^3s,\qquad
 \operatorname{sd}(\delta)\le Ce^3s.\tag{8}
