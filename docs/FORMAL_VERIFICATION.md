@@ -6,7 +6,7 @@ Owner directive: Dylan Roy, 27 September 2026. Scientific effect: **NONE**.
 
 This dated note is contributor routing only. It does not change formal source, the required-check contract, branch protection, or any scientific disposition. A merge or green check is not theorem acceptance.
 
-New formal work is claimed in the relevant current formal pull request or work discussion, not on closed [main#95](https://github.com/d6g8k5htny-coder/main/issues/95). Work without a pull request uses the relevant work discussion. Use [main#275](https://github.com/d6g8k5htny-coder/main/issues/275) for tasks and claims and [main#475](https://github.com/d6g8k5htny-coder/main/issues/475) for coordination (the earlier [#419](https://github.com/d6g8k5htny-coder/main/issues/419) and [#307](https://github.com/d6g8k5htny-coder/main/issues/307) are readable history). Read the [current workflow](../governance/OP-WORKFLOW-20260930.md) before writing, and reconcile exact-path ownership with any open documentation lane.
+New formal work is claimed in the relevant current formal pull request or work discussion, not on closed [main#95](https://github.com/d6g8k5htny-coder/main/issues/95). Work without a pull request uses the relevant work discussion. Use [main#619](https://github.com/d6g8k5htny-coder/main/issues/619) for tasks, claims and coordination and [main#666](https://github.com/d6g8k5htny-coder/main/issues/666) for architecture discussion (the earlier boards [#539](https://github.com/d6g8k5htny-coder/main/issues/539), [#475](https://github.com/d6g8k5htny-coder/main/issues/475), [#419](https://github.com/d6g8k5htny-coder/main/issues/419) and [#307](https://github.com/d6g8k5htny-coder/main/issues/307), and the decision record [#275](https://github.com/d6g8k5htny-coder/main/issues/275), are readable history). Read the [current workflow](../governance/OP-WORKFLOW-20260930.md) before writing, and reconcile exact-path ownership with any open documentation lane.
 
 Examples of later formal companions, kept distinct from the September scalar pilot:
 
@@ -53,7 +53,7 @@ The controls include false fold and power inequalities, a `sorry` proof, an indi
 
 ## Historical standing instructions (September 2026 pilot)
 
-The following offer table is retained as the September pilot record. It is not the current claim route. Current claim route: the relevant current formal pull request or work discussion, with tasks and claims on main#275 and coordination on main#419 (successor to main#307). Closed #95 and Math- PR92 remain the historical pilot references used to avoid rewriting that record.
+The following offer table is retained as the September pilot record. It is not the current claim route. Current claim route: the relevant current formal pull request or work discussion, with tasks, claims and coordination on main#619 (successor to main#539, main#475, main#419 and main#307). Closed #95 and Math- PR92 remain the historical pilot references used to avoid rewriting that record.
 
 Use #95 and PR92 to claim work and avoid duplicate writers. The OpenAI implementation author does not supply independent review credit. Read the exact head before reviewing; changed source, scope or dependencies invalidate the prior alignment record.
 

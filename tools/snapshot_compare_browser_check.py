@@ -61,8 +61,11 @@ def main():
             for link in page.locator('body > header nav a').all():
                 assert link.bounding_box()['height'] >= 44
             report['checks'].append('Shared shell, exact CSP, five primary links, 44px header targets, Research tools and 14-link footer map')
-            page.wait_for_function("!document.querySelector('#current-research .current-search').disabled")
-            report['checks'].append('Existing current loader initializes copied source inventory controls')
+            assert page.locator('#current-research .current-search').is_disabled()
+            assert 'pinned and unverified' in page.locator('#compare-source-note').inner_text()
+            page.locator('#current-research .current-source-details > summary').click()
+            page.wait_for_function("() => !document.querySelector('#current-research .current-search').disabled")
+            report['checks'].append('Separate source inventory stays pinned until requested; existing current loader then verifies and initializes controls')
             summary = page.locator('#comparison-summary').inner_text()
             assert 'Source commit pins' in summary and 'Source blob / byte identities' in summary
             report['actual_summary'] = summary
