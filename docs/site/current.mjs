@@ -32,12 +32,19 @@ async function load() {
     const updateFreshness=()=>{const state=freshness(data.observed_at);status.textContent=`Verified source observation: ${data.observed_at} · ${state}. ${state==='stale'?'This observation is more than two hours old; check upstream sources.':''}`;status.dataset.freshness=state;};
     updateFreshness();const freshnessTimer=setInterval(updateFreshness,60000);window.addEventListener('pagehide',()=>clearInterval(freshnessTimer),{once:true});window.addEventListener('pageshow',updateFreshness);document.addEventListener('visibilitychange',updateFreshness);
     const input=section.querySelector('.current-search'),list=section.querySelector('.current-results'),more=section.querySelector('.current-more');
-    if(input&&list){let limit=50;input.disabled=false;input.value=new URLSearchParams(location.search).get('source-q')||'';
-      const render=()=>{const matches=filterSources(data.sources,input.value);list.replaceChildren(...matches.slice(0,limit).map(s=>renderCurrentSource(s,annotations.get(s))));
-        section.querySelector('.current-count').textContent=`${Math.min(limit,matches.length)} of ${matches.length} matching files · ${data.sources.length} indexed public files. Excluded historical/recovery/operational paths are outside this discovery population.`;more.hidden=matches.length<=limit;};
+    if(input&&list){let limit=50,renderedQuery=null,renderedCount=0;input.disabled=false;input.value=new URLSearchParams(location.search).get('source-q')||'';
+      const render=(append=false)=>{const query=input.value;
+        if(append&&query!==renderedQuery){append=false;limit=50;}
+        const matches=filterSources(data.sources,query),count=Math.min(limit,matches.length);
+        const rows=matches.slice(append?renderedCount:0,count).map(s=>renderCurrentSource(s,annotations.get(s)));
+        if(append)list.append(...rows);else list.replaceChildren(...rows);
+        renderedQuery=query;renderedCount=count;
+        section.querySelector('.current-count').textContent=`${count} of ${matches.length} matching files · ${data.sources.length} indexed public files. Excluded historical/recovery/operational paths are outside this discovery population.`;more.hidden=matches.length<=limit;return rows[0];};
       input.addEventListener('input',()=>{limit=50;render();const url=new URL(location.href);if(input.value)url.searchParams.set('source-q',input.value);else url.searchParams.delete('source-q');try{history.replaceState(null,'',url);}catch{}});
       window.addEventListener('popstate',()=>{input.value=new URLSearchParams(location.search).get('source-q')||'';limit=50;render();});
-      more.addEventListener('click',()=>{limit+=50;render();});render();
+      more.addEventListener('click',()=>{const ownedFocus=document.activeElement===more;limit+=50;const first=render(true);
+        if(ownedFocus&&first){const link=first.querySelector(':scope > a');if(link)link.focus();else{first.tabIndex=-1;first.focus();}}
+      });render();
     }
     return data;
   }catch(e){if(status)status.textContent=`Unavailable: ${e.message} No current result inferred.`;return null;}

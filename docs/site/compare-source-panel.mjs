@@ -26,7 +26,7 @@ export function installCompareSourcePanel(document, window) {
     panel.setAttribute('aria-busy', 'true');
     note.textContent = 'Verifying the separate current-source inventory…';
     try {
-      const module = await import('./current.mjs?site-release=fc7e8a98c1e23f476962c4c83e95ed3ce817490007987112d9b2cf6d3d90b142');
+      const module = await import('./current.mjs?site-release=27f990a4758c48ff2f4aa58b47a842bf61eebc3e0f7449f0dc68f63bc3c502f5');
       const data = await module.currentSnapshot;
       if (!data) throw new Error('Source inventory verification did not complete.');
       setState('ready');

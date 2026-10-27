@@ -32,6 +32,21 @@ workflow_dispatch, with read-only checkouts of public Math- and query-, and uplo
 `math-hypergraph` artifact. Vertex keys are repo-prefixed (`main:`, `Math-:`, `query-:`). See `tools/hypergraph/README.md`.
 The PNG is a build artifact (optional, `--png`), not committed.
 
+## Gap counts after canonical primary-source membership (2026-10-26)
+345 ledger rows / 1347 vertices / 345 hyperedges. Sourced containers 219
+(126 missing); implemented 297 (48 missing), including 30 placeholder-only.
+Bound units 14; graph-node counts and qualifications are unchanged.
+
+Ten omitted primary source paths join eight existing Math- containers. Only
+rows 124, 143 and 181 gain source presence. All prior members and implementation,
+node, bound, status and Drive cells remain, including the rows-318/345 landing
+recheck. This reuses #638's source-document evidence for those three rows;
+it does not adopt the full 83-row classification or claim its review complete.
+The [implementation/evidence plan](../../docs/superpowers/plans/2026-10-26-canonical-source-membership.md)
+retains exact source pins, two historical commit aliases and bounded consumer
+roles. The tail README's LOW-P15-T-SOURCE indirection remains. No mathematical
+program or Lean ran, and source presence is not proof-to-code verification.
+
 ## Gap counts after the Math- landing recheck (2026-10-26)
 345 ledger rows / 1337 vertices / 345 hyperedges. Sourced containers 216 (129 missing). Implemented 297 (48 missing),
 of which 30 are placeholder-only. Bound units 14. 28 of 49 graph nodes unbound per #527; 13 nodes touched by no unit.
