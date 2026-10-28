@@ -6,6 +6,38 @@ defects. Source identity does not establish semantic equivalence or proof covera
 The complete claim record, proof document blob/size/fingerprint and an explicit
 known manifest must match. Unknown manifests and other claims remain unmapped.
 
+## Hosted-check follow-up: visible section heading
+
+The latest locally qualified product is `8edfe091e9799261e691dffe6645b6a6e72e9814`,
+tree `151871e85425b9b349f993a479476ab9ba90a6de`. At the first native PR source
+`f391442c73e916b0c5d904e0e16c3151a201bddc`, the unchanged rendered-text guard
+rejected the new heading's text because its visually hidden style clipped it
+to a one-pixel box. “Explore claims and evidence” is now a visible section
+heading. The existing guard and all its assertions remain unchanged.
+[Before](heading-before-390-dark.png), [after](heading-after-390-dark.png),
+[source-bound follow-up results](heading-repair-phase.json).
+
+All 71 Atlas browser cases, 23 audit states and 13 prescribed release groups
+pass again at this product source. The original rendered-text check now passes
+all 20 layouts. The complete original Library smoke operator was also attempted
+with an explicitly retained system-Chromium adapter: 13 of 18 cases pass, four
+source-card cases stop at the managed browser's `file://` administrator block,
+and one museum recovery case encounters an unreachable IPv6 network route.
+These five local failures remain recorded. The file-scheme denial was not
+retried or routed through another server, browser, policy or executor.
+The existing hosted architecture job separately timed out during checkout
+before its tests began. Its required check is preserved.
+
+The follow-up repeats the same eight-context matched measurement: ready
+inspector medians 417.4ms before and 381.2ms after; first observed 3D frame
+357.5ms before and 322.4ms after. Decoded resource sizes remain
+2,158,310 and 2,165,372 bytes. These small shared-host samples vary across runs
+and establish no speedup. The initial 0438 measurements and source evidence
+below remain historical observations, not executions of this later product.
+All 65 JavaScript/CSS files and protected formal inputs remain unchanged.
+The final report-only/native source, current hosted checks and actual deployed
+revision are qualified separately in the PR.
+
 ## Source and evidence
 
 The frozen public observation is Main55961773d31a7b2b9906d8be73a26ad44c364dd6,
@@ -14,7 +46,7 @@ relationships/108excerpts. [Compressed original JSON](qualified-observation-5596
 expands to1,906,292bytes/SHA256
 2b4cd07ecf075f1e046c264ac0809627e3539b06d819b80fcfca72ab32e860f7.
 It is reproducibility data, not a new mathematical or scientific authority.
-The locally tested product is `0438f24403a0d6a5e4ae3a4d6c266ac2654d699f`,
+The initial locally tested product was `0438f24403a0d6a5e4ae3a4d6c266ac2654d699f`,
 tree `ca3ae9bbdb127e4977f939c1b5bd12f0a0b80344`. The final report-only
 commit, native PR source, hosted checks and deployed revision are recorded in
 the PR. These distinct identities do not rebind an earlier execution.
