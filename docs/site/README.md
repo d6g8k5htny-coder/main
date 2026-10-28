@@ -19,7 +19,7 @@ The front and technical layers use the same existing evidence. No second scienti
 
 ## Current source publication
 
-The fixed **Go to** disclosure keeps Research, current-source search, the reading
+The sticky Research tools strip's **Go to** disclosure keeps Research, current-source search, the reading
 list, Mathematics, Compare and citation/reproduction tools reachable during long
 reading sessions. Its ordinary links work without JavaScript; Formal remains
 script-free. Other current pages add Escape/outside dismissal without trapping
@@ -448,11 +448,25 @@ The browser observer records served-file identities separately from its own driv
 
 ### Reader Go to and visible focus
 
-The native Go to disclosure on the eleven current reader pages stays available
-while scrolling. With `:has` support it yields visually and ignores pointer events
-while another element has `:focus-visible`, preventing the launcher from covering
-that focus indicator. Its summary remains in tab order: Tab/Shift+Tab into the
-menu restores it, and it stays visible while focus is inside. Pointer-focused
-inputs may also trigger this behavior. No focus is redirected and no content
-position changes. Formal remains script-free; native links work without scripts.
-Current automated qualification covers Chromium/Linux, not every browser or AT.
+The native Go to disclosure on the eleven current reader pages shares the existing
+Research tools strip. The strip stays at the top while scrolling, so its closed
+launcher no longer covers source text in the lower corner. It remains available
+while another field has focus. Scripted opening aligns the strip before showing
+the bounded, scrollable menu; native links and script-free Formal retain ordinary
+keyboard/page scrolling without JavaScript. Anchor clearance keeps destinations
+below the strip. Repeating a same-page link opens collapsed disclosure ancestors
+before native navigation, without writing history or redirecting focus. Modified,
+download, new-tab and nonlocal actions keep their native behavior.
+
+Compare's labelled Difference category selector reaches the existing record
+categories directly. All categories remains the default; selecting a category
+resets the twenty-row page view and announces its displayed count. Exact records,
+edge multiplicity, source-pair links, acquisition and refusal rules are unchanged.
+Empty categories remain explicit. New or refused comparisons clear the selector.
+
+`python3 -B tools/website_navigation_browser_check.py --output NEW_DIRECTORY`
+checks passive text visibility, repeated fragment activation and short-viewport
+keyboard access. `--observe` retains failing baselines. Checkout hashes in that
+driver describe local files only; public-code identity needs a separate byte proof.
+Current automated qualification covers Chromium/Linux emulation, not every browser,
+physical device, spoken assistive technology or full WCAG conformance.

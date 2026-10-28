@@ -63,3 +63,37 @@ test('Deep archived fragments reveal every ancestor without focus or history wri
   assert.equal(target.scrolled,false);
   for(const hash of ['', '#unknown', '#%E0%A4%A'])assert.equal(revealReaderFragment(document,hash),false);
 });
+
+test('Repeated eligible same-page links reopen collapsed fragment ancestors without focus writes',async()=>{
+  const m=await import('../docs/site/reader-shell.mjs');
+  assert.equal(typeof m.restoreReaderLink,'function','Fragment activation must restore an already-selected disclosure');
+  const archive={tagName:'DETAILS',open:false,parentElement:null};
+  const reading={tagName:'DETAILS',open:false,parentElement:archive,scrollIntoView(){this.scrolled=true;},focus(){assert.fail('Native link navigation owns focus');}};
+  const doc={getElementById:id=>id==='reading list'?reading:null};
+  const href='https://example.test/site/workspace.html?q=proof#reading%20list';
+  const link={getAttribute:name=>({href:'./workspace.html?q=proof#reading%20list',target:'_self'})[name]??null,hasAttribute:()=>false};
+  const event={button:0,target:{closest:()=>link}};
+  assert.equal(m.restoreReaderLink(doc,href,event),true);
+  assert.equal(reading.open,true);assert.equal(archive.open,true);assert.equal(reading.scrolled,true);
+  reading.scrolled=false;
+  assert.equal(m.restoreReaderLink(doc,href,event),false);
+  assert.equal(reading.scrolled,false,'An already visible target retains native scrolling');
+});
+
+test('Fragment restoration leaves modified, prevented and nonlocal navigation untouched',async()=>{
+  const m=await import('../docs/site/reader-shell.mjs');
+  assert.equal(typeof m.restoreReaderLink,'function');
+  const target={tagName:'DETAILS',open:false,parentElement:null,scrollIntoView(){assert.fail('Ignored navigation must not scroll');}};
+  const doc={getElementById:id=>id==='reading-list'?target:null};
+  const href='https://example.test/site/workspace.html?q=proof#reading-list';
+  for(const variation of [
+    {defaultPrevented:true},{button:1},{ctrlKey:true},{metaKey:true},{shiftKey:true},{altKey:true},
+    {newTarget:'_blank'},{download:true},{newHref:'https://other.test/site/workspace.html?q=proof#reading-list'},
+    {newHref:'workspace.html?q=other#reading-list'},{newHref:'research.html?q=proof#reading-list'},
+    {newHref:'#%E0%A4%A'},{newHref:'#unknown'},{newHref:'#'},
+  ]){
+    const link={getAttribute:name=>name==='href'?(variation.newHref??'#reading-list'):name==='target'?(variation.newTarget??null):null,hasAttribute:name=>name==='download'&&!!variation.download};
+    assert.equal(m.restoreReaderLink(doc,href,{button:0,target:{closest:()=>link},...variation}),false,JSON.stringify(variation));
+    assert.equal(target.open,false);
+  }
+});
