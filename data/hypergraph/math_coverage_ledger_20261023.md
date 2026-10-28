@@ -11,6 +11,42 @@ Math stays fail-closed: credit 0 · OBL OPEN · no flags. This is an inventory o
 - Tied to a graph node: **22**. Bound (node, impl and commit): **14**. The graph has 49 nodes with 21 bound per #527, so 28 nodes are unbound.
 - Name-matched to a Drive mirror: 4. Name matching is weak. DRV-H1 maps Drive by folder lane, not by unit.
 
+## Determinant post-511 membership supplement, 28 October 2026
+
+Existing row345 appends exactly17 mathematical source paths and10 Lean
+implementation paths introduced by the landed Math-#512 extension. All old
+four Lean source members, those four implementation members and gate.py remain.
+The same container retains recordMath-#511/laneLANDEDMath-#511, node—/boundN/
+orphan/Drive0; no earlier member or historical snapshot is replaced.
+
+At frozen Math `4a0d51bbd06f0d9ac731a1d1df38f25999797135`, folder
+`frontiers/determinant_moment_20261025` is tree
+`ac09223bce4bd307ad9ccc8b781526c5a26d1a09`; the old#511 tree is
+`8a6d93e67be8b233a4f35251188112ab3f44014a`. The17 new paths are ten
+added Lean modules and seven added SOURCE contracts, literally listed by the
+current manifest. Exact body sizes/Git blobs and exclusions are in
+[the source plan](../../docs/superpowers/plans/2026-10-28-determinant-membership.md).
+
+The already-indexed root import changed from dfe972cb to current770dec72;
+its new dependency closure is not covered merely by the original#511 receipt.
+Modified README/SCOPE/manifest and old unchanged SOURCE_MAP are pinned context,
+not new members. Old proof-module bodies remain unchanged. Native Anthropic
+review6403917675 covers the ten new modules at16f81b9, with disclosed source/
+execution limits; no scientific review or acceptance is reissued here.
+
+The row346INPUT_BINDING declares11determinant inputs at16f81b9: one old
+DeterminantMoment plus these ten new modules. Their literal custody relation is
+retained without logical GRAPH edges or new mathematical applicability claims.
+Copied inputs, raw evidence/tooling and later#514 remain excluded. Older text
+that this supplement was still a gap remains its actual historical snapshot.
+
+All other345rawrows, all1410oldvertexmetadata and346edge identities/non-role
+fields remain exact. Only345source/implementation roles expand. The27new typed
+vertices yield1437; units346/source220/126/implemented298/48/placeholder30/
+bound14 and every graph predicate stay unchanged. No test change is needed.
+No source program, Lean/kernel, gate/checker/replay or CI request ran.
+Scientific effectNONE; broader mathematical artifact accounting remainsOPEN.
+
 ## Landed source-derivative container, 28 October 2026
 
 Row346 adds one previously omitted **container**, not18new theorem units:
@@ -643,5 +679,5 @@ OBL OPEN; source accounting only, NOT A RESULT.
 | 342 | R22 tip 67818d30 | Math- | `companions/cap_i4_residual_law_20261006` | R22-companion | CapI4ResidualLaw.lean; README.md | replay.py; test_contract.py | — | N | unmerged_branch | 0 |
 | 343 | R22 tip 67818d30 | Math- | `companions/cap_i4_spectral_assembly_20261006` | R22-companion | CapI4SpectralAssembly.lean; Contract.lean | (per census: lean+replay+test; unverified) | — | N | unmerged_branch | 0 |
 | 344 | R21 tip 93a19170 | Math- | `companions/cap_i4_chamber_bridge_20261006` | R21-companion | CapI4ChamberBridge.lean; Contract.lean | (R21 tip) | — | N | unmerged_branch | 0 |
-| 345 | Math-#511 | Math- | `frontiers/determinant_moment_20261025` | LANDED Math-#511 | ResearchFormalCoreR1.lean; ResearchFormalCoreR1/AlgebraV2.lean; ResearchFormalCoreR1/DeterminantMoment.lean; ResearchFormalCoreR1/ProbabilityCompanionsV2.lean | frontiers/determinant_moment_20261025/ResearchFormalCoreR1.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/AlgebraV2.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/DeterminantMoment.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/ProbabilityCompanionsV2.lean; frontiers/determinant_moment_20261025/gate.py | — | N | orphan | 0 |
+| 345 | Math-#511 | Math- | `frontiers/determinant_moment_20261025` | LANDED Math-#511 | ResearchFormalCoreR1.lean; ResearchFormalCoreR1/AlgebraV2.lean; ResearchFormalCoreR1/DeterminantMoment.lean; ResearchFormalCoreR1/ProbabilityCompanionsV2.lean; ResearchFormalCoreR1/EndpointGaussianMoments.lean; ResearchFormalCoreR1/EndpointNormalizerBridge.lean; ResearchFormalCoreR1/GaussianCoupling.lean; ResearchFormalCoreR1/GaussianJetMoments.lean; ResearchFormalCoreR1/GaussianNormalizer.lean; ResearchFormalCoreR1/GaussianNormalizerLimit.lean; ResearchFormalCoreR1/GaussianRegressionKernel.lean; ResearchFormalCoreR1/GaussianScalarMoments.lean; ResearchFormalCoreR1/NormalizerFloor.lean; ResearchFormalCoreR1/PalmReweighting.lean; SOURCE_ENDPOINT_NORMALIZER_BRIDGE.md; SOURCE_GAUSSIAN_COUPLING.md; SOURCE_GAUSSIAN_MOMENTS.md; SOURCE_GAUSSIAN_NORMALIZER.md; SOURCE_GAUSSIAN_NORMALIZER_LIMIT.md; SOURCE_PALM_REWEIGHTING.md; SOURCE_REGRESSION_KERNEL.md | frontiers/determinant_moment_20261025/ResearchFormalCoreR1.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/AlgebraV2.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/DeterminantMoment.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/ProbabilityCompanionsV2.lean; frontiers/determinant_moment_20261025/gate.py; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/EndpointGaussianMoments.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/EndpointNormalizerBridge.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/GaussianCoupling.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/GaussianJetMoments.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/GaussianNormalizer.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/GaussianNormalizerLimit.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/GaussianRegressionKernel.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/GaussianScalarMoments.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/NormalizerFloor.lean; frontiers/determinant_moment_20261025/ResearchFormalCoreR1/PalmReweighting.lean | — | N | orphan | 0 |
 | 346 | Math-#513 | Math- | `frontiers/source_derivative_gaussian_20261025` | LANDED Math-#513 | ConfluentIntegralIdentities.lean; ContactJetCovariance.lean; FIELD_CONDITIONING.md; GaussianRegressionLimits.lean; GaussianWeightedMajorants.lean; README.md; SCOPE.md; SOURCE_CONDITIONAL_MAJORANT.md; SOURCE_CONFLUENT_INTEGRALS.md; SOURCE_CONFLUENT_LIMITS.md; SOURCE_CONFLUENT_PINS.md; SOURCE_CONTACT_ENDPOINT_PARAMETERS.md; SOURCE_CONTACT_GRAM.md; SOURCE_CONTACT_SCHUR.md; SOURCE_CONTACT_SOURCE.md; SOURCE_CONTRACT.md; SOURCE_COVARIANCE_CONTINUITY.md; SOURCE_ENDPOINT_ESTIMATES.md; SOURCE_ENDPOINT_PARAMETERS.md; SOURCE_ENDPOINT_REGRESSION.md; SOURCE_GAUSSIAN_MAJORANTS.md; SOURCE_PHYSICAL_ENDPOINT_KERNEL.md; SOURCE_REGRESSION_LIMITS.md; SOURCE_SMOOTH_CONDITIONAL.md; SOURCE_SMOOTH_PALM.md; SourceConditionalMajorant.lean; SourceConfluentLimits.lean; SourceConfluentPins.lean; SourceContactCovariance.lean; SourceContactEndpointParameters.lean; SourceContactSchur.lean; SourceDerivativeContinuity.lean; SourceDerivativeGaussian.lean; SourceEndpointEstimates.lean; SourceEndpointParameters.lean; SourceEndpointRegression.lean; SourcePhysicalEndpointKernel.lean; SourceSmoothConditionalKernel.lean; SourceSmoothPalm.lean | frontiers/source_derivative_gaussian_20261025/ConfluentIntegralIdentities.lean; frontiers/source_derivative_gaussian_20261025/ContactJetCovariance.lean; frontiers/source_derivative_gaussian_20261025/GaussianRegressionLimits.lean; frontiers/source_derivative_gaussian_20261025/GaussianWeightedMajorants.lean; frontiers/source_derivative_gaussian_20261025/SourceConditionalMajorant.lean; frontiers/source_derivative_gaussian_20261025/SourceConfluentLimits.lean; frontiers/source_derivative_gaussian_20261025/SourceConfluentPins.lean; frontiers/source_derivative_gaussian_20261025/SourceContactCovariance.lean; frontiers/source_derivative_gaussian_20261025/SourceContactEndpointParameters.lean; frontiers/source_derivative_gaussian_20261025/SourceContactSchur.lean; frontiers/source_derivative_gaussian_20261025/SourceDerivativeContinuity.lean; frontiers/source_derivative_gaussian_20261025/SourceDerivativeGaussian.lean; frontiers/source_derivative_gaussian_20261025/SourceEndpointEstimates.lean; frontiers/source_derivative_gaussian_20261025/SourceEndpointParameters.lean; frontiers/source_derivative_gaussian_20261025/SourceEndpointRegression.lean; frontiers/source_derivative_gaussian_20261025/SourcePhysicalEndpointKernel.lean; frontiers/source_derivative_gaussian_20261025/SourceSmoothConditionalKernel.lean; frontiers/source_derivative_gaussian_20261025/SourceSmoothPalm.lean | — | N | orphan | 0 |
