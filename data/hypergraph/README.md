@@ -32,6 +32,44 @@ workflow_dispatch, with read-only checkouts of public Math- and query-, and uplo
 `math-hypergraph` artifact. Vertex keys are repo-prefixed (`main:`, `Math-:`, `query-:`). See `tools/hypergraph/README.md`.
 The PNG is a build artifact (optional, `--png`), not committed.
 
+## Determinant post-511 membership supplement (2026-10-28)
+
+346 ledger rows /1437 vertices /346 ordered hyperedges. Existing row345
+gains17 source memberships (ten added Lean modules/seven added SOURCE contracts)
+and ten declared Lean implementation memberships. All old members remain.
+Source220/126, implemented298/48, placeholder30 and bound14 are unchanged.
+Earlier sections retain their frozen snapshot counts.
+
+Frozen source: Math `4a0d51bbd06f0d9ac731a1d1df38f25999797135`,
+container `frontiers/determinant_moment_20261025`, current folder tree
+`ac09223bce4bd307ad9ccc8b781526c5a26d1a09` versus original#511
+`8a6d93e67be8b233a4f35251188112ab3f44014a`. The [plan's exact source table](../../docs/superpowers/plans/2026-10-28-determinant-membership.md#new-memberships)
+pins each new path, bytes and Git blob. All17 are new paths in that tree delta
+and explicitly listed by manifest.source_modules/additional_source_contracts.
+No new container or theorem unit is created.
+
+Current modified README/SCOPE/root-import/manifest and unchanged SOURCE_MAP were
+read as context, not added as new members. The current root770dec72 differs
+from olddfe972cb; its changed closure is not qualified by the old#511receipt.
+The three old proof modules retain their blobs. Historical text/reviews are
+preserved, including their old pending-review wording. [AnthropicClaude01Cz's
+actual scoped review6403917675](https://github.com/d6g8k5htny-coder/Math-/pull/512#issuecomment-6403917675)
+binds the ten new modules at16f81b9, with no reviewer Lean/gate replay and all
+N1–N4 qualifications intact. This inventory neither repeats nor broadens it.
+
+The existing row346INPUT_BINDING's11determinant pins at16f81b9 include one
+already-indexed DeterminantMoment and the ten additions. Its23-input custody
+scope is reused as declared provenance, without new logical GRAPH edges or
+proof applicability. Copied inputs/manifests/catalogs/evidence/tooling, old
+SOURCE_MAP membership and later active#514 are excluded from this bounded delta.
+
+All other345rawrows and every non-membership cell in345 remain exact; all1410
+old vertices and346edge identities/non-role data remain. Only27 typed file
+vertices and corresponding345source/implementation roles are new; five numeric
+query statistics change, with gap/reach/shared/predicate results unchanged.
+No source program, Lean/kernel, gate/checker/replay or CI request ran.
+Scientific effectNONE; complete corpus/source applicability remainsOPEN.
+
 ## Landed source-derivative container (2026-10-28)
 
 346ledger rows /1410vertices /346ordered hyperedges; source220/126,
