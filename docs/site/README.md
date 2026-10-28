@@ -431,12 +431,15 @@ source blob/size/fingerprint and formal manifest identity match the pinned
 evidence. This is a source-document connection, not coefficient or parent proof
 coverage. Its actual package review is REJECTED (AMEND); the chosen row ALIGNED
 does not override the existing all-31-target acceptance contract. Other claims,
-changed sources and older observations with another manifest remain unmapped.
+changed sources and unrecognized manifest identities remain unmapped. The two
+explicit current-source bridges described below connect only to the historical
+artifact; they do not transfer its execution or alignment to a new manifest.
 Original receipt/type/artifact bytes are retained under evidence/side24-main-3b39.
 No Lean source, source admission, scientific status or renderer dependency changes.
 
-Reproduce the offline data with python -B tools/atlas_formal_evidence_build.py
---snapshot EXACT_CURRENT_JSON (add --check to compare). It reuses the existing
+Reproduce the historical offline data with python -B tools/atlas_formal_evidence_build.py
+--root HISTORICAL_SOURCE_PROJECTION --snapshot EXACT_HISTORICAL_JSON (add --check
+to compare). Its current-root manifest refusal is intentional. It reuses the existing
 formal source and receipt/log validators; it makes no network call or new Lean
 execution. The pinned original artifact is an input, not an authority for arbitrary
 caller receipts. Execute the focused browser observer with --site GENERATED_SITE
@@ -445,6 +448,33 @@ observation deliberately has a stale manifest and is not the positive fixture.
 Run python -B -m unittest tests.test_atlas_formal_evidence_build, its -O equivalent,
 and node --test tests/test_atlas_formal_evidence.mjs tests/test_current_site.mjs.
 The browser observer records served-file identities separately from its own driver.
+
+Current-source continuity is reproduced with
+`python -B tools/atlas_formal_source_bridge.py --snapshot QUALIFIED_CURRENT_JSON --check`.
+Manifest8228 has15identical formal files and two changed verification-control
+hashes. Corrected manifesta22f has13identical formal files, two changed control
+hashes, two documentation hashes and two other target annotations. Both full
+manifest hashes are explicitly pinned; all Lean modules, dependencies, selected
+declaration, scope and proof document must match the historical artifact.
+The original3b39receipt, PENDING manifest alignment and REJECTED31-target review
+retain their historical scope. The old two adverse endpoint findings are not a
+verdict on the corrected current package. Unknown manifests still fail closed.
+Existing derivation records cannot be overwritten by another observation.
+
+The exact qualified public observation and reproduction instructions are in
+`docs/reports/atlas-evidence-accessibility-20261026`; its compressed JSON is data,
+not executable proof evidence. The small generated whitelist is a native module;
+no production library or new status authority is added. The inspector's native
+guide explains declarations, assumptions, kernel checking and alignment.
+
+Focused checks: `python -B -m unittest tests.test_atlas_formal_source_bridge` and
+its `-O` equivalent; `node --test tests/test_atlas_formal_source_bridge.mjs`;
+`python -B tools/atlas_source_bridge_browser_check.py --site MATCHED_SITE --output NEW_DIRECTORY`;
+and `python -B tools/atlas_accessibility_regression.py --site MATCHED_SITE --output NEW_DIRECTORY`.
+The latter records actual footer hit targets/clicks, narrow themes, named regions,
+headings, real3D relationship-list keyboard scrolling and source-fetch failure.
+The separate pinned development-only axe audit documents scoped WCAG2.2AA
+coverage and human/AT limitations. It is not a full conformance certificate.
 
 ### Reader Go to and visible focus
 
