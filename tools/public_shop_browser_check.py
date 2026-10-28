@@ -1878,16 +1878,30 @@ def check_ring(page, locator, where, scope=None):
     require((state["style"],state["width"],state["offset"])==("solid","3px","4px"),f'{label} ring is {state["style"]} {state["width"]} at offset {state["offset"]}, not solid 3px at 4px')
     offset,width=float(state["offset"][:-2]),float(state["width"][:-2]);grow=offset+width+2
     view=restore=page.viewport_size
-    need=max(q["bottom"] for q in state["rects"])-min(q["top"] for q in state["rects"])+2*grow+16
-    if need>view["height"]:
-        # A target taller than the viewport is screenshotted whole: the viewport grows in height only, for these screenshots, and the
-        # ring box is centred in it (scrollIntoView honours scroll margins, which can push a tall box's ring past the bottom edge).
-        page.set_viewport_size({"width":view["width"],"height":int(need)+48});view=page.viewport_size;state=settle()
-        top=min(q["top"] for q in state["rects"])-grow;bottom=max(q["bottom"] for q in state["rects"])+grow
-        if top<0 or bottom>view["height"]:
-            page.evaluate("d => window.scrollBy(0,d)",top-(view["height"]-(bottom-top))/2)
-            require(locator.evaluate(SETTLED_JS),f"{where}: the focus target kept moving after centring its ring box");state=locator.evaluate(FOCUS_RING_JS,scope)
+    def top_obstruction():
+        # The reader tools strip occupies real viewport space. A tall-target
+        # screenshot must reserve it rather than centring the ring behind it.
+        return page.evaluate("""() => {
+          const bar=document.querySelector('body > .reader-tools');
+          if(!bar)return 0;
+          const style=getComputedStyle(bar),rect=bar.getBoundingClientRect();
+          return ['sticky','fixed'].includes(style.position)&&style.display!=='none'&&
+            style.visibility!=='hidden'&&Number(style.opacity)>0&&rect.top<=1&&rect.bottom>0
+            ? Math.min(innerHeight,rect.bottom) : 0;
+        }""")
+    obstruction=top_obstruction()
+    need=max(q["bottom"] for q in state["rects"])-min(q["top"] for q in state["rects"])+2*grow+16+obstruction
     try:
+        if need>view["height"]:
+            page.set_viewport_size({"width":view["width"],"height":int(need)+48});view=page.viewport_size;state=settle()
+        obstruction=top_obstruction()
+        top=min(q["top"] for q in state["rects"])-grow;bottom=max(q["bottom"] for q in state["rects"])+grow
+        if top<obstruction or bottom>view["height"]:
+            # Centre within the unobscured viewport, keeping width, text spacing,
+            # contrast, clipping and every original pixel-oracle threshold intact.
+            page.evaluate("d => window.scrollBy(0,d)",top-(obstruction+(view["height"]-obstruction-(bottom-top))/2))
+            require(locator.evaluate(SETTLED_JS),f"{where}: the focus target kept moving after centring its ring box")
+            state=locator.evaluate(FOCUS_RING_JS,scope)
         top=min(q["top"] for q in state["rects"])-grow;bottom=max(q["bottom"] for q in state["rects"])+grow
         require(top>=0 and bottom<=view["height"] or need<=restore["height"],f'{label}: its ring box [{top:.1f}, {bottom:.1f}] does not fit the {view["height"]}px viewport')
         require(state["alpha"]>0 and state["contrast"]>=3,f'{label} ring colour {state["color"]} has {state["contrast"]}:1 against the surface rgb{tuple(state["surface"])} behind it, not 3:1')
