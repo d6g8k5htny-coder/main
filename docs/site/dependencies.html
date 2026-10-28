@@ -8,7 +8,7 @@
   <title>Mathematics · Universal Law</title>
   <meta name="color-scheme" content="dark light"><meta name="theme-color" media="(prefers-color-scheme: light)" content="#f6f8fc"><meta name="theme-color" media="(prefers-color-scheme: dark)" content="#07111f">
   <link rel="stylesheet" href="style.css?site-release=6eb56e5c80ebf5811a77d0cb8583bf77dd8be44f170bebc9ae10721b2e6e9ab1">
-  <link rel="stylesheet" href="brand.css?site-release=96e1ca8ff6109b837d640a00de6ca352265bbb74ad5dc83db63944b71e8d3473">
+  <link rel="stylesheet" href="brand.css?site-release=edd2ff1c6661b46da8d9ffdabdd090cdece3ff9c6db15ed48b28b32cda54cd97">
   <link rel="stylesheet" href="dependencies.css?site-release=057ca4121356c0a263fa4b1ebcb86e525a33a4ee54c72ee2fee1b04f925f86b6">
   <link rel="icon" type="image/svg+xml" href="brand/mark.svg?site-release=ef97bd43ea3d8999dbf26e5707d467987a745bf961cac2b3163f94062d087ba7">
   <script type="module" src="dependencies.mjs?site-release=d82de31c97db5296160a3c715627c118eefa1057b34452f1678f1acf331e0e79"></script>
@@ -16,7 +16,7 @@
 <link rel="stylesheet" href="atlas-layout.css?site-release=fae685ade99816159a8aaa31a6593126bc582125250c7d44dc67f995ca704102">
 <link rel="stylesheet" href="atlas-spatial.css?site-release=38e1c62152e61330e2aa63ad06db214a1bcecb7c046121680de9cafa9c28bf33">
 <script type="module" src="current.mjs?site-release=27f990a4758c48ff2f4aa58b47a842bf61eebc3e0f7449f0dc68f63bc3c502f5"></script>
-<script type="module" src="atlas.mjs?site-release=163d66ee8a9f91ddef7670d8200a1a219e6340fef8a3c99e3e3cc4e673e82540"></script>
+<script type="module" src="atlas.mjs?site-release=d8f302949a5a38c746299369aed86dc625ea59884b45806ea5acef794ec8a23a"></script>
 <link rel="stylesheet" href="reader-jump.css?site-release=409f00c674f36b362faa759f76c7c6a788aacd59ff0d4074a58d70fed6af42e0">
 <script type="module" src="reader-jump.mjs?site-release=5e35f52ed3b301d525819ca755b19adb7d22f114873c22e3966fba29580a16f3"></script>
 </head>
@@ -49,6 +49,7 @@
       <ol><li>Choose a claim and read its recorded scope and source.</li><li>Follow its recorded relationships. An arrow points from the claim that depends on something to its dependency. Required and context relationships keep their recorded meanings; position and distance do not measure proof strength.</li><li>Inspect evidence separately: source acquisition, mathematical review, kernel checking, statement alignment and scientific acceptance answer different questions. Missing evidence remains unknown.</li></ol>
       <p><a href="explore.html">Try the teaching models</a> · <a href="research.html">Read the research introduction</a></p>
     </details>
+    <h2>Explore claims and evidence</h2>
     <div role="status" aria-live="polite"><p id="atlas-status" class="atlas-observation">Loading the current pinned graph…</p></div>
     <p id="atlas-error" class="atlas-error" role="alert" hidden></p>
     <div class="atlas-layout">
@@ -57,27 +58,27 @@
           <div class="atlas-search-field"><label for="atlas-search">Find a claim or source</label><input id="atlas-search" type="search" placeholder="Search identifiers, classifications, or sources" disabled></div>
           <div class="atlas-view-field"><label for="atlas-view">View</label><select id="atlas-view" disabled><option value="graph">Graph</option><option value="list">List</option></select></div>
         </div>
-        <div class="atlas-toolbar atlas-primary-actions" aria-label="Neighborhood actions">
+        <div class="atlas-toolbar atlas-primary-actions" role="group" aria-label="Neighborhood actions">
           <button id="atlas-expand" type="button" aria-label="Expand one frontier of the loaded neighborhood" disabled>Expand</button>
           <button id="atlas-collapse" type="button" disabled>Focus only</button>
         </div>
         <details class="atlas-navigation">
           <summary>Navigation and view tools</summary>
-          <div class="atlas-toolbar" aria-label="History and focus">
+          <div class="atlas-toolbar" role="group" aria-label="History and focus">
             <button id="atlas-back" type="button" disabled>Back</button><button id="atlas-forward" type="button" disabled>Forward</button><button id="atlas-focus" type="button" disabled>Read focus</button><button id="atlas-reset" type="button" disabled>Reset view</button>
           </div>
-          <div class="atlas-toolbar" aria-label="Neighborhood pages">
+          <div class="atlas-toolbar" role="group" aria-label="Neighborhood pages">
             <button id="atlas-previous" type="button" disabled>Previous nodes</button><button id="atlas-next" type="button" disabled>Next nodes</button>
           </div>
           <div class="atlas-graph-tools">
             <p>Pan by scrolling the graph horizontally or vertically. Focus the canvas to scroll with the arrow keys; use Tab to reach each node.</p>
-            <div class="atlas-toolbar" aria-label="Graph zoom"><button id="atlas-zoom-in" type="button" disabled>Zoom in</button><button id="atlas-zoom-out" type="button" disabled>Zoom out</button></div>
+            <div class="atlas-toolbar" role="group" aria-label="Graph zoom"><button id="atlas-zoom-in" type="button" disabled>Zoom in</button><button id="atlas-zoom-out" type="button" disabled>Zoom out</button></div>
           </div>
         </details>
         <button id="atlas-toggle-view" type="button" disabled hidden>Switch to list</button>
         <p class="atlas-partial-cue">A partial graph view. Search the full index or expand the selected neighborhood.</p>
         <details class="atlas-coverage-controls"><summary>Neighborhood coverage</summary><p id="atlas-count" class="atlas-neighborhood-note" aria-live="polite"></p></details>
-        <div id="atlas-stage" class="atlas-stage" tabindex="0" aria-label="Loaded dependency neighborhood, scrollable" aria-describedby="atlas-count"><div id="atlas-canvas" class="atlas-canvas"></div></div>
+        <div id="atlas-stage" class="atlas-stage" role="region" tabindex="0" aria-label="Loaded dependency neighborhood, scrollable" aria-describedby="atlas-count"><div id="atlas-canvas" class="atlas-canvas"></div></div>
         <ul id="atlas-list" class="atlas-list" aria-label="Loaded graph nodes" aria-describedby="atlas-count" hidden></ul>
         <details class="atlas-map atlas-graph-tools"><summary>Map of this loaded neighborhood</summary><svg id="atlas-minimap" class="atlas-minimap" aria-label="Loaded neighborhood minimap" role="img"></svg></details>
         <details class="atlas-trail"><summary>Navigation trail</summary><p id="atlas-breadcrumb" class="atlas-breadcrumb"></p></details>
@@ -139,7 +140,7 @@
 </section>
 <!-- CURRENT-SITE:END -->
 
-  <div class="atlas-archive-notices" aria-label="Preserved viewer status">
+  <div class="atlas-archive-notices" role="group" aria-label="Preserved viewer status">
     <p class="eyebrow">Preserved viewer status</p>
     <div role="status" aria-live="polite"><p id="load-status" class="muted">Loading the local source snapshot…</p></div>
     <p id="filter-error" class="error" role="alert" hidden></p>

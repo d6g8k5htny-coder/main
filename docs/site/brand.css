@@ -130,7 +130,7 @@ td { border-color: var(--ul-border); }
 footer { max-width: 1220px; margin: auto; padding: 32px 36px 56px; border-top: 1px solid var(--ul-border); font-size: 14px; color: var(--ul-muted); }
 footer p { margin: 8px 0; }
 footer a { color: var(--ul-text); }
-footer p a, .site-map a { display: inline-block; padding: 10px 2px; margin: -10px 0; }
+footer p a, .site-map a { display: inline-block; box-sizing: border-box; min-height: 44px; padding: 10px 2px; margin: 0; }
 main > section:last-child { border-bottom: 0; }
 /* Existing plots retain a light drawing surface; their data/geometry code is untouched. */
 #coefficient-chart, .geometry-host canvas, .geometry-host svg { background: #ffffff; border-radius: var(--ul-radius-s); }
@@ -178,7 +178,7 @@ main > section:last-child { border-bottom: 0; }
 @media (max-width: 600px) { #conditional-route blockquote { margin-inline: 0; } }
 .skip-link { position: absolute; left: 20px; top: -120px; z-index: 10; padding: 12px 18px; background: var(--ul-surface); border: 2px solid var(--ul-focus); border-radius: var(--ul-radius-s); color: var(--ul-text); }
 .skip-link:focus { top: 12px; }
-a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible, textarea:focus-visible, canvas:focus-visible { outline: 3px solid var(--ul-focus); outline-offset: 4px; }
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible, textarea:focus-visible, canvas:focus-visible, .atlas-space ul[tabindex="0"]:focus-visible { outline: 3px solid var(--ul-focus); outline-offset: 4px; }
 #formal-coverage:focus, .table-wrap:focus-visible { outline: 3px solid var(--ul-focus); outline-offset: 4px; }
 @media (max-width: 950px) { body > header { align-items: flex-start; } .cards { grid-template-columns: 1fr; } }
 @media (max-width: 640px) {
@@ -207,7 +207,7 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   a, .button.secondary { color: LinkText; }
   .button, button { background: ButtonFace; color: ButtonText; border-color: ButtonText; }
   .button[aria-disabled="true"] { color: GrayText; border-color: GrayText; }
-  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible, textarea:focus-visible, canvas:focus-visible { outline-color: Highlight; }
+  a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, summary:focus-visible, textarea:focus-visible, canvas:focus-visible, .atlas-space ul[tabindex="0"]:focus-visible { outline-color: Highlight; }
   #formal-coverage:focus, .table-wrap:focus-visible { outline-color: Highlight; }
   .geometry-host > .museum-visual:focus-visible { outline-color: Highlight; }
   .site-map, .lesson-links a, .legend-refused, .museum-card.refused { border-color: CanvasText; }
