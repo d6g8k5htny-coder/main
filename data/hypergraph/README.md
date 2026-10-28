@@ -32,6 +32,45 @@ workflow_dispatch, with read-only checkouts of public Math- and query-, and uplo
 `math-hypergraph` artifact. Vertex keys are repo-prefixed (`main:`, `Math-:`, `query-:`). See `tools/hypergraph/README.md`.
 The PNG is a build artifact (optional, `--png`), not committed.
 
+## Declared consumer memberships (2026-10-28)
+
+345 ledger rows / 1350 vertices / 345 hyperedges. Source 219/126,
+implementation-container 297/48, 30 placeholder-only and 14 bound counts are unchanged.
+This additive supplement combines Capability Frontier's [rows 57/62 proposal](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6467446841)
+with source-inventory's row 311 theta consumer under the [accepted single-writer handoff](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6467485158).
+Inputs are frozen at Main `f20a971dbbdcca8e0b653e701a2877347daf1ad4`; prior
+#659/#673 are already landed. All earlier snapshot counts below are historical.
+
+### Declared direct replay-wrapper memberships (rows 57 and 62)
+
+At Math- `4a0d51bbd06f0d9ac731a1d1df38f25999797135`, row 57's E3 packet declares its direct wrapper in `.github/workflows/elder-third-order.yml` (blob `80c5e010dd0df3b268628f6bb3f3dabe32dfe2a6`), while row 62's far-elder packet declares `.github/workflows/far-elder-rate.yml` (blob `3046c316c520a354b9ddb9f562855dadee5c46b6`). The unchanged checker identities are respectively `b5f04a87f2d2984280bf394bd4e5f3db560e1b33` and `58ff10f85cb89566433500855f385bc87f87e916`.
+
+These are additive metadata memberships. Keep row 57's existing C2 workflow and row 62's existing E3 workflow: they have literal source-trigger/dependency roles. The [role census](https://github.com/d6g8k5htny-coder/main/issues/605#issuecomment-6425587613) distinguishes those roles from the declared direct replay routes. No workflow/checker execution, proof applicability, scientific acceptance or stronger implementation coverage follows from either co-membership. Original frozen-cut qualifications and every source/status/bound cell remain unchanged.
+
+### Row 311 theta numerical companion
+
+Existing row 311 additionally names `experiments/zeta_fold_exploration/theta/project_theta_checks.py`,
+explicitly linked beside `dbn/lobe_identity.py` by [zeta README §4 item 4](https://github.com/d6g8k5htny-coder/main/blob/f20a971dbbdcca8e0b653e701a2877347daf1ad4/experiments/zeta_fold_exploration/README.md#L571).
+README is 111858 B, blob `cf3cf4fd164216e2cad9418b2350d23ce1468776`, SHA256
+`2e08a7d91dcb1c7f17e593a953046f3bf3eaf15ef9fbe96284c53f945d264be2`.
+The program is 2674 B, blob `08dee18d35ff93ed9f77a539e55f2739bad4fcd6`, SHA256
+`ce8eb3c6525bb34bf4ecb9b76cdf0055779c28ee423dedb3ccec2d9118ce36db`.
+
+The script declares normalizer/covariance/normalization sanity checks and prints
+the two lobe integrals at t=0 between the first two scaled zeta zeros. Its finite
+sums, finite-u quadrature and rounded printouts contain no equality assertion or
+certified error budget. This membership records that declared finite numerical
+control, not a replay or proof of the general identity. No direct Bridge/C46/C47
+edge is inferred. The unchanged §4 declaration and program also match pending
+#482's head; its separate manifest-check repair is not adopted here.
+
+All 342 other raw rows, all 1348 prior vertices and 345 ordered edge identities remain.
+Only rows 57, 62 and 311 implementation memberships expand; no source, node, lane,
+bound, status or Drive cell changes. Aggregate co-membership does not assert
+that every program implements every source in a row. No project checker,
+workflow, zeta program, replay or Lean ran. Scientific effect NONE; broader
+corpus accounting remains OPEN.
+
 ## Row 311 lobe numerical-consumer membership (2026-10-26)
 
 345 ledger rows / 1348 vertices / 345 hyperedges. Sourced containers remain
